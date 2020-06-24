@@ -21256,7 +21256,7 @@ void clif_guild_storage_log( struct map_session_data* sd, std::vector<struct gui
 			item->attribute = entry.item.attribute;
 		}
 	}
-
+	
 	WFIFOSET( fd, p->PacketLength );
 #endif
 }
