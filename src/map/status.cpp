@@ -13879,7 +13879,7 @@ int status_change_end_(struct block_list* bl, enum sc_type type, int tid, const 
 		skill_unit_move(bl,gettick(),1);
 
 	if(opt_flag&2 && sd && !sd->state.warping && map_getcell(bl->m,bl->x,bl->y,CELL_CHKNPC))
-		npc_touch_areanpc(sd,bl->m,bl->x,bl->y); // Trigger on-touch event.
+		npc_touch_area_allnpc(sd,bl->m,bl->x,bl->y); // Trigger on-touch event.
 
 	if( sd && sd->status.party_id && ( // SPB [Stingor]
 		type == SC_BLESSING || type == SC_INCREASEAGI || type == SC_CP_WEAPON || type == SC_CP_SHIELD ||
