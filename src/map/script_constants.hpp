@@ -764,12 +764,8 @@
 	export_constant2("bNoWalkDelay",SP_NO_WALK_DELAY);
 	export_constant2("bLongSPGainValue",SP_LONG_SP_GAIN_VALUE);
 	export_constant2("bLongHPGainValue",SP_LONG_HP_GAIN_VALUE);
-	
-	/* Stingor */
-	export_constant2("bNoAmmo",SP_NO_AMMO);
-	export_constant2("bNoBottle",SP_NO_BOTTLE);
-	export_constant2("bNoItem",SP_NO_ITEM);
-	export_constant2("bNoZeny",SP_NO_ZENY);
+	export_constant2("bMagicSubSize",SP_MAGIC_SUBSIZE);
+	export_constant2("bCritDefRate",SP_CRIT_DEF_RATE);
 
 	/* equip indices */
 	export_constant(EQI_COMPOUND_ON);
@@ -7802,6 +7798,12 @@
 	export_constant(BG_INFO_MAX_LEVEL);
 	export_constant(BG_INFO_MAPS);
 	export_constant(BG_INFO_DESERTER_TIME);
+
+	/* Moonlight */
+	export_constant2("bNoAmmo",SP_NO_AMMO);
+	export_constant2("bNoBottle",SP_NO_BOTTLE);
+	export_constant2("bNoItem",SP_NO_ITEM);
+	export_constant2("bNoZeny",SP_NO_ZENY);
 
 	#undef export_constant
 	#undef export_constant2
