@@ -11184,8 +11184,8 @@
 
 3038,Hidden Mob 7@NPC_INVISIBLE,idle,353,1,10000,0,30000,yes,self,always,0,,,,,,,
 3038,Hidden Mob 7@NPC_INVISIBLE,attack,353,1,10000,0,30000,yes,self,always,0,,,,,,,
-// 3038,Hidden Mob 7@NPC_HELLBURNING,idle,719,1,10000,0,3000,yes,self,always,0,,,,,,,
-// 3038,Hidden Mob 7@NPC_HELLBURNING,attack,719,1,10000,0,3000,yes,self,always,0,,,,,,,
+3038,Hidden Mob 7@NPC_HELLBURNING,idle,719,1,10000,0,3000,yes,self,always,0,,,,,,,
+3038,Hidden Mob 7@NPC_HELLBURNING,attack,719,1,10000,0,3000,yes,self,always,0,,,,,,,
 
 3074,Time Holder@AL_TELEPORT,idle,26,1,10000,0,0,yes,self,rudeattacked,,,,,,,,
 3074,Time Holder@AL_TELEPORT,idle,26,1,5000,0,5000,yes,self,rudeattacked,,,,,,,,
