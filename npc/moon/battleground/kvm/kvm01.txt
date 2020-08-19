@@ -407,6 +407,9 @@ OnTimer55000:
 OnTimer60000:
 	set $@KvM01BGTimer, 0;
 	stopnpctimer;
+	if (getbattleflag("feature.bgqueue"))
+		bg_reserve "bat_c01", true;
+	mapwarp "bat_c01","bat_room",154,150;
 	set getvariableofnpc(.Croix_Count,"KvM01_BG"), 0;
 	set getvariableofnpc(.Guillaume_Count,"KvM01_BG"), 0;
 	set $@KvM01BG_Victory, 0;
@@ -416,9 +419,8 @@ OnTimer60000:
 		bg_unbook "bat_c01";
 	disablenpc "KVM Officer#KVM01A";
 	disablenpc "KVM Officer#KVM01B";
-	mapwarp "bat_c01","bat_room",154,150;
-	bg_updatescore "bat_c01",5,5;
 	set $@KvM01BG, 0;
+	end;
 
 OnGuillaumeJoin:
 OnCroixJoin:
