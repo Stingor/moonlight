@@ -10,7 +10,6 @@ SELECT CONCAT(
     COALESCE(`JEXP`, ''), ',',
     COALESCE(`Range1`, ''), ',',
     COALESCE(`ATK1`, ''), ',',
-    COALESCE(`ATK1`, ''), ',',
     COALESCE(`ATK2`, ''), ',',
     COALESCE(`DEF`, ''), ',',
     COALESCE(`MDEF`, ''), ',',
