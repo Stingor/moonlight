@@ -2728,7 +2728,7 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 				if(base_exp || job_exp) {
 					if( md->dmglog[i].flag != MDLF_PET || battle_config.pet_attack_exp_to_master ) {
 #ifdef RENEWAL_EXP
-						int rate = pc_level_penalty_mod(md->level - tmpsd[i]->status.base_level, md->status.class_, md->status.mode, 1);
+						int rate = pc_level_penalty_mod( tmpsd[i], PENALTY_EXP, nullptr, md );
 						if (rate != 100) {
 							if (base_exp)
 								base_exp = (unsigned int)cap_value(apply_rate(base_exp, rate), 1, UINT_MAX);
@@ -2763,10 +2763,7 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 		struct item_data* it = NULL;
 		int drop_rate;
 #ifdef RENEWAL_DROP
-		int drop_modifier = mvp_sd    ? pc_level_penalty_mod(md->level - mvp_sd->status.base_level, md->status.class_, md->status.mode, 2)   :
-							second_sd ? pc_level_penalty_mod(md->level - second_sd->status.base_level, md->status.class_, md->status.mode, 2):
-							third_sd  ? pc_level_penalty_mod(md->level - third_sd->status.base_level, md->status.class_, md->status.mode, 2) :
-							100; // No player was attached, we don't use any modifier (100 = rates are not touched)
+		int drop_modifier = pc_level_penalty_mod( mvp_sd != nullptr ? mvp_sd : second_sd != nullptr ? second_sd : third_sd, PENALTY_DROP, nullptr, md );
 #endif
 		dlist->m = md->bl.m;
 		dlist->x = md->bl.x;
@@ -2971,6 +2968,13 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 			exp =1;
 		else {
 			exp = md->db->mexp;
+
+#if defined(RENEWAL_EXP)
+			int penalty = pc_level_penalty_mod( mvp_sd, PENALTY_MVP_EXP, nullptr, md );
+
+			exp = cap_value( apply_rate( exp, penalty ), 0, MAX_EXP );
+#endif
+
 			if (count > 1)
 				exp += exp*(battle_config.exp_bonus_attacker*(count-1))/100.; //[Gengar]
 		}
@@ -3008,6 +3012,10 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 				}
 			}
 
+#if defined(RENEWAL_DROP)
+			int penalty = pc_level_penalty_mod( mvp_sd, PENALTY_MVP_DROP, nullptr, md );
+#endif
+
 			for(i = 0; i < MAX_MVP_DROP_TOTAL; i++) {
 				struct item_data *i_data;
 
@@ -3019,7 +3027,9 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 					temp = apply_rate(temp, battle_config.mult_eventdrop);
 					temp = min(temp,10000); //cap it to 100%
 				}
-
+#if defined(RENEWAL_DROP)
+				temp = cap_value( apply_rate( temp, penalty ), 0, 10000 );
+#endif
 				if (temp != 10000) {
 					if(temp <= 0 && !battle_config.drop_rate0item)
 						temp = 1;

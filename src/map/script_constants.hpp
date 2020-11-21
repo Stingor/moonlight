@@ -12,6 +12,8 @@
 	#define export_deprecated_constant2(a,b) script_set_constant(a,b,false,true)
 	#define export_deprecated_constant3(a,b,c) script_set_constant_(a,b,c,false,true)
 
+	#include "../custom/script_constant.inc"
+
 	/* min and maximum variable value */
 	export_constant(INT_MIN);
 	export_constant(INT_MAX);
@@ -7997,11 +7999,11 @@
 	export_constant(DROPEFFECT_ORANGE_PILLAR);
 	export_constant(DROPEFFECT_MAX);
 
-	/* Moonlight */
-	export_constant2("bNoAmmo",SP_NO_AMMO);
-	export_constant2("bNoBottle",SP_NO_BOTTLE);
-	export_constant2("bNoItem",SP_NO_ITEM);
-	export_constant2("bNoZeny",SP_NO_ZENY);
+	/* penalty types */
+	export_constant(PENALTY_EXP);
+	export_constant(PENALTY_DROP);
+	export_constant(PENALTY_MVP_EXP);
+	export_constant(PENALTY_MVP_DROP);
 
 	#undef export_constant
 	#undef export_constant2
