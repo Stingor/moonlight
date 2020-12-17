@@ -18217,7 +18217,6 @@ int skill_graffitiremover(struct block_list *bl, va_list ap)
 	int remove = va_arg(ap, int);
 
 	nullpo_retr(0, bl);
-	nullpo_retr(0, ap);
 
 	if (bl->type != BL_SKILL || (unit = (struct skill_unit *)bl) == NULL)
 		return 0;
@@ -18251,7 +18250,6 @@ int skill_greed(struct block_list *bl, va_list ap)
 int skill_detonator(struct block_list *bl, va_list ap)
 {
 	nullpo_ret(bl);
-	nullpo_ret(ap);
 
 	if (bl->type != BL_SKILL)
 		return 0;
@@ -18339,7 +18337,6 @@ static int skill_bind_trap(struct block_list *bl, va_list ap) {
 	struct block_list *src = NULL;
 
 	nullpo_ret(bl);
-	nullpo_ret(ap);
 
 	src = va_arg(ap,struct block_list *);
 
