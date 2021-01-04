@@ -1193,7 +1193,14 @@ static void clif_set_unit_idle( struct block_list* bl, bool walking, send_target
 		p.maxHP = -1;
 		p.HP = -1;
 	}
-	p.isBoss = ( bl->type == BL_MOB ) ? ( (mob_data*)bl )->get_bosstype() : BOSSTYPE_NONE;
+
+	if( bl->type == BL_MOB ){
+		p.isBoss = ( (mob_data*)bl )->get_bosstype();
+	}else if( bl->type == BL_PET ){
+		p.isBoss = ( (pet_data*)bl )->db->get_bosstype();
+	}else{
+		p.isBoss = BOSSTYPE_NONE;
+	}
 #endif
 #if PACKETVER >= 20150513
 	p.body = vd->body_style;
@@ -1328,7 +1335,13 @@ static void clif_spawn_unit( struct block_list *bl, enum send_target target ){
 		p.HP = -1;
 	}
 
-	p.isBoss = ( bl->type == BL_MOB ) ? ( (mob_data*)bl )->get_bosstype() : BOSSTYPE_NONE;
+	if( bl->type == BL_MOB ){
+		p.isBoss = ( (mob_data*)bl )->get_bosstype();
+	}else if( bl->type == BL_PET ){
+		p.isBoss = ( (pet_data*)bl )->db->get_bosstype();
+	}else{
+		p.isBoss = BOSSTYPE_NONE;
+	}
 #endif
 #if PACKETVER >= 20150513
 	p.body = vd->body_style;
@@ -1432,7 +1445,13 @@ static void clif_set_unit_walking( struct block_list *bl, struct map_session_dat
 		p.HP = -1;
 	}
 
-	p.isBoss = ( bl->type == BL_MOB ) ? ( (mob_data*)bl )->get_bosstype() : BOSSTYPE_NONE;
+	if( bl->type == BL_MOB ){
+		p.isBoss = ( (mob_data*)bl )->get_bosstype();
+	}else if( bl->type == BL_PET ){
+		p.isBoss = ( (pet_data*)bl )->db->get_bosstype();
+	}else{
+		p.isBoss = BOSSTYPE_NONE;
+	}
 #endif
 #if PACKETVER >= 20150513
 	p.body = vd->body_style;
