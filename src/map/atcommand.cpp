@@ -7448,11 +7448,9 @@ ACMD_FUNC(mobinfo)
 		count = MAX_SEARCH;
 	}
 	for (k = 0; k < count; k++) {
-		unsigned int j;
-		t_exp base_exp, job_exp, base_exp2;
 		mob = mob_db(mob_ids[k]);
-		base_exp = mob->base_exp;
-		job_exp = mob->job_exp;
+		t_exp base_exp = mob->base_exp;
+		t_exp job_exp = mob->job_exp;
 
 		if (pc_isvip(sd)) { // Display EXP rate increase for VIP
 			base_exp += (base_exp * battle_config.vip_base_exp_increase) / 100;
@@ -7476,8 +7474,10 @@ ACMD_FUNC(mobinfo)
 			sprintf(atcmd_output, msg_txt(sd,1240), mob->name, mob->jname, mob->sprite, mob->vd.class_); // MVP Monster: '%s'/'%s'/'%s' (%d)
 		else
 			sprintf(atcmd_output, msg_txt(sd,1241), mob->name, mob->jname, mob->sprite, mob->vd.class_); // Monster: '%s'/'%s'/'%s' (%d)
-		clif_displaymessage(fd, atcmd_output);		double base_pct = 0, job_pct = 0;
-		base_exp2 = base_exp;
+		clif_displaymessage(fd, atcmd_output);
+
+		double base_pct = 0, job_pct = 0;
+		t_exp base_exp2 = base_exp;
 		if (sd->status.base_level > 200 && base_exp2 > 0) { // [Stingor]
 			// Correction du warning C4244 : conversion de 'float' en 't_exp', perte possible de données
 			base_exp2 = (t_exp)((float)base_exp2 / exp(((float)(sd->status.base_level) - 200.0f) / 250.0f));
@@ -7490,8 +7490,9 @@ ACMD_FUNC(mobinfo)
 			base_pct = (double)base_exp2 * 100.0 / nextbase;
 		if (nextjob)
 			job_pct = (double)job_exp * 100.0 / nextjob;
-		sprintf(atcmd_output, msg_txt(sd,1242), mob->lv, mob->status.max_hp, base_exp, base_pct, job_exp, job_pct, MOB_HIT(mob), MOB_FLEE(mob)); //  Lv:%d  HP:%d  Base EXP:%u  Job EXP:%u  HIT:%d  FLEE:%d
+		sprintf(atcmd_output, msg_txt(sd,1242), mob->lv, mob->status.max_hp, base_exp, base_pct, job_exp, job_pct, MOB_HIT(mob), MOB_FLEE(mob)); //  Lv:%d  HP:%d  Base EXP:%llu  Job EXP:%u  HIT:%d  FLEE:%d
 		clif_displaymessage(fd, atcmd_output);
+
 		sprintf(atcmd_output, msg_txt(sd,1243), //  DEF:%d  MDEF:%d  STR:%d  AGI:%d  VIT:%d  INT:%d  DEX:%d  LUK:%d
 			mob->status.def, mob->status.mdef,mob->status.str, mob->status.agi,
 			mob->status.vit, mob->status.int_, mob->status.dex, mob->status.luk);
@@ -7505,7 +7506,7 @@ ACMD_FUNC(mobinfo)
 		// drops
 		clif_displaymessage(fd, msg_txt(sd,1245)); //  Drops:
 		strcpy(atcmd_output, " ");
-		j = 0;
+		unsigned int j = 0;
 #ifdef RENEWAL_DROP
 		int penalty = pc_level_penalty_mod( sd, PENALTY_DROP, mob );
 #endif
