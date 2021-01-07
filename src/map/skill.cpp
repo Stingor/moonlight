@@ -5338,7 +5338,19 @@ int skill_castend_damage_id (struct block_list* src, struct block_list *bl, uint
 			skill_attack(skill_get_type(skill_id), src, src, bl, skill_id, skill_lv, tick, flag);
 		break;
 
+#ifdef RENEWAL
 	case KN_BOWLINGBASH:
+		if (flag & 1) {
+			skill_attack(skill_get_type(skill_id), src, src, bl, skill_id, skill_lv, tick, (skill_area_temp[0]) > 0 ? SD_ANIMATION | skill_area_temp[0] : skill_area_temp[0]);
+			skill_blown(src, bl, skill_get_blewcount(skill_id, skill_lv), -1, BLOWN_NONE);
+		} else {
+			skill_area_temp[0] = map_foreachinallrange(skill_area_sub, bl, skill_get_splash(skill_id, skill_lv), BL_CHAR, src, skill_id, skill_lv, tick, BCT_ENEMY, skill_area_sub_count);
+			map_foreachinrange(skill_area_sub, bl, skill_get_splash(skill_id, skill_lv), BL_CHAR|BL_SKILL, src, skill_id, skill_lv, tick, flag | BCT_ENEMY | SD_SPLASH | 1, skill_castend_damage_id);
+		}
+		break;
+#else
+	case KN_BOWLINGBASH:
+#endif
 	case MS_BOWLINGBASH:
 		if(flag&1){
 			if(bl->id==skill_area_temp[1])
@@ -5364,6 +5376,38 @@ int skill_castend_damage_id (struct block_list* src, struct block_list *bl, uint
 			//Weirdo dual-hit property, two attacks for 500%
 			skill_attack(BF_WEAPON,src,src,bl,skill_id,skill_lv,tick,0);
 			skill_attack(BF_WEAPON,src,src,bl,skill_id,skill_lv,tick,0);
+			/*
+			// Add current target to the list of already hit targets
+			idb_put(bowling_db, bl->id, bl);
+			// Keep moving target in direction square by square
+			tx = bl->x;
+			ty = bl->y;
+			for(i=0;i<c;i++) {
+				// Target coordinates (get changed even if knockback fails)
+				tx -= dirx[dir];
+				ty -= diry[dir];
+				// If target cell is a wall then break
+				if(map_getcell(bl->m,tx,ty,CELL_CHKWALL))
+					break;
+				skill_blown(src,bl,1,dir,BLOWN_NONE);
+
+				int count;
+
+				// Splash around target cell, but only cells inside area; we first have to check the area is not negative
+				if((max(min_x,tx-1) <= min(max_x,tx+1)) &&
+					(max(min_y,ty-1) <= min(max_y,ty+1)) &&
+					(count = map_foreachinallarea(skill_area_sub, bl->m, max(min_x,tx-1), max(min_y,ty-1), min(max_x,tx+1), min(max_y,ty+1), splash_target(src), src, skill_id, skill_lv, tick, flag|BCT_ENEMY, skill_area_sub_count))) {
+					// Recursive call
+					map_foreachinallarea(skill_area_sub, bl->m, max(min_x,tx-1), max(min_y,ty-1), min(max_x,tx+1), min(max_y,ty+1), splash_target(src), src, skill_id, skill_lv, tick, (flag|BCT_ENEMY)+1, skill_castend_damage_id);
+					// Self-collision
+					if(bl->x >= min_x && bl->x <= max_x && bl->y >= min_y && bl->y <= max_y)
+						skill_attack(BF_WEAPON,src,src,bl,skill_id,skill_lv,tick,(flag&0xFFF)>0?SD_ANIMATION|count:count);
+					break;
+				}
+			}
+			// Original hit or chain hit depending on flag
+			skill_attack(BF_WEAPON,src,src,bl,skill_id,skill_lv,tick,(flag&0xFFF)>0?SD_ANIMATION:0);
+			*/
 		}
 		break;
 
