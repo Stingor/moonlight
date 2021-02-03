@@ -7353,7 +7353,7 @@ Body:
     EquipLevelMin: 160
     Refineable: true
     Script: |
-      bonus bAtk,pow(min(getrefine(),15),2);
+      bonus bBaseAtk,pow(min(getrefine(),15),2);
   - Id: 1401
     AegisName: Javelin
     Name: Javelin
@@ -8556,7 +8556,7 @@ Body:
     EquipLevelMin: 160
     Refineable: true
     Script: |
-      bonus bAtk,pow(min(getrefine(),15),2);
+      bonus bBaseAtk,pow(min(getrefine(),15),2);
   - Id: 1451
     AegisName: Guisarme
     Name: Guisarme
@@ -12273,7 +12273,7 @@ Body:
     SubType: Mace
     Buy: 1
     Weight: 10
-    Attack: 10000
+    Attack: 5000
     MagicAttack: 10000
     Range: 2
     Locations:
@@ -16187,7 +16187,7 @@ Body:
     EquipLevelMin: 160
     Refineable: true
     Script: |
-      bonus bAtk,pow(min(getrefine(),15),2);
+      bonus bBaseAtk,pow(min(getrefine(),15),2);
   - Id: 1801
     AegisName: Waghnakh
     Name: Waghnak
@@ -17492,7 +17492,7 @@ Body:
     EquipLevelMin: 160
     Refineable: true
     Script: |
-      bonus bAtk,pow(min(getrefine(),15),2);
+      bonus bBaseAtk,pow(min(getrefine(),15),2);
       bonus bMatk,pow(min(getrefine(),15),2)/2;
   - Id: 1901
     AegisName: Violin
@@ -19517,7 +19517,7 @@ Body:
     EquipLevelMin: 160
     Refineable: true
     Script: |
-      bonus bAtk,pow(min(getrefine(),15),2);
+      bonus bBaseAtk,pow(min(getrefine(),15),2);
       bonus bMatk,pow(min(getrefine(),15),2)/2;
   - Id: 1997
     AegisName: Unity_Whip
@@ -19526,7 +19526,7 @@ Body:
     SubType: Whip
     Buy: 20
     Weight: 76
-    Attack: 40
+    Attack: 76
     Range: 2
     Slots: 1
     Jobs:
@@ -21473,7 +21473,7 @@ Body:
     Name: Shell Of Resistance
     Type: Armor
     Buy: 20
-    Defense: 9
+    Defense: 140
     Locations:
       Left_Hand: true
     View: 2
@@ -21574,7 +21574,7 @@ Body:
     AegisName: Cracked_Buckler
     Name: Cracked Buckler
     Type: Armor
-    Defense: 5
+    Defense: 55
     Locations:
       Left_Hand: true
     View: 2
@@ -21597,7 +21597,7 @@ Body:
     AegisName: Valkyrja's_Shield_C
     Name: Neo Valkyrja's Shield
     Type: Armor
-    Defense: 5
+    Defense: 110
     Jobs:
       All: true
       Novice: false
@@ -22763,7 +22763,6 @@ Body:
     Type: Armor
     Buy: 1
     Weight: 10
-    Defense: 10000
     Locations:
       Left_Hand: true
     EquipLevelMin: 1
@@ -22896,7 +22895,7 @@ Body:
     Type: Armor
     Buy: 500
     Weight: 100
-    Defense: 1
+    Defense: 2
     Locations:
       Head_Top: true
     View: 9
@@ -22906,7 +22905,7 @@ Body:
     Type: Armor
     Buy: 400
     Weight: 100
-    Defense: 1
+    Defense: 2
     Locations:
       Head_Top: true
     Refineable: true
@@ -22926,7 +22925,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 2
+    Defense: 3
     Locations:
       Head_Top: true
     Refineable: true
@@ -22937,7 +22936,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 2
+    Defense: 3
     Locations:
       Head_Top: true
     Refineable: true
@@ -22950,7 +22949,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 2
+    Defense: 4
     Locations:
       Head_Top: true
     Refineable: true
@@ -23037,7 +23036,7 @@ Body:
     Type: Armor
     Buy: 4500
     Weight: 300
-    Defense: 3
+    Defense: 5
     Jobs:
       All: true
       Novice: false
@@ -23052,7 +23051,7 @@ Body:
     Type: Armor
     Buy: 4500
     Weight: 300
-    Defense: 3
+    Defense: 5
     Slots: 1
     Jobs:
       All: true
@@ -23323,7 +23322,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 1
+    Defense: 2
     Locations:
       Head_Top: true
     Refineable: true
@@ -23438,7 +23437,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 900
-    Defense: 5
+    Defense: 9
     Jobs:
       All: true
       Novice: false
@@ -23665,7 +23664,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 1
+    Defense: 2
     Locations:
       Head_Top: true
     Refineable: true
@@ -23676,7 +23675,7 @@ Body:
     Type: Armor
     Buy: 28000
     Weight: 100
-    Defense: 1
+    Defense: 2
     Jobs:
       All: true
       Novice: false
@@ -23941,7 +23940,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 1
+    Defense: 2
     Locations:
       Head_Top: true
     View: 66
@@ -24094,7 +24093,7 @@ Body:
     Type: Armor
     Buy: 3000
     Weight: 100
-    Defense: 1
+    Defense: 2
     Locations:
       Head_Top: true
     View: 77
@@ -24881,7 +24880,7 @@ Body:
     Type: Armor
     Buy: 89000
     Weight: 500
-    Defense: 4
+    Defense: 32
     Slots: 1
     Jobs:
       Novice: true
@@ -25810,7 +25809,7 @@ Body:
     Name: Spiritual Tunic
     Type: Armor
     Buy: 20
-    Defense: 10
+    Defense: 38
     Locations:
       Armor: true
     Trade:
@@ -25840,7 +25839,7 @@ Body:
     Name: Recuperative Armor
     Type: Armor
     Buy: 20
-    Defense: 12
+    Defense: 67
     Locations:
       Armor: true
     Trade:
@@ -26025,7 +26024,7 @@ Body:
     AegisName: Old_Pant
     Name: Old Green Pantie
     Type: Armor
-    Defense: 10
+    Defense: 60
     Locations:
       Armor: true
     Trade:
@@ -26119,6 +26118,7 @@ Body:
     Name: Glorious Mass-Production Suit
     Type: Armor
     Buy: 20
+    Defense: 10
     Jobs:
       All: true
       Novice: false
@@ -26143,7 +26143,7 @@ Body:
     Type: Armor
     Buy: 10
     Weight: 900
-    Defense: 2
+    Defense: 10
     Jobs:
       All: true
       Novice: false
@@ -26157,7 +26157,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 750
-    Defense: 42
+    Defense: 5
     Slots: 1
     Jobs:
       Hunter: true
@@ -26337,7 +26337,7 @@ Body:
     Type: Armor
     Buy: 8500
     Weight: 600
-    Defense: 4
+    Defense: 10
     Jobs:
       All: true
       Novice: false
@@ -26384,7 +26384,7 @@ Body:
     Type: Armor
     Buy: 54000
     Weight: 750
-    Defense: 15
+    Defense: 27
     Slots: 1
     Jobs:
       Crusader: true
@@ -26399,7 +26399,7 @@ Body:
     Type: Armor
     Buy: 34000
     Weight: 350
-    Defense: 6
+    Defense: 22
     Jobs:
       Crusader: true
       Knight: true
@@ -26434,7 +26434,7 @@ Body:
     Type: Armor
     Buy: 34000
     Weight: 300
-    Defense: 3
+    Defense: 9
     Slots: 1
     Jobs:
       All: true
@@ -26685,7 +26685,7 @@ Body:
     Name: Freyja Boots
     Type: Armor
     Weight: 300
-    Defense: 10
+    Defense: 22
     Jobs:
       All: true
       Novice: false
@@ -26970,7 +26970,7 @@ Body:
     Name: Refresh Shoes
     Type: Armor
     Buy: 20
-    Defense: 9
+    Defense: 20
     Locations:
       Shoes: true
     Trade:
@@ -27036,7 +27036,7 @@ Body:
     AegisName: Boots_Perforated
     Name: Red Stocking Boots
     Type: Armor
-    Defense: 7
+    Defense: 18
     Locations:
       Shoes: true
     Trade:
@@ -28346,7 +28346,7 @@ Body:
     Type: Armor
     Buy: 5000
     Weight: 700
-    Defense: 1
+    Defense: 13
     Jobs:
       All: true
       Novice: false
@@ -28530,7 +28530,7 @@ Body:
     Type: Armor
     Buy: 10000
     Weight: 400
-    Defense: 5
+    Defense: 6
     Slots: 1
     Jobs:
       Novice: true
@@ -28801,7 +28801,7 @@ Body:
     Name: Cloak Of Survival
     Type: Armor
     Buy: 1
-    Defense: 5
+    Defense: 17
     Jobs:
       Mage: true
       Sage: true
@@ -29029,7 +29029,7 @@ Body:
     Name: Sylphid Manteau
     Type: Armor
     Buy: 20
-    Defense: 9
+    Defense: 33
     Locations:
       Garment: true
     Trade:
@@ -29115,7 +29115,7 @@ Body:
     AegisName: Cheap_Running_Shirts
     Name: Cheap Undershirt
     Type: Armor
-    Defense: 8
+    Defense: 11
     Locations:
       Garment: true
     Refineable: true
@@ -29138,7 +29138,7 @@ Body:
     AegisName: Muffler_C
     Name: Neo Muffler
     Type: Armor
-    Defense: 5
+    Defense: 22
     Jobs:
       All: true
       Novice: false
@@ -29316,7 +29316,6 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 400
-    Defense: 4
     Locations:
       Garment: true
     EquipLevelMin: 20
@@ -29329,7 +29328,6 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 400
-    Defense: 4
     Locations:
       Garment: true
     EquipLevelMin: 20
@@ -29342,7 +29340,6 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 400
-    Defense: 4
     Locations:
       Garment: true
     EquipLevelMin: 20
@@ -29355,7 +29352,6 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 400
-    Defense: 4
     Locations:
       Garment: true
     EquipLevelMin: 20
@@ -29951,7 +29947,7 @@ Body:
       NoDrop: true
     Script: |
       bonus bAllStats,1;
-      bonus bAtk,readparam(bStr)/20;
+      bonus bBaseAtk,readparam(bStr)/20;
       bonus bMatk,readparam(bInt)/20;
       bonus2 bSubEle,Ele_Neutral,readparam(bVit)/20;
       bonus bLongAtkRate,readparam(bDex)/20;
@@ -30278,7 +30274,6 @@ Body:
     Type: Armor
     Buy: 75000
     Weight: 100
-    Defense: 5
     Jobs:
       All: true
       Novice: false
@@ -31137,6 +31132,7 @@ Body:
     Name: Woman Glory
     Type: Armor
     Weight: 500
+    Defense: 1
     Locations:
       Both_Accessory: true
     EquipLevelMin: 1
@@ -31507,7 +31503,6 @@ Body:
     Name: Steel Flower
     Type: Armor
     Buy: 1
-    Defense: 1
     Jobs:
       All: true
       Novice: false
@@ -31929,7 +31924,6 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 4
     Locations:
       Both_Accessory: true
     Trade:
@@ -32125,6 +32119,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 200
+    Defense: 1
     Jobs:
       Mage: true
       Sage: true
@@ -32529,7 +32524,6 @@ Body:
     AegisName: Directive_A
     Name: Directive
     Type: Armor
-    Defense: 1
     Jobs:
       Novice: true
       SuperNovice: true
@@ -32549,7 +32543,6 @@ Body:
     AegisName: Directive_B
     Name: Directive
     Type: Armor
-    Defense: 1
     Jobs:
       Novice: true
       SuperNovice: true
@@ -34157,6 +34150,7 @@ Body:
     Locations:
       Both_Accessory: true
     EquipLevelMin: 1
+    EquipLevelMax: 12
     Trade:
       Override: 100
       NoDrop: true
@@ -34182,6 +34176,7 @@ Body:
     Locations:
       Both_Accessory: true
     EquipLevelMin: 1
+    EquipLevelMax: 12
     Trade:
       Override: 100
       NoDrop: true
@@ -34209,6 +34204,7 @@ Body:
     Locations:
       Both_Accessory: true
     EquipLevelMin: 1
+    EquipLevelMax: 12
     Trade:
       Override: 100
       NoDrop: true
@@ -34234,6 +34230,7 @@ Body:
     Locations:
       Both_Accessory: true
     EquipLevelMin: 1
+    EquipLevelMax: 12
     Trade:
       Override: 100
       NoDrop: true
@@ -34258,6 +34255,7 @@ Body:
     Locations:
       Both_Accessory: true
     EquipLevelMin: 1
+    EquipLevelMax: 12
     Trade:
       Override: 100
       NoDrop: true
@@ -34284,6 +34282,7 @@ Body:
     Locations:
       Both_Accessory: true
     EquipLevelMin: 1
+    EquipLevelMax: 12
     Trade:
       Override: 100
       NoDrop: true
@@ -35268,6 +35267,7 @@ Body:
     Type: Armor
     Locations:
       Both_Accessory: true
+    EquipLevelMax: 120
     Trade:
       Override: 100
       NoDrop: true
@@ -35967,6 +35967,7 @@ Body:
       SuperNovice: true
     Locations:
       Both_Accessory: true
+    EquipLevelMax: 12
     Trade:
       Override: 100
       NoDrop: true
@@ -35991,6 +35992,7 @@ Body:
       SuperNovice: true
     Locations:
       Both_Accessory: true
+    EquipLevelMax: 12
     Trade:
       Override: 100
       NoDrop: true
@@ -36016,6 +36018,7 @@ Body:
       SuperNovice: true
     Locations:
       Both_Accessory: true
+    EquipLevelMax: 12
     Trade:
       Override: 100
       NoDrop: true
@@ -36143,6 +36146,7 @@ Body:
     Locations:
       Both_Accessory: true
     EquipLevelMin: 1
+    EquipLevelMax: 100
     Trade:
       Override: 100
       NoDrop: true
@@ -36205,7 +36209,6 @@ Body:
     Type: Armor
     Buy: 75000
     Weight: 100
-    Defense: 10
     Slots: 1
     Jobs:
       All: true
@@ -38310,7 +38313,6 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 1
     Locations:
       Head_Mid: true
     View: 184
@@ -39785,7 +39787,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 500
-    Defense: 2
+    Defense: 4
     Locations:
       Head_Top: true
     EquipLevelMin: 50
@@ -39813,7 +39815,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 20
-    Defense: 3
+    Defense: 5
     Slots: 1
     Locations:
       Head_Top: true
@@ -39924,7 +39926,7 @@ Body:
     Type: Armor
     Buy: 10
     Weight: 100
-    Defense: 1
+    Defense: 3
     Locations:
       Head_Top: true
     Refineable: true
@@ -39937,7 +39939,7 @@ Body:
     Name: Baseball Cap
     Type: Armor
     Weight: 200
-    Defense: 3
+    Defense: 5
     Locations:
       Head_Top: true
     Refineable: true
@@ -40073,7 +40075,6 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 300
-    Defense: 2
     Jobs:
       All: true
       Novice: false
@@ -40793,7 +40794,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 300
-    Defense: 1
+    Defense: 2
     Locations:
       Head_Top: true
     EquipLevelMin: 20
@@ -40934,7 +40935,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 500
-    Defense: 2
+    Defense: 4
     Locations:
       Head_Top: true
     Refineable: true
@@ -41007,7 +41008,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 500
-    Defense: 4
+    Defense: 8
     Locations:
       Head_Top: true
     Refineable: true
@@ -41073,7 +41074,7 @@ Body:
     Name: Sakkat
     Type: Armor
     Buy: 1
-    Defense: 10
+    Defense: 14
     Locations:
       Head_Top: true
     View: 67
@@ -41266,7 +41267,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 1
+    Defense: 2
     Jobs:
       All: true
       Novice: false
@@ -42018,7 +42019,6 @@ Body:
     Name: Poring Party Hat
     Type: Armor
     Buy: 20
-    Defense: 2
     Locations:
       Head_Top: true
     Refineable: true
@@ -42935,7 +42935,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 200
-    Defense: 5
+    Defense: 53
     Locations:
       Head_Top: true
     Refineable: true
@@ -43747,7 +43747,6 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 1
     Locations:
       Head_Low: true
     View: 414
@@ -44478,7 +44477,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 500
-    Defense: 3
+    Defense: 4
     Slots: 1
     Locations:
       Head_Top: true
@@ -44628,7 +44627,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 1
+    Defense: 3
     Locations:
       Head_Low: true
     EquipLevelMin: 90
@@ -44644,14 +44643,13 @@ Body:
       NoMail: true
       NoAuction: true
     Script: |
-      bonus bAtk,30;
+      bonus bBaseAtk,30;
       bonus bMaxHPrate,-2;
   - Id: 5463
     AegisName: Rainbow_Scarf
     Name: Rainbow Scarf
     Type: Armor
     Buy: 20
-    Defense: 1
     Locations:
       Head_Low: true
     EquipLevelMin: 90
@@ -44674,7 +44672,6 @@ Body:
     Name: Zaha Doll Hat
     Type: Armor
     Buy: 20
-    Defense: 1
     Slots: 1
     Jobs:
       All: true
@@ -45035,7 +45032,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 500
-    Defense: 4
+    Defense: 8
     Locations:
       Head_Top: true
     View: 482
@@ -45137,7 +45134,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 800
-    Defense: 3
+    Defense: 6
     Locations:
       Head_Top: true
     Refineable: true
@@ -45149,7 +45146,7 @@ Body:
     AegisName: Boy's_Cap_I
     Name: Student Cap
     Type: Armor
-    Defense: 5
+    Defense: 10
     Jobs:
       All: true
       Novice: false
@@ -45175,7 +45172,7 @@ Body:
     AegisName: Ulle_Cap_I
     Name: Ulle's Cap
     Type: Armor
-    Defense: 3
+    Defense: 12
     Jobs:
       All: true
       Novice: false
@@ -45200,7 +45197,7 @@ Body:
     AegisName: Spinx_Helm_I
     Name: Sphinx Hat
     Type: Armor
-    Defense: 5
+    Defense: 10
     Jobs:
       Crusader: true
       Knight: true
@@ -45227,7 +45224,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 6
+    Defense: 5
     Slots: 1
     Locations:
       Head_Top: true
@@ -45247,7 +45244,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 300
-    Defense: 3
+    Defense: 6
     Locations:
       Head_Top: true
     EquipLevelMin: 50
@@ -45452,7 +45449,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 500
-    Defense: 3
+    Defense: 6
     Locations:
       Head_Top: true
     Refineable: true
@@ -45637,7 +45634,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 800
-    Defense: 5
+    Defense: 10
     Locations:
       Head_Top: true
     EquipLevelMin: 50
@@ -45813,7 +45810,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 600
-    Defense: 6
+    Defense: 12
     Slots: 1
     Locations:
       Head_Mid: true
@@ -45883,7 +45880,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 800
-    Defense: 3
+    Defense: 6
     Slots: 1
     Locations:
       Head_Top: true
@@ -46103,7 +46100,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 400
-    Defense: 3
+    Defense: 6
     Slots: 1
     Locations:
       Head_Top: true
@@ -46232,7 +46229,7 @@ Body:
     Name: Holy Egg Hat
     Type: Armor
     Buy: 20
-    Defense: 1
+    Defense: 4
     Locations:
       Head_Top: true
     Refineable: true
@@ -46250,7 +46247,7 @@ Body:
     AegisName: Fest_Lord_Circlet
     Name: Festival Grand Circlet
     Type: Armor
-    Defense: 8
+    Defense: 10
     Locations:
       Head_Top: true
     View: 93
@@ -46262,7 +46259,7 @@ Body:
     AegisName: Fest_Bunny_Band
     Name: Festival Bunny Band
     Type: Armor
-    Defense: 7
+    Defense: 14
     Locations:
       Head_Top: true
     View: 15
@@ -46311,7 +46308,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 500
-    Defense: 3
+    Defense: 5
     Locations:
       Head_Low: true
       Head_Mid: true
@@ -46366,7 +46363,7 @@ Body:
     AegisName: Piece_Of_White_Cloth_E
     Name: Piece Of White Cloth
     Type: Armor
-    Defense: 1
+    Defense: 5
     Locations:
       Head_Top: true
     Refineable: true
@@ -46384,7 +46381,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 3000
-    Defense: 3
+    Defense: 6
     Locations:
       Head_Top: true
     EquipLevelMin: 75
@@ -46514,7 +46511,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 300
-    Defense: 1
+    Defense: 5
     Slots: 1
     Locations:
       Head_Top: true
@@ -46534,7 +46531,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 1000
-    Defense: 1
+    Defense: 4
     Locations:
       Head_Mid: true
       Head_Top: true
@@ -46549,7 +46546,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 300
-    Defense: 6
+    Defense: 3
     Slots: 1
     Locations:
       Head_Top: true
@@ -46585,7 +46582,7 @@ Body:
       bonus bFlee,10;
       if (getrefine()>6) {
          bonus bHit,5;
-         bonus bAtk,30;
+         bonus bBaseAtk,30;
       }
   - Id: 5571
     AegisName: Rasta_Wig
@@ -46593,7 +46590,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 1
+    Defense: 2
     Locations:
       Head_Top: true
     Refineable: true
@@ -46607,7 +46604,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 1
+    Defense: 2
     Slots: 1
     Locations:
       Head_Top: true
@@ -46628,7 +46625,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 1
+    Defense: 6
     Slots: 1
     Locations:
       Head_Top: true
@@ -46830,7 +46827,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 400
-    Defense: 1
+    Defense: 5
     Slots: 1
     Locations:
       Head_Mid: true
@@ -46852,7 +46849,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 1
+    Defense: 5
     Slots: 1
     Locations:
       Head_Top: true
@@ -46874,7 +46871,7 @@ Body:
     Name: Mosquito Coil
     Type: Armor
     Weight: 100
-    Defense: 1
+    Defense: 5
     Locations:
       Head_Top: true
     EquipLevelMin: 1
@@ -46935,7 +46932,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 200
-    Defense: 1
+    Defense: 5
     Locations:
       Head_Top: true
     Refineable: true
@@ -46997,7 +46994,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 200
-    Defense: 1
+    Defense: 10
     Slots: 1
     Locations:
       Head_Mid: true
@@ -48160,7 +48157,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 400
-    Defense: 1
+    Defense: 5
     Slots: 1
     Locations:
       Head_Top: true
@@ -48208,7 +48205,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 1
+    Defense: 10
     Slots: 1
     Locations:
       Head_Mid: true
@@ -48384,7 +48381,7 @@ Body:
       bonus bDex,2;
       if (getrefine()>6) {
          bonus bDex,1;
-         bonus bAtk,5;
+         bonus bBaseAtk,5;
       }
   - Id: 5678
     AegisName: Notation_Hairband
@@ -48533,7 +48530,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 3
+    Defense: 2
     Locations:
       Head_Top: true
     EquipLevelMin: 1
@@ -48608,7 +48605,6 @@ Body:
     AegisName: No_Fear_Underware
     Name: No Fear Underwear
     Type: Armor
-    Defense: 10
     Locations:
       Head_Top: true
     EquipLevelMin: 20
@@ -49742,7 +49738,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 12
+    Defense: 6
     Jobs:
       Assassin: true
     Classes:
@@ -49806,7 +49802,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 12
+    Defense: 17
     Slots: 1
     Jobs:
       Crusader: true
@@ -49840,7 +49836,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 17
+    Defense: 12
     Slots: 1
     Jobs:
       BardDancer: true
@@ -50051,7 +50047,6 @@ Body:
     Name: Gold Angel Sculpture
     Type: Armor
     Buy: 100
-    Defense: 2
     Locations:
       Head_Top: true
     EquipLevelMin: 70
@@ -50453,7 +50448,6 @@ Body:
     Type: Armor
     Buy: 20
     Defense: 1
-    Slots: 1
     Locations:
       Head_Mid: true
     EquipLevelMin: 1
@@ -50593,7 +50587,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 5
+    Defense: 10
     Locations:
       Head_Top: true
     Refineable: true
@@ -50608,7 +50602,7 @@ Body:
     Name: Upgraded Elephant Hat
     Type: Armor
     Weight: 500
-    Defense: 3
+    Defense: 6
     Slots: 1
     Locations:
       Head_Top: true
@@ -50620,7 +50614,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 2
+    Defense: 4
     Locations:
       Head_Top: true
     Refineable: true
@@ -50641,7 +50635,7 @@ Body:
     Name: Victorious Coronet
     Type: Armor
     Weight: 150
-    Defense: 1
+    Defense: 2
     Locations:
       Head_Top: true
     EquipLevelMin: 70
@@ -50664,7 +50658,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 300
-    Defense: 5
+    Defense: 9
     Locations:
       Head_Top: true
     View: 67
@@ -50683,7 +50677,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 1
+    Defense: 2
     Jobs:
       All: true
       Novice: false
@@ -50753,7 +50747,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 3
+    Defense: 5
     Jobs:
       All: true
       Novice: false
@@ -50772,7 +50766,6 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 5
     Locations:
       Head_Low: true
     View: 25
@@ -50869,7 +50862,7 @@ Body:
     Name: Valentine Pledge
     Type: Armor
     Buy: 20
-    Defense: 3
+    Defense: 6
     Locations:
       Both_Accessory: true
     Trade:
@@ -51339,6 +51332,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 500
+    Defense: 7
     Locations:
       Head_Top: true
     EquipLevelMin: 40
@@ -52079,7 +52073,7 @@ Body:
       bonus2 bSkillAtk,"GC_COUNTERSLASH",(10*getskilllv("GC_WEAPONBLOCKING"));
       .@r = getrefine();
       if (.@r > 6) {
-         bonus bAtk,20;
+         bonus bBaseAtk,20;
          bonus bHit,5;
       }
       if (.@r > 9) {
@@ -57145,7 +57139,7 @@ Body:
     EquipLevelMin: 160
     Refineable: true
     Script: |
-      bonus bAtk,pow(min(getrefine(),15),2);
+      bonus bBaseAtk,pow(min(getrefine(),15),2);
   - Id: 13129
     AegisName: Unity_Revolver
     Name: Unity Revolver
@@ -59039,7 +59033,7 @@ Body:
     EquipLevelMin: 160
     Refineable: true
     Script: |
-      bonus bAtk,pow(min(getrefine(),15),2);
+      bonus bBaseAtk,pow(min(getrefine(),15),2);
       bonus bMatk,pow(min(getrefine(),15),2)/2;
       bonus bUnbreakableWeapon;
   - Id: 13329
@@ -61013,7 +61007,7 @@ Body:
     EquipLevelMin: 160
     Refineable: true
     Script: |
-      bonus bAtk,pow(min(getrefine(),15),2);
+      bonus bBaseAtk,pow(min(getrefine(),15),2);
   - Id: 13456
     AegisName: Unity_Sword
     Name: Unity Sword
@@ -63133,6 +63127,7 @@ Body:
     Locations:
       Armor: true
     EquipLevelMin: 1
+    EquipLevelMax: 100
     Refineable: true
     Trade:
       Override: 100
@@ -67090,7 +67085,7 @@ Body:
     EquipLevelMin: 160
     Refineable: true
     Script: |
-      bonus bAtk,pow(min(getrefine(),15),2);
+      bonus bBaseAtk,pow(min(getrefine(),15),2);
       bonus bUnbreakableWeapon;
   - Id: 16043
     AegisName: Meteor_Strike
@@ -68235,7 +68230,7 @@ Body:
     EquipLevelMin: 160
     Refineable: true
     Script: |
-      bonus bAtk,pow(min(getrefine(),15),2);
+      bonus bBaseAtk,pow(min(getrefine(),15),2);
   - Id: 18122
     AegisName: Gigantic_Bow
     Name: Giant Bow
@@ -68455,7 +68450,7 @@ Body:
     Weight: 600
     Attack: 114
     Range: 5
-    Slots: 2
+    Slots: 1
     Jobs:
       Archer: true
       BardDancer: true
@@ -69558,7 +69553,6 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 2
     Slots: 1
     Locations:
       Head_Mid: true
@@ -69576,7 +69570,6 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 2
     Slots: 1
     Locations:
       Head_Mid: true
@@ -69594,7 +69587,6 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 2
     Slots: 1
     Locations:
       Head_Mid: true
@@ -69750,7 +69742,6 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 2
     Locations:
       Head_Low: true
     EquipLevelMin: 1
@@ -71080,7 +71071,6 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 4
     Locations:
       Head_Low: true
     EquipLevelMin: 30
@@ -72922,7 +72912,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 800
-    Defense: 5
+    Defense: 10
     Slots: 1
     Locations:
       Head_Top: true
@@ -74849,6 +74839,7 @@ Body:
     Type: Armor
     Buy: 10
     Weight: 10
+    Defense: 1
     Locations:
       Head_Low: true
     EquipLevelMin: 1
@@ -74865,6 +74856,7 @@ Body:
     Type: Armor
     Buy: 10
     Weight: 10
+    Defense: 1
     Locations:
       Head_Low: true
     EquipLevelMin: 1
@@ -75599,9 +75591,9 @@ Body:
       bonus2 bAddClass,Class_All,2;
       bonus bMatkRate,2;
       if (readparam(bStr) >= 90) {
-         bonus bAtk,15;
+         bonus bBaseAtk,15;
          if (.@r >= 9)
-            bonus bAtk,15;
+            bonus bBaseAtk,15;
          }
          if (readparam(bInt) >= 90) {
             bonus bMatk,15;
@@ -76635,6 +76627,7 @@ Body:
     Type: Armor
     Weight: 100
     Defense: 2
+    Slots: 1
     Jobs:
       Summoner: true
     Locations:
@@ -77668,7 +77661,6 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 200
-    Defense: 1
     Slots: 1
     Locations:
       Head_Top: true
@@ -77788,7 +77780,7 @@ Body:
       autobonus "{ bonus bMatk,15; }",50,5000,BF_MAGIC,"{ specialeffect2 EF_SPELLBREAKER; }";
       .@r = getrefine();
       if (.@r >= 7) {
-         bonus bAtk,10;
+         bonus bBaseAtk,10;
          bonus bMatk,10;
          if (.@r >= 9) {
             bonus bAllStats,1;
@@ -77822,7 +77814,7 @@ Body:
       autobonus "{ bonus bMatk,30; }",50,5000,BF_MAGIC,"{ specialeffect2 EF_SPELLBREAKER; }";
       .@r = getrefine();
       if (.@r >= 7) {
-         bonus bAtk,15;
+         bonus bBaseAtk,15;
          bonus bMatk,15;
          if (.@r >= 9) {
             bonus bAllStats,2;
@@ -78064,7 +78056,6 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 100
-    Defense: 1
     Slots: 1
     Locations:
       Head_Mid: true
@@ -78661,7 +78652,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 200
-    Defense: 1
+    Defense: 4
     Slots: 1
     Jobs:
       Acolyte: true
@@ -81849,7 +81840,6 @@ Body:
     Type: Armor
     Buy: 10
     Weight: 100
-    Defense: 1
     Locations:
       Costume_Head_Top: true
     EquipLevelMin: 1
@@ -82047,7 +82037,6 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 400
-    Defense: 1
     Locations:
       Costume_Head_Top: true
     EquipLevelMin: 1
@@ -89717,6 +89706,7 @@ Body:
     Locations:
       Garment: true
     EquipLevelMin: 1
+    EquipLevelMax: 100
     Refineable: true
     Trade:
       Override: 100
@@ -92816,7 +92806,7 @@ Body:
       bonus bAspdRate,-5;
       bonus bCritAtkRate,getrefine();
       if (readparam(bStr)<=110) {
-         bonus bAtk,-250;
+         bonus bBaseAtk,-250;
       }
   - Id: 21012
     AegisName: Some_Wizard_MagicSword
@@ -92929,7 +92919,8 @@ Body:
     EquipLevelMin: 160
     Refineable: true
     Script: |
-      bonus bAtk,pow(min(getrefine(),15),2);
+      bonus bBaseAtk,pow(min(getrefine(),15),2);
+      bonus bMatk,pow(min(getrefine(),15),2)/2;
       bonus bMatk,pow(min(getrefine(),15),2)/2;
   - Id: 21018
     AegisName: Lindy_Hop
@@ -93478,9 +93469,9 @@ Body:
       .@r = getrefine();
       bonus bMaxHP,300+(100*(.@r/3));
       bonus bMaxSP,30+(10*(.@r/3));
-      bonus bAtk,7*(.@r/3);
+      bonus bBaseAtk,7*(.@r/3);
       if (readparam(bStr)>=120)
-         bonus bAtk,50;
+         bonus bBaseAtk,50;
   - Id: 22001
     AegisName: Temporal_Int_Boots
     Name: Temporal Boots Of Intelligence
@@ -93680,9 +93671,9 @@ Body:
       .@r = getrefine();
       bonus bMaxHP,300+(100*(.@r/3));
       bonus bMaxSP,30+(10*(.@r/3));
-      bonus bAtk,7*(.@r/3);
+      bonus bBaseAtk,7*(.@r/3);
       if (readparam(bStr)>=120)
-         bonus bAtk,50;
+         bonus bBaseAtk,50;
   - Id: 22007
     AegisName: Temporal_Vit_Boots_
     Name: Temporal Boots Of Vitality
@@ -93863,6 +93854,7 @@ Body:
     Locations:
       Shoes: true
     EquipLevelMin: 1
+    EquipLevelMax: 100
     Refineable: true
     Trade:
       Override: 100
@@ -94999,7 +94991,7 @@ Body:
       .@r = getrefine();
       bonus bMaxHP,300+(100*(.@r/3));
       bonus bMaxSP,30+(10*(.@r/3));
-      bonus bAtk,7*(.@r/3);
+      bonus bBaseAtk,7*(.@r/3);
       if (readparam(bStr)>=120)
          bonus bBaseAtk,50;
   - Id: 22108
@@ -95008,7 +95000,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 600
-    Defense: 25
+    Defense: 20
     Jobs:
       KagerouOboro: true
       Rebellion: true
@@ -95094,7 +95086,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 600
-    Defense: 25
+    Defense: 20
     Jobs:
       KagerouOboro: true
       Rebellion: true
@@ -95129,7 +95121,7 @@ Body:
       .@r = getrefine();
       bonus bMaxHP,300+(100*(.@r/3));
       bonus bMaxSP,30+(10*(.@r/3));
-      bonus bAtk,7*(.@r/3);
+      bonus bBaseAtk,7*(.@r/3);
       if (readparam(bStr)>=120)
          bonus bBaseAtk,50;
   - Id: 22114
@@ -95138,7 +95130,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 600
-    Defense: 25
+    Defense: 20
     Slots: 1
     Jobs:
       KagerouOboro: true
@@ -95228,7 +95220,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 600
-    Defense: 25
+    Defense: 20
     Slots: 1
     Jobs:
       KagerouOboro: true
@@ -95690,7 +95682,7 @@ Body:
     Name: Beginner's Boots
     Type: Armor
     Buy: 20
-    Defense: 10
+    Defense: 15
     Slots: 1
     Locations:
       Shoes: true
@@ -95916,7 +95908,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 600
-    Defense: 50
+    Defense: 40
     Slots: 1
     Locations:
       Shoes: true
@@ -107329,7 +107321,7 @@ Body:
     EquipLevelMin: 160
     Refineable: true
     Script: |
-      bonus bAtk,pow(min(getrefine(),15),2);
+      bonus bBaseAtk,pow(min(getrefine(),15),2);
   - Id: 28010
     AegisName: Juliette_D._Rachel
     Name: Juliette D. Rachel
@@ -107964,7 +107956,7 @@ Body:
     EquipLevelMin: 160
     Refineable: true
     Script: |
-      bonus bAtk,pow(min(getrefine(),15),2);
+      bonus bBaseAtk,pow(min(getrefine(),15),2);
       bonus bUnbreakableWeapon;
   - Id: 28110
     AegisName: Unity_Two-Handed_Axe
@@ -109481,7 +109473,7 @@ Body:
     Script: |
       bonus2 bExpAddRace,RC_All,5;
       .@lvl = min(BaseLevel/5,10);
-      bonus bAtk,2*.@lvl;
+      bonus bBaseAtk,2*.@lvl;
       bonus bMatk,2*.@lvl;
       bonus bMaxHP,10*.@lvl;
       bonus bMaxSP,5*.@lvl;
@@ -110138,6 +110130,7 @@ Body:
     Name: Vigilante Badge
     Type: Armor
     Weight: 200
+    Defense: 2
     Jobs:
       Rogue: true
     Classes:
@@ -110153,7 +110146,7 @@ Body:
     Name: Hippie Feather
     Type: Armor
     Weight: 200
-    Slots: 1
+    Defense: 2
     Jobs:
       BardDancer: true
     Classes:
@@ -110857,7 +110850,6 @@ Body:
     Name: Royal Guardian Ring
     Type: Armor
     Weight: 10
-    Defense: 1
     Slots: 1
     Locations:
       Both_Accessory: true
@@ -111671,7 +111663,7 @@ Body:
     EquipLevelMin: 160
     Refineable: true
     Script: |
-      bonus bAtk,pow(min(getrefine(),15),2);
+      bonus bBaseAtk,pow(min(getrefine(),15),2);
       bonus bMatk,pow(min(getrefine(),15),2);
       bonus bUnbreakableWeapon;
   - Id: 28606
@@ -112415,7 +112407,7 @@ Body:
     EquipLevelMin: 160
     Refineable: true
     Script: |
-      bonus bAtk,pow(min(getrefine(),15),2);
+      bonus bBaseAtk,pow(min(getrefine(),15),2);
       bonus bMatk,pow(min(getrefine(),15),2)/2;
   - Id: 28714
     AegisName: Toughen_Metal_Dagger
@@ -113007,7 +112999,7 @@ Body:
     SubType: Dagger
     Buy: 20
     Weight: 900
-    Attack: 195
+    Attack: 185
     Range: 1
     Slots: 2
     Jobs:
@@ -126450,6 +126442,7 @@ Body:
     Name: Imperial Attack Ring
     Type: Armor
     Weight: 50
+    Defense: 8
     Slots: 1
     Locations:
       Right_Accessory: true
@@ -126472,6 +126465,7 @@ Body:
     Name: Imperial Magic Ring
     Type: Armor
     Weight: 50
+    Defense: 8
     Slots: 1
     Locations:
       Right_Accessory: true
@@ -126494,6 +126488,7 @@ Body:
     Name: Grace Attack Ring
     Type: Armor
     Weight: 50
+    Defense: 10
     Slots: 1
     Locations:
       Right_Accessory: true
@@ -126516,6 +126511,7 @@ Body:
     Name: Grace Magic Ring
     Type: Armor
     Weight: 50
+    Defense: 10
     Slots: 1
     Locations:
       Right_Accessory: true
