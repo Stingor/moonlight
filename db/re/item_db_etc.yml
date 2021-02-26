@@ -33770,6 +33770,7 @@ Body:
     AegisName: Light_Shuriken
     Name: Light Shuriken
     Type: Ammo
+    SubType: Shuriken
     Weight: 5
     Attack: 5
     Locations:
