@@ -745,15 +745,17 @@ OnMobDead:
 	enablenpc instance_npcname("Iris#6mir");
 	enablenpc instance_npcname("Bijou#6mir");
 	addrid(5,0,instance_mapname("1@mir"));
+
 	logmes "Fin d'instance "+instance_live_info(ILI_NAME)+""+('hm>1?" niveau "+'hm+" ":" ")+" Owner: "+getpartyleader(instance_live_info(ILI_OWNER));
 	if( 'hm > 1 ) {
 		getitem 6919,'hm*2+rand('hm*3),convertpcinfo(getpartyleader(instance_live_info(IM_PARTY),2),CPC_ACCOUNT);
 		getitem 12246,1,convertpcinfo(getpartyleader(instance_live_info(IM_PARTY),2),CPC_ACCOUNT);
 	}
-	if (playerattached() && 'exploit_disabled && banquet_main_quest == 21) {
+
+	if (playerattached() && 'exploit_disabled && ep16_royal == 19) {
 		erasequest 7700;// Once More!
 		setquest 7701;// Lost Imir Heart
-		banquet_main_quest = 22;
+		ep16_royal = 20;
 	}
 	end;
 }
@@ -888,10 +890,10 @@ OnStop:
 	mes "[Fenrir]";
 	mes "We'd better get out of here, too! This place is too dangerous!";
 	close2;
-	if (banquet_main_quest == 21) {
+	if (ep16_royal == 19) {
 		erasequest 7700;// Once More!
 		setquest 7701;// Lost Imir Heart
-		banquet_main_quest = 22;
+		ep16_royal = 20;
 	}
 	warp "prt_lib_q",88,83;
 	end;
