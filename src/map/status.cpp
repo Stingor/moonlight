@@ -7558,6 +7558,9 @@ static short status_calc_aspd(struct block_list *bl, struct status_change *sc, b
 		}
 
 		if (sc->data[SC_ASSNCROS] && bonus < sc->data[SC_ASSNCROS]->val2) {
+#ifdef RENEWAL
+			bonus += sc->data[SC_ASSNCROS]->val2;
+#else
 			if (bl->type != BL_PC)
 				bonus += sc->data[SC_ASSNCROS]->val2;
 			else {
@@ -7574,6 +7577,7 @@ static short status_calc_aspd(struct block_list *bl, struct status_change *sc, b
 						break;
 				}
 			}
+#endif
 		}
 
 		if (bonus < 20 && sc->data[SC_MADNESSCANCEL])
