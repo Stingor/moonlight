@@ -1508,7 +1508,7 @@ int skill_additional_effect(struct block_list* src, struct block_list *bl, uint1
 		break;
 
 	case NPC_GRANDDARKNESS:
-		sc_start(src, bl, SC_BLIND, 100, skill_lv, skill_get_time2(skill_id, skill_lv));
+		sc_start(src, bl, SC_BLIND, 100, skill_lv, skill_get_time(skill_id, skill_lv));
 		attack_type |= BF_WEAPON;
 		break;
 
@@ -12120,24 +12120,22 @@ TIMER_FUNC(skill_castend_id){
 					sd->canequip_tick = tick + skill_get_time(ud->skill_id, ud->skill_lv);
 					break;
 				case KN_BRANDISHSPEAR:
-				case KN_BOWLINGBASH:
-				case CR_GRANDCROSS:
-				case NPC_GRANDDARKNESS: {
+				case CR_GRANDCROSS: {
 					sc_type type;
 
-					if (ud->skill_id == KN_BRANDISHSPEAR || ud->skill_id == KN_BOWLINGBASH)
+					if (ud->skill_id == KN_BRANDISHSPEAR)
 						type = SC_STRIPWEAPON;
 					else
 						type = SC_STRIPSHIELD;
 
-					if ((sc = status_get_sc(src)) && sc->data[type]) {
-						const struct TimerData* timer = get_timer(sc->data[type]->timer);
+						if ((sc = status_get_sc(src)) && sc->data[type]) {
+							const struct TimerData* timer = get_timer(sc->data[type]->timer);
 
-						if (timer && timer->func == status_change_timer && DIFF_TICK(timer->tick, gettick() + skill_get_time(ud->skill_id, ud->skill_lv)) > 0)
-							break;
-					}
-					sc_start2(src, src, type, 100, 0, 1, skill_get_time(ud->skill_id, ud->skill_lv));
-					break;
+							if (timer && timer->func == status_change_timer && DIFF_TICK(timer->tick, gettick() + skill_get_time(ud->skill_id, ud->skill_lv)) > 0)
+								break;
+						}
+						sc_start2(src, src, type, 100, 0, 1, skill_get_time(ud->skill_id, ud->skill_lv));
+						break;
 				}
 			}
 		}
