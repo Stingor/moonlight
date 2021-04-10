@@ -352,6 +352,7 @@ struct map_session_data {
 		bool autolootrare: 1;
 		unsigned int autolootpognon;
 		// [Stingor] <--
+		bool refineui_open;
 	} state;
 	struct {
 		unsigned char no_weapon_damage, no_magic_damage, no_misc_damage;
@@ -1001,10 +1002,10 @@ extern struct s_job_info job_info[CLASS_COUNT];
 #define pc_isidle_mer(sd)     ( (sd)->md && ( (sd)->chatID || (sd)->state.vending || (sd)->state.buyingstore || DIFF_TICK(last_tick, (sd)->idletime_mer) >= battle_config.mer_idle_no_share ) )
 #define pc_istrading(sd)      ( (sd)->npc_id || (sd)->state.vending || (sd)->state.buyingstore || (sd)->state.trading )
 #define pc_istrading2(sd)     ( (sd)->npc_id || (sd)->state.vending || (sd)->state.autotrade || (sd)->state.buyingstore || (sd)->state.trading || sd->state.banking || sd->state.callshop )
-#define pc_cant_act(sd)       ( (sd)->npc_id || (sd)->state.vending || (sd)->state.buyingstore || (sd)->chatID || ((sd)->sc.opt1 && (sd)->sc.opt1 != OPT1_BURNING) || (sd)->state.trading || (sd)->state.storage_flag || (sd)->state.prevend )
 
-/* equals pc_cant_act except it doesn't check for chat rooms or npcs */
-#define pc_cant_act2(sd)       ( (sd)->state.vending || (sd)->state.buyingstore || ((sd)->sc.opt1 && (sd)->sc.opt1 != OPT1_BURNING) || (sd)->state.trading || (sd)->state.storage_flag || (sd)->state.prevend )
+// equals pc_cant_act2 and additionally checks for chat rooms and npcs
+#define pc_cant_act(sd)       ( (sd)->npc_id || (sd)->chatID || pc_cant_act2( (sd) ) )
+#define pc_cant_act2(sd)      ( (sd)->state.vending || (sd)->state.buyingstore || ((sd)->sc.opt1 && (sd)->sc.opt1 != OPT1_BURNING) || (sd)->state.trading || (sd)->state.storage_flag || (sd)->state.prevend || (sd)->state.refineui_open )
 
 #define pc_setdir(sd,b,h)     ( (sd)->ud.dir = (b) ,(sd)->head_dir = (h) )
 #define pc_setchatid(sd,n)    ( (sd)->chatID = n )
