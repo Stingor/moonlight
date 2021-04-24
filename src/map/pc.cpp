@@ -6145,6 +6145,7 @@ enum e_setpos pc_setpos(struct map_session_data* sd, unsigned short mapindex, in
 	sd->state.warping = 1;
 	sd->state.workinprogress = WIP_DISABLE_NONE;
 	sd->state.mail_writing = false;
+	sd->state.refineui_open = false;
 
 	if (map_flag_vs(sd->bl.m)) // [Stingor]
 		status_change_end(&sd->bl, SC_ALL_RIDING, INVALID_TIMER);
