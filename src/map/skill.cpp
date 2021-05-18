@@ -6564,7 +6564,6 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 	case AB_HIGHNESSHEAL:
 		{
 			int heal = skill_calc_heal(src, bl, skill_id, skill_lv, true);
-			int heal_get_jobexp;
 
 			// [Stingor] -->
 			if (status_get_class(bl) == MOBID_EMPERIUM || status_get_class(bl) == MOBID_GUARDIAN_STONE1 || status_get_class(bl)== MOBID_GUARDIAN_STONE2) {
@@ -6598,7 +6597,7 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 			if (status_isimmune(bl) && battle_config.healgtb) // [Stingor]
 				heal /= 100 / status_isimmune(bl);
 			heal = (heal * battle_config.heal_rate)/100;
-			heal_get_jobexp = status_heal(bl,heal,0,0);
+			t_exp heal_get_jobexp = status_heal(bl,heal,0,0);
 			clif_skill_nodamage (src, bl, skill_id, heal, 1);
 
 			if(sd && dstsd && heal > 0 && sd != dstsd && battle_config.heal_exp > 0){
