@@ -596,15 +596,8 @@ enum e_mapflag : int16 {
 	MF_PRIVATEAIRSHIP_SOURCE,
 	MF_PRIVATEAIRSHIP_DESTINATION,
 	MF_SKILL_DURATION,
-	/* Stingor */
-	MF_NODUEL,
-	MF_NOATTACKSKILL,
-	MF_NOAOESKILL,
-	MF_NOMVPCARD,
-	MF_NOBBRANCH,
-	MF_NOMAIL,
-	MF_NODISGUISE,
-	MF_MAX,	
+#include "../custom/mapflag_enum.inc"
+	MF_MAX,
 };
 
 /// Enum of damage types
@@ -790,8 +783,7 @@ extern int16 save_settings;
 extern int night_flag; // 0=day, 1=night [Yor]
 extern int enable_spy; //Determines if @spy commands are active.
 
-extern bool event_drop; // Stingor
-extern bool event_exp; // Stingor
+extern uint32 start_status_points;
 
 // Agit Flags
 extern bool agit_flag;
@@ -1197,4 +1189,5 @@ extern char guild_storage_log_table[32];
 
 void do_shutdown(void);
 
+#include "../custom/map_custom.hpp"
 #endif /* MAP_HPP */
