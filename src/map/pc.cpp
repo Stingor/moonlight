@@ -2915,7 +2915,7 @@ void pc_exeautobonus(struct map_session_data *sd, std::vector<s_autobonus> *bonu
 
 	autobonus->active = add_timer(gettick()+autobonus->duration, pc_endautobonus, sd->bl.id, (intptr_t)bonus);
 	sd->state.autobonus |= autobonus->pos;
-	status_calc_pc(sd,SCO_NONE);
+	status_calc_pc(sd,SCO_FORCE);
 }
 
 /**
@@ -2935,8 +2935,8 @@ TIMER_FUNC(pc_endautobonus){
 			break;
 		}
 	}
-
-	status_calc_pc(sd,SCO_NONE);
+	
+	status_calc_pc(sd,SCO_FORCE);
 	return 0;
 }
 
@@ -10962,7 +10962,7 @@ static void pc_unequipitem_sub(struct map_session_data *sd, int n, int flag) {
 
 	if (flag & 1 || status_calc) {
 		pc_checkallowskill(sd);
-		status_calc_pc(sd, SCO_NONE);
+		status_calc_pc(sd, SCO_FORCE);
 	}
 
 	if (sd->sc.data[SC_SIGNUMCRUCIS] && !battle_check_undead(sd->battle_status.race, sd->battle_status.def_ele))
