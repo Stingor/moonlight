@@ -66,7 +66,7 @@ uint64 ItemDatabase::parseBodyNode(const YAML::Node &node) {
 		if (!this->asString(node, "AegisName", name))
 			return 0;
 
-		item_data* id = itemdb_search_aegisname(name.c_str());
+		std::shared_ptr<item_data> id = item_db.search_aegisname( name.c_str() );
 
 		if (id != nullptr && id->nameid != nameid) {
 			this->invalidWarning(node["AegisName"], "Found duplicate item Aegis name for %s, skipping.\n", name.c_str());
@@ -519,7 +519,7 @@ uint64 ItemDatabase::parseBodyNode(const YAML::Node &node) {
 		if (!this->asString(node, "AliasName", view))
 			return 0;
 
-		item_data *view_data = itemdb_search_aegisname(view.c_str());
+		std::shared_ptr<item_data> view_data = item_db.search_aegisname( view.c_str() );
 
 		if (view_data == nullptr) {
 			this->invalidWarning(node["AliasName"], "Unable to change the alias because %s is an unknown item.\n", view.c_str());
@@ -1037,6 +1037,27 @@ void ItemDatabase::loadingFinished(){
 
 		item_db.put( ITEMID_DUMMY, dummy_item );
 	}
+
+	// Prepare the container size to not allocate often
+	this->nameToItemDataMap.reserve( this->size() );
+	this->aegisNameToItemDataMap.reserve( this->size() );
+
+	// Build the name lookup maps
+	for( const auto& entry : *this ){
+		// Create a copy
+		std::string ename = entry.second->ename;
+		// Convert it to lower
+		util::tolower( ename );
+
+		this->nameToItemDataMap[ename] = entry.second;
+
+		// Create a copy
+		std::string aegisname = entry.second->name;
+		// Convert it to lower
+		util::tolower( aegisname );
+
+		this->aegisNameToItemDataMap[aegisname] = entry.second;
+	}
 }
 
 /**
@@ -1069,6 +1090,30 @@ e_sex ItemDatabase::defaultGender( const YAML::Node &node, std::shared_ptr<item_
 	}
 
 	return static_cast<e_sex>( id->sex );
+}
+
+std::shared_ptr<item_data> ItemDatabase::searchname( const char* name ){
+	// Create a copy
+	std::string lowername = name;
+	// Convert it to lower
+	util::tolower( lowername );
+
+	return util::umap_find( this->aegisNameToItemDataMap, lowername );
+}
+
+std::shared_ptr<item_data> ItemDatabase::search_aegisname( const char *name ){
+	// Create a copy
+	std::string lowername = name;
+	// Convert it to lower
+	util::tolower( lowername );
+
+	std::shared_ptr<item_data> result = util::umap_find( this->aegisNameToItemDataMap, lowername );
+
+	if( result != nullptr ){
+		return result;
+	}
+
+	return util::umap_find( this->nameToItemDataMap, lowername );
 }
 
 ItemDatabase item_db;
@@ -1158,15 +1203,6 @@ static struct item_data* itemdb_searchname1(const char *str, bool aegis_only)
 	}
 
 	return nullptr;
-}
-
-struct item_data* itemdb_searchname(const char *str)
-{
-	return itemdb_searchname1(str, false);
-}
-
-struct item_data* itemdb_search_aegisname( const char *str ){
-	return itemdb_searchname1( str, true );
 }
 
 /*==========================================
@@ -1633,7 +1669,7 @@ uint64 ItemGroupDatabase::parseBodyNode(const YAML::Node &node) {
 					if (!this->asString(listit, "Clear", item_name))
 						continue;
 
-					struct item_data *item = itemdb_search_aegisname(item_name.c_str());
+					std::shared_ptr<item_data> item = item_db.search_aegisname( item_name.c_str() );
 
 					if (item == nullptr) {
 						this->invalidWarning(listit["Clear"], "Unknown Item %s. Clear failed.\n", item_name.c_str());
@@ -1651,7 +1687,7 @@ uint64 ItemGroupDatabase::parseBodyNode(const YAML::Node &node) {
 				if (!this->asString(listit, "Item", item_name))
 					continue;
 
-				struct item_data *item = itemdb_search_aegisname(item_name.c_str());
+				std::shared_ptr<item_data> item = item_db.search_aegisname( item_name.c_str() );
 
 				if (item == nullptr) {
 					this->invalidWarning(listit["Item"], "Unknown Item %s.\n", item_name.c_str());
