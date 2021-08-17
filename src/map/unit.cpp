@@ -196,8 +196,8 @@ TIMER_FUNC(unit_teleport_timer){
 	else if(*mast_tid != tid || bl == NULL)
 		return 0;
 	else {
-		TBL_PC *msd = unit_get_master(bl);
-		if(msd && !check_distance_bl(&msd->bl, bl, data)) {
+        TBL_PC *msd = unit_get_master(bl);
+		if(msd && !check_distance_bl(&msd->bl, bl, (int)data)) {
 			*mast_tid = INVALID_TIMER;
 			unit_warp(bl, msd->bl.m, msd->bl.x, msd->bl.y, CLR_TELEPORT );
 		} else // No timer needed
