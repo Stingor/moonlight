@@ -1040,37 +1040,24 @@ OnInit:
 						close;
 					}
 					else {
-						if (!agitcheck2()) {
-							mes "^3355FFIt is impossible to";
-							mes "rebuild the Guardian";
-							mes "Stone because the";
-							mes "Emperium is not present.^000000";
-							close;
-						}
-						else {
-							mes "^3355FFThe Gemstones have been";
-							mes "arranged, and the Guardian";
-							mes "Stone is successfully repaired.^000000";
-							delitem 984,1; //Oridecon
-							delitem 985,1; //Elunium
-							delitem 7049,30; //Stone
-							delitem 717,5; //Blue_Gemstone
-							delitem 715,5; //Yellow_Gemstone
-							delitem 716,5; //Red_Gemstone
-							close2;
-							donpcevent "df"+.@num+"#"+strnpcinfo(4)+"::OnEnable";
-							specialeffect EF_ICECRASH;
-							disablenpc strnpcinfo(0);
-							setd .@var$+"["+(.@num-1)+"]",0;
-							set .@df_all,getd(.@var$+"[0]")+getd(.@var$+"[1]");
-							if (!.@df_all) {
-								mapannounce strnpcinfo(4),"Both Guardian Stones have been erected, bolstering this stronghold's defenses!",bc_map,"0x00ff00";
-								donpcevent "RL0#"+strnpcinfo(4)+"::OnEnable";
-							}
-							else mapannounce strnpcinfo(4),"The "+strnpcinfo(1)+" has been repaired successfully.",bc_map,"0x00ff00";
-							if (getd(.@var$+"[5]") == 1)
-								donpcevent "gard"+.@num+"#"+strnpcinfo(4)+"::OnEnable";
-							end;
+						mes "^3355FFThe Gemstones have been";
+						mes "arranged, and the Guardian";
+						mes "Stone is successfully repaired.^000000";
+						delitem 984,1; //Oridecon
+						delitem 985,1; //Elunium
+						delitem 7049,30; //Stone
+						delitem 717,5; //Blue_Gemstone
+						delitem 715,5; //Yellow_Gemstone
+						delitem 716,5; //Red_Gemstone
+						close2;
+						donpcevent "df"+.@num+"#"+strnpcinfo(4)+"::OnEnable";
+						specialeffect EF_ICECRASH;
+						disablenpc();
+						setd .@var$+"["+(.@num-1)+"]",0;
+						set .@df_all,getd(.@var$+"[0]")+getd(.@var$+"[1]");
+						if (!.@df_all) {
+							mapannounce strnpcinfo(4),"Both Guardian Stones have been erected, bolstering this stronghold's defenses!",bc_map,"0x00ff00";
+							donpcevent "RL0#"+strnpcinfo(4)+"::OnEnable";
 						}
 					}
 				}
@@ -1098,11 +1085,11 @@ OnInit:
 
 OnInit:
 OnDisable:
-	disablenpc strnpcinfo(0);
+	disablenpc();
 	end;
 
 OnEnable:
-	enablenpc strnpcinfo(0);
+	enablenpc();
 	specialeffect EF_MAPPILLAR2;
 	end;
 }
@@ -1127,18 +1114,28 @@ OnEnable:
 					mes "^4D4DFF5 Oridecon^000000, and";
 					mes "^4D4DFF10 Emveretarcon^000000.";
 					next;
-					select("Continue");
-					if ((countitem(1019) > 29) && (countitem(999) > 9) && (countitem(1011) > 9) && (countitem(984) > 4)) {
-						mes "^3355FFYou will need Trunks to";
-						mes "repair the support frame,";
-						mes "Oridecon to enhance the";
-						mes "gate's endurance, and";
-						mes "Emveretarcon to basically";
-						mes "hold everything together.^000000";
-						next;
-						set .@ro_of01,rand(10,15);
-						while(1) {
-							if (.@ro_of02 == .@ro_of01) break;
+					if (!agitcheck2()) {
+						mes "^3355FFUnfortunately, the Fortress";
+						mes "Gate can't be reconstructed:";
+						mes "the Emperium is no longer here.^000000";
+						close;
+					}
+					else {
+						if (.@rp_temp == .@ro_of01) {
+							mes "^3355FFThe Fortress Gate has";
+							mes "been successfully repaired!^000000";
+							delitem 1019,30; //Wooden_Block
+							delitem 999,10; //Steel
+							delitem 1011,10; //Emveretarcon
+							delitem 984,5; //Oridecon
+							close2;
+							donpcevent "RL"+.@num+"#"+strnpcinfo(4)+"::OnEnable";
+							disablenpc();
+							if (.@num == 1) set .@str$,"1st";
+							else if (.@num == 2) set .@str$,"2nd";
+							else if (.@num == 3) set .@str$,"3rd";
+							mapannounce strnpcinfo(4),"The "+.@str$+" Fortress Gate has been reconstructed!",bc_map,"0x00ff00";
+							if (.@num == 1) setd .@var$+"[2]",0;
 							else {
 								switch(rand(1,4)) {
 								case 1:
@@ -1344,11 +1341,11 @@ OnEnable:
 
 OnInit:
 OnDisable:
-	disablenpc strnpcinfo(0);
+	disablenpc();
 	end;
 
 OnEnable:
-	enablenpc strnpcinfo(0);
+	enablenpc();
 	end;
 }
 

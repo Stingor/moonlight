@@ -126,7 +126,8 @@ iz_int,56,32,3	script	Wounded Swordsman#intro_npc02_iz_int	HIDDEN_WARP_NPC,{
 	end;
 
 OnInit:
-	questinfo 21001, QTYPE_QUEST, 1, Job_Novice;
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "!isbegin_quest(21001) && Class == Job_Novice" );
+	cloakonnpc();
 	end;
 }
 iz_int01,56,32,3	duplicate(Wounded Swordsman#intro_npc02_iz_int)	Wounded Swordsman#intro_npc02_iz_int01	HIDDEN_WARP_NPC
