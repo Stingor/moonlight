@@ -611,7 +611,8 @@ enum e_mapflag : int16 {
 	MF_PRIVATEAIRSHIP_DESTINATION,
 	MF_SKILL_DURATION,
 #include "../custom/mapflag_enum.inc"
-	MF_MAX,
+	MF_NOCASHSHOP,
+	MF_MAX
 };
 
 /// Enum of damage types
