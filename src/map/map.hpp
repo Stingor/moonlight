@@ -612,6 +612,7 @@ enum e_mapflag : int16 {
 	MF_SKILL_DURATION,
 #include "../custom/mapflag_enum.inc"
 	MF_NOCASHSHOP,
+	MF_NORODEX,
 	MF_MAX
 };
 
