@@ -7888,8 +7888,8 @@ BUILDIN_FUNC(grouprandomitem) {
 }
 
 /**
-* makeitem <item id>,<amount>,"<map name>",<X>,<Y>,effect;
-* makeitem "<item name>",<amount>,"<map name>",<X>,<Y>,effect;
+* makeitem <item id>,<amount>,"<map name>",<X>,<Y>{,<canShowEffect>};
+* makeitem "<item name>",<amount>,"<map name>",<X>,<Y>{,<canShowEffect>};
 */
 BUILDIN_FUNC(makeitem) {
 	t_itemid nameid;
@@ -7897,7 +7897,7 @@ BUILDIN_FUNC(makeitem) {
 	const char *mapname;
 	int m;
 	struct item item_tmp;
-	bool effect = false;
+	bool canShowEffect = false;
 
 	if( script_isstring(st, 2) ){
 		const char *name = script_getstr(st, 2);
@@ -7930,9 +7930,11 @@ BUILDIN_FUNC(makeitem) {
 	mapname	= script_getstr(st,4);
 	x = script_getnum(st,5);
 	y = script_getnum(st,6);
-	effect = script_getnum(st,7) != 0;
 
-	if(strcmp(mapname,"this")==0) {
+	if (script_hasdata(st, 7))
+		canShowEffect = script_getnum(st, 7) != 0;
+
+	if (strcmp(mapname, "this")==0) {
 		TBL_PC *sd;
 		if (!script_rid2sd(sd))
 			return SCRIPT_CMD_SUCCESS; //Failed...
@@ -7947,16 +7949,16 @@ BUILDIN_FUNC(makeitem) {
 	else
 		item_tmp.identify = itemdb_isidentified(nameid);
 
-	map_addflooritem(&item_tmp, amount, m, x, y, 0, 0, 0, 4, effect); // [Stingor] ajout effect visuel
+	map_addflooritem(&item_tmp, amount, m, x, y, 0, 0, 0, 4, 0, canShowEffect);
 	return SCRIPT_CMD_SUCCESS;
 }
 
 /**
- * makeitem2 <item id>,<amount>,"<map name>",<X>,<Y>,<identify>,<refine>,<attribute>,<card1>,<card2>,<card3>,<card4>;
- * makeitem2 "<item name>",<amount>,"<map name>",<X>,<Y>,<identify>,<refine>,<attribute>,<card1>,<card2>,<card3>,<card4>;
+ * makeitem2 <item id>,<amount>,"<map name>",<X>,<Y>,<identify>,<refine>,<attribute>,<card1>,<card2>,<card3>,<card4>{,<canShowEffect>};
+ * makeitem2 "<item name>",<amount>,"<map name>",<X>,<Y>,<identify>,<refine>,<attribute>,<card1>,<card2>,<card3>,<card4>{,<canShowEffect>};
  *
- * makeitem3 <item id>,<amount>,"<map name>",<X>,<Y>,<identify>,<refine>,<attribute>,<card1>,<card2>,<card3>,<card4>,<RandomIDArray>,<RandomValueArray>,<RandomParamArray>;
- * makeitem3 "<item name>",<amount>,"<map name>",<X>,<Y>,<identify>,<refine>,<attribute>,<card1>,<card2>,<card3>,<card4>,<RandomIDArray>,<RandomValueArray>,<RandomParamArray>;
+ * makeitem3 <item id>,<amount>,"<map name>",<X>,<Y>,<identify>,<refine>,<attribute>,<card1>,<card2>,<card3>,<card4>,<RandomIDArray>,<RandomValueArray>,<RandomParamArray>{,<canShowEffect>};
+ * makeitem3 "<item name>",<amount>,"<map name>",<X>,<Y>,<identify>,<refine>,<attribute>,<card1>,<card2>,<card3>,<card4>,<RandomIDArray>,<RandomValueArray>,<RandomParamArray>{,<canShowEffect>};
  */
 BUILDIN_FUNC(makeitem2) {
 	t_itemid nameid;
@@ -7966,7 +7968,7 @@ BUILDIN_FUNC(makeitem2) {
 	struct item item_tmp;
 	struct item_data *id;
 	const char *funcname = script_getfuncname(st);
-	bool effect = false;
+	bool canShowEffect = false;
 
 	if( script_isstring( st, 2 ) ){
 		const char *name = script_getstr( st, 2 );
@@ -8029,15 +8031,25 @@ BUILDIN_FUNC(makeitem2) {
 		item_tmp.card[1] = script_getnum(st,11);
 		item_tmp.card[2] = script_getnum(st,12);
 		item_tmp.card[3] = script_getnum(st,13);
-		effect = script_getnum(st,14) != 0;
 
 		if (funcname[strlen(funcname)-1] == '3') {
 			int res = script_getitem_randomoption(st, nullptr, &item_tmp, funcname, 14);
 			if (res != SCRIPT_CMD_SUCCESS)
 				return res;
+
+			if (script_hasdata(st, 17)) {
+				if (script_getnum(st, 17) != 0)
+					canShowEffect = script_getnum(st, 17) != 0;
+			}
+		}
+		else {
+			if (script_hasdata(st, 14)) {
+				if (script_getnum(st, 14) != 0)
+					canShowEffect = script_getnum(st, 14) != 0;
+			}
 		}
 
-		map_addflooritem(&item_tmp,amount,m,x,y,0,0,0,4,effect);
+		map_addflooritem(&item_tmp, amount, m, x, y, 0, 0, 0, 4, 0, canShowEffect);
 	}
 	else
 		return SCRIPT_CMD_FAILURE;
