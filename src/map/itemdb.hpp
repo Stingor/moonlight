@@ -770,6 +770,7 @@ enum e_random_item_group {
 	IG_XMAS_PACKAGE_14,
 	IG_EASTER_EGG,
 	IG_PITAPAT_BOX,
+	IG_HAPPY_BOX_J,
 
 	IG_MAX,
 };
