@@ -13720,7 +13720,7 @@ Body:
       bonus2 bSubRace,RC_Player_Human,5;
   - Id: 4850
     AegisName: Heal_Amount3
-    Name: Heal Amount2
+    Name: Archbishop2Lv
     Type: Card
     Buy: 20
     Script: |
@@ -13728,7 +13728,7 @@ Body:
       bonus bUseSPrate,5;
   - Id: 4851
     AegisName: Heal_Amount4
-    Name: Heal Amount3
+    Name: Archbishop3Lv
     Type: Card
     Buy: 20
     Script: |
@@ -13736,7 +13736,7 @@ Body:
       bonus bUseSPrate,10;
   - Id: 4852
     AegisName: Heal_Amount5
-    Name: Heal Amount4
+    Name: Archbishop4Lv
     Type: Card
     Buy: 20
     Script: |
