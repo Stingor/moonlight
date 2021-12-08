@@ -14182,6 +14182,7 @@ BUILDIN_FUNC(getiteminfo)
 		}
 		case ITEMINFO_ID: script_pushint(st, i_data->nameid); break;
 		case ITEMINFO_AEGISNAME: script_pushstrcopy(st, i_data->name.c_str()); break;
+		case ITEMINFO_SUBTYPE: script_pushint(st, i_data->subtype); break;
 		default:
 			script_pushint(st, -1);
 			break;
@@ -14268,6 +14269,7 @@ BUILDIN_FUNC(setiteminfo)
 #endif
 			break;
 		}
+		case ITEMINFO_SUBTYPE: i_data->subtype = static_cast<uint8>(value); break;
 		default:
 			script_pushint(st, -1);
 			break;
