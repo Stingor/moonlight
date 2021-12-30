@@ -1221,6 +1221,73 @@ ACMD_FUNC(hide)
 }
 
 /*==========================================
+ * Changes a character's class
+ *------------------------------------------*/
+/*ACMD_FUNC(jobchange)
+{
+	int job = 0, upper = 0;
+	const char* text;
+	nullpo_retr(-1, sd);
+
+    if (!message || !*message || sscanf(message, "%11d %11d", &job, &upper) < 1) {
+		int i;
+		bool found = false;
+
+		upper = 0;
+
+		// Normal Jobs
+		for( i = JOB_NOVICE; i < JOB_MAX_BASIC && !found; i++ ) {
+			if (strncmpi(message, job_name(i), 16) == 0) {
+				job = i;
+				found = true;
+			}
+		}
+
+		// High Jobs, Babys, Third, and Fourth
+		for( i = JOB_NOVICE_HIGH; i < JOB_MAX && !found; i++ ) {
+			if (strncmpi(message, job_name(i), 16) == 0) {
+				job = i;
+				found = true;
+			}
+		}
+
+		if (!found) {
+			text = atcommand_help_string(command);
+			if (text)
+				clif_displaymessage(fd, text);
+			return -1;
+		}
+	}
+
+	if (job == JOB_KNIGHT2 || job == JOB_CRUSADER2 || job == JOB_WEDDING || job == JOB_XMAS || job == JOB_SUMMER || job == JOB_HANBOK || job == JOB_OKTOBERFEST
+		|| job == JOB_LORD_KNIGHT2 || job == JOB_PALADIN2 || job == JOB_BABY_KNIGHT2 || job == JOB_BABY_CRUSADER2 || job == JOB_STAR_GLADIATOR2
+		|| (job >= JOB_RUNE_KNIGHT2 && job <= JOB_MECHANIC_T2) || (job >= JOB_BABY_RUNE_KNIGHT2 && job <= JOB_BABY_MECHANIC2) || job == JOB_BABY_STAR_GLADIATOR2
+		|| job == JOB_STAR_EMPEROR2 || job == JOB_BABY_STAR_EMPEROR2 || job == JOB_SUMMER2
+		|| (job >= JOB_WINDHAWK2 && job <= JOB_IMPERIAL_GUARD2) || job == JOB_SKY_EMPEROR2)
+	{ // Deny direct transformation into dummy jobs
+		clif_displaymessage(fd, msg_txt(sd,923)); //"You can not change to this job by command."
+		return 0;
+	}
+
+	if (pcdb_checkid(job))
+	{
+		if (pc_jobchange(sd, job, upper))
+			clif_displaymessage(fd, msg_txt(sd,12)); // Your job has been changed.
+		else {
+			clif_displaymessage(fd, msg_txt(sd,155)); // You are unable to change your job.
+			return -1;
+		}
+	} else {
+		text = atcommand_help_string(command);
+		if (text)
+			clif_displaymessage(fd, text);
+		return -1;
+	}
+
+	return 0;
+} */
+
+/*==========================================
  *
  *------------------------------------------*/
 ACMD_FUNC(kill)
@@ -1347,6 +1414,38 @@ ACMD_FUNC(heal)
 
 	clif_displaymessage(fd, msg_txt(sd,156)); // HP or/and SP modified.
 	return 0;
+}
+
+/*==========================================
+* Recover's AP and allows exact adjustments. [Rytech]
+*------------------------------------------*/
+ACMD_FUNC(healap)
+{
+	int ap = 0;
+	nullpo_retr(-1, sd);
+
+	sscanf(message, "%11d", &ap);
+
+	// Overflow check.
+	if (ap == INT_MIN) ap++;
+
+	if (ap == 0) {
+		if (!status_percent_heal(&sd->bl, 0, 0, 100))
+			clif_displaymessage(fd, msg_txt(sd, 823));// AP have already been recovered.
+		else
+			clif_displaymessage(fd, msg_txt(sd, 821));// AP recovered.
+		return 0;
+	}else if (ap > 0) {
+		if (!status_heal(&sd->bl, 0, 0, ap, 0))
+			clif_displaymessage(fd, msg_txt(sd, 823));// AP have already been recovered.
+		else
+			clif_displaymessage(fd, msg_txt(sd, 821));// AP recovered.
+		return 0;
+	}else{
+		status_damage(NULL, &sd->bl, 0, 0, -ap, 0, 0, 0);
+		clif_displaymessage(fd, msg_txt(sd, 822));// AP modified.
+		return 0;
+	}
 }
 
 /*==========================================
@@ -1559,7 +1658,7 @@ ACMD_FUNC(itemreset)
  *------------------------------------------*/
 ACMD_FUNC(baselevelup)
 {
-	int level=0, i=0, status_point=0;
+	int level=0, i=0, status_point=0, trait_point=0;
 	nullpo_retr(-1, sd);
 	level = atoi(message);
 
@@ -1576,9 +1675,12 @@ ACMD_FUNC(baselevelup)
 		if ((unsigned int)level > pc_maxbaselv(sd) || (unsigned int)level > pc_maxbaselv(sd) - sd->status.base_level) // fix positive overflow
 			level = pc_maxbaselv(sd) - sd->status.base_level;
 		for (i = 0; i < level; i++)
+		{
 			status_point += statpoint_db.pc_gets_status_point(sd->status.base_level + i);
-
+			trait_point += statpoint_db.pc_gets_trait_point(sd->status.base_level + i);
+		}
 		sd->status.status_point += status_point;
+		sd->status.trait_point += trait_point;
 		sd->status.base_level += (unsigned int)level;
 		status_calc_pc(sd, SCO_FORCE);
 		status_percent_heal(&sd->bl, 100, 100);
@@ -1597,13 +1699,20 @@ ACMD_FUNC(baselevelup)
 		if ((unsigned int)level >= sd->status.base_level)
 			level = sd->status.base_level-1;
 		for (i = 0; i > -level; i--)
+		{
 			status_point += statpoint_db.pc_gets_status_point(sd->status.base_level + i - 1);
-		if (sd->status.status_point < status_point)
+			trait_point += statpoint_db.pc_gets_trait_point(sd->status.base_level + i - 1);
+		}
+		if (sd->status.status_point < status_point || sd->status.trait_point < trait_point)
 			pc_resetstate(sd);
 		if (sd->status.status_point < status_point)
 			sd->status.status_point = 0;
 		else
 			sd->status.status_point -= status_point;
+		if (sd->status.trait_point < trait_point)
+			sd->status.trait_point = 0;
+		else
+			sd->status.trait_point -= trait_point;
 		sd->status.base_level -= (unsigned int)level;
 		clif_displaymessage(fd, msg_txt(sd,22)); // Base level lowered.
 		status_calc_pc(sd, SCO_FORCE);
@@ -1611,6 +1720,7 @@ ACMD_FUNC(baselevelup)
 	}
 	sd->status.base_exp = 0;
 	clif_updatestatus(sd, SP_STATUSPOINT);
+	clif_updatestatus(sd, SP_TRAITPOINT);
 	clif_updatestatus(sd, SP_BASELEVEL);
 	clif_updatestatus(sd, SP_BASEEXP);
 	clif_updatestatus(sd, SP_NEXTBASEEXP);
@@ -1857,7 +1967,7 @@ ACMD_FUNC(bodystyle)
 
 	memset(atcmd_output, '\0', sizeof(atcmd_output));
 
-	if (!(sd->class_ & JOBL_THIRD) || (sd->class_ & MAPID_THIRDMASK) == MAPID_SUPER_NOVICE_E || (sd->class_ & MAPID_THIRDMASK) == MAPID_STAR_EMPEROR || (sd->class_ & MAPID_THIRDMASK) == MAPID_SOUL_REAPER) {
+	if ( (sd->class_ & JOBL_FOURTH) || !(sd->class_ & JOBL_THIRD) || (sd->class_ & MAPID_THIRDMASK) == MAPID_SUPER_NOVICE_E || (sd->class_ & MAPID_THIRDMASK) == MAPID_STAR_EMPEROR || (sd->class_ & MAPID_THIRDMASK) == MAPID_SOUL_REAPER) {
 		clif_displaymessage(fd, msg_txt(sd,740));	// This job has no alternate body styles.
 		return -1;
 	}
@@ -2591,6 +2701,55 @@ ACMD_FUNC(statuspoint)
 }
 
 /*==========================================
+* @trpoint
+*------------------------------------------*/
+ACMD_FUNC(traitpoint)
+{
+	int point;
+	unsigned int new_trait_point;
+
+	if (!message || !*message || (point = atoi(message)) == 0) {
+		clif_displaymessage(fd, msg_txt(sd, 820)); // Please enter a number (usage: @trpoint <number of points>).
+		return -1;
+	}
+
+	if (point < 0)
+	{
+		if (sd->status.trait_point < (unsigned int)(-point))
+		{
+			new_trait_point = 0;
+		}
+		else
+		{
+			new_trait_point = sd->status.trait_point + point;
+		}
+	}
+	else if (UINT_MAX - sd->status.trait_point < (unsigned int)point)
+	{
+		new_trait_point = UINT_MAX;
+	}
+	else
+	{
+		new_trait_point = sd->status.trait_point + point;
+	}
+
+	if (new_trait_point != sd->status.trait_point) {
+		sd->status.trait_point = new_trait_point;
+		clif_updatestatus(sd, SP_TRAITPOINT);
+		clif_displaymessage(fd, msg_txt(sd, 174)); // Number of status points changed.
+	}
+	else {
+		if (point < 0)
+			clif_displaymessage(fd, msg_txt(sd, 41)); // Unable to decrease the number/value.
+		else
+			clif_displaymessage(fd, msg_txt(sd, 149)); // Unable to increase the number/value.
+		return -1;
+	}
+
+	return 0;
+}
+
+/*==========================================
  * @skpoint (Rewritten by [Yor])
  *------------------------------------------*/
 ACMD_FUNC(skillpoint)
@@ -2773,7 +2932,7 @@ ACMD_FUNC(stat_all)
 	}
 
 	count = 0;
-	for (i = PARAM_STR; i <= PARAM_LUK; i++) {
+	for (i = PARAM_STR; i < PARAM_POW; i++) {
 		short new_value;
 
 		if (value > 0 && status[i] + value >= max_status[i])
@@ -2858,7 +3017,7 @@ ACMD_FUNC(trait_all) {
 			new_value = status[i] + value;
 
 		if (new_value != status[i]) {
-			pc_setstat( sd, SP_POW + i, new_value );
+			pc_setstat( sd, SP_POW + i - PARAM_POW, new_value );
 			clif_updatestatus(sd, SP_POW + i - PARAM_POW);
 			clif_updatestatus(sd, SP_UPOW + i - PARAM_POW);
 			count++;
@@ -4570,7 +4729,7 @@ ACMD_FUNC(mount_peco)
 		}
 		return 0;
 	}
-	if( (sd->class_&MAPID_THIRDMASK) == MAPID_RANGER && pc_checkskill(sd,RA_WUGRIDER) > 0 && (!pc_isfalcon(sd) || battle_config.warg_can_falcon) ) {
+	if( (sd->class_&MAPID_THIRDMASK) == MAPID_RANGER && pc_checkskill(sd,RA_WUGRIDER) > 0 && (!pc_isfalcon(sd) || (pc_checkskill(sd, WH_HAWK_M) || battle_config.warg_can_falcon)) ) {
 		if( !pc_isridingwug(sd) ) {
 			clif_displaymessage(sd->fd,msg_txt(sd,1121)); // You have mounted your Warg.
 			pc_setoption(sd, sd->sc.option|OPTION_WUGRIDER);
@@ -6073,18 +6232,76 @@ ACMD_FUNC(displayskill)
 	t_tick tick;
 	uint16 skill_id;
 	uint16 skill_lv = 1;
+	uint16 type = 0;
 	nullpo_retr(-1, sd);
 
-	if (!message || !*message || sscanf(message, "%6hu %6hu", &skill_id, &skill_lv) < 1)
+	if (!message || !*message || sscanf(message, "%6hu %6hu %6hu", &skill_id, &skill_lv, &type) < 1)
 	{
-		clif_displaymessage(fd, msg_txt(sd,1166)); // Usage: @displayskill <skill ID> {<skill level>}
+		clif_displaymessage(fd, msg_txt(sd,1166));// Usage: @displayskill <skill ID> {<skill level> <type>}
+		clif_displaymessage(fd, msg_txt(sd,825));// Effect Types: 0: All, 1: Damage, 2: Splash Dmg, 3: No Damage, 4: Ground
 		return -1;
 	}
 	status = status_get_status_data(&sd->bl);
 	tick = gettick();
-	clif_skill_damage(&sd->bl,&sd->bl, tick, status->amotion, status->dmotion, 1, 1, skill_id, skill_lv, DMG_SPLASH);
-	clif_skill_nodamage(&sd->bl, &sd->bl, skill_id, skill_lv, 1);
-	clif_skill_poseffect(&sd->bl, skill_id, skill_lv, sd->bl.x, sd->bl.y, tick);
+	if (type == 0 || type == 1)
+		clif_skill_damage(&sd->bl, &sd->bl, tick, status->amotion, status->dmotion, 1, 1, skill_id, skill_lv, DMG_SINGLE);
+	if (type == 0 || type == 2)
+		clif_skill_damage(&sd->bl, &sd->bl, tick, status->amotion, status->dmotion, 1, 1, skill_id, skill_lv, DMG_SPLASH);
+	if (type == 0 || type == 3)
+		clif_skill_nodamage(&sd->bl, &sd->bl, skill_id, skill_lv, 1);
+	if (type == 0 || type == 4)
+		clif_skill_poseffect(&sd->bl, skill_id, skill_lv, sd->bl.x, sd->bl.y, tick);
+	return 0;
+}
+
+/*==========================================
+* @displayskillcast by [Rytech]
+* Debug command to view casting animations for skills.
+* Can target self or the ground. Ground target can be
+* useful for seeing casting circle size.
+*------------------------------------------*/
+ACMD_FUNC(displayskillcast)
+{
+	uint16 skill_id;
+	uint16 skill_lv = 1;
+	uint16 cast_time = 5000;
+	uint16 target_type = 0;
+	nullpo_retr(-1, sd);
+
+	if (!message || !*message || sscanf(message, "%6hu %6hu %6hu %6hu", &skill_id, &skill_lv, &target_type, &cast_time) < 1)
+	{
+		clif_displaymessage(fd, msg_txt(sd, 824));// Usage: @displayskillcast <skill ID> {<skill level> <ground target flag> <cast time>}
+		return -1;
+	}
+
+	if ( target_type == 1)
+		clif_skillcasting(&sd->bl, sd->bl.id, 0, sd->bl.x, sd->bl.y, skill_id, skill_lv, 0, cast_time);
+	else
+		clif_skillcasting(&sd->bl, sd->bl.id, sd->bl.id, 0, 0, skill_id, skill_lv, 0, cast_time);
+
+	return 0;
+}
+
+/*==========================================
+* @displayskillunit by [Rytech]
+* Debug command to view unit animations for skills.
+*------------------------------------------*/
+ACMD_FUNC(displayskillunit)
+{
+	uint16 unit_id;
+	uint16 range = 0;
+	uint16 skill_lv = 1;
+
+	nullpo_retr(-1, sd);
+
+	if (!message || !*message || sscanf(message, "%6hu %6hu %6hu", &unit_id, &skill_lv, &range) < 1)
+	{
+		clif_displaymessage(fd, msg_txt(sd, 826));// Usage: @displayskillunit <unit ID> {<skill level> <range>}
+		return -1;
+	}
+
+	clif_skill_unit_test(&sd->bl, sd->bl.x, sd->bl.y, unit_id, range, skill_lv);
+
 	return 0;
 }
 
@@ -7628,6 +7845,10 @@ ACMD_FUNC(mobinfo)
 			mob->range2 , mob->range3, msize[mob->status.size],
 			mrace[mob->status.race], melement[mob->status.def_ele], mob->status.ele_lv);
 		clif_displaymessage(fd, atcmd_output);
+#ifdef RENEWAL
+		sprintf(atcmd_output, msg_txt(sd, 827), mob->status.res, mob->status.mres);//  MDEF:%d  RES:%d  MRES:%d
+		clif_displaymessage(fd, atcmd_output);
+#endif
 		// drops
 		clif_displaymessage(fd, msg_txt(sd,1245)); //  Drops:
 		strcpy(atcmd_output, " ");
@@ -9425,6 +9646,92 @@ ACMD_FUNC(itemlist)
 	return 0;
 }
 
+/* 
+ACMD_FUNC(stats)
+{
+	char job_jobname[100];
+	char output[CHAT_SIZE_MAX];
+	int i;
+	struct {
+		const char* format;
+		int value;
+	} output_table[] = {
+		{ "Base Level - %d", 0 },
+		{ NULL, 0 },
+		{ "Hp - %d", 0 },
+		{ "MaxHp - %d", 0 },
+		{ "Sp - %d", 0 },
+		{ "MaxSp - %d", 0 },
+		{ "Ap - %d", 0 },
+		{ "MaxAp - %d", 0 },
+		{ "Str - %3d", 0 },
+		{ "Agi - %3d", 0 },
+		{ "Vit - %3d", 0 },
+		{ "Int - %3d", 0 },
+		{ "Dex - %3d", 0 },
+		{ "Luk - %3d", 0 },
+		{ "Pow - %3d", 0 },
+		{ "Sta - %3d", 0 },
+		{ "Wis - %3d", 0 },
+		{ "Spl - %3d", 0 },
+		{ "Con - %3d", 0 },
+		{ "Crt - %3d", 0 },
+		{ "Zeny - %d", 0 },
+		{ "Free Status Points - %d", 0 },
+		{ "Free Trait Points - %d", 0 },
+		{ "Free Skill Points - %d", 0 },
+		{ "JobChangeLvl (2nd) - %d", 0 },
+		{ "JobChangeLvl (3rd) - %d", 0 },
+		{ "JobChangeLvl (4th) - %d", 0 },
+		{ NULL, 0 }
+	};
+
+	memset(job_jobname, '\0', sizeof(job_jobname));
+	memset(output, '\0', sizeof(output));
+
+	// direct array initialization with variables is not standard C compliant.
+	output_table[0].value = sd->status.base_level;
+	output_table[1].format = job_jobname;
+	output_table[1].value = sd->status.job_level;
+	output_table[2].value = sd->status.hp;
+	output_table[3].value = sd->status.max_hp;
+	output_table[4].value = sd->status.sp;
+	output_table[5].value = sd->status.max_sp;
+	output_table[6].value = sd->status.ap;
+	output_table[7].value = sd->status.max_ap;
+	output_table[8].value = sd->status.str;
+	output_table[9].value = sd->status.agi;
+	output_table[10].value = sd->status.vit;
+	output_table[11].value = sd->status.int_;
+	output_table[12].value = sd->status.dex;
+	output_table[13].value = sd->status.luk;
+	output_table[14].value = sd->status.pow;
+	output_table[15].value = sd->status.sta;
+	output_table[16].value = sd->status.wis;
+	output_table[17].value = sd->status.spl;
+	output_table[18].value = sd->status.con;
+	output_table[19].value = sd->status.crt;
+	output_table[20].value = sd->status.zeny;
+	output_table[21].value = sd->status.status_point;
+	output_table[22].value = sd->status.trait_point;
+	output_table[23].value = sd->status.skill_point;
+	output_table[24].value = sd->change_level_2nd;
+	output_table[25].value = sd->change_level_3rd;
+	output_table[26].value = sd->change_level_4th;
+
+	sprintf(job_jobname, "Job - %s %s", job_name(sd->status.class_), "(level %d)");
+	sprintf(output, msg_txt(sd,53), sd->status.name); // '%s' stats:
+
+	clif_displaymessage(fd, output);
+
+	for (i = 0; output_table[i].format != NULL; i++) {
+		sprintf(output, output_table[i].format, output_table[i].value);
+		clif_displaymessage(fd, output);
+	}
+
+	return 0;
+} */
+
 ACMD_FUNC(delitem)
 {
 	char item_name[100];
@@ -10689,6 +10996,7 @@ void atcommand_basecommands(void) {
 		ACMD_DEF2("kamic", kami),
 		ACMD_DEF2("lkami", kami),
 		ACMD_DEF(heal),
+		ACMD_DEF(healap),
 		ACMD_DEF(item),
 		ACMD_DEF(item2),
 		ACMD_DEF2("itembound",item),
@@ -10717,6 +11025,7 @@ void atcommand_basecommands(void) {
 		ACMD_DEF(gat),
 		ACMD_DEF(displaystatus),
 		ACMD_DEF2("stpoint", statuspoint),
+		ACMD_DEF2("trpoint", traitpoint),
 		ACMD_DEF2("skpoint", skillpoint),
 		ACMD_DEF(zeny),
 		ACMD_DEF2("str", param),
@@ -10823,6 +11132,8 @@ void atcommand_basecommands(void) {
 		ACMD_DEF(skillid),
 		ACMD_DEF(useskill),
 		ACMD_DEF(displayskill),
+		ACMD_DEF(displayskillcast),
+		ACMD_DEF(displayskillunit),
 		ACMD_DEF(snow),
 		ACMD_DEF(sakura),
 		ACMD_DEF(clouds),
