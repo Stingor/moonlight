@@ -1138,6 +1138,7 @@ enum in_ui_type : int8 {
 };
 
 enum out_ui_type : int8 {
+	OUT_UI_STYLIST = 1,
 	OUT_UI_ATTENDANCE = 7
 };
 
