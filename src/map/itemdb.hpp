@@ -851,13 +851,13 @@ public:
 
 	}
 
-	void clear() {
+	void clear() override{
 		TypesafeYamlDatabase::clear();
 		this->combo_num = 0;
 	}
-	const std::string getDefaultLocation();
-	uint64 parseBodyNode(const YAML::Node& node);
-	void loadingFinished();
+	const std::string getDefaultLocation() override;
+	uint64 parseBodyNode(const YAML::Node& node) override;
+	void loadingFinished() override;
 };
 
 extern ComboDatabase itemdb_combo;
@@ -1036,9 +1036,9 @@ public:
 
 	}
 
-	const std::string getDefaultLocation();
-	uint64 parseBodyNode(const YAML::Node &node);
-	void loadingFinished();
+	const std::string getDefaultLocation() override;
+	uint64 parseBodyNode(const YAML::Node &node) override;
+	void loadingFinished() override;
 
 	// Additional
 	bool option_exists(std::string name);
@@ -1053,8 +1053,8 @@ public:
 
 	}
 
-	const std::string getDefaultLocation();
-	uint64 parseBodyNode(const YAML::Node &node);
+	const std::string getDefaultLocation() override;
+	uint64 parseBodyNode(const YAML::Node &node) override;
 
 	// Additional
 	bool add_option(const YAML::Node &node, std::shared_ptr<s_random_opt_group_entry> &entry);
@@ -1076,9 +1076,9 @@ public:
 
 	}
 
-	const std::string getDefaultLocation();
-	uint64 parseBodyNode(const YAML::Node& node);
-	void loadingFinished();
+	const std::string getDefaultLocation() override;
+	uint64 parseBodyNode(const YAML::Node& node) override;
+	void loadingFinished() override;
 	void clear() override{
 		TypesafeCachedYamlDatabase::clear();
 
@@ -1099,9 +1099,9 @@ public:
 
 	}
 
-	const std::string getDefaultLocation();
-	uint64 parseBodyNode(const YAML::Node& node);
-	void loadingFinished();
+	const std::string getDefaultLocation() override;
+	uint64 parseBodyNode(const YAML::Node& node) override;
+	void loadingFinished() override;
 
 	// Additional
 	bool item_exists(uint16 group_id, t_itemid nameid);
