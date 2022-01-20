@@ -384,6 +384,8 @@ struct map_session_data {
 		bool cashshop_open;
 		bool sale_open;
 		bool stylist_open;
+		bool barter_open;
+		bool barter_extended_open;
 		unsigned int block_action : 10;
 		// [Stingor] -->
 		bool sellstuff: 1;
@@ -1081,7 +1083,8 @@ extern JobDatabase job_db;
 static bool pc_cant_act2( struct map_session_data* sd ){
 	return sd->state.vending || sd->state.buyingstore || (sd->sc.opt1 && sd->sc.opt1 != OPT1_BURNING)
 		|| sd->state.trading || sd->state.storage_flag || sd->state.prevend || sd->state.refineui_open
-		|| sd->state.stylist_open || sd->state.inventory_expansion_confirmation || sd->npc_shopid;
+		|| sd->state.stylist_open || sd->state.inventory_expansion_confirmation || sd->npc_shopid
+		|| sd->state.barter_open || sd->state.barter_extended_open;
 }
 // equals pc_cant_act2 and additionally checks for chat rooms and npcs
 static bool pc_cant_act( struct map_session_data* sd ){
