@@ -647,6 +647,8 @@ enum e_mapflag : int16 {
 #include "../custom/mapflag_enum.inc"
 	MF_NOCASHSHOP,
 	MF_NORODEX,
+	MF_NORENEWALEXPPENALTY,
+	MF_NORENEWALDROPPENALTY,
 	MF_MAX
 };
 
