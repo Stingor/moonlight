@@ -17595,7 +17595,7 @@ int skill_delayfix(struct block_list *bl, uint16 skill_id, uint16 skill_lv)
 		if (pc_get_group_level(sd) >= 80 && battle_config.gm_delay_rate > 0) // [Stingor] delay rate reglable pour gm
 			time = battle_config.gm_delay_rate;
 	}
-	ShowInfo("Delay delayfix = %f\n",time);
+	//ShowInfo("Delay delayfix = %f\n",time);
 
 	return max((int)time,0);
 }

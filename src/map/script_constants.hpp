@@ -7909,6 +7909,7 @@
 	export_constant(INF2_IGNOREAUTOGUARD);
 	export_constant(INF2_IGNORECICADA);
 	export_constant(INF2_SHOWSCALE);
+	export_constant(INF2_IGNOREGTB);
 
 	/* skill no near npc flags */
 	export_constant(SKILL_NONEAR_WARPPORTAL);
