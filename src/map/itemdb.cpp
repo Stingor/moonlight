@@ -1573,7 +1573,7 @@ uint64 LaphineUpgradeDatabase::parseBodyNode( const YAML::Node& node ){
 			return 0;
 		}
 
-		entry->cardsAllowed = true;
+		entry->cardsAllowed = allowed;
 	}else{
 		if( !exists ){
 			entry->cardsAllowed = false;
