@@ -2854,6 +2854,7 @@ enum e_status_change_flag : uint16 {
 	SCF_SENDVAL2,
 	SCF_SENDVAL3,
 	SCF_NOFORCEDEND,
+	SCF_NOWARNING,
 	SCF_MAX
 };
 
