@@ -18812,7 +18812,7 @@ BUILDIN_FUNC(setunitdata)
 				return SCRIPT_CMD_FAILURE;
 			}
 			if (calc_status)
-				status_calc_bl(&md->bl, SCB_BATTLE);
+				status_calc_bl(&md->bl, status_db.getSCB_BATTLE());
 		break;
 
 	case BL_HOM:
@@ -18879,7 +18879,7 @@ BUILDIN_FUNC(setunitdata)
 				return SCRIPT_CMD_FAILURE;
 			}
 			if (calc_status)
-				status_calc_bl(&hd->bl, SCB_BATTLE);
+				status_calc_bl(&hd->bl, status_db.getSCB_BATTLE());
 		break;
 
 	case BL_PET:
@@ -18993,7 +18993,7 @@ BUILDIN_FUNC(setunitdata)
 				return SCRIPT_CMD_FAILURE;
 			}
 			if (calc_status)
-				status_calc_bl(&mc->bl, SCB_BATTLE);
+				status_calc_bl(&mc->bl, status_db.getSCB_BATTLE());
 		break;
 
 	case BL_ELEM:
@@ -19060,7 +19060,7 @@ BUILDIN_FUNC(setunitdata)
 				return SCRIPT_CMD_FAILURE;
 			}
 			if (calc_status)
-				status_calc_bl(&ed->bl, SCB_BATTLE);
+				status_calc_bl(&ed->bl, status_db.getSCB_BATTLE());
 		break;
 
 	case BL_NPC:

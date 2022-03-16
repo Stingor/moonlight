@@ -8774,7 +8774,6 @@
 	export_constant(SCB_RANGE);
 	export_constant(SCB_REGEN);
 	export_constant(SCB_DYE);
-	export_constant(SCB_BATTLE);
 	export_constant(SCB_MAXAP);
 	export_constant(SCB_POW);
 	export_constant(SCB_STA);
@@ -8788,7 +8787,6 @@
 	export_constant(SCB_MRES);
 	export_constant(SCB_HPLUS);
 	export_constant(SCB_CRATE);
-	export_constant(SCB_ALL);
 
 	/* status change states */
 	export_constant(SCS_NONE);
