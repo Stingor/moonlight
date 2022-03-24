@@ -1977,6 +1977,7 @@ Body:
       IgnoreKagehumi: true
       AllowOnMado: true
       IgnoreWugBite: true
+      Toggleable: true
     Range: 1
     Hit: Single
     HitCount: 1
@@ -4097,6 +4098,7 @@ Body:
       NoDamage: true
     Flags:
       AllowOnMado: true
+      Toggleable: true
     Hit: Single
     HitCount: 1
     Duration1:
@@ -4729,6 +4731,7 @@ Body:
     Flags:
       IgnoreKagehumi: true
       IgnoreWugBite: true
+      Toggleable: true
     Hit: Single
     HitCount: 1
     Duration1:
@@ -5078,6 +5081,7 @@ Body:
       NoDamage: true
     Flags:
       IsQuest: true
+      Toggleable: true
     Hit: Single
     HitCount: 1
     Duration1: 600000
@@ -6757,6 +6761,8 @@ Body:
     TargetType: Self
     DamageFlags:
       NoDamage: true
+    Flags:
+      Toggleable: true
     Hit: Single
     HitCount: 1
     Duration1: 300000
@@ -9952,6 +9958,8 @@ Body:
     DamageFlags:
       NoDamage: true
       IgnoreFlee: true
+    Flags:
+      Toggleable: true
     Hit: Single
     HitCount: 1
     CastCancel: true
@@ -10632,6 +10640,7 @@ Body:
       NoDamage: true
     Flags:
       IgnoreKagehumi: true
+      Toggleable: true
     Hit: Single
     HitCount: 1
     CastTime: 1200
@@ -11257,6 +11266,8 @@ Body:
     TargetType: Self
     DamageFlags:
       NoDamage: true
+    Flags:
+      Toggleable: true
     Hit: Single
     HitCount: 1
     Knockback: 4
@@ -11308,6 +11319,8 @@ Body:
     TargetType: Self
     DamageFlags:
       NoDamage: true
+    Flags:
+      Toggleable: true
     Hit: Single
     HitCount: 1
     Requires:
@@ -11353,6 +11366,8 @@ Body:
     TargetType: Self
     DamageFlags:
       NoDamage: true
+    Flags:
+      Toggleable: true
     Hit: Single
     HitCount: 1
     Requires:
@@ -11396,6 +11411,8 @@ Body:
     TargetType: Self
     DamageFlags:
       NoDamage: true
+    Flags:
+      Toggleable: true
     Hit: Single
     HitCount: 1
     Requires:
@@ -11442,6 +11459,8 @@ Body:
     TargetType: Self
     DamageFlags:
       NoDamage: true
+    Flags:
+      Toggleable: true
     Hit: Single
     HitCount: 1
     Requires:
@@ -11877,6 +11896,8 @@ Body:
     TargetType: Self
     DamageFlags:
       NoDamage: true
+    Flags:
+      Toggleable: true
     Hit: Single
     HitCount: 1
     AfterCastActDelay: 1000
@@ -14081,6 +14102,8 @@ Body:
     TargetType: Self
     DamageFlags:
       NoDamage: true
+    Flags:
+      Toggleable: true
     Hit: Single
     HitCount: 1
     Element: Weapon
@@ -16958,6 +16981,7 @@ Body:
       NoDamage: true
     Flags:
       IsQuest: true
+      Toggleable: true
     Hit: Single
     Knockback: 2
     Duration1: 300000
@@ -32872,6 +32896,8 @@ Body:
     TargetType: Self
     DamageFlags:
       NoDamage: true
+    Flags:
+      Toggleable: true
     Hit: Single
     HitCount: 1
     AfterCastActDelay: 800
@@ -32887,6 +32913,8 @@ Body:
     TargetType: Self
     DamageFlags:
       NoDamage: true
+    Flags:
+      Toggleable: true
     Hit: Single
     HitCount: 1
     Duration1: 300000
