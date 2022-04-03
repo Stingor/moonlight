@@ -124,7 +124,7 @@ public:
 	}
 
 	const std::string getDefaultLocation() override;
-	uint64 parseBodyNode(const ryml::NodeRef node) override;
+	uint64 parseBodyNode(const ryml::NodeRef& node) override;
 
 	// Additional
 	std::shared_ptr<guild_castle> mapname2gc(const char* mapname);
