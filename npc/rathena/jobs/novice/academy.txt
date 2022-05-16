@@ -67,8 +67,8 @@ iz_int04,51,30,0	duplicate(iz_int#intro_evt02)	iz_int04#intro_evt02	HIDDEN_WARP_
 iz_int,56,32,3	script	Wounded Swordsman#intro_npc01_iz_int	4_TOWER_01,5,5,{
 	@intro_npc01 = 1;
 	npctalk "Oh...", "", bc_self;
-	classchange HIDDEN_WARP_NPC, "", bc_self;// todo: classchange self remain on map
-	classchange 4_TOWER_02, "Wounded Swordsman#intro_npc02_" + strnpcinfo(4), bc_self;
+	cloakonnpcself();
+	cloakoffnpcself( "Wounded Swordsman#intro_npc02_" + strnpcinfo(4) );
 	end;
 
 OnTouch:
@@ -290,7 +290,7 @@ int_land,73,100,3	script	Lumin#new_ship	4_M_NOV_RUMIN,{
 		mes "[Lumin]";
 		mes "Yes.";
 		next;
-		classchange HIDDEN_WARP_NPC, "", bc_self;// todo: classchange self remain on map
+		cloakonnpcself();
 		cutin "fly_trock.bmp",2;
 		mes "[Captain Carocc]";
 		mes "Oh boy.";
@@ -314,7 +314,7 @@ int_land,73,100,3	script	Lumin#new_ship	4_M_NOV_RUMIN,{
 	mes ".....";
 	mes "....So?";
 	next;
-	classchange HIDDEN_WARP_NPC, "", bc_self;// todo: classchange self remain on map
+	cloakonnpcself();
 	mes "- Lu just walked away with a cynical look on his face.";
 	next;
 	cutin "fly_trock.bmp",2;
