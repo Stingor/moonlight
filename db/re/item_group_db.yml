@@ -3403,7 +3403,7 @@ Body:
             Rate: 1
           - Item: Burnt_Parts
             Rate: 1
-          - Item: Pocket_Watch__
+          - Item: Pocket_Watch
             Rate: 1
           - Item: Ice_Heart
             Rate: 15
@@ -22701,7 +22701,7 @@ Body:
             Rate: 1
           - Item: Burnt_Parts
             Rate: 1
-          - Item: Pocket_Watch__
+          - Item: Pocket_Watch
             Rate: 1
           - Item: Ice_Heart
             Rate: 1
