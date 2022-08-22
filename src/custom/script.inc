@@ -437,3 +437,65 @@ BUILDIN_FUNC(loadstorage)
 
 	return SCRIPT_CMD_SUCCESS;
 }
+
+/**
+ * Returns number of items in storage
+ * storagecountitem(<nameID>{,<accountID>{,<storageID>}})
+ * storagecountitem2(<nameID>,<Identified>,<Refine>,<Attribute>,<Card0>,<Card1>,<Card2>,<Card3>{,<accountID>{,<storageID>}})
+ */
+BUILDIN_FUNC(storagecountitem)
+{
+	TBL_PC *sd;
+	char *command = (char *)script_getfuncname(st);
+	int aid = 3, stor_id = 4;
+	int expanded = 0, count = 0;
+
+	if (command[strlen(command) - 1] == '2') {
+		expanded = 1;
+		aid = 10;
+		stor_id = 11;
+	}
+
+	if (!script_accid2sd(aid, sd))
+		return SCRIPT_CMD_FAILURE;
+
+	std::shared_ptr<item_data> id;
+
+	if (script_isstring(st, 2)) // item name
+		id = item_db.searchname( script_getstr( st, 2 ) );
+	else // item id
+		id = item_db.find( script_getnum( st, 2 ) );
+
+	if (script_hasdata(st, stor_id) && script_isint(st, stor_id))
+		stor_id = script_getnum(st, stor_id);
+	else
+		stor_id = 0;
+
+	if (!storage_exists(stor_id)) {
+		ShowError("buildin_storagecountitem: Invalid storage_id '%d'!\n", stor_id);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	if (!id) {
+		ShowError("buildin_%s: Invalid item '%s'.\n", command, script_getstr(st, 2)); // returns string, regardless of what it was
+		script_pushint(st, 0);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	if (sd->state.storage_flag != 0) {
+		script_pushint(st, -1);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	if (stor_id == 0)
+		count = script_countitem_sub(sd->storage.u.items_storage, id, MAX_STORAGE, expanded, st);
+	else
+		count = script_countitem_sub(sd->premiumStorage.u.items_storage, id, MAX_STORAGE, expanded, st);
+
+	if (count < 0) {
+		st->state = END;
+		return SCRIPT_CMD_FAILURE;
+	}
+	script_pushint(st, count);
+	return SCRIPT_CMD_SUCCESS;
+}
