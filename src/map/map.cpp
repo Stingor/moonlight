@@ -9,6 +9,8 @@
 #include <unordered_set>
 #include <vector>
 
+#include "../config/core.hpp"
+
 #include "../common/cbasetypes.hpp"
 #include "../common/cli.hpp"
 #include "../common/core.hpp"
@@ -44,6 +46,7 @@
 #include "mapreg.hpp"
 #include "mercenary.hpp"
 #include "mob.hpp"
+#include "navi.hpp"
 #include "npc.hpp"
 #include "party.hpp"
 #include "path.hpp"
@@ -4941,7 +4944,9 @@ void do_final(void){
 	do_final_battle();
 	do_final_chrif();
 	do_final_clan();
+#ifndef GENERATE_NAVI
 	do_final_clif();
+#endif
 	do_final_npc();
 	do_final_quest();
 	do_final_achievement();
@@ -5276,7 +5281,9 @@ int do_init(int argc, char *argv[])
 	do_init_instance();
 	do_init_chrif();
 	do_init_clan();
+#ifndef GENERATE_NAVI
 	do_init_clif();
+#endif
 	do_init_script();
 	do_init_itemdb();
 	do_init_channel();
@@ -5307,6 +5314,11 @@ int do_init(int argc, char *argv[])
 		ShowNotice("Server is running on '" CL_WHITE "PK Mode" CL_RESET "'.\n");
 
 	ShowStatus("Server is '" CL_GREEN "ready" CL_RESET "' and listening on port '" CL_WHITE "%d" CL_RESET "'.\n\n", map_port);
+
+#ifdef GENERATE_NAVI
+	navi_create_lists();
+	runflag = CORE_ST_STOP;
+#endif
 
 	if( runflag != CORE_ST_STOP )
 	{
