@@ -13510,8 +13510,8 @@ int status_change_end(struct block_list* bl, enum sc_type type, int tid)
 		struct party_data *p = party_search(sd->status.party_id);
 		clif_party_info(p, NULL);
 	}
-	// Needed to be here to make sure OPT1_STONEWAIT has been cleared from the target
-	if (type == SC_STONEWAIT)
+	// Needed to be here to make sure OPT1_STONEWAIT has been cleared from the target (only on natural expiration of the stone wait timer)
+	if (type == SC_STONEWAIT && tid != INVALID_TIMER)
 		status_change_start(bl, bl, SC_STONE, 100, sce->val1, sce->val2, 0, 0, sce->val3, SCSTART_NOAVOID);
 
 	ers_free(sc_data_ers, sce);
