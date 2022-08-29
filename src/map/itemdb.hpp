@@ -1255,6 +1255,7 @@ struct item_data
 		bool broadcast; ///< Will be broadcasted if someone obtain the item [Cydh]
 		bool bindOnEquip; ///< Set item as bound when equipped
 		e_item_drop_effect dropEffect; ///< Drop Effect Mode
+		unsigned gradable : 1;
 	} flag;
 	struct {// item stacking limitation
 		uint16 amount;
@@ -1460,7 +1461,6 @@ t_itemid wingsdb_search(t_itemid id); // [Stingor]
 
 #define itemdb_value_buy(n) itemdb_search(n)->value_buy
 #define itemdb_value_sell(n) itemdb_search(n)->value_sell
-#define itemdb_canrefine(n) (!itemdb_search(n)->flag.no_refine)
 //Item trade restrictions [Skotlex]
 bool itemdb_isdropable_sub(struct item_data *itd, int gmlv, int unused);
 bool itemdb_cantrade_sub(struct item_data *itd, int gmlv, int gmlv2);
@@ -1484,9 +1484,7 @@ bool itemdb_ishatched_egg(struct item* item);
 #define itemdb_canauction(item, gmlv) itemdb_isrestricted(item , gmlv, 0, itemdb_canauction_sub)
 
 bool itemdb_isequip2(struct item_data *id);
-bool itemdb_iscard2(struct item_data *id);
 #define itemdb_isequip(nameid) itemdb_isequip2(itemdb_search(nameid))
-#define itemdb_iscard(nameid) itemdb_iscard2(itemdb_search(nameid)) // [Stingor]
 char itemdb_isidentified(t_itemid nameid);
 bool itemdb_isstackable2(struct item_data *id);
 #define itemdb_isstackable(nameid) itemdb_isstackable2(itemdb_search(nameid))

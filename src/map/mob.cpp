@@ -2815,7 +2815,7 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 			char eventname[EVENT_NAME_LENGTH] = "";
 			if( md->npc_event ) {
 				safestrncpy(eventname, md->npc_event, sizeof(md->npc_event));
-				if( battle_config.up_spawnmvp && itemdb_iscard(md->db->dropitem[i].nameid) && (!strcmpi(eventname, "classement::OnMvpDead")
+				if( battle_config.up_spawnmvp && itemdb_type(md->db->dropitem[i].nameid) == IT_CARD) && (!strcmpi(eventname, "classement::OnMvpDead")
 				 || !strcmpi(eventname, "classement::OnMvpDrakeDead")
 				 || !strcmpi(eventname, "mvp_lhz_dun03::OnMyMVPDead")
 				 || !strcmpi(eventname, "mvp_lhz_dun04::OnMyMVPDead")
@@ -2824,7 +2824,7 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 					drop_rate = (int)(drop_rate * 2);
 					drop_rate = min(drop_rate,10000); //cap it to 100%
 				}
-				else if( battle_config.nerf_bloodybranch && itemdb_iscard(md->db->dropitem[i].nameid) && (!strcmpi(eventname, "classement::OnMvpBBDead")) )
+				else if( battle_config.nerf_bloodybranch && itemdb_type(md->db->dropitem[i].nameid) == IT_CARD && (!strcmpi(eventname, "classement::OnMvpBBDead")) )
 					drop_rate = (int)(drop_rate / 1.5);
 			}
 
@@ -2844,7 +2844,7 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 
 			ditem = mob_setdropitem(&md->db->dropitem[i], 1, md->mob_id);
 
-			if( ditem && md->get_bosstype() == BOSSTYPE_MVP && map_getmapflag(m, MF_NOMVPCARD) && itemdb_iscard(ditem->item_data.nameid) )	// [Stingor]
+			if( ditem && md->get_bosstype() == BOSSTYPE_MVP && map_getmapflag(m, MF_NOMVPCARD) && itemdb_type(ditem->item_data.nameid) == IT_CARD )	// [Stingor]
 				continue;
 
 			//A Rare Drop Global Announce by Lupus

@@ -44,6 +44,7 @@
 #   EquipLevelMin           Minimum required level to equip. (Default: 0)
 #   EquipLevelMax           Maximum level that can equip. (Default: 0)
 #   Refineable              If the item can be refined. (Default: false)
+#   Gradable                If the item can be graded. (Default: false)
 #   View                    View sprite of an item. (Default: 0)
 #   AliasName               Another item's AegisName that will be sent to the client instead of this item's AegisName. (Default: null)
 #   Flags:                  Item flags. (Default: null)
@@ -68588,6 +68589,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 200
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -102584,6 +102586,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -118884,6 +118887,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -139724,6 +139728,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     View: 512
     Script: |
       .@g = getenchantgrade();
@@ -139876,6 +139881,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     View: 2090
     Script: |
       .@r = getrefine();
@@ -139903,6 +139909,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     View: 2102
     Script: |
       .@r = getrefine();
@@ -140003,6 +140010,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     View: 2104
     Script: |
       .@r = getrefine();
@@ -140030,6 +140038,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 150
     Refineable: true
+    Gradable: true
     View: 1646
     Script: |
       .@g = getenchantgrade();
@@ -140063,6 +140072,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 150
     Refineable: true
+    Gradable: true
     View: 368
     Script: |
       .@g = getenchantgrade();
@@ -140112,6 +140122,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 150
     Refineable: true
+    Gradable: true
     View: 1220
     Script: |
       .@g = getenchantgrade();
@@ -140162,6 +140173,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 150
     Refineable: true
+    Gradable: true
     View: 1645
     Script: |
       .@g = getenchantgrade();
@@ -140208,6 +140220,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 150
     Refineable: true
+    Gradable: true
     View: 589
     Script: |
       .@g = getenchantgrade();
@@ -141803,6 +141816,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 150
     Refineable: true
+    Gradable: true
     View: 495
     Script: |
       .@g = getenchantgrade();
@@ -141850,6 +141864,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 150
     Refineable: true
+    Gradable: true
     View: 461
     Script: |
       .@g = getenchantgrade();
@@ -147642,6 +147657,7 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -147692,6 +147708,7 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -147741,6 +147758,7 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -147791,6 +147809,7 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -147842,6 +147861,7 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -147893,6 +147913,7 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -148318,6 +148339,7 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -148363,6 +148385,7 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -148408,6 +148431,7 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -148453,6 +148477,7 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -148823,6 +148848,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     View: 2
     Script: |
       .@g = getenchantgrade();
@@ -148884,6 +148910,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 160
     Refineable: true
+    Gradable: true
     View: 1
     Script: |
       .@g = getenchantgrade();
@@ -150146,6 +150173,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@r = getrefine();
       bonus bBaseAtk,15*(.@r/2);
@@ -150172,6 +150200,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@r = getrefine();
       bonus bBaseAtk,15*(.@r/2);
@@ -150198,6 +150227,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@r = getrefine();
       bonus bMatk,10*(.@r/2);
@@ -150226,6 +150256,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@r = getrefine();
       bonus bMatk,15*(.@r/2);
@@ -150275,6 +150306,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@r = getrefine();
       bonus bBaseAtk,15*(.@r/2);
@@ -150302,6 +150334,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@r = getrefine();
       bonus bBaseAtk,15*(.@r/2);
@@ -150732,6 +150765,7 @@ Body:
     ArmorLevel: 2
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -150832,6 +150866,7 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -150878,6 +150913,7 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -150924,6 +150960,7 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -150970,6 +151007,7 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -152636,6 +152674,7 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -152681,6 +152720,7 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -152725,6 +152765,7 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -152769,6 +152810,7 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -155788,6 +155830,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -155832,6 +155875,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -155885,6 +155929,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -156011,6 +156056,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -156062,6 +156108,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -156359,6 +156406,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -156414,6 +156462,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -156467,6 +156516,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -156604,6 +156654,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -156637,6 +156688,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -156672,6 +156724,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -157161,6 +157214,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -157205,6 +157259,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -157251,6 +157306,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -157357,6 +157413,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -157640,6 +157697,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -157691,6 +157749,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -157743,6 +157802,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -157786,6 +157846,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       if (.@g >= ENCHANTGRADE_D) {
@@ -157817,6 +157878,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -157850,6 +157912,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -157951,6 +158014,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -158000,6 +158064,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -158054,6 +158119,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       if (.@g >= ENCHANTGRADE_D) {
@@ -158217,6 +158283,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -158572,6 +158639,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -158617,6 +158685,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -158699,6 +158768,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -158861,6 +158931,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -158913,6 +158984,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -159243,6 +159315,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -159295,6 +159368,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -159516,6 +159590,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -159567,6 +159642,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -159618,6 +159694,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -159994,6 +160071,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -160141,6 +160219,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -160177,6 +160256,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -160232,6 +160312,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -160283,6 +160364,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -160333,6 +160415,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -160381,6 +160464,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -160908,6 +160992,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -160960,6 +161045,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -161010,6 +161096,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -161239,6 +161326,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -161852,6 +161940,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -161909,6 +161998,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -162144,6 +162234,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -162179,6 +162270,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -162215,6 +162307,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -162330,6 +162423,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -162383,6 +162477,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -162437,6 +162532,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -162490,6 +162586,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -162542,6 +162639,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -162601,6 +162699,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -162653,6 +162752,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -162704,6 +162804,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -162759,6 +162860,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -163131,6 +163233,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -163175,6 +163278,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -163220,6 +163324,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -163337,6 +163442,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -163387,6 +163493,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -163578,6 +163685,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -163632,6 +163740,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -163685,6 +163794,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -163992,6 +164102,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -164038,6 +164149,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -164159,6 +164271,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -164211,6 +164324,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -164420,6 +164534,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -164475,6 +164590,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -164784,6 +164900,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -164830,6 +164947,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -164951,6 +165069,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -165003,6 +165122,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -165212,6 +165332,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -165267,6 +165388,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -165694,6 +165816,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -165737,6 +165860,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -165791,6 +165915,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -165914,6 +166039,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -165965,6 +166091,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -166198,6 +166325,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -166252,6 +166380,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -166306,6 +166435,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -166646,6 +166776,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -166691,6 +166822,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -166772,6 +166904,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -166893,6 +167026,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -166949,6 +167083,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -167303,6 +167438,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -167348,6 +167484,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -167465,6 +167602,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -167515,6 +167653,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -167749,6 +167888,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -167803,6 +167943,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -167858,6 +167999,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -168014,6 +168156,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -168060,6 +168203,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -168217,6 +168361,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -168270,6 +168415,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -168478,6 +168624,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -168557,6 +168704,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -168999,6 +169147,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -169052,6 +169201,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -169106,6 +169256,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -169231,6 +169382,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -169283,6 +169435,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -169508,6 +169661,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -169566,6 +169720,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -169626,6 +169781,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -170065,6 +170221,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       bonus bUnbreakableWeapon;
@@ -170119,6 +170276,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -170170,6 +170328,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -170220,6 +170379,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -170778,6 +170938,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -170822,6 +170983,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -170866,6 +171028,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -170910,6 +171073,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -170955,6 +171119,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -171108,6 +171273,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -171158,6 +171324,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -171209,6 +171376,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -171525,6 +171693,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -171578,6 +171747,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -171632,6 +171802,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -171684,6 +171855,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -171961,6 +172133,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -172016,6 +172189,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -172064,6 +172238,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -172113,6 +172288,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -172308,6 +172484,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -172363,6 +172540,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -172412,6 +172590,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -172462,6 +172641,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -172631,6 +172811,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -172684,6 +172865,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -172733,6 +172915,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -173009,6 +173192,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -173064,6 +173248,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -173112,6 +173297,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -173160,6 +173346,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -173324,6 +173511,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 220
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -173379,6 +173567,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 230
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -173428,6 +173617,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 210
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
@@ -173476,6 +173666,7 @@ Body:
     WeaponLevel: 5
     EquipLevelMin: 190
     Refineable: true
+    Gradable: true
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();

@@ -12701,7 +12701,7 @@ bool pc_isautolooting(struct map_session_data *sd, t_itemid nameid)
 	if (sd->state.autoloottype && sd->state.autoloottype&(1<<itemdb_type(nameid)))
 		return true;
 
-	if (sd->state.autolootrare && (itemdb_iscard(nameid) || itemdb_group.item_exists(IG_AUTOLOOTRARE, nameid))) // [Stingor]
+	if (sd->state.autolootrare && (itemdb_type(nameid) == IT_CARD || itemdb_group.item_exists(IG_AUTOLOOTRARE, nameid))) // [Stingor]
 		return true;
 
 	if (sd->state.autolootpognon && item_is_pognon(nameid, sd->state.autolootpognon)) // [Stingor]
