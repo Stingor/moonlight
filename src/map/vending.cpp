@@ -399,7 +399,7 @@ int8 vending_openvending(struct map_session_data* sd, const char* message, const
 	StringBuf_Destroy(&buf);
 
 	clif_openvending(sd,sd->bl.id,sd->vending);
-	clif_showvendingboard(&sd->bl,message,0);
+	clif_showvendingboard( *sd );
 	
 	if( battle_config.setcellnovend ) { // [Stingor]
 		map_setcell(sd->bl.m, sd->bl.x + 1, sd->bl.y + 1,	CELL_NOVENDING, true);
