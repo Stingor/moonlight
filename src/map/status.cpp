@@ -701,6 +701,34 @@ uint64 EnchantgradeDatabase::parseBodyNode( const ryml::NodeRef& node ){
 				}
 			}
 
+			if( this->nodeExists( gradeNode, "AnnounceSuccess" ) ){
+				bool announce;
+
+				if( !this->asBool( gradeNode, "AnnounceSuccess", announce ) ){
+					return 0;
+				}
+
+				grade->announceSuccess = announce;
+			}else{
+				if( !gradeExists ){
+					grade->announceSuccess = true;
+				}
+			}
+
+			if( this->nodeExists( gradeNode, "AnnounceFail" ) ){
+				bool announce;
+
+				if( !this->asBool( gradeNode, "AnnounceFail", announce) ){
+					return 0;
+				}
+
+				grade->announceFail = announce;
+			}else{
+				if( !gradeExists ){
+					grade->announceFail = false;
+				}
+			}
+
 			if( this->nodeExists( gradeNode, "Announce" ) ){
 				bool announce;
 
@@ -708,11 +736,8 @@ uint64 EnchantgradeDatabase::parseBodyNode( const ryml::NodeRef& node ){
 					return 0;
 				}
 
-				grade->announce = announce;
-			}else{
-				if( !gradeExists ){
-					grade->announce = true;
-				}
+				grade->announceSuccess = announce;
+				grade->announceFail = announce;
 			}
 
 			if( this->nodeExists( gradeNode, "Catalyst") ){
