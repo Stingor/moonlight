@@ -74,7 +74,7 @@ unsigned int next_id;
 struct eri *st_ers;
 struct eri *stack_ers;
 
-static bool script_rid2sd_( struct script_state *st, struct map_session_data** sd, const char *func );
+static bool script_rid2sd_( struct script_state *st, map_session_data** sd, const char *func );
 
 /**
  * Get `sd` from a account id in `loc` param instead of attached rid
@@ -83,7 +83,7 @@ static bool script_rid2sd_( struct script_state *st, struct map_session_data** s
  * @param sd Variable that will be assigned
  * @return True if `sd` is assigned, false otherwise
  **/
-static bool script_accid2sd_(struct script_state *st, uint8 loc, struct map_session_data **sd, const char *func) {
+static bool script_accid2sd_(struct script_state *st, uint8 loc, map_session_data **sd, const char *func) {
 	if (script_hasdata(st, loc)) {
 		int id_ = script_getnum(st, loc);
 		if (!(*sd = map_id2sd(id_))){
@@ -104,7 +104,7 @@ static bool script_accid2sd_(struct script_state *st, uint8 loc, struct map_sess
  * @param sd Variable that will be assigned
  * @return True if `sd` is assigned, false otherwise
  **/
-static bool script_charid2sd_(struct script_state *st, uint8 loc, struct map_session_data **sd, const char *func) {
+static bool script_charid2sd_(struct script_state *st, uint8 loc, map_session_data **sd, const char *func) {
 	if (script_hasdata(st, loc)) {
 		int id_ = script_getnum(st, loc);
 		if (!(*sd = map_charid2sd(id_))){
@@ -125,7 +125,7 @@ static bool script_charid2sd_(struct script_state *st, uint8 loc, struct map_ses
  * @param sd Variable that will be assigned
  * @return True if `sd` is assigned, false otherwise
  **/
-static bool script_nick2sd_(struct script_state *st, uint8 loc, struct map_session_data **sd, const char *func) {
+static bool script_nick2sd_(struct script_state *st, uint8 loc, map_session_data **sd, const char *func) {
 	if (script_hasdata(st, loc)) {
 		const char *name_ = script_getstr(st, loc);
 		if (!(*sd = map_nick2sd(name_,false))){
@@ -146,7 +146,7 @@ static bool script_nick2sd_(struct script_state *st, uint8 loc, struct map_sessi
  * @param sd Variable that will be assigned
  * @return True if `sd` is assigned, false otherwise
  **/
-static bool script_mapid2sd_(struct script_state *st, uint8 loc, struct map_session_data **sd, const char *func) {
+static bool script_mapid2sd_(struct script_state *st, uint8 loc, map_session_data **sd, const char *func) {
 	if (script_hasdata(st, loc)) {
 		int id_ = script_getnum(st, loc);
 		if (!(*sd = map_id2sd(id_))){
@@ -2662,7 +2662,7 @@ struct script_code* parse_script(const char *src,const char *file,int line,int o
 
 /// Returns the player attached to this script, identified by the rid.
 /// If there is no player attached, the script is terminated.
-static bool script_rid2sd_( struct script_state *st, struct map_session_data** sd, const char *func ){
+static bool script_rid2sd_( struct script_state *st, map_session_data** sd, const char *func ){
 	*sd = map_id2sd( st->rid );
 
 	if( *sd ){
@@ -2682,7 +2682,7 @@ static bool script_rid2sd_( struct script_state *st, struct map_session_data** s
  * @param data Variable/constant
  * @param sd If NULL, will try to use sd from st->rid (for player's variables)
  */
-struct script_data *get_val_(struct script_state* st, struct script_data* data, struct map_session_data *sd)
+struct script_data *get_val_(struct script_state* st, struct script_data* data, map_session_data *sd)
 {
 	const char* name;
 	char prefix;
@@ -2886,7 +2886,7 @@ int64 get_val2_num( struct script_state* st, int64 uid, struct reg_db* ref ){
  * Because, currently, array members with key 0 are indifferenciable from normal variables, we should ensure its actually in
  * Will be gone as soon as undefined var feature is implemented
  **/
-void script_array_ensure_zero(struct script_state *st, struct map_session_data *sd, int64 uid, struct reg_db *ref)
+void script_array_ensure_zero(struct script_state *st, map_session_data *sd, int64 uid, struct reg_db *ref)
 {
 	const char *name = get_str(script_getvarid(uid));
 	// is here st can be null pointer and st->rid is wrong?
@@ -2932,7 +2932,7 @@ void script_array_ensure_zero(struct script_state *st, struct map_session_data *
 /**
  * Returns array size by ID
  **/
-unsigned int script_array_size(struct script_state *st, struct map_session_data *sd, const char *name, struct reg_db *ref)
+unsigned int script_array_size(struct script_state *st, map_session_data *sd, const char *name, struct reg_db *ref)
 {
 	struct script_array *sa = NULL;
 	struct reg_db *src = script_array_src(st, sd, name, ref);
@@ -2946,7 +2946,7 @@ unsigned int script_array_size(struct script_state *st, struct map_session_data 
 /**
  * Returns array's highest key (for that awful getarraysize implementation that doesn't really gets the array size)
  **/
-unsigned int script_array_highest_key(struct script_state *st, struct map_session_data *sd, const char *name, struct reg_db *ref)
+unsigned int script_array_highest_key(struct script_state *st, map_session_data *sd, const char *name, struct reg_db *ref)
 {
 	struct script_array *sa = NULL;
 	struct reg_db *src = script_array_src(st, sd, name, ref);
@@ -3033,7 +3033,7 @@ void script_array_add_member(struct script_array *sa, unsigned int idx)
  * Obtains the source of the array database for this type and scenario
  * Initializes such database when not yet initialized.
  **/
-struct reg_db *script_array_src(struct script_state *st, struct map_session_data *sd, const char *name, struct reg_db *ref)
+struct reg_db *script_array_src(struct script_state *st, map_session_data *sd, const char *name, struct reg_db *ref)
 {
 	struct reg_db *src = NULL;
 
@@ -3137,7 +3137,7 @@ void script_array_update(struct reg_db *src, int64 num, bool empty)
  *
  * TODO: return values are screwed up, have been for some time (reaad: years), e.g. some functions return 1 failure and success.
  *------------------------------------------*/
-bool set_reg_str( struct script_state* st, struct map_session_data* sd, int64 num, const char* name, const char* value, struct reg_db *ref ){
+bool set_reg_str( struct script_state* st, map_session_data* sd, int64 num, const char* name, const char* value, struct reg_db *ref ){
 	char prefix = name[0];
 	size_t vlen = 0;
 
@@ -3217,7 +3217,7 @@ bool set_reg_str( struct script_state* st, struct map_session_data* sd, int64 nu
 	}
 }
 
-bool set_reg_num( struct script_state* st, struct map_session_data* sd, int64 num, const char* name, int64 value, struct reg_db *ref ){
+bool set_reg_num( struct script_state* st, map_session_data* sd, int64 num, const char* name, int64 value, struct reg_db *ref ){
 	char prefix = name[0];
 	size_t vlen = 0;
 
@@ -3311,11 +3311,11 @@ bool set_reg_num( struct script_state* st, struct map_session_data* sd, int64 nu
 	}
 }
 
-bool set_var_str( struct map_session_data* sd, const char* name, const char* val ){
+bool set_var_str( map_session_data* sd, const char* name, const char* val ){
 	return set_reg_str( NULL, sd, reference_uid( add_str( name ), 0 ), name, val, NULL );
 }
 
-bool clear_reg( struct script_state* st, struct map_session_data* sd, int64 num, const char* name, struct reg_db *ref ){
+bool clear_reg( struct script_state* st, map_session_data* sd, int64 num, const char* name, struct reg_db *ref ){
 	if( is_string_variable( name ) ){
 		return set_reg_str( st, sd, num, name, "", ref );
 	}else{
@@ -3323,11 +3323,11 @@ bool clear_reg( struct script_state* st, struct map_session_data* sd, int64 num,
 	}
 }
 
-void setd_sub_num( struct script_state* st, struct map_session_data* sd, const char* varname, int elem, int64 value, struct reg_db* ref ){
+void setd_sub_num( struct script_state* st, map_session_data* sd, const char* varname, int elem, int64 value, struct reg_db* ref ){
 	set_reg_num( st, sd, reference_uid( add_str( varname ), elem ), varname, value, ref );
 }
 
-void setd_sub_str( struct script_state* st, struct map_session_data* sd, const char* varname, int elem, const char* value, struct reg_db* ref ){
+void setd_sub_str( struct script_state* st, map_session_data* sd, const char* varname, int elem, const char* value, struct reg_db* ref ){
 	set_reg_str( st, sd, reference_uid( add_str( varname ), elem ), varname, value, ref );
 }
 
@@ -3337,7 +3337,7 @@ void setd_sub_str( struct script_state* st, struct map_session_data* sd, const c
  * @param data
  * @param sd
  */
-const char* conv_str_(struct script_state* st, struct script_data* data, struct map_session_data *sd)
+const char* conv_str_(struct script_state* st, struct script_data* data, map_session_data *sd)
 {
 	char* p;
 
@@ -3381,7 +3381,7 @@ const char* conv_str(struct script_state* st, struct script_data* data)
  * @param data
  * @param sd
  */
-int64 conv_num_(struct script_state* st, struct script_data* data, struct map_session_data *sd)
+int64 conv_num_(struct script_state* st, struct script_data* data, map_session_data *sd)
 {
 	get_val_(st, data, sd);
 	if( data_isint(data) )
@@ -3667,7 +3667,7 @@ struct script_state* script_alloc_state(struct script_code* rootscript, int pos,
 void script_free_state(struct script_state* st)
 {
 	if (idb_exists(st_db, st->id)) {
-		struct map_session_data *sd = st->rid ? map_id2sd(st->rid) : NULL;
+		map_session_data *sd = st->rid ? map_id2sd(st->rid) : NULL;
 
 		if (st->bk_st) // backup was not restored
 			ShowDebug("script_free_state: Previous script state lost (rid=%d, oid=%d, state=%d, bk_npcid=%d).\n", st->bk_st->rid, st->bk_st->oid, st->bk_st->state, st->bk_npcid);
@@ -4224,7 +4224,7 @@ TIMER_FUNC(run_script_timer){
 
 	// If it was a player before going to sleep and there is still a unit attached to the script
 	if( id != 0 && st->rid ){
-		struct map_session_data *sd = map_id2sd(st->rid);
+		map_session_data *sd = map_id2sd(st->rid);
 
 		// Attached player is offline(logout) or another unit type(should not happen)
 		if( !sd ){
@@ -4299,7 +4299,7 @@ struct linkdb_node *script_erase_sleepdb(struct linkdb_node *n) {
 /// @param dequeue_event Whether to schedule any queued events, when there was no previous script.
 static void script_detach_state(struct script_state* st, bool dequeue_event)
 {
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if(st->rid && (sd = map_id2sd(st->rid))!=NULL) {
 		if( sd->state.using_fake_npc ){
@@ -4342,7 +4342,7 @@ static void script_detach_state(struct script_state* st, bool dequeue_event)
 ///
 /// @param st Script state to attach.
 void script_attach_state(struct script_state* st){
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if(st->rid && (sd = map_id2sd(st->rid))!=NULL)
 	{
@@ -4581,7 +4581,7 @@ static int db_script_free_code_sub(DBKey key, DBData *data, va_list ap)
 	return 0;
 }
 
-void script_run_autobonus(const char *autobonus, struct map_session_data *sd, unsigned int pos)
+void script_run_autobonus(const char *autobonus, map_session_data *sd, unsigned int pos)
 {
 	struct script_code *script = (struct script_code *)strdb_get(autobonus_db, autobonus);
 
@@ -4636,7 +4636,7 @@ void script_add_petautobonus(const std::string &autobonus) {
 }
 
 /// resets a temporary character array variable to given value
-void script_cleararray_pc( struct map_session_data* sd, const char* varname ){
+void script_cleararray_pc( map_session_data* sd, const char* varname ){
 	struct script_array *sa = NULL;
 	struct reg_db *src = NULL;
 	unsigned int i, *list = NULL, size = 0;
@@ -4661,7 +4661,7 @@ void script_cleararray_pc( struct map_session_data* sd, const char* varname ){
 
 /// sets a temporary character array variable element idx to given value
 /// @param refcache Pointer to an int variable, which keeps a copy of the reference to varname and must be initialized to 0. Can be NULL if only one element is set.
-void script_setarray_pc(struct map_session_data* sd, const char* varname, uint32 idx, int64 value, int* refcache)
+void script_setarray_pc(map_session_data* sd, const char* varname, uint32 idx, int64 value, int* refcache)
 {
 	int key;
 
@@ -4709,7 +4709,7 @@ int script_reg_destroy(DBKey key, DBData *data, va_list ap)
 /**
  * Clears a single persistent variable
  **/
-void script_reg_destroy_single(struct map_session_data *sd, int64 reg, struct script_reg_state *data)
+void script_reg_destroy_single(map_session_data *sd, int64 reg, struct script_reg_state *data)
 {
 	i64db_remove(sd->regs.vars, reg);
 
@@ -4906,7 +4906,7 @@ void script_reload(void) {
 /// mes "<message>";
 BUILDIN_FUNC(mes)
 {
-	struct map_session_data* sd;
+	map_session_data* sd;
 	if( !script_rid2sd(sd) )
 		return SCRIPT_CMD_SUCCESS;
 
@@ -4935,7 +4935,7 @@ BUILDIN_FUNC(mes)
 /// next;
 BUILDIN_FUNC(next)
 {
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if (!st->mes_active) {
 		ShowWarning("buildin_next: There is no mes active.\n");
@@ -4977,7 +4977,7 @@ BUILDIN_FUNC(clear)
 /// close;
 BUILDIN_FUNC(close)
 {
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_rid2sd(sd) )
 		return SCRIPT_CMD_SUCCESS;
@@ -5593,7 +5593,7 @@ BUILDIN_FUNC(warp)
 	int ret;
 	int x,y;
 	const char* str;
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if(!script_charid2sd(5, sd))
 		return SCRIPT_CMD_SUCCESS;
@@ -6449,7 +6449,7 @@ BUILDIN_FUNC(getarraysize)
 {
 	struct script_data* data;
 	const char* name;
-	struct map_session_data* sd = NULL;
+	map_session_data* sd = NULL;
 
 	data = script_getdata(st, 2);
 	if( !data_isreference(data) )
@@ -6641,7 +6641,7 @@ BUILDIN_FUNC(inarray)
 	struct script_data *data;
 	const char* name;
 	int id, i, array_size;
-	struct map_session_data* sd = NULL;
+	map_session_data* sd = NULL;
 	struct reg_db *ref = NULL;
 	data = script_getdata(st, 2);
 
@@ -6720,7 +6720,7 @@ BUILDIN_FUNC(countinarray)
 	const char* name1;
 	const char* name2;
 	int id1, id2, i, j, array_size1, array_size2, case_count = 0;
-	struct map_session_data* sd = NULL;
+	map_session_data* sd = NULL;
 	struct reg_db *ref1 = NULL, *ref2 = NULL;
 	data1 = script_getdata(st, 2);
 	data2 = script_getdata(st, 3);
@@ -6943,7 +6943,7 @@ BUILDIN_FUNC(viewpointmap) {
  * @param funcname Function name
  * @param x First position of random option id array from the script
  **/
-static bool script_getitem_randomoption(struct script_state *st, struct map_session_data* sd, struct item *it, const char *funcname, int x) {
+static bool script_getitem_randomoption(struct script_state *st, map_session_data* sd, struct item *it, const char *funcname, int x) {
 	int i, opt_id_n;
 	struct script_data *opt_id = script_getdata(st,x);
 	struct script_data *opt_val = script_getdata(st,x+1);
@@ -7047,7 +7047,7 @@ static bool script_getitem_randomoption(struct script_state *st, struct map_sess
  * @param rental: Whether or not to count rental items
  * @return Total count of item being searched
  */
-static int script_countitem_sub(struct item *items, std::shared_ptr<item_data> id, int size, int expanded, struct script_state *st, struct map_session_data *sd = nullptr, bool rental = false) {
+static int script_countitem_sub(struct item *items, std::shared_ptr<item_data> id, int size, int expanded, struct script_state *st, map_session_data *sd = nullptr, bool rental = false) {
 
 	nullpo_retr(-1, items);
 	nullpo_retr(-1, st);
@@ -7396,7 +7396,7 @@ BUILDIN_FUNC(checkweight)
 	unsigned short amount2 = 0;
 	unsigned int weight = 0, i, nbargs;
 	std::shared_ptr<item_data> id;
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_rid2sd(sd) )
 		return SCRIPT_CMD_SUCCESS;
@@ -7586,7 +7586,7 @@ BUILDIN_FUNC(getitem)
 	t_itemid nameid;
 	unsigned short amount;
 	struct item it;
-	struct map_session_data *sd;
+	map_session_data *sd;
 	unsigned char flag = 0;
 	const char* command = script_getfuncname(st);
 	std::shared_ptr<item_data> id;
@@ -7833,7 +7833,7 @@ BUILDIN_FUNC(getitem2)
  * rentitem "<item name>",<seconds>{,<account_id>}
  */
 BUILDIN_FUNC(rentitem) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	t_itemid nameid = 0;
 	unsigned char flag = 0;
 
@@ -7889,7 +7889,7 @@ BUILDIN_FUNC(rentitem) {
  * rentitem4 "<item name>",<time>,<identify>,<refine>,<attribute>,<card1>,<card2>,<card3>,<card4>,<grade>,<RandomIDArray>,<RandomValueArray>,<RandomParamArray>{,<account_id>};
  */
 BUILDIN_FUNC(rentitem2) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	const char *funcname = script_getfuncname(st);
 
 	if (funcname[strlen(funcname)-1] == '3') {
@@ -8259,7 +8259,7 @@ BUILDIN_FUNC(makeitem2) {
 /// Counts / deletes the current item given by idx.
 /// Used by buildin_delitem_search
 /// Relies on all input data being already fully valid.
-static void buildin_delitem_delete(struct map_session_data* sd, int idx, int* amount, uint8 loc, bool delete_items)
+static void buildin_delitem_delete(map_session_data* sd, int idx, int* amount, uint8 loc, bool delete_items)
 {
 	int delamount;
 	struct item *itm = NULL;
@@ -8325,7 +8325,7 @@ static void buildin_delitem_delete(struct map_session_data* sd, int idx, int* am
 ///   0x1: identify, attributes, cards
 ///   0x2: random option
 /// @return true when all items could be deleted, false when there were not enough items to delete
-static bool buildin_delitem_search(struct map_session_data* sd, struct item* it, uint8 exact_match, uint8 loc)
+static bool buildin_delitem_search(map_session_data* sd, struct item* it, uint8 exact_match, uint8 loc)
 {
 	bool delete_items = false;
 	int i, amount, size;
@@ -8691,7 +8691,7 @@ BUILDIN_FUNC(delitem2)
 /// Deletes items from the target/attached player at given index.
 /// delitemidx <index>{,<amount>{,<char id>}};
 BUILDIN_FUNC(delitemidx) {
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if (!script_charid2sd(4, sd)) {
 		script_pushint(st, false);
@@ -8907,7 +8907,7 @@ BUILDIN_FUNC(getpartymember)
 				return SCRIPT_CMD_FAILURE;
 			}
 			if (not_server_variable(*varname)) {
-				struct map_session_data *sd;
+				map_session_data *sd;
 
 				if (!script_rid2sd(sd)) {
 					ShowError("buildin_getpartymember: Cannot use a player variable '%s' if no player is attached.\n", varname);
@@ -9449,7 +9449,7 @@ BUILDIN_FUNC(getequipweaponlv)
 		num = EQI_COMPOUND_ON;
 	}
 
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if (!script_charid2sd(3, sd)) {
 		script_pushint(st, 0);
@@ -9485,7 +9485,7 @@ BUILDIN_FUNC(getequiparmorlv){
 		num = EQI_COMPOUND_ON;
 	}
 
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_charid2sd( 3, sd ) ){
 		script_pushint( st, 0 );
@@ -9824,7 +9824,7 @@ BUILDIN_FUNC(statusup2)
 **/
 BUILDIN_FUNC(traitstatusup)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	if (!script_charid2sd(3, sd))
 		return SCRIPT_CMD_FAILURE;
@@ -9846,7 +9846,7 @@ BUILDIN_FUNC(traitstatusup)
 **/
 BUILDIN_FUNC(traitstatusup2)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	if (!script_charid2sd(4, sd))
 		return SCRIPT_CMD_FAILURE;
@@ -10823,7 +10823,7 @@ BUILDIN_FUNC(guildopenstorage_log){
 	ShowError( "buildin_guildopenstorage_log: This command requires PACKETVER 2014-02-05 or newer.\n" );
 	return SCRIPT_CMD_FAILURE;
 #else
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_charid2sd( 2, sd ) ){
 		return SCRIPT_CMD_FAILURE;
@@ -10836,7 +10836,7 @@ BUILDIN_FUNC(guildopenstorage_log){
 }
 
 BUILDIN_FUNC(guild_has_permission){
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_charid2sd( 3, sd ) ){
 		return SCRIPT_CMD_FAILURE;
@@ -10952,7 +10952,7 @@ BUILDIN_FUNC(cooking)
  *------------------------------------------*/
 BUILDIN_FUNC(makepet)
 {
-	struct map_session_data* sd;
+	map_session_data* sd;
 	uint16 mob_id;
 
 	if( !script_rid2sd(sd) )
@@ -10980,7 +10980,7 @@ BUILDIN_FUNC(makepet)
  * getexp <base xp>,<job xp>{,<char_id>};
  **/
 BUILDIN_FUNC(getexp){
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_charid2sd( 4, sd ) ){
 		return SCRIPT_CMD_FAILURE;
@@ -11026,7 +11026,7 @@ BUILDIN_FUNC(getexp){
  * Gain guild exp [Celest]
  *------------------------------------------*/
 BUILDIN_FUNC(guildgetexp){
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_rid2sd( sd ) ){
 		return SCRIPT_CMD_FAILURE;
@@ -11087,7 +11087,7 @@ BUILDIN_FUNC(monster)
 	unsigned int size	= SZ_SMALL;
 	enum mob_ai ai		= AI_NONE;
 
-	struct map_session_data* sd;
+	map_session_data* sd;
 	int16 m;
 	int i;
 
@@ -11204,7 +11204,7 @@ BUILDIN_FUNC(areamonster)
 	unsigned int size	= SZ_SMALL;
 	enum mob_ai ai		= AI_NONE;
 
-	struct map_session_data* sd;
+	map_session_data* sd;
 	int16 m;
 	int i;
 
@@ -11427,7 +11427,7 @@ BUILDIN_FUNC(clone)
 BUILDIN_FUNC(doevent)
 {
 	const char* event;
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_rid2sd(sd) )
 		return SCRIPT_CMD_SUCCESS;
@@ -11802,7 +11802,7 @@ BUILDIN_FUNC(announce)
 		if(flag&BC_NPC){
 			bl = map_id2bl(st->oid);
 		}else{
-			struct map_session_data* sd;
+			map_session_data* sd;
 
 			if(script_charid2sd(9, sd))
 				bl = &sd->bl;
@@ -11905,7 +11905,7 @@ BUILDIN_FUNC(areaannounce)
 BUILDIN_FUNC(getusers)
 {
 	int flag, val = 0;
-	struct map_session_data* sd;
+	map_session_data* sd;
 	struct block_list* bl = NULL;
 
 	flag = script_getnum(st,2);
@@ -12022,7 +12022,7 @@ BUILDIN_FUNC(getareausers)
 BUILDIN_FUNC(getunits)
 {
 	struct block_list *bl = NULL;
-	struct map_session_data *sd = NULL;
+	map_session_data *sd = NULL;
 	struct script_data *data = NULL;
 	char *command = (char *)script_getfuncname(st);
 	const char *str;
@@ -12316,7 +12316,7 @@ BUILDIN_FUNC(sc_end)
 		return SCRIPT_CMD_SUCCESS;
 
 	if (type > SC_NONE && type < SC_MAX) {
-		struct status_change *sc = status_get_sc(bl);
+		status_change *sc = status_get_sc(bl);
 
 		if (sc == nullptr)
 			return SCRIPT_CMD_SUCCESS;
@@ -12354,7 +12354,7 @@ BUILDIN_FUNC(sc_end)
  */
 BUILDIN_FUNC(sc_end_class)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int class_;
 
 	if (!script_charid2sd(2, sd))
@@ -12404,7 +12404,7 @@ BUILDIN_FUNC(getscrate)
 BUILDIN_FUNC(getstatus)
 {
 	int id, type;
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if (!script_charid2sd(4,sd))
 		return SCRIPT_CMD_FAILURE;
@@ -13159,7 +13159,7 @@ void script_detach_rid(struct script_state* st)
 static int buildin_addrid_sub(struct block_list *bl,va_list ap)
 {
 	int forceflag;
-	struct map_session_data *sd = (TBL_PC *)bl;
+	map_session_data *sd = (TBL_PC *)bl;
 	struct script_state* st;
 
 	st = va_arg(ap,struct script_state*);
@@ -13272,7 +13272,7 @@ BUILDIN_FUNC(attachrid)
 		force = true;
 	}
 
-	struct map_session_data* sd = map_id2sd(rid);
+	map_session_data* sd = map_id2sd(rid);
 
 	if( sd != NULL && ( !sd->npc_id || force ) ){
 		script_detach_rid(st);
@@ -13594,7 +13594,7 @@ BUILDIN_FUNC(emotion)
 }
 
 
-static int buildin_maprespawnguildid_sub_pc(struct map_session_data* sd, va_list ap)
+static int buildin_maprespawnguildid_sub_pc(map_session_data* sd, va_list ap)
 {
 	int16 m=va_arg(ap,int);
 	int g_id=va_arg(ap,int);
@@ -14141,7 +14141,7 @@ BUILDIN_FUNC(mobcount)	// Added by RoVeRT
 		check_event(st, event);
 
 	if( strcmp(mapname, "this") == 0 ) {
-		struct map_session_data *sd;
+		map_session_data *sd;
 		if( script_rid2sd(sd) )
 			m = sd->bl.m;
 		else {
@@ -14978,7 +14978,7 @@ BUILDIN_FUNC(misceffect)
  *------------------------------------------*/
 BUILDIN_FUNC(playBGM)
 {
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( script_rid2sd(sd) ) {
 		clif_playBGM( *sd, script_getstr( st, 2 ) );
@@ -14993,7 +14993,7 @@ static int playBGM_sub(struct block_list* bl,va_list ap)
 	return 0;
 }
 
-static int playBGM_foreachpc_sub(struct map_session_data* sd, va_list args)
+static int playBGM_foreachpc_sub(map_session_data* sd, va_list args)
 {
 	const char* name = va_arg(args, const char*);
 	clif_playBGM( *sd, name );
@@ -15033,7 +15033,7 @@ BUILDIN_FUNC(playBGMall)
  *------------------------------------------*/
 BUILDIN_FUNC(soundeffect)
 {
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if(script_rid2sd(sd)){
 		const char* name = script_getstr(st,2);
@@ -15061,7 +15061,7 @@ int soundeffect_sub(struct block_list* bl,va_list ap)
 BUILDIN_FUNC(soundeffectall)
 {
 	struct block_list* bl;
-	struct map_session_data* sd;
+	map_session_data* sd;
 	const char* name;
 	int type;
 
@@ -15406,7 +15406,7 @@ BUILDIN_FUNC(removespecialeffect)
 
 	struct block_list *bl_src;
 	struct block_list *bl_target;
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	if( strcmp(command, "removespecialeffect") == 0 ) {
 		if (!script_hasdata(st, 4)) {
@@ -15545,7 +15545,7 @@ BUILDIN_FUNC(dispbottom)
 /*===================================
  * Heal portion of recovery command
  *-----------------------------------*/
-int recovery_sub(struct map_session_data* sd, int revive)
+int recovery_sub(map_session_data* sd, int revive)
 {
 	if(revive&(1|4) && pc_isdead(sd)) {
 		status_revive(&sd->bl, 100, 100);
@@ -15610,7 +15610,7 @@ BUILDIN_FUNC(recovery)
 			if(p == NULL)
 				return SCRIPT_CMD_SUCCESS;
 			for (i = 0; i < MAX_PARTY; i++) {
-				struct map_session_data* pl_sd;
+				map_session_data* pl_sd;
 				if((!(pl_sd = p->data[i].sd) || pl_sd->status.party_id != p_id)
 					|| (map_idx && pl_sd->bl.m != map_idx))
 					continue;
@@ -15638,7 +15638,7 @@ BUILDIN_FUNC(recovery)
 			if(g == NULL)
 				return SCRIPT_CMD_SUCCESS;
 			for (i = 0; i < MAX_GUILD; i++) {
-				struct map_session_data* pl_sd;
+				map_session_data* pl_sd;
 				if((!(pl_sd = g->member[i].sd) || pl_sd->status.guild_id != g_id)
 					|| (map_idx && pl_sd->bl.m != map_idx))
 					continue;
@@ -15777,7 +15777,7 @@ BUILDIN_FUNC(addhomintimacy)
 BUILDIN_FUNC(getmercinfo)
 {
 	int type;
-	struct map_session_data* sd;
+	map_session_data* sd;
 	s_mercenary_data* md;
 
 	if( !script_charid2sd(3,sd) ){
@@ -16272,7 +16272,7 @@ BUILDIN_FUNC(mapid2name)
 BUILDIN_FUNC(logmes)
 {
 	const char *str;
-	struct map_session_data* sd = map_id2sd(st->rid);
+	map_session_data* sd = map_id2sd(st->rid);
 
 	str = script_getstr(st,2);
 	if( sd ){
@@ -17188,7 +17188,7 @@ BUILDIN_FUNC(sprintf)
 BUILDIN_FUNC(sscanf){
 	unsigned int argc, arg = 0, len;
 	struct script_data* data;
-	struct map_session_data* sd = NULL;
+	map_session_data* sd = NULL;
 	const char* str;
 	const char* format;
 	const char* p;
@@ -19765,7 +19765,7 @@ BUILDIN_FUNC(unitattack)
 
 	switch(unit_bl->type) {
 		case BL_PC: {
-			struct map_session_data* sd = (struct map_session_data*)unit_bl;
+			map_session_data* sd = (map_session_data*)unit_bl;
 
 			clif_parse_ActionRequest_sub(sd, actiontype > 0 ? 0x07 : 0x00, target_bl->id, gettick());
 			script_pushint(st, sd->ud.target == target_bl->id);
@@ -20196,7 +20196,7 @@ BUILDIN_FUNC(warpportal)
  **/
 BUILDIN_FUNC(openmail)
 {
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if (!script_charid2sd(2,sd))
 		return SCRIPT_CMD_FAILURE;
@@ -20287,7 +20287,7 @@ BUILDIN_FUNC(getfreecell)
 		*data_x = script_getdata(st, 3),
 		*data_y = script_getdata(st, 4);
 	struct block_list* bl = map_id2bl(st->rid);
-	struct map_session_data *sd = nullptr;
+	map_session_data *sd = nullptr;
 	int16 m, x = 0, y = 0;
 	int rx = -1, ry = -1, flag = 1;
 
@@ -20354,7 +20354,7 @@ BUILDIN_FUNC(getfreecell)
  *------------------------------------------*/
 BUILDIN_FUNC(mercenary_create)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int class_, contract_time;
 
 	if( !script_rid2sd(sd) || sd->md || sd->status.mer_id != 0 )
@@ -20373,7 +20373,7 @@ BUILDIN_FUNC(mercenary_create)
 
 BUILDIN_FUNC(mercenary_delete)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int type = 0;
 
 	if( !script_charid2sd(2, sd) )
@@ -20399,7 +20399,7 @@ BUILDIN_FUNC(mercenary_delete)
 
 BUILDIN_FUNC(mercenary_heal)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int hp, sp;
 
 	if( !script_rid2sd(sd) || sd->md == NULL )
@@ -20413,7 +20413,7 @@ BUILDIN_FUNC(mercenary_heal)
 
 BUILDIN_FUNC(mercenary_sc_start)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	enum sc_type type;
 	int tick, val1;
 
@@ -20430,7 +20430,7 @@ BUILDIN_FUNC(mercenary_sc_start)
 
 BUILDIN_FUNC(mercenary_get_calls)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int guild;
 
 	if( !script_rid2sd(sd) )
@@ -20457,7 +20457,7 @@ BUILDIN_FUNC(mercenary_get_calls)
 
 BUILDIN_FUNC(mercenary_set_calls)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int guild, value, *calls;
 
 	if( !script_rid2sd(sd) )
@@ -20489,7 +20489,7 @@ BUILDIN_FUNC(mercenary_set_calls)
 
 BUILDIN_FUNC(mercenary_get_faith)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int guild;
 
 	if( !script_rid2sd(sd) )
@@ -20516,7 +20516,7 @@ BUILDIN_FUNC(mercenary_get_faith)
 
 BUILDIN_FUNC(mercenary_set_faith)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int guild, value, *calls;
 
 	if( !script_rid2sd(sd) )
@@ -20554,7 +20554,7 @@ BUILDIN_FUNC(mercenary_set_faith)
  *------------------------------------------*/
 BUILDIN_FUNC(readbook)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int book_id, page;
 
 	if( !script_rid2sd(sd) )
@@ -20668,7 +20668,7 @@ BUILDIN_FUNC(questinfo)
  **/
 BUILDIN_FUNC(questinfo_refresh)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	if (!script_charid2sd(2, sd))
 		return SCRIPT_CMD_FAILURE;
@@ -20682,7 +20682,7 @@ BUILDIN_FUNC(questinfo_refresh)
  **/
 BUILDIN_FUNC(setquest)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int quest_id;
 
 	quest_id = script_getnum(st, 2);
@@ -20705,7 +20705,7 @@ BUILDIN_FUNC(setquest)
  **/
 BUILDIN_FUNC(erasequest)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	if (!script_charid2sd(3,sd))
 		return SCRIPT_CMD_FAILURE;
@@ -20723,7 +20723,7 @@ BUILDIN_FUNC(erasequest)
  **/
 BUILDIN_FUNC(completequest)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	if (!script_charid2sd(3,sd))
 		return SCRIPT_CMD_FAILURE;
@@ -20739,8 +20739,8 @@ BUILDIN_FUNC(completequest)
  **/
 BUILDIN_FUNC(changequest)
 {
-	struct map_session_data *sd;
-
+	map_session_data *sd;
+	
 	if (!script_charid2sd(4,sd))
 		return SCRIPT_CMD_FAILURE;
 
@@ -20759,7 +20759,7 @@ BUILDIN_FUNC(changequest)
  **/
 BUILDIN_FUNC(checkquest)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	e_quest_check_type type = HAVEQUEST;
 
 	if( script_hasdata(st, 3) )
@@ -20778,7 +20778,7 @@ BUILDIN_FUNC(checkquest)
  **/
 BUILDIN_FUNC(isbegin_quest)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	if (!script_charid2sd(3,sd))
 		return SCRIPT_CMD_FAILURE;
@@ -20880,7 +20880,7 @@ BUILDIN_FUNC(waitingroom2bg)
 	}
 
 	for (i = 0; i < cd->users; i++) { // Only add those who are in the chat room
-		struct map_session_data *sd;
+		map_session_data *sd;
 		if( (sd = cd->usersd[i]) != NULL && bg_team_join(bg_id, sd, false) ){
 			mapreg_setreg(reference_uid(add_str("$@arenamembers"), c), sd->bl.id);
 			++c;
@@ -20897,7 +20897,7 @@ BUILDIN_FUNC(waitingroom2bg_single)
 	const char* map_name;
 	struct npc_data *nd;
 	struct chat_data *cd;
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int x, y, mapindex, bg_id = script_getnum(st,2);
 	std::shared_ptr<s_battleground_data> bg = util::umap_find(bg_team_db, bg_id);
 
@@ -20983,7 +20983,7 @@ BUILDIN_FUNC(bg_create) {
 /// @author [secretdataz]
 BUILDIN_FUNC(bg_join) {
 	const char* map_name;
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int x, y, mapindex, bg_id = script_getnum(st, 2);
 	std::shared_ptr<s_battleground_data> bg = util::umap_find(bg_team_db, bg_id);
 
@@ -21092,7 +21092,7 @@ BUILDIN_FUNC(bg_monster_set_team)
 
 BUILDIN_FUNC(bg_leave)
 {
-	struct map_session_data *sd = NULL;
+	map_session_data *sd = NULL;
 	bool deserter = false;
 
 	if( !script_charid2sd(2,sd) || !sd->bg_id )
@@ -21280,7 +21280,7 @@ int script_instancegetid(struct script_state* st, e_instance_mode mode)
 		if (nd->instance_id > 0)
 			instance_id = nd->instance_id;
 	} else {
-		struct map_session_data *sd = map_id2sd(st->rid);
+		map_session_data *sd = map_id2sd(st->rid);
 
 		if (sd) {
 			switch (mode) {
@@ -21339,7 +21339,7 @@ int script_instancegetid(struct script_state* st, e_instance_mode mode)
 		owner_id = script_getnum(st, 4);
 	else {
 		// If sd is NULL, instance_create will return -2.
-		struct map_session_data *sd = NULL;
+		map_session_data *sd = NULL;
 
 		switch(mode) {
 			case IM_NONE:
@@ -21405,7 +21405,7 @@ BUILDIN_FUNC(instance_destroy)
  *------------------------------------------*/
 BUILDIN_FUNC(instance_enter)
 {
-	struct map_session_data *sd = NULL;
+	map_session_data *sd = NULL;
 	int x = script_hasdata(st,3) ? script_getnum(st, 3) : -1;
 	int y = script_hasdata(st,4) ? script_getnum(st, 4) : -1;
 	int instance_id;
@@ -21513,7 +21513,7 @@ static int buildin_instance_warpall_sub(struct block_list *bl, va_list ap)
 	int x = va_arg(ap,int);
 	int y = va_arg(ap,int);
 	int instance_id = va_arg(ap, int);
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	nullpo_retr(0, bl);
 
@@ -21653,7 +21653,7 @@ BUILDIN_FUNC(instance_check_party)
 	}
 
 	for( i = 0; i < MAX_PARTY; i++ ) {
-		struct map_session_data *pl_sd;
+		map_session_data *pl_sd;
 		if( (pl_sd = p->data[i].sd) )
 			if(map_id2bl(pl_sd->bl.id) && !pl_sd->state.autotrade) {
 				if(pl_sd->status.base_level < min) {
@@ -21713,7 +21713,7 @@ BUILDIN_FUNC(instance_check_guild)
 	}
 
 	for(i = 0; i < MAX_GUILD; i++) {
-		struct map_session_data *pl_sd;
+		map_session_data *pl_sd;
 
 		if ((pl_sd = g->member[i].sd)) {
 			if (map_id2bl(pl_sd->bl.id) && !pl_sd->state.autotrade) {
@@ -21775,7 +21775,7 @@ BUILDIN_FUNC(instance_check_clan)
 	}
 
 	for(i = 0; i < MAX_CLAN; i++) {
-		struct map_session_data *pl_sd;
+		map_session_data *pl_sd;
 
 		if ((pl_sd = cd->members[i])) {
 			if (map_id2bl(pl_sd->bl.id) && !pl_sd->state.autotrade) {
@@ -21969,7 +21969,7 @@ BUILDIN_FUNC(instance_list)
  *------------------------------------------*/
 BUILDIN_FUNC(setfont)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int font;
 
 	if( !script_rid2sd(sd) )
@@ -22103,7 +22103,7 @@ BUILDIN_FUNC(areamobuseskill)
  */
 BUILDIN_FUNC(progressbar)
 {
-	struct map_session_data * sd;
+	map_session_data * sd;
 	const char * color;
 	unsigned int second;
 
@@ -22189,7 +22189,7 @@ BUILDIN_FUNC(pushpc)
 {
 	uint8 dir;
 	int cells, dx, dy;
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if(!script_rid2sd(sd))
 	{
@@ -22229,7 +22229,7 @@ BUILDIN_FUNC(pushpc)
 /// buyingstore <slots>;
 BUILDIN_FUNC(buyingstore)
 {
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_rid2sd(sd) )
 	{
@@ -22254,7 +22254,7 @@ BUILDIN_FUNC(searchstores)
 {
 	unsigned short effect;
 	unsigned int uses;
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_rid2sd(sd) )
 	{
@@ -22285,7 +22285,7 @@ BUILDIN_FUNC(showdigit)
 {
 	unsigned int type = 0;
 	int value;
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_rid2sd(sd) )
 	{
@@ -22453,7 +22453,7 @@ BUILDIN_FUNC(getargcount) {
  **/
 BUILDIN_FUNC(getcharip)
 {
-	struct map_session_data* sd = NULL;
+	map_session_data* sd = NULL;
 
 	/* check if a character name is specified */
 	if( script_hasdata(st, 2) )
@@ -22814,7 +22814,7 @@ BUILDIN_FUNC(npcskill)
 	unsigned int stat_point;
 	unsigned int npc_level;
 	struct npc_data *nd;
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	if( !script_rid2sd(sd) )
 		return SCRIPT_CMD_SUCCESS;
@@ -22874,7 +22874,7 @@ BUILDIN_FUNC(npcskill)
  */
 BUILDIN_FUNC(consumeitem)
 {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	std::shared_ptr<item_data> item_data;
 
 	if (!script_charid2sd(3, sd))
@@ -23471,7 +23471,7 @@ BUILDIN_FUNC(getguildmember)
 				return SCRIPT_CMD_FAILURE;
 			}
 			if (not_server_variable(*varname)) {
-				struct map_session_data *sd;
+				map_session_data *sd;
 
 				if (!script_rid2sd(sd)) {
 					ShowError("buildin_getguildmember: Cannot use a player variable '%s' if no player is attached.\n", varname);
@@ -23521,7 +23521,7 @@ BUILDIN_FUNC(getguildmember)
 BUILDIN_FUNC(addspiritball) {
 	uint8 i, count;
 	uint16 duration;
-	struct map_session_data *sd = NULL;
+	map_session_data *sd = NULL;
 
 	if (script_hasdata(st,4)) {
 		if (!script_isstring(st,4))
@@ -23554,7 +23554,7 @@ BUILDIN_FUNC(addspiritball) {
 */
 BUILDIN_FUNC(delspiritball) {
 	uint8 count;
-	struct map_session_data *sd = NULL;
+	map_session_data *sd = NULL;
 
 	if (script_hasdata(st,3)) {
 		if (!script_isstring(st,3))
@@ -23582,7 +23582,7 @@ BUILDIN_FUNC(delspiritball) {
 * @author [Cydh]
 */
 BUILDIN_FUNC(countspiritball) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	if (script_hasdata(st,2)) {
 		if (!script_isstring(st,2))
@@ -23604,7 +23604,7 @@ BUILDIN_FUNC(countspiritball) {
 * @author [Cydh]
 */
 BUILDIN_FUNC(mergeitem) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	if (!script_charid2sd(2, sd))
 		return SCRIPT_CMD_FAILURE;
@@ -23620,7 +23620,7 @@ BUILDIN_FUNC(mergeitem) {
 * @author [Cydh]
 */
 BUILDIN_FUNC(mergeitem2) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	struct item *items = NULL;
 	uint16 i, count = 0;
 	t_itemid nameid = 0;
@@ -23748,7 +23748,7 @@ BUILDIN_FUNC(npcshopupdate) {
 
 // Clan System
 BUILDIN_FUNC(clan_join){
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int clan_id = script_getnum(st,2);
 
 	if( !script_charid2sd( 3, sd ) ){
@@ -23765,7 +23765,7 @@ BUILDIN_FUNC(clan_join){
 }
 
 BUILDIN_FUNC(clan_leave){
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	if( !script_charid2sd( 2, sd ) ){
 		script_pushint(st, false);
@@ -23795,7 +23795,7 @@ BUILDIN_FUNC(getattachedrid) {
  */
 BUILDIN_FUNC(getvar) {
 	int char_id = script_getnum(st, 3);
-	struct map_session_data *sd = map_charid2sd(char_id);
+	map_session_data *sd = map_charid2sd(char_id);
 	struct script_data *data = NULL;
 	const char *name = NULL;
 
@@ -23888,7 +23888,7 @@ BUILDIN_FUNC(showscript) {
 BUILDIN_FUNC(ignoretimeout)
 {
 #ifdef SECURE_NPCTIMEOUT
-	struct map_session_data *sd = NULL;
+	map_session_data *sd = NULL;
 
 	if (script_hasdata(st,3)) {
 		if (!script_isstring(st,3))
@@ -24108,7 +24108,7 @@ BUILDIN_FUNC(minmax){
 		// Is the current parameter an array variable?
 		}else if( data_isreference( data ) ){
 			const char *name;
-			struct map_session_data* sd;
+			map_session_data* sd;
 			unsigned int start, end;
 
 			// Get the name of the variable
@@ -24227,7 +24227,7 @@ BUILDIN_FUNC(recalculatestat) {
 
 BUILDIN_FUNC(hateffect){
 #if PACKETVER_MAIN_NUM >= 20150507 || PACKETVER_RE_NUM >= 20150429 || defined(PACKETVER_ZERO)
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_rid2sd(sd) )
 		return SCRIPT_CMD_FAILURE;
@@ -24270,7 +24270,7 @@ BUILDIN_FUNC(hateffect){
 * @author [secretdataz]
 **/
 BUILDIN_FUNC(getrandomoptinfo) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int val;
 	if (script_rid2sd(sd) && current_equip_item_index != -1 && current_equip_opt_index != -1 && sd->inventory.u.items_inventory[current_equip_item_index].option[current_equip_opt_index].id) {
 		int param = script_getnum(st, 2);
@@ -24304,7 +24304,7 @@ BUILDIN_FUNC(getrandomoptinfo) {
 * @author [secretdataz]
 */
 BUILDIN_FUNC(getequiprandomoption) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int val;
 	short i = -1;
 	int pos = script_getnum(st, 2);
@@ -24353,7 +24353,7 @@ BUILDIN_FUNC(getequiprandomoption) {
 * @author [secretdataz]
 */
 BUILDIN_FUNC(setrandomoption) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int pos, index, id, value, param, ep;
 	int i = -1;
 	if (!script_charid2sd(7, sd))
@@ -24404,7 +24404,7 @@ BUILDIN_FUNC(setrandomoption) {
 /// *needed_status_point(<type>,<val>{,<char id>});
 /// @author [secretdataz]
 BUILDIN_FUNC(needed_status_point) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int type, val;
 	if (!script_charid2sd(4, sd))
 		return SCRIPT_CMD_FAILURE;
@@ -24420,7 +24420,7 @@ BUILDIN_FUNC(needed_status_point) {
 /// raise the specified trait stat from (current value - val) to current value.
 /// *needed_trait_point(<type>,<val>{,<char id>});
 BUILDIN_FUNC(needed_trait_point) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	if (!script_charid2sd(4, sd))
 		return SCRIPT_CMD_FAILURE;
@@ -24766,7 +24766,7 @@ BUILDIN_FUNC(channel_setgroup) {
 		}
 
 		if (not_server_variable(*varname)) {
-			struct map_session_data *sd;
+			map_session_data *sd;
 
 			if (!script_rid2sd(sd)) {
 				ShowError("buildin_%s: Cannot use a player variable '%s' if no player is attached.\n", funcname, varname);
@@ -25195,7 +25195,7 @@ BUILDIN_FUNC(duplicate_dynamic){
 		return SCRIPT_CMD_FAILURE;
 	}
 
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_charid2sd( 3, sd ) ){
 		script_pushstrcopy( st, "" );
@@ -25218,7 +25218,7 @@ BUILDIN_FUNC(duplicate_dynamic){
  * achievementadd(<achievement ID>{,<char ID>});
  */
 BUILDIN_FUNC(achievementadd) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int achievement_id = script_getnum(st, 2);
 
 	if (!script_charid2sd(3, sd)) {
@@ -25250,7 +25250,7 @@ BUILDIN_FUNC(achievementadd) {
  * Just for Atemo. ;)
  */
 BUILDIN_FUNC(achievementremove) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int achievement_id = script_getnum(st, 2);
 
 	if (!script_charid2sd(3, sd)) {
@@ -25281,7 +25281,7 @@ BUILDIN_FUNC(achievementremove) {
  * achievementinfo(<achievement ID>,<type>{,<char ID>});
  */
 BUILDIN_FUNC(achievementinfo) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int achievement_id = script_getnum(st, 2);
 
 	if (!script_charid2sd(4, sd)) {
@@ -25310,7 +25310,7 @@ BUILDIN_FUNC(achievementinfo) {
  * achievementcomplete(<achievement ID>{,<char ID>});
  */
 BUILDIN_FUNC(achievementcomplete) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int i, achievement_id = script_getnum(st, 2);
 
 	if (!script_charid2sd(3, sd)) {
@@ -25342,7 +25342,7 @@ BUILDIN_FUNC(achievementcomplete) {
  * achievementexists(<achievement ID>{,<char ID>});
  */
 BUILDIN_FUNC(achievementexists) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int i, achievement_id = script_getnum(st, 2);
 
 	if (!script_charid2sd(3, sd)) {
@@ -25372,7 +25372,7 @@ BUILDIN_FUNC(achievementexists) {
  * achievementupdate(<achievement ID>,<type>,<value>{,<char ID>});
  */
 BUILDIN_FUNC(achievementupdate) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 	int i, achievement_id, type, value;
 
 	achievement_id = script_getnum(st, 2);
@@ -25541,7 +25541,7 @@ BUILDIN_FUNC(getequiptradability) {
 	return SCRIPT_CMD_SUCCESS;
 }
 
-static inline bool mail_sub( struct script_state *st, struct script_data *data, struct map_session_data *sd, int i, const char **out_name, unsigned int *start, unsigned int *end, int32 *id ){
+static inline bool mail_sub( struct script_state *st, struct script_data *data, map_session_data *sd, int i, const char **out_name, unsigned int *start, unsigned int *end, int32 *id ){
 	const char *name;
 
 	// Check if it is a variable
@@ -25590,7 +25590,7 @@ BUILDIN_FUNC(mail){
 	const char *sender, *title, *body, *name;
 	struct mail_message msg;
 	struct script_data *data;
-	struct map_session_data *sd = NULL;
+	map_session_data *sd = NULL;
 	unsigned int i, j, k, num_items, start, end;
 	int32 id;
 
@@ -25835,7 +25835,7 @@ BUILDIN_FUNC(open_roulette){
 	ShowError( "buildin_open_roulette: This command requires PACKETVER 2014-10-22 or newer.\n" );
 	return SCRIPT_CMD_FAILURE;
 #else
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !battle_config.feature_roulette ){
 		ShowError( "buildin_open_roulette: Roulette system is disabled.\n" );
@@ -25881,7 +25881,7 @@ BUILDIN_FUNC(identifyall) {
 
 BUILDIN_FUNC(is_guild_leader)
 {
-	struct map_session_data* sd;
+	map_session_data* sd;
 	struct guild* guild_data;
 	int guild_id;
 
@@ -25905,7 +25905,7 @@ BUILDIN_FUNC(is_guild_leader)
 
 BUILDIN_FUNC(is_party_leader)
 {
-	struct map_session_data* sd;
+	map_session_data* sd;
 	struct party_data* p_data;
 	int p_id, i = 0;
 
@@ -25936,7 +25936,7 @@ BUILDIN_FUNC( camerainfo ){
 	ShowError("buildin_camerainfo: This command requires PACKETVER 2016-05-25 or newer.\n");
 	return SCRIPT_CMD_FAILURE;
 #else
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_charid2sd( 5, sd ) ){
 		return SCRIPT_CMD_FAILURE;
@@ -26056,7 +26056,7 @@ BUILDIN_FUNC(setinstancevar)
 
 	script_pushcopy(st, 2);
 
-	struct map_session_data* sd = nullptr;
+	map_session_data* sd = nullptr;
 
 	if( is_string_variable(name) )
 		set_reg_str( st, sd, reference_getuid(data), name, script_getstr( st, 3 ), &im->regs );
@@ -26150,7 +26150,7 @@ BUILDIN_FUNC(refineui){
 	ShowError( "buildin_refineui: This command requires packet version 2016-10-12 or newer.\n" );
 	return SCRIPT_CMD_FAILURE;
 #else
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_charid2sd(2,sd) ){
 		return SCRIPT_CMD_FAILURE;
@@ -26170,7 +26170,7 @@ BUILDIN_FUNC(refineui){
 }
 
 BUILDIN_FUNC(getenchantgrade){
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	if (!script_charid2sd(3, sd)) {
 		script_pushint(st,-1);
@@ -26262,7 +26262,7 @@ BUILDIN_FUNC(mob_setidleevent){
 
 BUILDIN_FUNC( openstylist ){
 #if PACKETVER >= 20151104
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_charid2sd( 2, sd ) ){
 		return SCRIPT_CMD_FAILURE;
@@ -26295,7 +26295,7 @@ BUILDIN_FUNC(navihide) {
 }
 
 BUILDIN_FUNC(getitempos) {
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if ( !script_rid2sd(sd) ){
 		script_pushint(st, 0);
@@ -26314,7 +26314,7 @@ BUILDIN_FUNC(getitempos) {
 }
 
 BUILDIN_FUNC( laphine_synthesis ){
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_rid2sd( sd ) ){
 		return SCRIPT_CMD_FAILURE;
@@ -26374,7 +26374,7 @@ BUILDIN_FUNC( laphine_synthesis ){
 }
 
 BUILDIN_FUNC( laphine_upgrade ){
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_rid2sd( sd ) ){
 		return SCRIPT_CMD_FAILURE;
@@ -26436,7 +26436,7 @@ BUILDIN_FUNC( open_quest_ui ){
 	ShowError( "buildin_open_quest_ui: This command requires PACKETVER 20151202 or newer.\n" );
 	return SCRIPT_CMD_FAILURE;
 #else
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if (!script_charid2sd(3, sd))
 		return SCRIPT_CMD_FAILURE;
@@ -26461,7 +26461,7 @@ BUILDIN_FUNC(openbank){
 	ShowError( "buildin_openbank: This command requires PACKETVER 20151202 or newer.\n" );
 	return SCRIPT_CMD_FAILURE;
 #else
-	struct map_session_data* sd = nullptr;
+	map_session_data* sd = nullptr;
 
 	if (!script_charid2sd(2, sd)) {
 		return SCRIPT_CMD_FAILURE;
@@ -26478,7 +26478,7 @@ BUILDIN_FUNC(openbank){
 }
 
 BUILDIN_FUNC(getbaseexp_ratio){
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	if( !script_charid2sd( 4, sd ) ){
 		return SCRIPT_CMD_FAILURE;
@@ -26525,7 +26525,7 @@ BUILDIN_FUNC(getbaseexp_ratio){
 }
 
 BUILDIN_FUNC(getjobexp_ratio){
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	if( !script_charid2sd( 4, sd ) ){
 		return SCRIPT_CMD_FAILURE;
@@ -26573,7 +26573,7 @@ BUILDIN_FUNC(getjobexp_ratio){
 
 BUILDIN_FUNC( enchantgradeui ){
 #if PACKETVER_MAIN_NUM >= 20200916 || PACKETVER_RE_NUM >= 20200724
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_charid2sd( 2, sd ) ){
 		return SCRIPT_CMD_FAILURE;
@@ -26589,7 +26589,7 @@ BUILDIN_FUNC( enchantgradeui ){
 }
 
 BUILDIN_FUNC(set_reputation_points){
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_charid2sd( 4, sd ) ){
 		return SCRIPT_CMD_FAILURE;
@@ -26617,7 +26617,7 @@ BUILDIN_FUNC(set_reputation_points){
 }
 
 BUILDIN_FUNC(get_reputation_points){
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_charid2sd( 3, sd ) ){
 		return SCRIPT_CMD_FAILURE;
@@ -26642,7 +26642,7 @@ BUILDIN_FUNC(get_reputation_points){
 
 BUILDIN_FUNC(add_reputation_points)
 {
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_charid2sd( 4, sd ) ){
 		return SCRIPT_CMD_FAILURE;
@@ -26674,7 +26674,7 @@ BUILDIN_FUNC(item_reform){
 	ShowError( "buildin_item_reform: This command requires packet version 2021-11-03 or newer.\n" );
 	return SCRIPT_CMD_FAILURE;
 #else
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_charid2sd( 3, sd ) ){
 		return SCRIPT_CMD_FAILURE;
@@ -26731,7 +26731,7 @@ BUILDIN_FUNC(item_enchant){
 	ShowError( "buildin_item_enchant: This command requires packet version 2021-11-03 or newer.\n" );
 	return SCRIPT_CMD_FAILURE;
 #else
-	struct map_session_data* sd;
+	map_session_data* sd;
 
 	if( !script_charid2sd( 3, sd ) ){
 		return SCRIPT_CMD_FAILURE;
@@ -26787,7 +26787,7 @@ BUILDIN_FUNC(itemlink)
 }
 
 BUILDIN_FUNC(addfame) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	if (!script_charid2sd(3, sd))
 		return SCRIPT_CMD_FAILURE;
@@ -26800,7 +26800,7 @@ BUILDIN_FUNC(addfame) {
 
 
 BUILDIN_FUNC(getfame) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	if (!script_charid2sd(2, sd))
 		return SCRIPT_CMD_FAILURE;
@@ -26811,7 +26811,7 @@ BUILDIN_FUNC(getfame) {
 }
 
 BUILDIN_FUNC(getfamerank) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	if (!script_charid2sd(2, sd))
 		return SCRIPT_CMD_FAILURE;
@@ -26822,7 +26822,7 @@ BUILDIN_FUNC(getfamerank) {
 }
 
 BUILDIN_FUNC(isdead) {
-	struct map_session_data *sd;
+	map_session_data *sd;
 
 	if (!script_mapid2sd(2, sd))
 		return SCRIPT_CMD_FAILURE;
