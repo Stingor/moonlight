@@ -9,22 +9,22 @@
 #include <unordered_set>
 #include <vector>
 
-#include "../config/core.hpp"
+#include <config/core.hpp>
 
-#include "../common/cbasetypes.hpp"
-#include "../common/cli.hpp"
-#include "../common/core.hpp"
-#include "../common/ers.hpp"
-#include "../common/grfio.hpp"
-#include "../common/malloc.hpp"
-#include "../common/nullpo.hpp"
-#include "../common/random.hpp"
-#include "../common/showmsg.hpp"
-#include "../common/socket.hpp" // WFIFO*()
-#include "../common/strlib.hpp"
-#include "../common/timer.hpp"
-#include "../common/utilities.hpp"
-#include "../common/utils.hpp"
+#include <common/cbasetypes.hpp>
+#include <common/cli.hpp>
+#include <common/core.hpp>
+#include <common/ers.hpp>
+#include <common/grfio.hpp>
+#include <common/malloc.hpp>
+#include <common/nullpo.hpp>
+#include <common/random.hpp>
+#include <common/showmsg.hpp>
+#include <common/socket.hpp> // WFIFO*()
+#include <common/strlib.hpp>
+#include <common/timer.hpp>
+#include <common/utilities.hpp>
+#include <common/utils.hpp>
 
 #include "achievement.hpp"
 #include "atcommand.hpp"
