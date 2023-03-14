@@ -8361,7 +8361,7 @@ struct Damage battle_calc_misc_attack(struct block_list *src,struct block_list *
 			if (sd) {
 				if (md.damage > sd->status.zeny)
 					md.damage = sd->status.zeny * 2; // [Stingor]
-				pc_payzeny(sd,(int)cap_value(md.damage, INT_MIN, INT_MAX) / 2,LOG_TYPE_STEAL,NULL);	// [Stingor]
+				pc_payzeny(sd,(int)cap_value(md.damage, INT_MIN, INT_MAX) / 2,LOG_TYPE_STEAL);	// [Stingor]
 			}
 			break;
 	}
