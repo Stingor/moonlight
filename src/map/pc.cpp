@@ -14680,7 +14680,7 @@ void pc_expire_check(map_session_data *sd) {
 * @param money Amount of money to deposit
 **/
 enum e_BANKING_DEPOSIT_ACK pc_bank_deposit(map_session_data *sd, int money) {
-	if (!sd->state.banking) {
+	if (battle_config.feature_banking_state_enforce && !sd->state.banking) {
 		return BDA_ERROR;
 	}
 
@@ -14707,7 +14707,7 @@ enum e_BANKING_DEPOSIT_ACK pc_bank_deposit(map_session_data *sd, int money) {
 * @param money Amount of money that will be withdrawn
 **/
 enum e_BANKING_WITHDRAW_ACK pc_bank_withdraw(map_session_data *sd, int money) {
-	if (!sd->state.banking) {
+	if (battle_config.feature_banking_state_enforce && !sd->state.banking) {
 		return BWA_UNKNOWN_ERROR;
 	}
 
