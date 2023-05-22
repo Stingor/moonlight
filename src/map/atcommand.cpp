@@ -4702,6 +4702,8 @@ ACMD_FUNC(mapinfo) {
 		strcat(atcmd_output, " NoMail |");
 	if (map_getmapflag(m_id, MF_NODISGUISE)) // [Stingor]
 		strcat(atcmd_output, " NoDisguise |");
+	if (map_getmapflag(m_id, MF_NOBANK))
+		strcat(atcmd_output, " NoBank |");
 	clif_displaymessage(fd, atcmd_output);
 
 	switch (list) {
