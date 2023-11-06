@@ -26942,6 +26942,24 @@ BUILDIN_FUNC(macro_detector) {
 	return SCRIPT_CMD_SUCCESS;
 }
 
+// ===================================
+// *has_autoloot({<char_id>});
+// This command checks whether a player configured autoloot.
+// Returns current autoloot value on success.
+// ===================================
+BUILDIN_FUNC(has_autoloot) {
+	map_session_data *sd;
+
+	if (!script_charid2sd(2, sd)) {
+		script_pushint(st, 0);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	script_pushint(st, sd->state.autoloot);
+
+	return SCRIPT_CMD_SUCCESS;
+}
+
 #include <custom/script.inc>
 
 // declarations that were supposed to be exported from npc_chat.cpp
@@ -27697,6 +27715,7 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(getfamerank, "?"),
 	BUILDIN_DEF(isdead, "?"),
 	BUILDIN_DEF(macro_detector, "?"),
+	BUILDIN_DEF(has_autoloot,"?"),
 
 #include <custom/script_def.inc>
 
