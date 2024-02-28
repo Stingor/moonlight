@@ -24961,8 +24961,7 @@ uint64 MagicMushroomDatabase::parseBodyNode(const ryml::NodeRef& node) {
 /** Reads skill no cast db
  * Structure: SkillID,Flag
  */
-static bool skill_parse_row_nocastdb(char* split[], int columns, int current)
-{
+static bool skill_parse_row_nocastdb( char* split[], size_t columns, size_t current ){
 	std::shared_ptr<s_skill_db> skill = skill_db.find(atoi(split[0]));
 
 	if (!skill)
@@ -24976,8 +24975,7 @@ static bool skill_parse_row_nocastdb(char* split[], int columns, int current)
 /** Reads Produce db
  * Structure: ProduceItemID,ItemLV,RequireSkill,Requireskill_lv,MaterialID1,MaterialAmount1,...
  */
-static bool skill_parse_row_producedb(char* split[], int columns, int current)
-{
+static bool skill_parse_row_producedb( char* split[], size_t columns, size_t current ){
 	unsigned short x, y;
 	unsigned short id = atoi(split[0]);
 	t_itemid nameid = 0;
@@ -25166,8 +25164,7 @@ uint64 AbraDatabase::parseBodyNode(const ryml::NodeRef& node) {
 /** Reads change material db
  * Structure: ProductID,BaseRate,MakeAmount1,MakeAmountRate1...,MakeAmount5,MakeAmountRate5
  */
-static bool skill_parse_row_changematerialdb(char* split[], int columns, int current)
-{
+static bool skill_parse_row_changematerialdb( char* split[], size_t columns, size_t current ){
 	uint16 id = atoi(split[0]);
 	t_itemid nameid = strtoul(split[1], nullptr, 10);
 	short rate = atoi(split[2]);
@@ -25223,8 +25220,7 @@ static bool skill_parse_row_changematerialdb(char* split[], int columns, int cur
  * Reads skill damage adjustment
  * @author [Lilith]
  */
-static bool skill_parse_row_skilldamage(char* split[], int columns, int current)
-{
+static bool skill_parse_row_skilldamage( char* split[], size_t columns, size_t current ){
 	int64 caster_tmp;
 	uint16 id;
 	int caster, value;
