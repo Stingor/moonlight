@@ -3,8 +3,8 @@
 
 #include "map.hpp"
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 #include <string>
 #include <unordered_set>
 #include <vector>
