@@ -4408,6 +4408,7 @@ Body:
     TargetType: Ground
     DamageFlags:
       Splash: true
+      IgnoreAtkCard: true
     Flags:
       IsTrap: true
       AlterRangeResearchTrap: true
@@ -5184,6 +5185,8 @@ Body:
     MaxLevel: 1
     Type: Weapon
     TargetType: Attack
+    DamageFlags:
+      IgnoreAtkCard: true
     Flags:
       IsQuest: true
     Range: 1
@@ -14298,6 +14301,7 @@ Body:
     TargetType: Ground
     DamageFlags:
       Splash: true
+      IgnoreAtkCard: true
       IgnoreFlee: true
     Flags:
       AlterRangeSnakeEye: true
@@ -14513,6 +14517,8 @@ Body:
     MaxLevel: 5
     Type: Weapon
     TargetType: Self
+    DamageFlags:
+      IgnoreAtkCard: true
     Hit: Single
     HitCount: 1
     Element: Weapon
@@ -17183,6 +17189,7 @@ Body:
     TargetType: Attack
     DamageFlags:
       Splash: true
+      IgnoreAtkCard: true
     Flags:
       IsQuest: true
     Range: -1
@@ -32606,6 +32613,7 @@ Body:
     TargetType: Ground
     DamageFlags:
       Splash: true
+      IgnoreAtkCard: true
     Flags:
       IsTrap: true
       AlterRangeResearchTrap: true
