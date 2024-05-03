@@ -163,7 +163,7 @@ ACMD_FUNC(aoeskill)
 ACMD_FUNC(playertalk)
 {
 	char mes[100],temp[100];
-	map_session_data *pl_sd;
+	TBL_PC *pl_sd;
 	memset(atcmd_player_name, '\0', sizeof atcmd_player_name);
 
 	nullpo_retr(-1, sd);
@@ -173,7 +173,7 @@ ACMD_FUNC(playertalk)
 		return -1;
 	}
 
-	if( (pl_sd = map_nick2sd(atcmd_player_name, true)) == NULL && (pl_sd = map_charid2sd(atoi(atcmd_player_name))) == NULL ) {
+	if( (pl_sd = map_nick2sd(atcmd_player_name, true)) == nullptr && (pl_sd = map_charid2sd(atoi(atcmd_player_name))) == nullptr) {
 		clif_displaymessage(fd, msg_txt(sd,3));
 		return -1;
 	}
@@ -187,7 +187,7 @@ ACMD_FUNC(playertalk)
 	clif_GlobalMessage(&pl_sd->bl, temp, AREA_CHAT_WOC);
 	clif_displaymessage(pl_sd->fd, temp);
 
-    log_chat(LOG_CHAT_GLOBAL, 0, pl_sd->status.name, pl_sd->status.account_id, mapindex_id2name(pl_sd->mapindex), pl_sd->bl.x, pl_sd->bl.y, NULL, mes);
+    log_chat(LOG_CHAT_GLOBAL, 0, pl_sd->status.name, pl_sd->status.account_id, mapindex_id2name(pl_sd->mapindex), pl_sd->bl.x, pl_sd->bl.y, nullptr, mes);
 
 	return 0;
 }
@@ -197,7 +197,7 @@ ACMD_FUNC(playertalk)
  *----------------------------------------------------*/
 ACMD_FUNC(moche)
 {
-	map_session_data *pl_sd;
+	TBL_PC *pl_sd;
 	int hair_style = rand()%MAX_HAIR_STYLE;
 	int hair_color = rand()%MAX_HAIR_COLOR;
 	int cloth_color = rand()%MAX_CLOTH_COLOR;
@@ -211,7 +211,7 @@ ACMD_FUNC(moche)
 		return -1;
 	}
 
-	if( (pl_sd = map_nick2sd(atcmd_player_name, true)) == NULL && (pl_sd = map_charid2sd(atoi(message))) == NULL ) {
+	if( (pl_sd = map_nick2sd(atcmd_player_name, true)) == nullptr && (pl_sd = map_charid2sd(atoi(message))) == nullptr) {
 		clif_displaymessage(fd, msg_txt(sd,3)); // Character not found.
 		return -1;
 	}
@@ -319,7 +319,7 @@ ACMD_FUNC(untrollolol)
  *----------------------------------------------------*/
 ACMD_FUNC(sitstand)
 {
-	map_session_data *pl_sd;
+	TBL_PC *pl_sd;
 
 	nullpo_retr(-1, sd);
 
@@ -330,7 +330,7 @@ ACMD_FUNC(sitstand)
 		return -1;
 	}
 
-	if( (pl_sd = map_nick2sd(atcmd_player_name, true)) == NULL && (pl_sd = map_charid2sd(atoi(message))) == NULL ) {
+	if( (pl_sd = map_nick2sd(atcmd_player_name, true)) == nullptr && (pl_sd = map_charid2sd(atoi(message))) == nullptr) {
 		clif_displaymessage(fd, msg_txt(sd,3)); // Character not found.
 		return -1;
 	}
@@ -525,7 +525,7 @@ ACMD_FUNC(stats)
 
 	clif_displaymessage(fd, output);
 
-	for( i = 0; output_table[i].format != NULL; i++ ) {
+	for( i = 0; output_table[i].format != nullptr; i++ ) {
 		sprintf(output, output_table[i].format, output_table[i].value);
 		clif_displaymessage(fd, output);
 	}
@@ -696,7 +696,7 @@ ACMD_FUNC(storecard)
  *------------------------------------------*/
 ACMD_FUNC(partybuff)
 {
-	struct party_data* p = NULL;
+	struct party_data* p = nullptr;
 	nullpo_retr(-1, sd);
 
 	if( !sd->status.party_id ) {
@@ -939,7 +939,7 @@ ACMD_FUNC(iteminfo)
 		sprintf(atcmd_output, msg_txt(sd, 1277), // Item: '%s'/'%s' (%u) Type: %s | Extra Effect: %s
 			item_db.create_item_link(item_data).c_str(), item_data->ename.c_str(), item_data->nameid,
 			(item_data->type != IT_AMMO) ? itemdb_typename((enum item_types)item_data->type) : itemdb_typename_ammo((e_ammo_type)item_data->subtype),
-			(item_data->script == NULL) ? msg_txt(sd, 1278) : msg_txt(sd, 1279) // None / With script
+			(item_data->script == nullptr) ? msg_txt(sd, 1278) : msg_txt(sd, 1279) // None / With script
 		);
 		clif_displaymessage(fd, atcmd_output);
 

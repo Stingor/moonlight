@@ -1201,7 +1201,7 @@ static bool pc_cant_act( map_session_data* sd ){
 #define pc_is90overweight(sd) ( (sd)->weight * 10 >= (sd)->max_weight * 9 )
 
 static inline bool pc_hasprogress(map_session_data *sd, enum e_wip_block progress) {
-	return sd == NULL || (sd->state.workinprogress&progress) == progress;
+	return sd == nullptr || (sd->state.workinprogress&progress) == progress;
 }
 
 uint16 pc_maxparameter(map_session_data *sd, e_params param);
@@ -1459,7 +1459,7 @@ uint64 pc_generate_unique_id(map_session_data *sd);
 int pc_bound_chk(TBL_PC *sd,enum bound_type type,int *idxlist);
 
 // Special Shop System
-int pc_paycash( map_session_data *sd, int price, int points, e_log_pick_type type, int n, struct PACKET_CZ_SE_PC_BUY_CASHITEM_LIST_sub* item_list);
+int pc_paycash( map_session_data *sd, int price, int points, e_log_pick_type type, int n = 0, struct PACKET_CZ_SE_PC_BUY_CASHITEM_LIST_sub* item_list = nullptr);
 int pc_getcash( map_session_data *sd, int cash, int points, e_log_pick_type type );
 
 enum e_additem_result pc_cart_additem(map_session_data *sd,struct item *item_data,int amount,e_log_pick_type log_type);

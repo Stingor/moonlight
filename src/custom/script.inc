@@ -40,7 +40,7 @@ BUILDIN_FUNC(viewequip)
 		const char *name = script_getstr(st, 2);
 
 		sd = map_nick2sd(name,false);
-		if (sd == NULL) {
+		if (sd == nullptr) {
 			ShowError("buildin_viewequip: Non-existant character %s requested.\n", name);
 			return SCRIPT_CMD_FAILURE;
 		}
@@ -49,7 +49,7 @@ BUILDIN_FUNC(viewequip)
 		uint32 char_id = script_getnum(st, 2);
 
 		sd = map_charid2sd(char_id);
-		if (sd == NULL) {
+		if (sd == nullptr) {
 			ShowError("buildin_viewequip: Non-existant character %d requested.\n", char_id);
 			return SCRIPT_CMD_FAILURE;
 		}
@@ -59,7 +59,7 @@ BUILDIN_FUNC(viewequip)
 		const char *name = script_getstr(st, 3);
 
 		tsd = map_nick2sd(name,false);
-		if (tsd == NULL) {
+		if (tsd == nullptr) {
 			ShowError("buildin_viewequip: Non-existant character %s requested.\n", name);
 			return SCRIPT_CMD_FAILURE;
 		}
@@ -68,7 +68,7 @@ BUILDIN_FUNC(viewequip)
 		uint32 char_id = script_getnum(st, 3);
 
 		tsd = map_charid2sd(char_id);
-		if (tsd == NULL) {
+		if (tsd == nullptr) {
 			ShowError("buildin_viewequip: Non-existant character %d requested.\n", char_id);
 			return SCRIPT_CMD_FAILURE;
 		}
@@ -91,7 +91,7 @@ BUILDIN_FUNC(setwaitingroomtitle)
 	else
 		nd = (struct npc_data *)map_id2bl(st->oid);
     
-	if( nd != NULL )
+	if( nd != nullptr )
 		chat_changetitlenpcchat(nd, title);
 
 	return 0;
@@ -183,19 +183,20 @@ BUILDIN_FUNC(getalliance)
 
 BUILDIN_FUNC(getpartnername)
 {
-    map_session_data* sd;
-	TBL_PC *p_sd=NULL;
+    TBL_PC *sd = nullptr;
 	
 	if (!script_rid2sd(sd))
 		return SCRIPT_CMD_SUCCESS;
 
-	if ( sd==NULL || (p_sd=map_charid2sd(sd->status.partner_id)) == NULL ) {
-		script_pushconststr(st, "");
-		return 0;
+	TBL_PC *p_sd = map_charid2sd(sd->status.partner_id);
+
+	if (p_sd == nullptr) {
+		script_pushconststr(st, "null");
+		return SCRIPT_CMD_SUCCESS;
 	}
 
-	script_pushstrcopy(st,p_sd->status.name);
-	return 0;
+	script_pushstrcopy(st, p_sd->status.name);
+	return SCRIPT_CMD_SUCCESS;
 }
 
 /*==========================================
@@ -215,7 +216,7 @@ BUILDIN_FUNC(getusersnbr)
 	
 	script_pushint( st, count );
 	
-	return 0;
+	return SCRIPT_CMD_SUCCESS;
 }
 
 BUILDIN_FUNC(starteventexp)
@@ -534,7 +535,7 @@ BUILDIN_FUNC(instance_create)
 		owner_id = script_getnum(st, 4);
 	else {
 		// If sd is NULL, instance_create will return -2.
-		map_session_data *sd = NULL;
+		map_session_data *sd = nullptr;
 
 		switch(mode) {
 			case IM_NONE:
