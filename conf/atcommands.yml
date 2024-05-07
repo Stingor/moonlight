@@ -937,6 +937,11 @@ Body:
   - Command: reloadbattleconf
     Help: |
       Reload battle settings.
+  - Command: reloadcashdb
+    Aliases:
+      - reloadcashshop
+    Help: |
+      Reload cash shop database.
   - Command: reloadinstancedb
     Help: |
       Reload instance database.
@@ -975,6 +980,7 @@ Body:
       atcommand       battleconf     statusdb
       pcdb                    motd             script
       questdb              msgconf       packetdb
+      cashdb
   - Command: langtype
     Help: |
       Params: <language>
