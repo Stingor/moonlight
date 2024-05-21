@@ -1687,7 +1687,7 @@ ACMD_FUNC(baselevelup)
 		sd->status.base_level += (unsigned int)level;
 		status_calc_pc(sd, SCO_FORCE);
 		status_percent_heal(&sd->bl, 100, 100);
-		clif_misceffect(&sd->bl, 0);
+		clif_misceffect( sd->bl, NOTIFYEFFECT_BASE_LEVEL_UP );
 		for (uint32 j = sd->status.base_level - level; j <= sd->status.base_level; j++) {
 			achievement_update_objective(sd, AG_GOAL_LEVEL, 1, j);
 			achievement_update_objective(sd, AG_GOAL_STATUS, 2, j, sd->status.class_);
@@ -1760,7 +1760,7 @@ ACMD_FUNC(joblevelup)
 			level = pc_maxjoblv(sd) - sd->status.job_level;
 		sd->status.job_level += (unsigned int)level;
 		sd->status.skill_point += level;
-		clif_misceffect(&sd->bl, 1);
+		clif_misceffect( sd->bl, NOTIFYEFFECT_JOB_LEVEL_UP );
 		for (uint32 i = sd->status.job_level - level; i <= sd->status.job_level; i++)
 			achievement_update_objective(sd, AG_GOAL_LEVEL, 1, i);
 		clif_displaymessage(fd, msg_txt(sd,24)); // Job level raised.
@@ -2502,7 +2502,7 @@ ACMD_FUNC(refine)
 			clif_delitem( *sd, i, 1, 3 );
 			clif_additem(sd, i, 1, 0);
 			pc_equipitem(sd, i, current_position);
-			clif_misceffect(&sd->bl, 3);
+			clif_misceffect( sd->bl, NOTIFYEFFECT_REFINE_SUCCESS );
 			if( sd->inventory_data[i]->type == IT_WEAPON ){
 				achievement_update_objective(sd, AG_ENCHANT_SUCCESS, 2, sd->inventory_data[i]->weapon_level, sd->inventory.u.items_inventory[i].refine);
 			}
@@ -2581,7 +2581,7 @@ ACMD_FUNC(grade)
 			clif_delitem( *sd, i, 1, 3 );
 			clif_additem(sd, i, 1, 0);
 			pc_equipitem(sd, i, current_position);
-			clif_misceffect(&sd->bl, 3);
+			clif_misceffect( sd->bl, NOTIFYEFFECT_REFINE_SUCCESS );
 			count++;
 		}
 	}
@@ -2644,7 +2644,7 @@ ACMD_FUNC(produce)
 		tmp_item.card[2] = GetWord(sd->status.char_id, 0);
 		tmp_item.card[3] = GetWord(sd->status.char_id, 1);
 		clif_produceeffect(sd, 0, item_id);
-		clif_misceffect(&sd->bl, 3);
+		clif_misceffect( sd->bl, NOTIFYEFFECT_REFINE_SUCCESS );
 
 		if ((flag = pc_additem(sd, &tmp_item, 1, LOG_TYPE_COMMAND)))
 			clif_additem(sd, 0, 0, flag);
@@ -5023,7 +5023,7 @@ ACMD_FUNC(repairall)
 	}
 
 	if (count > 0) {
-		clif_misceffect(&sd->bl, 3);
+		clif_misceffect( sd->bl, NOTIFYEFFECT_REFINE_SUCCESS );
 		clif_equiplist(sd);
 		clif_displaymessage(fd, msg_txt(sd,107)); // All items have been repaired.
 	} else {
@@ -7853,7 +7853,9 @@ ACMD_FUNC(misceffect)
 		return -1;
 	if (sscanf(message, "%11d", &effect) < 1)
 		return -1;
-	clif_misceffect(&sd->bl,effect);
+	if (effect < NOTIFYEFFECT_BASE_LEVEL_UP || effect > NOTIFYEFFECT_TAEKWON_BASE_LEVEL_UP)
+		return -1;
+	clif_misceffect( sd->bl, static_cast<e_notify_effect>(effect) );
 
 	return 0;
 }
