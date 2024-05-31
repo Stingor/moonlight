@@ -4244,6 +4244,8 @@
 	export_constant(RC2_ILLUSION_TURTLE);
 	export_constant(RC2_RACHEL_SANCTUARY);
 	export_constant(RC2_ILLUSION_LUANDA);
+	export_constant(RC2_ILLUSION_FROZEN);
+	export_constant(RC2_ILLUSION_MOONLIGHT);
 	export_constant(RC2_MAX);
 
 	/* monster ai */
@@ -7788,6 +7790,7 @@
 	export_constant(IG_AEGIS_103034);
 	export_constant(IG_P_BOOSTER_CALL_PACKAGE);
 	export_constant(IG_P_COMPENSATION_BOX);
+	export_constant(IG_ENCHANT_STONE_BOX35);
 
 	/* unit stop walking */
 	export_constant(USW_NONE);
@@ -10490,6 +10493,7 @@
 	export_constant(HAT_EF_C_BABY_GLOOM);
 	export_constant(HAT_EF_WINTERNIGHTBELLS);
 	export_constant(HAT_EF_NIGHTSKYOFRUTIE);
+	export_constant(HAT_EF_RAINBOW_POISON_MASTER);
 
 	/* pet catch */
 	export_constant(PET_CATCH_UNIVERSAL);
