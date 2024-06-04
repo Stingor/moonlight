@@ -10626,8 +10626,9 @@
 	export_constant(PCBLOCK_SITSTAND);
 	export_constant(PCBLOCK_COMMANDS);
 	export_constant(PCBLOCK_NPCCLICK);
-	export_constant(PCBLOCK_NPC);
 	export_constant(PCBLOCK_EMOTION);
+	export_constant(PCBLOCK_EQUIP);
+	export_constant(PCBLOCK_NPC);
 	export_constant(PCBLOCK_ALL);
 	
 	/* convertpcinfo command */

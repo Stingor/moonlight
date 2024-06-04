@@ -447,7 +447,6 @@ public:
 		bool barter_open;
 		bool barter_extended_open;
 		bool enchantgrade_open; // Whether the enchantgrade window is open or not
-		unsigned int block_action : 10;
 		// [Stingor] -->
 		bool sellstuff: 1;
 		bool sellitem: 1;
@@ -458,6 +457,8 @@ public:
 		bool autolootrare: 1;
 		unsigned int autolootpognon;
 		// [Stingor] <--
+		// Bitmask of e_pcblock_action_flag values
+		uint16 block_action;
 		bool refineui_open;
 		t_itemid inventory_expansion_confirmation;
 		uint16 inventory_expansion_amount;
