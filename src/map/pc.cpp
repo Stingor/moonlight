@@ -6116,9 +6116,12 @@ bool pc_dropitem(map_session_data *sd,int n,int amount)
 		return false;
 	}
 
-	// bypass drop restriction in map_addflooritem because we've already checked it above
-	if (!map_addflooritem(&sd->inventory.u.items_inventory[n], amount, sd->bl.m, sd->bl.x, sd->bl.y, 0, 0, 0, 2|4, 0, (pc_get_group_id(sd)>=80?1:0))) // [Stingor] effect si gm drop
+	// Bypass drop restriction in map_addflooritem because we've already checked it above
+	if (!map_addflooritem(&sd->inventory.u.items_inventory[n], amount, sd->bl.m, sd->bl.x, sd->bl.y, 0, 0, 0, 2|4, 0,
+		(pc_get_group_id(sd)>=80?1:0), DIR_MAX, battle_config.item_stacking?BL_NUL:BL_ITEM)) // [Stingor] effect si gm drop
+	{
 		return false;
+	}
 
 	pc_delitem(sd, n, amount, 1, 0, LOG_TYPE_PICKDROP_PLAYER);
 	clif_dropitem( *sd, n, amount );
