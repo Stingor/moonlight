@@ -10739,7 +10739,7 @@ int pc_itemheal(map_session_data *sd, t_itemid itemid, int hp, int sp)
 		}
 
 #ifdef RENEWAL
-		if (sd->sc.getSCE(SC_EXTREMITYFIST2))
+		if (sd->sc.getSCE(SC_EXTREMITYFIST))
 			sp = 0;
 #endif
 		if (sd->sc.getSCE(SC_BITESCAR))
