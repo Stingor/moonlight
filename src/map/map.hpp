@@ -677,6 +677,7 @@ enum e_mapflag : int16 {
 	MF_NOBUYINGSTORE,
 	MF_NODYNAMICNPC,
 	MF_NOBANK,
+	MF_SPECIALPOPUP,
 #include "../custom/mapflag_enum.inc"
 	MF_MAX
 };
