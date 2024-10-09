@@ -5520,6 +5520,10 @@ void status_calc_regen_rate(struct block_list *bl, struct regen_data *regen, sta
 		regen->rate.hp += sc->getSCE(SC_SIRCLEOFNATURE)->val2;
 	if (sc->getSCE(SC_SONGOFMANA))
 		regen->rate.sp += sc->getSCE(SC_SONGOFMANA)->val3;
+	if (sc->getSCE(SC_BUCHEDENOEL)) {
+		regen->rate.hp += sc->getSCE(SC_BUCHEDENOEL)->val2;
+		regen->rate.sp += sc->getSCE(SC_BUCHEDENOEL)->val2;
+	}
 }
 
 /**
@@ -7531,6 +7535,8 @@ static signed short status_calc_critical(struct block_list *bl, status_change *s
 		critical += sc->getSCE(SC_PACKING_ENVELOPE9)->val1 * 10;
 	if (sc->getSCE(SC_INTENSIVE_AIM))
 		critical += 300;
+	if (sc->getSCE(SC_BUCHEDENOEL))
+		critical += sc->getSCE(SC_BUCHEDENOEL)->val3 * 10;
 
 	return (short)cap_value(critical,10,SHRT_MAX);
 }
@@ -7611,6 +7617,8 @@ static signed short status_calc_hit(struct block_list *bl, status_change *sc, in
 		hit += 5;
 	if (sc->getSCE(SC_INTENSIVE_AIM))
 		hit += 250;
+	if (sc->getSCE(SC_BUCHEDENOEL))
+		hit += sc->getSCE(SC_BUCHEDENOEL)->val2;
 
 	return (short)cap_value(hit,1,SHRT_MAX);
 }
@@ -12951,6 +12959,10 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 		case SC_HIDDEN_CARD:
 			val2 = 3 * val1;
 			val3 = 10 * val1;
+			break;
+		case SC_BUCHEDENOEL:
+			val2 = 3;	// HP & SP restoration by 3%, Hit +3
+			val3 = 7;	// Critical +7
 			break;
 
 		default:
