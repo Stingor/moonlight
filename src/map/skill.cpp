@@ -5332,6 +5332,7 @@ int skill_castend_damage_id (struct block_list* src, struct block_list *bl, uint
 		break;
 	case DK_DRAGONIC_AURA:
 	case DK_STORMSLASH:
+	case IG_IMPERIAL_CROSS:
 	case CD_EFFLIGO:
 	case ABC_FRENZY_SHOT:
 	case WH_HAWKRUSH:
@@ -5749,6 +5750,7 @@ int skill_castend_damage_id (struct block_list* src, struct block_list *bl, uint
 	case IQ_THIRD_FLAME_BOMB:
 	case IQ_THIRD_CONSECRATION:
 	case IG_OVERSLASH:
+	case IG_RADIANT_SPEAR:
 	case CD_ARBITRIUM_ATK:
 	case CD_PETITIO:
 	case CD_FRAMEN:
@@ -5929,6 +5931,7 @@ int skill_castend_damage_id (struct block_list* src, struct block_list *bl, uint
 				case IQ_SECOND_FLAME:
 				case IQ_SECOND_FAITH:
 				case IQ_SECOND_JUDGEMENT:
+				case IG_RADIANT_SPEAR:
 				case CD_PETITIO:
 				case CD_FRAMEN:
 				case MT_POWERFUL_SWING:
