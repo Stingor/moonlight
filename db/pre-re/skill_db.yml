@@ -11619,7 +11619,6 @@ Body:
     SplashArea: 1
     Knockback: 2
     CastCancel: true
-    AfterCastActDelay: 1000
     Duration1:
       - Level: 1
         Time: 10000
@@ -11632,7 +11631,7 @@ Body:
     Unit:
       Id: Dummyskill
       Range: 1
-      Interval: 100
+      Interval: 20
       Target: Enemy
     Status: Warm
   - Id: 429
@@ -11653,7 +11652,6 @@ Body:
     SplashArea: 1
     Knockback: 2
     CastCancel: true
-    AfterCastActDelay: 1000
     Duration1:
       - Level: 1
         Time: 10000
@@ -11666,7 +11664,7 @@ Body:
     Unit:
       Id: Dummyskill
       Range: 1
-      Interval: 100
+      Interval: 20
       Target: Enemy
     Status: Warm
   - Id: 430
@@ -11687,7 +11685,6 @@ Body:
     SplashArea: 1
     Knockback: 2
     CastCancel: true
-    AfterCastActDelay: 1000
     Duration1:
       - Level: 1
         Time: 10000
@@ -11700,7 +11697,7 @@ Body:
     Unit:
       Id: Dummyskill
       Range: 1
-      Interval: 100
+      Interval: 20
       Target: Enemy
     Status: Warm
   - Id: 431
