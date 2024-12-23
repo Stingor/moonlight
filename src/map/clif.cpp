@@ -1244,7 +1244,7 @@ static void clif_set_unit_idle( struct block_list* bl, bool walking, send_target
 #endif
 /* Might be earlier, this is when the named item bug began */
 #if PACKETVER >= 20131223
-	safestrncpy(p.name, status_get_name( bl ), NAME_LENGTH);
+	safestrncpy(p.name, status_get_name( *bl ), NAME_LENGTH);
 #endif
 
 	clif_send( &p, sizeof( p ), tbl, target );
@@ -1385,7 +1385,7 @@ static void clif_spawn_unit( struct block_list *bl, enum send_target target ){
 #endif
 /* Might be earlier, this is when the named item bug began */
 #if PACKETVER >= 20131223
-	safestrncpy( p.name, status_get_name( bl ), NAME_LENGTH );
+	safestrncpy( p.name, status_get_name( *bl ), NAME_LENGTH );
 #endif
 	if (sd && sd->sc.option & OPTION_WINGS ) // [Stingor]
 		clif_show_wings(sd);
@@ -1489,7 +1489,7 @@ static void clif_set_unit_walking( struct block_list& bl, map_session_data* tsd,
 #endif
 /* Might be earlier, this is when the named item bug began */
 #if PACKETVER >= 20131223
-	safestrncpy(p.name, status_get_name( &bl ), NAME_LENGTH);
+	safestrncpy(p.name, status_get_name( bl ), NAME_LENGTH);
 #endif
 	if (sd && sd->sc.option & OPTION_WINGS ) // [Stingor]
 		clif_show_wings(sd);
@@ -14812,7 +14812,7 @@ void clif_parse_GMKick(int32 fd, map_session_data *sd)
 		case BL_PC:
 		{
 			char command[NAME_LENGTH+6];
-			safesnprintf(command,sizeof(command),"%ckick %s", atcommand_symbol, status_get_name(target));
+			safesnprintf(command,sizeof(command),"%ckick %s", atcommand_symbol, status_get_name(*target));
 			is_atcommand(fd, sd, command, 1);
 		}
 		break;
@@ -14827,7 +14827,7 @@ void clif_parse_GMKick(int32 fd, map_session_data *sd)
 				clif_GM_kickack(sd, 0);
 				return;
 			}
-			safesnprintf(command,sizeof(command),"/kick %s (%d)", status_get_name(target), status_get_class(target));
+			safesnprintf(command,sizeof(command),"/kick %s (%d)", status_get_name(*target), status_get_class(target));
 			log_atcommand(sd, command);
 			status_percent_damage(&sd->bl, target, 100, 0, true); // can invalidate 'target'
 		}
