@@ -10,6 +10,8 @@
 
 //ACMD_DEF(newcommand),
 	// [Stingor]
+	ACMD_DEF(vote),
+	ACMD_DEF2("points", vote),
 	ACMD_DEF(unloadnpcfile),
 	ACMD_DEF(sellstuff),
 	ACMD_DEF(sellitem),
