@@ -45,19 +45,6 @@ ACMD_FUNC(vote)
 			}
 			else clif_displaymessage(fd, msg_txt(sd, 41)); // Unable to decrease the number/value.
 		}
-	else clif_displaymessage(fd, msg_txt(sd, 149)); // Impossible to increase the number/value.
-	}
-	else {
-		if (-value > sd->cashPoints) //By command, if cash < value, force it to remove all
-			value = -sd->cashPoints;
-		if ((ret = pc_paycash(sd, -value, 0, LOG_TYPE_COMMAND)) >= 0) {
-			// If this option is set, the message is already sent by pc function
-			if (!battle_config.cashshop_show_points) {
-				sprintf(output, msg_txt(sd, 410), ret, sd->cashPoints); // Removed %d cash points. Total %d points.
-				clif_messagecolor(&sd->bl, color_table[COLOR_LIGHT_GREEN], output, false, SELF);
-			}
-		}
-		else clif_displaymessage(fd, msg_txt(sd, 41)); // Unable to decrease the number/value.
 	}
 	else
 	{ // @points
@@ -79,16 +66,6 @@ ACMD_FUNC(vote)
 			}
 			else clif_displaymessage(fd, msg_txt(sd, 41)); // Unable to decrease the number/value.
 		}
-	else clif_displaymessage(fd, msg_txt(sd, 149)); // Impossible to increase the number/value.
-	}
-	else {
-		if (-value > sd->kafraPoints) //By command, if cash < value, force it to remove all
-			value = -sd->kafraPoints;
-		if ((ret = pc_paycash(sd, 0, -value, LOG_TYPE_COMMAND)) >= 0) {
-			sprintf(output, msg_txt(sd, 411), ret, sd->kafraPoints); // Removed %d kafra points. Total %d points.
-			clif_messagecolor(&sd->bl, color_table[COLOR_LIGHT_GREEN], output, false, SELF);
-		}
-		else clif_displaymessage(fd, msg_txt(sd, 41)); // Unable to decrease the number/value.
 	}
 
 	return 0;
