@@ -605,7 +605,7 @@ void instance_addnpc(std::shared_ptr<s_instance_data> idata)
  * @param mode: Instance mode
  * @return -4 = no free instances | -3 = already exists | -2 = character/party/guild not found | -1 = invalid type | On success return instance_id
  */
-int32 instance_create(int32 owner_id, const char *name, e_instance_mode mode, short hardmode = 1, short turbo = 0) {
+int32 instance_create(int32 owner_id, const char *name, e_instance_mode mode, int16 hardmode = 1, int16 turbo = 0) {
 	std::shared_ptr<s_instance_db> db = instance_search_db_name(name);
 
 	if (!db) {
@@ -1050,7 +1050,7 @@ bool instance_destroy(int32 instance_id)
  * @param y: Y coordinate
  * @return e_instance_enter value
  */
-e_instance_enter instance_enter(map_session_data *sd, int32 instance_id, const char *name, short x, short y)
+e_instance_enter instance_enter(map_session_data *sd, int32 instance_id, const char *name, int16 x, int16 y)
 {
 	nullpo_retr(IE_OTHER, sd);
 
