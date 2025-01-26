@@ -1608,7 +1608,7 @@ int32 status_damage(struct block_list *src,struct block_list *target,int64 dhp, 
 		mob_log_damage(reinterpret_cast<mob_data*>(src), target, 0, dhp);
 
 	if( src && target->type == BL_PC && ((TBL_PC*)target)->disguise ) { // Stop walking when attacked in disguise to prevent walk-delay bug
-		unit_stop_walking( target, 1 );
+		unit_stop_walking( target, USW_FIXPOS );
 	}
 
 	if( status->hp || (flag&8) ) { // Still lives or has been dead before this damage.
@@ -5907,7 +5907,7 @@ void status_calc_bl_main(struct block_list& bl, std::bitset<SCB_MAX> flag)
 		if (!status_has_mode(status,MD_CANATTACK))
 			unit_stop_attack(&bl);
 		if (!status_has_mode(status,MD_CANMOVE))
-			unit_stop_walking(&bl,1);
+			unit_stop_walking( &bl, USW_FIXPOS );
 	}
 
 	/**
@@ -10664,7 +10664,7 @@ int32 status_change_start(struct block_list* src, struct block_list* bl,enum sc_
 			if (val1 > 4) val2--;
 			//Suiton is a special case, stop effect is forced and only happens when target enters it
 			if (!unit_blown_immune(bl, 0x1))
-				unit_stop_walking(bl, 9);
+				unit_stop_walking( bl, USW_FIXPOS|USW_FORCE_STOP );
 			break;
 		case SC_ONEHAND:
 		case SC_TWOHANDQUICKEN:
@@ -12725,11 +12725,11 @@ int32 status_change_start(struct block_list* src, struct block_list* bl,enum sc_
 		switch (type) {
 			case SC__MANHOLE:
 				if (bl->type == BL_PC || !unit_blown_immune(bl,0x1))
-					unit_stop_walking(bl,1);
+					unit_stop_walking( bl, USW_FIXPOS );
 				break;
 			case SC_VACUUM_EXTREME:
 				if (bl->type != BL_PC && unit_blown_immune(bl, 0x1) == UB_KNOCKABLE) {
-					unit_stop_walking(bl,1);
+					unit_stop_walking( bl, USW_FIXPOS );
 					unit_stop_attack(bl);
 				}
 				break;
@@ -12737,13 +12737,13 @@ int32 status_change_start(struct block_list* src, struct block_list* bl,enum sc_
 			case SC_STUN:
 			case SC_STONE:
 				if (sc->getSCE(SC_DANCING)) {
-					unit_stop_walking(bl, 1);
+					unit_stop_walking( bl, USW_FIXPOS );
 					status_change_end(bl, SC_DANCING);
 				}
 				break;
 			default:
 				if (!unit_blown_immune(bl,0x1))
-					unit_stop_walking(bl,1);
+					unit_stop_walking( bl, USW_FIXPOS );
 				break;
 		}
 	}
@@ -13159,7 +13159,7 @@ int32 status_change_end(struct block_list* bl, enum sc_type type, int32 tid)
 					begin_spurt = false;
 				ud->state.running = 0;
 				if (ud->walktimer != INVALID_TIMER)
-					unit_stop_walking(bl,1);
+					unit_stop_walking( bl, USW_FIXPOS );
 			}
 			if (begin_spurt && sce->val1 >= 7 &&
 				DIFF_TICK(gettick(), starttick) <= 1000 &&
@@ -13440,7 +13440,7 @@ int32 status_change_end(struct block_list* bl, enum sc_type type, int32 tid)
 				if (ud) {
 					ud->state.running = 0;
 					if (ud->walktimer != INVALID_TIMER)
-						unit_stop_walking(bl,1);
+						unit_stop_walking( bl, USW_FIXPOS );
 				}
 			}
 			break;
