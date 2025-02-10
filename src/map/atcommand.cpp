@@ -7618,7 +7618,7 @@ ACMD_FUNC(pettalk)
 			}
 			sd->emotionlasttime = time(nullptr);
 
-			clif_emotion(&pd->bl, i);
+			clif_emotion( pd->bl, static_cast<emotion_type>( i ) );
 			return 0;
 		}
 	}
@@ -8413,7 +8413,7 @@ ACMD_FUNC(hommutate)
 	if (m_class != -1 && m_id != -1 && m_class&HOM_EVO && m_id&HOM_S && sd->hd->homunculus.level >= 99) {
 		hom_mutate(sd->hd, homun_id);
 	} else {
-		clif_emotion(&sd->hd->bl, ET_SWEAT);
+		clif_emotion( sd->hd->bl, ET_SWEAT );
 	}
 	return 0;
 }
