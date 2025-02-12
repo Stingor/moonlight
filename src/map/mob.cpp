@@ -1197,6 +1197,7 @@ int32 mob_spawn (struct mob_data *md)
 	md->last_pcneartime = 0;
 	md->last_canmove = tick;
 	md->last_skillcheck = 0;
+	md->trickcasting = 0;
 
 	t_tick c = tick - MOB_MAX_DELAY;
 
@@ -1553,7 +1554,11 @@ int32 mob_unlocktarget(struct mob_data *md, t_tick tick)
 		md->state.skillstate = MSS_IDLE;
 		[[fallthrough]];
 	case MSS_IDLE:
-		if( md->ud.walktimer == INVALID_TIMER && md->idle_event[0] && npc_event_do_id( md->idle_event, md->bl.id ) > 0 ){
+		// When walking we want to trigger the idle skills through the walk routine so we can prevent stopping
+		// This situation happens when an immobile monster uses a skill to move
+		if (md->ud.walktimer != INVALID_TIMER)
+			break;
+		if (md->idle_event[0] && npc_event_do_id(md->idle_event, md->bl.id) > 0) {
 			md->idle_event[0] = 0;
 			break;
 		}
@@ -2544,11 +2549,6 @@ void mob_log_damage(mob_data* md, block_list* src, int64 damage, int64 damage_ta
 //Call when a mob has received damage.
 void mob_damage(struct mob_data *md, struct block_list *src, int32 damage)
 {
-	// LOne WOlf explained that ANYONE can trigger the marine countdown skill. [Skotlex]
-	if( src != nullptr && md->special_state.ai == AI_SPHERE && md->dmglog.empty() ){
-		md->state.can_escape = 1;
-	}
-
 	if (src && damage > 0) { //Store total damage...
 		if ((src != &md->bl) && md->state.aggressive) //No longer aggressive, change to retaliate AI.
 			md->state.aggressive = 0;
@@ -3949,7 +3949,7 @@ bool mob_chat_display_message(mob_data &md, uint16 msg_id) {
 /*==========================================
  * Skill use judging
  *------------------------------------------*/
-int32 mobskill_use(struct mob_data *md, t_tick tick, int32 event, int64 damage)
+bool mobskill_use(struct mob_data *md, t_tick tick, int32 event, int64 damage)
 {
 	struct block_list *fbl = nullptr; //Friend bl, which can either be a BL_PC or BL_MOB depending on the situation. [Skotlex]
 	struct block_list *bl;
@@ -4051,9 +4051,11 @@ int32 mobskill_use(struct mob_data *md, t_tick tick, int32 event, int64 damage)
 				case MSC_MASTERATTACKED:
 					flag = (md->master_id > 0 && (fbl=map_id2bl(md->master_id)) && unit_counttargeted(fbl) > 0); break;
 				case MSC_ALCHEMIST:
-					flag = (md->state.can_escape); break;
+					flag = (md->special_state.ai != AI_NONE && md->trickcasting == 0 && md->status.hp < md->status.max_hp); break;
 				case MSC_MOBNEARBYGT:
 					flag = (map_foreachinallrange(mob_count_sub, &md->bl, AREA_SIZE, BL_MOB) > c2 ); break;
+				case MSC_TRICKCASTING:
+					flag = (md->trickcasting > 0); break;
 			}
 		}
 
@@ -4127,6 +4129,9 @@ int32 mobskill_use(struct mob_data *md, t_tick tick, int32 event, int64 damage)
 					break;
 				case MST_TARGET:
 					bl = map_id2bl(md->target_id);
+					// Monsters that cannot attack put their last attacker as target
+					if (bl == nullptr && !status_has_mode(&md->status, MD_CANATTACK))
+						bl = map_id2bl(md->attacked_id);
 					break;
 				case MST_MASTER:
 					bl = &md->bl;
@@ -4178,11 +4183,11 @@ int32 mobskill_use(struct mob_data *md, t_tick tick, int32 event, int64 damage)
 		} else
 			md->skilldelay[i]=tick;
 		map_freeblock_unlock();
-		return 1;
+		return true;
 	}
 	//No skill was used.
 	md->skill_idx = -1;
-	return 0;
+	return false;
 }
 /*==========================================
  * Skill use event processing
@@ -6024,6 +6029,7 @@ static bool mob_parse_row_mobskilldb( char** str, size_t columns, size_t current
 		{ "mobnearbygt",       MSC_MOBNEARBYGT       },
 		{ "groundattacked",    MSC_GROUNDATTACKED    },
 		{ "damagedgt",         MSC_DAMAGEDGT         },
+		{ "trickcasting",      MSC_TRICKCASTING      },
 	}, cond2[] ={
 		{	"anybad",		-1				},
 		{	"stone",		SC_STONE		},
