@@ -14105,10 +14105,26 @@ TIMER_FUNC(skill_castend_id){
 		bool fail = false;
 		int8 res = USESKILL_FAIL_LEVEL;
 
+		if (status_isdead(*src))
+			break;
+
+		// These actions happen even if the skill fails except when the caster is already dead
+		if (md != nullptr) {
+			// When a monster uses a skill, its AI will be inactive for its attack motion
+			// This is also the reason why it doesn't move during this time
+			md->next_thinktime = tick + status_get_amotion(src);
+
+			if (md->skill_idx >= 0 && md->db->skill[md->skill_idx]->emotion >= ET_SURPRISE && md->db->skill[md->skill_idx]->emotion < ET_MAX)
+				clif_emotion(*src, static_cast<emotion_type>(md->db->skill[md->skill_idx]->emotion));
+
+			// Sets cooldowns and attack delay
+			mobskill_end(*md, tick);
+		}
+
 		if (!target || target->prev == nullptr)
 			break;
 
-		if (src->m != target->m || status_isdead(*src))
+		if (src->m != target->m)
 			break;
 
 		//These should become skill_castend_pos
@@ -14180,14 +14196,6 @@ TIMER_FUNC(skill_castend_id){
 		//Avoid doing double checks for instant-cast skills.
 		if (tid != INVALID_TIMER && !status_check_skilluse(src, target, ud->skill_id, 1))
 			break;
-
-		if(md) {
-			// When a monster uses a skill, its AI will be inactive for its attack motion
-			// This is also the reason why it doesn't move during this time
-			md->next_thinktime = tick + status_get_amotion(src);
-			if(md->skill_idx >= 0 && md->db->skill[md->skill_idx]->emotion >= 0)
-				clif_emotion( *src, static_cast<emotion_type>( md->db->skill[md->skill_idx]->emotion ) );
-		}
 
 		if (src != target && battle_config.skill_add_range &&
 			!check_distance_bl(src, target, skill_get_range2(src, ud->skill_id, ud->skill_lv, true) + battle_config.skill_add_range))
@@ -14284,10 +14292,6 @@ TIMER_FUNC(skill_castend_id){
 				if (cooldown > 0)
 					skill_blockpc_start(*sd, ud->skill_id, cooldown);
 			}
-			break;
-			case BL_MOB:
-				// Sets cooldowns and attack delay
-				mobskill_end(*md, tick);
 			break;
 			case BL_HOM:
 			{
@@ -14482,6 +14486,19 @@ TIMER_FUNC(skill_castend_pos){
 		if( status_isdead(*src) )
 			break;
 
+		// These actions happen even if the skill fails except when the caster is already dead
+		if (md != nullptr) {
+			// When a monster uses a skill, its AI will be inactive for its attack motion
+			// This is also the reason why it doesn't move during this time
+			md->next_thinktime = tick + status_get_amotion(src);
+
+			if (md->skill_idx >= 0 && md->db->skill[md->skill_idx]->emotion >= ET_SURPRISE && md->db->skill[md->skill_idx]->emotion < ET_MAX)
+				clif_emotion(*src, static_cast<emotion_type>(md->db->skill[md->skill_idx]->emotion));
+
+			// Sets cooldowns and attack delay
+			mobskill_end(*md, tick);
+		}
+
 		if (!skill_pos_maxcount_check(src, ud->skillx, ud->skilly, ud->skill_id, ud->skill_lv, src->type, true))
 			break;
 
@@ -14525,14 +14542,6 @@ TIMER_FUNC(skill_castend_pos){
 		if( (src->type == BL_MER || src->type == BL_HOM) && !skill_check_condition_mercenary(src, ud->skill_id, ud->skill_lv, 1) )
 			break;
 
-		if(md) {
-			// When a monster uses a skill, its AI will be inactive for its attack motion
-			// This is also the reason why it doesn't move during this time
-			md->next_thinktime = tick + status_get_amotion(src);
-			if(md->skill_idx >= 0 && md->db->skill[md->skill_idx]->emotion >= 0)
-				clif_emotion( *src, static_cast<emotion_type>( md->db->skill[md->skill_idx]->emotion ) );
-		}
-
 		if(battle_config.skill_log && battle_config.skill_log&src->type)
 			ShowInfo("Type %d, ID %d skill castend pos [id =%d, lv=%d, (%d,%d)]\n",
 				src->type, src->id, ud->skill_id, ud->skill_lv, ud->skillx, ud->skilly);
@@ -14545,10 +14554,6 @@ TIMER_FUNC(skill_castend_pos){
 		if (sd) { //Cooldown application
 			int32 cooldown = pc_get_skillcooldown(sd,ud->skill_id, ud->skill_lv);
 			if(cooldown) skill_blockpc_start(*sd, ud->skill_id, cooldown);
-		}
-		else if (md != nullptr) {
-			// Sets cooldowns and attack delay
-			mobskill_end(*md, tick);
 		}
 		if( battle_config.display_status_timers && sd )
 			clif_status_change(src, EFST_POSTDELAY, 1, skill_delayfix(src, ud->skill_id, ud->skill_lv), 0, 0, 0);
