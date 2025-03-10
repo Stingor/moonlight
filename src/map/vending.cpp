@@ -67,7 +67,9 @@ void vending_closevending(map_session_data* sd)
 
 		sd->state.vending = false;
 		sd->vender_id = 0;
-		clif_closevendingboard(&sd->bl, 0);
+
+		clif_closevendingboard( sd->bl, AREA_WOS, nullptr );
+		
 		if( battle_config.setcellnovend ) { // [Stingor]
 			map_setcell(sd->bl.m, sd->bl.x + 1, sd->bl.y + 1,	CELL_NOVENDING, false);
 			map_setcell(sd->bl.m, sd->bl.x - 1, sd->bl.y - 1,	CELL_NOVENDING, false);
