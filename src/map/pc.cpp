@@ -2976,7 +2976,7 @@ uint16 pc_getpercentweight(map_session_data& sd, uint32 weight)
 {
 	if (weight == 0)
 		weight = sd.weight;
-	return static_cast<uint16>(weight * 100 / sd.max_weight);
+	return static_cast<uint16>(weight * 100 / std::max<uint32>(sd.max_weight, 1));
 }
 
 /*==========================================
