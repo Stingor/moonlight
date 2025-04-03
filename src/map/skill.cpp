@@ -10202,13 +10202,18 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 		{
 			skill_blown(src,bl,skill_get_blewcount(skill_id,skill_lv),unit_getdir(bl),(enum e_skill_blown)(BLOWN_IGNORE_NO_KNOCKBACK|BLOWN_DONT_SEND_PACKET));
 			
-			clif_skill_nodamage(src, *bl, skill_id, skill_lv);
-			clif_blown(src); // Always blow, otherwise it shows a casting animation. [Lemongrass]
+			// Backsliding makes you immune to being stopped for 200ms, but only if you don't have the endure effect yet
+			if (unit_data* ud = unit_bl2ud(bl); ud != nullptr && !status_isendure(*bl, tick, true))
+				ud->endure_tick = tick + 200;
+
 			// int16 blew_count = skill_blown(src,bl,skill_get_blewcount(skill_id,skill_lv),unit_getdir(bl),(enum e_skill_blown)(BLOWN_IGNORE_NO_KNOCKBACK
 // #ifdef RENEWAL
 			// |BLOWN_DONT_SEND_PACKET
 // #endif
 			// ));
+			clif_skill_nodamage(src, *bl, skill_id, skill_lv);
+			clif_blown(src); // Always blow, otherwise it shows a casting animation. [Lemongrass]
+
 			// clif_skill_nodamage(src, *bl, skill_id, skill_lv);
 // #ifdef RENEWAL
 			// if(blew_count > 0)
