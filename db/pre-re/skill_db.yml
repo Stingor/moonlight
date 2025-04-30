@@ -11286,6 +11286,7 @@ Body:
     Element: Weapon
     SplashArea: 1
     Knockback: 2
+    Duration1: 5000
     Duration2: 2000
     Requires:
       SpCost:
