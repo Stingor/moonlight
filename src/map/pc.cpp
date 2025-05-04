@@ -6962,6 +6962,16 @@ enum e_setpos pc_setpos(map_session_data* sd, uint16 mapindex, int32 x, int32 y,
 	sd->state.workinprogress = WIP_DISABLE_NONE;
 	sd->state.mail_writing = false;
 	sd->state.refineui_open = false;
+	sd->state.stylist_open = false;
+	sd->state.inventory_expansion_confirmation = 0;
+	sd->state.barter_open = false;
+	sd->state.barter_extended_open = false;
+	sd->state.laphine_synthesis = 0;
+	sd->state.laphine_upgrade = 0;
+	sd->state.roulette_open = false;
+	sd->state.enchantgrade_open = false;
+	sd->state.item_reform = 0;
+	sd->state.item_enchant_index = 0;
 
 	if (map_flag_vs(sd->bl.m)) // [Stingor]
 		status_change_end(&sd->bl, SC_ALL_RIDING, INVALID_TIMER);
