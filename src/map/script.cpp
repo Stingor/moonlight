@@ -28184,7 +28184,7 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(setunittitle,"is"),
 	BUILDIN_DEF(getunittitle,"i"),
 	BUILDIN_DEF(getunitdata,"i*"),
-	BUILDIN_DEF(setunitdata,"iii"),
+	BUILDIN_DEF(setunitdata,"iiv"),
 	BUILDIN_DEF(unitwalk,"iii?"),
 	BUILDIN_DEF2(unitwalk,"unitwalkto","ii?"),
 	BUILDIN_DEF(unitkill,"i"),
