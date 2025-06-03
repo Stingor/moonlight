@@ -4962,6 +4962,8 @@ s_mob_db::s_mob_db()
 	this->option = {};
 	this->skill = {};
 	this->damagetaken = 100;
+	this->group_id = {};
+	this->title = {};
 }
 
 /**
