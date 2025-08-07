@@ -421,7 +421,6 @@ int8 vending_openvending( map_session_data& sd, const char* message, const uint8
 	}
 	if (SQL_ERROR == Sql_QueryStr(mmysql_handle, StringBuf_Value(&buf)))
 		Sql_ShowDebug(mmysql_handle);
-	StringBuf_Destroy(&buf);
 	
 	if( battle_config.setcellnovend ) { // [Stingor]
 		map_setcell(sd.m, sd.x + 1, sd.y + 1,	CELL_NOVENDING, true);
@@ -433,7 +432,7 @@ int8 vending_openvending( map_session_data& sd, const char* message, const uint8
 		map_setcell(sd.m, sd.x - 1, sd.y + 1,	CELL_NOVENDING, true);
 		map_setcell(sd.m, sd.x + 1, sd.y - 1,	CELL_NOVENDING, true);
 	}
-	
+
 	clif_openvending( sd );
 	clif_showvendingboard( sd );
 

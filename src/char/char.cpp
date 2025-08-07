@@ -518,7 +518,7 @@ int32 char_mmo_char_tosql(uint32 char_id, struct mmo_charstatus* p){
 			strcat(save_status, " hotkeys");
 	}
 #endif
-	StringBuf_Destroy(&buf);
+
 	if (save_status[0]!='\0' && charserv_config.save_log)
 		ShowInfo("Saved char %d - %s:%s.\n", char_id, p->name, save_status);
 
@@ -590,7 +590,6 @@ int32 char_memitemdata_to_sql(const struct item items[], int32 max, int32 id, en
 	||  SQL_ERROR == stmt.Execute() )
 	{
 		SqlStmt_ShowDebug(stmt);
-		StringBuf_Destroy(&buf);
 		return 1;
 	}
 
@@ -738,7 +737,6 @@ int32 char_memitemdata_to_sql(const struct item items[], int32 max, int32 id, en
 	}
 
 	ShowInfo("Saved %s (%d) data to table %s for %s: %d\n", printname, stor_id, tablename, selectoption, id);
-	StringBuf_Destroy(&buf);
 	aFree(flag);
 
 	return errors;
@@ -812,7 +810,6 @@ bool char_memitemdata_from_sql(struct s_storage* p, int32 max, int32 id, enum st
 		||	SQL_ERROR == stmt.Execute() )
 	{
 		SqlStmt_ShowDebug(stmt);
-		StringBuf_Destroy(&buf);
 		return false;
 	}
 
@@ -844,8 +841,6 @@ bool char_memitemdata_from_sql(struct s_storage* p, int32 max, int32 id, enum st
 
 	p->amount = i;
 	ShowInfo("Loaded %s data from table %s for %s: %d (total: %d)\n", printname, tablename, selectoption, id, p->amount);
-
-	StringBuf_Destroy(&buf);
 
 	return true;
 }
@@ -1140,7 +1135,6 @@ int32 char_mmo_char_fromsql(uint32 char_id, struct mmo_charstatus* p, bool load_
 
 	if (!load_everything) // For quick selection of data when displaying the char menu
 	{
-		StringBuf_Destroy(&msg_buf);
 		return 1;
 	}
 
@@ -1248,7 +1242,6 @@ int32 char_mmo_char_fromsql(uint32 char_id, struct mmo_charstatus* p, bool load_
 
 	memcpy( cp.get(), p, sizeof( struct mmo_charstatus ) );
 
-	StringBuf_Destroy(&msg_buf);
 	return 1;
 }
 
