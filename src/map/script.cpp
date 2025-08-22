@@ -24764,7 +24764,7 @@ BUILDIN_FUNC(hateffect){
 	auto it = util::vector_get( sd->hatEffects, effectID );
 
 	if( enable ){
-		if( it != sd->hatEffects.end() ){
+		if( util::vector_exists( ud->hatEffects, effectID ) ){
 			return SCRIPT_CMD_SUCCESS;
 		}
 
