@@ -686,6 +686,7 @@ enum e_mapflag : int16 {
 	MF_NOBANK,
 	MF_SPECIALPOPUP,
 	MF_NOMACROCHECKER,
+	MF_INVINCIBLE_TIME,
 #include "../custom/mapflag_enum.inc"
 	MF_MAX
 };
