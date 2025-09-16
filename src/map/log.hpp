@@ -10,6 +10,7 @@
 struct block_list;
 class map_session_data;
 struct mob_data;
+struct npc_data;
 struct item;
 
 enum e_log_chat_type : uint8
@@ -80,8 +81,8 @@ enum e_log_feeding_type : uint8
 void log_pick_pc(map_session_data* sd, e_log_pick_type type, int32 amount, struct item* itm);
 void log_pick_mob(mob_data* md, e_log_pick_type type, int32 amount, struct item* itm);
 void log_zeny(const map_session_data &target_sd, e_log_pick_type type, uint32 src_id, int32 amount);
-void log_cash( map_session_data* sd, e_log_pick_type type, e_log_cash_type cash_type, int32 amount, int32 itemid);
-void log_npc( struct npc_data* nd, const char* message );
+void log_cash(map_session_data* sd, e_log_pick_type type, e_log_cash_type cash_type, int32 amount, int32 itemid);
+void log_npc(npc_data* nd, const char* message );
 void log_npc(map_session_data* sd, const char *message);
 void log_chat(e_log_chat_type type, int32 type_id, const char* src_charname, int32 src_accid, const char* map, int32 x, int32 y, const char* dst_charname, const char* message); // [Stingor] charid -> name
 void log_atcommand(map_session_data* sd, const char* message);

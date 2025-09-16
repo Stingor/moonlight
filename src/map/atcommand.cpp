@@ -4954,7 +4954,7 @@ ACMD_FUNC(mapinfo) {
 		clif_displaymessage(fd, msg_txt(sd,482)); // ----- NPCs in Map -----
 		for (i = 0; i < mapdata->npc_num;)
 		{
-			struct npc_data *nd = mapdata->npc[i];
+			npc_data *nd = mapdata->npc[i];
 			switch(nd->ud.dir) {
 			case DIR_NORTH:		strcpy(direction, msg_txt(sd,491)); break; // North
 			case DIR_NORTHWEST:	strcpy(direction, msg_txt(sd,492)); break; // North West
@@ -5274,7 +5274,7 @@ ACMD_FUNC(nuke)
 ACMD_FUNC(tonpc)
 {
 	char npcname[NPC_NAME_LENGTH];
-	struct npc_data *nd;
+	npc_data *nd;
 
 	nullpo_retr(-1, sd);
 
@@ -5382,7 +5382,7 @@ ACMD_FUNC(loadnpc)
 
 ACMD_FUNC(unloadnpc)
 {
-	struct npc_data* nd;
+	npc_data *nd;
 	char NPCname[NPC_NAME_LENGTH];
 	nullpo_retr(-1, sd);
 
@@ -5751,7 +5751,7 @@ ACMD_FUNC(disguise)
 	}	else	{ //Acquired a Name
 		if ((id = mobdb_searchname(message)) == 0)
 		{
-			struct npc_data* nd = npc_name2id(message);
+			npc_data* nd = npc_name2id(message);
 			if (nd != nullptr)
 				id = nd->class_;
 		}
@@ -5833,7 +5833,7 @@ ACMD_FUNC(disguiseguild)
 			id = 0;
 	} else {
 		if( (id = mobdb_searchname(monster)) == 0 ) {
-			struct npc_data* nd = npc_name2id(monster);
+			npc_data* nd = npc_name2id(monster);
 			if( nd != nullptr )
 				id = nd->class_;
 		}
@@ -6123,7 +6123,7 @@ ACMD_FUNC(skilloff)
 ACMD_FUNC(npcmove)
 {
 	int16 x = 0, y = 0;
-	struct npc_data *nd = 0;
+	npc_data *nd = 0;
 	char npc_name[NPC_NAME_LENGTH];
 
 	nullpo_retr(-1, sd);
@@ -6159,7 +6159,7 @@ ACMD_FUNC(addwarp)
 	char mapname[MAP_NAME_LENGTH_EXT], warpname[NPC_NAME_LENGTH];
 	int16 x,y;
 	uint16 m;
-	struct npc_data* nd;
+	npc_data* nd;
 
 	nullpo_retr(-1, sd);
 	memset(warpname, '\0', sizeof(warpname));
@@ -7531,7 +7531,7 @@ ACMD_FUNC(cleanarea)
 ACMD_FUNC(npctalk)
 {
 	char name[NPC_NAME_LENGTH],mes[100],temp[CHAT_SIZE_MAX];
-	struct npc_data *nd;
+	npc_data *nd;
 	bool ifcolor=(*(command + 8) != 'c' && *(command + 8) != 'C')?0:1;
 	unsigned long color=0;
 
