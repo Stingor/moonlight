@@ -340,18 +340,6 @@ int32 map_freeblock_unlock (void)
 	return block_free_lock;
 }
 
-// Timer function to check if there some remaining lock and remove them if so.
-// Called each 1s
-TIMER_FUNC(map_freeblock_timer){
-	if (block_free_lock > 0) {
-		ShowError("map_freeblock_timer: block_free_lock(%d) is invalid.\n", block_free_lock);
-		block_free_lock = 1;
-		map_freeblock_unlock();
-	}
-
-	return 0;
-}
-
 FreeBlockLock::FreeBlockLock(bool startLocked) {
 	this->locked = false;
 
@@ -5495,11 +5483,9 @@ bool MapServer::initialize( int32 argc, char *argv[] ){
 
 	map_readallmaps();
 
-	add_timer_func_list(map_freeblock_timer, "map_freeblock_timer");
 	add_timer_func_list(map_clearflooritem_timer, "map_clearflooritem_timer");
 	add_timer_func_list(map_removemobs_timer, "map_removemobs_timer");
-	add_timer_interval(gettick()+1000, map_freeblock_timer, 0, 0, 60*1000);
-
+	
 	map_do_init_msg();
 	do_init_path();
 	do_init_atcommand();
