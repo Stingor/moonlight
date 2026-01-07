@@ -2062,6 +2062,8 @@ Body:
     TargetType: Self
     DamageFlags:
       NoDamage: true
+    Flags:
+      Toggleable: true
     HitCount: 1
     CastCancel: true
     CastTime: 1000
