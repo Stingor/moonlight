@@ -20,8 +20,8 @@ void SkillAlchemicalWeapon::castendNoDamageId(block_list* src, block_list* targe
 		return;
 	}
 
-	// [Stingor] temps du coating indexé sur le level du buffer pendant woe
-	int32 skilltime = skill_get_time(getSkillId(),skill_lv);
+	// [Stingor] temps du coating indexÃ© sur le level du buffer pendant woe
+	t_tick skilltime = skill_get_time(getSkillId(),skill_lv);
 	if( sd && is_agit_start() )
 		skilltime = (sd->status.base_level*1000 < skilltime/6?skilltime/6:sd->status.base_level*1000);
 
