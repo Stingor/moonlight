@@ -4784,13 +4784,6 @@ static int32 battle_calc_attack_skill_ratio(struct Damage* wd, block_list *src,b
 			skillratio += 35 * skill_lv;
 			break;
 
-		case DC_THROWARROW:
-#ifdef RENEWAL
-			skillratio += 10 + 40 * skill_lv;
-#else
-			skillratio += -40 + 40 * skill_lv;
-#endif
-			break;
 		case CH_TIGERFIST:
 #ifdef RENEWAL
 			skillratio += 400 + 150 * skill_lv;
