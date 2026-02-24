@@ -1,31 +1,24 @@
 // Copyright (c) rAthena Dev Teams - Licensed under GNU GPL
 // For more information, see LICENCE in the main folder
 
-#include "bowlingbash.hpp"
+#include "mercenary_bowlingbash.hpp"
 
-#include <config/core.hpp>
-
-#include <common/db.hpp>
+#include <common/random.hpp>
 
 #include "map/battle.hpp"
+#include "map/map.hpp"
 #include "map/unit.hpp"
 
-SkillBowlingBash::SkillBowlingBash() : SkillImpl(KN_BOWLINGBASH) {
+SkillMercenaryBowlingBash::SkillMercenaryBowlingBash() : WeaponSkillImpl(MS_BOWLINGBASH) {
 }
 
-void SkillBowlingBash::calculateSkillRatio(const Damage* wd, const block_list* src, const block_list* target, uint16 skill_lv, int32& base_skillratio, int32 mflag) const {
+void SkillMercenaryBowlingBash::calculateSkillRatio(const Damage *wd, const block_list *src, const block_list *target, uint16 skill_lv, int32 &base_skillratio, int32 mflag) const {
 	base_skillratio += 40 * skill_lv;
 }
 
-void SkillBowlingBash::castendDamageId(block_list* src, block_list* target, uint16 skill_lv, t_tick tick, int32& flag) const {
-#ifdef RENEWAL
-	if (flag & 1) {
-		skill_attack(skill_get_type(getSkillId()), src, src, target, getSkillId(), skill_lv, tick, (skill_area_temp[0]) > 0 ? SD_ANIMATION | skill_area_temp[0] : skill_area_temp[0]);
-	} else {
-		skill_area_temp[0] = map_foreachinallrange(skill_area_sub, target, skill_get_splash(getSkillId(), skill_lv), BL_CHAR, src, getSkillId(), skill_lv, tick, BCT_ENEMY, skill_area_sub_count);
-		map_foreachinrange(skill_area_sub, target, skill_get_splash(getSkillId(), skill_lv), BL_CHAR|BL_SKILL, src, getSkillId(), skill_lv, tick, flag | BCT_ENEMY | SD_SPLASH | 1, skill_castend_damage_id);
-	}
-#else
+void SkillMercenaryBowlingBash::castendDamageId(block_list *src, block_list *target, uint16 skill_lv, t_tick tick, int32& flag) const {
+	int32 sflag;
+
 	int32 min_x,max_x,min_y,max_y,i,c,dir,tx,ty;
 	// Chain effect and check range gets reduction by recursive depth, as this can reach 0, we don't use blowcount
 	c = (skill_lv-(flag&0xFFF)+1)/2;
@@ -90,34 +83,16 @@ void SkillBowlingBash::castendDamageId(block_list* src, block_list* target, uint
 			// Recursive call
 			map_foreachinallarea(skill_area_sub, target->m, max(min_x,tx-1), max(min_y,ty-1), min(max_x,tx+1), min(max_y,ty+1), splash_target(src), src, getSkillId(), skill_lv, tick, (flag|BCT_ENEMY)+1, skill_castend_damage_id);
 			// Self-collision
-			if(target->x >= min_x && target->x <= max_x && target->y >= min_y && target->y <= max_y)
-				skill_attack(BF_WEAPON,src,src,target,getSkillId(),skill_lv,tick,(flag&0xFFF)>0?SD_ANIMATION|count:count);
+			if(target->x >= min_x && target->x <= max_x && target->y >= min_y && target->y <= max_y) {
+				sflag = (flag&0xFFF) > 0 ? SD_ANIMATION|count : count;
+
+				WeaponSkillImpl::castendDamageId(src, target, skill_lv, tick, sflag);
+			}
 			break;
 		}
 	}
 	// Original hit or chain hit depending on flag
-	skill_attack(BF_WEAPON,src,src,target,getSkillId(),skill_lv,tick,(flag&0xFFF)>0?SD_ANIMATION:0);
-	/*
-	// [Stingor] -->
-	int32 i,c;
-	c = skill_get_blewcount(getSkillId(), skill_lv);
-	// keep moving target in the direction that src is looking, square by square
-	for(i=0;i<c;i++){
-		if (!skill_blown(src,target,1,(unit_getdir(src)+4)%8,BLOWN_NONE))
-			break; //Can't knockback
-		skill_area_temp[0] = map_foreachinrange(skill_area_sub, bl, skill_get_splash(getSkillId(), skill_lv), BL_CHAR, src, getSkillId(), skill_lv, tick, flag|BCT_ENEMY, skill_area_sub_count);
-		if( skill_area_temp[0] > 1 )
-			break; // collision
-	}
-	clif_blown(target); //Update target pos.
-	if (i!=c) { //Splash
-		skill_area_temp[1] = target->id;
-		map_foreachinrange(skill_area_sub, target, skill_get_splash(getSkillId(), skill_lv), splash_target(src), src, getSkillId(), skill_lv, tick, flag|BCT_ENEMY|1, skill_castend_damage_id);
-	}
-	//Weirdo dual-hit property, two attacks for 500%
-	skill_attack(BF_WEAPON, src, src, target, getSkillId(), skill_lv, tick, 0);
-	skill_attack(BF_WEAPON, src, src, target, getSkillId(), skill_lv, tick, 0);
-	// [Stingor] <--
-	*/
-#endif
+	sflag = (flag&0xFFF) > 0 ? SD_ANIMATION : 0;
+
+	WeaponSkillImpl::castendDamageId(src, target, skill_lv, tick, sflag);
 }
