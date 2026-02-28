@@ -1,0 +1,161 @@
+//===== Moonlight-Destiny ==================================
+//= Script Healer.
+//===== Par: =================================================
+//= Yaro / Moonlight-Destiny Dev Team
+//===== Version courrante: ===================================
+//= 2.1
+//===== Description: =========================================
+//= Permet aux joueurs de se restaurer et arrêter
+//= certains effets néfastes.
+//===== Commentaires: ========================================
+//= 1.0 Creation [Stingor]
+//= 1.1a Ajout Rachel,Veins [Stingor]
+//= 1.1b Ajout de noms uniques [Stingor]
+//= 1.2 Ajout duplicate Moscovia [Stingor]
+//= 1.3 Ajout effect pour le joueur [Kamitsu]
+//= 2.0 Mise à jour, retrait des effects [Stingor]
+//= 2.1 rAthena update & tweaks [Stingor]
+//============================================================
+
+gonryun,152,129,6	script	Nymphe de la Lune::healer	1_F_02,{
+
+	if( getgmlevel() == 99 ) {
+		// setarray .@mailitem[0], 616, 12103, 12106, 12109, 12130, 12246;
+		// setarray .@mailamount[0], 5, 5, 5, 5, 5, 5;
+				// .@title$ = "Fin d'instance";
+				// .@body$ = "Félicitation vous avez terminé l'instance Endless Cellar !";
+				// mail 154903, "Endless Cellar", .@title$, .@body$, 0, .@mailitem, .@mailamount;
+		// .@title$ = "Invasion";
+		// .@body$ = "Félicitation vous avez gagné l'invasion !";
+		// mail 155013, "Invasion", .@title$, .@body$, 0, .@mailitem, .@mailamount;
+		// dispbottom "Des récompenses vous sont envoyées par mail ! (Pas de place)";
+
+		// mapannounce "lhz_dun_n", "Un Mini-Boss "+getmonsterinfo(3218,MOB_NAME)+" apparait !", bc_map;	// unknown message
+		// monster "lhz_dun_n",0,0,"--en--",3218,1, "lhz_dun_n::OnMiniDead";
+		
+
+	// dispbottom floor(10/2,1),0x000000,150000;
+				// donpcevent "Agit2_Event::OnAgitInit2";
+		
+        // getpartymember(8215,1,.@party_cid);
+        // getpartymember(8215,2,.@party_aid);
+        // .@n = $@partymembercount;
+        // for(.@i=0;.@i<.@n;.@i++){
+            // if(isloggedin(.@party_aid[.@i],.@party_cid[.@i])){
+				// getitem 12246, 7, .@party_aid[.@i];
+            // }
+        // }
+	}
+
+	percentheal 100,100;
+	sc_end SC_Poison;
+	sc_end SC_Silence;
+	sc_end SC_Stun;
+	sc_end SC_Blind;
+	sc_end SC_DECREASEAGI;
+	sc_end SC_Confusion;
+	sc_end SC_Curse;
+	sc_end SC_Hallucination;
+	sc_end SC_XMAS;
+	sc_end SC_HANBOK;
+	sc_end SC_WEDDING;
+	if( getstatus(SC_SUMMER) ) {
+		sc_end SC_SUMMER;
+		sc_end SC_SPEEDUP0;
+	}
+	sc_end SC_OKTOBERFEST;
+	end;
+
+L_healinfo:
+	emotion ET_SURPRISE;
+	dispbottom "(NPC) Nymphe de la Lune c'est moi le healer ! (Près du npc PvP)";
+	sleep 2500;
+	emotion ET_SURPRISE;
+	end;
+
+L_voteinfo:
+	dispbottom "Pour voter, utilisez le lien/icone RoTopServ présent sur le site une fois connecté!";
+	dispbottom "Et l'icone près de la minimap pour les utiliser (Vot'Shop)!";
+	end;
+
+L_eventinfo:
+	dispbottom "Pour dépenser les points Event, utilisez l'icone près de la minimap (Vot'Shop)!";
+	end;
+
+L_warpinfo:
+	dispbottom "Warp n'est pas disponible pour les joueurs, utilisez la Warp Agent!!";
+	end;
+
+L_bankinfo:
+	dispbottom "Votre banque est accessible avec ctrl+b !!";
+	end;
+
+L_rafineinfo:
+	dispbottom "Le guide près de la warp agent vous dira où se trouve la forge !!";
+	end;
+
+L_goinfo:
+	dispbottom "@Go n'est pas disponible pour les joueurs, utilisez la Warp Agent!!";
+	end;
+
+L_storageinfo:
+	dispbottom "@storage pour stocker vos items :)!!";
+	end;
+
+L_saveinfo:
+	dispbottom "@save non dispo mais la warp agent le permet :)!!";
+	end;
+
+OnInit:
+	if( strnpcinfo(3) == "healer" ) {
+		defpattern 1, "([^:]+):.*\\sheal.*", "L_healinfo";
+		defpattern 1, "([^:]+):.*\\srafiner.*", "L_rafineinfo";
+		defpattern 1, "([^:]+):.*\\sraffiner.*", "L_rafineinfo";
+		defpattern 1, "([^:]+):.*\\s@vote.*", "L_voteinfo";
+		defpattern 1, "([^:]+):.*\\svote.*", "L_voteinfo";
+		defpattern 1, "([^:]+):.*\\s@warp.*", "L_warpinfo";
+		defpattern 1, "([^:]+):.*\\s@go.*", "L_goinfo";
+		defpattern 1, "([^:]+):.*\\s@save.*", "L_saveinfo";
+		defpattern 1, "([^:]+):.*\\sstorage.*", "L_storageinfo";
+		defpattern 1, "([^:]+):.*\\sevent.*", "L_eventinfo";
+		activatepset 1;
+	}
+	end;
+}
+
+alberta,47,247,5	duplicate(healer)	Healer::heal_alb	1_F_02
+aldebaran,135,115,5	duplicate(healer)	Healer::heal_alde	1_F_02
+amatsu,196,115,5	duplicate(healer)	Healer::heal_ama	1_F_02
+ayothaya,204,200,5	duplicate(healer)	Healer::heal_ayo	1_F_02
+brasilis,193,221,5	duplicate(healer)	Healer::heal_bra	1_F_02
+comodo,163,163,5	duplicate(healer)	Healer::heal_com	1_F_02
+einbech,166,130,5	duplicate(healer)	Healer::heal_ebe	1_F_02
+dewata,193,181,5	duplicate(healer)	Healer::heal_dew	1_F_02
+dicastes01,194,229,5	duplicate(healer)	Healer::heal_dic	1_F_02
+eclage,162,200,5	duplicate(healer)	Healer::heal_ecl	1_F_02
+einbroch,59,204,5	duplicate(healer)	Healer::heal_ebo	1_F_02
+geffen,115,73,5	duplicate(healer)	Healer::heal_gef	1_F_02
+hugel,90,151,5	duplicate(healer)	Healer::heal_hu	1_F_02
+izlude,122,117,5	duplicate(healer)	Healer::heal_iz	1_F_02
+lighthalzen,153,100,5	duplicate(healer)	Healer::heal_lhz	1_F_02
+louyang,213,119,5	duplicate(healer)	Healer::heal_lou	1_F_02
+xmas,143,136,5	duplicate(healer)	Healer::heal_xmas	1_F_02
+malangdo,164,141,4	duplicate(healer)	Healer::heal_malangdo	1_F_02
+malaya,144,249,4	duplicate(healer)	Healer::heal_malaya	1_F_02
+morocc,156,97,4	duplicate(healer)	Healer::heal_moc	1_F_02
+payon,177,94,7	duplicate(healer)	Healer::heal_pay	1_F_02
+prontera,151,187,5	duplicate(healer)	Healer::heal_prt	1_F_02
+rachel,127,117,5	duplicate(healer)	Healer::heal_ra	1_F_02
+harboro1,279,219,5	duplicate(healer)	Healer::heal_har	1_F_02
+splendide,197,154,5	duplicate(healer)	Healer::heal_splen	1_F_02
+umbala,117,145,5	duplicate(healer)	Healer::heal_um	1_F_02
+yuno,153,127,5	duplicate(healer)	Healer::heal_yuno	1_F_02
+veins,190,236,3	duplicate(healer)	Healer::heal_veins	1_F_02
+moc_ruins,69,164,4	duplicate(healer)	Healer::heal_moc_ruins	1_F_02
+pay_arche,43,135,5	duplicate(healer)	Healer::heal_pay_arche	1_F_02
+prt_fild05,275,217,3	duplicate(healer)	Healer::heal_prt_fild05	1_F_02
+moscovia,217,198,6	duplicate(healer)	Healer::heal_mosc	1_F_02
+jawaii,134,208,3	duplicate(healer)	Healer::heal_jawaii	1_F_02
+pvp_n_1-1,98,74,3	duplicate(healer)	Healer::heal_dbroom	1_F_02
+pvp_n_3-1,96,74,3	duplicate(healer)	Healer::heal_bbroom	1_F_02
+silk_lair,191,206,3	duplicate(healer)	Healer::heal_bbroomi	1_F_02

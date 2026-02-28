@@ -1,0 +1,415 @@
+gonryun,160,110,3	script	Event#021	86,{
+
+	if( #Event_Moon & 2 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Fin d'event !";
+		close;
+	}
+	
+	if( #Event_02 > 1 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Tu as déjà trouvé le npc après moi...";
+		close;
+	}
+
+	if( !#Event_02 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Je suis le premier d'une série de 7 autres NPCs qui vont vous guider à travers Midgard dans une petite quête.";
+		next;
+		mes "["+strnpcinfo(1)+"]";
+		mes "Chaques Npc donnerons des indices pour trouver les suivants...";
+		mes "À la fin un NPC vous demandera quelques items pour clore la quête.";
+		next;
+		mes "["+strnpcinfo(1)+"]";
+		mes "Je suis, comme tu dois t'en douter, le premier NPC qui lance la quête.";
+		mes "Dans la page suivante, je vais te donner les indices pour trouver mon compère.";
+		next;
+	}
+	mes "["+strnpcinfo(1)+"]";
+	mes "^ff0000Premiers indices^000000 :";
+	mes "- Au mileu de petits monstres portant des masques.";
+	mes "- Perché dans un arbre.";
+	mes "- D'ici je peux voir la Tour de Geffen.";
+	next;
+	set #Event_02, 1;
+	mes "["+strnpcinfo(1)+"]";
+	mes "Voilà les seuls indices que je donne, bonne chance (chasse ^^).";
+	close;
+}
+
+gef_fild11,283,103,3	script	Event#022	86,{
+
+	if( #Event_Moon & 2 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Fin d'event !";
+		close;
+	}
+	
+	if( !#Event_02 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Bein alors ?? Tu pensais griller des étapes ? :P";
+		close2;
+		warp getsavepoint(0),getsavepoint(1),getsavepoint(2);
+		end;
+	}
+
+	if( #Event_02 > 2 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Tu as déjà trouvé le npc après moi...";
+		close;
+	}
+
+	if( #Event_02 != 2 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Bravo tu m'as trouvé !";
+		mes "Je suis le second Npc.";
+		next;
+		mes "["+strnpcinfo(1)+"]";
+		mes "Voilà les prochains indices !";
+		next;
+	}
+	mes "["+strnpcinfo(1)+"]";
+	mes "^ff0000Seconds indices^000000 :";
+	mes "- Des monstres demi-humain m'entourent.";
+	mes "- Leur meneur est un hero de bataille.";
+	mes "- On le distingue par son grand Chapeau à plumes(hat).";
+	next;
+	mes "["+strnpcinfo(1)+"]";
+	mes "Voilà les seuls indices que je donne, bonne chance (chasse ^^).";
+	set #Event_02, 2;
+	close;
+}
+
+gef_fild03,104,107,3	script	Event#023	86,{
+
+	if( #Event_Moon & 2 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Fin d'event !";
+		close;
+	}
+	
+	if( #Event_02 < 2 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Bein alors ?? Tu pensais griller des étapes ? :P";
+		close2;
+		warp getsavepoint(0),getsavepoint(1),getsavepoint(2);
+		end;
+	}
+
+	if( #Event_02 > 4 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Tu as déjà trouvé le npc après moi...";
+		close;
+	}
+
+	if( #Event_02 != 4 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Bravo tu m'as trouvé !";
+		mes "Je suis le troisième Npc.";
+		next;
+		mes "["+strnpcinfo(1)+"]";
+		mes "Voilà les prochains indices !";
+		next;
+	}
+	mes "["+strnpcinfo(1)+"]";
+	mes "^ff0000Troisièmes indices^000000 :";
+	mes "- La musique d'un piano m'entraine.";
+	mes "- Phantomes et revenant m'effraye.";
+	mes "- Une maison hantée ne me fairat reculer.";
+	next;
+	mes "["+strnpcinfo(1)+"]";
+	mes "Voilà les seuls indices que je donne, bonne chance (chasse ^^).";
+	set #Event_02, 4;
+	close;
+}
+
+nif_in,123,171,3	script	Event#024	86,{
+
+	if( #Event_Moon & 2 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Fin d'event !";
+		close;
+	}
+	
+	if( #Event_02 < 4 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Bein alors ?? Tu pensais griller des étapes ? :P";
+		close2;
+		warp getsavepoint(0),getsavepoint(1),getsavepoint(2);
+		end;
+	}
+
+	if( #Event_02 > 8 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Tu as déjà trouvé le npc après moi...";
+		close;
+	}
+
+	if( #Event_02 != 8 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Bravo tu m'as trouvé !";
+		mes "Je suis le quatrième Npc.";
+		next;
+		mes "["+strnpcinfo(1)+"]";
+		mes "Voilà les prochains indices !";
+		next;
+	}
+	mes "["+strnpcinfo(1)+"]";
+	mes "^ff0000Quatrièmes indices^000000 :";
+	mes "- Je me cache dans la map des 'ings.";
+	mes "- Quelque fois j'entend les batailles de Payon.";
+	mes "- Mi desert, mi forêt, l'eau est tout de même là !";
+	next;
+	mes "["+strnpcinfo(1)+"]";
+	mes "Voilà les seuls indices que je donne, bonne chance (chasse ^^).";
+	set #Event_02, 8;
+	close;
+}
+
+pay_fild04,347,335,3	script	Event#025	86,{
+
+	if( #Event_Moon & 2 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Fin d'event !";
+		close;
+	}
+	
+	if( #Event_02 < 8 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Bein alors ?? Tu pensais griller des étapes ? :P";
+		close2;
+		warp getsavepoint(0),getsavepoint(1),getsavepoint(2);
+		end;
+	}
+
+	if( #Event_02 > 16 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Tu as déjà trouvé le npc après moi...";
+		close;
+	}
+
+	if( #Event_02 != 16 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Bravo tu m'as trouvé !";
+		mes "Je suis le cinquième Npc.";
+		next;
+		mes "["+strnpcinfo(1)+"]";
+		mes "Voilà les prochains indices !";
+		next;
+	}
+	mes "["+strnpcinfo(1)+"]";
+	mes "^ff0000Cinquièmes indices^000000 :";
+	mes "- On peut me considérer comme berceau de la vie avec mes fruits qui redonne vie.";
+	mes "- Je suis un endroit très humide.";
+	mes "- Magrés l'absence de boss, on me considére comme donjon.";
+	next;
+	mes "["+strnpcinfo(1)+"]";
+	mes "Voilà les seuls indices que je donne, bonne chance (chasse ^^).";
+	set #Event_02, 16;
+	close;
+}
+
+yggdrasil01,253,138,3	script	Event#026	86,{
+
+	if( #Event_Moon & 2 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Fin d'event !";
+		close;
+	}
+	
+	if( #Event_02 < 16 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Bein alors ?? Tu pensais griller des étapes ? :P";
+		close2;
+		warp getsavepoint(0),getsavepoint(1),getsavepoint(2);
+		end;
+	}
+
+	if( #Event_02 > 32 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Tu as déjà trouvé le npc après moi...";
+		close;
+	}
+
+	if( #Event_02 != 32 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Bravo tu m'as trouvé !";
+		mes "Je suis le sixième Npc.";
+		next;
+		mes "["+strnpcinfo(1)+"]";
+		mes "Voilà les prochains indices !";
+		next;
+	}
+	mes "["+strnpcinfo(1)+"]";
+	mes "^ff0000Sixièmes indices^000000 :";
+	mes "- Je suis dans le grenier d'un grand palais.";
+	mes "- Prèt d'un soldat cachant un secret.";
+	mes "- Ce palais est entouré d'eau dans une ville aux arbres fleurissants.";
+	next;
+	mes "["+strnpcinfo(1)+"]";
+	mes "Voilà les seuls indices que je donne, bonne chance (chasse ^^).";
+	set #Event_02, 32;
+	close;
+}
+
+ama_in02,129,183,3	script	Event#027	86,{
+
+	if( #Event_Moon & 2 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Fin d'event !";
+		close;
+	}
+	
+	if( #Event_02 < 32 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Bein alors ?? Tu pensais griller des étapes ? :P";
+		close2;
+		warp getsavepoint(0),getsavepoint(1),getsavepoint(2);
+		end;
+	}
+
+	if( #Event_02 > 64 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Tu as déjà trouvé le npc après moi...";
+		close;
+	}
+
+	if( #Event_02 != 64 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Bravo tu m'as trouvé !";
+		mes "Je suis le septième et avant-dernier Npc.";
+		next;
+		mes "["+strnpcinfo(1)+"]";
+		mes "Voilà les prochains indices !";
+		next;
+	}
+	mes "["+strnpcinfo(1)+"]";
+	mes "^ff0000Septièmes indices^000000 :";
+	mes "- Je suis au beau milieu des nuages.";
+	mes "- Entouré de petites îles et d'une grande populasse.";
+	mes "- Je me suis isolé pour mieu méditer.";
+	next;
+	mes "["+strnpcinfo(1)+"]";
+	mes "Voilà les seuls indices que je donne, bonne chance (chasse ^^).";
+	set #Event_02, 64;
+	close;
+}
+
+gonryun,46,260,3	script	Event#028	86,{
+
+	if( #Event_Moon & 2 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Fin d'event !";
+		close;
+	}
+	
+	if( #Event_02 < 64 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Bein alors ?? Tu pensais griller des étapes ? :P";
+		close2;
+		warp getsavepoint(0),getsavepoint(1),getsavepoint(2);
+		end;
+	}
+
+	if( #Event_02 != 128 ) {
+		mes "["+strnpcinfo(1)+"]";
+		mes "Bravo tu m'as trouvé !";
+		mes "Je suis le dernier Npc.";
+		next;
+		mes "["+strnpcinfo(1)+"]";
+		mes "Voilà les items qu'il faut me rapporter pour terminer l'event et avoir tes gains !";
+		next;
+	}
+	mes "["+strnpcinfo(1)+"]";
+	mes "- 250 Coral Reef";			// 7013
+	mes "- 10 Loki's Whispers";			// 7019
+	mes "- 250 Ice Cubic";				// 7066
+	mes "- 250 Burning Hair";			// 7122
+	mes "- 50 Slingshot";				// 7195
+	mes "- 250 Tangled Chains";		// 7221
+	set #Event_02,128;
+	next;
+	mes "["+strnpcinfo(1)+"]";
+	mes "As-tu les items que je veux ?";
+	next;
+	if( select("Non:Oui") == 1 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "À toute à l'heure alors !";
+		close;
+	}
+	if( countitem(7013) < 250 || countitem(7019) < 10 || countitem(7066) < 250 || countitem(7122) < 250 || countitem(7221) < 250 || countitem(7195) < 50 )
+	{
+		mes "["+strnpcinfo(1)+"]";
+		mes "Tu n'as pas les items qu'il me faut !! Retourne les chercher !!";
+		close;
+	}
+	mes "["+strnpcinfo(1)+"]";
+	mes "Très bien tu as tous les objets !!";
+	mes "Voici ce que tu gagne !!!";
+	next;
+	mes "["+strnpcinfo(1)+"]";
+	mes "De l'experience !";
+	mes "20M de zeny";
+	mes "50 Speed Potions";	// 12016
+	mes "30 Obb";	// 603
+	mes "20 Opb";	// 617
+	mes "50 Lucky Candy";	// 570
+	mes "50 Gift Box";	// 644
+	mes "2 Mystical Album";	// 14533
+	mes "2 Starter Pack";	//13895
+	mes "10 Convex mirror";	// 12132
+	next;
+	set #Event_02,0;
+	set #Event_Moon,#Event_Moon | 2;
+	mes "["+strnpcinfo(1)+"]";
+	mes " \" GG ! \" ";
+	delitem 7013,250;
+	delitem 7019,10;
+	delitem 7066,250;
+	delitem 7122,250;
+	delitem 7221,250;
+	delitem 7195,50;
+	getexp 200000,50000;
+	set Zeny,Zeny + 20000000;
+	getitem 12016,50;
+	getitem 603,30;
+	getitem 617,20;
+	getitem 570,50;
+	getitem 644,50;
+	getitem 14533,2;
+	getitem 12246,2;
+	getitem 13895,2;
+	getitem 12214,10;
+	mapannounce "gonryun","Fin de quête pour "+strcharinfo(0)+" !",1,0xFAB145;
+	close;
+}

@@ -1,0 +1,568 @@
+// Item Trade Restrictions Database
+// Defines special trade rules for individual items.
+//
+// Structure of Database:
+// Item ID, TradeMask,Group Level Override
+//
+// Legend for 'TradeMask' field (bitmask):
+// 1   - item can't be dropped
+// 2   - item can't be traded (nor vended)
+// 4   - wedded partner can override restriction 2
+// 8   - item can't be sold to npcs
+// 16  - item can't be placed in the cart
+// 32  - item can't be placed in the storage
+// 64  - item can't be placed in the guild storage
+// 128 - item can't be attached to mail
+// 256 - item can't be auctioned
+//
+// Example:
+// 1161,67,50
+//	Balmung cannot be dropped, traded, or placed in Guild Storage (1+2+64).
+//	Only groups of group-level 50 and up can override this setting.
+20500,9,99
+20502,9,99
+20504,9,99
+20507,9,99
+20509,9,99
+20510,9,99
+20511,9,99
+20512,9,99
+20514,9,99
+20516,9,99
+20727,9,99
+20737,9,99
+20746,9,99
+20761,9,99
+20762,9,99
+20763,9,99
+20764,9,99
+20546,9,99
+20457,9,99
+20487,9,99
+20505,9,99
+20515,9,99
+20517,9,99
+20519,9,99
+20525,9,99
+20526,9,99
+20527,9,99
+20528,9,99
+20530,9,99
+20543,9,99
+20570,9,99
+20572,9,99
+20574,9,99
+20576,9,99
+20577,9,99
+20578,9,99
+20579,9,99
+20582,9,99
+20587,9,99
+20588,9,99
+20826,9,99
+20842,9,99
+20940,9,99
+20955,9,99
+31056,9,99
+31091,9,99
+29999,9,99
+20513,9,99
+20521,9,99
+20518,9,99
+29998,9,99
+20571,9,99
+20575,9,99
+29997,9,99
+29996,9,99
+20594,9,99
+20586,9,99
+20589,9,99
+20590,9,99
+29995,9,99
+20592,9,99
+20593,9,99
+20597,9,99
+20596,9,99
+
+// Moonlight-Destiny related [Stingor]
+12701,511,99	// Old Blue Box  ???
+1599,511,99		// Angra Manyu
+2199,511,99		// Ahura Mazdah
+6015,479,99		// Carte M
+7467,479,99		// Carte O
+//7467,479,99	// Carte O
+7466,479,99		// Carte N
+7465,479,99		// Carte L
+7598,479,99		// Carte I
+7719,479,99		// Carte G
+7464,479,99		// Carte H
+6017,479,99		// Carte T
+7599,479,99		// Carte D
+7462,479,99		// Carte E
+7601,479,99		// Carte S
+//6017,479,99	// Carte T
+//7598,479,99	// Carte I
+//7466,479,99	// Carte N
+7471,479,99		// Carte Y
+7712,511,99		// Nokia 5500
+13895,8,99		// Starter_Pack
+12622,461,99	// Boarding halter
+12887,479,99	// infinite fly wing
+7828,479,99		// Bravery Badge
+7829,479,99		// Valor Badge
+7773,479,99		// War Badges
+
+12910,479,99	// Bloodybranch box
+12103,479,99	// Bloodybranch
+12912,479,99	// convex box
+12214,479,99	// convex
+12210,479,99	// BubbleGum X2
+12264,479,99	// BubbleGum X4
+12221,479,99	// Megaphone
+14532,479,99	// Field Manual 25%
+14533,479,99	// battle manuel X2
+14545,479,99	// battle manuel X4
+
+// Wedding Related items
+2634,507,100	// Wedding Ring
+2635,507,100	// Wedding Ring
+
+// "2005 The Sign" related items
+7177,507,100	// Crumb of Sobbing Starlight
+7178,507,100	// Sobbing Starlight
+7304,507,100	// Witch's Spell Scroll
+7305,507,100	// Symbol of the Nine Realms
+7306,507,100	// Piece of Spirit
+7307,507,100	// Spiritual Whispers
+7308,507,100	// Witch's Tonic
+7309,507,100	// Crow Wing
+2642,507,100	// Serin's Gold Ring
+2644,507,100	// The Sign
+7314,507,100	// The Sign
+7025,475,100	// Lucifer's Lament
+
+// "2nd Anniversary Event" items
+// "Eye of Hellion" items
+2647,507,100	// Nile Rose
+7332,507,100	// Complete Tablet
+7333,507,100	// Prontera Tablet
+7334,507,100	// Payon Tablet
+7335,507,100	// Morroc Tablet
+7336,507,100	// Geffen Tablet
+7339,507,100	// Commemorative Travel Card
+
+// "Main Quest"/"Danilion's Request" items
+7416,475,100	// Letter of Recommendation
+7417,475,100	// Written Request(A)
+7418,475,100	// Written Request(B)
+
+// 10.3 Quest items
+// * "Gaebolg family Curse" items
+7431,499,100	// Pile of Books
+7432,507,100	// Leather Pouch
+// * "Thanatos Tower" items
+7421,499,100	// Red Key
+7422,499,100	// Yellow Key
+7423,499,100	// Blue Key
+7424,499,100	// Green Key
+7425,499,100	// Black Key
+7426,499,100	// Red Charm Stone
+7427,499,100	// Yellow Charm Stone
+7428,499,100	// Blue Charm Stone
+7429,499,100	// Green Charm Stone
+7430,499,100	// Black Charm Stone
+
+// Chinese New Year
+7484,507,100	// Symbol of a Brave Warrior
+7485,507,100	// Cloud General
+7486,507,100	// Wind General
+
+// "Kiel Hyre's Cottage" Quest related items
+7487,507,100	// Culinary Wine
+7488,507,100	// Delivery Package
+7489,507,100	// Cottage Key
+7490,507,100	// Letter to Elly
+7491,507,100	// Steel Box
+7492,507,100	// Yellow Keycard
+7493,507,100	// Golden Key
+7494,507,100	// Luxurious Button
+7495,507,100	// Blue Keycard
+7496,507,100	// Red Keycard
+7497,507,100	// Metal Fragment
+7498,507,100	// Rosimier Mansion Keys
+7499,507,100	// Family Portrait
+7500,507,100	// Woman's Portrait
+7501,507,100	// K.H's Letter
+7502,507,100	// James's Note
+7503,507,100	// Man's Portrait
+7504,507,100	// Power Device
+7505,507,100	// Toy Key
+7506,499,100	// Black Keycard
+7508,507,100	// Allysia's Ring
+7509,475,100	// Luxurious Keycard
+7516,499,100	// Green Keycard
+
+// Hugel Race Track token
+7515,499,100	// Prize Medal
+
+// Chinese ????? related items
+7518,499,100	// Women's Medal
+2668,499,100	// Woman Glory
+7525,499,100	// Summer Festival Ticket
+7341,507,100	// Old Pendant
+
+// Lighthalzen Quest items
+// * Schwartzvalt Trilogy Quest items
+7342,507,100	// File Folder
+7343,507,100	// Sealed File Folder
+7344,507,100	// Shinokas Case File
+7346,507,100	// Ymir's Heart Piece
+7349,507,100	// Archive Permit
+// * Friendship Quest(?) Items
+7351,507,100	// Friend's Diary
+
+// ??? Indonesian Event
+7527,506,100	// Book About True Life
+12142,506,100	// Book of Magic
+
+// "2006 USA 3rd Anniversary" related items
+7530,507,100	// Travel Brochure [Amatsu]
+7531,507,100	// Travel Brochure [Kunlun]
+7532,507,100	// Travel Brochure [Louyang]
+7533,507,100	// Travel Brochure [Ayothaya]
+7534,507,100	// Amatsu Completed Photo Album
+7535,507,100	// Kunlun Completed Photo Album
+7536,507,100	// Louyang Completed Photo Album
+7537,507,100	// Ayothaya Completed Photo Album
+
+// Poring Coin items
+7538,499,100	// Sand for Work
+7539,499,100	// Poring Coin
+
+// Brazillian Event items
+7547,499,100	// Soccer Ball
+7548,499,100	// Soccer Shoes
+7549,499,100	// Brazilian Flag
+7550,499,100	// 6.13 Ticket
+7551,499,100	// 6.18 Ticket
+7552,499,100	// 6.22 Ticket
+
+// Taiwan Besark's Day Event items
+7553,499,100	// Lotus Flower
+7554,499,100	// Striped Candle
+7555,499,100	// Green Incense
+
+// Taiwan 'Pink Yearning' Event items
+7556,475,100	// Longing Heart
+7557,475,100	// Invitation Letter
+7558,475,100	// Invitation Ticket
+7559,475,100	// Key to the Secret Garden
+2670,475,100	// Ring of Longing
+2358,73,100	// Angel's Dress
+
+// India Father's Day Event items
+5154,475,100	// Father's Sunglasses
+5155,475,100	// Father's White Moustache
+5156,475,100	// Father's Mask
+
+// Indonesia Jewel Event items
+7575,507,100	// Red Jewel
+7576,507,100	// Blue Jewel
+7577,499,100	// Yellow Jewel
+
+// Rachel Quest items
+// * Aruna First (Katullanux quest)
+7569,475,100	// Wind Hammer
+7572,475,100	// Ashy Necklace
+7573,475,100	// Sparkling Necklace
+
+// 2006 Chinese Event items
+7579,499,100	// Silk Handkerchief of Zhi Nu
+
+// Taiwan 4th Anniversary Memorial items
+7583,499,100	// Evil Mind
+7584,499,100	// Guard's First Proof
+7585,499,100	// Guard's Second Proof
+7586,499,100	// Guard's Third Proof
+7587,499,100	// Guard's Fourth Proof
+2673,507,100	// Warrior's Shining Ring
+1533,507,100	// Warrior's Balmung
+13020,507,100	// Warrior's Balmung
+
+// Vietnam Event item
+7588,499,100	// IPOD Coupon
+
+// 2006 Brazilian 2nd Anniversary items
+7603,499,100	// RO Party Invitation Ticket
+5201,499,100	// Party Hat
+
+// 2006 Indonesia Honor Ring item 
+2674,507,100	// Ring of Honor
+
+// 2006 Korean Harvest Moon Day Event item
+12199,507,100	// Scroll of Magic
+
+// 2006 Indonesia Event
+7614,499,100	// Wrapping Paper
+7618,499,100	// Monster Crystal
+2676,507,100	// Hunter's Earring
+
+// Mercenary scrolls
+12153,499,100	// Bowman Scroll 1
+12154,499,100	// Bowman Scroll 2
+12155,499,100	// Bowman Scroll 3
+12156,499,100	// Bowman Scroll 4
+12157,499,100	// Bowman Scroll 5
+12158,499,100	// Bowman Scroll 6
+12159,499,100	// Bowman Scroll 7
+12160,499,100	// Bowman Scroll 8
+12161,499,100	// Bowman Scroll 9
+12162,499,100	// Bowman Scroll 10
+12163,499,100	// Fencer Scroll 1
+12164,499,100	// Fencer Scroll 2
+12165,499,100	// Fencer Scroll 3
+12166,499,100	// Fencer Scroll 4
+12167,499,100	// Fencer Scroll 5
+12168,499,100	// Fencer Scroll 6
+12169,499,100	// Fencer Scroll 7
+12170,499,100	// Fencer Scroll 8
+12171,499,100	// Fencer Scroll 9
+12172,499,100	// Fencer Scroll 10
+12173,499,100	// Spearman Scroll 1
+12174,499,100	// Spearman Scroll 2
+12175,499,100	// Spearman Scroll 3
+12176,499,100	// Spearman Scroll 4
+12177,499,100	// Spearman Scroll 5
+12178,499,100	// Spearman Scroll 6
+12179,499,100	// Spearman Scroll 7
+12180,499,100	// Spearman Scroll 8
+12181,499,100	// Spearman Scroll 9
+12182,499,100	// Spearman Scroll 10
+
+// Indonesia 4 Annual Events
+2368,467,100	// Golden Armor
+2427,467,100	// Golden Shoes
+2704,467,100	// Golden Accessories
+2705,467,100	// Golden Accessories
+5295,467,100	// Golden Bandana
+7863,467,100	// Special Gold
+
+// Thailand Event-Environment Day Items
+7865,499,100	// Gold Pouch
+7866,499,100	// Certificate
+
+// 11.2 Quest items
+// * "Thor Volcano Base" items
+7759,507,100	// Geologist's Report
+
+// USA 4th Anniversary Event Items
+5305,475,100	// Pirate Dagger
+5373,73,100	// Dark Randgris Helm
+7773,499,100	// Wat Badge
+7875,467,100	// Pirate Treasure
+
+// Moscovia Quest Items -----
+2429,499,100	// Iron Boots
+2430,499,100	// Iron Boots
+7876,499,100	// Golden Key
+7877,499,100	// Red Ring
+7878,499,100	// Lusalka's Hair
+7879,499,100	// Golden Thread
+7880,499,100	// Baba Yaga's Silver Spoon
+7881,499,100	// Mystery Magic Book
+7882,499,100	// Sharp Branch
+7883,499,100	// Wooden Flute
+
+// Indonesian Red Bandana Hair Band
+5320,475,100	// Champion Wreath
+
+// Malaysia/Singapore Event Items
+2708,475,100	// Chinese Handicraft
+5805,475,100	// Victorious Coronet
+7884,475,100	// Jade Plate
+7885,475,100	// Sacred Arrow
+12704,475,100	// Elixir of Life
+12705,475,100	// Noble Nameplate
+
+// Compensation Items Coupon
+7784,475,100	// Free Coupon 1
+7785,475,100	// Free Coupon 2
+7786,475,100	// Free Coupon 3
+7787,475,100	// Free Coupon 4
+7788,475,100	// Free Coupon 5
+7789,475,100	// Free Coupon 6
+7790,475,100	// Free Coupon 7
+7791,475,100	// Free Coupon 8
+
+// Fate Crow Quest Items
+7794,475,100	// The Crow of Destiny
+
+// Russian Golden Apple Event Items
+//5322,475,100	// Kerchief
+7793,475,100	// Golden Apple
+7800,475,100	// Golden Charm Apple
+
+// Taiwan Medicine of Fantasy
+12259,507,100	// Miracle Tonic
+12261,507,100	// Leap of Fantasy
+
+// 2007 Summer Event Items
+7801,499,100	// Girl's Letter
+7802,499,100	// Signature Notebook
+
+// Sakray Test items
+1177,467,100	// Muramash
+1272,467,100	// Scratcher
+1423,467,100	// Pole XO
+1536,467,100	// Good Morning Star
+1566,467,100	// Diary Of Great Basil
+1627,467,100	// Staffy
+1735,467,100	// Kkakkung
+1921,467,100	// Gun Moon Gom
+1975,467,100	// Queen Is Whip
+2127,467,100	// Secular Mission
+2370,467,100	// Used Mage Coat
+2431,467,100	// Valley Shoes
+2534,467,100	// Ruffler
+5323,467,100	// Misstrance Crown
+13029,467,100	// Prinsense Knife
+13406,467,100	// Edger
+
+// Taiwan ???
+2713,507,100	// Certificate
+
+// Satan Morroc
+7820,507,100	// Piece of Morocc Skin
+
+// Vietnam Independence Day
+5806,475,100	// Poet Natalie's Hat
+
+// PC-Cafe Authoritative Badge
+12262,507,100	// Authoritative Badge
+12263,475,100	// Field Manual
+12265,475,100	// Life Insurrance
+
+// Morocc Continental Guard Certificate
+7826,507,100	// Continental Guard Paper
+
+// Harvest Moon Day PC Items
+12266,507,100	// Sesame Pastry
+12267,507,100	// Honey Pastry
+12268,507,100	// Rainbow Cake
+
+// Satan Morocc (Episode 12)
+2730,467,100	// Seal of Continental Guard
+2731,467,100	// Rune Spellstone
+2732,467,100	// Death Loop
+
+// Episode 12
+1638,67,100	// Staff Of Healing
+2438,67,100	// Paw Of Cat
+2720,67,100	// Medal of Honor
+2721,67,100	// Medal of Honor
+2722,67,100	// Medal of Honor
+2723,67,100	// Medal of Honor
+2724,67,100	// Medal of Honor
+2725,67,100	// Medal of Honor
+2738,67,100	// Shiny Coin
+2739,67,100	// Ordinary Coin
+2740,67,100	// Rusty Coin
+2751,67,100	// Academy Of Badge
+2752,67,100	// Praccsinos
+5368,67,100	// White Wing
+5369,67,100	// Dark Wing
+5386,67,100	// Ayam
+5394,67,100	// Bubblegum
+5812,67,100	// Hat Of Expert
+6000,67,100	// Ashes of Darkness
+6005,67,100	// New Year Rice Cake
+6006,67,100	// Rice Cake Delivery Box
+6007,67,100	// New Year Rice Cake Soup
+6009,67,100	// Big Fan Of Magic
+7623,67,100	// Ticket Of Identification
+
+// Falicious Okolnir
+7839,67,100	// Crystal Key
+7840,67,100	// Valkyrie's Gift
+
+// "St. Patrick's Day (2008)" Quest related items
+12715,67,100	// Black Treasure Box
+
+// "Valentine's Day (2009)" Event related items
+5817,67,100	// Valentine Pledge
+14466,67,100	// Valentine's Emblem Box
+
+// Ayo_event 20090303
+7950,67,100	// Ayothaya Fest Ticket
+
+// Episode 13.1
+6039,67,100	// Piece of Fish
+6048,67,100	// Unidentified Mineral
+6051,67,100	// Gray Hollow
+
+// Episode 13.2
+6074,67,100	// Bazett's Order
+6075,67,100	// Crystalized Teardrop
+6076,67,100	// Portable Toolbox
+6077,67,100	// Rough Mineral
+6078,67,100	// Stone Fragment
+6079,67,100	// Flower Of Alfheim
+6080,67,100	// Manuk Coin
+6081,67,100	// Splendide Coin
+6082,67,100	// Spirit Of Alfheim
+6084,67,100	// Bradium Fragments
+6085,67,100	// Shaggy Muffler
+12342,67,100	// Manuk's Opportunity
+12343,67,100	// Manuk's Courage
+12344,67,100	// Pinguicula's Fruit Jam
+12345,67,100	// Luciola's Honey Jam
+12348,67,100	// Manuk's Faith
+12349,67,100	// Cornus' Tears
+
+// New Novice Training Grounds Equipment
+1381,67,100	// Novice Battle Axe
+1545,67,100	// Novice Mace
+1639,67,100	// Novice Rod
+1742,67,100	// Novice Composite Bow
+2393,67,100	// Novice Adventurer's Suit
+2819,67,100	// Swordsman Manual
+2820,67,100	// Thief Manual
+2821,67,100	// Acolyte Manual
+2822,67,100	// Archer Manual
+2823,67,100	// Merchant Manual
+2824,67,100	// Mage Manual
+12323,67,100	// Novice Fly Wing
+12324,67,100	// Novice Butterfly Wing
+12325,67,100	// Novice Magnifier
+13040,67,100	// Novice Cutter
+13041,67,100	// Novice Main Gauche
+13415,67,100	// Novice Falchion
+
+// Eden Group
+1192,67,100	// Eden Slayer I
+1193,67,100	// Eden Slayer II
+1650,67,100	// Eden Staff I
+1651,67,100	// Eden Staff II
+1747,67,100	// Eden Bow I
+1748,67,100	// Eden Bow II
+2456,67,100	// Eden Team Boots I
+2457,67,100	// Eden Team Boots II
+2458,67,100	// Eden Team Boots III
+2560,67,100	// Eden Team Manteau I
+5583,67,100	// Eden Team Hat I
+6218,67,100	// Delivery_Daishin_Box
+6219,67,100	// Eden Group Mark
+13050,67,100	// Eden Dagger I
+13051,67,100	// Eden Dagger II
+13112,67,100	// Eden Revlover I
+13113,67,100	// Eden Revlover II
+13423,67,100	// Eden Sabre I
+13424,67,100	// Eden Sabre II
+15009,67,100	// Eden Team Uniform I
+15010,67,100	// Eden Team Uniform II
+15011,67,100	// Eden Team Uniform III
+16004,67,100	// Eden Mace I
+16005,67,100	// Eden Mace II
+
+// Brasilis
+6237,67,100	// Guarana Fruit

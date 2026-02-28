@@ -1,0 +1,182 @@
+//===== rAthena Script =======================================
+//= Mapflag: Battleground map setting.
+//===== By: ==================================================
+//= Epoque
+//===== Current Version: =====================================
+//= 1.0a
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Defines a Battleground map.
+//= Additional parameter '2' shows scoreboard.
+//===== Additional Comments: =================================
+//= 1.0 Initial script.
+//============================================================
+
+bat_c01	mapflag	loadevent
+bat_c02	mapflag	loadevent
+bat_c03	mapflag	loadevent
+bat_b01	mapflag	loadevent
+bat_b02	mapflag	loadevent
+bat_a01	mapflag	loadevent
+bat_a02	mapflag	loadevent
+
+bat_c01	mapflag	battleground	2
+bat_c02	mapflag	battleground	2
+bat_c03	mapflag	battleground	2
+bat_b01	mapflag	battleground	2
+bat_b02	mapflag	battleground
+bat_a01	mapflag	battleground
+bat_a02	mapflag	battleground
+
+bat_c01	mapflag	hidemobhpbar
+bat_c02	mapflag	hidemobhpbar
+bat_c03	mapflag	hidemobhpbar
+bat_b01	mapflag	hidemobhpbar
+bat_b02	mapflag	hidemobhpbar
+bat_a01	mapflag	hidemobhpbar
+bat_a02	mapflag	hidemobhpbar
+
+bat_c01	mapflag	nightenabled
+bat_c02	mapflag	nightenabled
+bat_c03	mapflag	nightenabled
+
+bat_c01	mapflag	nomemo
+bat_c02	mapflag	nomemo
+bat_c03	mapflag	nomemo
+bat_room	mapflag	nomemo
+bat_b01	mapflag	nomemo
+bat_b02	mapflag	nomemo
+bat_a01	mapflag	nomemo
+bat_a02	mapflag	nomemo
+
+bat_c01	mapflag	nopenalty
+bat_c02	mapflag	nopenalty
+bat_c03	mapflag	nopenalty
+bat_room	mapflag	nopenalty
+bat_b01	mapflag	nopenalty
+bat_b02	mapflag	nopenalty
+bat_a01	mapflag	nopenalty
+bat_a02	mapflag	nopenalty
+
+bat_room	mapflag	pvp	off
+bat_a01	mapflag	pvp	off
+bat_a02	mapflag	pvp	off
+bat_b01	mapflag	pvp	off
+bat_b02	mapflag	pvp	off
+bat_c01	mapflag	pvp	off
+bat_c02	mapflag	pvp	off
+bat_c03	mapflag	pvp	off
+
+bat_c01	mapflag	noreturn
+bat_c02	mapflag	noreturn
+bat_c03	mapflag	noreturn
+bat_b01	mapflag	noreturn
+bat_b02	mapflag	noreturn
+bat_a01	mapflag	noreturn
+bat_a02	mapflag	noreturn
+
+bat_c01	mapflag	nosave	SavePoint
+bat_c02	mapflag	nosave	SavePoint
+bat_c03	mapflag	nosave	SavePoint
+bat_b01	mapflag	nosave	SavePoint
+bat_b02	mapflag	nosave	SavePoint
+bat_a01	mapflag	nosave	SavePoint
+bat_a02	mapflag	nosave	SavePoint
+
+bat_c01	mapflag	noteleport
+bat_c02	mapflag	noteleport
+bat_c03	mapflag	noteleport
+bat_room	mapflag	noteleport
+bat_b01	mapflag	noteleport
+bat_b02	mapflag	noteleport
+bat_a01	mapflag	noteleport
+bat_a02	mapflag	noteleport
+
+bat_c01	mapflag	nowarp
+bat_c02	mapflag	nowarp
+bat_c03	mapflag	nowarp
+bat_b01	mapflag	nowarp
+bat_b02	mapflag	nowarp
+bat_a01	mapflag	nowarp
+bat_a02	mapflag	nowarp
+
+bat_c01	mapflag	nowarpto
+bat_c02	mapflag	nowarpto
+bat_c03	mapflag	nowarpto
+bat_room	mapflag	nowarpto
+bat_b01	mapflag	nowarpto
+bat_b02	mapflag	nowarpto
+bat_a01	mapflag	nowarpto
+bat_a02	mapflag	nowarpto
+
+bat_a01	mapflag	skill_duration	HT_SKIDTRAP,400
+bat_a01	mapflag	skill_duration	HT_LANDMINE,400
+bat_a01	mapflag	skill_duration	HT_ANKLESNARE,400
+bat_a01	mapflag	skill_duration	HT_SHOCKWAVE,400
+bat_a01	mapflag	skill_duration	HT_SANDMAN,400
+bat_a01	mapflag	skill_duration	HT_FLASHER,400
+bat_a01	mapflag	skill_duration	HT_FREEZINGTRAP,400
+bat_a01	mapflag	skill_duration	HT_BLASTMINE,400
+bat_a01	mapflag	skill_duration	HT_CLAYMORETRAP,400
+bat_a01	mapflag	skill_duration	HT_TALKIEBOX,400
+bat_a02	mapflag	skill_duration	HT_SKIDTRAP,400
+bat_a02	mapflag	skill_duration	HT_LANDMINE,400
+bat_a02	mapflag	skill_duration	HT_ANKLESNARE,400
+bat_a02	mapflag	skill_duration	HT_SHOCKWAVE,400
+bat_a02	mapflag	skill_duration	HT_SANDMAN,400
+bat_a02	mapflag	skill_duration	HT_FLASHER,400
+bat_a02	mapflag	skill_duration	HT_FREEZINGTRAP,400
+bat_a02	mapflag	skill_duration	HT_BLASTMINE,400
+bat_a02	mapflag	skill_duration	HT_CLAYMORETRAP,400
+bat_a02	mapflag	skill_duration	HT_TALKIEBOX,400
+bat_b01	mapflag	skill_duration	HT_SKIDTRAP,400
+bat_b01	mapflag	skill_duration	HT_LANDMINE,400
+bat_b01	mapflag	skill_duration	HT_ANKLESNARE,400
+bat_b01	mapflag	skill_duration	HT_SHOCKWAVE,400
+bat_b01	mapflag	skill_duration	HT_SANDMAN,400
+bat_b01	mapflag	skill_duration	HT_FLASHER,400
+bat_b01	mapflag	skill_duration	HT_FREEZINGTRAP,400
+bat_b01	mapflag	skill_duration	HT_BLASTMINE,400
+bat_b01	mapflag	skill_duration	HT_CLAYMORETRAP,400
+bat_b01	mapflag	skill_duration	HT_TALKIEBOX,400
+bat_b02	mapflag	skill_duration	HT_SKIDTRAP,400
+bat_b02	mapflag	skill_duration	HT_LANDMINE,400
+bat_b02	mapflag	skill_duration	HT_ANKLESNARE,400
+bat_b02	mapflag	skill_duration	HT_SHOCKWAVE,400
+bat_b02	mapflag	skill_duration	HT_SANDMAN,400
+bat_b02	mapflag	skill_duration	HT_FLASHER,400
+bat_b02	mapflag	skill_duration	HT_FREEZINGTRAP,400
+bat_b02	mapflag	skill_duration	HT_BLASTMINE,400
+bat_b02	mapflag	skill_duration	HT_CLAYMORETRAP,400
+bat_b02	mapflag	skill_duration	HT_TALKIEBOX,400
+bat_c01	mapflag	skill_duration	HT_SKIDTRAP,400
+bat_c01	mapflag	skill_duration	HT_LANDMINE,400
+bat_c01	mapflag	skill_duration	HT_ANKLESNARE,400
+bat_c01	mapflag	skill_duration	HT_SHOCKWAVE,400
+bat_c01	mapflag	skill_duration	HT_SANDMAN,400
+bat_c01	mapflag	skill_duration	HT_FLASHER,400
+bat_c01	mapflag	skill_duration	HT_FREEZINGTRAP,400
+bat_c01	mapflag	skill_duration	HT_BLASTMINE,400
+bat_c01	mapflag	skill_duration	HT_CLAYMORETRAP,400
+bat_c01	mapflag	skill_duration	HT_TALKIEBOX,400
+bat_c02	mapflag	skill_duration	HT_SKIDTRAP,400
+bat_c02	mapflag	skill_duration	HT_LANDMINE,400
+bat_c02	mapflag	skill_duration	HT_ANKLESNARE,400
+bat_c02	mapflag	skill_duration	HT_SHOCKWAVE,400
+bat_c02	mapflag	skill_duration	HT_SANDMAN,400
+bat_c02	mapflag	skill_duration	HT_FLASHER,400
+bat_c02	mapflag	skill_duration	HT_FREEZINGTRAP,400
+bat_c02	mapflag	skill_duration	HT_BLASTMINE,400
+bat_c02	mapflag	skill_duration	HT_CLAYMORETRAP,400
+bat_c02	mapflag	skill_duration	HT_TALKIEBOX,400
+bat_c03	mapflag	skill_duration	HT_SKIDTRAP,400
+bat_c03	mapflag	skill_duration	HT_LANDMINE,400
+bat_c03	mapflag	skill_duration	HT_ANKLESNARE,400
+bat_c03	mapflag	skill_duration	HT_SHOCKWAVE,400
+bat_c03	mapflag	skill_duration	HT_SANDMAN,400
+bat_c03	mapflag	skill_duration	HT_FLASHER,400
+bat_c03	mapflag	skill_duration	HT_FREEZINGTRAP,400
+bat_c03	mapflag	skill_duration	HT_BLASTMINE,400
+bat_c03	mapflag	skill_duration	HT_CLAYMORETRAP,400
+bat_c03	mapflag	skill_duration	HT_TALKIEBOX,400

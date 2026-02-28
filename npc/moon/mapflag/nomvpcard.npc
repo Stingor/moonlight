@@ -1,0 +1,32 @@
+//===== Moonlight-Destiny ==================================
+//= Map flags qui permet de retirer le drop mvp Card.
+//===== Par: =================================================
+//= Yaro / Moonlight-Destiny Dev Team
+//===== Version courrante: ===================================
+//= 1.0
+//===== Description: =========================================
+//= Châteaux : Mapflag activé dans les châteaux de WoE
+//===== Commentaires: ========================================
+//= 1.0 - création [Stingor]
+//============================================================
+
+aldeg_cas01	mapflag	nomvpcard
+aldeg_cas02	mapflag	nomvpcard
+aldeg_cas03	mapflag	nomvpcard
+aldeg_cas04	mapflag	nomvpcard
+aldeg_cas05	mapflag	nomvpcard
+gefg_cas01	mapflag	nomvpcard
+gefg_cas02	mapflag	nomvpcard
+gefg_cas03	mapflag	nomvpcard
+gefg_cas04	mapflag	nomvpcard
+gefg_cas05	mapflag	nomvpcard
+payg_cas01	mapflag	nomvpcard
+payg_cas02	mapflag	nomvpcard
+payg_cas03	mapflag	nomvpcard
+payg_cas04	mapflag	nomvpcard
+payg_cas05	mapflag	nomvpcard
+prtg_cas01	mapflag	nomvpcard
+prtg_cas02	mapflag	nomvpcard
+prtg_cas03	mapflag	nomvpcard
+prtg_cas04	mapflag	nomvpcard
+prtg_cas05	mapflag	nomvpcard

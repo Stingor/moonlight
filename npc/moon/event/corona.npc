@@ -1,0 +1,315 @@
+-	script	Corona	-1,{
+OnInit:
+	bindatcmd "eventcorona", strnpcinfo(0)+"::OnStartCoro",60,60;
+	bindatcmd "survirusstart", strnpcinfo(0)+"::OnStartSurvirus",60,60;
+
+	bindatcmd "corona", strnpcinfo(0)+"::OnJoinEvent";
+	bindatcmd "coronavirus", strnpcinfo(0)+"::OnJoinEvent";
+	bindatcmd "virus", strnpcinfo(0)+"::OnJoinEvent";
+	bindatcmd "corana", strnpcinfo(0)+"::OnJoinEvent";
+
+	// Event cooldown
+	.event_cd = 60 * 60 * 1; // 1hr
+
+	// Mapflags CoronaCatcher
+	setarray .@mapflagC,
+		mf_nowarp,
+		mf_nowarpto,
+		mf_noskill,
+		mf_noattackskill,
+		mf_noaoeskill,
+		mf_noloot,
+		mf_noteleport,
+		mf_nomemo,
+		mf_nosave,
+		mf_noicewall,
+		mf_loadevent,
+		mf_noreturn;
+
+	// Mapflags Survirus
+	setarray .@mapflagS,
+		mf_nowarp,
+		mf_nowarpto,
+		mf_noskill,
+		mf_noteleport,
+		mf_nomemo,
+		mf_nosave,
+		mf_noicewall,
+		mf_nomail,
+		mf_loadevent,
+		mf_noreturn;
+
+	$eventcorana = 0;
+
+	for ( .@i = 0; .@i < getarraysize(.@mapflagC); .@i++)
+		setmapflag "poring_w01", .@mapflagC[.@i];
+
+	for ( .@i = 0; .@i < getarraysize(.@mapflagS); .@i++)
+		setmapflag "quiz_01", .@mapflagS[.@i];
+		setmapflag "quiz_01", mf_nocommand,80;
+
+
+	.@min = gettime(DT_MINUTE)*60;
+	.@sec = gettime(DT_SECOND);
+	.event_time = (gettimetick(2) - ( .@min + .@sec )) + .event_cd - 5;
+	end;
+
+OnJoinEvent:
+	if( !.start ) {
+		mes "Event non disponible.";
+		close;
+	}
+
+	if( $typecorana == 1 )
+		.@eventcovname$ = "Corona Catcher";
+	else
+		.@eventcovname$ = "Survie au SRAS-CoV-2";
+
+	mes " [ Status de l'Event ] ";
+
+	if( !.start )
+		mes "Prochaine épidémie dans ^FF0000"+ Time2Str(.event_time) +"^000000.";
+
+	if( .start == 1 )
+		mes "Un Event COVID-19 "+.@eventcovname$+" est en préparation.";
+	else if( .start == 2 )
+		mes "Un Event COVID-19 "+.@eventcovname$+" est en cours.";
+
+	if( select(.@eventcovname$+" - "+ (.start == 1?"^00ff00Rejoindre les "+($typecorana == 1?"infectés":"inconscients"):(.start == 2?"^00ff00Event en cours!":"^ff0000Plus dispo!"))+"^000000" ) == 1 ) {
+		clear;
+		if ( !.start ) {
+			$eventcorana = 0; 
+			mes "Event non disponible.";
+			close;
+		} else if ( .start == 2 ) {
+			mes "Event en cours";
+			close;
+		}
+		else {
+			if ( $typecorana == 1 )
+				warp "poring_w01",100,100;
+			else {
+				if( getmercinfo(0) || getpetinfo(0) ) {
+					mes "Petite cheatouse!";
+					close;
+				}
+				if( BaseLevel > 1 || JobLevel > 1 || Class != JOB_NOVICE ) {
+					mes "Seul les novices level 1 peuvent venir.";
+					close;
+				}
+				else {
+					getinventorylist;
+					if( @inventorylist_amount ) {
+						mes "Enlevez tous vos items des sacs.";
+						close2;
+						@inventorylist_amount = false;
+						end;
+					}
+					sc_end SC_ALL;
+					sc_start SC_DECREASEAGI,600000,10;
+					percentheal 100,100;
+					setlook 3,1497;
+					warp "quiz_01",42,369;
+				}
+			}
+		}
+		end;
+	}
+	close;
+
+OnStartSurvirus:
+	$typecorana = 1;
+OnStartCoro:
+	.@force = true;
+	$eventcorana = 0;
+OnCorona:
+	$typecorana = 1;
+	.@time = gettimetick(2);
+	.@min = gettime(DT_MINUTE)*60;
+	.@sec = gettime(DT_SECOND);
+
+	if( .event_time > .@time && !.@force || .start && !.@force )
+		end; // doesnt start if cd isn't done.
+
+	.event_time = (.@time - ( .@min + .@sec )) + .event_cd - 5;
+	.start = 1;
+
+	$eventcorana = gettimetick(2);
+
+	if( $typecorana == 1 ) {
+		callfunc "announce2","ALERTE CORONAVIUS: Un event COVID-19 Corona Catcher vas avoir lieu.",0;
+		sleep 10000;
+		announce "Corona Catcher: Pour ceux qui veulent combattre le virus, utilisez @corona",0;
+		sleep 10000;
+		announce "Corona Catcher: Vous avez une minute pour rejoindre à partir de maintenant.",0;
+		sleep 60000;
+		announce "Corona Catcher: Le confinement est maintenant en place.",bc_all,0x0ceedb;
+
+		.start = 2;
+		sleep 3000;
+
+		if( !getmapusers("poring_w01") ) {
+			announce "Corona Catcher: Le virus s'est éteint grâce à la distanciation sociale (Personne n'est venu).",bc_all,0x0ceedb;
+			$eventcorana = 0;
+			.start = false;
+			end;
+		}
+
+		mapannounce "poring_w01","Bien commençons.",bc_map,0x0ceedb;
+		sleep 2500;
+		mapannounce "poring_w01","Régles simples.",bc_map,0x0ceedb;
+		sleep 2500;
+		mapannounce "poring_w01","Plein de virus vont apparaitre (Anopheles je sais c'est un moustique)..",bc_map,0x0ceedb;
+		sleep 2500;
+		mapannounce "poring_w01","Tout ce que vous avez à faire c'est tuer le <<bon>>",bc_map,0x0ceedb;
+		sleep 2500;
+		mapannounce "poring_w01","le nom du virus est SARS-CoV-2 (Exactement ça).",bc_map,0x0ceedb;
+		sleep 2000;
+		mapannounce "poring_w01","Si vous tuez le mauvais, vous perdez!",bc_map,0x0ceedb;
+		sleep 2000;
+		mapannounce "poring_w01","Voilà, force au personnel hospitalier!",bc_map,0x0ceedb;
+		sleep 3000;
+		areamonster "poring_w01",84,119,124,90,"SARS-CoV-2",2066,1,strnpcinfo(0)+"::OnMobKilledWin";
+		areamonster "poring_w01",84,119,124,90,"5ARS-CoV-2",2066,2*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+		areamonster "poring_w01",84,119,124,90,"5ARS-CØV-2",2066,2*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+		areamonster "poring_w01",84,119,124,90,"5ARS-C0V-2",2066,2*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+		areamonster "poring_w01",84,119,124,90,"SAR5-CoV-2",2066,2*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+		areamonster "poring_w01",84,119,124,90,"SAR5-C0V-2",2066,2*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+		areamonster "poring_w01",84,119,124,90,"5AR5-CoV-2",2066,2*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+		areamonster "poring_w01",84,119,124,90,"5AR5-C0V-2",2066,2*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+		areamonster "poring_w01",84,119,124,90,"5AR5-CØV-2",2066,2*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+		areamonster "poring_w01",84,119,124,90,"SAR5-CoV-1",2066,2*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+		areamonster "poring_w01",84,119,124,90,"SARS-CuV-2",2066,2*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+		areamonster "poring_w01",84,119,124,90,"5AR5-CoV-1",2066,2*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+		areamonster "poring_w01",84,119,124,90,"5ARS-CuV-2",2066,2*getmapusers("poring_w01"),strnpcinfo(0)+"::OnMobKilled";
+		areamonster "poring_w01",84,119,124,90,"COVID-19",2066,1,strnpcinfo(0)+"::OnMobKilled";
+		areamonster "poring_w01",84,119,124,90,"Covidus19us",2066,1,strnpcinfo(0)+"::OnMobKilled";
+		areamonster "poring_w01",84,119,124,90,"CoronaVirus",2066,1,strnpcinfo(0)+"::OnMobKilled";
+		areamonster "poring_w01",84,119,124,90,"KonohaVirus",2066,1,strnpcinfo(0)+"::OnMobKilled";
+		areamonster "poring_w01",84,119,124,90,"UnchienGeant",2066,1,strnpcinfo(0)+"::OnMobKilled";
+		areamonster "poring_w01",84,119,124,90,"Virus de merde",2066,1,strnpcinfo(0)+"::OnMobKilled";
+		areamonster "poring_w01",84,119,124,90,"Bordel je dois taffer..",2066,1,strnpcinfo(0)+"::OnMobKilled";
+		areamonster "poring_w01",84,119,124,90,"Mais allo quoi!",2066,1,strnpcinfo(0)+"::OnMobKilled";
+		initnpctimer;
+		end;
+	}
+	else {
+		killmonsterall "quiz_01";
+		callfunc "announce2","ALERTE CORONAVIUS: Un event COVID-19 Survie à la seconde vague SRAS-CoV-2 vas avoir lieu.",0;
+		sleep 10000;
+		announce "Survie SRAS-CoV-2: Vous devez avoir un novice à poil et level 1.",0;
+		sleep 10000;
+		announce "Survie SRAS-CoV-2: Pour ceux qui veulent échapper au virus, utilisez @corona",0;
+		sleep 10000;
+		announce "Survie SRAS-CoV-2: Vous avez deux minutes pour rejoindre à partir de maintenant.",0;
+		sleep 120000;
+		announce "Survie SRAS-CoV-2: Le confinement n'a pas été respécté... le virus se répend... encore...",bc_all,0x0ceedb;
+
+		if( getmapusers("quiz_01") < 2 ) {
+			announce "Survie SRAS-CoV-2: Pas assez de gens.",bc_all,0x0ceedb;
+			sleep 2500;
+			announce "Survie SRAS-CoV-2: Tanpis on vois ça plus tard.",bc_all,0x0ceedb;
+			$eventcorana = 0;
+			.start = false;
+			mapwarp "quiz_01","gonryun",rand(155,163),rand(115,121);
+			end;
+		}
+
+		.start = 2;
+		sleep 3500;
+
+		mapannounce "quiz_01","Bien commençons.",bc_map,0x0ceedb;
+		sleep 2500;
+		mapannounce "quiz_01","Régles simples.",bc_map,0x0ceedb;
+		sleep 2500;
+		mapannounce "quiz_01","Plein de virus vont apparaitre (Anopheles je sais c'est un moustique)..",bc_map,0x0ceedb;
+		sleep 2500;
+		mapannounce "quiz_01","et ré-apparaitre régulierement.",bc_map,0x0ceedb;
+		sleep 2000;
+		mapannounce "quiz_01","Le dernier nono en vie gagne.",bc_map,0x0ceedb;
+		sleep 2000;
+		mapannounce "quiz_01","Voilà, bonne chance!",bc_map,0x0ceedb;
+		sleep 3000;
+
+		monster "quiz_01",42,369,"SARS-CoV-2",1627,4;
+		initnpctimer;
+		end;
+	}
+
+OnMobKilled:
+	dispbottom "Vous avez ciblé le mauvais virus! L'humanité ne peut donc pas compter sur vous XD!";
+	warp "gonryun",rand(155,163),rand(115,121);
+	end;
+OnPCLogoutEvent:
+	if( strcharinfo(3) != "poring_w01" ) end;
+    if( $typecorana == 2 ) end;
+OnTimer20000: // 20 seconds timer and also player check on how many left in map
+	if( $typecorana == 1 && .start == 2 && !getmapusers("poring_w01") ) {
+        $eventcorana = 0;
+        .start = false;
+        killmonsterall "poring_w01";
+        announce "Corona Catcher: L'humanité est foutue !",bc_all,0x0ceedb;
+        stopnpctimer;
+        end;
+    }
+    if( $typecorana == 2 ) monster "quiz_01",42,369,"SARS-CoV-2",1627,10;
+    setnpctimer 0;
+	end;
+
+OnMobKilledWin:
+	$eventcorana = 0;
+	callfunc "announce2",strcharinfo(0)+" sauve l'humanité du virus SARS-CoV-2 et de sa maladie COVID-19!"+strcharinfo(0)+" gagne 4pts d'event(Vot'shop)!",bc_all,0xFF7F50;
+	logmes "Trouve le SARS-CoV-2";
+	#KAFRAPOINTS += 4;
+
+	dispbottom "Vous gagnez 4 points d'event.";
+	killmonsterall "poring_w01";
+	sleep 5000;
+	mapwarp "poring_w01","gonryun",rand(155,163),rand(115,121);
+	.start = false;
+	end;
+    
+OnPCDieEvent:
+	if( $typecorana == 2 && .start && strcharinfo(3) == "quiz_01" ) {
+		#KAFRAPOINTS += 1;
+		dispbottom "Vous gagnez 1 point d'event.";
+		warp "gonryun",rand(155,163),rand(115,121);
+
+		switch( rand(0,10) ) {
+			case 1: announce strcharinfo(0)+" meurt écras"+(Sex?"é":"ée")+" par la foule ... RIP",bc_all,0x0ceedb; break;
+			case 2: announce strcharinfo(0)+" meurt branché à un aspirateur... (erreur de branchemement) RIP",bc_all,0x0ceedb; break;
+			case 3: announce strcharinfo(0)+" meurt après avoir aval"+(Sex?"é":"ée")+" son masque de protection... RIP",bc_all,0x0ceedb; break;
+			case 4: announce strcharinfo(0)+" meurt comme un noob... RIP",bc_all,0x0ceedb; break;
+			case 5: announce strcharinfo(0)+" meurt d'un AVC en repensant aux paroles d'Agnes Buzyn... RIP",bc_all,0x0ceedb; break;
+			case 6: announce strcharinfo(0)+" meurt... distrait par le derrière de son prochain... RIP",bc_all,0x0ceedb; break;
+			case 7: announce strcharinfo(0)+" meurt car le personnel en charge du nettoyage à débranché l'appareil respiratoire :s RIP",bc_all,0x0ceedb; break;
+			case 8: announce strcharinfo(0)+" meurt d'un arret cardio-pulmonaire à cause de la chloroquine de Didier... RIP",bc_all,0x0ceedb; break;
+			case 9: announce strcharinfo(0)+" meurt comme "+(Sex?"un":"une")+" "+(Sex?"idiot":"idiote")+" après être tomb"+(Sex?"é":"ée")+" dans la cage d'ascenseur... RIP",bc_all,0x0ceedb; break;
+			case 10: announce strcharinfo(0)+" meurt après s'être fractur"+(Sex?"é":"ée")+" la nuque en ayant trébuch"+(Sex?"é":"ée")+" sur un rouleau de PQ... RIP",bc_all,0x0ceedb; break;
+			default: announce strcharinfo(0)+" meurt d'une embolie pulmonaire à cause du Covid19... RIP",bc_all,0x0ceedb; break;
+		}
+
+		if( getmapusers("quiz_01") == 1 ) {
+			stopnpctimer;
+			killmonsterall "quiz_01";
+			.@size = getmapunits(BL_PC,"quiz_01",.@aid);
+			.@amt = getarraysize(.item);
+			.start = false;
+			attachrid .@aid;
+			$eventcorana = 0;
+
+			callfunc "announce2",strcharinfo(0)+" a survecu au SARS-CoV-2 et sa maladie Covid19!"+strcharinfo(0)+" gagne 9pts d'event(Vot'shop)!",bc_all,0x0ceedb;
+			logmes "Survi au SARS-CoV-2";
+			#KAFRAPOINTS += 9;
+			dispbottom "Vous gagnez 9 points d'event.";
+			warp "gonryun",rand(155,163),rand(115,121);
+			end;
+		}
+        end;
+	}
+}
+
+poring_w01,105,123,3	script	Retour à Gonryun	4_BULLETIN_BOARD2,{
+	warp "gonryun",rand(155,163),rand(115,121);
+	end;
+}

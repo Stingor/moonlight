@@ -1,0 +1,114 @@
+//===== Moonlight-Destiny ==================================
+//= @duel désactivé.
+//===== Par: =================================================
+//= Yaro / Moonlight-Destiny Dev Team
+//===== Version courrante: ===================================
+//= 2.0
+//===== Description: =========================================
+//= Ville : Mapflag activé dans les villes
+//===== Commentaires: ========================================
+// 1.1 - ajout de toute les villes [Kamitsu]
+// 2.0 - Mise à jour [Stingor]
+//============================================================
+// Main City maps
+alberta	mapflag	noduel
+aldebaran	mapflag	noduel
+amatsu	mapflag	noduel
+ayothaya	mapflag	noduel
+brasilis	mapflag	noduel
+comodo	mapflag	noduel
+einbroch	mapflag	noduel
+einbech	mapflag	noduel
+geffen	mapflag	noduel
+gonryun	mapflag	noduel
+hugel	mapflag	noduel
+izlude	mapflag	noduel
+jawaii	mapflag	noduel
+lighthalzen	mapflag	noduel
+louyang	mapflag	noduel
+morocc	mapflag	noduel
+prontera	mapflag	noduel
+payon	mapflag	noduel
+pay_arche	mapflag	noduel
+rachel	mapflag	noduel
+splendide	mapflag	noduel
+umbala	mapflag	noduel
+xmas	mapflag	noduel
+yuno	mapflag	noduel
+veins	mapflag	noduel
+
+
+// Indoors
+alberta_in	mapflag	noduel
+ama_test	mapflag	noduel
+izlude_in	mapflag	noduel
+gef_tower	mapflag	noduel
+geffen_in	mapflag	noduel
+moc_castle	mapflag	noduel
+morocc_in	mapflag	noduel
+mosk_in	mapflag	noduel
+payon_in01	mapflag	noduel
+payon_in02	mapflag	noduel
+payon_in03	mapflag	noduel
+prt_in	mapflag	noduel
+prt_castle	mapflag	noduel
+prt_church	mapflag	noduel
+in_orcs01	mapflag	noduel
+aldeba_in	mapflag	noduel
+monk_in	mapflag	noduel
+nameless_in	mapflag	noduel
+prt_are_in	mapflag	noduel
+arena_room	mapflag	noduel
+job_sword1	mapflag	noduel
+xmas_in	mapflag	noduel
+cmd_in01	mapflag	noduel
+cmd_in02	mapflag	noduel
+yuno_in01	mapflag	noduel
+yuno_in02	mapflag	noduel
+yuno_in03	mapflag	noduel
+yuno_in04	mapflag	noduel
+yuno_in05	mapflag	noduel
+alde_alche	mapflag	noduel
+sec_in01	mapflag	noduel
+ama_in01	mapflag	noduel
+ama_in02	mapflag	noduel
+gon_in	mapflag	noduel
+um_in	mapflag	noduel
+nif_in	mapflag	noduel
+lou_in01	mapflag	noduel
+lou_in02	mapflag	noduel
+jawaii_in	mapflag	noduel
+que_god01	mapflag	noduel
+que_god02	mapflag	noduel
+ayo_in01	mapflag	noduel
+ayo_in02	mapflag	noduel
+que_sign01	mapflag	noduel
+ein_in01	mapflag	noduel
+airport	mapflag	noduel
+airplane	mapflag	noduel
+airplane_01	mapflag	noduel
+hu_in01	mapflag	noduel
+y_airport	mapflag	noduel
+lhz_airport	mapflag	noduel
+lhz_in01	mapflag	noduel
+lhz_in02	mapflag	noduel
+lhz_in03	mapflag	noduel
+lhz_cube	mapflag	noduel
+hu_in01	mapflag	noduel
+auction_01	mapflag	noduel
+auction_02	mapflag	noduel
+ra_in01	mapflag	noduel
+ra_temin	mapflag	noduel
+que_rachel	mapflag	noduel
+yuno_pre	mapflag	noduel
+lhz_que01	mapflag	noduel
+que_job01	mapflag	noduel
+thana_step	mapflag	noduel
+kh_mansion	mapflag	noduel
+kh_rossi	mapflag	noduel
+kh_school	mapflag	noduel
+kh_vila	mapflag	noduel
+que_bingo	mapflag	noduel
+que_ng	mapflag	noduel
+ve_in	mapflag	noduel
+ve_in02	mapflag	noduel

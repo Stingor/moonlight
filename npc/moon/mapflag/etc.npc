@@ -1,0 +1,270 @@
+//===== Moonlight-Destiny ==================================
+//= OnPCLoadMapEvent 
+//===== Description: =========================================
+//= Permet l'utilisation du label OnPCLoadMapEvent
+//===== Commentaires: ========================================
+// 1.0 - Ajout gonryun
+//============================================================
+gonryun	mapflag	loadevent
+
+aldeg_cas01	mapflag	loadevent
+gefg_cas01	mapflag	loadevent
+payg_cas01	mapflag	loadevent
+prtg_cas01	mapflag	loadevent
+
+schg_cas01	mapflag	loadevent
+schg_cas02	mapflag	loadevent
+schg_cas01	mapflag	nodisguise
+schg_cas02	mapflag	nodisguise
+// schg_cas03	mapflag	loadevent
+// schg_cas04	mapflag	loadevent
+// schg_cas05	mapflag	loadevent
+arug_cas01	mapflag	loadevent
+arug_cas02	mapflag	loadevent
+arug_cas01	mapflag	nodisguise
+arug_cas02	mapflag	nodisguise
+// arug_cas03	mapflag	loadevent
+// arug_cas04	mapflag	loadevent
+// arug_cas05	mapflag	loadevent
+
+1@new	mapflag	loadevent
+2@new	mapflag	loadevent
+3@new	mapflag	loadevent
+4@new	mapflag	loadevent
+5@new	mapflag	loadevent
+1@tower	mapflag	loadevent
+2@tower	mapflag	loadevent
+3@tower	mapflag	loadevent
+4@tower	mapflag	loadevent
+5@tower	mapflag	loadevent
+6@tower	mapflag	loadevent
+1@cata	mapflag	loadevent
+2@cata	mapflag	loadevent
+1@orcs	mapflag	loadevent
+2@orcs	mapflag	loadevent
+1@nyd	mapflag	loadevent
+2@nyd	mapflag	loadevent
+1@mist	mapflag	loadevent
+1@pump	mapflag	loadevent
+2@pump	mapflag	loadevent
+1@cash	mapflag	loadevent
+1@ma_h	mapflag	loadevent
+1@ma_c	mapflag	loadevent
+1@ma_b	mapflag	loadevent
+1@lhz	mapflag	loadevent
+1@gl_k	mapflag	loadevent
+2@gl_k	mapflag	loadevent
+1@ecl	mapflag	loadevent
+1@sara	mapflag	loadevent
+1@gef	mapflag	loadevent
+1@gef_in	mapflag	loadevent
+1@ge_st	mapflag	loadevent
+1@xm_d	mapflag	loadevent
+1@face	mapflag	loadevent
+1@spa	mapflag	loadevent
+1@tnm1	mapflag	loadevent
+1@tnm2	mapflag	loadevent
+1@tnm3	mapflag	loadevent
+1@air1	mapflag	loadevent
+1@air2	mapflag	loadevent
+1@glast	mapflag	loadevent
+1@def01	mapflag	loadevent
+1@def02	mapflag	loadevent
+1@jtb	mapflag	loadevent
+1@dth1	mapflag	loadevent
+1@dth2	mapflag	loadevent
+1@dth3	mapflag	loadevent
+1@rev	mapflag	loadevent
+1@eom	mapflag	loadevent
+1@lab	mapflag	loadevent
+1@uns	mapflag	loadevent
+1@mcd	mapflag	loadevent
+2@mir	mapflag	loadevent
+1@mir	mapflag	loadevent
+1@sthb	mapflag	loadevent
+1@sthc	mapflag	loadevent
+1@sthd	mapflag	loadevent
+
+//===== Moonlight-Destiny ===============================
+//= Map flag qui autorise les dead branch et autre
+//===== Par: ==============================================
+//= Yaro/Moonlight-Destiny's Dev Team
+//===== Version: ==========================================
+//= 1.0
+//===== Commentaires: =====================================
+//= 1.0 Refonte + ajout DB ROOM
+//=========================================================
+pvp_n_1-1	mapflag	nobranch
+pvp_n_1-1	mapflag	monster_noteleport
+pvp_n_1-1	mapflag	loadevent
+
+pvp_n_3-1	mapflag	nobranch
+pvp_n_3-1	mapflag	nobbranch
+pvp_n_3-1	mapflag	monster_noteleport
+pvp_n_3-1	mapflag	loadevent
+
+// Carnage
+pvp_n_4-1	mapflag	pvp
+pvp_n_4-1	mapflag	pvp_noguild
+pvp_n_4-1	mapflag	pvp_noparty
+pvp_n_4-1	mapflag	nomobloot
+pvp_n_4-1	mapflag	loadevent
+pvp_n_4-1	mapflag	noteleport
+pvp_n_4-1	mapflag	noreturn
+pvp_n_4-1	mapflag	nowarp
+pvp_n_4-1	mapflag	nowarpto
+pvp_n_4-1	mapflag	nosave	SavePoint
+
+// PvP Room
+pvp_n_3-5	mapflag	pvp
+pvp_n_3-5	mapflag	pvp_noguild
+pvp_n_3-5	mapflag	nomobloot
+pvp_n_3-5	mapflag	loadevent
+pvp_n_3-5	mapflag	noteleport
+pvp_n_3-5	mapflag	noreturn
+pvp_n_3-5	mapflag	nowarp
+pvp_n_3-5	mapflag	nowarpto
+pvp_n_3-5	mapflag	nosave	SavePoint
+
+pvp_n_1-5	mapflag	nomobloot
+pvp_n_1-5	mapflag	monster_noteleport
+pvp_n_1-5	mapflag	loadevent
+pvp_n_1-5	mapflag	noreturn
+pvp_n_1-5	mapflag	nowarp
+pvp_n_1-5	mapflag	nowarpto
+pvp_n_1-5	mapflag	nosave	SavePoint
+
+pvp_n_2-1	mapflag	nomobloot
+pvp_n_2-1	mapflag	monster_noteleport
+pvp_n_2-1	mapflag	loadevent
+pvp_n_2-1	mapflag	noreturn
+pvp_n_2-1	mapflag	nowarp
+pvp_n_2-1	mapflag	nowarpto
+pvp_n_2-1	mapflag	nosave	SavePoint
+
+pvp_n_5-1	mapflag	gvg
+pvp_n_5-1	mapflag	gvg_castle
+pvp_n_5-1	mapflag	loadevent
+pvp_n_5-1	mapflag	noreturn
+pvp_n_5-1	mapflag	nowarp
+pvp_n_5-1	mapflag	nowarpto
+pvp_n_5-1	mapflag	nosave	SavePoint
+
+gonryun	mapflag	nomvploot
+gonryun	mapflag	nomvpcard
+gonryun	mapflag	noaoeskill
+gonryun	mapflag	allowks
+
+aldeg_cas01	mapflag	nosave	SavePoint
+alde_gld	mapflag	nosave	SavePoint
+gefg_cas01	mapflag	nosave	SavePoint
+gef_fild13	mapflag	nosave	SavePoint
+payg_cas01	mapflag	nosave	SavePoint
+pay_gld	mapflag	nosave	SavePoint
+prtg_cas01	mapflag	nosave	SavePoint
+prt_gld	mapflag	nosave	SavePoint
+thana_boss	mapflag	nosave	SavePoint
+
+// bat_c01	mapflag	loadevent
+// bat_c02	mapflag	loadevent
+// bat_c03	mapflag	loadevent
+// bat_b01	mapflag	loadevent
+// bat_b02	mapflag	loadevent
+// bat_b02	mapflag	loadevent
+// bat_a01	mapflag	loadevent
+// bat_a02	mapflag	loadevent
+bat_room	mapflag	loadevent
+
+// conquest
+schg_cas06	mapflag	loadevent
+schg_cas07	mapflag	loadevent
+schg_cas08	mapflag	loadevent
+arug_cas06	mapflag	loadevent
+arug_cas07	mapflag	loadevent
+arug_cas08	mapflag	loadevent
+//td
+bat_b03	mapflag	loadevent
+//rush
+rush_cas01	mapflag	loadevent
+rush_cas02	mapflag	loadevent
+rush_cas03	mapflag	loadevent
+rush_cas04	mapflag	loadevent
+//boss
+bat_a03	mapflag	loadevent
+//ffa
+bat_c01	mapflag	loadevent
+//ctf 
+bat_b02	mapflag	loadevent
+//sc
+bat_b04	mapflag	loadevent
+//dom
+bat_a04	mapflag	loadevent
+// eoe
+bat_a02	mapflag	loadevent
+//ti
+region_8	mapflag	loadevent
+
+
+1@cata	mapflag	nomemo
+2@cata	mapflag	nomemo
+1@tower	mapflag	nomemo
+2@tower	mapflag	nomemo
+3@tower	mapflag	nomemo
+4@tower	mapflag	nomemo
+5@tower	mapflag	nomemo
+6@tower	mapflag	nomemo
+1@mist	mapflag	nomemo
+1@cash	mapflag	nomemo
+1@pump	mapflag	nomemo
+2@pump	mapflag	nomemo
+1@lhz	mapflag	nomemo
+1@ma_h	mapflag	nomemo
+1@ma_c	mapflag	nomemo
+1@ma_b	mapflag	nomemo
+1@ecl	mapflag	nomemo
+1@orcs	mapflag	nomemo
+2@orcs	mapflag	nomemo
+1@nyd	mapflag	nomemo
+2@nyd	mapflag	nomemo
+1@xm_d	mapflag	nomemo
+1@gl_k	mapflag	nomemo
+2@gl_k	mapflag	nomemo
+1@def01	mapflag	nomemo
+1@def02	mapflag	nomemo
+1@def03	mapflag	nomemo
+1@face	mapflag	nomemo
+1@sara	mapflag	nomemo
+1@ge_st	mapflag	nomemo
+1@gef	mapflag	nomemo
+1@gef_in	mapflag	nomemo
+1@spa	mapflag	nomemo
+1@tnm1	mapflag	nomemo
+1@tnm2	mapflag	nomemo
+1@tnm3	mapflag	nomemo
+1@glast	mapflag	nomemo
+1@air1	mapflag	nomemo
+1@air2	mapflag	nomemo
+1@dth1	mapflag	nomemo
+1@dth2	mapflag	nomemo
+1@dth3	mapflag	nomemo
+1@rev	mapflag	nomemo
+1@eom	mapflag	nomemo
+1@jtb	mapflag	nomemo
+1@lab	mapflag	nomemo
+1@uns	mapflag	nomemo
+1@mcd	mapflag	nomemo
+1@mir	mapflag	nomemo
+2@mir	mapflag	nomemo
+1@sthb	mapflag	nomemo
+1@sthc	mapflag	nomemo
+1@sthd	mapflag	nomemo
+1@slw	mapflag	nomemo
+1@swat	mapflag	nomemo
+1@gl_k2	mapflag	nomemo
+2@gl_k2	mapflag	nomemo
+1@xm_d2	mapflag	nomemo
+1@tre	mapflag	nomemo
+1@begi	mapflag	nomemo
+1@crd	mapflag	nomemo
+1@drdo	mapflag	nomemo
+1@soul	mapflag	nomemo

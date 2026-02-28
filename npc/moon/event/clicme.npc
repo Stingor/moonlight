@@ -1,0 +1,112 @@
+gonryun,150,115,6	script	ClickMe!	800,{
+
+	if( #MEGAQ1 == 27 ) {
+		if( getgroupid() >= 80 && @clickquest < 990 )
+			@clickquest = 990;
+
+		if( @clickquest < 1000 )
+			@clickquest++;
+		else {
+			summon "Click",1269,600000;
+			summon "Clack",1269,600000;
+			#MEGAQ1 = 28;
+		}
+		end;
+	}
+
+	if( .ready > 0 )
+		$clickme++;
+	else
+		end;
+
+	@click++;
+
+	if( $clickme > 10000 && .ready > 0 ) {
+			.ready = 0;
+			mapannounce "gonryun","Félicitation à "+strcharinfo(0)+" qui a effectué le Dix millième Click !",1,0xFAB145;
+			mapannounce "gonryun",strcharinfo(0)+" gagne une pomme!",1,0xFAB145;
+			// getitem 12103,1;
+			getitem 512,1;
+			$clickme = 0;
+			callsub L_start;
+			end;
+	}
+
+	if( $clickme > 10000 ) {
+		$clickme = 0;
+		callsub L_start;
+		end;
+	}
+
+	if( $clickme > 10000 )
+		end;
+
+	if( @click >= 15 ) {
+		@tick = gettimetick(2);
+		@click = 0;
+	}
+	else if( @click >= 8 && gettimetick(2) == @tick ) {
+		logmes "Flood sur ClickMe par "+strcharinfo(0)+" détecté";
+		atcommand "@jump";
+		dispbottom "On va éviter les macros hein copain ;)";
+		@click = 0;
+	}
+
+	if( $clickme > 10000 )
+		end;
+
+	switch( $clickme ) {
+		case 9000:
+		case 7000:
+		case 5000:
+		case 3000:
+		case 1000:
+			mapannounce "gonryun","ClickMe! : Il reste encore "+(10000-$clickme)+" Clicks à effectuer !",1,0xFAB145;
+		default:
+			if( $clickme < 10 )
+				npctalk "Encore "+(10000-$clickme)+" Clicks restants pour gagner la pomme !";
+			else if( .nextclick == $clickme && $clickme >= 10 && $clickme < 100 ) {
+				.nextclick += 10;
+				dispbottom "Encore "+(10000-$clickme)+" Clicks restants pour gagner la pomme !";
+			}
+			else if( .nextclick == $clickme && $clickme >= 100 && $clickme < 300 ) {
+				.nextclick += 50;
+				dispbottom "Encore "+(10000-$clickme)+" Clicks restants pour gagner la pomme !";
+			}
+			else if( .nextclick == $clickme && $clickme >= 300 && $clickme < 1000 ) {
+				.nextclick += 100;
+				dispbottom "Encore "+(10000-$clickme)+" Clicks restants pour gagner la pomme !";
+			}
+			else if( .nextclick == $clickme && $clickme >= 1000 && $clickme < 9000 ) {
+				.nextclick += 500;
+				dispbottom "Encore "+(10000-$clickme)+" Clicks restants pour gagner la pomme !";
+			}
+			else if( .nextclick == $clickme && $clickme >= 9000 && $clickme < 9700 ) {
+				.nextclick += 100;
+				dispbottom "Encore "+(10000-$clickme)+" Clicks restants pour gagner la pomme !";
+			} else if( .nextclick == $clickme && $clickme >= 9700 && $clickme < 9900 ) {
+				.nextclick += 50;
+				dispbottom "Encore "+(10000-$clickme)+" Clicks restants pour gagner la pomme !";
+			} else if( .nextclick == $clickme && $clickme >= 9900 && $clickme < 9990 ) {
+				.nextclick += 10;
+				dispbottom "Encore "+(10000-$clickme)+" Clicks restants pour gagner la pomme !";
+			} else if( .nextclick == $clickme && $clickme >= 9990 && $clickme <= 10000 ) {
+				.nextclick += 1;
+				npctalk "Encore "+(10000-$clickme)+" Clicks restants pour gagner la pomme !";
+			}
+			break;
+	}
+	end;
+
+L_stat:
+	dispbottom "Déjà ["+$clickme+"] Clicks d'effectués !";
+	end;
+
+OnInit:
+L_start:
+	.nextclick = 10;
+	.ready = 1;
+	defpattern 1, "([^:]+):.*\\sstat.*", "L_stat";
+	activatepset 1;
+	end;
+}

@@ -1,0 +1,407 @@
+//===== eAthena Script ===========================================//
+//= Invoqueur de MVP
+//===== By =======================================================//
+//= Bribes par Hiroshi248 modifié par Kamitsu && Stingor
+//===== Version ==================================================//
+//= Ver. 10
+//===== Description ==============================================//
+//= NPC Event Invasion pour Administrateur.
+//===== Commentaire ==============================================//
+//= Ce scripte a été fait pas Hiroshi248 et je tien à ce qu'il
+//= le reste ! Si vous y apporter des modifications pour le
+//= publier, veillez ajouter votre nom ou pseudo dans la partie
+//= nommé "By" juste au dessus, merci.
+//================================================================//
+
+gonryun,0,0,0	script	invasion_manager	-1,{
+	end;
+
+OnInit:
+	$eventinvasion = 0;
+OnEnable:
+	$@LastEventInva$ = "Dernier load npc : "+gettimestr( "%Y-%m/%d %H:%M:%S", 21 );
+	if( $@TimerEventInva <= 0 )
+		$@TimerEventInva = rand( 30,60 ); // +30h à 60h
+	sleep $@TimerEventInva * 3600 * 1000;
+	while( 1 ) {
+		if( gettime( DT_HOUR ) >= 0 && gettime( DT_HOUR ) <= 10 ) {	// 10h
+			sleep 3600 * 1000 * 10;
+			$@TimerEventInva += 8;
+		}
+
+		if( $eventinvasion < 1 ) {
+			donpcevent "invaders::OnLaunchInvasion";
+			$@LastEventInva$ = "Dernière invasion le "+gettimestr( "%Y-%m/%d %H:%M:%S", 21 );
+		}
+
+		$@TimerEventInva = rand( 30,60 ); // +30h à 60h
+		sleep $@TimerEventInva * 3600 * 1000;
+	}
+	end;
+}
+
+gonryun,143,117,4	script	Invasion Manager::invaders	864,{
+	if( getgmlevel( ) < 80 ) {	// pas touche les enfants :D
+		mes "["+strnpcinfo(1)+"]";
+		mes "Votre malus est de : "+#maluswininvasion+" kills";
+		if( @NbrKill )
+			mes "Vous avez tué "+@NbrKill+" monstres/mvps.";
+		mes " ";
+		mes $@LastEventInva$;
+		close;
+	}
+
+L_MenuMain:
+	// pas de bavardage go au menu
+	menu "Lancer l'Event.",L_MobUndead,"Info",L_info, "Annuler l'Event.",L_Annuler, "Quitter.",L_Quit;
+
+L_MobUndead:
+	if( $eventinvasion ) {
+		mes "Map ^0000FF"+$mapinvasion$+"^000000";
+		mes "Encore "+$nbmobinvasion+" Mob"+($nbmobinvasion>1?"s":"")+" et";
+		mes $@MvpUndeadM+" MVP";
+		close;
+	}
+	else {
+		donpcevent "invaders::OnLaunchInvasion";
+L_info:
+		mes "["+strnpcinfo(1)+"]";
+		mes "Votre malus est de : "+#maluswininvasion+" kills";
+		if( @NbrKill )
+			mes "Vous avez tué "+@NbrKill+" monstres/mvps.";
+		mes " ";
+		mes $@LastEventInva$;
+		mes "Prochain évent "+$@TimerEventInva+"h après ce temps.";
+		close;
+	}
+OnLaunchInvasion:
+	// liste des map de pop possible de l'event
+	setarray .maps_event$[0], "yuno_fild01", "pay_fild03", "prt_fild08", "prt_fild05", "prt_fild06";
+	setarray .maps_event$[5], "gef_fild00", "gef_fild04", "gef_fild07", "hu_fild06", "prt_fild08";
+	setarray .maps_event$[10], "lou_fild01", "moc_fild12", "moc_fild20", "moc_fild07", "pay_fild08";
+	setarray .maps_event$[15], "ve_fild02", "ra_fild12", "ve_fild07", "yuno_fild04";
+
+	// <<Une invasion de Morts-Vivants et de Demons \"DESCRIPTION\">>
+	setarray .maps_desc$[0], "repérée au NORD de Aldebaran", " repérée à l'entrée d'Alberta", " repérée à l'entrée SUD de Prontera", " repérée à l'entrée OUEST de Prontera", " repérée à l'entrée EST de Prontera";
+	setarray .maps_desc$[5], "repérée à l'entrée EST de Geffen", " repérée à l'entrée NORD de Geffen", " repérée à l'entrée OUEST de Geffen", " repérée à l'entrée de Hugel", " repérée à l'entrée de Izlude";
+	setarray .maps_desc$[10], "repérée à l'entrée EST de Louyang", " repérée à l'entrée SUD de Morroc", " repérée à l'entrée EST de Morroc", " repérée à l'entrée NORD de Morroc", " repérée à l'entrée EST de Payon";
+	setarray .maps_desc$[15], "repérée à l'entrée SUD de Rachel", " repérée à l'entrée EST de Rachel", " repérée à l'entrée SUD de Veins", " repérée à l'entrée SUD de Yuno";
+	$@MobUndead1 = rand(750,1000);
+	$@MobUndead2 = rand(350,500);
+	$@MobUndead3 = rand(225,350);
+	$@MobUndead4 = rand(150,225);
+	$@MvpUndeadM = rand(50 );
+	.tempid = rand(getarraysize(.maps_event$));
+	$@mapdesc$ = .maps_desc$[.tempid];
+	$mapinvasion$ = .maps_event$[.tempid];
+	$nbmobinvasion = $@MobUndead1+$@MobUndead2+$@MobUndead3+$@MobUndead4;
+	$@NbrKillMax = 0;
+	.nbr = 0;
+	setarray .tMobUndead1[0], 1015, 1016, 1026, 1028, 1032, 1064, 1071, 1076, 1132, 1152, 1153, 1169, 1188, 1290, 1292, 1298, 1404, 1503, 1508, 1509, 1866, 2355, 2484, 2605, 2606, 2649, 2659, 2660, 2676, 2723, 2746, 2772, 2790, 2851, 2854;
+	setarray .tMobUndead2[0], 1036, 1041, 1186, 1257, 1276, 1297, 1382, 1403, 1504, 1510, 1512, 1632, 1682, 1867, 1974, 2311, 2314, 2315, 2354, 2360, 2631, 2688, 2740, 2766, 2792, 2796, 2822, 2823, 2886, 2887;
+	setarray .tMobUndead3[0], 1061, 1143, 1179, 1196, 1197, 1260, 1370, 1374, 1379, 1416, 1584, 1752, 1753, 1773, 1864, 1865, 1869, 1919, 1920, 1921, 2603, 2604, 2617, 2618, 2639, 2657, 2732, 2761, 2801;
+	setarray .tMobUndead4[0], 1038, 1117, 1120, 1192, 1198, 1291, 1302, 1505, 1582, 1704, 1705, 1706, 1707, 1870, 2480, 2481, 2733, 2736, 2774, 2838, 2861;
+	setarray .tMvpUndeadM[0], 1038, 1039, 1046, 1112, 1150, 1272, 1373, 1389, 1511, 1583, 1708, 1871, 1874, 2156, 2483, 3074;
+	donpcevent "watchdog_invasion::OnWatchDog";
+	setmapflag "gonryun", mf_nightenabled;	// night on
+	setmapflag $mapinvasion$, mf_nightenabled;	// night on
+	night;
+	$eventinvasion = 1;
+	setmapflag $mapinvasion$, mf_noaoeskill;	// AOE SKILL OFF
+	setmapflag $mapinvasion$, mf_noteleport;	// TELEPORT OFF
+
+	.nbr = $@MobUndead1;
+	while( .nbr && $eventinvasion ) {
+		sleep 5;
+		.nbr -= 1;
+		monster $mapinvasion$,0,0,"--ja--",.tMobUndead1[ rand( getarraysize( .tMobUndead1 ) ) ],1,"F_EventMobUndead::OnMobUndeadKill";
+	}
+
+	.nbr = $@MobUndead2;
+	while( .nbr && $eventinvasion ) {
+		sleep 10;
+		.nbr -= 1;
+		monster $mapinvasion$,0,0,"--ja--",.tMobUndead2[ rand( getarraysize( .tMobUndead2 ) ) ],1,"F_EventMobUndead::OnMobUndeadKill";
+	}
+
+	callfunc "announce2", "Une invasion de Morts-Vivants et de Demons "+$@mapdesc$+" !",bc_all,0xFFFF00;
+	announce "Anéantissez la source du mal pour nous sauver !",bc_all,0xFFFF00;
+	announce "AoE bloqués tant que au moins 500 Monstres n'ont pas été tués!",bc_all,0xFFFF00;
+	announce "Chaque MvP tué diminue votre malus de victoire de 1 pts!",bc_all,0xFFFF00;
+	announce "Bloody branch, Field manual, Lucky Candy(disguise) et 1 hat au plus gros tueur!",bc_all,0xFFFF00;
+	announce "Evitez de déco sinon vous perdez votre score! (Warp en ville)",bc_all,0xFFFF00;
+	hideoffnpc "warp_invasion";
+
+	.nbr = $@MobUndead3;
+	while( .nbr && $eventinvasion ) {
+		sleep 100;
+		.nbr -= 1;
+		monster $mapinvasion$,0,0,"--ja--",.tMobUndead3[ rand( getarraysize( .tMobUndead3 ) ) ],1,"F_EventMobUndead::OnMobUndeadKill";
+	}
+
+	.nbr = $@MobUndead4;
+	while( .nbr && $eventinvasion ) {
+		sleep 250;
+		.nbr -= 1;
+		monster $mapinvasion$,0,0,"--ja--",.tMobUndead4[ rand( getarraysize( .tMobUndead4 ) ) ],1,"F_EventMobUndead::OnMobUndeadKill";
+	}
+
+	.nbr = $@MvpUndeadM;
+	while( .nbr && $eventinvasion ) {
+		sleep 5000;
+		.nbr -= 1;
+		monster $mapinvasion$,0,0,"--ja--",.tMvpUndeadM[ rand( getarraysize( .tMvpUndeadM ) ) ],1,"F_EventMobUndead::OnMvpUndeadKill";
+	}
+
+	announce "Satan morroc a décidé de se déplacer pour l'assault final !",bc_all,0xFFFF00;
+	monster $mapinvasion$,0,0,"--ja--",1917,1,"F_EventMobUndead::OnMvpUndeadKill";
+	$@MvpUndeadM += 1;
+
+	if( $eventinvasion < 1 ) {
+		killmonster $mapinvasion$,"F_EventMobUndead::OnMobUndeadKill";
+		killmonster $mapinvasion$,"F_EventMobUndead::OnMvpUndeadKill";
+	}
+	end;
+
+L_Quit:
+	mes "["+strnpcinfo(1)+"]";
+	mes "Très bien, au revoir.";
+	close;
+
+L_Annuler:
+	if( $eventinvasion ){
+		mes "["+strnpcinfo(1)+"]";
+		mes "L'event est terminé.";
+		$eventinvasion = 0;
+		killmonster $mapinvasion$,"F_EventMobUndead::OnMobUndeadKill";
+		killmonster $mapinvasion$,"F_EventMobUndead::OnMvpUndeadKill";
+		close2;
+		callfunc "end_invasion";
+		end;
+	}
+	callsub L_MenuMain;
+}
+
+-	script	F_EventMobUndead	-1,{
+	end;
+
+OnMobUndeadKill:
+	$nbmobinvasion--;
+	query_sql("UPDATE `mapreg` SET `value` = '"+$nbmobinvasion+"' WHERE `varname` = '$nbmobinvasion'");
+
+	if( $nbmobinvasion == 500 && (getmapflag($mapinvasion$,mf_noaoeskill) || getmapflag($mapinvasion$,mf_noteleport)) ) {
+		announce "Vous retrouvez tous vos skills AOE et le teleport ... gogogo!",bc_all,0xFFFF00;
+		removemapflag $mapinvasion$,mf_noaoeskill; // AOE SKILL ON
+		removemapflag $mapinvasion$,mf_noteleport; // TELEPORT ON
+	}
+
+	if( playerattached() && @init != 1 ) { // Initialisation du score au premier kill de mob
+		@init = 1;
+		@NbrKill = 0;
+	}
+
+	@NbrKill += 1; // +1 kill au score du joueur
+
+	if( rand(0,8) == 8 )
+		#maluswininvasion -= 1;
+
+	if( #maluswininvasion < 0 )
+		#maluswininvasion = 0;
+
+	dispbottom @NbrKill + " monstres tués"+ (#maluswininvasion)?(" - Malus: "+#maluswininvasion):(".");
+
+	if( @NbrKill > ($@NbrKillMax + #maluswininvasion) ) { // On augmente le score de kill le plus haut chaque fois qu'un joueur le dépasse
+		$@NbrKillMax += 1;
+		$@Winn$ = strcharinfo(0);
+	}
+
+	if( $nbmobinvasion < 1 ) { // Plus de mob mais encore des boss
+		announce "Tous les monstres sont morts ! Terminez en tuant le(s) dernier(s) Boss !",bc_all,0xFFFF00;
+		if( getmapflag($mapinvasion$,mf_noaoeskill) || getmapflag($mapinvasion$,mf_noteleport) ) {
+			announce "Skill de zone et Teleport débloqués !",bc_all,0xFFFF00;
+			removemapflag $mapinvasion$,mf_noaoeskill; // AOE SKILL ON
+			removemapflag $mapinvasion$,mf_noteleport; // TELEPORT ON
+		}
+	}
+
+	if( strcharinfo(0) == $@winn$ ) {
+		switch( $@NbrKillMax ) {
+			case 5:		announce $@winn$+" en est à son 5éme mob tué!",bc_map,0xFFFF00; break;
+			case 20:	announce "WouaW "+$@Winn$+" prend la tête avec un total de 20 mobs tués!",bc_map,0xFFFF00; break;
+			case 50:	announce $@Winn$+" est bien échauffé avec 50 mobs dégommés!",bc_map,0xFFFF00; break;
+			case 100:	announce $@Winn$+" est en forme et prend la tête avec un total de 100 mobs tués!",bc_map,0xFFFF00; break;
+			case 200:	announce "WOW "+$@Winn$+" se déchaine avec un total de 200 mobs tués!",bc_map,0xFFFF00; break;
+			case 400:	announce "WOW "+$@Winn$+" est en folie meurtrière avec un total de 400 mobs tués!",bc_map,0xFFFF00; break;
+			case 800:	announce "OMG "+$@Winn$+" est une machine de guerre avec un total de 800 mobs tués!",bc_map,0xFFFF00; break;
+			case 1000:	announce "MOMOMONMONMONSTERKILL "+$@Winn$+" a abattu 1000 mobs!",bc_map,0xFFFF00; break;
+			case 1500:	announce $@Winn$+" a abattu 1500 mobs, rien à dire °°!",bc_map,0xFFFF00; break;
+		}
+
+		switch( $nbmobinvasion ) {
+			case 20:
+			case 50:
+			case 100:
+			case 250:
+			case 500:
+			case 600:
+			case 700:
+			case 800:
+			case 1000:
+			case 2000: announce "Il reste "+$nbmobinvasion+" Morts-Vivants et/ou Demons à "+$mapinvasion$+" !",bc_map,0xFFFF00; break;
+			default:
+				if( $nbmobinvasion > 0 && $nbmobinvasion <= 10 ) announce "Il reste "+$nbmobinvasion+" Mobs à "+$mapinvasion$+" !",bc_map,0xFFFF00; break;
+		}
+	}
+	end;
+
+OnMvpUndeadKill:
+	$@MvpUndeadM -= 1;
+
+	if( playerattached() && @init != 1 ) { // Initialisation du score au premier kill de mvp
+		@init = 1;
+		@NbrKill = 0;
+	}
+
+	@NbrKill += 1; // +1 kill au score du joueur
+
+	#maluswininvasion -= 1;
+	if( #maluswininvasion < 0 )
+		#maluswininvasion = 0;
+
+	if( @NbrKill > ($@NbrKillMax + #maluswininvasion) ) { // On augmente le score de kill le plus haut chaque fois qu'un joueur le dépasse
+		$@NbrKillMax += 1;
+		$@Winn$ = strcharinfo(0);
+	}
+
+	if( $@MvpUndeadM < 1 ) { // Plus de boss mais encore des mob
+		announce "Tous les Boss sont morts ! Terminez en tuant les derniers monstres !",bc_all,0xFFFF00;
+		if( getmapflag($mapinvasion$,mf_noaoeskill) || getmapflag($mapinvasion$,mf_noteleport) ) {
+			announce "Skill de zone et Teleport débloqués !",bc_all,0xFFFF00;
+			removemapflag $mapinvasion$,mf_noaoeskill; // AOE SKILL ON
+			removemapflag $mapinvasion$,mf_noteleport; // TELEPORT ON
+		}
+	}
+
+	switch( $@MvpUndeadM ) {
+		case 5:
+		case 10:
+		case 20:
+		case 30:
+		case 40:
+		case 60:
+		case 80:
+		case 100: announce "Il reste "+$@MvpUndeadM+" Boss à "+$mapinvasion$+" !",bc_map,0xFFFF00; break;
+		default:
+			if( $@MvpUndeadM > 0 && $@MvpUndeadM <= 5 ) announce "Il reste "+$@MvpUndeadM+" Boss à "+$mapinvasion$+" !",bc_map,0xFFFF00; break;
+	}
+	end;
+}
+
+function	script	end_invasion	{
+	callfunc "announce2", "L'invasion des Monstres a été stoppée !!!",bc_all,0xFFFF00;
+	$eventinvasion = 0;
+	if( $@NbrKillMax > 0 && $@Winn$ != "" ) {
+		attachrid(getcharid(3,$@Winn$));
+		if( getmapflag($mapinvasion$,mf_noaoeskill) || getmapflag($mapinvasion$,mf_noteleport) ) {
+			removemapflag $mapinvasion$,mf_noaoeskill; // AOE SKILL ON
+			removemapflag $mapinvasion$,mf_noteleport; // TELEPORT ON
+		}
+		removemapflag $mapinvasion$,mf_nightenabled;	// night off
+
+		if( #maluswininvasion <= 0)
+			#maluswininvasion += 100;
+		else
+			#maluswininvasion += 100 + (#maluswininvasion / 5);	//	100 + 20% du malus restant
+
+		setarray .@reward[0],20219,  // Costume Angel Marcher Hat
+                             20297,  // Costume Cactus Hat
+                             31251,  // Costume Cat's Mouth
+                             20026,  // Costume Cow Hat
+                             19857,  // Costume Crayfish Hat
+                             19959,  // Costume Drooping Argiope
+                             20103,  // Costume Drooping Panda
+                             31106,  // Costume Eyepatch of Peace
+                             31107,  // Costume Eyepatch of Prosperity
+                             19817,  // Costume Ifrit's Breath
+                             20075,  // Costume Little Feather Hat
+                             20433,  // Costume Louise Red Hat
+                             19521,  // Costume Old Timey Derby
+                             19514,  // Costume Old Timey Mustache
+                             20259,  // Costume Pink Clover
+                             31518,  // Costume Pop Popcorn Hat
+                             20183;  // Costume There is...Something
+    // 5403,   // fish in mouth
+    // 5474,   // afk board
+    // 5775,   // choco donut
+    // 18678,  // leek in mouth
+    // 18703,  // stem in mouth
+    // 18665,  // orange in mouth
+    // 18528,  // Neko crew
+    // 18683,  // carrot in mouth
+    // 18716,  // strawberry in mouth
+    // 18677,  // cherry twig in mouth
+    // 18536,  // fox tail in mouth
+    // 18746,  // chilly breath
+    // 18679,  // Abacus in mouth
+    // 18697,  // Syringe in mouth
+    // 18698,  // Cheesy snack in mouth
+    // 18712,  // Fan in mouth
+    // 19306;  // Heart Cards in mouth
+		.@winitem = .@reward[rand(getarraysize(.@reward))];
+
+		logmes "Gagne " + getitemname(.@winitem) + " à l'invasion avec " + $@NbrKillMax + " monstres, malus de " + #maluswininvasion;
+		if( playerattached() ) {
+			if( checkweight(12103,5,12210,1,570,30,.@winitem,1) ) {
+				getitem 12103,5;
+				getitem 12210,1;
+				getitem 570,30;
+				getitem .@winitem,1;
+				logmes "Récompenses reçues.";
+			}
+			else {
+				setarray .@mailitem[0], 12103, 12210, 570, .@winitem;
+				setarray .@mailamount[0], 5, 1, 30, 1;
+				.@title$ = "Invasion";
+				.@body$ = "Félicitation vous avez gagné l'invasion !";
+				mail getcharid(0), "Invasion", .@title$, .@body$, 0, .@mailitem, .@mailamount;
+				dispbottom "Des récompenses vous sont envoyées par mail ! (Pas de place)";
+				logmes "Récompenses reçues par mail.";
+			}
+		}
+		else
+			logmes "Récompenses non reçues.";
+
+		callfunc "announce2", $@Winn$ + " a gagné en tuant un total de " + $@NbrKillMax + " monstres !",bc_all,0xFFFF00;
+		callfunc "announce2", "Il gagne 5 bloody branch, 30 lucky candy, 1 Bubble Gum X2 et " + getitemname(.@winitem) + "!",bc_all,0xFFFF00;
+	}
+	$@NbrKillMax = 0;
+	$@Winn$ = "";
+	if( isnight() ) day;
+	hideonnpc "warp_invasion";
+	end;
+}
+
+gonryun,153,111,0	script	warp_invasion	45,1,1,{
+	if( $eventinvasion )
+		warp $mapinvasion$,0,0;
+	else
+		hideonnpc "warp_invasion";
+	end;
+OnInit:
+	hideonnpc "warp_invasion";
+	end;
+}
+
+-	script	watchdog_invasion	-1,{
+	end;
+
+OnWatchDog:
+	sleep 20000;
+	while( $eventinvasion ) {
+		sleep 5000;
+		if( mobcount( $mapinvasion$,"F_EventMobUndead::OnMobUndeadKill" ) < 1 && mobcount( $mapinvasion$,"F_EventMobUndead::OnMvpUndeadKill" ) < 1 ) {
+			callfunc "end_invasion";
+			end;
+		}
+	}
+}

@@ -1,0 +1,64 @@
+-	script	loup_garou	HIDDEN_NPC,{
+// = Manual start
+OnStart:
+	areamonster "force_1-1",95,95,105,105,"Porcs aux ribs dorées",1840,10;
+	$eventloup = 1;
+	announce "Qui craint le grand méchant loup ?",bc_all;
+	announce "Ouverture des inscriptions pour un event Loup-Garou (@loupgarou).",bc_all;
+	sleep 60000;
+	announce "Loup-Garou: Vous avez encore une minute pour @loupgarou.",bc_all;
+	sleep 60000;
+
+	if( getarraysize($@loupgarou$) < 2 ) {
+		announce "Loup-Garou: pas assez de joueurs.",bc_all;
+		callfunc("resetEventLoup", $@loupgarou$, "region_8");
+		end;
+	}
+
+	announce "Loup-Garou: Fermeture des inscriptions.",bc_all;
+
+	$eventloup = 0;
+	for( .@p = 0; .@p < getarraysize($@loupgarou$); .@p++ ) {
+		sleep 200;
+		if( isloggedin(getcharid(3,$@loupgarou$[.@p])) ) { // short circuit not implanted xd
+			if( strcharinfo(3,getcharid(0,$@loupgarou$[.@p])) != "region_8" )
+				warpchar "region_8", rand(46,53), rand(46,53), getcharid(0,$@loupgarou$[.@p]);
+		}
+		else
+			deletearray $@loupgarou$[.@p], 1;
+	}
+	sleep 5000;
+	donpcevent "loup_garou_main::OnBegin";
+	end;
+
+OnStop:
+	callfunc("resetEventLoup", $@loupgarou$, "region_8");
+	end;
+
+OnPCLogoutEvent:
+	if( strcharinfo(3) == "region_8" ) {
+		for( .@i = 0; .@i < getarraysize($@loupgarou$); .@i++) {
+			if( $@loupgarou$[.@i] == strcharinfo(0) ) {
+				deletearray $@loupgarou$[.@i],1;
+				break;
+			}
+		}
+	}
+	end;
+}
+
+-	script	loup_garou_main	HIDDEN_NPC,{
+OnBegin:
+	end;
+
+OnInit:
+	callfunc ("resetEventLoup", $@loupgarou$, "region_8");
+	end;
+}
+
+function	script	resetEventLoup	{
+	deletearray getarg(0);
+	$eventloup = 0;
+	mapwarp getarg(1),"gonryun",rand(156,163),rand(115,123);
+	return;
+}

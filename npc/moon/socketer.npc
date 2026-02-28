@@ -1,0 +1,666 @@
+//===== Moonlight-Destiny ==================================
+//= Script pour Banque et location.
+//===== Par: =================================================
+//= Eathena
+//= Le Livre d'Ymir
+//= Yaro / Moonlight-Destiny Dev Team
+//===== Version courrante: ===================================
+//= 3.3
+//===== Description: =========================================
+//= Ajoute des slot dans armes et armures
+//===== Commentaires: ========================================
+//= 1.0 Eathena
+//= 2.0 Le Livre d'Ymir http://www.bookofymir.net/ [NoHealing]
+//= 3.0 Ajout strnpcinfo(0),noms en anglais [Stingor]
+//= 3.1 Ajout logmes réussite ou échec+info echec pour le joueur [Stingor]
+//= 3.2 rAthena update & tweaks [Stingor]
+//= 3.3 Logging update [Stingor]
+//============================================================
+-	script	Seiyablem#dummy::SocketEnchant	-1,{
+	if( checkweight(1065,1) == 0 ) {
+		mes "Attendez une minute! Vous portez trop d'items sur vous. Veuillez revenir après avoir déposé quelques objets dans votre Storage.";
+		close;
+	}
+	mes "[ "+strnpcinfo(0)+" ]";
+	mes ( isday() ? "Bonjour" : "Bonsoir" )+".";
+	mes "Je suis un ingénieur spécialisé dans l'amélioration des Armes et Armures classiques.";
+	mes "Le tarif, les matériaux nécessaires et la chance de réussite, dépendent des spécificités de l'objet sur lequel je dois travailler.";
+	next;
+	mes "[ "+strnpcinfo(0)+" ]";
+	mes "Améliorer une arme ou une armure peut paraître simple, mais c'est en fait bien plus compliqué qu'on ne le croit.";
+	mes "Êtes-vous intéressé par mes services?";
+	switch( select( "Amélioration d'une Arme", "Amélioration d'une Armure", "Amélioration?" ) ) {
+		clear;
+		case 1:
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Vous voulez améliorer une Arme?";
+			mes "Les Armes sont classées en différentes catégories suivant la difficulté à travailler sur celles-ci. Les Armes de Classe C sont relativement faciles à travailler,et les Armes de Classe S sont les plus coriaces.";
+			mes "Quelle est la Classe de l'Arme sur laquelle vous voulez essayer une amélioration?";
+			switch( select( "Classe C:Classe B:Classe A:Classe S" ) ) {
+				clear;
+				case 1:
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Une arme de Classe C?";
+					mes "Cela paraît raisonnable.";
+	 				mes "Veuillez choisir votre arme:";
+					switch( select("Trident:Rope:Violin") ) {
+						clear;
+						case 1: callfunc "Func_Socket",1460,1461,40,66,200,1010,10;
+						case 2: callfunc "Func_Socket",1950,1951,40,66,200,1010,10;
+						case 3: callfunc "Func_Socket",1901,1902,40,66,200,1010,10;
+					}
+				case 2:
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Une arme de Classe B?";
+					mes "Très bien...";
+	 				mes "Veuillez choisir votre arme:";
+					switch( select("Chain:Gladius:Gakkung Bow:Pike:Haedonggum:Lute:Wire:Waghnakh:Arbalest Bow") ) {
+						clear;
+						case 1: callfunc "Func_Socket",1519,1520,40,61,300,1010,10;
+						case 2: callfunc "Func_Socket",1219,1220,40,61,300,984,1,999,5;
+						case 3: callfunc "Func_Socket",1714,1716,40,61,300,984,2,999,5;
+						case 4: callfunc "Func_Socket",1407,1408,40,61,200,1010,10;
+						case 5: callfunc "Func_Socket",1123,1128,40,61,300,984,2,999,5;
+						case 6: callfunc "Func_Socket",1905,1906,40,61,300,1011,10;
+						case 7: callfunc "Func_Socket",1954,1955,40,61,300,1011,10;
+						case 8: callfunc "Func_Socket",1801,1802,40,61,300,1010,10;
+						case 9: callfunc "Func_Socket",1713,1715,40,61,300,984,2,999,5;
+					}
+				case 3:
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Ooh une arme de Classe A?";
+					mes "Nous entrons en territoire à haut risque!";
+	  				mes "Veuillez choisir votre arme:";
+					switch( select("Hunter Bow:Survivor's Rod(INT):Zweihander:Flamberge:Infiltrator:Ballista:Stunner:Berserk:Claymore") ) {
+						clear;
+						case 1: callfunc "Func_Socket",1718,1726,40,61,500,984,2,999,10;
+						case 2: callfunc "Func_Socket",1619,1620,40,61,500,984,5,999,10;
+						case 3: callfunc "Func_Socket",1168,1171,40,61,800,984,5,999,10;
+						case 4: callfunc "Func_Socket",1129,1149,40,61,500,984,2,999,10;
+						case 5: callfunc "Func_Socket",1261,1266,40,61,700,984,5,999,10;
+						case 6: callfunc "Func_Socket",1722,1727,40,61,500,984,5,999,10;
+						case 7: callfunc "Func_Socket",1522,1532,40,61,500,984,2,999,10;
+						case 8: callfunc "Func_Socket",1814,1816,40,61,500,984,5,999,10;
+						case 9: callfunc "Func_Socket",1163,1172,40,61,500,984,2,999,10;
+					}
+				case 4:
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Whoa, whoa, whoa...";
+					mes "Une arme de Classe S? Très bien...";
+					mes "Ce serait un miracle si j'y arrivais, mais bon... On ne sait jamais!";
+					mes "Veuillez choisir votre arme:";
+				switch( select("Gungnir:Poison Knife:Ice Pick:Sucsamad:Ginnungagap:Cutlas:Crescent Scythe:Survivor's Rod(DEX)") ) {
+						clear;
+						case 1: callfunc "Func_Socket",1413,1418,40,51,1000,984,5,999,10;
+						case 2: callfunc "Func_Socket",1239,13016,40,51,1000,984,5,999,10;
+						case 3: callfunc "Func_Socket",1230,13017,40,51,2000,984,5,999,10;
+						case 4: callfunc "Func_Socket",1236,13018,40,51,1000,984,5,999,10;
+						case 5: callfunc "Func_Socket",13002,13019,40,51,1000,984,5,999,10;
+						case 6: callfunc "Func_Socket",1135,13400,40,51,1000,984,5,999,10;
+						case 7: callfunc "Func_Socket",1466,1476,40,51,1000,984,5,999,10;
+						case 8: callfunc "Func_Socket",1617,1618,40,51,2000,984,5,999,10;
+					}
+			}
+		case 2:
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Une armure, vous dites?";
+			mes "D'accord, pas de problème.";
+			mes "Les armures sont divisées en quatre Classes différentes, qui dépendent de la difficulté de réussite.";
+			mes "La Classe C est celle sur laquelle il est le plus facile de travailler et la Classe S la plus difficile.";
+			mes "De quelle Classe est l'Armure sur laquelle vous voulez essayer une amélioration?";
+			switch( select("Classe C:Classe B:Classe A:Classe S" ) ) {
+				clear;
+				case 1:
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Une armure de Classe C?";
+					mes "Cela paraît raisonnable.";
+	  				mes "Veuillez choisir votre armure:";
+					switch( select("Mantle:Coat:Circlet:Biretta") ) {
+						clear;
+						case 1: callfunc "Func_Socket",2307,2308,40,66,200,999,3;
+						case 2: callfunc "Func_Socket",2309,2310,40,66,200,999,3;
+						case 3: callfunc "Func_Socket",2232,2233,40,66,200,999,3;
+						case 4: callfunc "Func_Socket",2216,2217,40,66,200,999,3;
+					}
+				case 2:
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Une armure de Classe B? Très bien...";
+	  				mes "Veuillez choisir votre armure:";
+					switch( select("Mirror Shield:Chain Mail:Saint Robe:Silk Robe:Boots:Shoes:Muffler:Guard:Buckler:Shield:Bongun Hat") ) {
+						clear;
+						case 1:  callfunc "Func_Socket",2107,2108,40,61,250,999,5;
+						case 2:  callfunc "Func_Socket",2314,2315,40,61,250,999,5;
+						case 3:  callfunc "Func_Socket",2325,2326,40,61,300,999,5;
+						case 4:  callfunc "Func_Socket",2321,2322,40,61,300,999,5;
+						case 5:  callfunc "Func_Socket",2405,2406,40,61,300,999,5;
+						case 6:  callfunc "Func_Socket",2403,2404,40,61,300,999,5;
+						case 7:  callfunc "Func_Socket",2503,2504,40,61,300,999,5;
+						case 8:  callfunc "Func_Socket",2101,2102,40,61,300,999,5;
+						case 9:  callfunc "Func_Socket",2103,2104,40,61,300,999,5;
+						case 10: callfunc "Func_Socket",2105,2106,40,61,250,999,5;
+						case 11: callfunc "Func_Socket",5046,5168,40,61,250,999,5;
+					}
+				case 3:
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Ooh,une armure de Classe A?";
+					mes "Nous entrons en territoire à haut risque!";
+	  				mes "Veuillez choisir votre armure:";
+					switch( select("Gemmed Sallet:Bucket Hat:Memory Book:Tights:Legion Plate Armor:Full Plate:Thief Clothes:Greaves:Coif:Manteau:Helm:Ninja Suit:Orc Helm:Ancient Cape:Monk Hat:Golden Gear:Brooch:Munak Hat") ) {
+						clear;
+						case 1:  callfunc "Func_Socket",2230,2231,40,61,400,985,1;
+						case 2:  callfunc "Func_Socket",5114,5120,40,61,400,985,1;
+						case 3:  callfunc "Func_Socket",2109,2121,40,61,400,985,1;
+						case 4:  callfunc "Func_Socket",2330,2331,40,61,400,985,1;
+						case 5:  callfunc "Func_Socket",2341,2342,40,61,400,985,1;
+						case 6:  callfunc "Func_Socket",2316,2317,40,61,400,985,1;
+						case 7:  callfunc "Func_Socket",2335,2336,40,61,400,985,1;
+						case 8:  callfunc "Func_Socket",2411,2412,40,61,400,985,1;
+						case 9:  callfunc "Func_Socket",5092,5093,40,61,400,985,1;
+						case 10: callfunc "Func_Socket",2505,2506,40,61,400,985,1;
+						case 11: callfunc "Func_Socket",2228,2229,40,61,400,985,1;
+						case 12: callfunc "Func_Socket",2337,2359,40,61,400,985,1;
+						case 13: callfunc "Func_Socket",2299,5157,40,61,400,985,1;
+						case 14: callfunc "Func_Socket",2507,2525,40,61,400,985,1;
+						case 15: callfunc "Func_Socket",2251,5158,40,61,400,985,1;
+						case 16: callfunc "Func_Socket",2246,5159,40,61,400,985,1;
+						case 17: callfunc "Func_Socket",2605,2625,40,61,400,985,1;
+						case 18: callfunc "Func_Socket",2264,5167,40,61,300,985,1;
+					}
+				case 4:
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Hum... Une armure de Classe S?";
+					mes "Vous êtes sûr de vous?";
+					mes "Très bien... Veuillez choisir votre armure... Mais je ne vous garantis rien!";
+					switch( select("Majestic Goat:Spiky Band:Bone Helm:Corsair:Crown:Tiara:Sphinx Hat:Robe of Cast:Earring:Ring:Bow Thimble") ) {
+						clear;
+						case 1:  callfunc "Func_Socket",2256,5160,40,51,2000,985,2;
+						case 2:  callfunc "Func_Socket",2258,5161,40,51,2000,985,2;
+						case 3:  callfunc "Func_Socket",5017,5162,40,51,2000,985,2;
+						case 4:  callfunc "Func_Socket",5019,5163,40,51,2000,985,2;
+						case 5:  callfunc "Func_Socket",2235,5165,40,51,2000,985,2;
+						case 6:  callfunc "Func_Socket",2234,5164,40,51,2000,985,2;
+						case 7:  callfunc "Func_Socket",5053,5166,40,51,1000,985,2;
+						case 8:  callfunc "Func_Socket",2343,2360,40,51,1000,985,2;
+						case 9:  callfunc "Func_Socket",2602,2622,40,51,1000,985,2;
+						case 10: callfunc "Func_Socket",2601,2621,40,51,1000,985,2;
+						case 11: callfunc "Func_Socket",2619,2671,40,51,1000,985,2;
+					}
+			}
+		case 3:
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Je peux essayer d'améliorer une arme ou une armure pour vous,à savoir,tenter d'y ajouter un emplacement pour une carte.";
+			mes "C'est très compliqué et je vous mentirais si je vous disais que je maîtrise parfaitement ce processus.";
+			mes "Ceci dit, je pense avoir identifié certains facteurs de réussite...";
+			next;
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Dans certaines villes, les tentatives d'addition d'Emplacements ont plus de chances de réussir s'il s'agit d'un équipement peu raffiné.";
+			mes "Dans d'autres villes, c'est l'inverse.";
+			mes "Bizarre,non?";
+			next;
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Oh, il y a également quelque chose de très important à savoir avant de se lancer dans une tentative d'amélioration d'équipement.";
+			mes "Si vous me demandez d'ajouter un emplacement pour une carte à un objet, faites bien attention de ne pas en avoir plusieurs du même type dans votre inventaire.";
+			next;
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Par exemple, si vous possédez un Manteau+7 et un Manteau normal dans votre inventaire, il se peut que je ne choisisse pas le bon pendant le processus d'amélioration.";
+			mes "Faites donc bien attention.";
+			next;
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "^FF0000Ne portez sur vous que l'équipement sur lequel vous souhaitez que je travaille^000000.";
+			mes "Par mesure de sécurité, il vaut mieux déposer tous vos autres équipements dans votre Stock Kafra.";
+			close;
+	}
+	end;
+}
+
+function	script	Func_Socket	{
+	mes "[ "+strnpcinfo(0)+" ]";
+	mes "Vous souhaitez tenter une amélioration sur l'objet "+getitemname(getarg(0))+"?";
+	mes "Très bien alors apportez-moi ^FF0000"+getarg(6)+" "+getitemname(getarg(5))+(getarg(6) > 1 && getarg(5) != 999 ? "s":"")+"^000000,"+(getarg(7,0) != 0 && getarg(8,0) != 0 ? ("^FF0000"+getarg(8,0)+" "+getitemname(getarg(7,0))+(getarg(8,0) > 1 && getarg(7,0) != 999 ? "s":"")+"^000000 ") : "")+"ainsi que ^FF0000"+(getarg(4) >= 1000 ? (getarg(4)/1000+",000") : getarg(4))+",000 Zenys^000000.";
+	next;
+	if( getiteminfo(getarg(0),5)&2 ) {// EQP_HAND_R = 2,it's a weapon
+		mes "[ "+strnpcinfo(0)+" ]";
+		mes "Je peux tenter l'amélioration de cet équipement si vous avez les matériaux et l'argent nécessaires sur vous.";
+		mes "Cependant, sachez qu'il y a une chance que le processus échoue.";
+		mes "Je dois donc vous avertir...";
+		next;
+		mes "[ "+strnpcinfo(0)+" ]";
+		mes "Si le processus d'amélioration échoue, l'^FF0000Arme^000000, ^FF0000ainsi que toutes les cartes présentes le cas échéant, seront détruites^000000.";
+		mes "Souhaitez-vous poursuivre le processus d'amélioration de votre Arme?";
+	}
+	else { // armor
+		mes "[ "+strnpcinfo(0)+" ]";
+		mes "Je peux tenter l'amélioration de cet équipement si vous avez les matériaux et l'argent nécessaires sur vous.";
+		mes "Cependant, sachez qu'il y a une chance que le processus échoue.";
+		mes "Je dois donc vous avertir...";
+		next;
+		mes "[ "+strnpcinfo(0)+" ]";
+		mes "Si le processus d'amélioration échoue, l'^FF0000Armure^000000, ^FF0000son raffinement^000000 ^FF0000ainsi que toutes les cartes présentes le cas échéant, seront détruites^000000.";
+		mes "Souhaitez-vous poursuivre le processus d'amélioration de votre Armure?";
+	}
+
+	if( select("Bien sûr!", "J'ai changé d'avis.") == 1) {
+		clear;
+		// if there's no getarg(7) and getarg(8) provided,check itemcount against 0 (we still need a valid item ID though)
+		if( (Zeny >= getarg(4) * 1000) && countitem(getarg(5)) >= getarg(6) && countitem(getarg(7,512)) >= getarg(8,0) && countitem(getarg(0)) > 0 ) {
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Très bien! Le vrai travail va pouvoir commencer!";
+			mes "Vous feriez mieux de m'encourager ou de prier... enfin comme vous voulez,mais je ne garantis pas le résultat.";
+			next;
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Sachez que la méthode de calcul est faite avec un random 100 !";
+			mes "Si le resultat du random correspond à la fourchette de réussite de votre arme vous réussirez le slotage.";
+			next;
+			.@a = rand(1,100);
+			if( .@a > getarg(2) && .@a < getarg(3) ) {
+				specialeffect getarg(3) == 51 ? EF_LORD : EF_SANCTUARY; // only S Class items have Lord of Vermillion effect
+				mes "[ "+strnpcinfo(0)+" ]";
+				mes "Eh bien on dirait que c'est une réussite!";
+				mes "Et voilà pour vous!";
+				logmes "Slotage Success: "+getitemname(getarg(0));
+				delitem getarg(0),1;
+				delitem getarg(5),getarg(6);
+				if( getarg(7,0) != 0 && getarg(8,0) != 0)
+					delitem getarg(7),getarg(8);
+				Zeny -= getarg(4) * 1000;
+				getitem getarg(1),1;
+				next;
+				mes "[ "+strnpcinfo(0)+" ]";
+				mes "A bientôt, mon pote!";
+				close;
+			}
+			else {
+				specialeffect EF_SUI_EXPLOSION;
+				mes "[ "+strnpcinfo(0)+" ]";
+				mes "Wah! ...Je suis désolé, mais j'ai échoué.";
+				mes "Le random était de "+.@a+" sur 100 !";
+				mes "Il vous falait être entre "+getarg(2)+" (non compris) et "+getarg(3)+" (non compris) !";
+				logmes "Slotage Fail: "+getitemname(getarg(0));
+				mes "Ne soyez pas déçu, vous retenterez votre chance une autre fois, d'accord?";
+				delitem getarg(0),1;
+				delitem getarg(5),getarg(6);
+				if( getarg(7,0) != 0 && getarg(8,0) != 0)
+					delitem getarg(7),getarg(8);
+				Zeny -= getarg(4) * 1000;
+				next;
+				mes "[ "+strnpcinfo(0)+" ]";
+				mes "A bientôt!";
+				close;
+			}
+		}
+		else {
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "J'aimerais beaucoup travailler sur votre équipement, mais il vous manque certaines choses...";
+			mes "Êtes-vous certain d'avoir l'équipement en question, les matériaux et l'argent nécessaires?";
+			close;
+		}
+	}
+	next;
+	mes "[ "+strnpcinfo(0)+" ]";
+	mes "Besoin de temps pour réfléchir, hein?";
+	mes "Je comprends.";
+	mes "Souvenez-vous simplement du fameux adage qui dit que la chance sourit aux audacieux~";
+	close;
+}
+
+payon,140,151,5	duplicate(SocketEnchant)	Seiyablem#pay	4_M_02
+lhz_in02,281,35,5	duplicate(SocketEnchant)	Seiyablem#lhz	4_M_02
+prt_in,33,70,5	duplicate(SocketEnchant)	Seiyablem#prt	4_M_02
+morocc,51,41,4	duplicate(SocketEnchant)	Seiyablem#moc	4_M_02
+gon_in,91,10,1	duplicate(SocketEnchant)	Saget::sock1_gon	4_M_02
+
+-	script	Jeune Homme#dummy::SocketMan	-1,{
+	mes "[Jeune Homme]";
+	mes "J'étudie afin de devenir Ingénieur d'Amélioration d'Armes et d'Armures.";
+	mes "C'est un nouveau domaine d'études, qui permet d'ajouter des emplacements pour une carte aux équipements... Une activité très lucrative qui plus est.";
+	next;
+	mes "[Jeune Homme]";
+	mes "Bien sûr, il faut beaucoup de chance et d'argent pour ce faire...";
+	mes "Mais si vous êtes vraiment chanceux, vous pouvez obtenir des Armes ou des Armures uniques, avec plus d'emplacements pour une carte qu'à l'origine!";
+	mes "Ça semble dingue, non?";
+	next;
+	mes "[Jeune Homme]";
+	mes "Mais ne vous réjouissez pas trop vite.";
+	mes "Ce travail d'Amélioration ne peut être pratiqué que sur certains équipements et l'ajout d'emplacements pour une carte ne peut pas dépasser deux supplémentaires.";
+	mes "J'ai encore tellement à apprendre...";
+	close;
+}
+
+prt_in,31,57,1	duplicate(SocketMan)	Jeune Homme#prt	4W_M_01
+payon,143,143,7	duplicate(SocketMan)	Jeune Homme#pay	4W_M_01
+morocc,60,42,3	duplicate(SocketMan)	Jeune Homme#moc	4W_M_01
+lhz_in02,269,33,5	duplicate(SocketMan)	Jeune Homme#lhz	4W_M_01
+
+-	script	Leablem#dummy::SocketEnchant2	-1,{
+	if( checkweight(1065,1) == 0 ) {
+		mes "- Une petite minute! Vous portez trop d'objets sur vous et vous ne pouvez pas en recevoir d'autres. Revenez après vous en être débarrassé de quelques-uns. -";
+		close;
+	}
+	mes "[ "+strnpcinfo(0)+" ]";
+	mes "Bien le "+(isday()?"bonjour":"bonsoir")+"! Je m'appelle "+strnpcinfo(0)+" et je suis un spécialiste de l'ajout d'emplacements dans les armes et les armures. Ce n'est pas toujours facile, mais j'en tire une certaine fierté.";
+	next;
+	mes "[ "+strnpcinfo(0)+" ]";
+	mes "J'ai appris la plupart de ce que je sais de mon frère Seyablem, mais je pense avoir encore beaucoup à apprendre. Comprenez bien que contrairement à mon frère,mes capacités sont limitées.";
+	next;
+	mes "[ "+strnpcinfo(0)+" ]";
+	mes "Il était un peu réticent à m'enseigner ce qu'il savait au début: il aurait voulu que son talent reste unique... Mais il m'a finalement appris comment faire.";
+	next;
+	mes "[ "+strnpcinfo(0)+" ]";
+	mes "J'ai appris beaucoup grâce à lui mais je n'ai toujours pas très confiance en moi. Malgré tout, je peux voir ce que je peux faire.";
+	next;
+	mes "[ "+strnpcinfo(0)+" ]";
+	mes "En fait, il y a une chose que mon frère ne veut pas que je fasse... Je ne veux pas qu'il se fâche. Je n'en dirai pas plus.";
+	next;
+	mes "[ "+strnpcinfo(0)+" ]";
+	mes "Mais dites-moi: à quel équipement voudriez-vous que je rajoute un emplacement? Le coût de mes services et les chances de succès dépendent de ce sur quoi je travaille.";
+	switch( select("Arme:Armure:De quoi ne voulez-vous pas parler?:Plus d'informations") ) {
+		clear;
+		case 1:
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Une arme vous dites? Bien sûr,pas de problèmes. Les armes sont regroupées en quatre classes différentes. La classe C est la plus facile à travailler,et la classe S la plus difficile. Vous voudriez que j'ajoute un emplacement à un objet de quelle classe?";
+			switch( select("Classe C:Classe B:Classe A:Classe S") ) {
+				clear;
+				case 1:
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Classe C, je vois. Quel genre d'arme avez-vous?";
+					switch( select("Book of Mother Earth:Book of Billows:Book of Gust of Wind:Book of the Blazing Sun") ) {
+						clear;
+						case 1: callfunc "Func_Socket2",1554,1569,40,66,200,1010,10;
+						case 2: callfunc "Func_Socket2",1553,1568,40,66,200,1010,10;
+						case 3: callfunc "Func_Socket2",1556,1571,40,66,200,1010,10;
+						case 4: callfunc "Func_Socket2",1555,1570,40,66,200,1010,10;
+					}
+				case 2:
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Classe B, je vois. Quel genre d'arme avez-vous?";
+					switch( select("Orcish Axe:Scimiter:Spike") ) {
+						clear;
+						case 1: callfunc "Func_Socket2",1304,1309,40,66,200,984,1;
+						case 2: callfunc "Func_Socket2",1113,1114,40,66,200,984,1;
+						case 3: callfunc "Func_Socket2",1523,1538,40,61,300,984,1;
+					}
+				case 3:
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Classe A? Vous avez le goût du risque! Mais on va essayer. Quel genre d'arme avez-vous?";
+					switch( select("Dragon Killer:Katar of Quaking:Katar of Raging Blaze:Katar of Frozen Icicle:Katar of Piercing Wind:Golden Mace:Oriental Lute:Queen's Whip:Spectral Spear:Gae Bolg:Schweizersabel") ) {
+						clear;
+						case 1:  callfunc "Func_Socket2",13001,13030,40,61,500,984,2;
+						case 2:  callfunc "Func_Socket2",1257,1276,40,66,500,984,2;
+						case 3:  callfunc "Func_Socket2",1258,1277,40,66,500,984,2;
+						case 4:  callfunc "Func_Socket2",1256,1275,40,66,500,984,2;
+						case 5:  callfunc "Func_Socket2",1259,1278,40,66,500,984,2;
+						case 6:  callfunc "Func_Socket2",1524,1539,40,61,500,984,2;
+						case 7:  callfunc "Func_Socket2",1918,1922,40,61,500,984,2;
+						case 8:  callfunc "Func_Socket2",1970,1976,40,61,500,984,2;
+						case 9:  callfunc "Func_Socket2",1477,1479,40,56,500,984,2;
+						case 10: callfunc "Func_Socket2",1474,1480,40,56,500,984,2;
+						case 11: callfunc "Func_Socket2",1167,1178,40,61,500,984,2;
+					}
+				case 4:
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Uh,Classe S?! Oh, par tous les dieux! Vous êtes sérieu"+(Sex?"x":"se")+"? *Tremble*";
+					mes "Alors... À quel type d'arme de Classe S voulez-vous que j'ajoute un emplacement?";
+					switch( select("Zephyrus:Mailbreaker:Dragon Slayer:Swordbreaker:Assasin Dagger:Grand Cross:Executioner") ) {
+						clear;
+						case 1: callfunc "Func_Socket2",1468,1481,40,51,1000,984,5,999,10;
+						case 2: callfunc "Func_Socket2",1225,13032,40,51,1000,984,5,999,10;
+						case 3: callfunc "Func_Socket2",1166,1180,40,51,1000,984,5,999,10;
+						case 4: callfunc "Func_Socket2",1224,13031,40,51,1000,984,5,999,10;
+						case 5: callfunc "Func_Socket2",1232,13033,40,51,1000,984,5,999,10;
+						case 6: callfunc "Func_Socket2",1528,1540,40,51,1000,984,5,999,10;
+						case 7: callfunc "Func_Socket2",1169,1179,40,51,1000,984,5,999,10;
+					}
+			}
+		case 2:
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Une armure, vous dites? Bien sûr, aucun problème. Les armures sont divisées en quatre classes. La classe C est la plus facile à travailler et la classe S la plus difficile. Vous voudriez que j'ajoute un emplacement à un objet de quelle classe?";
+			switch( select("Classe C:Classe B:Classe A:Classe S") ) {
+				clear;
+				case 1:
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "La Classe C class, je vois. Alors, quel type d'armure avez-vous?";
+					switch( select("Sunflower:Ph.D Hat:Big Ribbon:Boys Cap") ) {
+						clear;
+						case 1: callfunc "Func_Socket2",2253,5351,40,66,100,999,3;
+						case 2: callfunc "Func_Socket2",5012,5347,40,66,100,999,3;
+						case 3: callfunc "Func_Socket2",2244,5348,40,66,100,999,5;
+						case 4: callfunc "Func_Socket2",5016,5349,40,66,100,999,5;
+					}
+				case 2:
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Une armure de Classe B, hein? Bien, quel type d'armure avez-vous?";
+					switch( select("Skull Ring:High Heels") ) {
+						clear;
+						case 1: callfunc "Func_Socket2",2609,2715,40,61,300,999,5;
+						case 2: callfunc "Func_Socket2",2409,2432,40,61,300,999,5;
+					}
+				case 3:
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Une armure de Classe A? Vous avez le goût du risque,mais ça me va. Alors, quel type d'armure avez-vous?";
+					switch( select("Pirate Bandana:Black Leather Boots") ) {
+						clear;
+						case 1: callfunc "Func_Socket2",2287,5350,50,61,500,985,1; // 50,61-it's not a typo
+						case 2: callfunc "Func_Socket2",2425,2434,40,51,500,985,1;
+					}
+				case 4:
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Uh, Classe S?! Oh, par tous les dieux! Vous êtes sérieu"+(Sex?"x":"se")+"? *Tremble*";
+					mes "Alors... À quel type d'armure de Classe S voulez-vous que j'ajoute un emplacement?";
+					switch( select("Mage Coat:Holy Robe:Sacred Mission:Undershirt:Pantie") ) {
+						clear;
+						case 1: callfunc "Func_Socket2",2334,2372,40,51,1000,985,1; // Mage Coat has 10% success chance
+						case 2: callfunc "Func_Socket2",2327,2373,45,51,1000,985,1; // the rest has 5%
+						case 3: callfunc "Func_Socket2",2111,2128,45,51,1000,985,1;
+						case 4: callfunc "Func_Socket2",2522,2523,45,51,1000,985,1;
+						case 5: callfunc "Func_Socket2",2339,2371,45,51,1000,985,1;
+					}
+			}
+		case 3:
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Oh,ce n'est rien de grave,mais il pense que les hommes ne devraient pas toucher à ces choses-là. Je ferais mieux d'oublier...";
+			next;
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "... Le service en soi a de très grandes chances de succès,mais il demande beaucoup de matériaux et coûte très cher alors je doute que beaucoup de gens l'utiliseraient même si j'en faisais profiter le public.";
+			next;
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "...Humm...";
+			next;
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes ".............";
+			next;
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes ".............";
+			next;
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Mais vous avez l'air intéressé"+(Sex?"":"e")+"... Si vous voulez,je peux vous en parler. Mais vous devez me promettre de garder le secret. Mon frère serait fou de rage s'il apprenait que je vous en ai parlé!";
+			next;
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Ce service très spécial a 90% de chances de succès,mais il demande 2 Lingots et 200 millions de zénys: il permet d'ajouter un emplacement à un Heaume du Roi Soleil.";
+			next;
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Mon frère m'a dit qu'il était interdit de modifier cet objet depuis des temps anciens,mais la curiosité est humaine,et je pense être très humain... Alors j'ai essayé et mis au point cette technique.";
+			switch( select("Utiliser ce Service","Quitter la conversation") ) {
+				clear;
+				case 1:
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes ".................";
+					next;
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes ".................";
+					next;
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "...Que... Quoi? Non,ce n'est pas la peine de me regarder comme ça! Je ne le ferai pas! Quand je dis non,c'est non!";
+					next;
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Non,je ne le ferai pas! Hors de question!";
+					next;
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Je ne peux pas le faire...";
+					next;
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Je ne peux pas... C'est...";
+					next;
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes ".................";
+					next;
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Hum...";
+					next;
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Vous êtes vraiment obstiné"+(Sex?"":"e")+",vous! D'accord,je vais faire une exception. Mais n'en parlez à personne,et surtout pas à mon frère,c'est bien compris?";
+					next;
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Bien,dans ce cas,apportez-moi:";
+					mes "^FF00002 Lingots^000000,^FF0000200 millions de zénys^000000 -- le prix du service --,";
+					mes "et un ^FF0000Heaume du Roi Soleil.^000000";
+					mes "^FF0000Vous savez que la chance de réussite est de 90%,n'est-ce pas?^000000";
+					mes "Rapportez-moi ça sans attendre afin que je puisse m'y mettre au plus vite.";
+					next;
+					if( Zeny > 199999999 &&
+						countitem(969) > 1 &&
+						countitem(5022) > 0 ) {
+						mes "[ "+strnpcinfo(0)+" ]";
+						mes "Oh mais vous avez tout ça! Bien,commençons. Priez les dieux pour que ça réussisse.";
+						next;
+						.@a = rand(1,100);
+						if( .@a > 4 && .@a < 95 ) {
+							specialeffect EF_LORD;
+							mes "[ "+strnpcinfo(0)+" ]";
+							mes "Excellent! Regardez,j'ai ajouté un emplacement au parfait endroit! Félicitations!";
+							delitem 5022,1; //Helm_Of_Sun
+							delitem 969,2; //Gold
+							Zeny -= 200000000;
+							getitem 5353,1; //Helm_Of_Sun_
+							next;
+							mes "[ "+strnpcinfo(0)+" ]";
+							mes "Bon. C'est la première et la dernière fois que je fais ça pour vous. Et n'en parlez à personne,c'est bien compris?";
+							close;
+						}
+						else {
+							specialeffect EF_SUI_EXPLOSION;
+							mes "[ "+strnpcinfo(0)+" ]";
+							mes "Wah! Oh,par tous les dieux! J'ai raté! J'imagine que je n'ai vraiment pas de chance. Il n'y a plus rien à faire maintenant... C'est pour ça que je ne voulais pas le faire!";
+							delitem 5022,1; //Helm_Of_Sun
+							delitem 969,2; //Gold
+							Zeny-= 200000000;
+							next;
+							mes "[ "+strnpcinfo(0)+" ]";
+							mes "Ne me redemandez jamais de faire quelque chose comme ça à nouveau!";
+							mes "Bah~";
+							close;
+						}
+					}
+					else {
+						mes "[ "+strnpcinfo(0)+" ]";
+						mes "Hum...";
+						next;
+						mes "[ "+strnpcinfo(0)+" ]";
+						mes "Vous n'avez même pas ça sur vous. Pourquoi donc me demandez-vous d'essayer? Bon,j'en ai assez. Je ne le ferais pas pour vous,même si vous m'apportiez tous les matériaux.";
+						close;
+					}
+				case 2:
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Ne répétez à personne ce que je vous ai dit,c'est bien compris?";
+					close;
+			}
+		case 4:
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Vous voulez plus d'informations? Eh bien je crois que vous n'avez pas besoin de savoir grand-chose de plus. Cependant,je peux vous donner un tuyau.";
+			next;
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Les spécialistes de ce genre de chose dans les différentes villes sont plus ou moins habiles selon le taux de raffinage de l'équipement. Tout du moins c'est ce qu'on raconte.";
+			next;
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Certains sont plus habiles avec des objets qui n'ont pas été raffinés,et d'autres le sont avec des objets raffinés de nombreuses fois.";
+			next;
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Si l'ajout d'emplacement échoue,l'objet sera détruit. Je fais de mon mieux,mais ce n'est pas une tâche facile.";
+			next;
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Oh,une dernière chose:";
+			mes "^FF0000n'ayez jamais sur vous deux objets du même type quand vous voulez lui ajouter un emplacement,ou celui-ci sera ajouté à l'un des deux au hasard,et si jamais ça se passait mal vous pourriez perdre un objet auquel vous teniez.^000000";
+			next;
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "Voilà,j'espère que ça vous aide.";
+			close;
+	}
+}
+
+payon,236,199,3	duplicate(SocketEnchant2)	Leablem#pay	4_M_04
+lighthalzen,96,137,3	duplicate(SocketEnchant2)	Leablem#lhz	4_M_04
+prontera,244,169,5	duplicate(SocketEnchant2)	Leablem#prt	4_M_04
+moc_ruins,154,86,3	duplicate(SocketEnchant2)	Leablem#moc	4_M_04
+gon_in,84,18,7	duplicate(SocketEnchant2)	Bob::sock2_gon	4_M_04
+
+function	script	Func_Socket2	{
+
+	mes "[ "+strnpcinfo(0)+" ]";
+	if( getarg(7,0) != 0 && getarg(8,0) != 0 ) {
+		mes getitemname(getarg(0))+"... Bien, dans ce cas vous devrez m'apporter:";
+		mes "^FF0000"+((getarg(4) >= 1000)?(getarg(4)/1000+",000"):getarg(4))+",000z pour payer mes services,";
+		mes "^FF0000"+getarg(6)+" "+getitemname(getarg(5))+" et "+getarg(8)+" "+getitemname(getarg(7))+".";
+		mes "^FF0000Bien sûr, il vous faudra aussi un "+getitemname(getarg(0))+".^000000";
+	}
+	else {
+		mes getitemname(getarg(0))+"... Bien,dans ce cas vous devrez m'apporter:";
+		mes "^FF0000"+((getarg(4) >= 1000)?(getarg(4)/1000+",000"):getarg(4))+",000z pour payer mes services et "+getarg(6)+" "+getitemname(getarg(5))+((getarg(6) > 1 && getarg(5) != 999)?"s":"")+".";
+		mes "^FF0000Bien sûr, il vous faudra aussi un "+getitemname(getarg(0))+".";
+	}
+	next;
+	mes "[ "+strnpcinfo(0)+" ]";
+	mes "Avez-vous tout ça? Au passage, si l'ajout d'emplacement échoue,vous perdrez tous les matériaux ainsi que votre "+((getiteminfo(getarg(0),5)&2)?"arme":"armure")+"."; // EQP_HAND_R = 2,it's a weapon,otherwise armor
+	mes "Gardez aussi à l'esprit que si jamais vous avez attaché une carte à votre "+((getiteminfo(getarg(0),5)&2)?"arme":"armure")+", vous la perdrez même si l'opération est un succès.";
+	switch( select("Ajouter un emplacement.:Essayer une prochaine fois.") ) {
+		clear;
+		case 1: // if there's no getarg(7) and getarg(8) provided,check itemcount against 0 (we still need a valid item ID though)
+			if( (Zeny >= getarg(4) * 1000) && countitem(getarg(5)) >= getarg(6) && countitem(getarg(7,512)) >= getarg(8,0) && countitem(getarg(0)) > 0 ) {
+				mes "[ "+strnpcinfo(0)+" ]";
+				mes "Bien,dans ce cas allons-y! Priez pour que je réussisse...";
+				next;
+				.@a = rand(1,100);
+				if( .@a > getarg(2) && .@a < getarg(3) ) {
+					specialeffect EF_LORD;
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Génial! On dirait que ça a marché! Ça a l'air d'être du bon travail. Félicitations!";
+					logmes "Slotage Success: "+getitemname(getarg(0));
+					delitem getarg(0),1;
+					delitem getarg(5),getarg(6);
+					if( getarg(7,0) != 0 && getarg(8,0) != 0)
+						delitem getarg(7),getarg(8);
+					Zeny -= getarg(4) * 1000;
+					getitem getarg(1),1;
+					next;
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "À la prochaine,l'ami"+(Sex?"":"e")+"!";
+					close;
+				}
+				else {
+					specialeffect EF_SUI_EXPLOSION;
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "Ouah! ... Je suis désolé,ça n'a pas marché. Mais je n'y suis pour rien...";
+					mes "Le random était de : "+.@a+" !";
+					mes "Il vous falait être entre : "+getarg(2)+" et "+getarg(3)+" !";
+					logmes "Slotage Fail: "+getitemname(getarg(0));
+					mes "Les dieux en avaient surement décidé ainsi,n'est-ce pas? Ne soyez pas déçu"+(Sex?"":"e")+": vous aurez surement plus de chance la prochaine fois.";
+					delitem getarg(0),1;
+					delitem getarg(5),getarg(6);
+					if( getarg(7,0) != 0 && getarg(8,0) != 0)
+						delitem getarg(7),getarg(8);
+					Zeny -= getarg(4) * 1000;
+					next;
+					mes "[ "+strnpcinfo(0)+" ]";
+					mes "À la prochaine,l'ami"+(Sex?"":"e")+"!";
+					close;
+				}
+			}
+			else {
+				mes "[ "+strnpcinfo(0)+" ]";
+				mes "Vous n'avez pas écouté ou quoi? Il me faut tous ces objets! Apportez-moi ça au plus vite!";
+				close;
+			}
+		case 2:
+			mes "[ "+strnpcinfo(0)+" ]";
+			mes "A très bientôt!";
+			close;
+	}
+}

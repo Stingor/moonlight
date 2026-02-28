@@ -1,0 +1,1451 @@
+//================== eAthena Script =======================================
+//= Dr Kawashima
+//================== By: ==================================================
+//= ToZorMan (green-peach.com)
+//================== Current Version: =====================================
+//= 1.0
+//================== Compatible With: =====================================
+//=
+//= eAthena SVN
+//=
+//================== Description: =========================================
+//=
+//=
+//================== Additional Comments: =================================
+//=
+//= Avant d'utiliser le NPC, effectuez un Reset des records.
+//= 
+//= Record non faisable en Event.
+//= 
+//=========================================================================
+
+gonryun,135,119,4	script	Dr Kamitsu	903,{
+
+
+
+set $K_mapname$,"gonryun"; //Map d'annonce de position lors d'un Event.
+
+set .@npc$,"[^6600CCDr Kamitsu^000000]";
+
+set @faux,0;
+
+if ($waitevent == 2)
+{
+mes .@npc$;
+mes "L'Event va bientôt commencer. Tenez vous prêt !";
+close;
+}
+
+if ($@addsousmu == 1) {set $@participant,$@participant+1;set @nb_max,0;set @round,0;goto addsousmu;}
+if ($@addsous == 1) {set $@participant,$@participant+1;set @nb_max,0;set @round,0;goto addsous;}
+if ($@addition == 1) {set $@participant,$@participant+1;set @nb_max,0;set @round,0;goto addition;}
+if ($@soustraction == 1) {set $@participant,$@participant+1;set @nb_max,0;set @round,0;goto soustraction;}
+if ($@multiplication == 1) {set $@participant,$@participant+1;set @nb_max,0;set @round,0;goto multiplication;}
+
+
+
+//========================================================================================================
+// Menu : Choix du Calcul + Définition du nombre de calcul (@round) et de la difficulté.
+//========================================================================================================
+
+
+
+menu_Dr_Kawashima:
+mes .@npc$;
+mes "Bienvenue ^0000FF"+strcharinfo(0)+"^000000";
+mes "Quel Calcul veux tu faire ?.?";
+mes " ";
+mes "Si tu veux effectuer un Record il faut faire un minimum de 20 calculs à la suite.";
+next;
+if (getgmlevel()<20)
+{
+	menu "- Addition / Soustraction / Multiplication",addsousmu_player,"- Addition / Soustraction ",addsous_player,"- Addition",addition_player,"- Soustraction",soustraction_player,"- Multiplication",multiplication_player,"- Record",record;
+}
+	menu "- Addition / Soustraction / Multiplication",addsousmu_player,"- Addition / Soustraction ",addsous_player,"- Addition",addition_player,"- Soustraction",soustraction_player,"- Multiplication",multiplication_player,"- Record",record,"- Faire un Event",event,"- Vérification + Reset des variables",resetvariable,"- Reset des Records",reset;
+
+		event:
+			next;
+			menu "- Event Add / Sous / Multi",addsousmu_GM,"- Event Addition/Soustraction ",addsous_GM,"- Event Addition",addition_GM,"- Event Soustraction",soustraction_GM,"- Event Multiplication",multiplication_GM;
+
+		resetvariable:
+			mes "$@addsousmu = "+$@addsousmu+""; // = 1 preparation d'un event
+			mes "$@addsous = "+$@addsous+""; // = 1 preparation d'un event
+			mes "$@addition = "+$@addition+"";// = 1 preparation d'un event
+			mes "$@soustraction = "+$@soustraction+"";// = 1 preparation d'un event
+			mes "$@multiplication = "+$@multiplication+"";// = 1 preparation d'un event
+			mes "$waitevent = "+$waitevent+"";// = 2 decompte NPC ---- = 1 event en cours
+			mes "$@position = "+$@position+"";
+			mes "$@participant = "+$@participant+"";
+			mes "@round = "+@round+"";
+			mes "$round = "+$round+"";
+			mes "@nb_max = "+@nb_max+"";
+			mes "$nb_max = "+$nb_max+"";
+			next;
+			menu "- Réinitialisation à 0 des variables",-;
+			set $waitevent,0;
+			set $@participant,0;
+			set $@addsousmu,0;
+			set $@addsous,0;
+			set $@addition,0;
+			set $@soustraction,0;
+			set $@multiplication,0;
+			set $@position,0;
+			set @round,0;
+			set $round,0;
+			set @nb_max,0;
+			set $nb_max,0;
+			close;
+
+
+	addsousmu_player:
+	callfunc ("K_menu");
+	callfunc ("K_npctalk");
+	goto addsousmu;
+	
+	addsousmu_GM:
+	callfunc ("K_menuevent");
+	close2;
+	set $@addsousmu,1;
+	announce "Event Addition/Soustraction/Multiplication du Dr Kawashima en "+$round+" round. Difficulté "+@difficulte$+"",bc_all;
+	callfunc ("K_decompte_event");
+	end;
+
+
+	addsous_player:
+	callfunc ("K_menu");
+	callfunc ("K_npctalk");
+	goto addsous;
+	
+	addsous_GM:
+	callfunc ("K_menuevent");
+	close2;
+	set $@addsous,1;
+	announce "Event Addition/Soustraction du Dr Kawashima en "+$round+" round. Difficulté "+@difficulte$+"",bc_all;
+	callfunc ("K_decompte_event");
+	end;
+
+
+	addition_player:
+	callfunc ("K_menu");
+	callfunc ("K_npctalk");
+	goto addition;
+
+	addition_GM:
+	callfunc ("K_menuevent");
+	close2;
+	set $@addition,1;
+	announce "Event Addition du Dr Kawashima en "+$round+" round. Difficulté "+@difficulte$+"",bc_all;
+	callfunc ("K_decompte_event");
+	end;
+
+	soustraction_player:
+	callfunc ("K_menu");
+	callfunc ("K_npctalk");
+	goto soustraction;
+
+	soustraction_GM:
+	callfunc ("K_menuevent");
+	close2;
+	set $@soustraction,1;
+	announce "Event Soustraction du Dr Kawashima en "+$round+" round. Difficulté "+@difficulte$+"",bc_all;
+	callfunc ("K_decompte_event");
+	end;
+
+	multiplication_player:
+	mes .@npc$;
+	mes "Combien de calcul veux tu prédéfinir ?";
+	input @round;
+	if (@round == 0) close;
+	callfunc ("K_npctalk");
+	goto multiplication;
+
+	multiplication_GM:
+	mes .@npc$;
+	mes "Combien de calcul veux tu prédéfinir ?";
+	input $round;
+	close2;
+	set $@multiplication,1;
+	announce "Event Multiplication du Dr Kawashima en "+@round+" round.",bc_all;
+	callfunc ("K_decompte_event");
+	end;
+
+
+//========================================================================================================
+// Calcul + Etablissement du record s'il y a :
+//========================================================================================================
+
+
+
+//========================================================================================================
+// Addition/Soustraction/Multiplication :
+//========================================================================================================
+
+
+
+addsousmu:
+		if ( $waitevent == 1 )
+		{
+			mes "C'est parti !";
+			set @timeminute,gettime(2);
+			set @timeseconde,gettime(1);
+		}
+		else
+		{
+			callfunc ("K_decompte");
+		}
+
+		callfunc ("K_addsousmu");
+		callfunc ("K_totaltime");
+
+		if ( @round >= 20 && @nb_max == 20)
+		{
+			if (@totaltimeminute < $recordtimeminute_asm_facile) goto newrecord_asm_facile;
+			if (@totaltimeminute <= $recordtimeminute_asm_facile && @totaltimeseconde < $recordtimeseconde_asm_facile)
+			{
+				newrecord_asm_facile:
+				callfunc ("K_resultattimerecord");
+
+
+				set $recordtimeminute_asm_facile,@totaltimeminute;
+				set $recordtimeseconde_asm_facile,@totaltimeseconde;
+				set $recordman_asm_facile$,strcharinfo(0);
+
+				goto recompense;
+			}
+		}
+
+		if (@round >= 20 && @nb_max == 50)
+		{
+			if (@totaltimeminute < $recordtimeminute_asm_normal) goto newrecord_asm_normal;
+			if (@totaltimeminute <= $recordtimeminute_asm_normal && @totaltimeseconde < $recordtimeseconde_asm_normal)
+			{
+				newrecord_asm_normal:
+				callfunc ("K_resultattimerecord");
+
+				set $recordtimeminute_asm_normal,@totaltimeminute;
+				set $recordtimeseconde_asm_normal,@totaltimeseconde;
+				set $recordman_asm_normal$,strcharinfo(0);
+
+				goto recompense;
+			}
+		}
+
+		if (@round >= 20 && @nb_max == 100)
+		{
+			if (@totaltimeminute < $recordtimeminute_asm_difficile) goto newrecord_asm_difficile;
+			if (@totaltimeminute <= $recordtimeminute_asm_difficile && @totaltimeseconde < $recordtimeseconde_asm_difficile)
+			{
+				newrecord_asm_difficile:
+				callfunc ("K_resultattimerecord");
+
+				set $recordtimeminute_asm_difficile,@totaltimeminute;
+				set $recordtimeseconde_asm_difficile,@totaltimeseconde;
+				set $recordman_asm_difficile$,strcharinfo(0);
+
+				goto recompense;
+			}
+		}
+
+		if (@round >= 20 && @nb_max == 1000)
+		{
+			if (@totaltimeminute < $recordtimeminute_asm_tdifficile) goto newrecord_asm_tdifficil;
+			if (@totaltimeminute <= $recordtimeminute_asm_tdifficile && @totaltimeseconde < $recordtimeseconde_asm_tdifficile)
+			{
+				newrecord_asm_tdifficil:
+				callfunc ("K_resultattimerecord");
+
+				set $recordtimeminute_asm_tdifficile,@totaltimeminute;
+				set $recordtimeseconde_asm_tdifficile,@totaltimeseconde;
+				set $recordman_asm_tdifficile$,strcharinfo(0);
+
+				goto recompense;
+			}
+		}
+		goto recompense_sans_record;
+
+
+
+
+//========================================================================================================
+// Addition/Soustraction :
+//========================================================================================================
+
+
+
+addsous:
+		if ( $waitevent == 1 )
+		{
+			mes "C'est parti !";
+			set @timeminute,gettime(2);
+			set @timeseconde,gettime(1);
+		}
+		else
+		{
+			callfunc ("K_decompte");
+		}
+
+		callfunc ("K_addsous");
+		callfunc ("K_totaltime");
+
+		if ( @round >= 20 && @nb_max == 20)
+		{
+			if (@totaltimeminute < $recordtimeminute_as_facile) goto newrecord_as_facile;
+			if (@totaltimeminute <= $recordtimeminute_as_facile && @totaltimeseconde < $recordtimeseconde_as_facile)
+			{
+				newrecord_as_facile:
+				callfunc ("K_resultattimerecord");
+
+
+				set $recordtimeminute_as_facile,@totaltimeminute;
+				set $recordtimeseconde_as_facile,@totaltimeseconde;
+				set $recordman_as_facile$,strcharinfo(0);
+
+				goto recompense;
+			}
+		}
+
+		if (@round >= 20 && @nb_max == 50)
+		{
+			if (@totaltimeminute < $recordtimeminute_as_normal) goto newrecord_as_normal;
+			if (@totaltimeminute <= $recordtimeminute_as_normal && @totaltimeseconde < $recordtimeseconde_as_normal)
+			{
+				newrecord_as_normal:
+				callfunc ("K_resultattimerecord");
+
+				set $recordtimeminute_as_normal,@totaltimeminute;
+				set $recordtimeseconde_as_normal,@totaltimeseconde;
+				set $recordman_as_normal$,strcharinfo(0);
+
+				goto recompense;
+			}
+		}
+
+		if (@round >= 20 && @nb_max == 100)
+		{
+			if (@totaltimeminute < $recordtimeminute_as_difficile) goto newrecord_as_difficile;
+			if (@totaltimeminute <= $recordtimeminute_as_difficile && @totaltimeseconde < $recordtimeseconde_as_difficile)
+			{
+				newrecord_as_difficile:
+				callfunc ("K_resultattimerecord");
+
+				set $recordtimeminute_as_difficile,@totaltimeminute;
+				set $recordtimeseconde_as_difficile,@totaltimeseconde;
+				set $recordman_as_difficile$,strcharinfo(0);
+
+				goto recompense;
+			}
+		}
+
+		if (@round >= 20 && @nb_max == 1000)
+		{
+			if (@totaltimeminute < $recordtimeminute_as_tdifficile) goto newrecord_as_tdifficile;
+			if (@totaltimeminute <= $recordtimeminute_as_tdifficile && @totaltimeseconde < $recordtimeseconde_as_tdifficile)
+			{
+				newrecord_as_tdifficile:
+				callfunc ("K_resultattimerecord");
+
+				set $recordtimeminute_as_tdifficile,@totaltimeminute;
+				set $recordtimeseconde_as_tdifficile,@totaltimeseconde;
+				set $recordman_as_tdifficile$,strcharinfo(0);
+
+				goto recompense;
+			}
+		}
+		goto recompense_sans_record;
+
+
+
+//========================================================================================================
+// Addition :
+//========================================================================================================
+
+
+
+addition:
+
+		if ( $waitevent == 1 )
+		{
+			mes "C'est parti !";
+			set @timeminute,gettime(2);
+			set @timeseconde,gettime(1);
+		}
+		else
+		{
+			callfunc ("K_decompte");
+		}
+
+		callfunc ("K_addition");
+		callfunc ("K_totaltime");
+
+		if (@round >= 20 && @nb_max == 20)
+		{
+			if (@totaltimeminute < $recordtimeminute_a_facile) goto newrecord_a_facile;
+			if (@totaltimeminute <= $recordtimeminute_a_facile && @totaltimeseconde < $recordtimeseconde_a_facile)
+			{
+				newrecord_a_facile:
+				callfunc ("K_resultattimerecord");
+
+				set $recordtimeminute_a_facile,@totaltimeminute;
+				set $recordtimeseconde_a_facile,@totaltimeseconde;
+				set $recordman_a_facile$,strcharinfo(0);
+
+				goto recompense;
+			}
+		}
+
+		if (@round >= 20 && @nb_max == 50)
+		{
+			if (@totaltimeminute < $recordtimeminute_a_normal) goto newrecord_a_normal;
+			if (@totaltimeminute <= $recordtimeminute_a_normal && @totaltimeseconde < $recordtimeseconde_a_normal)
+			{
+				newrecord_a_normal:
+				callfunc ("K_resultattimerecord");
+
+				set $recordtimeminute_a_normal,@totaltimeminute;
+				set $recordtimeseconde_a_normal,@totaltimeseconde;
+				set $recordman_a_normal$,strcharinfo(0);
+
+				goto recompense;
+			}
+		}
+
+		if (@round >= 20 && @nb_max == 100)
+		{
+			if (@totaltimeminute < $recordtimeminute_a_difficile) goto newrecord_a_difficile;
+			if (@totaltimeminute <= $recordtimeminute_a_difficile && @totaltimeseconde < $recordtimeseconde_a_difficile)
+			{
+				newrecord_a_difficile:
+				callfunc ("K_resultattimerecord");
+
+				set $recordtimeminute_a_difficile,@totaltimeminute;
+				set $recordtimeseconde_a_difficile,@totaltimeseconde;
+				set $recordman_a_difficile$,strcharinfo(0);
+
+				goto recompense;
+			}
+		}
+
+		if (@round >= 20 && @nb_max == 1000)
+		{
+			if (@totaltimeminute < $recordtimeminute_a_tdifficile) goto newrecord_a_tdifficile;
+			if (@totaltimeminute <= $recordtimeminute_a_tdifficile && @totaltimeseconde < $recordtimeseconde_a_tdifficile)
+			{
+				newrecord_a_tdifficile:
+				callfunc ("K_resultattimerecord");
+
+				set $recordtimeminute_a_tdifficile,@totaltimeminute;
+				set $recordtimeseconde_a_tdifficile,@totaltimeseconde;
+				set $recordman_a_tdifficile$,strcharinfo(0);
+
+				goto recompense;
+			}
+		}
+		goto recompense_sans_record;
+
+
+
+//========================================================================================================
+// Soustraction :
+//========================================================================================================
+
+
+
+soustraction:
+		if ( $waitevent == 1 )
+		{
+			mes "C'est parti !";
+			set @timeminute,gettime(2);
+			set @timeseconde,gettime(1);
+		}
+		else
+		{
+			callfunc ("K_decompte");
+		}
+
+		callfunc ("K_soustraction");
+		callfunc ("K_totaltime");
+
+		if (@round >= 20 && @nb_max == 20)
+		{
+			if (@totaltimeminute < $recordtimeminute_s_facile) goto newrecord_s_facile;
+			if (@totaltimeminute <= $recordtimeminute_s_facile && @totaltimeseconde < $recordtimeseconde_s_facile)
+			{
+				newrecord_s_facile:
+				callfunc ("K_resultattimerecord");
+
+				set $recordtimeminute_s_facile,@totaltimeminute;
+				set $recordtimeseconde_s_facile,@totaltimeseconde;
+				set $recordman_s_facile$,strcharinfo(0);
+
+				goto recompense;
+			}
+		}
+
+		if (@round >= 20 && @nb_max == 50)
+		{
+			if (@totaltimeminute < $recordtimeminute_s_normal) goto newrecord_s_normal;
+			if (@totaltimeminute <= $recordtimeminute_s_normal && @totaltimeseconde < $recordtimeseconde_s_normal)
+			{
+				newrecord_s_normal:
+				callfunc ("K_resultattimerecord");
+
+				set $recordtimeminute_s_normal,@totaltimeminute;
+				set $recordtimeseconde_s_normal,@totaltimeseconde;
+				set $recordman_s_normal$,strcharinfo(0);
+
+				goto recompense;
+			}
+		}
+
+		if (@round >= 20 && @nb_max == 100)
+		{
+			if (@totaltimeminute < $recordtimeminute_s_difficile) goto newrecord_s_difficile;
+			if (@totaltimeminute <= $recordtimeminute_s_difficile && @totaltimeseconde < $recordtimeseconde_s_difficile)
+			{
+				newrecord_s_difficile:
+				callfunc ("K_resultattimerecord");
+
+				set $recordtimeminute_s_difficile,@totaltimeminute;
+				set $recordtimeseconde_s_difficile,@totaltimeseconde;
+				set $recordman_s_difficile$,strcharinfo(0);
+
+				goto recompense;
+			}
+		}
+
+		if (@round >= 20 && @nb_max == 1000)
+		{
+			if (@totaltimeminute < $recordtimeminute_s_tdifficile) goto newrecord_s_tdifficile;
+			if (@totaltimeminute <= $recordtimeminute_s_tdifficile && @totaltimeseconde < $recordtimeseconde_s_tdifficile)
+			{
+				newrecord_s_tdifficile:
+				callfunc ("K_resultattimerecord");
+
+				set $recordtimeminute_s_tdifficile,@totaltimeminute;
+				set $recordtimeseconde_s_tdifficile,@totaltimeseconde;
+				set $recordman_s_tdifficile$,strcharinfo(0);
+
+				goto recompense;
+			}
+		}
+		goto recompense_sans_record;
+
+
+
+//========================================================================================================
+// Multiplication :
+//========================================================================================================
+
+
+
+multiplication:
+		if ( $waitevent == 1 )
+		{
+			mes "C'est parti !";
+			set @timeminute,gettime(2);
+			set @timeseconde,gettime(1);
+		}
+		else
+		{
+			callfunc ("K_decompte");
+		}
+
+		callfunc ("K_multiplication");
+		callfunc ("K_totaltime");
+
+		if (@round >= 20)
+		{
+			if (@totaltimeminute < $recordtimeminute_m) goto newrecord_m;
+			if (@totaltimeminute <= $recordtimeminute_m && @totaltimeseconde < $recordtimeseconde_m)
+			{
+				newrecord_m:
+				callfunc ("K_resultattimerecord");
+
+				set $recordtimeminute_m,@totaltimeminute;
+				set $recordtimeseconde_m,@totaltimeseconde;
+				set $recordman_m$,strcharinfo(0);
+
+				goto recompense;
+			}
+		}
+
+
+
+//========================================================================================================
+// Récompense :
+//========================================================================================================
+
+
+
+	recompense_sans_record:
+	callfunc ("K_resultattime");
+	set $@addsousmu,0;
+	set $@addsous,0;
+	set $@multiplication,0;
+	set $@addition,0;
+	set $@soustraction,0;
+	if ($waitevent == 1 )
+	{
+		callfunc ("K_position");
+	}
+	if (@faux == 0)
+	{
+		if  (@round >= 20)
+		{
+			mes .@npc$;
+			mes "Voici ta récompense pour un sans faute.";
+			getitem 969,1;
+		}
+
+		mes .@npc$;
+		mes "Tu as fait "+@faux+" faute, pas mal du tout !";
+		getitem 512,1;
+	}
+	else
+	{
+		mes .@npc$;
+		mes "Tu as fait "+@faux+" faute(s) mais voila pour toi, il paraît que c'est bon pour la mémoire...";
+		getitem 515,1;
+	}
+	close;
+
+
+
+	recompense:
+	set $@addsousmu,0;
+	set $@addsous,0;
+	set $@multiplication,0;
+	set $@addition,0;
+	set $@soustraction,0;
+	mes .@npc$;
+	mes "Voici ta récompense pour ce nouveau record.";
+	getitem 969,5;
+	if ($waitevent == 1 )
+	{
+		callfunc ("K_position");
+	}
+	if (@faux == 0)
+	{
+		mes .@npc$;
+		mes "Tu as fait "+@faux+" faute, pas mal du tout !";
+
+		if  (@round >= 20)
+		{
+			mes "Voici ta récompense pour un sans faute.";
+			getitem 12103,1;
+		}
+	}
+	else
+	{
+		mes .@npc$;
+		mes "Tu as fait "+@faux+" faute(s) mais voila pour toi, il paraît que c'est bon pour la mémoire...";
+		getitem 515,20;
+	}
+	close;
+
+
+
+//========================================================================================================
+// Record :
+//========================================================================================================
+
+
+
+record:
+next;
+menu "- Addition/Soustraction/Multiplication",record_addsousmu,"- Addition/Soustraction",record_addsous,"- Addition",record_addition,"- Soustraction",record_soustraction,"- Multiplication",record_multiplication;
+
+	record_addsousmu:
+		menu "- Facile",record_asm_facile,"- Normal",record_asm_normal,"- Difficile",record_asm_difficile,"- Très Difficile",record_asm_tdifficile;
+
+			record_asm_facile:
+				mes "Le record est détenu par ^0000FF"+$recordman_asm_facile$+"^000000 en ^FF0000"+$recordtimeminute_asm_facile+"^000000 minute(s) et ^FF0000"+$recordtimeseconde_asm_facile+"^000000 seconde(s)";
+				goto record;
+
+			record_asm_normal:
+				mes "Le record est détenu par ^0000FF"+$recordman_asm_normal$+"^000000 en ^FF0000"+$recordtimeminute_asm_normal+"^000000 minute(s) et ^FF0000"+$recordtimeseconde_asm_normal+"^000000 seconde(s)";
+				goto record;
+
+			record_asm_difficile:
+				mes "Le record est détenu par ^0000FF"+$recordman_asm_difficile$+"^000000 en ^FF0000"+$recordtimeminute_asm_difficile+"^000000 minute(s) et ^FF0000"+$recordtimeseconde_asm_difficile+"^000000 seconde(s)";
+				goto record;
+
+			record_asm_tdifficile:
+				mes "Le record est détenu par ^0000FF"+$recordman_asm_tdifficile$+"^000000 en ^FF0000"+$recordtimeminute_asm_tdifficile+"^000000 minute(s) et ^FF0000"+$recordtimeseconde_asm_tdifficile+"^000000 seconde(s)";
+				goto record;
+
+
+	record_addsous:
+		menu "- Facile",record_as_facile,"- Normal",record_as_normal,"- Difficile",record_as_difficile,"- Très Difficile",record_as_tdifficile;
+
+			record_as_facile:
+				mes "Le record est détenu par ^0000FF"+$recordman_as_facile$+"^000000 en ^FF0000"+$recordtimeminute_as_facile+"^000000 minute(s) et ^FF0000"+$recordtimeseconde_as_facile+"^000000 seconde(s)";
+				goto record;
+
+			record_as_normal:
+				mes "Le record est détenu par ^0000FF"+$recordman_as_normal$+"^000000 en ^FF0000"+$recordtimeminute_as_normal+"^000000 minute(s) et ^FF0000"+$recordtimeseconde_as_normal+"^000000 seconde(s)";
+				goto record;
+
+			record_as_difficile:
+				mes "Le record est détenu par ^0000FF"+$recordman_as_difficile$+"^000000 en ^FF0000"+$recordtimeminute_as_difficile+"^000000 minute(s) et ^FF0000"+$recordtimeseconde_as_difficile+"^000000 seconde(s)";
+				goto record;
+
+			record_as_tdifficile:
+				mes "Le record est détenu par ^0000FF"+$recordman_as_tdifficile$+"^000000 en ^FF0000"+$recordtimeminute_as_tdifficile+"^000000 minute(s) et ^FF0000"+$recordtimeseconde_as_tdifficile+"^000000 seconde(s)";
+				goto record;
+
+
+	record_addition:
+		menu "- Facile",record_a_facile,"- Normal",record_a_normal,"- Difficile",record_a_difficile,"- Très Difficile",record_a_tdifficile;
+
+			record_a_facile:
+				mes "Le record est détenu par ^0000FF"+$recordman_a_facile$+"^000000 en ^FF0000"+$recordtimeminute_a_facile+"^000000 minute(s) et ^FF0000"+$recordtimeseconde_a_facile+"^000000 seconde(s)";
+				goto record;
+
+			record_a_normal:
+				mes "Le record est détenu par ^0000FF"+$recordman_a_normal$+"^000000 en ^FF0000"+$recordtimeminute_a_normal+"^000000 minute(s) et ^FF0000"+$recordtimeseconde_a_normal+"^000000 seconde(s)";
+				goto record;
+
+			record_a_difficile:
+				mes "Le record est détenu par ^0000FF"+$recordman_a_difficile$+"^000000 en ^FF0000"+$recordtimeminute_a_difficile+"^000000 minute(s) et ^FF0000"+$recordtimeseconde_a_difficile+"^000000 seconde(s)";
+				goto record;
+
+			record_a_tdifficile:
+				mes "Le record est détenu par ^0000FF"+$recordman_a_tdifficile$+"^000000 en ^FF0000"+$recordtimeminute_a_tdifficile+"^000000 minute(s) et ^FF0000"+$recordtimeseconde_a_tdifficile+"^000000 seconde(s)";
+				goto record;
+
+	record_soustraction:
+		menu "- Facile",record_s_facile,"- Normal",record_s_normal,"- Difficile",record_s_difficile,"- Très Difficile",record_s_tdifficile;
+
+			record_s_facile:
+				mes "Le record est détenu par ^0000FF"+$recordman_s_facile$+"^000000 en ^FF0000"+$recordtimeminute_s_facile+"^000000 minute(s) et ^FF0000"+$recordtimeseconde_s_facile+"^000000 seconde(s)";
+				goto record;
+
+			record_s_normal:
+				mes "Le record est détenu par ^0000FF"+$recordman_s_normal$+"^000000 en ^FF0000"+$recordtimeminute_s_normal+"^000000 minute(s) et ^FF0000"+$recordtimeseconde_s_normal+"^000000 seconde(s)";
+				goto record;
+
+			record_s_difficile:
+				mes "Le record est détenu par ^0000FF"+$recordman_s_difficile$+"^000000 en ^FF0000"+$recordtimeminute_s_difficile+"^000000 minute(s) et ^FF0000"+$recordtimeseconde_s_difficile+"^000000 seconde(s)";
+				goto record;
+
+			record_s_tdifficile:
+				mes "Le record est détenu par ^0000FF"+$recordman_s_tdifficile$+"^000000 en ^FF0000"+$recordtimeminute_s_tdifficile+"^000000 minute(s) et ^FF0000"+$recordtimeseconde_s_tdifficile+"^000000 seconde(s)";
+				goto record;
+
+	record_multiplication:
+		mes "Le record est détenu par ^0000FF"+$recordman_m$+"^000000 en ^FF0000"+$recordtimeminute_m+"^000000 minute(s) et ^FF0000"+$recordtimeseconde_m+"^000000 seconde(s)";
+		goto record;
+
+
+
+//========================================================================================================
+// Reset :
+//========================================================================================================
+
+
+
+reset:
+mes "Es tu sur de vouloir faire un reset ?";
+next;
+menu "- Oui",-,"- Non",menu_Dr_Kawashima;
+
+
+
+set $recordtimeminute_asm_facile,5;
+set $recordtimeseconde_asm_facile,0;
+set $recordman_asm_facile$,"Dr House";
+
+set $recordtimeminute_asm_normal,5;
+set $recordtimeseconde_asm_normal,0;
+set $recordman_asm_normal$,"Dr House";
+
+set $recordtimeminute_asm_difficile,5;
+set $recordtimeseconde_asm_difficile,0;
+set $recordman_asm_difficile$,"Dr House";
+
+set $recordtimeminute_asm_tdifficile,5;
+set $recordtimeseconde_asm_tdifficile,0;
+set $recordman_asm_tdifficile$,"Dr House";
+
+set $recordtimeminute_as_facile,5;
+set $recordtimeseconde_as_facile,0;
+set $recordman_as_facile$,"Dr House";
+
+set $recordtimeminute_as_normal,5;
+set $recordtimeseconde_as_normal,0;
+set $recordman_as_normal$,"Dr House";
+
+set $recordtimeminute_as_difficile,5;
+set $recordtimeseconde_as_difficile,0;
+set $recordman_as_difficile$,"Dr House";
+
+set $recordtimeminute_as_tdifficile,5;
+set $recordtimeseconde_as_tdifficile,0;
+set $recordman_as_tdifficile$,"Dr House";
+
+
+
+set $recordtimeminute_a_facile,5;
+set $recordtimeseconde_a_facile,0;
+set $recordman_a_facile$,"Dr House";
+
+set $recordtimeminute_a_normal,5;
+set $recordtimeseconde_a_normal,0;
+set $recordman_a_normal$,"Dr House";
+
+set $recordtimeminute_a_difficile,5;
+set $recordtimeseconde_a_difficile,0;
+set $recordman_a_difficile$,"Dr House";
+
+set $recordtimeminute_a_tdifficile,5;
+set $recordtimeseconde_a_tdifficile,0;
+set $recordman_a_tdifficile$,"Dr House";
+
+
+
+set $recordtimeminute_s_facile,5;
+set $recordtimeseconde_s_facile,0;
+set $recordman_s_facile$,"Dr House";
+
+set $recordtimeminute_s_normal,5;
+set $recordtimeseconde_s_normal,0;
+set $recordman_s_normal$,"Dr House";
+
+set $recordtimeminute_s_difficile,5;
+set $recordtimeseconde_s_difficile,0;
+set $recordman_s_difficile$,"Dr House";
+
+set $recordtimeminute_s_tdifficile,5;
+set $recordtimeseconde_s_tdifficile,0;
+set $recordman_s_tdifficile$,"Dr House";
+
+
+
+set $recordtimeminute_m,5;
+set $recordtimeseconde_m,0;
+set $recordman_m$,"Dr House";
+
+
+
+goto menu_Dr_Kawashima;
+
+
+
+}
+
+
+
+//========================================================================================================
+// Fonction :
+//========================================================================================================
+
+
+
+function	script	K_decompte	{
+		next; /* Si le NPC bug après un Next, il faut désactiver CE Next. Normalement il n'y a aucun problème */
+		mes "3 ...";
+		Sleep2 1000;
+		mes "2 ..";
+		Sleep2 1000;
+		mes "1 .";
+		Sleep2 1000;
+		mes "PARTEZ !";
+		set @timeminute,gettime(2);
+		set @timeseconde,gettime(1);
+		return;
+}
+
+
+
+function	script	K_addsousmu	{
+		if ($waitevent == 1)
+		{
+			for (set .@r, 1; .@r <= $round; set .@r, .@r + 1)
+			{
+				next;
+				set .@hasard, rand(0,5);
+				if (.@hasard == 0 || .@hasard == 1) goto addsousmu_addevent;	
+				if (.@hasard == 2 || .@hasard == 3) goto addsousmu_muevent;	
+
+				addsousmu_sousevent:
+				set .@nombre1, rand(0,$nb_max);
+				set .@nombre2, rand(0,$nb_max);
+				if (.@nombre1 < .@nombre2) goto addsousmu_sousevent;
+				set .@nombre3, .@nombre1 - .@nombre2;
+				mes ""+.@r+"°) " + .@nombre1 + " - " + .@nombre2 + " =";
+				input @nombreplayer;
+			
+				if (@nombreplayer == .@nombre3)
+				{
+					set .@vrai,.@vrai + 1;
+				}
+				else
+				{
+					while (@nombreplayer != .@nombre3)
+					{
+						mes "FAUX : " + .@nombre1 + " - " + .@nombre2 + " = ";
+						input @nombreplayer;
+						set @faux,@faux + 1;
+					}
+				}
+				goto finn;
+
+				addsousmu_muevent:
+				set .@nombre1, rand(0,10);
+				set .@nombre2, rand(0,10);
+				set .@nombre3, .@nombre1 * .@nombre2;
+				mes ""+.@r+"°) " + .@nombre1 + " x " + .@nombre2 + " = ";
+				input @nombreplayer;
+		
+				if (@nombreplayer == .@nombre3)
+				{
+					set .@vrai,.@vrai + 1;
+					}
+				else
+				{
+						while (@nombreplayer != .@nombre3)
+					{
+						mes "FAUX : " + .@nombre1 + " x " + .@nombre2 + " = ";
+							input @nombreplayer;
+						set @faux,@faux + 1;
+					}
+				}
+				goto finn;
+	
+
+				addsousmu_addevent:
+				set .@nombre1, rand(0,$nb_max);
+				set .@nombre2, rand(0,$nb_max);
+				set .@nombre3, .@nombre1 + .@nombre2;
+				mes ""+.@r+"°) " + .@nombre1 + " + " + .@nombre2 + " = ";
+				input @nombreplayer;
+			
+				if (@nombreplayer == .@nombre3)
+				{
+					set .@vrai,.@vrai + 1;
+				}
+				else
+				{
+					while (@nombreplayer != .@nombre3)
+					{
+						mes "FAUX : " + .@nombre1 + " + " + .@nombre2 + " = ";
+						input @nombreplayer;
+						set @faux,@faux + 1;
+					}
+				}
+				finn:
+			}
+			set $@kposition,$@kposition + 1;
+		}
+		else
+		{
+			for (set .@r, 1; .@r <= @round; set .@r, .@r + 1)
+			{
+				next;
+				set .@hasard, rand(0,5);
+				if (.@hasard == 0 || .@hasard == 1) goto addsousmu_add;	
+				if (.@hasard == 2 || .@hasard == 3) goto addsousmu_mu;	
+
+				addsousmu_sous:
+				set .@nombre1, rand(0,@nb_max);
+				set .@nombre2, rand(0,@nb_max);
+				if (.@nombre1 < .@nombre2) goto addsousmu_sous;
+				set .@nombre3, .@nombre1 - .@nombre2;
+				mes ""+.@r+"°) " + .@nombre1 + " - " + .@nombre2 + " =";
+				input @nombreplayer;
+			
+				if (@nombreplayer == .@nombre3)
+				{
+					set .@vrai,.@vrai + 1;
+				}
+				else
+				{
+					while (@nombreplayer != .@nombre3)
+					{
+						mes "FAUX : " + .@nombre1 + " - " + .@nombre2 + " = ";
+						input @nombreplayer;
+						set @faux,@faux + 1;
+					}
+				}
+				goto fineventt;
+
+				addsousmu_mu:
+				set .@nombre1, rand(0,10);
+				set .@nombre2, rand(0,10);
+				set .@nombre3, .@nombre1 * .@nombre2;
+				mes ""+.@r+"°) " + .@nombre1 + " x " + .@nombre2 + " = ";
+				input @nombreplayer;
+			
+				if (@nombreplayer == .@nombre3)
+				{
+					set .@vrai,.@vrai + 1;
+				}
+				else
+				{
+					while (@nombreplayer != .@nombre3)
+					{
+						mes "FAUX : " + .@nombre1 + " x " + .@nombre2 + " = ";
+						input @nombreplayer;
+						set @faux,@faux + 1;
+					}
+				}
+				goto fineventt;
+	
+
+				addsousmu_add:
+				set .@nombre1, rand(0,@nb_max);
+				set .@nombre2, rand(0,@nb_max);
+				set .@nombre3, .@nombre1 + .@nombre2;
+				mes ""+.@r+"°) " + .@nombre1 + " + " + .@nombre2 + " = ";
+				input @nombreplayer;
+			
+				if (@nombreplayer == .@nombre3)
+				{
+					set .@vrai,.@vrai + 1;
+				}
+				else
+				{
+					while (@nombreplayer != .@nombre3)
+					{
+						mes "FAUX : " + .@nombre1 + " + " + .@nombre2 + " = ";
+						input @nombreplayer;
+						set @faux,@faux + 1;
+					}
+				}
+				fineventt:
+			}
+		}
+		return;
+}
+
+
+
+function	script	K_addsous	{
+		if ($waitevent == 1)
+		{
+			for (set .@r, 1; .@r <= $round; set .@r, .@r + 1)
+			{
+				next;
+				set .@hasard, rand(0,4);
+				if (.@hasard == 0 || .@hasard == 2 || .@hasard == 4) goto addsous_add;	
+
+				addsous_sous:
+				set .@nombre1, rand(0,$nb_max);
+				set .@nombre2, rand(0,$nb_max);
+				if (.@nombre1 < .@nombre2) goto addsous_sous;
+				set .@nombre3, .@nombre1 - .@nombre2;
+				mes ""+.@r+"°) " + .@nombre1 + " - " + .@nombre2 + " =";
+				input @nombreplayer;
+			
+				if (@nombreplayer == .@nombre3)
+				{
+					set .@vrai,.@vrai + 1;
+				}
+				else
+				{
+					while (@nombreplayer != .@nombre3)
+					{
+						mes "FAUX : " + .@nombre1 + " - " + .@nombre2 + " = ";
+						input @nombreplayer;
+						set @faux,@faux + 1;
+					}
+				}
+				goto fin;	
+
+				addsous_add:
+				set .@nombre1, rand(0,$nb_max);
+				set .@nombre2, rand(0,$nb_max);
+				set .@nombre3, .@nombre1 + .@nombre2;
+				mes ""+.@r+"°) " + .@nombre1 + " + " + .@nombre2 + " = ";
+				input @nombreplayer;
+			
+				if (@nombreplayer == .@nombre3)
+				{
+					set .@vrai,.@vrai + 1;
+				}
+				else
+				{
+					while (@nombreplayer != .@nombre3)
+					{
+						mes "FAUX : " + .@nombre1 + " + " + .@nombre2 + " = ";
+						input @nombreplayer;
+						set @faux,@faux + 1;
+					}
+				}
+				fin:
+			}
+			set $@kposition,$@kposition + 1;
+		}
+		else
+		{
+			for (set .@r, 1; .@r <= @round; set .@r, .@r + 1)
+			{
+				next;
+				set .@hasard, rand(0,4);
+				if (.@hasard == 0 || .@hasard == 2 || .@hasard == 4) goto addsous_addevent;	
+
+				addsous_sousevent:
+				set .@nombre1, rand(0,@nb_max);
+				set .@nombre2, rand(0,@nb_max);
+				if (.@nombre1 < .@nombre2) goto addsous_sousevent;
+				set .@nombre3, .@nombre1 - .@nombre2;
+				mes ""+.@r+"°) " + .@nombre1 + " - " + .@nombre2 + " =";
+				input @nombreplayer;
+			
+				if (@nombreplayer == .@nombre3)
+				{
+					set .@vrai,.@vrai + 1;
+				}
+				else
+				{
+					while (@nombreplayer != .@nombre3)
+					{
+						mes "FAUX : " + .@nombre1 + " - " + .@nombre2 + " = ";
+						input @nombreplayer;
+						set @faux,@faux + 1;
+					}
+				}
+				goto finevent;	
+
+				addsous_addevent:
+				set .@nombre1, rand(0,@nb_max);
+				set .@nombre2, rand(0,@nb_max);
+				set .@nombre3, .@nombre1 + .@nombre2;
+				mes ""+.@r+"°) " + .@nombre1 + " + " + .@nombre2 + " = ";
+				input @nombreplayer;
+			
+				if (@nombreplayer == .@nombre3)
+				{
+					set .@vrai,.@vrai + 1;
+				}
+				else
+				{
+					while (@nombreplayer != .@nombre3)
+					{
+						mes "FAUX : " + .@nombre1 + " + " + .@nombre2 + " = ";
+						input @nombreplayer;
+						set @faux,@faux + 1;
+					}
+				}
+				finevent:
+			}
+		}
+		return;
+}
+
+function	script	K_addition	{
+		if ($waitevent == 1)
+		{
+			for (set .@r, 1; .@r <= $round; set .@r, .@r + 1)
+			{
+				next;
+				set .@nombre1, rand(0,$nb_max);
+				set .@nombre2, rand(0,$nb_max);
+				set .@nombre3, .@nombre1 + .@nombre2;
+				mes ""+.@r+"°) " + .@nombre1 + " + " + .@nombre2 + " = ";
+				input @nombreplayer;
+			
+				if (@nombreplayer == .@nombre3)
+				{
+					set .@vrai,.@vrai + 1;
+				}
+				else
+				{
+					while (@nombreplayer != .@nombre3)
+					{
+						mes "FAUX : " + .@nombre1 + " + " + .@nombre2 + " = ";
+						input @nombreplayer;
+						set @faux,@faux + 1;
+					}
+				}
+			}
+			set $@kposition,$@kposition + 1;
+		}
+		else
+		{
+			for (set .@r, 1; .@r <= @round; set .@r, .@r + 1)
+			{
+				next;
+				set .@nombre1, rand(0,@nb_max);
+				set .@nombre2, rand(0,@nb_max);
+				set .@nombre3, .@nombre1 + .@nombre2;
+				mes ""+.@r+"°) " + .@nombre1 + " + " + .@nombre2 + " = ";
+				input @nombreplayer;
+			
+				if (@nombreplayer == .@nombre3)
+				{
+					set .@vrai,.@vrai + 1;
+				}
+				else
+				{
+					while (@nombreplayer != .@nombre3)
+					{
+						mes "FAUX : " + .@nombre1 + " + " + .@nombre2 + " = ";
+						input @nombreplayer;
+						set @faux,@faux + 1;
+					}
+				}
+			}
+		}
+		return;
+
+}
+
+function	script	K_soustraction	{
+		if ($waitevent == 1)
+		{
+			for (set .@r, 1; .@r <= $round; set .@r, .@r + 1)
+			{
+				next;
+				onrefaitevent:
+				set .@nombre1, rand(0,$nb_max);
+				set .@nombre2, rand(0,$nb_max);
+				if (.@nombre1 < .@nombre2) goto onrefaitevent;
+				set .@nombre3, .@nombre1 - .@nombre2;
+				mes ""+.@r+"°) " + .@nombre1 + " - " + .@nombre2 + " =";
+				input @nombreplayer;
+			
+				if (@nombreplayer == .@nombre3)
+				{
+					set .@vrai,.@vrai + 1;
+				}
+				else
+				{
+					while (@nombreplayer != .@nombre3)
+					{
+						mes "FAUX : " + .@nombre1 + " - " + .@nombre2 + " = ";
+						input @nombreplayer;
+						set @faux,@faux + 1;
+					}
+				}
+			}
+			set $@kposition,$@kposition + 1;
+		}
+		else
+		{
+			for (set .@r, 1; .@r <= @round; set .@r, .@r + 1)
+			{
+				next;
+				onrefait:
+				set .@nombre1, rand(0,@nb_max);
+				set .@nombre2, rand(0,@nb_max);
+				if (.@nombre1 < .@nombre2) goto onrefait;
+				set .@nombre3, .@nombre1 - .@nombre2;
+				mes ""+.@r+"°) " + .@nombre1 + " - " + .@nombre2 + " =";
+				input @nombreplayer;
+			
+				if (@nombreplayer == .@nombre3)
+				{
+					set .@vrai,.@vrai + 1;
+				}
+				else
+				{
+					while (@nombreplayer != .@nombre3)
+					{
+						mes "FAUX : " + .@nombre1 + " - " + .@nombre2 + " = ";
+						input @nombreplayer;
+						set @faux,@faux + 1;
+					}
+				}
+			}
+		}
+		return;
+}
+
+function	script	K_multiplication	{
+		if ($waitevent == 1)
+		{
+			for (set .@r, 1; .@r <= $round; set .@r, .@r + 1)
+			{
+				next;
+				set .@nombre1, rand(0,10);
+				set .@nombre2, rand(0,10);
+				set .@nombre3, .@nombre1 * .@nombre2;
+				mes ""+.@r+"°) " + .@nombre1 + " x " + .@nombre2 + " = ";
+				input @nombreplayer;
+			
+				if (@nombreplayer == .@nombre3)
+				{
+					set .@vrai,.@vrai + 1;
+				}
+				else
+				{
+					while (@nombreplayer != .@nombre3)
+					{
+						mes "FAUX : " + .@nombre1 + " x " + .@nombre2 + " = ";
+						input @nombreplayer;
+						set @faux,@faux + 1;
+					}
+				}
+			}
+			set $@kposition,$@kposition + 1;
+		}
+		else
+		{
+			for (set .@r, 1; .@r <= @round; set .@r, .@r + 1)
+			{
+				next;
+				set .@nombre1, rand(0,10);
+				set .@nombre2, rand(0,10);
+				set .@nombre3, .@nombre1 * .@nombre2;
+				mes ""+.@r+"°) " + .@nombre1 + " x " + .@nombre2 + " = ";
+				input @nombreplayer;
+			
+				if (@nombreplayer == .@nombre3)
+				{
+					set .@vrai,.@vrai + 1;
+				}
+				else
+				{
+					while (@nombreplayer != .@nombre3)
+					{
+						mes "FAUX : " + .@nombre1 + " x " + .@nombre2 + " = ";
+						input @nombreplayer;
+						set @faux,@faux + 1;
+					}
+				}
+			}
+		}
+		return;
+}
+
+function	script	K_totaltime	{
+			set @timeminute2,gettime(2);
+			set @timeseconde2,gettime(1);
+			if (@timeminute2 < @timeminute) set @timeminute2,@timeminute2 + 60;
+			if (@timeseconde2 < @timeseconde) 
+			{
+				set @timeseconde2,@timeseconde2 + 60;
+				set @totaltimeminute,@timeminute2 - @timeminute - 1;
+				goto K_totaltimee;
+			}
+			if (@timeminute2 == @timeminute) {set @totaltimeminute,0;goto K_totaltimee;}
+			set @totaltimeminute,@timeminute2 - @timeminute;
+			K_totaltimee:
+			set @totaltimeseconde,@timeseconde2 - @timeseconde;
+			return;
+}
+
+function	script	K_resultattime	{
+
+//			mes "@timeminute = "+@timeminute+"";
+//			mes "@timeminute2 = "+@timeminute2+"";
+//			mes "@timeseconde = "+@timeseconde+"";
+//			mes "@timeseconde2 = "+@timeseconde2+"";
+
+			mes "Tu as mis ^FF0000"+@totaltimeminute+"^000000 minute(s) et ^FF0000"+@totaltimeseconde+"^000000 seconde(s)";
+			return;
+}
+
+function	script	K_resultattimerecord	{
+			next;
+			mes "^FF0000Nouveau Record !^000000";
+			mes "Tu as mis ^FF0000"+@totaltimeminute+"^000000 minute(s) et ^FF0000"+@totaltimeseconde+"^000000 seconde(s)";
+			return;
+}
+
+function	script	K_menu	{
+	mes .@npc$;
+	mes "Combien de calcul veux tu prédéfinir ?";
+	input @round;
+	if (@round == 0) close;
+	next;
+	mes .@npc$;
+	mes "Quelle difficultée ?";
+	mes " ";
+	mes "Entrez le chiffre 20, 50, 100 ou 1000.";
+	mes " ";
+	mes "Facile : chiffre entre 0 et 20";
+	mes "Normal : chiffre entre 0 et 50";
+	mes "Difficile : chiffre entre 0 et 100";
+	mes "Très Difficile : chiffre entre 0 et 1000";
+	input .@difficulte;
+	if (.@difficulte == 0) close;
+	if (.@difficulte == 20) {set @nb_max,20; goto onrepart2;}
+	if (.@difficulte == 50) {set @nb_max,50; goto onrepart2;}
+	if (.@difficulte == 100) {set @nb_max,100; goto onrepart2;}
+	if (.@difficulte == 1000) {set @nb_max,1000; goto onrepart2;}
+	else close;
+	onrepart2:
+	if (.@difficulte == 20) set @difficulte$,"Facile";
+	if (.@difficulte == 50) set @difficulte$,"Normal";
+	if (.@difficulte == 100) set @difficulte$,"Difficile";
+	if (.@difficulte == 1000) set @difficulte$,"Très Difficile";
+	return;
+}
+
+function	script	K_menuevent	{
+	mes .@npc$;
+	mes "Combien de calcul veux tu prédéfinir ?";
+	input $round;
+	if ($round == 0) close;
+	next;
+	mes .@npc$;
+	mes "Quelle difficultée ?";
+	mes " ";
+	mes "Facile : chiffre entre 0 et 20";
+	mes "Normal : chiffre entre 0 et 50";
+	mes "Difficile : chiffre entre 0 et 100";
+	mes "Très Difficile : chiffre entre 0 et 1000";
+	mes " ";
+	mes "Entrez le chiffre 20, 50, 100 ou 1000.";
+	input .@difficulte;
+	if (.@difficulte == 0) close;
+	if (.@difficulte == 20) {set $nb_max,20; goto onrepart2;}
+	if (.@difficulte == 50) {set $nb_max,50; goto onrepart2;}
+	if (.@difficulte == 100) {set $nb_max,100; goto onrepart2;}
+	if (.@difficulte == 1000) {set $nb_max,1000; goto onrepart2;}
+	else close;
+	onrepart2:
+	if (.@difficulte == 20) set @difficulte$,"Facile";
+	if (.@difficulte == 50) set @difficulte$,"Normal";
+	if (.@difficulte == 100) set @difficulte$,"Difficile";
+	if (.@difficulte == 1000) set @difficulte$,"Très Difficile";
+	return;
+}
+
+function	script	K_npctalk	{
+	npctalk "C'est parti, fait de ton mieux "+strcharinfo(0)+"!!!";
+	return;
+}
+
+function	script	K_position	{
+	mapannounce ""+$K_mapname$+"", "[Position "+$@kposition+"] : "+strcharinfo(0)+" avec "+@faux+" faute(s) !",bc_map,0xff0000;
+	if ( $@kposition == $@participant ) {set $waitevent,0;set $@participant,0;}
+	if ( $@kposition == 1 ) {}
+	if ( $@kposition == 2 ) {}
+	if ( $@kposition == 3 ) {}
+	if ( $@kposition == 4 ) {}
+	if ( $@kposition == 5 ) {}
+	if ( $@kposition == 6 || $@kposition == 7 || $@kposition == 8 || $@kposition == 9 ) {}
+	if ( $@kposition == 10 ) {}
+
+	return;
+}
+
+function	script	K_decompte_event	{
+	set $@kposition,0;
+	set $waitevent,2;
+	npctalk "L'Event commencera dans 3 minutes ...";
+	Sleep2 60000;
+	npctalk "Il reste 2 minutes d'attente ...";
+	Sleep2 60000;
+	npctalk "1 minute d'attente ...";
+	Sleep2 50000;
+	npctalk "Tenez vous prêt ... 10 secondes !";
+	Sleep2 5000;
+	npctalk "5";
+	Sleep2 1000;
+	npctalk "4";
+	Sleep2 1000;
+	npctalk "3";
+	Sleep2 1000;
+	npctalk "2";
+	Sleep2 1000;
+	npctalk "1";
+	Sleep2 1000;
+	set $waitevent,1;
+	npctalk "PARTEZ !!!";
+	return;
+}

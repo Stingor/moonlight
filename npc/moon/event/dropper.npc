@@ -1,0 +1,114 @@
+gonryun,150,116,6	script	CardPackerEventDropper	627,{
+	if( eventdrop() == 1 ) {
+		mes "Un event DROP est déjà en cours x)";
+		close;
+	}
+	if( $@DropperQTY < 1 ) $@DropperQTY = 0;
+	if( $@DropperQTY >= $qtyedropper ) $@DropperQTY = $qtyedropper;
+	getinventorylist;
+	.qty = 10;
+	mes "Je récupére les cards par paquets de "+.qty+", une fois que j'en ai "+$qtyedropper+" je lance un event drop =).";
+	mes "Pour le moment, j'en ai "+$@DropperQTY;
+	for(.@i = 0;.@i < @inventorylist_count;.@i++) {
+		if (@inventorylist_equip[.@i] == 0 && getiteminfo(@inventorylist_id[.@i],2) == IT_CARD && @inventorylist_amount[.@i] >= .qty) {
+			.@items[.@count] = @inventorylist_id[.@i];
+//			.@menu$ = .@menu$ + sprintf("~ ^0055FF%s^000000 (%dx)" + (inarray(.blackList[0],@inventorylist_id[.@i]) != -1? " ^364022Black Listed^000000":"") + ":", getitemname(@inventorylist_id[.@i]), countitem(@inventorylist_id[.@i]));
+			.@menu$ = .@menu$ + sprintf("~ ^0055FF%s^000000 (10x)" + ":", getitemname(@inventorylist_id[.@i]));
+			.@count++;
+		}
+	}
+L_menu:
+	if(.@count){
+		.@select = select(.@menu$) - 1;
+	}else{
+		message strcharinfo(0), "Aucune CARD ne m'interesse...";
+		end;
+	}
+	clear;
+	mes "Vous choisissez de donner :";
+	mes .qty+" "+getitemname(.@items[.@select]);
+	mes "Pour le moment, j'ai "+$@DropperQTY+" Card";
+	if( select("Oui", "Non") == 2 ) {
+		clear;
+		mes "Quelles cards me donner ?";
+		goto L_menu;
+	}
+	if( countitem(.@items[.@select]) >= .qty )
+	{
+		delitem .@items[.@select],.qty;
+		$@DropperQTY += .qty;
+		logmes "Donne "+.qty+" "+getitemname(.@items[.@select])+" et atteint "+$@DropperQTY;
+		if( $@DropperQTY < $qtyedropper ) {
+			switch( $@DropperQTY / 10 )
+			{
+				case 5:
+				case 10:
+				case 15:
+				case 20:
+				case 25:
+				case 30:
+				case 35:
+				case 40:
+				case 45:	mapannounce "gonryun","Encore "+($qtyedropper-$@DropperQTY)+" Cards pour lancer un event drop !",1,0xFAB145;
+			}
+		}
+		if( $@DropperQTY >= $qtyedropper && !eventdrop() ) {
+			close2;
+			$qtyedropper = 0;
+			$eventdrop = gettimetick(2) + 1800;
+			starteventdrop();
+			initnpctimer;
+			end;
+		}
+		if( !eventdrop() )
+			goto L_menu;
+	}
+	close;
+	
+OnTimer1000:
+	if( eventdrop() )
+		callfunc "announce2","Attention chance de drop cards, item communs et equippements multipliés par "+(getBattleFlag("mult_eventdrop")/100)+" pour 30min !!!",bc_all;
+	end;
+
+OnTimer900000:
+	if( eventdrop() )
+		callfunc "announce2","Il reste 15min d'event drop !!",bc_all;
+	end;
+OnTimer1200000:
+	if( eventdrop() )
+		Announce "Il reste 10min d'event drop !!",bc_all;
+	end;
+OnTimer1500000:
+	if( eventdrop() )
+		Announce "Il reste 5min d'event drop !!",bc_all;
+	end;
+OnTimer1740000:
+	if( eventdrop() )
+		Announce "Il reste 1min d'event drop !!",bc_all;
+	end;
+OnTimer1800000:
+	if( eventdrop() ) {
+		$eventdrop = 0;
+		stopeventdrop();
+		callfunc "announce2","Fin d'event drop ! Retour à la normale.",bc_all;
+		stopnpctimer;
+		$qtyedropper = 0;
+		disablenpc "CardPackerEventDropper";
+	}
+	end;
+	
+OnDropperDisable:
+	disablenpc "CardPackerEventDropper";
+	$@DropperQTY = 0;
+	end;
+	
+OnDropperEnable:
+	enablenpc "CardPackerEventDropper";
+	$@DropperQTY = 0;
+	end;
+	
+OnInit:
+	sleep 250;
+	disablenpc "CardPackerEventDropper";
+	end;
+}

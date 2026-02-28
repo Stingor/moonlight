@@ -1,0 +1,316 @@
+//===== Moonlight-Destiny ==================================
+//= Script styliste avancé.
+//===== Par: =================================================
+//= Hudelf©
+//= Modifié par Yaro / Moonlight-Destiny Dev Team
+//===== Version courrante: ===================================
+//= 3.2
+//===== Description: =========================================
+//= Styliste traditionnel avec de nouvelles options
+//= Vous pouvez défiler en avant ou arrière et 
+//= sauvegarder 3 palettes quand vous vous loggez.
+//===== Commentaires: ========================================
+//= 1.0 Creation
+//= 2.0 Réecriture
+//= 2.1 Changement de type des vars+fix typo
+//= 2.2 Suppression des labels+Traduction FR. [Kamitsu]
+//= 2.3 Ajout couleurs [Kamitsu]
+//= 2.4 Ajout d'un uniquename [Stingor]
+//= 2.5 Configuration des palettes [Frecky]
+//= 2.6 Fix de l'affichage du nom du NPC
+//= 3.0 Mise à jour des max+min [Stingor]
+//= 3.1 Cleanup [Stingor]
+//= 3.2 rAthena update & tweaks [Stingor]
+//============================================================
+gonryun,160,126,5	script	Styliste::stylist_gon	2_M_DYEINGER,{
+	if( #BlockMoonNpc & 4 ) {
+		dispbottom "Vous bloquez le npc avec @npcblock 3 !";
+		end;
+	}
+	setarray .@max[1],553,251,30; // Number of cloths,haircolors,hairstyles in client
+	setarray .@blacklist[0],0; // NPC will skip any cloth colors in this array.
+	setarray .@type[1],7,6,1; // DO NOT EDIT
+	.@style = 1;
+	
+	if( Class >= Job_Swordman && 
+		Class <= Job_Thief || 
+		Class >= Job_Swordman_High && 
+		Class <= Job_Thief_High )
+		.@max[1] = 489;
+	mes " ";
+L_Menu:
+	clear;
+	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes "Je peux changer votre apparence si vous le souhaitez.";
+	mes " ";
+	mes "Il vous suffit de choisir ce que vous souhaitez modifier:";
+	if( BaseLevel == 999 && !base3rd ) .@menu5$ = "¤ Skin 3ème classe !";
+	else if( BaseLevel == 999 && base3rd ) .@menu5$ = "¤ Retour skin normal !";
+	else .@menu$ = "";
+	.@s = select("¤ Couleur des vêtements", "¤ Couleur des cheveux", "¤ Coiffure", "¤ Hats/Transmogrification", .@menu5$);
+	if( .@s == 4 ) {
+		.@cost = 250000;
+		clear;
+		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes "J'ai le pouvoir de transformer l'aspect d'un hat équippé en celui d'un hat dans ton inventaire.";
+		mes "Cette idée vous plaît ?";
+		next;
+		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes "Je me fais payer "+.@cost+"z pour chaque hat que je change.";
+L_mainmenu:
+		switch( select("Très bien. Allons-y!", "Reset une Transmog", "Non,merci.") ) {
+			case 1: break;
+			case 2:
+				switch( select("Top reset", "Mid Reset", "Low reset") ) {
+					case 1:
+						TransmogTop = 0;
+						setlook 4,(getequipid(EQI_HEAD_TOP) > 0?getiteminfo(getequipid(EQI_HEAD_TOP),11):0);
+						break;
+					case 2:
+						TransmogMid = 0;
+						setlook 5,(getequipid(EQI_HEAD_MID) > 0?getiteminfo(getequipid(EQI_HEAD_MID),11):0);
+						break;
+					case 3:
+						TransmogLow = 0;
+						setlook 3,(getequipid(EQI_HEAD_LOW) > 0?getiteminfo(getequipid(EQI_HEAD_LOW),11):0);
+						break;
+					default:
+				}
+				goto L_mainmenu;
+			default:
+				clear;
+				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes "Très bien. Revenez dès que vous aurez besoin de mes services.";
+				close;
+		}
+		if( Zeny < .@cost ) {
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes "Désolé mais vous n'avez pas assez d'argent pour ce service.";
+			close;
+		}
+		.@equiptop$ = (getequipid(EQI_HEAD_TOP) > 0?getequipname(EQI_HEAD_TOP)+" - Top":"");
+		.@equipmid$ = (getequipid(EQI_HEAD_MID) > 0?getequipname(EQI_HEAD_MID)+" - Mid":"");
+		.@equipbot$ = (getequipid(EQI_HEAD_LOW) > 0?getequipname(EQI_HEAD_LOW)+" - Low":"");
+		next;
+		if( .@equiptop$ == "" && .@equipmid$ == "" && .@equipbot$ == "" ) {
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes "Vous n'avez aucun hat sur la tête xD !";
+			close;
+		}
+		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes "Quel hat souhaitez vous transformer ?";
+		switch( select(.@equiptop$, .@equipmid$, .@equipbot$) ) {
+			case 1: .@part = EQI_HEAD_TOP; break;
+			case 2: .@part = EQI_HEAD_MID; break;
+			case 3: .@part = EQI_HEAD_LOW; break;
+		}
+		next;
+		// Recupération des hats compatibles dans l'inventaire
+		getinventorylist;
+		.@y = 0;
+		for( .@i = 0; .@i < @inventorylist_count; .@i++ ) {
+			if( @inventorylist_attribute[.@i] == 0 &&
+				@inventorylist_identify[.@i] == 1 &&
+				getiteminfo(@inventorylist_id[.@i], 2) == 4 &&
+				@inventorylist_equip[.@i] == 0 ) {
+					if( getiteminfo(@inventorylist_id[.@i], 2) == 4 && getiteminfo(@inventorylist_id[.@i], 5) & getiteminfo(getequipid(.@part), 5) ) {
+					// Création menu des hats compatibles
+					setarray .@array[.@y], @inventorylist_id[.@i];
+					.@y++;
+					}
+				}
+		}
+		if( .@y == 0 ) {
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes "Vous n'avez aucun hat compatibles.";
+			close;
+		}
+		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes "Ok donc maintenant en quoi voulez-vous transformer votre "+getequipname(.@part)+" ?";
+		.@tmp$ = "";
+		for( .@i = 0; .@i < getarraysize(.@array); .@i++ ) {
+			.@tmp$ += getitemname(.@array[.@i]); //Adds an item to the menu
+			if( .@i < (getarraysize(.@array) - 1) )
+				.@tmp$ += ":"; //Adds an : to be able to add a new item after it.
+		}
+		.@men = select(.@tmp$) - 1; //Saves the chosen option in a temp var.
+		next;
+		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes "Bien alors votre "+getequipname(.@part)+" sera transmog en "+getitemname(.@array[.@men])+" !";
+		if( select( "Oui !!", "Non merci!") == 2 ) {
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes "Très bien. Revenez dès que vous aurez besoin de mes services.";
+			close;
+		}
+		switch( .@part ) {
+			case EQI_HEAD_TOP: 
+				setlook LOOK_HEAD_TOP,getiteminfo(.@array[.@men],11);
+				TransmogTop = getiteminfo(.@array[.@men],11);
+				break;
+			case EQI_HEAD_MID: 
+				setlook LOOK_HEAD_MID,getiteminfo(.@array[.@men],11);
+				TransmogMid = getiteminfo(.@array[.@men],11);
+				break;
+			case EQI_HEAD_LOW: 
+				setlook LOOK_HEAD_BOTTOM,getiteminfo(.@array[.@men],11);
+				TransmogLow = getiteminfo(.@array[.@men],11);
+				break;
+		}
+		Zeny -= .@cost;
+		close;
+	}
+	if( .@s == 5 ) {
+		if( base3rd ) {
+			if (checkoption(OPTION_RIDING))
+				setoption OPTION_DRAGON,0;
+			base3rd = 0;
+			changebase Class;
+		}
+		else {
+			base3rd = 1;
+			switch( Class ) {
+				case Job_Lord_Knight:
+					if (checkoption(OPTION_RIDING))
+						setoption OPTION_DRAGON,1;
+					changebase Job_Rune_Knight;
+					break;
+				case Job_Ninja:
+					if( Sex ) changebase Job_Kagerou;
+					else changebase Job_Oboro;
+					break;
+				case Job_Baby_Ninja:
+					if( Sex ) changebase Job_Baby_Kagerou;
+					else changebase Job_Baby_Oboro;
+					break;
+				case Job_Gunslinger:
+					changebase Job_Rebellion;
+					break;
+				case Job_Baby_Gunslinger:
+					changebase Job_Baby_Rebellion;
+					break;
+				default:
+					changebase roclass(eaclass()|EAJL_THIRD);
+					break;
+			}
+		}
+		goto L_Menu;
+	}
+	clear;
+	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes "Bon, comment voulez-vous chercher ?";
+	if( select("¤ Commencer par le début","¤ Choisissir où commencer" ) == 2 ) {
+		// CHOOSE WHERE TO START =====================================================
+		clear;
+		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes "Vous avez le choix entre ^0000FF1 "+.@max[.@s]+"^000000 styles.";
+		input .@style,0,.@max[.@s];
+		
+		if( .@style < 1 || .@style > .@max[.@s] ) {
+			clear;
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes "Le mode choisi est hors de portée.";
+			close;
+		}
+	}
+	else {
+		setarray @revert[1],getlook(.@type[.@s]),0,0;
+		clear;
+		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes "Bon on y va, à partir du style ^007700"+.@style+"^000000.";
+		next;
+	}
+	
+	// Menu Principal ================================================
+	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	
+	//Boucle qui appelle la fonction Main
+	while(1) {
+		if( .@blacklist[0] ) {
+			for( .@f = 0; .@f < getarraysize(.@blacklist); .@f++ ) {
+				if( .@style == .@blacklist[.@f] && .@previous == 1 && .@s == 1 ) {
+					message strcharinfo(0),"GM Message-Vêtement "+.@style+" a été supprimé.";
+					.@style--;
+				}
+				else if( .@style == .@blacklist[.@f] && .@s == 1 ) {
+					message strcharinfo(0),"GM Message-Vêtement "+.@style+" a été supprimé.";
+					.@style++;
+				}
+			}
+		}
+		setlook .@type[.@s],.@style;
+		clear;
+		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes "Ce style correspond au nombre ^007700"+.@style+"^000000.";
+		
+		.@next = .@style + 1;
+		.@prev = .@style - 1;
+		
+		// MAXIMUM MENU
+		if( .@style == .@max[.@s] ) {
+			.@next = 0;
+			message strcharinfo(0),"Limite atteinte";
+		}
+		
+		// MINIMUM MENU ==============================================================
+		if( .@style == 1 ) {
+			.@prev = .@max[.@s];
+			message strcharinfo(0),"Début atteint";
+		}
+		
+		// MENU =============================================================
+		if( .@previous ) .@menu$ = "¤ ^FF0000Précédent-"+.@prev+"^000000:¤ ^0000FFSuivant-"+.@next+"^000000:¤ Celle-ci me vas !:¤ Aller à:¤ Sauvegarder favoris:¤ Charger favoris";
+		else .@menu$ = "¤ ^0000FFSuivant-"+.@next+"^000000:¤ ^FF0000Précédent-"+.@prev+"^000000:¤ Celle-ci me vas !:¤ Aller à:¤ Sauvegarder favoris:¤ Charger favoris";
+		switch( select(.@menu$ ) ) {
+			case 1:
+				if( !.@previous ) {
+					.@previous = 0;
+					.@style = .@next;
+				}
+				else {
+					.@previous = 1;
+					.@style = .@prev;
+				}
+				break;
+			case 2:
+				if( .@previous ) {
+					.@previous = 0;
+					.@style = .@next;
+				}
+				else {
+					.@previous = 1;
+					.@style = .@prev;
+				}
+				break;
+			case 3:
+				goto L_menu;
+				break;
+			case 4:
+				next;
+				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes "Choisissez le style que vous souhaitez pour accéder à:";
+				input .@style,0,.@max[.@s];
+				if( .@style < 1 || .@style > .@max[.@s] )
+				{
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Le mode choisi est hors de portée.";
+					close;
+				}
+				break;
+			case 5:
+				next;
+				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes "Choisissez les mémo que vous souhaitez mettre à:";
+				.@x = select( "¤ Mémo 1-["+@revert[1]+"]","¤ Mémo 2-["+@revert[2]+"]","¤ Mémo 3-["+@revert[3]+"]" );
+				setarray @revert[.@x],.@style;
+				break;
+			case 6:
+				next;
+				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes "Choisissez les mémos que vous voulez charger à partir de:";
+				.@x = select( "¤ Mémo 1-["+@revert[1]+"]","¤ Mémo 2-["+@revert[2]+"]","¤ Mémo 3-["+@revert[3]+"]" );
+				.@style = @revert[.@x];
+				break;
+		}
+	}
+	close;
+}

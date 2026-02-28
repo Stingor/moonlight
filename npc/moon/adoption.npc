@@ -1,0 +1,99 @@
+//===== Moonlight-Destiny ==================================
+//= Script Adoption.
+//===== Par: =================================================
+//= Yaro / Moonlight-Destiny Dev Team
+//===== Version courrante: ===================================
+//= 2.0
+//===== Description: =========================================
+//= Permet aux joueur de prendre un novive ou classe
+//= en adoption.
+//===== Commentaires: ========================================
+//= 1.0 Creation [Stingor]
+//= 1.1 Ajout d'un uniquename [Stingor]
+//= 1.2 Passage des var @ en .@ [Stingor]
+//= 1.3 Cleanup [Stingor]
+//= 2.0 rAthena update & tweaks [Stingor]
+//============================================================
+
+prt_church,83,122,0	warp	prtch03	1,2,prt_church,34,171
+prt_church,38,171,0	warp	prtch01-3	1,2,prt_church,87,122
+
+prt_church,25,170,3	script	Adoption::adoption_moon	1_M_PUBMASTER,{
+
+	if( getmotherid() || getfatherid() ) {
+		mes "["+strnpcinfo(0)+"]";
+		mes "Quoiqu'il arrive, tu as déjà une famille... Tu n'as donc rien à faire ici!";
+		close;
+	}
+	else if( getchildid() ) {
+		mes "["+strnpcinfo(0)+"]";
+		mes "Désolé mais on ne peut avoir qu'un seul enfant sur le serveur !";
+		close;
+	}
+	
+	if( Class >= Job_Novice && Class <= Job_Thief ) {
+		mes "["+strnpcinfo(0)+"]";
+		mes "Bonjour mon enfant !";
+		close;
+	}
+	else if( BaseLevel < 70 || readparam(11,getpartnername()) < 70 ) {
+		mes "["+strnpcinfo(0)+"]";
+		mes "Tu n'est pas encore assez mature pour avoir un enfant !";
+		close;	
+	}
+
+	if( !getcharid(1) ) {
+		mes "["+strnpcinfo(0)+"]";
+		mes "L'une des première condition pour adopter est d'être en party.";
+		close;
+	}
+	else {
+		getpartymember(getcharid(1));
+		.@partymembercount = $@partymembercount;
+		copyarray .@partymembername$[0],$@partymembername$[0],.@partymembercount;
+		if( .@partymembercount != 3 ) {
+			mes "["+strnpcinfo(0)+"]";
+			mes "Il semblerait que vous ne soyez pas tous les trois en party.";
+			close;
+		}
+		mes "["+strnpcinfo(0)+"]";
+		mes "Dites moi le nom de votre futur enfant je vous prit !";
+		next;
+		input .@enfant$;
+		if( .@enfant$ == .@partymembername$[0] || .@enfant$ == .@partymembername$[1] || .@enfant$ == .@partymembername$[2] ) {
+			if( getpartnername() == .@partymembername$[0] || getpartnername() == .@partymembername$[1] || getpartnername() == .@partymembername$[2] ) {
+				if( countitem(2634,getcharid(3,strcharinfo(0))) || countitem(2635,getcharid(3,strcharinfo(0))) || countitem(2634,getcharid(3,getpartnername())) || countitem(2635,getcharid(3,getpartnername())) ) {
+					if( readparam(120,.@enfant$) >= Job_Novice && readparam(120,.@enfant$) <= Job_Thief ) {
+						mes "["+strnpcinfo(0)+"]";
+						mes "Bien, tout me paraît en ordre, si ça ne fonctionne pas, veuillez verifier ces points:";
+						mes "- Vous devez être en party, père, mère et enfant.";
+						mes "- Vous devez porter vos anneaux de marriage.";
+						mes "- Votre futur enfant ne doit pas dépasser le stade d'évolution des classes 1-1.";
+						mes "- Le nom de votre enfant doit être correctement entré.";
+						next;
+						mes "["+strnpcinfo(0)+"]";
+						mes "Voilà !";
+						atcommand "@adopt "+strcharinfo(0)+","+getpartnername()+","+.@enfant$;
+						close;
+					}
+					mes "["+strnpcinfo(0)+"]";
+					mes "Hum votre enfant à l'air plutot âgé pour être adopté ...";
+					close;
+				}
+				mes "["+strnpcinfo(0)+"]";
+				mes "Vous devez équipper votre bague ...";
+				close;
+			}
+			mes "["+strnpcinfo(0)+"]";
+			mes "Votre conjoint se doit d'être dans votre groupe, tout comme votre futur enfant ...";
+			close;
+		
+		}
+		mes "["+strnpcinfo(0)+"]";
+		mes "Votre enfant se doit d'être dans la même party que vous ...";
+		close;
+	}
+	mes "["+strnpcinfo(0)+"]";
+	mes "Bonjour !";
+	close;
+}

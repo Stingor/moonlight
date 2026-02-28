@@ -1,0 +1,48 @@
+//===== rAthena Script =======================================
+//= Mapflag: Town.
+//===== By: ==================================================
+//= Epoque
+//===== Current Version: =====================================
+//= 1.1
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: ========================================= 
+//= Designates a map as a town, granting mailbox access.
+//===== Additional Comments: ================================= 
+//= 1.0 Initial script.
+//= 1.1 Renewal split. [Euphy]
+//============================================================
+
+alberta	mapflag	town
+aldebaran	mapflag	town
+amatsu	mapflag	town
+ayothaya	mapflag	town
+brasilis	mapflag	town
+comodo	mapflag	town
+dewata	mapflag	town
+dicastes01	mapflag	town
+eclage	mapflag	town
+einbech	mapflag	town
+einbroch	mapflag	town
+geffen	mapflag	town
+gonryun	mapflag	town
+hugel	mapflag	town
+izlude	mapflag	town
+izlude_a	mapflag	town
+izlude_b	mapflag	town
+izlude_c	mapflag	town
+izlude_d	mapflag	town
+lasagna	mapflag	town
+lighthalzen	mapflag	town
+louyang	mapflag	town
+malangdo	mapflag	town
+malaya	mapflag	town
+moc_ruins	mapflag	town
+mora	mapflag	town
+pay_arche	mapflag	town
+payon	mapflag	town
+prontera	mapflag	town
+rachel	mapflag	town
+umbala	mapflag	town
+veins	mapflag	town
+yuno	mapflag	town

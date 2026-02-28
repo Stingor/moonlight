@@ -1,0 +1,64 @@
+-	script	Cafard::eventcafard	-1,{
+	end;
+
+OnInit:
+	$eventcafard = 0;
+	setarray .items[0], 6419, 6418, 6820, 969, 12246, 6607, 6608, 6719, 6919;
+	setarray .nbs[0], 4, 2, 100, 30, 1, 25, 100, 30, 30;
+	setarray .mobs[0], 1051, 1053, 1054;
+	setarray .maps$[0],
+				"gonryun",
+				"alberta",
+				"aldebaran",
+				"amatsu",
+				"ayothaya",
+				"brasilis",
+				"comodo",
+				"dewata",
+				"dicastes01",
+				"eclage",
+				"einbech",
+				"einbroch",
+				"geffen",
+				"hugel",
+				"izlude",
+				"jawaii",
+				"lasagna",
+				"lighthalzen",
+				"louyang",
+				"xmas",
+				"malangdo",
+				"malaya",
+	            "manuk",
+	            "mora",
+	            "morocc",
+	            "moscovia",
+	            "payon",
+	            "prontera",
+	            "rachel",
+	            "harboro1",
+	            "splendide",
+	            "umbala",
+	            "veins",
+	            "yuno";
+	end;
+	
+OnStart:
+	$eventcafard = gettimetick(2);
+	.i = rand( getarraysize(.maps$) );
+	.m = rand( getarraysize(.mobs) );
+	$eventcafardmap$ = .maps$[.i];
+
+	monster .maps$[.i],0,0,"Etrange "+strmobinfo(1,.mobs[.m]),.mobs[.m],1,"eventcafard::OnMobDead";
+	callfunc "announce2","Un "+strmobinfo(1,.mobs[.m])+" se balade dans "+callfunc("getmapname", .maps$[.i])+". Trouvez le et tuez le pour gagner !!",bc_blue|bc_all;
+	end;
+
+OnMobDead:
+	.@r = rand( getarraysize(.items) );
+	logmes "Trouve le "+strmobinfo(1,.mobs[.m])+" et gagne "+.nbs[.@r]+" "+getitemname(.items[.@r]);
+	callfunc "announce2",strcharinfo(0)+" vient de chopper la bestiole "+ ( Sex ? "il":"elle" ) +" gagne "+.nbs[.@r]+" "+getitemname(.items[.@r])+"!!",bc_blue|bc_all;
+	getitem .items[.@r], .nbs[.@r];
+	$eventcafard = 0;
+	$eventcafardmap$ = "";
+	end;
+}

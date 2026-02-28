@@ -1,0 +1,896 @@
+-	script	#opendressroom	-1,{
+OnInit:
+	bindatcmd("dressroom",strnpcinfo(0)+"::OnCommand",99,99);
+	end;
+
+OnCommand:
+	opendressroom(1);
+	end;
+}
+
+-	script	#unbookbg	-1,{
+OnInit:
+	bindatcmd("unbookbg",strnpcinfo(0)+"::OnCommand",99,99);
+	end;
+
+OnCommand:
+	bg_unbook(.@atcmd_parameters$[0]);
+	end;
+}
+
+-	script	#blyatstorage	-1,{
+OnInit:
+	bindatcmd("blyatstorage",strnpcinfo(0)+"::OnCommand",99,99);
+	end;
+
+OnCommand:
+	openstorage2 2,STOR_MODE_GET|STOR_MODE_PUT;
+	end;
+}
+
+-	script	#joinbg	-1,{
+OnInit:
+	bindatcmd("joinbg",strnpcinfo(0)+"::OnCommand",0,99);
+	end;
+
+OnCommand:
+	mes "Cette commande ne fonctionne pas avec les battlegrounds rAthena.";
+	mes "Vous devez utiliser l'interface du jeu prévu à cet effet, les deux épées qui se croisent, parmis les boutons sous l'info joueur.";
+	close;
+}
+
+-	script	#pvp	-1,{
+OnInit:
+	bindatcmd("pvp",strnpcinfo(0)+"::OnCommand",0,99);
+	end;
+
+OnCommand:
+	switch(select("Player Ranking:PvP Statistic:Announcer Setting")){
+		case 1: //Player Ranking
+			mes "[Top "+getvariableofnpc(.Top, "Versus")+" PvP Players]";
+			mes "^0000FFKill^000000 | ^FF0000Death^000000 | ^FF22FFKDR^000000 | ^00FF00SK^000000 | ^666666MK^000000";
+			query_sql "SELECT `char`, `kill`, `death`, `kdr`, `killingstreak`, `multikill` FROM `pvp_rank` ORDER BY `pvp_rank`.`kill` DESC LIMIT "+getvariableofnpc(.Top, "Versus")+"", .@char$, .@kill, .@death, .@kdr$, .@sk, .@mk;
+			for(set .@i, 0; .@i < getarraysize(.@char$); set .@i, .@i + 1){
+				mes .@i+1+". "+.@char$[.@i]+" ^0000FF"+.@kill[.@i]+"^000000 ^FF0000"+.@death[.@i]+"^000000 ^FF22FF"+.@kdr$[.@i]+"^000000 ^00FF00"+.@sk[.@i]+"^000000 ^666666"+.@mk[.@i]+"^000000 ";
+			}
+			close;
+
+		case 2: //PvP Statistic
+			mes strcharinfo(0)+"'s PvP Statistic";
+			mes "^666666Kill:^000000 "+Kill+" ^666666Death:^000000 "+Death+" ^666666KDR:^000000 "+callfunc("KDR_Calc", Kill, Death)+"^000000";
+			mes "^666666Killing Streak:^000000 "+KillingStreak+" ^666666Multi-Kills:^000000 "+MultiKill+"";
+			switch(select("Killing Streak:Multi-Kill Streak:Nemesis Streak:"+(getvariableofnpc(.Reset, "Versus")?"Reset":"")+"")){
+			case 1: //Killing Streak
+				next;
+				setarray .LSDotA$[0], ""+KillingSpree+"", ""+Dominating+"", ""+MegaKill+"", ""+Unstoppable+"", ""+WickedSick+"", ""+MonsterKill+"", ""+Godlike+"", ""+BeyondGodlike+"";
+				mes "Killing Streak Stats";
+				switch(#Announcer){
+				case 0:
+					for(set .@i, 0; .@i < getarraysize(.LSDotA$); set .@i, .@i + 1){
+						mes "^666666"+getvariableofnpc(.ESDotA$[.@i], "Versus")+"^000000: "+ .LSDotA$[.@i];
+					 }
+					close;
+				default:
+					for(set .@i, 0; .@i < getarraysize(.LSDotA$); set .@i, .@i + 1){
+						mes "^666666"+getvariableofnpc(.ESHoN$[.@i], "Versus")+"^000000: "+ .LSDotA$[.@i];
+					 }
+					close;
+				}
+				close;
+			case 2: //Multi-Kill
+				next;
+				setarray .LMDotA$[0], ""+DoubleKill+"", ""+TripleKill+"", ""+UltraKill+"", ""+Rampage+"", ""+Ownage+"";
+				mes "Multi-Kill Stats";
+				switch(#Announcer){
+				case 0:
+					for(set .@i, 0; .@i < getarraysize(.LMDotA$); set .@i, .@i + 1){
+						mes "^666666"+getvariableofnpc(.EMDotA$[.@i], "Versus")+"^000000: "+ .LMDotA$[.@i];
+					 }
+					close;
+				default:
+					for(set .@i, 0; .@i < getarraysize(.LMDotA$); set .@i, .@i + 1){
+						mes "^666666"+getvariableofnpc(.EMHoN$[.@i], "Versus")+"^000000: "+ .LMDotA$[.@i];
+					 }
+					close;
+				}
+			case 3:	//Nemesis
+				next;
+				mes "Nemesis Stat";
+				mes "^666666Nemesis Kill^000000: "+NemesisKill;
+				mes "^666666Feed Count^000000: "+FeedCount;
+				close;
+			case 4: //Reset Stat
+				next;
+				set .Reset, getvariableofnpc(.Reset, "Versus");
+				set .ZenyFee, getvariableofnpc(.ZenyFee, "Versus");
+				set .CashFee, getvariableofnpc(.CashFee, "Versus");
+				set .SkullFee, getvariableofnpc(.SkullFee, "Versus");
+				mes "[Loki]"; mes "Are you sure you want to reset your PvP Statistics?";
+				if(.Reset == 1){ mes "^FF0000Reset Fee:^000000 "+.ZenyFee+" Zeny"; }
+				if(.Reset == 2){ mes "^FF0000Reset Fee:^000000 "+.CashFee+" Kill Point"; }
+				if(.Reset == 3){ mes "^FF0000Reset Fee:^000000 "+.SkullFee+" Skull"; }
+				switch(select("No:Yes")){
+					case 1: close;
+					case 2:
+					switch(.Reset){
+						case 0: break;
+						case 1:
+							if(Zeny < .ZenyFee){ next; mes "You don't have enough Zeny."; close; }
+							set Zeny, Zeny - .ZenyFee; break;
+						case 2:
+							if(#CASHPOINTS < .CashFee){ next; mes "You don't have enough Kill Point."; close; }
+							set #CASHPOINTS, #CASHPOINTS - .CashFee; break;
+						case 3:
+							if(countitem(7420) < .SkullFee){ next; mes "You don't have enough Skull."; close; }
+							delitem 7420, .SkullFee; break;
+						default: break;
+					}
+				query_sql "DELETE FROM `pvp_rank` WHERE `pvp_rank`.`char_id` = "+getcharid(0)+"";
+				callsub OnPvPReset; announce "Your PvP Statistic has been reset.",bc_self,0xFF0000; close;
+				}
+				close;
+			}
+		close;
+		case 3: //Announcer Setting
+			mes "What kind of announcer you want to use?";
+			if(getvariableofnpc(.AnnouncerFee, "Versus")){ set .AnnouncerFee, getvariableofnpc(.AnnouncerFee, "Versus"); }
+			L_Announce:
+			switch(select(""+((#Announcer == 0)?"^FF0000DotA^000000":"DotA")+":"+((#Announcer == 1)?"^FF0000HoN^000000":"HoN")+":"+((#Announcer == 2)?"^FF0000Ms. Pudding^000000":"Ms. Pudding")+":"+((#Announcer == 3)?"^FF0000Flamboyant^000000":"Flamboyant")+":"+((#Announcer == 4)?"^FF0000English^000000":"English")+":"+((#Announcer == 5)?"^FF0000Balls of Steel^000000":"Balls of Steel")+":"+((#Announcer == 6)?"^FF0000BreakyCPK^000000":"BreakyCPK")+":Désactiver")) {
+				case 1: //DotA
+					if(#Announcer == 0){ goto L_Announce; }
+					//soundeffect "0_KS1.wav", 0;
+					set #Announcer, 0;
+					announce "DotA announcer has been configured to your account.",bc_self,0xFF0000;
+					close;
+				case 2: //HoN
+					if(#Announcer == 1){ goto L_Announce; }
+					if((.AnnouncerFee) && (!#Hon)){
+					next; mes "Do you want to purchase HoN announcer for "+.AnnouncerFee+" Kill Point?";
+					switch(select("No:Yes")){
+						case 1: close;
+						case 2: 
+						if(#CASHPOINTS < .AnnouncerFee){ next; mes "You don't have enough Kill Point."; close; }
+						set #CASHPOINTS, #CASHPOINTS - .AnnouncerFee;
+						set #Hon, 1;
+					 }
+					}
+					//soundeffect "1_KS1.wav", 0;
+					set #Announcer, 1;
+					announce "HoN announcer has been configured to your account.",bc_self,0xFF0000;
+					close;
+				case 3: //Ms. Pudding
+					if(#Announcer == 2){ goto L_Announce; }
+					if((.AnnouncerFee) && (!#MsPudding)){
+					next; mes "Do you want to purchase Ms. Pudding announcer for "+.AnnouncerFee+" Kill Point?";
+					switch(select("No:Yes")){
+						case 1: close;
+						case 2: 
+						if(#CASHPOINTS < .AnnouncerFee){ next; mes "You don't have enough Kill Point."; close; }
+						set #CASHPOINTS, #CASHPOINTS - .AnnouncerFee;
+						set #MsPudding, 1;
+					 }
+					}
+					//soundeffect "2_KS1.wav", 0;
+					set #Announcer, 2;
+					announce "Ms. Pudding announcer has been configured to your account.",bc_self,0xFF0000;
+					close;		
+				case 4: //Flamboyant
+					if(#Announcer == 3){ goto L_Announce; }
+					if((.AnnouncerFee) && (!#Flamboyant)){
+					next; mes "Do you want to purchase Flamboyant announcer for "+.AnnouncerFee+" Kill Point?";
+					switch(select("No:Yes")){
+						case 1: close;
+						case 2: 
+						if(#CASHPOINTS < .AnnouncerFee){ next; mes "You don't have enough Kill Point."; close; }
+						set #CASHPOINTS, #CASHPOINTS - .AnnouncerFee;
+						set #Flamboyant, 1;
+					 }
+					}
+					//soundeffect "3_KS1.wav", 0;
+					set #Announcer, 3;
+					announce "Flamboyant announcer has been configured to your account.",bc_self,0xFF0000;
+					close;			
+				case 5: //English
+					if(#Announcer == 4){ goto L_Announce; }
+					if((.AnnouncerFee) && (!#English)){
+					next; mes "Do you want to purchase English announcer for "+.AnnouncerFee+" Kill Point?";
+					switch(select("No:Yes")){
+						case 1: close;
+						case 2: 
+						if(#CASHPOINTS < .AnnouncerFee){ next; mes "You don't have enough Kill Point."; close; }
+						set #CASHPOINTS, #CASHPOINTS - .AnnouncerFee;
+						set #English, 1;
+					 }
+					}
+					//soundeffect "4_KS1.wav", 0;
+					set #Announcer, 4;
+					announce "English announcer has been configured to your account.",bc_self,0xFF0000;
+					close;
+				case 6: //Balls of Steel
+					if(#Announcer == 5){ goto L_Announce; }
+					if((.AnnouncerFee) && (!#BallsofSteel)){
+					next; mes "Do you want to purchase Balls of Steel announcer for "+.AnnouncerFee+" Kill Point?";
+					switch(select("No:Yes")){
+						case 1: close;
+						case 2: 
+						if(#CASHPOINTS < .AnnouncerFee){ next; mes "You don't have enough Kill Point."; close; }
+						set #CASHPOINTS, #CASHPOINTS - .AnnouncerFee;
+						set #BallsofSteel, 1;
+					 }
+					}
+					//soundeffect "5_KS1.wav", 0;
+					set #Announcer, 5;
+					announce "Balls of Steel announcer has been configured to your account.",bc_self,0xFF0000;
+					close;
+				case 7: //BreakyCPK
+					if(#Announcer == 6){ goto L_Announce; }
+					if((.AnnouncerFee) && (!#BreakyCPK)){
+					next; mes "Do you want to purchase BreakyCPK announcer for "+.AnnouncerFee+" Kill Point?";
+					switch(select("No:Yes")){
+						case 1: close;
+						case 2: 
+						if(#CASHPOINTS < .AnnouncerFee){ next; mes "You don't have enough Kill Point."; close; }
+						set #CASHPOINTS, #CASHPOINTS - .AnnouncerFee;
+						set #BreakyCPK, 1;
+					 }
+					}
+					//soundeffect "6_KS1.wav", 0;
+					set #Announcer, 6;
+					announce "BreakyCPK announcer has been configured to your account.",bc_self,0xFF0000;
+					close;
+				case 8: //BreakyCPK
+					set #Announcer, 7;
+					announce "Annoncer désactivé.",bc_self,0xFF0000;
+					close;
+			default: close;
+			}
+		end;
+	 }
+	close;
+}
+
+-	script	#testcostume	-1,{
+OnInit:
+	bindatcmd("testcostume",strnpcinfo(0)+"::OnCommand",0,99);
+	end;
+
+OnCommand:
+    switch( select( "Nouveautés Invasion", "Nouveautés Vot'shop", "Costumes Vot'shop" ) ) {
+        case 1:
+            setarray .@array1[0],20219,20297,31251,20026,19857,
+                                 19959,20103,31106,31107,
+                                 20075,20433,19521,19514,20259,
+                                 31518,20183;
+            setarray .@array2[0],0;
+                                 break;
+        case 2:
+            setarray .@array1[0],
+                                 20132,19661,31455,20381,20085,
+                                 31172,31027,20379,31512,20083,
+                                 31300,20448,31803,31798,
+                                 31731,31719,31616,31454,20135,
+                                 31299,31600,19823,31452,20081,
+                                 20089,20036,20319,20232,
+                                 20101,20404,31186,20234,
+                                 31437,20086,20088,20087,20380,
+                                 31693,20430,31549,20300,
+                                 20270,31614,20349,19985;
+            setarray .@array2[0],20285,HAT_EF_BLOSSOM_FLUTTERING,
+                                 20209,HAT_EF_MERMAID_LONGING,
+                                 20154,HAT_EF_MAPLE_FALLS,
+                                 20099,HAT_EF_LJOSALFAR;
+                                 break;
+        case 3:
+            setarray .@array1[0],
+                                 20587,20576,20577,20578,20582,
+                                 20579,20574,20572,20570,20543,
+                                 20530,20528,20527,20588,20826,
+                                 20586,20594,29996,29997,20575,
+                                 20571,29998,20589,20521,20513,
+                                 29999,20955,20940,
+                                 20842,20526,20525,20516,
+                                 20514,20512,20518,20510,20509,
+                                 20507,20504,20502,20500,20511,
+                                 20593,20597,20596,20727,20737,
+                                 20517,20505,
+                                 20590,29995,20592,20546,20764,
+                                 20763,20762,20761,20746,19381;
+            setarray .@array2[0],20457,HAT_EF_FEATHER_FLUTTERING,
+                                 20487,HAT_EF_FLORAL_WALTZ,
+                                 20515,HAT_EF_MAGICCIRCLE,
+                                 20519,HAT_EF_FULL_BLOOMCHERRY_TREE,
+                                 31056,HAT_EF_DOUBLEGUMGANG,
+                                 31091,HAT_EF_GOLD_SHOWER;
+                                 break;
+    }
+
+	setpcblock PCBLOCK_COMMANDS,true;
+		.@menu$ = "";
+    if( getarraysize(.@array1) > 0 )
+        for( .@i = 0; .@i < getarraysize(.@array1); .@i++ )
+            .@menu$ = .@menu$ + getitemname(.@array1[.@i]) + " [" + .@array1[.@i] + "]:";
+    if( getarraysize(.@array2) > 1 )
+        for( .@i = 0; .@i < getarraysize(.@array2); .@i += 2 )
+            .@menu$ = .@menu$ + getitemname(.@array2[.@i]) + " [" + .@array2[.@i] + "]:";
+	.@menu$ = .@menu$ + "Quitter";
+	.@id = getequipid(EQI_COSTUME_GARMENT);
+	@lookrobe = 0;
+	@lookrobe = getlook(LOOK_ROBE);
+	@looktop = 0;
+	@looktop = getlook(LOOK_HEAD_TOP);
+	@lookmid = 0;
+	@lookmid = getlook(LOOK_HEAD_MID);
+	@lookbot = 0;
+	@lookbot = getlook(LOOK_HEAD_BOTTOM);
+	if( .@id > 0 )
+		unequip EQI_COSTUME_GARMENT;
+	while( 1 ) {
+		@menu = prompt( .@menu$ );
+		@menu1 = getarraysize(.@array1);
+		if( .@effid > 0 ) {
+			hateffect(.@effid,false);
+			.@effid = 0;
+		}
+		if( @menu > (@menu1+(getarraysize(.@array2) / 2)) ) {
+			if( .@id > 0 )
+				equip .@id;
+			changelook LOOK_ROBE,@lookrobe;
+			changelook LOOK_HEAD_TOP,@looktop;
+			changelook LOOK_HEAD_MID,@lookmid;
+			changelook LOOK_HEAD_BOTTOM,@lookbot;
+			setpcblock PCBLOCK_COMMANDS,false;
+			break;
+		}
+		if( @menu > @menu1 ) {
+			.@idx = (@menu - @menu1) * 2;
+			.@effid = .@array2[.@idx - 1];
+			// dispbottom ""+@menu+" - "+@menu1+" - "+.@idx+" - "+.@effid;
+			hateffect(.@effid,true);
+		}
+		else {
+			if( .@array1[@menu-1] == 20571 ) {
+				.@effid = HAT_EF_C_VALKYRIE_WING;
+				hateffect(.@effid,true);
+			}
+			if( getiteminfo(.@array1[@menu-1],5) & 8192 )
+                changelook LOOK_ROBE,getiteminfo(.@array1[@menu-1], 11);
+			if( getiteminfo(.@array1[@menu-1],5) & 1024 ) {
+                changelook LOOK_HEAD_MID,@lookmid;
+                changelook LOOK_HEAD_BOTTOM,@lookbot;
+                changelook LOOK_HEAD_TOP,getiteminfo(.@array1[@menu-1], 11);
+            }
+			if( getiteminfo(.@array1[@menu-1],5) & 2048 ) {
+                changelook LOOK_HEAD_TOP,@looktop;
+                changelook LOOK_HEAD_BOTTOM,@lookbot;
+                changelook LOOK_HEAD_MID,getiteminfo(.@array1[@menu-1], 11);
+            }
+			if( getiteminfo(.@array1[@menu-1],5) & 4096 ) {
+                changelook LOOK_HEAD_TOP,@looktop;
+                changelook LOOK_HEAD_MID,@lookmid;
+                changelook LOOK_HEAD_BOTTOM,getiteminfo(.@array1[@menu-1], 11);
+            }
+		}
+	}
+	end;
+}
+
+-	script	#stfutictac	-1,{
+OnInit:
+	bindatcmd("stfutictac",strnpcinfo(0)+"::OnCommand",0,99);
+	end;
+
+OnCommand:
+	if( #blockmegaq1 ) {
+		dispbottom "Vous ne bloquez plus Tic et Tac!";
+		#blockmegaq1 = 0;
+	}
+	else {
+		dispbottom "Vous bloquez Tic et Tac!";
+		#blockmegaq1 = 1;
+	}
+	end;
+}
+
+-	script	#orc	-1,{
+OnInit:
+	bindatcmd("orc",strnpcinfo(0)+"::OnCommand",0,99);
+	end;
+
+OnCommand:
+	if( !checkoption(Option_Orcish) ) setoption Option_Orcish;
+	end;
+}
+
+-	script	#gmclicdroit	-1,{
+OnInit:
+	bindatcmd("gmclicdroit",strnpcinfo(0)+"::OnCommand",80,99);
+	end;
+
+OnCommand:
+	ignoretimeout 1;
+	mes "-- Menu special GM --";
+	mes "Joueur: " + strcharinfo(0,atoi(.@atcmd_parameters$[0]));
+	.@login$ = callfunc("getuserid",getcharid(3,strcharinfo(0,atoi(.@atcmd_parameters$[0]))));
+	mes "Login: " + .@login$;
+	mes "Vote: " + callfunc("getvote",callfunc("getuniqueid",getcharid(3,strcharinfo(0,atoi(.@atcmd_parameters$[0])))));
+	mes "Event: " + readparam(132, atoi(.@atcmd_parameters$[0]));
+L_main:
+	switch( select( "Voir l'equippements", "Points Events", "Faire venir le joueur", "@nuke", (readparam(Sitting, atoi(.@atcmd_parameters$[0]))?"Debout":"Assis"), "",
+					(getstatus(SC_NOCHAT, 0, atoi(.@atcmd_parameters$[0]))?"Unmute":"Mute"),
+					"Kick",
+					(getstatus(SC_JAILED, 0, atoi(.@atcmd_parameters$[0]))?"Unjail":"Jail"),
+					"^FF0000Bannir^000000") ) {
+		case 1: viewequip getcharid(0), atoi(.@atcmd_parameters$[0]); break;
+		case 2:
+			clear;
+			mes "Le joueur possede "+readparam(132, atoi(.@atcmd_parameters$[0]))+" points d'évent";
+			mes "Combien voulez-vous lui retirer ou donner?";
+			mes "- pour retirer etc (max 50 à la fois).";
+			input .@pts,-50,50;
+			if( readparam(132, atoi(.@atcmd_parameters$[0])) + .@pts < 0 ) .@pts += (readparam(132, atoi(.@atcmd_parameters$[0])) + .@pts) * -1;
+			if( .@pts != 0) {
+				logmes "menugm: Vous "+(.@pts<0?"retirez":"ajoutez") + " " + (.@pts<0?.@pts*-1:.@pts) +" pts d'évent à "+strcharinfo(0,atoi(.@atcmd_parameters$[0]));
+				dispbottom "Vous "+(.@pts<0?"retirez":"ajoutez") + " " + (.@pts<0?.@pts*-1:.@pts) +" pts d'évent à "+strcharinfo(0,atoi(.@atcmd_parameters$[0]));
+				dispbottom "Vous "+(.@pts<0?"perdez":"gagnez") + " " + (.@pts<0?.@pts*-1:.@pts) +" pts d'évent.", 0x777777, atoi(.@atcmd_parameters$[0]);
+				setd "#KAFRAPOINTS",(readparam(132, atoi(.@atcmd_parameters$[0]))+.@pts),atoi(.@atcmd_parameters$[0]);
+			}
+			clear;
+			goto OnCommand;
+			break;
+		case 3: 
+			stand strcharinfo(0,atoi(.@atcmd_parameters$[0]));
+			sleep2 200;
+			unitwalkto getcharid(3,strcharinfo(0,atoi(.@atcmd_parameters$[0]))),getcharid(3);
+			break;
+		case 4: atcommand "@nuke " + strcharinfo(0,atoi(.@atcmd_parameters$[0])); break;
+		case 5:
+			if( readparam(Sitting, atoi(.@atcmd_parameters$[0])) )
+				stand strcharinfo(0,atoi(.@atcmd_parameters$[0]));
+			else
+				sit strcharinfo(0,atoi(.@atcmd_parameters$[0]));
+			break;
+		case 7:
+			if( getstatus(SC_NOCHAT, 0, atoi(.@atcmd_parameters$[0])) )
+				atcommand "@unmute " + strcharinfo(0,atoi(.@atcmd_parameters$[0]));
+			else
+				atcommand "@mute 60 " + strcharinfo(0,atoi(.@atcmd_parameters$[0]));
+			break;
+		case 8: atcommand "@kick " + strcharinfo(0,atoi(.@atcmd_parameters$[0])); break;
+		case 9:
+			if( getstatus(SC_JAILED, 0, atoi(.@atcmd_parameters$[0])) )
+				atcommand "@unjail " + strcharinfo(0,atoi(.@atcmd_parameters$[0]));
+			else
+				atcommand "@jail " + strcharinfo(0,atoi(.@atcmd_parameters$[0]));
+			break;
+		case 10: atcommand "@block " + strcharinfo(0,atoi(.@atcmd_parameters$[0])); break;
+		default:
+			break;
+	}
+	goto L_main;
+	end;
+}
+
+-	script	#monsterevent	-1,{
+OnInit:
+	bindatcmd("monsterevent",strnpcinfo(0)+"::OnCommand",80,99);
+	end;
+
+OnCommand:
+	if( !query_sql("SELECT `id` FROM `rathena`.`mob_db` WHERE `Sprite` LIKE '" + .@atcmd_parameters$[0] + "'", .@mobid) )
+		if( !query_sql("SELECT `id` FROM `rathena`.`mob_db2_re` WHERE `Sprite` LIKE '" + .@atcmd_parameters$[0] + "'", .@mobid) )
+			.@mobid = atoi(.@atcmd_parameters$[0]);
+	if( getmonsterinfo(.@mobid, MOB_NAME) == "null" )
+		end;
+
+	.@amount = atoi(.@atcmd_parameters$[1]);
+	.@hp = atoi(.@atcmd_parameters$[2]);
+
+	if( !getmapxy(.@map$, .@x, .@y, BL_PC) &&
+		.@val = callfunc("monster_event", .@map$, .@x, .@y, .@mobid, .@amount, .@hp) )
+		dispbottom "Summon de "+.@amount+" "+getmonsterinfo(.@mobid, MOB_NAME)+" à "+.@val+" HP";
+	end;
+}
+
+-	script	#npcblock	-1,{
+OnInit:
+	bindatcmd("npcblock",strnpcinfo(0)+"::OnCommand",0,99);
+	end;
+
+OnCommand:
+	switch( .@atcmd_parameters$[0] ) {
+		case 1:
+			if( #BlockMoonNpc & 1 ) {
+				dispbottom "Vous ne bloquez plus le Job Master.";
+				#BlockMoonNpc &= ~1;
+			}
+			else {
+				dispbottom "Vous bloquez désormais le Job Master.";
+				#BlockMoonNpc |= 1;
+			}
+			break;
+		case 2:
+			if( #BlockMoonNpc & 2 ) {
+				dispbottom "Vous ne bloquez plus la Kafra.";
+				#BlockMoonNpc &= ~2;
+			}
+			else {
+				dispbottom "Vous bloquez désormais la Kafra.";
+				#BlockMoonNpc |= 2;
+			}
+			break;
+		case 3:
+			if( #BlockMoonNpc & 4 ) {
+				dispbottom "Vous ne bloquez plus le Styliste.";
+				#BlockMoonNpc &= ~4;
+			}
+			else {
+				dispbottom "Vous bloquez désormais le Styliste.";
+				#BlockMoonNpc |= 4;
+			}
+			break;
+		case 4:
+			if( #BlockMoonNpc & 8 ) {
+				dispbottom "Vous ne bloquez plus le PvP Warper.";
+				#BlockMoonNpc &= ~8;
+			}
+			else {
+				dispbottom "Vous bloquez désormais le PvP Warper.";
+				#BlockMoonNpc |= 8;
+			}
+			break;
+		case 5:
+			if( #BlockMoonNpc & 16 ) {
+				dispbottom "Vous ne bloquez plus le DB/BB/MVP Warper.";
+				#BlockMoonNpc &= ~16;
+			}
+			else {
+				dispbottom "Vous bloquez désormais le DB/BB/MVP Warper.";
+				#BlockMoonNpc |= 16;
+			}
+			break;
+		default:
+			if( #BlockMoonNpc ) {
+				dispbottom "Vous ne bloquez plus les npcs ([1]Job master, [2]kafra, [3]styliste, [4]pvp warper, [5]db/bb/mvp warper).";
+				#BlockMoonNpc = 0;
+			}
+			else {
+				dispbottom "Vous bloquez les npcs ([1]Job master, [2]kafra, [3]styliste, [4]pvp warper, [5]db/bb/mvp warper).";
+				#BlockMoonNpc = 31;
+			}
+			break;
+	}
+	end;
+}
+
+-	script	#eventdisguise	-1,{
+OnInit:
+	bindatcmd("eventdisguise",strnpcinfo(0)+"::OnCommand",80,99);
+	end;
+
+OnCommand:
+	if( $eventdisguise )
+		donpcevent "QuizzGuise::OnQuizzGuiseDisable";
+	else
+		donpcevent "QuizzGuise::OnQuizzGuiseEnable";
+	end;
+}
+
+-	script	#eventquizz	-1,{
+OnInit:
+	bindatcmd("eventquizz",strnpcinfo(0)+"::OnCommand",80,99);
+	end;
+
+OnCommand:
+	if( $eventquizz )
+		donpcevent "Quizz::OnQuizzDisable";
+	else
+		donpcevent "Quizz::OnQuizzEnable";
+	end;
+}
+
+-	script	#eventcafard	-1,{
+OnInit:
+	bindatcmd("eventcafard",strnpcinfo(0)+"::OnCommand",80,99);
+	end;
+
+OnCommand:
+	if( $eventcafard ) {
+		dispbottom "Attendons que ça gagne!";
+		end;
+	}
+	else
+		donpcevent "eventcafard::OnStart";
+	end;
+}
+
+-	script	#eventtarot	-1,{
+OnInit:
+	bindatcmd("eventtarot",strnpcinfo(0)+"::OnCommand",80,99);
+	end;
+
+OnCommand:
+	if( $eventtarot )
+		donpcevent "TarotEvent::OnStop";
+	else {
+		if( agitcheck() || agitcheck2() ) {
+			mes "[Event Tarot]";
+			mes "Pas en WoE !";
+			close;
+		}
+		donpcevent "TarotEvent::OnStart";
+	}
+	end;
+}
+
+-	script	#tarot	-1,{
+OnInit:
+	bindatcmd("tarot",strnpcinfo(0)+"::OnCommand",0,99);
+	end;
+
+OnCommand:
+	if( $eventtarot ) {
+		do {
+			.@y = rand(94,106);
+			.@x = rand(94,106);
+		} while( .@y >= 98 && .@y <= 102 && .@x >= 98 && .@y <= 102 );
+
+		for( .@i = 0; .@i < getarraysize($@tarotplayers$); .@i++ ) {
+			if( $@tarotplayers$[.@i] == strcharinfo(0) ) {
+				mes "[La mort ou tchitchi]";
+				mes "Wow ça va pas la peine de spam la commande XD.";
+				close2;
+				warp "force_1-1",.@x,.@y;
+				end;
+			}
+		}
+		mes "[La mort ou tchitchi]";
+		mes "Tu es à présent inscrit et vas être téléporté sur place.";
+		$@tarotplayers$[getarraysize($@tarotplayers$)] = strcharinfo(0);
+		close2;
+		areamonster "force_1-1",95,95,105,105,"Porcs aux ribs dorées",1840,1;
+		warp "force_1-1",.@x,.@y;
+		end;
+	}
+	else {
+		mes "[La mort ou tchitchi]";
+		mes "Aucun event tarot n'est actif :o";
+		close;
+	}
+	end;
+}
+
+-	script	#loupgarou	-1,{
+OnInit:
+	bindatcmd("loupgarou",strnpcinfo(0)+"::OnCommand",99,99);
+	end;
+
+OnCommand:
+	if( $eventloup ) {
+		if( getarraysize($@loupgarou$) >= 10 ) {
+			mes "[Loup Garou]";
+			mes "Navré pour le moment le format de l'event est à 10 joueurs !";
+			close;
+		}
+
+		for( .@i = 0; .@i < getarraysize($@loupgarou$); .@i++ ) {
+			if( $@loupgarou$[.@i] == strcharinfo(0) ) {
+				mes "[Loup Garou]";
+				mes "Wow ça va pas la peine de spam la commande XD.";
+				close2;
+				warp "region_8", rand(46,53), rand(46,53);
+				end;
+			}
+		}
+
+		mes "[Loup Garou]";
+		mes "Tu es à présent inscrit et vas être téléporté sur place.";
+		$@loupgarou$[getarraysize($@loupgarou$)] = strcharinfo(0);
+		close2;
+		warp "region_8", rand(46,53), rand(46,53);
+		end;
+	}
+	else {
+		mes "[Loup Garou]";
+		mes "Aucun event lou garou n'est actif :o";
+		close;
+	}
+	end;
+}
+
+-	script	#eventexp	-1,{
+OnInit:
+	bindatcmd("eventexp",strnpcinfo(0)+"::OnCommand",80,99);
+	end;
+
+OnTimer900000:
+	if( eventexp() )
+		callfunc "announce2","Il reste 15min d'event exp !!",bc_all;
+	end;
+
+OnTimer1200000:
+	if( eventexp() )
+		Announce "Il reste 10min d'event exp !!",bc_all;
+	end;
+
+OnTimer1500000:
+	if( eventexp() )
+		Announce "Il reste 5min d'event exp !!",bc_all;
+	end;
+
+OnTimer1740000:
+	if( eventexp() )
+		Announce "Il reste 1min d'event exp !!",bc_all;
+	end;
+
+OnCommand:
+	if( !eventexp() ) {
+		$eventexp = gettimetick(2) + 1800;
+		$eventexprate = cap_value(200, atoi(.@atcmd_parameters$[0]), 400);
+		setBattleFlag "mult_eventexp", $eventexprate;
+		starteventexp();
+		setBattleFlag "party_even_share_bonus", 35;
+		setBattleFlag "aoe_teleport_acd", 2000;
+		callfunc "announce2","Attention rates augmentées pour 30min, base & job "+(1000*(getBattleFlag("mult_eventexp")/100))+" et bonus party share 35%!",bc_all;
+		initnpctimer;
+		end;
+	}
+OnTimer1800000:
+	if( eventexp() ) {
+		$eventexprate = 200;
+		stopeventexp();
+		setBattleFlag "mult_eventexp", 200;
+		setBattleFlag "party_even_share_bonus", 10;
+		setBattleFlag "aoe_teleport_acd", 300;
+		callfunc "announce2","Retour à la normale! Base & Job rate à 1000 et bonus party share 10%!",bc_all;
+		stopnpctimer;
+	}
+	$eventexp = 0;
+	end;
+}
+
+-	script	#eventdrop	-1,{
+OnInit:
+	bindatcmd("eventdrop",strnpcinfo(0)+"::OnCommand",80,99);
+	end;
+
+OnTimer900000:
+	if( eventdrop() )
+		callfunc "announce2","Il reste 15min d'event drop !!",bc_all;
+	end;
+
+OnTimer1200000:
+	if( eventdrop() )
+		Announce "Il reste 10min d'event drop !!",bc_all;
+	end;
+
+OnTimer1500000:
+	if( eventdrop() )
+		Announce "Il reste 5min d'event drop !!",bc_all;
+	end;
+
+OnTimer1740000:
+	if( eventdrop() )
+		Announce "Il reste 1min d'event drop !!",bc_all;
+	end;
+
+OnCommand:
+	if( !eventdrop() ) {
+		$@qtyedropper = 0;
+		$eventdrop = gettimetick(2) + 1800;
+		starteventdrop();
+		callfunc "announce2","Attention chance de drop cards, item communs et equippements multipliés par "+(getBattleFlag("mult_eventdrop")/100)+" pour 30min !!!",bc_all;
+		initnpctimer;
+		end;
+	}
+OnTimer1800000:
+	if( eventdrop() ) {
+		$eventdrop = 0;
+		stopeventdrop();
+		callfunc "announce2","Fin d'event drop ! Retour à la normale.",bc_all;
+		stopnpctimer;
+	}
+	end;
+}
+
+-	script	#alootid2	-1,{
+
+OnInit:
+	.enable_login_autoload = 1;
+	.max_alootid_group = 10;
+	.max_alootid_item = 50;
+	bindatcmd("alootid2", strnpcinfo(3)+"::OnCommand");
+	end;
+
+OnCommand:
+	.@cid = getcharid(0);
+	.@alootid_group = atoi(.@atcmd_parameters$[1]);
+
+	if (!.@atcmd_numparameters) {
+		dispbottom "Usage: "+.@atcmd_command$+" list";
+		dispbottom "Usage: "+.@atcmd_command$+" load <#>";
+		dispbottom "Usage: "+.@atcmd_command$+" save <#> <item1> ... <item"+.max_alootid_item+">";
+		dispbottom "Usage: "+.@atcmd_command$+" set <#> name <name>";
+		if (.enable_login_autoload)
+			dispbottom "Usage: "+.@atcmd_command$+" set <#> autoload <1/0>";
+	}
+	else if (.@atcmd_parameters$[0] == "save") {
+		if (!.@alootid_group || .@alootid_group <= 0 || .@alootid_group > .max_alootid_group) {
+			dispbottom "Usage: "+.@atcmd_command$+" save <"+.@alootid_group+"> - invalid no "+.@alootid_group+". (min: 1, max: "+.max_alootid_group+")";
+		}
+		else {
+			for (.@i = 2; .@i < .@atcmd_numparameters; .@i++) {
+				.@nameid = atoi(.@atcmd_parameters$[.@i]);
+				if (getitemname(.@nameid) != "null")
+					.@sql$ = .@sql$ + ((.@i >= 3) ? ", ":"") + "("+.@cid+", "+.@alootid_group+", "+.@nameid+")";
+			}
+			if (.@sql$ == "") {
+				dispbottom "Usage: "+.@atcmd_command$+" save <"+.@alootid_group+"> - save failed.";
+			}
+			else {
+				query_sql("DELETE FROM `alootid` WHERE `cid` = "+.@cid+" AND `no` = "+.@alootid_group);
+				query_sql("INSERT INTO `alootid` (`cid`,`no`, `nameid`) VALUES " + .@sql$);
+				dispbottom "Usage: "+.@atcmd_command$+" save <"+.@alootid_group+"> - save successfully.";
+			}
+		}
+	}
+	else if (.@atcmd_parameters$[0] == "load") {
+		if (!.@alootid_group || .@alootid_group <= 0 || .@alootid_group > .max_alootid_group) {
+			dispbottom "Usage: "+.@atcmd_command$+" load <"+.@alootid_group+"> - invalid no "+.@alootid_group+".";
+		}
+		else {
+			.@size = query_sql("SELECT `nameid` FROM `alootid` WHERE `cid` = "+.@cid+" AND `no` = "+.@alootid_group+" LIMIT "+.max_alootid_item, .@nameid);
+			if (!.@size) {
+				dispbottom "Usage: "+.@atcmd_command$+" load <"+.@alootid_group+"> - settings not found.";
+			}
+			else {
+				atcommand("@alootid reset");
+				for (.@i = 0; .@i < .@size; .@i++)
+					atcommand("@alootid +"+.@nameid[.@i]);
+				dispbottom "Usage: "+.@atcmd_command$+" load <"+.@alootid_group+"> - loaded successfully.";
+			}
+		}
+	}
+	else if (.@atcmd_parameters$[0] == "list") {
+		.@size = query_sql("SELECT `no`, `name`, `auto`, GROUP_CONCAT(nameid SEPARATOR ', ') FROM `alootid` WHERE `cid` = "+.@cid+" GROUP BY `name`, `no` LIMIT "+.max_alootid_group, .@no, .@name$, .@auto, .@nameid_list$);
+		for (.@i = 0; .@i < .@size; .@i++) {
+			dispbottom "Group <"+.@no[.@i]+"> "+.@name$[.@i]+" - "+.@nameid_list$[.@i] + (.enable_login_autoload && .@auto[.@i]? " (autoload)":"");
+		}
+		dispbottom "Usage: "+.@atcmd_command$+" list - found "+.@size+" settings.";
+	}
+	else if (.@atcmd_parameters$[0] == "set") {
+		if (!.@alootid_group || .@alootid_group <= 0 || .@alootid_group > .max_alootid_group) {
+			dispbottom "Usage: "+.@atcmd_command$+" set <"+.@alootid_group+"> - invalid no "+.@alootid_group+".";
+		}
+		else if (.@atcmd_parameters$[2] == "name") {
+			query_sql("UPDATE `alootid` SET `name` = '"+escape_sql(.@atcmd_parameters$[3])+"' WHERE `cid` = "+.@cid+" AND `no` = "+.@alootid_group);
+			dispbottom "Usage: "+.@atcmd_command$+" set <"+.@alootid_group+"> name '"+.@atcmd_parameters$[3]+"' successfully.";
+		}
+		else if (.enable_login_autoload && .@atcmd_parameters$[2] == "autoload") {
+			query_sql("UPDATE `alootid` SET `auto` = CASE WHEN `no` = "+.@alootid_group+" THEN "+(atoi(.@atcmd_parameters$[3]) > 0)+" ELSE 0 END WHERE `cid` = "+.@cid);
+			dispbottom "Usage: "+.@atcmd_command$+" set <"+.@alootid_group+"> autoload '"+((atoi(.@atcmd_parameters$[3]) > 0) ? "enabled":"disabled")+"' successfully.";
+		}
+		else {
+			dispbottom "Usage: "+.@atcmd_command$+" set <"+.@alootid_group+"> invalid options.";
+			dispbottom "Usage: "+.@atcmd_command$+" set <"+.@alootid_group+"> name <name>";
+			if (.enable_login_autoload)
+				dispbottom "Usage: "+.@atcmd_command$+" set <"+.@alootid_group+"> autoload <1/0>";
+		}
+	}
+	else {
+		dispbottom "Usage: "+.@atcmd_command$+" invalid options.";
+	}
+	end;
+
+OnPCLoginEvent:
+	if (.enable_login_autoload) {
+		sleep2 1000;
+		.@size = query_sql("SELECT `no`, `nameid` FROM `alootid` WHERE `cid` = "+getcharid(0)+" AND `auto` = 1 LIMIT "+.max_alootid_item, .@alootid_group, .@nameid);
+		if (.@size) {
+			atcommand("@alootid reset");
+			for (.@i = 0; .@i < .@size; .@i++)
+				atcommand("@alootid +"+.@nameid[.@i]);
+			dispbottom "Usage: @alootid2 load <"+.@alootid_group+"> - loaded successfully.";
+		}
+	}
+	end;
+}

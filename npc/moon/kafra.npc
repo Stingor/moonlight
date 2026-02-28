@@ -1,0 +1,273 @@
+//===== Moonlight-Destiny ==================================
+//= Script pour location et Gm change.
+//===== Par: =================================================
+//= Yaro / Moonlight-Destiny Dev Team
+//===== Version courrante: ===================================
+//= 2.0
+//===== Description: =========================================
+//= Permet aux joueur de stocker leur argent et
+//= louer cart,faucon,peco.
+//===== Commentaires: ========================================
+//= 1.0 Ajout [Stingor]
+//= 1.1 Correction d'un message. [Stingor]
+//= 1.2 Ajout couleurs [Kamitsu]
+//= 1.3 Ajout d'un uniquename [Stingor]
+//= 1.4 Dynamique pour le menu location [Stingor]
+//= 1.5 Retrait fonction banque + optimisation [Stingor]
+//= 1.6 Réajout du menu storage + consultation guilde storage [Stingor]
+//= 2.0 rAthena update & tweaks [Stingor]
+//============================================================
+
+gonryun,155,122,5	script	Kafra::kafra_gon	4_F_KAFRA2,{
+	function ChangeGM;
+	if( #BlockMoonNpc & 2 ) {
+		dispbottom "Vous bloquez le npc avec @npcblock 2 !";
+		end;
+	}
+
+	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes "Je suis le npc qui permet de louer un cart, un faucon ou encore un peco !";
+	mes "Mais aussi de changer de gm de guilde !!";
+	if( BaseClass == Job_Merchant || Class == Job_SuperNovice ) .@menu$ = "Louer un cart";
+	else if( BaseJob == Job_Hunter ) .@menu$ = "Louer un Faucon";
+	else if( BaseJob == Job_Knight || BaseJob == Job_Crusader ) .@menu$ = ( BaseJob == Job_Knight && base3rd && checkoption(OPTION_DRAGON) ) ?"Couleur dragon":(BaseJob == Job_Knight && base3rd ?"Louer un Dragon":"Louer un Peco");
+	else .@menu$ = "";
+	switch( select(.@menu$,"Ouvrir le storage (@storage)", "Consulter le log Guild Storage", "Changer le GM de Guilde", "Echange de Gympass", "Changer de genre (10 votes)") ) {
+		case 1:
+			clear;
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			if( BaseJob == Job_Knight && base3rd && checkoption(OPTION_DRAGON) ) {
+				mes "5 couleurs sont dispo:";
+				while (1)
+				{
+					switch(select("Couleur 1:Couleur 2:Couleur 3:Couleur 4:Couleur 5:Fini"))
+					{
+						case 1:
+							setoption OPTION_DRAGON,0;
+							setoption OPTION_DRAGON1,1;
+							break;
+						case 2:
+							setoption OPTION_DRAGON,0;
+							setoption OPTION_DRAGON2,1;
+							break;
+						case 3:
+							setoption OPTION_DRAGON,0;
+							setoption OPTION_DRAGON3,1;
+							break;
+						case 4:
+							setoption OPTION_DRAGON,0;
+							setoption OPTION_DRAGON4,1;
+							break;
+						case 5:
+							setoption OPTION_DRAGON,0;
+							setoption OPTION_DRAGON5,1;
+							break;
+						default: close;
+					}
+				}
+			}
+			else if( checkcart() || checkfalcon() || checkriding() )
+				mes "Tu n'as plus besoin de mes services";
+			else if( .@menu$ == "Louer un cart" ) {
+				if( getskilllv(39) ) {
+					setcart(1);
+					mes "Et voilà pour vous !";
+					mes "À bientôt !";
+				}
+				else mes "Désolé vous devez avoir le skill Push Cart.";
+			}
+			else if( .@menu$ == "Louer un Faucon" ) {
+				if( getskilllv(127) ) {
+					setfalcon(1);
+					mes "Tiens, tiens, voilà ton faucon, voilà ton faucon...";
+					mes "À bientôt !";
+				}
+				else mes "Désolé vous devez avoir le skill Falcon Mastery.";
+			}
+			else if( .@menu$ == "Louer un Peco" ) {
+				if( getskilllv(63) ) {
+					setriding(1);
+					if( BaseJob == Job_Knight && base3rd )
+						setoption OPTION_DRAGON,1;
+					mes "Et un poulet free, un !";
+					mes "À bientôt !";
+				}
+				else mes "Désolé vous devez avoir le skill Riding.";
+			}
+			else if( .@menu$ == "Louer un Dragon" ) {
+				if( getskilllv(63) ) {
+					setriding(1);
+					setoption OPTION_DRAGON,1;
+					mes "À bientôt !";
+				}
+				else mes "Désolé vous devez avoir le skill Riding.";
+			}
+			break;
+		case 2:
+			clear;
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes "Tout de suite ! Mais vous pouvez utiliser @storage ^^'";
+			close2;
+			openstorage;
+			end;
+		case 3:
+            guildstoragecountitem(501,getcharid(3));
+			if( guild_has_permission(GUILD_PERM_ALL) ) {
+				guildopenstorage_log();
+				close2;
+			}
+			else {
+				clear;
+				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes "Vous ne semblez pas avoir les droits pour consulter les logs storage de guilde.";
+				close;
+			}
+			end;
+		case 4:
+			do {
+				clear;
+				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			} while( ChangeGM() );
+			break;
+		case 5:
+			switch( select("Echanger:Récuperation du buff.") ) {
+			clear;
+			case 1:
+				if (gympassmemory < 10) {
+					.@add_carry = gympassmemory + 1;
+					.@remain_carry = 10 - .@add_carry;
+					if (countitem(7776) > 0) {
+						mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+						mes "Voilà vous devriez sentir le bénéfice du pass !!";
+						mes "Encore ^FF00000" + .@remain_carry + "^000000 upgrade possible.";
+						delitem 7776,1; //Max_Weight_Up_Scroll
+						gympassmemory = .@add_carry;
+						skill "ALL_INCCARRY",.@add_carry,SKILL_PERM_GRANT;
+						close;
+					}
+					else {
+						mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+						mes "Vous n'avez pas de ^FF0000Gym Pass^000000!!";
+						close;
+					}
+				}
+				else {
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Vous avez atteint la limite !";
+					close;
+				}
+			case 2:
+				if (gympassmemory > 0) {
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Voilà, restauré!";
+					skill "ALL_INCCARRY",gympassmemory,SKILL_PERM_GRANT;
+					close;
+				}
+				else {
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Je vois pas de quoi vous parlez.";
+					close;
+				}
+			}
+			break;
+		default:
+			clear;
+			mes "["+strnpcinfo(1)+"]";
+			mes "Vous désirez changer le genre de votre personnage, ceci vous coûtera alors 4 Votes.";
+			next;
+			if( select("Non, je veux plus.:Oui, je veux !") == 2 ) {
+				mes "["+strnpcinfo(1)+"]";
+				mes "Ok c'est partit !";
+				if( callfunc("getvote",callfunc("getuniqueid",getcharid(3))) >= 4 ) {
+					logmes "Changement de genre.";
+					callfunc("moonlight_vote",4,getcharid(3));
+					close2;
+					atcommand "@option 0 0 0";
+					atcommand "@changecharsex";
+					end;
+				}
+				else {
+					clear;
+					mes "["+strnpcinfo(1)+"]";
+					mes "Tu n'as pas assez de Votes.";
+					close;
+				}
+			}
+			else {
+				mes "["+strnpcinfo(1)+"]";
+				mes "Aucun problèmes retour au menu principal !";
+				close;
+			}
+			break;
+	}
+	close;
+
+
+function ChangeGM {
+	if( getguildmaster( getcharid(2) ) == strcharinfo(0) ) {
+		if( !agitcheck() ) {
+			mes "Très bien,donne moi le nom de ton nouveau gm.";
+			input .@name$;
+			clear;
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			if( getcharid(2,.@name$) && getcharid(2,.@name$) == getcharid(2) ) {
+				mes "Voilà ! ^1F81D4"+.@name$+"^000000 est désormais le Gm de votre guilde.";
+				guildchangegm(getcharid(2),.@name$);
+			}
+			else {
+				mes "Désolé, mais le joueur indiqué n'est pas dans la même guilde que vous.";
+				if( select("Réessayer","Partir") == 2 ) {
+					clear;
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "A le prochaine.";
+				}
+				else return true;
+			}
+		}
+		else {
+			mes "Désolé, mais la W.O.E. est en cours.";
+			mes "Vous ne pouvez pas changer de GM.";
+		}
+	}
+	else mes "Désolé, mais vous devez etre GM de votre guilde, pour avoir accès à ce menu.";
+	return false;
+}
+
+L_cartinfo:
+	emotion ET_SURPRISE;
+	dispbottom "(NPC) Kafra c'est moi qui fournit les Carts!!";
+	sleep 2500;
+	emotion ET_SURPRISE;
+	end;
+
+L_pecoinfo:
+	emotion ET_SURPRISE;
+	dispbottom "(NPC) Kafra c'est moi qui fournit les Pecos!!";
+	sleep 2500;
+	emotion ET_SURPRISE;
+	end;
+
+L_fauconinfo:
+	emotion ET_SURPRISE;
+	dispbottom "(NPC) Kafra c'est moi qui fournit les Faucons!!";
+	sleep 2500;
+	emotion ET_SURPRISE;
+	end;
+
+OnInit:
+	defpattern 1, "([^:]+):.*\\scart.*", "L_cartinfo";
+	defpattern 1, "([^:]+):.*\\speco.*", "L_pecoinfo";
+	defpattern 1, "([^:]+):.*\\sfaucon.*", "L_fauconinfo";
+	activatepset 1;
+	end;
+}
+
+alberta,44,247,5	duplicate(kafra_gon)	Kafra::kafra_alb	4_F_KAFRA2
+aldebaran,133,112,5	duplicate(kafra_gon)	Kafra::kafra_alde	4_F_KAFRA2
+amatsu,193,115,5	duplicate(kafra_gon)	Kafra::kafra_ama	4_F_KAFRA2
+geffen,113,70,5	duplicate(kafra_gon)	Kafra::kafra_gef	4_F_KAFRA2
+izlude,122,121,5	duplicate(kafra_gon)	Kafra::kafra_iz	4_F_KAFRA2
+morocc,164,101,4	duplicate(kafra_gon)	Kafra::kafra_moc	4_F_KAFRA2
+payon,180,100,7	duplicate(kafra_gon)	Kafra::kafra_pay	4_F_KAFRA2
+prontera,155,194,5	duplicate(kafra_gon)	Kafra::kafra_prt	4_F_KAFRA2
+yuno,149,129,5	duplicate(kafra_gon)	Kafra::kafra_yuno	4_F_KAFRA2

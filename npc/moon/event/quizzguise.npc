@@ -1,0 +1,323 @@
+gonryun,160,111,4	script	QuizzGuise	2_BULLETIN_BOARD,{
+	if( getgmlevel() < 80 ) {
+		mes "["+strnpcinfo(1)+"]";
+		if( .readytogo == 0 ) {
+			mes "Régle simple :";
+			mes "Dites le nom du mob dans le chat !";
+			close;
+		}
+		else {
+			mes "Pour répondre il suffit de l'écrire dans le chat ! :D";
+			mes "Il reste "+.finalcount+" transfos!";
+			close;
+		}
+	}
+
+	if( getgmlevel() >= 80 ) { // Menu GM
+		if( .quizzstate == 0 ) { // Initialisation
+			.quizzstate = 1;
+			.mod_quizz = 1;
+			.total = 0;
+			.readytogo = 0;
+			.finalcount = 0;
+			.winner$ = "";
+		}
+		mes "["+strnpcinfo(1)+"] ";
+		mes .finalcount+" transfo restantes.";
+		mes "Question et réponse actuelle : ";
+		mes "^ff0000"+.mob_id+"^000000";
+		mes "^ff0000"+.mob_name$+"^000000";
+		if( .mod_quizz == 2 ) {
+			.@case1$ = "";
+			.@case2$ = "";
+			.@case3$ = "";
+			.@case4$ = "Arrêter le QuizzGuise";
+			.@case5$ = "Arrêter et retirer le QuizzGuise";
+		}
+		else {
+			.@case1$ = "Lancer un QuizzGuise de 25 mobs";
+			.@case2$ = "Lancer un QuizzGuise de 50 mobs";
+			.@case3$ = "Lancer un QuizzGuise au nombre choisit";
+			.@case4$ = "";
+			.@case5$ = "Retirer le QuizzGuise";
+		}
+		while( 1 ) {
+			switch( select(.@case1$,.@case2$,.@case3$,.@case4$,.@case5$) ) {
+				clear;
+				case 1: { // Lancer le QuizzGuise 25
+					mes "["+strnpcinfo(1)+"] ";
+					mes "Lancer un QuizzGuise de 25 mobs ?";
+					if( select("Non:Oui") == 2 ) {
+						.finalcount = 25;
+						mes "Ce sera donc une série de "+.finalcount+" transfos!";
+						close2;
+						.mod_quizz = 2;
+						npctalk "Mode automatique activé "+.finalcount+" transfos à venir.";
+						callfunc "announce2", "Un quizz de monstres démarre en ville!",bc_all;
+						donpcevent "QuizzGuise::OnModQuizzAuto";
+						end;
+					}
+					break; // retour menu
+				}
+				case 2: { // Lancer le QuizzGuise 50
+					mes "["+strnpcinfo(1)+"] ";
+					mes "Lancer un QuizzGuise de 50 mobs ?";
+					if( select("Non:Oui") == 2 ) {
+						.finalcount = 50;
+						mes "Ce sera donc une série de "+.finalcount+" transfos!";
+						close2;
+						.mod_quizz = 2;
+						npctalk "Mode automatique activé "+.finalcount+" transfos à venir.";
+						callfunc "announce2", "Un quizz de monstres démarre en ville!",bc_all;
+						donpcevent "QuizzGuise::OnModQuizzAuto";
+						end;
+					}
+					break; // retour menu
+				}
+				case 3: { // Lancer le QuizzGuise
+					mes "["+strnpcinfo(1)+"] ";
+					mes "Choisissez entre une série allant de 0 à 250.";
+					input .finalcount,0,250;
+
+					if( .finalcount > 0) {
+						mes "Ce sera donc une série de "+.finalcount+" transfos!";
+						close2;
+						.mod_quizz = 2;
+						npctalk "Mode automatique activé "+.finalcount+" transfos à venir.";
+						callfunc "announce2", "Un quizz de monstres démarre en ville!",bc_all;
+						donpcevent "QuizzGuise::OnModQuizzAuto";
+						end;
+					}
+					break; // retour menu
+				}
+				case 4: { // Arrêter le QuizzGuise
+					npctalk "QuizzGuise interrompu ! "+.finalcount+" restantes.";
+					stopnpctimer;
+					setnpcdisplay("QuizzGuise", "QuizzGuise", 2_BULLETIN_BOARD);
+					.readytogo = 0;
+					.mod_quizz = 1;
+					.pattern1$ = "";
+					.pattern2$ = "";
+					deactivatepset 1;
+					deletepset 1;
+					break; // retour menu
+				}
+				case 5: { // Retirer le QuizzGuise
+					donpcevent "QuizzGuise::OnQuizzGuiseDisable";
+					end;
+				}
+			}
+		}
+		end;
+	}
+
+L_quizz:
+	if( .readytogo != 1 ) {
+		mes "["+strnpcinfo(1)+"]";
+		mes "QuizzGuise en pause veuillez patienter.";
+		close;
+	}
+
+	if( .readytogo < 1 ) {
+		mes "["+strnpcinfo(1)+"]";
+		mes "Plus de QuizzGuise en cours.";
+		close;
+	}
+
+	if( .total > 7 && countinarray(.winners, .@accountid) ) {
+		dispbottom "Le npc ne t'entend plus xD !!";
+		end;
+		}
+	
+	.readytogo = 0;
+	stopnpctimer;
+	deactivatepset 1;
+	deletepset 1;
+	.pattern1$ = "";
+	.pattern2$ = "";
+
+	if( .winner$ != strcharinfo(0) ) {
+		.winner$ = strcharinfo(0);
+		.total = 1;
+	} else if( .winner$ == strcharinfo(0) )
+		.total++; // Cumul de bonnnes réponses
+
+	.@accountid = getcharid(3);
+	if( !countinarray(.winners, .@accountid) ) {
+		#KAFRAPOINTS += 1;
+		dispbottom "Vous gagnez 1 point d'event.";
+		npctalk .winner$+" a trouv"+(Sex?"é":"ée")+" la bonne réponse, "+(Sex?"il":"elle")+" gagne 1pt Event et l'exp du mob en question xD!";
+		getexp getmonsterinfo(.mob_id, MOB_BASEEXP),getmonsterinfo(.mob_id, MOB_JOBEXP);
+	}
+	else  {
+		getitem 570,1;
+		npctalk .winner$+" a trouv"+(Sex?"é":"ée")+" la bonne réponse, "+(Sex?"il":"elle")+" gagne "+getitemname(570)+" pour avoir autant gagn"+(Sex?"é":"ée")+"!";
+		dispbottom "Un peu de fair play copain, laisse les autres gagner !!";
+	}
+
+	if( .total > 1 ) {
+		npctalk (Sex?"Il":"Elle")+" en est à "+.total+" réponses.";
+		specialeffect2 68;
+	}
+
+	if( (.total == 2 || .total == 4) && !countinarray(.winners, .@accountid) )
+		npctalk "Attention encore 1 bonne réponse de "+.winner$+" et c'est la grosse récompense !!";
+
+	if( .total == 5 && !countinarray(.winners, .@accountid) ) {
+		setarray .winners[getarraysize(.winners)],.@accountid;
+
+		specialeffect2 423; sleep2 500;
+		for( .@c = 0; .@c < 5; .@c++ ) {
+			specialeffect2 68;
+			sleep2 600 - (.@c * 50);
+		}
+		specialeffect2 670; sleep2 150;
+		specialeffect2 68;
+		specialeffect2 670; sleep2 125;
+		specialeffect2 68;
+		specialeffect2 670; sleep2 100;
+		specialeffect2 666;
+		specialeffect2 128;
+		specialeffect2 670; sleep2 2000;
+		specialeffect2 666;
+		specialeffect2 128;
+		specialeffect2 670; sleep2 2000;
+		specialeffect2 456; sleep2 2000;
+		specialeffect2 510;
+		specialeffect2 203;
+		specialeffect2 295;
+		getitem 13895,1; // Starter pack
+		getitem 12246,1; // Mca
+		#KAFRAPOINTS += 4;
+		dispbottom "Vous gagnez 4 points d'event.";
+		npctalk "Gros GG à "+.winner$+", "+(Sex?"il":"elle")+" gagne encore 1 "+getitemname(13895)+"!!";
+		npctalk "Ainsi que 5pts Event "+getitemname(12246)+" et 1 "+getitemname(12246)+"!!";
+	}
+	else if( .total == 3 ) {
+		if( !countinarray(.winners, .@accountid) ) {
+			specialeffect2 423; sleep2 250;
+			for( .@c = 0; .@c < 5; .@c++ ) {
+				specialeffect2 68;
+				sleep2 600 - (.@c * 50);
+			}
+			specialeffect2 666; sleep2 1000;
+			specialeffect2 456; sleep2 2000;
+			specialeffect2 510;
+			getitem 13895,1; // Starter pack
+			#KAFRAPOINTS += 2;
+			dispbottom "Vous gagnez 2 points d'event.";
+			npctalk "GG à "+.winner$+", "+(Sex?"il":"elle")+" gagne 3pts Event!! et 1 "+getitemname(13895)+" demandez lui ce qu'il y a de beau dedans !!";
+		}
+		else
+			npctalk .winner$+" gagne encore...";
+	}
+	else if( .total == 2 ) {
+		if( !countinarray(.winners, .@accountid) ) {
+			for( .@c = 0; .@c < 5; .@c++ ) {
+				specialeffect2 68;
+				sleep2 300 - (.@c * 50);
+			}
+			#KAFRAPOINTS += 1;
+			dispbottom "Vous gagnez 1 point d'event.";
+			npctalk "Deux réponses de "+.winner$+", "+(Sex?"il":"elle")+" gagne 2pt Event!!";
+		}
+		else
+			npctalk .winner$+" gagne encore...";
+	}
+	callfunc "mapannounce2", "gonryun",.winner$+": La réponse est "+.mob_name$+" !",1,0xFAB145;
+	setnpcdisplay("QuizzGuise","QuizzGuise",2_BULLETIN_BOARD);
+	.finalcount -= 1;
+	.readytogo = 3;
+	
+OnModQuizzAuto:
+	if( .finalcount < 1 ) {
+		callfunc "mapannounce2", "gonryun","QuizzGuise Terminé, félicitations aux gagnants et gagnantes !!",1,0xFAB145;
+		.mod_quizz = 1;
+		.readytogo = 0;
+		.finalcount = 0;
+		deactivatepset 1;
+		deletepset 1;
+		end;
+	}
+	
+	setarray .exclude[0], 1050,1136,1137,1182,1187,1235,1387,1889,1890,1892,1929,1948,1981,1983,1984,1985,2000,2009,2025,2032,2033,2042,2075,2076,2077,2078;//2139,2181,2185,2143,2167,2308;
+	while( 1 ) {
+		.mob_id = rand(1001,2100);
+		if( countinarray(.exclude, .mob_id) ) continue;
+		else if( getmonsterinfo(.mob_id, MOB_NAME) == "" || getmonsterinfo(.mob_id, MOB_NAME) == "null" ) continue;
+		else if( getmonsterinfo(.mob_id, MOB_BASEEXP) < 10 ) continue;
+		else if( getmobdrops(.mob_id) && $@MobDrop_rate[$@MobDrop_count] == 0 ) continue;
+		else if( .mob_id >= 1325 && .mob_id <= 1363 ) continue;
+		else break;
+	}
+	
+	.pattern1$ = "([^:]+):.*\\s"+strmobinfo(1,.mob_id);
+	.pattern2$ = "([^:]+):.*\\s"+strmobinfo(2,.mob_id);
+	
+	if( strmobinfo(1,.mob_id) == strmobinfo(2,.mob_id) )
+		.mob_name$ = strmobinfo(1,.mob_id);
+	else
+		.mob_name$ = strmobinfo(1,.mob_id)+"(English name) ou "+strmobinfo(2,.mob_id)+"(Japan name)";
+	
+	defpattern 1, .pattern1$, "L_quizz";
+	defpattern 1, .pattern2$, "L_quizz";
+	
+	if( .readytogo == 0 )
+		sleep 2000;
+	else if( .readytogo == 3 )
+		sleep 30000;
+
+OnTimer30000:
+	.readytogo = 1;
+	activatepset 1;
+	setnpcdisplay("QuizzGuise", "QuizzGuise", .mob_id);
+	stopnpctimer;
+	
+	if( .readytogo == 1 ) {
+		mapannounce "gonryun","QuizzGuise : Quel est ce mob ?",1,0xFAB145;
+		query_sql("INSERT INTO `discord` (`text`, `image`) VALUES ('QuizzGuise : Quel est ce mob ?', 'http://www.moonlight-destiny.fr/ressources/images/mobs_npcs/"+.mob_id+".gif');");
+		if( isloggedin(2000001,150000) ) dispbottom .mob_id+" -> "+strmobinfo(1,.mob_id)+" ou "+strmobinfo(2,.mob_id),0xFFA000,150000;
+		if( isloggedin(2000006,150117) ) dispbottom "Message visible par GM : "+.mob_id+" -> "+strmobinfo(1,.mob_id)+" ou "+strmobinfo(2,.mob_id),0xFFA000,150117;
+		if( isloggedin(2000010,150030) ) dispbottom "Message visible par GM : "+.mob_id+" -> "+strmobinfo(1,.mob_id)+" ou "+strmobinfo(2,.mob_id),0xFFA000,150030;
+		if( isloggedin(2002047,150818) ) dispbottom "Message visible par GM : "+.mob_id+" -> "+strmobinfo(1,.mob_id)+" ou "+strmobinfo(2,.mob_id),0xFFA000,150818;
+		if( isloggedin(2003450,150621) ) dispbottom "Message visible par GM : "+.mob_id+" -> "+strmobinfo(1,.mob_id)+" ou "+strmobinfo(2,.mob_id),0xFFA000,150621;
+		initnpctimer;
+	}
+	end;
+
+OnQuizzGuiseDisable:
+	$eventdisguise = 0;
+	stopnpctimer;
+	setnpcdisplay("QuizzGuise", "QuizzGuise", 2_BULLETIN_BOARD);
+	.total = 0;
+	.readytogo = 0;
+	.mod_quizz = 0;
+	.quizzstate = 0;
+	.finalcount = 0;
+	.winner$ = "";
+	deletearray .winners[0],getarraysize(.winners);
+	deactivatepset 1;
+	deletepset 1;
+	.pattern1$ = "";
+	.pattern2$ = "";
+	disablenpc "QuizzGuise";
+	end;
+
+OnQuizzGuiseEnable:
+	$eventdisguise = 1;
+	.total = 0;
+	.readytogo = 0;
+	.mod_quizz = 0;
+	.quizzstate = 0;
+	.finalcount = 0;
+	.winner$ = "";
+	deletearray .winners[0],getarraysize(.winners);
+	setnpcdisplay("QuizzGuise", "QuizzGuise", 2_BULLETIN_BOARD);
+	enablenpc "QuizzGuise";
+	end;
+
+OnInit:
+	sleep 250;
+	disablenpc "QuizzGuise";
+	end;
+}

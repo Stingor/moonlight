@@ -1,0 +1,118 @@
+//===== Moonlight-Destiny ==================================
+//= Skills offensif désactivés.
+//===== Par: =================================================
+//= Yaro / Moonlight-Destiny Dev Team
+//===== Version courrante: ===================================
+//= 2.0
+//===== Description: =========================================
+//= Ville : Mapflag activé dans les villes
+//===== Commentaires: ========================================
+// 1.1 - ajout de toute les villes
+// 1.2 - ajout de tout les noattackskill
+// 1.3 - ajout de + de noattackskill & ville [Frecky]
+// 1.4 - Maj, suppresion du ".gat" + ajouts [Stingor]
+// 2.0 - Mise à jour [Stingor]
+//============================================================
+
+// Main City maps
+alberta	mapflag	noattackskill
+aldebaran	mapflag	noattackskill
+amatsu	mapflag	noattackskill
+ayothaya	mapflag	noattackskill
+brasilis	mapflag	noattackskill
+comodo	mapflag	noattackskill
+einbroch	mapflag	noattackskill
+einbech	mapflag	noattackskill
+geffen	mapflag	noattackskill
+gonryun	mapflag	noattackskill
+hugel	mapflag	noattackskill
+izlude	mapflag	noattackskill
+jawaii	mapflag	noattackskill
+lighthalzen	mapflag	noattackskill
+louyang	mapflag	noattackskill
+morocc	mapflag	noattackskill
+prontera	mapflag	noattackskill
+payon	mapflag	noattackskill
+pay_arche	mapflag	noattackskill
+rachel	mapflag	noattackskill
+splendide	mapflag	noattackskill
+umbala	mapflag	noattackskill
+xmas	mapflag	noattackskill
+yuno	mapflag	noattackskill
+veins	mapflag	noattackskill
+
+
+// Indoors
+alberta_in	mapflag	noattackskill
+ama_test	mapflag	noattackskill
+izlude_in	mapflag	noattackskill
+gef_tower	mapflag	noattackskill
+geffen_in	mapflag	noattackskill
+moc_castle	mapflag	noattackskill
+morocc_in	mapflag	noattackskill
+mosk_in	mapflag	noattackskill
+payon_in01	mapflag	noattackskill
+payon_in02	mapflag	noattackskill
+payon_in03	mapflag	noattackskill
+prt_in	mapflag	noattackskill
+prt_castle	mapflag	noattackskill
+prt_church	mapflag	noattackskill
+in_orcs01	mapflag	noattackskill
+aldeba_in	mapflag	noattackskill
+monk_in	mapflag	noattackskill
+nameless_in	mapflag	noattackskill
+prt_are_in	mapflag	noattackskill
+arena_room	mapflag	noattackskill
+job_sword1	mapflag	noattackskill
+xmas_in	mapflag	noattackskill
+cmd_in01	mapflag	noattackskill
+cmd_in02	mapflag	noattackskill
+yuno_in01	mapflag	noattackskill
+yuno_in02	mapflag	noattackskill
+yuno_in03	mapflag	noattackskill
+yuno_in04	mapflag	noattackskill
+yuno_in05	mapflag	noattackskill
+alde_alche	mapflag	noattackskill
+sec_in01	mapflag	noattackskill
+ama_in01	mapflag	noattackskill
+ama_in02	mapflag	noattackskill
+gon_in	mapflag	noattackskill
+um_in	mapflag	noattackskill
+nif_in	mapflag	noattackskill
+lou_in01	mapflag	noattackskill
+lou_in02	mapflag	noattackskill
+jawaii_in	mapflag	noattackskill
+que_god01	mapflag	noattackskill
+que_god02	mapflag	noattackskill
+ayo_in01	mapflag	noattackskill
+ayo_in02	mapflag	noattackskill
+que_sign01	mapflag	noattackskill
+ein_in01	mapflag	noattackskill
+airport	mapflag	noattackskill
+airplane	mapflag	noattackskill
+airplane_01	mapflag	noattackskill
+hu_in01	mapflag	noattackskill
+y_airport	mapflag	noattackskill
+lhz_airport	mapflag	noattackskill
+lhz_in01	mapflag	noattackskill
+lhz_in02	mapflag	noattackskill
+lhz_in03	mapflag	noattackskill
+lhz_cube	mapflag	noattackskill
+hu_in01	mapflag	noattackskill
+auction_01	mapflag	noattackskill
+auction_02	mapflag	noattackskill
+ra_in01	mapflag	noattackskill
+ra_temin	mapflag	noattackskill
+que_rachel	mapflag	noattackskill
+yuno_pre	mapflag	noattackskill
+lhz_que01	mapflag	noattackskill
+que_job01	mapflag	noattackskill
+thana_step	mapflag	noattackskill
+kh_mansion	mapflag	noattackskill
+kh_rossi	mapflag	noattackskill
+kh_school	mapflag	noattackskill
+kh_vila	mapflag	noattackskill
+que_bingo	mapflag	noattackskill
+que_ng	mapflag	noattackskill
+ve_in	mapflag	noattackskill
+ve_in02	mapflag	noattackskill

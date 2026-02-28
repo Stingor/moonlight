@@ -1,0 +1,449 @@
+//===== Moonlight-Destiny ==================================
+//= Scripts pour la forge.
+//===== Par: =================================================
+//= Script de base par eAthena
+//= Modifié par Yaro / Moonlight-Destiny Dev Team
+//===== Version courrante: ===================================
+//= 2.1
+//===== Description: =========================================
+//= Permet aux joueur de refine, slot etc.
+//===== Commentaires: ========================================
+//= 1.0 Taduction du script de eAthena
+//= 1.1a Récodage,nettoyage [Stingor]
+//= 1.1b Ajout gestion Yaro Coin [Stingor]
+//= 1.1c Passage de varriable "@" à ".@" [Stingor]
+//= 1.2 Désactivation COIN [Stingor]
+//= 1.3 Ajout d'un uniquename [Stingor]
+//= 1.4 Ajout de logmes [Stingor]
+//= 1.5 Cleanup+vars [Stingor]
+//= 2.0 rAthena update & tweaks [Stingor]
+//= 2.1 Logging update [Stingor]
+//============================================================
+
+gon_in,86,13,0	script	Marcel::refine_gon	4_M_LGTMAN,{
+
+	mes "["+strnpcinfo(0)+"]";
+	mes "Je suis un Armsmith... Je peux rafiner toutes les armes ou les armures que tu veux!";
+	mes "Quelle pièce de ton équipement souhaites tu que je refine?";
+Main_Menu:
+	if( (.@equip1$ = getequipname(EQI_HEAD_TOP)) == "-1" ) .@equip1$ = "";
+	if( (.@equip2$ = getequipname(EQI_ARMOR)) == "-1" ) .@equip2$ = "";
+	if( (.@equip3$ = getequipname(EQI_HAND_L)) == "-1" ) .@equip3$ = "";
+	if( (.@equip4$ = getequipname(EQI_HAND_R)) == "-1" ) .@equip4$ = "";
+	if( (.@equip5$ = getequipname(EQI_GARMENT)) == "-1" ) .@equip5$ = "";
+	if( (.@equip6$ = getequipname(EQI_SHOES)) == "-1" ) .@equip6$ = "";
+	if( (.@equip7$ = getequipname(EQI_HEAD_MID)) == "-1" ) .@equip6$ = "";
+
+	if( .@equip1$ == "" &&
+		.@equip2$ == "" &&
+		.@equip3$ == "" &&
+		.@equip4$ == "" &&
+		.@equip5$ == "" &&
+		.@equip6$ == "" &&
+		.@equip7$ == "" ) {
+		clear;
+		mes "["+strnpcinfo(0)+"]";
+		mes "Wow.. t'es vraiement unstuff en faite...";
+		Close;
+	}
+
+	.@lastpart$ = ((getequipid(@part) > 0)?("Derniere pièce refine - "+getitemname(getequipid(@part))):"");
+
+	switch( select(.@lastpart$,.@equip1$,.@equip2$,.@equip3$,.@equip4$,.@equip5$,.@equip6$) ) {
+		case 1:
+			if( getequipisequiped(@part) ) goto L_check;
+			break;
+		case 2:
+			@part = EQI_HEAD_TOP;
+			if( getequipisequiped(EQI_HEAD_TOP) ) goto L_check;
+			clear;
+			mes "["+strnpcinfo(0)+"]";
+			mes "Est-ce que tu me demande de refine ton cerveau d'idiot !?";
+			emotion 6;
+			break;
+		case 3:
+			@part = EQI_ARMOR;
+			if( getequipisequiped(EQI_ARMOR) ) goto L_check;
+			clear;
+			mes "["+strnpcinfo(0)+"]";
+			mes "Tu me demande de fondre ton corps avec la chaleur de mon feu...!?";
+			emotion 6;
+			break;
+		case 4:
+			@part = EQI_HAND_L;
+			if( getequipisequiped(EQI_HAND_L) ) goto L_check;
+			clear;
+			mes "["+strnpcinfo(0)+"]";
+			mes "Je ne peux pas transformer ta main gauche en arme ultime...";
+			emotion 4;
+			break;
+		case 5:
+			@part = EQI_HAND_R;
+			if( getequipisequiped(EQI_HAND_R) ) goto L_check;
+			clear;
+			mes "["+strnpcinfo(0)+"]";
+			mes "Je ne peux pas transformer ta main droite en arme ultime...";
+			emotion 4;
+			break;
+		case 6:
+			@part = EQI_GARMENT;
+			if( getequipisequiped(EQI_GARMENT) ) goto L_check;
+			clear;
+			mes "["+strnpcinfo(0)+"]";
+			mes "Regarde là... Tu n'a aucune cape sur toi...";
+			break;
+		case 7:
+			@part = EQI_SHOES;
+			if( getequipisequiped(EQI_SHOES) ) goto L_check;
+			clear;
+			mes "["+strnpcinfo(0)+"]";
+			mes "Ack!! Ce sont tes pieds!. Je ne peux définitivement pas refine ca... uck!!";
+			emotion 16;
+			break;
+	}
+	goto Main_Menu;
+
+//Check if the item is refinable...
+L_check:
+	if( getequipisenableref(@part) ) {
+		if( getequiprefinerycnt(@part) < 10 ) { // item not at max refine
+			.@refineitemid = getequipid(@part); // save id of the item
+			.@refinerycnt = getequiprefinerycnt(@part); //save refinery count
+			if( getequipweaponlv(@part) > 0 ) {
+				if( getequipweaponlv(@part) > 1 ) {
+					if( getequipweaponlv(@part) > 2 ) {
+						if( getequipweaponlv(@part) > 3 ) {
+							//Refine Level 4 Weapon
+							.@material = 984;
+							.@price = 20000;
+							.@safe = 4;
+							goto L_refinemenu;
+						}
+						//Refine Level 3 Weapon
+						.@material = 984;
+						.@price = 5000;
+						.@safe = 5;
+						goto L_refinemenu;
+					}
+					//Refine Level 2 Weapon
+					.@material = 1011;
+					.@price = 200;
+					.@safe = 6;
+					goto L_refinemenu;
+				}
+				//Refine Level 1 Weapon
+				.@material = 1010;
+				.@price = 50;
+				.@safe = 7;
+				goto L_refinemenu;
+			}
+			//Refine Armor
+			.@material = 985;
+			.@price = 2000;
+			.@safe = 4;
+			goto L_refinemenu;
+		}
+		clear;
+		mes "["+strnpcinfo(0)+"]";
+		mes ""+(getequipweaponlv(@part)?"Cet arme":"Cette armure")+" a atteint le level maximum de refine. Je ne peux rien faire de plus...";
+		close;
+	}
+	clear;
+	mes "["+strnpcinfo(0)+"]";
+	mes "Je ne peux pas travailler sur cet item...";
+	close;
+
+Lrefine:
+	if( getequipisequiped(@part) == 0 ) goto LNoItem; // hacker has removed the item (not changed,why?)
+	if( getequipid(@part) != .@refineitemid || getequiprefinerycnt(@part) != .@refinerycnt ) goto LNoFake; // hacker has changed the item
+	if( getequippercentrefinery(@part) <= rand(100) ) goto Lfail;
+	mes "["+strnpcinfo(0)+"]";
+	mes "Clang! Clang! Clang!";
+	logmes "Refine Success: " + logequip(@part);
+	successrefitem @part;
+	next;
+	mes "["+strnpcinfo(0)+"]";
+	mes "HAHA!Le résultat est splendide... tout simplement splendide...";
+	emotion 21;
+	close;
+
+Lfail:
+	mes "["+strnpcinfo(0)+"]";
+	mes "Clang! Clang! Clang!";
+	logmes "Refine Fail: " + logequip(@part);
+	failedrefitem @part;
+	next;
+	mes "["+strnpcinfo(0)+"]";
+	mes "Aaahhh!! Oh non...!!";
+	emotion 16;
+	next;
+	mes "["+strnpcinfo(0)+"]";
+	mes "Eh..Ehem...Je suis desolé mais le processus de rafinage a ^ff0000failed^000000.";
+	next;
+	mes "["+strnpcinfo(0)+"]";
+	mes "Je suis désolé d'avoir échoué... Mais tu connaissais les risques !.";
+	close;
+
+LNoItem:
+	clear;
+	mes "["+strnpcinfo(0)+"]";
+	mes "Regarde... Tu n'a plus d'items...";
+	close;
+
+LNoFake:
+	clear;
+	mes "["+strnpcinfo(0)+"]";
+	mes "Clan... Non,mais tu crois que je suis stupide !?!";
+	mes "Tu l'as changé...";
+	mes "Je vais finir par t'assomer avec mon Hammer!!!";
+	close;
+
+Lcancel:
+	clear;
+	mes "["+strnpcinfo(0)+"]";
+	mes "Tu es donc.. Hmm donc il est...";
+	close;
+
+Lcancel1:
+	clear;
+	mes "["+strnpcinfo(0)+"]";
+	mes "Bon choix.";
+	mes "Ah... bon choix. Je me sentirais vraiment mal si je cassai encore une pièce d'équipement de mes mains.";
+	close;
+
+Lcancel2:
+clear;
+	mes "["+strnpcinfo(0)+"]";
+	mes "C'est tout ce que tu as? Malheureusement, je ne peux pas travailler pour ce prix. Essaye de te mettre à ma place.";
+	close;
+
+// New Refining Functions ========================
+L_refinemenu:
+	if( getequiprefinerycnt(@part) >= .@safe ) goto Lnosafe;
+	clear;
+	mes "["+strnpcinfo(0)+"]";
+	mes "Je peux refine ceci à la limite voulue ou au nombre de fois désiré... C'est ton choix...";
+	menu "La limite s'il te plait.",Lsafe,"Je décide combien de fois.",Lnosafe,"Au maximum je suis un fou...",Lnosafelol,"J'ai assez de votes pour +1 à 100% ("+(getequiprefinerycnt(@part)+6)+" votes)",L_voteref;
+
+Lsafe:
+	.@refinecnt = .@safe - getequiprefinerycnt(@part);
+	.@fullprice = .@price * .@refinecnt;
+	clear;
+	mes "["+strnpcinfo(0)+"]";
+	mes "Ca va te coûter "+.@refinecnt+" "+getitemname(.@material)+" et "+.@fullprice+" Zeny. C'est bon?";
+	menu "oui",-,"Non...",Lcancel;
+	if( countitem(.@material) < .@refinecnt || Zeny < .@fullprice ) goto Lcancel2;
+	Zeny -= .@fullprice;
+	delitem .@material,.@refinecnt;
+	goto L_refinesafe;
+
+Lnosafe:
+	clear;
+	.@safe = 0;
+	mes "["+strnpcinfo(0)+"]";
+	mes "Combien de fois veux-tu que je raffine ton item?";
+	mes "À moins que tu ai assez voté pour le serveur ("+(getequiprefinerycnt(@part)+6)+") !";
+	next;
+	menu "Choisir le nombre",-,"J'ai assez de votes ("+(getequiprefinerycnt(@part)+6)+" votes) !",L_voteref;
+	input .@refinecnt,1,10;
+	if( .@refinecnt < 1 ) goto Lcancel3; //fixed by Lupus
+	.@refinecheck = .@refinecnt + getequiprefinerycnt(@part);
+	if( .@refinecheck > 10 ) goto Lcancel3;
+	.@fullprice = .@price * .@refinecnt;
+	clear;
+	mes "["+strnpcinfo(0)+"]";
+	mes "Ca va te coûter "+.@refinecnt+" "+getitemname(.@material)+" et "+.@fullprice+" Zeny... C'est bon?";
+	menu "oui...",-,"non...",Lcancel;
+	if( .@refinecheck > .@safe ) goto Lwarn;
+	if( countitem(.@material) < .@refinecnt || Zeny < .@fullprice ) goto Lcancel2;
+	Zeny -= .@fullprice;
+	delitem .@material,.@refinecnt;
+	goto L_refinenumber;
+	end;
+
+Lnosafelol:
+	.@safe = 0;
+	.@refinecnt = 10 - getequiprefinerycnt(@part);
+	if( .@refinecnt < 1 ) goto Lcancel3; //fixed by Lupus
+	.@refinecheck = .@refinecnt + getequiprefinerycnt(@part);
+	if( .@refinecheck > 10 ) goto Lcancel3;
+	.@fullprice = .@price * .@refinecnt;
+	clear;
+	mes "["+strnpcinfo(0)+"]";
+	mes "Ca va te coûter "+.@refinecnt+" "+getitemname(.@material)+" et "+.@fullprice+" Zeny... C'est bon?";
+	menu "oui...",-,"non...",Lcancel;
+	if( .@refinecheck > .@safe ) goto Lwarn;
+	if( countitem(.@material) < .@refinecnt || Zeny < .@fullprice ) goto Lcancel2;
+	Zeny -= .@fullprice;
+	delitem .@material,.@refinecnt;
+	goto L_refinenumber;
+	end;
+
+Lwarn:
+	clear;
+	.@refinecheck -= .@safe;
+	mes "["+strnpcinfo(0)+"]";
+	mes "Je vais essayer de refine l'équipement à "+.@refinecheck+". Si la limite est dépassée, ton équipement sera peut être détruit... ok?";
+	menu "oui",-,"Non...",Lcancel1;
+	if( (countitem(.@material) < .@refinecnt) || (Zeny < .@fullprice) ) goto Lcancel2;
+	Zeny -= .@fullprice;
+	delitem .@material,.@refinecnt;
+	goto L_refinenumber;
+
+Lcancel3:
+	clear;
+	mes "["+strnpcinfo(0)+"]";
+	mes "Je ne peux pas refine cet item plus de fois.";
+	close;
+
+// SubFunction: Safe Refine ---------------------
+L_refinesafe:
+	if( getequipisequiped(@part) == 0 ) goto LNoItem; // hacker has removed the item (no changed,why?)
+	if( getequipid(@part) != .@refineitemid || getequippercentrefinery(@part) < 100) goto LNoFake; // hacker has changed the item
+	do {
+		logmes "Refine Success: " + logequip(@part);
+		successrefitem @part;
+		sleep2 200;
+		.@refinecnt--;
+	} while( .@refinecnt != 0 );
+	emotion 21;
+	mes "["+strnpcinfo(0)+"]";
+	mes "C'est fini !";
+	goto Main_Menu;
+
+L_refinenumber:
+	if( getequipisequiped(@part) == 0 ) goto LNoItem; // hacker has removed the item (no changed,why?)
+	if( getequipid(@part) != .@refineitemid ) goto LNoFake; // hacker has changed the item
+	mes "Clang,clang!!!";
+	do {
+		if( getequippercentrefinery(@part) <= rand(100) ) goto Lfail_number;
+		logmes "Refine Success: " + logequip(@part);
+		successrefitem @part;
+		sleep2 200;
+		.@refinecnt--;
+	} while( .@refinecnt != 0 );
+	emotion 21;
+	mes "["+strnpcinfo(0)+"]";
+	mes "C'est fini !";
+	goto Main_Menu;
+
+Lfail_number:
+	logmes "Refine Fail: " + logequip(@part);
+	failedrefitem @part;
+	emotion 23;
+	clear;
+	mes "["+strnpcinfo(0)+"]";
+	mes "WAHHHH!!! Je suis désolé... Je t'avais prévenu de ce qui pourrait arriver...";
+	if( .@refinecnt-- > 0 ) {
+		mes "Voici le reste inutilisé de Zeny et de matériel...";
+		getitem .@material,.@refinecnt;
+		.@fullprice = .@refinecnt * .@price;
+		Zeny += .@fullprice;
+	}
+	close;
+
+L_voteref:
+	if( callfunc("getvote",callfunc("getuniqueid",getcharid(3))) >= getequiprefinerycnt(@part)+6 ) {
+		clear;
+		mes "["+strnpcinfo(0)+"]";
+		mes "Vous allez dépenser "+(getequiprefinerycnt(@part)+6)+" votes !!!";
+		switch( select("Non","Non","Oui","Non","Quitter") ) {
+			case 3:
+				logmes "Refine Vote: " + logequip(@part);
+				callfunc("moonlight_vote",(getequiprefinerycnt(@part)+6),getcharid(3));
+				successrefitem @part;
+				break;
+			default:
+				clear;
+				mes "["+strnpcinfo(0)+"]";
+				mes "Ok ! Mieux vaut être sûr !";
+				break;
+		}
+		close;
+	}
+	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes "Vous n'avez pas assez de Votes ("+(getequiprefinerycnt(@part)+6)+").";
+	close;
+}
+
+//============================================================
+//= Equipment Repair Function
+//============================================================
+gon_in,100,20,4	script	George::repair_gon	4_M_04,{
+
+	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes "Je suis "+strnpcinfo(0)+" le réparateur et je peux reparer n'importe quel arme ou armure !";
+	next;
+	if( !getbrokenid(1) ) {
+		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes "Euh il y a rien de cassé là ...";
+		close;
+	}
+	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes "Vous désirez réparer?";
+	mes "Pour tout réparer, j'ai besoin de 10000 Zeny.";
+	mes "On continu?";
+	if( select("Oui","Non") == 2 ) {
+		clear;
+		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes "Ok, mais n'espérez pas vous servir de votre équipement...";
+		close;
+	}
+	if( Zeny < 10000 ) {
+		clear;
+		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes "C'est tout ce que vous avez ?";
+		mes "Malheuresement, j'ai des enfants à nourrir...";
+		close;
+	}
+	Zeny -= 10000;
+	repairall;
+	close;
+}
+
+//============================================================
+//= Ori/Elu Recodé [Stingor]
+//============================================================
+gon_in,88,23,6	script	Donald::orielu_gon	4_M_04,{
+	mes "["+strnpcinfo(0)+"]";
+	mes "Si vous me rapportez des Rough Oridecon, Rough Eluniums ou le materiel nécessaire pour faire des repair kit WOE SE je peux les convertir pour vous.";
+	mes "Vous pouvez m'en rapporter autant que vous voulez mais par multiple de ^0000ff5^000000 pour les Rough.";
+L_main:
+	if( countitem(756) < 5 && countitem(757) < 5 && // Rough
+		countitem(984) < 1 && countitem(985) < 1 && countitem(7049) < 30 && countitem(717) < 5 && countitem(716) < 5 && countitem(715) < 5 && // guardian stone repair kit
+		countitem(999) < 10 && countitem(1011) < 10 && countitem(1019) < 30 && countitem(984) < 5 // barricade repair kit
+		)
+		close;
+	switch( select("Repair kit WOE SE", "Faire des Oridecons","Faire des Eluniums") ) {
+		case 1:
+			if( countitem(984) >= 1 && countitem(985) >= 1 && countitem(7049) >= 30 && countitem(717) >= 5 && countitem(716) >= 5 && countitem(715) >= 5 ) {
+				delitem 984,1;
+				delitem 985,1;
+				delitem 7049,30;
+				delitem 717,5;
+				delitem 716,5;
+				delitem 715,5;
+				getitem 14288,1;
+			}
+			else if( countitem(999) >= 10 && countitem(1011) >= 10 && countitem(1019) >= 30 && countitem(984) >= 5 ) {
+				delitem 999,10;
+				delitem 1011,10;
+				delitem 1019,30;
+				delitem 984,5;
+				getitem 14287,1;
+			}
+			break;
+		case 2:
+			.@ori = countitem(756);
+			delitem 756,.@ori;
+			getitem 984,(.@ori / 5);
+			break;
+		case 3:
+			.@elu = countitem(757);
+			delitem 757,.@elu;
+			getitem 985,(.@elu / 5);
+			break;
+	}
+	goto L_main;
+	end;
+}

@@ -1,0 +1,57 @@
+pvp_n_3-1,105,75,4	script	PtitfCp::bufferfcp	20510,{
+	end;
+
+L_buff1:
+	if( countitem(7139) ) {
+		delitem 7139,1;
+		sc_start SC_CP_WEAPON,300000,5;
+		sc_start SC_CP_ARMOR,300000,5;
+		sc_start SC_CP_SHIELD,300000,5;
+		sc_start SC_CP_HELM,300000,5;
+		skilleffect 479,0;
+	}
+	else npctalk "T'as pas de bottle copain !!";
+	end;
+	
+L_buff2:
+	if( countitem(7139) ) {
+		delitem 7139,1;
+		sc_start SC_CP_WEAPON,600000,5;
+		sc_start SC_CP_ARMOR,600000,5;
+		sc_start SC_CP_SHIELD,600000,5;
+		sc_start SC_CP_HELM,600000,5;
+		skilleffect 479,0;
+	}
+	else npctalk "T'es poli mais t'as pas de bottle :( !!";
+	end;
+
+OnInit:
+OnInstanceInit:
+	defpattern 1, "([^:]+):.*\\sfcp\\s+steup", "L_buff2";
+	defpattern 1, "([^:]+):.*\\sfcp\\s+steuplai", "L_buff2";
+	defpattern 1, "([^:]+):.*\\sfcp\\s+stp", "L_buff2";
+	defpattern 1, "([^:]+):.*\\sfcp\\s+pls", "L_buff2";
+	defpattern 1, "([^:]+):.*\\sfcp\\s+plz", "L_buff2";
+	defpattern 1, "([^:]+):.*\\sfcp\\s+please", "L_buff2";
+	defpattern 1, "([^:]+):.*\\sfcp", "L_buff1";
+	activatepset 1;
+	
+	setarray .@chat$,
+	"Qui veux un FCP?",
+	"1 BOTTLE = 1 FCP !!",
+	"SALE FCP!",
+	"Vous voulez pas un petit FCP ???",
+	"ALLEZ LA DONNEZ MOI UNE GLISTENING COAT WESH?";
+	
+	while( 1 ) {
+		npctalk .@chat$[rand(0,4)];
+		if (strnpcinfo(4) == "pvp_n_3-1")
+			npcwalkto rand(103,108),rand(74,125);
+		else 
+			npcwalkto rand(186,188),rand(206,200);
+		sleep rand(15000,60000);
+	}
+	end;
+}
+
+silk_lair,186,206,4	duplicate(bufferfcp)	PtitfCp::bufferfcpbb	20510

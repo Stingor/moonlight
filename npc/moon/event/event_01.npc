@@ -1,0 +1,182 @@
+gonryun,160,110,4	script	Event::Eventnoel2020	714,{
+
+	if( #Eventmoonk2017 & 1 ) {
+		mes "[" + strnpcinfo(0) + "]";
+		mes "Tu as déjà fait la quête !!";
+		close;
+	}
+	
+	if( #Eventnoel2020 >= 5 ) {
+		mes "[" + strnpcinfo(0) + "]";
+		mes "Voilà ce que tu gagne !";
+		next;
+		mes "[" + strnpcinfo(0) + "]";
+		mes "30 <ITEM>"+getitemname(12132)+"<INFO>12132</INFO></ITEM>";
+		mes "30 <ITEM>"+getitemname(570)+"<INFO>570</INFO></ITEM>";
+		mes "30 <ITEM>"+getitemname(617)+"<INFO>617</INFO></ITEM>";
+		mes "10m de zeny";
+		mes "20 000 000 de Exp base";
+		mes "10 000 000 de Exp Job";
+		close2;
+		emotion 46;
+		getitem 12132,30;
+		getitem 570,30;
+		getitem 617,30;
+		Zeny += 10000000;
+		getexp 20000000,10000000;
+		#KAFRAPOINTS += 10;
+		dispbottom "Vous gagnez 10 points d'event.";
+		#Eventnoel2020 = 0;
+		#Eventmoonk2020 |= 1;
+		end;
+	}
+	
+	if( #Eventnoel2020 >= 3 ) {
+		if( #Eventnoel2020 == 3 ) {
+			mes "[" + strnpcinfo(0) + "]";
+			mes "M'as-tu apporté les items que je voulais ?";
+			mes "200 <ITEM>"+getitemname(529)+"<INFO>529</INFO></ITEM>";
+			mes "50 <ITEM>"+getitemname(530)+"<INFO>530</INFO></ITEM>";
+			mes "150 <ITEM>"+getitemname(539)+"<INFO>539</INFO></ITEM>";
+			mes "et les 10 <ITEM>"+getitemname(741)+"<INFO>741</INFO></ITEM>!";
+			next;
+			if( select("Non:Oui") == 1 ) callsub L_Non;
+			else if( countitem(741) < 10 || countitem(539) < 150 || countitem(529) < 200 || countitem(530) < 50 ) callsub L_NoItem;
+			#Eventnoel2020 = 4;
+			delitem 539,100;
+			delitem 529,200;
+			delitem 530,50;
+			mes "[" + strnpcinfo(0) + "]";
+			mes "Très bien, on vas pouvoir passer à la suite .";
+			next;
+		}
+		mes "[" + strnpcinfo(0) + "]";
+		mes "Une autre question !";
+		mes "Comment s'appel le monstre qui est rose et qui drop les ^ff0000Angel Wings^000000 ?";
+		next;
+L_angeling:
+		input .@angeling$;
+		if( .@angeling$ != "Angeling" && .@angeling$ != "angeling" )
+		{
+			mes "[" + strnpcinfo(0) + "]";
+			mes "Tu ne m'as pas donné le bon nom de Monstre, désire-tu réesayer ?";
+			if( select("Non:Oui") == 2 ) goto L_angeling;
+			else callsub L_Non;
+		}
+		mes "[" + strnpcinfo(0) + "]";
+		mes "Effectivement !";
+		next;
+		mes "[" + strnpcinfo(0) + "]";
+		mes "Encore une autre question !";
+		mes "Comment s'appel le monstre qui est violet et qui drop les ^ff0000Evil Wings^000000 ?";
+		next;
+L_deviling:
+		input .@deviling$;
+		if( .@deviling$ != "Deviling" && .@deviling$ != "deviling" )
+		{
+			mes "[" + strnpcinfo(0) + "]";
+			mes "Tu ne m'as pas donné le bon nom de Monstre, désire-tu réesayer ?";
+			if( select("Non:Oui") == 2 ) goto L_deviling;
+			else callsub L_Non;
+		}
+		#Eventnoel2020 = 5;
+		mes "[" + strnpcinfo(0) + "]";
+		mes "Effectivement, tu est très fort !";
+		close;
+	}
+
+	if( #Eventnoel2020 >= 2 ){
+		if( getequipid(EQI_HEAD_TOP) != 2236 ) {
+			mes "[" + strnpcinfo(0) + "]";
+			mes "Il faut porter le ^ff0000<ITEM>"+getitemname(2236)+"<INFO>2236</INFO></ITEM>^000000 pour acceder au reste de l'event !";
+			mes "Faites \"@whereis 1062\" pour trouver les Santa Porings .";
+			close;
+		}
+		mes "[" + strnpcinfo(0) + "]";
+		mes "Très bien, que tu est chou :P ... XD";
+		next;
+		mes "[" + strnpcinfo(0) + "]";
+		mes "Une autre question !";
+		mes "Comment s'appel le monstre que ressemble à ^ff0000un Père Noël^000000 ?";
+		next;
+L_antonio:
+		input .@antonio$;
+		if( .@antonio$ != "Antonio" && .@antonio$ != "antonio" )
+		{
+			mes "[" + strnpcinfo(0) + "]";
+			mes "Tu ne m'as pas donné le bon nom de Monstre, désire-tu réesayer ?";
+			if( select("Non:Oui") == 2 ) goto L_antonio;
+			else callsub L_Non;
+		}
+		#Eventnoel2020 = 3;
+		mes "[" + strnpcinfo(0) + "]";
+		mes "Effectivement, c'est bien lui !";
+		next;
+		mes "[" + strnpcinfo(0) + "]";
+		mes "Maintenant, je voudrais que tu me ramenne plein de sucreries, fuck le diabete !";
+		mes "200 <ITEM>"+getitemname(529)+"<INFO>529</INFO></ITEM>"; // candy
+		mes "50 <ITEM>"+getitemname(530)+"<INFO>530</INFO></ITEM>"; // candy cane
+		mes "150 <ITEM>"+getitemname(539)+"<INFO>539</INFO></ITEM>"; // piece of cake
+		mes "et garde les 10 <ITEM>"+getitemname(741)+"<INFO>741</INFO></ITEM>!"; // poring dolls
+		close;
+	}
+
+
+
+	if( #Eventnoel2020 >= 1 ) {
+		mes "[" + strnpcinfo(0) + "]";
+		mes "M'as-tu apporté les ^ff000010<ITEM>"+getitemname(741)+"<INFO>741</INFO></ITEM>^000000 que je voulais ?";
+		next;
+		if( select("Non:Oui") == 1 ) callsub L_Non;
+		else if( countitem(741) < 10 ) callsub L_NoItem;
+		mes "[" + strnpcinfo(0) + "]";
+		mes "Très bien on va pouvoir passer à la suite.";
+		mes " ";
+		mes "Je vais te poser une question, il va falloir que tu y réponde correctement !";
+		next;
+		mes "[" + strnpcinfo(0) + "]";	
+		mes "Quel est le nom du gros Poring qui traine dans ^ff0000Hidden Donjon LvL 1^000000 ?";
+		next;
+L_mastering:
+		input .@mastering$;
+		if( .@mastering$ != "Mastering" && .@mastering$ != "mastering" ){
+			mes "[" + strnpcinfo(0) + "]";
+			mes "Tu ne m'as pas donné le bon nom de Monstre, désire-tu réesayer ?";
+			if( select("Non:Oui") == 2 ) goto L_mastering;
+			else callsub L_Non;
+		}
+		#Eventnoel2020 = 2;
+		mes "[" + strnpcinfo(0) + "]";
+		mes "Effectivement, c'est bien lui !";
+		next;
+		mes "[" + strnpcinfo(0) + "]";
+		mes "Maintenant, je voudrais que tu me ramenne un Santa Hat !";
+		mes "Il te faudra le porter pour me parler de nouveau.";
+		close;
+	}
+
+	if( #Eventnoel2020 < 1 ) {
+		if( getequipid(EQI_HEAD_TOP) != 5035 && getpetinfo(PETINFO_ID) != 1002 ){
+			mes "[" + strnpcinfo(0) + "]";
+			mes "Il faut porter le ^ff0000<ITEM>"+getitemname(5035)+"<INFO>5035</INFO></ITEM>^000000 et avoir un ^ff0000pet poring^000000 pour acceder au reste de l'event !";
+			close;
+		}
+		else {	
+			mes "[" + strnpcinfo(0) + "]";
+			mes "Alors, à nous deux maintenant !";
+			mes "Je veux que tu me rapporte ^ff000010<ITEM>"+getitemname(741)+"<INFO>741</INFO></ITEM>^000000";
+			#Eventnoel2020 = 1;
+			close;
+		}
+	}
+
+L_Non:
+	mes "[" + strnpcinfo(0) + "]";
+	mes "Reviens quand tu veux !";
+	close;
+
+L_NoItem:
+	mes "[" + strnpcinfo(0) + "]";
+	mes "Tu n'as pas ce qu'il me faut !";
+	close;
+}

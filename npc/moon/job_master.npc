@@ -1,0 +1,711 @@
+//===== Moonlight-Destiny ==================================
+//= Script Job Changeur.
+//===== Par: =================================================
+//= Yaro / Moonlight-Destiny Dev Team
+//===== Version courrante: ===================================
+//= 2.0
+//===== Description: =========================================
+//= Permet aux joueurs de changer de job,
+//= reset stats et skills et
+//= Platinium skills.
+//===== Commentaires: ========================================
+//= 1.0 Creation [Stingor]
+//= 1.1 Ajout support pour Baby [Stingor]
+//= 1.2 Correction erreurs [Stingor]
+//= 1.3a Ajout support Taekwon Rank dans reset skill [Stingor]
+//= 1.3b Passage de var "@jobmini" à ".@jobmini" [Stingor]
+//= 1.3c Correction bug avec Baby_Bard & Baby_Dancer [Stingor]
+//= 1.5 Sauvegarde du job avant rebirth. [Stingor]
+//= 1.6 Ajout couleurs [Kamitsu]
+//= 1.7 Ajout d'un uniquename [Stingor]
+//= 1.8 Cleanup+vars .@ [Stingor]
+//= 2.0 rAthena update & tweaks [Stingor]
+//============================================================
+gonryun,163,122,4	script	Job Master::jobmaster	4W_F_01,{
+	if( #BlockMoonNpc & 1 ) {
+		dispbottom "Vous bloquez le npc avec @npcblock 1 !";
+		end;
+	}
+
+	.@jobmini = 40;
+	.@baseminsupnono = 45;
+	.@skillcost = 5000;
+	.@statcost = 5000;
+
+	if( BaseJob == Job_Rogue )
+		.@stalk$ = "Copie de skills";
+	else
+		.@stalk$ = "";
+
+	if( BaseLevel == 999 )
+		.@allskill$ = "Débloquer Allskills";
+
+	if(    Class > Job_Crusader2 && Class < Job_Novice_High
+		|| Class > Job_Thief_High && Class < Job_Baby
+		|| Class > Job_Baby_Thief && Class < Job_Taekwon
+		|| Class > Job_Baby_Taekwon
+		|| class >= Job_Rune_Knight && class <= Job_Mechanic )
+		.@job$ = "";
+	else
+		.@job$ = "Changer de Job";
+
+	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes "Bonjour,";
+	mes "je suis le Npc qui permet de changer de job,";
+	mes "d'avoir une partie des skills spéciaux des classes nommé couramment platinium skills ainsi que reset les stats,les skills ou bien les deux.";
+	mes "Je permet aussi aux stalker de copier un skill permit les plus utilisés.";
+	switch( select(.@job$,"Skills spéciaux","Reset les Skills et/ou Stats",.@stalk$,.@allskill$,"Quitter") ) {
+		clear;
+		case 1: {
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes "Bonjour,je suis le Npc pour changer de Job.";
+			next;
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes "Veuillez choisir la classe qui vous intéresse :";
+			if( Class == Job_Novice ) {
+				if( JobLevel != 10 ) {
+					next;
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Tu n'as pas assez de Job Level.";
+					mes "Il faut que tu soit Level 10 en Job";
+					mes "A moins que ne veuille devenir Baby Novice ?";
+					if( select("Non","Oui! je veux devenir Baby !") ) {
+						callsub Job,Job_Baby;
+					}
+					close;
+				}
+
+				if( SkillPoint ) {
+					next;
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Tu n'as pas placé tous tes point de Skill !";
+					mes "Tu doit placer tes points de Skill,il ne doit en rester aucuns !";
+					close;
+				}
+
+				switch( select("Swordman:Mage:Archer:Acolyte:Merchant:Thief:Super Novice:Gunslinger:Ninja:Taekwon:Quitter") ) {
+					case 1: callsub Job,Job_Swordman; break;
+					case 2: callsub Job,Job_Mage; break;
+					case 3: callsub Job,Job_Archer; break;
+					case 4: callsub Job,Job_Acolyte; break;
+					case 5: callsub Job,Job_Merchant; break;
+					case 6: callsub Job,Job_Thief; break;
+					case 7: callsub Job,Job_SuperNovice; break;
+					case 8: callsub Job,Job_Gunslinger; break;
+					case 9: callsub Job,Job_Ninja; break;
+					case 10: callsub Job,Job_Taekwon; break;
+					default:
+						break;
+				}
+				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes "À bientôt !";
+				close;
+			}
+			if( (Class > Job_Novice && Class < Job_Knight) || Class == Job_Taekwon ) {
+				if( JobLevel < .@jobmini ) {
+					next;
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Tu n'as pas assez de Job Level.";
+					mes "Il faut que tu soit au moins Level "+.@jobmini+" en Job";
+					close;
+				}
+
+				if( SkillPoint ) {
+					next;
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Tu n'as pas placé tous tes point de Skill !";
+					mes "Tu doit placer tes points de Skill,il ne doit en rester aucuns !";
+					close;
+				}
+
+				switch( Class ) {
+					case Job_Swordman:
+						if( select("Knight:Crusader") == 1 ) callsub Job,Job_Knight;
+						else callsub Job,Job_Crusader;
+						break;
+					case Job_Mage:
+						if( select("Wizard:Sage") == 1 ) callsub Job,Job_Wizard;
+						else callsub Job,Job_Sage;
+						break;
+					case Job_Archer:
+						if( Sex ) {
+							if( select("Hunter:Bard") == 1 ) callsub Job,Job_Hunter;
+							else callsub Job,Job_Bard;
+							break;
+						}
+						else {
+							if( select("Hunter:Dancer") == 1 ) callsub Job,Job_Hunter;
+							else callsub Job,Job_Dancer;
+							break;
+						}
+					case Job_Acolyte:
+						if( select("Priest:Monk") == 1 ) callsub Job,Job_Priest;
+						else callsub Job,Job_Monk;
+						break;
+					case Job_Merchant:
+						if( select("Blacksmith:Alchemist") == 1 ) callsub Job,Job_Blacksmith;
+						else callsub Job,Job_Alchemist;
+						break;
+					case Job_Thief:
+						if( select("Assassin:Rogue") == 1 ) callsub Job,Job_Assassin;
+						else callsub Job,Job_Rogue;
+						break;
+					case Job_Taekwon:
+						if( select("Star Gladiator:Soul Linker") == 1 ) callsub Job,Job_Star_Gladiator;
+						else callsub Job,Job_Soul_Linker;
+						break;
+					default:
+						break;
+				}
+				next;
+				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes "À bientôt !";
+				close;
+			}
+			if( Class > Job_Thief && Class < Job_Wedding ) {
+				next;
+				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes "Tu désire surement renaître,sache qu'il te faut le ^ff0000level 99/50^000000.";
+				next;
+				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes "Désire-tu renaître ?";
+
+				if( select("Non:Oui") == 1 ) {
+					clear;
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Tu as raison mieux vaut réfléchir avant de prendre une telle décision !";
+					close;
+				}
+
+				if( JobLevel < 50 || BaseLevel < 99 ) {
+					next;
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Désolé,mais tu ne satisfait pas les conditions que j'ai cité avant...";
+					close;
+				}
+
+				next;
+				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes "Très bien !";
+				mes "Procédons à ta renaissance !";
+				jobchange Job_Novice_High;
+				resetlvl(1);
+				close;
+			}
+			if( Class == Job_Novice_High ) {
+				next;
+				if( JobLevel != 10 ) {
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Tu n'as pas assez de Job Level.";
+					mes "Il faut que tu soit Level 10 en Job";
+					close;
+				}
+
+				if( SkillPoint ) {
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Tu n'as pas placé tous tes point de Skill !";
+					mes "Tu doit placer tes points de Skill,il ne doit en rester aucuns !";
+					close;
+				}
+
+				callsub Job,(Last_Job+Job_Novice_High);
+				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes "À bientôt !";
+				close;
+			}
+			if( Class > Job_Novice_High && Class < Job_Lord_Knight ) {
+				next;
+				if( JobLevel < 50 ) {
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Tu n'as pas assez de Job Level.";
+					mes "Il te faut avoir 50 Level en Job";
+					close;
+				}
+
+				if( SkillPoint ) {
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Tu n'as pas placé tous tes point de Skill !";
+					mes "Tu doit placer tes points de Skill,il ne doit en rester aucuns !";
+					close;
+				}
+
+				callsub Job,(Last_Job2+Job_Novice_High);
+				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes "À bientôt !";
+				close;
+			}
+			if( Class == Job_Baby ) {
+				if( JobLevel != 10 ) {
+					next;
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Tu n'as pas assez de Job Level.";
+					mes "Il faut que tu soit Level 10 en Job";
+					close;
+				}
+
+				if( SkillPoint ) {
+					next;
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Tu n'as pas placé tous tes point de Skill !";
+					mes "Tu doit placer tes points de Skill,il ne doit en rester aucuns !";
+					close;
+				}
+
+				switch( select("Baby Swordman:Baby Mage:Baby Archer:Baby Acolyte:Baby Merchant:Baby Thief:Super Baby:Baby Taekwon:Baby Gunslinger:Baby Ninja:Quitter") ) {
+					case 1: callsub Job,Job_Baby_Swordman; break;
+					case 2: callsub Job,Job_Baby_Mage; break;
+					case 3: callsub Job,Job_Baby_Archer; break;
+					case 4: callsub Job,Job_Baby_Acolyte; break;
+					case 5: callsub Job,Job_Baby_Merchant; break;
+					case 6: callsub Job,Job_Baby_Thief; break;
+					case 7: callsub Job,Job_Super_Baby; break;
+					case 8: callsub Job,Job_Baby_Taekwon; break;
+					case 9: callsub Job,Job_Baby_Gunslinger; break;
+					case 10: callsub Job,Job_Baby_Ninja; break;
+
+				default:
+					break;
+				}
+				next;
+				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes "À bientôt !";
+				close;
+			}
+			if( Class > Job_Baby && Class < Job_Baby_Knight || Class == Job_Baby_Taekwon ) {
+				if( JobLevel < 52 && Class == Job_Baby_Thief ) {
+					next;
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Tu n'as pas assez de Job Level.";
+					mes "Il te faut avoir 52 Level en Job";
+					close;
+				}
+				else if( JobLevel < 60 && Class != Job_Baby_Thief ) {
+					next;
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Tu n'as pas assez de Job Level.";
+					mes "Il te faut avoir 60 Level en Job";
+					close;
+				}
+
+				if( SkillPoint ) {
+					next;
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Tu n'as pas placé tous tes point de Skill !";
+					mes "Tu doit placer tes points de Skill,il ne doit en rester aucuns !";
+					close;
+				}
+
+				switch( Class ) {
+					case Job_Baby_Swordman:
+						if( select("Baby Knight:Baby Crusader") == 1 ) callsub Job,Job_Baby_Knight;
+						else callsub Job,Job_Baby_Crusader;
+						break;
+					case Job_Baby_Mage:
+						if( select("Baby Wizard:Baby Sage") == 1 ) callsub Job,Job_Baby_Wizard;
+						else callsub Job,Job_Baby_Sage;
+						break;
+					case Job_Baby_Archer:
+						if( Sex ) {
+							if( select("Baby Hunter:Baby Bard") == 1 ) callsub Job,Job_Baby_Hunter;
+							else callsub Job,Job_Baby_Bard;
+							break;
+						}
+						else {
+							if( select("Baby Hunter:Baby Dancer") == 1 ) callsub Job,Job_Baby_Hunter;
+							else callsub Job,Job_Baby_Dancer;
+							break;
+						}
+					case Job_Baby_Acolyte:
+						if( select("Baby Priest:Baby Monk") == 1 ) callsub Job,Job_Baby_Priest;
+						else callsub Job,Job_Baby_Monk;
+						break;
+					case Job_Baby_Merchant:
+						if( select("Baby Blacksmith:Baby Alchemist") == 1 ) callsub Job,Job_Baby_Blacksmith;
+						else callsub Job,Job_Baby_Alchemist;
+						break;
+					case Job_Baby_Thief:
+						if( select("Baby Assassin:Baby Rogue") == 1 ) callsub Job,Job_Baby_Assassin;
+						else callsub Job,Job_Baby_Rogue;
+						break;
+					case Job_Baby_Taekwon:
+						if( JobLevel < 80 ) {
+							next;
+							mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+							mes "Tu n'as pas assez de Job Level.";
+							mes "Il te faut avoir 80 Level en Job";
+							close;
+						}
+						if( select("Baby Star Gladiator:Baby Soul Linker") == 1 ) callsub Job,Job_Baby_Star_Gladiator;
+						else callsub Job,Job_Baby_Soul_Linker;
+						break;
+					default:
+						break;
+				}
+				next;
+				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes "À bientôt !";
+				close;
+			}
+			next;
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes "Je ne plus rien pour toi !";
+			close;
+		}
+		case 2: {
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes "Je vais maintenant vous donnez les skills spéciaux de votre classe.";
+			next;
+			skill "NV_FIRSTAID",1,SKILL_PERM;
+			switch (BaseClass) {
+				case Job_Novice:
+					if (Class != Job_Super_Novice)
+						skill "NV_TRICKDEAD",1,SKILL_PERM;
+					break;
+				case Job_Swordman:
+					skill "SM_MOVINGRECOVERY",1,SKILL_PERM;
+					skill "SM_FATALBLOW",1,SKILL_PERM;
+					skill "SM_AUTOBERSERK",1,SKILL_PERM;
+					break;
+				case Job_Mage:
+					skill "MG_ENERGYCOAT",1,SKILL_PERM;
+					break;
+				case Job_Archer:
+					skill "AC_MAKINGARROW",1,SKILL_PERM;
+					skill "AC_CHARGEARROW",1,SKILL_PERM;
+					break;
+				case Job_Acolyte:
+					skill "AL_HOLYLIGHT",1,SKILL_PERM;
+					break;
+				case Job_Merchant:
+					skill "MC_CARTREVOLUTION",1,SKILL_PERM;
+					skill "MC_CHANGECART",1,SKILL_PERM;
+					skill "MC_LOUD",1,SKILL_PERM;
+					skill "MC_CARTDECORATE",1,SKILL_PERM;
+					break;
+				case Job_Thief:
+					skill "TF_SPRINKLESAND",1,SKILL_PERM;
+					skill "TF_BACKSLIDING",1,SKILL_PERM;
+					skill "TF_PICKSTONE",1,SKILL_PERM;
+					skill "TF_THROWSTONE",1,SKILL_PERM;
+					break;
+				default:
+					break;
+			}
+			switch (BaseJob) {
+				case Job_Knight:
+					skill "KN_CHARGEATK",1,SKILL_PERM;
+					break;
+				case Job_Priest:
+					skill "PR_REDEMPTIO",1,SKILL_PERM;
+					break;
+				case Job_Wizard:
+					skill "WZ_SIGHTBLASTER",1,SKILL_PERM;
+					break;
+				case Job_Blacksmith:
+					skill "BS_UNFAIRLYTRICK",1,SKILL_PERM;
+					skill "BS_GREED",1,SKILL_PERM;
+					break;
+				case Job_Hunter:
+					skill "HT_PHANTASMIC",1,SKILL_PERM;
+					break;
+				case Job_Assassin:
+					skill "AS_SONICACCEL",1,SKILL_PERM;
+					skill "AS_VENOMKNIFE",1,SKILL_PERM;
+					break;
+				case Job_Crusader:
+					skill "CR_SHRINK",1,SKILL_PERM;
+					break;
+				case Job_Monk:
+					skill "MO_KITRANSLATION",1,SKILL_PERM;
+					skill "MO_BALKYOUNG",1,SKILL_PERM;
+					break;
+				case Job_Sage:
+					skill "SA_CREATECON",1,SKILL_PERM;
+					skill "SA_ELEMENTWATER",1,SKILL_PERM;
+					skill "SA_ELEMENTGROUND",1,SKILL_PERM;
+					skill "SA_ELEMENTFIRE",1,SKILL_PERM;
+					skill "SA_ELEMENTWIND",1,SKILL_PERM;
+					break;
+				case Job_Rogue:
+					skill "RG_CLOSECONFINE",1,SKILL_PERM;
+					break;
+				case Job_Alchemist:
+					skill "AM_BIOETHICS",1,SKILL_PERM;
+					break;
+				case Job_Bard:
+					skill "BA_PANGVOICE",1,SKILL_PERM;
+					break;
+				case Job_Dancer:
+					skill "DC_WINKCHARM",1,SKILL_PERM;
+					break;
+				default:
+					break;
+			}
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes "C'est chose faite.";
+			mes "Bonne journée.";
+			close;
+		}
+		case 3: {
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes "Vous êtes dans le menu pour reset vos Stats,vos Skills ou bien les deux.";
+			mes "Reset Skills: "+.@skillcost+"z";
+			mes "Reset Stats: "+.@statcost+"z";
+			mes "Reset des deux: "+(.@skillcost+.@statcost)+"z";
+			next;
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes "S'il vous plaît selectionnez ce que vous désirez :";
+			switch( select("Reset Skills:Reset Stats:Reset des deux:Quitter") ) {
+				clear;
+				case 1: {
+					if( Zeny < .@skillcost ) {
+						mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+						mes "Désolée,mais vous n'avez pas assez d'argent pour reset.";
+						close;
+					}
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Très bien,c'est fait !";
+					mes "Bon jeu !";
+					Zeny -= .@skillcost;
+					ResetSkill;
+					close;
+				}
+				case 2: {
+					if( Zeny < .@statcost ) {
+						mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+						mes "Désolée,mais vous n'avez pas assez d'argent pour reset.";
+						close;
+					}
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Très bien,c'est fait !";
+					mes "Bon jeu !";
+					Zeny -= .@statcost;
+					ResetStatus;
+					close;
+				}
+				case 3: {
+					if( Zeny < (.@skillcost+.@statcost) ) {
+						mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+						mes "Désolée,mais vous n'avez pas assez d'argent pour reset.";
+						close;
+					}
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Très bien,c'est fait !";
+					mes "Bon jeu !";
+					Zeny -= (.@skillcost + .@statcost);
+					ResetSkill;
+					ResetStatus;
+					close;
+				}
+				default:
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Bonne journée.";
+					close;
+			}
+		}
+		case 4: {
+			if( agitcheck() ) {
+				clear;
+				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes "Désolé mais la copie de skill est limitée durant les plages de woe.";
+				mes "Vous ne pouvez récupérer que le skill précédemment copié avec le npc.";
+				next;
+				callsub L_LastSkillcloned;
+			}
+			if( LastSkillcloned > 0 && LastSkillclonedlv > 0 )
+				@lastskill$ = "Dernier skill copié...";
+			else
+				@lastskill$ = "";
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes "Sélectionnez le skill à copier:";
+			switch( select(@lastskill$, "Acolyte","Hunter","Mage","Merchant","Swordman","Thief","Ninja","Taekwon") ) {
+				case 1:
+					callsub L_LastSkillcloned;
+					break;
+				case 2:
+					switch( select("Heal","Magnus Exorcismus","Turn Undead","Ruwach") ) {
+						case 1: .@skillname$ = "Heal"; .@skillid = 28; .@skilllevel = 10; break;
+						case 2: .@skillname$ = "Magnus Exorcismus"; .@skillid = 79; .@skilllevel = 10; break;
+						case 3: .@skillname$ = "Turn Undead"; .@skillid = 77; .@skilllevel = 5; break;
+						case 4: .@skillname$ = "Ruwach"; .@skillid = 24; .@skilllevel = 1; break;
+						default:
+							break;
+					}
+					break;
+				case 3:
+					switch( select("Double Strafe","Focused Arrow Strike") ) {
+						case 1: .@skillname$ = "Double Strafe"; .@skillid = 46; .@skilllevel = 10; break;
+						case 2: .@skillname$ = "Focused Arrow Strike"; .@skillid = 382; .@skilllevel = 5; break;
+						default:
+							break;
+					}
+					break;
+				case 4:
+					switch( select("Cold Bolt","Fire Bolt","Heaven's Drive","Soul Strike","Jupitel Thunder","Meteor Storm","Lightning Bolt","Lord of Vermilion","Storm Gust","Thunderstorm") ) {
+						case 1: .@skillname$ = "Cold Bolt"; .@skillid = 14; .@skilllevel = 10; break;
+						case 2: .@skillname$ = "Fire Bolt"; .@skillid = 19; .@skilllevel = 10; break;
+						case 3: .@skillname$ = "Heaven's Drive"; .@skillid = 91; .@skilllevel = 5; break;
+						case 4: .@skillname$ = "Soul Strike"; .@skillid = 13; .@skilllevel = 10; break;
+						case 5: .@skillname$ = "Jupitel Thunder"; .@skillid = 84; .@skilllevel = 10; break;
+						case 6: .@skillname$ = "Meteor Storm"; .@skillid = 83; .@skilllevel = 10; break;
+						case 7: .@skillname$ = "Lightning Bolt"; .@skillid = 20; .@skilllevel = 10; break;
+						case 8: .@skillname$ = "Lord of Vermilion"; .@skillid = 85; .@skilllevel = 10; break;
+						case 9: .@skillname$ = "Storm Gust"; .@skillid = 89; .@skilllevel = 10; break;
+						case 10: .@skillname$ = "Thunderstorm"; .@skillid = 21; .@skilllevel = 10; break;
+						default:
+							break;
+					}
+					break;
+				case 5:
+					switch( select("Acid Demonstration","Acid Terror","Bomb") ) {
+						case 1: .@skillname$ = "Acid Demonstration"; .@skillid = 490; .@skilllevel = 10; break;
+						case 2: .@skillname$ = "Acid Terror"; .@skillid = 230; .@skilllevel = 5; break;
+						case 3: .@skillname$ = "Bomb"; .@skillid = 229; .@skilllevel = 5; break;
+						default:
+							break;
+					}
+					break;
+				case 6:
+					switch( select("Bowling Bash","Grand Cross","Martyr's Reckoning","Pressure","Shield Chain") ) {
+						case 1: .@skillname$ = "Bowling Bash"; .@skillid = 62; .@skilllevel = 10; break;
+						case 2: .@skillname$ = "Grand Cross"; .@skillid = 254; .@skilllevel = 10; break;
+						case 3: .@skillname$ = "Martyr's Reckoning"; .@skillid = 368; .@skilllevel = 5; break;
+						case 4: .@skillname$ = "Pressure"; .@skillid = 367; .@skilllevel = 5; break;
+						case 5: .@skillname$ = "Shield Chain"; .@skillid = 480; .@skilllevel = 5; break;
+						default:
+							break;
+					}
+					break;
+				case 7:
+					switch( select(	"Soul Destroyer","Meteor Assault") ) {
+						case 1: .@skillname$ = "Soul Destroyer"; .@skillid = 379; .@skilllevel = 10; break;
+						case 2: .@skillname$ = "Meteor Assault"; .@skillid = 406; .@skilllevel = 10; break;
+						default:
+							break;
+					}
+					break;
+				case 8:
+					switch( select(	"Flaming Petals","Blaze Shield","Exploding Dragon","Freezing Spear","Snow Flake Draft","Wind Blade","Lightning Jolt") ) {
+						case 1: .@skillname$ = "Flaming Petals"; .@skillid = 534; .@skilllevel = 10; break;
+						case 2: .@skillname$ = "Blaze Shield"; .@skillid = 535; .@skilllevel = 10; break;
+						case 3: .@skillname$ = "Exploding Dragon"; .@skillid = 536; .@skilllevel = 5; break;
+						case 4: .@skillname$ = "Freezing Spear"; .@skillid = 537; .@skilllevel = 10; break;
+						case 5: .@skillname$ = "Snow Flake Draft"; .@skillid = 539; .@skilllevel = 5; break;
+						case 6: .@skillname$ = "Wind Blade"; .@skillid = 540; .@skilllevel = 10; break;
+						case 7: .@skillname$ = "Lightning Jolt"; .@skillid = 541; .@skilllevel = 5; break;
+						default:
+							break;
+					}
+					break;
+				case 9:
+					switch( select(	"Flying Kick") ) {
+						case 1: .@skillname$ = "Flying Kick"; .@skillid = 421; .@skilllevel = 7; break;
+						default:
+							break;
+					}
+					break;
+				default:
+					break;
+			}
+
+			if( getskilllv(.@skillid) ) {
+				next;
+				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes "Vous avez déjà ce skill.";
+				close;
+			}
+
+			if( !getskilllv(225) ) {
+				next;
+				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes "Vous n'êtes pas un vrai Stalker O_O (pas de plagiarism).";
+				close;
+			}
+
+			next;
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes "Etes-vous sur de vouloir copier "+.@skillname$+"?";
+			if( select ("Oui","Non") == 2 )
+				close;
+			LastSkillcloned = .@skillid;
+			LastSkillclonedlv = .@skilllevel;
+			LastSkillclonedname$ = .@skillname$;
+L_LastSkillcloned:
+			next;
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes "Vous possédez maintenant :";
+			mes LastSkillclonedname$+" Lv"+LastSkillclonedlv;
+			addcloneskill(LastSkillcloned, LastSkillclonedlv);
+			close;
+		}
+		case 5:
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes "Bienvenue dans l'élite.";
+			if( BaseLevel == 999 )
+				atcommand "@allskill";
+			close;
+		default:
+			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes "Bonne journée.";
+			close;
+	}
+
+Job:
+	clear;
+	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes "Tu viens de choisir la classe ^ff0000"+jobname(getarg(0))+"^000000.";
+	next;
+
+	if( BaseLevel < .@baseminsupnono && (getarg(0) == Job_SuperNovice || getarg(0) == Job_Super_Baby) ) {
+		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes "Je suis désolé mais ton niveau est insuffisant...";
+		mes "Tu dois être au moin level "+.@baseminsupnono+" !";
+		close;
+	}
+
+	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes "Tu est vraiment sûr de vouloir devenir ^ff0000"+jobname(getarg(0))+"^000000 ?";
+
+	if( select("Oui:Non") == 1 ) {
+		setoption 3,0;
+		sleep2 10;
+		if( getarg(0) > Job_Novice && getarg(0) < Job_Knight ) Last_Job = getarg(0);
+		if( getarg(0) > Job_Thief && getarg(0) < Job_Crusader2 ) Last_Job2 = getarg(0);
+		jobchange getarg(0);
+		clear;
+		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes "Te voilà ^ff0000"+jobname(getarg(0))+"^000000 à présent !";
+		close;
+	}
+
+	clear;
+	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes "Très bien, je te laisse réfléchir alors !";
+	close;
+
+L_jobinfo:
+	emotion ET_SURPRISE;
+	dispbottom "(NPC) Job Master c'est moi le job master ! (Près du brasero)";
+	sleep 2500;
+	emotion ET_SURPRISE;
+	end;
+
+L_resetinfo:
+	emotion ET_SURPRISE;
+	dispbottom "(NPC) Job Master c'est moi qui reset les stats et les skills ! (Près du brasero)";
+	sleep 2500;
+	emotion ET_SURPRISE;
+	end;
+
+OnInit:
+	if( strnpcinfo(3) == "jobmaster" ) {
+		defpattern 1, "([^:]+):.*\\sjob.*", "L_jobinfo";
+		defpattern 1, "([^:]+):.*\\sreset.*", "L_resetinfo";
+		defpattern 1, "([^:]+):.*\\sreset stat.*", "L_resetinfo";
+		defpattern 1, "([^:]+):.*\\sreset skill.*", "L_resetinfo";
+		activatepset 1;
+	}
+	end;
+}
+
+prontera,148,179,5	duplicate(jobmaster)	Job Master::jobmaster_pront	4W_F_01

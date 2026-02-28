@@ -1,0 +1,89 @@
+nif_in,28,100,4	script	Gars cool::q_230	567,{
+
+	setarray .@item1[0], 30000000, 31118, 1, 5398, 300, 25276;
+	setarray .@item2[0], 30000000, 31332, 100, 1004, 300, 7069, 5, 2221, 300, 7319;
+	setarray .@item3[0], 40000000, 31561, 50, 978, 1000, 1055, 10, 2286, 1000, 955;
+	setarray .@item4[0], 35000000, 31057, 500, 916, 500, 7345, 500, 7205;
+	setarray .@item5[0], 50000000, 20798, 5, 5304, 50, 979, 500, 7268, 50, 981;
+	setarray .@item6[0], 50000000, 31088, 50, 983, 30, 976, 300, 7207, 500, 938, 500, 7167;
+	setarray .@item7[0], 50000000, 31179, 250, 6252, 500, 6020, 1, 5498, 500, 7568;
+
+	mes "["+strnpcinfo(1)+"]";
+	mes "Hey toi jeune personne ! Tu veux être cool comme moi ?";
+	mes "Regarde ces trucs trop cool:";
+	switch( select(getitemname(.@item1[1])
+				   ,getitemname(.@item2[1])
+				   ,getitemname(.@item3[1])
+				   ,getitemname(.@item4[1])
+				   ,getitemname(.@item5[1])
+				   ,getitemname(.@item6[1])
+				   ,getitemname(.@item7[1])
+				   ) ) {
+		clear;
+		case 1: copyarray .@item[0],.@item1[0],getarraysize(.@item1); break;
+		case 2: copyarray .@item[0],.@item2[0],getarraysize(.@item2); break;
+		case 3: copyarray .@item[0],.@item3[0],getarraysize(.@item3); break;
+		case 4: copyarray .@item[0],.@item4[0],getarraysize(.@item4); break;
+		case 5: copyarray .@item[0],.@item5[0],getarraysize(.@item5); break;
+		case 6: copyarray .@item[0],.@item6[0],getarraysize(.@item6); break;
+		case 7: copyarray .@item[0],.@item7[0],getarraysize(.@item7); break;
+		default:
+			mes "["+strnpcinfo(1)+"]";
+			mes "Je bug Oo";
+			close;
+	}
+	mes "["+strnpcinfo(1)+"]";
+	mes "Tu veux donc ceci ?";
+	mes "^ff0000<ITEM>"+getitemname(.@item[1])+"<INFO>"+.@item[1]+"</INFO></ITEM>^000000";
+	next;
+	mes "["+strnpcinfo(1)+"]";
+	mes "Voici ce que tu dois m'apporter:";
+	mes ""+.@item[0]+"z";
+	for( .@i = 2; .@i < getarraysize(.@item); .@i += 2 )
+		mes .@item[.@i]+" <ITEM>"+getitemname(.@item[.@i+1])+"<INFO>"+.@item[.@i+1]+"</INFO></ITEM>";
+	next;
+	mes "["+strnpcinfo(1)+"]";
+	mes "Alors ?";
+	switch( select("C'est moche!", "J'ai les items !", "J'ai envie d'un kebab") ) {
+		clear;
+		case 1:
+			mes "["+strnpcinfo(1)+"]";
+			mes "OKAY !";
+			close;
+		case 2:
+			.@lackofitem = 0;
+			for( .@i = 2; .@i < getarraysize(.@item); .@i += 2 ) {
+				if( countitem(.@item[.@i+1]) < .@item[.@i] ) {
+					if( .@lackofitem == 0 ) {
+						mes "["+strnpcinfo(1)+"]";
+						mes "Il manque au moins :";
+					}
+					mes ""+(.@item[.@i]-countitem(.@item[.@i+1]))+"/"+.@item[.@i]+" <ITEM>"+getitemname(.@item[.@i+1])+"<INFO>"+.@item[.@i+1]+"</INFO></ITEM>.";
+					.@lackofitem = 1;
+				}
+			}
+			if( .@lackofitem == 1 ) close;
+			if( Zeny >= .@item[0] )
+				Zeny -= .@item[0];
+			else {
+				mes "["+strnpcinfo(1)+"]";
+				mes "Tu n'as pas assez d'argent.";
+				mes "Il manque "+(.@item[0]-Zeny)+"z ...";
+				close;
+			}
+			for( .@i = 2; .@i < getarraysize(.@item); .@i += 2 )
+				delitem .@item[.@i+1], .@item[.@i];
+			getitem .@item[1],1;
+			logmes "Obtention de "+getitemname(.@item[1]);
+			query_sql("UPDATE `questhat_db` SET stat = stat + 1 WHERE `id_hat` = '" + .@item[1] + "'");
+			emotion 46;
+			mes "["+strnpcinfo(1)+"]";
+			mes "Voila, merci !";
+			close;
+		default:
+			mes "["+strnpcinfo(1)+"]";
+			mes "Okay, à la prochaine !";
+			close;
+	}
+	end;
+}
