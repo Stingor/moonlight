@@ -1775,7 +1775,7 @@ void pc_reg_received(struct map_session_data *sd)
 
 	// Cash shop
 	// sd->cashPoints = static_cast<int>(pc_readaccountreg(sd, add_str(CASHPOINT_VAR)));
-	if( Sql_Query( mmysql_handle, "SELECT `vote`.`vote` FROM `rathena`.`vote` WHERE `vote`.`user_id` = '%d' LIMIT 1;", sd->status.user_id ) == SQL_SUCCESS ) {
+	if( Sql_Query( mmysql_handle, "SELECT `vote`.`vote` FROM `vote` WHERE `vote`.`user_id` = '%d' LIMIT 1;", sd->status.user_id ) == SQL_SUCCESS ) {
 		char* data;
 		if( SQL_SUCCESS == Sql_NextRow(mmysql_handle) &&
 			SQL_SUCCESS == Sql_GetData(mmysql_handle, 0, &data, NULL) ) {
@@ -4930,7 +4930,7 @@ int pc_paycash(struct map_session_data *sd, int price, int points, e_log_pick_ty
 	}
 
 	if( cash ){
-		if( !sd->status.user_id || (Sql_Query( mmysql_handle, "UPDATE `rathena`.`vote` SET `vote`.`vote` = `vote`.`vote` - %d WHERE `vote`.`user_id` = %d;", cash, sd->status.user_id ) != SQL_SUCCESS) ){
+		if( !sd->status.user_id || (Sql_Query( mmysql_handle, "UPDATE `vote`.`vote` SET `vote`.`vote` = `vote`.`vote` - %d WHERE `vote`.`user_id` = %d;", cash, sd->status.user_id ) != SQL_SUCCESS) ){
 			Sql_ShowDebug( mmysql_handle ); // [Stingor]
 			return -1;
 		}
@@ -4984,7 +4984,7 @@ int pc_getcash(struct map_session_data *sd, int cash, int points, e_log_pick_typ
 			cash = MAX_ZENY-sd->cashPoints;
 		}
 
-		if( !sd->status.user_id || (Sql_Query( mmysql_handle, "UPDATE `rathena`.`vote` SET `vote`.`vote` = `vote`.`vote` + %d WHERE `vote`.`user_id` = %d;", cash, sd->status.user_id ) != SQL_SUCCESS) ){
+		if( !sd->status.user_id || (Sql_Query( mmysql_handle, "UPDATE `vote`.`vote` SET `vote`.`vote` = `vote`.`vote` + %d WHERE `vote`.`user_id` = %d;", cash, sd->status.user_id ) != SQL_SUCCESS) ){
 			Sql_ShowDebug( mmysql_handle ); // [Stingor]
 			return -1;
 		}

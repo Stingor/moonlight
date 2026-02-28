@@ -484,7 +484,7 @@ bool cashshop_buylist( struct map_session_data* sd, uint32 kafrapoints, int n, s
 		return false;
 	}
 
-	if( Sql_Query( mmysql_handle, "SELECT `vote`.`vote` FROM `rathena`.`vote` WHERE `vote`.`user_id` = '%d' LIMIT 1;", sd->status.user_id ) == SQL_SUCCESS ) {
+	if( Sql_Query( mmysql_handle, "SELECT `vote`.`vote` FROM `vote` WHERE `vote`.`user_id` = '%d' LIMIT 1;", sd->status.user_id ) == SQL_SUCCESS ) {
 		char* data; // [Stingor]
 		if( SQL_SUCCESS == Sql_NextRow(mmysql_handle) &&
 			SQL_SUCCESS == Sql_GetData(mmysql_handle, 0, &data, NULL) )
@@ -640,7 +640,7 @@ bool cashshop_buylist( struct map_session_data* sd, uint32 kafrapoints, int n, s
 		}
 	}
 
-	if( Sql_Query( mmysql_handle, "SELECT `vote`.`vote` FROM `rathena`.`vote` WHERE `vote`.`user_id` = '%d' LIMIT 1;", sd->status.user_id ) == SQL_SUCCESS ) {
+	if( Sql_Query( mmysql_handle, "SELECT `vote`.`vote` FROM `vote` WHERE `vote`.`user_id` = '%d' LIMIT 1;", sd->status.user_id ) == SQL_SUCCESS ) {
 		char* data; // [Stingor]
 		if( SQL_SUCCESS == Sql_NextRow(mmysql_handle) &&
 			SQL_SUCCESS == Sql_GetData(mmysql_handle, 0, &data, NULL) )

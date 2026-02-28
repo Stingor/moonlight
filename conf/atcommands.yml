@@ -1007,12 +1007,6 @@ Body:
       - storagecards
     Help: |
       Acceder au deuxieme storage pratique pour les card.
-  - Command: blyatstorage
-    Aliases:
-      - storage3
-      - storageblyat
-    Help: |
-      Acceder au troisieme storage, suka.
   - Command: storecard
     Aliases:
       - cardstore
