@@ -18,16 +18,6 @@ OnCommand:
 	end;
 }
 
--	script	#blyatstorage	-1,{
-OnInit:
-	bindatcmd("blyatstorage",strnpcinfo(0)+"::OnCommand",99,99);
-	end;
-
-OnCommand:
-	openstorage2 2,STOR_MODE_GET|STOR_MODE_PUT;
-	end;
-}
-
 -	script	#joinbg	-1,{
 OnInit:
 	bindatcmd("joinbg",strnpcinfo(0)+"::OnCommand",0,99);

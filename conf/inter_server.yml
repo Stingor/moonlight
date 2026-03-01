@@ -41,8 +41,8 @@ Body:
     Table: "storagecard"
     Max: 800
   - ID: 2
-    Name: "Blyat Storage"
-    Table: "storageblyat"
+    Name: "Alt Storage"
+    Table: "storagealt"
     Max: 800
 
 Footer:
