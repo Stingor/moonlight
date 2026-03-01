@@ -349,6 +349,22 @@ gonryun,156,130,4	script	PvP Warper::pvpwarper_gon	4_M_JOB_KNIGHT1,{
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 	mes "Voulez-vous combattre dans l'arène PvP ?";
 	percentheal 100,100;
+	sc_end SC_Poison;
+	sc_end SC_Silence;
+	sc_end SC_Stun;
+	sc_end SC_Blind;
+	sc_end SC_DECREASEAGI;
+	sc_end SC_Confusion;
+	sc_end SC_Curse;
+	sc_end SC_Hallucination;
+	sc_end SC_XMAS;
+	sc_end SC_HANBOK;
+	sc_end SC_WEDDING;
+	if( getstatus(SC_SUMMER) ) {
+		sc_end SC_SUMMER;
+		sc_end SC_SPEEDUP0;
+	}
+	sc_end SC_OKTOBERFEST;
 	switch( select("• Carnage Room [ ^FF0000"+getmapusers("pvp_n_3-5")+"^000000 joueur(s) ]:• PvP Room [ ^FF0000"+getmapusers("pvp_n_4-1")+"^000000 joueur(s) ]:• Duel Room [ ^FF0000"+getmapusers("pvp_n_2-1")+"^000000 joueur(s) ]:• GvG Room [ ^FF0000"+getmapusers("pvp_n_5-1")+"^000000 joueur(s) ]:• Autre") ) {
 		clear;
 		case 1:
