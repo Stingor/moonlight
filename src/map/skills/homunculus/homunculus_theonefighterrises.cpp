@@ -5,6 +5,7 @@
 
 #include "map/clif.hpp"
 #include "map/homunculus.hpp"
+#include "map/map.hpp"
 #include "map/pc.hpp"
 #include "map/status.hpp"
 
@@ -13,13 +14,14 @@ SkillTheOneFighterRises::SkillTheOneFighterRises() : SkillImplRecursiveDamageSpl
 
 void SkillTheOneFighterRises::castendNoDamageId(block_list* src, block_list* target, uint16 skill_lv, t_tick tick, int32& flag) const {
 	homun_data* hd = BL_CAST(BL_HOM, src);
+	int32 starget = BL_CHAR|BL_SKILL;
 
-	if (hd != nullptr) {
-		hom_addspiritball(hd, MAX_SPIRITBALL);
-	}
+	hom_addspiritball(hd, MAX_SPIRITBALL);
 
+	skill_area_temp[1] = 0;
 	clif_skill_nodamage(src,*target,getSkillId(),skill_lv);
-	skill_castend_damage_id(src, target, getSkillId(), skill_lv, tick, flag);
+	map_foreachinrange(skill_area_sub, target, skill_get_splash(getSkillId(), skill_lv), starget,
+				src, getSkillId(), skill_lv, tick, flag|BCT_ENEMY|SD_SPLASH|1, skill_castend_damage_id);
 }
 
 void SkillTheOneFighterRises::calculateSkillRatio(const Damage* wd, const block_list* src, const block_list* target, uint16 skill_lv, int32& base_skillratio, int32 mflag) const {
