@@ -5585,7 +5585,7 @@ int pc_useitem(struct map_session_data *sd,int n)
 	    potion_flag = 2; // Famous player's potions have 50% more efficiency
 
 	//Update item use time.
-	sd->canuseitem_tick = tick + battle_config.item_use_interval;
+	sd->canuseitem_tick = tick + battle_config.item_use_interval; // 500
 	// [Stingor] -->
 	switch (sd->itemid)	{
 		case 601: // Fly Wing
@@ -5594,6 +5594,10 @@ int pc_useitem(struct map_session_data *sd,int n)
 		case 616: // OCA
 		case 617: // OPB
 		case 644: // GIFT BOX
+		case 664: // GIFT BOX
+		case 665: // GIFT BOX
+		case 666: // GIFT BOX
+		case 667: // GIFT BOX
 			sd->canuseitem_tick = tick + 100;
 			break;
 		default: break;
