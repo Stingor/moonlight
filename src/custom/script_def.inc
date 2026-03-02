@@ -1,0 +1,27 @@
+// Copyright (c) rAthena Dev Teams - Licensed under GNU GPL
+// For more information, see LICENCE in the main folder
+
+/**
+ * Custom Script Commands
+ * Place the definition of custom script commands in this file.
+ * Format:
+ *	BUILDIN_DEF(command_name,"parameters"),
+ **/
+
+//BUILDIN_DEF(example,""),
+	// [Stingor]
+	BUILDIN_DEF(viewequip,"vv"),
+	BUILDIN_DEF(getpartnername,""),
+	BUILDIN_DEF(getalliance,"i"),
+	BUILDIN_DEF(setwaitingroomtitle,"s?"),
+	BUILDIN_DEF(npcsit,""),
+	BUILDIN_DEF(npcstand,""),
+	BUILDIN_DEF(addcloneskill,"ii"),
+	BUILDIN_DEF(starteventexp,""),
+	BUILDIN_DEF(stopeventexp,""),
+	BUILDIN_DEF(eventexp,""),
+	BUILDIN_DEF(starteventdrop,""),
+	BUILDIN_DEF(stopeventdrop,""),
+	BUILDIN_DEF(eventdrop,""),
+	// [Kamitsu]
+	BUILDIN_DEF(getusersnbr,""),

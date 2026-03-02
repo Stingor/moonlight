@@ -1,0 +1,72 @@
+// Copyright (c) rAthena Dev Teams - Licensed under GNU GPL
+// For more information, see LICENCE in the main folder
+
+/**
+ * Custom battle config initializations
+ * Place the definition of custom battle configuration initializations in this file.
+ *
+ * Do not forget to add a comma at the end of the line, if you want to add another config
+ *
+ * Format:
+ *	 { "name", &battle_config.<variable name>, <default value>, <minimum value>, <maximum value> },
+ **/
+	// Stingor
+	{ "item_drop_equip_mvp_min",			&battle_config.item_drop_equip_mvp_min,			1,		1,		10000,			},
+	{ "item_drop_equip_mvp_max",			&battle_config.item_drop_equip_mvp_max,			1,		1,		10000,			},
+	{ "item_drop_equip_boss_min",			&battle_config.item_drop_equip_boss_min,		1,		1,		10000,			},
+	{ "item_drop_equip_boss_max",			&battle_config.item_drop_equip_boss_max,		1,		1,		10000,			},
+	{ "homunc_teleport_acd",				&battle_config.homunc_teleport_acd,				10000,	100,	60000,			},
+	{ "aoe_teleport_acd",					&battle_config.aoe_teleport_acd,				1000,	100,	20000,			},
+	{ "refresh_acd",						&battle_config.refresh_acd,						500,   10,    20000,			},
+	{ "paladin_sacri_max_hp",				&battle_config.paladin_sacri_max_hp,			1600000,1000000,6000000,		},
+	{ "all_sacri_max_hp",					&battle_config.all_sacri_max_hp,				1000000,800000,	8000000,		},
+	{ "max_hp_lkberserk",                   &battle_config.max_hp_lkberserk,                6000000,3000000,10000000,       },
+	{ "emp_heal_hp",						&battle_config.emp_heal_hp,						2,		0,		10,				},
+	{ "emp_sanctu_hp",						&battle_config.emp_sanctu_hp,					5,		0,		20,				},
+	{ "emp_potionpitch_hp",					&battle_config.emp_potionpitch_hp,				1,		0,		10,				},
+	{ "disable_edp_berserk",				&battle_config.disable_edp_berserk,				1,		0,		1,				},
+	{ "gm_aspd",							&battle_config.gm_aspd,							190,    100,    199,			},
+	{ "pvp_gtb_nerf",						&battle_config.pvp_gtb_nerf,					40,		0,		100,			},
+	{ "gtb_dispell_nerf",					&battle_config.gtb_dispell_nerf,				0,		0,		1,				},
+	{ "gtb_nodispell_preserve",				&battle_config.gtb_nodispell_preserve,			5,		0,		90,				},
+	{ "cap_delay",							&battle_config.cap_delay_rate,					65,		0,		100,			},
+	{ "gm_delay",							&battle_config.gm_delay_rate,					0,		0,		100,			},
+	{ "gm_auto_hide",						&battle_config.gm_auto_hide,					0,		0,		1,				},
+	{ "st_vulture_nerf",					&battle_config.st_vulture_nerf,					1,		0,		1,				},
+	{ "no_skill_emp",						&battle_config.no_skill_emp,					1,		0,		1,				},
+	{ "item_use_interval_pvp",				&battle_config.item_use_interval_pvp,			500,	100,	2000,			},
+	{ "hp_percent_pvp_nerf",				&battle_config.hp_percent_pvp_nerf,				2,		0,		5,				},
+	{ "sp_percent_pvp_nerf",				&battle_config.sp_percent_pvp_nerf,				1,		0,		10,				},
+	{ "kaizel_cd",							&battle_config.kaizel_cd,						180000,	0,		600000,			},
+	{ "maxstatlevelcalc",					&battle_config.maxstatlevelcalc,				600,	500,	999,			},
+	{ "azuranerfsp",						&battle_config.azuranerfsp,						25000,	15000,	40000,			},
+	{ "nj_issenstr",						&battle_config.nj_issenstr,						250,	200,	400,			},
+	{ "testsource",							&battle_config.testsource,						1,		0,		1,				},
+	{ "dispell_knowledge",					&battle_config.dispell_knowledge,				0,		0,		1,				},
+	{ "up_spawnmvp",						&battle_config.up_spawnmvp,						1,		0,		1,				},
+	{ "debugscriptcont",					&battle_config.debugscriptcont,					0,		0,		1,				},
+	{ "nerf_bloodybranch",					&battle_config.nerf_bloodybranch,				1,		0,		1,				},
+	{ "jump_kick_pcnerf",					&battle_config.jump_kick_pcnerf,				2,		1,		4,				},
+	{ "hatred_pcnerf",						&battle_config.hatred_pcnerf,					5,		1,		20,				},
+	{ "esma_pcnerf",						&battle_config.esma_pcnerf,						5,		1,		20,				},
+	{ "piercevitdef",						&battle_config.piercevitdef,					1,		1,		100,			},
+ 	{ "vulcanpvphit",						&battle_config.vulcanpvphit,					-5,		-9,		0,				},
+ 	{ "crystalizenerf",						&battle_config.crystalizenerf,					0,		0,		500,			},
+ 	{ "burningnerf",						&battle_config.burningnerf,						0,		0,		500,			},
+  	{ "newcarttermform",					&battle_config.newcarttermform,					1,		0,		1,				},
+	{ "heal_rate",                          &battle_config.heal_rate,                       100,    100,    INT_MAX,        },
+	{ "unlockcrit",							&battle_config.unlockcrit,						1,		0,		1,				},
+ 	{ "shopx1",								&battle_config.shopx1,							150,	0,		500,			},
+ 	{ "shopx2",								&battle_config.shopx2,							171,	0,		500,			},
+ 	{ "shopy1",								&battle_config.shopy1,							131,	0,		500,			},
+ 	{ "shopy2",								&battle_config.shopy2,							92,		0,		500,			},
+	{ "setcellnovend",						&battle_config.setcellnovend,					1,		0,		1,				},
+	{ "nerfdstrafestalk",					&battle_config.nerfdstrafestalk,				1,		0,		1,				},
+	{ "enablenpceventwarn",					&battle_config.enablenpceventwarn,				1,		0,		1,				},
+	{ "lukimmunefreeze",					&battle_config.lukimmunefreeze,					20,		10,		100,			},
+	{ "mdefimmunefreeze",					&battle_config.mdefimmunefreeze,				200,	100,	1000,			},
+	{ "healgtb",							&battle_config.healgtb,							1,		0,		1,				},
+	{ "mult_eventexp",						&battle_config.mult_eventexp,					200,	100,	400,			},
+	{ "mult_eventdrop",						&battle_config.mult_eventdrop,					200,	100,	400,			},
+	{ "debugpos",							&battle_config.debugpos,						1,		0,		1,				},
+
