@@ -225,7 +225,7 @@ t_itemid itemdb_searchrandomid(uint16 group_id, uint8 sub_group) {
 	return entry ? entry->nameid : UNKNOWN_ITEM_ID;
 }
 
-unsigned short wingsdb_search(unsigned short id)
+t_itemid wingsdb_search(t_itemid id)
 {
 	int j;
 	ARR_FIND( 0, ARRAYLENGTH(wingsgroup_db), j, wingsgroup_db[j].view_id1 == id );
