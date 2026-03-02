@@ -7923,8 +7923,7 @@ BUILDIN_FUNC(makeitem) {
 	else
 		item_tmp.identify = itemdb_isidentified(nameid);
 
-		map_addflooritem(&item_tmp, amount, m, x, y, 0, 0, 0, 4, effect); // [Stingor] ajout effect visuel
-	}
+	map_addflooritem(&item_tmp, amount, m, x, y, 0, 0, 0, 4, effect); // [Stingor] ajout effect visuel
 	return SCRIPT_CMD_SUCCESS;
 }
 
