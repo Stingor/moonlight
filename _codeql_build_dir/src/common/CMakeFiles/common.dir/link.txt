@@ -1,2 +1,0 @@
-/usr/bin/ar qc /home/runner/work/moonlight/moonlight/lib/libcommonr.a CMakeFiles/common.dir/sql.cpp.o
-/usr/bin/ranlib /home/runner/work/moonlight/moonlight/lib/libcommonr.a
