@@ -31,7 +31,11 @@
 	ACMD_DEF(stats),
 	ACMD_DEF(shopsearch),
 	ACMD_DEF(wings),
-	ACMD_DEF(cardstorage),
-	ACMD_DEF(altstorage),
+	ACMD_DEF(storagealt),
+	ACMD_DEF2("storagealt1", storagealt),
+	ACMD_DEF2("storagealt2", storagealt),
+	ACMD_DEF2("storagealt3", storagealt),
+	ACMD_DEF2("storagealt4", storagealt),
+	ACMD_DEF2("storagealt5", storagealt),
 	ACMD_DEF(storecard),
 	ACMD_DEF(partybuff), // [Vykimo]

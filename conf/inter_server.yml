@@ -36,14 +36,6 @@ Body:
   - ID: 0
     Name: "Storage"
     Table: "storage"
-  - ID: 1
-    Name: "Card Storage"
-    Table: "storagecard"
-    Max: 800
-  - ID: 2
-    Name: "Alt Storage"
-    Table: "storagealt"
-    Max: 800
 
 Footer:
   Imports:

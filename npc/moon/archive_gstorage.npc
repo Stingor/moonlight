@@ -1,0 +1,47 @@
+gonryun,150,150,4	script	Guild	Overflow	123,{
+
+    // Vérification guilde
+    .@gid = getcharid(2);
+    if (!.@gid) {
+        mes "Tu n'es dans aucune guilde.";
+        close;
+    }
+
+    // Récupération des items archivés
+    query_sql("
+        SELECT id, nameid, amount 
+        FROM guild_storage_overflow 
+        WHERE guild_id = "+.@gid+" 
+        ORDER BY id ASC",
+        .@id, .@nameid, .@amount
+    );
+
+    .@total = getarraysize(.@id);
+    if (.@total == 0) {
+        mes "Aucun item n'est présent dans l'archive de la guilde.";
+        close;
+    }
+
+    mes "Voici les items archivés de ta guilde :";
+
+    // Construction du menu
+    for (.@i = 0; .@i < .@total; .@i++) {
+        .@menu$[.@i] = getitemname(.@nameid[.@i])+" x"+.@amount[.@i];
+    }
+
+    // Sélection de l’item
+    .@choice = select(.@menu$) - 1;
+
+    mes "Tu veux récupérer :";
+    mes getitemname(.@nameid[.@choice])+" x"+.@amount[.@choice]+" ?";
+    if (select("Oui:Non") == 2) close;
+
+    // Donner l’item au joueur
+    getitem .@nameid[.@choice], .@amount[.@choice];
+
+    // Suppression de l’archive
+    query_sql("DELETE FROM guild_storage_overflow WHERE id = "+.@id[.@choice]);
+
+    mes "L'item a été récupéré et retiré de l'archive.";
+    close;
+}

@@ -1813,11 +1813,9 @@ void pc_reg_received(struct map_session_data *sd)
 
 	sd->state.pc_loaded = false; // Ensure inventory data and status data is loaded before we calculate player stats
 
-	intif_storage_request(sd,TABLE_STORAGE, 0, STOR_MODE_ALL); // Request storage data
-	intif_storage_request(sd,TABLE_STORAGE, 1, STOR_MODE_ALL); // Request card storage data [Stingor]
-	intif_storage_request(sd,TABLE_STORAGE, 2, STOR_MODE_ALL); // Request Alt storage data [Stingor]
-	intif_storage_request(sd,TABLE_CART, 0, STOR_MODE_ALL); // Request cart data
-	intif_storage_request(sd,TABLE_INVENTORY, 0, STOR_MODE_ALL); // Request inventory data
+	intif_storage_request(sd, TABLE_STORAGE, 0, STOR_MODE_ALL); // Request storage data
+	intif_storage_request(sd, TABLE_CART, 0, STOR_MODE_ALL); // Request cart data
+	intif_storage_request(sd, TABLE_INVENTORY, 0, STOR_MODE_ALL); // Request inventory data
 
 	// Restore IM_CHAR instance to the player
 	for (const auto &instance : instances) {

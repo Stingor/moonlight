@@ -35,7 +35,7 @@ ACMD_FUNC(hatereset)
 
 /*==========================================
  * @sellstuff par [Stingor]
- * Protége le joueur de vendre les cards ou item avec card au npc.
+ * ProtÃ©ge le joueur de vendre les cards ou item avec card au npc.
  *----------------------------------------------------*/
 ACMD_FUNC(sellstuff)
 {
@@ -55,7 +55,7 @@ ACMD_FUNC(sellstuff)
 
 /*==========================================
  * @sellitem par [Stingor]
- * Protége le joueur de vendre certains items importants au npc.
+ * ProtÃ©ge le joueur de vendre certains items importants au npc.
  *----------------------------------------------------*/
 ACMD_FUNC(sellitem)
 {
@@ -95,7 +95,7 @@ ACMD_FUNC(showspeed)
 
 /*==========================================
  * @fastmove par [Stingor]
- * Active/Désactive le teleport au click...
+ * Active/DÃ©sactive le teleport au click...
  *----------------------------------------------------*/
 ACMD_FUNC(fastmove)
 {
@@ -114,7 +114,7 @@ ACMD_FUNC(fastmove)
 
 /*==========================================
  * @mvpcard par [Stingor]
- * Active/Désactive le loot d'MvP card dans la map.
+ * Active/DÃ©sactive le loot d'MvP card dans la map.
  *----------------------------------------------------*/
 ACMD_FUNC(mvpcard)
 {
@@ -133,7 +133,7 @@ ACMD_FUNC(mvpcard)
 
 /*==========================================
  * @attackskill par [Stingor]
- * Active/Désactive les skills non support.
+ * Active/DÃ©sactive les skills non support.
  *----------------------------------------------------*/
 ACMD_FUNC(attackskill)
 {
@@ -152,7 +152,7 @@ ACMD_FUNC(attackskill)
 
 /*==========================================
  * @aoeskill par [Stingor]
- * Active/Désactive les skills AOE.
+ * Active/DÃ©sactive les skills AOE.
  *----------------------------------------------------*/
 ACMD_FUNC(aoeskill)
 {
@@ -172,7 +172,7 @@ ACMD_FUNC(aoeskill)
 
 /*==========================================
  * @playertalk <Pseudo ou Char ID>,<Message> par [Stingor]
- * Permet de parler à la place d'un joueur.
+ * Permet de parler Ã  la place d'un joueur.
  *---------------------------------------------------*/
 ACMD_FUNC(playertalk)
 {
@@ -207,7 +207,7 @@ ACMD_FUNC(playertalk)
 }
  /*==========================================
  * @moche <Pseudo> par [Stingor]
- * Génére un model aléatoire.
+ * GÃ©nÃ©re un model alÃ©atoire.
  *----------------------------------------------------*/
 ACMD_FUNC(moche)
 {
@@ -288,7 +288,7 @@ ACMD_FUNC(celebrate)
 
 /*==========================================
  * @trollolol par [Stingor]
- * tête d'orc pour tous
+ * tÃªte d'orc pour tous
  *----------------------------------------------------*/
 ACMD_FUNC(trollolol)
 {
@@ -610,10 +610,10 @@ ACMD_FUNC(shopsearch)
 }
 
 /*==========================================
- * @cardstorage [Stingor]
- * Second storage mais pas que pour card
+ * @storagealt [Stingor]
+ * Ouverture des storages alternatifs
  *------------------------------------------*/
-ACMD_FUNC(cardstorage)
+ACMD_FUNC(storagealt)
 {
 	nullpo_retr(-1, sd);
 
@@ -632,8 +632,19 @@ ACMD_FUNC(cardstorage)
 		return -1;
 	}
 
-	if (storage_premiumStorage_load(sd, 1, STOR_MODE_ALL) == 0) {
-		//Already open.
+	// Extraire le numÃ©ro depuis le nom de la commande (ex: "storagealt2" -> '2')
+	const char *p = command;
+	uint8 num = 1;
+
+	while (*p) {
+		if (*p >= '1' && *p <= '5') {
+			num = (uint8)(*p - '0');
+			break;
+		}
+		p++;
+	}
+
+	if (storage_premiumStorage_load(sd, num, STOR_MODE_ALL) == 0) {
 		clif_displaymessage(fd, msg_txt(sd,250)); // You have already opened your storage. Close it first.
 		return -1;
 	}
@@ -666,7 +677,12 @@ ACMD_FUNC(storecard)
 		return -1;
 	}
 
-	if (storage_premiumStorage_load(sd, 1, STOR_MODE_PUT) == 0) {
+	if (!intif_storage_request(sd, TABLE_STORAGE, 5, STOR_MODE_PUT)) {
+		clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
+		return -1;
+	}
+
+	if (storage_premiumStorage_load(sd, 5, STOR_MODE_PUT) == 0) {
 		clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
 		return -1;
 	}
@@ -680,40 +696,6 @@ ACMD_FUNC(storecard)
 
 	clif_displaymessage(fd, msg_txt(sd,1162)); // All items stored.
 	
-	return 0;
-}
-
-/*==========================================
- * @altstorage [Stingor]
- * Alt Storage
- *------------------------------------------*/
-ACMD_FUNC(altstorage)
-{
-	nullpo_retr(-1, sd);
-
-	if (pc_istrading2(sd)) {
-		clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
-		return -1;
-	}
-
-	if (sd->state.storage_flag == 2) {
-		clif_displaymessage(fd, msg_txt(sd,251)); // You have already opened your guild storage. Close it first.
-		return -1;
-	}
-
-	if (sd->state.storage_flag == 1 || sd->state.storage_flag == 3) {
-		clif_displaymessage(fd, msg_txt(sd,250)); // You have already opened your storage. Close it first.
-		return -1;
-	}
-
-	if (storage_premiumStorage_load(sd, 2, STOR_MODE_ALL) == 0) {
-		//Already open.
-		clif_displaymessage(fd, msg_txt(sd,250)); // You have already opened your storage. Close it first.
-		return -1;
-	}
-
-	clif_displaymessage(fd, msg_txt(sd,919)); // Storage opened.
-
 	return 0;
 }
 
