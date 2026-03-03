@@ -96,7 +96,7 @@ unsigned int auction_create(struct auction_data *auction)
 		StringBuf_Printf(&buf, ", `option_val%d`", j);
 		StringBuf_Printf(&buf, ", `option_parm%d`", j);
 	}
-	StringBuf_Printf(&buf, ") VALUES ('%d',?,'%d',?,'%d','%d','%d','%lu','%u',?,'%d','%d','%d','%" PRIu64 "'",
+	StringBuf_Printf(&buf, ") VALUES ('%d',?,'%d',?,'%d','%d','%d','%lu','%u',?,'%d','%d','%d','%" PRIu32 "'",
 		auction->seller_id, auction->buyer_id, auction->price, auction->buynow, auction->hours, (unsigned long)auction->timestamp, auction->item.nameid, auction->type, auction->item.refine, auction->item.attribute, auction->item.unique_id);
 	for( j = 0; j < MAX_SLOTS; j++ )	
 		StringBuf_Printf(&buf, ",'%u'", auction->item.card[j]);
@@ -233,7 +233,7 @@ void inter_auctions_fromsql(void)
 
 		Sql_GetData(sql_handle,12, &data, NULL); item->refine = atoi(data);
 		Sql_GetData(sql_handle,13, &data, NULL); item->attribute = atoi(data);
-		Sql_GetData(sql_handle,14, &data, NULL); item->unique_id = strtoull(data, NULL, 10);
+		Sql_GetData(sql_handle,14, &data, NULL); item->unique_id = strtoul(data, NULL, 10);
 
 		item->identify = 1;
 		item->amount = 1;

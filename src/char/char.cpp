@@ -585,18 +585,20 @@ int char_memitemdata_to_sql(const struct item items[], int max, int id, enum sto
 		return 1;
 	}
 
+	char tmp_identify = 0, tmp_refine = 0, tmp_attribute = 0, tmp_favorite = 0, tmp_bound = 0;
+	uint32 tmp_unique_id = 0;
 	SqlStmt_BindColumn(stmt, 0, SQLDT_INT,       &item.id,          0, NULL, NULL);
 	SqlStmt_BindColumn(stmt, 1, SQLDT_UINT,    &item.nameid,      0, NULL, NULL);
 	SqlStmt_BindColumn(stmt, 2, SQLDT_SHORT,     &item.amount,      0, NULL, NULL);
 	SqlStmt_BindColumn(stmt, 3, SQLDT_UINT,      &item.equip,       0, NULL, NULL);
-	SqlStmt_BindColumn(stmt, 4, SQLDT_CHAR,      &item.identify,    0, NULL, NULL);
-	SqlStmt_BindColumn(stmt, 5, SQLDT_CHAR,      &item.refine,      0, NULL, NULL);
-	SqlStmt_BindColumn(stmt, 6, SQLDT_CHAR,      &item.attribute,   0, NULL, NULL);
+	SqlStmt_BindColumn(stmt, 4, SQLDT_CHAR,      &tmp_identify,     0, NULL, NULL);
+	SqlStmt_BindColumn(stmt, 5, SQLDT_CHAR,      &tmp_refine,       0, NULL, NULL);
+	SqlStmt_BindColumn(stmt, 6, SQLDT_CHAR,      &tmp_attribute,    0, NULL, NULL);
 	SqlStmt_BindColumn(stmt, 7, SQLDT_UINT,      &item.expire_time, 0, NULL, NULL);
-	SqlStmt_BindColumn(stmt, 8, SQLDT_UINT,      &item.bound,       0, NULL, NULL);
-	SqlStmt_BindColumn(stmt, 9, SQLDT_UINT64,    &item.unique_id,   0, NULL, NULL);
+	SqlStmt_BindColumn(stmt, 8, SQLDT_UINT,      &tmp_bound,        0, NULL, NULL);
+	SqlStmt_BindColumn(stmt, 9, SQLDT_UINT,      &tmp_unique_id,    0, NULL, NULL);
 	if (tableswitch == TABLE_INVENTORY){
-		SqlStmt_BindColumn(stmt, 10, SQLDT_CHAR, &item.favorite,    0, NULL, NULL);
+		SqlStmt_BindColumn(stmt, 10, SQLDT_CHAR, &tmp_favorite,     0, NULL, NULL);
 		SqlStmt_BindColumn(stmt, 11, SQLDT_UINT, &item.equipSwitch, 0, NULL, NULL);
 	}
 	for( i = 0; i < MAX_SLOTS; ++i )
@@ -611,6 +613,12 @@ int char_memitemdata_to_sql(const struct item items[], int max, int id, enum sto
 
 	while( SQL_SUCCESS == SqlStmt_NextRow(stmt) )
 	{
+		item.identify = tmp_identify;
+		item.refine = tmp_refine;
+		item.attribute = tmp_attribute;
+		item.favorite = tmp_favorite;
+		item.bound = tmp_bound;
+		item.unique_id = tmp_unique_id;
 		found = false;
 		// search for the presence of the item in the char's inventory
 		for( i = 0; i < max; ++i )
@@ -646,7 +654,7 @@ int char_memitemdata_to_sql(const struct item items[], int max, int id, enum sto
 				{
 					// update all fields.
 					StringBuf_Clear(&buf);
-					StringBuf_Printf(&buf, "UPDATE `%s` SET `amount`='%d', `equip`='%u', `identify`='%d', `refine`='%d',`attribute`='%d', `expire_time`='%u', `bound`='%d', `unique_id`='%" PRIu64 "'",
+					StringBuf_Printf(&buf, "UPDATE `%s` SET `amount`='%d', `equip`='%u', `identify`='%d', `refine`='%d',`attribute`='%d', `expire_time`='%u', `bound`='%d', `unique_id`='%" PRIu32 "'",
 						tablename, items[i].amount, items[i].equip, items[i].identify, items[i].refine, items[i].attribute, items[i].expire_time, items[i].bound, items[i].unique_id);
 					if (tableswitch == TABLE_INVENTORY)
 						StringBuf_Printf(&buf, ", `favorite`='%d', `equip_switch`='%u'", items[i].favorite, items[i].equipSwitch);
@@ -707,7 +715,7 @@ int char_memitemdata_to_sql(const struct item items[], int max, int id, enum sto
 		else
 			found = true;
 
-		StringBuf_Printf(&buf, "('%d', '%u', '%d', '%u', '%d', '%d', '%d', '%u', '%d', '%" PRIu64 "'",
+		StringBuf_Printf(&buf, "('%d', '%u', '%d', '%u', '%d', '%d', '%d', '%u', '%d', '%" PRIu32 "'",
 			id, items[i].nameid, items[i].amount, items[i].equip, items[i].identify, items[i].refine, items[i].attribute, items[i].expire_time, items[i].bound, items[i].unique_id);
 		if (tableswitch == TABLE_INVENTORY)
 			StringBuf_Printf(&buf, ", '%d', '%u'", items[i].favorite, items[i].equipSwitch);
@@ -812,18 +820,20 @@ bool char_memitemdata_from_sql(struct s_storage* p, int max, int id, enum storag
 		return false;
 	}
 
+	char tmp_identify2 = 0, tmp_refine2 = 0, tmp_attribute2 = 0, tmp_favorite2 = 0, tmp_bound2 = 0;
+	uint32 tmp_unique_id2 = 0;
 	SqlStmt_BindColumn(stmt, 0, SQLDT_INT,          &item.id,        0, NULL, NULL);
 	SqlStmt_BindColumn(stmt, 1, SQLDT_UINT,         &item.nameid,    0, NULL, NULL);
 	SqlStmt_BindColumn(stmt, 2, SQLDT_SHORT,        &item.amount,    0, NULL, NULL);
 	SqlStmt_BindColumn(stmt, 3, SQLDT_UINT,         &item.equip,     0, NULL, NULL);
-	SqlStmt_BindColumn(stmt, 4, SQLDT_CHAR,         &item.identify,  0, NULL, NULL);
-	SqlStmt_BindColumn(stmt, 5, SQLDT_CHAR,         &item.refine,    0, NULL, NULL);
-	SqlStmt_BindColumn(stmt, 6, SQLDT_CHAR,         &item.attribute, 0, NULL, NULL);
+	SqlStmt_BindColumn(stmt, 4, SQLDT_CHAR,         &tmp_identify2,  0, NULL, NULL);
+	SqlStmt_BindColumn(stmt, 5, SQLDT_CHAR,         &tmp_refine2,    0, NULL, NULL);
+	SqlStmt_BindColumn(stmt, 6, SQLDT_CHAR,         &tmp_attribute2, 0, NULL, NULL);
 	SqlStmt_BindColumn(stmt, 7, SQLDT_UINT,         &item.expire_time, 0, NULL, NULL);
-	SqlStmt_BindColumn(stmt, 8, SQLDT_CHAR,         &item.bound,     0, NULL, NULL);
-	SqlStmt_BindColumn(stmt, 9, SQLDT_ULONGLONG,    &item.unique_id, 0, NULL, NULL);
+	SqlStmt_BindColumn(stmt, 8, SQLDT_CHAR,         &tmp_bound2,     0, NULL, NULL);
+	SqlStmt_BindColumn(stmt, 9, SQLDT_UINT,         &tmp_unique_id2, 0, NULL, NULL);
 	if (tableswitch == TABLE_INVENTORY){
-		SqlStmt_BindColumn(stmt, 10, SQLDT_CHAR, &item.favorite,    0, NULL, NULL);
+		SqlStmt_BindColumn(stmt, 10, SQLDT_CHAR, &tmp_favorite2,    0, NULL, NULL);
 		SqlStmt_BindColumn(stmt, 11, SQLDT_UINT, &item.equipSwitch, 0, NULL, NULL);
 	}
 	for( i = 0; i < MAX_SLOTS; ++i )
@@ -834,8 +844,15 @@ bool char_memitemdata_from_sql(struct s_storage* p, int max, int id, enum storag
 		SqlStmt_BindColumn(stmt, 12+offset+MAX_SLOTS+i*3, SQLDT_CHAR, &item.option[i].param, 0, NULL, NULL);
  	}
 
-	for( i = 0; i < max && SQL_SUCCESS == SqlStmt_NextRow(stmt); ++i )
+	for( i = 0; i < max && SQL_SUCCESS == SqlStmt_NextRow(stmt); ++i ) {
+		item.identify = tmp_identify2;
+		item.refine = tmp_refine2;
+		item.attribute = tmp_attribute2;
+		item.favorite = tmp_favorite2;
+		item.bound = tmp_bound2;
+		item.unique_id = tmp_unique_id2;
 		memcpy(&storage[i], &item, sizeof(item));
+	}
 
 	p->amount = i;
 	ShowInfo("Loaded %s data from table %s for %s: %d (total: %d)\n", printname, tablename, selectoption, id, p->amount);

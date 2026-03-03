@@ -254,14 +254,15 @@ struct item {
 	t_itemid nameid;
 	short amount;
 	unsigned int equip; // location(s) where item is equipped (using enum equip_pos for bitmasking)
-	char identify;
-	char refine;
-	char attribute;
+	uint8 identify   : 1;
+	uint8 refine     : 5;
+	uint8 attribute  : 3;
+	uint8 favorite   : 1;
+	uint8 bound      : 3;
 	t_itemid card[MAX_SLOTS];
 	struct s_item_randomoption option[MAX_ITEM_RDM_OPT];		// max of 5 random options can be supported.
 	unsigned int expire_time;
-	char favorite, bound;
-	uint64 unique_id;
+	uint32 unique_id;
 	unsigned int equipSwitch; // location(s) where item is equipped for equip switching (using enum equip_pos for bitmasking)
 };
 

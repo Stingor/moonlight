@@ -127,7 +127,7 @@ int mail_savemessage(struct mail_message* msg)
 			found = true;
 		}
 
-		StringBuf_Printf(&buf, "('%" PRIu64 "', '%hu', '%d', '%u', '%d', '%d', '%d', '%" PRIu64 "', '%d'", (uint64)msg->id, i, msg->item[i].amount, msg->item[i].nameid, msg->item[i].refine, msg->item[i].attribute, msg->item[i].identify, msg->item[i].unique_id, msg->item[i].bound);
+		StringBuf_Printf(&buf, "('%" PRIu64 "', '%hu', '%d', '%u', '%d', '%d', '%d', '%" PRIu32 "', '%d'", (uint64)msg->id, i, msg->item[i].amount, msg->item[i].nameid, msg->item[i].refine, msg->item[i].attribute, msg->item[i].identify, msg->item[i].unique_id, msg->item[i].bound);
 		for (j = 0; j < MAX_SLOTS; j++)
 			StringBuf_Printf(&buf, ", '%u'", msg->item[i].card[j]);
 		for (j = 0; j < MAX_ITEM_RDM_OPT; ++j) {
@@ -213,7 +213,7 @@ bool mail_loadmessage(int mail_id, struct mail_message* msg)
 		Sql_GetData(sql_handle,2, &data, NULL); msg->item[i].refine = atoi(data);
 		Sql_GetData(sql_handle,3, &data, NULL); msg->item[i].attribute = atoi(data);
 		Sql_GetData(sql_handle,4, &data, NULL); msg->item[i].identify = atoi(data);
-		Sql_GetData(sql_handle,5, &data, NULL); msg->item[i].unique_id = strtoull(data, NULL, 10);
+		Sql_GetData(sql_handle,5, &data, NULL); msg->item[i].unique_id = strtoul(data, NULL, 10);
 		Sql_GetData(sql_handle,6, &data, NULL); msg->item[i].bound = atoi(data);
 		msg->item[i].expire_time = 0;
 

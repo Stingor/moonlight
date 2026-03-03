@@ -13324,9 +13324,9 @@ bool pc_is_same_equip_index(enum equip_index eqi, short *equip_index, short inde
  * @param sd : Player
  * @return A generated Unique item ID
  */
-uint64 pc_generate_unique_id(struct map_session_data *sd) {
+uint32 pc_generate_unique_id(struct map_session_data *sd) {
 	nullpo_ret(sd);
-	return ((uint64)sd->status.char_id << 32) | sd->status.uniqueitem_counter++;
+	return sd->status.uniqueitem_counter++;
 }
 
 /**
