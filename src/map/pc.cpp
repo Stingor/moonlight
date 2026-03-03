@@ -1802,11 +1802,11 @@ void pc_reg_received(struct map_session_data *sd)
 		return;
 	sd->state.active = 1;
 	// [Stingor] -->
-	sd->state.autoloot = pc_readglobalreg(sd, add_str("autoloot"));
+	sd->state.autoloot = static_cast<short>(pc_readglobalreg(sd, add_str("autoloot")));
 	sd->state.autolootmvp = pc_readglobalreg(sd, add_str("alootmvp"));
 	sd->state.autolootmvpreward = !pc_readglobalreg(sd, add_str("alootmvpreward"));
 	sd->state.autolootrare = pc_readglobalreg(sd, add_str("alootrare"));
-	sd->state.autolootpognon = pc_readglobalreg(sd, add_str("alootpognon"));
+	sd->state.autolootpognon = static_cast<int>(pc_readglobalreg(sd, add_str("alootpognon")));
 	sd->state.showexp = pc_readglobalreg(sd, add_str("showexp"));
 	sd->state.showzeny = pc_readglobalreg(sd, add_str("showzeny"));
 	// [Stingor] <--

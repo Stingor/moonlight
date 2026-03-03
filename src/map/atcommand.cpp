@@ -753,7 +753,6 @@ ACMD_FUNC(who) {
 	int count = 0;
 	int countshop = 0;
 	int level = 0;
-	char shop[CHAT_SIZE_MAX];
 	StringBuf buf;
 	/**
 	 * 1 = @who  : Player name, [Title], [Party name], [Guild name]
@@ -7262,7 +7261,7 @@ ACMD_FUNC(mute)
 ACMD_FUNC(refresh)
 {
 	nullpo_retr(-1, sd);
-	unsigned int tick = gettick(); // [Stingor]
+	t_tick tick = gettick(); // [Stingor]
 
 	sd->refresh_tick = tick + battle_config.refresh_acd; // [Stingor]
 
@@ -8066,7 +8065,7 @@ ACMD_FUNC(whodrops)
 				else if (spawns.size() < 4) {
 					char buf[CHAT_SIZE_MAX];
 
-					sprintf(atcmd_output, "- %s (%d): %02.02f%% - ", mob_db(mobid)->jname, mobid, (dropchance/100.), spawns.size(), mobid);
+					sprintf(atcmd_output, "- %s (%d): %02.02f%% - ", mob_db(mobid)->jname, mobid, (dropchance/100.));
 					
 					for(auto& spawn : spawns)
 					{
@@ -8078,7 +8077,7 @@ ACMD_FUNC(whodrops)
 					}
 				}
 				else
-					sprintf(atcmd_output, "- %s (%d): %02.02f%% - Respawn dans %d maps - @whereis %d", mob_db(mobid)->jname, mobid, (dropchance/100.), spawns.size(), mobid);
+					sprintf(atcmd_output, "- %s (%d): %02.02f%% - Respawn dans %zd maps - @whereis %d", mob_db(mobid)->jname, mobid, (dropchance/100.), spawns.size(), mobid);
 
 				clif_displaymessage(fd, atcmd_output);
 			}
