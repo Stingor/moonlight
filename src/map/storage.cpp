@@ -663,7 +663,7 @@ void storage_guild_log( struct map_session_data* sd, struct item* item, int16 am
 		StringBuf_Printf(&buf, ", `option_val%d`", i);
 		StringBuf_Printf(&buf, ", `option_parm%d`", i);
 	}
-	StringBuf_Printf(&buf, ") VALUES(NOW(),'%u','%u', '%s', '%u', '%d','%d','%d','%d','%" PRIu32 "','%d'",
+	StringBuf_Printf(&buf, ") VALUES(NOW(),'%u','%u', '%s', '%u', '%d','%d','%d','%d','%" PRIu64 "','%d'",
 		sd->status.guild_id, sd->status.char_id, sd->status.name, item->nameid, amount, item->identify, item->refine,item->attribute, item->unique_id, item->bound);
 
 	for (i = 0; i < MAX_SLOTS; i++)
@@ -711,7 +711,7 @@ enum e_guild_storage_log storage_guild_log_read_sub( struct map_session_data* sd
 	struct guild_log_entry entry;
 
 	char tmp_identify = 0, tmp_refine = 0, tmp_attribute = 0, tmp_bound = 0;
-	uint32 tmp_unique_id = 0;
+	uint64 tmp_unique_id = 0;
 	// General data
 	SqlStmt_BindColumn(stmt, 0, SQLDT_UINT,      &entry.id,               0, NULL, NULL);
 	SqlStmt_BindColumn(stmt, 1, SQLDT_STRING,    &entry.time, sizeof(entry.time), NULL, NULL);
@@ -725,7 +725,7 @@ enum e_guild_storage_log storage_guild_log_read_sub( struct map_session_data* sd
 	SqlStmt_BindColumn(stmt, 7, SQLDT_CHAR,      &tmp_attribute,          0, NULL, NULL);
 	SqlStmt_BindColumn(stmt, 8, SQLDT_UINT,      &entry.item.expire_time, 0, NULL, NULL);
 	SqlStmt_BindColumn(stmt, 9, SQLDT_UINT,      &tmp_bound,              0, NULL, NULL);
-	SqlStmt_BindColumn(stmt, 10, SQLDT_UINT,     &tmp_unique_id,          0, NULL, NULL);
+	SqlStmt_BindColumn(stmt, 10, SQLDT_UINT64,   &tmp_unique_id,          0, NULL, NULL);
 	for( j = 0; j < MAX_SLOTS; ++j )
 		SqlStmt_BindColumn(stmt, 11+j, SQLDT_UINT, &entry.item.card[j], 0, NULL, NULL);
 	for( j = 0; j < MAX_ITEM_RDM_OPT; ++j ) {

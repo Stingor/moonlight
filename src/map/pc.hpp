@@ -1170,7 +1170,7 @@ enum e_additem_result pc_additem(struct map_session_data *sd, struct item *item,
 char pc_getzeny(struct map_session_data *sd, int zeny, enum e_log_pick_type type, struct map_session_data *tsd);
 char pc_delitem(struct map_session_data *sd, int n, int amount, int type, short reason, e_log_pick_type log_type);
 
-uint32 pc_generate_unique_id(struct map_session_data *sd);
+uint64 pc_generate_unique_id(struct map_session_data *sd);
 
 //Bound items
 int pc_bound_chk(TBL_PC *sd,enum bound_type type,int *idxlist);

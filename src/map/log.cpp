@@ -226,7 +226,7 @@ void log_pick(int id, int16 m, e_log_pick_type type, int amount, struct item* it
 			StringBuf_Printf(&buf, ", `option_val%d`", i);
 			StringBuf_Printf(&buf, ", `option_parm%d`", i);
 		}
-		StringBuf_Printf(&buf, ") VALUES(NOW(),'%u','%c','%u','%d','%d','%s','%" PRIu32 "','%d'",
+		StringBuf_Printf(&buf, ") VALUES(NOW(),'%u','%c','%u','%d','%d','%s','%" PRIu64 "','%d'",
 			id, log_picktype2char(type), itm->nameid, amount, itm->refine, map_getmapdata(m)->name[0] ? map_getmapdata(m)->name : "", itm->unique_id, itm->bound);
 
 		for (i = 0; i < MAX_SLOTS; i++)
@@ -251,7 +251,7 @@ void log_pick(int id, int16 m, e_log_pick_type type, int amount, struct item* it
 			return;
 		time(&curtime);
 		strftime(timestring, sizeof(timestring), log_timestamp_format, localtime(&curtime));
-		fprintf(logfp,"%s - %d\t%c\t%u,%d,%d,%u,%u,%u,%u,%s,'%" PRIu32 "',%d\n", timestring, id, log_picktype2char(type), itm->nameid, amount, itm->refine, itm->card[0], itm->card[1], itm->card[2], itm->card[3], map_getmapdata(m)->name[0]?map_getmapdata(m)->name:"", itm->unique_id, itm->bound);
+		fprintf(logfp,"%s - %d\t%c\t%u,%d,%d,%u,%u,%u,%u,%s,'%" PRIu64 "',%d\n", timestring, id, log_picktype2char(type), itm->nameid, amount, itm->refine, itm->card[0], itm->card[1], itm->card[2], itm->card[3], map_getmapdata(m)->name[0]?map_getmapdata(m)->name:"", itm->unique_id, itm->bound);
 		fclose(logfp);
 	}
 }
