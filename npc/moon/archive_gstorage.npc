@@ -1,47 +1,170 @@
-gonryun,150,150,4	script	Guild	Overflow	123,{
+gonryun,147,128,4	script	Guild Archivist	123,{
 
-    // Vérification guilde
     .@gid = getcharid(2);
     if (!.@gid) {
         mes "Tu n'es dans aucune guilde.";
         close;
     }
 
-    // Récupération des items archivés
-    query_sql("
-        SELECT id, nameid, amount 
-        FROM guild_storage_overflow 
-        WHERE guild_id = "+.@gid+" 
-        ORDER BY id ASC",
-        .@id, .@nameid, .@amount
-    );
+	.@per_page = 100; // nombre d’items par page
+	.@page = 0;
 
-    .@total = getarraysize(.@id);
-    if (.@total == 0) {
-        mes "Aucun item n'est présent dans l'archive de la guilde.";
-        close;
+    while (1) {
+
+        // IMPORTANT : vider les tableaux SQL
+        deletearray .@id;
+        deletearray .@nameid;
+        deletearray .@amount;
+        deletearray .@oid;
+        deletearray .@oval;
+        deletearray .@oprm;
+
+        query_sql("SELECT id, nameid, amount, refine, attribute, card0, card1, card2, card3, option_id0, option_val0, option_parm0, option_id1, option_val1, option_parm1, option_id2, option_val2, option_parm2, option_id3, option_val3, option_parm3, option_id4, option_val4, option_parm4, unique_id FROM guild_storage_arch WHERE guild_id = "+.@gid+" and amount > 0 ORDER BY id ASC",.@id, .@nameid, .@amount, .@ref, .@att, .@c0, .@c1, .@c2, .@c3, .@oid0, .@oval0, .@opm0, .@oid1, .@oval1, .@opm1, .@oid2, .@oval2, .@opm2, .@oid3, .@oval3, .@opm3, .@oid4, .@oval4, .@opm4, .@uid);
+
+        .@total = getarraysize(.@id);
+        if (.@total == 0) {
+            mes "Aucun item n'est présent dans l'archive de la guilde.";
+            close;
+        }
+
+        // Calcul pagination
+        .@max_page = (.@total - 1) / .@per_page;
+        if (.@page > .@max_page) .@page = .@max_page;
+
+        mes "Voici "+.@total+" items archivés de ta guilde :";
+        mes "Page "+(.@page+1)+" / "+(.@max_page+1);
+
+		// Construction du menu en chaîne (FIABLE)
+		.@menu$ = "";
+        .@start = .@page * .@per_page;
+        .@end = .@start + .@per_page;
+        if (.@end > .@total) .@end = .@total;
+        for (.@i = .@start; .@i < .@end; .@i++) {
+			.@name$ = getitemname(.@nameid[.@i]);
+
+			// Cartes (noms)
+			.@cards$ = "";
+			.@cardsline$ = "";
+			if (.@c0[.@i] > 0) {
+				.@cards$ += getitemname(.@c0[.@i]);
+				.@cardsline$ += .@c0[.@i];
+			}
+			if (.@c1[.@i] > 0) {
+				.@cards$ += ", "+getitemname(.@c1[.@i]);
+				.@cardsline$ += ", "+.@c1[.@i];
+			}
+			if (.@c2[.@i] > 0) {
+				.@cards$ += ", "+getitemname(.@c2[.@i]);
+				.@cardsline$ += ", "+.@c2[.@i];
+			}
+			if (.@c3[.@i] > 0) {
+				.@cards$ += ", "+getitemname(.@c3[.@i]);
+				.@cardsline$ += ", "+.@c3[.@i];
+			}
+
+			// Construction de la ligne du menu
+			.@line$ = .@name$;
+
+			if (.@ref[.@i] > 0)
+				.@line$ = "+"+.@ref[.@i]+" "+.@line$;
+
+			.@mes$ = .@line$;
+
+			if (.@cardsline$ != "")
+				.@line$ += " <"+.@cardsline$+">";
+			if (.@cards$ != "")
+				.@mes$ += " <"+.@cards$+">";
+
+			// Quantité
+			if( .@amount[.@i] > 1 ) {
+				.@mes$ += " x"+.@amount[.@i];
+				.@line$ += " x"+.@amount[.@i];
+			}
+
+			// Ajout au menu
+			.@menu$ += .@line$ + ":";
+			mes .@mes$;
+		}
+		// Ajout navigation
+		if (.@page > 0) .@menu$ += "Page précédente:";
+		if (.@page < .@max_page) .@menu$ += "Page suivante:";
+		.@menu$ += "Quitter";
+
+        .@choice = select(.@menu$);
+        // Gestion navigation
+        if (.@choice > (.@end - .@start)) {
+            // Navigation
+            .@nav = .@choice - (.@end - .@start);
+            if (.@page > 0) { // page précédente
+                .@page--;
+                clear;
+                continue;
+            }
+            if (.@page < .@max_page) { // page suivante
+                .@page++;
+                clear;
+                continue;
+            }
+
+            close; // Quitter
+        }
+
+        // Index réel de l’item choisi
+        .@real = .@start + (.@choice - 1);
+
+		clear;
+        mes "Tu veux récupérer :";
+        mes (.@ref[.@real] > 0?"+"+.@ref[.@real]+" ":"")+getitemname(.@nameid[.@real])+" "+((.@amount[.@real] > 1)?"x"+.@amount[.@real]:"")+" ?";
+		.@amount = .@amount[.@real];
+        if (.@amount[.@real] > 1) {
+			clear;
+			mes "Combien?";
+			input .@amount,0,.@amount[.@real];
+		}
+
+        if (.@amount < 0) {
+			clear;
+			mes "mongol";
+			close;
+		}
+
+        // Vérification de place dans l’inventaire
+        if (!checkweight(.@nameid[.@real], .@amount)) {
+            mes "Tu n'as pas assez de place dans ton inventaire.";
+            mes "Libère de la place et réessaie.";
+            close;
+        }
+
+		.@oid[0] = .@oid0[.@real];
+		.@oid[1] = .@oid1[.@real];
+		.@oid[2] = .@oid2[.@real];
+		.@oid[3] = .@oid3[.@real];
+		.@oid[4] = .@oid4[.@real];
+
+		.@oval[0] = .@oval0[.@real];
+		.@oval[1] = .@oval1[.@real];
+		.@oval[2] = .@oval2[.@real];
+		.@oval[3] = .@oval3[.@real];
+		.@oval[4] = .@oval4[.@real];
+
+		.@opm[0] = .@opm0[.@real];
+		.@opm[1] = .@opm1[.@real];
+		.@opm[2] = .@opm2[.@real];
+		.@opm[3] = .@opm3[.@real];
+		.@opm[4] = .@opm4[.@real];
+
+        // Donner l’item EXACTEMENT comme il était
+		getitem3 .@nameid[.@real], .@amount, 1, .@ref[.@real], .@att[.@real], .@c0[.@real], .@c1[.@real], .@c2[.@real], .@c3[.@real], .@oid, .@oval, .@opm;
+
+        query_sql("UPDATE guild_storage_arch SET amount = (amount - "+.@amount+") WHERE id = "+.@id[.@real]);
+
+        mes "L'item a été récupéré.";
+
+        if (select("Continuer:Quitter") == 2)
+            break;
+
+        clear;
     }
 
-    mes "Voici les items archivés de ta guilde :";
-
-    // Construction du menu
-    for (.@i = 0; .@i < .@total; .@i++) {
-        .@menu$[.@i] = getitemname(.@nameid[.@i])+" x"+.@amount[.@i];
-    }
-
-    // Sélection de l’item
-    .@choice = select(.@menu$) - 1;
-
-    mes "Tu veux récupérer :";
-    mes getitemname(.@nameid[.@choice])+" x"+.@amount[.@choice]+" ?";
-    if (select("Oui:Non") == 2) close;
-
-    // Donner l’item au joueur
-    getitem .@nameid[.@choice], .@amount[.@choice];
-
-    // Suppression de l’archive
-    query_sql("DELETE FROM guild_storage_overflow WHERE id = "+.@id[.@choice]);
-
-    mes "L'item a été récupéré et retiré de l'archive.";
     close;
 }

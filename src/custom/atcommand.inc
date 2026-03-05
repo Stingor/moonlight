@@ -632,8 +632,9 @@ ACMD_FUNC(storagealt)
 		return -1;
 	}
 
-	// Extraire le numéro depuis le nom de la commande (ex: "storagealt2" -> '2')
-	const char *p = command;
+	// Résoudre l'alias vers la commande principale (ex: "cardstorage" -> "storagealt5")
+	const char *resolved = atcommand_alias_db.checkAlias(command + 1);
+	const char *p = resolved;
 	uint8 num = 1;
 
 	while (*p) {
@@ -648,8 +649,9 @@ ACMD_FUNC(storagealt)
 		clif_displaymessage(fd, msg_txt(sd,250)); // You have already opened your storage. Close it first.
 		return -1;
 	}
-
-	clif_displaymessage(fd, msg_txt(sd,919)); // Storage opened.
+	char output[128];
+	sprintf(output, msg_txt(sd,1850), num); // Storage alternatif %d ouvert.
+	clif_displaymessage(fd, output);
 
 	return 0;
 }
@@ -680,21 +682,21 @@ ACMD_FUNC(storecard)
 	if (!intif_storage_request(sd, TABLE_STORAGE, 5, STOR_MODE_PUT)) {
 		clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
 		return -1;
-	}
-
-	if (storage_premiumStorage_load(sd, 5, STOR_MODE_PUT) == 0) {
+	} else if (storage_premiumStorage_load(sd, 5, STOR_MODE_PUT) == 0) {
 		clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
 		return -1;
 	}
 
-	for (int i = 0; i < MAX_INVENTORY; i++) {
-		if (sd->inventory.u.items_inventory[i].amount && itemdb_iscard(sd->inventory.u.items_inventory[i].nameid)) 
-			storage_storageadd(sd, &sd->premiumStorage, i, sd->inventory.u.items_inventory[i].amount);
+	if (sd->premiumStorage.stor_id == 5) {
+		for (int i = 0; i < MAX_INVENTORY; i++) {
+			if (sd->inventory.u.items_inventory[i].amount && itemdb_iscard(sd->inventory.u.items_inventory[i].nameid)) 
+				storage_storageadd(sd, &sd->premiumStorage, i, sd->inventory.u.items_inventory[i].amount);
+		}
 	}
-	
+
 	storage_premiumStorage_close(sd);
 
-	clif_displaymessage(fd, msg_txt(sd,1162)); // All items stored.
+	clif_displaymessage(fd, msg_txt(sd,1851)); // Toutes les Cards sont stockées dans le storage alternatif 5.
 	
 	return 0;
 }
