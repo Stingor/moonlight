@@ -246,3 +246,194 @@ BUILDIN_FUNC(eventdrop)
 	script_pushint(st, event_drop);
 	return SCRIPT_CMD_SUCCESS;
 }
+/*==========================================
+ * getcartlist ({<char_id>});
+ * @cartlist_id, @cartlist_amount, @cartlist_equip,
+ * @cartlist_refine, @cartlist_identify, @cartlist_attribute,
+ * @cartlist_card(0..3), @cartlist_expire
+ * @cartlist_count = scalar
+ *------------------------------------------*/
+BUILDIN_FUNC(getcartlist)
+{
+	TBL_PC* sd;
+	char card_var[NAME_LENGTH], randopt_var[50];
+	int i, j = 0, k;
+
+	if (!script_charid2sd(2, sd))
+		return SCRIPT_CMD_FAILURE;
+	for (i = 0; i < MAX_CART; i++) {
+		if (sd->cart.u.items_cart[i].nameid > 0 && sd->cart.u.items_cart[i].amount > 0) {
+			pc_setreg(sd, reference_uid(add_str("@cartlist_id"), j), sd->cart.u.items_cart[i].nameid);
+			pc_setreg(sd, reference_uid(add_str("@cartlist_idx"), j), i);
+			pc_setreg(sd, reference_uid(add_str("@cartlist_amount"), j), sd->cart.u.items_cart[i].amount);
+			pc_setreg(sd, reference_uid(add_str("@cartlist_equip"), j), sd->cart.u.items_cart[i].equip);
+			pc_setreg(sd, reference_uid(add_str("@cartlist_refine"), j), sd->cart.u.items_cart[i].refine);
+			pc_setreg(sd, reference_uid(add_str("@cartlist_identify"), j), sd->cart.u.items_cart[i].identify);
+			pc_setreg(sd, reference_uid(add_str("@cartlist_attribute"), j), sd->cart.u.items_cart[i].attribute);
+			for (k = 0; k < MAX_SLOTS; k++)
+			{
+				sprintf(card_var, "@cartlist_card%d", k + 1);
+				pc_setreg(sd, reference_uid(add_str(card_var), j), sd->cart.u.items_cart[i].card[k]);
+			}
+			for (k = 0; k < MAX_ITEM_RDM_OPT; k++)
+			{
+				sprintf(randopt_var, "@cartlist_option_id%d", k + 1);
+				pc_setreg(sd, reference_uid(add_str(randopt_var), j), sd->cart.u.items_cart[i].option[k].id);
+				sprintf(randopt_var, "@cartlist_option_value%d", k + 1);
+				pc_setreg(sd, reference_uid(add_str(randopt_var), j), sd->cart.u.items_cart[i].option[k].value);
+				sprintf(randopt_var, "@cartlist_option_parameter%d", k + 1);
+				pc_setreg(sd, reference_uid(add_str(randopt_var), j), sd->cart.u.items_cart[i].option[k].param);
+			}
+			j++;
+		}
+	}
+	pc_setreg(sd, add_str("@cartlist_count"), j);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/*==========================================
+ * getstoragelist(storageid)
+ * @storagelist_id, @storagelist_amount, @storagelist_equip,
+ * @storagelist_refine, @storagelist_identify, @storagelist_attribute,
+ * @storagelist_card(0..3), @storagelist_expire
+ * @storagelist_count = scalar
+ *------------------------------------------*/
+BUILDIN_FUNC(getstoragelist)
+{
+	TBL_PC* sd;
+	char card_var[NAME_LENGTH], randopt_var[50];
+	int i, j = 0, k, stor_id = 0;
+	struct item* items;
+
+	if (!script_rid2sd(sd)) {
+		ShowError("buildin_getstoragelist: Player not attached. \n");
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	if (!script_hasdata(st, 2) || !script_isint(st, 2))
+		return SCRIPT_CMD_FAILURE;
+
+	stor_id = cap_value(script_getnum(st, 2), 0, 6);
+
+	if (!storage_exists(stor_id)) {
+		ShowError("buildin_getstoragelist: Invalid storage_id '%d'!\n", stor_id);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	if (stor_id == 0)
+		items = sd->storage.u.items_storage;
+	else
+		items = sd->premiumStorage.u.items_storage;
+
+	for (i = 0; i < MAX_STORAGE; i++) {
+		if (items[i].nameid > 0 && items[i].amount > 0) {
+			pc_setreg(sd, reference_uid(add_str("@storagelist_id"), j), items[i].nameid);
+			pc_setreg(sd, reference_uid(add_str("@storagelist_idx"), j), i);
+			pc_setreg(sd, reference_uid(add_str("@storagelist_amount"), j), items[i].amount);
+			pc_setreg(sd, reference_uid(add_str("@storagelist_equip"), j), items[i].equip);
+			pc_setreg(sd, reference_uid(add_str("@storagelist_refine"), j), items[i].refine);
+			pc_setreg(sd, reference_uid(add_str("@storagelist_attribute"), j), items[i].attribute);
+			for (k = 0; k < MAX_SLOTS; k++)
+			{
+				sprintf(card_var, "@storagelist_card%d", k + 1);
+				pc_setreg(sd, reference_uid(add_str(card_var), j), items[i].card[k]);
+			}
+			for (k = 0; k < MAX_ITEM_RDM_OPT; k++)
+			{
+				sprintf(randopt_var, "@storagelist_option_id%d", k + 1);
+				pc_setreg(sd, reference_uid(add_str(randopt_var), j), items[i].option[k].id);
+				sprintf(randopt_var, "@storagelist_option_value%d", k + 1);
+				pc_setreg(sd, reference_uid(add_str(randopt_var), j), items[i].option[k].value);
+				sprintf(randopt_var, "@storagelist_option_parameter%d", k + 1);
+				pc_setreg(sd, reference_uid(add_str(randopt_var), j), items[i].option[k].param);
+			}
+			j++;
+		}
+	}
+	pc_setreg(sd, add_str("@storagelist_count"), j);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/*==========================================
+ * getguildstoragelist()
+ * @guildstoragelist_id, @guildstoragelist_amount, @guildstoragelist_equip,
+ * @guildstoragelist_refine, @guildstoragelist_identify, @guildstoragelist_attribute,
+ * @guildstoragelist_card(0..3), @guildstoragelist_expire
+ * @guildstoragelist_count = scalar
+ *------------------------------------------*/
+BUILDIN_FUNC(getguildstoragelist)
+{
+	TBL_PC* sd;
+	char card_var[NAME_LENGTH], randopt_var[50];
+	int i, j = 0, k;
+	struct s_storage* gstor;
+	if (!script_rid2sd(sd)) {
+		ShowError("buildin_getguildstoragelist: Player not attached. \n");
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	if (!(gstor = guild2storage(sd->status.guild_id))) {
+		ShowError("buildin_getguildstoragelist: No Guild !\n");
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	for (i = 0; i < MAX_STORAGE; i++) {
+		if (gstor->u.items_guild[i].nameid > 0 && gstor->u.items_guild[i].amount > 0) {
+			pc_setreg(sd, reference_uid(add_str("@guildstoragelist_id"), j), gstor->u.items_guild[i].nameid);
+			pc_setreg(sd, reference_uid(add_str("@guildstoragelist_idx"), j), i);
+			pc_setreg(sd, reference_uid(add_str("@guildstoragelist_amount"), j), gstor->u.items_guild[i].amount);
+			pc_setreg(sd, reference_uid(add_str("@guildstoragelist_equip"), j), gstor->u.items_guild[i].equip);
+			pc_setreg(sd, reference_uid(add_str("@guildstoragelist_refine"), j), gstor->u.items_guild[i].refine);
+			pc_setreg(sd, reference_uid(add_str("@guildstoragelist_attribute"), j), gstor->u.items_guild[i].attribute);
+			for (k = 0; k < MAX_SLOTS; k++)
+			{
+				sprintf(card_var, "@guildstoragelist_card%d", k + 1);
+				pc_setreg(sd, reference_uid(add_str(card_var), j), gstor->u.items_guild[i].card[k]);
+			}
+			for (k = 0; k < MAX_ITEM_RDM_OPT; k++)
+			{
+				sprintf(randopt_var, "@guildstoragelist_option_id%d", k + 1);
+				pc_setreg(sd, reference_uid(add_str(randopt_var), j), gstor->u.items_guild[i].option[k].id);
+				sprintf(randopt_var, "@guildstoragelist_option_value%d", k + 1);
+				pc_setreg(sd, reference_uid(add_str(randopt_var), j), gstor->u.items_guild[i].option[k].value);
+				sprintf(randopt_var, "@guildstoragelist_option_parameter%d", k + 1);
+				pc_setreg(sd, reference_uid(add_str(randopt_var), j), gstor->u.items_guild[i].option[k].param);
+			}
+			j++;
+		}
+	}
+	pc_setreg(sd, add_str("@guildstoragelist_count"), j);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/**
+* Load specified storage, use it before using storagecountitem with storage id > 0
+ */
+BUILDIN_FUNC(loadstorage)
+{
+	TBL_PC* sd;
+	int stor_id;
+	char* command = (char*)script_getfuncname(st);
+
+	if (!script_rid2sd(sd)) {
+		ShowError("buildin_loadpremiumstorage: Player not attached. \n");
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	if (!script_hasdata(st, 2) || !script_isint(st, 2))
+		return SCRIPT_CMD_FAILURE;
+
+	stor_id = cap_value((script_getnum(st, 2) - 1), 0, 6);
+
+	if (sd->premiumStorage.stor_id == stor_id) // Storage already loaded
+		return SCRIPT_CMD_SUCCESS;
+
+	if (!storage_exists(stor_id)) {
+		ShowError("buildin_loadpremiumstorage: Invalid storage_id '%d'!\n", stor_id);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	intif_storage_request(sd, TABLE_STORAGE, stor_id, STOR_MODE_NONE);
+
+	return SCRIPT_CMD_SUCCESS;
+}

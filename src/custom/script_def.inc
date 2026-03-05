@@ -23,5 +23,9 @@
 	BUILDIN_DEF(starteventdrop,""),
 	BUILDIN_DEF(stopeventdrop,""),
 	BUILDIN_DEF(eventdrop,""),
+	BUILDIN_DEF(getcartlist, "?"),
+	BUILDIN_DEF(getstoragelist, "i"),
+	BUILDIN_DEF(getguildstoragelist, ""),
+	BUILDIN_DEF(loadstorage, "i"),
 	// [Kamitsu]
 	BUILDIN_DEF(getusersnbr,""),

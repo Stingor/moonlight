@@ -3509,7 +3509,7 @@ static bool intif_parse_StorageReceived(int fd)
 			break;
 
 		case TABLE_STORAGE:
-			 if (stor->stor_id)
+			 if (stor->stor_id && (stor->state.get == 1 || stor->state.put == 1))
 				 storage_premiumStorage_open(sd);
 			 else {
 #ifdef VIP_ENABLE
