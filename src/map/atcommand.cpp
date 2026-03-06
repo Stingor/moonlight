@@ -9012,6 +9012,7 @@ ACMD_FUNC(hatereset)
 	}
 
 	pc_resethate(sd);
+	clif_feel_hate_reset(sd); // Stingor
 	clif_displaymessage(fd, msg_txt(sd,1515)); // Reset 'Hatred' monsters.
 
 	return 0;

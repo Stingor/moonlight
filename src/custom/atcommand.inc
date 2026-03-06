@@ -20,20 +20,6 @@ ACMD_FUNC(wings)
 }
 
 /*==========================================
- * Hate (SG save mob) Reset [Stingor]
- *------------------------------------------*/
-ACMD_FUNC(hatereset)
-{
-	nullpo_retr(-1,sd);
-
-	pc_resethate(sd);
-	clif_feel_hate_reset(sd);
-	clif_displaymessage(fd, msg_txt(sd,1800));
-
- 	return 0;
- }
-
-/*==========================================
  * @sellstuff par [Stingor]
  * Protége le joueur de vendre les cards ou item avec card au npc.
  *----------------------------------------------------*/
