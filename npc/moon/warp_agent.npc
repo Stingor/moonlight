@@ -196,7 +196,7 @@ L_Instance:
 					GetColor(9223)+"• Bangungot Hospital 2F (HM)^000000",
 					GetColor(4229)+"• Buwaya Cave (HM)^000000",
 					GetColor(12347)+"• Central Laboratory^000000",
-					GetColor(13185)+"• Charleston Crisis (Custom)^000000",
+					GetColor(13185)+"• Charleston in Distess^000000",
 					GetColor(7577)+"• Devil's Tower^000000",
 					(instance_delay_cellar < gettimetick(2)?"^00A000":"^FF0000")+"• Endless Cellar (HM, Custom)^000000",
 					GetColor(60200)+"• Endless Tower (HM)^000000",
@@ -281,10 +281,10 @@ L_Instance:
 			}
 			callfunc "warp_fct","verus01",151,150; break;
 		}
-		case 6:	{ // Charleston Crisis
+		case 6:	{ // Charleston in distress
 L_Charleston:
 			if( select( GetColor(13185)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
-				.@md_name$ = "Charleston Crisis";
+				.@md_name$ = "Charleston in Distress";
 				.@questid = 13185; // Charleston Factory - Hold
 
 				if( checkquest(13186) > -1 ) {

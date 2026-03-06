@@ -250,7 +250,7 @@ Body:
       X: 145
       Y: 35
   - Id: 30
-    Name: Charleston Crisis
+    Name: Charleston in Distress
     Enter:
       Map: 1@mcd
       X: 127
