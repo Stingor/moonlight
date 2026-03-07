@@ -75,6 +75,7 @@ L_info:
 		close;
 	}
 OnLaunchInvasion:
+	$@InvasionID += 1;	// Identifiant unique de cette invasion
 	// liste des map de pop possible de l'event
 	setarray .maps_event$[0], "yuno_fild01", "pay_fild03", "prt_fild08", "prt_fild05", "prt_fild06";
 	setarray .maps_event$[5], "gef_fild00", "gef_fild04", "gef_fild07", "hu_fild06", "prt_fild08";
@@ -188,7 +189,9 @@ L_Annuler:
 
 OnMobUndeadKill:
 	$nbmobinvasion--;
-	query_sql("UPDATE `mapreg` SET `value` = '"+$nbmobinvasion+"' WHERE `varname` = '$nbmobinvasion'");
+
+	if( $nbmobinvasion % 10 == 0 || $nbmobinvasion < 50 )
+		query_sql("UPDATE `mapreg` SET `value` = '"+$nbmobinvasion+"' WHERE `varname` = '$nbmobinvasion'");
 
 	if( $nbmobinvasion == 500 && (getmapflag($mapinvasion$,mf_noaoeskill) || getmapflag($mapinvasion$,mf_noteleport)) ) {
 		announce "Vous retrouvez tous vos skills AOE et le teleport ... gogogo!",bc_all,0xFFFF00;
@@ -196,8 +199,8 @@ OnMobUndeadKill:
 		removemapflag $mapinvasion$,mf_noteleport; // TELEPORT ON
 	}
 
-	if( playerattached() && @init != 1 ) { // Initialisation du score au premier kill de mob
-		@init = 1;
+	if( playerattached() && @InvasionID != $@InvasionID ) { // Initialisation du score au premier kill de mob
+		@InvasionID = $@InvasionID;
 		@NbrKill = 0;
 	}
 
@@ -209,7 +212,7 @@ OnMobUndeadKill:
 	if( #maluswininvasion < 0 )
 		#maluswininvasion = 0;
 
-	dispbottom @NbrKill + " monstres tués"+ (#maluswininvasion)?(" - Malus: "+#maluswininvasion):(".");
+	dispbottom @NbrKill + " monstres tués" + (#maluswininvasion > 0?" - Malus: " + #maluswininvasion:".");
 
 	if( @NbrKill > ($@NbrKillMax + #maluswininvasion) ) { // On augmente le score de kill le plus haut chaque fois qu'un joueur le dépasse
 		$@NbrKillMax += 1;
@@ -225,9 +228,9 @@ OnMobUndeadKill:
 		}
 	}
 
-	if( strcharinfo(0) == $@winn$ ) {
+	if( strcharinfo(0) == $@Winn$ ) {
 		switch( $@NbrKillMax ) {
-			case 5:		announce $@winn$+" en est à son 5éme mob tué!",bc_map,0xFFFF00; break;
+			case 5:		announce $@Winn$+" en est à son 5éme mob tué!",bc_map,0xFFFF00; break;
 			case 20:	announce "WouaW "+$@Winn$+" prend la tête avec un total de 20 mobs tués!",bc_map,0xFFFF00; break;
 			case 50:	announce $@Winn$+" est bien échauffé avec 50 mobs dégommés!",bc_map,0xFFFF00; break;
 			case 100:	announce $@Winn$+" est en forme et prend la tête avec un total de 100 mobs tués!",bc_map,0xFFFF00; break;
@@ -258,8 +261,8 @@ OnMobUndeadKill:
 OnMvpUndeadKill:
 	$@MvpUndeadM -= 1;
 
-	if( playerattached() && @init != 1 ) { // Initialisation du score au premier kill de mvp
-		@init = 1;
+	if( playerattached() && @InvasionID != $@InvasionID ) { // Initialisation du score au premier kill de mvp
+		@InvasionID = $@InvasionID;
 		@NbrKill = 0;
 	}
 
@@ -300,15 +303,20 @@ OnMvpUndeadKill:
 
 function	script	end_invasion	{
 	callfunc "announce2", "L'invasion des Monstres a été stoppée !!!",bc_all,0xFFFF00;
-	removemapflag $mapinvasion$,mf_monster_noteleport; // MONSTER TELEPORT ON
 	$eventinvasion = 0;
+	$nbmobinvasion = 0;
+	$@MobUndead1 = 0;
+	$@MobUndead2 = 0;
+	$@MobUndead3 = 0;
+	$@MobUndead4 = 0;
+	$@MvpUndeadM = 0;
+	removemapflag $mapinvasion$,mf_noaoeskill;		   // AOE SKILL ON
+	removemapflag $mapinvasion$,mf_noteleport;		   // TELEPORT ON
+	removemapflag $mapinvasion$,mf_nightenabled;	   // night off
+	removemapflag "gonryun",mf_nightenabled;	       // night off
+	removemapflag $mapinvasion$,mf_monster_noteleport; // MONSTER TELEPORT ON
 	if( $@NbrKillMax > 0 && $@Winn$ != "" ) {
 		attachrid(getcharid(3,$@Winn$));
-		if( getmapflag($mapinvasion$,mf_noaoeskill) || getmapflag($mapinvasion$,mf_noteleport) ) {
-			removemapflag $mapinvasion$,mf_noaoeskill; // AOE SKILL ON
-			removemapflag $mapinvasion$,mf_noteleport; // TELEPORT ON
-		}
-		removemapflag $mapinvasion$,mf_nightenabled;	// night off
 
 		if( #maluswininvasion <= 0)
 			#maluswininvasion += 100;
