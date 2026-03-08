@@ -10,7 +10,6 @@
 
 //ACMD_DEF(newcommand),
 	// [Stingor]
-	ACMD_DEF(hatereset),
 	ACMD_DEF(sellstuff),
 	ACMD_DEF(sellitem),
 	ACMD_DEF(showspeed),
