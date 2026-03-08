@@ -356,8 +356,8 @@
 7759,507,100	// Geologist's Report
 
 // USA 4th Anniversary Event Items
-5305,475,100	// Pirate Dagger
-5373,73,100	// Dark Randgris Helm
+// 5305,475,100	// Pirate Dagger
+// 5373,73,100	// Dark Randgris Helm
 7773,499,100	// Wat Badge
 7875,467,100	// Pirate Treasure
 
