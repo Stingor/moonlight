@@ -382,7 +382,7 @@ function	script	end_invasion	{
 			logmes "Récompenses non reçues.";
 
 		callfunc "announce2", $@Winn$ + " a gagné en tuant un total de " + $@NbrKillMax + " monstres !",bc_all,0xFFFF00;
-		callfunc "announce2", "Il gagne 5 bloody branch, 30 lucky candy, 1 Bubble Gum X2 et " + getitemname(.@winitem) + "!",bc_all,0xFFFF00;
+		callfunc "announce2", ((Sex == SEX_FEMALE) ? "Elle" : "Il") + " gagne 5 bloody branch, 30 lucky candy, 1 Bubble Gum X2 et " + getitemname(.@winitem) + "!",bc_all,0xFFFF00;
 	}
 	$@NbrKillMax = 0;
 	$@Winn$ = "";
