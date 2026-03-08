@@ -4491,7 +4491,7 @@ OnMobKilled:
 					cutin "ep14_roki01.bmp", 2;
 					mes "[Loki]", "Oh yeah?", "" + strcharinfo(0) + " is going to register?", "That's interesting."; next;
 					mes "[Loki]", "I have a spare magic buff scroll.", "I will give it to you as a present.";
-					//sc_start4 SC_GEFFEN_MAGIC2, 3600000, 5, 0, 0, 0, 10000, 1;
+					sc_start4 SC_GEFFEN_MAGIC2, 3600000, 5, 0, 0, 0, 10000, 1;
 					atcommand "@effect 220";
 					next;
 					mes "[Loki]", "I doubt that you can beat Fenrir at the Tournament.", "Her fighting prowess is unmatched."; next;

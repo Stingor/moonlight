@@ -1354,9 +1354,9 @@ void initChangeTables(void)
 	StatusIconChangeTable[SC_JUMPINGCLAN] = EFST_JUMPINGCLAN;
 
 	// Geffen Magic Tournament Buffs
-	StatusIconChangeTable[SC_GEFFEN_MAGIC1] = EFST_GEFFEN_MAGIC1;
-	StatusIconChangeTable[SC_GEFFEN_MAGIC2] = EFST_GEFFEN_MAGIC2;
-	StatusIconChangeTable[SC_GEFFEN_MAGIC3] = EFST_GEFFEN_MAGIC3;
+	StatusIconChangeTable[SC_GEFFEN_MAGIC1] = EFST_BLANK;
+	StatusIconChangeTable[SC_GEFFEN_MAGIC2] = EFST_BLANK;
+	StatusIconChangeTable[SC_GEFFEN_MAGIC3] = EFST_BLANK;
 
 	// RODEX
 	StatusIconChangeTable[SC_DAILYSENDMAILCNT] = EFST_DAILYSENDMAILCNT;
