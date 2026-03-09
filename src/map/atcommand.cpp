@@ -7438,7 +7438,8 @@ ACMD_FUNC(mobinfo)
 		count = MAX_SEARCH;
 	}
 	for (k = 0; k < count; k++) {
-		unsigned int j,base_exp,job_exp;
+		unsigned int j;
+		t_exp base_exp, job_exp, base_exp2;
 		mob = mob_db(mob_ids[k]);
 		base_exp = mob->base_exp;
 		job_exp = mob->job_exp;
@@ -7463,8 +7464,21 @@ ACMD_FUNC(mobinfo)
 			sprintf(atcmd_output, msg_txt(sd,1240), mob->name, mob->jname, mob->sprite, mob->vd.class_); // MVP Monster: '%s'/'%s'/'%s' (%d)
 		else
 			sprintf(atcmd_output, msg_txt(sd,1241), mob->name, mob->jname, mob->sprite, mob->vd.class_); // Monster: '%s'/'%s'/'%s' (%d)
-		clif_displaymessage(fd, atcmd_output);
-		sprintf(atcmd_output, msg_txt(sd,1242), mob->lv, mob->status.max_hp, base_exp, job_exp, MOB_HIT(mob), MOB_FLEE(mob)); //  Lv:%d  HP:%d  Base EXP:%u  Job EXP:%u  HIT:%d  FLEE:%d
+		clif_displaymessage(fd, atcmd_output);		double base_pct = 0, job_pct = 0;
+		base_exp2 = base_exp;
+		if (sd->status.base_level > 200 && base_exp2 > 0) { // [Stingor]
+			// Correction du warning C4244 : conversion de 'float' en 't_exp', perte possible de données
+			base_exp2 = (t_exp)((float)base_exp2 / exp(((float)(sd->status.base_level) - 200.0f) / 250.0f));
+			if (sd->status.class_ == JOB_TAEKWON)
+				base_exp2 /= 2;
+		}
+		t_exp nextbase = pc_nextbaseexp(sd);
+		t_exp nextjob = pc_nextjobexp(sd);
+		if (nextbase)
+			base_pct = (double)base_exp2 * 100.0 / nextbase;
+		if (nextjob)
+			job_pct = (double)job_exp * 100.0 / nextjob;
+		sprintf(atcmd_output, msg_txt(sd,1242), mob->lv, mob->status.max_hp, base_exp, base_pct, job_exp, job_pct, MOB_HIT(mob), MOB_FLEE(mob)); //  Lv:%d  HP:%d  Base EXP:%u  Job EXP:%u  HIT:%d  FLEE:%d
 		clif_displaymessage(fd, atcmd_output);
 		sprintf(atcmd_output, msg_txt(sd,1243), //  DEF:%d  MDEF:%d  STR:%d  AGI:%d  VIT:%d  INT:%d  DEX:%d  LUK:%d
 			mob->status.def, mob->status.mdef,mob->status.str, mob->status.agi,
@@ -8633,7 +8647,7 @@ ACMD_FUNC(showdelay)
  *------------------------------------------*/
 ACMD_FUNC(invite)
 {
-	unsigned int did = sd->duel_group;
+	size_t did = sd->duel_group;
 	struct map_session_data *target_sd = NULL;
 
 	memset(atcmd_player_name, '\0', sizeof(atcmd_player_name));
@@ -9424,7 +9438,7 @@ static void atcommand_commands_sub(struct map_session_data* sd, const int fd, At
 		int i, count_bind, gm_lvl = pc_get_group_level(sd);
 		for( i = count_bind = 0; i < atcmd_binding_count; i++ ) {
 			if ( gm_lvl >= ( (type - 1) ? atcmd_binding[i]->level2 : atcmd_binding[i]->level ) ) {
-				unsigned int slen = strlen(atcmd_binding[i]->command);
+				size_t slen = strlen(atcmd_binding[i]->command);
 				if ( count_bind == 0 ) {
 					cur = line_buff;
 					memset(line_buff,' ',CHATBOX_SIZE);
