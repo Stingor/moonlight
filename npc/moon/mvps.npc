@@ -74,6 +74,7 @@ OnInit:
 						1685,4,      //Vesper
 						1112,4,      //Drake
 						1623,4,      //RSX-0806
+						1779,4,      //Ktullanux
 						1719,5,      //Detardeurus
 						1768,6,      //Gloom Under Night
 						1583,6,      //Tao Gunka
@@ -158,6 +159,7 @@ gef_dun03,0,0,0,0	boss_monster	Dark Lord	1272,1,7200000,600000,"classement::OnMv
 gef_dun03,0,0,0,0	boss_monster	Lord of Death	1373,1,7200000,600000,"classement::OnMvpDead"
 gl_cas02_,0,0,0,0	boss_monster	Baphomet (Nightmare)	2483,1,7200000,600000,"classement::OnMvpDead"
 ice_dun03,0,0,0,0	boss_monster	Ktullanux	1779,1,7200000,600000,"classement::OnMvpDead"
+slabw01,0,0,0,0	boss_monster	Venomous Chimera	3633,1,18000000,600000,"classement::OnMvpDead"
 
 
 // PAR SCRIPT  1h40 - 2h10

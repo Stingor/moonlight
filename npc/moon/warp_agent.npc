@@ -1321,6 +1321,7 @@ L_Donjons:
 					"• Thor volcano",
 					"• Toy Factory",
 					"• Turtle Donjon",
+					"• Werner Laboratory",
 					"• Yggdrasil Root",
 					"• ^e64c00Menu Précédent.^000000") ) {
 		clear;
@@ -1684,6 +1685,8 @@ L_Donjons:
 			}
 			break;
 		case 43:
+			callfunc "warp_fct","slabw01",14,88; break;
+		case 44:
 			callfunc "warp_fct","nyd_dun01",54,70; break;
 		default: goto L_warpa; break;
 	}

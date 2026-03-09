@@ -9,5 +9,3 @@
 
 slabw01	monster	Human Chimera	3631,45
 slabw01	monster	Material Chimera	3632,45
-// unknown timer
-slabw01	monster	Venomous Chimera	3633,1,18000000,600000,0
