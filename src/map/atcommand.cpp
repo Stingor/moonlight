@@ -7511,10 +7511,7 @@ ACMD_FUNC(mobinfo)
 				droprate = apply_rate(droprate, battle_config.mult_eventdrop);
 				droprate = min(droprate,10000); //cap it to 100%
 			}
-			if (item_data->slot)
-				sprintf(atcmd_output2, " - %s[%d]  %02.02f%%", item_data->jname, item_data->slot, (float)droprate / 100);
-			else
-				sprintf(atcmd_output2, " - %s  %02.02f%%", item_data->jname, (float)droprate / 100);
+			sprintf(atcmd_output2, " - %s [%d]  %02.02f%%", item_data->jname, item_data->nameid, (float)droprate / 100);
 			strcat(atcmd_output, atcmd_output2);
 			if (++j % 3 == 0) {
 				clif_displaymessage(fd, atcmd_output);
@@ -7543,17 +7540,10 @@ ACMD_FUNC(mobinfo)
 				}
 				if (mvppercent > 0) {
 					j++;
-					if (j == 1) {
-						if (item_data->slot)
-							sprintf(atcmd_output2, " %s[%d]  %02.02f%%", item_data->jname, item_data->slot, mvppercent);
-						else
-							sprintf(atcmd_output2, " %s  %02.02f%%", item_data->jname, mvppercent);
-					} else {
-						if (item_data->slot)
-							sprintf(atcmd_output2, " - %s[%d]  %02.02f%%", item_data->jname, item_data->slot, mvppercent);
-						else
-							sprintf(atcmd_output2, " - %s  %02.02f%%", item_data->jname, mvppercent);
-					}
+					if (j == 1)
+						sprintf(atcmd_output2, " %s [%d]  %02.02f%%", item_data->jname, item_data->nameid, mvppercent);
+					else
+						sprintf(atcmd_output2, " - %s [%d]  %02.02f%%", item_data->jname, item_data->nameid, mvppercent);
 					strcat(atcmd_output, atcmd_output2);
 				}
 			}
