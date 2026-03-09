@@ -2104,3 +2104,109 @@ void do_init_itemdb(void) {
 	if (battle_config.feature_roulette)
 		itemdb_parse_roulette_db();
 }
+
+/**
+ * Generates an item link string for use in chat messages
+ * @param item: Item info
+ * @param data: Item data pointer
+ * @return <ITEML> formatted string for the item
+ */
+std::string create_item_link(struct item& item, struct item_data* data) {
+	if (data == nullptr) {
+		ShowError("Tried to create itemlink for unknown item %u.\n", item.nameid);
+		return "Unknown item";
+	}
+
+	std::string itemstr;
+
+#if PACKETVER >= 20151104
+#if PACKETVER >= 20160113
+		const std::string start_tag = "<ITEML>";
+		const std::string closing_tag = "</ITEML>";
+#else // PACKETVER >= 20151104
+		const std::string start_tag = "<ITEM>";
+		const std::string closing_tag = "</ITEM>";
+#endif
+
+		itemstr += start_tag;
+
+		itemstr += rathena::util::string_left_pad(rathena::util::base62_encode(data->equip), '0', 5);
+		itemstr += itemdb_isequip2(data) ? "1" : "0";
+		itemstr += rathena::util::base62_encode(item.nameid);
+		if (item.refine > 0) {
+			itemstr += "%" + rathena::util::string_left_pad(rathena::util::base62_encode(item.refine), '0', 2);
+		}
+
+#if PACKETVER >= 20161116
+		if (itemdb_isequip2(data)) {
+			itemstr += "&" + rathena::util::string_left_pad(rathena::util::base62_encode(data->look), '0', 2);
+		}
+#endif
+
+#if PACKETVER >= 20200724
+		itemstr += "'" + rathena::util::string_left_pad(rathena::util::base62_encode(item.enchantgrade), '0', 2);
+#endif
+
+#if PACKETVER >= 20200724
+		const std::string card_sep = ")";
+		const std::string optid_sep = "+";
+		const std::string optpar_sep = ",";
+		const std::string optval_sep = "-";
+#elif PACKETVER >= 20161116
+		const std::string card_sep = "(";
+		const std::string optid_sep = "*";
+		const std::string optpar_sep = "+";
+		const std::string optval_sep = ",";
+#else // PACKETVER >= 20151104
+		const std::string card_sep = "'";
+		const std::string optid_sep = ")";
+		const std::string optpar_sep = "*";
+		const std::string optval_sep = "+";
+#endif
+
+		for (uint8 i = 0; i < MAX_SLOTS; ++i) {
+			itemstr += card_sep + rathena::util::string_left_pad(rathena::util::base62_encode(item.card[i]), '0', 2);
+		}
+
+		for (uint8 i = 0; i < MAX_ITEM_RDM_OPT; ++i) {
+			if (item.option[i].id == 0) {
+				break;
+			}
+			// Option ID
+			itemstr += optid_sep + rathena::util::string_left_pad(rathena::util::base62_encode(item.option[i].id), '0', 2);
+			// Param
+			itemstr += optpar_sep + rathena::util::string_left_pad(rathena::util::base62_encode(item.option[i].param), '0', 2);
+			// Value
+			itemstr += optval_sep + rathena::util::string_left_pad(rathena::util::base62_encode(item.option[i].value), '0', 2);
+		}
+
+		itemstr += closing_tag;
+		if (itemdb_isequip2(data) && data->slot == 0)
+			itemstr += " [" + std::to_string(data->slot) + "]";
+
+		return itemstr;
+#endif
+
+	// Fallback: itemlinks disabled or unsupported PACKETVER
+	if (item.refine > 0)
+		itemstr += "+" + std::to_string(item.refine) + " ";
+
+	itemstr += data->jname;
+
+	if (itemdb_isequip2(data))
+		itemstr += "[" + std::to_string(data->slot) + "]";
+
+	return itemstr;
+}
+
+/**
+ * Generates a simple item link string from a nameid (no refine/cards/options)
+ * @param nameid: Item ID
+ * @return <ITEML> formatted string for the item
+ */
+std::string create_item_link_simple(t_itemid nameid) {
+	struct item_data* data = itemdb_exists(nameid);
+	struct item tmp_item = {};
+	tmp_item.nameid = nameid;
+	return create_item_link(tmp_item, data);
+}

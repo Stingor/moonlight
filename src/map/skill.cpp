@@ -844,7 +844,7 @@ bool skill_isNotOk(uint16 skill_id, struct map_session_data *sd)
 
 	uint32 skill_nocast = skill_get_nocast(skill_id);
 	// [Stingor] -->
-	unsigned int tick = gettick();
+	t_tick tick = gettick();
 
 	if( mapdata->flag[MF_NOATTACKSKILL] && (skill_nocast & 2048) && pc_get_group_level(sd) <= 60 ) {
 		clif_skill_fail(sd,skill_id,USESKILL_FAIL_TOTARGET,0);
