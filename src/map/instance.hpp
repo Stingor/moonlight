@@ -111,7 +111,7 @@ extern std::unordered_map<int, std::shared_ptr<s_instance_data>> instances;
 std::shared_ptr<s_instance_db> instance_search_db_name(const char* name);
 void instance_getsd(int instance_id, struct map_session_data *&sd, enum send_target *target);
 
-int instance_create(int owner_id, const char *name, e_instance_mode mode, int hardmode);
+int instance_create(int owner_id, const char *name, e_instance_mode mode, short hardmode, short turbo);
 bool instance_destroy(int instance_id);
 void instance_destroy_command(map_session_data *sd);
 e_instance_enter instance_enter(struct map_session_data *sd, int instance_id, const char *name, short x, short y);

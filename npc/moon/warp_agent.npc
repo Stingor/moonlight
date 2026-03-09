@@ -227,7 +227,7 @@ L_Instance:
 				.@questid = 15050; // Memorial Dungeon: Airship Assault
 				callsub Party_Check,.@md_name$;
 				callsub Leader_Check; // Pour instance Solo
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
 			callfunc "warp_fct","dali02",139,82; break;
@@ -240,7 +240,7 @@ L_Instance:
 				if( isbegin_quest(.@questid2) > 1 )
 					completequest .@questid2;
 				callsub Party_Check,.@md_name$;
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid1,.@questid2;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid1,.@questid2;
 				break;
 			}
 			callfunc "warp_fct","ma_scene01",172,175; break;
@@ -254,7 +254,7 @@ L_Instance:
 					completequest .@questid2;
 				callsub Party_Check,.@md_name$;
 				.@hardmode = callsub(Hard_Mode,GetColor(.@questid1));
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid1,.@questid2;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid1,.@questid2;
 				break;
 			}
 			callfunc "warp_fct","ma_dun01",151,8; break;
@@ -264,7 +264,7 @@ L_Instance:
 			.@questid = 4229; // Devil in the Cave
 			callsub Party_Check,.@md_name$;
 			.@hardmode = callsub(Hard_Mode,GetColor(.@questid));
-			callsub Process_Instance,.@md_name$,.@hardmode,.@questid;
+			callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 			break;
 			// callfunc "warp_fct","ma_fild02",316,317;
 		}
@@ -276,7 +276,7 @@ L_Instance:
 				if( isbegin_quest(.@questid2) == 1 )
 					completequest .@questid2;
 				callsub Party_Check,.@md_name$;
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid1,.@questid2;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid1,.@questid2;
 				break;
 			}
 			callfunc "warp_fct","verus01",151,150; break;
@@ -299,7 +299,7 @@ L_Charleston:
 				}
 
 				callsub Party_Check,.@md_name$;
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
 			callfunc "warp_fct","verus04",77,118; break;
@@ -415,7 +415,7 @@ L_DevilTower:
 				mes "Le timer reste le même pour chaque niveau !! Si vous échouez au 5 vous ne pourrez changer la difficulté.^000000";
 				.@hardmode = select( "Facile(1)", "Normal(2)", "Moyen(3)", "", "Difficile(5)", "", "Très Difficile(7)", "", "", "MALADE(10)", "", "", "", "", "Mindblown(15)", "", "", "", "", "Game Over(20)" );
 			}
-			callsub Process_Instance,.@md_name$,.@hardmode,.@questid;
+			callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 			break;
 			// callfunc "warp_fct","e_tower",72,112;
 		}
@@ -425,7 +425,7 @@ L_DevilTower:
 				.@questid = 12325; // Faceworm's Nest after-effects
 				callsub Party_Check,.@md_name$;
 				callsub Leader_Check; // Pour instance Solo
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
 			callfunc "warp_fct","dali",85,64; break;
@@ -503,7 +503,7 @@ L_DevilTower:
 				.@questid = 1261; // Cursed Swordman
 				callsub Party_Check,.@md_name$; // Check si une party existe bien
 				callsub Leader_Check; // Pour instance Solo
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
 			callfunc "warp_fct","dali02",46,128; break;
@@ -513,7 +513,7 @@ L_DevilTower:
 				.@md_name$ = "Mistwood Maze";
 				.@questid = 7211; // Misty Forest Labyrinth Exploration
 				callsub Party_Check,.@md_name$; // Check si une party existe bien
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
 			callfunc "warp_fct","bif_fild01",161,334; break;
@@ -524,7 +524,7 @@ L_DevilTower:
 				.@questid = 12331; // Trail of Toy Factory
 				callsub Party_Check,.@md_name$;
 				.@hardmode = callsub(Hard_Mode,GetColor(.@questid));
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
 			callfunc "warp_fct","xmas",234,298; break;
@@ -539,7 +539,7 @@ L_DevilTower:
 					completequest .@questid2;
 				}
 				callsub Party_Check,.@md_name$;
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid1,.@questid2;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid1,.@questid2;
 				break;
 			}
 			callfunc "warp_fct","moro_cav",44,66; break;
@@ -551,7 +551,7 @@ L_DevilTower:
 				if (isbegin_quest(11380) == 0)
 					setquest 11380;// Final Room
 				callsub Party_Check,.@md_name$;
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
 			callfunc "warp_fct","un_myst",159,38; break;
@@ -562,7 +562,7 @@ L_DevilTower:
 				.@questid = 12254; // Now it's cleaning
 				if( select( "^FF0000J'ai bien pris ma quête sur place^000000", "Se rendre sur place" ) == 1 ) {
 					callsub Party_Check,.@md_name$;
-					callsub Process_Instance,.@md_name$,.@hardmode,.@questid;
+					callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 					break;
 				}
 			}
@@ -581,7 +581,7 @@ L_DevilTower:
 				if( isbegin_quest(.@questid2) > 0 )
 					erasequest .@questid2;
 				callsub Party_Check,.@md_name$;
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid1,.@questid2;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid1,.@questid2;
 				break;
 			}
 			callfunc "warp_fct","moro_cav",60,66; break;
@@ -611,7 +611,7 @@ L_Jitter:
 
 				callsub Party_Check,.@md_name$;
 				.@hardmode = callsub(Hard_Mode,GetColor(.@questid1));
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid1,.@questid2;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid1,.@questid2;
 				break;
 			}
 			callfunc "warp_fct","moc_para01",27,90; break;
@@ -622,7 +622,7 @@ L_Jitter:
 				.@questid = 3135; // Nydhoggur's Nest
 
 				callsub Party_Check,.@md_name$;
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
 			callfunc "warp_fct","nyd_dun02",95,193; break;
@@ -633,7 +633,7 @@ L_Jitter:
 				.@questid = 4197; // Octopus
 
 				callsub Party_Check,.@md_name$;
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
 			callfunc "warp_fct","mal_dun01",152,230; break;
@@ -653,7 +653,8 @@ L_Jitter:
 				}
 				callsub Party_Check,.@md_name$;
 				.@hardmode = callsub(Hard_Mode,GetColor(.@questid));
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid1,.@questid2;
+				.@turbo = callsub(Turbo_Mode,GetColor(.@questid));
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid1,.@questid2;
 				break;
 			}
 			callfunc "warp_fct","glast_01",204,268; break;
@@ -663,7 +664,7 @@ L_Jitter:
 				.@md_name$ = "Orc's Memory";
 				.@questid = 12059; // Orc's Memory Time Limit
 				callsub Party_Check,.@md_name$;
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
 			callfunc "warp_fct","gef_fild10",240,198; break;
@@ -686,7 +687,7 @@ L_Bijou:
 				callsub Party_Check,.@md_name$;
 				callsub Leader_Check; // Pour instance Solo
 				.@hardmode = callsub(Hard_Mode,GetColor(.@questid1));
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid1,.@questid2;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid1,.@questid2;
 				break;
 			}
 			if( select("• Près de Nillem:• Près de Freidrich") == 1 )
@@ -748,7 +749,7 @@ L_Bijou:
 				.@md_name$ = "Sara's Memories";
 				.@questid = 15002; // Memorial dungeon: Sara's Memory
 				callsub Party_Check,.@md_name$;
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
 			callfunc "warp_fct","dali",133,108; break;
@@ -758,7 +759,7 @@ L_Bijou:
 				.@md_name$ = "Sealed Catacomb";
 				.@questid = 3040; // The Curse of Baphomet
 				callsub Party_Check,.@md_name$;
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
 			callfunc "warp_fct","monk_test",306,143; break;
@@ -768,7 +769,7 @@ L_Bijou:
 				.@md_name$ = "Wolfchev's Laboratory";
 				.@questid = 5112; // Laboratory Restricted Access
 				callsub Party_Check,.@md_name$;
-				callsub Process_Instance,.@md_name$,.@hardmode,.@questid;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
 			callfunc "warp_fct","lhz_dun04",148,269; break;
@@ -793,6 +794,18 @@ Hard_Mode:
 		return select( "Facile(1)", "Normal(2)", "Moyen(3)", "", "Difficile(5)", "", "Très Difficile (7)", "", "", "MALADE (10)" );
 	}
 	return 1;
+
+Turbo_Mode:
+	if( is_party_leader(getcharid(1)) == true && getarg(0) != "^FF0000" ) {
+		clear;
+		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes "Cette instance est disponible avec le mode turbo.";
+		mes "^FF0000Attention!!";
+		mes "une fois activé vous sauterez la plupart des dialogues!!^000000";
+		if( select( "Mode turbo OFF", "Mode turbo ON" ) == 2 )
+			return 1;
+	}
+	return 0;
 	
 Party_Check: // Check si une party existe bien
 	if( instance_check_party(getcharid(1), 1) == 0 ) {
@@ -817,8 +830,11 @@ Create_Instance: // Création instance
 	.@hardmode = getarg(1,1);
 	if( .@hardmode < 1 )
 		.@hardmode = 1;
+	.@turbo = getarg(2,0);
+	if( .@turbo < 1 )
+		.@turbo = 0;
 	if( is_party_leader(getcharid(1)) == true ) {
-		if( instance_create(getarg(0), IM_PARTY, getcharid(1), .@hardmode) < 1 ) {
+		if( instance_create(getarg(0), IM_PARTY, getcharid(1), .@hardmode, .@turbo) < 1 ) {
 			clear;
 			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 			mes "Party name: " + getpartyname(getcharid(1));
@@ -856,25 +872,25 @@ Quick_Enter:
 	goto L_Instance;
 
 Process_Instance:
-	if( checkquest(getarg(2),PLAYTIME) == 2 )
-		erasequest getarg(2); // Reset de la quest cooldown
-	// if( getgroupid() == 99 ) {
-		// callsub Create_Instance, getarg(0), getarg(1); // Création instance
-		// switch( instance_enter(getarg(0)) ) {
-			// case IE_NOMEMBER: goto L_NOMEMBER;
-			// case IE_NOINSTANCE: goto L_NOINSTANCE;
-			// case IE_OTHER: goto L_OTHER;
-			// case IE_OK:
-				// if( getarg(3,0) != 0) {
-					// if( isbegin_quest(getarg(3)) == 0 )
-						// setquest getarg(3); // Set de la quest bonus
-				// }
-				// setquest getarg(2); // Set de la quest cooldown
-				// end;
-		// }
-		// end;
-	// }
-	switch( checkquest(getarg(2),PLAYTIME) ) {
+	if( checkquest(getarg(3),PLAYTIME) == 2 )
+		erasequest getarg(3); // Reset de la quest cooldown
+	if( getgroupid() == 99 ) {
+		callsub Create_Instance, getarg(0), getarg(1), getarg(2,0); // Création instance
+		switch( instance_enter(getarg(0)) ) {
+			case IE_NOMEMBER: goto L_NOMEMBER;
+			case IE_NOINSTANCE: goto L_NOINSTANCE;
+			case IE_OTHER: goto L_OTHER;
+			case IE_OK:
+				if( getarg(4,0) != 0) {
+					if( isbegin_quest(getarg(4)) == 0 )
+						setquest getarg(4); // Set de la quest bonus
+				}
+				setquest getarg(3); // Set de la quest cooldown
+				end;
+		}
+		end;
+	}
+	switch( checkquest(getarg(3),PLAYTIME) ) {
 		case -1:
 			clear;
 			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
@@ -892,11 +908,11 @@ Process_Instance:
 				case IE_NOINSTANCE: goto L_NOINSTANCE;
 				case IE_OTHER: goto L_OTHER;
 				case IE_OK:
-					if( getarg(3,0) != 0) {
-						if( isbegin_quest(getarg(3)) == 0 )
-							setquest getarg(3); // Set de la quest bonus
+					if( getarg(4,0) != 0) {
+						if( isbegin_quest(getarg(4)) == 0 )
+							setquest getarg(4); // Set de la quest bonus
 					}
-					setquest getarg(2); // Set de la quest cooldown
+					setquest getarg(3); // Set de la quest cooldown
 					end;
 			}
 			end;

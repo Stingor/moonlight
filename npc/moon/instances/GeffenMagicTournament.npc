@@ -24,9 +24,9 @@ OnTouch:
 		'GMT = 1;
 		setquest 9292;
 		mapannounce instance_mapname("1@gef"),"Geffen Broadcast: The Geffen Magic Tournament is about to begin!",bc_blue;
-		sleep2 callfunc("sleephm",'hm,3000);
+		sleep2 sleephm('hm, 3000);
 		mapannounce instance_mapname("1@gef"),"Geffen Broadcast: Citizens and adventurers in Geffen, please join the tournament~!",bc_blue;
-		sleep2 callfunc("sleephm",'hm,3000);
+		sleep2 sleephm('hm, 3000);
 		mapannounce instance_mapname("1@gef"),"Geffen Broadcast: Anyone who wants to join the Geffen Magic Tournament, please come to the southern fountain of Geffen~!",bc_blue;
 		'charname$ = strcharinfo(0);
 		'sex = Sex;
@@ -147,9 +147,9 @@ OnTimer1000:
 		case 106:
 			npctalk "Our friendship is forever~!!!", instance_npcname("Young Lady#gef3");
 			emotion ET_THROB, getnpcid(0, instance_npcname("Handsome Adventurer#gef"));
-			sleep callfunc("sleephm",'hm,500);
+			sleep sleephm('hm, 500);
 			npctalk "Our friendship is forever~!!!", instance_npcname("Young Lady#gef1");
-			sleep callfunc("sleephm",'hm,500);
+			sleep sleephm('hm, 500);
 			npctalk "Our friendship is forever~!!!", instance_npcname("Young Lady#gef2");
 			'm1_timer++;
 			break;
@@ -967,7 +967,7 @@ OnEnable:
 						setquest 9293;
 						addtimer 60000,instance_npcname("Receptionist#1_0et")+"::OnFail";
 						hideonnpc instance_npcname("Receptionist#1_0et");
-						callfunc "mobhm",'hm,0,instance_mapname("1@gef"),120,62,"--ja--",1106,1,instance_npcname("Receptionist#1_0et")+"::OnTest";
+						mobhm('hm,0,instance_mapname("1@gef"),120,62,"--ja--",1106,1,instance_npcname("Receptionist#1_0et")+"::OnTest");
 						end;
 				}
 				end;
@@ -1070,7 +1070,7 @@ OnEnable:
 						'GMT = 3;
 						npctalk "Time limit is 60 seconds ! Ready! Set! Go!";
 						addtimer 60000,instance_npcname("Receptionist#1_0et")+"::OnFail";
-						callfunc "mobhm",'hm,0,instance_mapname("1@gef"),120,62,"--ja--",1106,1,instance_npcname("Receptionist#1_0et")+"::OnTest";
+						mobhm('hm,0,instance_mapname("1@gef"),120,62,"--ja--",1106,1,instance_npcname("Receptionist#1_0et")+"::OnTest");
 						hideonnpc instance_npcname("Receptionist#1_0et");
 						end;
 				}
@@ -1542,75 +1542,75 @@ OnStart:
 		case 11:
 			donpcevent instance_npcname("#Talkcontrol")+"::OnStart";
 			npctalk "Ladies and Gentlemen!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "I do my best to be as loud as I can!";
 			donpcevent instance_npcname("#FireworksControl")+"::OnStart";
 			enablenpc instance_npcname("Arhi#1");
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			// npctalk "The Geffen Magic Tournament will now commence!";
-			// sleep callfunc("sleephm",'hm,1000);
+			// sleep sleephm('hm, 1000);
 			// .@spec = rand(70,257);
 			// showscript "Tournament Spectator: Wow~!!! Looks fun~~!! Yahoo~!",getnpcid(0,instance_npcname("Tournament Spectator#"+.@spec));
-			// sleep callfunc("sleephm",'hm,1000);
+			// sleep sleephm('hm, 1000);
 			// .@spec = rand(70,257);
 			// showscript "Tournament Spectator: This is getting exciting~!",getnpcid(0,instance_npcname("Tournament Spectator#"+.@spec));
-			// sleep callfunc("sleephm",'hm,1000);
+			// sleep sleephm('hm, 1000);
 			// .@spec = rand(70,257);
 			// showscript "Tournament Spectator: When is the game going to start~!",getnpcid(0,instance_npcname("Tournament Spectator#"+.@spec));
-			sleep callfunc("sleephm",'hm,500);
+			sleep sleephm('hm, 500);
 			donpcevent instance_npcname("Arhi#1")+"::OnActivate";
-			sleep callfunc("sleephm",'hm,500);
+			sleep sleephm('hm, 500);
 			npctalk "We are starting the 1st match for Group A";
-			sleep callfunc("sleephm",'hm,2000);
+			sleep sleephm('hm, 2000);
 			npctalk "On this corner, "+('sex?"he":"she")+" looks weak enough to lose in the 1st match!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "Give a big welcome to the unknown competitor! "+'charname$+"~!";
-			sleep callfunc("sleephm",'hm,2000);
+			sleep sleephm('hm, 2000);
 			npctalk "And on the other corner, Arhi the Novice! Give it your best shot!";
 			end;
 		case 12:
 			donpcevent instance_npcname("#Talkcontrol")+"::OnStart";
 			donpcevent instance_npcname("#FireworksControl")+"::OnStart";
 			npctalk "The 2nd match of Group A is about to begin!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "On this corner, the competitor who exceeded our expectations by getting past the first round!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "The extremely weak looking competitor, "+'charname$+"!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			donpcevent instance_npcname("Dio Anemos#1")+"::OnActivate";
-			sleep callfunc("sleephm",'hm,500);
+			sleep sleephm('hm, 500);
 			npctalk "And "+('sex ? "his" : "her")+" opponent...";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "Despite his skipping classes at the Magic Academy...";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "A crowd favorite! A big round of applause to the Magician Apprentice, Dio Anemos!";
 			end;
 		case 13:
 			donpcevent instance_npcname("#Talkcontrol")+"::OnStart";
 			donpcevent instance_npcname("#FireworksControl")+"::OnStart";
 			npctalk "The 3rd match of Group A is about to begin!";
-			sleep callfunc("sleephm",'hm,2000);
+			sleep sleephm('hm, 2000);
 			npctalk "Welcome back our unlikely competitor, "+'charname$+"!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "And "+('sex ? "his" : "her")+" opponent...";
-			sleep callfunc("sleephm",'hm,2000);
+			sleep sleephm('hm, 2000);
 			if ('GMTQuest == 1) {
 				donpcevent instance_npcname("Geffen Gangster#n1")+"::OnActivate";
-				sleep callfunc("sleephm",'hm,500);
+				sleep sleephm('hm, 500);
 				npctalk "Whose looks give off a creepy air about him...";
-				sleep callfunc("sleephm",'hm,3000);
+				sleep sleephm('hm, 3000);
 				npctalk "A member of the Curvy Woman Loving club~!! Geffen Gangster!";
 			} else if ('GMTQuest == 2) {
 				donpcevent instance_npcname("Geffen Bully#n1")+"::OnActivate";
-				sleep callfunc("sleephm",'hm,500);
+				sleep sleephm('hm, 500);
 				npctalk "With a face only a mother can love!";
-				sleep callfunc("sleephm",'hm,3000);
+				sleep sleephm('hm, 3000);
 				npctalk "The ruthless Geffen Bully!";
 			} else {
 				donpcevent instance_npcname("Geffen Shoplifter#n1")+"::OnActivate";
-				sleep callfunc("sleephm",'hm,500);
+				sleep sleephm('hm, 500);
 				npctalk "With a mischievous grin on her face!";
-				sleep callfunc("sleephm",'hm,3000);
+				sleep sleephm('hm, 3000);
 				npctalk "The Geffen Thief Guild's Guildmaster! Geffen Shoplifter!";
 			}
 			end;
@@ -1618,63 +1618,63 @@ OnStart:
 			donpcevent instance_npcname("#Talkcontrol")+"::OnStart";
 			donpcevent instance_npcname("#FireworksControl")+"::OnStart";
 			npctalk "The surprise of this year's Tournament~!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "The unrivaled warrior! "+'charname$+"!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			donpcevent instance_npcname("Faymont#1")+"::OnActivate";
 			npctalk "And "+('sex ? "his" : "her")+" opponent~!!!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "Entering the ring with pomp and circumstance.";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "Prontera's pride and style, Faymont!";
 			npctalk "Oh~ A player from Prontera ah!", instance_npcname("Prontera Spectator#a1");
-			sleep callfunc("sleephm",'hm,2000);
+			sleep sleephm('hm, 2000);
 			npctalk "Do not give Prontera a bad name!!", instance_npcname("Prontera Spectator#a2");
 			end;
 		case 15:
 			donpcevent instance_npcname("#Talkcontrol")+"::OnStart";
 			donpcevent instance_npcname("#FireworksControl")+"::OnStart";
 			npctalk "This isn't just a fluke ladies and gents!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "The remarkable rookie! "+'charname$+"!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "And "+('sex ? "his" : "her")+" opponent~!!!";
-			sleep callfunc("sleephm",'hm,500);
+			sleep sleephm('hm, 500);
 			donpcevent instance_npcname("Ordre#1")+"::OnActivate";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "One who promises to fight with honor!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "The self-proclaimed master of battle, Ordre!";
 			end;
 		case 16:
 			donpcevent instance_npcname("#Talkcontrol")+"::OnStart";
 			donpcevent instance_npcname("#FireworksControl")+"::OnStart";
 			npctalk "Suddenly, the incredibly powerful!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "Super rookie of this year's tournament~! "+'charname$+"!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "And "+('sex ? "his" : "her")+" opponent~!!!";
-			sleep callfunc("sleephm",'hm,500);
+			sleep sleephm('hm, 500);
 			donpcevent instance_npcname("Blut Hase#1")+"::OnActivate";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "Cute on the outside, but cruely destroys enemies!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "Bloody Rabbit Ears~!! Blut Hase!";
 			end;
 		case 17:
 			donpcevent instance_npcname("#Talkcontrol")+"::OnStart";
 			donpcevent instance_npcname("#FireworksControl")+"::OnStart";
 			npctalk "Onwards to the 7th Round!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "Welcome back "+'charname$+"!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "And "+('sex ? "his" : "her")+" opponent~!!!";
-			sleep callfunc("sleephm",'hm,2000);
+			sleep sleephm('hm, 2000);
 			donpcevent instance_npcname("#Talkcontrol")+"::OnRndtalk";
 			npctalk "A competitor more evil than any we've seen before!";
-			sleep callfunc("sleephm",'hm,500);
+			sleep sleephm('hm, 500);
 			donpcevent instance_npcname("Kuro Akuma#1")+"::OnActivate";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "The Devil's Tooth, Kuro Akuma!";
 			donpcevent instance_npcname("#Talkcontrol")+"::OnRndtalk";
 			end;
@@ -1682,21 +1682,21 @@ OnStart:
 			donpcevent instance_npcname("#Talkcontrol")+"::OnStart";
 			donpcevent instance_npcname("#FireworksControl")+"::OnStart";
 			npctalk "Starting up Round 8 for Group A!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "The darling of this year's tournament!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "Rune-Midgarts newest star, "+'charname$+"!";
-			sleep callfunc("sleephm",'hm,2000);
+			sleep sleephm('hm, 2000);
 			npctalk "And "+('sex ? "his" : "her")+" opponent~!!!";
-			sleep callfunc("sleephm",'hm,2000);
+			sleep sleephm('hm, 2000);
 			npctalk "They look very strong!", instance_npcname("Payon Spectator#a1");
-			sleep callfunc("sleephm",'hm,250);
+			sleep sleephm('hm, 250);
 			donpcevent instance_npcname("Ifodes#1")+"::OnActivate";
-			sleep callfunc("sleephm",'hm,250);
+			sleep sleephm('hm, 250);
 			npctalk "Looks good and strong ah!", instance_npcname("Veins Spectator#a1");
-			sleep callfunc("sleephm",'hm,1000);
+			sleep sleephm('hm, 1000);
 			npctalk "Slow as a turtle, fast as a hare!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "The maniac of Rune-Midgarts! Ifodes!";
 			donpcevent instance_npcname("#Talkcontrol")+"::OnRndtalk";
 			end;
@@ -1704,21 +1704,21 @@ OnStart:
 			donpcevent instance_npcname("#Talkcontrol")+"::OnStart";
 			donpcevent instance_npcname("#FireworksControl")+"::OnStart";
 			npctalk "We have now entered the 9th Round of this competition!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "Nobody can stop "+('sex ? "him" : "her")+"!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk ""+('sex ? "His" : "Her")+" strength has been recognized by the people! "+'charname$;
-			sleep callfunc("sleephm",'hm,2000);
+			sleep sleephm('hm, 2000);
 			npctalk "And "+('sex ? "his" : "her")+" opponent~!!!";
-			sleep callfunc("sleephm",'hm,500);
+			sleep sleephm('hm, 500);
 			donpcevent instance_npcname("Licheniyes#1")+"::OnActivate";
-			sleep callfunc("sleephm",'hm,500);
+			sleep sleephm('hm, 500);
 			donpcevent instance_npcname("#Talkcontrol")+"::OnRndtalk";
-			sleep callfunc("sleephm",'hm,1000);
+			sleep sleephm('hm, 1000);
 			npctalk "She might look like a nice lady, but you better watch out!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "She'll attack you with the swiftness of a snake!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "The Lady of Death! Licheniyes!";
 			donpcevent instance_npcname("#Talkcontrol")+"::OnRndtalk";
 			end;
@@ -1726,21 +1726,21 @@ OnStart:
 			donpcevent instance_npcname("#Talkcontrol")+"::OnStart";
 			donpcevent instance_npcname("#FireworksControl")+"::OnStart";
 			npctalk "Let us begin the 10th Round of Group A!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "In this corner, back to entertain us again!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "None other than the incredible "+'charname$+"!";
-			sleep callfunc("sleephm",'hm,1000);
+			sleep sleephm('hm, 1000);
 			donpcevent instance_npcname("#Talkcontrol")+"::OnRndtalk";
-			sleep callfunc("sleephm",'hm,1000);
+			sleep sleephm('hm, 1000);
 			npctalk "And "+('sex ? "his" : "her")+" opponent~!!!";
-			sleep callfunc("sleephm",'hm,1000);
+			sleep sleephm('hm, 1000);
 			npctalk "Seductress of Rune-Midgarts...";
-			sleep callfunc("sleephm",'hm,500);
+			sleep sleephm('hm, 500);
 			donpcevent instance_npcname("Odoric#1")+"::OnActivate";
-			sleep callfunc("sleephm",'hm,500);
+			sleep sleephm('hm, 500);
 			npctalk "You can't look away from her curves!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "The Songstress of Death! Odoric!";
 			donpcevent instance_npcname("#Talkcontrol")+"::OnRndtalk";
 			end;
@@ -1748,21 +1748,21 @@ OnStart:
 			donpcevent instance_npcname("#Talkcontrol")+"::OnStart";
 			donpcevent instance_npcname("#FireworksControl")+"::OnStart";
 			npctalk "We're getting closer to the end, next up is Quarter-Finals!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "The winning never ends with "+'charname$+"!";
-			sleep callfunc("sleephm",'hm,2000);
+			sleep sleephm('hm, 2000);
 			donpcevent instance_npcname("#Talkcontrol")+"::OnRndtalk";
-			sleep callfunc("sleephm",'hm,1000);
+			sleep sleephm('hm, 1000);
 			npctalk "And "+('sex ? "his" : "her")+" opponent~!!!";
-			sleep callfunc("sleephm",'hm,500);
+			sleep sleephm('hm, 500);
 			donpcevent instance_npcname("Ju#1")+"::OnActivate";
-			sleep callfunc("sleephm",'hm,250);
+			sleep sleephm('hm, 250);
 			npctalk "I can smell blood...",instance_npcname("Loki#a2");
-			sleep callfunc("sleephm",'hm,1000);
+			sleep sleephm('hm, 1000);
 			npctalk "Oh... A fierce competitor, is not it?",instance_npcname("Iris#a2");
-			sleep callfunc("sleephm",'hm,500);
+			sleep sleephm('hm, 500);
 			npctalk "Hidden behind a shroud of mystery...";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "Master of power and speed! Ju!";
 			donpcevent instance_npcname("#Talkcontrol")+"::OnRndtalk";
 			end;
@@ -1770,27 +1770,27 @@ OnStart:
 			donpcevent instance_npcname("#Talkcontrol")+"::OnStart";
 			donpcevent instance_npcname("#FireworksControl")+"::OnStart";
 			npctalk "We are now at the Semi-Finals of this competition, this match will decide the winner for Group A!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "Winning against all odds, Group A's Dark Horse, "+'charname$+"!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "And "+('sex ? "his" : "her")+" opponent~!!!";
 			if ('half) {
-				sleep callfunc("sleephm",'hm,500);
+				sleep sleephm('hm, 500);
 				donpcevent instance_npcname("Dwigh#1")+"::OnActivate";
-				sleep callfunc("sleephm",'hm,1500);
+				sleep sleephm('hm, 1500);
 				npctalk "Chief Professor of the Mage Academy, loved by her many disciples!";
-				sleep callfunc("sleephm",'hm,1000);
+				sleep sleephm('hm, 1000);
 				donpcevent instance_npcname("#Talkcontrol")+"::OnRndtalk";
-				sleep callfunc("sleephm",'hm,2000);
+				sleep sleephm('hm, 2000);
 				npctalk "Commander of battle and wits! Dwigh!";
 			}	else {
-				sleep callfunc("sleephm",'hm,2000);
+				sleep sleephm('hm, 2000);
 				npctalk "An Alchemist from Aldebaran, the city of science!";
-				sleep callfunc("sleephm",'hm,500);
+				sleep sleephm('hm, 500);
 				donpcevent instance_npcname("Fay Kanavian#1")+"::OnActivate";
-				sleep callfunc("sleephm",'hm,500);
+				sleep sleephm('hm, 500);
 				donpcevent instance_npcname("#Talkcontrol")+"::OnRndtalk";
-				sleep callfunc("sleephm",'hm,2000);
+				sleep sleephm('hm, 2000);
 				npctalk "Fay Kanavian and her homunculus, Alphonse!";
 				}
 			end;
@@ -1798,27 +1798,27 @@ OnStart:
 			donpcevent instance_npcname("#Talkcontrol")+"::OnStart";
 			donpcevent instance_npcname("#FireworksControl")+"::OnStart";
 			npctalk "A previously anonymous fighter";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "Despite this, unmatched in Group A!";
-			sleep callfunc("sleephm",'hm,2000);
+			sleep sleephm('hm, 2000);
 			npctalk "The most talked about competitor this year!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "The unrivaled! "+'charname$+"!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "Aha, this match looks like it will be interesting.",instance_npcname("Loki#a2");
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "And the champion of Group B~!!!";
-			sleep callfunc("sleephm",'hm,1500);
+			sleep sleephm('hm, 1500);
 			donpcevent instance_npcname("Fenrir#f")+"::OnActivate";
-			sleep callfunc("sleephm",'hm,1500);
+			sleep sleephm('hm, 1500);
 			npctalk "A Warlock with incredible powers!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "A competitor who swept through Group B like a hurricane!";
-			sleep callfunc("sleephm",'hm,1000);
+			sleep sleephm('hm, 1000);
 			npctalk "Oh! This match is going to be exciting!",instance_npcname("Chaos#a2");
-			sleep callfunc("sleephm",'hm,2000);
+			sleep sleephm('hm, 2000);
 			npctalk "Is there any Wizard stronger in all of Rune-Midgarts?!";
-			sleep callfunc("sleephm",'hm,3000);
+			sleep sleephm('hm, 3000);
 			npctalk "The Blue Wizard! Fenris Fenrir~!!";
 			end;
 	}
@@ -1833,11 +1833,11 @@ OnTalk2:
 	}
 	else {
 		npctalk "The "+callfunc("F_GetNumSuffix",('GMT_1QUE-10))+" match of Group A is finished~! Congratulations "+'charname$+"!";
-		sleep callfunc("sleephm",'hm,6000);
+		sleep sleephm('hm, 6000);
 		npctalk "You may take some time to heal your wounds.";
-		sleep callfunc("sleephm",'hm,6000);
+		sleep sleephm('hm, 6000);
 		npctalk "Please speak with the Tournament Guide when you are ready for the next round.";
-		sleep callfunc("sleephm",'hm,3000);
+		sleep sleephm('hm, 3000);
 	}
 	switch ('GMT_1QUE) {
 	case 11:
@@ -1851,31 +1851,31 @@ OnTalk2:
 		break;
 	case 13:
 		npctalk "Fenris Fenrir has 3 consecutive victories in Group B~!";
-		sleep callfunc("sleephm",'hm,3000);
+		sleep sleephm('hm, 3000);
 		break;
 	case 16:
 		npctalk "Okay~! There is news from Group B!";
-		sleep callfunc("sleephm",'hm,3000);
+		sleep sleephm('hm, 3000);
 		npctalk "While all of the other competitors are doing their best,";
-		sleep callfunc("sleephm",'hm,3000);
+		sleep sleephm('hm, 3000);
 		npctalk "Fenrir is taking the tournament by storm, and has won 5 consecutive matches!";
-		sleep callfunc("sleephm",'hm,1000);
+		sleep sleephm('hm, 1000);
 		break;
 	case 19:
 		npctalk "This is getting exciting! More news from Group B!";
-		sleep callfunc("sleephm",'hm,3000);
+		sleep sleephm('hm, 3000);
 		npctalk "Fenris Fenrir is continuing her reign of dominance~! Those in Group A better beware!";
-		sleep callfunc("sleephm",'hm,2000);
+		sleep sleephm('hm, 2000);
 		break;
 	case 22:
 		npctalk "Group B has completed their 12th match as well~!";
-		sleep callfunc("sleephm",'hm,3000);
+		sleep sleephm('hm, 3000);
 		npctalk "Have you heard of Tetra Vortex? There is a competitor using this mysterious spell!";
-		sleep callfunc("sleephm",'hm,3000);
+		sleep sleephm('hm, 3000);
 		npctalk "Her name is none other than Fenris Fenrir!";
-		sleep callfunc("sleephm",'hm,3000);
+		sleep sleephm('hm, 3000);
 		npctalk "The final match of this tournament is bound to be challenging!";
-		sleep callfunc("sleephm",'hm,1000);
+		sleep sleephm('hm, 1000);
 		break;
 	}
 	hideoffnpc instance_npcname("Tournament Guide#gefMT");
@@ -1888,9 +1888,9 @@ OnTalk3:
 	end;
 OnTalk4:
 	npctalk "The Final Match of this year's Geffen Magic Tournament is finished~!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Everyone! Thank you for supporting the Geffen Magic Tournament~!!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "This year's Geffen Magic Tournament Champion is "+'charname$+"~!!";
 	donpcevent instance_npcname("#FireworksControl")+"::OnWin";
 	end;
@@ -1930,9 +1930,9 @@ OnStart:
 		'timeout = 300;
 
 	mapannounce .@map$, "<Magic Tournament Broadcast>: Time limit is " + ('timeout / 60) + " minutes.",bc_blue;
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	mapannounce .@map$, "<Magic Tournament Broadcast>: Ready... Set...",bc_blue;
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	mapannounce .@map$, "<Magic Tournament Broadcast>: Fight!",bc_blue;
 
 	donpcevent instance_npcname("#FireworksControl")+"::OnTurn";
@@ -2097,16 +2097,16 @@ OnTimeout2:
 		'HomID = 0;
 	}
 
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	hideoffnpc instance_npcname("Geffen Academy Master");
 //	npctalk "The votes are in... And the winner is...",instance_npcname("Geffen Academy Master");
-//	sleep callfunc("sleephm",'hm,1500);
+//	sleep sleephm('hm, 1500);
 	npctalk "1st judge's score! "+rand(100)+" - "+rand(100)+"", "Geffen Academy Master";
-	sleep callfunc("sleephm",'hm,1500);
+	sleep sleephm('hm, 1500);
 	npctalk "2nd judge's score! "+rand(100)+" - "+rand(100)+"", "Geffen Academy Master";
-	sleep callfunc("sleephm",'hm,1500);
+	sleep sleephm('hm, 1500);
 	npctalk "3rd judge's score! "+rand(100)+" - "+rand(100)+"", "Geffen Academy Master";
-	sleep callfunc("sleephm",'hm,1500);
+	sleep sleephm('hm, 1500);
 
 	switch ('GMT_1QUE) {
 		case 11:
@@ -2203,12 +2203,12 @@ OnTimeout2:
 	}
 
 	npctalk "The winner of the "+callfunc("F_GetNumSuffix",('GMT_1QUE-10))+" match in Group A by judge's decision is...! "+.@defeat$, "Geffen Academy Master";
-	sleep callfunc("sleephm",'hm,1500);
+	sleep sleephm('hm, 1500);
 	//donpcevent instance_npcname("#DEATHGMT")+"::OnLoseRound";
 	npctalk "Give a warm round of applause to the losing competitor.", "Geffen Academy Master";
-	sleep callfunc("sleephm",'hm,1500);
+	sleep sleephm('hm, 1500);
 	npctalk "Defeated competitors please leave the arena!", "Geffen Academy Master";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	movenpc instance_npcname("#gefmagic_warp02"),120,213;
 	movenpc instance_npcname("#invisGMTquests"),120,61;
 
@@ -2246,7 +2246,7 @@ OnTimer10000:
 		getunitdata 'HomID,.@homdata;
 			if (distance(.@bossdata[6],.@bossdata[7],.@homdata[6],.@homdata[7]) > 10) {
 				unittalk 'BossID,"Alphonse, come!";
-				sleep callfunc("sleephm",'hm,500);
+				sleep sleephm('hm, 500);
 				unitwarp 'HomID, instance_mapname("1@ge_st"),.@bossdata[6],.@bossdata[7];
 			}
 	}
@@ -2254,7 +2254,7 @@ OnTimer10000:
 		if (mobcount(instance_mapname("1@ge_st"),instance_npcname("#GMTHomun")+"::OnHomJR")) { end; }
 		getunitdata 'BossID,.@bossdata;
 		unittalk 'BossID, "Alphonse, I'll revive you!";
-		callfunc "mobhm",'hm,1,instance_mapname("1@ge_st"),.@bossdata[6]-2,.@bossdata[7]-2,.@bossdata[6]+2,.@bossdata[7]+2,"--ja--",2566,3,instance_npcname("#GMTHomun")+"::OnHomJR";
+		mobhm('hm,1,instance_mapname("1@ge_st"),.@bossdata[6]-2,.@bossdata[7]-2,.@bossdata[6]+2,.@bossdata[7]+2,"--ja--",2566,3,instance_npcname("#GMTHomun")+"::OnHomJR");
 	}
 	end;
 
@@ -2322,15 +2322,15 @@ OnWin:
 	for ( .@i = 1; .@i <= 5; .@i++ ) {
 		specialeffect EF_LORD, AREA, instance_npcname("#fireworks_f" + .@i);
 	}
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	for ( .@i = 1; .@i <= 5; .@i++ ) {
 		specialeffect EF_SIGHTRASHER, AREA, instance_npcname("#fireworks_f" + .@i);
 	}
-	sleep callfunc("sleephm",'hm,500);
+	sleep sleephm('hm, 500);
 	for ( .@i = 1; .@i <= 5; .@i++ ){
 		specialeffect EF_STORMGUST, AREA, instance_npcname("#fireworks_f" + .@i);
 	}
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	for ( .@i = 1; .@i <= 5; .@i++ ) {
 		specialeffect EF_VIOLENTGALE, AREA, instance_npcname("#fireworks_f" + .@i);
 	}
@@ -2486,35 +2486,35 @@ end;
 OnActivate:
 	enablenpc instance_npcname("Arhi#1");
 	npctalk "The first match always makes me nervous~!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "Can I win?";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I guess it will be okay, this "+('sex ? "guy" : "girl")+" seems weak.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Okay, just relax~!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Ah... Finally, It's going to start soon!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Just relax~!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	donpcevent instance_npcname("#GMTcontroller")+"::OnStart";
 	end;
 
 OnDefeat:
 	hideoffnpc instance_npcname("Arhi#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "Ah... I lost the first match...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "How can I face my family...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "So shameful...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Ah... My friends will laugh at me...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Sob...";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	hideonnpc instance_npcname("Arhi#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	movenpc instance_npcname("Arhi#z1_0et"),145,125;
 	hideoffnpc instance_npcname("Tournament Guide#gefMT");
 	disablenpc instance_npcname("Arhi#1");
@@ -2522,15 +2522,15 @@ OnDefeat:
 
 OnVictory:
 	hideoffnpc instance_npcname("Arhi#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "I knew I would win!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I'm so relieved!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I was able to beat a weak competitor.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Yahoo!";
-	sleep callfunc("sleephm",'hm,5000);
+	sleep sleephm('hm, 5000);
 	instance_warpall instance_mapname("1@gef"),120,61, instance_id();
 	end;
 
@@ -2541,53 +2541,53 @@ end;
 
 OnActivate:
 	npctalk "Second round huh...";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "You look like a weak competitor.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I think I've got a good chance against you.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I wish the match would start already...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "If I finish it quickly maybe I can go buy some cookies!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Okay then let's start!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "Boring...",instance_npcname("Loki#a2");
 	donpcevent instance_npcname("#GMTcontroller")+"::OnStart";
 	end;
 
 OnDefeat:
 	hideoffnpc instance_npcname("Dio Anemos#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "Oh my god....";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "I lost...";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "Ah... and to this random loser too...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "My skills have gotten worse...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "This is so sad...";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "Ahhhh! Why?...";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	hideonnpc instance_npcname("Dio Anemos#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	movenpc instance_npcname("Dio Anemos#z1_0et"),91,117;
 	disablenpc instance_npcname("Dio Anemos#1");
 	end;
 
 OnVictory:
 	hideoffnpc instance_npcname("Dio Anemos#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "Phew... That was easy.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "You should go home and ask your mommy to feed you!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Ha ha ha ha~!!!!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Time to get ready for my next match.";
-	sleep callfunc("sleephm",'hm,5000);
+	sleep sleephm('hm, 5000);
 	instance_warpall instance_mapname("1@gef"),120,61, instance_id();
 	end;
 
@@ -2598,51 +2598,51 @@ end;
 
 OnActivate:
 	npctalk "Hmmm, you're that kid from before...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I've got a lesson to teach you!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "It's my turn to beat you!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "First I'll take care of you, and then I'll go back for that Kafra...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Watcha got punk?!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Prepare to die!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	donpcevent instance_npcname("#GMTcontroller")+"::OnStart";
 	end;
 
 OnDefeat:
 	hideoffnpc instance_npcname("Geffen Gangster#n1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "I was defeated! This doesn't make any sense!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "I can't believe I lost to you!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "To be embarrassed in front of the Kafra with the luscious legs...!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Sob.. This can't be happening!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "I shouldn't have to go through this depression alone!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "I'll have to go to see the Kafra gal' in Prontera hu-hu-hu...";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	hideonnpc instance_npcname("Geffen Gangster#n1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	disablenpc instance_npcname("Geffen Gangster#n1");
 	end;
 
 OnVictory:
 	hideoffnpc instance_npcname("Geffen Gangster#n1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "This is my real ability!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Hu hu... That... Kafra...!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I want to go back to my Kafra~!!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Hu hu hu hu hu...";
-	sleep callfunc("sleephm",'hm,5000);
+	sleep sleephm('hm, 5000);
 	instance_warpall instance_mapname("1@gef"),120,61, instance_id();
 	end;
 }
@@ -2652,49 +2652,49 @@ end;
 
 OnActivate:
 	npctalk "Just you wait, you'll be immediately disabled!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I will beat you down today!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Give me your zeny!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I'll send you crying home!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I will make you experience my 20 years of bullying.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "You're dead!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	donpcevent instance_npcname("#GMTcontroller")+"::OnStart";
 	end;
 
 OnDefeat:
 	hideoffnpc instance_npcname("Geffen Bully#n1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "I can't believe you beat me...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "It can't be!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "This can't be! I only wanted to get more zeny!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Now I'll be the laughing stock of all of Geffen!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Ah! Ahhh!! It can't be!!!";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	hideonnpc instance_npcname("Geffen Bully#n1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	disablenpc instance_npcname("Geffen Bully#n1");
 	end;
 
 OnVictory:
 	hideoffnpc instance_npcname("Geffen Bully#n1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "You! How much zeny do you have left?";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "You messed with me once before!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "And now I've left you speechless!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Never show your face in Geffen again!";
-	sleep callfunc("sleephm",'hm,5000);
+	sleep sleephm('hm, 5000);
 	instance_warpall instance_mapname("1@gef"),120,61, instance_id();
 	end;
 
@@ -2705,51 +2705,51 @@ end;
 
 OnActivate:
 	npctalk "There are so many people gathered here.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I thought there'd be something good to steal here";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "But I can't steal anything because of all the attention it'll cause.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Ah... This is no good...";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "I guess I'll just participate in the tournament...";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "Well~! Let's win anyway!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	donpcevent instance_npcname("#GMTcontroller")+"::OnStart";
 	end;
 
 OnDefeat:
 	hideoffnpc instance_npcname("Geffen Shoplifter#n1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "Oh my god... I was defeated.";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "I have been spending too much time stealing.";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "My battle power has been reduced.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Ah... It can't be...";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "I'll need to train more if I want to keep my position as Guild Leader...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Fine, I'm outta here!";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	hideonnpc instance_npcname("Geffen Shoplifter#n1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	disablenpc instance_npcname("Geffen Shoplifter#n1");
 	end;
 
 OnVictory:
 	hideoffnpc instance_npcname("Geffen Shoplifter#n1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "I know, I'm really good.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Okay! Time to keep winning~!!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I should take as many rewards as possible~!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "You should go home~ Bye~!";
-	sleep callfunc("sleephm",'hm,5000);
+	sleep sleephm('hm, 5000);
 	instance_warpall instance_mapname("1@gef"),120,61, instance_id();
 	end;
 }
@@ -2760,53 +2760,53 @@ end;
 OnActivate:
 	enablenpc instance_npcname("Faymont#1");
 	npctalk "Well would you look at that... this competitor seems...";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "Like he's just gotten lucky up until now!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I really don't want to get my hands dirty.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I'll handle this in a sophisticated way...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Ahem... Looks like we're about to start now.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Maybe if I finish this quickly, I can buy that new headdress...";
 	npctalk "Come on!", instance_npcname("Prontera Spectator#a1");
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	donpcevent instance_npcname("#GMTcontroller")+"::OnStart";
 	end;
 
 OnDefeat:
 	hideoffnpc instance_npcname("Faymont#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "How could... How could I lose?!...";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "And to the one "+('sex ? "guy" : "girl")+" with no taste...";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "How shameful...";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "My fans will be disappointed at me for losing...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Ahh.... What's the quickest way out of here?";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I can't show my face around here any longer...";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	hideonnpc instance_npcname("Faymont#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	movenpc instance_npcname("Faymont#z1_0et"),53,90;
 	disablenpc instance_npcname("Faymont#1");
 	end;
 
 OnVictory:
 	hideoffnpc instance_npcname("Faymont#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "Can you see the difference between you and me? Noble and shallow.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "This tournament is pointless.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "What kind of shallow man will I have to fight with next?";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "No matter, I'll just prepare for the next match.";
-	sleep callfunc("sleephm",'hm,5000);
+	sleep sleephm('hm, 5000);
 	instance_warpall instance_mapname("1@gef"),120,61, instance_id();
 	end;
 }
@@ -2817,55 +2817,55 @@ end;
 OnActivate:
 	enablenpc instance_npcname("Ordre#1");
 	npctalk "One! Two! One! Two!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "Let's climb the ladder one step at a time!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "I've been training so hard!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I'm not about to give up now!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I can't lose after coming so far";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Now~! Let's do our best for those in the audience!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Shall we begin?";
 	npctalk "What? Is this really the level of competition?",instance_npcname("Chaos#a2");
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	donpcevent instance_npcname("#GMTcontroller")+"::OnStart";
 	end;
 
 OnDefeat:
 	hideoffnpc instance_npcname("Ordre#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "Defeated...";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "I need more practice...";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "I need more training...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I'll train twice as hard as before!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I must start over.";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "Let's go.";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	hideonnpc instance_npcname("Ordre#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	movenpc instance_npcname("Ordre#z1_0et"),85,68;
 	disablenpc instance_npcname("Ordre#1");
 	end;
 
 OnVictory:
 	hideoffnpc instance_npcname("Ordre#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "I won!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "As long as you try... you can get what you want!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Let's show respect to this competition!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I'm ready for the next match!!";
-	sleep callfunc("sleephm",'hm,5000);
+	sleep sleephm('hm, 5000);
 	instance_warpall instance_mapname("1@gef"),120,61, instance_id();
 	end;
 }
@@ -2876,56 +2876,56 @@ end;
 
 OnActivate:
 	npctalk "You've gotten this far.";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "I imagine by now the rest of the competitors are quite strong";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "But I did not build my reputation for nothing!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Fear my Bunny Band!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "You are but an obstacle in my way!";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	donpcevent instance_npcname("#Talkcontrol")+"::OnRndtalk";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "You will be sacrificed on my path to victory!";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	donpcevent instance_npcname("#Talkcontrol")+"::OnRndtalk";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	donpcevent instance_npcname("#GMTcontroller")+"::OnStart";
 	end;
 
 OnDefeat:
 	hideoffnpc instance_npcname("Blut Hase#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "I will not lose!";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "My reputation... My popularity...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I will lose them both...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I cannot accept this result!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I will regain my reputation!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "Next time I will be the winner!";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	hideonnpc instance_npcname("Blut Hase#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	movenpc instance_npcname("Blut Hase#z1_0et"),111,62;
 	disablenpc instance_npcname("Blut Hase#1");
 	end;
 
 OnVictory:
 	hideoffnpc instance_npcname("Blut Hase#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "In terms of reputation or popularity...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "It was impossible for me to lose!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I will be known as Ultra Rabbit's Blood instead of Rabbit's Bloody Ear now!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Ha ha ha ha ha~!!";
-	sleep callfunc("sleephm",'hm,5000);
+	sleep sleephm('hm, 5000);
 	instance_warpall instance_mapname("1@gef"),120,61, instance_id();
 	end;
 }
@@ -2934,52 +2934,52 @@ OnVictory:
 end;
 OnActivate:
 	npctalk "Finally the 7th game has started ~!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "You've never met anyone as evil as me ~!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "You are lucky~!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "This will be a good experience for you~!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Nobody who's faced me has ever survived~!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I will destroy you if I must~!";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	donpcevent instance_npcname("#Talkcontrol")+"::OnRndtalk";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	donpcevent instance_npcname("#GMTcontroller")+"::OnStart";
 	end;
 
 OnDefeat:
 	hideoffnpc instance_npcname("Kuro Akuma#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "Oh my god...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I am The Devil's Tooth...";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "And I have lost this match...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Yach, yikes, ah, ah, ah! Yikes ah, ah, ah!!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I can't lose! I'll have my revenge!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	hideonnpc instance_npcname("Kuro Akuma#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	movenpc instance_npcname("Kuro Akuma#z1_0et"),104,42;
 	disablenpc instance_npcname("Kuro Akuma#1");
 	end;
 
 OnVictory:
 	hideoffnpc instance_npcname("Kuro Akuma#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "How is it~! My Power~!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I took pity on you and decided not to send you to hell~!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "You should appreciate that!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Now, I shall prepare for my next match~!";
-	sleep callfunc("sleephm",'hm,5000);
+	sleep sleephm('hm, 5000);
 	instance_warpall instance_mapname("1@gef"),120,61, instance_id();
 	end;
 
@@ -2989,50 +2989,50 @@ OnVictory:
 end;
 OnActivate:
 	npctalk "At long last, the 8th game has started.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "No one can pierce my defenses!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "But I can surely get past yours.";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "Therefore, you stand no chance!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "Once the match has started, your laughter will turn into tears!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "Shall we start?";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	donpcevent instance_npcname("#Talkcontrol")+"::OnRndtalk";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	donpcevent instance_npcname("#GMTcontroller")+"::OnStart";
 	end;
 
 OnDefeat:
 	hideoffnpc instance_npcname("Ifodes#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "I will not lose this tournament!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "This is nonsense.";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "How could this happen?";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I can't understand!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Arrgggh!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	hideonnpc instance_npcname("Ifodes#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	movenpc instance_npcname("Ifodes#z1_0et"),115,66;
 	disablenpc instance_npcname("Ifodes#1");
 	end;
 
 OnVictory:
 	hideoffnpc instance_npcname("Ifodes#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "You can't penetrate my defense!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "You can't even protect yourself from my powerful attacks!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Wahahaha~!!";
-	sleep callfunc("sleephm",'hm,5000);
+	sleep sleephm('hm, 5000);
 	instance_warpall instance_mapname("1@gef"),120,61, instance_id();
 	end;
 
@@ -3042,53 +3042,53 @@ OnVictory:
 end;
 OnActivate:
 	npctalk "Ho ho ho~!!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "The competitor of the 9th match looks scary~!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "You don't scare me though~!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "I'm a lady~!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "But once this match starts...!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "*Giggling*... I will bite you!";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "good horror players ...", instance_npcname("Payon Spectator#a1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "Do not be afraid ah, dark horse contestant!", instance_npcname("Prontera Spectator#a1");
 	donpcevent instance_npcname("#GMTcontroller")+"::OnStart";
 	end;
 
 OnDefeat:
 	hideoffnpc instance_npcname("Licheniyes#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "You try to beat me with cruelty, a lady like me...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I am very sad...";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "Sob...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "But, next time we meet...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I will destroy you with little effort!";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	hideonnpc instance_npcname("Licheniyes#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	movenpc instance_npcname("Licheniyes#z1_0et"),137,53;
 	disablenpc instance_npcname("Licheniyes#1");
 	end;
 
 OnVictory:
 	hideoffnpc instance_npcname("Licheniyes#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "Oh ho ho ho~~! I knew I would win~!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Oh my! Oh my! I am very sorry~!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Ah, Ah~ I need to prepare next match!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I'm so giddy to find out who I'm up against next!~";
-	sleep callfunc("sleephm",'hm,5000);
+	sleep sleephm('hm, 5000);
 	instance_warpall instance_mapname("1@gef"),120,61, instance_id();
 	end;
 
@@ -3098,54 +3098,54 @@ OnVictory:
 end;
 OnActivate:
 	npctalk "Lu lu~ What a fun tournament!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Dance~ Dance~ Bewitching dance~!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Everyone is mesmerized by my magical dance!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "You will be captured by my charm~!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "Now, feast on my magical dance!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "Lah, Lah, Lah, Lah~~!";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "How beautiful!", instance_npcname("Veins Spectator#a1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	donpcevent instance_npcname("#GMTcontroller")+"::OnStart";
 	end;
 
 OnDefeat:
 	hideoffnpc instance_npcname("Odoric#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "Sob...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I lost, even though I did my best...";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "My charming poses...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "They didn't work... Sob...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I'm so sad that I lost here...";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "I have to leave~!";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	hideonnpc instance_npcname("Odoric#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	movenpc instance_npcname("Odoric#z1_0et"),158,63;
 	disablenpc instance_npcname("Odoric#1");
 	end;
 
 OnVictory:
 	hideoffnpc instance_npcname("Odoric#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "Even you... Against my fascinating dance moves...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "You're nothing special~!!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "You did a good job getting to this point~!!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I need to get ready for my next match now~";
-	sleep callfunc("sleephm",'hm,5000);
+	sleep sleephm('hm, 5000);
 	instance_warpall instance_mapname("1@gef"),120,61, instance_id();
 	end;
 
@@ -3155,53 +3155,53 @@ OnVictory:
 end;
 OnActivate:
 	npctalk "Another match has started...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "A real battle is a serious matter...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "It is something to be feared!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "All of these novices who spent their time only training";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "They will never know the true meaning of battle!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I will make sure to handle them as fast as possible.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "My heart is beating so fast! I'm so nervous!",instance_npcname("Lydia#a2");
 	donpcevent instance_npcname("#GMTcontroller")+"::OnStart";
 	end;
 
 OnDefeat:
 	hideoffnpc instance_npcname("Ju#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "Sob... defeated...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "You're stronger than I thought...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "You must have experienced many cruel battles.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Sob... Victory was the only thing in my mind...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I wish you luck on your following matches.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "You better not lose after defeating me!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	hideonnpc instance_npcname("Ju#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	movenpc	instance_npcname("Ju#z1_0et"),178,91;
 	disablenpc instance_npcname("Ju#1");
 	end;
 
 OnVictory:
 	hideoffnpc instance_npcname("Ju#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "This is not a game.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "This is real battle.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Yeahhhh !!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "The real game is battle!";
-	sleep callfunc("sleephm",'hm,5000);
+	sleep sleephm('hm, 5000);
 	instance_warpall instance_mapname("1@gef"),120,61, instance_id();
 	end;
 
@@ -3211,28 +3211,28 @@ OnVictory:
 end;
 OnActivate:
 	npctalk "Semi-Finals huh...";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "I can see the end...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "You must be a decent fighter, making it all the way here...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "But I came to here for my students.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "People who are important to me are watching this battle!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "Wow, teacher!",instance_npcname("Magic Academy Student#22");
 	npctalk "Teacher, show 'em what you've got!",instance_npcname("Magic Academy Student#3");
 	npctalk "What a great teacher, I want to be like her!",instance_npcname("Magic Academy Student#4");
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "I can't imagine teacher losing here~!",instance_npcname("Magic Academy Student#1");
 	npctalk "Everyone cheer loudly for our teacher!",instance_npcname("Magic Academy Student#5");
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	npctalk "I can't lose in front of my students!";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	donpcevent instance_npcname("#GMTcontroller")+"::OnStart";
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "Ahh!~ Go teacher~!!",instance_npcname("Magic Academy Student#5");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "Go! Go! Teacher~!!",instance_npcname("Magic Academy Student#22");
 	npctalk "Teacher! She's the one~!!",instance_npcname("Magic Academy Student#3");
 	npctalk "If she can't do it~!!",instance_npcname("Magic Academy Student#4");
@@ -3242,34 +3242,34 @@ OnActivate:
 
 OnDefeat:
 	hideoffnpc instance_npcname("Dwigh#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "If I had just won one more game, I could have been in the finals...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I'm ashamed for losing in front of my students...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "But the competition was too strong.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I admit defeat.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "According to my students, Fenrir's strength should still be above me, I wish you luck.";
-	sleep callfunc("sleephm",'hm,2000);
+	sleep sleephm('hm, 2000);
 	hideonnpc instance_npcname("Dwigh#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	movenpc instance_npcname("Dwigh#z1_0et"),120,98;
 	disablenpc instance_npcname("Dwigh#1");
 	end;
 
 OnVictory:
 	hideoffnpc instance_npcname("Dwigh#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "Ugh... It was a tough match.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "But I am happy to have won.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I will do my best for my students.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I have just one more match to win!";
-	sleep callfunc("sleephm",'hm,5000);
+	sleep sleephm('hm, 5000);
 	instance_warpall instance_mapname("1@gef"),120,61, instance_id();
 	end;
 
@@ -3290,19 +3290,19 @@ OnDefeat:
 OnTalk1:
     cutin "paycana_a", 2;
     npctalk "You~ I've never heard about you before~!";
-    sleep2 callfunc("sleephm",'hm,4000);
+    sleep2 sleephm('hm, 4000);
     npctalk "You must know, all of the spectators are cheering for me!";
-    sleep2 callfunc("sleephm",'hm,4000);
+    sleep2 sleephm('hm, 4000);
     npctalk "If you want to keep your life you should run now~!";
-    sleep2 callfunc("sleephm",'hm,4000);
+    sleep2 sleephm('hm, 4000);
     npctalk "Unless you want to experience the strength of my masterpiece, Alphonse!";
-    sleep2 callfunc("sleephm",'hm,4000);
+    sleep2 sleephm('hm, 4000);
     npctalk "You HAVE seen my Alphonse, right?";
-    sleep2 callfunc("sleephm",'hm,4000);
+    sleep2 sleephm('hm, 4000);
     donpcevent instance_npcname("#Talkcontrol")+"::OnRndtalk";
-    sleep2 callfunc("sleephm",'hm,1000);
+    sleep2 sleephm('hm, 1000);
     npctalk "Once this match starts, you will see his full power!";
-    sleep2 callfunc("sleephm",'hm,2000);
+    sleep2 sleephm('hm, 2000);
     cutin "", 255;
 	donpcevent instance_npcname("#GMTcontroller")+"::OnStart";
 	end;
@@ -3310,33 +3310,33 @@ OnTalk1:
 OnTalk2:
     cutin "paycana_b ", 2;
     npctalk "I actually lost...";
-    sleep2 callfunc("sleephm",'hm,3000);
+    sleep2 sleephm('hm, 3000);
     npctalk "Alphonse... I gave you my heart and soul...";
-    sleep2 callfunc("sleephm",'hm,3000);
+    sleep2 sleephm('hm, 3000);
     npctalk "I was supposed to make it to the finals...";
-    sleep2 callfunc("sleephm",'hm,3000);
+    sleep2 sleephm('hm, 3000);
     npctalk "And face Fenris Fenrir...";
-    sleep2 callfunc("sleephm",'hm,3000);
+    sleep2 sleephm('hm, 3000);
     npctalk "I wanted to fight her so bad!";
-    sleep2 callfunc("sleephm",'hm,2000);
+    sleep2 sleephm('hm, 2000);
     cutin "", 255;
 	hideonnpc instance_npcname("Fay Kanavian#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	movenpc instance_npcname("Fay Kanavian#z1_0et"),117,72;
 	disablenpc instance_npcname("Fay Kanavian#1");
 	end;
 
 OnVictory:
 	hideoffnpc instance_npcname("Fay Kanavian#1");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "My abilities are amazing~!";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "This tournament is but a game to me, and not at all important.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "But Fenrir has reached the finals by winning every single round...";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I will defeat her and win this tournament!";
-	sleep callfunc("sleephm",'hm,5000);
+	sleep sleephm('hm, 5000);
 	instance_warpall instance_mapname("1@gef"),120,61, instance_id();
 	end;
 
@@ -3383,22 +3383,22 @@ OnDefeat:
 OnTalk1:
     cutin "fenrir_b", 1;
     npctalk "The final match...";
-    sleep2 callfunc("sleephm",'hm,1000);
+    sleep2 sleephm('hm, 1000);
     npctalk "Fenrir is going to win without a doubt~!", instance_npcname("Payon Spectator#a1");
-    sleep2 callfunc("sleephm",'hm,1000);
+    sleep2 sleephm('hm, 1000);
     npctalk "I am Fenris Fenrir.";
-    sleep2 callfunc("sleephm",'hm,1000);
+    sleep2 sleephm('hm, 1000);
     npctalk "Hey, do your best!",instance_npcname("Iris#a2");
-    sleep2 callfunc("sleephm",'hm,2000);
+    sleep2 sleephm('hm, 2000);
     npctalk "You... made it here.";
-    sleep2 callfunc("sleephm",'hm,2000);
+    sleep2 sleephm('hm, 2000);
     npctalk "I am sure that this will be a hard fought match.";
-    sleep2 callfunc("sleephm",'hm,1000);
+    sleep2 sleephm('hm, 1000);
     npctalk "Wow! I'm so excited!",instance_npcname("Lydia#a2");
     npctalk "Fenrir, please give me an autograph!", instance_npcname("Prontera Spectator#a2");
-    sleep2 callfunc("sleephm",'hm,2000);
+    sleep2 sleephm('hm, 2000);
     npctalk "I will do my best to fight you fairly.";
-	sleep2 callfunc("sleephm",'hm,2000);
+	sleep2 sleephm('hm, 2000);
     npctalk "Then, should we start the final match?";
     cutin "", 255;
 	donpcevent instance_npcname("#GMTcontroller")+"::OnStart";
@@ -3407,17 +3407,17 @@ OnTalk1:
 OnTalk2:
     cutin "fenrir_a", 1;
     npctalk "Uh... I am defeated.";
-    sleep2 callfunc("sleephm",'hm,2000);
+    sleep2 sleephm('hm, 2000);
     npctalk "How did you get to be so strong?";
-    sleep2 callfunc("sleephm",'hm,3000);
+    sleep2 sleephm('hm, 3000);
     npctalk "I am completely defeated...";
-    sleep2 callfunc("sleephm",'hm,3000);
+    sleep2 sleephm('hm, 3000);
     npctalk "This world is full of surprises...";
-    sleep2 callfunc("sleephm",'hm,3000);
+    sleep2 sleephm('hm, 3000);
     npctalk "Congratulations on your victory "+'charname$+".";
-    sleep2 callfunc("sleephm",'hm,2000);
+    sleep2 sleephm('hm, 2000);
     npctalk "However, next time, I won't lose!";
-    sleep2 callfunc("sleephm",'hm,2000);
+    sleep2 sleephm('hm, 2000);
     cutin "", 255;
 	if (checkquest(9307) != -1)
 		changequest 9307,9308;
@@ -3428,15 +3428,15 @@ OnTalk2:
 
 OnVictory:
 	hideoffnpc instance_npcname("Fenrir#f");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "Thank you~ It was a good match.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "It feels good to be the winner.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I hope to see you again.";
-	sleep callfunc("sleephm",'hm,3000);
+	sleep sleephm('hm, 3000);
 	npctalk "I have to go... My friends are waiting for me.";
-	sleep callfunc("sleephm",'hm,5000);
+	sleep sleephm('hm, 5000);
 	instance_warpall instance_mapname("1@gef"),120,61, instance_id();
 	end;
 
@@ -3490,7 +3490,7 @@ OnEnable:
 	movenpc instance_npcname("Fenrir#q1"), 112, 50;
 	hideoffnpc instance_npcname("Tournament Guide#gefMT");
 	hideoffnpc instance_npcname("Geffen Academy Master");
-	sleep callfunc("sleephm",'hm,1000);
+	sleep sleephm('hm, 1000);
 	npctalk "The other contestants want to congratulate you on winning as well!",instance_npcname("Fenrir#q1");
 	end;
 
@@ -4067,9 +4067,9 @@ OnTimer500:
 			hideonnpc instance_npcname("Geffen Gangster#22");
 			hideonnpc instance_npcname("Geffen Gangster#33");
 
-			callfunc "mobhm",'hm,0,instance_mapname("1@gef"), 168, 170, "Geffen Gangster", 2568, 1, instance_npcname("#Event 1 start 2") + "::OnMobKilled";
-			callfunc "mobhm",'hm,0,instance_mapname("1@gef"), 167, 169, "Geffen Gangster", 2568, 1, instance_npcname("#Event 1 start 2") + "::OnMobKilled";
-			callfunc "mobhm",'hm,0,instance_mapname("1@gef"), 166, 168, "Geffen Gangster", 2568, 1, instance_npcname("#Event 1 start 2") + "::OnMobKilled";
+			mobhm('hm,0,instance_mapname("1@gef"), 168, 170, "Geffen Gangster", 2568, 1, instance_npcname("#Event 1 start 2") + "::OnMobKilled");
+			mobhm('hm,0,instance_mapname("1@gef"), 167, 169, "Geffen Gangster", 2568, 1, instance_npcname("#Event 1 start 2") + "::OnMobKilled");
+			mobhm('hm,0,instance_mapname("1@gef"), 166, 168, "Geffen Gangster", 2568, 1, instance_npcname("#Event 1 start 2") + "::OnMobKilled");
 
 			stopnpctimer;
 			end;
@@ -4215,9 +4215,9 @@ OnTimer500:
 				hideonnpc instance_npcname("Iris#Gef1");
                 hideonnpc instance_npcname("Chaos#Gef1");
                 hideonnpc instance_npcname("Kafra Employee#1");
-				sleep2 callfunc("sleephm",'hm,2000);
+				sleep2 sleephm('hm, 2000);
 				unittalk 'gmt_account_id, "They sure are brave...";
-				sleep2 callfunc("sleephm",'hm,2000);
+				sleep2 sleephm('hm, 2000);
 				unittalk 'gmt_account_id, "Should we apply for the Magic Tournament now?";
 				end;
 			}
@@ -4321,9 +4321,9 @@ OnTimer500:
 			attachrid 'gmt_account_id;
 			specialeffect2 EF_LOCKON;
 			detachrid;
-			callfunc "mobhm",'hm,0,instance_mapname("1@gef"), 75, 172, "Geffen Bully", 2567, 1, instance_npcname("#Event 2 start 2") + "::OnMobKilled";
-			callfunc "mobhm",'hm,0,instance_mapname("1@gef"), 76, 170, "Geffen Bully", 2567, 1, instance_npcname("#Event 2 start 2") + "::OnMobKilled";
-			callfunc "mobhm",'hm,0,instance_mapname("1@gef"), 73, 173, "Geffen Bully", 2567, 1, instance_npcname("#Event 2 start 2") + "::OnMobKilled";
+			mobhm('hm,0,instance_mapname("1@gef"), 75, 172, "Geffen Bully", 2567, 1, instance_npcname("#Event 2 start 2") + "::OnMobKilled");
+			mobhm('hm,0,instance_mapname("1@gef"), 76, 170, "Geffen Bully", 2567, 1, instance_npcname("#Event 2 start 2") + "::OnMobKilled");
+			mobhm('hm,0,instance_mapname("1@gef"), 73, 173, "Geffen Bully", 2567, 1, instance_npcname("#Event 2 start 2") + "::OnMobKilled");
 			hideonnpc instance_npcname("Geffen Bully#1");
 			hideonnpc instance_npcname("Geffen Bully#2");
 			hideonnpc instance_npcname("Geffen Bully#3");
@@ -4342,7 +4342,7 @@ OnMobKilled:
 		//setquest 9286;
 		//completequest 9286;
 		//setquest 9287;
-		sleep2 callfunc("sleephm",'hm,500);
+		sleep2 sleephm('hm, 500);
 		specialeffect EF_POTION_BERSERK, AREA, instance_npcname("Geffen Bully#1");
 		specialeffect EF_POTION_BERSERK, AREA, instance_npcname("Geffen Bully#2");
 		specialeffect EF_POTION_BERSERK, AREA, instance_npcname("Geffen Bully#3");
@@ -4361,7 +4361,7 @@ OnMobKilled:
 				case 3:
 					hideonnpc instance_npcname("Magic Academy Student#22");
 					hideoffnpc instance_npcname("Magic Academy Student#11");
-					sleep2 callfunc("sleephm",'hm,500);
+					sleep2 sleephm('hm, 500);
 					npctalk "Magic Academy Student : I'm scared~! Help me...", instance_npcname("Magic Academy Student#11");
 					break;
 				case 6: hideoffnpc instance_npcname("Fenrir#1"); break;
@@ -4388,16 +4388,16 @@ OnMobKilled:
 					break;
 				case 25:
 					hideoffnpc instance_npcname("Loki#1");
-					sleep2 callfunc("sleephm",'hm,500);
+					sleep2 sleephm('hm, 500);
 					specialeffect EF_POISONREACT, AREA, instance_npcname("Loki#1");
-					sleep2 callfunc("sleephm",'hm,1500);
+					sleep2 sleephm('hm, 1500);
 					specialeffect EF_SONICBLOW, AREA, instance_npcname("Loki#1");
 					npctalk "Loki : Hmph!", instance_npcname("Loki#1");
-					sleep2 callfunc("sleephm",'hm,500);
+					sleep2 sleephm('hm, 500);
 					specialeffect EF_VENOMDUST, AREA, instance_npcname("Loki#1");
 					specialeffect EF_SONICBLOWHIT, AREA, instance_npcname("Geffen Bully#33");
 					specialeffect EF_SONICBLOW2, AREA, instance_npcname("Geffen Bully#33");
-					sleep2 callfunc("sleephm",'hm,330);
+					sleep2 sleephm('hm, 330);
 					specialeffect EF_NAPALMBEAT, AREA, instance_npcname("Geffen Bully#33");
 					hideonnpc instance_npcname("Geffen Bully#33");
 					hideoffnpc instance_npcname("Geffen Bully#3");
@@ -4406,13 +4406,13 @@ OnMobKilled:
 				case 27:
 					hideonnpc instance_npcname("Loki#1");
 					hideoffnpc instance_npcname("Loki#2");
-					sleep2 callfunc("sleephm",'hm,750);
+					sleep2 sleephm('hm, 750);
 					npctalk "Loki : Take this.", instance_npcname("Loki#2");
-					sleep2 callfunc("sleephm",'hm,500);
+					sleep2 sleephm('hm, 500);
 					specialeffect EF_STRIPARMOR, AREA, instance_npcname("Geffen Bully#22");
 					specialeffect EF_SONICBLOWHIT, AREA, instance_npcname("Geffen Bully#22");
 					specialeffect EF_SONICBLOW2, AREA, instance_npcname("Geffen Bully#22");
-					sleep2 callfunc("sleephm",'hm,330);
+					sleep2 sleephm('hm, 330);
 					specialeffect EF_NAPALMBEAT, AREA, instance_npcname("Geffen Bully#22");
 					hideonnpc instance_npcname("Geffen Bully#22");
 					hideoffnpc instance_npcname("Geffen Bully#2");
@@ -4421,13 +4421,13 @@ OnMobKilled:
 					npctalk "Geffen Bully : Ugh, uuurgh! What the?!", instance_npcname("Geffen Bully#2");
 					hideonnpc instance_npcname("Loki#2");
 					hideoffnpc instance_npcname("Loki#3");
-					sleep2 callfunc("sleephm",'hm,750);
+					sleep2 sleephm('hm, 750);
 					npctalk "Loki : Change your mind yet?", instance_npcname("Loki#3");
-					sleep2 callfunc("sleephm",'hm,500);
+					sleep2 sleephm('hm, 500);
 					specialeffect EF_STRIPSHIELD, AREA, instance_npcname("Geffen Bully#11");
 					specialeffect EF_SONICBLOWHIT, AREA, instance_npcname("Geffen Bully#11");
 					specialeffect EF_SONICBLOW2, AREA, instance_npcname("Geffen Bully#11");
-					sleep2 callfunc("sleephm",'hm,330);
+					sleep2 sleephm('hm, 330);
 					specialeffect EF_NAPALMBEAT, AREA, instance_npcname("Geffen Bully#11");
 					hideonnpc instance_npcname("Geffen Bully#11");
 					hideoffnpc instance_npcname("Geffen Bully#1");
@@ -4445,17 +4445,17 @@ OnMobKilled:
 				case 43:
 					specialeffect EF_SLOWPOISON, AREA, instance_npcname("Loki#3");
 					npctalk "Loki : 10... 9...", instance_npcname("Loki#3");
-					sleep2 callfunc("sleephm",'hm,500);
+					sleep2 sleephm('hm, 500);
 					specialeffect EF_STRIPWEAPON, AREA, instance_npcname("Loki#3");
 					specialeffect EF_POISONREACT, AREA, instance_npcname("Loki#3");
 					specialeffect EF_POISONREACT2, AREA, instance_npcname("Loki#3");
 					break;
 				case 45:
 					specialeffect EF_ENCHANTPOISON, AREA, instance_npcname("Loki#3");
-					sleep2 callfunc("sleephm",'hm,500);
+					sleep2 sleephm('hm, 500);
 					emotion ET_KIK, getnpcid(0, instance_npcname("Loki#3"));
 					npctalk "Loki : 3... 2...", instance_npcname("Loki#3");
-					sleep2 callfunc("sleephm",'hm,500);
+					sleep2 sleephm('hm, 500);
 					npctalk "Geffen Bully : What?! You went from from 9 to 3 seconds!!", instance_npcname("Geffen Bully#1");
 					npctalk "Geffen Bully : Screw this, let's run~!!!!!!!!!", instance_npcname("Geffen Bully#2");
 					npctalk "Geffen Bully : I will have my revenge~!!", instance_npcname("Geffen Bully#3");
@@ -4464,7 +4464,7 @@ OnMobKilled:
 					specialeffect EF_SOULBREAKER, AREA, instance_npcname("Loki#3");
 					specialeffect EF_VENOMDUST, AREA, instance_npcname("Loki#3");
 					npctalk "Loki : 1...", instance_npcname("Loki#3");
-					sleep2 callfunc("sleephm",'hm,330);
+					sleep2 sleephm('hm, 330);
 					hideonnpc instance_npcname("Geffen Bully#1");
 					hideonnpc instance_npcname("Geffen Bully#2");
 					hideonnpc instance_npcname("Geffen Bully#3");
@@ -4503,16 +4503,16 @@ OnMobKilled:
 					cutin "", 255;
 					hideonnpc instance_npcname("Fenrir#1");
 					hideonnpc instance_npcname("Loki#1");
-					sleep2 callfunc("sleephm",'hm,1000);
+					sleep2 sleephm('hm, 1000);
 					hideonnpc instance_npcname("Magic Academy Student#11");
-					sleep2 callfunc("sleephm",'hm,3000);
+					sleep2 sleephm('hm, 3000);
 					unittalk $gmt_account_id, "It was fun meeting Fenrir.";
-					sleep2 callfunc("sleephm",'hm,2000);
+					sleep2 sleephm('hm, 2000);
 					unittalk $gmt_account_id, "I should register for the Magic Tournament.";
 					end;
 			}
 
-			sleep2 callfunc("sleephm",'hm,1000);
+			sleep2 sleephm('hm, 1000);
 		}
 	}
 
@@ -4532,13 +4532,13 @@ OnTouch:
 	if ('gmt_event != 0) end;
 	'gmt_event = 3;
 	unittalk 'gmt_account_id, "Thief! Give that zeny back!! Don't move!!";
-	sleep2 callfunc("sleephm",'hm,3000);
+	sleep2 sleephm('hm, 3000);
 	npctalk "Geffen Shoplifter : Threatening me?~!! Yeah, boo hoo! You really scare me~!!", instance_npcname("Geffen Shoplifter#1");
-	sleep2 callfunc("sleephm",'hm,2000);
+	sleep2 sleephm('hm, 2000);
 	npctalk "Geffen Shoplifter : Catch me if you can~!!", instance_npcname("Geffen Shoplifter#1");
-	sleep2 callfunc("sleephm",'hm,2000);
+	sleep2 sleephm('hm, 2000);
 	npctalk "Geffen Resident : Please find my paycheck...", instance_npcname("Geffen Resident#1");
-	sleep2 callfunc("sleephm",'hm,3000);
+	sleep2 sleephm('hm, 3000);
 	unittalk 'gmt_account_id, "I have you now!";
 	hideonnpc instance_npcname("Geffen Shoplifter#1");
 	hideoffnpc instance_npcname("Geffen Shoplifter#2");
@@ -4556,9 +4556,9 @@ OnTouch:
 	if (Zeny > 2000) Zeny -= 2000;
 	npctalk "Geffen Shoplifter : Are you following me? Thanks for the 2,000 zeny~!", instance_npcname("Geffen Shoplifter#2");
 	atcommand "@effect 18";
-	sleep2 callfunc("sleephm",'hm,3000);
+	sleep2 sleephm('hm, 3000);
 	unittalk 'gmt_account_id, "Hey~ Stop right there! Thief!";
-	sleep2 callfunc("sleephm",'hm,3000);
+	sleep2 sleephm('hm, 3000);
 	hideonnpc instance_npcname("Geffen Shoplifter#2");
 	hideoffnpc instance_npcname("Geffen Shoplifter#3");
 	'gmt_chase = 3;
@@ -4574,9 +4574,9 @@ OnTouch:
 	if (Zeny > 2000) Zeny -= 2000;
 	npctalk "Geffen Shoplifter : Woohoo~ Catch me if you can~! 4,000 large! Easy~!", instance_npcname("Geffen Shoplifter#3");
 	atcommand "@effect 18";
-	sleep2 callfunc("sleephm",'hm,3000);
+	sleep2 sleephm('hm, 3000);
 	unittalk 'gmt_account_id, "I will beat you down once I catch you!";
-	sleep2 callfunc("sleephm",'hm,3000);
+	sleep2 sleephm('hm, 3000);
 	hideonnpc instance_npcname("Geffen Shoplifter#3");
 	hideoffnpc instance_npcname("Geffen Shoplifter#11");
 	'gmt_chase = 11;
@@ -4592,9 +4592,9 @@ OnTouch:
 	if (Zeny > 2000) Zeny -= 2000;
 	npctalk "Geffen Shoplifter : You're annoying me~! I like it! 6,000 zeny~!", instance_npcname("Geffen Shoplifter#11");
 	atcommand "@effect 18";
-	sleep2 callfunc("sleephm",'hm,3000);
+	sleep2 sleephm('hm, 3000);
 	unittalk 'gmt_account_id, "Stop right there you filthy thief!";
-	sleep2 callfunc("sleephm",'hm,3000);
+	sleep2 sleephm('hm, 3000);
 	hideonnpc instance_npcname("Geffen Shoplifter#11");
 	hideoffnpc instance_npcname("Geffen Shoplifter#22");
 	'gmt_chase = 22;
@@ -4610,9 +4610,9 @@ OnTouch:
 	if (Zeny > 2000) Zeny -= 2000;
 	npctalk "Geffen Shoplifter : Calling me a rat? Yoink~ 8,000 zeny~!", instance_npcname("Geffen Shoplifter#22");
 	atcommand "@effect 18";
-	sleep2 callfunc("sleephm",'hm,3000);
+	sleep2 sleephm('hm, 3000);
 	unittalk 'gmt_account_id, "Would you stop?!";
-	sleep2 callfunc("sleephm",'hm,3000);
+	sleep2 sleephm('hm, 3000);
 	hideonnpc instance_npcname("Geffen Shoplifter#22");
 	hideoffnpc instance_npcname("Geffen Shoplifter#33");
 	'gmt_chase = 33;
@@ -4628,13 +4628,13 @@ OnTouch:
 	if (Zeny > 2000) Zeny -= 2000;
 	npctalk "Geffen Shoplifter : Stop following me. It's driving me crazy! 10,000 zeny~!", instance_npcname("Geffen Shoplifter#33");
 	atcommand "@effect 18";
-	sleep2 callfunc("sleephm",'hm,3000);
+	sleep2 sleephm('hm, 3000);
 	unittalk 'gmt_account_id, "You can't run away anymore. I've got you now!";
-	sleep2 callfunc("sleephm",'hm,3000);
+	sleep2 sleephm('hm, 3000);
 	npctalk "Geffen Shoplifter : You really piss me off! I'm gonna have to beat you down!", instance_npcname("Geffen Shoplifter#33");
-	sleep2 callfunc("sleephm",'hm,3000);
+	sleep2 sleephm('hm, 3000);
 	hideonnpc instance_npcname("Geffen Shoplifter#33");
-	callfunc "mobhm",'hm,0,instance_mapname("1@gef"), 114, 137, "Geffen Shoplifter", 2914, 1, instance_npcname("Geffen Shoplifter#33") + "::OnMobKilled";
+	mobhm('hm,0,instance_mapname("1@gef"), 114, 137, "Geffen Shoplifter", 2914, 1, instance_npcname("Geffen Shoplifter#33") + "::OnMobKilled");
 	end;
 OnMobKilled:
 	hideoffnpc instance_npcname("Geffen Shoplifter#1");
@@ -4722,11 +4722,11 @@ OnTimer500:
 				close2;
 				cutin "", 255;
 				hideonnpc instance_npcname("Lydia#1");
-				sleep2 callfunc("sleephm",'hm,2000);
+				sleep2 sleephm('hm, 2000);
 				unittalk 'gmt_account_id, "She disappeared before I could thank her...";
-				sleep2 callfunc("sleephm",'hm,3000);
+				sleep2 sleephm('hm, 3000);
 				unittalk 'gmt_account_id, "She seems like a good person...";
-				sleep2 callfunc("sleephm",'hm,3000);
+				sleep2 sleephm('hm, 3000);
 				unittalk 'gmt_account_id, "Well, time to register for the Magic Tournament.";
 				stopnpctimer;
 				end;

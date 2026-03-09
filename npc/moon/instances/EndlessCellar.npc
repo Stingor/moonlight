@@ -274,455 +274,455 @@ function	EC_Spawns	{
 	switch('EC_Floor){
 	case 1:
 		set 'EC_Mobs,40*'mult+'add*3;
-		callfunc "mobhm",'hm,1,.@mapi$,91,349,137,375,"Fabre",1007,20*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,349,137,375,"Picky",1049,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,349,137,375,"Picky",1050,10*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,91,349,137,375,"Fabre",1007,20*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,349,137,375,"Picky",1049,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,349,137,375,"Picky",1050,10*'mult+'add,.@label$);
 		break;
 	case 2:
 		set 'EC_Mobs,30*'mult+'add*3;
-		callfunc "mobhm",'hm,1,.@mapi$,179,349,225,375,"Willow",1010,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,349,225,375,"Wolf",1013,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,349,225,375,"Creamy",1018,10*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,179,349,225,375,"Willow",1010,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,349,225,375,"Wolf",1013,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,349,225,375,"Creamy",1018,10*'mult+'add,.@label$);
 		break;
 	case 3:
 		set 'EC_Mobs,30*'mult+'add*3;
-		callfunc "mobhm",'hm,1,.@mapi$,265,349,311,375,"Condor",1009,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,349,311,375,"Peco Peco",1019,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,349,311,375,"Muka",1055,10*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,265,349,311,375,"Condor",1009,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,349,311,375,"Peco Peco",1019,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,349,311,375,"Muka",1055,10*'mult+'add,.@label$);
 		break;
 	case 4:
 		set 'EC_Mobs,26*'mult+'add;
-		callfunc "mobhm",'hm,1,.@mapi$,349,349,395,375,"Greatest General",1277,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,349,395,375,"Eddga",1115,1*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,349,349,395,375,"Greatest General",1277,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,349,395,375,"Eddga",1115,1*'mult,.@label$);
 		break;
 	case 5:
 		set 'EC_Mobs,30*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,91,265,137,291,"Spore",1014,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,265,137,291,"Poison Spore",1077,15*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,91,265,137,291,"Spore",1014,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,265,137,291,"Poison Spore",1077,15*'mult+'add,.@label$);
 		break;
 	case 6:
 		set 'EC_Mobs,45*'mult+'add*3;
-		callfunc "mobhm",'hm,1,.@mapi$,179,265,225,291,"Crab",1073,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,265,225,291,"Shellfish",1074,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,265,225,291,"Aster",1266,15*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,179,265,225,291,"Crab",1073,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,265,225,291,"Shellfish",1074,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,265,225,291,"Aster",1266,15*'mult+'add,.@label$);
 		break;
 	case 7:
 		set 'EC_Mobs,40*'mult+'add*4;
-		callfunc "mobhm",'hm,1,.@mapi$,265,265,311,291,"Vadon",1066,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,265,311,291,"Cornutus",1067,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,265,311,291,"Marina",1141,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,265,311,291,"Plankton",1161,10*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,265,265,311,291,"Vadon",1066,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,265,311,291,"Cornutus",1067,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,265,311,291,"Marina",1141,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,265,311,291,"Plankton",1161,10*'mult+'add,.@label$);
 		break;
 	case 8:
 		set 'EC_Mobs,31*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,349,265,395,291,"Garm Baby",1515,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,265,395,291,"Marine Sphere",1142,20*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,265,395,291,"Garm",1252,1*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,349,265,395,291,"Garm Baby",1515,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,265,395,291,"Marine Sphere",1142,20*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,265,395,291,"Garm",1252,1*'mult,.@label$);
 		break;
 	case 9:
 		set 'EC_Mobs,40*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,91,177,137,203,"Metaller",1058,20*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,177,137,203,"Magnolia",1138,20*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,91,177,137,203,"Metaller",1058,20*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,177,137,203,"Magnolia",1138,20*'mult+'add,.@label$);
 		break;
 	case 10:
 		set 'EC_Mobs,45*'mult+'add*3;
-		callfunc "mobhm",'hm,1,.@mapi$,179,177,225,203,"Coco",1104,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,177,225,203,"Caramel",1103,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,177,225,203,"Horn",1128,15*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,179,177,225,203,"Coco",1104,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,177,225,203,"Caramel",1103,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,177,225,203,"Horn",1128,15*'mult+'add,.@label$);
 		break;
 	case 11:
 		set 'EC_Mobs,50*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,265,177,311,203,"Ambernite",1023,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,177,311,203,"Eggyra",1116,25*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,265,177,311,203,"Ambernite",1023,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,177,311,203,"Eggyra",1116,25*'mult+'add,.@label$);
 		break;
 	case 12:
 		set 'EC_Mobs,41*'mult+'add*4;
-		callfunc "mobhm",'hm,1,.@mapi$,349,177,395,203,"Megalith",1274,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,177,395,203,"Panzer Goblin",1308,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,177,395,203,"Rotar Zairo",1392,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,177,395,203,"Steam Goblin",1280,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,177,395,203,"Tao Gunka",1583,1*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,349,177,395,203,"Megalith",1274,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,177,395,203,"Panzer Goblin",1308,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,177,395,203,"Rotar Zairo",1392,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,177,395,203,"Steam Goblin",1280,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,177,395,203,"Tao Gunka",1583,1*'mult,.@label$);
 		break;
 	case 13:
 		set 'EC_Mobs,60*'mult+'add*4;
-		callfunc "mobhm",'hm,1,.@mapi$,91,94,137,119,"Smokie",1056,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,94,137,119,"Giearth",1121,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,94,137,119,"Martin",1145,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,94,137,119,"Raggler",1254,15*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,91,94,137,119,"Smokie",1056,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,94,137,119,"Giearth",1121,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,94,137,119,"Martin",1145,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,94,137,119,"Raggler",1254,15*'mult+'add,.@label$);
 		break;
 	case 14:
 		set 'EC_Mobs,50*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,179,94,225,119,"Worm Tail",1024,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,94,225,119,"Stem Worm",1215,25*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,179,94,225,119,"Worm Tail",1024,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,94,225,119,"Stem Worm",1215,25*'mult+'add,.@label$);
 		break;
 	case 15:
 		set 'EC_Mobs,50*'mult+'add*5;
-		callfunc "mobhm",'hm,1,.@mapi$,265,94,311,119,"Christmas Jakk",1244,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,94,311,119,"Christmas Goblin",1245,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,94,311,119,"Christmas Cookie",1246,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,94,311,119,"Cookie",1265,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,94,311,119,"Christmas Orc",1588,10*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,265,94,311,119,"Christmas Jakk",1244,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,94,311,119,"Christmas Goblin",1245,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,94,311,119,"Christmas Cookie",1246,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,94,311,119,"Cookie",1265,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,94,311,119,"Christmas Orc",1588,10*'mult+'add,.@label$);
 		break;
 	case 16:
 		set 'EC_Mobs,51*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,349,94,395,119,"Santa Poring",1062,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,94,395,119,"Santa Poring",1062,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,94,395,119,"Stormy Knight",1251,1*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,349,94,395,119,"Santa Poring",1062,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,94,395,119,"Santa Poring",1062,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,94,395,119,"Stormy Knight",1251,1*'mult,.@label$);
 		break;
 	case 17:
 		set 'EC_Mobs,46*'mult+'add*3;
-		callfunc "mobhm",'hm,1,.@mapi$,91,7,137,33,"Roda Frog",1012,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,7,137,33,"Thara Frog",1034,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,7,137,33,"Poison Toad",1402,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,7,137,33,"Toad",1089,1*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,91,7,137,33,"Roda Frog",1012,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,7,137,33,"Thara Frog",1034,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,7,137,33,"Poison Toad",1402,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,7,137,33,"Toad",1089,1*'mult,.@label$);
 		break;
 	case 18:
 		set 'EC_Mobs,41*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,179,7,225,33,"Lunatic",1063,20*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,7,225,33,"Spring Rabbit",1322,20*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,7,225,33,"Eclipse",1093,1*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,179,7,225,33,"Lunatic",1063,20*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,7,225,33,"Spring Rabbit",1322,20*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,7,225,33,"Eclipse",1093,1*'mult,.@label$);
 		break;
 	case 19:
 		set 'EC_Mobs,41*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,265,7,311,33,"Yoyo",1057,20*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,7,311,33,"Mime Monkey",1585,20*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,7,311,33,"Choco",1214,1*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,265,7,311,33,"Yoyo",1057,20*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,7,311,33,"Mime Monkey",1585,20*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,7,311,33,"Choco",1214,1*'mult,.@label$);
 		break;
 	case 20:
 		set 'EC_Mobs,41*'mult+'add*4;
-		callfunc "mobhm",'hm,1,.@mapi$,349,7,395,33,"Ghoul",1036,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,7,395,33,"Myst",1151,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,7,395,33,"Vitata",1176,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,7,395,33,"Zenorc",1177,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,7,395,33,"Dracula",1389,1*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,349,7,395,33,"Ghoul",1036,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,7,395,33,"Myst",1151,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,7,395,33,"Vitata",1176,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,7,395,33,"Zenorc",1177,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,7,395,33,"Dracula",1389,1*'mult,.@label$);
 		break;
 	case 21:
 		set 'EC_Mobs,50*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,91,349,137,375,"Stainer",1174,30*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,349,137,375,"Brilight",1211,20*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,91,349,137,375,"Stainer",1174,30*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,349,137,375,"Brilight",1211,20*'mult+'add,.@label$);
 		break;
 	case 22:
 		set 'EC_Mobs,60*'mult+'add*4;
-		callfunc "mobhm",'hm,1,.@mapi$,179,349,225,375,"Marc",1045,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,349,225,375,"Tri Joint",1279,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,349,225,375,"Fur Seal",1317,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,349,225,375,"Sea Otter",1323,15*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,179,349,225,375,"Marc",1045,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,349,225,375,"Tri Joint",1279,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,349,225,375,"Fur Seal",1317,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,349,225,375,"Sea Otter",1323,15*'mult+'add,.@label$);
 		break;
 	case 23:
 		set 'EC_Mobs,50*'mult+'add*3;
-		callfunc "mobhm",'hm,1,.@mapi$,265,349,311,375,"Punk",1199,20*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,349,311,375,"Stone Shooter",1495,20*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,349,311,375,"Stem Worm",1215,10*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,265,349,311,375,"Punk",1199,20*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,349,311,375,"Stone Shooter",1495,20*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,349,311,375,"Stem Worm",1215,10*'mult+'add,.@label$);
 		break;
 	case 24:
 		set 'EC_Mobs,31*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,349,349,395,375,"Joker",1131,20*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,349,395,375,"Chung E",1631,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,349,395,375,"Baphomet",1039,1*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,349,349,395,375,"Joker",1131,20*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,349,395,375,"Chung E",1631,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,349,395,375,"Baphomet",1039,1*'mult,.@label$);
 		break;
 	case 25:
 		set 'EC_Mobs,60*'mult+'add*5;
-		callfunc "mobhm",'hm,1,.@mapi$,91,265,137,291,"Kaho",1072,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,265,137,291,"Blazzer",1367,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,265,137,291,"Driller",1380,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,265,137,291,"Horong",1129,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,265,137,291,"Minorous",1149,5*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,91,265,137,291,"Kaho",1072,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,265,137,291,"Blazzer",1367,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,265,137,291,"Driller",1380,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,265,137,291,"Horong",1129,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,265,137,291,"Minorous",1149,5*'mult+'add,.@label$);
 		break;
 	case 26:
 		set 'EC_Mobs,60*'mult+'add*3;
-		callfunc "mobhm",'hm,1,.@mapi$,179,265,225,291,"Dokebi",1110,30*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,265,225,291,"Am Mut",1301,20*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,265,225,291,"Sageworm",1281,10*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,179,265,225,291,"Dokebi",1110,30*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,265,225,291,"Am Mut",1301,20*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,265,225,291,"Sageworm",1281,10*'mult+'add,.@label$);
 		break;
 	case 27:
 		set 'EC_Mobs,60*'mult+'add*3;
-		callfunc "mobhm",'hm,1,.@mapi$,265,265,311,291,"Savage",1166,30*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,265,311,291,"Gullinbursti",1311,20*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,265,311,291,"Goat",1372,10*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,265,265,311,291,"Savage",1166,30*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,265,311,291,"Gullinbursti",1311,20*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,265,311,291,"Goat",1372,10*'mult+'add,.@label$);
 		break;
 	case 28:
 		set 'EC_Mobs,71*'mult+'add*4;
-		callfunc "mobhm",'hm,1,.@mapi$,349,265,395,291,"Bettle King",1494,20*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,265,395,291,"Bacsojin",1518,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,265,395,291,"Chung E",1519,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,265,395,291,"Tamruan",1584,30*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,265,395,291,"Lady Tanee",1688,1*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,349,265,395,291,"Bettle King",1494,20*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,265,395,291,"Bacsojin",1518,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,265,395,291,"Chung E",1519,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,265,395,291,"Tamruan",1584,30*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,265,395,291,"Lady Tanee",1688,1*'mult,.@label$);
 		break;
 	case 29:
 		set 'EC_Mobs,60*'mult+'add*3;
-		callfunc "mobhm",'hm,1,.@mapi$,91,177,137,203,"Requiem",1164,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,177,137,203,"Zerom",1178,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,177,137,203,"Skeleton General",1290,10*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,91,177,137,203,"Requiem",1164,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,177,137,203,"Zerom",1178,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,177,137,203,"Skeleton General",1290,10*'mult+'add,.@label$);
 		break;
 	case 30:
 		set 'EC_Mobs,50*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,179,177,225,203,"Leaf Cat",1586,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,177,225,203,"Wild Rose",1261,25*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,179,177,225,203,"Leaf Cat",1586,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,177,225,203,"Wild Rose",1261,25*'mult+'add,.@label$);
 		break;
 	case 31:
 		set 'EC_Mobs,40*'mult+'add*4;
-		callfunc "mobhm",'hm,1,.@mapi$,265,177,311,203,"Dustiness",1114,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,177,311,203,"Giant Spider",1304,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,177,311,203,"Porcellio",1619,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,177,311,203,"Pitman",1616,10*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,265,177,311,203,"Dustiness",1114,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,177,311,203,"Giant Spider",1304,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,177,311,203,"Porcellio",1619,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,177,311,203,"Pitman",1616,10*'mult+'add,.@label$);
 		break;
 	case 32:
 		set 'EC_Mobs,51*'mult+'add*5;
-		callfunc "mobhm",'hm,1,.@mapi$,349,177,395,203,"Mineral",1614,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,177,395,203,"Waste Stove",1617,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,177,395,203,"Noxious",1620,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,177,395,203,"Venomous",1621,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,177,395,203,"Teddy Bear",1622,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,177,395,203,"RSX-006",1623,1*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,349,177,395,203,"Mineral",1614,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,177,395,203,"Waste Stove",1617,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,177,395,203,"Noxious",1620,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,177,395,203,"Venomous",1621,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,177,395,203,"Teddy Bear",1622,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,177,395,203,"RSX-006",1623,1*'mult,.@label$);
 		break;
 	case 33:
 		set 'EC_Mobs,45*'mult+'add*3;
-		callfunc "mobhm",'hm,1,.@mapi$,91,94,137,119,"Bathory",1102,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,94,137,119,"Sohee",1170,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,94,137,119,"Violy",1390,15*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,91,94,137,119,"Bathory",1102,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,94,137,119,"Sohee",1170,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,94,137,119,"Violy",1390,15*'mult+'add,.@label$);
 		break;
 	case 34:
 		set 'EC_Mobs,60*'mult+'add*4;
-		callfunc "mobhm",'hm,1,.@mapi$,179,94,225,119,"Dragon Tail",1321,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,94,225,119,"Geographer",1368,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,94,225,119,"Galapago",1391,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,94,225,119,"Kapha",1406,15*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,179,94,225,119,"Dragon Tail",1321,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,94,225,119,"Geographer",1368,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,94,225,119,"Galapago",1391,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,94,225,119,"Kapha",1406,15*'mult+'add,.@label$);
 		break;
 	case 35:
 		set 'EC_Mobs,45*'mult+'add*3;
-		callfunc "mobhm",'hm,1,.@mapi$,265,94,311,119,"Rice Cake Boy",1409,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,94,311,119,"Boiled Rice",1520,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,94,311,119,"Baby Leopard",1415,15*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,265,94,311,119,"Rice Cake Boy",1409,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,94,311,119,"Boiled Rice",1520,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,94,311,119,"Baby Leopard",1415,15*'mult+'add,.@label$);
 		break;
 	case 36:
 		set 'EC_Mobs,51*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,349,94,395,119,"Disguise",1506,30*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,94,395,119,"Dark Priest",1198,20*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,94,395,119,"Lord of Death",1373,1*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,349,94,395,119,"Disguise",1506,30*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,94,395,119,"Dark Priest",1198,20*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,94,395,119,"Lord of Death",1373,1*'mult,.@label$);
 		break;
 	case 37:
 		set 'EC_Mobs,50*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,91,7,137,33,"Wootan Shooter",1498,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,7,137,33,"Wootan Fighter",1499,25*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,91,7,137,33,"Wootan Shooter",1498,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,7,137,33,"Wootan Fighter",1499,25*'mult+'add,.@label$);
 		break;
 	case 38:
 		set 'EC_Mobs,40*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,179,7,225,33,"Mole",1628,30*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,7,225,33,"Maya Purple",1289,10*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,179,7,225,33,"Mole",1628,30*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,7,225,33,"Maya Purple",1289,10*'mult+'add,.@label$);
 		break;
 	case 39:
 		set 'EC_Mobs,40*'mult+'add*4;
-		callfunc "mobhm",'hm,1,.@mapi$,265,7,311,33,"Safeguard Chief",1981,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,7,311,33,"Orc Sniper",1982,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,7,311,33,"Depraved Orc Spirit",1983,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,7,311,33,"Shaman Cargalache",1984,10*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,265,7,311,33,"Safeguard Chief",1981,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,7,311,33,"Orc Sniper",1982,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,7,311,33,"Depraved Orc Spirit",1983,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,7,311,33,"Shaman Cargalache",1984,10*'mult+'add,.@label$);
 		break;
 	case 40:
 		set 'EC_Mobs,41*'mult+'add*4;
-		callfunc "mobhm",'hm,1,.@mapi$,349,7,395,33,"Photon Cannon",1664,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,7,395,33,"Photon Cannon",1665,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,7,395,33,"Photon Cannon",1666,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,7,395,33,"Photon Cannon",1667,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,7,395,33,"Vesper",1685,1*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,349,7,395,33,"Photon Cannon",1664,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,7,395,33,"Photon Cannon",1665,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,7,395,33,"Photon Cannon",1666,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,7,395,33,"Photon Cannon",1667,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,7,395,33,"Vesper",1685,1*'mult,.@label$);
 		break;
 	case 41:
 		set 'EC_Mobs,50*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,91,349,137,375,"Remover",1682,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,349,137,375,"Gemini-S58",1681,25*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,91,349,137,375,"Remover",1682,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,349,137,375,"Gemini-S58",1681,25*'mult+'add,.@label$);
 		break;
 	case 42:
 		set 'EC_Mobs,60*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,179,349,225,375,"Breeze",1692,30*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,349,225,375,"Roween",1782,30*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,179,349,225,375,"Breeze",1692,30*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,349,225,375,"Roween",1782,30*'mult+'add,.@label$);
 		break;
 	case 43:
 		set 'EC_Mobs,50*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,265,349,311,375,"Gremlin",1632,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,349,311,375,"Hodremlin",1773,25*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,265,349,311,375,"Gremlin",1632,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,349,311,375,"Hodremlin",1773,25*'mult+'add,.@label$);
 		break;
 	case 44:
 		set 'EC_Mobs,51*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,349,349,395,375,"Novus",1715,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,349,395,375,"Novus",1716,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,349,395,375,"Detale",1719,1*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,349,349,395,375,"Novus",1715,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,349,395,375,"Novus",1716,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,349,395,375,"Detale",1719,1*'mult,.@label$);
 		break;
 	case 45:
 		set 'EC_Mobs,50*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,91,265,137,291,"Nightmare",1061,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,265,137,291,"Nightmare Terror",1379,25*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,91,265,137,291,"Nightmare",1061,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,265,137,291,"Nightmare Terror",1379,25*'mult+'add,.@label$);
 		break;
 	case 46:
 		set 'EC_Mobs,55*'mult+'add*3;
-		callfunc "mobhm",'hm,1,.@mapi$,179,265,225,291,"Beholder Master",1975,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,265,225,291,"Beholder",1633,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,265,225,291,"Seeker",1774,15*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,179,265,225,291,"Beholder Master",1975,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,265,225,291,"Beholder",1633,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,265,225,291,"Seeker",1774,15*'mult+'add,.@label$);
 		break;
 	case 47:
 		set 'EC_Mobs,50*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,265,265,311,291,"Cobalt Mineral",1976,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,265,311,291,"Heavy Metaling",1977,25*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,265,265,311,291,"Cobalt Mineral",1976,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,265,311,291,"Heavy Metaling",1977,25*'mult+'add,.@label$);
 		break;
 	case 48:
 		set 'EC_Mobs,61*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,349,265,395,291,"Alicel",1735,30*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,265,395,291,"Constant",1738,30*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,265,395,291,"Kiel D-01",1734,1*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,349,265,395,291,"Alicel",1735,30*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,265,395,291,"Constant",1738,30*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,265,395,291,"Kiel D-01",1734,1*'mult,.@label$);
 		break;
 	case 49:
 		set 'EC_Mobs,55*'mult+'add;
-		callfunc "mobhm",'hm,1,.@mapi$,91,177,137,203,"Frus",1753,55*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,91,177,137,203,"Frus",1753,55*'mult+'add,.@label$);
 		break;
 	case 50:
 		set 'EC_Mobs,50*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,179,177,225,203,"Hell Apocalips",1978,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,177,225,203,"Apocalips",1365,25*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,179,177,225,203,"Hell Apocalips",1978,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,177,225,203,"Apocalips",1365,25*'mult+'add,.@label$);
 		break;
 	case 51:
 		set 'EC_Mobs,50*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,265,177,311,203,"Zakudam",1979,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,177,311,203,"Archdam",1668,25*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,265,177,311,203,"Zakudam",1979,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,177,311,203,"Archdam",1668,25*'mult+'add,.@label$);
 		break;
 	case 52:
 		set 'EC_Mobs,51*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,349,177,395,203,"Aunoe",1796,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,177,395,203,"Fanat",1797,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,177,395,203,"Gloom Under Night",1768,1*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,349,177,395,203,"Aunoe",1796,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,177,395,203,"Fanat",1797,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,177,395,203,"Gloom Under Night",1768,1*'mult,.@label$);
 		break;
 	case 53:
 		set 'EC_Mobs,40*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,91,94,137,119,"Wraith Dead",1291,20*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,94,137,119,"Ancient Mummy",1297,20*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,91,94,137,119,"Wraith Dead",1291,20*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,94,137,119,"Ancient Mummy",1297,20*'mult+'add,.@label$);
 		break;
 	case 54:
 		set 'EC_Mobs,60*'mult+'add*3;
-		callfunc "mobhm",'hm,1,.@mapi$,179,94,225,119,"Siroma",1776,30*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,94,225,119,"Snowier",1775,20*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,94,225,119,"Ice Titan",1777,10*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,179,94,225,119,"Siroma",1776,30*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,94,225,119,"Snowier",1775,20*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,94,225,119,"Ice Titan",1777,10*'mult+'add,.@label$);
 		break;
 	case 55:
 		set 'EC_Mobs,75*'mult+'add;
-		callfunc "mobhm",'hm,1,.@mapi$,265,94,311,119,"Iceicle",1789,75*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,265,94,311,119,"Iceicle",1789,75*'mult+'add,.@label$);
 		break;
 	case 56:
 		set 'EC_Mobs,31*'mult+'add;
-		callfunc "mobhm",'hm,1,.@mapi$,349,94,395,119,"Gazeti",1778,30*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,94,395,119,"Ktullanux",1779,1*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,349,94,395,119,"Gazeti",1778,30*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,94,395,119,"Ktullanux",1779,1*'mult,.@label$);
 		break;
 	case 57:
 		set 'EC_Mobs,45*'mult+'add*3;
-		callfunc "mobhm",'hm,1,.@mapi$,91,7,137,33,"Magmaring",1836,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,7,137,33,"Knocker",1838,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,7,137,33,"Imp",1837,15*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,91,7,137,33,"Magmaring",1836,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,7,137,33,"Knocker",1838,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,7,137,33,"Imp",1837,15*'mult+'add,.@label$);
 		break;
 	case 58:
 		set 'EC_Mobs,15*'mult;
-		callfunc "mobhm",'hm,1,.@mapi$,179,7,225,33,"Ghostring",1120,3*'mult,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,7,225,33,"Angeling",1096,3*'mult,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,7,225,33,"Deviling",1582,3*'mult,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,7,225,33,"Arc Angeling",1388,3*'mult,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,7,225,33,"Mastering",1090,3*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,179,7,225,33,"Ghostring",1120,3*'mult,.@label$);
+		mobhm('hm,1,.@mapi$,179,7,225,33,"Angeling",1096,3*'mult,.@label$);
+		mobhm('hm,1,.@mapi$,179,7,225,33,"Deviling",1582,3*'mult,.@label$);
+		mobhm('hm,1,.@mapi$,179,7,225,33,"Arc Angeling",1388,3*'mult,.@label$);
+		mobhm('hm,1,.@mapi$,179,7,225,33,"Mastering",1090,3*'mult,.@label$);
 		break;
 	case 59:
 		set 'EC_Mobs,48*'mult+'add*4;
-		callfunc "mobhm",'hm,1,.@mapi$,265,7,311,33,"Thanatos Odium",1704,12*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,7,311,33,"Thanatos Despero",1705,12*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,7,311,33,"Thanatos Maero",1706,12*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,7,311,33,"Thanatos Dolor",1707,12*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,265,7,311,33,"Thanatos Odium",1704,12*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,7,311,33,"Thanatos Despero",1705,12*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,7,311,33,"Thanatos Maero",1706,12*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,7,311,33,"Thanatos Dolor",1707,12*'mult+'add,.@label$);
 		break;
 	case 60:
 		set 'EC_Mobs,1*'mult;
-		callfunc "mobhm",'hm,1,.@mapi$,349,7,395,33,"Thanatos Phantom",1708,1*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,349,7,395,33,"Thanatos Phantom",1708,1*'mult,.@label$);
 		break;
 	case 61:
 		set 'EC_Mobs,80*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,91,349,137,375,"Acidus",1713,40*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,349,137,375,"Venatu",1677,40*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,91,349,137,375,"Acidus",1713,40*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,349,137,375,"Venatu",1677,40*'mult+'add,.@label$);
 		break;
 	case 62:
 		set 'EC_Mobs,90*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,179,349,225,375,"Orc Sniper",1982,60*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,349,225,375,"Bloody Knight",1268,30*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,179,349,225,375,"Orc Sniper",1982,60*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,349,225,375,"Bloody Knight",1268,30*'mult+'add,.@label$);
 		break;
 	case 63:
 		set 'EC_Mobs,70*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,265,349,311,375,"Acidus",1716,50*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,349,311,375,"Succubus",1370,20*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,265,349,311,375,"Acidus",1716,50*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,349,311,375,"Succubus",1370,20*'mult+'add,.@label$);
 		break;
 	case 64:
 		set 'EC_Mobs,17*'mult+'add;
-		callfunc "mobhm",'hm,1,.@mapi$,349,349,395,375,"Agav",1769,15*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,349,395,375,"DoppelGanger",1046,2*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,349,349,395,375,"Agav",1769,15*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,349,395,375,"DoppelGanger",1046,2*'mult,.@label$);
 		break;
 	case 65:
 		set 'EC_Mobs,75*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,91,265,137,291,"Alicel",1739,50*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,265,137,291,"Aliot",1740,25*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,91,265,137,291,"Alicel",1739,50*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,265,137,291,"Aliot",1740,25*'mult+'add,.@label$);
 		break;
 	case 66:
 		set 'EC_Mobs,80*'mult+'add*3;
-		callfunc "mobhm",'hm,1,.@mapi$,179,265,225,291,"Assaulter",1315,30*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,265,225,291,"Chimera",1283,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,265,225,291,"Freezer",1319,40*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,179,265,225,291,"Assaulter",1315,30*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,265,225,291,"Chimera",1283,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,265,225,291,"Freezer",1319,40*'mult+'add,.@label$);
 		break;
 	case 67:
 		set 'EC_Mobs,60*'mult+'add*3;
-		callfunc "mobhm",'hm,1,.@mapi$,265,265,311,291,"Bloody Murderer",1507,30*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,265,311,291,"Dark Illusion",1302,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,265,311,291,"Lava Golem",1366,20*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,265,265,311,291,"Bloody Murderer",1507,30*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,265,311,291,"Dark Illusion",1302,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,265,311,291,"Lava Golem",1366,20*'mult+'add,.@label$);
 		break;
 	case 68:
 		set 'EC_Mobs,12*'mult+'add;
-		callfunc "mobhm",'hm,1,.@mapi$,349,265,395,291,"Gryphon",1259,10*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,265,395,291,"Evil Snake Lord",1418,2*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,349,265,395,291,"Gryphon",1259,10*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,349,265,395,291,"Evil Snake Lord",1418,2*'mult,.@label$);
 		break;
 	case 69:
 		set 'EC_Mobs,75*'mult+'add*3;
-		callfunc "mobhm",'hm,1,.@mapi$,91,177,137,203,"S-Gemini",1681,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,177,137,203,"Imp",1837,25*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,91,177,137,203,"Incubus",1374,25*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,91,177,137,203,"S-Gemini",1681,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,177,137,203,"Imp",1837,25*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,91,177,137,203,"Incubus",1374,25*'mult+'add,.@label$);
 		break;
 	case 70:
 		set 'EC_Mobs,50*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,179,177,225,203,"Abysmal Knight",1219,35*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,177,225,203,"Luli Ruri",1505,15*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,179,177,225,203,"Abysmal Knight",1219,35*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,179,177,225,203,"Luli Ruri",1505,15*'mult+'add,.@label$);
 		break;
 	case 71:
 		set 'EC_Mobs,24*'mult+'add*2;
-		callfunc "mobhm",'hm,1,.@mapi$,265,177,311,203,"Owl Marquis",2923,12*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,177,311,203,"Owl Viscount",2921,12*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,265,177,311,203,"Owl Marquis",2923,12*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,177,311,203,"Owl Viscount",2921,12*'mult+'add,.@label$);
 		break;
 	case 72:
 		set 'EC_Mobs,21*'mult+'add;
-		callfunc "mobhm",'hm,1,.@mapi$,349,177,395,203,"Time Holder",3074,1*'mult,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,177,395,203,"Time Keeper",2918,20*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,349,177,395,203,"Time Holder",3074,1*'mult,.@label$);
+		mobhm('hm,1,.@mapi$,349,177,395,203,"Time Keeper",2918,20*'mult+'add,.@label$);
 		break;
 	case 73:
 		set 'EC_Mobs,16*'mult+'add;
-		callfunc "mobhm",'hm,1,.@mapi$,91,94,137,119,"Byorgue",1839,16*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,91,94,137,119,"Byorgue",1839,16*'mult+'add,.@label$);
 		break;
 	case 74:
 		set 'EC_Mobs,12*'mult;
-		callfunc "mobhm",'hm,1,.@mapi$,179,94,225,119,"Lord Knight Seyren",1640,2*'mult,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,94,225,119,"Assassin Cross Eremes",1641,2*'mult,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,94,225,119,"Whitesmith Howard",1642,2*'mult,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,94,225,119,"High Priest Margaretha",1643,2*'mult,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,94,225,119,"Sniper Cecil",1644,2*'mult,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,179,94,225,119,"High Wizard Kathryne",1645,2*'mult,.@label$;
+		mobhm('hm,1,.@mapi$,179,94,225,119,"Lord Knight Seyren",1640,2*'mult,.@label$);
+		mobhm('hm,1,.@mapi$,179,94,225,119,"Assassin Cross Eremes",1641,2*'mult,.@label$);
+		mobhm('hm,1,.@mapi$,179,94,225,119,"Whitesmith Howard",1642,2*'mult,.@label$);
+		mobhm('hm,1,.@mapi$,179,94,225,119,"High Priest Margaretha",1643,2*'mult,.@label$);
+		mobhm('hm,1,.@mapi$,179,94,225,119,"Sniper Cecil",1644,2*'mult,.@label$);
+		mobhm('hm,1,.@mapi$,179,94,225,119,"High Wizard Kathryne",1645,2*'mult,.@label$);
 		break;
 	case 75:
 		set 'EC_Mobs,28*'mult+'add*4;
-		callfunc "mobhm",'hm,1,.@mapi$,265,94,311,119,"Bloody Knight",1268,7*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,94,311,119,"Bow Master",1830,7*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,94,311,119,"Dimik",1671,7*'mult+'add,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,265,94,311,119,"Kasa",1833,7*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,265,94,311,119,"Bloody Knight",1268,7*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,94,311,119,"Bow Master",1830,7*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,94,311,119,"Dimik",1671,7*'mult+'add,.@label$);
+		mobhm('hm,1,.@mapi$,265,94,311,119,"Kasa",1833,7*'mult+'add,.@label$);
 		break;
 	case 76:
 		set 'EC_Mobs,11*'mult+'add;
-		callfunc "mobhm",'hm,1,.@mapi$,349,94,395,119,"Ifrit",1832,1*'mult,.@label$;
-		callfunc "mobhm",'hm,1,.@mapi$,349,94,395,119,"Salamander",2675,10*'mult+'add,.@label$;
+		mobhm('hm,1,.@mapi$,349,94,395,119,"Ifrit",1832,1*'mult,.@label$);
+		mobhm('hm,1,.@mapi$,349,94,395,119,"Salamander",2675,10*'mult+'add,.@label$);
 		break;
 	case 77:
-		callfunc "mobhm",'hm,0,.@mapi$,156,75,"Poring",1002,1,strnpcinfo(3)+"::OnPorDead";
+		mobhm('hm,0,.@mapi$,156,75,"Poring",1002,1,strnpcinfo(3)+"::OnPorDead");
 		break;
 	}
 	return;
@@ -787,7 +787,7 @@ OnPorDead:
 	instance_announce .@i,"Squeaky Voice: I know.  I'll let you play with my pets, the Six Great Pains.",bc_map,0xFF0000;
 	sleep2 3000;
 	instance_announce .@i,"Squeaky Voice: Try not to die too fast, they need their exercise.",bc_map,0xFF0000;
-	callfunc "mobhm",'hm,0,instance_mapname("5@new"),156,145,"High Priest Magaleta",1649,1*'mult,instance_npcname("EC_Manager")+"::OnPain1";
+	mobhm('hm,0,instance_mapname("5@new"),156,145,"High Priest Magaleta",1649,1*'mult,instance_npcname("EC_Manager")+"::OnPain1");
 	end;
 
 OnPain1:
@@ -797,7 +797,7 @@ OnPain1:
 	sleep2 5000;
 	instance_announce .@i,"Squeaky Voice: You are stronger than you look, now try the pain of magic.",bc_map,0xFF0000;
 	sleep2 5000;
-	callfunc "mobhm",'hm,0,instance_mapname("5@new"),156,145,"High Wizard Katrinn",1651,1*'mult,instance_npcname("EC_Manager")+"::OnPain2";
+	mobhm('hm,0,instance_mapname("5@new"),156,145,"High Wizard Katrinn",1651,1*'mult,instance_npcname("EC_Manager")+"::OnPain2");
 	end;
 
 OnPain2:
@@ -807,7 +807,7 @@ OnPain2:
 	sleep2 5000;
 	instance_announce .@i,"Squeaky Voice: Impressive, but how will you handle the pain of distance?",bc_map,0xFF0000;
 	sleep2 5000;
-	callfunc "mobhm",'hm,0,instance_mapname("5@new"),156,145,"Sniper Shecil",1650,1*'mult,instance_npcname("EC_Manager")+"::OnPain3";
+	mobhm('hm,0,instance_mapname("5@new"),156,145,"Sniper Shecil",1650,1*'mult,instance_npcname("EC_Manager")+"::OnPain3");
 	end;
 
 OnPain3:
@@ -817,7 +817,7 @@ OnPain3:
 	sleep2 5000;
 	instance_announce .@i,"Squeaky Voice: Have you ever fought something you couldn't see?",bc_map,0xFF0000;
 	sleep2 5000;
-	callfunc "mobhm",'hm,0,instance_mapname("5@new"),156,145,"Assassin Cross Eremes",1647,1*'mult,instance_npcname("EC_Manager")+"::OnPain4";
+	mobhm('hm,0,instance_mapname("5@new"),156,145,"Assassin Cross Eremes",1647,1*'mult,instance_npcname("EC_Manager")+"::OnPain4");
 	end;
 
 OnPain4:
@@ -827,7 +827,7 @@ OnPain4:
 	sleep2 5000;
 	instance_announce .@i,"Squeaky Voice: You murderers, it's time to feel the pain of paralysis.",bc_map,0xFF0000;
 	sleep2 5000;
-	callfunc "mobhm",'hm,0,instance_mapname("5@new"),156,145,"Whitesmith Harword",1648,1*'mult,instance_npcname("EC_Manager")+"::OnPain5";
+	mobhm('hm,0,instance_mapname("5@new"),156,145,"Whitesmith Harword",1648,1*'mult,instance_npcname("EC_Manager")+"::OnPain5");
 	end;
 
 OnPain5:
@@ -837,7 +837,7 @@ OnPain5:
 	sleep2 5000;
 	instance_announce .@i,"Squeaky Voice: I'm getting annoyed, my last pet will finish you off.",bc_map,0xFF0000;
 	sleep2 5000;
-	callfunc "mobhm",'hm,0,instance_mapname("5@new"),156,145,"Lord Knight Seyren",1646,1*'mult,instance_npcname("EC_Manager")+"::OnPain6";
+	mobhm('hm,0,instance_mapname("5@new"),156,145,"Lord Knight Seyren",1646,1*'mult,instance_npcname("EC_Manager")+"::OnPain6");
 	end;
 
 OnPain6:
@@ -853,9 +853,9 @@ OnPain6:
 	sleep2 3000;
 	instance_announce .@i,"Squeaky Voice: Baphomet, make these weaklings entertain me a little more before they die.",bc_map,0x00FF00;
 	sleep2 3000;
-	callfunc "mobhm",'hm,1,instance_mapname("5@new"),151,122,160,134,"Super Baphomet",1399,1*'mult,instance_npcname("EC_Manager")+"::OnBapho";
-	callfunc "mobhm",'hm,1,instance_mapname("5@new"),130,114,181,150,"Piamette",1930,3*'mult+'add;
-	callfunc "mobhm",'hm,1,instance_mapname("5@new"),130,114,181,150,"Wish Maiden",1931,3*'mult+'add;
+	mobhm('hm,1,instance_mapname("5@new"),151,122,160,134,"Super Baphomet",1399,1*'mult,instance_npcname("EC_Manager")+"::OnBapho");
+	mobhm('hm,1,instance_mapname("5@new"),130,114,181,150,"Piamette",1930,3*'mult+'add);
+	mobhm('hm,1,instance_mapname("5@new"),130,114,181,150,"Wish Maiden",1931,3*'mult+'add);
 	end;
 
 OnBapho:
@@ -867,10 +867,10 @@ OnBapho:
 	sleep2 3000;
 	instance_announce .@i,"Squeaky Voice: No?  Then its time to show you who I am.",bc_map,0x00FF00;
 	sleep2 3000;
-	callfunc "mobhm",'hm,1,instance_mapname("5@new"),151,122,160,134,"Pori Pori",1502,1*'mult,instance_npcname("EC_Manager")+"::OnPoripori";
+	mobhm('hm,1,instance_mapname("5@new"),151,122,160,134,"Pori Pori",1502,1*'mult,instance_npcname("EC_Manager")+"::OnPoripori");
 	areamonster instance_mapname("5@new"),130,114,181,150,"Golden Savage",1840,5*'mult+'add;
-	callfunc "mobhm",'hm,1,instance_mapname("5@new"),130,114,181,150,"Pouring",1894,10*'mult+'add;
-	callfunc "mobhm",'hm,1,instance_mapname("5@new"),130,114,181,150,"Bomb Poring",1904,20*'mult+'add;
+	mobhm('hm,1,instance_mapname("5@new"),130,114,181,150,"Pouring",1894,10*'mult+'add);
+	mobhm('hm,1,instance_mapname("5@new"),130,114,181,150,"Bomb Poring",1904,20*'mult+'add);
 	end;
 
 OnPoripori:

@@ -20393,6 +20393,7 @@ BUILDIN_FUNC(instance_create)
 	e_instance_mode mode = IM_PARTY;
 	int owner_id = 0;
 	int hardmode = 1;
+	int turbo = 0;
 
 	if (script_hasdata(st, 3)) {
 		mode = static_cast<e_instance_mode>(script_getnum(st, 3));
@@ -20433,10 +20434,13 @@ BUILDIN_FUNC(instance_create)
 				return SCRIPT_CMD_FAILURE;
 		}
 	}
-	if (script_hasdata(st, 5))
+	if (script_hasdata(st, 5)) {
 		hardmode = script_getnum(st, 5);
+		if (script_hasdata(st, 6))
+			turbo = script_getnum(st, 6);
+	}
 
-	script_pushint(st, instance_create(owner_id, script_getstr(st, 2), mode, hardmode));
+	script_pushint(st, instance_create(owner_id, script_getstr(st, 2), mode, hardmode, turbo));
 	return SCRIPT_CMD_SUCCESS;
 }
 
@@ -25395,7 +25399,7 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(bg_info,"si"),
 
 	// Instancing
-	BUILDIN_DEF(instance_create,"s???"),
+	BUILDIN_DEF(instance_create,"s????"),
 	BUILDIN_DEF(instance_destroy,"?"),
 	BUILDIN_DEF(instance_id,"?"),
 	BUILDIN_DEF(instance_enter,"s????"),

@@ -174,47 +174,49 @@ glast_01,204,273,5	script	Hugin	4_M_SAGE_C,{
 		cutin "gl_barmund2",2;
 		close3;
 	}
-	.@account_id = getcharid(3);
-	.@player_name$ = strcharinfo(0);
-	mes "[Varmundt]";
-	mes "Are you the one ^0000ffHerico^000000 sent to help me?";
-	npctalk "Varmundt: Are you the one Herico sent to help me?";
-	cutin "gl_barmund1",2;
-	next;
-	select("Oh. Well I...");
-	mes "[" + .@player_name$ + "]";
-	mes "Ah yes, I am. Herico told me to meet you.";
-	unittalk .@account_id, .@player_name$ + " : Ah yes, I am. Herico told me to meet you.";
-	next;
-	mes "[Varmundt]";
-	mes "We don't have much time. We must report to Sir Heinrich about Himelmez's invasion.";
-	npctalk "Varmundt: We don't have much time. We must report to Sir Heinrich about Himelmez's invasion.";
-	cutin "gl_barmund2",2;
-	next;
-	select("Himelmez...");
-	mes "[" + .@player_name$ + "]";
-	mes "Who is Himelmez?";
-	unittalk .@account_id, .@player_name$ + " : Who is Himelmez?";
-	next;
-	mes "[Varmundt]";
-	mes "Herico didn't tell you?";
-	npctalk "Varmundt: Herico didn't tell you?";
-	cutin "gl_barmund3",2;
-	next;
-	mes "[Varmundt]";
-	mes "She is the Ruler of Death, Dead man's Valkyrie. Himelmez is looking to take the heart of Ymir from us.";
-	npctalk "Varmundt: She is the Ruler of Death, Dead man's Valkyrie. Himelmez is looking to take the heart of Ymir from us.";
-	cutin "gl_barmund2",2;
-	next;
-	mes "[Varmundt]";
-	mes "She might even destroy this whole castle if she wanted to.";
-	npctalk "Varmundt: She might even destroy this whole castle if she wanted to.";
-	next;
-	mes "[Varmundt]";
-	mes "Hurry! Report to Sir. Heinrich about Himelmez. I must check the defense barrier here!";
+	if( !'turbo ) {
+		.@account_id = getcharid(3);
+		.@player_name$ = strcharinfo(0);
+		mes "[Varmundt]";
+		mes "Are you the one ^0000ffHerico^000000 sent to help me?";
+		npctalk "Varmundt: Are you the one Herico sent to help me?";
+		cutin "gl_barmund1",2;
+		next;
+		select("Oh. Well I...");
+		mes "[" + .@player_name$ + "]";
+		mes "Ah yes, I am. Herico told me to meet you.";
+		unittalk .@account_id, .@player_name$ + " : Ah yes, I am. Herico told me to meet you.";
+		next;
+		mes "[Varmundt]";
+		mes "We don't have much time. We must report to Sir Heinrich about Himelmez's invasion.";
+		npctalk "Varmundt: We don't have much time. We must report to Sir Heinrich about Himelmez's invasion.";
+		cutin "gl_barmund2",2;
+		next;
+		select("Himelmez...");
+		mes "[" + .@player_name$ + "]";
+		mes "Who is Himelmez?";
+		unittalk .@account_id, .@player_name$ + " : Who is Himelmez?";
+		next;
+		mes "[Varmundt]";
+		mes "Herico didn't tell you?";
+		npctalk "Varmundt: Herico didn't tell you?";
+		cutin "gl_barmund3",2;
+		next;
+		mes "[Varmundt]";
+		mes "She is the Ruler of Death, Dead man's Valkyrie. Himelmez is looking to take the heart of Ymir from us.";
+		npctalk "Varmundt: She is the Ruler of Death, Dead man's Valkyrie. Himelmez is looking to take the heart of Ymir from us.";
+		cutin "gl_barmund2",2;
+		next;
+		mes "[Varmundt]";
+		mes "She might even destroy this whole castle if she wanted to.";
+		npctalk "Varmundt: She might even destroy this whole castle if she wanted to.";
+		next;
+		mes "[Varmundt]";
+		mes "Hurry! Report to Sir. Heinrich about Himelmez. I must check the defense barrier here!";
+		close2;
+		cutin "",255;
+	}
 	npctalk "Varmundt: Hurry! Report to Sir. Heinrich about Himelmez. I must check the defense barrier here!";
-	close2;
-	cutin "",255;
 	disablenpc instance_npcname("Varmundt#0");
 	enablenpc instance_npcname("Heinrich#1");
 	enablenpc instance_npcname("Varmundt#1");
@@ -312,56 +314,58 @@ glast_01,204,273,5	script	Hugin	4_M_SAGE_C,{
 		cutin "gl_heinrich2",2;
 		close3;
 	}
-	.@account_id = getcharid(3);
-	.@player_name$ = strcharinfo(0);
-	cutin "gl_heinrich2",2;
-	select("Sir Heinrich. Varmundt...");
-	mes "[" + .@player_name$ + "]";
-	mes "Sir Heinrich. Do you know what is happening in the castle now?";
-	unittalk .@account_id, .@player_name$ + " : Sir Heinrich. Do you know what is happening in the castle now?";
-	next;
-	mes "[Heinrich]";
-	mes "Aren't you the adventurer that came along with Varmundt?";
-	npctalk "Heinrich: Aren't you the adventurer that came along with Varmundt?";
-	next;
-	mes "[Heinrich]";
-	mes "What is it? Something wrong with the castle?";
-	npctalk "Heinrich: What is it? Something wrong with the castle?";
-	next;
-	select("Himelmez's invasion...");
-	mes "[" + .@player_name$ + "]";
-	mes "Dead man's Valkyrie, Himelmez is coming to take the Ymir's Heart piece hidden inside this castle!";
-	unittalk .@account_id, .@player_name$ + " : Dead man's Valkyrie, Himelmez is coming to take the Ymir's Heart piece hidden inside this castle!";
-	next;
-	mes "[Heinrich]";
-	mes "Haha. Funny. Do you really think that is possible?";
-	npctalk "Heinrich: Haha. Funny. Do you really think that is possible?";
-	cutin "gl_heinrich1",2;
-	next;
-	mes "[Varmundt]";
-	mes "I'm not kidding, Sir Heinrich. If I'm correct, then she will be here very soon.";
-	npctalk "Varmundt: I'm not kidding, Sir Heinrich. If I'm correct, then she will be here very soon.", instance_npcname("Varmundt#1");
-	cutin "gl_barmund2",2;
-	next;
-	mes "[Varmundt]";
-	mes "We must hide the heart piece in a safe place before Himelmez's attack starts!";
-	npctalk "Varmundt: We must hide the heart piece in a safe place before Himelmez's attack starts!", instance_npcname("Varmundt#1");
-	next;
-	select("Even if you don't believe me...");
-	mes "[" + .@player_name$ + "]";
-	mes "I can't make you believe me, but there's no time to argue!";
-	unittalk .@account_id, .@player_name$ + " : I can't make you believe me, but there's no time to argue!";
-	cutin "",255;
-	next;
-	mes "[Heinrich]";
-	mes "Thank you for the help. But we don't even have our king with us right now.";
+	if( !'turbo ) {
+		.@account_id = getcharid(3);
+		.@player_name$ = strcharinfo(0);
+		cutin "gl_heinrich2",2;
+		select("Sir Heinrich. Varmundt...");
+		mes "[" + .@player_name$ + "]";
+		mes "Sir Heinrich. Do you know what is happening in the castle now?";
+		unittalk .@account_id, .@player_name$ + " : Sir Heinrich. Do you know what is happening in the castle now?";
+		next;
+		mes "[Heinrich]";
+		mes "Aren't you the adventurer that came along with Varmundt?";
+		npctalk "Heinrich: Aren't you the adventurer that came along with Varmundt?";
+		next;
+		mes "[Heinrich]";
+		mes "What is it? Something wrong with the castle?";
+		npctalk "Heinrich: What is it? Something wrong with the castle?";
+		next;
+		select("Himelmez's invasion...");
+		mes "[" + .@player_name$ + "]";
+		mes "Dead man's Valkyrie, Himelmez is coming to take the Ymir's Heart piece hidden inside this castle!";
+		unittalk .@account_id, .@player_name$ + " : Dead man's Valkyrie, Himelmez is coming to take the Ymir's Heart piece hidden inside this castle!";
+		next;
+		mes "[Heinrich]";
+		mes "Haha. Funny. Do you really think that is possible?";
+		npctalk "Heinrich: Haha. Funny. Do you really think that is possible?";
+		cutin "gl_heinrich1",2;
+		next;
+		mes "[Varmundt]";
+		mes "I'm not kidding, Sir Heinrich. If I'm correct, then she will be here very soon.";
+		npctalk "Varmundt: I'm not kidding, Sir Heinrich. If I'm correct, then she will be here very soon.", instance_npcname("Varmundt#1");
+		cutin "gl_barmund2",2;
+		next;
+		mes "[Varmundt]";
+		mes "We must hide the heart piece in a safe place before Himelmez's attack starts!";
+		npctalk "Varmundt: We must hide the heart piece in a safe place before Himelmez's attack starts!", instance_npcname("Varmundt#1");
+		next;
+		select("Even if you don't believe me...");
+		mes "[" + .@player_name$ + "]";
+		mes "I can't make you believe me, but there's no time to argue!";
+		unittalk .@account_id, .@player_name$ + " : I can't make you believe me, but there's no time to argue!";
+		cutin "",255;
+		next;
+		mes "[Heinrich]";
+		mes "Thank you for the help. But we don't even have our king with us right now.";
+		npctalk "Heinrich: Thank you for the help. But we don't even have our king with us right now.";
+		cutin "gl_heinrich1",2;
+		next;
+		mes "[Heinrich]";
+		mes "We cannot risk moving the heart just because some stranger says so.";
+		close2;
+	}
 	npctalk "Heinrich: Thank you for the help. But we don't even have our king with us right now.";
-	cutin "gl_heinrich1",2;
-	next;
-	mes "[Heinrich]";
-	mes "We cannot risk moving the heart just because some stranger says so.";
-	npctalk "Heinrich: We cannot risk moving the heart just because some stranger says so.";
-	close2;
 	disablenpc instance_npcname("Heinrich#1");
 	enablenpc instance_npcname("Heinrich#2");
 	enablenpc instance_npcname("Himelmez#1");
@@ -386,6 +390,7 @@ OnEnable:
 	'npc_varmundt1$ = instance_npcname("Varmundt#1");
 	'npc_heinrich2$ = instance_npcname("Heinrich#2");
 	'npc_heinrich3$ = instance_npcname("Heinrich#3");
+	if( 'turbo ) setnpctimer 90000;
 	end;
 OnTimer1500:
 	npctalk "Heinrich: Who are you?", 'npc_heinrich2$;
@@ -447,41 +452,42 @@ OnTimer92000:
 	hideonnpc instance_npcname("Khalitzburg Knightage#22");
 
 	.@label$ = instance_npcname("#talkinstance1") + "::OnMyMobDead";
-	callfunc "mobhm",'hm,0,'map_name$[0],145,59,"Abysmal Knight",2470,1,.@label$;// MG_KNIGHT_OF_ABYSS
-	callfunc "mobhm",'hm,0,'map_name$[0],154,59,"Abysmal Knight",2470,1,.@label$;
-	callfunc "mobhm",'hm,0,'map_name$[0],145,69,"Abysmal Knight",2470,1,.@label$;
-	callfunc "mobhm",'hm,0,'map_name$[0],154,69,"Abysmal Knight",2470,1,.@label$;
-	callfunc "mobhm",'hm,0,'map_name$[0],145,79,"Abysmal Knight",2470,1,.@label$;
-	callfunc "mobhm",'hm,0,'map_name$[0],154,79,"Abysmal Knight",2470,1,.@label$;
-	callfunc "mobhm",'hm,0,'map_name$[0],145,89,"Abysmal Knight",2470,1,.@label$;
-	callfunc "mobhm",'hm,0,'map_name$[0],154,89,"Abysmal Knight",2470,1,.@label$;
-	callfunc "mobhm",'hm,0,'map_name$[0],145,99,"Abysmal Knight",2470,1,.@label$;
-	callfunc "mobhm",'hm,0,'map_name$[0],154,99,"Abysmal Knight",2470,1,.@label$;
+	mobhm('hm,0,'map_name$[0],145,59,"Abysmal Knight",2470,1,.@label$);// MG_KNIGHT_OF_ABYSS
+	mobhm('hm,0,'map_name$[0],154,59,"Abysmal Knight",2470,1,.@label$);
+	mobhm('hm,0,'map_name$[0],145,69,"Abysmal Knight",2470,1,.@label$);
+	mobhm('hm,0,'map_name$[0],154,69,"Abysmal Knight",2470,1,.@label$);
+	mobhm('hm,0,'map_name$[0],145,79,"Abysmal Knight",2470,1,.@label$);
+	mobhm('hm,0,'map_name$[0],154,79,"Abysmal Knight",2470,1,.@label$);
+	mobhm('hm,0,'map_name$[0],145,89,"Abysmal Knight",2470,1,.@label$);
+	mobhm('hm,0,'map_name$[0],154,89,"Abysmal Knight",2470,1,.@label$);
+	mobhm('hm,0,'map_name$[0],145,99,"Abysmal Knight",2470,1,.@label$);
+	mobhm('hm,0,'map_name$[0],154,99,"Abysmal Knight",2470,1,.@label$);
 
-	callfunc "mobhm",'hm,0,'map_name$[0],145,54,"Khalitzburg",2471,1,.@label$;// G_MG_KHALITZBURG
+	mobhm('hm,0,'map_name$[0],145,54,"Khalitzburg",2471,1,.@label$);// G_MG_KHALITZBURG
 	unittalk $@mobid[0],"Water... Someone give me water...";
-	callfunc "mobhm",'hm,0,'map_name$[0],154,54,"Khalitzburg",2471,1,.@label$;
+	mobhm('hm,0,'map_name$[0],154,54,"Khalitzburg",2471,1,.@label$);
 	unittalk $@mobid[0],"Kkkrrrruughgh...";
-	callfunc "mobhm",'hm,0,'map_name$[0],145,64,"Khalitzburg",2471,1,.@label$;
+	mobhm('hm,0,'map_name$[0],145,64,"Khalitzburg",2471,1,.@label$);
 	unittalk $@mobid[0],"Sir Heinrich. Save me...";
-	callfunc "mobhm",'hm,0,'map_name$[0],154,64,"Khalitzburg",2471,1,.@label$;
+	mobhm('hm,0,'map_name$[0],154,64,"Khalitzburg",2471,1,.@label$);
 	unittalk $@mobid[0],"I miss my sister...";
-	callfunc "mobhm",'hm,0,'map_name$[0],145,74,"Khalitzburg",2471,1,.@label$;
+	mobhm('hm,0,'map_name$[0],145,74,"Khalitzburg",2471,1,.@label$);
 	unittalk $@mobid[0],"Don't leave me alone, help me.";
-	callfunc "mobhm",'hm,0,'map_name$[0],154,74,"Khalitzburg",2471,1,.@label$;
+	mobhm('hm,0,'map_name$[0],154,74,"Khalitzburg",2471,1,.@label$);
 	unittalk $@mobid[0],"Aaarrrrrhhhh";
-	callfunc "mobhm",'hm,0,'map_name$[0],145,84,"Khalitzburg",2471,1,.@label$;
+	mobhm('hm,0,'map_name$[0],145,84,"Khalitzburg",2471,1,.@label$);
 	unittalk $@mobid[0],"I am so thirsty.";
-	callfunc "mobhm",'hm,0,'map_name$[0],154,84,"Khalitzburg",2471,1,.@label$;
+	mobhm('hm,0,'map_name$[0],154,84,"Khalitzburg",2471,1,.@label$);
 	unittalk $@mobid[0],"Oh...No...I can't die yet...";
-	callfunc "mobhm",'hm,0,'map_name$[0],145,94,"Khalitzburg",2471,1,.@label$;
+	mobhm('hm,0,'map_name$[0],145,94,"Khalitzburg",2471,1,.@label$);
 	unittalk $@mobid[0],"I feel sick to my stomach urrgg";
-	callfunc "mobhm",'hm,0,'map_name$[0],154,94,"Khalitzburg",2471,1,.@label$;
+	mobhm('hm,0,'map_name$[0],154,94,"Khalitzburg",2471,1,.@label$);
 	unittalk $@mobid[0],"Can someone...";
-	callfunc "mobhm",'hm,0,'map_name$[0],145,104,"Khalitzburg",2471,1,.@label$;
+	mobhm('hm,0,'map_name$[0],145,104,"Khalitzburg",2471,1,.@label$);
 	unittalk $@mobid[0],"Arrgg... My body";
-	callfunc "mobhm",'hm,0,'map_name$[0],154,104,"Khalitzburg",2471,1,.@label$;
+	mobhm('hm,0,'map_name$[0],154,104,"Khalitzburg",2471,1,.@label$);
 	unittalk $@mobid[0],"My throat is burning!";
+	if( 'turbo ) setnpctimer 109000;
 	end;
 OnTimer94000:
 	npctalk "Heinrich: My men... This can't be happening!", 'npc_heinrich2$;
@@ -559,6 +565,7 @@ OnTimer112000:
 	disablenpc 'npc_heinrich2$;
 	enablenpc 'npc_heinrich3$;
 	killmonster 'map_name$[0], instance_npcname("#talkinstance1") + "::OnMyMobDead";
+	if( 'turbo ) setnpctimer 147000;
 	end;
 OnTimer112500:
 	npctalk "Heinrich: I killed my own men...", 'npc_heinrich3$;
@@ -617,11 +624,11 @@ OnStart:
 
 	// note: x17 MG_GHOUL / x17 MG_ZOMBIE / x17 MG_WRAITH
 	.@label$ = instance_npcname("#ghmemorialmob01") + "::OnMyMobDead";
-	callfunc "mobhm",'hm,1,'map_name$[0],76,99,87,10,"Grand Chamberlain in pain",2466,14,.@label$;
-	callfunc "mobhm",'hm,1,'map_name$[0],67,39,12, 6,"Corrupted Monk",2465,17,.@label$;
-	callfunc "mobhm",'hm,1,'map_name$[0],67,39,12, 6,"Grand Chamberlain in pain",2466,3,.@label$;
-	callfunc "mobhm",'hm,1,'map_name$[0],32,75,51,58,"Corrupted Steward",2464,5,.@label$;
-	callfunc "mobhm",'hm,1,'map_name$[0],45,84,6,137,"Corrupted Steward",2464,12,.@label$;
+	mobhm('hm,1,'map_name$[0],76,99,87,10,"Grand Chamberlain in pain",2466,14,.@label$);
+	mobhm('hm,1,'map_name$[0],67,39,12, 6,"Corrupted Monk",2465,17,.@label$);
+	mobhm('hm,1,'map_name$[0],67,39,12, 6,"Grand Chamberlain in pain",2466,3,.@label$);
+	mobhm('hm,1,'map_name$[0],32,75,51,58,"Corrupted Steward",2464,5,.@label$);
+	mobhm('hm,1,'map_name$[0],45,84,6,137,"Corrupted Steward",2464,12,.@label$);
 	end;
 OnMyMobDead:
 	.@label$ = instance_npcname("#ghmemorialmob01") + "::OnMyMobDead";
@@ -641,41 +648,43 @@ OnMyMobDead:
 		mes "Save me, save me, please...";
 		close;
 	}
-	.@account_id = getcharid(3);
-	.@player_name$ = strcharinfo(0);
-	mes "[Altar boy Domun]";
-	mes "Save me! Save me!!!";
-	npctalk "Save me! Save me!!!";
-	next;
-	select("Hold on! Are you the only survivor?");
-	mes "[" + .@player_name$ + "]";
-	mes "Hold on! Are you the only survivor?";
-	unittalk .@account_id, .@player_name$ + " : Hold on! Are you the only survivor?";
-	next;
-	mes "[Altar boy Domun]";
-	mes "Chamberlains... monks... They all turned into monsters. I couldn't do anything.";
-	npctalk "Altar boy Domun: Chamberlains... monks... They all turned into monsters. I couldn't do anything.";
-	next;
-	mes "[Altar boy Domun]";
-	mes "All I could do was... Just hide in here... Nothing, nothing I could do...";
-	npctalk "Altar boy Domun: All I could do was... Just hide in here... Nothing, nothing I could do...";
-	next;
-	select("Pull it together!");
-	mes "[" + .@player_name$ + "]";
-	mes "Wake up kid! Go east and find the middle passage to the outside! It is safe there!";
-	unittalk .@account_id, .@player_name$ + " : Wake up kid! Go east and find the middle passage to the outside! It is safe there!";
-	next;
-	mes "[Altar boy Domun]";
-	mes "To the east passage? Alone? How?";
-	npctalk "Altar boy Domun: To the east passage? Alone? How?";
-	next;
-	select("I will give you a weapon.");
-	mes "[" + .@player_name$ + "]";
-	mes "Here's a weapon. Just close your eye and swing for those monsters.";
-	unittalk .@account_id, .@player_name$ + " : Here's a weapon. Just close your eye and swing for those monsters.";
-	next;
-	mes "[Altar boy Domun]";
-	mes "Ok, I... I'll try.";
+	if( !'turbo ) {
+		.@account_id = getcharid(3);
+		.@player_name$ = strcharinfo(0);
+		mes "[Altar boy Domun]";
+		mes "Save me! Save me!!!";
+		npctalk "Save me! Save me!!!";
+		next;
+		select("Hold on! Are you the only survivor?");
+		mes "[" + .@player_name$ + "]";
+		mes "Hold on! Are you the only survivor?";
+		unittalk .@account_id, .@player_name$ + " : Hold on! Are you the only survivor?";
+		next;
+		mes "[Altar boy Domun]";
+		mes "Chamberlains... monks... They all turned into monsters. I couldn't do anything.";
+		npctalk "Altar boy Domun: Chamberlains... monks... They all turned into monsters. I couldn't do anything.";
+		next;
+		mes "[Altar boy Domun]";
+		mes "All I could do was... Just hide in here... Nothing, nothing I could do...";
+		npctalk "Altar boy Domun: All I could do was... Just hide in here... Nothing, nothing I could do...";
+		next;
+		select("Pull it together!");
+		mes "[" + .@player_name$ + "]";
+		mes "Wake up kid! Go east and find the middle passage to the outside! It is safe there!";
+		unittalk .@account_id, .@player_name$ + " : Wake up kid! Go east and find the middle passage to the outside! It is safe there!";
+		next;
+		mes "[Altar boy Domun]";
+		mes "To the east passage? Alone? How?";
+		npctalk "Altar boy Domun: To the east passage? Alone? How?";
+		next;
+		select("I will give you a weapon.");
+		mes "[" + .@player_name$ + "]";
+		mes "Here's a weapon. Just close your eye and swing for those monsters.";
+		unittalk .@account_id, .@player_name$ + " : Here's a weapon. Just close your eye and swing for those monsters.";
+		next;
+		mes "[Altar boy Domun]";
+		mes "Ok, I... I'll try.";
+	}
 	npctalk "Altar boy Domun: Ok, I... I'll try.";
 	disablenpc instance_npcname("Altar boy Domun#1");
 	donpcevent instance_npcname("#ghmemorialmob02") + "::OnStart";
@@ -696,10 +705,10 @@ OnStart:
 
 	// note: x34 MG_ZOMBIE / x35 MG_GHOUL
 	.@label$ = instance_npcname("#ghmemorialmob02") + "::OnMyMobDead";
-	callfunc "mobhm",'hm,1,'map_name$[0],236,12,288,52,"Outraged Refiner",2466,18,.@label$;// MG_GHOUL
-	callfunc "mobhm",'hm,1,'map_name$[0],236,12,288,52,"Decomposed Blacksmith",2464,17,.@label$;// MG_ZOMBIE
-	callfunc "mobhm",'hm,1,'map_name$[0],242,71,286,145,"Outraged Refiner",2466,17,.@label$;
-	callfunc "mobhm",'hm,1,'map_name$[0],242,71,286,145,"Decomposed Blacksmith",2464,17,.@label$;
+	mobhm('hm,1,'map_name$[0],236,12,288,52,"Outraged Refiner",2466,18,.@label$);// MG_GHOUL
+	mobhm('hm,1,'map_name$[0],236,12,288,52,"Decomposed Blacksmith",2464,17,.@label$);// MG_ZOMBIE
+	mobhm('hm,1,'map_name$[0],242,71,286,145,"Outraged Refiner",2466,17,.@label$);
+	mobhm('hm,1,'map_name$[0],242,71,286,145,"Decomposed Blacksmith",2464,17,.@label$);
 	end;
 OnMyMobDead:
 	.@label$ = instance_npcname("#ghmemorialmob02") + "::OnMyMobDead";
@@ -719,38 +728,40 @@ OnMyMobDead:
 		mes "You human?";
 		close;
 	}
-	.@account_id = getcharid(3);
-	.@player_name$ = strcharinfo(0);
-	mes "[Holgren the Destroyer]";
-	mes "Die!! You shall die!!!";
-	npctalk "Holgren the Destroyer: Die!! You shall die!!!";
-	specialeffect EF_CRASHEARTH;
-	next;
-	select("Relax! I'm not a monster!");
-	mes "[" + .@player_name$ + "]";
-	mes "Relax! I am Human. Are you alone? Is anyone else here?";
-	unittalk .@account_id, .@player_name$ + " : Relax! I am Human. Are you alone? Is anyone else here?";
-	next;
-	mes "[Holgren the Destroyer]";
-	mes "It's only me.";
-	npctalk "Holgren the Destroyer: It's only me.";
-	next;
-	select("It's dangerous here...");
-	mes "[" + .@player_name$ + "]";
-	mes "It's dangerous here. You know the way to the middle passage? Can you move?";
-	unittalk .@account_id, .@player_name$ + " : It's dangerous here. You know the way to the middle passage? Can you move?";
-	next;
-	mes "[Holgren the Destroyer]";
-	mes "Yes, I can move. I need to get out of here.";
-	npctalk "Holgren the Destroyer: Yes, I can move. I need to get out of here.";
-	next;
-	select("Be safe...");
-	mes "[" + .@player_name$ + "]";
-	mes "Sorry, I can't go with you.";
-	unittalk .@account_id, .@player_name$ + " : Sorry, I can't go with you.";
-	next;
-	mes "[Holgren the Destroyer]";
-	mes "It's ok. You've already done enough. I can help myself. Good luck to you too.";
+	if( !'turbo ) {
+		.@account_id = getcharid(3);
+		.@player_name$ = strcharinfo(0);
+		mes "[Holgren the Destroyer]";
+		mes "Die!! You shall die!!!";
+		npctalk "Holgren the Destroyer: Die!! You shall die!!!";
+		specialeffect EF_CRASHEARTH;
+		next;
+		select("Relax! I'm not a monster!");
+		mes "[" + .@player_name$ + "]";
+		mes "Relax! I am Human. Are you alone? Is anyone else here?";
+		unittalk .@account_id, .@player_name$ + " : Relax! I am Human. Are you alone? Is anyone else here?";
+		next;
+		mes "[Holgren the Destroyer]";
+		mes "It's only me.";
+		npctalk "Holgren the Destroyer: It's only me.";
+		next;
+		select("It's dangerous here...");
+		mes "[" + .@player_name$ + "]";
+		mes "It's dangerous here. You know the way to the middle passage? Can you move?";
+		unittalk .@account_id, .@player_name$ + " : It's dangerous here. You know the way to the middle passage? Can you move?";
+		next;
+		mes "[Holgren the Destroyer]";
+		mes "Yes, I can move. I need to get out of here.";
+		npctalk "Holgren the Destroyer: Yes, I can move. I need to get out of here.";
+		next;
+		select("Be safe...");
+		mes "[" + .@player_name$ + "]";
+		mes "Sorry, I can't go with you.";
+		unittalk .@account_id, .@player_name$ + " : Sorry, I can't go with you.";
+		next;
+		mes "[Holgren the Destroyer]";
+		mes "It's ok. You've already done enough. I can help myself. Good luck to you too.";
+	}
 	npctalk "Holgren the Destroyer: It's ok. You've already done enough. I can help myself. Good luck to you too.";
 	disablenpc instance_npcname("Holgren the Destroyer#1");
 	donpcevent instance_npcname("#ghmemorialmob03") + "::OnEnable";
@@ -770,7 +781,7 @@ OnTouch_:
 	else .@mobs = 7;
 	getmapxy .@map$,.@x,.@y, BL_NPC;
 	specialeffect EF_VENOMDUST;
-	callfunc "mobhm",'hm,0,.@map$,.@x,.@y,"Maggot",2467,.@mobs;
+	mobhm('hm,0,.@map$,.@x,.@y,"Maggot",2467,.@mobs);
 	disablenpc instance_npcname( strnpcinfo(0) );
 	end;
 }
@@ -812,12 +823,12 @@ OnEnable:
 
 	// note: x50 MG_RAYDRIC / x50 MG_RAYDRIC_ARCHER
 	.@label$ = instance_npcname("#ghmemorialmob03") + "::OnMyMobDead";
-	callfunc "mobhm",'hm,1,'map_name$[0],16,186,43,280,"Outraged Archer",2469,25,.@label$;
-	callfunc "mobhm",'hm,1,'map_name$[0],44,191,89,225,"Hungry Palace Guard",2468,25,.@label$;
-	callfunc "mobhm",'hm,1,'map_name$[0],115,215,188,273,"Corrupted Palace Guard",2468,20,.@label$;
-	callfunc "mobhm",'hm,1,'map_name$[0],108,232,193,281,"Corrupted Palace Guard",2468,5,.@label$;
-	callfunc "mobhm",'hm,1,'map_name$[0],158,236,230,250,"Wandering Archer",2469,12,.@label$;
-	callfunc "mobhm",'hm,1,'map_name$[0],65,231,155,256,"Wandering Archer",2469,13,.@label$;
+	mobhm('hm,1,'map_name$[0],16,186,43,280,"Outraged Archer",2469,25,.@label$);
+	mobhm('hm,1,'map_name$[0],44,191,89,225,"Hungry Palace Guard",2468,25,.@label$);
+	mobhm('hm,1,'map_name$[0],115,215,188,273,"Corrupted Palace Guard",2468,20,.@label$);
+	mobhm('hm,1,'map_name$[0],108,232,193,281,"Corrupted Palace Guard",2468,5,.@label$);
+	mobhm('hm,1,'map_name$[0],158,236,230,250,"Wandering Archer",2469,12,.@label$);
+	mobhm('hm,1,'map_name$[0],65,231,155,256,"Wandering Archer",2469,13,.@label$);
 	end;
 OnMyMobDead:
 	.@label$ = instance_npcname("#ghmemorialmob03") + "::OnMyMobDead";
@@ -885,6 +896,7 @@ OnTouch_:
 	initnpctimer;
 	'npc_himelmez2$ = instance_npcname("Himelmez#2");
 	'npc_heinrich4$ = instance_npcname("Heinrich#4");
+	if( 'turbo ) setnpctimer 34500;
 	end;
 OnTimer3000:
 	npctalk "Himelmez: Guess you are either lucky or powerful to make it this far.", 'npc_himelmez2$;
@@ -936,7 +948,7 @@ OnTimer38000:
 	end;
 OnStart:
 	enablenpc instance_npcname("#ghmemorialmob04");
-	callfunc "mobhm",'hm,0,'map_name$[0],150,259,"Corrupted Soul",2475,1, instance_npcname("#ghmemorialmob04") + "::OnMyMobDead";// MG_CORRUPTION_ROOT
+	mobhm('hm,0,'map_name$[0],150,259,"Corrupted Soul",2475,1, instance_npcname("#ghmemorialmob04") + "::OnMyMobDead");// MG_CORRUPTION_ROOT
 	unittalk $@mobid[0],"Grrrrrrhh~~~";
 	end;
 OnMyMobDead:
@@ -988,6 +1000,7 @@ OnTouch_:
 	initnpctimer;
 	'npc_heinrich$ = instance_npcname("Heinrich#21");
 	'npc_varmundt$ = instance_npcname("Varmundt#21");
+	if( 'turbo ) setnpctimer 14500;
 	end;
 OnTimer3000:
 	npctalk "Heinrich: This structure was not in the castle before!", 'npc_heinrich$;
@@ -1004,6 +1017,7 @@ OnTimer12000:
 OnTimer15000:
 	specialeffect EF_LORD,AREA, instance_npcname("#Servanton_effect");
 	disablenpc instance_npcname("#Servanton_effect");
+	if( 'turbo ) setnpctimer 68000;
 	end;
 OnTimer18000:
 	npctalk "Varmundt: I think that part of closed space is broken down.", 'npc_varmundt$;
@@ -1078,11 +1092,11 @@ OnTouch_:
 	else
 		.@label$ = instance_npcname("#ghmemorialmob06") + "::OnMyMobDead";
 	getmapxy .@map$,.@x,.@y, BL_NPC;
-	callfunc "mobhm",'hm,0,.@map$,.@x,.@y, "Corrupted Palace Guard", 2468,1, .@label$;
-	callfunc "mobhm",'hm,0,.@map$,.@x,.@y, "Archer of Death", 2469,1, .@label$;
-	callfunc "mobhm",'hm,0,.@map$,.@x,.@y, "Corrupted Abysmal Knight", 2470,1, .@label$;
-	callfunc "mobhm",'hm,0,.@map$,.@x,.@y, "Suffered Khalitzburg", 2471,1, .@label$;
-	callfunc "mobhm",'hm,0,.@map$,.@x,.@y, "Bloody Knight", 2472,1, .@label$;
+	mobhm('hm,0,.@map$,.@x,.@y, "Corrupted Palace Guard", 2468,1, .@label$);
+	mobhm('hm,0,.@map$,.@x,.@y, "Archer of Death", 2469,1, .@label$);
+	mobhm('hm,0,.@map$,.@x,.@y, "Corrupted Abysmal Knight", 2470,1, .@label$);
+	mobhm('hm,0,.@map$,.@x,.@y, "Suffered Khalitzburg", 2471,1, .@label$);
+	mobhm('hm,0,.@map$,.@x,.@y, "Bloody Knight", 2472,1, .@label$);
 	initnpctimer;
 	end;
 OnTimer30000:
@@ -1125,7 +1139,7 @@ OnMyMobDead:
 
 		.@r = rand(4) * 2;
 		setarray .@coord[0], 41,146, 58,44, 122,148, 131,64;
-		callfunc "mobhm",'hm,0,'map_name$[1],.@coord[.@r],.@coord[.@r+1], "1st Commander of Destruction",2473,1, instance_npcname("#ghmemorialmob05") + "::OnBossDead";
+		mobhm('hm,0,'map_name$[1],.@coord[.@r],.@coord[.@r+1], "1st Commander of Destruction",2473,1, instance_npcname("#ghmemorialmob05") + "::OnBossDead");
 	}
 	end;
 
@@ -1151,50 +1165,50 @@ OnStart:
 
 	// Fix spawn
 	.@label$ = instance_npcname("#ghmemorialmob06") + "::OnMyMobDead";
-	callfunc "mobhm",'hm,0,'map_name$[1],252, 75, "Corrupted Palace Guard",2468,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],253, 76, "Corrupted Palace Guard",2468,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],247, 77, "Corrupted Palace Guard",2468,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],248, 80, "Corrupted Palace Guard",2468,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],236,100, "Corrupted Palace Guard",2468,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],240,100, "Corrupted Palace Guard",2468,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],242,100, "Corrupted Palace Guard",2468,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],244,100, "Corrupted Palace Guard",2468,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],199,111, "Corrupted Palace Guard",2468,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],181,107, "Wandering Archer",2469,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],177,110, "Wandering Archer",2469,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],236, 27, "Wandering Archer",2469,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],242, 27, "Wandering Archer",2469,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],252, 26, "Wandering Archer",2469,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],172,130, "Wandering Archer",2469,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],171,127, "Wandering Archer",2469,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],173,127, "Wandering Archer",2469,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],177, 69, "Corrupted Abysmal Knight",2470,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],186, 66, "Corrupted Abysmal Knight",2470,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],189, 67, "Corrupted Abysmal Knight",2470,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],190, 68, "Corrupted Abysmal Knight",2470,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],257,157, "Corrupted Abysmal Knight",2470,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],246,159, "Corrupted Abysmal Knight",2470,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],237,158, "Corrupted Abysmal Knight",2470,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],206,159, "Corrupted Abysmal Knight",2470,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],172,120, "Corrupted Abysmal Knight",2470,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],226, 30, "Suffered Khalitzburg",2471,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],226, 38, "Suffered Khalitzburg",2471,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],228, 29, "Suffered Khalitzburg",2471,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],226, 63, "Suffered Khalitzburg",2471,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],268,137, "Suffered Khalitzburg",2471,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],263,138, "Suffered Khalitzburg",2471,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],259,138, "Suffered Khalitzburg",2471,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],259,138, "Suffered Khalitzburg",2471,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],187,121, "Suffered Khalitzburg",2471,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],265, 52, "Bloody Knight",2472,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],265, 55, "Bloody Knight",2472,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],264, 79, "Bloody Knight",2472,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],225, 92, "Bloody Knight",2472,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],237, 92, "Bloody Knight",2472,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],249, 92, "Bloody Knight",2472,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],256, 93, "Bloody Knight",2472,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],264,100, "Bloody Knight",2472,1, .@label$;
-	callfunc "mobhm",'hm,0,'map_name$[1],181,120, "Bloody Knight",2472,1, .@label$;
+	mobhm('hm,0,'map_name$[1],252, 75, "Corrupted Palace Guard",2468,1, .@label$);
+	mobhm('hm,0,'map_name$[1],253, 76, "Corrupted Palace Guard",2468,1, .@label$);
+	mobhm('hm,0,'map_name$[1],247, 77, "Corrupted Palace Guard",2468,1, .@label$);
+	mobhm('hm,0,'map_name$[1],248, 80, "Corrupted Palace Guard",2468,1, .@label$);
+	mobhm('hm,0,'map_name$[1],236,100, "Corrupted Palace Guard",2468,1, .@label$);
+	mobhm('hm,0,'map_name$[1],240,100, "Corrupted Palace Guard",2468,1, .@label$);
+	mobhm('hm,0,'map_name$[1],242,100, "Corrupted Palace Guard",2468,1, .@label$);
+	mobhm('hm,0,'map_name$[1],244,100, "Corrupted Palace Guard",2468,1, .@label$);
+	mobhm('hm,0,'map_name$[1],199,111, "Corrupted Palace Guard",2468,1, .@label$);
+	mobhm('hm,0,'map_name$[1],181,107, "Wandering Archer",2469,1, .@label$);
+	mobhm('hm,0,'map_name$[1],177,110, "Wandering Archer",2469,1, .@label$);
+	mobhm('hm,0,'map_name$[1],236, 27, "Wandering Archer",2469,1, .@label$);
+	mobhm('hm,0,'map_name$[1],242, 27, "Wandering Archer",2469,1, .@label$);
+	mobhm('hm,0,'map_name$[1],252, 26, "Wandering Archer",2469,1, .@label$);
+	mobhm('hm,0,'map_name$[1],172,130, "Wandering Archer",2469,1, .@label$);
+	mobhm('hm,0,'map_name$[1],171,127, "Wandering Archer",2469,1, .@label$);
+	mobhm('hm,0,'map_name$[1],173,127, "Wandering Archer",2469,1, .@label$);
+	mobhm('hm,0,'map_name$[1],177, 69, "Corrupted Abysmal Knight",2470,1, .@label$);
+	mobhm('hm,0,'map_name$[1],186, 66, "Corrupted Abysmal Knight",2470,1, .@label$);
+	mobhm('hm,0,'map_name$[1],189, 67, "Corrupted Abysmal Knight",2470,1, .@label$);
+	mobhm('hm,0,'map_name$[1],190, 68, "Corrupted Abysmal Knight",2470,1, .@label$);
+	mobhm('hm,0,'map_name$[1],257,157, "Corrupted Abysmal Knight",2470,1, .@label$);
+	mobhm('hm,0,'map_name$[1],246,159, "Corrupted Abysmal Knight",2470,1, .@label$);
+	mobhm('hm,0,'map_name$[1],237,158, "Corrupted Abysmal Knight",2470,1, .@label$);
+	mobhm('hm,0,'map_name$[1],206,159, "Corrupted Abysmal Knight",2470,1, .@label$);
+	mobhm('hm,0,'map_name$[1],172,120, "Corrupted Abysmal Knight",2470,1, .@label$);
+	mobhm('hm,0,'map_name$[1],226, 30, "Suffered Khalitzburg",2471,1, .@label$);
+	mobhm('hm,0,'map_name$[1],226, 38, "Suffered Khalitzburg",2471,1, .@label$);
+	mobhm('hm,0,'map_name$[1],228, 29, "Suffered Khalitzburg",2471,1, .@label$);
+	mobhm('hm,0,'map_name$[1],226, 63, "Suffered Khalitzburg",2471,1, .@label$);
+	mobhm('hm,0,'map_name$[1],268,137, "Suffered Khalitzburg",2471,1, .@label$);
+	mobhm('hm,0,'map_name$[1],263,138, "Suffered Khalitzburg",2471,1, .@label$);
+	mobhm('hm,0,'map_name$[1],259,138, "Suffered Khalitzburg",2471,1, .@label$);
+	mobhm('hm,0,'map_name$[1],259,138, "Suffered Khalitzburg",2471,1, .@label$);
+	mobhm('hm,0,'map_name$[1],187,121, "Suffered Khalitzburg",2471,1, .@label$);
+	mobhm('hm,0,'map_name$[1],265, 52, "Bloody Knight",2472,1, .@label$);
+	mobhm('hm,0,'map_name$[1],265, 55, "Bloody Knight",2472,1, .@label$);
+	mobhm('hm,0,'map_name$[1],264, 79, "Bloody Knight",2472,1, .@label$);
+	mobhm('hm,0,'map_name$[1],225, 92, "Bloody Knight",2472,1, .@label$);
+	mobhm('hm,0,'map_name$[1],237, 92, "Bloody Knight",2472,1, .@label$);
+	mobhm('hm,0,'map_name$[1],249, 92, "Bloody Knight",2472,1, .@label$);
+	mobhm('hm,0,'map_name$[1],256, 93, "Bloody Knight",2472,1, .@label$);
+	mobhm('hm,0,'map_name$[1],264,100, "Bloody Knight",2472,1, .@label$);
+	mobhm('hm,0,'map_name$[1],181,120, "Bloody Knight",2472,1, .@label$);
 	end;
 
 OnMyMobDead:
@@ -1204,7 +1218,7 @@ OnMyMobDead:
 
 		.@r = rand(4) * 2;
 		setarray .@coord[0], 166,119, 211,45, 227,139, 245,74;
-		callfunc "mobhm",'hm,0,'map_name$[1],.@coord[.@r],.@coord[.@r+1], "2nd Commander of Destruction",2474,1, instance_npcname("#ghmemorialmob06") + "::OnBossDead";
+		mobhm('hm,0,'map_name$[1],.@coord[.@r],.@coord[.@r+1], "2nd Commander of Destruction",2474,1, instance_npcname("#ghmemorialmob06") + "::OnBossDead");
 	}
 	end;
 
@@ -1227,7 +1241,7 @@ OnBossDead:
 		 88,214, 108,214, 128,214, 180,219, 200,219, 220,219, 240,219;
 	.@size = getarraysize(.@coord);
 	for ( .@i = 0; .@i < .@size; .@i += 2 )
-		callfunc "mobhm",'hm,0,'map_name$[1], .@coord[.@i], .@coord[.@i+1], "Flame of destruction",2337,1;// HIDDEN_MOB
+		mobhm('hm,0,'map_name$[1], .@coord[.@i], .@coord[.@i+1], "Flame of destruction",2337,1);// HIDDEN_MOB
 	end;
 }
 
@@ -1256,7 +1270,7 @@ OnTouch_:
 	else .@mobs = 7;
 	getmapxy .@map$,.@x,.@y, BL_NPC;
 	specialeffect EF_VENOMDUST;
-	callfunc "mobhm",'hm,0,.@map$,.@x,.@y,"Maggot",2467,.@mobs;
+	mobhm('hm,0,.@map$,.@x,.@y,"Maggot",2467,.@mobs);
 	initnpctimer;
 	end;
 OnTimer45000:
@@ -1336,6 +1350,7 @@ OnTouch_:
 	'npc_gerhalt$ = instance_npcname("Gerhalt#23");
 	'npc_heinrich$ = instance_npcname("Heinrich#23");
 	'npc_varmundt$ = instance_npcname("Varmundt#23");
+	if( 'turbo ) setnpctimer 59000;
 	end;
 OnTimer3000:
 	npctalk "Himelmez: Amazing~ I thought that you were not even close to getting here...", 'npc_himelmez$;
@@ -1396,6 +1411,7 @@ OnTimer60000:
 	end;
 OnTimer63000:
 	disablenpc 'npc_himelmez$;
+	if( 'turbo ) setnpctimer 69000;
 	end;
 OnTimer65000:
 	npctalk "Gerhalt: You can make my body but you can't take my soul, Himelmez!", 'npc_gerhalt$;
@@ -1440,7 +1456,7 @@ OnTimer80000:
 	end;
 OnStart:
 	enablenpc instance_npcname("#ghmemorialmob07");
-	callfunc "mobhm",'hm,0,'map_name$[1],158,255,"Amdarais",2476,1,instance_npcname("#ghmemorialmob07") + "::OnMyMobDead";// MG_AMDARAIS
+	mobhm('hm,0,'map_name$[1],158,255,"Amdarais",2476,1,instance_npcname("#ghmemorialmob07") + "::OnMyMobDead");// MG_AMDARAIS
 	'boss_id = $@mobid[0];
 	unittalk 'boss_id, "Run away... run away from me...";
 	initnpctimer;
@@ -1503,38 +1519,38 @@ OnTimer5000:
 		break;
 	case 8:
 		donpcevent instance_npcname("Varmundt's Ghost#Buff3") + "::OnEvent";
-		callfunc "mobhm",'hm,1,'map_name$[1],140,220,175,255,"Suffered Khalitzburg",2471,6, instance_npcname("#ghmemorialmob08") + "::OnMobDead";
+		mobhm('hm,1,'map_name$[1],140,220,175,255,"Suffered Khalitzburg",2471,6, instance_npcname("#ghmemorialmob08") + "::OnMobDead");
 		break;
 	case 7:
 		donpcevent instance_npcname("Varmundt's Ghost#Buff3") + "::OnEvent";
-		callfunc "mobhm",'hm,1,'map_name$[1],140,220,175,255,"Abysmal Knight",2470,6, instance_npcname("#ghmemorialmob08") + "::OnMobDead";
+		mobhm('hm,1,'map_name$[1],140,220,175,255,"Abysmal Knight",2470,6, instance_npcname("#ghmemorialmob08") + "::OnMobDead");
 		break;
 	case 6:
 		donpcevent instance_npcname("Varmundt's Ghost#Buff3") + "::OnEvent";
-		callfunc "mobhm",'hm,1,'map_name$[1],140,220,175,255,"Bloody Knight",2472,6, instance_npcname("#ghmemorialmob08") + "::OnMobDead";
+		mobhm('hm,1,'map_name$[1],140,220,175,255,"Bloody Knight",2472,6, instance_npcname("#ghmemorialmob08") + "::OnMobDead");
 		break;
 	case 5:
 		donpcevent instance_npcname("Varmundt's Ghost#Buff2") + "::OnEvent";
 		break;
 	case 4:
 		donpcevent instance_npcname("Varmundt's Ghost#Buff3") + "::OnEvent";
-		callfunc "mobhm",'hm,1,'map_name$[1],140,220,175,255,"Wandering Archer",2469,6, instance_npcname("#ghmemorialmob08") + "::OnMobDead";
+		mobhm('hm,1,'map_name$[1],140,220,175,255,"Wandering Archer",2469,6, instance_npcname("#ghmemorialmob08") + "::OnMobDead");
 		break;
 	case 3:
 		donpcevent instance_npcname("Varmundt's Ghost#Buff1") + "::OnEvent";
 		donpcevent instance_npcname("Varmundt's Ghost#Buff3") + "::OnEvent";
-		callfunc "mobhm",'hm,1,'map_name$[1],140,220,175,255,"Bloody Knight",2472,6, instance_npcname("#ghmemorialmob08") + "::OnMobDead";
+		mobhm('hm,1,'map_name$[1],140,220,175,255,"Bloody Knight",2472,6, instance_npcname("#ghmemorialmob08") + "::OnMobDead");
 		break;
 	case 2:
 		donpcevent instance_npcname("Varmundt's Ghost#Buff1") + "::OnEvent";
 		donpcevent instance_npcname("Varmundt's Ghost#Buff3") + "::OnEvent";
-		callfunc "mobhm",'hm,1,'map_name$[1],140,220,175,255,"Abysmal Knight",2470,6, instance_npcname("#ghmemorialmob08") + "::OnMobDead";
+		mobhm('hm,1,'map_name$[1],140,220,175,255,"Abysmal Knight",2470,6, instance_npcname("#ghmemorialmob08") + "::OnMobDead");
 		break;
 	case 1:
 	case 0:
 		donpcevent instance_npcname("Varmundt's Ghost#Buff1") + "::OnEvent";
 		donpcevent instance_npcname("Varmundt's Ghost#Buff4") + "::OnEvent";
-		callfunc "mobhm",'hm,1,'map_name$[1],140,220,175,255,"Wandering Archer",2469,6, instance_npcname("#ghmemorialmob08") + "::OnMobDead";
+		mobhm('hm,1,'map_name$[1],140,220,175,255,"Wandering Archer",2469,6, instance_npcname("#ghmemorialmob08") + "::OnMobDead");
 		break;
 	}
 	end;

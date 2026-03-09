@@ -154,13 +154,13 @@ OnTimer200:
 OnTimer2200:
 	mapannounce 'map_name$, "Fenrir: The enemies are swarming in. We must get rid of them all!", bc_map,0xFFFF00,FW_NORMAL,12;
 	// coords inaccurate
-	callfunc "mobhm",'hm,0,'map_name$,83,67,"Enchanted Skeleton",3446,1, instance_npcname("eq#mir1") + "::OnMobDead";// P_SKELETON
-	callfunc "mobhm",'hm,0,'map_name$,91,51,"Enchanted Skeleton",3446,1, instance_npcname("eq#mir1") + "::OnMobDead";// P_SKELETON
-	callfunc "mobhm",'hm,0,'map_name$,111,67,"Enchanted Skeleton",3446,1, instance_npcname("eq#mir1") + "::OnMobDead";// P_SKELETON
-	callfunc "mobhm",'hm,0,'map_name$,92,69,"Enchanted Soldier Skeleton",3447,1, instance_npcname("eq#mir1") + "::OnMobDead";// P_SOLDIER_SKELETON
-	callfunc "mobhm",'hm,0,'map_name$,109,50,"Enchanted Soldier Skeleton",3447,1, instance_npcname("eq#mir1") + "::OnMobDead";// P_SOLDIER_SKELETON
-	callfunc "mobhm",'hm,0,'map_name$,109,47,"Enchanted Archer Skeleton",3445,1, instance_npcname("eq#mir1") + "::OnMobDead";// P_ARCHER_SKELETON
-	callfunc "mobhm",'hm,0,'map_name$,90,48,"Enchanted Archer Skeleton",3445,1, instance_npcname("eq#mir1") + "::OnMobDead";// P_ARCHER_SKELETON
+	mobhm('hm,0,'map_name$,83,67,"Enchanted Skeleton",3446,1, instance_npcname("eq#mir1") + "::OnMobDead");// P_SKELETON
+	mobhm('hm,0,'map_name$,91,51,"Enchanted Skeleton",3446,1, instance_npcname("eq#mir1") + "::OnMobDead");// P_SKELETON
+	mobhm('hm,0,'map_name$,111,67,"Enchanted Skeleton",3446,1, instance_npcname("eq#mir1") + "::OnMobDead");// P_SKELETON
+	mobhm('hm,0,'map_name$,92,69,"Enchanted Soldier Skeleton",3447,1, instance_npcname("eq#mir1") + "::OnMobDead");// P_SOLDIER_SKELETON
+	mobhm('hm,0,'map_name$,109,50,"Enchanted Soldier Skeleton",3447,1, instance_npcname("eq#mir1") + "::OnMobDead");// P_SOLDIER_SKELETON
+	mobhm('hm,0,'map_name$,109,47,"Enchanted Archer Skeleton",3445,1, instance_npcname("eq#mir1") + "::OnMobDead");// P_ARCHER_SKELETON
+	mobhm('hm,0,'map_name$,90,48,"Enchanted Archer Skeleton",3445,1, instance_npcname("eq#mir1") + "::OnMobDead");// P_ARCHER_SKELETON
 	stopnpctimer;
 	end;
 
@@ -175,13 +175,13 @@ OnTimer4200:
 	end;
 OnTimer6200:
 	// coords inaccurate
-	callfunc "mobhm",'hm,0,'map_name$,83,67,"Enchanted Skeleton",3446,1, instance_npcname("eq#mir1") + "::OnMobDead2";// P_SKELETON
-	callfunc "mobhm",'hm,0,'map_name$,91,51,"Enchanted Skeleton",3446,1, instance_npcname("eq#mir1") + "::OnMobDead2";// P_SKELETON
-	callfunc "mobhm",'hm,0,'map_name$,111,67,"Enchanted Skeleton",3446,1, instance_npcname("eq#mir1") + "::OnMobDead2";// P_SKELETON
-	callfunc "mobhm",'hm,0,'map_name$,92,69,"Enchanted Soldier Skeleton",3447,1, instance_npcname("eq#mir1") + "::OnMobDead2";// P_SOLDIER_SKELETON
-	callfunc "mobhm",'hm,0,'map_name$,109,50,"Enchanted Soldier Skeleton",3447,1, instance_npcname("eq#mir1") + "::OnMobDead2";// P_SOLDIER_SKELETON
-	callfunc "mobhm",'hm,0,'map_name$,109,47,"Enchanted Archer Skeleton",3445,1, instance_npcname("eq#mir1") + "::OnMobDead2";// P_ARCHER_SKELETON
-	callfunc "mobhm",'hm,0,'map_name$,90,48,"Enchanted Archer Skeleton",3445,1, instance_npcname("eq#mir1") + "::OnMobDead2";// P_ARCHER_SKELETON
+	mobhm('hm,0,'map_name$,83,67,"Enchanted Skeleton",3446,1, instance_npcname("eq#mir1") + "::OnMobDead2");// P_SKELETON
+	mobhm('hm,0,'map_name$,91,51,"Enchanted Skeleton",3446,1, instance_npcname("eq#mir1") + "::OnMobDead2");// P_SKELETON
+	mobhm('hm,0,'map_name$,111,67,"Enchanted Skeleton",3446,1, instance_npcname("eq#mir1") + "::OnMobDead2");// P_SKELETON
+	mobhm('hm,0,'map_name$,92,69,"Enchanted Soldier Skeleton",3447,1, instance_npcname("eq#mir1") + "::OnMobDead2");// P_SOLDIER_SKELETON
+	mobhm('hm,0,'map_name$,109,50,"Enchanted Soldier Skeleton",3447,1, instance_npcname("eq#mir1") + "::OnMobDead2");// P_SOLDIER_SKELETON
+	mobhm('hm,0,'map_name$,109,47,"Enchanted Archer Skeleton",3445,1, instance_npcname("eq#mir1") + "::OnMobDead2");// P_ARCHER_SKELETON
+	mobhm('hm,0,'map_name$,90,48,"Enchanted Archer Skeleton",3445,1, instance_npcname("eq#mir1") + "::OnMobDead2");// P_ARCHER_SKELETON
 	stopnpctimer;
 	end;
 
@@ -252,7 +252,7 @@ OnEvent:
 	disablenpc instance_npcname("Iris#3mir");
 	disablenpc instance_npcname("Renovated Amdarais#3mir");
 
-	callfunc "mobhm",'hm,0,'map_name$,101,95,"Renovated Amdarais",3448,1, instance_npcname("eq#mir2") + "::OnMobDead";// P_AMDARAIS
+	mobhm('hm,0,'map_name$,101,95,"Renovated Amdarais",3448,1, instance_npcname("eq#mir2") + "::OnMobDead");// P_AMDARAIS
 	'boss_id = $@mobid[0];
 	'target_event = 1;	// Amdarais
 	initnpctimer;
@@ -437,7 +437,7 @@ OnEvent:
 	disablenpc instance_npcname("Fenrir#4mir");
 	disablenpc instance_npcname("Iris#4mir");
 	disablenpc instance_npcname("Bijou#4mir");
-	callfunc "mobhm",'hm,0,'map_name$,102,95,"Bijou",3450,1, instance_npcname("eq#mir4") + "::OnMobDead";// BIJOU
+	mobhm('hm,0,'map_name$,102,95,"Bijou",3450,1, instance_npcname("eq#mir4") + "::OnMobDead");// BIJOU
 	'boss_id = $@mobid[0];
 	initnpctimer;
 	end;
@@ -669,7 +669,7 @@ OnEvent:
 	disablenpc instance_npcname("Fenrir#5mir");
 	disablenpc instance_npcname("Iris#5mir");
 
-	callfunc "mobhm",'hm,0,'map_name$,102,95,"Bijou",3450,1, instance_npcname("eq#mir5") + "::OnMobDead";// BIJOU
+	mobhm('hm,0,'map_name$,102,95,"Bijou",3450,1, instance_npcname("eq#mir5") + "::OnMobDead");// BIJOU
 	'boss_id = $@mobid[0];
 	'target_event = 2;
 	initnpctimer;

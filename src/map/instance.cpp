@@ -529,7 +529,7 @@ void instance_addnpc(std::shared_ptr<s_instance_data> idata)
  * @param mode: Instance mode
  * @return -4 = no free instances | -3 = already exists | -2 = character/party/guild not found | -1 = invalid type | On success return instance_id
  */
-int instance_create(int owner_id, const char *name, e_instance_mode mode, int param) {
+int instance_create(int owner_id, const char *name, e_instance_mode mode, short hardmode = 1, short turbo = 0) {
 	std::shared_ptr<s_instance_db> db = instance_search_db_name(name);
 
 	if (!db) {
@@ -592,7 +592,8 @@ int instance_create(int owner_id, const char *name, e_instance_mode mode, int pa
 	entry->owner_id = owner_id;
 	entry->mode = mode;
 	entry->regs.vars = i64db_alloc(DB_OPT_RELEASE_DATA);
-	i64db_i64put( entry->regs.vars, reference_uid(add_str("'hm"), 0), param);
+	i64db_i64put(entry->regs.vars, reference_uid(add_str("'hm"), 0), hardmode);
+	i64db_i64put(entry->regs.vars, reference_uid(add_str("'turbo"), 0), turbo);
 	entry->regs.arrays = nullptr;
 	instances.insert({ instance_id, entry });
 	

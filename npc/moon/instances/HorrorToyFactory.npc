@@ -332,8 +332,8 @@ OnTouch:
 OnStart:
 	.@event$ = instance_npcname("#fac1ct") + "::OnMyMobDead";
 	killmonster 'xm_d_map$, .@event$;
-	callfunc "mobhm",'hm,1,'xm_d_map$,16,24,114,112, "Vicious Cookie",2989,31, .@event$;	// XM_COOKIE
-	callfunc "mobhm",'hm,1,'xm_d_map$,16,24,114,112, "Evil Dwelling Box",2991,36, .@event$;// XM_MYSTCASE
+	mobhm('hm,1,'xm_d_map$,16,24,114,112, "Vicious Cookie",2989,31, .@event$);	// XM_COOKIE
+	mobhm('hm,1,'xm_d_map$,16,24,114,112, "Evil Dwelling Box",2991,36, .@event$);// XM_MYSTCASE
 	end;
 
 OnMyMobDead:
@@ -381,7 +381,7 @@ OnAlert:
 	sleep 3000;
 	disablenpc .@npc_name$;
 	for ( .@i = 0; .@i <= 10; .@i++ ) {
-		callfunc "mobhm",'hm,1,'xm_d_map$,61,118,71,128, "Guard",2990,1, .@event$;// XM_CRUISER
+		mobhm('hm,1,'xm_d_map$,61,118,71,128, "Guard",2990,1, .@event$);// XM_CRUISER
 		sleep 300;
 	}
 	initnpctimer;
@@ -490,7 +490,7 @@ OnTouch_:
 		donpcevent instance_npcname("#alert1") + "::Onstart";
 		disablenpc .@npc_name$;
 		killmonster 'xm_d_map$, .@event$;
-		callfunc "mobhm",'hm,1,'xm_d_map$,(.@x-10),(.@y-10),(.@x+10),(.@y+10), "Toy Factory Guard",2990,.@count, .@event$;// XM_CRUISER
+		mobhm('hm,1,'xm_d_map$,(.@x-10),(.@y-10),(.@x+10),(.@y+10), "Toy Factory Guard",2990,.@count, .@event$);// XM_CRUISER
 		initnpctimer;
 	}
 	end;
@@ -645,10 +645,10 @@ OnEnd:
 OnStart:
 	.@event$ = instance_npcname("#fac2ct") + "::OnMyMobDead";
 	killmonster 'xm_d_map$, .@event$;
-	callfunc "mobhm",'hm,1,'xm_d_map$,140,18,240,120, "Malicious Baby Ghost",2993,19, .@event$;	// XM_HYLOZOIST
-	callfunc "mobhm",'hm,1,'xm_d_map$,140,18,240,120, "Evil Dwelling Box",2991,16, .@event$;		// XM_MYSTCASE
-	callfunc "mobhm",'hm,1,'xm_d_map$,140,18,240,120, "Abandoned Teddy bear",2995,22, .@event$;	// XM_TEDDY_BEAR
-	callfunc "mobhm",'hm,1,'xm_d_map$,140,18,240,120, "Creepy Demon",2992,16, .@event$;			// XM_LUDE
+	mobhm('hm,1,'xm_d_map$,140,18,240,120, "Malicious Baby Ghost",2993,19, .@event$);	// XM_HYLOZOIST
+	mobhm('hm,1,'xm_d_map$,140,18,240,120, "Evil Dwelling Box",2991,16, .@event$);		// XM_MYSTCASE
+	mobhm('hm,1,'xm_d_map$,140,18,240,120, "Abandoned Teddy bear",2995,22, .@event$);	// XM_TEDDY_BEAR
+	mobhm('hm,1,'xm_d_map$,140,18,240,120, "Creepy Demon",2992,16, .@event$);			// XM_LUDE
 	end;
 OnMyMobDead:
 	end;
@@ -772,7 +772,7 @@ OnAlert:
 		getmapxy .@map$, .@coord[0], .@coord[1], BL_NPC;
 		break;
 	}
-	callfunc "mobhm",'hm,1,'xm_d_map$,(.@coord[0]-8),(.@coord[1]-8),(.@coord[0]+8),(.@coord[1]+8), "Guard",2990,21, .@npc_name$ + "::OnMyMobDead";
+	mobhm('hm,1,'xm_d_map$,(.@coord[0]-8),(.@coord[1]-8),(.@coord[0]+8),(.@coord[1]+8), "Guard",2990,21, .@npc_name$ + "::OnMyMobDead");
 	disablenpc .@npc_name$;
 	if ('worker[.@num] == 0) {
 		'worker[.@num] = 1;
@@ -892,10 +892,10 @@ OnEnd:
 OnStart:
 	.@event$ = instance_npcname( strnpcinfo(0) ) + "::OnMyMobDead";
 	killmonster 'xm_d_map$, .@event$;
-	callfunc "mobhm",'hm,1,'xm_d_map$,13,144,121,248, "Dancing Marionette",2994,37, .@event$;	// XM_MARIONETTE
-	callfunc "mobhm",'hm,1,'xm_d_map$,13,144,121,248, "Decorated Evil Tree",2987,31, .@event$;	// XM_TREE
-	callfunc "mobhm",'hm,1,'xm_d_map$,13,144,121,248, "Abandoned Teddy bear",2995,43, .@event$;// XM_TEDDY_BEAR
-	callfunc "mobhm",'hm,1,'xm_d_map$,13,144,121,248, "Creepy Demon",2992,31, .@event$;		// XM_LUDE
+	mobhm('hm,1,'xm_d_map$,13,144,121,248, "Dancing Marionette",2994,37, .@event$);	// XM_MARIONETTE
+	mobhm('hm,1,'xm_d_map$,13,144,121,248, "Decorated Evil Tree",2987,31, .@event$);	// XM_TREE
+	mobhm('hm,1,'xm_d_map$,13,144,121,248, "Abandoned Teddy bear",2995,43, .@event$);// XM_TEDDY_BEAR
+	mobhm('hm,1,'xm_d_map$,13,144,121,248, "Creepy Demon",2992,31, .@event$);		// XM_LUDE
 	end;
 OnMyMobDead:
 	end;
@@ -909,10 +909,10 @@ OnEnd:
 OnStart:
 	.@event$ = instance_npcname( strnpcinfo(0) ) + "::OnMyMobDead";
 	killmonster 'xm_d_map$, .@event$;
-	callfunc "mobhm",'hm,1,'xm_d_map$,159,215,241,247, "Malicious Baby Ghost",2993,13, .@event$;	// XM_HYLOZOIST
-	callfunc "mobhm",'hm,1,'xm_d_map$,159,215,241,247, "Decorated Evil Tree",2987,11, .@event$;	// XM_TREE
-	callfunc "mobhm",'hm,1,'xm_d_map$,159,215,241,247, "Abandoned Teddy bear",2995,15, .@event$;	// XM_TEDDY_BEAR
-	callfunc "mobhm",'hm,1,'xm_d_map$,159,215,241,247, "Creepy Demon",2992,11, .@event$;			// XM_LUDE
+	mobhm('hm,1,'xm_d_map$,159,215,241,247, "Malicious Baby Ghost",2993,13, .@event$);	// XM_HYLOZOIST
+	mobhm('hm,1,'xm_d_map$,159,215,241,247, "Decorated Evil Tree",2987,11, .@event$);	// XM_TREE
+	mobhm('hm,1,'xm_d_map$,159,215,241,247, "Abandoned Teddy bear",2995,15, .@event$);	// XM_TEDDY_BEAR
+	mobhm('hm,1,'xm_d_map$,159,215,241,247, "Creepy Demon",2992,11, .@event$);			// XM_LUDE
 	end;
 OnMyMobDead:
 	end;
@@ -922,9 +922,9 @@ OnMyMobDead:
 	end;
 OnStart:
 	if (rand(1,10) > 3)
-		callfunc "mobhm",'hm,1,'xm_d_map$,13,144,121,248 ,"Antonio",2988,1, instance_npcname("#fac3ct3")+"::OnMyMobDead";// ANTONIO
+		mobhm('hm,1,'xm_d_map$,13,144,121,248 ,"Antonio",2988,1, instance_npcname("#fac3ct3")+"::OnMyMobDead");// ANTONIO
 	else
-		callfunc "mobhm",'hm,1,'xm_d_map$,159,215,241,247, "Antonio",2988,1, instance_npcname("#fac3ct3")+"::OnMyMobDead";
+		mobhm('hm,1,'xm_d_map$,159,215,241,247, "Antonio",2988,1, instance_npcname("#fac3ct3")+"::OnMyMobDead");
 	end;
 
 OnMyMobDead:
@@ -1208,7 +1208,7 @@ OnStart:
 		getunitdata 'celene_id, .@data;
 		.@x = .@data[UMOB_X] + rand(1,20) - 10;
 		.@y = .@data[UMOB_Y] + rand(1,20) - 10;
-		callfunc "mobhm",'hm,0,'xm_d_map$,.@x,.@y, "#f_w_1",3038,1, .@event$;// HIDDEN_MOB7
+		mobhm('hm,0,'xm_d_map$,.@x,.@y, "#f_w_1",3038,1, .@event$);// HIDDEN_MOB7
 		.@mon_num++;
 		if (.@mon_num > 20)
 			break;
@@ -1235,7 +1235,7 @@ OnStart:
 	while(1) {
 		.@coord[.@index] = .@coord[.@index] + (2 * .@signe);
 		.@coord[!.@index] = .@coord[!.@index] + rand(0,2) - 1;
-		callfunc "mobhm",'hm,0,'xm_d_map$,.@coord[0], .@coord[1], "#f_w_1",3038,1, .@event$;
+		mobhm('hm,0,'xm_d_map$,.@coord[0], .@coord[1], "#f_w_1",3038,1, .@event$);
 		if (.@coord[0] < 211 || .@coord[0] > 241 || .@coord[1] < 166 || .@coord[1] > 201)
 			break;
 		sleep 200;
