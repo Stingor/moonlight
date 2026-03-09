@@ -1,45 +1,30 @@
 //===== rAthena Script ======================================= 
-//= Einbech Warps
-//===== By: ================================================== 
-//= Muad Dib (1.0), SSUNNY@YOUNG(1.1)
-//===== Current Version: ===================================== 
-//= 1.1
-//===== Compatible With: ===================================== 
-//= rAthena Project
-//===== Description: ========================================= 
-//= Einbech Town warps
-//===== Additional Comments: ================================= 
-//= Made by Muad_Dib from Prometheus, all credit goes to him.
-//= 1.1 Updated Warps, work done by SSUNNY@YOUNG in Korean eA site [Vicious]
+//= Einbech Warp Script
+//===== Description: =========================================
+//= Warp Points for Einbech
+//===== Changelogs: ==========================================
+//= 1.0 Added warps for ep16.2 [Capuche]
 //============================================================
 
-//==========================================================================
-//Einbech - Weapon shop
-//==========================================================================
-einbech,177,136,0	warp	eib_wp01	1,1,ein_in01,190,35
-ein_in01,190,38,0	warp	eib_wp01a	1,1,einbech,177,133
+// rebel_in entrance
+einbech,215,84,0	script	nemi	WARPNPC,1,1,{
+	end;
+OnTouch:
+	if (terra_gloria_main < 14) {
+		mes "You only see a cold and hard wall.";
+		close;
+	}
+	warp "rebel_in",21,41;
+	end;
+}
 
+// Clana Nemieri
+rebel_in,34,43,0	warp2	#negoin02	5,2,rebel_in,21,41
+rebel_in,18,43,0	warp2	einbech_south	1,1,einbech,215,80
 
-//==========================================================================
-//Einbech - buildings
-//==========================================================================
-einbech,207,135,0	warp	eib_hu01	1,1,ein_in01,190,99
-ein_in01,187,99,0	warp	eib_hu01a	1,1,einbech,204,135
-einbech,214,121,0	warp	eib_hu02	1,1,ein_in01,205,86
-ein_in01,205,83,0	warp	eib_hu02a	1,1,einbech,214,118
+// (Commander Room)
+rebel_in,88,80,0	warp2	#162gmroom2_1	1,1,rebel_in,209,82
+rebel_in,209,77,0	warp2	#162gmroom2_2	1,1,rebel_in,87,75
 
-
-//==========================================================================
-//Einbech - Pub
-//==========================================================================
-einbech,154,106,0	warp	eib_b01	1,1,ein_in01,285,89
-ein_in01,288,89,0	warp	eib_b01a	1,1,einbech,157,106
-einbech,145,112,0	warp	eib_b02	1,1,ein_in01,268,104
-ein_in01,265,104,0	warp	eib_b02a	1,1,einbech,141,112
-
-
-//=========================================================================
-//Einbech - Swordman guild
-//=========================================================================
-einbech,256,109,0	warp	eib_js01	1,1,ein_in01,148,153
-ein_in01,144,153,0	warp	eib_js01a	1,1,einbech,253,109
+// (Ladies Room)
+rebel_in,155,84,0	warp2	#162gmroom2_3	1,1,rebel_in,119,41
