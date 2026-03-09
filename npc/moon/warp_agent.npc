@@ -875,20 +875,23 @@ Process_Instance:
 	if( checkquest(getarg(3),PLAYTIME) == 2 )
 		erasequest getarg(3); // Reset de la quest cooldown
 	if( getgroupid() == 99 ) {
-		callsub Create_Instance, getarg(0), getarg(1), getarg(2,0); // Création instance
-		switch( instance_enter(getarg(0)) ) {
-			case IE_NOMEMBER: goto L_NOMEMBER;
-			case IE_NOINSTANCE: goto L_NOINSTANCE;
-			case IE_OTHER: goto L_OTHER;
-			case IE_OK:
-				if( getarg(4,0) != 0) {
-					if( isbegin_quest(getarg(4)) == 0 )
-						setquest getarg(4); // Set de la quest bonus
-				}
-				setquest getarg(3); // Set de la quest cooldown
-				end;
+		if( select("bypassgm?", "non") == 1 )
+		{
+			callsub Create_Instance, getarg(0), getarg(1), getarg(2,0); // Création instance
+			switch( instance_enter(getarg(0)) ) {
+				case IE_NOMEMBER: goto L_NOMEMBER;
+				case IE_NOINSTANCE: goto L_NOINSTANCE;
+				case IE_OTHER: goto L_OTHER;
+				case IE_OK:
+					if( getarg(4,0) != 0) {
+						if( isbegin_quest(getarg(4)) == 0 )
+							setquest getarg(4); // Set de la quest bonus
+					}
+					setquest getarg(3); // Set de la quest cooldown
+					end;
+			}
+			end;
 		}
-		end;
 	}
 	switch( checkquest(getarg(3),PLAYTIME) ) {
 		case -1:
