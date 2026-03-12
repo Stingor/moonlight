@@ -510,16 +510,16 @@ ACMD_FUNC(stats)
 	output_table[8].value = sd->flee_rate;
 	output_table[9].value = sd->bonus.atk_rate;
 	output_table[10].value = sd->matk_rate;
-	output_table[12].value = (sd->subele[ELE_ALL] + sd->subele_script[ELE_ALL] + sd->subele[ELE_NEUTRAL] + sd->subele_script[ELE_NEUTRAL]);
-	output_table[13].value = (sd->subele[ELE_ALL] + sd->subele_script[ELE_ALL] + sd->subele[ELE_WATER] + sd->subele_script[ELE_WATER]);
-	output_table[14].value = (sd->subele[ELE_ALL] + sd->subele_script[ELE_ALL] + sd->subele[ELE_EARTH] + sd->subele_script[ELE_EARTH]);
-	output_table[15].value = (sd->subele[ELE_ALL] + sd->subele_script[ELE_ALL] + sd->subele[ELE_FIRE] + sd->subele_script[ELE_FIRE]);
-	output_table[16].value = (sd->subele[ELE_ALL] + sd->subele_script[ELE_ALL] + sd->subele[ELE_WIND] + sd->subele_script[ELE_WIND]);
-	output_table[17].value = (sd->subele[ELE_ALL] + sd->subele_script[ELE_ALL] + sd->subele[ELE_POISON] + sd->subele_script[ELE_POISON]);
-	output_table[18].value = (sd->subele[ELE_ALL] + sd->subele_script[ELE_ALL] + sd->subele[ELE_HOLY] + sd->subele_script[ELE_HOLY]);
-	output_table[19].value = (sd->subele[ELE_ALL] + sd->subele_script[ELE_ALL] + sd->subele[ELE_DARK] + sd->subele_script[ELE_DARK]);
-	output_table[20].value = (sd->subele[ELE_ALL] + sd->subele_script[ELE_ALL] + sd->subele[ELE_GHOST] + sd->subele_script[ELE_GHOST]);
-	output_table[21].value = (sd->subele[ELE_ALL] + sd->subele_script[ELE_ALL] + sd->subele[ELE_UNDEAD] + sd->subele_script[ELE_UNDEAD]);
+	output_table[12].value = (sd->indexed_bonus.subele[ELE_ALL] + sd->indexed_bonus.subele_script[ELE_ALL] + sd->indexed_bonus.subele[ELE_NEUTRAL] + sd->indexed_bonus.subele_script[ELE_NEUTRAL]);
+	output_table[13].value = (sd->indexed_bonus.subele[ELE_ALL] + sd->indexed_bonus.subele_script[ELE_ALL] + sd->indexed_bonus.subele[ELE_WATER] + sd->indexed_bonus.subele_script[ELE_WATER]);
+	output_table[14].value = (sd->indexed_bonus.subele[ELE_ALL] + sd->indexed_bonus.subele_script[ELE_ALL] + sd->indexed_bonus.subele[ELE_EARTH] + sd->indexed_bonus.subele_script[ELE_EARTH]);
+	output_table[15].value = (sd->indexed_bonus.subele[ELE_ALL] + sd->indexed_bonus.subele_script[ELE_ALL] + sd->indexed_bonus.subele[ELE_FIRE] + sd->indexed_bonus.subele_script[ELE_FIRE]);
+	output_table[16].value = (sd->indexed_bonus.subele[ELE_ALL] + sd->indexed_bonus.subele_script[ELE_ALL] + sd->indexed_bonus.subele[ELE_WIND] + sd->indexed_bonus.subele_script[ELE_WIND]);
+	output_table[17].value = (sd->indexed_bonus.subele[ELE_ALL] + sd->indexed_bonus.subele_script[ELE_ALL] + sd->indexed_bonus.subele[ELE_POISON] + sd->indexed_bonus.subele_script[ELE_POISON]);
+	output_table[18].value = (sd->indexed_bonus.subele[ELE_ALL] + sd->indexed_bonus.subele_script[ELE_ALL] + sd->indexed_bonus.subele[ELE_HOLY] + sd->indexed_bonus.subele_script[ELE_HOLY]);
+	output_table[19].value = (sd->indexed_bonus.subele[ELE_ALL] + sd->indexed_bonus.subele_script[ELE_ALL] + sd->indexed_bonus.subele[ELE_DARK] + sd->indexed_bonus.subele_script[ELE_DARK]);
+	output_table[20].value = (sd->indexed_bonus.subele[ELE_ALL] + sd->indexed_bonus.subele_script[ELE_ALL] + sd->indexed_bonus.subele[ELE_GHOST] + sd->indexed_bonus.subele_script[ELE_GHOST]);
+	output_table[21].value = (sd->indexed_bonus.subele[ELE_ALL] + sd->indexed_bonus.subele_script[ELE_ALL] + sd->indexed_bonus.subele[ELE_UNDEAD] + sd->indexed_bonus.subele_script[ELE_UNDEAD]);
 
 	sprintf(output, msg_txt(sd,53), sd->status.name); // '%s' stats:
 
