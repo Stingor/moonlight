@@ -1223,63 +1223,6 @@ ACMD_FUNC(hide)
 /*==========================================
  *
  *------------------------------------------*/
-ACMD_FUNC(joblevelup)
-{
-	int level=0;
-	nullpo_retr(-1, sd);
-
-	level = atoi(message);
-
-	if (!message || !*message || !level) {
-		clif_displaymessage(fd, msg_txt(sd,987)); // Please enter a level adjustment (usage: @joblvup/@jlevel/@joblvlup <number of levels>).
-		return -1;
-	}
-	if (level > 0) {
-		if (sd->status.job_level >= pc_maxjoblv(sd)) {
-			clif_displaymessage(fd, msg_txt(sd,23)); // Job level can't go any higher.
-			return -1;
-		}
-		if ((unsigned int)level > pc_maxjoblv(sd) || (unsigned int)level > pc_maxjoblv(sd) - sd->status.job_level) // fix positive overflow
-			level = pc_maxjoblv(sd) - sd->status.job_level;
-		sd->status.job_level += (unsigned int)level;
-		sd->status.skill_point += level;
-		clif_misceffect(&sd->bl, 1);
-		achievement_update_objective(sd, AG_GOAL_LEVEL, 1, sd->status.job_level);
-		clif_displaymessage(fd, msg_txt(sd,24)); // Job level raised.
-	} else {
-		if (sd->status.job_level == 1) {
-			clif_displaymessage(fd, msg_txt(sd,159)); // Job level can't go any lower.
-			return -1;
-		}
-		level *=-1;
-		if ((unsigned int)level >= sd->status.job_level) // fix negative overflow
-			level = sd->status.job_level-1;
-		sd->status.job_level -= (unsigned int)level;
-		if (sd->status.skill_point < level)
-			pc_resetskill(sd,0);	//Reset skills since we need to subtract more points.
-		if (sd->status.skill_point < level)
-			sd->status.skill_point = 0;
-		else
-			sd->status.skill_point -= level;
-		clif_displaymessage(fd, msg_txt(sd,25)); // Job level lowered.
-		level *=-1;
-	}
-	sd->status.job_exp = 0;
-	clif_updatestatus(sd, SP_JOBLEVEL);
-	clif_updatestatus(sd, SP_JOBEXP);
-	clif_updatestatus(sd, SP_NEXTJOBEXP);
-	clif_updatestatus(sd, SP_SKILLPOINT);
-	status_calc_pc(sd, SCO_FORCE);
-
-	if( level > 0 && battle_config.atcommand_levelup_events )
-		npc_script_event(sd,NPCE_JOBLVUP);
-
-	return 0;
-}
-
-/*==========================================
- *
- *------------------------------------------*/
 ACMD_FUNC(kill)
 {
 	nullpo_retr(-1, sd);
@@ -1631,8 +1574,10 @@ ACMD_FUNC(baselevelup)
 		status_calc_pc(sd, SCO_FORCE);
 		status_percent_heal(&sd->bl, 100, 100);
 		clif_misceffect(&sd->bl, 0);
-		achievement_update_objective(sd, AG_GOAL_LEVEL, 1, sd->status.base_level);
-		achievement_update_objective(sd, AG_GOAL_STATUS, 2, sd->status.base_level, sd->status.class_);
+		for (uint32 j = sd->status.base_level - level; j <= sd->status.base_level; j++) {
+			achievement_update_objective(sd, AG_GOAL_LEVEL, 1, j);
+			achievement_update_objective(sd, AG_GOAL_STATUS, 2, j, sd->status.class_);
+		}
 		clif_displaymessage(fd, msg_txt(sd,21)); // Base level raised.
 	} else {
 		if (sd->status.base_level == 1) {
@@ -1666,6 +1611,64 @@ ACMD_FUNC(baselevelup)
 
 	if( level > 0 && battle_config.atcommand_levelup_events )
 		npc_script_event(sd,NPCE_BASELVUP);
+
+	return 0;
+}
+
+/*==========================================
+ *
+ *------------------------------------------*/
+ACMD_FUNC(joblevelup)
+{
+	int level=0;
+	nullpo_retr(-1, sd);
+
+	level = atoi(message);
+
+	if (!message || !*message || !level) {
+		clif_displaymessage(fd, msg_txt(sd,987)); // Please enter a level adjustment (usage: @joblvup/@jlevel/@joblvlup <number of levels>).
+		return -1;
+	}
+	if (level > 0) {
+		if (sd->status.job_level >= pc_maxjoblv(sd)) {
+			clif_displaymessage(fd, msg_txt(sd,23)); // Job level can't go any higher.
+			return -1;
+		}
+		if ((unsigned int)level > pc_maxjoblv(sd) || (unsigned int)level > pc_maxjoblv(sd) - sd->status.job_level) // fix positive overflow
+			level = pc_maxjoblv(sd) - sd->status.job_level;
+		sd->status.job_level += (unsigned int)level;
+		sd->status.skill_point += level;
+		clif_misceffect(&sd->bl, 1);
+		for (uint32 i = sd->status.job_level - level; i <= sd->status.job_level; i++)
+			achievement_update_objective(sd, AG_GOAL_LEVEL, 1, i);
+		clif_displaymessage(fd, msg_txt(sd,24)); // Job level raised.
+	} else {
+		if (sd->status.job_level == 1) {
+			clif_displaymessage(fd, msg_txt(sd,159)); // Job level can't go any lower.
+			return -1;
+		}
+		level *=-1;
+		if ((unsigned int)level >= sd->status.job_level) // fix negative overflow
+			level = sd->status.job_level-1;
+		sd->status.job_level -= (unsigned int)level;
+		if (sd->status.skill_point < level)
+			pc_resetskill(sd,0);	//Reset skills since we need to subtract more points.
+		if (sd->status.skill_point < level)
+			sd->status.skill_point = 0;
+		else
+			sd->status.skill_point -= level;
+		clif_displaymessage(fd, msg_txt(sd,25)); // Job level lowered.
+		level *=-1;
+	}
+	sd->status.job_exp = 0;
+	clif_updatestatus(sd, SP_JOBLEVEL);
+	clif_updatestatus(sd, SP_JOBEXP);
+	clif_updatestatus(sd, SP_NEXTJOBEXP);
+	clif_updatestatus(sd, SP_SKILLPOINT);
+	status_calc_pc(sd, SCO_FORCE);
+
+	if( level > 0 && battle_config.atcommand_levelup_events )
+		npc_script_event(sd,NPCE_JOBLVUP);
 
 	return 0;
 }
