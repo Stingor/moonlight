@@ -8483,7 +8483,7 @@ void status_set_viewdata(struct block_list *bl, int class_)
 			} else if (vd)
 				memcpy(&sd->vd, vd, sizeof(struct view_data));
 			else
-				ShowError("status_set_viewdata (PC): No view data for class %d\n", class_);
+				ShowError("status_set_viewdata (PC): No view data for class %d - %s\n", class_, sd->status.name);
 		}
 	break;
 	case BL_MOB:

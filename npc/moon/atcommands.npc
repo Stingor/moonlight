@@ -719,7 +719,7 @@ OnCommand:
 		setBattleFlag "mult_eventexp", $eventexprate;
 		starteventexp();
 		setBattleFlag "party_even_share_bonus", 35;
-		setBattleFlag "aoe_teleport_acd", 2000;
+		// setBattleFlag "aoe_teleport_acd", 2000;
 		callfunc "announce2","Attention rates augmentées pour 30min, base & job "+(1000*(getBattleFlag("mult_eventexp")/100))+" et bonus party share 35%!",bc_all;
 		initnpctimer;
 		end;
