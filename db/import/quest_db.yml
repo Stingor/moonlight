@@ -131,6 +131,104 @@ Body:
         Count: 1
       - Mob: MM_MUSPELLSKOLL
         Count: 1
+  - Id: 5727
+    Title: Suddenly in charge
+    TimeLimit: 4h
+  - Id: 5728
+    Title: Headache
+  - Id: 5729
+    Title: To Einbech
+  - Id: 5730
+    Title: Things that can destroy the device
+  - Id: 5731
+    Title: Clana Namieri
+  - Id: 5732
+    Title: To Lighthalzen
+  - Id: 5733
+    Title: Clana Namieri
+  - Id: 5734
+    Title: Core materials are always a problem
+  - Id: 5735
+    Title: To Yuno
+  - Id: 5736
+    Title: To Einbroch
+  - Id: 5737
+    Title: Clana Namieri
+  - Id: 7731
+    Title: Secret Action
+  - Id: 7732
+    Title: Searching the suspect
+  - Id: 7733
+    Title: Pursuit!
+  - Id: 7734
+    Title: Arrest
+  - Id: 7735
+    Title: Secret Action 2
+  - Id: 7736
+    Title: Small differences between sightseeing and secret bussiness
+  - Id: 7737
+    Title: Together with Rebel
+  - Id: 7738
+    Title: Next operation plan
+  - Id: 7739
+    Title: Find Star of Blessing!
+  - Id: 7740
+    Title: Star of Blessing obtained
+  - Id: 7741
+    Title: Let's return
+  - Id: 7742
+    Title: Sweeping the remnants
+    Targets:
+      - Mob: EP16_2_MM_CUTIE
+        Count: 1
+  - Id: 7743
+    Title: Sweeping the remnants (Standby)
+    TimeLimit: 4h
+  - Id: 7744
+    Title: Hiding Researcher
+  - Id: 7745
+    Title: Hiding Researcher (Standby)
+    TimeLimit: 4h
+  - Id: 7746
+    Title: A pair of old rings
+  - Id: 7747
+    Title: Locket Pendant
+  - Id: 7748
+    Title: Wooden Rosary
+  - Id: 7749
+    Title: Bow Thimble Decoration
+  - Id: 7750
+    Title: Assassin Dagger with Glyph
+  - Id: 7751
+    Title: Portable Sewing Kit
+  - Id: 7752
+    Title: Well hidden
+  - Id: 7753
+    Title: Well hidden
+  - Id: 7754
+    Title: Well hidden
+  - Id: 7755
+    Title: Well hidden
+  - Id: 7756
+    Title: Well hidden
+  - Id: 7757
+    Title: Well hidden
+  - Id: 7758
+    Title: Well hidden
+  - Id: 7759
+    Title: Well hidden
+  - Id: 7760
+    Title: Well hidden
+  - Id: 7761
+    Title: Make Chimeras rest in peace
+    Targets:
+      - Mob: EP16_2_HUMAN_KIMERA
+        Count: 10
+      - Mob: EP16_2_MATTER_KIMERA
+        Count: 10
+  - Id: 7762
+    Title: Make Chimeras rest in peace (Standby)
+    TimeLimit: 4h
   - Id: 12374
     Title: Heart Hunter Base occupation
   - Id: 12375
