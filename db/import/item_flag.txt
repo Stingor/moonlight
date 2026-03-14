@@ -1,10 +1,11 @@
+// Valide
 // Flagged Items
 // <ItemID>,<Flag>
 //
 // <Flag>:
 //  1 - As Dead Branch item (will be logged at `branchlog` table and cannot be used at 'nobranch' mapflag)
 //  2 - As item group container, check player's inventory and weight before consumed
-//  4 - GUID item, cannot be stacked even same or stackable item
+//  4 - GUID Item: When this item is obtained, will generates GUID that cannot be stacked even same or stackable item
 //  8 - Item will be bound item when equipped
 // 16 - Special Broadcast: When item dropped by monster and player loot it, will be broadcasted!
 // 32 - Item will not be removed on consumption. Also supports 'itemskill'
@@ -15,3 +16,169 @@
 // 1024 - Item will be displayed with a purple pillar drop effect
 // 2048 - Item will be displayed with a orange pillar drop effect
 // NOTE: For removing flag by import file, use "-" to remove the flag. Example, 604,-1 will removes flag 1 from Branch_Of_Dead_Tree
+
+// Logged as Dead Branch item
+604,1 //Branch_Of_Dead_Tree
+12103,1 //Bloody_Dead_Branch
+12109,1 //Poring_Box
+12024,1 //Red_Pouch_Of_Surprise
+12887,32 //Infinite fly wing
+
+// Item group container
+603,2 //Old_Blue_Box
+616,2 //Old_Card_Album
+617,2 //Old_Violet_Box
+618,2 //Worn_Out_Scroll
+644,2 //Gift_Box
+664,2 //Gift_Box_1
+665,2 //Gift_Box_2
+666,2 //Gift_Box_3
+667,2 //Gift_Box_4
+12023,2 //Giftbox_China
+12025,2 //Egg_Boy
+12026,2 //Egg_Girl
+12038,2 //Lotto_Box04
+12104,2 //Random_Quiver
+12105,2 //Set_Of_Taiming_Item
+12106,2 //Accessory_Box
+12107,2 //Wrapped_Mask
+12108,2 //Bundle_Of_Magic_Scroll
+12110,2 //First_Aid_Kit
+12111,2 //Food_Package
+12130,2 //Cookie_Bag
+12186,2 //Red_Box
+12187,2 //Green_Box
+12189,2 //Red_Box_
+12194,2 //Hometown_Gift
+12240,2 //Old_Yellow_Box
+12244,2 //Old_Gift_Box
+12246,2 //Magic_Card_Album
+12248,2 //Masquerade_Ball_Box
+12281,2 //Tresure_Box_WoE
+12286,2 //Masquerade_Ball_Box2
+12334,2 //Cherish_Box
+12339,2 //Cherish_Box_Ori
+12355,2 //Xmas_Gift
+12356,2 //Louise_Costume_Box
+12702,2 //Old_Bleu_Box
+12714,2 //Easter_Scroll
+14596,2 //Pierre_Treasurebox
+
+603,256		// Old Blue Box
+607,128		// Yggdrasil Berry
+608,128		// Yggdrasil Seed
+616,128		// Old Card Album
+617,1024	// Old Purple Box
+12623,1024	// High weapon Box
+644,128		// Gift Box
+969,512		// Gold
+6607,256		// Temporal Crystal
+6608,128		// Coagulated Spell
+6719,256		// Jitterbug Tooth
+7436,128		// Fragment of Agony
+7437,128		// Fragment of Misery
+7438,128		// Fragment of Hatred
+7439,128		// Fragment of Despair
+7444,2048		// Treasure Box
+12246,2048		// Magic Card Album
+22687,256		// Grudge Fragment
+23016,256		// Fragment of Vicious Mind
+7036,256		// Fang of hatii
+
+20748,1024		// Fallen manteau
+2423,1024		// Variant Shoes
+
+4601,2048		// Amdarais card 
+4603,2048		// Corruption Root card 
+4403,2048		// Kiel D-01 card 
+4636,2048		// BIJOU card 
+27180,2048		// Mecha Spider card 
+4302,2048		// Tao Gunka card 
+4399,2048		// Thanatos card 
+27020,2048		// T_W_O card 
+4407,2048		// Valkyrie Randgris card
+4674,2048		// Guillotine Cross Eremes Card
+4675,2048		// Arch Bishop Margaretha Card
+4676,2048		// Ranger Cecil Card
+4677,2048		// Mechanic Howard Card
+4678,2048		// Warlock Kathryne Card
+4679,2048		// Rune Knight Seyren Card
+4680,2048		// Royal Guard Randel Card
+4681,2048		// Genetic Flamel Card
+4671,2048		// Sorcerer Celia Card
+4672,2048		// Sura Chen Card
+4682,2048		// Shadow Chaser Gertie Card
+4673,2048		// Minstrel Alphoccio Card
+4683,2048		// Wanderer Trentini Card
+4236,2048		// Amon Ra card 
+4372,2048		// Bacsojin card 
+4168,2048		// Dark Lord card 
+4128,2048		// Golden Thief Bug card 
+4146,2048		// Maya card 
+4357,2048		// Lord Knight Seyren card 
+4359,2048		// Assassin Cross Eremes card 
+4361,2048		// Whitesmith Howard card 
+4363,2048		// High Priest Margaretha card 
+4367,2048		// Sniper Cecil card 
+4365,2048		// High Wizard Kathryne card 
+4121,2048		// Phreeoni card 
+4324,2048		// Garm card 
+4263,2048		// Incantation Samurai card 
+4132,2048		// Mistress card 
+4318,2048		// Stormy Knight card 
+4305,2048		// Turtle General card 
+4135,2048		// Orc Lord card 
+4408,2048		// Gloom Under Night card 
+4430,2048		// Ifrit card 
+4419,2048		// Ktullanux card 
+4441,2048		// Fallen Bishop Hibram card 
+4374,2048		// Vesper card 
+4352,2048		// Egnigem Cenia card 
+4131,2048		// Moonlight Flower card 
+4330,2048		// Evil Snake Lord card 
+4457,2048		// Naght Sieger card 
+4148,2048		// Pharaoh card 
+4276,2048		// Lord of Death card 
+4376,2048		// Lady Tanee card 
+4147,2048		// Baphomet card 
+4134,2048		// Dracula card 
+4137,2048		// Drake card 
+4123,2048		// Eddga card 
+4144,2048		// Osiris card 
+4143,2048		// Orc Hero card 
+4386,2048		// Detale card 
+4342,2048		// RSX-0806 card 
+4425,2048		// Atroce card
+4145,2048		// Beelzebub card 
+4142,2048		// Doppelganger card 
+4047,2048		// Ghostring Card
+4054,2048		// Angeling Card
+4174,2048		// Deviling Card
+4241,2048		// Arc Angeling Card
+4198,2048		// Maya Purple Card
+4163,2048		// Gryphon Card
+4169,2048		// Dark Illusion Card
+4179,2048		// Dragon Fly Card
+4183,2048		// Vagabond Wolf Card
+4197,2048		// Mastering Card
+4203,2048		// Mutant Dragonoid Card
+4207,2048		// Mysteltainn Card
+4211,2048		// Vocal card
+4237,2048		// Owl Duke Card
+4238,2048		// Owl Baron Card
+4250,2048		// Executioner Card
+4254,2048		// Tirfing Card
+4266,2048		// Eclipse Card
+4284,2048		// Chepet Card
+4285,2048		// Choco Card
+4290,2048		// Cat O' Nine Tails Card
+4291,2048		// Kobold Leader Card
+4300,2048		// Chimera Card
+4306,2048		// Toad Card
+4320,2048		// Bloody Knight Card
+4336,2048		// Ungoliant Card
+4354,2048		// Gemini-S58 Card
+4384,2048		// Hydro Card
+4395,2048		// Thanatos Maero Card
+4396,2048		// Thanatos Odium Card
+4397,2048		// Thanatos Despero Card
