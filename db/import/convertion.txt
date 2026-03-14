@@ -1,0 +1,119 @@
+SELECT CONCAT(
+    COALESCE(`ID`, ''), ',',
+    COALESCE(`Sprite`, ''), ',',
+    COALESCE(`kName`, ''), ',',
+    COALESCE(`iName`, ''), ',',
+    COALESCE(`LV`, ''), ',',
+    COALESCE(`HP`, ''), ',',
+    COALESCE(`SP`, ''), ',',
+    COALESCE(`EXP`, ''), ',',
+    COALESCE(`JEXP`, ''), ',',
+    COALESCE(`Range1`, ''), ',',
+    COALESCE(`ATK1`, ''), ',',
+    COALESCE(`ATK1`, ''), ',',
+    COALESCE(`ATK2`, ''), ',',
+    COALESCE(`DEF`, ''), ',',
+    COALESCE(`MDEF`, ''), ',',
+    COALESCE(`STR`, ''), ',',
+    COALESCE(`AGI`, ''), ',',
+    COALESCE(`VIT`, ''), ',',
+    COALESCE(`INT`, ''), ',',
+    COALESCE(`DEX`, ''), ',',
+    COALESCE(`LUK`, ''), ',',
+    COALESCE(`Range2`, ''), ',',
+    COALESCE(`Range3`, ''), ',',
+    COALESCE(`Scale`, ''), ',',
+    COALESCE(`Race`, ''), ',',
+    COALESCE(`Element`, ''), ',',
+    '0x', HEX(COALESCE(`Mode`, 0)), ',',
+    COALESCE(`Speed`, ''), ',',
+    COALESCE(`aDelay`, ''), ',',
+    COALESCE(`aMotion`, ''), ',',
+    COALESCE(`dMotion`, ''), ',',
+    COALESCE(`MEXP`, ''), ',',
+    COALESCE(`MVP1id`, ''), ',',
+    COALESCE(`MVP1per`, ''), ',',
+    COALESCE(`MVP2id`, ''), ',',
+    COALESCE(`MVP2per`, ''), ',',
+    COALESCE(`MVP3id`, ''), ',',
+    COALESCE(`MVP3per`, ''), ',',
+    COALESCE(`Drop1id`, ''), ',',
+    COALESCE(`Drop1per`, ''), ',',
+    COALESCE(`Drop2id`, ''), ',',
+    COALESCE(`Drop2per`, ''), ',',
+    COALESCE(`Drop3id`, ''), ',',
+    COALESCE(`Drop3per`, ''), ',',
+    COALESCE(`Drop4id`, ''), ',',
+    COALESCE(`Drop4per`, ''), ',',
+    COALESCE(`Drop5id`, ''), ',',
+    COALESCE(`Drop5per`, ''), ',',
+    COALESCE(`Drop6id`, ''), ',',
+    COALESCE(`Drop6per`, ''), ',',
+    COALESCE(`Drop7id`, ''), ',',
+    COALESCE(`Drop7per`, ''), ',',
+    COALESCE(`Drop8id`, ''), ',',
+    COALESCE(`Drop8per`, ''), ',',
+    COALESCE(`Drop9id`, ''), ',',
+    COALESCE(`Drop9per`, ''), ',',
+    COALESCE(`DropCardid`, ''), ',',
+    COALESCE(`DropCardper`, '')
+)
+FROM mob_db
+INTO OUTFILE '/tmp/mob_export.txt'
+FIELDS TERMINATED BY ''
+LINES TERMINATED BY '\n';
+
+SELECT CONCAT(
+    COALESCE(id, ''), ',',
+    COALESCE(name_english, ''), ',',
+    COALESCE(name_japanese, ''), ',',
+    COALESCE(type, ''), ',',
+    COALESCE(price_buy, ''), ',',
+    COALESCE(price_sell, ''), ',',
+    COALESCE(weight, ''), ',',
+    COALESCE(`atk:matk`, ''), ',',
+    COALESCE(defence, ''), ',',
+    COALESCE(`range`, ''), ',',
+    COALESCE(slots, ''), ',',
+    '0x', HEX(COALESCE(equip_jobs, 0)), ',',
+    COALESCE(equip_upper, ''), ',',
+    COALESCE(equip_genders, ''), ',',
+    COALESCE(equip_locations, ''), ',',
+    COALESCE(weapon_level, ''), ',',
+    COALESCE(equip_level, ''), ',',
+    COALESCE(refineable, ''), ',',
+    COALESCE(`view`, ''), ',{',
+    COALESCE(`script`, ''), '},{',
+    COALESCE(`equip_script`, ''), '},{',
+    COALESCE(`unequip_script`, ''), '}'
+)
+FROM item_db
+INTO OUTFILE '/tmp/item_export.txt'
+FIELDS TERMINATED BY ''
+LINES TERMINATED BY '\n';
+
+SELECT CONCAT(
+    COALESCE(`MOB_ID`, ''), ',',
+    COALESCE(`INFO`, ''), ',',
+    COALESCE(`STATE`, ''), ',',
+    COALESCE(`SKILL_ID`, ''), ',',
+    COALESCE(`SKILL_LV`, ''), ',',
+    COALESCE(`RATE`, ''), ',',
+    COALESCE(`CASTTIME`, ''), ',',
+    COALESCE(`DELAY`, ''), ',',
+    COALESCE(`CANCELABLE`, ''), ',',
+    COALESCE(`TARGET`, ''), ',',
+    COALESCE(`CONDITION`, ''), ',',
+    COALESCE(`CONDITION_VALUE`, ''), ',',
+    COALESCE(`VAL1`, ''), ',',
+    COALESCE(`VAL2`, ''), ',',
+    COALESCE(`VAL3`, ''), ',',
+    COALESCE(`VAL4`, ''), ',',
+    COALESCE(`VAL5`, ''), ',',
+    COALESCE(`EMOTION`, ''), ',',
+    COALESCE(`CHAT`, '')
+)
+FROM mob_skill_db
+INTO OUTFILE '/tmp/mob_skill_export.txt'
+FIELDS TERMINATED BY ''
+LINES TERMINATED BY '\n';
