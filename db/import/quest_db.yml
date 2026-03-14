@@ -1,0 +1,138 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2019 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Quest Database
+###########################################################################
+#
+# Quest Settings
+#
+###########################################################################
+# - Id              Quest ID.
+#   Title           Quest title.
+#   TimeLimit       Amount of time before the quest expires. (Default: 0)
+#                   Use a number following by "d" for day(s), "h" for hour(s), "mn" for minute(s), and "s" for second(s).
+#                   Specify with "+" for how long until the quest expires.
+#                   Specify without "+" for the exact time the quest expires using "d" (optionnal), [0-23]"h" (required), [0-59]"mn" (optionnal), [0-59]"s" (optionnal) format.
+#                   Please note the number before "d" only shift the exact timer to the given day(s).
+#   Targets:        Quest objective target. (Default: null)
+#     - Mob         Monster to kill.
+#       Count       Amount of monsters to kill.
+#   Drops:          Quest item drop targets. (Default: null)
+#     - Mob         Monster to kill. 0 will apply to all monsters. (Default: 0)
+#       Item        Item to drop.
+#       Count       Amount of items that will drop. Non-stackable items default to 1. (Default: 1)
+#       Rate        Item drop rate. (10000 = 100%)
+###########################################################################
+
+Header:
+  Type: QUEST_DB
+  Version: 1
+
+Body:
+  - Id: 1261
+    Title: Cursed Swordman
+    TimeLimit: 4h
+  - Id: 3040
+    Title: The Curse of Baphomet
+    TimeLimit: 4h
+  - Id: 3135
+    Title: Nidhoggur's Nest
+    TimeLimit: 4h
+  - Id: 4229
+    Title: Devil in the Cave
+    TimeLimit: 4h
+  - Id: 5112
+    Title: Laboratory Restricted Access
+    TimeLimit: 4h
+  - Id: 7577
+    Title: Space distortion
+    TimeLimit: 4h
+  - Id: 7706
+    Title: Nillem Is Not Almighty
+    TimeLimit: 4h
+  - Id: 9223
+    Title: Will there be Peace at the Hospital?
+    TimeLimit: 4h
+  - Id: 9319
+    Title: Pursuing Hiding Morocc Continues
+    TimeLimit: 4h
+  - Id: 9336
+    Title: Go back to Professor Bernhard
+    TimeLimit: 4h
+  - Id: 11379
+    Title: Final Room
+    TimeLimit: 4h
+  - Id: 12058
+    Title: Admission Restricted to the 102 Tower
+    TimeLimit: 4h
+  - Id: 12071
+    Title: Stamp a seal on the attendance book
+    TimeLimit: 4h
+  - Id: 12278
+    Title: Towards Bakonawa Lake...
+    TimeLimit: 4h
+  - Id: 12317
+    Title: Trace of Time Travel
+    TimeLimit: 4h
+  - Id: 12325
+    Title: Faceworm's Nest after-effects
+    TimeLimit: 4h
+  - Id: 12331
+    Title: Trail of Toy Factory
+    TimeLimit: 4h
+  - Id: 12334
+    Title: Trace of Time Travel
+    TimeLimit: 4h
+  - Id: 12347
+    Title: Trace of Laboratory Access
+    TimeLimit: 4h
+  - Id: 13182
+    Title: "Nightmarish Jitterbug: Waiting"
+    TimeLimit: 4h
+  - Id: 13185
+    Title: Charleston Factory - Hold
+    TimeLimit: 4h
+  - Id: 15002
+    Title: "Memorial dungeon: Sara's Memory"
+    TimeLimit: 4h
+  - Id: 15005
+    Title: "Memorial Dungeon: Isle of Bios"
+    TimeLimit: 4h
+  - Id: 15050
+    Title: "Memorial Dungeon: Airship Assault"
+    TimeLimit: 4h
+  - Id: 60200
+    Title: Endless Tower Effect
+    TimeLimit: 4h
+  - Id: 62500
+    Title: Defeat Morocc
+    Targets:
+      - Mob: MM_MOROCC_ADT
+        Count: 1
+  - Id: 62501
+    Title: Aweakens Morocc
+    Targets:
+      - Mob: MM_BRINARANEA
+        Count: 1
+      - Mob: MM_MUSPELLSKOLL
+        Count: 1
+  - Id: 12374
+    Title: Heart Hunter Base occupation
+  - Id: 12375
+    Title: Base maintenance
+    TimeLimit: 4h

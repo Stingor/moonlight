@@ -1,0 +1,31 @@
+Header:
+  Type: ITEM_DB
+  Version: 1
+
+Body:
+  - Id: 607
+    AegisName: Yggdrasilberry
+    Name: Yggdrasil Berry
+    Type: Healing
+    Buy: 5000
+    Weight: 300
+    Flags:
+      BuyingStore: true
+    Delay:
+      Duration: 1000
+      Status: Reuse_Limit_F
+    Script: |
+      percentheal 100,100;
+  - Id: 608
+    AegisName: Seed_Of_Yggdrasil
+    Name: Yggdrasil Seed
+    Type: Healing
+    Buy: 500
+    Weight: 300
+    Flags:
+      BuyingStore: true
+    Delay:
+      Duration: 3000
+      Status: Reuse_Limit_G
+    Script: |
+      percentheal 50,50;

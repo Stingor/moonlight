@@ -2741,8 +2741,8 @@ std::string create_item_link(struct item& item, struct item_data* data) {
 		}
 
 		itemstr += closing_tag;
-		if (itemdb_isequip2(data) && data->slot == 0)
-			itemstr += " [" + std::to_string(data->slot) + "]";
+		if (itemdb_isequip2(data) && data->slots == 0)
+			itemstr += " [" + std::to_string(data->slots) + "]";
 
 		return itemstr;
 #endif
@@ -2751,10 +2751,10 @@ std::string create_item_link(struct item& item, struct item_data* data) {
 	if (item.refine > 0)
 		itemstr += "+" + std::to_string(item.refine) + " ";
 
-	itemstr += data->jname;
+	itemstr += data->ename;
 
 	if (itemdb_isequip2(data))
-		itemstr += "[" + std::to_string(data->slot) + "]";
+		itemstr += "[" + std::to_string(data->slots) + "]";
 
 	return itemstr;
 }
