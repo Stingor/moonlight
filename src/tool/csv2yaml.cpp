@@ -3053,10 +3053,8 @@ static bool itemdb_read_db(const char* file) {
 
 		if (atoi(str[4]) > 0)
 			body << YAML::Key << "Buy" << YAML::Value << atoi(str[4]);
-		if (atoi(str[5]) > 0) {
-			if (atoi(str[4]) / 2 != atoi(str[5]))
-				body << YAML::Key << "Sell" << YAML::Value << atoi(str[5]);
-		}
+		if (atoi(str[5]) > 0)
+			body << YAML::Key << "Sell" << YAML::Value << atoi(str[5]);
 		if (atoi(str[6]) > 0)
 			body << YAML::Key << "Weight" << YAML::Value << atoi(str[6]);
 
