@@ -7479,7 +7479,6 @@ ACMD_FUNC(mobinfo)
 		double base_pct = 0, job_pct = 0;
 		t_exp base_exp2 = base_exp;
 		if (sd->status.base_level > 200 && base_exp2 > 0) { // [Stingor]
-			// Correction du warning C4244 : conversion de 'float' en 't_exp', perte possible de données
 			base_exp2 = (t_exp)((float)base_exp2 / exp(((float)(sd->status.base_level) - 200.0f) / 250.0f));
 			if (sd->status.class_ == JOB_TAEKWON)
 				base_exp2 /= 2;
