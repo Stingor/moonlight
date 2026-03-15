@@ -19005,6 +19005,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -19024,6 +19025,7 @@ Body:
     Slots: 3
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 1
@@ -19041,6 +19043,7 @@ Body:
     Slots: 4
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 1
@@ -19059,6 +19062,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 2
@@ -19077,6 +19081,7 @@ Body:
     Slots: 3
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 2
@@ -19095,6 +19100,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 2
@@ -19113,6 +19119,7 @@ Body:
     Slots: 3
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 2
@@ -19130,6 +19137,7 @@ Body:
     Range: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19148,6 +19156,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19166,6 +19175,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19186,6 +19196,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19206,6 +19217,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19224,6 +19236,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19241,6 +19254,7 @@ Body:
     Range: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -19260,6 +19274,7 @@ Body:
     Range: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19279,6 +19294,7 @@ Body:
     Range: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19298,6 +19314,7 @@ Body:
     Range: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19317,6 +19334,7 @@ Body:
     Range: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19336,6 +19354,7 @@ Body:
     Range: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -19356,6 +19375,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19375,6 +19395,7 @@ Body:
     Range: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -19392,6 +19413,7 @@ Body:
     Range: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 1
@@ -19418,6 +19440,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -19436,6 +19459,7 @@ Body:
     Range: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19454,6 +19478,7 @@ Body:
     Range: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19474,6 +19499,7 @@ Body:
     Slots: 3
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19494,6 +19520,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -19512,6 +19539,7 @@ Body:
     Range: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -19530,6 +19558,7 @@ Body:
     Range: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -19546,6 +19575,7 @@ Body:
     Range: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19565,6 +19595,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19583,6 +19614,7 @@ Body:
     Range: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19598,6 +19630,7 @@ Body:
     Range: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19618,6 +19651,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -19640,6 +19674,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19660,6 +19695,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -19680,6 +19716,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19720,6 +19757,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -19738,6 +19776,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19758,6 +19797,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -19778,6 +19818,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19797,6 +19838,7 @@ Body:
     Range: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -19817,6 +19859,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19836,6 +19879,7 @@ Body:
     Slots: 3
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 1
@@ -19853,6 +19897,7 @@ Body:
     Slots: 4
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 1
@@ -19871,6 +19916,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 2
@@ -19889,6 +19935,7 @@ Body:
     Slots: 3
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 2
@@ -19907,6 +19954,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 2
@@ -19925,6 +19973,7 @@ Body:
     Slots: 3
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 2
@@ -19942,6 +19991,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19960,6 +20010,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19978,6 +20029,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -19998,6 +20050,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -20018,6 +20071,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -20036,6 +20090,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -20053,6 +20108,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -20072,6 +20128,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -20091,6 +20148,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -20110,6 +20168,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -20129,6 +20188,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -20148,6 +20208,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -20167,6 +20228,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -20186,6 +20248,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -20205,6 +20268,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -20224,6 +20288,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -20244,6 +20309,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -20264,6 +20330,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -20283,6 +20350,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -20300,6 +20368,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 1
@@ -20326,6 +20395,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -20344,6 +20414,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -20362,6 +20433,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -20382,6 +20454,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -20402,6 +20475,7 @@ Body:
     Slots: 3
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -20420,6 +20494,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -20438,6 +20513,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -20454,6 +20530,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -20473,6 +20550,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -20492,6 +20570,7 @@ Body:
     Range: 1
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -20510,6 +20589,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -20525,6 +20605,7 @@ Body:
     Range: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -20545,6 +20626,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -20567,6 +20649,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -20587,6 +20670,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -20607,6 +20691,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -20647,6 +20732,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -20665,6 +20751,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -20685,6 +20772,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -20705,6 +20793,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -23081,6 +23170,7 @@ Body:
     Type: Armor
     Buy: 23000
     Weight: 100
+    Gender: Female
     Locations:
       Head_Top: true
     Refineable: true
@@ -23105,6 +23195,7 @@ Body:
     Buy: 800
     Weight: 100
     Defense: 1
+    Gender: Female
     Locations:
       Head_Top: true
     Refineable: true
@@ -23119,6 +23210,7 @@ Body:
     Weight: 100
     Defense: 1
     Slots: 1
+    Gender: Female
     Locations:
       Head_Top: true
     Refineable: true
@@ -23515,6 +23607,7 @@ Body:
     Buy: 20
     Weight: 400
     Defense: 4
+    Gender: Female
     Locations:
       Head_Top: true
     EquipLevelMin: 45
@@ -23529,6 +23622,7 @@ Body:
     Buy: 20
     Weight: 400
     Defense: 4
+    Gender: Male
     Locations:
       Head_Top: true
     EquipLevelMin: 45
@@ -24955,6 +25049,7 @@ Body:
       All: true
       Novice: false
       SuperNovice: false
+    Gender: Female
     Locations:
       Armor: true
     Refineable: true
@@ -26119,6 +26214,7 @@ Body:
       All: true
       Novice: false
       SuperNovice: false
+    Gender: Female
     Locations:
       Shoes: true
     Refineable: true
@@ -26229,6 +26325,7 @@ Body:
       All: true
       Novice: false
       SuperNovice: false
+    Gender: Female
     Locations:
       Shoes: true
     EquipLevelMin: 30
@@ -27500,6 +27597,7 @@ Body:
       All: true
       Novice: false
       SuperNovice: false
+    Gender: Female
     Locations:
       Shoes: true
     Refineable: true
@@ -29554,6 +29652,7 @@ Body:
     AegisName: Bridegroom_Ring
     Name: Wedding Ring
     Type: Armor
+    Gender: Male
     Locations:
       Right_Accessory: true
       Left_Accessory: true
@@ -29573,6 +29672,7 @@ Body:
     AegisName: Bride_Ring
     Name: Wedding Ring
     Type: Armor
+    Gender: Female
     Locations:
       Right_Accessory: true
       Left_Accessory: true
@@ -34352,6 +34452,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Accessory: true
       Left_Accessory: true
@@ -34367,6 +34468,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Accessory: true
       Left_Accessory: true
@@ -46960,6 +47062,7 @@ Body:
     Weight: 1000
     Defense: 5
     Slots: 1
+    Gender: Male
     Locations:
       Head_Low: true
       Head_Mid: true
@@ -47301,6 +47404,7 @@ Body:
     Weight: 400
     Defense: 4
     Slots: 1
+    Gender: Female
     Locations:
       Head_Top: true
     EquipLevelMin: 45
@@ -47316,6 +47420,7 @@ Body:
     Weight: 400
     Defense: 4
     Slots: 1
+    Gender: Male
     Locations:
       Head_Top: true
     EquipLevelMin: 45
@@ -47687,6 +47792,7 @@ Body:
     Weight: 100
     Defense: 1
     Slots: 1
+    Gender: Female
     Locations:
       Head_Top: true
     Refineable: true
@@ -47701,6 +47807,7 @@ Body:
     Weight: 100
     Defense: 1
     Slots: 1
+    Gender: Female
     Locations:
       Head_Top: true
     Refineable: true
@@ -47715,6 +47822,7 @@ Body:
     Weight: 100
     Defense: 1
     Slots: 1
+    Gender: Female
     Locations:
       Head_Top: true
     Refineable: true
@@ -47729,6 +47837,7 @@ Body:
     Weight: 100
     Defense: 1
     Slots: 1
+    Gender: Female
     Locations:
       Head_Top: true
     Refineable: true
@@ -47743,6 +47852,7 @@ Body:
     Weight: 100
     Defense: 1
     Slots: 1
+    Gender: Female
     Locations:
       Head_Top: true
     Refineable: true
@@ -47757,6 +47867,7 @@ Body:
     Weight: 100
     Defense: 1
     Slots: 1
+    Gender: Female
     Locations:
       Head_Top: true
     Refineable: true
@@ -47771,6 +47882,7 @@ Body:
     Weight: 100
     Defense: 1
     Slots: 1
+    Gender: Female
     Locations:
       Head_Top: true
     Refineable: true
@@ -48094,6 +48206,7 @@ Body:
     Buy: 20
     Weight: 100
     Defense: 1
+    Gender: Female
     Locations:
       Head_Mid: true
     EquipLevelMin: 45
@@ -49904,6 +50017,7 @@ Body:
     Type: Armor
     Weight: 100
     Defense: 4
+    Gender: Male
     Locations:
       Head_Top: true
     View: 362
@@ -49915,6 +50029,7 @@ Body:
     Type: Armor
     Weight: 100
     Defense: 4
+    Gender: Female
     Locations:
       Head_Top: true
     View: 363
@@ -50570,6 +50685,7 @@ Body:
     Type: Armor
     Buy: 20
     Weight: 200
+    Gender: Female
     Locations:
       Head_Low: true
       Head_Mid: true
@@ -54335,6 +54451,7 @@ Body:
     Buy: 800
     Weight: 100
     Defense: 1
+    Gender: Female
     Locations:
       Head_Top: true
     Refineable: true
@@ -55046,6 +55163,7 @@ Body:
     Buy: 800
     Weight: 100
     Defense: 1
+    Gender: Female
     Locations:
       Head_Top: true
     Refineable: true
@@ -55252,6 +55370,7 @@ Body:
     Slots: 1
     Jobs:
       Blacksmith: true
+    Gender: Male
     Locations:
       Head_Top: true
     EquipLevelMin: 100
@@ -55286,6 +55405,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Head_Top: true
     EquipLevelMin: 100
@@ -55405,6 +55525,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Head_Top: true
     EquipLevelMin: 100
@@ -55437,6 +55558,7 @@ Body:
     Slots: 1
     Jobs:
       Blacksmith: true
+    Gender: Female
     Locations:
       Head_Top: true
     EquipLevelMin: 100
@@ -61701,6 +61823,7 @@ Body:
     Buy: 100
     Classes:
       All: false
+    Gender: Female
     Script: |
       /*set pcroom,(gettimetick(2)+7200);*/
   - Id: 7038
@@ -62583,6 +62706,7 @@ Body:
       All: true
       Novice: false
       SuperNovice: false
+    Gender: Male
     Locations:
       Armor: true
     Refineable: true
@@ -100571,6 +100695,7 @@ Body:
     Weight: 10
     Classes:
       All: false
+    Gender: Female
     Script: |
       /*TODO*/
   - Id: 17292
@@ -107842,6 +107967,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Head_Top: true
     EquipLevelMin: 170
@@ -107927,6 +108053,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Head_Top: true
     EquipLevelMin: 170
@@ -109244,6 +109371,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Head_Top: true
     EquipLevelMin: 100
@@ -109260,6 +109388,7 @@ Body:
     Slots: 1
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Head_Top: true
     EquipLevelMin: 100
@@ -120245,6 +120374,7 @@ Body:
     Weight: 20
     Classes:
       All: false
+    Gender: Female
     Script: |
       /*TODO*/
   - Id: 22530
@@ -120487,6 +120617,7 @@ Body:
     Type: Healing
     Buy: 20
     Weight: 100
+    Gender: Female
     Locations:
       Right_Hand: true
   - Id: 22569
@@ -121338,6 +121469,7 @@ Body:
     Weight: 100
     Classes:
       All: false
+    Gender: Female
   - Id: 22812
     AegisName: Sealed_Dracula_Scroll
     Name: Sealed Dracula Scroll
@@ -121376,6 +121508,7 @@ Body:
     Weight: 10
     Classes:
       All: false
+    Gender: Female
     Script: |
       /*getitem callfunc("F_Rand",4491,6228,6232,24196, Hasty Shadow Armor, 19882, 17474, 6635),1;*/
   - Id: 22826
@@ -121386,6 +121519,7 @@ Body:
     Weight: 10
     Classes:
       All: false
+    Gender: Female
   - Id: 22827
     AegisName: Shadow_Cube
     Name: Shadow Cube
@@ -121394,6 +121528,7 @@ Body:
     Weight: 10
     Classes:
       All: false
+    Gender: Female
     Script: |
       /*No Info*/
   - Id: 22828
@@ -121457,6 +121592,7 @@ Body:
     Weight: 10
     Classes:
       All: false
+    Gender: Female
     Script: |
       /*No Info*/
   - Id: 22845
@@ -125164,6 +125300,7 @@ Body:
     Buy: 10
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Shadow_Weapon: true
     EquipLevelMin: 99
@@ -125177,6 +125314,7 @@ Body:
     Buy: 10
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Shadow_Weapon: true
     EquipLevelMin: 99
@@ -125332,6 +125470,7 @@ Body:
     Buy: 10
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Shadow_Shield: true
     EquipLevelMin: 99
@@ -125345,6 +125484,7 @@ Body:
     Buy: 10
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Shadow_Shield: true
     EquipLevelMin: 99
@@ -126272,6 +126412,7 @@ Body:
     Buy: 10
     Jobs:
       {}
+    Gender: Male
     Locations:
       Shadow_Armor: true
     EquipLevelMin: 100
@@ -126285,6 +126426,7 @@ Body:
     Buy: 10
     Jobs:
       {}
+    Gender: Female
     Locations:
       Shadow_Armor: true
     EquipLevelMin: 100
@@ -126311,6 +126453,7 @@ Body:
     Buy: 10
     Jobs:
       {}
+    Gender: Male
     Locations:
       Shadow_Shoes: true
     EquipLevelMin: 100
@@ -126324,6 +126467,7 @@ Body:
     Buy: 10
     Jobs:
       {}
+    Gender: Female
     Locations:
       Shadow_Shoes: true
     EquipLevelMin: 100
@@ -127357,6 +127501,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 3
@@ -127377,6 +127522,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -127397,6 +127543,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Female
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -138412,6 +138559,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 4
@@ -138432,6 +138580,7 @@ Body:
     Slots: 2
     Jobs:
       BardDancer: true
+    Gender: Male
     Locations:
       Right_Hand: true
     WeaponLevel: 4
