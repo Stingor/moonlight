@@ -1,5 +1,5 @@
 # This file is a part of rAthena.
-#   Copyright(C) 2019 rAthena Development Team
+#   Copyright(C) 2021 rAthena Development Team
 #   https://rathena.org - https://github.com/rathena
 #
 # This program is free software: you can redistribute it and/or modify
@@ -55,18 +55,19 @@
 #   AttackDelay             Attack speed. (Default: 0)
 #   AttackMotion            Attack animation speed. (Default: 0)
 #   DamageMotion            Damage animation speed. (Default: 0)
+#   DamageTaken             Rate at which the monster will receive incoming damage. (Default: 100)
 #   Ai                      Aegis monster type AI behavior. (Default: 06)
 #   Class                   Aegis monster class. (Default: Normal)
 #   Modes:                  List of unique behavior not defined by AI, Class, or Attribute. (Optional)
 #     <mode>: <value>       Mode to toggle.
 #   MvpDrops:               List of possible MVP prize items. Max of MAX_MVP_DROP. (Optional)
 #     - Item                Item name.
-#       Rate                Drop rate of item.
+#       Rate                Drop rate of item. (Default: 1)
 #       RandomOptionGroup   Random Option Group applied to item on drop. (Default: None)
 #       Index               Index used for overwriting item. (Optional)
 #   Drops:                  List of possible normal item drops. Max of MAX_MOB_DROP. (Optional)
 #     - Item                Item name.
-#       Rate                Drop rate of item.
+#       Rate                Drop rate of item. (Default: 1)
 #       StealProtected      If the item is shielded from TF_STEAL. (Default: false)
 #       RandomOptionGroup   Random Option Group applied to item on drop. (Default: None)
 #       Index               Index used for overwriting item. (Optional)
@@ -74,7 +75,7 @@
 
 Header:
   Type: MOB_DB
-  Version: 1
+  Version: 2
 
 Body:
   - Id: 1001
