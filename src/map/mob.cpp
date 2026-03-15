@@ -590,8 +590,9 @@ bool mob_ksprotected (struct block_list *src, struct block_list *target)
 		if( mapdata->flag[MF_ALLOWKS] || mapdata_flag_ks(mapdata) )
 			return false; // Ignores GVG, PVP and AllowKS map flags
 
-		if( md->get_bosstype() == BOSSTYPE_MVP || md->master_id )
-			return false; // MVP, Slaves mobs ignores KS
+		// [Stingor] les boss sont bien couverts par @noks
+		// if( md->get_bosstype() == BOSSTYPE_MVP || md->master_id )
+			// return false; // MVP, Slaves mobs ignores KS
 
 		if( (sce = md->sc.data[SC_KSPROTECTED]) == nullptr )
 			break; // No KS Protected
@@ -2272,7 +2273,7 @@ static void mob_item_drop(struct mob_data *md, struct item_drop_list *dlist, str
 	test_autoloot = sd
 		&& (drop_rate <= sd->state.autoloot || pc_isautolooting(sd, ditem->item_data.nameid)
 		|| (sd->state.autolootrare && item_is_rare(ditem->item_data.nameid))
-		|| (md && (md->db->mexp > 0) && sd->state.autolootmvp)
+		|| (md && md->get_bosstype() == BOSSTYPE_MVP && sd->state.autolootmvp)
 		|| (sd->state.autolootpognon && item_is_pognon(ditem->item_data.nameid, sd->state.autolootpognon)))
 		&& (flag?(battle_config.homunculus_autoloot?(battle_config.hom_idle_no_share == 0 || !pc_isidle_hom(sd)):0):
 			(battle_config.idle_no_autoloot == 0 || DIFF_TICK(last_tick, sd->idletime) < battle_config.idle_no_autoloot));
@@ -2889,7 +2890,7 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 
 			ditem = mob_setdropitem(&md->db->dropitem[i], 1, md->mob_id);
 
-			if( ditem && md->db->mexp > 0 && map_getmapflag(m, MF_NOMVPCARD) && itemdb_iscard(ditem->item_data.nameid) )	// [Stingor]
+			if( ditem && md->get_bosstype() == BOSSTYPE_MVP && map_getmapflag(m, MF_NOMVPCARD) && itemdb_iscard(ditem->item_data.nameid) )	// [Stingor]
 				continue;
 
 			//A Rare Drop Global Announce by Lupus
