@@ -8105,8 +8105,8 @@ ACMD_FUNC(whodrops)
 				if(!mob) continue;
 
 				// Add class and race specific bonuses
-				drop_rate_bonus += sd->indexed_bonus.dropaddclass[mob_db(mobid)->status.class_] + sd->indexed_bonus.dropaddclass[CLASS_ALL];
-				drop_rate_bonus += sd->indexed_bonus.dropaddrace[mob_db(mobid)->status.race] + sd->indexed_bonus.dropaddrace[RC_ALL];
+				drop_rate_bonus += sd->indexed_bonus.dropaddclass[mob->status.class_] + sd->indexed_bonus.dropaddclass[CLASS_ALL];
+				drop_rate_bonus += sd->indexed_bonus.dropaddrace[mob->status.race] + sd->indexed_bonus.dropaddrace[RC_ALL];
 
 				// Increase drop rate if user has SC_ITEMBOOST
 				if (sd->sc.data[SC_ITEMBOOST])

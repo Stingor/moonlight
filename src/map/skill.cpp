@@ -3354,7 +3354,7 @@ int64 skill_attack (int attack_type, struct block_list* src, struct block_list *
 	nullpo_ret(bl);		//Target to be attacked.
 
 	// [Stingor] -->
-	if (status_bl_has_mode(bl, MD_SKILL_IMMUNE))
+	if (status_bl_has_mode(bl, MD_SKILLIMMUNE))
 		return 0;
 
 	if (status_get_class(bl) == MOBID_EMPERIUM || status_get_class(bl) == MOBID_GUARDIAN_STONE1 || status_get_class(bl)== MOBID_GUARDIAN_STONE2)
@@ -11790,7 +11790,7 @@ static int8 skill_castend_id_check(struct block_list *src, struct block_list *ta
 	if ((status_get_class(target) == MOBID_EMPERIUM || status_get_class(target) == MOBID_GUARDIAN_STONE1 || status_get_class(target) == MOBID_GUARDIAN_STONE2) && (skill_id == AL_HEAL || skill_id == AM_POTIONPITCHER)) // [Stingor]
 		return -1;
 
-	if (src != target && (status_bl_has_mode(target,MD_SKILL_IMMUNE) || ((status_get_class(target) == MOBID_EMPERIUM || status_get_class(target) == MOBID_GUARDIAN_STONE1 || status_get_class(target) == MOBID_GUARDIAN_STONE2) && !skill->inf2[INF2_TARGETEMPERIUM])) && skill_get_casttype(skill_id) == CAST_NODAMAGE)
+	if (src != target && (status_bl_has_mode(target,MD_SKILLIMMUNE) || ((status_get_class(target) == MOBID_EMPERIUM || status_get_class(target) == MOBID_GUARDIAN_STONE1 || status_get_class(target) == MOBID_GUARDIAN_STONE2) && !skill->inf2[INF2_TARGETEMPERIUM])) && skill_get_casttype(skill_id) == CAST_NODAMAGE)
 		return USESKILL_FAIL_MAX; // Don't show a skill fail message (NoDamage type doesn't consume requirements)
 
 	switch (skill_id) {
@@ -12068,7 +12068,7 @@ TIMER_FUNC(skill_castend_id){
 				break;
 			else {
 				skill_consume_requirement(sd,ud->skill_id,ud->skill_lv,1);
-				if (src != target && (status_bl_has_mode(target,MD_SKILL_IMMUNE) || ((status_get_class(target) == MOBID_EMPERIUM || status_get_class(target) == MOBID_GUARDIAN_STONE1 || status_get_class(target) == MOBID_GUARDIAN_STONE2) && !skill_get_inf2(ud->skill_id, INF2_TARGETEMPERIUM))) && skill_get_casttype(ud->skill_id) == CAST_DAMAGE) {
+				if (src != target && (status_bl_has_mode(target,MD_SKILLIMMUNE) || ((status_get_class(target) == MOBID_EMPERIUM || status_get_class(target) == MOBID_GUARDIAN_STONE1 || status_get_class(target) == MOBID_GUARDIAN_STONE2) && !skill_get_inf2(ud->skill_id, INF2_TARGETEMPERIUM))) && skill_get_casttype(ud->skill_id) == CAST_DAMAGE) {
 					clif_skill_fail(sd, ud->skill_id, USESKILL_FAIL_LEVEL, 0);
 					break; // Show a skill fail message (Damage type consumes requirements)
 				}
