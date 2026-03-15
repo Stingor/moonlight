@@ -4022,8 +4022,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 4
     Refineable: true
@@ -4042,8 +4041,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 4
     Refineable: true
@@ -4061,8 +4059,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 4
     Refineable: true
@@ -4868,8 +4865,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -4889,8 +4885,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -4909,8 +4904,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -4930,8 +4924,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -4951,8 +4944,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -4971,8 +4963,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -4992,8 +4983,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -5013,8 +5003,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -5033,8 +5022,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -5054,8 +5042,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -5072,8 +5059,7 @@ Body:
     Attack: 250
     Range: 1
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -5095,8 +5081,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -5116,8 +5101,7 @@ Body:
       Crusader: true
       Knight: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -5136,8 +5120,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -5158,8 +5141,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -5180,8 +5162,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -5202,8 +5183,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -5224,8 +5204,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -5246,8 +5225,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -5268,8 +5246,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -5291,8 +5268,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -5313,8 +5289,7 @@ Body:
       Crusader: true
       Knight: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -5332,8 +5307,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 1
     Script: |
@@ -5352,8 +5326,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     Script: |
       bonus bIgnoreDefRace,RC_DemiHuman; bonus bIgnoreDefRace,RC_PLAYER_HUMAN; bonus2 bAddRace,RC_DemiHuman,20; bonus2 bAddRace,RC_PLAYER_HUMAN,20; bonus2 bSubRace,RC_DemiHuman,-10; bonus2 bSubRace,RC_PLAYER_HUMAN,-10; bonus bAtkEle,Ele_Dark;
@@ -5373,8 +5346,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 55
     Refineable: true
@@ -5396,8 +5368,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 55
     Refineable: true
@@ -5416,8 +5387,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     Trade:
       Override: 100
@@ -5445,8 +5415,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -5468,8 +5437,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -5491,8 +5459,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -5514,8 +5481,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 90
     Refineable: true
@@ -5537,8 +5503,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 50
     Refineable: true
@@ -5558,8 +5523,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -5579,8 +5543,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -5602,8 +5565,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -5625,8 +5587,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 70
     Refineable: true
@@ -5646,8 +5607,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -5669,8 +5629,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -5692,8 +5651,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 50
     Refineable: true
@@ -5712,8 +5670,7 @@ Body:
       Crusader: true
       Knight: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Script: |
@@ -5733,8 +5690,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 100
     Refineable: true
@@ -5754,8 +5710,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 26
     Trade:
@@ -5777,8 +5732,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 40
     Trade:
@@ -5800,8 +5754,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     Script: |
       bonus bAtkEle,Ele_Dark; bonus2 bAddRace,RC_DemiHuman,20; bonus2 bSubRace,RC_DemiHuman,-10; bonus bIgnoreDefRace,RC_DemiHuman; bonus2 bAddRace,RC_PLAYER_HUMAN,20; bonus2 bSubRace,RC_PLAYER_HUMAN,-10; bonus bIgnoreDefRace,RC_PLAYER_HUMAN;
@@ -5819,8 +5772,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     Script: |
       bonus bAtkEle,Ele_Dark;
@@ -5839,8 +5791,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 110
     Refineable: true
@@ -5860,8 +5811,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 60
   - Id: 1198
@@ -5877,8 +5827,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 50
     Script: |
@@ -5898,8 +5847,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 120
     Refineable: true
@@ -7516,8 +7464,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -7535,8 +7482,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -7554,8 +7500,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -7575,8 +7520,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -7595,8 +7539,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -7614,8 +7557,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -7632,8 +7574,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 55
     Refineable: true
@@ -7652,8 +7593,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 55
     Refineable: true
@@ -7672,8 +7612,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 55
     Refineable: true
@@ -7692,8 +7631,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 55
     Refineable: true
@@ -7712,8 +7650,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 65
     Refineable: true
@@ -7732,8 +7669,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 75
     Refineable: true
@@ -7752,8 +7688,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 55
     Refineable: true
@@ -7772,8 +7707,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 70
     Refineable: true
@@ -7792,8 +7726,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 1
     Refineable: true
@@ -7812,8 +7745,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 75
     Refineable: true
@@ -7833,8 +7765,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 75
     Refineable: true
@@ -7852,8 +7783,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 1
     Script: |
@@ -7872,8 +7802,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 55
     Refineable: true
@@ -7892,8 +7821,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 55
     Refineable: true
@@ -7913,8 +7841,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 55
     Refineable: true
@@ -7934,8 +7861,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 55
     Refineable: true
@@ -7952,8 +7878,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     Trade:
       Override: 100
@@ -7977,8 +7902,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     Script: |
       bonus bIgnoreDefRace,RC_DemiHuman; bonus bIgnoreDefRace,RC_PLAYER_HUMAN; bonus2 bHPRegenRate,3,5000;
@@ -7994,8 +7918,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     Script: |
       bonus bAtkEle,Ele_Dark; bonus2 bAddEff,Eff_Curse,5000; bonus bUnbreakableWeapon;
@@ -8013,8 +7936,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 55
     Refineable: true
@@ -8034,8 +7956,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 55
     Refineable: true
@@ -8055,8 +7976,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 55
     Refineable: true
@@ -8076,8 +7996,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 55
     Refineable: true
@@ -8095,8 +8014,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -8114,8 +8032,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -8133,8 +8050,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -8152,8 +8068,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -8171,8 +8086,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     Script: |
       bonus2 bSkillAtk,"AS_SONICBLOW",25; bonus bAspdRate,3;
@@ -8190,8 +8104,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 50
     Refineable: true
@@ -8211,8 +8124,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 50
     Refineable: true
@@ -8230,8 +8142,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Script: |
@@ -8250,8 +8161,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 100
     Refineable: true
@@ -8267,8 +8177,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 1
     Script: |
@@ -8285,8 +8194,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 60
   - Id: 1290
@@ -8303,8 +8211,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 100
     Refineable: true
@@ -8324,8 +8231,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 140
     Refineable: true
@@ -8345,8 +8251,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -8365,8 +8270,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 95
     Refineable: true
@@ -8385,8 +8289,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 95
     Refineable: true
@@ -8406,8 +8309,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 55
     Refineable: true
@@ -8426,8 +8328,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -8447,8 +8348,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 55
     Refineable: true
@@ -8468,8 +8368,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 105
     Refineable: true
@@ -8487,8 +8386,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 40
     Refineable: true
@@ -8863,8 +8761,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     Script: |
       bonus bAtkEle,Ele_Wind; skill "ITM_TOMAHAWK",1;
@@ -8885,8 +8782,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 1
     Script: |
@@ -9173,8 +9069,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 3
     Refineable: true
@@ -9196,8 +9091,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 3
     Refineable: true
@@ -9218,8 +9112,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 3
     Refineable: true
@@ -9242,8 +9135,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 16
     Refineable: true
@@ -9266,8 +9158,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 16
     Refineable: true
@@ -9289,8 +9180,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 16
     Refineable: true
@@ -9313,8 +9203,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 30
     Refineable: true
@@ -9337,8 +9226,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 30
     Refineable: true
@@ -9360,8 +9248,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 30
     Refineable: true
@@ -9384,8 +9271,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 30
     Refineable: true
@@ -9408,8 +9294,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 30
     Refineable: true
@@ -9431,8 +9316,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 30
     Refineable: true
@@ -9454,8 +9338,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 44
     Refineable: true
@@ -9479,8 +9362,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 44
     Refineable: true
@@ -9504,8 +9386,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 44
     Refineable: true
@@ -9529,8 +9410,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 44
     Refineable: true
@@ -9554,8 +9434,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 44
     Refineable: true
@@ -9579,8 +9458,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 44
     Refineable: true
@@ -9604,8 +9482,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 44
     Refineable: true
@@ -9629,8 +9506,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -9655,8 +9531,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -9679,8 +9554,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 1
     Script: |
@@ -9702,8 +9576,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     Script: |
       bonus bStr,20; bonus bMatkRate,20; bonus bAspdRate,5;
@@ -9724,8 +9597,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     Script: |
       bonus bAtkEle,Ele_Wind; skill "ITM_TOMAHAWK",1;
@@ -9748,8 +9620,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 70
     Refineable: true
@@ -9774,8 +9645,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 70
     Refineable: true
@@ -9800,8 +9670,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -9824,8 +9693,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     Script: |
       bonus bStr,5; bonus bHit,20; bonus2 bSkillAtk,"MC_MAMMONITE",20; bonus2 bAddEff,Eff_Stun,2000;
@@ -9846,8 +9714,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -9870,8 +9737,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -9894,8 +9760,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 3
     Trade:
@@ -9920,8 +9785,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -9945,8 +9809,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 60
     Refineable: true
@@ -9971,8 +9834,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -9996,8 +9858,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 75
     Refineable: true
@@ -10020,8 +9881,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     Script: |
       bonus bAspdRate,-25; bonus bUseSPrate,100; if(readparam(bStr)>=95) {bonus bBaseAtk,400; bonus2 bAddEff,Eff_Stun,3000; bonus BreakArmorRate,500;}
@@ -10044,8 +9904,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 50
     Refineable: true
@@ -10068,8 +9927,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Script: |
@@ -10091,8 +9949,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     Script: |
       bonus bAtkEle,Ele_Wind;
@@ -10113,8 +9970,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 1
     Script: |
@@ -10136,8 +9992,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 60
   - Id: 1392
@@ -10159,8 +10014,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 95
     Refineable: true
@@ -10185,8 +10039,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 95
     Refineable: true
@@ -10211,8 +10064,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -10236,8 +10088,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 95
     Refineable: true
@@ -10261,8 +10112,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 95
     Refineable: true
@@ -10287,8 +10137,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 75
     Refineable: true
@@ -10312,8 +10161,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -10336,8 +10184,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 40
     Refineable: true
@@ -10548,8 +10395,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -10568,8 +10414,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -10588,8 +10433,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -11300,8 +11144,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
@@ -11323,8 +11166,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -11344,8 +11186,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -11364,8 +11205,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -11385,8 +11225,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -11406,8 +11245,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -11426,8 +11264,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -11447,8 +11284,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -11468,8 +11304,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -11488,8 +11323,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -11509,8 +11343,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -11530,8 +11363,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -11550,8 +11382,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -11571,8 +11402,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -11592,8 +11422,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -11612,8 +11441,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -11632,8 +11460,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -11654,8 +11481,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -11676,8 +11502,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -11698,8 +11523,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -11720,8 +11544,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -11742,8 +11565,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -11765,8 +11587,7 @@ Body:
       SoulLinker: true
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 73
     Refineable: true
@@ -11788,8 +11609,7 @@ Body:
       SoulLinker: true
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 90
     Refineable: true
@@ -11810,8 +11630,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 60
     Refineable: true
@@ -11832,8 +11651,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 75
     Refineable: true
@@ -11853,8 +11671,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -11875,8 +11692,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 75
     Refineable: true
@@ -11896,8 +11712,7 @@ Body:
       Crusader: true
       Knight: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 65
     Refineable: true
@@ -11919,8 +11734,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 75
     Refineable: true
@@ -11942,8 +11756,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 60
     Refineable: true
@@ -11965,8 +11778,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -11986,8 +11798,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -12009,8 +11820,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 50
     Refineable: true
@@ -12030,8 +11840,7 @@ Body:
     Jobs:
       Knight: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 70
     Refineable: true
@@ -12053,8 +11862,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 50
     Refineable: true
@@ -12072,8 +11880,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -12093,8 +11900,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Script: |
@@ -12112,8 +11918,7 @@ Body:
       Crusader: true
       Knight: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 1
     Refineable: true
@@ -12132,8 +11937,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 50
     Script: |
@@ -12151,8 +11955,7 @@ Body:
     Jobs:
       Knight: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 140
     Refineable: true
@@ -12176,8 +11979,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -12198,8 +12000,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 95
     Refineable: true
@@ -12220,8 +12021,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -12243,8 +12043,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 105
     Refineable: true
@@ -12264,8 +12063,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 40
     Refineable: true
@@ -12287,8 +12085,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 120
     Refineable: true
@@ -12312,8 +12109,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -12335,8 +12131,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 70
     Refineable: true
@@ -12356,8 +12151,7 @@ Body:
       Crusader: true
       Knight: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -16798,8 +16592,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 4
     Refineable: true
@@ -16820,8 +16613,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 4
     Refineable: true
@@ -16840,8 +16632,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 4
     Refineable: true
@@ -16864,8 +16655,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 4
     Refineable: true
@@ -16886,8 +16676,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 4
     Refineable: true
@@ -16907,8 +16696,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 4
     Refineable: true
@@ -16930,8 +16718,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -16953,8 +16740,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -16975,8 +16761,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -16998,8 +16783,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -17021,8 +16805,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -17043,8 +16826,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 18
     Refineable: true
@@ -17066,8 +16848,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -17091,8 +16872,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -17114,8 +16894,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -17139,8 +16918,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -17157,8 +16935,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -17175,8 +16952,7 @@ Body:
     Jobs:
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -17196,8 +16972,7 @@ Body:
       Hunter: true
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -17219,8 +16994,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 65
     Refineable: true
@@ -17238,8 +17012,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 77
     Refineable: true
@@ -17257,8 +17030,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 30
     Refineable: true
@@ -17281,8 +17053,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 60
     Refineable: true
@@ -17303,8 +17074,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 70
     Refineable: true
@@ -17324,8 +17094,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 33
     Refineable: true
@@ -17344,8 +17113,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 77
     Refineable: true
@@ -17362,8 +17130,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 1
     Script: |
@@ -17383,8 +17150,7 @@ Body:
       Hunter: true
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 1
     Script: |
@@ -17406,8 +17172,7 @@ Body:
       Hunter: true
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 55
     Refineable: true
@@ -17430,8 +17195,7 @@ Body:
       Hunter: true
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 55
     Refineable: true
@@ -17454,8 +17218,7 @@ Body:
       Hunter: true
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 55
     Refineable: true
@@ -17476,8 +17239,7 @@ Body:
       Hunter: true
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 55
     Refineable: true
@@ -17497,8 +17259,7 @@ Body:
       Hunter: true
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 65
     Refineable: true
@@ -17519,8 +17280,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 1
     Trade:
@@ -17547,8 +17307,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 70
     Refineable: true
@@ -17568,8 +17327,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 70
     Refineable: true
@@ -17591,8 +17349,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -17614,8 +17371,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -17635,8 +17391,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 60
     Refineable: true
@@ -17657,8 +17412,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -17680,8 +17434,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 4
     Trade:
@@ -17705,8 +17458,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -17728,8 +17480,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 1
     Script: |
@@ -17748,8 +17499,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 50
     Refineable: true
@@ -17770,8 +17520,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 100
     Refineable: true
@@ -17793,8 +17542,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 26
     Trade:
@@ -17818,8 +17566,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 40
     Trade:
@@ -17843,8 +17590,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 1
     Script: |
@@ -21069,8 +20815,7 @@ Body:
     Jobs:
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -21090,8 +20835,7 @@ Body:
       Monk: true
       Priest: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 70
     Refineable: true
@@ -21114,8 +20858,7 @@ Body:
       Sage: true
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -21135,8 +20878,7 @@ Body:
     Jobs:
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -21157,8 +20899,7 @@ Body:
       Sage: true
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 50
     Refineable: true
@@ -21180,8 +20921,7 @@ Body:
       Monk: true
       Priest: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 50
     Refineable: true
@@ -21203,8 +20943,7 @@ Body:
       SoulLinker: true
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 60
     Refineable: true
@@ -21224,8 +20963,7 @@ Body:
     Jobs:
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -21245,8 +20983,7 @@ Body:
     Jobs:
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -21266,8 +21003,7 @@ Body:
     Jobs:
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -21287,8 +21023,7 @@ Body:
     Jobs:
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -21308,8 +21043,7 @@ Body:
     Jobs:
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 130
     Refineable: true
@@ -21329,8 +21063,7 @@ Body:
     Jobs:
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 130
     Refineable: true
@@ -21350,8 +21083,7 @@ Body:
     Jobs:
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 130
     Refineable: true
@@ -21371,8 +21103,7 @@ Body:
     Jobs:
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 130
     Refineable: true
@@ -21398,8 +21129,7 @@ Body:
       SoulLinker: true
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -21424,8 +21154,7 @@ Body:
       SoulLinker: true
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 95
     Refineable: true
@@ -21446,8 +21175,7 @@ Body:
       Monk: true
       Priest: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 70
     Refineable: true
@@ -21474,8 +21202,7 @@ Body:
       SuperNovice: true
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -21501,8 +21228,7 @@ Body:
       SuperNovice: true
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 40
     Refineable: true
@@ -21522,8 +21248,7 @@ Body:
       SoulLinker: true
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 1
     Script: |
@@ -21541,8 +21266,7 @@ Body:
     Jobs:
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -21561,8 +21285,7 @@ Body:
     Jobs:
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 150
     Refineable: true
@@ -21587,8 +21310,7 @@ Body:
       Sage: true
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 120
     Refineable: true
@@ -21611,8 +21333,7 @@ Body:
       SoulLinker: true
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -21633,8 +21354,7 @@ Body:
       SoulLinker: true
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 70
     Refineable: true
@@ -21657,8 +21377,7 @@ Body:
       SoulLinker: true
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
@@ -21677,8 +21396,7 @@ Body:
     Jobs:
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
@@ -21699,8 +21417,7 @@ Body:
       SoulLinker: true
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -21745,8 +21462,7 @@ Body:
       Third_Upper: true
       Third_Baby: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -21772,8 +21488,7 @@ Body:
       SoulLinker: true
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 175
     Refineable: true
@@ -21799,8 +21514,7 @@ Body:
       SoulLinker: true
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 120
     Refineable: true
@@ -21820,8 +21534,7 @@ Body:
     Jobs:
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
@@ -21841,8 +21554,7 @@ Body:
     Jobs:
       Wizard: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
@@ -21862,8 +21574,7 @@ Body:
     Jobs:
       Priest: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
@@ -80917,8 +80628,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 10
     Refineable: true
@@ -80937,8 +80647,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 10
     Refineable: true
@@ -80958,8 +80667,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 35
     Refineable: true
@@ -80979,8 +80687,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 35
     Refineable: true
@@ -81000,8 +80707,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 55
     Refineable: true
@@ -81021,8 +80727,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 55
     Refineable: true
@@ -81041,8 +80746,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 12
     Refineable: true
@@ -81062,8 +80766,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 70
     Refineable: true
@@ -81081,8 +80784,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -81100,8 +80802,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     Script: |
       bonus bHit,readparam(bAgi)/10; bonus bAspdRate,readparam(bAgi)/14; bonus2 bAddClass,Class_All,40;
@@ -81117,8 +80818,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -81136,8 +80836,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 1
     Refineable: true
@@ -81154,8 +80853,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 26
     Trade:
@@ -81176,8 +80874,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 40
     Trade:
@@ -81199,8 +80896,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 60
     Script: |
@@ -81219,8 +80915,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -81238,8 +80933,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 1
     Script: |
@@ -81256,8 +80950,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 40
     Refineable: true
@@ -81274,8 +80967,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 1
     Refineable: true
@@ -81293,8 +80985,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 99
     Refineable: true
@@ -81312,8 +81003,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 99
     Refineable: true
@@ -81332,8 +81022,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 140
     Refineable: true
@@ -81353,8 +81042,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 140
     Refineable: true
@@ -81373,8 +81061,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -81394,8 +81081,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
   - Id: 13127
@@ -81412,8 +81098,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 70
     Refineable: true
@@ -81433,8 +81118,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
@@ -81454,8 +81138,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -81475,8 +81158,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 120
     Refineable: true
@@ -81496,8 +81178,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 150
     Refineable: true
@@ -81516,8 +81197,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 1
     Refineable: true
@@ -81535,8 +81215,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 24
     Refineable: true
@@ -81556,8 +81235,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 24
     Refineable: true
@@ -81577,8 +81255,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 56
     Refineable: true
@@ -81597,8 +81274,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 14
     Refineable: true
@@ -81618,8 +81294,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 35
     Refineable: true
@@ -81638,8 +81313,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 24
     Refineable: true
@@ -81659,8 +81333,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 55
     Refineable: true
@@ -81677,8 +81350,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 68
     Refineable: true
@@ -81698,8 +81370,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 68
     Refineable: true
@@ -81718,8 +81389,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 52
     Refineable: true
@@ -81739,8 +81409,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 52
     Refineable: true
@@ -81760,8 +81429,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 65
     Refineable: true
@@ -81778,8 +81446,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 70
     Refineable: true
@@ -81799,8 +81466,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 70
     Refineable: true
@@ -81819,8 +81485,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 70
     Refineable: true
@@ -81840,8 +81505,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 70
     Refineable: true
@@ -81860,8 +81524,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 70
     Refineable: true
@@ -81881,8 +81544,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 70
     Refineable: true
@@ -81902,8 +81564,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 70
     Refineable: true
@@ -81923,8 +81584,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 70
     Refineable: true
@@ -81942,8 +81602,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -81961,8 +81620,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -81980,8 +81638,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -81999,8 +81656,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -82018,8 +81674,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Script: |
@@ -82036,8 +81691,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -82055,8 +81709,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -82074,8 +81727,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -82093,8 +81745,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -82115,8 +81766,7 @@ Body:
     Classes:
       Normal: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 1
   - Id: 13181
@@ -82133,8 +81783,7 @@ Body:
     Classes:
       Normal: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 1
   - Id: 13182
@@ -82151,8 +81800,7 @@ Body:
     Classes:
       Normal: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 1
   - Id: 13183
@@ -82169,8 +81817,7 @@ Body:
     Classes:
       Normal: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 1
   - Id: 13184
@@ -82185,8 +81832,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 40
     Refineable: true
@@ -82204,8 +81850,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 40
     Refineable: true
@@ -82223,8 +81868,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 40
     Refineable: true
@@ -82242,8 +81886,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 40
     Refineable: true
@@ -82263,8 +81906,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 105
     Refineable: true
@@ -82284,8 +81926,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 140
     Refineable: true
@@ -82305,8 +81946,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 108
     Refineable: true
@@ -82326,8 +81966,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 120
     Refineable: true
@@ -82346,8 +81985,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 140
     Refineable: true
@@ -82366,8 +82004,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 140
     Refineable: true
@@ -82387,8 +82024,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 140
     Refineable: true
@@ -82408,8 +82044,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 2
     EquipLevelMin: 106
     Refineable: true
@@ -82426,8 +82061,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 140
     Refineable: true
@@ -82447,8 +82081,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 140
     Refineable: true
@@ -83483,8 +83116,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 65
     Refineable: true
@@ -83504,8 +83136,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 42
     Refineable: true
@@ -83525,8 +83156,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 42
     Refineable: true
@@ -83545,8 +83175,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 55
     Refineable: true
@@ -83566,8 +83195,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 70
     Refineable: true
@@ -83585,8 +83213,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -83604,8 +83231,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -83623,8 +83249,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -83642,8 +83267,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     Script: |
       bonus bUnbreakableWeapon; bonus bAtkEle,Ele_Fire; bonus bDex,2;
@@ -83659,8 +83283,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 1
     Script: |
@@ -83677,8 +83300,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 60
     Script: |
@@ -83696,8 +83318,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 99
     Refineable: true
@@ -83715,8 +83336,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 99
     Refineable: true
@@ -83734,8 +83354,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 110
     Refineable: true
@@ -83754,8 +83373,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 110
     Refineable: true
@@ -83774,8 +83392,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 110
     Refineable: true
@@ -83795,8 +83412,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -83832,8 +83448,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -83852,8 +83467,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -83873,8 +83487,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -83894,8 +83507,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 70
     Refineable: true
@@ -83915,8 +83527,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
@@ -83936,8 +83547,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -83957,8 +83567,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -83978,8 +83587,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 120
     Refineable: true
@@ -83999,8 +83607,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 120
     Refineable: true
@@ -84020,8 +83627,7 @@ Body:
     Jobs:
       Ninja: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -102373,8 +101979,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 1
     Refineable: true
@@ -102396,8 +102001,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     Script: |
       bonus bAtkEle,Ele_Holy; bonus bInt,5; skill "AL_CURE",1; skill "AL_HEAL",1; bonus2 bResEff,Eff_Poison,5000; bonus2 bResEff,Eff_Curse,5000; bonus2 bResEff,Eff_Silence,5000; bonus2 bResEff,Eff_Confusion,5000; bonus2 bResEff,Eff_Blind,5000;
@@ -102417,8 +102021,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     Script: |
       bonus bAtkEle,Ele_Holy; bonus bInt,5; skill "AL_CURE",1; skill "AL_HEAL",1; bonus2 bResEff,Eff_Poison,5000; bonus2 bResEff,Eff_Curse,5000; bonus2 bResEff,Eff_Silence,5000; bonus2 bResEff,Eff_Confusion,5000; bonus2 bResEff,Eff_Blind,5000;
@@ -102436,8 +102039,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 105
     Refineable: true
@@ -102455,8 +102057,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 1
     Script: |
@@ -102475,8 +102076,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 1
     Refineable: true
@@ -102496,8 +102096,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 60
   - Id: 18107
@@ -102515,8 +102114,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 50
     Script: |
@@ -102533,8 +102131,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 50
     Script: |
@@ -102553,8 +102150,7 @@ Body:
     Jobs:
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -102574,8 +102170,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 110
     Refineable: true
@@ -102596,8 +102191,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 120
     Refineable: true
@@ -102621,8 +102215,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -102645,8 +102238,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 95
     Refineable: true
@@ -102669,8 +102261,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 95
     Refineable: true
@@ -102694,8 +102285,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 65
     Refineable: true
@@ -102713,8 +102303,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -102737,8 +102326,7 @@ Body:
       Hunter: true
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 105
     Refineable: true
@@ -102758,8 +102346,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 40
     Refineable: true
@@ -102781,8 +102368,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 120
     Refineable: true
@@ -102807,8 +102393,7 @@ Body:
       Hunter: true
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 100
     Refineable: true
@@ -102831,8 +102416,7 @@ Body:
       Hunter: true
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
@@ -102852,8 +102436,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 130
     Refineable: true
@@ -102874,8 +102457,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 130
     Refineable: true
@@ -102897,8 +102479,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -102919,8 +102500,7 @@ Body:
       Hunter: true
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 80
     Refineable: true
@@ -102940,8 +102520,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 100
     Refineable: true
@@ -102961,8 +102540,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 120
     Refineable: true
@@ -102983,8 +102561,7 @@ Body:
       Hunter: true
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -103006,8 +102583,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 70
     Refineable: true
@@ -103031,8 +102607,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -103055,8 +102630,7 @@ Body:
       Hunter: true
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 55
     Refineable: true
@@ -103079,8 +102653,7 @@ Body:
       Hunter: true
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 55
     Refineable: true
@@ -103103,8 +102676,7 @@ Body:
       Hunter: true
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 55
     Refineable: true
@@ -103125,8 +102697,7 @@ Body:
       Hunter: true
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 55
     Refineable: true
@@ -103144,8 +102715,7 @@ Body:
     Jobs:
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 100
     Refineable: true
@@ -103171,8 +102741,7 @@ Body:
       Third_Upper: true
       Third_Baby: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -103192,8 +102761,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 120
     Refineable: true
@@ -103213,8 +102781,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 130
     Refineable: true
@@ -103234,8 +102801,7 @@ Body:
     Jobs:
       BardDancer: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 130
     Refineable: true
@@ -103255,8 +102821,7 @@ Body:
     Jobs:
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 130
     Refineable: true
@@ -103276,8 +102841,7 @@ Body:
     Jobs:
       Rogue: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
@@ -103297,8 +102861,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
@@ -103318,8 +102881,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
@@ -103339,8 +102901,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
@@ -103360,8 +102921,7 @@ Body:
     Jobs:
       BardDancer: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
@@ -119128,8 +118688,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -119150,8 +118709,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 95
     Refineable: true
@@ -119172,8 +118730,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 95
     Refineable: true
@@ -119195,8 +118752,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 48
     Refineable: true
@@ -119218,8 +118774,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 100
     Refineable: true
@@ -119238,8 +118793,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -119259,8 +118813,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 40
     Refineable: true
@@ -119281,8 +118834,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 1
     EquipLevelMin: 150
     Refineable: true
@@ -119304,8 +118856,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 50
     Refineable: true
@@ -119327,8 +118878,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 120
     Refineable: true
@@ -119352,8 +118902,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 100
     Refineable: true
@@ -119375,8 +118924,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 130
     Refineable: true
@@ -119396,8 +118944,7 @@ Body:
     Jobs:
       Knight: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 110
     Refineable: true
@@ -119417,8 +118964,7 @@ Body:
     Jobs:
       Knight: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 110
     Refineable: true
@@ -119440,8 +118986,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -119461,8 +119006,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 70
     Refineable: true
@@ -119484,8 +119028,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
@@ -119507,8 +119050,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
@@ -119528,8 +119070,7 @@ Body:
     Jobs:
       Knight: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 130
     Refineable: true
@@ -119551,8 +119092,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 130
     Refineable: true
@@ -119574,8 +119114,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 120
     Refineable: true
@@ -119595,8 +119134,7 @@ Body:
     Jobs:
       Knight: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
@@ -119616,8 +119154,7 @@ Body:
     Jobs:
       Knight: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
@@ -127707,8 +127244,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 99
     Refineable: true
@@ -129641,8 +129177,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 120
     Refineable: true
@@ -129664,8 +129199,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 100
     Refineable: true
@@ -129683,8 +129217,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -129704,8 +129237,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 100
     Refineable: true
@@ -129725,8 +129257,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 120
     Refineable: true
@@ -129746,8 +129277,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 70
     Refineable: true
@@ -129767,8 +129297,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
@@ -129788,8 +129317,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
@@ -129809,8 +129337,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -129835,8 +129362,7 @@ Body:
       Third_Upper: true
       Third_Baby: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -129861,8 +129387,7 @@ Body:
       Third_Upper: true
       Third_Baby: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 100
     Refineable: true
@@ -129882,8 +129407,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 130
     Refineable: true
@@ -129903,8 +129427,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
@@ -129924,8 +129447,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
@@ -129950,8 +129472,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 120
     Refineable: true
@@ -129972,8 +129493,7 @@ Body:
     Jobs:
       Blacksmith: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -129996,8 +129516,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -130017,8 +129536,7 @@ Body:
     Jobs:
       Blacksmith: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -130038,8 +129556,7 @@ Body:
     Jobs:
       Blacksmith: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 120
     Refineable: true
@@ -130064,8 +129581,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -130088,8 +129604,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 70
     Refineable: true
@@ -130114,8 +129629,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
@@ -130140,8 +129654,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 1
     Refineable: true
@@ -130161,8 +129674,7 @@ Body:
     Jobs:
       Blacksmith: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 100
     Refineable: true
@@ -130182,8 +129694,7 @@ Body:
     Jobs:
       Blacksmith: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 130
     Refineable: true
@@ -130203,8 +129714,7 @@ Body:
     Jobs:
       Blacksmith: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
@@ -130224,8 +129734,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 110
     Refineable: true
@@ -130242,8 +129751,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 141
     Refineable: true
@@ -130263,8 +129771,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 141
     Refineable: true
@@ -130282,8 +129789,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -130301,8 +129807,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 80
     Refineable: true
@@ -130322,8 +129827,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 120
     Refineable: true
@@ -130343,8 +129847,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 120
     Refineable: true
@@ -130364,8 +129867,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 120
     Refineable: true
@@ -130385,8 +129887,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 3
     EquipLevelMin: 120
     Refineable: true
@@ -130406,8 +129907,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 150
     Refineable: true
@@ -130427,8 +129927,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 150
     Refineable: true
@@ -130448,8 +129947,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 150
     Refineable: true
@@ -130469,8 +129967,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 150
     Refineable: true
@@ -130490,8 +129987,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 120
     Refineable: true
@@ -130511,8 +130007,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 130
     Refineable: true
@@ -130532,8 +130027,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 120
     Refineable: true
@@ -130553,8 +130047,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -130574,8 +130067,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -130595,8 +130087,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -130616,8 +130107,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
@@ -139273,8 +138763,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 120
     Refineable: true
@@ -139294,8 +138783,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Hand: true
-      Left_Hand: true
+      Both_Hand: true
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
