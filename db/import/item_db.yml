@@ -76389,7 +76389,7 @@ Body:
     Buy: 2
     Weight: 10
     Script: |
-      specialeffect2 EF_POK_JAP; /* itemskill "MO_CALLSPIRITS",3; itemskill "MO_FINGEROFFENSIVE",5; */
+      specialeffect2 EF_POK_JAP;
   - Id: 12756
     AegisName: New_Gift_Envelope
     Name: Chinese New Year Envelope
@@ -76397,7 +76397,7 @@ Body:
     Buy: 2
     Weight: 10
     Script: |
-      /*getgroupitem(IG_New_Gift_Envelope);*/ getrandgroupitem(IG_New_Gift_Envelope,0);
+      getrandgroupitem(IG_New_Gift_Envelope,0);
   - Id: 12757
     AegisName: Loyal_Ring1_Box
     Name: Loyal Ring1 Box
@@ -76464,43 +76464,43 @@ Body:
     Name: Passion FB Hat Box
     Type: Usable
     Script: |
-      /*getgroupitem(IG_Passion_FB_Hat_Box);*/ rentitem 5856,3600;
+      rentitem 5856,3600;
   - Id: 12768
     AegisName: Cool_FB_Hat_Box
     Name: Cool FB Hat Box
     Type: Usable
     Script: |
-      /*getgroupitem(IG_Cool_FB_Hat_Box);*/ rentitem 5857,3600;
+      rentitem 5857,3600;
   - Id: 12769
     AegisName: Victory_FB_Hat_Box
     Name: Victory FB Hat Box
     Type: Usable
     Script: |
-      /*getgroupitem(IG_Victory_FB_Hat_Box);*/ rentitem 5858,3600;
+      rentitem 5858,3600;
   - Id: 12770
     AegisName: Glory_FB_Hat_Box
     Name: Glory FB Hat Box
     Type: Usable
     Script: |
-      /*getgroupitem(IG_Glory_FB_Hat_Box);*/ rentitem 5859,86400;
+      rentitem 5859,86400;
   - Id: 12771
     AegisName: Passion_Hat_Box2
     Name: Passion Hat Box2
     Type: Usable
     Script: |
-      /*getgroupitem(IG_Passion_Hat_Box2);*/ rentitem 5856,21600;
+      rentitem 5856,21600;
   - Id: 12772
     AegisName: Cool_Hat_Box2
     Name: Cool Hat Box2
     Type: Usable
     Script: |
-      /*getgroupitem(IG_Cool_Hat_Box2);*/ rentitem 5857,21600;
+      rentitem 5857,21600;
   - Id: 12773
     AegisName: Victory_Hat_Box2
     Name: Victory Hat Box2
     Type: Usable
     Script: |
-      /*getgroupitem(IG_Victory_Hat_Box2);*/ rentitem 5858,21600;
+      rentitem 5858,21600;
   - Id: 12774
     AegisName: Empty_Potion_Bottle
     Name: Empty Potion Bottle
