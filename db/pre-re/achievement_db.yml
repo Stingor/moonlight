@@ -2036,7 +2036,7 @@ Body:
     Group: Job_Change
     Name: Reborn in Valhalla!
     Condition: " Class == JOB_NOVICE_HIGH "
-    #  Item: Adventurer_Box_1
+    Reward:
       Script: " specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,30000,10; "
     Score: 10
   - Id: 200032
@@ -2046,7 +2046,7 @@ Body:
     #Rewards:
     #  Item: Rebeginer_Box_100
     Score: 10
-  - ID: 200033
+  - Id: 200033
     Group: Goal_Level
     Name: Acquire level 600!
     Condition: " BaseLevel == 600 "
@@ -2055,7 +2055,7 @@ Body:
     Reward:
       Script: " specialeffect2 EF_BLESSING; sc_start SC_BLESSING,120000,15; "
     Score: 50
-  - ID: 200034
+  - Id: 200034
     Group: Goal_Level
     Name: Acquire Max level!
     Condition: " BaseLevel >= 999 "
@@ -2342,9 +2342,9 @@ Body:
       - Id: 0
         Mob: POPORING
     Score: 10
-  - ID: 230104
-    Group: "AG_TAMING"
-    Name: "Novice Poring - taming"
+  - Id: 230104
+    Group: Taming
+    Name: Novice Poring - taming
     Target:
       - Id: 0
         MobID: LITTLE_PORING
@@ -2759,4 +2759,3 @@ Body:
       Script: " specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,30000,10; "
       TitleId: 1024
     Score: 10
-    
