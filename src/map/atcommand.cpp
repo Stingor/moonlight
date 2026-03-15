@@ -2206,7 +2206,8 @@ ACMD_FUNC(monster)
 		return -1;
 	}
 
-	// if (mob_id == MOBID_EMPERIUM) { // [Stingor]
+	// [Stingor] oh but yes
+	// if (mob_id == MOBID_EMPERIUM) {
 		// clif_displaymessage(fd, msg_txt(sd,83)); // Monster 'Emperium' cannot be spawned.
 		// return -1;
 	// }

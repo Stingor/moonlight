@@ -480,15 +480,6 @@
 	export_constant(MF_PRIVATEAIRSHIP_SOURCE);
 	export_constant(MF_PRIVATEAIRSHIP_DESTINATION);
 	export_constant(MF_SKILL_DURATION);
-	
-	/* Stingor */
-	export_constant(MF_NODUEL);
-	export_constant(MF_NOATTACKSKILL);
-	export_constant(MF_NOAOESKILL);
-	export_constant(MF_NOMVPCARD);
-	export_constant(MF_NOBBRANCH);
-	export_constant(MF_NOMAIL);
-	export_constant(MF_NODISGUISE);
 
 	/* setcell types */
 	export_constant(CELL_WALKABLE);
@@ -579,7 +570,6 @@
 	export_constant2("bFlee2",SP_FLEE2);
 	export_constant2("bCritical",SP_CRITICAL);
 	export_constant2("bAspd",SP_ASPD);
-	export_constant2("bAspd2",SP_ASPD2); // [Stingor]
 	export_constant2("bFame",SP_FAME);
 	export_constant2("bUnbreakable",SP_UNBREAKABLE);
 
@@ -668,7 +658,6 @@
 	export_constant2("bWeaponAtk",SP_WEAPON_ATK);
 	export_constant2("bWeaponDamageRate",SP_WEAPON_DAMAGE_RATE);
 	export_constant2("bDelayrate",SP_DELAYRATE);
-	export_constant2("bDelayrate2",SP_DELAYRATE2); // [Stingor]
 	export_constant2("bHPDrainValueRace",SP_HP_DRAIN_VALUE_RACE);
 	export_constant2("bSPDrainValueRace",SP_SP_DRAIN_VALUE_RACE);
 	export_constant2("bIgnoreMdefRaceRate",SP_IGNORE_MDEF_RACE_RATE);
@@ -5172,11 +5161,6 @@
 	export_constant(IG_ENCHANT_STONE_BOX13);
 	export_constant(IG_ENCHANT_STONE_BOX14);
 	export_constant(IG_ENCHANT_STONE_BOX15);
-
-	/* Stingor */
-	export_constant(IG_AUTOLOOTRARE);
-	export_constant(IG_SELLITEM);
-	export_constant(IG_SELLSTUFF);
 	
 	/* unit stop walking */
 	export_constant(USW_NONE);
