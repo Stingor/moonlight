@@ -38,6 +38,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Custom", "Custom", "{6513C8
 		src\custom\defines_pre.hpp = src\custom\defines_pre.hpp
 		src\custom\script.inc = src\custom\script.inc
 		src\custom\script_def.inc = src\custom\script_def.inc
+		src\custom\script_constant.inc = src\custom\script_constant.inc
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "server-components", "server-components", "{6D9F5D00-2988-4812-844D-D155C4F588DC}"
