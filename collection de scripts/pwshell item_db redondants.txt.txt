@@ -1,0 +1,53 @@
+$filePath = "D:\Mes documents\Bureau\moonlight\db\import\item_db.yml"
+$lines = [System.IO.File]::ReadAllLines($filePath)
+$result = [System.Collections.Generic.List[string]]::new()
+$buyValue = $null
+$removed = 0
+
+foreach ($line in $lines) {
+    if ($line -match '^\s+-\s+Id:') { $buyValue = $null }
+    if ($line -match '^\s+Buy:\s+(\d+)') { $buyValue = [int]$Matches[1] }
+
+    if ($line -match '^\s+Sell:\s+(\d+)' -and $buyValue -ne $null) {
+        $sellValue = [int]$Matches[1]
+        if ($sellValue -eq [math]::Floor($buyValue / 2)) {
+            $removed++
+            continue
+        } else {
+            $buyValue = $null
+        }
+    }
+    $result.Add($line)
+}
+
+$content = $result -join "`n"
+[System.IO.File]::WriteAllText($filePath, $content, [System.Text.UTF8Encoding]::new($false))
+Write-Host "Lignes Sell supprimees: $removed"
+
+
+
+$filePath = "D:\Mes documents\Bureau\moonlight\db\import\item_db.yml"
+$lines = [System.IO.File]::ReadAllLines($filePath)
+$result = [System.Collections.Generic.List[string]]::new()
+$removed = 0
+
+$patterns = @(
+    '^\s+Weight:\s+0\s*$',
+    '^\s+Type:\s+Etc\s*$'
+)
+
+foreach ($line in $lines) {
+    $skip = $false
+    foreach ($pattern in $patterns) {
+        if ($line -match $pattern) {
+            $skip = $true
+            $removed++
+            break
+        }
+    }
+    if (-not $skip) { $result.Add($line) }
+}
+
+$content = $result -join "`n"
+[System.IO.File]::WriteAllText($filePath, $content, [System.Text.UTF8Encoding]::new($false))
+Write-Host "Lignes supprimees: $removed"
