@@ -5,6 +5,9 @@
 
 #include <stdlib.h>
 #include <math.h>
+#include <string>
+#include <unordered_set>
+#include <vector>
 
 #include "../common/cbasetypes.hpp"
 #include "../common/cli.hpp"
@@ -3786,6 +3789,63 @@ void map_removemapdb(struct map_data *m)
 	uidb_remove(map_db, (unsigned int)m->index);
 }
 
+/**
+ * Recursively scans map config files and comments out map entries not found in the map cache.
+ * @param cfgName: Config file path
+ * @param missing: Set of normalized map names that failed to load
+ */
+static void map_autocomment_missing_maps(const char* cfgName, const std::unordered_set<std::string>& missing)
+{
+	std::vector<std::string> lines;
+	FILE* fp = fopen(cfgName, "r");
+
+	if (!fp)
+		return;
+
+	char buf[1024];
+	while (fgets(buf, sizeof(buf), fp))
+		lines.push_back(buf);
+	fclose(fp);
+
+	bool modified = false;
+	for (auto& line : lines) {
+		if (line.size() >= 2 && line[0] == '/' && line[1] == '/')
+			continue;
+
+		char w1[32], w2[1024];
+		if (sscanf(line.c_str(), "%31[^:]: %1023[^\t\r\n]", w1, w2) < 2)
+			continue;
+
+		char* ptr = w2 + strlen(w2);
+		while (--ptr >= w2 && *ptr == ' ');
+		ptr++;
+		*ptr = '\0';
+
+		if (strcmpi(w1, "map") == 0) {
+			char map_name[MAP_NAME_LENGTH];
+			mapindex_getmapname(w2, map_name);
+			if (missing.count(map_name)) {
+				line = "//" + line;
+				modified = true;
+			}
+		} else if (strcmpi(w1, "import") == 0) {
+			map_autocomment_missing_maps(w2, missing);
+		}
+	}
+
+	if (modified) {
+		fp = fopen(cfgName, "w");
+		if (!fp) {
+			ShowError("map_autocomment_missing_maps: Cannot write to '%s'\n", cfgName);
+			return;
+		}
+		for (const auto& line : lines)
+			fputs(line.c_str(), fp);
+		fclose(fp);
+		ShowNotice("Auto-commented missing maps in '" CL_WHITE "%s" CL_RESET "'.\n", cfgName);
+	}
+}
+
 /*======================================
  * Initiate maps loading stage
  *--------------------------------------*/
@@ -3833,6 +3893,7 @@ int map_readallmaps (void)
 	}
 
 	int maps_removed = 0;
+	std::unordered_set<std::string> missing_maps;
 
 	for (int i = 0; i < map_num; i++) {
 		size_t size;
@@ -3861,6 +3922,7 @@ int map_readallmaps (void)
 
 		// The map was not found - remove it
 		if (!(idx = mapindex_name2id(mapdata->name)) || !success) {
+			missing_maps.insert(mapdata->name);
 			map_delmapid(i);
 			maps_removed++;
 			i--;
@@ -3898,6 +3960,9 @@ int map_readallmaps (void)
 		mapdata->damage_adjust = {};
 		mapdata->channel = NULL;
 	}
+
+	if (!missing_maps.empty())
+		map_autocomment_missing_maps(MAP_CONF_NAME, missing_maps);
 
 	// intialization and configuration-dependent adjustments of mapflags
 	map_flags_init();
