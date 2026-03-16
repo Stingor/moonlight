@@ -191,7 +191,7 @@ L_Instance:
 	}
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 	mes "Sélectionnez la destination de votre choix :";
-	switch( select( GetColor(15050)+"• Airship Assault (Solo)^000000",
+	switch( select( GetColor(15050)+"• Airship Assault (Solo & HM)^000000",
 					GetColor(12278)+"• Bakonawa Lake^000000",
 					GetColor(9223)+"• Bangungot Hospital 2F (HM)^000000",
 					GetColor(4229)+"• Buwaya Cave (HM)^000000",
@@ -227,6 +227,8 @@ L_Instance:
 				.@questid = 15050; // Memorial Dungeon: Airship Assault
 				callsub Party_Check,.@md_name$;
 				callsub Leader_Check; // Pour instance Solo
+				.@hardmode = callsub(Hard_Mode,GetColor(.@questid));
+				.@turbo = callsub(Turbo_Mode,GetColor(.@questid));
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
@@ -785,18 +787,16 @@ function GetColor {
 }
 
 Hard_Mode:
-	if( is_party_leader(getcharid(1)) == true && getarg(0) != "^FF0000" ) {
+	if( is_party_leader(getcharid(1)) == true && (getgroupid() == 99 || getarg(0) != "^FF0000") ) {
 		clear;
 		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 		mes "Cette instance est disponible avec plusieur niveau de difficulté, êtes vous prêts à tenter?";
-		mes "^FF0000Attention!!";
-		mes "Le timer reste le même pour chaque niveau !!^000000";
 		return select( "Facile(1)", "Normal(2)", "Moyen(3)", "", "Difficile(5)", "", "Très Difficile (7)", "", "", "MALADE (10)" );
 	}
 	return 1;
 
 Turbo_Mode:
-	if( is_party_leader(getcharid(1)) == true && getarg(0) != "^FF0000" ) {
+	if( is_party_leader(getcharid(1)) == true && (getgroupid() == 99 || getarg(0) != "^FF0000") ) {
 		clear;
 		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 		mes "Cette instance est disponible avec le mode turbo.";
@@ -878,6 +878,10 @@ Process_Instance:
 		if( select("bypassgm?", "non") == 1 )
 		{
 			callsub Create_Instance, getarg(0), getarg(1), getarg(2,0); // Création instance
+			if( getarg(3,0) != 0 && isbegin_quest(getarg(3,0)))
+				erasequest getarg(3);
+			if( getarg(4,0) != 0 && isbegin_quest(getarg(4,0)))
+				erasequest getarg(4);
 			switch( instance_enter(getarg(0)) ) {
 				case IE_NOMEMBER: goto L_NOMEMBER;
 				case IE_NOINSTANCE: goto L_NOINSTANCE;

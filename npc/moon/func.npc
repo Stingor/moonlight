@@ -60,7 +60,7 @@ function	script	instancereward	{
 		if( Zeny + .@zeny < MAX_ZENY )
 			Zeny += .@Zeny;
 		else if ( #BANKVAULT + .@zeny < MAX_ZENY ) {
-			dispbottom "Vos zeny sont envoyés dans votre bank car vous êtes arrivez au max (Ctrl+b).";
+			dispbottom .@Zeny+"z sont envoyés dans votre bank car vous êtes arrivez au max (Ctrl+b).";
 			#BANKVAULT += .@Zeny;
 		}
 		else 
