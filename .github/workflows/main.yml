@@ -10,19 +10,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Format commit list
-        id: commits
+      - name: Send commits to Discord
         run: |
-          commits=$(jq -r '.commits[] | "- `\(.id[0:7])` — \(.message | gsub("\n"; " "))"' $GITHUB_EVENT_PATH | tr '\n' '\n')
-          echo "list<<EOF" >> $GITHUB_OUTPUT
-          echo "$commits" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          msg="**Nouveaux commits poussés sur \`${GITHUB_REF_NAME}\` :**"$'\n\n'
 
-      - name: Send to Discord
-        run: |
-          payload=$(jq -n '{content: ("**Nouveaux commits poussés sur \`${{ github.ref_name }}\` :**\n\n${{ steps.commits.outputs.list }}")}')
+          while read -r line; do
+            msg="$msg$line"$'\n'
+          done < <(jq -r '.commits[] | "- `\(.id[0:7])` — \(.message | gsub("\n"; " "))"' "$GITHUB_EVENT_PATH")
+
+          jq -n --arg content "$msg" '{content: $content}' > payload.json
 
           curl -H "Content-Type: application/json" \
                -X POST \
-               -d "$payload" \
-               ${{ secrets.DISCORD_WEBHOOK }}
+               -d @payload.json \
+               "${{ secrets.DISCORD_WEBHOOK }}"
