@@ -10,13 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Format commit list
+      - name: Format commit list
         id: commits
         run: |
           commits=$(jq -r '.commits[] | "- `\(.id[0:7])` — \(.message | gsub("\n"; " "))"' $GITHUB_EVENT_PATH)
           echo "list<<EOF" >> $GITHUB_OUTPUT
           echo "$commits" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
+
       - name: Send to Discord
         run: |
           msg="**Nouveaux commits poussés sur \`${GITHUB_REF_NAME}\` :**"$'\n\n'"${{ steps.commits.outputs.list }}"
