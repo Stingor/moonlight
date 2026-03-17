@@ -13,17 +13,16 @@ jobs:
       - name: Format commit list
         id: commits
         run: |
-          commits=$(jq -r '.commits[] | "- `\(.id[0:7])` — \(.message | gsub("\n"; " "))"' $GITHUB_EVENT_PATH)
+          commits=$(jq -r '.commits[] | "- `\(.id[0:7])` — \(.message | gsub("\n"; " "))"' $GITHUB_EVENT_PATH | tr '\n' '\n')
           echo "list<<EOF" >> $GITHUB_OUTPUT
           echo "$commits" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Send to Discord
         run: |
-          msg="**Nouveaux commits poussés sur \`${GITHUB_REF_NAME}\` :**"$'\n\n'"${{ steps.commits.outputs.list }}"
-          json=$(jq -n --arg content "$msg" '{content: $content}')
+          payload=$(jq -n '{content: ("**Nouveaux commits poussés sur \`${{ github.ref_name }}\` :**\n\n${{ steps.commits.outputs.list }}")}')
 
           curl -H "Content-Type: application/json" \
                -X POST \
-               -d "$json" \
+               -d "$payload" \
                ${{ secrets.DISCORD_WEBHOOK }}
