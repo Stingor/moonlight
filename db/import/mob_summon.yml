@@ -34,7 +34,7 @@ Header:
   Version: 1
 
 Body:
-  - Group: BLOODY_DEAD_BRANCH
+  - Group: Bloody_Dead_Branch
     Default: BAPHOMET
     Summon:
       - Mob: MOROCC_
@@ -181,7 +181,7 @@ Body:
         Rate: 400000
       - Mob: ATROCE
         Rate: 400000
-  - Group: BRANCH_OF_DEAD_TREE
+  - Group: Branch_Of_Dead_Tree
     Default: SCORPION
     Summon:
       - Mob: SCORPION
@@ -1106,7 +1106,7 @@ Body:
         Rate: 71428
       - Mob: BRADIUM_GOLEM
         Rate: 71428
-  - Group: CLASSCHANGE
+  - Group: Classchange
     Default: BAPHOMET
     Summon:
       - Mob: OSIRIS
@@ -1157,7 +1157,7 @@ Body:
         Rate: 1000000
       - Mob: TAO_GUNKA
         Rate: 1000000
-  - Group: PORING_BOX
+  - Group: Poring_Box
     Default: PORING
     Summon:
       - Mob: PORING
@@ -1184,7 +1184,7 @@ Body:
         Rate: 1000000
       - Mob: STAPO
         Rate: 1000000
-  - Group: RED_POUCH_OF_SURPRISE
+  - Group: Red_Pouch_Of_Surprise
     Default: PORING
     Summon:
       - Mob: SCORPION
@@ -1847,7 +1847,7 @@ Body:
         Rate: 71428
       - Mob: TEDDY_BEAR
         Rate: 142857
-  - Group: TAEKWON_MISSION
+  - Group: Taekwon_Mission
     Default: SCORPION
     Summon:
       - Mob: SCORPION
