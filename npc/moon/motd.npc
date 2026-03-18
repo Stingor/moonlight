@@ -175,8 +175,9 @@ OnPCLoginEvent:
 				changebase Job_Baby_Rebellion;
 				break;
 			default:
-				changebase roclass(eaclass()|EAJL_THIRD);
-				break;
+					.@3rd = roclass(eaclass()|EAJL_THIRD);
+					if( .@3rd != -1 ) changebase .@3rd;
+					break;
 		}
 	}
 	end;
