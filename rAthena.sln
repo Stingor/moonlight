@@ -90,6 +90,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "yamlupgrade", "src\tool\yam
 		{352B45B3-FE88-4431-9D89-48CF811446DB} = {352B45B3-FE88-4431-9D89-48CF811446DB}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "npc-scripts", "npc\npc-scripts.vcxproj", "{C3D4E5F6-A7B8-9C0D-1E2F-3A4B5C6D7E8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -186,6 +188,10 @@ Global
 		{9115C6D1-520A-4540-B4FE-95F3C923FE2C}.Release|Win32.Build.0 = Release|Win32
 		{9115C6D1-520A-4540-B4FE-95F3C923FE2C}.Release|x64.ActiveCfg = Release|x64
 		{9115C6D1-520A-4540-B4FE-95F3C923FE2C}.Release|x64.Build.0 = Release|x64
+		{C3D4E5F6-A7B8-9C0D-1E2F-3A4B5C6D7E8F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C3D4E5F6-A7B8-9C0D-1E2F-3A4B5C6D7E8F}.Debug|x64.ActiveCfg = Debug|x64
+		{C3D4E5F6-A7B8-9C0D-1E2F-3A4B5C6D7E8F}.Release|Win32.ActiveCfg = Release|Win32
+		{C3D4E5F6-A7B8-9C0D-1E2F-3A4B5C6D7E8F}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
