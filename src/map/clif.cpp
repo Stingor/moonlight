@@ -2225,10 +2225,10 @@ void clif_selllist(struct map_session_data *sd)
 			}
 
 			if( !sd->state.sellstuff && (sd->inventory.u.items_inventory[i].refine > 0 || 
-				itemdb_group_item_exists(IG_SELLSTUFF, sd->inventory_data[i]->nameid)) )
+				itemdb_group.item_exists(IG_SELLSTUFF, sd->inventory_data[i]->nameid)) )
 				continue; // No Refined item and items from group IG_SELLSTUFF not in shop sell list
 
-			if( !sd->state.sellitem && itemdb_group_item_exists(IG_SELLITEM, sd->inventory_data[i]->nameid) ) // Items from group IG_SELLITEM not in shop sell list [Stingor]
+			if( !sd->state.sellitem && itemdb_group.item_exists(IG_SELLITEM, sd->inventory_data[i]->nameid) ) // Items from group IG_SELLITEM not in shop sell list [Stingor]
 				continue;
 			// [Stingor] <--
 

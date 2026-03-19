@@ -2781,6 +2781,7 @@ static void itemdb_read(void) {
 			safesnprintf(dbsubpath2,n1,"%s%s",db_path,dbsubpath[i]);
 		}
 
+		sv_readdb(dbsubpath1, "wing_db.txt",            ',', 2, 2,  -1, &itemdb_read_wings, i > 0); // [Stingor]
 		itemdb_read_combos(dbsubpath2,i > 0); //TODO change this to sv_read ? id#script ?
 		sv_readdb(dbsubpath2, "item_noequip.txt",       ',', 2, 2, -1, &itemdb_read_noequip, i > 0);
 		aFree(dbsubpath1);

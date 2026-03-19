@@ -150,7 +150,7 @@ static bool should_log_item(t_itemid nameid, int amount, int refine)
 		( filter&LOG_FILTER_USABLE && ( id->type == IT_USABLE || id->type == IT_CASH ) ) ||
 		( filter&LOG_FILTER_WEAPON && id->type == IT_WEAPON ) ||
 		( filter&LOG_FILTER_ARMOR && id->type == IT_ARMOR ) ||
-		( filter&LOG_FILTER_CARD && id->type == IT_CARD && itemdb_group_item_exists(IG_MAGICCARDALBUM, id->nameid) ) ||
+		( filter&LOG_FILTER_CARD && id->type == IT_CARD && itemdb_group.item_exists(IG_MAGICCARDALBUM, id->nameid) ) ||
 		( filter&LOG_FILTER_PETITEM && ( id->type == IT_PETEGG || id->type == IT_PETARMOR ) ) ||
 		( filter&LOG_FILTER_PRICE && id->value_buy >= log_config.price_items_log ) ||
 		( filter&LOG_FILTER_AMOUNT && abs(amount) >= log_config.amount_items_log ) ||

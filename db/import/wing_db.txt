@@ -1,0 +1,5 @@
+//ItemID,ViewID,ViewID2
+// 
+// item pour @wings
+38,2998	// ANGEL WINGS - MOON V1
+39,2999	// EVIL WINGS - MOON V1

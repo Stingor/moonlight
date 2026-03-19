@@ -743,6 +743,7 @@ enum e_random_item_group {
 	IG_AUTOLOOTRARE,
 	IG_SELLITEM,
 	IG_SELLSTUFF,
+	IG_WINGS,
 	IG_TOKEN_OF_SIEGFRIED,
 	IG_ENCHANT_STONE_BOX,
 	IG_ENCHANT_STONE_BOX2,
@@ -1094,6 +1095,9 @@ struct item_data* itemdb_exists(t_itemid nameid);
 #define itemdb_dropeffect(n) (itemdb_search(n)->flag.dropEffect)
 const char* itemdb_typename(enum item_types type);
 const char *itemdb_typename_ammo (e_ammo_type ammo);
+
+t_itemid itemdb_searchrandomid(uint16 group_id, uint8 sub_group);
+t_itemid wingsdb_search(t_itemid id); // [Stingor]
 
 #define itemdb_value_buy(n) itemdb_search(n)->value_buy
 #define itemdb_value_sell(n) itemdb_search(n)->value_sell

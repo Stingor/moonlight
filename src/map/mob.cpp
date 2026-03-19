@@ -2222,7 +2222,7 @@ static TIMER_FUNC(mob_delay_item_drop){
 // Check si Item rare Autolootrare.
 bool item_is_rare(int nameid)
 {
-	if( itemdb_iscard(nameid) || itemdb_group_item_exists(IG_AUTOLOOTRARE, nameid) )
+	if( itemdb_iscard(nameid) || itemdb_group.item_exists(IG_AUTOLOOTRARE, nameid) )
 		return true;
 	return false;
 }
