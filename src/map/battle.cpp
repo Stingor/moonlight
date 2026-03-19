@@ -7192,6 +7192,7 @@ struct Damage battle_calc_misc_attack(struct block_list *src,struct block_list *
 				else if (tsd && skill_id == NJ_ZENYNAGE)
 					md.damage = md.damage / 2;
 			break;
+#endif
 #ifdef RENEWAL
 		case NJ_ISSEN:
 			// Official Renewal formula [helvetica]
