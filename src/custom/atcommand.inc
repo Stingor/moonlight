@@ -543,21 +543,25 @@ ACMD_FUNC(shopsearch)
 	int j, count = 0;
 	struct map_session_data *pl_sd;
 	unsigned int MinPrize = battle_config.vending_max_value, MaxPrize = 0;
-	struct item_data *item_data;
 	
 	nullpo_retr(-1, sd);
 
 	memset(item_name, '\0', sizeof(item_name));
 
-	if (!message || !*message || sscanf(message, "%99[^\n]", item_name) < 1) {
+	if( !message || !*message || sscanf(message, "%99[^\n]", item_name) < 1 ) {
 		clif_displaymessage(fd, msg_txt(sd,1830));
 		return -1;
 	}
 
-	if ((item_data = itemdb_searchname(item_name)) == NULL &&
-		(item_data = itemdb_exists(atoi(item_name))) == NULL) {
-			clif_displaymessage(fd, msg_txt(sd,19)); // Invalid item ID or name.
-			return -1;
+	std::shared_ptr<item_data> item = item_db.searchname(item_name);
+
+	if (item == nullptr) {
+		item = item_db.find(strtoul(item_name, nullptr, 10));
+	}
+
+	if (item == nullptr) {
+		clif_displaymessage(fd, msg_txt(sd, 19)); // Invalid item ID or name.
+		return -1;
 	}
 
 	iter = mapit_getallusers();
@@ -566,7 +570,7 @@ ACMD_FUNC(shopsearch)
 		if( pl_sd->vender_id ) {
 			// One player Online and are in the same map and are vending
 			for( j = 0; j < pl_sd->vend_num; j++ ) {
-				if( pl_sd->cart.u.items_cart[pl_sd->vending[j].index].nameid == item_data->nameid ) {
+				if( pl_sd->cart.u.items_cart[pl_sd->vending[j].index].nameid == item->nameid ) {
 					// If the item is the same, it will show this? Computer translations are bad.
 					sprintf(output, "Vendeur: %s | Quantit? %d | Prix: %d | Shop: %s | Coord: %d,%d", pl_sd->status.name, pl_sd->vending[j].amount, pl_sd->vending[j].value,pl_sd->message,pl_sd->bl.x,pl_sd->bl.y);
 					clif_viewpoint(sd, 1, 1, pl_sd->bl.x, pl_sd->bl.y, count+1, 0xFFFFFF);
