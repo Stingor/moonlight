@@ -470,7 +470,7 @@ ACMD_FUNC(stats)
 		int value;
 	} output_table[] = {
 		{ "Castrate - %d", 0 },
-		{ "Delayrate - -%d%% - After Cast Delay", 0 },
+		{ "Delayrate - -%d%% - ACD (35%% soft cap)", 0 },
 		{ "Hprate - %d%% - pourc. de pv en plus", 0 },
 		{ "Sprate - %d%% - pourc. de sp en plus", 0 },
 		{ "HPrecovRate - %d%% - Vitesse de regen pv", 0 },
