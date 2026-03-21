@@ -3006,8 +3006,6 @@ std::string create_item_link(struct item& item, struct item_data* data) {
 		}
 
 		itemstr += closing_tag;
-		if (itemdb_isequip2(data) && data->slots == 0)
-			itemstr += " [" + std::to_string(data->slots) + "]";
 
 		return itemstr;
 #endif
