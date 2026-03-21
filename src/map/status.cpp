@@ -4172,8 +4172,6 @@ int status_calc_pc_sub(struct map_session_data* sd, enum e_status_calc_opt opt)
 	sd->hprate = 100;
 	sd->sprate = 100;
 	sd->castrate = 100;
-	sd->delayrate = 100;
-	sd->delayrate2 = 0; // After cast delay Bonus qui Bypass le cap [Stingor]
 	sd->dsprate = 100;
 	sd->hprecov_rate = 100;
 	sd->sprecov_rate = 100;
@@ -4913,16 +4911,10 @@ int status_calc_pc_sub(struct map_session_data* sd, enum e_status_calc_opt opt)
 		sd->dsprate = 0;
 	if(sd->castrate < 0)
 		sd->castrate = 0;
-	if(sd->delayrate < battle_config.cap_delay_rate) // [Stingor]
-		sd->delayrate = battle_config.cap_delay_rate;
-	if( sd->delayrate2 ) // Bonus item qui bypass le cap delay [Stingor]
-		sd->delayrate += sd->delayrate2;
 	if(sd->hprecov_rate < 0)
 		sd->hprecov_rate = 0;
 	if(sd->sprecov_rate < 0)
 		sd->sprecov_rate = 0;
-	if( pc_get_group_level(sd) >= 80 && battle_config.gm_delay_rate > 0 ) // [Stingor] delay rate reglable pour gm
-		sd->delayrate = battle_config.gm_delay_rate;
 
 	// Anti-element and anti-race
 	if((skill=pc_checkskill(sd,CR_TRUST))>0)

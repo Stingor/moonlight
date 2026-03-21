@@ -3685,11 +3685,13 @@ void pc_bonus(struct map_session_data *sd,int type,int val)
 			break;
 		case SP_DELAYRATE:
 			if(sd->state.lr_flag != 2)
-				sd->delayrate+=val;
+				sd->bonus.delayrate -= val;
+			if (sd->bonus.delayrate > battle_config.cap_delay_rate) // [Stingor]
+				sd->bonus.delayrate = battle_config.cap_delay_rate;
 			break;
-		case SP_DELAYRATE2:
+		case SP_DELAYRATE2: // [Stingor]
 			if(sd->state.lr_flag != 2)
-				sd->delayrate2+=val;
+				sd->bonus.delayrate2 -= val;
 			break;
 		case SP_CRIT_ATK_RATE:
 			if(sd->state.lr_flag != 2)
@@ -9032,8 +9034,13 @@ int64 pc_readparam(struct map_session_data* sd,int64 type)
 		case SP_BREAK_WEAPON_RATE: val = sd->bonus.break_weapon_rate; break;
 		case SP_BREAK_ARMOR_RATE: val = sd->bonus.break_armor_rate; break;
 		case SP_ADD_STEAL_RATE:  val = sd->bonus.add_steal_rate; break;
-		case SP_DELAYRATE:       val = sd->delayrate; break;
-		case SP_DELAYRATE2:       val = sd->delayrate2; break; // [Stingor]
+		case SP_DELAYRATE: {
+			if (sd->bonus.delayrate > battle_config.cap_delay_rate) // [Stingor]
+				sd->bonus.delayrate = battle_config.cap_delay_rate;
+			val = sd->bonus.delayrate;
+			break;
+		}
+		case SP_DELAYRATE2:      val = sd->bonus.delayrate2; break; // [Stingor]
 		case SP_CRIT_ATK_RATE:   val = sd->bonus.crit_atk_rate; break;
 		case SP_UNSTRIPABLE_WEAPON: val = (sd->bonus.unstripable_equip&EQP_WEAPON)?1:0; break;
 		case SP_UNSTRIPABLE:

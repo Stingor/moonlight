@@ -569,7 +569,8 @@ struct map_session_data {
 		unsigned short unbreakable;	// chance to prevent ANY equipment breaking [celest]
 		unsigned short unbreakable_equip; //100% break resistance on certain equipment
 		unsigned short unstripable_equip;
-		int fixcastrate, varcastrate; // n/100
+		int fixcastrate, varcastrate, delayrate; // n/100
+		int delayrate2; // [Stingor]
 		int add_fixcast, add_varcast; // in milliseconds
 		int ematk; // matk bonus from equipment
 		int eatk; // atk bonus from equipment
@@ -579,8 +580,7 @@ struct map_session_data {
 	} bonus;
 	// zeroed vars end here.
 
-	int castrate,delayrate,hprate,sprate,dsprate;
-	int delayrate2; // [Stingor]
+	int castrate,hprate,sprate,dsprate;
 	int hprecov_rate,sprecov_rate;
 	int matk_rate;
 	int critical_rate,hit_rate,flee_rate,flee2_rate,def_rate,def2_rate,mdef_rate,mdef2_rate;

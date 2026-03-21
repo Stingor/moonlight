@@ -500,7 +500,7 @@ ACMD_FUNC(stats)
 
 	//direct array initialization with variables is not standard C compliant.
 	output_table[0].value = sd->castrate;
-	output_table[1].value = sd->delayrate;
+	output_table[1].value = sd->bonus.delayrate + sd->bonus.delayrate2;
 	output_table[2].value = sd->hprate;
 	output_table[3].value = sd->sprate;
 	output_table[4].value = sd->hprecov_rate;
