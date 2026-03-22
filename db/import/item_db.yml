@@ -41992,126 +41992,126 @@ Body:
     SubType: Enchant
     Buy: 20
     Weight: 10
-  -Id: 4769
+  - Id: 4769
     AegisName: Str2_J
     Name: Str + 2
     Type: Card
     SubType: Enchant
     Buy: 20
     Weight: 10
-  -Id: 4770
+  - Id: 4770
     AegisName: Str3_J
     Name: Str + 3
     Type: Card
     SubType: Enchant
     Buy: 20
     Weight: 10
-  -Id: 4771
+  - Id: 4771
     AegisName: Int1_J
     Name: Int + 1
     Type: Card
     SubType: Enchant
     Buy: 20
     Weight: 10
-  -Id: 4772
+  - Id: 4772
     AegisName: Int2_J
     Name: Int + 2
     Type: Card
     SubType: Enchant
     Buy: 20
     Weight: 10
-  -Id: 4773
+  - Id: 4773
     AegisName: Int3_J
     Name: Int + 3
     Type: Card
     SubType: Enchant
     Buy: 20
     Weight: 10
-  -Id: 4774
+  - Id: 4774
     AegisName: Vit1_J
     Name: Vit + 1
     Type: Card
     SubType: Enchant
     Buy: 20
     Weight: 10
-  -Id: 4775
+  - Id: 4775
     AegisName: Vit2_J
     Name: Vit + 2
     Type: Card
     SubType: Enchant
     Buy: 20
     Weight: 10
-  -Id: 4776
+  - Id: 4776
     AegisName: Vit3_J
     Name: Vit + 3
     Type: Card
     SubType: Enchant
     Buy: 20
     Weight: 10
-  -Id: 4777
+  - Id: 4777
     AegisName: Agi1_J
     Name: Agi + 1
     Type: Card
     SubType: Enchant
     Buy: 20
     Weight: 10
-  -Id: 4778
+  - Id: 4778
     AegisName: Agi2_J
     Name: Agi + 2
     Type: Card
     SubType: Enchant
     Buy: 20
     Weight: 10
-  -Id: 4779
+  - Id: 4779
     AegisName: Agi3_J
     Name: Agi + 3
     Type: Card
     SubType: Enchant
     Buy: 20
     Weight: 10
-  -Id: 4780
+  - Id: 4780
     AegisName: Dex1_J
     Name: Dex + 1
     Type: Card
     SubType: Enchant
     Buy: 20
     Weight: 10
-  -Id: 4781
+  - Id: 4781
     AegisName: Dex2_J
     Name: Dex + 2
     Type: Card
     SubType: Enchant
     Buy: 20
     Weight: 10
-  -Id: 4782
+  - Id: 4782
     AegisName: Dex3_J
     Name: Dex + 3
     Type: Card
     SubType: Enchant
     Buy: 20
     Weight: 10
-  -Id: 4783
+  - Id: 4783
     AegisName: Luk1_J
     Name: Luk + 1
     Type: Card
     SubType: Enchant
     Buy: 20
     Weight: 10
-  -Id: 4784
+  - Id: 4784
     AegisName: Luk2_J
     Name: Luk + 2
     Type: Card
     SubType: Enchant
     Buy: 20
     Weight: 10
-  -Id: 4785
+  - Id: 4785
     AegisName: Luk3_J
     Name: Luk + 3
     Type: Card
     SubType: Enchant
     Buy: 20
     Weight: 10
-  -Id: 4786
+  - Id: 4786
     AegisName: Mdef2
     Name: MDEF+2
     Type: Card
@@ -128456,403 +128456,403 @@ Body:
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29311
+  - Id: 29311
     AegisName: Racing_RK_2
     Name: Racing(Rune Knight) 2Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29312
+  - Id: 29312
     AegisName: Racing_RK_3
     Name: Racing(Rune Knight) 3Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29313
+  - Id: 29313
     AegisName: Racing_RG_1
     Name: Racing(Royal Guard) 1Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29314
+  - Id: 29314
     AegisName: Racing_RG_2
     Name: Racing(Royal Guard) 2Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29315
+  - Id: 29315
     AegisName: Racing_RG_3
     Name: Racing(Royal Guard) 3Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29316
+  - Id: 29316
     AegisName: Racing_MC_1
     Name: Racing(Mechanic) 1Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29317
+  - Id: 29317
     AegisName: Racing_MC_2
     Name: Racing(Mechanic) 2Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29318
+  - Id: 29318
     AegisName: Racing_MC_3
     Name: Racing(Mechanic) 3Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29319
+  - Id: 29319
     AegisName: Racing_GN_1
     Name: Racing(Geneticist) 1Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29320
+  - Id: 29320
     AegisName: Racing_GN_2
     Name: Racing(Geneticist) 2Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29321
+  - Id: 29321
     AegisName: Racing_GN_3
     Name: Racing(Geneticist) 3Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29322
+  - Id: 29322
     AegisName: Racing_GC_1
     Name: Racing(Guillotine Cross) 1Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29323
+  - Id: 29323
     AegisName: Racing_GC_2
     Name: Racing(Guillotine Cross) 2Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29324
+  - Id: 29324
     AegisName: Racing_GC_3
     Name: Racing(Guillotine Cross) 3Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29325
+  - Id: 29325
     AegisName: Racing_SC_1
     Name: Racing(Shadow Chaser) 1Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29326
+  - Id: 29326
     AegisName: Racing_SC_2
     Name: Racing(Shadow Chaser) 2Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29327
+  - Id: 29327
     AegisName: Racing_SC_3
     Name: Racing(Shadow Chaser) 3Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29328
+  - Id: 29328
     AegisName: Racing_WL_1
     Name: Racing(Warlock) 1Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29329
+  - Id: 29329
     AegisName: Racing_WL_2
     Name: Racing(Warlock) 2Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29330
+  - Id: 29330
     AegisName: Racing_WL_3
     Name: Racing(Warlock) 3Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29331
+  - Id: 29331
     AegisName: Racing_SO_1
     Name: Racing(Sorcerer) 1Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29332
+  - Id: 29332
     AegisName: Racing_SO_2
     Name: Racing(Sorcerer) 2Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29333
+  - Id: 29333
     AegisName: Racing_SO_3
     Name: Racing(Sorcerer) 3Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29334
+  - Id: 29334
     AegisName: Racing_AB_1
     Name: Racing(Archbishop) 1Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29335
+  - Id: 29335
     AegisName: Racing_AB_2
     Name: Racing(Archbishop) 2Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29336
+  - Id: 29336
     AegisName: Racing_AB_3
     Name: Racing(Archbishop) 3Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29337
+  - Id: 29337
     AegisName: Racing_SR_1
     Name: Racing(Sura) 1Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29338
+  - Id: 29338
     AegisName: Racing_SR_2
     Name: Racing(Sura) 2Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29339
+  - Id: 29339
     AegisName: Racing_SR_3
     Name: Racing(Sura) 3Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29340
+  - Id: 29340
     AegisName: Racing_RA_1
     Name: Racing(Ranger) 1Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29341
+  - Id: 29341
     AegisName: Racing_RA_2
     Name: Racing(Ranger) 2Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29342
+  - Id: 29342
     AegisName: Racing_RA_3
     Name: Racing(Ranger) 3Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29343
+  - Id: 29343
     AegisName: Racing_WM_1
     Name: Racing(Wanderers & Minstrel) 1Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29344
+  - Id: 29344
     AegisName: Racing_WM_2
     Name: Racing(Wanderers & Minstrel) 2Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29345
+  - Id: 29345
     AegisName: Racing_WM_3
     Name: Racing(Wanderers & Minstrel) 3Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29346
+  - Id: 29346
     AegisName: Racing_GS_1
     Name: Racing(Gunslinger) 1Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29347
+  - Id: 29347
     AegisName: Racing_GS_2
     Name: Racing(Gunslinger) 2Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29348
+  - Id: 29348
     AegisName: Racing_GS_3
     Name: Racing(Gunslinger) 3Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29349
+  - Id: 29349
     AegisName: Racing_NJ_1
     Name: Racing(Ninja)1Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29350
+  - Id: 29350
     AegisName: Racing_NJ_2
     Name: Racing(Ninja)2Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29351
+  - Id: 29351
     AegisName: Racing_NJ_3
     Name: Racing(Ninja)3Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29352
+  - Id: 29352
     AegisName: Racing_SN_1
     Name: Racing(Super Novice) 1Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29353
+  - Id: 29353
     AegisName: Racing_SN_2
     Name: Racing(Super Novice) 2Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29354
+  - Id: 29354
     AegisName: Racing_SN_3
     Name: Racing(Super Novice) 3Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29355
+  - Id: 29355
     AegisName: Racing_SU_1
     Name: Racing(Summoner) 1Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29356
+  - Id: 29356
     AegisName: Racing_SU_2
     Name: Racing(Summoner) 2Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29357
+  - Id: 29357
     AegisName: Racing_SU_3
     Name: Racing(Summoner) 3Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29579
+  - Id: 29579
     AegisName: Racing_SG_1
     Name: Racing (Star Gladiator) 1Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29580
+  - Id: 29580
     AegisName: Racing_SG_2
     Name: Racing (Star Gladiator) 2Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29581
+  - Id: 29581
     AegisName: Racing_SG_3
     Name: Racing (Star Gladiator) 3Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29582
+  - Id: 29582
     AegisName: Racing_SL_1
     Name: Racing (Soul Linker) 1Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29583
+  - Id: 29583
     AegisName: Racing_SL_2
     Name: Racing (Soul Linker) 2Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29584
+  - Id: 29584
     AegisName: Racing_SL_3
     Name: Racing (Soul Linker) 3Lv
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29594
+  - Id: 29594
     AegisName: Seyren_Memory
     Name: Seyren's Memory
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29595
+  - Id: 29595
     AegisName: Howard_Memory
     Name: Howard's Memory
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29596
+  - Id: 29596
     AegisName: Eremes_Memory
     Name: Eremes's Memory
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29598
+  - Id: 29598
     AegisName: Catherine_Memory
     Name: Catherine's Memory
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29599
+  - Id: 29599
     AegisName: Margaretha_Memory
     Name: Margaretha's Memory
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29600
+  - Id: 29600
     AegisName: Cecil_Memory
     Name: Cecil's Memory
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29601
+  - Id: 29601
     AegisName: Randel_Memory
     Name: Randel's Memory
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29602
+  - Id: 29602
     AegisName: Flamel_Memory
     Name: Flamel's Memory
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29603
+  - Id: 29603
     AegisName: Gertie_Memory
     Name: Gertie's Memory
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29604
+  - Id: 29604
     AegisName: Celia_Memory
     Name: Celia's Memory
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29605
+  - Id: 29605
     AegisName: Chen_Memory
     Name: Chen's Memory
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29606
+  - Id: 29606
     AegisName: Trentini_Memory
     Name: Trentini's Memory
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29607
+  - Id: 29607
     AegisName: Alphoccio_Memory
     Name: Alphoccio's Memory
     Type: Card
     SubType: Enchant
     Buy: 20
-  - Id:: 29995
+  - Id: 29995
     AegisName: C_Sakura_Fes_TW
     Name: Sakura Festival
     Type: Armor
