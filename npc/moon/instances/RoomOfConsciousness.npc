@@ -175,11 +175,13 @@ OnTimer2200:
 	mobhm('hm,0,'map_name$,109,50,"Enchanted Soldier Skeleton",3447,1, instance_npcname("eq#mir1") + "::OnMobDead");// P_SOLDIER_SKELETON
 	mobhm('hm,0,'map_name$,109,47,"Enchanted Archer Skeleton",3445,1, instance_npcname("eq#mir1") + "::OnMobDead");// P_ARCHER_SKELETON
 	mobhm('hm,0,'map_name$,90,48,"Enchanted Archer Skeleton",3445,1, instance_npcname("eq#mir1") + "::OnMobDead");// P_ARCHER_SKELETON
+	'skeleton_wave[0] = 7;
 	stopnpctimer;
 	end;
 
 OnMobDead:
-	if ( mobcount( 'map_name$, instance_npcname("eq#mir1")+"::OnMobDead" ) < 1 ) {
+	'skeleton_wave[0]--;
+	if ('skeleton_wave[0] == 0) {
 		mapannounce 'map_name$, "Iris: ~Exhales~ Did we knock out all the enemies now?", bc_map,0xFFFF00,FW_NORMAL,12;
 		startnpctimer;
 	}
@@ -196,6 +198,7 @@ OnTimer6200:
 	mobhm('hm,0,'map_name$,109,50,"Enchanted Soldier Skeleton",3447,1, instance_npcname("eq#mir1") + "::OnMobDead2");// P_SOLDIER_SKELETON
 	mobhm('hm,0,'map_name$,109,47,"Enchanted Archer Skeleton",3445,1, instance_npcname("eq#mir1") + "::OnMobDead2");// P_ARCHER_SKELETON
 	mobhm('hm,0,'map_name$,90,48,"Enchanted Archer Skeleton",3445,1, instance_npcname("eq#mir1") + "::OnMobDead2");// P_ARCHER_SKELETON
+	'skeleton_wave[1] = 7;
 	stopnpctimer;
 	end;
 
