@@ -1430,9 +1430,6 @@ static bool pc_isItemClass (struct map_session_data *sd, struct item_data* item)
 		//third-baby classes
 		if (item->class_upper&ITEMJ_THIRD_BABY && sd->class_&JOBL_THIRD && sd->class_&JOBL_BABY)
 			break;
-		//fourth classes
-		if (item->class_upper&ITEMJ_FOURTH && sd->class_&JOBL_FOURTH)
-			break;
 #endif
 		return false;
 	}
@@ -11287,9 +11284,6 @@ bool pc_unequipitem(struct map_session_data *sd, int n, int flag) {
 		skill_enchant_elemental_end(&sd->bl, SC_NONE);
 		status_change_end(&sd->bl, SC_FEARBREEZE, INVALID_TIMER);
 		status_change_end(&sd->bl, SC_EXEEDBREAK, INVALID_TIMER);
-#ifdef RENEWAL
-		status_change_end(&sd->bl, SC_MAXOVERTHRUST, INVALID_TIMER);
-#endif
 	}
 
 	// On armor change
@@ -12432,7 +12426,7 @@ uint64 JobDatabase::parseBodyNode(const YAML::Node &node) {
 				job->hp_factor = hp;
 			} else {
 				if (!exists)
-					job->hp_factor = 20000;
+					job->hp_factor = 0;
 			}
 
 			if (this->nodeExists(node, "HPMultiplicator")) {
