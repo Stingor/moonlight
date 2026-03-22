@@ -41,7 +41,7 @@ Header:
   Version: 1
 
 Body:
-  - Job: JOB_NOVICE
+  - Job: Novice
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -51,7 +51,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_SWORDMAN
+  - Job: Swordman
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -88,7 +88,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_MAGE
+  - Job: Mage
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -146,7 +146,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_ARCHER
+  - Job: Archer
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -177,7 +177,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_ACOLYTE
+  - Job: Acolyte
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -245,7 +245,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_MERCHANT
+  - Job: Merchant
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -292,7 +292,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_THIEF
+  - Job: Thief
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -326,7 +326,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_KNIGHT
+  - Job: Knight
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -427,7 +427,7 @@ Body:
         Requires:
           - Name: KN_TWOHANDQUICKEN
             Level: 10
-  - Job: JOB_PRIEST
+  - Job: Priest
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -585,7 +585,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_WIZARD
+  - Job: Wizard
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -721,7 +721,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_BLACKSMITH
+  - Job: Blacksmith
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -873,7 +873,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_HUNTER
+  - Job: Hunter
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -999,7 +999,7 @@ Body:
         Requires:
           - Name: AC_DOUBLE
             Level: 10
-  - Job: JOB_ASSASSIN
+  - Job: Assassin
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -1085,7 +1085,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_KNIGHT2
+  - Job: Knight2
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -1186,7 +1186,7 @@ Body:
         Requires:
           - Name: KN_TWOHANDQUICKEN
             Level: 10
-  - Job: JOB_CRUSADER
+  - Job: Crusader
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -1314,7 +1314,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_MONK
+  - Job: Monk
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -1471,7 +1471,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_SAGE
+  - Job: Sage
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -1649,7 +1649,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_ROGUE
+  - Job: Rogue
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -1783,7 +1783,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_ALCHEMIST
+  - Job: Alchemist
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -1918,7 +1918,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_BARD
+  - Job: Bard
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -2037,7 +2037,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_DANCER
+  - Job: Dancer
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -2156,7 +2156,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_CRUSADER2
+  - Job: Crusader2
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -2284,7 +2284,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_SUPER_NOVICE
+  - Job: Super_Novice
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -2479,7 +2479,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_GUNSLINGER
+  - Job: Gunslinger
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -2600,7 +2600,7 @@ Body:
             Level: 7
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_NINJA
+  - Job: Ninja
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -2732,7 +2732,7 @@ Body:
             Level: 7
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_NOVICE_HIGH
+  - Job: Novice_High
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -2742,7 +2742,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_SWORDMAN_HIGH
+  - Job: Swordman_High
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -2779,7 +2779,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_MAGE_HIGH
+  - Job: Mage_High
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -2837,7 +2837,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_ARCHER_HIGH
+  - Job: Archer_High
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -2868,7 +2868,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_ACOLYTE_HIGH
+  - Job: Acolyte_High
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -2936,7 +2936,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_MERCHANT_HIGH
+  - Job: Merchant_High
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -2983,7 +2983,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_THIEF_HIGH
+  - Job: Thief_High
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -3017,7 +3017,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_LORD_KNIGHT
+  - Job: Lord_Knight
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -3184,7 +3184,7 @@ Body:
         Requires:
           - Name: KN_TWOHANDQUICKEN
             Level: 10
-  - Job: JOB_HIGH_PRIEST
+  - Job: High_Priest
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -3379,7 +3379,7 @@ Body:
             Level: 10
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_HIGH_WIZARD
+  - Job: High_Wizard
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -3550,7 +3550,7 @@ Body:
             Level: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_WHITESMITH
+  - Job: Whitesmith
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -3743,7 +3743,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_SNIPER
+  - Job: Sniper
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -3903,7 +3903,7 @@ Body:
         Requires:
           - Name: AC_DOUBLE
             Level: 10
-  - Job: JOB_ASSASSIN_CROSS
+  - Job: Assassin_Cross
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -4032,7 +4032,7 @@ Body:
             Level: 10
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_LORD_KNIGHT2
+  - Job: Lord_Knight2
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -4199,7 +4199,7 @@ Body:
         Requires:
           - Name: KN_TWOHANDQUICKEN
             Level: 10
-  - Job: JOB_PALADIN
+  - Job: Paladin
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -4359,7 +4359,7 @@ Body:
             Level: 5
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_CHAMPION
+  - Job: Champion
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -4552,7 +4552,7 @@ Body:
             Level: 5
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_PROFESSOR
+  - Job: Professor
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -4786,7 +4786,7 @@ Body:
             Level: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_STALKER
+  - Job: Stalker
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -4948,7 +4948,7 @@ Body:
             Level: 5
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_CREATOR
+  - Job: Creator
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -5108,7 +5108,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_CLOWN
+  - Job: Clown
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -5269,7 +5269,7 @@ Body:
             Level: 3
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_GYPSY
+  - Job: Gypsy
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -5430,7 +5430,7 @@ Body:
             Level: 3
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_PALADIN2
+  - Job: Paladin2
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -5590,7 +5590,7 @@ Body:
             Level: 5
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_BABY
+  - Job: Baby
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -5602,7 +5602,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLPARENT
         MaxLevel: 1
-  - Job: JOB_BABY_SWORDMAN
+  - Job: Baby_Swordman
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -5641,7 +5641,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLPARENT
         MaxLevel: 1
-  - Job: JOB_BABY_MAGE
+  - Job: Baby_Mage
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -5701,7 +5701,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLPARENT
         MaxLevel: 1
-  - Job: JOB_BABY_ARCHER
+  - Job: Baby_Archer
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -5734,7 +5734,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLPARENT
         MaxLevel: 1
-  - Job: JOB_BABY_ACOLYTE
+  - Job: Baby_Acolyte
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -5804,7 +5804,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLPARENT
         MaxLevel: 1
-  - Job: JOB_BABY_MERCHANT
+  - Job: Baby_Merchant
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -5853,7 +5853,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_BABY_THIEF
+  - Job: Baby_Thief
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -5889,7 +5889,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLPARENT
         MaxLevel: 1
-  - Job: JOB_BABY_KNIGHT
+  - Job: Baby_Knight
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -5992,7 +5992,7 @@ Body:
         Requires:
           - Name: KN_TWOHANDQUICKEN
             Level: 10
-  - Job: JOB_BABY_PRIEST
+  - Job: Baby_Priest
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -6152,7 +6152,7 @@ Body:
             Level: 3
       - Name: PR_REDEMPTIO
         MaxLevel: 1
-  - Job: JOB_BABY_WIZARD
+  - Job: Baby_Wizard
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -6290,7 +6290,7 @@ Body:
         MaxLevel: 1
       - Name: WZ_SIGHTBLASTER
         MaxLevel: 1
-  - Job: JOB_BABY_BLACKSMITH
+  - Job: Baby_Blacksmith
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -6444,7 +6444,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_BABY_HUNTER
+  - Job: Baby_Hunter
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -6572,7 +6572,7 @@ Body:
         Requires:
           - Name: AC_DOUBLE
             Level: 10
-  - Job: JOB_BABY_ASSASSIN
+  - Job: Baby_Assassin
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -6660,7 +6660,7 @@ Body:
         MaxLevel: 1
       - Name: AS_VENOMKNIFE
         MaxLevel: 1
-  - Job: JOB_BABY_KNIGHT2
+  - Job: Baby_Knight2
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -6763,7 +6763,7 @@ Body:
         Requires:
           - Name: KN_TWOHANDQUICKEN
             Level: 10
-  - Job: JOB_BABY_CRUSADER
+  - Job: Baby_Crusader
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -6893,7 +6893,7 @@ Body:
             Level: 10
       - Name: CR_SHRINK
         MaxLevel: 1
-  - Job: JOB_BABY_MONK
+  - Job: Baby_Monk
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -7052,7 +7052,7 @@ Body:
         MaxLevel: 1
       - Name: MO_BALKYOUNG
         MaxLevel: 1
-  - Job: JOB_BABY_SAGE
+  - Job: Baby_Sage
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -7232,7 +7232,7 @@ Body:
         MaxLevel: 1
       - Name: SA_ELEMENTWIND
         MaxLevel: 1
-  - Job: JOB_BABY_ROGUE
+  - Job: Baby_Rogue
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -7368,7 +7368,7 @@ Body:
             Level: 5
       - Name: RG_CLOSECONFINE
         MaxLevel: 1
-  - Job: JOB_BABY_ALCHEMIST
+  - Job: Baby_Alchemist
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -7505,7 +7505,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_BABY_BARD
+  - Job: Baby_Bard
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -7626,7 +7626,7 @@ Body:
             Level: 10
       - Name: BA_PANGVOICE
         MaxLevel: 1
-  - Job: JOB_BABY_DANCER
+  - Job: Baby_Dancer
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -7747,7 +7747,7 @@ Body:
             Level: 10
       - Name: DC_WINKCHARM
         MaxLevel: 1
-  - Job: JOB_BABY_CRUSADER2
+  - Job: Baby_Crusader2
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -7877,7 +7877,7 @@ Body:
             Level: 10
       - Name: CR_SHRINK
         MaxLevel: 1
-  - Job: JOB_SUPER_BABY
+  - Job: Super_Baby
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -8071,7 +8071,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_TAEKWON
+  - Job: Taekwon
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -8138,155 +8138,7 @@ Body:
             Level: 5
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_STAR_GLADIATOR
-    Tree:
-      - Name: NV_BASIC
-        MaxLevel: 9
-      - Name: NV_FIRSTAID
-        MaxLevel: 1
-      - Name: TK_RUN
-        MaxLevel: 10
-      - Name: TK_READYSTORM
-        MaxLevel: 1
-        Requires:
-          - Name: TK_STORMKICK
-            Level: 1
-      - Name: TK_STORMKICK
-        MaxLevel: 7
-      - Name: TK_READYDOWN
-        MaxLevel: 1
-        Requires:
-          - Name: TK_DOWNKICK
-            Level: 1
-      - Name: TK_DOWNKICK
-        MaxLevel: 7
-      - Name: TK_READYTURN
-        MaxLevel: 1
-        Requires:
-          - Name: TK_TURNKICK
-            Level: 1
-      - Name: TK_TURNKICK
-        MaxLevel: 7
-      - Name: TK_READYCOUNTER
-        MaxLevel: 1
-        Requires:
-          - Name: TK_COUNTER
-            Level: 1
-      - Name: TK_COUNTER
-        MaxLevel: 7
-      - Name: TK_DODGE
-        MaxLevel: 1
-        Requires:
-          - Name: TK_JUMPKICK
-            Level: 7
-      - Name: TK_JUMPKICK
-        MaxLevel: 7
-      - Name: TK_HPTIME
-        MaxLevel: 10
-      - Name: TK_SPTIME
-        MaxLevel: 10
-      - Name: TK_POWER
-        MaxLevel: 5
-      - Name: TK_SEVENWIND
-        MaxLevel: 7
-        Requires:
-          - Name: TK_HPTIME
-            Level: 5
-          - Name: TK_POWER
-            Level: 5
-          - Name: TK_SPTIME
-            Level: 5
-      - Name: TK_HIGHJUMP
-        MaxLevel: 5
-      - Name: TK_MISSION
-        MaxLevel: 1
-        Requires:
-          - Name: TK_POWER
-            Level: 5
-      - Name: SG_FEEL
-        MaxLevel: 3
-      - Name: SG_SUN_WARM
-        MaxLevel: 3
-        Requires:
-          - Name: SG_FEEL
-            Level: 1
-      - Name: SG_MOON_WARM
-        MaxLevel: 3
-        Requires:
-          - Name: SG_FEEL
-            Level: 2
-      - Name: SG_STAR_WARM
-        MaxLevel: 3
-        Requires:
-          - Name: SG_FEEL
-            Level: 3
-      - Name: SG_SUN_COMFORT
-        MaxLevel: 4
-        Requires:
-          - Name: SG_FEEL
-            Level: 1
-      - Name: SG_MOON_COMFORT
-        MaxLevel: 4
-        Requires:
-          - Name: SG_FEEL
-            Level: 2
-      - Name: SG_STAR_COMFORT
-        MaxLevel: 4
-        Requires:
-          - Name: SG_FEEL
-            Level: 3
-      - Name: SG_HATE
-        MaxLevel: 3
-      - Name: SG_SUN_ANGER
-        MaxLevel: 3
-        Requires:
-          - Name: SG_HATE
-            Level: 1
-      - Name: SG_MOON_ANGER
-        MaxLevel: 3
-        Requires:
-          - Name: SG_HATE
-            Level: 2
-      - Name: SG_STAR_ANGER
-        MaxLevel: 3
-        Requires:
-          - Name: SG_HATE
-            Level: 3
-      - Name: SG_SUN_BLESS
-        MaxLevel: 5
-        Requires:
-          - Name: SG_FEEL
-            Level: 1
-          - Name: SG_HATE
-            Level: 1
-      - Name: SG_MOON_BLESS
-        MaxLevel: 5
-        Requires:
-          - Name: SG_FEEL
-            Level: 2
-          - Name: SG_HATE
-            Level: 2
-      - Name: SG_STAR_BLESS
-        MaxLevel: 5
-        Requires:
-          - Name: SG_FEEL
-            Level: 3
-          - Name: SG_HATE
-            Level: 3
-      - Name: SG_DEVIL
-        MaxLevel: 10
-      - Name: SG_FRIEND
-        MaxLevel: 3
-      - Name: SG_KNOWLEDGE
-        MaxLevel: 10
-      - Name: SG_FUSION
-        MaxLevel: 1
-        Requires:
-          - Name: SG_KNOWLEDGE
-            Level: 9
-      - Name: WE_CALLBABY
-        MaxLevel: 1
-  - Job: JOB_STAR_GLADIATOR2
+  - Job: Star_Gladiator
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -8434,7 +8286,155 @@ Body:
             Level: 9
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_SOUL_LINKER
+  - Job: Star_Gladiator2
+    Tree:
+      - Name: NV_BASIC
+        MaxLevel: 9
+      - Name: NV_FIRSTAID
+        MaxLevel: 1
+      - Name: TK_RUN
+        MaxLevel: 10
+      - Name: TK_READYSTORM
+        MaxLevel: 1
+        Requires:
+          - Name: TK_STORMKICK
+            Level: 1
+      - Name: TK_STORMKICK
+        MaxLevel: 7
+      - Name: TK_READYDOWN
+        MaxLevel: 1
+        Requires:
+          - Name: TK_DOWNKICK
+            Level: 1
+      - Name: TK_DOWNKICK
+        MaxLevel: 7
+      - Name: TK_READYTURN
+        MaxLevel: 1
+        Requires:
+          - Name: TK_TURNKICK
+            Level: 1
+      - Name: TK_TURNKICK
+        MaxLevel: 7
+      - Name: TK_READYCOUNTER
+        MaxLevel: 1
+        Requires:
+          - Name: TK_COUNTER
+            Level: 1
+      - Name: TK_COUNTER
+        MaxLevel: 7
+      - Name: TK_DODGE
+        MaxLevel: 1
+        Requires:
+          - Name: TK_JUMPKICK
+            Level: 7
+      - Name: TK_JUMPKICK
+        MaxLevel: 7
+      - Name: TK_HPTIME
+        MaxLevel: 10
+      - Name: TK_SPTIME
+        MaxLevel: 10
+      - Name: TK_POWER
+        MaxLevel: 5
+      - Name: TK_SEVENWIND
+        MaxLevel: 7
+        Requires:
+          - Name: TK_HPTIME
+            Level: 5
+          - Name: TK_POWER
+            Level: 5
+          - Name: TK_SPTIME
+            Level: 5
+      - Name: TK_HIGHJUMP
+        MaxLevel: 5
+      - Name: TK_MISSION
+        MaxLevel: 1
+        Requires:
+          - Name: TK_POWER
+            Level: 5
+      - Name: SG_FEEL
+        MaxLevel: 3
+      - Name: SG_SUN_WARM
+        MaxLevel: 3
+        Requires:
+          - Name: SG_FEEL
+            Level: 1
+      - Name: SG_MOON_WARM
+        MaxLevel: 3
+        Requires:
+          - Name: SG_FEEL
+            Level: 2
+      - Name: SG_STAR_WARM
+        MaxLevel: 3
+        Requires:
+          - Name: SG_FEEL
+            Level: 3
+      - Name: SG_SUN_COMFORT
+        MaxLevel: 4
+        Requires:
+          - Name: SG_FEEL
+            Level: 1
+      - Name: SG_MOON_COMFORT
+        MaxLevel: 4
+        Requires:
+          - Name: SG_FEEL
+            Level: 2
+      - Name: SG_STAR_COMFORT
+        MaxLevel: 4
+        Requires:
+          - Name: SG_FEEL
+            Level: 3
+      - Name: SG_HATE
+        MaxLevel: 3
+      - Name: SG_SUN_ANGER
+        MaxLevel: 3
+        Requires:
+          - Name: SG_HATE
+            Level: 1
+      - Name: SG_MOON_ANGER
+        MaxLevel: 3
+        Requires:
+          - Name: SG_HATE
+            Level: 2
+      - Name: SG_STAR_ANGER
+        MaxLevel: 3
+        Requires:
+          - Name: SG_HATE
+            Level: 3
+      - Name: SG_SUN_BLESS
+        MaxLevel: 5
+        Requires:
+          - Name: SG_FEEL
+            Level: 1
+          - Name: SG_HATE
+            Level: 1
+      - Name: SG_MOON_BLESS
+        MaxLevel: 5
+        Requires:
+          - Name: SG_FEEL
+            Level: 2
+          - Name: SG_HATE
+            Level: 2
+      - Name: SG_STAR_BLESS
+        MaxLevel: 5
+        Requires:
+          - Name: SG_FEEL
+            Level: 3
+          - Name: SG_HATE
+            Level: 3
+      - Name: SG_DEVIL
+        MaxLevel: 10
+      - Name: SG_FRIEND
+        MaxLevel: 3
+      - Name: SG_KNOWLEDGE
+        MaxLevel: 10
+      - Name: SG_FUSION
+        MaxLevel: 1
+        Requires:
+          - Name: SG_KNOWLEDGE
+            Level: 9
+      - Name: WE_CALLBABY
+        MaxLevel: 1
+  - Job: Soul_Linker
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -8616,7 +8616,7 @@ Body:
             Level: 5
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_GANGSI
+  - Job: Gangsi
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -8624,7 +8624,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_DEATH_KNIGHT
+  - Job: Death_Knight
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -8632,7 +8632,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_DARK_COLLECTOR
+  - Job: Dark_Collector
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -8640,7 +8640,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CALLBABY
         MaxLevel: 1
-  - Job: JOB_RUNE_KNIGHT
+  - Job: Rune_Knight
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -8806,7 +8806,7 @@ Body:
             Level: 2
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_WARLOCK
+  - Job: Warlock
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -9062,7 +9062,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_RANGER
+  - Job: Ranger
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -9303,7 +9303,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_ARCH_BISHOP
+  - Job: Arch_Bishop
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -9568,7 +9568,7 @@ Body:
             Level: 2
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_MECHANIC
+  - Job: Mechanic
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -9867,7 +9867,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_GUILLOTINE_CROSS
+  - Job: Guillotine_Cross
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -10048,7 +10048,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_RUNE_KNIGHT_T
+  - Job: Rune_Knight_T
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -10279,7 +10279,7 @@ Body:
             Level: 2
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_WARLOCK_T
+  - Job: Warlock_T
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -10570,7 +10570,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_RANGER_T
+  - Job: Ranger_T
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -10845,7 +10845,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_ARCH_BISHOP_T
+  - Job: Arch_Bishop_T
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -11147,7 +11147,7 @@ Body:
             Level: 2
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_MECHANIC_T
+  - Job: Mechanic_T
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -11487,7 +11487,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_GUILLOTINE_CROSS_T
+  - Job: Guillotine_Cross_T
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -11711,7 +11711,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_ROYAL_GUARD
+  - Job: Royal_Guard
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -11947,7 +11947,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_SORCERER
+  - Job: Sorcerer
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -12286,7 +12286,7 @@ Body:
             Level: 3
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_MINSTREL
+  - Job: Minstrel
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -12537,7 +12537,7 @@ Body:
             Level: 2
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_WANDERER
+  - Job: Wanderer
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -12788,7 +12788,7 @@ Body:
             Level: 2
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_SURA
+  - Job: Sura
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -13071,7 +13071,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_GENETIC
+  - Job: Genetic
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -13286,7 +13286,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_SHADOW_CHASER
+  - Job: Shadow_Chaser
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -13547,7 +13547,7 @@ Body:
             Level: 2
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_ROYAL_GUARD_T
+  - Job: Royal_Guard_T
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -13815,7 +13815,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_SORCERER_T
+  - Job: Sorcerer_T
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -14210,7 +14210,7 @@ Body:
             Level: 3
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_MINSTREL_T
+  - Job: Minstrel_T
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -14503,7 +14503,7 @@ Body:
             Level: 2
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_WANDERER_T
+  - Job: Wanderer_T
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -14796,7 +14796,7 @@ Body:
             Level: 2
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_SURA_T
+  - Job: Sura_T
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -15115,7 +15115,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_GENETIC_T
+  - Job: Genetic_T
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -15355,7 +15355,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_SHADOW_CHASER_T
+  - Job: Shadow_Chaser_T
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -15644,7 +15644,7 @@ Body:
             Level: 2
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_RUNE_KNIGHT2
+  - Job: Rune_Knight2
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -15810,7 +15810,7 @@ Body:
             Level: 2
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_RUNE_KNIGHT_T2
+  - Job: Rune_Knight_T2
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -16041,7 +16041,7 @@ Body:
             Level: 2
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_ROYAL_GUARD2
+  - Job: Royal_Guard2
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -16277,7 +16277,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_ROYAL_GUARD_T2
+  - Job: Royal_Guard_T2
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -16545,7 +16545,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_RANGER2
+  - Job: Ranger2
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -16786,7 +16786,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_RANGER_T2
+  - Job: Ranger_T2
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -17061,7 +17061,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_MECHANIC2
+  - Job: Mechanic2
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -17360,7 +17360,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_MECHANIC_T2
+  - Job: Mechanic_T2
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -17700,7 +17700,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_BABY_RUNE_KNIGHT
+  - Job: Baby_Rune_Knight
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -17868,7 +17868,7 @@ Body:
             Level: 2
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_BABY_WARLOCK
+  - Job: Baby_Warlock
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -18126,7 +18126,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_BABY_RANGER
+  - Job: Baby_Ranger
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -18369,7 +18369,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_BABY_ARCH_BISHOP
+  - Job: Baby_Arch_Bishop
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -18636,7 +18636,7 @@ Body:
             Level: 2
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_BABY_MECHANIC
+  - Job: Baby_Mechanic
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -18937,7 +18937,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_BABY_GUILLOTINE_CROSS
+  - Job: Baby_Guillotine_Cross
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -19120,7 +19120,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_BABY_ROYAL_GUARD
+  - Job: Baby_Royal_Guard
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -19358,7 +19358,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_BABY_SORCERER
+  - Job: Baby_Sorcerer
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -19699,7 +19699,7 @@ Body:
             Level: 3
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_BABY_MINSTREL
+  - Job: Baby_Minstrel
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -19952,7 +19952,7 @@ Body:
             Level: 2
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_BABY_WANDERER
+  - Job: Baby_Wanderer
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -20205,7 +20205,7 @@ Body:
             Level: 2
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_BABY_SURA
+  - Job: Baby_Sura
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -20490,7 +20490,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_BABY_GENETIC
+  - Job: Baby_Genetic
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -20707,7 +20707,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_BABY_SHADOW_CHASER
+  - Job: Baby_Shadow_Chaser
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -20970,7 +20970,7 @@ Body:
             Level: 2
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_BABY_RUNE_KNIGHT2
+  - Job: Baby_Rune_Knight2
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -21138,7 +21138,7 @@ Body:
             Level: 2
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_BABY_ROYAL_GUARD2
+  - Job: Baby_Royal_Guard2
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -21376,7 +21376,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_BABY_RANGER2
+  - Job: Baby_Ranger2
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -21619,7 +21619,7 @@ Body:
             Level: 5
       - Name: ALL_FULL_THROTTLE
         MaxLevel: 5
-  - Job: JOB_BABY_MECHANIC2
+  - Job: Baby_Mechanic2
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -21920,7 +21920,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_SUPER_NOVICE_E
+  - Job: Super_Novice_E
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -22249,7 +22249,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_SUPER_BABY_E
+  - Job: Super_Baby_E
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -22577,7 +22577,7 @@ Body:
             Level: 1
       - Name: MC_CARTDECORATE
         MaxLevel: 1
-  - Job: JOB_KAGEROU
+  - Job: Kagerou
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -22824,7 +22824,7 @@ Body:
         Requires:
           - Name: KG_KYOMU
             Level: 3
-  - Job: JOB_OBORO
+  - Job: Oboro
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -23071,7 +23071,7 @@ Body:
         Requires:
           - Name: OB_ZANGETSU
             Level: 2
-  - Job: JOB_REBELLION
+  - Job: Rebellion
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -23290,7 +23290,7 @@ Body:
             Level: 3
           - Name: RL_RICHS_COIN
             Level: 1
-  - Job: JOB_BABY_NINJA
+  - Job: Baby_Ninja
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -23426,7 +23426,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CHEERUP
         MaxLevel: 1
-  - Job: JOB_BABY_KAGEROU
+  - Job: Baby_Kagerou
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -23677,7 +23677,7 @@ Body:
             Level: 3
       - Name: WE_CHEERUP
         MaxLevel: 1
-  - Job: JOB_BABY_OBORO
+  - Job: Baby_Oboro
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -23928,7 +23928,7 @@ Body:
             Level: 2
       - Name: WE_CHEERUP
         MaxLevel: 1
-  - Job: JOB_BABY_TAEKWON
+  - Job: Baby_Taekwon
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -23999,7 +23999,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CHEERUP
         MaxLevel: 1
-  - Job: JOB_BABY_STAR_GLADIATOR
+  - Job: Baby_Star_Gladiator
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -24151,7 +24151,7 @@ Body:
             Level: 9
       - Name: WE_CHEERUP
         MaxLevel: 1
-  - Job: JOB_BABY_SOUL_LINKER
+  - Job: Baby_Soul_Linker
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -24337,7 +24337,7 @@ Body:
             Level: 1
       - Name: WE_CHEERUP
         MaxLevel: 1
-  - Job: JOB_BABY_GUNSLINGER
+  - Job: Baby_Gunslinger
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -24462,7 +24462,7 @@ Body:
         MaxLevel: 1
       - Name: WE_CHEERUP
         MaxLevel: 1
-  - Job: JOB_BABY_REBELLION
+  - Job: Baby_Rebellion
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
@@ -24685,7 +24685,7 @@ Body:
             Level: 3
       - Name: WE_CHEERUP
         MaxLevel: 1
-  - Job: JOB_BABY_STAR_GLADIATOR2
+  - Job: Baby_Star_Gladiator2
     Tree:
       - Name: NV_BASIC
         MaxLevel: 9
