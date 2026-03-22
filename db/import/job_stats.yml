@@ -108,8 +108,8 @@ Body:
   - Jobs:
       Swordman: true
     MaxWeight: 28000
-    HpFactor: 70
-    SpFactor: 200
+    HPFactor: 70
+    SPFactor: 200
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -161,8 +161,8 @@ Body:
   - Jobs:
       Mage: true
     MaxWeight: 22000
-    HpFactor: 30
-    SpFactor: 600
+    HPFactor: 30
+    SPFactor: 600
     BaseASPD:
       Fist: 500
       Dagger: 600
@@ -208,8 +208,8 @@ Body:
   - Jobs:
       Archer: true
     MaxWeight: 26000
-    HpFactor: 50
-    SpFactor: 200
+    HPFactor: 50
+    SPFactor: 200
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -254,8 +254,8 @@ Body:
   - Jobs:
       Acolyte: true
     MaxWeight: 24000
-    HpFactor: 40
-    SpFactor: 500
+    HPFactor: 40
+    SPFactor: 500
     BaseASPD:
       Fist: 400
       Mace: 600
@@ -302,8 +302,8 @@ Body:
   - Jobs:
       Merchant: true
     MaxWeight: 28000
-    HpFactor: 40
-    SpFactor: 300
+    HPFactor: 40
+    SPFactor: 300
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -352,8 +352,8 @@ Body:
   - Jobs:
       Thief: true
     MaxWeight: 24000
-    HpFactor: 50
-    SpFactor: 200
+    HPFactor: 50
+    SPFactor: 200
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -401,8 +401,8 @@ Body:
       Knight: true
       Knight2: true
     MaxWeight: 28000
-    HpFactor: 150
-    SpFactor: 300
+    HPFactor: 150
+    SPFactor: 300
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -478,8 +478,8 @@ Body:
   - Jobs:
       Priest: true
     MaxWeight: 26000
-    HpFactor: 75
-    SpFactor: 800
+    HPFactor: 75
+    SPFactor: 800
     BaseASPD:
       Fist: 400
       Mace: 600
@@ -551,8 +551,8 @@ Body:
   - Jobs:
       Wizard: true
     MaxWeight: 24000
-    HpFactor: 55
-    SpFactor: 900
+    HPFactor: 55
+    SPFactor: 900
     BaseASPD:
       Fist: 500
       Dagger: 575
@@ -622,8 +622,8 @@ Body:
   - Jobs:
       Blacksmith: true
     MaxWeight: 30000
-    HpFactor: 90
-    SpFactor: 400
+    HPFactor: 90
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -696,8 +696,8 @@ Body:
   - Jobs:
       Hunter: true
     MaxWeight: 27000
-    HpFactor: 85
-    SpFactor: 400
+    HPFactor: 85
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -766,8 +766,8 @@ Body:
   - Jobs:
       Assassin: true
     MaxWeight: 24000
-    HpFactor: 110
-    SpFactor: 400
+    HPFactor: 110
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -839,9 +839,9 @@ Body:
       Crusader: true
       Crusader2: true
     MaxWeight: 28000
-    HpFactor: 110
-    HpMultiplicator: 700
-    SpFactor: 470
+    HPFactor: 110
+    HPMultiplicator: 700
+    SPFactor: 470
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -917,9 +917,9 @@ Body:
   - Jobs:
       Monk: true
     MaxWeight: 26000
-    HpFactor: 90
-    HpMultiplicator: 650
-    SpFactor: 470
+    HPFactor: 90
+    HPMultiplicator: 650
+    SPFactor: 470
     BaseASPD:
       Fist: 400
       Mace: 575
@@ -991,8 +991,8 @@ Body:
   - Jobs:
       Sage: true
     MaxWeight: 24000
-    HpFactor: 75
-    SpFactor: 700
+    HPFactor: 75
+    SPFactor: 700
     BaseASPD:
       Fist: 450
       Dagger: 525
@@ -1063,8 +1063,8 @@ Body:
   - Jobs:
       Rogue: true
     MaxWeight: 24000
-    HpFactor: 85
-    SpFactor: 500
+    HPFactor: 85
+    SPFactor: 500
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -1134,8 +1134,8 @@ Body:
   - Jobs:
       Alchemist: true
     MaxWeight: 30000
-    HpFactor: 90
-    SpFactor: 400
+    HPFactor: 90
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 550
@@ -1208,9 +1208,9 @@ Body:
   - Jobs:
       Bard: true
     MaxWeight: 27000
-    HpFactor: 75
-    HpMultiplicator: 300
-    SpFactor: 600
+    HPFactor: 75
+    HPMultiplicator: 300
+    SPFactor: 600
     BaseASPD:
       Fist: 400
       Dagger: 550
@@ -1280,9 +1280,9 @@ Body:
   - Jobs:
       Dancer: true
     MaxWeight: 27000
-    HpFactor: 75
-    HpMultiplicator: 300
-    SpFactor: 600
+    HPFactor: 75
+    HPMultiplicator: 300
+    SPFactor: 600
     BaseASPD:
       Fist: 400
       Dagger: 550
@@ -1424,9 +1424,9 @@ Body:
   - Jobs:
       Gunslinger: true
     MaxWeight: 28000
-    HpFactor: 89
-    HpMultiplicator: 0
-    SpFactor: 469
+    HPFactor: 89
+    HPMultiplicator: 0
+    SPFactor: 469
     BaseASPD:
       Fist: 500
       Revolver: 700
@@ -1486,9 +1486,9 @@ Body:
   - Jobs:
       Ninja: true
     MaxWeight: 26000
-    HpFactor: 80
-    HpMultiplicator: 0
-    SpFactor: 540
+    HPFactor: 80
+    HPMultiplicator: 0
+    SPFactor: 540
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -1571,8 +1571,8 @@ Body:
   - Jobs:
       Swordman_High: true
     MaxWeight: 28000
-    HpFactor: 70
-    SpFactor: 200
+    HPFactor: 70
+    SPFactor: 200
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -1624,8 +1624,8 @@ Body:
   - Jobs:
       Mage_High: true
     MaxWeight: 22000
-    HpFactor: 30
-    SpFactor: 600
+    HPFactor: 30
+    SPFactor: 600
     BaseASPD:
       Fist: 500
       Dagger: 600
@@ -1671,8 +1671,8 @@ Body:
   - Jobs:
       Archer_High: true
     MaxWeight: 26000
-    HpFactor: 50
-    SpFactor: 200
+    HPFactor: 50
+    SPFactor: 200
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -1717,8 +1717,8 @@ Body:
   - Jobs:
       Acolyte_High: true
     MaxWeight: 24000
-    HpFactor: 40
-    SpFactor: 500
+    HPFactor: 40
+    SPFactor: 500
     BaseASPD:
       Fist: 400
       Mace: 600
@@ -1765,8 +1765,8 @@ Body:
   - Jobs:
       Merchant_High: true
     MaxWeight: 28000
-    HpFactor: 40
-    SpFactor: 300
+    HPFactor: 40
+    SPFactor: 300
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -1815,8 +1815,8 @@ Body:
   - Jobs:
       Thief_High: true
     MaxWeight: 24000
-    HpFactor: 50
-    SpFactor: 200
+    HPFactor: 50
+    SPFactor: 200
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -1864,8 +1864,8 @@ Body:
       Lord_Knight: true
       Lord_Knight2: true
     MaxWeight: 28000
-    HpFactor: 150
-    SpFactor: 300
+    HPFactor: 150
+    SPFactor: 300
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -1971,8 +1971,8 @@ Body:
   - Jobs:
       High_Priest: true
     MaxWeight: 26000
-    HpFactor: 75
-    SpFactor: 800
+    HPFactor: 75
+    SPFactor: 800
     BaseASPD:
       Fist: 400
       Mace: 600
@@ -2074,8 +2074,8 @@ Body:
   - Jobs:
       High_Wizard: true
     MaxWeight: 24000
-    HpFactor: 55
-    SpFactor: 900
+    HPFactor: 55
+    SPFactor: 900
     BaseASPD:
       Fist: 500
       Dagger: 575
@@ -2175,8 +2175,8 @@ Body:
   - Jobs:
       Whitesmith: true
     MaxWeight: 30000
-    HpFactor: 90
-    SpFactor: 400
+    HPFactor: 90
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -2279,8 +2279,8 @@ Body:
   - Jobs:
       Sniper: true
     MaxWeight: 27000
-    HpFactor: 85
-    SpFactor: 400
+    HPFactor: 85
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -2379,8 +2379,8 @@ Body:
   - Jobs:
       Assassin_Cross: true
     MaxWeight: 24000
-    HpFactor: 110
-    SpFactor: 400
+    HPFactor: 110
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -2482,9 +2482,9 @@ Body:
       Paladin: true
       Paladin2: true
     MaxWeight: 28000
-    HpFactor: 110
-    HpMultiplicator: 700
-    SpFactor: 470
+    HPFactor: 110
+    HPMultiplicator: 700
+    SPFactor: 470
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -2590,9 +2590,9 @@ Body:
   - Jobs:
       Champion: true
     MaxWeight: 26000
-    HpFactor: 90
-    HpMultiplicator: 650
-    SpFactor: 470
+    HPFactor: 90
+    HPMultiplicator: 650
+    SPFactor: 470
     BaseASPD:
       Fist: 400
       Mace: 575
@@ -2694,8 +2694,8 @@ Body:
   - Jobs:
       Professor: true
     MaxWeight: 24000
-    HpFactor: 75
-    SpFactor: 700
+    HPFactor: 75
+    SPFactor: 700
     BaseASPD:
       Fist: 450
       Dagger: 525
@@ -2796,8 +2796,8 @@ Body:
   - Jobs:
       Stalker: true
     MaxWeight: 24000
-    HpFactor: 85
-    SpFactor: 500
+    HPFactor: 85
+    SPFactor: 500
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -2897,8 +2897,8 @@ Body:
   - Jobs:
       Creator: true
     MaxWeight: 30000
-    HpFactor: 90
-    SpFactor: 400
+    HPFactor: 90
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 550
@@ -3001,9 +3001,9 @@ Body:
   - Jobs:
       Clown: true
     MaxWeight: 27000
-    HpFactor: 75
-    HpMultiplicator: 300
-    SpFactor: 600
+    HPFactor: 75
+    HPMultiplicator: 300
+    SPFactor: 600
     BaseASPD:
       Fist: 400
       Dagger: 550
@@ -3103,9 +3103,9 @@ Body:
   - Jobs:
       Gypsy: true
     MaxWeight: 27000
-    HpFactor: 75
-    HpMultiplicator: 300
-    SpFactor: 600
+    HPFactor: 75
+    HPMultiplicator: 300
+    SPFactor: 600
     BaseASPD:
       Fist: 400
       Dagger: 550
@@ -3216,8 +3216,8 @@ Body:
   - Jobs:
       Baby_Swordman: true
     MaxWeight: 28000
-    HpFactor: 70
-    SpFactor: 200
+    HPFactor: 70
+    SPFactor: 200
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -3269,8 +3269,8 @@ Body:
   - Jobs:
       Baby_Mage: true
     MaxWeight: 22000
-    HpFactor: 30
-    SpFactor: 600
+    HPFactor: 30
+    SPFactor: 600
     BaseASPD:
       Fist: 500
       Dagger: 600
@@ -3316,8 +3316,8 @@ Body:
   - Jobs:
       Baby_Archer: true
     MaxWeight: 26000
-    HpFactor: 50
-    SpFactor: 200
+    HPFactor: 50
+    SPFactor: 200
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -3362,8 +3362,8 @@ Body:
   - Jobs:
       Baby_Acolyte: true
     MaxWeight: 24000
-    HpFactor: 40
-    SpFactor: 500
+    HPFactor: 40
+    SPFactor: 500
     BaseASPD:
       Fist: 400
       Mace: 600
@@ -3410,8 +3410,8 @@ Body:
   - Jobs:
       Baby_Merchant: true
     MaxWeight: 28000
-    HpFactor: 40
-    SpFactor: 300
+    HPFactor: 40
+    SPFactor: 300
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -3460,8 +3460,8 @@ Body:
   - Jobs:
       Baby_Thief: true
     MaxWeight: 24000
-    HpFactor: 50
-    SpFactor: 200
+    HPFactor: 50
+    SPFactor: 200
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -3509,8 +3509,8 @@ Body:
       Baby_Knight: true
       Baby_Knight2: true
     MaxWeight: 28000
-    HpFactor: 150
-    SpFactor: 300
+    HPFactor: 150
+    SPFactor: 300
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -3586,8 +3586,8 @@ Body:
   - Jobs:
       Baby_Priest: true
     MaxWeight: 26000
-    HpFactor: 75
-    SpFactor: 800
+    HPFactor: 75
+    SPFactor: 800
     BaseASPD:
       Fist: 400
       Mace: 600
@@ -3659,8 +3659,8 @@ Body:
   - Jobs:
       Baby_Wizard: true
     MaxWeight: 24000
-    HpFactor: 55
-    SpFactor: 900
+    HPFactor: 55
+    SPFactor: 900
     BaseASPD:
       Fist: 500
       Dagger: 575
@@ -3730,8 +3730,8 @@ Body:
   - Jobs:
       Baby_Blacksmith: true
     MaxWeight: 30000
-    HpFactor: 90
-    SpFactor: 400
+    HPFactor: 90
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -3804,8 +3804,8 @@ Body:
   - Jobs:
       Baby_Hunter: true
     MaxWeight: 27000
-    HpFactor: 85
-    SpFactor: 400
+    HPFactor: 85
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -3874,8 +3874,8 @@ Body:
   - Jobs:
       Baby_Assassin: true
     MaxWeight: 24000
-    HpFactor: 110
-    SpFactor: 400
+    HPFactor: 110
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -3947,9 +3947,9 @@ Body:
       Baby_Crusader: true
       Baby_Crusader2: true
     MaxWeight: 28000
-    HpFactor: 110
-    HpMultiplicator: 700
-    SpFactor: 470
+    HPFactor: 110
+    HPMultiplicator: 700
+    SPFactor: 470
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -4025,9 +4025,9 @@ Body:
   - Jobs:
       Baby_Monk: true
     MaxWeight: 26000
-    HpFactor: 90
-    HpMultiplicator: 650
-    SpFactor: 470
+    HPFactor: 90
+    HPMultiplicator: 650
+    SPFactor: 470
     BaseASPD:
       Fist: 400
       Mace: 575
@@ -4099,8 +4099,8 @@ Body:
   - Jobs:
       Baby_Sage: true
     MaxWeight: 24000
-    HpFactor: 75
-    SpFactor: 700
+    HPFactor: 75
+    SPFactor: 700
     BaseASPD:
       Fist: 450
       Dagger: 525
@@ -4171,8 +4171,8 @@ Body:
   - Jobs:
       Baby_Rogue: true
     MaxWeight: 24000
-    HpFactor: 85
-    SpFactor: 500
+    HPFactor: 85
+    SPFactor: 500
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -4242,8 +4242,8 @@ Body:
   - Jobs:
       Baby_Alchemist: true
     MaxWeight: 30000
-    HpFactor: 90
-    SpFactor: 400
+    HPFactor: 90
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 550
@@ -4316,9 +4316,9 @@ Body:
   - Jobs:
       Baby_Bard: true
     MaxWeight: 27000
-    HpFactor: 75
-    HpMultiplicator: 300
-    SpFactor: 600
+    HPFactor: 75
+    HPMultiplicator: 300
+    SPFactor: 600
     BaseASPD:
       Fist: 400
       Dagger: 550
@@ -4388,9 +4388,9 @@ Body:
   - Jobs:
       Baby_Dancer: true
     MaxWeight: 27000
-    HpFactor: 75
-    HpMultiplicator: 300
-    SpFactor: 600
+    HPFactor: 75
+    HPMultiplicator: 300
+    SPFactor: 600
     BaseASPD:
       Fist: 400
       Dagger: 550
@@ -4532,8 +4532,8 @@ Body:
   - Jobs:
       Taekwon: true
     MaxWeight: 28000
-    HpFactor: 70
-    SpFactor: 200
+    HPFactor: 70
+    SPFactor: 200
     BaseASPD:
       Fist: 400
     BonusStats:
@@ -4577,9 +4577,9 @@ Body:
       Star_Gladiator: true
       Star_Gladiator2: true
     MaxWeight: 28000
-    HpFactor: 90
-    HpMultiplicator: 650
-    SpFactor: 470
+    HPFactor: 90
+    HPMultiplicator: 650
+    SPFactor: 470
     BaseASPD:
       Fist: 400
       Book: 500
@@ -4648,7 +4648,7 @@ Body:
       Soul_Linker: true
     MaxWeight: 24000
     HPFactor: 75
-    SpFactor: 900
+    SPFactor: 900
     BaseASPD:
       Fist: 500
       Dagger: 575
@@ -4718,8 +4718,8 @@ Body:
   - Jobs:
       Gangsi: true
     MaxWeight: 24000
-    HpFactor: 40
-    SpFactor: 500
+    HPFactor: 40
+    SPFactor: 500
     BaseASPD:
       Fist: 400
       Mace: 600
@@ -4729,8 +4729,8 @@ Body:
   - Jobs:
       Death_Knight: true
     MaxWeight: 28000
-    HpFactor: 150
-    SpFactor: 300
+    HPFactor: 150
+    SPFactor: 300
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -4745,8 +4745,8 @@ Body:
   - Jobs:
       Dark_Collector: true
     MaxWeight: 24000
-    HpFactor: 75
-    SpFactor: 700
+    HPFactor: 75
+    SPFactor: 700
     BaseASPD:
       Fist: 450
       Dagger: 525
@@ -4756,8 +4756,8 @@ Body:
   - Jobs:
       Rune_Knight: true
     MaxWeight: 28000
-    HpFactor: 150
-    SpFactor: 300
+    HPFactor: 150
+    SPFactor: 300
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -4772,8 +4772,8 @@ Body:
   - Jobs:
       Warlock: true
     MaxWeight: 24000
-    HpFactor: 55
-    SpFactor: 900
+    HPFactor: 55
+    SPFactor: 900
     BaseASPD:
       Fist: 500
       Dagger: 575
@@ -4782,8 +4782,8 @@ Body:
   - Jobs:
       Ranger: true
     MaxWeight: 27000
-    HpFactor: 85
-    SpFactor: 400
+    HPFactor: 85
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -4791,8 +4791,8 @@ Body:
   - Jobs:
       Arch_Bishop: true
     MaxWeight: 26000
-    HpFactor: 75
-    SpFactor: 800
+    HPFactor: 75
+    SPFactor: 800
     BaseASPD:
       Fist: 400
       Mace: 600
@@ -4803,8 +4803,8 @@ Body:
   - Jobs:
       Mechanic: true
     MaxWeight: 30000
-    HpFactor: 90
-    SpFactor: 400
+    HPFactor: 90
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -4816,8 +4816,8 @@ Body:
   - Jobs:
       Guillotine_Cross: true
     MaxWeight: 24000
-    HpFactor: 110
-    SpFactor: 400
+    HPFactor: 110
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -4827,8 +4827,8 @@ Body:
   - Jobs:
       Rune_Knight_T: true
     MaxWeight: 28000
-    HpFactor: 150
-    SpFactor: 300
+    HPFactor: 150
+    SPFactor: 300
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -4843,8 +4843,8 @@ Body:
   - Jobs:
       Warlock_T: true
     MaxWeight: 24000
-    HpFactor: 55
-    SpFactor: 900
+    HPFactor: 55
+    SPFactor: 900
     BaseASPD:
       Fist: 500
       Dagger: 575
@@ -4853,8 +4853,8 @@ Body:
   - Jobs:
       Ranger_T: true
     MaxWeight: 27000
-    HpFactor: 85
-    SpFactor: 400
+    HPFactor: 85
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -4862,8 +4862,8 @@ Body:
   - Jobs:
       Arch_Bishop_T: true
     MaxWeight: 26000
-    HpFactor: 75
-    SpFactor: 800
+    HPFactor: 75
+    SPFactor: 800
     BaseASPD:
       Fist: 400
       Mace: 600
@@ -4874,8 +4874,8 @@ Body:
   - Jobs:
       Mechanic_T: true
     MaxWeight: 30000
-    HpFactor: 90
-    SpFactor: 400
+    HPFactor: 90
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -4887,8 +4887,8 @@ Body:
   - Jobs:
       Guillotine_Cross_T: true
     MaxWeight: 24000
-    HpFactor: 110
-    SpFactor: 400
+    HPFactor: 110
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -4898,9 +4898,9 @@ Body:
   - Jobs:
       Royal_Guard: true
     MaxWeight: 28000
-    HpFactor: 110
-    HpMultiplicator: 700
-    SpFactor: 470
+    HPFactor: 110
+    HPMultiplicator: 700
+    SPFactor: 470
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -4915,8 +4915,8 @@ Body:
   - Jobs:
       Sorcerer: true
     MaxWeight: 24000
-    HpFactor: 75
-    SpFactor: 700
+    HPFactor: 75
+    SPFactor: 700
     BaseASPD:
       Fist: 450
       Dagger: 525
@@ -4926,9 +4926,9 @@ Body:
   - Jobs:
       Minstrel: true
     MaxWeight: 27000
-    HpFactor: 75
-    HpMultiplicator: 300
-    SpFactor: 600
+    HPFactor: 75
+    HPMultiplicator: 300
+    SPFactor: 600
     BaseASPD:
       Fist: 400
       Dagger: 550
@@ -4937,9 +4937,9 @@ Body:
   - Jobs:
       Wanderer: true
     MaxWeight: 27000
-    HpFactor: 75
-    HpMultiplicator: 300
-    SpFactor: 600
+    HPFactor: 75
+    HPMultiplicator: 300
+    SPFactor: 600
     BaseASPD:
       Fist: 400
       Dagger: 550
@@ -4948,9 +4948,9 @@ Body:
   - Jobs:
       Sura: true
     MaxWeight: 26000
-    HpFactor: 90
-    HpMultiplicator: 650
-    SpFactor: 470
+    HPFactor: 90
+    HPMultiplicator: 650
+    SPFactor: 470
     BaseASPD:
       Fist: 400
       Mace: 575
@@ -4961,8 +4961,8 @@ Body:
   - Jobs:
       Genetic: true
     MaxWeight: 30000
-    HpFactor: 90
-    SpFactor: 400
+    HPFactor: 90
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 550
@@ -4974,8 +4974,8 @@ Body:
   - Jobs:
       Shadow_Chaser: true
     MaxWeight: 24000
-    HpFactor: 85
-    SpFactor: 500
+    HPFactor: 85
+    SPFactor: 500
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -4984,9 +4984,9 @@ Body:
   - Jobs:
       Royal_Guard_T: true
     MaxWeight: 28000
-    HpFactor: 110
-    HpMultiplicator: 700
-    SpFactor: 470
+    HPFactor: 110
+    HPMultiplicator: 700
+    SPFactor: 470
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -5001,8 +5001,8 @@ Body:
   - Jobs:
       Sorcerer_T: true
     MaxWeight: 24000
-    HpFactor: 75
-    SpFactor: 700
+    HPFactor: 75
+    SPFactor: 700
     BaseASPD:
       Fist: 450
       Dagger: 525
@@ -5012,9 +5012,9 @@ Body:
   - Jobs:
       Minstrel_T: true
     MaxWeight: 27000
-    HpFactor: 75
-    HpMultiplicator: 300
-    SpFactor: 600
+    HPFactor: 75
+    HPMultiplicator: 300
+    SPFactor: 600
     BaseASPD:
       Fist: 400
       Dagger: 550
@@ -5023,9 +5023,9 @@ Body:
   - Jobs:
       Wanderer_T: true
     MaxWeight: 27000
-    HpFactor: 75
-    HpMultiplicator: 300
-    SpFactor: 600
+    HPFactor: 75
+    HPMultiplicator: 300
+    SPFactor: 600
     BaseASPD:
       Fist: 400
       Dagger: 550
@@ -5034,9 +5034,9 @@ Body:
   - Jobs:
       Sura_T: true
     MaxWeight: 26000
-    HpFactor: 90
-    HpMultiplicator: 650
-    SpFactor: 470
+    HPFactor: 90
+    HPMultiplicator: 650
+    SPFactor: 470
     BaseASPD:
       Fist: 400
       Mace: 575
@@ -5047,8 +5047,8 @@ Body:
   - Jobs:
       Genetic_T: true
     MaxWeight: 30000
-    HpFactor: 90
-    SpFactor: 400
+    HPFactor: 90
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 550
@@ -5060,8 +5060,8 @@ Body:
   - Jobs:
       Shadow_Chaser_T: true
     MaxWeight: 24000
-    HpFactor: 85
-    SpFactor: 500
+    HPFactor: 85
+    SPFactor: 500
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -5070,8 +5070,8 @@ Body:
   - Jobs:
       Rune_Knight2: true
     MaxWeight: 28000
-    HpFactor: 150
-    SpFactor: 300
+    HPFactor: 150
+    SPFactor: 300
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -5086,8 +5086,8 @@ Body:
   - Jobs:
       Rune_Knight_T2: true
     MaxWeight: 28000
-    HpFactor: 150
-    SpFactor: 300
+    HPFactor: 150
+    SPFactor: 300
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -5102,9 +5102,9 @@ Body:
   - Jobs:
       Royal_Guard2: true
     MaxWeight: 28000
-    HpFactor: 110
-    HpMultiplicator: 700
-    SpFactor: 470
+    HPFactor: 110
+    HPMultiplicator: 700
+    SPFactor: 470
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -5119,9 +5119,9 @@ Body:
   - Jobs:
       Royal_Guard_T2: true
     MaxWeight: 28000
-    HpFactor: 110
-    HpMultiplicator: 700
-    SpFactor: 470
+    HPFactor: 110
+    HPMultiplicator: 700
+    SPFactor: 470
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -5136,8 +5136,8 @@ Body:
   - Jobs:
       Ranger2: true
     MaxWeight: 27000
-    HpFactor: 85
-    SpFactor: 400
+    HPFactor: 85
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -5145,8 +5145,8 @@ Body:
   - Jobs:
       Ranger_T2: true
     MaxWeight: 27000
-    HpFactor: 85
-    SpFactor: 400
+    HPFactor: 85
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -5154,8 +5154,8 @@ Body:
   - Jobs:
       Mechanic2: true
     MaxWeight: 30000
-    HpFactor: 90
-    SpFactor: 400
+    HPFactor: 90
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -5167,8 +5167,8 @@ Body:
   - Jobs:
       Mechanic_T2: true
     MaxWeight: 30000
-    HpFactor: 90
-    SpFactor: 400
+    HPFactor: 90
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -5180,8 +5180,8 @@ Body:
   - Jobs:
       Baby_Rune_Knight: true
     MaxWeight: 28000
-    HpFactor: 150
-    SpFactor: 300
+    HPFactor: 150
+    SPFactor: 300
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -5196,8 +5196,8 @@ Body:
   - Jobs:
       Baby_Warlock: true
     MaxWeight: 24000
-    HpFactor: 55
-    SpFactor: 900
+    HPFactor: 55
+    SPFactor: 900
     BaseASPD:
       Fist: 500
       Dagger: 575
@@ -5206,8 +5206,8 @@ Body:
   - Jobs:
       Baby_Ranger: true
     MaxWeight: 27000
-    HpFactor: 85
-    SpFactor: 400
+    HPFactor: 85
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -5215,8 +5215,8 @@ Body:
   - Jobs:
       Baby_Arch_Bishop: true
     MaxWeight: 26000
-    HpFactor: 75
-    SpFactor: 800
+    HPFactor: 75
+    SPFactor: 800
     BaseASPD:
       Fist: 400
       Mace: 600
@@ -5227,8 +5227,8 @@ Body:
   - Jobs:
       Baby_Mechanic: true
     MaxWeight: 30000
-    HpFactor: 90
-    SpFactor: 400
+    HPFactor: 90
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -5240,8 +5240,8 @@ Body:
   - Jobs:
       Baby_Guillotine_Cross: true
     MaxWeight: 24000
-    HpFactor: 110
-    SpFactor: 400
+    HPFactor: 110
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -5251,9 +5251,9 @@ Body:
   - Jobs:
       Baby_Royal_Guard: true
     MaxWeight: 28000
-    HpFactor: 110
-    HpMultiplicator: 700
-    SpFactor: 470
+    HPFactor: 110
+    HPMultiplicator: 700
+    SPFactor: 470
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -5268,8 +5268,8 @@ Body:
   - Jobs:
       Baby_Sorcerer: true
     MaxWeight: 24000
-    HpFactor: 75
-    SpFactor: 700
+    HPFactor: 75
+    SPFactor: 700
     BaseASPD:
       Fist: 450
       Dagger: 525
@@ -5279,9 +5279,9 @@ Body:
   - Jobs:
       Baby_Minstrel: true
     MaxWeight: 27000
-    HpFactor: 75
-    HpMultiplicator: 300
-    SpFactor: 600
+    HPFactor: 75
+    HPMultiplicator: 300
+    SPFactor: 600
     BaseASPD:
       Fist: 400
       Dagger: 550
@@ -5290,9 +5290,9 @@ Body:
   - Jobs:
       Baby_Wanderer: true
     MaxWeight: 27000
-    HpFactor: 75
-    HpMultiplicator: 300
-    SpFactor: 600
+    HPFactor: 75
+    HPMultiplicator: 300
+    SPFactor: 600
     BaseASPD:
       Fist: 400
       Dagger: 550
@@ -5301,9 +5301,9 @@ Body:
   - Jobs:
       Baby_Sura: true
     MaxWeight: 26000
-    HpFactor: 90
-    HpMultiplicator: 650
-    SpFactor: 470
+    HPFactor: 90
+    HPMultiplicator: 650
+    SPFactor: 470
     BaseASPD:
       Fist: 400
       Mace: 575
@@ -5314,8 +5314,8 @@ Body:
   - Jobs:
       Baby_Genetic: true
     MaxWeight: 30000
-    HpFactor: 90
-    SpFactor: 400
+    HPFactor: 90
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 550
@@ -5327,8 +5327,8 @@ Body:
   - Jobs:
       Baby_Shadow_Chaser: true
     MaxWeight: 24000
-    HpFactor: 85
-    SpFactor: 500
+    HPFactor: 85
+    SPFactor: 500
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -5337,8 +5337,8 @@ Body:
   - Jobs:
       Baby_Rune_Knight2: true
     MaxWeight: 28000
-    HpFactor: 150
-    SpFactor: 300
+    HPFactor: 150
+    SPFactor: 300
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -5353,9 +5353,9 @@ Body:
   - Jobs:
       Baby_Royal_Guard2: true
     MaxWeight: 28000
-    HpFactor: 110
-    HpMultiplicator: 700
-    SpFactor: 470
+    HPFactor: 110
+    HPMultiplicator: 700
+    SPFactor: 470
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -5370,8 +5370,8 @@ Body:
   - Jobs:
       Baby_Ranger2: true
     MaxWeight: 27000
-    HpFactor: 85
-    SpFactor: 400
+    HPFactor: 85
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -5379,8 +5379,8 @@ Body:
   - Jobs:
       Baby_Mechanic2: true
     MaxWeight: 30000
-    HpFactor: 90
-    SpFactor: 400
+    HPFactor: 90
+    SPFactor: 400
     BaseASPD:
       Fist: 400
       Dagger: 600
@@ -5414,9 +5414,9 @@ Body:
   - Jobs:
       Kagerou: true
     MaxWeight: 26000
-    HpFactor: 80
-    HpMultiplicator: 0
-    SpFactor: 540
+    HPFactor: 80
+    HPMultiplicator: 0
+    SPFactor: 540
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -5424,9 +5424,9 @@ Body:
   - Jobs:
       Oboro: true
     MaxWeight: 26000
-    HpFactor: 80
-    HpMultiplicator: 0
-    SpFactor: 540
+    HPFactor: 80
+    HPMultiplicator: 0
+    SPFactor: 540
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -5434,9 +5434,9 @@ Body:
   - Jobs:
       Rebellion: true
     MaxWeight: 28000
-    HpFactor: 90
-    HpMultiplicator: 650
-    SpFactor: 469
+    HPFactor: 90
+    HPMultiplicator: 650
+    SPFactor: 469
     BaseASPD:
       Fist: 540
       Revolver: 480
@@ -5459,9 +5459,9 @@ Body:
   - Jobs:
       Baby_Ninja: true
     MaxWeight: 26000
-    HpFactor: 80
-    HpMultiplicator: 0
-    SpFactor: 540
+    HPFactor: 80
+    HPMultiplicator: 0
+    SPFactor: 540
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -5469,9 +5469,9 @@ Body:
   - Jobs:
       Baby_Kagerou: true
     MaxWeight: 26000
-    HpFactor: 80
-    HpMultiplicator: 0
-    SpFactor: 540
+    HPFactor: 80
+    HPMultiplicator: 0
+    SPFactor: 540
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -5479,9 +5479,9 @@ Body:
   - Jobs:
       Baby_Oboro: true
     MaxWeight: 26000
-    HpFactor: 80
-    HpMultiplicator: 0
-    SpFactor: 540
+    HPFactor: 80
+    HPMultiplicator: 0
+    SPFactor: 540
     BaseASPD:
       Fist: 400
       Dagger: 500
@@ -5489,24 +5489,24 @@ Body:
   - Jobs:
       Baby_Taekwon: true
     MaxWeight: 28000
-    HpFactor: 70
-    SpFactor: 200
+    HPFactor: 70
+    SPFactor: 200
     BaseASPD:
       Fist: 400
   - Jobs:
       Baby_Star_Gladiator: true
     MaxWeight: 28000
-    HpFactor: 90
-    HpMultiplicator: 650
-    SpFactor: 470
+    HPFactor: 90
+    HPMultiplicator: 650
+    SPFactor: 470
     BaseASPD:
       Fist: 400
       Book: 500
   - Jobs:
       Baby_Soul_Linker: true
     MaxWeight: 24000
-    HpFactor: 75
-    SpFactor: 900
+    HPFactor: 75
+    SPFactor: 900
     BaseASPD:
       Fist: 500
       Dagger: 575
@@ -5515,9 +5515,9 @@ Body:
   - Jobs:
       Baby_Gunslinger: true
     MaxWeight: 28000
-    HpFactor: 89
-    HpMultiplicator: 0
-    SpFactor: 469
+    HPFactor: 89
+    HPMultiplicator: 0
+    SPFactor: 469
     BaseASPD:
       Fist: 500
       Revolver: 700
@@ -5528,9 +5528,9 @@ Body:
   - Jobs:
       Baby_Rebellion: true
     MaxWeight: 28000
-    HpFactor: 89
-    HpMultiplicator: 0
-    SpFactor: 469
+    HPFactor: 89
+    HPMultiplicator: 0
+    SPFactor: 469
     BaseASPD:
       Fist: 500
       Revolver: 700
@@ -5541,9 +5541,9 @@ Body:
   - Jobs:
       Baby_Star_Gladiator2: true
     MaxWeight: 28000
-    HpFactor: 90
-    HpMultiplicator: 650
-    SpFactor: 470
+    HPFactor: 90
+    HPMultiplicator: 650
+    SPFactor: 470
     BaseASPD:
       Fist: 400
       Book: 500
