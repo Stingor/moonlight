@@ -23,7 +23,6 @@
 	int emp_heal_hp;
 	int emp_sanctu_hp;
 	int emp_potionpitch_hp;
-	int disable_edp_berserk;
 	int pvp_gtb_nerf;
 	int cap_delay_rate;
 	int gm_delay_rate;

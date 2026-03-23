@@ -24,7 +24,6 @@
 	{ "emp_heal_hp",						&battle_config.emp_heal_hp,						2,		0,		10,				},
 	{ "emp_sanctu_hp",						&battle_config.emp_sanctu_hp,					5,		0,		20,				},
 	{ "emp_potionpitch_hp",					&battle_config.emp_potionpitch_hp,				1,		0,		10,				},
-	{ "disable_edp_berserk",				&battle_config.disable_edp_berserk,				1,		0,		1,				},
 	{ "gm_aspd",							&battle_config.gm_aspd,							190,    100,    199,			},
 	{ "pvp_gtb_nerf",						&battle_config.pvp_gtb_nerf,					40,		0,		100,			},
 	{ "gtb_dispell_nerf",					&battle_config.gtb_dispell_nerf,				0,		0,		1,				},
