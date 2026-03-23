@@ -796,7 +796,7 @@ ACMD_FUNC(who) {
 					case 2: {
 						StringBuf_Printf(&buf, msg_txt(sd,343), pl_sd->status.name, ""); // "Name: %s%s "
 						if (pc_get_group_id(pl_sd) > 0) // Player title, if exists
-							StringBuf_Printf(&buf, msg_txt(sd,344), pc_group_id2name(pc_get_group_id(pl_sd))); // "(%s) "
+							StringBuf_Printf(&buf, msg_txt(sd,344), pl_sd->group->name.c_str()); // "(%s) "
 						StringBuf_Printf(&buf, msg_txt(sd,347), pl_sd->status.base_level, pl_sd->status.job_level,
 							job_name(pl_sd->status.class_)); // "| Lv:%d/%d | Job: %s"
 						break;
@@ -806,7 +806,7 @@ ACMD_FUNC(who) {
 							StringBuf_Printf(&buf, msg_txt(sd,912), pl_sd->status.char_id, pl_sd->status.account_id);	// "(CID:%d/AID:%d) "
 						StringBuf_Printf(&buf, msg_txt(sd,343), pl_sd->status.name, ""); // "Name: %s%s "
 						if (pc_get_group_id(pl_sd) > 0) // Player title, if exists
-							StringBuf_Printf(&buf, msg_txt(sd,344), pc_group_id2name(pc_get_group_id(pl_sd))); // "(%s) "
+							StringBuf_Printf(&buf, msg_txt(sd,344), pl_sd->group->name.c_str()); // "(%s) "
 						StringBuf_Printf(&buf, msg_txt(sd,348), mapindex_id2name(pl_sd->mapindex), pl_sd->bl.x, pl_sd->bl.y); // "| Location: %s %d %d"
 						break;
 					}
@@ -816,7 +816,7 @@ ACMD_FUNC(who) {
 								
 						StringBuf_Printf(&buf, msg_txt(sd,343), pl_sd->status.name, ""); // "Name: %s%s "
 						if (pc_get_group_id(pl_sd) > 0) // Player title, if exists
-							StringBuf_Printf(&buf, msg_txt(sd,344), pc_group_id2name(pc_get_group_id(pl_sd))); // "(%s) "
+							StringBuf_Printf(&buf, msg_txt(sd,344), pl_sd->group->name.c_str()); // "(%s) "
 						if (p != NULL)
 							StringBuf_Printf(&buf, msg_txt(sd,345), p->party.name); // " | Party: '%s'"
 						if (g != NULL)
@@ -845,7 +845,7 @@ ACMD_FUNC(who) {
 						case 2: {
 							StringBuf_Printf(&buf, msg_txt(sd,343), pl_sd->status.name, " (Shop)"); // "Name: %s%s "
 							if (pc_get_group_id(pl_sd) > 0) // Player title, if exists
-								StringBuf_Printf(&buf, msg_txt(sd,344), pc_group_id2name(pc_get_group_id(pl_sd))); // "(%s) "
+								StringBuf_Printf(&buf, msg_txt(sd,344), pl_sd->group->name.c_str()); // "(%s) "
 							StringBuf_Printf(&buf, msg_txt(sd,347), pl_sd->status.base_level, pl_sd->status.job_level,
 								job_name(pl_sd->status.class_)); // "| Lv:%d/%d | Job: %s"
 							break;
@@ -855,7 +855,7 @@ ACMD_FUNC(who) {
 								StringBuf_Printf(&buf, msg_txt(sd,912), pl_sd->status.char_id, pl_sd->status.account_id);	// "(CID:%d/AID:%d) "
 							StringBuf_Printf(&buf, msg_txt(sd,343), pl_sd->status.name, " (Shop)"); // "Name: %s%s "
 							if (pc_get_group_id(pl_sd) > 0) // Player title, if exists
-								StringBuf_Printf(&buf, msg_txt(sd,344), pc_group_id2name(pc_get_group_id(pl_sd))); // "(%s) "
+								StringBuf_Printf(&buf, msg_txt(sd,344), pl_sd->group->name.c_str()); // "(%s) "
 							StringBuf_Printf(&buf, msg_txt(sd,348), mapindex_id2name(pl_sd->mapindex), pl_sd->bl.x, pl_sd->bl.y); // "| Location: %s %d %d"
 							break;
 						}
@@ -865,7 +865,7 @@ ACMD_FUNC(who) {
 									
 							StringBuf_Printf(&buf, msg_txt(sd,343), pl_sd->status.name, " (Shop)"); // "Name: %s%s "
 							if (pc_get_group_id(pl_sd) > 0) // Player title, if exists
-								StringBuf_Printf(&buf, msg_txt(sd,344), pc_group_id2name(pc_get_group_id(pl_sd))); // "(%s) "
+								StringBuf_Printf(&buf, msg_txt(sd,344), pl_sd->group->name.c_str()); // "(%s) "
 							if (p != NULL)
 								StringBuf_Printf(&buf, msg_txt(sd,345), p->party.name); // " | Party: '%s'"
 							if (g != NULL)
