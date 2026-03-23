@@ -75,7 +75,7 @@
 
 Header:
   Type: MOB_DB
-  Version: 2
+  Version: 3
 
 Body:
   - Id: 1001

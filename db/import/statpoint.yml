@@ -28,7 +28,7 @@
 
 Header:
   Type: STATPOINT_DB
-  Version: 1
+  Version: 2
 
 Body:
   - Level: 1
