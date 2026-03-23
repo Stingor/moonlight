@@ -9263,9 +9263,15 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 			return 0;
 	}
 
+	sd = BL_CAST(BL_PC, bl);
+
+	// [Stingor] temps SPIRIT indexe sur le level du buffer pendant woe
+	int skilltime = skill_get_time(skill_id, skill_lv);
+	if (sd && is_agit_start())
+		duration = (sd->status.base_level * 580 < skilltime / 3 ? skilltime / 3 : sd->status.base_level * 580);
+
 	int tick = (int)duration;
 
-	sd = BL_CAST(BL_PC, bl);
 	vd = status_get_viewdata(bl);
 
 	undead_flag = battle_check_undead(status->race,status->def_ele);
