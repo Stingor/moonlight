@@ -47,7 +47,7 @@
 
 #ifndef INVENTORY_EXPANSION_SIZE
 	#if PACKETVER_MAIN_NUM >= 20181031 || PACKETVER_RE_NUM >= 20181031 || PACKETVER_ZERO_NUM >= 20181114
-		#define INVENTORY_EXPANSION_SIZE 100 // Amount of additional inventory slots a player can have
+		#define INVENTORY_EXPANSION_SIZE 200 // Amount of additional inventory slots a player can have
 	#else
 		#define INVENTORY_EXPANSION_SIZE 0
 	#endif
