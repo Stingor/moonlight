@@ -44,9 +44,3 @@
 Header:
   Type: BARTER_DB
   Version: 1
-
-Footer:
-  Imports:
-  - Path: npc/rathena/merchants/barters.yml
-    Mode: Renewal
-  - Path: npc/moon/barters.yml
