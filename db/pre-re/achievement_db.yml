@@ -1336,25 +1336,25 @@ Body:
   - Id: 128032
     Group: Battle
     Name: Haggard sucker
-    Targets:
-     - Id: 0
-       Mob: MG_AMDARAIS_H
+    # Targets:
+     # - Id: 0
+       # Mob: MG_AMDARAIS_H
     Score: 10
   - Id: 128033
     Group: Battle
     Name: Hope of the Knight
-    Targets:
-     - Id: 0
-       Mob: MG_AMDARAIS_H
-       Count: 10
+    # Targets:
+     # - Id: 0
+       # Mob: MG_AMDARAIS_H
+       # Count: 10
     Score: 20
   - Id: 128034
     Group: Battle
     Name: Guardian of the Dawn
-    Targets:
-     - Id: 0
-       Mob: MG_AMDARAIS_H
-       Count: 50
+    # Targets:
+     # - Id: 0
+       # Mob: MG_AMDARAIS_H
+       # Count: 50
     Score: 50
   - Id: 128035
     Group: Battle
@@ -1389,9 +1389,9 @@ Body:
   - Id: 128039
     Group: Battle
     Name: Show Jailbreak to the weak captain
-    Targets:
-     - Id: 0
-       Mob: E2_FELOCK
+    # Targets:
+     # - Id: 0
+       # Mob: E2_FELOCK
     Score: 10
   - Id: 128040
     Group: Battle
@@ -1419,10 +1419,10 @@ Body:
   - Id: 128043
     Group: Battle
     Name: Revolt of Riot
-    Targets:
-     - Id: 0
-       Mob: E2_FELOCK
-       Count: 50
+    # Targets:
+     # - Id: 0
+       # Mob: E2_FELOCK
+       # Count: 50
     Score: 50
   - Id: 128044
     Group: Battle
