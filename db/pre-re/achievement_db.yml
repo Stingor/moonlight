@@ -1262,190 +1262,190 @@ Body:
   - Id: 128022
     Group: Battle
     Name: There was mercy in Morocc army
-    #Targets:
-    #  - Id: 0
-    #    Mob: EP14_MORS_BOSSB
+    Targets:
+     - Id: 0
+       Mob: EP14_MORS_BOSSB
     Score: 10
   - Id: 128023
     Group: Battle
     Name: There was fear in Morocc army
-    #Targets:
-    #  - Id: 0
-    #    Mob: EP14_MORS_BOSSB
-    #    Count: 10
+    Targets:
+     - Id: 0
+       Mob: EP14_MORS_BOSSB
+       Count: 10
     Score: 20
   - Id: 128024
     Group: Battle
     Name: Guard of weak army
-    #Targets:
-    #  - Id: 0
-    #    Mob: EP14_MORS_BOSSB
-    #    Count: 50
+    Targets:
+     - Id: 0
+       Mob: EP14_MORS_BOSSB
+       Count: 50
     Score: 50
   - Id: 128025
     Group: Battle
     Name: Audience with the queen
-    #Targets:
-    #  - Id: 0
-    #    Mob: FACEWORM_QUEEN
+    Targets:
+     - Id: 0
+       Mob: FACEWORM_QUEEN
     Score: 10
   - Id: 128026
     Group: Battle
     Name: Warm earth
-    #Targets:
-    #  - Id: 0
-    #    Mob: FACEWORM_QUEEN_G
+    Targets:
+     - Id: 0
+       Mob: FACEWORM_QUEEN_G
     Score: 10
   - Id: 128027
     Group: Battle
     Name: Water is very good exactly
-    #Targets:
-    #  - Id: 0
-    #    Mob: FACEWORM_QUEEN_B
+    Targets:
+     - Id: 0
+       Mob: FACEWORM_QUEEN_B
     Score: 10
   - Id: 128028
     Group: Battle
     Name: Pleasant breeze
-    #Targets:
-    #  - Id: 0
-    #    Mob: FACEWORM_QUEEN_Y
+    Targets:
+     - Id: 0
+       Mob: FACEWORM_QUEEN_Y
     Score: 10
   - Id: 128029
     Group: Battle
     Name: Visitor of old castle
-    #Targets:
-    #  - Id: 0
-    #    Mob: MG_AMDARAIS
+    Targets:
+     - Id: 0
+       Mob: MG_AMDARAIS
     Score: 10
   - Id: 128030
     Group: Battle
     Name: Lord of old castle
-    #Targets:
-    #  - Id: 0
-    #    Mob: MG_AMDARAIS
-    #    Count: 10
+    Targets:
+     - Id: 0
+       Mob: MG_AMDARAIS
+       Count: 10
     Score: 20
   - Id: 128031
     Group: Battle
     Name: Conqueror of old castle
-    #Targets:
-    #  - Id: 0
-    #    Mob: MG_AMDARAIS
-    #    Count: 50
+    Targets:
+     - Id: 0
+       Mob: MG_AMDARAIS
+       Count: 50
     Score: 50
   - Id: 128032
     Group: Battle
     Name: Haggard sucker
-    #Targets:
-    #  - Id: 0
-    #    Mob: MG_AMDARAIS_H
+    Targets:
+     - Id: 0
+       Mob: MG_AMDARAIS_H
     Score: 10
   - Id: 128033
     Group: Battle
     Name: Hope of the Knight
-    #Targets:
-    #  - Id: 0
-    #    Mob: MG_AMDARAIS_H
-    #    Count: 10
+    Targets:
+     - Id: 0
+       Mob: MG_AMDARAIS_H
+       Count: 10
     Score: 20
   - Id: 128034
     Group: Battle
     Name: Guardian of the Dawn
-    #Targets:
-    #  - Id: 0
-    #    Mob: MG_AMDARAIS_H
-    #    Count: 50
+    Targets:
+     - Id: 0
+       Mob: MG_AMDARAIS_H
+       Count: 50
     Score: 50
   - Id: 128035
     Group: Battle
     Name: Time Traveler
-    #Targets:
-    #  - Id: 0
-    #    Mob: MM_SARAH
+    Targets:
+     - Id: 0
+       Mob: MM_SARAH
     Score: 10
   - Id: 128036
     Group: Battle
     Name: Restore ancient relic
-    #Targets:
-    #  - Id: 0
-    #    Mob: MM_SARAH
-    #    Count: 10
+    Targets:
+     - Id: 0
+       Mob: MM_SARAH
+       Count: 10
     Score: 20
   - Id: 128037
     Group: Battle
     Name: Master of relic transport
-    #Targets:
-    #  - Id: 0
-    #    Mob: MM_SARAH
-    #    Count: 50
+    Targets:
+     - Id: 0
+       Mob: MM_SARAH
+       Count: 50
     Score: 50
   - Id: 128038
     Group: Battle
     Name: Show Jailbreak to the captain
-    #Targets:
-    #  - Id: 0
-    #    Mob: E1_FELOCK
+    Targets:
+     - Id: 0
+       Mob: E1_FELOCK
     Score: 10
   - Id: 128039
     Group: Battle
     Name: Show Jailbreak to the weak captain
-    #Targets:
-    #  - Id: 0
-    #    Mob: E2_FELOCK
+    Targets:
+     - Id: 0
+       Mob: E2_FELOCK
     Score: 10
   - Id: 128040
     Group: Battle
     Name: Riot on board
-    #Targets:
-    #  - Id: 0
-    #    Mob: E1_FELOCK
+    Targets:
+     - Id: 0
+       Mob: E1_FELOCK
     Score: 20
   - Id: 128041
     Group: Battle
     Name: Turmoil on board
-    #Targets:
-    #  - Id: 0
-    #    Mob: E1_FELOCK
-    #    Count: 10
+    Targets:
+     - Id: 0
+       Mob: E1_FELOCK
+       Count: 10
     Score: 20
   - Id: 128042
     Group: Battle
     Name: Rebellion on board
-    #Targets:
-    #  - Id: 0
-    #    Mob: E1_FELOCK
-    #    Count: 50
+    Targets:
+     - Id: 0
+       Mob: E1_FELOCK
+       Count: 50
     Score: 50
   - Id: 128043
     Group: Battle
     Name: Revolt of Riot
-    #Targets:
-    #  - Id: 0
-    #    Mob: E2_FELOCK
-    #    Count: 50
+    Targets:
+     - Id: 0
+       Mob: E2_FELOCK
+       Count: 50
     Score: 50
   - Id: 128044
     Group: Battle
     Name: Magic tournament champion
-    #Targets:
-    #  - Id: 0
-    #    Mob: GEFFEN_FENRIR
+    Targets:
+     - Id: 0
+       Mob: GEFFEN_FENRIR
     Score: 10
   - Id: 128045
     Group: Battle
     Name: Gladiator of Coliseum
-    #Targets:
-    #  - Id: 0
-    #    Mob: GEFFEN_FENRIR
-    #    Count: 10
+    Targets:
+     - Id: 0
+       Mob: GEFFEN_FENRIR
+       Count: 10
     Score: 20
   - Id: 128046
     Group: Battle
     Name: Slayer of Colosseum
-    #Targets:
-    #  - Id: 0
-    #    Mob: GEFFEN_FENRIR
-    #    Count: 50
+    Targets:
+     - Id: 0
+       Mob: GEFFEN_FENRIR
+       Count: 50
     Score: 50
   - Id: 128047
     Group: Battle
@@ -1473,25 +1473,25 @@ Body:
   - Id: 128050
     Group: Battle
     Name: Novice Exorcist
-    #Targets:
-    #  - Id: 0
-    #    Mob: BANGUNGOT_3
+    Targets:
+     - Id: 0
+       Mob: BANGUNGOT_3
     Score: 10
   - Id: 128051
     Group: Battle
     Name: Experienced Exorcist
-    #Targets:
-    #  - Id: 0
-    #    Mob: BANGUNGOT_3
-    #    Count: 10
+    Targets:
+     - Id: 0
+       Mob: BANGUNGOT_3
+       Count: 10
     Score: 20
   - Id: 128052
     Group: Battle
     Name: Legendary Exorcist
-    #Targets:
-    #  - Id: 0
-    #    Mob: BANGUNGOT_3
-    #    Count: 50
+    Targets:
+     - Id: 0
+       Mob: BANGUNGOT_3
+       Count: 50
     Score: 50
   - Id: 129001
     Group: Adventure
