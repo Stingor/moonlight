@@ -996,8 +996,9 @@ ACMD_FUNC(whodrops)
 	}
 	for (const auto& result : item_array) {
 		std::shared_ptr<item_data> id = result.second;
+		std::string itemlink = create_item_link_simple(id->nameid);
 
-		sprintf(atcmd_output, msg_txt(sd, 1285), id->ename.c_str(), id->slots, id->nameid); // Item: '%s'[%d] (ID:%u)
+		sprintf(atcmd_output, msg_txt(sd, 1285), itemlink.c_str(), id->nameid); // Item: '%s' (ID:%u)
 		clif_displaymessage(fd, atcmd_output);
 
 		if (id->mob[0].chance == 0) {
