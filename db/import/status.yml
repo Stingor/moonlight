@@ -41,7 +41,7 @@
 
 Header:
   Type: STATUS_DB
-  Version: 1
+  Version: 2
 
 Body:
   - Status: Berserk
