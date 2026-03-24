@@ -374,7 +374,6 @@ static inline unsigned char clif_bl_type(struct block_list *bl, bool walking) {
 	case BL_ITEM:  return 0x2; //ITEM_TYPE
 	case BL_SKILL: return 0x3; //SKILL_TYPE
 	case BL_CHAT:  return 0x4; //UNKNOWN_TYPE
-	// case BL_PET:   return pcdb_checkid(class_)?0x0:0x7; //NPC_PET_TYPE
 	case BL_MOB:
 		if( pcdb_checkid( status_get_viewdata( bl )->class_ ) ){
 			return 0x0; //PC_TYPE
@@ -400,6 +399,7 @@ static inline unsigned char clif_bl_type(struct block_list *bl, bool walking) {
 #else
 				   return pcdb_checkid(class_) ? 0x0 : 0x6; //NPC_EVT_TYPE
 #endif
+	case BL_PET:   return pcdb_checkid(class_)?0x0:0x7; //NPC_PET_TYPE
 	case BL_HOM:   return 0x8; //NPC_HOM_TYPE
 	case BL_MER:   return 0x9; //NPC_MERSOL_TYPE
 	case BL_ELEM:  return 0xa; //NPC_ELEMENTAL_TYPE
