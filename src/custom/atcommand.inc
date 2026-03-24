@@ -937,9 +937,10 @@ ACMD_FUNC(iteminfo)
 	}
 	for (const auto& result : item_array) {
 		std::shared_ptr<item_data> item_data = result.second;
+		std::string itemlink = create_item_link_simple(item_data->nameid);
 
 		sprintf(atcmd_output, msg_txt(sd, 1277), // Item: '%s'/'%s' (%u) Type: %s | Extra Effect: %s
-			item_data->name.c_str(), item_data->ename.c_str(), item_data->nameid,
+			itemlink.c_str(), item_data->ename.c_str(), item_data->nameid,
 			(item_data->type != IT_AMMO) ? itemdb_typename((enum item_types)item_data->type) : itemdb_typename_ammo((e_ammo_type)item_data->subtype),
 			(item_data->script == NULL) ? msg_txt(sd, 1278) : msg_txt(sd, 1279) // None / With script
 		);
