@@ -7742,7 +7742,7 @@ ACMD_FUNC(mail)
  * Show Monster DB Info   v 1.0
  * originally by [Lupus]
  *------------------------------------------*/
-ACMD_FUNC(mobinfo)
+/*ACMD_FUNC(mobinfo)
 {
 	unsigned char msize[SZ_ALL][7] = { "Small", "Medium", "Large" };
 	unsigned char mrace[RC_ALL][11] = { "Formless", "Undead", "Beast", "Plant", "Insect", "Fish", "Demon", "Demi-Human", "Angel", "Dragon", "Player" };
@@ -7908,7 +7908,7 @@ ACMD_FUNC(mobinfo)
 		}
 	}
 	return 0;
-}
+}*/
 
 /*=========================================
 * @showmobs by KarLaeda
@@ -8301,7 +8301,7 @@ ACMD_FUNC(homshuffle)
  * Show Items DB Info   v 1.0
  * originally by [Lupus]
  *------------------------------------------*/
-ACMD_FUNC(iteminfo)
+/*ACMD_FUNC(iteminfo)
 {
 	struct item_data *item_array[MAX_SEARCH];
 	uint16 i, count = 1;
@@ -8510,7 +8510,7 @@ ACMD_FUNC(whereis)
 	}
 
 	return 0;
-}
+}*/
 
 ACMD_FUNC(version)
 {
