@@ -2185,24 +2185,6 @@ static TIMER_FUNC(mob_delay_item_drop){
 	ers_free(item_drop_list_ers, list);
 	return 0;
 }
-// [Stingor] -->
-// Check si Item rare Autolootrare.
-bool item_is_rare(int nameid)
-{
-	if( itemdb_iscard(nameid) || itemdb_group.item_exists(IG_AUTOLOOTRARE, nameid) )
-		return true;
-	return false;
-}
-
-// Check Autolootpognon.
-bool item_is_pognon(int nameid, int prix)
-{
-	struct item_data *item_data = itemdb_exists(nameid);
-	if( item_data->value_sell >= prix || (item_data->value_sell <= 0 && item_data->value_buy >= prix * 2) )
-		return true;
-	return false;
-}
-// [Stingor] <--
 
 /*==========================================
  * Sets the item_drop into the item_drop_list.
@@ -2222,9 +2204,7 @@ static void mob_item_drop(struct mob_data *md, struct item_drop_list *dlist, str
 	if( sd == NULL ) sd = map_charid2sd(dlist->third_charid);
 	test_autoloot = sd
 		&& (drop_rate <= sd->state.autoloot || pc_isautolooting(sd, ditem->item_data.nameid)
-		|| (sd->state.autolootrare && item_is_rare(ditem->item_data.nameid))
-		|| (md && md->get_bosstype() == BOSSTYPE_MVP && sd->state.autolootmvp)
-		|| (sd->state.autolootpognon && item_is_pognon(ditem->item_data.nameid, sd->state.autolootpognon)))
+		|| (md && md->get_bosstype() == BOSSTYPE_MVP && sd->state.autolootmvp))
 		&& (flag ? ((battle_config.homunculus_autoloot ? (battle_config.hom_idle_no_share == 0 || !pc_isidle_hom(sd)) : 0) || (battle_config.mercenary_autoloot ? (battle_config.mer_idle_no_share == 0 || !pc_isidle_mer(sd)) : 0)) :
 			(battle_config.idle_no_autoloot == 0 || DIFF_TICK(last_tick, sd->idletime) < battle_config.idle_no_autoloot));
 #ifdef AUTOLOOT_DISTANCE
@@ -3052,7 +3032,6 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 				mob_setdropitem_option(&item, &mdrop[i]);
 
 				if( !pc_isautolooting(mvp_sd, item.nameid) &&
-					!(mvp_sd->state.autolootrare && item_is_rare(item.nameid)) &&
 					!mvp_sd->state.autolootmvp &&
 					!mvp_sd->state.autolootmvpreward || (temp = pc_additem(mvp_sd,&item,1,LOG_TYPE_PICKDROP_PLAYER)) != 0 ) {
 					clif_additem(mvp_sd,0,0,temp);

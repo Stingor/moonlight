@@ -1370,7 +1370,7 @@
 
 // @iteminfo
 1276: Entrez un nom/ID d'objet (usage: @ii/@iteminfo <nom/ID>).
-1277: Item: '%s'/'%s'[%d] (%hu) Type: %s | Extra Effect: %s
+1277: Item: '%s'/'%s' (%hu) Type: %s | Extra Effect: %s
 1278: Aucun
 1279: Avec script
 1280: NPC Acheté:%dz, Vendu:%dz | Poids: %.1f 

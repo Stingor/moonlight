@@ -12602,6 +12602,14 @@ void pc_overheat(struct map_session_data *sd, int16 heat) {
 		sc_start(&sd->bl, &sd->bl, SC_OVERHEAT_LIMITPOINT, 100, heat, 1000);
 }
 
+// Check Autolootpognon.
+bool item_is_pognon(int id, int prix) // [Stingor]
+{
+	if (itemdb_value_sell(id) >= prix || (itemdb_value_sell(id) <= 0 && itemdb_value_buy(id) >= prix * 2))
+		return true;
+	return false;
+}
+
 /**
  * Check if player is autolooting given itemID.
  */
@@ -12610,6 +12618,12 @@ bool pc_isautolooting(struct map_session_data *sd, t_itemid nameid)
 	uint8 i = 0;
 
 	if (sd->state.autoloottype && sd->state.autoloottype&(1<<itemdb_type(nameid)))
+		return true;
+
+	if (sd->state.autolootrare && (itemdb_iscard(nameid) || itemdb_group.item_exists(IG_AUTOLOOTRARE, nameid))) // [Stingor]
+		return true;
+
+	if (sd->state.autolootpognon && item_is_pognon(nameid, sd->state.autolootpognon)) // [Stingor]
 		return true;
 
 	if (!sd->state.autolooting)

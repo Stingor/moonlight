@@ -3679,7 +3679,7 @@ std::string create_item_link(struct item& item, struct item_data* data) {
  * @return <ITEML> formatted string for the item
  */
 std::string create_item_link_simple(t_itemid nameid) {
-	struct item_data* data = itemdb_exists(nameid);
+    struct item_data* data = itemdb_search(nameid);
 	struct item tmp_item = {};
 	tmp_item.nameid = nameid;
 	return create_item_link(tmp_item, data);
