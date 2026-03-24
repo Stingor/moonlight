@@ -717,3 +717,393 @@ ACMD_FUNC(partybuff)
 	clif_party_info(p,sd);
 	return 0;
 }
+
+/*==========================================
+ * Show Monster DB Info   v 1.0
+ * originally by [Lupus]
+ *------------------------------------------*/
+ACMD_FUNC(mobinfo)
+{
+	unsigned char msize[SZ_ALL][7] = { "Small", "Medium", "Large" };
+	unsigned char mrace[RC_ALL][11] = { "Formless", "Undead", "Beast", "Plant", "Insect", "Fish", "Demon", "Demi-Human", "Angel", "Dragon", "Player" };
+	unsigned char melement[ELE_ALL][8] = { "Neutral", "Water", "Earth", "Fire", "Wind", "Poison", "Holy", "Dark", "Ghost", "Undead" };
+	char atcmd_output2[CHAT_SIZE_MAX];
+	struct item_data* item_data;
+	uint16 mob_ids[MAX_SEARCH], count;
+	int i, k;
+
+	memset(atcmd_output, '\0', sizeof(atcmd_output));
+	memset(atcmd_output2, '\0', sizeof(atcmd_output2));
+
+	if (!message || !*message) {
+		clif_displaymessage(fd, msg_txt(sd, 1239)); // Please enter a monster name/ID (usage: @mobinfo <monster_name_or_monster_ID>).
+		return -1;
+	}
+
+	// If monster identifier/name argument is a name
+	if ((i = mobdb_checkid(atoi(message))))
+	{
+		mob_ids[0] = i;
+		count = 1;
+	}
+	else
+		count = mobdb_searchname_array(message, mob_ids, MAX_SEARCH);
+
+	if (!count) {
+		clif_displaymessage(fd, msg_txt(sd, 40)); // Invalid monster ID or name.
+		return -1;
+	}
+
+	if (count >= MAX_SEARCH) {
+		sprintf(atcmd_output, msg_txt(sd, 269), MAX_SEARCH); // Displaying first %d matches
+		clif_displaymessage(fd, atcmd_output);
+		count = MAX_SEARCH;
+	}
+	for (k = 0; k < count; k++) {
+		std::shared_ptr<s_mob_db> mob = mob_db.find(mob_ids[k]);
+
+		if (mob == nullptr)
+			continue;
+
+		t_exp base_exp = mob->base_exp;
+		t_exp job_exp = mob->job_exp;
+
+		if (pc_isvip(sd)) { // Display EXP rate increase for VIP
+			base_exp += (base_exp * battle_config.vip_base_exp_increase) / 100;
+			job_exp += (job_exp * battle_config.vip_job_exp_increase) / 100;
+		}
+#ifdef RENEWAL_EXP
+		if (battle_config.atcommand_mobinfo_type) {
+			int penalty = pc_level_penalty_mod(sd, PENALTY_EXP, mob);
+
+			base_exp = base_exp * penalty / 100;
+			job_exp = job_exp * penalty / 100;
+		}
+#endif
+		if (event_exp) {// Stingor
+			base_exp = apply_rate(base_exp, battle_config.mult_eventexp);
+			job_exp = apply_rate(job_exp, battle_config.mult_eventexp);
+		}
+
+		// stats
+		if (mob->get_bosstype() == BOSSTYPE_MVP)
+			sprintf(atcmd_output, msg_txt(sd, 1240), mob->name.c_str(), mob->jname.c_str(), mob->sprite.c_str(), mob->id); // MVP Monster: '%s'/'%s'/'%s' (%d)
+		else
+			sprintf(atcmd_output, msg_txt(sd, 1241), mob->name.c_str(), mob->jname.c_str(), mob->sprite.c_str(), mob->id); // Monster: '%s'/'%s'/'%s' (%d)
+		clif_displaymessage(fd, atcmd_output);
+
+		double base_pct = 0, job_pct = 0;
+		t_exp base_exp2 = base_exp;
+		if (sd->status.base_level > 200 && base_exp2 > 0) { // [Stingor]
+			base_exp2 = (t_exp)((float)base_exp2 / exp(((float)(sd->status.base_level) - 200.0f) / 250.0f));
+			if (sd->status.class_ == JOB_TAEKWON)
+				base_exp2 /= 2;
+		}
+		t_exp nextbase = pc_nextbaseexp(sd);
+		t_exp nextjob = pc_nextjobexp(sd);
+		if (nextbase)
+			base_pct = (double)base_exp2 * 100.0 / nextbase;
+		if (nextjob)
+			job_pct = (double)job_exp * 100.0 / nextjob;
+		sprintf(atcmd_output, msg_txt(sd, 1242), mob->lv, mob->status.max_hp, base_exp, base_pct, job_exp, job_pct, MOB_HIT(mob), MOB_FLEE(mob)); //  Lv:%d  HP:%d  Base EXP:%llu  Job EXP:%u  HIT:%d  FLEE:%d
+		clif_displaymessage(fd, atcmd_output);
+
+		sprintf(atcmd_output, msg_txt(sd, 1243), //  DEF:%d  MDEF:%d  STR:%d  AGI:%d  VIT:%d  INT:%d  DEX:%d  LUK:%d
+			mob->status.def, mob->status.mdef, mob->status.str, mob->status.agi,
+			mob->status.vit, mob->status.int_, mob->status.dex, mob->status.luk);
+		clif_displaymessage(fd, atcmd_output);
+
+		sprintf(atcmd_output, msg_txt(sd, 1244), //  ATK:%d~%d  Range:%d~%d~%d  Size:%s  Race: %s  Element: %s (Lv:%d)
+			mob->status.batk + mob->status.rhw.atk, mob->status.batk + mob->status.rhw.atk2, mob->status.rhw.range,
+			mob->range2, mob->range3, msize[mob->status.size],
+			mrace[mob->status.race], melement[mob->status.def_ele], mob->status.ele_lv);
+		clif_displaymessage(fd, atcmd_output);
+#ifdef RENEWAL
+		sprintf(atcmd_output, msg_txt(sd, 827), mob->status.res, mob->status.mres);//  MDEF:%d  RES:%d  MRES:%d
+		clif_displaymessage(fd, atcmd_output);
+#endif
+		// drops
+		clif_displaymessage(fd, msg_txt(sd, 1245)); //  Drops:
+		strcpy(atcmd_output, " ");
+		unsigned int j = 0;
+		int drop_modifier = 100;
+#ifdef RENEWAL_DROP
+		if (battle_config.atcommand_mobinfo_type) {
+			drop_modifier = pc_level_penalty_mod(sd, PENALTY_DROP, mob);
+		}
+#endif
+
+		for (i = 0; i < MAX_MOB_DROP_TOTAL; i++) {
+			int droprate = mob_getdroprate(&sd->bl, mob, mob->dropitem[i].rate, drop_modifier);
+
+			if (mob->dropitem[i].nameid == 0 || mob->dropitem[i].rate < 1 || (item_data = itemdb_exists(mob->dropitem[i].nameid)) == NULL)
+				continue;
+
+			if (event_drop) { // Stingor
+				droprate = apply_rate(droprate, battle_config.mult_eventdrop);
+				droprate = min(droprate, 10000); //cap it to 100%
+			}
+
+			std::string itemlink = create_item_link_simple(item_data->nameid);
+			sprintf(atcmd_output2, " - %s %02.02f%%", itemlink.c_str(), (float)droprate / 100);
+			strcat(atcmd_output, atcmd_output2);
+			if (++j % 3 == 0) {
+				clif_displaymessage(fd, atcmd_output);
+				strcpy(atcmd_output, " ");
+			}
+		}
+		if (j == 0)
+			clif_displaymessage(fd, msg_txt(sd, 1246)); // This monster has no drops.
+		else if (j % 3 != 0)
+			clif_displaymessage(fd, atcmd_output);
+		// mvp
+		if (mob->get_bosstype() == BOSSTYPE_MVP) {
+			float mvppercent, mvpremain;
+			sprintf(atcmd_output, msg_txt(sd, 1247), mob->mexp); //  MVP Bonus EXP:%llu
+			clif_displaymessage(fd, atcmd_output);
+			strcpy(atcmd_output, msg_txt(sd, 1248)); //  MVP Items:
+			mvpremain = 100.0; //Remaining drop chance for official mvp drop mode
+			j = 0;
+			for (i = 0; i < MAX_MVP_DROP_TOTAL; i++) {
+				if (mob->mvpitem[i].nameid == 0 || (item_data = itemdb_exists(mob->mvpitem[i].nameid)) == NULL)
+					continue;
+				//Because if there are 3 MVP drops at 50%, the first has a chance of 50%, the second 25% and the third 12.5%
+				mvppercent = (float)mob->mvpitem[i].rate * mvpremain / 10000.0f;
+				if (battle_config.item_drop_mvp_mode == 0) {
+					mvpremain -= mvppercent;
+				}
+				if (mvppercent > 0) {
+					j++;
+					std::string itemlink = create_item_link_simple(item_data->nameid);
+					if (j == 1)
+						sprintf(atcmd_output2, " %s %02.02f%%", itemlink.c_str(), mvppercent);
+					else
+						sprintf(atcmd_output2, " - %s %02.02f%%", itemlink.c_str(), mvppercent);
+					strcat(atcmd_output, atcmd_output2);
+				}
+			}
+			if (j == 0)
+				clif_displaymessage(fd, msg_txt(sd, 1249)); // This monster has no MVP prizes.
+			else
+				clif_displaymessage(fd, atcmd_output);
+		}
+	}
+	return 0;
+}
+/*==========================================
+ * Show Items DB Info   v 1.0
+ * originally by [Lupus]
+ *------------------------------------------*/
+ACMD_FUNC(iteminfo)
+{
+	struct item_data* item_array[MAX_SEARCH];
+	uint16 i, count = 1;
+
+	if (!message || !*message) {
+		clif_displaymessage(fd, msg_txt(sd, 1276)); // Please enter an item name/ID (usage: @ii/@iteminfo <item name/ID>).
+		return -1;
+	}
+	if ((item_array[0] = itemdb_exists(strtoul(message, nullptr, 10))) == nullptr)
+		count = itemdb_searchname_array(item_array, MAX_SEARCH, message);
+
+	if (!count) {
+		clif_displaymessage(fd, msg_txt(sd, 19));	// Invalid item ID or name.
+		return -1;
+	}
+
+	if (count == MAX_SEARCH) {
+		sprintf(atcmd_output, msg_txt(sd, 269), MAX_SEARCH); // Displaying first %d matches
+		clif_displaymessage(fd, atcmd_output);
+	}
+	for (i = 0; i < count; i++) {
+		struct item_data* item_data = item_array[i];
+		sprintf(atcmd_output, msg_txt(sd, 1277), // Item: '%s'/'%s'[%d] (%u) Type: %s | Extra Effect: %s
+			item_data->name.c_str(), item_data->ename.c_str(), item_data->slots, item_data->nameid,
+			(item_data->type != IT_AMMO) ? itemdb_typename((enum item_types)item_data->type) : itemdb_typename_ammo((e_ammo_type)item_data->subtype),
+			(item_data->script == NULL) ? msg_txt(sd, 1278) : msg_txt(sd, 1279) // None / With script
+		);
+		clif_displaymessage(fd, atcmd_output);
+
+		sprintf(atcmd_output, msg_txt(sd, 1280), item_data->value_buy, item_data->value_sell, item_data->weight / 10.); // NPC Buy:%dz, Sell:%dz | Weight: %.1f
+		clif_displaymessage(fd, atcmd_output);
+
+		if (item_data->maxchance == -1) {
+			strcpy(atcmd_output, msg_txt(sd, 1281)); //  - Available in the shops only.
+			clif_displaymessage(fd, atcmd_output);
+		}
+		else if (!battle_config.atcommand_mobinfo_type) {
+			if (item_data->maxchance)
+				sprintf(atcmd_output, msg_txt(sd, 1282), (float)item_data->maxchance / 100); //  - Maximal monsters drop chance: %02.02f%%
+			else
+				strcpy(atcmd_output, msg_txt(sd, 1283)); //  - Monsters don't drop this item.
+			clif_displaymessage(fd, atcmd_output);
+		}
+	}
+	return 0;
+}
+
+/*==========================================
+ * Show who drops the item.
+ *------------------------------------------*/
+ACMD_FUNC(whodrops)
+{
+	struct item_data* item_data, * item_array[MAX_SEARCH];
+	uint16 i, j, count = 1;
+
+	if (!message || !*message) {
+		clif_displaymessage(fd, msg_txt(sd, 1284)); // Please enter item name/ID (usage: @whodrops <item name/ID>).
+		return -1;
+	}
+	if ((item_array[0] = itemdb_exists(strtoul(message, nullptr, 10))) == nullptr)
+		count = itemdb_searchname_array(item_array, MAX_SEARCH, message);
+
+	if (!count) {
+		clif_displaymessage(fd, msg_txt(sd, 19));	// Invalid item ID or name.
+		return -1;
+	}
+
+	if (count == MAX_SEARCH) {
+		sprintf(atcmd_output, msg_txt(sd, 269), MAX_SEARCH); // Displaying first %d matches
+		clif_displaymessage(fd, atcmd_output);
+	}
+	for (i = 0; i < count; i++) {
+		item_data = item_array[i];
+		sprintf(atcmd_output, msg_txt(sd, 1285), item_data->ename.c_str(), item_data->slots, item_data->nameid); // Item: '%s'[%d] (ID:%u)
+		clif_displaymessage(fd, atcmd_output);
+
+		if (item_data->mob[0].chance == 0) {
+			strcpy(atcmd_output, msg_txt(sd, 1286)); //  - Item is not dropped by mobs.
+			clif_displaymessage(fd, atcmd_output);
+		}
+		else {
+			sprintf(atcmd_output, msg_txt(sd, 1287), MAX_SEARCH); //  - Common mobs with highest drop chance (only max %d are listed):
+			clif_displaymessage(fd, atcmd_output);
+
+			for (j = 0; j < MAX_SEARCH && item_data->mob[j].chance > 0; j++)
+			{
+				int dropchance = item_data->mob[j].chance;
+				int mobid = item_data->mob[j].id;
+				int drop_rate_bonus = 0;
+				std::shared_ptr<s_mob_db> mob = mob_db.find(item_data->mob[j].id);
+				if (!mob) continue;
+
+				// Add class and race specific bonuses
+				drop_rate_bonus += sd->indexed_bonus.dropaddclass[mob->status.class_] + sd->indexed_bonus.dropaddclass[CLASS_ALL];
+				drop_rate_bonus += sd->indexed_bonus.dropaddrace[mob->status.race] + sd->indexed_bonus.dropaddrace[RC_ALL];
+
+				// Increase drop rate if user has SC_ITEMBOOST
+				if (sd->sc.data[SC_ITEMBOOST])
+					drop_rate_bonus += sd->sc.data[SC_ITEMBOOST]->val1;
+
+				drop_rate_bonus = (int)(0.5 + dropchance * drop_rate_bonus / 100.);
+				dropchance = i32max(dropchance, cap_value(drop_rate_bonus, 0, 9000));
+
+#ifdef RENEWAL_DROP
+				if (battle_config.atcommand_mobinfo_type) {
+					dropchance = dropchance * pc_level_penalty_mod(sd, PENALTY_DROP, mob) / 100;
+					if (dropchance <= 0 && !battle_config.drop_rate0item)
+						dropchance = 1;
+				}
+#endif
+				if (pc_isvip(sd)) // Display item rate increase for VIP
+					dropchance += (dropchance * battle_config.vip_drop_increase) / 100;
+
+				if (event_drop) // Stingor
+					dropchance = apply_rate(dropchance, battle_config.mult_eventdrop);
+
+				dropchance = min(dropchance, 10000); //cap it to 100%
+
+				const std::vector<spawn_info> spawns = mob_get_spawns(mobid);
+				if (spawns.size() < 1)
+					sprintf(atcmd_output, "- %s (%d): %02.02f%% - %s", mob->jname.c_str(), mobid, (dropchance / 100.), msg_txt(sd, 1290)); // Pas de spawn - Instance/Quest/Event
+				else if (spawns.size() == 1) {
+					int16 mapid = map_mapindex2mapid(spawns[0].mapindex);
+					if (mapid > 1) {
+						if (spawns[0].qty > 1)
+							sprintf(atcmd_output, "- %s (%d): %02.02f%% - %d mobs dans la map %s", mob->jname.c_str(), mobid, (dropchance / 100.), spawns[0].qty, map_getmapdata(mapid)->name);
+						else
+							sprintf(atcmd_output, "- %s (%d): %02.02f%% - 1 mob dans la map %s", mob->jname.c_str(), mobid, (dropchance / 100.), map_getmapdata(mapid)->name);
+					}
+				}
+				else if (spawns.size() < 4) {
+					char buf[CHAT_SIZE_MAX];
+
+					sprintf(atcmd_output, "- %s (%d): %02.02f%% - ", mob->jname.c_str(), mobid, (dropchance / 100.));
+
+					for (auto& spawn : spawns)
+					{
+						int16 mapid = map_mapindex2mapid(spawn.mapindex);
+						if (mapid < 0)
+							continue;
+						safesnprintf(buf, sizeof(buf), "[%d->%s]", spawn.qty, map_getmapdata(mapid)->name);
+						strcat(atcmd_output, buf);
+					}
+				}
+				else
+					sprintf(atcmd_output, "- %s (%d): %02.02f%% - Respawn dans %zd maps - @whereis %d", mob->jname.c_str(), mobid, (dropchance / 100.), spawns.size(), mobid);
+
+				clif_displaymessage(fd, atcmd_output);
+			}
+		}
+	}
+	return 0;
+}
+
+ACMD_FUNC(whereis)
+{
+	uint16 mob_ids[MAX_SEARCH] = { 0 }, count;
+
+	if (!message || !*message) {
+		clif_displaymessage(fd, msg_txt(sd, 1288)); // Please enter a monster name/ID (usage: @whereis <monster_name_or_monster_ID>).
+		return -1;
+	}
+
+	int i_message = atoi(message);
+	if (mobdb_checkid(i_message)) {
+		// ID given
+		mob_ids[0] = i_message;
+		count = 1;
+	}
+	else {
+		// Name given, get all monster associated whith this name
+		count = mobdb_searchname_array(message, mob_ids, MAX_SEARCH);
+	}
+
+	if (count <= 0) {
+		clif_displaymessage(fd, msg_txt(sd, 40)); // Invalid monster ID or name.
+		return -1;
+	}
+
+	if (count >= MAX_SEARCH) {
+		sprintf(atcmd_output, msg_txt(sd, 269), MAX_SEARCH); // Displaying first %d matches
+		clif_displaymessage(fd, atcmd_output);
+		count = MAX_SEARCH;
+	}
+
+	for (int i = 0; i < count; i++) {
+		uint16 mob_id = mob_ids[i];
+		std::shared_ptr<s_mob_db> mob = mob_db.find(mob_id);
+
+		if (!mob) continue;
+		snprintf(atcmd_output, sizeof atcmd_output, msg_txt(sd, 1289), mob->jname.c_str()); // %s spawns in:
+		clif_displaymessage(fd, atcmd_output);
+
+		const std::vector<spawn_info> spawns = mob_get_spawns(mob_id);
+		if (spawns.size() <= 0) {
+			// This monster does not spawn normally.
+			clif_displaymessage(fd, msg_txt(sd, 1290));
+		}
+		else {
+			for (auto& spawn : spawns)
+			{
+				int16 mapid = map_mapindex2mapid(spawn.mapindex);
+				if (mapid < 0)
+					continue;
+				snprintf(atcmd_output, sizeof atcmd_output, "%s (%d)", map_getmapdata(mapid)->name, spawn.qty);
+				clif_displaymessage(fd, atcmd_output);
+			}
+		}
+	}
+
+	return 0;
+}
