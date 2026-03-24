@@ -1351,6 +1351,7 @@ Body:
         Luk: 1
   - Jobs:
       Supernovice: true
+    HPFactor: 75
     BaseASPD:
       Fist: 500
       Dagger: 650
@@ -1424,7 +1425,7 @@ Body:
   - Jobs:
       Gunslinger: true
     MaxWeight: 28000
-    HPFactor: 89
+    HPFactor: 90
     HPMultiplicator: 0
     SPFactor: 469
     BaseASPD:
