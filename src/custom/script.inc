@@ -18,6 +18,20 @@
 //	return 0;
 //}
 
+/* getskillname (skill_id)
+ * Pushes the name of the given skill id as a string, or empty string if unknown.
+ */
+BUILDIN_FUNC(getskillname)
+{
+	int skill_id = script_getnum(st, 2);
+	const char* name = skill_get_name((uint16)skill_id);
+	if (name && *name)
+		script_pushstrcopy(st, name);
+	else
+		script_pushconststr(st, "");
+	return SCRIPT_CMD_SUCCESS;
+}
+
 BUILDIN_FUNC(viewequip)
 {
 	TBL_PC *sd, *tsd;
@@ -107,7 +121,7 @@ BUILDIN_FUNC(npcstand)
 	return 0;
 }
 
-BUILDIN_FUNC(addcloneskill)
+/*BUILDIN_FUNC(addcloneskill)
 {
     int skill_id,skill_lv, lv;
     struct map_session_data* sd;
@@ -148,7 +162,7 @@ BUILDIN_FUNC(addcloneskill)
 	}
 	
 	return SCRIPT_CMD_SUCCESS;
-}
+}*/
 
 BUILDIN_FUNC(getalliance)
 {

@@ -11,12 +11,13 @@
 //BUILDIN_DEF(example,""),
 	// [Stingor]
 	BUILDIN_DEF(viewequip,"vv"),
-	BUILDIN_DEF(getpartnername,""),
+	BUILDIN_DEF(getpartnername,"")
+	BUILDIN_DEF(getskillname,"i"),
 	BUILDIN_DEF(getalliance,"i"),
 	BUILDIN_DEF(setwaitingroomtitle,"s?"),
 	BUILDIN_DEF(npcsit,""),
 	BUILDIN_DEF(npcstand,""),
-	BUILDIN_DEF(addcloneskill,"ii"),
+	//BUILDIN_DEF(addcloneskill,"ii"),
 	BUILDIN_DEF(starteventexp,""),
 	BUILDIN_DEF(stopeventexp,""),
 	BUILDIN_DEF(eventexp,""),

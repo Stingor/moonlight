@@ -510,96 +510,96 @@ gonryun,163,122,4	script	Job Master::jobmaster	4W_F_01,{
 				mes "Désolé mais la copie de skill est limitée durant les plages de woe.";
 				mes "Vous ne pouvez récupérer que le skill précédemment copié avec le npc.";
 				next;
-				callsub L_LastSkillcloned;
+				callsub L_CLONE_SKILL;
 			}
-			if( LastSkillcloned > 0 && LastSkillclonedlv > 0 )
+			if( CLONE_SKILL > 0 && CLONE_SKILL_LV > 0 )
 				@lastskill$ = "Dernier skill copié...";
 			else
 				@lastskill$ = "";
 			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 			mes "Sélectionnez le skill à copier:";
-			switch( select(@lastskill$, "Acolyte","Hunter","Mage","Merchant","Swordman","Thief","Ninja","Taekwon") ) {
+			switch( select( @lastskill$, "Acolyte","Hunter","Mage","Merchant","Swordman","Thief","Ninja","Taekwon" ) ) {
 				case 1:
-					callsub L_LastSkillcloned;
+					callsub L_CLONE_SKILL;
 					break;
 				case 2:
-					switch( select("Heal","Magnus Exorcismus","Turn Undead","Ruwach") ) {
-						case 1: .@skillname$ = "Heal"; .@skillid = 28; .@skilllevel = 10; break;
-						case 2: .@skillname$ = "Magnus Exorcismus"; .@skillid = 79; .@skilllevel = 10; break;
-						case 3: .@skillname$ = "Turn Undead"; .@skillid = 77; .@skilllevel = 5; break;
-						case 4: .@skillname$ = "Ruwach"; .@skillid = 24; .@skilllevel = 1; break;
+					switch( select( "Heal","Magnus Exorcismus","Turn Undead","Ruwach" ) ) {
+						case 1: .@skillid = 28; .@skilllevel = 10; break;
+						case 2: .@skillid = 79; .@skilllevel = 10; break;
+						case 3: .@skillid = 77; .@skilllevel = 5; break;
+						case 4: .@skillid = 24; .@skilllevel = 1; break;
 						default:
 							break;
 					}
 					break;
 				case 3:
-					switch( select("Double Strafe","Focused Arrow Strike") ) {
-						case 1: .@skillname$ = "Double Strafe"; .@skillid = 46; .@skilllevel = 10; break;
-						case 2: .@skillname$ = "Focused Arrow Strike"; .@skillid = 382; .@skilllevel = 5; break;
+					switch( select( "Double Strafe","Focused Arrow Strike" ) ) {
+						case 1: .@skillid = 46; .@skilllevel = 10; break;
+						case 2: .@skillid = 382; .@skilllevel = 5; break;
 						default:
 							break;
 					}
 					break;
 				case 4:
-					switch( select("Cold Bolt","Fire Bolt","Heaven's Drive","Soul Strike","Jupitel Thunder","Meteor Storm","Lightning Bolt","Lord of Vermilion","Storm Gust","Thunderstorm") ) {
-						case 1: .@skillname$ = "Cold Bolt"; .@skillid = 14; .@skilllevel = 10; break;
-						case 2: .@skillname$ = "Fire Bolt"; .@skillid = 19; .@skilllevel = 10; break;
-						case 3: .@skillname$ = "Heaven's Drive"; .@skillid = 91; .@skilllevel = 5; break;
-						case 4: .@skillname$ = "Soul Strike"; .@skillid = 13; .@skilllevel = 10; break;
-						case 5: .@skillname$ = "Jupitel Thunder"; .@skillid = 84; .@skilllevel = 10; break;
-						case 6: .@skillname$ = "Meteor Storm"; .@skillid = 83; .@skilllevel = 10; break;
-						case 7: .@skillname$ = "Lightning Bolt"; .@skillid = 20; .@skilllevel = 10; break;
-						case 8: .@skillname$ = "Lord of Vermilion"; .@skillid = 85; .@skilllevel = 10; break;
-						case 9: .@skillname$ = "Storm Gust"; .@skillid = 89; .@skilllevel = 10; break;
-						case 10: .@skillname$ = "Thunderstorm"; .@skillid = 21; .@skilllevel = 10; break;
+					switch( select( "Cold Bolt","Fire Bolt","Heaven's Drive","Soul Strike","Jupitel Thunder","Meteor Storm","Lightning Bolt","Lord of Vermilion","Storm Gust","Thunderstorm" ) ) {
+						case 1: .@skillid = 14; .@skilllevel = 10; break;
+						case 2: .@skillid = 19; .@skilllevel = 10; break;
+						case 3: .@skillid = 91; .@skilllevel = 5; break;
+						case 4: .@skillid = 13; .@skilllevel = 10; break;
+						case 5: .@skillid = 84; .@skilllevel = 10; break;
+						case 6: .@skillid = 83; .@skilllevel = 10; break;
+						case 7: .@skillid = 20; .@skilllevel = 10; break;
+						case 8: .@skillid = 85; .@skilllevel = 10; break;
+						case 9: .@skillid = 89; .@skilllevel = 10; break;
+						case 10: .@skillid = 21; .@skilllevel = 10; break;
 						default:
 							break;
 					}
 					break;
 				case 5:
-					switch( select("Acid Demonstration","Acid Terror","Bomb") ) {
-						case 1: .@skillname$ = "Acid Demonstration"; .@skillid = 490; .@skilllevel = 10; break;
-						case 2: .@skillname$ = "Acid Terror"; .@skillid = 230; .@skilllevel = 5; break;
-						case 3: .@skillname$ = "Bomb"; .@skillid = 229; .@skilllevel = 5; break;
+					switch( select( "Acid Demonstration","Acid Terror","Bomb" ) ) {
+						case 1: .@skillid = 490; .@skilllevel = 10; break;
+						case 2: .@skillid = 230; .@skilllevel = 5; break;
+						case 3: .@skillid = 229; .@skilllevel = 5; break;
 						default:
 							break;
 					}
 					break;
 				case 6:
-					switch( select("Bowling Bash","Grand Cross","Martyr's Reckoning","Pressure","Shield Chain") ) {
-						case 1: .@skillname$ = "Bowling Bash"; .@skillid = 62; .@skilllevel = 10; break;
-						case 2: .@skillname$ = "Grand Cross"; .@skillid = 254; .@skilllevel = 10; break;
-						case 3: .@skillname$ = "Martyr's Reckoning"; .@skillid = 368; .@skilllevel = 5; break;
-						case 4: .@skillname$ = "Pressure"; .@skillid = 367; .@skilllevel = 5; break;
-						case 5: .@skillname$ = "Shield Chain"; .@skillid = 480; .@skilllevel = 5; break;
+					switch( select( "Bowling Bash","Grand Cross","Martyr's Reckoning","Pressure","Shield Chain" ) ) {
+						case 1: .@skillid = 62; .@skilllevel = 10; break;
+						case 2: .@skillid = 254; .@skilllevel = 10; break;
+						case 3: .@skillid = 368; .@skilllevel = 5; break;
+						case 4: .@skillid = 367; .@skilllevel = 5; break;
+						case 5: .@skillid = 480; .@skilllevel = 5; break;
 						default:
 							break;
 					}
 					break;
 				case 7:
 					switch( select(	"Soul Destroyer","Meteor Assault") ) {
-						case 1: .@skillname$ = "Soul Destroyer"; .@skillid = 379; .@skilllevel = 10; break;
-						case 2: .@skillname$ = "Meteor Assault"; .@skillid = 406; .@skilllevel = 10; break;
+						case 1: .@skillid = 379; .@skilllevel = 10; break;
+						case 2: .@skillid = 406; .@skilllevel = 10; break;
 						default:
 							break;
 					}
 					break;
 				case 8:
-					switch( select(	"Flaming Petals","Blaze Shield","Exploding Dragon","Freezing Spear","Snow Flake Draft","Wind Blade","Lightning Jolt") ) {
-						case 1: .@skillname$ = "Flaming Petals"; .@skillid = 534; .@skilllevel = 10; break;
-						case 2: .@skillname$ = "Blaze Shield"; .@skillid = 535; .@skilllevel = 10; break;
-						case 3: .@skillname$ = "Exploding Dragon"; .@skillid = 536; .@skilllevel = 5; break;
-						case 4: .@skillname$ = "Freezing Spear"; .@skillid = 537; .@skilllevel = 10; break;
-						case 5: .@skillname$ = "Snow Flake Draft"; .@skillid = 539; .@skilllevel = 5; break;
-						case 6: .@skillname$ = "Wind Blade"; .@skillid = 540; .@skilllevel = 10; break;
-						case 7: .@skillname$ = "Lightning Jolt"; .@skillid = 541; .@skilllevel = 5; break;
+					switch( select(	"Flaming Petals","Blaze Shield","Exploding Dragon","Freezing Spear","Snow Flake Draft","Wind Blade","Lightning Jolt" ) ) {
+						case 1: .@skillid = 534; .@skilllevel = 10; break;
+						case 2: .@skillid = 535; .@skilllevel = 10; break;
+						case 3: .@skillid = 536; .@skilllevel = 5; break;
+						case 4: .@skillid = 537; .@skilllevel = 10; break;
+						case 5: .@skillid = 539; .@skilllevel = 5; break;
+						case 6: .@skillid = 540; .@skilllevel = 10; break;
+						case 7: .@skillid = 541; .@skilllevel = 5; break;
 						default:
 							break;
 					}
 					break;
 				case 9:
-					switch( select(	"Flying Kick") ) {
-						case 1: .@skillname$ = "Flying Kick"; .@skillid = 421; .@skilllevel = 7; break;
+					switch( select( "Flying Kick" ) ) {
+						case 1: .@skillid = 421; .@skilllevel = 7; break;
 						default:
 							break;
 					}
@@ -624,18 +624,21 @@ gonryun,163,122,4	script	Job Master::jobmaster	4W_F_01,{
 
 			next;
 			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-			mes "Etes-vous sur de vouloir copier "+.@skillname$+"?";
+			mes "Etes-vous sur de vouloir copier "+getskillname(.@skillid)+"?";
 			if( select ("Oui","Non") == 2 )
 				close;
-			LastSkillcloned = .@skillid;
-			LastSkillclonedlv = .@skilllevel;
-			LastSkillclonedname$ = .@skillname$;
-L_LastSkillcloned:
+			CLONE_SKILL = .@skillid;
+			CLONE_SKILL_LV = .@skilllevel;
+L_CLONE_SKILL:
 			next;
 			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-			mes "Vous possédez maintenant :";
-			mes LastSkillclonedname$+" Lv"+LastSkillclonedlv;
-			addcloneskill(LastSkillcloned, LastSkillclonedlv);
+			if( plagiarizeskill(CLONE_SKILL, CLONE_SKILL_LV) ) {
+				mes "Vous possédez maintenant :";
+				mes getskillname(CLONE_SKILL)+" Lv"+CLONE_SKILL_LV;
+			}
+			else {
+				mes "Une erreur est survenue, contactez Stingor xD.";
+			}
 			close;
 		}
 		case 5:

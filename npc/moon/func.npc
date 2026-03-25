@@ -87,28 +87,28 @@ function	script	instancereward	{
 	return;
 }
 
-function	script	cap_value	{
-	.@val = getarg(1);
-	.@min = getarg(0);
-	.@max = getarg(2);
-
-	if( .@val < .@min )
-		return .@min;
-	else if( .@val > .@max)
-		return .@max;
-	else
-		return .@val;
-}
+//function	script	cap_value	{
+//	.@val = getarg(1);
+//	.@min = getarg(0);
+//	.@max = getarg(2);
+//
+//	if( .@val < .@min )
+//		return .@min;
+//	else if( .@val > .@max)
+//		return .@max;
+//	else
+//		return .@val;
+//}
 
 function	script	monster_event	{
 	.@map$ = getarg(0);
 	.@x = getarg(1);
 	.@y = getarg(2);
 	.@mobid = getarg(3);
-	.@amount = callfunc("cap_value",1,getarg(4),10);
+	.@amount = cap_value(getarg(4),1,10);
 	if( .@mobid < 1000 || getmonsterinfo(.@mobid, MOB_MAXHP) < 1 || .@amount < 1 )
 		return 0;
-	.@hp = callfunc("cap_value",getmonsterinfo(.@mobid, MOB_MAXHP),getarg(5),1000000000);
+	.@hp = cap_value(getarg(5),getmonsterinfo(.@mobid, MOB_MAXHP),1000000000);
 
 	monster .@map$,(.@x - 5)+rand(10),(.@y - 5)+rand(10),"Furious "+getmonsterinfo(.@mobid, MOB_NAME),.@mobid,.@amount,"",2;
 
@@ -155,7 +155,7 @@ function	script	mobhm	{
 		.@size = getarg(9,0);
 	}
 
-	.@hardmode = callfunc("cap_value",1,.@hardmode,20);
+	.@hardmode = cap_value(.@hardmode,1,20);
 
 	if( .@hardmode >= 10 && getmonsterinfo(.@mobid, MOB_MVPEXP) )
 		.@size = 2;
@@ -202,16 +202,16 @@ function	script	mobhm	{
 					setunitdata .@mobgid, UMOB_MATKMIN, ((.@hardmode > 1 && .@data[UMOB_MATKMIN] < 1000*.@hardmode)?1000*.@hardmode:.@data[UMOB_MATKMIN])*30*.@hardmode;
 					setunitdata .@mobgid, UMOB_MATKMAX, ((.@hardmode > 1 && .@data[UMOB_MATKMAX] < 5000*.@hardmode)?5000*.@hardmode:.@data[UMOB_MATKMAX])*30*.@hardmode;
 				}
-				setunitdata .@mobgid, UMOB_DEF, ((.@hardmode > 1 && .@data[UMOB_DEF] < 5)?5:.@data[UMOB_DEF])+callfunc("cap_value",1,.@hardmode,15);
-				setunitdata .@mobgid, UMOB_MDEF, ((.@hardmode > 1 && .@data[UMOB_MDEF] < 5)?5:.@data[UMOB_MDEF])+callfunc("cap_value",1,.@hardmode,15);
-				setunitdata .@mobgid, UMOB_HIT, ((.@hardmode > 1 && .@data[UMOB_HIT] < 300)?300:.@data[UMOB_HIT])*callfunc("cap_value",1,.@hardmode,15);
-				setunitdata .@mobgid, UMOB_FLEE, ((.@hardmode > 1 && .@data[UMOB_FLEE] > 60)?60:.@data[UMOB_FLEE])*callfunc("cap_value",1,.@hardmode,15);
+				setunitdata .@mobgid, UMOB_DEF, ((.@hardmode > 1 && .@data[UMOB_DEF] < 5)?5:.@data[UMOB_DEF])+cap_value(.@hardmode,1,15);
+				setunitdata .@mobgid, UMOB_MDEF, ((.@hardmode > 1 && .@data[UMOB_MDEF] < 5)?5:.@data[UMOB_MDEF])+cap_value(.@hardmode,1,15);
+				setunitdata .@mobgid, UMOB_HIT, ((.@hardmode > 1 && .@data[UMOB_HIT] < 300)?300:.@data[UMOB_HIT])*cap_value(.@hardmode,1,15);
+				setunitdata .@mobgid, UMOB_FLEE, ((.@hardmode > 1 && .@data[UMOB_FLEE] > 60)?60:.@data[UMOB_FLEE])*cap_value(.@hardmode,1,15);
 				if( .@hardmode >= 3 )
 					setunitdata .@mobgid, UMOB_DEX, 300;
 				setunitdata .@mobgid, UMOB_CRIT, ((.@hardmode > 1 && .@data[UMOB_CRIT] < 25)?25:.@data[UMOB_CRIT])+.@hardmode*2;
-				setunitdata .@mobgid, UMOB_AMOTION, callfunc("cap_value",50,.@data[UMOB_AMOTION] / .@hardmode*2,1200);
-				setunitdata .@mobgid, UMOB_ADELAY, callfunc("cap_value",50,.@data[UMOB_ADELAY] / .@hardmode*2,1200);
-				setunitdata .@mobgid, UMOB_SPEED, callfunc("cap_value",40,.@data[UMOB_SPEED] / .@hardmode*2,400);
+				setunitdata .@mobgid, UMOB_AMOTION, cap_value(.@data[UMOB_AMOTION] / .@hardmode*2,50,1200);
+				setunitdata .@mobgid, UMOB_ADELAY, cap_value(.@data[UMOB_ADELAY] / .@hardmode*2,50,1200);
+				setunitdata .@mobgid, UMOB_SPEED, cap_value(.@data[UMOB_SPEED] / .@hardmode*2,40,400);
 			}
 		}
 	}

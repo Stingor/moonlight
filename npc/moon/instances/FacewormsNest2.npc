@@ -571,11 +571,11 @@ S_Spawn:
 	getunitdata 'BOSS[1], .@arr;
 	.@mobx = .@arr[UMOB_X];
 	.@moby = .@arr[UMOB_Y];
-	mobhm(cap_value(1,'hm,5),0,'map_name$,(.@mobx-4),.@moby,"Faceworm Egg",2540,1,.@event$);
-	mobhm(cap_value(1,'hm,5),0,'map_name$,(.@mobx+4),.@moby,"Faceworm Egg",2540,1,.@event$);
+	mobhm(cap_value('hm,1,5),0,'map_name$,(.@mobx-4),.@moby,"Faceworm Egg",2540,1,.@event$);
+	mobhm(cap_value('hm,1,5),0,'map_name$,(.@mobx+4),.@moby,"Faceworm Egg",2540,1,.@event$);
 	if (.@arg == 6) {
-		mobhm(cap_value(1,'hm,5),0,'map_name$,.@mobx,(.@moby+4),"Faceworm Egg",2540,1,.@event$);
-		mobhm(cap_value(1,'hm,5),0,'map_name$,.@mobx,(.@moby-4),"Faceworm Egg",2540,1,.@event$);
+		mobhm(cap_value('hm,1,5),0,'map_name$,.@mobx,(.@moby+4),"Faceworm Egg",2540,1,.@event$);
+		mobhm(cap_value('hm,1,5),0,'map_name$,.@mobx,(.@moby-4),"Faceworm Egg",2540,1,.@event$);
 	}
 	end;
 OnTimer12000:

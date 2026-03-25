@@ -715,7 +715,7 @@ OnTimer1740000:
 OnCommand:
 	if( !eventexp() ) {
 		$eventexp = gettimetick(2) + 1800;
-		$eventexprate = cap_value(200, atoi(.@atcmd_parameters$[0]), 400);
+		$eventexprate = cap_value(atoi(.@atcmd_parameters$[0]), 200, 1000);
 		setBattleFlag "mult_eventexp", $eventexprate;
 		starteventexp();
 		setBattleFlag "party_even_share_bonus", 35;
