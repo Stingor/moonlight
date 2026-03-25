@@ -172,7 +172,7 @@ static bool script_rid2bl_(struct script_state *st, uint8 loc, struct block_list
 
 	if ( !script_hasdata(st, loc) || ( unit_id = script_getnum(st, loc) ) == 0)
 		unit_id = st->rid;
-
+		
 	*bl =  map_id2bl(unit_id);
 
 	if ( *bl )
@@ -655,7 +655,7 @@ static unsigned int calc_hash(const char* p)
 	return h % SCRIPT_HASH_SIZE;
 }
 
-bool script_check_RegistryVariableLength(int pType, const char *val, size_t* vlen)
+bool script_check_RegistryVariableLength(int pType, const char *val, size_t* vlen) 
 {
 	size_t len = strlen(val);
 
@@ -2966,7 +2966,7 @@ unsigned int script_array_highest_key(struct script_state *st, struct map_sessio
 			return sa->size ? highest_key + 1 : 0;
 		}
 	}
-
+	
 	return SCRIPT_CMD_SUCCESS;
 }
 
@@ -7201,20 +7201,19 @@ BUILDIN_FUNC(cartcountitem)
 
 /**
  * Returns number of items in storage
- * storagecountitem(<nameID>{,<accountID>{,<storageID>}})
- * storagecountitem2(<nameID>,<Identified>,<Refine>,<Attribute>,<Card0>,<Card1>,<Card2>,<Card3>{,<accountID>{,<storageID>}})
+ * storagecountitem(<nameID>{,<accountID>})
+ * storagecountitem2(<nameID>,<Identified>,<Refine>,<Attribute>,<Card0>,<Card1>,<Card2>,<Card3>{,<accountID>})
  */
 BUILDIN_FUNC(storagecountitem)
 {
 	TBL_PC *sd;
 	char *command = (char *)script_getfuncname(st);
-	int aid = 3, stor_id = 4;
-	int expanded = 0, count = 0;
+	int aid = 3;
+	int expanded = 0;
 
 	if (command[strlen(command) - 1] == '2') {
 		expanded = 1;
 		aid = 10;
-		stor_id = 11;
 	}
 
 	if (!script_accid2sd(aid, sd))
@@ -7227,16 +7226,6 @@ BUILDIN_FUNC(storagecountitem)
 	else // item id
 		id = item_db.find( script_getnum( st, 2 ) );
 
-	if (script_hasdata(st, stor_id) && script_isint(st, stor_id))
-		stor_id = script_getnum(st, stor_id);
-	else
-		stor_id = 0;
-
-	if (!storage_exists(stor_id)) {
-		ShowError("buildin_storagecountitem: Invalid storage_id '%d'!\n", stor_id);
-		return SCRIPT_CMD_FAILURE;
-	}
-
 	if (!id) {
 		ShowError("buildin_%s: Invalid item '%s'.\n", command, script_getstr(st, 2)); // returns string, regardless of what it was
 		script_pushint(st, 0);
@@ -7248,11 +7237,7 @@ BUILDIN_FUNC(storagecountitem)
 		return SCRIPT_CMD_SUCCESS;
 	}
 
-	if (stor_id == 0)
-		count = script_countitem_sub(sd->storage.u.items_storage, id, MAX_STORAGE, expanded, st);
-	else
-		count = script_countitem_sub(sd->premiumStorage.u.items_storage, id, MAX_STORAGE, expanded, st);
-
+	int count = script_countitem_sub(sd->storage.u.items_storage, id, MAX_STORAGE, expanded, st);
 	if (count < 0) {
 		st->state = END;
 		return SCRIPT_CMD_FAILURE;
@@ -7266,7 +7251,7 @@ BUILDIN_FUNC(storagecountitem)
  * guildstoragecountitem(<nameID>{,<accountID>})
  * guildstoragecountitem2(<nameID>,<Identified>,<Refine>,<Attribute>,<Card0>,<Card1>,<Card2>,<Card3>{,<accountID>})
  */
-BUILDIN_FUNC(guildstoragecountitem)
+/*BUILDIN_FUNC(guildstoragecountitem)
 {
 	TBL_PC *sd;
 	char *command = (char *)script_getfuncname(st);
@@ -7315,7 +7300,7 @@ BUILDIN_FUNC(guildstoragecountitem)
 
 	script_pushint(st, count);
 	return SCRIPT_CMD_SUCCESS;
-}
+}*/
 
 /**
  * Returns number of rental items in inventory
@@ -13451,7 +13436,7 @@ static int buildin_maprespawnguildid_sub_pc(struct map_session_data* sd, va_list
 		((sd->status.guild_id == g_id && flag&1) || //Warp out owners
 		(sd->status.guild_id != g_id && flag&2) || //Warp out outsiders
 		(sd->status.guild_id == 0 && flag&2))	&&// Warp out players not in guild
-		pc_get_group_id(sd) < 60
+		pc_get_group_id(sd) < 60 // [Stingor] no warp out for gms
 	)
 		pc_setpos(sd,sd->status.save_point.map,sd->status.save_point.x,sd->status.save_point.y,CLR_TELEPORT);
 	return 1;
@@ -13797,7 +13782,7 @@ BUILDIN_FUNC(successremovecards) {
 		item_tmp.expire_time = sd->inventory.u.items_inventory[i].expire_time;
 		item_tmp.bound       = sd->inventory.u.items_inventory[i].bound;
 		item_tmp.enchantgrade = sd->inventory.u.items_inventory[i].enchantgrade;
-		item_tmp.unique_id   = sd->inventory.u.items_inventory[i].unique_id;
+		item_tmp.unique_id   = sd->inventory.u.items_inventory[i].unique_id; // [Stingor] uid from item upkeep
 
 		for (int j = sd->inventory_data[i]->slots; j < MAX_SLOTS; j++)
 			item_tmp.card[j]=sd->inventory.u.items_inventory[i].card[j];
@@ -13884,7 +13869,7 @@ BUILDIN_FUNC(failedremovecards) {
 			item_tmp.expire_time = sd->inventory.u.items_inventory[i].expire_time;
 			item_tmp.bound       = sd->inventory.u.items_inventory[i].bound;
 			item_tmp.enchantgrade = sd->inventory.u.items_inventory[i].enchantgrade;
-			item_tmp.unique_id   = sd->inventory.u.items_inventory[i].unique_id;
+			item_tmp.unique_id   = sd->inventory.u.items_inventory[i].unique_id; // [Stingor] uid from item upkeep
 
 			for (int j = sd->inventory_data[i]->slots; j < MAX_SLOTS; j++)
 				item_tmp.card[j]=sd->inventory.u.items_inventory[i].card[j];
@@ -21143,12 +21128,10 @@ int script_instancegetid(struct script_state* st, e_instance_mode mode)
  * Creates the instance
  * Returns Instance ID if created successfully
  *------------------------------------------*/
-BUILDIN_FUNC(instance_create)
+/*BUILDIN_FUNC(instance_create)
 {
 	e_instance_mode mode = IM_PARTY;
 	int owner_id = 0;
-	int hardmode = 1;
-	int turbo = 0;
 
 	if (script_hasdata(st, 3)) {
 		mode = static_cast<e_instance_mode>(script_getnum(st, 3));
@@ -21189,15 +21172,10 @@ BUILDIN_FUNC(instance_create)
 				return SCRIPT_CMD_FAILURE;
 		}
 	}
-	if (script_hasdata(st, 5)) {
-		hardmode = script_getnum(st, 5);
-		if (script_hasdata(st, 6))
-			turbo = script_getnum(st, 6);
-	}
 
-	script_pushint(st, instance_create(owner_id, script_getstr(st, 2), mode, hardmode, turbo));
+	script_pushint(st, instance_create(owner_id, script_getstr(st, 2), mode));
 	return SCRIPT_CMD_SUCCESS;
-}
+}*/
 
 /*==========================================
  * Destroys an instance (unofficial)
@@ -26334,11 +26312,11 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(percentheal,"ii?"),
 	BUILDIN_DEF(rand,"i?"),
 	BUILDIN_DEF(countitem,"v?"),
-	BUILDIN_DEF(storagecountitem,"v??"),
+	// BUILDIN_DEF(storagecountitem,"v?"),
 	BUILDIN_DEF(guildstoragecountitem,"v?"),
 	BUILDIN_DEF(cartcountitem,"v?"),
 	BUILDIN_DEF2(countitem,"countitem2","viiiiiii?"),
-	BUILDIN_DEF2(storagecountitem,"storagecountitem2","viiiiiii??"),
+	// BUILDIN_DEF2(storagecountitem,"storagecountitem2","viiiiiii?"),
 	BUILDIN_DEF2(guildstoragecountitem,"guildstoragecountitem2","viiiiiii?"),
 	BUILDIN_DEF2(cartcountitem,"cartcountitem2","viiiiiii?"),
 	BUILDIN_DEF(checkweight,"vi*"),
@@ -26752,7 +26730,7 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(bg_info,"si"),
 
 	// Instancing
-	BUILDIN_DEF(instance_create,"s????"),
+	BUILDIN_DEF(instance_create,"s??"),
 	BUILDIN_DEF(instance_destroy,"?"),
 	BUILDIN_DEF(instance_id,"?"),
 	BUILDIN_DEF(instance_enter,"s????"),

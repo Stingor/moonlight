@@ -499,3 +499,63 @@ BUILDIN_FUNC(storagecountitem)
 	script_pushint(st, count);
 	return SCRIPT_CMD_SUCCESS;
 }
+
+/*==========================================
+ * Creates the instance
+ * Returns Instance ID if created successfully
+ *------------------------------------------*/
+BUILDIN_FUNC(instance_create)
+{
+	e_instance_mode mode = IM_PARTY;
+	int owner_id = 0;
+	int hardmode = 1;
+	int turbo = 0;
+
+	if (script_hasdata(st, 3)) {
+		mode = static_cast<e_instance_mode>(script_getnum(st, 3));
+
+		if (mode < IM_NONE || mode >= IM_MAX) {
+			ShowError("buildin_instance_create: Unknown instance mode %d for '%s'\n", mode, script_getstr(st, 2));
+			return SCRIPT_CMD_FAILURE;
+		}
+	}
+	if (script_hasdata(st, 4))
+		owner_id = script_getnum(st, 4);
+	else {
+		// If sd is NULL, instance_create will return -2.
+		struct map_session_data *sd = NULL;
+
+		switch(mode) {
+			case IM_NONE:
+				owner_id = st->oid;
+				break;
+			case IM_CHAR:
+				if (script_rid2sd(sd))
+					owner_id = sd->status.char_id;
+				break;
+			case IM_PARTY:
+				if (script_rid2sd(sd))
+					owner_id = sd->status.party_id;
+				break;
+			case IM_GUILD:
+				if (script_rid2sd(sd))
+					owner_id = sd->status.guild_id;
+				break;
+			case IM_CLAN:
+				if (script_rid2sd(sd))
+					owner_id = sd->status.clan_id;
+				break;
+			default:
+				ShowError("buildin_instance_create: Invalid instance mode (instance name: %s)\n", script_getstr(st, 2));
+				return SCRIPT_CMD_FAILURE;
+		}
+	}
+	if (script_hasdata(st, 5)) {
+		hardmode = script_getnum(st, 5);
+		if (script_hasdata(st, 6))
+			turbo = script_getnum(st, 6);
+	}
+
+	script_pushint(st, instance_create(owner_id, script_getstr(st, 2), mode, hardmode, turbo));
+	return SCRIPT_CMD_SUCCESS;
+}
