@@ -2842,14 +2842,6 @@ uint8 ItemGroupDatabase::pc_get_itemgroup(uint16 group_id, bool identify, map_se
 	return 0;
 }
 
-/** Searches for the item_data. Use this to check if item exists or not.
-* @param nameid
-* @return *item_data if item is exist, or NULL if not
-*/
-std::shared_ptr<item_data> itemdb_exists(t_itemid nameid) {
-	return item_db.find(nameid);
-}
-
 /// Returns name type of ammunition [Cydh]
 const char *itemdb_typename_ammo (e_ammo_type ammo) {
 	switch (ammo) {
