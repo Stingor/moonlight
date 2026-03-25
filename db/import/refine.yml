@@ -41,7 +41,7 @@
 
 Header:
   Type: REFINE_DB
-  Version: 1
+  Version: 2
 
 ###########################################################################
 # Event Refine Rates
