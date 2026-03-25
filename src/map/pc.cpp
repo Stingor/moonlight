@@ -8236,7 +8236,7 @@ void pc_gainexp(struct map_session_data *sd, struct block_list *src, t_exp base_
 	nullpo_retv(sd);
 
 	if (sd->status.base_level > 200 && base_exp > 0) { // [Stingor]
-		// Correction du warning C4244 : conversion de 'float' en 't_exp', perte possible de données
+		// Correction du warning C4244 : conversion de 'float' en 't_exp', perte possible de donnÃ©es
 		base_exp = (t_exp)((float)base_exp / exp(((float)(sd->status.base_level) - 200.0f) / 250.0f));
 		if (sd->status.class_ == JOB_TAEKWON)
 			base_exp /= 2;
@@ -10267,7 +10267,7 @@ bool pc_setparam(struct map_session_data *sd,int64 type,int64 val_tmp)
 		sd->battle_status.hp = cap_value(val, 1, (int)sd->battle_status.max_hp);
 		break;
 	case SP_MAXHP:
-		if( sd->sc.data[SC_BERSERK]
+		if (sd->sc.getSCE(SC_BERSERK)
 		&& (sd->status.class_ == JOB_LORD_KNIGHT || sd->status.class_ == JOB_LORD_KNIGHT2) ) // [Stingor]
 			sd->battle_status.max_hp = cap_value(val, 1, battle_config.max_hp_lkberserk);
 		else

@@ -28544,8 +28544,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 20
     Script: "bonus bStr,2;\n"
     ArmorLevel: 1
@@ -28560,8 +28559,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 20
     Script: "bonus bInt,2;\n"
     ArmorLevel: 1
@@ -28576,8 +28574,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 20
     Script: "bonus bVit,2;\n"
     ArmorLevel: 1
@@ -28592,8 +28589,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 20
     Script: "bonus bDex,2;\n"
     ArmorLevel: 1
@@ -28608,8 +28604,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 20
     Script: "bonus bAgi,2;\n"
     ArmorLevel: 1
@@ -28621,8 +28616,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMaxSP,10;\n"
     ArmorLevel: 1
   - Id: 2608
@@ -28636,8 +28630,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 20
     Script: "bonus bMdef,5; bonus bLuk,2;\n"
     ArmorLevel: 1
@@ -28648,8 +28641,7 @@ Body:
     Buy: 10000
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 2610
     AegisName: Gold_Ring
@@ -28658,8 +28650,7 @@ Body:
     Buy: 30000
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 2611
     AegisName: Silver_Ring
@@ -28668,8 +28659,7 @@ Body:
     Buy: 20000
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 2612
     AegisName: Flower_Ring
@@ -28678,8 +28668,7 @@ Body:
     Buy: 1500
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 2613
     AegisName: Diamond_Ring
@@ -28688,8 +28677,7 @@ Body:
     Buy: 45000
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 2614
     AegisName: An_Eye_Of_Dullahan
@@ -28702,8 +28690,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 50
     Script: "bonus2 bResEff,Eff_Poison,10000; bonus2 bSubRace,RC_Undead,4; bonus2 bSubRace,RC_Demon,4;\n"
     ArmorLevel: 1
@@ -28719,8 +28706,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 40
     Script: "bonus bMdef,5;\n"
     ArmorLevel: 1
@@ -28735,8 +28721,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 40
     Script: "bonus bCritical,5;\n"
     ArmorLevel: 1
@@ -28752,8 +28737,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 35
     Script: "bonus bInt,1;\n"
     ArmorLevel: 1
@@ -28769,8 +28753,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 35
     Script: "bonus bAgi,1;\n"
     ArmorLevel: 1
@@ -28785,8 +28768,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 65
     Script: "bonus bLongAtkRate,3;\n"
     ArmorLevel: 1
@@ -28802,8 +28784,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 70
     Script: "if(readparam(bStr)>=90){ bonus bHit,10; bonus bFlee,10; } if(readparam(bAgi)>=90){ bonus bBaseAtk,10; bonus bCritical,10; }\n"
     ArmorLevel: 1
@@ -28819,8 +28800,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 90
     Script: "bonus bStr,1;\n"
     ArmorLevel: 1
@@ -28836,8 +28816,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 90
     Script: "bonus bInt,1;\n"
     ArmorLevel: 1
@@ -28853,8 +28832,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 90
     Script: "bonus bVit,1;\n"
     ArmorLevel: 1
@@ -28870,8 +28848,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 90
     Script: "bonus bDex,1;\n"
     ArmorLevel: 1
@@ -28887,8 +28864,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 90
     Script: "bonus bAgi,1;\n"
     ArmorLevel: 1
@@ -28904,8 +28880,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 90
     Script: "bonus bMdef,3; bonus bLuk,1;\n"
     ArmorLevel: 1
@@ -28917,8 +28892,7 @@ Body:
     Weight: 1200
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 25
     ArmorLevel: 1
   - Id: 2628
@@ -28932,8 +28906,7 @@ Body:
       Novice: true
       SuperNovice: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 2629
     AegisName: Magingiorde
@@ -28943,8 +28916,7 @@ Body:
     Weight: 8000
     Defense: 2
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 94
     Script: "bonus bStr,40+BaseLevel/5; bonus bMdef,7; if(readparam(bStr)>=120) bonus2 bAddClass,Class_Boss,10;\n"
     ArmorLevel: 1
@@ -28956,8 +28928,7 @@ Body:
     Weight: 1500
     Defense: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 94
     Script: "bonus bStr,6; bonus bAgi,6; bonus bVit,6; bonus bInt,10; bonus bLuk,10; bonus bMdef,5; bonus bHealPower,6;\n"
     ArmorLevel: 1
@@ -28968,8 +28939,7 @@ Body:
     Buy: 1
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAllStats,5;\n"
     ArmorLevel: 1
   - Id: 2632
@@ -28984,8 +28954,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 65
     Script: "bonus bVit,1; bonus bDex,1; bonus bLuk,1;\n"
     ArmorLevel: 1
@@ -29000,8 +28969,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 80
     Script: "bonus bStr,2; bonus bInt,1;\n"
     ArmorLevel: 1
@@ -29011,8 +28979,7 @@ Body:
     Type: Armor
     Gender: Male
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Trade:
       Override: 100
       NoDrop: true
@@ -29031,8 +28998,7 @@ Body:
     Type: Armor
     Gender: Female
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Trade:
       Override: 100
       NoDrop: true
@@ -29052,8 +29018,7 @@ Body:
     Buy: 30000
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bLuk,1;\n"
     ArmorLevel: 1
   - Id: 2637
@@ -29063,8 +29028,7 @@ Body:
     Buy: 20000
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bLuk,1;\n"
     ArmorLevel: 1
   - Id: 2638
@@ -29074,8 +29038,7 @@ Body:
     Buy: 20000
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bStr,1; bonus bLuk,1;\n"
     ArmorLevel: 1
   - Id: 2639
@@ -29085,8 +29048,7 @@ Body:
     Buy: 20000
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bInt,1; bonus bAgi,1;\n"
     ArmorLevel: 1
   - Id: 2640
@@ -29101,8 +29063,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bStr,1; bonus bInt,1; bonus bAgi,1; bonus bLuk,1; bonus bMdef,1;\n"
     ArmorLevel: 1
   - Id: 2641
@@ -29116,8 +29077,7 @@ Body:
       Blacksmith: true
       Merchant: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 50
     Script: "bonus bStr,2;\n"
     ArmorLevel: 1
@@ -29127,8 +29087,7 @@ Body:
     Type: Armor
     Buy: 20
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Trade:
       Override: 100
       NoDrop: true
@@ -29147,8 +29106,7 @@ Body:
     Buy: 45000
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 2644
     AegisName: The_Sign_
@@ -29156,8 +29114,7 @@ Body:
     Type: Armor
     Buy: 2
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Trade:
       Override: 100
       NoDrop: true
@@ -29182,8 +29139,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 60
     Script: "bonus bMdef,2;\n"
     ArmorLevel: 1
@@ -29194,8 +29150,7 @@ Body:
     Buy: 2
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAllStats,3;\n"
     ArmorLevel: 1
   - Id: 2647
@@ -29206,8 +29161,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Trade:
       Override: 100
       NoDrop: true
@@ -29231,8 +29185,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 33
     Script: "bonus bInt,1; bonus bMaxSPrate,5;\n"
     ArmorLevel: 1
@@ -29247,8 +29200,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 33
     Script: "bonus bInt,1; bonus bMaxSPrate,5;\n"
     ArmorLevel: 1
@@ -29263,8 +29215,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 61
     Script: "bonus bBaseAtk,5; bonus bCritical,3;\n"
     ArmorLevel: 1
@@ -29279,8 +29230,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 61
     Script: "bonus bStr,2; bonus bCritical,3;\n"
     ArmorLevel: 1
@@ -29291,8 +29241,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 40
     Script: "bonus bCritical,6; bonus2 bAddEff2,Eff_Curse,50;\n"
     ArmorLevel: 1
@@ -29303,8 +29252,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 90
     ArmorLevel: 1
   - Id: 2654
@@ -29320,8 +29268,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 30
     Script: "bonus bStr,1; bonus bAgi,1; bonus bMdef,1;\n"
     ArmorLevel: 1
@@ -29336,8 +29283,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 2656
     AegisName: Hyper_Changer
@@ -29357,8 +29303,7 @@ Body:
       Swordman: true
       Thief: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMaxHP,50;\n"
     ArmorLevel: 1
@@ -29369,8 +29314,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     ArmorLevel: 1
   - Id: 2658
@@ -29381,8 +29325,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMaxHP,10;\n"
     ArmorLevel: 1
   - Id: 2659
@@ -29408,8 +29351,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMdef,3; bonus bInt,2; bonus bMaxSPrate,5;\n"
     ArmorLevel: 1
@@ -29436,8 +29378,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMdef,3; bonus bStr,3; bonus bBaseAtk,10;\n"
     ArmorLevel: 1
@@ -29464,8 +29405,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMdef,3; bonus bAgi,3; bonus bFlee,5;\n"
     ArmorLevel: 1
@@ -29492,8 +29432,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMdef,3; bonus bDex,3; bonus bHit,10;\n"
     ArmorLevel: 1
@@ -29504,8 +29443,7 @@ Body:
     Buy: 20
     Weight: 900
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 75
     Script: "bonus bHit,15; bonus bStr,1;\n"
     ArmorLevel: 1
@@ -29520,8 +29458,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 75
     Script: "bonus bDex,2; bonus bInt,1;\n"
     ArmorLevel: 1
@@ -29536,8 +29473,7 @@ Body:
       Monk: true
       Priest: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 60
     Script: "bonus bMdef,1; bonus2 bExpAddRace,RC_Undead,5; bonus2 bExpAddRace,RC_Demon,5;\n"
     ArmorLevel: 1
@@ -29548,8 +29484,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bStr,2; bonus2 bResEff,Eff_Blind,1000;\n"
     ArmorLevel: 1
@@ -29564,8 +29499,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 60
     Script: "bonus bHit,5; bonus bCritical,5; bonus bDex,1;\n"
     ArmorLevel: 1
@@ -29575,8 +29509,7 @@ Body:
     Type: Armor
     Weight: 500
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Trade:
       Override: 100
@@ -29597,8 +29530,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMaxSP,10;\n"
     ArmorLevel: 1
   - Id: 2670
@@ -29609,8 +29541,7 @@ Body:
     Weight: 100
     Defense: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 30
     Trade:
       Override: 100
@@ -29635,8 +29566,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 65
     Script: "bonus bLongAtkRate,3;\n"
     ArmorLevel: 1
@@ -29651,8 +29581,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bStr,5; bonus bAgi,5; bonus bVit,5; bonus bInt,5; bonus bDex,5; bonus bLuk,5;\n"
     ArmorLevel: 1
   - Id: 2673
@@ -29665,8 +29594,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 48
     Trade:
       Override: 100
@@ -29686,8 +29614,7 @@ Body:
     Type: Armor
     Buy: 20
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Trade:
       Override: 100
@@ -29706,8 +29633,7 @@ Body:
     Type: Armor
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bAllStats,3;\n"
     ArmorLevel: 1
@@ -29718,8 +29644,7 @@ Body:
     Buy: 20
     Weight: 300
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Trade:
       Override: 100
@@ -29740,8 +29665,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bInt,2; bonus bDex,1;\n"
     ArmorLevel: 1
   - Id: 2678
@@ -29766,8 +29690,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bStr,2; bonus bVit,1; bonus bBaseAtk,15; bonus2 bSubEle,Ele_Fire,10; bonus3 bAutoSpell,\"CH_SOULCOLLECT\",1,30; bonus3 bAutoSpell,\"MO_EXPLOSIONSPIRITS\",1,10; bonus3 bAutoSpell,\"PA_PRESSURE\",2,30; bonus3 bAutoSpell,\"MG_FIREBALL\",1,150; bonus3 bAutoSpell,\"KN_BOWLINGBASH\",5,20;\n"
     ArmorLevel: 1
   - Id: 2679
@@ -29793,8 +29716,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAgi,2; bonus bVit,1; bonus bMdef,2; bonus4 bAutoSpellWhenHit,\"WZ_QUAGMIRE\",1,50,0; bonus3 bAutoSpellWhenHit,\"AS_SPLASHER\",10,20; bonus3 bAutoSpellWhenHit,\"AL_HEAL\",10,30; bonus3 bAutoSpellWhenHit,\"HP_ASSUMPTIO\",3,20; bonus3 bAutoSpellWhenHit,\"CG_TAROTCARD\",5,20;\n"
     ArmorLevel: 1
   - Id: 2680
@@ -29804,8 +29726,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAllStats,1; bonus3 bAutoSpell,\"WZ_ESTIMATION\",1,80; bonus3 bAutoSpell,\"MC_IDENTIFY\",1,50; bonus3 bAutoSpell,\"TF_PICKSTONE\",1,100; bonus3 bAutoSpell,\"BS_GREED\",1,10; bonus3 bAutoSpellWhenHit,\"TK_RUN\",5,20; bonus3 bAutoSpellWhenHit,\"TK_HIGHJUMP\",3,30; bonus3 bAutoSpellWhenHit,\"NV_FIRSTAID\",1,100; bonus3 bAutoSpellWhenHit,\"TF_BACKSLIDING\",1,50;\n"
     ArmorLevel: 1
   - Id: 2681
@@ -29815,8 +29736,7 @@ Body:
     Buy: 20
     Weight: 1000
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAllStats,3;\n"
     ArmorLevel: 1
   - Id: 2682
@@ -29831,8 +29751,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 20
     Script: "bonus2 bSubDefEle,Ele_Water,5;\n"
     ArmorLevel: 1
@@ -29848,8 +29767,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 20
     Script: "bonus2 bSubDefEle,Ele_Fire,5;\n"
     ArmorLevel: 1
@@ -29865,8 +29783,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 20
     Script: "bonus2 bSubDefEle,Ele_Wind,5;\n"
     ArmorLevel: 1
@@ -29882,8 +29799,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 20
     Script: "bonus2 bSubDefEle,Ele_Earth,5;\n"
     ArmorLevel: 1
@@ -29921,8 +29837,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bCriticalRate,10;\n"
     ArmorLevel: 1
@@ -29936,8 +29851,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bInt,3;\n"
     ArmorLevel: 1
@@ -29951,8 +29865,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bStr,4;\n"
     ArmorLevel: 1
@@ -29966,8 +29879,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bVit,4;\n"
     ArmorLevel: 1
@@ -29981,8 +29893,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bDex,4;\n"
     ArmorLevel: 1
@@ -29996,8 +29907,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bAgi,4; /*Gold PC Room bonus bAllStats,1;*/\n"
     ArmorLevel: 1
@@ -30011,8 +29921,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMdef,5; bonus bLuk,4;\n"
     ArmorLevel: 1
@@ -30027,8 +29936,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMdef,5; bonus bDef,5; /*Gold PC Room bonus bAllStats,1;*/\n"
     ArmorLevel: 1
@@ -30043,8 +29951,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMdef,3; bonus bInt,2; bonus bMaxSPrate,5;\n"
     ArmorLevel: 1
@@ -30059,8 +29966,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMdef,3; bonus bStr,3; bonus bBaseAtk,10;\n"
     ArmorLevel: 1
@@ -30075,8 +29981,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMdef,3; bonus bAgi,3; bonus bFlee,5;\n"
     ArmorLevel: 1
@@ -30091,8 +29996,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMdef,3; bonus bDex,3; bonus bHit,10;\n"
     ArmorLevel: 1
@@ -30107,8 +30011,7 @@ Body:
       Knight: true
       Swordman: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 60
     ArmorLevel: 1
   - Id: 2701
@@ -30123,8 +30026,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 90
     Script: "bonus bDex,2; bonus bMatkRate,3;\n"
     ArmorLevel: 1
@@ -30140,8 +30042,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 90
     Script: "bonus bAgi,2;\n"
     ArmorLevel: 1
@@ -30153,8 +30054,7 @@ Body:
     Weight: 150
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 50
     Script: "bonus bDelayRate,-5; bonus bUseSPrate,5;\n"
     ArmorLevel: 1
@@ -30166,8 +30066,7 @@ Body:
     Weight: 100
     Defense: 4
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Trade:
       Override: 100
       NoDrop: true
@@ -30186,8 +30085,7 @@ Body:
     Weight: 100
     Defense: 4
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Trade:
       Override: 100
       NoDrop: true
@@ -30203,8 +30101,7 @@ Body:
     Name: Arrest Handcuffs
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 2707
     AegisName: Gusli
@@ -30213,8 +30110,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 2708
     AegisName: Chinese_Handicraft
@@ -30222,8 +30118,7 @@ Body:
     Type: Armor
     Weight: 50
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Trade:
       Override: 100
       NoDrop: true
@@ -30241,8 +30136,7 @@ Body:
     Type: Armor
     Buy: 2
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bAddClass,Class_All,5; bonus bMatkRate,5;\n"
     ArmorLevel: 1
   - Id: 2710
@@ -30255,8 +30149,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bBaseAtk,30;\n"
     ArmorLevel: 1
   - Id: 2711
@@ -30265,8 +30158,7 @@ Body:
     Type: Armor
     Buy: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bInt,2; bonus bDex,2;\n"
     ArmorLevel: 1
   - Id: 2712
@@ -30275,8 +30167,7 @@ Body:
     Type: Armor
     Weight: 300
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 30
     Script: "bonus bVit,3; bonus bAgi,3; bonus bLuk,3;\n"
     ArmorLevel: 1
@@ -30285,8 +30176,7 @@ Body:
     Name: Certificate
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Trade:
       Override: 100
       NoDrop: true
@@ -30305,8 +30195,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 2715
     AegisName: Skul_Ring_
@@ -30316,8 +30205,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bSubRace,RC_Undead,1;\n"
     ArmorLevel: 1
   - Id: 2716
@@ -30332,8 +30220,7 @@ Body:
       SoulLinker: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 80
     Script: "bonus bMaxSP,20;\n"
     ArmorLevel: 1
@@ -30349,8 +30236,7 @@ Body:
       SoulLinker: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 80
     ArmorLevel: 1
   - Id: 2718
@@ -30365,8 +30251,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 65
     ArmorLevel: 1
   - Id: 2719
@@ -30384,8 +30269,7 @@ Body:
       Merchant: true
       Swordman: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 50
     Script: "bonus2 bSkillAtk,\"SM_BASH\",6; bonus2 bSkillAtk,\"MC_MAMMONITE\",6;\n"
     ArmorLevel: 1
@@ -30401,8 +30285,7 @@ Body:
       StarGladiator: true
       Swordman: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 70
     Trade:
       Override: 100
@@ -30423,8 +30306,7 @@ Body:
       Rogue: true
       Thief: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 70
     Trade:
       Override: 100
@@ -30444,8 +30326,7 @@ Body:
       Monk: true
       Priest: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 70
     Trade:
       Override: 100
@@ -30466,8 +30347,7 @@ Body:
       SoulLinker: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 70
     Trade:
       Override: 100
@@ -30487,8 +30367,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 70
     Trade:
       Override: 100
@@ -30508,8 +30387,7 @@ Body:
       Blacksmith: true
       Merchant: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 70
     Trade:
       Override: 100
@@ -30527,8 +30405,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 70
     Script: "bonus bMaxSP,50; bonus bDex,3;\n"
     ArmorLevel: 1
@@ -30541,8 +30418,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 70
     Script: "bonus bMaxSP,50; bonus bDex,3;\n"
     ArmorLevel: 1
@@ -30558,8 +30434,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 80
     Script: "bonus3 bAutoSpell,\"NPC_CRITICALWOUND\",1,30; bonus bHit,10; bonus bHPrecovRate,20;\n"
     ArmorLevel: 1
@@ -30586,8 +30461,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMaxHP,100; bonus bMaxSP,100; bonus bHealPower,5; bonus2 bAddDamageClass,1916,10; bonus2 bAddDamageClass,1917,10;\n"
     ArmorLevel: 1
   - Id: 2730
@@ -30602,8 +30476,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 80
     Trade:
       Override: 100
@@ -30627,8 +30500,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 80
     Trade:
       Override: 100
@@ -30652,8 +30524,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 80
     Trade:
       Override: 100
@@ -30674,8 +30545,7 @@ Body:
     Jobs:
       Gunslinger: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 70
     Script: "bonus2 bAddClass,Class_All,5; bonus bMatkRate,5; bonus bCritical,10; bonus bMaxHP,300; bonus bMaxSP,80; bonus3 bAddEff,Eff_Blind,100,ATF_LONG;\n"
     ArmorLevel: 1
@@ -30688,8 +30558,7 @@ Body:
       Novice: true
       SuperNovice: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 2735
     AegisName: Directive_B
@@ -30700,8 +30569,7 @@ Body:
       Novice: true
       SuperNovice: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 2736
     AegisName: Navel_Ring
@@ -30714,8 +30582,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 75
     Script: "bonus bDex,3; bonus bLuk,3; bonus bMdef,2;\n"
     ArmorLevel: 1
@@ -30730,8 +30597,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 75
     Script: "bonus bVit,3; bonus bMaxHPrate,10;\n"
     ArmorLevel: 1
@@ -30740,8 +30606,7 @@ Body:
     Name: Shiny Coin
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Trade:
       Override: 100
       NoDrop: true
@@ -30754,8 +30619,7 @@ Body:
     Name: Ordinary Coin
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Trade:
       Override: 100
       NoDrop: true
@@ -30768,8 +30632,7 @@ Body:
     Name: Rusty Coin
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Trade:
       Override: 100
       NoDrop: true
@@ -30783,8 +30646,7 @@ Body:
     Type: Armor
     Buy: 20
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAllStats,1; bonus bNoCastCancel; bonus bVariableCastrate,10; skill \"AL_HEAL\",1; skill \"AL_TELEPORT\",1;\n"
     ArmorLevel: 1
   - Id: 2742
@@ -30792,8 +30654,7 @@ Body:
     Name: Lucky Clip
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bDropAddRace,RC_All,50;\n"
     ArmorLevel: 1
   - Id: 2743
@@ -30818,8 +30679,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 70
     Script: "bonus bInt,2; bonus bDex,1; bonus bMdef,2; autobonus3 \"{ bonus bHealPower,20; }\",100,3000,\"AL_HEAL\",\"{ specialeffect2 EF_HEAL3; }\"; autobonus3 \"{ bonus bHealPower,20; }\",100,3000,\"AM_POTIONPITCHER\",\"{ specialeffect2 EF_HEAL3; }\"; autobonus3 \"{ bonus bHealPower,20; }\",100,3000,\"PR_SANCTUARY\",\"{ specialeffect2 EF_HEAL3; }\";\n"
     ArmorLevel: 1
@@ -30845,8 +30705,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 70
     Script: "bonus bVariableCastrate,-10; bonus bDelayRate,5;\n"
     ArmorLevel: 1
@@ -30873,8 +30732,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 70
     Script: "bonus bMdef,2; bonus bMaxSP,25;\n"
     ArmorLevel: 1
@@ -30888,8 +30746,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 80
     Script: "bonus bAgi,3;\n"
     ArmorLevel: 1
@@ -30903,8 +30760,7 @@ Body:
     Jobs:
       Rogue: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 80
     Script: "bonus bDex,3;\n"
     ArmorLevel: 1
@@ -30919,8 +30775,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 84
     Script: "bonus bMdef,3; bonus bDex,2; bonus bLuk,-1; bonus2 bHPLossRate,50,10000; bonus3 bAddEff,Eff_Curse,200,ATF_WEAPON|ATF_LONG|ATF_TARGET;\n"
     UnEquipScript: "heal -300,0;\n"
@@ -30949,8 +30804,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 90
     Script: "bonus bMdef,2; bonus bAgi,2; bonus bDex,1;\n"
     ArmorLevel: 1
@@ -30960,8 +30814,7 @@ Body:
     Type: Armor
     Buy: 20
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "/* skill \"ALL_DREAM_SUMMERNIGHT\",1; */\n"
     ArmorLevel: 1
   - Id: 2751
@@ -30970,8 +30823,7 @@ Body:
     Type: Armor
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Trade:
       Override: 100
       NoDrop: true
@@ -30985,8 +30837,7 @@ Body:
     Type: Armor
     Buy: 2
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Trade:
       Override: 100
       NoDrop: true
@@ -30999,8 +30850,7 @@ Body:
     Name: Beholder Ring
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bExpAddRace,RC_Formless,15;\n"
     ArmorLevel: 1
   - Id: 2754
@@ -31008,8 +30858,7 @@ Body:
     Name: Hallow Ring
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bExpAddRace,RC_Undead,15;\n"
     ArmorLevel: 1
   - Id: 2755
@@ -31017,8 +30866,7 @@ Body:
     Name: Clamorous Ring
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bExpAddRace,RC_Brute,15;\n"
     ArmorLevel: 1
   - Id: 2756
@@ -31026,8 +30874,7 @@ Body:
     Name: Chemical Ring
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bExpAddRace,RC_Plant,15;\n"
     ArmorLevel: 1
   - Id: 2757
@@ -31035,8 +30882,7 @@ Body:
     Name: Insecticide Ring
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bExpAddRace,RC_Insect,15;\n"
     ArmorLevel: 1
   - Id: 2758
@@ -31044,8 +30890,7 @@ Body:
     Name: Fischer Ring
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bExpAddRace,RC_Fish,15;\n"
     ArmorLevel: 1
   - Id: 2759
@@ -31053,8 +30898,7 @@ Body:
     Name: Decussate Ring
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bExpAddRace,RC_Demon,15;\n"
     ArmorLevel: 1
   - Id: 2760
@@ -31062,8 +30906,7 @@ Body:
     Name: Bloody Ring
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bExpAddRace,RC_DemiHuman,15;\n"
     ArmorLevel: 1
   - Id: 2761
@@ -31071,8 +30914,7 @@ Body:
     Name: Satanic Ring
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bExpAddRace,RC_Angel,15;\n"
     ArmorLevel: 1
   - Id: 2762
@@ -31080,8 +30922,7 @@ Body:
     Name: Dragon Ring
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bExpAddRace,RC_Dragon,15;\n"
     ArmorLevel: 1
   - Id: 2763
@@ -31093,8 +30934,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 95
     Script: "bonus2 bAddClass,Class_All,5; bonus bMatkrate,5; bonus bMaxHPrate,5; skill \"MG_SIGHT\",1;\n"
     ArmorLevel: 1
@@ -31105,8 +30945,7 @@ Body:
     Buy: 10
     Weight: 250
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 2765
     AegisName: Novice_Figure
@@ -31114,8 +30953,7 @@ Body:
     Type: Armor
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMaxHP,70; if(BaseJob==Job_Novice||BaseJob==Job_SuperNovice) bonus bMaxHP,30;\n"
     ArmorLevel: 1
   - Id: 2766
@@ -31123,8 +30961,7 @@ Body:
     Name: Swordman Figure
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bVit,1; if(Class==Job_Swordman) bonus bDef,2;\n"
     ArmorLevel: 1
   - Id: 2767
@@ -31132,8 +30969,7 @@ Body:
     Name: Acolyte Figure
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bInt,1; if(Class==Job_Acolyte) bonus bMaxSP,50;\n"
     ArmorLevel: 1
   - Id: 2768
@@ -31141,8 +30977,7 @@ Body:
     Name: Mage Figure
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bInt,1; if(Class==Job_Mage) bonus bSPrecovRate,5;\n"
     ArmorLevel: 1
   - Id: 2769
@@ -31150,8 +30985,7 @@ Body:
     Name: Archer Figure
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bDex,1; if(Class==Job_Archer) bonus bBaseAtk,10;\n"
     ArmorLevel: 1
   - Id: 2770
@@ -31159,8 +30993,7 @@ Body:
     Name: Thief Figure
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAgi,1; if(Class==Job_Thief) bonus bAspdRate,3;\n"
     ArmorLevel: 1
   - Id: 2771
@@ -31168,8 +31001,7 @@ Body:
     Name: Merchant Figure
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bStr,1; if(Class==Job_Merchant) bonus bCritical,5;\n"
     ArmorLevel: 1
   - Id: 2772
@@ -31182,8 +31014,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 81
     Script: "bonus bMaxHP,300; bonus2 bSubEle,Ele_Water,10; bonus2 bSubEle,Ele_Wind,10; bonus2 bSubEle,Ele_Earth,10; bonus2 bSubEle,Ele_Fire,10; bonus bAspdRate,5; bonus bVariableCastrate,-3; bonus bHealPower,5;\n"
     ArmorLevel: 1
@@ -31197,8 +31028,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 61
     Script: "bonus bAllStats,2;\n"
     ArmorLevel: 1
@@ -31212,8 +31042,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAllStats,1;\n"
     ArmorLevel: 1
   - Id: 2775
@@ -31223,8 +31052,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 2776
     AegisName: Cool_Towel
@@ -31234,8 +31062,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipScript: "sc_start SC_SUMMER,INFINITE_TICK,0;\n"
     UnEquipScript: "sc_end SC_SUMMER;\n"
     ArmorLevel: 1
@@ -31247,8 +31074,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 30
     Script: "bonus bMaxHP,50; bonus bSPrecovRate,3;\n"
     ArmorLevel: 1
@@ -31259,8 +31085,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bInt,2;\n"
     ArmorLevel: 1
@@ -31272,8 +31097,7 @@ Body:
     Weight: 500
     Defense: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bStr,2; bonus bAgi,1;\n"
     ArmorLevel: 1
@@ -31285,8 +31109,7 @@ Body:
     Weight: 500
     Defense: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 80
     Script: "autobonus \"{ bonus bAspdRate,2; }\",10,10000,0,\"{ specialeffect2 EF_POTION_BERSERK; }\";\n"
     ArmorLevel: 1
@@ -31298,8 +31121,7 @@ Body:
     Defense: 1
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bAllStats,1; bonus bMdef,1;\n"
     ArmorLevel: 1
@@ -31310,8 +31132,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMaxHP,50; bonus bMaxSP,20;\n"
     ArmorLevel: 1
   - Id: 2783
@@ -31322,8 +31143,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 70
     Script: "bonus bCritical,2; bonus bMaxSP,25;\n"
     ArmorLevel: 1
@@ -31334,8 +31154,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "skill \"ALL_WEWISH\",1;\n"
     ArmorLevel: 1
@@ -31351,8 +31170,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 90
     Script: "bonus bDex,2; bonus bMatkRate,3;\n"
     ArmorLevel: 1
@@ -31363,8 +31181,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bInt,2; bonus bDex,1;\n"
     ArmorLevel: 1
   - Id: 2787
@@ -31375,8 +31192,7 @@ Body:
     Weight: 200
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMdef,2; bonus bMaxHPrate,1; bonus2 bSubEle,Ele_Water,5;\n"
     ArmorLevel: 1
@@ -31388,8 +31204,7 @@ Body:
     Weight: 200
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bInt,1; bonus bDex,1; bonus bMatk,5;\n"
     ArmorLevel: 1
   - Id: 2789
@@ -31400,8 +31215,7 @@ Body:
     Weight: 200
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bStr,1; bonus bVit,1; bonus bBaseAtk,5;\n"
     ArmorLevel: 1
   - Id: 2790
@@ -31412,8 +31226,7 @@ Body:
     Weight: 200
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAgi,1; bonus bFlee,4; if(readparam(bAgi)>=120) bonus bCritical,4;\n"
     ArmorLevel: 1
   - Id: 2791
@@ -31424,8 +31237,7 @@ Body:
     Weight: 500
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bHit,3;\n"
     ArmorLevel: 1
@@ -31449,8 +31261,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bStr,2; bonus bVit,1; bonus bBaseAtk,15; bonus2 bSubEle,Ele_Fire,10; bonus3 bAutoSpell,\"CH_SOULCOLLECT\",1,30; bonus3 bAutoSpell,\"MO_EXPLOSIONSPIRITS\",1,10; bonus3 bAutoSpell,\"PA_PRESSURE\",2,30; bonus3 bAutoSpell,\"MG_FIREBALL\",1,150; bonus3 bAutoSpell,\"KN_BOWLINGBASH\",5,20;\n"
     ArmorLevel: 1
   - Id: 2793
@@ -31474,8 +31285,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAgi,2; bonus bVit,1; bonus bMdef,2; bonus4 bAutoSpellWhenHit,\"WZ_QUAGMIRE\",1,50,0; bonus3 bAutoSpellWhenHit,\"AS_SPLASHER\",10,20; bonus3 bAutoSpellWhenHit,\"AL_HEAL\",10,30; bonus3 bAutoSpellWhenHit,\"HP_ASSUMPTIO\",3,20; bonus3 bAutoSpellWhenHit,\"CG_TAROTCARD\",5,20;\n"
     ArmorLevel: 1
   - Id: 2794
@@ -31486,8 +31296,7 @@ Body:
     Jobs:
       Knight: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     Script: "bonus bStr,2;\n"
     ArmorLevel: 1
@@ -31500,8 +31309,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     Script: "if(JobLevel<30) { bonus bAllStats,6-(JobLevel/5); }\n"
     ArmorLevel: 1
@@ -31516,8 +31324,7 @@ Body:
       SoulLinker: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     Script: "bonus2 bAddDamageClass,2047,10; bonus2 bAddDefMonster,2048,-10; bonus3 bAddMonsterIdDropItem,6152,2047,70;\n"
     ArmorLevel: 1
@@ -31532,8 +31339,7 @@ Body:
       SoulLinker: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     Script: "bonus2 bAddDamageClass,2049,10; bonus2 bAddDefMonster,2050,-10; bonus3 bAddMonsterIdDropItem,6151,2049,70;\n"
     ArmorLevel: 1
@@ -31546,8 +31352,7 @@ Body:
       Monk: true
       Priest: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     Script: "if(strcharinfo(3)==\"job3_arch02\") { bonus2 bAddDefMonster,1761,50; bonus2 bAddDefMonster,1762,50; }\n"
     ArmorLevel: 1
@@ -31558,8 +31363,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMdef,1;\n"
     ArmorLevel: 1
   - Id: 2800
@@ -31572,8 +31376,7 @@ Body:
     Jobs:
       Blacksmith: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     Script: "bonus bAgi,2;\n"
     ArmorLevel: 1
@@ -31587,8 +31390,7 @@ Body:
     Jobs:
       Blacksmith: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     Script: "bonus bAgi,1;\n"
     ArmorLevel: 1
@@ -31602,8 +31404,7 @@ Body:
     Jobs:
       Blacksmith: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     ArmorLevel: 1
   - Id: 2803
@@ -31616,8 +31417,7 @@ Body:
     Jobs:
       Blacksmith: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     Script: "bonus bInt,3;\n"
     ArmorLevel: 1
@@ -31631,8 +31431,7 @@ Body:
     Jobs:
       Blacksmith: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     Script: "bonus bDex,1;\n"
     ArmorLevel: 1
@@ -31646,8 +31445,7 @@ Body:
     Jobs:
       Blacksmith: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     Script: "bonus bDex,1;\n"
     ArmorLevel: 1
@@ -31662,8 +31460,7 @@ Body:
     Jobs:
       Blacksmith: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     Script: "bonus bDex,1;\n"
     ArmorLevel: 1
@@ -31677,8 +31474,7 @@ Body:
     Jobs:
       Blacksmith: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     ArmorLevel: 1
   - Id: 2808
@@ -31691,8 +31487,7 @@ Body:
     Jobs:
       Blacksmith: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     Script: "bonus bAgi,3;\n"
     ArmorLevel: 1
@@ -31706,8 +31501,7 @@ Body:
     Jobs:
       Blacksmith: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     Script: "bonus bDex,1;\n"
     ArmorLevel: 1
@@ -31721,8 +31515,7 @@ Body:
     Jobs:
       Blacksmith: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     Script: "bonus bDex,1;\n"
     ArmorLevel: 1
@@ -31734,8 +31527,7 @@ Body:
     Weight: 200
     Defense: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 20
     Script: "bonus bAllStats,1;\n"
     ArmorLevel: 1
@@ -31747,8 +31539,7 @@ Body:
     Weight: 200
     Defense: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 20
     Script: "bonus bAllStats,1;\n"
     ArmorLevel: 1
@@ -31760,8 +31551,7 @@ Body:
     Weight: 200
     Defense: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 20
     Script: "bonus bAllStats,1;\n"
     ArmorLevel: 1
@@ -31773,8 +31563,7 @@ Body:
     Weight: 200
     Defense: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 20
     Script: "bonus bAllStats,1;\n"
     ArmorLevel: 1
@@ -31785,8 +31574,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAllStats,1; bonus bMdef,2;\n"
     ArmorLevel: 1
   - Id: 2816
@@ -31794,8 +31582,7 @@ Body:
     Name: Radar Ring
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus3 bAddMonsterIdDropItem,6206,1002,400; bonus3 bAddMonsterIdDropItem,6207,1161,400; bonus3 bAddMonsterIdDropItem,6208,1153,400;\n"
     ArmorLevel: 1
   - Id: 2817
@@ -31803,8 +31590,7 @@ Body:
     Name: Radar Ring
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus3 bAddMonsterIdDropItem,6206,1026,400; bonus3 bAddMonsterIdDropItem,6207,1197,400; bonus3 bAddMonsterIdDropItem,6208,1504,400;\n"
     ArmorLevel: 1
   - Id: 2818
@@ -31812,8 +31598,7 @@ Body:
     Name: Radar Ring
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus3 bAddMonsterIdDropItem,6206,1508,400; bonus3 bAddMonsterIdDropItem,6207,1098,400; bonus3 bAddMonsterIdDropItem,6208,1315,400;\n"
     ArmorLevel: 1
   - Id: 2819
@@ -31825,8 +31610,7 @@ Body:
       Novice: true
       SuperNovice: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Trade:
       Override: 100
@@ -31844,8 +31628,7 @@ Body:
       Novice: true
       SuperNovice: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Trade:
       Override: 100
@@ -31863,8 +31646,7 @@ Body:
       Novice: true
       SuperNovice: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Trade:
       Override: 100
@@ -31882,8 +31664,7 @@ Body:
       Novice: true
       SuperNovice: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Trade:
       Override: 100
@@ -31901,8 +31682,7 @@ Body:
       Novice: true
       SuperNovice: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Trade:
       Override: 100
@@ -31920,8 +31700,7 @@ Body:
       Novice: true
       SuperNovice: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Trade:
       Override: 100
@@ -31937,8 +31716,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bInt,2;\n"
     ArmorLevel: 1
@@ -31950,8 +31728,7 @@ Body:
     Weight: 500
     Defense: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bDex,2; bonus bAgi,1;\n"
     ArmorLevel: 1
@@ -31963,8 +31740,7 @@ Body:
     Weight: 500
     Defense: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "autobonus \"{ bonus bMaxHPrate,10; }\",10,10000,0,\"{ specialeffect2 EF_POTION_BERSERK; }\";\n"
     ArmorLevel: 1
@@ -31976,8 +31752,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMaxSP,50; bonus bMaxHPrate,3;\n"
     ArmorLevel: 1
@@ -31990,8 +31765,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 10
     Script: "skill \"BS_GREED\",1;\n"
     ArmorLevel: 1
@@ -32002,8 +31776,7 @@ Body:
     Buy: 20
     Defense: 2
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 94
     Script: "bonus bStr,40; bonus bMdef,7;\n"
     ArmorLevel: 1
@@ -32014,8 +31787,7 @@ Body:
     Buy: 20
     Defense: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 94
     Script: "bonus bStr,6; bonus bInt,6; bonus bVit,6; bonus bAgi,6; bonus bLuk,10; bonus bMdef,5;\n"
     ArmorLevel: 1
@@ -32025,8 +31797,7 @@ Body:
     Type: Armor
     Buy: 20
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     ArmorLevel: 1
   - Id: 2833
@@ -32034,8 +31805,7 @@ Body:
     Name: Odin's Recall
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bAllStats,1; skill \"ALL_ODINS_RECALL\",1;\n"
     ArmorLevel: 1
@@ -32045,8 +31815,7 @@ Body:
     Type: Armor
     Buy: 20
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAllStats,1; bonus bNoCastCancel; bonus bVariableCastrate,10; skill \"AL_HEAL\",1; skill \"AL_TELEPORT\",1;\n"
     ArmorLevel: 1
   - Id: 2835
@@ -32059,8 +31828,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bCritical,10;\n"
     ArmorLevel: 1
@@ -32074,8 +31842,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bDex,4;\n"
     ArmorLevel: 1
@@ -32090,8 +31857,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMdef,5;\n"
     ArmorLevel: 1
@@ -32105,8 +31871,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bVit,4;\n"
     ArmorLevel: 1
@@ -32120,8 +31885,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bStr,4;\n"
     ArmorLevel: 1
@@ -32135,8 +31899,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bLuk,4; bonus bMdef,5;\n"
     ArmorLevel: 1
@@ -32150,8 +31913,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     Script: "bonus bInt,2; bonus bDex,2; bonus bMdef,2; bonus2 bExpAddRace,RC_All,10; bonus2 bDropAddRace,RC_All,10;\n"
     ArmorLevel: 1
@@ -32165,8 +31927,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bInt,3;\n"
     ArmorLevel: 1
@@ -32176,8 +31937,7 @@ Body:
     Type: Armor
     Buy: 20
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 75
     Script: "bonus bMaxSP,50;\n"
     ArmorLevel: 1
@@ -32188,8 +31948,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 80
     Script: "skill \"RETURN_TO_ELDICASTES\",1;\n"
     ArmorLevel: 1
@@ -32199,8 +31958,7 @@ Body:
     Type: Armor
     Defense: 2
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 20
     Script: "bonus bMdef,2;\n"
     ArmorLevel: 1
@@ -32210,8 +31968,7 @@ Body:
     Type: Armor
     Buy: 20
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAllStats,1;\n"
     ArmorLevel: 1
   - Id: 2847
@@ -32224,8 +31981,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bCritical,10;\n"
     ArmorLevel: 1
@@ -32239,8 +31995,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bDex,4;\n"
     ArmorLevel: 1
@@ -32255,8 +32010,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMdef,5;\n"
     ArmorLevel: 1
@@ -32270,8 +32024,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bVit,4;\n"
     ArmorLevel: 1
@@ -32285,8 +32038,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bStr,4;\n"
     ArmorLevel: 1
@@ -32300,8 +32052,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bLuk,4; bonus bMdef,5;\n"
     ArmorLevel: 1
@@ -32317,8 +32068,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 110
     Script: "bonus bMdef,1; bonus bInt,3; bonus bMaxSP,30; bonus2 bSkillAtk,\"WL_SOULEXPANSION\",10; bonus2 bSkillAtk,\"SO_PSYCHIC_WAVE\",10; bonus2 bSkillUseSP,\"WL_SOULEXPANSION\",-50; bonus2 bSkillUseSP,\"SO_PSYCHIC_WAVE\",-50;\n"
     ArmorLevel: 1
@@ -32335,8 +32085,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 125
     Script: "bonus bMdef,2; bonus bInt,1; bonus2 bMagicAtkEle,Ele_Fire,10; bonus2 bMagicAtkEle,Ele_Water,-20; bonus2 bSubEle,Ele_Water,-30; bonus3 bAutoSpell,\"MG_FIREBALL\",5,30; bonus5 bAutoSpell,\"MG_FIREBOLT\",5,30,BF_MAGIC,1;\n"
     ArmorLevel: 1
@@ -32347,8 +32096,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 45
     Script: "bonus bCritical,7; bonus bAspdRate,3;\n"
     ArmorLevel: 1
@@ -32359,8 +32107,7 @@ Body:
     Buy: 20
     Defense: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 47
     Script: "bonus bMdef,3; bonus bStr,20;\n"
     ArmorLevel: 1
@@ -32371,8 +32118,7 @@ Body:
     Buy: 20
     Defense: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 47
     Script: "bonus bStr,3; bonus bInt,5; bonus bVit,3; bonus bDex,3; bonus bAgi,3; bonus bLuk,5; bonus bMdef,2;\n"
     ArmorLevel: 1
@@ -32381,8 +32127,7 @@ Body:
     Name: Pendant Of Guardian
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 70
     Script: "skill \"ALL_GUARDIAN_RECALL\",1;\n"
     ArmorLevel: 1
@@ -32396,8 +32141,7 @@ Body:
     Jobs:
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMdef,2; bonus bInt,1; bonus2 bSubEle,Ele_Wind,15; bonus3 bAutoSpellWhenHit,\"WZ_JUPITEL\",3,30;\n"
     ArmorLevel: 1
@@ -32411,8 +32155,7 @@ Body:
     Jobs:
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMdef,2; bonus bInt,1; bonus2 bSubEle,Ele_Water,15; bonus3 bAutoSpellWhenHit,\"WZ_FROSTNOVA\",3,30;\n"
     ArmorLevel: 1
@@ -32426,8 +32169,7 @@ Body:
     Jobs:
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMdef,2; bonus bInt,1; bonus2 bSubEle,Ele_Fire,15; bonus3 bAutoSpellWhenHit,\"WZ_SIGHTRASHER\",3,30;\n"
     ArmorLevel: 1
@@ -32441,8 +32183,7 @@ Body:
     Jobs:
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMdef,2; bonus bInt,1; bonus2 bSubEle,Ele_Earth,15; bonus3 bAutoSpellWhenHit,\"WZ_QUAGMIRE\",3,30;\n"
     ArmorLevel: 1
@@ -32452,8 +32193,7 @@ Body:
     Type: Armor
     Defense: 2
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus2 bExpAddClass,Class_All,5; bonus2 bDropAddRace,RC_All,5;\n"
     ArmorLevel: 1
@@ -32465,8 +32205,7 @@ Body:
     Jobs:
       Priest: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 110
     Script: "bonus bVit,2; bonus bHealPower,2;\n"
     ArmorLevel: 1
@@ -32478,8 +32217,7 @@ Body:
     Jobs:
       Priest: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 110
     Script: "bonus bInt,2; bonus bHealPower,2;\n"
     ArmorLevel: 1
@@ -32491,8 +32229,7 @@ Body:
     Jobs:
       Priest: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 110
     Script: "bonus bDex,2; bonus bHealPower,2;\n"
     ArmorLevel: 1
@@ -32504,8 +32241,7 @@ Body:
     Weight: 100
     Defense: 2
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMdef,2;\n"
     ArmorLevel: 1
   - Id: 2868
@@ -32520,8 +32256,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 45
     Script: "bonus bStr,1; bonus bInt,1; bonus bDex,1; bonus bMdef,1;\n"
     ArmorLevel: 1
@@ -32536,8 +32271,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 45
     Script: "bonus bStr,1; bonus bInt,1; bonus bDex,1;\n"
     ArmorLevel: 1
@@ -32546,8 +32280,7 @@ Body:
     Name: Tw 8th Anni Ring
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bStr,5; bonus bInt,5; bonus bVit,5; bonus bDex,5; bonus bAgi,5; bonus bLuk,5;\n"
     ArmorLevel: 1
   - Id: 2871
@@ -32558,8 +32291,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 60
     Script: "bonus2 bAddClass,Class_All,3; bonus bMatkRate,3; bonus bMaxHP,50; bonus bMaxSP,20;\n"
     ArmorLevel: 1
@@ -32568,8 +32300,7 @@ Body:
     Name: G Honor Certificate
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     ArmorLevel: 1
   - Id: 2873
@@ -32581,8 +32312,7 @@ Body:
     Defense: 5
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bAgi,1; bonus bVit,1; bonus bDex,1; bonus bLuk,1;\n"
     ArmorLevel: 1
@@ -32594,8 +32324,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 10
     Script: "bonus bAspd,1;\n"
     ArmorLevel: 1
@@ -32607,8 +32336,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bAddClass,Class_All,5; bonus bMatkRate,5;\n"
     ArmorLevel: 1
   - Id: 2876
@@ -32619,8 +32347,7 @@ Body:
     Weight: 200
     Defense: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 10
     Script: "bonus bMdef,1;\n"
     ArmorLevel: 1
@@ -32632,8 +32359,7 @@ Body:
     Weight: 200
     Defense: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 10
     Script: "bonus bMdef,1;\n"
     ArmorLevel: 1
@@ -32645,8 +32371,7 @@ Body:
     Weight: 200
     Defense: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 10
     Script: "bonus bMdef,1;\n"
     ArmorLevel: 1
@@ -32658,8 +32383,7 @@ Body:
     Weight: 200
     Defense: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 10
     Script: "bonus bMdef,1;\n"
     ArmorLevel: 1
@@ -32671,8 +32395,7 @@ Body:
     Weight: 200
     Defense: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 10
     Script: "bonus bMdef,1;\n"
     ArmorLevel: 1
@@ -32684,8 +32407,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bDex,2; bonus bMatk,20;\n"
     ArmorLevel: 1
   - Id: 2882
@@ -32696,8 +32418,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bVit,1; bonus bLuk,1;\n"
     ArmorLevel: 1
   - Id: 2883
@@ -32711,8 +32432,7 @@ Body:
     Jobs:
       Knight: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMaxHPrate,2; bonus2 bSkillUseSP,\"LK_SPIRALPIERCE\",5; bonus2 bSkillUseSP,\"RK_HUNDREDSPEAR\",5;\n"
     ArmorLevel: 1
@@ -32727,8 +32447,7 @@ Body:
     Jobs:
       Knight: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bBaseAtk,20; bonus bMaxSP,20;\n"
     ArmorLevel: 1
@@ -32737,8 +32456,7 @@ Body:
     Name: Mother Heart
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bBaseAtk,15; bonus bMatk,15; bonus2 bExpAddClass,Class_All,15;\n"
     ArmorLevel: 1
   - Id: 2886
@@ -32750,8 +32468,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bCritical,3; bonus2 bSkillUseSP,\"GC_DARKILLUSION\",5;\n"
     ArmorLevel: 1
@@ -32764,8 +32481,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bBaseAtk,10; bonus bMatk,20;\n"
     ArmorLevel: 1
@@ -32777,8 +32493,7 @@ Body:
     Weight: 1000
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAspdRate,3; bonus bVariableCastrate,-3; if(BaseLevel<80){ bonus bMaxHP,200; bonus bMaxSP,100; }\n"
     ArmorLevel: 1
   - Id: 2889
@@ -32789,8 +32504,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 60
     ArmorLevel: 1
   - Id: 2890
@@ -32802,8 +32516,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bDex,2; bonus bLongAtkRate,3;\n"
     ArmorLevel: 1
@@ -32816,8 +32529,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bInt,2; bonus bFlee2,3;\n"
     ArmorLevel: 1
@@ -32832,8 +32544,7 @@ Body:
     Jobs:
       Assassin: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMaxSP,20; bonus bCritical,3;\n"
     ArmorLevel: 1
@@ -32845,8 +32556,7 @@ Body:
     Weight: 50
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 80
     ArmorLevel: 1
   - Id: 2894
@@ -32859,8 +32569,7 @@ Body:
     Jobs:
       Monk: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 130
     Script: "bonus bStr,5; bonus bMaxSPrate,6; bonus bMaxHPrate,-6; if(readparam(bStr)>=120){ bonus bBaseAtk,30; }\n"
     ArmorLevel: 1
@@ -32870,8 +32579,7 @@ Body:
     Type: Armor
     Defense: 4
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bVariableCastrate,-2;\n"
     ArmorLevel: 1
   - Id: 2896
@@ -32880,8 +32588,7 @@ Body:
     Type: Armor
     Defense: 4
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAspdRate,3;\n"
     ArmorLevel: 1
   - Id: 2897
@@ -32890,8 +32597,7 @@ Body:
     Type: Armor
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus2 bAddClass,Class_All,5; bonus bMatkRate,5; bonus2 bExpAddClass,Class_All,1;\n"
     ArmorLevel: 1
@@ -32903,8 +32609,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 90
     Script: "bonus bMdef,15;\n"
     ArmorLevel: 1
@@ -32919,8 +32624,7 @@ Body:
       BardDancer: true
       Hunter: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 90
     Script: "bonus2 bSkillAtk,\"WM_METALICSOUND\",150; bonus2 bSkillUseSP,\"WM_METALICSOUND\",-60; bonus bVariableCastrate,-50;\n"
     ArmorLevel: 1
@@ -32936,8 +32640,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 61
     ArmorLevel: 1
   - Id: 2901
@@ -32952,8 +32655,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 61
     Script: "bonus bStr,2;\n"
     ArmorLevel: 1
@@ -32969,8 +32671,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 33
     Script: "bonus bInt,1;\n"
     ArmorLevel: 1
@@ -32986,8 +32687,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 33
     Script: "bonus bInt,1;\n"
     ArmorLevel: 1
@@ -32996,8 +32696,7 @@ Body:
     Name: Naqsi
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "skill \"BS_MAXIMIZE\",5; skill \"BS_WEAPONPERFECT\",5; skill \"WL_RECOGNIZEDSPELL\",5; skill \"ECL_SNOWFLIP\",1; skill \"ECL_PEONYMAMY\",1; skill \"ECL_SADAGUI\",1; skill \"ECL_SEQUOIADUST\",1; bonus2 bSkillCooldown,\"WL_RECOGNIZEDSPELL\",-180000; bonus bDelayRate,-100;\n"
     ArmorLevel: 1
   - Id: 2905
@@ -33006,8 +32705,7 @@ Body:
     Type: Armor
     Weight: 1000
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 2906
     AegisName: Happy_Gauntlet
@@ -33018,8 +32716,7 @@ Body:
     Defense: 3
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 70
     Script: "bonus bMdef,3;\n"
     ArmorLevel: 1
@@ -33030,8 +32727,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMatkRate,7; bonus bFixedCastrate,-7;\n"
     ArmorLevel: 1
@@ -33043,8 +32739,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 2909
     AegisName: Darkness_Ring
@@ -33054,8 +32749,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 2910
     AegisName: Bakonawa_Tattoo
@@ -33064,8 +32758,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus2 bAddClass,Class_All,7; bonus bAspdRate,10;\n"
     ArmorLevel: 1
@@ -33076,8 +32769,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bHealPower,4; bonus bHealPower2,7;\n"
     ArmorLevel: 1
@@ -33089,8 +32781,7 @@ Body:
     Weight: 300
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 2913
     AegisName: Thief_Handcuff
@@ -33100,8 +32791,7 @@ Body:
     Weight: 1400
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 10
     Script: "bonus bBaseAtk,5;\n"
     ArmorLevel: 1
@@ -33129,8 +32819,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bInt,4; bonus bMdef,3; bonus bVariableCastrate,3;\n"
     ArmorLevel: 1
   - Id: 2915
@@ -33140,8 +32829,7 @@ Body:
     Buy: 20
     Weight: 50
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMdef,10;\n"
     ArmorLevel: 1
   - Id: 2916
@@ -33150,8 +32838,7 @@ Body:
     Type: Armor
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 90
     Script: "skill \"ECLAGE_RECALL\",1;\n"
     ArmorLevel: 1
@@ -33162,8 +32849,7 @@ Body:
     Buy: 75000
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMaxHP,100; bonus bMaxSP,20; bonus bBaseAtk,(readparam(bStr)/10); if(readparam(bStr)>=110) bonus2 bAddClass,Class_All,1;\n"
     ArmorLevel: 1
@@ -33174,8 +32860,7 @@ Body:
     Buy: 75000
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMaxHP,100; bonus bMaxSP,20; bonus bMatk,(readparam(bInt)/10); if(readparam(bInt)>=110) bonus bMatkRate,1;\n"
     ArmorLevel: 1
@@ -33186,8 +32871,7 @@ Body:
     Buy: 75000
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMaxHP,100; bonus bMaxSP,20; bonus bFlee,(readparam(bAgi)/10); if(readparam(bAgi)>=110) bonus bFlee2,1;\n"
     ArmorLevel: 1
@@ -33198,8 +32882,7 @@ Body:
     Buy: 75000
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMaxHP,100; bonus bMaxSP,20; bonus bMaxHP,(readparam(bVit)/10)*50; if(readparam(bVit)>=110) bonus bMaxHPrate,1;\n"
     ArmorLevel: 1
@@ -33210,8 +32893,7 @@ Body:
     Buy: 75000
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMaxHP,100; bonus bMaxSP,20; bonus bHit,(readparam(bDex)/10); if(readparam(bDex)>=110) bonus bLongAtkRate,1;\n"
     ArmorLevel: 1
@@ -33222,8 +32904,7 @@ Body:
     Buy: 75000
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMaxHP,100; bonus bMaxSP,20; bonus bCritical,(readparam(bLuk)/10); if(readparam(bLuk)>=110) bonus bCritAtkRate,1;\n"
     ArmorLevel: 1
@@ -33235,8 +32916,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMaxHP,100; bonus bMaxSP,20; bonus bBaseAtk,(readparam(bStr)/10); if(readparam(bStr)>=110) bonus2 bAddClass,Class_All,1;\n"
     ArmorLevel: 1
@@ -33248,8 +32928,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMaxHP,100; bonus bMaxSP,20; bonus bMatk,(readparam(bInt)/10); if(readparam(bInt)>=110) bonus bMatkRate,1;\n"
     ArmorLevel: 1
@@ -33261,8 +32940,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMaxHP,100; bonus bMaxSP,20; bonus bFlee,(readparam(bAgi)/10); if(readparam(bAgi)>=110) bonus bFlee2,1;\n"
     ArmorLevel: 1
@@ -33274,8 +32952,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMaxHP,100; bonus bMaxSP,20; bonus bMaxHP,(readparam(bVit)/10)*50; if(readparam(bVit)>=110) bonus bMaxHPrate,1;\n"
     ArmorLevel: 1
@@ -33287,8 +32964,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMaxHP,100; bonus bMaxSP,20; bonus bHit,(readparam(bDex)/10); if(readparam(bDex)>=110) bonus bLongAtkRate,1;\n"
     ArmorLevel: 1
@@ -33300,8 +32976,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMaxHP,100; bonus bMaxSP,20; bonus bCritical,(readparam(bLuk)/10); if(readparam(bLuk)>=110) bonus bCritAtkRate,1;\n"
     ArmorLevel: 1
@@ -33314,8 +32989,7 @@ Body:
     Defense: 5
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 10
     Script: "bonus bVit,1; bonus bMaxHP,250; bonus bMaxHPrate,5; bonus bHealPower2,5;\n"
     ArmorLevel: 1
@@ -33328,8 +33002,7 @@ Body:
       Novice: true
       SuperNovice: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMaxSP,100; skill \"NJ_UTSUSEMI\",1; skill \"NJ_KOUENKA\",1; skill \"NJ_SYURIKEN\",1;\n"
     ArmorLevel: 1
   - Id: 2941
@@ -33341,8 +33014,7 @@ Body:
       Novice: true
       SuperNovice: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMaxSP,100; skill \"GS_GLITTERING\",1; skill \"GS_ADJUSTMENT\",1; skill \"GS_MADNESSCANCEL\",1; skill \"GS_INCREASING\",1;\n"
     ArmorLevel: 1
   - Id: 2942
@@ -33354,8 +33026,7 @@ Body:
       Novice: true
       SuperNovice: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMaxSP,100; skill \"TK_SEVENWIND\",4; skill \"TK_JUMPKICK\",5;\n"
     ArmorLevel: 1
   - Id: 2943
@@ -33365,8 +33036,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bCritical,5;\n"
     ArmorLevel: 1
   - Id: 2944
@@ -33374,8 +33044,7 @@ Body:
     Name: TE Ring Of Protection
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 40
     Script: "bonus bMaxHP,100; bonus2 bSubRace,RC_PLAYER_HUMAN,5;\n"
     ArmorLevel: 1
@@ -33384,8 +33053,7 @@ Body:
     Name: TE Ring Of Rage
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 40
     Script: "bonus2 bAddRace,RC_PLAYER_HUMAN,5; bonus2 bMagicAddRace,RC_PLAYER_HUMAN,5;\n"
     ArmorLevel: 1
@@ -33394,8 +33062,7 @@ Body:
     Name: TE Ring Of Defiance
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 40
     Script: "bonus bMdef,5; bonus2 bSubRace,RC_PLAYER_HUMAN,5;\n"
     ArmorLevel: 1
@@ -33407,8 +33074,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 70
     Script: "bonus bFlee,5;\n"
     ArmorLevel: 1
@@ -33421,8 +33087,7 @@ Body:
     Defense: 3
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 60
     Script: "bonus bAllStats,1; bonus bMdef,3; skill \"SA_SPELLBREAKER\",5;\n"
     ArmorLevel: 1
@@ -33431,8 +33096,7 @@ Body:
     Name: Rune Ring
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus2 bExpAddClass,Class_Normal,10;\n"
     ArmorLevel: 1
@@ -33442,8 +33106,7 @@ Body:
     Type: Armor
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMaxSP,30; skill \"ECL_SNOWFLIP\",1;\n"
     ArmorLevel: 1
@@ -33453,8 +33116,7 @@ Body:
     Type: Armor
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMaxSP,30; skill \"ECL_PEONYMAMY\",1;\n"
     ArmorLevel: 1
@@ -33464,8 +33126,7 @@ Body:
     Type: Armor
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMaxHP,100; skill \"ECL_SADAGUI\",1;\n"
     ArmorLevel: 1
@@ -33476,8 +33137,7 @@ Body:
     Buy: 10
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMaxHP,100;\n"
     ArmorLevel: 1
@@ -33494,8 +33154,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 50
     Script: "bonus bMdef,5; bonus bAllStats,1;\n"
     ArmorLevel: 1
@@ -33521,8 +33180,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 85
     Script: "bonus bStr,3; bonus bVit,2; bonus bBaseAtk,20; bonus2 bSubEle,Ele_Fire,10; bonus3 bAutoSpell,\"CH_SOULCOLLECT\",1,30; bonus3 bAutoSpell,\"MO_EXPLOSIONSPIRITS\",1,10; bonus3 bAutoSpell,\"PA_PRESSURE\",2,30; bonus3 bAutoSpell,\"MG_FIREBALL\",1,150; bonus3 bAutoSpell,\"KN_BOWLINGBASH\",5,20;\n"
     ArmorLevel: 1
@@ -33549,8 +33207,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 85
     Script: "bonus bAgi,3; bonus bVit,1; bonus bMdef,2; bonus bMatk,10; bonus4 bAutoSpellWhenHit,\"WZ_QUAGMIRE\",1,50,0; bonus3 bAutoSpellWhenHit,\"AS_SPLASHER\",10,20; bonus3 bAutoSpellWhenHit,\"AL_HEAL\",10,30; bonus3 bAutoSpellWhenHit,\"HP_ASSUMPTIO\",3,20; bonus3 bAutoSpellWhenHit,\"CG_TAROTCARD\",5,20;\n"
     ArmorLevel: 1
@@ -33562,8 +33219,7 @@ Body:
     Weight: 300
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 50
     Script: "bonus bAgi,2; bonus2 bSubRace,RC_Brute,3;\n"
     ArmorLevel: 1
@@ -33575,8 +33231,7 @@ Body:
     Weight: 200
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAllStats,1;\n"
     ArmorLevel: 1
   - Id: 2963
@@ -33587,8 +33242,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 90
     Script: "bonus2 bAddClass,Class_All,5;\n"
     ArmorLevel: 1
@@ -33600,8 +33254,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 90
     Script: "bonus bMatkRate,5;\n"
     ArmorLevel: 1
@@ -33612,8 +33265,7 @@ Body:
     Buy: 20
     Weight: 200
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bAddClass,Class_All,1;\n"
     ArmorLevel: 1
   - Id: 2967
@@ -33624,8 +33276,7 @@ Body:
     Weight: 200
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bAddClass,Class_All,1;\n"
     ArmorLevel: 1
   - Id: 2968
@@ -33635,8 +33286,7 @@ Body:
     Buy: 20
     Weight: 200
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMatkRate,1;\n"
     ArmorLevel: 1
   - Id: 2969
@@ -33647,8 +33297,7 @@ Body:
     Weight: 200
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMatkRate,1;\n"
     ArmorLevel: 1
   - Id: 7513
@@ -33672,8 +33321,7 @@ Body:
       SoulLinker: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 80
     Script: "bonus bHPrecovRate,15; bonus bSPrecovRate,15; bonus bMatkRate,7;\n"
     ArmorLevel: 1
@@ -33685,8 +33333,7 @@ Body:
     Weight: 200
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMaxSP,-300; skill \"MG_SIGHT\",1;\n"
     UnEquipScript: "sc_end SC_SIGHT;\n"
@@ -33699,8 +33346,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 110
     Script: "bonus bMaxSP,200; skill \"DC_SCREAM\",3;\n"
     ArmorLevel: 1
@@ -33712,8 +33358,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 110
     Script: "bonus bMaxHP,500; bonus2 bHPRegenRate,300,10000;skill \"DC_SCREAM\",3;\n"
     ArmorLevel: 1
@@ -33730,8 +33375,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bAllStats,1; bonus3 bAutoSpellWhenHit,\"WZ_FROSTNOVA\",3,10; /* Confirm: Frost Nova cast chance */\n"
     ArmorLevel: 1
@@ -33743,8 +33387,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 110
     Script: "bonus bMaxHP,500; bonus bMaxSP,200; skill \"PF_SPIDERWEB\",1; bonus3 bAutoSpell,\"SO_PSYCHIC_WAVE\",1,1; bonus5 bAutoSpell,\"HW_MAGICPOWER\",1,1,BF_MAGIC,0; bonus5 bAutoSpell,\"WZ_FROSTNOVA\",10,10,BF_WEAPON|BF_MAGIC,0; bonus5 bAutoSpellWhenHit,\"DC_SCREAM\",1,1,BF_WEAPON|BF_MAGIC,0;\n"
     ArmorLevel: 1
@@ -33755,8 +33398,7 @@ Body:
     Buy: 10
     Weight: 200
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 160
     ArmorLevel: 1
   - Id: 2983
@@ -33767,8 +33409,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 50
     Script: "bonus2 bHPLossRate,10,5000;\n"
     ArmorLevel: 1
@@ -33780,8 +33421,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 30
     Script: "bonus2 bExpAddRace,RC_All,5; bonus2 bSubRace,RC_All,-5;\n"
     ArmorLevel: 1
@@ -33793,8 +33433,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 50
     Script: "bonus bInt,3; bonus bMatk,30; skill \"TF_HIDING\",1;\n"
     UnEquipScript: "sc_end SC_HIDING;\n"
@@ -33808,8 +33447,7 @@ Body:
     Defense: 2
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bDex,3; bonus bMdef,2;\n"
     ArmorLevel: 1
   - Id: 2987
@@ -33821,8 +33459,7 @@ Body:
     Defense: 3
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAgi,3; bonus bLuk,2; bonus bMdef,3;\n"
     ArmorLevel: 1
   - Id: 2988
@@ -33836,8 +33473,7 @@ Body:
       BardDancer: true
     Gender: Male
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 130
     Script: "bonus bVariableCastrate,-25;\n"
     ArmorLevel: 1
@@ -33852,8 +33488,7 @@ Body:
       BardDancer: true
     Gender: Female
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 130
     Script: "bonus bVariableCastrate,-25;\n"
     ArmorLevel: 1
@@ -33864,8 +33499,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 130
     Script: "bonus bMatkRate,6; bonus bHPrecovRate,50; bonus bSPrecovRate,50; bonus2 bSubEle,Ele_Holy,5; autobonus \"{ bonus2 bHPRegenRate,1000,5000; }\",100,90000,BF_NORMAL; bonus4 bAutoSpellWhenHit,\"PR_SANCTUARY\",3,100,0; bonus bStr,-5;\n"
     ArmorLevel: 1
@@ -33876,8 +33510,7 @@ Body:
     Buy: 20
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 130
     Script: "bonus2 bAddClass,Class_All,6; bonus2 bSubEle,Ele_Dark,5; bonus2 bResEff,Eff_Confusion,10000; bonus2 bAddEff,Eff_Confusion,500; bonus3 bAutoSpellWhenHit,\"NPC_WIDECONFUSE\",2,30; bonus bInt,-5; if (Class == Job_Assassin_Cross) bonus2 bSkillAtk,\"ASC_BREAKER\",6;\n"
     ArmorLevel: 1
@@ -33889,8 +33522,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 130
     Script: "bonus2 bAddClass,Class_All,6; bonus bMatkRate,6; bonus bAllStats,1; bonus5 bAutoSpellWhenHit,\"SC_MAELSTROM\",1,100,BF_MAGIC,0; if (Class == Job_Assassin_Cross) bonus2 bSkillAtk,\"ASC_BREAKER\",6;\n"
     ArmorLevel: 1
@@ -33904,8 +33536,7 @@ Body:
     Jobs:
       Blacksmith: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bUseSPrate,-10; bonus bDelayrate,-10; bonus bVariableCastrate,-10; bonus2 bSkillCooldown,\"NC_AXEBOOMERANG\",-2000;\n"
     ArmorLevel: 1
@@ -33917,8 +33548,7 @@ Body:
     Weight: 500
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus2 bAddClass,Class_All,4; bonus bHit,10; bonus2 bSkillAtk,\"NC_BOOSTKNUCKLE\",25;\n"
     ArmorLevel: 1
@@ -33930,8 +33560,7 @@ Body:
     Weight: 200
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bBaseAtk,25; bonus bMatk,20;\n"
     ArmorLevel: 1
   - Id: 2998
@@ -33941,8 +33570,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 90
     Script: "bonus2 bSubEle,Ele_Holy,10;\n"
     ArmorLevel: 1
@@ -33953,8 +33581,7 @@ Body:
     Buy: 10
     Weight: 200
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMaxHP,300; bonus bMaxSP,30;\n"
     ArmorLevel: 1
   - Id: 4001
@@ -34197,8 +33824,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus bVit,2;\n"
@@ -34253,8 +33879,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus bAgi,2;\n"
@@ -34265,8 +33890,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus bStr,2;\n"
@@ -34321,8 +33945,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "skill \"TF_DETOXIFY\",1;\n"
@@ -34333,8 +33956,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus bDex,2;\n"
@@ -34356,8 +33978,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus bHPrecovRate,10;\n"
@@ -34403,8 +34024,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "skill \"AL_TELEPORT\",1;\n"
@@ -34450,8 +34070,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "skill \"TF_HIDING\",1;\n"
@@ -34499,8 +34118,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "skill \"TF_POISON\",3;\n"
@@ -34533,8 +34151,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus bFlee2,5; bonus bAgi,1;\n"
@@ -34558,8 +34175,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "skill \"AL_HEAL\",1; bonus bUseSPrate,25;\n"
@@ -34681,8 +34297,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus bDex,3;\n"
@@ -34781,8 +34396,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "skill \"MC_DISCOUNT\",5;\n"
@@ -34826,8 +34440,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus bNoCastCancel; bonus bVariableCastrate,25;\n"
@@ -34849,8 +34462,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus bStr,3;\n"
@@ -34905,8 +34517,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "skill \"SM_MAGNUM\",3;\n"
@@ -34986,8 +34597,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus bStr,1; bonus bCritical,4;\n"
@@ -35009,8 +34619,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "skill \"AL_CURE\",1;\n"
@@ -35120,8 +34729,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "skill \"MG_SIGHT\",1;\n"
@@ -35536,8 +35144,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "skill \"TF_STEAL\",1;\n"
@@ -35596,8 +35203,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
       DropEffect: Orange_Pillar
@@ -35609,8 +35215,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
       DropEffect: Orange_Pillar
@@ -35660,8 +35265,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAddMonsterDropItem,12028,RC_Insect,100;\n"
@@ -35694,8 +35298,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus2 bAddItemGroupHealRate,IG_Juice,50; bonus3 bAddMonsterDropItem,531,RC_Insect,300; bonus3 bAddMonsterDropItem,532,RC_Insect,300; bonus3 bAddMonsterDropItem,534,RC_Insect,300;\n"
@@ -35717,8 +35320,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus2 bAddItemGroupHealRate,IG_Candy,50; bonus3 bAddMonsterDropItem,529,RC_DemiHuman,300; bonus3 bAddMonsterDropItem,530,RC_DemiHuman,100;\n"
@@ -35959,8 +35561,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAutoSpell,\"TF_POISON\",1,20; bonus2 bAddSkillBlow,52,5;\n"
@@ -36100,8 +35701,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAddMonsterDropItem,12030,RC_Demon,100;\n"
@@ -36136,8 +35736,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAddMonsterDropItem,12027,RC_Undead,100;\n"
@@ -36170,8 +35769,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "if(BaseJob==Job_Novice||BaseJob==Job_SuperNovice) bonus3 bAutoSpellWhenHit,\"SM_ENDURE\",1,200;\n"
@@ -36206,8 +35804,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus2 bAddMonsterDropItem,909,2000; bonus2 bAddMonsterDropItem,7126,10;\n"
@@ -36311,8 +35908,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus2 bAddMonsterDropItem,603,5;\n"
@@ -36359,8 +35955,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAutoSpell,\"BA_FROSTJOKER\",1+4*(getskilllv(\"BA_FROSTJOKER\")==5),20;\n"
@@ -36394,8 +35989,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAutoSpell,\"SM_BASH\",1,20; bonus2 bAddSkillBlow,\"SM_BASH\",5; bonus2 bAddDefMonster,1026,-100;\n"
@@ -36428,8 +36022,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus2 bAddMonsterDropItemGroup,IG_Food,600;\n"
@@ -36473,8 +36066,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus2 bAddMonsterDropItem,715,30; bonus2 bAddMonsterDropItem,716,30; bonus2 bAddMonsterDropItem,717,30;\n"
@@ -36531,8 +36123,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAddMonsterDropItem,12032,RC_Brute,100;\n"
@@ -36565,8 +36156,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus2 bAddItemGroupHealRate,IG_Meat,50; bonus3 bAddMonsterDropItem,517,RC_Brute,200; bonus3 bAddMonsterDropItem,528,RC_Brute,200;\n"
@@ -36577,8 +36167,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAddMonsterDropItem,12031,RC_Fish,100;\n"
@@ -36602,8 +36191,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus bAgi,1; bonus3 bAutoSpellWhenHit,\"AS_CLOAKING\",5,100;\n"
@@ -36625,8 +36213,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus2 bAddItemGroupHealRate,IG_Herb,50; bonus3 bAddMonsterDropItem,507,RC_Plant,300; bonus3 bAddMonsterDropItem,508,RC_Plant,200; bonus3 bAddMonsterDropItem,509,RC_Plant,100;\n"
@@ -36682,8 +36269,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
       DropEffect: Orange_Pillar
@@ -36695,8 +36281,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
       DropEffect: Orange_Pillar
@@ -36855,8 +36440,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus bLongAtkDef,5;\n"
@@ -36901,8 +36485,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAddMonsterDropItem,12034,RC_DemiHuman,100;\n"
@@ -36974,8 +36557,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAddMonsterDropItem,12029,RC_Plant,100;\n"
@@ -36999,8 +36581,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAutoSpell,\"WZ_JUPITEL\",3+7*(getskilllv(\"WZ_JUPITEL\")==10),20;\n"
@@ -37011,8 +36592,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAddMonsterDropItem,12033,RC_Angel,100;\n"
@@ -37094,8 +36674,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus bAgi,1; bonus bCritical,3;\n"
@@ -37210,8 +36789,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus2 bAddMonsterDropItemGroup,IG_Recovery,50;\n"
@@ -37222,8 +36800,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAutoSpell,\"MO_CALLSPIRITS\",5,2+18*(BaseClass==Job_Acolyte);\n"
@@ -37340,8 +36917,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus bLuk,2; bonus2 bSkillAtk,\"AL_HOLYLIGHT\",10;\n"
@@ -37352,8 +36928,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "if(BaseJob==Job_Novice||BaseJob==Job_SuperNovice) bonus3 bAutoSpellWhenHit,\"AL_INCAGI\",1,100;\n"
@@ -37664,8 +37239,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus bClassChange,100;\n"
@@ -37721,8 +37295,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus2 bAddItemGroupHealRate,IG_Fish,50; bonus3 bAddMonsterDropItem,551,RC_Fish,300; bonus3 bAddMonsterDropItem,544,RC_Fish,300;\n"
@@ -37733,8 +37306,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus bVariableCastrate,30; bonus bNoCastCancel; bonus2 bSkillAtk,\"MG_FIREWALL\",5;\n"
@@ -37782,8 +37354,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus bCritical,3; if(BaseClass==Job_Swordman) bonus bFlee2,3;\n"
@@ -37933,8 +37504,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAddMonsterDropItem,12058,RC_Insect,50;\n"
@@ -37968,8 +37538,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAddMonsterDropItem,12053,RC_Fish,50;\n"
@@ -37980,8 +37549,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAutoSpell,\"RG_STRIPARMOR\",1,50;\n"
@@ -37992,8 +37560,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus4 bAutoSpellWhenHit,\"AL_PNEUMA\",1,50,0;\n"
@@ -38064,8 +37631,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAddMonsterDropItem,12043,RC_Brute,50;\n"
@@ -38076,8 +37642,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "skill \"SA_CASTCANCEL\",1;\n"
@@ -38333,8 +37898,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAddMonsterDropItem,12063,RC_Formless,50;\n"
@@ -38414,8 +37978,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
       DropEffect: Orange_Pillar
@@ -38427,8 +37990,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAddMonsterDropItem,12048,RC_Dragon,50;\n"
@@ -38474,8 +38036,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus2 bAddMonsterDropItem,12118,50; bonus2 bAddMonsterDropItem,12119,50; bonus2 bAddMonsterDropItem,12120,50; bonus2 bAddMonsterDropItem,12121,50;\n"
@@ -38497,8 +38058,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAddMonsterDropItem,12068,RC_Angel,50;\n"
@@ -38775,8 +38335,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus2 bAddMonsterDropItem,536,500; bonus2 bAddItemHealRate,536,100;\n"
@@ -38787,8 +38346,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus2 bSkillAtk,\"MG_COLDBOLT\",25; bonus2 bVariableCastrate,\"MG_COLDBOLT\",-25;\n"
@@ -38810,8 +38368,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus3 bAutoSpell,\"MG_COLDBOLT\",2,100;\n"
@@ -38867,8 +38424,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus bHit,5; bonus2 bAddEle,Ele_Water,5;\n"
@@ -38879,8 +38435,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "skill \"TF_PICKSTONE\",1; skill \"TF_THROWSTONE\",1;\n"
@@ -38947,8 +38502,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
       DropEffect: Orange_Pillar
@@ -38982,8 +38536,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus2 bSkillAtk,\"MG_FIREBOLT\",25; bonus2 bVariableCastrate,\"MG_FIREBOLT\",-25;\n"
@@ -39018,8 +38571,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus2 bCriticalAddRace,RC_DemiHuman,5; bonus2 bCriticalAddRace,RC_PLAYER_HUMAN,5; bonus2 bAddRace,RC_DemiHuman,1; bonus2 bAddRace,RC_PLAYER_HUMAN,1; bonus2 bMagicAddRace,RC_DemiHuman,1; bonus2 bMagicAddRace,RC_PLAYER_HUMAN,1; bonus2 bAddEff2,Eff_Bleeding,10;\n"
@@ -39030,8 +38582,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       BuyingStore: true
     Script: "bonus bHit,1; bonus2 bAddItemHealRate,517,100; bonus3 bAddEff,Eff_Bleeding,50,ATF_SHORT;\n"
@@ -39519,8 +39070,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bVariableCastrate,-15;\n"
   - Id: 4487
     AegisName: Sealed_Ifrit_Card
@@ -39529,8 +39079,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bBaseAtk,(JobLevel/20); bonus bCritical,(JobLevel/20); bonus bHit,(JobLevel/20); bonus3 bAutoSpellWhenHit,\"NPC_EARTHQUAKE\",5,1;\n"
   - Id: 4488
     AegisName: Sealed_D_Lord_Card
@@ -39699,8 +39248,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMatk,20; bonus bMaxSPrate,-1;\n"
   - Id: 4506
     AegisName: Dolomedes_Card
@@ -39729,8 +39277,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bBaseAtk,20; bonus bMaxHPrate,-1;\n"
   - Id: 4509
     AegisName: Gold_Q_Scaraba_Card
@@ -40144,8 +39691,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMaxHP,10;\n"
   - Id: 4553
     AegisName: Sid_Card
@@ -40367,8 +39913,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bMagicAtkEle,Ele_Wind,20; bonus2 bMagicAtkEle,Ele_Ghost,20;\n"
   - Id: 4578
     AegisName: Pyuriel_Card
@@ -40464,8 +40009,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bCriticalAddRace,RC_Brute,12; bonus2 bCriticalAddRace,RC_Fish,12; bonus2 bCriticalAddRace,RC_DemiHuman,12;\n"
   - Id: 4588
     AegisName: Wakwak_Card
@@ -40750,8 +40294,7 @@ Body:
     Buy: 10
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAspdRate,3;\n"
   - Id: 4632
     AegisName: Owl_Marquees_Card
@@ -40760,8 +40303,7 @@ Body:
     Buy: 10
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus5 bAutoSpell,\"SA_VIOLENTGALE\",(getskilllv(\"SA_VIOLENTGALE\")==5?5:1),1,BF_WEAPON,0;\n"
   - Id: 4633
     AegisName: Enhanced_Archer_Skeleton_Card
@@ -40827,8 +40369,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bAddClass,Class_All,1;\n"
   - Id: 4640
     AegisName: Frozen_Wolf_Card
@@ -40837,8 +40378,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMatkRate,1;\n"
   - Id: 4641
     AegisName: Zombie_Guard_Card
@@ -40901,8 +40441,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bHPGainValue,300;\n"
   - Id: 4648
     AegisName: Min_Eddga_Card
@@ -43031,8 +42570,7 @@ Body:
       Left_Hand: true
       Armor: true
       Garment: true
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bStr,1; bonus bBaseAtk,3; bonus bInt,-1;\n"
   - Id: 4909
     AegisName: Force2
@@ -43049,8 +42587,7 @@ Body:
       Left_Hand: true
       Armor: true
       Garment: true
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bStr,2; bonus bBaseAtk,6; bonus bInt,-2;\n"
   - Id: 4910
     AegisName: Force3
@@ -43067,8 +42604,7 @@ Body:
       Left_Hand: true
       Armor: true
       Garment: true
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bStr,4; bonus bBaseAtk,12; bonus bInt,-4;\n"
   - Id: 4911
     AegisName: Intellect1
@@ -43085,8 +42621,7 @@ Body:
       Left_Hand: true
       Armor: true
       Garment: true
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bInt,1; bonus bMatk,3; bonus bStr,-1;\n"
   - Id: 4912
     AegisName: Intellect2
@@ -43103,8 +42638,7 @@ Body:
       Left_Hand: true
       Armor: true
       Garment: true
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bInt,2; bonus bMatk,6; bonus bStr,-2;\n"
   - Id: 4913
     AegisName: Intellect3
@@ -43121,8 +42655,7 @@ Body:
       Left_Hand: true
       Armor: true
       Garment: true
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bInt,4; bonus bMatk,12; bonus bStr,-4;\n"
   - Id: 4914
     AegisName: Swiftness1
@@ -43139,8 +42672,7 @@ Body:
       Left_Hand: true
       Armor: true
       Garment: true
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAgi,1; bonus bFlee,2; bonus bVit,-1;\n"
   - Id: 4915
     AegisName: Swiftness2
@@ -43157,8 +42689,7 @@ Body:
       Left_Hand: true
       Armor: true
       Garment: true
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAgi,2; bonus bFlee,4; bonus bVit,-2;\n"
   - Id: 4916
     AegisName: Swiftness3
@@ -43175,8 +42706,7 @@ Body:
       Left_Hand: true
       Armor: true
       Garment: true
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAgi,4; bonus bFlee,8; bonus bVit,-4;\n"
   - Id: 4917
     AegisName: Tough1
@@ -43193,8 +42723,7 @@ Body:
       Left_Hand: true
       Armor: true
       Garment: true
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bVit,1; bonus bDef,3; bonus bMdef,2; bonus bAgi,-1;\n"
   - Id: 4918
     AegisName: Tough2
@@ -43211,8 +42740,7 @@ Body:
       Left_Hand: true
       Armor: true
       Garment: true
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bVit,2; bonus bDef,6; bonus bMdef,4; bonus bAgi,-2;\n"
   - Id: 4919
     AegisName: Tough3
@@ -43229,8 +42757,7 @@ Body:
       Left_Hand: true
       Armor: true
       Garment: true
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bVit,4; bonus bDef,12; bonus bMdef,8; bonus bAgi,-4;\n"
   - Id: 4920
     AegisName: Artful1
@@ -43247,8 +42774,7 @@ Body:
       Left_Hand: true
       Armor: true
       Garment: true
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bDex,1; bonus bHit,2; bonus bLuk,-1;\n"
   - Id: 4921
     AegisName: Artful2
@@ -43265,8 +42791,7 @@ Body:
       Left_Hand: true
       Armor: true
       Garment: true
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bDex,2; bonus bHit,4; bonus bLuk,-2;\n"
   - Id: 4922
     AegisName: Artful3
@@ -43283,8 +42808,7 @@ Body:
       Left_Hand: true
       Armor: true
       Garment: true
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bDex,4; bonus bHit,8; bonus bLuk,-4;\n"
   - Id: 4923
     AegisName: Fortune1
@@ -43301,8 +42825,7 @@ Body:
       Left_Hand: true
       Armor: true
       Garment: true
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bLuk,1; bonus bCritical,1; bonus bDex,-1;\n"
   - Id: 4924
     AegisName: Fortune2
@@ -43319,8 +42842,7 @@ Body:
       Left_Hand: true
       Armor: true
       Garment: true
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bLuk,2; bonus bCritical,2; bonus bDex,-2;\n"
   - Id: 4925
     AegisName: Fortune3
@@ -43337,8 +42859,7 @@ Body:
       Left_Hand: true
       Armor: true
       Garment: true
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bLuk,4; bonus bCritical,4; bonus bDex,-4;\n"
   - Id: 4926
     AegisName: Critical1
@@ -52758,8 +52279,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bAgi,4;\n"
     ArmorLevel: 1
@@ -53872,8 +53392,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bAgi,4;\n"
     ArmorLevel: 1
@@ -55066,8 +54585,7 @@ Body:
     Buy: 20
     Defense: 3
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Trade:
       Override: 100
       NoDrop: true
@@ -55142,8 +54660,7 @@ Body:
     Weight: 100
     Defense: 2
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bDex,5; bonus bAgi,5;\n"
     ArmorLevel: 1
   - Id: 5824
@@ -55165,8 +54682,7 @@ Body:
     Type: Armor
     Defense: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMdef,1; bonus2 bAddClass,Class_All,10; bonus bMatkRate,10; bonus bMaxHP,1500;\n"
     ArmorLevel: 1
   - Id: 5826
@@ -55198,8 +54714,7 @@ Body:
     Type: Armor
     Weight: 50
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bAllStats,1; bonus bMdef,5;\n"
     ArmorLevel: 1
@@ -55360,8 +54875,7 @@ Body:
     Name: Loyal Ring1
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     ArmorLevel: 1
   - Id: 5843
@@ -55369,8 +54883,7 @@ Body:
     Name: Loyal Ring2
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bAllStats,2;\n"
     ArmorLevel: 1
@@ -55379,8 +54892,7 @@ Body:
     Name: Loyal Ring3
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bAllStats,3;\n"
     ArmorLevel: 1
@@ -55497,8 +55009,7 @@ Body:
     Type: Armor
     Buy: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     ArmorLevel: 1
   - Id: 5856
     AegisName: Passion_FB_Hat
@@ -123573,8 +123084,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bDelayrate,-(1+(BaseLevel>=90)+(BaseLevel>=120));\n"
   - Id: 27019
     AegisName: DR815_Card
@@ -123583,8 +123093,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bHit,1+(BaseLevel>=90)+(BaseLevel>=120);\n"
   - Id: 27020
     AegisName: T_W_O_Card
@@ -123604,8 +123113,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bDef,3; bonus bMdef,10; bonus2 bAddEff,Eff_Silence,900; if(getequipid() == 28483){ bonus2 bAddClass,Class_All,5; bonus bMatkRate,5; } /* TODO: Confirm Mob ID to transform */ autobonus \"{ bonus bIgnoreDefClass,Class_All; bonus bIgnoreMdefRace,RC_All; }\",20,7000,BF_WEAPON|BF_MAGIC,\"{ active_transform 1875,7000; }\";\n"
   - Id: 27026
     AegisName: Fire_Condor_Card
@@ -123614,8 +123122,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bVariableCastRate,\"MG_FIREBALL\",-50; bonus2 bSkillAtk,\"MG_FIREBALL\",100;\n"
   - Id: 27027
     AegisName: Fire_Sandman_Card
@@ -123830,8 +123337,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bAddItemHealRate,11522,50; bonus2 bAddItemHealRate,11523,50; bonus2 bAddItemHealRate,11524,50;\n"
   - Id: 27112
     AegisName: Furious_Ice Titan_Card
@@ -123878,8 +123384,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bCritical,3; bonus bCritAtkRate,5;\n"
   - Id: 27117
     AegisName: Ominous_Assaulter_Card
@@ -123915,8 +123420,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "skill \"PR_STRECOVERY\",1;\n"
   - Id: 27121
     AegisName: Piranha_Card
@@ -123965,8 +123469,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bMagicAtkEle,Ele_Water,20; bonus2 bMagicAtkEle,Ele_Holy,20;\n"
   - Id: 27126
     AegisName: Boitata_Card
@@ -123984,8 +123487,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bHit,(BaseLevel >= 90 ? 15 : 5);\n"
   - Id: 27148
     AegisName: Material_Chimera_Card
@@ -123994,8 +123496,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bFlee,(BaseLevel >= 90 ? 20 : 10);\n"
   - Id: 27149
     AegisName: Heart_Hunter_Card
@@ -124078,8 +123579,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bMagicAtkEle,Ele_Fire,20; bonus2 bMagicAtkEle,Ele_Earth,20;\n"
   - Id: 27162
     AegisName: Gopinich_Card
@@ -124099,8 +123599,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAgi,-1; bonus bDex,-1; bonus bAspdRate,3;\n"
   - Id: 27164
     AegisName: Faceworm_Queen_Card
@@ -124118,8 +123617,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bVit,-1; bonus bInt,-1; bonus bDelayrate,-3;\n"
   - Id: 27166
     AegisName: Faceworm_Egg_Card
@@ -124164,7 +123662,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAgi,7; bonus bHit,7;\n"
   - Id: 27171
     AegisName: Revolver_Buffalo_Bandit_Card
@@ -124173,7 +123671,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
+      Both_Accessory: true
     Script: "bonus bStr,4; bonus2 bAddClass,Class_All,4;  if (Class == Job_Assassin_Cross) bonus2 bSkillAtk,\"ASC_BREAKER\",4;\n"
   - Id: 27172
     AegisName: Scimitar_Buffalo_Bandit_Card
@@ -124454,8 +123952,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bMagicAtkEle,Ele_Dark,20; bonus2 bMagicAtkEle,Ele_Neutral,20;\n"
   - Id: 27263
     AegisName: Fay_Kanavian_Card
@@ -124610,8 +124107,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bHPrecovRate,50;\n"
   - Id: 27305
     AegisName: EL_A17T_Card
@@ -124620,8 +124116,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus5 bAutoSpell,\"WL_HELLINFERNO\",3,1,ATF_SHORT|ATF_WEAPON,1; /* fix me: unknown rate */\n"
   - Id: 27306
     AegisName: Bellare_Card
@@ -124688,8 +124183,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bAddRace,RC_Demon,5;\n"
   - Id: 27313
     AegisName: Mutant_Dolor_Card
@@ -124734,8 +124228,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bAddRace,RC_Formless,5;\n"
   - Id: 27318
     AegisName: Miguel_Card
@@ -124780,8 +124273,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMaxSPrate,5;\n"
   - Id: 27323
     AegisName: Demon_God's_Apostle_Shnaim_Card
@@ -124790,8 +124282,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMaxHPrate,5;\n"
   - Id: 27324
     AegisName: Brinaranea_Card
@@ -124919,8 +124410,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bStr,3;\n"
   - Id: 27339
     AegisName: Chaotic_Ghostring_Card
@@ -124938,8 +124428,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bCritAtkRate,3;\n"
   - Id: 27341
     AegisName: Chaotic_Poporing_Card
@@ -125896,8 +125385,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMdef,3; bonus bInt,2; bonus bMaxSPrate,5;\n"
     ArmorLevel: 1
@@ -125925,8 +125413,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMdef,3; bonus bStr,3; bonus bBaseAtk,10;\n"
     ArmorLevel: 1
@@ -125954,8 +125441,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMdef,3; bonus bAgi,3; bonus bFlee,5;\n"
     ArmorLevel: 1
@@ -125983,8 +125469,7 @@ Body:
       StarGladiator: true
       Wizard: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMdef,3; bonus bDex,3; bonus bHit,10;\n"
     ArmorLevel: 1
@@ -125996,8 +125481,7 @@ Body:
     Weight: 100
     Defense: 5
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bAllStats,1; bonus bMdef,2; bonus3 bAutoSpell,\"CG_TAROTCARD\",5,100;\n"
     ArmorLevel: 1
@@ -126008,8 +125492,7 @@ Body:
     Buy: 10
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 145
     Script: "skill \"AL_HEAL\",1;\n"
     ArmorLevel: 1
@@ -126020,8 +125503,7 @@ Body:
     Buy: 10
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 145
     Script: "skill \"AL_TELEPORT\",1;\n"
     ArmorLevel: 1
@@ -126032,8 +125514,7 @@ Body:
     Buy: 200
     Weight: 200
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus2 bAddClass,Class_All,1;\n"
     ArmorLevel: 1
@@ -126045,8 +125526,7 @@ Body:
     Weight: 200
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus2 bAddClass,Class_All,1;\n"
     ArmorLevel: 1
@@ -126057,8 +125537,7 @@ Body:
     Buy: 200
     Weight: 200
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus2 bAddClass,Class_All,1;\n"
     ArmorLevel: 1
@@ -126070,8 +125549,7 @@ Body:
     Weight: 200
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus2 bAddClass,Class_All,1;\n"
     ArmorLevel: 1
@@ -126085,8 +125563,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 80
     Script: "bonus bDex,1; bonus2 bSkillAtk,\"HT_BLITZBEAT\",getskilllv(\"HT_STEELCROW\")*10;\n"
     ArmorLevel: 1
@@ -126100,8 +125577,7 @@ Body:
     Jobs:
       Hunter: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 80
     Script: "bonus bDex,1; bonus bUseSPrate,-5;\n"
     ArmorLevel: 1
@@ -126113,8 +125589,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bStr,4;\n"
     ArmorLevel: 1
@@ -126126,8 +125601,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bInt,4;\n"
     ArmorLevel: 1
@@ -126138,8 +125612,7 @@ Body:
     Buy: 10
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bLuk,20; autobonus \"{ bonus bAspd,2; }\",50,2000,BF_WEAPON|BF_MAGIC;\n"
     ArmorLevel: 1
@@ -126150,8 +125623,7 @@ Body:
     Buy: 10
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus bMaxHPrate,3; bonus bMaxSPrate,3;\n"
     ArmorLevel: 1
@@ -126163,8 +125635,7 @@ Body:
     Defense: 3
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bCritical,5;\n"
     ArmorLevel: 1
   - Id: 28354
@@ -126174,8 +125645,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "/* todo */\n"
     ArmorLevel: 1
@@ -126186,8 +125656,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "/* todo */\n"
     ArmorLevel: 1
@@ -126197,8 +125666,7 @@ Body:
     Type: Armor
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "/*warp \"prontera\",159,192;  15 mins cooldown */\n"
     ArmorLevel: 1
@@ -126209,8 +125677,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bLuk,2; bonus bFlee,3; bonus2 bAddEff2,Eff_Curse,5;\n"
     UnEquipScript: "sc_end SC_CLOAKING; /*FIXME: Because the combo has Cloaking skill*/\n"
@@ -126223,8 +125690,7 @@ Body:
     Defense: 3
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 50
     Script: "bonus bStr,1; bonus bInt,1; bonus bMaxHPRate,3; bonus bMaxSPRate,3;\n"
     ArmorLevel: 1
@@ -126236,8 +125702,7 @@ Body:
     Weight: 100
     Jobs: {}
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 1
     Script: "bonus2 bExpAddRace,RC_All,5; .@lvl = min(BaseLevel/5,10); bonus bAtk,2*.@lvl; bonus bMatk,2*.@lvl; bonus bMaxHP,10*.@lvl; bonus bMaxSP,5*.@lvl;\n"
     ArmorLevel: 1
@@ -126248,8 +125713,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 20
     Script: "bonus2 bMagicAtkEle,Ele_Fire,5; bonus2 bMagicAtkEle,Ele_Water,5; bonus2 bMagicAtkEle,Ele_Earth,5; bonus2 bMagicAtkEle,Ele_Wind,5; if (BaseLevel > 4) { bonus2 bSkillAtk,\"MG_FIREBOLT\",BaseLevel/5; bonus2 bSkillAtk,\"MG_COLDBOLT\",BaseLevel/5; bonus2 bSkillAtk,\"MG_LIGHTNINGBOLT\",BaseLevel/5; bonus2 bSkillAtk,\"WZ_EARTHSPIKE\",BaseLevel/5; }\n"
     ArmorLevel: 1
@@ -126262,8 +125726,7 @@ Body:
     Slots: 1
     Jobs: {}
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bFlee2,5; bonus2 bSkillCooldown,\"SU_SCAROFTAROU\",-5000;\n"
     ArmorLevel: 1
@@ -126276,8 +125739,7 @@ Body:
     Slots: 1
     Jobs: {}
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bHealPower,5; bonus2 bSkillCooldown,\"SU_TUNAPARTY\",-7000;\n"
     ArmorLevel: 1
@@ -126290,8 +125752,7 @@ Body:
     Slots: 1
     Jobs: {}
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMdef,5; bonus2 bVariableCastrate,\"SU_CN_METEOR\",-1000;\n"
     ArmorLevel: 1
@@ -126302,8 +125763,7 @@ Body:
     Weight: 100
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 20
     Script: "bonus bAspdRate,5; bonus bCritical,5; bonus2 bSkillUseSP,\"CH_SOULCOLLECT\",-5; if (BaseLevel > 14) bonus2 bSkillAtk,\"SR_DRAGONCOMBO\",BaseLevel/15; if (BaseLevel > 19) bonus2 bSkillAtk,\"SR_KNUCKLEARROW\",BaseLevel/20; if (BaseLevel > 29) bonus2 bSkillAtk,\"SR_SKYNETBLOW\",BaseLevel/30;\n"
     ArmorLevel: 1
@@ -126333,8 +125793,7 @@ Body:
     Defense: 3
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 50
     Script: "bonus bDex,5; bonus bLuk,5; bonus bInt,5; bonus2 bSkillAtk,\"GN_SPORE_EXPLOSION\",BaseLevel/5; bonus2 bVariableCastrate,\"CR_ACIDDEMONSTRATION\",-(BaseLevel/4); .@n = getskilllv(\"CR_SLIMPITCHER\"); bonus bDex,.@n/2; bonus bLuk,.@n/2; bonus bInt,.@n/2; bonus bMatk,(.@n/2)*20;\n"
     ArmorLevel: 1
@@ -126346,8 +125805,7 @@ Body:
     Defense: 3
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 50
     Script: "bonus bDex,5; bonus bAgi,5; bonus bInt,5; bonus2 bSkillAtk,\"CG_ARROWVULCAN\",BaseLevel; bonus2 bSkillAtk,\"BA_MUSICALSTRIKE\",BaseLevel; bonus2 bSkillAtk,\"DC_THROWARROW\",BaseLevel; bonus2 bSkillAtk,\"WM_METALICSOUND\",2*(BaseLevel/5); .@n = getskilllv(\"WM_METALICSOUND\"); bonus2 bVariableCastrate,\"WM_METALICSOUND\",.@n/2; bonus bDex,.@n/2; bonus bAgi,.@n/2; bonus bInt,.@n/2; bonus bMatk,(.@n/2)*20;\n"
     ArmorLevel: 1
@@ -126360,8 +125818,7 @@ Body:
     Slots: 1
     Jobs: {}
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bVit,1;\n"
     ArmorLevel: 1
@@ -126374,8 +125831,7 @@ Body:
     Slots: 1
     Jobs: {}
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 140
     Script: "bonus bVit,2;\n"
     ArmorLevel: 1
@@ -126388,8 +125844,7 @@ Body:
     Slots: 1
     Jobs: {}
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 175
     Script: "bonus bVit,3;\n"
     ArmorLevel: 1
@@ -126402,8 +125857,7 @@ Body:
     Slots: 1
     Jobs: {}
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bInt,1;\n"
     ArmorLevel: 1
@@ -126416,8 +125870,7 @@ Body:
     Slots: 1
     Jobs: {}
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 140
     Script: "bonus bInt,2;\n"
     ArmorLevel: 1
@@ -126430,8 +125883,7 @@ Body:
     Slots: 1
     Jobs: {}
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 175
     Script: "bonus bInt,3;\n"
     ArmorLevel: 1
@@ -126444,8 +125896,7 @@ Body:
     Slots: 1
     Jobs: {}
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bDex,1;\n"
     ArmorLevel: 1
@@ -126458,8 +125909,7 @@ Body:
     Slots: 1
     Jobs: {}
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 140
     Script: "bonus bDex,2;\n"
     ArmorLevel: 1
@@ -126472,8 +125922,7 @@ Body:
     Slots: 1
     Jobs: {}
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 175
     Script: "bonus bDex,3;\n"
     ArmorLevel: 1
@@ -126486,8 +125935,7 @@ Body:
     Slots: 1
     Jobs: {}
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus2 bVariableCastrate,\"SU_SV_STEMSPEAR\",-50; bonus2 bSkillAtk,\"SU_SV_STEMSPEAR\",(readparam(bInt)/2)+(20 * getskilllv(\"SU_SV_STEMSPEAR\")); /* Need to confirm damage formula */\n"
     ArmorLevel: 1
@@ -126500,8 +125948,7 @@ Body:
     Slots: 1
     Jobs: {}
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus2 bSkillCooldown,\"SU_TUNAPARTY\",-5000; bonus3 bAutoSpellWhenHit,\"SU_TUNAPARTY\",max(1,getskilllv(\"SU_TUNAPARTY\")),10;\n"
     ArmorLevel: 1
@@ -126514,8 +125961,7 @@ Body:
     Slots: 1
     Jobs: {}
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus2 bVariableCastrate,\"SU_PICKYPECK\",-50; bonus2 bSkillAtk,\"SU_PICKYPECK\",(readparam(bDex)/2)+(20 * getskilllv(\"SU_PICKYPECK\")); /* Need to confirm damage formula */\n"
     ArmorLevel: 1
@@ -126526,8 +125972,7 @@ Body:
     Buy: 20
     Weight: 200
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     Script: "bonus bVit,3; if (BaseClass == Job_Gunslinger || BaseJob == Job_Novice || BaseJob == Job_SuperNovice || BaseClass == Job_Ninja || BaseClass == Job_Taekwon) { bonus bMaxHP,1000; bonus bMaxSP,200; }\n"
     ArmorLevel: 1
@@ -126538,8 +125983,7 @@ Body:
     Buy: 20
     Weight: 200
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     Script: "bonus bInt,3; if (BaseClass == Job_Gunslinger || BaseJob == Job_Novice || BaseJob == Job_SuperNovice || BaseClass == Job_Ninja || BaseClass == Job_Taekwon) { bonus bVariableCastrate,-30; }\n"
     ArmorLevel: 1
@@ -126551,8 +125995,7 @@ Body:
     Jobs:
       Rogue: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bFlee,10; bonus bLongAtkRate,5;\n"
     ArmorLevel: 1
@@ -126565,8 +126008,7 @@ Body:
     Jobs:
       BardDancer: true
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bHit,5; bonus bFlee,5;\n"
     ArmorLevel: 1
@@ -126575,8 +126017,7 @@ Body:
     Name: Awakened Eden Group Ring of Strength I
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus2 bAddClass,Class_All,2;\n"
     ArmorLevel: 1
@@ -126585,8 +126026,7 @@ Body:
     Name: Awakened Eden Group Necklace of Strength I
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bStr,1;\n"
     ArmorLevel: 1
@@ -126595,8 +126035,7 @@ Body:
     Name: Awakened Eden Group Ring of Strength II
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 115
     Script: "bonus2 bAddClass,Class_All,3;\n"
     ArmorLevel: 1
@@ -126605,8 +126044,7 @@ Body:
     Name: Awakened Eden Group Necklace of Strength II
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 115
     Script: "bonus bStr,2;\n"
     ArmorLevel: 1
@@ -126615,8 +126053,7 @@ Body:
     Name: Awakened Eden Group Ring of Strength III
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 130
     Script: "bonus2 bAddClass,Class_All,4;\n"
     ArmorLevel: 1
@@ -126625,8 +126062,7 @@ Body:
     Name: Awakened Eden Group Necklace of Strength III
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 130
     Script: "bonus bStr,3;\n"
     ArmorLevel: 1
@@ -126635,8 +126071,7 @@ Body:
     Name: Awakened Eden Group Ring of Strength IV
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 145
     Script: "bonus2 bAddClass,Class_All,5;\n"
     ArmorLevel: 1
@@ -126645,8 +126080,7 @@ Body:
     Name: Awakened Eden Group Necklace of Strength IV
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 145
     Script: "bonus bStr,4;\n"
     ArmorLevel: 1
@@ -126655,8 +126089,7 @@ Body:
     Name: Awakened Eden Group Ring of Strength V
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 160
     Script: "bonus2 bAddClass,Class_All,5; skill \"AL_HEAL\",1;\n"
     ArmorLevel: 1
@@ -126665,8 +126098,7 @@ Body:
     Name: Awakened Eden Group Necklace of Strength V
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 160
     Script: "bonus bStr,4; skill \"AL_TELEPORT\",1;\n"
     ArmorLevel: 1
@@ -126675,8 +126107,7 @@ Body:
     Name: Awakened Eden Group Ring of Magic I
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMatkRate,2;\n"
     ArmorLevel: 1
@@ -126685,8 +126116,7 @@ Body:
     Name: Awakened Eden Group Necklace of Magic I
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bInt,1;\n"
     ArmorLevel: 1
@@ -126695,8 +126125,7 @@ Body:
     Name: Awakened Eden Group Ring of Magic II
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 115
     Script: "bonus bMatkRate,3;\n"
     ArmorLevel: 1
@@ -126705,8 +126134,7 @@ Body:
     Name: Awakened Eden Group Necklace of Magic II
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 115
     Script: "bonus bInt,2;\n"
     ArmorLevel: 1
@@ -126715,8 +126143,7 @@ Body:
     Name: Awakened Eden Group Ring of Magic III
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 130
     Script: "bonus bMatkRate,4;\n"
     ArmorLevel: 1
@@ -126725,8 +126152,7 @@ Body:
     Name: Awakened Eden Group Necklace of Magic III
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 130
     Script: "bonus bInt,3;\n"
     ArmorLevel: 1
@@ -126735,8 +126161,7 @@ Body:
     Name: Awakened Eden Group Ring of Magic IV
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 145
     Script: "bonus bMatkRate,5;\n"
     ArmorLevel: 1
@@ -126745,8 +126170,7 @@ Body:
     Name: Awakened Eden Group Necklace of Magic IV
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 145
     Script: "bonus bInt,4;\n"
     ArmorLevel: 1
@@ -126755,8 +126179,7 @@ Body:
     Name: Awakened Eden Group Ring of Magic V
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 160
     Script: "bonus bMatkRate,5; skill \"AL_HEAL\",1;\n"
     ArmorLevel: 1
@@ -126765,8 +126188,7 @@ Body:
     Name: Awakened Eden Group Necklace of Magic V
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 160
     Script: "bonus bInt,4; skill \"AL_TELEPORT\",1;\n"
     ArmorLevel: 1
@@ -126775,8 +126197,7 @@ Body:
     Name: Awakened Eden Group Ring of Agility I
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bLongAtkRate,1;\n"
     ArmorLevel: 1
@@ -126785,8 +126206,7 @@ Body:
     Name: Awakened Eden Group Necklace of Agility I
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bDex,1;\n"
     ArmorLevel: 1
@@ -126795,8 +126215,7 @@ Body:
     Name: Awakened Eden Group Ring of Agility II
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 115
     Script: "bonus bLongAtkRate,2;\n"
     ArmorLevel: 1
@@ -126805,8 +126224,7 @@ Body:
     Name: Awakened Eden Group Necklace of Agility II
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 115
     Script: "bonus bDex,2;\n"
     ArmorLevel: 1
@@ -126815,8 +126233,7 @@ Body:
     Name: Awakened Eden Group Ring of Agility III
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 130
     Script: "bonus bLongAtkRate,3;\n"
     ArmorLevel: 1
@@ -126825,8 +126242,7 @@ Body:
     Name: Awakened Eden Group Necklace of Agility III
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 130
     Script: "bonus bDex,3;\n"
     ArmorLevel: 1
@@ -126835,8 +126251,7 @@ Body:
     Name: Awakened Eden Group Ring of Agility IV
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 145
     Script: "bonus bLongAtkRate,4;\n"
     ArmorLevel: 1
@@ -126845,8 +126260,7 @@ Body:
     Name: Awakened Eden Group Necklace of Agility IV
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 145
     Script: "bonus bDex,4;\n"
     ArmorLevel: 1
@@ -126855,8 +126269,7 @@ Body:
     Name: Awakened Eden Group Ring of Agility V
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 160
     Script: "bonus bLongAtkRate,4; skill \"AL_HEAL\",1;\n"
     ArmorLevel: 1
@@ -126865,8 +126278,7 @@ Body:
     Name: Awakened Eden Group Necklace of Agility V
     Type: Armor
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 160
     Script: "bonus bDex,4; skill \"AL_TELEPORT\",1;\n"
     ArmorLevel: 1
@@ -126878,8 +126290,7 @@ Body:
     Defense: 1
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 99
     Script: ".@b = min(BaseLevel/25,7); bonus bMaxHPrate,.@b; bonus bMaxSPrate,.@b;\n"
     ArmorLevel: 1
@@ -126891,8 +126302,7 @@ Body:
     Weight: 400
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 90
     Script: "bonus bLuk,2; bonus bHit,10; bonus bCriticalLong,5; skill \"TF_HIDING\",1; if (readparam(bLuk)>=100) { bonus bHit,5; bonus bCriticalLong,10; }\n"
     ArmorLevel: 1
@@ -126924,8 +126334,7 @@ Body:
     Type: Armor
     Weight: 100
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bAllStats,1; bonus2 bAddRace,RC_All,2; bonus2 bMagicAddRace,RC_All,2; if(BaseLevel>=150) { bonus bAllStats,1; bonus2 bAddRace,RC_All,2; bonus2 bMagicAddRace,RC_All,2; }\n"
     ArmorLevel: 1
@@ -126951,8 +126360,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bStr,3; if (readparam(bStr) >= 100) { bonus bBaseAtk,30; }\n"
     ArmorLevel: 1
@@ -126976,8 +126384,7 @@ Body:
     Weight: 400
     Slots: 1
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus2 bAddClass,Class_All,5; bonus bVariableCastrate,-10; bonus bNoCastCancel;\n"
     ArmorLevel: 1
@@ -129056,8 +128463,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMaxHPrate,-13; bonus3 bAddEffWhenHit,Eff_Curse,4000,ATF_MAGIC;\n"
   - Id: 31020
     AegisName: Malicious_Baby_Ghost_Card
@@ -129066,8 +128472,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bMaxHPrate,-13; bonus3 bAddEffWhenHit,Eff_Curse,4000,ATF_WEAPON;\n"
   - Id: 31021
     AegisName: Dancing_Marionette_Card
@@ -135066,8 +134471,7 @@ Body:
       Novice: false
       SuperNovice: false
     Locations:
-      Right_Accessory: true
-      Left_Accessory: true
+      Both_Accessory: true
     EquipLevelMin: 100
     Script: "bonus bMatkRate,5; bonus bVariableCastrate,-10;\n"
     ArmorLevel: 1

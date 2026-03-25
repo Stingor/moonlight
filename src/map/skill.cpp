@@ -9385,7 +9385,7 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 			if (sd && dstsd && !map_flag_vs(sd->bl.m) && (!sd->duel_group || sd->duel_group != dstsd->duel_group) && (!sd->status.party_id || sd->status.party_id != dstsd->status.party_id))
 				break; // Outside PvP it should only affect party members and no skill fail message
 			// [Stingor] -->
-			if (tsc && tsc->data[SC_PRESERVE] && status_isimmune(bl) && battle_config.gtb_nodispell_preserve && rnd()%100 <= battle_config.gtb_nodispell_preserve)
+			if (tsc && tsc->getSCE(SC_PRESERVE) && status_isimmune(bl) && battle_config.gtb_nodispell_preserve && rnd() % 100 <= battle_config.gtb_nodispell_preserve)
 				break;
 
 			if (status_isimmune(bl) && map_flag_vs(bl->m) && !battle_config.gtb_dispell_nerf)

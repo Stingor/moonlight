@@ -1018,8 +1018,8 @@ ACMD_FUNC(whodrops)
 				drop_rate_bonus += sd->indexed_bonus.dropaddrace[mob->status.race] + sd->indexed_bonus.dropaddrace[RC_ALL];
 
 				// Increase drop rate if user has SC_ITEMBOOST
-				if (sd->sc.data[SC_ITEMBOOST])
-					drop_rate_bonus += sd->sc.data[SC_ITEMBOOST]->val1;
+				if (sd->sc.getSCE(SC_ITEMBOOST))
+					drop_rate_bonus += sd->sc.getSCE(SC_ITEMBOOST)->val1;
 
 				drop_rate_bonus = (int)(0.5 + dropchance * drop_rate_bonus / 100.);
 				dropchance = i32max(dropchance, cap_value(drop_rate_bonus, 0, 9000));

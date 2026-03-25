@@ -4182,7 +4182,7 @@ int status_calc_pc_sub(struct map_session_data* sd, uint8 opt)
 		base_status->max_hp = cap_value(base_status->max_hp,1,(unsigned int)battle_config.max_hp_lv99);
 	else if (sd->status.base_level < 151)
 		base_status->max_hp = cap_value(base_status->max_hp,1,(unsigned int)battle_config.max_hp_lv150);
-	else if( sd->sc.data[SC_BERSERK] && (sd->status.class_ == JOB_LORD_KNIGHT || sd->status.class_ == JOB_LORD_KNIGHT2) ) // [Stingor]
+	else if( sd->sc.getSCE(SC_BERSERK) && (sd->status.class_ == JOB_LORD_KNIGHT || sd->status.class_ == JOB_LORD_KNIGHT2) ) // [Stingor]
 		base_status->max_hp = cap_value(base_status->max_hp,1,(unsigned int)battle_config.max_hp_lkberserk);
 	else
 		base_status->max_hp = cap_value(base_status->max_hp,1,(unsigned int)battle_config.max_hp);
@@ -4426,7 +4426,7 @@ int status_calc_pc_sub(struct map_session_data* sd, uint8 opt)
 		sd->status.class_ == JOB_GYPSY ||
 		sd->status.class_ == JOB_SUPER_NOVICE ||
 		sd->status.class_ == JOB_TAEKWON ||
-		(sd->sc.data[SC_BERSERK] && ( sd->status.class_ == JOB_LORD_KNIGHT || sd->status.class_ == JOB_LORD_KNIGHT2 )) )
+		(sd->sc.getSCE(SC_BERSERK) && ( sd->status.class_ == JOB_LORD_KNIGHT || sd->status.class_ == JOB_LORD_KNIGHT2 )) )
 		base_status->amotion = cap_value(i,battle_config.max_aspd - (30 + sd->special_state.aspd2*10),2000);
 	else if( sd->status.class_ == JOB_GUNSLINGER || sd->status.class_ == JOB_ASSASSIN_CROSS )
 		base_status->amotion = cap_value(i,battle_config.max_aspd - ((map_flag_vs(sd->bl.m)?10:30) + sd->special_state.aspd2*10),2000);
@@ -5837,7 +5837,7 @@ void status_calc_bl_main(struct block_list *bl, std::bitset<SCB_MAX> flag)
 				status->max_hp = umin(status->max_hp,(unsigned int)battle_config.max_hp_lv99);
 			else if (sd->status.base_level < 151)
 				status->max_hp = umin(status->max_hp,(unsigned int)battle_config.max_hp_lv150);
-			else if( sd && sd->sc.data[SC_BERSERK] && (sd->status.class_ == JOB_LORD_KNIGHT || sd->status.class_ == JOB_LORD_KNIGHT2) ) // [Stingor]
+			else if( sd && sd->sc.getSCE(SC_BERSERK) && (sd->status.class_ == JOB_LORD_KNIGHT || sd->status.class_ == JOB_LORD_KNIGHT2) ) // [Stingor]
 				status->max_hp = umin(status->max_hp,(unsigned int)battle_config.max_hp_lkberserk);
 			else
 				status->max_hp = umin(status->max_hp,(unsigned int)battle_config.max_hp);
@@ -6007,7 +6007,7 @@ void status_calc_bl_main(struct block_list *bl, std::bitset<SCB_MAX> flag)
 				sd->status.class_ == JOB_GYPSY ||
 				sd->status.class_ == JOB_SUPER_NOVICE ||
 				sd->status.class_ == JOB_TAEKWON ||
-				(sd->sc.data[SC_BERSERK] && (sd->status.class_ == JOB_LORD_KNIGHT || sd->status.class_ == JOB_LORD_KNIGHT2)) )
+				(sd->sc.getSCE(SC_BERSERK) && (sd->status.class_ == JOB_LORD_KNIGHT || sd->status.class_ == JOB_LORD_KNIGHT2)) )
 				status->amotion = cap_value(amotion,battle_config.max_aspd - (30 + sd->special_state.aspd2*10),2000);
 			else if( sd->status.class_ == JOB_GUNSLINGER || sd->status.class_ == JOB_ASSASSIN_CROSS )
 				status->amotion = cap_value(amotion,battle_config.max_aspd - ((map_flag_vs(sd->bl.m)?10:30) + sd->special_state.aspd2*10),2000);

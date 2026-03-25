@@ -2090,7 +2090,7 @@ void clif_move(struct unit_data *ud)
 
 	if( bl->type == BL_PC) { // [Stingor]
 		TBL_PC *sd = ((TBL_PC*)bl);
-		if( sd && sd->sc.data[SC_ALL_RIDING] && battle_config.testsource )
+		if( sd && sd->sc.getSCE(SC_ALL_RIDING) && battle_config.testsource )
 			clif_refreshlook(bl,bl->id,LOOK_CLOTHES_COLOR,sd->vd.cloth_color,AREA_WOS);
 
 		if( disguised(bl) && sd && map_getmapflag(sd->bl.m, MF_NODISGUISE) )
