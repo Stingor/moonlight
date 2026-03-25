@@ -632,7 +632,7 @@ gonryun,163,122,4	script	Job Master::jobmaster	4W_F_01,{
 L_CLONE_SKILL:
 			next;
 			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-			if( skill_plagiarism(CLONE_SKILL, CLONE_SKILL_LV) ) {
+			if( plagiarizeskill(CLONE_SKILL, CLONE_SKILL_LV) ) {
 				mes "Vous possédez maintenant :";
 				mes getskillname(CLONE_SKILL)+" Lv"+CLONE_SKILL_LV;
 			}
