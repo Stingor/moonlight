@@ -24,7 +24,7 @@
 BUILDIN_FUNC(getskillname)
 {
 	int skill_id = script_getnum(st, 2);
-	const char* name = skill_get_name((uint16)skill_id);
+	const char* name = skill_get_desc((uint16)skill_id);
 	if (name && *name)
 		script_pushstrcopy(st, name);
 	else
