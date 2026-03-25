@@ -1634,6 +1634,5 @@ void do_final_itemdb(void);
 void do_init_itemdb(void);
 
 std::string create_item_link( struct item& item, struct item_data* data );
-std::string create_item_link_simple(t_itemid nameid);
 
 #endif /* ITEMDB_HPP */

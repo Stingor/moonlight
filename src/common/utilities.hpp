@@ -266,36 +266,6 @@ namespace rathena {
 		bool safe_multiplication( int64 a, int64 b, int64& result );
 
 		/**
-		 * Encode a value to a base62 string (0-9A-Za-z)
-		 * @param val: Value to encode
-		 * @return Encoded string
-		 */
-		inline std::string base62_encode(uint32 val) {
-			static const char base62_chars[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-			if (val == 0)
-				return "0";
-			std::string result;
-			while (val > 0) {
-				result = base62_chars[val % 62] + result;
-				val /= 62;
-			}
-			return result;
-		}
-
-		/**
-		 * Left-pad a string with a character to reach desired length
-		 * @param str: Input string
-		 * @param pad: Padding character
-		 * @param len: Desired minimum length
-		 * @return Padded string
-		 */
-		inline std::string string_left_pad(const std::string& str, char pad, size_t len) {
-			if (str.length() >= len)
-				return str;
-			return std::string(len - str.length(), pad) + str;
-		}
-
-		/**
 		 * Safely add values without overflowing.
 		 * @param a: Holder of value to increment
 		 * @param b: Increment by
