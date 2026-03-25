@@ -714,7 +714,8 @@ ACMD_FUNC(partybuff)
 		clif_displaymessage(fd, msg_txt(sd,1841)); // Displaying party member's buffs enabled.
 	}
 
-	clif_party_info(p,sd);
+    if (p)
+		clif_party_info(*p, sd);
 	return 0;
 }
 

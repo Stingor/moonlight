@@ -8046,33 +8046,8 @@ void clif_party_info( struct party_data& party, struct map_session_data* sd ){
 		p->packetLen += sizeof( member );
 	}
 
-	char output[NAME_LENGTH+10];
-	for(int i = 0, int c = 0; i < MAX_PARTY; i++)
-	{
-		if( (target = p->data[i].sd) ) {
-			strcpy(output, "[");
-			if( target->sc.data[SC_BLESSING] ) strcat(output,"B");
-				else strcat(output,"_");
-			if( target->sc.data[SC_INCREASEAGI] ) strcat(output,"A");
-				else strcat(output,"_");
-			if( target->sc.data[SC_CP_WEAPON] && target->sc.data[SC_CP_SHIELD] && target->sc.data[SC_CP_ARMOR] && target->sc.data[SC_CP_HELM] ) strcat(output,"F");
-				else strcat(output,"_");
-			if( target->sc.data[SC_SPIRIT] ) strcat(output,"S");
-				else strcat(output,"_");
-			if( target->sc.data[SC_DEVOTION] ) strcat(output,"+");
-				else strcat(output,"_");
-			strcat(output, "]");
-			strncat(output, target->status.name, NAME_LENGTH);
-			safestrncpy(WBUFCP(buf,PRE_SIZE+i*M_SIZE+4), output, NAME_LENGTH);
-		}
-	}
-
-	if( sd && sd->state.spb )
-		clif_send(p, p->packetLen, &sd->bl, SELF);
-	else if( party_sd )
-		clif_send(p, p->packetLen, &party_sd->bl, PARTY_BUFF_INFO);
-
-	clif_send( p, p->packetLen, &sd->bl, target );
+    /* Send the built party info packet to the appropriate target. */
+	clif_send(p, p->packetLen, &sd->bl, target);
 }
 
 

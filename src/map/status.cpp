@@ -12870,8 +12870,9 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 		type == SC_BLESSING || type == SC_INCREASEAGI || type == SC_CP_WEAPON || type == SC_CP_SHIELD ||
 		type == SC_CP_ARMOR || type == SC_CP_HELM || type == SC_SPIRIT || type == SC_DEVOTION )
 		) {
-		struct party_data *p = party_search(sd->status.party_id);
-		clif_party_info(p, NULL);
+        struct party_data *p = party_search(sd->status.party_id);
+		if (p)
+			clif_party_info(*p, NULL);
 	}
 
 	return 1;
@@ -13654,8 +13655,9 @@ int status_change_end(struct block_list* bl, enum sc_type type, int tid)
 		type == SC_BLESSING || type == SC_INCREASEAGI || type == SC_CP_WEAPON || type == SC_CP_SHIELD ||
 		type == SC_CP_ARMOR || type == SC_CP_HELM || type == SC_SPIRIT || type == SC_DEVOTION )
 		) {
-		struct party_data *p = party_search(sd->status.party_id);
-		clif_party_info(p, NULL);
+        struct party_data *p = party_search(sd->status.party_id);
+		if (p)
+			clif_party_info(*p, NULL);
 	}
 	// Needed to be here to make sure OPT1_STONEWAIT has been cleared from the target (only on natural expiration of the stone wait timer)
 	if (type == SC_STONEWAIT && tid != INVALID_TIMER)
