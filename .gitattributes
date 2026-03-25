@@ -13,3 +13,4 @@ Makefile text eol=lf
 Makefile.in text eol=lf
 *.sh text eol=lf
 *.sql text eol=lf
+*.npc text eol=lf
