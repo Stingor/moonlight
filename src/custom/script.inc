@@ -124,7 +124,7 @@ BUILDIN_FUNC(npcstand)
 /*BUILDIN_FUNC(addcloneskill)
 {
     int skill_id,skill_lv, lv;
-    struct map_session_data* sd;
+    map_session_data* sd;
 	uint16 idx;
     
 	if (!script_rid2sd(sd))
@@ -186,7 +186,7 @@ BUILDIN_FUNC(getalliance)
 
 BUILDIN_FUNC(getpartnername)
 {
-    struct map_session_data* sd;
+    map_session_data* sd;
 	TBL_PC *p_sd=NULL;
 	
 	if (!script_rid2sd(sd))
@@ -537,7 +537,7 @@ BUILDIN_FUNC(instance_create)
 		owner_id = script_getnum(st, 4);
 	else {
 		// If sd is NULL, instance_create will return -2.
-		struct map_session_data *sd = NULL;
+		map_session_data *sd = NULL;
 
 		switch(mode) {
 			case IM_NONE:

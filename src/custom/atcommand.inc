@@ -163,7 +163,7 @@ ACMD_FUNC(aoeskill)
 ACMD_FUNC(playertalk)
 {
 	char mes[100],temp[100];
-	struct map_session_data *pl_sd;
+	map_session_data *pl_sd;
 	memset(atcmd_player_name, '\0', sizeof atcmd_player_name);
 
 	nullpo_retr(-1, sd);
@@ -197,7 +197,7 @@ ACMD_FUNC(playertalk)
  *----------------------------------------------------*/
 ACMD_FUNC(moche)
 {
-	struct map_session_data *pl_sd;
+	map_session_data *pl_sd;
 	int hair_style = rand()%MAX_HAIR_STYLE;
 	int hair_color = rand()%MAX_HAIR_COLOR;
 	int cloth_color = rand()%MAX_CLOTH_COLOR;
@@ -246,7 +246,7 @@ ACMD_FUNC(moche)
  *----------------------------------------------------*/
 ACMD_FUNC(celebrate)
 {
-	struct map_session_data* pl_sd;
+	map_session_data* pl_sd;
 	struct s_mapiterator* iter;
 	char temp[100];
 	int i;
@@ -278,7 +278,7 @@ ACMD_FUNC(celebrate)
  *----------------------------------------------------*/
 ACMD_FUNC(trollolol)
 {
-	struct map_session_data* pl_sd;
+	map_session_data* pl_sd;
 	struct s_mapiterator* iter;
 
 	nullpo_retr(-1, sd);
@@ -298,7 +298,7 @@ ACMD_FUNC(trollolol)
  *----------------------------------------------------*/
 ACMD_FUNC(untrollolol)
 {
-	struct map_session_data* pl_sd;
+	map_session_data* pl_sd;
 	struct s_mapiterator* iter;
 
 	nullpo_retr(-1, sd);
@@ -319,7 +319,7 @@ ACMD_FUNC(untrollolol)
  *----------------------------------------------------*/
 ACMD_FUNC(sitstand)
 {
-	struct map_session_data *pl_sd;
+	map_session_data *pl_sd;
 
 	nullpo_retr(-1, sd);
 
@@ -541,7 +541,7 @@ ACMD_FUNC(shopsearch)
 	char item_name[100], output[255];
 	struct s_mapiterator* iter;
 	int j, count = 0;
-	struct map_session_data *pl_sd;
+	map_session_data *pl_sd;
 	unsigned int MinPrize = battle_config.vending_max_value, MaxPrize = 0;
 	
 	nullpo_retr(-1, sd);

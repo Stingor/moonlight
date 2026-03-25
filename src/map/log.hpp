@@ -83,7 +83,7 @@ void log_zeny(map_session_data* sd, e_log_pick_type type, map_session_data* src_
 void log_cash( map_session_data* sd, e_log_pick_type type, e_log_cash_type cash_type, int amount, int itemid);
 void log_npc( struct npc_data* nd, const char* message );
 void log_npc(map_session_data* sd, const char *message);
-void log_chat(e_log_chat_type type, int type_id, int src_charid, int src_accid, const char* map, int x, int y, const char* dst_charname, const char* message);
+void log_chat(e_log_chat_type type, int type_id, const char* src_charname, int src_accid, const char* map, int x, int y, const char* dst_charname, const char* message); // [Stingor] charid -> name
 void log_atcommand(map_session_data* sd, const char* message);
 void log_feeding(map_session_data *sd, e_log_feeding_type type, t_itemid nameid);
 
