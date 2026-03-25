@@ -28,3 +28,6 @@ indent_style = tab
 # Scripts should use hard tabs to prevent script header goofs.
 [npc/**.txt]
 indent_style = tab
+
+[*.{npc,txt,md,inc,sql}]
+charset = windows-1252
