@@ -7205,7 +7205,7 @@ BUILDIN_FUNC(cartcountitem)
  * storagecountitem(<nameID>{,<accountID>})
  * storagecountitem2(<nameID>,<Identified>,<Refine>,<Attribute>,<Card0>,<Card1>,<Card2>,<Card3>{,<accountID>})
  */
-BUILDIN_FUNC(storagecountitem)
+/*BUILDIN_FUNC(storagecountitem)
 {
 	TBL_PC *sd;
 	char *command = (char *)script_getfuncname(st);
@@ -7245,14 +7245,14 @@ BUILDIN_FUNC(storagecountitem)
 	}
 	script_pushint(st, count);
 	return SCRIPT_CMD_SUCCESS;
-}
+}*/
 
 /**
  * Returns number of items in guild storage
  * guildstoragecountitem(<nameID>{,<accountID>})
  * guildstoragecountitem2(<nameID>,<Identified>,<Refine>,<Attribute>,<Card0>,<Card1>,<Card2>,<Card3>{,<accountID>})
  */
-/*BUILDIN_FUNC(guildstoragecountitem)
+BUILDIN_FUNC(guildstoragecountitem)
 {
 	TBL_PC *sd;
 	char *command = (char *)script_getfuncname(st);
@@ -7301,7 +7301,7 @@ BUILDIN_FUNC(storagecountitem)
 
 	script_pushint(st, count);
 	return SCRIPT_CMD_SUCCESS;
-}*/
+}
 
 /**
  * Returns number of rental items in inventory

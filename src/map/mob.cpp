@@ -2815,7 +2815,7 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 			char eventname[EVENT_NAME_LENGTH] = "";
 			if( md->npc_event ) {
 				safestrncpy(eventname, md->npc_event, sizeof(md->npc_event));
-				if( battle_config.up_spawnmvp && itemdb_type(md->db->dropitem[i].nameid) == IT_CARD) && (!strcmpi(eventname, "classement::OnMvpDead")
+				if( battle_config.up_spawnmvp && itemdb_type(md->db->dropitem[i].nameid) == IT_CARD && (!strcmpi(eventname, "classement::OnMvpDead")
 				 || !strcmpi(eventname, "classement::OnMvpDrakeDead")
 				 || !strcmpi(eventname, "mvp_lhz_dun03::OnMyMVPDead")
 				 || !strcmpi(eventname, "mvp_lhz_dun04::OnMyMVPDead")

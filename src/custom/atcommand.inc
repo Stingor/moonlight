@@ -679,7 +679,7 @@ ACMD_FUNC(storecard)
 
 	if (sd->premiumStorage.stor_id == 5) {
 		for (int i = 0; i < MAX_INVENTORY; i++) {
-			if (sd->inventory.u.items_inventory[i].amount && itemdb_type(sd->inventory.u.items_inventory[i].nameid) == IT_CARD))
+			if (sd->inventory.u.items_inventory[i].amount && itemdb_type(sd->inventory.u.items_inventory[i].nameid) == IT_CARD)
 				storage_storageadd(sd, &sd->premiumStorage, i, sd->inventory.u.items_inventory[i].amount);
 		}
 	}
