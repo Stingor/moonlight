@@ -1272,8 +1272,8 @@ std::string ItemDatabase::create_item_link( struct item& item ){
 	const std::string start_tag = "<ITEML>";
 	const std::string closing_tag = "</ITEML>";
 #else // PACKETVER >= 20100000
-	const std::string start_tag = "<ITEMLINK>";
-	const std::string closing_tag = "</ITEMLINK>";
+	const std::string start_tag = "<ITEML>";
+	const std::string closing_tag = "</ITEML>";
 #endif
 
 	std::string itemstr = start_tag;
