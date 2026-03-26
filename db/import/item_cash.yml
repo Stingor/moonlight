@@ -1,0 +1,559 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2021 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Item Cash Database
+###########################################################################
+#
+# Item Cash Settings
+#
+###########################################################################
+# - Tab                     Cash shop tab. Available tabs are New, Hot, Limited, Rental, Permanent, Scrolls, Consumables, Other, Sale.
+#   Items:                  List of possible items.
+#     - Item                Item name.
+#       Price               Item cost in cash points (#CASHPOINTS).
+###########################################################################
+
+Header:
+  Type: ITEM_CASH_DB
+  Version: 1
+
+Body:
+  - Tab: Hot
+    Items:
+      - Item: Lucky_Candy
+        Price: 1
+  - Tab: Hot
+    Items:
+      - Item: Bloody_Branch _Box
+        Price: 2
+  - Tab: Hot
+    Items:
+      - Item: Convex_Mirror_Box
+        Price: 5
+  - Tab: Hot
+    Items:
+      - Item: Megaphone_
+        Price: 2
+  - Tab: Scrolls
+    Items:
+      - Item: Bubble_Gum
+        Price: 5
+  - Tab: Scrolls
+    Items:
+      - Item: Battle_Manual_X2
+        Price: 3
+  - Tab: Scrolls
+    Items:
+      - Item: Battle_Manual_X4
+        Price: 8
+  - Tab: Scrolls
+    Items:
+      - Item: Comp_Bubble_Gum
+        Price: 30
+  - Tab: Hot
+    Items:
+      - Item: Boarding_Halter
+        Price: 10
+  - Tab: Other
+    Items:
+      - Item: Symbol_Of_Sun
+        Price: 20
+  - Tab: Permanent
+    Items:
+      - Item: T_Archangel_Wing
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_Little_Devil_Wings
+        Price: 8
+  - Tab: Permanent
+    Items:
+      - Item: C_Cupids_Pink_Wings
+        Price: 8
+  - Tab: Permanent
+    Items:
+      - Item: C_Poring_Bag
+        Price: 8
+  - Tab: Permanent
+    Items:
+      - Item: C_Wings_of_Uriel
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_SwordWing
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_Blue_Fairy_Wing
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_Bag_of_Adventurer_j
+        Price: 8
+  - Tab: Permanent
+    Items:
+      - Item: C_Thanatos_Sword
+        Price: 24
+  - Tab: Permanent
+    Items:
+      - Item: C_Wings_of_Michael
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: Brilliant_Golden_Wings
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_Kirin_Wing
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_Rudra_Wing
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_Wing_Of_Happiness
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_GreatDevilWing
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_Amistr_Bag
+        Price: 18
+  - Tab: Permanent
+    Items:
+      - Item: C_Fallen_Angel_Wing
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_Giant_Ribbon_Bell
+        Price: 12
+  - Tab: Hot
+    Items:
+      - Item: Costume_Festival_Box
+        Price: 1
+  - Tab: Other
+    Items:
+      - Item: Change_Slot_Card
+        Price: 2
+  - Tab: Other
+    Items:
+      - Item: Change_Name_Card
+        Price: 10
+  - Tab: Scrolls
+    Items:
+      - Item: Max_Weight_Up_Scroll
+        Price: 5
+  - Tab: Hot
+    Items:
+      - Item: Magic_Card_Album
+        Price: 8
+  - Tab: Hot
+    Items:
+      - Item: C_Wing_Of_Fly
+        Price: 7
+  - Tab: Permanent
+    Items:
+      - Item: C_Fluttering_Feathers
+        Price: 24
+  - Tab: Permanent
+    Items:
+      - Item: C_Waltz_of_Flowers
+        Price: 24
+  - Tab: Permanent
+    Items:
+      - Item: Cupid_Wing_Skyblue
+        Price: 8
+  - Tab: Permanent
+    Items:
+      - Item: Costume_Magic_Circle
+        Price: 30
+  - Tab: Permanent
+    Items:
+      - Item: GiantCatBag
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_Full_Bloom_Cherry_Tree
+        Price: 24
+  - Tab: Permanent
+    Items:
+      - Item: C_Bloody_Wing
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_BlueAngeling_Wing
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_PinkButterfly_Wing
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_GoldButterfly_Wing
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_Wings_of_Gabriel
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: Halloween_Poring_Bag
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: HeartChocoBag
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: WingOfHeart
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_School_Bag_RD
+        Price: 8
+  - Tab: Permanent
+    Items:
+      - Item: C_Cat_Fork
+        Price: 15
+  - Tab: Permanent
+    Items:
+      - Item: Balloon_Wing
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: Wings_Of_Raguel
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: Wings_Of_Raphael
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_T_Bear_Bag
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: Light_Darkness_Wing
+        Price: 24
+  - Tab: Permanent
+    Items:
+      - Item: C_Nifl_Bloom
+        Price: 18
+  - Tab: Permanent
+    Items:
+      - Item: C_Angel_Feather
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: Bag_Of_Antonio
+        Price: 8
+  - Tab: Permanent
+    Items:
+      - Item: C_Violet_Halo
+        Price: 15
+  - Tab: Permanent
+    Items:
+      - Item: Chrismas_Tree
+        Price: 8
+  - Tab: Permanent
+    Items:
+      - Item: C_Furious_Wave
+        Price: 30
+  - Tab: Permanent
+    Items:
+      - Item: C_Show_Me_The_Zeny
+        Price: 50
+  - Tab: Permanent
+    Items:
+      - Item: MechanicWing
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: EXE_Backpack
+        Price: 8
+  - Tab: Permanent
+    Items:
+      - Item: BlackCatBag
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: Gerhard_Von_Devi_Bag
+        Price: 15
+  - Tab: Permanent
+    Items:
+      - Item: AngelRibbonWing
+        Price: 18
+  - Tab: Permanent
+    Items:
+      - Item: C_Valkyrie_Wing
+        Price: 24
+  - Tab: Permanent
+    Items:
+      - Item: C_School_Bag_BL
+        Price: 8
+  - Tab: Permanent
+    Items:
+      - Item: Wings_Of_Lucifer
+        Price: 24
+  - Tab: Permanent
+    Items:
+      - Item: Ru_Bear_Bag
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_Big_Ribbon_Cloak
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_Loli_Ruri_Moon
+        Price: 30
+  - Tab: Permanent
+    Items:
+      - Item: C_Gimmick_One_Feather
+        Price: 18
+  - Tab: Permanent
+    Items:
+      - Item: C_Evil_Druid_Cross
+        Price: 30
+  - Tab: Permanent
+    Items:
+      - Item: C_Sakura_Fes_TW
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: Santa_Backpack
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: C_Ice_Wing
+        Price: 24
+  - Tab: Permanent
+    Items:
+      - Item: C_Evil_Scythe
+        Price: 30
+  - Tab: Permanent
+    Items:
+      - Item: C_BlackBear_Back_TW
+        Price: 12
+  - Tab: Permanent
+    Items:
+      - Item: Protect_Cloth
+        Price: 15
+  - Tab: New
+    Items:
+      - Item: C_Aura_Quartz_Crown
+        Price: 30
+  - Tab: New
+    Items:
+      - Item: C_Baby_Penguin
+        Price: 300
+  - Tab: New
+    Items:
+      - Item: C_Baphomet_Hat
+        Price: 15
+  - Tab: New
+    Items:
+      - Item: C_Black_Cat
+        Price: 300
+  - Tab: New
+    Items:
+      - Item: C_Blessing_Of_Angels
+        Price: 30
+  - Tab: New
+    Items:
+      - Item: C_Blossom_Fluttering
+        Price: 40
+  - Tab: New
+    Items:
+      - Item: C_Bragi_Wing_Ears
+        Price: 30
+  - Tab: New
+    Items:
+      - Item: C_Celines_Ribbon
+        Price: 15
+  - Tab: New
+    Items:
+      - Item: C_Crimson_Booster
+        Price: 30
+  - Tab: New
+    Items:
+      - Item: C_Sword_Master_Crown
+        Price: 40
+  - Tab: New
+    Items:
+      - Item: C_Dragon_Cintamani_Hat4
+        Price: 50
+  - Tab: New
+    Items:
+      - Item: C_Dragon_Cintamani_Hat1
+        Price: 50
+  - Tab: New
+    Items:
+      - Item: C_Dragon_Cintamani_Hat3
+        Price: 50
+  - Tab: New
+    Items:
+      - Item: C_Dragon_Cintamani_Hat2
+        Price: 50
+  - Tab: New
+    Items:
+      - Item: C_Maple_Which_Falls
+        Price: 30
+  - Tab: New
+    Items:
+      - Item: C_Flying_Galapago
+        Price: 15
+  - Tab: New
+    Items:
+      - Item: Costume_Fox
+        Price: 300
+  - Tab: New
+    Items:
+      - Item: C_Gryphon_Wing_Ears
+        Price: 40
+  - Tab: New
+    Items:
+      - Item: C_Hill_Wind_Mask
+        Price: 15
+  - Tab: New
+    Items:
+      - Item: C_Little_Aquarium_Lower
+        Price: 30
+  - Tab: New
+    Items:
+      - Item: C_Ljosalfar
+        Price: 50
+  - Tab: New
+    Items:
+      - Item: C_Loyal_Servant_of_Devil_Morocc
+        Price: 30
+  - Tab: New
+    Items:
+      - Item: Costume_Lunatic_Muffler
+        Price: 20
+  - Tab: New
+    Items:
+      - Item: C_Mechanical_Feather_Hairband
+        Price: 15
+  - Tab: New
+    Items:
+      - Item: C_Mermaid_Longing
+        Price: 30
+  - Tab: New
+    Items:
+      - Item: C_Metal_Dragon_Helm
+        Price: 15
+  - Tab: New
+    Items:
+      - Item: C_Music_Decoration
+        Price: 30
+  - Tab: New
+    Items:
+      - Item: C_Mythlit_Hat
+        Price: 15
+  - Tab: New
+    Items:
+      - Item: C_Panda_Rabbit
+        Price: 300
+  - Tab: New
+    Items:
+      - Item: C_Pocketwatch_Hair_Ornament
+        Price: 15
+  - Tab: New
+    Items:
+      - Item: C_Pretty_Bear
+        Price: 15
+  - Tab: New
+    Items:
+      - Item: C_Roast_Memory
+        Price: 15
+  - Tab: New
+    Items:
+      - Item: C_Clover_Silkhat
+        Price: 15
+  - Tab: New
+    Items:
+      - Item: C_Steampunk_Hat
+        Price: 15
+  - Tab: New
+    Items:
+      - Item: C_Enchanted_Dog
+        Price: 15
+  - Tab: New
+    Items:
+      - Item: C_Sweet_Bonnet
+        Price: 15
+  - Tab: New
+    Items:
+      - Item: C_Subject_Aura
+        Price: 1000
+  - Tab: New
+    Items:
+      - Item: C_Warm_Cat_Muffler
+        Price: 20
+  - Tab: New
+    Items:
+      - Item: C_Water_Spellcaster
+        Price: 100
+  - Tab: New
+    Items:
+      - Item: C_White_Cat
+        Price: 300
+  - Tab: New
+    Items:
+      - Item: C_White_Cat_Hood
+        Price: 15
+  - Tab: New
+    Items:
+      - Item: C_Kishu_Dog
+        Price: 300
+  - Tab: New
+    Items:
+      - Item: C_White_Rabbit
+        Price: 300
+  - Tab: New
+    Items:
+      - Item: C_12_Anniversary_Crown_Of_Saint
+        Price: 15
+  - Tab: New
+    Items:
+      - Item: C_Love_Feelings
+        Price: 30
+  - Tab: New
+    Items:
+      - Item: Costume_Sleep_Sheep
+        Price: 50
+  - Tab: New
+    Items:
+      - Item: Costume_Master_Of_Flames
+        Price: 100
+  - Tab: New
+    Items:
+      - Item: Costume_Sweets_Party
+        Price: 30
+  - Tab: New
+    Items:
+      - Item: Costume_Baby_Panda
+        Price: 300
+  - Tab: New
+    Items:
+      - Item: Costume_Master_Of_Wind
+        Price: 100
