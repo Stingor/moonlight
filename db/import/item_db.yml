@@ -123281,7 +123281,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
+      Both_Accessory: true
     Script: "skill \"HW_NAPALMVULCAN\",4;\n"
   - Id: 27106
     AegisName: Awaken_Pere_Card
@@ -123299,7 +123299,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bAddEle,Ele_Neutral,20;\n"
   - Id: 27108
     AegisName: Singing_Pere_Card
@@ -123752,7 +123752,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Left_Accessory: true
+      Both_Accessory: true
     Flags:
       DropEffect: Orange_Pillar
     Script: "bonus bBreakWeaponRate,500; bonus bBreakArmorRate,500;\n"
@@ -123781,7 +123781,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAtk,20; if(readparam(bStr) >= 120) { bonus bAtk,20; bonus bAspdRate,3; }\n"
   - Id: 27184
     AegisName: Knight_Sakray_Card
@@ -124340,7 +124340,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
+      Both_Accessory: true
   - Id: 27331
     AegisName: Kronecker_G_Heine_Card
     Name: Kronecker G. Heine Card
@@ -124348,7 +124348,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Right_Accessory: true
+      Both_Accessory: true
     Script: "bonus bVariableCastrate,-5;\n"
   - Id: 27332
     AegisName: Skia_Card
@@ -124357,7 +124357,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Left_Accessory: true
+      Both_Accessory: true
   - Id: 27333
     AegisName: Skia_Nerius_Card
     Name: Skia Nerius Card
@@ -124365,7 +124365,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bAspdRate,5;\n"
   - Id: 27334
     AegisName: Chaotic_Baphomet_Card
@@ -124455,7 +124455,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus bDelayrate,-4;\n"
   - Id: 28000
     AegisName: Thanos_Katar
