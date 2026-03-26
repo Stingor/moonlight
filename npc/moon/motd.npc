@@ -11,7 +11,7 @@ OnInit:
 	$qtyedropper = 200;
 	$woeflagcd = 180;
 
-	if( (gettime(DT_DAYOFWEEK) == WEDNESDAY || gettime(DT_DAYOFWEEK) == SATURDAY) && gettime(DT_HOUR) == 17 ) {
+	if( gettime(DT_HOUR) == 17 ) {
 		// 17h00 le Mercredi et Samedi
 		donpcevent "CardPackerEventDropper::OnDropperEnable";
 		callfunc "announce2", "Le npc pour event drop est dispo (près de la poule) donnez lui "+$qtyedropper+" Card et un event drop se lancera !",bc_all;
@@ -121,7 +121,7 @@ OnPCLoginEvent:
 	announce "Tous les soirs, event exp de 19h à 20h, 23h à 00h et 02h à 03h!",bc_self,0x77ABC9;
 	announce "Toutes les heures Event Tarot (sauf si le npc event drop est là)!",bc_self,0x77ABC9;
 	announce "Parfois à 15min et 45min un Thief bug spawn dans une ville!",bc_self,0x77ABC9;
-	announce "Le mercredi et samedi, event drop vers 17h (Si le npc est satisfait)!",bc_self,0x77ABC9;
+	announce "Event drop tous les jours vers 17h (Si le npc est satisfait)!",bc_self,0x77ABC9;
 	announce "De 21h30 à 23h30 (sauf jour de WoE) Battleground Happy Hours! Récompenses doublés!",bc_self,0x77ABC9;
 	if( getusers(1) > $RecordOnline )
 		$RecordOnline = getusers(1);
