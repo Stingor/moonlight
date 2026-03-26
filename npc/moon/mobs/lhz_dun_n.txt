@@ -9,20 +9,20 @@
 //		monsters killed. [Capuche]
 //============================================================
 
-lhz_dun_n,0,0	monster	Eremes Guille	3208,50,100,0,"lhz_dun_n::OnRegularDead"
-lhz_dun_n,0,0	monster	Magaleta Sorin	3209,50,100,0,"lhz_dun_n::OnRegularDead"
-lhz_dun_n,0,0	monster	Catherine Cheiron	3210,50,100,0,"lhz_dun_n::OnRegularDead"
-lhz_dun_n,0,0	monster	Shecil Damon	3211,50,100,0,"lhz_dun_n::OnRegularDead"
-lhz_dun_n,0,0	monster	Harword Alt-Eisen	3212,50,100,0,"lhz_dun_n::OnRegularDead"
-lhz_dun_n,0,0	monster	Seyren Windsor	3213,50,100,0,"lhz_dun_n::OnRegularDead"
+lhz_dun_n,0,0	monster	Eremes Guille	3208,50,1000,0,"lhz_dun_n::OnRegularDead"
+lhz_dun_n,0,0	monster	Magaleta Sorin	3209,50,1000,0,"lhz_dun_n::OnRegularDead"
+lhz_dun_n,0,0	monster	Catherine Cheiron	3210,50,1000,0,"lhz_dun_n::OnRegularDead"
+lhz_dun_n,0,0	monster	Shecil Damon	3211,50,1000,0,"lhz_dun_n::OnRegularDead"
+lhz_dun_n,0,0	monster	Harword Alt-Eisen	3212,50,1000,0,"lhz_dun_n::OnRegularDead"
+lhz_dun_n,0,0	monster	Seyren Windsor	3213,50,1000,0,"lhz_dun_n::OnRegularDead"
 
-lhz_dun_n,0,0	monster	Randel Lawrence	3226,50,100,0,"lhz_dun_n::OnRegularDead"
-lhz_dun_n,0,0	monster	Flamel Emule	3227,50,100,0,"lhz_dun_n::OnRegularDead"
-lhz_dun_n,0,0	monster	Celia Alde	3228,50,100,0,"lhz_dun_n::OnRegularDead"
-lhz_dun_n,0,0	monster	Chen Liu	3229,50,100,0,"lhz_dun_n::OnRegularDead"
-lhz_dun_n,0,0	monster	Gertie Wie	3230,50,100,0,"lhz_dun_n::OnRegularDead"
-lhz_dun_n,0,0	monster	Alphoccio Basil	3231,50,100,0,"lhz_dun_n::OnRegularDead"
-lhz_dun_n,0,0	monster	Trentini	3232,50,100,0,"lhz_dun_n::OnRegularDead"
+lhz_dun_n,0,0	monster	Randel Lawrence	3226,50,1000,0,"lhz_dun_n::OnRegularDead"
+lhz_dun_n,0,0	monster	Flamel Emule	3227,50,1000,0,"lhz_dun_n::OnRegularDead"
+lhz_dun_n,0,0	monster	Celia Alde	3228,50,1000,0,"lhz_dun_n::OnRegularDead"
+lhz_dun_n,0,0	monster	Chen Liu	3229,50,1000,0,"lhz_dun_n::OnRegularDead"
+lhz_dun_n,0,0	monster	Gertie Wie	3230,50,1000,0,"lhz_dun_n::OnRegularDead"
+lhz_dun_n,0,0	monster	Alphoccio Basil	3231,50,1000,0,"lhz_dun_n::OnRegularDead"
+lhz_dun_n,0,0	monster	Trentini	3232,50,1000,0,"lhz_dun_n::OnRegularDead"
 
 lhz_dun_n,0,0,0	script	lhz_dun_n	-1,{
 	end;
