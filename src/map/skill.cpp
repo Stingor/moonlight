@@ -874,12 +874,12 @@ bool skill_isNotOk(uint16 skill_id, map_session_data *sd)
 	// [Stingor] -->
 	t_tick tick = gettick();
 
-	if( mapdata->flag[MF_NOATTACKSKILL] && (skill_nocast & 2048) && pc_get_group_level(sd) <= 60 ) {
+	if (mapdata->getMapFlag(MF_NOATTACKSKILL) && (skill_nocast & 2048) && pc_get_group_level(sd) <= 60) {
 		clif_skill_fail(sd,skill_id,USESKILL_FAIL_TOTARGET,0);
 		return true;
 	}
 
-	if ( mapdata->flag[MF_NOAOESKILL] && (skill_nocast & 4096) && pc_get_group_level(sd) <= 60 ) {
+	if (mapdata->getMapFlag(MF_NOAOESKILL) && (skill_nocast & 4096) && pc_get_group_level(sd) <= 60) {
 		clif_skill_fail(sd,skill_id,USESKILL_FAIL_TOTARGET,0);
 		return true;
 	}
