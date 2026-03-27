@@ -1,14 +1,11 @@
 // Copyright (c) rAthena Dev Teams - Licensed under GNU GPL
 // For more information, see LICENCE in the main folder
 
-#if defined(DEBUG)
-	#define DEBUG
-	#define DEBUG_DISP
-	#define DEBUG_DISASM
-	#define DEBUG_RUN
-	#define DEBUG_HASH
-	#define DEBUG_DUMP_STACK
-#endif
+//#define DEBUG_DISP
+//#define DEBUG_DISASM
+//#define DEBUG_RUN
+//#define DEBUG_HASH
+//#define DEBUG_DUMP_STACK
 
 #include "script.hpp"
 
