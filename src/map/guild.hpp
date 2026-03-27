@@ -78,7 +78,7 @@ int guild_allianceack(int guild_id1,int guild_id2,uint32 account_id1,uint32 acco
 int guild_delalliance(map_session_data *sd,int guild_id,int flag);
 int guild_opposition(map_session_data *sd,map_session_data *tsd);
 int guild_check_alliance(int guild_id1, int guild_id2, int flag);
-int guild_get_alliance_count(struct guild *g,int flag);  // [Stingor]
+int guild_get_alliance_count(const struct mmo_guild& g, int flag);  // [Stingor]
 
 int guild_send_memberinfoshort(map_session_data *sd,int online);
 int guild_recv_memberinfoshort(int guild_id,uint32 account_id,uint32 char_id,int online,int lv,int class_);

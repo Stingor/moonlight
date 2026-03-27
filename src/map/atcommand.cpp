@@ -812,7 +812,7 @@ ACMD_FUNC(who) {
 					}
 					default: {
 						struct party_data *p = party_search(pl_sd->status.party_id);
-						struct guild *g = pl_sd->guild;
+						auto& g = pl_sd->guild;
 								
 						StringBuf_Printf(&buf, msg_txt(sd,343), pl_sd->status.name, ""); // "Name: %s%s "
 						if (pc_get_group_id(pl_sd) > 0) // Player title, if exists
@@ -820,7 +820,7 @@ ACMD_FUNC(who) {
 						if (p != NULL)
 							StringBuf_Printf(&buf, msg_txt(sd,345), p->party.name); // " | Party: '%s'"
 						if (g != NULL)
-							StringBuf_Printf(&buf, msg_txt(sd,346), g->name); // " | Guild: '%s'"
+							StringBuf_Printf(&buf, msg_txt(sd,346), g->guild.name); // " | Guild: '%s'"
 						break;
 					}
 				}
