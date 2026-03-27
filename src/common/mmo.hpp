@@ -88,7 +88,7 @@ typedef uint32 t_itemid;
 	#define MAX_KAFRAPOINT INT_MAX
 #endif
 #define MAX_FAME 1000000000 ///Max fame points
-#define MAX_CART 100 ///Maximum item in cart
+#define MAX_CART 200 ///Maximum item in cart
 #define MAX_SKILL 1486 ///Maximum skill can be hold by Player, Homunculus, & Mercenary (skill list) AND skill_db limit
 #define DEFAULT_WALK_SPEED 150 ///Default walk speed
 #define MIN_WALK_SPEED 20 ///Min walk speed
