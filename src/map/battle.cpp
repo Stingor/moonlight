@@ -8133,7 +8133,6 @@ struct Damage battle_calc_misc_attack(struct block_list *src,struct block_list *
 				md.damage /= 2;
 			if (sd && sd->status.class_ == JOB_STALKER)
 				md.damage = (md.damage / 2); // [Stingor]
-#endif
 			break;
 		case NJ_ZENYNAGE:
 		case KO_MUCHANAGE:
