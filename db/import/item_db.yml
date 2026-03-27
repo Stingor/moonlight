@@ -123308,7 +123308,7 @@ Body:
     Buy: 20
     Weight: 10
     Locations:
-      Left_Accessory: true
+      Both_Accessory: true
     Script: "bonus2 bMagicAddEle,Ele_Neutral,20;\n"
   - Id: 27109
     AegisName: Jitterbug_Card
