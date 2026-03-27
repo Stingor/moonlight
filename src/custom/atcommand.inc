@@ -850,7 +850,7 @@ ACMD_FUNC(mobinfo)
 				droprate = min(droprate, 10000); //cap it to 100%
 			}
 
-			sprintf(atcmd_output2, " - %s %02.02f%%", item_db.create_item_link(id->nameid).c_str(), (float)droprate / 100);
+			sprintf(atcmd_output2, " - %s %02.02f%%", item_db.create_item_link(id).c_str(), (float)droprate / 100);
 			strcat(atcmd_output, atcmd_output2);
 			if (++j % 3 == 0) {
 				clif_displaymessage(fd, atcmd_output);
@@ -887,9 +887,9 @@ ACMD_FUNC(mobinfo)
 				if (mvppercent > 0) {
 					j++;
 					if (j == 1)
-						sprintf(atcmd_output2, " %s  %02.02f%%", item_db.create_item_link(id->nameid).c_str(), mvppercent);
+						sprintf(atcmd_output2, " %s  %02.02f%%", item_db.create_item_link(id).c_str(), mvppercent);
 					else
-						sprintf(atcmd_output2, " - %s  %02.02f%%", item_db.create_item_link(id->nameid).c_str(), mvppercent);
+						sprintf(atcmd_output2, " - %s  %02.02f%%", item_db.create_item_link(id).c_str(), mvppercent);
 
 					strcat(atcmd_output, atcmd_output2);
 				}
@@ -937,7 +937,7 @@ ACMD_FUNC(iteminfo)
 		std::shared_ptr<item_data> item_data = result.second;
 
 		sprintf(atcmd_output, msg_txt(sd, 1277), // Item: '%s'/'%s' (%u) Type: %s | Extra Effect: %s
-			item_db.create_item_link(item_data->nameid).c_str(), item_data->ename.c_str(), item_data->nameid,
+			item_db.create_item_link(item_data).c_str(), item_data->ename.c_str(), item_data->nameid,
 			(item_data->type != IT_AMMO) ? itemdb_typename((enum item_types)item_data->type) : itemdb_typename_ammo((e_ammo_type)item_data->subtype),
 			(item_data->script == NULL) ? msg_txt(sd, 1278) : msg_txt(sd, 1279) // None / With script
 		);
@@ -994,7 +994,7 @@ ACMD_FUNC(whodrops)
 	for (const auto& result : item_array) {
 		std::shared_ptr<item_data> id = result.second;
 
-		sprintf(atcmd_output, msg_txt(sd, 1285), item_db.create_item_link(id->nameid).c_str(), id->nameid); // Item: '%s' (ID:%u)
+		sprintf(atcmd_output, msg_txt(sd, 1285), item_db.create_item_link(id).c_str(), id->nameid); // Item: '%s' (ID:%u)
 		clif_displaymessage(fd, atcmd_output);
 
 		if (id->mob[0].chance == 0) {
