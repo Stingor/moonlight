@@ -47,8 +47,8 @@ OnInstanceInit:
 		npctalk .@chat$[rand(0,4)];
 		if (strnpcinfo(4) == "pvp_n_3-1")
 			npcwalkto rand(103,108),rand(74,125);
-		else 
-			npcwalkto rand(186,188),rand(206,200);
+        else 
+			npcwalkto rand(186,188),rand(200,206);
 		sleep rand(15000,60000);
 	}
 	end;
