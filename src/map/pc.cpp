@@ -5798,7 +5798,7 @@ char pc_getzeny(map_session_data *sd, int zeny, enum e_log_pick_type type, uint3
  * @param type: Log type
  * @return -1: Not enough points, otherwise success (cash+points)
  */
-int pc_paycash(map_session_data *sd, int price, int points, e_log_pick_type type, int n, struct PACKET_CZ_SE_PC_BUY_CASHITEM_LIST_sub* item_list)
+int pc_paycash(map_session_data *sd, int price, int points, e_log_pick_type type, int n, const PACKET_CZ_SE_PC_BUY_CASHITEM_LIST_sub* item_list)
 {
 	int cash, i; // [Stingor]
 	nullpo_retr(-1,sd);
@@ -8411,7 +8411,7 @@ void pc_gainexp(map_session_data *sd, struct block_list *src, t_exp base_exp, t_
 	nullpo_retv(sd);
 
 	if (sd->status.base_level > 200 && base_exp > 0) { // [Stingor]
-		// Correction du warning C4244 : conversion de 'float' en 't_exp', perte possible de donnÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©es
+		// Correction du warning C4244 : conversion de 'float' en 't_exp', perte possible de donnÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©es
 		base_exp = (t_exp)((float)base_exp / exp(((float)(sd->status.base_level) - 200.0f) / 250.0f));
 		if (sd->status.class_ == JOB_TAEKWON)
 			base_exp /= 2;
