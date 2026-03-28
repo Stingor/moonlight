@@ -166,18 +166,15 @@ BUILDIN_FUNC(npcstand)
 
 BUILDIN_FUNC(getalliance)
 {
-	struct guild* g;
-	int i;
-	int j=0;
-	int gid = script_getnum(st,2);
+	int j = 0;
+	auto g = guild_search(script_getnum(st, 2));
 
-	g = guild_search(gid);
-	if( g == NULL || guild_get_alliance_count(g, 0) == 0 )
+	if( !g || g && guild_get_alliance_count(g->guild, 0) == 0 )
 		return 0;
 		
-	for( i = 0; i < MAX_GUILDALLIANCE; i++) {
-		if(	g->alliance[i].guild_id > 0 && g->alliance[i].opposition == 0 )
-			mapreg_setreg(add_str("$@alliance_id")+(j << 24), g->alliance[i].guild_id);
+	for(int i = 0; i < MAX_GUILDALLIANCE; i++) {
+		if(	g->guild.alliance[i].guild_id > 0 && g->guild.alliance[i].opposition == 0 )
+			mapreg_setreg(add_str("$@alliance_id")+(j << 24), g->guild.alliance[i].guild_id);
 		j++;
 	}
 	mapreg_setreg(add_str("$@alliance_count"), j);

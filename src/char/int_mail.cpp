@@ -8,12 +8,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../common/mmo.hpp"
-#include "../common/showmsg.hpp"
-#include "../common/socket.hpp"
-#include "../common/sql.hpp"
-#include "../common/strlib.hpp"
-#include "../common/utilities.hpp"
+#include <common/mmo.hpp>
+#include <common/showmsg.hpp>
+#include <common/socket.hpp>
+#include <common/sql.hpp>
+#include <common/strlib.hpp>
+#include <common/utilities.hpp>
 
 #include "char.hpp"
 #include "char_mapif.hpp"
@@ -548,7 +548,7 @@ void mapif_Mail_return( int fd, uint32 char_id, int mail_id, uint32 account_id_r
 	char temp_[MAIL_TITLE_LENGTH + 3];
 
 	// swap sender and receiver
-	SWAP( msg.send_id, msg.dest_id );
+	std::swap( msg.send_id, msg.dest_id );
 	safestrncpy( temp_, msg.send_name, NAME_LENGTH );
 	safestrncpy( msg.send_name, msg.dest_name, NAME_LENGTH );
 	safestrncpy( msg.dest_name, temp_, NAME_LENGTH );

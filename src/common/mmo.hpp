@@ -6,7 +6,7 @@
 
 #include <time.h>
 
-#include "../config/core.hpp"
+#include <config/core.hpp>
 
 #include "cbasetypes.hpp"
 #include "db.hpp"
@@ -89,7 +89,7 @@ typedef uint32 t_itemid;
 #endif
 #define MAX_FAME 1000000000 ///Max fame points
 #define MAX_CART 200 ///Maximum item in cart
-#define MAX_SKILL 1454 ///Maximum skill can be hold by Player, Homunculus, & Mercenary (skill list) AND skill_db limit
+#define MAX_SKILL 1623 ///Maximum skill can be hold by Player, Homunculus, & Mercenary (skill list) AND skill_db limit
 #define DEFAULT_WALK_SPEED 150 ///Default walk speed
 #define MIN_WALK_SPEED 20 ///Min walk speed
 #define MAX_WALK_SPEED 1000 ///Max walk speed
@@ -179,7 +179,7 @@ const t_itemid WEDDING_RING_F = 2635;
 
 //Base Homun skill.
 #define HM_SKILLBASE 8001
-#define MAX_HOMUNSKILL 43
+#define MAX_HOMUNSKILL 59
 #define MAX_HOMUNCULUS_CLASS	52	//[orn], Increased to 60 from 16 to allow new Homun-S.
 #define HM_CLASS_BASE 6001
 #define HM_CLASS_MAX (HM_CLASS_BASE+MAX_HOMUNCULUS_CLASS-1)
@@ -596,6 +596,7 @@ struct mmo_charstatus {
 	uint16 mapport;
 
 	struct s_point_str last_point;
+	int32 last_point_instanceid;
 	struct s_point_str save_point;
 	struct s_point_str memo_point[MAX_MEMOPOINTS];
 	struct s_skill skill[MAX_SKILL];
@@ -743,7 +744,7 @@ struct guild_skill {
 };
 
 struct Channel;
-struct guild {
+struct mmo_guild {
 	int guild_id;
 	short guild_lv, connect_member, max_member, average_lv;
 	t_exp exp;
@@ -758,14 +759,7 @@ struct guild {
 	struct guild_alliance alliance[MAX_GUILDALLIANCE];
 	struct guild_expulsion expulsion[MAX_GUILDEXPULSION];
 	struct guild_skill skill[MAX_GUILDSKILL];
-	struct Channel *channel;
-	int instance_id;
 	time_t last_leader_change;
-
-	/* Used by char-server to save events for guilds */
-	unsigned short save_flag;
-
-	int32 chargeshout_flag_id;
 };
 
 enum e_woe_type{

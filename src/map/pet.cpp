@@ -8,16 +8,16 @@
 
 #include <stdlib.h>
 
-#include "../common/db.hpp"
-#include "../common/ers.hpp"
-#include "../common/malloc.hpp"
-#include "../common/nullpo.hpp"
-#include "../common/random.hpp"
-#include "../common/showmsg.hpp"
-#include "../common/strlib.hpp"
-#include "../common/timer.hpp"
-#include "../common/utilities.hpp"
-#include "../common/utils.hpp"
+#include <common/db.hpp>
+#include <common/ers.hpp>
+#include <common/malloc.hpp>
+#include <common/nullpo.hpp>
+#include <common/random.hpp>
+#include <common/showmsg.hpp>
+#include <common/strlib.hpp>
+#include <common/timer.hpp>
+#include <common/utilities.hpp>
+#include <common/utils.hpp>
 
 #include "achievement.hpp"
 #include "battle.hpp"
@@ -629,13 +629,13 @@ int16 pet_get_card3_intimacy( int intimacy ){
 /**
  * Set the value of the pet's intimacy.
  * @param pd : pet requesting
- * @param value : new intimacy value
+ * @param value : new intimacy value. Will be bounded by PET_INTIMATE_NONE and PET_INTIMATE_MAX
  */
 void pet_set_intimate(struct pet_data *pd, int value)
 {
 	nullpo_retv(pd);
 
-	pd->pet.intimate = min(value, PET_INTIMATE_MAX);
+	pd->pet.intimate = cap_value(value, PET_INTIMATE_NONE, PET_INTIMATE_MAX);
 
 	map_session_data *sd = pd->master;
 
@@ -710,7 +710,7 @@ int pet_attackskill(struct pet_data *pd, int target_id)
 	if (DIFF_TICK(pd->ud.canact_tick, gettick()) > 0)
 		return 0;
 
-	if (rnd()%100 < (pd->a_skill->rate +pd->pet.intimate*pd->a_skill->bonusrate/1000)) { // Skotlex: Use pet's skill
+	if (rnd_chance((pd->a_skill->rate +pd->pet.intimate*pd->a_skill->bonusrate/1000), 100)) { // Skotlex: Use pet's skill
 		int inf;
 		struct block_list *bl;
 
@@ -782,8 +782,8 @@ int pet_target_check(struct pet_data *pd,struct block_list *bl,int type)
 			rate = 1;
 	}
 
-	if(rnd()%10000 < rate) {
-		if(pd->target_id == 0 || rnd()%10000 < pet_db_ptr->change_target_rate)
+	if(rnd_chance(rate, 10000)) {
+		if(pd->target_id == 0 || rnd_chance<uint16>(pet_db_ptr->change_target_rate, 10000))
 			pd->target_id = bl->id;
 	}
 
@@ -863,7 +863,6 @@ static TIMER_FUNC(pet_hungry){
 		pet_set_intimate(pd, pd->pet.intimate + pet_db_ptr->hungry_intimacy_dec);
 
 		if( pd->pet.intimate <= PET_INTIMATE_NONE ) {
-			pet_set_intimate(pd, PET_INTIMATE_NONE);
 			pd->status.speed = pd->get_pet_walk_speed();
 		}
 
@@ -943,7 +942,7 @@ static int pet_performance(map_session_data *sd, struct pet_data *pd)
 		val = 1;
 
 	pet_stop_walking(pd,2000<<8);
-	clif_pet_performance(pd, rnd()%val + 1);
+	clif_pet_performance(pd, rnd_value(1, val));
 	pet_lootitem_drop(pd,NULL);
 
 	return 1;
@@ -1022,7 +1021,9 @@ bool pet_data_init(map_session_data *sd, struct s_pet *pet)
 		return false;
 	}
 
-	sd->pd = pd = (struct pet_data *)aCalloc(1,sizeof(struct pet_data));
+	pd = (struct pet_data *)aCalloc(1,sizeof(struct pet_data));
+	new(pd) pet_data();
+	sd->pd = pd;
 	pd->bl.type = BL_PET;
 	pd->bl.id = npc_get_new_npc_id();
 
@@ -1314,7 +1315,7 @@ int pet_catch_process2(map_session_data* sd, int target_id)
 	if(battle_config.pet_catch_rate != 100)
 		pet_catch_rate = (pet_catch_rate*battle_config.pet_catch_rate)/100;
 
-	if(rnd()%10000 < pet_catch_rate) {
+	if(rnd_chance(pet_catch_rate, 10000)) {
 		achievement_update_objective(sd, AG_TAMING, 1, md->mob_id);
 		unit_remove_map(&md->bl,CLR_OUTSIGHT);
 		status_kill(&md->bl);
@@ -1473,7 +1474,7 @@ int pet_change_name_ack(map_session_data *sd, char* name, int flag)
 		return 0;
 	}
 
-	memcpy(pd->pet.name, name, NAME_LENGTH);
+	safestrncpy(pd->pet.name, name, NAME_LENGTH);
 	clif_name_area(&pd->bl);
 	pd->pet.rename_flag = 1;
 	clif_pet_equip_area(pd);
@@ -1618,7 +1619,6 @@ int pet_food(map_session_data *sd, struct pet_data *pd)
 	if (pd->pet.hungry > PET_HUNGRY_SATISFIED) {
 		pet_set_intimate(pd, pd->pet.intimate + pet_db_ptr->r_full);
 		if (pd->pet.intimate <= PET_INTIMATE_NONE) {
-			pet_set_intimate(pd, PET_INTIMATE_NONE);
 			pet_stop_attack(pd);
 			pd->status.speed = pd->get_pet_walk_speed();
 		}
@@ -1630,7 +1630,7 @@ int pet_food(map_session_data *sd, struct pet_data *pd)
 			k = pet_db_ptr->r_hungry;
 
 		if( pd->pet.hungry > PET_HUNGRY_NEUTRAL) {
-			k >>= 1;
+			k /= 2;
 			k = max(k, 1);
 		}
 
@@ -1672,10 +1672,10 @@ static int pet_randomwalk(struct pet_data *pd,t_tick tick)
 			d = 5;
 
 		for(i = 0; i < retrycount; i++) {
-			int r = rnd(), x, y;
+			int x, y;
 
-			x = pd->bl.x+r%(d*2+1)-d;
-			y = pd->bl.y+r/(d*2+1)%(d*2+1)-d;
+			x = pd->bl.x + rnd_value(-d, d);
+			y = pd->bl.y + rnd_value(-d, d);
 
 			if(map_getcell(pd->bl.m,x,y,CELL_CHKPASS) && unit_walktoxy(&pd->bl,x,y,0)) {
 				pd->move_fail_count = 0;
@@ -1702,7 +1702,7 @@ static int pet_randomwalk(struct pet_data *pd,t_tick tick)
 				c += pd->status.speed;
 		}
 
-		pd->next_walktime = tick+rnd()%1000+MIN_RANDOMWALKTIME+c;
+		pd->next_walktime = tick + MIN_RANDOMWALKTIME + c + rnd_value(0, 999);
 
 		return 1;
 	}
@@ -1753,7 +1753,7 @@ static int pet_ai_sub_hard(struct pet_data *pd, map_session_data *sd, t_tick tic
 		if (DIFF_TICK(tick, pd->ud.canmove_tick) < 0)
 			return 0; // Can't move yet.
 
-		pd->status.speed = (sd->battle_status.speed>>1);
+		pd->status.speed = (sd->battle_status.speed / 2);
 
 		if(pd->status.speed == 0)
 			pd->status.speed = 1;

@@ -5,15 +5,15 @@
 
 #include <stdlib.h>
 
-#include "../common/cbasetypes.hpp"
-#include "../common/malloc.hpp"
-#include "../common/nullpo.hpp"
-#include "../common/random.hpp"
-#include "../common/showmsg.hpp"
-#include "../common/socket.hpp"
-#include "../common/strlib.hpp"
-#include "../common/utilities.hpp"
-#include "../common/utils.hpp"
+#include <common/cbasetypes.hpp>
+#include <common/malloc.hpp>
+#include <common/nullpo.hpp>
+#include <common/random.hpp>
+#include <common/showmsg.hpp>
+#include <common/socket.hpp>
+#include <common/strlib.hpp>
+#include <common/utilities.hpp>
+#include <common/utils.hpp>
 
 #include "battle.hpp"
 #include "chrif.hpp"
@@ -775,7 +775,7 @@ void quest_update_objective(map_session_data *sd, struct mob_data* md)
 		for (const auto &it : qi->dropitem) {
 			if (it->mob_id != 0 && it->mob_id != md->mob_id)
 				continue;
-			if (it->rate < 10000 && rnd()%10000 >= it->rate)
+			if (it->rate < 10000 && !rnd_chance<uint16>(it->rate, 10000))
 				continue; // TODO: Should this be affected by server rates?
 			if (!item_db.exists(it->nameid))
 				continue;

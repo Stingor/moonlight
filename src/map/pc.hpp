@@ -8,11 +8,11 @@
 #include <memory>
 #include <vector>
 
-#include "../common/cbasetypes.hpp"
-#include "../common/database.hpp"
-#include "../common/mmo.hpp" // JOB_*, MAX_FAME_LIST, struct fame_list, struct mmo_charstatus
-#include "../common/strlib.hpp"// StringBuf
-#include "../common/timer.hpp"
+#include <common/cbasetypes.hpp>
+#include <common/database.hpp>
+#include <common/mmo.hpp> // JOB_*, MAX_FAME_LIST, struct fame_list, struct mmo_charstatus
+#include <common/strlib.hpp>// StringBuf
+#include <common/timer.hpp>
 
 #include "battleground.hpp"
 #include "buyingstore.hpp" // struct s_buyingstore
@@ -32,6 +32,8 @@ enum e_instance_mode : uint8;
 //enum e_log_chat_type : uint8;
 enum e_log_pick_type : uint32;
 enum sc_type : int16;
+
+class MapGuild;
 
 #define MAX_PC_BONUS 50 /// Max bonus, usually used by item bonus
 #define MAX_PC_FEELHATE 3 /// Max feel hate info
@@ -617,6 +619,8 @@ public:
 		int dropaddrace[RC_MAX];
 		int dropaddclass[CLASS_MAX];
 		int magic_subdefele[ELE_MAX];
+		int ignore_res_by_race[RC_MAX];
+		int ignore_mres_by_race[RC_MAX];
 	} indexed_bonus;
 	// zeroed arrays end here.
 
@@ -738,7 +742,7 @@ public:
 	int party_invite, party_invite_account; // for handling party invitation (holds party id and account id)
 	int adopt_invite; // Adoption
 
-	struct guild *guild; // [Ind] speed everything up
+	std::shared_ptr<MapGuild> guild; // [Ind] speed everything up
 	int guild_invite,guild_invite_account;
 	int guild_emblem_id,guild_alliance,guild_alliance_account;
 	short guild_x,guild_y; // For guildmate position display. [Skotlex] should be short [zzo]
@@ -811,6 +815,7 @@ public:
 		uint32 pending_weight;
 		uint32 pending_zeny;
 		uint16 pending_slots;
+		uint32 dest_id;
 	} mail;
 
 	//Quest log system
@@ -1261,7 +1266,7 @@ enum e_mado_type : uint16 {
 	#define pc_leftside_def(sd) ((sd)->battle_status.def)
 	#define pc_rightside_def(sd) ((sd)->battle_status.def2)
 	#define pc_leftside_mdef(sd) ((sd)->battle_status.mdef)
-	#define pc_rightside_mdef(sd) ( (sd)->battle_status.mdef2 - ((sd)->battle_status.vit>>1) )
+	#define pc_rightside_mdef(sd) ( (sd)->battle_status.mdef2 - ((sd)->battle_status.vit / 2) )
 #define pc_leftside_matk(sd) \
     (\
     ((sd)->sc.getSCE(SC_MAGICPOWER) && (sd)->sc.getSCE(SC_MAGICPOWER)->val4) \
@@ -1443,9 +1448,9 @@ bool pc_memo(map_session_data* sd, int pos);
 char pc_checkadditem(map_session_data *sd, t_itemid nameid, int amount);
 uint8 pc_inventoryblank(map_session_data *sd);
 short pc_search_inventory(map_session_data *sd, t_itemid nameid);
-char pc_payzeny(map_session_data *sd, int zeny, enum e_log_pick_type type, map_session_data *tsd);
+char pc_payzeny(map_session_data *sd, int zeny, enum e_log_pick_type type, uint32 log_charid = 0);
 enum e_additem_result pc_additem(map_session_data *sd, struct item *item, int amount, e_log_pick_type log_type);
-char pc_getzeny(map_session_data *sd, int zeny, enum e_log_pick_type type, map_session_data *tsd);
+char pc_getzeny(map_session_data *sd, int zeny, enum e_log_pick_type type, uint32 log_charid = 0);
 char pc_delitem(map_session_data *sd, int n, int amount, int type, short reason, e_log_pick_type log_type);
 
 uint64 pc_generate_unique_id(map_session_data *sd);
@@ -1460,7 +1465,7 @@ int pc_getcash( map_session_data *sd, int cash, int points, e_log_pick_type type
 enum e_additem_result pc_cart_additem(map_session_data *sd,struct item *item_data,int amount,e_log_pick_type log_type);
 void pc_cart_delitem(map_session_data *sd,int n,int amount,int type,e_log_pick_type log_type);
 void pc_putitemtocart(map_session_data *sd,int idx,int amount);
-void pc_getitemfromcart(map_session_data *sd,int idx,int amount);
+bool pc_getitemfromcart(map_session_data *sd,int idx,int amount);
 int pc_cartitem_amount(map_session_data *sd,int idx,int amount);
 
 bool pc_takeitem(map_session_data *sd,struct flooritem_data *fitem);

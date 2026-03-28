@@ -6,14 +6,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../common/malloc.hpp"
-#include "../common/md5calc.hpp"
-#include "../common/random.hpp"
-#include "../common/showmsg.hpp" //show notice
-#include "../common/socket.hpp" //wfifo session
-#include "../common/strlib.hpp" //safeprint
-#include "../common/timer.hpp" //difftick
-#include "../common/utils.hpp"
+#include <common/malloc.hpp>
+#include <common/md5calc.hpp>
+#include <common/random.hpp>
+#include <common/showmsg.hpp> //show notice
+#include <common/socket.hpp> //wfifo session
+#include <common/strlib.hpp> //safeprint
+#include <common/timer.hpp> //difftick
+#include <common/utils.hpp>
 
 #include "account.hpp"
 #include "ipban.hpp" //ipban_check
@@ -144,6 +144,13 @@ static void logclif_auth_ok(struct login_session_data* sd) {
 		WFIFOW(fd,header+n*size+30) = ch_server[i].new_;
 #if PACKETVER >= 20170315
 		memset(WFIFOP(fd, header+n*size+32), 0, 128); // Unknown
+#endif
+#ifdef DEBUG
+		ShowDebug(
+			"Sending the client (%d %d.%d.%d.%d) to char-server %s with ip %d.%d.%d.%d and port "
+			"%hu\n",
+			sd->account_id, CONVIP(ip), ch_server[i].name,
+			CONVIP((subnet_char_ip) ? subnet_char_ip : ch_server[i].ip), ch_server[i].port);
 #endif
 		n++;
 	}
@@ -370,8 +377,7 @@ static int logclif_parse_reqauth(int fd, struct login_session_data *sd, int comm
 static int logclif_parse_reqkey(int fd, struct login_session_data *sd){
 	RFIFOSKIP(fd,2);
 	{
-		memset(sd->md5key, '\0', sizeof(sd->md5key));
-		sd->md5keylen = (uint16)(12 + rnd() % 4);
+		sd->md5keylen = sizeof( sd->md5key );
 		MD5_Salt(sd->md5keylen, sd->md5key);
 
 		WFIFOHEAD(fd,4 + sd->md5keylen);
@@ -495,7 +501,7 @@ int logclif_parse(int fd) {
 	if( sd == NULL )
 	{
 		// Perform ip-ban check
-		if( login_config.ipban && ipban_check(ipl) )
+		if( login_config.ipban && ipban_check(ipl) && ipl != INADDR_LOOPBACK )
 		{
 			ShowStatus("Connection refused: IP isn't authorised (deny/allow, ip: %s).\n", ip);
 			login_log(ipl, "unknown", -3, "ip banned");
