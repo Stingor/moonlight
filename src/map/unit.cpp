@@ -1443,7 +1443,7 @@ int unit_stop_walking(struct block_list *bl,int type)
 		ud->walkpath.path_len = ud->walkpath.path_pos+1;
 		unit_walktoxy_timer(INVALID_TIMER, tick, bl->id, ud->walkpath.path_pos);
 		if( battle_config.debugpos ) 
-			clif_fixpos(bl); //new add
+			clif_fixpos( *bl ); //new add
 	}
 
 	if(type&USW_FIXPOS)
@@ -1628,7 +1628,7 @@ int unit_set_walkdelay(struct block_list *bl, t_tick tick, t_tick delay, int typ
 			}
 		}
 		if( battle_config.debugpos ) 
-			clif_fixpos(bl); //new add
+			clif_fixpos( *bl ); //new add
 	}
 
 	return 1;
