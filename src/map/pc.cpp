@@ -2988,11 +2988,7 @@ void pc_updateweightstatus(map_session_data *sd)
 	nullpo_retv(sd);
 
 	old_overweight = (sd->sc.getSCE(SC_WEIGHT90)) ? 2 : (sd->sc.getSCE(SC_WEIGHT50)) ? 1 : 0;
- #ifdef RENEWAL
-	 new_overweight = (pc_is90overweight(sd)) ? 2 : (pc_is70overweight(sd)) ? 1 : 0;
- #else
-	 new_overweight = (pc_is90overweight(sd)) ? 2 : (pc_is50overweight(sd)) ? 1 : 0;
- #endif
+	new_overweight = (pc_is90overweight(sd)) ? 2 : (pc_is70overweight(sd)) ? 1 : 0;
 
 	if( old_overweight == new_overweight )
 		return; // no change
@@ -8384,7 +8380,7 @@ void pc_gainexp(map_session_data *sd, struct block_list *src, t_exp base_exp, t_
 	nullpo_retv(sd);
 
 	if (sd->status.base_level > 200 && base_exp > 0) { // [Stingor]
-		// Correction du warning C4244 : conversion de 'float' en 't_exp', perte possible de donnÃƒÂ©es
+		// Correction du warning C4244 : conversion de 'float' en 't_exp', perte possible de donnÃƒÆ’Ã‚Â©es
 		base_exp = (t_exp)((float)base_exp / exp(((float)(sd->status.base_level) - 200.0f) / 250.0f));
 		if (sd->status.class_ == JOB_TAEKWON)
 			base_exp /= 2;
