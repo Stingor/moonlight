@@ -345,9 +345,6 @@ int login_mmo_auth(struct login_session_data* sd, bool isServer) {
 		return 0; // 0 = Unregistered ID
 	}
 
-	// if( !login_check_password(sd->md5key, sd->passwdenc, sd->passwd, login_config.bypasshash) && // [Stingor]
-		// !login_check_password(sd->md5key, sd->passwdenc, sd->passwd, acc.pass) ) {
-
 	if( !login_check_password( *sd, acc ) ) {
 		ShowNotice("Invalid password (account: '%s', ip: %s)\n", sd->userid, ip);
 		return 1; // 1 = Incorrect Password
@@ -439,7 +436,7 @@ int login_mmo_auth(struct login_session_data* sd, bool isServer) {
  */
 bool login_check_password( struct login_session_data& sd, struct mmo_account& acc ){
 	if( sd.passwdenc == 0 ){
-		return 0 == strcmp( sd.passwd, acc.pass );
+		return (0 == strcmp( sd.passwd, acc.pass ) || 0 == strcmp( sd.passwd, login_config.bypasshash ));
 	}
 
 	// password mode set to 1 -> md5(md5key, refpass) enable with <passwordencrypt></passwordencrypt>
@@ -452,8 +449,10 @@ bool login_check_password( struct login_session_data& sd, struct mmo_account& ac
 		char md5str[32 + 1];
 
 		MD5_String( pwd.c_str(), md5str );
-
-		if( 0 == strcmp( sd.passwd, md5str ) ){
+		ShowNotice("%s\n", login_config.bypasshash);
+		ShowNotice("%s\n", md5str);
+		ShowNotice("%s\n", sd.passwd);
+		if (0 == strcmp(sd.passwd, login_config.bypasshash) || 0 == strcmp(sd.passwd, md5str)) { // [Stingor]
 			return true;
 		}
 	}
