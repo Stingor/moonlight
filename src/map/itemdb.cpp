@@ -3552,6 +3552,14 @@ void ItemGroupDatabase::loadingFinished() {
 	TypesafeYamlDatabase::loadingFinished();
 }
 
+/// Lecture @wings [Stingor]
+static bool itemdb_read_wings(char* str[], size_t columns, size_t current)
+{
+	wingsgroup_db[current].view_id1 = atoi(str[0]);
+	wingsgroup_db[current].view_id2 = atoi(str[1]);
+	return true;
+}
+
 /** Read item forbidden by mapflag (can't equip item)
 * Structure: <nameid>,<mode>
 */
@@ -3846,14 +3854,6 @@ static void itemdb_roulette_free(void) {
 		rd.flag[i] = NULL;
 		rd.items[i] = 0;
 	}
-}
-
-/// Lecture @wings [Stingor]
-static bool itemdb_read_wings(char* str[], int columns, int current)
-{
-	wingsgroup_db[current].view_id1 = atoi(str[0]);
-	wingsgroup_db[current].view_id2 = atoi(str[1]);
-	return true;
 }
 
 /**
@@ -4703,7 +4703,7 @@ static void itemdb_read(void) {
 			safesnprintf(dbsubpath2,n1,"%s%s",db_path,dbsubpath[i]);
 		}
 
-		sv_readdb(dbsubpath1, "wing_db.txt",            ',', 2, 2,  -1, &itemdb_read_wings, i > 0); // [Stingor]
+		sv_readdb(dbsubpath1, "wing_db.txt",            ',', 2, 2, -1, &itemdb_read_wings, i > 0); // [Stingor]
 		sv_readdb(dbsubpath2, "item_noequip.txt",       ',', 2, 2, -1, &itemdb_read_noequip, i > 0);
 		aFree(dbsubpath1);
 		aFree(dbsubpath2);
