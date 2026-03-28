@@ -12056,8 +12056,8 @@ void clif_parse_WisMessage(int fd, map_session_data* sd)
 		return;
 	}
 
-	if (pc_isinvisible(dstsd) && pc_get_group_level(dstsd) >= 95) {
-		clif_wis_end(fd, 1); // 1: target character is not logged in
+	if (pc_isinvisible(dstsd) && pc_get_group_level(dstsd) >= 95) { // [Stingor] Don't whisper invisible GMs
+		clif_wis_end(*sd, ACKWHISPER_TARGET_OFFLINE);
 		return;
 	}
 
