@@ -13527,21 +13527,23 @@ TIMER_FUNC(skill_castend_id){
 		{
 			switch( ud->skill_id )
 			{
-				case GS_DESPERADO:
-				case RL_FIREDANCE:
-					sd->canequip_tick = tick + skill_get_time(ud->skill_id, ud->skill_lv);
-					break;
-				case KN_BRANDISHSPEAR:
-				case CR_GRANDCROSS: {
-					sc_type type;
+			case GS_DESPERADO:
+			case RL_FIREDANCE:
+				sd->canequip_tick = tick + skill_get_time(ud->skill_id, ud->skill_lv);
+				break;
+			case KN_BRANDISHSPEAR:
+			case CR_GRANDCROSS: {
+				sc_type type;
+
+				if (ud->skill_id == KN_BRANDISHSPEAR)
+					type = SC_STRIPWEAPON;
+				else
+					type = SC_STRIPSHIELD;
 
 				if (sc && sc->getSCE(type)) {
 					const struct TimerData* timer = get_timer(sc->getSCE(type)->timer);
 
-							if (timer && timer->func == status_change_timer && DIFF_TICK(timer->tick, gettick() + skill_get_time(ud->skill_id, ud->skill_lv)) > 0)
-								break;
-						}
-						sc_start2(src, src, type, 100, 0, 1, skill_get_time(ud->skill_id, ud->skill_lv));
+					if (timer && timer->func == status_change_timer && DIFF_TICK(timer->tick, gettick() + skill_get_time(ud->skill_id, ud->skill_lv)) > 0)
 						break;
 				}
 				sc_start2(src, src, type, 100, 0, 1, skill_get_time(ud->skill_id, ud->skill_lv));
