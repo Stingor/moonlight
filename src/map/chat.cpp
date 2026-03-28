@@ -397,7 +397,7 @@ int chat_changetitlenpcchat(struct npc_data* nd, const char* title) // [Stingor]
 	nullpo_ret(nd);
 
 	cd = (struct chat_data*)map_id2bl(nd->chat_id);
-	if (cd == NULL || (struct block_list *)nd != cd->owner)
+	if (cd == nullptr || (struct block_list *)nd != cd->owner)
 		return 1;
 
 	safestrncpy(cd->title, title, CHATROOM_TITLE_SIZE);
