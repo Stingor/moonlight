@@ -816,9 +816,9 @@ ACMD_FUNC(who) {
 						StringBuf_Printf(&buf, msg_txt(sd,343), pl_sd->status.name, ""); // "Name: %s%s "
 						if (pc_get_group_id(pl_sd) > 0) // Player title, if exists
 							StringBuf_Printf(&buf, msg_txt(sd,344), pl_sd->group->name.c_str()); // "(%s) "
-						if (p != NULL)
+						if (p != nullptr)
 							StringBuf_Printf(&buf, msg_txt(sd,345), p->party.name); // " | Party: '%s'"
-						if (g != NULL)
+						if (g != nullptr)
 							StringBuf_Printf(&buf, msg_txt(sd,346), g->guild.name); // " | Guild: '%s'"
 						break;
 					}
@@ -7379,7 +7379,7 @@ ACMD_FUNC(pettalk)
 	}
 
 	snprintf(temp, sizeof temp ,"(%s) %s : %s", sd->status.name, pd->pet.name, mes);
-	log_chat(LOG_CHAT_GLOBAL, 0, sd->status.name, sd->status.account_id, mapindex_id2name(sd->mapindex), sd->bl.x, sd->bl.y, NULL, temp);
+	log_chat(LOG_CHAT_GLOBAL, 0, sd->status.name, sd->status.account_id, mapindex_id2name(sd->mapindex), sd->bl.x, sd->bl.y, nullptr, temp);
 	clif_disp_overhead(&pd->bl, temp);
 
 	return 0;
@@ -8280,7 +8280,7 @@ ACMD_FUNC(homtalk)
 	}
 
 	snprintf(temp, sizeof temp ,"(%s) %s : %s", sd->status.name, sd->hd->homunculus.name, mes);
-	log_chat(LOG_CHAT_GLOBAL, 0, sd->status.name, sd->status.account_id, mapindex_id2name(sd->mapindex), sd->bl.x, sd->bl.y, NULL, temp);
+	log_chat(LOG_CHAT_GLOBAL, 0, sd->status.name, sd->status.account_id, mapindex_id2name(sd->mapindex), sd->bl.x, sd->bl.y, nullptr, temp);
 	clif_disp_overhead(&sd->hd->bl, temp);
 
 	return 0;
