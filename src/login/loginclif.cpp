@@ -501,7 +501,7 @@ int logclif_parse(int fd) {
 	if( sd == NULL )
 	{
 		// Perform ip-ban check
-		if( login_config.ipban && ipban_check(ipl) )
+		if( login_config.ipban && ipban_check(ipl) && ipl != INADDR_LOOPBACK )
 		{
 			ShowStatus("Connection refused: IP isn't authorised (deny/allow, ip: %s).\n", ip);
 			login_log(ipl, "unknown", -3, "ip banned");
