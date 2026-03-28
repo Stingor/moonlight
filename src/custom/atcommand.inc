@@ -184,7 +184,7 @@ ACMD_FUNC(playertalk)
 	}
 
 	snprintf(temp, sizeof temp ,"%s : %s", pl_sd->status.name, mes);
-	clif_GlobalMessage(&pl_sd->bl, temp, AREA_CHAT_WOC);
+	clif_GlobalMessage(pl_sd->bl, temp, AREA_CHAT_WOC);
 	clif_displaymessage(pl_sd->fd, temp);
 
     log_chat(LOG_CHAT_GLOBAL, 0, pl_sd->status.name, pl_sd->status.account_id, mapindex_id2name(pl_sd->mapindex), pl_sd->bl.x, pl_sd->bl.y, nullptr, mes);
@@ -264,7 +264,7 @@ ACMD_FUNC(celebrate)
 			clif_specialeffect(&pl_sd->bl,508,AREA);
 			clif_specialeffect(&pl_sd->bl,435,AREA);
 			snprintf(temp, sizeof temp ,"%s : CELEBRATE !!!", pl_sd->status.name);
-			clif_GlobalMessage(&pl_sd->bl, temp, AREA_CHAT_WOC);
+			clif_GlobalMessage(pl_sd->bl, temp, AREA_CHAT_WOC);
 			clif_displaymessage(pl_sd->fd, temp);
 		}
 	}
