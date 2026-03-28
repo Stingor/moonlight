@@ -5160,9 +5160,9 @@ void clif_getareachar_unit( map_session_data* sd,struct block_list *bl ){
 			clif_efst_status_change_sub(&sd->bl, bl, SELF);
 			clif_progressbar_npc(nd, sd);
 			if( pcdb_checkid(nd->vd.class_) && nd->sitted ) // [Stingor]
-				clif_sitting(&nd->bl);
+				clif_sitting(nd->bl);
 			else
-				clif_standing(&nd->bl);
+				clif_standing(nd->bl);
 		}
 		break;
 	case BL_MOB:

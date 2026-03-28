@@ -348,12 +348,12 @@ ACMD_FUNC(sitstand)
 	if( pc_issit(pl_sd) ) {
 		pc_setstand(pl_sd, true);
 		skill_sit(sd, false);
-		clif_standing(&pl_sd->bl);
+		clif_standing(pl_sd->bl);
 	}
 	else {
 		pc_setsit(pl_sd);
 		skill_sit(sd, true);
-		clif_sitting(&pl_sd->bl);
+		clif_sitting(pl_sd->bl);
 	}
 
  	return 0;
