@@ -1751,7 +1751,7 @@ int clif_spawn( struct block_list *bl, bool walking ){
 	case BL_PC:
 		{
 			TBL_PC *sd = ((TBL_PC*)bl);
-			unsigned int tick = gettick(); // [Stingor]
+			t_tick tick = gettick(); // [Stingor]
 
 			if (sd->spiritball > 0)
 				clif_spiritball(&sd->bl);
@@ -11046,7 +11046,7 @@ void clif_parse_LoadEndAck(int fd,map_session_data *sd)
 
 	// [Stingor] -->
 	status_calc_bl_(&sd->bl, SCB_ASPD, SCO_FORCE);
-	clif_updatestatus(sd, SP_ASPD);
+	clif_updatestatus(*sd, SP_ASPD);
 	// [Stingor] <--
 
 	if(!pc_isinvisible(sd) && mapdata->getMapFlag(MF_PVP)) {
