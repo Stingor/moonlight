@@ -64399,19 +64399,16 @@ Body:
     Name: Full Metal Jacket
     Buy: 200
     Weight: 2
-    Attack: 10
   - Id: 7664
     AegisName: Shooting_Mine
     Name: Grenade Launcher
     Buy: 450
     Weight: 3
-    Attack: 10
   - Id: 7665
     AegisName: Dragon_Tail_Missile
     Name: Dragon Tail Missile
     Buy: 1500
     Weight: 100
-    Attack: 10
   - Id: 7666
     AegisName: TimeTravel_Scroll
     Name: Time Travel Scroll
@@ -96039,7 +96036,6 @@ Body:
     Type: Usable
     Buy: 10
     Weight: 10
-    Defense: 4
     Script: "getitem 5766,1;\n"
   - Id: 17242
     AegisName: Immortal_Egg
@@ -104005,7 +104001,6 @@ Body:
     Name: Red Baby Dragon [1]
     Type: Armor
     Weight: 700
-    Range: 1
     Slots: 1
     Locations:
       Head_Top: true
@@ -114281,7 +114276,6 @@ Body:
     Type: Armor
     Weight: 700
     Defense: 6
-    Range: 1
     Slots: 1
     Locations:
       Garment: true
