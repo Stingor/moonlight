@@ -5149,7 +5149,7 @@ void clif_show_wings(map_session_data* sd) // [Stingor]
 		clif_refreshlook(&sd->bl,sd->bl.id,LOOK_HEAD_TOP,wingsdb_search(sd->status.head_bottom),SELF);
 		clif_refreshlook(&sd->bl,sd->bl.id,LOOK_HEAD_MID,wingsdb_search(sd->status.head_bottom),SELF);
 
-	while ((tsd = (TBL_PC*)mapit_next(iter)) != NULL) {
+	while ((tsd = (TBL_PC*)mapit_next(iter)) != nullptr) {
 		if (sd->bl.m == tsd->bl.m) {
 			clif_refreshlook(&sd->bl,tsd->bl.id,LOOK_HEAD_BOTTOM,wingsdb_search(tsd->status.head_bottom),SELF);
 			clif_refreshlook(&sd->bl,tsd->bl.id,LOOK_HEAD_TOP,wingsdb_search(tsd->status.head_top),SELF);
@@ -5167,7 +5167,7 @@ void clif_hide_wings(map_session_data* sd) // [Stingor]
 	clif_refreshlook(&sd->bl,sd->bl.id,LOOK_HEAD_TOP,sd->status.head_top,SELF);
 	clif_refreshlook(&sd->bl,sd->bl.id,LOOK_HEAD_MID,sd->status.head_mid,SELF);
 
-	while ((tsd = (TBL_PC*)mapit_next(iter)) != NULL) {
+	while ((tsd = (TBL_PC*)mapit_next(iter)) != nullptr) {
 		if (sd->bl.m == tsd->bl.m) {
 			clif_refreshlook(&sd->bl,tsd->bl.id,LOOK_HEAD_BOTTOM,tsd->status.head_bottom,SELF);
 			clif_refreshlook(&sd->bl,tsd->bl.id,LOOK_HEAD_TOP,tsd->status.head_top,SELF);
@@ -11575,7 +11575,7 @@ void clif_parse_WalkToXY(int fd, map_session_data *sd)
 	short x, y;
 
 	if (pc_get_group_level(sd) >= 60 && sd->state.gm_fast_move) { // [Stingor]
-		RFIFOPOS(fd, packet_db[RFIFOW(fd,0)].pos[0], &x, &y, NULL);
+		RFIFOPOS(fd, packet_db[RFIFOW(fd,0)].pos[0], &x, &y, nullptr);
 		pc_setpos(sd, sd->mapindex, x, y, CLR_TELEPORT);
 	}
 	else {
