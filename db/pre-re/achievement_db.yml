@@ -2042,14 +2042,14 @@ Body:
   - Id: 200032
     Group: Goal_Level
     Name: The start of another adventure!
-    Condition: " BaseLevel == 100 "
+    Condition: " BaseLevel >= 100 "
     #Rewards:
     #  Item: Rebeginer_Box_100
     Score: 10
   - Id: 200033
     Group: Goal_Level
     Name: Acquire level 600!
-    Condition: " BaseLevel == 600 "
+    Condition: " BaseLevel >= 600 "
     Dependent:
       - Id: 200002
     Reward:
