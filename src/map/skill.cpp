@@ -18287,7 +18287,7 @@ bool skill_check_condition_castbegin(map_session_data* sd, uint16 skill_id, uint
 // #else
 			// if(pc_is50overweight(sd)) {
 // #endif
-			if(pc_is50overweight(sd)) {
+			if(pc_is70overweight(sd)) {
 				clif_skill_fail( *sd, skill_id );
 				return false;
 			}
