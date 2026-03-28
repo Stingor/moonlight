@@ -2966,6 +2966,28 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 
 			drop_rate = mob_getdroprate(src, md->db, md->db->dropitem[i].rate, drop_modifier, md);
 
+			// [Stingor] -->
+			char eventname[EVENT_NAME_LENGTH] = "";
+			if( md->npc_event ) {
+				safestrncpy(eventname, md->npc_event, sizeof(md->npc_event));
+				if( battle_config.up_spawnmvp && itemdb_type(md->db->dropitem[i].nameid) == IT_CARD && (!strcmpi(eventname, "classement::OnMvpDead")
+				 || !strcmpi(eventname, "classement::OnMvpDrakeDead")
+				 || !strcmpi(eventname, "mvp_lhz_dun03::OnMyMVPDead")
+				 || !strcmpi(eventname, "mvp_lhz_dun04::OnMyMVPDead")
+				 || !strcmpi(eventname, "mvp_niflheim::OnLoDDead")
+				 || !strcmpi(eventname, "#summon_thanatos::OnMyMobDead"))) {
+					drop_rate = (int)(drop_rate * 2);
+					drop_rate = min(drop_rate,10000); //cap it to 100%
+				}
+				else if( battle_config.nerf_bloodybranch && itemdb_type(md->db->dropitem[i].nameid) == IT_CARD && (!strcmpi(eventname, "classement::OnMvpBBDead")) )
+					drop_rate = (int)(drop_rate / 1.5);
+			}
+
+			if( event_drop ) { // Stingor
+				drop_rate = apply_rate(drop_rate, battle_config.mult_eventdrop);
+				drop_rate = min(drop_rate,10000); //cap it to 100%
+			}
+
 			// attempt to drop the item
 			if (rnd() % 10000 >= drop_rate)
 				continue;
@@ -2976,6 +2998,9 @@ int mob_dead(struct mob_data *md, struct block_list *src, int type)
 			}
 
 			std::shared_ptr<s_item_drop> ditem = mob_setdropitem(md->db->dropitem[i], 1, md->mob_id);
+
+			if( ditem && md->get_bosstype() == BOSSTYPE_MVP && map_getmapflag(m, MF_NOMVPCARD) && itemdb_type(ditem->item_data.nameid) == IT_CARD )	// [Stingor]
+				continue;
 
 			//A Rare Drop Global Announce by Lupus
 			if (mvp_sd && md->db->dropitem[i].rate <= battle_config.rare_drop_announce) {
