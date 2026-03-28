@@ -1204,7 +1204,7 @@ OnTimer6000:
 		cutin "",255;
 		getexp 100000*'hm,65000*'hm;
 		setarray .@item$[0], 12103, 12210, 12246, 12246, 12246;
-		setarray .@amount$[0], 'hm, ('hm >= 5 && rand(4) == 2?1:0), ('hm > 3 && rand(1) == 1?1:0), ('hm > 5 && rand(1) == 1?1:0), ('hm == 10?rand(1,3):0);
+		setarray .@amount$[0], 'hm, ('hm >= 5 && rand(4) == 2?1:0), ('hm > 3 && rand(4) >= 2?1:0), ('hm > 5 && rand(4) >= 2?1:0), ('hm == 10?rand(1,3):0);
 		logmes "Fin d'instance "+instance_live_info(ILI_NAME)+""+('hm>1?" niveau "+'hm+" ":" ")+" Owner: "+getpartyleader(instance_live_info(ILI_OWNER));
 		instancereward('hm, instance_live_info(ILI_NAME), 1000000*'hm, implode(.@item$, ":"), implode(.@amount$, ":"));
 	}
