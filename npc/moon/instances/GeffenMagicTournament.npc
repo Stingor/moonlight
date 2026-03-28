@@ -433,7 +433,10 @@ OnTouch_:
 		else setarray .@quotes$, "Dwigh: I want this Magic Tournament to become my turning point.","Dwigh: I am quite depressed these days...","Dwigh: I will show my great skills to all of my students.";
 	}
 
-	showscript .@quotes$[rand(getarraysize(.@quotes$))], getnpcid(0);
+	if( getarraysize(.@quotes$) > 1 )
+		showscript .@quotes$[rand(getarraysize(.@quotes$))], getnpcid(0);
+	else 
+		showscript .@quotes$[0], getnpcid(0);
 	end;
 }
 
