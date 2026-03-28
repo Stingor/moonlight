@@ -871,25 +871,25 @@ bool skill_isNotOk( uint16 skill_id, map_session_data& sd ){
 	// [Stingor] -->
 	t_tick tick = gettick();
 
-	if (mapdata->getMapFlag(MF_NOATTACKSKILL) && (skill_nocast & 2048) && pc_get_group_level(sd) <= 60) {
-		clif_skill_fail(*sd, skill_id, USESKILL_FAIL_TOTARGET);
+	if (mapdata->getMapFlag(MF_NOATTACKSKILL) && (skill_nocast & 2048) && pc_get_group_level(&sd) <= 60) {
+		clif_skill_fail( sd, skill_id, USESKILL_FAIL_TOTARGET );
 		return true;
 	}
 
-	if (mapdata->getMapFlag(MF_NOAOESKILL) && (skill_nocast & 4096) && pc_get_group_level(sd) <= 60) {
-		clif_skill_fail(*sd, skill_id, USESKILL_FAIL_TOTARGET);
+	if (mapdata->getMapFlag(MF_NOAOESKILL) && (skill_nocast & 4096) && pc_get_group_level(&sd) <= 60) {
+		clif_skill_fail( sd, skill_id, USESKILL_FAIL_TOTARGET );
 		return true;
 	}
 
 	// acd sur skills aoe apres teleport
-	if (((DIFF_TICK(sd->aoe_teleport_tick, tick) > 0) && (skill_nocast & 4096) && pc_get_group_level(sd) <= 40)) {
-		clif_skill_fail(*sd, skill_id, USESKILL_FAIL_SKILLINTERVAL);
+	if (((DIFF_TICK(sd.aoe_teleport_tick, tick) > 0) && (skill_nocast & 4096) && pc_get_group_level(&sd) <= 40)) {
+		clif_skill_fail( sd, skill_id, USESKILL_FAIL_SKILLINTERVAL );
 		return true;
 	}
 
 	// acd sur skills apres @refresh
-	if (((DIFF_TICK(sd->refresh_tick, tick) > 0) && pc_get_group_level(sd) <= 40)) {
-		clif_skill_fail(*sd, skill_id, USESKILL_FAIL_SKILLINTERVAL);
+	if (((DIFF_TICK(sd.refresh_tick, tick) > 0) && pc_get_group_level(&sd) <= 40)) {
+		clif_skill_fail( sd, skill_id, USESKILL_FAIL_SKILLINTERVAL );
 		// ShowError("%s skilling after @refresh : %s\n", sd->status.name, skill_get_name(skill_id));
 		return true;
 	}
@@ -943,7 +943,7 @@ bool skill_isNotOk( uint16 skill_id, map_session_data& sd ){
 			break;
 		case MO_CALLSPIRITS:
 		case CH_SOULCOLLECT:
-			if( sd->spiritball >=5 && (sd->status.class_ == JOB_CHAMPION || sd->status.class_ == JOB_MONK))	// [Stingor]
+			if( sd.spiritball >=5 && (sd.status.class_ == JOB_CHAMPION || sd.status.class_ == JOB_MONK))	// [Stingor]
 				return true;
 			break;
 		case MC_VENDING:
@@ -977,10 +977,10 @@ bool skill_isNotOk( uint16 skill_id, map_session_data& sd ){
 				clif_skill_fail( sd, skill_id );
 				return true;
 			}
-			if( sd->bl.m == map_mapname2mapid(MAP_GONRYUN)
-				&& sd->bl.x >= battle_config.shopx1 && sd->bl.x <= battle_config.shopx2
-				&& sd->bl.y >= battle_config.shopy1 && sd->bl.y <= battle_config.shopy2
-				&& pc_get_group_level(sd) <= 80
+			if( sd.bl.m == map_mapname2mapid(MAP_GONRYUN)
+				&& sd.bl.x >= battle_config.shopx1 && sd.bl.x <= battle_config.shopx2
+				&& sd.bl.y >= battle_config.shopy1 && sd.bl.y <= battle_config.shopy2
+				&& pc_get_group_level(&sd) <= 80
 				) { // [Stingor]
 				clif_displaymessage (sd.fd, msg_txt(&sd,1833));
 				clif_skill_fail( sd, skill_id, USESKILL_FAIL_THERE_ARE_NPC_AROUND );

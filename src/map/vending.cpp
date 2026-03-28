@@ -399,14 +399,14 @@ int8 vending_openvending( map_session_data& sd, const char* message, const uint8
 	clif_showvendingboard( sd );
 	
 	if( battle_config.setcellnovend ) { // [Stingor]
-		map_setcell(sd->bl.m, sd->bl.x + 1, sd->bl.y + 1,	CELL_NOVENDING, true);
-		map_setcell(sd->bl.m, sd->bl.x - 1, sd->bl.y - 1,	CELL_NOVENDING, true);
-		map_setcell(sd->bl.m, sd->bl.x,		sd->bl.y + 1,	CELL_NOVENDING, true);
-		map_setcell(sd->bl.m, sd->bl.x + 1, sd->bl.y,		CELL_NOVENDING, true);
-		map_setcell(sd->bl.m, sd->bl.x,		sd->bl.y - 1,	CELL_NOVENDING, true);
-		map_setcell(sd->bl.m, sd->bl.x - 1, sd->bl.y,		CELL_NOVENDING, true);
-		map_setcell(sd->bl.m, sd->bl.x - 1, sd->bl.y + 1,	CELL_NOVENDING, true);
-		map_setcell(sd->bl.m, sd->bl.x + 1, sd->bl.y - 1,	CELL_NOVENDING, true);
+		map_setcell(sd.bl.m, sd.bl.x + 1, sd.bl.y + 1,	CELL_NOVENDING, true);
+		map_setcell(sd.bl.m, sd.bl.x - 1, sd.bl.y - 1,	CELL_NOVENDING, true);
+		map_setcell(sd.bl.m, sd.bl.x,	  sd.bl.y + 1,	CELL_NOVENDING, true);
+		map_setcell(sd.bl.m, sd.bl.x + 1, sd.bl.y,		CELL_NOVENDING, true);
+		map_setcell(sd.bl.m, sd.bl.x,	  sd.bl.y - 1,	CELL_NOVENDING, true);
+		map_setcell(sd.bl.m, sd.bl.x - 1, sd.bl.y,		CELL_NOVENDING, true);
+		map_setcell(sd.bl.m, sd.bl.x - 1, sd.bl.y + 1,	CELL_NOVENDING, true);
+		map_setcell(sd.bl.m, sd.bl.x + 1, sd.bl.y - 1,	CELL_NOVENDING, true);
 	}
 	
 	clif_openvending(&sd,sd.bl.id,sd.vending);
