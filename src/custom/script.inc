@@ -74,7 +74,7 @@ BUILDIN_FUNC(viewequip)
 		}
 	}
 
-	clif_viewequip_ack(sd, tsd);
+	clif_viewequip_ack( *sd, *tsd );
 	script_pushint(st,1);
 	
 	return SCRIPT_CMD_SUCCESS;
