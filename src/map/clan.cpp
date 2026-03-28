@@ -219,7 +219,7 @@ void clan_send_message( map_session_data& sd, const char *mes, size_t len ){
 
 	intif_clan_message( sd.status.clan_id, sd.status.account_id, mes, len );
 	clan_recv_message( sd.status.clan_id, sd.status.account_id, mes, len );
-	log_chat( LOG_CHAT_CLAN, sd.status.clan_id, sd->status.name, sd.status.account_id, mapindex_id2name( sd.mapindex ), sd.bl.x, sd.bl.y, nullptr, mes );
+	log_chat( LOG_CHAT_CLAN, sd.status.clan_id, sd.status.name, sd.status.account_id, mapindex_id2name( sd.mapindex ), sd.bl.x, sd.bl.y, nullptr, mes );
 }
 
 int clan_get_alliance_count( struct clan& clan, int flag ){
