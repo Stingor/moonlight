@@ -403,7 +403,7 @@ int chat_changetitlenpcchat(struct npc_data* nd, const char* title) // [Stingor]
 
 	safestrncpy(cd->title, title, CHATROOM_TITLE_SIZE);
 
-	clif_changechatstatus(cd);
+	clif_changechatstatus(*cd);
 	clif_dispchat(cd,0);
 
 	return 0;
