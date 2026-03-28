@@ -7411,7 +7411,7 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 			// [Stingor] -->
 			if (status_get_class(bl) == MOBID_EMPERIUM || status_get_class(bl) == MOBID_GUARDIAN_STONE1 || status_get_class(bl)== MOBID_GUARDIAN_STONE2) {
 				status_heal(bl,battle_config.emp_heal_hp,0,0);
-				clif_skill_nodamage (src, bl, skill_id, battle_config.emp_heal_hp, 1);
+				clif_skill_nodamage (src, *bl, skill_id, battle_config.emp_heal_hp);
 				break;
 			}
 
@@ -9595,7 +9595,7 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 
 			if( hp > 0 && skill_id == AM_POTIONPITCHER && (status_get_class(bl) == MOBID_EMPERIUM || status_get_class(bl) == MOBID_GUARDIAN_STONE1 || status_get_class(bl)== MOBID_GUARDIAN_STONE2) ) { // [Stingor] 
 				status_heal(bl,battle_config.emp_potionpitch_hp,0,0);
-				clif_skill_nodamage(nullptr,bl,AL_HEAL,battle_config.emp_potionpitch_hp,1);
+				clif_skill_nodamage(nullptr,*bl,AL_HEAL,battle_config.emp_potionpitch_hp);
 				break;
 			}
 
@@ -16271,7 +16271,7 @@ int skill_unit_onplace_timer(struct skill_unit *unit, struct block_list *bl, t_t
 				// [Stingor] -->
 				if (heal && md && md->mob_id == MOBID_EMPERIUM) {
 					status_heal(bl, battle_config.emp_sanctu_hp, 0, 0);
-					clif_skill_nodamage(&unit->bl, bl, AL_HEAL, battle_config.emp_sanctu_hp, 1);
+					clif_skill_nodamage(&unit->bl, *bl, AL_HEAL, battle_config.emp_sanctu_hp);
 					break;
 				}
 				// [Stingor] <--
@@ -16490,7 +16490,7 @@ int skill_unit_onplace_timer(struct skill_unit *unit, struct block_list *bl, t_t
 				heal = skill_calc_heal(ss,bl,sg->skill_id, sg->skill_lv, true);
 				if (heal && md && md->mob_id == MOBID_EMPERIUM ) { // [Stingor]
 					status_heal(bl, battle_config.emp_sanctu_hp, 0, 0);
-					clif_skill_nodamage(&unit->bl, bl, AL_HEAL, battle_config.emp_sanctu_hp, 1);
+					clif_skill_nodamage(&unit->bl, *bl, AL_HEAL, battle_config.emp_sanctu_hp);
 					break;
 				}
 				if (tsc->getSCE(SC_AKAITSUKI) && heal)
