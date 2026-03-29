@@ -333,11 +333,17 @@ bool path_search(struct walkpath_data *wpd, int16 m, int16 x0, int16 y0, int16 x
 
 		return false; // easy path unsuccessful
 	} else { // !(flag&1)
-		// FIXME: This array is too small to ensure all paths shorter than MAX_WALKPATH
+        // FIXME: This array is too small to ensure all paths shorter than MAX_WALKPATH
 		// can be found without node collision: calc_index(node1) = calc_index(node2).
 		// Figure out more proper size or another way to keep track of known nodes.
-		struct path_node tp[MAX_WALKPATH * MAX_WALKPATH];
+		struct path_node *tp = (struct path_node*)aMalloc(sizeof(struct path_node) * (MAX_WALKPATH * MAX_WALKPATH));
 		struct path_node *current, *it;
+		bool result = false;
+
+		if (tp == nullptr) {
+			ShowError("path_search: failed to allocate path nodes\n");
+			return false;
+		}
 		int32 xs = mapdata->xs - 1;
 		int32 ys = mapdata->ys - 1;
 		int32 len = 0;
@@ -346,9 +352,9 @@ bool path_search(struct walkpath_data *wpd, int16 m, int16 x0, int16 y0, int16 x
 		// A* (A-star) pathfinding
 		// We always use A* for finding walkpaths because it is what game client uses.
 		// Easy pathfinding cuts corners of non-walkable cells, but client always walks around it.
-		BHEAP_RESET(g_open_set);
+        BHEAP_RESET(g_open_set);
 
-		memset(tp, 0, sizeof(tp));
+		memset(tp, 0, sizeof(struct path_node) * (MAX_WALKPATH * MAX_WALKPATH));
 
 		// Start node
 		i = calc_index(x0, y0);
@@ -374,8 +380,9 @@ bool path_search(struct walkpath_data *wpd, int16 m, int16 x0, int16 y0, int16 x
 
 			int32 g_cost;
 
-			if (BHEAP_LENGTH(g_open_set) == 0) {
-				return false;
+            if (BHEAP_LENGTH(g_open_set) == 0) {
+				result = false;
+				goto cleanup;
 			}
 
 			current = BHEAP_PEEK(g_open_set); // Look for the lowest f_cost node in the 'open' set
@@ -415,14 +422,17 @@ bool path_search(struct walkpath_data *wpd, int16 m, int16 x0, int16 y0, int16 x
 			if (chk_dir(PATH_DIR_SOUTH))
 				e += add_path(&g_open_set, tp, x, y-1, g_cost + MOVE_COST, current, heuristic(x, y-1, x1, y1)); // (x, y-1) 4
 #undef chk_dir
-			if (e) {
-				return false;
+            if (e) {
+				result = false;
+				goto cleanup;
 			}
 		}
 
-		for (it = current; it->parent != nullptr; it = it->parent, len++);
-		if (len > sizeof(wpd->path))
-			return false;
+        for (it = current; it->parent != nullptr; it = it->parent, len++);
+		if (len > sizeof(wpd->path)) {
+			result = false;
+			goto cleanup;
+		}
 
 		// Recreate path
 		wpd->path_len = len;
@@ -434,7 +444,10 @@ bool path_search(struct walkpath_data *wpd, int16 m, int16 x0, int16 y0, int16 x
 			wpd->path[j] = walk_choices[-dy + 1][dx + 1];
 		}
 
-		return true;
+		result = true;
+cleanup:
+		aFree(tp);
+		return result;
 	} // A* end
 
 	return false;

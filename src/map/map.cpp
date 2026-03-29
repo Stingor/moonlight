@@ -208,7 +208,18 @@ struct s_generator_options {
  */
 struct map_data *map_getmapdata(int16 mapid)
 {
-	if (mapid < 0 || mapid >= MAX_MAP_PER_SERVER)
+    // Reject invalid map IDs or map IDs beyond the number of loaded maps.
+	// Using MAX_MAP_PER_SERVER here allows addressing the static array, but
+	// an ID greater or equal to `map_num` indicates the map wasn't loaded
+	// and accessing it may yield uninitialized data. Return nullptr in that
+	// case to let callers handle the error safely.
+    if (mapid < 0 || mapid >= MAX_MAP_PER_SERVER)
+		return nullptr;
+
+	// Some maps (instance maps) may reside at indices beyond the current
+	// `map_num` but still be valid if their name is set. Prefer checking the
+	// actual map slot for validity instead of relying solely on `map_num`.
+	if (!map[mapid].name[0])
 		return nullptr;
 
 	return &map[mapid];
