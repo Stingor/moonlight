@@ -2429,7 +2429,7 @@ unsigned short status_base_atk(const struct block_list *bl, const struct status_
 			dstr = str / 10;
 			str += dstr*dstr;
 			str += dex / 5 + status->luk / 5;
-			str += static_cast<int>(ceil(level / 10.0)); // [Stingor]
+			str += static_cast<int32>(ceil(level / 10.0)); // [Stingor]
 #endif
 			break;
 		default:// Others

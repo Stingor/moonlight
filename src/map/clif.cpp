@@ -17239,9 +17239,9 @@ void clif_cashshop_open( map_session_data* sd, int32 tab ){
 	PACKET_ZC_SE_CASHSHOP_OPEN p = {};
 
 	p.packetType = HEADER_ZC_SE_CASHSHOP_OPEN;
-	sd->cashPoints = static_cast<int>(pc_readaccountreg(sd, add_str(CASHPOINT_VAR)));
-	p.cashPoints = static_cast<int>(pc_readaccountreg(sd, add_str(CASHPOINT_VAR))); // [Stingor]
-	sd->kafraPoints = static_cast<int>(pc_readaccountreg(sd, add_str(KAFRAPOINT_VAR)));
+	sd->cashPoints = static_cast<int32>(pc_readaccountreg(sd, add_str(CASHPOINT_VAR)));
+	p.cashPoints = static_cast<int32>(pc_readaccountreg(sd, add_str(CASHPOINT_VAR))); // [Stingor]
+	sd->kafraPoints = static_cast<int32>(pc_readaccountreg(sd, add_str(KAFRAPOINT_VAR)));
 	p.kafraPoints = sd->kafraPoints;
 #if PACKETVER_MAIN_NUM >= 20200129 || PACKETVER_RE_NUM >= 20200205 || PACKETVER_ZERO_NUM >= 20191224
 	p.tab = tab;
