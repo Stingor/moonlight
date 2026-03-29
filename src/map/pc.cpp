@@ -15224,6 +15224,7 @@ uint16 pc_maxparameter(map_session_data *sd, e_params param) {
 */
 int16 pc_maxaspd(map_session_data *sd) {
 	nullpo_ret(sd);
+	uint32 aspd2 = sd->special_state.aspd2 * AMOTION_INTERVAL * AMOTION_DIVIDER_PC;
 
 	// [Stingor] -->
 	if (pc_get_group_level(sd) >= 80)
@@ -15236,11 +15237,11 @@ int16 pc_maxaspd(map_session_data *sd) {
 		sd->status.class_ == JOB_SUPER_NOVICE ||
 		sd->status.class_ == JOB_TAEKWON ||
 		(sd->sc.getSCE(SC_BERSERK) && (sd->status.class_ == JOB_LORD_KNIGHT || sd->status.class_ == JOB_LORD_KNIGHT2)))
-		return (map_flag_vs(sd->bl.m) ? battle_config.max_third_aspd : battle_config.max_extended_aspd) - sd->special_state.aspd2 * 10;
+		return (map_flag_vs(sd->bl.m) ? battle_config.max_third_aspd : battle_config.max_extended_aspd) - aspd2;
 	else if (sd->status.class_ == JOB_GUNSLINGER || sd->status.class_ == JOB_ASSASSIN_CROSS)
-		return (map_flag_vs(sd->bl.m) ? battle_config.max_aspd : battle_config.max_third_aspd) - sd->special_state.aspd2 * 10;
+		return (map_flag_vs(sd->bl.m) ? battle_config.max_aspd : battle_config.max_third_aspd) - aspd2;
 	else
-		return battle_config.max_aspd - sd->special_state.aspd2 * 10;
+		return battle_config.max_aspd - aspd2;
 	//  <-- [Stingor]
 
 	return (( sd->class_&JOBL_THIRD) ? battle_config.max_third_aspd : (
