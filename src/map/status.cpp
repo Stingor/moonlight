@@ -4569,32 +4569,11 @@ int32 status_calc_pc_sub(map_session_data* sd, uint8 opt)
 	// Basic ASPD value
 	i = status_base_amotion_pc(sd,base_status);
 	
-	// [Stingor] -->
-	if( pc_get_group_level(sd) >= 80 && battle_config.gm_aspd > 0 )
-		base_status->amotion = cap_value(i,battle_config.gm_aspd,2000);
-	else if( sd->status.class_ == JOB_SNIPER ||
-		sd->status.class_ == JOB_CREATOR ||
-		sd->status.class_ == JOB_WHITESMITH ||
-		sd->status.class_ == JOB_CLOWN ||
-		sd->status.class_ == JOB_GYPSY ||
-		sd->status.class_ == JOB_SUPER_NOVICE ||
-		sd->status.class_ == JOB_TAEKWON ||
-		(sd->sc.getSCE(SC_BERSERK) && ( sd->status.class_ == JOB_LORD_KNIGHT || sd->status.class_ == JOB_LORD_KNIGHT2 )) )
-		base_status->amotion = cap_value(i,battle_config.max_aspd - (30 + sd->special_state.aspd2*10),2000);
-	else if( sd->status.class_ == JOB_GUNSLINGER || sd->status.class_ == JOB_ASSASSIN_CROSS )
-		base_status->amotion = cap_value(i,battle_config.max_aspd - ((map_flag_vs(sd->bl.m)?10:30) + sd->special_state.aspd2*10),2000);
-	else
-		base_status->amotion = cap_value(i,battle_config.max_aspd - ((map_flag_vs(sd->bl.m)?0:30) + sd->special_state.aspd2*10),2000);
-	
-	if( base_status->amotion < 10 )
-		base_status->amotion = 10;
-	// [Stingor] <--
-	
 #ifdef RENEWAL_ASPD
 	// Renewal base value is actually ASPD and not amotion, so we need to convert it
 	i = AMOTION_ZERO_ASPD - i * AMOTION_INTERVAL;
 #endif
-	// base_status->amotion = cap_value(i, pc_maxaspd(sd)/AMOTION_DIVIDER_PC, MIN_ASPD/AMOTION_DIVIDER_PC);
+	 base_status->amotion = cap_value(i, pc_maxaspd(sd)/AMOTION_DIVIDER_PC, MIN_ASPD/AMOTION_DIVIDER_PC);
 
 	// Relative modifiers from passive skills
 	// Renewal modifiers are handled in status_base_amotion_pc
@@ -6198,29 +6177,8 @@ void status_calc_bl_main(struct block_list& bl, std::bitset<SCB_MAX> flag)
 			amotion += sd->bonus.aspd_add;
 #endif
 			amotion = status_calc_fix_aspd(&bl, sc, amotion);
-			// [Stingor] -->
-			if( pc_get_group_level(sd) >= 80 && battle_config.gm_aspd > 0 )
-				status->amotion = cap_value(amotion,battle_config.gm_aspd,2000);
-			else if( sd->status.class_ == JOB_SNIPER ||
-				sd->status.class_ == JOB_CREATOR ||
-				sd->status.class_ == JOB_WHITESMITH ||
-				sd->status.class_ == JOB_CLOWN ||
-				sd->status.class_ == JOB_GYPSY ||
-				sd->status.class_ == JOB_SUPER_NOVICE ||
-				sd->status.class_ == JOB_TAEKWON ||
-				(sd->sc.getSCE(SC_BERSERK) && (sd->status.class_ == JOB_LORD_KNIGHT || sd->status.class_ == JOB_LORD_KNIGHT2)) )
-				status->amotion = cap_value(amotion,battle_config.max_aspd - (30 + sd->special_state.aspd2*10),2000);
-			else if( sd->status.class_ == JOB_GUNSLINGER || sd->status.class_ == JOB_ASSASSIN_CROSS )
-				status->amotion = cap_value(amotion,battle_config.max_aspd - ((map_flag_vs(sd->bl.m)?10:30) + sd->special_state.aspd2*10),2000);
-			else
-				status->amotion = cap_value(amotion,battle_config.max_aspd - ((map_flag_vs(sd->bl.m)?0:30) + sd->special_state.aspd2*10),2000);
-			
-			if( status->amotion < 10 )
-				status->amotion = 10;
-			
-			// status->amotion = cap_value(amotion, pc_maxaspd(sd)/AMOTION_DIVIDER_PC, MIN_ASPD/AMOTION_DIVIDER_PC);
-			
-			// [Stingor] <--
+
+			status->amotion = cap_value(amotion, pc_maxaspd(sd)/AMOTION_DIVIDER_PC, MIN_ASPD/AMOTION_DIVIDER_PC);
 			status->adelay = AMOTION_DIVIDER_PC * status->amotion;
 		} else { // Mercenary and mobs
 			amotion = b_status->amotion;
