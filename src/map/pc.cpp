@@ -13717,23 +13717,23 @@ void SkillTreeDatabase::loadingFinished() {
  */
 uint32 JobDatabase::calc_basehp( const uint16 level, const std::shared_ptr<s_job_info>& job ){
 	uint64 mapid = pc_jobid2mapid( job->job_id );
-	level = cap_value(level,1,battle_config.maxstatlevelcalc); // [Stingor]
+	uint16 lvl = cap_value(level,1,battle_config.maxstatlevelcalc); // [Stingor]
 	double base_hp = 35.;
 
-	base_hp += floor( level * ( job->hp_increase / 100. ) );
+	base_hp += floor(lvl * ( job->hp_increase / 100. ) );
 
-	for( uint16 i = 2; i <= level; i++ ){
+	for( uint16 i = 2; i <= lvl; i++ ){
 		// Don't have round()
 		base_hp += floor( ( ( job->hp_factor / 100. ) * i ) + 0.5 );
 	}
 
 #ifndef RENEWAL
 	if( (mapid & MAPID_BASEMASK) == MAPID_NINJA ){
-		if( level >= 10 ){
+		if( lvl >= 10 ){
 			base_hp += 90.;
 		}
 	}else if( (mapid & MAPID_BASEMASK) == MAPID_GUNSLINGER ){
-		if( level >= 10 ){
+		if( lvl >= 10 ){
 			base_hp += 90.;
 		}
 	}
@@ -13743,12 +13743,12 @@ uint32 JobDatabase::calc_basehp( const uint16 level, const std::shared_ptr<s_job
 		base_hp += floor( ( base_hp / 2 ) + 0.5 );
 	}else if( (mapid&MAPID_UPPERMASK) == MAPID_SUPER_NOVICE ){
 		// Supernovice lvl99 HP bonus.
-		if( level >= 99 ){
+		if( lvl >= 99 ){
 			base_hp += 2000.;
 		}
 
 		// Supernovice lvl150 HP bonus.
-		if( level >= 150 ){
+		if( lvl >= 150 ){
 			base_hp += 2000.;
 		}
 	}
@@ -13764,27 +13764,27 @@ uint32 JobDatabase::calc_basehp( const uint16 level, const std::shared_ptr<s_job
  */
 uint32 JobDatabase::calc_basesp( const uint16 level, const std::shared_ptr<s_job_info>& job ){
 	uint64 mapid = pc_jobid2mapid( job->job_id );
-	level = cap_value(level,1,battle_config.maxstatlevelcalc); // [Stingor]
+	uint16 lvl = cap_value(level,1,battle_config.maxstatlevelcalc); // [Stingor]
 	double base_sp = 10;
 
-	base_sp += floor( level * ( job->sp_increase / 100. ) );
+	base_sp += floor(lvl * ( job->sp_increase / 100. ) );
 
-	for( uint16 i = 2; i <= level; i++ ){
+	for( uint16 i = 2; i <= lvl; i++ ){
 		// Don't have round()
 		base_sp += floor( ( ( job->sp_factor / 100. ) * i ) + 0.5 );
 	}
 
 	if( (mapid & MAPID_BASEMASK) == MAPID_NINJA ){
-		if( level >= 10 ){
+		if( lvl >= 10 ){
 			base_sp -= 22.;
 		}else{
-			base_sp = 11. + 3. * level;
+			base_sp = 11. + 3. * lvl;
 		}
 	}else if( (mapid & MAPID_BASEMASK) == MAPID_GUNSLINGER ){
-		if( level >= 10 ){
+		if( lvl >= 10 ){
 			base_sp -= 18.;
 		}else{
-			base_sp = 9. + 3. * level;
+			base_sp = 9. + 3. * lvl;
 		}
 	}else if( (mapid&MAPID_BASEMASK) == MAPID_SUMMONER ){
 		base_sp += floor( ( base_sp / 2 ) + 0.5 );
