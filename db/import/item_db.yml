@@ -37058,7 +37058,7 @@ Body:
     Flags:
       BuyingStore: true
       DropEffect: Orange_Pillar
-    Script: "bonus bAtkRate,20;\n"
+    Script: "bonus2 bAddClass,Class_All,20;\n"
   - Id: 4306
     AegisName: Toad_Card
     Name: Toad Card
@@ -50316,7 +50316,7 @@ Body:
       Head_Top: true
     Refineable: true
     View: 501
-    Script: "bonus bAtkRate,5; bonus bMatkRate,5;\n"
+    Script: "bonus2 bAddClass,Class_All,5; bonus bMatkRate,5;\n"
     ArmorLevel: 1
   - Id: 5507
     AegisName: Pink_Pajamas_Hat
@@ -50328,7 +50328,7 @@ Body:
       Head_Top: true
     Refineable: true
     View: 502
-    Script: "bonus bAtkRate,5; bonus bMatkRate,5;\n"
+    Script: "bonus2 bAddClass,Class_All,5; bonus bMatkRate,5;\n"
     ArmorLevel: 1
   - Id: 5508
     AegisName: Shark_Hat
@@ -52489,7 +52489,7 @@ Body:
     EquipLevelMin: 1
     Refineable: true
     View: 597
-    Script: "bonus bInt,1; bonus bDex,1; bonus bLuk,1; .@r = getrefine(); if(.@r>6){ bonus bAtk,5; bonus bMatk,5; } if(.@r>8){ bonus bAtkRate,2; bonus bMatkRate,2; } if(.@r>11){ bonus bAtkRate,3; bonus bMatkRate,3; }\n"
+    Script: "bonus bInt,1; bonus bDex,1; bonus bLuk,1; .@r = getrefine(); if(.@r>6){ bonus bAtk,5; bonus bMatk,5; } if(.@r>8){ bonus2 bAddClass,Class_All,2; bonus bMatkRate,2; } if(.@r>11){ bonus2 bAddClass,Class_All,3; bonus bMatkRate,3; }\n"
     ArmorLevel: 1
   - Id: 5667
     AegisName: Skull_Hood
@@ -55393,7 +55393,7 @@ Body:
     EquipLevelMin: 40
     Refineable: true
     View: 1118
-    Script: "bonus bAtkRate,15; bonus bMatkRate,15; bonus bHit,20; bonus bFlee,20; bonus bCritical,20; bonus bFlee2,10; bonus bVariableCastrate,-20; bonus2 bSubEle,Ele_Neutral,5; if( getrefine() >= 9 ) { bonus bAllStats,10; bonus bMaxHPrate,15; bonus bMaxSPrate,15; }\n"
+    Script: "bonus2 bAddClass,Class_All,15; bonus bMatkRate,15; bonus bHit,20; bonus bFlee,20; bonus bCritical,20; bonus bFlee2,10; bonus bVariableCastrate,-20; bonus2 bSubEle,Ele_Neutral,5; if( getrefine() >= 9 ) { bonus bAllStats,10; bonus bMaxHPrate,15; bonus bMaxSPrate,15; }\n"
     ArmorLevel: 1
   - Id: 5900
     AegisName: Divine_Guard_Hat
@@ -128331,7 +128331,7 @@ Body:
       Head_Top: true
     Refineable: true
     View: 3000
-    Script: "bonus bAllStats,10; bonus bMaxHPrate,5; bonus bMaxSPrate,5; bonus bAtkRate,10; bonus bMatkRate,10; bonus2 bSubRace,RC_All,10; bonus bDelayrate2,-5; bonus bAspd2,1; bonus bNoWalkDelay; bonus bSpeedAddRate,20;\n"
+    Script: "bonus bAllStats,10; bonus bMaxHPrate,5; bonus bMaxSPrate,5; bonus2 bAddClass,Class_All,10; bonus bMatkRate,10; bonus2 bSubRace,RC_All,10; bonus bDelayrate2,-5; bonus bAspd2,1; bonus bNoWalkDelay; bonus bSpeedAddRate,20;\n"
     ArmorLevel: 1
   - Id: 31006
     AegisName: LoVA_Hades_Card
