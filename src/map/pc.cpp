@@ -15236,11 +15236,11 @@ int16 pc_maxaspd(map_session_data *sd) {
 		sd->status.class_ == JOB_SUPER_NOVICE ||
 		sd->status.class_ == JOB_TAEKWON ||
 		(sd->sc.getSCE(SC_BERSERK) && (sd->status.class_ == JOB_LORD_KNIGHT || sd->status.class_ == JOB_LORD_KNIGHT2)))
-		return battle_config.max_extended_aspd;
+		return (map_flag_vs(sd->bl.m) ? battle_config.max_third_aspd : battle_config.max_extended_aspd) - sd->special_state.aspd2 * 10;
 	else if (sd->status.class_ == JOB_GUNSLINGER || sd->status.class_ == JOB_ASSASSIN_CROSS)
-		return battle_config.max_third_aspd;
+		return (map_flag_vs(sd->bl.m) ? battle_config.max_aspd : battle_config.max_third_aspd) - sd->special_state.aspd2 * 10;
 	else
-		return battle_config.max_aspd;
+		return battle_config.max_aspd - sd->special_state.aspd2 * 10;
 	//  <-- [Stingor]
 
 	return (( sd->class_&JOBL_THIRD) ? battle_config.max_third_aspd : (
