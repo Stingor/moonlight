@@ -9005,7 +9005,7 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 	case SL_KAAHI:
 	case SL_KAIZEL:
 		if( sd && skill_id == SL_KAIZEL && map_flag_vs(sd->bl.m) ) // [Stingor]
-			skill_blockpc_start(sd, SL_KAIZEL, battle_config.kaizel_cd);
+			skill_blockpc_start(*sd, SL_KAIZEL, battle_config.kaizel_cd);
 	case SL_KAUPE:
 	case SP_KAUTE:
 		if (sd) {

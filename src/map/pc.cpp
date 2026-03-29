@@ -2373,7 +2373,7 @@ void pc_reg_received(map_session_data *sd)
 	}
 
 	if( pc_checkskill(sd, SL_KAIZEL) && (agit_flag || agit2_flag) ) // [Stingor]
-		skill_blockpc_start(sd, SL_KAIZEL, battle_config.kaizel_cd);
+		skill_blockpc_start(*sd, SL_KAIZEL, battle_config.kaizel_cd);
 
 	//Weird... maybe registries were reloaded?
 	if (sd->state.active)
@@ -8417,7 +8417,6 @@ void pc_gainexp(map_session_data *sd, struct block_list *src, t_exp base_exp, t_
 	nullpo_retv(sd);
 
 	if (sd->status.base_level > 200 && base_exp > 0) { // [Stingor]
-		// Correction du warning C4244 : conversion de 'float' en 't_exp', perte possible de donnÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©es
 		base_exp = (t_exp)((float)base_exp / exp(((float)(sd->status.base_level) - 200.0f) / 250.0f));
 		if (sd->status.class_ == JOB_TAEKWON)
 			base_exp /= 2;
