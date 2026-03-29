@@ -9493,7 +9493,7 @@ void status_set_viewdata(struct block_list *bl, int32 class_)
 					ShowDebug("Source (NPC): %s (invisible/not on a map)\n", nd->name);
 				ShowDebug( "Source (NPC): %s is located in: %s\n", nd->name, nd->path );
 			}
-			if( pcdb_checkid(nd->vd.class_) && nd->sitted ) // [Stingor]
+			if( status_get_viewdata(bl)->look[LOOK_BASE] && nd->sitted ) // [Stingor]
 				clif_sitting(*nd);
 			else
 				clif_standing(*nd);

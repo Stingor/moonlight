@@ -345,7 +345,7 @@ uint16 clif_getport(void)
 static inline unsigned char clif_bl_type(struct block_list *bl, bool walking) {
 
 	// Lecture de la class mob avail trick
-	int32 class_ = status_get_viewdata(bl)->class_;
+	int32 class_ = status_get_viewdata(bl)->look[LOOK_BASE];
 	int32 type = bl->type;
 
 	if ( type == BL_NPC || type == BL_MOB || type == BL_PC )
@@ -359,7 +359,7 @@ static inline unsigned char clif_bl_type(struct block_list *bl, bool walking) {
 		else type = BL_PC;
 	}
 
-	switch (bl->type) {
+	switch (type) {
 	case BL_PC:    return (disguised(bl) && !pcdb_checkid(status_get_viewdata(bl)->look[LOOK_BASE]))? 0x1:0x0; //PC_TYPE
 	case BL_ITEM:  return 0x2; //ITEM_TYPE
 	case BL_SKILL: return 0x3; //SKILL_TYPE
@@ -382,7 +382,7 @@ static inline unsigned char clif_bl_type(struct block_list *bl, bool walking) {
 // There is one exception and this is if they are walking.
 // Since walking NPCs are not supported on official servers, the client does not know how to handle it.
 #if PACKETVER >= 20170726
-		if (pcdb_checkid( status_get_viewdata( bl )->look[LOOK_BASE] ) && walking)
+		if (mobavaildb_checkid(status_get_viewdata(bl)->look[LOOK_BASE]) || pcdb_checkid( status_get_viewdata( bl )->look[LOOK_BASE] ) && walking)
 			return 0x0;
 		else if (mobdb_checkid( status_get_viewdata( bl )->look[LOOK_BASE] ))	// FIXME: categorize NPCs able to walk
 			return 0xC;
@@ -5180,7 +5180,7 @@ void clif_getareachar_unit( map_session_data* sd,struct block_list *bl ){
 				clif_specialeffect_single(bl,EF_BABYBODY2,sd->fd);
 			clif_efst_status_change_sub(sd, bl, SELF);
 			clif_progressbar_npc(nd, sd);
-			if( pcdb_checkid(nd->vd.class_) && nd->sitted ) // [Stingor]
+			if( status_get_viewdata(bl)->look[LOOK_BASE] && nd->sitted ) // [Stingor]
 				clif_sitting(*nd);
 			else
 				clif_standing(*nd);
