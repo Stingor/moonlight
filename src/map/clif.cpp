@@ -12535,7 +12535,7 @@ void clif_parse_ChatRoomStatusChange(int32 fd, map_session_data* sd){
 
 	safestrncpy( s_password, p->password, sizeof( s_password ) );
 	// NOTE: assumes that safestrncpy will not access the len+1'th byte
-	safestrncpy( s_title, p->title, min( len + 1, CHATROOM_TITLE_SIZE ) );
+	safestrncpy( s_title, p->title, zmin( len + 1, CHATROOM_TITLE_SIZE ) );
 
 	chat_changechatstatus( sd, s_title, s_password, p->limit, p->type );
 }
