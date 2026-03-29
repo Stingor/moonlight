@@ -4573,7 +4573,10 @@ int32 status_calc_pc_sub(map_session_data* sd, uint8 opt)
 	// Renewal base value is actually ASPD and not amotion, so we need to convert it
 	i = AMOTION_ZERO_ASPD - i * AMOTION_INTERVAL;
 #endif
-	 base_status->amotion = cap_value(i, pc_maxaspd(sd)/AMOTION_DIVIDER_PC, MIN_ASPD/AMOTION_DIVIDER_PC);
+	if (pc_get_group_level(sd) >= 80)
+		base_status->amotion = cap_value(i, battle_config.gm_aspd / AMOTION_DIVIDER_PC, MIN_ASPD/AMOTION_DIVIDER_PC);
+	else
+		base_status->amotion = cap_value(i, pc_maxaspd(sd) / AMOTION_DIVIDER_PC, MIN_ASPD / AMOTION_DIVIDER_PC);
 
 	// Relative modifiers from passive skills
 	// Renewal modifiers are handled in status_base_amotion_pc
@@ -6178,7 +6181,10 @@ void status_calc_bl_main(struct block_list& bl, std::bitset<SCB_MAX> flag)
 #endif
 			amotion = status_calc_fix_aspd(&bl, sc, amotion);
 
-			status->amotion = cap_value(amotion, pc_maxaspd(sd)/AMOTION_DIVIDER_PC, MIN_ASPD/AMOTION_DIVIDER_PC);
+			if (pc_get_group_level(sd) >= 80)
+				status->amotion = cap_value(amotion, battle_config.gm_aspd / AMOTION_DIVIDER_PC, MIN_ASPD / AMOTION_DIVIDER_PC);
+			else
+				status->amotion = cap_value(amotion, pc_maxaspd(sd)/AMOTION_DIVIDER_PC, MIN_ASPD/AMOTION_DIVIDER_PC);
 			status->adelay = AMOTION_DIVIDER_PC * status->amotion;
 		} else { // Mercenary and mobs
 			amotion = b_status->amotion;
