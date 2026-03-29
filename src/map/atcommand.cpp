@@ -9458,7 +9458,7 @@ ACMD_FUNC(reject)
 /*===================================
  * vote
  *-----------------------------------*/
-ACMD_FUNC(vote)
+/*ACMD_FUNC(cash)
 {
 	char output[128];
 	int32 value;
@@ -9535,7 +9535,7 @@ ACMD_FUNC(points){
 	}
 
 	return 0;
-}
+}*/
 
 // @clone/@slaveclone/@evilclone <playername> [Valaris]
 ACMD_FUNC(clone)
