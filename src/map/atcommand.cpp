@@ -5257,10 +5257,11 @@ ACMD_FUNC(reloadnpcfile) {
 		return -1;
 	}
 
-	// Normalize path separators for unload and load
+	// Normalize path separators so Windows-style paths work on all platforms
 	char pathbuf[1024];
     safestrncpy(pathbuf, message, sizeof(pathbuf));
 	normalize_path(pathbuf);
+	ShowDebug("NPC file '" CL_WHITE "%s" CL_RESET "'.\n", pathbuf);
 
 	if (npc_unloadfile(pathbuf))
 		clif_displaymessage(fd, msg_txt(sd,1386)); // File unloaded. Be aware that mapflags and monsters spawned directly are not removed.
