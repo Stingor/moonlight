@@ -1,3 +1,24 @@
+ACMD_FUNC(unloadnpcfile) {
+
+	if( !message || !*message ) {
+		clif_displaymessage(fd, msg_txt(sd,1385)); // Usage: @unloadnpcfile <file name>
+		return -1;
+	}
+
+	// Normalize path separators so Windows-style paths work on all platforms
+	char pathbuf[1024];
+	safestrncpy(pathbuf, message, sizeof(pathbuf));
+	normalize_path(pathbuf);
+
+	if( npc_unloadfile(pathbuf) )
+		clif_displaymessage(fd, msg_txt(sd,1386)); // File unloaded. Be aware that mapflags and monsters spawned directly are not removed.
+	else {
+		clif_displaymessage(fd, msg_txt(sd,1387)); // File not found.
+		return -1;
+	}
+	return 0;
+}
+
 /*==========================================
  * @wings par [Stingor]
  * Afficher ou masquer les wings custom.

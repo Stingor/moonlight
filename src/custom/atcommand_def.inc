@@ -10,6 +10,7 @@
 
 //ACMD_DEF(newcommand),
 	// [Stingor]
+	ACMD_DEF(unloadnpcfile),
 	ACMD_DEF(sellstuff),
 	ACMD_DEF(sellitem),
 	ACMD_DEF(showspeed),

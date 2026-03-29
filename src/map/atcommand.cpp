@@ -192,6 +192,11 @@ static char atcmd_output[CHAT_SIZE_MAX];
 static char atcmd_player_name[NAME_LENGTH];
 const char *parent_cmd;
 
+// Normalize path separators in-place (Windows-style -> Unix-style)
+static inline void normalize_path(char *p) {
+	for (; *p; ++p) if (*p == '\\') *p = '/';
+}
+
 struct atcmd_binding_data** atcmd_binding;
 
 static AtCommandInfo* get_atcommandinfo_byname(const char *name); // @help
@@ -5197,20 +5202,25 @@ ACMD_FUNC(hidenpc)
 
 ACMD_FUNC(loadnpc)
 {
-	if (!message || !*message) {
+    if (!message || !*message) {
 		clif_displaymessage(fd, msg_txt(sd,1132)); // Please enter a script file name (usage: @loadnpc <file name>).
 		return -1;
 	}
 
-	if (!npc_addsrcfile(message, true)) {
+	// Normalize path separators so Windows-style paths work on all platforms
+	char pathbuf[1024];
+    safestrncpy(pathbuf, message, sizeof(pathbuf));
+	normalize_path(pathbuf);
+
+	if (!npc_addsrcfile(pathbuf, true)) {
 		clif_displaymessage(fd, msg_txt(sd,261)); // Script could not be loaded.
 		return -1;
 	}
 
 	npc_read_event_script();
 
-	ShowStatus( "NPC file '" CL_WHITE "%s" CL_RESET "' was loaded.\n", message );
-	npc_event_doall_path( script_config.init_event_name, message );
+	ShowStatus( "NPC file '" CL_WHITE "%s" CL_RESET "' was loaded.\n", pathbuf );
+	npc_event_doall_path( script_config.init_event_name, pathbuf );
 
 	clif_displaymessage(fd, msg_txt(sd,262)); // Script loaded.
 	return 0;
@@ -5218,26 +5228,26 @@ ACMD_FUNC(loadnpc)
 
 ACMD_FUNC(unloadnpc)
 {
-	struct npc_data *nd;
+	struct npc_data* nd;
 	char NPCname[NPC_NAME_LENGTH];
 	nullpo_retr(-1, sd);
 
 	memset(NPCname, '\0', sizeof(NPCname));
 
 	if (!message || !*message || sscanf(message, "%49[^\n]", NPCname) < 1) {
-		clif_displaymessage(fd, msg_txt(sd,1133)); // Please enter a NPC name (usage: @unloadnpc <NPC_name>).
+		clif_displaymessage(fd, msg_txt(sd, 1133)); // Please enter a NPC name (usage: @unloadnpc <NPC_name>).
 		return -1;
 	}
 
 	if ((nd = npc_name2id(NPCname)) == nullptr) {
-		clif_displaymessage(fd, msg_txt(sd,111)); // This NPC doesn't exist.
+		clif_displaymessage(fd, msg_txt(sd, 111)); // This NPC doesn't exist.
 		return -1;
 	}
 
 	npc_unload_duplicates(nd);
-	npc_unload(nd,true);
+	npc_unload(nd, true);
 	npc_read_event_script();
-	clif_displaymessage(fd, msg_txt(sd,112)); // Npc Disabled.
+	clif_displaymessage(fd, msg_txt(sd, 112)); // Npc Disabled.
 	return 0;
 }
 
@@ -5247,18 +5257,23 @@ ACMD_FUNC(reloadnpcfile) {
 		return -1;
 	}
 
-	if (npc_unloadfile(message))
+	// Normalize path separators for unload and load
+	char pathbuf[1024];
+    safestrncpy(pathbuf, message, sizeof(pathbuf));
+	normalize_path(pathbuf);
+
+	if (npc_unloadfile(pathbuf))
 		clif_displaymessage(fd, msg_txt(sd,1386)); // File unloaded. Be aware that mapflags and monsters spawned directly are not removed.
 
-	if (!npc_addsrcfile(message, true)) {
+	if (!npc_addsrcfile(pathbuf, true)) {
 		clif_displaymessage(fd, msg_txt(sd,261)); // Script could not be loaded.
 		return -1;
 	}
 
 	npc_read_event_script();
 
-	ShowStatus( "NPC file '" CL_WHITE "%s" CL_RESET "' was reloaded.\n", message );
-	npc_event_doall_path( script_config.init_event_name, message );
+	ShowStatus( "NPC file '" CL_WHITE "%s" CL_RESET "' was reloaded.\n", pathbuf );
+	npc_event_doall_path( script_config.init_event_name, pathbuf );
 
 	clif_displaymessage(fd, msg_txt(sd,262)); // Script loaded.
 	return 0;
@@ -10291,21 +10306,7 @@ ACMD_FUNC(addperm) {
 
 	return 0;
 }
-ACMD_FUNC(unloadnpcfile) {
 
-	if( !message || !*message ) {
-		clif_displaymessage(fd, msg_txt(sd,1385)); // Usage: @unloadnpcfile <file name>
-		return -1;
-	}
-
-	if( npc_unloadfile(message) )
-		clif_displaymessage(fd, msg_txt(sd,1386)); // File unloaded. Be aware that mapflags and monsters spawned directly are not removed.
-	else {
-		clif_displaymessage(fd, msg_txt(sd,1387)); // File not found.
-		return -1;
-	}
-	return 0;
-}
 ACMD_FUNC(cart) {
 #define MC_CART_MDFY(idx, x) \
 	sd->status.skill[(idx)].id = (x)?MC_PUSHCART:0; \
@@ -11562,7 +11563,6 @@ void atcommand_basecommands(void) {
 		ACMD_DEF(sizeguild),
 		ACMD_DEF(addperm),
 		ACMD_DEF2("rmvperm", addperm),
-		ACMD_DEF(unloadnpcfile),
 		ACMD_DEF(cart),
 		ACMD_DEF(mount2),
 		ACMD_DEF(join),
