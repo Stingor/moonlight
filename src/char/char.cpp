@@ -1141,7 +1141,7 @@ int32 char_mmo_char_fromsql(uint32 char_id, struct mmo_charstatus* p, bool load_
 
 	if( SQL_ERROR == stmt.Prepare("SELECT `user_id` FROM `login` WHERE `account_id`= '%d' LIMIT 1", p->account_id)
 	||	SQL_ERROR == stmt.Execute()
-	||	SQL_ERROR == stmt.BindColumn(0,  SQLDT_INT, &p->user_id, 0, nullptr, nullptr))
+	||	SQL_ERROR == stmt.BindColumn(0, SQLDT_INT32, &p->user_id, 0, nullptr, nullptr))
 		SqlStmt_ShowDebug(stmt);
 	
 	if( SQL_ERROR == stmt.NextRow() )
