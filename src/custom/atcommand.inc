@@ -1,21 +1,25 @@
 ACMD_FUNC(unloadnpcfile) {
 
-	if( !message || !*message ) {
-		clif_displaymessage(fd, msg_txt(sd,1385)); // Usage: @unloadnpcfile <file name>
+	if (!message || !*message) {
+		clif_displaymessage(fd, msg_txt(sd, 1385)); // Usage: @unloadnpcfile <file name>
 		return -1;
 	}
 
 	// Normalize path separators so Windows-style paths work on all platforms
-	char pathbuf[1024];
-	safestrncpy(pathbuf, message, sizeof(pathbuf));
-	normalize_path(pathbuf);
+	char path[1024];
+	safestrncpy(path, message, sizeof(path));
+	for (char* p = path; *p; ++p) if (*p == '\\') *p = '/';
 
-	if( npc_unloadfile(pathbuf) )
-		clif_displaymessage(fd, msg_txt(sd,1386)); // File unloaded. Be aware that mapflags and monsters spawned directly are not removed.
+	if (npc_unloadfile(path)) {
+		clif_displaymessage(fd, msg_txt(sd, 1386)); // File unloaded. Be aware that mapflags and monsters spawned directly are not removed.
+		ShowStatus("NPC file '" CL_WHITE "%s" CL_RESET "' was unloaded.\n", path);
+	}
 	else {
-		clif_displaymessage(fd, msg_txt(sd,1387)); // File not found.
+		clif_displaymessage(fd, msg_txt(sd, 1387)); // File not found.
+		ShowDebug("Unloadnpcfile: Unknown NPC filepath'" CL_WHITE "%s" CL_RESET "'.\n", path);
 		return -1;
 	}
+
 	return 0;
 }
 

@@ -192,11 +192,6 @@ static char atcmd_output[CHAT_SIZE_MAX];
 static char atcmd_player_name[NAME_LENGTH];
 const char *parent_cmd;
 
-// Normalize path separators in-place (Windows-style -> Unix-style)
-static inline void normalize_path(char *p) {
-	for (; *p; ++p) if (*p == '\\') *p = '/';
-}
-
 struct atcmd_binding_data** atcmd_binding;
 
 static AtCommandInfo* get_atcommandinfo_byname(const char *name); // @help
@@ -5202,27 +5197,28 @@ ACMD_FUNC(hidenpc)
 
 ACMD_FUNC(loadnpc)
 {
-    if (!message || !*message) {
-		clif_displaymessage(fd, msg_txt(sd,1132)); // Please enter a script file name (usage: @loadnpc <file name>).
+	if (!message || !*message) {
+		clif_displaymessage(fd, msg_txt(sd, 1132)); // Please enter a script file name (usage: @loadnpc <file name>).
 		return -1;
 	}
 
 	// Normalize path separators so Windows-style paths work on all platforms
-	char pathbuf[1024];
-    safestrncpy(pathbuf, message, sizeof(pathbuf));
-	normalize_path(pathbuf);
+	char path[1024];
+	safestrncpy(path, message, sizeof(path));
+	for (char* p = path; *p; ++p) if (*p == '\\') *p = '/';
 
-	if (!npc_addsrcfile(pathbuf, true)) {
-		clif_displaymessage(fd, msg_txt(sd,261)); // Script could not be loaded.
+	if (!npc_addsrcfile(path, true)) {
+		clif_displaymessage(fd, msg_txt(sd, 261)); // Script could not be loaded.
+		ShowDebug("Loadnpcfile: NPC failed to load '" CL_WHITE "%s" CL_RESET "'.\n", path);
 		return -1;
 	}
 
 	npc_read_event_script();
 
-	ShowStatus( "NPC file '" CL_WHITE "%s" CL_RESET "' was loaded.\n", pathbuf );
-	npc_event_doall_path( script_config.init_event_name, pathbuf );
+	ShowStatus("NPC file '" CL_WHITE "%s" CL_RESET "' was loaded.\n", path);
+	npc_event_doall_path(script_config.init_event_name, path);
 
-	clif_displaymessage(fd, msg_txt(sd,262)); // Script loaded.
+	clif_displaymessage(fd, msg_txt(sd, 262)); // Script loaded.
 	return 0;
 }
 
@@ -5253,30 +5249,30 @@ ACMD_FUNC(unloadnpc)
 
 ACMD_FUNC(reloadnpcfile) {
 	if (!message || !*message) {
-		clif_displaymessage(fd, msg_txt(sd,733)); // Please enter a NPC file name (usage: @reloadnpcfile <file name>).
+		clif_displaymessage(fd, msg_txt(sd, 733)); // Please enter a NPC file name (usage: @reloadnpcfile <file name>).
 		return -1;
 	}
 
 	// Normalize path separators so Windows-style paths work on all platforms
-	char pathbuf[1024];
-    safestrncpy(pathbuf, message, sizeof(pathbuf));
-	normalize_path(pathbuf);
-	ShowDebug("NPC file '" CL_WHITE "%s" CL_RESET "'.\n", pathbuf);
+	char path[1024];
+	safestrncpy(path, message, sizeof(path));
+	for (char* p = path; *p; ++p) if (*p == '\\') *p = '/';
 
-	if (npc_unloadfile(pathbuf))
-		clif_displaymessage(fd, msg_txt(sd,1386)); // File unloaded. Be aware that mapflags and monsters spawned directly are not removed.
+	if (npc_unloadfile(path))
+		clif_displaymessage(fd, msg_txt(sd, 1386)); // File unloaded. Be aware that mapflags and monsters spawned directly are not removed.
 
-	if (!npc_addsrcfile(pathbuf, true)) {
-		clif_displaymessage(fd, msg_txt(sd,261)); // Script could not be loaded.
+	if (!npc_addsrcfile(path, true)) {
+		clif_displaymessage(fd, msg_txt(sd, 261)); // Script could not be loaded.
+		ShowDebug("Reloadnpcfile: NPC Failed to load '" CL_WHITE "%s" CL_RESET "'.\n", path);
 		return -1;
 	}
 
 	npc_read_event_script();
 
-	ShowStatus( "NPC file '" CL_WHITE "%s" CL_RESET "' was reloaded.\n", pathbuf );
-	npc_event_doall_path( script_config.init_event_name, pathbuf );
+	ShowStatus("NPC file '" CL_WHITE "%s" CL_RESET "' was reloaded.\n", path);
+	npc_event_doall_path(script_config.init_event_name, path);
 
-	clif_displaymessage(fd, msg_txt(sd,262)); // Script loaded.
+	clif_displaymessage(fd, msg_txt(sd, 262)); // Script loaded.
 	return 0;
 }
 
