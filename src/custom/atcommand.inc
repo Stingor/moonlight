@@ -567,7 +567,7 @@ ACMD_FUNC(shopsearch)
 	struct s_mapiterator* iter;
 	int j, count = 0;
 	map_session_data *pl_sd;
-	unsigned int MinPrize = battle_config.vending_max_value, MaxPrize = 0;
+	uint32 MinPrize = battle_config.vending_max_value, MaxPrize = 0;
 	
 	nullpo_retr(-1, sd);
 
@@ -850,7 +850,7 @@ ACMD_FUNC(mobinfo)
 		// drops
 		clif_displaymessage(fd, msg_txt(sd, 1245)); //  Drops:
 		strcpy(atcmd_output, " ");
-		unsigned int j = 0;
+		uint32 j = 0;
 		int drop_modifier = 100;
 #ifdef RENEWAL_DROP
 		if (battle_config.atcommand_mobinfo_type) {
