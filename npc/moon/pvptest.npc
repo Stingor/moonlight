@@ -124,10 +124,13 @@ if(.Feeder < 1){ set .Feeder, 0; }
 if(.RandomKillWord > 1){ set .RandomKillWord, 1; }
 if(.RandomKillWord < 0){ set .RandomKillWord, 0; }
 end;
- 
+
 OnPCKillEvent:
 	if (getgroupid() >= .GMLevel) { end; }
+
 	if (strcharinfo(0) == rid2name(killedrid) ) { end; }
+
+	.@d_cid = getcharid(0,rid2name(killedrid);
 
 	if( strcharinfo(3) != "pvp_n_3-5")
 		end;
@@ -150,6 +153,7 @@ OnPCKillEvent:
 			default: break;
 		}
 	}
+
 	if (@nm < .Feed) {
 		if (.Zeny && ((Zeny + .Zeny) < .MaxZeny)) { Zeny += .Zeny; }
 		if (.Cash) { dispbottom "[Point System] +1 Kill Point"; #CASHPOINT += .Cash; }
@@ -157,51 +161,24 @@ OnPCKillEvent:
 		for ( .@i = 0; .@i < getarraysize(.ItemID); .@i++ )
 			if ( .ItemID )  getitem .ItemID[.@i], .Amount[.@i];
 	}
+
 	if(.RandomKillTerm){ announce strcharinfo(0)+" "+.KillWord$[rand(0, getarraysize(.KillWord$) - 1)]+" "+rid2name(killedrid)+"'s head", ((.Broadcast)?bc_all:bc_map), .KColor$; } 
 	else { announce strcharinfo(0)+" pwned "+rid2name(killedrid)+"'s head", ((.Broadcast)?bc_all:bc_map), .KColor$; }
-	Kill++; 
-	if(@ks < 10){ set @ks, @ks + 1; }
-	if(@mk < 6){ set @mk, @mk + 1; } 
-	if(!NemesisKilled){ set NemesisKilled, killedrid; }
-	if(NemesisKilled == killedrid){ set @nm, @nm + 1; }
-	deltimer "Versus::OnMKReset"; 
-	addtimer 18000, "Versus::OnMKReset"; 
-	callsub OnRecordStreak; 
-	callsub OnAnnounce; 
-	callsub OnDeath;
-end;
 
-OnPCDieEvent:
-	if( getgroupid() >= .GMLevel )
-		end;
+	Kill++;
 
-	if( strcharinfo(3) != "pvp_n_3-5")
-		end;
-	else
-		Death++;
-end;
+	if (@ks < 10) @ks++;
 
-OnPCLoadMapEvent:
-	if( strcharinfo(3) != "pvp_n_3-5")
-		end;
-	dispbottom "Vous entrez en pvp, la commande @pvp est disponible pour voir vos stats.";
-end;
+	if (@mk < 6) @mk++;
 
-OnPCLogoutEvent:
-	if( getgroupid() >= .GMLevel )
-		end;
+	if (!NemesisKilled) NemesisKilled = killedrid;
 
-	if( Kill )
-		query_sql("REPLACE INTO `pvp_rank` (`char_id`, `account_id`, `char`, `kill`, `death`, `kdr`, `killingstreak`, `multikill`,  `nemesiskill`, `feedcount`,`killingspree`, `dominating`, `megakill`, `unstoppable`, `wickedsick`, `monsterkill`, `godlike`, `beyondgodlike`, `doublekill`, `triplekill`, `ultrakill`, `rampage`, `ownage`) VALUES ("+getcharid(0)+","+getcharid(3)+", '"+rid2name(getcharid(3))+"', "+Kill+", "+Death+", '"+callfunc("KDR_Calc", Kill, Death)+"', "+KillingStreak+", "+MultiKill+",  "+NemesisKill+", "+FeedCount+", "+KillingSpree+", "+Dominating+", "+MegaKill+", "+Unstoppable+", "+WickedSick+", "+MonsterKill+", "+Godlike+", "+BeyondGodlike+", "+DoubleKill+", "+TripleKill+", "+UltraKill+", "+Rampage+", "+Ownage+")");
+	if (NemesisKilled == killedrid) @nm++;
 
-	if( strcharinfo(3) != "pvp_n_3-5")
-		end;
-
-	callsub OnClearData; 
 	deltimer "Versus::OnMKReset";
-end;
 
-OnRecordStreak:
+	addtimer 18000, "Versus::OnMKReset";
+
 	if( @ks > 2 ) {
 		KillingStreak++;
 		switch( @ks ) {
@@ -236,9 +213,7 @@ OnRecordStreak:
 
 	if( @nm >= .Feed )
 		FeedCount++;
-return;
- 
-OnAnnounce:
+
 	if( @ks == 1 && #FirstBlood == 1 ) {
 		if( #Announcer == 0 )
 			announce strcharinfo(0)+" drew first blood", (.Broadcast?bc_all:bc_map), .KSColor$;
@@ -247,7 +222,7 @@ OnAnnounce:
 		#FirstBlood = 0;
 		//soundeffectall ""+#Announcer+"_KS"+1+".wav", 0, strcharinfo(3);
 	}
-	
+
 	if( @ks > 2 ) {
 		if( #Announcer == 0 )
 			announce strcharinfo(0)+" "+.KSDotA$[@ks - 3]+" "+(.Streak?"("+@ks+")":"")+"", (.Broadcast?bc_all:bc_map), .KSColor$;
@@ -255,7 +230,7 @@ OnAnnounce:
 			announce strcharinfo(0)+" "+.KSHoN$[@ks - 3]+" "+(.Streak?"("+@ks+")":"")+"", (.Broadcast?bc_all:bc_map), .KSColor$;
 		//soundeffectall ""+#Announcer+"_KS"+@ks+".wav", 0, strcharinfo(3);
 	}
-	
+
 	if( @mk > 1 ) {
 		if( #Announcer == 0 )
 			announce strcharinfo(0)+" "+.MKDotA$[@mk - 2]+" "+(.Multiple?"("+@mk+")":"")+"", (.Broadcast?bc_all:bc_map), .MKColor$;
@@ -264,35 +239,68 @@ OnAnnounce:
 		sleep2 1500;
 		//soundeffectall ""+#Announcer+"_MK"+@mk+".wav", 0, strcharinfo(3);
 	}
-	
+
 	if( @nm > 3 && @nm < .Feed ) {
 		announce strcharinfo(0)+" is owning "+rid2name(NemesisKilled)+" "+(.Nemesis?"("+@nm+")":"")+"", (.Broadcast?bc_all:bc_map), .NMColor$;
-		sleep2 2000;
+		sleep2 1500;
 		// if(#Announcer > 0){ soundeffectall #Announcer+"_Nemesis.wav", 0, strcharinfo(3); } else { soundeffectall "1_Nemesis.wav", 0;}
 	}
-	
+
 	if(@nm >= .Feed){
 		announce rid2name(NemesisKilled)+" is feeding "+strcharinfo(0)+" "+(.Feeder?"("+@nm+")":"")+"", (.Broadcast?bc_all:bc_map), .FDColor$;
 		sleep2 1500;
 		//soundeffectall "Feeder.wav", 0, strcharinfo(3);
 	}
-return;
- 
-OnDeath:
+
 	if( @ks > 2 ) {
 		if( #Announcer == 0 )
 			announce rid2name(killedrid)+" just ended "+strcharinfo(0)+"'s "+.ESDotA$[@ks - 3]+" "+(.Streak?"("+@ks+")":"")+"", (.Broadcast?bc_all:bc_map), .ESColor$;
 		if( #Announcer > 1 && #Announcer < 7 )
 			announce rid2name(killedrid)+" just ended "+strcharinfo(0)+"'s "+.ESHoN$[@ks - 3]+" "+(.Streak?"("+@ks+")":"")+"", (.Broadcast?bc_all:bc_map), .ESColor$;
 	}
+
 	if( @nm > 3 ) {
 		//soundeffectall #Announcer+"_Payback.wav", 0, rid2name(killedrid);
 		announce rid2name(killedrid)+" just have a payback againts "+strcharinfo(0)+" "+(.Nemesis?"("+@nm+")":"")+"", (.Broadcast?bc_all:bc_map), .PBColor$;
 	}
-	attachrid(killedrid);
-		callsub OnClearData;
-return;
- 
+
+	sleep2 1000;
+	set NemesisKilled, 0, .@d_cid;
+	set @ks, 0, .@d_cid;
+	set @mk, 0, .@d_cid;
+	set @nm, 0, .@d_cid;
+end;
+
+OnPCDieEvent:
+	if( getgroupid() >= .GMLevel )
+		end;
+
+	if( strcharinfo(3) != "pvp_n_3-5")
+		end;
+	else
+		Death++;
+end;
+
+OnPCLoadMapEvent:
+	if( strcharinfo(3) != "pvp_n_3-5")
+		end;
+	dispbottom "Vous entrez en pvp, la commande @pvp est disponible pour voir vos stats.";
+end;
+
+OnPCLogoutEvent:
+	if( getgroupid() >= .GMLevel )
+		end;
+
+	if( Kill )
+		query_sql("REPLACE INTO `pvp_rank` (`char_id`, `account_id`, `char`, `kill`, `death`, `kdr`, `killingstreak`, `multikill`,  `nemesiskill`, `feedcount`,`killingspree`, `dominating`, `megakill`, `unstoppable`, `wickedsick`, `monsterkill`, `godlike`, `beyondgodlike`, `doublekill`, `triplekill`, `ultrakill`, `rampage`, `ownage`) VALUES ("+getcharid(0)+","+getcharid(3)+", '"+rid2name(getcharid(3))+"', "+Kill+", "+Death+", '"+callfunc("KDR_Calc", Kill, Death)+"', "+KillingStreak+", "+MultiKill+",  "+NemesisKill+", "+FeedCount+", "+KillingSpree+", "+Dominating+", "+MegaKill+", "+Unstoppable+", "+WickedSick+", "+MonsterKill+", "+Godlike+", "+BeyondGodlike+", "+DoubleKill+", "+TripleKill+", "+UltraKill+", "+Rampage+", "+Ownage+")");
+
+	if( strcharinfo(3) != "pvp_n_3-5")
+		end;
+
+	callsub OnClearData; 
+	deltimer "Versus::OnMKReset";
+end;
+
 OnMKReset:
 	@mk = 0;
 end;
@@ -304,7 +312,7 @@ OnClearData:
 	@mk = 0;
 	@nm = 0;
 return;
- 
+
 OnRollback:
 	if( .Zeny )
 		Zeny -= .Zeny * .Rollback;
@@ -339,7 +347,7 @@ OnRollback:
 	
 	announce "[Anti-Feed] Your kill count has been rollbacked " + .Rollback + " times.", bc_self, 0xFF0000;
 return;
- 
+
 OnPvPReset:
 	Kill = 0;
 	Death = 0;
@@ -362,7 +370,7 @@ OnPvPReset:
 	FeedCount = 0;
 return;
 }
- 
+
 //Ghost's KDR Algorithm
 function	script	KDR_Calc	{
 	if( !getarg(1) )
