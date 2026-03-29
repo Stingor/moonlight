@@ -2990,7 +2990,7 @@ bool skill_strip_equip(struct block_list *src, struct block_list *target, uint16
 			break;
 		}
 		case GS_DISARM: {
-			int min_rate_ = 50 + 20 * skill_lv;
+			int32 min_rate_ = 50 + 20 * skill_lv;
 			rate = sstatus->dex / (4 * (7 - skill_lv)) + sstatus->luk / (4 * (6 - skill_lv));
 			rate += min_rate_ + status_get_lv(src) - (tstatus->agi * rate / 100) - tstatus->luk - status_get_lv(target);
 			rate = max(min_rate_, rate);
@@ -9660,7 +9660,7 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 			}
 
 			// [Stingor] temps FCP indexe sur le level du buffer pendant woe
-			int skilltime = skill_get_time(skill_id,skill_lv);
+			int32 skilltime = skill_get_time(skill_id,skill_lv);
 			if( sd && is_agit_start() )
 				skilltime = (sd->status.base_level*1000 < skilltime/6?skilltime/6:sd->status.base_level*1000);
 
@@ -9693,8 +9693,8 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 			if( ebottle >= 0 )
 				ebottle = sd->inventory.u.items_inventory[ebottle].amount;
 
-			int randpot = rand() % 100;
-			int amount = 50;
+			int32 randpot = rand() % 100;
+			int32 amount = 50;
 			// [Stingor] -->
 			if (!(acid_idx = skill_can_produce_mix(sd,ITEMID_ACID_BOTTLE,-1, 50)) //50 Acid Bottle
 				|| !(fire_idx = skill_can_produce_mix(sd,ITEMID_FIRE_BOTTLE,-1, 50)) //50 Flame Bottle
@@ -10569,7 +10569,7 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 	case SL_WIZARD:
 	case SL_HIGH: {
 		// [Stingor] temps SPIRIT indexe sur le level du buffer pendant woe
-		int skilltime = skill_get_time(skill_id, skill_lv);
+		int32 skilltime = skill_get_time(skill_id, skill_lv);
 		if (sd && is_agit_start())
 			skilltime = (sd->status.base_level * 580 < skilltime / 3 ? skilltime / 3 : sd->status.base_level * 580);
 		if (sc_start2(src, bl, type, 100, skill_lv, skill_id, skilltime)) {
@@ -10739,7 +10739,7 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 		//AuronX reported you CAN memorize the same map as all three. [Skotlex]
 		if (sd) {
 			// [Stingor] -->
-			int lv;
+			int32 lv;
 
 			clif_feel_req(sd->fd,sd, skill_lv);
 
@@ -22705,7 +22705,7 @@ bool skill_produce_mix(map_session_data *sd, uint16 skill_id, t_itemid nameid, i
 		} else if (tmp_item.amount) { //Success
 			// [Stingor] -->
 			if( skill_id == AM_PHARMACY || skill_id == SA_CREATECON || skill_id == AL_HOLYWATER || skill_id == ASC_CDP ) {
-				int randpot = rand() % 100;
+				int32 randpot = rand() % 100;
 				switch( rand() % 5 ) {
 					case 1: if( randpot > 29 && randpot < 71 ) tmp_item.amount += 1; break;
 					case 2: if( randpot > 40 && randpot < 61 ) tmp_item.amount += 2; break;

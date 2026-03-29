@@ -3260,8 +3260,8 @@ struct item_data
 };
 
 struct wing_group {
-	int view_id1;
-	int view_id2;
+	int32 view_id1;
+	int32 view_id2;
 };
 
 class ItemDatabase : public TypesafeCachedYamlDatabase<t_itemid, item_data> {

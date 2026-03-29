@@ -345,8 +345,8 @@ uint16 clif_getport(void)
 static inline unsigned char clif_bl_type(struct block_list *bl, bool walking) {
 
 	// Lecture de la class
-	int class_ = status_get_viewdata(bl)->class_;
-	int type = bl->type;
+	int32 class_ = status_get_viewdata(bl)->class_;
+	int32 type = bl->type;
 
 	if ( type == BL_NPC || type == BL_MOB || type == BL_PC )
 	{

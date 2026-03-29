@@ -223,9 +223,9 @@ ACMD_FUNC(playertalk)
 ACMD_FUNC(moche)
 {
 	TBL_PC *pl_sd;
-	int hair_style = rand()%MAX_HAIR_STYLE;
-	int hair_color = rand()%MAX_HAIR_COLOR;
-	int cloth_color = rand()%MAX_CLOTH_COLOR;
+	int32 hair_style = rand()%MAX_HAIR_STYLE;
+	int32 hair_color = rand()%MAX_HAIR_COLOR;
+	int32 cloth_color = rand()%MAX_CLOTH_COLOR;
 
 	nullpo_retr(-1,sd);
 
@@ -274,7 +274,7 @@ ACMD_FUNC(celebrate)
 	map_session_data* pl_sd;
 	struct s_mapiterator* iter;
 	char temp[100];
-	int i;
+	int32 i;
 
 	nullpo_retr(-1, sd);
 
@@ -461,7 +461,7 @@ ACMD_FUNC(autolootpognon)
 			clif_displaymessage(fd, msg_txt(sd,1826));
 		}
 		else {
-			int prix;
+			int32 prix;
 
 			if( (sscanf(message, "%d", &prix) < 1) || prix <= 0 ) {
 				prix = sd->state.autolootpognon = 0;
@@ -489,10 +489,10 @@ ACMD_FUNC(autolootpognon)
 ACMD_FUNC(stats)
 {
 	char output[CHAT_SIZE_MAX];
-	int i;
+	int32 i;
 	struct {
 		const char* format;
-		int value;
+		int32 value;
 	} output_table[] = {
 		{ "Castrate - %d", 0 },
 		{ "Delayrate - -%d%% - ACD (35%% soft cap)", 0 },
@@ -565,7 +565,7 @@ ACMD_FUNC(shopsearch)
 {
 	char item_name[100], output[255];
 	struct s_mapiterator* iter;
-	int j, count = 0;
+	int32 j, count = 0;
 	map_session_data *pl_sd;
 	uint32 MinPrize = battle_config.vending_max_value, MaxPrize = 0;
 	
@@ -799,7 +799,7 @@ ACMD_FUNC(mobinfo)
 		}
 #ifdef RENEWAL_EXP
 		if (battle_config.atcommand_mobinfo_type) {
-			int penalty = pc_level_penalty_mod(sd, PENALTY_EXP, mob);
+			int32 penalty = pc_level_penalty_mod(sd, PENALTY_EXP, mob);
 
 			base_exp = base_exp * penalty / 100;
 			job_exp = job_exp * penalty / 100;
@@ -851,7 +851,7 @@ ACMD_FUNC(mobinfo)
 		clif_displaymessage(fd, msg_txt(sd, 1245)); //  Drops:
 		strcpy(atcmd_output, " ");
 		uint32 j = 0;
-		int drop_modifier = 100;
+		int32 drop_modifier = 100;
 #ifdef RENEWAL_DROP
 		if (battle_config.atcommand_mobinfo_type) {
 			drop_modifier = pc_level_penalty_mod(sd, PENALTY_DROP, mob);
@@ -868,7 +868,7 @@ ACMD_FUNC(mobinfo)
 			if (id == nullptr)
 				continue;
 
-			int droprate = mob_getdroprate(&sd->bl, mob, mob->dropitem[i].rate, drop_modifier);
+			int32 droprate = mob_getdroprate(&sd->bl, mob, mob->dropitem[i].rate, drop_modifier);
 
 			if (event_drop) { // Stingor
 				droprate = apply_rate(droprate, battle_config.mult_eventdrop);
@@ -1032,9 +1032,9 @@ ACMD_FUNC(whodrops)
 
 			for (uint16 j = 0; j < MAX_SEARCH && id->mob[j].chance > 0; j++)
 			{
-				int dropchance = id->mob[j].chance;
-				int drop_rate_bonus = 0;
-				int mobid = id->mob[j].id;
+				int32 dropchance = id->mob[j].chance;
+				int32 drop_rate_bonus = 0;
+				int32 mobid = id->mob[j].id;
 
 				std::shared_ptr<s_mob_db> mob = mob_db.find(id->mob[j].id);
 				if (!mob) continue;
@@ -1109,7 +1109,7 @@ ACMD_FUNC(whereis)
 		return -1;
 	}
 
-	int i_message = atoi(message);
+	int32 i_message = atoi(message);
 	if (mobdb_checkid(i_message)) {
 		// ID given
 		mob_ids[0] = i_message;

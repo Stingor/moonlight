@@ -8955,12 +8955,12 @@ ACMD_FUNC(fakename)
  *------------------------------------------*/
 ACMD_FUNC(jobchange)
 {
-	int job = 0, upper = 0;
+	int32 job = 0, upper = 0;
 	const char* text;
 	nullpo_retr(-1, sd);
 
     if (!message || !*message || sscanf(message, "%11d %11d", &job, &upper) < 1) {
-		int i;
+		int32 i;
 		bool found = false;
 
 		upper = 0;

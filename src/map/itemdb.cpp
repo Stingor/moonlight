@@ -2941,7 +2941,7 @@ t_itemid ItemGroupDatabase::get_random_item_id(uint16 group_id, uint8 sub_group)
 
 t_itemid wingsdb_search(t_itemid id)
 {
-	int j;
+	int32 j;
 	ARR_FIND( 0, ARRAYLENGTH(wingsgroup_db), j, wingsgroup_db[j].view_id1 == id );
 	if ( j == ARRAYLENGTH(wingsgroup_db) )
 		return id;

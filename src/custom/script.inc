@@ -23,7 +23,7 @@
  */
 BUILDIN_FUNC(getskillname)
 {
-	int skill_id = script_getnum(st, 2);
+	int32 skill_id = script_getnum(st, 2);
 	const char* name = skill_get_desc((uint16)skill_id);
 	if (name && *name)
 		script_pushstrcopy(st, name);
@@ -166,7 +166,7 @@ BUILDIN_FUNC(npcstand)
 
 BUILDIN_FUNC(getalliance)
 {
-	int j = 0;
+	int32 j = 0;
 	auto g = guild_search(script_getnum(st, 2));
 
 	if( !g || g && guild_get_alliance_count(g->guild, 0) == 0 )
@@ -205,7 +205,7 @@ BUILDIN_FUNC(getpartnername)
 BUILDIN_FUNC(getusersnbr)
 {
 	TBL_PC *sd;
-	int count = 0;
+	int32 count = 0;
 	struct s_mapiterator* iter;
 
 	iter = mapit_getallusers();
@@ -269,7 +269,7 @@ BUILDIN_FUNC(getcartlist)
 {
 	TBL_PC* sd;
 	char card_var[NAME_LENGTH], randopt_var[50];
-	int i, j = 0, k;
+	int32 i, j = 0, k;
 
 	if (!script_charid2sd(2, sd))
 		return SCRIPT_CMD_FAILURE;
@@ -314,7 +314,7 @@ BUILDIN_FUNC(getstoragelist)
 {
 	TBL_PC* sd;
 	char card_var[NAME_LENGTH], randopt_var[50];
-	int i, j = 0, k, stor_id = 0;
+	int32 i, j = 0, k, stor_id = 0;
 	struct item* items;
 
 	if (!script_rid2sd(sd)) {
@@ -377,7 +377,7 @@ BUILDIN_FUNC(getguildstoragelist)
 {
 	TBL_PC* sd;
 	char card_var[NAME_LENGTH], randopt_var[50];
-	int i, j = 0, k;
+	int32 i, j = 0, k;
 	struct s_storage* gstor;
 	if (!script_rid2sd(sd)) {
 		ShowError("buildin_getguildstoragelist: Player not attached. \n");
@@ -424,7 +424,7 @@ BUILDIN_FUNC(getguildstoragelist)
 BUILDIN_FUNC(loadstorage)
 {
 	TBL_PC* sd;
-	int stor_id;
+	int32 stor_id;
 	char* command = (char*)script_getfuncname(st);
 
 	if (!script_rid2sd(sd)) {
@@ -459,8 +459,8 @@ BUILDIN_FUNC(storagecountitem)
 {
 	TBL_PC *sd;
 	char *command = (char *)script_getfuncname(st);
-	int aid = 3, stor_id = 4;
-	int expanded = 0, count = 0;
+	int32 aid = 3, stor_id = 4;
+	int32 expanded = 0, count = 0;
 
 	if (command[strlen(command) - 1] == '2') {
 		expanded = 1;
@@ -519,9 +519,9 @@ BUILDIN_FUNC(storagecountitem)
 BUILDIN_FUNC(instance_create)
 {
 	e_instance_mode mode = IM_PARTY;
-	int owner_id = 0;
-	int hardmode = 1;
-	int turbo = 0;
+	int32 owner_id = 0;
+	int32 hardmode = 1;
+	int32 turbo = 0;
 
 	if (script_hasdata(st, 3)) {
 		mode = static_cast<e_instance_mode>(script_getnum(st, 3));
