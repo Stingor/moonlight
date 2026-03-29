@@ -103,7 +103,7 @@ BUILDIN_FUNC(npcsit)
 	
 	if( nd && mobavaildb_checkid(nd->class_) ) {
 		nd->sitted = 1;
-		clif_sitting(nd->bl);
+		clif_sitting(*nd);
 	}
 	
 	return 0;
@@ -115,7 +115,7 @@ BUILDIN_FUNC(npcstand)
 	
 	if( nd && mobavaildb_checkid(nd->class_) ) {
 		nd->sitted = 0;
-		clif_standing(nd->bl);
+		clif_standing(*nd);
 	}
 
 	return 0;

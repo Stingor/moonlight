@@ -3015,7 +3015,7 @@ void pc_updateweightstatus(map_session_data& sd)
 
 int32 pc_disguise(map_session_data *sd, int32 class_)
 {
-	if( map_getmapflag(sd->bl.m, MF_NODISGUISE) ) // [Stingor]
+	if( map_getmapflag(sd->m, MF_NODISGUISE) ) // [Stingor]
 		return 0;
 	if (!class_ && !sd->disguise)
 		return 0;
@@ -4098,7 +4098,7 @@ void pc_bonus(map_session_data *sd,int32 type,int32 val)
 				sd->crate_rate += val;
 			break;
 		case SP_RESTART_FULL_RECOVER:
-			if(sd->state.lr_flag != LR_FLAG_ARROW && !map_flag_vs(sd->bl.m)) // Kaizel [Stingor]
+			if(sd->state.lr_flag != LR_FLAG_ARROW && !map_flag_vs(sd->m)) // Kaizel [Stingor]
 				sd->special_state.restart_full_recover = 1;
 			break;
 		case SP_NO_CASTCANCEL:
@@ -6532,7 +6532,7 @@ int32 pc_useitem(map_session_data *sd,int32 n)
 		default: break;
 	}
 
-	if (sd->itemid > 0 && itemdb_type(sd->itemid) == IT_HEALING && map_flag_vs(sd->bl.m))
+	if (sd->itemid > 0 && itemdb_type(sd->itemid) == IT_HEALING && map_flag_vs(sd->m))
 		sd->canuseitem_tick += battle_config.item_use_interval_pvp; // delay custom pour pvp 
 
 	if (pc_get_group_level(sd) >= 40) // opti spam de branch en gm
@@ -6971,8 +6971,8 @@ enum e_setpos pc_setpos(map_session_data* sd, uint16 mapindex, int32 x, int32 y,
 	sd->state.item_reform = 0;
 	sd->state.item_enchant_index = 0;
 
-	if (map_flag_vs(sd->bl.m)) // [Stingor]
-		status_change_end(&sd->bl, SC_ALL_RIDING, INVALID_TIMER);
+	if (map_flag_vs(sd->m)) // [Stingor]
+		status_change_end(sd, SC_ALL_RIDING, INVALID_TIMER);
 
 	if( sd->state.changemap ) { // Misc map-changing settings
 		int32 curr_map_instance_id = map_getmapdata(sd->m)->instance_id, new_map_instance_id = (mapdata ? mapdata->instance_id : 0);
@@ -10823,7 +10823,7 @@ int32 pc_percentheal(map_session_data *sd,int32 hp,int32 sp)
 	if (sp > 100) sp = 100;
 	else if (sp <-100) sp = -100;
 
-	if (map_flag_vs(sd->bl.m)) { // [Stingor]
+	if (map_flag_vs(sd->m)) { // [Stingor]
 		hp = battle_config.hp_percent_pvp_nerf;
 		sp = battle_config.sp_percent_pvp_nerf;
 	}
@@ -15280,9 +15280,9 @@ int16 pc_maxaspd(map_session_data *sd) {
 		sd->status.class_ == JOB_SUPER_NOVICE ||
 		sd->status.class_ == JOB_TAEKWON ||
 		(sd->sc.getSCE(SC_BERSERK) && (sd->status.class_ == JOB_LORD_KNIGHT || sd->status.class_ == JOB_LORD_KNIGHT2)))
-		return (map_flag_vs(sd->bl.m) ? battle_config.max_third_aspd : battle_config.max_extended_aspd) - aspd2;
+		return (map_flag_vs(sd->m) ? battle_config.max_third_aspd : battle_config.max_extended_aspd) - aspd2;
 	else if (sd->status.class_ == JOB_GUNSLINGER || sd->status.class_ == JOB_ASSASSIN_CROSS)
-		return (map_flag_vs(sd->bl.m) ? battle_config.max_aspd : battle_config.max_third_aspd) - aspd2;
+		return (map_flag_vs(sd->m) ? battle_config.max_aspd : battle_config.max_third_aspd) - aspd2;
 	else
 		return battle_config.max_aspd - aspd2;
 	//  <-- [Stingor]

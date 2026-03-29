@@ -1672,7 +1672,7 @@ int64 battle_calc_damage(struct block_list *src,struct block_list *bl,struct Dam
 			damage -= damage * sd->special_state.no_weapon_damage / 100;
 
 		if(flag&BF_MAGIC && sd->special_state.no_magic_damage)
-			if (battle_config.pvp_gtb_nerf && map_flag_vs(sd->bl.m)) // [Stingor]
+			if (battle_config.pvp_gtb_nerf && map_flag_vs(sd->m)) // [Stingor]
 				damage -= damage*battle_config.pvp_gtb_nerf / 100;
 			else
 				damage -= damage * sd->special_state.no_magic_damage / 100;
@@ -2627,7 +2627,7 @@ void battle_consume_ammo(map_session_data*sd, int32 skill, int32 lv)
 		return;
 	}
 
-	if (!battle_config.arrow_decrement || sd->special_state.no_ammo && !map_flag_vs(sd->bl.m) ) // [Stingor]
+	if (!battle_config.arrow_decrement || sd->special_state.no_ammo && !map_flag_vs(sd->m) ) // [Stingor]
 		return;
 
 	if (skill) {
@@ -7538,7 +7538,7 @@ static struct Damage initialize_weapon_data(struct block_list *src, struct block
 
 			case CG_ARROWVULCAN:
 			if( battle_config.vulcanpvphit != 0 ) {
-				if( sd && map_flag_vs(sd->bl.m) )
+				if( sd && map_flag_vs(sd->m) )
 					wd.div_= battle_config.vulcanpvphit;
 				else
 					wd.div_= skill_get_num(skill_id,skill_lv);
@@ -10635,7 +10635,7 @@ enum damage_lv battle_weapon_attack(struct block_list* src, struct block_list* t
 			if( !( sd
 				&& battle_config.st_vulture_nerf
 				&& sd->status.class_ == JOB_STALKER
-				&& map_flag_vs(sd->bl.m)
+				&& map_flag_vs(sd->m)
 				&& sd->status.weapon == W_BOW
 				&& !check_distance_bl(src, target, 5)) ) {
 				// [Stingor]

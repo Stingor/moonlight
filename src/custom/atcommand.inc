@@ -28,7 +28,7 @@ ACMD_FUNC(vote)
 				// If this option is set, the message is already sent by pc function
 				if (!battle_config.cashshop_show_points) {
 					sprintf(output, msg_txt(sd, 505), ret, sd->cashPoints); // Gained %d votes. Total %d votes.
-					clif_messagecolor(&sd->bl, color_table[COLOR_LIGHT_GREEN], output, false, SELF);
+					clif_messagecolor(sd, color_table[COLOR_LIGHT_GREEN], output, false, SELF);
 				}
 			}
 			else clif_displaymessage(fd, msg_txt(sd, 149)); // Impossible to increase the number/value.
@@ -40,7 +40,7 @@ ACMD_FUNC(vote)
 				// If this option is set, the message is already sent by pc function
 				if (!battle_config.cashshop_show_points) {
 					sprintf(output, msg_txt(sd, 410), ret, sd->cashPoints); // Removed %d votes. Total %d votes.
-					clif_messagecolor(&sd->bl, color_table[COLOR_LIGHT_GREEN], output, false, SELF);
+					clif_messagecolor(sd, color_table[COLOR_LIGHT_GREEN], output, false, SELF);
 				}
 			}
 			else clif_displaymessage(fd, msg_txt(sd, 41)); // Unable to decrease the number/value.
@@ -52,7 +52,7 @@ ACMD_FUNC(vote)
 			if ((ret = pc_getcash(sd, 0, value, LOG_TYPE_COMMAND)) >= 0) {
 				if (!battle_config.cashshop_show_points) {
 					sprintf(output, msg_txt(sd, 506), ret, sd->kafraPoints); // Gained %d kafra points. Total %d points.
-					clif_messagecolor(&sd->bl, color_table[COLOR_LIGHT_GREEN], output, false, SELF);
+					clif_messagecolor(sd, color_table[COLOR_LIGHT_GREEN], output, false, SELF);
 				}
 			}
 			else clif_displaymessage(fd, msg_txt(sd, 149)); // Impossible to increase the number/value.
@@ -62,7 +62,7 @@ ACMD_FUNC(vote)
 				value = -sd->kafraPoints;
 			if ((ret = pc_paycash(sd, 0, -value, LOG_TYPE_COMMAND)) >= 0) {
 				sprintf(output, msg_txt(sd, 411), ret, sd->kafraPoints); // Removed %d kafra points. Total %d points.
-				clif_messagecolor(&sd->bl, color_table[COLOR_LIGHT_GREEN], output, false, SELF);
+				clif_messagecolor(sd, color_table[COLOR_LIGHT_GREEN], output, false, SELF);
 			}
 			else clif_displaymessage(fd, msg_txt(sd, 41)); // Unable to decrease the number/value.
 		}
@@ -204,12 +204,12 @@ ACMD_FUNC(mvpcard)
 {
 	nullpo_retr(-1, sd);
 
-	if( map_getmapflag(sd->bl.m, MF_NOMVPCARD) ) {
-		map_setmapflag(sd->bl.m, MF_NOMVPCARD, false);
+	if( map_getmapflag(sd->m, MF_NOMVPCARD) ) {
+		map_setmapflag(sd->m, MF_NOMVPCARD, false);
 		clif_displaymessage(fd, msg_txt(sd,1809));
 	}
 	else {
-		map_setmapflag(sd->bl.m, MF_NOMVPCARD, true);
+		map_setmapflag(sd->m, MF_NOMVPCARD, true);
 		clif_displaymessage(fd, msg_txt(sd,1810));
 	}
 	return 0;
@@ -223,12 +223,12 @@ ACMD_FUNC(attackskill)
 {
 	nullpo_retr(-1, sd);
 
-	if( map_getmapflag(sd->bl.m, MF_NOATTACKSKILL) ) {
-		map_setmapflag(sd->bl.m, MF_NOATTACKSKILL, false);
+	if( map_getmapflag(sd->m, MF_NOATTACKSKILL) ) {
+		map_setmapflag(sd->m, MF_NOATTACKSKILL, false);
 		clif_displaymessage(fd, msg_txt(sd,1811));
 	}
 	else {
-		map_setmapflag(sd->bl.m, MF_NOATTACKSKILL, true);
+		map_setmapflag(sd->m, MF_NOATTACKSKILL, true);
 		clif_displaymessage(fd, msg_txt(sd,1812));
 	}
 	return 0;
@@ -242,12 +242,12 @@ ACMD_FUNC(aoeskill)
 {
 	nullpo_retr(-1, sd);
 
-	if( map_getmapflag(sd->bl.m, MF_NOAOESKILL) ) {
-		map_setmapflag(sd->bl.m, MF_NOAOESKILL, false);
+	if( map_getmapflag(sd->m, MF_NOAOESKILL) ) {
+		map_setmapflag(sd->m, MF_NOAOESKILL, false);
 		clif_displaymessage(fd, msg_txt(sd,1813));
 	}
 	else {
-		map_setmapflag(sd->bl.m, MF_NOAOESKILL, true);
+		map_setmapflag(sd->m, MF_NOAOESKILL, true);
 		clif_displaymessage(fd, msg_txt(sd,1814));
 	}
 
@@ -282,10 +282,10 @@ ACMD_FUNC(playertalk)
 	}
 
 	snprintf(temp, sizeof temp ,"%s : %s", pl_sd->status.name, mes);
-	clif_GlobalMessage(pl_sd->bl, temp, AREA_CHAT_WOC);
+	clif_GlobalMessage(*pl_sd, temp, AREA_CHAT_WOC);
 	clif_displaymessage(pl_sd->fd, temp);
 
-    log_chat(LOG_CHAT_GLOBAL, 0, pl_sd->status.name, pl_sd->status.account_id, mapindex_id2name(pl_sd->mapindex), pl_sd->bl.x, pl_sd->bl.y, nullptr, mes);
+    log_chat(LOG_CHAT_GLOBAL, 0, pl_sd->status.name, pl_sd->status.account_id, mapindex_id2name(pl_sd->mapindex), pl_sd->x, pl_sd->y, nullptr, mes);
 
 	return 0;
 }
@@ -327,9 +327,9 @@ ACMD_FUNC(moche)
 		if (hair_color <= 0) hair_color = 1;
 		if (cloth_color <= 0) cloth_color = 1;
 
-		clif_changelook(&pl_sd->bl, LOOK_HAIR, hair_style);
-		clif_changelook(&pl_sd->bl, LOOK_HAIR_COLOR, hair_color);
-		clif_changelook(&pl_sd->bl, LOOK_CLOTHES_COLOR, cloth_color);
+		clif_changelook(pl_sd, LOOK_HAIR, hair_style);
+		clif_changelook(pl_sd, LOOK_HAIR_COLOR, hair_color);
+		clif_changelook(pl_sd, LOOK_CLOTHES_COLOR, cloth_color);
 		sprintf(mess, msg_txt(sd,1817), pl_sd->status.name);
 		clif_displaymessage(fd, mess);
 	}
@@ -354,15 +354,15 @@ ACMD_FUNC(celebrate)
 	iter = mapit_getallusers();
 
 	for( i = 0; i < 6; i++ )
-		clif_specialeffect(&sd->bl,1038,ALL_CLIENT);
+		clif_specialeffect(sd,1038,ALL_CLIENT);
 
 	for( pl_sd = (TBL_PC*)mapit_first(iter); mapit_exists(iter); pl_sd = (TBL_PC*)mapit_next(iter) ) {
-		if( sd->bl.m == pl_sd->bl.m ) {
-			clif_changelook(&pl_sd->bl, LOOK_HEAD_TOP, 144);
-			clif_specialeffect(&pl_sd->bl,508,AREA);
-			clif_specialeffect(&pl_sd->bl,435,AREA);
+		if( sd->m == pl_sd->m ) {
+			clif_changelook(pl_sd, LOOK_HEAD_TOP, 144);
+			clif_specialeffect(pl_sd,508,AREA);
+			clif_specialeffect(pl_sd,435,AREA);
 			snprintf(temp, sizeof temp ,"%s : CELEBRATE !!!", pl_sd->status.name);
-			clif_GlobalMessage(pl_sd->bl, temp, AREA_CHAT_WOC);
+			clif_GlobalMessage(*pl_sd, temp, AREA_CHAT_WOC);
 			clif_displaymessage(pl_sd->fd, temp);
 		}
 	}
@@ -384,7 +384,7 @@ ACMD_FUNC(trollolol)
 	iter = mapit_getallusers();
 
 	for( pl_sd = (TBL_PC*)mapit_first(iter); mapit_exists(iter); pl_sd = (TBL_PC*)mapit_next(iter) ) {
-		if( sd->bl.m == pl_sd->bl.m && sd != pl_sd )
+		if( sd->m == pl_sd->m && sd != pl_sd )
 			pc_setoption(pl_sd, pl_sd->sc.option|OPTION_ORCISH);
 	}
 	mapit_free(iter);
@@ -404,7 +404,7 @@ ACMD_FUNC(untrollolol)
 	iter = mapit_getallusers();
 
 	for( pl_sd = (TBL_PC*)mapit_first(iter); mapit_exists(iter); pl_sd = (TBL_PC*)mapit_next(iter) ) {
-		if( sd->bl.m == pl_sd->bl.m && sd != pl_sd )
+		if( sd->m == pl_sd->m && sd != pl_sd )
 			pc_setoption(pl_sd, pl_sd->sc.option&~OPTION_ORCISH);
 	}
 	mapit_free(iter);
@@ -446,12 +446,12 @@ ACMD_FUNC(sitstand)
 	if( pc_issit(pl_sd) ) {
 		pc_setstand(pl_sd, true);
 		skill_sit(sd, false);
-		clif_standing(pl_sd->bl);
+		clif_standing(*pl_sd);
 	}
 	else {
 		pc_setsit(pl_sd);
 		skill_sit(sd, true);
-		clif_sitting(pl_sd->bl);
+		clif_sitting(*pl_sd);
 	}
 
  	return 0;
@@ -670,8 +670,8 @@ ACMD_FUNC(shopsearch)
 			for( j = 0; j < pl_sd->vend_num; j++ ) {
 				if( pl_sd->cart.u.items_cart[pl_sd->vending[j].index].nameid == item->nameid ) {
 					// If the item is the same, it will show this? Computer translations are bad.
-					sprintf(output, "Vendeur: %s | Quantit? %d | Prix: %d | Shop: %s | Coord: %d,%d", pl_sd->status.name, pl_sd->vending[j].amount, pl_sd->vending[j].value,pl_sd->message,pl_sd->bl.x,pl_sd->bl.y);
-					clif_viewpoint(*sd, 1, 1, pl_sd->bl.x, pl_sd->bl.y, count+1, 0xFFFFFF);
+					sprintf(output, "Vendeur: %s | Quantit? %d | Prix: %d | Shop: %s | Coord: %d,%d", pl_sd->status.name, pl_sd->vending[j].amount, pl_sd->vending[j].value,pl_sd->message,pl_sd->x,pl_sd->y);
+					clif_viewpoint(*sd, 1, 1, pl_sd->x, pl_sd->y, count+1, 0xFFFFFF);
 					
 					if(pl_sd->vending[j].value < MinPrize)
 						MinPrize = pl_sd->vending[j].value;
@@ -944,7 +944,7 @@ ACMD_FUNC(mobinfo)
 				if (id == nullptr)
 					continue;
 
-				int32 droprate = mob_getdroprate(&sd->bl, mob, entry->rate, drop_modifier);
+				int32 droprate = mob_getdroprate(sd, mob, entry->rate, drop_modifier);
 
 				if (event_drop) { // Stingor
 					droprate = apply_rate(droprate, battle_config.mult_eventdrop);

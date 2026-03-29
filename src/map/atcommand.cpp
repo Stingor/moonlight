@@ -846,7 +846,7 @@ ACMD_FUNC(who) {
 			if( pl_sd->state.vending ) {
 				if (!((pc_has_permission(pl_sd, PC_PERM_HIDE_SESSION) || pc_isinvisible(pl_sd)) && pc_get_group_level(pl_sd) > level)) { // you can look only lower or same level
 					if (stristr(pl_sd->status.name, player_name) == nullptr // search with no case sensitive
-						|| (map_id >= 0 && pl_sd->bl.m != map_id))
+						|| (map_id >= 0 && pl_sd->m != map_id))
 						continue;
 					switch (display_type) {
 						case 2: {
@@ -863,7 +863,7 @@ ACMD_FUNC(who) {
 							StringBuf_Printf(&buf, msg_txt(sd,343), pl_sd->status.name, " (Shop)"); // "Name: %s%s "
 							if (pc_get_group_id(pl_sd) > 0) // Player title, if exists
 								StringBuf_Printf(&buf, msg_txt(sd,344), pl_sd->group->name.c_str()); // "(%s) "
-							StringBuf_Printf(&buf, msg_txt(sd,348), mapindex_id2name(pl_sd->mapindex), pl_sd->bl.x, pl_sd->bl.y); // "| Location: %s %d %d"
+							StringBuf_Printf(&buf, msg_txt(sd,348), mapindex_id2name(pl_sd->mapindex), pl_sd->x, pl_sd->y); // "| Location: %s %d %d"
 							break;
 						}
 						default: {
@@ -9341,7 +9341,7 @@ ACMD_FUNC(invite)
 	memset(atcmd_player_name, '\0', sizeof(atcmd_player_name));
 	memset(atcmd_output, '\0', sizeof(atcmd_output));
 
-	if( sd && map_getmapflag(sd->bl.m, MF_NODUEL) && pc_get_group_id(sd) < 60 ) {	// [Stingor]
+	if( sd && map_getmapflag(sd->m, MF_NODUEL) && pc_get_group_id(sd) < 60 ) {	// [Stingor]
 		clif_displaymessage(fd, msg_txt(sd,803));
 		return 0;
  	}
@@ -9388,7 +9388,7 @@ ACMD_FUNC(duel)
 {
 	uint32 maxpl = 0;
 
-	if( sd && map_getmapflag(sd->bl.m, MF_NODUEL) && pc_get_group_id(sd) < 60 ) {	// [Stingor]
+	if( sd && map_getmapflag(sd->m, MF_NODUEL) && pc_get_group_id(sd) < 60 ) {	// [Stingor]
 		clif_displaymessage(fd, msg_txt(sd,803));
 		return 0;
  	}
@@ -9467,7 +9467,7 @@ ACMD_FUNC(leave)
 
 ACMD_FUNC(accept)
 {
-	if( sd && map_getmapflag(sd->bl.m, MF_NODUEL) && pc_get_group_id(sd) < 60 ) {	// [Stingor]
+	if( sd && map_getmapflag(sd->m, MF_NODUEL) && pc_get_group_id(sd) < 60 ) {	// [Stingor]
 		clif_displaymessage(fd, msg_txt(sd,803));
 		return 0;
  	}

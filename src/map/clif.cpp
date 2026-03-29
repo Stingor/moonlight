@@ -5116,15 +5116,15 @@ void clif_show_wings(map_session_data* sd) // [Stingor]
 {
 	struct s_mapiterator* iter = mapit_getallusers();
 	map_session_data* tsd; 
-		clif_sprite_change(&sd->bl, sd->bl.id, LOOK_HEAD_BOTTOM, wingsdb_search(sd->status.head_bottom), 0, SELF);
-		clif_sprite_change(&sd->bl, sd->bl.id, LOOK_HEAD_TOP, wingsdb_search(sd->status.head_bottom), 0, SELF);
-		clif_sprite_change(&sd->bl, sd->bl.id, LOOK_HEAD_MID, wingsdb_search(sd->status.head_bottom), 0, SELF);
+		clif_sprite_change(sd, sd->id, LOOK_HEAD_BOTTOM, wingsdb_search(sd->status.head_bottom), 0, SELF);
+		clif_sprite_change(sd, sd->id, LOOK_HEAD_TOP, wingsdb_search(sd->status.head_bottom), 0, SELF);
+		clif_sprite_change(sd, sd->id, LOOK_HEAD_MID, wingsdb_search(sd->status.head_bottom), 0, SELF);
 
 	while ((tsd = (TBL_PC*)mapit_next(iter)) != nullptr) {
-		if (sd->bl.m == tsd->bl.m) {
-			clif_sprite_change(&sd->bl, tsd->bl.id, LOOK_HEAD_BOTTOM, wingsdb_search(tsd->status.head_bottom), 0, SELF);
-			clif_sprite_change(&sd->bl, tsd->bl.id, LOOK_HEAD_TOP, wingsdb_search(tsd->status.head_top), 0, SELF);
-			clif_sprite_change(&sd->bl, tsd->bl.id, LOOK_HEAD_MID, wingsdb_search(tsd->status.head_mid), 0, SELF);
+		if (sd->m == tsd->m) {
+			clif_sprite_change(sd, tsd->id, LOOK_HEAD_BOTTOM, wingsdb_search(tsd->status.head_bottom), 0, SELF);
+			clif_sprite_change(sd, tsd->id, LOOK_HEAD_TOP, wingsdb_search(tsd->status.head_top), 0, SELF);
+			clif_sprite_change(sd, tsd->id, LOOK_HEAD_MID, wingsdb_search(tsd->status.head_mid), 0, SELF);
 		}
 	}
 	mapit_free(iter);
@@ -5134,15 +5134,15 @@ void clif_hide_wings(map_session_data* sd) // [Stingor]
 {
 	struct s_mapiterator* iter = mapit_getallusers();
 	map_session_data* tsd;
-	clif_sprite_change(&sd->bl, sd->bl.id, LOOK_HEAD_BOTTOM, sd->status.head_bottom, 0, SELF);
-	clif_sprite_change(&sd->bl, sd->bl.id, LOOK_HEAD_TOP, sd->status.head_top, 0, SELF);
-	clif_sprite_change(&sd->bl, sd->bl.id, LOOK_HEAD_MID, sd->status.head_mid, 0, SELF);
+	clif_sprite_change(sd, sd->id, LOOK_HEAD_BOTTOM, sd->status.head_bottom, 0, SELF);
+	clif_sprite_change(sd, sd->id, LOOK_HEAD_TOP, sd->status.head_top, 0, SELF);
+	clif_sprite_change(sd, sd->id, LOOK_HEAD_MID, sd->status.head_mid, 0, SELF);
 
 	while ((tsd = (TBL_PC*)mapit_next(iter)) != nullptr) {
-		if (sd->bl.m == tsd->bl.m) {
-			clif_sprite_change(&sd->bl, tsd->bl.id, LOOK_HEAD_BOTTOM, tsd->status.head_bottom, 0, SELF);
-			clif_sprite_change(&sd->bl, tsd->bl.id, LOOK_HEAD_TOP, tsd->status.head_top, 0, SELF);
-			clif_sprite_change(&sd->bl, tsd->bl.id, LOOK_HEAD_MID, tsd->status.head_mid, 0, SELF);
+		if (sd->m == tsd->m) {
+			clif_sprite_change(sd, tsd->id, LOOK_HEAD_BOTTOM, tsd->status.head_bottom, 0, SELF);
+			clif_sprite_change(sd, tsd->id, LOOK_HEAD_TOP, tsd->status.head_top, 0, SELF);
+			clif_sprite_change(sd, tsd->id, LOOK_HEAD_MID, tsd->status.head_mid, 0, SELF);
 		}
 	}
 	mapit_free(iter);
@@ -5222,9 +5222,9 @@ void clif_getareachar_unit( map_session_data* sd,struct block_list *bl ){
 			clif_efst_status_change_sub(sd, bl, SELF);
 			clif_progressbar_npc(nd, sd);
 			if( pcdb_checkid(nd->vd.class_) && nd->sitted ) // [Stingor]
-				clif_sitting(nd->bl);
+				clif_sitting(*nd);
 			else
-				clif_standing(nd->bl);
+				clif_standing(*nd);
 		}
 		break;
 	case BL_MOB:
@@ -10909,7 +10909,7 @@ void clif_parse_LoadEndAck(int32 fd,map_session_data *sd)
 	if( sd->bg_id ) clif_bg_hp(sd); // BattleGround System
 
 	// [Stingor] -->
-	status_calc_bl_(&sd->bl, SCB_ASPD, SCO_FORCE);
+	status_calc_bl_(sd, SCB_ASPD, SCO_FORCE);
 	clif_updatestatus(*sd, SP_ASPD);
 	// [Stingor] <--
 
@@ -11472,7 +11472,7 @@ void clif_parse_WalkToXY(int32 fd, map_session_data *sd)
 	}
 	else {
 	if (pc_isdead(sd)) {
-		clif_clearunit_area(sd, CLR_DEAD);
+		clif_clearunit_area(*sd, CLR_DEAD);
 		return;
 	}
 
@@ -14346,9 +14346,9 @@ void clif_parse_OpenVending(int32 fd, map_session_data* sd){
 		return;
 	}
 
-	if( sd->bl.m == map_mapname2mapid(MAP_GONRYUN)
-		&& (sd->bl.x >= battle_config.shopx1 && sd->bl.x <= battle_config.shopx2)
-		&& (sd->bl.y >= battle_config.shopy1 && sd->bl.y <= battle_config.shopy2)
+	if( sd->m == map_mapname2mapid(MAP_GONRYUN)
+		&& (sd->x >= battle_config.shopx1 && sd->x <= battle_config.shopx2)
+		&& (sd->y >= battle_config.shopy1 && sd->y <= battle_config.shopy2)
 		&& pc_get_group_level(sd) <= 80
 		) { // [Stingor] ne devrait pas arriver
 		clif_displaymessage(sd->fd, msg_txt(sd, 1833));
@@ -16558,7 +16558,7 @@ void clif_Mail_read( map_session_data *sd, int32 mail_id ){
 /// 0241 <mail id>.L (CZ_MAIL_OPEN)
 /// 09ea <mail tab>.B <mail id>.Q (CZ_REQ_READ_MAIL)
 void clif_parse_Mail_read(int32 fd, map_session_data *sd){
-	if( map_getmapflag(sd->bl.m, MF_NOMAIL) ) // [Stingor]
+	if( map_getmapflag(sd->m, MF_NOMAIL) ) // [Stingor]
 		return;
 #if PACKETVER < 20150513
 	int32 mail_id = RFIFOL(fd,packet_db[RFIFOW(fd,0)].pos[0]);

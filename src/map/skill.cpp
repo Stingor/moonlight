@@ -967,9 +967,9 @@ bool skill_isNotOk( uint16 skill_id, map_session_data& sd ){
 				return true;
 			}
 			
-			if( sd.bl.m == map_mapname2mapid(MAP_GONRYUN)
-				&& sd.bl.x >= battle_config.shopx1 && sd.bl.x <= battle_config.shopx2
-				&& sd.bl.y >= battle_config.shopy1 && sd.bl.y <= battle_config.shopy2
+			if( sd.m == map_mapname2mapid(MAP_GONRYUN)
+				&& sd.x >= battle_config.shopx1 && sd.x <= battle_config.shopx2
+				&& sd.y >= battle_config.shopy1 && sd.y <= battle_config.shopy2
 				&& pc_get_group_level(&sd) <= 80
 				) { // [Stingor]
 				clif_displaymessage (sd.fd, msg_txt(&sd,1833));
@@ -9402,7 +9402,7 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 	case SL_KAITE:
 	case SL_KAAHI:
 	case SL_KAIZEL:
-		if( sd && skill_id == SL_KAIZEL && map_flag_vs(sd->bl.m) ) // [Stingor]
+		if( sd && skill_id == SL_KAIZEL && map_flag_vs(sd->m) ) // [Stingor]
 			skill_blockpc_start(*sd, SL_KAIZEL, battle_config.kaizel_cd);
 	case SL_KAUPE:
 	case SP_KAUTE:
@@ -10179,7 +10179,7 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 							continue; //If in song area don't end it, even if config enabled
 						break;
 					case SC_KNOWLEDGE:
-						if( !battle_config.dispell_knowledge && !map_flag_vs(dstsd->bl.m) )
+						if( !battle_config.dispell_knowledge && !map_flag_vs(dstsd->m) )
 							continue;
 						break;
 					case SC_ASSUMPTIO:
@@ -11185,10 +11185,10 @@ int32 skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, 
 			clif_feel_req(sd->fd,sd, skill_lv);
 
 			if ((lv = pc_checkskill(sd,SG_KNOWLEDGE)) > 0) {
-				if(sd->bl.m == sd->feel_map[0].m
-					|| sd->bl.m == sd->feel_map[1].m
-					|| sd->bl.m == sd->feel_map[2].m)
-					sc_start(&sd->bl,&sd->bl, SC_KNOWLEDGE, 100, lv, skill_get_time(SG_KNOWLEDGE, lv));
+				if(sd->m == sd->feel_map[0].m
+					|| sd->m == sd->feel_map[1].m
+					|| sd->m == sd->feel_map[2].m)
+					sc_start(src, src, SC_KNOWLEDGE, 100, lv, skill_get_time(SG_KNOWLEDGE, lv));
 			}
 			// [Stingor] <--
 		}
@@ -17262,7 +17262,7 @@ int32 skill_unit_onplace_timer(struct skill_unit *unit, struct block_list *bl, t
 				// [Stingor] -->
 				if (heal && md && md->mob_id == MOBID_EMPERIUM) {
 					status_heal(bl, battle_config.emp_sanctu_hp, 0, 0);
-					clif_skill_nodamage(&unit->bl, *bl, AL_HEAL, battle_config.emp_sanctu_hp);
+					clif_skill_nodamage(unit, *bl, AL_HEAL, battle_config.emp_sanctu_hp);
 					break;
 				}
 				// [Stingor] <--
@@ -17505,7 +17505,7 @@ int32 skill_unit_onplace_timer(struct skill_unit *unit, struct block_list *bl, t
 				heal = skill_calc_heal(ss,bl,sg->skill_id, sg->skill_lv, true);
 				if (heal && md && md->mob_id == MOBID_EMPERIUM ) { // [Stingor]
 					status_heal(bl, battle_config.emp_sanctu_hp, 0, 0);
-					clif_skill_nodamage(&unit->bl, *bl, AL_HEAL, battle_config.emp_sanctu_hp);
+					clif_skill_nodamage(unit, *bl, AL_HEAL, battle_config.emp_sanctu_hp);
 					break;
 				}
 				if (tsc->getSCE(SC_AKAITSUKI) && heal)
@@ -20079,7 +20079,7 @@ struct s_skill_condition skill_get_requirement(map_session_data* sd, uint16 skil
 
 	req.hp = skill->require.hp[skill_lv - 1];
 	hp_rate = skill->require.hp_rate[skill_lv - 1];
-	if( skill_id == CR_GRANDCROSS && status->def_ele == ELE_HOLY && !map_flag_vs(sd->bl.m) ) // [Stingor]
+	if( skill_id == CR_GRANDCROSS && status->def_ele == ELE_HOLY && !map_flag_vs(sd->m) ) // [Stingor]
 		req.hp = status->hp/100;
 	else if(hp_rate > 0)
 		req.hp += (status->hp * hp_rate)/100;
@@ -20148,7 +20148,7 @@ struct s_skill_condition skill_get_requirement(map_session_data* sd, uint16 skil
 
 	req.zeny = skill->require.zeny[skill_lv-1];
 
-	if( sd->special_state.no_zeny && !map_flag_vs(sd->bl.m) )	// [Stingor]
+	if( sd->special_state.no_zeny && !map_flag_vs(sd->m) )	// [Stingor]
 		req.zeny = 0;
 
 	if( sc && sc->getSCE(SC__UNLUCKY) ) {
@@ -20175,7 +20175,7 @@ struct s_skill_condition skill_get_requirement(map_session_data* sd, uint16 skil
 		req.ammo_qty = 1;
 	}
 
-	if( sd->special_state.no_ammo && !map_flag_vs(sd->bl.m) ) // [Stingor]
+	if( sd->special_state.no_ammo && !map_flag_vs(sd->m) ) // [Stingor]
 		req.ammo_qty = 0;
 
 	req.status = skill->require.status;
@@ -20285,7 +20285,7 @@ struct s_skill_condition skill_get_requirement(map_session_data* sd, uint16 skil
 					case ITEMID_ICE_STONE:
 					case ITEMID_WIND_STONE:
 					case ITEMID_SHADOW_ORB:
-						if ( sd->special_state.no_item && !map_flag_vs(sd->bl.m) )
+						if ( sd->special_state.no_item && !map_flag_vs(sd->m) )
 							req.itemid[i] = req.amount[i] = 0;
 						break;
 				}
@@ -20301,12 +20301,12 @@ struct s_skill_condition skill_get_requirement(map_session_data* sd, uint16 skil
 					case AM_CANNIBALIZE:
 					case CR_FULLPROTECTION:
 					case CR_ACIDDEMONSTRATION:
-						if ( sd->special_state.no_bottle && !map_flag_vs(sd->bl.m) )
+						if ( sd->special_state.no_bottle && !map_flag_vs(sd->m) )
 							req.itemid[i] = req.amount[i] = 0;
 						break;
 					case AM_POTIONPITCHER:
 					case CR_SLIMPITCHER:
-						if ( sd->special_state.no_bottle && !map_flag_vs(sd->bl.m) )
+						if ( sd->special_state.no_bottle && !map_flag_vs(sd->m) )
 							req.amount[i] = 0;
 						break;
 				}
@@ -20327,7 +20327,7 @@ struct s_skill_condition skill_get_requirement(map_session_data* sd, uint16 skil
 #else
 				req.zeny -= req.zeny*10/100;
 #endif
-			if( sd->special_state.no_zeny && !map_flag_vs(sd->bl.m) ) // [Stingor]
+			if( sd->special_state.no_zeny && !map_flag_vs(sd->m) ) // [Stingor]
 				req.zeny = 0;
 			break;
 		case AL_HOLYLIGHT:

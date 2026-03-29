@@ -9482,9 +9482,9 @@ void status_set_viewdata(struct block_list *bl, int32 class_)
 				ShowDebug( "Source (NPC): %s is located in: %s\n", nd->name, nd->path );
 			}
 			if( pcdb_checkid(nd->vd.class_) && nd->sitted ) // [Stingor]
-				clif_sitting(nd->bl);
+				clif_sitting(*nd);
 			else
-				clif_standing(nd->bl);
+				clif_standing(*nd);
 			break;
 		}
 	break;

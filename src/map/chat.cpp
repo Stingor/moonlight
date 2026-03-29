@@ -91,7 +91,7 @@ int32 chat_createpcchat(map_session_data* sd, const char* title, const char* pas
 		return 0; //Can't create chatrooms on this map.
 	}
 	
-	if( sd->bl.m == map_mapname2mapid(MAP_GONRYUN) && sd->bl.y <= 131 && pc_get_group_id(sd) < 40 ) { // [Stingor]
+	if( sd->m == map_mapname2mapid(MAP_GONRYUN) && sd->y <= 131 && pc_get_group_id(sd) < 40 ) { // [Stingor]
 		clif_displaymessage(sd->fd, msg_txt(sd,1834));
 		return 0;
 	}

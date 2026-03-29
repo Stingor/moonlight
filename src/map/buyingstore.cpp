@@ -252,14 +252,14 @@ int8 buyingstore_create( map_session_data* sd, int32 zenylimit, unsigned char re
 	clif_buyingstore_entry( *sd );
 
 	if( battle_config.setcellnovend ) { // [Stingor]
-		map_setcell(sd->bl.m, sd->bl.x + 1, sd->bl.y + 1,	CELL_NOVENDING, true);
-		map_setcell(sd->bl.m, sd->bl.x - 1, sd->bl.y - 1,	CELL_NOVENDING, true);
-		map_setcell(sd->bl.m, sd->bl.x,		sd->bl.y + 1,	CELL_NOVENDING, true);
-		map_setcell(sd->bl.m, sd->bl.x + 1, sd->bl.y,		CELL_NOVENDING, true);
-		map_setcell(sd->bl.m, sd->bl.x,		sd->bl.y - 1,	CELL_NOVENDING, true);
-		map_setcell(sd->bl.m, sd->bl.x - 1, sd->bl.y,		CELL_NOVENDING, true);
-		map_setcell(sd->bl.m, sd->bl.x - 1, sd->bl.y + 1,	CELL_NOVENDING, true);
-		map_setcell(sd->bl.m, sd->bl.x + 1, sd->bl.y - 1,	CELL_NOVENDING, true);
+		map_setcell(sd->m, sd->x + 1, sd->y + 1,	CELL_NOVENDING, true);
+		map_setcell(sd->m, sd->x - 1, sd->y - 1,	CELL_NOVENDING, true);
+		map_setcell(sd->m, sd->x,	  sd->y + 1,	CELL_NOVENDING, true);
+		map_setcell(sd->m, sd->x + 1, sd->y,		CELL_NOVENDING, true);
+		map_setcell(sd->m, sd->x,	  sd->y - 1,	CELL_NOVENDING, true);
+		map_setcell(sd->m, sd->x - 1, sd->y,		CELL_NOVENDING, true);
+		map_setcell(sd->m, sd->x - 1, sd->y + 1,	CELL_NOVENDING, true);
+		map_setcell(sd->m, sd->x + 1, sd->y - 1,	CELL_NOVENDING, true);
 	}
 
 	idb_put(buyingstore_db, sd->status.char_id, sd);
@@ -291,14 +291,14 @@ void buyingstore_close(map_session_data* sd) {
 		clif_buyingstore_disappear_entry( *sd );
 
 		if( battle_config.setcellnovend ) { // [Stingor]
-			map_setcell(sd->bl.m, sd->bl.x + 1, sd->bl.y + 1,	CELL_NOVENDING, false);
-			map_setcell(sd->bl.m, sd->bl.x - 1, sd->bl.y - 1,	CELL_NOVENDING, false);
-			map_setcell(sd->bl.m, sd->bl.x,		sd->bl.y + 1,	CELL_NOVENDING, false);
-			map_setcell(sd->bl.m, sd->bl.x + 1, sd->bl.y,		CELL_NOVENDING, false);
-			map_setcell(sd->bl.m, sd->bl.x,		sd->bl.y - 1,	CELL_NOVENDING, false);
-			map_setcell(sd->bl.m, sd->bl.x - 1, sd->bl.y,		CELL_NOVENDING, false);
-			map_setcell(sd->bl.m, sd->bl.x - 1, sd->bl.y + 1,	CELL_NOVENDING, false);
-			map_setcell(sd->bl.m, sd->bl.x + 1, sd->bl.y - 1,	CELL_NOVENDING, false);
+			map_setcell(sd->m, sd->x + 1, sd->y + 1,	CELL_NOVENDING, false);
+			map_setcell(sd->m, sd->x - 1, sd->y - 1,	CELL_NOVENDING, false);
+			map_setcell(sd->m, sd->x,	  sd->y + 1,	CELL_NOVENDING, false);
+			map_setcell(sd->m, sd->x + 1, sd->y,		CELL_NOVENDING, false);
+			map_setcell(sd->m, sd->x,	  sd->y - 1,	CELL_NOVENDING, false);
+			map_setcell(sd->m, sd->x - 1, sd->y,		CELL_NOVENDING, false);
+			map_setcell(sd->m, sd->x - 1, sd->y + 1,	CELL_NOVENDING, false);
+			map_setcell(sd->m, sd->x + 1, sd->y - 1,	CELL_NOVENDING, false);
 		}
 	}
 }
