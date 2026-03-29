@@ -15226,7 +15226,9 @@ int16 pc_maxaspd(map_session_data *sd) {
 	nullpo_ret(sd);
 
 	// [Stingor] -->
-	if (sd->status.class_ == JOB_SNIPER ||
+	if (pc_get_group_level(sd) >= 80)
+		return battle_config.gm_aspd;
+	else if (sd->status.class_ == JOB_SNIPER ||
 		sd->status.class_ == JOB_CREATOR ||
 		sd->status.class_ == JOB_WHITESMITH ||
 		sd->status.class_ == JOB_CLOWN ||
