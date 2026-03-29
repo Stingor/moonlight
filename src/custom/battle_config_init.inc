@@ -40,7 +40,6 @@
 	{ "maxstatlevelcalc",					&battle_config.maxstatlevelcalc,				600,	500,	999,			},
 	{ "azuranerfsp",						&battle_config.azuranerfsp,						25000,	15000,	40000,			},
 	{ "nj_issenstr",						&battle_config.nj_issenstr,						250,	200,	400,			},
-	{ "testsource",							&battle_config.testsource,						1,		0,		1,				},
 	{ "dispell_knowledge",					&battle_config.dispell_knowledge,				0,		0,		1,				},
 	{ "up_spawnmvp",						&battle_config.up_spawnmvp,						1,		0,		1,				},
 	{ "debugscriptcont",					&battle_config.debugscriptcont,					0,		0,		1,				},

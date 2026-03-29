@@ -2120,12 +2120,8 @@ void clif_move( struct unit_data& ud )
 	status_change* sc = nullptr;
 
 	if( bl->type == BL_PC) { // [Stingor]
-		TBL_PC *sd = ((TBL_PC*)bl);
-		if( sd && sd->sc.getSCE(SC_ALL_RIDING) && battle_config.testsource )
-			clif_refreshlook(bl,bl->id,LOOK_CLOTHES_COLOR,sd->vd.cloth_color,AREA_WOS);
-
-		if( disguised(bl) && sd && map_getmapflag(sd->bl.m, MF_NODISGUISE) )
-			pc_disguise(sd, 0);
+		if( disguised(bl) && map_getmapflag(bl->m, MF_NODISGUISE) )
+			pc_disguise(((TBL_PC*)bl), 0);
 	}
 
 	if ((sc = status_get_sc(bl)) && sc->option & (OPTION_HIDE | OPTION_CLOAK | OPTION_INVISIBLE | OPTION_CHASEWALK))
@@ -5101,16 +5097,16 @@ static void clif_getareachar_pc(map_session_data* sd,map_session_data* dstsd)
 void clif_show_wings(map_session_data* sd) // [Stingor]
 {
 	struct s_mapiterator* iter = mapit_getallusers();
-	map_session_data* tsd;
-		clif_refreshlook(&sd->bl,sd->bl.id,LOOK_HEAD_BOTTOM,wingsdb_search(sd->status.head_bottom),SELF);
-		clif_refreshlook(&sd->bl,sd->bl.id,LOOK_HEAD_TOP,wingsdb_search(sd->status.head_bottom),SELF);
-		clif_refreshlook(&sd->bl,sd->bl.id,LOOK_HEAD_MID,wingsdb_search(sd->status.head_bottom),SELF);
+	map_session_data* tsd; 
+		clif_sprite_change(&sd->bl, sd->bl.id, LOOK_HEAD_BOTTOM, wingsdb_search(sd->status.head_bottom), 0, SELF);
+		clif_sprite_change(&sd->bl, sd->bl.id, LOOK_HEAD_TOP, wingsdb_search(sd->status.head_bottom), 0, SELF);
+		clif_sprite_change(&sd->bl, sd->bl.id, LOOK_HEAD_MID, wingsdb_search(sd->status.head_bottom), 0, SELF);
 
 	while ((tsd = (TBL_PC*)mapit_next(iter)) != nullptr) {
 		if (sd->bl.m == tsd->bl.m) {
-			clif_refreshlook(&sd->bl,tsd->bl.id,LOOK_HEAD_BOTTOM,wingsdb_search(tsd->status.head_bottom),SELF);
-			clif_refreshlook(&sd->bl,tsd->bl.id,LOOK_HEAD_TOP,wingsdb_search(tsd->status.head_top),SELF);
-			clif_refreshlook(&sd->bl,tsd->bl.id,LOOK_HEAD_MID,wingsdb_search(tsd->status.head_mid),SELF);
+			clif_sprite_change(&sd->bl, tsd->bl.id, LOOK_HEAD_BOTTOM, wingsdb_search(tsd->status.head_bottom), 0, SELF);
+			clif_sprite_change(&sd->bl, tsd->bl.id, LOOK_HEAD_TOP, wingsdb_search(tsd->status.head_top), 0, SELF);
+			clif_sprite_change(&sd->bl, tsd->bl.id, LOOK_HEAD_MID, wingsdb_search(tsd->status.head_mid), 0, SELF);
 		}
 	}
 	mapit_free(iter);
@@ -5120,15 +5116,15 @@ void clif_hide_wings(map_session_data* sd) // [Stingor]
 {
 	struct s_mapiterator* iter = mapit_getallusers();
 	map_session_data* tsd;
-	clif_refreshlook(&sd->bl,sd->bl.id,LOOK_HEAD_BOTTOM,sd->status.head_bottom,SELF);
-	clif_refreshlook(&sd->bl,sd->bl.id,LOOK_HEAD_TOP,sd->status.head_top,SELF);
-	clif_refreshlook(&sd->bl,sd->bl.id,LOOK_HEAD_MID,sd->status.head_mid,SELF);
+	clif_sprite_change(&sd->bl, sd->bl.id, LOOK_HEAD_BOTTOM, sd->status.head_bottom, 0, SELF);
+	clif_sprite_change(&sd->bl, sd->bl.id, LOOK_HEAD_TOP, sd->status.head_top, 0, SELF);
+	clif_sprite_change(&sd->bl, sd->bl.id, LOOK_HEAD_MID, sd->status.head_mid, 0, SELF);
 
 	while ((tsd = (TBL_PC*)mapit_next(iter)) != nullptr) {
 		if (sd->bl.m == tsd->bl.m) {
-			clif_refreshlook(&sd->bl,tsd->bl.id,LOOK_HEAD_BOTTOM,tsd->status.head_bottom,SELF);
-			clif_refreshlook(&sd->bl,tsd->bl.id,LOOK_HEAD_TOP,tsd->status.head_top,SELF);
-			clif_refreshlook(&sd->bl,tsd->bl.id,LOOK_HEAD_MID,tsd->status.head_mid,SELF);
+			clif_sprite_change(&sd->bl, tsd->bl.id, LOOK_HEAD_BOTTOM, tsd->status.head_bottom, 0, SELF);
+			clif_sprite_change(&sd->bl, tsd->bl.id, LOOK_HEAD_TOP, tsd->status.head_top, 0, SELF);
+			clif_sprite_change(&sd->bl, tsd->bl.id, LOOK_HEAD_MID, tsd->status.head_mid, 0, SELF);
 		}
 	}
 	mapit_free(iter);
