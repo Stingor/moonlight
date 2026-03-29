@@ -455,7 +455,7 @@ public:
 		bool autolootmvp: 1;
 		bool autolootmvpreward: 1;
 		bool autolootrare: 1;
-		unsigned int autolootpognon;
+		uint32 autolootpognon;
 		// [Stingor] <--
 		// Bitmask of e_pcblock_action_flag values
 		uint16 block_action;
