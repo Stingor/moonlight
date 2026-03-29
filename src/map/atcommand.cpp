@@ -9456,7 +9456,7 @@ ACMD_FUNC(reject)
 }
 
 /*===================================
- * vote
+ * Cash Points
  *-----------------------------------*/
 /*ACMD_FUNC(cash)
 {
@@ -9467,7 +9467,7 @@ ACMD_FUNC(reject)
 
 	// Since there is no cashpoint update packet we need to force updating like this
 	if( sd->state.cashshop_open ){
-		clif_displaymessage(fd, msg_txt(sd, 1376)); // Please close the vot'shop before using this command.
+		clif_displaymessage(fd, msg_txt(sd, 1376)); // Please close the cashshop before using this command.
 		return -1;
 	}
 
