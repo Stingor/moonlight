@@ -130,7 +130,7 @@ OnPCKillEvent:
 
 	if (strcharinfo(0) == rid2name(killedrid) ) { end; }
 
-	.@d_cid = getcharid(0,rid2name(killedrid);
+	.@d_cid = getcharid(0,rid2name(killedrid));
 
 	if( strcharinfo(3) != "pvp_n_3-5")
 		end;
