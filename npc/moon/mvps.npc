@@ -170,11 +170,11 @@ OnTimer7200000: // delay1 = 7200000 ms (120 min)
 OnInit:
 	// Summon a random MVP on
 	.@mob = rand(1646,1651);
-	monster "lhz_dun03",0,0,strmobinfo(1,.@mob),.@mob,1,strnpcinfo(3)+"::OnMyMVPDead";
+	monster "lhz_dun03",0,0,getmonsterinfo(.@mob, MOB_NAME),.@mob,1,strnpcinfo(3)+"::OnMyMVPDead";
 
 	// Summon a random 99 on
 	.@mob = rand(1640,1645);
-	monster "lhz_dun03",0,0,strmobinfo(1,.@mob),.@mob,1,strnpcinfo(3)+"::OnMy99Dead";
+	monster "lhz_dun03",0,0,getmonsterinfo(.@mob, MOB_NAME),.@mob,1,strnpcinfo(3)+"::OnMy99Dead";
 	end;
 
 OnMyMVPDead:
@@ -192,11 +192,11 @@ OnTimer7200000: // delay1 = 7200000 ms (120 min)
 OnInit:
 	// Summon a random MVP
 	.@mob = rand(2235,2241);
-	monster "lhz_dun04",0,0,strmobinfo(1,.@mob),.@mob,1,strnpcinfo(3)+"::OnMyMVPDead";
+	monster "lhz_dun04",0,0,getmonsterinfo(.@mob, MOB_NAME),.@mob,1,strnpcinfo(3)+"::OnMyMVPDead";
 
 	// Summon a random 99
 	.@mob = rand(2228,2234);
-	monster "lhz_dun04",0,0,strmobinfo(1,.@mob),.@mob,1,strnpcinfo(3)+"::OnMy99Dead";
+	monster "lhz_dun04",0,0,getmonsterinfo(.@mob, MOB_NAME),.@mob,1,strnpcinfo(3)+"::OnMy99Dead";
 	end;
 
 OnMyMVPDead:

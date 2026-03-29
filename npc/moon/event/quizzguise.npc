@@ -251,13 +251,10 @@ OnModQuizzAuto:
 		else break;
 	}
 	
-	.pattern1$ = "([^:]+):.*\\s"+strmobinfo(1,.mob_id);
-	.pattern2$ = "([^:]+):.*\\s"+strmobinfo(2,.mob_id);
+	.pattern1$ = "([^:]+):.*\\s"+getmonsterinfo(.mob_id, MOB_NAME);
+	.pattern2$ = "([^:]+):.*\\s"+getmonsterinfo(.mob_id, MOB_NAME);
 	
-	if( strmobinfo(1,.mob_id) == strmobinfo(2,.mob_id) )
-		.mob_name$ = strmobinfo(1,.mob_id);
-	else
-		.mob_name$ = strmobinfo(1,.mob_id)+"(English name) ou "+strmobinfo(2,.mob_id)+"(Japan name)";
+	.mob_name$ = getmonsterinfo(.mob_id, MOB_NAME);
 	
 	defpattern 1, .pattern1$, "L_quizz";
 	defpattern 1, .pattern2$, "L_quizz";
@@ -276,11 +273,11 @@ OnTimer30000:
 	if( .readytogo == 1 ) {
 		mapannounce "gonryun","QuizzGuise : Quel est ce mob ?",1,0xFAB145;
 		query_sql("INSERT INTO `discord` (`text`, `image`) VALUES ('QuizzGuise : Quel est ce mob ?', 'http://www.moonlight-destiny.fr/ressources/images/mobs_npcs/"+.mob_id+".gif');");
-		if( isloggedin(2000001,150000) ) dispbottom .mob_id+" -> "+strmobinfo(1,.mob_id)+" ou "+strmobinfo(2,.mob_id),0xFFA000,150000;
-		if( isloggedin(2000006,150117) ) dispbottom "Message visible par GM : "+.mob_id+" -> "+strmobinfo(1,.mob_id)+" ou "+strmobinfo(2,.mob_id),0xFFA000,150117;
-		if( isloggedin(2000010,150030) ) dispbottom "Message visible par GM : "+.mob_id+" -> "+strmobinfo(1,.mob_id)+" ou "+strmobinfo(2,.mob_id),0xFFA000,150030;
-		if( isloggedin(2002047,150818) ) dispbottom "Message visible par GM : "+.mob_id+" -> "+strmobinfo(1,.mob_id)+" ou "+strmobinfo(2,.mob_id),0xFFA000,150818;
-		if( isloggedin(2003450,150621) ) dispbottom "Message visible par GM : "+.mob_id+" -> "+strmobinfo(1,.mob_id)+" ou "+strmobinfo(2,.mob_id),0xFFA000,150621;
+		if( isloggedin(2000001,150000) ) dispbottom .mob_id+" -> "+getmonsterinfo(.mob_id, MOB_NAME),0xFFA000,150000;
+		if( isloggedin(2000006,150117) ) dispbottom "Message visible par GM : "+.mob_id+" -> "+getmonsterinfo(.mob_id, MOB_NAME),0xFFA000,150117;
+		if( isloggedin(2000010,150030) ) dispbottom "Message visible par GM : "+.mob_id+" -> "+getmonsterinfo(.mob_id, MOB_NAME),0xFFA000,150030;
+		if( isloggedin(2002047,150818) ) dispbottom "Message visible par GM : "+.mob_id+" -> "+getmonsterinfo(.mob_id, MOB_NAME),0xFFA000,150818;
+		if( isloggedin(2003450,150621) ) dispbottom "Message visible par GM : "+.mob_id+" -> "+getmonsterinfo(.mob_id, MOB_NAME),0xFFA000,150621;
 		initnpctimer;
 	}
 	end;

@@ -321,8 +321,8 @@ Mission_Status:
 	deletearray .@j[0], getarraysize(.@j);
 	for( .@i = 0; .@i < .Quests; .@i++ ) {
 		.@j[.@i] = getd("Mission" + .@i);
-		.@j[.Quests] = .@j[.Quests] + strmobinfo(3,.@j[.@i]);
-		mes " > "+Chk(getd("Mission"+.@i+"_"),#Mission_Count) + strmobinfo(1,.@j[.@i]) + " [id:" + .@j[.@i] + "] - (" + getd("Mission"+.@i+"_") + "/" + #Mission_Count + ")^000000";
+		.@j[.Quests] = .@j[.Quests] + getmonsterinfo(.@j[.@i], MOB_NAME);
+		mes " > "+Chk(getd("Mission"+.@i+"_"),#Mission_Count) + getmonsterinfo(.@j[.@i], MOB_NAME) + " [id:" + .@j[.@i] + "] - (" + getd("Mission"+.@i+"_") + "/" + #Mission_Count + ")^000000";
 	}
 
 	// Zeny formula:
@@ -360,7 +360,7 @@ Mission_Status:
 	}
 	else 
 		dispbottom "Vous ne gagnez pas de zeny car vous êtes au max.";
-	logmes "Termine sa mission ["+.@prepoints+"->"+#KAFRAPOINTS+"]: "+strmobinfo(1,Mission0)+"("+Mission0+") - "+strmobinfo(1,Mission1)+"("+Mission1+") - "+strmobinfo(1,Mission2)+"("+Mission2+")";
+	logmes "Termine sa mission ["+.@prepoints+"->"+#KAFRAPOINTS+"]: "+getmonsterinfo(Mission0, MOB_NAME)+"("+Mission0+") - "+getmonsterinfo(Mission1, MOB_NAME)+"("+Mission1+") - "+getmonsterinfo(Mission2, MOB_NAME)+"("+Mission2+")";
 
 	for( .@i = 0; .@i < .Quests; .@i++ ) {
 		setd "Mission" + .@i, 0;
@@ -381,7 +381,7 @@ Mission_Status_MVP:
 	}
 	@f = false;
 	deletearray .@j[0], getarraysize(.@j);
-	mes "Wanted: "+Chk(Mission_MVP,1) + strmobinfo(1,.mvps[Mission_MVP_ID-2]) + " [id:" + .mvps[Mission_MVP_ID-2] + "] - (" + Mission_MVP + "/1)^000000";
+	mes "Wanted: "+Chk(Mission_MVP,1) + getmonsterinfo(.mvps[Mission_MVP_ID-2], MOB_NAME) + " [id:" + .mvps[Mission_MVP_ID-2] + "] - (" + Mission_MVP + "/1)^000000";
 
 	// Zeny formula:
 	.@Zeny = .mvps[Mission_MVP_ID-1] * 1000000;
@@ -429,7 +429,7 @@ Mission_Status_MVP:
 	}
 	#KAFRAPOINTS += .@pointss;
 	dispbottom "Vous gagnez "+.mvps[Mission_MVP_ID-1]+" points d'event et 1 Convex Mirror.";
-	logmes "Termine sa mission MVP à ["+.@prepoints+"->"+#KAFRAPOINTS+"] pts: "+strmobinfo(1,.mvps[Mission_MVP_ID-2]);
+	logmes "Termine sa mission MVP à ["+.@prepoints+"->"+#KAFRAPOINTS+"] pts: "+getmonsterinfo(.mvps[Mission_MVP_ID-2], MOB_NAME);
 	Mission_MVP_ID = 0;
 	emotion ET_BEST;
 	specialeffect2 68;
@@ -480,10 +480,10 @@ OnNPCKillEvent:
 			end;
 
 		for( .@i = 0; .@i < .Quests; .@i++ ) {
-			if( strmobinfo(1,killedrid) == strmobinfo(1,getd("Mission" + .@i)) ) {
+			if( getmonsterinfo(killedrid, MOB_NAME) == getmonsterinfo(getd("Mission" + .@i), MOB_NAME) ) {
 				if( getd("Mission" + .@i + "_") < #Mission_Count ) {
 					dispbottom "[Mission de chasse] Tué " + (set(getd("Mission" + .@i + "_"),getd("Mission" + .@i + "_") + 1)) +
-					           " de " + #Mission_Count + " " + strmobinfo(1,killedrid) + ".";
+					           " de " + #Mission_Count + " " + getmonsterinfo(killedrid, MOB_NAME) + ".";
 					end;
 				}
 			}
@@ -506,10 +506,10 @@ OnNPCKillEvent:
 						for( .@j = 0; .@j < .Quests; .@j++ ) {
 							.@my_mob_id = getvar( getd("Mission"+.@j),$@partymembercid[.@i] );
 							.@my_count = getvar( getd("Mission"+.@j+"_"), $@partymembercid[.@i] );
-							if( strmobinfo(1,.@mob) == strmobinfo(1,.@my_mob_id) ) {
+							if( getmonsterinfo(.@mob, MOB_NAME) == getmonsterinfo(.@my_mob_id, MOB_NAME) ) {
 								if( .@my_count < .@Mission_Count ) {
 									setd "Mission"+.@j+"_", (.@my_count+1), $@partymembercid[.@i];
-									dispbottom "[Mission de chasse] Tué " + (.@my_count+1) + " de " + .@Mission_Count + " " + strmobinfo(1,.@mob) + ".", 0x777777, $@partymembercid[.@i];
+									dispbottom "[Mission de chasse] Tué " + (.@my_count+1) + " de " + .@Mission_Count + " " + getmonsterinfo(.@mob, MOB_NAME) + ".", 0x777777, $@partymembercid[.@i];
 									break;
 								}
 							}

@@ -49,13 +49,13 @@ OnStart:
 	.m = rand( getarraysize(.mobs) );
 	$eventcafardmap$ = .maps$[.i];
 
-	monster .maps$[.i],0,0,"Etrange "+strmobinfo(1,.mobs[.m]),.mobs[.m],1,"eventcafard::OnMobDead";
-	callfunc "announce2","Un "+strmobinfo(1,.mobs[.m])+" se balade dans "+callfunc("getmapname", .maps$[.i])+". Trouvez le et tuez le pour gagner !!",bc_blue|bc_all;
+	monster .maps$[.i],0,0,"Etrange "+getmonsterinfo(.mobs[.m], MOB_NAME),.mobs[.m],1,"eventcafard::OnMobDead";
+	callfunc "announce2","Un "+getmonsterinfo(.mobs[.m], MOB_NAME)+" se balade dans "+callfunc("getmapname", .maps$[.i])+". Trouvez le et tuez le pour gagner !!",bc_blue|bc_all;
 	end;
 
 OnMobDead:
 	.@r = rand( getarraysize(.items) );
-	logmes "Trouve le "+strmobinfo(1,.mobs[.m])+" et gagne "+.nbs[.@r]+" "+getitemname(.items[.@r]);
+	logmes "Trouve le "+getmonsterinfo(.mobs[.m], MOB_NAME)+" et gagne "+.nbs[.@r]+" "+getitemname(.items[.@r]);
 	callfunc "announce2",strcharinfo(0)+" vient de chopper la bestiole "+ ( Sex ? "il":"elle" ) +" gagne "+.nbs[.@r]+" "+getitemname(.items[.@r])+"!!",bc_blue|bc_all;
 	getitem .items[.@r], .nbs[.@r];
 	$eventcafard = 0;
