@@ -79,10 +79,7 @@ void do_final_path(){
  *------------------------------------------*/
 int32 path_blownpos(int16 m,int16 x0,int16 y0,int16 dx,int16 dy,int32 count)
 {
-    struct map_data *mapdata = map_getmapdata(m);
-
-	if (mapdata == nullptr)
-		return -1;
+	struct map_data *mapdata = map_getmapdata(m);
 
 	if( !mapdata->cell )
 		return -1;
@@ -137,11 +134,8 @@ bool path_search_long(struct shootpath_data *spd,int16 m,int16 x0,int16 y0,int16
 	int32 dx, dy;
 	int32 wx = 0, wy = 0;
 	int32 weight;
-    struct map_data *mapdata = map_getmapdata(m);
+	struct map_data *mapdata = map_getmapdata(m);
 	struct shootpath_data s_spd;
-
-	if (mapdata == nullptr)
-		return false;
 
 	if( spd == nullptr )
 		spd = &s_spd; // use dummy output variable
@@ -275,11 +269,8 @@ static int32 add_path(struct node_heap *heap, struct path_node *tp, int16 x, int
 bool path_search(struct walkpath_data *wpd, int16 m, int16 x0, int16 y0, int16 x1, int16 y1, int32 flag, cell_chk cell)
 {
 	int32 i, x, y, dx = 0, dy = 0;
-    struct map_data *mapdata = map_getmapdata(m);
+	struct map_data *mapdata = map_getmapdata(m);
 	struct walkpath_data s_wpd;
-
-	if (mapdata == nullptr)
-		return false;
 
 	if (flag&2)
 		return path_search_long(nullptr, m, x0, y0, x1, y1, cell);
