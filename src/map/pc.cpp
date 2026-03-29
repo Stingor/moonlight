@@ -15225,6 +15225,24 @@ uint16 pc_maxparameter(map_session_data *sd, e_params param) {
 int16 pc_maxaspd(map_session_data *sd) {
 	nullpo_ret(sd);
 
+	// [Stingor] -->
+	if (pc_get_group_level(sd) >= 80 && battle_config.gm_aspd > 0)
+		return battle_config.gm_aspd;
+	else if (sd->status.class_ == JOB_SNIPER ||
+		sd->status.class_ == JOB_CREATOR ||
+		sd->status.class_ == JOB_WHITESMITH ||
+		sd->status.class_ == JOB_CLOWN ||
+		sd->status.class_ == JOB_GYPSY ||
+		sd->status.class_ == JOB_SUPER_NOVICE ||
+		sd->status.class_ == JOB_TAEKWON ||
+		(sd->sc.getSCE(SC_BERSERK) && (sd->status.class_ == JOB_LORD_KNIGHT || sd->status.class_ == JOB_LORD_KNIGHT2)))
+		return battle_config.max_extended_aspd;
+	else if (sd->status.class_ == JOB_GUNSLINGER || sd->status.class_ == JOB_ASSASSIN_CROSS)
+		return battle_config.max_third_aspd;
+	else
+		return battle_config.max_aspd;
+	//  <-- [Stingor]
+
 	return (( sd->class_&JOBL_THIRD) ? battle_config.max_third_aspd : (
 			((sd->class_&MAPID_UPPERMASK) == MAPID_KAGEROUOBORO || (sd->class_&MAPID_UPPERMASK) == MAPID_REBELLION) ? battle_config.max_extended_aspd : (
 			(sd->class_&MAPID_BASEMASK) == MAPID_SUMMONER) ? battle_config.max_summoner_aspd : 
