@@ -468,9 +468,9 @@ void log_chat(e_log_chat_type type, int32 type_id, const char* src_charname, int
 	if( log_config.sql_logs ) {
 		SqlStmt stmt{ *logmysql_handle };
 
-		if( SQL_SUCCESS != stmt.Prepare(, LOG_QUERY " INTO `%s` (`time`, `type`, `type_id`, `src_charid`, `src_accountid`, `src_map`, `src_map_x`, `src_map_y`, `dst_charname`, `message`) VALUES (NOW(), '%c', '%d', '%s', '%d', '%s', '%d', '%d', ?, ?)", log_config.log_chat, log_chattype2char(type), type_id, src_charname, src_accid, mapname, x, y)
-		||  SQL_SUCCESS != stmt.BindParam(, 0, SQLDT_STRING, (char*)dst_charname, safestrnlen(dst_charname, NAME_LENGTH))
-		||  SQL_SUCCESS != stmt.BindParam(, 1, SQLDT_STRING, (char*)message, safestrnlen(message, CHAT_SIZE_MAX))
+		if( SQL_SUCCESS != stmt.Prepare(LOG_QUERY " INTO `%s` (`time`, `type`, `type_id`, `src_charid`, `src_accountid`, `src_map`, `src_map_x`, `src_map_y`, `dst_charname`, `message`) VALUES (NOW(), '%c', '%d', '%s', '%d', '%s', '%d', '%d', ?, ?)", log_config.log_chat, log_chattype2char(type), type_id, src_charname, src_accid, mapname, x, y)
+		||  SQL_SUCCESS != stmt.BindParam(0, SQLDT_STRING, (char*)dst_charname, safestrnlen(dst_charname, NAME_LENGTH))
+		||  SQL_SUCCESS != stmt.BindParam(1, SQLDT_STRING, (char*)message, safestrnlen(message, CHAT_SIZE_MAX))
 		||  SQL_SUCCESS != stmt.Execute() )
 		{
 			SqlStmt_ShowDebug(stmt);
