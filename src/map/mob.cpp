@@ -3175,7 +3175,7 @@ int32 mob_dead(struct mob_data *md, struct block_list *src, int32 type)
 			char eventname[EVENT_NAME_LENGTH] = "";
 			if( md->npc_event ) {
 				safestrncpy(eventname, md->npc_event, sizeof(md->npc_event));
-				if( battle_config.up_spawnmvp && itemdb_type(md->db->dropitem[i].nameid) == IT_CARD && (!strcmpi(eventname, "classement::OnMvpDead")
+				if( battle_config.up_spawnmvp && itemdb_type(entry->nameid) == IT_CARD && (!strcmpi(eventname, "classement::OnMvpDead")
 				 || !strcmpi(eventname, "classement::OnMvpDrakeDead")
 				 || !strcmpi(eventname, "mvp_lhz_dun03::OnMyMVPDead")
 				 || !strcmpi(eventname, "mvp_lhz_dun04::OnMyMVPDead")
@@ -3184,7 +3184,7 @@ int32 mob_dead(struct mob_data *md, struct block_list *src, int32 type)
 					drop_rate = (int)(drop_rate * 2);
 					drop_rate = min(drop_rate,10000); //cap it to 100%
 				}
-				else if( battle_config.nerf_bloodybranch && itemdb_type(md->db->dropitem[i].nameid) == IT_CARD && (!strcmpi(eventname, "classement::OnMvpBBDead")) )
+				else if( battle_config.nerf_bloodybranch && itemdb_type(entry->nameid) == IT_CARD && (!strcmpi(eventname, "classement::OnMvpBBDead")) )
 					drop_rate = (int)(drop_rate / 1.5);
 			}
 
