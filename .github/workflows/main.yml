@@ -16,7 +16,7 @@ jobs:
           
           while read -r ts hash msgtxt; do
             formatted=$(date -d "$ts" "+%d/%m/%Y")
-            msg="$msg- \`$hash\` — $msgtxt (⏱️ $formatted)"$'\n'
+            msg="$msg- ($formatted) — \`$hash\` — $msgtxt"$'\n'
           done < <(
             jq -r '.commits[] | "\(.timestamp) \(.id[0:7]) \(.message | gsub("\n"; " "))"' "$GITHUB_EVENT_PATH"
           )
