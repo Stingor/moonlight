@@ -2225,6 +2225,7 @@ Body:
     CopyFlags:
       Skill:
         Plagiarism: true
+        Reproduce: true
     Requires:
       SpCost: 30
       ItemCost:

@@ -1689,8 +1689,8 @@ int64 battle_calc_damage(block_list *src,block_list *bl,struct Damage *d,int64 d
 			damage -= damage * sd->special_state.no_weapon_damage / 100;
 
 		if(flag&BF_MAGIC && sd->special_state.no_magic_damage)
-			if (battle_config.pvp_gtb_nerf && map_flag_vs(sd->m)) // [Stingor]
-				damage -= damage*battle_config.pvp_gtb_nerf / 100;
+			if (map_flag_vs(sd->m) && battle_config.pvp_gtb_nerf) // [Stingor]
+				damage -= damage * battle_config.pvp_gtb_nerf / 100;
 			else
 				damage -= damage * sd->special_state.no_magic_damage / 100;
 

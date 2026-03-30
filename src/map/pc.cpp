@@ -10466,9 +10466,7 @@ int64 pc_readparam( const map_session_data* sd, int64 type )
 		case SP_BREAK_ARMOR_RATE: val = sd->bonus.break_armor_rate; break;
 		case SP_ADD_STEAL_RATE:  val = sd->bonus.add_steal_rate; break;
 		case SP_DELAYRATE: {
-			if (sd->bonus.delayrate > battle_config.cap_delay_rate) // [Stingor]
-				sd->bonus.delayrate = battle_config.cap_delay_rate;
-			val = sd->bonus.delayrate;
+			val = cap_value(sd->bonus.delayrate, 0, battle_config.cap_delay_rate); // [Stingor]
 			break;
 		}
 		case SP_DELAYRATE2:      val = sd->bonus.delayrate2; break; // [Stingor]

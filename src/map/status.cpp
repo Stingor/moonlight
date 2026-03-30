@@ -9305,7 +9305,7 @@ int32 status_isimmune(const block_list* bl)
 	if (bl->type == BL_PC &&
 		(static_cast<const map_session_data*>(bl))->special_state.no_magic_damage >= battle_config.gtb_sc_immunity) {
 		if( map_flag_vs(bl->m) && battle_config.pvp_gtb_nerf ) // Nerf gtb en pvp [Stingor]
-			static_cast<const map_session_data*>(bl))->special_state.no_magic_damage = battle_config.pvp_gtb_nerf;
+			return battle_config.pvp_gtb_nerf;
 			
 		return (static_cast<const map_session_data*>(bl))->special_state.no_magic_damage;
 	}

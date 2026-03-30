@@ -5104,7 +5104,7 @@ static void clif_getareachar_pc(map_session_data* sd,map_session_data* dstsd)
 		clif_devotion(d_bl, sd);
 }
 
-void clif_show_wings(map_session_data* sd) // [Stingor]
+void clif_show_wings( const map_session_data* sd ) // [Stingor]
 {
 	struct s_mapiterator* iter = mapit_getallusers();
 	map_session_data* tsd; 
@@ -5122,7 +5122,7 @@ void clif_show_wings(map_session_data* sd) // [Stingor]
 	mapit_free(iter);
 }
 
-void clif_hide_wings(map_session_data* sd) // [Stingor]
+void clif_hide_wings( const map_session_data* sd ) // [Stingor]
 {
 	struct s_mapiterator* iter = mapit_getallusers();
 	map_session_data* tsd;
