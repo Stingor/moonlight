@@ -55,7 +55,6 @@ void SkillAsuraStrike::calculateSkillRatio(const Damage* wd, const block_list* s
 	// base_skillratio += 700 + sstatus->sp * 10;
 	base_skillratio += 100 * (7 + (sstatus->sp >= battle_config.azuranerfsp ? battle_config.azuranerfsp : sstatus->sp) / 10); // [Stingor]
 #ifdef RENEWAL
-#ifdef RENEWAL
 	if (wd->miscflag&1)
 		base_skillratio *= 2; // More than 5 spirit balls active
 #endif
