@@ -20,8 +20,8 @@ void SkillAidCondensedPotion::castendNoDamageId(block_list *src, block_list *tar
 	status_change *tsc = status_get_sc(target);
 
 	// Updated to block Slim Pitcher from working on barricades and guardian stones.
-	if (dstmd && (dstmd->mob_id == MOBID_EMPERIUM || status_get_class_(target) == CLASS_BATTLEFIELD))
-		return;
+	// if (dstmd && (dstmd->mob_id == MOBID_EMPERIUM || status_get_class_(target) == CLASS_BATTLEFIELD))
+		// return;
 	if (potion_hp || potion_sp) {
 		int32 hp = potion_hp, sp = potion_sp;
 		hp = hp * (100 + (tstatus->vit * 2))/100;
@@ -50,8 +50,22 @@ void SkillAidCondensedPotion::castendNoDamageId(block_list *src, block_list *tar
 				sp -= sp * penalty / 100;
 			}
 		}
-		if(hp > 0)
-			clif_skill_nodamage(nullptr,*target,AL_HEAL,hp);
+		if( dstmd ) {
+			int32 mob_id = dstmd->mob_id;
+			if (hp > 0 && (mob_id == MOBID_EMPERIUM || mob_id == MOBID_GUARDIAN_STONE1 || mob_id == MOBID_GUARDIAN_STONE2 || status_get_class_(bl) == CLASS_BATTLEFIELD)) {
+				status_heal(target, battle_config.emp_potionpitch_hp, 0, 0);
+				clif_skill_nodamage(nullptr, *target, AL_HEAL, battle_config.emp_potionpitch_hp);
+				return;
+			}
+		}
+		// if(hp > 0)
+			// clif_skill_nodamage(nullptr,*target,AL_HEAL,hp);
+		if(hp > 0) { // [Stingor]
+			if(status_isimmune(bl) && battle_config.healgtb)
+				hp /= 100 / status_isimmune(bl);
+			hp = (hp * battle_config.heal_rate) / 100;
+			clif_skill_nodamage(nullptr, *target, AL_HEAL, hp);
+		}
 		if(sp > 0)
 			clif_skill_nodamage(nullptr,*target,MG_SRECOVERY,sp);
 		status_heal(target,hp,sp,0);
