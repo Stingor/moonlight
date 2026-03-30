@@ -2069,7 +2069,8 @@ Body:
     CastTime: 1000
     Duration1: 1800000
     Requires:
-      SpCost: 30
+      SpCost: 150
+    Status: Preserve
   - Id: 480
     Name: PA_SHIELDCHAIN
     Description: Shield Chain
