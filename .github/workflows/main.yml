@@ -17,9 +17,7 @@ jobs:
           while read -r ts hash msg; do
             formatted=$(date -d "$ts" "+%d/%m/%Y")
             echo "- \`$hash\` — $msg ($formatted)"
-          done < <(
-          jq -r '.commits[] | "\(.timestamp) \(.id[0:7]) \(.message | gsub("\n"; " "))"' "$GITHUB_EVENT_PATH"
-          )
+          done < <(jq -r '.commits[] | "\(.timestamp) \(.id[0:7]) \(.message | gsub("\n"; " "))"' "$GITHUB_EVENT_PATH")
 
           jq -n --arg content "$msg" '{content: $content}' > payload.json
 
