@@ -1597,7 +1597,7 @@ int32 skill_additional_effect( block_list* src, block_list *bl, uint16 skill_id,
 		break;
 
 	case CH_TIGERFIST: {
-			 basetime = skill_get_time(skill_id, skill_lv);
+		t_tick basetime = skill_get_time(skill_id, skill_lv);
 		t_tick mintime = 15 * (status_get_lv(src) + 100);
 
 		if (status_bl_has_mode(bl, MD_STATUSIMMUNE))
