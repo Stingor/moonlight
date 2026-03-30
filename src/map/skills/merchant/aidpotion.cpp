@@ -127,7 +127,7 @@ void SkillAidPotion::castendNoDamageId(block_list* src, block_list* target, uint
 
 	if( dstmd ) {
 		int32 mob_id = dstmd->mob_id;
-		if ( hp > 0 && (mob_id == MOBID_EMPERIUM || mob_id == MOBID_GUARDIAN_STONE1 || mob_id == MOBID_GUARDIAN_STONE2)) ) { // [Stingor]
+		if ( hp > 0 && (mob_id == MOBID_EMPERIUM || mob_id == MOBID_GUARDIAN_STONE1 || mob_id == MOBID_GUARDIAN_STONE2) ) { // [Stingor]
 			status_heal(target, battle_config.emp_potionpitch_hp, 0, 0);
 			clif_skill_nodamage(nullptr, *target, AL_HEAL, battle_config.emp_potionpitch_hp);
 		return;
