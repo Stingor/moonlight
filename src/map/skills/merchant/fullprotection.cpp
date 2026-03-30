@@ -17,6 +17,10 @@ void SkillFullProtection::castendNoDamageId(block_list *src, block_list *target,
 	uint32 equip[] = {EQP_WEAPON, EQP_SHIELD, EQP_ARMOR, EQP_HEAD_TOP};
 	int32 i_eqp, s = 0, skilltime = skill_get_time(getSkillId(),skill_lv);
 
+	// [Stingor] temps FCP indexé sur le level du buffer pendant woe
+	if( sd && is_agit_start() )
+		skilltime = (sd->status.base_level*1000 < skilltime/6?skilltime/6:sd->status.base_level*1000);
+
 	for (i_eqp = 0; i_eqp < 4; i_eqp++) {
 		if( target->type != BL_PC || ( dstsd && pc_checkequip(dstsd,equip[i_eqp]) < 0 ) )
 			continue;
