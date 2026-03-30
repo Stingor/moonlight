@@ -35,7 +35,7 @@ void SkillTarotCardOfFate::castendNoDamageId(block_list *src, block_list *target
 #ifndef RENEWAL
 		(tsc && tsc->getSCE(SC_BASILICA)) ||
 #endif
-		(dstmd && ((dstmd->guardian_data && (dstmd->mob_id == MOBID_EMPERIUM || dstmd->mob_id == MOBID_GUARDIAN_STONE1 || dstmd->mob_id == MOBID_GUARDIAN_STONE2) || status_get_class_(target) == CLASS_BATTLEFIELD))) {
+		(dstmd && ((dstmd->guardian_data && (dstmd->mob_id == MOBID_EMPERIUM || dstmd->mob_id == MOBID_GUARDIAN_STONE1 || dstmd->mob_id == MOBID_GUARDIAN_STONE2) || status_get_class_(target) == CLASS_BATTLEFIELD)))) {
 		if (sd != nullptr)
 			clif_skill_fail(*sd, getSkillId());
 		flag |= SKILL_NOCONSUME_REQ;
