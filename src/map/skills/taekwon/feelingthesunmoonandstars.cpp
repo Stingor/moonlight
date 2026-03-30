@@ -14,9 +14,21 @@ void SkillFeelingtheSunMoonandStars::castendNoDamageId(block_list *src, block_li
 
 	//AuronX reported you CAN memorize the same map as all three. [Skotlex]
 	if (sd) {
-		if(!sd->feel_map[skill_lv-1].index)
-			clif_feel_req(sd->fd,sd, skill_lv);
-		else
-			clif_feel_info(sd, skill_lv-1, 1);
+		// if(!sd->feel_map[skill_lv-1].index)
+			// clif_feel_req(sd->fd,sd, skill_lv);
+		// else
+			// clif_feel_info(sd, skill_lv-1, 1);
+		// [Stingor] -->
+		int32 lv;
+
+		clif_feel_req(sd->fd, sd, skill_lv);
+
+		if ((lv = pc_checkskill( sd, getSkillId() )) > 0) {
+			if(    sd->m == sd->feel_map[0].m
+				|| sd->m == sd->feel_map[1].m
+				|| sd->m == sd->feel_map[2].m)
+				sc_start(src, src, SC_KNOWLEDGE, 100, lv, skill_get_time( getSkillId(), lv ));
+		}
+		// [Stingor] <--
 	}
 }
