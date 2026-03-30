@@ -13,13 +13,16 @@ jobs:
       - name: Send commits to Discord
         run: |
           msg="**Nouveaux commits poussés sur \`${GITHUB_REF_NAME}\` :**"$'\n\n'
-
-          while read -r ts hash msg; do
+          
+          while read -r ts hash msgtxt; do
             formatted=$(date -d "$ts" "+%d/%m/%Y")
-            echo "- \`$hash\` — $msg ($formatted)"
-          done < <(jq -r '.commits[] | "\(.timestamp) \(.id[0:7]) \(.message | gsub("\n"; " "))"' "$GITHUB_EVENT_PATH")
-
+            msg="$msg- \`$hash\` — $msgtxt (⏱️ $formatted)"$'\n'
+          done < <(
+            jq -r '.commits[] | "\(.timestamp) \(.id[0:7]) \(.message | gsub("\n"; " "))"' "$GITHUB_EVENT_PATH"
+          )
+          
           jq -n --arg content "$msg" '{content: $content}' > payload.json
+
 
           curl -H "Content-Type: application/json" \
                -X POST \
