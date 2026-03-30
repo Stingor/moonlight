@@ -52,7 +52,7 @@ void SkillAidCondensedPotion::castendNoDamageId(block_list *src, block_list *tar
 		}
 		if( dstmd ) {
 			int32 mob_id = dstmd->mob_id;
-			if (hp > 0 && (mob_id == MOBID_EMPERIUM || mob_id == MOBID_GUARDIAN_STONE1 || mob_id == MOBID_GUARDIAN_STONE2 || status_get_class_(bl) == CLASS_BATTLEFIELD)) {
+			if (hp > 0 && (mob_id == MOBID_EMPERIUM || mob_id == MOBID_GUARDIAN_STONE1 || mob_id == MOBID_GUARDIAN_STONE2 || status_get_class_(target) == CLASS_BATTLEFIELD)) {
 				status_heal(target, battle_config.emp_potionpitch_hp, 0, 0);
 				clif_skill_nodamage(nullptr, *target, AL_HEAL, battle_config.emp_potionpitch_hp);
 				return;
@@ -61,8 +61,8 @@ void SkillAidCondensedPotion::castendNoDamageId(block_list *src, block_list *tar
 		// if(hp > 0)
 			// clif_skill_nodamage(nullptr,*target,AL_HEAL,hp);
 		if(hp > 0) { // [Stingor]
-			if(status_isimmune(bl) && battle_config.healgtb)
-				hp /= 100 / status_isimmune(bl);
+			if(status_isimmune(target) && battle_config.healgtb)
+				hp /= 100 / status_isimmune(target);
 			hp = (hp * battle_config.heal_rate) / 100;
 			clif_skill_nodamage(nullptr, *target, AL_HEAL, hp);
 		}
