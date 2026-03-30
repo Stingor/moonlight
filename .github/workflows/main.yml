@@ -16,7 +16,7 @@ jobs:
 
           while read -r line; do
             msg="$msg$line"$'\n'
-          done < <(jq -r '.commits[] | "- `\(.timestamp | fromdate | strftime("%d/%m/%Y")) - \(.id[0:7])` — \(.message | gsub("\n"; " "))"' "$GITHUB_EVENT_PATH")
+          done < <(jq -r --argfile event "$GITHUB_EVENT_PATH" '.commits[] | "- `\(.id[0:7])` — \(.message | gsub("\n"; " ")) (⏱️ \(.timestamp))"' "$GITHUB_EVENT_PATH" | while read -r line; do ts=$(echo "$line" | sed -n 's/.*(⏱️ \(.*\)).*/\1/p') formatted=$(date -d "$ts" "+%d/%m/%Y %H:%M") echo "${line/($ts)/(⏱️ $formatted)}" done )
 
           jq -n --arg content "$msg" '{content: $content}' > payload.json
 
