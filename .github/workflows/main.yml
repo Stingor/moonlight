@@ -14,7 +14,7 @@ jobs:
         run: |
           msg="**Nouveaux commits poussés sur \`${GITHUB_REF_NAME}\` :**"$'\n\n'
           
-          while read -r ts hash msgtxt; do
+          while read -r ts msgtxt; do
             formatted=$(date -d "$ts" "+%d/%m/%Y")
             msg="$msg- \`$formatted\` — $msgtxt"$'\n'
           done < <(
