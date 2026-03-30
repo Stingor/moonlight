@@ -18,7 +18,7 @@ jobs:
             formatted=$(date -d "$ts" "+%d/%m/%Y")
             msg="$msg- ($formatted) — \`$hash\` — $msgtxt"$'\n'
           done < <(
-            jq -r '.commits[] | "\(.timestamp) \(.id[0:7]) \(.message | gsub("\n"; " "))"' "$GITHUB_EVENT_PATH"
+            jq -r '.commits[] | "\(.timestamp) \(.message | gsub("\n"; " "))"' "$GITHUB_EVENT_PATH"
           )
           
           jq -n --arg content "$msg" '{content: $content}' > payload.json
