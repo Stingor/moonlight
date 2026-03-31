@@ -1150,6 +1150,7 @@ int32 char_mmo_char_fromsql(uint32 char_id, struct mmo_charstatus* p, bool load_
 		return 1;
 	}
 
+	// [Stingor] We need the user_id of the character's data, so we have to query it first
 	if( SQL_ERROR == stmt.Prepare("SELECT `user_id` FROM `login` WHERE `account_id`= '%d' LIMIT 1", p->account_id)
 	||	SQL_ERROR == stmt.Execute()
 	||	SQL_ERROR == stmt.BindColumn(0, SQLDT_INT32, &p->user_id, 0, nullptr, nullptr))
@@ -1157,7 +1158,7 @@ int32 char_mmo_char_fromsql(uint32 char_id, struct mmo_charstatus* p, bool load_
 	
 	if( SQL_ERROR == stmt.NextRow() )
 	{
-		ShowError("bug id: %d!\n", char_id);
+		ShowError("char_mmo_char_fromsql: Failed to retreive user_id for char_id %d!\n", char_id);
 		return 0;
 	}
 	
