@@ -308,6 +308,7 @@ int32 chlogif_parse_ackaccreq(int32 fd){
 		{
 			int32 client_fd = request_id;
 			sd->clienttype = clienttype;
+
 			switch( result )
 			{
 			case 0:// ok
