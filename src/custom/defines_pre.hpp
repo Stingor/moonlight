@@ -15,5 +15,6 @@
 
 #define INVENTORY_BASE_SIZE 200
 #define MAX_CART 200
+#define MAX_CHARS 45
 
 #endif /* CONFIG_CUSTOM_DEFINES_PRE_HPP */
