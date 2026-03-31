@@ -339,7 +339,7 @@ int32 party_check_family_share( std::shared_ptr<struct party_data> p ){
 // Returns whether this party can keep having exp share or not.
 int32 party_check_exp_share( std::shared_ptr<struct party_data> p ){
 	// return (p->party.count < 2 || p->max_lv - p->min_lv <= party_share_level || party_check_family_share(p));
-	return (p->party.count < 2 || p->max_lv - p->min_lv <= (party_share_level + (p->max_lv / 5)) || party_check_family_share(p)); // [Stingor]
+	return (p->party.count < 2 || p->max_lv - p->min_lv <= (party_share_level + (p->max_lv / 5)) || party_check_family_share(p)); // [Stingor] Allow higher level difference for higher level parties, but still require family share if the difference is too high.
 }
 
 // Is there any member in the party?
