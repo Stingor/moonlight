@@ -162,7 +162,6 @@ bool mapif_load_guild_storage(int32 fd,uint32 account_id,int32 guild_id, char fl
 		WFIFOB(fd,12) = flag; //1 open storage, 0 don't open
 		guild_storage_fromsql(guild_id, (struct s_storage*)WFIFOP(fd,13));
 		WFIFOSET(fd, WFIFOW(fd,2));
-        // ShowWarning("mapif_load_guild_storage debugchar 1 %d - %d\n", guild_id, account_id);
 		return true;
 	}
 	// guild does not exist
@@ -173,7 +172,6 @@ bool mapif_load_guild_storage(int32 fd,uint32 account_id,int32 guild_id, char fl
 	WFIFOL(fd,4) = account_id;
 	WFIFOL(fd,8) = 0;
 	WFIFOSET(fd, 12);
-    // ShowWarning("mapif_load_guild_storage debugchar 2 %d\n", account_id);
 	return false;
 }
 
@@ -321,9 +319,9 @@ bool mapif_parse_itembound_retrieve(int32 fd)
 	for( j = 0; j < MAX_SLOTS; ++j )
 		stmt.BindColumn(11+j, SQLDT_UINT32, &item.card[j]);
 	for( j = 0; j < MAX_ITEM_RDM_OPT; ++j ) {
-		stmt.BindColumn(12+MAX_SLOTS+j*3, SQLDT_INT16, &item.option[j].id);
-		stmt.BindColumn(13+MAX_SLOTS+j*3, SQLDT_INT16, &item.option[j].value);
-		stmt.BindColumn(14+MAX_SLOTS+j*3, SQLDT_CHAR, &item.option[j].param);
+		stmt.BindColumn(11+MAX_SLOTS+j*3, SQLDT_INT16, &item.option[j].id);
+		stmt.BindColumn(12+MAX_SLOTS+j*3, SQLDT_INT16, &item.option[j].value);
+		stmt.BindColumn(13+MAX_SLOTS+j*3, SQLDT_CHAR, &item.option[j].param);
 	}
 	memset(&items, 0, sizeof(items));
 	while( SQL_SUCCESS == stmt.NextRow() )
