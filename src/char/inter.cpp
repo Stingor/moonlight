@@ -1451,4 +1451,3 @@ int32 inter_parse_frommap(int32 fd)
 	RFIFOSKIP(fd, len);
 	return 1;
 }
-
