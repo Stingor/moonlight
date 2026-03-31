@@ -4289,8 +4289,8 @@ static void battle_calc_skill_base_damage(struct Damage* wd, block_list *src,blo
 						break;
 				}
 			}
-			if (skill_id == SN_SHARPSHOOTING || skill_id == MA_SHARPSHOOTING)
-				bflag &= ~(BDMG_CRIT); // Sharpshooting just ignores DEF/FLEE but damage is like a normal attack
+			//if (skill_id == SN_SHARPSHOOTING || skill_id == MA_SHARPSHOOTING) // [Stingor] restore critical damage
+			//	bflag &= ~(BDMG_CRIT); // Sharpshooting just ignores DEF/FLEE but damage is like a normal attack
 			wd->damage = battle_calc_base_damage(src, sstatus, &sstatus->rhw, sc, tstatus->size, bflag);
 			if (is_attack_left_handed(src, skill_id))
 				wd->damage2 = battle_calc_base_damage(src, sstatus, &sstatus->lhw, sc, tstatus->size, bflag);

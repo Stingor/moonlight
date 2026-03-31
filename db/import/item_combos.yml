@@ -3212,7 +3212,7 @@ Body:
           - Ear_Of_Devil's_Wing
           - Darkness_Helm_J
     Script: |
-      bonus bStr,1; bonus bAtkRate,5;
+      bonus bStr,1; bonus2 bAddClass,Class_All,5;
   - Combos:
       - Combo:
           - Headband_Of_Power
