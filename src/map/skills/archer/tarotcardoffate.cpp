@@ -35,7 +35,7 @@ void SkillTarotCardOfFate::castendNoDamageId(block_list *src, block_list *target
 #ifndef RENEWAL
 		(tsc && tsc->getSCE(SC_BASILICA)) ||
 #endif
-		(dstmd && ((dstmd->guardian_data && (dstmd->mob_id == MOBID_EMPERIUM || dstmd->mob_id == MOBID_GUARDIAN_STONE1 || dstmd->mob_id == MOBID_GUARDIAN_STONE2) || status_get_class_(target) == CLASS_BATTLEFIELD)))) {
+		(dstmd && (dstmd->guardian_data && (isobjwoe(dstmd->mob_id) || status_get_class_(target) == CLASS_BATTLEFIELD)))) {
 		if (sd != nullptr)
 			clif_skill_fail(*sd, getSkillId());
 		flag |= SKILL_NOCONSUME_REQ;
@@ -103,7 +103,7 @@ int32 skill_tarotcard(block_list* src, block_list *target, uint16 skill_id, uint
 	}
 	case 4: // THE CHARIOT - 1000 damage, random armor destroyed
 	{
-		if (status_get_class(target) == MOBID_EMPERIUM || status_get_class(target) == MOBID_GUARDIAN_STONE1 || status_get_class(target)== MOBID_GUARDIAN_STONE2)
+		if ( isobjwoe(status_get_class(target)) )
 			break; // [Stingor]
 		battle_fix_damage(src, target, 1000, 0, skill_id);
 		clif_damage(*src, *target, tick, 0, 0, 1000, 0, DMG_NORMAL, 0, false);
@@ -121,7 +121,7 @@ int32 skill_tarotcard(block_list* src, block_list *target, uint16 skill_id, uint
 	}
 	case 6: // THE LOVERS - 2000HP heal, random teleported
 	{
-		if (status_get_class(target) == MOBID_EMPERIUM || status_get_class(target) == MOBID_GUARDIAN_STONE1 || status_get_class(target)== MOBID_GUARDIAN_STONE2)
+		if ( isobjwoe(status_get_class(target)) )
 			break; // [Stingor]
 		status_heal(target, 2000, 0, 0);
 		if (!map_flag_vs(target->m))
@@ -161,7 +161,7 @@ int32 skill_tarotcard(block_list* src, block_list *target, uint16 skill_id, uint
 	}
 	case 11: // THE DEVIL - 6666 damage, atk and matk halved, cursed
 	{
-		if (status_get_class(target) == MOBID_EMPERIUM || status_get_class(target) == MOBID_GUARDIAN_STONE1 || status_get_class(target)== MOBID_GUARDIAN_STONE2)
+		if ( isobjwoe(status_get_class(target)) )
 			break; // [Stingor]
 		battle_fix_damage(src, target, 6666, 0, skill_id);
 		clif_damage(*src, *target, tick, 0, 0, 6666, 0, DMG_NORMAL, 0, false);
@@ -172,7 +172,7 @@ int32 skill_tarotcard(block_list* src, block_list *target, uint16 skill_id, uint
 	}
 	case 12: // THE TOWER - 4444 damage
 	{
-		if (status_get_class(target) == MOBID_EMPERIUM || status_get_class(target) == MOBID_GUARDIAN_STONE1 || status_get_class(target)== MOBID_GUARDIAN_STONE2)
+		if ( isobjwoe(status_get_class(target)) )
 			break; // [Stingor]
 		battle_fix_damage(src, target, 4444, 0, skill_id);
 		clif_damage(*src, *target, tick, 0, 0, 4444, 0, DMG_NORMAL, 0, false);

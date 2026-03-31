@@ -2146,7 +2146,7 @@ bool battle_can_hit_gvg_target(block_list *src,block_list *bl,uint16 skill_id,in
 	if (ud && ud->immune_attack)
 		return false;
 	if(md && (md->guardian_data || md->special_state.ai == AI_GUILD)) {
-		if ((status_bl_has_mode(bl,MD_SKILLIMMUNE) || ((class_ == MOBID_EMPERIUM || class_ == MOBID_GUARDIAN_STONE1 || class_ == MOBID_GUARDIAN_STONE2) && !skill_get_inf2(skill_id, INF2_TARGETEMPERIUM))) && flag&BF_SKILL) //Skill immunity.
+		if ((status_bl_has_mode(bl,MD_SKILLIMMUNE) || (isobjwoe(class_) && !skill_get_inf2(skill_id, INF2_TARGETEMPERIUM))) && flag&BF_SKILL) //Skill immunity.
 			return false;
 		if( src->type != BL_MOB || mob_is_clone( ((mob_data*)src)->mob_id ) ){
 			auto g = src->type == BL_PC ? ((TBL_PC *)src)->guild : guild_search(status_get_guild_id(src));

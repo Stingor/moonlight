@@ -594,14 +594,12 @@ char storage_guild_storageopen(map_session_data* sd)
 #endif
 	) {
 		intif_request_guild_storage(sd->status.account_id,sd->status.guild_id);
-        // ShowWarning("storage_guild_storageopen debugmoon 1 %d - %d\n", sd->status.guild_id, sd->status.account_id);
 		return GSTORAGE_OPEN;
 	}
 
-	if( gstor && gstor->max_amount == 0 ) {
+	if( gstor && gstor->max_amount == 0 ) { // [Stingor] debug gstorage à 0
         storage_guild_delete(sd->status.guild_id);
 		intif_request_guild_storage(sd->status.account_id,sd->status.guild_id);
-        // ShowWarning("storage_guild_storageopen debugmoon reload gstor %d - %d\n", sd->status.guild_id, sd->status.account_id);
 		return GSTORAGE_OPEN;
 	}
 

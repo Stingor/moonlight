@@ -171,7 +171,7 @@ uint64 AchievementDatabase::parseBodyNode(const ryml::NodeRef& node){
 				if( !this->mobexists( mob_id ) ){
 					this->achievement_mobs.push_back( mob_id );
 				}
-				
+
 				target->mob = mob_id;
 			}else{
 				if( !targetExists ){
@@ -297,7 +297,7 @@ uint64 AchievementDatabase::parseBodyNode(const ryml::NodeRef& node){
 			if( !this->asString( rewardNode, "Script", script ) ){
 				return 0;
 			}
-			
+
 			if( achievement->rewards.script ){
 				script_free_code( achievement->rewards.script );
 				achievement->rewards.script = nullptr;
@@ -811,7 +811,7 @@ int32 achievement_check_progress( const map_session_data* sd, int32 achievement_
 int32 *achievement_level(map_session_data *sd, bool flag)
 {
 	nullpo_retr(nullptr, sd);
-	
+
 	sd->achievement_data.total_score = 0;
 
 	for (int32 i = 0; i < sd->achievement_data.count; i++) { // Recount total score
@@ -864,7 +864,7 @@ int32 *achievement_level(map_session_data *sd, bool flag)
 
 	info[0] = left_score; // Left number
 	info[1] = right_score; // Right number
-	
+
 	if (flag && old_level != sd->achievement_data.level) { // Give AG_GOAL_ACHIEVE
 		achievement_update_objective( sd, AG_GOAL_ACHIEVE, 0 );
 	}
@@ -990,7 +990,7 @@ static bool achievement_update_objectives(map_session_data *sd, std::shared_ptr<
 				if (current_count[it.first] < it.second->count)
 					current_count[it.first] += update_count[it.first];
 			}
-			
+
 			if (!achievement_check_condition(ad->condition, sd)) // Parameters weren't met
 				return false;
 
@@ -1047,7 +1047,7 @@ static bool achievement_update_objectives(map_session_data *sd, std::shared_ptr<
 			break;
 		*/
 	}
-	
+
 	if( isNew ){
 		// Always add the achievement if it was completed
 		bool hasCounter = complete;

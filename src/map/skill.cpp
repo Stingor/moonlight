@@ -2762,7 +2762,7 @@ int64 skill_attack (int32 attack_type, block_list* src, block_list *dsrc, block_
 	if (status_bl_has_mode(bl, MD_SKILLIMMUNE))
 		return 0;
 
-	if (status_get_class(bl) == MOBID_EMPERIUM || status_get_class(bl) == MOBID_GUARDIAN_STONE1 || status_get_class(bl)== MOBID_GUARDIAN_STONE2)
+	if (isobjwoe(status_get_class(bl)))
 		return 1;
 	// [Stingor] <--
 
@@ -3500,7 +3500,7 @@ static int32 skill_check_unit_range2_sub (block_list *bl, va_list ap)
 		return 0;
 #endif
 
-	if( skill_id == AM_DEMONSTRATION && bl->type == BL_MOB && (((TBL_MOB*)bl)->mob_id == MOBID_EMPERIUM || ((TBL_MOB*)bl)->mob_id == MOBID_GUARDIAN_STONE1 || ((TBL_MOB*)bl)->mob_id == MOBID_GUARDIAN_STONE2) )
+	if( skill_id == AM_DEMONSTRATION && bl->type == BL_MOB && isobjwoe(status_get_class(bl)) )
 		return 0; //Allow casting Bomb/Demonstration Right under emperium [Skotlex]
 	return 1;
 }
@@ -5095,10 +5095,10 @@ static int8 skill_castend_id_check(block_list *src, block_list *target, uint16 s
 	int32 inf = skill->inf;
 	status_change *tsc = status_get_sc(target);
 
-	if ((status_get_class(target) == MOBID_EMPERIUM || status_get_class(target) == MOBID_GUARDIAN_STONE1 || status_get_class(target) == MOBID_GUARDIAN_STONE2) && (skill_id == AL_HEAL || skill_id == AM_POTIONPITCHER)) // [Stingor]
+	if (isobjwoe(status_get_class(target)) && (skill_id == AL_HEAL || skill_id == AM_POTIONPITCHER)) // [Stingor]
 		return -1;
 
-	if (src != target && (status_bl_has_mode(target,MD_SKILLIMMUNE) || ((status_get_class(target) == MOBID_EMPERIUM || status_get_class(target) == MOBID_GUARDIAN_STONE1 || status_get_class(target) == MOBID_GUARDIAN_STONE2) && !skill->inf2[INF2_TARGETEMPERIUM])) && skill_get_casttype(skill_id) == CAST_NODAMAGE)
+	if (src != target && (status_bl_has_mode(target,MD_SKILLIMMUNE) || (isobjwoe(status_get_class(target)) && !skill->inf2[INF2_TARGETEMPERIUM])) && skill_get_casttype(skill_id) == CAST_NODAMAGE)
 		return USESKILL_FAIL_MAX; // Don't show a skill fail message (NoDamage type doesn't consume requirements)
 
 	switch (skill_id) {
@@ -5270,7 +5270,7 @@ static int8 skill_castend_id_check(block_list *src, block_list *target, uint16 s
 		case SL_SKA:
 		case RK_PHANTOMTHRUST:
 		case NPC_PHANTOMTHRUST:
-			if (target->type == BL_MOB && (((TBL_MOB*)target)->mob_id == MOBID_EMPERIUM || ((TBL_MOB*)target)->mob_id == MOBID_GUARDIAN_STONE1 || ((TBL_MOB*)target)->mob_id == MOBID_GUARDIAN_STONE2))
+			if (target->type == BL_MOB && ( isobjwoe(status_get_class(target))))
 				return USESKILL_FAIL_MAX;
 			break;
 	}
@@ -5516,7 +5516,7 @@ TIMER_FUNC(skill_castend_id){
 					status_heal(sd, 0, 0, add_ap, 0);
 				}
 
-				if (src != target && (status_bl_has_mode(target,MD_SKILLIMMUNE) || ((status_get_class(target) == MOBID_EMPERIUM || status_get_class(target) == MOBID_GUARDIAN_STONE1 || status_get_class(target) == MOBID_GUARDIAN_STONE2) && !skill_get_inf2(ud->skill_id, INF2_TARGETEMPERIUM))) && skill_get_casttype(ud->skill_id) == CAST_DAMAGE) {
+				if (src != target && (status_bl_has_mode(target,MD_SKILLIMMUNE) || (isobjwoe(status_get_class(target)) && !skill_get_inf2(ud->skill_id, INF2_TARGETEMPERIUM))) && skill_get_casttype(ud->skill_id) == CAST_DAMAGE) {
 					clif_skill_fail( *sd, ud->skill_id );
 					break; // Show a skill fail message (Damage type consumes requirements)
 				}

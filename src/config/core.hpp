@@ -23,12 +23,12 @@
 /// before attacking and monsters will just drop target once they get in attack range and can't attack.
 /// If disabled, the server automatically makes sure units find a position to attack from by moving closer.
 /// Disabling this also stops skills from failing when the target has walked behind an obstacle during cast.
-// #define OFFICIAL_WALKPATH
+//#define OFFICIAL_WALKPATH
 
 /// Uncomment to enable the Cell Stack Limit mod.
 /// It's only config is the battle_config custom_cell_stack_limit.
 /// Only chars affected are those defined in BL_CHAR
-///#define CELL_NOSTACK
+//#define CELL_NOSTACK
 
 /// Uncomment to enable circular area checks.
 /// By default, most server-sided range checks in Aegis are of square shapes, so a monster
@@ -36,20 +36,20 @@
 /// Client-sided range checks are, however, are always circular.
 /// Enabling this changes all checks to circular checks, which is more realistic,
 /// - but is not the official behaviour.
-///#define CIRCULAR_AREA
+//#define CIRCULAR_AREA
 
 /// Comment to disable Guild/Party Bound item system
 /// By default, we recover/remove Guild/Party Bound items automatically
-///#define BOUND_ITEMS
+//#define BOUND_ITEMS
 
 /// Uncomment to enable real-time server stats (in and out data and ram usage).
-///#define SHOW_SERVER_STATS
+//#define SHOW_SERVER_STATS
 
 /// Comment to disable the job base HP/SP/AP table (job_basepoints.yml)
-// #define HP_SP_TABLES
+//#define HP_SP_TABLES
 
 /// Uncomment to enable VIP system.
-///#define VIP_ENABLE
+//#define VIP_ENABLE
 
 /// Enable VIP script changes? (requires VIP_ENABLE)
 /// The primary effects of this are restrictions on non-VIP players, such as requiring
@@ -102,9 +102,9 @@
 /// Uncomment for use with Nemo patch ExtendOldCashShopPreview
 //#define ENABLE_OLD_CASHSHOP_PREVIEW_PATCH
 
-//#if defined(_DEBUG) || defined(DEBUG)
-//	#define DETAILED_LOADING_OUTPUT
-//#endif
+// #if defined(_DEBUG) || defined(DEBUG)
+	// #define DETAILED_LOADING_OUTPUT
+// #endif
 
 /// Uncomment to forcibly disable the detailed loading output.
 /// This will noticeably decrease the boot time of the map server by not having to print so many status messages.

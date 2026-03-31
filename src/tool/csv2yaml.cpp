@@ -2763,11 +2763,14 @@ static bool itemdb_read_db(const char* file) {
 
 		if (atoi(str[4]) > 0)
 			body << YAML::Key << "Buy" << YAML::Value << atoi(str[4]);
-		if (atoi(str[5]) > 0)
-			body << YAML::Key << "Sell" << YAML::Value << atoi(str[5]);
+		if (atoi(str[5]) > 0) {
+			if (atoi(str[4]) / 2 != atoi(str[5]))
+				body << YAML::Key << "Sell" << YAML::Value << atoi(str[5]);
+		}
 		if (atoi(str[6]) > 0)
 			body << YAML::Key << "Weight" << YAML::Value << atoi(str[6]);
 
+#ifdef RENEWAL
 		int32 atk = 0, matk = 0;
 
 		itemdb_re_split_atoi(str[7], &atk, &matk);
@@ -2775,7 +2778,10 @@ static bool itemdb_read_db(const char* file) {
 			body << YAML::Key << "Attack" << YAML::Value << atk;
 		if (matk > 0)
 			body << YAML::Key << "MagicAttack" << YAML::Value << matk;
-
+#else
+		if (atoi(str[7]) > 0)
+			body << YAML::Key << "Attack" << YAML::Value << atoi(str[7]);
+#endif
 		if (atoi(str[8]) > 0)
 			body << YAML::Key << "Defense" << YAML::Value << atoi(str[8]);
 		if (atoi(str[9]) > 0)

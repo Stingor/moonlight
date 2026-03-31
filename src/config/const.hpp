@@ -121,9 +121,9 @@ const t_exp MAX_LEVEL_JOB_EXP = 999999999;
  * That map should be loaded by a mapserv
  **/
 #ifdef RENEWAL
-    #define MAP_DEFAULT_NAME "gonryun"
-    #define MAP_DEFAULT_X 156
-    #define MAP_DEFAULT_Y 120
+    #define MAP_DEFAULT_NAME "iz_int"
+    #define MAP_DEFAULT_X 18
+    #define MAP_DEFAULT_Y 26
 #else
     #define MAP_DEFAULT_NAME "gonryun"
     #define MAP_DEFAULT_X 156

@@ -2900,7 +2900,7 @@ int32 status_calc_mob_(mob_data* md, uint8 opt)
 
 		if (gc == nullptr)
 			ShowError("status_calc_mob: No castle set at map %s\n", mapdata->name);
-		else if(gc->castle_id < 24 && md->mob_id != MOBID_EMPERIUM && md->mob_id != MOBID_GUARDIAN_STONE1 && md->mob_id != MOBID_GUARDIAN_STONE2) { // Pas d'invest DEf pour les Emps [Stingor]
+		else if(gc->castle_id < 24 && !isobjwoe(md->mob_id)) { // Pas d'invest DEf pour les Emps [Stingor]
 #ifdef RENEWAL
 			status->max_hp += 50 * (gc->defense / 5);
 #else
@@ -2910,7 +2910,7 @@ int32 status_calc_mob_(mob_data* md, uint8 opt)
 			status->def += (gc->defense+2)/3;
 			status->mdef += (gc->defense+2)/3;
 		}
-		if(md->mob_id != MOBID_EMPERIUM && md->mob_id != MOBID_GUARDIAN_STONE1 && md->mob_id != MOBID_GUARDIAN_STONE2) { // Pas d'invest DEf pour les Emps [Stingor]
+		if( !isobjwoe(md->mob_id) ) { // Pas d'invest DEf pour les Emps [Stingor]
 			status->max_hp += 1000 * gc->defense;
 			status->hp = status->max_hp;
 			status->batk += 2 * md->guardian_data->guardup_lv + 8;
@@ -7735,7 +7735,7 @@ static int16 status_calc_flee2(block_list *bl, status_change *sc, int32 flee2)
 		return cap_value(flee2,10,SHRT_MAX);
 
 	if(sc->getSCE(SC_WHISTLE))
-		flee2 += sc->getSCE(SC_WHISTLE)->val3*10;
+		flee2 += sc->getSCE(SC_WHISTLE)->val3;
 	if(sc->getSCE(SC__UNLUCKY))
 		flee2 -= flee2 * sc->getSCE(SC__UNLUCKY)->val2 / 100;
 	if (sc->getSCE(SC_HISS))
@@ -11122,7 +11122,7 @@ static bool status_change_start_post_delay(block_list* src, block_list* bl, sc_t
 			break;
 		case SC_WHISTLE:
 			val2 = 18 + 2 * val1; // Flee increase
-			val3 = (val1 + 1) / 2; // Perfect dodge increase
+			val3 = ((val1 + 1) / 2) * 10; // Perfect dodge increase
 			break;
 		case SC_ASSNCROS:
 			val2 = val1 < 10 ? val1 * 2 - 1 : 20; // ASPD increase

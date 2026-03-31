@@ -23,7 +23,7 @@
 class cScopeTimer {
 	struct sPimpl; //this is to avoid long compilation time
 	std::unique_ptr<sPimpl> aPimpl;
-
+    
 	cScopeTimer();
 };
 

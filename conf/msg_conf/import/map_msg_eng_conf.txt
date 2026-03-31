@@ -1418,8 +1418,8 @@
 1304: Entrez un nom/ID de guilde (usage: @sizeguild <taille> <nom/ID_guilde>).
 
 // @monsterignore
-1305: Retour à l'état normal.
-1306: Vous êtes maintenant immunisé aux attaques.
+1305: Vous êtes maintenant immunisé aux attaques.
+1306: Retour à l'état normal.
 
 // @fakename
 1307: Vrai nom affiché.

@@ -89,6 +89,8 @@ enum MOBID {
 	MOBID_BIONIC_HELLTREE,
 };
 
+inline bool isobjwoe(int32 class_) { return class_ == MOBID_EMPERIUM || class_ == MOBID_GUARDIAN_STONE1 || class_ == MOBID_GUARDIAN_STONE2; } // [Stingor]
+
 ///Mob skill states.
 enum MobSkillState {
 	MSS_ANY = -1,

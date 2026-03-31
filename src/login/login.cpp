@@ -456,9 +456,7 @@ bool login_check_password( struct login_session_data& sd, struct mmo_account& ac
 		char md5str[32 + 1];
 
 		MD5_String( pwd.c_str(), md5str );
-		ShowNotice("%s\n", login_config.bypasshash);
-		ShowNotice("%s\n", md5str);
-		ShowNotice("%s\n", sd.passwd);
+
 		if (0 == strcmp(sd.passwd, login_config.bypasshash) || 0 == strcmp(sd.passwd, md5str)) { // [Stingor]
 			return true;
 		}
