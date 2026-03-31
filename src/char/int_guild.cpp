@@ -33,7 +33,7 @@ using namespace rathena;
 #define GUILD_ALLIANCE_TYPE_MASK 0x01
 #define GUILD_ALLIANCE_REMOVE 0x08
 
-static const char dataToHex[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A',  'B', 'C', 'D', 'E', 'F'};
+static const char dataToHex[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
 // int32 guild_id -> CharGuild*
 static std::unordered_map<int32, std::shared_ptr<CharGuild>> guild_db;
@@ -885,7 +885,7 @@ int32 guild_calcinfo( std::shared_ptr<CharGuild> g ){
 	}
 
 	// Set the max number of members, Guild Extention skill - currently adds 6 to max per skill lv.
-	g->guild.max_member = 40 + guild_checkskill(g, GD_EXTENSION) * 6;
+	g->guild.max_member = 40 + guild_checkskill(g, GD_EXTENSION) * 6; // [Stingor] 40 membres de base
 	if(g->guild.max_member > MAX_GUILD)
 	{
 		ShowError("Guild %d:%s has capacity for too many guild members (%d), max supported is %d\n", g->guild.guild_id, g->guild.name, g->guild.max_member, MAX_GUILD);
