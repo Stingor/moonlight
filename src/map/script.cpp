@@ -12995,7 +12995,7 @@ BUILDIN_FUNC(changebase)
 	if(!sd->disguise && vclass != sd->vd.look[LOOK_BASE]) {
 		status_set_viewdata(sd, vclass);
 		//Updated client view. Base, Weapon and Cloth Colors.
-		clif_changelook(sd,LOOK_BASE,sd->vd.look[LOOK_BASE]);
+		clif_changelook(sd,LOOK_BODY2,sd->vd.look[LOOK_BASE]);
 		clif_changelook(sd,LOOK_WEAPON,sd->status.weapon);
 		if (sd->vd.look[LOOK_CLOTHES_COLOR])
 			clif_changelook(sd,LOOK_CLOTHES_COLOR,sd->vd.look[LOOK_CLOTHES_COLOR]);

@@ -44,7 +44,7 @@ L_Menu:
 	mes "Je peux changer votre apparence si vous le souhaitez.";
 	mes " ";
 	mes "Il vous suffit de choisir ce que vous souhaitez modifier:";
-	if( BaseLevel == 999 && !base3rd ) .@menu5$ = "¤ Skin 3ème classe !";
+	if( BaseLevel == 999 && !base3rd ) .@menu5$ = "¤ Skin 3ème classe !:¤ Skin 4ème classe !";
 	else if( BaseLevel == 999 && base3rd ) .@menu5$ = "¤ Retour skin normal !";
 	else .@menu$ = "";
 	.@s = select("¤ Couleur des vêtements", "¤ Couleur des cheveux", "¤ Coiffure", "¤ Hats/Transmogrification", .@menu5$);
@@ -167,32 +167,95 @@ L_mainmenu:
 			changebase Class;
 		}
 		else {
-			base3rd = 1;
 			switch( Class ) {
-				case Job_Lord_Knight:
+				case JOB_LORD_KNIGHT:
+					changebase JOB_RUNE_KNIGHT;
 					if (checkoption(OPTION_RIDING))
 						setoption OPTION_DRAGON,1;
-					changebase Job_Rune_Knight;
 					break;
-				case Job_Ninja:
-					if( Sex ) changebase Job_Kagerou;
-					else changebase Job_Oboro;
+				case JOB_NINJA:
+					if( Sex ) changebase JOB_KAGEROU;
+					else changebase JOB_OBORO;
 					break;
-				case Job_Baby_Ninja:
-					if( Sex ) changebase Job_Baby_Kagerou;
-					else changebase Job_Baby_Oboro;
+				case JOB_BABY_NINJA:
+					if( Sex ) changebase JOB_BABY_KAGEROU;
+					else changebase JOB_BABY_OBORO;
 					break;
-				case Job_Gunslinger:
-					changebase Job_Rebellion;
+				case JOB_GUNSLINGER:
+					changebase JOB_REBELLION;
 					break;
-				case Job_Baby_Gunslinger:
-					changebase Job_Baby_Rebellion;
+				case JOB_BABY_GUNSLINGER:
+					changebase JOB_BABY_REBELLION;
 					break;
 				default:
 					changebase roclass(eaclass()|EAJL_THIRD);
 					break;
 			}
+			base3rd = 1;
 		}
+		goto L_Menu;
+	}
+	if( .@s == 6 ) {
+		switch( Class ) {
+			case JOB_LORD_KNIGHT:
+				changebase JOB_DRAGON_KNIGHT;
+				if (checkoption(OPTION_RIDING))
+					setoption OPTION_DRAGON,1;
+				break;
+			case JOB_HIGH_WIZARD:
+				changebase JOB_ARCH_MAGE;
+				break;
+			case JOB_SNIPER:
+				changebase JOB_WINDHAWK;
+				break;
+			case JOB_HIGH_PRIEST:
+				changebase JOB_CARDINAL;
+				break;
+			case JOB_WHITESMITH:
+				changebase JOB_MEISTER;
+				break;
+			case JOB_ASSASSIN_CROSS:
+				changebase JOB_SHADOW_CROSS;
+				break;
+			case JOB_PALADIN:
+				changebase JOB_IMPERIAL_GUARD;
+				break;
+			case JOB_PROFESSOR:
+				changebase JOB_ELEMENTAL_MASTER;
+				break;
+			case JOB_CHAMPION:
+				changebase JOB_INQUISITOR;
+				break;
+			case JOB_CREATOR:
+				changebase JOB_BIOLO;
+				break;
+			case JOB_STALKER:
+				changebase JOB_ABYSS_CHASER;
+				break;
+			case JOB_STAR_GLADIATOR:
+				changebase JOB_SKY_EMPEROR;
+				break;
+			case JOB_SOUL_LINKER:
+				changebase JOB_SOUL_ASCETIC;
+				break;
+			case JOB_NINJA:
+				if( Sex ) changebase JOB_SHIRANUI;
+				else changebase JOB_SHINKIRO;
+				break;
+			case JOB_BABY_NINJA:
+				if( Sex ) changebase JOB_SHIRANUI;
+				else changebase JOB_SHINKIRO;
+				break;
+			case JOB_GUNSLINGER:
+				changebase JOB_NIGHT_WATCH;
+				break;
+			case JOB_BABY_GUNSLINGER:
+				changebase JOB_NIGHT_WATCH;
+				break;
+			default:
+				break;
+		}
+		base3rd = 1;
 		goto L_Menu;
 	}
 	clear;

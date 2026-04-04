@@ -953,7 +953,7 @@ Body:
     Weight: 300
     Flags:
       BuyingStore: true
-      DropEffect: White_Pillar
+      DropEffect: GREEN_PILLAR
     Delay:
       Duration: 1000
       Status: Reuse_Limit_F
@@ -966,7 +966,7 @@ Body:
     Weight: 300
     Flags:
       BuyingStore: true
-      DropEffect: White_Pillar
+      DropEffect: GREEN_PILLAR
     Delay:
       Duration: 500
       Status: Reuse_Limit_G
@@ -2579,7 +2579,7 @@ Body:
     Weight: 200
     Flags:
       BuyingStore: true
-      DropEffect: Yellow_Pillar
+      DropEffect: YELLOW_PILLAR
   - Id: 970
     AegisName: Alchol
     Name: Alcohol
@@ -25795,7 +25795,7 @@ Body:
     EquipLevelMin: 85
     Refineable: true
     Flags:
-      DropEffect: Purple_Pillar
+      DropEffect: PURPLE_PILLAR
     Script: ".@r = getrefine(); bonus bMaxHPrate,20-.@r; bonus bMaxSPrate,20-.@r; bonus bDef,.@r/2;\n"
     ArmorLevel: 1
   - Id: 2424
@@ -34109,7 +34109,7 @@ Body:
       Armor: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bDefEle,Ele_Ghost; bonus bHPrecovRate,-25;\n"
   - Id: 4048
     AegisName: Poison_Spore_Card
@@ -34189,7 +34189,7 @@ Body:
       Armor: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bDefEle,Ele_Holy;\n"
   - Id: 4055
     AegisName: Marina_Card
@@ -34935,7 +34935,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bHit,100;\n"
   - Id: 4122
     AegisName: Deviruchi_Card
@@ -34960,7 +34960,7 @@ Body:
       Shoes: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bMaxHPrate,-25; bonus bNoWalkDelay;\n"
   - Id: 4124
     AegisName: Medusa_Card
@@ -35018,7 +35018,7 @@ Body:
       Left_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bNoMagicDamage,100; bonus bUseSPrate,100;\n"
   - Id: 4129
     AegisName: Baphomet__Card
@@ -35052,7 +35052,7 @@ Body:
       Shoes: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bSpeedAddRate,35;\n"
   - Id: 4132
     AegisName: Mistress_Card
@@ -35066,7 +35066,7 @@ Body:
       Head_Top: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bNoGemStone; bonus bNoBottle; bonus bNoAmmo; bonus bNoZeny; bonus bNoItem; bonus bUseSPrate,25;\n"
   - Id: 4133
     AegisName: Daydric_Card
@@ -35089,7 +35089,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus2 bSPDrainRate,100,5;\n"
   - Id: 4135
     AegisName: Orc_Load_Card
@@ -35101,7 +35101,7 @@ Body:
       Armor: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bShortWeaponDamageReturn,30;\n"
   - Id: 4136
     AegisName: Khalitzburg_Card
@@ -35124,7 +35124,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bNoSizeFix;\n"
   - Id: 4138
     AegisName: Anubis_Card
@@ -35180,7 +35180,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bAspd,7;bonus bAspd2,1;\n"
   - Id: 4143
     AegisName: Orc_Hero_Card
@@ -35194,7 +35194,7 @@ Body:
       Head_Top: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bVit,3; bonus2 bResEff,Eff_Stun,10000;\n"
   - Id: 4144
     AegisName: Osiris_Card
@@ -35206,7 +35206,7 @@ Body:
       Both_Accessory: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bRestartFullRecover; skill \"ALL_RESURRECTION\",4;\n"
   - Id: 4145
     AegisName: Berzebub_Card
@@ -35218,7 +35218,7 @@ Body:
       Both_Accessory: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bVariableCastrate,-200;\n"
   - Id: 4146
     AegisName: Maya_Card
@@ -35230,7 +35230,7 @@ Body:
       Left_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bMagicDamageReturn,50;\n"
   - Id: 4147
     AegisName: Baphomet_Card
@@ -35242,7 +35242,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bHit,-20; bonus bSplashRange,2;\n"
   - Id: 4148
     AegisName: Pharaoh_Card
@@ -35256,7 +35256,7 @@ Body:
       Head_Top: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bUseSPrate,-30;\n"
   - Id: 4149
     AegisName: Gargoyle_Card
@@ -35424,7 +35424,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bFlee,2; bonus bCritical,7; if(BaseClass==Job_Swordman) bonus3 bAutoSpell,\"KN_BOWLINGBASH\",5,10;\n"
   - Id: 4164
     AegisName: Gullinbursti_Card
@@ -35482,7 +35482,7 @@ Body:
       Shoes: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus3 bAutoSpellWhenHit,\"WZ_METEOR\",5,100;\n"
   - Id: 4169
     AegisName: Dark_Illusion_Card
@@ -35496,7 +35496,7 @@ Body:
       Head_Top: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bMaxHPrate,-10; bonus bMaxSPrate,-10; bonus bVariableCastrate,-10;\n"
   - Id: 4170
     AegisName: Dark_Frame_Card
@@ -35552,7 +35552,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus2 bSubEle,Ele_Neutral,50; bonus2 bSubEle,Ele_Water,-50; bonus2 bSubEle,Ele_Earth,-50; bonus2 bSubEle,Ele_Fire,-50; bonus2 bSubEle,Ele_Wind,-50; bonus2 bSubEle,Ele_Poison,-50; bonus2 bSubEle,Ele_Holy,-50; bonus2 bSubEle,Ele_Dark,-50; bonus2 bSubEle,Ele_Ghost,-50; bonus2 bSubEle,Ele_Undead,-50;\n"
   - Id: 4175
     AegisName: Poison_Toad_Card
@@ -35610,7 +35610,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bAgi,1;\n"
   - Id: 4180
     AegisName: Driller_Card
@@ -35657,7 +35657,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bStr,1;\n"
   - Id: 4184
     AegisName: Lava_Golem_Card
@@ -35818,7 +35818,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bLuk,1;\n"
   - Id: 4198
     AegisName: Maya_Puple_Card
@@ -35832,7 +35832,7 @@ Body:
       Head_Top: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bIntravision;\n"
   - Id: 4199
     AegisName: Merman_Card
@@ -35888,7 +35888,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bBaseAtk,15; bonus3 bAutoSpell,\"MG_FIREBALL\",3+7*(getskilllv(\"MG_FIREBALL\")==10),50;\n"
   - Id: 4204
     AegisName: Mini_Demon_Card
@@ -35935,7 +35935,7 @@ Body:
       Left_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus2 bSubSize,Size_Small,25; bonus bDef,1;\n"
   - Id: 4208
     AegisName: Miyabi_Ningyo_Card
@@ -35980,7 +35980,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bMdef,3;\n"
   - Id: 4212
     AegisName: Bon_Gun_Card
@@ -36260,7 +36260,7 @@ Body:
       Shoes: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bAllStats,1; bonus3 bAutoSpellWhenHit,\"PR_KYRIE\",3,(30+70*(readparam(bInt)>=99));\n"
   - Id: 4237
     AegisName: Owl_Duke_Card
@@ -36272,7 +36272,7 @@ Body:
       Both_Accessory: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus3 bAutoSpell,\"PR_IMPOSITIO\",3,3;\n"
   - Id: 4238
     AegisName: Owl_Baron_Card
@@ -36284,7 +36284,7 @@ Body:
       Both_Accessory: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus3 bAutoSpell,\"PR_LEXAETERNA\",1,30;\n"
   - Id: 4239
     AegisName: Iron_Fist_Card
@@ -36320,7 +36320,7 @@ Body:
       Head_Top: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bMaxHP,300; if(readparam(bLuk)>=77) { bonus bHPrecovRate,100; bonus bSPrecovRate,100; }\n"
   - Id: 4242
     AegisName: Apocalips_Card
@@ -36420,7 +36420,7 @@ Body:
       Left_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus2 bSubSize,Size_Large,25; bonus bDef,1;\n"
   - Id: 4251
     AegisName: Elder_Card
@@ -36465,7 +36465,7 @@ Body:
       Left_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus2 bSubSize,Size_Medium,25; bonus bDef,1;\n"
   - Id: 4255
     AegisName: Orc_Lady_Card
@@ -36571,7 +36571,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bIgnoreDefClass,Class_Normal; bonus2 bIgnoreDefClassRate,Class_Boss,35; bonus2 bIgnoreDefClassRate,Class_Guardian,35; bonus bHPrecovRate,-100; bonus2 bHPLossRate,666,10000;\n"
     UnEquipScript: "if((Hp<=999) && !getmapflag(strcharinfo(3),mf_pvp) && !getmapflag(strcharinfo(3),mf_pvp_noparty) && !getmapflag(strcharinfo(3),mf_pvp_noguild)) { heal(1-Hp),0; } else { heal -999,0; }\n"
   - Id: 4264
@@ -36606,7 +36606,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bVit,1;\n"
   - Id: 4267
     AegisName: Explosion_Card
@@ -36722,7 +36722,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus3 bAddEff,Eff_Stun,500,ATF_SHORT; bonus3 bAddEff,Eff_Curse,500,ATF_SHORT; bonus3 bAddEff,Eff_Silence,500,ATF_SHORT; bonus3 bAddEff,Eff_Poison,500,ATF_SHORT; bonus3 bAddEff,Eff_Bleeding,500,ATF_SHORT; bonus2 bComaClass,Class_Normal,10;\n"
   - Id: 4277
     AegisName: Zherlthsh_Card
@@ -36814,7 +36814,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus4 bAutoSpell,\"AL_HEAL\",5,50,1;\n"
   - Id: 4285
     AegisName: Choco_Card
@@ -36826,7 +36826,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bFlee2,5; bonus bFlee,10;\n"
   - Id: 4286
     AegisName: Karakasa_Card
@@ -36885,7 +36885,7 @@ Body:
       Shoes: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bMdef,3; bonus bMagicDamageReturn,5;\n"
   - Id: 4291
     AegisName: Kobold_Leader_Card
@@ -36897,7 +36897,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus2 bAddRace2,RC2_Kobold,30;\n"
   - Id: 4292
     AegisName: Kobold_Archer_Card
@@ -37000,7 +37000,7 @@ Body:
       Armor: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus2 bAddEffWhenHit,Eff_Poison,300+600*(BaseJob==Job_Assassin);\n"
   - Id: 4301
     AegisName: Killer_Mantis_Card
@@ -37023,7 +37023,7 @@ Body:
       Armor: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bMaxHPrate,100; bonus bDefRate,-50; bonus bMdefRate,-50;\n"
   - Id: 4303
     AegisName: Whisper_Boss_Card
@@ -37057,7 +37057,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus2 bAddClass,Class_All,20;\n"
   - Id: 4306
     AegisName: Toad_Card
@@ -37069,7 +37069,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bFlee2,1;\n"
   - Id: 4307
     AegisName: Kind_Of_Beetle_Card
@@ -37207,7 +37207,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus5 bAutoSpell,\"WZ_STORMGUST\",2,20,0xffff,1; bonus2 bAddEff,Eff_Freeze,2000;\n"
   - Id: 4319
     AegisName: Freezer_Card
@@ -37230,7 +37230,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus5 bAutoSpell,\"WZ_METEOR\",1,20,0xffff,1;\n"
   - Id: 4321
     AegisName: Hylozoist_Card
@@ -37275,7 +37275,7 @@ Body:
       Armor: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus2 bAddEffWhenHit,Eff_Freeze,5000;\n"
   - Id: 4325
     AegisName: Harpy_Card
@@ -37345,7 +37345,7 @@ Body:
       Head_Top: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bInt,3; bonus2 bResEff,Eff_Blind,10000; bonus2 bResEff,Eff_Curse,10000;\n"
   - Id: 4331
     AegisName: Heater_Card
@@ -37415,7 +37415,7 @@ Body:
       Head_Top: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bHPrecovRate,10; bonus2 bResEff,Eff_Bleeding,10000;\n"
   - Id: 4337
     AegisName: Porcellio_Card
@@ -37482,7 +37482,7 @@ Body:
       Armor: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bVit,3; bonus bUnbreakableArmor; bonus bNoKnockback;\n"
   - Id: 4343
     AegisName: Mole_Card
@@ -37597,7 +37597,7 @@ Body:
       Shoes: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bMaxHPrate,10; bonus bMaxSPrate,10; bonus2 bHPRegenRate,50,10000; bonus2 bSPRegenRate,10,10000;\n"
   - Id: 4353
     AegisName: Removal_Card
@@ -37622,7 +37622,7 @@ Body:
       Head_Top: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "if(readparam(bAgi)>=90) { bonus2 bResEff,Eff_Silence,3000; bonus2 bResEff,Eff_Stun,3000; } if(readparam(bVit)>=80) { bonus2 bResEff,Eff_Stone,5000; bonus2 bResEff,Eff_Sleep,5000; }\n"
   - Id: 4355
     AegisName: Gremlin_Card
@@ -37658,7 +37658,7 @@ Body:
       Head_Top: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "skill \"LK_BERSERK\",1; bonus bMaxHPrate,-50;\n"
   - Id: 4358
     AegisName: Seyren_Card
@@ -37683,7 +37683,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "skill \"AS_CLOAKING\",3;\n"
     UnEquipScript: "sc_end SC_CLOAKING;\n"
   - Id: 4360
@@ -37707,7 +37707,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bBreakWeaponRate,1000; bonus bBreakArmorRate,700;\n"
   - Id: 4362
     AegisName: Harword_Card
@@ -37730,7 +37730,7 @@ Body:
       Armor: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus5 bAutoSpellWhenHit,\"HP_ASSUMPTIO\",5,50,BF_WEAPON|BF_MAGIC,0;\n"
   - Id: 4364
     AegisName: Magaleta_Card
@@ -37757,7 +37757,7 @@ Body:
       Head_Top: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus2 bIgnoreMdefClassRate,Class_Normal,100; bonus bVariableCastrate,100; bonus bSPrecovRate,-100;\n"
     UnEquipScript: "heal 0,-2000;\n"
   - Id: 4366
@@ -37783,7 +37783,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus2 bHPDrainRate,100,20; bonus bHPrecovRate,-10;\n"
   - Id: 4368
     AegisName: Shecil_Card
@@ -37841,7 +37841,7 @@ Body:
       Head_Top: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bHealPower,30; bonus bUseSPrate,15;\n"
   - Id: 4373
     AegisName: Chung_E_Card
@@ -37866,7 +37866,7 @@ Body:
       Head_Top: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bDex,2; bonus2 bIgnoreMdefClassRate,Class_Boss,30;\n"
   - Id: 4375
     AegisName: Orc_Baby_Card
@@ -37889,7 +37889,7 @@ Body:
       Shoes: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bMaxHPrate,-40; bonus bMaxSPrate,50; bonus2 bAddMonsterDropItem,513,200; bonus2 bAddItemHealRate,513,100;\n"
   - Id: 4377
     AegisName: Green_Iguana_Card
@@ -37981,7 +37981,7 @@ Body:
       Both_Accessory: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus3 bAutoSpell,\"SA_SPELLBREAKER\",1,100;\n"
   - Id: 4385
     AegisName: Dragon_Egg_Card
@@ -38004,7 +38004,7 @@ Body:
       Armor: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bMdef,-20; bonus2 bResEff,Eff_Freeze,10000; bonus5 bAutoSpellWhenHit,\"SA_LANDPROTECTOR\",1,70,BF_MAGIC,0;\n"
   - Id: 4387
     AegisName: Ancient_Mimic_Card
@@ -38105,7 +38105,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bBaseAtk,5; bonus3 bAutoSpell,\"AL_DECAGI\",3,50;\n"
   - Id: 4396
     AegisName: Tha_Odium_Card
@@ -38117,7 +38117,7 @@ Body:
       Shoes: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bAgi,getrefine()-5;\n"
   - Id: 4397
     AegisName: Tha_Despero_Card
@@ -38129,7 +38129,7 @@ Body:
       Left_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bInt,getrefine()-6;\n"
   - Id: 4398
     AegisName: Tha_Dolor_Card
@@ -38152,7 +38152,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bDefRatioAtkClass,Class_All; bonus bSPDrainValue,-1; bonus bDef,-30; bonus bFlee,-30;\n"
   - Id: 4400
     AegisName: Aliza_Card
@@ -38199,7 +38199,7 @@ Body:
       Head_Top: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bDelayRate,-30;\n"
   - Id: 4404
     AegisName: Skogul_Card
@@ -38244,7 +38244,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bUnbreakableWeapon; bonus2 bAddClass,Class_All,10; bonus3 bAutoSpell,\"SA_DISPELL\",1,50; if (Class == Job_Assassin_Cross) bonus2 bSkillAtk,\"ASC_BREAKER\",10;\n"
   - Id: 4408
     AegisName: Gloom_Under_Night_Card
@@ -38256,7 +38256,7 @@ Body:
       Armor: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus2 bAddEle,Ele_Holy,40; bonus2 bAddEle,Ele_Dark,40; bonus2 bAddRace,RC_Angel,40; bonus2 bAddRace,RC_Demon,40;\n"
   - Id: 4409
     AegisName: Agav_Card
@@ -38382,7 +38382,7 @@ Body:
       Armor: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus2 bAddEle,Ele_Fire,50; bonus5 bAutoSpellWhenHit,\"WZ_FROSTNOVA\",10,20,BF_WEAPON|BF_MAGIC,0;\n"
   - Id: 4420
     AegisName: Muscipular_Card
@@ -38449,7 +38449,7 @@ Body:
       Right_Hand: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bBaseAtk,25; autobonus \"{ bonus bAspdRate,100; }\",5,10000,0,\"{ specialeffect2 EF_POTION_BERSERK; }\";bonus bAspd2,1;\n"
   - Id: 4426
     AegisName: Byorgue_Card
@@ -38505,7 +38505,7 @@ Body:
       Both_Accessory: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bBaseAtk,(JobLevel/5); bonus bCritical,(JobLevel/5); bonus bHit,(JobLevel/5); bonus3 bAutoSpellWhenHit,\"NPC_EARTHQUAKE\",10,10;\n"
   - Id: 4431
     AegisName: Kasa_Card
@@ -38631,7 +38631,7 @@ Body:
       Shoes: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bMatkRate,10; bonus bMaxSPrate,-50; bonus2 bMagicAddRace,RC_Angel,50; bonus2 bMagicAddRace,RC_DemiHuman,50; bonus2 bMagicAddRace,RC_PLAYER_HUMAN,50;\n"
   - Id: 4442
     AegisName: Tatacho_Card
@@ -38797,7 +38797,7 @@ Body:
     Locations:
       Armor: true
     Flags:
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus2 bMagicAtkEle,Ele_Ghost,30;\n"
   - Id: 4458
     AegisName: Duneirre_Card
@@ -40145,7 +40145,7 @@ Body:
     Locations:
       Armor: true
     Flags:
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus2 bAddClass,Class_All,15; if (Class == Job_Assassin_Cross) bonus2 bSkillAtk,\"ASC_BREAKER\",15; bonus bMatkRate,15; bonus2 bHPLossRate,666,4000; bonus2 bSPLossRate,66,4000;\n"
     UnEquipScript: "heal -6666,-666;\n"
   - Id: 4602
@@ -40167,7 +40167,7 @@ Body:
     Locations:
       Right_Hand: true
     Flags:
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bBaseAtk,20; bonus5 bAutoSpell,\"NPC_WIDESTONE\",1,70,BF_WEAPON,0; bonus5 bAutoSpell,\"NPC_WIDESLEEP\",1,70,BF_WEAPON,0; bonus5 bAutoSpell,\"NPC_WIDECURSE\",1,70,BF_WEAPON,0;\n"
   - Id: 4604
     AegisName: CorruptionRootH_Card
@@ -40341,7 +40341,7 @@ Body:
     Locations:
       Left_Hand: true
     Flags:
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus2 bResEff,Eff_Freeze,10000; bonus2 bAddClass,Class_All,10; if (Class == Job_Assassin_Cross) bonus2 bSkillAtk,\"ASC_BREAKER\",10; bonus bMatkRate,10;\n"
   - Id: 4637
     AegisName: Immortal_Corps_Card
@@ -40664,7 +40664,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "if(BaseJob == Job_Sage){ bonus bMaxHPrate,10; bonus bMatkRate,10; } if(BaseLevel>174) bonus bAllStats,10; if(getrefine()>9) bonus bAllStats,10;\n"
   - Id: 4672
     AegisName: V_Chen_Card
@@ -40676,7 +40676,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "if(BaseJob == Job_Monk){ bonus bMaxHPrate,10; bonus2 bAddClass,Class_All,10; } if(BaseLevel>174) bonus bAllStats,10; if(getrefine()>9) bonus bAllStats,10;\n"
   - Id: 4673
     AegisName: V_Alphoccio_Card
@@ -40688,7 +40688,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "if(BaseJob == Job_Bard){ bonus bMaxHPrate,15; bonus bMaxSPrate,10; } if(BaseLevel>174) bonus bAllStats,10; if(getrefine()>9) bonus bAllStats,10;\n"
   - Id: 4674
     AegisName: V_Eremes_Card
@@ -40700,7 +40700,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "if(BaseJob == Job_Assassin){ bonus bFlee2,10; bonus2 bAddClass,Class_All,15; if (Class == Job_Assassin_Cross) bonus2 bSkillAtk,\"ASC_BREAKER\",15; } if(BaseLevel>174) bonus bAllStats,10; if(getrefine()>9) bonus bAllStats,10;\n"
   - Id: 4675
     AegisName: V_Magaleta_Card
@@ -40712,7 +40712,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "if(BaseJob == Job_Priest){ bonus bMaxHPrate,10; bonus bHealPower,10; } if(BaseLevel>174) bonus bAllStats,10; if(getrefine()>9) bonus bAllStats,10;\n"
   - Id: 4676
     AegisName: V_Shecil_Card
@@ -40724,7 +40724,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "if(BaseJob == Job_Hunter){ bonus bCritical,20; bonus bLongAtkRate,15; } if(BaseLevel>174) bonus bAllStats,10; if(getrefine()>9) bonus bAllStats,10;\n"
   - Id: 4677
     AegisName: V_Howard_Card
@@ -40736,7 +40736,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "if(BaseJob == Job_Blacksmith){ bonus bHit,20; bonus2 bAddClass,Class_All,15; } if(BaseLevel>174) bonus bAllStats,10; if(getrefine()>9) bonus bAllStats,10;\n"
   - Id: 4678
     AegisName: V_Katrinn_Card
@@ -40748,7 +40748,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "if(BaseJob == Job_Wizard){ bonus bMdef,20; bonus bMatkRate,15; } if(BaseLevel>174) bonus bAllStats,10; if(getrefine()>9) bonus bAllStats,10;\n"
   - Id: 4679
     AegisName: V_Seyren_Card
@@ -40760,7 +40760,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "if(BaseJob == Job_Knight){ bonus bAspd,2; bonus2 bAddClass,Class_All,15; } if(BaseLevel>174) bonus bAllStats,10; if(getrefine()>9) bonus bAllStats,10;\n"
   - Id: 4680
     AegisName: V_Randel_Card
@@ -40772,7 +40772,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "if(BaseJob == Job_Crusader){ bonus bDef,10; bonus2 bAddClass,Class_All,10; } if(BaseLevel>174) bonus bAllStats,10; if(getrefine()>9) bonus bAllStats,10;\n"
   - Id: 4681
     AegisName: V_Flamel_Card
@@ -40784,7 +40784,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "if(BaseJob == Job_Alchemist){ bonus bFlee,20; bonus2 bAddClass,Class_All,15; } if(BaseLevel>174) bonus bAllStats,10; if(getrefine()>9) bonus bAllStats,10;\n"
   - Id: 4682
     AegisName: V_Gertie_Card
@@ -40796,7 +40796,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "if(BaseJob == Job_Rogue){ bonus2 bAddClass,Class_All,5; bonus bMatkRate,15; } if(BaseLevel>174) bonus bAllStats,10; if(getrefine()>9) bonus bAllStats,10;\n"
   - Id: 4683
     AegisName: V_Trentini_Card
@@ -40808,7 +40808,7 @@ Body:
       Garment: true
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "if(BaseJob == Job_Dancer){ bonus bMaxHPrate,10; bonus bMaxSPrate,15; } if(BaseLevel>174) bonus bAllStats,10; if(getrefine()>9) bonus bAllStats,10;\n"
   - Id: 4684
     AegisName: V_B_Eremes_Card
@@ -58391,7 +58391,7 @@ Body:
     Weight: 10
     Flags:
       BuyingStore: true
-      DropEffect: Blue_Pillar
+      DropEffect: BLUE_PILLAR
   - Id: 6608
     AegisName: Coagulated_Spell
     Name: Coagulated Spell
@@ -58399,7 +58399,7 @@ Body:
     Weight: 10
     Flags:
       BuyingStore: true
-      DropEffect: White_Pillar
+      DropEffect: GREEN_PILLAR
   - Id: 6609
     AegisName: Glast_Decayed_Nail
     Name: Glast Decayed Nail
@@ -58773,7 +58773,7 @@ Body:
     Buy: 10
     Weight: 100
     Flags:
-      DropEffect: Blue_Pillar
+      DropEffect: BLUE_PILLAR
   - Id: 6720
     AegisName: Status_Reset_Coupon
     Name: Status Reset Coupon
@@ -60043,7 +60043,7 @@ Body:
     Weight: 10
     Flags:
       BuyingStore: true
-      DropEffect: Blue_Pillar
+      DropEffect: BLUE_PILLAR
   - Id: 7037
     AegisName: Trade_Coupon
     Name: Coupon
@@ -62654,7 +62654,7 @@ Body:
     Weight: 10
     Flags:
       BuyingStore: true
-      DropEffect: White_Pillar
+      DropEffect: GREEN_PILLAR
   - Id: 7437
     AegisName: Piece_Of_Memory_Purple
     Name: Fragment of Misery
@@ -62662,7 +62662,7 @@ Body:
     Weight: 10
     Flags:
       BuyingStore: true
-      DropEffect: White_Pillar
+      DropEffect: GREEN_PILLAR
   - Id: 7438
     AegisName: Piece_Of_Memory_Blue
     Name: Fragment of Hatred
@@ -62670,7 +62670,7 @@ Body:
     Weight: 10
     Flags:
       BuyingStore: true
-      DropEffect: White_Pillar
+      DropEffect: GREEN_PILLAR
   - Id: 7439
     AegisName: Piece_Of_Memory_Red
     Name: Fragment of Despair
@@ -62678,7 +62678,7 @@ Body:
     Weight: 10
     Flags:
       BuyingStore: true
-      DropEffect: White_Pillar
+      DropEffect: GREEN_PILLAR
   - Id: 7440
     AegisName: Red_Feather
     Name: Red Feather
@@ -62714,7 +62714,7 @@ Body:
     Weight: 10
     Flags:
       BuyingStore: true
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
   - Id: 7445
     AegisName: Dragonball_Green
     Name: Green Bijou
@@ -72966,7 +72966,7 @@ Body:
     Buy: 20
     Weight: 10
     Flags:
-      DropEffect: Purple_Pillar
+      DropEffect: PURPLE_PILLAR
     Script: "getrandgroupitem(IG_Advanced_Weapons_Box,1);\n"
   - Id: 12624
     AegisName: Delicious_Jelly
@@ -114253,7 +114253,7 @@ Body:
     EquipLevelMin: 120
     Refineable: true
     Flags:
-      DropEffect: Purple_Pillar
+      DropEffect: PURPLE_PILLAR
     Script: ".@r = getrefine(); bonus bAgi,5; bonus bFlee,10; if(readparam(bStr)>=90) bonus bBaseAtk,10+(.@r*2); if(readparam(bInt)>=90) bonus bMatk,20+(.@r*3); if(readparam(bVit)>=90) bonus2 bSubEle,Ele_Neutral,3+((.@r>=8)?3:0)+((.@r>=10)?4:0); if(readparam(bAgi)>=90){ bonus bAspdRate,3+(.@r/2); bonus bAspd,((.@r>=10)?1:0); } if(readparam(bDex)>=90) bonus bLongAtkRate,3+(.@r/2); if(readparam(bLuk)>=90) bonus bCriticalRate,5+.@r;\n"
     ArmorLevel: 1
   - Id: 20749
@@ -117072,7 +117072,7 @@ Body:
     EquipLevelMin: 100
     Flags:
       BuyingStore: true
-      DropEffect: Blue_Pillar
+      DropEffect: BLUE_PILLAR
     Script: "callfunc(\"F_Pieces_Of_Sentiment\");\n"
   - Id: 22691
     AegisName: Record_Fragment1
@@ -117900,7 +117900,7 @@ Body:
     Weight: 1
     Flags:
       BuyingStore: true
-      DropEffect: Blue_Pillar
+      DropEffect: BLUE_PILLAR
     Script: "callfunc(\"F_Cursed_Fragment\");\n"
   - Id: 23038
     AegisName: S_Slim_White_Box
@@ -123098,7 +123098,7 @@ Body:
     Locations:
       Right_Hand: true
     Flags:
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus2 bAddClass,Class_All,10; bonus3 bAutoSpell,\"NPC_WIDESOULDRAIN\",2,30+((getrefine()/3)*10); if (Class == Job_Assassin_Cross) bonus2 bSkillAtk,\"ASC_BREAKER\",10;\n"
   - Id: 27025
     AegisName: Lich_Lord_Card
@@ -123748,7 +123748,7 @@ Body:
     Locations:
       Both_Accessory: true
     Flags:
-      DropEffect: Orange_Pillar
+      DropEffect: RED_PILLAR
     Script: "bonus bBreakWeaponRate,500; bonus bBreakArmorRate,500;\n"
   - Id: 27181
     AegisName: Airship_Raid_Card

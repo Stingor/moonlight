@@ -68,11 +68,11 @@
 // #endif
 
 #ifndef DUMP_UNKNOWN_PACKET
-	//#define DUMP_UNKNOWN_PACKET
+	#define DUMP_UNKNOWN_PACKET
 #endif
 
 #ifndef DUMP_INVALID_PACKET
-	//#define DUMP_INVALID_PACKET
+	#define DUMP_INVALID_PACKET
 #endif
 
 /**
