@@ -326,7 +326,7 @@ Mission_Status:
 	}
 
 	// Zeny formula:
-	.@Zeny = #Mission_Count * .Quests * .@j[.@i] * 200;
+	.@Zeny = #Mission_Count * .Quests * 10000;
 	next;
 	mes "[Chuck Testa]";
 	mes "Récompenses des Missions:";
