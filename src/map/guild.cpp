@@ -2746,6 +2746,13 @@ void do_final_guild(void) {
 	}
 
 	guild_db.clear();
+
+	for (auto &it : castle_db) {
+		if (it.second && it.second->temp_guardians) {
+			aFree(it.second->temp_guardians);
+			it.second->temp_guardians = nullptr;
+		}
+	}
 	castle_db.clear();
 	guild_expcache_db->destroy(guild_expcache_db,guild_expcache_db_final);
 	guild_infoevent_db->destroy(guild_infoevent_db,eventlist_db_final);

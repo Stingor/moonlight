@@ -4130,13 +4130,13 @@ int32 unit_free(block_list *bl, clr_type clrtype)
 				}
 			}
 
+			skill_clear_unitgroup(bl);
+			status_change_clear(bl,1);
+
 			if( md->base_status) {
 				aFree(md->base_status);
 				md->base_status = nullptr;
 			}
-
-			skill_clear_unitgroup(bl);
-			status_change_clear(bl,1);
 
 			if( mob_is_clone(md->mob_id) )
 				mob_clone_delete(md);
