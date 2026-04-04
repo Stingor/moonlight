@@ -75,6 +75,7 @@ L_info:
 		close;
 	}
 OnLaunchInvasion:
+	$@MobInvSpawnEnd = 0;
 	$@InvasionID += 1;	// Identifiant unique de cette invasion
 	// liste des map de pop possible de l'event
 	setarray .maps_event$[0], "yuno_fild01", "pay_fild03", "prt_fild08", "prt_fild05", "prt_fild06";
@@ -126,12 +127,12 @@ OnLaunchInvasion:
 		monster $mapinvasion$,0,0,"--ja--",.tMobUndead2[ rand( getarraysize( .tMobUndead2 ) ) ],1,"F_EventMobUndead::OnMobUndeadKill";
 	}
 
-	callfunc "announce2", "Une invasion de Morts-Vivants et de Demons "+$@mapdesc$+" !",bc_all,0xFFFF00;
-	announce "Anéantissez la source du mal pour nous sauver !",bc_all,0xFFFF00;
-	announce "AoE bloqués tant que au moins 500 Monstres n'ont pas été tués!",bc_all,0xFFFF00;
-	announce "Chaque MvP tué diminue votre malus de victoire de 1 pts!",bc_all,0xFFFF00;
-	announce "Bloody branch, Field manual, Lucky Candy(disguise) et 1 hat au plus gros tueur!",bc_all,0xFFFF00;
-	announce "Evitez de déco sinon vous perdez votre score! (Warp en ville)",bc_all,0xFFFF00;
+	announce "Une invasion de Morts-Vivants et de Demons "+$@mapdesc$+" !",bc_all|bc_npc,0xFFFF00;
+	announce "Anéantissez la source du mal pour nous sauver !",bc_all|bc_npc,0xFFFF00;
+	announce "AoE bloqués tant que au moins 500 Monstres n'ont pas été tués!",bc_all|bc_npc,0xFFFF00;
+	announce "Chaque MvP tué diminue votre malus de victoire de 1 pts!",bc_all|bc_npc,0xFFFF00;
+	announce "Bloody branch, Field manual, Lucky Candy(disguise) et 1 hat au plus gros tueur!",bc_all|bc_npc,0xFFFF00;
+	announce "Evitez de déco sinon vous perdez votre score! (Warp en ville)",bc_all|bc_npc,0xFFFF00;
 	hideoffnpc "warp_invasion";
 
 	.nbr = $@MobUndead3;
@@ -150,12 +151,12 @@ OnLaunchInvasion:
 
 	.nbr = $@MvpUndeadM;
 	while( .nbr && $eventinvasion ) {
-		sleep 5000;
+		sleep 2500;
 		.nbr -= 1;
 		monster $mapinvasion$,0,0,"--ja--",.tMvpUndeadM[ rand( getarraysize( .tMvpUndeadM ) ) ],1,"F_EventMobUndead::OnMvpUndeadKill";
 	}
 
-	announce "Satan morroc a décidé de se déplacer pour l'assault final !",bc_all,0xFFFF00;
+	announce "Satan morroc a décidé de se déplacer pour l'assault final !",bc_all|bc_npc,0xFFFF00;
 	monster $mapinvasion$,0,0,"--ja--",1917,1,"F_EventMobUndead::OnMvpUndeadKill";
 	$@MvpUndeadM += 1;
 
@@ -163,6 +164,7 @@ OnLaunchInvasion:
 		killmonster $mapinvasion$,"F_EventMobUndead::OnMobUndeadKill";
 		killmonster $mapinvasion$,"F_EventMobUndead::OnMvpUndeadKill";
 	}
+	$@MobInvSpawnEnd = 1;
 	end;
 
 L_Quit:
@@ -194,51 +196,51 @@ OnMobUndeadKill:
 		query_sql("UPDATE `mapreg` SET `value` = '"+$nbmobinvasion+"' WHERE `varname` = '$nbmobinvasion'");
 
 	if( $nbmobinvasion == 500 && (getmapflag($mapinvasion$,mf_noaoeskill) || getmapflag($mapinvasion$,mf_noteleport)) ) {
-		announce "Vous retrouvez tous vos skills AOE et le teleport ... gogogo!",bc_all,0xFFFF00;
+		announce "Vous retrouvez tous vos skills AOE et le teleport ... gogogo!",bc_all|bc_npc,0xFFFF00;
 		removemapflag $mapinvasion$,mf_noaoeskill; // AOE SKILL ON
 		removemapflag $mapinvasion$,mf_noteleport; // TELEPORT ON
 	}
 
-	if( playerattached() && @InvasionID != $@InvasionID ) { // Initialisation du score au premier kill de mob
-		@InvasionID = $@InvasionID;
-		@NbrKill = 0;
-	}
-
-	@NbrKill += 1; // +1 kill au score du joueur
-
-	if( rand(0,8) == 8 )
-		#maluswininvasion -= 1;
-
-	if( #maluswininvasion < 0 )
-		#maluswininvasion = 0;
-
-	dispbottom @NbrKill + " monstres tués" + (#maluswininvasion > 0?" - Malus: " + #maluswininvasion:".");
-
-	if( @NbrKill > ($@NbrKillMax + #maluswininvasion) ) { // On augmente le score de kill le plus haut chaque fois qu'un joueur le dépasse
-		$@NbrKillMax += 1;
-		$@Winn$ = strcharinfo(0);
-	}
-
 	if( $nbmobinvasion < 1 ) { // Plus de mob mais encore des boss
-		announce "Tous les monstres sont morts ! Terminez en tuant le(s) dernier(s) Boss !",bc_all,0xFFFF00;
+		announce "Tous les monstres sont morts ! Terminez en tuant le(s) dernier(s) Boss !",bc_all|bc_npc,0xFFFF00;
 		if( getmapflag($mapinvasion$,mf_noaoeskill) || getmapflag($mapinvasion$,mf_noteleport) ) {
-			announce "Skill de zone et Teleport débloqués !",bc_all,0xFFFF00;
+			announce "Skill de zone et Teleport débloqués !",bc_all|bc_npc,0xFFFF00;
 			removemapflag $mapinvasion$,mf_noaoeskill; // AOE SKILL ON
 			removemapflag $mapinvasion$,mf_noteleport; // TELEPORT ON
 		}
 	}
 
-	if( strcharinfo(0) == $@Winn$ ) {
+	if( playerattached() ) {
+		if ( @InvasionID != $@InvasionID ) { // Initialisation du score au premier kill de mob
+			@InvasionID = $@InvasionID;
+			@NbrKill = 0;
+		}
+
+		@NbrKill += 1; // +1 kill au score du joueur
+
+		if( rand(0,8) == 8 )
+			#maluswininvasion -= 1;
+
+		if( #maluswininvasion < 0 )
+			#maluswininvasion = 0;
+
+		dispbottom @NbrKill + " monstres tués" + (#maluswininvasion > 0?" - Malus: " + #maluswininvasion:".");
+
+		if( @NbrKill > ($@NbrKillMax + #maluswininvasion) ) { // On augmente le score de kill le plus haut chaque fois qu'un joueur le dépasse
+			$@NbrKillMax += 1;
+			$@Winn$ = strcharinfo(0);
+		}
+
 		switch( $@NbrKillMax ) {
-			case 5:		announce $@Winn$+" en est à son 5éme mob tué!",bc_map,0xFFFF00; break;
-			case 20:	announce "WouaW "+$@Winn$+" prend la tête avec un total de 20 mobs tués!",bc_map,0xFFFF00; break;
-			case 50:	announce $@Winn$+" est bien échauffé avec 50 mobs dégommés!",bc_map,0xFFFF00; break;
-			case 100:	announce $@Winn$+" est en forme et prend la tête avec un total de 100 mobs tués!",bc_map,0xFFFF00; break;
-			case 200:	announce "WOW "+$@Winn$+" se déchaine avec un total de 200 mobs tués!",bc_map,0xFFFF00; break;
-			case 400:	announce "WOW "+$@Winn$+" est en folie meurtrière avec un total de 400 mobs tués!",bc_map,0xFFFF00; break;
-			case 800:	announce "OMG "+$@Winn$+" est une machine de guerre avec un total de 800 mobs tués!",bc_map,0xFFFF00; break;
-			case 1000:	announce "MOMOMONMONMONSTERKILL "+$@Winn$+" a abattu 1000 mobs!",bc_map,0xFFFF00; break;
-			case 1500:	announce $@Winn$+" a abattu 1500 mobs, rien à dire °°!",bc_map,0xFFFF00; break;
+			case 5:		mapannounce $mapinvasion$,$@Winn$+" en est à son 5éme mob tué!",bc_all,0xFFFF00; break;
+			case 20:	mapannounce $mapinvasion$,"WouaW "+$@Winn$+" prend la tête avec un total de 20 mobs tués!",bc_all,0xFFFF00; break;
+			case 50:	mapannounce $mapinvasion$,$@Winn$+" est bien échauffé avec 50 mobs dégommés!",bc_all,0xFFFF00; break;
+			case 100:	mapannounce $mapinvasion$,$@Winn$+" est en forme et prend la tête avec un total de 100 mobs tués!",bc_all,0xFFFF00; break;
+			case 200:	mapannounce $mapinvasion$,"WOW "+$@Winn$+" se déchaine avec un total de 200 mobs tués!",bc_all,0xFFFF00; break;
+			case 400:	mapannounce $mapinvasion$,"WOW "+$@Winn$+" est en folie meurtrière avec un total de 400 mobs tués!",bc_all,0xFFFF00; break;
+			case 800:	mapannounce $mapinvasion$,"OMG "+$@Winn$+" est une machine de guerre avec un total de 800 mobs tués!",bc_all,0xFFFF00; break;
+			case 1000:	mapannounce $mapinvasion$,"MOMOMONMONMONSTERKILL "+$@Winn$+" a abattu 1000 mobs!",bc_all,0xFFFF00; break;
+			case 1500:	mapannounce $mapinvasion$,$@Winn$+" a abattu 1500 mobs, rien à dire °°!",bc_all,0xFFFF00; break;
 		}
 
 		switch( $nbmobinvasion ) {
@@ -251,9 +253,9 @@ OnMobUndeadKill:
 			case 700:
 			case 800:
 			case 1000:
-			case 2000: announce "Il reste "+$nbmobinvasion+" Morts-Vivants et/ou Demons à "+$mapinvasion$+" !",bc_map,0xFFFF00; break;
+			case 2000: mapannounce $mapinvasion$,"Il reste "+$nbmobinvasion+" Morts-Vivants et/ou Demons à "+$mapinvasion$+" !",bc_all,0xFFFF00; break;
 			default:
-				if( $nbmobinvasion > 0 && $nbmobinvasion <= 10 ) announce "Il reste "+$nbmobinvasion+" Mobs à "+$mapinvasion$+" !",bc_map,0xFFFF00; break;
+				if( $nbmobinvasion > 0 && $nbmobinvasion <= 10 ) mapannounce $mapinvasion$,"Il reste "+$nbmobinvasion+" Mobs à "+$mapinvasion$+" !",bc_all,0xFFFF00; break;
 		}
 	}
 	end;
@@ -261,48 +263,50 @@ OnMobUndeadKill:
 OnMvpUndeadKill:
 	$@MvpUndeadM -= 1;
 
-	if( playerattached() && @InvasionID != $@InvasionID ) { // Initialisation du score au premier kill de mvp
-		@InvasionID = $@InvasionID;
-		@NbrKill = 0;
-	}
-
-	@NbrKill += 1; // +1 kill au score du joueur
-
-	#maluswininvasion -= 1;
-	if( #maluswininvasion < 0 )
-		#maluswininvasion = 0;
-
-	if( @NbrKill > ($@NbrKillMax + #maluswininvasion) ) { // On augmente le score de kill le plus haut chaque fois qu'un joueur le dépasse
-		$@NbrKillMax += 1;
-		$@Winn$ = strcharinfo(0);
-	}
-
 	if( $@MvpUndeadM < 1 ) { // Plus de boss mais encore des mob
-		announce "Tous les Boss sont morts ! Terminez en tuant les derniers monstres !",bc_all,0xFFFF00;
+		announce "Tous les Boss sont morts ! Terminez en tuant les derniers monstres !",bc_all|bc_npc,0xFFFF00;
 		if( getmapflag($mapinvasion$,mf_noaoeskill) || getmapflag($mapinvasion$,mf_noteleport) ) {
-			announce "Skill de zone et Teleport débloqués !",bc_all,0xFFFF00;
+			announce "Skill de zone et Teleport débloqués !",bc_all|bc_npc,0xFFFF00;
 			removemapflag $mapinvasion$,mf_noaoeskill; // AOE SKILL ON
 			removemapflag $mapinvasion$,mf_noteleport; // TELEPORT ON
 		}
 	}
 
-	switch( $@MvpUndeadM ) {
-		case 5:
-		case 10:
-		case 20:
-		case 30:
-		case 40:
-		case 60:
-		case 80:
-		case 100: announce "Il reste "+$@MvpUndeadM+" Boss à "+$mapinvasion$+" !",bc_map,0xFFFF00; break;
-		default:
-			if( $@MvpUndeadM > 0 && $@MvpUndeadM <= 5 ) announce "Il reste "+$@MvpUndeadM+" Boss à "+$mapinvasion$+" !",bc_map,0xFFFF00; break;
+	if( playerattached() ) {
+		if ( @InvasionID != $@InvasionID ) { // Initialisation du score au premier kill de mob
+			@InvasionID = $@InvasionID;
+			@NbrKill = 0;
+		}
+
+		@NbrKill += 1; // +1 kill au score du joueur
+
+		#maluswininvasion -= 1;
+		if( #maluswininvasion < 0 )
+			#maluswininvasion = 0;
+
+		if( @NbrKill > ($@NbrKillMax + #maluswininvasion) ) { // On augmente le score de kill le plus haut chaque fois qu'un joueur le dépasse
+			$@NbrKillMax += 1;
+			$@Winn$ = strcharinfo(0);
+		}
+
+		switch( $@MvpUndeadM ) {
+			case 5:
+			case 10:
+			case 20:
+			case 30:
+			case 40:
+			case 60:
+			case 80:
+			case 100: mapannounce $mapinvasion$,"Il reste "+$@MvpUndeadM+" Boss à "+$mapinvasion$+" !",bc_all,0xFFFF00; break;
+			default:
+				if( $@MvpUndeadM > 0 && $@MvpUndeadM <= 5 ) mapannounce $mapinvasion$,"Il reste "+$@MvpUndeadM+" Boss à "+$mapinvasion$+" !",bc_all,0xFFFF00; break;
+		}
 	}
 	end;
 }
 
 function	script	end_invasion	{
-	callfunc "announce2", "L'invasion des Monstres a été stoppée !!!",bc_all,0xFFFF00;
+	announce "L'invasion des Monstres a été stoppée !!!",bc_all|bc_npc,0xFFFF00;
 	$eventinvasion = 0;
 	$nbmobinvasion = 0;
 	$@MobUndead1 = 0;
@@ -381,8 +385,8 @@ function	script	end_invasion	{
 		else
 			logmes "Récompenses non reçues.";
 
-		callfunc "announce2", $@Winn$ + " a gagné en tuant un total de " + $@NbrKillMax + " monstres !",bc_all,0xFFFF00;
-		callfunc "announce2", ((Sex == SEX_FEMALE) ? "Elle" : "Il") + " gagne 5 bloody branch, 30 lucky candy, 1 Bubble Gum X2 et " + getitemname(.@winitem) + "!",bc_all,0xFFFF00;
+		announce $@Winn$ + " a gagné en tuant un total de " + $@NbrKillMax + " monstres !",bc_all|bc_npc,0xFFFF00;
+		announce ((Sex == SEX_FEMALE) ? "Elle" : "Il") + " gagne 5 bloody branch, 30 lucky candy, 1 Bubble Gum X2 et " + getitemname(.@winitem) + "!",bc_all|bc_npc,0xFFFF00;
 	}
 	$@NbrKillMax = 0;
 	$@Winn$ = "";
@@ -409,8 +413,8 @@ OnWatchDog:
 	sleep 20000;
 	while( $eventinvasion ) {
 		sleep 5000;
-		if( mobcount( $mapinvasion$,"F_EventMobUndead::OnMobUndeadKill" ) < 1 && mobcount( $mapinvasion$,"F_EventMobUndead::OnMvpUndeadKill" ) < 1 ) {
-			callfunc "end_invasion";
+		if( $@MobInvSpawnEnd == 1 && mobcount( $mapinvasion$,"F_EventMobUndead::OnMobUndeadKill" ) < 1 && mobcount( $mapinvasion$,"F_EventMobUndead::OnMvpUndeadKill" ) < 1 ) {
+			end_invasion();
 			end;
 		}
 	}
