@@ -10947,11 +10947,6 @@ void clif_parse_LoadEndAck(int32 fd,map_session_data *sd)
 
 	if( sd->bg_id ) clif_bg_hp(sd); // BattleGround System
 
-	// [Stingor] -->
-	status_calc_bl_(sd, SCB_ASPD, SCO_FORCE);
-	clif_updatestatus(*sd, SP_ASPD);
-	// [Stingor] <--
-
 	if(!pc_isinvisible(sd) && mapdata->getMapFlag(MF_PVP)) {
 		if(!battle_config.pk_mode) { // remove pvp stuff for pk_mode [Valaris]
 			if (!mapdata->getMapFlag(MF_PVP_NOCALCRANK))
@@ -11770,14 +11765,17 @@ void clif_parse_Emotion(int32 fd, map_session_data *sd){
 	if( sd == nullptr ){
 		return;
 	}
-
-	const PACKET_CZ_REQ_EMOTION* p = reinterpret_cast<PACKET_CZ_REQ_EMOTION*>( RFIFOP( fd, 0 ) );
+#if PACKETVER_MAIN_NUM >= 20230705
+	emotion_type emoticon = static_cast<emotion_type>(RFIFOB(fd, packet_db[RFIFOW(fd, 0)].pos[0]));
+#else
+	const PACKET_CZ_REQ_EMOTION* p = reinterpret_cast<PACKET_CZ_REQ_EMOTION*>(RFIFOP(fd, 0));
 
 	if( p->emotion_type >= ET_MAX ){
 		return;
 	}
 	
 	emotion_type emoticon = static_cast<emotion_type>( p->emotion_type );
+#endif
 
 	if (battle_config.basic_skill_check == 0 || pc_checkskill(sd, NV_BASIC) >= 2 || pc_checkskill(sd, SU_BASIC_SKILL) >= 1) {
 		if (emoticon == ET_CHAT_PROHIBIT) {// prevent use of the mute emote [Valaris]

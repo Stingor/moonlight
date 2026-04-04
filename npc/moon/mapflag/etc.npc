@@ -154,6 +154,7 @@ gonryun	mapflag	nomvploot
 gonryun	mapflag	nomvpcard
 gonryun	mapflag	noaoeskill
 gonryun	mapflag	allowks
+gonryun	mapflag	autotrade
 
 aldeg_cas01	mapflag	nosave	SavePoint
 alde_gld	mapflag	nosave	SavePoint
