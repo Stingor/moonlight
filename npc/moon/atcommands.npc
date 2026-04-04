@@ -1,3 +1,15 @@
+-	script	::CommandVote	-1,{
+end;
+	OnInit:
+		bindatcmd("vote", strnpcinfo(3)+"::OnCommand");
+	end;
+
+	OnCommand:
+		ignoretimeout(1);
+		mes "<URL>Voter<INFO>https://www.rotopserv.net/serveurs/moonlight-destiny/vote/" + getusername(getuserid(getcharid(3))) + "</INFO></URL>";
+		close;
+}
+
 -	script	#opendressroom	-1,{
 OnInit:
 	bindatcmd("dressroom",strnpcinfo(0)+"::OnCommand",99,99);
@@ -402,7 +414,7 @@ OnCommand:
 	mes "Joueur: " + strcharinfo(0,atoi(.@atcmd_parameters$[0]));
 	.@login$ = callfunc("getuserid",getcharid(3,strcharinfo(0,atoi(.@atcmd_parameters$[0]))));
 	mes "Login: " + .@login$;
-	mes "Vote: " + callfunc("getvote",callfunc("getuniqueid",getcharid(3,strcharinfo(0,atoi(.@atcmd_parameters$[0])))));
+	mes "Vote: " + callfunc("getvote",callfunc("getuserid",getcharid(3,strcharinfo(0,atoi(.@atcmd_parameters$[0])))));
 	mes "Event: " + readparam(132, atoi(.@atcmd_parameters$[0]));
 L_main:
 	switch( select( "Voir l'equippements", "Points Events", "Faire venir le joueur", "@nuke", (readparam(Sitting, atoi(.@atcmd_parameters$[0]))?"Debout":"Assis"), "",

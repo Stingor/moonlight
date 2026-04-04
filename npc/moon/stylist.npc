@@ -44,8 +44,8 @@ L_Menu:
 	mes "Je peux changer votre apparence si vous le souhaitez.";
 	mes " ";
 	mes "Il vous suffit de choisir ce que vous souhaitez modifier:";
-	if( BaseLevel == 999 && !base3rd ) .@menu5$ = "¤ Skin 3ème classe !:¤ Skin 4ème classe !";
-	else if( BaseLevel == 999 && base3rd ) .@menu5$ = "¤ Retour skin normal !";
+	if( BaseLevel == 999 && !(base3rd || base4th) ) .@menu5$ = "¤ Skin 3ème classe !:¤ Skin 4ème classe !";
+	else if( BaseLevel == 999 && (base3rd || base4th) ) .@menu5$ = "¤ Retour skin normal !";
 	else .@menu$ = "";
 	.@s = select("¤ Couleur des vêtements", "¤ Couleur des cheveux", "¤ Coiffure", "¤ Hats/Transmogrification", .@menu5$);
 	if( .@s == 4 ) {
@@ -160,10 +160,11 @@ L_mainmenu:
 		close;
 	}
 	if( .@s == 5 ) {
-		if( base3rd ) {
+		if( base3rd || base4th ) {
 			if (checkoption(OPTION_RIDING))
 				setoption OPTION_DRAGON,0;
 			base3rd = 0;
+			base4th = 0;
 			changebase Class;
 		}
 		else {
@@ -191,6 +192,7 @@ L_mainmenu:
 					changebase roclass(eaclass()|EAJL_THIRD);
 					break;
 			}
+			base4th = 0;
 			base3rd = 1;
 		}
 		goto L_Menu;
@@ -255,7 +257,8 @@ L_mainmenu:
 			default:
 				break;
 		}
-		base3rd = 1;
+		base3rd = 0;
+		base4th = 1;
 		goto L_Menu;
 	}
 	clear;

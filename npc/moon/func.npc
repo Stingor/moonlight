@@ -18,9 +18,9 @@ function	script	mapannounce2	{
 	return;
 }
 
-function	script	getuniqueid	{
-	query_sql("SELECT `user_id` FROM `login` WHERE `account_id` = '"+getarg(0)+"'", .@uniqueid);
-	return .@uniqueid;
+function	script	getusername	{
+	query_sql("SELECT `username` FROM `site`.`phpbb_users` WHERE `user_id` = '"+getarg(0)+"'", .@username);
+	return .@username;
 }
 
 function	script	getvote	{
@@ -251,14 +251,14 @@ function	script	getmapname	{
 // FONCTION ADD/REMOVE VOTE // ARG0 = nombrevote | ARG1 = ACCOUNTID | ARG2 = OPERATION ("+" ou "-")
 function	script	moonlight_vote	{
 	.@nombrevote = getarg(0);
-	.@uniqueid = callfunc("getuniqueid",getarg(1));
+	.@uniqueid = callfunc("getuserid",getarg(1));
 	if( !.@nombrevote || !.@uniqueid ) {
 		mes "["+strnpcinfo(0)+"]";
 		mes "Une erreur est survenue lors du traitement de l'opération.";
 		mes "Merci de contacter l'Administrateur.";
 		close;
 	}
-	.@vote = callfunc("getvote",callfunc("getuniqueid",getcharid(3)));
+	.@vote = callfunc("getvote",callfunc("getuserid",getcharid(3)));
 	if( .@vote < .@nombrevote ) {
 		mes "["+strnpcinfo(0)+"]";
 		mes "Vous n'avez pas assez de Votes pour cette opération.";

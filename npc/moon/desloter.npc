@@ -122,7 +122,7 @@ gonryun,169,114,4	script	Vieille dame::desloter_gonryun	1_F_ORIENT_04,{
 					.@zenydeslot = 1;
 				break;
 			case 2:
-				if( callfunc("getvote",callfunc("getuniqueid",getcharid(3))) >= 5 )
+				if( callfunc("getvote",callfunc("getuserid",getcharid(3))) >= 5 )
 					.@votedeslot = 1;
 				else {
 					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
@@ -165,7 +165,7 @@ gonryun,169,114,4	script	Vieille dame::desloter_gonryun	1_F_ORIENT_04,{
 	}
 	.@logmes$ = "Deslotage Success";
 	if( .@votedeslot ) {
-		if( callfunc("getvote",callfunc("getuniqueid",getcharid(3))) >= 5 ) {
+		if( callfunc("getvote",callfunc("getuserid",getcharid(3))) >= 5 ) {
 			.@votedeslot = 0;
 			callfunc("moonlight_vote",5,getcharid(3));
 			logmes "Deslotage Votes: " + logequip(.@part);

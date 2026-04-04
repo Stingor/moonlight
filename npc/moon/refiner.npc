@@ -343,7 +343,7 @@ Lfail_number:
 	close;
 
 L_voteref:
-	if( callfunc("getvote",callfunc("getuniqueid",getcharid(3))) >= getequiprefinerycnt(@part)+6 ) {
+	if( callfunc("getvote",callfunc("getuserid",getcharid(3))) >= getequiprefinerycnt(@part)+6 ) {
 		clear;
 		mes "["+strnpcinfo(0)+"]";
 		mes "Vous allez dépenser "+(getequiprefinerycnt(@part)+6)+" votes !!!";

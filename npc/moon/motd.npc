@@ -175,9 +175,70 @@ OnPCLoginEvent:
 				changebase Job_Baby_Rebellion;
 				break;
 			default:
-					.@3rd = roclass(eaclass()|EAJL_THIRD);
-					if( .@3rd != -1 ) changebase .@3rd;
-					break;
+				.@3rd = roclass(eaclass()|EAJL_THIRD);
+				if( .@3rd != -1 ) changebase .@3rd;
+				break;
+		}
+	}
+	if( base4th ) {
+		switch(Class) {
+		case JOB_LORD_KNIGHT:
+			changebase JOB_DRAGON_KNIGHT;
+			if(checkoption(OPTION_RIDING))
+				setoption OPTION_DRAGON, 1;
+			break;
+		case JOB_HIGH_WIZARD:
+			changebase JOB_ARCH_MAGE;
+			break;
+		case JOB_SNIPER:
+			changebase JOB_WINDHAWK;
+			break;
+		case JOB_HIGH_PRIEST:
+			changebase JOB_CARDINAL;
+			break;
+		case JOB_WHITESMITH:
+			changebase JOB_MEISTER;
+			break;
+		case JOB_ASSASSIN_CROSS:
+			changebase JOB_SHADOW_CROSS;
+			break;
+		case JOB_PALADIN:
+			changebase JOB_IMPERIAL_GUARD;
+			break;
+		case JOB_PROFESSOR:
+			changebase JOB_ELEMENTAL_MASTER;
+			break;
+		case JOB_CHAMPION:
+			changebase JOB_INQUISITOR;
+			break;
+		case JOB_CREATOR:
+			changebase JOB_BIOLO;
+			break;
+		case JOB_STALKER:
+			changebase JOB_ABYSS_CHASER;
+			break;
+		case JOB_STAR_GLADIATOR:
+			changebase JOB_SKY_EMPEROR;
+			break;
+		case JOB_SOUL_LINKER:
+			changebase JOB_SOUL_ASCETIC;
+			break;
+		case JOB_NINJA:
+			if(Sex) changebase JOB_SHIRANUI;
+			else changebase JOB_SHINKIRO;
+			break;
+		case JOB_BABY_NINJA:
+			if(Sex) changebase JOB_SHIRANUI;
+			else changebase JOB_SHINKIRO;
+			break;
+		case JOB_GUNSLINGER:
+			changebase JOB_NIGHT_WATCH;
+			break;
+		case JOB_BABY_GUNSLINGER:
+			changebase JOB_NIGHT_WATCH;
+			break;
+		default:
+			break;
 		}
 	}
 	end;
@@ -197,7 +258,7 @@ OnPCLoadMapEvent:
      && !compare("@tower,@new,@jtb,@xm_d,@ma_c,@ma_h", substr(.@charmap$, 4, getstrlen(.@charmap$)-1)) )
 		end;
 
-	if( .@len = query_sql("SELECT `login`.`account_id` FROM `char` RIGHT JOIN `login` ON `login`.`account_id` = `char`.`account_id` WHERE `char`.`online` = 1 AND `login`.`user_id` = '"+ callfunc("getuniqueid",getcharid(3)) +"'", .@a ) ) {
+	if( .@len = query_sql("SELECT `login`.`account_id` FROM `char` RIGHT JOIN `login` ON `login`.`account_id` = `char`.`account_id` WHERE `char`.`online` = 1 AND `login`.`user_id` = '"+ callfunc("getuserid",getcharid(3)) +"'", .@a ) ) {
 		if( .@len - 1 ) {
 			for( .@d = 0; .@d < .@len; .@d = .@d + 1 ) {
 				getmapxy(.@map$, .@x, .@y, BL_PC, rid2name(.@a[.@d]));
