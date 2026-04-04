@@ -3856,15 +3856,19 @@ static void battle_calc_element_damage(struct Damage* wd, block_list *src, block
 		}
 	}
 
+	// [Stingor] -->
+	// EDP bonus damage applies to all hits including splash (not gated by NK_IGNOREATKCARD)
+	// This has to be applied after mastery bonuses but still before the elemental extra damage
+	if (!nk[NK_IGNOREELEMENT] && (wd->damage > 0 || wd->damage2 > 0) && sc) {
+		if (sc->getSCE(SC_EDP))
+			wd->damage += (wd->damage * sc->getSCE(SC_EDP)->val3) / 100;
+	}
+	// <-- [Stingor]
+
 	// These bonuses do not apply to skills that ignore +% damage cards
 	// If damage was reduced below 0 and was not increased again to a positive value through mastery bonuses, these bonuses are ignored
 	// Any of these are only applied to your right hand weapon in pre-renewal
 	if (!nk[NK_IGNOREELEMENT] && !nk[NK_IGNOREATKCARD] && (wd->damage > 0 || wd->damage2 > 0) && sc) {
-
-		// EDP bonus damage
-		// This has to be applied after mastery bonuses but still before the elemental extra damage
-		if (sc->getSCE(SC_EDP))
-			wd->damage += (wd->damage * sc->getSCE(SC_EDP)->val3) / 100;
 
 		// This adds a percentual damage bonus based on the damage you would deal with a normal attack
 		// Applies only to player damage; monsters and mercenaries don't get this damage boost
