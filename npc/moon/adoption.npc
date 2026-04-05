@@ -25,18 +25,20 @@ prt_church,25,170,3	script	Adoption::adoption_moon	1_M_PUBMASTER,{
 		mes "Quoiqu'il arrive, tu as déjà une famille... Tu n'as donc rien à faire ici!";
 		close;
 	}
-	else if( getchildid() ) {
+
+	if( getchildid() ) {
 		mes "["+strnpcinfo(0)+"]";
 		mes "Désolé mais on ne peut avoir qu'un seul enfant sur le serveur !";
 		close;
 	}
-	
-	if( Class >= Job_Novice && Class <= Job_Thief ) {
+
+	if( Class >= Job_Novice && Class <= Job_Thief && BaseLevel < 70 ) {
 		mes "["+strnpcinfo(0)+"]";
 		mes "Bonjour mon enfant !";
 		close;
 	}
-	else if( BaseLevel < 70 || readparam(11,getpartnername()) < 70 ) {
+
+	if( BaseLevel < 70 || readparam(SP_BASELEVEL,getpartnername()) < 70 ) {
 		mes "["+strnpcinfo(0)+"]";
 		mes "Tu n'est pas encore assez mature pour avoir un enfant !";
 		close;	
@@ -47,53 +49,54 @@ prt_church,25,170,3	script	Adoption::adoption_moon	1_M_PUBMASTER,{
 		mes "L'une des première condition pour adopter est d'être en party.";
 		close;
 	}
-	else {
-		getpartymember(getcharid(1));
-		.@partymembercount = $@partymembercount;
-		copyarray .@partymembername$[0],$@partymembername$[0],.@partymembercount;
-		if( .@partymembercount != 3 ) {
-			mes "["+strnpcinfo(0)+"]";
-			mes "Il semblerait que vous ne soyez pas tous les trois en party.";
-			close;
-		}
+
+	getpartymember(getcharid(1));
+	.@partymembercount = $@partymembercount;
+	copyarray .@partymembername$[0],$@partymembername$[0],.@partymembercount;
+	if( .@partymembercount != 3 ) {
 		mes "["+strnpcinfo(0)+"]";
-		mes "Dites moi le nom de votre futur enfant je vous prit !";
-		next;
-		input .@enfant$;
-		if( .@enfant$ == .@partymembername$[0] || .@enfant$ == .@partymembername$[1] || .@enfant$ == .@partymembername$[2] ) {
-			if( getpartnername() == .@partymembername$[0] || getpartnername() == .@partymembername$[1] || getpartnername() == .@partymembername$[2] ) {
-				if( countitem(2634,getcharid(3,strcharinfo(0))) || countitem(2635,getcharid(3,strcharinfo(0))) || countitem(2634,getcharid(3,getpartnername())) || countitem(2635,getcharid(3,getpartnername())) ) {
-					if( readparam(120,.@enfant$) >= Job_Novice && readparam(120,.@enfant$) <= Job_Thief ) {
-						mes "["+strnpcinfo(0)+"]";
-						mes "Bien, tout me paraît en ordre, si ça ne fonctionne pas, veuillez verifier ces points:";
-						mes "- Vous devez être en party, père, mère et enfant.";
-						mes "- Vous devez porter vos anneaux de marriage.";
-						mes "- Votre futur enfant ne doit pas dépasser le stade d'évolution des classes 1-1.";
-						mes "- Le nom de votre enfant doit être correctement entré.";
-						next;
-						mes "["+strnpcinfo(0)+"]";
-						mes "Voilà !";
-						atcommand "@adopt "+strcharinfo(0)+","+getpartnername()+","+.@enfant$;
-						close;
-					}
-					mes "["+strnpcinfo(0)+"]";
-					mes "Hum votre enfant à l'air plutot âgé pour être adopté ...";
-					close;
-				}
-				mes "["+strnpcinfo(0)+"]";
-				mes "Vous devez équipper votre bague ...";
-				close;
-			}
-			mes "["+strnpcinfo(0)+"]";
-			mes "Votre conjoint se doit d'être dans votre groupe, tout comme votre futur enfant ...";
-			close;
-		
-		}
+		mes "Il semblerait que vous ne soyez pas tous les trois en party.";
+		close;
+	}
+
+	mes "["+strnpcinfo(0)+"]";
+	mes "Dites moi le nom de votre futur enfant je vous prit !";
+	next;
+	input .@enfant$;
+	if( !countinarray(.@partymembername$[0], .@enfant$) ) {
 		mes "["+strnpcinfo(0)+"]";
 		mes "Votre enfant se doit d'être dans la même party que vous ...";
 		close;
 	}
+
+	if( !countinarray(.@partymembername$[0], getpartnername()) ) {
+		mes "["+strnpcinfo(0)+"]";
+		mes "Votre conjoint se doit d'être dans votre groupe, tout comme votre futur enfant ...";
+		close;
+	}
+
+	if( readparam(SP_CLASS,.@enfant$) >= Job_Novice &&
+		readparam(SP_CLASS,.@enfant$) <= Job_Thief ) {
+		mes "["+strnpcinfo(0)+"]";
+		mes "Bien, tout me paraît en ordre, si ça ne fonctionne pas, veuillez verifier ces points:";
+		mes "- Vous devez être en party, père, mère et enfant.";
+		mes "- Vous devez porter vos anneaux de marriage.";
+		mes "- Votre futur enfant ne doit pas dépasser le stade d'évolution des classes 1-1.";
+		mes "- Le nom de votre enfant doit être correctement entré.";
+		progressbar 5000;
+		if(	adopt(strcharinfo(0),.@enfant$) ) {
+			clear;
+			mes "["+strnpcinfo(0)+"]";
+			mes "Voilà !";
+			close;
+		}
+		clear;
+		mes "["+strnpcinfo(0)+"]";
+		mes "Hum... Ca ne sert à rien...";
+		close;
+	}
+
 	mes "["+strnpcinfo(0)+"]";
-	mes "Bonjour !";
+	mes "Hum votre enfant à l'air plutot âgé pour être adopté ...";
 	close;
 }
