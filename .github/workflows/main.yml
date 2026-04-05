@@ -16,27 +16,21 @@ jobs:
           
           while read -r ts msgtxt; do
             formatted=$(TZ="Europe/Paris" date -d "$ts" "+%d/%m/%Y %H:%M")
-          
-            fields="${fields}{
-              \"name\": \"\`${formatted}\`\",
-              \"value\": \"${msgtxt}\",
-              \"inline\": false
-            },"
+            msg="${msg}- \`${formatted}\`"$'\n'" — ${msgtxt}"$'\n'
           done < <(
             jq -r '.commits[] | "\(.timestamp) \(.message | gsub("\n"; " "))"' "$GITHUB_EVENT_PATH"
           )
           
-          jq -n --argjson fields "[${fields%?}]" \
+          jq -n --arg description "$msg" \
           '{
             embeds: [
               {
                 title: "Nouveaux commits poussés :",
-                fields: $fields,
+                description: $description,
                 color: 5814783
               }
             ]
           }' > payload.json
-
 
           curl -H "Content-Type: application/json" \
                -X POST \
