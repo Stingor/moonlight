@@ -16,11 +16,6 @@
         "Path": "src\\map\\map-server.vcxproj",
         "Action": "Start",
         "DebugTarget": "Local Windows Debugger"
-      },
-      {
-        "Path": "src\\web\\web-server.vcxproj",
-        "Action": "Start",
-        "DebugTarget": "Local Windows Debugger"
       }
     ]
   }

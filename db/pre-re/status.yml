@@ -6830,6 +6830,12 @@ Body:
     Script: |
       bonus bAspdRate, getstatus(SC_ACARAJE, 1);
       bonus bHit, getstatus(SC_ACARAJE, 2);
+  - Status: Soulattack
+    Icon: EFST_SOULATTACK
+    Flags:
+      DisplayPc: true
+      NoRemoveOnDead: true
+      NoClearbuff: true
   - Status: Noaction
     Icon: EFST_NOACTION
     DurationLookup: TK_TURNKICK
