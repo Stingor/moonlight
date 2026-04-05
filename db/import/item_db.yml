@@ -134569,3 +134569,9 @@ Body:
     EquipLevelMin: 170
     Refineable: true
     Script: ".@r = getrefine(); bonus2 bSkillCooldown,\"GN_SPORE_EXPLOSION\",-1000; bonus bBaseAtk,4*.@r; if (.@r>=11) .@val = 50; else if (.@r>=9) .@val = 30; bonus2 bSkillAtk,\"GN_SPORE_EXPLOSION\",.@val;\n"
+
+Footer:
+  Imports:
+  - Path: db/import/items/item_card.yml
+  - Path: db/import/items/item_equip.yml
+  - Path: db/import/items/item_etc.yml

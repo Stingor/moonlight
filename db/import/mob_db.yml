@@ -79888,3 +79888,7 @@ Body:
     Class: Boss
     Modes:
       Mvp: true
+
+Footer:
+  Imports:
+  - Path: db/import/mobs/mag_dun.yml

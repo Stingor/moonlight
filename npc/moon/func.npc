@@ -226,8 +226,8 @@ function	script	mobhm	{
 // FONCTION WARP AGENT // ARG0 = MAP | ARG1 = COORDS X | ARG2 = COORDS Y
 function	script	warp_fct	{
 	lastm_warpa$ = getarg(0);
-	lastx_warpa = getarg(1);
-	lasty_warpa = getarg(2);
+	lastx_warpa = getarg(1,0);
+	lasty_warpa = getarg(2,0);
 	if( getarg(0) == "thana_boss" && $@thana_summon >= 6 && $@thana_summon_name$ == "" ) {
 		clear;
 		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
@@ -237,7 +237,7 @@ function	script	warp_fct	{
 	}
 	query_sql("UPDATE `char` SET `cur_map` = '"+getarg(0)+"' WHERE `char_id` = '"+getcharid(0)+"'");
 	warp getarg(0), getarg(1), getarg(2);
-	return;
+	end;
 }
 
 // FONCTION WARP AGENT // GET MAP NAME

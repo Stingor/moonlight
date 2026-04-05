@@ -124,8 +124,8 @@ int32 skill_tarotcard(block_list* src, block_list *target, uint16 skill_id, uint
 		if ( isobjwoe(status_get_class(target)) )
 			break; // [Stingor]
 		status_heal(target, 2000, 0, 0);
-		if (!map_flag_vs(target->m))
-			unit_warp(target, -1, -1, -1, CLR_TELEPORT);
+		// if (!map_flag_vs(target->m)) // [Stingor]
+			// unit_warp(target, -1, -1, -1, CLR_TELEPORT);
 		break;
 	}
 	case 7: // WHEEL OF FORTUNE - random 2 other effects

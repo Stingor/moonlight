@@ -28,14 +28,14 @@ gonryun,165,129,3	script	Warp Agent::warp_agent	4_F_01,{
 	function GetColor;
 
 L_WarpaCmd:
-	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-	mes "Bonjour ^4a8b3e"+strcharinfo(0)+"^000000 !";
+	mes "[ ^1F81D4" + strnpcinfo(0) + "^000000 ]";
+	mes "Bonjour ^4a8b3e" + strcharinfo(0) + "^000000 !";
 	mes "Je suis le Npc qui sert à se teleporter dans les villes et les donjons ainsi que de sauvegarder !";
 L_warpa:
 	if( lastm_warpa$ == "" && lastx_warpa == 0 && lasty_warpa == 0 )
 		@lastwarp$ = "";
 	else
-		@lastwarp$ = "• ^51a1f3"+callfunc("getmapname", lastm_warpa$)+"^000000";
+		@lastwarp$ = "• ^51a1f3" + getmapname(lastm_warpa$) + "^000000";
 
 	if( !getmapxy(.@map$, .@mapx, .@mapy) ) {
 		if( getsavepoint(0) == .@map$ && getsavepoint(1) == .@mapx && getsavepoint(2) == .@mapy )
@@ -49,12 +49,12 @@ L_warpa:
 		"• ^5ca57bVilles^000000", L_Villes,
 		"• ^f28e0dDonjons^000000", L_Donjons,
 		"• ^d28efdFields^000000", L_Fields,
-    	"• ^f08eddGuild Dungeons^000000",L_Guild_Dungeons,
+		"• ^f08eddGuild Dungeons^000000",L_Guild_Dungeons,
 		"• ^f08eedInstances^000000", L_Instance,
 		"• ^c08dedAutre^000000", L_Autre,
 		"• ^f279acRooms^000000", L_Rooms,
 		.@save$, L_Save;
-	callfunc "warp_fct", lastm_warpa$, lastx_warpa, lasty_warpa;
+	warp_fct(lastm_warpa$, lastx_warpa, lasty_warpa);
 	end;
 
 L_Villes:
@@ -98,41 +98,41 @@ L_VillesCmd:
 				   "• Veins",
 				   "• Juno",
 				   "• ^e64c00Menu Précédent.^000000") ) {
-		case 1:  callfunc "warp_fct","gonryun",156+rand(1,5),120+rand(1,4); break;
-		case 2:  callfunc "warp_fct","alberta",50,240; break;
-		case 3:  callfunc "warp_fct","aldebaran",140,117; break;
-		case 4:  callfunc "warp_fct","amatsu",200,110; break;
-		case 5:  callfunc "warp_fct","ayothaya",207,192; break;
-		case 6:  callfunc "warp_fct","brasilis",195,215; break;
-		case 7:  callfunc "warp_fct","comodo",166,161; break;
-		case 8:  callfunc "warp_fct","dewata",200,174; break;
-		case 9:  callfunc "warp_fct","dicastes01",197,223; break;
-		case 10: callfunc "warp_fct","eclage",167,194; break;
-		case 11: callfunc "warp_fct","einbech",170,125; break;
-		case 12: callfunc "warp_fct","einbroch",65,200; break;
-		case 13: callfunc "warp_fct","geffen",120,68; break;
-		case 14: callfunc "warp_fct","hugel",96,145; break;
-		case 15: callfunc "warp_fct","izlude",128,111; break;
-		case 16: callfunc "warp_fct","jawaii",135,202; break;
-		case 17: callfunc "warp_fct","lasagna",193,182; break;
-		case 18: callfunc "warp_fct","lighthalzen",158,92; break;
-		case 19: callfunc "warp_fct","louyang",218,115; break;
-		case 20: callfunc "warp_fct","xmas",148,131; break;
-		case 21: callfunc "warp_fct","malangdo",167,136; break;
-		case 22: callfunc "warp_fct","malaya",144,240; break;
-		case 23: callfunc "warp_fct","manuk",286,230; break;
-		case 24: callfunc "warp_fct","mora",136,91; break;
-		case 25: callfunc "warp_fct","morocc",158,93; break;
-		case 26: callfunc "warp_fct","moscovia",224,192; break;
-		case 27: callfunc "warp_fct","niflheim",194,186; break;
-		case 28: callfunc "warp_fct","payon",177,104; break;
-		case 29: callfunc "warp_fct","prontera",155,182; break;
-		case 30: callfunc "warp_fct","rachel",128,111; break;
-		case 31: callfunc "warp_fct","harboro1",283,212; break;
-		case 32: callfunc "warp_fct","splendide",200,149; break;
-		case 33: callfunc "warp_fct","umbala",122,138; break;
-		case 34: callfunc "warp_fct","veins",196,230; break;
-		case 35: callfunc "warp_fct","yuno",153,123; break;
+		case 1:  warp_fct("gonryun",156+rand(1,5),120+rand(1,4)); break;
+		case 2:  warp_fct("alberta", 50, 240); break;
+		case 3:  warp_fct("aldebaran", 140, 117); break;
+		case 4:  warp_fct("amatsu", 200, 110); break;
+		case 5:  warp_fct("ayothaya", 207, 192); break;
+		case 6:  warp_fct("brasilis", 195, 215); break;
+		case 7:  warp_fct("comodo", 166, 161); break;
+		case 8:  warp_fct("dewata", 200, 174); break;
+		case 9:  warp_fct("dicastes01", 197, 223); break;
+		case 10: warp_fct("eclage", 167, 194); break;
+		case 11: warp_fct("einbech", 170, 125); break;
+		case 12: warp_fct("einbroch", 65, 200); break;
+		case 13: warp_fct("geffen", 120, 68); break;
+		case 14: warp_fct("hugel", 96, 145); break;
+		case 15: warp_fct("izlude", 128, 111); break;
+		case 16: warp_fct("jawaii", 135, 202); break;
+		case 17: warp_fct("lasagna", 193, 182); break;
+		case 18: warp_fct("lighthalzen", 158, 92); break;
+		case 19: warp_fct("louyang", 218, 115); break;
+		case 20: warp_fct("xmas", 148, 131); break;
+		case 21: warp_fct("malangdo", 167, 136); break;
+		case 22: warp_fct("malaya", 144, 240); break;
+		case 23: warp_fct("manuk", 286, 230); break;
+		case 24: warp_fct("mora", 136, 91); break;
+		case 25: warp_fct("morocc", 158, 93); break;
+		case 26: warp_fct("moscovia", 224, 192); break;
+		case 27: warp_fct("niflheim", 194, 186); break;
+		case 28: warp_fct("payon", 177, 104); break;
+		case 29: warp_fct("prontera", 155, 182); break;
+		case 30: warp_fct("rachel", 128, 111); break;
+		case 31: warp_fct("harboro1", 283, 212); break;
+		case 32: warp_fct("splendide", 200, 149); break;
+		case 33: warp_fct("umbala", 122, 138); break;
+		case 34: warp_fct("veins", 196, 230); break;
+		case 35: warp_fct("yuno", 153, 123); break;
 		case 36: goto L_warpa; break;
 	}
 	end;
@@ -158,22 +158,22 @@ L_Guild_Dungeons:
 				   "• TE Subterranean Guild Dungeon 1",
 				   "• TE Subterranean Guild Dungeon 2",
 				   "• ^e64c00Menu Précédent.^000000") ) {
-		case 1:  callfunc "warp_fct","gld2_ald",147,155; break;
-		case 2:  callfunc "warp_fct","gld2_gef",152,118; break;
-		case 3:  callfunc "warp_fct","gld2_pay",120,130; break;
-		case 4:  callfunc "warp_fct","gld2_prt",140,132; break;
-		case 5:  callfunc "warp_fct","gld_dun01",119,93; break;
-		case 6:  callfunc "warp_fct","gld_dun01_2",119,93; break;
-		case 7:  callfunc "warp_fct","gld_dun02",39,161; break;
-		case 8:  callfunc "warp_fct","gld_dun02_2",39,161; break;
-		case 9:  callfunc "warp_fct","gld_dun03",50,44; break;
-		case 10: callfunc "warp_fct","gld_dun03_2",50,44; break;
-		case 11: callfunc "warp_fct","gld_dun04",116,45; break;
-		case 12: callfunc "warp_fct","gld_dun04_2",116,45; break;
-		case 13: callfunc "warp_fct","arug_dun01",199,195; break;
-		case 14: callfunc "warp_fct","schg_dun01",200,124; break;
-		case 15: callfunc "warp_fct","teg_dun01",42,36; break;
-		case 16: callfunc "warp_fct","teg_dun02",26,160; break;
+		case 1:  warp_fct("gld2_ald", 147, 155); break;
+		case 2:  warp_fct("gld2_gef", 152, 118); break;
+		case 3:  warp_fct("gld2_pay", 120, 130); break;
+		case 4:  warp_fct("gld2_prt", 140, 132); break;
+		case 5:  warp_fct("gld_dun01", 119, 93); break;
+		case 6:  warp_fct("gld_dun01_2", 119, 93); break;
+		case 7:  warp_fct("gld_dun02", 39, 161); break;
+		case 8:  warp_fct("gld_dun02_2", 39, 161); break;
+		case 9:  warp_fct("gld_dun03", 50, 44); break;
+		case 10: warp_fct("gld_dun03_2", 50, 44); break;
+		case 11: warp_fct("gld_dun04", 116, 45); break;
+		case 12: warp_fct("gld_dun04_2", 116, 45); break;
+		case 13: warp_fct("arug_dun01", 199, 195); break;
+		case 14: warp_fct("schg_dun01", 200, 124); break;
+		case 15: warp_fct("teg_dun01", 42, 36); break;
+		case 16: warp_fct("teg_dun02", 26, 160); break;
 		case 17: goto L_warpa; break;
 	}
 	end;
@@ -232,7 +232,7 @@ L_Instance:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
-			callfunc "warp_fct","dali02",139,82; break;
+			warp_fct("dali02", 139, 82); break;
 		}
 		case 2: { // Bakonawa Lake
 			if( select( GetColor(12278)+"Acces direct^000000", "Se rendre au lac" ) == 1 ) {
@@ -245,7 +245,7 @@ L_Instance:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid1,.@questid2;
 				break;
 			}
-			callfunc "warp_fct","ma_scene01",172,175; break;
+			warp_fct("ma_scene01", 172, 175); break;
 		}
 		case 3: { // Bangungot Hospital
 			if( select( GetColor(9223)+"Acces direct^000000", "Se rendre au 1er étage" ) == 1 ) {
@@ -259,7 +259,7 @@ L_Instance:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid1,.@questid2;
 				break;
 			}
-			callfunc "warp_fct","ma_dun01",151,8; break;
+			warp_fct("ma_dun01", 151, 8); break;
 		}
 		case 4:	{ // Buwaya Cave
 			.@md_name$ = "Buwaya Cave";
@@ -268,7 +268,7 @@ L_Instance:
 			.@hardmode = callsub(Hard_Mode,GetColor(.@questid));
 			callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 			break;
-			// callfunc "warp_fct","ma_fild02",316,317;
+			// warp_fct("ma_fild02", 316, 317);
 		}
 		case 5:	{ // Central Laboratory
 			if( select( GetColor(12347)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
@@ -281,7 +281,7 @@ L_Instance:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid1,.@questid2;
 				break;
 			}
-			callfunc "warp_fct","verus01",151,150; break;
+			warp_fct("verus01", 151, 150); break;
 		}
 		case 6:	{ // Charleston in distress
 L_Charleston:
@@ -304,7 +304,7 @@ L_Charleston:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
-			callfunc "warp_fct","verus04",77,118; break;
+			warp_fct("verus04", 77, 118); break;
 		}
 		case 7:	{ // Devil's Tower
 L_DevilTower:
@@ -376,7 +376,7 @@ L_DevilTower:
 				}
 				break;
 			}
-			callfunc "warp_fct","dali02",137,115; break;
+			warp_fct("dali02", 137, 115); break;
 		}
 		case 8:	{ // Endless Cellar
 			.@md_name$ = "Endless Cellar";
@@ -404,7 +404,7 @@ L_DevilTower:
 					end;
 			}
 			break;
-			// callfunc "warp_fct","e_tower",78,80;
+			// warp_fct("e_tower", 78, 80);
 		}
 		case 9:	{ // Endless Tower
 			.@md_name$ = "Endless Tower";
@@ -419,7 +419,7 @@ L_DevilTower:
 			}
 			callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 			break;
-			// callfunc "warp_fct","e_tower",72,112;
+			// warp_fct("e_tower", 72, 112);
 		}
 		case 10: { // Faceworm's Nest
 			if( select( GetColor(12325)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
@@ -430,7 +430,7 @@ L_DevilTower:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
-			callfunc "warp_fct","dali",85,64; break;
+			warp_fct("dali", 85, 64); break;
 		}
 		case 11: { // Geffen Magic Tournament
 			if( select( (GeffenTournament < gettimetick(2)?"^00A000":"^FF0000")+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
@@ -497,7 +497,7 @@ L_DevilTower:
 				}
 				break;
 			}
-			callfunc "warp_fct","dali",94,141; break;
+			warp_fct("dali", 94, 141); break;
 		}
 		case 12: { // Ghost Palace
 			if( select( GetColor(1261)+"Acces direct^000000", "Se rendre dans le Rift" ) == 1 ) {
@@ -508,7 +508,7 @@ L_DevilTower:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
-			callfunc "warp_fct","dali02",46,128; break;
+			warp_fct("dali02", 46, 128); break;
 		}
 		case 13: { // Hazy Forest / Mistwood Maze
 			if( select( GetColor(7211)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
@@ -518,7 +518,7 @@ L_DevilTower:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
-			callfunc "warp_fct","bif_fild01",161,334; break;
+			warp_fct("bif_fild01", 161, 334); break;
 		}
 		case 14: { // Horror Toy Factory
 			if( select( GetColor(12331)+"Acces direct^000000", "Se rendre à Lutie" ) == 1 ) {
@@ -529,7 +529,7 @@ L_DevilTower:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
-			callfunc "warp_fct","xmas",234,298; break;
+			warp_fct("xmas", 234, 298); break;
 		}
 		case 15: { // Isle of Bios
 			if( select( GetColor(15005)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
@@ -544,7 +544,7 @@ L_DevilTower:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid1,.@questid2;
 				break;
 			}
-			callfunc "warp_fct","moro_cav",44,66; break;
+			warp_fct("moro_cav", 44, 66); break;
 		}
 		case 16: { // Last Room
 			if( select( GetColor(11379)+"Acces direct^000000", "Se rendre au lac" ) == 1 ) {
@@ -556,7 +556,7 @@ L_DevilTower:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
-			callfunc "warp_fct","un_myst",159,38; break;
+			warp_fct("un_myst", 159, 38); break;
 		}
 		case 17: { // Malangdo Culvert
 			if( select( GetColor(12254)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
@@ -568,7 +568,7 @@ L_DevilTower:
 					break;
 				}
 			}
-			callfunc "warp_fct","mal_in01",164,21;
+			warp_fct("mal_in01", 164, 21);
 			break;
 		}
 		case 18: { // Morse's Cave
@@ -586,7 +586,7 @@ L_DevilTower:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid1,.@questid2;
 				break;
 			}
-			callfunc "warp_fct","moro_cav",60,66; break;
+			warp_fct("moro_cav", 60, 66); break;
 		}
 		case 19: { // Nightmarish Jitterbug
 L_Jitter:
@@ -616,7 +616,7 @@ L_Jitter:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid1,.@questid2;
 				break;
 			}
-			callfunc "warp_fct","moc_para01",27,90; break;
+			warp_fct("moc_para01", 27, 90); break;
 		}
 		case 20: { // Nydhoggur's Nest
 			if( select( GetColor(3135)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
@@ -627,7 +627,7 @@ L_Jitter:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
-			callfunc "warp_fct","nyd_dun02",95,193; break;
+			warp_fct("nyd_dun02", 95, 193); break;
 		}
 		case 21: { // Octopus Cave
 			if( select( GetColor(4197)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
@@ -638,7 +638,7 @@ L_Jitter:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
-			callfunc "warp_fct","mal_dun01",152,230; break;
+			warp_fct("mal_dun01", 152, 230); break;
 		}
 		case 22: { // Old Glast Heim
 			if( select( GetColor(12317)+"Acces direct^000000", "Se rendre à Glastheim" ) == 1 ) {
@@ -659,7 +659,7 @@ L_Jitter:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid1,.@questid2;
 				break;
 			}
-			callfunc "warp_fct","glast_01",204,268; break;
+			warp_fct("glast_01", 204, 268); break;
 		}
 		case 23: { // Orc's Memory
 			if( select( GetColor(12059)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
@@ -669,7 +669,7 @@ L_Jitter:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
-			callfunc "warp_fct","gef_fild10",240,198; break;
+			warp_fct("gef_fild10", 240, 198); break;
 		}
 		case 24: { // Room of Consciousness
 L_Bijou:
@@ -693,9 +693,9 @@ L_Bijou:
 				break;
 			}
 			if( select("• Près de Nillem:• Près de Freidrich") == 1 )
-				callfunc "warp_fct","prt_lib_q",88,82;
+				warp_fct("prt_lib_q", 88, 82);
 			else
-				callfunc "warp_fct","prt_cas_q",19,83;
+				warp_fct("prt_cas_q", 19, 83);
 			break;
 		}
 		case 25: { // Sarah and Fenrir
@@ -744,7 +744,7 @@ L_Bijou:
 				}
 				break;
 			}
-			callfunc "warp_fct","dali02",92,141; break;
+			warp_fct("dali02", 92, 141); break;
 		}
 		case 26: { // Sara's Memory
 			if( select( GetColor(15002)+"Acces direct^000000", "Se rendre dans le Rift" ) == 1 ) {
@@ -754,7 +754,7 @@ L_Bijou:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
-			callfunc "warp_fct","dali",133,108; break;
+			warp_fct("dali", 133, 108); break;
 		}
 		case 27: { // Sealed Shrine
 			if( select( GetColor(3040)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
@@ -764,7 +764,7 @@ L_Bijou:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
-			callfunc "warp_fct","monk_test",306,143; break;
+			warp_fct("monk_test", 306, 143); break;
 		}
 		case 28: { // Wolfchev's Laboratory
 			if( select( GetColor(5112)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
@@ -774,9 +774,9 @@ L_Bijou:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
-			callfunc "warp_fct","lhz_dun04",148,269; break;
+			warp_fct("lhz_dun04", 148, 269); break;
 		}
-		// case 29: callfunc "warp_fct","moro_cav",39,73; break;
+		// case 29: warp_fct("moro_cav", 39, 73); break;
 		case 30: goto L_warpa; break;
 	}
 	end;
@@ -956,12 +956,12 @@ L_Autre:
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 	mes "Sélectionnez la destination de votre choix :";
 	switch( select("• Forge:• Shop armement:• Eden Group:• Seals:• Mid Camp:• Yggdrasil:• ^e64c00Menu Précédent.^000000") ) {
-		case 1: callfunc "warp_fct","gon_in",94,21; break;
-		case 2: callfunc "warp_fct","gon_in",163,23; break;
-		case 3: callfunc "warp_fct","moc_para01",31,14; break;
-		case 4: callfunc "warp_fct","cmd_fild02",193,169; break;
-		case 5: callfunc "warp_fct","mid_camp",220,235; break;
-		case 6: callfunc "warp_fct","yggdrasil01",52,63; break;
+		case 1: warp_fct("gon_in", 94, 21); break;
+		case 2: warp_fct("gon_in", 163, 23); break;
+		case 3: warp_fct("moc_para01", 31, 14); break;
+		case 4: warp_fct("cmd_fild02", 193, 169); break;
+		case 5: warp_fct("mid_camp", 220, 235); break;
+		case 6: warp_fct("yggdrasil01", 52, 63); break;
 		default: goto L_warpa; break;
 	}
 	end;
@@ -1011,239 +1011,239 @@ L_Fields:
 					"• Juno (yuno_fild)",
 					"• ^e64c00Menu Précédent.^000000") ) {
 		case 1:
-			callfunc "warp_fct","ama_fild01",0,0; break;
+			warp_fct("ama_fild01", 0, 0); break;
 		case 2:
 			switch( select("• ayo_fild01:• ayo_fild02") ) {
-				case 1: callfunc "warp_fct","ayo_fild01",0,0; break;
-				case 2: callfunc "warp_fct","ayo_fild02",0,0; break;
+				case 1: warp_fct("ayo_fild01", 0, 0); break;
+				case 2: warp_fct("ayo_fild02", 0, 0); break;
 			}
 			break;
 		case 3:
 			switch( select("• bif_fild01:• bif_fild02") ) {
-				case 1: callfunc "warp_fct","bif_fild01",0,0; break;
-				case 2: callfunc "warp_fct","bif_fild02",0,0; break;
+				case 1: warp_fct("bif_fild01", 0, 0); break;
+				case 2: warp_fct("bif_fild02", 0, 0); break;
 			}
 			break;
 		case 4:
-			callfunc "warp_fct","bra_fild01",0,0; break;
+			warp_fct("bra_fild01", 0, 0); break;
 		case 5:
 			switch( select("• cmd_fild01:• cmd_fild02:• cmd_fild03:• cmd_fild04:• cmd_fild05 (Pas dispo en Renewal):• cmd_fild06:• cmd_fild07:• cmd_fild08:• cmd_fild09") ) {
-				case 1:  callfunc "warp_fct","cmd_fild01",0,0; break;
-				case 2:  callfunc "warp_fct","cmd_fild02",0,0; break;
-				case 3:  callfunc "warp_fct","cmd_fild03",0,0; break;
-				case 4:  callfunc "warp_fct","cmd_fild04",0,0; break;
+				case 1:  warp_fct("cmd_fild01", 0, 0); break;
+				case 2:  warp_fct("cmd_fild02", 0, 0); break;
+				case 3:  warp_fct("cmd_fild03", 0, 0); break;
+				case 4:  warp_fct("cmd_fild04", 0, 0); break;
 				case 5:  goto L_Fields; break;
-				case 6:  callfunc "warp_fct","cmd_fild06",0,0; break;
-				case 7:  callfunc "warp_fct","cmd_fild07",0,0; break;
-				case 8:  callfunc "warp_fct","cmd_fild08",0,0; break;
-				case 9:  callfunc "warp_fct","cmd_fild09",0,0; break;
+				case 6:  warp_fct("cmd_fild06", 0, 0); break;
+				case 7:  warp_fct("cmd_fild07", 0, 0); break;
+				case 8:  warp_fct("cmd_fild08", 0, 0); break;
+				case 9:  warp_fct("cmd_fild09", 0, 0); break;
 			}
 			break;
 		case 6:
-			callfunc "warp_fct","dew_fild01",0,0;
+			warp_fct("dew_fild01", 0, 0);
 			break;
 		case 7:
-			callfunc "warp_fct","ecl_fild01",0,0;
+			warp_fct("ecl_fild01", 0, 0);
 			break;
 		case 8:
 			switch( select("• ein_fild01:• ein_fild02 (Pas dispo en Renewal):• ein_fild03:• ein_fild04:• ein_fild05:• ein_fild06:• ein_fild07:• ein_fild08:• ein_fild09:• ein_fild10 (Pas dispo en Renewal)") ) {
-				case 1:  callfunc "warp_fct","ein_fild01",0,0; break;
+				case 1:  warp_fct("ein_fild01", 0, 0); break;
 				case 2:  goto L_Fields; break;
-				case 3:  callfunc "warp_fct","ein_fild03",0,0; break;
-				case 4:  callfunc "warp_fct","ein_fild04",0,0; break;
-				case 5:  callfunc "warp_fct","ein_fild05",0,0; break;
-				case 6:  callfunc "warp_fct","ein_fild06",0,0; break;
-				case 7:  callfunc "warp_fct","ein_fild07",0,0; break;
-				case 8:  callfunc "warp_fct","ein_fild08",0,0; break;
-				case 9:  callfunc "warp_fct","ein_fild09",0,0; break;
+				case 3:  warp_fct("ein_fild03", 0, 0); break;
+				case 4:  warp_fct("ein_fild04", 0, 0); break;
+				case 5:  warp_fct("ein_fild05", 0, 0); break;
+				case 6:  warp_fct("ein_fild06", 0, 0); break;
+				case 7:  warp_fct("ein_fild07", 0, 0); break;
+				case 8:  warp_fct("ein_fild08", 0, 0); break;
+				case 9:  warp_fct("ein_fild09", 0, 0); break;
 				case 10: goto L_Fields; break;
 			}
 			break;
 		case 9:
 			switch( select("• dic_fild01:• dic_fild02") ) {
-				case 1: callfunc "warp_fct","dic_fild01",0,0; break;
-				case 2: callfunc "warp_fct","dic_fild02",0,0; break;
+				case 1: warp_fct("dic_fild01", 0, 0); break;
+				case 2: warp_fct("dic_fild02", 0, 0); break;
 			}
 		case 10:
 			switch( select("• gef_fild00:• gef_fild01:• gef_fild02:• gef_fild03:• gef_fild04:• gef_fild05:• gef_fild06:• gef_fild07:• gef_fild08:• gef_fild09:• gef_fild10:• gef_fild11:• gef_fild12 (Pas dispo en Renewal):• gef_fild13:• gef_fild14 (Pas dispo en Renewal)") ) {
-				case 1:  callfunc "warp_fct","gef_fild00",0,0; break;
-				case 2:  callfunc "warp_fct","gef_fild01",0,0; break;
-				case 3:  callfunc "warp_fct","gef_fild02",0,0; break;
-				case 4:  callfunc "warp_fct","gef_fild03",0,0; break;
-				case 5:  callfunc "warp_fct","gef_fild04",0,0; break;
-				case 6:  callfunc "warp_fct","gef_fild05",0,0; break;
-				case 7:  callfunc "warp_fct","gef_fild06",0,0; break;
-				case 8:  callfunc "warp_fct","gef_fild07",0,0; break;
-				case 9:  callfunc "warp_fct","gef_fild08",0,0; break;
-				case 10: callfunc "warp_fct","gef_fild09",0,0; break;
-				case 11: callfunc "warp_fct","gef_fild10",0,0; break;
-				case 12: callfunc "warp_fct","gef_fild11",0,0; break;
+				case 1:  warp_fct("gef_fild00", 0, 0); break;
+				case 2:  warp_fct("gef_fild01", 0, 0); break;
+				case 3:  warp_fct("gef_fild02", 0, 0); break;
+				case 4:  warp_fct("gef_fild03", 0, 0); break;
+				case 5:  warp_fct("gef_fild04", 0, 0); break;
+				case 6:  warp_fct("gef_fild05", 0, 0); break;
+				case 7:  warp_fct("gef_fild06", 0, 0); break;
+				case 8:  warp_fct("gef_fild07", 0, 0); break;
+				case 9:  warp_fct("gef_fild08", 0, 0); break;
+				case 10: warp_fct("gef_fild09", 0, 0); break;
+				case 11: warp_fct("gef_fild10", 0, 0); break;
+				case 12: warp_fct("gef_fild11", 0, 0); break;
 				case 13: goto L_Fields; break;
-				case 14: callfunc "warp_fct","gef_fild13",0,0; break;
+				case 14: warp_fct("gef_fild13", 0, 0); break;
 				case 15: goto L_Fields; break;
 			}
 			break;
 		case 11:
 			switch( select("• rockrdg1:• rockrdg2") ) {
-				case 1: callfunc "warp_fct","rockrdg1",0,0; break;
-				case 2: callfunc "warp_fct","rockrdg2",0,0; break;
+				case 1: warp_fct("rockrdg1", 0, 0); break;
+				case 2: warp_fct("rockrdg2", 0, 0); break;
 			}
 			break;
 		case 12:
-			callfunc "warp_fct","gon_fild01",0,0;
+			warp_fct("gon_fild01", 0, 0);
 			break;
 		case 13:
 			switch( select("• hu_fild01 (Pas dispo en Renewal):• hu_fild02:• hu_fild03:• hu_fild04:• hu_fild05 (Pas dispo en Renewal):• hu_fild06:• hu_fild07 (Pas dispo en Renewal)") ) {
 				case 1: goto L_Fields; break;
-				case 2: callfunc "warp_fct","hu_fild02",0,0; break;
-				case 3: callfunc "warp_fct","hu_fild03",0,0; break;
-				case 4: callfunc "warp_fct","hu_fild04",0,0; break;
-				case 5: callfunc "warp_fct","hu_fild05",0,0; break;
-				case 6: callfunc "warp_fct","hu_fild06",0,0; break;
+				case 2: warp_fct("hu_fild02", 0, 0); break;
+				case 3: warp_fct("hu_fild03", 0, 0); break;
+				case 4: warp_fct("hu_fild04", 0, 0); break;
+				case 5: warp_fct("hu_fild05", 0, 0); break;
+				case 6: warp_fct("hu_fild06", 0, 0); break;
 				case 7: goto L_Fields; break;
 			}
 			break;
 		case 14:
 			switch( select("• lasa_fild01:• lasa_fild02") ) {
-				case 1: callfunc "warp_fct","lasa_fild01",0,0; break;
-				case 2: callfunc "warp_fct","lasa_fild02",0,0; break;
+				case 1: warp_fct("lasa_fild01", 0, 0); break;
+				case 2: warp_fct("lasa_fild02", 0, 0); break;
 			}
 			break;
 		case 15:
 			switch( select("• lhz_fild01:• lhz_fild02:• lhz_fild03") ) {
-				case 1: callfunc "warp_fct","lhz_fild01",0,0; break;
-				case 2: callfunc "warp_fct","lhz_fild02",0,0; break;
-				case 3: callfunc "warp_fct","lhz_fild03",0,0; break;
+				case 1: warp_fct("lhz_fild01", 0, 0); break;
+				case 2: warp_fct("lhz_fild02", 0, 0); break;
+				case 3: warp_fct("lhz_fild03", 0, 0); break;
 			}
 			break;
 		case 16:
-			callfunc "warp_fct","lou_fild01",0,0;
+			warp_fct("lou_fild01", 0, 0);
 			break;
 		case 17:
-			callfunc "warp_fct","xmas_fild01",0,0;
+			warp_fct("xmas_fild01", 0, 0);
 			break;
 		case 18:
 			switch( select("• ma_fild01:• ma_fild02") ) {
-				case 1: callfunc "warp_fct","ma_fild01",0,0; break;
-				case 2: callfunc "warp_fct","ma_fild02",0,0; break;
+				case 1: warp_fct("ma_fild01", 0, 0); break;
+				case 2: warp_fct("ma_fild02", 0, 0); break;
 			}
 			break;
 		case 19:
 			switch( select("• man_fild01:• man_fild02:• man_fild03") ) {
-				case 1: callfunc "warp_fct","man_fild01",0,0; break;
-				case 2: callfunc "warp_fct","man_fild02",0,0; break;
-				case 3: callfunc "warp_fct","man_fild03",0,0; break;
+				case 1: warp_fct("man_fild01", 0, 0); break;
+				case 2: warp_fct("man_fild02", 0, 0); break;
+				case 3: warp_fct("man_fild03", 0, 0); break;
 			}
 			break;
 		case 20:
 			switch( select("• mjolnir_01:• mjolnir_02:• mjolnir_03:• mjolnir_04:• mjolnir_05:• mjolnir_06:• mjolnir_07:• mjolnir_08:• mjolnir_09:• mjolnir_10:• mjolnir_11:• mjolnir_12") ) {
-				case 1:  callfunc "warp_fct","mjolnir_01",0,0; break;
-				case 2:  callfunc "warp_fct","mjolnir_02",0,0; break;
-				case 3:  callfunc "warp_fct","mjolnir_03",0,0; break;
-				case 4:  callfunc "warp_fct","mjolnir_04",0,0; break;
-				case 5:  callfunc "warp_fct","mjolnir_05",0,0; break;
-				case 6:  callfunc "warp_fct","mjolnir_06",0,0; break;
-				case 7:  callfunc "warp_fct","mjolnir_07",0,0; break;
-				case 8:  callfunc "warp_fct","mjolnir_08",0,0; break;
-				case 9:  callfunc "warp_fct","mjolnir_09",0,0; break;
-				case 10: callfunc "warp_fct","mjolnir_10",0,0; break;
-				case 11: callfunc "warp_fct","mjolnir_11",0,0; break;
-				case 12: callfunc "warp_fct","mjolnir_12",0,0; break;
+				case 1:  warp_fct("mjolnir_01", 0, 0); break;
+				case 2:  warp_fct("mjolnir_02", 0, 0); break;
+				case 3:  warp_fct("mjolnir_03", 0, 0); break;
+				case 4:  warp_fct("mjolnir_04", 0, 0); break;
+				case 5:  warp_fct("mjolnir_05", 0, 0); break;
+				case 6:  warp_fct("mjolnir_06", 0, 0); break;
+				case 7:  warp_fct("mjolnir_07", 0, 0); break;
+				case 8:  warp_fct("mjolnir_08", 0, 0); break;
+				case 9:  warp_fct("mjolnir_09", 0, 0); break;
+				case 10: warp_fct("mjolnir_10", 0, 0); break;
+				case 11: warp_fct("mjolnir_11", 0, 0); break;
+				case 12: warp_fct("mjolnir_12", 0, 0); break;
 			}
 			break;
 		case 21:
 			switch( select("• mosk_fild01:• mosk_fild02") ) {
-				case 1: callfunc "warp_fct","mosk_fild01",0,0; break;
-				case 2: callfunc "warp_fct","mosk_fild02",0,0; break;
+				case 1: warp_fct("mosk_fild01", 0, 0); break;
+				case 2: warp_fct("mosk_fild02", 0, 0); break;
 			}
 			break;
 		case 22:
 			switch( select("• nif_fild01:• nif_fild02") ) {
-				case 1: callfunc "warp_fct","nif_fild01",0,0; break;
-				case 2: callfunc "warp_fct","nif_fild02",0,0; break;
+				case 1: warp_fct("nif_fild01", 0, 0); break;
+				case 2: warp_fct("nif_fild02", 0, 0); break;
 			}
 			break;
 		case 23:
 			switch( select("• pay_fild01:• pay_fild02:• pay_fild03:• pay_fild04:• pay_fild05 (Pas dispo en Renewal):• pay_fild06:• pay_fild07:• pay_fild08:• pay_fild09:• pay_fild10:• pay_fild11 (Pas dispo en Renewal)") ) {
-				case 1:  callfunc "warp_fct","pay_fild01",0,0; break;
-				case 2:  callfunc "warp_fct","pay_fild02",0,0; break;
-				case 3:  callfunc "warp_fct","pay_fild03",0,0; break;
-				case 4:  callfunc "warp_fct","pay_fild04",0,0; break;
+				case 1:  warp_fct("pay_fild01", 0, 0); break;
+				case 2:  warp_fct("pay_fild02", 0, 0); break;
+				case 3:  warp_fct("pay_fild03", 0, 0); break;
+				case 4:  warp_fct("pay_fild04", 0, 0); break;
 				case 5:  goto L_Fields; break;
-				case 6:  callfunc "warp_fct","pay_fild06",0,0; break;
-				case 7:  callfunc "warp_fct","pay_fild07",0,0; break;
-				case 8:  callfunc "warp_fct","pay_fild08",0,0; break;
-				case 9:  callfunc "warp_fct","pay_fild09",0,0; break;
-				case 10: callfunc "warp_fct","pay_fild10",0,0; break;
+				case 6:  warp_fct("pay_fild06", 0, 0); break;
+				case 7:  warp_fct("pay_fild07", 0, 0); break;
+				case 8:  warp_fct("pay_fild08", 0, 0); break;
+				case 9:  warp_fct("pay_fild09", 0, 0); break;
+				case 10: warp_fct("pay_fild10", 0, 0); break;
 				case 11: goto L_Fields; break;
 			}
 			break;
 		case 24:
 			switch( select("• prt_fild00:• prt_fild01:• prt_fild02:• prt_fild03:• prt_fild04:• prt_fild05:• prt_fild06:• prt_fild07:• prt_fild08:• prt_fild09:• prt_fild10:• prt_fild11") ) {
-				case 1:  callfunc "warp_fct","prt_fild00",0,0; break;
-				case 2:  callfunc "warp_fct","prt_fild01",0,0; break;
-				case 3:  callfunc "warp_fct","prt_fild02",0,0; break;
-				case 4:  callfunc "warp_fct","prt_fild03",0,0; break;
-				case 5:  callfunc "warp_fct","prt_fild04",0,0; break;
-				case 6:  callfunc "warp_fct","prt_fild05",0,0; break;
-				case 7:  callfunc "warp_fct","prt_fild06",0,0; break;
-				case 8:  callfunc "warp_fct","prt_fild07",0,0; break;
-				case 9:  callfunc "warp_fct","prt_fild08",0,0; break;
-				case 10:  callfunc "warp_fct","prt_fild09",0,0; break;
-				case 11: callfunc "warp_fct","prt_fild10",0,0; break;
-				case 12: callfunc "warp_fct","prt_fild11",0,0; break;
+				case 1:  warp_fct("prt_fild00", 0, 0); break;
+				case 2:  warp_fct("prt_fild01", 0, 0); break;
+				case 3:  warp_fct("prt_fild02", 0, 0); break;
+				case 4:  warp_fct("prt_fild03", 0, 0); break;
+				case 5:  warp_fct("prt_fild04", 0, 0); break;
+				case 6:  warp_fct("prt_fild05", 0, 0); break;
+				case 7:  warp_fct("prt_fild06", 0, 0); break;
+				case 8:  warp_fct("prt_fild07", 0, 0); break;
+				case 9:  warp_fct("prt_fild08", 0, 0); break;
+				case 10:  warp_fct("prt_fild09", 0, 0); break;
+				case 11: warp_fct("prt_fild10", 0, 0); break;
+				case 12: warp_fct("prt_fild11", 0, 0); break;
 			}
 			break;
 		case 25:
 			switch( select("• ra_fild01:• ra_fild02 (Pas dispo en Renewal):• ra_fild03:• ra_fild04:• ra_fild05:• ra_fild06:• ra_fild07 (Pas dispo en Renewal):• ra_fild08:• ra_fild09 (Pas dispo en Renewal):• ra_fild10 (Pas dispo en Renewal):• ra_fild11 (Pas dispo en Renewal):• ra_fild12:• ra_fild13 (Pas dispo en Renewal)") ) {
-				case 1:  callfunc "warp_fct","ra_fild01",0,0; break;
+				case 1:  warp_fct("ra_fild01", 0, 0); break;
 				case 2:  goto L_Fields; break;
-				case 3:  callfunc "warp_fct","ra_fild03",0,0; break;
-				case 4:  callfunc "warp_fct","ra_fild04",0,0; break;
-				case 5:  callfunc "warp_fct","ra_fild05",0,0; break;
-				case 6:  callfunc "warp_fct","ra_fild06",0,0; break;
+				case 3:  warp_fct("ra_fild03", 0, 0); break;
+				case 4:  warp_fct("ra_fild04", 0, 0); break;
+				case 5:  warp_fct("ra_fild05", 0, 0); break;
+				case 6:  warp_fct("ra_fild06", 0, 0); break;
 				case 7:  goto L_Fields; break;
-				case 8:  callfunc "warp_fct","ra_fild08",0,0; break;
+				case 8:  warp_fct("ra_fild08", 0, 0); break;
 				case 9:  goto L_Fields; break;
 				case 10: goto L_Fields; break;
 				case 11: goto L_Fields; break;
-				case 12: callfunc "warp_fct","ra_fild12",0,0; break;
+				case 12: warp_fct("ra_fild12", 0, 0); break;
 				case 13: goto L_Fields; break;
 			}
 			break;
 		case 26:
 			switch( select("• moc_fild01:• moc_fild02:• moc_fild03:• moc_fild04 (Pas dispo en Renewal):• moc_fild05 (Pas dispo en Renewal):• moc_fild06 (Pas dispo en Renewal):• moc_fild07:• moc_fild08 (Pas dispo en Renewal):• moc_fild09 (Pas dispo en Renewal):• moc_fild10 (Pas dispo en Renewal):• moc_fild11:• moc_fild12:• moc_fild13:• moc_fild14 (Pas dispo en Renewal):• moc_fild15 (Pas dispo en Renewal):• moc_fild16:• moc_fild17:• moc_fild18:• moc_fild19:• moc_fild20:• moc_fild21:• moc_fild22") ) {
-				case 1:  callfunc "warp_fct","moc_fild01",0,0; break;
-				case 2:  callfunc "warp_fct","moc_fild02",0,0; break;
-				case 3:  callfunc "warp_fct","moc_fild03",0,0; break;
+				case 1:  warp_fct("moc_fild01", 0, 0); break;
+				case 2:  warp_fct("moc_fild02", 0, 0); break;
+				case 3:  warp_fct("moc_fild03", 0, 0); break;
 				case 4:  goto L_Fields; break;
 				case 5:  goto L_Fields; break;
 				case 6:  goto L_Fields; break;
-				case 7:  callfunc "warp_fct","moc_fild07",0,0; break;
+				case 7:  warp_fct("moc_fild07", 0, 0); break;
 				case 8:  goto L_Fields; break;
 				case 9:  goto L_Fields; break;
 				case 10: goto L_Fields; break;
-				case 11: callfunc "warp_fct","moc_fild11",0,0; break;
-				case 12: callfunc "warp_fct","moc_fild12",0,0; break;
-				case 13: callfunc "warp_fct","moc_fild13",0,0; break;
+				case 11: warp_fct("moc_fild11", 0, 0); break;
+				case 12: warp_fct("moc_fild12", 0, 0); break;
+				case 13: warp_fct("moc_fild13", 0, 0); break;
 				case 14: goto L_Fields; break;
 				case 15: goto L_Fields; break;
-				case 16: callfunc "warp_fct","moc_fild16",0,0; break;
-				case 17: callfunc "warp_fct","moc_fild17",0,0; break;
-				case 18: callfunc "warp_fct","moc_fild18",0,0; break;
-				case 19: callfunc "warp_fct","moc_fild19",0,0; break;
-				case 20: callfunc "warp_fct","moc_fild20",0,0; break;
+				case 16: warp_fct("moc_fild16", 0, 0); break;
+				case 17: warp_fct("moc_fild17", 0, 0); break;
+				case 18: warp_fct("moc_fild18", 0, 0); break;
+				case 19: warp_fct("moc_fild19", 0, 0); break;
+				case 20: warp_fct("moc_fild20", 0, 0); break;
 				case 21:
 					if (rebirth_moc_edq < 4)
-						callfunc "warp_fct","moc_fild20",349,185;
+						warp_fct("moc_fild20", 349, 185);
 					else if (rebirth_moc_edq > 3 && rebirth_moc_edq < 8 && countitem(7826) > 0)
-						callfunc "warp_fct","moc_fild21",38,193;
+						warp_fct("moc_fild21", 38, 193);
 					else if (rebirth_moc_edq == 8 && countitem(7826) > 0 )
-						callfunc "warp_fct","moc_fild21",38,193;
+						warp_fct("moc_fild21", 38, 193);
 					break;
 				case 22: 
 					if (countitem(7826) > 0) 
-						callfunc "warp_fct","moc_fild22",38,193;
+						warp_fct("moc_fild22", 38, 193);
 					else if (countitem(7826) < 1) {
 						mes "[Continental Guard]";
 						mes "Only members of the Continental Guards with Continental Guard Certificates are allowed to proceed beyond this point.";
@@ -1254,44 +1254,44 @@ L_Fields:
 			break;
 		case 27:
 			switch( select("• spl_fild01:• spl_fild02:• spl_fild03") ) {
-				case 1: callfunc "warp_fct","spl_fild01",0,0; break;
-				case 2: callfunc "warp_fct","spl_fild02",0,0; break;
-				case 3: callfunc "warp_fct","spl_fild03",0,0; break;
+				case 1: warp_fct("spl_fild01", 0, 0); break;
+				case 2: warp_fct("spl_fild02", 0, 0); break;
+				case 3: warp_fct("spl_fild03", 0, 0); break;
 			}
 			break;
 		case 28:
 			switch( select("• um_fild01:• um_fild02:• um_fild03:• um_fild04") ) {
-				case 1: callfunc "warp_fct","um_fild01",0,0; break;
-				case 2: callfunc "warp_fct","um_fild02",0,0; break;
-				case 3: callfunc "warp_fct","um_fild03",0,0; break;
-				case 4: callfunc "warp_fct","um_fild04",0,0; break;
+				case 1: warp_fct("um_fild01", 0, 0); break;
+				case 2: warp_fct("um_fild02", 0, 0); break;
+				case 3: warp_fct("um_fild03", 0, 0); break;
+				case 4: warp_fct("um_fild04", 0, 0); break;
 			}
 			break;
 		case 29:
 			switch( select("• ve_fild01:• ve_fild02:• ve_fild03:• ve_fild04:• ve_fild05 (Pas dispo en Renewal):• ve_fild06:• ve_fild07") ) {
-				case 1: callfunc "warp_fct","ve_fild01",0,0; break;
-				case 2: callfunc "warp_fct","ve_fild02",0,0; break;
-				case 3: callfunc "warp_fct","ve_fild03",0,0; break;
-				case 4: callfunc "warp_fct","ve_fild04",0,0; break;
+				case 1: warp_fct("ve_fild01", 0, 0); break;
+				case 2: warp_fct("ve_fild02", 0, 0); break;
+				case 3: warp_fct("ve_fild03", 0, 0); break;
+				case 4: warp_fct("ve_fild04", 0, 0); break;
 				case 5: goto L_Fields; break;
-				case 6: callfunc "warp_fct","ve_fild06",0,0; break;
-				case 7: callfunc "warp_fct","ve_fild07",0,0; break;
+				case 6: warp_fct("ve_fild06", 0, 0); break;
+				case 7: warp_fct("ve_fild07", 0, 0); break;
 			}
 			break;
 		case 30:
 			switch( select("• yuno_fild01:• yuno_fild02:• yuno_fild03:• yuno_fild04:• yuno_fild05 (Pas dispo en Renewal):• yuno_fild06:• yuno_fild07:• yuno_fild08:• yuno_fild09:• yuno_fild10 (Pas dispo en Renewal):• yuno_fild11:• yuno_fild12") ) {
-				case 1: callfunc "warp_fct","yuno_fild01",0,0; break;
-				case 2: callfunc "warp_fct","yuno_fild02",0,0; break;
-				case 3: callfunc "warp_fct","yuno_fild03",0,0; break;
-				case 4: callfunc "warp_fct","yuno_fild04",0,0; break;
+				case 1: warp_fct("yuno_fild01", 0, 0); break;
+				case 2: warp_fct("yuno_fild02", 0, 0); break;
+				case 3: warp_fct("yuno_fild03", 0, 0); break;
+				case 4: warp_fct("yuno_fild04", 0, 0); break;
 				case 5: goto L_Fields; break;
-				case 6: callfunc "warp_fct","yuno_fild06",0,0; break;
-				case 7: callfunc "warp_fct","yuno_fild07",0,0; break;
-				case 8: callfunc "warp_fct","yuno_fild08",0,0; break;
-				case 9: callfunc "warp_fct","yuno_fild09",0,0; break;
+				case 6: warp_fct("yuno_fild06", 0, 0); break;
+				case 7: warp_fct("yuno_fild07", 0, 0); break;
+				case 8: warp_fct("yuno_fild08", 0, 0); break;
+				case 9: warp_fct("yuno_fild09", 0, 0); break;
 				case 10: goto L_Fields; break;
-				case 11: callfunc "warp_fct","yuno_fild11",0,0; break;
-				case 12: callfunc "warp_fct","yuno_fild12",0,0; break;
+				case 11: warp_fct("yuno_fild11", 0, 0); break;
+				case 12: warp_fct("yuno_fild12", 0, 0); break;
 			}
 			break;
 		default: goto L_warpa; break;
@@ -1352,307 +1352,308 @@ L_Donjons:
 		mes "S'il vous plait choisissez le niveau que vous désirez :";
 		case 1:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
-				case 1: callfunc "warp_fct","abbey01",51,13; break;
-				case 2: callfunc "warp_fct","abbey02",149,11; break;
-				case 3: callfunc "warp_fct","abbey03",119,8; break;
+				case 1: warp_fct("abbey01", 51, 13); break;
+				case 2: warp_fct("abbey02", 149, 11); break;
+				case 3: warp_fct("abbey03", 119, 8); break;
 			}
 			break;
 		case 2:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
-				case 1: callfunc "warp_fct","abyss_01",262,270; break;
-				case 2: callfunc "warp_fct","abyss_02",270,270; break;
-				case 3: callfunc "warp_fct","abyss_03",116,27; break;
+				case 1: warp_fct("abyss_01", 262, 270); break;
+				case 2: warp_fct("abyss_02", 270, 270); break;
+				case 3: warp_fct("abyss_03", 116, 27); break;
 			}
 			break;
 		case 3:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
-				case 1: callfunc "warp_fct","ama_dun01",227,10; break;
-				case 2: callfunc "warp_fct","ama_dun02",32,43; break;
-				case 3: callfunc "warp_fct","ama_dun03",119,15; break;
+				case 1: warp_fct("ama_dun01", 227, 10); break;
+				case 2: warp_fct("ama_dun02", 32, 43); break;
+				case 3: warp_fct("ama_dun03", 119, 15); break;
 			}
 			break;
 		case 4:
 			if( select("• Niveau 1:• Niveau 2") == 1 )
-				callfunc "warp_fct","anthell01",32,262;
+				warp_fct("anthell01", 32, 262);
 			else
-				callfunc "warp_fct","anthell02",34,263;
+				warp_fct("anthell02", 34, 263);
 			break;
 		case 5:
 			if( select("• Niveau 1:• Niveau 2") == 1 )
-				callfunc "warp_fct","ayo_dun01",274,19;
+				warp_fct("ayo_dun01", 274, 19);
 			else
-				callfunc "warp_fct","ayo_dun02",230,235;
+				warp_fct("ayo_dun02", 230, 235);
 			break;
 		case 6:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
-				case 1: callfunc "warp_fct","beach_dun",266,67; break;
-				case 2: callfunc "warp_fct","beach_dun2",255,244; break;
-				case 3: callfunc "warp_fct","beach_dun3",23,260; break;
+				case 1: warp_fct("beach_dun", 266, 67); break;
+				case 2: warp_fct("beach_dun2", 255, 244); break;
+				case 3: warp_fct("beach_dun3", 23, 260); break;
 			}
 			break;
 		case 7:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
-				case 1: callfunc "warp_fct","ecl_tdun01",60,13; break;
-				case 2: callfunc "warp_fct","ecl_tdun02",60,88; break;
-				case 3: callfunc "warp_fct","ecl_tdun03",47,13; break;
+				case 1: warp_fct("ecl_tdun01", 60, 13); break;
+				case 2: warp_fct("ecl_tdun02", 60, 88); break;
+				case 3: warp_fct("ecl_tdun03", 47, 13); break;
 			}
 			break;
 		case 8:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4:• Nightmare") ) {
-				case 1: callfunc "warp_fct","lhz_dun01",149,282; break;
-				case 2: callfunc "warp_fct","lhz_dun02",282,156; break;
-				case 3: callfunc "warp_fct","lhz_dun03",140,133; break;
-				case 4: callfunc "warp_fct","lhz_dun04",245,55; break;
-				case 5: callfunc "warp_fct","lhz_dun_n",140,133; break;
+				case 1: warp_fct("lhz_dun01", 149, 282); break;
+				case 2: warp_fct("lhz_dun02", 282, 156); break;
+				case 3: warp_fct("lhz_dun03", 140, 133); break;
+				case 4: warp_fct("lhz_dun04", 245, 55); break;
+				case 5: warp_fct("lhz_dun_n", 140, 133); break;
 			}
 			break;
 		case 9:
 			if( select("• Niveau 1:• Niveau 2") == 1 )
-				callfunc "warp_fct","bra_dun01",0,0;
+				warp_fct("bra_dun01", 0, 0);
 			else
-				callfunc "warp_fct","bra_dun02",261,260;
+				warp_fct("bra_dun02", 261, 260);
 			break;
 		case 10:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4:• Niveau 5:• Niveau 6") ) {
-				case 1: callfunc "warp_fct","iz_dun00",168,168; break;
-				case 2: callfunc "warp_fct","iz_dun01",41,37; break;
-				case 3: callfunc "warp_fct","iz_dun02",236,204; break;
-				case 4: callfunc "warp_fct","iz_dun03",32,63; break;
-				case 5: callfunc "warp_fct","iz_dun04",26,27; break;
-				case 6: callfunc "warp_fct","iz_dun05",141,187; break;
+				case 1: warp_fct("iz_dun00", 168, 168); break;
+				case 2: warp_fct("iz_dun01", 41, 37); break;
+				case 3: warp_fct("iz_dun02", 236, 204); break;
+				case 4: warp_fct("iz_dun03", 32, 63); break;
+				case 5: warp_fct("iz_dun04", 26, 27); break;
+				case 6: warp_fct("iz_dun05", 141, 187); break;
 			}
 			break;
 		case 11:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4:• Sous-sol 1:• Sous-sol 2:• Sous-sol 3:• Sous-sol 4:•Nightmare 1(Nv2):•Nightmare 2(Nv3)") ) {
-				case 1: callfunc "warp_fct","c_tower1",200,163; break;
-				case 2: callfunc "warp_fct","c_tower2",268,26; break;
-				case 3: callfunc "warp_fct","c_tower3",64,148; break;
-				case 4: callfunc "warp_fct","c_tower4",32,63; break;
-				case 5: callfunc "warp_fct","alde_dun01",297,25; break;
-				case 6: callfunc "warp_fct","alde_dun02",262,41; break;
-				case 7: callfunc "warp_fct","alde_dun03",276,53; break;
-				case 8: callfunc "warp_fct","alde_dun04",89,38; break;
-				case 9: callfunc "warp_fct","c_tower2_",268,26; break;
-				case 10: callfunc "warp_fct","c_tower3_",65,147; break;
+				case 1: warp_fct("c_tower1", 200, 163); break;
+				case 2: warp_fct("c_tower2", 268, 26); break;
+				case 3: warp_fct("c_tower3", 64, 148); break;
+				case 4: warp_fct("c_tower4", 32, 63); break;
+				case 5: warp_fct("alde_dun01", 297, 25); break;
+				case 6: warp_fct("alde_dun02", 262, 41); break;
+				case 7: warp_fct("alde_dun03", 276, 53); break;
+				case 8: warp_fct("alde_dun04", 89, 38); break;
+				case 9: warp_fct("c_tower2_", 268, 26); break;
+				case 10: warp_fct("c_tower3_", 65, 147); break;
 			}
 			break;
 		case 12:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
-				case 1: callfunc "warp_fct","mjo_dun01",52,17; break;
-				case 2: callfunc "warp_fct","mjo_dun02",381,343; break;
-				case 3: callfunc "warp_fct","mjo_dun03",302,261; break;
+				case 1: warp_fct("mjo_dun01", 52, 17); break;
+				case 2: warp_fct("mjo_dun02", 381, 343); break;
+				case 3: warp_fct("mjo_dun03", 302, 261); break;
 			}
 			break;
 		case 13:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4") ) {
-				case 1: callfunc "warp_fct","prt_sewb1",132,248; break;
-				case 2: callfunc "warp_fct","prt_sewb2",19,19; break;
-				case 3: callfunc "warp_fct","prt_sewb3",180,169; break;
-				case 4: callfunc "warp_fct","prt_sewb4",100,92; break;
+				case 1: warp_fct("prt_sewb1", 132, 248); break;
+				case 2: warp_fct("prt_sewb2", 19, 19); break;
+				case 3: warp_fct("prt_sewb3", 180, 169); break;
+				case 4: warp_fct("prt_sewb4", 100, 92); break;
 			}
 			break;
 		case 14:
 			switch( select("• Niveau 1:• Niveau 2") ) {
-				case 1: callfunc "warp_fct","dew_dun01",289,160; break;
-				case 2: callfunc "warp_fct","dew_dun02",302,30; break;
+				case 1: warp_fct("dew_dun01", 289, 160); break;
+				case 2: warp_fct("dew_dun02", 302, 30); break;
 			}
 			break;
 			
 		case 15:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
-				case 1: callfunc "warp_fct","dic_dun01",366,45; break;
-				case 2: callfunc "warp_fct","dic_dun02",102,142; break;
-				case 3: callfunc "warp_fct","dic_dun03",101,144; break;
+				case 1: warp_fct("dic_dun01", 366, 45); break;
+				case 2: warp_fct("dic_dun02", 102, 142); break;
+				case 3: warp_fct("dic_dun03", 101, 144); break;
 			}
 			break;
 		case 16:
 			if( select("• Niveau 1:• Niveau 2") == 1 )
-				callfunc "warp_fct","ein_dun01",22,18;
+				warp_fct("ein_dun01", 22, 18);
 			else
-				callfunc "warp_fct","ein_dun02",292,290;
+				warp_fct("ein_dun02", 292, 290);
 			break;
 		case 17:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4") ) {
-				case 1: callfunc "warp_fct","gef_dun00",104,98; break;
-				case 2: callfunc "warp_fct","gef_dun01",115,236; break;
-				case 3: callfunc "warp_fct","gef_dun02",106,132; break;
-				case 4: callfunc "warp_fct","gef_dun03",203,200; break;
+				case 1: warp_fct("gef_dun00", 104, 98); break;
+				case 2: warp_fct("gef_dun01", 115, 236); break;
+				case 3: warp_fct("gef_dun02", 106, 132); break;
+				case 4: warp_fct("gef_dun03", 203, 200); break;
 			}
 			break;
 		case 18:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4") ) {
-				case 1: callfunc "warp_fct","gefenia01",59,167; break;
-				case 2: callfunc "warp_fct","gefenia02",201,35; break;
-				case 3: callfunc "warp_fct","gefenia03",264,236; break;
-				case 4: callfunc "warp_fct","gefenia04",33,270; break;
+				case 1: warp_fct("gefenia01", 59, 167); break;
+				case 2: warp_fct("gefenia02", 201, 35); break;
+				case 3: warp_fct("gefenia03", 264, 236); break;
+				case 4: warp_fct("gefenia04", 33, 270); break;
 			}
 			break;
 		case 19:
 			switch( select("• St. Abbey:• Churchyard:• Dans Glast Heim:• 1er étage:• 2ème étage:• Chevalrie 1:• Chevalrie 2:• Prison 1:• Prison 2:• Etages:• Egout 1:• Egout 2:• Egout 3:• Egout 4:• Sous-sol 1:• Sous-sol 2:• Nightmare Churchyard:• Nightmare 2ème étage") ) {
-				case 1: callfunc "warp_fct","gl_church",156,8; break;
-				case 2: callfunc "warp_fct","gl_chyard",147,15; break;
-				case 3: callfunc "warp_fct","gl_in01",121,59; break;
-				case 4: callfunc "warp_fct","gl_cas01",199,29; break;
-				case 5: callfunc "warp_fct","gl_cas02",104,25; break;
-				case 6: callfunc "warp_fct","gl_knt01",150,10; break;
-				case 7: callfunc "warp_fct","gl_knt02",157,287; break;
-				case 8: callfunc "warp_fct","gl_prison",14,70; break;
-				case 9: callfunc "warp_fct","gl_prison1",150,14; break;
-				case 10: callfunc "warp_fct","gl_step",117,124; break;
-				case 11: callfunc "warp_fct","gl_sew01",258,255; break;
-				case 12: callfunc "warp_fct","gl_sew02",108,291; break;
-				case 13: callfunc "warp_fct","gl_sew03",171,273; break;
-				case 14: callfunc "warp_fct","gl_sew04",68,277; break;
-				case 15: callfunc "warp_fct","gl_dun01",133,271; break;
-				case 16: callfunc "warp_fct","gl_dun02",224,274; break;
-				case 17: callfunc "warp_fct","gl_chyard_",147,15; break;
-				case 18: callfunc "warp_fct","gl_cas02_",104,25; break;
+				case 1: warp_fct("gl_church", 156, 8); break;
+				case 2: warp_fct("gl_chyard", 147, 15); break;
+				case 3: warp_fct("gl_in01", 121, 59); break;
+				case 4: warp_fct("gl_cas01", 199, 29); break;
+				case 5: warp_fct("gl_cas02", 104, 25); break;
+				case 6: warp_fct("gl_knt01", 150, 10); break;
+				case 7: warp_fct("gl_knt02", 157, 287); break;
+				case 8: warp_fct("gl_prison", 14, 70); break;
+				case 9: warp_fct("gl_prison1", 150, 14); break;
+				case 10: warp_fct("gl_step", 117, 124); break;
+				case 11: warp_fct("gl_sew01", 258, 255); break;
+				case 12: warp_fct("gl_sew02", 108, 291); break;
+				case 13: warp_fct("gl_sew03", 171, 273); break;
+				case 14: warp_fct("gl_sew04", 68, 277); break;
+				case 15: warp_fct("gl_dun01", 133, 271); break;
+				case 16: warp_fct("gl_dun02", 224, 274); break;
+				case 17: warp_fct("gl_chyard_", 147, 15); break;
+				case 18: warp_fct("gl_cas02_", 104, 25); break;
 			}
 			break;
 		case 20:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
-				case 1: callfunc "warp_fct","gon_dun01",153,48; break;
-				case 2: callfunc "warp_fct","gon_dun02",17,114; break;
-				case 3: callfunc "warp_fct","gon_dun03",68,9; break;
+				case 1: warp_fct("gon_dun01", 153, 48); break;
+				case 2: warp_fct("gon_dun02", 17, 114); break;
+				case 3: warp_fct("gon_dun03", 68, 9); break;
 			}
 			break;
 		case 21:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
-				case 1: callfunc "warp_fct","prt_maze01",176,7; break;
-				case 2: callfunc "warp_fct","prt_maze02",93,20; break;
-				case 3: callfunc "warp_fct","prt_maze03",23,8; break;
+				case 1: warp_fct("prt_maze01", 176, 7); break;
+				case 2: warp_fct("prt_maze02", 93, 20); break;
+				case 3: warp_fct("prt_maze03", 23, 8); break;
 			}
 			break;
 		case 22:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
-				case 1: callfunc "warp_fct","ice_dun01",157,14; break;
-				case 2: callfunc "warp_fct","ice_dun02",151,156; break;
-				case 3: callfunc "warp_fct","ice_dun03",149,22; break;
+				case 1: warp_fct("ice_dun01", 157, 14); break;
+				case 2: warp_fct("ice_dun02", 151, 156); break;
+				case 3: warp_fct("ice_dun03", 149, 22); break;
 			}
 			break;
 		case 23:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
-				case 1: callfunc "warp_fct","juperos_01",53,243; break;
-				case 2: callfunc "warp_fct","juperos_02",41,65; break;
-				case 3: callfunc "warp_fct","jupe_core",150,20; break;
+				case 1: warp_fct("juperos_01", 53, 243); break;
+				case 2: warp_fct("juperos_02", 41, 65); break;
+				case 3: warp_fct("jupe_core", 150, 20); break;
 			}
 			break;
 		case 24:
 			if( select("• Niveau 1:• Niveau 2") == 1 )
-				callfunc "warp_fct","kh_dun01",28,211;
+				warp_fct("kh_dun01", 28, 211);
 			else
-				callfunc "warp_fct","kh_dun02",42,197;
+				warp_fct("kh_dun02", 42, 197);
 			break;
 		case 25:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
-				case 1: callfunc "warp_fct","lasa_dun01",23,143; break;
-				case 2: callfunc "warp_fct","lasa_dun02",22,171; break;
-				case 3: callfunc "warp_fct","lasa_dun03",190,19; break;
+				case 1: warp_fct("lasa_dun01", 23, 143); break;
+				case 2: warp_fct("lasa_dun02", 22, 171); break;
+				case 3: warp_fct("lasa_dun03", 190, 19); break;
 			}
 		case 26:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
-				case 1: callfunc "warp_fct","lou_dun01",215,193; break;
-				case 2: callfunc "warp_fct","lou_dun02",280,23; break;
-				case 3: callfunc "warp_fct","lou_dun03",165,38; break;
+				case 1: warp_fct("lou_dun01", 215, 193); break;
+				case 2: warp_fct("lou_dun02", 280, 23); break;
+				case 3: warp_fct("lou_dun03", 165, 38); break;
 			}
 			break;
 		case 27:
-			if( select("• Niveau 1:• Niveau 2") == 1 )
-				callfunc "warp_fct","mag_dun01",126,69;
-			else
-				callfunc "warp_fct","mag_dun02",47,32;
+			switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
+				case 1: warp_fct("mag_dun01",126,69); break;
+				case 2: warp_fct("mag_dun02",47,32); break;
+				case 3: warp_fct("mag_dun03",120,120); break;
+			}
 			break;
 		case 28:
-			callfunc "warp_fct","ma_dun01",29,106;
+			warp_fct("ma_dun01", 29, 106);
 			break;
 		case 29:
-			callfunc "warp_fct","mal_dun01",33,230;
+			warp_fct("mal_dun01", 33, 230);
 			break;
 		case 30:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
-				case 1: callfunc "warp_fct","mosk_dun01",205,52; break;
-				case 2: callfunc "warp_fct","mosk_dun02",160,35; break;
-				case 3: callfunc "warp_fct","mosk_dun03",34,136; break;
+				case 1: warp_fct("mosk_dun01", 205, 52); break;
+				case 2: warp_fct("mosk_dun02", 160, 35); break;
+				case 3: warp_fct("mosk_dun03", 34, 136); break;
 			}
 			break;
 		case 31:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
-				case 1: callfunc "warp_fct","odin_tem01",97,146; break;
-				case 2: callfunc "warp_fct","odin_tem02",26,181; break;
-				case 3: callfunc "warp_fct","odin_tem03",120,54; break;
+				case 1: warp_fct("odin_tem01", 97, 146); break;
+				case 2: warp_fct("odin_tem02", 26, 181); break;
+				case 3: warp_fct("odin_tem03", 120, 54); break;
 			}
 			break;
 		case 32:
 			if( select("• Niveau 1:• Niveau 2") == 1 )
-				callfunc "warp_fct","orcsdun01",32,169;
+				warp_fct("orcsdun01", 32, 169);
 			else
-				callfunc "warp_fct","orcsdun02",21,185;
+				warp_fct("orcsdun02", 21, 185);
 			break;
 		case 33:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4:• Niveau 5") ) {
-				case 1: callfunc "warp_fct","pay_dun00",22,180; break;
-				case 2: callfunc "warp_fct","pay_dun01",19,33; break;
-				case 3: callfunc "warp_fct","pay_dun02",19,63; break;
-				case 4: callfunc "warp_fct","pay_dun03",155,159; break;
-				case 5: callfunc "warp_fct","pay_dun04",201,204; break;
+				case 1: warp_fct("pay_dun00", 22, 180); break;
+				case 2: warp_fct("pay_dun01", 19, 33); break;
+				case 3: warp_fct("pay_dun02", 19, 63); break;
+				case 4: warp_fct("pay_dun03", 155, 159); break;
+				case 5: warp_fct("pay_dun04", 201, 204); break;
 			}
 			break;
 		case 34:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4:Sous-sol 1:Sous-sol 2:Sous-sol 1 - Nightmare:Sous-sol 2 - Nightmare") ) {
-				case 1: callfunc "warp_fct","moc_pryd01",192,9; break;
-				case 2: callfunc "warp_fct","moc_pryd02",10,192; break;
-				case 3: callfunc "warp_fct","moc_pryd03",100,92; break;
-				case 4: callfunc "warp_fct","moc_pryd04",181,11; break;
-				case 5: callfunc "warp_fct","moc_pryd05",94,96; break;
-				case 6: callfunc "warp_fct","moc_pryd06",192,8; break;
-				case 7: callfunc "warp_fct","moc_prydn1",94,96; break;
-				case 8: callfunc "warp_fct","moc_prydn2",192,8; break;
+				case 1: warp_fct("moc_pryd01", 192, 9); break;
+				case 2: warp_fct("moc_pryd02", 10, 192); break;
+				case 3: warp_fct("moc_pryd03", 100, 92); break;
+				case 4: warp_fct("moc_pryd04", 181, 11); break;
+				case 5: warp_fct("moc_pryd05", 94, 96); break;
+				case 6: warp_fct("moc_pryd06", 192, 8); break;
+				case 7: warp_fct("moc_prydn1", 94, 96); break;
+				case 8: warp_fct("moc_prydn2", 192, 8); break;
 			}
 			break;
 		case 35:
 			if( select("• Rockridge Mine:• Underground Waterway") == 1 )
-				callfunc "warp_fct","rockmi1",0,0;
+				warp_fct("rockmi1", 0, 0);
 			else
-				callfunc "warp_fct","harboro2",0,0;
+				warp_fct("harboro2", 0, 0);
 			break;
 		case 36:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4:• Niveau 5") ) {
-				case 1: callfunc "warp_fct","ra_san01",140,130; break;
-				case 2: callfunc "warp_fct","ra_san02",213,269; break;
-				case 3: callfunc "warp_fct","ra_san03",123,278; break;
-				case 4: callfunc "warp_fct","ra_san04",119,110; break;
-				case 5: callfunc "warp_fct","ra_san05",150,12; break;
+				case 1: warp_fct("ra_san01", 140, 130); break;
+				case 2: warp_fct("ra_san02", 213, 269); break;
+				case 3: warp_fct("ra_san03", 123, 278); break;
+				case 4: warp_fct("ra_san04", 119, 110); break;
+				case 5: warp_fct("ra_san05", 150, 12); break;
 			}
 			break;
 		case 37:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4:• Niveau 5") ) {
-				case 1: callfunc "warp_fct","in_sphinx1",192,9; break;
-				case 2: callfunc "warp_fct","in_sphinx2",149,81; break;
-				case 3: callfunc "warp_fct","in_sphinx3",210,54; break;
-				case 4: callfunc "warp_fct","in_sphinx4",10,222; break;
-				case 5: callfunc "warp_fct","in_sphinx5",100,99; break;
+				case 1: warp_fct("in_sphinx1", 192, 9); break;
+				case 2: warp_fct("in_sphinx2", 149, 81); break;
+				case 3: warp_fct("in_sphinx3", 210, 54); break;
+				case 4: warp_fct("in_sphinx4", 10, 222); break;
+				case 5: warp_fct("in_sphinx5", 100, 99); break;
 			}
 			break;
 		case 38:
 			if( select("• Niveau 1:• Niveau 2") == 1 )
-				callfunc "warp_fct","treasure01",69,24;
+				warp_fct("treasure01", 69, 24);
 			else
-				callfunc "warp_fct","treasure02",102,27;
+				warp_fct("treasure02", 102, 27);
 			break;
 		case 39:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4:• Niveau 5:• Niveau 6:• Niveau 7:• Niveau 8:• Niveau 9:• Niveau 10:• Niveau 11:• Niveau 12:Niveau Boss") ) {
-				case 1: callfunc "warp_fct","tha_t01",150,70; break;
-				case 2: callfunc "warp_fct","tha_t02",150,130; break;
-				case 3: callfunc "warp_fct","tha_t03",220,161; break;
-				case 4: callfunc "warp_fct","tha_t04",60,143; break;
-				case 5: callfunc "warp_fct","tha_t05",62,8; break;
-				case 6: callfunc "warp_fct","tha_t06",207,9; break;
-				case 7: callfunc "warp_fct","tha_t07",30,166; break;
-				case 8: callfunc "warp_fct","tha_t08",29,44; break;
-				case 9: callfunc "warp_fct","tha_t09",87,146; break;
-				case 10:callfunc "warp_fct","tha_t10",0,0; break;
-				case 11:callfunc "warp_fct","tha_t11",0,0; break;
-				case 12:callfunc "warp_fct","tha_t12",0,0; break;
+				case 1: warp_fct("tha_t01", 150, 70); break;
+				case 2: warp_fct("tha_t02", 150, 130); break;
+				case 3: warp_fct("tha_t03", 220, 161); break;
+				case 4: warp_fct("tha_t04", 60, 143); break;
+				case 5: warp_fct("tha_t05", 62, 8); break;
+				case 6: warp_fct("tha_t06", 207, 9); break;
+				case 7: warp_fct("tha_t07", 30, 166); break;
+				case 8: warp_fct("tha_t08", 29, 44); break;
+				case 9: warp_fct("tha_t09", 87, 146); break;
+				case 10:warp_fct("tha_t10", 0, 0); break;
+				case 11:warp_fct("tha_t11", 0, 0); break;
+				case 12:warp_fct("tha_t12", 0, 0); break;
 				case 13:
 					if( $@thana_summon >= 6 && $@thana_summon_name$ == "" ) {
 						clear;
@@ -1672,7 +1673,7 @@ L_Donjons:
 								mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 								mes $@thana_summon_name$+" a commencé l'invocation.";
 								close2;
-								callfunc "warp_fct","thana_boss",142,222;
+								warp_fct("thana_boss", 142, 222);
 								end;
 							}
 							else if( $@thana_summon_name$ != strcharinfo(0) && $@thana_summon2 > 0 ) {
@@ -1683,34 +1684,34 @@ L_Donjons:
 							}
 						}
 					}
-					callfunc "warp_fct","thana_boss",142,222; break;
+					warp_fct("thana_boss", 142, 222); break;
 			}
 			break;
 		case 40:
 			switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
-				case 1: callfunc "warp_fct","thor_v01",20,230; break;
-				case 2: callfunc "warp_fct","thor_v02",80,204; break;
-				case 3: callfunc "warp_fct","thor_v03",34,272; break;
+				case 1: warp_fct("thor_v01", 20, 230); break;
+				case 2: warp_fct("thor_v02", 80, 204); break;
+				case 3: warp_fct("thor_v03", 34, 272); break;
 			}
 			break;
 		case 41:
 			if( select("• Niveau 1:• Niveau 2") == 1 )
-				callfunc "warp_fct","xmas_dun01",205,21;
+				warp_fct("xmas_dun01", 205, 21);
 			else
-				callfunc "warp_fct","xmas_dun02",130,135;
+				warp_fct("xmas_dun02", 130, 135);
 			break;
 		case 42:
 			switch( select("• Entrée:• Niveau 1:• Niveau 2:• Niveau 3") ) {
-				case 1: callfunc "warp_fct","tur_dun01",159,36; break;
-				case 2: callfunc "warp_fct","tur_dun02",148,263; break;
-				case 3: callfunc "warp_fct","tur_dun03",132,189; break;
-				case 4: callfunc "warp_fct","tur_dun04",100,190; break;
+				case 1: warp_fct("tur_dun01", 159, 36); break;
+				case 2: warp_fct("tur_dun02", 148, 263); break;
+				case 3: warp_fct("tur_dun03", 132, 189); break;
+				case 4: warp_fct("tur_dun04", 100, 190); break;
 			}
 			break;
 		case 43:
-			callfunc "warp_fct","slabw01",14,88; break;
+			warp_fct("slabw01", 14, 88); break;
 		case 44:
-			callfunc "warp_fct","nyd_dun01",54,70; break;
+			warp_fct("nyd_dun01", 54, 70); break;
 		default: goto L_warpa; break;
 	}
 	end;
@@ -1722,7 +1723,7 @@ L_Rooms:
 	switch( select("• Carnage Room [ ^FF0000"+getmapusers("pvp_n_3-5")+"^000000 joueur(s) ]:• PvP Room [ ^FF0000"+getmapusers("pvp_n_4-1")+"^000000 joueur(s) ]:• Duel Room [ ^FF0000"+getmapusers("pvp_n_2-1")+"^000000 joueur(s) ]:• GvG Room [ ^FF0000"+getmapusers("pvp_n_5-1")+"^000000 joueur(s) ]:• DB Room [ ^FF0000"+getmapusers("pvp_n_1-1")+"^000000 joueur(s) ]:• BB Room [ ^FF0000"+getmapusers("pvp_n_3-1")+"^000000 joueur(s) ]:• Test Room [ ^FF0000"+getmapusers("pvp_n_5-5")+"^000000 joueur(s) ]:• ^e64c00Menu Précédent.^000000") ) {
 		case 1:	// Carnage Room
 			callsub Check_Buffs;
-			callfunc "warp_fct","pvp_n_3-5",0,0;
+			warp_fct("pvp_n_3-5", 0, 0);
 			break;
 		case 2:	// PvP Room
 			clear;
@@ -1732,14 +1733,14 @@ L_Rooms:
 			mes "Fairplay oblige.";
 			if( select("Entrer en PvP Room", "Non merci,j'ai peur.") == 1 ) {
 				callsub Check_Buffs;
-				callfunc "warp_fct","pvp_n_4-1",105,71;
+				warp_fct("pvp_n_4-1", 105, 71);
 				end;
 			}
 			else
 				goto L_warpa;
 			break;
 		case 3:	// Duel Room
-			callfunc "warp_fct","pvp_n_2-1",105,71;
+			warp_fct("pvp_n_2-1", 105, 71);
 			break;
 		case 4:	// GvG Room
 			clear;
@@ -1749,15 +1750,15 @@ L_Rooms:
 			mes "Fairplay oblige.";
 			if( select("Entrer en GvG Room", "Non merci,j'ai peur.") == 1 ) {
 				callsub Check_Buffs;
-				callfunc "warp_fct","pvp_n_5-1",105,64;
+				warp_fct("pvp_n_5-1", 105, 64);
 				end;
 			}
 			else
 				goto L_warpa;
 			break;
-		case 5: callfunc "warp_fct","pvp_n_1-1",104,71; break;	// DB room
-		case 6: callfunc "warp_fct","pvp_n_3-1",104,71; break;	// BB room
-		case 7: callfunc "warp_fct","pvp_n_5-5",0,0; break;		// Test Room
+		case 5: warp_fct("pvp_n_1-1", 104, 71); break;	// DB room
+		case 6: warp_fct("pvp_n_3-1", 104, 71); break;	// BB room
+		case 7: warp_fct("pvp_n_5-5", 0, 0); break;		// Test Room
 		default: goto L_warpa; break;
 	}
 	end;
