@@ -258,7 +258,7 @@ OnPCLoadMapEvent:
      && !compare("@tower,@new,@jtb,@xm_d,@ma_c,@ma_h", substr(.@charmap$, 4, getstrlen(.@charmap$)-1)) )
 		end;
 
-	if( .@len = query_sql("SELECT `login`.`account_id` FROM `char` RIGHT JOIN `login` ON `login`.`account_id` = `char`.`account_id` WHERE `char`.`online` = 1 AND `login`.`user_id` = '"+ callfunc("getuserid",getcharid(3)) +"'", .@a ) ) {
+	if( .@len = query_sql("SELECT `login`.`account_id` FROM `char` RIGHT JOIN `login` ON `login`.`account_id` = `char`.`account_id` WHERE `char`.`online` = 1 AND `login`.`user_id` = '"+ callfunc("getuniqueid",getcharid(3)) +"'", .@a ) ) {
 		if( .@len - 1 ) {
 			for( .@d = 0; .@d < .@len; .@d = .@d + 1 ) {
 				getmapxy(.@map$, .@x, .@y, BL_PC, rid2name(.@a[.@d]));

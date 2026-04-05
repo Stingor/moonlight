@@ -178,7 +178,7 @@ gonryun,155,122,5	script	Kafra::kafra_gon	4_F_KAFRA2,{
 			if( select("Non, je veux plus.:Oui, je veux !") == 2 ) {
 				mes "["+strnpcinfo(1)+"]";
 				mes "Ok c'est partit !";
-				if( callfunc("getvote",callfunc("getuserid",getcharid(3))) >= 4 ) {
+				if( callfunc("getvote",callfunc("getuniqueid",getcharid(3))) >= 4 ) {
 					logmes "Changement de genre.";
 					callfunc("moonlight_vote",4,getcharid(3));
 					close2;
