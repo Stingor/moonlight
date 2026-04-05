@@ -14,13 +14,13 @@ jobs:
         run: |
           msg=""
 
-          while IFS= read -r -d '' entry; do
-            ts="${entry%%$'\n'*}"
-            msgtxt="${entry#*$'\n'}"
+          while IFS= read -r commit; do
+            ts=$(echo "$commit" | jq -r .timestamp)
+            msgtxt=$(echo "$commit" | jq -r .message)
             formatted=$(TZ="Europe/Paris" date -d "$ts" "+%d/%m/%Y %H:%M")
             msg="${msg}- \`${formatted}\` — ${msgtxt}"$'\n'
           done < <(
-            jq -r '.commits[] | "\(.timestamp)\n\(.message)\u0000"' "$GITHUB_EVENT_PATH"
+            jq -c '.commits[]' "$GITHUB_EVENT_PATH"
           )
 
           jq -n --arg description "$msg" '{
