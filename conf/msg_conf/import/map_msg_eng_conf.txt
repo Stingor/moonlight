@@ -1751,6 +1751,8 @@
 1839: Vous n'êtes pas en party.
 1840: Affichage buffs party désactivés.
 1841: Affichage buffs party activés.
+1842: Vous êtes trop loin de la cible (%d cases).
+1843: Tentative de tame avec %0.02f%% de chances.
 
 // @storagealt
 1850: Storage alternatif %d ouvert.

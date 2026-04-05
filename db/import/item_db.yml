@@ -1070,7 +1070,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1002;\n"
+    Script: "pet;\n"
   - Id: 620
     AegisName: Orange_Juice
     Name: Orange Juice
@@ -1079,7 +1079,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1113;\n"
+    Script: "pet;\n"
   - Id: 621
     AegisName: Bitter_Herb
     Name: Bitter Herb
@@ -1088,7 +1088,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1031;\n"
+    Script: "pet;\n"
   - Id: 622
     AegisName: Rainbow_Carrot
     Name: Rainbow Carrot
@@ -1097,7 +1097,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1063;\n"
+    Script: "pet;\n"
   - Id: 623
     AegisName: Earthworm_The_Dude
     Name: Earthworm the Dude
@@ -1106,7 +1106,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1049;\n"
+    Script: "pet;\n"
   - Id: 624
     AegisName: Rotten_Fish
     Name: Rotten Fish
@@ -1115,7 +1115,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1011;\n"
+    Script: "pet;\n"
   - Id: 625
     AegisName: Lusty_Iron
     Name: Rusty Iron
@@ -1124,7 +1124,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1042;\n"
+    Script: "pet;\n"
   - Id: 626
     AegisName: Monster_Juice
     Name: Monster Juice
@@ -1133,7 +1133,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1035;\n"
+    Script: "pet;\n"
   - Id: 627
     AegisName: Sweet_Milk
     Name: Sweet Milk
@@ -1142,7 +1142,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1167;\n"
+    Script: "pet;\n"
   - Id: 628
     AegisName: Well_Dried_Bone
     Name: Well-Dried Bone
@@ -1151,7 +1151,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1107;\n"
+    Script: "pet;\n"
   - Id: 629
     AegisName: Singing_Flower
     Name: Singing Flower
@@ -1160,7 +1160,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1052;\n"
+    Script: "pet;\n"
   - Id: 630
     AegisName: Dew_Laden_Moss
     Name: Dew Laden Moss
@@ -1169,7 +1169,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1014;\n"
+    Script: "pet;\n"
   - Id: 631
     AegisName: Deadly_Noxious_Herb
     Name: Deadly Noxious Herb
@@ -1178,7 +1178,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1077;\n"
+    Script: "pet;\n"
   - Id: 632
     AegisName: Fatty_Chubby_Earthworm
     Name: Fatty Chubby Earthworm
@@ -1187,7 +1187,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1019;\n"
+    Script: "pet;\n"
   - Id: 633
     AegisName: Baked_Yam
     Name: Sweet Potato
@@ -1196,7 +1196,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1056;\n"
+    Script: "pet;\n"
   - Id: 634
     AegisName: Tropical_Banana
     Name: Tropical Banana
@@ -1205,7 +1205,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1057;\n"
+    Script: "pet;\n"
   - Id: 635
     AegisName: Horror_Of_Tribe
     Name: Orc Trophy
@@ -1214,7 +1214,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1023;\n"
+    Script: "pet;\n"
   - Id: 636
     AegisName: No_Recipient
     Name: No Recipient
@@ -1223,7 +1223,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1026;\n"
+    Script: "pet;\n"
   - Id: 637
     AegisName: Old_Broom
     Name: Old Broom
@@ -1232,7 +1232,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1110;\n"
+    Script: "pet;\n"
   - Id: 638
     AegisName: Silver_Knife_Of_Chaste
     Name: Silver Knife of Chastity
@@ -1241,7 +1241,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1170;\n"
+    Script: "pet;\n"
   - Id: 639
     AegisName: Armlet_Of_Obedience
     Name: Armlet of Obedience
@@ -1250,7 +1250,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1029;\n"
+    Script: "pet;\n"
   - Id: 640
     AegisName: Shining_Stone
     Name: Shining Stone
@@ -1259,7 +1259,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1155;\n"
+    Script: "pet;\n"
   - Id: 641
     AegisName: Contracts_In_Shadow
     Name: Contract in Shadow
@@ -1268,7 +1268,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1109;\n"
+    Script: "pet;\n"
   - Id: 642
     AegisName: Book_Of_Devil
     Name: Book of the Devil
@@ -1277,7 +1277,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1101;\n"
+    Script: "pet;\n"
   - Id: 643
     AegisName: Pet_Incubator
     Name: Pet Incubator
@@ -1380,7 +1380,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1188;\n"
+    Script: "pet;\n"
   - Id: 660
     AegisName: Prohibition_Red_Candle
     Name: Forbidden Red Candle
@@ -1389,7 +1389,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1200;\n"
+    Script: "pet;\n"
   - Id: 661
     AegisName: Sway_Apron
     Name: Soft Apron
@@ -1398,7 +1398,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1275;\n"
+    Script: "pet;\n"
   - Id: 662
     AegisName: Inspector_Certificate
     Name: Authoritative Badge
@@ -70197,7 +70197,7 @@ Body:
     Type: Usable
     Buy: 2000
     Weight: 50
-    Script: "pet 1245;\n"
+    Script: "pet;\n"
   - Id: 12226
     AegisName: Examination1
     Name: Examination 1
@@ -71069,7 +71069,7 @@ Body:
     Type: Usable
     Buy: 5000
     Weight: 10
-    Script: "pet 1815;\n"
+    Script: "pet;\n"
   - Id: 12341
     AegisName: Special_Alloy_Trap_Box
     Name: Special Alloy Trap Box
@@ -71239,7 +71239,7 @@ Body:
     Type: Usable
     Buy: 120000
     Weight: 50
-    Script: "pet 1630;\n"
+    Script: "pet;\n"
   - Id: 12358
     AegisName: Fan_Of_Wind
     Name: Fan Of Wind
@@ -71248,7 +71248,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1513;\n"
+    Script: "pet;\n"
   - Id: 12359
     AegisName: Very_Soft_Plant
     Name: Very Soft Plant
@@ -71257,7 +71257,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1586;\n"
+    Script: "pet;\n"
   - Id: 12360
     AegisName: Very_Red_Juice
     Name: Very Red Juice
@@ -71266,13 +71266,13 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1505;\n"
+    Script: "pet;\n"
   - Id: 12361
     AegisName: Delicious_Shaved_Ice
     Name: Delicious Shaved Ice
     Type: Usable
     Buy: 9000
-    Script: "pet 1143;\n"
+    Script: "pet;\n"
   - Id: 12362
     AegisName: Kuloren
     Name: Kuloren
@@ -71281,13 +71281,13 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1401;\n"
+    Script: "pet;\n"
   - Id: 12363
     AegisName: Fit_Pipe
     Name: Fit Pipe
     Type: Usable
     Buy: 7000
-    Script: "pet 1179;\n"
+    Script: "pet;\n"
   - Id: 12364
     AegisName: Staff_Of_Leader
     Name: Staff Of Leader
@@ -71296,7 +71296,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1299;\n"
+    Script: "pet;\n"
   - Id: 12365
     AegisName: Charming_Lotus
     Name: Charming Lotus
@@ -71305,7 +71305,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1416;\n"
+    Script: "pet;\n"
   - Id: 12366
     AegisName: Gril_Doll
     Name: Girl's Doll
@@ -71314,7 +71314,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1404;\n"
+    Script: "pet;\n"
   - Id: 12367
     AegisName: Luxury_Whisky_Bottle
     Name: Luxury Whisky Bottle
@@ -71323,7 +71323,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1504;\n"
+    Script: "pet;\n"
   - Id: 12368
     AegisName: Splendid_Mirror
     Name: Splendid Mirror
@@ -71332,7 +71332,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1148;\n"
+    Script: "pet;\n"
   - Id: 12369
     AegisName: Oilpalm_Coconut
     Name: Oilpalm Coconut
@@ -71341,13 +71341,13 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1495;\n"
+    Script: "pet;\n"
   - Id: 12370
     AegisName: Gril's_Naivety
     Name: Girl's Naivety
     Type: Usable
     Buy: 20000
-    Script: "pet 1374;\n"
+    Script: "pet;\n"
   - Id: 12371
     AegisName: Magical_Lithography
     Name: Magical Lithography
@@ -71356,7 +71356,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1040;\n"
+    Script: "pet;\n"
   - Id: 12372
     AegisName: Hell_Contract
     Name: Hell Contract
@@ -71365,7 +71365,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1379;\n"
+    Script: "pet;\n"
   - Id: 12373
     AegisName: Boy's_Naivety
     Name: Boy's Pure Heart
@@ -71374,7 +71374,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1370;\n"
+    Script: "pet;\n"
   - Id: 12374
     AegisName: Flaming_Ice
     Name: Ice Fireworks
@@ -71383,7 +71383,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1837;\n"
+    Script: "pet;\n"
   - Id: 12375
     AegisName: Acaraje
     Name: Akaraje
@@ -71543,7 +71543,7 @@ Body:
     Weight: 50
     Flags:
       BuyingStore: true
-    Script: "pet 1519;\n"
+    Script: "pet;\n"
   - Id: 12396
     AegisName: Fools_Day_Box
     Name: Gift Box?
@@ -71624,7 +71624,7 @@ Body:
     AegisName: Leaf_Cat_Ball
     Name: Hydra Ball
     Type: Usable
-    Script: "pet 2081;\n"
+    Script: "pet;\n"
   - Id: 12409
     AegisName: Pork_Belly_H
     Name: 1st Class Pork Belly
@@ -73456,7 +73456,7 @@ Body:
     Type: Usable
     Buy: 20000
     Weight: 50
-    Script: "pet 2313;\n"
+    Script: "pet;\n"
   - Id: 12700
     AegisName: Insideout_Shirt
     Name: Inside-out Shirt
@@ -74396,7 +74396,7 @@ Body:
     Type: Usable
     Buy: 20000
     Weight: 50
-    Script: "pet 2398;\n"
+    Script: "pet;\n"
   - Id: 12847
     AegisName: Old_Equipment_Box
     Name: Old Equipment Box
@@ -88791,42 +88791,42 @@ Body:
     Type: Usable
     Buy: 20000
     Weight: 10
-    Script: "pet 1122;\n"
+    Script: "pet;\n"
   - Id: 14570
     AegisName: Flail_Goblin_Ring
     Name: Flail Goblin Ring
     Type: Usable
     Buy: 20000
     Weight: 10
-    Script: "pet 1123;\n"
+    Script: "pet;\n"
   - Id: 14571
     AegisName: Hammer_Goblin_Ring
     Name: Hammer Goblin Ring
     Type: Usable
     Buy: 20000
     Weight: 10
-    Script: "pet 1125;\n"
+    Script: "pet;\n"
   - Id: 14572
     AegisName: Holy_Marble
     Name: Holy Marble
     Type: Usable
     Buy: 20000
     Weight: 10
-    Script: "pet 1385;\n"
+    Script: "pet;\n"
   - Id: 14573
     AegisName: Red_Burning_Stone
     Name: Red Burning Stone
     Type: Usable
     Buy: 20000
     Weight: 10
-    Script: "pet 1382;\n"
+    Script: "pet;\n"
   - Id: 14574
     AegisName: Skull_Of_Vagabond
     Name: Vagabond's Skull
     Type: Usable
     Buy: 20000
     Weight: 10
-    Script: "pet 1208;\n"
+    Script: "pet;\n"
   - Id: 14575
     AegisName: Str_Dish05_
     Name: Lutie Lady's Pancake
@@ -118017,19 +118017,19 @@ Body:
     Name: Sap Liquid
     Type: Usable
     Buy: 20000
-    Script: "pet 1180;\n"
+    Script: "pet;\n"
   - Id: 23188
     AegisName: Unprocessed_Parts
     Name: Unprocessed Parts
     Type: Usable
     Buy: 20000
-    Script: "pet 1632;\n"
+    Script: "pet;\n"
   - Id: 23189
     AegisName: Small_Needle_Kit
     Name: Small Needle Kit
     Type: Usable
     Buy: 20000
-    Script: "pet 1622;\n"
+    Script: "pet;\n"
   - Id: 23191
     AegisName: Varetyr_Spear_Scroll_1_5
     Name: Level 5 Varetyr Spear
@@ -118078,7 +118078,7 @@ Body:
     Name: Elixir Bandages
     Type: Usable
     Buy: 20000
-    Script: "pet 1041;\n"
+    Script: "pet;\n"
   - Id: 23277
     AegisName: Mado_Box
     Name: Emergency Magic Gear

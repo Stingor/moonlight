@@ -1304,7 +1304,11 @@ void pet_catch_process_end( map_session_data& sd, int32 target_id ){
 	if( battle_config.pet_distance_check && distance_bl( &sd, md ) > battle_config.pet_distance_check ){
 		clif_pet_roulette(sd, false);
 		pet_catchprocesses.erase( sd.status.char_id );
-
+		// [Stingor] -->
+		char message[128];
+		sprintf(message, msg_txt(&sd, 1842), battle_config.pet_distance_check);
+		clif_displaymessage(sd.fd, message);
+		// <-- [Stingor]
 		return;
 	}
 
@@ -1337,6 +1341,12 @@ void pet_catch_process_end( map_session_data& sd, int32 target_id ){
 
 	if(battle_config.pet_catch_rate != 100)
 		pet_catch_rate = (pet_catch_rate*battle_config.pet_catch_rate)/100;
+
+	// [Stingor] -->
+	char message[128];
+	sprintf(message, msg_txt(&sd, 1843), (float)(pet_catch_rate/100));
+	clif_displaymessage(sd.fd, message);
+	// <-- [Stingor]
 
 	if(rnd_chance(pet_catch_rate, 10000)) {
 		achievement_update_objective(&sd, AG_TAMING, 1, md->mob_id);

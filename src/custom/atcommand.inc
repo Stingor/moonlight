@@ -1069,7 +1069,7 @@ ACMD_FUNC(shopsearch)
 			for( j = 0; j < pl_sd->vend_num; j++ ) {
 				if( pl_sd->cart.u.items_cart[pl_sd->vending[j].index].nameid == item->nameid ) {
 					// If the item is the same, it will show this? Computer translations are bad.
-					sprintf(output, "Vendeur: %s | Quantit? %d | Prix: %d | Shop: %s | Coord: %d,%d", pl_sd->status.name, pl_sd->vending[j].amount, pl_sd->vending[j].value,pl_sd->message,pl_sd->x,pl_sd->y);
+					sprintf(output, "Vendeur: %s | Quantité %d | Prix: %d | Shop: %s | Coord: %d,%d", pl_sd->status.name, pl_sd->vending[j].amount, pl_sd->vending[j].value,pl_sd->message,pl_sd->x,pl_sd->y);
 					clif_viewpoint(*sd, 1, 1, pl_sd->x, pl_sd->y, count+1, 0xFFFFFF);
 					
 					if(pl_sd->vending[j].value < MinPrize)

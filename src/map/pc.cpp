@@ -2452,6 +2452,8 @@ void pc_reg_received(map_session_data *sd)
 	sd->state.autolootpognon = static_cast<int32>(pc_readglobalreg(sd, add_str("alootpognon")));
 	sd->state.showexp = pc_readglobalreg(sd, add_str("showexp"));
 	sd->state.showzeny = pc_readglobalreg(sd, add_str("showzeny"));
+	if (pc_get_group_level(sd) >= 80)
+		sd->state.block_action |= PCBLOCK_IMMUNE;
 	// [Stingor] <--
 
 	sd->state.pc_loaded = false; // Ensure inventory data and status data is loaded before we calculate player stats
