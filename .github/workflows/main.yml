@@ -18,14 +18,13 @@ jobs:
             formatted=$(TZ="Europe/Paris" date -d "$ts" "+%d/%m/%Y %H:%M")
             msg="${msg}• \`${formatted}\` — ${msgtxt}\n"
           done < <(
-            jq -r '.commits[] | "\(.timestamp) \(.message)"' "$GITHUB_EVENT_PATH"
+            jq -r '.commits[] | "\(.timestamp) \(.message | gsub("\n"; " "))"' "$GITHUB_EVENT_PATH"
           )
 
           printf '%s\n' "--- MESSAGE ENVOYÉ ---"
           printf '%s\n' "$msg"
           printf '%s\n' "-----------------------"
 
-          # ENCODAGE JSON CORRECT (la clé du problème)
           payload=$(printf '%s' "$msg" | jq -R -s '{content: .}')
 
           curl -H "Content-Type: application/json" \
