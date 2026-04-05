@@ -1603,6 +1603,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "conf", "conf", "{6E947195-D
 		conf\import\inter_server.yml = conf\import\inter_server.yml
 		conf\import\login_conf.txt = conf\import\login_conf.txt
 		conf\import\log_conf.txt = conf\import\log_conf.txt
+		.github\workflows\main.yml = .github\workflows\main.yml
 		conf\import\map_conf.txt = conf\import\map_conf.txt
 		conf\msg_conf\import\map_msg_eng_conf.txt = conf\msg_conf\import\map_msg_eng_conf.txt
 		conf\import\packet_conf.txt = conf\import\packet_conf.txt
