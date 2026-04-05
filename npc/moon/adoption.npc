@@ -83,7 +83,7 @@ prt_church,25,170,3	script	Adoption::adoption_moon	1_M_PUBMASTER,{
 		mes "- Vous devez porter vos anneaux de marriage.";
 		mes "- Votre futur enfant ne doit pas dépasser le stade d'évolution des classes 1-1.";
 		mes "- Le nom de votre enfant doit être correctement entré.";
-		progressbar 5000;
+		progressbar "FFFFFF",5000;
 		if(	adopt(strcharinfo(0),.@enfant$) ) {
 			clear;
 			mes "["+strnpcinfo(0)+"]";
