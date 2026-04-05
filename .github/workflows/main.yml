@@ -25,7 +25,10 @@ jobs:
           printf '%s\n' "$msg"
           printf '%s\n' "-----------------------"
 
+          # IMPORTANT : pas de jq ici → on garde les vrais \n
+          payload=$(printf '{"content": "%s"}' "$(printf '%s' "$msg" | sed 's/"/\\"/g')")
+
           curl -H "Content-Type: application/json" \
                -X POST \
-               -d "$(jq -n --arg content "$msg" '{content: $content}')" \
+               -d "$payload" \
                "${{ secrets.DISCORD_WEBHOOK }}"
