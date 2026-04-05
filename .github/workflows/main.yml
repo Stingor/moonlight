@@ -33,5 +33,5 @@ jobs:
 
           curl -fsSL -H "Content-Type: application/json" \
                -X POST \
-               -d @payload.json \
+               -d "$payload" \
                "${{ secrets.DISCORD_WEBHOOK }}"
