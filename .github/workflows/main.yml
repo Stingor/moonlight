@@ -16,7 +16,7 @@ jobs:
           
           while read -r ts msgtxt; do
             formatted=$(TZ="Europe/Paris" date -d "$ts" "+%d/%m/%Y %H:%M")
-            msg="$msg- \`$formatted\` — $msgtxt"$'\n'
+            msg="- \`$formatted\` — $msgtxt"$'\n'
           done < <(
             jq -r '.commits[] | "\(.timestamp) \(.message | gsub("\n"; " "))"' "$GITHUB_EVENT_PATH"
           )
@@ -25,7 +25,7 @@ jobs:
           '{
             embeds: [
               {
-                title: "Nouveaux commits poussés",
+                title: "**Nouveaux commits poussés sur `${GITHUB_REF_NAME}` :**",
                 description: $description,
                 color: 5814783
               }
