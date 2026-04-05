@@ -1,3 +1,15 @@
+name: Discord Commit Notification
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Send commits to Discord
         run: |
           msg="Nouveaux commits poussés :\n\n"
