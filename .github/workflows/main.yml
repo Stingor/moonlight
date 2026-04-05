@@ -21,7 +21,9 @@ jobs:
             jq -r '.commits[] | "\(.timestamp) \(.message | gsub("\n"; " "))"' "$GITHUB_EVENT_PATH"
           )
 
-          printf '--- MESSAGE ENVOYÉ ---\n%s\n-----------------------\n' "$msg"
+          printf '%s\n' "--- MESSAGE ENVOYÉ ---"
+          printf '%s\n' "$msg"
+          printf '%s\n' "-----------------------"
 
           curl -H "Content-Type: application/json" \
                -X POST \
