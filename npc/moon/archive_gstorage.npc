@@ -1,5 +1,4 @@
 gonryun,147,128,4	script	Guild Archivist	123,{
-
     .@gid = getcharid(2);
     if (!.@gid) {
         mes "Tu n'es dans aucune guilde.";
@@ -30,15 +29,20 @@ gonryun,147,128,4	script	Guild Archivist	123,{
         // Calcul pagination
         .@max_page = (.@total - 1) / .@per_page;
         if (.@page > .@max_page) .@page = .@max_page;
-
+		setdialogsize(600,400);
+		setdialogalign(DIALOG_ALIGN_LEFT);
         mes "Voici "+.@total+" items archivés de ta guilde :";
         mes "Page "+(.@page+1)+" / "+(.@max_page+1);
+		setdialogsize(600,400);
+		setdialogalign(DIALOG_ALIGN_CENTER);
 
 		// Construction du menu en chaîne (FIABLE)
 		.@menu$ = "";
         .@start = .@page * .@per_page;
         .@end = .@start + .@per_page;
         if (.@end > .@total) .@end = .@total;
+		mes " ";
+		mes " ";
         for (.@i = .@start; .@i < .@end; .@i++) {
 			.@name$ = getitemname(.@nameid[.@i]);
 
@@ -83,7 +87,7 @@ gonryun,147,128,4	script	Guild Archivist	123,{
 
 			// Ajout au menu
 			.@menu$ += .@line$ + ":";
-			mes .@mes$;
+			mes "^i[" + .@nameid[.@i] + "] " + mesitemlink(.@nameid[.@i], true, .@mes$);
 		}
 		// Ajout navigation
 		if (.@page > 0) .@menu$ += "Page précédente:";
