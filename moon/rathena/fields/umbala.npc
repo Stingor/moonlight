@@ -1,0 +1,68 @@
+//===== rAthena Script =======================================
+//= Umbala Fields
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+cmd_fild01,77,366,0	warp	um_fild1-1	1,1,um_fild03,114,53
+cmd_fild01,178,370,0	warp	um_fild1-2	1,1,um_fild03,243,29
+um_fild01,31,274,0	warp	um_fild1-3	1,1,beach_dun2,254,244
+beach_dun2,258,244,0	warp	um_fild1-4	1,1,um_fild01,35,276
+um_fild01,369,277,0	warp	um_fild1-5	1,1,um_fild02,25,272
+um_fild02,22,272,0	warp	um_fild2-1	1,1,um_fild01,366,277
+um_fild02,188,374,0	warp	um_fild2-2	1,1,um_fild04,182,16
+um_fild02,373,329,0	warp	um_fild2-3	1,1,um_fild03,23,334
+um_fild02,373,148,0	warp	um_fild2-4	1,1,um_fild03,36,145
+um_fild03,19,334,0	warp	um_fild3-1	1,1,um_fild02,370,329
+um_fild03,32,145,0	warp	um_fild3-2	1,1,um_fild02,370,148
+um_fild03,114,50,0	warp	um_fild3-3	1,1,cmd_fild01,74,363
+um_fild03,243,26,0	warp	um_fild3-4	1,1,cmd_fild01,176,367
+um_fild04,182,13,0	warp	um_fild4-1	1,1,um_fild02,190,371
+um_fild04,215,339,0	warp	um_fild4-2	1,1,umbala,130,82
+umbala,130,79,0	warp	um_fild4-3	1,1,um_fild04,215,336
+
+//==================================================
+// um_fild01 - Luluka Forest 
+//==================================================
+um_fild01	monster	Dryad	1493,70,5000
+um_fild01	monster	Stone Shooter	1495,15,5000
+um_fild01	monster	Wootan Shooter	1498,10,5000
+um_fild01	monster	Wootan Fighter	1499,10,5000
+um_fild01	monster	Wooden Golem	1497,10,5000
+um_fild01	monster	Green Plant	1080,10,180000,90000
+um_fild01	monster	Yellow Plant	1081,10,180000,90000
+um_fild01	monster	Shining Plant	1083,5,180000,90000
+
+//==================================================
+// um_fild02 - Hoomga Forest 
+//==================================================
+um_fild02	monster	Wootan Fighter	1499,40,5000
+um_fild02	monster	Stone Shooter	1495,15,5000
+um_fild02	monster	Wootan Shooter	1498,10,5000
+um_fild02	monster	Choco	1214,5,5000
+um_fild02	monster	Red Plant	1078,5,180000,90000
+um_fild02	monster	Yellow Plant	1081,5,180000,90000
+
+//==================================================
+// um_fild03 - Kalala Swamp 
+//==================================================
+um_fild03	monster	Parasite	1500,60,5000
+um_fild03	monster	Stone Shooter	1495,15,5000
+um_fild03	monster	Wootan Shooter	1498,10,5000
+um_fild03	monster	Wootan Fighter	1499,10,5000
+um_fild03	monster	Blue Plant	1079,5,180000,90000
+um_fild03	monster	Green Plant	1080,10,180000,90000
+um_fild03	monster	Shining Plant	1083,2,180000,90000
+
+//==================================================
+// um_fild04 - Hoomga Jungle 
+//==================================================
+um_fild04	monster	Wild Rose	1261,30,5000
+um_fild04	monster	Stone Shooter	1495,10,5000
+um_fild04	monster	Wootan Shooter	1498,5,5000
+um_fild04	monster	Wootan Fighter	1499,5,5000
+um_fild04	monster	Wooden Golem	1497,10,5000
+um_fild04	monster	Choco	1214,2,5000
+um_fild04	monster	Red Plant	1078,5,180000,90000
+um_fild04	monster	Yellow Plant	1081,5,180000,90000

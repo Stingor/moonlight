@@ -1,0 +1,17 @@
+//===== rAthena Script =======================================
+//= Louyang Fields
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+// npc\rathena\warps\cities\louyang.txt
+
+//==================================================
+// lou_fild01 - Louyang Field
+//==================================================
+lou_fild01	monster	Mi Gao	1516,40,5000
+lou_fild01	monster	Mantis	1139,19,5000
+lou_fild01	monster	Geographer	1368,19,5000
+lou_fild01	monster	Black Mushroom	1084,5,5000
+lou_fild01	monster	Yellow Plant	1081,10,10000

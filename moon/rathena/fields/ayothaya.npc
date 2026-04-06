@@ -1,0 +1,25 @@
+//===== rAthena Script =======================================
+//= Ayothaya Fields
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+ayothaya,276,176,0	warp	ayo_fild1-1	1,1,ayo_fild01,37,241
+ayo_fild01,32,240,0	warp	ayo_fild1-2	1,1,ayothaya,273,176
+
+//==================================================
+// ayo_fild01 - Ayothaya Field
+//==================================================
+ayo_fild01	monster	Smokie	1056,30,5000
+ayo_fild01	monster	Coco	1104,30,5000
+ayo_fild01	monster	Yoyo	1057,30,5000
+ayo_fild01	monster	Green Plant	1080,10,10000
+
+//==================================================
+// ayo_fild02 - Ayothaya Field
+//==================================================
+ayo_fild02	monster	Yoyo	1057,45,5000
+ayo_fild02	monster	Leaf Cat	1586,35,5000
+ayo_fild02	monster	Kraben	1587,5,5000
+ayo_fild02	monster	Yellow Plant	1081,10,10000

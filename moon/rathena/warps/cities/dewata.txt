@@ -1,0 +1,18 @@
+//===== rAthena Script =======================================
+//= Dewata Warp Script
+//===== By: ==================================================
+//= Chilly
+//===== Current Version: =====================================
+//= 1.2
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Warp Points for Dewata
+//===== Additional Comments: =================================
+//= 1.0 First version
+//= 1.1 Disabled warps that clash with quest warps. [Euphy]
+//= 1.2 Updated to match official scripts. [Lemongrass]
+//============================================================
+
+dew_fild01,48,65,0	warp	dewata0005	1,1,dew_dun02,302,30
+dew_dun02,305,30,0	warp	dewata0006	1,1,dew_fild01,50,65

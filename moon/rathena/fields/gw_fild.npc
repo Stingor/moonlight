@@ -1,0 +1,26 @@
+//===== rAthena Script =======================================
+//= Gray Wolf field
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+gw_fild01,135,9,0	warp	gw_fild01_to_gw_fild02	1,1,gw_fild02,122,385
+gw_fild02,122,391,0	warp	gw_fild02_to_gw_fild01	1,1,gw_fild01,135,14
+wolfvill,276,25,0	warp	wolfvill_to_gw_fild01	1,1,gw_fild01,25,101
+
+//==================================================
+// 
+//==================================================
+gw_fild01	monster	Ashhopper	21302,50
+gw_fild01	monster	Ashring	21303,70
+gw_fild01	monster	Grey Wolf	21304,35
+
+//==================================================
+// 
+//==================================================
+gw_fild02	monster	Ashring	21303,15
+gw_fild02	monster	Bushring	21305,60
+gw_fild02	monster	Phantom Wolf	21307,25
+gw_fild02	monster	Grey Wolf	21304,35
+gw_fild02	monster	Firewind Kite	21306,35

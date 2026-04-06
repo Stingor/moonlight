@@ -1,0 +1,143 @@
+//===== rAthena Script =======================================
+//= Einbroch Fields
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+//Einbroch Field <-> Juno Field
+yuno_fild04,251,21,0	warp	ein001	1,1,ein_fild06,252,363
+ein_fild06,252,365,0	warp	ein001a	1,1,yuno_fild04,251,23
+yuno_fild07,73,219,0	warp	ein002	1,1,ein_fild06,338,170
+ein_fild06,340,170,0	warp	ein002a	1,1,yuno_fild07,75,219
+yuno_fild07,56,76,0	warp	ein003	1,1,ein_fild06,354,94
+ein_fild06,356,94,0	warp	ein003a	1,1,yuno_fild07,58,76
+yuno_fild11,28,266,0	warp	ein004	1,1,ein_fild07,380,263
+ein_fild07,382,263,0	warp	ein004a	1,1,yuno_fild11,30,266
+//Einbroch Field
+ein_fild06,135,35,0	warp	ein005	1,1,ein_fild07,147,360
+ein_fild07,145,362,0	warp	ein005a	1,1,ein_fild06,135,37
+ein_fild07,191,42,0	warp	ein006	1,1,ein_fild10,194,370
+ein_fild10,194,372,0	warp	ein006a	1,1,ein_fild07,191,44
+ein_fild10,24,331,0	warp	ein007	1,1,ein_fild09,327,346
+ein_fild09,329,346,0	warp	ein007a	1,1,ein_fild10,26,331
+ein_fild09,34,132,0	warp	ein008	1,1,ein_fild08,361,128
+ein_fild08,363,128,0	warp	ein008a	1,1,ein_fild09,36,132
+//Einbroch Field <-> Lighthalzen Field
+einbech,62,29,0	warp	ein_fd03	1,1,ein_fild09,74,350
+ein_fild09,71,352,0	warp	ein_fd03a	1,1,einbech,62,32
+ein_fild04,20,251,0	warp	ein046	1,1,ein_fild03,361,257
+ein_fild03,363,257,0	warp	ein046a	1,1,ein_fild04,22,251
+ein_fild04,14,215,0	warp	ein047	1,1,ein_fild03,359,219
+ein_fild03,361,219,0	warp	ein047a	1,1,ein_fild04,16,215
+ein_fild04,14,205,0	warp	ein048	1,1,ein_fild03,359,204
+ein_fild03,361,204,0	warp	ein048a	1,1,ein_fild04,16,205
+ein_fild03,142,32,0	warp	ein049	1,1,lhz_fild02,166,365
+lhz_fild02,166,367,0	warp	ein049a	1,1,ein_fild03,142,34
+lhz_fild02,164,37,0	warp	ein050	1,1,lhz_fild03,158,347
+lhz_fild03,158,349,0	warp	ein050a	1,1,lhz_fild02,164,39
+lhz_fild03,363,283,0	warp	ein051	1,1,ein_fild08,25,275
+ein_fild08,23,275,0	warp	ein051a	1,1,lhz_fild03,361,283
+
+//==================================================
+// ein_fild01 - Einbroch Field
+//==================================================
+ein_fild01,115,190,80,150	monster	Demon Pungus	1378,30
+ein_fild01,264,318,70,60	monster	Demon Pungus	1378,20
+ein_fild01,232,100,25,60	monster	Demon Pungus	1378,5,300000,60000
+ein_fild01,115,190,80,150	monster	Punk	1199,25
+ein_fild01,264,318,70,60	monster	Punk	1199,20
+ein_fild01,232,100,25,60	monster	Punk	1199,5,300000,60000
+
+//==================================================
+// ein_fild02 - Einbroch Field
+//==================================================
+ein_fild02,105,250,70,80	monster	Driller	1380,10
+ein_fild02,259,269,90,70	monster	Driller	1380,15
+ein_fild02,287,117,55,70	monster	Driller	1380,10
+ein_fild02,108,88,60,60	monster	Driller	1380,10
+ein_fild02	monster	Demon Pungus	1378,30
+ein_fild02	monster	Ungoliant	1618,1,75600000,75000000
+
+//==================================================
+// ein_fild03 - Einbroch Field
+//==================================================
+ein_fild03	monster	Teddy Bear	1622,100,5000
+ein_fild03	monster	Venomous	1621,20,5000
+ein_fild03	monster	Noxious	1620,20,5000
+ein_fild03	monster	Pitman	1616,20,5000
+ein_fild03	monster	Yellow Plant	1081,15,60000,30000
+ein_fild03	monster	Green Plant	1080,15,60000,30000
+
+//==================================================
+// ein_fild04 - Einbroch Field
+//==================================================
+ein_fild04	monster	Venomous	1621,100,5000
+ein_fild04	monster	Noxious	1620,30,5000
+ein_fild04	monster	Teddy Bear	1622,20,5000
+ein_fild04	monster	Demon Pungus	1378,15,5000
+ein_fild04	monster	Pitman	1616,10,5000
+ein_fild04	monster	Red Plant	1078,10,60000,30000
+ein_fild04	monster	Yellow Plant	1081,10,60000,30000
+ein_fild04	monster	Green Plant	1080,10,60000,30000
+
+//==================================================
+// ein_fild05 - Einbroch Field
+//==================================================
+ein_fild05	monster	Noxious	1620,100,5000
+ein_fild05	monster	Venomous	1621,30,5000
+ein_fild05	monster	Teddy Bear	1622,20,5000
+ein_fild05	monster	Demon Pungus	1378,15,5000
+ein_fild05	monster	Pitman	1616,10,5000
+
+//==================================================
+// ein_fild06 - Einbroch Field
+//==================================================
+ein_fild06	monster	Holden	1628,100,5000
+ein_fild06	monster	Metaling	1613,30,5000
+ein_fild06	monster	Red Plant	1078,10,120000,60000
+ein_fild06	monster	Yellow Plant	1081,10,120000,60000
+ein_fild06	monster	Black Mushroom	1084,5,120000,60000
+
+//==================================================
+// ein_fild07 - Einbroch Field
+//==================================================
+ein_fild07	monster	Metaling	1613,90,5000
+ein_fild07	monster	Porcellio	1619,30,5000
+ein_fild07	monster	Holden	1628,10,5000
+ein_fild07	monster	Ungoliant	1618,1,86400000,86000000
+ein_fild07	monster	Red Plant	1078,10,120000,60000
+ein_fild07	monster	Yellow Plant	1081,10,120000,60000
+ein_fild07	monster	Red Mushroom	1085,10,120000,60000
+
+//==================================================
+// ein_fild08 - Einbroch Field
+//==================================================
+ein_fild08	monster	Metaling	1613,100,5000
+ein_fild08	monster	Porcellio	1619,30,5000
+ein_fild08	monster	Red Plant	1078,10,120000,60000
+ein_fild08	monster	Yellow Plant	1081,10,120000,60000
+ein_fild08	monster	Red Mushroom	1085,10,120000,60000
+
+//==================================================
+// ein_fild09 - Einbroch Field
+//==================================================
+ein_fild09	monster	Porcellio	1619,70,5000
+ein_fild09	monster	Metaling	1613,30,5000
+ein_fild09	monster	Red Plant	1078,10,120000,60000
+ein_fild09	monster	Yellow Plant	1081,10,120000,60000
+ein_fild09	monster	Red Mushroom	1085,10,120000,60000
+
+//==================================================
+// ein_fild10 - Einbroch Field
+//==================================================
+ein_fild10	monster	Geographer	1368,5
+ein_fild10	monster	Porcellio	1619,20
+ein_fild10,152,314,130,30	monster	Porcellio	1619,10
+ein_fild10	monster	Red Plant	1078,20,120000,60000
+ein_fild10	monster	Yellow Plant	1081,20,120000,60000
+ein_fild10	monster	Blue Plant	1079,20,600000,300000
+ein_fild10,225,95,30,45	monster	Yoyo	1057,6,30000,10000
+ein_fild10,320,130,40,40	monster	Yoyo	1057,4,30000,10000
+ein_fild10,225,95,30,45	monster	Flora	1118,10,300000,120000
+ein_fild10,320,130,40,40	monster	Flora	1118,10,300000,120000

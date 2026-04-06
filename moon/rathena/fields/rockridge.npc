@@ -1,0 +1,34 @@
+//===== rAthena Script =======================================
+//= Rock Ridge
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+harboro1,362,206,0	warp2	harboro1#rockrdg1	1,1,rockrdg1,37,246
+rockrdg1,33,246,0	warp2	rockrdg1#harboro1	1,1,harboro1,358,206
+rockrdg1,371,206,0	warp2	rockrdg1#rockrdg2	1,1,rockrdg2,31,207
+rockrdg2,27,207,0	warp2	rockrdg2#rockrdg1	1,1,rockrdg1,367,206
+
+//==================================================
+// Kiwawa Desert
+//==================================================
+rockrdg1	monster	Buffalo Bandit Sharpsho	3736,46
+rockrdg1	monster	Buffalo Bandit Duelist	3737,29
+rockrdg1	monster	Coyote	3739,51
+rockrdg1	monster	Thief Bug	1051,10
+rockrdg1	monster	Green Plant	1080,8
+rockrdg1	monster	Yellow Plant	1081,4
+rockrdg1	monster	Black Mushroom	1084,8
+
+//==================================================
+// Kiwawa Desert
+//==================================================
+rockrdg2	monster	Buffalo Bandit Duelist	3737,17
+rockrdg2	monster	Bowie Buffalo Bandit	3738,52
+rockrdg2	monster	Coyote	3739,8
+rockrdg2	monster	Green Plant	1080,5
+rockrdg2	monster	Yellow Plant	1081,4
+rockrdg2	monster	White Plant	1082,5
+rockrdg2	monster	Shining Plant	1083,4
+rockrdg2	monster	Thief Bug	1051,8

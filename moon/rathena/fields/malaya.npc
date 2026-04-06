@@ -1,0 +1,24 @@
+//===== rAthena Script =======================================
+//= Malaya Port Field
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+// npc\rathena\warps\cities\malaya.txt
+
+//==================================================
+// ma_fild01 - Barrio Maligawa
+//==================================================
+ma_fild01	monster	Tikbalang	2313,50,5000
+ma_fild01	monster	Tiyanak	2314,50,5000
+ma_fild01	monster	Jejeling	2316,30,5000
+
+//==================================================
+// ma_fild02 - Malaya Forest
+//==================================================
+ma_fild02	monster	Bungisngis	2309,40,5000
+ma_fild02	monster	Engkanto	2310,25,5000
+ma_fild02	monster	Mangkukulam	2312,30,5000
+ma_fild02	monster	Jejeling	2316,20,5000
+ma_fild02	monster	Wakwak	2315,25,5000

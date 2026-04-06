@@ -1,0 +1,269 @@
+//===== rAthena Script =======================================
+//= Mt. Mjolnir Fields
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+mjolnir_01,284,18,0	warp	mjol001	4,2,gef_fild04,261,359
+mjolnir_01,378,256,0	warp	mjol01	2,2,mjolnir_02,31,258
+mjolnir_02,28,258,0	warp	mjol01-1	2,2,mjolnir_01,374,256
+mjolnir_02,326,289,0	warp	mjol02	1,1,mjolnir_03,24,258
+mjolnir_02,361,18,0	warp	mjol03	4,2,mjolnir_06,366,380
+mjolnir_02,79,365,0	warp	mjol013	2,1,mjo_dun01,52,17
+mjolnir_03,21,258,0	warp	mjol02-1	2,2,mjolnir_02,323,289
+mjolnir_03,212,17,0	warp	mjol04	4,2,mjolnir_07,214,380
+mjolnir_03,242,204,0	warp	mjol05	1,1,mjolnir_04,125,208
+mjolnir_04,122,208,0	warp	mjol05-1	1,1,mjolnir_03,239,204
+mjolnir_04,160,46,0	warp	mjol06	4,2,mjolnir_08,159,370
+mjolnir_04,387,174,0	warp	mjol07	2,2,mjolnir_05,19,171
+mjolnir_05,16,171,0	warp	mjol07-1	2,2,mjolnir_04,384,174
+mjolnir_05,220,382,0	warp	mjol08	4,2,mjolnir_12,220,29
+mjolnir_05,235,16,0	warp	mjol09	4,2,mjolnir_10,235,378
+mjolnir_06,18,331,0	warp	mjol002	2,4,gef_fild04,359,322
+mjolnir_06,265,29,0	warp	mjol003	2,2,gef_fild00,267,379
+mjolnir_06,366,383,0	warp	mjol03-1	4,2,mjolnir_02,361,21
+mjolnir_06,382,377,0	warp	mjol10	2,4,mjolnir_07,19,377
+mjolnir_06,383,74,0	warp	mjol11	2,4,mjolnir_07,20,77
+mjolnir_07,156,16,0	warp	mjol004	4,2,prt_fild00,159,380
+mjolnir_07,16,377,0	warp	mjol10-1	2,4,mjolnir_06,379,377
+mjolnir_07,17,77,0	warp	mjol11-1	2,4,mjolnir_06,380,74
+mjolnir_07,214,383,0	warp	mjol04-1	4,2,mjolnir_03,212,20
+mjolnir_07,383,233,0	warp	mjol12	2,4,mjolnir_08,33,234
+mjolnir_07,383,362,0	warp	mjol13	2,4,mjolnir_08,32,346
+mjolnir_08,159,373,0	warp	mjol06a	1,1,mjolnir_04,160,49
+mjolnir_08,185,28,0	warp	mjol14	17,2,mjolnir_09,196,364
+mjolnir_08,29,346,0	warp	mjol13-1	2,4,mjolnir_07,380,362
+mjolnir_08,30,234,0	warp	mjol12-1	2,4,mjolnir_07,380,233
+mjolnir_08,369,257,0	warp	mjol15	2,4,mjolnir_10,18,258
+mjolnir_09,106,28,0	warp	mjol005	4,2,prt_fild05,105,378
+mjolnir_09,194,367,0	warp	mjol14-1	8,2,mjolnir_08,185,31
+mjolnir_09,30,249,0	warp	mjol006	2,4,prt_fild00,380,249
+mjolnir_09,300,28,0	warp	mjol007	4,2,prt_fild05,292,382
+mjolnir_09,373,288,0	warp	mjol011	2,2,prt_fild01,23,292
+mjolnir_10,15,258,0	warp	mjol15-1	2,4,mjolnir_08,366,257
+mjolnir_10,235,381,0	warp	mjol09-1	4,2,mjolnir_05,235,19
+mjolnir_10,265,13,0	warp	mjol008	3,2,prt_fild01,261,370
+mjolnir_10,384,220,0	warp	mjol16	2,4,mjolnir_11,23,220
+mjolnir_10,66,15,0	warp	mjol009	4,2,prt_fild01,66,370
+mjolnir_11,174,20,0	warp	mjol010	4,2,prt_fild02,173,379
+mjolnir_11,20,220,0	warp	mjol16-1	2,4,mjolnir_10,381,220
+mjolnir_12,199,378,0	warp	mjol012	2,2,aldebaran,138,37
+mjolnir_12,220,26,0	warp	mjol08-1	3,2,mjolnir_05,220,379
+mjolnir_12,44,17,0	warp	mjol17	1,1,prt_maze01,17,111
+
+//==================================================
+// mjolnir_01 - Mt.Mjolnir
+//==================================================
+mjolnir_01	monster	Caramel	1103,140,5000
+mjolnir_01	monster	Stainer	1174,20,5000
+mjolnir_01	monster	Creamy	1018,20,5000
+mjolnir_01	monster	Bigfoot	1060,20,5000
+mjolnir_01,75,85,25,25	monster	Shining Plant	1083,1,1800000,900000
+mjolnir_01,78,219,25,25	monster	Shining Plant	1083,1,1800000,900000
+mjolnir_01,75,85,25,25	monster	Green Plant	1080,5,180000,90000
+mjolnir_01,78,219,25,25	monster	Green Plant	1080,5,180000,90000
+mjolnir_01,311,271,25,25	monster	Blue Plant	1079,5,360000,180000
+
+//==================================================
+// mjolnir_02 - Mt.Mjolnir
+//==================================================
+mjolnir_02	monster	Horn	1128,140,5000
+mjolnir_02	monster	Poporing	1031,20,5000
+mjolnir_02	monster	Elder Willow	1033,20,5000
+mjolnir_02	monster	Yoyo	1057,20,5000
+mjolnir_02,86,270	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,80,211	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,86,270	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,86,180	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,107,128	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,79,49	monster	Blue Plant	1079,1,360000,180000
+mjolnir_02,133,80	monster	Red Plant	1078,1,180000,90000
+mjolnir_02,191,71	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,237,55	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,292,49	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,349,45	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,282,101	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,325,146	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,318,205	monster	Red Plant	1078,1,180000,90000
+mjolnir_02,275,199	monster	Blue Plant	1079,1,360000,180000
+mjolnir_02,335,301	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,312,342	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,325,146	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,257,292	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,204,263	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,193,304	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,145,282	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,156,254	monster	Red Plant	1078,1,180000,90000
+mjolnir_02,112,268	monster	Blue Plant	1079,1,360000,180000
+mjolnir_02,122,195	monster	Red Plant	1078,1,180000,90000
+mjolnir_02,167,160	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,325,146	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,223,110	monster	Red Plant	1078,1,180000,90000
+mjolnir_02,273,74	monster	Blue Plant	1079,1,360000,180000
+mjolnir_02,254,155	monster	Red Plant	1078,1,180000,90000
+mjolnir_02,243,208	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,273,240	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,289,276	monster	Green Plant	1080,1,180000,90000
+mjolnir_02,188,192,10,10	monster	Blue Plant	1079,2,360000,180000
+
+//==================================================
+// mjolnir_03 - Mt.Mjolnir
+//==================================================
+mjolnir_03	monster	Side Winder	1037,130,5000
+mjolnir_03	monster	Driller	1380,35,5000
+mjolnir_03	monster	Mantis	1139,35,5000
+mjolnir_03,211,216,10,10	monster	Shining Plant	1083,1,1800000,900000
+mjolnir_03,280,252,10,10	monster	Shining Plant	1083,1,1800000,900000
+mjolnir_03,135,94	monster	Green Plant	1080,1,180000,90000
+mjolnir_03,199,97	monster	Green Plant	1080,1,180000,90000
+mjolnir_03,262,98	monster	Green Plant	1080,1,180000,90000
+mjolnir_03,322,144	monster	Green Plant	1080,1,180000,90000
+mjolnir_03,356,213	monster	Green Plant	1080,1,180000,90000
+mjolnir_03,352,288	monster	Green Plant	1080,1,180000,90000
+mjolnir_03,324,355	monster	Green Plant	1080,1,180000,90000
+mjolnir_03,255,349	monster	Green Plant	1080,1,180000,90000
+mjolnir_03,168,341	monster	Green Plant	1080,1,180000,90000
+mjolnir_03,128,319	monster	Green Plant	1080,1,180000,90000
+mjolnir_03,77,271	monster	Green Plant	1080,1,180000,90000
+mjolnir_03,66,219	monster	Green Plant	1080,1,180000,90000
+mjolnir_03,91,161	monster	Green Plant	1080,1,180000,90000
+
+//==================================================
+// mjolnir_04 - Mt.Mjolnir
+//==================================================
+mjolnir_04	monster	Driller	1380,130,5000
+mjolnir_04	monster	Mantis	1139,35,5000
+mjolnir_04	monster	Side Winder	1037,35,5000
+mjolnir_04,200,200,30,30	monster	Shining Plant	1083,3,1800000,900000
+mjolnir_04,177,34	monster	Green Plant	1080,1,180000,90000
+mjolnir_04,122,28	monster	Green Plant	1080,1,180000,90000
+mjolnir_04,76,53	monster	Green Plant	1080,1,180000,90000
+mjolnir_04,72,99	monster	Green Plant	1080,1,180000,90000
+mjolnir_04,177,34	monster	Green Plant	1080,1,180000,90000
+mjolnir_04,43,143	monster	Green Plant	1080,1,180000,90000
+mjolnir_04,31,194	monster	Green Plant	1080,1,180000,90000
+mjolnir_04,42,252	monster	Green Plant	1080,1,180000,90000
+mjolnir_04,64,323	monster	Green Plant	1080,1,180000,90000
+mjolnir_04,107,357	monster	Green Plant	1080,1,180000,90000
+mjolnir_04,173,369	monster	Green Plant	1080,1,180000,90000
+mjolnir_04,286,357	monster	Green Plant	1080,1,180000,90000
+mjolnir_04,356,292	monster	Green Plant	1080,1,180000,90000
+mjolnir_04,362,201	monster	Green Plant	1080,1,180000,90000
+mjolnir_04,332,122	monster	Green Plant	1080,1,180000,90000
+mjolnir_04,269,39	monster	Green Plant	1080,1,180000,90000
+mjolnir_04,205,33	monster	Green Plant	1080,1,180000,90000
+
+//==================================================
+// mjolnir_05 - Mt.Mjolnir
+//==================================================
+mjolnir_05	monster	Argiope	1099,130,5000
+mjolnir_05	monster	Mantis	1139,35,5000
+mjolnir_05	monster	Driller	1380,35,5000
+mjolnir_05,200,240,40,40	monster	Blue Plant	1079,3,360000,180000
+mjolnir_05,200,240,40,40	monster	Shining Plant	1083,1,1800000,900000
+mjolnir_05,134,103,20,20	monster	Blue Plant	1079,3,360000,180000
+mjolnir_05,261,100,20,10	monster	Blue Plant	1079,3,360000,180000
+mjolnir_05	monster	Red Plant	1078,10,180000,90000
+
+//==================================================
+// mjolnir_06 - Mt.Mjolnir
+//==================================================
+mjolnir_06	monster	Poison Spore	1077,140,5000
+mjolnir_06	monster	Creamy	1018,30,5000
+mjolnir_06	monster	Smokie	1056,30,5000
+mjolnir_06,162,285	monster	Blue Plant	1079,1,360000,180000
+mjolnir_06,162,255	monster	Blue Plant	1079,1,360000,180000
+mjolnir_06,304,98	monster	Red Mushroom	1085,1,180000,90000
+mjolnir_06,279,174	monster	Red Mushroom	1085,1,180000,90000
+mjolnir_06,339,168	monster	Red Mushroom	1085,1,180000,90000
+mjolnir_06,296,317	monster	Red Mushroom	1085,1,180000,90000
+mjolnir_06,45,345	monster	Red Mushroom	1085,1,180000,90000
+mjolnir_06,73,339	monster	Red Mushroom	1085,1,180000,90000
+mjolnir_06,69,225	monster	Red Mushroom	1085,1,180000,90000
+mjolnir_06,55,276	monster	Red Mushroom	1085,1,180000,90000
+
+//==================================================
+// mjolnir_07 - Mt.Mjolnir
+//==================================================
+mjolnir_07	monster	Savage	1166,140,5000
+mjolnir_07	monster	Beetle King	1494,30,5000
+mjolnir_07	monster	Flora	1118,30,5000
+mjolnir_07,314,133	monster	Green Plant	1080,1,180000,90000
+mjolnir_07,299,145	monster	Green Plant	1080,1,180000,90000
+mjolnir_07,272,152	monster	Green Plant	1080,1,180000,90000
+mjolnir_07,273,181	monster	Green Plant	1080,1,180000,90000
+mjolnir_07,245,168	monster	Red Mushroom	1085,1,180000,90000
+mjolnir_07,217,185	monster	Red Mushroom	1085,1,180000,90000
+mjolnir_07,181,173	monster	Green Plant	1080,1,180000,90000
+mjolnir_07,140,179	monster	Green Plant	1080,1,180000,90000
+mjolnir_07,97,210	monster	Green Plant	1080,1,180000,90000
+mjolnir_07,249,214	monster	Blue Plant	1079,2,360000,180000
+
+//==================================================
+// mjolnir_08 - Mt.Mjolnir 
+//==================================================
+mjolnir_08	monster	Beetle King	1494,140,5000
+mjolnir_08	monster	Savage	1166,30,5000
+mjolnir_08	monster	Flora	1118,30,5000
+mjolnir_08,280,280,20,40	monster	Blue Plant	1079,2,360000,180000
+mjolnir_08,207,83	monster	Green Plant	1080,1,180000,90000
+mjolnir_08,176,153	monster	Green Plant	1080,1,180000,90000
+mjolnir_08,169,204	monster	Green Plant	1080,1,180000,90000
+mjolnir_08,207,232	monster	Green Plant	1080,1,180000,90000
+mjolnir_08,180,282	monster	Green Plant	1080,1,180000,90000
+mjolnir_08,149,328	monster	Green Plant	1080,1,180000,90000
+
+//==================================================
+// mjolnir_09 - Mt.Mjolnir
+//==================================================
+mjolnir_09	monster	Savage Babe	1167,140,5000
+mjolnir_09	monster	Willow	1010,30,5000
+mjolnir_09	monster	Hornet	1004,30,5000
+mjolnir_09,205,352	monster	Red Mushroom	1085,1,180000,90000
+mjolnir_09,199,344	monster	Red Mushroom	1085,1,180000,90000
+mjolnir_09,210,331	monster	Red Mushroom	1085,1,180000,90000
+mjolnir_09,204,321	monster	Red Mushroom	1085,1,180000,90000
+mjolnir_09,212,312	monster	Red Mushroom	1085,1,180000,90000
+mjolnir_09,198,297	monster	Red Mushroom	1085,1,180000,90000
+mjolnir_09,73,122	monster	Red Mushroom	1085,1,180000,90000
+mjolnir_09,89,141	monster	Red Mushroom	1085,1,180000,90000
+mjolnir_09,120,126	monster	Red Mushroom	1085,1,180000,90000
+mjolnir_09,139,84	monster	Red Mushroom	1085,1,180000,90000
+mjolnir_09,125,82	monster	Red Mushroom	1085,1,180000,90000
+
+//==================================================
+// mjolnir_10 - Mt.Mjolnir
+//==================================================
+mjolnir_10	monster	Argos	1100,140,5000
+mjolnir_10	monster	Beetle King	1494,30,5000
+mjolnir_10	monster	Flora	1118,30,5000
+mjolnir_10,123,331,10,10	monster	Shining Plant	1083,1,1800000,900000
+mjolnir_10	monster	Green Plant	1080,10,180000,90000
+
+//==================================================
+// mjolnir_11 - Mt.Mjolnir 
+//==================================================
+mjolnir_11	monster	Argiope	1099,130,5000
+mjolnir_11	monster	Argos	1100,35,5000
+mjolnir_11	monster	Flora	1118,35,5000
+mjolnir_11,112,276	monster	Green Plant	1080,1,180000,90000
+mjolnir_11,159,283	monster	Green Plant	1080,1,180000,90000
+mjolnir_11,116,240	monster	Green Plant	1080,1,180000,90000
+mjolnir_11,146,215	monster	Green Plant	1080,1,180000,90000
+mjolnir_11,145,177	monster	Green Plant	1080,1,180000,90000
+mjolnir_11,129,135	monster	Green Plant	1080,1,180000,90000
+mjolnir_11,126,93	monster	Blue Plant	1079,1,360000,180000
+mjolnir_11,197,123	monster	Green Plant	1080,1,180000,90000
+mjolnir_11,198,210	monster	Green Plant	1080,1,180000,90000
+mjolnir_11,231,277	monster	Green Plant	1080,1,180000,90000
+mjolnir_11,332,327	monster	Blue Plant	1079,1,360000,180000
+mjolnir_11,282,300	monster	Green Plant	1080,1,180000,90000
+mjolnir_11,295,271	monster	Green Plant	1080,1,180000,90000
+
+//==================================================
+// mjolnir_12 - Mt.Mjolnir 
+//==================================================
+mjolnir_12	monster	Dustiness	1114,130,5000
+mjolnir_12	monster	Hunter Fly	1035,35,5000
+mjolnir_12	monster	Mantis	1139,35,5000

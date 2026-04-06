@@ -48,6 +48,6 @@ Header:
 
 Footer:
   Imports:
-  - Path: npc/rathena/merchants/barters.yml
+  - Path: npc/re/merchants/barters.yml
     Mode: Renewal
-  - Path: npc/moon/barters.yml
+  - Path: npc/custom/barters.yml
