@@ -1,13 +1,12 @@
--	script	::CommandVote	-1,{
-end;
-	OnInit:
-		bindatcmd("vote", strnpcinfo(3)+"::OnCommand");
+-	script	#vote	-1,{
+OnInit:
+	bindatcmd("vote", strnpcinfo(3)+"::OnCommand");
 	end;
 
-	OnCommand:
-		ignoretimeout(1);
-		mes "<URL>Voter<INFO>https://www.rotopserv.net/serveurs/moonlight-destiny/vote/" + getusername(getuniqueid(getcharid(3))) + "</INFO></URL>";
-		close;
+OnCommand:
+	ignoretimeout(1);
+	mes "<URL>Voter<INFO>https://www.rotopserv.net/serveurs/moonlight-destiny/vote/" + getusername(getuniqueid(getcharid(3))) + "</INFO></URL>";
+	close;
 }
 
 -	script	#opendressroom	-1,{
@@ -882,10 +881,14 @@ OnCommand:
 		dispbottom "Usage: "+.@atcmd_command$+" invalid options.";
 	}
 	end;
-
 OnPCLoginEvent:
 	if (.enable_login_autoload) {
-		sleep2 1000;
+		addtimer 1000, strnpcinfo(3)+"::OnAutoLoad";
+	}
+	end;
+
+OnAutoLoad:
+	if (.enable_login_autoload) {
 		.@size = query_sql("SELECT `no`, `nameid` FROM `alootid` WHERE `cid` = "+getcharid(0)+" AND `auto` = 1 LIMIT "+.max_alootid_item, .@alootid_group, .@nameid);
 		if (.@size) {
 			atcommand("@alootid reset");
@@ -896,10 +899,6 @@ OnPCLoginEvent:
 	}
 	end;
 }
-
-//--------------------------------------------
-//	Recherche un item dans les storage
-//--------------------------------------------
 
 -	script	searchid	-1,{
 	function SearchStorage;

@@ -46,7 +46,6 @@
 	int32 up_spawnmvp;
 	int32 max_hp_lkberserk;
 	int32 dispell_knowledge;
-	int32 debugscriptcont;
 	int32 piercevitdef;
 	int32 vulcanpvphit;
 	int32 crystalizenerf;

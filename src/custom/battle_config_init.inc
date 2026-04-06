@@ -42,7 +42,6 @@
 	{ "nj_issenstr",						&battle_config.nj_issenstr,						250,	200,	400,			},
 	{ "dispell_knowledge",					&battle_config.dispell_knowledge,				0,		0,		1,				},
 	{ "up_spawnmvp",						&battle_config.up_spawnmvp,						1,		0,		1,				},
-	{ "debugscriptcont",					&battle_config.debugscriptcont,					0,		0,		1,				},
 	{ "nerf_bloodybranch",					&battle_config.nerf_bloodybranch,				1,		0,		1,				},
 	{ "jump_kick_pcnerf",					&battle_config.jump_kick_pcnerf,				2,		1,		4,				},
 	{ "hatred_pcnerf",						&battle_config.hatred_pcnerf,					5,		1,		20,				},

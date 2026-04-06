@@ -195,3 +195,143 @@ Body:
     Script: |
       bonus2 bSubRace,RC_Demon,15;
       bonus2 bSubEle,Ele_Neutral,15;
+  - Id: 300254
+    AegisName: Amitera_Card
+    Name: Amitera Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Armor: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bMaxHPrate,10;
+      if (BaseLevel>=200) {
+         bonus bMaxHPrate,10;
+      }
+  - Id: 300255
+    AegisName: Litus_Card
+    Name: Litus Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Head_Top: true
+      Head_Mid: true
+      Head_Low: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatkRate,15;
+      bonus2 bMagicAtkEle,Ele_Wind,7;
+      bonus bUseSPrate,5;
+  - Id: 300256
+    AegisName: Fillia_Card
+    Name: Fillia Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Head_Top: true
+      Head_Mid: true
+      Head_Low: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatkRate,15;
+      bonus2 bMagicAtkEle,Ele_Fire,7;
+      bonus bUseSPrate,5;
+  - Id: 300257
+    AegisName: Vanilaqus_Card
+    Name: Vanilaqus Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Head_Top: true
+      Head_Mid: true
+      Head_Low: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatkRate,15;
+      bonus2 bMagicAtkEle,Ele_Water,7;
+      bonus bUseSPrate,5;
+  - Id: 300258
+    AegisName: Lava_Eater_Card
+    Name: Lavaeter Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Head_Top: true
+      Head_Mid: true
+      Head_Low: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatkRate,15;
+      bonus2 bMagicAtkEle,Ele_Dark,7;
+      bonus bUseSPrate,5;
+  - Id: 300259
+    AegisName: Fulgor_Card
+    Name: Fulgor Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Head_Top: true
+      Head_Mid: true
+      Head_Low: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatkRate,15;
+      bonus2 bMagicAtkEle,Ele_Earth,7;
+      bonus bUseSPrate,5;
+  - Id: 300260
+    AegisName: Napeo_Card
+    Name: Napeo Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Garment: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatkRate,5*(readparam(bInt)/10);
+      if (readparam(bInt)>=125) {
+         bonus bMatkRate,30;
+      }
+  - Id: 300261
+    AegisName: Galensis_Card
+    Name: Galensis Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Garment: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bCritical,2*(readparam(bLuk)/10);
+      if (readparam(bLuk)>=125) {
+         bonus bCritAtkRate,30;
+      }
+  - Id: 300262
+    AegisName: The_One_Card
+    Name: The One Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      BuyingStore: true
+      DropEffect: RED_PILLAR
+    Script: |
+      bonus bUseSPrate,50;
+      bonus bMatkRate,10;
+      bonus2 bMagicAddRace,RC_Undead,50;
+      bonus2 bMagicAddRace,RC_Dragon,50;

@@ -120,3 +120,45 @@ Body:
     Weight: 20
     Flags:
       BuyingStore: true
+  - Id: 1001083
+    AegisName: Turn_Yellow_Leaf
+    Name: Maple Leaves
+    Type: Etc
+    Buy: 1640
+    Weight: 10
+  - Id: 1001084
+    AegisName: Blaze_Stone
+    Name: Blaze Stone
+    Type: Etc
+    Buy: 1480
+    Weight: 10
+  - Id: 1001085
+    AegisName: Cool_Liquid
+    Name: Cool Liquid
+    Type: Etc
+    Buy: 1460
+    Weight: 10
+  - Id: 1001086
+    AegisName: Green_Crystal_Fragment
+    Name: Blue Crystal Shard
+    Type: Etc
+    Buy: 1480
+    Weight: 10
+  - Id: 1001087
+    AegisName: Shining_Crystal
+    Name: Bright Shining Crystal
+    Type: Etc
+    Buy: 1600
+    Weight: 10
+  - Id: 1001088
+    AegisName: Fresh_Pear
+    Name: Fresh Pear
+    Type: Etc
+    Buy: 1640
+    Weight: 10
+  - Id: 1001089
+    AegisName: Aromatic_Flower
+    Name: Aromatic Flower
+    Type: Etc
+    Buy: 1680
+    Weight: 10

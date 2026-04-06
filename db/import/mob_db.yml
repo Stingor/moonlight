@@ -79892,3 +79892,4 @@ Body:
 Footer:
   Imports:
   - Path: db/import/mobs/mag_dun.yml
+  - Path: db/import/mobs/amicitia.yml

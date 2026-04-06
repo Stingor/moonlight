@@ -89,6 +89,7 @@ OnInit:
 						1751,8,      //Valkyrie Randgris
 						1832,10,     //Ifrit
 						1874,10,     //Beelzebub
+						20928,10,    //The one
 						1917,10;     //Wounded Morroc
 	end;
 }
@@ -164,7 +165,7 @@ gl_cas02_	boss_monster	Baphomet (Nightmare)	2483,1,7200000,600000,"classement::O
 ice_dun03	boss_monster	Ktullanux	1779,1,7200000,600000,"classement::OnMvpDead"
 slabw01	boss_monster	Venomous Chimera	3633,1,18000000,600000,"classement::OnMvpDead"
 mag_dun03	boss_monster	Rigid Muspellskoll	20419,1,3600000,600000,"classement::OnMvpDead"
-// amicitia2	boss_monster	The One	20928,1,21600000,600000,0
+amicitia2	boss_monster	The One	20928,1,21600000,600000,"classement::OnMvpDead"
 
 
 // PAR SCRIPT  1h40 - 2h10
@@ -269,6 +270,7 @@ OnInit:
 						1751,8,      //Valkyrie Randgris
 						1832,10,     //Ifrit
 						1873,10,     //Beelzebub
+						20928,10,    //The one
 						1917,10;     //Wounded Morroc
 	switch( rand(6) ) {
 		case 0:

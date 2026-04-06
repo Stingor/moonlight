@@ -2302,11 +2302,6 @@ bool npc_scriptcont(map_session_data* sd, int32 id, bool closing){
 
 	if( id != sd->npc_id ){
 		TBL_NPC* nd_sd = (TBL_NPC*)map_id2bl(sd->npc_id);
-
-	if( battle_config.debugscriptcont ) // [Stingor]
-		ShowDebug("npc_scriptcont: %s (sd->npc_id=%d) is not %s (id=%d).\n",
-			nd_sd?(char*)nd_sd->name:"'Unknown NPC'", (int32)sd->npc_id,
-			nd?(char*)nd->name:"'Unknown NPC'", (int32)id);
 		return true;
 	}
 

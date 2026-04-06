@@ -10,7 +10,7 @@ amicitia1,149,19,0	warp2	#wami2	2,2,amicitia2,146,274
 amicitia2,146,281,0	warp2	#wami3	2,2,amicitia1,149,27
 
 //==================================================
-// amicitia1 - Abandoned Lab Amicitia
+// 1st Floor - Comprehensive Lab
 //==================================================
 amicitia1	monster	Amitera	20924,55
 amicitia1	monster	Litus	20925,55
@@ -18,7 +18,7 @@ amicitia1	monster	Fillia	20926,55
 amicitia1	monster	Vanilaqus	20927,55
 
 //==================================================
-// amicitia2 - Abandoned Lab Amicitia
+// 2nd Floor - Intensive Culture Room
 //==================================================
 amicitia2	monster	Lavaeter	20920,65
 amicitia2	monster	Fulgor	20921,65
