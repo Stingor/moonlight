@@ -1,0 +1,274 @@
+//===== rAthena Script =======================================
+//= Glast Heim Dungeon
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+gef_fild06,20,304,0	warp	gef027	3,3,glast_01,370,304
+gl_cas01,135,40,0	warp	gl01	1,1,gl_cas01,144,314
+gl_cas01,149,314,0	warp	gl02	1,1,gl_prison,14,70
+gl_cas01,167,191,0	warp	gl03	1,1,gl_prison,14,70
+gl_cas01,185,236,0	warp	gl06	1,1,gl_cas01,163,191
+gl_cas01,200,165,0	warp	gl10a	1,1,gl_cas02,104,25
+gl_cas01,200,18,0	warp	gl7-1	2,2,glast_01,200,294
+gl_cas01,215,236,0	warp	gl07	1,1,gl_cas01,238,192
+gl_cas01,234,192,0	warp	gl04	1,1,gl_prison,14,70
+gl_cas01,371,301,0	warp	gl05	1,1,gl_prison,14,70
+gl_cas01,372,39,0	warp	gl08	1,1,gl_cas01,367,301
+gl_cas02,104,15,0	warp	gl10-1	1,1,gl_cas01,200,160
+gl_cas02,104,193,0	warp	gl8-1	1,1,glast_01,199,325
+gl_church,156,4,0	warp	gl9-1	1,1,glast_01,200,134
+gl_church,16,299,0	warp	gl11a	1,1,gl_chyard,147,284
+gl_church,301,46,0	warp	gl12	1,1,gl_chyard,147,15
+gl_chyard,12,149,0	warp	gl22	1,1,gl_sew02,29,270
+gl_chyard,147,12,0	warp	gl12-1	1,1,gl_church,295,46
+gl_chyard,147,287,0	warp	gl11-1	1,1,gl_church,16,295
+gl_dun01,133,277,0	warp	gl25-1	1,1,gl_sew04,101,78
+gl_dun01,225,18,0	warp	gl13	1,1,gl_dun02,224,274
+gl_dun02,224,277,0	warp	gl13-1	1,1,gl_dun01,225,22
+gl_in01,106,125,0	warp	gl5-1	1,1,glast_01,219,357
+gl_in01,118,59,0	warp	gl6-1	1,1,glast_01,234,330
+gl_in01,81,68,0	warp	gl3-1	1,1,glast_01,165,330
+gl_in01,83,174,0	warp	gl4-1	1,1,glast_01,181,357
+gl_knt01,104,204,0	warp	gl15	1,1,gl_knt01,123,292
+gl_knt01,12,148,0	warp	gl14	1,1,gl_knt02,15,140
+gl_knt01,128,292,0	warp	gl15-1	1,1,gl_knt01,104,199
+gl_knt01,150,291,0	warp	gl16	1,1,gl_knt02,157,287
+gl_knt01,150,6,0	warp	gl2-1	2,2,glast_01,74,193
+gl_knt01,231,197,0	warp	gl24-1	1,1,gl_sew02,296,22
+gl_knt01,287,144,0	warp	gl17	1,1,gl_knt02,283,140
+gl_knt02,10,138,0	warp	gl14-1	1,1,gl_knt01,7,148
+gl_knt02,157,292,0	warp	gl16-1	1,1,gl_knt01,150,286
+gl_knt02,289,138,0	warp	gl17-1	1,1,gl_knt01,292,144
+gl_prison,149,183,0	warp	gl18-1	1,1,gl_prison1,150,14
+gl_prison,11,70,0	script	gl18-2	45,1,1,{
+	switch(rand(4)) {
+		case 0: warp "gl_cas01",163,193; end;
+		case 1: warp "gl_cas01",238,192; end;
+		case 2: warp "gl_cas01",144,314; end;
+		case 3: warp "gl_cas01",367,301; end;
+	}
+}
+gl_prison1,150,10,0	warp	gl18	1,1,gl_prison,149,178
+gl_prison1,62,187,0	warp	gl10	1,1,gl_sew01,258,255
+gl_sew01,19,21,0	warp	gl19	1,1,gl_sew02,108,291
+gl_sew01,258,258,0	warp	gl09	1,1,gl_prison1,61,183
+gl_sew02,109,294,0	warp	gl19-1	1,1,gl_sew01,19,24
+gl_sew02,16,26,0	warp	gl11	1,1,gl_prison1,61,183
+gl_sew02,290,156,0	warp	gl23	1,1,gl_step,117,124
+gl_sew02,296,18,0	warp	gl24	1,1,gl_knt01,231,192
+gl_sew02,299,294,0	warp	gl20	1,1,gl_sew03,171,283
+gl_sew02,30,273,0	warp	gl22-1	1,1,gl_chyard,15,149
+gl_sew03,171,286,0	warp	gl20-1	1,1,gl_sew02,295,294
+gl_sew03,64,10,0	warp	gl21	1,1,gl_sew04,68,277
+gl_sew04,104,78,0	warp	gl25	1,1,gl_dun01,133,271
+gl_sew04,68,280,0	warp	gl21-1	1,1,gl_sew03,64,13
+gl_step,120,124,0	warp	gl23-1	1,1,gl_sew02,285,158
+gl_step,8,7,0	warp	gl1-1	1,1,glast_01,54,108
+glast_01,162,330,0	warp	gl3	1,1,gl_in01,77,68
+glast_01,179,360,0	warp	gl4	1,1,gl_in01,80,174
+glast_01,199,322,0	warp	gl8	1,1,gl_cas02,104,189
+glast_01,200,137,0	warp	gl9	1,1,gl_church,156,7
+glast_01,200,297,0	warp	gl7	1,1,gl_cas01,199,29
+glast_01,220,360,0	warp	gl5	1,1,gl_in01,110,125
+glast_01,237,330,0	warp	gl6	1,1,gl_in01,122,59
+glast_01,377,304,0	warp	glst001	3,3,gef_fild06,27,304
+glast_01,51,108,0	warp	gl1	1,1,gl_step,12,7
+glast_01,77,193,0	warp	gl2	1,1,gl_knt01,150,15
+
+//==================================================
+// glast_01 - Glast Heim
+//==================================================
+glast_01	monster	Gargoyle	1253,10,2000
+glast_01	monster	Green Plant	1080,8,2000
+glast_01	monster	Abysmal Knight	1219,2,2000
+glast_01,233,209,15,15	monster	Shining Plant	1083,1,1800000,900000
+glast_01,233,209,15,15	monster	Green Plant	1080,8,360000,180000
+glast_01,233,209,15,15	monster	Blue Plant	1079,2,900000,450000
+
+//==================================================
+// gl_cas01 - Glast Heim 1f
+//==================================================
+gl_cas01	monster	Carat	1267,50,2000
+gl_cas01	monster	Dark Frame	1260,20,2000
+gl_cas01	monster	Owl Duke	1320,20,2000
+gl_cas01	monster	Rideword	1195,15,2000
+gl_cas01	monster	Sage Worm	1281,10,2000
+gl_cas01	monster	Whisper	1179,10,2000
+gl_cas01	monster	Owl Baron	1295,6,2000
+gl_cas01	monster	Alice	1275,1,2000
+
+//==================================================
+// gl_cas02 - Glast Heim 2f 
+//==================================================
+gl_cas02	monster	Wanderer	1208,41,2000
+gl_cas02	monster	Raydric	1163,36,2000
+gl_cas02	monster	Rideword	1195,29,2000
+gl_cas02	monster	Raydric Archer	1276,20,2000
+gl_cas02	monster	Evil Druid	1117,9,2000
+gl_cas02	monster	Abysmal Knight	1219,7,2000
+gl_cas02	monster	Khalitzburg	1132,6,2000
+gl_cas02	monster	Chimera	1283,3,2000
+gl_cas02	monster	Mimic	1191,2,2000
+gl_cas02	monster	Alice	1275,1,2000
+gl_cas02,102,180	monster	Whisper	1185,1,1800000,900000
+gl_cas02,104,145,5,5	monster	Mysteltainn	1203,1,7200000,3600000
+gl_cas02	monster	Ogretooth	1204,1,7200000,3600000
+
+//==================================================
+// gl_church - Glast Heim St. Abbey
+//==================================================
+gl_church	monster	Evil Druid	1117,60,2000
+gl_church	monster	Wraith	1192,55,2000
+gl_church	monster	Mimic	1191,9,2000
+gl_church	monster	Evil Druid	1117,1,2000
+gl_church	monster	Wraith Dead	1291,1,3600000,1800000
+
+//==================================================
+// gl_chyard - Glast Heim Churchyard
+//==================================================
+gl_chyard	monster	Dark Priest	1198,60,2000
+gl_chyard	monster	Wraith	1192,35,2000
+gl_chyard	monster	Evil Druid	1117,10,2000
+gl_chyard	monster	Mimic	1191,3,2000
+gl_chyard	monster	Hunter Fly	1035,3,2000
+gl_chyard	monster	Dark Illusion	1302,1,3600000,1800000
+
+//==================================================
+// gl_dun01 - The Lowest Cave in Glast Heim
+//==================================================
+gl_dun01	monster	Arclouze	1194,50,2000
+gl_dun01	monster	Sting	1207,40,2000
+
+//==================================================
+// gl_dun02 - The Lowest Cave in Glast Heim
+//==================================================
+gl_dun02	monster	Majoruros	1310,45,2000
+gl_dun02	monster	Gargoyle	1253,15,2000
+
+//==================================================
+// gl_in01 - Inside Glast Heim
+//==================================================
+gl_in01	monster	Marionette	1143,20,2000
+gl_in01	monster	Sage Worm	1281,14,2000
+gl_in01	monster	Dark Frame	1260,10,2000
+gl_in01	monster	Rideword	1195,8,2000
+gl_in01	monster	Wanderer	1208,1,2000
+gl_in01	monster	Alice	1275,1,2000
+
+//==================================================
+// gl_knt01 - Inside Glast Heim Chivalry
+//==================================================
+gl_knt01	monster	Raydric	1163,90,2000
+gl_knt01	monster	Rideword	1195,21,2000
+gl_knt01	monster	Raydric Archer	1276,10,2000
+gl_knt01	monster	Abysmal Knight	1219,10,2000
+gl_knt01	monster	Khalitzburg	1132,10,2000
+gl_knt01	monster	Alice	1275,1,2000
+gl_knt01,21,278	monster	Giant Whisper	1186,1,3600000,1800000
+gl_knt01,9,184	monster	Black Mushroom	1084,1,3600000,1800000
+gl_knt01,8,184	monster	Black Mushroom	1084,1,3600000,1800000
+gl_knt01,7,184	monster	Black Mushroom	1084,1,3600000,1800000
+gl_knt01,6,184	monster	Black Mushroom	1084,1,3600000,1800000
+gl_knt01,5,184	monster	Black Mushroom	1084,1,3600000,1800000
+gl_knt01,4,184	monster	Black Mushroom	1084,1,3600000,1800000
+gl_knt01,9,185	monster	Black Mushroom	1084,1,3600000,1800000
+gl_knt01,8,185	monster	Black Mushroom	1084,1,3600000,1800000
+gl_knt01,7,185	monster	Black Mushroom	1084,1,3600000,1800000
+gl_knt01,6,185	monster	Black Mushroom	1084,1,3600000,1800000
+gl_knt01,5,185	monster	Black Mushroom	1084,1,3600000,1800000
+gl_knt01,4,185	monster	Black Mushroom	1084,1,3600000,1800000
+
+//==================================================
+// gl_knt02 - Inside Glast Heim Chivalry
+//==================================================
+gl_knt02	monster	Raydric	1163,80,2000
+gl_knt02	monster	Khalitzburg	1132,40,2000
+gl_knt02	monster	Raydric Archer	1276,30,2000
+gl_knt02	monster	Abysmal Knight	1219,6,2000
+gl_knt02	monster	Alice	1275,1,2000
+gl_knt02	monster	Mysteltainn	1203,1,1800000,1200000
+gl_knt02	monster	Bloody Knight	1268,1,3600000,1800000
+
+//==================================================
+// gl_prison - Glast Heim Underprison
+//==================================================
+gl_prison	monster	Zombie Prisoner	1197,30,2000
+gl_prison	monster	Injustice	1257,20,2000
+gl_prison	monster	Rybio	1201,15,2000
+gl_prison	monster	Hunter Fly	1035,10,2000
+
+//==================================================
+// gl_prison1 - Glast Heim Underprison
+//==================================================
+gl_prison1	monster	Injustice	1257,40,2000
+gl_prison1	monster	Skeleton Prisoner	1196,30,2000
+gl_prison1	monster	Rybio	1201,10,2000
+gl_prison1	monster	Phendark	1202,10,2000
+gl_prison1	monster	Hunter Fly	1035,10,2000
+gl_prison1	monster	Cramp	1209,5,2000
+gl_prison1	monster	Zealotus	1200,1,3600000,1800000
+
+//==================================================
+// gl_sew01 - Glast Heim Culvert
+//==================================================
+gl_sew01	monster	Whisper	1179,40,2000
+gl_sew01	monster	Gargoyle	1253,30,2000
+gl_sew01	monster	Arclouze	1194,10,2000
+
+//==================================================
+// gl_sew02 - Glast Heim Culvert
+//==================================================
+gl_sew02	monster	Gargoyle	1253,55,2000
+gl_sew02	monster	Cramp	1209,15,2000
+
+//==================================================
+// gl_sew03 - Glast Heim Culvert
+//==================================================
+gl_sew03	monster	Sting	1207,70,2000
+gl_sew03	monster	Gargoyle	1253,40,2000
+
+//==================================================
+// gl_sew04 - Glast Heim Culvert
+//==================================================
+gl_sew04	monster	Anolian	1206,100,2000
+gl_sew04	monster	Gargoyle	1253,20,2000
+gl_sew04	monster	Drainliar	1111,10,2000
+
+//==================================================
+// gl_step - Glast Heim Staircase Dungeon
+//==================================================
+gl_step	monster	Wind Ghost	1263,100,2000
+gl_step	monster	Raydric Archer	1276,10,2000
+gl_step	monster	Mimic	1191,5,2000
+
+//==================================================
+// gl_cas02_ - Nightmare Mode 2f
+//==================================================
+gl_cas02_	monster	Wanderer (Nightmare)	2477,140,1000
+gl_cas02_	monster	Rideword (Nightmare)	2478,40,1000
+gl_cas02_	monster	Mimic (Nightmare)	2479,40,1000
+gl_cas02_	monster	Evil Druid (Nightmare)	2480,25,1000
+gl_cas02_	monster	Chimera (Nightmare)	2485,15,1000
+
+//==================================================
+// gl_chyard_ - Nightmare Mode Churchyard
+//==================================================
+gl_chyard_	monster	Wraith Dead (Nightmare)	2481,210,1000
+gl_chyard_	monster	Evil Druid (Nightmare)	2480,25,1000
+gl_chyard_	monster	Mimic (Nightmare)	2479,25,1000
+
+//==================================================
+// gl_cas01_ - Glast Heim Abyss
+//==================================================
+// gl_cas01_	monster	Contaminated Raydric	20367,49
+// gl_cas01_	monster	Contaminated Raydric Ar	20368,77
+// gl_cas01_	monster	Frozen Gargoyle	20369,27
+// gl_cas01_	monster	Contaminated Sting	20370,26
+// gl_cas01_	monster	Prison Breaker	20371,32
+// gl_cas01_	monster	Ice Ghost	20379,42
+// gl_cas01_	monster	Flame Ghost	20380,41
+// gl_cas01_	monster	Corrupted Wanderer	20420,33
+// gl_cas01_	boss_monster	Corrupted Spider Queen	20421,1,7200000,600000,1
+// gl_cas01_	boss_monster	Corrupted Dark Lord	20422,1,3600000,600000,1

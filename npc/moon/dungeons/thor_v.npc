@@ -1,0 +1,51 @@
+//===== rAthena Script =======================================
+//= Thor Volcano
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+que_thr,186,58,0	warp	#Secret passage - Logistics base	2,2,thor_v01,169,169
+ve_fild03,168,240,0	warp	thor_v1-1	1,1,thor_v01,21,229
+thor_v01,21,224,0	warp	thor_v1-2	1,1,ve_fild03,168,235
+thor_v01,201,37,0	warp	thor_v2-1	1,1,thor_v02,78,203
+thor_v02,192,60,0	warp	thor_v2-2	1,1,thor_v03,35,262
+thor_v02,73,203,0	warp	thor_v3-1	1,1,thor_v01,196,37
+thor_v03,30,262,0	warp	thor_v3-2	1,1,thor_v02,187,58
+
+//==================================================
+// thor_v01 - Thor Volcano Dungeon
+//==================================================
+thor_v01	monster	Kasa	1833,45,5000
+thor_v01	monster	Imp	1837,25,5000
+thor_v01	monster	Magmaring	1836,10,5000
+thor_v01	monster	Salamander	1831,7,5000
+thor_v01	monster	Bow Guardian	1830,5,5000
+thor_v01	monster	Sword Guardian	1829,5,5000
+thor_v01	monster	Bow Guardian	1830,5,420000
+thor_v01	monster	Sword Guardian	1829,5,420000
+thor_v01	monster	Byrogue	1839,1,5000
+
+//==================================================
+// thor_v02 - Thor Volcano Dungeon
+//==================================================
+thor_v02	monster	Knocker	1838,55,5000
+thor_v02	monster	Magmaring	1836,10,5000
+thor_v02	monster	Imp	1837,10,5000
+thor_v02	monster	Kaho	1072,10,5000
+thor_v02	monster	Salamander	1831,1,5000
+thor_v02	monster	Bow Guardian	1830,1,7200000
+thor_v02	monster	Sword Guardian	1829,1,7200000
+
+//==================================================
+// thor_v03 - Thor Volcano Dungeon
+//==================================================
+thor_v03	monster	Salamander	1831,60,5000
+thor_v03	monster	Kasa	1833,40,5000
+thor_v03	monster	Bow Guardian	1830,10,5000
+thor_v03	monster	Sword Guardian	1829,10,5000
+thor_v03	monster	Byrogue	1839,5,5000
+thor_v03	monster	Sword Guardian	1829,5,5000
+thor_v03	monster	Bow Guardian	1830,5,5000
+thor_v03	monster	Bow Guardian	1830,5,1800000
+thor_v03	monster	Sword Guardian	1829,5,1800000

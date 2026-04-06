@@ -1,0 +1,73 @@
+//===== rAthena Script =======================================
+//= Rachel Sanctuary
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+ra_san01,139,13,0	script	sanctuary01	45,1,1,{
+	if (ra_tem_q == 21) { warp "que_san04",119,110; end; }
+	switch(rand(3)) {
+		case 1:  warp "ra_san02",213,275; break;
+		case 2:  warp "ra_san03",119,283; break;
+		default: warp "ra_san04",119,110; break;
+	}
+}
+ra_san02,213,280,0	warp	sanctuary02	1,1,ra_san01,140,19
+ra_san03,123,283,0	warp	sanctuary03	1,1,ra_san01,140,19
+ra_san04,119,104,0	warp	sanctuary04	1,1,ra_san01,140,19
+ra_san03,279,21,0	warp	sanctuary05	1,1,ra_san05,282,149
+ra_san03,85,15,0	warp	sanctuary06	1,1,ra_san04,203,216
+ra_san04,203,221,0	warp	sanctuary07	1,1,ra_san03,85,20
+ra_san04,120,48,0	warp	sanctuary08	1,1,ra_san05,150,282
+ra_san05,150,7,0	warp	sanctuary09	1,1,ra_temple,119,153
+ra_san02,289,149,0	warp	sanctuary10	1,1,ra_san03,10,149
+ra_san03,5,149,0	warp	sanctuary11	1,1,ra_san02,284,149
+ra_san02,213,4,0	warp	sanctuary12	1,1,ra_san04,35,216
+ra_san04,35,221,0	warp	sanctuary13	1,1,ra_san02,213,9
+ra_san02,30,21,0	warp	sanctuary14	1,1,ra_san05,14,149
+ra_san01,139,139,0	warp2	sanctuary15	1,1,ra_temin,27,314
+
+//==================================================
+// ra_san01 - Holy Ground
+//==================================================
+ra_san01	monster	Vanberk	1771,82,5000
+ra_san01	monster	Isilla	1772,36,5000
+ra_san01	monster	Gremlin	1632,10,5000
+ra_san01	monster	Beholder	1633,6,5000
+ra_san01	monster	Hodremlin	1773,6,5000
+
+//==================================================
+// ra_san02 - Holy Ground 
+//==================================================
+ra_san02	monster	Isilla	1772,85,5000
+ra_san02	monster	Vanberk	1771,30,5000
+ra_san02	monster	Gremlin	1632,10,5000
+ra_san02	monster	Beholder	1633,10,5000
+ra_san02	monster	Hodremlin	1773,3,5000
+ra_san02	monster	Seeker	1774,2,5000
+
+//==================================================
+// ra_san03 - Holy Ground
+//==================================================
+ra_san03	monster	Hodremlin	1773,60,5000
+ra_san03	monster	Seeker	1774,40,5000
+ra_san03	monster	Gremlin	1632,5,5000
+ra_san03	monster	Beholder	1633,5,5000
+
+//==================================================
+// ra_san04 - Holy Ground
+//==================================================
+ra_san04	monster	Echio	1770,60,5000
+ra_san04	monster	Agav	1769,20,5000
+ra_san04	monster	Seeker	1774,10,5000
+ra_san04	monster	Hodremlin	1773,10,5000
+
+//==================================================
+// ra_san05 - Holy Ground
+//==================================================
+ra_san05	monster	Agav	1769,80,5000
+ra_san05	monster	Echio	1770,30,5000
+ra_san05	monster	Seeker	1774,20,5000
+ra_san05	monster	Hodremlin	1773,20,5000
+ra_san05	monster	Isilla	1772,10,5000

@@ -1,0 +1,56 @@
+//===== rAthena Script =======================================
+//= Odin Temple
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+odin_tem01,378,182,0	warp	odin01	1,1,odin_tem02,28,180
+odin_tem02,21,180,0	warp	odin02	1,1,odin_tem01,373,182
+odin_tem01,383,334,0	warp	odin03	1,1,odin_tem02,27,334
+odin_tem02,21,334,0	warp	odin04	1,1,odin_tem01,379,334
+odin_tem02,153,349,0	warp	odin05	1,1,odin_tem03,120,54
+odin_tem03,121,49,0	warp	odin06	1,1,odin_tem02,154,345
+odin_tem02,261,377,0	warp	odin07	1,1,odin_tem03,247,40
+odin_tem03,247,34,0	warp	odin08	1,1,odin_tem02,263,372
+
+//==================================================
+// odin_tem01 - Odin Shrine
+//==================================================
+odin_tem01	monster	Plasma	1693,10,5000
+odin_tem01	monster	Breeze	1692,10,5000
+odin_tem01	monster	Frus	1753,5,5000
+odin_tem01	monster	Skogul	1752,5,5000
+odin_tem01	monster	Plasma	1697,3,5000
+odin_tem01	monster	Plasma	1695,3,5000
+odin_tem01	monster	Plasma	1696,3,5000
+odin_tem01	monster	Plasma	1694,3,5000
+odin_tem01	monster	Green Plant	1080,5,60000,30000
+odin_tem01	monster	Yellow Plant	1081,5,60000,30000
+odin_tem01	monster	Blue Plant	1079,5,600000,300000
+
+//==================================================
+// odin_tem02 - Odin Shrine
+//==================================================
+odin_tem02	monster	Skogul	1752,30,5000
+odin_tem02	monster	Frus	1753,30,5000
+odin_tem02	monster	Plasma	1693,15,5000
+odin_tem02	monster	Frus	1762,3,5000
+odin_tem02	monster	Skogul	1761,2,5000
+odin_tem02	monster	Skeggiold	1754,1,5000
+odin_tem02	monster	Skeggiold	1755,1,5000
+odin_tem02	monster	Blue Plant	1079,10,1800000,900000
+
+//==================================================
+// odin_tem03 - Odin Shrine
+//==================================================
+odin_tem03	monster	Plasma	1693,20,5000
+odin_tem03	monster	Skeggiold	1754,16,5000
+odin_tem03	monster	Skeggiold	1755,16,5000
+odin_tem03	monster	Skogul	1761,5,5000
+odin_tem03	monster	Frus	1762,5,5000
+odin_tem03	monster	Skogul	1752,4,5000
+odin_tem03	monster	Frus	1753,4,5000
+odin_tem03	monster	Valkyrie	1765,2,5400000,1800000
+odin_tem03	monster	Blue Plant	1079,15,1800000,900000
+odin_tem03	monster	Shining Plant	1083,15,1800000,900000

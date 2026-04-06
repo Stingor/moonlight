@@ -1,0 +1,19 @@
+//===== rAthena Script =======================================
+//= Malangdo Dungeon
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+// npc\rathena\warps\cities\malangdo.txt
+
+//==================================================
+// mal_dun01 - Lagoon in the Stars
+//==================================================
+mal_dun01	monster	Crab	1073,10,5000
+mal_dun01	monster	Shellfish	1074,10,5000
+mal_dun01	monster	Aster	1266,20,5000
+mal_dun01	monster	Pouring	1894,30,5000
+mal_dun01	monster	Red Eruma	2197,60,5000
+mal_dun01	monster	Siorava	2199,45,5000
+mal_dun01	monster	Wild Rider	2208,1,5000

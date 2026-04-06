@@ -1,0 +1,15 @@
+//===== rAthena Script =======================================
+//= Prontera Invasion
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+// npc\rathena\quests\quests_16_1.txt
+
+// Prontera Invasion
+prt_q	monster	Zombie Guard	3452,60
+prt_q	monster	Ghoul	1036,10
+prt_q	monster	Immortal Corps	3451,30
+prt_q	monster	Hunter Fly	1035,15
+prt_q	monster	Immortal Commander	3490,1

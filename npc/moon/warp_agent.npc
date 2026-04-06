@@ -955,13 +955,14 @@ L_Autre:
 	clear;
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 	mes "Sélectionnez la destination de votre choix :";
-	switch( select("• Forge:• Shop armement:• Eden Group:• Seals:• Mid Camp:• Yggdrasil:• ^e64c00Menu Précédent.^000000") ) {
+	switch( select("• Forge:• Shop armement:• Eden Group:• Flame Bassin:• Mid Camp:• Seals:• Yggdrasil:• ^e64c00Menu Précédent.^000000") ) {
 		case 1: warp_fct("gon_in", 94, 21); break;
 		case 2: warp_fct("gon_in", 163, 23); break;
 		case 3: warp_fct("moc_para01", 31, 14); break;
-		case 4: warp_fct("cmd_fild02", 193, 169); break;
+		case 4: warp_fct("moro_vol", 0, 0); break;
 		case 5: warp_fct("mid_camp", 220, 235); break;
-		case 6: warp_fct("yggdrasil01", 52, 63); break;
+		case 6: warp_fct("cmd_fild02", 193, 169); break;
+		case 7: warp_fct("yggdrasil01", 52, 63); break;
 		default: goto L_warpa; break;
 	}
 	end;

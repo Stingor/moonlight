@@ -1,0 +1,244 @@
+//===== rAthena Script =======================================
+//= Byalan Dungeon
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+izlu2dun,108,83,0	warp	izd01	3,2,iz_dun00,168,168
+iz_dun00,168,173,0	warp	izd01-1	3,3,izlu2dun,108,88
+iz_dun00,352,342,0	warp	izd02	5,2,iz_dun01,253,252
+iz_dun00,39,41,0	warp	izd03	5,2,iz_dun01,41,37
+iz_dun01,118,170,0	warp	izd04	5,2,iz_dun02,236,204
+iz_dun01,253,258,0	warp	izd02-1	2,2,iz_dun00,352,337
+iz_dun01,41,32,0	warp	izd03-1	2,2,iz_dun00,39,46
+iz_dun02,236,198,0	warp	izd04-1	5,3,iz_dun01,118,165
+iz_dun02,339,331,0	warp	izd05	2,2,iz_dun03,32,63
+iz_dun03,264,245,0	warp	izd06	1,2,iz_dun04,26,27
+iz_dun03,29,63,0	warp	izd05-1	2,2,iz_dun02,339,328
+iz_dun04,26,24,0	warp	izd06-1	2,2,iz_dun03,261,245
+iz_dun04,130,234,5	script	Gatekeeper#iz_dun	413,{
+	mes "[Gatekeeper]";
+	mes "Halt!";
+	mes "What brings you here, Adventurer?";
+	mes "We've discovered a new floor of this underwater city.";
+	next;
+	mes "[Gatekeeper]";
+	mes "Do you think you're up to the challenge?";
+	mes "The monsters here are between levels 110 and 124.";
+	mes "And you must beware of the Kraken!";
+	next;
+	switch(select("Release the Kraken!:I'll stay here.")) {
+	case 1:
+		mes "[Gatekeeper]";
+		mes "Be cautious and good luck.";
+		mes "If you see the Kraken be sure you have your friends to help or do what we do and run.";
+		close2;
+		warp "iz_dun05",141,187;
+		end;
+	case 2:
+		mes "[Gatekeeper]";
+		mes "It's always best to be prepared before exploring a new area.";
+		mes "Come back when you're ready to go.";
+		close;
+	}
+}
+
+iz_dun05,142,190,5	script	Guard#iz_dun	413,{
+	mes "[Gatekeeper]";
+	mes "So I guess you want to go back to the fifth floor?";
+	next;
+	switch(select("Yes!:No, I'll stay.")) {
+	case 1:
+		mes "[Gatekeeper]";
+		mes "Be safe, adventurer.";
+		close2;
+		warp "iz_dun04",129,232;
+		end;
+	case 2:
+		mes "[Gatekeeper]";
+		mes "You're not going?";
+		mes "You're braver than I thought.";
+		close;
+	}
+}
+
+//==================================================
+// iz_dun00 - Undersea Tunnel
+//==================================================
+iz_dun00	monster	Plankton	1161,65,5000
+iz_dun00	monster	Marina	1141,45,5000
+iz_dun00	monster	Vadon	1066,15,5000
+iz_dun00	monster	Kukre	1070,15,5000
+iz_dun00	monster	Hydra	1068,15,5000
+iz_dun00	monster	Black Mushroom	1084,5,180000,90000
+
+//==================================================
+// iz_dun01 - Undersea Tunnel
+//==================================================
+iz_dun01	monster	Vadon	1066,60,5000
+iz_dun01	monster	Kukre	1070,50,5000
+iz_dun01	monster	Hydra	1068,30,5000
+iz_dun01	monster	Marina	1141,15,5000
+iz_dun01	monster	Cornutus	1067,15,5000
+iz_dun01	monster	Plankton	1161,10,5000
+iz_dun01	monster	Black Mushroom	1084,10,180000,90000
+
+//==================================================
+// iz_dun02 - Undersea Tunnel
+//==================================================
+iz_dun02	monster	Cornutus	1067,60,5000
+iz_dun02	monster	Marse	1144,40,5000
+iz_dun02	monster	Obeaune	1044,40,5000
+iz_dun02	monster	Hydra	1068,40,5000
+iz_dun02	monster	Merman	1264,1,5000
+iz_dun02	monster	Black Mushroom	1084,15,180000,90000
+
+//==================================================
+// iz_dun03 - Undersea Tunnel
+//==================================================
+iz_dun03	monster	Phen	1158,45,5000
+iz_dun03	monster	Marc	1045,40,5000
+iz_dun03	monster	Swordfish	1069,40,5000
+iz_dun03	monster	Marine Sphere	1142,20,5000
+iz_dun03	monster	Merman	1264,3,5000
+iz_dun03,200,144	monster	Hydra	1068,1,282000,150000
+iz_dun03,178,253	monster	Hydra	1068,1,300000,150000
+iz_dun03,193,143	monster	Hydra	1068,1,300000,150000
+iz_dun03,196,143	monster	Hydra	1068,1,300000,150000
+iz_dun03,199,143	monster	Hydra	1068,1,300000,150000
+iz_dun03,202,143	monster	Hydra	1068,1,300000,150000
+iz_dun03,205,143	monster	Hydra	1068,1,300000,150000
+iz_dun03,208,143	monster	Hydra	1068,1,300000,150000
+iz_dun03,211,143	monster	Hydra	1068,1,300000,150000
+iz_dun03,108,249	monster	Hydra	1068,1,300000,150000
+iz_dun03,180,251	monster	Hydra	1068,1,300000,150000
+iz_dun03,176,260	monster	Hydra	1068,1,300000,150000
+iz_dun03,80,163	monster	Hydra	1068,1,300000,150000
+iz_dun03,204,57	monster	Hydra	1068,1,302000,150000
+iz_dun03,204,60	monster	Hydra	1068,1,304000,150000
+iz_dun03,203,47	monster	Hydra	1068,1,305000,150000
+iz_dun03,206,144	monster	Hydra	1068,1,305000,150000
+iz_dun03,209,144	monster	Hydra	1068,1,308000,150000
+iz_dun03,204,51	monster	Hydra	1068,1,309000,150000
+iz_dun03,203,144	monster	Hydra	1068,1,310000,150000
+iz_dun03,204,54	monster	Hydra	1068,1,310000,150000
+iz_dun03,203,59	monster	Hydra	1068,1,312000,150000
+iz_dun03,204,48	monster	Hydra	1068,1,313000,150000
+iz_dun03,194,144	monster	Hydra	1068,1,316000,150000
+iz_dun03,203,53	monster	Hydra	1068,1,317000,150000
+iz_dun03,191,144	monster	Hydra	1068,1,321000,150000
+iz_dun03,212,144	monster	Hydra	1068,1,321000,150000
+iz_dun03,203,50	monster	Hydra	1068,1,323000,150000
+iz_dun03,203,56	monster	Hydra	1068,1,323000,150000
+iz_dun03,197,144	monster	Hydra	1068,1,2960000,150000
+
+//==================================================
+// iz_dun04 - Undersea Tunnel
+//==================================================
+iz_dun04	monster	Merman	1264,52,5000
+iz_dun04	monster	Strouf	1065,50,5000
+iz_dun04	monster	Marine Sphere	1142,10,5000
+iz_dun04	monster	Swordfish	1069,10,5000
+iz_dun04	monster	Deviace	1108,3,5000
+iz_dun04,80,246	monster	Hydra	1068,1,294000,150000
+iz_dun04,79,246	monster	Hydra	1068,1,300000,150000
+iz_dun04,111,41	monster	Hydra	1068,1,300000,150000
+iz_dun04,111,35	monster	Hydra	1068,1,300000,150000
+iz_dun04,124,233	monster	Hydra	1068,1,300000,150000
+iz_dun04,38,115	monster	Hydra	1068,1,300000,150000
+iz_dun04,38,129	monster	Hydra	1068,1,300000,150000
+iz_dun04,61,135	monster	Hydra	1068,1,300000,150000
+iz_dun04,79,234	monster	Hydra	1068,1,302000,150000
+iz_dun04,111,38	monster	Hydra	1068,1,303000,150000
+iz_dun04,134,233	monster	Hydra	1068,1,305000,150000
+iz_dun04,58,135	monster	Hydra	1068,1,305000,150000
+iz_dun04,42,116	monster	Hydra	1068,1,306000,150000
+iz_dun04,33,129	monster	Hydra	1068,1,308000,150000
+iz_dun04,42,129	monster	Hydra	1068,1,312000,150000
+iz_dun04,80,233	monster	Hydra	1068,1,318000,150000
+iz_dun04,69,243	monster	Hydra	1068,1,321000,150000
+iz_dun04,33,115	monster	Hydra	1068,1,321000,150000
+
+//==================================================
+// iz_dun05 - Undersea Tunnel F6
+//==================================================
+iz_dun05	monster	Sropho	2201,50,5000
+iz_dun05	monster	Pot Dofle	2203,30,5000
+iz_dun05	monster	Sedora	2204,60,5000
+iz_dun05	monster	King Dramoh	2198,25,5000
+
+//==================================================
+// Illusion of Underwater
+//==================================================
+// iz_d04_i	monster	Deep Sea Sropho	20801,45,5000,0,"iz_d04_i_boss::OnMobDead"
+// iz_d04_i	monster	Deep Sea Obeaune	20802,45,5000,0,"iz_d04_i_boss::OnMobDead"
+// iz_d04_i	monster	Deep Sea Merman	20805,45,5000,0,"iz_d04_i_boss::OnMobDead"
+// iz_d04_i	monster	Deep Sea Marse	20804,45,5000,0,"iz_d04_i_boss::OnMobDead"
+// iz_d04_i	monster	Deep Sea Deviace	20803,45,5000,0,"iz_d04_i_boss::OnMobDead"
+
+// -	script	iz_d04_i_boss	-1,{
+	// end;
+// OnMobDead:
+	// if (playerattached()) {
+		// if (.count < 1500)	// todo value ?
+			// .count++;
+		// if (!.boss_spawn && !.cooldown && .count == 1500) {
+			// .boss_spawn = true;
+			// .count = 0;
+			// killmonster "iz_d04_i", "iz_d04_i_boss::OnBossDeath";
+			//// mapannounce "iz_d04_i", "", bc_map;	// todo
+			// getunitdata( killedgid, .@data );
+			// monster "iz_d04_i", .@data[UMOB_X], .@data[UMOB_Y], "--ja--", 20811,1, "iz_d04_i_boss::OnBossDeath";	// ILL_KRAKEN
+			// end;
+		// }
+	// }
+	// end;
+// OnBossDeath:
+	// killmonster "iz_d04_i", "iz_d04_i_boss::OnBossDeath";
+	// .boss_spawn = false;
+	// .cooldown = true;
+	// initnpctimer;
+	// end;
+
+// OnTimer7200000:
+	// .cooldown = false;
+	// stopnpctimer;
+	// end;
+// }
+
+// iz_d05_i	monster	Deep Sea Strouf	20808,45,5000,0,"iz_d05_i_boss::OnMobDead"
+// iz_d05_i	monster	Deep Sea Swordfish	20807,45,5000,0,"iz_d05_i_boss::OnMobDead"
+// iz_d05_i	monster	Deep Sea Phen	20809,45,5000,0,"iz_d05_i_boss::OnMobDead"
+// iz_d05_i	monster	Deep Sea Sedora	20806,45,5000,0,"iz_d05_i_boss::OnMobDead"
+// iz_d05_i	monster	Deep Sea King Dramoh	20810,45,5000,0,"iz_d05_i_boss::OnMobDead"
+
+// -	script	iz_d05_i_boss	-1,{
+	// end;
+// OnMobDead:
+	// if (playerattached()) {
+		// if (.count < 1500)	// todo value ?
+			// .count++;
+		// if (!.boss_spawn && !.cooldown && .count == 1500) {
+			// .boss_spawn = true;
+			// .count = 0;
+			// killmonster "iz_d05_i", "iz_d05_i_boss::OnBossDeath";
+			////mapannounce "iz_d05_i", "", bc_map;	// todo
+			// getunitdata( killedgid, .@data );
+			// monster "iz_d05_i", .@data[UMOB_X], .@data[UMOB_Y], "--ja--", 20843,1, "iz_d05_i_boss::OnBossDeath";	// ILL_ABYSMAL_WITCH
+			// end;
+		// }
+	// }
+	// end;
+// OnBossDeath:
+	// killmonster "iz_d05_i", "iz_d05_i_boss::OnBossDeath";
+	// .boss_spawn = false;
+	// .cooldown = true;
+	// initnpctimer;
+	// end;
+
+// OnTimer7200000:
+	// .cooldown = false;
+	// stopnpctimer;
+	// end;
+// }

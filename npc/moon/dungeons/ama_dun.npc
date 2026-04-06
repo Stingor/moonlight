@@ -1,0 +1,38 @@
+//===== rAthena Script =======================================
+//= Amatsu Dungeon
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+ama_dun01,235,144,0	warp	ama_dun1-1	1,1,ama_dun02,33,40
+ama_dun02,30,40,0	warp	ama_dun1-2	1,1,ama_dun01,232,144
+ama_dun02,196,123,0	warp	ama_dun2-1	1,1,ama_dun03,120,12
+ama_dun03,120,9,0	warp	ama_dun2-2	1,1,ama_dun02,196,120
+
+//==================================================
+// ama_dun01 - Tatami Maze
+//==================================================
+ama_dun01	monster	Miyabi Doll	1404,65,5000
+ama_dun01	monster	Firelock Soldier	1403,45,5000
+ama_dun01	monster	Shinobi	1401,2,5000
+
+//==================================================
+// ama_dun02 - Battle Field in the Underground Forest
+//==================================================
+ama_dun02	monster	Poison Toad	1402,35,5000
+ama_dun02	monster	Firelock Soldier	1403,20,5000
+ama_dun02	monster	Horong	1129,10,5000
+ama_dun02	monster	Miyabi Doll	1404,5,5000
+ama_dun02	monster	Shinobi	1401,2,5000
+ama_dun02	monster	The Paper	1375,1,5000
+
+//==================================================
+// ama_dun03 - Amatsu Underground Shrine
+//==================================================
+ama_dun03	monster	Shinobi	1401,55,5000
+ama_dun03	monster	Tengu	1405,55,5000
+ama_dun03	monster	Firelock Soldier	1403,25,5000
+ama_dun03	monster	The Paper	1375,20,5000
+ama_dun03	monster	Mimic	1191,5,5000
+ama_dun03	monster	Miyabi Doll	1404,1,5000

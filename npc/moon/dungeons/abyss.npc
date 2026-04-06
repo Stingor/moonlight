@@ -1,0 +1,48 @@
+//===== rAthena Script =======================================
+//= Abyss Lake Dungeon
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+abyss_01,25,24,0	warp	abysslakedunwarp001	1,1,abyss_02,271,270
+abyss_02,145,280,0	warp	abysslakedunwarp002	1,1,abyss_03,115,30
+abyss_02,277,270,0	warp	abysslakedunwarp003	1,1,abyss_01,25,30
+abyss_03,115,25,0	warp	abysslakedunwarp004	1,1,abyss_02,145,275
+abyss_01,265,274,0	warp	abysslakedunwarp005	1,1,hu_fild05,177,211
+
+//==================================================
+// abyss_01 - Abyss Lake Underground Cave
+//==================================================
+abyss_01	monster	Ferus	1717,55,5000
+abyss_01	monster	Penomena	1216,30,5000
+abyss_01	monster	Ferus	1714,30,5000
+abyss_01	monster	Mimic	1191,10,5000
+abyss_01	monster	Ancient Mimic	1699,10,5000
+abyss_01	monster	Novus	1715,9,5000
+abyss_01	monster	Novus	1718,9,5000
+abyss_01	monster	Dragon Egg	1721,8,5000
+
+//==================================================
+// abyss_02 - Abyss Lake Underground Cave
+//==================================================
+abyss_02	monster	Acidus	1716,60,5000
+abyss_02	monster	Ferus	1714,50,5000
+abyss_02	monster	Dragon Egg	1721,10,5000
+abyss_02	monster	Mimic	1191,10,5000
+abyss_02	monster	Acidus	1713,10,5000
+abyss_02	monster	Ancient Mimic	1699,10,5000
+abyss_02	monster	Novus	1715,5,5000
+abyss_02	monster	Novus	1718,5,5000
+
+//==================================================
+// abyss_03 - Abyss Lake Underground Cave
+//==================================================
+abyss_03	monster	Mimic	1191,10,5000
+abyss_03	monster	Ancient Mimic	1699,10,5000
+abyss_03	monster	Acidus	1713,60,5000
+abyss_03	monster	Ferus	1714,10,5000
+abyss_03	monster	Acidus	1716,10,5000
+abyss_03	monster	Ferus	1717,10,5000
+abyss_03	monster	Hydrolancer	1720,1,1000000,400000,0
+abyss_03	monster	Dragon Egg	1721,10,1800000,600000,0

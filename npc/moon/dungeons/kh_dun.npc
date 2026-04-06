@@ -1,0 +1,65 @@
+//===== rAthena Script =======================================
+//= Kiel Dungeon
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+kh_dun01,3,234,0	warp	kh_dun_00	1,1,yuno_fild08,74,174
+kh_dun01,232,226,0	warp	kh_dun_01	1,1,kh_dun01,13,12
+kh_dun01,63,7,0	warp	kh_dun_02	1,1,kh_dun01,227,176
+kh_dun01,232,176,0	warp	kh_dun_03	1,1,kh_dun01,63,12
+kh_dun02,43,195,0	script	kh_dun04	45,1,1,{
+OnTouch_:
+	if (rand(1,2) == 1) {
+		warp "kh_dun01",41,206;
+	}
+	else {
+		warp "kh_dun01",32,199;
+	}
+
+}
+
+//==================================================
+// kh_dun01 - Robot Factory level 1 
+//==================================================
+kh_dun01	monster	Aliza	1737,45,5000
+kh_dun01	monster	Alice	1275,25,5000
+kh_dun01	monster	Constant	1738,8,5000
+kh_dun01	monster	Constant	1745,5,5000
+kh_dun01	monster	Alicel	1735,3,5000
+kh_dun01	monster	Aliot	1736,3,5000
+
+//==================================================
+// kh_dun02 - Robot Factory level 2
+//==================================================
+kh_dun02	monster	Alicel	1735,30,5000
+kh_dun02	monster	Aliot	1736,25,5000
+kh_dun02	monster	Constant	1738,15,5000
+kh_dun02	monster	Aliza	1737,10,5000
+kh_dun02	monster	Constant	1745,5,5000
+
+//==================================================
+// kh_kiehl01 - Kiehl's Room 
+//==================================================
+kh_kiehl01	monster	Constant	1745,10,5000
+kh_kiehl01,67,171,5,5	monster	Aliot	1740,1,180000,120000
+kh_kiehl01,67,171,5,5	monster	Aliot	1736,1,180000,120000
+kh_kiehl01,85,154,3,3	monster	Alicel	1739,1,180000,120000
+kh_kiehl01,85,154,3,3	monster	Aliot	1740,1,180000,120000
+kh_kiehl01,106,154,3,3	monster	Aliza	1746,1,180000,120000
+kh_kiehl01,122,155,3,3	monster	Aliot	1740,1,180000,120000
+kh_kiehl01,122,155,3,3	monster	Aliot	1736,1,180000,120000
+kh_kiehl01,122,155,3,3	monster	Alicel	1739,1,180000,120000
+kh_kiehl01,32,124,3,3	monster	Aliot	1740,1,180000,120000
+kh_kiehl01,37,110,3,3	monster	Alicel	1735,1,180000,120000
+kh_kiehl01,37,110,3,3	monster	Alicel	1739,1,180000,120000
+kh_kiehl01,80,22,3,3	monster	Aliot	1740,1,180000,120000
+kh_kiehl01,105,40,3,3	monster	Aliza	1746,1,180000,120000
+kh_kiehl01,105,40,3,3	monster	Aliza	1737,1,180000,120000
+kh_kiehl01,135,24,3,3	monster	Alicel	1739,1,180000,120000
+kh_kiehl01,173,90,3,3	monster	Aliot	1740,1,180000,120000
+kh_kiehl01,156,101,3,3	monster	Aliza	1746,1,180000,120000
+kh_kiehl01,128,102,3,3	monster	Alicel	1739,1,180000,120000
+kh_kiehl01,128,102,3,3	monster	Aliot	1740,1,180000,120000
+kh_kiehl01,122,155,3,3	monster	Aliza	1746,1,180000,120000

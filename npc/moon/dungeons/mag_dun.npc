@@ -1,0 +1,46 @@
+//===== rAthena Script =======================================
+//= Magma Dungeon
+//============================================================
+
+//==================================================
+// Warp
+//==================================================
+mag_dun02,248,72,3	script	Republic Guard#mag03	4_M_EIN_SOLDIER,{
+	npctalk "Republic Guard: Be careful.", "", bc_self;
+	end;
+}
+mag_dun01,126,66,0	warp2	mag01-yunfild	1,1,yuno_fild03,34,139
+mag_dun01,242,241,0	warp2	mag01-02	1,1,mag_dun02,47,30
+mag_dun02,47,28,0	warp2	mag02-01	1,1,mag_dun01,242,239
+mag_dun02,247,68,0	warp2	mag02-03	1,1,mag_dun03,120,120
+mag_dun03,124,120,0	warp2	mag03-02	1,1,mag_dun02,243,68
+
+//==================================================
+// mag_dun01 - Nogg Road
+//==================================================
+mag_dun01	monster	Explosion	1383,30,5000
+mag_dun01	monster	Lava Golem	1366,20,5000
+mag_dun01	monster	Blazer	1367,20,5000
+mag_dun01	monster	Kaho	1072,20,5000
+mag_dun01	monster	Grizzly	1381,10,5000
+
+//==================================================
+// mag_dun02 - Nogg Road
+//==================================================
+mag_dun02	monster	Nightmare Terror	1379,46,5000
+mag_dun02	monster	Deleter	1385,40,5000
+mag_dun02	monster	Deleter	1384,38,5000
+mag_dun02	monster	Blazer	1367,20,5000
+mag_dun02	monster	Diabolic	1382,15,5000
+mag_dun02	monster	Gig	1387,10,5000
+
+//==================================================
+// mag_dun03 - Nogg Road
+//==================================================
+mag_dun03	monster	Rigid Lava Golem	20378,18
+mag_dun03	monster	Rigid Kaho	20377,20
+mag_dun03	monster	Rigid Explosion	20376,20
+mag_dun03	monster	Rigid Sky Deleter	20374,32
+mag_dun03	monster	Rigid Earth Deleter	20375,32
+mag_dun03	monster	Rigid Nightmare Terror	20373,27
+mag_dun03	monster	Rigid Blazer	20372,18

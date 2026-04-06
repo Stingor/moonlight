@@ -1,0 +1,123 @@
+//===== rAthena Script =======================================
+//= Guild Dungeons
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+// npc\rathena\warps\guildcastles.txt
+
+//==================================================
+// Baldur - gld_dun01, gld_dun01_2, gld2_pay
+//==================================================
+gld_dun01	monster	Gullinbursti	1311,30,5000
+gld_dun01	monster	Leib Olmai	1306,55,5000
+gld_dun01	monster	Cat O' Nine Tails	1307,3,1200000,0,0
+
+gld_dun01_2	monster	Skeleton General	1290,50,5000
+gld_dun01_2	monster	Am Mut	1301,15,5000
+gld_dun01_2	monster	Gajomart	1309,20,5000
+
+gld2_pay	monster	Skeleton General	1290,60,5000
+gld2_pay	monster	Am Mut	1301,25,5000
+gld2_pay	monster	Gajomart	1309,30,5000
+gld2_pay	monster	Samurai Soheon	2254,1,1800000,600000
+
+//==================================================
+// Luina - gld_dun02, gld_dun02_2, gld2_ald
+//==================================================
+gld_dun02	monster	Giant Hornet	1303,30,5000
+gld_dun02	monster	Ancient Worm	1305,25,5000
+gld_dun02	monster	Giant Spider	1304,15,5000
+
+gld_dun02_2	monster	Killer Mantis	1294,30,5000
+gld_dun02_2	monster	Angra Mantis	2133,40,5000
+gld_dun02_2	monster	Maya Purple	1289,3,1200000,600000
+
+gld2_ald	monster	Killer Mantis	1294,60,5000
+gld2_ald	monster	Angra Mantis	2133,70,5000
+gld2_ald	monster	Maya Purple	1289,3,1200000
+gld2_ald	monster	Elvira	2252,1,1800000,600000
+
+//==================================================
+// Valkyrie - gld_dun03, gld_dun03_02, gld2_prt
+//==================================================
+gld_dun03	monster	Caterpillar	1300,35,5000
+gld_dun03	monster	Creamy Fear	1293,35,5000
+
+gld_dun03_2	monster	Dark Axe Kobold	2284,13,5000
+gld_dun03_2	monster	Dark Hammer Kobold	2285,23,5000
+gld_dun03_2	monster	Dark Mace Kobold	2286,23,5000
+gld_dun03_2	monster	Dark Kobold Archer	2287,23,5000
+gld_dun03_2	monster	Kobold Leader	1296,1,14400000,7200000
+
+gld2_prt	monster	Dark Axe Kobold	2284,25,5000
+gld2_prt	monster	Dark Hammer Kobold	2285,35,5000
+gld2_prt	monster	Dark Mace Kobold	2286,35,5000
+gld2_prt	monster	Dark Kobold Archer	2287,35,5000
+gld2_prt	monster	Warrior Laura	2250,1,1800000,600000
+
+//==================================================
+// Britoniah - gld_dun04, gld_dun04_02, gld2_gef
+//==================================================
+gld_dun04	monster	Mini Demon	1292,10,5000
+gld_dun04	monster	Zombie Master	1298,55,5000
+gld_dun04	monster	Wraith Dead	1291,25,5000
+gld_dun04	monster	Ghostring	1120,1,14400000,7200000
+
+gld_dun04_2	monster	Dark Frame	2282,15,5000
+gld_dun04_2	monster	Dark Priest	2283,15,5000
+gld_dun04_2	monster	Dark Shadow	2281,45,5000
+gld_dun04_2	monster	Dark Illusion	1302,1,1200000
+
+gld2_gef	monster	Dark Frame	2282,20,5000
+gld2_gef	monster	Dark Priest	2283,20,5000
+gld2_gef	monster	Dark Shadow	2281,80,5000
+gld2_gef	monster	Dark Illusion	1302,1,1200000
+gld2_gef	monster	Rudo	2256,1,1800000,600000
+
+//==================================================
+// Treasure Chests
+//==================================================
+gld2_pay	monster	Treasure Chest	2288,5,5000
+gld2_ald	monster	Treasure Chest	2288,5,5000
+gld2_prt	monster	Treasure Chest	2288,5,5000
+gld2_gef	monster	Treasure Chest	2288,5,5000
+
+//==================================================
+// schg_dun01 - Subterranean Guild Dungeon
+//==================================================
+schg_dun01	monster	Hell Apocalypse	1978,20
+schg_dun01	monster	Zakudam	1979,20
+schg_dun01	monster	Heavy Metaling	1977,15,5000
+schg_dun01	monster	Cobalt Mineral	1976,15,5000
+
+//==================================================
+// arug_dun01 - Subterranean Guild Dungeon
+//==================================================
+arug_dun01	monster	Banshee Master	1974,22
+arug_dun01	monster	Beholder master	1975,22,5000
+arug_dun01	monster	Aunoe	1796,22,5000
+arug_dun01	monster	Necromancer	1870,18
+arug_dun01	monster	Fanat	1797,5,5000
+
+//==================================================
+// Gloria Guild Dungeon
+//==================================================
+teg_dun01	monster	Knight Seyren	2415,20,5000
+teg_dun01	monster	Assassin Eremes	2416,15,5000
+teg_dun01	monster	Blacksmith Howard	2417,15,5000
+teg_dun01	monster	Hunter Cecil	2418,35,5000
+teg_dun01	monster	Wizard Kathryne	2419,30,5000
+teg_dun01	monster	Priest Margaretha	2420,20,5000
+
+//==================================================
+// Kafragaten Guild Dungeon
+//==================================================
+teg_dun02	monster	Crusader Egnigem	2421,15,5000
+teg_dun02	monster	Rogue Wickebine	2422,15,5000
+teg_dun02	monster	Alchemist Armeyer	2423,15,5000
+teg_dun02	monster	Bard Kavach	2424,15,5000
+teg_dun02	monster	Dancer Josephina	2425,15,5000
+teg_dun02	monster	Sage Laurell	2426,15,5000
+teg_dun02	monster	Monk Errende	2427,15,5000

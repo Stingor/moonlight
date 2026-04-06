@@ -1,0 +1,146 @@
+//===== rAthena Script =======================================
+//= Sunken Ship
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+treasure01,112,164,0	warp	tre01	1,4,treasure01,97,164
+treasure01,125,161,0	warp	tre02	1,3,treasure01,144,161
+treasure01,142,161,0	warp	tre02-1	1,3,treasure01,123,161
+treasure01,164,114,0	warp	tre03	3,1,treasure01,164,88
+treasure01,164,91,0	warp	tre03-1	5,1,treasure01,164,116
+treasure01,99,164,0	warp	tre01-1	1,4,treasure01,114,164
+treasure01,76,111,0	warp	tre10	1,3,treasure01,100,111
+treasure01,38,164,0	warp	tre04-1	1,4,treasure01,25,164
+treasure01,40,111,0	warp	tre05	1,3,treasure01,67,112
+treasure01,62,111,0	warp	tre05-1	1,3,treasure01,38,111
+treasure01,27,164,0	warp	tre04	1,4,treasure01,40,164
+treasure01,69,75,0	warp	tre07	2,1,treasure01,69,106
+treasure01,69,125,0	warp	tre08	4,1,treasure01,69,142
+treasure01,69,140,0	warp	tre08-1	4,1,treasure01,69,123
+treasure01,98,111,0	warp	tre10-1	1,3,treasure01,74,111
+treasure01,69,177,0	warp	tre002	3,1,treasure02,102,27
+treasure01,41,37,0	warp	tre06	1,3,treasure01,61,37
+treasure01,58,37,0	warp	tre06-1	1,3,treasure01,39,37
+treasure01,69,102,0	warp	tre07-1	2,1,treasure01,69,77
+treasure01,79,37,0	warp	tre09	1,3,treasure01,98,37
+treasure01,96,37,0	warp	tre09-1	1,3,treasure01,77,37
+treasure01,69,22,0	warp	tre001	4,1,alb2trea,85,107
+treasure02,102,103,0	warp	tre11	5,1,treasure02,102,120
+treasure02,102,118,0	warp	tre11-1	5,1,treasure02,102,101
+treasure02,155,128,0	warp	tre13-1	1,1,treasure02,155,97
+treasure02,155,99,0	warp	tre13	1,1,treasure02,155,130
+treasure02,49,99,0	warp	tre14-1	1,1,treasure02,49,130
+treasure02,102,24,0	warp	tre003	3,1,treasure01,69,179
+treasure02,123,72,0	warp	tre12	1,4,treasure02,140,72
+treasure02,138,72,0	warp	tre12-1	1,4,treasure02,121,72
+treasure02,49,128,0	warp	tre14	1,1,treasure02,49,97
+treasure02,65,72,0	warp	tre15	1,4,treasure02,82,72
+treasure02,80,72,0	warp	tre15-1	1,4,treasure02,63,72
+
+//==================================================
+// treasure01 - Sunken Ship
+//==================================================
+treasure01	monster	Pirate Skeleton	1071,43,5000
+treasure01	monster	Kukre	1070,20,5000
+treasure01	monster	Whisper	1179,15,5000
+treasure01	monster	Poison Spore	1077,12,5000
+treasure01,68,66,13,11	monster	Hydra	1068,4,180000,90000
+treasure01,107,39,15,15	monster	Hydra	1068,1,180000,90000
+treasure01,67,161	monster	Hydra	1068,1,263000,100000
+treasure01,87,160	monster	Hydra	1068,1,268000,100000
+treasure01,76,182	monster	Hydra	1068,1,269000,100000
+treasure01,51,160	monster	Hydra	1068,1,270000,100000
+treasure01,162,71	monster	Hydra	1068,1,273000,100000
+treasure01,88,161	monster	Hydra	1068,1,281000,100000
+treasure01,86,161	monster	Hydra	1068,1,285000,100000
+treasure01,159,45	monster	Hydra	1068,1,285000,100000
+treasure01,69,160	monster	Hydra	1068,1,290000,100000
+treasure01,159,40	monster	Hydra	1068,1,290000,100000
+treasure01,168,41	monster	Hydra	1068,1,290000,100000
+treasure01,67,160	monster	Hydra	1068,1,293000,100000
+treasure01,165,70	monster	Hydra	1068,1,293000,100000
+treasure01,88,160	monster	Hydra	1068,1,296000,100000
+treasure01,158,62	monster	Hydra	1068,1,300000,100000
+treasure01,159,63	monster	Hydra	1068,1,300000,100000
+treasure01,158,63	monster	Hydra	1068,1,300000,100000
+treasure01,164,70	monster	Hydra	1068,1,300000,100000
+treasure01,163,70	monster	Hydra	1068,1,300000,100000
+treasure01,159,62	monster	Hydra	1068,1,300000,100000
+treasure01,169,42	monster	Hydra	1068,1,300000,100000
+treasure01,169,45	monster	Hydra	1068,1,300000,100000
+treasure01,168,43	monster	Hydra	1068,1,300000,100000
+treasure01,168,45	monster	Hydra	1068,1,300000,100000
+treasure01,159,42	monster	Hydra	1068,1,300000,100000
+treasure01,169,40	monster	Hydra	1068,1,300000,100000
+treasure01,158,41	monster	Hydra	1068,1,300000,100000
+treasure01,158,42	monster	Hydra	1068,1,300000,100000
+treasure01,158,44	monster	Hydra	1068,1,300000,100000
+treasure01,163,71	monster	Hydra	1068,1,300000,100000
+treasure01,68,160	monster	Hydra	1068,1,300000,100000
+treasure01,49,160	monster	Hydra	1068,1,300000,100000
+treasure01,48,160	monster	Hydra	1068,1,300000,100000
+treasure01,87,161	monster	Hydra	1068,1,300000,100000
+treasure01,89,161	monster	Hydra	1068,1,300000,100000
+treasure01,150,162,5,5	monster	Hydra	1068,1,300000,100000
+treasure01,163,161,5,5	monster	Hydra	1068,1,300000,100000
+treasure01,163,141,5,5	monster	Hydra	1068,1,300000,100000
+treasure01,163,151,5,5	monster	Hydra	1068,1,300000,100000
+treasure01,50,160	monster	Hydra	1068,1,301000,100000
+treasure01,169,44	monster	Hydra	1068,1,302000,100000
+treasure01,158,45	monster	Hydra	1068,1,302000,100000
+treasure01,70,161	monster	Hydra	1068,1,302000,100000
+treasure01,169,43	monster	Hydra	1068,1,305000,100000
+treasure01,158,43	monster	Hydra	1068,1,305000,100000
+treasure01,69,161	monster	Hydra	1068,1,305000,100000
+treasure01,164,71	monster	Hydra	1068,1,305000,100000
+treasure01,89,160	monster	Hydra	1068,1,305000,100000
+treasure01,168,42	monster	Hydra	1068,1,306000,100000
+treasure01,70,160	monster	Hydra	1068,1,306000,100000
+treasure01,159,41	monster	Hydra	1068,1,306000,100000
+treasure01,165,71	monster	Hydra	1068,1,307000,100000
+treasure01,158,40	monster	Hydra	1068,1,307000,100000
+treasure01,50,161	monster	Hydra	1068,1,308000,100000
+treasure01,49,161	monster	Hydra	1068,1,310000,100000
+treasure01,86,160	monster	Hydra	1068,1,310000,100000
+treasure01,159,44	monster	Hydra	1068,1,312000,100000
+treasure01,169,41	monster	Hydra	1068,1,313000,100000
+treasure01,60,182	monster	Hydra	1068,1,313000,100000
+treasure01,51,161	monster	Hydra	1068,1,314000,100000
+treasure01,168,44	monster	Hydra	1068,1,314000,100000
+treasure01,162,70	monster	Hydra	1068,1,314000,100000
+treasure01,48,161	monster	Hydra	1068,1,316000,100000
+treasure01,68,161	monster	Hydra	1068,1,317000,100000
+treasure01,159,43	monster	Hydra	1068,1,318000,100000
+treasure01,168,40	monster	Hydra	1068,1,322000,100000
+
+//==================================================
+// treasure02 - Sunken Ship
+//==================================================
+treasure02	monster	Penomena	1216,38,5000
+treasure02	monster	Pirate Skeleton	1071,20,5000
+treasure02	monster	Kukre	1070,20,5000
+treasure02	monster	Whisper	1179,14,5000
+treasure02	monster	Mimic	1191,8,5000
+treasure02	monster	Marionette	1143,1,5000
+treasure02	monster	Wanderer	1208,1,5000
+treasure02,100,136	monster	Hydra	1068,1,300000,100000
+treasure02,101,136	monster	Hydra	1068,1,300000,100000
+treasure02,102,136	monster	Hydra	1068,1,300000,100000
+treasure02,103,136	monster	Hydra	1068,1,300000,100000
+treasure02,100,143	monster	Hydra	1068,1,300000,100000
+treasure02,101,143	monster	Hydra	1068,1,300000,100000
+treasure02,102,143	monster	Hydra	1068,1,300000,100000
+treasure02,103,143	monster	Hydra	1068,1,300000,100000
+treasure02,103,85	monster	Hydra	1068,1,300000,100000
+treasure02,102,85	monster	Hydra	1068,1,300000,100000
+treasure02,95,57	monster	Hydra	1068,1,300000,100000
+treasure02,96,57	monster	Hydra	1068,1,300000,100000
+treasure02,101,57	monster	Hydra	1068,1,300000,100000
+treasure02,102,57	monster	Hydra	1068,1,300000,100000
+treasure02,107,57	monster	Hydra	1068,1,300000,100000
+treasure02,108,57	monster	Hydra	1068,1,300000,100000
+treasure02,100,85	monster	Hydra	1068,1,300000,100000
+treasure02,101,85	monster	Hydra	1068,1,300000,100000
+treasure02	monster	Ghostring	1120,1,1980000,1200000

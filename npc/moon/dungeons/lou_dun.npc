@@ -1,0 +1,42 @@
+//===== rAthena Script =======================================
+//= Louyang Dungeon
+//============================================================
+
+//==================================================
+// Warp
+//==================================================
+louyang,37,271,0	warp	lou_dun1-1	1,1,lou_dun01,218,195
+lou_dun01,221,195,0	warp	lou_dun1-2	1,1,louyang,40,273
+lou_dun01,40,201,0	warp	lou_dun2-1	1,1,lou_dun02,285,18
+lou_dun02,288,18,0	warp	lou_dun2-2	1,1,lou_dun01,38,203
+lou_dun02,165,269,0	warp	lou_dun3-1	1,1,lou_dun03,165,38
+lou_dun03,165,35,0	warp	lou_dun3-2	1,1,lou_dun02,165,266
+
+//==================================================
+// lou_dun01 - The Royal Tomb 
+//==================================================
+lou_dun01	monster	Jing Guai	1517,45,5000
+lou_dun01	monster	Grizzly	1381,15,5000
+lou_dun01	monster	Mi Gao	1516,15,5000
+lou_dun01	monster	Horong	1129,15,5000
+lou_dun01	monster	Side Winder	1037,10,5000
+lou_dun01	monster	Leib Olmai	1306,1,300000,120000
+lou_dun01,197,77,10,10	monster	Black Mushroom	1084,5,5000
+lou_dun01	monster	Shining Plant	1083,5,5000
+
+//==================================================
+// lou_dun02 - Inside the Royal Tomb
+//==================================================
+lou_dun02	monster	Yao Jun	1512,40,5000
+lou_dun02	monster	Munak	1026,25,5000
+lou_dun02	monster	Mimic	1191,5,5000
+lou_dun02	monster	Zhu Po Long	1514,5,5000
+
+//==================================================
+// lou_dun03 - Suei Long Gon 
+//==================================================
+lou_dun03	monster	Zhu Po Long	1514,25,5000
+lou_dun03	monster	Yao Jun	1512,25,5000
+lou_dun03	monster	Mao Guai	1513,15,5000
+lou_dun03	monster	Green Maiden	1631,5,5000
+lou_dun03	monster	Green Maiden	1631,5,3000000,1800000

@@ -1,0 +1,49 @@
+//===== rAthena Script =======================================
+//= Niflheim Dungeon
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+niflheim,149,124,0	script	nifla_nifdun01a	WARPNPC,1,1,{
+	end;
+OnTouch:
+	if (isbegin_quest(8640) == 0) {
+		npctalk "Angry Gatekeeper: How are you adventurer? Go in? Do you want to go in? Kick!", "Angry Gatekeeper#lv200", bc_self;
+		npctalk "Funny Gatekeeper's Friend: Awesome!", "Funny Gatekeeper's Friend#lv20", bc_self;
+		end;
+	}
+	warp "nif_dun01",145,85;
+	end;
+}
+nif_dun01,145,82,0	warp2	nifdun01a_nifla	1,1,niflheim,146,122
+nif_dun01,146,36,0	script	nifdun01a_nifdun02a	WARPNPC,1,1,{
+	end;
+OnTouch:
+	if (BaseLevel < 240) {
+		npctalk "Helpful Gatekeeper: Hey, look at how you look! How can you come all the way here!", "Helpful Gatekeeper#240", bc_self;
+		npctalk "Silent Gatekeeper: ...means lack of training.", "Silent Gatekeeper#240", bc_self;
+		end;
+	}
+	warp "nif_dun02",149,23;
+	end;
+}
+nif_dun02,162,15,0	warp2	nifdun02a_nifdun01a	1,1,nif_dun01,146,39
+nif_dun02,137,15,0	warp2	nifdun02a_nifdun01a_	1,1,nif_dun01,146,39
+
+//==================================================
+// 
+//==================================================
+nif_dun01	monster	Gan Ceann	GAN_CEANN,60
+nif_dun01	monster	Brutal Murderer	BRUTAL_MURDERER,60
+nif_dun01	monster	Ghost Cube	GHOST_CUBE,60
+nif_dun01	monster	Lude Gal	LUDE_GAL,60
+
+//==================================================
+// 
+//==================================================
+nif_dun02	monster	Disguiser	DISGUISER,80
+nif_dun02	monster	Grote	GROTE,80
+nif_dun02	monster	Pierrotzoist	PIERROTZOIST,80
+nif_dun02	monster	Blue Moon Loli Ruri	BLUEMOON_LOLI_RURI,80
+nif_dun02	boss_monster	Death Witch	DEATH_WITCH,1,21600000,600000,0

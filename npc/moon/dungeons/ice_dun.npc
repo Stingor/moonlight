@@ -1,0 +1,46 @@
+//===== rAthena Script =======================================
+//= Ice Dungeon
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+ice_dun01,157,10,0	warp	ice001	1,1,ra_fild01,233,327
+ice_dun01,146,161,0	warp	ice002	1,1,ice_dun02,151,139
+ice_dun02,151,145,0	warp	ice003	1,1,ice_dun01,146,157
+ice_dun02,150,285,0	warp	ice004	1,1,ice_dun03,149,24
+ice_dun03,149,19,0	warp	ice005	1,1,ice_dun02,150,280
+ice_dun04,33,140,0	warp	ice006	1,1,ice_dun03,149,130
+
+//==================================================
+// ice_dun01 - Ice Cave
+//==================================================
+ice_dun01	monster	Siroma	1776,75,5000
+ice_dun01	monster	Roween	1782,5,5000
+ice_dun01	monster	Muscipular	1780,5,5000
+ice_dun01	monster	Gazeti	1778,2,5000
+
+//==================================================
+// ice_dun02 - Ice Cave
+//==================================================
+ice_dun02	monster	Snowier	1775,70,5000
+ice_dun02	monster	Siroma	1776,30,5000
+ice_dun02	monster	Iceicle	1789,19,5000
+ice_dun02	monster	Gazeti	1778,15,5000
+ice_dun02	monster	Ice Titan	1777,7,5000
+
+//==================================================
+// ice_dun03 - Ice Cave
+//==================================================
+ice_dun03	monster	Ice Titan	1777,70,5000
+ice_dun03	monster	Gazeti	1778,42,5000
+ice_dun03	monster	Iceicle	1789,32,5000
+ice_dun03	monster	Snowier	1775,15,5000
+
+//==================================================
+// ice_d03_i - Illusion of Frozen
+//==================================================
+// ice_d03_i	monster	Angry Gazeti	3792,30
+// ice_d03_i	monster	Angry Snowier	3793,30
+// ice_d03_i	monster	Angry Ice Titan	3794,20
+// ice_d03_i	monster	Solid Icicle	3795,20

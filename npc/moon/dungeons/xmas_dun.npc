@@ -1,0 +1,33 @@
+//===== rAthena Script =======================================
+//= Toy Factory
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+xmas,143,314,0	warp	xmas_dun1-1	1,1,xmas_dun01,205,16
+xmas_dun01,205,13,0	warp	xmas_dun1-2	1,1,xmas,143,311
+xmas_dun01,129,130,0	warp	xmas_dun2-1	1,1,xmas_dun02,131,130
+xmas_dun02,129,130,0	warp	xmas_dun2-2	1,1,xmas_dun01,132,130
+
+//==================================================
+// xmas_dun01 - Toy Factory Warehouse
+//==================================================
+xmas_dun01,0,0	monster	Cookie	1265,40,5000
+xmas_dun01,0,0	monster	Christmas Cookie	1246,40,5000
+xmas_dun01,0,0	monster	Marin	1242,20,5000
+xmas_dun01,0,0	monster	Poporing	1031,20,5000
+xmas_dun01,0,0	monster	Drops	1113,10,5000
+xmas_dun01,0,0	monster	Poring	1002,10,5000
+xmas_dun01,0,0	monster	Myst Case	1249,5,5000
+xmas_dun01,0,0	monster	Chepet	1250,1,1200000,900000
+xmas_dun01,0,0	monster	Mastering	1090,1,1800000,900000
+xmas_dun01,0,0	monster	Angeling	1096,1,3600000,1800000
+
+//==================================================
+// xmas_dun02 - Toy Monitoring Room
+//==================================================
+xmas_dun02,0,0	monster	Myst Case	1249,50,5000
+xmas_dun02,0,0	monster	Cruiser	1248,35,5000
+xmas_dun02,0,0	monster	Cookie	1265,20,5000
+xmas_dun02,0,0	monster	Christmas Cookie	1246,20,5000

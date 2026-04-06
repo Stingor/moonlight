@@ -1,0 +1,38 @@
+//===== rAthena Script =======================================
+//= Coal Mine Dungeon
+//============================================================
+
+//==================================================
+// Warps
+//==================================================
+mjo_dun01,14,283,0	warp	mjod01	2,4,mjo_dun02,381,343
+mjo_dun01,52,14,0	warp	mjod001	4,2,mjolnir_02,79,363
+mjo_dun02,31,21,0	warp	mjod02	1,1,mjo_dun03,302,262
+mjo_dun02,384,343,0	warp	mjod01-1	2,4,mjo_dun01,17,283
+mjo_dun02,39,21,0	warp	mjod03	1,1,mjo_dun03,308,262
+mjo_dun03,302,264,0	warp	mjod02-1	1,1,mjo_dun02,31,23
+mjo_dun03,308,264,0	warp	mjod03-1	1,1,mjo_dun02,39,23
+
+//==================================================
+// mjo_dun01 - Mjolnir Dead Pit
+//==================================================
+mjo_dun01	monster	Tarou	1175,60,5000
+mjo_dun01	monster	Familiar	1005,30,5000
+mjo_dun01	monster	Martin	1145,20,5000
+
+//==================================================
+// mjo_dun02 - Mjolnir Dead Pit
+//==================================================
+mjo_dun02	monster	Martin	1145,60,5000
+mjo_dun02	monster	Giearth	1121,35,5000
+mjo_dun02	monster	Drainliar	1111,20,5000
+mjo_dun02	monster	Skeleton Worker	1169,20,5000
+
+//==================================================
+// mjo_dun03 - Mjolnir Dead Pit
+//==================================================
+mjo_dun03	monster	Skeleton Worker	1169,70,5000
+mjo_dun03	monster	Myst	1151,35,5000
+mjo_dun03	monster	Giearth	1121,5,5000
+mjo_dun03	monster	Martin	1145,5,5000
+mjo_dun03	monster	Cramp	1209,3,5000
