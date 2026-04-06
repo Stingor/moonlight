@@ -2349,7 +2349,11 @@ bool npc_scriptcont(map_session_data* sd, int32 id, bool closing){
 				break;
 			default:
 				sd->st->state = END;
-				ShowError( "npc_scriptcont: unexpected state '%d' for closing call. (AID: %u CID: %u)\n", sd->st->state, sd->status.account_id, sd->status.char_id );
+				ShowError( "npc_scriptcont: unexpected state '%d' for closing call. NPC: '%s' (%s) func: '%s' (AID: %u CID: %u)\n",
+					sd->st->state,
+					nd ? nd->exname : "unknown", nd ? nd->path : "unknown",
+					sd->st->funcname ? sd->st->funcname : "unknown",
+					sd->status.account_id, sd->status.char_id ); // [Stingor]
 				break;
 		}
 	}else{

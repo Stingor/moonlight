@@ -11,112 +11,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "common", "src\common\common
 		{492E2981-34F4-3A6A-BFD9-46096C641203} = {492E2981-34F4-3A6A-BFD9-46096C641203}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libconfig", "3rdparty\libconfig\libconfig.vcxproj", "{F6CC5F60-BD13-41B1-81D3-822A45EC0DBD}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{60D3315D-FBF4-4FBF-8D44-99D5BED11D32}"
-	ProjectSection(SolutionItems) = preProject
-		src\config\const.hpp = src\config\const.hpp
-		src\config\core.hpp = src\config\core.hpp
-		src\config\classes\general.hpp = src\config\classes\general.hpp
-		src\config\packets.hpp = src\config\packets.hpp
-		src\config\renewal.hpp = src\config\renewal.hpp
-		src\config\secure.hpp = src\config\secure.hpp
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "classes", "classes", "{33B49CB8-CBE3-4ED2-86DD-C9A351AC9026}"
-	ProjectSection(SolutionItems) = preProject
-		src\config\classes\general.hpp = src\config\classes\general.hpp
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Custom", "Custom", "{6513C8D3-D15F-45D4-9AD8-6286CBA7EE36}"
-	ProjectSection(SolutionItems) = preProject
-		src\custom\atcommand.inc = src\custom\atcommand.inc
-		src\custom\atcommand_def.inc = src\custom\atcommand_def.inc
-		src\custom\battle_config_init.inc = src\custom\battle_config_init.inc
-		src\custom\battle_config_struct.inc = src\custom\battle_config_struct.inc
-		src\custom\defines_post.hpp = src\custom\defines_post.hpp
-		src\custom\defines_pre.hpp = src\custom\defines_pre.hpp
-		src\custom\script.inc = src\custom\script.inc
-		src\custom\script_constant.inc = src\custom\script_constant.inc
-		src\custom\script_def.inc = src\custom\script_def.inc
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "server-components", "server-components", "{6D9F5D00-2988-4812-844D-D155C4F588DC}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{C0A6FC9A-3A5C-48F8-A4B6-8D463C61C021}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "login-server", "src\login\login-server.vcxproj", "{864805EA-FD39-453D-9248-C581951BA058}"
-	ProjectSection(ProjectDependencies) = postProject
-		{F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559} = {F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "char-server", "src\char\char-server.vcxproj", "{FED3A941-0AF7-49FE-85CF-E1DFDC0EBB23}"
-	ProjectSection(ProjectDependencies) = postProject
-		{F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559} = {F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "map-server", "src\map\map-server.vcxproj", "{B4114A9C-EEA4-433C-A830-56119A984F24}"
-	ProjectSection(ProjectDependencies) = postProject
-		{F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559} = {F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "map-server-generator", "src\map\map-server-generator.vcxproj", "{EB03BC16-8A47-43B9-B5BB-D0200E4A2775}"
-	ProjectSection(ProjectDependencies) = postProject
-		{F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559} = {F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "common-minicore", "src\common\common-minicore.vcxproj", "{352B45B3-FE88-4431-9D89-48CF811446DB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{9F328FE9-129D-4C0C-820B-BE4AA5996652}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mapcache", "src\tool\mapcache.vcxproj", "{FC4C071B-2C26-4B03-948A-335C94A88B5E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{352B45B3-FE88-4431-9D89-48CF811446DB} = {352B45B3-FE88-4431-9D89-48CF811446DB}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "yaml-cpp", "3rdparty\yaml-cpp\yaml-cpp.vcxproj", "{61D6A599-6BED-4154-A9FC-40553BD972E0}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "csv2yaml", "src\tool\csv2yaml.vcxproj", "{5A9059F2-4933-49A2-BEE6-CC67F66FA070}"
-	ProjectSection(ProjectDependencies) = postProject
-		{61D6A599-6BED-4154-A9FC-40553BD972E0} = {61D6A599-6BED-4154-A9FC-40553BD972E0}
-		{492E2981-34F4-3A6A-BFD9-46096C641203} = {492E2981-34F4-3A6A-BFD9-46096C641203}
-		{352B45B3-FE88-4431-9D89-48CF811446DB} = {352B45B3-FE88-4431-9D89-48CF811446DB}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "yaml2sql", "src\tool\yaml2sql.vcxproj", "{CDBBB260-B245-44EC-80FB-3F9421885E40}"
-	ProjectSection(ProjectDependencies) = postProject
-		{61D6A599-6BED-4154-A9FC-40553BD972E0} = {61D6A599-6BED-4154-A9FC-40553BD972E0}
-		{492E2981-34F4-3A6A-BFD9-46096C641203} = {492E2981-34F4-3A6A-BFD9-46096C641203}
-		{352B45B3-FE88-4431-9D89-48CF811446DB} = {352B45B3-FE88-4431-9D89-48CF811446DB}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "web-server", "src\web\web-server.vcxproj", "{5809F27D-65B5-46A3-A340-C8685A8C09F4}"
-	ProjectSection(ProjectDependencies) = postProject
-		{F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559} = {F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559}
-		{7A1A25BC-2CF7-44B2-8CAF-B4273B510FC6} = {7A1A25BC-2CF7-44B2-8CAF-B4273B510FC6}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "httplib", "3rdparty\httplib\httplib.vcxproj", "{7A1A25BC-2CF7-44B2-8CAF-B4273B510FC6}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "yamlupgrade", "src\tool\yamlupgrade.vcxproj", "{9115C6D1-520A-4540-B4FE-95F3C923FE2C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{61D6A599-6BED-4154-A9FC-40553BD972E0} = {61D6A599-6BED-4154-A9FC-40553BD972E0}
-		{492E2981-34F4-3A6A-BFD9-46096C641203} = {492E2981-34F4-3A6A-BFD9-46096C641203}
-		{352B45B3-FE88-4431-9D89-48CF811446DB} = {352B45B3-FE88-4431-9D89-48CF811446DB}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ryml", "3rdparty\rapidyaml\ryml.vcxproj", "{492E2981-34F4-3A6A-BFD9-46096C641203}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "npc", "npc", "{CEA830AA-908A-4876-9EB8-695FADCEA3E0}"
 	ProjectSection(SolutionItems) = preProject
+		doc\script_commands.txt = doc\script_commands.txt
 		npc\barters.yml = npc\barters.yml
-		npc\npc-scripts.vcxproj = npc\npc-scripts.vcxproj
 		npc\scripts_athena.conf = npc\scripts_athena.conf
 		npc\scripts_moon.conf = npc\scripts_moon.conf
-		doc\script_commands.txt = doc\script_commands.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "moon", "moon", "{B23C1F41-14D6-4472-A887-29E092F3AD14}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "moon", "moon", "{27FC4A79-137D-45D5-BA6A-A52E440CA0D4}"
 	ProjectSection(SolutionItems) = preProject
 		npc\moon\adoption.npc = npc\moon\adoption.npc
 		npc\moon\archive_gstorage.npc = npc\moon\archive_gstorage.npc
@@ -124,6 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "moon", "moon", "{B23C1F41-1
 		npc\moon\barters.yml = npc\moon\barters.yml
 		npc\moon\buffer.npc = npc\moon\buffer.npc
 		npc\moon\desloter.npc = npc\moon\desloter.npc
+		npc\moon\dungeons.conf = npc\moon\dungeons.conf
 		npc\moon\enchanter.npc = npc\moon\enchanter.npc
 		npc\moon\flag.npc = npc\moon\flag.npc
 		npc\moon\func.npc = npc\moon\func.npc
@@ -146,30 +50,101 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "moon", "moon", "{B23C1F41-1
 		npc\moon\warp_agent.npc = npc\moon\warp_agent.npc
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rathena", "rathena", "{182AFB36-E2D5-4300-B3A7-F7B55E668673}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\scripts_athena.conf = npc\rathena\scripts_athena.conf
-		npc\rathena\scripts_custom.conf = npc\rathena\scripts_custom.conf
-		npc\rathena\scripts_guild.conf = npc\rathena\scripts_guild.conf
-		npc\rathena\scripts_jobs.conf = npc\rathena\scripts_jobs.conf
-		npc\rathena\scripts_mapflags.conf = npc\rathena\scripts_mapflags.conf
-		npc\rathena\scripts_monsters.conf = npc\rathena\scripts_monsters.conf
-		npc\rathena\scripts_warps.conf = npc\rathena\scripts_warps.conf
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "battleground", "battleground", "{A357EDF0-287C-4899-B74F-6E92DE2606E4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "battleground", "battleground", "{C028D18C-6260-4828-8007-AE27A0809E6B}"
 	ProjectSection(SolutionItems) = preProject
 		npc\moon\battleground\bg_common.txt = npc\moon\battleground\bg_common.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "customs", "customs", "{324D83F5-255C-475C-A7D8-84DF1AF4EA0A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "flavius", "flavius", "{7C24A5AD-FC9A-4F03-8E6A-A57DAD599CD5}"
+	ProjectSection(SolutionItems) = preProject
+		npc\moon\battleground\flavius\flavius01.txt = npc\moon\battleground\flavius\flavius01.txt
+		npc\moon\battleground\flavius\flavius02.txt = npc\moon\battleground\flavius\flavius02.txt
+		npc\moon\battleground\flavius\flavius_enter.txt = npc\moon\battleground\flavius\flavius_enter.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "kvm", "kvm", "{F5602FB3-CA7F-418C-9FEA-F7497EF13A97}"
+	ProjectSection(SolutionItems) = preProject
+		npc\moon\battleground\kvm\kvm01.txt = npc\moon\battleground\kvm\kvm01.txt
+		npc\moon\battleground\kvm\kvm02.txt = npc\moon\battleground\kvm\kvm02.txt
+		npc\moon\battleground\kvm\kvm03.txt = npc\moon\battleground\kvm\kvm03.txt
+		npc\moon\battleground\kvm\kvm_enter.txt = npc\moon\battleground\kvm\kvm_enter.txt
+		npc\moon\battleground\kvm\kvm_item_pay.txt = npc\moon\battleground\kvm\kvm_item_pay.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tierra", "tierra", "{B0D3D3AB-6921-46DF-BC61-895813CA417D}"
+	ProjectSection(SolutionItems) = preProject
+		npc\moon\battleground\tierra\tierra01.txt = npc\moon\battleground\tierra\tierra01.txt
+		npc\moon\battleground\tierra\tierra02.txt = npc\moon\battleground\tierra\tierra02.txt
+		npc\moon\battleground\tierra\tierra_enter.txt = npc\moon\battleground\tierra\tierra_enter.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "customs", "customs", "{EE0ED992-020A-467C-8194-E8DE2969325A}"
 	ProjectSection(SolutionItems) = preProject
 		npc\moon\customs\dye_maker.npc = npc\moon\customs\dye_maker.npc
 		npc\moon\customs\gef_tour_merch.npc = npc\moon\customs\gef_tour_merch.npc
 		npc\moon\customs\nightmare_biolab.npc = npc\moon\customs\nightmare_biolab.npc
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "event", "event", "{99F579E6-EFFE-4078-B027-CCF662F8530A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dungeons", "dungeons", "{E330FA31-1815-4815-A2D9-707B80B5B610}"
+	ProjectSection(SolutionItems) = preProject
+		npc\moon\dungeons\abbey.npc = npc\moon\dungeons\abbey.npc
+		npc\moon\dungeons\abyss.npc = npc\moon\dungeons\abyss.npc
+		npc\moon\dungeons\alde_dun.npc = npc\moon\dungeons\alde_dun.npc
+		npc\moon\dungeons\ama_dun.npc = npc\moon\dungeons\ama_dun.npc
+		npc\moon\dungeons\amicitia.npc = npc\moon\dungeons\amicitia.npc
+		npc\moon\dungeons\anthell.npc = npc\moon\dungeons\anthell.npc
+		npc\moon\dungeons\ayo_dun.npc = npc\moon\dungeons\ayo_dun.npc
+		npc\moon\dungeons\ba_dun.npc = npc\moon\dungeons\ba_dun.npc
+		npc\moon\dungeons\beach_dun.npc = npc\moon\dungeons\beach_dun.npc
+		npc\moon\dungeons\bra_dun.npc = npc\moon\dungeons\bra_dun.npc
+		npc\moon\dungeons\c_tower.npc = npc\moon\dungeons\c_tower.npc
+		npc\moon\dungeons\dew_dun.npc = npc\moon\dungeons\dew_dun.npc
+		npc\moon\dungeons\dic_dun.npc = npc\moon\dungeons\dic_dun.npc
+		npc\moon\dungeons\ecl_dun.npc = npc\moon\dungeons\ecl_dun.npc
+		npc\moon\dungeons\ein_dun.npc = npc\moon\dungeons\ein_dun.npc
+		npc\moon\dungeons\for_dun.npc = npc\moon\dungeons\for_dun.npc
+		npc\moon\dungeons\gef_dun.npc = npc\moon\dungeons\gef_dun.npc
+		npc\moon\dungeons\gefenia.npc = npc\moon\dungeons\gefenia.npc
+		npc\moon\dungeons\glastheim.npc = npc\moon\dungeons\glastheim.npc
+		npc\moon\dungeons\gld_dun.npc = npc\moon\dungeons\gld_dun.npc
+		npc\moon\dungeons\gon_dun.npc = npc\moon\dungeons\gon_dun.npc
+		npc\moon\dungeons\ice_dun.npc = npc\moon\dungeons\ice_dun.npc
+		npc\moon\dungeons\in_sphinx.npc = npc\moon\dungeons\in_sphinx.npc
+		npc\moon\dungeons\iz_dun.npc = npc\moon\dungeons\iz_dun.npc
+		npc\moon\dungeons\juperos.npc = npc\moon\dungeons\juperos.npc
+		npc\moon\dungeons\kh_dun.npc = npc\moon\dungeons\kh_dun.npc
+		npc\moon\dungeons\lhz_dun.npc = npc\moon\dungeons\lhz_dun.npc
+		npc\moon\dungeons\lou_dun.npc = npc\moon\dungeons\lou_dun.npc
+		npc\moon\dungeons\ma_dun.npc = npc\moon\dungeons\ma_dun.npc
+		npc\moon\dungeons\mag_dun.npc = npc\moon\dungeons\mag_dun.npc
+		npc\moon\dungeons\mal_dun.npc = npc\moon\dungeons\mal_dun.npc
+		npc\moon\dungeons\mjo_dun.npc = npc\moon\dungeons\mjo_dun.npc
+		npc\moon\dungeons\moc_pryd.npc = npc\moon\dungeons\moc_pryd.npc
+		npc\moon\dungeons\moro_vol.npc = npc\moon\dungeons\moro_vol.npc
+		npc\moon\dungeons\mosk_dun.npc = npc\moon\dungeons\mosk_dun.npc
+		npc\moon\dungeons\nif_dun.npc = npc\moon\dungeons\nif_dun.npc
+		npc\moon\dungeons\nyd_dun.npc = npc\moon\dungeons\nyd_dun.npc
+		npc\moon\dungeons\odin.npc = npc\moon\dungeons\odin.npc
+		npc\moon\dungeons\orcsdun.npc = npc\moon\dungeons\orcsdun.npc
+		npc\moon\dungeons\oz_dun.npc = npc\moon\dungeons\oz_dun.npc
+		npc\moon\dungeons\pay_dun.npc = npc\moon\dungeons\pay_dun.npc
+		npc\moon\dungeons\prt_maze.npc = npc\moon\dungeons\prt_maze.npc
+		npc\moon\dungeons\prt_prison.npc = npc\moon\dungeons\prt_prison.npc
+		npc\moon\dungeons\prt_q.npc = npc\moon\dungeons\prt_q.npc
+		npc\moon\dungeons\prt_sew.npc = npc\moon\dungeons\prt_sew.npc
+		npc\moon\dungeons\ra_san.npc = npc\moon\dungeons\ra_san.npc
+		npc\moon\dungeons\rockridge.npc = npc\moon\dungeons\rockridge.npc
+		npc\moon\dungeons\slabw01.npc = npc\moon\dungeons\slabw01.npc
+		npc\moon\dungeons\sp_rudus.npc = npc\moon\dungeons\sp_rudus.npc
+		npc\moon\dungeons\tha_t.npc = npc\moon\dungeons\tha_t.npc
+		npc\moon\dungeons\thor_v.npc = npc\moon\dungeons\thor_v.npc
+		npc\moon\dungeons\treasure.npc = npc\moon\dungeons\treasure.npc
+		npc\moon\dungeons\tur_dun.npc = npc\moon\dungeons\tur_dun.npc
+		npc\moon\dungeons\um_dun.npc = npc\moon\dungeons\um_dun.npc
+		npc\moon\dungeons\xmas_dun.npc = npc\moon\dungeons\xmas_dun.npc
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "event", "event", "{938C106E-B0C2-4160-98BC-3FCE09200935}"
 	ProjectSection(SolutionItems) = preProject
 		npc\moon\event\cafard.npc = npc\moon\event\cafard.npc
 		npc\moon\event\calcul.npc = npc\moon\event\calcul.npc
@@ -185,7 +160,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "event", "event", "{99F579E6
 		npc\moon\event\tarot.npc = npc\moon\event\tarot.npc
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "guild2", "guild2", "{0350F783-18D5-4E40-918B-D6A981E1F8C6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "guild2", "guild2", "{06F3E565-B9CA-4DE4-AD76-9EF91F86B335}"
 	ProjectSection(SolutionItems) = preProject
 		npc\moon\guild2\agit_main_se.txt = npc\moon\guild2\agit_main_se.txt
 		npc\moon\guild2\agit_start_se.txt = npc\moon\guild2\agit_start_se.txt
@@ -202,7 +177,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "guild2", "guild2", "{0350F7
 		npc\moon\guild2\schg_cas05.txt = npc\moon\guild2\schg_cas05.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "instances", "instances", "{6B3FA6CE-2D02-4789-A0EF-D2E8B72A9CF8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "instances", "instances", "{432EDF6F-26B7-4362-B42D-6E09CF90CF1D}"
 	ProjectSection(SolutionItems) = preProject
 		npc\moon\instances\AirshipAssault.npc = npc\moon\instances\AirshipAssault.npc
 		npc\moon\instances\BakonawaLake.npc = npc\moon\instances\BakonawaLake.npc
@@ -262,7 +237,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "instances", "instances", "{
 		npc\moon\instances\Wolves.txt = npc\moon\instances\Wolves.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mapflag", "mapflag", "{341DC999-6448-4B18-8EE1-2E6E90216E71}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mapflag", "mapflag", "{558A8996-F77D-477B-BC87-13DF0D7C2031}"
 	ProjectSection(SolutionItems) = preProject
 		npc\moon\mapflag\attackskill.npc = npc\moon\mapflag\attackskill.npc
 		npc\moon\mapflag\etc.npc = npc\moon\mapflag\etc.npc
@@ -270,12 +245,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mapflag", "mapflag", "{341D
 		npc\moon\mapflag\pvp.npc = npc\moon\mapflag\pvp.npc
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mobs", "mobs", "{51E9321A-1E87-48E2-9C99-2413D1D14F22}"
-	ProjectSection(SolutionItems) = preProject
-		npc\moon\mobs\lhz_dun_n.txt = npc\moon\mobs\lhz_dun_n.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "quests", "quests", "{C2A0E220-B3C9-4FA9-849D-5171591C86C4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "quests", "quests", "{25425EDE-3E0B-440E-A165-AD4C90FA6780}"
 	ProjectSection(SolutionItems) = preProject
 		npc\moon\quests\huntmission.npc = npc\moon\quests\huntmission.npc
 		npc\moon\quests\lord_kaho.npc = npc\moon\quests\lord_kaho.npc
@@ -285,30 +255,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "quests", "quests", "{C2A0E2
 		npc\moon\quests\thana_quest.npc = npc\moon\quests\thana_quest.npc
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "flavius", "flavius", "{6DC439FF-979D-4A30-8B85-22E1B7D026DB}"
-	ProjectSection(SolutionItems) = preProject
-		npc\moon\battleground\flavius\flavius01.txt = npc\moon\battleground\flavius\flavius01.txt
-		npc\moon\battleground\flavius\flavius02.txt = npc\moon\battleground\flavius\flavius02.txt
-		npc\moon\battleground\flavius\flavius_enter.txt = npc\moon\battleground\flavius\flavius_enter.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "kvm", "kvm", "{D0EBAD9A-F2B8-45BF-9031-CA14176B3295}"
-	ProjectSection(SolutionItems) = preProject
-		npc\moon\battleground\kvm\kvm01.txt = npc\moon\battleground\kvm\kvm01.txt
-		npc\moon\battleground\kvm\kvm02.txt = npc\moon\battleground\kvm\kvm02.txt
-		npc\moon\battleground\kvm\kvm03.txt = npc\moon\battleground\kvm\kvm03.txt
-		npc\moon\battleground\kvm\kvm_enter.txt = npc\moon\battleground\kvm\kvm_enter.txt
-		npc\moon\battleground\kvm\kvm_item_pay.txt = npc\moon\battleground\kvm\kvm_item_pay.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tierra", "tierra", "{52C9A2F0-1A9D-473A-82CD-ED50C61C119D}"
-	ProjectSection(SolutionItems) = preProject
-		npc\moon\battleground\tierra\tierra01.txt = npc\moon\battleground\tierra\tierra01.txt
-		npc\moon\battleground\tierra\tierra02.txt = npc\moon\battleground\tierra\tierra02.txt
-		npc\moon\battleground\tierra\tierra_enter.txt = npc\moon\battleground\tierra\tierra_enter.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "hats", "hats", "{F72192DB-1619-4B3B-A040-F3D85304CDFA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "hats", "hats", "{C5F6E9FF-7BF0-4CD6-BF0B-7F3524BAA991}"
 	ProjectSection(SolutionItems) = preProject
 		npc\moon\quests\hats\100_pecopeco_hairband.npc = npc\moon\quests\hats\100_pecopeco_hairband.npc
 		npc\moon\quests\hats\101_phoenix_crown.npc = npc\moon\quests\hats\101_phoenix_crown.npc
@@ -545,7 +492,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "hats", "hats", "{F72192DB-1
 		npc\moon\quests\hats\9_bacso_doll.npc = npc\moon\quests\hats\9_bacso_doll.npc
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "airports", "airports", "{A299E525-60A8-4C54-8477-9EF414FC3FAD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rathena", "rathena", "{A44E7D65-FC0B-4B19-9A8D-9CE6CF7A6EF0}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\scripts_athena.conf = npc\rathena\scripts_athena.conf
+		npc\rathena\scripts_custom.conf = npc\rathena\scripts_custom.conf
+		npc\rathena\scripts_guild.conf = npc\rathena\scripts_guild.conf
+		npc\rathena\scripts_jobs.conf = npc\rathena\scripts_jobs.conf
+		npc\rathena\scripts_mapflags.conf = npc\rathena\scripts_mapflags.conf
+		npc\rathena\scripts_monsters.conf = npc\rathena\scripts_monsters.conf
+		npc\rathena\scripts_warps.conf = npc\rathena\scripts_warps.conf
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "airports", "airports", "{B222D424-D947-408C-9F91-86E578CCD3B4}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\airports\airships.txt = npc\rathena\airports\airships.txt
 		npc\rathena\airports\einbroch.txt = npc\rathena\airports\einbroch.txt
@@ -556,12 +514,35 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "airports", "airports", "{A2
 		npc\rathena\airports\yuno.txt = npc\rathena\airports\yuno.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "battleground", "battleground", "{FBFBFFA8-FA25-4063-B6C2-549FBAFEAB2E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "battleground", "battleground", "{284A0FD5-BEDD-47F0-A7D0-8FA04561B78D}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\battleground\bg_common.txt = npc\rathena\battleground\bg_common.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cities", "cities", "{D560A6F9-2F8F-46DF-AAA7-9F6360206D50}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "flavius", "flavius", "{F44D8848-5172-4324-833C-DD32D58D5664}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\battleground\flavius\flavius01.txt = npc\rathena\battleground\flavius\flavius01.txt
+		npc\rathena\battleground\flavius\flavius02.txt = npc\rathena\battleground\flavius\flavius02.txt
+		npc\rathena\battleground\flavius\flavius_enter.txt = npc\rathena\battleground\flavius\flavius_enter.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "kvm", "kvm", "{D60D1900-945D-470C-A519-83A47A4D937C}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\battleground\kvm\kvm01.txt = npc\rathena\battleground\kvm\kvm01.txt
+		npc\rathena\battleground\kvm\kvm02.txt = npc\rathena\battleground\kvm\kvm02.txt
+		npc\rathena\battleground\kvm\kvm03.txt = npc\rathena\battleground\kvm\kvm03.txt
+		npc\rathena\battleground\kvm\kvm_enter.txt = npc\rathena\battleground\kvm\kvm_enter.txt
+		npc\rathena\battleground\kvm\kvm_item_pay.txt = npc\rathena\battleground\kvm\kvm_item_pay.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tierra", "tierra", "{31352F85-D8F9-4F57-A118-E081FFA062D7}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\battleground\tierra\tierra01.txt = npc\rathena\battleground\tierra\tierra01.txt
+		npc\rathena\battleground\tierra\tierra02.txt = npc\rathena\battleground\tierra\tierra02.txt
+		npc\rathena\battleground\tierra\tierra_enter.txt = npc\rathena\battleground\tierra\tierra_enter.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cities", "cities", "{7C6F8774-59D6-4896-8505-5DEDAD53BD3D}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\cities\alberta.txt = npc\rathena\cities\alberta.txt
 		npc\rathena\cities\aldebaran.txt = npc\rathena\cities\aldebaran.txt
@@ -598,15 +579,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cities", "cities", "{D560A6
 		npc\rathena\cities\yuno.txt = npc\rathena\cities\yuno.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "custom", "custom", "{996E8688-5C13-458C-8BE5-EC615CD30563}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "custom", "custom", "{9ACAF685-8F7B-41F8-A41A-A26119F4B52B}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\custom\barters.yml = npc\rathena\custom\barters.yml
 		npc\rathena\custom\breeder.txt = npc\rathena\custom\breeder.txt
 		npc\rathena\custom\card_remover.txt = npc\rathena\custom\card_remover.txt
 		npc\rathena\custom\card_seller.txt = npc\rathena\custom\card_seller.txt
 		npc\rathena\custom\healer.txt = npc\rathena\custom\healer.txt
-		npc\rathena\custom\itemmall.txt = npc\rathena\custom\itemmall.txt
 		npc\rathena\custom\item_signer.txt = npc\rathena\custom\item_signer.txt
+		npc\rathena\custom\itemmall.txt = npc\rathena\custom\itemmall.txt
 		npc\rathena\custom\jobmaster.txt = npc\rathena\custom\jobmaster.txt
 		npc\rathena\custom\platinum_skills.txt = npc\rathena\custom\platinum_skills.txt
 		npc\rathena\custom\resetnpc.txt = npc\rathena\custom\resetnpc.txt
@@ -614,7 +595,84 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "custom", "custom", "{996E86
 		npc\rathena\custom\woe_controller.txt = npc\rathena\custom\woe_controller.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "events", "events", "{2CF9B321-07A2-483D-8B6C-17D39379BBE5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "etc", "etc", "{493C0036-F3D7-4C94-A530-BAF61631A12A}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\custom\etc\airplane.txt = npc\rathena\custom\etc\airplane.txt
+		npc\rathena\custom\etc\autopot.txt = npc\rathena\custom\etc\autopot.txt
+		npc\rathena\custom\etc\bank.txt = npc\rathena\custom\etc\bank.txt
+		npc\rathena\custom\etc\bank_kafra.txt = npc\rathena\custom\etc\bank_kafra.txt
+		npc\rathena\custom\etc\blackjack.txt = npc\rathena\custom\etc\blackjack.txt
+		npc\rathena\custom\etc\floating_rates.txt = npc\rathena\custom\etc\floating_rates.txt
+		npc\rathena\custom\etc\lottery.txt = npc\rathena\custom\etc\lottery.txt
+		npc\rathena\custom\etc\marriage.txt = npc\rathena\custom\etc\marriage.txt
+		npc\rathena\custom\etc\monster_arena.txt = npc\rathena\custom\etc\monster_arena.txt
+		npc\rathena\custom\etc\morroc_raceway.txt = npc\rathena\custom\etc\morroc_raceway.txt
+		npc\rathena\custom\etc\mvp_arena.txt = npc\rathena\custom\etc\mvp_arena.txt
+		npc\rathena\custom\etc\mvp_room.txt = npc\rathena\custom\etc\mvp_room.txt
+		npc\rathena\custom\etc\penal_servitude.txt = npc\rathena\custom\etc\penal_servitude.txt
+		npc\rathena\custom\etc\quest_warper.txt = npc\rathena\custom\etc\quest_warper.txt
+		npc\rathena\custom\etc\rpsroulette.txt = npc\rathena\custom\etc\rpsroulette.txt
+		npc\rathena\custom\etc\shifty_assassin.txt = npc\rathena\custom\etc\shifty_assassin.txt
+		npc\rathena\custom\etc\stock_market.txt = npc\rathena\custom\etc\stock_market.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "events", "events", "{F053997A-A628-417E-893C-1014F2FE48F2}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\custom\events\cluckers.txt = npc\rathena\custom\events\cluckers.txt
+		npc\rathena\custom\events\devil_square.txt = npc\rathena\custom\events\devil_square.txt
+		npc\rathena\custom\events\disguise.txt = npc\rathena\custom\events\disguise.txt
+		npc\rathena\custom\events\mushroom_event.txt = npc\rathena\custom\events\mushroom_event.txt
+		npc\rathena\custom\events\mvp_ladder.txt = npc\rathena\custom\events\mvp_ladder.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "holiday", "holiday", "{A5923A9C-DE85-41A5-AFF9-9F8D60B29339}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\custom\events\holiday\hallow06.txt = npc\rathena\custom\events\holiday\hallow06.txt
+		npc\rathena\custom\events\holiday\uneasy_cemetery.txt = npc\rathena\custom\events\holiday\uneasy_cemetery.txt
+		npc\rathena\custom\events\holiday\valentinesdayexp.txt = npc\rathena\custom\events\holiday\valentinesdayexp.txt
+		npc\rathena\custom\events\holiday\xmas_rings_event.txt = npc\rathena\custom\events\holiday\xmas_rings_event.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lasagna", "lasagna", "{15E7D933-19BA-4A03-91DA-6A84CB1F9344}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\custom\lasagna\lasa_dun.txt = npc\rathena\custom\lasagna\lasa_dun.txt
+		npc\rathena\custom\lasagna\lasa_fild.txt = npc\rathena\custom\lasagna\lasa_fild.txt
+		npc\rathena\custom\lasagna\lasagna_npcs.txt = npc\rathena\custom\lasagna\lasagna_npcs.txt
+		npc\rathena\custom\lasagna\warps.txt = npc\rathena\custom\lasagna\warps.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "quests", "quests", "{94904465-D7AA-4121-A8A7-F6700952F0BA}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\custom\quests\bandit_beard.txt = npc\rathena\custom\quests\bandit_beard.txt
+		npc\rathena\custom\quests\berzebub.txt = npc\rathena\custom\quests\berzebub.txt
+		npc\rathena\custom\quests\dead_branch.txt = npc\rathena\custom\quests\dead_branch.txt
+		npc\rathena\custom\quests\elvenear.txt = npc\rathena\custom\quests\elvenear.txt
+		npc\rathena\custom\quests\event_6_new_hats.txt = npc\rathena\custom\quests\event_6_new_hats.txt
+		npc\rathena\custom\quests\hunting_missions.txt = npc\rathena\custom\quests\hunting_missions.txt
+		npc\rathena\custom\quests\jewel_case.txt = npc\rathena\custom\quests\jewel_case.txt
+		npc\rathena\custom\quests\kaho_balmung.txt = npc\rathena\custom\quests\kaho_balmung.txt
+		npc\rathena\custom\quests\kahohorn.txt = npc\rathena\custom\quests\kahohorn.txt
+		npc\rathena\custom\quests\kings_items.txt = npc\rathena\custom\quests\kings_items.txt
+		npc\rathena\custom\quests\may_hats.txt = npc\rathena\custom\quests\may_hats.txt
+		npc\rathena\custom\quests\quest_shop.txt = npc\rathena\custom\quests\quest_shop.txt
+		npc\rathena\custom\quests\questboard.txt = npc\rathena\custom\quests\questboard.txt
+		npc\rathena\custom\quests\sphinx_mask.txt = npc\rathena\custom\quests\sphinx_mask.txt
+		npc\rathena\custom\quests\sunglasses.txt = npc\rathena\custom\quests\sunglasses.txt
+		npc\rathena\custom\quests\tha_statues.txt = npc\rathena\custom\quests\tha_statues.txt
+		npc\rathena\custom\quests\umbalian_language.txt = npc\rathena\custom\quests\umbalian_language.txt
+		npc\rathena\custom\quests\valhallen.txt = npc\rathena\custom\quests\valhallen.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "thq", "thq", "{82530022-3319-4B83-ACF3-9415CD913006}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\custom\quests\thq\THQS_ChattingNPC.txt = npc\rathena\custom\quests\thq\THQS_ChattingNPC.txt
+		npc\rathena\custom\quests\thq\THQS_GuildNPC.txt = npc\rathena\custom\quests\thq\THQS_GuildNPC.txt
+		npc\rathena\custom\quests\thq\THQS_QuestNPC.txt = npc\rathena\custom\quests\thq\THQS_QuestNPC.txt
+		npc\rathena\custom\quests\thq\THQS_Quests.txt = npc\rathena\custom\quests\thq\THQS_Quests.txt
+		npc\rathena\custom\quests\thq\THQS_TTShop.txt = npc\rathena\custom\quests\thq\THQS_TTShop.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "events", "events", "{C518CCC3-A3E4-4C31-A8A6-1CB0C33371B8}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\events\bossnia.txt = npc\rathena\events\bossnia.txt
 		npc\rathena\events\children_week.txt = npc\rathena\events\children_week.txt
@@ -646,7 +704,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "events", "events", "{2CF9B3
 		npc\rathena\events\xmas.txt = npc\rathena\events\xmas.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "guides", "guides", "{98C6EE53-72AA-4886-88EC-02B820B942C6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nguild", "nguild", "{674A5E17-047A-4B5E-8782-40381EE5BD3C}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\events\nguild\nguild_dunsw.txt = npc\rathena\events\nguild\nguild_dunsw.txt
+		npc\rathena\events\nguild\nguild_ev_agit.txt = npc\rathena\events\nguild\nguild_ev_agit.txt
+		npc\rathena\events\nguild\nguild_flags.txt = npc\rathena\events\nguild\nguild_flags.txt
+		npc\rathena\events\nguild\nguild_guardians.txt = npc\rathena\events\nguild\nguild_guardians.txt
+		npc\rathena\events\nguild\nguild_kafras.txt = npc\rathena\events\nguild\nguild_kafras.txt
+		npc\rathena\events\nguild\nguild_managers.txt = npc\rathena\events\nguild\nguild_managers.txt
+		npc\rathena\events\nguild\nguild_treas.txt = npc\rathena\events\nguild\nguild_treas.txt
+		npc\rathena\events\nguild\nguild_warper.txt = npc\rathena\events\nguild\nguild_warper.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "guides", "guides", "{914CCDAB-5668-4A14-BF8A-8AE6D2204368}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\guides\guides_alberta.txt = npc\rathena\guides\guides_alberta.txt
 		npc\rathena\guides\guides_aldebaran.txt = npc\rathena\guides\guides_aldebaran.txt
@@ -682,7 +752,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "guides", "guides", "{98C6EE
 		npc\rathena\guides\navigation.txt = npc\rathena\guides\navigation.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "guild", "guild", "{17202C08-CD63-4011-93BE-5A97B6EC34F4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "guild", "guild", "{5B92B352-0AED-4FD8-9220-F0932CAEAC26}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\guild\agit_controller.txt = npc\rathena\guild\agit_controller.txt
 		npc\rathena\guild\agit_main.txt = npc\rathena\guild\agit_main.txt
@@ -713,7 +783,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "guild", "guild", "{17202C08
 		npc\rathena\guild\trs_rp.txt = npc\rathena\guild\trs_rp.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "guild2", "guild2", "{FB5738EC-347E-45BE-AC23-9750193F2221}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "guild2", "guild2", "{F2955999-88EE-4D8B-A00F-2BEB58715088}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\guild2\agit_main_se.txt = npc\rathena\guild2\agit_main_se.txt
 		npc\rathena\guild2\agit_start_se.txt = npc\rathena\guild2\agit_start_se.txt
@@ -730,7 +800,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "guild2", "guild2", "{FB5738
 		npc\rathena\guild2\schg_cas05.txt = npc\rathena\guild2\schg_cas05.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "guild3", "guild3", "{621B591A-AA90-444A-A1EA-60BE7B2C7CB9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "guild3", "guild3", "{26C01F5B-2179-4117-A333-A9EF3D2CB52B}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\guild3\agit_main_te.txt = npc\rathena\guild3\agit_main_te.txt
 		npc\rathena\guild3\agit_start_te.txt = npc\rathena\guild3\agit_start_te.txt
@@ -746,13 +816,117 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "guild3", "guild3", "{621B59
 		npc\rathena\guild3\te_prtcas05.txt = npc\rathena\guild3\te_prtcas05.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "jobs", "jobs", "{0244996C-D1C6-49BA-9C0C-4B195ACCC890}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "jobs", "jobs", "{4FE501C1-EE18-4926-953F-38B3483F27F2}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\jobs\repair.txt = npc\rathena\jobs\repair.txt
 		npc\rathena\jobs\valkyrie.txt = npc\rathena\jobs\valkyrie.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "kafras", "kafras", "{15E30106-0C7F-48BD-B1A5-C565678ABCAB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-1", "1-1", "{41F90DB3-6740-43DD-A0B3-1E471952B055}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\jobs\1-1\acolyte.txt = npc\rathena\jobs\1-1\acolyte.txt
+		npc\rathena\jobs\1-1\archer.txt = npc\rathena\jobs\1-1\archer.txt
+		npc\rathena\jobs\1-1\mage.txt = npc\rathena\jobs\1-1\mage.txt
+		npc\rathena\jobs\1-1\merchant.txt = npc\rathena\jobs\1-1\merchant.txt
+		npc\rathena\jobs\1-1\swordman.txt = npc\rathena\jobs\1-1\swordman.txt
+		npc\rathena\jobs\1-1\thief.txt = npc\rathena\jobs\1-1\thief.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-1e", "1-1e", "{FEFA1FE3-ED5B-4BEB-99D6-08C52172E4F9}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\jobs\1-1e\gunslinger.txt = npc\rathena\jobs\1-1e\gunslinger.txt
+		npc\rathena\jobs\1-1e\ninja.txt = npc\rathena\jobs\1-1e\ninja.txt
+		npc\rathena\jobs\1-1e\taekwon.txt = npc\rathena\jobs\1-1e\taekwon.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-1", "2-1", "{FD2303FA-3109-4A70-82B3-C4AEA27202D5}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\jobs\2-1\assassin.txt = npc\rathena\jobs\2-1\assassin.txt
+		npc\rathena\jobs\2-1\blacksmith.txt = npc\rathena\jobs\2-1\blacksmith.txt
+		npc\rathena\jobs\2-1\hunter.txt = npc\rathena\jobs\2-1\hunter.txt
+		npc\rathena\jobs\2-1\knight.txt = npc\rathena\jobs\2-1\knight.txt
+		npc\rathena\jobs\2-1\priest.txt = npc\rathena\jobs\2-1\priest.txt
+		npc\rathena\jobs\2-1\wizard.txt = npc\rathena\jobs\2-1\wizard.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-1a", "2-1a", "{C25B31A0-F9C9-4F81-A4AD-8994A0DAC043}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\jobs\2-1a\AssassinCross.txt = npc\rathena\jobs\2-1a\AssassinCross.txt
+		npc\rathena\jobs\2-1a\HighPriest.txt = npc\rathena\jobs\2-1a\HighPriest.txt
+		npc\rathena\jobs\2-1a\HighWizard.txt = npc\rathena\jobs\2-1a\HighWizard.txt
+		npc\rathena\jobs\2-1a\LordKnight.txt = npc\rathena\jobs\2-1a\LordKnight.txt
+		npc\rathena\jobs\2-1a\Sniper.txt = npc\rathena\jobs\2-1a\Sniper.txt
+		npc\rathena\jobs\2-1a\WhiteSmith.txt = npc\rathena\jobs\2-1a\WhiteSmith.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-1e", "2-1e", "{DE5AD8CF-3871-4259-AA14-48A3E40D2EEF}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\jobs\2-1e\StarGladiator.txt = npc\rathena\jobs\2-1e\StarGladiator.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-2", "2-2", "{DB70B10B-4ACF-48AF-A162-3FE033F6EF74}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\jobs\2-2\alchemist.txt = npc\rathena\jobs\2-2\alchemist.txt
+		npc\rathena\jobs\2-2\bard.txt = npc\rathena\jobs\2-2\bard.txt
+		npc\rathena\jobs\2-2\crusader.txt = npc\rathena\jobs\2-2\crusader.txt
+		npc\rathena\jobs\2-2\dancer.txt = npc\rathena\jobs\2-2\dancer.txt
+		npc\rathena\jobs\2-2\monk.txt = npc\rathena\jobs\2-2\monk.txt
+		npc\rathena\jobs\2-2\rogue.txt = npc\rathena\jobs\2-2\rogue.txt
+		npc\rathena\jobs\2-2\sage.txt = npc\rathena\jobs\2-2\sage.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-2a", "2-2a", "{47545A40-0C6F-4045-BE16-B517B30304E3}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\jobs\2-2a\Champion.txt = npc\rathena\jobs\2-2a\Champion.txt
+		npc\rathena\jobs\2-2a\Clown.txt = npc\rathena\jobs\2-2a\Clown.txt
+		npc\rathena\jobs\2-2a\Creator.txt = npc\rathena\jobs\2-2a\Creator.txt
+		npc\rathena\jobs\2-2a\Gypsy.txt = npc\rathena\jobs\2-2a\Gypsy.txt
+		npc\rathena\jobs\2-2a\Paladin.txt = npc\rathena\jobs\2-2a\Paladin.txt
+		npc\rathena\jobs\2-2a\Professor.txt = npc\rathena\jobs\2-2a\Professor.txt
+		npc\rathena\jobs\2-2a\Stalker.txt = npc\rathena\jobs\2-2a\Stalker.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-2e", "2-2e", "{D136321D-88B4-4B22-BF10-87906813C60E}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\jobs\2-2e\SoulLinker.txt = npc\rathena\jobs\2-2e\SoulLinker.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2e", "2e", "{2C213DDE-416A-4920-BE35-4D4A3C278B28}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\jobs\2e\kagerou_oboro.txt = npc\rathena\jobs\2e\kagerou_oboro.txt
+		npc\rathena\jobs\2e\rebellion.txt = npc\rathena\jobs\2e\rebellion.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3-1", "3-1", "{EA9D84C0-F5F4-421B-8CFF-308A981EEFB4}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\jobs\3-1\archbishop.txt = npc\rathena\jobs\3-1\archbishop.txt
+		npc\rathena\jobs\3-1\guillotine_cross.txt = npc\rathena\jobs\3-1\guillotine_cross.txt
+		npc\rathena\jobs\3-1\mechanic.txt = npc\rathena\jobs\3-1\mechanic.txt
+		npc\rathena\jobs\3-1\ranger.txt = npc\rathena\jobs\3-1\ranger.txt
+		npc\rathena\jobs\3-1\rune_knight.txt = npc\rathena\jobs\3-1\rune_knight.txt
+		npc\rathena\jobs\3-1\warlock.txt = npc\rathena\jobs\3-1\warlock.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3-2", "3-2", "{08B7FDCE-2615-4AE4-BE15-55D7D12354B6}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\jobs\3-2\genetic.txt = npc\rathena\jobs\3-2\genetic.txt
+		npc\rathena\jobs\3-2\minstrel.txt = npc\rathena\jobs\3-2\minstrel.txt
+		npc\rathena\jobs\3-2\royal_guard.txt = npc\rathena\jobs\3-2\royal_guard.txt
+		npc\rathena\jobs\3-2\shadow_chaser.txt = npc\rathena\jobs\3-2\shadow_chaser.txt
+		npc\rathena\jobs\3-2\sorcerer.txt = npc\rathena\jobs\3-2\sorcerer.txt
+		npc\rathena\jobs\3-2\sura.txt = npc\rathena\jobs\3-2\sura.txt
+		npc\rathena\jobs\3-2\wanderer.txt = npc\rathena\jobs\3-2\wanderer.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "novice", "novice", "{49AA82D0-B6A8-4C99-B9A5-460197718B9C}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\jobs\novice\academy.txt = npc\rathena\jobs\novice\academy.txt
+		npc\rathena\jobs\novice\novice.txt = npc\rathena\jobs\novice\novice.txt
+		npc\rathena\jobs\novice\supernovice.txt = npc\rathena\jobs\novice\supernovice.txt
+		npc\rathena\jobs\novice\supernovice_ex.txt = npc\rathena\jobs\novice\supernovice_ex.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "kafras", "kafras", "{87D117CA-EC34-49DA-BA7A-7B516282D8D8}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\kafras\cool_event_corp.txt = npc\rathena\kafras\cool_event_corp.txt
 		npc\rathena\kafras\dts_warper.txt = npc\rathena\kafras\dts_warper.txt
@@ -760,7 +934,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "kafras", "kafras", "{15E301
 		npc\rathena\kafras\kafras.txt = npc\rathena\kafras\kafras.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mapflag", "mapflag", "{E339CC92-8F19-4BA6-9EB0-AF16C66B14A9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mapflag", "mapflag", "{203C21AE-57BE-4A8C-B0B4-ADED07408448}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\mapflag\battleground.txt = npc\rathena\mapflag\battleground.txt
 		npc\rathena\mapflag\gvg.txt = npc\rathena\mapflag\gvg.txt
@@ -795,7 +969,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mapflag", "mapflag", "{E339
 		npc\rathena\mapflag\town.txt = npc\rathena\mapflag\town.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "merchants", "merchants", "{03FFA388-23D6-4E2A-8EF7-D61E6E0DFE3D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "merchants", "merchants", "{D97523C8-B915-41D3-A11A-C11C7C0DB9A3}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\merchants\3rd_trader.txt = npc\rathena\merchants\3rd_trader.txt
 		npc\rathena\merchants\advanced_refiner.txt = npc\rathena\merchants\advanced_refiner.txt
@@ -807,10 +981,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "merchants", "merchants", "{
 		npc\rathena\merchants\buying_shops.txt = npc\rathena\merchants\buying_shops.txt
 		npc\rathena\merchants\card_exchange.txt = npc\rathena\merchants\card_exchange.txt
 		npc\rathena\merchants\card_separation.txt = npc\rathena\merchants\card_separation.txt
-		npc\rathena\merchants\cashheadgear_dye.txt = npc\rathena\merchants\cashheadgear_dye.txt
-		npc\rathena\merchants\cashmall.txt = npc\rathena\merchants\cashmall.txt
 		npc\rathena\merchants\cash_trader-idRO.txt = npc\rathena\merchants\cash_trader-idRO.txt
 		npc\rathena\merchants\cash_trader.txt = npc\rathena\merchants\cash_trader.txt
+		npc\rathena\merchants\cashheadgear_dye.txt = npc\rathena\merchants\cashheadgear_dye.txt
+		npc\rathena\merchants\cashmall.txt = npc\rathena\merchants\cashmall.txt
 		npc\rathena\merchants\catalog.txt = npc\rathena\merchants\catalog.txt
 		npc\rathena\merchants\clothes_dyer.txt = npc\rathena\merchants\clothes_dyer.txt
 		npc\rathena\merchants\clothing_buff_removal.txt = npc\rathena\merchants\clothing_buff_removal.txt
@@ -821,7 +995,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "merchants", "merchants", "{
 		npc\rathena\merchants\eden_market.txt = npc\rathena\merchants\eden_market.txt
 		npc\rathena\merchants\elemental_trader.txt = npc\rathena\merchants\elemental_trader.txt
 		npc\rathena\merchants\Emperium_Seller.txt = npc\rathena\merchants\Emperium_Seller.txt
-		npc\rathena\merchants\enchantgrade.txt = npc\rathena\merchants\enchantgrade.txt
 		npc\rathena\merchants\enchan_arm.txt = npc\rathena\merchants\enchan_arm.txt
 		npc\rathena\merchants\enchan_edda_half_moon.txt = npc\rathena\merchants\enchan_edda_half_moon.txt
 		npc\rathena\merchants\enchan_illusion_16_2.txt = npc\rathena\merchants\enchan_illusion_16_2.txt
@@ -834,6 +1007,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "merchants", "merchants", "{
 		npc\rathena\merchants\enchan_sage_legacy_17_2.txt = npc\rathena\merchants\enchan_sage_legacy_17_2.txt
 		npc\rathena\merchants\enchan_upg.txt = npc\rathena\merchants\enchan_upg.txt
 		npc\rathena\merchants\enchan_verus.txt = npc\rathena\merchants\enchan_verus.txt
+		npc\rathena\merchants\enchantgrade.txt = npc\rathena\merchants\enchantgrade.txt
 		npc\rathena\merchants\Extended_Ammunition.txt = npc\rathena\merchants\Extended_Ammunition.txt
 		npc\rathena\merchants\Extended_Stylist.txt = npc\rathena\merchants\Extended_Stylist.txt
 		npc\rathena\merchants\flute.txt = npc\rathena\merchants\flute.txt
@@ -857,8 +1031,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "merchants", "merchants", "{
 		npc\rathena\merchants\new_insurance.txt = npc\rathena\merchants\new_insurance.txt
 		npc\rathena\merchants\novice_exchange.txt = npc\rathena\merchants\novice_exchange.txt
 		npc\rathena\merchants\novice_vending_machine.txt = npc\rathena\merchants\novice_vending_machine.txt
-		npc\rathena\merchants\OldGlastHeim_merchants.txt = npc\rathena\merchants\OldGlastHeim_merchants.txt
 		npc\rathena\merchants\old_pharmacist.txt = npc\rathena\merchants\old_pharmacist.txt
+		npc\rathena\merchants\OldGlastHeim_merchants.txt = npc\rathena\merchants\OldGlastHeim_merchants.txt
 		npc\rathena\merchants\pet_groomer.txt = npc\rathena\merchants\pet_groomer.txt
 		npc\rathena\merchants\pet_trader.txt = npc\rathena\merchants\pet_trader.txt
 		npc\rathena\merchants\quests_exp_175.txt = npc\rathena\merchants\quests_exp_175.txt
@@ -877,7 +1051,28 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "merchants", "merchants", "{
 		npc\rathena\merchants\wander_pet_food.txt = npc\rathena\merchants\wander_pet_food.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mobs", "mobs", "{52AD00AE-16CB-417D-A219-534DD1051768}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "barters", "barters", "{B5F7F675-8648-4585-AFB4-509AFE10A085}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\merchants\barters\cashmall.yml = npc\rathena\merchants\barters\cashmall.yml
+		npc\rathena\merchants\barters\enchan_illusion_16_2.yml = npc\rathena\merchants\barters\enchan_illusion_16_2.yml
+		npc\rathena\merchants\barters\enchan_illusion_dungeons.yml = npc\rathena\merchants\barters\enchan_illusion_dungeons.yml
+		npc\rathena\merchants\barters\enchantgrade.yml = npc\rathena\merchants\barters\enchantgrade.yml
+		npc\rathena\merchants\barters\Extended_Ammunition.yml = npc\rathena\merchants\barters\Extended_Ammunition.yml
+		npc\rathena\merchants\barters\garden_of_time.yml = npc\rathena\merchants\barters\garden_of_time.yml
+		npc\rathena\merchants\barters\Gemstone_Bagger.yml = npc\rathena\merchants\barters\Gemstone_Bagger.yml
+		npc\rathena\merchants\barters\mysterious_cookie_shop.yml = npc\rathena\merchants\barters\mysterious_cookie_shop.yml
+		npc\rathena\merchants\barters\Pet_Groomer.yml = npc\rathena\merchants\barters\Pet_Groomer.yml
+		npc\rathena\merchants\barters\quests_16_1.yml = npc\rathena\merchants\barters\quests_16_1.yml
+		npc\rathena\merchants\barters\quests_16_2.yml = npc\rathena\merchants\barters\quests_16_2.yml
+		npc\rathena\merchants\barters\quests_17_1.yml = npc\rathena\merchants\barters\quests_17_1.yml
+		npc\rathena\merchants\barters\quests_17_2.yml = npc\rathena\merchants\barters\quests_17_2.yml
+		npc\rathena\merchants\barters\quests_18.yml = npc\rathena\merchants\barters\quests_18.yml
+		npc\rathena\merchants\barters\quests_exp_175.yml = npc\rathena\merchants\barters\quests_exp_175.yml
+		npc\rathena\merchants\barters\refine.yml = npc\rathena\merchants\barters\refine.yml
+		npc\rathena\merchants\barters\rgsr_in.yml = npc\rathena\merchants\barters\rgsr_in.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mobs", "mobs", "{B242C519-B287-4936-9F1B-AF7A46C24D9B}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\mobs\academy.txt = npc\rathena\mobs\academy.txt
 		npc\rathena\mobs\championmobs.txt = npc\rathena\mobs\championmobs.txt
@@ -892,7 +1087,43 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mobs", "mobs", "{52AD00AE-1
 		npc\rathena\mobs\verus.txt = npc\rathena\mobs\verus.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "other", "other", "{9D04AED6-B671-4000-8FC2-08E733DAB324}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fields", "fields", "{6F93BA17-7EBD-4B19-94A0-2D92B1D52C15}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\mobs\fields\amatsu.txt = npc\rathena\mobs\fields\amatsu.txt
+		npc\rathena\mobs\fields\ayothaya.txt = npc\rathena\mobs\fields\ayothaya.txt
+		npc\rathena\mobs\fields\ba_lost.txt = npc\rathena\mobs\fields\ba_lost.txt
+		npc\rathena\mobs\fields\ba_maison.txt = npc\rathena\mobs\fields\ba_maison.txt
+		npc\rathena\mobs\fields\bifrost.txt = npc\rathena\mobs\fields\bifrost.txt
+		npc\rathena\mobs\fields\brasilis.txt = npc\rathena\mobs\fields\brasilis.txt
+		npc\rathena\mobs\fields\comodo.txt = npc\rathena\mobs\fields\comodo.txt
+		npc\rathena\mobs\fields\dewata.txt = npc\rathena\mobs\fields\dewata.txt
+		npc\rathena\mobs\fields\dicastes.txt = npc\rathena\mobs\fields\dicastes.txt
+		npc\rathena\mobs\fields\eclage.txt = npc\rathena\mobs\fields\eclage.txt
+		npc\rathena\mobs\fields\einbroch.txt = npc\rathena\mobs\fields\einbroch.txt
+		npc\rathena\mobs\fields\geffen.txt = npc\rathena\mobs\fields\geffen.txt
+		npc\rathena\mobs\fields\gonryun.txt = npc\rathena\mobs\fields\gonryun.txt
+		npc\rathena\mobs\fields\gw_fild.txt = npc\rathena\mobs\fields\gw_fild.txt
+		npc\rathena\mobs\fields\hugel.txt = npc\rathena\mobs\fields\hugel.txt
+		npc\rathena\mobs\fields\lighthalzen.txt = npc\rathena\mobs\fields\lighthalzen.txt
+		npc\rathena\mobs\fields\louyang.txt = npc\rathena\mobs\fields\louyang.txt
+		npc\rathena\mobs\fields\lutie.txt = npc\rathena\mobs\fields\lutie.txt
+		npc\rathena\mobs\fields\malaya.txt = npc\rathena\mobs\fields\malaya.txt
+		npc\rathena\mobs\fields\manuk.txt = npc\rathena\mobs\fields\manuk.txt
+		npc\rathena\mobs\fields\mjolnir.txt = npc\rathena\mobs\fields\mjolnir.txt
+		npc\rathena\mobs\fields\morocc.txt = npc\rathena\mobs\fields\morocc.txt
+		npc\rathena\mobs\fields\moscovia.txt = npc\rathena\mobs\fields\moscovia.txt
+		npc\rathena\mobs\fields\niflheim.txt = npc\rathena\mobs\fields\niflheim.txt
+		npc\rathena\mobs\fields\payon.txt = npc\rathena\mobs\fields\payon.txt
+		npc\rathena\mobs\fields\prontera.txt = npc\rathena\mobs\fields\prontera.txt
+		npc\rathena\mobs\fields\rachel.txt = npc\rathena\mobs\fields\rachel.txt
+		npc\rathena\mobs\fields\rockridge.txt = npc\rathena\mobs\fields\rockridge.txt
+		npc\rathena\mobs\fields\splendide.txt = npc\rathena\mobs\fields\splendide.txt
+		npc\rathena\mobs\fields\umbala.txt = npc\rathena\mobs\fields\umbala.txt
+		npc\rathena\mobs\fields\veins.txt = npc\rathena\mobs\fields\veins.txt
+		npc\rathena\mobs\fields\yuno.txt = npc\rathena\mobs\fields\yuno.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "other", "other", "{580AA866-ADF9-4394-A6AA-3EE715F2D713}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\other\achievements.txt = npc\rathena\other\achievements.txt
 		npc\rathena\other\acolyte_warp.txt = npc\rathena\other\acolyte_warp.txt
@@ -930,7 +1161,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "other", "other", "{9D04AED6
 		npc\rathena\other\turbo_track.txt = npc\rathena\other\turbo_track.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "quests", "quests", "{A99B1D35-493D-47A4-B7DD-12A96F78D661}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "arena", "arena", "{DE0F5622-BD07-4FAE-A314-EF55BA518E02}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\other\arena\arena_aco.txt = npc\rathena\other\arena\arena_aco.txt
+		npc\rathena\other\arena\arena_lvl50.txt = npc\rathena\other\arena\arena_lvl50.txt
+		npc\rathena\other\arena\arena_lvl60.txt = npc\rathena\other\arena\arena_lvl60.txt
+		npc\rathena\other\arena\arena_lvl70.txt = npc\rathena\other\arena\arena_lvl70.txt
+		npc\rathena\other\arena\arena_lvl80.txt = npc\rathena\other\arena\arena_lvl80.txt
+		npc\rathena\other\arena\arena_party.txt = npc\rathena\other\arena\arena_party.txt
+		npc\rathena\other\arena\arena_point.txt = npc\rathena\other\arena\arena_point.txt
+		npc\rathena\other\arena\arena_room.txt = npc\rathena\other\arena\arena_room.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "quests", "quests", "{69B7AEB2-66F3-4CFF-9E8C-14CD43ACA1D1}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\quests\bard_quest.txt = npc\rathena\quests\bard_quest.txt
 		npc\rathena\quests\bunnyband.txt = npc\rathena\quests\bunnyband.txt
@@ -1012,362 +1255,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "quests", "quests", "{A99B1D
 		npc\rathena\quests\the_sign_quest.txt = npc\rathena\quests\the_sign_quest.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "warps", "warps", "{EBF62DC2-3141-4F82-A709-F38BBED5965E}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\warps\guildcastles.txt = npc\rathena\warps\guildcastles.txt
-		npc\rathena\warps\pvp.txt = npc\rathena\warps\pvp.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "flavius", "flavius", "{560D013D-7E6B-45DC-A872-8B2F2B6CC912}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\battleground\flavius\flavius01.txt = npc\rathena\battleground\flavius\flavius01.txt
-		npc\rathena\battleground\flavius\flavius02.txt = npc\rathena\battleground\flavius\flavius02.txt
-		npc\rathena\battleground\flavius\flavius_enter.txt = npc\rathena\battleground\flavius\flavius_enter.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "kvm", "kvm", "{19C15C0E-9D74-4753-BD1A-FDB087AA2590}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\battleground\kvm\kvm01.txt = npc\rathena\battleground\kvm\kvm01.txt
-		npc\rathena\battleground\kvm\kvm02.txt = npc\rathena\battleground\kvm\kvm02.txt
-		npc\rathena\battleground\kvm\kvm03.txt = npc\rathena\battleground\kvm\kvm03.txt
-		npc\rathena\battleground\kvm\kvm_enter.txt = npc\rathena\battleground\kvm\kvm_enter.txt
-		npc\rathena\battleground\kvm\kvm_item_pay.txt = npc\rathena\battleground\kvm\kvm_item_pay.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tierra", "tierra", "{BEFEEC5B-C844-42AC-AB02-C4356D5AC642}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\battleground\tierra\tierra01.txt = npc\rathena\battleground\tierra\tierra01.txt
-		npc\rathena\battleground\tierra\tierra02.txt = npc\rathena\battleground\tierra\tierra02.txt
-		npc\rathena\battleground\tierra\tierra_enter.txt = npc\rathena\battleground\tierra\tierra_enter.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "etc", "etc", "{9BE3D32B-5811-426D-8337-AF68747E6CE6}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\custom\etc\airplane.txt = npc\rathena\custom\etc\airplane.txt
-		npc\rathena\custom\etc\autopot.txt = npc\rathena\custom\etc\autopot.txt
-		npc\rathena\custom\etc\bank.txt = npc\rathena\custom\etc\bank.txt
-		npc\rathena\custom\etc\bank_kafra.txt = npc\rathena\custom\etc\bank_kafra.txt
-		npc\rathena\custom\etc\blackjack.txt = npc\rathena\custom\etc\blackjack.txt
-		npc\rathena\custom\etc\floating_rates.txt = npc\rathena\custom\etc\floating_rates.txt
-		npc\rathena\custom\etc\lottery.txt = npc\rathena\custom\etc\lottery.txt
-		npc\rathena\custom\etc\marriage.txt = npc\rathena\custom\etc\marriage.txt
-		npc\rathena\custom\etc\monster_arena.txt = npc\rathena\custom\etc\monster_arena.txt
-		npc\rathena\custom\etc\morroc_raceway.txt = npc\rathena\custom\etc\morroc_raceway.txt
-		npc\rathena\custom\etc\mvp_arena.txt = npc\rathena\custom\etc\mvp_arena.txt
-		npc\rathena\custom\etc\mvp_room.txt = npc\rathena\custom\etc\mvp_room.txt
-		npc\rathena\custom\etc\penal_servitude.txt = npc\rathena\custom\etc\penal_servitude.txt
-		npc\rathena\custom\etc\quest_warper.txt = npc\rathena\custom\etc\quest_warper.txt
-		npc\rathena\custom\etc\rpsroulette.txt = npc\rathena\custom\etc\rpsroulette.txt
-		npc\rathena\custom\etc\shifty_assassin.txt = npc\rathena\custom\etc\shifty_assassin.txt
-		npc\rathena\custom\etc\stock_market.txt = npc\rathena\custom\etc\stock_market.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "events", "events", "{D115F942-5706-48E6-A33B-6A0246B09F93}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\custom\events\cluckers.txt = npc\rathena\custom\events\cluckers.txt
-		npc\rathena\custom\events\devil_square.txt = npc\rathena\custom\events\devil_square.txt
-		npc\rathena\custom\events\disguise.txt = npc\rathena\custom\events\disguise.txt
-		npc\rathena\custom\events\mushroom_event.txt = npc\rathena\custom\events\mushroom_event.txt
-		npc\rathena\custom\events\mvp_ladder.txt = npc\rathena\custom\events\mvp_ladder.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lasagna", "lasagna", "{78815759-2539-4723-B95D-6CADD5FC18DA}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\custom\lasagna\lasagna_npcs.txt = npc\rathena\custom\lasagna\lasagna_npcs.txt
-		npc\rathena\custom\lasagna\lasa_dun.txt = npc\rathena\custom\lasagna\lasa_dun.txt
-		npc\rathena\custom\lasagna\lasa_fild.txt = npc\rathena\custom\lasagna\lasa_fild.txt
-		npc\rathena\custom\lasagna\warps.txt = npc\rathena\custom\lasagna\warps.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "quests", "quests", "{8915DC8C-CDE8-4EF4-A4EF-C96DB330EE30}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\custom\quests\bandit_beard.txt = npc\rathena\custom\quests\bandit_beard.txt
-		npc\rathena\custom\quests\berzebub.txt = npc\rathena\custom\quests\berzebub.txt
-		npc\rathena\custom\quests\dead_branch.txt = npc\rathena\custom\quests\dead_branch.txt
-		npc\rathena\custom\quests\elvenear.txt = npc\rathena\custom\quests\elvenear.txt
-		npc\rathena\custom\quests\event_6_new_hats.txt = npc\rathena\custom\quests\event_6_new_hats.txt
-		npc\rathena\custom\quests\hunting_missions.txt = npc\rathena\custom\quests\hunting_missions.txt
-		npc\rathena\custom\quests\jewel_case.txt = npc\rathena\custom\quests\jewel_case.txt
-		npc\rathena\custom\quests\kahohorn.txt = npc\rathena\custom\quests\kahohorn.txt
-		npc\rathena\custom\quests\kaho_balmung.txt = npc\rathena\custom\quests\kaho_balmung.txt
-		npc\rathena\custom\quests\kings_items.txt = npc\rathena\custom\quests\kings_items.txt
-		npc\rathena\custom\quests\may_hats.txt = npc\rathena\custom\quests\may_hats.txt
-		npc\rathena\custom\quests\questboard.txt = npc\rathena\custom\quests\questboard.txt
-		npc\rathena\custom\quests\quest_shop.txt = npc\rathena\custom\quests\quest_shop.txt
-		npc\rathena\custom\quests\sphinx_mask.txt = npc\rathena\custom\quests\sphinx_mask.txt
-		npc\rathena\custom\quests\sunglasses.txt = npc\rathena\custom\quests\sunglasses.txt
-		npc\rathena\custom\quests\tha_statues.txt = npc\rathena\custom\quests\tha_statues.txt
-		npc\rathena\custom\quests\umbalian_language.txt = npc\rathena\custom\quests\umbalian_language.txt
-		npc\rathena\custom\quests\valhallen.txt = npc\rathena\custom\quests\valhallen.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "holiday", "holiday", "{620AD715-0BA3-49DA-B891-172876AE551A}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\custom\events\holiday\hallow06.txt = npc\rathena\custom\events\holiday\hallow06.txt
-		npc\rathena\custom\events\holiday\uneasy_cemetery.txt = npc\rathena\custom\events\holiday\uneasy_cemetery.txt
-		npc\rathena\custom\events\holiday\valentinesdayexp.txt = npc\rathena\custom\events\holiday\valentinesdayexp.txt
-		npc\rathena\custom\events\holiday\xmas_rings_event.txt = npc\rathena\custom\events\holiday\xmas_rings_event.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "thq", "thq", "{5C1D8192-5E10-4E65-9C8F-51615EC5307C}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\custom\quests\thq\THQS_ChattingNPC.txt = npc\rathena\custom\quests\thq\THQS_ChattingNPC.txt
-		npc\rathena\custom\quests\thq\THQS_GuildNPC.txt = npc\rathena\custom\quests\thq\THQS_GuildNPC.txt
-		npc\rathena\custom\quests\thq\THQS_QuestNPC.txt = npc\rathena\custom\quests\thq\THQS_QuestNPC.txt
-		npc\rathena\custom\quests\thq\THQS_Quests.txt = npc\rathena\custom\quests\thq\THQS_Quests.txt
-		npc\rathena\custom\quests\thq\THQS_TTShop.txt = npc\rathena\custom\quests\thq\THQS_TTShop.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nguild", "nguild", "{4F522E12-2C9A-44B8-B113-2F29E60F6F90}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\events\nguild\nguild_dunsw.txt = npc\rathena\events\nguild\nguild_dunsw.txt
-		npc\rathena\events\nguild\nguild_ev_agit.txt = npc\rathena\events\nguild\nguild_ev_agit.txt
-		npc\rathena\events\nguild\nguild_flags.txt = npc\rathena\events\nguild\nguild_flags.txt
-		npc\rathena\events\nguild\nguild_guardians.txt = npc\rathena\events\nguild\nguild_guardians.txt
-		npc\rathena\events\nguild\nguild_kafras.txt = npc\rathena\events\nguild\nguild_kafras.txt
-		npc\rathena\events\nguild\nguild_managers.txt = npc\rathena\events\nguild\nguild_managers.txt
-		npc\rathena\events\nguild\nguild_treas.txt = npc\rathena\events\nguild\nguild_treas.txt
-		npc\rathena\events\nguild\nguild_warper.txt = npc\rathena\events\nguild\nguild_warper.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-1", "1-1", "{6412FEA7-9B08-4C57-84CC-4FA0C4B7D159}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\jobs\1-1\acolyte.txt = npc\rathena\jobs\1-1\acolyte.txt
-		npc\rathena\jobs\1-1\archer.txt = npc\rathena\jobs\1-1\archer.txt
-		npc\rathena\jobs\1-1\mage.txt = npc\rathena\jobs\1-1\mage.txt
-		npc\rathena\jobs\1-1\merchant.txt = npc\rathena\jobs\1-1\merchant.txt
-		npc\rathena\jobs\1-1\swordman.txt = npc\rathena\jobs\1-1\swordman.txt
-		npc\rathena\jobs\1-1\thief.txt = npc\rathena\jobs\1-1\thief.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-1e", "1-1e", "{77D37B13-8308-497A-85D5-F46B49AD4CF0}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\jobs\1-1e\gunslinger.txt = npc\rathena\jobs\1-1e\gunslinger.txt
-		npc\rathena\jobs\1-1e\ninja.txt = npc\rathena\jobs\1-1e\ninja.txt
-		npc\rathena\jobs\1-1e\taekwon.txt = npc\rathena\jobs\1-1e\taekwon.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-1", "2-1", "{151DC185-05B6-40CF-84C9-23D2D0C60AD2}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\jobs\2-1\assassin.txt = npc\rathena\jobs\2-1\assassin.txt
-		npc\rathena\jobs\2-1\blacksmith.txt = npc\rathena\jobs\2-1\blacksmith.txt
-		npc\rathena\jobs\2-1\hunter.txt = npc\rathena\jobs\2-1\hunter.txt
-		npc\rathena\jobs\2-1\knight.txt = npc\rathena\jobs\2-1\knight.txt
-		npc\rathena\jobs\2-1\priest.txt = npc\rathena\jobs\2-1\priest.txt
-		npc\rathena\jobs\2-1\wizard.txt = npc\rathena\jobs\2-1\wizard.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-1a", "2-1a", "{A70F0900-4CF9-4115-8C7A-874BC269B1AF}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\jobs\2-1a\AssassinCross.txt = npc\rathena\jobs\2-1a\AssassinCross.txt
-		npc\rathena\jobs\2-1a\HighPriest.txt = npc\rathena\jobs\2-1a\HighPriest.txt
-		npc\rathena\jobs\2-1a\HighWizard.txt = npc\rathena\jobs\2-1a\HighWizard.txt
-		npc\rathena\jobs\2-1a\LordKnight.txt = npc\rathena\jobs\2-1a\LordKnight.txt
-		npc\rathena\jobs\2-1a\Sniper.txt = npc\rathena\jobs\2-1a\Sniper.txt
-		npc\rathena\jobs\2-1a\WhiteSmith.txt = npc\rathena\jobs\2-1a\WhiteSmith.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-1e", "2-1e", "{3FED4E02-AB00-490A-A483-7E24A2101E1E}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\jobs\2-1e\StarGladiator.txt = npc\rathena\jobs\2-1e\StarGladiator.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-2", "2-2", "{DEE67385-74F1-4EE7-9813-9206BDF8F68F}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\jobs\2-2\alchemist.txt = npc\rathena\jobs\2-2\alchemist.txt
-		npc\rathena\jobs\2-2\bard.txt = npc\rathena\jobs\2-2\bard.txt
-		npc\rathena\jobs\2-2\crusader.txt = npc\rathena\jobs\2-2\crusader.txt
-		npc\rathena\jobs\2-2\dancer.txt = npc\rathena\jobs\2-2\dancer.txt
-		npc\rathena\jobs\2-2\monk.txt = npc\rathena\jobs\2-2\monk.txt
-		npc\rathena\jobs\2-2\rogue.txt = npc\rathena\jobs\2-2\rogue.txt
-		npc\rathena\jobs\2-2\sage.txt = npc\rathena\jobs\2-2\sage.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-2a", "2-2a", "{9A6F1B55-D861-40E3-BA24-124D7AD927D9}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\jobs\2-2a\Champion.txt = npc\rathena\jobs\2-2a\Champion.txt
-		npc\rathena\jobs\2-2a\Clown.txt = npc\rathena\jobs\2-2a\Clown.txt
-		npc\rathena\jobs\2-2a\Creator.txt = npc\rathena\jobs\2-2a\Creator.txt
-		npc\rathena\jobs\2-2a\Gypsy.txt = npc\rathena\jobs\2-2a\Gypsy.txt
-		npc\rathena\jobs\2-2a\Paladin.txt = npc\rathena\jobs\2-2a\Paladin.txt
-		npc\rathena\jobs\2-2a\Professor.txt = npc\rathena\jobs\2-2a\Professor.txt
-		npc\rathena\jobs\2-2a\Stalker.txt = npc\rathena\jobs\2-2a\Stalker.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-2e", "2-2e", "{95EF640F-6035-4424-9AF9-1088AA403374}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\jobs\2-2e\SoulLinker.txt = npc\rathena\jobs\2-2e\SoulLinker.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2e", "2e", "{B6400B29-2DB4-4C92-BF79-E8CE57A58555}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\jobs\2e\kagerou_oboro.txt = npc\rathena\jobs\2e\kagerou_oboro.txt
-		npc\rathena\jobs\2e\rebellion.txt = npc\rathena\jobs\2e\rebellion.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3-1", "3-1", "{B5175803-BB6E-453B-8A94-DD3DAE663025}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\jobs\3-1\archbishop.txt = npc\rathena\jobs\3-1\archbishop.txt
-		npc\rathena\jobs\3-1\guillotine_cross.txt = npc\rathena\jobs\3-1\guillotine_cross.txt
-		npc\rathena\jobs\3-1\mechanic.txt = npc\rathena\jobs\3-1\mechanic.txt
-		npc\rathena\jobs\3-1\ranger.txt = npc\rathena\jobs\3-1\ranger.txt
-		npc\rathena\jobs\3-1\rune_knight.txt = npc\rathena\jobs\3-1\rune_knight.txt
-		npc\rathena\jobs\3-1\warlock.txt = npc\rathena\jobs\3-1\warlock.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3-2", "3-2", "{FBBA184E-5BCD-45CA-BDFF-DAEAA9381154}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\jobs\3-2\genetic.txt = npc\rathena\jobs\3-2\genetic.txt
-		npc\rathena\jobs\3-2\minstrel.txt = npc\rathena\jobs\3-2\minstrel.txt
-		npc\rathena\jobs\3-2\royal_guard.txt = npc\rathena\jobs\3-2\royal_guard.txt
-		npc\rathena\jobs\3-2\shadow_chaser.txt = npc\rathena\jobs\3-2\shadow_chaser.txt
-		npc\rathena\jobs\3-2\sorcerer.txt = npc\rathena\jobs\3-2\sorcerer.txt
-		npc\rathena\jobs\3-2\sura.txt = npc\rathena\jobs\3-2\sura.txt
-		npc\rathena\jobs\3-2\wanderer.txt = npc\rathena\jobs\3-2\wanderer.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "novice", "novice", "{FB61D412-C260-4F55-B6DA-C88E97C65946}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\jobs\novice\academy.txt = npc\rathena\jobs\novice\academy.txt
-		npc\rathena\jobs\novice\novice.txt = npc\rathena\jobs\novice\novice.txt
-		npc\rathena\jobs\novice\supernovice.txt = npc\rathena\jobs\novice\supernovice.txt
-		npc\rathena\jobs\novice\supernovice_ex.txt = npc\rathena\jobs\novice\supernovice_ex.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "barters", "barters", "{7C2A7DD4-4971-48E5-9502-2515953BBD58}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\merchants\barters\cashmall.yml = npc\rathena\merchants\barters\cashmall.yml
-		npc\rathena\merchants\barters\enchantgrade.yml = npc\rathena\merchants\barters\enchantgrade.yml
-		npc\rathena\merchants\barters\enchan_illusion_16_2.yml = npc\rathena\merchants\barters\enchan_illusion_16_2.yml
-		npc\rathena\merchants\barters\enchan_illusion_dungeons.yml = npc\rathena\merchants\barters\enchan_illusion_dungeons.yml
-		npc\rathena\merchants\barters\Extended_Ammunition.yml = npc\rathena\merchants\barters\Extended_Ammunition.yml
-		npc\rathena\merchants\barters\garden_of_time.yml = npc\rathena\merchants\barters\garden_of_time.yml
-		npc\rathena\merchants\barters\Gemstone_Bagger.yml = npc\rathena\merchants\barters\Gemstone_Bagger.yml
-		npc\rathena\merchants\barters\mysterious_cookie_shop.yml = npc\rathena\merchants\barters\mysterious_cookie_shop.yml
-		npc\rathena\merchants\barters\Pet_Groomer.yml = npc\rathena\merchants\barters\Pet_Groomer.yml
-		npc\rathena\merchants\barters\quests_16_1.yml = npc\rathena\merchants\barters\quests_16_1.yml
-		npc\rathena\merchants\barters\quests_16_2.yml = npc\rathena\merchants\barters\quests_16_2.yml
-		npc\rathena\merchants\barters\quests_17_1.yml = npc\rathena\merchants\barters\quests_17_1.yml
-		npc\rathena\merchants\barters\quests_17_2.yml = npc\rathena\merchants\barters\quests_17_2.yml
-		npc\rathena\merchants\barters\quests_18.yml = npc\rathena\merchants\barters\quests_18.yml
-		npc\rathena\merchants\barters\quests_exp_175.yml = npc\rathena\merchants\barters\quests_exp_175.yml
-		npc\rathena\merchants\barters\refine.yml = npc\rathena\merchants\barters\refine.yml
-		npc\rathena\merchants\barters\rgsr_in.yml = npc\rathena\merchants\barters\rgsr_in.yml
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dungeons", "dungeons", "{D45FDA1A-9F6C-454C-BC83-3EA616E5466A}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\mobs\dungeons\abbey.txt = npc\rathena\mobs\dungeons\abbey.txt
-		npc\rathena\mobs\dungeons\abyss.txt = npc\rathena\mobs\dungeons\abyss.txt
-		npc\rathena\mobs\dungeons\alde_dun.txt = npc\rathena\mobs\dungeons\alde_dun.txt
-		npc\rathena\mobs\dungeons\ama_dun.txt = npc\rathena\mobs\dungeons\ama_dun.txt
-		npc\rathena\mobs\dungeons\amicitia.txt = npc\rathena\mobs\dungeons\amicitia.txt
-		npc\rathena\mobs\dungeons\anthell.txt = npc\rathena\mobs\dungeons\anthell.txt
-		npc\rathena\mobs\dungeons\ayo_dun.txt = npc\rathena\mobs\dungeons\ayo_dun.txt
-		npc\rathena\mobs\dungeons\ba_2whs.txt = npc\rathena\mobs\dungeons\ba_2whs.txt
-		npc\rathena\mobs\dungeons\ba_bath.txt = npc\rathena\mobs\dungeons\ba_bath.txt
-		npc\rathena\mobs\dungeons\ba_lib.txt = npc\rathena\mobs\dungeons\ba_lib.txt
-		npc\rathena\mobs\dungeons\ba_pw.txt = npc\rathena\mobs\dungeons\ba_pw.txt
-		npc\rathena\mobs\dungeons\beach_dun.txt = npc\rathena\mobs\dungeons\beach_dun.txt
-		npc\rathena\mobs\dungeons\bra_dun.txt = npc\rathena\mobs\dungeons\bra_dun.txt
-		npc\rathena\mobs\dungeons\c_tower.txt = npc\rathena\mobs\dungeons\c_tower.txt
-		npc\rathena\mobs\dungeons\dew_dun.txt = npc\rathena\mobs\dungeons\dew_dun.txt
-		npc\rathena\mobs\dungeons\dic_dun.txt = npc\rathena\mobs\dungeons\dic_dun.txt
-		npc\rathena\mobs\dungeons\ecl_tdun.txt = npc\rathena\mobs\dungeons\ecl_tdun.txt
-		npc\rathena\mobs\dungeons\ein_dun.txt = npc\rathena\mobs\dungeons\ein_dun.txt
-		npc\rathena\mobs\dungeons\for_dun.txt = npc\rathena\mobs\dungeons\for_dun.txt
-		npc\rathena\mobs\dungeons\gefenia.txt = npc\rathena\mobs\dungeons\gefenia.txt
-		npc\rathena\mobs\dungeons\gef_dun.txt = npc\rathena\mobs\dungeons\gef_dun.txt
-		npc\rathena\mobs\dungeons\glastheim.txt = npc\rathena\mobs\dungeons\glastheim.txt
-		npc\rathena\mobs\dungeons\gld_dunSE.txt = npc\rathena\mobs\dungeons\gld_dunSE.txt
-		npc\rathena\mobs\dungeons\gld_re.txt = npc\rathena\mobs\dungeons\gld_re.txt
-		npc\rathena\mobs\dungeons\gon_dun.txt = npc\rathena\mobs\dungeons\gon_dun.txt
-		npc\rathena\mobs\dungeons\ice_dun.txt = npc\rathena\mobs\dungeons\ice_dun.txt
-		npc\rathena\mobs\dungeons\in_sphinx.txt = npc\rathena\mobs\dungeons\in_sphinx.txt
-		npc\rathena\mobs\dungeons\iz_dun.txt = npc\rathena\mobs\dungeons\iz_dun.txt
-		npc\rathena\mobs\dungeons\juperos.txt = npc\rathena\mobs\dungeons\juperos.txt
-		npc\rathena\mobs\dungeons\kh_dun.txt = npc\rathena\mobs\dungeons\kh_dun.txt
-		npc\rathena\mobs\dungeons\lhz_dun.txt = npc\rathena\mobs\dungeons\lhz_dun.txt
-		npc\rathena\mobs\dungeons\lou_dun.txt = npc\rathena\mobs\dungeons\lou_dun.txt
-		npc\rathena\mobs\dungeons\mag_dun.txt = npc\rathena\mobs\dungeons\mag_dun.txt
-		npc\rathena\mobs\dungeons\mal_dun.txt = npc\rathena\mobs\dungeons\mal_dun.txt
-		npc\rathena\mobs\dungeons\ma_dun.txt = npc\rathena\mobs\dungeons\ma_dun.txt
-		npc\rathena\mobs\dungeons\mjo_dun.txt = npc\rathena\mobs\dungeons\mjo_dun.txt
-		npc\rathena\mobs\dungeons\moc_pryd.txt = npc\rathena\mobs\dungeons\moc_pryd.txt
-		npc\rathena\mobs\dungeons\moro_vol.txt = npc\rathena\mobs\dungeons\moro_vol.txt
-		npc\rathena\mobs\dungeons\mosk_dun.txt = npc\rathena\mobs\dungeons\mosk_dun.txt
-		npc\rathena\mobs\dungeons\nif_dun.txt = npc\rathena\mobs\dungeons\nif_dun.txt
-		npc\rathena\mobs\dungeons\nyd_dun.txt = npc\rathena\mobs\dungeons\nyd_dun.txt
-		npc\rathena\mobs\dungeons\odin.txt = npc\rathena\mobs\dungeons\odin.txt
-		npc\rathena\mobs\dungeons\orcsdun.txt = npc\rathena\mobs\dungeons\orcsdun.txt
-		npc\rathena\mobs\dungeons\oz_dun.txt = npc\rathena\mobs\dungeons\oz_dun.txt
-		npc\rathena\mobs\dungeons\pay_dun.txt = npc\rathena\mobs\dungeons\pay_dun.txt
-		npc\rathena\mobs\dungeons\prt_maze.txt = npc\rathena\mobs\dungeons\prt_maze.txt
-		npc\rathena\mobs\dungeons\prt_prison.txt = npc\rathena\mobs\dungeons\prt_prison.txt
-		npc\rathena\mobs\dungeons\prt_q.txt = npc\rathena\mobs\dungeons\prt_q.txt
-		npc\rathena\mobs\dungeons\prt_sew.txt = npc\rathena\mobs\dungeons\prt_sew.txt
-		npc\rathena\mobs\dungeons\ra_san.txt = npc\rathena\mobs\dungeons\ra_san.txt
-		npc\rathena\mobs\dungeons\rockridge.txt = npc\rathena\mobs\dungeons\rockridge.txt
-		npc\rathena\mobs\dungeons\slabw01.txt = npc\rathena\mobs\dungeons\slabw01.txt
-		npc\rathena\mobs\dungeons\sp_rudus.txt = npc\rathena\mobs\dungeons\sp_rudus.txt
-		npc\rathena\mobs\dungeons\teg_dun.txt = npc\rathena\mobs\dungeons\teg_dun.txt
-		npc\rathena\mobs\dungeons\tha_t.txt = npc\rathena\mobs\dungeons\tha_t.txt
-		npc\rathena\mobs\dungeons\thor_v.txt = npc\rathena\mobs\dungeons\thor_v.txt
-		npc\rathena\mobs\dungeons\treasure.txt = npc\rathena\mobs\dungeons\treasure.txt
-		npc\rathena\mobs\dungeons\tur_dun.txt = npc\rathena\mobs\dungeons\tur_dun.txt
-		npc\rathena\mobs\dungeons\xmas_dun.txt = npc\rathena\mobs\dungeons\xmas_dun.txt
-		npc\rathena\mobs\dungeons\yggdrasil.txt = npc\rathena\mobs\dungeons\yggdrasil.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fields", "fields", "{9B939E66-6607-4105-9BAD-BE97F37A445D}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\mobs\fields\amatsu.txt = npc\rathena\mobs\fields\amatsu.txt
-		npc\rathena\mobs\fields\ayothaya.txt = npc\rathena\mobs\fields\ayothaya.txt
-		npc\rathena\mobs\fields\ba_lost.txt = npc\rathena\mobs\fields\ba_lost.txt
-		npc\rathena\mobs\fields\ba_maison.txt = npc\rathena\mobs\fields\ba_maison.txt
-		npc\rathena\mobs\fields\bifrost.txt = npc\rathena\mobs\fields\bifrost.txt
-		npc\rathena\mobs\fields\brasilis.txt = npc\rathena\mobs\fields\brasilis.txt
-		npc\rathena\mobs\fields\comodo.txt = npc\rathena\mobs\fields\comodo.txt
-		npc\rathena\mobs\fields\dewata.txt = npc\rathena\mobs\fields\dewata.txt
-		npc\rathena\mobs\fields\dicastes.txt = npc\rathena\mobs\fields\dicastes.txt
-		npc\rathena\mobs\fields\eclage.txt = npc\rathena\mobs\fields\eclage.txt
-		npc\rathena\mobs\fields\einbroch.txt = npc\rathena\mobs\fields\einbroch.txt
-		npc\rathena\mobs\fields\geffen.txt = npc\rathena\mobs\fields\geffen.txt
-		npc\rathena\mobs\fields\gonryun.txt = npc\rathena\mobs\fields\gonryun.txt
-		npc\rathena\mobs\fields\gw_fild.txt = npc\rathena\mobs\fields\gw_fild.txt
-		npc\rathena\mobs\fields\hugel.txt = npc\rathena\mobs\fields\hugel.txt
-		npc\rathena\mobs\fields\lighthalzen.txt = npc\rathena\mobs\fields\lighthalzen.txt
-		npc\rathena\mobs\fields\louyang.txt = npc\rathena\mobs\fields\louyang.txt
-		npc\rathena\mobs\fields\lutie.txt = npc\rathena\mobs\fields\lutie.txt
-		npc\rathena\mobs\fields\malaya.txt = npc\rathena\mobs\fields\malaya.txt
-		npc\rathena\mobs\fields\manuk.txt = npc\rathena\mobs\fields\manuk.txt
-		npc\rathena\mobs\fields\mjolnir.txt = npc\rathena\mobs\fields\mjolnir.txt
-		npc\rathena\mobs\fields\morocc.txt = npc\rathena\mobs\fields\morocc.txt
-		npc\rathena\mobs\fields\moscovia.txt = npc\rathena\mobs\fields\moscovia.txt
-		npc\rathena\mobs\fields\niflheim.txt = npc\rathena\mobs\fields\niflheim.txt
-		npc\rathena\mobs\fields\payon.txt = npc\rathena\mobs\fields\payon.txt
-		npc\rathena\mobs\fields\prontera.txt = npc\rathena\mobs\fields\prontera.txt
-		npc\rathena\mobs\fields\rachel.txt = npc\rathena\mobs\fields\rachel.txt
-		npc\rathena\mobs\fields\rockridge.txt = npc\rathena\mobs\fields\rockridge.txt
-		npc\rathena\mobs\fields\splendide.txt = npc\rathena\mobs\fields\splendide.txt
-		npc\rathena\mobs\fields\umbala.txt = npc\rathena\mobs\fields\umbala.txt
-		npc\rathena\mobs\fields\veins.txt = npc\rathena\mobs\fields\veins.txt
-		npc\rathena\mobs\fields\yuno.txt = npc\rathena\mobs\fields\yuno.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "arena", "arena", "{032382D4-89E3-4461-AA6A-129678E712DF}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\other\arena\arena_aco.txt = npc\rathena\other\arena\arena_aco.txt
-		npc\rathena\other\arena\arena_lvl50.txt = npc\rathena\other\arena\arena_lvl50.txt
-		npc\rathena\other\arena\arena_lvl60.txt = npc\rathena\other\arena\arena_lvl60.txt
-		npc\rathena\other\arena\arena_lvl70.txt = npc\rathena\other\arena\arena_lvl70.txt
-		npc\rathena\other\arena\arena_lvl80.txt = npc\rathena\other\arena\arena_lvl80.txt
-		npc\rathena\other\arena\arena_party.txt = npc\rathena\other\arena\arena_party.txt
-		npc\rathena\other\arena\arena_point.txt = npc\rathena\other\arena\arena_point.txt
-		npc\rathena\other\arena\arena_room.txt = npc\rathena\other\arena\arena_room.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eden", "eden", "{F6C2E624-241D-4781-A52C-8ED1157C041E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eden", "eden", "{E17155DA-C24E-436B-8940-506FF32B044F}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\quests\eden\11-25.txt = npc\rathena\quests\eden\11-25.txt
 		npc\rathena\quests\eden\26-40.txt = npc\rathena\quests\eden\26-40.txt
@@ -1387,18 +1275,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eden", "eden", "{F6C2E624-2
 		npc\rathena\quests\eden\eden_tutorial.txt = npc\rathena\quests\eden\eden_tutorial.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "first_class", "first_class", "{1561D705-9E9E-4BE6-BE88-2F9EBF900921}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "first_class", "first_class", "{4B8EA20C-C83A-48E7-97B9-F8CB73D5F026}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\quests\first_class\tu_acolyte.txt = npc\rathena\quests\first_class\tu_acolyte.txt
 		npc\rathena\quests\first_class\tu_archer.txt = npc\rathena\quests\first_class\tu_archer.txt
-		npc\rathena\quests\first_class\tu_magician01.txt = npc\rathena\quests\first_class\tu_magician01.txt
 		npc\rathena\quests\first_class\tu_ma_th01.txt = npc\rathena\quests\first_class\tu_ma_th01.txt
+		npc\rathena\quests\first_class\tu_magician01.txt = npc\rathena\quests\first_class\tu_magician01.txt
 		npc\rathena\quests\first_class\tu_merchant.txt = npc\rathena\quests\first_class\tu_merchant.txt
 		npc\rathena\quests\first_class\tu_sword.txt = npc\rathena\quests\first_class\tu_sword.txt
 		npc\rathena\quests\first_class\tu_thief01.txt = npc\rathena\quests\first_class\tu_thief01.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "newgears", "newgears", "{4174701B-2564-4840-A2BF-FF5351BC5DF6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "newgears", "newgears", "{4FA6F8FD-BDDE-45C6-AF6A-CD92DE9D24A1}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\quests\newgears\2004_headgears.txt = npc\rathena\quests\newgears\2004_headgears.txt
 		npc\rathena\quests\newgears\2005_headgears.txt = npc\rathena\quests\newgears\2005_headgears.txt
@@ -1408,7 +1296,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "newgears", "newgears", "{41
 		npc\rathena\quests\newgears\2012_headgears.txt = npc\rathena\quests\newgears\2012_headgears.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "seals", "seals", "{0E57CE97-AE94-40D2-B304-EB139D7FD4BC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "seals", "seals", "{A96E555E-3260-46DE-B76A-06BEE098FCA2}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\quests\seals\brisingamen_seal.txt = npc\rathena\quests\seals\brisingamen_seal.txt
 		npc\rathena\quests\seals\god_global.txt = npc\rathena\quests\seals\god_global.txt
@@ -1419,7 +1307,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "seals", "seals", "{0E57CE97
 		npc\rathena\quests\seals\sleipnir_seal.txt = npc\rathena\quests\seals\sleipnir_seal.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "skills", "skills", "{F6BB91E4-896A-4663-A921-D12FE8FBCD52}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "skills", "skills", "{703FA9ED-494F-40BA-8C3E-3FD345037A63}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\quests\skills\acolyte_skills.txt = npc\rathena\quests\skills\acolyte_skills.txt
 		npc\rathena\quests\skills\alchemist_skills.txt = npc\rathena\quests\skills\alchemist_skills.txt
@@ -1443,7 +1331,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "skills", "skills", "{F6BB91
 		npc\rathena\quests\skills\wizard_skills.txt = npc\rathena\quests\skills\wizard_skills.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "woe_te", "woe_te", "{282B11AA-1E9F-4210-9833-5BAF6FC09C2F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "woe_te", "woe_te", "{6AD1B856-18E4-4322-BADC-64EF3C22544E}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\quests\woe_te\te_goditem_alde1.txt = npc\rathena\quests\woe_te\te_goditem_alde1.txt
 		npc\rathena\quests\woe_te\te_goditem_prt01.txt = npc\rathena\quests\woe_te\te_goditem_prt01.txt
@@ -1452,7 +1340,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "woe_te", "woe_te", "{282B11
 		npc\rathena\quests\woe_te\te_mission_prt.txt = npc\rathena\quests\woe_te\te_mission_prt.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cities", "cities", "{9E9A5CE4-09E2-4436-B546-4EF310A65C42}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "warps", "warps", "{1A85B1F2-F2BC-40FD-9E6F-89DE70DAEF46}"
+	ProjectSection(SolutionItems) = preProject
+		npc\rathena\warps\guildcastles.txt = npc\rathena\warps\guildcastles.txt
+		npc\rathena\warps\pvp.txt = npc\rathena\warps\pvp.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cities", "cities", "{BA0BC304-C0AC-4216-BB03-A27C777B4953}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\warps\cities\alberta.txt = npc\rathena\warps\cities\alberta.txt
 		npc\rathena\warps\cities\aldebaran.txt = npc\rathena\warps\cities\aldebaran.txt
@@ -1491,55 +1385,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cities", "cities", "{9E9A5C
 		npc\rathena\warps\cities\yuno.txt = npc\rathena\warps\cities\yuno.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dungeons", "dungeons", "{D19C0CF4-DA63-40B4-9E81-E52814DD9039}"
-	ProjectSection(SolutionItems) = preProject
-		npc\rathena\warps\dungeons\abbey.txt = npc\rathena\warps\dungeons\abbey.txt
-		npc\rathena\warps\dungeons\abyss.txt = npc\rathena\warps\dungeons\abyss.txt
-		npc\rathena\warps\dungeons\alde_dun.txt = npc\rathena\warps\dungeons\alde_dun.txt
-		npc\rathena\warps\dungeons\ama_dun.txt = npc\rathena\warps\dungeons\ama_dun.txt
-		npc\rathena\warps\dungeons\amicitia.txt = npc\rathena\warps\dungeons\amicitia.txt
-		npc\rathena\warps\dungeons\anthell.txt = npc\rathena\warps\dungeons\anthell.txt
-		npc\rathena\warps\dungeons\ayo_dun.txt = npc\rathena\warps\dungeons\ayo_dun.txt
-		npc\rathena\warps\dungeons\beach_dun.txt = npc\rathena\warps\dungeons\beach_dun.txt
-		npc\rathena\warps\dungeons\bra_dun.txt = npc\rathena\warps\dungeons\bra_dun.txt
-		npc\rathena\warps\dungeons\c_tower.txt = npc\rathena\warps\dungeons\c_tower.txt
-		npc\rathena\warps\dungeons\dic_dun.txt = npc\rathena\warps\dungeons\dic_dun.txt
-		npc\rathena\warps\dungeons\ecl_dun.txt = npc\rathena\warps\dungeons\ecl_dun.txt
-		npc\rathena\warps\dungeons\ecl_tdun.txt = npc\rathena\warps\dungeons\ecl_tdun.txt
-		npc\rathena\warps\dungeons\ein_dun.txt = npc\rathena\warps\dungeons\ein_dun.txt
-		npc\rathena\warps\dungeons\gef_dun.txt = npc\rathena\warps\dungeons\gef_dun.txt
-		npc\rathena\warps\dungeons\gon_dun.txt = npc\rathena\warps\dungeons\gon_dun.txt
-		npc\rathena\warps\dungeons\harboro2.txt = npc\rathena\warps\dungeons\harboro2.txt
-		npc\rathena\warps\dungeons\ice_dun.txt = npc\rathena\warps\dungeons\ice_dun.txt
-		npc\rathena\warps\dungeons\in_sphinx.txt = npc\rathena\warps\dungeons\in_sphinx.txt
-		npc\rathena\warps\dungeons\iz_dun.txt = npc\rathena\warps\dungeons\iz_dun.txt
-		npc\rathena\warps\dungeons\juperos.txt = npc\rathena\warps\dungeons\juperos.txt
-		npc\rathena\warps\dungeons\kh_dun.txt = npc\rathena\warps\dungeons\kh_dun.txt
-		npc\rathena\warps\dungeons\lhz_dun.txt = npc\rathena\warps\dungeons\lhz_dun.txt
-		npc\rathena\warps\dungeons\lou_dun.txt = npc\rathena\warps\dungeons\lou_dun.txt
-		npc\rathena\warps\dungeons\mag_dun.txt = npc\rathena\warps\dungeons\mag_dun.txt
-		npc\rathena\warps\dungeons\mjo_dun.txt = npc\rathena\warps\dungeons\mjo_dun.txt
-		npc\rathena\warps\dungeons\moc_pryd.txt = npc\rathena\warps\dungeons\moc_pryd.txt
-		npc\rathena\warps\dungeons\mosk_dun.txt = npc\rathena\warps\dungeons\mosk_dun.txt
-		npc\rathena\warps\dungeons\nif_dun.txt = npc\rathena\warps\dungeons\nif_dun.txt
-		npc\rathena\warps\dungeons\odin.txt = npc\rathena\warps\dungeons\odin.txt
-		npc\rathena\warps\dungeons\orcsdun.txt = npc\rathena\warps\dungeons\orcsdun.txt
-		npc\rathena\warps\dungeons\oz_dun.txt = npc\rathena\warps\dungeons\oz_dun.txt
-		npc\rathena\warps\dungeons\pay_dun.txt = npc\rathena\warps\dungeons\pay_dun.txt
-		npc\rathena\warps\dungeons\prt_maze.txt = npc\rathena\warps\dungeons\prt_maze.txt
-		npc\rathena\warps\dungeons\ra_san.txt = npc\rathena\warps\dungeons\ra_san.txt
-		npc\rathena\warps\dungeons\rockmi1.txt = npc\rathena\warps\dungeons\rockmi1.txt
-		npc\rathena\warps\dungeons\slabw01.txt = npc\rathena\warps\dungeons\slabw01.txt
-		npc\rathena\warps\dungeons\sp_rudus.txt = npc\rathena\warps\dungeons\sp_rudus.txt
-		npc\rathena\warps\dungeons\tha_t.txt = npc\rathena\warps\dungeons\tha_t.txt
-		npc\rathena\warps\dungeons\thor_v.txt = npc\rathena\warps\dungeons\thor_v.txt
-		npc\rathena\warps\dungeons\treasure.txt = npc\rathena\warps\dungeons\treasure.txt
-		npc\rathena\warps\dungeons\tur_dun.txt = npc\rathena\warps\dungeons\tur_dun.txt
-		npc\rathena\warps\dungeons\um_dun.txt = npc\rathena\warps\dungeons\um_dun.txt
-		npc\rathena\warps\dungeons\xmas_dun.txt = npc\rathena\warps\dungeons\xmas_dun.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fields", "fields", "{B9426650-0E9D-4A28-81F2-8BD91DFE60E8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fields", "fields", "{EFC8175D-D8D0-4B41-AC76-9FC05E432B84}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\warps\fields\abyss_warper.txt = npc\rathena\warps\fields\abyss_warper.txt
 		npc\rathena\warps\fields\amatsu_fild.txt = npc\rathena\warps\fields\amatsu_fild.txt
@@ -1548,9 +1394,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fields", "fields", "{B94266
 		npc\rathena\warps\fields\com_fild.txt = npc\rathena\warps\fields\com_fild.txt
 		npc\rathena\warps\fields\dic_fild.txt = npc\rathena\warps\fields\dic_fild.txt
 		npc\rathena\warps\fields\ein_fild.txt = npc\rathena\warps\fields\ein_fild.txt
-		npc\rathena\warps\fields\gefenia.txt = npc\rathena\warps\fields\gefenia.txt
 		npc\rathena\warps\fields\geffen_fild.txt = npc\rathena\warps\fields\geffen_fild.txt
-		npc\rathena\warps\fields\glastheim.txt = npc\rathena\warps\fields\glastheim.txt
 		npc\rathena\warps\fields\gw_fild.txt = npc\rathena\warps\fields\gw_fild.txt
 		npc\rathena\warps\fields\hugel_fild.txt = npc\rathena\warps\fields\hugel_fild.txt
 		npc\rathena\warps\fields\jawaii.txt = npc\rathena\warps\fields\jawaii.txt
@@ -1569,27 +1413,120 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fields", "fields", "{B94266
 		npc\rathena\warps\fields\yuno_fild.txt = npc\rathena\warps\fields\yuno_fild.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "other", "other", "{A9822AE1-7515-4271-B907-518373D1F391}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "other", "other", "{0DE7D9F4-0F32-45A9-8BF9-87FDF2C1CFAB}"
 	ProjectSection(SolutionItems) = preProject
 		npc\rathena\warps\other\airplane.txt = npc\rathena\warps\other\airplane.txt
 		npc\rathena\warps\other\arena.txt = npc\rathena\warps\other\arena.txt
-		npc\rathena\warps\other\ba_2whs.txt = npc\rathena\warps\other\ba_2whs.txt
-		npc\rathena\warps\other\ba_maison.txt = npc\rathena\warps\other\ba_maison.txt
-		npc\rathena\warps\other\ba_pw.txt = npc\rathena\warps\other\ba_pw.txt
 		npc\rathena\warps\other\dimensional_gap.txt = npc\rathena\warps\other\dimensional_gap.txt
 		npc\rathena\warps\other\god.txt = npc\rathena\warps\other\god.txt
 		npc\rathena\warps\other\jobquests.txt = npc\rathena\warps\other\jobquests.txt
 		npc\rathena\warps\other\kiel.txt = npc\rathena\warps\other\kiel.txt
 		npc\rathena\warps\other\other.txt = npc\rathena\warps\other\other.txt
 		npc\rathena\warps\other\paradise.txt = npc\rathena\warps\other\paradise.txt
+		npc\rathena\warps\other\s_workshop.txt = npc\rathena\warps\other\s_workshop.txt
 		npc\rathena\warps\other\sign.txt = npc\rathena\warps\other\sign.txt
 		npc\rathena\warps\other\special_border_area.txt = npc\rathena\warps\other\special_border_area.txt
-		npc\rathena\warps\other\s_workshop.txt = npc\rathena\warps\other\s_workshop.txt
 		npc\rathena\warps\other\TrainingZone.txt = npc\rathena\warps\other\TrainingZone.txt
 		npc\rathena\warps\other\TrainingZone123.txt = npc\rathena\warps\other\TrainingZone123.txt
 		npc\rathena\warps\other\un_myst.txt = npc\rathena\warps\other\un_myst.txt
 		npc\rathena\warps\other\verus.txt = npc\rathena\warps\other\verus.txt
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libconfig", "3rdparty\libconfig\libconfig.vcxproj", "{F6CC5F60-BD13-41B1-81D3-822A45EC0DBD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{60D3315D-FBF4-4FBF-8D44-99D5BED11D32}"
+	ProjectSection(SolutionItems) = preProject
+		src\config\const.hpp = src\config\const.hpp
+		src\config\core.hpp = src\config\core.hpp
+		src\config\classes\general.hpp = src\config\classes\general.hpp
+		src\config\packets.hpp = src\config\packets.hpp
+		src\config\renewal.hpp = src\config\renewal.hpp
+		src\config\secure.hpp = src\config\secure.hpp
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "classes", "classes", "{33B49CB8-CBE3-4ED2-86DD-C9A351AC9026}"
+	ProjectSection(SolutionItems) = preProject
+		src\config\classes\general.hpp = src\config\classes\general.hpp
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Custom", "Custom", "{6513C8D3-D15F-45D4-9AD8-6286CBA7EE36}"
+	ProjectSection(SolutionItems) = preProject
+		src\custom\atcommand.inc = src\custom\atcommand.inc
+		src\custom\atcommand_def.inc = src\custom\atcommand_def.inc
+		src\custom\battle_config_init.inc = src\custom\battle_config_init.inc
+		src\custom\battle_config_struct.inc = src\custom\battle_config_struct.inc
+		src\custom\defines_post.hpp = src\custom\defines_post.hpp
+		src\custom\defines_pre.hpp = src\custom\defines_pre.hpp
+		src\custom\script.inc = src\custom\script.inc
+		src\custom\script_constant.inc = src\custom\script_constant.inc
+		src\custom\script_def.inc = src\custom\script_def.inc
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "server-components", "server-components", "{6D9F5D00-2988-4812-844D-D155C4F588DC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{C0A6FC9A-3A5C-48F8-A4B6-8D463C61C021}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "login-server", "src\login\login-server.vcxproj", "{864805EA-FD39-453D-9248-C581951BA058}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559} = {F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "char-server", "src\char\char-server.vcxproj", "{FED3A941-0AF7-49FE-85CF-E1DFDC0EBB23}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559} = {F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "map-server", "src\map\map-server.vcxproj", "{B4114A9C-EEA4-433C-A830-56119A984F24}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559} = {F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "map-server-generator", "src\map\map-server-generator.vcxproj", "{EB03BC16-8A47-43B9-B5BB-D0200E4A2775}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559} = {F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "common-minicore", "src\common\common-minicore.vcxproj", "{352B45B3-FE88-4431-9D89-48CF811446DB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{9F328FE9-129D-4C0C-820B-BE4AA5996652}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mapcache", "src\tool\mapcache.vcxproj", "{FC4C071B-2C26-4B03-948A-335C94A88B5E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{352B45B3-FE88-4431-9D89-48CF811446DB} = {352B45B3-FE88-4431-9D89-48CF811446DB}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "yaml-cpp", "3rdparty\yaml-cpp\yaml-cpp.vcxproj", "{61D6A599-6BED-4154-A9FC-40553BD972E0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "csv2yaml", "src\tool\csv2yaml.vcxproj", "{5A9059F2-4933-49A2-BEE6-CC67F66FA070}"
+	ProjectSection(ProjectDependencies) = postProject
+		{61D6A599-6BED-4154-A9FC-40553BD972E0} = {61D6A599-6BED-4154-A9FC-40553BD972E0}
+		{492E2981-34F4-3A6A-BFD9-46096C641203} = {492E2981-34F4-3A6A-BFD9-46096C641203}
+		{352B45B3-FE88-4431-9D89-48CF811446DB} = {352B45B3-FE88-4431-9D89-48CF811446DB}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "yaml2sql", "src\tool\yaml2sql.vcxproj", "{CDBBB260-B245-44EC-80FB-3F9421885E40}"
+	ProjectSection(ProjectDependencies) = postProject
+		{61D6A599-6BED-4154-A9FC-40553BD972E0} = {61D6A599-6BED-4154-A9FC-40553BD972E0}
+		{492E2981-34F4-3A6A-BFD9-46096C641203} = {492E2981-34F4-3A6A-BFD9-46096C641203}
+		{352B45B3-FE88-4431-9D89-48CF811446DB} = {352B45B3-FE88-4431-9D89-48CF811446DB}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "web-server", "src\web\web-server.vcxproj", "{5809F27D-65B5-46A3-A340-C8685A8C09F4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559} = {F8FD7B1E-8E1C-4CC3-9CD1-2E28F77B6559}
+		{7A1A25BC-2CF7-44B2-8CAF-B4273B510FC6} = {7A1A25BC-2CF7-44B2-8CAF-B4273B510FC6}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "httplib", "3rdparty\httplib\httplib.vcxproj", "{7A1A25BC-2CF7-44B2-8CAF-B4273B510FC6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "yamlupgrade", "src\tool\yamlupgrade.vcxproj", "{9115C6D1-520A-4540-B4FE-95F3C923FE2C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{61D6A599-6BED-4154-A9FC-40553BD972E0} = {61D6A599-6BED-4154-A9FC-40553BD972E0}
+		{492E2981-34F4-3A6A-BFD9-46096C641203} = {492E2981-34F4-3A6A-BFD9-46096C641203}
+		{352B45B3-FE88-4431-9D89-48CF811446DB} = {352B45B3-FE88-4431-9D89-48CF811446DB}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ryml", "3rdparty\rapidyaml\ryml.vcxproj", "{492E2981-34F4-3A6A-BFD9-46096C641203}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{7C030206-FC6A-41DA-9914-CC9170DEC634}"
 EndProject
@@ -1760,76 +1697,73 @@ Global
 		{7A1A25BC-2CF7-44B2-8CAF-B4273B510FC6} = {6ABA1767-6242-4CA0-BA22-A30972DC8918}
 		{9115C6D1-520A-4540-B4FE-95F3C923FE2C} = {9F328FE9-129D-4C0C-820B-BE4AA5996652}
 		{492E2981-34F4-3A6A-BFD9-46096C641203} = {6ABA1767-6242-4CA0-BA22-A30972DC8918}
-		{CEA830AA-908A-4876-9EB8-695FADCEA3E0} = {6D9F5D00-2988-4812-844D-D155C4F588DC}
-		{B23C1F41-14D6-4472-A887-29E092F3AD14} = {CEA830AA-908A-4876-9EB8-695FADCEA3E0}
-		{182AFB36-E2D5-4300-B3A7-F7B55E668673} = {CEA830AA-908A-4876-9EB8-695FADCEA3E0}
-		{A357EDF0-287C-4899-B74F-6E92DE2606E4} = {B23C1F41-14D6-4472-A887-29E092F3AD14}
-		{324D83F5-255C-475C-A7D8-84DF1AF4EA0A} = {B23C1F41-14D6-4472-A887-29E092F3AD14}
-		{99F579E6-EFFE-4078-B027-CCF662F8530A} = {B23C1F41-14D6-4472-A887-29E092F3AD14}
-		{0350F783-18D5-4E40-918B-D6A981E1F8C6} = {B23C1F41-14D6-4472-A887-29E092F3AD14}
-		{6B3FA6CE-2D02-4789-A0EF-D2E8B72A9CF8} = {B23C1F41-14D6-4472-A887-29E092F3AD14}
-		{341DC999-6448-4B18-8EE1-2E6E90216E71} = {B23C1F41-14D6-4472-A887-29E092F3AD14}
-		{51E9321A-1E87-48E2-9C99-2413D1D14F22} = {B23C1F41-14D6-4472-A887-29E092F3AD14}
-		{C2A0E220-B3C9-4FA9-849D-5171591C86C4} = {B23C1F41-14D6-4472-A887-29E092F3AD14}
-		{6DC439FF-979D-4A30-8B85-22E1B7D026DB} = {A357EDF0-287C-4899-B74F-6E92DE2606E4}
-		{D0EBAD9A-F2B8-45BF-9031-CA14176B3295} = {A357EDF0-287C-4899-B74F-6E92DE2606E4}
-		{52C9A2F0-1A9D-473A-82CD-ED50C61C119D} = {A357EDF0-287C-4899-B74F-6E92DE2606E4}
-		{F72192DB-1619-4B3B-A040-F3D85304CDFA} = {C2A0E220-B3C9-4FA9-849D-5171591C86C4}
-		{A299E525-60A8-4C54-8477-9EF414FC3FAD} = {182AFB36-E2D5-4300-B3A7-F7B55E668673}
-		{FBFBFFA8-FA25-4063-B6C2-549FBAFEAB2E} = {182AFB36-E2D5-4300-B3A7-F7B55E668673}
-		{D560A6F9-2F8F-46DF-AAA7-9F6360206D50} = {182AFB36-E2D5-4300-B3A7-F7B55E668673}
-		{996E8688-5C13-458C-8BE5-EC615CD30563} = {182AFB36-E2D5-4300-B3A7-F7B55E668673}
-		{2CF9B321-07A2-483D-8B6C-17D39379BBE5} = {182AFB36-E2D5-4300-B3A7-F7B55E668673}
-		{98C6EE53-72AA-4886-88EC-02B820B942C6} = {182AFB36-E2D5-4300-B3A7-F7B55E668673}
-		{17202C08-CD63-4011-93BE-5A97B6EC34F4} = {182AFB36-E2D5-4300-B3A7-F7B55E668673}
-		{FB5738EC-347E-45BE-AC23-9750193F2221} = {182AFB36-E2D5-4300-B3A7-F7B55E668673}
-		{621B591A-AA90-444A-A1EA-60BE7B2C7CB9} = {182AFB36-E2D5-4300-B3A7-F7B55E668673}
-		{0244996C-D1C6-49BA-9C0C-4B195ACCC890} = {182AFB36-E2D5-4300-B3A7-F7B55E668673}
-		{15E30106-0C7F-48BD-B1A5-C565678ABCAB} = {182AFB36-E2D5-4300-B3A7-F7B55E668673}
-		{E339CC92-8F19-4BA6-9EB0-AF16C66B14A9} = {182AFB36-E2D5-4300-B3A7-F7B55E668673}
-		{03FFA388-23D6-4E2A-8EF7-D61E6E0DFE3D} = {182AFB36-E2D5-4300-B3A7-F7B55E668673}
-		{52AD00AE-16CB-417D-A219-534DD1051768} = {182AFB36-E2D5-4300-B3A7-F7B55E668673}
-		{9D04AED6-B671-4000-8FC2-08E733DAB324} = {182AFB36-E2D5-4300-B3A7-F7B55E668673}
-		{A99B1D35-493D-47A4-B7DD-12A96F78D661} = {182AFB36-E2D5-4300-B3A7-F7B55E668673}
-		{EBF62DC2-3141-4F82-A709-F38BBED5965E} = {182AFB36-E2D5-4300-B3A7-F7B55E668673}
-		{560D013D-7E6B-45DC-A872-8B2F2B6CC912} = {FBFBFFA8-FA25-4063-B6C2-549FBAFEAB2E}
-		{19C15C0E-9D74-4753-BD1A-FDB087AA2590} = {FBFBFFA8-FA25-4063-B6C2-549FBAFEAB2E}
-		{BEFEEC5B-C844-42AC-AB02-C4356D5AC642} = {FBFBFFA8-FA25-4063-B6C2-549FBAFEAB2E}
-		{9BE3D32B-5811-426D-8337-AF68747E6CE6} = {996E8688-5C13-458C-8BE5-EC615CD30563}
-		{D115F942-5706-48E6-A33B-6A0246B09F93} = {996E8688-5C13-458C-8BE5-EC615CD30563}
-		{78815759-2539-4723-B95D-6CADD5FC18DA} = {996E8688-5C13-458C-8BE5-EC615CD30563}
-		{8915DC8C-CDE8-4EF4-A4EF-C96DB330EE30} = {996E8688-5C13-458C-8BE5-EC615CD30563}
-		{620AD715-0BA3-49DA-B891-172876AE551A} = {D115F942-5706-48E6-A33B-6A0246B09F93}
-		{5C1D8192-5E10-4E65-9C8F-51615EC5307C} = {8915DC8C-CDE8-4EF4-A4EF-C96DB330EE30}
-		{4F522E12-2C9A-44B8-B113-2F29E60F6F90} = {2CF9B321-07A2-483D-8B6C-17D39379BBE5}
-		{6412FEA7-9B08-4C57-84CC-4FA0C4B7D159} = {0244996C-D1C6-49BA-9C0C-4B195ACCC890}
-		{77D37B13-8308-497A-85D5-F46B49AD4CF0} = {0244996C-D1C6-49BA-9C0C-4B195ACCC890}
-		{151DC185-05B6-40CF-84C9-23D2D0C60AD2} = {0244996C-D1C6-49BA-9C0C-4B195ACCC890}
-		{A70F0900-4CF9-4115-8C7A-874BC269B1AF} = {0244996C-D1C6-49BA-9C0C-4B195ACCC890}
-		{3FED4E02-AB00-490A-A483-7E24A2101E1E} = {0244996C-D1C6-49BA-9C0C-4B195ACCC890}
-		{DEE67385-74F1-4EE7-9813-9206BDF8F68F} = {0244996C-D1C6-49BA-9C0C-4B195ACCC890}
-		{9A6F1B55-D861-40E3-BA24-124D7AD927D9} = {0244996C-D1C6-49BA-9C0C-4B195ACCC890}
-		{95EF640F-6035-4424-9AF9-1088AA403374} = {0244996C-D1C6-49BA-9C0C-4B195ACCC890}
-		{B6400B29-2DB4-4C92-BF79-E8CE57A58555} = {0244996C-D1C6-49BA-9C0C-4B195ACCC890}
-		{B5175803-BB6E-453B-8A94-DD3DAE663025} = {0244996C-D1C6-49BA-9C0C-4B195ACCC890}
-		{FBBA184E-5BCD-45CA-BDFF-DAEAA9381154} = {0244996C-D1C6-49BA-9C0C-4B195ACCC890}
-		{FB61D412-C260-4F55-B6DA-C88E97C65946} = {0244996C-D1C6-49BA-9C0C-4B195ACCC890}
-		{7C2A7DD4-4971-48E5-9502-2515953BBD58} = {03FFA388-23D6-4E2A-8EF7-D61E6E0DFE3D}
-		{D45FDA1A-9F6C-454C-BC83-3EA616E5466A} = {52AD00AE-16CB-417D-A219-534DD1051768}
-		{9B939E66-6607-4105-9BAD-BE97F37A445D} = {52AD00AE-16CB-417D-A219-534DD1051768}
-		{032382D4-89E3-4461-AA6A-129678E712DF} = {9D04AED6-B671-4000-8FC2-08E733DAB324}
-		{F6C2E624-241D-4781-A52C-8ED1157C041E} = {A99B1D35-493D-47A4-B7DD-12A96F78D661}
-		{1561D705-9E9E-4BE6-BE88-2F9EBF900921} = {A99B1D35-493D-47A4-B7DD-12A96F78D661}
-		{4174701B-2564-4840-A2BF-FF5351BC5DF6} = {A99B1D35-493D-47A4-B7DD-12A96F78D661}
-		{0E57CE97-AE94-40D2-B304-EB139D7FD4BC} = {A99B1D35-493D-47A4-B7DD-12A96F78D661}
-		{F6BB91E4-896A-4663-A921-D12FE8FBCD52} = {A99B1D35-493D-47A4-B7DD-12A96F78D661}
-		{282B11AA-1E9F-4210-9833-5BAF6FC09C2F} = {A99B1D35-493D-47A4-B7DD-12A96F78D661}
-		{9E9A5CE4-09E2-4436-B546-4EF310A65C42} = {EBF62DC2-3141-4F82-A709-F38BBED5965E}
-		{D19C0CF4-DA63-40B4-9E81-E52814DD9039} = {EBF62DC2-3141-4F82-A709-F38BBED5965E}
-		{B9426650-0E9D-4A28-81F2-8BD91DFE60E8} = {EBF62DC2-3141-4F82-A709-F38BBED5965E}
-		{A9822AE1-7515-4271-B907-518373D1F391} = {EBF62DC2-3141-4F82-A709-F38BBED5965E}
 		{7C030206-FC6A-41DA-9914-CC9170DEC634} = {9F328FE9-129D-4C0C-820B-BE4AA5996652}
 		{6E947195-D781-4812-A2B2-957041371D2E} = {6D9F5D00-2988-4812-844D-D155C4F588DC}
+		{27FC4A79-137D-45D5-BA6A-A52E440CA0D4} = {CEA830AA-908A-4876-9EB8-695FADCEA3E0}
+		{C028D18C-6260-4828-8007-AE27A0809E6B} = {27FC4A79-137D-45D5-BA6A-A52E440CA0D4}
+		{7C24A5AD-FC9A-4F03-8E6A-A57DAD599CD5} = {C028D18C-6260-4828-8007-AE27A0809E6B}
+		{F5602FB3-CA7F-418C-9FEA-F7497EF13A97} = {C028D18C-6260-4828-8007-AE27A0809E6B}
+		{B0D3D3AB-6921-46DF-BC61-895813CA417D} = {C028D18C-6260-4828-8007-AE27A0809E6B}
+		{EE0ED992-020A-467C-8194-E8DE2969325A} = {27FC4A79-137D-45D5-BA6A-A52E440CA0D4}
+		{E330FA31-1815-4815-A2D9-707B80B5B610} = {27FC4A79-137D-45D5-BA6A-A52E440CA0D4}
+		{938C106E-B0C2-4160-98BC-3FCE09200935} = {27FC4A79-137D-45D5-BA6A-A52E440CA0D4}
+		{06F3E565-B9CA-4DE4-AD76-9EF91F86B335} = {27FC4A79-137D-45D5-BA6A-A52E440CA0D4}
+		{432EDF6F-26B7-4362-B42D-6E09CF90CF1D} = {27FC4A79-137D-45D5-BA6A-A52E440CA0D4}
+		{558A8996-F77D-477B-BC87-13DF0D7C2031} = {27FC4A79-137D-45D5-BA6A-A52E440CA0D4}
+		{25425EDE-3E0B-440E-A165-AD4C90FA6780} = {27FC4A79-137D-45D5-BA6A-A52E440CA0D4}
+		{C5F6E9FF-7BF0-4CD6-BF0B-7F3524BAA991} = {25425EDE-3E0B-440E-A165-AD4C90FA6780}
+		{A44E7D65-FC0B-4B19-9A8D-9CE6CF7A6EF0} = {CEA830AA-908A-4876-9EB8-695FADCEA3E0}
+		{B222D424-D947-408C-9F91-86E578CCD3B4} = {A44E7D65-FC0B-4B19-9A8D-9CE6CF7A6EF0}
+		{284A0FD5-BEDD-47F0-A7D0-8FA04561B78D} = {A44E7D65-FC0B-4B19-9A8D-9CE6CF7A6EF0}
+		{F44D8848-5172-4324-833C-DD32D58D5664} = {284A0FD5-BEDD-47F0-A7D0-8FA04561B78D}
+		{D60D1900-945D-470C-A519-83A47A4D937C} = {284A0FD5-BEDD-47F0-A7D0-8FA04561B78D}
+		{31352F85-D8F9-4F57-A118-E081FFA062D7} = {284A0FD5-BEDD-47F0-A7D0-8FA04561B78D}
+		{7C6F8774-59D6-4896-8505-5DEDAD53BD3D} = {A44E7D65-FC0B-4B19-9A8D-9CE6CF7A6EF0}
+		{9ACAF685-8F7B-41F8-A41A-A26119F4B52B} = {A44E7D65-FC0B-4B19-9A8D-9CE6CF7A6EF0}
+		{493C0036-F3D7-4C94-A530-BAF61631A12A} = {9ACAF685-8F7B-41F8-A41A-A26119F4B52B}
+		{F053997A-A628-417E-893C-1014F2FE48F2} = {9ACAF685-8F7B-41F8-A41A-A26119F4B52B}
+		{A5923A9C-DE85-41A5-AFF9-9F8D60B29339} = {F053997A-A628-417E-893C-1014F2FE48F2}
+		{15E7D933-19BA-4A03-91DA-6A84CB1F9344} = {9ACAF685-8F7B-41F8-A41A-A26119F4B52B}
+		{94904465-D7AA-4121-A8A7-F6700952F0BA} = {9ACAF685-8F7B-41F8-A41A-A26119F4B52B}
+		{82530022-3319-4B83-ACF3-9415CD913006} = {94904465-D7AA-4121-A8A7-F6700952F0BA}
+		{C518CCC3-A3E4-4C31-A8A6-1CB0C33371B8} = {A44E7D65-FC0B-4B19-9A8D-9CE6CF7A6EF0}
+		{674A5E17-047A-4B5E-8782-40381EE5BD3C} = {C518CCC3-A3E4-4C31-A8A6-1CB0C33371B8}
+		{914CCDAB-5668-4A14-BF8A-8AE6D2204368} = {A44E7D65-FC0B-4B19-9A8D-9CE6CF7A6EF0}
+		{5B92B352-0AED-4FD8-9220-F0932CAEAC26} = {A44E7D65-FC0B-4B19-9A8D-9CE6CF7A6EF0}
+		{F2955999-88EE-4D8B-A00F-2BEB58715088} = {A44E7D65-FC0B-4B19-9A8D-9CE6CF7A6EF0}
+		{26C01F5B-2179-4117-A333-A9EF3D2CB52B} = {A44E7D65-FC0B-4B19-9A8D-9CE6CF7A6EF0}
+		{4FE501C1-EE18-4926-953F-38B3483F27F2} = {A44E7D65-FC0B-4B19-9A8D-9CE6CF7A6EF0}
+		{41F90DB3-6740-43DD-A0B3-1E471952B055} = {4FE501C1-EE18-4926-953F-38B3483F27F2}
+		{FEFA1FE3-ED5B-4BEB-99D6-08C52172E4F9} = {4FE501C1-EE18-4926-953F-38B3483F27F2}
+		{FD2303FA-3109-4A70-82B3-C4AEA27202D5} = {4FE501C1-EE18-4926-953F-38B3483F27F2}
+		{C25B31A0-F9C9-4F81-A4AD-8994A0DAC043} = {4FE501C1-EE18-4926-953F-38B3483F27F2}
+		{DE5AD8CF-3871-4259-AA14-48A3E40D2EEF} = {4FE501C1-EE18-4926-953F-38B3483F27F2}
+		{DB70B10B-4ACF-48AF-A162-3FE033F6EF74} = {4FE501C1-EE18-4926-953F-38B3483F27F2}
+		{47545A40-0C6F-4045-BE16-B517B30304E3} = {4FE501C1-EE18-4926-953F-38B3483F27F2}
+		{D136321D-88B4-4B22-BF10-87906813C60E} = {4FE501C1-EE18-4926-953F-38B3483F27F2}
+		{2C213DDE-416A-4920-BE35-4D4A3C278B28} = {4FE501C1-EE18-4926-953F-38B3483F27F2}
+		{EA9D84C0-F5F4-421B-8CFF-308A981EEFB4} = {4FE501C1-EE18-4926-953F-38B3483F27F2}
+		{08B7FDCE-2615-4AE4-BE15-55D7D12354B6} = {4FE501C1-EE18-4926-953F-38B3483F27F2}
+		{49AA82D0-B6A8-4C99-B9A5-460197718B9C} = {4FE501C1-EE18-4926-953F-38B3483F27F2}
+		{87D117CA-EC34-49DA-BA7A-7B516282D8D8} = {A44E7D65-FC0B-4B19-9A8D-9CE6CF7A6EF0}
+		{203C21AE-57BE-4A8C-B0B4-ADED07408448} = {A44E7D65-FC0B-4B19-9A8D-9CE6CF7A6EF0}
+		{D97523C8-B915-41D3-A11A-C11C7C0DB9A3} = {A44E7D65-FC0B-4B19-9A8D-9CE6CF7A6EF0}
+		{B5F7F675-8648-4585-AFB4-509AFE10A085} = {D97523C8-B915-41D3-A11A-C11C7C0DB9A3}
+		{B242C519-B287-4936-9F1B-AF7A46C24D9B} = {A44E7D65-FC0B-4B19-9A8D-9CE6CF7A6EF0}
+		{6F93BA17-7EBD-4B19-94A0-2D92B1D52C15} = {B242C519-B287-4936-9F1B-AF7A46C24D9B}
+		{580AA866-ADF9-4394-A6AA-3EE715F2D713} = {A44E7D65-FC0B-4B19-9A8D-9CE6CF7A6EF0}
+		{DE0F5622-BD07-4FAE-A314-EF55BA518E02} = {580AA866-ADF9-4394-A6AA-3EE715F2D713}
+		{69B7AEB2-66F3-4CFF-9E8C-14CD43ACA1D1} = {A44E7D65-FC0B-4B19-9A8D-9CE6CF7A6EF0}
+		{E17155DA-C24E-436B-8940-506FF32B044F} = {69B7AEB2-66F3-4CFF-9E8C-14CD43ACA1D1}
+		{4B8EA20C-C83A-48E7-97B9-F8CB73D5F026} = {69B7AEB2-66F3-4CFF-9E8C-14CD43ACA1D1}
+		{4FA6F8FD-BDDE-45C6-AF6A-CD92DE9D24A1} = {69B7AEB2-66F3-4CFF-9E8C-14CD43ACA1D1}
+		{A96E555E-3260-46DE-B76A-06BEE098FCA2} = {69B7AEB2-66F3-4CFF-9E8C-14CD43ACA1D1}
+		{703FA9ED-494F-40BA-8C3E-3FD345037A63} = {69B7AEB2-66F3-4CFF-9E8C-14CD43ACA1D1}
+		{6AD1B856-18E4-4322-BADC-64EF3C22544E} = {69B7AEB2-66F3-4CFF-9E8C-14CD43ACA1D1}
+		{1A85B1F2-F2BC-40FD-9E6F-89DE70DAEF46} = {A44E7D65-FC0B-4B19-9A8D-9CE6CF7A6EF0}
+		{BA0BC304-C0AC-4216-BB03-A27C777B4953} = {1A85B1F2-F2BC-40FD-9E6F-89DE70DAEF46}
+		{EFC8175D-D8D0-4B41-AC76-9FC05E432B84} = {1A85B1F2-F2BC-40FD-9E6F-89DE70DAEF46}
+		{0DE7D9F4-0F32-45A9-8BF9-87FDF2C1CFAB} = {1A85B1F2-F2BC-40FD-9E6F-89DE70DAEF46}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {026DA20F-820C-40AA-983E-0E231EA90AD5}
