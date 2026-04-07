@@ -1482,7 +1482,7 @@ Body:
     Hit: Single
     HitCount: 1
     CastTime: 700
-    Duration1: 30000
+    Duration1: 60000
     CastTimeFlags:
       IgnoreDex: false
       IgnoreStatus: false
@@ -1510,6 +1510,7 @@ Body:
           Amount: 46
         - Level: 10
           Amount: 50
+    Status: MagicPower
   - Id: 367
     Name: PA_PRESSURE
     Description: Gloria Domini
