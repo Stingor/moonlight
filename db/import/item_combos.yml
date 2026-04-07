@@ -6407,3 +6407,75 @@ Body:
           - Racing_SL_3
     Script: |
       bonus2 bSkillAtk,"SP_SWHOO",40; bonus2 bSkillAtk,"SL_SMA",40; bonus2 bSkillAtk,"SP_SPA",40; bonus2 bSkillCooldown,"SP_SOULREAPER",-10000;
+  - Combos:
+      - Combo:
+          - Firm_Nightmare_T_Card    # 27352
+          - Nightmare_Card    # 4127
+    Script: |
+      bonus bMaxSPrate,10;
+  - Combos:
+      - Combo:
+          - Firm_Nightmare_T_Card    # 27352
+          - Nightmare_Terror_Card    # 4166
+    Script: |
+      bonus2 bAddClass,Class_All,10;
+  - Combos:
+      - Combo:
+          - Firm_Deleter2_Card    # 27351
+          - Bungisngis_Card    # 4582
+    Script: |
+      bonus bMaxHPrate,5;
+  - Combos:
+      - Combo:
+          - Lava_Leather_Manteau    # 20935
+          - Lava_Leather_Boots    # 22199
+    Script: |
+      bonus bHit,5;
+  - Combos:
+      - Combo:
+          - Lava_Leather_Manteau    # 20935
+          - Lava_Leather_Boots    # 22199
+          - Lava_Leather_Armor    # 15378
+    Script: |
+      bonus bAtkRate,2;
+      .@a = getequiprefinerycnt(EQI_GARMENT);
+      .@b = getequiprefinerycnt(EQI_SHOES);
+      .@c = getequiprefinerycnt(EQI_ARMOR);
+      if (.@a >= 7 && .@b >= 7 && .@c >= 7) {
+         bonus bAtkRate,3;
+      }
+      if (.@a+.@b+.@c >= 27) {
+         bonus bDelayrate,-20;
+      }
+  - Combos:
+      - Combo:
+          - Lava_Leather_Muffler    # 20936
+          - Lava_Leather_Shoes    # 22200
+          - Lava_Leather_Suits    # 15379
+    Script: |
+      bonus bAtkRate,2;
+      .@a = getequiprefinerycnt(EQI_GARMENT);
+      .@b = getequiprefinerycnt(EQI_SHOES);
+      .@c = getequiprefinerycnt(EQI_ARMOR);
+      if (.@a >= 7 && .@b >= 7 && .@c >= 7) {
+         bonus bAtkRate,3;
+      }
+      if (.@a+.@b+.@c >= 27) {
+         bonus bCritAtkRate,20;
+      }
+  - Combos:
+      - Combo:
+          - Lava_Leather_Hode    # 20937
+          - Lava_Leather_Sandle    # 22201
+          - Lava_Leather_Robe    # 15380
+    Script: |
+      bonus bMatkRate,2;
+      .@a = getequiprefinerycnt(EQI_GARMENT);
+      .@b = getequiprefinerycnt(EQI_SHOES);
+      .@c = getequiprefinerycnt(EQI_ARMOR);
+      if (.@a >= 7 && .@b >= 7 && .@c >= 7) {
+         bonus bMatkRate,3;
+      }
+      if (.@a+.@b+.@c >= 27) {
+         bonus2 bMagicAtkEle,Ele_Fire,15;
+      }

@@ -206,9 +206,9 @@ Body:
       BuyingStore: true
       DropEffect: CLIENT
     Script: |
-      bonus bMaxHPrate,10;
+      bonus bMaxHPrate,20;
       if (BaseLevel>=200) {
-         bonus bMaxHPrate,10;
+         bonus bMaxHPrate,20;
       }
   - Id: 300255
     AegisName: Litus_Card
@@ -301,9 +301,9 @@ Body:
       BuyingStore: true
       DropEffect: CLIENT
     Script: |
-      bonus bMatkRate,5*(readparam(bInt)/10);
-      if (readparam(bInt)>=125) {
-         bonus bMatkRate,30;
+      bonus bMatkRate,readparam(bInt)/10;
+      if (readparam(bInt)>=250) {
+         bonus bMatkRate,10;
       }
   - Id: 300261
     AegisName: Galensis_Card
@@ -316,8 +316,8 @@ Body:
       BuyingStore: true
       DropEffect: CLIENT
     Script: |
-      bonus bCritical,2*(readparam(bLuk)/10);
-      if (readparam(bLuk)>=125) {
+      bonus bCritical,readparam(bLuk)/10;
+      if (readparam(bLuk)>=250) {
          bonus bCritAtkRate,30;
       }
   - Id: 300262
@@ -332,6 +332,6 @@ Body:
       DropEffect: RED_PILLAR
     Script: |
       bonus bUseSPrate,50;
-      bonus bMatkRate,10;
+      bonus bMatkRate,25;
       bonus2 bMagicAddRace,RC_Undead,50;
       bonus2 bMagicAddRace,RC_Dragon,50;

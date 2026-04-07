@@ -103,11 +103,11 @@ Body:
     Refineable: true
     Script: |
       .@r = getrefine();
-      bonus bBaseAtk,50;
+      bonus bBaseAtk,150;
       if (.@r>=7)
-         bonus bDef,1;
+         bonus bDef,3;
       if (.@r>=9)
-         bonus bDef,2;
+         bonus bDef,7;
   - Id: 15379
     AegisName: Lava_Leather_Suits
     Name: Lava Leather Suit
