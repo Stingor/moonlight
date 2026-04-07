@@ -2510,11 +2510,11 @@ uint32 status_weapon_atk( const weapon_atk& wa ){
 #endif
 
 #ifndef RENEWAL
-uint16 status_base_matk_min( const status_data* status ) {
-	return status->int_ + (status->int_ / 7) * (status->int_ / 7);
+uint32 status_base_matk_min( const status_data* status ) {
+	return (uint32)(status->int_ + (status->int_ / 7) * (status->int_ / 7));
 }
-uint16 status_base_matk_max( const status_data* status ) {
-	return status->int_ + (status->int_ / 5) * (status->int_ / 5);
+uint32 status_base_matk_max( const status_data* status ) {
+	return (uint32)(status->int_ + (status->int_ / 5) * (status->int_ / 5));
 }
 #else
 /*
@@ -2558,7 +2558,7 @@ uint16 status_base_atk_max( const block_list* bl, const status_data* status, int
 /*
 * Calculates minimum magic attack
 */
-uint16 status_base_matk_min( const block_list* bl, const status_data* status, int32 level )
+uint32 status_base_matk_min( const block_list* bl, const status_data* status, int32 level )
 {
 	switch (bl->type) {
 		case BL_PET:
@@ -2577,7 +2577,7 @@ uint16 status_base_matk_min( const block_list* bl, const status_data* status, in
 /*
 * Calculates maximum magic attack
 */
-uint16 status_base_matk_max( const block_list* bl, const status_data* status, int32 level )
+uint32 status_base_matk_max( const block_list* bl, const status_data* status, int32 level )
 {
 	switch (bl->type) {
 		case BL_PET:
@@ -6284,8 +6284,8 @@ void status_calc_bl_main(block_list& bl, std::bitset<SCB_MAX> flag)
 			matk_max += 3 * sd->soulball;
 		}
 
-		status->matk_min = static_cast<uint16>( cap_value(matk_min,0,USHRT_MAX) );
-		status->matk_max = static_cast<uint16>( cap_value(matk_max,0,USHRT_MAX) );
+		status->matk_min = (uint32)std::max(matk_min, 0);
+		status->matk_max = (uint32)std::max(matk_max, 0);
 #else
 		// MATK = StatusMATK + WeaponMATK + ExtraMATK
 		int32 lv = status_get_lv(&bl);
@@ -6369,8 +6369,8 @@ void status_calc_bl_main(block_list& bl, std::bitset<SCB_MAX> flag)
 			matk_max = matk_max * sd->matk_rate / 100;
 		}
 
-		status->matk_min = static_cast<uint16>( cap_value(matk_min,0,USHRT_MAX) );
-		status->matk_max = static_cast<uint16>( cap_value(matk_max,0,USHRT_MAX) );
+		status->matk_min = (uint32)std::max(matk_min, 0);
+		status->matk_max = (uint32)std::max(matk_max, 0);
 #endif
 	}
 
@@ -7436,14 +7436,14 @@ static uint16 status_calc_watk(block_list *bl, status_change *sc, int32 watk)
  * @param matk: Initial matk
  * @return modified matk with cap_value(matk,0,USHRT_MAX)
  */
-uint16 status_calc_pseudobuff_matk( map_session_data* sd, status_change *sc, int32 matk ){
+uint32 status_calc_pseudobuff_matk( map_session_data* sd, status_change *sc, int32 matk ){
 	// Flat MATK bonus from skills without sc
 	if (uint16 skill_lv = pc_checkskill(sd, NV_TRANSCENDENCE); skill_lv > 0) {
 		matk += 15 * skill_lv + (skill_lv > 4 ? 25 : 0);
 	}
 
 	if (sc == nullptr || sc->empty())
-		return static_cast<uint16>( cap_value(matk,0,USHRT_MAX) );
+		return (uint32)std::max(matk, 0);
 
 	struct status_change_entry* sce;
 
@@ -7484,7 +7484,7 @@ uint16 status_calc_pseudobuff_matk( map_session_data* sd, status_change *sc, int
 	if (sc->getSCE(SC_CLIMAX_DES_HU))
 		matk += 100;
 
-	return static_cast<uint16>( cap_value(matk,0,USHRT_MAX) );
+	return (uint32)std::max(matk, 0);
 }
 
 /**
@@ -7493,13 +7493,13 @@ uint16 status_calc_pseudobuff_matk( map_session_data* sd, status_change *sc, int
  * @param matk: Initial matk
  * @return modified matk with cap_value(matk,0,USHRT_MAX)
  */
-uint16 status_calc_consumablematk( status_change *sc, int32 matk ){
+uint32 status_calc_consumablematk( status_change *sc, int32 matk ){
 	if (sc == nullptr || sc->empty())
-		return static_cast<uint16>( cap_value(matk,0,USHRT_MAX) );
+		return (uint32)std::max(matk, 0);
 
 	// struct status_change_entry* sce;
 
-	return static_cast<uint16>( cap_value(matk,0,USHRT_MAX) );
+	return (uint32)std::max(matk, 0);
 }
 
 /**

@@ -3388,9 +3388,9 @@ struct status_data {
 		watk,
 		watk2,
 #endif
-		matk_min, matk_max,
 		speed,
 		amotion, clientamotion, adelay, dmotion;
+	uint32 matk_min, matk_max;
 	int32 mode;
 	int16
 		hit, flee, cri, flee2,
@@ -3723,16 +3723,16 @@ bool status_check_visibility(const block_list* src, const block_list* target, bo
 int32 status_change_spread(block_list *src, block_list *bl);
 
 #ifndef RENEWAL
-uint16 status_base_matk_min(const struct status_data* status);
-uint16 status_base_matk_max(const struct status_data* status);
+uint32 status_base_matk_min(const struct status_data* status);
+uint32 status_base_matk_max(const struct status_data* status);
 #else
 uint16 status_base_atk_min( const block_list* bl, const status_data* status, int32 level );
 uint16 status_base_atk_max( const block_list* bl, const status_data* status, int32 level );
-uint16 status_base_matk_min( const block_list* bl, const status_data* status, int32 level );
-uint16 status_base_matk_max( const block_list* bl, const status_data* status, int32 level );
+uint32 status_base_matk_min( const block_list* bl, const status_data* status, int32 level );
+uint32 status_base_matk_max( const block_list* bl, const status_data* status, int32 level );
 #endif
-uint16 status_calc_consumablematk( status_change *sc, int32 matk );
-uint16 status_calc_pseudobuff_matk( map_session_data *sd, status_change *sc, int32 matk );
+uint32 status_calc_consumablematk( status_change *sc, int32 matk );
+uint32 status_calc_pseudobuff_matk( map_session_data *sd, status_change *sc, int32 matk );
 
 uint16 status_base_atk(const block_list *bl, const struct status_data *status, int32 level);
 
