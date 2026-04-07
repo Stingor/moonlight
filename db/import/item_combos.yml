@@ -6437,12 +6437,12 @@ Body:
           - Lava_Leather_Boots    # 22199
           - Lava_Leather_Armor    # 15378
     Script: |
-      bonus bAtkRate,2;
+      bonus2 bAddClass,Class_All,2;
       .@a = getequiprefinerycnt(EQI_GARMENT);
       .@b = getequiprefinerycnt(EQI_SHOES);
       .@c = getequiprefinerycnt(EQI_ARMOR);
       if (.@a >= 7 && .@b >= 7 && .@c >= 7) {
-         bonus bAtkRate,3;
+         bonus2 bAddClass,Class_All,3;
       }
       if (.@a+.@b+.@c >= 27) {
          bonus bDelayrate,-20;
@@ -6453,12 +6453,12 @@ Body:
           - Lava_Leather_Shoes    # 22200
           - Lava_Leather_Suits    # 15379
     Script: |
-      bonus bAtkRate,2;
+      bonus2 bAddClass,Class_All,2;
       .@a = getequiprefinerycnt(EQI_GARMENT);
       .@b = getequiprefinerycnt(EQI_SHOES);
       .@c = getequiprefinerycnt(EQI_ARMOR);
       if (.@a >= 7 && .@b >= 7 && .@c >= 7) {
-         bonus bAtkRate,3;
+         bonus2 bAddClass,Class_All,3;
       }
       if (.@a+.@b+.@c >= 27) {
          bonus bCritAtkRate,20;
@@ -6469,12 +6469,12 @@ Body:
           - Lava_Leather_Sandle    # 22201
           - Lava_Leather_Robe    # 15380
     Script: |
-      bonus bMatkRate,2;
+      bonus bMatkRate,4;
       .@a = getequiprefinerycnt(EQI_GARMENT);
       .@b = getequiprefinerycnt(EQI_SHOES);
       .@c = getequiprefinerycnt(EQI_ARMOR);
       if (.@a >= 7 && .@b >= 7 && .@c >= 7) {
-         bonus bMatkRate,3;
+         bonus bMatkRate,6;
       }
       if (.@a+.@b+.@c >= 27) {
          bonus2 bMagicAtkEle,Ele_Fire,15;

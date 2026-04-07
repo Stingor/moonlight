@@ -88,7 +88,6 @@ Header:
   Version: 3
 
 Body:
-
   - Id: 15378
     AegisName: Lava_Leather_Armor
     Name: Lava Leather Armor
@@ -103,7 +102,7 @@ Body:
     Refineable: true
     Script: |
       .@r = getrefine();
-      bonus bBaseAtk,150;
+      bonus bBaseAtk,100;
       if (.@r>=7)
          bonus bDef,3;
       if (.@r>=9)
@@ -122,18 +121,18 @@ Body:
     Refineable: true
     Script: |
       .@r = getrefine();
-      bonus bBaseAtk,50;
+      bonus bBaseAtk,100;
       if (.@r>=7)
-         bonus bBaseAtk,25;
+         bonus bBaseAtk,50;
       if (.@r>=9)
-         bonus bCritAtkRate,5;
+         bonus bCritAtkRate,10;
   - Id: 15380
     AegisName: Lava_Leather_Robe
     Name: Lava Leather Robe
     Type: Armor
     Buy: 50000
     Weight: 750
-    Defense: 55
+    Defense: 5
     Slots: 1
     Locations:
       Armor: true
@@ -141,30 +140,30 @@ Body:
     Refineable: true
     Script: |
       .@r = getrefine();
-      bonus bMatk,50;
+      bonus bMatkRate,10;
       if (.@r>=7)
-         bonus bMatk,25;
+         bonus bMatkRate,4;
       if (.@r>=9)
-         bonus bMatk,12;
+         bonus bMatkRate,8;
   - Id: 20935
     AegisName: Lava_Leather_Manteau
     Name: Lava Leather Manteau
     Type: Armor
     Buy: 50000
     Weight: 400
-    Defense: 4
+    Defense: 6
     Slots: 1
     Locations:
       Garment: true
     ArmorLevel: 1
     Refineable: true
     Script: |
-      bonus bHit,8;
+      bonus bHit,10;
       .@r = getrefine();
       if (.@r>=5)
-         bonus bHit,2;
+         bonus bHit,5;
       if (.@r>=7)
-         bonus bHit,4;
+         bonus bHit,5;
       if (.@r>=9)
          bonus bDelayrate,-3;
   - Id: 20936
@@ -173,7 +172,7 @@ Body:
     Type: Armor
     Buy: 50000
     Weight: 350
-    Defense: 35
+    Defense: 5
     Slots: 1
     Locations:
       Garment: true
@@ -182,11 +181,11 @@ Body:
     Script: |
       bonus bCritical,5;
       .@r = getrefine();
-      if (.@r>=7)
+      if (.@r>=5)
          bonus bCritical,5;
-      if (.@r>=9)
+      if (.@r>=7)
          bonus bCritAtkRate,5;
-      if (.@r>=11)
+      if (.@r>=9)
          bonus bAtkRate,3;
   - Id: 20937
     AegisName: Lava_Leather_Hode
@@ -203,11 +202,11 @@ Body:
     Script: |
       bonus bVariableCastrate,-10;
       .@r = getrefine();
+      if (.@r>=5)
+         bonus bVariableCastrate,-10;
       if (.@r>=7)
          bonus bVariableCastrate,-10;
       if (.@r>=9)
-         bonus bVariableCastrate,-10;
-      if (.@r>=11)
          bonus2 bMagicAtkEle,Ele_Fire,15;
   - Id: 22199
     AegisName: Lava_Leather_Boots
@@ -263,6 +262,6 @@ Body:
       .@r = getrefine();
       bonus2 bMagicAtkEle,Ele_Fire,3;
       if (.@r>=7)
-         bonus bMatk,25;
+         bonus bMatkRate,8;
       if (.@r>=9)
-         bonus bMatk,15;
+         bonus bMatkRate,4;

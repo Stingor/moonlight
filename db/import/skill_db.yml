@@ -1600,7 +1600,7 @@ Body:
     Type: Weapon
     TargetType: Attack
     DamageFlags:
-      IgnoreAtkCard: true
+      IgnoreAtkCard: false
     Range: 9
     Hit: Single
     HitCount: 1
