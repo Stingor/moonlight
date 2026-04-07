@@ -6273,7 +6273,7 @@ void status_calc_bl_main(block_list& bl, std::bitset<SCB_MAX> flag)
 		matk_min = status_calc_consumablematk( sc, matk_min );
 		matk_max = status_calc_consumablematk( sc, matk_max );
 
-		if (sc && sc->getSCE(SC_MAGICPOWER) && sc->getSCE(SC_MAGICPOWER)->val4) {
+		if (sc && sc->getSCE(SC_MAGICPOWER)) {
 			matk_min += matk_min * sc->getSCE(SC_MAGICPOWER)->val3 / 100;
 			matk_max += matk_max * sc->getSCE(SC_MAGICPOWER)->val3 / 100;
 		}
@@ -10948,10 +10948,6 @@ static bool status_change_start_post_delay(block_list* src, block_list* bl, sc_t
 			break;
 		case SC_MAGICPOWER:
 			val3 = 5 * val1; // Matk% increase
-#ifndef RENEWAL
-			val2 = 1; // Lasts 1 invocation
-			val4 = 0; // 0 = ready to be used, 1 = activated and running
-#endif
 			break;
 		case SC_SACRIFICE:
 			val2 = 5; // Lasts 5 hits

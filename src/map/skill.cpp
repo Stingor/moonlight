@@ -14166,24 +14166,6 @@ void skill_poisoningweapon( map_session_data& sd, t_itemid nameid ){
  */
 void skill_toggle_magicpower(block_list *bl, uint16 skill_id)
 {
-	status_change *sc = status_get_sc(bl);
-
-	// non-offensive and non-magic skills do not affect the status
-	if (skill_get_nk(skill_id, NK_NODAMAGE) || !(skill_get_type(skill_id)&BF_MAGIC))
-		return;
-
-	if (sc != nullptr && !sc->empty() && sc->getSCE(SC_MAGICPOWER)) {
-		if (sc->getSCE(SC_MAGICPOWER)->val4) {
-			status_change_end(bl, SC_MAGICPOWER);
-		} else {
-			sc->getSCE(SC_MAGICPOWER)->val4 = 1;
-			status_calc_bl_(bl, status_db.getCalcFlag(SC_MAGICPOWER));
-			if(bl->type == BL_PC){// update current display.
-				clif_updatestatus(*((map_session_data *)bl),SP_MATK1);
-				clif_updatestatus(*((map_session_data *)bl),SP_MATK2);
-			}
-		}
-	}
 }
 
 void skill_magicdecoy( map_session_data& sd, t_itemid nameid ){
