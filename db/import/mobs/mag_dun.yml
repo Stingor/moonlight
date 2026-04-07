@@ -84,7 +84,7 @@ Body:
     AegisName: BLAZZER_H
     Name: Rigid Blazer
     Level: 178
-    Hp: 1218064
+    Hp: 618064
     BaseExp: 510733
     JobExp: 227513
     Attack: 2158
@@ -136,7 +136,7 @@ Body:
     AegisName: NIGHTMARE_TERROR_H
     Name: Rigid Nightmare Terror
     Level: 179
-    Hp: 1218702
+    Hp: 618702
     BaseExp: 510791
     JobExp: 227554
     Attack: 1812
@@ -187,7 +187,7 @@ Body:
     AegisName: DELETER1_H
     Name: Rigid Sky Deleter
     Level: 174
-    Hp: 1189532
+    Hp: 589532
     BaseExp: 508139
     JobExp: 225698
     Attack: 2523
@@ -236,7 +236,7 @@ Body:
     AegisName: DELETER2_H
     Name: Rigid Earth Deleter
     Level: 173
-    Hp: 1182695
+    Hp: 582695
     BaseExp: 507518
     JobExp: 225262
     Attack: 2509
@@ -285,7 +285,7 @@ Body:
     AegisName: EXPLOSION_H
     Name: Rigid Explosion
     Level: 171
-    Hp: 1166287
+    Hp: 566287
     BaseExp: 506026
     JobExp: 222218
     Attack: 1902
@@ -334,7 +334,7 @@ Body:
     AegisName: KAHO_H
     Name: Rigid Kaho
     Level: 173
-    Hp: 1178774
+    Hp: 578774
     BaseExp: 507162
     JobExp: 225012
     Attack: 2076
@@ -383,7 +383,7 @@ Body:
     AegisName: LAVA_GOLEM_H
     Name: Rigid Lava Golem
     Level: 177
-    Hp: 1223728
+    Hp: 623728
     BaseExp: 811248
     JobExp: 277873
     Attack: 2677
@@ -433,7 +433,7 @@ Body:
     AegisName: MUSPELLSKOLL_H
     Name: Rigid Muspellskoll
     Level: 188
-    Hp: 48530254
+    Hp: 4853025
     BaseExp: 19706050
     JobExp: 9794235
     MvpExp: 550000
