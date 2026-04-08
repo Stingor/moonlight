@@ -2759,7 +2759,7 @@ int64 skill_attack (int32 attack_type, block_list* src, block_list *dsrc, block_
 	nullpo_ret(bl);		//Target to be attacked.
 
 	// [Stingor] -->
-	if (status_bl_has_mode(bl, MD_SKILLIMMUNE))
+	if (status_bl_has_mode(bl, MD_SKILLIMMUNE) && bl != src)
 		return 0;
 
 	if (isobjwoe(status_get_class(bl)))
