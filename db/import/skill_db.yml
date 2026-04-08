@@ -2056,6 +2056,7 @@ Body:
           Amount: 72
         - Level: 10
           Amount: 80
+    Status: Sma
   - Id: 475
     Name: ST_PRESERVE
     Description: Preserve
