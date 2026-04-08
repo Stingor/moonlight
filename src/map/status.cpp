@@ -9656,10 +9656,10 @@ t_tick status_get_sc_def(const block_list* src, const block_list* bl, sc_type ty
 		if (skill == nullptr) // Check for ground-type skills using the status when a player moves through units
 			skill = skill_db.find(status_db.getSkill(type));
 
-		if (skill != nullptr && skill->skill_type == BF_MAGIC && // Basic magic skill
-			!skill->inf2[INF2_IGNOREGTB] && // Specific skill to bypass
-			((skill->inf == INF_ATTACK_SKILL || skill->inf == INF_GROUND_SKILL || skill->inf == INF_SUPPORT_SKILL) || // Target skills should get blocked even when cast on self
-			 (skill->inf == INF_SELF_SKILL && src != bl))) // Self skills should get blocked on all targets except self
+		if (skill != nullptr && skill->skill_type == BF_MAGIC &&
+			!skill->inf2[INF2_IGNOREGTB] &&
+			((skill->inf == INF_ATTACK_SKILL || skill->inf == INF_GROUND_SKILL || skill->inf == INF_SUPPORT_SKILL || skill->inf == INF_SELF_SKILL)
+			 && src != bl)) // Jamais bloquer un status appliqué sur le caster lui-même
 			return 0;
 	}
 
