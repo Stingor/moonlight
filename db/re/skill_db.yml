@@ -43732,7 +43732,7 @@ Body:
     HitCount: -3
     GiveAp: 3
     Element: Weapon
-    SplashArea: 2
+    SplashArea: 3
     Cooldown: 3500
     FixedCastTime: 500
     Duration1: 2500
@@ -44952,7 +44952,7 @@ Body:
       - Level: 5
         Area: 3
     AfterCastActDelay: 300
-    Cooldown: 1000
+    Cooldown: 750
     Requires:
       SpCost:
         - Level: 1
