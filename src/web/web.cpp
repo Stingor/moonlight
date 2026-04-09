@@ -520,7 +520,7 @@ bool WebServer::initialize( int32 argc, char* argv[] ){
 		return false;
 	}
 
-	ShowStatus("The web-server is " CL_GREEN "ready" CL_RESET " (Server is listening on the port %u).\n\n", web_config.web_port);
+	ShowNotice("The web-server is " CL_GREEN "ready" CL_RESET " (Server is listening on the port %u).\n\n", web_config.web_port);
 	return true;
 #endif
 }

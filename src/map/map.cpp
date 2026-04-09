@@ -5521,7 +5521,7 @@ bool MapServer::initialize( int32 argc, char *argv[] ){
 		ShowNotice("Server is running on '" CL_WHITE "PK Mode" CL_RESET "'.\n");
 
 #ifndef MAP_GENERATOR
-	ShowStatus("Server is '" CL_GREEN "ready" CL_RESET "' and listening on port '" CL_WHITE "%d" CL_RESET "'.\n\n", map_port);
+	ShowNotice("Server is '" CL_GREEN "ready" CL_RESET "' and listening on port '" CL_WHITE "%d" CL_RESET "'.\n\n", map_port);
 #else
 	// depending on gen_options, generate the correct things
 	if (gen_options.navi)

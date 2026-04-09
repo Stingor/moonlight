@@ -3287,7 +3287,7 @@ bool CharacterServer::initialize( int32 argc, char *argv[] ){
 
 	do_init_chcnslif();
 
-	ShowStatus("The char-server is " CL_GREEN "ready" CL_RESET " (Server is listening on the port %d).\n\n", charserv_config.char_port);
+	ShowNotice("The char-server is " CL_GREEN "ready" CL_RESET " (Server is listening on the port %d).\n\n", charserv_config.char_port);
 
 	return true;
 }
