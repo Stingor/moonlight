@@ -485,8 +485,10 @@ OnCommand:
 		end;
 	}
 
-	.@mobid = atoi(.@atcmd_parameters$[0]);
-	if( getmonsterinfo(.@mobid, MOB_NAME) == "null" ) {
+	.@mobid = getmonsterinfo(atoi(.@atcmd_parameters$[0]) <= 0 ? atoi(.@atcmd_parameters$[0]):.@atcmd_parameters$[0], MOB_ID);
+
+	if( .@mobid == -1 )
+	{
 		dispbottom "Mob introuvable.";
 		end;
 	}
