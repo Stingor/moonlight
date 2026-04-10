@@ -5537,6 +5537,8 @@ TIMER_FUNC(skill_castend_id){
 
 		if (!sd || sd->skillitem != ud->skill_id || skill_get_delay(ud->skill_id, ud->skill_lv))
 			ud->canact_tick = i64max(tick + skill_delayfix(src, ud->skill_id, ud->skill_lv), ud->canact_tick - SECURITY_CASTTIME);
+		else
+			ud->canact_tick -= SECURITY_CASTTIME; // Item skill with no delay: remove security casttime
 
 		// Cooldown application
 		switch (src->type) {
@@ -5799,6 +5801,8 @@ TIMER_FUNC(skill_castend_pos){
 
 		if (!sd || sd->skillitem != ud->skill_id || skill_get_delay(ud->skill_id, ud->skill_lv))
 			ud->canact_tick = i64max(tick + skill_delayfix(src, ud->skill_id, ud->skill_lv), ud->canact_tick - SECURITY_CASTTIME);
+		else
+			ud->canact_tick -= SECURITY_CASTTIME; // Item skill with no delay: remove security casttime
 		if (sd) { //Cooldown application
 			int32 cooldown = pc_get_skillcooldown(sd,ud->skill_id, ud->skill_lv);
 			if(cooldown) skill_blockpc_start(*sd, ud->skill_id, cooldown);
