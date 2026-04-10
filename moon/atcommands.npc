@@ -485,7 +485,7 @@ OnCommand:
 		end;
 	}
 
-	.@mobid = getmonsterinfo(atoi(.@atcmd_parameters$[0]) <= 0 ? atoi(.@atcmd_parameters$[0]):.@atcmd_parameters$[0], MOB_ID);
+	.@mobid = getmonsterinfo(atoi(.@atcmd_parameters$[0]) > 0 ? atoi(.@atcmd_parameters$[0]) : .@atcmd_parameters$[0], MOB_ID);
 
 	if( .@mobid == -1 )
 	{
