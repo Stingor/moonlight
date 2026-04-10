@@ -186,7 +186,7 @@ Body:
       if (.@r>=7)
          bonus bCritAtkRate,5;
       if (.@r>=9)
-         bonus bAtkRate,3;
+         bonus2 bAddClass,Class_All,3;
   - Id: 20937
     AegisName: Lava_Leather_Hode
     Name: Lava Leather Hood
@@ -222,7 +222,7 @@ Body:
     Refineable: true
     Script: |
       .@r = getrefine();
-      bonus bAtkRate,2;
+      bonus2 bAddClass,Class_All,2;
       if (.@r>=7)
          bonus bBaseAtk,25;
       if (.@r>=9)
