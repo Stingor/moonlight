@@ -120,7 +120,7 @@ function	script	monster_event	{
 		for( .@i = 0; .@i <= (.@amount - 1); .@i++) {
 			.@mobgid = $@mobid[.@i];
 			setunitdata .@mobgid, UMOB_LEVEL, 666;
-			if( getargs(6,0) == 1 )
+			if( getarg(6, 0) == 1 )
 				setunitdata .@mobgid, UMOB_MODE, MD_CANMOVE|MD_AGGRESSIVE|MD_ASSIST|MD_CANATTACK|MD_CHANGECHASE|MD_ANGRY|MD_CHANGETARGETMELEE|MD_CHANGETARGETCHASE|MD_RANDOMTARGET|MD_MVP|MD_KNOCKBACKIMMUNE|MD_STATUSIMMUNE;
 			setunitdata .@mobgid, UMOB_MAXHP, .@hp;
 			setunitdata .@mobgid, UMOB_ATKMIN, 80000;
