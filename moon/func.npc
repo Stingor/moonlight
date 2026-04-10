@@ -106,13 +106,13 @@ function	script	instancereward	{
 
 function	script	monster_event	{
 	.@map$ = getarg(0);
-	.@x = getarg(1);
-	.@y = getarg(2);
-	.@mobid = getarg(3);
-	.@amount = cap_value(getarg(4),1,10);
+	.@x = getarg(1, 0);
+	.@y = getarg(2, 0);
+	.@mobid = getarg(3, 1000);
+	.@amount = cap_value(getarg(4, 1), 1, 10);
 	if( .@mobid < 1000 || getmonsterinfo(.@mobid, MOB_MAXHP) < 1 || .@amount < 1 )
 		return 0;
-	.@hp = cap_value(getarg(5),getmonsterinfo(.@mobid, MOB_MAXHP),1000000000);
+	.@hp = cap_value(getarg(5, getmonsterinfo(.@mobid, MOB_MAXHP)), getmonsterinfo(.@mobid, MOB_MAXHP), 1000000000);
 
 	monster .@map$,(.@x - 5)+rand(10),(.@y - 5)+rand(10),"Furious "+getmonsterinfo(.@mobid, MOB_NAME),.@mobid,.@amount,"",2;
 
