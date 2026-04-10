@@ -136,7 +136,10 @@ OnPCKillEvent:
 		end;
 
 	if (@nm == .Feed && .Penalty) {
-		callsub OnClearData;
+		NemesisKilled = 0;
+		@ks = 0;
+		@mk = 0;
+		@nm = 0;
 		switch (.Penalty) {
 			case 0: break;
 			case 1: callsub OnRollback; break;
@@ -236,19 +239,19 @@ OnPCKillEvent:
 			announce strcharinfo(0)+" "+.MKDotA$[@mk - 2]+" "+(.Multiple?"("+@mk+")":"")+"", (.Broadcast?bc_all:bc_map), .MKColor$;
 		if( #Announcer > 1 && #Announcer < 7 )
 			announce strcharinfo(0)+" "+.MKHoN$[@mk - 2]+" "+(.Multiple?"("+@mk+")":"")+"", (.Broadcast?bc_all:bc_map), .MKColor$;
-		sleep2 1500;
+		sleep2 1000;
 		//soundeffectall ""+#Announcer+"_MK"+@mk+".wav", 0, strcharinfo(3);
 	}
 
 	if( @nm > 3 && @nm < .Feed ) {
 		announce strcharinfo(0)+" is owning "+rid2name(NemesisKilled)+" "+(.Nemesis?"("+@nm+")":"")+"", (.Broadcast?bc_all:bc_map), .NMColor$;
-		sleep2 1500;
+		sleep2 1000;
 		// if(#Announcer > 0){ soundeffectall #Announcer+"_Nemesis.wav", 0, strcharinfo(3); } else { soundeffectall "1_Nemesis.wav", 0;}
 	}
 
 	if(@nm >= .Feed){
 		announce rid2name(NemesisKilled)+" is feeding "+strcharinfo(0)+" "+(.Feeder?"("+@nm+")":"")+"", (.Broadcast?bc_all:bc_map), .FDColor$;
-		sleep2 1500;
+		sleep2 1000;
 		//soundeffectall "Feeder.wav", 0, strcharinfo(3);
 	}
 
@@ -297,21 +300,13 @@ OnPCLogoutEvent:
 	if( strcharinfo(3) != "pvp_n_3-5")
 		end;
 
-	callsub OnClearData; 
+	NemesisKilled = 0;
 	deltimer "Versus::OnMKReset";
 end;
 
 OnMKReset:
 	@mk = 0;
 end;
-
-OnClearData:
-	sleep2 3000;
-	NemesisKilled = 0;
-	@ks = 0;
-	@mk = 0;
-	@nm = 0;
-return;
 
 OnRollback:
 	if( .Zeny )
