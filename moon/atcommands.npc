@@ -985,17 +985,20 @@ OnAtcommand:
 		// Dans le storage - sd->storage.stor_id == 0
 		.@nb1 = SearchStorage(.@itemid, accountid, 0, .@deep);
 
-		// Dans le storage2 - sd->premiumStorage.stor_id == 1
+		// Dans le storage1 - sd->premiumStorage.stor_id == 1
 		.@nb2 = SearchStorage(.@itemid, accountid, 1, .@deep);
 
-		// Dans le storage3 - sd->premiumStorage.stor_id == 2
+		// Dans le storage2 - sd->premiumStorage.stor_id == 2
 		.@nb3 = SearchStorage(.@itemid, accountid, 2, .@deep);
 
-		// Dans le storage4 - sd->premiumStorage.stor_id == 3
+		// Dans le storage3 - sd->premiumStorage.stor_id == 3
 		.@nb4 = SearchStorage(.@itemid, accountid, 3, .@deep);
 
-		// Dans le storage5 - sd->premiumStorage.stor_id == 4
+		// Dans le storage4 - sd->premiumStorage.stor_id == 4
 		.@nb5 = SearchStorage(.@itemid, accountid, 4, .@deep);
+
+		// Dans le storage5 - sd->premiumStorage.stor_id == 5
+		.@nb6 = SearchStorage(.@itemid, accountid, 5, .@deep);
 
 		// Dans la charette - sd->cart
 		if( checkcart() )
@@ -1100,7 +1103,7 @@ OnAtcommand:
 		}
 
 		// Calcul du total
-		.@total = .@nbi + .@nb1 + .@nb2 + .@nb3 + .@nb4 + .@nb5 + .@nbc + .@nbg;
+		.@total = .@nbi + .@nb1 + .@nb2 + .@nb3 + .@nb4 + .@nb5 + .@nb6 + .@nbc + .@nbg;
 
 		if( .@deep )
 		{
@@ -1108,7 +1111,6 @@ OnAtcommand:
 
 			//Recupération de la liste des personnages du joueur sauf celui en ligne
 			query_sql("SELECT `char_id`, `name`, `class`, `base_level` FROM `char` WHERE `char_id` <> "+charid+" AND account_id = "+accountid, .@charidList, .@charnameList$, .@charclassList, .@charlvlList);
-			.@j = 0;
 			if( getarraysize(.@charidList) > 0 )
 			{
 				dispbottom "[ Recherche dans le reste du compte ]",0xF0FF0F;
@@ -1124,7 +1126,7 @@ OnAtcommand:
 					.@nb = 0;
 					showscript "Recherche sur votre "+jobname(.@charclassList[.@p])+" - "+.@charnameList$[.@p]+" (Lv:"+.@charlvlList[.@p]+")", accountid, SELF;
 					progressbar "FFFFFF",1;
-					query_sql("SELECT `amount` FROM `inventory` WHERE `char_id` = "+.@charidList[.@p]+" AND `nameid` = "+.@itemid, .@nb);
+					query_sql("SELECT SUM(`amount`) FROM `inventory` WHERE `char_id` = "+.@charidList[.@p]+" AND `nameid` = "+.@itemid, .@nb);
 
 					//Si on a trouvé l'item sur ce personnage
 					if( .@nb > 0 )
@@ -1177,7 +1179,7 @@ OnAtcommand:
 					
 					ClearVars();
 					.@nb = 0;
-					query_sql("SELECT `amount` FROM `cart_inventory` WHERE `char_id` = "+.@charidList[.@p]+" AND `nameid` = "+.@itemid, .@nb);
+					query_sql("SELECT SUM(`amount`) FROM `cart_inventory` WHERE `char_id` = "+.@charidList[.@p]+" AND `nameid` = "+.@itemid, .@nb);
 					//Si on a trouvé l'item dans le cart du perso
 					if( .@nb > 0 )
 					{
@@ -1242,21 +1244,21 @@ OnAtcommand:
 function SearchStorage {
 	.@id = getarg(0);
 	.@aid = getarg(1);
-	.@stor_id = getarg(2);
+	.@stor_id = getarg(2,0);
 	.@deep = getarg(3);
 	ClearVars();
 	if( .@stor_id > 0 )
 		loadstorage .@stor_id;	// bien faire un sleep2 ou progressbar pour attendre le load du storage
-	showscript "Recherche dans le @storage"+(.@stor_id+1), .@aid, SELF;
+	showscript "Recherche dans le @storage"+(.@stor_id>0?.@stor_id:""), .@aid, SELF;
 	progressbar "FFFFFF",1;
 	.@nbr = storagecountitem(.@id, .@aid, .@stor_id);
 	if (.@nbr > 0)
-		dispbottom "[ "+.@nbr+" dans le Storage"+(.@stor_id+1)+" ]",0xF0FF0F;
+		dispbottom "[ "+.@nbr+" dans le Storage"+(.@stor_id>0?.@stor_id:"")+" ]",0xF0FF0F;
 	if (.@deep && getiteminfo( .@id, ITEMINFO_TYPE ) == IT_CARD)
 	{
 		getstoragelist(.@stor_id);
 		if( @storagelist_count > 0 ) {
-			showscript "Recherche dans les slots d'items du storage"+(.@stor_id+1), .@aid, SELF;
+			showscript "Recherche dans les slots d'items du storage"+(.@stor_id>0?.@stor_id:""), .@aid, SELF;
 			progressbar "FFFFFF",1;
 			.@it = 0;
 			
@@ -1282,7 +1284,7 @@ function SearchStorage {
 			}
 			if ( getarraysize(.@flaggeditemid) > 0 )
 			{
-				dispbottom "[ Contenu dans du stuff de storage"+(.@stor_id+1)+" ]",0xF0FF0F;
+				dispbottom "[ Contenu dans du stuff de storage"+(.@stor_id>0?.@stor_id:"")+" ]",0xF0FF0F;
 				for (.@i = 0; .@i < getarraysize(.@flaggeditemid); ++.@i)
 				{
 					dispbottom "| "+(.@flaggeditemrefine[.@i]>0?"+"+.@flaggeditemrefine[.@i]+" ":"")+""+getitemname(.@flaggeditemid[.@i])+" en contient "+.@flaggeditemnb[.@i]+" !";
