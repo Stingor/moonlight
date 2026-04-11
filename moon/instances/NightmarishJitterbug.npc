@@ -1318,12 +1318,12 @@ OnTouch_:
 	if (select( "Talk.", "Hurry." ) == 2 && isbegin_quest(13183) == 2) {
 		npctalk "Try to jog your memory while hurrying.";
 		if ('room == 9 && is_party_leader() == true) {
-			donpcevent 'jitterbug_main$ + "::OnNextIs10";
-			if (jitterbug_options & 1)
-				mobhm('hm,1,'map_jtb$,351,131,389,96, "--ja--", 3108,1,'jitterbug_main$+"::OnJitterDead");
 			disablenpc instance_npcname("Newoz#09");
 			disablenpc instance_npcname("Shaloshi#09");
 			disablenpc instance_npcname("Lagi#09");
+			donpcevent 'jitterbug_main$ + "::OnNextIs10";
+			if (jitterbug_options & 1)
+				mobhm('hm,1,'map_jtb$,351,131,389,96, "--ja--", 3108,1,'jitterbug_main$+"::OnJitterDead");
 		}
 		end;
 	}
