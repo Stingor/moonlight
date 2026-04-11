@@ -27,7 +27,7 @@ OnMvpDead:
 				.@mobid = 1874;
 			if( .@mobid == 1916 )
 				.@mobid = 1917;
-			if( .@mobid == .mvps[Mission_MVP_ID-2] ) {
+			if( .@mobid == $mvps[Mission_MVP_ID-2] ) {
 				Mission_MVP = 1;
 				dispbottom "[Chasse MVP] Vous avez tué le MVP pour votre mission retournez voir Chuck !";
 			}
@@ -37,7 +37,7 @@ OnMvpBBDead:
 	end;
 
 OnInit:
-	setarray .mvps[0],  1511,2,		 //Amon Ra
+	setarray $mvps[0],  1511,2,		 //Amon Ra
 						1272,2,      //Dark Lord
 						1389,2,      //Dracula
 						1086,2,      //Golden Thief Bug
@@ -75,6 +75,7 @@ OnInit:
 						3074,4,      //Time Holder
 						1685,4,      //Vesper
 						1112,4,      //Drake
+						3633,4,      //Venomous Chimera
 						1623,4,      //RSX-0806
 						1779,4,      //Ktullanux
 						1719,5,      //Detardeurus
@@ -219,59 +220,6 @@ OnTimer7200000: // delay1 = 7200000 ms (133 min)
 	stopnpctimer;
 	sleep rand(1,10)*60000; // 0 to 10 minutes
 OnInit:
-	setarray .mvps[0],  1511,2,		//Amon Ra
-						1272,2,      //Dark Lord
-						1389,2,      //Dracula
-						1086,2,      //Golden Thief Bug
-						1150,2,      //Moonlight Flower
-						2362,2,      //Nightmare Amon Ra
-						1087,2,      //Orc Hero
-						1038,2,      //Osiris
-						1157,2,      //Pharaoh
-						1251,2,      //Stormy Knight
-						1312,2,      //Turtle General
-						1785,2,      //Atroce
-						1492,3,      //Samurai Specter
-						1418,3,      //Evil Snake Lord
-						1630,4,      //White Lady
-						1039,4,      //Baphomet
-						2483,4,      //Baphomet (Nightmare)
-						2068,4,      //Boitata
-						1046,4,      //Doppelganger
-						1115,4,      //Eddga
-						1658,4,      //Egnigem Cenia
-						1871,4,      //Fallen Bishop
-						1252,4,      //Garm
-						2165,4,      //Gold Queen Scaraba
-						1885,4,      //Gopinich
-						1734,4,      //Kiel D-01
-						2202,4,      //Kraken
-						2156,4,      //Leak
-						1373,4,      //Lord of Death
-						1147,4,      //Maya
-						1059,4,      //Mistress
-						1190,4,      //Orc Lord
-						1159,4,      //Phreeoni
-						2087,4,      //Scaraba Queen
-						3741,4,      //Spider Chariot
-						3074,4,      //Time Holder
-						1685,4,      //Vesper
-						1112,4,      //Drake
-						1623,4,      //RSX-0806
-						1719,5,      //Detardeurus
-						1768,6,      //Gloom Under Night
-						1583,6,      //Tao Gunka
-						20419,6,     //Rigid Muspellskoll
-						1688,8,      //Lady Tanee
-						2249,8,      //Angry Student Pyuriel
-						2255,8,      //Dark Guardian Kades
-						2253,8,      //General Daehyun
-						2251,8,      //Gioia
-						1751,8,      //Valkyrie Randgris
-						1832,10,     //Ifrit
-						1873,10,     //Beelzebub
-						20928,10,    //The one
-						1917,10;     //Wounded Morroc
 	switch( rand(6) ) {
 		case 0:
 			monster "niflheim",327,193,"Lord Of Death",1373,1,strnpcinfo(3)+"::OnLoDDead";
@@ -388,7 +336,7 @@ OnInit:
 OnLoDDead:
 	query_sql("UPDATE `char` SET mvp_count = mvp_count + 1 WHERE `char_id` = '"+getcharid(0,strcharinfo(0))+"'");
 	if( Mission_MVP != #Mission_Count_MVP && Mission_MVP_ID > 1) {
-		if( killedrid == .mvps[Mission_MVP_ID-2] ) {
+		if( killedrid == $mvps[Mission_MVP_ID-2] ) {
 			Mission_MVP = 1;
 			dispbottom "[Chasse MVP] Vous avez tué le MVP pour votre mission retournez voir Chuck !";
 		}

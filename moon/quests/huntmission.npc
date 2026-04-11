@@ -161,7 +161,7 @@ L_main:
 			}
 			mes "Vous devez chasser:";
 			Mission_MVP = 0;
-			.@i = rand(2, getarraysize(.mvps) + 1);
+			.@i = rand(2, getarraysize($mvps) + 1);
 			if( .@i%2 == 0 )
 				Mission_MVP_ID = .@i;
 			else
@@ -381,14 +381,14 @@ Mission_Status_MVP:
 	}
 	@f = false;
 	deletearray .@j[0], getarraysize(.@j);
-	mes "Wanted: "+Chk(Mission_MVP,1) + getmonsterinfo(.mvps[Mission_MVP_ID-2], MOB_NAME) + " [id:" + .mvps[Mission_MVP_ID-2] + "] - (" + Mission_MVP + "/1)^000000";
+	mes "Wanted: "+Chk(Mission_MVP,1) + getmonsterinfo($mvps[Mission_MVP_ID-2], MOB_NAME) + " [id:" + $mvps[Mission_MVP_ID-2] + "] - (" + Mission_MVP + "/1)^000000";
 
 	// Zeny formula:
-	.@Zeny = .mvps[Mission_MVP_ID-1] * 1000000;
+	.@Zeny = $mvps[Mission_MVP_ID-1] * 1000000;
 	next;
 	mes "[Chuck Testa]";
 	mes "Récompense:";
-	mes " > Points d'event: ^0055FF"+ .mvps[Mission_MVP_ID-1] +"pts^000000";
+	mes " > Points d'event: ^0055FF"+ $mvps[Mission_MVP_ID-1] +"pts^000000";
 	mes " > Zenys: ^0055FF" + F_InsertComma(.@Zeny) + "^000000";
 	mes " > ^0055FFConvex Mirror^000000";
 	if( @f ) {
@@ -402,7 +402,7 @@ Mission_Status_MVP:
 	Mission_MVP = 0;
 	.@prepoints = #KAFRAPOINTS;
 	getitem 12214,1;
-	.@pointss = .mvps[Mission_MVP_ID-1];
+	.@pointss = $mvps[Mission_MVP_ID-1];
 	if( Zeny + .@zeny < MAX_ZENY )
 		Zeny += .@Zeny;
 	else if ( #BANKVAULT + .@zeny < MAX_ZENY ) {
@@ -423,13 +423,13 @@ Mission_Status_MVP:
 
 	if( .@pointss > 10 ) {
 		dispbottom "Vous gagnez rien (stingor est averti qu'un bug s'est produit).";
-		logmes "un bug est arrivé, stingor est au courant xD  "+.mvps[Mission_MVP_ID-1]+" -> "+.@pointss;
+		logmes "un bug est arrivé, stingor est au courant xD  "+$mvps[Mission_MVP_ID-1]+" -> "+.@pointss;
 		Mission_MVP_ID = 0;
 		end;
 	}
 	#KAFRAPOINTS += .@pointss;
-	dispbottom "Vous gagnez "+.mvps[Mission_MVP_ID-1]+" points d'event et 1 Convex Mirror.";
-	logmes "Termine sa mission MVP à ["+.@prepoints+"->"+#KAFRAPOINTS+"] pts: "+getmonsterinfo(.mvps[Mission_MVP_ID-2], MOB_NAME);
+	dispbottom "Vous gagnez "+$mvps[Mission_MVP_ID-1]+" points d'event et 1 Convex Mirror.";
+	logmes "Termine sa mission MVP à ["+.@prepoints+"->"+#KAFRAPOINTS+"] pts: "+getmonsterinfo($mvps[Mission_MVP_ID-2], MOB_NAME);
 	Mission_MVP_ID = 0;
 	emotion ET_BEST;
 	specialeffect2 68;
@@ -530,58 +530,5 @@ OnInit:
 		"1300,1301,1303,1304,1305,1306,1308,1309,1311,1313,1377,"+
 		"1515,1588,1618,1629,1631,1675,1676,1677,1678,1679,1796,1797,1929,1957,1974,"+
 		"1975,1976,1977,1978,1979";
-	setarray .mvps[0],  1511,2,		//Amon Ra
-						1272,2,      //Dark Lord
-						1389,2,      //Dracula
-						1086,2,      //Golden Thief Bug
-						1150,2,      //Moonlight Flower
-						2362,2,      //Nightmare Amon Ra
-						1087,2,      //Orc Hero
-						1038,2,      //Osiris
-						1157,2,      //Pharaoh
-						1251,2,      //Stormy Knight
-						1312,2,      //Turtle General
-						1785,2,      //Atroce
-						1492,3,      //Samurai Specter
-						1418,3,      //Evil Snake Lord
-						1630,4,      //White Lady
-						1039,4,      //Baphomet
-						2483,4,      //Baphomet (Nightmare)
-						2068,4,      //Boitata
-						1046,4,      //Doppelganger
-						1115,4,      //Eddga
-						1658,4,      //Egnigem Cenia
-						1871,4,      //Fallen Bishop
-						1252,4,      //Garm
-						2165,4,      //Gold Queen Scaraba
-						1885,4,      //Gopinich
-						1734,4,      //Kiel D-01
-						2202,4,      //Kraken
-						2156,4,      //Leak
-						1373,4,      //Lord of Death
-						1147,4,      //Maya
-						1059,4,      //Mistress
-						1190,4,      //Orc Lord
-						1159,4,      //Phreeoni
-						2087,4,      //Scaraba Queen
-						3741,4,      //Spider Chariot
-						3074,4,      //Time Holder
-						1685,4,      //Vesper
-						1112,4,      //Drake
-						1623,4,      //RSX-0806
-						1779,4,      //Ktullanux
-						1719,5,      //Detardeurus
-						1768,6,      //Gloom Under Night
-						1583,6,      //Tao Gunka
-						20419,6,     //Rigid Muspellskoll
-						1688,8,      //Lady Tanee
-						2249,8,      //Angry Student Pyuriel
-						2255,8,      //Dark Guardian Kades
-						2253,8,      //General Daehyun
-						2251,8,      //Gioia
-						1751,8,      //Valkyrie Randgris
-						1832,10,     //Ifrit
-						1874,10,     //Beelzebub
-						1917,10;     //Wounded Morroc
 	end;
 }
