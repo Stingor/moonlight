@@ -114211,6 +114211,7 @@ Body:
     Locations:
       Garment: true
     EquipLevelMin: 125
+    Refineable: true
     Script: "bonus2 bSubEle,Ele_Neutral,10; bonus bFlee,20; bonus bVariableCastrate,-20;\n"
     ArmorLevel: 1
   - Id: 20744
