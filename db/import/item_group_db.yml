@@ -15608,16 +15608,16 @@ Body:
           - Index: 104
             Item: Magic_Card_Album
             Rate: 80
-          - Index: 104
+          - Index: 105
             Item: The_One_Card
             Rate: 1
-          - Index: 105
+          - Index: 106
             Item: Firm_Muspell_Card
             Rate: 2
-          - Index: 106
+          - Index: 107
             Item: Toxic_Enchanted_Chimera_Card
             Rate: 10
-          - Index: 107
+          - Index: 108
             Item: Time_Holder_Card
             Rate: 1
   - Group: MAGICIAN_CARD_BOX
