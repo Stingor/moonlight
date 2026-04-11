@@ -112,8 +112,8 @@ Footer:
     # Mode: Renewal
 
   # Next, populate outfit information
-  - Path: db/re/job_outfits.yml
-    Mode: Renewal
+  # - Path: db/re/job_outfits.yml
+    # Mode: Renewal
 
   # Finally, import custom information
   - Path: db/import/job_stats.yml
