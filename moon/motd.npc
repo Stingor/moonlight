@@ -12,7 +12,7 @@ OnInit:
 	$woeflagcd = 180;
 
 	if( gettime(DT_HOUR) == 17 ) {
-		// 17h00 le Mercredi et Samedi
+		// 17h00 tous les jours
 		donpcevent "CardPackerEventDropper::OnDropperEnable";
 		callfunc "announce2", "Le npc pour event drop est dispo (près de la poule) donnez lui "+$qtyedropper+" Card et un event drop se lancera !",bc_all;
 	}
