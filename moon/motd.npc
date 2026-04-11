@@ -2,7 +2,7 @@
 	end;
 
 OnMinute00:
-	callfunc "announce2", "Ding-Dong, nouvelle heure, nouveau vote ! Utilisez le lien sur le site uniquement.",bc_blue|bc_all;
+	callfunc "announce2", "Ding-Dong, nouvelle heure, nouveau @vote ! Utilisez le lien de @vote ou le site uniquement.",bc_blue|bc_all;
 OnInit:
 
 	setcell "gonryun",164,128,166,130,cell_walkable,0; // Warper
@@ -48,7 +48,7 @@ OnMinute30:
 	setarray .@tips$,
 	"Vendre vos golds ou autres item protégers? @sellitem/@itemprotect/@protectitem",
 	"Vendre vos stuff refined ou avec des cards? @sellstuff/@protectstuff/@stuffprotect",
-	"Vous votez mais ne gagnez pas de points? Utilisez bien l'icone RoTopServ, une fois log sur le site!",
+	"Vous @vote(z) mais ne gagnez pas de points? Utilisez bien l'icone RoTopServ, une fois log sur le site!",
 	"Vous cherchez où se trouve un mob ? @whereis poring / @whereis ID_MOB !",
 	"Vous cherchez qui loot un item ? @whodrops apple / @whodrops ID_ITEM !",
 	"Vous ne cherchez qu'à faire du fric?? @ble/@oseille/@flouz 10000z vous ne looterez que les items d'au moins 10k revente!",
