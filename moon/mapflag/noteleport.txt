@@ -581,7 +581,6 @@ prt_cas_q	mapflag	noteleport
 prt_pri00	mapflag	noteleport
 prt_lib	mapflag	noteleport
 prt_lib_q	mapflag	noteleport
-que_swat	mapflag	noteleport
 rebel_in	mapflag	noteleport
 rebel_in	mapflag	monster_noteleport
 1@mir	mapflag	noteleport

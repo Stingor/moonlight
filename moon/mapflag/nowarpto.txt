@@ -282,8 +282,6 @@ prt_lib_q	mapflag	nowarpto
 prt_q	mapflag	nowarpto
 prt_prison	mapflag	nowarpto
 rebel_in	mapflag	nowarpto
-slabw01	mapflag	nowarpto
-que_swat	mapflag	nowarpto
 1@mir	mapflag	nowarpto
 2@mir	mapflag	nowarpto
 1@sthb	mapflag	nowarpto
