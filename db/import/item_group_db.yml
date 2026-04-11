@@ -7171,6 +7171,57 @@ Body:
           - Index: 418
             Item: Magic_Card_Album
             Rate: 1
+          - Index: 419
+            Item: Material_Chimera_Card
+            Rate: 1
+          - Index: 420
+            Item: Humanoid_Chimera_Card
+            Rate: 1
+          - Index: 421
+            Item: Firm_Lava_G_Card
+            Rate: 1
+          - Index: 422
+            Item: Firm_Kaho_Card
+            Rate: 1
+          - Index: 423
+            Item: Firm_Explosion_Card
+            Rate: 1
+          - Index: 424
+            Item: Firm_Deleter1_Card
+            Rate: 1
+          - Index: 425
+            Item: Firm_Deleter2_Card
+            Rate: 1
+          - Index: 426
+            Item: Firm_Nightmare_T_Card
+            Rate: 1
+          - Index: 427
+            Item: Firm_Blazzer_Card
+            Rate: 1
+          - Index: 428
+            Item: Vanilaqus_Card
+            Rate: 1
+          - Index: 429
+            Item: Fillia_Card
+            Rate: 1
+          - Index: 430
+            Item: Litus_Card
+            Rate: 1
+          - Index: 431
+            Item: Amitera_Card
+            Rate: 1
+          - Index: 432
+            Item: Galensis_Card
+            Rate: 1
+          - Index: 433
+            Item: Napeo_Card
+            Rate: 1
+          - Index: 434
+            Item: Fulgor_Card
+            Rate: 1
+          - Index: 435
+            Item: Lava_Eater_Card
+            Rate: 1
   - Group: CASH_FOOD
     SubGroups:
       - SubGroup: 1
@@ -15557,6 +15608,18 @@ Body:
           - Index: 104
             Item: Magic_Card_Album
             Rate: 80
+          - Index: 104
+            Item: The_One_Card
+            Rate: 1
+          - Index: 105
+            Item: Firm_Muspell_Card
+            Rate: 2
+          - Index: 106
+            Item: Toxic_Enchanted_Chimera_Card
+            Rate: 10
+          - Index: 107
+            Item: Time_Holder_Card
+            Rate: 1
   - Group: MAGICIAN_CARD_BOX
     SubGroups:
       - SubGroup: 0
