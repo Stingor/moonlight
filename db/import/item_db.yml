@@ -4241,7 +4241,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 40
     Refineable: true
-    Script: "bonus2 bAddEff,Eff_Curse,30; bonus2 bComaClass,Class_All,10;\n"
+    Script: "bonus2 bAddEff,Eff_Curse,30; bonus2 bComaClass,Class_All,1000;\n"
   - Id: 1133
     AegisName: Fire_Brand
     Name: Fireblend
@@ -9064,7 +9064,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 44
     Refineable: true
-    Script: "bonus bAtkEle,Ele_Dark; bonus2 bComaRace,RC_Demon,50; bonus2 bCriticalAddRace,RC_Undead,50;\n"
+    Script: "bonus bAtkEle,Ele_Dark; bonus2 bComaRace,RC_Demon,5000; bonus2 bCriticalAddRace,RC_Undead,50;\n"
   - Id: 1366
     AegisName: Right_Epsilon
     Name: Light Epsilon
@@ -9110,7 +9110,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 44
     Refineable: true
-    Script: "bonus bAtkEle,Ele_Earth; bonus bIgnoreDefRace,RC_Brute; bonus2 bComaRace,RC_Brute,40;\n"
+    Script: "bonus bAtkEle,Ele_Earth; bonus bIgnoreDefRace,RC_Brute; bonus2 bComaRace,RC_Brute,4000;\n"
   - Id: 1368
     AegisName: Tomahawk
     Name: Tomahawk
@@ -9156,7 +9156,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 44
     Refineable: true
-    Script: "bonus2 bComaRace,RC_DemiHuman,30; bonus2 bComaRace,RC_PLAYER_HUMAN,30; bonus2 bSPDrainValueRace,RC_DemiHuman,2; bonus2 bSPDrainValueRace,RC_PLAYER_HUMAN,2; bonus2 bSPGainRace,RC_DemiHuman,20; bonus2 bSPGainRace,RC_PLAYER_HUMAN,20;\n"
+    Script: "bonus2 bComaRace,RC_DemiHuman,3000; bonus2 bComaRace,RC_PLAYER_HUMAN,3000; bonus2 bSPDrainValueRace,RC_DemiHuman,2; bonus2 bSPDrainValueRace,RC_PLAYER_HUMAN,2; bonus2 bSPGainRace,RC_DemiHuman,20; bonus2 bSPGainRace,RC_PLAYER_HUMAN,20;\n"
   - Id: 1370
     AegisName: Doom_Slayer
     Name: Doom Slayer
@@ -12384,7 +12384,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 40
     Refineable: true
-    Script: "bonus2 bAddRace,RC_Undead,15; bonus2 bComaRace,RC_Undead,10; bonus2 bExpAddRace,RC_Undead,5;\n"
+    Script: "bonus2 bAddRace,RC_Undead,15; bonus2 bComaRace,RC_Undead,1000; bonus2 bExpAddRace,RC_Undead,5;\n"
   - Id: 1527
     AegisName: Quadrille
     Name: Quadrille
@@ -13222,7 +13222,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 85
     Refineable: true
-    Script: "bonus bMatk,100; bonus bStr,3; bonus bInt,3; bonus bLuk,-20; bonus2 bComaRace,RC_DemiHuman,10; bonus2 bComaRace,RC_PLAYER_HUMAN,10; bonus bAspdRate,getrefine(); if(BaseJob==Job_Sage) bonus3 bAutoSpell,\"NPC_HELLJUDGEMENT\",5,20;\n"
+    Script: "bonus bMatk,100; bonus bStr,3; bonus bInt,3; bonus bLuk,-20; bonus2 bComaRace,RC_DemiHuman,1000; bonus2 bComaRace,RC_PLAYER_HUMAN,1000; bonus bAspdRate,getrefine(); if(BaseJob==Job_Sage) bonus3 bAutoSpell,\"NPC_HELLJUDGEMENT\",5,20;\n"
   - Id: 1566
     AegisName: Diary_Of_Great_Basil
     Name: Diary Of Great Basil
@@ -13503,7 +13503,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 85
     Refineable: true
-    Script: "bonus bMatkRate,15; bonus bStr,3; bonus bInt,3; bonus bLuk,-20; bonus2 bComaRace,RC_DemiHuman,10; bonus2 bComaRace,RC_PLAYER_HUMAN,10; bonus bAspdRate,getrefine(); if(BaseJob==Job_Sage) bonus3 bAutoSpell,\"NPC_HELLJUDGEMENT\",5,20;\n"
+    Script: "bonus bMatkRate,15; bonus bStr,3; bonus bInt,3; bonus bLuk,-20; bonus2 bComaRace,RC_DemiHuman,1000; bonus2 bComaRace,RC_PLAYER_HUMAN,1000; bonus bAspdRate,getrefine(); if(BaseJob==Job_Sage) bonus3 bAutoSpell,\"NPC_HELLJUDGEMENT\",5,20;\n"
   - Id: 1580
     AegisName: Encyclopedia_C
     Name: Giant Encyclopedia
@@ -36723,7 +36723,7 @@ Body:
     Flags:
       BuyingStore: true
       DropEffect: RED_PILLAR
-    Script: "bonus3 bAddEff,Eff_Stun,500,ATF_SHORT; bonus3 bAddEff,Eff_Curse,500,ATF_SHORT; bonus3 bAddEff,Eff_Silence,500,ATF_SHORT; bonus3 bAddEff,Eff_Poison,500,ATF_SHORT; bonus3 bAddEff,Eff_Bleeding,500,ATF_SHORT; bonus2 bComaClass,Class_Normal,10;\n"
+    bonus3 bAddEff,Eff_Stun,500,ATF_SHORT; bonus3 bAddEff,Eff_Curse,500,ATF_SHORT; bonus3 bAddEff,Eff_Silence,500,ATF_SHORT; bonus3 bAddEff,Eff_Poison,500,ATF_SHORT; bonus3 bAddEff,Eff_Bleeding,500,ATF_SHORT; bonus2 bComaClass,Class_Normal,1000;\n"
   - Id: 4277
     AegisName: Zherlthsh_Card
     Name: Zealotus Card
@@ -39585,7 +39585,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: ".@rate = ((getrefine()>14)?350:250); bonus3 bAddEff,Eff_Stun,.@rate,ATF_SHORT; bonus3 bAddEff,Eff_Curse,.@rate,ATF_SHORT; bonus3 bAddEff,Eff_Silence,.@rate,ATF_SHORT; bonus3 bAddEff,Eff_Poison,.@rate,ATF_SHORT; bonus3 bAddEff,Eff_Bleeding,.@rate,ATF_SHORT; bonus2 bComaClass,Class_Normal,1;\n"
+    bonus3 bAddEff,Eff_Stun,.@rate,ATF_SHORT; bonus3 bAddEff,Eff_Curse,.@rate,ATF_SHORT; bonus3 bAddEff,Eff_Silence,.@rate,ATF_SHORT; bonus3 bAddEff,Eff_Poison,.@rate,ATF_SHORT; bonus3 bAddEff,Eff_Bleeding,.@rate,ATF_SHORT; bonus2 bComaClass,Class_Normal,100;\n"
   - Id: 4541
     AegisName: SLD_B_Katrinn_Card
     Name: Sealed High Wizard Card
