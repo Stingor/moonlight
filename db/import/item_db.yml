@@ -117769,7 +117769,7 @@ Body:
     Type: Usable
     Buy: 5000
     Weight: 10
-    Script: "Zeny += rand(5000,50000);\n"
+    Script: "Zeny += rand(2500,25000);\n"
   - Id: 22881
     AegisName: Binding_Rope
     Name: Rope Gallows
