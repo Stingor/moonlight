@@ -268,7 +268,7 @@ L_mainmenu:
 		// CHOOSE WHERE TO START =====================================================
 		clear;
 		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-		mes "Vous avez le choix entre ^0000FF1 "+.@max[.@s]+"^000000 styles.";
+		mes "Vous avez le choix entre ^0000FF1 à "+.@max[.@s]+"^000000 styles.";
 		input .@style,0,.@max[.@s];
 		
 		if( .@style < 1 || .@style > .@max[.@s] ) {
