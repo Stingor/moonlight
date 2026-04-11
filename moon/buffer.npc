@@ -10,7 +10,7 @@ L_buff1:
 		sc_start SC_CP_HELM,300000,5;
 		skilleffect 479,0;
 	}
-	else npctalk "T'as pas de bottle copain !!";
+	else npctalk "T'as pas de "+itemlink(7139)+" copain !!";
 	end;
 	
 L_buff2:
@@ -22,7 +22,7 @@ L_buff2:
 		sc_start SC_CP_HELM,600000,5;
 		skilleffect 479,0;
 	}
-	else npctalk "T'es poli mais t'as pas de bottle :( !!";
+	else npctalk "T'es poli mais t'as pas de "+itemlink(7139)+" :( !!";
 	end;
 
 OnInit:
@@ -37,14 +37,17 @@ OnInstanceInit:
 	activatepset 1;
 	
 	setarray .@chat$,
+	"Allez dit moi que tu veux un fcp!",
 	"Qui veux un FCP?",
-	"1 BOTTLE = 1 FCP !!",
+	"1 "+itemlink(7139)+" = 1 FCP !!",
 	"SALE FCP!",
+	"Allez dit moi que tu veux un fcp!",
 	"Vous voulez pas un petit FCP ???",
-	"ALLEZ LA DONNEZ MOI UNE GLISTENING COAT WESH?";
-	
+	"ALLEZ LA DONNEZ MOI UNE "+itemlink(7139)+" WESH?",
+	"Allez dit moi que tu veux un fcp!";
+
 	while( 1 ) {
-		npctalk .@chat$[rand(0,4)];
+		npctalk .@chat$[rand(getarraysize(.@chat$))];
 		if (strnpcinfo(4) == "pvp_n_3-1")
 			npcwalkto rand(103,108),rand(74,125);
         else 
