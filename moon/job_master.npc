@@ -465,9 +465,12 @@ gonryun,163,122,4	script	Job Master::jobmaster	4W_F_01,{
 					}
 					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 					mes "Très bien,c'est fait !";
-					mes "Bon jeu !";
+					mes "Bon jeu !"; 
 					Zeny -= .@skillcost;
 					ResetSkill;
+					SkillPoint = JobLevel - 1;
+					if( eaclass()&(EAJL_2|EAJL_UPPER) )
+						SkillPoint += (jobchange_level - 1);
 					close;
 				}
 				case 2: {
@@ -494,6 +497,9 @@ gonryun,163,122,4	script	Job Master::jobmaster	4W_F_01,{
 					mes "Bon jeu !";
 					Zeny -= (.@skillcost + .@statcost);
 					ResetSkill;
+					SkillPoint = JobLevel - 1;
+					if( eaclass()&(EAJL_2|EAJL_UPPER) )
+						SkillPoint += (jobchange_level - 1);
 					ResetStatus;
 					close;
 				}
