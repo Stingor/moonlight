@@ -239,13 +239,13 @@ bool Yaml2SqlTool::initialize( int32 argc, char* argv[] ){
 	// Load constants
 	#include <map/script_constants.hpp>
 
-	for( const std::string& suffix : item_table_suffixes ){
-		if (!process("ITEM_DB", 1, { path_db_mode }, "item_db_" + suffix, item_table_name + "_" + suffix, item_table_name, [](const std::string& path, const std::string& name_ext, const std::string& table) -> bool {
-			return item_db_yaml2sql(path + name_ext, table);
-		})) {
-			return false;
-		}
-	}
+	//for( const std::string& suffix : item_table_suffixes ){
+	//	if (!process("ITEM_DB", 1, { path_db_mode }, "item_db_" + suffix, item_table_name + "_" + suffix, item_table_name, [](const std::string& path, const std::string& name_ext, const std::string& table) -> bool {
+	//		return item_db_yaml2sql(path + name_ext, table);
+	//	})) {
+	//		return false;
+	//	}
+	//}
 
 	if (!process("ITEM_DB", 1, { path_db_import }, "item_db", item_import_table_name, item_import_table_name, [](const std::string& path, const std::string& name_ext, const std::string& table) -> bool {
 		return item_db_yaml2sql(path + name_ext, table);
@@ -253,11 +253,11 @@ bool Yaml2SqlTool::initialize( int32 argc, char* argv[] ){
 		return false;
 	}
 
-	if (!process("MOB_DB", 1, { path_db_mode }, "mob_db", mob_table_name, mob_table_name, [](const std::string &path, const std::string &name_ext, const std::string &table) -> bool {
-		return mob_db_yaml2sql(path + name_ext, table);
-	})) {
-		return false;
-	}
+	//if (!process("MOB_DB", 1, { path_db_mode }, "mob_db", mob_table_name, mob_table_name, [](const std::string &path, const std::string &name_ext, const std::string &table) -> bool {
+	//	return mob_db_yaml2sql(path + name_ext, table);
+	//})) {
+	//	return false;
+	//}
 
 	if (!process("MOB_DB", 1, { path_db_import }, "mob_db", mob_import_table_name, mob_import_table_name, [](const std::string &path, const std::string &name_ext, const std::string &table) -> bool {
 		return mob_db_yaml2sql(path + name_ext, table);
@@ -377,6 +377,38 @@ static bool appendEntry(const YAML::Node &node, std::string &value, bool string 
 }
 
 // Implementation of the conversion functions
+
+static bool processFooterImports(const std::string &table, std::function<bool(const std::string&, const std::string&)> converter) {
+	if (!inNode["Footer"].IsDefined() || !inNode["Footer"]["Imports"].IsDefined())
+		return true;
+
+	for (const YAML::Node &import_entry : inNode["Footer"]["Imports"]) {
+		if (!import_entry["Path"].IsDefined())
+			continue;
+
+		std::string path = import_entry["Path"].as<std::string>();
+
+		if (!fileExists(path))
+			continue;
+
+		YAML::Node saved = inNode;
+
+		try {
+			inNode = YAML::LoadFile(path);
+		} catch (YAML::Exception &e) {
+			ShowError("%s (Line %d: Column %d)\n", e.msg.c_str(), e.mark.line, e.mark.column);
+			inNode = saved;
+			continue;
+		}
+
+		if (inNode["Body"].IsDefined())
+			converter(path, table);
+
+		inNode = saved;
+	}
+
+	return true;
+}
 
 // Copied and adjusted from itemdb.cpp
 static bool item_db_yaml2sql(const std::string &file, const std::string &table) {
@@ -742,6 +774,8 @@ static bool item_db_yaml2sql(const std::string &file, const std::string &table) 
 		entries++;
 	}
 
+	processFooterImports(table, item_db_yaml2sql);
+
 	ShowStatus("Done converting '" CL_WHITE "%zu" CL_RESET "' items in '" CL_WHITE "%s" CL_RESET "'.\n", entries, file.c_str());
 
 	return true;
@@ -956,6 +990,8 @@ static bool mob_db_yaml2sql(const std::string &file, const std::string &table) {
 		outFile << "REPLACE INTO `" + table + "` (" + column + ") VALUES (" + value + ");\n";
 		entries++;
 	}
+
+	processFooterImports(table, mob_db_yaml2sql);
 
 	ShowStatus("Done converting '" CL_WHITE "%zu" CL_RESET "' mobs in '" CL_WHITE "%s" CL_RESET "'.\n", entries, file.c_str());
 
