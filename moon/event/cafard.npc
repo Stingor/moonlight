@@ -55,9 +55,10 @@ OnStart:
 
 OnMobDead:
 	.@r = rand( getarraysize(.items) );
-	logmes "Trouve le "+getmonsterinfo(.mobs[.m], MOB_NAME)+" et gagne "+.nbs[.@r]+" "+getitemname(.items[.@r]);
-	callfunc "announce2",strcharinfo(0)+" vient de chopper la bestiole "+ ( Sex ? "il":"elle" ) +" gagne "+.nbs[.@r]+" "+getitemname(.items[.@r])+"!!",bc_blue|bc_all;
+	logmes "Trouve le "+getmonsterinfo(.mobs[.m], MOB_NAME)+" et gagne 1pts d'event ainsi que "+.nbs[.@r]+" "+getitemname(.items[.@r]);
+	callfunc "announce2",strcharinfo(0)+" vient de chopper la bestiole "+ ( Sex ? "il":"elle" ) +" gagne 1pts d'event ainsi que "+.nbs[.@r]+" "+getitemname(.items[.@r])+"!!",bc_blue|bc_all;
 	getitem .items[.@r], .nbs[.@r];
+	#KAFRAPOINTS += 1;
 	$eventcafard = 0;
 	$eventcafardmap$ = "";
 	end;
