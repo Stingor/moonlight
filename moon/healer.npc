@@ -159,3 +159,4 @@ jawaii,134,208,3	duplicate(healer)	Healer::heal_jawaii	1_F_02
 pvp_n_1-1,98,74,3	duplicate(healer)	Healer::heal_dbroom	1_F_02
 pvp_n_3-1,96,74,3	duplicate(healer)	Healer::heal_bbroom	1_F_02
 silk_lair,191,206,3	duplicate(healer)	Healer::heal_bbroomi	1_F_02
+lasagna,190,192,6	duplicate(healer)	Healer::heal_lasa	1_F_02
