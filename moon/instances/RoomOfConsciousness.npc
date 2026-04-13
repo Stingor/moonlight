@@ -311,7 +311,7 @@ OnMobDead:
 	if ('random_letter$ != "")
 		donpcevent instance_npcname( "Fenrir#boss1" + 'random_letter$ ) + "::OnStop";
 	if( 'hm > 1 )
-		getitem 6919,rand(1,'hm*2),convertpcinfo(getpartyleader(instance_live_info(IM_PARTY),2),CPC_ACCOUNT);
+		getitem Honor_Proof,rand(1,'hm*2),convertpcinfo(getpartyleader(instance_live_info(IM_PARTY),2),CPC_ACCOUNT);
 	disablenpc instance_npcname("eq#mir2");
 
 	enablenpc instance_npcname("Fenrir#4mir");
@@ -487,7 +487,7 @@ OnMobDead:
 	'step = 6;
 	killmonster 'map_name$, instance_npcname("eq#mir4") + "::OnMobDead";
 	if( 'hm > 1 )
-		getitem 6919,rand(1,'hm*2),convertpcinfo(getpartyleader(instance_live_info(IM_PARTY),2),CPC_ACCOUNT);
+		getitem Honor_Proof,rand(1,'hm*2),convertpcinfo(getpartyleader(instance_live_info(IM_PARTY),2),CPC_ACCOUNT);
 	stopnpctimer;
 	enablenpc instance_npcname("Fenrir#5mir");
 	enablenpc instance_npcname("Iris#5mir");
@@ -751,8 +751,8 @@ OnMobDead:
 
 	logmes "Fin d'instance "+instance_live_info(ILI_NAME)+""+('hm>1?" niveau "+'hm+" ":" ")+" Owner: "+getpartyleader(instance_live_info(ILI_OWNER));
 	if( 'hm > 1 ) {
-		getitem 6919,'hm*2+rand('hm*3),convertpcinfo(getpartyleader(instance_live_info(IM_PARTY),2),CPC_ACCOUNT);
-		getitem 12246,1,convertpcinfo(getpartyleader(instance_live_info(IM_PARTY),2),CPC_ACCOUNT);
+		getitem Honor_Proof,'hm*2+rand('hm*3),convertpcinfo(getpartyleader(instance_live_info(IM_PARTY),2),CPC_ACCOUNT);
+		getitem Magic_Card_Album,1,convertpcinfo(getpartyleader(instance_live_info(IM_PARTY),2),CPC_ACCOUNT);
 	}
 
 	if (playerattached() && 'exploit_disabled && ep16_royal == 19) {

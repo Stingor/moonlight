@@ -912,7 +912,7 @@ OnPoripori:
 	mes "[Arc Pori Pori]";
 	mes "Farewell, young adventurer. I wish you good luck in the future.";
 	close2;
-	callfunc "warp_fct","gonryun",156+rand(1,5),120+rand(1,4);
+	warp_fct("gonryun",156+rand(1,5),120+rand(1,4));
 	end;
 	
 OnInstanceInit:

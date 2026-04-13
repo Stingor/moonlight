@@ -164,7 +164,7 @@ gef_dun03	boss_monster	Dark Lord	1272,1,7200000,600000,"classement::OnMvpDead"
 gef_dun03	boss_monster	Lord of Death	1373,1,7200000,600000,"classement::OnMvpDead"
 gl_cas02_	boss_monster	Baphomet (Nightmare)	2483,1,7200000,600000,"classement::OnMvpDead"
 ice_dun03	boss_monster	Ktullanux	1779,1,7200000,600000,"classement::OnMvpDead"
-slabw01	boss_monster	Venomous Chimera	3633,1,18000000,600000,"classement::OnMvpDead"
+slabw01	boss_monster	Venomous Chimera	3633,1,3600000,600000,"classement::OnMvpDead"
 mag_dun03	boss_monster	Rigid Muspellskoll	20419,1,3600000,600000,"classement::OnMvpDead"
 amicitia2	boss_monster	The One	20928,1,21600000,600000,"classement::OnMvpDead"
 

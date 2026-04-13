@@ -37058,7 +37058,7 @@ Body:
     Flags:
       BuyingStore: true
       DropEffect: RED_PILLAR
-    Script: "bonus2 bAddClass,Class_All,20;\n"
+    Script: "bonus2 bAddClass,Class_All,20; bonus3 bAutoSpell,\"SM_MAGNUM\",10,30;\n"
   - Id: 4306
     AegisName: Toad_Card
     Name: Toad Card
