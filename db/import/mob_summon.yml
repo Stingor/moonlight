@@ -167,7 +167,7 @@ Body:
         Rate: 400000
       - Mob: EDDGA
         Rate: 400000
-      - Mob: BEELZEBUB
+      - Mob: BEELZEBUB_
         Rate: 400000
       - Mob: GOPINICH
         Rate: 400000
