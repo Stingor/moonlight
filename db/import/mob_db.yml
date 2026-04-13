@@ -40780,8 +40780,6 @@ Body:
     Modes:
       Detector: true
     Drops:
-      - Item: Fruit_Basket
-        Rate: 500
       - Item: Mora_Mandarin
         Rate: 1000
       - Item: Short_Leg
