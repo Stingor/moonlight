@@ -121,33 +121,33 @@ pvp_n_3-5	mapflag	pvp_noguild
 pvp_n_3-5	mapflag	nomobloot
 pvp_n_3-5	mapflag	loadevent
 pvp_n_3-5	mapflag	noteleport
-pvp_n_3-5	mapflag	noreturn
-pvp_n_3-5	mapflag	nowarp
-pvp_n_3-5	mapflag	nowarpto
+//pvp_n_3-5	mapflag	noreturn
+//pvp_n_3-5	mapflag	nowarp
+//pvp_n_3-5	mapflag	nowarpto
 pvp_n_3-5	mapflag	nosave	SavePoint
 
 pvp_n_1-5	mapflag	nomobloot
 pvp_n_1-5	mapflag	monster_noteleport
 pvp_n_1-5	mapflag	loadevent
-pvp_n_1-5	mapflag	noreturn
-pvp_n_1-5	mapflag	nowarp
-pvp_n_1-5	mapflag	nowarpto
+//pvp_n_1-5	mapflag	noreturn
+//pvp_n_1-5	mapflag	nowarp
+//pvp_n_1-5	mapflag	nowarpto
 pvp_n_1-5	mapflag	nosave	SavePoint
 
 pvp_n_2-1	mapflag	nomobloot
 pvp_n_2-1	mapflag	monster_noteleport
 pvp_n_2-1	mapflag	loadevent
-pvp_n_2-1	mapflag	noreturn
-pvp_n_2-1	mapflag	nowarp
-pvp_n_2-1	mapflag	nowarpto
+//pvp_n_2-1	mapflag	noreturn
+//pvp_n_2-1	mapflag	nowarp
+//pvp_n_2-1	mapflag	nowarpto
 pvp_n_2-1	mapflag	nosave	SavePoint
 
 pvp_n_5-1	mapflag	gvg
 pvp_n_5-1	mapflag	gvg_castle
 pvp_n_5-1	mapflag	loadevent
-pvp_n_5-1	mapflag	noreturn
-pvp_n_5-1	mapflag	nowarp
-pvp_n_5-1	mapflag	nowarpto
+//pvp_n_5-1	mapflag	noreturn
+//pvp_n_5-1	mapflag	nowarp
+//pvp_n_5-1	mapflag	nowarpto
 pvp_n_5-1	mapflag	nosave	SavePoint
 
 gonryun	mapflag	nomvploot

@@ -489,6 +489,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "event", "event", "{9D2617DD
 		moon\event\tarot.npc = moon\event\tarot.npc
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mapflag", "mapflag", "{05542C23-D708-44FC-8175-DBAC4E9D9DB9}"
+	ProjectSection(SolutionItems) = preProject
+		moon\mapflag\attackskill.npc = moon\mapflag\attackskill.npc
+		moon\mapflag\battleground.txt = moon\mapflag\battleground.txt
+		moon\mapflag\etc.npc = moon\mapflag\etc.npc
+		moon\mapflag\gvg.txt = moon\mapflag\gvg.txt
+		moon\mapflag\jail.txt = moon\mapflag\jail.txt
+		moon\mapflag\nomvpcard.npc = moon\mapflag\nomvpcard.npc
+		moon\mapflag\nosave.txt = moon\mapflag\nosave.txt
+		moon\mapflag\noskill.txt = moon\mapflag\noskill.txt
+		moon\mapflag\noteleport.txt = moon\mapflag\noteleport.txt
+		moon\mapflag\nowarp.txt = moon\mapflag\nowarp.txt
+		moon\mapflag\nowarpto.txt = moon\mapflag\nowarpto.txt
+		moon\mapflag\partylock.txt = moon\mapflag\partylock.txt
+		moon\mapflag\privateairship.txt = moon\mapflag\privateairship.txt
+		moon\mapflag\pvp.npc = moon\mapflag\pvp.npc
+		moon\mapflag\pvp.txt = moon\mapflag\pvp.txt
+		moon\mapflag\pvp_noguild.txt = moon\mapflag\pvp_noguild.txt
+		moon\mapflag\pvp_noparty.txt = moon\mapflag\pvp_noparty.txt
+		moon\mapflag\reset.txt = moon\mapflag\reset.txt
+		moon\mapflag\restricted.txt = moon\mapflag\restricted.txt
+		moon\mapflag\skill_damage.txt = moon\mapflag\skill_damage.txt
+		moon\mapflag\skill_duration.txt = moon\mapflag\skill_duration.txt
+		moon\mapflag\specialpopup.txt = moon\mapflag\specialpopup.txt
+		moon\mapflag\town.txt = moon\mapflag\town.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -645,6 +672,7 @@ Global
 		{DC60FD43-C75E-4EFB-98F0-1ED0817E4D8F} = {924740E5-D449-4188-80DB-F796DC79020F}
 		{5E46BFD2-67A2-41C4-86A4-EB62A8B362FE} = {DC60FD43-C75E-4EFB-98F0-1ED0817E4D8F}
 		{9D2617DD-44E0-46DF-AEE0-E17A7B25BD12} = {924740E5-D449-4188-80DB-F796DC79020F}
+		{05542C23-D708-44FC-8175-DBAC4E9D9DB9} = {924740E5-D449-4188-80DB-F796DC79020F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {026DA20F-820C-40AA-983E-0E231EA90AD5}
