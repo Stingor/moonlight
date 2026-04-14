@@ -130,6 +130,9 @@ pay_fild08,143,156,40,40	monster	Shining Plant	1083,1,3600000,1800000
 //==================================================
 // pay_fild09 - Payon Forest
 //==================================================
+pay_fild09	monster	Poporing	1031,20
+pay_fild09	monster	Smokie	1056,80
+pay_fild09	monster	Bigfoot	1060,70
 pay_fild09	monster	Elder Willow	1033,140,5000
 pay_fild09	monster	Horn	1128,30,5000
 pay_fild09	monster	Coco	1104,30,5000
