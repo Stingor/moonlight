@@ -243,13 +243,29 @@ function	script	warp_fct	{
 }
 
 // FONCTION WARP AGENT // GET MAP NAME
-function	script	getmoonmapname	{
+function	script	getmapname	{
 	.@name$ = getmapdisplayname(getarg(0));
 	if( .@name$ != "" ) return .@name$;
 	return "Map inconnue";
 }
 
-// FONCTION ADD/REMOVE VOTE // ARG0 = nombrevote | ARG1 = ACCOUNTID | ARG2 = OPERATION ("+" ou "-")
+// ARG0..N = map names ; builds a menu with getmapname, calls warp_fct on selection
+// Returns without warping when "Menu Précédent" is chosen.
+function	script	warpmenu	{
+	.@n = 0;
+	while (getarg(.@n, "") != "") .@n++;
+	.@sel$ = "";
+	for (.@i = 0; .@i < .@n; .@i++) {
+		if (.@i > 0) .@sel$ += ":";
+		.@sel$ += "• " + getmapname(getarg(.@i));
+	}
+	.@c = select(.@sel$ + ":• ^e64c00Menu Précédent^000000") - 1;
+	if (.@c < .@n)
+		warp_fct(getarg(.@c));
+	return;
+}
+
+// FONCTION ADD/REMOVE VOTE
 function	script	moonlight_vote	{
 	.@nombrevote = getarg(0);
 	.@uniqueid = callfunc("getuniqueid",getarg(1));

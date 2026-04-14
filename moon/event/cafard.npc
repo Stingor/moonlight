@@ -50,7 +50,7 @@ OnStart:
 	$eventcafardmap$ = .maps$[.i];
 
 	monster .maps$[.i],0,0,"Etrange "+getmonsterinfo(.mobs[.m], MOB_NAME),.mobs[.m],1,"eventcafard::OnMobDead";
-	callfunc "announce2","Un "+getmonsterinfo(.mobs[.m], MOB_NAME)+" se balade dans "+getmoonmapname(.maps$[.i])+". Trouvez le et tuez le pour gagner !!",bc_blue|bc_all;
+	callfunc "announce2","Un "+getmonsterinfo(.mobs[.m], MOB_NAME)+" se balade dans "+getmapname(.maps$[.i])+". Trouvez le et tuez le pour gagner !!",bc_blue|bc_all;
 	end;
 
 OnMobDead:
