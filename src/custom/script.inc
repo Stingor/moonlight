@@ -571,3 +571,21 @@ BUILDIN_FUNC(instance_create)
 	script_pushint(st, instance_create(owner_id, script_getstr(st, 2), mode, hardmode, turbo));
 	return SCRIPT_CMD_SUCCESS;
 }
+
+/* getmapdisplayname("<map_name>")
+ * Returns the display name of a map as defined in the Map Index database.
+ * Falls back to the internal map name if no display name is set.
+ * Returns an empty string if the map is not found.
+ */
+BUILDIN_FUNC(getmapdisplayname)
+{
+	const char* map_name = script_getstr(st, 2);
+	uint16 idx = mapindex_name2idx(map_name, nullptr);
+	if (!idx) {
+		script_pushconststr(st, "");
+		return SCRIPT_CMD_SUCCESS;
+	}
+	const char* display = mapindex_idx2displayname(idx);
+	script_pushconststr(st, display ? display : "");
+	return SCRIPT_CMD_SUCCESS;
+}

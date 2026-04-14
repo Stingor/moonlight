@@ -166,14 +166,19 @@ public:
 		if (this->nodeExists(node, "Id")) {
 			if (!this->asInt32(node, "Id", index))
 				return 0;
+			if (!mapindex_addmap(index, map_name.c_str()))
+				return 0;
+			last_index = index;
 		} else {
-			index = last_index + 1;
+			// If the map already exists, allow a display name-only override without reassigning its index
+			index = (int32)mapindex_name2idx(map_name.c_str(), nullptr);
+			if (!index) {
+				index = last_index + 1;
+				if (!mapindex_addmap(index, map_name.c_str()))
+					return 0;
+				last_index = index;
+			}
 		}
-
-		if (!mapindex_addmap(index, map_name.c_str()))
-			return 0;
-
-		last_index = index;
 
 		if (this->nodeExists(node, "Name")) {
 			std::string display_name;

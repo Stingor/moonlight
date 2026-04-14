@@ -33,9 +33,19 @@ Header:
   Version: 1
 
 Body:
-# Example:
+  - Map: pvp_n_1-1
+    Name: "DB Room"
+  - Map: pvp_n_3-1
+    Name: "BB Room"
+  - Map: pvp_n_1-5
+    Name: "MVP Room"
+  - Map: pvp_n_3-5
+    Name: "Carnage Room"
+  - Map: pvp_n_4-1
+    Name: "PvP Room"
+  - Map: pvp_n_2-1
+    Name: "Duel Room"
+# Example (new map):
 #  - Map: my_custom_map
 #    Id: 2000
 #    Name: "My Custom Map"
-#  - Map: my_custom_map2
-#    Name: "My Custom Map 2"

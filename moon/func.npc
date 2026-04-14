@@ -244,14 +244,9 @@ function	script	warp_fct	{
 
 // FONCTION WARP AGENT // GET MAP NAME
 function	script	getmoonmapname	{
-	if( getarg(0) == "pvp_n_1-1" ) return "DB Room";
-	else if( getarg(0) == "pvp_n_3-1" ) return "BB Room";
-	else if( getarg(0) == "pvp_n_1-5" ) return "MVP Room";
-	else if( getarg(0) == "pvp_n_3-5" ) return "Carnage Room";
-	else if( getarg(0) == "pvp_n_4-1" ) return "PvP Room";
-	else if( getarg(0) == "pvp_n_2-1" ) return "Duel Room";
-	else if( query_sql("SELECT `name` FROM `maplist` WHERE `map` = '"+getarg(0)+"'", .@id$) ) return .@id$;
-	else return "Map inconnue";
+	.@name$ = getmapdisplayname(getarg(0));
+	if( .@name$ != "" ) return .@name$;
+	return "Map inconnue";
 }
 
 // FONCTION ADD/REMOVE VOTE // ARG0 = nombrevote | ARG1 = ACCOUNTID | ARG2 = OPERATION ("+" ou "-")

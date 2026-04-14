@@ -33,3 +33,4 @@
 	BUILDIN_DEF(storagecountitem,"v??"),
 	BUILDIN_DEF2(storagecountitem,"storagecountitem2","viiiiiii?"),
 	BUILDIN_DEF(instance_create,"s????"),
+	BUILDIN_DEF(getmapdisplayname,"s"),
