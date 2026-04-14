@@ -243,7 +243,7 @@ function	script	warp_fct	{
 }
 
 // FONCTION WARP AGENT // GET MAP NAME
-function	script	getmapname	{
+function	script	getmoonmapname	{
 	if( getarg(0) == "pvp_n_1-1" ) return "DB Room";
 	else if( getarg(0) == "pvp_n_3-1" ) return "BB Room";
 	else if( getarg(0) == "pvp_n_1-5" ) return "MVP Room";
