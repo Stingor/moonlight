@@ -6,6 +6,9 @@
 #include <cstdlib>
 
 #include "core.hpp"
+#ifndef MINICORE
+#include "database.hpp"
+#endif
 #include "mmo.hpp"
 #include "showmsg.hpp"
 #include "strlib.hpp"
@@ -13,6 +16,7 @@
 DBMap *mapindex_db;
 struct _indexes {
 	char name[MAP_NAME_LENGTH]; //Stores map name
+	char display_name[MAP_DISPLAY_NAME_LENGTH]; //Stores display name (from mapnametable)
 } indexes[MAX_MAPINDEX];
 
 int32 max_index = 0;
@@ -128,6 +132,71 @@ const char* mapindex_idx2name(uint16 id, const char *func) {
 	return indexes[id].name;
 }
 
+const char* mapindex_idx2displayname(uint16 id) {
+	if (id >= MAX_MAPINDEX || !mapindex_exists(id))
+		return nullptr;
+	return indexes[id].display_name[0] != '\0' ? indexes[id].display_name : indexes[id].name;
+}
+
+#ifndef MINICORE
+class MapIndexDatabase : public YamlDatabase {
+private:
+	int32 last_index;
+public:
+	MapIndexDatabase() : YamlDatabase("MAP_INDEX_DB", 1), last_index(-1) {}
+
+	void clear() override {
+		memset(&indexes, 0, sizeof(indexes));
+		max_index = 0;
+		last_index = -1;
+		if (mapindex_db)
+			db_clear(mapindex_db);
+	}
+
+	const std::string getDefaultLocation() override {
+		return std::string(db_path) + "/map_index.yml";
+	}
+
+	uint64 parseBodyNode(const ryml::NodeRef& node) override {
+		std::string map_name;
+		if (!this->asString(node, "Map", map_name))
+			return 0;
+
+		int32 index;
+		if (this->nodeExists(node, "Id")) {
+			if (!this->asInt32(node, "Id", index))
+				return 0;
+		} else {
+			index = last_index + 1;
+		}
+
+		if (!mapindex_addmap(index, map_name.c_str()))
+			return 0;
+
+		last_index = index;
+
+		if (this->nodeExists(node, "Name")) {
+			std::string display_name;
+			if (!this->asString(node, "Name", display_name))
+				return 1;
+			safestrncpy(indexes[index].display_name, display_name.c_str(), MAP_DISPLAY_NAME_LENGTH);
+		}
+
+		return 1;
+	}
+};
+
+static MapIndexDatabase map_index_db;
+
+void mapindex_init(void) {
+	if (!mapindex_db)
+		mapindex_db = strdb_alloc(DB_OPT_DUP_KEY, MAP_NAME_LENGTH);
+	memset(&indexes, 0, sizeof(indexes));
+	map_index_db.load();
+}
+
+#else // MINICORE
+
 void mapindex_init(void) {
 	FILE *fp;
 	char line[1024];
@@ -140,33 +209,32 @@ void mapindex_init(void) {
 		DBIMPORT"/map_index.txt"
 	};
 
-	memset (&indexes, 0, sizeof (indexes));
+	memset(&indexes, 0, sizeof(indexes));
 	mapindex_db = strdb_alloc(DB_OPT_DUP_KEY, MAP_NAME_LENGTH);
 
-	for( size_t i = 0; i < ARRAYLENGTH(mapindex_cfgfile); i++ ){
-		sprintf( path, "%s/%s", db_path, mapindex_cfgfile[i] );
+	for (size_t i = 0; i < ARRAYLENGTH(mapindex_cfgfile); i++) {
+		sprintf(path, "%s/%s", db_path, mapindex_cfgfile[i]);
 
-		if( ( fp = fopen( path, "r" ) ) == nullptr ){
-			// It is only fatal if it is the main file
-			if( i == 0 ){
-				ShowFatalError("Unable to read mapindex config file %s!\n", path );
-				exit(EXIT_FAILURE); //Server can't really run without this file.
-			}else{
-				ShowWarning("Unable to read mapindex config file %s!\n", path );
+		if ((fp = fopen(path, "r")) == nullptr) {
+			if (i == 0) {
+				ShowFatalError("Unable to read mapindex config file %s!\n", path);
+				exit(EXIT_FAILURE);
+			} else {
+				ShowWarning("Unable to read mapindex config file %s!\n", path);
 				break;
 			}
 		}
 
-		while(fgets(line, sizeof(line), fp)) {
-			if(line[0] == '/' && line[1] == '/')
+		while (fgets(line, sizeof(line), fp)) {
+			if (line[0] == '/' && line[1] == '/')
 				continue;
 
 			switch (sscanf(line, "%11s\t%d", map_name, &index)) {
-				case 1: //Map with no ID given, auto-assign
-					index = last_index+1;
+				case 1:
+					index = last_index + 1;
 					[[fallthrough]];
-				case 2: //Map with ID given
-					mapindex_addmap(index,map_name);
+				case 2:
+					mapindex_addmap(index, map_name);
 					break;
 				default:
 					continue;
@@ -176,6 +244,8 @@ void mapindex_init(void) {
 		fclose(fp);
 	}
 }
+
+#endif // MINICORE
 
 /**
  * Check default map (only triggered once by char-server)

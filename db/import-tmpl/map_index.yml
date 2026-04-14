@@ -1,0 +1,41 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2021 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Map Index Database - Import Template
+###########################################################################
+#
+# Place your custom maps here.
+# New maps should be added at the end. IDs must never change once assigned.
+#
+###########################################################################
+# - Map:  Internal map name. (Required)
+#   Id:   Map index ID. If omitted, uses previous Id + 1. (Optional)
+#   Name: Display name for the map. (Optional)
+###########################################################################
+
+Header:
+  Type: MAP_INDEX_DB
+  Version: 1
+
+Body:
+# Example:
+#  - Map: my_custom_map
+#    Id: 2000
+#    Name: "My Custom Map"
+#  - Map: my_custom_map2
+#    Name: "My Custom Map 2"
