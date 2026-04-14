@@ -934,7 +934,7 @@ L_Autre:
 		case 1: warp_fct("gon_in", 94, 21);
 		case 2: warp_fct("gon_in", 163, 23);
 		case 3: warp_fct("moc_para01", 31, 14);
-		case 4: warp_fct("moro_vol", 0, 0);
+		case 4: warp_fct("moro_vol");
 		case 5: warp_fct("mid_camp", 220, 235);
 		case 6: warp_fct("cmd_fild02", 193, 169);
 		case 7: warp_fct("yggdrasil01", 52, 63);
@@ -966,12 +966,12 @@ L_Fields:
 		 "• Einbroch (ein_fild)",          L_fld_ein,
 		 "• El Dicastes (dic_fild)",       L_fld_dic,
 		 "• Geffen (gef_fild)",            L_fld_gef,
+		 "• Hugel (hu_fild)",              L_fld_hu,
 		 "• Kiwawa (Rockridge - rockrdg)", L_fld_rockrdg,
 		 "• Kunlun (Gonryun - gon_fild)",  L_fld_gon,
-		 "• Hugel (hu_fild)",              L_fld_hu,
 		 "• Lasagna (lasa_fild)",          L_fld_lasa,
 		 "• Lighthalzen (lhz_fild)",       L_fld_lhz,
-		 "• Luoyang (lou_fild)",           L_fld_lou,
+		 "• Louyang (lou_fild)",           L_fld_lou,
 		 "• Lutie (xmas_fild)",            L_fld_xmas,
 		 "• Malaya (ma_fild)",             L_fld_ma,
 		 "• Manuk (man_fild)",             L_fld_man,
@@ -992,234 +992,234 @@ L_Fields:
 	end;
 
 L_fld_ama:
-	warp_fct("ama_fild01", 0, 0);
+	warp_fct("ama_fild01");
 	end;
 L_fld_ayo:
 	switch( select("• ayo_fild01:• ayo_fild02") ) {
-		case 1: warp_fct("ayo_fild01", 0, 0);
-		case 2: warp_fct("ayo_fild02", 0, 0);
+		case 1: warp_fct("ayo_fild01");
+		case 2: warp_fct("ayo_fild02");
 	}
 	end;
 L_fld_bif:
 	switch( select("• bif_fild01:• bif_fild02") ) {
-		case 1: warp_fct("bif_fild01", 0, 0);
-		case 2: warp_fct("bif_fild02", 0, 0);
+		case 1: warp_fct("bif_fild01");
+		case 2: warp_fct("bif_fild02");
 	}
 	end;
 L_fld_bra:
-	warp_fct("bra_fild01", 0, 0);
+	warp_fct("bra_fild01");
 	end;
 L_fld_cmd:
 	switch( select("• cmd_fild01:• cmd_fild02:• cmd_fild03:• cmd_fild04:• cmd_fild05 (Pas dispo en Renewal):• cmd_fild06:• cmd_fild07:• cmd_fild08:• cmd_fild09") ) {
-		case 1:  warp_fct("cmd_fild01", 0, 0);
-		case 2:  warp_fct("cmd_fild02", 0, 0);
-		case 3:  warp_fct("cmd_fild03", 0, 0);
-		case 4:  warp_fct("cmd_fild04", 0, 0);
+		case 1:  warp_fct("cmd_fild01");
+		case 2:  warp_fct("cmd_fild02");
+		case 3:  warp_fct("cmd_fild03");
+		case 4:  warp_fct("cmd_fild04");
 		case 5:  goto L_fld_cmd;
-		case 6:  warp_fct("cmd_fild06", 0, 0);
-		case 7:  warp_fct("cmd_fild07", 0, 0);
-		case 8:  warp_fct("cmd_fild08", 0, 0);
-		case 9:  warp_fct("cmd_fild09", 0, 0);
+		case 6:  warp_fct("cmd_fild06");
+		case 7:  warp_fct("cmd_fild07");
+		case 8:  warp_fct("cmd_fild08");
+		case 9:  warp_fct("cmd_fild09");
 	}
 	end;
 L_fld_dew:
-	warp_fct("dew_fild01", 0, 0);
+	warp_fct("dew_fild01");
 	end;
 L_fld_ecl:
-	warp_fct("ecl_fild01", 0, 0);
+	warp_fct("ecl_fild01");
 	end;
 L_fld_ein:
 	switch( select("• ein_fild01:• ein_fild02 (Pas dispo en Renewal):• ein_fild03:• ein_fild04:• ein_fild05:• ein_fild06:• ein_fild07:• ein_fild08:• ein_fild09:• ein_fild10 (Pas dispo en Renewal)") ) {
-		case 1:  warp_fct("ein_fild01", 0, 0);
+		case 1:  warp_fct("ein_fild01");
 		case 2:  goto L_fld_ein;
-		case 3:  warp_fct("ein_fild03", 0, 0);
-		case 4:  warp_fct("ein_fild04", 0, 0);
-		case 5:  warp_fct("ein_fild05", 0, 0);
-		case 6:  warp_fct("ein_fild06", 0, 0);
-		case 7:  warp_fct("ein_fild07", 0, 0);
-		case 8:  warp_fct("ein_fild08", 0, 0);
-		case 9:  warp_fct("ein_fild09", 0, 0);
+		case 3:  warp_fct("ein_fild03");
+		case 4:  warp_fct("ein_fild04");
+		case 5:  warp_fct("ein_fild05");
+		case 6:  warp_fct("ein_fild06");
+		case 7:  warp_fct("ein_fild07");
+		case 8:  warp_fct("ein_fild08");
+		case 9:  warp_fct("ein_fild09");
 		case 10: goto L_fld_ein;
 	}
 	end;
 L_fld_dic:
 	switch( select("• dic_fild01:• dic_fild02") ) {
-		case 1: warp_fct("dic_fild01", 0, 0);
-		case 2: warp_fct("dic_fild02", 0, 0);
+		case 1: warp_fct("dic_fild01");
+		case 2: warp_fct("dic_fild02");
 	}
 	end;
 L_fld_gef:
 	switch( select("• gef_fild00:• gef_fild01:• gef_fild02:• gef_fild03:• gef_fild04:• gef_fild05:• gef_fild06:• gef_fild07:• gef_fild08:• gef_fild09:• gef_fild10:• gef_fild11:• gef_fild12 (Pas dispo en Renewal):• gef_fild13:• gef_fild14 (Pas dispo en Renewal)") ) {
-		case 1:  warp_fct("gef_fild00", 0, 0);
-		case 2:  warp_fct("gef_fild01", 0, 0);
-		case 3:  warp_fct("gef_fild02", 0, 0);
-		case 4:  warp_fct("gef_fild03", 0, 0);
-		case 5:  warp_fct("gef_fild04", 0, 0);
-		case 6:  warp_fct("gef_fild05", 0, 0);
-		case 7:  warp_fct("gef_fild06", 0, 0);
-		case 8:  warp_fct("gef_fild07", 0, 0);
-		case 9:  warp_fct("gef_fild08", 0, 0);
-		case 10: warp_fct("gef_fild09", 0, 0);
-		case 11: warp_fct("gef_fild10", 0, 0);
-		case 12: warp_fct("gef_fild11", 0, 0);
+		case 1:  warp_fct("gef_fild00");
+		case 2:  warp_fct("gef_fild01");
+		case 3:  warp_fct("gef_fild02");
+		case 4:  warp_fct("gef_fild03");
+		case 5:  warp_fct("gef_fild04");
+		case 6:  warp_fct("gef_fild05");
+		case 7:  warp_fct("gef_fild06");
+		case 8:  warp_fct("gef_fild07");
+		case 9:  warp_fct("gef_fild08");
+		case 10: warp_fct("gef_fild09");
+		case 11: warp_fct("gef_fild10");
+		case 12: warp_fct("gef_fild11");
 		case 13: goto L_fld_gef;
-		case 14: warp_fct("gef_fild13", 0, 0);
+		case 14: warp_fct("gef_fild13");
 		case 15: goto L_fld_gef;
 	}
 	end;
 L_fld_rockrdg:
 	switch( select("• rockrdg1:• rockrdg2") ) {
-		case 1: warp_fct("rockrdg1", 0, 0);
-		case 2: warp_fct("rockrdg2", 0, 0);
+		case 1: warp_fct("rockrdg1");
+		case 2: warp_fct("rockrdg2");
 	}
 	end;
 L_fld_gon:
-	warp_fct("gon_fild01", 0, 0);
+	warp_fct("gon_fild01");
 	end;
 L_fld_hu:
 	switch( select("• hu_fild01 (Pas dispo en Renewal):• hu_fild02:• hu_fild03:• hu_fild04:• hu_fild05 (Pas dispo en Renewal):• hu_fild06:• hu_fild07 (Pas dispo en Renewal)") ) {
 		case 1: goto L_fld_hu;
-		case 2: warp_fct("hu_fild02", 0, 0);
-		case 3: warp_fct("hu_fild03", 0, 0);
-		case 4: warp_fct("hu_fild04", 0, 0);
-		case 5: warp_fct("hu_fild05", 0, 0);
-		case 6: warp_fct("hu_fild06", 0, 0);
+		case 2: warp_fct("hu_fild02");
+		case 3: warp_fct("hu_fild03");
+		case 4: warp_fct("hu_fild04");
+		case 5: warp_fct("hu_fild05");
+		case 6: warp_fct("hu_fild06");
 		case 7: goto L_fld_hu;
 	}
 	end;
 L_fld_lasa:
 	switch( select("• lasa_fild01:• lasa_fild02") ) {
-		case 1: warp_fct("lasa_fild01", 0, 0);
-		case 2: warp_fct("lasa_fild02", 0, 0);
+		case 1: warp_fct("lasa_fild01");
+		case 2: warp_fct("lasa_fild02");
 	}
 	end;
 L_fld_lhz:
 	switch( select("• lhz_fild01:• lhz_fild02:• lhz_fild03") ) {
-		case 1: warp_fct("lhz_fild01", 0, 0);
-		case 2: warp_fct("lhz_fild02", 0, 0);
-		case 3: warp_fct("lhz_fild03", 0, 0);
+		case 1: warp_fct("lhz_fild01");
+		case 2: warp_fct("lhz_fild02");
+		case 3: warp_fct("lhz_fild03");
 	}
 	end;
 L_fld_lou:
-	warp_fct("lou_fild01", 0, 0);
+	warp_fct("lou_fild01");
 	end;
 L_fld_xmas:
-	warp_fct("xmas_fild01", 0, 0);
+	warp_fct("xmas_fild01");
 	end;
 L_fld_ma:
 	switch( select("• ma_fild01:• ma_fild02") ) {
-		case 1: warp_fct("ma_fild01", 0, 0);
-		case 2: warp_fct("ma_fild02", 0, 0);
+		case 1: warp_fct("ma_fild01");
+		case 2: warp_fct("ma_fild02");
 	}
 	end;
 L_fld_man:
 	switch( select("• man_fild01:• man_fild02:• man_fild03") ) {
-		case 1: warp_fct("man_fild01", 0, 0);
-		case 2: warp_fct("man_fild02", 0, 0);
-		case 3: warp_fct("man_fild03", 0, 0);
+		case 1: warp_fct("man_fild01");
+		case 2: warp_fct("man_fild02");
+		case 3: warp_fct("man_fild03");
 	}
 	end;
 L_fld_mjol:
 	switch( select("• mjolnir_01:• mjolnir_02:• mjolnir_03:• mjolnir_04:• mjolnir_05:• mjolnir_06:• mjolnir_07:• mjolnir_08:• mjolnir_09:• mjolnir_10:• mjolnir_11:• mjolnir_12") ) {
-		case 1:  warp_fct("mjolnir_01", 0, 0);
-		case 2:  warp_fct("mjolnir_02", 0, 0);
-		case 3:  warp_fct("mjolnir_03", 0, 0);
-		case 4:  warp_fct("mjolnir_04", 0, 0);
-		case 5:  warp_fct("mjolnir_05", 0, 0);
-		case 6:  warp_fct("mjolnir_06", 0, 0);
-		case 7:  warp_fct("mjolnir_07", 0, 0);
-		case 8:  warp_fct("mjolnir_08", 0, 0);
-		case 9:  warp_fct("mjolnir_09", 0, 0);
-		case 10: warp_fct("mjolnir_10", 0, 0);
-		case 11: warp_fct("mjolnir_11", 0, 0);
-		case 12: warp_fct("mjolnir_12", 0, 0);
+		case 1:  warp_fct("mjolnir_01");
+		case 2:  warp_fct("mjolnir_02");
+		case 3:  warp_fct("mjolnir_03");
+		case 4:  warp_fct("mjolnir_04");
+		case 5:  warp_fct("mjolnir_05");
+		case 6:  warp_fct("mjolnir_06");
+		case 7:  warp_fct("mjolnir_07");
+		case 8:  warp_fct("mjolnir_08");
+		case 9:  warp_fct("mjolnir_09");
+		case 10: warp_fct("mjolnir_10");
+		case 11: warp_fct("mjolnir_11");
+		case 12: warp_fct("mjolnir_12");
 	}
 	end;
 L_fld_mosk:
 	switch( select("• mosk_fild01:• mosk_fild02") ) {
-		case 1: warp_fct("mosk_fild01", 0, 0);
-		case 2: warp_fct("mosk_fild02", 0, 0);
+		case 1: warp_fct("mosk_fild01");
+		case 2: warp_fct("mosk_fild02");
 	}
 	end;
 L_fld_nameless:
-	warp_fct("nameless_n", 0, 0);
+	warp_fct("nameless_n");
 	end;
 L_fld_nif:
 	switch( select("• nif_fild01:• nif_fild02") ) {
-		case 1: warp_fct("nif_fild01", 0, 0);
-		case 2: warp_fct("nif_fild02", 0, 0);
+		case 1: warp_fct("nif_fild01");
+		case 2: warp_fct("nif_fild02");
 	}
 	end;
 L_fld_pay:
 	switch( select("• pay_fild01:• pay_fild02:• pay_fild03:• pay_fild04:• pay_fild05 (Pas dispo en Renewal):• pay_fild06:• pay_fild07:• pay_fild08:• pay_fild09:• pay_fild10:• pay_fild11 (Pas dispo en Renewal)") ) {
-		case 1:  warp_fct("pay_fild01", 0, 0);
-		case 2:  warp_fct("pay_fild02", 0, 0);
-		case 3:  warp_fct("pay_fild03", 0, 0);
-		case 4:  warp_fct("pay_fild04", 0, 0);
+		case 1:  warp_fct("pay_fild01");
+		case 2:  warp_fct("pay_fild02");
+		case 3:  warp_fct("pay_fild03");
+		case 4:  warp_fct("pay_fild04");
 		case 5:  goto L_fld_pay;
-		case 6:  warp_fct("pay_fild06", 0, 0);
-		case 7:  warp_fct("pay_fild07", 0, 0);
-		case 8:  warp_fct("pay_fild08", 0, 0);
-		case 9:  warp_fct("pay_fild09", 0, 0);
-		case 10: warp_fct("pay_fild10", 0, 0);
+		case 6:  warp_fct("pay_fild06");
+		case 7:  warp_fct("pay_fild07");
+		case 8:  warp_fct("pay_fild08");
+		case 9:  warp_fct("pay_fild09");
+		case 10: warp_fct("pay_fild10");
 		case 11: goto L_fld_pay;
 	}
 	end;
 L_fld_prt:
 	switch( select("• prt_fild00:• prt_fild01:• prt_fild02:• prt_fild03:• prt_fild04:• prt_fild05:• prt_fild06:• prt_fild07:• prt_fild08:• prt_fild09:• prt_fild10:• prt_fild11") ) {
-		case 1:  warp_fct("prt_fild00", 0, 0);
-		case 2:  warp_fct("prt_fild01", 0, 0);
-		case 3:  warp_fct("prt_fild02", 0, 0);
-		case 4:  warp_fct("prt_fild03", 0, 0);
-		case 5:  warp_fct("prt_fild04", 0, 0);
-		case 6:  warp_fct("prt_fild05", 0, 0);
-		case 7:  warp_fct("prt_fild06", 0, 0);
-		case 8:  warp_fct("prt_fild07", 0, 0);
-		case 9:  warp_fct("prt_fild08", 0, 0);
-		case 10: warp_fct("prt_fild09", 0, 0);
-		case 11: warp_fct("prt_fild10", 0, 0);
-		case 12: warp_fct("prt_fild11", 0, 0);
+		case 1:  warp_fct("prt_fild00");
+		case 2:  warp_fct("prt_fild01");
+		case 3:  warp_fct("prt_fild02");
+		case 4:  warp_fct("prt_fild03");
+		case 5:  warp_fct("prt_fild04");
+		case 6:  warp_fct("prt_fild05");
+		case 7:  warp_fct("prt_fild06");
+		case 8:  warp_fct("prt_fild07");
+		case 9:  warp_fct("prt_fild08");
+		case 10: warp_fct("prt_fild09");
+		case 11: warp_fct("prt_fild10");
+		case 12: warp_fct("prt_fild11");
 	}
 	end;
 L_fld_ra:
 	switch( select("• ra_fild01:• ra_fild02 (Pas dispo en Renewal):• ra_fild03:• ra_fild04:• ra_fild05:• ra_fild06:• ra_fild07 (Pas dispo en Renewal):• ra_fild08:• ra_fild09 (Pas dispo en Renewal):• ra_fild10 (Pas dispo en Renewal):• ra_fild11 (Pas dispo en Renewal):• ra_fild12:• ra_fild13 (Pas dispo en Renewal)") ) {
-		case 1:  warp_fct("ra_fild01", 0, 0);
+		case 1:  warp_fct("ra_fild01");
 		case 2:  goto L_fld_ra;
-		case 3:  warp_fct("ra_fild03", 0, 0);
-		case 4:  warp_fct("ra_fild04", 0, 0);
-		case 5:  warp_fct("ra_fild05", 0, 0);
-		case 6:  warp_fct("ra_fild06", 0, 0);
+		case 3:  warp_fct("ra_fild03");
+		case 4:  warp_fct("ra_fild04");
+		case 5:  warp_fct("ra_fild05");
+		case 6:  warp_fct("ra_fild06");
 		case 7:  goto L_fld_ra;
-		case 8:  warp_fct("ra_fild08", 0, 0);
+		case 8:  warp_fct("ra_fild08");
 		case 9:  goto L_fld_ra;
 		case 10: goto L_fld_ra;
 		case 11: goto L_fld_ra;
-		case 12: warp_fct("ra_fild12", 0, 0);
+		case 12: warp_fct("ra_fild12");
 		case 13: goto L_fld_ra;
 	}
 	end;
 L_fld_moc:
 	switch( select("• moc_fild01:• moc_fild02:• moc_fild03:• moc_fild04 (Pas dispo en Renewal):• moc_fild05 (Pas dispo en Renewal):• moc_fild06 (Pas dispo en Renewal):• moc_fild07:• moc_fild08 (Pas dispo en Renewal):• moc_fild09 (Pas dispo en Renewal):• moc_fild10 (Pas dispo en Renewal):• moc_fild11:• moc_fild12:• moc_fild13:• moc_fild14 (Pas dispo en Renewal):• moc_fild15 (Pas dispo en Renewal):• moc_fild16:• moc_fild17:• moc_fild18:• moc_fild19:• moc_fild20:• moc_fild21:• moc_fild22") ) {
-		case 1:  warp_fct("moc_fild01", 0, 0);
-		case 2:  warp_fct("moc_fild02", 0, 0);
-		case 3:  warp_fct("moc_fild03", 0, 0);
+		case 1:  warp_fct("moc_fild01");
+		case 2:  warp_fct("moc_fild02");
+		case 3:  warp_fct("moc_fild03");
 		case 4:  goto L_fld_moc;
 		case 5:  goto L_fld_moc;
 		case 6:  goto L_fld_moc;
-		case 7:  warp_fct("moc_fild07", 0, 0);
+		case 7:  warp_fct("moc_fild07");
 		case 8:  goto L_fld_moc;
 		case 9:  goto L_fld_moc;
 		case 10: goto L_fld_moc;
-		case 11: warp_fct("moc_fild11", 0, 0);
-		case 12: warp_fct("moc_fild12", 0, 0);
-		case 13: warp_fct("moc_fild13", 0, 0);
+		case 11: warp_fct("moc_fild11");
+		case 12: warp_fct("moc_fild12");
+		case 13: warp_fct("moc_fild13");
 		case 14: goto L_fld_moc;
 		case 15: goto L_fld_moc;
-		case 16: warp_fct("moc_fild16", 0, 0);
-		case 17: warp_fct("moc_fild17", 0, 0);
-		case 18: warp_fct("moc_fild18", 0, 0);
-		case 19: warp_fct("moc_fild19", 0, 0);
-		case 20: warp_fct("moc_fild20", 0, 0);
+		case 16: warp_fct("moc_fild16");
+		case 17: warp_fct("moc_fild17");
+		case 18: warp_fct("moc_fild18");
+		case 19: warp_fct("moc_fild19");
+		case 20: warp_fct("moc_fild20");
 		case 21:
 			if (rebirth_moc_edq < 4)
 				warp_fct("moc_fild20", 349, 185);
@@ -1241,44 +1241,44 @@ L_fld_moc:
 	end;
 L_fld_spl:
 	switch( select("• spl_fild01:• spl_fild02:• spl_fild03") ) {
-		case 1: warp_fct("spl_fild01", 0, 0);
-		case 2: warp_fct("spl_fild02", 0, 0);
-		case 3: warp_fct("spl_fild03", 0, 0);
+		case 1: warp_fct("spl_fild01");
+		case 2: warp_fct("spl_fild02");
+		case 3: warp_fct("spl_fild03");
 	}
 	end;
 L_fld_um:
 	switch( select("• um_fild01:• um_fild02:• um_fild03:• um_fild04") ) {
-		case 1: warp_fct("um_fild01", 0, 0);
-		case 2: warp_fct("um_fild02", 0, 0);
-		case 3: warp_fct("um_fild03", 0, 0);
-		case 4: warp_fct("um_fild04", 0, 0);
+		case 1: warp_fct("um_fild01");
+		case 2: warp_fct("um_fild02");
+		case 3: warp_fct("um_fild03");
+		case 4: warp_fct("um_fild04");
 	}
 	end;
 L_fld_ve:
 	switch( select("• ve_fild01:• ve_fild02:• ve_fild03:• ve_fild04:• ve_fild05 (Pas dispo en Renewal):• ve_fild06:• ve_fild07") ) {
-		case 1: warp_fct("ve_fild01", 0, 0);
-		case 2: warp_fct("ve_fild02", 0, 0);
-		case 3: warp_fct("ve_fild03", 0, 0);
-		case 4: warp_fct("ve_fild04", 0, 0);
+		case 1: warp_fct("ve_fild01");
+		case 2: warp_fct("ve_fild02");
+		case 3: warp_fct("ve_fild03");
+		case 4: warp_fct("ve_fild04");
 		case 5: goto L_fld_ve;
-		case 6: warp_fct("ve_fild06", 0, 0);
-		case 7: warp_fct("ve_fild07", 0, 0);
+		case 6: warp_fct("ve_fild06");
+		case 7: warp_fct("ve_fild07");
 	}
 	end;
 L_fld_yuno:
 	switch( select("• yuno_fild01:• yuno_fild02:• yuno_fild03:• yuno_fild04:• yuno_fild05 (Pas dispo en Renewal):• yuno_fild06:• yuno_fild07:• yuno_fild08:• yuno_fild09:• yuno_fild10 (Pas dispo en Renewal):• yuno_fild11:• yuno_fild12") ) {
-		case 1: warp_fct("yuno_fild01", 0, 0);
-		case 2: warp_fct("yuno_fild02", 0, 0);
-		case 3: warp_fct("yuno_fild03", 0, 0);
-		case 4: warp_fct("yuno_fild04", 0, 0);
+		case 1: warp_fct("yuno_fild01");
+		case 2: warp_fct("yuno_fild02");
+		case 3: warp_fct("yuno_fild03");
+		case 4: warp_fct("yuno_fild04");
 		case 5: goto L_fld_yuno;
-		case 6: warp_fct("yuno_fild06", 0, 0);
-		case 7: warp_fct("yuno_fild07", 0, 0);
-		case 8: warp_fct("yuno_fild08", 0, 0);
-		case 9: warp_fct("yuno_fild09", 0, 0);
+		case 6: warp_fct("yuno_fild06");
+		case 7: warp_fct("yuno_fild07");
+		case 8: warp_fct("yuno_fild08");
+		case 9: warp_fct("yuno_fild09");
 		case 10: goto L_fld_yuno;
-		case 11: warp_fct("yuno_fild11", 0, 0);
-		case 12: warp_fct("yuno_fild12", 0, 0);
+		case 11: warp_fct("yuno_fild11");
+		case 12: warp_fct("yuno_fild12");
 	}
 	end;
 
@@ -1398,7 +1398,7 @@ L_bio:
 end;
 L_bra:
 	if( select("• Niveau 1:• Niveau 2") == 1 )
-		warp_fct("bra_dun01", 0, 0);
+		warp_fct("bra_dun01");
 	else
 		warp_fct("bra_dun02", 261, 260);
 end;
@@ -1598,9 +1598,9 @@ L_pyr:
 end;
 L_rock:
 	if( select("• Rockridge Mine:• Underground Waterway") == 1 )
-		warp_fct("rockmi1", 0, 0);
+		warp_fct("rockmi1");
 	else
-		warp_fct("harboro2", 0, 0);
+		warp_fct("harboro2");
 end;
 L_san:
 	switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4:• Niveau 5") ) {
@@ -1637,9 +1637,9 @@ L_tha:
 		case 7: warp_fct("tha_t07", 30, 166);
 		case 8: warp_fct("tha_t08", 29, 44);
 		case 9: warp_fct("tha_t09", 87, 146);
-		case 10:warp_fct("tha_t10", 0, 0);
-		case 11:warp_fct("tha_t11", 0, 0);
-		case 12:warp_fct("tha_t12", 0, 0);
+		case 10:warp_fct("tha_t10");
+		case 11:warp_fct("tha_t11");
+		case 12:warp_fct("tha_t12");
 		case 13:
 			if( $@thana_summon >= 6 && $@thana_summon_name$ == "" ) {
 				clear;
@@ -1704,7 +1704,7 @@ L_Rooms:
 	switch( select("• Carnage Room [ ^FF0000"+getmapusers("pvp_n_3-5")+"^000000 joueur(s) ]:• PvP Room [ ^FF0000"+getmapusers("pvp_n_4-1")+"^000000 joueur(s) ]:• Duel Room [ ^FF0000"+getmapusers("pvp_n_2-1")+"^000000 joueur(s) ]:• GvG Room [ ^FF0000"+getmapusers("pvp_n_5-1")+"^000000 joueur(s) ]:• DB Room [ ^FF0000"+getmapusers("pvp_n_1-1")+"^000000 joueur(s) ]:• BB Room [ ^FF0000"+getmapusers("pvp_n_3-1")+"^000000 joueur(s) ]:• Test Room [ ^FF0000"+getmapusers("pvp_n_5-5")+"^000000 joueur(s) ]:• ^e64c00Menu Précédent.^000000") ) {
 		case 1:	// Carnage Room
 			callsub Check_Buffs;
-			warp_fct("pvp_n_3-5", 0, 0);
+			warp_fct("pvp_n_3-5");
 			break;
 		case 2:	// PvP Room
 			clear;
@@ -1739,7 +1739,7 @@ L_Rooms:
 			break;
 		case 5: warp_fct("pvp_n_1-1", 104, 71);	// DB room
 		case 6: warp_fct("pvp_n_3-1", 104, 71);	// BB room
-		case 7: warp_fct("pvp_n_5-5", 0, 0);		// Test Room
+		case 7: warp_fct("pvp_n_5-5");		// Test Room
 		default: goto L_warpa;
 	}
 	end;
