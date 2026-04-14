@@ -1387,7 +1387,7 @@
 // @whereis
 1288: Entrez un nom/ID de monstre (usage: @whereis <nom/ID_monstre>).
 1289: %s ré-apparait dans:
-1290: Pas de Spawn - Instance/Quest/Event
+1290: Instance/Quest/Event
 
 // @adopt
 1291: Usage: @adopt <père>,<mère>,<enfant>

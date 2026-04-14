@@ -1547,15 +1547,22 @@ ACMD_FUNC(whodrops)
 
 				const std::vector<spawn_info> spawns = mob_get_spawns(mobid);
 				if (spawns.size() < 1)
-					sprintf(atcmd_output, "- %s (%d): %02.02f%% - %s", mob->jname.c_str(), mobid, (dropchance / 100.), msg_txt(sd, 1290)); // Pas de spawn - Instance/Quest/Event
+					sprintf(atcmd_output, "- %s (%d): %02.02f%% - %s", mob->jname.c_str(), mobid, (dropchance / 100.), msg_txt(sd, 1290)); // Instance/Quest/Event
 				else if (spawns.size() == 1) {
 					int16 mapid = map_mapindex2mapid(spawns[0].mapindex);
 					if (mapid > 1) {
-						if (spawns[0].qty > 1)
-							sprintf(atcmd_output, "- %s (%d): %02.02f%% - %d mobs dans la map %s", mob->jname.c_str(), mobid, (dropchance / 100.), spawns[0].qty, map_getmapdata(mapid)->name);
-						else
-							sprintf(atcmd_output, "- %s (%d): %02.02f%% - 1 mob dans la map %s", mob->jname.c_str(), mobid, (dropchance / 100.), map_getmapdata(mapid)->name);
-					}
+							const char* display = mapindex_idx2displayname(spawns[0].mapindex);
+							const char* internal = map_getmapdata(mapid)->name;
+							char location[MAP_DISPLAY_NAME_LENGTH + MAP_NAME_LENGTH + 3];
+							if (display && strcmpi(display, internal) != 0)
+								safesnprintf(location, sizeof(location), "%s (%s)", display, internal);
+							else
+								safestrncpy(location, display ? display : internal, sizeof(location));
+							if (spawns[0].qty > 1)
+								sprintf(atcmd_output, "- %s (%d): %02.02f%% - %d mobs dans %s", mob->jname.c_str(), mobid, (dropchance / 100.), spawns[0].qty, location);
+							else
+								sprintf(atcmd_output, "- %s (%d): %02.02f%% - 1 mob dans %s", mob->jname.c_str(), mobid, (dropchance / 100.), location);
+						}
 				}
 				else if (spawns.size() < 4) {
 					char buf[CHAT_SIZE_MAX];
@@ -1627,13 +1634,20 @@ ACMD_FUNC(whereis)
 		}
 		else {
 			for (auto& spawn : spawns)
-			{
-				int16 mapid = map_mapindex2mapid(spawn.mapindex);
-				if (mapid < 0)
-					continue;
-				snprintf(atcmd_output, sizeof atcmd_output, "%s (%d)", map_getmapdata(mapid)->name, spawn.qty);
-				clif_displaymessage(fd, atcmd_output);
-			}
+				{
+					int16 mapid = map_mapindex2mapid(spawn.mapindex);
+					if (mapid < 0)
+						continue;
+					const char* display = mapindex_idx2displayname(spawn.mapindex);
+					const char* internal = map_getmapdata(mapid)->name;
+					char location[MAP_DISPLAY_NAME_LENGTH + MAP_NAME_LENGTH + 3];
+					if (display && strcmpi(display, internal) != 0)
+						safesnprintf(location, sizeof(location), "%s (%s)", display, internal);
+					else
+						safestrncpy(location, display ? display : internal, sizeof(location));
+					snprintf(atcmd_output, sizeof atcmd_output, "%s (%d)", location, spawn.qty);
+					clif_displaymessage(fd, atcmd_output);
+				}
 		}
 	}
 
