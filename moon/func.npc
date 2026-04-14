@@ -237,8 +237,8 @@ function	script	warp_fct	{
 		mes $@thana_summon_name_$+" l'a tué à "+gettimestr("%H:%M:%S",21,$@thana_summon_time);
 		close;
 	}
-	query_sql("UPDATE `char` SET `cur_map` = '"+getarg(0)+"' WHERE `char_id` = '"+getcharid(0)+"'");
-	warp getarg(0), getarg(1), getarg(2);
+	query_sql("UPDATE `char` SET `cur_map` = '"+lastm_warpa$+"' WHERE `char_id` = '"+getcharid(0)+"'");
+	warp lastm_warpa$, lastx_warpa, lasty_warpa;
 	end;
 }
 
@@ -252,8 +252,7 @@ function	script	getmapname	{
 // ARG0..N = map names ; builds a menu with getmapname, calls warp_fct on selection
 // Returns without warping when "Menu Précédent" is chosen.
 function	script	warpmenu	{
-	.@n = 0;
-	while (getarg(.@n, "") != "") .@n++;
+	.@n = getargcount();
 	.@sel$ = "";
 	for (.@i = 0; .@i < .@n; .@i++) {
 		if (.@i > 0) .@sel$ += ":";
