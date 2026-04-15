@@ -177,42 +177,43 @@ function	script	mobhm	{
 		monster .@map$,.@x,.@y,.@name$,.@mobid,.@amount,.@label$,.@size;
 
 	copyarray .@mobarray[0],$@mobid[0],getarraysize($@mobid);
+	.@count = getarraysize(.@mobarray);
 
 	if( .@amount == 1 )
 		.@mobuid = .@mobarray[0];
 
 	if( .@hardmode > 1 ) {
-		for( .@i = 0; .@i <= (.@amount - 1); .@i++) {
+		for( .@i = 0; .@i < .@count; .@i++) {
 			.@mobgid = .@mobarray[.@i];
 			sleep 5;
 			if( unitexists(.@mobgid) ) {
 				getunitdata .@mobgid, .@data;
 				setunitdata .@mobgid, UMOB_LEVEL, .@data[UMOB_LEVEL]*.@hardmode;
-				setunitdata .@mobgid, UMOB_MAXHP, ((.@hardmode > 1 && .@data[UMOB_MAXHP] < 5000*.@hardmode)?5000*.@hardmode:.@data[UMOB_MAXHP])*.@hardmode*3;
-				setunitdata .@mobgid, UMOB_HP, ((.@hardmode > 1 && .@data[UMOB_HP] < 5000*.@hardmode)?5000*.@hardmode:.@data[UMOB_HP])*.@hardmode*3;
+				setunitdata .@mobgid, UMOB_MAXHP, (.@data[UMOB_MAXHP] < 5000*.@hardmode?5000*.@hardmode:.@data[UMOB_MAXHP])*.@hardmode*3;
+				setunitdata .@mobgid, UMOB_HP,    (.@data[UMOB_HP]    < 5000*.@hardmode?5000*.@hardmode:.@data[UMOB_HP])*.@hardmode*3;
 				if( .@hardmode >= 5 )
 					setunitdata .@mobgid, UMOB_MODE, MD_CANMOVE|MD_AGGRESSIVE|MD_ASSIST|MD_CANATTACK|MD_CHANGECHASE|MD_ANGRY|MD_CHANGETARGETMELEE|MD_KNOCKBACKIMMUNE|MD_STATUSIMMUNE;
 				else if( .@hardmode > 1 )
 					setunitdata .@mobgid, UMOB_MODE, MD_CANMOVE|MD_AGGRESSIVE|MD_ASSIST|MD_CANATTACK|MD_CHANGECHASE|MD_ANGRY|MD_CHANGETARGETMELEE;
 				if( .@hardmode >= 15 ) {
-					setunitdata .@mobgid, UMOB_ATKMIN, ((.@hardmode > 1 && .@data[UMOB_ATKMIN] < 2000*.@hardmode)?2000*.@hardmode:.@data[UMOB_ATKMIN])*(.@hardmode*2)*.@hardmode;
-					setunitdata .@mobgid, UMOB_ATKMAX, ((.@hardmode > 1 && .@data[UMOB_ATKMAX] < 10000*.@hardmode)?10000*.@hardmode:.@data[UMOB_ATKMAX])*(.@hardmode*2)*.@hardmode;
-					setunitdata .@mobgid, UMOB_MATKMIN, ((.@hardmode > 1 && .@data[UMOB_MATKMIN] < 2000*.@hardmode)?2000*.@hardmode:.@data[UMOB_MATKMIN])*(.@hardmode*2)*.@hardmode;
-					setunitdata .@mobgid, UMOB_MATKMAX, ((.@hardmode > 1 && .@data[UMOB_MATKMAX] < 10000*.@hardmode)?10000*.@hardmode:.@data[UMOB_MATKMAX])*(.@hardmode*2)*.@hardmode;
-				}
-				else {
-					setunitdata .@mobgid, UMOB_ATKMIN, ((.@hardmode > 1 && .@data[UMOB_ATKMIN] < 1000*.@hardmode)?1000*.@hardmode:.@data[UMOB_ATKMIN])*30*.@hardmode;
-					setunitdata .@mobgid, UMOB_ATKMAX, ((.@hardmode > 1 && .@data[UMOB_ATKMAX] < 5000*.@hardmode)?5000*.@hardmode:.@data[UMOB_ATKMAX])*30*.@hardmode;
-					setunitdata .@mobgid, UMOB_MATKMIN, ((.@hardmode > 1 && .@data[UMOB_MATKMIN] < 1000*.@hardmode)?1000*.@hardmode:.@data[UMOB_MATKMIN])*30*.@hardmode;
-					setunitdata .@mobgid, UMOB_MATKMAX, ((.@hardmode > 1 && .@data[UMOB_MATKMAX] < 5000*.@hardmode)?5000*.@hardmode:.@data[UMOB_MATKMAX])*30*.@hardmode;
-				}
-				setunitdata .@mobgid, UMOB_DEF, ((.@hardmode > 1 && .@data[UMOB_DEF] < 5)?5:.@data[UMOB_DEF])+cap_value(.@hardmode,1,15);
-				setunitdata .@mobgid, UMOB_MDEF, ((.@hardmode > 1 && .@data[UMOB_MDEF] < 5)?5:.@data[UMOB_MDEF])+cap_value(.@hardmode,1,15);
-				setunitdata .@mobgid, UMOB_HIT, ((.@hardmode > 1 && .@data[UMOB_HIT] < 300)?300:.@data[UMOB_HIT])*cap_value(.@hardmode,1,15);
-				setunitdata .@mobgid, UMOB_FLEE, ((.@hardmode > 1 && .@data[UMOB_FLEE] > 60)?60:.@data[UMOB_FLEE])*cap_value(.@hardmode,1,15);
+						setunitdata .@mobgid, UMOB_ATKMIN,  (.@data[UMOB_ATKMIN]  < 2000 *.@hardmode?2000*.@hardmode:.@data[UMOB_ATKMIN])*(.@hardmode*2)*.@hardmode/2;
+						setunitdata .@mobgid, UMOB_ATKMAX,  (.@data[UMOB_ATKMAX]  < 10000*.@hardmode?10000*.@hardmode:.@data[UMOB_ATKMAX])*(.@hardmode*2)*.@hardmode/2;
+						setunitdata .@mobgid, UMOB_MATKMIN, (.@data[UMOB_MATKMIN] < 2000 *.@hardmode?2000*.@hardmode:.@data[UMOB_MATKMIN])*(.@hardmode*2)*.@hardmode;
+						setunitdata .@mobgid, UMOB_MATKMAX, (.@data[UMOB_MATKMAX] < 10000*.@hardmode?10000*.@hardmode:.@data[UMOB_MATKMAX])*(.@hardmode*2)*.@hardmode;
+					}
+					else {
+						setunitdata .@mobgid, UMOB_ATKMIN,  (.@data[UMOB_ATKMIN]  < 1000*.@hardmode?1000*.@hardmode:.@data[UMOB_ATKMIN])*30*.@hardmode/2;
+						setunitdata .@mobgid, UMOB_ATKMAX,  (.@data[UMOB_ATKMAX]  < 5000*.@hardmode?5000*.@hardmode:.@data[UMOB_ATKMAX])*30*.@hardmode/2;
+						setunitdata .@mobgid, UMOB_MATKMIN, (.@data[UMOB_MATKMIN] < 1000*.@hardmode?1000*.@hardmode:.@data[UMOB_MATKMIN])*30*.@hardmode;
+						setunitdata .@mobgid, UMOB_MATKMAX, (.@data[UMOB_MATKMAX] < 5000*.@hardmode?5000*.@hardmode:.@data[UMOB_MATKMAX])*30*.@hardmode;
+					}
+				setunitdata .@mobgid, UMOB_DEF,  (.@data[UMOB_DEF]  < 5?5:.@data[UMOB_DEF])+cap_value(.@hardmode,1,15);
+				setunitdata .@mobgid, UMOB_MDEF, (.@data[UMOB_MDEF] < 5?5:.@data[UMOB_MDEF])+cap_value(.@hardmode,1,15);
+				setunitdata .@mobgid, UMOB_HIT,  (.@data[UMOB_HIT]  < 300?300:.@data[UMOB_HIT])*cap_value(.@hardmode,1,15);
+				setunitdata .@mobgid, UMOB_FLEE, (.@data[UMOB_FLEE] > 60?60:.@data[UMOB_FLEE])*cap_value(.@hardmode,1,15);
 				if( .@hardmode >= 3 )
 					setunitdata .@mobgid, UMOB_DEX, 300;
-				setunitdata .@mobgid, UMOB_CRIT, ((.@hardmode > 1 && .@data[UMOB_CRIT] < 25)?25:.@data[UMOB_CRIT])+.@hardmode*2;
+				setunitdata .@mobgid, UMOB_CRIT, (.@data[UMOB_CRIT] < 25?25:.@data[UMOB_CRIT])+.@hardmode*30;
 				setunitdata .@mobgid, UMOB_AMOTION, cap_value(.@data[UMOB_AMOTION] / .@hardmode*2,50,1200);
 				setunitdata .@mobgid, UMOB_ADELAY, cap_value(.@data[UMOB_ADELAY] / .@hardmode*2,50,1200);
 				setunitdata .@mobgid, UMOB_SPEED, cap_value(.@data[UMOB_SPEED] / .@hardmode*2,40,400);
@@ -222,7 +223,7 @@ function	script	mobhm	{
 	if( .@mobuid != 0 )
 		return .@mobuid;
 	else
-		return;
+		return 0;
 }
 
 // FONCTION WARP AGENT // ARG0 = MAP | ARG1 = COORDS X | ARG2 = COORDS Y

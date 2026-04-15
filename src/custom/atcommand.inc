@@ -1226,25 +1226,42 @@ ACMD_FUNC(mobinfo)
 	unsigned char mrace[RC_ALL][11] = { "Formless", "Undead", "Beast", "Plant", "Insect", "Fish", "Demon", "Demi-Human", "Angel", "Dragon", "Player" };
 	unsigned char melement[ELE_ALL][8] = { "Neutral", "Water", "Earth", "Fire", "Wind", "Poison", "Holy", "Dark", "Ghost", "Undead" };
 	char atcmd_output2[CHAT_SIZE_MAX];
+	char mob_name[256];
 	uint16 mob_ids[MAX_SEARCH], count;
 	uint16 i;
+	int32 hardmode = 1;
 
 	memset(atcmd_output, '\0', sizeof(atcmd_output));
 	memset(atcmd_output2, '\0', sizeof(atcmd_output2));
 
 	if (!message || !*message) {
-		clif_displaymessage(fd, msg_txt(sd, 1239)); // Please enter a monster name/ID (usage: @mobinfo <monster_name_or_monster_ID>).
+		clif_displaymessage(fd, msg_txt(sd, 1239)); // Please enter a monster name/ID (usage: @mobinfo <monster_name_or_monster_ID> [hardmode 1-20]).
 		return -1;
 	}
 
-	// If monster identifier/name argument is a name
-	if ((i = mobdb_checkid(strtoul(message, nullptr, 10))))
+	// Parse optional hardmode level from end of message: @mobinfo <mob> [1-20]
+	strncpy(mob_name, message, sizeof(mob_name) - 1);
+	mob_name[sizeof(mob_name) - 1] = '\0';
+	{
+		char* last_space = strrchr(mob_name, ' ');
+		if (last_space != nullptr) {
+			char* endptr;
+			long hm = strtol(last_space + 1, &endptr, 10);
+			if (*endptr == '\0' && hm >= 1 && hm <= 20) {
+				hardmode = (int32)hm;
+				*last_space = '\0';
+			}
+		}
+	}
+
+	// If monster identifier/name argument is an ID
+	if ((i = mobdb_checkid(strtoul(mob_name, nullptr, 10))))
 	{
 		mob_ids[0] = i;
 		count = 1;
 	}
 	else
-		count = mobdb_searchname_array(message, mob_ids, MAX_SEARCH);
+		count = mobdb_searchname_array(mob_name, mob_ids, MAX_SEARCH);
 
 	if (!count) {
 		clif_displaymessage(fd, msg_txt(sd, 40)); // Invalid monster ID or name.
@@ -1319,6 +1336,73 @@ ACMD_FUNC(mobinfo)
 		sprintf(atcmd_output, msg_txt(sd, 827), mob->status.res, mob->status.mres);//  MDEF:%d  RES:%d  MRES:%d
 		clif_displaymessage(fd, atcmd_output);
 #endif
+		// hardmode simulation
+		if (hardmode > 1) {
+			int32 hm_cap   = cap_value(hardmode, 1, 15);
+			int32 hm_level = (int32)mob->lv * hardmode;
+
+			uint64 hp_floor = (uint64)(5000 * hardmode);
+			uint64 hm_hp    = ((uint64)mob->status.max_hp < hp_floor ? hp_floor : (uint64)mob->status.max_hp) * (uint64)hardmode * 3ULL;
+
+			uint64 hm_atkmin, hm_atkmax, hm_matkmin, hm_matkmax;
+			if (hardmode >= 15) {
+				uint64 af_min  = (uint64)(2000  * hardmode);
+				uint64 af_max  = (uint64)(10000 * hardmode);
+				uint64 amin_b  = ((uint64)mob->status.rhw.atk  < af_min) ? af_min : (uint64)mob->status.rhw.atk;
+				uint64 amax_b  = ((uint64)mob->status.rhw.atk2 < af_max) ? af_max : (uint64)mob->status.rhw.atk2;
+				uint64 mamin_b = ((uint64)mob->status.matk_min < af_min) ? af_min : (uint64)mob->status.matk_min;
+				uint64 mamax_b = ((uint64)mob->status.matk_max < af_max) ? af_max : (uint64)mob->status.matk_max;
+				hm_atkmin  = amin_b  * (uint64)(hardmode * 2) * (uint64)hardmode / 2ULL;
+				hm_atkmax  = amax_b  * (uint64)(hardmode * 2) * (uint64)hardmode / 2ULL;
+				hm_matkmin = mamin_b * (uint64)(hardmode * 2) * (uint64)hardmode;
+				hm_matkmax = mamax_b * (uint64)(hardmode * 2) * (uint64)hardmode;
+			} else {
+				uint64 af_min  = (uint64)(1000 * hardmode);
+				uint64 af_max  = (uint64)(5000 * hardmode);
+				uint64 amin_b  = ((uint64)mob->status.rhw.atk  < af_min) ? af_min : (uint64)mob->status.rhw.atk;
+				uint64 amax_b  = ((uint64)mob->status.rhw.atk2 < af_max) ? af_max : (uint64)mob->status.rhw.atk2;
+				uint64 mamin_b = ((uint64)mob->status.matk_min < af_min) ? af_min : (uint64)mob->status.matk_min;
+				uint64 mamax_b = ((uint64)mob->status.matk_max < af_max) ? af_max : (uint64)mob->status.matk_max;
+				hm_atkmin  = amin_b  * 30ULL * (uint64)hardmode / 2ULL;
+				hm_atkmax  = amax_b  * 30ULL * (uint64)hardmode / 2ULL;
+				hm_matkmin = mamin_b * 30ULL * (uint64)hardmode;
+				hm_matkmax = mamax_b * 30ULL * (uint64)hardmode;
+			}
+
+			int32 hm_def     = (mob->status.def  < 5 ? 5 : (int32)mob->status.def)  + hm_cap;
+			int32 hm_mdef    = (mob->status.mdef < 5 ? 5 : (int32)mob->status.mdef) + hm_cap;
+			int32 hm_hit     = (mob->status.hit  < 300 ? 300 : (int32)mob->status.hit)  * hm_cap;
+			int32 hm_flee    = (mob->status.flee > 60  ? 60  : (int32)mob->status.flee) * hm_cap;
+			int32 hm_crit    = (mob->status.cri < 25 ? 25 : (int32)mob->status.cri) + hardmode * 30;
+			int32 hm_adelay  = cap_value((int32)mob->status.adelay  / hardmode * 2, 50, 1200);
+			int32 hm_speed   = cap_value((int32)mob->status.speed   / hardmode * 2, 40, 400);
+			float hm_atkspd  = 1000.0f / (float)hm_adelay;
+			float hm_movspd  = 1000.0f / (float)hm_speed;
+
+			// Esquive: label qualitatif (FLEE - HIT_joueur + 100 = taux reel, depend du HIT de l'attaquant)
+			const char* flee_label;
+			if      (hm_flee < 100) flee_label = "Nulle";
+			else if (hm_flee < 300) flee_label = "Faible";
+			else if (hm_flee < 500) flee_label = "Moderee";
+			else if (hm_flee < 700) flee_label = "Elevee";
+			else                    flee_label = "Extreme";
+
+			snprintf(atcmd_output, sizeof(atcmd_output), " -- [ Hard Mode Lv.%d ] --", hardmode);
+			clif_displaymessage(fd, atcmd_output);
+			snprintf(atcmd_output, sizeof(atcmd_output), "  Lv: %d  HP: %llu", hm_level, (unsigned long long)hm_hp);
+			clif_displaymessage(fd, atcmd_output);
+			snprintf(atcmd_output, sizeof(atcmd_output), "  ATK: %llu~%llu  MATK: %llu~%llu",
+				(unsigned long long)hm_atkmin, (unsigned long long)hm_atkmax,
+				(unsigned long long)hm_matkmin, (unsigned long long)hm_matkmax);
+			clif_displaymessage(fd, atcmd_output);
+			snprintf(atcmd_output, sizeof(atcmd_output), "  DEF: %d  MDEF: %d", hm_def, hm_mdef);
+			clif_displaymessage(fd, atcmd_output);
+			snprintf(atcmd_output, sizeof(atcmd_output), "  HIT: %d  Esquive: %d (%s)  CRIT: %.1f%%", hm_hit, hm_flee, flee_label, hm_crit / 10.0f);
+			clif_displaymessage(fd, atcmd_output);
+			// Cadence : attaques/sec | Deplacement : cellules/sec
+			snprintf(atcmd_output, sizeof(atcmd_output), " Cadence d'attaque: %.1f atk/s  Deplacement: %.1f cel/s", hm_atkspd, hm_movspd);
+			clif_displaymessage(fd, atcmd_output);
+		}
 		// drops
 		clif_displaymessage(fd, msg_txt(sd, 1245)); //  Drops:
 		strcpy(atcmd_output, " ");
