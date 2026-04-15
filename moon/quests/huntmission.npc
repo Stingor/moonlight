@@ -24,13 +24,22 @@
 //============================================================
 
 gonryun,152,119,6	script	Chuck Testa::huntmission	806,{
-    // if( getgroupid() < 40 && getcharid(3) != 2004391 ) {mes "Debug en cours"; close;}
 	if( #Mission_Total < (Mission_Total + Mission_Total_MVP) )
 		#Mission_Total = Mission_Total + Mission_Total_MVP;
 	function Chk;
 
-	mes "[Chuck Testa]";
-	mes "Salut, " + strcharinfo(0) + "!";
+
+	if( !#Mission_Delay ) {
+		mes "[Chuck Testa]";
+		mes "Aucun dossier sur vous ...";
+		mes "Vous devez être un noob !!";
+		emotion ET_HUK;
+		next;
+		callsub Mission_Info;
+		emotion ET_GO;
+		#Mission_Delay = 1;
+		next;
+	}
 
 	if( !#Mission_DB_Delay ) {
 		next;
@@ -57,19 +66,6 @@ gonryun,152,119,6	script	Chuck Testa::huntmission	806,{
 		next;
 		goto L_main;
 	}
-
-	if( !#Mission_Delay ) {
-		next;
-		mes "[Chuck Testa]";
-		mes "Aucun dossier sur vous ...";
-		mes "Vous devez être un noob !!";
-		emotion ET_HUK;
-		next;
-		callsub Mission_Info;
-		emotion ET_GO;
-		#Mission_Delay = 1;
-		next;
-	}
     
 	if( #Mission_Count ) {
         if( !@hm_char_del_check_1 ) {  // check for deleted character
@@ -88,15 +84,17 @@ gonryun,152,119,6	script	Chuck Testa::huntmission	806,{
     }
     
 L_main:
+	mes "[Chuck Testa]";
 	mes F_Rand("Nop...", "Just Chuck Testa...");
 	mes "^777777~ Vous avez fait:^000000";
 	mes "^777777~" + F_InsertPlural(Mission_Total,"mission",0,"^0055FF%d^777777 %s mobs") + "^000000";
 	mes "^777777~" + F_InsertPlural(Mission_Total_MVP,"mission",0,"^0055FF%d^777777 %s MVP") + "^000000";
 	mes "^777777~" + F_InsertPlural(Mission_Total_DB,"mission",0,"^0055FF%d^777777 %s DB") + "^000000";
+	setdialogsize(300,300);
     query_sql("SELECT char_id FROM `char_reg_num` WHERE `key` = 'Mission0' AND `char_id` IN(SELECT `char_id` FROM `char` WHERE `account_id` = " + getcharid(3) + ")", .@mn);
     query_sql("SELECT char_id FROM `char_reg_num` WHERE `key` = 'Mission_MVP_ID' AND `char_id` IN(SELECT `char_id` FROM `char` WHERE `account_id` = " + getcharid(3) + ")", .@bn);
-    
-	switch( select((!Mission0 ? (#Mission_Count?" ~ Mission en cours sur ["+getcharname(.@mn)+"]::":" ~ Nouvelle mission mob::") : ": ~ Status mission mob: ~ Abandonner Mission mob"),(!Mission_MVP_ID? (#Mission_Count_MVP?" ~ Mission en cours sur ["+getcharname(.@bn)+"]::":" ~ Nouvelle mission MVP::") : ": ~ Status mission MVP: ~ Abandonner Mission MVP")+": ~ DB journalière: ~ Info mission mob: ~ Info mission MVP: ~ Info mission DB: ~ Top Hunters mob: ~ Top Hunters MVP") ) {
+
+	switch( select((!Mission0 ? (#Mission_Count?" ~ Mission en cours sur ["+getcharname(.@mn)+"]::":" ~ Nouvelle mission mob::") : ": ~ Status mission mob - "+Mission0_+"/50 "+Mission1_+"/50 "+Mission2_+"/50: ~ Abandonner - "+getmonsterinfo(Mission0, MOB_NAME)+" - "+getmonsterinfo(Mission1, MOB_NAME)+" - "+getmonsterinfo(Mission2, MOB_NAME)),(!Mission_MVP_ID? (#Mission_Count_MVP?" ~ Mission en cours sur ["+getcharname(.@bn)+"]::":" ~ Nouvelle mission MVP::") : ": ~ Status mission MVP: ~ Abandonner "+(Mission_MVP_ID>0?"- "+getmonsterinfo($mvps[(Mission_MVP_ID-2 < 0?0:Mission_MVP_ID-2)], MOB_NAME):""))+": ~ DB journalière - "+(1000 - #Mission_Count_DB)+" mobs restants.: ~ Info mission mob: ~ Info mission MVP: ~ Info mission DB: ~ Top Hunters mob: ~ Top Hunters MVP") ) {
 		clear;
 		case 1:
 			mes "[Chuck Testa]";
@@ -105,8 +103,11 @@ L_main:
 				mes "sur un autre personnage ("+getcharname(.@mn)+").";
 				close;
 			}
-			if( #Mission_Delay > gettimetick(2) && .Delay ) {
-				mes "Vous devez attendre " + Time2Str(#Mission_Delay) + " avant de commencer une autre mission.";
+			if( #Mission_Delay > gettimetick(2) && .Delay && getgroupid() < 80 ) {
+				mes "Vous devez attendre :";
+				mes Time2Str(#Mission_Delay);
+				mes "avant de commencer une autre mission.";
+				setdialogsize(300,130);
 				close;
 			}
 			mes "Vous devez chasser:";
@@ -121,12 +122,12 @@ L_main:
 			mes "[Chuck Testa]";
 			mes "Venez me voir une fois terminé.";
 			mes "GL HF! Et n'oubliez pas @whereis !";
-			close;
+			break;
 		case 2:
 			mes "[Chuck Testa]";
 			mes "Status mission mob:";
 			callsub Mission_Status;
-			close;
+			break;
 		case 3:
 			mes "[Chuck Testa]";
 			mes "Voulez-vous vraiment abandonner cette mission ?";
@@ -147,7 +148,7 @@ L_main:
 			mes "[Chuck Testa]";
 			mes "Ahahah gros blagueur !";
 			emotion ET_SMILE;
-			close;
+			break;
 		case 4:
 			mes "[Chuck Testa]";
 			if( #Mission_Count_MVP ) {
@@ -155,11 +156,13 @@ L_main:
 				mes "sur un autre personnage ("+getcharname(.@bn)+").";
 				close;
 			}
-			if( #Mission_Delay_MVP > gettimetick(2) && .Delay ) {
-				mes "Vous devez attendre " + Time2Str(#Mission_Delay_MVP) + " avant de commencer une autre mission.";
+			if( #Mission_Delay_MVP > gettimetick(2) && .Delay && getgroupid() < 80 ) {
+				mes "Vous devez attendre :";
+				mes Time2Str(#Mission_Delay_MVP);
+				mes "avant de commencer une autre mission.";
+				setdialogsize(300,130);
 				close;
 			}
-			mes "Vous devez chasser:";
 			Mission_MVP = 0;
 			.@i = rand(2, getarraysize($mvps) + 1);
 			if( .@i%2 == 0 )
@@ -168,11 +171,9 @@ L_main:
 				Mission_MVP_ID = .@i - 1;
 			#Mission_Count_MVP = 1;
 			callsub Mission_Status_MVP;
-			next;
-			mes "[Chuck Testa]";
 			mes "Venez me voir une fois terminé.";
 			mes "GL HF! Et n'oubliez pas @whereis !";
-			close;
+			break;
 		case 5:
 			mes "[Chuck Testa]";
 			if( !Mission_MVP_ID ) {
@@ -181,7 +182,9 @@ L_main:
 			}
 			mes "Status mission MVP:";
 			callsub Mission_Status_MVP;
-			close;
+			mes "Venez me voir une fois terminé.";
+			mes "GL HF! Et n'oubliez pas @whereis !";
+			break;
 		case 6:
 			mes "[Chuck Testa]";
 			mes "Voulez-vous vraiment abandonner cette mission MVP ?";
@@ -200,51 +203,49 @@ L_main:
 			mes "[Chuck Testa]";
 			mes "Ahahah gros blagueur !";
 			emotion ET_SMILE;
-			close;
+			break;
 		case 7:
-			if( #Mission_DB_Delay > gettimetick(2) ) {
-				mes "[Chuck Testa]";
-				mes "Vous devez attendre " + Time2Str(#Mission_DB_Delay) + " avant de recommencer cette quête.";
+			if( #Mission_DB_Delay > gettimetick(2) && getgroupid() < 80 ) {
+				mes "Vous devez attendre :";
+				mes Time2Str(#Mission_DB_Delay);
+				mes "avant de commencer une autre mission.";
+				setdialogsize(300,130);
 				close;
 			}
 			if( #Mission_Count_DB == 0 )
 				#Mission_Count_DB = 1;
-			if( #Mission_Count_DB < 1001 ) {
-				mes "[Chuck Testa]";
-				mes "Vous devez tuer " + (1000 - #Mission_Count_DB + 1) + " monstres provenant de DB.";
-				next;
-			}
 			callsub Mission_DB_Status;
-			next;
-			mes "[Chuck Testa]";
 			mes "Venez me voir une fois terminé.";
 			mes "GL HF!";
-			close;
+			break;
 		case 8:
 			callsub Mission_Info;
-			close;
+			break;
 		case 9:
 			callsub Mission_Info_MVP;
-			close;
+			break;
 		case 10:
 			callsub Mission_Info_DB;
-			close;
+			break;
 		case 11:
 			mes "[Chuck Testa]";
 			mes "Top hunters mob:";
-			query_sql("SELECT char_id AS id, (SELECT `name` FROM `char` WHERE char_id = id),`value` FROM `char_reg_num` WHERE `key` = 'Mission_Total' ORDER BY CAST(`value` AS SIGNED) DESC LIMIT 5", .@id, .@name$, .@val);
-			for( .@i = 0; .@i < 5; .@i++ )
+			query_sql("SELECT char_id AS id, (SELECT `name` FROM `char` WHERE char_id = id),`value` FROM `char_reg_num` WHERE `key` = 'Mission_Total' ORDER BY CAST(`value` AS SIGNED) DESC LIMIT 10", .@id, .@name$, .@val);
+			for( .@i = 0; .@i < getarraysize(.@name$); .@i++ )
 				mes "  [Rank " + (.@i+1) + "]  " + ((.@name$[.@i] == "") ? "^777777none" : "^0055FF" + .@name$[.@i]+"^000000 : ^FF0000" + .@val[.@i] + " pt.") + "^000000";
-			close;
+			setdialogsize(280,300);
+			break;
 		case 12:
 			mes "[Chuck Testa]";
 			mes "Top hunters MVP:";
-			query_sql("SELECT char_id AS id, (SELECT `name` FROM `char` WHERE char_id = id),`value` FROM `char_reg_num` WHERE `key` = 'Mission_Total_MVP' ORDER BY CAST(`value` AS SIGNED) DESC LIMIT 5", .@id, .@name$, .@val);
-			for( .@i = 0; .@i < 5; .@i++ )
+			query_sql("SELECT char_id AS id, (SELECT `name` FROM `char` WHERE char_id = id),`value` FROM `char_reg_num` WHERE `key` = 'Mission_Total_MVP' ORDER BY CAST(`value` AS SIGNED) DESC LIMIT 10", .@id, .@name$, .@val);
+			for( .@i = 0; .@i < getarraysize(.@name$); .@i++ )
 				mes "  [Rank " + (.@i+1) + "]  " + ((.@name$[.@i] == "") ? "^777777none" : "^0055FF" + .@name$[.@i]+"^000000 : ^FF0000" + .@val[.@i] + " pt.") + "^000000";
-			close;
+			setdialogsize(280,300);
+			break;
 	}
-	end;
+	next;
+	goto L_main;
 	
 OnMobDbDead:
 	if( playerattached() ) {
@@ -261,16 +262,15 @@ OnMobDbDead:
 	end;
 	
 Mission_DB_Status:
-	if( #Mission_Count_DB < 1001 ) {
-		mes "[Chuck Testa]";
+	mes "[Chuck Testa]";
+	if( #Mission_Count_DB < 1001 && getgroupid() < 80 ) {
 		mes "Encore " + (1000 - #Mission_Count_DB + 1) + " mobs à tuer pour valider!";
-		mes "Récompenses de Mission:";
+		mes "Récompenses:";
 		mes " > Points d'event: ^0055FF5pts^000000";
 		mes " > Zenys: ^0055FF" + F_InsertComma(5000000) + "^000000";
-		mes " > BB: ^0055FF10^000000";
+		mes " > "+mesitemicon(12103) +" -> 10 "+ mesitemlink(12103); // BLOODY_DEAD_BRANCH
 		return;
 	}
-	mes "[Chuck Testa]";
 	mes "Ah il ressemblerait que vous ayez bien tuer les 1000 mob en db!!";
 	close2;
 	emotion ET_BEST;
@@ -281,26 +281,24 @@ Mission_DB_Status:
 	.@prepoints = #KAFRAPOINTS;
 	#KAFRAPOINTS += 5;
 	logmes "Termine sa mission DB ["+.@prepoints+"->"+#KAFRAPOINTS+"]";
-	
-
 	dispbottom "Vous gagnez 5 points d'event.";
 
-	.@Zeny = 5000000;
-	if( Zeny + .@zeny < MAX_ZENY )
-		Zeny += .@Zeny;
-	else if ( #BANKVAULT + .@zeny < MAX_ZENY ) {
+	.@zeny = 5000000;
+	if( Zeny <= MAX_ZENY - .@zeny )
+		Zeny += .@zeny;
+	else if ( BankVault <= MAX_ZENY - .@zeny ) {
 		dispbottom "Vos zeny sont envoyés dans votre bank car vous êtes arrivez au max (Ctrl+b).";
-		#BANKVAULT += .@Zeny;
+		BankVault += .@zeny;
 	}
 	else 
 		dispbottom "Vous ne gagnez pas de zeny car vous êtes au max.";
 
 	if( checkweight(12103,10) ) {
-		getitem 12103,10;
+		getitem 12103,10; // BLOODY_DEAD_BRANCH
 		logmes "Récompenses reçues.";
 	}
 	else {
-		setarray .@mailitem[0], 12103;
+		setarray .@mailitem[0], 12103; // BLOODY_DEAD_BRANCH
 		setarray .@mailamount[0], 10;
 		.@title$ = "Chasse MVP";
 		.@body$ = "Félicitation vous termminez votre chasse MVP !";
@@ -326,13 +324,11 @@ Mission_Status:
 	}
 
 	// Zeny formula:
-	.@Zeny = #Mission_Count * .Quests * 10000;
-	next;
-	mes "[Chuck Testa]";
-	mes "Récompenses des Missions:";
+	.@zeny = #Mission_Count * .Quests * 10000;
+	mes "Récompenses:";
 	mes " > Points d'event: ^0055FF"+(2 + .Quests)+"pts^000000";
-	mes " > Zenys: ^0055FF" + F_InsertComma(.@Zeny) + "^000000";
-	if( @f ) {
+	mes " > Zenys: ^0055FF" + F_InsertComma(.@zeny) + "^000000";
+	if( @f && getgroupid() < 80 ) {
 		@f = false;
 		return;
 	}
@@ -352,11 +348,11 @@ Mission_Status:
 	#KAFRAPOINTS += (2 + .Quests);
 	dispbottom "Vous gagnez "+(2 + .Quests)+" points d'event.";
 
-	if( Zeny + .@zeny < MAX_ZENY )
-		Zeny += .@Zeny;
-	else if ( #BANKVAULT + .@zeny < MAX_ZENY ) {
+	if( Zeny <= MAX_ZENY - .@zeny )
+		Zeny += .@zeny;
+	else if ( BankVault <= MAX_ZENY - .@zeny ) {
 		dispbottom "Vos zeny sont envoyés dans votre bank car vous êtes arrivez au max (Ctrl+b).";
-		#BANKVAULT += .@Zeny;
+		BankVault += .@zeny;
 	}
 	else 
 		dispbottom "Vous ne gagnez pas de zeny car vous êtes au max.";
@@ -384,14 +380,12 @@ Mission_Status_MVP:
 	mes "Wanted: "+Chk(Mission_MVP,1) + getmonsterinfo($mvps[Mission_MVP_ID-2], MOB_NAME) + " [id:" + $mvps[Mission_MVP_ID-2] + "] - (" + Mission_MVP + "/1)^000000";
 
 	// Zeny formula:
-	.@Zeny = $mvps[Mission_MVP_ID-1] * 1000000;
-	next;
-	mes "[Chuck Testa]";
-	mes "Récompense:";
+	.@zeny = $mvps[Mission_MVP_ID-1] * 1000000;
+	mes "Récompenses:";
 	mes " > Points d'event: ^0055FF"+ $mvps[Mission_MVP_ID-1] +"pts^000000";
-	mes " > Zenys: ^0055FF" + F_InsertComma(.@Zeny) + "^000000";
-	mes " > ^0055FFConvex Mirror^000000";
-	if( @f ) {
+	mes " > Zenys: ^0055FF" + F_InsertComma(.@zeny) + "^000000";
+	mes " > "+mesitemicon(12214) +" -> 1 "+ mesitemlink(12214); // Convex_Mirror
+	if( @f && getgroupid() < 80 ) {
 		@f = false;
 		return;
 	}
@@ -401,17 +395,17 @@ Mission_Status_MVP:
 	close2;
 	Mission_MVP = 0;
 	.@prepoints = #KAFRAPOINTS;
-	getitem 12214,1;
+	getitem 12214,1; // Convex_Mirror
 	.@pointss = $mvps[Mission_MVP_ID-1];
-	if( Zeny + .@zeny < MAX_ZENY )
-		Zeny += .@Zeny;
-	else if ( #BANKVAULT + .@zeny < MAX_ZENY ) {
+	if( Zeny <= MAX_ZENY - .@zeny )
+		Zeny += .@zeny;
+	else if ( BankVault <= MAX_ZENY - .@zeny ) {
 		dispbottom "Vos zeny sont envoyés dans votre bank car vous êtes arrivez au max (Ctrl+b).";
-		#BANKVAULT += .@Zeny;
+		BankVault += .@zeny;
 	}
 	else 
 		dispbottom "Vous ne gagnez pas de zeny car vous êtes au max.";
-		
+
 	#Mission_Count_MVP = 0;
 	#Mission_Delay_MVP = gettimetick(2) + (.Delay * 3600);
 	Mission_Total_MVP++;
@@ -439,31 +433,28 @@ Mission_Info:
 	mes "[Chuck Testa]";
 	mes "Je peux vous donner des mission de chasse aléatoires.";
 	mes "Certaine seront simple et d'autres moins.";
-	next;
-	mes "[Chuck Testa]";
 	mes "Les points d'event en récompense sont partagés sur votre compte.";
 	mes "Le delai de "+.Delay+"h entre chaque missions aussi.";
 	mes "Vous ne pouvez avoir qu'une seule mission à la fois sur votre compte.";
+	setdialogsize(450,200);
 	return;
 
 Mission_Info_MVP:
 	mes "[Chuck Testa]";
 	mes "Je peux vous donner des mission de chasse MVP aléatoires.";
 	mes "Certaine seront simple et d'autres moins.";
-	next;
-	mes "[Chuck Testa]";
 	mes "Les points d'event en récompense sont partagés sur votre compte.";
 	mes "Le delai de "+.Delay+"h entre chaque missions aussi.";
 	mes "Vous ne pouvez avoir qu'une seule mission MVP à la fois sur votre compte.";
+	setdialogsize(450,200);
 	return;
 	
 Mission_Info_DB:
 	mes "[Chuck Testa]";
 	mes "Une mission est disponible où vous devez tuer 1000 monstres provenant de DB.";
-	next;
-	mes "[Chuck Testa]";
 	mes "Les points d'event en récompense sont partagés sur votre compte.";
 	mes "Le delai de 22h entre chaque missions.";
+	setdialogsize(450,150);
 	return;
 
 function Chk {
