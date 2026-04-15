@@ -131,23 +131,59 @@ L_main:
 		case 3:
 			mes "[Chuck Testa]";
 			mes "Voulez-vous vraiment abandonner cette mission ?";
-			if( select(" ~ Abandonner...: ~ ^777777Annuler^000000") == 1 ) {
-				clear;
-				mes "[Chuck Testa]";
-				mes "C'est bon, j'ai retiré votre mission actuelle.";
-				specialeffect2 EF_STORMKICK4;
-				for( .@i = 0; .@i < .Quests; .@i++ ) {
-					setd "Mission"+.@i, 0;
-					setd "Mission"+.@i+"_", 0;
-				}
-				#Mission_Count = 0;
-				#Mission_Delay = gettimetick(2) + (.Delay * 3600);
-				close;
+			mes "Ou la ^FF6600reseter^000000 pour en obtenir une nouvelle ?";
+			.@reset_cost = 1 + (#Mission_Mob_Reset * (#Mission_Mob_Reset + 1) / 2);
+			mes "Coût du reset: ^FF0000" + .@reset_cost + " pt(s) d'event^000000 (vous avez ^0055FF" + #KAFRAPOINTS + " pts^000000).";
+			mes "^777777Attention: le coût augmente à chaque reset et diminue en complétant une mission.^000000";
+			setdialogsize(350,300);
+			switch( select(" ~ Abandonner (sans récompense)...: ~ ^FF6600Reseter^000000 - " + .@reset_cost + " pt(s) d'event: ~ ^777777Annuler^000000") ) {
+				case 1:
+					clear;
+					mes "[Chuck Testa]";
+					mes "C'est bon, j'ai retiré votre mission actuelle.";
+					specialeffect2 EF_STORMKICK4;
+					for( .@i = 0; .@i < .Quests; .@i++ ) {
+						setd "Mission"+.@i, 0;
+						setd "Mission"+.@i+"_", 0;
+					}
+					#Mission_Count = 0;
+					#Mission_Delay = gettimetick(2) + (.Delay * 3600);
+					close;
+				case 2:
+					clear;
+					mes "[Chuck Testa]";
+					if( #KAFRAPOINTS < .@reset_cost ) {
+						mes "Vous n'avez pas assez de points d'event !";
+						mes "Il vous faut ^FF0000" + .@reset_cost + " pt(s)^000000, vous en avez ^0055FF" + #KAFRAPOINTS + "^000000.";
+						close;
+					}
+					logmes "Utilisation d'un reset MOB Mission. ("+ .@reset_cost +"pts retirés)";
+					#KAFRAPOINTS -= .@reset_cost;
+					#Mission_Mob_Reset++;
+					for( .@i = 0; .@i < .Quests; .@i++ ) {
+						setd "Mission"+.@i, 0;
+						setd "Mission"+.@i+"_", 0;
+					}
+					query_sql("SELECT ID FROM `mob_db` WHERE left(Sprite, 4) != 'meta' AND left(Sprite, 2) != 'E_' AND ~Mode & 32 AND EXP > 0 AND MVP1id = 0 AND DropCardid > 4000 AND DropCardid < 5000 AND DropCardper = 1 AND ID < 2000 AND instr('"+ .Blacklist$ +"',ID) = 0 ORDER BY rand() LIMIT " + .Quests, .@mob);
+					for( .@i = 0; .@i < .Quests; .@i++ ) {
+						setd "Mission" + .@i, .@mob[.@i];
+						setd "Mission" + .@i +"_", 0;
+					}
+					#Mission_Count = 50;
+					.@next_cost = 1 + (#Mission_Mob_Reset * (#Mission_Mob_Reset + 1) / 2);
+					dispbottom "Nouvelle mission assignée! Coût prochain reset: " + .@next_cost + " pt(s).";
+					callsub Mission_Status;
+					next;
+					mes "[Chuck Testa]";
+					mes "Venez me voir une fois terminé.";
+					mes "GL HF! Et n'oubliez pas @whereis !";
+					break;
+				case 3:
+					clear;
+					mes "[Chuck Testa]";
+					mes "Ahahah gros blagueur !";
+					emotion ET_SMILE;
 			}
-			clear;
-			mes "[Chuck Testa]";
-			mes "Ahahah gros blagueur !";
-			emotion ET_SMILE;
 			break;
 		case 4:
 			mes "[Chuck Testa]";
@@ -188,21 +224,49 @@ L_main:
 		case 6:
 			mes "[Chuck Testa]";
 			mes "Voulez-vous vraiment abandonner cette mission MVP ?";
-			if( select(" ~ Abandonner...: ~ ^777777Annuler^000000") == 1 ) {
-				clear;
-				mes "[Chuck Testa]";
-				mes "C'est bon, j'ai retiré votre mission MVP actuelle.";
-				specialeffect2 EF_STORMKICK4;
-				Mission_MVP = 0;
-				Mission_MVP_ID = 0;
-				#Mission_Count_MVP = 0;
-				#Mission_Delay_MVP = gettimetick(2) + (.Delay * 3600);
-				close;
+			mes "Ou la ^FF6600reseter^000000 pour en obtenir une nouvelle ?";
+			.@reset_cost = 1 + (#Mission_MVP_Reset * (#Mission_MVP_Reset + 1) / 2);
+			mes "Coût du reset: ^FF0000" + .@reset_cost + " pt(s) d'event^000000 (vous avez ^0055FF" + #KAFRAPOINTS + " pts^000000).";
+			mes "^777777Attention: le coût augmente à chaque reset et diminue en complétant une mission.^000000";
+			setdialogsize(350,300);
+			switch( select(" ~ Abandonner (sans récompense)...: ~ ^FF6600Reseter^000000 - " + .@reset_cost + " pt(s) d'event: ~ ^777777Annuler^000000") ) {
+				case 1:
+					clear;
+					mes "[Chuck Testa]";
+					mes "C'est bon, j'ai retiré votre mission MVP actuelle.";
+					specialeffect2 EF_STORMKICK4;
+					Mission_MVP = 0;
+					Mission_MVP_ID = 0;
+					#Mission_Count_MVP = 0;
+					#Mission_Delay_MVP = gettimetick(2) + (.Delay * 3600);
+					close;
+				case 2:
+					clear;
+					mes "[Chuck Testa]";
+					if( #KAFRAPOINTS < .@reset_cost ) {
+						mes "Vous n'avez pas assez de points d'event !";
+						mes "Il vous faut ^FF0000" + .@reset_cost + " pt(s)^000000, vous en avez ^0055FF" + #KAFRAPOINTS + "^000000.";
+						close;
+					}
+					logmes "Utilisation d'un reset MVP Mission. ("+ .@reset_cost +"pts retirés)";
+					#KAFRAPOINTS -= .@reset_cost;
+					#Mission_MVP_Reset++;
+					Mission_MVP = 0;
+					Mission_MVP_ID = rand(2, getarraysize($mvps) + 1);
+					if( Mission_MVP_ID%2 != 0 )
+						Mission_MVP_ID--;
+					#Mission_Count_MVP = 1;
+					.@next_cost = 1 + (#Mission_MVP_Reset * (#Mission_MVP_Reset + 1) / 2);
+					dispbottom "Nouvelle mission MVP assignée! Coût prochain reset: " + .@next_cost + " pt(s).";
+					callsub Mission_Status_MVP;
+					mes "GL HF! Et n'oubliez pas @whereis !";
+					close;
+				case 3:
+					clear;
+					mes "[Chuck Testa]";
+					mes "Ahahah gros blagueur !";
+					emotion ET_SMILE;
 			}
-			clear;
-			mes "[Chuck Testa]";
-			mes "Ahahah gros blagueur !";
-			emotion ET_SMILE;
 			break;
 		case 7:
 			if( #Mission_DB_Delay > gettimetick(2) && getgroupid() < 80 ) {
@@ -346,6 +410,10 @@ Mission_Status:
 	#Mission_Delay = gettimetick(2) + (.Delay * 3600);
 	// #Mission_Points += 5;
 	#KAFRAPOINTS += (2 + .Quests);
+	if( #Mission_Mob_Reset > 2 )
+		#Mission_Mob_Reset -= 2;
+	else
+		#Mission_Mob_Reset = 0;
 	dispbottom "Vous gagnez "+(2 + .Quests)+" points d'event.";
 
 	if( Zeny <= MAX_ZENY - .@zeny )
@@ -422,6 +490,10 @@ Mission_Status_MVP:
 		end;
 	}
 	#KAFRAPOINTS += .@pointss;
+	if( #Mission_MVP_Reset > 2 )
+		#Mission_MVP_Reset -= 2;
+	else
+		#Mission_MVP_Reset = 0;
 	dispbottom "Vous gagnez "+$mvps[Mission_MVP_ID-1]+" points d'event et 1 Convex Mirror.";
 	logmes "Termine sa mission MVP à ["+.@prepoints+"->"+#KAFRAPOINTS+"] pts: "+getmonsterinfo($mvps[Mission_MVP_ID-2], MOB_NAME);
 	Mission_MVP_ID = 0;
