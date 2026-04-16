@@ -1122,60 +1122,60 @@ L_Donjons:
 		goto L_warpa;
 		end;
 L_abbey:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
+	switch( select("• Niveau 1 (abbey01):• Niveau 2 (abbey02):• Niveau 3 (abbey03)") ) {
 		case 1: warp_fct("abbey01", 51, 13);
 		case 2: warp_fct("abbey02", 149, 11);
 		case 3: warp_fct("abbey03", 119, 8);
 	}
 end;
 L_ami:
-	if( select("• Niveau 1:• Niveau 2") == 1 )
+	if( select("• Niveau 1 (amicitia1):• Niveau 2 (amicitia2)") == 1 )
 		warp_fct("amicitia1", 253, 244);
 	else
 		warp_fct("amicitia2", 145, 278);
 end;
 L_abyss:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
+	switch( select("• Niveau 1 (abyss_01):• Niveau 2 (abyss_02):• Niveau 3 (abyss_03)") ) {
 		case 1: warp_fct("abyss_01", 262, 270);
 		case 2: warp_fct("abyss_02", 270, 270);
 		case 3: warp_fct("abyss_03", 116, 27);
 	}
 end;
 L_ama:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
+	switch( select("• Niveau 1 (ama_dun01):• Niveau 2 (ama_dun02):• Niveau 3 (ama_dun03)") ) {
 		case 1: warp_fct("ama_dun01", 227, 10);
 		case 2: warp_fct("ama_dun02", 32, 43);
 		case 3: warp_fct("ama_dun03", 119, 15);
 	}
 end;
 L_ant:
-	if( select("• Niveau 1:• Niveau 2") == 1 )
+	if( select("• Niveau 1 (anthell01):• Niveau 2 (anthell02)") == 1 )
 		warp_fct("anthell01", 32, 262);
 	else
 		warp_fct("anthell02", 34, 263);
 end;
 L_ayo:
-	if( select("• Niveau 1:• Niveau 2") == 1 )
+	if( select("• Niveau 1 (ayo_dun01):• Niveau 2 (ayo_dun02)") == 1 )
 		warp_fct("ayo_dun01", 274, 19);
 	else
 		warp_fct("ayo_dun02", 230, 235);
 end;
 L_beach:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
+	switch( select("• Niveau 1 (beach_dun):• Niveau 2 (beach_dun2):• Niveau 3 (beach_dun3)") ) {
 		case 1: warp_fct("beach_dun", 266, 67);
 		case 2: warp_fct("beach_dun2", 255, 244);
 		case 3: warp_fct("beach_dun3", 23, 260);
 	}
 end;
 L_bif:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
+	switch( select("• Niveau 1 (ecl_tdun01):• Niveau 2 (ecl_tdun02):• Niveau 3 (ecl_tdun03)") ) {
 		case 1: warp_fct("ecl_tdun01", 60, 13);
 		case 2: warp_fct("ecl_tdun02", 60, 88);
 		case 3: warp_fct("ecl_tdun03", 47, 13);
 	}
 end;
 L_bio:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4:• Nightmare") ) {
+	switch( select("• Niveau 1 (lhz_dun01):• Niveau 2 (lhz_dun02):• Niveau 3 (lhz_dun03):• Niveau 4 (lhz_dun04):• Nightmare (lhz_dun_n)") ) {
 		case 1: warp_fct("lhz_dun01", 149, 282);
 		case 2: warp_fct("lhz_dun02", 282, 156);
 		case 3: warp_fct("lhz_dun03", 140, 133);
@@ -1184,13 +1184,13 @@ L_bio:
 	}
 end;
 L_bra:
-	if( select("• Niveau 1:• Niveau 2") == 1 )
+	if( select("• Niveau 1 (bra_dun01):• Niveau 2 (bra_dun02)") == 1 )
 		warp_fct("bra_dun01");
 	else
 		warp_fct("bra_dun02", 261, 260);
 end;
 L_bya:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4:• Niveau 5:• Niveau 6") ) {
+	switch( select("• Niveau 1 (iz_dun00):• Niveau 2 (iz_dun01):• Niveau 3 (iz_dun02):• Niveau 4 (iz_dun03):• Niveau 5 (iz_dun04):• Niveau 6 (iz_dun05)") ) {
 		case 1: warp_fct("iz_dun00", 168, 168);
 		case 2: warp_fct("iz_dun01", 41, 37);
 		case 3: warp_fct("iz_dun02", 236, 204);
@@ -1200,7 +1200,7 @@ L_bya:
 	}
 end;
 L_clock:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4:• Sous-sol 1:• Sous-sol 2:• Sous-sol 3:• Sous-sol 4:•Nightmare 1(Nv2):•Nightmare 2(Nv3)") ) {
+	switch( select("• Niveau 1 (c_tower1):• Niveau 2 (c_tower2):• Niveau 3 (c_tower3):• Niveau 4 (c_tower4):• Sous-sol 1 (alde_dun01):• Sous-sol 2 (alde_dun02):• Sous-sol 3 (alde_dun03):• Sous-sol 4 (alde_dun04):•Nightmare 1 (c_tower2_):•Nightmare 2 (c_tower3_)") ) {
 		case 1: warp_fct("c_tower1", 200, 163);
 		case 2: warp_fct("c_tower2", 268, 26);
 		case 3: warp_fct("c_tower3", 64, 148);
@@ -1214,14 +1214,14 @@ L_clock:
 	}
 end;
 L_coal:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
+	switch( select("• Niveau 1 (mjo_dun01):• Niveau 2 (mjo_dun02):• Niveau 3 (mjo_dun03)") ) {
 		case 1: warp_fct("mjo_dun01", 52, 17);
 		case 2: warp_fct("mjo_dun02", 381, 343);
 		case 3: warp_fct("mjo_dun03", 302, 261);
 	}
 end;
 L_culv:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4") ) {
+	switch( select("• Niveau 1 (prt_sewb1):• Niveau 2 (prt_sewb2):• Niveau 3 (prt_sewb3):• Niveau 4 (prt_sewb4)") ) {
 		case 1: warp_fct("prt_sewb1", 132, 248);
 		case 2: warp_fct("prt_sewb2", 19, 19);
 		case 3: warp_fct("prt_sewb3", 180, 169);
@@ -1229,26 +1229,26 @@ L_culv:
 	}
 end;
 L_dew:
-	switch( select("• Niveau 1:• Niveau 2") ) {
+	switch( select("• Niveau 1 (dew_dun01):• Niveau 2 (dew_dun02)") ) {
 		case 1: warp_fct("dew_dun01", 289, 160);
 		case 2: warp_fct("dew_dun02", 302, 30);
 	}
 end;
 L_dic:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
+	switch( select("• Niveau 1 (dic_dun01):• Niveau 2 (dic_dun02):• Niveau 3 (dic_dun03)") ) {
 		case 1: warp_fct("dic_dun01", 366, 45);
 		case 2: warp_fct("dic_dun02", 102, 142);
 		case 3: warp_fct("dic_dun03", 101, 144);
 	}
 end;
 L_ein:
-	if( select("• Niveau 1:• Niveau 2") == 1 )
+	if( select("• Niveau 1 (ein_dun01):• Niveau 2 (ein_dun02)") == 1 )
 		warp_fct("ein_dun01", 22, 18);
 	else
 		warp_fct("ein_dun02", 292, 290);
 end;
 L_geff:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4") ) {
+	switch( select("• Niveau 1 (gef_dun00):• Niveau 2 (gef_dun01):• Niveau 3 (gef_dun02):• Niveau 4 (gef_dun03)") ) {
 		case 1: warp_fct("gef_dun00", 104, 98);
 		case 2: warp_fct("gef_dun01", 115, 236);
 		case 3: warp_fct("gef_dun02", 106, 132);
@@ -1256,7 +1256,7 @@ L_geff:
 	}
 end;
 L_gefe:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4") ) {
+	switch( select("• Niveau 1 (gefenia01):• Niveau 2 (gefenia02):• Niveau 3 (gefenia03):• Niveau 4 (gefenia04)") ) {
 		case 1: warp_fct("gefenia01", 59, 167);
 		case 2: warp_fct("gefenia02", 201, 35);
 		case 3: warp_fct("gefenia03", 264, 236);
@@ -1264,7 +1264,7 @@ L_gefe:
 	}
 end;
 L_glast:
-	switch( select("• St. Abbey:• Churchyard:• Dans Glast Heim:• 1er étage:• 2ème étage:• Chevalrie 1:• Chevalrie 2:• Prison 1:• Prison 2:• Etages:• Egout 1:• Egout 2:• Egout 3:• Egout 4:• Sous-sol 1:• Sous-sol 2:• Nightmare Churchyard:• Nightmare 2ème étage") ) {
+	switch( select("• St. Abbey (gl_church):• Churchyard (gl_chyard):• Dans Glast Heim (gl_in01):• 1er étage (gl_cas01):• 2ème étage (gl_cas02):• Chevalrie 1 (gl_knt01):• Chevalrie 2 (gl_knt02):• Prison 1 (gl_prison):• Prison 2 (gl_prison1):• Etages (gl_step):• Egout 1 (gl_sew01):• Egout 2 (gl_sew02):• Egout 3 (gl_sew03):• Egout 4 (gl_sew04):• Sous-sol 1 (gl_dun01):• Sous-sol 2 (gl_dun02):• Nightmare Churchyard (gl_chyard_):• Nightmare 2ème étage (gl_cas02_)") ) {
 		case 1: warp_fct("gl_church", 156, 8);
 		case 2: warp_fct("gl_chyard", 147, 15);
 		case 3: warp_fct("gl_in01", 121, 59);
@@ -1286,55 +1286,55 @@ L_glast:
 	}
 end;
 L_gon:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
+	switch( select("• Niveau 1 (gon_dun01):• Niveau 2 (gon_dun02):• Niveau 3 (gon_dun03)") ) {
 		case 1: warp_fct("gon_dun01", 153, 48);
 		case 2: warp_fct("gon_dun02", 17, 114);
 		case 3: warp_fct("gon_dun03", 68, 9);
 	}
 end;
 L_hid:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
+	switch( select("• Niveau 1 (prt_maze01):• Niveau 2 (prt_maze02):• Niveau 3 (prt_maze03)") ) {
 		case 1: warp_fct("prt_maze01", 176, 7);
 		case 2: warp_fct("prt_maze02", 93, 20);
 		case 3: warp_fct("prt_maze03", 23, 8);
 	}
 end;
 L_ice:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
+	switch( select("• Niveau 1 (ice_dun01):• Niveau 2 (ice_dun02):• Niveau 3 (ice_dun03)") ) {
 		case 1: warp_fct("ice_dun01", 157, 14);
 		case 2: warp_fct("ice_dun02", 151, 156);
 		case 3: warp_fct("ice_dun03", 149, 22);
 	}
 end;
 L_jup:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
+	switch( select("• Niveau 1 (juperos_01):• Niveau 2 (juperos_02):• Niveau 3 (jupe_core)") ) {
 		case 1: warp_fct("juperos_01", 53, 243);
 		case 2: warp_fct("juperos_02", 41, 65);
 		case 3: warp_fct("jupe_core", 150, 20);
 	}
 end;
 L_kiel:
-	if( select("• Niveau 1:• Niveau 2") == 1 )
+	if( select("• Niveau 1 (kh_dun01):• Niveau 2 (kh_dun02)") == 1 )
 		warp_fct("kh_dun01", 28, 211);
 	else
 		warp_fct("kh_dun02", 42, 197);
 end;
 L_las:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
+	switch( select("• Niveau 1 (lasa_dun01):• Niveau 2 (lasa_dun02):• Niveau 3 (lasa_dun03)") ) {
 		case 1: warp_fct("lasa_dun01", 23, 143);
 		case 2: warp_fct("lasa_dun02", 22, 171);
 		case 3: warp_fct("lasa_dun03", 190, 19);
 	}
 end;
 L_lou:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
+	switch( select("• Niveau 1 (lou_dun01):• Niveau 2 (lou_dun02):• Niveau 3 (lou_dun03)") ) {
 		case 1: warp_fct("lou_dun01", 215, 193);
 		case 2: warp_fct("lou_dun02", 280, 23);
 		case 3: warp_fct("lou_dun03", 165, 38);
 	}
 end;
 L_mag:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
+	switch( select("• Niveau 1 (mag_dun01):• Niveau 2 (mag_dun02):• Niveau 3 (mag_dun03)") ) {
 		case 1: warp_fct("mag_dun01",126,69);
 		case 2: warp_fct("mag_dun02",47,32);
 		case 3: warp_fct("mag_dun03",120,120);
@@ -1343,27 +1343,27 @@ end;
 L_malay: warp_fct("ma_dun01", 29, 106);
 L_malan: warp_fct("mal_dun01", 33, 230);
 L_mosk:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
+	switch( select("• Niveau 1 (mosk_dun01):• Niveau 2 (mosk_dun02):• Niveau 3 (mosk_dun03)") ) {
 		case 1: warp_fct("mosk_dun01", 205, 52);
 		case 2: warp_fct("mosk_dun02", 160, 35);
 		case 3: warp_fct("mosk_dun03", 34, 136);
 	}
 end;
 L_odin:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
+	switch( select("• Niveau 1 (odin_tem01):• Niveau 2 (odin_tem02):• Niveau 3 (odin_tem03)") ) {
 		case 1: warp_fct("odin_tem01", 97, 146);
 		case 2: warp_fct("odin_tem02", 26, 181);
 		case 3: warp_fct("odin_tem03", 120, 54);
 	}
 end;
 L_orc:
-	if( select("• Niveau 1:• Niveau 2") == 1 )
+	if( select("• Niveau 1 (orcsdun01):• Niveau 2 (orcsdun02)") == 1 )
 		warp_fct("orcsdun01", 32, 169);
 	else
 		warp_fct("orcsdun02", 21, 185);
 end;
 L_pay:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4:• Niveau 5") ) {
+	switch( select("• Niveau 1 (pay_dun00):• Niveau 2 (pay_dun01):• Niveau 3 (pay_dun02):• Niveau 4 (pay_dun03):• Niveau 5 (pay_dun04)") ) {
 		case 1: warp_fct("pay_dun00", 22, 180);
 		case 2: warp_fct("pay_dun01", 19, 33);
 		case 3: warp_fct("pay_dun02", 19, 63);
@@ -1372,7 +1372,7 @@ L_pay:
 	}
 end;
 L_pyr:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4:Sous-sol 1:Sous-sol 2:Sous-sol 1 - Nightmare:Sous-sol 2 - Nightmare") ) {
+	switch( select("• Niveau 1 (moc_pryd01):• Niveau 2 (moc_pryd02):• Niveau 3 (moc_pryd03):• Niveau 4 (moc_pryd04):Sous-sol 1 (moc_pryd05):Sous-sol 2 (moc_pryd06):Sous-sol 1 - Nightmare (moc_prydn1):Sous-sol 2 - Nightmare (moc_prydn2)") ) {
 		case 1: warp_fct("moc_pryd01", 192, 9);
 		case 2: warp_fct("moc_pryd02", 10, 192);
 		case 3: warp_fct("moc_pryd03", 100, 92);
@@ -1384,13 +1384,13 @@ L_pyr:
 	}
 end;
 L_rock:
-	if( select("• Rockridge Mine:• Underground Waterway") == 1 )
+	if( select("• Rockridge Mine (rockmi1):• Underground Waterway (harboro2)") == 1 )
 		warp_fct("rockmi1");
 	else
 		warp_fct("harboro2");
 end;
 L_san:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4:• Niveau 5") ) {
+	switch( select("• Niveau 1 (ra_san01):• Niveau 2 (ra_san02):• Niveau 3 (ra_san03):• Niveau 4 (ra_san04):• Niveau 5 (ra_san05)") ) {
 		case 1: warp_fct("ra_san01", 140, 130);
 		case 2: warp_fct("ra_san02", 213, 269);
 		case 3: warp_fct("ra_san03", 123, 278);
@@ -1399,7 +1399,7 @@ L_san:
 	}
 end;
 L_sphinx:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4:• Niveau 5") ) {
+	switch( select("• Niveau 1 (in_sphinx1):• Niveau 2 (in_sphinx2):• Niveau 3 (in_sphinx3):• Niveau 4 (in_sphinx4):• Niveau 5 (in_sphinx5)") ) {
 		case 1: warp_fct("in_sphinx1", 192, 9);
 		case 2: warp_fct("in_sphinx2", 149, 81);
 		case 3: warp_fct("in_sphinx3", 210, 54);
@@ -1408,13 +1408,13 @@ L_sphinx:
 	}
 end;
 L_sunk:
-	if( select("• Niveau 1:• Niveau 2") == 1 )
+	if( select("• Niveau 1 (treasure01):• Niveau 2 (treasure02)") == 1 )
 		warp_fct("treasure01", 69, 24);
 	else
 		warp_fct("treasure02", 102, 27);
 end;
 L_tha:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3:• Niveau 4:• Niveau 5:• Niveau 6:• Niveau 7:• Niveau 8:• Niveau 9:• Niveau 10:• Niveau 11:• Niveau 12:Niveau Boss") ) {
+	switch( select("• Niveau 1 (tha_t01):• Niveau 2 (tha_t02):• Niveau 3 (tha_t03):• Niveau 4 (tha_t04):• Niveau 5 (tha_t05):• Niveau 6 (tha_t06):• Niveau 7 (tha_t07):• Niveau 8 (tha_t08):• Niveau 9 (tha_t09):• Niveau 10 (tha_t10):• Niveau 11 (tha_t11):• Niveau 12 (tha_t12):Niveau Boss (thana_boss)") ) {
 		case 1: warp_fct("tha_t01", 150, 70);
 		case 2: warp_fct("tha_t02", 150, 130);
 		case 3: warp_fct("tha_t03", 220, 161);
@@ -1461,20 +1461,20 @@ L_tha:
 	}
 end;
 L_thor:
-	switch( select("• Niveau 1:• Niveau 2:• Niveau 3") ) {
+	switch( select("• Niveau 1 (thor_v01):• Niveau 2 (thor_v02):• Niveau 3 (thor_v03)") ) {
 		case 1: warp_fct("thor_v01", 20, 230);
 		case 2: warp_fct("thor_v02", 80, 204);
 		case 3: warp_fct("thor_v03", 34, 272);
 	}
 end;
 L_toy:
-	if( select("• Niveau 1:• Niveau 2") == 1 )
+	if( select("• Niveau 1 (xmas_dun01):• Niveau 2 (xmas_dun02)") == 1 )
 		warp_fct("xmas_dun01", 205, 21);
 	else
 		warp_fct("xmas_dun02", 130, 135);
 end;
 L_tur:
-	switch( select("• Entrée:• Niveau 1:• Niveau 2:• Niveau 3") ) {
+	switch( select("• Entrée (tur_dun01):• Niveau 1 (tur_dun02):• Niveau 2 (tur_dun03):• Niveau 3 (tur_dun04)") ) {
 		case 1: warp_fct("tur_dun01", 159, 36);
 		case 2: warp_fct("tur_dun02", 148, 263);
 		case 3: warp_fct("tur_dun03", 132, 189);
