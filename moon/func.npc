@@ -176,8 +176,8 @@ function	script	mobhm	{
 	else // monster
 		monster .@map$,.@x,.@y,.@name$,.@mobid,.@amount,.@label$,.@size;
 
-	copyarray .@mobarray[0],$@mobid[0],getarraysize($@mobid);
-	.@count = getarraysize(.@mobarray);
+	copyarray .@mobarray[0],$@mobid[0],.@amount;
+	.@count = .@amount;
 
 	if( .@amount == 1 )
 		.@mobuid = .@mobarray[0];
