@@ -15,8 +15,6 @@ void SkillKaite::castendNoDamageId(block_list *src, block_list *target, uint16 s
 	map_session_data *dstsd = BL_CAST( BL_PC, target );
 
 	if (sd) {
-		if( map_flag_vs(sd->m) ) // [Stingor]
-			skill_blockpc_start(*sd, getSkillId(), battle_config.kaizel_cd);
 		if (!dstsd || !(
 			(sd->sc.getSCE(SC_SPIRIT) && sd->sc.getSCE(SC_SPIRIT)->val2 == SL_SOULLINKER) ||
 			(dstsd->class_&MAPID_SECONDMASK) == MAPID_SOUL_LINKER ||
