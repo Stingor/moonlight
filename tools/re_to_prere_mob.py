@@ -33,10 +33,10 @@ import argparse
 # ===========================================================================
 # PARAMÃƒË†TRES CONFIGURABLES
 # ===========================================================================
-LV_DEF_COEFF    = 0.30   # poids du niveau  sur la DEF
-VIT_COEFF       = 0.07   # poids du VIT     sur la DEF
-LV_MDEF_COEFF   = 0.14   # poids du niveau  sur la MDEF
-INT_COEFF       = 0.06   # poids de l'INT   sur la MDEF
+LV_DEF_COEFF    = 0.20   # poids du niveau  sur la DEF
+VIT_COEFF       = 0.05   # poids du VIT     sur la DEF
+LV_MDEF_COEFF   = 0.12   # poids du niveau  sur la MDEF
+INT_COEFF       = 0.04   # poids de l'INT   sur la MDEF
 
 DEF_BOSS_BONUS  = 5      # bonus DEF  pour Class: Boss
 DEF_MVP_BONUS   = 10     # bonus DEF  pour Mvp: true
@@ -46,20 +46,27 @@ MDEF_MVP_BONUS  = 7      # bonus MDEF pour Mvp: true
 DEF_CAP         = 77     # valeur DEF  maximale autorisee
 MDEF_CAP        = 44     # valeur MDEF maximale autorisee
 
-# HP : soft cap — en dessous du cap : hp * mult ; au-dessus : cap + (hp*mult - cap) * soft_factor
-# Le soft_factor permet aux hauts niveaux de garder des valeurs uniques sans exploser.
-HP_MULT_NORMAL   = 0.65     # multiplicateur normal  (lv >= HP_MULT_MIN_LV)
-HP_CAP_NORMAL    = 400000   # seuil de soft cap normal
-HP_MULT_BOSS     = 0.75     # multiplicateur boss
-HP_CAP_BOSS      = 1500000  # seuil de soft cap boss
-HP_MULT_MVP      = 0.60     # multiplicateur MVP
-HP_CAP_MVP       = 8000000  # seuil de soft cap MVP
-HP_SOFT_FACTOR   = 0.05     # taux de croissance au-dela du seuil
-HP_MULT_MIN_LV   = 100      # niveau minimum pour appliquer la reduction HP
-HP_MIN           = 1        # valeur HP minimale
+# HP : formule avec poids du niveau
+#   raw    = re_hp * HP_MULT_x * (HP_LV_REF / level) ^ HP_LV_EXP
+#   new_hp = raw                          si raw <= HP_CAP_x
+#          = cap + (raw - cap) * SOFT     sinon  (soft cap)
+HP_LV_REF       = 100    # niveau de reference (pas de reduction a ce niveau)
+HP_LV_EXP       = 2.0    # exposant du poids du niveau (plus eleve = reduction plus agressive)
+HP_MULT_NORMAL  = 0.65   # multiplicateur normal  (lv >= HP_MULT_MIN_LV)
+HP_CAP_NORMAL   = 400000 # seuil de soft cap normal
+HP_MULT_BOSS    = 0.75   # multiplicateur boss
+HP_CAP_BOSS     = 1500000# seuil de soft cap boss
+HP_MULT_MVP     = 0.60   # multiplicateur MVP
+HP_CAP_MVP      = 8000000# seuil de soft cap MVP
+HP_SOFT_FACTOR  = 0.02   # croissance residuelle au-dela du seuil
+HP_MULT_MIN_LV  = 100    # niveau minimum pour appliquer la reduction
+HP_MIN          = 1      # valeur HP minimale
 
-EXP_BASE_MULT   = 0.70   # multiplicateur BaseExp  (renewal -> pre-re)
-EXP_JOB_MULT    = 0.50   # multiplicateur JobExp   (renewal -> pre-re)
+# EXP : derives des HP finaux (colle automatiquement a la difficulte du mob)
+#   BaseExp = new_hp * EXP_BASE_PER_HP
+#   JobExp  = BaseExp * EXP_JOB_RATIO
+EXP_BASE_PER_HP = 1.7    # base exp = HP * ce ratio (ex: 200k HP -> 400k base exp)
+EXP_JOB_RATIO   = 0.65   # job exp  = base exp * ce ratio
 EXP_MIN         = 1      # valeur minimale pour BaseExp/JobExp
 # ===========================================================================
 
@@ -161,6 +168,7 @@ def convert_block(block, dry_run=False, convert_def=True, convert_exp=True, conv
                     report_parts.append(f"MDEF {fmt(old_mdef):>6} -> {fmt(new_mdef):>5}")
 
     # --- HP ---
+    new_hp = None
     if convert_hp and old_hp is not None and level is not None and level >= HP_MULT_MIN_LV:
         if is_mvp:
             mult, cap = HP_MULT_MVP, HP_CAP_MVP
@@ -168,7 +176,7 @@ def convert_block(block, dry_run=False, convert_def=True, convert_exp=True, conv
             mult, cap = HP_MULT_BOSS, HP_CAP_BOSS
         else:
             mult, cap = HP_MULT_NORMAL, HP_CAP_NORMAL
-        raw = old_hp * mult
+        raw = old_hp * mult * (HP_LV_REF / level) ** HP_LV_EXP
         if raw <= cap:
             new_hp = max(HP_MIN, round(raw))
         else:
@@ -181,27 +189,28 @@ def convert_block(block, dry_run=False, convert_def=True, convert_exp=True, conv
         if old_hp != new_hp:
             report_parts.append(f"HP {fmt(old_hp):>13} -> {fmt(new_hp):>13}")
 
-    # --- BaseExp / JobExp ---
+    # --- BaseExp / JobExp (bases sur les HP finaux) ---
     if convert_exp:
-        if old_base is not None and old_base > 0:
-            new_base = max(EXP_MIN, round(old_base * EXP_BASE_MULT))
-            new_block = re.sub(
-                r'(^\s+BaseExp:\s*)\d+([^\n]*)',
-                lambda m: f"{m.group(1)}{new_base}",
-                new_block, count=1, flags=re.MULTILINE
-            )
-            if old_base != new_base:
-                report_parts.append(f"Base {fmt(old_base):>13} -> {fmt(new_base):>13}")
-
-        if old_job is not None and old_job > 0:
-            new_job = max(EXP_MIN, round(old_job * EXP_JOB_MULT))
-            new_block = re.sub(
-                r'(^\s+JobExp:\s*)\d+([^\n]*)',
-                lambda m: f"{m.group(1)}{new_job}",
-                new_block, count=1, flags=re.MULTILINE
-            )
-            if old_job != new_job:
-                report_parts.append(f"Job {fmt(old_job):>13} -> {fmt(new_job):>13}")
+        hp_ref = new_hp if new_hp is not None else old_hp
+        if hp_ref and hp_ref > 0:
+            new_base = max(EXP_MIN, round(hp_ref * EXP_BASE_PER_HP))
+            new_job  = max(EXP_MIN, round(new_base * EXP_JOB_RATIO))
+            if old_base is not None and old_base > 0:
+                new_block = re.sub(
+                    r'(^\s+BaseExp:\s*)\d+([^\n]*)',
+                    lambda m: f"{m.group(1)}{new_base}",
+                    new_block, count=1, flags=re.MULTILINE
+                )
+                if old_base != new_base:
+                    report_parts.append(f"Base {fmt(old_base):>13} -> {fmt(new_base):>13}")
+            if old_job is not None and old_job > 0:
+                new_block = re.sub(
+                    r'(^\s+JobExp:\s*)\d+([^\n]*)',
+                    lambda m: f"{m.group(1)}{new_job}",
+                    new_block, count=1, flags=re.MULTILINE
+                )
+                if old_job != new_job:
+                    report_parts.append(f"Job {fmt(old_job):>13} -> {fmt(new_job):>13}")
 
     if report_parts:
         aegis_m = re.search(r'^\s+AegisName:\s*(\S+)', block, re.MULTILINE)
