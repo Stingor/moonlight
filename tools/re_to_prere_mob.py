@@ -3,23 +3,23 @@
 re_to_prere_mob.py
 ==================
 Convertit Defense, MagicDefense, BaseExp et JobExp d'un fichier mob_db.yml
-du systÃ¨me renewal vers des valeurs compatibles pre-renewal.
+du systÃƒÂ¨me renewal vers des valeurs compatibles pre-renewal.
 
 Formule DEF/MDEF :
   pre_re_def  = round(Level * LV_DEF_COEFF  + Vit * VIT_COEFF)  + class_bonus_def
   pre_re_mdef = round(Level * LV_MDEF_COEFF + Int * INT_COEFF)  + class_bonus_mdef
   - Boss  : +DEF_BOSS_BONUS  / +MDEF_BOSS_BONUS
   - MVP   : +DEF_MVP_BONUS   / +MDEF_MVP_BONUS
-  - RÃ©sultat plafonnÃ© entre 1 et DEF_CAP / MDEF_CAP
+  - RÃƒÂ©sultat plafonnÃƒÂ© entre 1 et DEF_CAP / MDEF_CAP
 
 Formule EXP :
   new_base_exp = round(BaseExp * EXP_BASE_MULT)
   new_job_exp  = round(JobExp  * EXP_JOB_MULT)
-  (multiplicateurs configurables, par dÃ©faut 0.70 / 0.50)
+  (multiplicateurs configurables, par dÃƒÂ©faut 0.70 / 0.50)
 
 Usage :
   python re_to_prere_mob.py <fichier.yml>            # modifie le fichier en place
-  python re_to_prere_mob.py <fichier.yml> -o <out>   # Ã©crit dans un nouveau fichier
+  python re_to_prere_mob.py <fichier.yml> -o <out>   # ÃƒÂ©crit dans un nouveau fichier
   python re_to_prere_mob.py <fichier.yml> --dry-run  # affiche les changements sans modifier
   python re_to_prere_mob.py <fichier.yml> --no-exp   # ne convertit pas les exp
   python re_to_prere_mob.py <fichier.yml> --no-def   # ne convertit pas DEF/MDEF
@@ -31,7 +31,7 @@ import os
 import argparse
 
 # ===========================================================================
-# PARAMÃˆTRES CONFIGURABLES
+# PARAMÃƒË†TRES CONFIGURABLES
 # ===========================================================================
 LV_DEF_COEFF    = 0.30   # poids du niveau  sur la DEF
 VIT_COEFF       = 0.07   # poids du VIT     sur la DEF
@@ -43,21 +43,23 @@ DEF_MVP_BONUS   = 10     # bonus DEF  pour Mvp: true
 MDEF_BOSS_BONUS = 3      # bonus MDEF pour Class: Boss
 MDEF_MVP_BONUS  = 7      # bonus MDEF pour Mvp: true
 
-DEF_CAP         = 88     # valeur DEF  maximale autorisee
-MDEF_CAP        = 55     # valeur MDEF maximale autorisee
+DEF_CAP         = 77     # valeur DEF  maximale autorisee
+MDEF_CAP        = 44     # valeur MDEF maximale autorisee
 
-# Multiplicateurs HP par classe (pre_hp = re_hp * mult)
-# Calibre sur comparaison rAthena re/ vs pre-re/ :
-#   BIO3 normal lv140   ~ 0.25 | BIO4 MVP lv160 ~ 0.28
-#   En pre-re la DEF % reduit plus les degats => HP peut etre plus bas
-HP_MULT_NORMAL  = 0.65   # mobs normaux lv >= HP_MULT_MIN_LV
-HP_MULT_BOSS    = 0.75   # Class: Boss (sans Mvp)
-HP_MULT_MVP     = 0.60   # Modes: Mvp: true
-HP_MULT_MIN_LV  = 100    # niveau minimum pour appliquer la reduction HP
-HP_MIN          = 1      # valeur HP minimale
+# HP : soft cap — en dessous du cap : hp * mult ; au-dessus : cap + (hp*mult - cap) * soft_factor
+# Le soft_factor permet aux hauts niveaux de garder des valeurs uniques sans exploser.
+HP_MULT_NORMAL   = 0.65     # multiplicateur normal  (lv >= HP_MULT_MIN_LV)
+HP_CAP_NORMAL    = 400000   # seuil de soft cap normal
+HP_MULT_BOSS     = 0.75     # multiplicateur boss
+HP_CAP_BOSS      = 1500000  # seuil de soft cap boss
+HP_MULT_MVP      = 0.60     # multiplicateur MVP
+HP_CAP_MVP       = 8000000  # seuil de soft cap MVP
+HP_SOFT_FACTOR   = 0.05     # taux de croissance au-dela du seuil
+HP_MULT_MIN_LV   = 100      # niveau minimum pour appliquer la reduction HP
+HP_MIN           = 1        # valeur HP minimale
 
-EXP_BASE_MULT   = 10.70   # multiplicateur BaseExp  (renewal -> pre-re)
-EXP_JOB_MULT    = 10.50   # multiplicateur JobExp   (renewal -> pre-re)
+EXP_BASE_MULT   = 0.70   # multiplicateur BaseExp  (renewal -> pre-re)
+EXP_JOB_MULT    = 0.50   # multiplicateur JobExp   (renewal -> pre-re)
 EXP_MIN         = 1      # valeur minimale pour BaseExp/JobExp
 # ===========================================================================
 
@@ -86,7 +88,7 @@ def compute_prere(level, vit, int_, is_boss, is_mvp):
 
 def split_mob_blocks(content):
     """
-    DÃ©coupe le fichier en deux parties : l'en-tÃªte (avant Body:)
+    DÃƒÂ©coupe le fichier en deux parties : l'en-tÃƒÂªte (avant Body:)
     et une liste de blocs mob bruts.
     Retourne (header_str, [bloc1, bloc2, ...])
     """
@@ -103,13 +105,13 @@ def split_mob_blocks(content):
 
 
 def parse_int_field(block, field):
-    """Extrait la valeur entiÃ¨re d'un champ YAML simple (ex: Level: 145 ou - Id: 145)."""
+    """Extrait la valeur entiÃƒÂ¨re d'un champ YAML simple (ex: Level: 145 ou - Id: 145)."""
     m = re.search(r'^\s+(?:- )?' + field + r':\s*(\d+)', block, re.MULTILINE)
     return int(m.group(1)) if m else None
 
 
 def has_flag(block, flag):
-    """VÃ©rifie si un flag boolÃ©en est prÃ©sent et Ã  true."""
+    """VÃƒÂ©rifie si un flag boolÃƒÂ©en est prÃƒÂ©sent et ÃƒÂ  true."""
     m = re.search(r'^\s+' + flag + r':\s*(true|false)', block, re.MULTILINE | re.IGNORECASE)
     return bool(m and m.group(1).lower() == 'true')
 
@@ -160,8 +162,17 @@ def convert_block(block, dry_run=False, convert_def=True, convert_exp=True, conv
 
     # --- HP ---
     if convert_hp and old_hp is not None and level is not None and level >= HP_MULT_MIN_LV:
-        mult    = HP_MULT_MVP if is_mvp else (HP_MULT_BOSS if is_class_boss else HP_MULT_NORMAL)
-        new_hp  = max(HP_MIN, round(old_hp * mult))
+        if is_mvp:
+            mult, cap = HP_MULT_MVP, HP_CAP_MVP
+        elif is_class_boss:
+            mult, cap = HP_MULT_BOSS, HP_CAP_BOSS
+        else:
+            mult, cap = HP_MULT_NORMAL, HP_CAP_NORMAL
+        raw = old_hp * mult
+        if raw <= cap:
+            new_hp = max(HP_MIN, round(raw))
+        else:
+            new_hp = max(HP_MIN, round(cap + (raw - cap) * HP_SOFT_FACTOR))
         new_block = re.sub(
             r'(^\s+Hp:\s*)\d+([^\n]*)',
             lambda m: f"{m.group(1)}{new_hp}",
@@ -209,7 +220,7 @@ def convert_file(input_path, output_path=None, dry_run=False, convert_def=True, 
 
     header, blocks = split_mob_blocks(content)
     if not blocks:
-        print("Aucun bloc 'Body:' trouvÃ© dans le fichier.")
+        print("Aucun bloc 'Body:' trouvÃƒÂ© dans le fichier.")
         return
 
     converted_blocks = []
@@ -247,11 +258,11 @@ def convert_file(input_path, output_path=None, dry_run=False, convert_def=True, 
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Convertit Defense/MagicDefense renewal â†’ pre-renewal dans un mob_db.yml'
+        description='Convertit Defense/MagicDefense renewal Ã¢â€ â€™ pre-renewal dans un mob_db.yml'
     )
-    parser.add_argument('input', help='Fichier YML Ã  convertir')
+    parser.add_argument('input', help='Fichier YML ÃƒÂ  convertir')
     parser.add_argument('-o', '--output', default=None,
-                        help='Fichier de sortie (dÃ©faut : modifie en place)')
+                        help='Fichier de sortie (dÃƒÂ©faut : modifie en place)')
     parser.add_argument('--dry-run', action='store_true',
                         help='Affiche les changements sans modifier le fichier')
     parser.add_argument('--no-exp', action='store_true',
