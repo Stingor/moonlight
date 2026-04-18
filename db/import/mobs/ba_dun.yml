@@ -567,62 +567,6 @@ Body:
       - Item: Bath_Mermaid_Card
         Rate: 1
         StealProtected: true
-  - Id: 20648
-    AegisName: EP17_2_PITAYA_BOSS
-    Name: Boss Meow
-    Level: 168
-    Hp: 4102614
-    BaseExp: 6974444
-    JobExp: 4533389
-    MvpExp: 20328244
-    Attack: 3024
-    Attack2: 1714
-    Defense: 48
-    MagicDefense: 33
-    Str: 144
-    Agi: 86
-    Vit: 98
-    Int: 153
-    Dex: 153
-    Luk: 98
-    AttackRange: 1
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Small
-    Race: Plant
-    RaceGroups:
-      EP172BETA: true
-    Element: Fire
-    ElementLevel: 3
-    WalkSpeed: 150
-    AttackDelay: 768
-    AttackMotion: 768
-    ClientAttackMotion: 288
-    DamageMotion: 480
-    DamageTaken: 10
-    Ai: 21
-    Class: Boss
-    Modes:
-      Mvp: true
-    MvpDrops:
-      - Item: Fruit_Basket
-        Rate: 5000
-      - Item: Yggdrasilberry
-        Rate: 1000
-    Drops:
-      - Item: Old_Violet_Box
-        Rate: 2500
-      - Item: Jubilee
-        Rate: 3000
-      - Item: Reptile_Tongue
-        Rate: 2500
-      - Item: Fruit_Basket
-        Rate: 2500
-      - Item: Old_Card_Album
-        Rate: 1500
-      - Item: Pitaya_Boss_Card
-        Rate: 1
-        StealProtected: true
   - Id: 20649
     AegisName: EP17_2_PITAYA_R
     Name: Red Pitaya
@@ -1542,5 +1486,103 @@ Body:
       - Item: Shadowdecon_Ore
         Rate: 150
       - Item: Plasma_R2_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 20643
+    AegisName: EP17_2_PHEN
+    Name: Boiled Water Phen
+    Level: 139
+    Hp: 44776
+    BaseExp: 76119
+    JobExp: 49477
+    Attack: 1894
+    Attack2: 797
+    Defense: 32
+    MagicDefense: 20
+    Str: 109
+    Agi: 112
+    Vit: 76
+    Int: 86
+    Dex: 104
+    Luk: 64
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Fish
+    RaceGroups:
+      EP172BATH: true
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 1152
+    AttackMotion: 864
+    ClientAttackMotion: 432
+    DamageMotion: 1152
+    Ai: 04
+    Drops:
+      - Item: Fish_Tail
+        Rate: 2500
+      - Item: Fish_With_Blue_Back
+        Rate: 50
+      - Item: Sharp_Scale
+        Rate: 1500
+      - Item: Fin
+        Rate: 950
+      - Item: Skyblue_Jewel
+        Rate: 3
+      - Item: Ep172_Bh_Bow2
+        Rate: 3
+        # RandomOptionGroup: AUTO_IMP_MELEE_2
+      - Item: EP17_2_Phen_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 20644
+    AegisName: EP17_2_MARC
+    Name: Boiled Water Marc
+    Level: 137
+    Hp: 45734
+    BaseExp: 77748
+    JobExp: 50536
+    Attack: 1730
+    Attack2: 886
+    Defense: 32
+    MagicDefense: 20
+    Str: 101
+    Agi: 104
+    Vit: 90
+    Int: 97
+    Dex: 112
+    Luk: 67
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Fish
+    RaceGroups:
+      EP172BATH: true
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 1200
+    AttackMotion: 1200
+    ClientAttackMotion: 360
+    DamageMotion: 480
+    Ai: 04
+    Drops:
+      - Item: Sharp_Scale
+        Rate: 1500
+      - Item: Skyblue_Jewel
+        Rate: 3
+      - Item: Gill
+        Rate: 2500
+      - Item: Fin
+        Rate: 950
+      - Item: Meat
+        Rate: 550
+      - Item: Ep172_Bh_Bow
+        Rate: 3
+        # RandomOptionGroup: AUTO_IMP_MELEE_2
+      - Item: EP17_2_Marc_Card
         Rate: 1
         StealProtected: true

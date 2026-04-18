@@ -79,6 +79,14 @@ Body:
         Rate: 100000
       - Mob: DAEHYON
         Rate: 100000
+      - Mob: EP17_2_PITAYA_BOSS
+        Rate: 100000
+      - Mob: CHIMERA_THEONE
+        Rate: 100000
+      - Mob: MUSPELLSKOLL_H
+        Rate: 100000
+      - Mob: EP16_2_VENOM_KIMERA
+        Rate: 100000
       - Mob: RWC_BOSS2011
         Rate: 100000
       - Mob: KADES
@@ -1106,6 +1114,104 @@ Body:
         Rate: 71428
       - Mob: BRADIUM_GOLEM
         Rate: 71428
+      - Mob: EP16_2_HUMAN_KIMERA
+        Rate: 32000
+      - Mob: EP16_2_MATTER_KIMERA
+        Rate: 32000
+      - Mob: CHIMERA_LAVA
+        Rate: 32000
+      - Mob: CHIMERA_FULGOR
+        Rate: 32000
+      - Mob: CHIMERA_NAPEO
+        Rate: 32000
+      - Mob: CHIMERA_GALENSIS
+        Rate: 32000
+      - Mob: CHIMERA_AMITERA
+        Rate: 32000
+      - Mob: CHIMERA_LITUS
+        Rate: 32000
+      - Mob: CHIMERA_FILLIA
+        Rate: 32000
+      - Mob: CHIMERA_VANILAQUS
+        Rate: 32000
+      - Mob: EP17_2_BETA_BASIC_NG
+        Rate: 32000
+      - Mob: EP17_2_BETA_CLEANER_A
+        Rate: 32000
+      - Mob: EP17_2_BETA_CLEANER_B
+        Rate: 32000
+      - Mob: EP17_2_BETA_ITEMKEEPER
+        Rate: 32000
+      - Mob: EP17_2_BETA_GUARDS_NG
+        Rate: 32000
+      - Mob: EP17_2_OMEGA_CLEANER
+        Rate: 32000
+      - Mob: EP17_2_OMEGA_CLEANER_NG
+        Rate: 32000
+      - Mob: EP17_2_SWORD_FISH
+        Rate: 32000
+      - Mob: EP17_2_PIRANHA
+        Rate: 32000
+      - Mob: EP17_2_BATH_MERMAID
+        Rate: 32000
+      - Mob: EP17_2_PITAYA_R
+        Rate: 32000
+      - Mob: EP17_2_PITAYA_Y
+        Rate: 32000
+      - Mob: EP17_2_PITAYA_B
+        Rate: 32000
+      - Mob: EP17_2_PITAYA_V
+        Rate: 32000
+      - Mob: EP17_2_PITAYA_G
+        Rate: 32000
+      - Mob: EP17_2_GUARDIAN_PARTS
+        Rate: 32000
+      - Mob: EP17_2_HEART_HUNTER
+        Rate: 32000
+      - Mob: EP17_2_HEART_HUNTER_H
+        Rate: 32000
+      - Mob: EP17_2_BOOKWORM
+        Rate: 32000
+      - Mob: EP17_2_ROAMING_SPLBOOK
+        Rate: 32000
+      - Mob: EP17_2_VENENUM3
+        Rate: 32000
+      - Mob: EP17_2_CRAMP
+        Rate: 32000
+      - Mob: EP17_2_WATERFALL
+        Rate: 32000
+      - Mob: EP17_2_BELLARE3
+        Rate: 32000
+      - Mob: EP17_2_DOLOR3
+        Rate: 32000
+      - Mob: EP17_2_PLASMA_Y
+        Rate: 32000
+      - Mob: EP17_2_PLAGA3
+        Rate: 32000
+      - Mob: EP17_2_SANARE3
+        Rate: 32000
+      - Mob: EP17_2_PLASMA_R
+        Rate: 32000
+      - Mob: EP17_2_PLASMA_R2
+        Rate: 32000
+      - Mob: EP17_2_PHEN
+        Rate: 32000
+      - Mob: EP17_2_MARC
+        Rate: 32000
+      - Mob: BLAZZER_H
+        Rate: 32000
+      - Mob: NIGHTMARE_TERROR_H
+        Rate: 32000
+      - Mob: DELETER1_H
+        Rate: 32000
+      - Mob: DELETER2_H
+        Rate: 32000
+      - Mob: EXPLOSION_H
+        Rate: 32000
+      - Mob: KAHO_H
+        Rate: 32000
+      - Mob: LAVA_GOLEM_H
+        Rate: 32000
   - Group: Classchange
     Default: BAPHOMET
     Summon:

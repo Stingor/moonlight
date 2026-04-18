@@ -77849,63 +77849,6 @@ Body:
       - Item: Material_Chimera_Card
         Rate: 1
         StealProtected: true
-  - Id: 3633
-    AegisName: EP16_2_VENOM_KIMERA
-    Name: Venomous Chimera
-    Level: 110
-    Hp: 2800000
-    BaseExp: 800000
-    JobExp: 400000
-    MvpExp: 5000
-    Attack: 2160
-    Attack2: 1000
-    Defense: 127
-    MagicDefense: 127
-    Str: 113
-    Agi: 75
-    Vit: 150
-    Int: 113
-    Dex: 250
-    AttackRange: 1
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Large
-    Race: Brute
-    Element: Poison
-    ElementLevel: 4
-    WalkSpeed: 150
-    AttackDelay: 772
-    AttackMotion: 672
-    DamageMotion: 360
-    Ai: 21
-    Class: Boss
-    Modes:
-      Mvp: true
-    MvpDrops:
-      - Item: Magic_Card_Album
-        Rate: 500
-      - Item: Old_Violet_Box
-        Rate: 5000
-      - Item: Yggdrasilberry
-        Rate: 5000
-    Drops:
-      - Item: Piece_of_Chimera
-        Rate: 1000
-      - Item: Treasure_Box
-        Rate: 500
-      - Item: Old_Violet_Box
-        Rate: 500
-      - Item: Old_Blue_Box
-        Rate: 500
-      - Item: Yggdrasilberry
-        Rate: 500
-      - Item: Carnium
-        Rate: 500
-      - Item: Poison_Forged_Spear
-        Rate: 10
-      - Item: Toxic_Enchanted_Chimera_Card
-        Rate: 1
-        StealProtected: true
   - Id: 3636
     AegisName: LITTLE_ISIS
     Name: Little Isis
@@ -79889,6 +79832,7 @@ Body:
 
 Footer:
   Imports:
+  - Path: db/import/mobs/mvps.yml
   - Path: db/import/mobs/mag_dun.yml
   - Path: db/import/mobs/amicitia.yml
   - Path: db/import/mobs/ba_dun.yml

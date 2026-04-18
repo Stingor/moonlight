@@ -178,7 +178,6 @@ ba_lost	monster	Pitaya	20650,50,5000
 ba_lost	monster	Pitaya	20651,50,5000
 ba_lost	monster	Pitaya	20652,50,5000
 ba_lost	monster	Pitaya	20653,30,5000
-ba_lost	boss_monster	Boss Pitaya	20648,1,7200000,600000,0
 
 //============================================================
 //= Varmundt Mansion Garden

@@ -7222,6 +7222,89 @@ Body:
           - Index: 435
             Item: Lava_Eater_Card
             Rate: 1
+          - Index: 436
+            Item: Beta_Cleaner_Card
+            Rate: 1
+          - Index: 437
+            Item: Beta_Cleaner_Card
+            Rate: 1
+          - Index: 438
+            Item: Beta_Guards_Ng_Card
+            Rate: 1
+          - Index: 439
+            Item: O_Cleaner_Ng_Card
+            Rate: 1
+          - Index: 440
+            Item: EP17_2_Sword_Fish_Card
+            Rate: 1
+          - Index: 441
+            Item: EP17_2_Piranha_Card
+            Rate: 1
+          - Index: 442
+            Item: Bath_Mermaid_Card
+            Rate: 1
+          - Index: 443
+            Item: Pitaya_R_Card
+            Rate: 1
+          - Index: 444
+            Item: Pitaya_Y_Card
+            Rate: 1
+          - Index: 445
+            Item: Pitaya_B_Card
+            Rate: 1
+          - Index: 446
+            Item: Pitaya_V_Card
+            Rate: 1
+          - Index: 447
+            Item: Pitaya_G_Card
+            Rate: 1
+          - Index: 448
+            Item: Heart_Hunter_Card
+            Rate: 1
+          - Index: 449
+            Item: Heart_Hunter_Card
+            Rate: 1
+          - Index: 450
+            Item: Bookworm_Card
+            Rate: 1
+          - Index: 451
+            Item: Roaming_Splbook_Card
+            Rate: 1
+          - Index: 452
+            Item: Venenum3_Card
+            Rate: 1
+          - Index: 453
+            Item: EP17_2_Cramp_Card
+            Rate: 1
+          - Index: 454
+            Item: Waterfall_Card
+            Rate: 1
+          - Index: 455
+            Item: Bellare3_Card
+            Rate: 1
+          - Index: 456
+            Item: Dolor3_Card
+            Rate: 1
+          - Index: 457
+            Item: Plasma_Y_Card
+            Rate: 1
+          - Index: 458
+            Item: Plaga3_Card
+            Rate: 1
+          - Index: 459
+            Item: Sanare3_Card
+            Rate: 1
+          - Index: 460
+            Item: Plasma_R_Card
+            Rate: 1
+          - Index: 461
+            Item: Plasma_R2_Card
+            Rate: 1
+          - Index: 462
+            Item: EP17_2_Phen_Card
+            Rate: 1
+          - Index: 463
+            Item: EP17_2_Marc_Card
   - Group: CASH_FOOD
     SubGroups:
       - SubGroup: 1
@@ -15619,6 +15702,30 @@ Body:
             Rate: 10
           - Index: 108
             Item: Time_Holder_Card
+            Rate: 1
+          - Index: 109
+            Item: Pitaya_Boss_Card
+            Rate: 1
+          - Index: 110
+            Item: Paladin_Card
+            Rate: 1
+          - Index: 111
+            Item: Creator_Card
+            Rate: 1
+          - Index: 112
+            Item: Professor_Card
+            Rate: 1
+          - Index: 113
+            Item: Champion_Card
+            Rate: 1
+          - Index: 114
+            Item: Stalker_Card
+            Rate: 1
+          - Index: 115
+            Item: Clown_Card
+            Rate: 1
+          - Index: 116
+            Item: Gypsy_Card
             Rate: 1
   - Group: MAGICIAN_CARD_BOX
     SubGroups:
