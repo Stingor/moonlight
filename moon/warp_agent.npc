@@ -1116,6 +1116,7 @@ L_Donjons:
 		 "• Thor volcano",L_thor,
 		 "• Toy Factory",L_toy,
 		 "• Turtle Donjon",L_tur,
+		 "• Varmundt's Mansion",L_var,
 		 "• Werner Laboratory",L_wer,
 		 "• Yggdrasil Root",L_ygg,
 		 "• ^e64c00Menu Précédent.^000000",-;
@@ -1479,6 +1480,19 @@ L_tur:
 		case 2: warp_fct("tur_dun02", 148, 263);
 		case 3: warp_fct("tur_dun03", 132, 189);
 		case 4: warp_fct("tur_dun04", 100, 190);
+	}
+end;
+L_var: 
+	switch( select("• Forgotten Valley (ba_lost):• Varmundt Mansion Garden (ba_maison):• Meditation Bath (ba_bath):• Library - Memory Corridor (ba_lib):• Power Plant - Level 1 (ba_pw01):• Sewage Treatment Station (ba_pw02):• Power Plant - Level 2 (ba_pw03):• Tartar Cellar - Level 1 (ba_2whs01):• Tartar Cellar - Level 2 (ba_2whs02)") ) {
+		case 1: warp_fct("ba_lost");
+		case 2: warp_fct("ba_maison");
+		case 3: warp_fct("ba_bath");
+		case 4: warp_fct("ba_lib");
+		case 5: warp_fct("ba_pw01");
+		case 6: warp_fct("ba_pw02");
+		case 7: warp_fct("ba_pw03");
+		case 8: warp_fct("ba_2whs01");
+		case 9: warp_fct("ba_2whs02");
 	}
 end;
 L_wer: warp_fct("slabw01", 14, 88); end;

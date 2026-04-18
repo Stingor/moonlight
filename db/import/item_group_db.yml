@@ -7305,6 +7305,7 @@ Body:
             Rate: 1
           - Index: 463
             Item: EP17_2_Marc_Card
+            Rate: 1
   - Group: CASH_FOOD
     SubGroups:
       - SubGroup: 1
