@@ -84,13 +84,13 @@ Body:
     AegisName: EP17_2_BETA_BASIC_NG
     Name: Broken Beta
     Level: 145
-    Hp: 261170
-    BaseExp: 23743
-    JobExp: 16620
+    Hp: 80742
+    BaseExp: 137261
+    JobExp: 89220
     Attack: 1885
     Attack2: 648
-    Defense: 349
-    MagicDefense: 81
+    Defense: 32
+    MagicDefense: 20
     Str: 104
     Agi: 112
     Vit: 68
@@ -129,13 +129,13 @@ Body:
     AegisName: EP17_2_BETA_CLEANER_A
     Name: Broken Cleaner
     Level: 143
-    Hp: 147134
-    BaseExp: 13376
-    JobExp: 9363
+    Hp: 46769
+    BaseExp: 79507
+    JobExp: 51680
     Attack: 2074
     Attack2: 829
-    Defense: 344
-    MagicDefense: 82
+    Defense: 32
+    MagicDefense: 21
     Str: 116
     Agi: 98
     Vit: 67
@@ -183,13 +183,13 @@ Body:
     AegisName: EP17_2_BETA_CLEANER_B
     Name: Broken Cleaner
     Level: 144
-    Hp: 150304
-    BaseExp: 13386
-    JobExp: 9371
+    Hp: 47115
+    BaseExp: 80096
+    JobExp: 52062
     Attack: 2124
     Attack2: 854
-    Defense: 288
-    MagicDefense: 83
+    Defense: 31
+    MagicDefense: 21
     Str: 118
     Agi: 89
     Vit: 48
@@ -239,13 +239,13 @@ Body:
     AegisName: EP17_2_BETA_ITEMKEEPER
     Name: Broken Warehouse Manager
     Level: 185
-    Hp: 1900983
-    BaseExp: 135785
-    JobExp: 95049
+    Hp: 361034
+    BaseExp: 613758
+    JobExp: 398943
     Attack: 3608
     Attack2: 1702
-    Defense: 563
-    MagicDefense: 110
+    Defense: 43
+    MagicDefense: 28
     Str: 156
     Agi: 98
     Vit: 126
@@ -289,14 +289,14 @@ Body:
     AegisName: EP17_2_BETA_GUARDS_NG
     Name: Broken Beta Guards
     Level: 186
-    Hp: 1909523
+    Hp: 358767
     Sp: 0
-    BaseExp: 136395
-    JobExp: 95476
+    BaseExp: 609904
+    JobExp: 396438
     Attack: 3534
     Attack2: 1662
-    Defense: 522
-    MagicDefense: 110
+    Defense: 43
+    MagicDefense: 28
     Str: 152
     Agi: 76
     Vit: 112
@@ -339,13 +339,13 @@ Body:
     AegisName: EP17_2_OMEGA_CLEANER
     Name: Cleaning Robot Ω
     Level: 130
-    Hp: 182967
-    BaseExp: 16633
-    JobExp: 11643
+    Hp: 70372
+    BaseExp: 119632
+    JobExp: 77761
     Attack: 1138
     Attack2: 563
-    Defense: 424
-    MagicDefense: 73
+    Defense: 31
+    MagicDefense: 18
     Str: 70
     Agi: 68
     Vit: 98
@@ -381,13 +381,13 @@ Body:
     AegisName: EP17_2_OMEGA_CLEANER_NG
     Name: Broken Cleaning Robot Ω
     Level: 175
-    Hp: 1200685
-    BaseExp: 100057
-    JobExp: 70040
+    Hp: 254839
+    BaseExp: 433226
+    JobExp: 281597
     Attack: 3063
     Attack2: 1412
-    Defense: 475
-    MagicDefense: 103
+    Defense: 40
+    MagicDefense: 26
     Str: 140
     Agi: 90
     Vit: 100
@@ -432,13 +432,13 @@ Body:
     AegisName: EP17_2_SWORD_FISH
     Name: Boiled Water Swordfish
     Level: 138
-    Hp: 133151
-    BaseExp: 12105
-    JobExp: 8473
+    Hp: 45446
+    BaseExp: 77258
+    JobExp: 50218
     Attack: 1794
     Attack2: 856
-    Defense: 414
-    MagicDefense: 81
+    Defense: 32
+    MagicDefense: 20
     Str: 104
     Agi: 109
     Vit: 92
@@ -481,13 +481,13 @@ Body:
     AegisName: EP17_2_PIRANHA
     Name: Boiled Water Piranha
     Level: 138
-    Hp: 133024
-    BaseExp: 12093
-    JobExp: 8465
+    Hp: 45403
+    BaseExp: 77185
+    JobExp: 50170
     Attack: 1811
     Attack2: 800
-    Defense: 408
-    MagicDefense: 80
+    Defense: 32
+    MagicDefense: 20
     Str: 105
     Agi: 104
     Vit: 90
@@ -528,13 +528,13 @@ Body:
     AegisName: EP17_2_BATH_MERMAID
     Name: Elder of Chung-Geum
     Level: 141
-    Hp: 1823441
-    BaseExp: 121563
-    JobExp: 85094
+    Hp: 687883
+    BaseExp: 1169401
+    JobExp: 760111
     Attack: 2062
     Attack2: 912
-    Defense: 393
-    MagicDefense: 83
+    Defense: 37
+    MagicDefense: 24
     Str: 117
     Agi: 108
     Vit: 84
@@ -571,14 +571,14 @@ Body:
     AegisName: EP17_2_PITAYA_BOSS
     Name: Boss Meow
     Level: 168
-    Hp: 19298694
-    BaseExp: 1608224
-    JobExp: 1125757
+    Hp: 4102614
+    BaseExp: 6974444
+    JobExp: 4533389
     MvpExp: 20328244
     Attack: 3024
     Attack2: 1714
-    Defense: 462
-    MagicDefense: 103
+    Defense: 48
+    MagicDefense: 33
     Str: 144
     Agi: 86
     Vit: 98
@@ -627,13 +627,13 @@ Body:
     AegisName: EP17_2_PITAYA_R
     Name: Red Pitaya
     Level: 162
-    Hp: 648023
-    BaseExp: 54002
-    JobExp: 37801
+    Hp: 160500
+    BaseExp: 272850
+    JobExp: 177352
     Attack: 2673
     Attack2: 972
-    Defense: 351
-    MagicDefense: 92
+    Defense: 36
+    MagicDefense: 23
     Str: 132
     Agi: 122
     Vit: 63
@@ -674,13 +674,13 @@ Body:
     AegisName: EP17_2_PITAYA_Y
     Name: Yellow Pitaya
     Level: 164
-    Hp: 658607
-    BaseExp: 54884
-    JobExp: 38419
+    Hp: 159167
+    BaseExp: 270584
+    JobExp: 175880
     Attack: 2624
     Attack2: 1006
-    Defense: 434
-    MagicDefense: 94
+    Defense: 37
+    MagicDefense: 23
     Str: 128
     Agi: 164
     Vit: 90
@@ -721,13 +721,13 @@ Body:
     AegisName: EP17_2_PITAYA_B
     Name: Blue Pitaya
     Level: 165
-    Hp: 662911
-    BaseExp: 47351
-    JobExp: 33146
+    Hp: 158271
+    BaseExp: 269061
+    JobExp: 174890
     Attack: 2454
     Attack2: 1111
-    Defense: 444
-    MagicDefense: 95
+    Defense: 38
+    MagicDefense: 24
     Str: 119
     Agi: 162
     Vit: 93
@@ -768,13 +768,13 @@ Body:
     AegisName: EP17_2_PITAYA_V
     Name: Violet Pitaya
     Level: 165
-    Hp: 665510
-    BaseExp: 47536
-    JobExp: 33276
+    Hp: 158891
+    BaseExp: 270115
+    JobExp: 175575
     Attack: 2516
     Attack2: 858
-    Defense: 525
-    MagicDefense: 92
+    Defense: 39
+    MagicDefense: 23
     Str: 122
     Agi: 98
     Vit: 120
@@ -815,13 +815,13 @@ Body:
     AegisName: EP17_2_PITAYA_G
     Name: Green Pitaya
     Level: 166
-    Hp: 668381
-    BaseExp: 44559
-    JobExp: 31191
+    Hp: 157660
+    BaseExp: 268022
+    JobExp: 174214
     Attack: 2573
     Attack2: 741
-    Defense: 490
-    MagicDefense: 91
+    Defense: 39
+    MagicDefense: 23
     Str: 124
     Agi: 132
     Vit: 108
@@ -862,7 +862,7 @@ Body:
     AegisName: EP17_2_GUARDIAN_PARTS
     Name: Guardian Parts
     Level: 130
-    Hp: 20
+    Hp: 8
     Attack: 1
     Attack2: 1
     Defense: 1
@@ -890,13 +890,13 @@ Body:
     AegisName: EP17_2_HEART_HUNTER
     Name: Heart Hunter Skirmisher
     Level: 130
-    Hp: 180367
-    BaseExp: 16397
-    JobExp: 11478
+    Hp: 69372
+    BaseExp: 117932
+    JobExp: 76656
     Attack: 1300
     Attack2: 571
-    Defense: 334
-    MagicDefense: 73
+    Defense: 29
+    MagicDefense: 18
     Str: 80
     Agi: 113
     Vit: 68
@@ -940,13 +940,13 @@ Body:
     AegisName: EP17_2_HEART_HUNTER_H
     Name: Heart Hunter Skirmisher
     Level: 176
-    Hp: 1208485
-    BaseExp: 100707
-    JobExp: 70495
+    Hp: 253588
+    BaseExp: 431100
+    JobExp: 280215
     Attack: 2948
     Attack2: 1291
-    Defense: 500
-    MagicDefense: 102
+    Defense: 37
+    MagicDefense: 25
     Str: 110
     Agi: 147
     Vit: 38
@@ -992,13 +992,13 @@ Body:
     AegisName: EP17_2_BOOKWORM
     Name: Bookworm
     Level: 141
-    Hp: 250264
-    BaseExp: 22751
-    JobExp: 15926
+    Hp: 81823
+    BaseExp: 139099
+    JobExp: 90414
     Attack: 1815
     Attack2: 855
-    Defense: 210
-    MagicDefense: 82
+    Defense: 29
+    MagicDefense: 21
     Str: 103
     Agi: 89
     Vit: 23
@@ -1041,13 +1041,13 @@ Body:
     AegisName: EP17_2_ROAMING_SPLBOOK
     Name: Roaming Spellbook
     Level: 144
-    Hp: 256849
-    BaseExp: 23350
-    JobExp: 16345
+    Hp: 80513
+    BaseExp: 136872
+    JobExp: 88967
     Attack: 1980
     Attack2: 931
-    Defense: 258
-    MagicDefense: 84
+    Defense: 31
+    MagicDefense: 21
     Str: 110
     Agi: 147
     Vit: 38
@@ -1086,13 +1086,13 @@ Body:
     AegisName: EP17_2_VENENUM3
     Name: Sewage Venenum
     Level: 142
-    Hp: 290128
-    BaseExp: 19342
-    JobExp: 13539
+    Hp: 93525
+    BaseExp: 158992
+    JobExp: 103345
     Attack: 1793
     Attack2: 719
-    Defense: 277
-    MagicDefense: 81
+    Defense: 31
+    MagicDefense: 20
     Str: 80
     Agi: 97
     Vit: 45
@@ -1133,13 +1133,13 @@ Body:
     AegisName: EP17_2_CRAMP
     Name: Sewage Cramp
     Level: 140
-    Hp: 285388
-    BaseExp: 19026
-    JobExp: 13318
+    Hp: 94644
+    BaseExp: 160895
+    JobExp: 104582
     Attack: 1978
     Attack2: 523
-    Defense: 254
-    MagicDefense: 77
+    Defense: 30
+    MagicDefense: 19
     Str: 113
     Agi: 118
     Vit: 38
@@ -1178,13 +1178,13 @@ Body:
     AegisName: EP17_2_WATERFALL
     Name: Sewage Waterfall
     Level: 141
-    Hp: 287897
-    BaseExp: 19193
-    JobExp: 13435
+    Hp: 94127
+    BaseExp: 160016
+    JobExp: 104010
     Attack: 1674
     Attack2: 949
-    Defense: 270
-    MagicDefense: 83
+    Defense: 30
+    MagicDefense: 21
     Str: 95
     Agi: 111
     Vit: 43
@@ -1223,13 +1223,13 @@ Body:
     AegisName: EP17_2_BELLARE3
     Name: Elite Bellare
     Level: 143
-    Hp: 295508
-    BaseExp: 19701
-    JobExp: 13790
+    Hp: 93931
+    BaseExp: 159683
+    JobExp: 103794
     Attack: 1931
     Attack2: 648
-    Defense: 383
-    MagicDefense: 80
+    Defense: 33
+    MagicDefense: 20
     Str: 108
     Agi: 121
     Vit: 80
@@ -1271,13 +1271,13 @@ Body:
     AegisName: EP17_2_DOLOR3
     Name: Spell Addicted Dolor
     Level: 145
-    Hp: 299350
-    BaseExp: 19957
-    JobExp: 13970
+    Hp: 92546
+    BaseExp: 157328
+    JobExp: 102263
     Attack: 2048
     Attack2: 773
-    Defense: 376
-    MagicDefense: 83
+    Defense: 33
+    MagicDefense: 21
     Str: 113
     Agi: 103
     Vit: 77
@@ -1316,13 +1316,13 @@ Body:
     AegisName: EP17_2_PLASMA_Y
     Name: Released Spell
     Level: 144
-    Hp: 291046
-    BaseExp: 19403
-    JobExp: 13582
+    Hp: 91233
+    BaseExp: 155096
+    JobExp: 100812
     Attack: 1746
     Attack2: 1152
-    Defense: 180
-    MagicDefense: 87
+    Defense: 29
+    MagicDefense: 22
     Str: 97
     Agi: 120
     Vit: 12
@@ -1361,13 +1361,13 @@ Body:
     AegisName: EP17_2_PLAGA3
     Name: Spell Addicted Plaga
     Level: 192
-    Hp: 2946697
-    BaseExp: 196446
-    JobExp: 137513
+    Hp: 402391
+    BaseExp: 684065
+    JobExp: 444642
     Attack: 4824
     Attack2: 1958
-    Defense: 462
-    MagicDefense: 115
+    Defense: 43
+    MagicDefense: 29
     Str: 201
     Agi: 177
     Vit: 90
@@ -1410,13 +1410,13 @@ Body:
     AegisName: EP17_2_SANARE3
     Name: Spell Addicted Sanare
     Level: 194
-    Hp: 2979073
-    BaseExp: 198605
-    JobExp: 139023
+    Hp: 402290
+    BaseExp: 683893
+    JobExp: 444530
     Attack: 4462
     Attack2: 2561
-    Defense: 503
-    MagicDefense: 122
+    Defense: 44
+    MagicDefense: 31
     Str: 184
     Agi: 168
     Vit: 103
@@ -1457,13 +1457,13 @@ Body:
     AegisName: EP17_2_PLASMA_R
     Name: Powerful Spell
     Level: 193
-    Hp: 2961272
-    BaseExp: 197418
-    JobExp: 138193
+    Hp: 402335
+    BaseExp: 683970
+    JobExp: 444580
     Attack: 4270
     Attack2: 2522
-    Defense: 445
-    MagicDefense: 121
+    Defense: 43
+    MagicDefense: 31
     Str: 177
     Agi: 201
     Vit: 84
@@ -1504,13 +1504,13 @@ Body:
     AegisName: EP17_2_PLASMA_R2
     Name: Sharp Spell
     Level: 193
-    Hp: 2960243
-    BaseExp: 197350
-    JobExp: 138145
+    Hp: 402331
+    BaseExp: 683963
+    JobExp: 444576
     Attack: 4101
     Attack2: 2496
-    Defense: 421
-    MagicDefense: 121
+    Defense: 42
+    MagicDefense: 31
     Str: 170
     Agi: 198
     Vit: 76
