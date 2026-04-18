@@ -79891,3 +79891,4 @@ Footer:
   Imports:
   - Path: db/import/mobs/mag_dun.yml
   - Path: db/import/mobs/amicitia.yml
+  - Path: db/import/mobs/ba_dun.yml
