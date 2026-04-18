@@ -3,23 +3,23 @@
 re_to_prere_mob.py
 ==================
 Convertit Defense, MagicDefense, BaseExp et JobExp d'un fichier mob_db.yml
-du système renewal vers des valeurs compatibles pre-renewal.
+du systÃ¨me renewal vers des valeurs compatibles pre-renewal.
 
 Formule DEF/MDEF :
   pre_re_def  = round(Level * LV_DEF_COEFF  + Vit * VIT_COEFF)  + class_bonus_def
   pre_re_mdef = round(Level * LV_MDEF_COEFF + Int * INT_COEFF)  + class_bonus_mdef
   - Boss  : +DEF_BOSS_BONUS  / +MDEF_BOSS_BONUS
   - MVP   : +DEF_MVP_BONUS   / +MDEF_MVP_BONUS
-  - Résultat plafonné entre 1 et DEF_CAP / MDEF_CAP
+  - RÃ©sultat plafonnÃ© entre 1 et DEF_CAP / MDEF_CAP
 
 Formule EXP :
   new_base_exp = round(BaseExp * EXP_BASE_MULT)
   new_job_exp  = round(JobExp  * EXP_JOB_MULT)
-  (multiplicateurs configurables, par défaut 0.70 / 0.50)
+  (multiplicateurs configurables, par dÃ©faut 0.70 / 0.50)
 
 Usage :
   python re_to_prere_mob.py <fichier.yml>            # modifie le fichier en place
-  python re_to_prere_mob.py <fichier.yml> -o <out>   # écrit dans un nouveau fichier
+  python re_to_prere_mob.py <fichier.yml> -o <out>   # Ã©crit dans un nouveau fichier
   python re_to_prere_mob.py <fichier.yml> --dry-run  # affiche les changements sans modifier
   python re_to_prere_mob.py <fichier.yml> --no-exp   # ne convertit pas les exp
   python re_to_prere_mob.py <fichier.yml> --no-def   # ne convertit pas DEF/MDEF
@@ -31,7 +31,7 @@ import os
 import argparse
 
 # ===========================================================================
-# PARAMÈTRES CONFIGURABLES
+# PARAMÃˆTRES CONFIGURABLES
 # ===========================================================================
 LV_DEF_COEFF    = 0.30   # poids du niveau  sur la DEF
 VIT_COEFF       = 0.07   # poids du VIT     sur la DEF
@@ -62,6 +62,11 @@ EXP_MIN         = 1      # valeur minimale pour BaseExp/JobExp
 # ===========================================================================
 
 
+def fmt(n):
+    """Formate un entier avec des points comme separateurs de milliers."""
+    return f"{n:,}".replace(',', '.')
+
+
 def compute_prere(level, vit, int_, is_boss, is_mvp):
     """Calcule les nouvelles valeurs pre-re DEF et MDEF."""
     def_val  = level * LV_DEF_COEFF  + vit  * VIT_COEFF
@@ -81,7 +86,7 @@ def compute_prere(level, vit, int_, is_boss, is_mvp):
 
 def split_mob_blocks(content):
     """
-    Découpe le fichier en deux parties : l'en-tête (avant Body:)
+    DÃ©coupe le fichier en deux parties : l'en-tÃªte (avant Body:)
     et une liste de blocs mob bruts.
     Retourne (header_str, [bloc1, bloc2, ...])
     """
@@ -98,13 +103,13 @@ def split_mob_blocks(content):
 
 
 def parse_int_field(block, field):
-    """Extrait la valeur entière d'un champ YAML simple (ex: Level: 145 ou - Id: 145)."""
+    """Extrait la valeur entiÃ¨re d'un champ YAML simple (ex: Level: 145 ou - Id: 145)."""
     m = re.search(r'^\s+(?:- )?' + field + r':\s*(\d+)', block, re.MULTILINE)
     return int(m.group(1)) if m else None
 
 
 def has_flag(block, flag):
-    """Vérifie si un flag booléen est présent et à true."""
+    """VÃ©rifie si un flag boolÃ©en est prÃ©sent et Ã  true."""
     m = re.search(r'^\s+' + flag + r':\s*(true|false)', block, re.MULTILINE | re.IGNORECASE)
     return bool(m and m.group(1).lower() == 'true')
 
@@ -142,7 +147,7 @@ def convert_block(block, dry_run=False, convert_def=True, convert_exp=True, conv
                     new_block, count=1, flags=re.MULTILINE
                 )
                 if old_def != new_def:
-                    report_parts.append(f"DEF {old_def:>4} -> {new_def:>3}")
+                    report_parts.append(f"DEF {fmt(old_def):>6} -> {fmt(new_def):>5}")
 
             if old_mdef is not None:
                 new_block = re.sub(
@@ -151,7 +156,7 @@ def convert_block(block, dry_run=False, convert_def=True, convert_exp=True, conv
                     new_block, count=1, flags=re.MULTILINE
                 )
                 if old_mdef != new_mdef:
-                    report_parts.append(f"MDEF {old_mdef:>4} -> {new_mdef:>3}")
+                    report_parts.append(f"MDEF {fmt(old_mdef):>6} -> {fmt(new_mdef):>5}")
 
     # --- HP ---
     if convert_hp and old_hp is not None and level is not None and level >= HP_MULT_MIN_LV:
@@ -163,7 +168,7 @@ def convert_block(block, dry_run=False, convert_def=True, convert_exp=True, conv
             new_block, count=1, flags=re.MULTILINE
         )
         if old_hp != new_hp:
-            report_parts.append(f"HP {old_hp:>10} -> {new_hp:>9}")
+            report_parts.append(f"HP {fmt(old_hp):>13} -> {fmt(new_hp):>13}")
 
     # --- BaseExp / JobExp ---
     if convert_exp:
@@ -175,7 +180,7 @@ def convert_block(block, dry_run=False, convert_def=True, convert_exp=True, conv
                 new_block, count=1, flags=re.MULTILINE
             )
             if old_base != new_base:
-                report_parts.append(f"Base {old_base:>9} -> {new_base:>8}")
+                report_parts.append(f"Base {fmt(old_base):>13} -> {fmt(new_base):>13}")
 
         if old_job is not None and old_job > 0:
             new_job = max(EXP_MIN, round(old_job * EXP_JOB_MULT))
@@ -185,80 +190,7 @@ def convert_block(block, dry_run=False, convert_def=True, convert_exp=True, conv
                 new_block, count=1, flags=re.MULTILINE
             )
             if old_job != new_job:
-                report_parts.append(f"Job {old_job:>9} -> {new_job:>8}")
-
-    if report_parts:
-        aegis_m = re.search(r'^\s+AegisName:\s*(\S+)', block, re.MULTILINE)
-        aegis   = aegis_m.group(1) if aegis_m else '???'
-        tier    = 'MVP' if is_mvp else ('Boss' if is_class_boss else 'Normal')
-        report  = f"  [{mob_id}] {aegis:<35} lv{level:>3} ({tier}) -- {', '.join(report_parts)}"
-    else:
-        report = None
-
-    return new_block, report
-    """
-    Convertit Defense, MagicDefense, BaseExp et JobExp d'un bloc mob.
-    Retourne (nouveau_bloc, rapport_str ou None).
-    """
-    mob_id   = parse_int_field(block, 'Id')
-    level    = parse_int_field(block, 'Level')
-    vit      = parse_int_field(block, 'Vit')
-    int_     = parse_int_field(block, 'Int')
-    old_def  = parse_int_field(block, 'Defense')
-    old_mdef = parse_int_field(block, 'MagicDefense')
-    old_base = parse_int_field(block, 'BaseExp')
-    old_job  = parse_int_field(block, 'JobExp')
-
-    is_mvp        = has_flag(block, 'Mvp')
-    is_class_boss = bool(re.search(r'^\s+Class:\s*Boss', block, re.MULTILINE))
-
-    report_parts = []
-    new_block = block
-
-    # --- DEF / MDEF ---
-    if convert_def and level is not None and vit is not None and int_ is not None:
-        if old_def is not None or old_mdef is not None:
-            new_def, new_mdef = compute_prere(level, vit, int_, is_class_boss, is_mvp)
-
-            if old_def is not None:
-                new_block = re.sub(
-                    r'(^\s+Defense:\s*)\d+([^\n]*)',
-                    lambda m: f"{m.group(1)}{new_def}",
-                    new_block, count=1, flags=re.MULTILINE
-                )
-                if old_def != new_def:
-                    report_parts.append(f"DEF {old_def:>4} -> {new_def:>3}")
-
-            if old_mdef is not None:
-                new_block = re.sub(
-                    r'(^\s+MagicDefense:\s*)\d+([^\n]*)',
-                    lambda m: f"{m.group(1)}{new_mdef}",
-                    new_block, count=1, flags=re.MULTILINE
-                )
-                if old_mdef != new_mdef:
-                    report_parts.append(f"MDEF {old_mdef:>4} -> {new_mdef:>3}")
-
-    # --- BaseExp / JobExp ---
-    if convert_exp:
-        if old_base is not None and old_base > 0:
-            new_base = max(EXP_MIN, round(old_base * EXP_BASE_MULT))
-            new_block = re.sub(
-                r'(^\s+BaseExp:\s*)\d+([^\n]*)',
-                lambda m: f"{m.group(1)}{new_base}",
-                new_block, count=1, flags=re.MULTILINE
-            )
-            if old_base != new_base:
-                report_parts.append(f"Base {old_base:>9} -> {new_base:>8}")
-
-        if old_job is not None and old_job > 0:
-            new_job = max(EXP_MIN, round(old_job * EXP_JOB_MULT))
-            new_block = re.sub(
-                r'(^\s+JobExp:\s*)\d+([^\n]*)',
-                lambda m: f"{m.group(1)}{new_job}",
-                new_block, count=1, flags=re.MULTILINE
-            )
-            if old_job != new_job:
-                report_parts.append(f"Job {old_job:>9} -> {new_job:>8}")
+                report_parts.append(f"Job {fmt(old_job):>13} -> {fmt(new_job):>13}")
 
     if report_parts:
         aegis_m = re.search(r'^\s+AegisName:\s*(\S+)', block, re.MULTILINE)
@@ -277,7 +209,7 @@ def convert_file(input_path, output_path=None, dry_run=False, convert_def=True, 
 
     header, blocks = split_mob_blocks(content)
     if not blocks:
-        print("Aucun bloc 'Body:' trouvé dans le fichier.")
+        print("Aucun bloc 'Body:' trouvÃ© dans le fichier.")
         return
 
     converted_blocks = []
@@ -315,11 +247,11 @@ def convert_file(input_path, output_path=None, dry_run=False, convert_def=True, 
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Convertit Defense/MagicDefense renewal → pre-renewal dans un mob_db.yml'
+        description='Convertit Defense/MagicDefense renewal â†’ pre-renewal dans un mob_db.yml'
     )
-    parser.add_argument('input', help='Fichier YML à convertir')
+    parser.add_argument('input', help='Fichier YML Ã  convertir')
     parser.add_argument('-o', '--output', default=None,
-                        help='Fichier de sortie (défaut : modifie en place)')
+                        help='Fichier de sortie (dÃ©faut : modifie en place)')
     parser.add_argument('--dry-run', action='store_true',
                         help='Affiche les changements sans modifier le fichier')
     parser.add_argument('--no-exp', action='store_true',
