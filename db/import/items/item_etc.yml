@@ -88,6 +88,26 @@ Header:
   Version: 3
 
 Body:
+  - Id: 6832
+    AegisName: Problematical_Part
+    Name: Questioned Parts
+    Type: Etc
+    Buy: 1000
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25669
+    AegisName: EP17_1_EVT02
+    Name: Mysterious Component
+    Type: Etc
+    Buy: 5000
+    Weight: 10
+  - Id: 25723
+    AegisName: EP17_1_EVT39
+    Name: Cor Core
+    Type: Etc
+    Buy: 15000
+    Weight: 10
   - Id: 25728
     AegisName: Shadowdecon_Ore
     Name: Shadowdecon Ore
@@ -161,4 +181,10 @@ Body:
     Name: Aromatic Flower
     Type: Etc
     Buy: 1680
+    Weight: 10
+  - Id: 1000225
+    AegisName: GAMJammingChip
+    Name: Potato Chips
+    Type: Etc
+    Buy: 250
     Weight: 10

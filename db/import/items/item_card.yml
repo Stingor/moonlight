@@ -195,6 +195,40 @@ Body:
     Script: |
       bonus2 bSubRace,RC_Demon,15;
       bonus2 bSubEle,Ele_Neutral,15;
+  - Id: 300106
+    AegisName: Pitaya_R_Card
+    Name: Red Pitaya Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      .@r = getequiprefinerycnt(EQI_HAND_R);
+      if (getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_VIEW) == W_STAFF || getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_VIEW) == W_2HSTAFF) {
+         bonus2 bMagicAtkEle,Ele_Fire,10;
+      }
+      if (.@r>=7) {
+         bonus2 bMagicAtkEle,Ele_Fire,10;
+      }
+      if (.@r>=10) {
+         bonus2 bMagicAtkEle,Ele_Fire,10;
+      }
+  - Id: 300107
+    AegisName: Pitaya_Boss_Card
+    Name: Boss Pitaya Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bAddItemHealRate,513,500;
+      bonus2 bAddItemHealRate,512,500;
   - Id: 300254
     AegisName: Amitera_Card
     Name: Amitera Card
@@ -335,3 +369,370 @@ Body:
       bonus bMatkRate,25;
       bonus2 bMagicAddRace,RC_Undead,50;
       bonus2 bMagicAddRace,RC_Dragon,50;
+  - Id: 300077
+    AegisName: O_Cleaner_Ng_Card
+    Name: Broken Omega Cleaner Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bVit,1;
+      bonus bDex,2;
+      bonus bMaxHPrate,10;
+  - Id: 300076
+    AegisName: Beta_Guards_Ng_Card
+    Name: Broken Beta Guards Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bVit,3;
+      bonus bMaxHPrate,10;
+  - Id: 300103
+    AegisName: Bath_Mermaid_Card
+    Name: Elder of Chung-Geum Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      .@r = getrefine();
+      bonus bMatkRate,15;
+      if (.@r>=8) {
+         bonus2 bMagicAddRace,RC_Fish,10;
+         bonus2 bMagicAddRace,RC_DemiHuman,10;
+      }
+      if (.@r>=10) {
+         bonus bDelayrate,-6;
+      }
+  - Id: 300104
+    AegisName: Bookworm_Card
+    Name: Bookworm Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bVit,1;
+      bonus bInt,2;
+      bonus bMaxHPrate,10;
+  - Id: 300105
+    AegisName: Roaming_Splbook_Card
+    Name: Roaming Spellbook Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bInt,3;
+      bonus bMaxHPrate,5;
+      bonus bMaxSPrate,5;
+  - Id: 300101
+    AegisName: Beta_Cleaner_Card
+    Name: Broken Cleaner Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bStr,3;
+      bonus bMaxHPrate,10;
+  - Id: 300108
+    AegisName: Venenum3_Card
+    Name: Sewage Venenum Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bAgi,2;
+      bonus bDex,1;
+      bonus bMaxHPrate,10;
+  - Id: 300109
+    AegisName: EP17_2_Cramp_Card
+    Name: Sewage Cramp Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bStr,1;
+      bonus bDex,2;
+      bonus bMaxHPrate,10;
+  - Id: 300110
+    AegisName: Waterfall_Card
+    Name: Sewage Waterfall Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bAgi,2;
+      bonus bInt,1;
+      bonus bMaxHPrate,10;
+  - Id: 300111
+    AegisName: Bellare3_Card
+    Name: Elite Bellare Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bAgi,2;
+      bonus bInt,1;
+      bonus bMaxHPrate,10;
+  - Id: 300112
+    AegisName: Dolor3_Card
+    Name: Spell Addicted Dolor Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bVit,1;
+      bonus bInt,2;
+      bonus bMaxHPrate,10;
+  - Id: 300113
+    AegisName: Plasma_Y_Card
+    Name: Released Spell Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bVit,1;
+      bonus bInt,2;
+      bonus bMaxHPrate,10;
+  - Id: 300114
+    AegisName: Plaga3_Card
+    Name: Spell Addicted Plaga Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      .@r = getequiprefinerycnt(EQI_HAND_R);
+      if (getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_VIEW) == W_STAFF || getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_VIEW) == W_2HSTAFF) {
+         bonus2 bMagicAtkEle,Ele_Neutral,10;
+      }
+      if (.@r>=7) {
+         bonus2 bMagicAtkEle,Ele_Neutral,10;
+      }
+      if (.@r>=10) {
+         bonus2 bMagicAtkEle,Ele_Neutral,10;
+      }
+  - Id: 300115
+    AegisName: Sanare3_Card
+    Name: Spell Addicted Sanare Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bInt,2;
+      bonus bDex,1;
+      bonus bMaxHPrate,10;
+  - Id: 300117
+    AegisName: Plasma_R2_Card
+    Name: Sharp Spell Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bAgi,1;
+      bonus bDex,2;
+      bonus bMaxHPrate,10;
+  - Id: 300116
+    AegisName: Plasma_R_Card
+    Name: Powerful Spell Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bStr,2;
+      bonus bInt,1;
+      bonus bMaxHPrate,10;
+  - Id: 300117
+    AegisName: Plasma_R2_Card
+    Name: Sharp Spell Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bAgi,1;
+      bonus bDex,2;
+      bonus bMaxHPrate,10;
+  - Id: 300118
+    AegisName: EP17_2_Phen_Card
+    Name: Boiling Phen Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bStr,2;
+      bonus bVit,1;
+      bonus bMaxHPrate,10;
+  - Id: 300119
+    AegisName: EP17_2_Sword_Fish_Card
+    Name: Boiling Swordfish Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bAgi,1;
+      bonus bDex,2;
+      bonus bMaxHPrate,10;
+  - Id: 300120
+    AegisName: EP17_2_Piranha_Card
+    Name: Boiling Piranha Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatkRate,2;
+  - Id: 300121
+    AegisName: EP17_2_Marc_Card
+    Name: Boiling Marc Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      .@r = getrefine();
+      bonus2 bMagicAtkEle,Ele_Holy,5;
+      bonus2 bMagicAtkEle,Ele_Water,5;
+      bonus2 bMagicAtkEle,Ele_Holy,.@r;
+      bonus2 bMagicAtkEle,Ele_Water,.@r;
+  - Id: 300122
+    AegisName: Pitaya_Y_Card
+    Name: Yellow Pitaya Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Garment: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bSubEle,Ele_Neutral,15;
+      bonus2 bMagicAtkEle,Ele_Holy,3*getrefine();
+  - Id: 300123
+    AegisName: Pitaya_V_Card
+    Name: Purple Pitaya Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Garment: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bSubEle,Ele_Neutral,15;
+      bonus2 bMagicAtkEle,Ele_Neutral,3*getrefine();
+  - Id: 300124
+    AegisName: Pitaya_B_Card
+    Name: Blue Pitaya Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      .@r = getequiprefinerycnt(EQI_HAND_R);
+      if (getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_VIEW) == W_STAFF || getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_VIEW) == W_2HSTAFF) {
+         bonus2 bMagicAtkEle,Ele_Water,10;
+      }
+      if (.@r>=7) {
+         bonus2 bMagicAtkEle,Ele_Water,10;
+      }
+      if (.@r>=10) {
+         bonus2 bMagicAtkEle,Ele_Water,10;
+      }
+  - Id: 300125
+    AegisName: Pitaya_G_Card
+    Name: Green Pitaya Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bInt,1;
+      bonus bLuk,2;
+      bonus bMaxHPrate,10;
+

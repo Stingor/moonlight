@@ -1,0 +1,124 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2026 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Item Combo Database
+###########################################################################
+#
+# Settings
+#
+###########################################################################
+# - Combos:                 List of combo sets.
+#    - Combo:               Sequence of items to define a combo (minimum of 2 items).
+#       - <item name>       AEGIS name of the item
+#   Script                  Script to execute when one of the combos is equipped. (Default: null)
+#   Clear                   Remove the defined combos from database. (Default: false)
+###########################################################################
+
+Header:
+  Type: COMBO_DB
+  Version: 1
+
+Body:
+  - Combos:
+      - Combo:
+          - EP17_2_Piranha_Card    # 300120
+          - Piranha_Card    # 27121
+    Script: |
+      bonus2 bMagicAddEle,Ele_Water,15;
+      bonus bMatkRate,10;
+  - Combos:
+      - Combo:
+          - Pitaya_Y_Card    # 300122
+          - EP17_2_Marc_Card    # 300121
+      - Combo:
+          - Pitaya_V_Card    # 300123
+          - EP17_2_Marc_Card    # 300121
+    Script: |
+      bonus2 bSubEle,Ele_Neutral,5;
+  - Combos:
+      - Combo:
+          - Firm_Nightmare_T_Card    # 27352
+          - Nightmare_Card    # 4127
+    Script: |
+      bonus bMaxSPrate,10;
+  - Combos:
+      - Combo:
+          - Firm_Nightmare_T_Card    # 27352
+          - Nightmare_Terror_Card    # 4166
+    Script: |
+      bonus2 bAddClass,Class_All,10;
+  - Combos:
+      - Combo:
+          - Firm_Deleter2_Card    # 27351
+          - Bungisngis_Card    # 4582
+    Script: |
+      bonus bMaxHPrate,5;
+  - Combos:
+      - Combo:
+          - Lava_Leather_Manteau    # 20935
+          - Lava_Leather_Boots    # 22199
+    Script: |
+      bonus bHit,5;
+  - Combos:
+      - Combo:
+          - Lava_Leather_Manteau    # 20935
+          - Lava_Leather_Boots    # 22199
+          - Lava_Leather_Armor    # 15378
+    Script: |
+      bonus2 bAddClass,Class_All,2;
+      .@a = getequiprefinerycnt(EQI_GARMENT);
+      .@b = getequiprefinerycnt(EQI_SHOES);
+      .@c = getequiprefinerycnt(EQI_ARMOR);
+      if (.@a >= 7 && .@b >= 7 && .@c >= 7) {
+         bonus2 bAddClass,Class_All,3;
+      }
+      if (.@a+.@b+.@c >= 27) {
+         bonus bDelayrate,-20;
+      }
+  - Combos:
+      - Combo:
+          - Lava_Leather_Muffler    # 20936
+          - Lava_Leather_Shoes    # 22200
+          - Lava_Leather_Suits    # 15379
+    Script: |
+      bonus2 bAddClass,Class_All,2;
+      .@a = getequiprefinerycnt(EQI_GARMENT);
+      .@b = getequiprefinerycnt(EQI_SHOES);
+      .@c = getequiprefinerycnt(EQI_ARMOR);
+      if (.@a >= 7 && .@b >= 7 && .@c >= 7) {
+         bonus2 bAddClass,Class_All,3;
+      }
+      if (.@a+.@b+.@c >= 27) {
+         bonus bCritAtkRate,20;
+      }
+  - Combos:
+      - Combo:
+          - Lava_Leather_Hode    # 20937
+          - Lava_Leather_Sandle    # 22201
+          - Lava_Leather_Robe    # 15380
+    Script: |
+      bonus bMatkRate,4;
+      .@a = getequiprefinerycnt(EQI_GARMENT);
+      .@b = getequiprefinerycnt(EQI_SHOES);
+      .@c = getequiprefinerycnt(EQI_ARMOR);
+      if (.@a >= 7 && .@b >= 7 && .@c >= 7) {
+         bonus bMatkRate,6;
+      }
+      if (.@a+.@b+.@c >= 27) {
+         bonus2 bMagicAtkEle,Ele_Fire,15;
+      }

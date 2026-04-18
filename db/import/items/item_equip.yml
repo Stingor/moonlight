@@ -265,3 +265,551 @@ Body:
          bonus bMatkRate,8;
       if (.@r>=9)
          bonus bMatkRate,4;
+  - Id: 600008
+    AegisName: Ep172_Bh_Sword
+    Name: Hypocrisy Edge
+    Type: Weapon
+    SubType: 2hSword
+    Weight: 3000
+    Attack: 280
+    Range: 1
+    Slots: 2
+    Jobs:
+      Knight: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      bonus bBaseAtk,12*.@r;
+      if (.@r>=7) {
+         bonus bDelayrate,-5;
+      }
+      if (.@r>=10) {
+         bonus bDelayrate,-10;
+      }
+  - Id: 700007
+    AegisName: Ep172_Bh_Bow
+    Name: Superbia String
+    Type: Weapon
+    SubType: Bow
+    Weight: 1400
+    Attack: 220
+    Range: 5
+    Slots: 2
+    Jobs:
+      Hunter: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bBaseAtk,30*.@r;
+  - Id: 700008
+    AegisName: Ep172_Bh_Bow2
+    Name: Gula Gun
+    Type: Weapon
+    SubType: Bow
+    Weight: 1200
+    Attack: 220
+    Range: 5
+    Slots: 2
+    Jobs:
+      Rogue: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bBaseAtk,12*.@r;
+      if (.@r>=7) {
+         bonus bDelayrate,-5;
+      }
+      if (.@r>=10) {
+         bonus bDelayrate,-10;
+      }
+  - Id: 630003
+    AegisName: Ep172_Bh_Spear
+    Name: Luxuria Pierce
+    Type: Weapon
+    SubType: 2hSpear
+    Weight: 3300
+    Attack: 250
+    Range: 3
+    Slots: 2
+    Jobs:
+      Knight: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bBaseAtk,30*.@r;
+  - Id: 640005
+    AegisName: Ep172_Bh_Staff
+    Name: Pride Stone
+    Type: Weapon
+    SubType: 2hStaff
+    Weight: 2000
+    Attack: 180
+    Range: 1
+    Slots: 2
+    Jobs:
+      Wizard: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      bonus2 bMagicAtkEle,Ele_Neutral,15;
+      bonus2 bMagicAtkEle,Ele_Water,15;
+      bonus bVariableCastrate,-3*(.@r/3);
+      bonus bMatkRate,30+6*(.@r/3);
+  - Id: 560004
+    AegisName: Ep172_Bh_Knuck
+    Name: Ira Fist
+    Type: Weapon
+    SubType: Knuckle
+    Weight: 800
+    Attack: 200
+    Range: 1
+    Slots: 2
+    Jobs:
+      Monk: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bBaseAtk,30*.@r;
+  - Id: 610006
+    AegisName: Ep172_Bh_Katar
+    Name: Avaritia Metal
+    Type: Weapon
+    SubType: Katar
+    Weight: 1800
+    Attack: 220
+    Range: 1
+    Slots: 2
+    Jobs:
+      Assassin: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bBaseAtk,30*.@r;
+  - Id: 650003
+    AegisName: Ep172_Bh_Huuma
+    Name: Wrath Wheel
+    Type: Weapon
+    SubType: Huuma
+    Weight: 1800
+    Attack: 320
+    Range: 1
+    Slots: 2
+    Jobs:
+      Ninja: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bAtkEle,Ele_Wind;
+      bonus bUnbreakableWeapon;
+      bonus bVariableCastrate,-2*(.@r/3);
+      bonus bBaseAtk,30*.@r;
+  - Id: 700009
+    AegisName: Ep172_Bh_Bow3
+    Name: Pigritia Rhythm
+    Type: Weapon
+    SubType: Bow
+    Weight: 1000
+    Attack: 190
+    Range: 5
+    Slots: 2
+    Jobs:
+      BardDancer: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bBaseAtk,30*.@r;
+  - Id: 580005
+    AegisName: Ep172_1h_Whip
+    Name: Pigritia Spark
+    Type: Weapon
+    SubType: Whip
+    Weight: 700
+    Attack: 150
+    Range: 2
+    Slots: 2
+    Jobs:
+      BardDancer: true
+    Gender: Female
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMatk,210;
+      bonus bMatkRate,10*(.@r/3);
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+      }
+  - Id: 550008
+    AegisName: Ep172_1h_Wand
+    Name: Greed Wand
+    Type: Weapon
+    SubType: Staff
+    Weight: 800
+    Attack: 130
+    Range: 1
+    Slots: 2
+    Jobs:
+      SoulLinker: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      bonus bMatk,200;
+      bonus bMatkRate,2*.@r;
+      if (.@r>=9) {
+         bonus bVariableCastrate,-10;
+      }
+  - Id: 500008
+    AegisName: Ep172_1h_Sword2
+    Name: Invidia Bundle
+    Type: Weapon
+    SubType: 1hSword
+    Weight: 1800
+    Attack: 210
+    Range: 1
+    Slots: 2
+    Jobs:
+      Alchemist: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bBaseAtk,30*.@r;
+      if (.@r>=9) {
+         bonus bAspdRate,10;
+      }
+  - Id: 500007
+    AegisName: Ep172_1h_Sword
+    Name: Hypocrisy Machine
+    Type: Weapon
+    SubType: 1hSword
+    Weight: 3000
+    Attack: 250
+    Range: 1
+    Slots: 3
+    Jobs:
+      Novice: true
+      SuperNovice: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      bonus bShortAtkRate,3*(.@r/2);
+      bonus bCritical,2*(.@r/2);
+      if (.@r>=5)
+         bonus bAspdRate,20;
+      if (.@r>=7) {
+         bonus2 bAddSize,Size_Small,25;
+         bonus2 bAddSize,Size_Large,25;
+      }
+      if (.@r>=10)
+         skill "KN_BOWLINGBASH",getskilllv("SM_SWORD");
+  - Id: 530002
+    AegisName: Ep172_1h_Spear
+    Name: Gluttony Stick
+    Type: Weapon
+    SubType: 1hSpear
+    Weight: 2000
+    Attack: 190
+    Range: 3
+    Slots: 2
+    Jobs:
+      Crusader: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMatk,200;
+      bonus bMatkRate,3*.@r;
+      if (.@r>=9) {
+         bonus bVariableCastrate,-10;
+      }
+  - Id: 820000
+    AegisName: Ep172_1h_Shotgun
+    Name: Lust Shatter
+    Type: Weapon
+    SubType: Shotgun
+    Weight: 1600
+    Attack: 310
+    Range: 9
+    Slots: 2
+    Jobs:
+      Gunslinger: true
+      Rebellion: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bSplashRange,1;
+      bonus bAspdRate,3*.@r;
+      bonus bBaseAtk,15*.@r;
+  - Id: 810000
+    AegisName: Ep172_1h_Rifle
+    Name: Lust Pointer
+    Type: Weapon
+    SubType: Rifle
+    Weight: 1300
+    Attack: 260
+    Range: 9
+    Slots: 2
+    Jobs:
+      Gunslinger: true
+      Rebellion: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bAspdRate,3*.@r;
+      bonus bBaseAtk,20*.@r;
+  - Id: 570005
+    AegisName: Ep172_1h_Inst
+    Name: Pigritia Wave
+    Type: Weapon
+    SubType: Musical
+    Weight: 700
+    Attack: 150
+    Range: 1
+    Slots: 2
+    Jobs:
+      BardDancer: true
+    Gender: Male
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMatk,210;
+      bonus bMatkRate,10*(.@r/3);
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+      }
+  - Id: 590006
+    AegisName: Ep172_1h_Hammer
+    Name: Envy Blunt
+    Type: Weapon
+    SubType: Mace
+    Weight: 1500
+    Attack: 180
+    Range: 1
+    Slots: 2
+    Jobs:
+      Priest: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      bonus bMatk,210;
+      bonus bMatkRate,4*.@r;
+      if (.@r>=9) {
+         bonus bAspdRate,20;
+      }
+  - Id: 840000
+    AegisName: Ep172_1h_Grenade
+    Name: Lust Boom
+    Type: Weapon
+    SubType: Grenade
+    Weight: 2400
+    Attack: 330
+    Range: 9
+    Slots: 2
+    Jobs:
+      Gunslinger: true
+      Rebellion: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bAspdRate,3*.@r;
+      bonus bBaseAtk,20*.@r;
+  - Id: 830001
+    AegisName: Ep172_1h_Gatling
+    Name: Lust Crusher
+    Type: Weapon
+    SubType: Gatling
+    Weight: 2000
+    Attack: 230
+    Range: 9
+    Slots: 2
+    Jobs:
+      Gunslinger: true
+      Rebellion: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bAspdRate,6*.@r;
+      bonus bBaseAtk,15*.@r;
+  - Id: 510009
+    AegisName: Ep172_1h_Dagger2
+    Name: Gula Teeth
+    Type: Weapon
+    SubType: Dagger
+    Weight: 900
+    Attack: 180
+    Range: 1
+    Slots: 2
+    Jobs:
+      Rogue: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      bonus bBaseAtk,12*.@r;
+      if (.@r>=7) {
+         bonus bDelayrate,-5;
+      }
+      if (.@r>=10) {
+         bonus bDelayrate,-10;
+      }
+  - Id: 510008
+    AegisName: Ep172_1h_Dagger
+    Name: Wrath Rack
+    Type: Weapon
+    SubType: Dagger
+    Weight: 800
+    Attack: 160
+    MagicAttack: 170
+    Range: 1
+    Slots: 2
+    Jobs:
+      Ninja: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMatk,170;
+      bonus bMatkRate,10*(.@r/3);
+      if (.@r>=9) {
+         bonus bVariableCastrate,-10;
+      }
+  - Id: 540005
+    AegisName: Ep172_1h_Book2
+    Name: Sloth Bible
+    Type: Weapon
+    SubType: Book
+    Weight: 700
+    Attack: 160
+    Range: 1
+    Slots: 2
+    Jobs:
+      Sage: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      autobonus "{ bonus2 bSubClass,Class_Normal,15; bonus2 bSPRegenRate,300,1000; }",1,5000,BF_WEAPON|BF_MAGIC;
+      bonus bVariableCastrate,-3*(.@r/3);
+      bonus bMatk,220;
+      bonus bMatkRate,10*(.@r/3);
+      if (.@r>=6) {
+         bonus2 bSkillAtk,"MG_LIGHTNINGBOLT",25;
+         bonus2 bSkillAtk,"MG_FIREBOLT",25;
+      }
+      if (.@r>=8) {
+         bonus bAspdRate,20;
+      }
+      if (.@r>=10) {
+         bonus2 bSkillAtk,"MG_LIGHTNINGBOLT",30;
+         bonus2 bSkillAtk,"MG_FIREBOLT",30;
+      }
+  - Id: 540004
+    AegisName: Ep172_1h_Book
+    Name: Sloth Text
+    Type: Weapon
+    SubType: Book
+    Weight: 500
+    Attack: 210
+    Range: 1
+    Slots: 2
+    Jobs:
+      StarGladiator: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      bonus bBaseAtk,30*.@r;
+      if (.@r>=9) {
+         bonus bAspdRate,20;
+      }
+  - Id: 520002
+    AegisName: Ep172_1h_Axe
+    Name: Pride Steel
+    Type: Weapon
+    SubType: 1hAxe
+    Weight: 3000
+    Attack: 250
+    Range: 1
+    Slots: 2
+    Jobs:
+      Blacksmith: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      bonus bBaseAtk,40*.@r;
