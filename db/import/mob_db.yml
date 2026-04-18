@@ -75877,7 +75877,7 @@ Body:
       CanMove: true
       Mvp: true
     MvpDrops:
-      - Item: Questioned_Parts
+      - Item: Problematical_Part
         Rate: 5000
       - Item: Old_Violet_Box
         Rate: 5000

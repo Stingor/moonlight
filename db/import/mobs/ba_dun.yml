@@ -337,7 +337,7 @@ Body:
         StealProtected: true
   - Id: 20640
     AegisName: EP17_2_OMEGA_CLEANER
-    Name: Cleaning Robot Î©
+    Name: Cleaning Robot
     Level: 130
     Hp: 70372
     BaseExp: 119632
@@ -379,7 +379,7 @@ Body:
         # RandomOptionGroup: AUTO_IMP_MAGIC_2
   - Id: 20641
     AegisName: EP17_2_OMEGA_CLEANER_NG
-    Name: Broken Cleaning Robot Î©
+    Name: Broken Cleaning Robot
     Level: 175
     Hp: 254839
     BaseExp: 433226
