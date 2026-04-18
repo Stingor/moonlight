@@ -84,13 +84,13 @@ Body:
     AegisName: BLAZZER_H
     Name: Rigid Blazer
     Level: 178
-    Hp: 1218064
-    BaseExp: 110733
-    JobExp: 77513
+    Hp: 249887
+    BaseExp: 424808
+    JobExp: 276125
     Attack: 2158
     Attack2: 1555
-    Defense: 318
-    MagicDefense: 56
+    Defense: 39
+    MagicDefense: 27
     Str: 97
     Agi: 96
     Vit: 73
@@ -136,13 +136,13 @@ Body:
     AegisName: NIGHTMARE_TERROR_H
     Name: Rigid Nightmare Terror
     Level: 179
-    Hp: 1218702
-    BaseExp: 110791
-    JobExp: 77554
+    Hp: 247232
+    BaseExp: 420294
+    JobExp: 273191
     Attack: 1812
     Attack2: 2220
-    Defense: 194
-    MagicDefense: 60
+    Defense: 37
+    MagicDefense: 29
     Str: 81
     Agi: 149
     Vit: 21
@@ -187,13 +187,13 @@ Body:
     AegisName: DELETER1_H
     Name: Rigid Sky Deleter
     Level: 174
-    Hp: 1189532
-    BaseExp: 108139
-    JobExp: 75698
+    Hp: 255382
+    BaseExp: 434149
+    JobExp: 282197
     Attack: 2523
     Attack2: 882
-    Defense: 290
-    MagicDefense: 51
+    Defense: 38
+    MagicDefense: 24
     Str: 116
     Agi: 109
     Vit: 63
@@ -236,13 +236,13 @@ Body:
     AegisName: DELETER2_H
     Name: Rigid Earth Deleter
     Level: 173
-    Hp: 1182695
-    BaseExp: 107518
-    JobExp: 75262
+    Hp: 256858
+    BaseExp: 436659
+    JobExp: 283828
     Attack: 2509
     Attack2: 1119
-    Defense: 290
-    MagicDefense: 53
+    Defense: 38
+    MagicDefense: 25
     Str: 116
     Agi: 137
     Vit: 63
@@ -285,13 +285,13 @@ Body:
     AegisName: EXPLOSION_H
     Name: Rigid Explosion
     Level: 171
-    Hp: 1166287
-    BaseExp: 106026
-    JobExp: 74218
+    Hp: 259255
+    BaseExp: 440734
+    JobExp: 286477
     Attack: 1902
     Attack2: 1550
-    Defense: 230
-    MagicDefense: 54
+    Defense: 36
+    MagicDefense: 26
     Str: 89
     Agi: 117
     Vit: 39
@@ -334,13 +334,13 @@ Body:
     AegisName: KAHO_H
     Name: Rigid Kaho
     Level: 173
-    Hp: 1178774
-    BaseExp: 107162
-    JobExp: 75012
+    Hp: 256007
+    BaseExp: 435212
+    JobExp: 282888
     Attack: 2076
     Attack2: 1718
-    Defense: 208
-    MagicDefense: 70
+    Defense: 36
+    MagicDefense: 27
     Str: 96
     Agi: 130
     Vit: 29
@@ -383,13 +383,13 @@ Body:
     AegisName: LAVA_GOLEM_H
     Name: Rigid Lava Golem
     Level: 177
-    Hp: 1223728
-    BaseExp: 111248
-    JobExp: 77873
+    Hp: 253894
+    BaseExp: 431620
+    JobExp: 280553
     Attack: 2677
     Attack2: 897
-    Defense: 571
-    MagicDefense: 50
+    Defense: 44
+    MagicDefense: 24
     Str: 121
     Agi: 67
     Vit: 179
@@ -433,14 +433,14 @@ Body:
     AegisName: MUSPELLSKOLL_H
     Name: Rigid Muspellskoll
     Level: 188
-    Hp: 48530254
-    BaseExp: 9706050
-    JobExp: 6794235
+    Hp: 8004770
+    BaseExp: 13608109
+    JobExp: 8845271
     MvpExp: 550000
     Attack: 5146
     Attack2: 2356
-    Defense: 791
-    MagicDefense: 331
+    Defense: 58
+    MagicDefense: 37
     Str: 219
     Agi: 132
     Vit: 201
