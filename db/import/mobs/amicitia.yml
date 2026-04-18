@@ -84,13 +84,13 @@ Body:
     AegisName: CHIMERA_LAVA
     Name: Lavaeter
     Level: 243
-    Hp: 3391092
-    BaseExp: 1217108
-    JobExp: 829397
+    Hp: 33910920
+    BaseExp: 617108
+    JobExp: 429397
     Attack: 10441
     Attack2: 2992
-    Defense: 52
-    MagicDefense: 22
+    Defense: 520
+    MagicDefense: 227
     Str: 143
     Agi: 138
     Vit: 195
@@ -132,13 +132,13 @@ Body:
     AegisName: CHIMERA_FULGOR
     Name: Fulgor
     Level: 244
-    Hp: 3682021
-    BaseExp: 1227091
-    JobExp: 836769
+    Hp: 36820210
+    BaseExp: 627091
+    JobExp: 436769
     Attack: 12534
     Attack2: 2257
-    Defense: 40
-    MagicDefense: 15
+    Defense: 404
+    MagicDefense: 155
     Str: 174
     Agi: 146
     Vit: 138
@@ -180,13 +180,13 @@ Body:
     AegisName: CHIMERA_NAPEO
     Name: Napeo
     Level: 244
-    Hp: 3032484
-    BaseExp: 1215343
-    JobExp: 830526
+    Hp: 30324840
+    BaseExp: 615343
+    JobExp: 430526
     Attack: 9325
     Attack2: 4629
-    Defense: 28
-    MagicDefense: 30
+    Defense: 289
+    MagicDefense: 308
     Str: 158
     Agi: 170
     Vit: 177
@@ -228,13 +228,13 @@ Body:
     AegisName: CHIMERA_GALENSIS
     Name: Galensis
     Level: 244
-    Hp: 3588580
-    BaseExp: 1226446
-    JobExp: 837417
+    Hp: 35885800
+    BaseExp: 626446
+    JobExp: 437417
     Attack: 11691
     Attack2: 2684
-    Defense: 25
-    MagicDefense: 13
+    Defense: 257
+    MagicDefense: 135
     Str: 148
     Agi: 174
     Vit: 97
@@ -276,13 +276,13 @@ Body:
     AegisName: CHIMERA_AMITERA
     Name: Amitera
     Level: 227
-    Hp: 2797460
-    BaseExp: 859681
-    JobExp: 619856
+    Hp: 27974600
+    BaseExp: 459681
+    JobExp: 319856
     Attack: 7507
     Attack2: 1846
-    Defense: 43
-    MagicDefense: 18
+    Defense: 431
+    MagicDefense: 187
     Str: 88
     Agi: 85
     Vit: 120
@@ -324,13 +324,13 @@ Body:
     AegisName: CHIMERA_LITUS
     Name: Litus
     Level: 228
-    Hp: 2316035
-    BaseExp: 865590
-    JobExp: 625099
+    Hp: 23160350
+    BaseExp: 465590
+    JobExp: 325099
     Attack: 10388
     Attack2: 2340
-    Defense: 24
-    MagicDefense: 12
+    Defense: 241
+    MagicDefense: 125
     Str: 131
     Agi: 153
     Vit: 86
@@ -372,13 +372,13 @@ Body:
     AegisName: CHIMERA_FILLIA
     Name: Fillia
     Level: 229
-    Hp: 2325265
-    BaseExp: 876341
-    JobExp: 633273
+    Hp: 23252650
+    BaseExp: 476341
+    JobExp: 333273
     Attack: 8057
     Attack2: 3271
-    Defense: 23
-    MagicDefense: 23
+    Defense: 234
+    MagicDefense: 236
     Str: 86
     Agi: 92
     Vit: 97
@@ -420,13 +420,13 @@ Body:
     AegisName: CHIMERA_VANILAQUS
     Name: Vanilaqus
     Level: 230
-    Hp: 2550567
-    BaseExp: 880454
-    JobExp: 634636
+    Hp: 25505670
+    BaseExp: 480454
+    JobExp: 334636
     Attack: 10946
     Attack2: 1963
-    Defense: 38
-    MagicDefense: 14
+    Defense: 384
+    MagicDefense: 147
     Str: 162
     Agi: 136
     Vit: 129
@@ -468,14 +468,14 @@ Body:
     AegisName: CHIMERA_THEONE
     Name: The One
     Level: 245
-    Hp: 27504240
-    BaseExp: 14599887
-    JobExp: 10319921
+    Hp: 275042400
+    BaseExp: 7599887
+    JobExp: 5319921
     MvpExp: 500000
     Attack: 14541
     Attack2: 2756
-    Defense: 65
-    MagicDefense: 11
+    Defense: 654
+    MagicDefense: 114
     Str: 415
     Agi: 244
     Vit: 221
