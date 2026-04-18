@@ -1046,15 +1046,15 @@ L_fld_moc:
 		case 21:
 			if (rebirth_moc_edq < 4)
 				warp_fct("moc_fild20", 349, 185);
-			else if (rebirth_moc_edq > 3 && rebirth_moc_edq < 8 && countitem(Continental_Guard_Paper) > 0)
+			else if (rebirth_moc_edq > 3 && rebirth_moc_edq < 8 && countitem(7826) > 0)
 				warp_fct("moc_fild21", 38, 193);
-			else if (rebirth_moc_edq == 8 && countitem(Continental_Guard_Paper) > 0 )
+			else if (rebirth_moc_edq == 8 && countitem(7826) > 0 )
 				warp_fct("moc_fild21", 38, 193);
 			break;
 		case 22: 
-			if (countitem(Continental_Guard_Paper) > 0) 
+			if (countitem(7826) > 0) 
 				warp_fct("moc_fild22", 38, 193);
-			else if (countitem(Continental_Guard_Paper) < 1) {
+			else if (countitem(7826) < 1) {
 				mes "[Continental Guard]";
 				mes "Only members of the Continental Guards with Continental Guard Certificates are allowed to proceed beyond this point.";
 				close;
