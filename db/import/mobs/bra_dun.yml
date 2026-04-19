@@ -84,19 +84,19 @@ Body:
     AegisName: BOITATA
     Name: Boitata
     Level: 93
-    Hp: 1283990
-    BaseExp: 74288
-    JobExp: 77950
+    Hp: 388003
+    BaseExp: 659605
+    JobExp: 428743
     MvpExp: 37144
     Attack: 1060
     Attack2: 2022
-    Defense: 7
-    MagicDefense: 36
+    Defense: 30
+    MagicDefense: 23
     Str: 140
     Agi: 99
     Vit: 30
     Int: 109
-    Dex: 100
+    Dex: 120
     Luk: 90
     AttackRange: 2
     SkillRange: 10
@@ -106,9 +106,9 @@ Body:
     Element: Fire
     ElementLevel: 3
     WalkSpeed: 200
-    AttackDelay: 1150
-    AttackMotion: 1150
-    DamageMotion: 288
+    AttackDelay: 1152
+    AttackMotion: 1152
+    DamageMotion: 576
     Ai: 21
     Class: Boss
     Modes:
@@ -142,17 +142,17 @@ Body:
     AegisName: IARA
     Name: Iara
     Level: 79
-    Hp: 5890
-    BaseExp: 1070
-    JobExp: 890
+    Hp: 1934
+    BaseExp: 3288
+    JobExp: 2137
     Attack: 171
     Attack2: 270
-    MagicDefense: 39
+    MagicDefense: 12
     Str: 69
     Agi: 14
     Vit: 41
     Int: 60
-    Dex: 69
+    Dex: 83
     Luk: 20
     AttackRange: 1
     SkillRange: 10
@@ -162,8 +162,8 @@ Body:
     Element: Water
     ElementLevel: 3
     WalkSpeed: 200
-    AttackDelay: 672
-    AttackMotion: 380
+    AttackDelay: 384
+    AttackMotion: 672
     DamageMotion: 288
     Ai: 17
     Drops:
@@ -188,18 +188,18 @@ Body:
     AegisName: PIRANHA
     Name: Piranha
     Level: 75
-    Hp: 4522
-    BaseExp: 899
-    JobExp: 1023
+    Hp: 2124
+    BaseExp: 3611
+    JobExp: 2347
     Attack: 182
     Attack2: 223
-    Defense: 2
+    Defense: 16
     MagicDefense: 10
     Str: 69
     Agi: 45
     Vit: 30
     Int: 30
-    Dex: 66
+    Dex: 79
     Luk: 35
     AttackRange: 1
     SkillRange: 10
@@ -210,8 +210,8 @@ Body:
     ElementLevel: 3
     WalkSpeed: 200
     AttackDelay: 768
-    AttackMotion: 768
-    DamageMotion: 384
+    AttackMotion: 480
+    DamageMotion: 864
     Ai: 20
     Drops:
       - Item: Gill
