@@ -156,7 +156,7 @@ def convert_block(block, dry_run=False, convert_def=True, convert_exp=True, conv
                     new_block, count=1, flags=re.MULTILINE
                 )
                 if old_def != new_def:
-                    report_parts.append(f"DEF {fmt(old_def):>6} -> {fmt(new_def):>5}")
+                    report_parts.append(f"DEF:{fmt(old_def)}\u2192{fmt(new_def)}")
 
             if old_mdef is not None:
                 new_block = re.sub(
@@ -165,7 +165,7 @@ def convert_block(block, dry_run=False, convert_def=True, convert_exp=True, conv
                     new_block, count=1, flags=re.MULTILINE
                 )
                 if old_mdef != new_mdef:
-                    report_parts.append(f"MDEF {fmt(old_mdef):>6} -> {fmt(new_mdef):>5}")
+                    report_parts.append(f"MDEF:{fmt(old_mdef)}\u2192{fmt(new_mdef)}")
 
     # --- HP ---
     new_hp = None
@@ -187,7 +187,7 @@ def convert_block(block, dry_run=False, convert_def=True, convert_exp=True, conv
             new_block, count=1, flags=re.MULTILINE
         )
         if old_hp != new_hp:
-            report_parts.append(f"HP {fmt(old_hp):>13} -> {fmt(new_hp):>13}")
+            report_parts.append(f"HP:{fmt(old_hp)}\u2192{fmt(new_hp)}")
 
     # --- BaseExp / JobExp (bases sur les HP finaux) ---
     if convert_exp:
@@ -202,7 +202,7 @@ def convert_block(block, dry_run=False, convert_def=True, convert_exp=True, conv
                     new_block, count=1, flags=re.MULTILINE
                 )
                 if old_base != new_base:
-                    report_parts.append(f"Base {fmt(old_base):>13} -> {fmt(new_base):>13}")
+                    report_parts.append(f"Base:{fmt(old_base)}\u2192{fmt(new_base)}")
             if old_job is not None and old_job > 0:
                 new_block = re.sub(
                     r'(^\s+JobExp:\s*)\d+([^\n]*)',
@@ -210,13 +210,13 @@ def convert_block(block, dry_run=False, convert_def=True, convert_exp=True, conv
                     new_block, count=1, flags=re.MULTILINE
                 )
                 if old_job != new_job:
-                    report_parts.append(f"Job {fmt(old_job):>13} -> {fmt(new_job):>13}")
+                    report_parts.append(f"Job:{fmt(old_job)}\u2192{fmt(new_job)}")
 
     if report_parts:
         aegis_m = re.search(r'^\s+AegisName:\s*(\S+)', block, re.MULTILINE)
         aegis   = aegis_m.group(1) if aegis_m else '???'
         tier    = 'MVP' if is_mvp else ('Boss' if is_class_boss else 'Normal')
-        report  = f"  [{mob_id}] {aegis:<35} lv{level:>3} ({tier}) -- {', '.join(report_parts)}"
+        report  = f"  [{mob_id}] {aegis:<30} lv{level:>3} ({tier})  " + '  '.join(report_parts)
     else:
         report = None
 

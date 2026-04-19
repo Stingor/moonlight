@@ -25,6 +25,14 @@ FIELDS       = ['Hp', 'Defense', 'MagicDefense', 'BaseExp', 'JobExp',
 STAT_FIELDS  = ['Str', 'Agi', 'Vit', 'Int', 'Dex', 'Luk']
 ALL_FIELDS   = FIELDS + STAT_FIELDS
 
+# Abreviations pour le rapport de modifications
+FIELD_ABBR = {
+    'Hp': 'HP', 'Defense': 'DEF', 'MagicDefense': 'MDEF',
+    'BaseExp': 'Base', 'JobExp': 'Job',
+    'WalkSpeed': 'Spd', 'AttackDelay': 'AtkDly', 'AttackMotion': 'AtkMot', 'DamageMotion': 'DmgMot',
+    'Str': 'STR', 'Agi': 'AGI', 'Vit': 'VIT', 'Int': 'INT', 'Dex': 'DEX', 'Luk': 'LUK',
+}
+
 
 def fmt(n):
     """Formate un entier avec des points comme separateurs de milliers."""
@@ -92,7 +100,7 @@ def restore_block(block, re_db):
                 anchor = re.search(r'(^\s+AttackRange:)', new_block, re.MULTILINE)
                 if anchor:
                     new_block = new_block[:anchor.start()] + f"    {field}: {re_val}\n" + new_block[anchor.start():]
-                    changes.append(f"{field} absent -> {re_val}")
+                    changes.append(f"{FIELD_ABBR.get(field, field)}:∅→{re_val}")
             continue
 
         if cur_val != re_val:
@@ -101,10 +109,10 @@ def restore_block(block, re_db):
                 lambda m, v=re_val: f"{m.group(1)}{v}",
                 new_block, count=1, flags=re.MULTILINE
             )
-            changes.append(f"{field} {fmt(cur_val):>13} -> {fmt(re_val):>13}")
+            changes.append(f"{FIELD_ABBR.get(field, field)}:{fmt(cur_val)}→{fmt(re_val)}")
 
     if changes:
-        report = f"  [{mob_id}] {aegis:<35} lv{lv} -- " + ', '.join(changes)
+        report = f"  [{mob_id}] {aegis:<30} lv{lv:>3}  " + '  '.join(changes)
     else:
         report = None
 
