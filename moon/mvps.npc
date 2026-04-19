@@ -168,7 +168,7 @@ ice_dun03	boss_monster	Ktullanux	1779,1,7200000,600000,"classement::OnMvpDead"
 slabw01	boss_monster	Venomous Chimera	3633,1,3600000,600000,"classement::OnMvpDead"
 mag_dun03	boss_monster	Rigid Muspellskoll	20419,1,3600000,600000,"classement::OnMvpDead"
 amicitia2	boss_monster	The One	20928,1,21600000,600000,"classement::OnMvpDead"
-ba_lost	boss_monster	Boss Pitaya	20648,1,7200000,600000,"classement::OnMvpDead" // EP17_2_PITAYA_BOSS
+ba_lost	boss_monster	Boss Pitaya	20648,1,7200000,600000,"classement::OnMvpDead"
 
 // PAR SCRIPT  1h40 - 2h10
 lhz_dun03,0,0,0	script	mvp_lhz_dun03	-1,{
