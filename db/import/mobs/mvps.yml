@@ -311,6 +311,61 @@ Body:
       - Item: Boitata_Card
         Rate: 1
         StealProtected: true
+  - Id: 2087
+    AegisName: QUEEN_SCARABA
+    Name: Scaraba Queen
+    JapaneseName: Queen Scaraba
+    Level: 140
+    Hp: 325580
+    BaseExp: 553486
+    JobExp: 359766
+    MvpExp: 205110
+    Attack: 2834
+    Attack2: 1240
+    Defense: 42
+    MagicDefense: 30
+    Str: 100
+    Agi: 88
+    Vit: 82
+    Int: 149
+    Dex: 317
+    Luk: 144
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Insect
+    Element: Earth
+    ElementLevel: 3
+    WalkSpeed: 120
+    AttackDelay: 864
+    AttackMotion: 1000
+    DamageMotion: 360
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Old_Card_Album
+        Rate: 5500
+      - Item: Old_Card_Album
+        Rate: 5000
+      - Item: Old_Card_Album
+        Rate: 2000
+    Drops:
+      - Item: Queen_Wing_Piece
+        Rate: 7000
+      - Item: Alca_Bringer
+        Rate: 1000
+      - Item: Meteo_Plate_Armor
+        Rate: 1000
+      - Item: Chrome_Twohand_Sword
+        Rate: 400
+      - Item: Mystic_Bow
+        Rate: 500
+      - Item: Q_Scaraba_Card
+        Rate: 1
+        StealProtected: true
   - Id: 2156
     AegisName: LEAK
     Name: Leak
@@ -367,6 +422,60 @@ Body:
       - Item: Gold
         Rate: 2000
       - Item: Leak_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2165
+    AegisName: I_QUEEN_SCARABA
+    Name: Gold Queen Scaraba
+    Level: 140
+    Hp: 858968
+    BaseExp: 1460246
+    JobExp: 949160
+    MvpExp: 2051100
+    Attack: 4889
+    Attack2: 6440
+    Defense: 42
+    MagicDefense: 30
+    Str: 100
+    Agi: 88
+    Vit: 82
+    Int: 149
+    Dex: 211
+    Luk: 144
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Insect
+    Element: Earth
+    ElementLevel: 3
+    WalkSpeed: 120
+    AttackDelay: 864
+    AttackMotion: 1000
+    DamageMotion: 360
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Old_Card_Album
+        Rate: 5500
+      - Item: Old_Card_Album
+        Rate: 5000
+      - Item: Old_Card_Album
+        Rate: 2000
+    Drops:
+      - Item: Queen_Wing_Piece
+        Rate: 10000
+      - Item: Alca_Bringer
+        Rate: 2000
+      - Item: Meteo_Plate_Armor
+        Rate: 2000
+      - Item: Chrome_Twohand_Sword
+        Rate: 800
+      - Item: Mystic_Bow
+        Rate: 1000
+      - Item: Gold_Q_Scaraba_Card
         Rate: 1
         StealProtected: true
   - Id: 3074

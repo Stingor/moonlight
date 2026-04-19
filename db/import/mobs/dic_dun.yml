@@ -85,19 +85,19 @@ Body:
     Name: One-Horned Scaraba
     JapaneseName: Scaraba
     Level: 130
-    Hp: 6838
-    BaseExp: 10440
-    JobExp: 4011
+    Hp: 8561
+    BaseExp: 14554
+    JobExp: 9460
     Attack: 886
     Attack2: 91
-    Defense: 14
-    MagicDefense: 2
-    Str: 22
-    Agi: 30
-    Vit: 28
-    Int: 11
-    Dex: 36
-    Luk: 17
+    Defense: 29
+    MagicDefense: 16
+    Str: 44
+    Agi: 59
+    Vit: 55
+    Int: 21
+    Dex: 99
+    Luk: 33
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -131,19 +131,19 @@ Body:
     Name: Two-Horned Scaraba
     JapaneseName: Scaraba
     Level: 134
-    Hp: 7803
-    BaseExp: 11560
-    JobExp: 4549
+    Hp: 9288
+    BaseExp: 15790
+    JobExp: 10264
     Attack: 1935
     Attack2: 105
-    Defense: 15
-    MagicDefense: 4
-    Str: 22
-    Agi: 34
-    Vit: 36
-    Int: 23
-    Dex: 42
-    Luk: 26
+    Defense: 30
+    MagicDefense: 18
+    Str: 44
+    Agi: 68
+    Vit: 72
+    Int: 45
+    Dex: 126
+    Luk: 51
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -176,19 +176,19 @@ Body:
     AegisName: ANTLER_SCARABA
     Name: Antler Scaraba
     Level: 136
-    Hp: 8672
-    BaseExp: 12660
-    JobExp: 5255
+    Hp: 9583
+    BaseExp: 16291
+    JobExp: 10589
     Attack: 1418
     Attack2: 410
-    Defense: 16
-    MagicDefense: 10
-    Str: 12
-    Agi: 50
-    Vit: 30
-    Int: 65
-    Dex: 46
-    Luk: 23
+    Defense: 30
+    MagicDefense: 21
+    Str: 23
+    Agi: 99
+    Vit: 59
+    Int: 129
+    Dex: 137
+    Luk: 45
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -221,19 +221,19 @@ Body:
     AegisName: RAKE_SCARABA
     Name: Rake Scaraba
     Level: 139
-    Hp: 9786
-    BaseExp: 13980
-    JobExp: 5995
+    Hp: 9921
+    BaseExp: 16866
+    JobExp: 10963
     Attack: 1645
     Attack2: 112
-    Defense: 25
-    MagicDefense: 7
-    Str: 45
-    Agi: 33
-    Vit: 73
-    Int: 26
-    Dex: 56
-    Luk: 39
+    Defense: 35
+    MagicDefense: 19
+    Str: 90
+    Agi: 66
+    Vit: 145
+    Int: 52
+    Dex: 168
+    Luk: 77
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -262,75 +262,20 @@ Body:
       - Item: Scaraba_Card
         Rate: 1
         StealProtected: true
-  - Id: 2087
-    AegisName: QUEEN_SCARABA
-    Name: Scaraba Queen
-    JapaneseName: Queen Scaraba
-    Level: 140
-    Hp: 578410
-    BaseExp: 820440
-    JobExp: 212200
-    MvpExp: 205110
-    Attack: 2834
-    Attack2: 1240
-    Defense: 35
-    MagicDefense: 22
-    Str: 50
-    Agi: 44
-    Vit: 41
-    Int: 75
-    Dex: 106
-    Luk: 72
-    AttackRange: 3
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Large
-    Race: Insect
-    Element: Earth
-    ElementLevel: 3
-    WalkSpeed: 120
-    AttackDelay: 864
-    AttackMotion: 1000
-    DamageMotion: 360
-    Ai: 21
-    Class: Boss
-    Modes:
-      Mvp: true
-    MvpDrops:
-      - Item: Old_Card_Album
-        Rate: 5500
-      - Item: Old_Card_Album
-        Rate: 5000
-      - Item: Old_Card_Album
-        Rate: 2000
-    Drops:
-      - Item: Queen_Wing_Piece
-        Rate: 7000
-      - Item: Alca_Bringer
-        Rate: 1000
-      - Item: Meteo_Plate_Armor
-        Rate: 1000
-      - Item: Chrome_Twohand_Sword
-        Rate: 400
-      - Item: Mystic_Bow
-        Rate: 500
-      - Item: Q_Scaraba_Card
-        Rate: 1
-        StealProtected: true
   - Id: 2088
     AegisName: HORN_SCARABA_EGG
     Name: Scaraba Egg
     Level: 125
-    Hp: 5040
-    BaseExp: 8000
-    JobExp: 3000
+    Hp: 11416
+    BaseExp: 19407
+    JobExp: 12615
     Attack: 1
     Attack2: 1
-    Defense: 23
-    MagicDefense: 6
-    Vit: 65
-    Int: 17
-    Luk: 40
+    Defense: 32
+    MagicDefense: 16
+    Vit: 130
+    Int: 34
+    Luk: 80
     SkillRange: 10
     ChaseRange: 12
     Size: Small
@@ -354,16 +299,16 @@ Body:
     AegisName: HORN_SCARABA2_EGG
     Name: Scaraba Egg
     Level: 126
-    Hp: 5080
-    BaseExp: 8000
-    JobExp: 3000
+    Hp: 11771
+    BaseExp: 20011
+    JobExp: 13007
     Attack: 1
     Attack2: 1
-    Defense: 25
-    MagicDefense: 6
-    Vit: 65
-    Int: 24
-    Luk: 40
+    Defense: 32
+    MagicDefense: 17
+    Vit: 130
+    Int: 48
+    Luk: 80
     SkillRange: 10
     ChaseRange: 12
     Size: Small
@@ -387,16 +332,16 @@ Body:
     AegisName: ANTLER_SCARABA_EGG
     Name: Antler Scaraba Egg
     Level: 127
-    Hp: 5120
-    BaseExp: 8000
-    JobExp: 3000
+    Hp: 12113
+    BaseExp: 20592
+    JobExp: 13385
     Attack: 1
     Attack2: 1
-    Defense: 24
-    MagicDefense: 18
-    Vit: 65
-    Int: 41
-    Luk: 40
+    Defense: 32
+    MagicDefense: 19
+    Vit: 130
+    Int: 82
+    Luk: 80
     SkillRange: 10
     ChaseRange: 12
     Size: Small
@@ -420,16 +365,16 @@ Body:
     AegisName: RAKE_SCARABA_EGG
     Name: Rake Scaraba Egg
     Level: 128
-    Hp: 5160
-    BaseExp: 8000
-    JobExp: 3000
+    Hp: 12443
+    BaseExp: 21153
+    JobExp: 13749
     Attack: 1
     Attack2: 1
-    Defense: 29
-    MagicDefense: 4
-    Vit: 65
-    Int: 20
-    Luk: 40
+    Defense: 32
+    MagicDefense: 17
+    Vit: 130
+    Int: 39
+    Luk: 80
     SkillRange: 10
     ChaseRange: 12
     Size: Small
@@ -455,18 +400,19 @@ Body:
     AegisName: I_HORN_SCARABA
     Name: Gold One-Horn Scaraba
     Level: 130
-    Hp: 20515
-    BaseExp: 31320
-    JobExp: 12033
+    Hp: 34245
+    BaseExp: 58216
+    JobExp: 37840
     Attack: 1270
     Attack2: 590
-    Defense: 14
-    MagicDefense: 2
-    Agi: 55
-    Vit: 28
-    Int: 61
-    Dex: 61
-    Luk: 17
+    Defense: 32
+    MagicDefense: 17
+    Agi: 109
+    Vit: 115
+    Int: 31
+    Dex: 111
+    Luk: 53
+    Str: 84
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -474,10 +420,10 @@ Body:
     Race: Insect
     Element: Earth
     ElementLevel: 1
-    WalkSpeed: 150
-    AttackDelay: 76
-    AttackMotion: 384
-    DamageMotion: 288
+    WalkSpeed: 200
+    AttackDelay: 384
+    AttackMotion: 672
+    DamageMotion: 360
     Ai: 21
     Modes:
       Detector: true
@@ -499,18 +445,19 @@ Body:
     AegisName: I_HORN_SCARABA2
     Name: Gold Two-Horn Scaraba
     Level: 134
-    Hp: 23409
-    BaseExp: 34680
-    JobExp: 13647
+    Hp: 37151
+    BaseExp: 63157
+    JobExp: 41052
     Attack: 690
     Attack2: 3090
-    Defense: 15
-    MagicDefense: 4
-    Agi: 59
-    Vit: 36
-    Int: 73
-    Dex: 67
-    Luk: 26
+    Defense: 30
+    MagicDefense: 21
+    Agi: 28
+    Vit: 72
+    Int: 125
+    Dex: 184
+    Luk: 51
+    Str: 44
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -519,9 +466,9 @@ Body:
     Element: Earth
     ElementLevel: 1
     WalkSpeed: 150
-    AttackDelay: 76
-    AttackMotion: 384
-    DamageMotion: 288
+    AttackDelay: 336
+    AttackMotion: 360
+    DamageMotion: 360
     Ai: 21
     Modes:
       Detector: true
@@ -543,18 +490,19 @@ Body:
     AegisName: I_ANTLER_SCARABA
     Name: Gold Antler Scaraba
     Level: 136
-    Hp: 26016
-    BaseExp: 37980
-    JobExp: 15675
+    Hp: 38332
+    BaseExp: 65164
+    JobExp: 42357
     Attack: 412
     Attack2: 3211
-    Defense: 16
-    MagicDefense: 10
-    Agi: 75
-    Vit: 30
-    Int: 115
-    Dex: 71
-    Luk: 23
+    Defense: 30
+    MagicDefense: 25
+    Agi: 59
+    Vit: 59
+    Int: 209
+    Dex: 191
+    Luk: 45
+    Str: 23
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -562,10 +510,10 @@ Body:
     Race: Insect
     Element: Earth
     ElementLevel: 2
-    WalkSpeed: 220
-    AttackDelay: 76
-    AttackMotion: 384
-    DamageMotion: 288
+    WalkSpeed: 200
+    AttackDelay: 504
+    AttackMotion: 624
+    DamageMotion: 360
     Ai: 21
     Modes:
       Detector: true
@@ -587,18 +535,19 @@ Body:
     AegisName: I_RAKE_SCARABA
     Name: Gold Rake Scaraba
     Level: 139
-    Hp: 29358
-    BaseExp: 41940
-    JobExp: 16785
+    Hp: 39684
+    BaseExp: 67463
+    JobExp: 43851
     Attack: 1830
     Attack2: 630
-    Defense: 25
-    MagicDefense: 7
-    Agi: 58
-    Vit: 73
-    Int: 76
-    Dex: 81
-    Luk: 39
+    Defense: 35
+    MagicDefense: 18
+    Agi: 136
+    Vit: 145
+    Int: 42
+    Dex: 152
+    Luk: 97
+    Str: 94
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -606,10 +555,10 @@ Body:
     Race: Insect
     Element: Earth
     ElementLevel: 2
-    WalkSpeed: 200
-    AttackDelay: 76
-    AttackMotion: 384
-    DamageMotion: 288
+    WalkSpeed: 140
+    AttackDelay: 588
+    AttackMotion: 768
+    DamageMotion: 480
     Ai: 21
     Modes:
       Detector: true
@@ -627,74 +576,20 @@ Body:
       - Item: Gold_Scaraba_Card
         Rate: 1
         StealProtected: true
-  - Id: 2165
-    AegisName: I_QUEEN_SCARABA
-    Name: Gold Queen Scaraba
-    Level: 140
-    Hp: 5784102
-    BaseExp: 8204400
-    JobExp: 2122000
-    MvpExp: 2051100
-    Attack: 4889
-    Attack2: 6440
-    Defense: 35
-    MagicDefense: 22
-    Str: 50
-    Agi: 69
-    Vit: 41
-    Int: 125
-    Dex: 131
-    Luk: 72
-    AttackRange: 3
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Large
-    Race: Insect
-    Element: Earth
-    ElementLevel: 3
-    WalkSpeed: 200
-    AttackDelay: 768
-    AttackMotion: 768
-    DamageMotion: 576
-    Ai: 21
-    Class: Boss
-    Modes:
-      Mvp: true
-    MvpDrops:
-      - Item: Old_Card_Album
-        Rate: 5500
-      - Item: Old_Card_Album
-        Rate: 5000
-      - Item: Old_Card_Album
-        Rate: 2000
-    Drops:
-      - Item: Queen_Wing_Piece
-        Rate: 10000
-      - Item: Alca_Bringer
-        Rate: 2000
-      - Item: Meteo_Plate_Armor
-        Rate: 2000
-      - Item: Chrome_Twohand_Sword
-        Rate: 800
-      - Item: Mystic_Bow
-        Rate: 1000
-      - Item: Gold_Q_Scaraba_Card
-        Rate: 1
-        StealProtected: true
   - Id: 2166
     AegisName: I_HORN_SCARABA_EGG
     Name: Gold One-Horn Scaraba E
     Level: 125
-    Hp: 15120
-    BaseExp: 24000
-    JobExp: 9000
+    Hp: 22832
+    BaseExp: 38814
+    JobExp: 25229
     Attack: 1
     Attack2: 1
-    Defense: 23
-    MagicDefense: 6
-    Vit: 65
-    Int: 17
-    Luk: 40
+    Defense: 32
+    MagicDefense: 16
+    Vit: 130
+    Int: 34
+    Luk: 80
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -703,9 +598,9 @@ Body:
     Element: Neutral
     ElementLevel: 1
     WalkSpeed: 1000
-    AttackDelay: 24
+    AttackDelay: 96
     AttackMotion: 1
-    DamageMotion: 1
+    DamageMotion: 480
     Drops:
       - Item: Piece_Of_Egg_Shell
         Rate: 10000
@@ -717,16 +612,16 @@ Body:
     AegisName: I_HORN_SCARABA2_EGG
     Name: Gold Two-Horn Scaraba E
     Level: 126
-    Hp: 15240
-    BaseExp: 24000
-    JobExp: 9000
+    Hp: 23541
+    BaseExp: 40020
+    JobExp: 26013
     Attack: 1
     Attack2: 1
-    Defense: 25
-    MagicDefense: 6
-    Vit: 65
-    Int: 24
-    Luk: 40
+    Defense: 32
+    MagicDefense: 17
+    Vit: 130
+    Int: 48
+    Luk: 80
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -735,9 +630,9 @@ Body:
     Element: Neutral
     ElementLevel: 1
     WalkSpeed: 1000
-    AttackDelay: 24
+    AttackDelay: 96
     AttackMotion: 1
-    DamageMotion: 1
+    DamageMotion: 480
     Drops:
       - Item: Piece_Of_Egg_Shell
         Rate: 10000
@@ -749,16 +644,16 @@ Body:
     AegisName: I_ANTLER_SCARABA_EGG
     Name: Gold Antler Scaraba Egg
     Level: 127
-    Hp: 15360
-    BaseExp: 24000
-    JobExp: 9000
+    Hp: 24226
+    BaseExp: 41184
+    JobExp: 26770
     Attack: 1
     Attack2: 1
-    Defense: 24
-    MagicDefense: 18
-    Vit: 65
-    Int: 41
-    Luk: 40
+    Defense: 32
+    MagicDefense: 19
+    Vit: 130
+    Int: 82
+    Luk: 80
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -767,9 +662,9 @@ Body:
     Element: Neutral
     ElementLevel: 1
     WalkSpeed: 1000
-    AttackDelay: 24
+    AttackDelay: 96
     AttackMotion: 1
-    DamageMotion: 1
+    DamageMotion: 480
     Drops:
       - Item: Piece_Of_Egg_Shell
         Rate: 10000
@@ -781,16 +676,16 @@ Body:
     AegisName: I_RAKE_SCARABA_EGG
     Name: Gold Rake Scaraba Egg
     Level: 128
-    Hp: 15480
-    BaseExp: 24000
-    JobExp: 9000
+    Hp: 24885
+    BaseExp: 42304
+    JobExp: 27498
     Attack: 1
     Attack2: 1
-    Defense: 29
-    MagicDefense: 4
-    Vit: 65
-    Int: 20
-    Luk: 40
+    Defense: 32
+    MagicDefense: 17
+    Vit: 130
+    Int: 39
+    Luk: 80
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -799,9 +694,9 @@ Body:
     Element: Neutral
     ElementLevel: 1
     WalkSpeed: 1000
-    AttackDelay: 24
+    AttackDelay: 96
     AttackMotion: 1
-    DamageMotion: 1
+    DamageMotion: 480
     Drops:
       - Item: Piece_Of_Egg_Shell
         Rate: 10000
@@ -815,43 +710,17 @@ Body:
     AegisName: I_G_ANTLER_SCARABA
     Name: Gold Antler Scaraba
     Level: 136
-    Hp: 250400
+    Hp: 44229
     Attack: 412
     Attack2: 3211
-    Defense: 16
-    MagicDefense: 10
-    Agi: 75
-    Vit: 30
-    Int: 115
-    Dex: 71
-    Luk: 23
-    AttackRange: 1
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Medium
-    Race: Insect
-    Element: Earth
-    ElementLevel: 2
-    WalkSpeed: 220
-    AttackDelay: 76
-    AttackMotion: 384
-    DamageMotion: 288
-    Ai: 21
-    Class: Boss
-  - Id: 2171
-    AegisName: I_G_RAKE_SCARABA
-    Name: Gold Rake Scaraba
-    Level: 139
-    Hp: 270800
-    Attack: 1830
-    Attack2: 630
-    Defense: 25
-    MagicDefense: 7
-    Agi: 58
-    Vit: 73
-    Int: 76
-    Dex: 81
-    Luk: 39
+    Defense: 35
+    MagicDefense: 28
+    Agi: 59
+    Vit: 59
+    Int: 209
+    Dex: 191
+    Luk: 45
+    Str: 23
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -860,25 +729,54 @@ Body:
     Element: Earth
     ElementLevel: 2
     WalkSpeed: 200
-    AttackDelay: 76
-    AttackMotion: 384
-    DamageMotion: 288
+    AttackDelay: 504
+    AttackMotion: 624
+    DamageMotion: 360
+    Ai: 21
+    Class: Boss
+  - Id: 2171
+    AegisName: I_G_RAKE_SCARABA
+    Name: Gold Rake Scaraba
+    Level: 139
+    Hp: 45790
+    Attack: 1830
+    Attack2: 630
+    Defense: 40
+    MagicDefense: 21
+    Agi: 136
+    Vit: 145
+    Int: 42
+    Dex: 152
+    Luk: 97
+    Str: 94
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Insect
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 588
+    AttackMotion: 768
+    DamageMotion: 480
     Ai: 21
     Class: Boss
   - Id: 2172
     AegisName: I_G_HORN_SCARABA
     Name: Gold One-Horn Scaraba
     Level: 130
-    Hp: 204400
+    Hp: 39513
     Attack: 1270
     Attack2: 590
-    Defense: 14
-    MagicDefense: 2
-    Agi: 55
-    Vit: 28
-    Int: 61
-    Dex: 61
-    Luk: 17
+    Defense: 37
+    MagicDefense: 20
+    Agi: 109
+    Vit: 115
+    Int: 31
+    Dex: 111
+    Luk: 53
+    Str: 84
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -886,26 +784,27 @@ Body:
     Race: Insect
     Element: Earth
     ElementLevel: 1
-    WalkSpeed: 150
-    AttackDelay: 76
-    AttackMotion: 384
-    DamageMotion: 288
+    WalkSpeed: 200
+    AttackDelay: 384
+    AttackMotion: 672
+    DamageMotion: 360
     Ai: 21
     Class: Boss
   - Id: 2173
     AegisName: I_G_HORN_SCARABA2
     Name: Gold Two-Horn Scaraba
     Level: 134
-    Hp: 235600
+    Hp: 42866
     Attack: 690
     Attack2: 3090
-    Defense: 15
-    MagicDefense: 4
-    Agi: 59
-    Vit: 36
-    Int: 73
-    Dex: 67
-    Luk: 26
+    Defense: 35
+    MagicDefense: 24
+    Agi: 28
+    Vit: 72
+    Int: 125
+    Dex: 184
+    Luk: 51
+    Str: 44
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -914,8 +813,8 @@ Body:
     Element: Earth
     ElementLevel: 1
     WalkSpeed: 150
-    AttackDelay: 76
-    AttackMotion: 384
-    DamageMotion: 288
+    AttackDelay: 336
+    AttackMotion: 360
+    DamageMotion: 360
     Ai: 21
     Class: Boss
