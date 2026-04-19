@@ -84,17 +84,19 @@ Body:
     AegisName: ZOMBIE_SLAUGHTER
     Name: Zombie Slaughter
     Level: 77
-    Hp: 43000
-    BaseExp: 12000
-    JobExp: 8500
+    Hp: 16705
+    BaseExp: 28398
+    JobExp: 18459
     Attack: 1055
     Attack2: 1655
-    Defense: 35
-    MagicDefense: 45
-    Agi: 30
-    Vit: 50
-    Dex: 75
-    Luk: 35
+    Defense: 20
+    MagicDefense: 10
+    Agi: 58
+    Vit: 82
+    Dex: 136
+    Luk: 21
+    Str: 117
+    Int: 13
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -129,18 +131,19 @@ Body:
     AegisName: RAGGED_ZOMBIE
     Name: Ragged Zombie
     Level: 75
-    Hp: 25000
-    BaseExp: 8500
-    JobExp: 5500
+    Hp: 17534
+    BaseExp: 29808
+    JobExp: 19375
     Attack: 1200
     Attack2: 1500
-    Defense: 25
-    MagicDefense: 35
-    Agi: 77
-    Vit: 25
-    Int: 10
-    Dex: 101
-    Luk: 50
+    Defense: 18
+    MagicDefense: 11
+    Agi: 50
+    Vit: 64
+    Int: 56
+    Dex: 178
+    Luk: 23
+    Str: 81
     AttackRange: 9
     SkillRange: 10
     ChaseRange: 12
@@ -179,19 +182,19 @@ Body:
     Name: Hellhound
     JapaneseName: Hell Poodle
     Level: 71
-    Hp: 9000
-    BaseExp: 4000
-    JobExp: 3000
+    Hp: 10289
+    BaseExp: 17491
+    JobExp: 11369
     Attack: 400
     Attack2: 600
-    Defense: 35
-    MagicDefense: 20
-    Str: 5
-    Agi: 26
-    Vit: 14
-    Int: 5
-    Dex: 39
-    Luk: 10
+    Defense: 17
+    MagicDefense: 12
+    Str: 114
+    Agi: 56
+    Vit: 59
+    Int: 82
+    Dex: 108
+    Luk: 54
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -228,17 +231,19 @@ Body:
     AegisName: BANSHEE
     Name: Banshee
     Level: 81
-    Hp: 35111
-    BaseExp: 17000
-    JobExp: 12000
+    Hp: 17672
+    BaseExp: 30042
+    JobExp: 19527
     Attack: 1666
     Attack2: 2609
-    Defense: 30
-    MagicDefense: 55
-    Str: 30
-    Agi: 74
-    Int: 120
-    Dex: 75
+    Defense: 19
+    MagicDefense: 15
+    Str: 97
+    Agi: 71
+    Int: 143
+    Dex: 137
+    Vit: 55
+    Luk: 72
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -247,7 +252,7 @@ Body:
     Element: Dark
     ElementLevel: 2
     WalkSpeed: 150
-    AttackDelay: 576
+    AttackDelay: 676
     AttackMotion: 504
     DamageMotion: 504
     Ai: 21
@@ -275,15 +280,17 @@ Body:
     AegisName: G_BANSHEE
     Name: Banshee
     Level: 81
-    Hp: 35111
+    Hp: 17672
     Attack: 1666
     Attack2: 2609
-    Defense: 30
-    MagicDefense: 55
-    Str: 30
-    Agi: 74
-    Int: 120
-    Dex: 120
+    Defense: 19
+    MagicDefense: 15
+    Str: 97
+    Agi: 71
+    Int: 143
+    Dex: 137
+    Vit: 55
+    Luk: 72
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -292,7 +299,7 @@ Body:
     Element: Dark
     ElementLevel: 2
     WalkSpeed: 150
-    AttackDelay: 576
+    AttackDelay: 676
     AttackMotion: 504
     DamageMotion: 504
     Ai: 21
@@ -302,19 +309,19 @@ Body:
     AegisName: FLAME_SKULL
     Name: Flame Skull
     Level: 60
-    Hp: 10080
-    BaseExp: 3000
-    JobExp: 2600
+    Hp: 20150
+    BaseExp: 34255
+    JobExp: 22266
     Attack: 100
     Attack2: 1200
-    Defense: 20
-    MagicDefense: 40
-    Str: 50
-    Agi: 100
-    Vit: 30
-    Int: 40
-    Dex: 140
-    Luk: 110
+    Defense: 15
+    MagicDefense: 10
+    Str: 111
+    Agi: 90
+    Vit: 60
+    Int: 70
+    Dex: 139
+    Luk: 65
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -345,16 +352,18 @@ Body:
     AegisName: NECROMANCER
     Name: Necromancer
     Level: 88
-    Hp: 98000
-    BaseExp: 45000
-    JobExp: 35000
+    Hp: 38519
+    BaseExp: 65482
+    JobExp: 42563
     Attack: 3500
     Attack2: 4000
-    MagicDefense: 40
-    Agi: 50
-    Int: 190
-    Dex: 166
-    Luk: 10
+    MagicDefense: 18
+    Agi: 54
+    Int: 116
+    Dex: 137
+    Luk: 30
+    Str: 108
+    Vit: 77
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -391,18 +400,19 @@ Body:
     Name: Falling Bishop
     JapaneseName: Fallen Bishop
     Level: 80
-    Hp: 3333333
-    BaseExp: 1111111
-    JobExp: 1111111
+    Hp: 2309361
+    BaseExp: 3925914
+    JobExp: 2551844
     MvpExp: 555555
     Attack: 3220
     Attack2: 5040
-    Defense: 50
-    Agi: 80
-    Vit: 15
-    Int: 126
-    Dex: 120
-    Luk: 20
+    Defense: 31
+    Agi: 165
+    Vit: 95
+    Int: 226
+    Dex: 273
+    Luk: 86
+    Str: 186
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -412,7 +422,7 @@ Body:
     ElementLevel: 2
     WalkSpeed: 150
     AttackDelay: 432
-    AttackMotion: 1152
+    AttackMotion: 432
     DamageMotion: 360
     Ai: 21
     Class: Boss
@@ -447,17 +457,17 @@ Body:
     AegisName: BEELZEBUB_FLY
     Name: Hell Fly
     Level: 66
-    Hp: 500000
+    Hp: 376500
     Attack: 1200
     Attack2: 2000
-    Defense: 25
-    MagicDefense: 15
-    Str: 33
-    Agi: 105
-    Vit: 60
-    Int: 15
-    Dex: 72
-    Luk: 30
+    Defense: 21
+    MagicDefense: 13
+    Str: 99
+    Agi: 90
+    Vit: 52
+    Int: 55
+    Dex: 125
+    Luk: 80
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -466,26 +476,26 @@ Body:
     Element: Wind
     ElementLevel: 4
     WalkSpeed: 100
-    AttackDelay: 676
-    AttackMotion: 576
-    DamageMotion: 480
+    AttackDelay: 432
+    AttackMotion: 480
+    DamageMotion: 360
     Ai: 21
     Class: Boss
   - Id: 1873
     AegisName: BEELZEBUB
     Name: Beelzebub
     Level: 98
-    Hp: 6666666
+    Hp: 1516297
     MvpExp: 100000
     Attack: 4100
     Attack2: 4960
-    Defense: 40
-    MagicDefense: 35
-    Str: 6
-    Agi: 110
+    Defense: 35
+    MagicDefense: 24
+    Str: 155
+    Agi: 235
     Vit: 200
-    Int: 250
-    Dex: 120
+    Int: 225
+    Dex: 306
     Luk: 66
     AttackRange: 1
     SkillRange: 10
@@ -504,19 +514,19 @@ Body:
     AegisName: BEELZEBUB_
     Name: Beelzebub
     Level: 98
-    Hp: 6666666
-    BaseExp: 6666666
-    JobExp: 6666666
+    Hp: 1307616
+    BaseExp: 2222947
+    JobExp: 1444916
     MvpExp: 3333333
     Attack: 10000
     Attack2: 13410
     Defense: 40
-    MagicDefense: 40
-    Str: 6
-    Agi: 110
+    MagicDefense: 29
+    Str: 178
+    Agi: 236
     Vit: 200
     Int: 250
-    Dex: 166
+    Dex: 327
     Luk: 66
     AttackRange: 2
     SkillRange: 10
