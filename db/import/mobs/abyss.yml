@@ -1,0 +1,499 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2021 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Monster Database
+###########################################################################
+#
+# Monster Settings
+#
+###########################################################################
+# - Id                      Monster ID.
+#   AegisName               Server name to reference the monster in scripts and lookups, should use no spaces.
+#   Name                    Name in English.
+#   JapaneseName            Name in Japanese. (Default: 'Name' value)
+#   Level                   Level. (Default: 1)
+#   Hp                      Total HP. (Default: 1)
+#   Sp                      Total SP. (Default: 1)
+#   BaseExp                 Base experience gained. (Default: 0)
+#   JobExp                  Job experience gained. (Default: 0)
+#   MvpExp                  MVP experience gained. (Default: 0)
+#   Attack                  Minimum attack in pre-renewal and base attack in renewal. (Default: 0)
+#   Attack2                 Maximum attack in pre-renewal and base magic attack in renewal. (Default: 0)
+#   Defense                 Physical defense of the monster, reduces melee and ranged physical attack/skill damage. (Default: 0)
+#   MagicDefense            Magic defense of the monster, reduces magical skill damage. (Default: 0)
+#   Resistance              Physical resistance of the monster, reduces melee and ranged physical attack/skill damage. (Default: 0)
+#   MagicResistance         Magic resistance of the monster, reduces magical skill damage. (Default: 0)
+#   Str                     Strength which affects attack. (Default: 1)
+#   Agi                     Agility which affects flee. (Default: 1)
+#   Vit                     Vitality which affects defense. (Default: 1)
+#   Int                     Intelligence which affects magic attack. (Default: 1)
+#   Dex                     Dexterity which affects hit rate. (Default: 1)
+#   Luk                     Luck which affects perfect dodge/lucky flee/lerfect flee/lucky dodge rate. (Default: 1)
+#   AttackRange             Attack range. (Default: 0)
+#   SkillRange              Skill cast range. (Default: 0)
+#   ChaseRange              Chase range. (Default: 0)
+#   Size                    Size. (Default: Small)
+#   Race                    Race. (Default: Formless)
+#   RaceGroups:             List of secondary groups the monster may be part of. (Optional)
+#     <group>: <value>      Group to toggle.
+#   Element                 Element. (Default: Neutral)
+#   ElementLevel            Level of element. (Default: 1)
+#   WalkSpeed               Walk speed. (Default: DEFAULT_WALK_SPEED)
+#   AttackDelay             Attack speed. (Default: 0)
+#   AttackMotion            Attack animation speed. (Default: 0)
+#   DamageMotion            Damage animation speed. (Default: 0)
+#   DamageTaken             Rate at which the monster will receive incoming damage. (Default: 100)
+#   Ai                      Aegis monster type AI behavior. (Default: 06)
+#   Class                   Aegis monster class. (Default: Normal)
+#   Modes:                  List of unique behavior not defined by AI, Class, or Attribute. (Optional)
+#     <mode>: <value>       Mode to toggle.
+#   MvpDrops:               List of possible MVP prize items. Max of MAX_MVP_DROP. (Optional)
+#     - Item                Item name.
+#       Rate                Drop rate of item. (Default: 1)
+#       RandomOptionGroup   Random Option Group applied to item on drop. (Default: None)
+#       Index               Index used for overwriting item. (Optional)
+#   Drops:                  List of possible normal item drops. Max of MAX_MOB_DROP. (Optional)
+#     - Item                Item name.
+#       Rate                Drop rate of item. (Default: 1)
+#       StealProtected      If the item is shielded from TF_STEAL. (Default: false)
+#       RandomOptionGroup   Random Option Group applied to item on drop. (Default: None)
+#       Index               Index used for overwriting item. (Optional)
+###########################################################################
+
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 1713
+    AegisName: ACIDUS
+    Name: Acidus
+    Level: 80
+    Hp: 51112
+    BaseExp: 28043
+    JobExp: 8023
+    Attack: 1289
+    Attack2: 2109
+    Defense: 29
+    MagicDefense: 69
+    Agi: 71
+    Vit: 55
+    Int: 135
+    Dex: 103
+    Luk: 69
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Dragon
+    Element: Holy
+    ElementLevel: 2
+    WalkSpeed: 170
+    AttackDelay: 168
+    AttackMotion: 1008
+    DamageMotion: 300
+    Ai: 09
+    Drops:
+      - Item: Light_Granule
+        Rate: 500
+      - Item: Dragon_Canine
+        Rate: 4000
+      - Item: Treasure_Box
+        Rate: 5
+      - Item: Dragon_Scale
+        Rate: 3589
+      - Item: Dragonball_Yellow
+        Rate: 800
+      - Item: Inverse_Scale
+        Rate: 10
+      - Item: Stone_Buckler
+        Rate: 50
+      - Item: White_Wing_Brooch
+        Rate: 1
+        StealProtected: true
+      - Item: Acidus_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1714
+    AegisName: FERUS
+    Name: Ferus
+    Level: 70
+    Hp: 29218
+    BaseExp: 8093
+    JobExp: 3952
+    Attack: 1056
+    Attack2: 1496
+    Defense: 14
+    MagicDefense: 45
+    Agi: 78
+    Vit: 45
+    Int: 72
+    Dex: 81
+    Luk: 73
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Dragon
+    Element: Fire
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 108
+    AttackMotion: 576
+    DamageMotion: 432
+    Ai: 09
+    Drops:
+      - Item: Strawberry
+        Rate: 2200
+      - Item: Dragon_Canine
+        Rate: 1000
+      - Item: Dragon's_Skin
+        Rate: 1000
+      - Item: Dragon_Scale
+        Rate: 2000
+      - Item: Dragonball_Red
+        Rate: 800
+      - Item: Flame_Heart
+        Rate: 20
+      - Item: Magni_Cap
+        Rate: 50
+      - Item: Black_wing_Brooch
+        Rate: 1
+        StealProtected: true
+      - Item: Ferus_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1715
+    AegisName: NOVUS
+    Name: Novus
+    Level: 42
+    Hp: 5430
+    BaseExp: 1320
+    JobExp: 1002
+    Attack: 284
+    Attack2: 384
+    Defense: 20
+    MagicDefense: 28
+    Agi: 56
+    Vit: 43
+    Int: 45
+    Dex: 124
+    Luk: 43
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Dragon
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 110
+    AttackDelay: 151
+    AttackMotion: 288
+    DamageMotion: 360
+    Ai: 04
+    Drops:
+      - Item: Green_Herb
+        Rate: 3000
+      - Item: Cyfar
+        Rate: 1035
+      - Item: Dragon_Scale
+        Rate: 589
+      - Item: Novus_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1716
+    AegisName: ACIDUS_
+    Name: Acidus
+    Level: 76
+    Hp: 39111
+    BaseExp: 14392
+    JobExp: 4203
+    Attack: 1180
+    Attack2: 2000
+    Defense: 21
+    MagicDefense: 47
+    Agi: 78
+    Vit: 31
+    Int: 93
+    Dex: 88
+    Luk: 52
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Dragon
+    Element: Wind
+    ElementLevel: 2
+    WalkSpeed: 180
+    AttackDelay: 168
+    AttackMotion: 768
+    DamageMotion: 360
+    Ai: 09
+    Drops:
+      - Item: Blue_Potion
+        Rate: 150
+      - Item: Dragon_Canine
+        Rate: 4000
+      - Item: Blue_Herb
+        Rate: 150
+      - Item: Dragon_Scale
+        Rate: 3589
+      - Item: Dragonball_Blue
+        Rate: 800
+      - Item: Rough_Wind
+        Rate: 20
+      - Item: Dragonball_Blue
+        Rate: 100
+      - Item: White_Wing_Brooch
+        Rate: 1
+        StealProtected: true
+      - Item: Acidus__Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1717
+    AegisName: FERUS_
+    Name: Ferus
+    Level: 69
+    Hp: 21182
+    BaseExp: 6750
+    JobExp: 2230
+    Attack: 930
+    Attack2: 1170
+    Defense: 14
+    MagicDefense: 38
+    Agi: 66
+    Vit: 77
+    Int: 60
+    Dex: 79
+    Luk: 35
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Dragon
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 120
+    AttackDelay: 108
+    AttackMotion: 576
+    DamageMotion: 432
+    Ai: 09
+    Drops:
+      - Item: Delicious_Fish
+        Rate: 5100
+      - Item: Dragon_Canine
+        Rate: 1000
+      - Item: Black_wing_Brooch
+        Rate: 1
+      - Item: Dragon_Scale
+        Rate: 3589
+      - Item: Dragonball_Green
+        Rate: 800
+      - Item: Great_Nature
+        Rate: 20
+      - Item: Dragonball_Green
+        Rate: 100
+      - Item: Ferus__Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1718
+    AegisName: NOVUS_
+    Name: Novus
+    Level: 43
+    Hp: 5830
+    BaseExp: 1411
+    JobExp: 1100
+    Attack: 314
+    Attack2: 414
+    Defense: 24
+    MagicDefense: 28
+    Agi: 60
+    Vit: 43
+    Int: 39
+    Dex: 119
+    Luk: 43
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Dragon
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 100
+    AttackDelay: 252
+    AttackMotion: 816
+    DamageMotion: 480
+    Ai: 04
+    Drops:
+      - Item: Yellow_Herb
+        Rate: 2000
+      - Item: Cyfar
+        Rate: 1035
+      - Item: Dragon_Scale
+        Rate: 589
+      - Item: Novus__Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1719
+    AegisName: DETALE
+    Name: Detardeurus
+    JapaneseName: Detale
+    Level: 90
+    Hp: 960000
+    BaseExp: 291850
+    JobExp: 123304
+    MvpExp: 145925
+    Attack: 4560
+    Attack2: 5548
+    Defense: 66
+    MagicDefense: 59
+    Str: 100
+    Agi: 90
+    Vit: 30
+    Int: 136
+    Dex: 140
+    Luk: 56
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Dragon
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 250
+    AttackDelay: 432
+    AttackMotion: 936
+    DamageMotion: 360
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Old_Violet_Box
+        Rate: 5500
+      - Item: Old_Blue_Box
+        Rate: 5000
+      - Item: Crystal_Jewel__
+        Rate: 2000
+    Drops:
+      - Item: Morpheus's_Armlet
+        Rate: 1000
+      - Item: Morpheus's_Ring
+        Rate: 1000
+      - Item: Treasure_Box
+        Rate: 5000
+      - Item: Scale_Of_Red_Dragon
+        Rate: 3589
+      - Item: Int_Dish10
+        Rate: 1000
+      - Item: Pole_Axe
+        Rate: 100
+      - Item: Gemmed_Crown
+        Rate: 500
+      - Item: Detale_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1720
+    AegisName: HYDRO
+    Name: Hydrolancer
+    JapaneseName: Hydro
+    Level: 89
+    Hp: 308230
+    BaseExp: 83450
+    JobExp: 2480
+    Attack: 2554
+    Attack2: 3910
+    Defense: 52
+    MagicDefense: 62
+    Agi: 96
+    Vit: 110
+    Int: 86
+    Dex: 94
+    Luk: 32
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Dragon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 160
+    AttackDelay: 140
+    AttackMotion: 672
+    DamageMotion: 432
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Dragon's_Skin
+        Rate: 4000
+      - Item: Dragon_Canine
+        Rate: 4000
+      - Item: Tri_Headed_Dragon_Head
+        Rate: 3880
+      - Item: Morpheus's_Hood
+        Rate: 500
+      - Item: Morrigane's_Helm
+        Rate: 500
+      - Item: Vit_Dish10
+        Rate: 300
+      - Item: Fricca_Circlet
+        Rate: 500
+      - Item: Hydro_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 1721
+    AegisName: DRAGON_EGG
+    Name: Dragon Egg
+    Level: 43
+    Hp: 18322
+    BaseExp: 6740
+    Attack: 1
+    Attack2: 2
+    Defense: 78
+    MagicDefense: 60
+    Vit: 56
+    Int: 67
+    Luk: 63
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Dragon
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 1000
+    AttackDelay: 24
+    AttackMotion: 1
+    DamageMotion: 1
+    Drops:
+      - Item: Elunium
+        Rate: 5
+      - Item: Piece_Of_Egg_Shell
+        Rate: 100
+      - Item: Crystal_Jewel_
+        Rate: 10
+      - Item: Crystal_Jewel__
+        Rate: 5
+      - Item: Dark_Red_Jewel
+        Rate: 10
+      - Item: Skyblue_Jewel
+        Rate: 10
+      - Item: Golden_Jewel
+        Rate: 10
+      - Item: Dragon_Egg_Card
+        Rate: 1
+        StealProtected: true
