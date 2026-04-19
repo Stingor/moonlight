@@ -85,19 +85,19 @@ Body:
     Name: Seyren Windsor
     JapaneseName: Seyren
     Level: 91
-    Hp: 88402
-    BaseExp: 100000
-    JobExp: 116460
+    Hp: 70080
+    BaseExp: 119136
+    JobExp: 77438
     Attack: 2100
     Attack2: 2530
-    Defense: 63
-    MagicDefense: 12
-    Str: 90
-    Agi: 89
-    Vit: 72
-    Int: 20
-    Dex: 99
-    Luk: 25
+    Defense: 28
+    MagicDefense: 13
+    Str: 162
+    Agi: 99
+    Vit: 186
+    Int: 49
+    Dex: 198
+    Luk: 55
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -138,19 +138,19 @@ Body:
     Name: Eremes Guile
     JapaneseName: Eremes
     Level: 87
-    Hp: 60199
-    BaseExp: 100000
-    JobExp: 99800
+    Hp: 82494
+    BaseExp: 140240
+    JobExp: 91156
     Attack: 2020
     Attack2: 2320
-    Defense: 23
-    MagicDefense: 12
-    Str: 45
-    Agi: 138
-    Vit: 31
-    Int: 19
-    Dex: 99
-    Luk: 30
+    Defense: 20
+    MagicDefense: 13
+    Str: 145
+    Agi: 137
+    Vit: 59
+    Int: 67
+    Dex: 191
+    Luk: 76
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -194,19 +194,19 @@ Body:
     Name: Howard Alt-Eisen
     JapaneseName: Harword
     Level: 83
-    Hp: 78690
-    BaseExp: 100000
-    JobExp: 112540
+    Hp: 155400
+    BaseExp: 264180
+    JobExp: 171717
     Attack: 1890
     Attack2: 2390
-    Defense: 59
-    MagicDefense: 10
-    Str: 90
-    Agi: 62
-    Vit: 99
-    Int: 35
-    Dex: 98
-    Luk: 66
+    Defense: 21
+    MagicDefense: 12
+    Str: 158
+    Agi: 79
+    Vit: 92
+    Int: 53
+    Dex: 123
+    Luk: 48
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -245,18 +245,19 @@ Body:
     Name: Margaretha Sorin
     JapaneseName: Magaleta
     Level: 90
-    Hp: 61282
-    BaseExp: 100000
-    JobExp: 117800
+    Hp: 87669
+    BaseExp: 149037
+    JobExp: 96874
     Attack: 1300
     Attack2: 2053
-    Defense: 35
-    MagicDefense: 60
-    Agi: 9
-    Vit: 97
-    Int: 145
-    Dex: 88
-    Luk: 40
+    Defense: 22
+    MagicDefense: 16
+    Agi: 74
+    Vit: 71
+    Int: 123
+    Dex: 149
+    Luk: 65
+    Str: 126
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -295,18 +296,19 @@ Body:
     Name: Cecil Damon
     JapaneseName: Shecil
     Level: 82
-    Hp: 58900
-    BaseExp: 100000
-    JobExp: 118260
+    Hp: 84325
+    BaseExp: 143352
+    JobExp: 93179
     Attack: 1226
     Attack2: 1854
-    Defense: 25
-    MagicDefense: 15
-    Agi: 145
-    Vit: 27
-    Int: 32
-    Dex: 134
-    Luk: 80
+    Defense: 20
+    MagicDefense: 13
+    Agi: 126
+    Vit: 67
+    Int: 80
+    Dex: 308
+    Luk: 42
+    Str: 121
     AttackRange: 14
     SkillRange: 10
     ChaseRange: 12
@@ -345,18 +347,19 @@ Body:
     Name: Kathryne Keyron
     JapaneseName: Katrinn
     Level: 92
-    Hp: 47280
-    BaseExp: 100000
-    JobExp: 116470
+    Hp: 70176
+    BaseExp: 119299
+    JobExp: 77544
     Attack: 497
     Attack2: 1697
-    Defense: 10
-    MagicDefense: 74
-    Agi: 5
-    Vit: 77
-    Int: 180
-    Dex: 110
-    Luk: 39
+    Defense: 21
+    MagicDefense: 17
+    Agi: 78
+    Vit: 55
+    Int: 144
+    Dex: 209
+    Luk: 49
+    Str: 108
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -394,19 +397,19 @@ Body:
     AegisName: G_SEYREN
     Name: Lord Knight Seyren
     Level: 99
-    Hp: 347590
-    BaseExp: 18000
-    JobExp: 10000
+    Hp: 893333
+    BaseExp: 1518666
+    JobExp: 987133
     Attack: 4238
     Attack2: 5040
-    Defense: 72
-    MagicDefense: 37
-    Str: 120
-    Agi: 110
-    Vit: 81
-    Int: 65
-    Dex: 130
-    Luk: 52
+    Defense: 34
+    MagicDefense: 19
+    Str: 303
+    Agi: 165
+    Vit: 181
+    Int: 110
+    Dex: 267
+    Luk: 66
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -427,18 +430,18 @@ Body:
     AegisName: G_EREMES
     Name: Assassin Cross Eremes
     Level: 99
-    Hp: 211230
-    BaseExp: 18000
-    JobExp: 10000
+    Hp: 410000
+    BaseExp: 697000
+    JobExp: 453050
     Attack: 3189
     Attack2: 5289
-    Defense: 27
-    MagicDefense: 39
-    Str: 90
-    Agi: 181
-    Vit: 62
-    Int: 37
-    Dex: 122
+    Defense: 30
+    MagicDefense: 18
+    Str: 211
+    Agi: 338
+    Vit: 114
+    Int: 83
+    Dex: 338
     Luk: 60
     AttackRange: 1
     SkillRange: 10
@@ -464,18 +467,18 @@ Body:
     Name: Whitesmith Howard
     JapaneseName: Whitesmith Harword
     Level: 99
-    Hp: 310000
-    BaseExp: 18000
-    JobExp: 10000
+    Hp: 1250000
+    BaseExp: 2125000
+    JobExp: 1381250
     Attack: 4822
     Attack2: 5033
-    Defense: 66
-    MagicDefense: 36
-    Str: 100
-    Agi: 73
-    Vit: 112
-    Int: 35
-    Dex: 136
+    Defense: 33
+    MagicDefense: 18
+    Str: 275
+    Agi: 148
+    Vit: 156
+    Int: 72
+    Dex: 266
     Luk: 60
     AttackRange: 1
     SkillRange: 10
@@ -498,18 +501,19 @@ Body:
     Name: High Priest Margaretha
     JapaneseName: High Priest Magaleta
     Level: 99
-    Hp: 182910
-    BaseExp: 18000
-    JobExp: 10000
+    Hp: 933333
+    BaseExp: 1586666
+    JobExp: 1031333
     Attack: 1688
     Attack2: 2580
-    Defense: 35
-    MagicDefense: 78
-    Agi: 84
-    Vit: 64
-    Int: 182
-    Dex: 92
-    Luk: 100
+    Defense: 33
+    MagicDefense: 23
+    Agi: 150
+    Vit: 164
+    Int: 203
+    Dex: 233
+    Luk: 88
+    Str: 172
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -531,18 +535,19 @@ Body:
     Name: Sniper Cecil
     JapaneseName: Sniper Shecil
     Level: 99
-    Hp: 209000
-    BaseExp: 18000
-    JobExp: 10000
+    Hp: 1380000
+    BaseExp: 2346000
+    JobExp: 1524900
     Attack: 1892
     Attack2: 5113
-    Defense: 22
-    MagicDefense: 35
-    Agi: 180
-    Vit: 39
-    Int: 67
-    Dex: 193
-    Luk: 130
+    Defense: 33
+    MagicDefense: 20
+    Agi: 258
+    Vit: 155
+    Int: 132
+    Dex: 464
+    Luk: 95
+    Str: 176
     AttackRange: 14
     SkillRange: 10
     ChaseRange: 12
@@ -564,18 +569,19 @@ Body:
     Name: High Wizard Kathryne
     JapaneseName: High Wizard Katrinn
     Level: 99
-    Hp: 189920
-    BaseExp: 18000
-    JobExp: 10000
+    Hp: 1500000
+    BaseExp: 2550000
+    JobExp: 1657500
     Attack: 497
     Attack2: 2094
-    Defense: 10
-    MagicDefense: 88
-    Agi: 89
-    Vit: 42
-    Int: 223
-    Dex: 128
+    Defense: 32
+    MagicDefense: 24
+    Agi: 190
+    Vit: 142
+    Int: 236
+    Dex: 299
     Luk: 93
+    Str: 165
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -596,20 +602,20 @@ Body:
     AegisName: B_SEYREN
     Name: Lord Knight Seyren
     Level: 99
-    Hp: 1647590
-    BaseExp: 4835600
-    JobExp: 1569970
+    Hp: 1248000
+    BaseExp: 2121600
+    JobExp: 1379040
     MvpExp: 2417800
     Attack: 7238
     Attack2: 11040
-    Defense: 72
-    MagicDefense: 37
-    Str: 120
-    Agi: 110
-    Vit: 81
-    Int: 65
-    Dex: 130
-    Luk: 52
+    Defense: 39
+    MagicDefense: 23
+    Str: 303
+    Agi: 165
+    Vit: 181
+    Int: 110
+    Dex: 267
+    Luk: 66
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -654,19 +660,19 @@ Body:
     AegisName: B_EREMES
     Name: Assassin Cross Eremes
     Level: 99
-    Hp: 1411230
-    BaseExp: 4083400
-    JobExp: 1592380
+    Hp: 1128000
+    BaseExp: 1917600
+    JobExp: 1246440
     MvpExp: 2041700
     Attack: 4189
     Attack2: 8289
-    Defense: 37
-    MagicDefense: 39
-    Str: 90
-    Agi: 181
-    Vit: 62
-    Int: 37
-    Dex: 122
+    Defense: 36
+    MagicDefense: 22
+    Str: 211
+    Agi: 338
+    Vit: 114
+    Int: 83
+    Dex: 338
     Luk: 60
     AttackRange: 1
     SkillRange: 10
@@ -716,19 +722,19 @@ Body:
     Name: Whitesmith Howard
     JapaneseName: Whitesmith Harword
     Level: 99
-    Hp: 1460000
-    BaseExp: 4002340
-    JobExp: 1421000
+    Hp: 1800000
+    BaseExp: 3060000
+    JobExp: 1989000
     MvpExp: 2001170
     Attack: 7822
     Attack2: 8251
-    Defense: 66
-    MagicDefense: 36
-    Str: 100
-    Agi: 73
-    Vit: 112
-    Int: 35
-    Dex: 136
+    Defense: 38
+    MagicDefense: 22
+    Str: 275
+    Agi: 148
+    Vit: 156
+    Int: 72
+    Dex: 266
     Luk: 60
     AttackRange: 1
     SkillRange: 10
@@ -775,19 +781,20 @@ Body:
     Name: High Priest Margaretha
     JapaneseName: High Priest Magaleta
     Level: 99
-    Hp: 1092910
-    BaseExp: 4257000
-    JobExp: 1318800
+    Hp: 1280000
+    BaseExp: 2176000
+    JobExp: 1414400
     MvpExp: 2128500
     Attack: 4688
     Attack2: 5580
-    Defense: 35
-    MagicDefense: 78
-    Agi: 84
-    Vit: 64
-    Int: 182
-    Dex: 92
-    Luk: 100
+    Defense: 38
+    MagicDefense: 27
+    Agi: 150
+    Vit: 164
+    Int: 203
+    Dex: 233
+    Luk: 88
+    Str: 172
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -833,19 +840,20 @@ Body:
     Name: Sniper Cecil
     JapaneseName: Sniper Shecil
     Level: 99
-    Hp: 1349000
-    BaseExp: 4093000
-    JobExp: 1526000
+    Hp: 1104000
+    BaseExp: 1876800
+    JobExp: 1219920
     MvpExp: 2046500
     Attack: 4892
     Attack2: 9113
-    Defense: 22
-    MagicDefense: 35
-    Agi: 180
-    Vit: 39
-    Int: 67
-    Dex: 193
-    Luk: 130
+    Defense: 38
+    MagicDefense: 24
+    Agi: 258
+    Vit: 155
+    Int: 132
+    Dex: 464
+    Luk: 95
+    Str: 176
     AttackRange: 14
     SkillRange: 10
     ChaseRange: 12
@@ -891,19 +899,20 @@ Body:
     Name: High Wizard Kathryne
     JapaneseName: High Wizard Katrinn
     Level: 99
-    Hp: 1069920
-    BaseExp: 4008200
-    JobExp: 1636700
+    Hp: 1200000
+    BaseExp: 2040000
+    JobExp: 1326000
     MvpExp: 2004100
     Attack: 1197
     Attack2: 4394
-    Defense: 10
-    MagicDefense: 88
-    Agi: 89
-    Vit: 42
-    Int: 223
-    Dex: 128
+    Defense: 37
+    MagicDefense: 28
+    Agi: 190
+    Vit: 142
+    Int: 236
+    Dex: 299
     Luk: 93
+    Str: 165
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -952,16 +961,17 @@ Body:
     Name: Wickebine Tres
     JapaneseName: Whikebain
     Level: 62
-    Hp: 7320
+    Hp: 43191
     Attack: 593
     Attack2: 789
-    Defense: 9
-    MagicDefense: 12
-    Agi: 102
-    Vit: 34
-    Int: 23
-    Dex: 74
-    Luk: 30
+    Defense: 16
+    MagicDefense: 9
+    Agi: 91
+    Vit: 69
+    Int: 42
+    Dex: 128
+    Luk: 55
+    Str: 114
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -982,17 +992,17 @@ Body:
     Name: Armeyer Dinze
     JapaneseName: Armaia
     Level: 66
-    Hp: 7110
+    Hp: 30471
     Attack: 650
     Attack2: 813
-    Defense: 42
-    MagicDefense: 6
-    Str: 5
-    Agi: 36
-    Vit: 40
-    Int: 15
-    Dex: 80
-    Luk: 60
+    Defense: 17
+    MagicDefense: 11
+    Str: 123
+    Agi: 59
+    Vit: 85
+    Int: 65
+    Dex: 144
+    Luk: 62
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1013,16 +1023,17 @@ Body:
     Name: Errende Ebecee
     JapaneseName: Erend
     Level: 59
-    Hp: 6980
+    Hp: 42764
     Attack: 796
     Attack2: 1059
-    Defense: 14
-    MagicDefense: 30
-    Agi: 31
-    Vit: 41
-    Int: 93
-    Dex: 60
-    Luk: 30
+    Defense: 16
+    MagicDefense: 13
+    Agi: 66
+    Vit: 90
+    Int: 145
+    Dex: 131
+    Luk: 62
+    Str: 77
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1043,17 +1054,17 @@ Body:
     Name: Kavach Icarus
     JapaneseName: Kavac
     Level: 60
-    Hp: 7899
+    Hp: 43079
     Attack: 584
     Attack2: 804
-    Defense: 12
-    MagicDefense: 5
-    Str: 48
-    Agi: 100
-    Vit: 10
-    Int: 20
-    Dex: 118
-    Luk: 40
+    Defense: 15
+    MagicDefense: 9
+    Str: 103
+    Agi: 109
+    Vit: 62
+    Int: 50
+    Dex: 274
+    Luk: 48
     AttackRange: 9
     SkillRange: 10
     ChaseRange: 12
@@ -1074,16 +1085,17 @@ Body:
     Name: Laurell Weinder
     JapaneseName: Rawrel
     Level: 61
-    Hp: 6168
+    Hp: 40282
     Attack: 330
     Attack2: 417
-    Defense: 8
-    MagicDefense: 48
-    Agi: 41
-    Vit: 5
-    Int: 100
-    Dex: 45
-    Luk: 10
+    Defense: 15
+    MagicDefense: 14
+    Agi: 79
+    Vit: 65
+    Int: 162
+    Dex: 168
+    Luk: 57
+    Str: 67
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1104,19 +1116,19 @@ Body:
     Name: Egnigem Cenia
     JapaneseName: Ygnizem
     Level: 58
-    Hp: 11200
-    BaseExp: 4870
-    JobExp: 98
+    Hp: 40327
+    BaseExp: 68556
+    JobExp: 44561
     Attack: 823
     Attack2: 1212
-    Defense: 35
-    MagicDefense: 8
-    Str: 60
-    Agi: 35
-    Vit: 52
-    Int: 18
-    Dex: 79
-    Luk: 20
+    Defense: 16
+    MagicDefense: 10
+    Str: 144
+    Agi: 92
+    Vit: 86
+    Int: 69
+    Dex: 149
+    Luk: 68
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1154,18 +1166,19 @@ Body:
     Name: Wickebine Tres
     JapaneseName: Whikebain
     Level: 62
-    Hp: 7320
-    BaseExp: 4204
-    JobExp: 21
+    Hp: 43191
+    BaseExp: 73425
+    JobExp: 47726
     Attack: 693
     Attack2: 889
-    Defense: 9
-    MagicDefense: 8
-    Agi: 102
-    Vit: 34
-    Int: 20
-    Dex: 83
-    Luk: 30
+    Defense: 16
+    MagicDefense: 9
+    Agi: 91
+    Vit: 69
+    Int: 42
+    Dex: 128
+    Luk: 55
+    Str: 114
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1205,19 +1218,19 @@ Body:
     Name: Armeyer Dinze
     JapaneseName: Armaia
     Level: 66
-    Hp: 7110
-    BaseExp: 4008
-    JobExp: 35
+    Hp: 30471
+    BaseExp: 51801
+    JobExp: 33671
     Attack: 750
     Attack2: 913
-    Defense: 42
-    MagicDefense: 6
-    Str: 5
-    Agi: 36
-    Vit: 50
-    Int: 15
-    Dex: 89
-    Luk: 60
+    Defense: 17
+    MagicDefense: 11
+    Str: 123
+    Agi: 59
+    Vit: 85
+    Int: 65
+    Dex: 144
+    Luk: 62
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1255,18 +1268,19 @@ Body:
     Name: Errende Ebecee
     JapaneseName: Erend
     Level: 59
-    Hp: 6980
-    BaseExp: 4501
-    JobExp: 67
+    Hp: 42764
+    BaseExp: 72699
+    JobExp: 47254
     Attack: 896
     Attack2: 1159
-    Defense: 14
-    MagicDefense: 30
-    Agi: 31
-    Vit: 41
-    Int: 93
-    Dex: 67
-    Luk: 30
+    Defense: 16
+    MagicDefense: 13
+    Agi: 66
+    Vit: 90
+    Int: 145
+    Dex: 131
+    Luk: 62
+    Str: 77
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1304,19 +1318,19 @@ Body:
     Name: Kavach Icarus
     JapaneseName: Kavac
     Level: 60
-    Hp: 7899
-    BaseExp: 4090
-    JobExp: 86
+    Hp: 43079
+    BaseExp: 73234
+    JobExp: 47602
     Attack: 684
     Attack2: 904
-    Defense: 12
-    MagicDefense: 5
-    Str: 48
-    Agi: 100
-    Vit: 10
-    Int: 15
-    Dex: 118
-    Luk: 40
+    Defense: 15
+    MagicDefense: 9
+    Str: 103
+    Agi: 109
+    Vit: 62
+    Int: 50
+    Dex: 274
+    Luk: 48
     AttackRange: 9
     SkillRange: 10
     ChaseRange: 12
@@ -1354,18 +1368,19 @@ Body:
     Name: Laurell Weinder
     JapaneseName: Rawrel
     Level: 61
-    Hp: 6168
-    BaseExp: 4620
-    JobExp: 30
+    Hp: 40282
+    BaseExp: 68479
+    JobExp: 44511
     Attack: 430
     Attack2: 517
-    Defense: 8
-    MagicDefense: 48
-    Agi: 41
-    Vit: 5
-    Int: 120
-    Dex: 45
-    Luk: 10
+    Defense: 15
+    MagicDefense: 14
+    Agi: 79
+    Vit: 65
+    Int: 162
+    Dex: 168
+    Luk: 57
+    Str: 67
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1405,20 +1420,20 @@ Body:
     Name: Egnigem Cenia
     JapaneseName: Ygnizem
     Level: 79
-    Hp: 214200
-    BaseExp: 258760
-    JobExp: 86000
+    Hp: 1218684
+    BaseExp: 2071763
+    JobExp: 1346646
     MvpExp: 129380
     Attack: 3890
     Attack2: 5690
-    Defense: 48
-    MagicDefense: 25
-    Str: 82
-    Agi: 60
-    Vit: 45
-    Int: 31
-    Dex: 110
-    Luk: 40
+    Defense: 34
+    MagicDefense: 22
+    Str: 188
+    Agi: 177
+    Vit: 165
+    Int: 142
+    Dex: 278
+    Luk: 105
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1461,19 +1476,19 @@ Body:
     AegisName: GEMINI
     Name: Gemini-S58
     Level: 72
-    Hp: 57870
-    BaseExp: 32024
-    JobExp: 9442
+    Hp: 68692
+    BaseExp: 116776
+    JobExp: 75904
     Attack: 2150
     Attack2: 3030
-    Defense: 60
-    MagicDefense: 45
-    Str: 88
-    Agi: 75
-    Vit: 70
-    Int: 77
-    Dex: 105
-    Luk: 55
+    Defense: 23
+    MagicDefense: 15
+    Str: 115
+    Agi: 92
+    Vit: 81
+    Int: 92
+    Dex: 141
+    Luk: 66
     AttackRange: 3
     SkillRange: 10
     ChaseRange: 12
@@ -1510,18 +1525,19 @@ Body:
     Name: Remover
     JapaneseName: Removal
     Level: 55
-    Hp: 10289
-    BaseExp: 3831
-    JobExp: 1278
+    Hp: 33102
+    BaseExp: 56273
+    JobExp: 36577
     Attack: 558
     Attack2: 797
-    Defense: 5
-    MagicDefense: 20
-    Agi: 20
-    Vit: 56
+    Defense: 15
+    MagicDefense: 8
+    Agi: 50
+    Vit: 82
     Int: 35
-    Dex: 57
-    Luk: 20
+    Dex: 125
+    Luk: 50
+    Str: 127
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1556,19 +1572,19 @@ Body:
     AegisName: RANDEL
     Name: Randel
     Level: 141
-    Hp: 45961
-    BaseExp: 117000
-    JobExp: 128000
+    Hp: 68182
+    BaseExp: 115909
+    JobExp: 75341
     Attack: 3055
     Attack2: 1230
-    Defense: 46
-    MagicDefense: 36
-    Str: 121
-    Agi: 35
-    Vit: 43
-    Int: 25
-    Dex: 120
-    Luk: 28
+    Defense: 39
+    MagicDefense: 19
+    Str: 158
+    Agi: 74
+    Vit: 213
+    Int: 50
+    Dex: 185
+    Luk: 65
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1576,9 +1592,9 @@ Body:
     Race: Demihuman
     Element: Holy
     ElementLevel: 3
-    WalkSpeed: 170
+    WalkSpeed: 180
     AttackDelay: 76
-    AttackMotion: 384
+    AttackMotion: 864
     DamageMotion: 288
     Ai: 09
     Drops:
@@ -1603,19 +1619,19 @@ Body:
     AegisName: FLAMEL
     Name: Flamel
     Level: 141
-    Hp: 44256
-    BaseExp: 116000
-    JobExp: 128000
+    Hp: 45071
+    BaseExp: 76621
+    JobExp: 49804
     Attack: 2017
     Attack2: 1602
-    Defense: 45
-    MagicDefense: 34
-    Str: 89
-    Agi: 40
-    Vit: 31
-    Int: 27
-    Dex: 100
-    Luk: 24
+    Defense: 32
+    MagicDefense: 20
+    Str: 141
+    Agi: 78
+    Vit: 70
+    Int: 81
+    Dex: 147
+    Luk: 51
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1624,8 +1640,8 @@ Body:
     Element: Fire
     ElementLevel: 3
     WalkSpeed: 180
-    AttackDelay: 76
-    AttackMotion: 384
+    AttackDelay: 1152
+    AttackMotion: 864
     DamageMotion: 288
     Ai: 09
     Drops:
@@ -1656,19 +1672,19 @@ Body:
     AegisName: CELIA
     Name: Celia
     Level: 141
-    Hp: 31392
-    BaseExp: 112000
-    JobExp: 128000
+    Hp: 36052
+    BaseExp: 61288
+    JobExp: 39837
     Attack: 1612
     Attack2: 2450
-    Defense: 34
-    MagicDefense: 51
-    Str: 74
-    Agi: 39
-    Vit: 28
-    Int: 72
-    Dex: 130
-    Luk: 25
+    Defense: 31
+    MagicDefense: 22
+    Str: 136
+    Agi: 99
+    Vit: 61
+    Int: 121
+    Dex: 121
+    Luk: 49
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1676,9 +1692,9 @@ Body:
     Race: Demihuman
     Element: Ghost
     ElementLevel: 3
-    WalkSpeed: 150
+    WalkSpeed: 180
     AttackDelay: 1152
-    AttackMotion: 384
+    AttackMotion: 864
     DamageMotion: 288
     Ai: 20
     Drops:
@@ -1703,20 +1719,20 @@ Body:
     AegisName: CHEN
     Name: Chen
     Level: 141
-    Hp: 36471
+    Hp: 39814
     Sp: 2000
-    BaseExp: 114000
-    JobExp: 128000
+    BaseExp: 67684
+    JobExp: 43995
     Attack: 2501
     Attack2: 1248
-    Defense: 36
-    MagicDefense: 36
-    Str: 83
-    Agi: 37
-    Vit: 36
-    Int: 62
-    Dex: 110
-    Luk: 33
+    Defense: 32
+    MagicDefense: 22
+    Str: 122
+    Agi: 81
+    Vit: 83
+    Int: 130
+    Dex: 201
+    Luk: 61
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1725,8 +1741,8 @@ Body:
     Element: Water
     ElementLevel: 4
     WalkSpeed: 180
-    AttackDelay: 1152
-    AttackMotion: 384
+    AttackDelay: 76
+    AttackMotion: 768
     DamageMotion: 288
     Ai: 20
     Drops:
@@ -1751,19 +1767,19 @@ Body:
     AegisName: GERTIE
     Name: Gertie
     Level: 141
-    Hp: 34459
-    BaseExp: 113000
-    JobExp: 128000
+    Hp: 38015
+    BaseExp: 64626
+    JobExp: 42007
     Attack: 3684
     Attack2: 1207
-    Defense: 33
-    MagicDefense: 31
-    Str: 96
-    Agi: 44
-    Vit: 30
-    Int: 34
-    Dex: 124
-    Luk: 38
+    Defense: 31
+    MagicDefense: 19
+    Str: 180
+    Agi: 125
+    Vit: 55
+    Int: 51
+    Dex: 211
+    Luk: 45
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1771,9 +1787,9 @@ Body:
     Race: Demon
     Element: Poison
     ElementLevel: 4
-    WalkSpeed: 180
+    WalkSpeed: 150
     AttackDelay: 76
-    AttackMotion: 384
+    AttackMotion: 864
     DamageMotion: 288
     Ai: 09
     Modes:
@@ -1800,19 +1816,19 @@ Body:
     AegisName: ALPHOCCIO
     Name: Alphoccio
     Level: 142
-    Hp: 31735
-    BaseExp: 112000
-    JobExp: 128000
+    Hp: 35976
+    BaseExp: 61159
+    JobExp: 39753
     Attack: 1273
     Attack2: 3076
-    Defense: 34
-    MagicDefense: 32
-    Str: 83
-    Agi: 63
-    Vit: 34
-    Int: 40
-    Dex: 123
-    Luk: 21
+    Defense: 32
+    MagicDefense: 24
+    Str: 120
+    Agi: 97
+    Vit: 71
+    Int: 181
+    Dex: 81
+    Luk: 81
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1822,7 +1838,7 @@ Body:
     ElementLevel: 3
     WalkSpeed: 180
     AttackDelay: 76
-    AttackMotion: 384
+    AttackMotion: 864
     DamageMotion: 288
     Ai: 09
     Drops:
@@ -1847,19 +1863,19 @@ Body:
     AegisName: TRENTINI
     Name: Trentini
     Level: 142
-    Hp: 22873
-    BaseExp: 100000
-    JobExp: 128000
+    Hp: 28780
+    BaseExp: 48926
+    JobExp: 31802
     Attack: 1070
     Attack2: 3206
-    Defense: 38
-    MagicDefense: 31
-    Str: 83
-    Agi: 63
-    Vit: 34
-    Int: 40
-    Dex: 126
-    Luk: 21
+    Defense: 32
+    MagicDefense: 25
+    Str: 115
+    Agi: 81
+    Vit: 65
+    Int: 194
+    Dex: 95
+    Luk: 76
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1869,7 +1885,7 @@ Body:
     ElementLevel: 3
     WalkSpeed: 180
     AttackDelay: 76
-    AttackMotion: 384
+    AttackMotion: 864
     DamageMotion: 288
     Ai: 09
     Drops:
@@ -1894,19 +1910,19 @@ Body:
     AegisName: G_RANDEL
     Name: Paladin Randel
     Level: 160
-    Hp: 28980
-    BaseExp: 36000
-    JobExp: 10000
+    Hp: 403653
+    BaseExp: 686210
+    JobExp: 446036
     Attack: 5537
     Attack2: 3017
-    Defense: 67
-    MagicDefense: 15
-    Str: 152
-    Agi: 83
-    Vit: 91
-    Int: 55
-    Dex: 89
-    Luk: 33
+    Defense: 47
+    MagicDefense: 26
+    Str: 291
+    Agi: 155
+    Vit: 201
+    Int: 101
+    Dex: 265
+    Luk: 66
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1916,7 +1932,7 @@ Body:
     ElementLevel: 4
     WalkSpeed: 100
     AttackDelay: 76
-    AttackMotion: 384
+    AttackMotion: 864
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -1929,19 +1945,19 @@ Body:
     AegisName: G_FLAMEL
     Name: Creator Flamel
     Level: 160
-    Hp: 128980
-    BaseExp: 236000
-    JobExp: 210000
+    Hp: 323095
+    BaseExp: 549262
+    JobExp: 357020
     Attack: 2355
     Attack2: 2514
-    Defense: 25
-    MagicDefense: 13
-    Str: 138
-    Agi: 74
-    Vit: 78
-    Int: 36
-    Dex: 89
-    Luk: 30
+    Defense: 45
+    MagicDefense: 29
+    Str: 159
+    Agi: 175
+    Vit: 157
+    Int: 170
+    Dex: 237
+    Luk: 71
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1950,8 +1966,8 @@ Body:
     Element: Fire
     ElementLevel: 4
     WalkSpeed: 100
-    AttackDelay: 76
-    AttackMotion: 384
+    AttackDelay: 1152
+    AttackMotion: 864
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -1970,19 +1986,19 @@ Body:
     AegisName: G_CELIA
     Name: Professor Celia
     Level: 160
-    Hp: 28980
-    BaseExp: 36000
-    JobExp: 10000
+    Hp: 258445
+    BaseExp: 439356
+    JobExp: 285581
     Attack: 2481
     Attack2: 3114
-    Defense: 20
-    MagicDefense: 54
-    Str: 83
-    Agi: 95
-    Vit: 71
-    Int: 118
-    Dex: 100
-    Luk: 47
+    Defense: 46
+    MagicDefense: 28
+    Str: 165
+    Agi: 148
+    Vit: 171
+    Int: 155
+    Dex: 267
+    Luk: 85
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1990,9 +2006,9 @@ Body:
     Race: Demihuman
     Element: Ghost
     ElementLevel: 4
-    WalkSpeed: 150
+    WalkSpeed: 100
     AttackDelay: 1152
-    AttackMotion: 384
+    AttackMotion: 864
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -2005,20 +2021,20 @@ Body:
     AegisName: G_CHEN
     Name: Champion Chen
     Level: 160
-    Hp: 28980
+    Hp: 285416
     Sp: 5000
-    BaseExp: 36000
-    JobExp: 10000
+    BaseExp: 485207
+    JobExp: 315385
     Attack: 3617
     Attack2: 1947
-    Defense: 22
-    MagicDefense: 13
-    Str: 86
-    Agi: 75
-    Vit: 82
-    Int: 102
-    Dex: 78
-    Luk: 44
+    Defense: 45
+    MagicDefense: 24
+    Str: 180
+    Agi: 165
+    Vit: 165
+    Int: 50
+    Dex: 298
+    Luk: 66
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2026,9 +2042,9 @@ Body:
     Race: Demon
     Element: Water
     ElementLevel: 4
-    WalkSpeed: 125
-    AttackDelay: 1152
-    AttackMotion: 384
+    WalkSpeed: 100
+    AttackDelay: 76
+    AttackMotion: 768
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -2041,19 +2057,19 @@ Body:
     AegisName: G_GERTIE
     Name: Stalker Gertie
     Level: 160
-    Hp: 28980
-    BaseExp: 36000
-    JobExp: 10000
+    Hp: 272515
+    BaseExp: 463276
+    JobExp: 301129
     Attack: 6162
     Attack2: 1274
-    Defense: 25
-    MagicDefense: 11
-    Str: 106
-    Agi: 91
-    Vit: 57
-    Int: 42
-    Dex: 113
-    Luk: 30
+    Defense: 43
+    MagicDefense: 24
+    Str: 217
+    Agi: 315
+    Vit: 127
+    Int: 51
+    Dex: 333
+    Luk: 61
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2063,7 +2079,7 @@ Body:
     ElementLevel: 4
     WalkSpeed: 100
     AttackDelay: 76
-    AttackMotion: 384
+    AttackMotion: 864
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -2076,19 +2092,19 @@ Body:
     AegisName: G_ALPHOCCIO
     Name: Clown Alphoccio
     Level: 160
-    Hp: 28980
-    BaseExp: 36000
-    JobExp: 10000
+    Hp: 261567
+    BaseExp: 444664
+    JobExp: 289032
     Attack: 2641
     Attack2: 3749
-    Defense: 20
-    MagicDefense: 11
-    Str: 88
-    Agi: 129
-    Vit: 78
-    Int: 66
-    Dex: 155
-    Luk: 48
+    Defense: 44
+    MagicDefense: 26
+    Str: 219
+    Agi: 161
+    Vit: 130
+    Int: 107
+    Dex: 270
+    Luk: 99
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2096,9 +2112,9 @@ Body:
     Race: Demihuman
     Element: Wind
     ElementLevel: 4
-    WalkSpeed: 100
+    WalkSpeed: 150
     AttackDelay: 76
-    AttackMotion: 384
+    AttackMotion: 864
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -2111,19 +2127,19 @@ Body:
     AegisName: G_TRENTINI
     Name: Gypsy Trentini
     Level: 160
-    Hp: 28980
-    BaseExp: 36000
-    JobExp: 10000
+    Hp: 261567
+    BaseExp: 444664
+    JobExp: 289032
     Attack: 2016
     Attack2: 4036
-    Defense: 18
-    MagicDefense: 11
-    Str: 88
-    Agi: 129
-    Vit: 78
-    Int: 66
-    Dex: 155
-    Luk: 48
+    Defense: 45
+    MagicDefense: 31
+    Str: 167
+    Agi: 247
+    Vit: 165
+    Int: 217
+    Dex: 233
+    Luk: 61
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2131,9 +2147,9 @@ Body:
     Race: Demihuman
     Element: Wind
     ElementLevel: 4
-    WalkSpeed: 100
+    WalkSpeed: 150
     AttackDelay: 76
-    AttackMotion: 384
+    AttackMotion: 864
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -2146,20 +2162,20 @@ Body:
     AegisName: B_RANDEL
     Name: Paladin Randel
     Level: 160
-    Hp: 7440615
-    BaseExp: 9243000
-    JobExp: 2664000
+    Hp: 701384
+    BaseExp: 1192353
+    JobExp: 775029
     MvpExp: 2310750
     Attack: 5537
     Attack2: 3017
-    Defense: 75
-    MagicDefense: 25
-    Str: 152
-    Agi: 83
-    Vit: 91
-    Int: 55
-    Dex: 89
-    Luk: 33
+    Defense: 52
+    MagicDefense: 30
+    Str: 291
+    Agi: 155
+    Vit: 201
+    Int: 101
+    Dex: 265
+    Luk: 66
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2169,7 +2185,7 @@ Body:
     ElementLevel: 4
     WalkSpeed: 100
     AttackDelay: 76
-    AttackMotion: 384
+    AttackMotion: 864
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -2204,20 +2220,20 @@ Body:
     AegisName: B_FLAMEL
     Name: Creator Flamel
     Level: 160
-    Hp: 8409948
-    BaseExp: 10447140
-    JobExp: 2630354
+    Hp: 431857
+    BaseExp: 734157
+    JobExp: 477202
     MvpExp: 2611785
     Attack: 2355
     Attack2: 2514
-    Defense: 65
-    MagicDefense: 35
-    Str: 138
-    Agi: 74
-    Vit: 78
-    Int: 36
-    Dex: 89
-    Luk: 30
+    Defense: 50
+    MagicDefense: 33
+    Str: 159
+    Agi: 175
+    Vit: 157
+    Int: 170
+    Dex: 237
+    Luk: 71
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2226,8 +2242,8 @@ Body:
     Element: Fire
     ElementLevel: 4
     WalkSpeed: 100
-    AttackDelay: 76
-    AttackMotion: 384
+    AttackDelay: 1152
+    AttackMotion: 864
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -2268,20 +2284,20 @@ Body:
     AegisName: B_CELIA
     Name: Professor Celia
     Level: 160
-    Hp: 8093966
-    BaseExp: 10054616
-    JobExp: 2509792
+    Hp: 392837
+    BaseExp: 667823
+    JobExp: 434085
     MvpExp: 2513654
     Attack: 2481
     Attack2: 3114
-    Defense: 50
-    MagicDefense: 54
-    Str: 83
-    Agi: 95
-    Vit: 71
-    Int: 118
-    Dex: 100
-    Luk: 47
+    Defense: 51
+    MagicDefense: 32
+    Str: 165
+    Agi: 148
+    Vit: 171
+    Int: 155
+    Dex: 267
+    Luk: 85
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2289,9 +2305,9 @@ Body:
     Race: Demihuman
     Element: Ghost
     ElementLevel: 4
-    WalkSpeed: 150
+    WalkSpeed: 100
     AttackDelay: 1152
-    AttackMotion: 384
+    AttackMotion: 864
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -2326,21 +2342,21 @@ Body:
     AegisName: B_CHEN
     Name: Champion Chen
     Level: 160
-    Hp: 8232844
+    Hp: 433832
     Sp: 5000
-    BaseExp: 10227136
-    JobExp: 2934974
+    BaseExp: 737514
+    JobExp: 479384
     MvpExp: 2556784
     Attack: 3617
     Attack2: 1947
     Defense: 50
-    MagicDefense: 35
-    Str: 86
-    Agi: 75
-    Vit: 82
-    Int: 102
-    Dex: 78
-    Luk: 44
+    MagicDefense: 28
+    Str: 180
+    Agi: 165
+    Vit: 165
+    Int: 50
+    Dex: 298
+    Luk: 66
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2348,9 +2364,9 @@ Body:
     Race: Demon
     Element: Water
     ElementLevel: 4
-    WalkSpeed: 125
-    AttackDelay: 1152
-    AttackMotion: 384
+    WalkSpeed: 100
+    AttackDelay: 76
+    AttackMotion: 768
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -2385,20 +2401,20 @@ Body:
     AegisName: B_GERTIE
     Name: Stalker Gertie
     Level: 160
-    Hp: 7117324
-    BaseExp: 8841396
-    JobExp: 2691274
+    Hp: 414223
+    BaseExp: 704179
+    JobExp: 457716
     MvpExp: 2210349
     Attack: 6162
     Attack2: 1274
-    Defense: 25
-    MagicDefense: 11
-    Str: 106
-    Agi: 91
-    Vit: 57
-    Int: 42
-    Dex: 113
-    Luk: 30
+    Defense: 48
+    MagicDefense: 28
+    Str: 217
+    Agi: 315
+    Vit: 127
+    Int: 51
+    Dex: 333
+    Luk: 61
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2408,7 +2424,7 @@ Body:
     ElementLevel: 4
     WalkSpeed: 100
     AttackDelay: 76
-    AttackMotion: 384
+    AttackMotion: 864
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -2443,20 +2459,20 @@ Body:
     AegisName: B_ALPHOCCIO
     Name: Clown Alphoccio
     Level: 160
-    Hp: 6803918
-    BaseExp: 8452072
-    JobExp: 2468972
+    Hp: 397581
+    BaseExp: 675888
+    JobExp: 439327
     MvpExp: 2113018
     Attack: 2641
     Attack2: 3749
-    Defense: 20
-    MagicDefense: 11
-    Str: 88
-    Agi: 129
-    Vit: 78
-    Int: 66
-    Dex: 155
-    Luk: 48
+    Defense: 48
+    MagicDefense: 30
+    Str: 219
+    Agi: 161
+    Vit: 130
+    Int: 107
+    Dex: 270
+    Luk: 99
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2464,9 +2480,9 @@ Body:
     Race: Demihuman
     Element: Wind
     ElementLevel: 4
-    WalkSpeed: 100
+    WalkSpeed: 150
     AttackDelay: 76
-    AttackMotion: 384
+    AttackMotion: 864
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -2501,20 +2517,20 @@ Body:
     AegisName: B_TRENTINI
     Name: Gypsy Trentini
     Level: 160
-    Hp: 7186650
-    BaseExp: 8927516
-    JobExp: 2563096
+    Hp: 397581
+    BaseExp: 675888
+    JobExp: 439327
     MvpExp: 2231879
     Attack: 2016
     Attack2: 4036
-    Defense: 34
-    MagicDefense: 25
-    Str: 88
-    Agi: 129
-    Vit: 78
-    Int: 66
-    Dex: 155
-    Luk: 48
+    Defense: 50
+    MagicDefense: 35
+    Str: 167
+    Agi: 247
+    Vit: 165
+    Int: 217
+    Dex: 233
+    Luk: 61
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2522,9 +2538,9 @@ Body:
     Race: Demihuman
     Element: Wind
     ElementLevel: 4
-    WalkSpeed: 100
+    WalkSpeed: 150
     AttackDelay: 76
-    AttackMotion: 384
+    AttackMotion: 864
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -2553,19 +2569,19 @@ Body:
     Name: Eremes Guille
     JapaneseName: V Eremes
     Level: 179
-    Hp: 60000
-    BaseExp: 140000
-    JobExp: 35000
+    Hp: 242672
+    BaseExp: 412542
+    JobExp: 268152
     Attack: 5333
     Attack2: 10666
-    Defense: 18
-    MagicDefense: 10
-    Str: 75
-    Agi: 95
-    Vit: 30
-    Int: 35
-    Dex: 100
-    Luk: 40
+    Defense: 44
+    MagicDefense: 27
+    Str: 150
+    Agi: 190
+    Vit: 60
+    Int: 70
+    Dex: 200
+    Luk: 80
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2602,19 +2618,19 @@ Body:
     Name: Margaretha Sorin
     JapaneseName: V Magaleta
     Level: 177
-    Hp: 70000
-    BaseExp: 160000
-    JobExp: 40000
+    Hp: 255278
+    BaseExp: 433973
+    JobExp: 282082
     Attack: 1667
     Attack2: 3334
-    Defense: 16
-    MagicDefense: 40
-    Str: 65
-    Agi: 40
-    Vit: 60
-    Int: 80
-    Dex: 75
-    Luk: 35
+    Defense: 46
+    MagicDefense: 31
+    Str: 130
+    Agi: 80
+    Vit: 120
+    Int: 160
+    Dex: 150
+    Luk: 70
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2649,19 +2665,19 @@ Body:
     Name: Kathryne Cheiron
     JapaneseName: V Katrinn
     Level: 177
-    Hp: 55000
-    BaseExp: 120000
-    JobExp: 30000
+    Hp: 212732
+    BaseExp: 361644
+    JobExp: 235069
     Attack: 1333
     Attack2: 2666
-    Defense: 11
-    MagicDefense: 40
-    Str: 55
-    Agi: 40
-    Vit: 30
-    Int: 100
-    Dex: 105
-    Luk: 25
+    Defense: 43
+    MagicDefense: 32
+    Str: 110
+    Agi: 80
+    Vit: 60
+    Int: 200
+    Dex: 210
+    Luk: 50
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2696,19 +2712,19 @@ Body:
     Name: Shecil Damon
     JapaneseName: V Shecil
     Level: 179
-    Hp: 60000
-    BaseExp: 140000
-    JobExp: 35000
+    Hp: 218405
+    BaseExp: 371288
+    JobExp: 241337
     Attack: 4667
     Attack2: 9667
-    Defense: 10
-    MagicDefense: 10
-    Str: 65
-    Agi: 65
-    Vit: 35
-    Int: 40
-    Dex: 150
-    Luk: 25
+    Defense: 44
+    MagicDefense: 28
+    Str: 130
+    Agi: 130
+    Vit: 70
+    Int: 80
+    Dex: 300
+    Luk: 50
     AttackRange: 14
     SkillRange: 10
     ChaseRange: 12
@@ -2743,19 +2759,19 @@ Body:
     Name: Harword Alt-Eisen
     JapaneseName: V Harword
     Level: 177
-    Hp: 86000
-    BaseExp: 200000
-    JobExp: 50000
+    Hp: 283643
+    BaseExp: 482193
+    JobExp: 313425
     Attack: 3333
     Attack2: 6666
-    Defense: 20
-    MagicDefense: 10
-    Str: 80
-    Agi: 40
-    Vit: 100
-    Int: 30
-    Dex: 65
-    Luk: 25
+    Defense: 50
+    MagicDefense: 27
+    Str: 160
+    Agi: 80
+    Vit: 200
+    Int: 60
+    Dex: 130
+    Luk: 50
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2792,19 +2808,19 @@ Body:
     Name: Seyren Windsor
     JapaneseName: V Seyren
     Level: 179
-    Hp: 70000
-    BaseExp: 160000
-    JobExp: 40000
+    Hp: 249606
+    BaseExp: 424330
+    JobExp: 275814
     Attack: 6000
     Attack2: 12000
-    Defense: 40
-    MagicDefense: 20
-    Str: 85
-    Agi: 50
-    Vit: 100
-    Int: 25
-    Dex: 100
-    Luk: 30
+    Defense: 51
+    MagicDefense: 26
+    Str: 170
+    Agi: 100
+    Vit: 200
+    Int: 50
+    Dex: 200
+    Luk: 60
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2839,17 +2855,17 @@ Body:
     Name: Guillotine Cross Eremes
     JapaneseName: V G Eremes
     Level: 189
-    Hp: 2100000
+    Hp: 288095
     Attack: 8000
     Attack2: 16000
-    Defense: 36
-    MagicDefense: 20
-    Str: 150
-    Agi: 190
-    Vit: 60
-    Int: 70
-    Dex: 200
-    Luk: 80
+    Defense: 49
+    MagicDefense: 31
+    Str: 300
+    Agi: 380
+    Vit: 120
+    Int: 140
+    Dex: 400
+    Luk: 160
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2868,17 +2884,17 @@ Body:
     Name: Arch Bishop Margaretha
     JapaneseName: V G Magaleta
     Level: 187
-    Hp: 2400000
+    Hp: 336332
     Attack: 2500
     Attack2: 14000
-    Defense: 32
-    MagicDefense: 80
-    Str: 130
-    Agi: 80
-    Vit: 120
-    Int: 160
-    Dex: 150
-    Luk: 70
+    Defense: 54
+    MagicDefense: 38
+    Str: 260
+    Agi: 160
+    Vit: 240
+    Int: 320
+    Dex: 300
+    Luk: 140
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2897,17 +2913,17 @@ Body:
     Name: Warlock Kathryne
     JapaneseName: V G Katrinn
     Level: 187
-    Hp: 1800000
+    Hp: 252249
     Attack: 2000
     Attack2: 12000
-    Defense: 22
-    MagicDefense: 80
-    Str: 110
-    Agi: 80
-    Vit: 60
-    Int: 200
-    Dex: 210
-    Luk: 50
+    Defense: 48
+    MagicDefense: 41
+    Str: 220
+    Agi: 160
+    Vit: 120
+    Int: 400
+    Dex: 420
+    Luk: 100
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2926,17 +2942,17 @@ Body:
     Name: Ranger Cecil
     JapaneseName: V G Shecil
     Level: 189
-    Hp: 2100000
+    Hp: 288095
     Attack: 14000
     Attack2: 28000
-    Defense: 20
-    MagicDefense: 20
-    Str: 130
-    Agi: 130
-    Vit: 70
-    Int: 80
-    Dex: 300
-    Luk: 50
+    Defense: 50
+    MagicDefense: 32
+    Str: 260
+    Agi: 260
+    Vit: 140
+    Int: 160
+    Dex: 600
+    Luk: 100
     AttackRange: 14
     SkillRange: 10
     ChaseRange: 12
@@ -2955,17 +2971,17 @@ Body:
     Name: Mechanic Howard
     JapaneseName: V G Harword
     Level: 187
-    Hp: 3000000
+    Hp: 420415
     Attack: 5000
     Attack2: 10000
-    Defense: 40
-    MagicDefense: 20
-    Str: 160
-    Agi: 80
-    Vit: 200
-    Int: 60
-    Dex: 130
-    Luk: 50
+    Defense: 62
+    MagicDefense: 30
+    Str: 320
+    Agi: 160
+    Vit: 400
+    Int: 120
+    Dex: 260
+    Luk: 100
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -2984,17 +3000,17 @@ Body:
     Name: Rune Knight Seyren
     JapaneseName: V G Seyren
     Level: 189
-    Hp: 2400000
+    Hp: 329252
     Attack: 18000
     Attack2: 36000
-    Defense: 65
-    MagicDefense: 40
-    Str: 170
-    Agi: 100
-    Vit: 200
-    Int: 50
-    Dex: 200
-    Luk: 60
+    Defense: 63
+    MagicDefense: 30
+    Str: 340
+    Agi: 200
+    Vit: 400
+    Int: 100
+    Dex: 400
+    Luk: 120
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3012,19 +3028,19 @@ Body:
     AegisName: V_B_EREMES
     Name: Guillotine Cross Eremes
     Level: 189
-    Hp: 5700000
-    BaseExp: 6000000
-    JobExp: 3000000
+    Hp: 3994921
+    BaseExp: 6791366
+    JobExp: 4414388
     Attack: 16000
     Attack2: 32000
-    Defense: 36
-    MagicDefense: 20
-    Str: 150
-    Agi: 190
-    Vit: 60
-    Int: 70
-    Dex: 200
-    Luk: 80
+    Defense: 54
+    MagicDefense: 35
+    Str: 300
+    Agi: 380
+    Vit: 120
+    Int: 140
+    Dex: 400
+    Luk: 160
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3062,19 +3078,19 @@ Body:
     AegisName: V_B_MAGALETA
     Name: Arch Bishop Margaretha
     Level: 187
-    Hp: 5640000
-    BaseExp: 6000000
-    JobExp: 3000000
+    Hp: 4663806
+    BaseExp: 7928470
+    JobExp: 5153506
     Attack: 5000
     Attack2: 10000
-    Defense: 32
-    MagicDefense: 80
-    Str: 130
-    Agi: 80
-    Vit: 120
-    Int: 160
-    Dex: 150
-    Luk: 70
+    Defense: 59
+    MagicDefense: 42
+    Str: 260
+    Agi: 160
+    Vit: 240
+    Int: 320
+    Dex: 300
+    Luk: 140
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3113,19 +3129,19 @@ Body:
     Name: Ranger Cecil
     JapaneseName: Ranger Shecil
     Level: 189
-    Hp: 5700000
-    BaseExp: 6000000
-    JobExp: 3000000
+    Hp: 3994921
+    BaseExp: 6791366
+    JobExp: 4414388
     Attack: 7000
     Attack2: 14000
-    Defense: 20
-    MagicDefense: 20
-    Str: 130
-    Agi: 130
-    Vit: 70
-    Int: 80
-    Dex: 300
-    Luk: 50
+    Defense: 55
+    MagicDefense: 36
+    Str: 260
+    Agi: 260
+    Vit: 140
+    Int: 160
+    Dex: 600
+    Luk: 100
     AttackRange: 14
     SkillRange: 10
     ChaseRange: 12
@@ -3164,19 +3180,19 @@ Body:
     Name: Mechanic Howard
     JapaneseName: Mechanic Harword
     Level: 187
-    Hp: 5640000
-    BaseExp: 6000000
-    JobExp: 3000000
+    Hp: 5829758
+    BaseExp: 9910589
+    JobExp: 6441883
     Attack: 10000
     Attack2: 20000
-    Defense: 40
-    MagicDefense: 20
-    Str: 160
-    Agi: 80
-    Vit: 200
-    Int: 60
-    Dex: 130
-    Luk: 50
+    Defense: 67
+    MagicDefense: 34
+    Str: 320
+    Agi: 160
+    Vit: 400
+    Int: 120
+    Dex: 260
+    Luk: 100
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3215,19 +3231,19 @@ Body:
     Name: Warlock Kathryne
     JapaneseName: Warlock Katrinn
     Level: 187
-    Hp: 5640000
-    BaseExp: 6000000
-    JobExp: 3000000
+    Hp: 3497855
+    BaseExp: 5946354
+    JobExp: 3865130
     Attack: 4000
     Attack2: 8000
-    Defense: 22
-    MagicDefense: 80
-    Str: 110
-    Agi: 80
-    Vit: 60
-    Int: 200
-    Dex: 210
-    Luk: 50
+    Defense: 53
+    MagicDefense: 44
+    Str: 220
+    Agi: 160
+    Vit: 120
+    Int: 400
+    Dex: 420
+    Luk: 100
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3265,19 +3281,19 @@ Body:
     AegisName: V_B_SEYREN
     Name: Rune Knight Seyren
     Level: 189
-    Hp: 5700000
-    BaseExp: 6000000
-    JobExp: 3000000
+    Hp: 4565624
+    BaseExp: 7761561
+    JobExp: 5045015
     Attack: 9000
     Attack2: 18000
-    Defense: 65
-    MagicDefense: 40
-    Str: 170
-    Agi: 100
-    Vit: 200
-    Int: 50
-    Dex: 200
-    Luk: 60
+    Defense: 68
+    MagicDefense: 34
+    Str: 340
+    Agi: 200
+    Vit: 400
+    Int: 100
+    Dex: 400
+    Luk: 120
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3316,19 +3332,19 @@ Body:
     Name: Randel Lawrence
     JapaneseName: V Randel
     Level: 178
-    Hp: 89000
-    BaseExp: 200000
-    JobExp: 50000
+    Hp: 262936
+    BaseExp: 446991
+    JobExp: 290544
     Attack: 4000
     Attack2: 8000
-    Defense: 30
-    MagicDefense: 20
-    Str: 100
-    Agi: 40
-    Vit: 100
-    Int: 25
-    Dex: 95
-    Luk: 35
+    Defense: 51
+    MagicDefense: 26
+    Str: 200
+    Agi: 80
+    Vit: 200
+    Int: 50
+    Dex: 190
+    Luk: 70
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3365,19 +3381,19 @@ Body:
     Name: Flamel Emule
     JapaneseName: V Flamel
     Level: 176
-    Hp: 81600
-    BaseExp: 160000
-    JobExp: 40000
+    Hp: 243844
+    BaseExp: 414535
+    JobExp: 269448
     Attack: 3333
     Attack2: 6666
-    Defense: 13
-    MagicDefense: 10
-    Str: 70
-    Agi: 40
-    Vit: 35
-    Int: 75
-    Dex: 100
-    Luk: 25
+    Defense: 44
+    MagicDefense: 30
+    Str: 140
+    Agi: 80
+    Vit: 70
+    Int: 150
+    Dex: 200
+    Luk: 50
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3414,19 +3430,19 @@ Body:
     Name: Celia Alde
     JapaneseName: V Celia
     Level: 178
-    Hp: 81100
-    BaseExp: 180000
-    JobExp: 45000
+    Hp: 236642
+    BaseExp: 402291
+    JobExp: 261489
     Attack: 2000
     Attack2: 4000
-    Defense: 11
-    MagicDefense: 80
-    Str: 70
-    Agi: 50
-    Vit: 30
-    Int: 75
-    Dex: 60
-    Luk: 25
+    Defense: 44
+    MagicDefense: 30
+    Str: 140
+    Agi: 100
+    Vit: 60
+    Int: 150
+    Dex: 120
+    Luk: 50
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3463,19 +3479,19 @@ Body:
     Name: Chen Liu
     JapaneseName: V Chen
     Level: 178
-    Hp: 75300
-    BaseExp: 140000
-    JobExp: 35000
+    Hp: 233136
+    BaseExp: 396331
+    JobExp: 257615
     Attack: 5333
     Attack2: 10666
-    Defense: 18
-    MagicDefense: 10
-    Str: 75
-    Agi: 40
-    Vit: 45
-    Int: 65
-    Dex: 100
-    Luk: 30
+    Defense: 45
+    MagicDefense: 30
+    Str: 150
+    Agi: 80
+    Vit: 90
+    Int: 130
+    Dex: 200
+    Luk: 60
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3512,19 +3528,19 @@ Body:
     Name: Gertie Wie
     JapaneseName: V Gertie
     Level: 178
-    Hp: 83200
-    BaseExp: 160000
-    JobExp: 40000
+    Hp: 210348
+    BaseExp: 357592
+    JobExp: 232435
     Attack: 4667
     Attack2: 9667
-    Defense: 16
-    MagicDefense: 10
-    Str: 90
-    Agi: 65
-    Vit: 30
-    Int: 25
-    Dex: 105
-    Luk: 25
+    Defense: 44
+    MagicDefense: 26
+    Str: 180
+    Agi: 130
+    Vit: 60
+    Int: 50
+    Dex: 210
+    Luk: 50
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3561,19 +3577,19 @@ Body:
     Name: Alphoccio Basil
     JapaneseName: V Alphoccio
     Level: 176
-    Hp: 66200
-    BaseExp: 120000
-    JobExp: 30000
+    Hp: 215156
+    BaseExp: 365765
+    JobExp: 237747
     Attack: 2667
     Attack2: 6000
-    Defense: 12
-    MagicDefense: 10
-    Str: 60
-    Agi: 75
-    Vit: 35
-    Int: 100
-    Dex: 75
-    Luk: 45
+    Defense: 44
+    MagicDefense: 32
+    Str: 120
+    Agi: 150
+    Vit: 70
+    Int: 200
+    Dex: 150
+    Luk: 90
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3610,19 +3626,19 @@ Body:
     Name: Trentini
     JapaneseName: V Trentini
     Level: 176
-    Hp: 66200
-    BaseExp: 120000
-    JobExp: 30000
+    Hp: 215156
+    BaseExp: 365765
+    JobExp: 237747
     Attack: 2667
     Attack2: 6000
-    Defense: 10
-    MagicDefense: 10
-    Str: 55
-    Agi: 75
-    Vit: 35
-    Int: 100
-    Dex: 75
-    Luk: 40
+    Defense: 44
+    MagicDefense: 32
+    Str: 110
+    Agi: 150
+    Vit: 70
+    Int: 200
+    Dex: 150
+    Luk: 80
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
@@ -3659,17 +3675,17 @@ Body:
     Name: Royal Guard Randel
     JapaneseName: V G Randel
     Level: 188
-    Hp: 3000000
+    Hp: 415955
     Attack: 12000
     Attack2: 4000
-    Defense: 60
-    MagicDefense: 40
-    Str: 200
-    Agi: 80
-    Vit: 200
-    Int: 50
-    Dex: 190
-    Luk: 70
+    Defense: 63
+    MagicDefense: 30
+    Str: 400
+    Agi: 160
+    Vit: 400
+    Int: 100
+    Dex: 380
+    Luk: 140
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3679,7 +3695,7 @@ Body:
     ElementLevel: 4
     WalkSpeed: 100
     AttackDelay: 76
-    AttackMotion: 864
+    AttackMotion: 384
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -3688,17 +3704,17 @@ Body:
     Name: Genetic Flamel
     JapaneseName: V G Flamel
     Level: 186
-    Hp: 2400000
+    Hp: 339958
     Attack: 5000
     Attack2: 10000
-    Defense: 26
-    MagicDefense: 20
-    Str: 140
-    Agi: 80
-    Vit: 70
-    Int: 150
-    Dex: 200
-    Luk: 50
+    Defense: 49
+    MagicDefense: 37
+    Str: 280
+    Agi: 160
+    Vit: 140
+    Int: 300
+    Dex: 400
+    Luk: 100
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3708,7 +3724,7 @@ Body:
     ElementLevel: 4
     WalkSpeed: 100
     AttackDelay: 76
-    AttackMotion: 864
+    AttackMotion: 384
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -3717,17 +3733,17 @@ Body:
     Name: Sorcerer Celia
     JapaneseName: V G Celia
     Level: 188
-    Hp: 4050000
+    Hp: 374359
     Attack: 3000
     Attack2: 10000
-    Defense: 22
-    MagicDefense: 80
-    Str: 140
-    Agi: 100
-    Vit: 60
-    Int: 150
-    Dex: 120
-    Luk: 50
+    Defense: 49
+    MagicDefense: 38
+    Str: 280
+    Agi: 200
+    Vit: 120
+    Int: 300
+    Dex: 240
+    Luk: 100
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3746,17 +3762,17 @@ Body:
     Name: Sura Chen
     JapaneseName: V G Chen
     Level: 188
-    Hp: 3150000
+    Hp: 291168
     Attack: 8000
     Attack2: 6000
-    Defense: 36
-    MagicDefense: 20
-    Str: 150
-    Agi: 80
-    Vit: 90
-    Int: 130
-    Dex: 200
-    Luk: 60
+    Defense: 52
+    MagicDefense: 36
+    Str: 300
+    Agi: 160
+    Vit: 180
+    Int: 260
+    Dex: 400
+    Luk: 120
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3775,17 +3791,17 @@ Body:
     Name: Shadow Chaser Gertie
     JapaneseName: V G Gertie
     Level: 188
-    Hp: 2400000
+    Hp: 332764
     Attack: 7000
     Attack2: 5000
-    Defense: 32
-    MagicDefense: 20
-    Str: 180
-    Agi: 130
-    Vit: 60
-    Int: 50
-    Dex: 210
-    Luk: 50
+    Defense: 49
+    MagicDefense: 30
+    Str: 360
+    Agi: 260
+    Vit: 120
+    Int: 100
+    Dex: 420
+    Luk: 100
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3795,7 +3811,7 @@ Body:
     ElementLevel: 4
     WalkSpeed: 100
     AttackDelay: 76
-    AttackMotion: 864
+    AttackMotion: 384
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -3804,17 +3820,17 @@ Body:
     Name: Minstrel Alphoccio
     JapaneseName: V G Alphoccio
     Level: 186
-    Hp: 3600000
+    Hp: 339958
     Attack: 4000
     Attack2: 12000
-    Defense: 24
-    MagicDefense: 20
-    Str: 120
-    Agi: 150
-    Vit: 70
-    Int: 200
-    Dex: 150
-    Luk: 90
+    Defense: 49
+    MagicDefense: 41
+    Str: 240
+    Agi: 300
+    Vit: 140
+    Int: 400
+    Dex: 300
+    Luk: 180
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3824,7 +3840,7 @@ Body:
     ElementLevel: 4
     WalkSpeed: 100
     AttackDelay: 76
-    AttackMotion: 864
+    AttackMotion: 384
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -3833,17 +3849,17 @@ Body:
     Name: Wanderer Trentini
     JapaneseName: V G Trentini
     Level: 186
-    Hp: 1800000
+    Hp: 339958
     Attack: 4000
     Attack2: 12000
-    Defense: 20
-    MagicDefense: 20
-    Str: 110
-    Agi: 150
-    Vit: 70
-    Int: 200
-    Dex: 150
-    Luk: 80
+    Defense: 49
+    MagicDefense: 41
+    Str: 220
+    Agi: 300
+    Vit: 140
+    Int: 400
+    Dex: 300
+    Luk: 160
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
@@ -3853,7 +3869,7 @@ Body:
     ElementLevel: 4
     WalkSpeed: 100
     AttackDelay: 76
-    AttackMotion: 864
+    AttackMotion: 384
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -3861,19 +3877,19 @@ Body:
     AegisName: V_B_RANDEL
     Name: Royal Guard Randel
     Level: 188
-    Hp: 5670000
-    BaseExp: 6000000
-    JobExp: 3000000
+    Hp: 5767904
+    BaseExp: 9805437
+    JobExp: 6373534
     Attack: 6000
     Attack2: 4000
-    Defense: 60
-    MagicDefense: 40
-    Str: 200
-    Agi: 80
-    Vit: 200
-    Int: 50
-    Dex: 190
-    Luk: 70
+    Defense: 68
+    MagicDefense: 34
+    Str: 401
+    Agi: 160
+    Vit: 400
+    Int: 100
+    Dex: 380
+    Luk: 140
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3883,7 +3899,7 @@ Body:
     ElementLevel: 4
     WalkSpeed: 100
     AttackDelay: 76
-    AttackMotion: 864
+    AttackMotion: 384
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -3911,19 +3927,19 @@ Body:
     AegisName: V_B_FLAMEL
     Name: Genetic Flamel
     Level: 186
-    Hp: 5610000
-    BaseExp: 6000000
-    JobExp: 3000000
+    Hp: 4714089
+    BaseExp: 8013951
+    JobExp: 5209068
     Attack: 10000
     Attack2: 10000
-    Defense: 26
-    MagicDefense: 20
-    Str: 140
-    Agi: 80
-    Vit: 70
-    Int: 150
-    Dex: 200
-    Luk: 50
+    Defense: 54
+    MagicDefense: 41
+    Str: 280
+    Agi: 160
+    Vit: 140
+    Int: 300
+    Dex: 400
+    Luk: 100
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3933,7 +3949,7 @@ Body:
     ElementLevel: 4
     WalkSpeed: 100
     AttackDelay: 76
-    AttackMotion: 864
+    AttackMotion: 384
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -3961,19 +3977,19 @@ Body:
     AegisName: V_B_CELIA
     Name: Sorcerer Celia
     Level: 188
-    Hp: 5670000
-    BaseExp: 6000000
-    JobExp: 3000000
+    Hp: 5191114
+    BaseExp: 8824894
+    JobExp: 5736181
     Attack: 6000
     Attack2: 10000
-    Defense: 22
-    MagicDefense: 80
-    Str: 140
-    Agi: 100
-    Vit: 60
-    Int: 150
-    Dex: 120
-    Luk: 50
+    Defense: 54
+    MagicDefense: 42
+    Str: 280
+    Agi: 200
+    Vit: 120
+    Int: 300
+    Dex: 240
+    Luk: 100
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -3983,7 +3999,7 @@ Body:
     ElementLevel: 4
     WalkSpeed: 100
     AttackDelay: 576
-    AttackMotion: 864
+    AttackMotion: 384
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -4011,19 +4027,19 @@ Body:
     AegisName: V_B_CHEN
     Name: Sura Chen
     Level: 188
-    Hp: 5670000
-    BaseExp: 6000000
-    JobExp: 3000000
+    Hp: 4037533
+    BaseExp: 6863806
+    JobExp: 4461474
     Attack: 16000
     Attack2: 6000
-    Defense: 36
-    MagicDefense: 20
-    Str: 150
-    Agi: 80
-    Vit: 90
-    Int: 130
-    Dex: 200
-    Luk: 60
+    Defense: 57
+    MagicDefense: 40
+    Str: 300
+    Agi: 160
+    Vit: 180
+    Int: 260
+    Dex: 400
+    Luk: 120
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -4033,7 +4049,7 @@ Body:
     ElementLevel: 4
     WalkSpeed: 100
     AttackDelay: 76
-    AttackMotion: 768
+    AttackMotion: 384
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -4061,19 +4077,19 @@ Body:
     AegisName: V_B_GERTIE
     Name: Shadow Chaser Gertie
     Level: 188
-    Hp: 5670000
-    BaseExp: 6000000
-    JobExp: 3000000
+    Hp: 4614323
+    BaseExp: 7844349
+    JobExp: 5098827
     Attack: 14000
     Attack2: 5000
-    Defense: 32
-    MagicDefense: 20
-    Str: 180
-    Agi: 130
-    Vit: 60
-    Int: 50
-    Dex: 210
-    Luk: 50
+    Defense: 54
+    MagicDefense: 34
+    Str: 360
+    Agi: 260
+    Vit: 120
+    Int: 100
+    Dex: 420
+    Luk: 100
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -4083,7 +4099,7 @@ Body:
     ElementLevel: 4
     WalkSpeed: 100
     AttackDelay: 76
-    AttackMotion: 864
+    AttackMotion: 384
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -4111,19 +4127,19 @@ Body:
     AegisName: V_B_ALPHOCCIO
     Name: Minstrel Alphoccio
     Level: 186
-    Hp: 5610000
-    BaseExp: 6000000
-    JobExp: 3000000
+    Hp: 3535567
+    BaseExp: 6010464
+    JobExp: 3906802
     Attack: 8000
     Attack2: 12000
-    Defense: 24
-    MagicDefense: 20
-    Str: 120
-    Agi: 150
-    Vit: 70
-    Int: 200
-    Dex: 150
-    Luk: 90
+    Defense: 54
+    MagicDefense: 44
+    Str: 240
+    Agi: 300
+    Vit: 140
+    Int: 400
+    Dex: 300
+    Luk: 180
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -4133,7 +4149,7 @@ Body:
     ElementLevel: 4
     WalkSpeed: 100
     AttackDelay: 76
-    AttackMotion: 864
+    AttackMotion: 384
     DamageMotion: 288
     Ai: 21
     Class: Boss
@@ -4161,19 +4177,19 @@ Body:
     AegisName: V_B_TRENTINI
     Name: Wanderer Trentini
     Level: 186
-    Hp: 5610000
-    BaseExp: 6000000
-    JobExp: 3000000
+    Hp: 3535567
+    BaseExp: 6010464
+    JobExp: 3906802
     Attack: 8000
     Attack2: 12000
-    Defense: 20
-    MagicDefense: 20
-    Str: 110
-    Agi: 150
-    Vit: 70
-    Int: 200
-    Dex: 150
-    Luk: 80
+    Defense: 54
+    MagicDefense: 44
+    Str: 220
+    Agi: 300
+    Vit: 140
+    Int: 400
+    Dex: 300
+    Luk: 160
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
@@ -4183,7 +4199,7 @@ Body:
     ElementLevel: 4
     WalkSpeed: 100
     AttackDelay: 76
-    AttackMotion: 864
+    AttackMotion: 384
     DamageMotion: 288
     Ai: 21
     Class: Boss
