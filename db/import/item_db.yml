@@ -75610,7 +75610,7 @@ Body:
     WeaponLevel: 1
     EquipLevelMin: 12
     Refineable: true
-    Script: "bonus bMatk+50;\n"
+    Script: "bonus bMatk,+50;\n"
   - Id: 13012
     AegisName: Murasame
     Name: Murasame [1]
