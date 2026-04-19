@@ -478,6 +478,64 @@ Body:
       - Item: Gold_Q_Scaraba_Card
         Rate: 1
         StealProtected: true
+  - Id: 2483
+    AegisName: NG_BAPHOMET
+    Name: Nightmare Baphomet
+    Level: 154
+    Hp: 441698
+    BaseExp: 750887
+    JobExp: 488077
+    MvpExp: 198262
+    Attack: 3150
+    Attack2: 9260
+    Defense: 52
+    MagicDefense: 29
+    Str: 120
+    Agi: 125
+    Vit: 230
+    Int: 85
+    Dex: 186
+    Luk: 85
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 100
+    AttackDelay: 768
+    AttackMotion: 768
+    DamageMotion: 576
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Yggdrasilberry
+        Rate: 2000
+      - Item: Baphomet_Doll
+        Rate: 500
+      - Item: Evil_Horn
+        Rate: 5000
+    Drops:
+      - Item: Crescent_Scythe
+        Rate: 500
+      - Item: Magestic_Goat
+        Rate: 300
+      - Item: Crescent_Scythe_
+        Rate: 50
+      - Item: Emperium
+        Rate: 500
+      - Item: Magestic_Goat_
+        Rate: 10
+      - Item: Elunium
+        Rate: 5432
+      - Item: Oridecon
+        Rate: 4171
+      - Item: Baphomet_Card
+        Rate: 1
+        StealProtected: true
   - Id: 3074
     AegisName: TIMEHOLDER
     Name: Time Holder

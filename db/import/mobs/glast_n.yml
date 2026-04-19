@@ -84,19 +84,19 @@ Body:
     AegisName: NG_WANDER_MAN
     Name: Nightmare Wander Man
     Level: 151
-    Hp: 99012
-    BaseExp: 240800
-    JobExp: 217228
+    Hp: 16228
+    BaseExp: 27588
+    JobExp: 17932
     Attack: 2827
     Attack2: 8218
-    Defense: 33
-    MagicDefense: 32
-    Str: 204
-    Agi: 176
-    Vit: 138
-    Int: 120
-    Dex: 216
-    Luk: 125
+    Defense: 34
+    MagicDefense: 20
+    Str: 208
+    Agi: 151
+    Vit: 76
+    Int: 39
+    Dex: 231
+    Luk: 50
     AttackRange: 2
     SkillRange: 12
     ChaseRange: 12
@@ -130,19 +130,19 @@ Body:
     AegisName: NG_RIDEWORD
     Name: Nightmare Rideword
     Level: 146
-    Hp: 114350
-    BaseExp: 274500
-    JobExp: 158400
+    Hp: 13711
+    BaseExp: 23309
+    JobExp: 15151
     Attack: 2321
     Attack2: 6165
-    Defense: 34
-    MagicDefense: 46
-    Str: 166
-    Agi: 198
-    Vit: 129
-    Int: 133
-    Dex: 232
-    Luk: 104
+    Defense: 32
+    MagicDefense: 20
+    Str: 131
+    Agi: 195
+    Vit: 58
+    Int: 66
+    Dex: 263
+    Luk: 5
     AttackRange: 1
     SkillRange: 12
     ChaseRange: 12
@@ -174,19 +174,19 @@ Body:
     AegisName: NG_MIMIC
     Name: Nightmare Mimic
     Level: 143
-    Hp: 63986
-    BaseExp: 115536
-    JobExp: 112354
+    Hp: 3456
+    BaseExp: 5875
+    JobExp: 3819
     Attack: 1787
     Attack2: 4159
-    Defense: 24
-    MagicDefense: 45
-    Str: 173
-    Agi: 181
-    Vit: 15
-    Int: 125
-    Dex: 207
-    Luk: 129
+    Defense: 29
+    MagicDefense: 19
+    Str: 145
+    Agi: 162
+    Vit: 10
+    Int: 49
+    Dex: 213
+    Luk: 57
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -216,19 +216,19 @@ Body:
     AegisName: NG_EVIL_DRUID
     Name: Nightmare Evil Druid
     Level: 134
-    Hp: 90990
-    BaseExp: 253480
-    JobExp: 255886
+    Hp: 11485
+    BaseExp: 19524
+    JobExp: 12691
     Attack: 1409
     Attack2: 3143
-    Defense: 46
-    MagicDefense: 34
-    Str: 169
-    Agi: 130
-    Vit: 24
-    Int: 129
-    Dex: 179
-    Luk: 114
+    Defense: 29
+    MagicDefense: 18
+    Str: 137
+    Agi: 60
+    Vit: 48
+    Int: 57
+    Dex: 158
+    Luk: 28
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -258,19 +258,19 @@ Body:
     AegisName: NG_WRAITH_DEAD
     Name: Nightmare Wraith Dead
     Level: 110
-    Hp: 102835
-    BaseExp: 251040
-    JobExp: 252760
+    Hp: 4428
+    BaseExp: 7528
+    JobExp: 4893
     Attack: 761
     Attack2: 3122
-    Defense: 29
-    MagicDefense: 36
-    Str: 135
-    Agi: 126
-    Vit: 24
-    Int: 128
-    Dex: 155
-    Luk: 114
+    Defense: 24
+    MagicDefense: 15
+    Str: 69
+    Agi: 52
+    Vit: 47
+    Int: 55
+    Dex: 109
+    Luk: 28
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -278,7 +278,7 @@ Body:
     Race: Undead
     Element: Undead
     ElementLevel: 4
-    WalkSpeed: 175
+    WalkSpeed: 250
     AttackDelay: 1816
     AttackMotion: 576
     DamageMotion: 240
@@ -296,81 +296,23 @@ Body:
         Rate: 10
       - Item: Crystal_Jewel__
         Rate: 10
-  - Id: 2483
-    AegisName: NG_BAPHOMET
-    Name: Nightmare Baphomet
-    Level: 154
-    Hp: 4028222
-    BaseExp: 3617060
-    JobExp: 3002320
-    MvpExp: 198262
-    Attack: 3150
-    Attack2: 9260
-    Defense: 38
-    MagicDefense: 45
-    Str: 160
-    Agi: 163
-    Vit: 115
-    Int: 143
-    Dex: 193
-    Luk: 143
-    AttackRange: 1
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Large
-    Race: Demon
-    Element: Dark
-    ElementLevel: 3
-    WalkSpeed: 100
-    AttackDelay: 768
-    AttackMotion: 768
-    DamageMotion: 576
-    Ai: 21
-    Class: Boss
-    Modes:
-      Mvp: true
-    MvpDrops:
-      - Item: Yggdrasilberry
-        Rate: 2000
-      - Item: Baphomet_Doll
-        Rate: 500
-      - Item: Evil_Horn
-        Rate: 5000
-    Drops:
-      - Item: Crescent_Scythe
-        Rate: 500
-      - Item: Magestic_Goat
-        Rate: 300
-      - Item: Crescent_Scythe_
-        Rate: 50
-      - Item: Emperium
-        Rate: 500
-      - Item: Magestic_Goat_
-        Rate: 10
-      - Item: Elunium
-        Rate: 5432
-      - Item: Oridecon
-        Rate: 4171
-      - Item: Baphomet_Card
-        Rate: 1
-        StealProtected: true
   - Id: 2484
     AegisName: G_NG_BAPHOMET_
     Name: Nightmare Baphomet Jr.
     Level: 141
-    Hp: 230810
-    BaseExp: 261700
-    JobExp: 100230
+    Hp: 7075
+    BaseExp: 12028
+    JobExp: 7818
     Attack: 1601
     Attack2: 4206
-    Defense: 39
-    MagicDefense: 46
-    Str: 126
-    Agi: 130
-    Vit: 45
-    Int: 120
-    Dex: 126
-    Luk: 113
+    Defense: 33
+    MagicDefense: 19
+    Str: 130
+    Agi: 150
+    Vit: 90
+    Int: 42
+    Dex: 143
+    Luk: 62
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -387,19 +329,19 @@ Body:
     AegisName: NG_CHIMERA
     Name: Nightmare Chimera
     Level: 140
-    Hp: 176507
-    BaseExp: 310562
-    JobExp: 296980
+    Hp: 76292
+    BaseExp: 129696
+    JobExp: 84302
     Attack: 2058
     Attack2: 4823
-    Defense: 46
-    MagicDefense: 32
-    Str: 151
-    Agi: 138
-    Vit: 55
-    Int: 188
-    Dex: 191
-    Luk: 185
+    Defense: 34
+    MagicDefense: 24
+    Str: 101
+    Agi: 76
+    Vit: 110
+    Int: 176
+    Dex: 182
+    Luk: 170
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
