@@ -139,6 +139,120 @@ Body:
       - Item: Detale_Card
         Rate: 1
         StealProtected: true
+  - Id: 1779
+    AegisName: KTULLANUX
+    Name: Ktullanux
+    Level: 98
+    Hp: 714631
+    BaseExp: 1214873
+    JobExp: 789667
+    MvpExp: 1360025
+    Attack: 1680
+    Attack2: 10360
+    Defense: 31
+    MagicDefense: 24
+    Str: 85
+    Agi: 126
+    Vit: 30
+    Int: 125
+    Dex: 212
+    Luk: 112
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Brute
+    Element: Water
+    ElementLevel: 4
+    WalkSpeed: 400
+    AttackDelay: 432
+    AttackMotion: 840
+    DamageMotion: 216
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Yggdrasilberry
+        Rate: 5500
+      - Item: Old_Violet_Box
+        Rate: 5000
+      - Item: Old_Violet_Box
+        Rate: 5000
+    Drops:
+      - Item: Ice_Scale
+        Rate: 9000
+      - Item: Old_Card_Album
+        Rate: 3000
+      - Item: Clack_Of_Servival
+        Rate: 3000
+      - Item: Herald_Of_GOD
+        Rate: 5000
+      - Item: Old_Violet_Box
+        Rate: 5000
+      - Item: Yggdrasilberry
+        Rate: 5000
+      - Item: Ktullanux_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1785
+    AegisName: ATROCE
+    Name: Atroce
+    Level: 82
+    Hp: 583823
+    BaseExp: 992499
+    JobExp: 645124
+    MvpExp: 147775
+    Attack: 2526
+    Attack2: 3646
+    Defense: 33
+    MagicDefense: 21
+    Str: 121
+    Agi: 165
+    Vit: 135
+    Int: 99
+    Dex: 213
+    Luk: 113
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Brute
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 576
+    AttackMotion: 600
+    DamageMotion: 240
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Yggdrasilberry
+        Rate: 5500
+      - Item: Old_Violet_Box
+        Rate: 5000
+      - Item: Old_Violet_Box
+        Rate: 5000
+    Drops:
+      - Item: Bloody_Rune
+        Rate: 7000
+      - Item: Seed_Of_Yggdrasil
+        Rate: 1000
+      - Item: Ring_
+        Rate: 1000
+      - Item: Old_Violet_Box
+        Rate: 5000
+      - Item: Yggdrasilberry
+        Rate: 5000
+      - Item: Ulle_Cap
+        Rate: 100
+      - Item: Altas_Weapon
+        Rate: 100
+      - Item: Atroce_Card
+        Rate: 1
+        StealProtected: true
   - Id: 1871
     AegisName: FALLINGBISHOP
     Name: Falling Bishop

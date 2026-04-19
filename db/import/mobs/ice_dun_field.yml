@@ -84,19 +84,19 @@ Body:
     AegisName: SNOWIER
     Name: Snowier
     Level: 60
-    Hp: 19230
-    BaseExp: 5882
-    JobExp: 2699
+    Hp: 14227
+    BaseExp: 24186
+    JobExp: 15721
     Attack: 770
     Attack2: 1347
-    Defense: 22
-    MagicDefense: 12
-    Str: 73
-    Agi: 46
-    Vit: 72
-    Int: 15
-    Dex: 52
-    Luk: 25
+    Defense: 15
+    MagicDefense: 9
+    Str: 91
+    Agi: 61
+    Vit: 67
+    Int: 45
+    Dex: 83
+    Luk: 55
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
@@ -131,19 +131,19 @@ Body:
     AegisName: SIROMA
     Name: Siroma
     Level: 42
-    Hp: 6800
-    BaseExp: 2230
-    JobExp: 1005
+    Hp: 9940
+    BaseExp: 16898
+    JobExp: 10984
     Attack: 220
     Attack2: 440
-    Defense: 12
+    Defense: 11
     MagicDefense: 8
-    Str: 33
-    Agi: 23
-    Vit: 52
-    Int: 11
-    Dex: 40
-    Luk: 19
+    Str: 83
+    Agi: 43
+    Vit: 50
+    Int: 70
+    Dex: 96
+    Luk: 60
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -172,19 +172,19 @@ Body:
     AegisName: ICE_TITAN
     Name: Ice Titan
     Level: 60
-    Hp: 38200
-    BaseExp: 13872
-    JobExp: 7928
+    Hp: 18923
+    BaseExp: 32169
+    JobExp: 20910
     Attack: 1090
     Attack2: 1570
-    Defense: 71
-    MagicDefense: 15
-    Str: 99
-    Agi: 34
-    Vit: 88
-    Int: 10
-    Dex: 79
-    Luk: 29
+    Defense: 16
+    MagicDefense: 9
+    Str: 133
+    Agi: 54
+    Vit: 78
+    Int: 33
+    Dex: 94
+    Luk: 26
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -219,18 +219,19 @@ Body:
     AegisName: GAZETI
     Name: Gazeti
     Level: 55
-    Hp: 12300
-    BaseExp: 5758
-    JobExp: 2075
+    Hp: 15539
+    BaseExp: 26416
+    JobExp: 17170
     Attack: 512
     Attack2: 612
-    Defense: 65
-    MagicDefense: 25
-    Agi: 12
-    Vit: 20
-    Int: 60
-    Dex: 101
-    Luk: 5
+    Defense: 13
+    MagicDefense: 8
+    Agi: 37
+    Vit: 42
+    Int: 38
+    Dex: 116
+    Luk: 38
+    Str: 105
     AttackRange: 10
     SkillRange: 10
     ChaseRange: 12
@@ -261,78 +262,23 @@ Body:
       - Item: Gazeti_Card
         Rate: 1
         StealProtected: true
-  - Id: 1779
-    AegisName: KTULLANUX
-    Name: Ktullanux
-    Level: 98
-    Hp: 4417000
-    BaseExp: 2720050
-    JobExp: 1120020
-    MvpExp: 1360025
-    Attack: 1680
-    Attack2: 10360
-    Defense: 40
-    MagicDefense: 42
-    Str: 85
-    Agi: 126
-    Vit: 30
-    Int: 125
-    Dex: 177
-    Luk: 112
-    AttackRange: 3
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Large
-    Race: Brute
-    Element: Water
-    ElementLevel: 4
-    WalkSpeed: 400
-    AttackDelay: 432
-    AttackMotion: 840
-    DamageMotion: 216
-    Ai: 21
-    Class: Boss
-    Modes:
-      Mvp: true
-    MvpDrops:
-      - Item: Yggdrasilberry
-        Rate: 5500
-      - Item: Old_Violet_Box
-        Rate: 5000
-      - Item: Old_Violet_Box
-        Rate: 5000
-    Drops:
-      - Item: Ice_Scale
-        Rate: 9000
-      - Item: Old_Card_Album
-        Rate: 3000
-      - Item: Clack_Of_Servival
-        Rate: 3000
-      - Item: Herald_Of_GOD
-        Rate: 5000
-      - Item: Old_Violet_Box
-        Rate: 5000
-      - Item: Yggdrasilberry
-        Rate: 5000
-      - Item: Ktullanux_Card
-        Rate: 1
-        StealProtected: true
   - Id: 1780
     AegisName: MUSCIPULAR
     Name: Muscipular
     Level: 57
-    Hp: 4332
-    BaseExp: 1706
-    JobExp: 1706
+    Hp: 11589
+    BaseExp: 19701
+    JobExp: 12806
     Attack: 521
     Attack2: 726
-    Defense: 12
-    MagicDefense: 12
-    Agi: 53
-    Vit: 39
-    Int: 25
-    Dex: 92
-    Luk: 51
+    Defense: 14
+    MagicDefense: 8
+    Agi: 60
+    Vit: 58
+    Int: 37
+    Dex: 72
+    Luk: 47
+    Str: 100
     AttackRange: 3
     SkillRange: 10
     ChaseRange: 12
@@ -367,18 +313,19 @@ Body:
     AegisName: DROSERA
     Name: Drosera
     Level: 46
-    Hp: 7221
-    BaseExp: 2612
-    JobExp: 1022
+    Hp: 11179
+    BaseExp: 19004
+    JobExp: 12353
     Attack: 389
     Attack2: 589
-    Defense: 10
-    MagicDefense: 13
-    Agi: 30
-    Vit: 27
-    Int: 17
-    Dex: 76
-    Luk: 41
+    Defense: 12
+    MagicDefense: 7
+    Agi: 32
+    Vit: 64
+    Int: 38
+    Dex: 94
+    Luk: 14
+    Str: 79
     AttackRange: 7
     SkillRange: 10
     ChaseRange: 12
@@ -413,18 +360,18 @@ Body:
     AegisName: ROWEEN
     Name: Roween
     Level: 31
-    Hp: 5716
-    BaseExp: 1669
-    JobExp: 1266
+    Hp: 6617
+    BaseExp: 11249
+    JobExp: 7312
     Attack: 298
     Attack2: 377
-    MagicDefense: 7
-    Str: 51
-    Agi: 39
-    Vit: 48
-    Int: 18
-    Dex: 67
-    Luk: 19
+    MagicDefense: 6
+    Str: 70
+    Agi: 82
+    Vit: 55
+    Int: 45
+    Dex: 108
+    Luk: 25
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -433,9 +380,9 @@ Body:
     Element: Wind
     ElementLevel: 1
     WalkSpeed: 200
-    AttackDelay: 412
-    AttackMotion: 840
-    DamageMotion: 300
+    AttackDelay: 1500
+    AttackMotion: 500
+    DamageMotion: 1000
     Ai: 07
     Drops:
       - Item: Rotten_Meat
@@ -453,19 +400,19 @@ Body:
     AegisName: GALION
     Name: Galion
     Level: 44
-    Hp: 32240
-    BaseExp: 10020
-    JobExp: 3368
+    Hp: 8772
+    BaseExp: 14912
+    JobExp: 9693
     Attack: 336
     Attack2: 441
-    Defense: 11
-    MagicDefense: 12
-    Str: 51
-    Agi: 52
-    Vit: 59
-    Int: 25
-    Dex: 72
-    Luk: 32
+    Defense: 17
+    MagicDefense: 10
+    Str: 106
+    Agi: 79
+    Vit: 62
+    Int: 45
+    Dex: 108
+    Luk: 36
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -495,18 +442,19 @@ Body:
     AegisName: STAPO
     Name: Stapo
     Level: 23
-    Hp: 666
-    BaseExp: 332
-    JobExp: 221
+    Hp: 6984
+    BaseExp: 11873
+    JobExp: 7717
     Attack: 135
     Attack2: 370
-    Defense: 90
-    MagicDefense: 5
-    Str: 12
-    Agi: 11
-    Vit: 15
-    Int: 12
-    Dex: 23
+    Defense: 6
+    MagicDefense: 4
+    Str: 20
+    Agi: 46
+    Vit: 25
+    Int: 35
+    Dex: 64
+    Luk: 30
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -533,63 +481,5 @@ Body:
       - Item: Seismic_Fist
         Rate: 3
       - Item: Stapo_Card
-        Rate: 1
-        StealProtected: true
-  - Id: 1785
-    AegisName: ATROCE
-    Name: Atroce
-    Level: 82
-    Hp: 1008420
-    BaseExp: 295550
-    JobExp: 118895
-    MvpExp: 147775
-    Attack: 2526
-    Attack2: 3646
-    Defense: 25
-    MagicDefense: 25
-    Str: 100
-    Agi: 87
-    Vit: 30
-    Int: 49
-    Dex: 89
-    Luk: 72
-    AttackRange: 2
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Large
-    Race: Brute
-    Element: Dark
-    ElementLevel: 3
-    WalkSpeed: 150
-    AttackDelay: 576
-    AttackMotion: 600
-    DamageMotion: 240
-    Ai: 21
-    Class: Boss
-    Modes:
-      Mvp: true
-    MvpDrops:
-      - Item: Yggdrasilberry
-        Rate: 5500
-      - Item: Old_Violet_Box
-        Rate: 5000
-      - Item: Old_Violet_Box
-        Rate: 5000
-    Drops:
-      - Item: Bloody_Rune
-        Rate: 7000
-      - Item: Seed_Of_Yggdrasil
-        Rate: 1000
-      - Item: Ring_
-        Rate: 1000
-      - Item: Old_Violet_Box
-        Rate: 5000
-      - Item: Yggdrasilberry
-        Rate: 5000
-      - Item: Ulle_Cap
-        Rate: 100
-      - Item: Altas_Weapon
-        Rate: 100
-      - Item: Atroce_Card
         Rate: 1
         StealProtected: true
