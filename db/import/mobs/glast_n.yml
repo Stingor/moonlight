@@ -1,0 +1,434 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2021 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Monster Database
+###########################################################################
+#
+# Monster Settings
+#
+###########################################################################
+# - Id                      Monster ID.
+#   AegisName               Server name to reference the monster in scripts and lookups, should use no spaces.
+#   Name                    Name in English.
+#   JapaneseName            Name in Japanese. (Default: 'Name' value)
+#   Level                   Level. (Default: 1)
+#   Hp                      Total HP. (Default: 1)
+#   Sp                      Total SP. (Default: 1)
+#   BaseExp                 Base experience gained. (Default: 0)
+#   JobExp                  Job experience gained. (Default: 0)
+#   MvpExp                  MVP experience gained. (Default: 0)
+#   Attack                  Minimum attack in pre-renewal and base attack in renewal. (Default: 0)
+#   Attack2                 Maximum attack in pre-renewal and base magic attack in renewal. (Default: 0)
+#   Defense                 Physical defense of the monster, reduces melee and ranged physical attack/skill damage. (Default: 0)
+#   MagicDefense            Magic defense of the monster, reduces magical skill damage. (Default: 0)
+#   Resistance              Physical resistance of the monster, reduces melee and ranged physical attack/skill damage. (Default: 0)
+#   MagicResistance         Magic resistance of the monster, reduces magical skill damage. (Default: 0)
+#   Str                     Strength which affects attack. (Default: 1)
+#   Agi                     Agility which affects flee. (Default: 1)
+#   Vit                     Vitality which affects defense. (Default: 1)
+#   Int                     Intelligence which affects magic attack. (Default: 1)
+#   Dex                     Dexterity which affects hit rate. (Default: 1)
+#   Luk                     Luck which affects perfect dodge/lucky flee/lerfect flee/lucky dodge rate. (Default: 1)
+#   AttackRange             Attack range. (Default: 0)
+#   SkillRange              Skill cast range. (Default: 0)
+#   ChaseRange              Chase range. (Default: 0)
+#   Size                    Size. (Default: Small)
+#   Race                    Race. (Default: Formless)
+#   RaceGroups:             List of secondary groups the monster may be part of. (Optional)
+#     <group>: <value>      Group to toggle.
+#   Element                 Element. (Default: Neutral)
+#   ElementLevel            Level of element. (Default: 1)
+#   WalkSpeed               Walk speed. (Default: DEFAULT_WALK_SPEED)
+#   AttackDelay             Attack speed. (Default: 0)
+#   AttackMotion            Attack animation speed. (Default: 0)
+#   DamageMotion            Damage animation speed. (Default: 0)
+#   DamageTaken             Rate at which the monster will receive incoming damage. (Default: 100)
+#   Ai                      Aegis monster type AI behavior. (Default: 06)
+#   Class                   Aegis monster class. (Default: Normal)
+#   Modes:                  List of unique behavior not defined by AI, Class, or Attribute. (Optional)
+#     <mode>: <value>       Mode to toggle.
+#   MvpDrops:               List of possible MVP prize items. Max of MAX_MVP_DROP. (Optional)
+#     - Item                Item name.
+#       Rate                Drop rate of item. (Default: 1)
+#       RandomOptionGroup   Random Option Group applied to item on drop. (Default: None)
+#       Index               Index used for overwriting item. (Optional)
+#   Drops:                  List of possible normal item drops. Max of MAX_MOB_DROP. (Optional)
+#     - Item                Item name.
+#       Rate                Drop rate of item. (Default: 1)
+#       StealProtected      If the item is shielded from TF_STEAL. (Default: false)
+#       RandomOptionGroup   Random Option Group applied to item on drop. (Default: None)
+#       Index               Index used for overwriting item. (Optional)
+###########################################################################
+
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 2477
+    AegisName: NG_WANDER_MAN
+    Name: Nightmare Wander Man
+    Level: 151
+    Hp: 99012
+    BaseExp: 240800
+    JobExp: 217228
+    Attack: 2827
+    Attack2: 8218
+    Defense: 33
+    MagicDefense: 32
+    Str: 204
+    Agi: 176
+    Vit: 138
+    Int: 120
+    Dex: 216
+    Luk: 125
+    AttackRange: 2
+    SkillRange: 12
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Wind
+    ElementLevel: 1
+    WalkSpeed: 100
+    AttackDelay: 672
+    AttackMotion: 500
+    DamageMotion: 192
+    Ai: 21
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Skull
+        Rate: 4850
+      - Item: Old_Card_Album
+        Rate: 2
+      - Item: Hakujin_
+        Rate: 5
+      - Item: Centimental_Leaf
+        Rate: 5
+      - Item: Muramasa_
+        Rate: 1
+      - Item: Oridecon
+        Rate: 110
+      - Item: Muramasa
+        Rate: 10
+  - Id: 2478
+    AegisName: NG_RIDEWORD
+    Name: Nightmare Rideword
+    Level: 146
+    Hp: 114350
+    BaseExp: 274500
+    JobExp: 158400
+    Attack: 2321
+    Attack2: 6165
+    Defense: 34
+    MagicDefense: 46
+    Str: 166
+    Agi: 198
+    Vit: 129
+    Int: 133
+    Dex: 232
+    Luk: 104
+    AttackRange: 1
+    SkillRange: 12
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 864
+    AttackMotion: 500
+    DamageMotion: 192
+    Ai: 21
+    Drops:
+      - Item: Worn_Out_Page
+        Rate: 4850
+      - Item: Book_Of_Billows_
+        Rate: 5
+      - Item: Book_Of_Mother_Earth_
+        Rate: 5
+      - Item: Book_Of_Blazing_Sun_
+        Rate: 5
+      - Item: Book_Of_Gust_Of_Wind_
+        Rate: 5
+      - Item: Bookclip_In_Memory
+        Rate: 150
+      - Item: Cursed_Book
+        Rate: 1
+  - Id: 2479
+    AegisName: NG_MIMIC
+    Name: Nightmare Mimic
+    Level: 143
+    Hp: 63986
+    BaseExp: 115536
+    JobExp: 112354
+    Attack: 1787
+    Attack2: 4159
+    Defense: 24
+    MagicDefense: 45
+    Str: 173
+    Agi: 181
+    Vit: 15
+    Int: 125
+    Dex: 207
+    Luk: 129
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 3
+    WalkSpeed: 100
+    AttackDelay: 972
+    AttackMotion: 500
+    DamageMotion: 288
+    Ai: 09
+    Drops:
+      - Item: Old_Violet_Box
+        Rate: 10
+      - Item: Old_Blue_Box
+        Rate: 50
+      - Item: Special_Alloy_Trap
+        Rate: 1000
+      - Item: Light_Granule
+        Rate: 1000
+      - Item: Rosary_
+        Rate: 10
+      - Item: Elunium_Stone
+        Rate: 270
+  - Id: 2480
+    AegisName: NG_EVIL_DRUID
+    Name: Nightmare Evil Druid
+    Level: 134
+    Hp: 90990
+    BaseExp: 253480
+    JobExp: 255886
+    Attack: 1409
+    Attack2: 3143
+    Defense: 46
+    MagicDefense: 34
+    Str: 169
+    Agi: 130
+    Vit: 24
+    Int: 129
+    Dex: 179
+    Luk: 114
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Undead
+    Element: Undead
+    ElementLevel: 4
+    WalkSpeed: 300
+    AttackDelay: 2276
+    AttackMotion: 576
+    DamageMotion: 336
+    Ai: 21
+    Drops:
+      - Item: Biretta_
+        Rate: 10
+      - Item: Lich_Bone_Wand
+        Rate: 1
+      - Item: Ragamuffin_Cape
+        Rate: 10
+      - Item: Book_Of_The_Apocalypse
+        Rate: 5
+      - Item: Cookbook07
+        Rate: 5
+      - Item: White_Herb
+        Rate: 2000
+  - Id: 2481
+    AegisName: NG_WRAITH_DEAD
+    Name: Nightmare Wraith Dead
+    Level: 110
+    Hp: 102835
+    BaseExp: 251040
+    JobExp: 252760
+    Attack: 761
+    Attack2: 3122
+    Defense: 29
+    MagicDefense: 36
+    Str: 135
+    Agi: 126
+    Vit: 24
+    Int: 128
+    Dex: 155
+    Luk: 114
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Undead
+    Element: Undead
+    ElementLevel: 4
+    WalkSpeed: 175
+    AttackDelay: 1816
+    AttackMotion: 576
+    DamageMotion: 240
+    Ai: 21
+    Drops:
+      - Item: Transparent_Cloth
+        Rate: 4400
+      - Item: Wedding_Veil
+        Rate: 10
+      - Item: Manteau_
+        Rate: 5
+      - Item: Red_Gemstone
+        Rate: 750
+      - Item: Manteau
+        Rate: 10
+      - Item: Crystal_Jewel__
+        Rate: 10
+  - Id: 2483
+    AegisName: NG_BAPHOMET
+    Name: Nightmare Baphomet
+    Level: 154
+    Hp: 4028222
+    BaseExp: 3617060
+    JobExp: 3002320
+    MvpExp: 198262
+    Attack: 3150
+    Attack2: 9260
+    Defense: 38
+    MagicDefense: 45
+    Str: 160
+    Agi: 163
+    Vit: 115
+    Int: 143
+    Dex: 193
+    Luk: 143
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 100
+    AttackDelay: 768
+    AttackMotion: 768
+    DamageMotion: 576
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Yggdrasilberry
+        Rate: 2000
+      - Item: Baphomet_Doll
+        Rate: 500
+      - Item: Evil_Horn
+        Rate: 5000
+    Drops:
+      - Item: Crescent_Scythe
+        Rate: 500
+      - Item: Magestic_Goat
+        Rate: 300
+      - Item: Crescent_Scythe_
+        Rate: 50
+      - Item: Emperium
+        Rate: 500
+      - Item: Magestic_Goat_
+        Rate: 10
+      - Item: Elunium
+        Rate: 5432
+      - Item: Oridecon
+        Rate: 4171
+      - Item: Baphomet_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2484
+    AegisName: G_NG_BAPHOMET_
+    Name: Nightmare Baphomet Jr.
+    Level: 141
+    Hp: 230810
+    BaseExp: 261700
+    JobExp: 100230
+    Attack: 1601
+    Attack2: 4206
+    Defense: 39
+    MagicDefense: 46
+    Str: 126
+    Agi: 130
+    Vit: 45
+    Int: 120
+    Dex: 126
+    Luk: 113
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demon
+    Element: Dark
+    ElementLevel: 1
+    WalkSpeed: 100
+    AttackDelay: 868
+    AttackMotion: 480
+    DamageMotion: 120
+    Ai: 21
+  - Id: 2485
+    AegisName: NG_CHIMERA
+    Name: Nightmare Chimera
+    Level: 140
+    Hp: 176507
+    BaseExp: 310562
+    JobExp: 296980
+    Attack: 2058
+    Attack2: 4823
+    Defense: 46
+    MagicDefense: 32
+    Str: 151
+    Agi: 138
+    Vit: 55
+    Int: 188
+    Dex: 191
+    Luk: 185
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Brute
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 772
+    AttackMotion: 672
+    DamageMotion: 360
+    Ai: 21
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Brigan
+        Rate: 5335
+      - Item: Slender_Snake
+        Rate: 2500
+      - Item: Lemon
+        Rate: 1000
+      - Item: War_Axe
+        Rate: 1
+      - Item: Citrine
+        Rate: 1500
+      - Item: Great_Axe
+        Rate: 1
+      - Item: Oridecon
+        Rate: 160
+      - Item: Chimera_Card
+        Rate: 1
+        StealProtected: true
