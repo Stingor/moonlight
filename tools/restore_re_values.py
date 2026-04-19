@@ -2,8 +2,10 @@
 """
 restore_re_values.py
 ====================
-Restaure Defense, MagicDefense, Hp, BaseExp et JobExp d'un fichier mob_db.yml
-custom en reprenant les valeurs renewal depuis db/re/mob_db.yml.
+Restaure Defense, MagicDefense, Hp, BaseExp, JobExp, les stats (Str/Agi/Vit/Int/Dex/Luk)
+et les vitesses (WalkSpeed, AttackDelay, AttackMotion, DamageMotion)
+d'un fichier mob_db.yml custom en reprenant les valeurs renewal depuis db/re/mob_db.yml.
+Les stats absentes du fichier custom sont inserees avant AttackRange.
 
 Usage :
   python restore_re_values.py <fichier.yml>            # modifie en place
@@ -18,7 +20,10 @@ import argparse
 
 RE_DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'db', 're', 'mob_db.yml')
 
-FIELDS = ['Hp', 'Defense', 'MagicDefense', 'BaseExp', 'JobExp']
+FIELDS       = ['Hp', 'Defense', 'MagicDefense', 'BaseExp', 'JobExp',
+                'WalkSpeed', 'AttackDelay', 'AttackMotion', 'DamageMotion']
+STAT_FIELDS  = ['Str', 'Agi', 'Vit', 'Int', 'Dex', 'Luk']
+ALL_FIELDS   = FIELDS + STAT_FIELDS
 
 
 def fmt(n):
@@ -40,7 +45,7 @@ def parse_re_db(path):
             continue
         mob_id = int(id_m.group(1))
         db[mob_id] = {}
-        for field in FIELDS:
+        for field in ALL_FIELDS:
             m = re.search(r'^\s+' + field + r':\s*(\d+)', b, re.MULTILINE)
             if m:
                 db[mob_id][field] = int(m.group(1))
@@ -63,7 +68,7 @@ def restore_block(block, re_db):
         return block, None
     mob_id = int(id_m.group(1))
     if mob_id not in re_db:
-        return block, f"  [{mob_id}] non trouve dans re/mob_db.yml — ignore"
+        return block, f"  [{mob_id}] non trouve dans re/mob_db.yml â€” ignore"
 
     aegis_m = re.search(r'AegisName:\s*(\S+)', block)
     aegis   = aegis_m.group(1) if aegis_m else '???'
@@ -74,7 +79,7 @@ def restore_block(block, re_db):
     changes  = []
     new_block = block
 
-    for field in FIELDS:
+    for field in ALL_FIELDS:
         if field not in re_vals:
             continue
         re_val  = re_vals[field]
@@ -82,7 +87,13 @@ def restore_block(block, re_db):
         cur_val = int(cur_m.group(1)) if cur_m else None
 
         if cur_val is None:
-            continue  # champ absent du fichier custom, on ne touche pas
+            # Stat absente du fichier custom : l'inserer avant AttackRange
+            if field in STAT_FIELDS:
+                anchor = re.search(r'(^\s+AttackRange:)', new_block, re.MULTILINE)
+                if anchor:
+                    new_block = new_block[:anchor.start()] + f"    {field}: {re_val}\n" + new_block[anchor.start():]
+                    changes.append(f"{field} absent -> {re_val}")
+            continue
 
         if cur_val != re_val:
             new_block = re.sub(
