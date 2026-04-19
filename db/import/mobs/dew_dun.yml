@@ -1,0 +1,272 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2021 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Monster Database
+###########################################################################
+#
+# Monster Settings
+#
+###########################################################################
+# - Id                      Monster ID.
+#   AegisName               Server name to reference the monster in scripts and lookups, should use no spaces.
+#   Name                    Name in English.
+#   JapaneseName            Name in Japanese. (Default: 'Name' value)
+#   Level                   Level. (Default: 1)
+#   Hp                      Total HP. (Default: 1)
+#   Sp                      Total SP. (Default: 1)
+#   BaseExp                 Base experience gained. (Default: 0)
+#   JobExp                  Job experience gained. (Default: 0)
+#   MvpExp                  MVP experience gained. (Default: 0)
+#   Attack                  Minimum attack in pre-renewal and base attack in renewal. (Default: 0)
+#   Attack2                 Maximum attack in pre-renewal and base magic attack in renewal. (Default: 0)
+#   Defense                 Physical defense of the monster, reduces melee and ranged physical attack/skill damage. (Default: 0)
+#   MagicDefense            Magic defense of the monster, reduces magical skill damage. (Default: 0)
+#   Resistance              Physical resistance of the monster, reduces melee and ranged physical attack/skill damage. (Default: 0)
+#   MagicResistance         Magic resistance of the monster, reduces magical skill damage. (Default: 0)
+#   Str                     Strength which affects attack. (Default: 1)
+#   Agi                     Agility which affects flee. (Default: 1)
+#   Vit                     Vitality which affects defense. (Default: 1)
+#   Int                     Intelligence which affects magic attack. (Default: 1)
+#   Dex                     Dexterity which affects hit rate. (Default: 1)
+#   Luk                     Luck which affects perfect dodge/lucky flee/lerfect flee/lucky dodge rate. (Default: 1)
+#   AttackRange             Attack range. (Default: 0)
+#   SkillRange              Skill cast range. (Default: 0)
+#   ChaseRange              Chase range. (Default: 0)
+#   Size                    Size. (Default: Small)
+#   Race                    Race. (Default: Formless)
+#   RaceGroups:             List of secondary groups the monster may be part of. (Optional)
+#     <group>: <value>      Group to toggle.
+#   Element                 Element. (Default: Neutral)
+#   ElementLevel            Level of element. (Default: 1)
+#   WalkSpeed               Walk speed. (Default: DEFAULT_WALK_SPEED)
+#   AttackDelay             Attack speed. (Default: 0)
+#   AttackMotion            Attack animation speed. (Default: 0)
+#   DamageMotion            Damage animation speed. (Default: 0)
+#   DamageTaken             Rate at which the monster will receive incoming damage. (Default: 100)
+#   Ai                      Aegis monster type AI behavior. (Default: 06)
+#   Class                   Aegis monster class. (Default: Normal)
+#   Modes:                  List of unique behavior not defined by AI, Class, or Attribute. (Optional)
+#     <mode>: <value>       Mode to toggle.
+#   MvpDrops:               List of possible MVP prize items. Max of MAX_MVP_DROP. (Optional)
+#     - Item                Item name.
+#       Rate                Drop rate of item. (Default: 1)
+#       RandomOptionGroup   Random Option Group applied to item on drop. (Default: None)
+#       Index               Index used for overwriting item. (Optional)
+#   Drops:                  List of possible normal item drops. Max of MAX_MOB_DROP. (Optional)
+#     - Item                Item name.
+#       Rate                Drop rate of item. (Default: 1)
+#       StealProtected      If the item is shielded from TF_STEAL. (Default: false)
+#       RandomOptionGroup   Random Option Group applied to item on drop. (Default: None)
+#       Index               Index used for overwriting item. (Optional)
+###########################################################################
+
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 2152
+    AegisName: COMODO
+    Name: Comodo
+    Level: 81
+    Hp: 879
+    BaseExp: 2144
+    JobExp: 1581
+    Attack: 427
+    Attack2: 42
+    Defense: 9
+    MagicDefense: 1
+    Str: 25
+    Agi: 26
+    Vit: 18
+    Int: 10
+    Dex: 47
+    Luk: 24
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Brute
+    Element: Poison
+    ElementLevel: 3
+    WalkSpeed: 165
+    AttackDelay: 432
+    AttackMotion: 432
+    DamageMotion: 360
+    Ai: 04
+    Modes:
+      CastSensorIdle: true
+    Drops:
+      - Item: Comodo_L
+        Rate: 5000
+      - Item: Meat
+        Rate: 9000
+      - Item: Scell
+        Rate: 9000
+      - Item: Spawn
+        Rate: 5000
+      - Item: Comodo_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2154
+    AegisName: BANASPATY
+    Name: Banaspaty
+    Level: 85
+    Hp: 21001
+    BaseExp: 22328
+    JobExp: 21688
+    Attack: 200
+    Attack2: 182
+    Defense: 26
+    MagicDefense: 29
+    Str: 34
+    Agi: 60
+    Vit: 48
+    Int: 79
+    Dex: 80
+    Luk: 20
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 220
+    AttackDelay: 1872
+    AttackMotion: 672
+    DamageMotion: 480
+    Ai: 04
+    Modes:
+      CastSensorIdle: true
+    Drops:
+      - Item: Coal
+        Rate: 1000
+      - Item: Zargon
+        Rate: 2000
+      - Item: Elunium
+        Rate: 1500
+      - Item: Oridecon_Stone
+        Rate: 1500
+      - Item: Fire_Arrow
+        Rate: 500
+      - Item: Banaspaty_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2155
+    AegisName: BUTOIJO
+    Name: Butoijo
+    Level: 88
+    Hp: 1206
+    BaseExp: 22710
+    JobExp: 21752
+    Attack: 358
+    Attack2: 102
+    Defense: 38
+    MagicDefense: 31
+    Str: 55
+    Agi: 73
+    Vit: 35
+    Int: 35
+    Dex: 93
+    Luk: 42
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Fire
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 1100
+    AttackMotion: 483
+    DamageMotion: 528
+    Ai: 17
+    Modes:
+      Aggressive: true
+      Angry: true
+      TargetWeak: true
+      Detector: true
+    Drops:
+      - Item: Sticky_Mucus
+        Rate: 2750
+      - Item: Pet_Food
+        Rate: 500
+      - Item: Leaflet_Of_Hinal
+        Rate: 450
+      - Item: Butoijo_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2156
+    AegisName: LEAK
+    Name: Leak
+    Level: 94
+    Hp: 449160
+    BaseExp: 945600
+    JobExp: 300120
+    MvpExp: 236400
+    Attack: 3723
+    Attack2: 1284
+    Defense: 28
+    MagicDefense: 13
+    Str: 50
+    Agi: 63
+    Vit: 15
+    Int: 43
+    Dex: 93
+    Luk: 28
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 151
+    AttackMotion: 288
+    DamageMotion: 360
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Yggdrasilberry
+        Rate: 5500
+      - Item: Old_Violet_Box
+        Rate: 2250
+      - Item: Old_Card_Album
+        Rate: 450
+    Drops:
+      - Item: Hunting_Spear
+        Rate: 10
+      - Item: Old_Violet_Box
+        Rate: 2500
+      - Item: Yggdrasilberry
+        Rate: 2500
+      - Item: Tidung
+        Rate: 500
+      - Item: Runstone_Rare
+        Rate: 3500
+      - Item: Honey
+        Rate: 2500
+      - Item: Gold
+        Rate: 2000
+      - Item: Leak_Card
+        Rate: 1
+        StealProtected: true
