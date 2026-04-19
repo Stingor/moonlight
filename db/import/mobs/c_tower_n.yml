@@ -1,0 +1,486 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2021 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Monster Database
+###########################################################################
+#
+# Monster Settings
+#
+###########################################################################
+# - Id                      Monster ID.
+#   AegisName               Server name to reference the monster in scripts and lookups, should use no spaces.
+#   Name                    Name in English.
+#   JapaneseName            Name in Japanese. (Default: 'Name' value)
+#   Level                   Level. (Default: 1)
+#   Hp                      Total HP. (Default: 1)
+#   Sp                      Total SP. (Default: 1)
+#   BaseExp                 Base experience gained. (Default: 0)
+#   JobExp                  Job experience gained. (Default: 0)
+#   MvpExp                  MVP experience gained. (Default: 0)
+#   Attack                  Minimum attack in pre-renewal and base attack in renewal. (Default: 0)
+#   Attack2                 Maximum attack in pre-renewal and base magic attack in renewal. (Default: 0)
+#   Defense                 Physical defense of the monster, reduces melee and ranged physical attack/skill damage. (Default: 0)
+#   MagicDefense            Magic defense of the monster, reduces magical skill damage. (Default: 0)
+#   Resistance              Physical resistance of the monster, reduces melee and ranged physical attack/skill damage. (Default: 0)
+#   MagicResistance         Magic resistance of the monster, reduces magical skill damage. (Default: 0)
+#   Str                     Strength which affects attack. (Default: 1)
+#   Agi                     Agility which affects flee. (Default: 1)
+#   Vit                     Vitality which affects defense. (Default: 1)
+#   Int                     Intelligence which affects magic attack. (Default: 1)
+#   Dex                     Dexterity which affects hit rate. (Default: 1)
+#   Luk                     Luck which affects perfect dodge/lucky flee/lerfect flee/lucky dodge rate. (Default: 1)
+#   AttackRange             Attack range. (Default: 0)
+#   SkillRange              Skill cast range. (Default: 0)
+#   ChaseRange              Chase range. (Default: 0)
+#   Size                    Size. (Default: Small)
+#   Race                    Race. (Default: Formless)
+#   RaceGroups:             List of secondary groups the monster may be part of. (Optional)
+#     <group>: <value>      Group to toggle.
+#   Element                 Element. (Default: Neutral)
+#   ElementLevel            Level of element. (Default: 1)
+#   WalkSpeed               Walk speed. (Default: DEFAULT_WALK_SPEED)
+#   AttackDelay             Attack speed. (Default: 0)
+#   AttackMotion            Attack animation speed. (Default: 0)
+#   DamageMotion            Damage animation speed. (Default: 0)
+#   DamageTaken             Rate at which the monster will receive incoming damage. (Default: 100)
+#   Ai                      Aegis monster type AI behavior. (Default: 06)
+#   Class                   Aegis monster class. (Default: Normal)
+#   Modes:                  List of unique behavior not defined by AI, Class, or Attribute. (Optional)
+#     <mode>: <value>       Mode to toggle.
+#   MvpDrops:               List of possible MVP prize items. Max of MAX_MVP_DROP. (Optional)
+#     - Item                Item name.
+#       Rate                Drop rate of item. (Default: 1)
+#       RandomOptionGroup   Random Option Group applied to item on drop. (Default: None)
+#       Index               Index used for overwriting item. (Optional)
+#   Drops:                  List of possible normal item drops. Max of MAX_MOB_DROP. (Optional)
+#     - Item                Item name.
+#       Rate                Drop rate of item. (Default: 1)
+#       StealProtected      If the item is shielded from TF_STEAL. (Default: false)
+#       RandomOptionGroup   Random Option Group applied to item on drop. (Default: None)
+#       Index               Index used for overwriting item. (Optional)
+###########################################################################
+
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 2916
+    AegisName: BIG_BEN
+    Name: Big Ben
+    Level: 150
+    Hp: 102450
+    BaseExp: 241940
+    JobExp: 70050
+    Attack: 1772
+    Attack2: 4212
+    Defense: 43
+    MagicDefense: 44
+    Str: 151
+    Agi: 129
+    Vit: 135
+    Int: 138
+    Dex: 266
+    Luk: 125
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 1092
+    AttackMotion: 792
+    DamageMotion: 480
+    Ai: 17
+    Drops:
+      - Item: Needle_Of_Alarm
+        Rate: 3000
+      - Item: Wooden_Block
+        Rate: 500
+      - Item: White_Herb
+        Rate: 950
+      - Item: Lemon
+        Rate: 160
+      - Item: Elunium_Stone
+        Rate: 100
+      - Item: Twisted_Key_of_Time
+        Rate: 15
+      - Item: Twisted_Key_of_Time
+        Rate: 15
+      - Item: Big_Ben_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2917
+    AegisName: BIG_BELL
+    Name: Big Bell
+    Level: 163
+    Hp: 113210
+    BaseExp: 270260
+    JobExp: 204570
+    Attack: 1531
+    Attack2: 4192
+    Defense: 44
+    MagicDefense: 45
+    Str: 151
+    Agi: 152
+    Vit: 136
+    Int: 129
+    Dex: 249
+    Luk: 129
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 3
+    WalkSpeed: 300
+    AttackDelay: 1020
+    AttackMotion: 500
+    DamageMotion: 768
+    Ai: 21
+    Drops:
+      - Item: Needle_Of_Alarm
+        Rate: 3000
+      - Item: Clip
+        Rate: 1
+      - Item: Skull
+        Rate: 750
+      - Item: Oridecon
+        Rate: 100
+      - Item: Zargon
+        Rate: 750
+      - Item: Twisted_Key_of_Time
+        Rate: 10
+      - Item: Big_Bell_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2918
+    AegisName: TIME_KEEPER
+    Name: Time Keeper
+    Level: 155
+    Hp: 103210
+    BaseExp: 247960
+    JobExp: 88690
+    Attack: 1708
+    Attack2: 4280
+    Defense: 43
+    MagicDefense: 46
+    Str: 156
+    Agi: 130
+    Vit: 136
+    Int: 129
+    Dex: 260
+    Luk: 139
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 4
+    WalkSpeed: 200
+    AttackDelay: 1072
+    AttackMotion: 672
+    DamageMotion: 384
+    Ai: 17
+    Drops:
+      - Item: Needle_Of_Alarm
+        Rate: 3000
+      - Item: Brigan
+        Rate: 3000
+      - Item: Steel
+        Rate: 250
+      - Item: Leaflet_Of_Hinal
+        Rate: 425
+      - Item: Memorize_Book
+        Rate: 1
+      - Item: Twisted_Key_of_Time
+        Rate: 1000
+      - Item: Twisted_Key_of_Time
+        Rate: 1000
+      - Item: Nightmare_Timer_Keeper_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2919
+    AegisName: NEO_PUNK
+    Name: Neo Punk
+    Level: 155
+    Hp: 91630
+    BaseExp: 207480
+    JobExp: 66180
+    Attack: 1172
+    Attack2: 4216
+    Defense: 40
+    MagicDefense: 46
+    Str: 149
+    Agi: 120
+    Vit: 115
+    Int: 118
+    Dex: 248
+    Luk: 123
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Plant
+    Element: Wind
+    ElementLevel: 1
+    WalkSpeed: 300
+    AttackDelay: 1500
+    AttackMotion: 500
+    DamageMotion: 1000
+    Ai: 09
+    Drops:
+      - Item: Mould_Powder
+        Rate: 3000
+      - Item: Yellow_Gemstone
+        Rate: 500
+      - Item: Starsand_Of_Witch
+        Rate: 500
+      - Item: Moth_Dust
+        Rate: 1500
+      - Item: Hood_
+        Rate: 8
+      - Item: Baby_Pacifier
+        Rate: 50
+      - Item: Neo_Punk_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2920
+    AegisName: ARC_ELDER
+    Name: Arc Elder
+    Level: 168
+    Hp: 123550
+    BaseExp: 301720
+    JobExp: 175320
+    Attack: 1436
+    Attack2: 4802
+    Defense: 41
+    MagicDefense: 44
+    Str: 150
+    Agi: 132
+    Vit: 118
+    Int: 150
+    Dex: 253
+    Luk: 131
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 4
+    WalkSpeed: 165
+    AttackDelay: 1552
+    AttackMotion: 1152
+    DamageMotion: 336
+    Ai: 04
+    Drops:
+      - Item: Old_Magic_Circle
+        Rate: 3000
+      - Item: Rent_Spell_Book
+        Rate: 1000
+      - Item: Encyclopedia
+        Rate: 5
+      - Item: Wizardy_Staff
+        Rate: 1
+      - Item: Old_Card_Album
+        Rate: 2
+      - Item: Twisted_Key_of_Time
+        Rate: 1500
+      - Item: Elder_Branch
+        Rate: 500
+      - Item: Arc_Elder_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2921
+    AegisName: OWL_VISCOUNT
+    Name: Owl Viscount
+    Level: 168
+    Hp: 123550
+    BaseExp: 301720
+    JobExp: 110890
+    Attack: 1872
+    Attack2: 4900
+    Defense: 41
+    MagicDefense: 45
+    Str: 144
+    Agi: 126
+    Vit: 123
+    Int: 144
+    Dex: 253
+    Luk: 125
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Neutral
+    ElementLevel: 3
+    WalkSpeed: 195
+    AttackDelay: 1345
+    AttackMotion: 824
+    DamageMotion: 440
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Tatters_Clothes
+        Rate: 2500
+      - Item: Soft_Feather
+        Rate: 1000
+      - Item: One_Eyed_Glass_
+        Rate: 1
+      - Item: Crystal_Mirror
+        Rate: 1
+      - Item: Pocket_Watch
+        Rate: 2
+      - Item: Quadrille_
+        Rate: 1
+      - Item: Menswear
+        Rate: 1
+      - Item: Owl_Viscount_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 2922
+    AegisName: G_OWL_VISCOUNT
+    Name: Owl Viscount
+    Level: 168
+    Hp: 295240
+    Attack: 1872
+    Attack2: 5900
+    Defense: 41
+    MagicDefense: 45
+    Str: 144
+    Agi: 126
+    Vit: 123
+    Int: 144
+    Dex: 253
+    Luk: 125
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Neutral
+    ElementLevel: 3
+    WalkSpeed: 195
+    AttackDelay: 1345
+    AttackMotion: 824
+    DamageMotion: 440
+    Ai: 21
+    Class: Boss
+  - Id: 2923
+    AegisName: OWL_MARQUEES
+    Name: Owl Marquis
+    Level: 170
+    Hp: 321870
+    BaseExp: 534940
+    JobExp: 138060
+    Attack: 3887
+    Attack2: 7603
+    Defense: 53
+    MagicDefense: 53
+    Str: 156
+    Agi: 133
+    Vit: 28
+    Int: 151
+    Dex: 254
+    Luk: 136
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Neutral
+    ElementLevel: 3
+    WalkSpeed: 175
+    AttackDelay: 1345
+    AttackMotion: 824
+    DamageMotion: 440
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Tatters_Clothes
+        Rate: 2000
+      - Item: Soft_Feather
+        Rate: 1500
+      - Item: Kakkung_
+        Rate: 1
+      - Item: Staff_Of_Soul
+        Rate: 1
+      - Item: Menswear
+        Rate: 3
+      - Item: Sword_Stick
+        Rate: 1
+      - Item: One_Eyed_Glass_
+        Rate: 1
+      - Item: Owl_Marquees_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 3074
+    AegisName: TIMEHOLDER
+    Name: Time Holder
+    Level: 170
+    Hp: 3918038
+    BaseExp: 4582500
+    JobExp: 1938750
+    MvpExp: 2291250
+    Attack: 5250
+    Attack2: 9100
+    Defense: 59
+    MagicDefense: 57
+    Str: 112
+    Agi: 76
+    Vit: 126
+    Int: 129
+    Dex: 201
+    Luk: 39
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Neutral
+    ElementLevel: 4
+    WalkSpeed: 100
+    AttackDelay: 398
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Needle_Of_Alarm
+        Rate: 3000
+      - Item: Memorize_Book_
+        Rate: 10
+      - Item: Brigan
+        Rate: 3000
+      - Item: Twisted_Key_of_Time
+        Rate: 3000
+      - Item: One_Eyed_Glass_
+        Rate: 20
+      - Item: Quadrille_
+        Rate: 5
+      - Item: Menswear
+        Rate: 3
+      - Item: Time_Holder_Card
+        Rate: 1
+        StealProtected: true

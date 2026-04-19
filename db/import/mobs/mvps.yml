@@ -253,6 +253,64 @@ Body:
       - Item: Berzebub_Card
         Rate: 1
         StealProtected: true
+  - Id: 2068
+    AegisName: BOITATA
+    Name: Boitata
+    Level: 93
+    Hp: 388003
+    BaseExp: 659605
+    JobExp: 428743
+    MvpExp: 37144
+    Attack: 1060
+    Attack2: 2022
+    Defense: 30
+    MagicDefense: 23
+    Str: 140
+    Agi: 99
+    Vit: 30
+    Int: 109
+    Dex: 120
+    Luk: 90
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 1152
+    AttackMotion: 1152
+    DamageMotion: 576
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Old_Violet_Box
+        Rate: 5500
+      - Item: Old_Violet_Box
+        Rate: 5000
+      - Item: Old_Card_Album
+        Rate: 2000
+    Drops:
+      - Item: Treasure_Box
+        Rate: 5000
+      - Item: Hurricane_Fury
+        Rate: 100
+      - Item: Hunting_Spear
+        Rate: 100
+      - Item: Yggdrasilberry
+        Rate: 500
+      - Item: Elunium
+        Rate: 1000
+      - Item: Oridecon
+        Rate: 1000
+      - Item: Hell_Fire
+        Rate: 100
+      - Item: Boitata_Card
+        Rate: 1
+        StealProtected: true
   - Id: 20928
     AegisName: CHIMERA_THEONE
     Name: The One
