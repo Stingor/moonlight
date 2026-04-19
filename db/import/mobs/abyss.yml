@@ -84,18 +84,19 @@ Body:
     AegisName: ACIDUS
     Name: Acidus
     Level: 80
-    Hp: 51112
-    BaseExp: 28043
-    JobExp: 8023
+    Hp: 18117
+    BaseExp: 30799
+    JobExp: 20019
     Attack: 1289
     Attack2: 2109
-    Defense: 29
-    MagicDefense: 69
-    Agi: 71
-    Vit: 55
-    Int: 135
-    Dex: 103
-    Luk: 69
+    Defense: 18
+    MagicDefense: 12
+    Agi: 78
+    Vit: 50
+    Int: 55
+    Dex: 108
+    Luk: 55
+    Str: 109
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
@@ -133,18 +134,19 @@ Body:
     AegisName: FERUS
     Name: Ferus
     Level: 70
-    Hp: 29218
-    BaseExp: 8093
-    JobExp: 3952
+    Hp: 20156
+    BaseExp: 34265
+    JobExp: 22272
     Attack: 1056
     Attack2: 1496
-    Defense: 14
-    MagicDefense: 45
-    Agi: 78
-    Vit: 45
-    Int: 72
-    Dex: 81
-    Luk: 73
+    Defense: 17
+    MagicDefense: 11
+    Agi: 80
+    Vit: 55
+    Int: 60
+    Dex: 109
+    Luk: 50
+    Str: 94
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
@@ -182,18 +184,19 @@ Body:
     AegisName: NOVUS
     Name: Novus
     Level: 42
-    Hp: 5430
-    BaseExp: 1320
-    JobExp: 1002
+    Hp: 5257
+    BaseExp: 8937
+    JobExp: 5809
     Attack: 284
     Attack2: 384
-    Defense: 20
-    MagicDefense: 28
+    Defense: 11
+    MagicDefense: 6
     Agi: 56
-    Vit: 43
-    Int: 45
-    Dex: 124
-    Luk: 43
+    Vit: 57
+    Int: 25
+    Dex: 108
+    Luk: 45
+    Str: 74
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -220,18 +223,19 @@ Body:
     AegisName: ACIDUS_
     Name: Acidus
     Level: 76
-    Hp: 39111
-    BaseExp: 14392
-    JobExp: 4203
+    Hp: 19161
+    BaseExp: 32574
+    JobExp: 21173
     Attack: 1180
     Attack2: 2000
-    Defense: 21
-    MagicDefense: 47
-    Agi: 78
-    Vit: 31
-    Int: 93
-    Dex: 88
-    Luk: 52
+    Defense: 18
+    MagicDefense: 11
+    Agi: 110
+    Vit: 61
+    Int: 53
+    Dex: 133
+    Luk: 53
+    Str: 106
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
@@ -269,18 +273,19 @@ Body:
     AegisName: FERUS_
     Name: Ferus
     Level: 69
-    Hp: 21182
-    BaseExp: 6750
-    JobExp: 2230
+    Hp: 25111
+    BaseExp: 42689
+    JobExp: 27748
     Attack: 930
     Attack2: 1170
-    Defense: 14
-    MagicDefense: 38
-    Agi: 66
-    Vit: 77
-    Int: 60
-    Dex: 79
-    Luk: 35
+    Defense: 17
+    MagicDefense: 11
+    Agi: 57
+    Vit: 57
+    Int: 61
+    Dex: 87
+    Luk: 51
+    Str: 91
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
@@ -315,18 +320,19 @@ Body:
     AegisName: NOVUS_
     Name: Novus
     Level: 43
-    Hp: 5830
-    BaseExp: 1411
-    JobExp: 1100
+    Hp: 4084
+    BaseExp: 6943
+    JobExp: 4513
     Attack: 314
     Attack2: 414
-    Defense: 24
-    MagicDefense: 28
-    Agi: 60
+    Defense: 11
+    MagicDefense: 7
+    Agi: 43
     Vit: 43
-    Int: 39
-    Dex: 119
-    Luk: 43
+    Int: 55
+    Dex: 108
+    Luk: 58
+    Str: 53
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -354,20 +360,20 @@ Body:
     Name: Detardeurus
     JapaneseName: Detale
     Level: 90
-    Hp: 960000
-    BaseExp: 291850
-    JobExp: 123304
+    Hp: 1937613
+    BaseExp: 3293942
+    JobExp: 2141062
     MvpExp: 145925
     Attack: 4560
     Attack2: 5548
-    Defense: 66
-    MagicDefense: 59
-    Str: 100
-    Agi: 90
-    Vit: 30
+    Defense: 37
+    MagicDefense: 23
+    Str: 165
+    Agi: 153
+    Vit: 171
     Int: 136
-    Dex: 140
-    Luk: 56
+    Dex: 278
+    Luk: 72
     AttackRange: 3
     SkillRange: 10
     ChaseRange: 12
@@ -413,18 +419,19 @@ Body:
     Name: Hydrolancer
     JapaneseName: Hydro
     Level: 89
-    Hp: 308230
-    BaseExp: 83450
-    JobExp: 2480
+    Hp: 17117
+    BaseExp: 29099
+    JobExp: 18914
     Attack: 2554
     Attack2: 3910
-    Defense: 52
-    MagicDefense: 62
-    Agi: 96
-    Vit: 110
-    Int: 86
-    Dex: 94
-    Luk: 32
+    Defense: 26
+    MagicDefense: 16
+    Agi: 72
+    Vit: 67
+    Int: 66
+    Dex: 123
+    Luk: 58
+    Str: 120
     AttackRange: 3
     SkillRange: 10
     ChaseRange: 12
@@ -460,15 +467,15 @@ Body:
     AegisName: DRAGON_EGG
     Name: Dragon Egg
     Level: 43
-    Hp: 18322
-    BaseExp: 6740
+    Hp: 27826
+    BaseExp: 47304
     Attack: 1
     Attack2: 2
-    Defense: 78
-    MagicDefense: 60
-    Vit: 56
-    Int: 67
-    Luk: 63
+    Defense: 13
+    MagicDefense: 7
+    Vit: 85
+    Int: 40
+    Luk: 65
     SkillRange: 10
     ChaseRange: 12
     Size: Medium
