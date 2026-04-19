@@ -84,13 +84,13 @@ Body:
     AegisName: EP16_2_HUMAN_KIMERA
     Name: Human Kimera
     Level: 100
-    Hp: 36968
-    BaseExp: 3798
-    JobExp: 3298
+    Hp: 24029
+    BaseExp: 40849
+    JobExp: 26552
     Attack: 1441
     Attack2: 207
-    Defense: 80
-    MagicDefense: 100
+    Defense: 25
+    MagicDefense: 16
     Str: 50
     Agi: 50
     Vit: 100
@@ -133,13 +133,13 @@ Body:
     AegisName: EP16_2_MATTER_KIMERA
     Name: Material Kimera
     Level: 100
-    Hp: 36968
-    BaseExp: 3798
-    JobExp: 3289
+    Hp: 24029
+    BaseExp: 40849
+    JobExp: 26552
     Attack: 1441
     Attack2: 207
-    Defense: 120
-    MagicDefense: 50
+    Defense: 25
+    MagicDefense: 14
     Str: 100
     Agi: 50
     Vit: 100
@@ -182,14 +182,14 @@ Body:
     AegisName: EP16_2_VENOM_KIMERA
     Name: Venomous Chimera
     Level: 110
-    Hp: 2800000
-    BaseExp: 800000
-    JobExp: 400000
+    Hp: 1388430
+    BaseExp: 2360331
+    JobExp: 1534215
     MvpExp: 5000
     Attack: 2160
     Attack2: 1000
-    Defense: 127
-    MagicDefense: 127
+    Defense: 40
+    MagicDefense: 25
     Str: 113
     Agi: 75
     Vit: 150
