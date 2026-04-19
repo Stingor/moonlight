@@ -27074,37 +27074,6 @@ Body:
     Drops:
       - Item: 3rd_Floor_Pass
         Rate: 1000
-  - Id: 1733
-    AegisName: KIEL
-    Name: Kiehl
-    JapaneseName: Kiel
-    Level: 90
-    Hp: 523000
-    BaseExp: 36500
-    JobExp: 23405
-    Attack: 1682
-    Attack2: 3311
-    Defense: 28
-    MagicDefense: 32
-    Str: 100
-    Agi: 112
-    Vit: 76
-    Int: 89
-    Dex: 156
-    Luk: 102
-    AttackRange: 3
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Medium
-    Race: Formless
-    Element: Dark
-    ElementLevel: 2
-    WalkSpeed: 140
-    AttackDelay: 1152
-    AttackMotion: 576
-    DamageMotion: 432
-    Ai: 21
-    Class: Boss
   - Id: 1741
     AegisName: G_COOKIE_XMAS
     Name: Christmas Cookie

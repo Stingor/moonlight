@@ -139,6 +139,64 @@ Body:
       - Item: Detale_Card
         Rate: 1
         StealProtected: true
+  - Id: 1734
+    AegisName: KIEL_
+    Name: Kiel D-01
+    Level: 90
+    Hp: 807312
+    BaseExp: 1372430
+    JobExp: 892080
+    MvpExp: 1178100
+    Attack: 3280
+    Attack2: 6560
+    Defense: 36
+    MagicDefense: 23
+    Str: 166
+    Agi: 187
+    Vit: 155
+    Int: 141
+    Dex: 279
+    Luk: 180
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 130
+    AttackDelay: 1152
+    AttackMotion: 576
+    DamageMotion: 432
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Old_Violet_Box
+        Rate: 5500
+      - Item: Old_Blue_Box
+        Rate: 5000
+      - Item: Old_Card_Album
+        Rate: 2000
+    Drops:
+      - Item: Pocket_Watch__
+        Rate: 3000
+      - Item: Old_Violet_Box
+        Rate: 3000
+      - Item: Morrigane's_Pendant
+        Rate: 1000
+      - Item: Glittering_Clothes
+        Rate: 1000
+      - Item: Survival_Rod_
+        Rate: 500
+      - Item: Counter_Dagger
+        Rate: 500
+      - Item: Morrigane's_Belt
+        Rate: 1000
+      - Item: Kiel_Card
+        Rate: 1
+        StealProtected: true
   - Id: 1779
     AegisName: KTULLANUX
     Name: Ktullanux

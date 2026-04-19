@@ -80,24 +80,24 @@ Header:
   Version: 5
 
 Body:
-  - Id: 1734
-    AegisName: KIEL_
-    Name: Kiel D-01
+  - Id: 1733
+    AegisName: KIEL
+    Name: Kiehl
+    JapaneseName: Kiel
     Level: 90
-    Hp: 1523000
-    BaseExp: 2356200
-    JobExp: 512602
-    MvpExp: 1178100
-    Attack: 3280
-    Attack2: 6560
-    Defense: 28
-    MagicDefense: 32
+    Hp: 211145
+    BaseExp: 358946
+    JobExp: 233315
+    Attack: 1682
+    Attack2: 3311
+    Defense: 27
+    MagicDefense: 17
     Str: 100
-    Agi: 130
-    Vit: 30
-    Int: 160
-    Dex: 199
-    Luk: 180
+    Agi: 112
+    Vit: 76
+    Int: 89
+    Dex: 187
+    Luk: 102
     AttackRange: 3
     SkillRange: 10
     ChaseRange: 12
@@ -105,56 +105,29 @@ Body:
     Race: Formless
     Element: Dark
     ElementLevel: 2
-    WalkSpeed: 130
+    WalkSpeed: 140
     AttackDelay: 1152
     AttackMotion: 576
     DamageMotion: 432
     Ai: 21
     Class: Boss
-    Modes:
-      Mvp: true
-    MvpDrops:
-      - Item: Old_Violet_Box
-        Rate: 5500
-      - Item: Old_Blue_Box
-        Rate: 5000
-      - Item: Old_Card_Album
-        Rate: 2000
-    Drops:
-      - Item: Pocket_Watch__
-        Rate: 3000
-      - Item: Old_Violet_Box
-        Rate: 3000
-      - Item: Morrigane's_Pendant
-        Rate: 1000
-      - Item: Glittering_Clothes
-        Rate: 1000
-      - Item: Survival_Rod_
-        Rate: 500
-      - Item: Counter_Dagger
-        Rate: 500
-      - Item: Morrigane's_Belt
-        Rate: 1000
-      - Item: Kiel_Card
-        Rate: 1
-        StealProtected: true
   - Id: 1735
     AegisName: ALICEL
     Name: Alicel
     Level: 75
-    Hp: 37520
-    BaseExp: 8890
-    JobExp: 5420
+    Hp: 9221
+    BaseExp: 15676
+    JobExp: 10189
     Attack: 1800
     Attack2: 2770
-    Defense: 30
-    MagicDefense: 30
-    Str: 50
-    Agi: 58
-    Vit: 50
-    Int: 51
-    Dex: 92
-    Luk: 40
+    Defense: 18
+    MagicDefense: 12
+    Str: 121
+    Agi: 53
+    Vit: 59
+    Int: 63
+    Dex: 102
+    Luk: 60
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
@@ -191,19 +164,19 @@ Body:
     AegisName: ALIOT
     Name: Aliot
     Level: 75
-    Hp: 48290
-    BaseExp: 13020
-    JobExp: 4006
+    Hp: 9050
+    BaseExp: 15385
+    JobExp: 10000
     Attack: 950
     Attack2: 2470
-    Defense: 35
-    MagicDefense: 15
-    Str: 50
-    Agi: 32
-    Vit: 87
-    Int: 12
-    Dex: 68
-    Luk: 19
+    Defense: 18
+    MagicDefense: 11
+    Str: 111
+    Agi: 56
+    Vit: 55
+    Int: 42
+    Dex: 107
+    Luk: 75
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
@@ -238,19 +211,19 @@ Body:
     AegisName: ALIZA
     Name: Aliza
     Level: 69
-    Hp: 19000
-    BaseExp: 6583
-    JobExp: 3400
+    Hp: 10693
+    BaseExp: 18178
+    JobExp: 11816
     Attack: 750
     Attack2: 1100
-    Defense: 8
-    MagicDefense: 5
-    Str: 74
-    Agi: 74
-    Vit: 52
-    Int: 35
-    Dex: 110
-    Luk: 140
+    Defense: 16
+    MagicDefense: 11
+    Str: 115
+    Agi: 50
+    Vit: 51
+    Int: 62
+    Dex: 88
+    Luk: 54
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -285,19 +258,19 @@ Body:
     AegisName: CONSTANT
     Name: Constant
     Level: 55
-    Hp: 10000
-    BaseExp: 3230
-    JobExp: 116
+    Hp: 14340
+    BaseExp: 24378
+    JobExp: 15846
     Attack: 460
     Attack2: 580
-    Defense: 12
-    MagicDefense: 12
-    Str: 50
-    Agi: 28
-    Vit: 26
-    Int: 47
-    Dex: 66
-    Luk: 14
+    Defense: 14
+    MagicDefense: 9
+    Str: 126
+    Agi: 98
+    Vit: 62
+    Int: 57
+    Dex: 109
+    Luk: 34
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -325,17 +298,17 @@ Body:
     AegisName: G_ALICEL
     Name: Alicel
     Level: 75
-    Hp: 37520
+    Hp: 9221
     Attack: 1600
     Attack2: 2570
-    Defense: 30
-    MagicDefense: 30
-    Str: 50
-    Agi: 60
-    Vit: 50
-    Int: 51
-    Dex: 92
-    Luk: 40
+    Defense: 18
+    MagicDefense: 12
+    Str: 121
+    Agi: 53
+    Vit: 59
+    Int: 63
+    Dex: 102
+    Luk: 60
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
@@ -343,7 +316,7 @@ Body:
     Race: Demon
     Element: Neutral
     ElementLevel: 3
-    WalkSpeed: 150
+    WalkSpeed: 250
     AttackDelay: 1080
     AttackMotion: 480
     DamageMotion: 504
@@ -357,17 +330,17 @@ Body:
     AegisName: G_ALIOT
     Name: Aliot
     Level: 75
-    Hp: 43290
+    Hp: 9050
     Attack: 950
     Attack2: 2070
-    Defense: 35
-    MagicDefense: 15
-    Str: 50
-    Agi: 32
-    Vit: 87
-    Int: 12
-    Dex: 68
-    Luk: 19
+    Defense: 18
+    MagicDefense: 11
+    Str: 111
+    Agi: 56
+    Vit: 55
+    Int: 42
+    Dex: 107
+    Luk: 75
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
@@ -375,7 +348,7 @@ Body:
     Race: Demon
     Element: Neutral
     ElementLevel: 3
-    WalkSpeed: 150
+    WalkSpeed: 200
     AttackDelay: 1296
     AttackMotion: 432
     DamageMotion: 360
