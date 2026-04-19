@@ -84,19 +84,19 @@ Body:
     AegisName: CENERE
     Name: Cenere
     Level: 146
-    Hp: 10462
-    BaseExp: 14234
-    JobExp: 5712
+    Hp: 17285
+    BaseExp: 29384
+    JobExp: 19100
     Attack: 1802
     Attack2: 1031
-    Defense: 9
-    MagicDefense: 8
-    Str: 34
-    Agi: 20
-    Vit: 15
-    Int: 18
-    Dex: 48
-    Luk: 23
+    Defense: 31
+    MagicDefense: 19
+    Str: 67
+    Agi: 39
+    Vit: 30
+    Int: 35
+    Dex: 95
+    Luk: 45
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -127,19 +127,19 @@ Body:
     AegisName: ANTIQUE_BOOK
     Name: Antique Book
     Level: 148
-    Hp: 10765
-    BaseExp: 14450
-    JobExp: 5870
+    Hp: 17401
+    BaseExp: 29582
+    JobExp: 19228
     Attack: 1861
     Attack2: 1213
-    Defense: 7
-    MagicDefense: 4
-    Str: 34
-    Agi: 27
-    Vit: 16
-    Int: 22
-    Dex: 63
-    Luk: 3
+    Defense: 31
+    MagicDefense: 20
+    Str: 67
+    Agi: 53
+    Vit: 32
+    Int: 44
+    Dex: 125
+    Luk: 5
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -169,19 +169,19 @@ Body:
     Name: Lichtern
     JapaneseName: Blue Lichtern
     Level: 149
-    Hp: 10781
-    BaseExp: 14374
-    JobExp: 5701
+    Hp: 16734
+    BaseExp: 28448
+    JobExp: 18491
     Attack: 1513
     Attack2: 1410
-    Defense: 8
-    MagicDefense: 4
-    Str: 62
-    Agi: 37
-    Vit: 30
-    Int: 28
-    Dex: 46
-    Luk: 25
+    Defense: 33
+    MagicDefense: 20
+    Str: 124
+    Agi: 74
+    Vit: 60
+    Int: 55
+    Dex: 92
+    Luk: 50
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -213,19 +213,19 @@ Body:
     Name: Lichtern
     JapaneseName: Yellow Lichtern
     Level: 147
-    Hp: 10465
-    BaseExp: 14142
-    JobExp: 5810
+    Hp: 17232
+    BaseExp: 29294
+    JobExp: 19041
     Attack: 1416
     Attack2: 1561
-    Defense: 8
-    MagicDefense: 5
-    Str: 71
-    Agi: 47
-    Vit: 38
-    Int: 46
-    Dex: 72
-    Luk: 25
+    Defense: 33
+    MagicDefense: 21
+    Str: 141
+    Agi: 94
+    Vit: 75
+    Int: 91
+    Dex: 144
+    Luk: 50
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -256,19 +256,19 @@ Body:
     Name: Lichtern
     JapaneseName: Red Lichtern
     Level: 149
-    Hp: 10802
-    BaseExp: 14402
-    JobExp: 6013
+    Hp: 17309
+    BaseExp: 29425
+    JobExp: 19126
     Attack: 1647
     Attack2: 1449
-    Defense: 11
-    MagicDefense: 5
-    Str: 74
-    Agi: 39
-    Vit: 33
-    Int: 33
-    Dex: 67
-    Luk: 25
+    Defense: 33
+    MagicDefense: 20
+    Str: 147
+    Agi: 77
+    Vit: 66
+    Int: 65
+    Dex: 133
+    Luk: 50
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -299,19 +299,19 @@ Body:
     Name: Lichtern
     JapaneseName: Green Lichtern
     Level: 151
-    Hp: 10965
-    BaseExp: 14428
-    JobExp: 5710
+    Hp: 16572
+    BaseExp: 28172
+    JobExp: 18312
     Attack: 1547
     Attack2: 1594
-    Defense: 12
-    MagicDefense: 6
-    Str: 61
-    Agi: 30
-    Vit: 29
-    Int: 31
-    Dex: 51
-    Luk: 25
+    Defense: 33
+    MagicDefense: 21
+    Str: 121
+    Agi: 60
+    Vit: 58
+    Int: 62
+    Dex: 102
+    Luk: 50
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -341,19 +341,19 @@ Body:
     AegisName: FAITHFUL_MANAGER
     Name: Faithful Manager
     Level: 155
-    Hp: 13535
-    BaseExp: 17352
-    JobExp: 6501
+    Hp: 17860
+    BaseExp: 30362
+    JobExp: 19735
     Attack: 2091
     Attack2: 1607
-    Defense: 20
-    MagicDefense: 14
-    Str: 40
-    Agi: 14
-    Vit: 20
-    Int: 13
-    Dex: 44
-    Luk: 23
+    Defense: 33
+    MagicDefense: 20
+    Str: 80
+    Agi: 28
+    Vit: 40
+    Int: 25
+    Dex: 88
+    Luk: 45
     AttackRange: 3
     SkillRange: 10
     ChaseRange: 12
