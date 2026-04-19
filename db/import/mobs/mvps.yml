@@ -369,6 +369,57 @@ Body:
       - Item: The_One_Card
         Rate: 1
         StealProtected: true
+  - Id: 3074
+    AegisName: TIMEHOLDER
+    Name: Time Holder
+    Level: 170
+    Hp: 1526522
+    BaseExp: 2595087
+    JobExp: 1686807
+    MvpExp: 2291250
+    Attack: 5250
+    Attack2: 9100
+    Defense: 52
+    MagicDefense: 34
+    Str: 224
+    Agi: 152
+    Vit: 251
+    Int: 257
+    Dex: 402
+    Luk: 77
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Neutral
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 100
+    AttackMotion: 576
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    Drops:
+      - Item: Needle_Of_Alarm
+        Rate: 3000
+      - Item: Memorize_Book_
+        Rate: 10
+      - Item: Brigan
+        Rate: 3000
+      - Item: Twisted_Key_of_Time
+        Rate: 3000
+      - Item: One_Eyed_Glass_
+        Rate: 20
+      - Item: Quadrille_
+        Rate: 5
+      - Item: Menswear
+        Rate: 3
+      - Item: Time_Holder_Card
+        Rate: 1
+        StealProtected: true
   - Id: 20648
     AegisName: EP17_2_PITAYA_BOSS
     Name: Boss Meow
