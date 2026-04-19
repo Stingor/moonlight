@@ -84,19 +84,19 @@ Body:
     AegisName: COMODO
     Name: Comodo
     Level: 81
-    Hp: 879
-    BaseExp: 2144
-    JobExp: 1581
+    Hp: 1852
+    BaseExp: 3148
+    JobExp: 2046
     Attack: 427
     Attack2: 42
-    Defense: 9
-    MagicDefense: 1
-    Str: 25
-    Agi: 26
-    Vit: 18
-    Int: 10
-    Dex: 47
-    Luk: 24
+    Defense: 18
+    MagicDefense: 11
+    Str: 65
+    Agi: 52
+    Vit: 35
+    Int: 20
+    Dex: 94
+    Luk: 48
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -104,10 +104,10 @@ Body:
     Race: Brute
     Element: Poison
     ElementLevel: 3
-    WalkSpeed: 165
-    AttackDelay: 432
-    AttackMotion: 432
-    DamageMotion: 360
+    WalkSpeed: 180
+    AttackDelay: 500
+    AttackMotion: 576
+    DamageMotion: 504
     Ai: 04
     Modes:
       CastSensorIdle: true
@@ -127,18 +127,18 @@ Body:
     AegisName: BANASPATY
     Name: Banaspaty
     Level: 85
-    Hp: 21001
-    BaseExp: 22328
-    JobExp: 21688
+    Hp: 1268
+    BaseExp: 2156
+    JobExp: 1401
     Attack: 200
     Attack2: 182
-    Defense: 26
-    MagicDefense: 29
-    Str: 34
-    Agi: 60
-    Vit: 48
-    Int: 79
-    Dex: 80
+    Defense: 19
+    MagicDefense: 13
+    Str: 61
+    Agi: 78
+    Vit: 35
+    Int: 77
+    Dex: 79
     Luk: 20
     AttackRange: 1
     SkillRange: 10
@@ -147,10 +147,10 @@ Body:
     Race: Formless
     Element: Fire
     ElementLevel: 3
-    WalkSpeed: 220
-    AttackDelay: 1872
-    AttackMotion: 672
-    DamageMotion: 480
+    WalkSpeed: 250
+    AttackDelay: 1152
+    AttackMotion: 2304
+    DamageMotion: 432
     Ai: 04
     Modes:
       CastSensorIdle: true
@@ -172,19 +172,19 @@ Body:
     AegisName: BUTOIJO
     Name: Butoijo
     Level: 88
-    Hp: 1206
-    BaseExp: 22710
-    JobExp: 21752
+    Hp: 1967
+    BaseExp: 3344
+    JobExp: 2174
     Attack: 358
     Attack2: 102
-    Defense: 38
-    MagicDefense: 31
-    Str: 55
-    Agi: 73
-    Vit: 35
-    Int: 35
-    Dex: 93
-    Luk: 42
+    Defense: 19
+    MagicDefense: 12
+    Str: 66
+    Agi: 65
+    Vit: 30
+    Int: 30
+    Dex: 106
+    Luk: 44
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -192,10 +192,10 @@ Body:
     Race: Demon
     Element: Fire
     ElementLevel: 2
-    WalkSpeed: 200
-    AttackDelay: 1100
-    AttackMotion: 483
-    DamageMotion: 528
+    WalkSpeed: 170
+    AttackDelay: 576
+    AttackMotion: 768
+    DamageMotion: 432
     Ai: 17
     Modes:
       Aggressive: true
@@ -216,20 +216,20 @@ Body:
     AegisName: LEAK
     Name: Leak
     Level: 94
-    Hp: 449160
-    BaseExp: 945600
-    JobExp: 300120
+    Hp: 374470
+    BaseExp: 636599
+    JobExp: 413789
     MvpExp: 236400
     Attack: 3723
     Attack2: 1284
-    Defense: 28
-    MagicDefense: 13
-    Str: 50
-    Agi: 63
-    Vit: 15
-    Int: 43
-    Dex: 93
-    Luk: 28
+    Defense: 30
+    MagicDefense: 22
+    Str: 122
+    Agi: 125
+    Vit: 30
+    Int: 85
+    Dex: 186
+    Luk: 55
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -237,9 +237,9 @@ Body:
     Race: Demon
     Element: Dark
     ElementLevel: 2
-    WalkSpeed: 150
-    AttackDelay: 151
-    AttackMotion: 288
+    WalkSpeed: 130
+    AttackDelay: 576
+    AttackMotion: 576
     DamageMotion: 360
     Ai: 21
     Class: Boss
