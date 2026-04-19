@@ -521,11 +521,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "db", "db", "{7BC88804-FB04-
 		db\import\abra_db.yml = db\import\abra_db.yml
 		db\import\achievement_db.yml = db\import\achievement_db.yml
 		db\import\achievement_level_db.yml = db\import\achievement_level_db.yml
-		db\import\mobs\amicitia.yml = db\import\mobs\amicitia.yml
 		db\import\attendance.yml = db\import\attendance.yml
 		db\import\attr_fix.yml = db\import\attr_fix.yml
 		db\import\battleground_db.yml = db\import\battleground_db.yml
-		db\import\mobs\ba_dun.yml = db\import\mobs\ba_dun.yml
 		db\import\captcha_db.yml = db\import\captcha_db.yml
 		db\import\castle_db.yml = db\import\castle_db.yml
 		db\import\const.yml = db\import\const.yml
@@ -565,7 +563,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "db", "db", "{7BC88804-FB04-
 		db\import\level_penalty.txt = db\import\level_penalty.txt
 		db\import\level_penalty.yml = db\import\level_penalty.yml
 		db\import\magicmushroom_db.yml = db\import\magicmushroom_db.yml
-		db\import\mobs\mag_dun.yml = db\import\mobs\mag_dun.yml
 		db\import\map_cache.dat = db\import\map_cache.dat
 		db\import\map_drops.yml = db\import\map_drops.yml
 		db\import\map_index.txt = db\import\map_index.txt
@@ -580,7 +577,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "db", "db", "{7BC88804-FB04-
 		db\import\mob_race2_db.txt = db\import\mob_race2_db.txt
 		db\import\mob_skill_db.txt = db\import\mob_skill_db.txt
 		db\import\mob_summon.yml = db\import\mob_summon.yml
-		db\import\mobs\mvps.yml = db\import\mobs\mvps.yml
 		db\import\pet_db.yml = db\import\pet_db.yml
 		db\import\produce_db.txt = db\import\produce_db.txt
 		db\import\quest_db.yml = db\import\quest_db.yml
@@ -600,6 +596,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "db", "db", "{7BC88804-FB04-
 		db\import\status_disabled.txt = db\import\status_disabled.txt
 		db\import\stylist.yml = db\import\stylist.yml
 		db\import\wing_db.txt = db\import\wing_db.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mobs", "mobs", "{F1C23466-629E-43DE-919F-ADA0C480D54F}"
+	ProjectSection(SolutionItems) = preProject
+		db\import\mobs\abbey.yml = db\import\mobs\abbey.yml
+		db\import\mobs\amicitia.yml = db\import\mobs\amicitia.yml
+		db\import\mobs\ba_dun.yml = db\import\mobs\ba_dun.yml
+		db\import\mobs\mag_dun.yml = db\import\mobs\mag_dun.yml
+		db\import\mobs\mvps.yml = db\import\mobs\mvps.yml
+		db\import\mobs\slabw01.yml = db\import\mobs\slabw01.yml
 	EndProjectSection
 EndProject
 Global
@@ -760,6 +766,7 @@ Global
 		{9D2617DD-44E0-46DF-AEE0-E17A7B25BD12} = {924740E5-D449-4188-80DB-F796DC79020F}
 		{05542C23-D708-44FC-8175-DBAC4E9D9DB9} = {924740E5-D449-4188-80DB-F796DC79020F}
 		{7BC88804-FB04-40A6-BE9F-738483E25C83} = {6D9F5D00-2988-4812-844D-D155C4F588DC}
+		{F1C23466-629E-43DE-919F-ADA0C480D54F} = {7BC88804-FB04-40A6-BE9F-738483E25C83}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {026DA20F-820C-40AA-983E-0E231EA90AD5}
