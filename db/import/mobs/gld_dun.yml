@@ -84,17 +84,19 @@ Body:
     AegisName: BANSHEE_MASTER
     Name: Banshee Master
     Level: 84
-    Hp: 47222
-    BaseExp: 30000
-    JobExp: 24000
+    Hp: 10099
+    BaseExp: 17168
+    JobExp: 11159
     Attack: 2666
     Attack2: 3609
-    Defense: 20
-    MagicDefense: 40
-    Str: 30
-    Agi: 74
-    Int: 180
-    Dex: 105
+    Defense: 19
+    MagicDefense: 15
+    Str: 121
+    Agi: 58
+    Int: 122
+    Dex: 84
+    Vit: 48
+    Luk: 44
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
@@ -129,18 +131,18 @@ Body:
     AegisName: BEHOLDER_MASTER
     Name: Beholder Master
     Level: 70
-    Hp: 24150
-    BaseExp: 9000
-    JobExp: 11400
+    Hp: 7755
+    BaseExp: 13184
+    JobExp: 8570
     Attack: 1723
     Attack2: 2300
-    Defense: 17
-    MagicDefense: 30
-    Str: 60
-    Agi: 62
-    Vit: 25
-    Int: 89
-    Dex: 85
+    Defense: 16
+    MagicDefense: 11
+    Str: 103
+    Agi: 67
+    Vit: 42
+    Int: 69
+    Dex: 83
     Luk: 32
     AttackRange: 6
     SkillRange: 10
@@ -176,19 +178,19 @@ Body:
     AegisName: COBALT_MINERAL
     Name: Cobalt Mineral
     Level: 72
-    Hp: 29665
-    BaseExp: 12332
-    JobExp: 10379
+    Hp: 9881
+    BaseExp: 16798
+    JobExp: 10919
     Attack: 1446
     Attack2: 2979
-    Defense: 40
-    MagicDefense: 30
-    Str: 60
-    Agi: 77
-    Vit: 35
+    Defense: 18
+    MagicDefense: 11
+    Str: 110
+    Agi: 55
+    Vit: 65
     Int: 57
-    Dex: 77
-    Luk: 32
+    Dex: 133
+    Luk: 41
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -223,19 +225,19 @@ Body:
     AegisName: HEAVY_METALING
     Name: Heavy Metaling
     Level: 73
-    Hp: 28433
-    BaseExp: 9320
-    JobExp: 8831
+    Hp: 6806
+    BaseExp: 11570
+    JobExp: 7520
     Attack: 1350
     Attack2: 1700
-    Defense: 40
-    MagicDefense: 30
-    Str: 30
-    Agi: 65
-    Vit: 28
-    Int: 40
-    Dex: 77
-    Luk: 2
+    Defense: 19
+    MagicDefense: 11
+    Str: 105
+    Agi: 63
+    Vit: 86
+    Int: 58
+    Dex: 67
+    Luk: 38
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -271,18 +273,19 @@ Body:
     Name: Hell Vesper
     JapaneseName: Hell Apocalips
     Level: 86
-    Hp: 65433
-    BaseExp: 46666
-    JobExp: 32000
+    Hp: 12122
+    BaseExp: 20607
+    JobExp: 13395
     Attack: 5733
     Attack2: 6073
-    Defense: 62
-    MagicDefense: 23
-    Agi: 48
-    Vit: 30
-    Int: 98
-    Dex: 110
-    Luk: 85
+    Defense: 21
+    MagicDefense: 12
+    Agi: 62
+    Vit: 80
+    Int: 48
+    Dex: 125
+    Luk: 37
+    Str: 135
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
@@ -318,19 +321,19 @@ Body:
     Name: Zakudam
     JapaneseName: Zukadam
     Level: 82
-    Hp: 43699
-    BaseExp: 27213
-    JobExp: 16300
+    Hp: 8485
+    BaseExp: 14424
+    JobExp: 9376
     Attack: 2000
     Attack2: 3227
-    Defense: 30
-    MagicDefense: 30
-    Str: 65
-    Agi: 65
-    Vit: 35
-    Int: 75
-    Dex: 80
-    Luk: 15
+    Defense: 20
+    MagicDefense: 12
+    Str: 122
+    Agi: 66
+    Vit: 70
+    Int: 61
+    Dex: 92
+    Luk: 55
     AttackRange: 3
     SkillRange: 10
     ChaseRange: 12
@@ -365,19 +368,19 @@ Body:
     AegisName: ANGRA_MANTIS
     Name: Angra Mantis
     Level: 144
-    Hp: 11296
-    BaseExp: 15580
-    JobExp: 7020
+    Hp: 12524
+    BaseExp: 21291
+    JobExp: 13839
     Attack: 869
     Attack2: 177
-    Defense: 18
-    MagicDefense: 8
-    Str: 61
-    Agi: 78
-    Vit: 60
-    Int: 41
-    Dex: 66
-    Luk: 40
+    Defense: 35
+    MagicDefense: 21
+    Str: 122
+    Agi: 155
+    Vit: 119
+    Int: 81
+    Dex: 198
+    Luk: 79
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -409,19 +412,19 @@ Body:
     Name: Warrior Laura
     JapaneseName: Lora
     Level: 136
-    Hp: 22697
-    BaseExp: 33134
-    JobExp: 13788
+    Hp: 76580
+    BaseExp: 130186
+    JobExp: 84621
     Attack: 1985
     Attack2: 1701
-    Defense: 22
-    MagicDefense: 6
-    Str: 72
-    Agi: 46
-    Vit: 43
-    Int: 35
-    Dex: 75
-    Luk: 34
+    Defense: 32
+    MagicDefense: 19
+    Str: 144
+    Agi: 92
+    Vit: 86
+    Int: 69
+    Dex: 149
+    Luk: 68
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
@@ -456,19 +459,19 @@ Body:
     AegisName: ELVIRA
     Name: Elvira
     Level: 138
-    Hp: 24807
-    BaseExp: 35694
-    JobExp: 13569
+    Hp: 74601
+    BaseExp: 126822
+    JobExp: 82434
     Attack: 699
     Attack2: 2101
-    Defense: 17
-    MagicDefense: 7
-    Str: 95
-    Agi: 53
-    Vit: 46
-    Int: 43
-    Dex: 99
-    Luk: 36
+    Defense: 32
+    MagicDefense: 20
+    Str: 189
+    Agi: 105
+    Vit: 92
+    Int: 85
+    Dex: 198
+    Luk: 72
     AttackRange: 3
     SkillRange: 10
     ChaseRange: 12
@@ -504,19 +507,19 @@ Body:
     Name: Samurai Soheon
     JapaneseName: Soheon
     Level: 137
-    Hp: 21687
-    BaseExp: 31430
-    JobExp: 12540
+    Hp: 75732
+    BaseExp: 128744
+    JobExp: 83684
     Attack: 1591
     Attack2: 1036
-    Defense: 21
-    MagicDefense: 18
-    Str: 59
-    Agi: 122
-    Vit: 49
-    Int: 63
-    Dex: 123
-    Luk: 51
+    Defense: 32
+    MagicDefense: 21
+    Str: 118
+    Agi: 244
+    Vit: 98
+    Int: 126
+    Dex: 246
+    Luk: 102
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
@@ -551,19 +554,19 @@ Body:
     AegisName: RUDO
     Name: Rudo
     Level: 135
-    Hp: 18541
-    BaseExp: 27266
-    JobExp: 12409
+    Hp: 77910
+    BaseExp: 132447
+    JobExp: 86091
     Attack: 1401
     Attack2: 1501
-    Defense: 20
-    MagicDefense: 10
-    Str: 53
-    Agi: 33
-    Vit: 31
-    Int: 21
-    Dex: 63
-    Luk: 36
+    Defense: 30
+    MagicDefense: 18
+    Str: 106
+    Agi: 65
+    Vit: 61
+    Int: 42
+    Dex: 125
+    Luk: 72
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -599,19 +602,19 @@ Body:
     Name: Dark Shadow
     JapaneseName: Abysmal Dark Shadow
     Level: 147
-    Hp: 17020
-    BaseExp: 23000
-    JobExp: 10100
+    Hp: 26744
+    BaseExp: 45465
+    JobExp: 29552
     Attack: 1653
     Attack2: 1621
-    Defense: 14
-    MagicDefense: 4
-    Str: 78
-    Agi: 63
-    Vit: 45
-    Int: 54
-    Dex: 107
-    Luk: 38
+    Defense: 34
+    MagicDefense: 22
+    Str: 155
+    Agi: 126
+    Vit: 89
+    Int: 108
+    Dex: 213
+    Luk: 76
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -649,19 +652,19 @@ Body:
     Name: Dark Frame
     JapaneseName: Abysmal Dark Frame
     Level: 145
-    Hp: 14747
-    BaseExp: 20202
-    JobExp: 10003
+    Hp: 24243
+    BaseExp: 41213
+    JobExp: 26788
     Attack: 1850
     Attack2: 1601
-    Defense: 8
-    MagicDefense: 4
-    Str: 35
-    Agi: 19
-    Vit: 18
-    Int: 5
-    Dex: 32
-    Luk: 3
+    Defense: 31
+    MagicDefense: 18
+    Str: 69
+    Agi: 37
+    Vit: 36
+    Int: 10
+    Dex: 64
+    Luk: 5
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -699,19 +702,19 @@ Body:
     Name: Dark Priest
     JapaneseName: Abysmal Dark Priest
     Level: 141
-    Hp: 14978
-    BaseExp: 21096
-    JobExp: 10801
+    Hp: 25903
+    BaseExp: 44035
+    JobExp: 28623
     Attack: 1326
     Attack2: 1651
-    Defense: 6
-    MagicDefense: 4
-    Str: 3
-    Agi: 30
-    Vit: 21
-    Int: 45
-    Dex: 47
-    Luk: 21
+    Defense: 30
+    MagicDefense: 20
+    Str: 5
+    Agi: 60
+    Vit: 41
+    Int: 89
+    Dex: 94
+    Luk: 42
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
@@ -749,19 +752,19 @@ Body:
     Name: Dark Axe Kobold
     JapaneseName: Abysmal Kobold
     Level: 145
-    Hp: 16118
-    BaseExp: 22080
-    JobExp: 10730
+    Hp: 26237
+    BaseExp: 44603
+    JobExp: 28992
     Attack: 1851
     Attack2: 201
-    Defense: 10
-    MagicDefense: 3
-    Str: 55
-    Agi: 38
-    Vit: 31
-    Int: 27
-    Dex: 49
-    Luk: 15
+    Defense: 32
+    MagicDefense: 20
+    Str: 109
+    Agi: 76
+    Vit: 61
+    Int: 53
+    Dex: 98
+    Luk: 30
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -797,19 +800,19 @@ Body:
     Name: Dark Hammer Kobold
     JapaneseName: Abysmal Kobold
     Level: 142
-    Hp: 14815
-    BaseExp: 20720
-    JobExp: 10150
+    Hp: 25464
+    BaseExp: 43289
+    JobExp: 28138
     Attack: 1401
     Attack2: 133
-    Defense: 12
-    MagicDefense: 6
-    Str: 48
-    Agi: 31
-    Vit: 28
-    Int: 24
-    Dex: 48
-    Luk: 10
+    Defense: 31
+    MagicDefense: 19
+    Str: 96
+    Agi: 61
+    Vit: 55
+    Int: 48
+    Dex: 95
+    Luk: 20
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -845,19 +848,19 @@ Body:
     Name: Dark Mace Kobold
     JapaneseName: Abysmal Kobold
     Level: 141
-    Hp: 14370
-    BaseExp: 20240
-    JobExp: 10300
+    Hp: 26038
+    BaseExp: 44265
+    JobExp: 28772
     Attack: 1301
     Attack2: 134
-    Defense: 11
-    MagicDefense: 5
-    Str: 52
-    Agi: 32
-    Vit: 30
-    Int: 21
-    Dex: 40
-    Luk: 10
+    Defense: 31
+    MagicDefense: 19
+    Str: 103
+    Agi: 64
+    Vit: 59
+    Int: 42
+    Dex: 80
+    Luk: 20
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -893,19 +896,19 @@ Body:
     Name: Dark Kobold Archer
     JapaneseName: Abysmal Kobold Archer
     Level: 142
-    Hp: 15115
-    BaseExp: 21140
-    JobExp: 10100
+    Hp: 25350
+    BaseExp: 43095
+    JobExp: 28012
     Attack: 1504
     Attack2: 121
-    Defense: 8
-    MagicDefense: 1
-    Str: 50
-    Agi: 20
-    Vit: 24
-    Int: 15
-    Dex: 62
-    Luk: 13
+    Defense: 31
+    MagicDefense: 18
+    Str: 99
+    Agi: 39
+    Vit: 48
+    Int: 30
+    Dex: 124
+    Luk: 25
     AttackRange: 9
     SkillRange: 10
     ChaseRange: 12
@@ -942,9 +945,14 @@ Body:
     AegisName: GLD_TREASURE
     Name: Treasure Chest
     Level: 140
-    Hp: 5
-    Defense: 10
-    Dex: 600
+    Hp: 1
+    Defense: 33
+    Dex: 1199
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Luk: 0
     AttackRange: 1
     Size: Small
     Race: Formless
@@ -973,19 +981,19 @@ Body:
     AegisName: L_SEYREN
     Name: Knight Seyren
     Level: 98
-    Hp: 2921
-    BaseExp: 5900
-    JobExp: 1974
+    Hp: 3909
+    BaseExp: 6645
+    JobExp: 4319
     Attack: 827
     Attack2: 285
-    Defense: 15
-    MagicDefense: 1
-    Str: 64
-    Agi: 31
-    Vit: 39
-    Int: 22
-    Dex: 59
-    Luk: 25
+    Defense: 23
+    MagicDefense: 14
+    Str: 127
+    Agi: 62
+    Vit: 77
+    Int: 44
+    Dex: 118
+    Luk: 49
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1017,19 +1025,19 @@ Body:
     AegisName: L_EREMES
     Name: Assassin Eremes
     Level: 98
-    Hp: 3119
-    BaseExp: 6300
-    JobExp: 1484
+    Hp: 2662
+    BaseExp: 4525
+    JobExp: 2941
     Attack: 739
     Attack2: 153
-    Defense: 11
-    MagicDefense: 1
-    Str: 65
-    Agi: 39
-    Vit: 27
-    Int: 30
-    Dex: 57
-    Luk: 34
+    Defense: 22
+    MagicDefense: 14
+    Str: 130
+    Agi: 78
+    Vit: 53
+    Int: 60
+    Dex: 114
+    Luk: 68
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1062,19 +1070,19 @@ Body:
     Name: Blacksmith Howard
     JapaneseName: Blacksmith Harword
     Level: 98
-    Hp: 2723
-    BaseExp: 5500
-    JobExp: 1640
+    Hp: 3480
+    BaseExp: 5916
+    JobExp: 3845
     Attack: 782
     Attack2: 253
-    Defense: 12
-    MagicDefense: 1
-    Str: 62
-    Agi: 36
-    Vit: 28
-    Int: 24
-    Dex: 37
-    Luk: 22
+    Defense: 22
+    MagicDefense: 14
+    Str: 124
+    Agi: 71
+    Vit: 55
+    Int: 47
+    Dex: 73
+    Luk: 43
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1107,19 +1115,19 @@ Body:
     Name: Hunter Cecil
     JapaneseName: Hunter Shecil
     Level: 98
-    Hp: 2723
-    BaseExp: 5500
-    JobExp: 1668
+    Hp: 2605
+    BaseExp: 4428
+    JobExp: 2878
     Attack: 574
     Attack2: 223
-    Defense: 7
-    MagicDefense: 1
-    Str: 54
-    Agi: 57
-    Vit: 30
-    Int: 36
-    Dex: 74
-    Luk: 19
+    Defense: 23
+    MagicDefense: 15
+    Str: 108
+    Agi: 113
+    Vit: 60
+    Int: 72
+    Dex: 148
+    Luk: 37
     AttackRange: 14
     SkillRange: 10
     ChaseRange: 12
@@ -1152,19 +1160,19 @@ Body:
     Name: Wizard Kathryne
     JapaneseName: Wizard Katrinn
     Level: 98
-    Hp: 2723
-    BaseExp: 5500
-    JobExp: 1934
+    Hp: 2091
+    BaseExp: 3555
+    JobExp: 2311
     Attack: 512
     Attack2: 650
-    Defense: 7
-    MagicDefense: 7
-    Str: 49
-    Agi: 35
-    Vit: 25
-    Int: 65
-    Dex: 63
-    Luk: 22
+    Defense: 22
+    MagicDefense: 17
+    Str: 97
+    Agi: 70
+    Vit: 49
+    Int: 129
+    Dex: 125
+    Luk: 44
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1197,19 +1205,19 @@ Body:
     Name: Priest Margaretha
     JapaneseName: Prist Magaleta
     Level: 98
-    Hp: 2129
-    BaseExp: 4300
-    JobExp: 1634
+    Hp: 2710
+    BaseExp: 4607
+    JobExp: 2995
     Attack: 644
     Attack2: 498
-    Defense: 10
-    MagicDefense: 8
-    Str: 57
-    Agi: 33
-    Vit: 32
-    Int: 55
-    Dex: 45
-    Luk: 29
+    Defense: 23
+    MagicDefense: 16
+    Str: 113
+    Agi: 66
+    Vit: 63
+    Int: 110
+    Dex: 89
+    Luk: 58
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1242,19 +1250,19 @@ Body:
     Name: Crusader Egnigem
     JapaneseName: Crusader Ygnizem
     Level: 98
-    Hp: 1877
-    BaseExp: 3792
-    JobExp: 2928
+    Hp: 3962
+    BaseExp: 6735
+    JobExp: 4378
     Attack: 852
     Attack2: 342
-    Defense: 14
-    MagicDefense: 1
-    Str: 79
-    Agi: 51
-    Vit: 47
-    Int: 38
-    Dex: 54
-    Luk: 37
+    Defense: 24
+    MagicDefense: 15
+    Str: 158
+    Agi: 101
+    Vit: 94
+    Int: 75
+    Dex: 108
+    Luk: 74
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1287,19 +1295,19 @@ Body:
     Name: Rogue Wickebine
     JapaneseName: Log Whikebain
     Level: 98
-    Hp: 1723
-    BaseExp: 3480
-    JobExp: 2454
+    Hp: 3453
+    BaseExp: 5870
+    JobExp: 3816
     Attack: 545
     Attack2: 216
-    Defense: 13
-    MagicDefense: 7
-    Str: 63
-    Agi: 50
-    Vit: 38
-    Int: 23
-    Dex: 47
-    Luk: 30
+    Defense: 23
+    MagicDefense: 14
+    Str: 125
+    Agi: 100
+    Vit: 75
+    Int: 46
+    Dex: 93
+    Luk: 60
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1332,18 +1340,18 @@ Body:
     Name: Alchemist Armeyer
     JapaneseName: Alchemist Armaia
     Level: 98
-    Hp: 1796
-    BaseExp: 3628
-    JobExp: 3618
+    Hp: 3354
+    BaseExp: 5702
+    JobExp: 3706
     Attack: 537
     Attack2: 232
-    Defense: 13
-    Str: 68
-    Agi: 32
-    Vit: 47
-    Int: 36
-    Dex: 53
-    Luk: 34
+    Defense: 24
+    Str: 135
+    Agi: 64
+    Vit: 93
+    Int: 71
+    Dex: 105
+    Luk: 68
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1376,19 +1384,19 @@ Body:
     Name: Bard Kavach
     JapaneseName: Bard Kavac
     Level: 98
-    Hp: 1754
-    BaseExp: 3544
-    JobExp: 3164
+    Hp: 3726
+    BaseExp: 6334
+    JobExp: 4117
     Attack: 605
     Attack2: 193
-    Defense: 9
-    MagicDefense: 5
-    Str: 57
-    Agi: 60
-    Vit: 34
-    Int: 28
-    Dex: 82
-    Luk: 26
+    Defense: 23
+    MagicDefense: 14
+    Str: 113
+    Agi: 119
+    Vit: 68
+    Int: 55
+    Dex: 163
+    Luk: 52
     AttackRange: 9
     SkillRange: 10
     ChaseRange: 12
@@ -1421,19 +1429,19 @@ Body:
     Name: Dancer Josephina
     JapaneseName: Dancer Joshepina
     Level: 98
-    Hp: 1952
-    BaseExp: 3944
-    JobExp: 3164
+    Hp: 3726
+    BaseExp: 6334
+    JobExp: 4117
     Attack: 605
     Attack2: 193
-    Defense: 9
-    MagicDefense: 5
-    Str: 57
-    Agi: 60
-    Vit: 34
-    Int: 28
-    Dex: 82
-    Luk: 26
+    Defense: 23
+    MagicDefense: 14
+    Str: 113
+    Agi: 119
+    Vit: 68
+    Int: 55
+    Dex: 163
+    Luk: 52
     AttackRange: 9
     SkillRange: 10
     ChaseRange: 12
@@ -1466,19 +1474,19 @@ Body:
     Name: Sage Laurell
     JapaneseName: Sage Rawrel
     Level: 98
-    Hp: 1861
-    BaseExp: 3760
-    JobExp: 3840
+    Hp: 2909
+    BaseExp: 4945
+    JobExp: 3214
     Attack: 247
     Attack2: 648
-    Defense: 8
-    MagicDefense: 10
-    Str: 37
-    Agi: 43
-    Vit: 36
-    Int: 67
-    Dex: 62
-    Luk: 31
+    Defense: 23
+    MagicDefense: 17
+    Str: 73
+    Agi: 86
+    Vit: 71
+    Int: 134
+    Dex: 123
+    Luk: 62
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1511,19 +1519,19 @@ Body:
     Name: Monk Errende
     JapaneseName: Monk Erend
     Level: 98
-    Hp: 1792
-    BaseExp: 3620
-    JobExp: 2000
+    Hp: 3292
+    BaseExp: 5596
+    JobExp: 3637
     Attack: 972
     Attack2: 483
-    Defense: 12
-    MagicDefense: 11
-    Str: 42
-    Agi: 36
-    Vit: 50
-    Int: 58
-    Dex: 48
-    Luk: 34
+    Defense: 25
+    MagicDefense: 16
+    Str: 84
+    Agi: 72
+    Vit: 99
+    Int: 115
+    Dex: 95
+    Luk: 68
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1556,20 +1564,20 @@ Body:
     Name: Angry Student Pyuriel
     JapaneseName: Pyuriel
     Level: 141
-    Hp: 2130175
-    BaseExp: 3000246
-    JobExp: 1200000
+    Hp: 289874
+    BaseExp: 492786
+    JobExp: 320311
     MvpExp: 750061
     Attack: 2515
     Attack2: 1513
-    Defense: 39
-    MagicDefense: 21
-    Str: 98
-    Agi: 66
-    Vit: 63
-    Int: 138
-    Dex: 201
-    Luk: 78
+    Defense: 44
+    MagicDefense: 35
+    Str: 196
+    Agi: 131
+    Vit: 125
+    Int: 276
+    Dex: 401
+    Luk: 156
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
@@ -1612,20 +1620,20 @@ Body:
     AegisName: GIOIA
     Name: Gioia
     Level: 146
-    Hp: 2210073
-    BaseExp: 3006902
-    JobExp: 1303547
+    Hp: 307510
+    BaseExp: 522767
+    JobExp: 339799
     MvpExp: 751725
     Attack: 1105
     Attack2: 2601
-    Defense: 44
-    MagicDefense: 22
-    Str: 90
-    Agi: 101
-    Vit: 78
-    Int: 95
-    Dex: 150
-    Luk: 39
+    Defense: 47
+    MagicDefense: 32
+    Str: 180
+    Agi: 201
+    Vit: 156
+    Int: 190
+    Dex: 299
+    Luk: 77
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -1669,20 +1677,20 @@ Body:
     Name: General Daehyun
     JapaneseName: Daehyon
     Level: 142
-    Hp: 2147232
-    BaseExp: 3003122
-    JobExp: 1274220
+    Hp: 324062
+    BaseExp: 550905
+    JobExp: 358088
     MvpExp: 750780
     Attack: 2710
     Attack2: 1410
-    Defense: 49
-    MagicDefense: 12
-    Str: 58
-    Agi: 62
-    Vit: 77
-    Int: 50
-    Dex: 109
-    Luk: 49
+    Defense: 46
+    MagicDefense: 28
+    Str: 116
+    Agi: 123
+    Vit: 154
+    Int: 99
+    Dex: 217
+    Luk: 98
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
@@ -1726,20 +1734,20 @@ Body:
     Name: Dark Guardian Kades
     JapaneseName: Kades
     Level: 143
-    Hp: 2309760
-    BaseExp: 3208000
-    JobExp: 1310000
+    Hp: 320166
+    BaseExp: 544282
+    JobExp: 353783
     MvpExp: 802000
     Attack: 2201
     Attack2: 2001
     Defense: 48
-    MagicDefense: 26
-    Str: 96
-    Agi: 112
-    Vit: 94
-    Int: 78
-    Dex: 181
-    Luk: 82
+    MagicDefense: 30
+    Str: 191
+    Agi: 223
+    Vit: 187
+    Int: 155
+    Dex: 362
+    Luk: 163
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
