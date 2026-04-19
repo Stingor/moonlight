@@ -480,6 +480,62 @@ Body:
       - Item: Q_Scaraba_Card
         Rate: 1
         StealProtected: true
+  - Id: 2202
+    AegisName: KRAKEN
+    Name: Kraken
+    Level: 124
+    Hp: 952359
+    BaseExp: 1619010
+    JobExp: 1052356
+    MvpExp: 491666
+    Attack: 3823
+    Attack2: 1830
+    Defense: 43
+    MagicDefense: 27
+    Str: 196
+    Agi: 99
+    Vit: 165
+    Int: 117
+    Dex: 162
+    Luk: 99
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Fish
+    Element: Water
+    ElementLevel: 4
+    WalkSpeed: 130
+    AttackDelay: 432
+    AttackMotion: 864
+    DamageMotion: 360
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Yggdrasilberry
+        Rate: 5500
+      - Item: Old_Violet_Box
+        Rate: 2250
+      - Item: Old_Card_Album
+        Rate: 450
+    Drops:
+      - Item: Tentacle
+        Rate: 9000
+      - Item: Hunting_Spear
+        Rate: 1000
+      - Item: Cardo
+        Rate: 500
+      - Item: Ice_Falchon
+        Rate: 300
+      - Item: Water_Sprits_Armor_
+        Rate: 100
+      - Item: Treasure_Box
+        Rate: 5000
+      - Item: Kraken_Card
+        Rate: 1
+        StealProtected: true
   - Id: 2156
     AegisName: LEAK
     Name: Leak
