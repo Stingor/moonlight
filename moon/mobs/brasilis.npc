@@ -7,6 +7,19 @@
 //==================================================
 bra_dun01,199,35,0	warp	brad1tobrad2	1,1,bra_dun02,261,263
 bra_dun02,261,265,0	warp	brad2tobrad1	1,1,bra_dun01,199,37
+bra_fild01,72,34,0	warp	bra_fild01_brasilis	1,1,brasilis,309,334
+brasilis,308,336,0	warp	brasilis_bra_fild01	1,1,bra_fild01,74,34
+
+//==================================================
+// bra_fild01 - Brasilis Field
+//==================================================
+bra_fild01	monster	Curupira	2074,50,5000
+bra_fild01	monster	Dokebi	1110,10,5000
+bra_fild01	monster	Savage	1166,5,5000
+bra_fild01	monster	Headless Mule	2071,40,5000
+bra_fild01	monster	Red Mushroom	1085,5,5000
+bra_fild01	monster	Jaguar	2072,55,5000
+bra_fild01	monster	Toucan	2073,60,5000
 
 //==================================================
 // bra_dun01 - Behind the Waterfall

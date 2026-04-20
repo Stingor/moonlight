@@ -1,0 +1,274 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 2069
+    AegisName: IARA
+    Name: Iara
+    Level: 79
+    Hp: 3197
+    BaseExp: 5115
+    JobExp: 3325
+    Attack: 171
+    Attack2: 270
+    MagicDefense: 12
+    Str: 69
+    Agi: 14
+    Vit: 41
+    Int: 60
+    Dex: 83
+    Luk: 20
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Fish
+    Element: Water
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 384
+    AttackMotion: 672
+    DamageMotion: 288
+    Ai: 17
+    Drops:
+      - Item: Mistic_Frozen
+        Rate: 5
+      - Item: Heart_Of_Mermaid
+        Rate: 9000
+      - Item: Fin
+        Rate: 500
+      - Item: Witherless_Rose
+        Rate: 50
+      - Item: Crystal_Mirror
+        Rate: 100
+      - Item: Illusion_Flower
+        Rate: 10
+      - Item: Mage_Coat
+        Rate: 1
+      - Item: Iara_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2070
+    AegisName: PIRANHA
+    Name: Piranha
+    Level: 75
+    Hp: 3439
+    BaseExp: 5502
+    JobExp: 3576
+    Attack: 182
+    Attack2: 223
+    Defense: 16
+    MagicDefense: 10
+    Str: 69
+    Agi: 45
+    Vit: 30
+    Int: 30
+    Dex: 79
+    Luk: 35
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Fish
+    Element: Water
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 768
+    AttackMotion: 480
+    DamageMotion: 864
+    Ai: 20
+    Drops:
+      - Item: Gill
+        Rate: 600
+      - Item: Mistic_Frozen
+        Rate: 5
+      - Item: Sharp_Scale
+        Rate: 9000
+      - Item: Tooth_Of_Ancient_Fish
+        Rate: 500
+      - Item: Lip_Of_Ancient_Fish
+        Rate: 500
+      - Item: Scalpel
+        Rate: 1
+      - Item: Fisherman's_Dagger
+        Rate: 5
+      - Item: Piranha_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2071
+    AegisName: HEADLESS_MULE
+    Name: Headless Mule
+    Level: 80
+    Hp: 2402
+    BaseExp: 3843
+    JobExp: 2498
+    Attack: 210
+    Attack2: 267
+    Defense: 18
+    MagicDefense: 11
+    Str: 68
+    Agi: 51
+    Vit: 50
+    Int: 35
+    Dex: 80
+    Luk: 20
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 165
+    AttackDelay: 1216
+    AttackMotion: 816
+    DamageMotion: 432
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Burning_Horse_Shoe
+        Rate: 4000
+      - Item: Plate_Armor_
+        Rate: 5
+      - Item: Burning_Heart
+        Rate: 1000
+      - Item: Hot_Hair
+        Rate: 1000
+      - Item: Inverse_Scale
+        Rate: 1
+      - Item: Plate_Armor_
+        Rate: 1
+      - Item: Headless_Mule_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2072
+    AegisName: JAGUAR
+    Name: Jaguar
+    Level: 71
+    Hp: 2761
+    BaseExp: 4418
+    JobExp: 2872
+    Attack: 192
+    Attack2: 234
+    Defense: 16
+    MagicDefense: 9
+    Str: 69
+    Agi: 30
+    Vit: 45
+    Int: 5
+    Dex: 71
+    Luk: 5
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Brute
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 576
+    AttackMotion: 1248
+    DamageMotion: 480
+    Ai: 04
+    Drops:
+      - Item: Leopard_Skin
+        Rate: 3000
+      - Item: Leopard_Talon
+        Rate: 2000
+      - Item: Animal's_Skin
+        Rate: 1000
+      - Item: Oridecon_Stone
+        Rate: 40
+      - Item: Jaguar_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2073
+    AegisName: TOUCAN
+    Name: Toucan
+    Level: 70
+    Hp: 2334
+    BaseExp: 3734
+    JobExp: 2427
+    Attack: 166
+    Attack2: 201
+    Defense: 16
+    MagicDefense: 10
+    Str: 54
+    Agi: 14
+    Vit: 40
+    Int: 35
+    Dex: 48
+    Luk: 10
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Brute
+    Element: Wind
+    ElementLevel: 2
+    WalkSpeed: 155
+    AttackDelay: 960
+    AttackMotion: 1440
+    DamageMotion: 960
+    Ai: 04
+    Drops:
+      - Item: Talon
+        Rate: 3000
+      - Item: Cyfar
+        Rate: 1000
+      - Item: Blue_Herb
+        Rate: 50
+      - Item: Yellow_Herb
+        Rate: 100
+      - Item: Flower_Ring
+        Rate: 200
+      - Item: Tucan_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2074
+    AegisName: CURUPIRA
+    Name: Curupira
+    Level: 68
+    Hp: 2442
+    BaseExp: 3907
+    JobExp: 2540
+    Attack: 140
+    Attack2: 175
+    Defense: 16
+    MagicDefense: 9
+    Str: 32
+    Agi: 23
+    Vit: 38
+    Int: 20
+    Dex: 50
+    Luk: 10
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Earth
+    ElementLevel: 1
+    WalkSpeed: 250
+    AttackDelay: 528
+    AttackMotion: 480
+    DamageMotion: 384
+    Ai: 07
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Meat
+        Rate: 3000
+      - Item: Elunium_Stone
+        Rate: 250
+      - Item: Emveretarcon
+        Rate: 10
+      - Item: Tiger_Skin_Panties
+        Rate: 500
+      - Item: Mace_
+        Rate: 100
+      - Item: Curupira_Card
+        Rate: 1
+        StealProtected: true
