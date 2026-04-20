@@ -418,6 +418,65 @@ Body:
       - Item: B_Ygnizem_Card
         Rate: 1
         StealProtected: true
+  - Id: 1708
+    AegisName: THANATOS
+    Name: Thanatos Phantom
+    JapaneseName: Thanatos
+    Level: 99
+    Hp: 755649
+    BaseExp: 1209038
+    JobExp: 785875
+    MvpExp: 1833000
+    Attack: 3812
+    Attack2: 7483
+    Defense: 31
+    MagicDefense: 22
+    Str: 100
+    Agi: 129
+    Vit: 30
+    Int: 86
+    Dex: 247
+    Luk: 32
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Ghost
+    ElementLevel: 4
+    WalkSpeed: 120
+    AttackDelay: 115
+    AttackMotion: 816
+    DamageMotion: 504
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Old_Violet_Box
+        Rate: 5500
+      - Item: Old_Blue_Box
+        Rate: 5000
+      - Item: Crystal_Jewel__
+        Rate: 2000
+    Drops:
+      - Item: Treasure_Box
+        Rate: 1000
+      - Item: Morrigane's_Manteau
+        Rate: 1000
+      - Item: Piece_Of_Bone_Armor
+        Rate: 5000
+      - Item: Full_Plate_Armor_
+        Rate: 5000
+      - Item: Grave_
+        Rate: 5000
+      - Item: Wing_Of_Eagle
+        Rate: 1000
+      - Item: Bloody_Iron_Ball
+        Rate: 500
+      - Item: Thanatos_Card
+        Rate: 1
+        StealProtected: true
   - Id: 1719
     AegisName: DETALE
     Name: Detardeurus
@@ -759,6 +818,64 @@ Body:
       - Item: Altas_Weapon
         Rate: 100
       - Item: Atroce_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1832
+    AegisName: IFRIT
+    Name: Ifrit
+    Level: 99
+    Hp: 3624937
+    BaseExp: 5799899
+    JobExp: 3769934
+    MvpExp: 1577160
+    Attack: 13530
+    Attack2: 17000
+    Defense: 38
+    MagicDefense: 26
+    Str: 180
+    Agi: 201
+    Vit: 156
+    Int: 190
+    Dex: 299
+    Luk: 77
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Fire
+    ElementLevel: 4
+    WalkSpeed: 130
+    AttackDelay: 212
+    AttackMotion: 384
+    DamageMotion: 360
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Old_Blue_Box
+        Rate: 5500
+      - Item: Old_Violet_Box
+        Rate: 5000
+      - Item: Old_Card_Album
+        Rate: 2000
+    Drops:
+      - Item: Flame_Heart
+        Rate: 10000
+      - Item: Spiritual_Ring
+        Rate: 3000
+      - Item: Ring_Of_Flame_Lord
+        Rate: 200
+      - Item: Ring_Of_Resonance
+        Rate: 200
+      - Item: Hell_Fire
+        Rate: 2000
+      - Item: Fire_Brand
+        Rate: 2000
+      - Item: Flame_Sprits_Armor_
+        Rate: 100
+      - Item: Ifrit_Card
         Rate: 1
         StealProtected: true
   - Id: 1871

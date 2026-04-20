@@ -1,0 +1,431 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 1829
+    AegisName: SWORD_GUARDIAN
+    Name: Sword Guardian
+    Level: 86
+    Hp: 45832
+    BaseExp: 73331
+    JobExp: 47665
+    Attack: 7590
+    Attack2: 9140
+    Defense: 25
+    MagicDefense: 16
+    Str: 122
+    Agi: 87
+    Vit: 54
+    Int: 65
+    Dex: 155
+    Luk: 65
+    AttackRange: 2
+    SkillRange: 14
+    ChaseRange: 16
+    Size: Large
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 4
+    WalkSpeed: 170
+    AttackDelay: 140
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Broken_Armor_Piece
+        Rate: 3000
+      - Item: Doom_Slayer
+        Rate: 30
+      - Item: Zweihander
+        Rate: 1
+      - Item: Platinum_Shield
+        Rate: 10
+      - Item: Muscle_Cutter
+        Rate: 50
+      - Item: Carnium
+        Rate: 100
+      - Item: Sword_Guardian_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 1830
+    AegisName: BOW_GUARDIAN
+    Name: Bow Guardian
+    Level: 80
+    Hp: 46309
+    BaseExp: 74094
+    JobExp: 48161
+    Attack: 1840
+    Attack2: 2520
+    Defense: 24
+    MagicDefense: 15
+    Str: 109
+    Agi: 80
+    Vit: 65
+    Int: 52
+    Dex: 183
+    Luk: 55
+    AttackRange: 12
+    SkillRange: 14
+    ChaseRange: 16
+    Size: Large
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 4
+    WalkSpeed: 170
+    AttackDelay: 76
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Broken_Armor_Piece
+        Rate: 3000
+      - Item: Luna_Bow
+        Rate: 30
+      - Item: Sniping_Suit
+        Rate: 20
+      - Item: Orleans_Glove
+        Rate: 4
+      - Item: Carnium
+        Rate: 100
+      - Item: Bow_Guardian_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 1831
+    AegisName: SALAMANDER
+    Name: Salamander
+    Level: 91
+    Hp: 48085
+    BaseExp: 76936
+    JobExp: 50008
+    Attack: 7590
+    Attack2: 10860
+    Defense: 28
+    MagicDefense: 17
+    Str: 189
+    Agi: 105
+    Vit: 92
+    Int: 85
+    Dex: 198
+    Luk: 72
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 160
+    AttackDelay: 140
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Burning_Heart
+        Rate: 3000
+      - Item: Flame_Heart
+        Rate: 30
+      - Item: Carnium
+        Rate: 10
+      - Item: Lesser_Elemental_Ring
+        Rate: 1
+      - Item: Berserk_Guitar
+        Rate: 50
+      - Item: Ring_
+        Rate: 1
+      - Item: Meteo_Plate_Armor
+        Rate: 20
+      - Item: Salamander_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 1833
+    AegisName: KASA
+    Name: Kasa
+    Level: 85
+    Hp: 46783
+    BaseExp: 74853
+    JobExp: 48654
+    Attack: 3030
+    Attack2: 3500
+    Defense: 25
+    MagicDefense: 16
+    Str: 111
+    Agi: 74
+    Vit: 65
+    Int: 78
+    Dex: 162
+    Luk: 55
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 800
+    AttackMotion: 600
+    DamageMotion: 288
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Burning_Heart
+        Rate: 3000
+      - Item: Hot_Hair
+        Rate: 2500
+      - Item: Flame_Heart
+        Rate: 30
+      - Item: Lesser_Elemental_Ring
+        Rate: 1
+      - Item: Flame_Sprits_Armor
+        Rate: 10
+      - Item: Burning_Bow
+        Rate: 10
+      - Item: Piercing_Staff
+        Rate: 10
+      - Item: Kasa_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 1834
+    AegisName: G_SALAMANDER
+    Name: Salamander
+    Level: 91
+    Hp: 48085
+    Attack: 9590
+    Attack2: 12860
+    Defense: 28
+    MagicDefense: 17
+    Str: 189
+    Agi: 105
+    Vit: 92
+    Int: 85
+    Dex: 198
+    Luk: 72
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 160
+    AttackDelay: 140
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 21
+    Class: Boss
+  - Id: 1835
+    AegisName: G_KASA
+    Name: Kasa
+    Level: 85
+    Hp: 46783
+    Attack: 3030
+    Attack2: 3500
+    Defense: 25
+    MagicDefense: 16
+    Str: 111
+    Agi: 74
+    Vit: 65
+    Int: 78
+    Dex: 162
+    Luk: 55
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 800
+    AttackMotion: 600
+    DamageMotion: 288
+    Ai: 21
+    Class: Boss
+  - Id: 1836
+    AegisName: MAGMARING
+    Name: Magmaring
+    Level: 40
+    Hp: 10919
+    BaseExp: 17470
+    JobExp: 11356
+    Attack: 550
+    Attack2: 700
+    Defense: 10
+    MagicDefense: 7
+    Str: 107
+    Agi: 33
+    Vit: 35
+    Int: 47
+    Dex: 73
+    Luk: 20
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Fire
+    ElementLevel: 2
+    WalkSpeed: 300
+    AttackDelay: 1472
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 02
+    Drops:
+      - Item: Burning_Heart
+        Rate: 3000
+      - Item: Elunium_Stone
+        Rate: 34
+      - Item: Magmaring_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1837
+    AegisName: IMP
+    Name: Imp
+    Level: 76
+    Hp: 20723
+    BaseExp: 33157
+    JobExp: 21552
+    Attack: 1059
+    Attack2: 1509
+    Defense: 18
+    MagicDefense: 13
+    Str: 66
+    Agi: 83
+    Vit: 65
+    Int: 88
+    Dex: 101
+    Luk: 27
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demon
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 824
+    AttackMotion: 432
+    DamageMotion: 360
+    Ai: 20
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Hot_Hair
+        Rate: 3000
+      - Item: Huuma_Blaze
+        Rate: 3
+      - Item: Live_Coal
+        Rate: 2500
+      - Item: Heart_Breaker
+        Rate: 10
+      - Item: Electric_Eel
+        Rate: 25
+      - Item: Flaming_Ice
+        Rate: 1
+      - Item: Carnium
+        Rate: 1
+      - Item: Imp_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1838
+    AegisName: KNOCKER
+    Name: Knocker
+    Level: 50
+    Hp: 51529
+    BaseExp: 82446
+    JobExp: 53590
+    Attack: 889
+    Attack2: 990
+    Defense: 13
+    MagicDefense: 8
+    Str: 93
+    Agi: 62
+    Vit: 58
+    Int: 56
+    Dex: 139
+    Luk: 70
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demon
+    Element: Earth
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 1548
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 17
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Great_Nature
+        Rate: 30
+      - Item: Coal
+        Rate: 150
+      - Item: Elder_Pixie's_Beard
+        Rate: 5500
+      - Item: Elven_Ears
+        Rate: 1
+      - Item: Carnium
+        Rate: 10
+      - Item: Thorny_Buckler
+        Rate: 3
+      - Item: Earth_Bow
+        Rate: 5
+      - Item: Knocker_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1839
+    AegisName: BYORGUE
+    Name: Byrogue
+    JapaneseName: Byorgue
+    Level: 86
+    Hp: 60593
+    BaseExp: 96949
+    JobExp: 63017
+    Attack: 1340
+    Attack2: 2590
+    Defense: 26
+    MagicDefense: 16
+    Str: 114
+    Agi: 86
+    Vit: 70
+    Int: 65
+    Dex: 122
+    Luk: 70
+    AttackRange: 2
+    SkillRange: 14
+    ChaseRange: 16
+    Size: Medium
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 170
+    AttackDelay: 800
+    AttackMotion: 600
+    DamageMotion: 360
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Drill_Katar
+        Rate: 50
+      - Item: Assassin_Mask_
+        Rate: 3
+      - Item: Scalpel
+        Rate: 150
+      - Item: Agi_Dish07
+        Rate: 100
+      - Item: Old_Blue_Box
+        Rate: 40
+      - Item: Rider_Insignia_
+        Rate: 1
+      - Item: Vroken_Sword
+        Rate: 4365
+      - Item: Byorgue_Card
+        Rate: 10
+        StealProtected: true
