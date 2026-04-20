@@ -34,4 +34,3 @@
 	BUILDIN_DEF2(storagecountitem,"storagecountitem2","viiiiiii?"),
 	BUILDIN_DEF(instance_create,"s????"),
 	BUILDIN_DEF(getmapdisplayname,"s"),
-	BUILDIN_DEF(guild_has_permission,"i"),
