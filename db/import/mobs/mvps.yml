@@ -591,6 +591,62 @@ Body:
       - Item: Randgris_Card
         Rate: 1
         StealProtected: true
+  - Id: 1768
+    AegisName: GLOOMUNDERNIGHT
+    Name: Gloom Under Night
+    Level: 89
+    Hp: 1862476
+    BaseExp: 2979962
+    JobExp: 1936975
+    MvpExp: 481087
+    Attack: 5880
+    Attack2: 9516
+    Defense: 37
+    MagicDefense: 24
+    Str: 191
+    Agi: 223
+    Vit: 187
+    Int: 155
+    Dex: 362
+    Luk: 163
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Ghost
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 1344
+    AttackMotion: 2880
+    DamageMotion: 576
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Yggdrasilberry
+        Rate: 5500
+      - Item: Old_Violet_Box
+        Rate: 5000
+      - Item: Old_Violet_Box
+        Rate: 5000
+    Drops:
+      - Item: Will_Of_Darkness_
+        Rate: 7000
+      - Item: Blade_Lost_In_Darkness
+        Rate: 4000
+      - Item: Old_Hilt
+        Rate: 2000
+      - Item: Old_Card_Album
+        Rate: 5000
+      - Item: Celestial_Robe
+        Rate: 1000
+      - Item: Hurricane_Fury
+        Rate: 100
+      - Item: Gloom_Under_Night_Card
+        Rate: 1
+        StealProtected: true
   - Id: 1779
     AegisName: KTULLANUX
     Name: Ktullanux
@@ -2897,6 +2953,66 @@ Body:
       - Item: Poison_Forged_Spear
         Rate: 10
       - Item: Toxic_Enchanted_Chimera_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3741
+    AegisName: MECHASPIDER
+    Name: Spider Chariot
+    JapaneseName: Mechaspider
+    Level: 158
+    Hp: 2008488
+    BaseExp: 3213581
+    JobExp: 2088828
+    MvpExp: 100000
+    Attack: 7657
+    Attack2: 3062
+    Defense: 44
+    MagicDefense: 26
+    Str: 116
+    Agi: 123
+    Vit: 154
+    Int: 99
+    Dex: 217
+    Luk: 98
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 250
+    AttackDelay: 900
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Old_Violet_Box
+        Index: 0
+        Rate: 5000
+      - Item: Old_Violet_Box
+        Index: 1
+        Rate: 5000
+      - Item: Gold
+        Index: 1
+        Rate: 5000
+    Drops:
+      - Item: Vigilante_Bow
+        Rate: 700
+      - Item: Huuma_Hundred_Petal
+        Rate: 700
+      - Item: Mine_Worker_Pickax
+        Rate: 700
+      - Item: Shadowdecon
+        Rate: 50
+      - Item: Wheel
+        Rate: 3000
+      - Item: Screw
+        Rate: 3000
+      - Item: Metal_Stick
+        Rate: 1
+      - Item: Mechaspider_Card
         Rate: 1
         StealProtected: true
   - Id: 20928

@@ -1,0 +1,555 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 3736
+    AegisName: COWRAIDERS1
+    Name: Buffalo Bandit Sharpsho
+    Level: 103
+    Hp: 5798
+    BaseExp: 9277
+    JobExp: 6030
+    Attack: 509
+    Attack2: 204
+    Defense: 23
+    MagicDefense: 13
+    Str: 51
+    Agi: 58
+    Vit: 49
+    Int: 20
+    Dex: 86
+    Luk: 49
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demihuman
+    Element: Fire
+    ElementLevel: 2
+    WalkSpeed: 180
+    AttackDelay: 900
+    AttackMotion: 770
+    DamageMotion: 550
+    Ai: 04
+    Drops:
+      - Item: Crude_Ammo
+        Rate: 2500
+      - Item: Brigan
+        Rate: 1000
+        StealProtected: true
+      - Item: Vigilante_Bow
+        Rate: 50
+        StealProtected: true
+      - Item: Shotgun_Buffalo_Bandit_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3737
+    AegisName: COWRAIDERS2
+    Name: Buffalo Bandit Duelist
+    Level: 101
+    Hp: 4911
+    BaseExp: 7858
+    JobExp: 5108
+    Attack: 476
+    Attack2: 190
+    Defense: 22
+    MagicDefense: 14
+    Str: 76
+    Agi: 52
+    Vit: 38
+    Int: 40
+    Dex: 92
+    Luk: 50
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demihuman
+    Element: Fire
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 1200
+    AttackMotion: 672
+    DamageMotion: 480
+    Ai: 04
+    Drops:
+      - Item: Bandits_Scarf
+        Rate: 2500
+      - Item: Brigan
+        Rate: 1000
+      - Item: Bread
+        Rate: 500
+      - Item: Monokage
+        Rate: 50
+        StealProtected: true
+      - Item: Huuma_Shuriken_of_Dancing_Petals
+        Rate: 50
+        StealProtected: true
+      - Item: Revolver_Buffalo_Bandit_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3738
+    AegisName: COWRAIDERS3
+    Name: Bowie Buffalo Bandit
+    Level: 107
+    Hp: 6715
+    BaseExp: 10744
+    JobExp: 6984
+    Attack: 557
+    Attack2: 222
+    Defense: 24
+    MagicDefense: 14
+    Str: 55
+    Agi: 20
+    Vit: 55
+    Int: 17
+    Dex: 88
+    Luk: 36
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demihuman
+    Element: Fire
+    ElementLevel: 2
+    WalkSpeed: 180
+    AttackDelay: 800
+    AttackMotion: 420
+    DamageMotion: 360
+    Ai: 04
+    Drops:
+      - Item: Brown_Muffler
+        Rate: 2500
+      - Item: Brigan
+        Rate: 1000
+      - Item: Well_Baked_Cookie
+        Rate: 200
+        StealProtected: true
+      - Item: Elemental_Origin
+        Rate: 50
+        StealProtected: true
+      - Item: Scimitar_Buffalo_Bandit_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3739
+    AegisName: COYOTE
+    Name: Coyote
+    Level: 110
+    Hp: 7885
+    BaseExp: 12616
+    JobExp: 8200
+    Attack: 630
+    Attack2: 252
+    Defense: 25
+    MagicDefense: 14
+    Str: 49
+    Agi: 79
+    Vit: 67
+    Int: 8
+    Dex: 106
+    Luk: 24
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Brute
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 750
+    AttackMotion: 400
+    DamageMotion: 420
+    Ai: 01
+    Modes:
+      Angry: true
+      ChangeTargetMelee: true
+      ChangeTargetChase: true
+    Drops:
+      - Item: Clean_Bone
+        Rate: 2500
+      - Item: Rotten_Meat
+        Rate: 1500
+      - Item: Animal_Blood
+        Rate: 500
+        StealProtected: true
+      - Item: Ulfhedinn
+        Rate: 50
+        StealProtected: true
+      - Item: Coyote_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3740
+    AegisName: GASTER
+    Name: Gaster
+    Level: 141
+    Hp: 26886
+    BaseExp: 43018
+    JobExp: 27962
+    Attack: 1494
+    Attack2: 598
+    Defense: 29
+    MagicDefense: 20
+    Str: 70
+    Agi: 141
+    Vit: 12
+    Int: 67
+    Dex: 128
+    Luk: 8
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Poison
+    ElementLevel: 2
+    WalkSpeed: 190
+    AttackDelay: 1100
+    AttackMotion: 650
+    Ai: 04
+    Drops:
+      - Item: Deadly_Poison_Powder
+        Rate: 2500
+      - Item: Mould_Powder
+        Rate: 1500
+      - Item: Smoke_Powder
+        Rate: 300
+      - Item: Tear_Gas
+        Rate: 300
+      - Item: Explosive_Powder
+        Rate: 250
+      - Item: Anodyne
+        Rate: 30
+      - Item: Oridecon_Stone
+        Rate: 10
+        StealProtected: true
+      - Item: Elunium_Stone
+        Rate: 10
+        StealProtected: true
+      - Item: Gaster_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3742
+    AegisName: PURPLESTONE
+    Name: Purple Ore
+    JapaneseName: Purplestone
+    Level: 255
+    Hp: 20
+    Defense: 51
+    MagicDefense: 31
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 1000
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+  - Id: 3744
+    AegisName: G_COWRAIDERS1
+    Name: Buffalo Bandit
+    Level: 148
+    Hp: 3247
+    Attack: 1566
+    Attack2: 2226
+    Defense: 32
+    MagicDefense: 19
+    Str: 51
+    Agi: 58
+    Vit: 49
+    Int: 20
+    Dex: 86
+    Luk: 49
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demihuman
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 180
+    AttackDelay: 900
+    AttackMotion: 770
+    DamageMotion: 550
+    Ai: 04
+  - Id: 3745
+    AegisName: G_COWRAIDERS2
+    Name: Buffalo Bandit
+    Level: 151
+    Hp: 2580
+    Attack: 1544
+    Attack2: 2211
+    Defense: 32
+    MagicDefense: 20
+    Str: 76
+    Agi: 52
+    Vit: 38
+    Int: 40
+    Dex: 92
+    Luk: 50
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demihuman
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 1200
+    AttackMotion: 672
+    DamageMotion: 480
+    Ai: 04
+  - Id: 3746
+    AegisName: G_COWRAIDERS3
+    Name: Buffalo Bandit
+    Level: 152
+    Hp: 3829
+    Attack: 1716
+    Attack2: 2415
+    Defense: 33
+    MagicDefense: 19
+    Str: 55
+    Agi: 20
+    Vit: 55
+    Int: 17
+    Dex: 88
+    Luk: 36
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demihuman
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 180
+    AttackDelay: 800
+    AttackMotion: 420
+    DamageMotion: 360
+    Ai: 04
+  - Id: 3747
+    AegisName: E_COWRAIDERS1
+    Name: Elite Buffalo Bandit
+    Level: 148
+    Hp: 37164
+    BaseExp: 59462
+    JobExp: 38650
+    Attack: 1650
+    Attack2: 660
+    Defense: 33
+    MagicDefense: 19
+    Str: 98
+    Agi: 55
+    Vit: 61
+    Int: 22
+    Dex: 168
+    Luk: 2
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demihuman
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 2050
+    AttackMotion: 500
+    DamageMotion: 660
+    Ai: 04
+    Drops:
+      - Item: Broken_Shotgun
+        Rate: 2500
+      - Item: Brigan
+        Rate: 2000
+      - Item: Hippie_Guitar
+        Rate: 100
+      - Item: Vigilante_Bow
+        Rate: 100
+        StealProtected: true
+      - Item: Hippie_Rope
+        Rate: 50
+        StealProtected: true
+      - Item: Elite_Shotgun_Buffalo_Bandit_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3748
+    AegisName: E_COWRAIDERS2
+    Name: Elite Buffalo Bandit
+    Level: 151
+    Hp: 42700
+    BaseExp: 68320
+    JobExp: 44408
+    Attack: 1667
+    Attack2: 666
+    Defense: 32
+    MagicDefense: 20
+    Str: 60
+    Agi: 132
+    Vit: 45
+    Int: 35
+    Dex: 155
+    Luk: 15
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demihuman
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 120
+    AttackDelay: 1000
+    AttackMotion: 500
+    DamageMotion: 600
+    Ai: 04
+    Drops:
+      - Item: Worn_Revolver
+        Rate: 3000
+      - Item: Brigan
+        Rate: 2000
+      - Item: Huuma_Shuriken_of_Dancing_Petals
+        Rate: 250
+        StealProtected: true
+      - Item: Monokage
+        Rate: 100
+        StealProtected: true
+      - Item: Elite_Revolver_Buffalo_Bandit_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3749
+    AegisName: E_COWRAIDERS3
+    Name: Elite Buffalo Bandit
+    Level: 152
+    Hp: 45891
+    BaseExp: 73426
+    JobExp: 47727
+    Attack: 1749
+    Attack2: 700
+    Defense: 35
+    MagicDefense: 20
+    Str: 165
+    Agi: 44
+    Vit: 95
+    Int: 43
+    Dex: 176
+    Luk: 50
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demihuman
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 1500
+    AttackMotion: 600
+    DamageMotion: 500
+    Ai: 04
+    Drops:
+      - Item: Crude_Scimitar
+        Rate: 3000
+      - Item: Brigan
+        Rate: 2000
+      - Item: Elemental_Origin
+        Rate: 150
+      - Item: Steak
+        Rate: 30
+      - Item: Roasted_Beef
+        Rate: 30
+        StealProtected: true
+      - Item: Mine_Worker's_Pickaxe
+        Rate: 10
+        StealProtected: true
+      - Item: Elite_Scimitar_Buffalo_Bandit_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3787
+    AegisName: RR_ARCLOUSE
+    Name: Swamp Arclouze
+    JapaneseName: Rr Arclouse
+    Level: 106
+    Hp: 525
+    BaseExp: 840
+    JobExp: 546
+    Attack: 316
+    Attack2: 126
+    Defense: 22
+    MagicDefense: 14
+    Str: 41
+    Agi: 73
+    Vit: 23
+    Int: 29
+    Dex: 122
+    Luk: 15
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Insect
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 960
+    AttackMotion: 500
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Swamp_Bug_Shell
+        Rate: 2500
+      - Item: Sticky_Mucus
+        Rate: 1500
+      - Item: Solid_Shell
+        Rate: 150
+        StealProtected: true
+      - Item: Hippie_Guitar
+        Rate: 50
+        StealProtected: true
+      - Item: Marsh_Arclouse_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3788
+    AegisName: RR_CRAMP
+    Name: Brown Rat
+    JapaneseName: Rr Cramp
+    Level: 101
+    Hp: 500
+    BaseExp: 800
+    JobExp: 520
+    Attack: 185
+    Attack2: 74
+    Defense: 21
+    MagicDefense: 13
+    Str: 38
+    Agi: 43
+    Vit: 17
+    Int: 15
+    Dex: 97
+    Luk: 30
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Brute
+    Element: Poison
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 1000
+    AttackMotion: 500
+    Ai: 04
+    Drops:
+      - Item: Brown_Rat_Tail
+        Rate: 3000
+      - Item: Meat
+        Rate: 500
+      - Item: Monster's_Feed
+        Rate: 150
+        StealProtected: true
+      - Item: Hippie_Rope
+        Rate: 10
+        StealProtected: true
+      - Item: Brown_Rat_Card
+        Rate: 1
+        StealProtected: true

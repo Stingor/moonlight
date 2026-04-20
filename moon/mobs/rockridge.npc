@@ -5,6 +5,9 @@
 //==================================================
 // Warps
 //==================================================
+harboro2,284,104,0	warp2	harboro2#harboro1	1,1,harboro1,318,124
+rockrdg2,304,350,0	warp2	rockrdg2#rockmi1	1,1,rockmi1,247,19
+rockmi1,247,16,0	warp2	rockmi1#rockrdg2	1,1,rockrdg2,304,344
 harboro1,362,206,0	warp2	harboro1#rockrdg1	1,1,rockrdg1,37,246
 rockrdg1,33,246,0	warp2	rockrdg1#harboro1	1,1,harboro1,358,206
 rockrdg1,371,206,0	warp2	rockrdg1#rockrdg2	1,1,rockrdg2,31,207
@@ -32,3 +35,20 @@ rockrdg2	monster	Yellow Plant	1081,4
 rockrdg2	monster	White Plant	1082,5
 rockrdg2	monster	Shining Plant	1083,4
 rockrdg2	monster	Thief Bug	1051,8
+
+// Rock Ridge Mine
+rockmi1	monster	Thief Bug	1051,3
+rockmi1	monster	Gaster	3740,18
+rockmi1	monster	Elite Buffalo Bandit	3747,3
+rockmi1	monster	Elite Buffalo Bandit	3748,8
+rockmi1	monster	Elite Buffalo Bandit	3749,6
+
+// Rock Ridge Mine
+rockmi2,100,36,20,20	monster	Purple Ore	3742,31
+
+// Culvert
+harboro2	monster	Swamp Arclouze	3787,29
+harboro2	monster	Brown Rat	3788,29
+harboro2	monster	Anopheles	1627,10
+harboro2	monster	Black Mushroom	1084,19
+harboro2,50,259,10,6	monster	Sea Anemone	3743,20
