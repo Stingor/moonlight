@@ -150,3 +150,4 @@ generated
 /fix_sprites.php
 /tools/__pycache__
 *.pyc
+tools/__pycache__/re_to_prere_mob.cpython-312.pyc
