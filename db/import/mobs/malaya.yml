@@ -1,80 +1,3 @@
-# This file is a part of rAthena.
-#   Copyright(C) 2021 rAthena Development Team
-#   https://rathena.org - https://github.com/rathena
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program. If not, see <http://www.gnu.org/licenses/>.
-#
-###########################################################################
-# Monster Database
-###########################################################################
-#
-# Monster Settings
-#
-###########################################################################
-# - Id                      Monster ID.
-#   AegisName               Server name to reference the monster in scripts and lookups, should use no spaces.
-#   Name                    Name in English.
-#   JapaneseName            Name in Japanese. (Default: 'Name' value)
-#   Level                   Level. (Default: 1)
-#   Hp                      Total HP. (Default: 1)
-#   Sp                      Total SP. (Default: 1)
-#   BaseExp                 Base experience gained. (Default: 0)
-#   JobExp                  Job experience gained. (Default: 0)
-#   MvpExp                  MVP experience gained. (Default: 0)
-#   Attack                  Minimum attack in pre-renewal and base attack in renewal. (Default: 0)
-#   Attack2                 Maximum attack in pre-renewal and base magic attack in renewal. (Default: 0)
-#   Defense                 Physical defense of the monster, reduces melee and ranged physical attack/skill damage. (Default: 0)
-#   MagicDefense            Magic defense of the monster, reduces magical skill damage. (Default: 0)
-#   Resistance              Physical resistance of the monster, reduces melee and ranged physical attack/skill damage. (Default: 0)
-#   MagicResistance         Magic resistance of the monster, reduces magical skill damage. (Default: 0)
-#   Str                     Strength which affects attack. (Default: 1)
-#   Agi                     Agility which affects flee. (Default: 1)
-#   Vit                     Vitality which affects defense. (Default: 1)
-#   Int                     Intelligence which affects magic attack. (Default: 1)
-#   Dex                     Dexterity which affects hit rate. (Default: 1)
-#   Luk                     Luck which affects perfect dodge/lucky flee/lerfect flee/lucky dodge rate. (Default: 1)
-#   AttackRange             Attack range. (Default: 0)
-#   SkillRange              Skill cast range. (Default: 0)
-#   ChaseRange              Chase range. (Default: 0)
-#   Size                    Size. (Default: Small)
-#   Race                    Race. (Default: Formless)
-#   RaceGroups:             List of secondary groups the monster may be part of. (Optional)
-#     <group>: <value>      Group to toggle.
-#   Element                 Element. (Default: Neutral)
-#   ElementLevel            Level of element. (Default: 1)
-#   WalkSpeed               Walk speed. (Default: DEFAULT_WALK_SPEED)
-#   AttackDelay             Attack speed. (Default: 0)
-#   AttackMotion            Attack animation speed. (Default: 0)
-#   DamageMotion            Damage animation speed. (Default: 0)
-#   DamageTaken             Rate at which the monster will receive incoming damage. (Default: 100)
-#   Ai                      Aegis monster type AI behavior. (Default: 06)
-#   Class                   Aegis monster class. (Default: Normal)
-#   Modes:                  List of unique behavior not defined by AI, Class, or Attribute. (Optional)
-#     <mode>: <value>       Mode to toggle.
-#   MvpDrops:               List of possible MVP prize items. Max of MAX_MVP_DROP. (Optional)
-#     - Item                Item name.
-#       Rate                Drop rate of item. (Default: 1)
-#       RandomOptionGroup   Random Option Group applied to item on drop. (Default: None)
-#       Index               Index used for overwriting item. (Optional)
-#   Drops:                  List of possible normal item drops. Max of MAX_MOB_DROP. (Optional)
-#     - Item                Item name.
-#       Rate                Drop rate of item. (Default: 1)
-#       StealProtected      If the item is shielded from TF_STEAL. (Default: false)
-#       RandomOptionGroup   Random Option Group applied to item on drop. (Default: None)
-#       Index               Index used for overwriting item. (Optional)
-###########################################################################
-
 Header:
   Type: MOB_DB
   Version: 5
@@ -84,19 +7,19 @@ Body:
     AegisName: BUNGISNGIS
     Name: Bungisngis
     Level: 121
-    Hp: 2367
-    BaseExp: 3880
-    JobExp: 1650
+    Hp: 19697
+    BaseExp: 31515
+    JobExp: 20485
     Attack: 851
     Attack2: 151
-    Defense: 12
-    MagicDefense: 4
-    Str: 36
-    Agi: 16
-    Vit: 31
-    Int: 15
-    Dex: 37
-    Luk: 10
+    Defense: 27
+    MagicDefense: 16
+    Str: 71
+    Agi: 32
+    Vit: 61
+    Int: 30
+    Dex: 74
+    Luk: 19
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -127,19 +50,19 @@ Body:
     AegisName: ENGKANTO
     Name: Engkanto
     Level: 125
-    Hp: 2171
-    BaseExp: 3446
-    JobExp: 1547
+    Hp: 16323
+    BaseExp: 26117
+    JobExp: 16976
     Attack: 675
     Attack2: 124
-    Defense: 10
-    MagicDefense: 4
-    Str: 34
-    Agi: 29
-    Vit: 25
-    Int: 29
-    Dex: 41
-    Luk: 14
+    Defense: 27
+    MagicDefense: 17
+    Str: 68
+    Agi: 57
+    Vit: 49
+    Int: 57
+    Dex: 81
+    Luk: 27
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -170,19 +93,19 @@ Body:
     AegisName: MANANANGGAL
     Name: Manananggal
     Level: 107
-    Hp: 20451
-    BaseExp: 22830
-    JobExp: 21410
+    Hp: 11913
+    BaseExp: 19061
+    JobExp: 12390
     Attack: 801
     Attack2: 103
-    Defense: 26
-    MagicDefense: 23
-    Str: 78
-    Agi: 43
-    Vit: 23
-    Int: 36
-    Dex: 118
-    Luk: 23
+    Defense: 24
+    MagicDefense: 16
+    Str: 75
+    Agi: 85
+    Vit: 45
+    Int: 71
+    Dex: 75
+    Luk: 46
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -219,19 +142,19 @@ Body:
     AegisName: MANGKUKULAM
     Name: Mangkukulam
     Level: 110
-    Hp: 102154
-    BaseExp: 122154
-    JobExp: 121351
+    Hp: 10481
+    BaseExp: 16770
+    JobExp: 10900
     Attack: 582
     Attack2: 196
-    Defense: 39
-    MagicDefense: 48
-    Str: 58
-    Agi: 36
-    Vit: 16
-    Int: 41
-    Dex: 92
-    Luk: 26
+    Defense: 24
+    MagicDefense: 16
+    Str: 35
+    Agi: 71
+    Vit: 31
+    Int: 82
+    Dex: 64
+    Luk: 52
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -266,19 +189,19 @@ Body:
     AegisName: TIKBALANG
     Name: Tikbalang
     Level: 115
-    Hp: 22131
-    BaseExp: 23512
-    JobExp: 21351
+    Hp: 13274
+    BaseExp: 21238
+    JobExp: 13805
     Attack: 781
     Attack2: 115
-    Defense: 18
-    MagicDefense: 23
-    Str: 76
-    Agi: 26
-    Vit: 42
-    Int: 22
-    Dex: 92
-    Luk: 23
+    Defense: 27
+    MagicDefense: 16
+    Str: 71
+    Agi: 52
+    Vit: 84
+    Int: 44
+    Dex: 64
+    Luk: 46
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -307,19 +230,19 @@ Body:
     AegisName: TIYANAK
     Name: Tiyanak
     Level: 105
-    Hp: 17146
-    BaseExp: 21628
-    JobExp: 21101
+    Hp: 9158
+    BaseExp: 14653
+    JobExp: 9524
     Attack: 457
     Attack2: 251
-    Defense: 18
-    MagicDefense: 22
-    Str: 61
-    Agi: 29
-    Vit: 21
-    Int: 26
-    Dex: 96
-    Luk: 24
+    Defense: 23
+    MagicDefense: 15
+    Str: 41
+    Agi: 58
+    Vit: 41
+    Int: 51
+    Dex: 72
+    Luk: 47
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -348,19 +271,19 @@ Body:
     AegisName: WAKWAK
     Name: Wakwak
     Level: 111
-    Hp: 20012
-    BaseExp: 22748
-    JobExp: 21254
+    Hp: 12635
+    BaseExp: 20216
+    JobExp: 13140
     Attack: 561
     Attack2: 301
-    Defense: 20
-    MagicDefense: 27
-    Str: 67
-    Agi: 38
-    Vit: 32
-    Int: 33
-    Dex: 99
-    Luk: 16
+    Defense: 25
+    MagicDefense: 16
+    Str: 54
+    Agi: 75
+    Vit: 64
+    Int: 65
+    Dex: 77
+    Luk: 31
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -389,19 +312,19 @@ Body:
     AegisName: JEJELING
     Name: Jejeling
     Level: 100
-    Hp: 10247
-    BaseExp: 11602
-    JobExp: 10741
+    Hp: 9250
+    BaseExp: 14800
+    JobExp: 9620
     Attack: 450
     Attack2: 715
-    Defense: 10
-    MagicDefense: 23
-    Str: 26
-    Agi: 36
-    Vit: 42
-    Int: 27
-    Dex: 48
-    Luk: 52
+    Defense: 24
+    MagicDefense: 14
+    Str: 51
+    Agi: 71
+    Vit: 84
+    Int: 54
+    Dex: 15
+    Luk: 104
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -434,17 +357,19 @@ Body:
     AegisName: BANGUNGOT_1
     Name: Bangungot
     Level: 115
-    Hp: 1519517
+    Hp: 750739
+    BaseExp: 1201182
+    JobExp: 780768
     Attack: 2561
     Attack2: 1504
-    Defense: 41
-    MagicDefense: 10
-    Str: 76
-    Agi: 96
-    Vit: 55
-    Int: 56
-    Dex: 126
-    Luk: 29
+    Defense: 34
+    MagicDefense: 21
+    Str: 151
+    Agi: 192
+    Vit: 110
+    Int: 112
+    Dex: 251
+    Luk: 57
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -462,17 +387,19 @@ Body:
     AegisName: BANGUNGOT_2
     Name: Bangungot
     Level: 99
-    Hp: 1409758
+    Hp: 515062
+    BaseExp: 824099
+    JobExp: 535664
     Attack: 2561
     Attack2: 1504
-    Defense: 41
-    MagicDefense: 10
-    Str: 76
-    Agi: 96
-    Vit: 55
-    Int: 56
-    Dex: 126
-    Luk: 29
+    Defense: 25
+    MagicDefense: 16
+    Str: 151
+    Agi: 192
+    Vit: 110
+    Int: 112
+    Dex: 251
+    Luk: 57
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -491,70 +418,24 @@ Body:
       IgnoreMisc: true
       IgnoreRanged: true
       KnockBackImmune: true
-  - Id: 2327
-    AegisName: BANGUNGOT_3
-    Name: Bangungot
-    Level: 115
-    Hp: 200
-    BaseExp: 1563082
-    JobExp: 1522402
-    Attack: 2561
-    Attack2: 1504
-    Defense: 41
-    MagicDefense: 10
-    Str: 76
-    Agi: 96
-    Vit: 55
-    Int: 56
-    Dex: 126
-    Luk: 29
-    AttackRange: 1
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Medium
-    Race: Demon
-    Element: Dark
-    ElementLevel: 2
-    WalkSpeed: 1000
-    Class: Guardian
-    Modes:
-      IgnoreMagic: true
-      IgnoreMelee: true
-      IgnoreMisc: true
-      IgnoreRanged: true
-      KnockBackImmune: true
-    Drops:
-      - Item: Bangungot_Doll
-        Rate: 4000
-      - Item: Bangungot_Spirit_Piece
-        Rate: 2000
-      - Item: Ancient_Grudge
-        Rate: 4000
-      - Item: Bangungot_Boots
-        Rate: 2000
-      - Item: Kalasak
-        Rate: 200
-      - Item: Ancient_Grudge
-        Rate: 10000
-      - Item: Bangungot_Card
-        Rate: 1
-        StealProtected: true
   - Id: 2338
     AegisName: MD_MANANANGGAL
     Name: Manananggal
     JapaneseName: Bangungot Manananggal
     Level: 107
-    Hp: 204511
+    Hp: 155621
+    BaseExp: 248994
+    JobExp: 161846
     Attack: 801
     Attack2: 103
-    Defense: 6
-    MagicDefense: 3
-    Str: 38
-    Agi: 43
-    Vit: 23
-    Int: 36
-    Dex: 38
-    Luk: 23
+    Defense: 24
+    MagicDefense: 16
+    Str: 75
+    Agi: 85
+    Vit: 45
+    Int: 71
+    Dex: 75
+    Luk: 46
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -574,19 +455,19 @@ Body:
     Name: Mangkukulam
     JapaneseName: Bangungot Mangkukulam
     Level: 110
-    Hp: 102154
-    BaseExp: 130000
-    JobExp: 100000
+    Hp: 73551
+    BaseExp: 117682
+    JobExp: 76493
     Attack: 582
     Attack2: 196
-    Defense: 9
-    MagicDefense: 8
-    Str: 18
-    Agi: 36
-    Vit: 16
-    Int: 41
-    Dex: 32
-    Luk: 26
+    Defense: 24
+    MagicDefense: 16
+    Str: 35
+    Agi: 71
+    Vit: 31
+    Int: 82
+    Dex: 64
+    Luk: 52
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -605,19 +486,19 @@ Body:
     AegisName: MD_TIYANAK
     Name: Tiyanak
     Level: 105
-    Hp: 50211
-    BaseExp: 65000
-    JobExp: 40000
+    Hp: 39677
+    BaseExp: 63483
+    JobExp: 41264
     Attack: 457
     Attack2: 251
-    Defense: 8
-    MagicDefense: 2
-    Str: 21
-    Agi: 29
-    Vit: 21
-    Int: 26
-    Dex: 36
-    Luk: 24
+    Defense: 23
+    MagicDefense: 15
+    Str: 41
+    Agi: 58
+    Vit: 41
+    Int: 51
+    Dex: 72
+    Luk: 47
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
