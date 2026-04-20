@@ -418,6 +418,54 @@ Body:
       IgnoreMisc: true
       IgnoreRanged: true
       KnockBackImmune: true
+  - Id: 2327
+    AegisName: BANGUNGOT_3
+    Name: Bangungot
+    Level: 115
+    Hp: 200
+    BaseExp: 1563082
+    JobExp: 1522402
+    Attack: 2561
+    Attack2: 1504
+    Defense: 28
+    MagicDefense: 18
+    Str: 151
+    Agi: 192
+    Vit: 110
+    Int: 112
+    Dex: 251
+    Luk: 57
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 1000
+    Class: Guardian
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+      KnockBackImmune: true
+    Drops:
+      - Item: Bangungot_Doll
+        Rate: 4000
+      - Item: Bangungot_Spirit_Piece
+        Rate: 2000
+      - Item: Ancient_Grudge
+        Rate: 4000
+      - Item: Bangungot_Boots
+        Rate: 2000
+      - Item: Kalasak
+        Rate: 200
+      - Item: Ancient_Grudge
+        Rate: 10000
+      - Item: Bangungot_Card
+        Rate: 1
+        StealProtected: true
   - Id: 2338
     AegisName: MD_MANANANGGAL
     Name: Manananggal
