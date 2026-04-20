@@ -148,3 +148,4 @@ generated
 /rAthena.slnLaunch.user
 /sql-files/item_db2.sql
 /fix_sprites.php
+/tools/__pycache__
