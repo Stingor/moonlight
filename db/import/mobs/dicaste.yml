@@ -3,6 +3,128 @@ Header:
   Version: 5
 
 Body:
+  - Id: 1985
+    AegisName: DANDELION
+    Name: Dandelion Member
+    Level: 37
+    Hp: 45000
+    Attack: 305
+    Attack2: 360
+    MagicDefense: 4
+    Str: 28
+    Agi: 19
+    Vit: 32
+    Dex: 63
+    Luk: 20
+    Int: 1
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 250
+    AttackDelay: 1772
+    AttackMotion: 72
+    DamageMotion: 384
+    Ai: 21
+  - Id: 1986
+    AegisName: TATACHO
+    Name: Tatacho
+    Level: 106
+    Hp: 17324
+    BaseExp: 27718
+    JobExp: 18017
+    Attack: 10000
+    Attack2: 11000
+    Defense: 25
+    MagicDefense: 15
+    Str: 119
+    Agi: 33
+    Vit: 70
+    Int: 56
+    Dex: 109
+    Luk: 33
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Brute
+    Element: Earth
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 1000
+    AttackMotion: 768
+    DamageMotion: 360
+    Ai: 07
+    Drops:
+      - Item: Lunakaligo
+        Rate: 20
+      - Item: Cello
+        Rate: 10
+      - Item: Fur
+        Rate: 4000
+      - Item: Peaked_Hat
+        Rate: 3000
+      - Item: Delicious_Fish
+        Rate: 3100
+      - Item: Bradium
+        Rate: 10
+      - Item: Starsand_Of_Witch
+        Rate: 2500
+      - Item: Tatacho_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1987
+    AegisName: CENTIPEDE
+    Name: Centipede
+    Level: 110
+    Hp: 12928
+    BaseExp: 20685
+    JobExp: 13445
+    Attack: 15000
+    Attack2: 16000
+    Defense: 25
+    MagicDefense: 15
+    Str: 133
+    Agi: 71
+    Vit: 69
+    Int: 39
+    Dex: 120
+    Luk: 49
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Insect
+    Element: Poison
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 1000
+    AttackMotion: 792
+    DamageMotion: 336
+    Ai: 21
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Cold_Heart
+        Rate: 2
+      - Item: Black_Cat
+        Rate: 2
+      - Item: Cursed_Lyre
+        Rate: 10
+      - Item: Short_Leg
+        Rate: 5335
+      - Item: Zargon
+        Rate: 5000
+      - Item: Bradium
+        Rate: 10
+      - Item: Solid_Shell
+        Rate: 2500
+      - Item: Centipede_Card
+        Rate: 1
+        StealProtected: true
   - Id: 2083
     AegisName: HORN_SCARABA
     Name: One-Horned Scaraba

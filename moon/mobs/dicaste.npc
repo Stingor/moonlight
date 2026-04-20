@@ -15,6 +15,28 @@ dic_dun02,102,148,0	warp	scarabahole0007	1,1,dic_dun01,290,99
 dic_dun01,371,100,0	warp	scarabahole0008	1,1,dic_dun01,33,43
 dic_dun01,29,43,0	warp	scarabahole0009	1,1,dic_dun01,367,100
 dic_dun03,101,148,0	warp	scarabahole0010	1,1,dic_dun01,286,102
+dic_dun01,371,44,0	warp	dic_field0001	1,1,dic_fild01,28,79
+dic_fild01,24,79,0	warp	dic_field0002	1,1,dic_dun01,366,45
+dic_fild01,69,23,0	warp	dic_field0003	1,1,dic_fild02,70,373
+dic_fild02,71,375,0	warp	dic_field0004	1,1,dic_fild01,69,25
+dicastes01,199,34,0	warp	dic_field0005	1,1,dic_fild01,149,279
+
+//==================================================
+// dic_fild01 - At the Foot of the Kamidal Mountain
+//==================================================
+dic_fild01	monster	Centipede	1987,60,5000
+dic_fild01	monster	Centipede Larva	1999,30,5000
+dic_fild01	monster	Tatacho	1986,25,5000
+dic_fild01	monster	Dolomedes	2092,20,5000
+
+//==================================================
+// dic_fild02 - At the Foot of the Kamidal Mountain
+//==================================================
+dic_fild02	monster	Bradium Golem	2024,3,5000
+dic_fild02	monster	Centipede	1987,35,5000
+dic_fild02	monster	Centipede Larva	1999,10,5000
+dic_fild02	monster	Tatacho	1986,25,5000
+dic_fild02	monster	Dolomedes	2092,80,5000
 
 //==================================================
 // dic_dun01 - Underground Passage Kamidal Tunnel
