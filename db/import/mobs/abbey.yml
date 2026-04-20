@@ -346,32 +346,3 @@ Body:
     DamageMotion: 360
     Ai: 21
     Class: Boss
-  - Id: 1873
-    AegisName: BEELZEBUB
-    Name: Beelzebub
-    Level: 98
-    Hp: 2032305
-    MvpExp: 100000
-    Attack: 4100
-    Attack2: 4960
-    Defense: 35
-    MagicDefense: 24
-    Str: 155
-    Agi: 235
-    Vit: 200
-    Int: 225
-    Dex: 306
-    Luk: 66
-    AttackRange: 1
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Small
-    Race: Demon
-    Element: Ghost
-    ElementLevel: 4
-    WalkSpeed: 100
-    AttackDelay: 100
-    AttackMotion: 576
-    DamageMotion: 480
-    Ai: 21
-    Class: Boss

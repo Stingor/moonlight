@@ -1,0 +1,385 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 2013
+    AegisName: DRACO
+    Name: Draco
+    Level: 82
+    Hp: 12863
+    BaseExp: 20581
+    JobExp: 13378
+    Attack: 410
+    Attack2: 710
+    Defense: 19
+    MagicDefense: 11
+    Agi: 58
+    Vit: 47
+    Int: 34
+    Dex: 99
+    Luk: 66
+    Str: 21
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Dragon
+    Element: Earth
+    ElementLevel: 1
+    WalkSpeed: 250
+    AttackDelay: 576
+    AttackMotion: 960
+    DamageMotion: 504
+    Ai: 03
+    Drops:
+      - Item: Dragon's_Mane
+        Rate: 3000
+      - Item: Dragon's_Skin
+        Rate: 100
+      - Item: Dragon_Canine
+        Rate: 100
+      - Item: Dragon_Train
+        Rate: 1000
+      - Item: Dragon_Scale
+        Rate: 1000
+      - Item: Honey
+        Rate: 500
+      - Item: Dragon_Vest
+        Rate: 10
+      - Item: Draco_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2014
+    AegisName: DRACO_EGG
+    Name: Draco Egg
+    Level: 67
+    Hp: 97623
+    BaseExp: 156197
+    JobExp: 101528
+    Attack: 1
+    Attack2: 2
+    Defense: 20
+    MagicDefense: 12
+    Vit: 135
+    Int: 92
+    Luk: 98
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Dragon
+    Element: Earth
+    ElementLevel: 4
+    WalkSpeed: 1000
+    AttackDelay: 24
+    AttackMotion: 1
+    DamageMotion: 1
+    Drops:
+      - Item: Piece_Of_Egg_Shell
+        Rate: 5000
+      - Item: Egg_Shell
+        Rate: 20
+      - Item: Egg_Of_Draco_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2015
+    AegisName: PINGUICULA_D
+    Name: Dark Pinguicula
+    Level: 83
+    Hp: 12538
+    BaseExp: 20061
+    JobExp: 13040
+    Attack: 600
+    Attack2: 1450
+    Defense: 19
+    MagicDefense: 14
+    Agi: 55
+    Vit: 55
+    Int: 95
+    Dex: 92
+    Luk: 12
+    Str: 89
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Plant
+    Element: Poison
+    ElementLevel: 2
+    WalkSpeed: 290
+    AttackDelay: 1426
+    AttackMotion: 600
+    DamageMotion: 360
+    Ai: 13
+    Drops:
+      - Item: Sharp_Leaf
+        Rate: 5000
+      - Item: Great_Leaf
+        Rate: 2000
+      - Item: Browny_Root
+        Rate: 3000
+      - Item: Karvodailnirol
+        Rate: 10
+      - Item: Withered_Flower
+        Rate: 1000
+      - Item: Elder_Branch
+        Rate: 1500
+      - Item: Rotha_Shield
+        Rate: 10
+      - Item: Pinguicula_Dark_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2016
+    AegisName: AQUA_ELEMENTAL
+    Name: Aqua Elemental
+    Level: 83
+    Hp: 25933
+    BaseExp: 41493
+    JobExp: 26970
+    Attack: 400
+    Attack2: 1600
+    Defense: 18
+    MagicDefense: 11
+    Agi: 61
+    Vit: 25
+    Int: 25
+    Dex: 120
+    Luk: 40
+    Str: 95
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Water
+    ElementLevel: 4
+    WalkSpeed: 230
+    AttackDelay: 504
+    AttackMotion: 960
+    DamageMotion: 576
+    Ai: 09
+    Drops:
+      - Item: Crystalized_Teardrop
+        Rate: 1000
+      - Item: Fluorescent_Liquid
+        Rate: 5000
+      - Item: Tiny_Waterbottle
+        Rate: 100
+      - Item: Waterdrop_Brooch
+        Rate: 10
+      - Item: Aqua_Elemental_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2017
+    AegisName: RATA
+    Name: Rata
+    Level: 107
+    Hp: 26910
+    BaseExp: 43056
+    JobExp: 27986
+    Attack: 8000
+    Attack2: 15000
+    Defense: 25
+    MagicDefense: 15
+    Agi: 74
+    Vit: 71
+    Int: 51
+    Dex: 147
+    Luk: 56
+    Str: 101
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Earth
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 792
+    AttackMotion: 540
+    DamageMotion: 420
+    Ai: 20
+    Drops:
+      - Item: Unripe_Acorn
+        Rate: 5000
+      - Item: Acorn
+        Rate: 5000
+      - Item: Piece_Of_Darkness
+        Rate: 500
+      - Item: Veteran_Hammer
+        Rate: 100
+      - Item: Bradium
+        Rate: 10
+      - Item: Lata_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2018
+    AegisName: DUNEYRR
+    Name: Duneyrr
+    Level: 107
+    Hp: 29238
+    BaseExp: 46781
+    JobExp: 30408
+    Attack: 16000
+    Attack2: 19000
+    Defense: 25
+    MagicDefense: 15
+    Agi: 69
+    Vit: 72
+    Int: 55
+    Dex: 165
+    Luk: 44
+    Str: 133
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Earth
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 672
+    AttackMotion: 420
+    DamageMotion: 360
+    Ai: 20
+    Drops:
+      - Item: Carrot
+        Rate: 5000
+      - Item: Fur
+        Rate: 4000
+      - Item: Piece_Of_Darkness
+        Rate: 500
+      - Item: Eyes_Stone_Ring
+        Rate: 1
+      - Item: Veteran_Sword
+        Rate: 10
+      - Item: Veteran_Axe
+        Rate: 100
+      - Item: Bradium
+        Rate: 10
+      - Item: Duneirre_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2019
+    AegisName: ANCIENT_TREE
+    Name: Ancient Tree
+    Level: 102
+    Hp: 193814
+    BaseExp: 310102
+    JobExp: 201566
+    Attack: 13200
+    Attack2: 17400
+    Defense: 25
+    MagicDefense: 15
+    Agi: 72
+    Vit: 93
+    Int: 58
+    Dex: 149
+    Luk: 30
+    Str: 148
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Plant
+    Element: Earth
+    ElementLevel: 3
+    WalkSpeed: 290
+    AttackDelay: 504
+    AttackMotion: 960
+    DamageMotion: 576
+    Ai: 13
+    Drops:
+      - Item: Tough_Vines
+        Rate: 1000
+      - Item: Great_Leaf
+        Rate: 1000
+      - Item: Log
+        Rate: 5000
+      - Item: Dead_Tree_Cane
+        Rate: 10
+      - Item: Vital_Tree_Shoes
+        Rate: 30
+      - Item: Elder_Branch
+        Rate: 1000
+      - Item: Ancient_Tree_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2020
+    AegisName: RHYNCHO
+    Name: Rhyncho
+    Level: 85
+    Hp: 224964
+    BaseExp: 359942
+    JobExp: 233962
+    Attack: 350
+    Attack2: 2300
+    Defense: 20
+    MagicDefense: 12
+    Agi: 98
+    Vit: 62
+    Int: 48
+    Dex: 119
+    Luk: 46
+    Str: 119
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Water
+    ElementLevel: 3
+    WalkSpeed: 240
+    AttackDelay: 576
+    AttackMotion: 660
+    DamageMotion: 420
+    Ai: 13
+    Drops:
+      - Item: Fluorescent_Liquid
+        Rate: 5000
+      - Item: Karvodailnirol
+        Rate: 5
+      - Item: Crystal_Of_Soul_01
+        Rate: 500
+      - Item: Ringco_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2021
+    AegisName: PHYLLA
+    Name: Phylla
+    Level: 85
+    Hp: 230528
+    BaseExp: 368845
+    JobExp: 239749
+    Attack: 350
+    Attack2: 2550
+    Defense: 20
+    MagicDefense: 13
+    Agi: 85
+    Vit: 60
+    Int: 58
+    Dex: 152
+    Luk: 42
+    Str: 107
+    AttackRange: 10
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Water
+    ElementLevel: 3
+    WalkSpeed: 240
+    AttackDelay: 360
+    AttackMotion: 780
+    DamageMotion: 432
+    Ai: 05
+    Drops:
+      - Item: Fluorescent_Liquid
+        Rate: 5000
+      - Item: Detrimindexta
+        Rate: 5
+      - Item: Crystal_Of_Soul_02
+        Rate: 500
+      - Item: Pillar_Card
+        Rate: 1
+        StealProtected: true
