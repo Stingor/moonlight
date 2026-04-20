@@ -62350,6 +62350,7 @@ Footer:
   - Path: db/import/mobs/abyss.yml
   - Path: db/import/mobs/amicitia.yml
   - Path: db/import/mobs/ba_dun.yml
+  - Path: db/import/mobs/bifrost.yml
   - Path: db/import/mobs/biolab.yml
   - Path: db/import/mobs/brasilis.yml
   - Path: db/import/mobs/c_tower_n.yml
