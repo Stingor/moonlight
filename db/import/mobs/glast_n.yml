@@ -7,9 +7,9 @@ Body:
     AegisName: NG_WANDER_MAN
     Name: Nightmare Wander Man
     Level: 151
-    Hp: 34763
-    BaseExp: 55621
-    JobExp: 36154
+    Hp: 139054
+    BaseExp: 222486
+    JobExp: 144616
     Attack: 2827
     Attack2: 8218
     Defense: 34
@@ -53,9 +53,9 @@ Body:
     AegisName: NG_RIDEWORD
     Name: Nightmare Rideword
     Level: 146
-    Hp: 28978
-    BaseExp: 46365
-    JobExp: 30137
+    Hp: 115912
+    BaseExp: 185459
+    JobExp: 120548
     Attack: 2321
     Attack2: 6165
     Defense: 32
@@ -97,9 +97,9 @@ Body:
     AegisName: NG_MIMIC
     Name: Nightmare Mimic
     Level: 143
-    Hp: 7243
-    BaseExp: 11589
-    JobExp: 7533
+    Hp: 28974
+    BaseExp: 46358
+    JobExp: 30133
     Attack: 1787
     Attack2: 4159
     Defense: 29
@@ -139,9 +139,9 @@ Body:
     AegisName: NG_EVIL_DRUID
     Name: Nightmare Evil Druid
     Level: 134
-    Hp: 23456
-    BaseExp: 37530
-    JobExp: 24394
+    Hp: 93824
+    BaseExp: 150118
+    JobExp: 97577
     Attack: 1409
     Attack2: 3143
     Defense: 29
@@ -181,9 +181,9 @@ Body:
     AegisName: NG_WRAITH_DEAD
     Name: Nightmare Wraith Dead
     Level: 110
-    Hp: 8357
-    BaseExp: 13371
-    JobExp: 8691
+    Hp: 33427
+    BaseExp: 53483
+    JobExp: 34764
     Attack: 761
     Attack2: 3122
     Defense: 24
@@ -223,9 +223,9 @@ Body:
     AegisName: G_NG_BAPHOMET_
     Name: Nightmare Baphomet Jr.
     Level: 141
-    Hp: 14745
-    BaseExp: 23592
-    JobExp: 15335
+    Hp: 58982
+    BaseExp: 94371
+    JobExp: 61341
     Attack: 1601
     Attack2: 4206
     Defense: 33
@@ -252,9 +252,9 @@ Body:
     AegisName: NG_CHIMERA
     Name: Nightmare Chimera
     Level: 140
-    Hp: 158562
-    BaseExp: 253699
-    JobExp: 164904
+    Hp: 502685
+    BaseExp: 804296
+    JobExp: 522792
     Attack: 2058
     Attack2: 4823
     Defense: 34

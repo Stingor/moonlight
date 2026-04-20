@@ -1,0 +1,448 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 2353
+    AegisName: N_MINOROUS
+    Name: Minorous (Nightmare)
+    JapaneseName: Nightmare Minorous
+    Level: 121
+    Hp: 41473
+    BaseExp: 66357
+    JobExp: 43132
+    Attack: 1853
+    Attack2: 3154
+    Defense: 27
+    MagicDefense: 17
+    Str: 71
+    Agi: 47
+    Vit: 51
+    Int: 51
+    Dex: 81
+    Luk: 30
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Brute
+    Element: Fire
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 1360
+    AttackMotion: 960
+    DamageMotion: 432
+    Ai: 21
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Nose_Ring
+        Rate: 5000
+      - Item: Oridecon_Stone
+        Rate: 200
+      - Item: Two_Handed_Axe_
+        Rate: 2
+      - Item: Hammer_Of_Blacksmith
+        Rate: 10
+      - Item: Beef_Head_Meat
+        Rate: 100
+      - Item: Lemon
+        Rate: 300
+      - Item: N_Minorous_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2354
+    AegisName: N_MUMMY
+    Name: Mummy (Nightmare)
+    JapaneseName: Nightmare Mummy
+    Level: 117
+    Hp: 41894
+    BaseExp: 67030
+    JobExp: 43570
+    Attack: 1761
+    Attack2: 3192
+    Defense: 24
+    MagicDefense: 16
+    Str: 61
+    Agi: 5
+    Vit: 21
+    Int: 51
+    Dex: 72
+    Luk: 0
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Undead
+    Element: Undead
+    ElementLevel: 2
+    WalkSpeed: 300
+    AttackDelay: 1772
+    AttackMotion: 72
+    DamageMotion: 384
+    Ai: 21
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Rotten_Bandage
+        Rate: 9000
+      - Item: Oridecon_Stone
+        Rate: 100
+      - Item: Mementos
+        Rate: 500
+      - Item: Glove
+        Rate: 2
+      - Item: Silver_Ring
+        Rate: 10
+      - Item: Panacea
+        Rate: 250
+      - Item: Yellow_Herb
+        Rate: 1000
+      - Item: N_Mummy_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2355
+    AegisName: N_VERIT
+    Name: Verit (Nightmare)
+    JapaneseName: Nightmare Verit
+    Level: 115
+    Hp: 33150
+    BaseExp: 53040
+    JobExp: 34476
+    Attack: 623
+    Attack2: 1942
+    Defense: 25
+    MagicDefense: 14
+    Str: 57
+    Agi: 7
+    Vit: 31
+    Int: 15
+    Dex: 7
+    Luk: 7
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Undead
+    Element: Undead
+    ElementLevel: 1
+    WalkSpeed: 250
+    AttackDelay: 2468
+    AttackMotion: 768
+    DamageMotion: 480
+    Ai: 21
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Immortal_Heart
+        Rate: 9000
+      - Item: Zargon
+        Rate: 700
+      - Item: Rotten_Bandage
+        Rate: 1100
+      - Item: White_Herb
+        Rate: 600
+      - Item: Skul_Ring
+        Rate: 2
+      - Item: Flower_Ring
+        Rate: 200
+      - Item: Armlet_Of_Obedience
+        Rate: 20
+      - Item: N_Verit_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2356
+    AegisName: N_MIMIC
+    Name: Mimic (Nightmare)
+    JapaneseName: Nightmare Mimic
+    Level: 137
+    Hp: 78454
+    BaseExp: 125526
+    JobExp: 81592
+    Attack: 2345
+    Attack2: 4013
+    Defense: 29
+    MagicDefense: 17
+    Str: 71
+    Agi: 180
+    Vit: 35
+    Int: 21
+    Dex: 61
+    Luk: 0
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 3
+    WalkSpeed: 100
+    AttackDelay: 972
+    AttackMotion: 500
+    DamageMotion: 288
+    Ai: 21
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Old_Violet_Box
+        Rate: 6
+      - Item: Old_Blue_Box
+        Rate: 50
+      - Item: Booby_Trap
+        Rate: 1200
+      - Item: Light_Granule
+        Rate: 1000
+      - Item: Rosary_
+        Rate: 2
+      - Item: Elunium_Stone
+        Rate: 270
+      - Item: N_Mimic_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2357
+    AegisName: G_N_MIMIC
+    Name: Mimic (Nightmare)
+    JapaneseName: Nightmare Mimic
+    Level: 137
+    Hp: 78454
+    Attack: 2545
+    Attack2: 4413
+    Defense: 29
+    MagicDefense: 17
+    Str: 71
+    Agi: 180
+    Vit: 35
+    Int: 21
+    Dex: 61
+    Luk: 0
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 3
+    WalkSpeed: 100
+    AttackDelay: 972
+    AttackMotion: 500
+    DamageMotion: 288
+    Ai: 21
+    Modes:
+      Detector: true
+  - Id: 2358
+    AegisName: N_ARCLOUSE
+    Name: Arclouze (Nightmare)
+    JapaneseName: Nightmare Arclouse
+    Level: 134
+    Hp: 61847
+    BaseExp: 98955
+    JobExp: 64321
+    Attack: 2104
+    Attack2: 3341
+    Defense: 29
+    MagicDefense: 18
+    Str: 65
+    Agi: 85
+    Vit: 51
+    Int: 45
+    Dex: 251
+    Luk: 31
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Insect
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 960
+    AttackMotion: 500
+    DamageMotion: 480
+    Ai: 21
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Round_Shell
+        Rate: 3500
+      - Item: Sticky_Mucus
+        Rate: 3000
+      - Item: Solid_Shell
+        Rate: 800
+      - Item: Zargon
+        Rate: 500
+      - Item: Red_Gemstone
+        Rate: 300
+      - Item: Great_Nature
+        Rate: 20
+      - Item: Zargon
+        Rate: 2500
+      - Item: N_Arclouse_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2359
+    AegisName: G_N_ARCLOUSE
+    Name: Arclouze (Nightmare)
+    JapaneseName: Nightmare Arclouse
+    Level: 134
+    Hp: 61847
+    Attack: 2104
+    Attack2: 3341
+    Defense: 29
+    MagicDefense: 18
+    Str: 65
+    Agi: 85
+    Vit: 51
+    Int: 45
+    Dex: 251
+    Luk: 31
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Insect
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 960
+    AttackMotion: 500
+    DamageMotion: 480
+    Ai: 21
+    Modes:
+      Detector: true
+  - Id: 2360
+    AegisName: N_ANCIENT_MUMMY
+    Name: Ancient Mummy (Nightmar
+    JapaneseName: Nightmare Ancient Mummy
+    Level: 141
+    Hp: 107048
+    BaseExp: 171277
+    JobExp: 111330
+    Attack: 2841
+    Attack2: 4347
+    Defense: 31
+    MagicDefense: 20
+    Str: 126
+    Agi: 75
+    Vit: 61
+    Int: 85
+    Dex: 187
+    Luk: 24
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Undead
+    Element: Undead
+    ElementLevel: 2
+    WalkSpeed: 175
+    AttackDelay: 1772
+    AttackMotion: 120
+    DamageMotion: 384
+    Ai: 21
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Rotten_Bandage
+        Rate: 4500
+      - Item: Mementos
+        Rate: 1800
+      - Item: Glove_
+        Rate: 2
+      - Item: Silver_Ring
+        Rate: 150
+      - Item: Runstone_Ancient
+        Rate: 10
+      - Item: Oridecon_Stone
+        Rate: 150
+      - Item: Elunium_Stone
+        Rate: 100
+      - Item: N_Ancient_Mummy_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2361
+    AegisName: G_N_ANCIENT_MUMMY
+    Name: Ancient Mummy (Nightmar
+    JapaneseName: Nightmare Ancient Mummy
+    Level: 141
+    Hp: 107048
+    Attack: 2841
+    Attack2: 4347
+    Defense: 31
+    MagicDefense: 20
+    Str: 126
+    Agi: 75
+    Vit: 61
+    Int: 85
+    Dex: 187
+    Luk: 24
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Undead
+    Element: Undead
+    ElementLevel: 2
+    WalkSpeed: 175
+    AttackDelay: 1772
+    AttackMotion: 120
+    DamageMotion: 384
+    Ai: 21
+    Modes:
+      Detector: true
+  - Id: 2362
+    AegisName: N_AMON_RA
+    Name: Amon Ra (Nightmare)
+    JapaneseName: Nightmare Amon Ra
+    Level: 145
+    Hp: 2856372
+    BaseExp: 4570195
+    JobExp: 2970627
+    MvpExp: 813243
+    Attack: 4106
+    Attack2: 6201
+    Defense: 45
+    MagicDefense: 30
+    Str: 86
+    Agi: 89
+    Vit: 120
+    Int: 131
+    Dex: 101
+    Luk: 92
+    AttackRange: 3
+    SkillRange: 14
+    ChaseRange: 12
+    Size: Large
+    Race: Demihuman
+    Element: Earth
+    ElementLevel: 3
+    WalkSpeed: 170
+    AttackDelay: 854
+    AttackMotion: 2016
+    DamageMotion: 480
+    Ai: 10
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Yggdrasilberry
+        Rate: 5500
+      - Item: Seed_Of_Yggdrasil
+        Rate: 3500
+      - Item: Crystal_Jewel__
+        Rate: 5500
+    Drops:
+      - Item: Spinx_Helm
+        Rate: 150
+      - Item: Safety_Ring
+        Rate: 50
+      - Item: Rojerta_Piece
+        Rate: 7000
+      - Item: Elunium
+        Rate: 3800
+      - Item: Old_Card_Album
+        Rate: 400
+      - Item: Yggdrasilberry
+        Rate: 3000
+      - Item: N_Amon_Ra_Card
+        Rate: 1
+        StealProtected: true
