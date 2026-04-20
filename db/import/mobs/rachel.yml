@@ -1,0 +1,768 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 1780
+    AegisName: MUSCIPULAR
+    Name: Muscipular
+    Level: 57
+    Hp: 14653
+    BaseExp: 23445
+    JobExp: 15239
+    Attack: 521
+    Attack2: 726
+    Defense: 14
+    MagicDefense: 8
+    Agi: 60
+    Vit: 58
+    Int: 37
+    Dex: 72
+    Luk: 47
+    Str: 100
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Plant
+    Element: Earth
+    ElementLevel: 1
+    WalkSpeed: 1000
+    AttackDelay: 672
+    AttackMotion: 648
+    DamageMotion: 360
+    Ai: 10
+    Drops:
+      - Item: Sticky_Poison
+        Rate: 3000
+      - Item: Blossom_Of_Maneater
+        Rate: 3000
+      - Item: Singing_Flower
+        Rate: 2
+      - Item: Root_Of_Maneater
+        Rate: 2000
+      - Item: Stem
+        Rate: 1000
+      - Item: Deadly_Noxious_Herb
+        Rate: 3
+      - Item: Mandragora_Flowerpot
+        Rate: 200
+      - Item: Muscipular_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1781
+    AegisName: DROSERA
+    Name: Drosera
+    Level: 46
+    Hp: 11179
+    BaseExp: 17886
+    JobExp: 11626
+    Attack: 389
+    Attack2: 589
+    Defense: 12
+    MagicDefense: 7
+    Agi: 32
+    Vit: 64
+    Int: 38
+    Dex: 94
+    Luk: 14
+    Str: 79
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Plant
+    Element: Earth
+    ElementLevel: 1
+    WalkSpeed: 1000
+    AttackDelay: 864
+    AttackMotion: 576
+    DamageMotion: 336
+    Ai: 10
+    Drops:
+      - Item: Sticky_Poison
+        Rate: 3000
+      - Item: Drocera_Tentacle
+        Rate: 200
+      - Item: Blossom_Of_Maneater
+        Rate: 2000
+      - Item: Root_Of_Maneater
+        Rate: 2000
+      - Item: Bitter_Herb
+        Rate: 3
+      - Item: Stem
+        Rate: 1000
+      - Item: Mandragora_Flowerpot
+        Rate: 50
+      - Item: Drosera_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1782
+    AegisName: ROWEEN
+    Name: Roween
+    Level: 31
+    Hp: 6617
+    BaseExp: 10587
+    JobExp: 6882
+    Attack: 298
+    Attack2: 377
+    MagicDefense: 6
+    Str: 70
+    Agi: 82
+    Vit: 55
+    Int: 45
+    Dex: 108
+    Luk: 25
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Brute
+    Element: Wind
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 1500
+    AttackMotion: 500
+    DamageMotion: 1000
+    Ai: 07
+    Drops:
+      - Item: Rotten_Meat
+        Rate: 3000
+      - Item: Animal's_Skin
+        Rate: 3000
+      - Item: Wind_Of_Verdure
+        Rate: 50
+      - Item: Combo_Battle_Glove
+        Rate: 2
+      - Item: Roween_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1783
+    AegisName: GALION
+    Name: Galion
+    Level: 44
+    Hp: 8772
+    BaseExp: 14035
+    JobExp: 9123
+    Attack: 336
+    Attack2: 441
+    Defense: 17
+    MagicDefense: 10
+    Str: 106
+    Agi: 79
+    Vit: 62
+    Int: 45
+    Dex: 108
+    Luk: 36
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Brute
+    Element: Wind
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 864
+    AttackMotion: 624
+    DamageMotion: 360
+    Ai: 07
+    Class: Boss
+    Drops:
+      - Item: Rotten_Meat
+        Rate: 3000
+      - Item: Animal's_Skin
+        Rate: 3000
+      - Item: Rough_Wind
+        Rate: 10
+      - Item: Ulfhedinn
+        Rate: 5
+      - Item: Galion_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 1784
+    AegisName: STAPO
+    Name: Stapo
+    Level: 23
+    Hp: 6984
+    BaseExp: 11174
+    JobExp: 7263
+    Attack: 135
+    Attack2: 370
+    Defense: 6
+    MagicDefense: 4
+    Str: 20
+    Agi: 46
+    Vit: 25
+    Int: 35
+    Dex: 64
+    Luk: 30
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 300
+    AttackDelay: 936
+    AttackMotion: 792
+    DamageMotion: 432
+    Ai: 02
+    Drops:
+      - Item: Jellopy
+        Rate: 1000
+      - Item: Jubilee
+        Rate: 1000
+      - Item: Apple
+        Rate: 1000
+      - Item: Large_Jellopy
+        Rate: 100
+      - Item: Yellow_Live
+        Rate: 10
+      - Item: Seismic_Fist
+        Rate: 3
+      - Item: Stapo_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1632
+    AegisName: GREMLIN
+    Name: Gremlin
+    Level: 53
+    Hp: 39000
+    BaseExp: 62400
+    JobExp: 40560
+    Attack: 329
+    Attack2: 762
+    Defense: 13
+    MagicDefense: 9
+    Str: 141
+    Agi: 75
+    Vit: 48
+    Int: 61
+    Dex: 126
+    Luk: 37
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 140
+    AttackDelay: 432
+    AttackMotion: 540
+    DamageMotion: 432
+    Ai: 17
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Will_Of_Darkness
+        Rate: 3000
+      - Item: Sticky_Mucus
+        Rate: 3000
+      - Item: Violet_Jewel
+        Rate: 100
+      - Item: Boots_
+        Rate: 1
+      - Item: Bloody_Roar
+        Rate: 1
+      - Item: Old_Blue_Box
+        Rate: 2
+      - Item: Gremlin_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1633
+    AegisName: BEHOLDER
+    Name: Beholder
+    Level: 56
+    Hp: 25560
+    BaseExp: 40896
+    JobExp: 26582
+    Attack: 723
+    Attack2: 812
+    Defense: 14
+    MagicDefense: 11
+    Str: 96
+    Agi: 82
+    Vit: 65
+    Int: 107
+    Dex: 132
+    Luk: 82
+    AttackRange: 6
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Wind
+    ElementLevel: 2
+    WalkSpeed: 190
+    AttackDelay: 336
+    AttackMotion: 840
+    DamageMotion: 360
+    Ai: 17
+    Drops:
+      - Item: Prickly_Fruit
+        Rate: 3000
+      - Item: Anodyne
+        Rate: 100
+      - Item: Rough_Wind
+        Rate: 100
+      - Item: Elunium
+        Rate: 10
+      - Item: Old_Blue_Box
+        Rate: 2
+      - Item: Beholder_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1768
+    AegisName: GLOOMUNDERNIGHT
+    Name: Gloom Under Night
+    Level: 89
+    Hp: 1862476
+    BaseExp: 2979962
+    JobExp: 1936975
+    MvpExp: 481087
+    Attack: 5880
+    Attack2: 9516
+    Defense: 37
+    MagicDefense: 24
+    Str: 191
+    Agi: 223
+    Vit: 187
+    Int: 155
+    Dex: 362
+    Luk: 163
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Ghost
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 1344
+    AttackMotion: 2880
+    DamageMotion: 576
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Yggdrasilberry
+        Rate: 5500
+      - Item: Old_Violet_Box
+        Rate: 5000
+      - Item: Old_Violet_Box
+        Rate: 5000
+    Drops:
+      - Item: Will_Of_Darkness_
+        Rate: 7000
+      - Item: Blade_Lost_In_Darkness
+        Rate: 4000
+      - Item: Old_Hilt
+        Rate: 2000
+      - Item: Old_Card_Album
+        Rate: 5000
+      - Item: Celestial_Robe
+        Rate: 1000
+      - Item: Hurricane_Fury
+        Rate: 100
+      - Item: Gloom_Under_Night_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1769
+    AegisName: AGAV
+    Name: Agav
+    Level: 73
+    Hp: 31464
+    BaseExp: 50342
+    JobExp: 32722
+    Attack: 103
+    Attack2: 1109
+    Defense: 17
+    MagicDefense: 13
+    Agi: 66
+    Vit: 55
+    Int: 113
+    Dex: 120
+    Luk: 61
+    Str: 85
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 4
+    WalkSpeed: 300
+    AttackDelay: 768
+    AttackMotion: 360
+    DamageMotion: 360
+    Ai: 20
+    Drops:
+      - Item: Suspicious_Hat
+        Rate: 2500
+      - Item: High_Fashion_Sandals
+        Rate: 2
+      - Item: Bloody_Rune
+        Rate: 4000
+      - Item: Memorize_Book
+        Rate: 1
+      - Item: Holy_Arrow_Quiver
+        Rate: 50
+      - Item: Bloody_Rune
+        Rate: 100
+      - Item: Starsand_Of_Witch
+        Rate: 2500
+      - Item: Agav_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1770
+    AegisName: ECHIO
+    Name: Echio
+    Level: 69
+    Hp: 34197
+    BaseExp: 54715
+    JobExp: 35565
+    Attack: 750
+    Attack2: 1800
+    Defense: 16
+    MagicDefense: 10
+    Str: 111
+    Agi: 63
+    Vit: 51
+    Int: 37
+    Dex: 132
+    Luk: 45
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 4
+    WalkSpeed: 250
+    AttackDelay: 768
+    AttackMotion: 360
+    DamageMotion: 360
+    Ai: 20
+    Drops:
+      - Item: Suspicious_Hat
+        Rate: 2500
+      - Item: Seed_Of_Yggdrasil
+        Rate: 10
+      - Item: Bloody_Rune
+        Rate: 4000
+      - Item: Beret
+        Rate: 25
+      - Item: Holy_Arrow_Quiver
+        Rate: 20
+      - Item: Bloody_Rune
+        Rate: 100
+      - Item: Divine_Cloth
+        Rate: 20
+      - Item: Echio_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1771
+    AegisName: VANBERK
+    Name: Vanberk
+    Level: 59
+    Hp: 34732
+    BaseExp: 55571
+    JobExp: 36121
+    Attack: 230
+    Attack2: 660
+    Defense: 15
+    MagicDefense: 9
+    Str: 109
+    Agi: 70
+    Vit: 55
+    Int: 60
+    Dex: 122
+    Luk: 54
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 4
+    WalkSpeed: 250
+    AttackDelay: 768
+    AttackMotion: 360
+    DamageMotion: 360
+    Ai: 04
+    Drops:
+      - Item: White_Mask
+        Rate: 2500
+      - Item: Royal_Jelly
+        Rate: 10
+      - Item: Bloody_Rune
+        Rate: 1000
+      - Item: Beret
+        Rate: 25
+      - Item: Scalpel
+        Rate: 5
+      - Item: Bloody_Rune
+        Rate: 100
+      - Item: Ur_Seal
+        Rate: 1
+      - Item: Vanberk_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1772
+    AegisName: ISILLA
+    Name: Isilla
+    Level: 62
+    Hp: 32218
+    BaseExp: 51549
+    JobExp: 33507
+    Attack: 89
+    Attack2: 733
+    Defense: 15
+    MagicDefense: 11
+    Agi: 65
+    Vit: 43
+    Int: 82
+    Dex: 127
+    Luk: 75
+    Str: 90
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 4
+    WalkSpeed: 300
+    AttackDelay: 768
+    AttackMotion: 360
+    DamageMotion: 432
+    Ai: 04
+    Drops:
+      - Item: White_Mask
+        Rate: 2500
+      - Item: High_Fashion_Sandals
+        Rate: 1
+      - Item: Bloody_Rune
+        Rate: 1000
+      - Item: Gold_Ring
+        Rate: 10
+      - Item: Ring
+        Rate: 1
+      - Item: Bloody_Rune
+        Rate: 100
+      - Item: Ur_Seal
+        Rate: 1
+      - Item: Isilla_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1773
+    AegisName: HODREMLIN
+    Name: Hodremlin
+    Level: 61
+    Hp: 36067
+    BaseExp: 57707
+    JobExp: 37510
+    Attack: 845
+    Attack2: 1678
+    Defense: 16
+    MagicDefense: 10
+    Str: 106
+    Agi: 70
+    Vit: 77
+    Int: 60
+    Dex: 83
+    Luk: 40
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 140
+    AttackDelay: 960
+    AttackMotion: 528
+    DamageMotion: 432
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Prickly_Fruit_
+        Rate: 1000
+      - Item: Will_Of_Darkness
+        Rate: 1000
+      - Item: Boots_
+        Rate: 2
+      - Item: Sticky_Mucus
+        Rate: 1000
+      - Item: Bloody_Rune
+        Rate: 1000
+      - Item: Starsand_Of_Witch
+        Rate: 2000
+      - Item: Shadow_Walk
+        Rate: 10
+      - Item: Hodremlin_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1774
+    AegisName: SEEKER
+    Name: Seeker
+    Level: 65
+    Hp: 26885
+    BaseExp: 43016
+    JobExp: 27960
+    Attack: 723
+    Attack2: 852
+    Defense: 15
+    MagicDefense: 11
+    Str: 91
+    Agi: 90
+    Vit: 35
+    Int: 75
+    Dex: 176
+    Luk: 31
+    AttackRange: 6
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Wind
+    ElementLevel: 3
+    WalkSpeed: 190
+    AttackDelay: 576
+    AttackMotion: 432
+    DamageMotion: 300
+    Ai: 20
+    Drops:
+      - Item: Prickly_Fruit_
+        Rate: 1000
+      - Item: Will_Of_Darkness
+        Rate: 1000
+      - Item: Elunium
+        Rate: 20
+      - Item: Starsand_Of_Witch
+        Rate: 4000
+      - Item: Bloody_Rune
+        Rate: 1000
+      - Item: Berdysz
+        Rate: 20
+      - Item: Seeker_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1786
+    AegisName: G_AGAV
+    Name: Agav
+    Level: 73
+    Hp: 31464
+    Attack: 103
+    Attack2: 909
+    Defense: 17
+    MagicDefense: 13
+    Agi: 66
+    Vit: 55
+    Int: 113
+    Dex: 120
+    Luk: 61
+    Str: 85
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 300
+    AttackDelay: 768
+    AttackMotion: 360
+    DamageMotion: 360
+    Ai: 20
+    Drops:
+      - Item: Suspicious_Hat
+        Rate: 1
+  - Id: 1787
+    AegisName: G_ECHIO
+    Name: Echio
+    Level: 69
+    Hp: 34197
+    Attack: 750
+    Attack2: 1500
+    Defense: 16
+    MagicDefense: 10
+    Str: 111
+    Agi: 63
+    Vit: 51
+    Int: 37
+    Dex: 132
+    Luk: 45
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 250
+    AttackDelay: 768
+    AttackMotion: 360
+    DamageMotion: 360
+    Ai: 20
+    Drops:
+      - Item: Suspicious_Hat
+        Rate: 1
+  - Id: 1791
+    AegisName: G_GALION
+    Name: Galion
+    Level: 44
+    Hp: 8772
+    Attack: 336
+    Attack2: 441
+    Defense: 17
+    MagicDefense: 10
+    Str: 106
+    Agi: 79
+    Vit: 62
+    Int: 45
+    Dex: 108
+    Luk: 36
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Brute
+    Element: Wind
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 864
+    AttackMotion: 624
+    DamageMotion: 360
+    Ai: 07
+    Class: Boss
+  - Id: 1794
+    AegisName: G_ROWEEN
+    Name: Roween
+    Level: 31
+    Hp: 6617
+    Attack: 298
+    Attack2: 377
+    MagicDefense: 6
+    Str: 70
+    Agi: 82
+    Vit: 55
+    Int: 45
+    Dex: 108
+    Luk: 25
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Brute
+    Element: Wind
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 412
+    AttackMotion: 840
+    DamageMotion: 300
+    Ai: 20
