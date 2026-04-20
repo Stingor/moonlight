@@ -763,6 +763,64 @@ Body:
       - Item: Berzebub_Card
         Rate: 1
         StealProtected: true
+  - Id: 1885
+    AegisName: GOPINICH
+    Name: Gopinich
+    Level: 85
+    Hp: 747501
+    BaseExp: 1196002
+    JobExp: 777401
+    MvpExp: 22625
+    Attack: 1868
+    Attack2: 6124
+    Defense: 34
+    MagicDefense: 21
+    Str: 127
+    Agi: 102
+    Vit: 143
+    Int: 102
+    Dex: 182
+    Luk: 76
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Brute
+    Element: Earth
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 1536
+    AttackMotion: 864
+    DamageMotion: 432
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Yggdrasilberry
+        Rate: 5500
+      - Item: Old_Violet_Box
+        Rate: 5000
+      - Item: Old_Violet_Box
+        Rate: 5000
+    Drops:
+      - Item: Old_Violet_Box
+        Rate: 4000
+      - Item: Ring_
+        Rate: 200
+      - Item: Int_Dish10
+        Rate: 1000
+      - Item: Ixion_Wing
+        Rate: 100
+      - Item: Pole_Axe
+        Rate: 5
+      - Item: Treasure_Box
+        Rate: 5000
+      - Item: Loard_Circlet
+        Rate: 1
+      - Item: Gopinich_Card
+        Rate: 1
+        StealProtected: true
   - Id: 2068
     AegisName: BOITATA
     Name: Boitata
