@@ -143,7 +143,7 @@ def convert_block(block, dry_run=False, convert_def=True, convert_exp=True, conv
     aegis_m = re.search(r'^\s+AegisName:\s*(\S+)', block, re.MULTILINE)
     aegis   = aegis_m.group(1) if aegis_m else ''
     # Treat mobs with AegisName starting with 'N_' or 'NG_' as nightmare variants
-    is_nightmare = aegis.startswith(('N_', 'NG_'))
+    is_nightmare = aegis.startswith(('N_', 'G_N_', 'NG_', 'G_NG_'))
 
     report_parts = []
     new_block = block
