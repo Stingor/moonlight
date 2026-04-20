@@ -1,9 +1,15 @@
 gonryun,147,128,4	script	Guild Archivist	123,{
-    .@gid = getcharid(2);
-    if (!.@gid) {
-        mes "Tu n'es dans aucune guilde.";
-        close;
-    }
+	.@gid = getcharid(2);
+	if (!.@gid) {
+		mes "Tu n'es dans aucune guilde.";
+		close;
+	}
+
+	// Vérification des droits d'accès au guild storage (GUILD_PERM_STORAGE = 0x100)
+	if (!guild_has_permission(GUILD_PERM_STORAGE)) {
+		mes "Tu n'as pas les droits nécessaires pour accéder à l'archive de la guilde.";
+		close;
+	}
 
 	.@per_page = 100; // nombre d’items par page
 	.@page = 0;
