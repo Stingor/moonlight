@@ -287,49 +287,6 @@ Body:
       - Item: Jakudam_Card
         Rate: 1
         StealProtected: true
-  - Id: 2133
-    AegisName: ANGRA_MANTIS
-    Name: Angra Mantis
-    Level: 144
-    Hp: 26324
-    BaseExp: 42118
-    JobExp: 27377
-    Attack: 869
-    Attack2: 177
-    Defense: 35
-    MagicDefense: 21
-    Str: 122
-    Agi: 155
-    Vit: 119
-    Int: 81
-    Dex: 198
-    Luk: 79
-    AttackRange: 1
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Medium
-    Race: Insect
-    Element: Earth
-    ElementLevel: 2
-    WalkSpeed: 150
-    AttackDelay: 576
-    AttackMotion: 480
-    DamageMotion: 480
-    Ai: 04
-    Modes:
-      Detector: true
-    Drops:
-      - Item: Withered_Flower
-        Rate: 5000
-      - Item: Soft_Leaf
-        Rate: 1000
-      - Item: Great_Nature
-        Rate: 10
-      - Item: Sura_Rampage
-        Rate: 10
-      - Item: Angra_Mantis_Card
-        Rate: 1
-        StealProtected: true
   - Id: 2250
     AegisName: LORA
     Name: Warrior Laura

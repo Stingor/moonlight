@@ -16,7 +16,7 @@ Body:
     Vit: 32
     Dex: 63
     Luk: 20
-    Int: 1
+    Int: 0
     AttackRange: 1
     SkillRange: 10
     ChaseRange: 12
@@ -441,6 +441,64 @@ Body:
         Rate: 10
       - Item: Imperial_Guard
         Rate: 10
+  - Id: 2144
+    AegisName: G_ANTLER_SCARABA
+    Name: Antler Scaraba
+    Level: 136
+    Hp: 19687
+    Attack: 1418
+    Attack2: 410
+    Defense: 30
+    MagicDefense: 21
+    Str: 23
+    Agi: 99
+    Vit: 59
+    Int: 129
+    Dex: 137
+    Luk: 45
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Insect
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 504
+    AttackMotion: 624
+    DamageMotion: 360
+    Ai: 04
+    Modes:
+      Detector: true
+  - Id: 2145
+    AegisName: G_RAKE_SCARABA
+    Name: Rake Scaraba
+    Level: 139
+    Hp: 20561
+    Attack: 1645
+    Attack2: 112
+    Defense: 35
+    MagicDefense: 19
+    Str: 90
+    Agi: 66
+    Vit: 145
+    Int: 52
+    Dex: 168
+    Luk: 77
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Insect
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 588
+    AttackMotion: 768
+    DamageMotion: 480
+    Ai: 04
+    Modes:
+      Detector: true
   - Id: 2161
     AegisName: I_HORN_SCARABA
     Name: Gold One-Horn Scaraba

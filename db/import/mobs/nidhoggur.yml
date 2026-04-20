@@ -383,3 +383,199 @@ Body:
       - Item: Pillar_Card
         Rate: 1
         StealProtected: true
+  - Id: 2138
+    AegisName: NYDHOG_MEMORY1_1
+    Name: Nydhoggur Memory
+    JapaneseName: Nydhogg's Memory
+    Level: 130
+    Hp: 3
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Dex: 0
+    Luk: 0
+    AttackRange: 1
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 1248
+    AttackMotion: 576
+    DamageMotion: 1248
+    Ai: 25
+    Class: Boss
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+  - Id: 2139
+    AegisName: NYDHOG_MEMORY1_2
+    Name: Nydhoggur Memory
+    JapaneseName: Nydhogg's Memory
+    Level: 130
+    Hp: 3
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Dex: 0
+    Luk: 0
+    AttackRange: 1
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 1248
+    AttackMotion: 576
+    DamageMotion: 1248
+    Ai: 25
+    Class: Boss
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+  - Id: 2140
+    AegisName: NYDHOG_MEMORY2_1
+    Name: Nydhoggur Memory
+    JapaneseName: Nydhogg's Memory
+    Level: 130
+    Hp: 3
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Dex: 0
+    Luk: 0
+    AttackRange: 1
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 1248
+    AttackMotion: 576
+    DamageMotion: 1248
+    Ai: 25
+    Class: Boss
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+  - Id: 2141
+    AegisName: NYDHOG_MEMORY2_2
+    Name: Nydhoggur Memory
+    JapaneseName: Nydhogg's Memory
+    Level: 130
+    Hp: 3
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Dex: 0
+    Luk: 0
+    AttackRange: 1
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 1248
+    AttackMotion: 576
+    DamageMotion: 1248
+    Ai: 25
+    Class: Boss
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+  - Id: 2142
+    AegisName: NYDHOG_MEMORY3_1
+    Name: Nydhoggur Memory
+    JapaneseName: Nydhogg's Memory
+    Level: 130
+    Hp: 3
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Dex: 0
+    Luk: 0
+    AttackRange: 1
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 1248
+    AttackMotion: 576
+    DamageMotion: 1248
+    Ai: 25
+    Class: Boss
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+  - Id: 2143
+    AegisName: NYDHOG_MEMORY3_2
+    Name: Nydhoggur Memory
+    JapaneseName: Nydhogg's Memory
+    Level: 130
+    Hp: 3
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Dex: 0
+    Luk: 0
+    AttackRange: 1
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 1248
+    AttackMotion: 576
+    DamageMotion: 1248
+    Ai: 25
+    Class: Boss
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+  - Id: 2146
+    AegisName: G_S_NYDHOG
+    Name: Shade of Dragon
+    JapaneseName: G_S_NYDHOG
+    Level: 117
+    Hp: 120031
+    Attack: 1176
+    Attack2: 840
+    Defense: 30
+    MagicDefense: 22
+    Agi: 30
+    Vit: 30
+    Int: 136
+    Dex: 123
+    Luk: 30
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Dragon
+    Element: Dark
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 1596
+    AttackMotion: 1620
+    DamageMotion: 864
+    Ai: 21
+    Class: Boss
