@@ -3,23 +3,23 @@
 re_to_prere_mob.py
 ==================
 Convertit Defense, MagicDefense, BaseExp et JobExp d'un fichier mob_db.yml
-du systÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¨me renewal vers des valeurs compatibles pre-renewal.
+du systeme renewal vers des valeurs compatibles pre-renewal.
 
 Formule DEF/MDEF :
   pre_re_def  = round(Level * LV_DEF_COEFF  + Vit * VIT_COEFF)  + class_bonus_def
   pre_re_mdef = round(Level * LV_MDEF_COEFF + Int * INT_COEFF)  + class_bonus_mdef
   - Boss  : +DEF_BOSS_BONUS  / +MDEF_BOSS_BONUS
   - MVP   : +DEF_MVP_BONUS   / +MDEF_MVP_BONUS
-  - RÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©sultat plafonnÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â© entre 1 et DEF_CAP / MDEF_CAP
+  - Resultat plafonne entre 1 et DEF_CAP / MDEF_CAP
 
 Formule EXP :
   new_base_exp = round(BaseExp * EXP_BASE_MULT)
   new_job_exp  = round(JobExp  * EXP_JOB_MULT)
-  (multiplicateurs configurables, par dÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©faut 0.70 / 0.50)
+  (multiplicateurs configurables, par defaut 0.70 / 0.50)
 
 Usage :
   python re_to_prere_mob.py <fichier.yml>            # modifie le fichier en place
-  python re_to_prere_mob.py <fichier.yml> -o <out>   # ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©crit dans un nouveau fichier
+  python re_to_prere_mob.py <fichier.yml> -o <out>   # Ecrit dans un nouveau fichier
   python re_to_prere_mob.py <fichier.yml> --dry-run  # affiche les changements sans modifier
   python re_to_prere_mob.py <fichier.yml> --no-exp   # ne convertit pas les exp
   python re_to_prere_mob.py <fichier.yml> --no-def   # ne convertit pas DEF/MDEF
@@ -31,7 +31,7 @@ import os
 import argparse
 
 # ===========================================================================
-# PARAM TRES CONFIGURABLES
+# PARAMÂ TRES CONFIGURABLES
 # ===========================================================================
 LV_DEF_COEFF    = 0.20   # poids du niveau  sur la DEF
 VIT_COEFF       = 0.05   # poids du VIT     sur la DEF
@@ -50,7 +50,7 @@ MDEF_CAP        = 44     # valeur MDEF maximale autorisee
 #   raw    = re_hp * HP_MULT_x * (HP_LV_REF / level) ^ HP_LV_EXP
 #   new_hp = raw                          si raw <= HP_CAP_x
 #          = cap + (raw - cap) * SOFT     sinon  (soft cap)
-HP_LV_REF       = 66     # niveau de reference (pas de reduction a ce niveau)
+HP_LV_REF       = 50     # niveau de reference (pas de reduction a ce niveau)
 HP_LV_EXP       = 1.60   # exposant du poids du niveau (plus eleve = reduction plus agressive)
 HP_MULT_NORMAL  = 1.0    # multiplicateur normal  (lv >= HP_MULT_MIN_LV)
 HP_CAP_NORMAL   = 500000 # seuil de soft cap normal
@@ -95,7 +95,7 @@ def compute_prere(level, vit, int_, is_boss, is_mvp):
 
 def split_mob_blocks(content):
     """
-    DÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©coupe le fichier en deux parties : l'en-tÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Âªte (avant Body:)
+    Decoupe le fichier en deux parties : l'en-tete (avant Body:)
     et une liste de blocs mob bruts.
     Retourne (header_str, [bloc1, bloc2, ...])
     """
@@ -112,13 +112,13 @@ def split_mob_blocks(content):
 
 
 def parse_int_field(block, field):
-    """Extrait la valeur entiÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¨re d'un champ YAML simple (ex: Level: 145 ou - Id: 145)."""
+    """Extrait la valeur entiere d'un champ YAML simple (ex: Level: 145 ou - Id: 145)."""
     m = re.search(r'^\s+(?:- )?' + field + r':\s*(\d+)', block, re.MULTILINE)
     return int(m.group(1)) if m else None
 
 
 def has_flag(block, flag):
-    """VÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©rifie si un flag boolÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©en est prÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©sent et ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â  true."""
+    """Verifie si un flag boolen est present et a true."""
     m = re.search(r'^\s+' + flag + r':\s*(true|false)', block, re.MULTILINE | re.IGNORECASE)
     return bool(m and m.group(1).lower() == 'true')
 
@@ -236,7 +236,7 @@ def convert_file(input_path, output_path=None, dry_run=False, convert_def=True, 
 
     header, blocks = split_mob_blocks(content)
     if not blocks:
-        print("Aucun bloc 'Body:' trouvÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â© dans le fichier.")
+        print("Aucun bloc 'Body:' trouve dans le fichier.")
         return
 
     converted_blocks = []
@@ -274,11 +274,11 @@ def convert_file(input_path, output_path=None, dry_run=False, convert_def=True, 
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Convertit Defense/MagicDefense renewal ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ pre-renewal dans un mob_db.yml'
+        description='Convertit Defense/MagicDefense renewal en valeurs compatibles pre-renewal dans un mob_db.yml'
     )
-    parser.add_argument('input', help='Fichier YML ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â  convertir')
+    parser.add_argument('input', help='Fichier YML a convertir')
     parser.add_argument('-o', '--output', default=None,
-                        help='Fichier de sortie (dÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©faut : modifie en place)')
+                        help='Fichier de sortie (par defaut : modifie en place)')
     parser.add_argument('--dry-run', action='store_true',
                         help='Affiche les changements sans modifier le fichier')
     parser.add_argument('--no-exp', action='store_true',
