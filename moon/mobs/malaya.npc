@@ -1,10 +1,11 @@
 //===== rAthena Script =======================================
-//= Malaya Port Field
+//= Malaya Port Dungeon
 //============================================================
 
 //==================================================
 // Warps
 //==================================================
+// npc\rathena\quests\quests_malaya.txt
 // npc\rathena\warps\cities\malaya.txt
 
 //==================================================
@@ -22,3 +23,10 @@ ma_fild02	monster	Engkanto	2310,25,5000
 ma_fild02	monster	Mangkukulam	2312,30,5000
 ma_fild02	monster	Jejeling	2316,20,5000
 ma_fild02	monster	Wakwak	2315,25,5000
+
+//==================================================
+// ma_dun01 - Bangungot Hospital F1
+//==================================================
+ma_dun01	monster	Manananggal	2311,40,5000
+ma_dun01	monster	Wakwak	2315,30,5000
+ma_dun01	monster	Tiyanak	2314,40,5000

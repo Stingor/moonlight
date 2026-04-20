@@ -1,0 +1,634 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2021 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Monster Database
+###########################################################################
+#
+# Monster Settings
+#
+###########################################################################
+# - Id                      Monster ID.
+#   AegisName               Server name to reference the monster in scripts and lookups, should use no spaces.
+#   Name                    Name in English.
+#   JapaneseName            Name in Japanese. (Default: 'Name' value)
+#   Level                   Level. (Default: 1)
+#   Hp                      Total HP. (Default: 1)
+#   Sp                      Total SP. (Default: 1)
+#   BaseExp                 Base experience gained. (Default: 0)
+#   JobExp                  Job experience gained. (Default: 0)
+#   MvpExp                  MVP experience gained. (Default: 0)
+#   Attack                  Minimum attack in pre-renewal and base attack in renewal. (Default: 0)
+#   Attack2                 Maximum attack in pre-renewal and base magic attack in renewal. (Default: 0)
+#   Defense                 Physical defense of the monster, reduces melee and ranged physical attack/skill damage. (Default: 0)
+#   MagicDefense            Magic defense of the monster, reduces magical skill damage. (Default: 0)
+#   Resistance              Physical resistance of the monster, reduces melee and ranged physical attack/skill damage. (Default: 0)
+#   MagicResistance         Magic resistance of the monster, reduces magical skill damage. (Default: 0)
+#   Str                     Strength which affects attack. (Default: 1)
+#   Agi                     Agility which affects flee. (Default: 1)
+#   Vit                     Vitality which affects defense. (Default: 1)
+#   Int                     Intelligence which affects magic attack. (Default: 1)
+#   Dex                     Dexterity which affects hit rate. (Default: 1)
+#   Luk                     Luck which affects perfect dodge/lucky flee/lerfect flee/lucky dodge rate. (Default: 1)
+#   AttackRange             Attack range. (Default: 0)
+#   SkillRange              Skill cast range. (Default: 0)
+#   ChaseRange              Chase range. (Default: 0)
+#   Size                    Size. (Default: Small)
+#   Race                    Race. (Default: Formless)
+#   RaceGroups:             List of secondary groups the monster may be part of. (Optional)
+#     <group>: <value>      Group to toggle.
+#   Element                 Element. (Default: Neutral)
+#   ElementLevel            Level of element. (Default: 1)
+#   WalkSpeed               Walk speed. (Default: DEFAULT_WALK_SPEED)
+#   AttackDelay             Attack speed. (Default: 0)
+#   AttackMotion            Attack animation speed. (Default: 0)
+#   DamageMotion            Damage animation speed. (Default: 0)
+#   DamageTaken             Rate at which the monster will receive incoming damage. (Default: 100)
+#   Ai                      Aegis monster type AI behavior. (Default: 06)
+#   Class                   Aegis monster class. (Default: Normal)
+#   Modes:                  List of unique behavior not defined by AI, Class, or Attribute. (Optional)
+#     <mode>: <value>       Mode to toggle.
+#   MvpDrops:               List of possible MVP prize items. Max of MAX_MVP_DROP. (Optional)
+#     - Item                Item name.
+#       Rate                Drop rate of item. (Default: 1)
+#       RandomOptionGroup   Random Option Group applied to item on drop. (Default: None)
+#       Index               Index used for overwriting item. (Optional)
+#   Drops:                  List of possible normal item drops. Max of MAX_MOB_DROP. (Optional)
+#     - Item                Item name.
+#       Rate                Drop rate of item. (Default: 1)
+#       StealProtected      If the item is shielded from TF_STEAL. (Default: false)
+#       RandomOptionGroup   Random Option Group applied to item on drop. (Default: None)
+#       Index               Index used for overwriting item. (Optional)
+###########################################################################
+
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 2309
+    AegisName: BUNGISNGIS
+    Name: Bungisngis
+    Level: 121
+    Hp: 2367
+    BaseExp: 3880
+    JobExp: 1650
+    Attack: 851
+    Attack2: 151
+    Defense: 12
+    MagicDefense: 4
+    Str: 36
+    Agi: 16
+    Vit: 31
+    Int: 15
+    Dex: 37
+    Luk: 10
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demihuman
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 1568
+    AttackMotion: 432
+    DamageMotion: 360
+    Ai: 21
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Brigan
+        Rate: 1000
+      - Item: Beautiful_Flower
+        Rate: 1000
+      - Item: Elunium
+        Rate: 10
+      - Item: Insideout_Shirt
+        Rate: 100
+      - Item: Bungisngis_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2310
+    AegisName: ENGKANTO
+    Name: Engkanto
+    Level: 125
+    Hp: 2171
+    BaseExp: 3446
+    JobExp: 1547
+    Attack: 675
+    Attack2: 124
+    Defense: 10
+    MagicDefense: 4
+    Str: 34
+    Agi: 29
+    Vit: 25
+    Int: 29
+    Dex: 41
+    Luk: 14
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 1424
+    AttackMotion: 576
+    DamageMotion: 360
+    Ai: 21
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Brigan
+        Rate: 1000
+      - Item: Beautiful_Flower
+        Rate: 1000
+      - Item: Monster's_Feed
+        Rate: 1000
+      - Item: Insideout_Shirt
+        Rate: 100
+      - Item: Engkanto_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2311
+    AegisName: MANANANGGAL
+    Name: Manananggal
+    Level: 107
+    Hp: 20451
+    BaseExp: 22830
+    JobExp: 21410
+    Attack: 801
+    Attack2: 103
+    Defense: 26
+    MagicDefense: 23
+    Str: 78
+    Agi: 43
+    Vit: 23
+    Int: 36
+    Dex: 118
+    Luk: 23
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 280
+    AttackMotion: 720
+    DamageMotion: 360
+    Ai: 21
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Silver_Bracelet
+        Rate: 2000
+      - Item: Elegant_Flower
+        Rate: 1000
+      - Item: Wing_Of_Red_Bat
+        Rate: 1000
+      - Item: Tooth_Of_Bat
+        Rate: 1000
+      - Item: Beautiful_Flower
+        Rate: 1000
+      - Item: Mysterious_Flower
+        Rate: 1000
+      - Item: Insideout_Shirt
+        Rate: 100
+      - Item: Manananggal_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2312
+    AegisName: MANGKUKULAM
+    Name: Mangkukulam
+    Level: 110
+    Hp: 102154
+    BaseExp: 122154
+    JobExp: 121351
+    Attack: 582
+    Attack2: 196
+    Defense: 39
+    MagicDefense: 48
+    Str: 58
+    Agi: 36
+    Vit: 16
+    Int: 41
+    Dex: 92
+    Luk: 26
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 1664
+    AttackMotion: 336
+    DamageMotion: 480
+    Ai: 21
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Brigan
+        Rate: 1000
+      - Item: Elegant_Flower
+        Rate: 1000
+      - Item: Tatters_Clothes
+        Rate: 1000
+      - Item: Beautiful_Flower
+        Rate: 1000
+      - Item: Mysterious_Flower
+        Rate: 1000
+      - Item: Insideout_Shirt
+        Rate: 100
+      - Item: Mangkukulam_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2313
+    AegisName: TIKBALANG
+    Name: Tikbalang
+    Level: 115
+    Hp: 22131
+    BaseExp: 23512
+    JobExp: 21351
+    Attack: 781
+    Attack2: 115
+    Defense: 18
+    MagicDefense: 23
+    Str: 76
+    Agi: 26
+    Vit: 42
+    Int: 22
+    Dex: 92
+    Luk: 23
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Brute
+    Element: Wind
+    ElementLevel: 3
+    WalkSpeed: 130
+    AttackDelay: 1064
+    AttackMotion: 936
+    DamageMotion: 360
+    Ai: 21
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Tikbalang_Thick_Spine
+        Rate: 500
+      - Item: Oridecon
+        Rate: 10
+      - Item: Insideout_Shirt
+        Rate: 100
+      - Item: Tikbalang_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2314
+    AegisName: TIYANAK
+    Name: Tiyanak
+    Level: 105
+    Hp: 17146
+    BaseExp: 21628
+    JobExp: 21101
+    Attack: 457
+    Attack2: 251
+    Defense: 18
+    MagicDefense: 22
+    Str: 61
+    Agi: 29
+    Vit: 21
+    Int: 26
+    Dex: 96
+    Luk: 24
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 496
+    AttackMotion: 504
+    DamageMotion: 360
+    Ai: 21
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Silver_Bracelet
+        Rate: 1500
+      - Item: Mysterious_Flower
+        Rate: 1000
+      - Item: Sticky_Mucus
+        Rate: 1000
+      - Item: Tiyanak_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2315
+    AegisName: WAKWAK
+    Name: Wakwak
+    Level: 111
+    Hp: 20012
+    BaseExp: 22748
+    JobExp: 21254
+    Attack: 561
+    Attack2: 301
+    Defense: 20
+    MagicDefense: 27
+    Str: 67
+    Agi: 38
+    Vit: 32
+    Int: 33
+    Dex: 99
+    Luk: 16
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 424
+    AttackMotion: 576
+    DamageMotion: 360
+    Ai: 21
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Silver_Bracelet
+        Rate: 1500
+      - Item: Mysterious_Flower
+        Rate: 1000
+      - Item: Insideout_Shirt
+        Rate: 200
+      - Item: Wakwak_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2316
+    AegisName: JEJELING
+    Name: Jejeling
+    Level: 100
+    Hp: 10247
+    BaseExp: 11602
+    JobExp: 10741
+    Attack: 450
+    Attack2: 715
+    Defense: 10
+    MagicDefense: 23
+    Str: 26
+    Agi: 36
+    Vit: 42
+    Int: 27
+    Dex: 48
+    Luk: 52
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Plant
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 400
+    AttackDelay: 1328
+    AttackMotion: 672
+    DamageMotion: 480
+    Ai: 01
+    Drops:
+      - Item: Jejellopy
+        Rate: 2000
+      - Item: Jellopy
+        Rate: 1000
+      - Item: Beautiful_Flower
+        Rate: 100
+      - Item: Elegant_Flower
+        Rate: 100
+      - Item: Mysterious_Flower
+        Rate: 100
+      - Item: Insideout_Shirt
+        Rate: 100
+      - Item: Jejeling_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2317
+    AegisName: BANGUNGOT_1
+    Name: Bangungot
+    Level: 115
+    Hp: 1519517
+    Attack: 2561
+    Attack2: 1504
+    Defense: 41
+    MagicDefense: 10
+    Str: 76
+    Agi: 96
+    Vit: 55
+    Int: 56
+    Dex: 126
+    Luk: 29
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 920
+    AttackMotion: 1080
+    DamageMotion: 360
+    Ai: 21
+    Class: Boss
+  - Id: 2318
+    AegisName: BANGUNGOT_2
+    Name: Bangungot
+    Level: 99
+    Hp: 1409758
+    Attack: 2561
+    Attack2: 1504
+    Defense: 41
+    MagicDefense: 10
+    Str: 76
+    Agi: 96
+    Vit: 55
+    Int: 56
+    Dex: 126
+    Luk: 29
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 1000
+    AttackDelay: 920
+    AttackMotion: 1080
+    DamageMotion: 360
+    Class: Guardian
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+      KnockBackImmune: true
+  - Id: 2327
+    AegisName: BANGUNGOT_3
+    Name: Bangungot
+    Level: 115
+    Hp: 200
+    BaseExp: 1563082
+    JobExp: 1522402
+    Attack: 2561
+    Attack2: 1504
+    Defense: 41
+    MagicDefense: 10
+    Str: 76
+    Agi: 96
+    Vit: 55
+    Int: 56
+    Dex: 126
+    Luk: 29
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 1000
+    Class: Guardian
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+      KnockBackImmune: true
+    Drops:
+      - Item: Bangungot_Doll
+        Rate: 4000
+      - Item: Bangungot_Spirit_Piece
+        Rate: 2000
+      - Item: Ancient_Grudge
+        Rate: 4000
+      - Item: Bangungot_Boots
+        Rate: 2000
+      - Item: Kalasak
+        Rate: 200
+      - Item: Ancient_Grudge
+        Rate: 10000
+      - Item: Bangungot_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2338
+    AegisName: MD_MANANANGGAL
+    Name: Manananggal
+    JapaneseName: Bangungot Manananggal
+    Level: 107
+    Hp: 204511
+    Attack: 801
+    Attack2: 103
+    Defense: 6
+    MagicDefense: 3
+    Str: 38
+    Agi: 43
+    Vit: 23
+    Int: 36
+    Dex: 38
+    Luk: 23
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 280
+    AttackMotion: 720
+    DamageMotion: 360
+    Ai: 21
+    Modes:
+      Detector: true
+  - Id: 2339
+    AegisName: MD_MANGKUKULAM
+    Name: Mangkukulam
+    JapaneseName: Bangungot Mangkukulam
+    Level: 110
+    Hp: 102154
+    BaseExp: 130000
+    JobExp: 100000
+    Attack: 582
+    Attack2: 196
+    Defense: 9
+    MagicDefense: 8
+    Str: 18
+    Agi: 36
+    Vit: 16
+    Int: 41
+    Dex: 32
+    Luk: 26
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 1664
+    AttackMotion: 336
+    DamageMotion: 480
+    Ai: 21
+    Modes:
+      Detector: true
+  - Id: 2340
+    AegisName: MD_TIYANAK
+    Name: Tiyanak
+    Level: 105
+    Hp: 50211
+    BaseExp: 65000
+    JobExp: 40000
+    Attack: 457
+    Attack2: 251
+    Defense: 8
+    MagicDefense: 2
+    Str: 21
+    Agi: 29
+    Vit: 21
+    Int: 26
+    Dex: 36
+    Luk: 24
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 496
+    AttackMotion: 504
+    DamageMotion: 360
+    Ai: 21
+    Modes:
+      Detector: true
