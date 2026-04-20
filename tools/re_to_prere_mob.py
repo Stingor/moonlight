@@ -50,7 +50,7 @@ MDEF_CAP        = 44     # valeur MDEF maximale autorisee
 #   raw    = re_hp * HP_MULT_x * (HP_LV_REF / level) ^ HP_LV_EXP
 #   new_hp = raw                          si raw <= HP_CAP_x
 #          = cap + (raw - cap) * SOFT     sinon  (soft cap)
-HP_LV_REF       = 50     # niveau de reference (pas de reduction a ce niveau)
+HP_LV_REF       = 66     # niveau de reference (pas de reduction a ce niveau)
 HP_LV_EXP       = 1.60   # exposant du poids du niveau (plus eleve = reduction plus agressive)
 HP_MULT_NORMAL  = 1.0    # multiplicateur normal  (lv >= HP_MULT_MIN_LV)
 HP_CAP_NORMAL   = 500000 # seuil de soft cap normal
