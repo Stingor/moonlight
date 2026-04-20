@@ -69152,4 +69152,5 @@ Footer:
   - Path: db/import/mobs/kh_dun.yml
   - Path: db/import/mobs/lhz_dun.yml
   - Path: db/import/mobs/mag_dun.yml
+  - Path: db/import/mobs/malaya.yml
   - Path: db/import/mobs/slabw01.yml
