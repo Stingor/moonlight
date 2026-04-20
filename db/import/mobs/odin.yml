@@ -1,0 +1,624 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 1692
+    AegisName: BREEZE
+    Name: Breeze
+    Level: 56
+    Hp: 9200
+    BaseExp: 14720
+    JobExp: 9568
+    Attack: 94
+    Attack2: 215
+    Defense: 14
+    MagicDefense: 8
+    Agi: 101
+    Vit: 46
+    Int: 35
+    Dex: 79
+    Luk: 55
+    Str: 75
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Wind
+    ElementLevel: 3
+    WalkSpeed: 100
+    AttackDelay: 140
+    AttackMotion: 384
+    DamageMotion: 504
+    Ai: 04
+    Drops:
+      - Item: Raccoon_Leaf
+        Rate: 500
+      - Item: Four_Leaf_Clover
+        Rate: 10
+      - Item: Centimental_Leaf
+        Rate: 10
+      - Item: Gust_Bow
+        Rate: 10
+      - Item: Branch_Of_Dead_Tree
+        Rate: 10
+      - Item: Centimental_Flower
+        Rate: 10
+      - Item: Rough_Wind
+        Rate: 10
+      - Item: Breeze_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1693
+    AegisName: PLASMA_Y
+    Name: Plasma
+    Level: 56
+    Hp: 20941
+    BaseExp: 33506
+    JobExp: 21779
+    Attack: 400
+    Attack2: 900
+    MagicDefense: 10
+    Agi: 94
+    Vit: 75
+    Int: 91
+    Dex: 144
+    Luk: 50
+    Str: 141
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Ghost
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 1056
+    AttackMotion: 1056
+    DamageMotion: 336
+    Ai: 04
+    Drops:
+      - Item: Scell
+        Rate: 100
+      - Item: Gift_Box
+        Rate: 10
+      - Item: Crystal_Jewel_
+        Rate: 2
+      - Item: Yellow_Gemstone
+        Rate: 100
+      - Item: Gold
+        Rate: 1
+      - Item: Light_Granule
+        Rate: 300
+      - Item: Plasma_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1694
+    AegisName: PLASMA_R
+    Name: Plasma
+    Level: 43
+    Hp: 16016
+    BaseExp: 25626
+    JobExp: 16657
+    Attack: 300
+    Attack2: 700
+    MagicDefense: 8
+    Agi: 77
+    Vit: 66
+    Int: 65
+    Dex: 133
+    Luk: 50
+    Str: 147
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Fire
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 912
+    AttackMotion: 1248
+    DamageMotion: 576
+    Ai: 04
+    Drops:
+      - Item: Scell
+        Rate: 100
+      - Item: Gift_Box
+        Rate: 10
+      - Item: Crystal_Jewel_
+        Rate: 2
+      - Item: Red_Gemstone
+        Rate: 100
+      - Item: Boody_Red
+        Rate: 45
+      - Item: Plasma_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1695
+    AegisName: PLASMA_G
+    Name: Plasma
+    Level: 47
+    Hp: 22647
+    BaseExp: 36235
+    JobExp: 23553
+    Attack: 300
+    Attack2: 700
+    MagicDefense: 8
+    Agi: 60
+    Vit: 58
+    Int: 62
+    Dex: 102
+    Luk: 50
+    Str: 121
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Earth
+    ElementLevel: 4
+    WalkSpeed: 100
+    AttackDelay: 1000
+    AttackMotion: 500
+    DamageMotion: 1000
+    Ai: 04
+    Drops:
+      - Item: Scell
+        Rate: 100
+      - Item: Gift_Box
+        Rate: 10
+      - Item: Crystal_Jewel_
+        Rate: 2
+      - Item: Blue_Gemstone
+        Rate: 100
+      - Item: Yellow_Live
+        Rate: 40
+      - Item: Plasma_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1696
+    AegisName: PLASMA_P
+    Name: Plasma
+    Level: 49
+    Hp: 22763
+    BaseExp: 36421
+    JobExp: 23674
+    Attack: 300
+    Attack2: 700
+    MagicDefense: 9
+    Agi: 71
+    Vit: 72
+    Int: 70
+    Dex: 122
+    Luk: 50
+    Str: 130
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Dark
+    ElementLevel: 4
+    WalkSpeed: 350
+    AttackDelay: 768
+    AttackMotion: 1440
+    DamageMotion: 672
+    Ai: 04
+    Drops:
+      - Item: Scell
+        Rate: 100
+      - Item: Gift_Box
+        Rate: 10
+      - Item: Crystal_Jewel_
+        Rate: 2
+      - Item: Red_Gemstone
+        Rate: 100
+      - Item: Cardinal_Jewel_
+        Rate: 100
+      - Item: Plasma_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1697
+    AegisName: PLASMA_B
+    Name: Plasma
+    Level: 44
+    Hp: 20151
+    BaseExp: 32242
+    JobExp: 20957
+    Attack: 300
+    Attack2: 700
+    MagicDefense: 7
+    Agi: 74
+    Vit: 60
+    Int: 55
+    Dex: 92
+    Luk: 50
+    Str: 124
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Water
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 720
+    AttackMotion: 360
+    DamageMotion: 360
+    Ai: 04
+    Drops:
+      - Item: Scell
+        Rate: 100
+      - Item: Gift_Box
+        Rate: 10
+      - Item: Crystal_Jewel_
+        Rate: 2
+      - Item: Blue_Gemstone
+        Rate: 100
+      - Item: Crystal_Blue
+        Rate: 35
+      - Item: Plasma_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1752
+    AegisName: SKOGUL
+    Name: Skogul
+    Level: 70
+    Hp: 36760
+    BaseExp: 58816
+    JobExp: 38230
+    Attack: 1110
+    Attack2: 1930
+    Defense: 17
+    MagicDefense: 12
+    Agi: 71
+    Vit: 63
+    Int: 85
+    Dex: 115
+    Luk: 37
+    Str: 100
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 190
+    AttackDelay: 720
+    AttackMotion: 384
+    DamageMotion: 480
+    Ai: 20
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Rune_Of_Darkness
+        Rate: 3500
+      - Item: Brigan
+        Rate: 1000
+      - Item: Red_Gemstone
+        Rate: 1000
+      - Item: Rouge
+        Rate: 500
+      - Item: Skul_Ring
+        Rate: 100
+      - Item: Elunium_Stone
+        Rate: 500
+      - Item: Blood_Tears
+        Rate: 5
+      - Item: Peuz_Seal
+        Rate: 1
+        StealProtected: true
+      - Item: Skogul_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1753
+    AegisName: FRUS
+    Name: Frus
+    Level: 69
+    Hp: 37876
+    BaseExp: 60602
+    JobExp: 39391
+    Attack: 1110
+    Attack2: 1780
+    Defense: 17
+    MagicDefense: 10
+    Agi: 77
+    Vit: 66
+    Int: 51
+    Dex: 111
+    Luk: 27
+    Str: 114
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 480
+    AttackMotion: 576
+    DamageMotion: 432
+    Ai: 20
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Rune_Of_Darkness
+        Rate: 3500
+      - Item: Brigan
+        Rate: 1000
+      - Item: Red_Gemstone
+        Rate: 1000
+      - Item: Earring_
+        Rate: 3
+      - Item: Mantle_
+        Rate: 10
+      - Item: Elunium_Stone
+        Rate: 500
+      - Item: Peuz_Seal
+        Rate: 1
+      - Item: Frus_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1754
+    AegisName: SKEGGIOLD
+    Name: Skeggiold
+    Level: 81
+    Hp: 38401
+    BaseExp: 61442
+    JobExp: 39937
+    Attack: 1400
+    Attack2: 2020
+    Defense: 24
+    MagicDefense: 17
+    Str: 91
+    Agi: 89
+    Vit: 65
+    Int: 118
+    Dex: 147
+    Luk: 75
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Angel
+    Element: Holy
+    ElementLevel: 2
+    WalkSpeed: 250
+    AttackDelay: 672
+    AttackMotion: 780
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Rune_Of_Darkness
+        Rate: 6000
+      - Item: Angelic_Chain
+        Rate: 1
+      - Item: Soft_Feather
+        Rate: 1000
+      - Item: Divine_Cross
+        Rate: 25
+      - Item: Rune_Of_Darkness
+        Rate: 1000
+      - Item: Silk_Robe_
+        Rate: 100
+      - Item: Odin's_Blessing
+        Rate: 100
+      - Item: Skeggiold_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 1755
+    AegisName: SKEGGIOLD_
+    Name: Skeggiold
+    Level: 83
+    Hp: 36231
+    BaseExp: 57970
+    JobExp: 37680
+    Attack: 1600
+    Attack2: 2050
+    Defense: 25
+    MagicDefense: 18
+    Str: 91
+    Agi: 86
+    Vit: 67
+    Int: 116
+    Dex: 153
+    Luk: 71
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Angel
+    Element: Holy
+    ElementLevel: 2
+    WalkSpeed: 250
+    AttackDelay: 672
+    AttackMotion: 780
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Rune_Of_Darkness
+        Rate: 6000
+      - Item: Angelic_Chain
+        Rate: 1
+      - Item: Soft_Feather
+        Rate: 1000
+      - Item: Divine_Cross
+        Rate: 25
+      - Item: Rune_Of_Darkness
+        Rate: 1000
+      - Item: Silk_Robe_
+        Rate: 100
+      - Item: Odin's_Blessing
+        Rate: 100
+      - Item: Skeggiold_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 1761
+    AegisName: G_SKOGUL
+    Name: Skogul
+    Level: 70
+    Hp: 36760
+    Attack: 1110
+    Attack2: 1930
+    Defense: 17
+    MagicDefense: 12
+    Agi: 71
+    Vit: 63
+    Int: 85
+    Dex: 115
+    Luk: 37
+    Str: 100
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 170
+    AttackDelay: 720
+    AttackMotion: 384
+    DamageMotion: 480
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Rune_Of_Darkness
+        Rate: 500
+  - Id: 1762
+    AegisName: G_FRUS
+    Name: Frus
+    Level: 69
+    Hp: 37876
+    Attack: 1110
+    Attack2: 1780
+    Defense: 17
+    MagicDefense: 10
+    Agi: 77
+    Vit: 66
+    Int: 51
+    Dex: 111
+    Luk: 27
+    Str: 114
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 130
+    AttackDelay: 480
+    AttackMotion: 576
+    DamageMotion: 432
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Rune_Of_Darkness
+        Rate: 500
+  - Id: 1763
+    AegisName: G_SKEGGIOLD
+    Name: Skeggiold
+    Level: 81
+    Hp: 38401
+    Attack: 1400
+    Attack2: 3410
+    Defense: 24
+    MagicDefense: 17
+    Str: 91
+    Agi: 89
+    Vit: 65
+    Int: 118
+    Dex: 147
+    Luk: 75
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Angel
+    Element: Holy
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 672
+    AttackMotion: 780
+    DamageMotion: 480
+    Ai: 04
+    Class: Boss
+    Drops:
+      - Item: Rune_Of_Darkness
+        Rate: 500
+  - Id: 1764
+    AegisName: G_SKEGGIOLD_
+    Name: Skeggiold
+    Level: 83
+    Hp: 36231
+    Attack: 1600
+    Attack2: 4110
+    Defense: 25
+    MagicDefense: 18
+    Str: 91
+    Agi: 86
+    Vit: 67
+    Int: 116
+    Dex: 153
+    Luk: 71
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Angel
+    Element: Holy
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 672
+    AttackMotion: 780
+    DamageMotion: 480
+    Ai: 04
+    Class: Boss
+    Drops:
+      - Item: Rune_Of_Darkness
+        Rate: 500
+  - Id: 1765
+    AegisName: G_RANDGRIS
+    Name: Valkyrie
+    Level: 99
+    Hp: 525315
+    BaseExp: 840504
+    JobExp: 546328
+    Attack: 5560
+    Attack2: 9980
+    Defense: 31
+    MagicDefense: 26
+    Str: 196
+    Agi: 131
+    Vit: 125
+    Int: 276
+    Dex: 401
+    Luk: 156
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Angel
+    Element: Holy
+    ElementLevel: 4
+    WalkSpeed: 100
+    AttackDelay: 576
+    AttackMotion: 576
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Valhalla_Flower
+        Rate: 500
+      - Item: Old_Violet_Box
+        Rate: 100
+      - Item: Valkyrja's_Shield
+        Rate: 500

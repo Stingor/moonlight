@@ -535,6 +535,62 @@ Body:
       - Item: Kiel_Card
         Rate: 1
         StealProtected: true
+  - Id: 1751
+    AegisName: RANDGRIS
+    Name: Valkyrie Randgris
+    Level: 99
+    Hp: 1675259
+    BaseExp: 2680414
+    JobExp: 1742269
+    MvpExp: 1427450
+    Attack: 5560
+    Attack2: 9980
+    Defense: 36
+    MagicDefense: 30
+    Str: 196
+    Agi: 131
+    Vit: 125
+    Int: 276
+    Dex: 401
+    Luk: 156
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Angel
+    Element: Holy
+    ElementLevel: 4
+    WalkSpeed: 100
+    AttackDelay: 576
+    AttackMotion: 576
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Old_Violet_Box
+        Rate: 5500
+      - Item: Old_Blue_Box
+        Rate: 5000
+      - Item: Old_Card_Album
+        Rate: 2000
+    Drops:
+      - Item: Valhalla_Flower
+        Rate: 5000
+      - Item: Valkyrie_Armor
+        Rate: 1600
+      - Item: Valkyrie_Manteau
+        Rate: 3000
+      - Item: Valkyrie_Shoes
+        Rate: 3000
+      - Item: Helm_
+        Rate: 5000
+      - Item: Bloody_Edge
+        Rate: 2500
+      - Item: Randgris_Card
+        Rate: 1
+        StealProtected: true
   - Id: 1779
     AegisName: KTULLANUX
     Name: Ktullanux
