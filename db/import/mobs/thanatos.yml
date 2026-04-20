@@ -1,0 +1,689 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 1698
+    AegisName: DEATHWORD
+    Name: Death Word
+    JapaneseName: Deathword
+    Level: 65
+    Hp: 18655
+    BaseExp: 29848
+    JobExp: 19401
+    Attack: 622
+    Attack2: 1102
+    Defense: 16
+    MagicDefense: 11
+    Str: 91
+    Agi: 64
+    Vit: 53
+    Int: 88
+    Dex: 139
+    Luk: 54
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 176
+    AttackMotion: 912
+    DamageMotion: 300
+    Ai: 21
+    Drops:
+      - Item: Worn_Out_Page
+        Rate: 4000
+      - Item: Bookclip_In_Memory
+        Rate: 300
+      - Item: Legend_Of_Kafra01
+        Rate: 50
+      - Item: Bloody_Page
+        Rate: 500
+      - Item: Vidar's_Boots
+        Rate: 10
+      - Item: Cookbook08
+        Rate: 2
+      - Item: Cookbook09
+        Rate: 1
+      - Item: Deathword_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1699
+    AegisName: ANCIENT_MIMIC
+    Name: Ancient Mimic
+    Level: 60
+    Hp: 23036
+    BaseExp: 36858
+    JobExp: 23958
+    Attack: 530
+    Attack2: 1697
+    Defense: 15
+    MagicDefense: 9
+    Str: 121
+    Agi: 70
+    Vit: 63
+    Int: 43
+    Dex: 141
+    Luk: 67
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 3
+    WalkSpeed: 100
+    AttackDelay: 168
+    AttackMotion: 480
+    DamageMotion: 360
+    Ai: 04
+    Drops:
+      - Item: Old_Blue_Box
+        Rate: 30
+      - Item: Old_Violet_Box
+        Rate: 1
+      - Item: Gift_Box
+        Rate: 50
+      - Item: Shoes_
+        Rate: 5
+      - Item: Manteau_
+        Rate: 1
+      - Item: Fricco_Shoes
+        Rate: 10
+      - Item: Gold_Ring
+        Rate: 100
+      - Item: Ancient_Mimic_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1700
+    AegisName: OBSERVATION
+    Name: Dame of Sentinel
+    JapaneseName: Observation
+    Level: 81
+    Hp: 26550
+    BaseExp: 42480
+    JobExp: 27612
+    Attack: 1666
+    Attack2: 2609
+    Defense: 24
+    MagicDefense: 15
+    Str: 99
+    Agi: 75
+    Vit: 52
+    Int: 55
+    Dex: 178
+    Luk: 80
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Angel
+    Element: Neutral
+    ElementLevel: 4
+    WalkSpeed: 100
+    AttackDelay: 432
+    AttackMotion: 480
+    DamageMotion: 360
+    Ai: 20
+    Class: Boss
+    Drops:
+      - Item: Blue_Feather
+        Rate: 500
+      - Item: Ring_
+        Rate: 1
+      - Item: Cursed_Seal
+        Rate: 100
+      - Item: Golden_Jewel
+        Rate: 1000
+      - Item: Stone_Of_Intelligence_
+        Rate: 100
+      - Item: Hair_Band
+        Rate: 10
+      - Item: Golden_Bracelet
+        Rate: 100
+      - Item: Observation_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 1701
+    AegisName: SHELTER
+    Name: Mistress of Shelter
+    JapaneseName: Shelter
+    Level: 80
+    Hp: 21519
+    BaseExp: 34430
+    JobExp: 22380
+    Attack: 1871
+    Attack2: 1971
+    Defense: 23
+    MagicDefense: 19
+    Str: 99
+    Agi: 66
+    Vit: 41
+    Int: 153
+    Dex: 133
+    Luk: 89
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Angel
+    Element: Holy
+    ElementLevel: 3
+    WalkSpeed: 160
+    AttackDelay: 432
+    AttackMotion: 420
+    DamageMotion: 360
+    Ai: 20
+    Class: Boss
+    Drops:
+      - Item: Red_Feather
+        Rate: 200
+      - Item: Cursed_Seal
+        Rate: 1
+      - Item: Stone_Of_Intelligence_
+        Rate: 50
+      - Item: Scarlet_Jewel
+        Rate: 1000
+      - Item: Skull
+        Rate: 1000
+      - Item: Cursed_Seal
+        Rate: 50
+      - Item: Shelter_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 1702
+    AegisName: RETRIBUTION
+    Name: Baroness of Retribution
+    JapaneseName: Retribution
+    Level: 79
+    Hp: 23748
+    BaseExp: 37997
+    JobExp: 24698
+    Attack: 2022
+    Attack2: 2288
+    Defense: 23
+    MagicDefense: 18
+    Str: 112
+    Agi: 60
+    Vit: 45
+    Int: 127
+    Dex: 149
+    Luk: 70
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Angel
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 120
+    AttackDelay: 360
+    AttackMotion: 480
+    DamageMotion: 360
+    Ai: 20
+    Class: Boss
+    Drops:
+      - Item: Red_Feather
+        Rate: 400
+      - Item: Ring_
+        Rate: 1
+      - Item: Stone_Of_Intelligence_
+        Rate: 50
+      - Item: Cardinal_Jewel
+        Rate: 1000
+      - Item: Manteau_
+        Rate: 5
+      - Item: Cursed_Seal
+        Rate: 50
+      - Item: Retribution_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 1703
+    AegisName: SOLACE
+    Name: Lady Solace
+    JapaneseName: Solace
+    Level: 77
+    Hp: 22683
+    BaseExp: 36293
+    JobExp: 23590
+    Attack: 1392
+    Attack2: 1462
+    Defense: 23
+    MagicDefense: 14
+    Str: 106
+    Agi: 65
+    Vit: 61
+    Int: 42
+    Dex: 125
+    Luk: 72
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Angel
+    Element: Holy
+    ElementLevel: 3
+    WalkSpeed: 180
+    AttackDelay: 576
+    AttackMotion: 420
+    DamageMotion: 360
+    Ai: 20
+    Class: Boss
+    Drops:
+      - Item: Blue_Feather
+        Rate: 200
+      - Item: Ring_
+        Rate: 1
+      - Item: Stone_Of_Intelligence_
+        Rate: 50
+      - Item: Dark_Red_Jewel
+        Rate: 1000
+      - Item: Harp_
+        Rate: 50
+      - Item: Cursed_Seal
+        Rate: 50
+      - Item: Solace_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 1704
+    AegisName: THA_ODIUM
+    Name: Odium of Thanatos
+    JapaneseName: Thanatos Odium
+    Level: 92
+    Hp: 19625
+    BaseExp: 31400
+    JobExp: 20410
+    Attack: 2100
+    Attack2: 2800
+    Defense: 27
+    MagicDefense: 16
+    Str: 106
+    Agi: 78
+    Vit: 71
+    Int: 54
+    Dex: 181
+    Luk: 31
+    AttackRange: 9
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Undead
+    Element: Ghost
+    ElementLevel: 4
+    WalkSpeed: 100
+    AttackDelay: 432
+    AttackMotion: 288
+    DamageMotion: 420
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Brigan
+        Rate: 1000
+      - Item: Crystal_Jewel_
+        Rate: 500
+      - Item: Crystal_Jewel__
+        Rate: 100
+      - Item: Piece_Of_Memory_Blue
+        Rate: 10000
+      - Item: Old_Card_Album
+        Rate: 10
+      - Item: Goibne's_Shoulder_Arms
+        Rate: 1000
+      - Item: Tha_Odium_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 1705
+    AegisName: THA_DESPERO
+    Name: Despero of Thanatos
+    JapaneseName: Thanatos Despero
+    Level: 88
+    Hp: 21072
+    BaseExp: 33715
+    JobExp: 21915
+    Attack: 2182
+    Attack2: 3082
+    Defense: 26
+    MagicDefense: 16
+    Str: 111
+    Agi: 96
+    Vit: 66
+    Int: 65
+    Dex: 127
+    Luk: 52
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Undead
+    Element: Ghost
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 160
+    AttackMotion: 528
+    DamageMotion: 360
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Brigan
+        Rate: 1000
+      - Item: Crystal_Jewel_
+        Rate: 500
+      - Item: Crystal_Jewel__
+        Rate: 100
+      - Item: Piece_Of_Memory_Red
+        Rate: 10000
+      - Item: Old_Card_Album
+        Rate: 10
+      - Item: Goibne's_Combat_Boots
+        Rate: 1000
+      - Item: Tha_Despero_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 1706
+    AegisName: THA_MAERO
+    Name: Maero of Thanatos
+    JapaneseName: Thanatos Maero
+    Level: 83
+    Hp: 20569
+    BaseExp: 32910
+    JobExp: 21392
+    Attack: 2022
+    Attack2: 2288
+    Defense: 25
+    MagicDefense: 18
+    Str: 97
+    Agi: 111
+    Vit: 70
+    Int: 133
+    Dex: 115
+    Luk: 67
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Undead
+    Element: Ghost
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 160
+    AttackMotion: 480
+    DamageMotion: 360
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Brigan
+        Rate: 1000
+      - Item: Crystal_Jewel_
+        Rate: 500
+      - Item: Crystal_Jewel__
+        Rate: 100
+      - Item: Piece_Of_Memory_Purple
+        Rate: 10000
+      - Item: Old_Card_Album
+        Rate: 10
+      - Item: Goibne's_Armor
+        Rate: 1000
+      - Item: Tha_Maero_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 1707
+    AegisName: THA_DOLOR
+    Name: Dolor of Thanatos
+    JapaneseName: Thanatos Dolor
+    Level: 83
+    Hp: 17998
+    BaseExp: 28797
+    JobExp: 18718
+    Attack: 1392
+    Attack2: 2092
+    Defense: 25
+    MagicDefense: 17
+    Str: 91
+    Agi: 72
+    Vit: 59
+    Int: 96
+    Dex: 109
+    Luk: 79
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Undead
+    Element: Ghost
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 160
+    AttackMotion: 672
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Brigan
+        Rate: 1000
+      - Item: Crystal_Jewel_
+        Rate: 500
+      - Item: Crystal_Jewel__
+        Rate: 100
+      - Item: Piece_Of_Memory_Green
+        Rate: 10000
+      - Item: Old_Card_Album
+        Rate: 10
+      - Item: Goibne's_Helmet
+        Rate: 1000
+      - Item: Tha_Dolor_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 1708
+    AegisName: THANATOS
+    Name: Thanatos Phantom
+    JapaneseName: Thanatos
+    Level: 99
+    Hp: 755649
+    BaseExp: 1209038
+    JobExp: 785875
+    MvpExp: 1833000
+    Attack: 3812
+    Attack2: 7483
+    Defense: 31
+    MagicDefense: 22
+    Str: 100
+    Agi: 129
+    Vit: 30
+    Int: 86
+    Dex: 247
+    Luk: 32
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Ghost
+    ElementLevel: 4
+    WalkSpeed: 120
+    AttackDelay: 115
+    AttackMotion: 816
+    DamageMotion: 504
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Old_Violet_Box
+        Rate: 5500
+      - Item: Old_Blue_Box
+        Rate: 5000
+      - Item: Crystal_Jewel__
+        Rate: 2000
+    Drops:
+      - Item: Treasure_Box
+        Rate: 1000
+      - Item: Morrigane's_Manteau
+        Rate: 1000
+      - Item: Piece_Of_Bone_Armor
+        Rate: 5000
+      - Item: Full_Plate_Armor_
+        Rate: 5000
+      - Item: Grave_
+        Rate: 5000
+      - Item: Wing_Of_Eagle
+        Rate: 1000
+      - Item: Bloody_Iron_Ball
+        Rate: 500
+      - Item: Thanatos_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1709
+    AegisName: G_THA_ODIUM
+    Name: Odium of Thanatos
+    JapaneseName: Thanatos Odium
+    Level: 92
+    Hp: 19625
+    BaseExp: 31400
+    JobExp: 20410
+    Attack: 2100
+    Attack2: 2800
+    Defense: 27
+    MagicDefense: 16
+    Str: 106
+    Agi: 78
+    Vit: 71
+    Int: 54
+    Dex: 181
+    Luk: 31
+    AttackRange: 9
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Undead
+    Element: Ghost
+    ElementLevel: 4
+    WalkSpeed: 100
+    AttackDelay: 115
+    AttackMotion: 288
+    DamageMotion: 420
+    Ai: 20
+    Class: Boss
+    Drops:
+      - Item: Brigan
+        Rate: 1000
+      - Item: Crystal_Jewel_
+        Rate: 500
+      - Item: Crystal_Jewel__
+        Rate: 100
+  - Id: 1710
+    AegisName: G_THA_DESPERO
+    Name: Despero of Thanatos
+    JapaneseName: Thanatos Despero
+    Level: 88
+    Hp: 21072
+    BaseExp: 33715
+    JobExp: 21915
+    Attack: 2182
+    Attack2: 3082
+    Defense: 26
+    MagicDefense: 16
+    Str: 111
+    Agi: 96
+    Vit: 66
+    Int: 65
+    Dex: 127
+    Luk: 52
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Undead
+    Element: Ghost
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 160
+    AttackMotion: 528
+    DamageMotion: 360
+    Ai: 20
+    Class: Boss
+    Drops:
+      - Item: Brigan
+        Rate: 1000
+      - Item: Crystal_Jewel_
+        Rate: 500
+      - Item: Crystal_Jewel__
+        Rate: 100
+  - Id: 1711
+    AegisName: G_THA_MAERO
+    Name: Maero of Thanatos
+    JapaneseName: Thanatos Maero
+    Level: 83
+    Hp: 20569
+    BaseExp: 32910
+    JobExp: 21392
+    Attack: 2022
+    Attack2: 2288
+    Defense: 25
+    MagicDefense: 18
+    Str: 97
+    Agi: 111
+    Vit: 70
+    Int: 133
+    Dex: 115
+    Luk: 67
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Undead
+    Element: Ghost
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 160
+    AttackMotion: 480
+    DamageMotion: 360
+    Ai: 20
+    Class: Boss
+    Drops:
+      - Item: Brigan
+        Rate: 1000
+      - Item: Crystal_Jewel_
+        Rate: 500
+      - Item: Crystal_Jewel__
+        Rate: 100
+  - Id: 1712
+    AegisName: G_THA_DOLOR
+    Name: Dolor of Thanatos
+    JapaneseName: Thanatos Dolor
+    Level: 83
+    Hp: 17998
+    BaseExp: 28797
+    JobExp: 18718
+    Attack: 1392
+    Attack2: 2092
+    Defense: 25
+    MagicDefense: 17
+    Str: 91
+    Agi: 72
+    Vit: 59
+    Int: 96
+    Dex: 109
+    Luk: 79
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Undead
+    Element: Ghost
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 160
+    AttackMotion: 672
+    DamageMotion: 480
+    Ai: 20
+    Class: Boss
+    Drops:
+      - Item: Brigan
+        Rate: 1000
+      - Item: Crystal_Jewel_
+        Rate: 500
+      - Item: Crystal_Jewel__
+        Rate: 100

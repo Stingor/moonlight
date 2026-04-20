@@ -3000,10 +3000,6 @@ Body:
     Drops:
       - Item: Vigilante_Bow
         Rate: 700
-      - Item: Huuma_Hundred_Petal
-        Rate: 700
-      - Item: Mine_Worker_Pickax
-        Rate: 700
       - Item: Shadowdecon
         Rate: 50
       - Item: Wheel

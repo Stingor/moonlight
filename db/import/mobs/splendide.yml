@@ -1,0 +1,244 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 1991
+    AegisName: TENDRILRION
+    Name: Tendrillion
+    Level: 113
+    Hp: 591128
+    BaseExp: 945805
+    JobExp: 614773
+    Attack: 20000
+    Attack2: 24000
+    Defense: 31
+    MagicDefense: 24
+    Str: 144
+    Agi: 66
+    Int: 181
+    Dex: 203
+    Luk: 132
+    Vit: 77
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Brute
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 500
+    AttackMotion: 960
+    DamageMotion: 360
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Leather_Of_Tendrilion
+        Rate: 500
+      - Item: Death_Guidance
+        Rate: 100
+      - Item: Eraser
+        Rate: 100
+      - Item: Horn_Of_Tendrilion
+        Rate: 9000
+      - Item: Bradium
+        Rate: 10
+      - Item: Tough_Vines
+        Rate: 5335
+      - Item: Stiff_Horn
+        Rate: 4850
+      - Item: Tendrilion_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 1992
+    AegisName: CORNUS
+    Name: Cornus
+    Level: 108
+    Hp: 10513
+    BaseExp: 16821
+    JobExp: 10934
+    Attack: 12000
+    Attack2: 13000
+    Defense: 25
+    MagicDefense: 17
+    Str: 51
+    Agi: 47
+    Vit: 59
+    Int: 99
+    Dex: 130
+    Luk: 77
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Brute
+    Element: Holy
+    ElementLevel: 3
+    WalkSpeed: 120
+    AttackDelay: 1000
+    AttackMotion: 624
+    DamageMotion: 300
+    Ai: 03
+    Drops:
+      - Item: Sprint_Mail
+        Rate: 10
+      - Item: Angelic_Ring
+        Rate: 1
+      - Item: Mystic_Horn
+        Rate: 4000
+      - Item: Soft_Feather
+        Rate: 3000
+      - Item: Bradium
+        Rate: 10
+      - Item: Snowy_Horn
+        Rate: 2
+      - Item: Long_Horn
+        Rate: 1
+      - Item: Cornus_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1993
+    AegisName: NAGA
+    Name: Naga
+    Level: 111
+    Hp: 11394
+    BaseExp: 18230
+    JobExp: 11850
+    Attack: 8000
+    Attack2: 8800
+    Defense: 26
+    MagicDefense: 15
+    Str: 112
+    Agi: 65
+    Vit: 71
+    Int: 32
+    Dex: 99
+    Luk: 33
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Brute
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 400
+    AttackMotion: 864
+    DamageMotion: 432
+    Ai: 21
+    Drops:
+      - Item: Armor_Of_Naga
+        Rate: 10
+      - Item: Shield_Of_Naga
+        Rate: 10
+      - Item: Battle_Fork
+        Rate: 10
+      - Item: Bradium
+        Rate: 10
+      - Item: Scales_Shell
+        Rate: 3500
+      - Item: Shining_Scales
+        Rate: 2000
+      - Item: Naga_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1994
+    AegisName: LUCIOLA_VESPA
+    Name: Luciola Vespa
+    Level: 104
+    Hp: 6282
+    BaseExp: 10051
+    JobExp: 6533
+    Attack: 9000
+    Attack2: 9900
+    Defense: 24
+    MagicDefense: 14
+    Str: 88
+    Agi: 89
+    Vit: 55
+    Int: 32
+    Dex: 143
+    Luk: 59
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Insect
+    Element: Wind
+    ElementLevel: 1
+    WalkSpeed: 110
+    AttackDelay: 1000
+    AttackMotion: 864
+    DamageMotion: 432
+    Ai: 08
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Sprint_Ring
+        Rate: 2
+      - Item: Bradium
+        Rate: 1
+      - Item: Bee_Sting
+        Rate: 9000
+      - Item: Honey
+        Rate: 300
+      - Item: Wind_Of_Verdure
+        Rate: 160
+      - Item: Royal_Jelly
+        Rate: 200
+      - Item: Solid_Shell
+        Rate: 3000
+      - Item: Black_Wing_Suits
+        Rate: 1
+        StealProtected: true
+      - Item: Luciola_Vespa_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 1995
+    AegisName: PINGUICULA
+    Name: Pinguicula
+    Level: 80
+    Hp: 9370
+    BaseExp: 14992
+    JobExp: 9745
+    Attack: 600
+    Attack2: 720
+    Defense: 19
+    MagicDefense: 14
+    Str: 67
+    Agi: 60
+    Vit: 64
+    Int: 107
+    Dex: 77
+    Luk: 34
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Plant
+    Element: Earth
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 700
+    AttackMotion: 600
+    DamageMotion: 360
+    Ai: 13
+    Drops:
+      - Item: Pinguicula_Corsage
+        Rate: 1
+      - Item: Whip_Of_Balance
+        Rate: 10
+      - Item: Centimental_Leaf
+        Rate: 10
+      - Item: Sharp_Leaf
+        Rate: 5000
+      - Item: Great_Leaf
+        Rate: 2000
+      - Item: Browny_Root
+        Rate: 3000
+      - Item: Elder_Branch
+        Rate: 1000
+      - Item: Pinguicula_Card
+        Rate: 1
+        StealProtected: true
