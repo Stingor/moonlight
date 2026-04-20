@@ -8,9 +8,9 @@ Body:
     Name: Kiehl
     JapaneseName: Kiel
     Level: 90
-    Hp: 211145
-    BaseExp: 358946
-    JobExp: 233315
+    Hp: 318712
+    BaseExp: 509939
+    JobExp: 331460
     Attack: 1682
     Attack2: 3311
     Defense: 27
@@ -38,9 +38,9 @@ Body:
     AegisName: ALICEL
     Name: Alicel
     Level: 75
-    Hp: 9221
-    BaseExp: 15676
-    JobExp: 10189
+    Hp: 14930
+    BaseExp: 23888
+    JobExp: 15527
     Attack: 1800
     Attack2: 2770
     Defense: 18
@@ -87,9 +87,9 @@ Body:
     AegisName: ALIOT
     Name: Aliot
     Level: 75
-    Hp: 9050
-    BaseExp: 15385
-    JobExp: 10000
+    Hp: 14654
+    BaseExp: 23446
+    JobExp: 15240
     Attack: 950
     Attack2: 2470
     Defense: 18
@@ -134,9 +134,9 @@ Body:
     AegisName: ALIZA
     Name: Aliza
     Level: 69
-    Hp: 10693
-    BaseExp: 18178
-    JobExp: 11816
+    Hp: 16746
+    BaseExp: 26794
+    JobExp: 17416
     Attack: 750
     Attack2: 1100
     Defense: 16
@@ -181,9 +181,9 @@ Body:
     AegisName: CONSTANT
     Name: Constant
     Level: 55
-    Hp: 14340
-    BaseExp: 24378
-    JobExp: 15846
+    Hp: 19197
+    BaseExp: 30715
+    JobExp: 19965
     Attack: 460
     Attack2: 580
     Defense: 14
@@ -221,7 +221,7 @@ Body:
     AegisName: G_ALICEL
     Name: Alicel
     Level: 75
-    Hp: 9221
+    Hp: 14930
     Attack: 1600
     Attack2: 2570
     Defense: 18
@@ -253,7 +253,7 @@ Body:
     AegisName: G_ALIOT
     Name: Aliot
     Level: 75
-    Hp: 9050
+    Hp: 14654
     Attack: 950
     Attack2: 2070
     Defense: 18

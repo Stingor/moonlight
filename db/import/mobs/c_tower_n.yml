@@ -7,9 +7,9 @@ Body:
     AegisName: BIG_BEN
     Name: Big Ben
     Level: 150
-    Hp: 27967
-    BaseExp: 47544
-    JobExp: 30904
+    Hp: 59751
+    BaseExp: 95602
+    JobExp: 62141
     Attack: 1772
     Attack2: 4212
     Defense: 33
@@ -54,9 +54,9 @@ Body:
     AegisName: BIG_BELL
     Name: Big Bell
     Level: 163
-    Hp: 17782
-    BaseExp: 30229
-    JobExp: 19649
+    Hp: 39276
+    BaseExp: 62842
+    JobExp: 40847
     Attack: 1531
     Attack2: 4192
     Defense: 36
@@ -99,9 +99,9 @@ Body:
     AegisName: TIME_KEEPER
     Name: Time Keeper
     Level: 155
-    Hp: 30170
-    BaseExp: 51289
-    JobExp: 33338
+    Hp: 65310
+    BaseExp: 104496
+    JobExp: 67922
     Attack: 1708
     Attack2: 4280
     Defense: 35
@@ -146,9 +146,9 @@ Body:
     AegisName: NEO_PUNK
     Name: Neo Punk
     Level: 155
-    Hp: 18239
-    BaseExp: 31006
-    JobExp: 20154
+    Hp: 39482
+    BaseExp: 63171
+    JobExp: 41061
     Attack: 1172
     Attack2: 4216
     Defense: 32
@@ -191,9 +191,9 @@ Body:
     AegisName: ARC_ELDER
     Name: Arc Elder
     Level: 168
-    Hp: 29458
-    BaseExp: 50079
-    JobExp: 32551
+    Hp: 65855
+    BaseExp: 105368
+    JobExp: 68489
     Attack: 1436
     Attack2: 4802
     Defense: 35
@@ -238,9 +238,9 @@ Body:
     AegisName: OWL_VISCOUNT
     Name: Owl Viscount
     Level: 168
-    Hp: 34175
-    BaseExp: 58098
-    JobExp: 37764
+    Hp: 66214
+    BaseExp: 105942
+    JobExp: 68862
     Attack: 1872
     Attack2: 4900
     Defense: 41
@@ -286,7 +286,7 @@ Body:
     AegisName: G_OWL_VISCOUNT
     Name: Owl Viscount
     Level: 168
-    Hp: 34175
+    Hp: 66214
     Attack: 1872
     Attack2: 5900
     Defense: 41
@@ -314,9 +314,9 @@ Body:
     AegisName: OWL_MARQUEES
     Name: Owl Marquis
     Level: 170
-    Hp: 71218
-    BaseExp: 121071
-    JobExp: 78696
+    Hp: 138641
+    BaseExp: 221826
+    JobExp: 144187
     Attack: 3887
     Attack2: 7603
     Defense: 42

@@ -7,9 +7,9 @@ Body:
     AegisName: ZOMBIE_SLAUGHTER
     Name: Zombie Slaughter
     Level: 77
-    Hp: 16705
-    BaseExp: 28398
-    JobExp: 18459
+    Hp: 27335
+    BaseExp: 43736
+    JobExp: 28428
     Attack: 1055
     Attack2: 1655
     Defense: 20
@@ -54,9 +54,9 @@ Body:
     AegisName: RAGGED_ZOMBIE
     Name: Ragged Zombie
     Level: 75
-    Hp: 17534
-    BaseExp: 29808
-    JobExp: 19375
+    Hp: 28390
+    BaseExp: 45424
+    JobExp: 29526
     Attack: 1200
     Attack2: 1500
     Defense: 18
@@ -105,9 +105,9 @@ Body:
     Name: Hellhound
     JapaneseName: Hell Poodle
     Level: 71
-    Hp: 10289
-    BaseExp: 17491
-    JobExp: 11369
+    Hp: 16299
+    BaseExp: 26078
+    JobExp: 16951
     Attack: 400
     Attack2: 600
     Defense: 17
@@ -154,9 +154,9 @@ Body:
     AegisName: BANSHEE
     Name: Banshee
     Level: 81
-    Hp: 17672
-    BaseExp: 30042
-    JobExp: 19527
+    Hp: 29509
+    BaseExp: 47214
+    JobExp: 30689
     Attack: 1666
     Attack2: 2609
     Defense: 19
@@ -203,7 +203,7 @@ Body:
     AegisName: G_BANSHEE
     Name: Banshee
     Level: 81
-    Hp: 17672
+    Hp: 29509
     Attack: 1666
     Attack2: 2609
     Defense: 19
@@ -232,9 +232,9 @@ Body:
     AegisName: FLAME_SKULL
     Name: Flame Skull
     Level: 60
-    Hp: 20150
-    BaseExp: 34255
-    JobExp: 22266
+    Hp: 23469
+    BaseExp: 37550
+    JobExp: 24408
     Attack: 100
     Attack2: 1200
     Defense: 15
@@ -275,9 +275,9 @@ Body:
     AegisName: NECROMANCER
     Name: Necromancer
     Level: 88
-    Hp: 38519
-    BaseExp: 65482
-    JobExp: 42563
+    Hp: 57622
+    BaseExp: 92195
+    JobExp: 59927
     Attack: 3500
     Attack2: 4000
     MagicDefense: 18
@@ -322,7 +322,7 @@ Body:
     AegisName: BEELZEBUB_FLY
     Name: Hell Fly
     Level: 66
-    Hp: 376500
+    Hp: 502000
     Attack: 1200
     Attack2: 2000
     Defense: 21
@@ -350,7 +350,7 @@ Body:
     AegisName: BEELZEBUB
     Name: Beelzebub
     Level: 98
-    Hp: 1516297
+    Hp: 2032305
     MvpExp: 100000
     Attack: 4100
     Attack2: 4960

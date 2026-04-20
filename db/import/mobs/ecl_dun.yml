@@ -7,9 +7,9 @@ Body:
     AegisName: CENERE
     Name: Cenere
     Level: 146
-    Hp: 17285
-    BaseExp: 29384
-    JobExp: 19100
+    Hp: 36533
+    BaseExp: 58453
+    JobExp: 37994
     Attack: 1802
     Attack2: 1031
     Defense: 31
@@ -50,9 +50,9 @@ Body:
     AegisName: ANTIQUE_BOOK
     Name: Antique Book
     Level: 148
-    Hp: 17401
-    BaseExp: 29582
-    JobExp: 19228
+    Hp: 36978
+    BaseExp: 59165
+    JobExp: 38457
     Attack: 1861
     Attack2: 1213
     Defense: 31
@@ -92,9 +92,9 @@ Body:
     Name: Lichtern
     JapaneseName: Blue Lichtern
     Level: 149
-    Hp: 16734
-    BaseExp: 28448
-    JobExp: 18491
+    Hp: 35657
+    BaseExp: 57051
+    JobExp: 37083
     Attack: 1513
     Attack2: 1410
     Defense: 33
@@ -136,9 +136,9 @@ Body:
     Name: Lichtern
     JapaneseName: Yellow Lichtern
     Level: 147
-    Hp: 17232
-    BaseExp: 29294
-    JobExp: 19041
+    Hp: 36520
+    BaseExp: 58432
+    JobExp: 37981
     Attack: 1416
     Attack2: 1561
     Defense: 33
@@ -179,9 +179,9 @@ Body:
     Name: Lichtern
     JapaneseName: Red Lichtern
     Level: 149
-    Hp: 17309
-    BaseExp: 29425
-    JobExp: 19126
+    Hp: 36882
+    BaseExp: 59011
+    JobExp: 38357
     Attack: 1647
     Attack2: 1449
     Defense: 33
@@ -222,9 +222,9 @@ Body:
     Name: Lichtern
     JapaneseName: Green Lichtern
     Level: 151
-    Hp: 16572
-    BaseExp: 28172
-    JobExp: 18312
+    Hp: 35500
+    BaseExp: 56800
+    JobExp: 36920
     Attack: 1547
     Attack2: 1594
     Defense: 33
@@ -264,9 +264,9 @@ Body:
     AegisName: FAITHFUL_MANAGER
     Name: Faithful Manager
     Level: 155
-    Hp: 17860
-    BaseExp: 30362
-    JobExp: 19735
+    Hp: 38662
+    BaseExp: 61859
+    JobExp: 40208
     Attack: 2091
     Attack2: 1607
     Defense: 33

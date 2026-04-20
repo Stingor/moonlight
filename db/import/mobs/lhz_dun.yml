@@ -8,9 +8,9 @@ Body:
     Name: Seyren Windsor
     JapaneseName: Seyren
     Level: 91
-    Hp: 70080
-    BaseExp: 119136
-    JobExp: 77438
+    Hp: 122596
+    BaseExp: 196154
+    JobExp: 127500
     Attack: 2100
     Attack2: 2530
     Defense: 28
@@ -61,9 +61,9 @@ Body:
     Name: Eremes Guile
     JapaneseName: Eremes
     Level: 87
-    Hp: 82494
-    BaseExp: 140240
-    JobExp: 91156
+    Hp: 141742
+    BaseExp: 226787
+    JobExp: 147412
     Attack: 2020
     Attack2: 2320
     Defense: 20
@@ -117,9 +117,9 @@ Body:
     Name: Howard Alt-Eisen
     JapaneseName: Harword
     Level: 83
-    Hp: 155400
-    BaseExp: 264180
-    JobExp: 171717
+    Hp: 262031
+    BaseExp: 419250
+    JobExp: 272512
     Attack: 1890
     Attack2: 2390
     Defense: 21
@@ -168,9 +168,9 @@ Body:
     Name: Margaretha Sorin
     JapaneseName: Magaleta
     Level: 90
-    Hp: 87669
-    BaseExp: 149037
-    JobExp: 96874
+    Hp: 152690
+    BaseExp: 244304
+    JobExp: 158798
     Attack: 1300
     Attack2: 2053
     Defense: 22
@@ -219,9 +219,9 @@ Body:
     Name: Cecil Damon
     JapaneseName: Shecil
     Level: 82
-    Hp: 84325
-    BaseExp: 143352
-    JobExp: 93179
+    Hp: 141498
+    BaseExp: 226397
+    JobExp: 147158
     Attack: 1226
     Attack2: 1854
     Defense: 20
@@ -270,9 +270,9 @@ Body:
     Name: Kathryne Keyron
     JapaneseName: Katrinn
     Level: 92
-    Hp: 70176
-    BaseExp: 119299
-    JobExp: 77544
+    Hp: 123303
+    BaseExp: 197285
+    JobExp: 128235
     Attack: 497
     Attack2: 1697
     Defense: 21
@@ -320,9 +320,9 @@ Body:
     AegisName: G_SEYREN
     Name: Lord Knight Seyren
     Level: 99
-    Hp: 893333
-    BaseExp: 1518666
-    JobExp: 987133
+    Hp: 1400841
+    BaseExp: 2241346
+    JobExp: 1456875
     Attack: 4238
     Attack2: 5040
     Defense: 34
@@ -353,9 +353,9 @@ Body:
     AegisName: G_EREMES
     Name: Assassin Cross Eremes
     Level: 99
-    Hp: 410000
-    BaseExp: 697000
-    JobExp: 453050
+    Hp: 642923
+    BaseExp: 1028677
+    JobExp: 668640
     Attack: 3189
     Attack2: 5289
     Defense: 30
@@ -390,9 +390,9 @@ Body:
     Name: Whitesmith Howard
     JapaneseName: Whitesmith Harword
     Level: 99
-    Hp: 1250000
-    BaseExp: 2125000
-    JobExp: 1381250
+    Hp: 1960132
+    BaseExp: 3136211
+    JobExp: 2038537
     Attack: 4822
     Attack2: 5033
     Defense: 33
@@ -424,9 +424,9 @@ Body:
     Name: High Priest Margaretha
     JapaneseName: High Priest Magaleta
     Level: 99
-    Hp: 933333
-    BaseExp: 1586666
-    JobExp: 1031333
+    Hp: 1463565
+    BaseExp: 2341704
+    JobExp: 1522108
     Attack: 1688
     Attack2: 2580
     Defense: 33
@@ -458,9 +458,9 @@ Body:
     Name: Sniper Cecil
     JapaneseName: Sniper Shecil
     Level: 99
-    Hp: 1380000
-    BaseExp: 2346000
-    JobExp: 1524900
+    Hp: 2003280
+    BaseExp: 3205248
+    JobExp: 2083411
     Attack: 1892
     Attack2: 5113
     Defense: 33
@@ -492,9 +492,9 @@ Body:
     Name: High Wizard Kathryne
     JapaneseName: High Wizard Katrinn
     Level: 99
-    Hp: 1500000
-    BaseExp: 2550000
-    JobExp: 1657500
+    Hp: 2007043
+    BaseExp: 3211269
+    JobExp: 2087325
     Attack: 497
     Attack2: 2094
     Defense: 32
@@ -526,7 +526,7 @@ Body:
     Name: Wickebine Tres
     JapaneseName: Whikebain
     Level: 62
-    Hp: 43191
+    Hp: 47735
     Attack: 593
     Attack2: 789
     Defense: 16
@@ -557,7 +557,7 @@ Body:
     Name: Armeyer Dinze
     JapaneseName: Armaia
     Level: 66
-    Hp: 30471
+    Hp: 46878
     Attack: 650
     Attack2: 813
     Defense: 17
@@ -588,7 +588,7 @@ Body:
     Name: Errende Ebecee
     JapaneseName: Erend
     Level: 59
-    Hp: 42764
+    Hp: 51166
     Attack: 796
     Attack2: 1059
     Defense: 16
@@ -619,7 +619,7 @@ Body:
     Name: Kavach Icarus
     JapaneseName: Kavac
     Level: 60
-    Hp: 43079
+    Hp: 50176
     Attack: 584
     Attack2: 804
     Defense: 15
@@ -650,7 +650,7 @@ Body:
     Name: Laurell Weinder
     JapaneseName: Rawrel
     Level: 61
-    Hp: 40282
+    Hp: 45693
     Attack: 330
     Attack2: 417
     Defense: 15
@@ -681,9 +681,9 @@ Body:
     Name: Egnigem Cenia
     JapaneseName: Ygnizem
     Level: 58
-    Hp: 40327
-    BaseExp: 68556
-    JobExp: 44561
+    Hp: 49589
+    BaseExp: 79342
+    JobExp: 51572
     Attack: 823
     Attack2: 1212
     Defense: 16
@@ -731,9 +731,9 @@ Body:
     Name: Wickebine Tres
     JapaneseName: Whikebain
     Level: 62
-    Hp: 43191
-    BaseExp: 73425
-    JobExp: 47726
+    Hp: 47735
+    BaseExp: 76376
+    JobExp: 49644
     Attack: 693
     Attack2: 889
     Defense: 16
@@ -783,9 +783,9 @@ Body:
     Name: Armeyer Dinze
     JapaneseName: Armaia
     Level: 66
-    Hp: 30471
-    BaseExp: 51801
-    JobExp: 33671
+    Hp: 46878
+    BaseExp: 75005
+    JobExp: 48753
     Attack: 750
     Attack2: 913
     Defense: 17
@@ -833,9 +833,9 @@ Body:
     Name: Errende Ebecee
     JapaneseName: Erend
     Level: 59
-    Hp: 42764
-    BaseExp: 72699
-    JobExp: 47254
+    Hp: 51166
+    BaseExp: 81866
+    JobExp: 53213
     Attack: 896
     Attack2: 1159
     Defense: 16
@@ -883,9 +883,9 @@ Body:
     Name: Kavach Icarus
     JapaneseName: Kavac
     Level: 60
-    Hp: 43079
-    BaseExp: 73234
-    JobExp: 47602
+    Hp: 50176
+    BaseExp: 80282
+    JobExp: 52183
     Attack: 684
     Attack2: 904
     Defense: 15
@@ -933,9 +933,9 @@ Body:
     Name: Laurell Weinder
     JapaneseName: Rawrel
     Level: 61
-    Hp: 40282
-    BaseExp: 68479
-    JobExp: 44511
+    Hp: 45693
+    BaseExp: 73109
+    JobExp: 47521
     Attack: 430
     Attack2: 517
     Defense: 15
@@ -984,9 +984,9 @@ Body:
     AegisName: GEMINI
     Name: Gemini-S58
     Level: 72
-    Hp: 68692
-    BaseExp: 116776
-    JobExp: 75904
+    Hp: 94833
+    BaseExp: 151733
+    JobExp: 98626
     Attack: 2150
     Attack2: 3030
     Defense: 23
@@ -1033,9 +1033,9 @@ Body:
     Name: Remover
     JapaneseName: Removal
     Level: 55
-    Hp: 33102
-    BaseExp: 56273
-    JobExp: 36577
+    Hp: 44314
+    BaseExp: 70902
+    JobExp: 46086
     Attack: 558
     Attack2: 797
     Defense: 15
@@ -1080,9 +1080,9 @@ Body:
     AegisName: RANDEL
     Name: Randel
     Level: 141
-    Hp: 68182
-    BaseExp: 115909
-    JobExp: 75341
+    Hp: 142110
+    BaseExp: 227376
+    JobExp: 147794
     Attack: 3055
     Attack2: 1230
     Defense: 39
@@ -1127,9 +1127,9 @@ Body:
     AegisName: FLAMEL
     Name: Flamel
     Level: 141
-    Hp: 45071
-    BaseExp: 76621
-    JobExp: 49804
+    Hp: 93940
+    BaseExp: 150304
+    JobExp: 97698
     Attack: 2017
     Attack2: 1602
     Defense: 32
@@ -1180,9 +1180,9 @@ Body:
     AegisName: CELIA
     Name: Celia
     Level: 141
-    Hp: 36052
-    BaseExp: 61288
-    JobExp: 39837
+    Hp: 75143
+    BaseExp: 120229
+    JobExp: 78149
     Attack: 1612
     Attack2: 2450
     Defense: 31
@@ -1227,10 +1227,10 @@ Body:
     AegisName: CHEN
     Name: Chen
     Level: 141
-    Hp: 39814
+    Hp: 82985
     Sp: 2000
-    BaseExp: 67684
-    JobExp: 43995
+    BaseExp: 132776
+    JobExp: 86304
     Attack: 2501
     Attack2: 1248
     Defense: 32
@@ -1275,9 +1275,9 @@ Body:
     AegisName: GERTIE
     Name: Gertie
     Level: 141
-    Hp: 38015
-    BaseExp: 64626
-    JobExp: 42007
+    Hp: 79234
+    BaseExp: 126774
+    JobExp: 82403
     Attack: 3684
     Attack2: 1207
     Defense: 31
@@ -1324,9 +1324,9 @@ Body:
     AegisName: ALPHOCCIO
     Name: Alphoccio
     Level: 142
-    Hp: 35976
-    BaseExp: 61159
-    JobExp: 39753
+    Hp: 75195
+    BaseExp: 120312
+    JobExp: 78203
     Attack: 1273
     Attack2: 3076
     Defense: 32
@@ -1371,9 +1371,9 @@ Body:
     AegisName: TRENTINI
     Name: Trentini
     Level: 142
-    Hp: 28780
-    BaseExp: 48926
-    JobExp: 31802
+    Hp: 60156
+    BaseExp: 96250
+    JobExp: 62562
     Attack: 1070
     Attack2: 3206
     Defense: 32
@@ -1418,9 +1418,9 @@ Body:
     AegisName: G_RANDEL
     Name: Paladin Randel
     Level: 160
-    Hp: 403653
-    BaseExp: 686210
-    JobExp: 446036
+    Hp: 766968
+    BaseExp: 1227149
+    JobExp: 797647
     Attack: 5537
     Attack2: 3017
     Defense: 47
@@ -1453,9 +1453,9 @@ Body:
     AegisName: G_FLAMEL
     Name: Creator Flamel
     Level: 160
-    Hp: 323095
-    BaseExp: 549262
-    JobExp: 357020
+    Hp: 613902
+    BaseExp: 982243
+    JobExp: 638458
     Attack: 2355
     Attack2: 2514
     Defense: 45
@@ -1494,9 +1494,9 @@ Body:
     AegisName: G_CELIA
     Name: Professor Celia
     Level: 160
-    Hp: 258445
-    BaseExp: 439356
-    JobExp: 285581
+    Hp: 491064
+    BaseExp: 785702
+    JobExp: 510706
     Attack: 2481
     Attack2: 3114
     Defense: 46
@@ -1529,10 +1529,10 @@ Body:
     AegisName: G_CHEN
     Name: Champion Chen
     Level: 160
-    Hp: 285416
+    Hp: 542310
     Sp: 5000
-    BaseExp: 485207
-    JobExp: 315385
+    BaseExp: 867696
+    JobExp: 564002
     Attack: 3617
     Attack2: 1947
     Defense: 45
@@ -1565,9 +1565,9 @@ Body:
     AegisName: G_GERTIE
     Name: Stalker Gertie
     Level: 160
-    Hp: 272515
-    BaseExp: 463276
-    JobExp: 301129
+    Hp: 517797
+    BaseExp: 828475
+    JobExp: 538509
     Attack: 6162
     Attack2: 1274
     Defense: 43
@@ -1600,9 +1600,9 @@ Body:
     AegisName: G_ALPHOCCIO
     Name: Clown Alphoccio
     Level: 160
-    Hp: 261567
-    BaseExp: 444664
-    JobExp: 289032
+    Hp: 496995
+    BaseExp: 795192
+    JobExp: 516875
     Attack: 2641
     Attack2: 3749
     Defense: 44
@@ -1635,9 +1635,9 @@ Body:
     AegisName: G_TRENTINI
     Name: Gypsy Trentini
     Level: 160
-    Hp: 261567
-    BaseExp: 444664
-    JobExp: 289032
+    Hp: 496995
+    BaseExp: 795192
+    JobExp: 516875
     Attack: 2016
     Attack2: 4036
     Defense: 45
@@ -1671,9 +1671,9 @@ Body:
     Name: Eremes Guille
     JapaneseName: V Eremes
     Level: 179
-    Hp: 242672
-    BaseExp: 412542
-    JobExp: 268152
+    Hp: 482261
+    BaseExp: 771618
+    JobExp: 501552
     Attack: 5333
     Attack2: 10666
     Defense: 44
@@ -1720,9 +1720,9 @@ Body:
     Name: Margaretha Sorin
     JapaneseName: V Magaleta
     Level: 177
-    Hp: 255278
-    BaseExp: 433973
-    JobExp: 282082
+    Hp: 505038
+    BaseExp: 808061
+    JobExp: 525240
     Attack: 1667
     Attack2: 3334
     Defense: 46
@@ -1767,9 +1767,9 @@ Body:
     Name: Kathryne Cheiron
     JapaneseName: V Katrinn
     Level: 177
-    Hp: 212732
-    BaseExp: 361644
-    JobExp: 235069
+    Hp: 420865
+    BaseExp: 673384
+    JobExp: 437700
     Attack: 1333
     Attack2: 2666
     Defense: 43
@@ -1814,9 +1814,9 @@ Body:
     Name: Shecil Damon
     JapaneseName: V Shecil
     Level: 179
-    Hp: 218405
-    BaseExp: 371288
-    JobExp: 241337
+    Hp: 434035
+    BaseExp: 694456
+    JobExp: 451396
     Attack: 4667
     Attack2: 9667
     Defense: 44
@@ -1861,9 +1861,9 @@ Body:
     Name: Harword Alt-Eisen
     JapaneseName: V Harword
     Level: 177
-    Hp: 283643
-    BaseExp: 482193
-    JobExp: 313425
+    Hp: 561154
+    BaseExp: 897846
+    JobExp: 583600
     Attack: 3333
     Attack2: 6666
     Defense: 50
@@ -1910,9 +1910,9 @@ Body:
     Name: Seyren Windsor
     JapaneseName: V Seyren
     Level: 179
-    Hp: 249606
-    BaseExp: 424330
-    JobExp: 275814
+    Hp: 496040
+    BaseExp: 793664
+    JobExp: 515882
     Attack: 6000
     Attack2: 12000
     Defense: 51
@@ -1957,7 +1957,7 @@ Body:
     Name: Guillotine Cross Eremes
     JapaneseName: V G Eremes
     Level: 189
-    Hp: 288095
+    Hp: 585116
     Attack: 8000
     Attack2: 16000
     Defense: 49
@@ -1986,7 +1986,7 @@ Body:
     Name: Arch Bishop Margaretha
     JapaneseName: V G Magaleta
     Level: 187
-    Hp: 336332
+    Hp: 680184
     Attack: 2500
     Attack2: 14000
     Defense: 54
@@ -2015,7 +2015,7 @@ Body:
     Name: Warlock Kathryne
     JapaneseName: V G Katrinn
     Level: 187
-    Hp: 252249
+    Hp: 510138
     Attack: 2000
     Attack2: 12000
     Defense: 48
@@ -2044,7 +2044,7 @@ Body:
     Name: Ranger Cecil
     JapaneseName: V G Shecil
     Level: 189
-    Hp: 288095
+    Hp: 585116
     Attack: 14000
     Attack2: 28000
     Defense: 50
@@ -2073,7 +2073,7 @@ Body:
     Name: Mechanic Howard
     JapaneseName: V G Harword
     Level: 187
-    Hp: 420415
+    Hp: 850230
     Attack: 5000
     Attack2: 10000
     Defense: 62
@@ -2102,7 +2102,7 @@ Body:
     Name: Rune Knight Seyren
     JapaneseName: V G Seyren
     Level: 189
-    Hp: 329252
+    Hp: 668704
     Attack: 18000
     Attack2: 36000
     Defense: 63
@@ -2131,9 +2131,9 @@ Body:
     Name: Randel Lawrence
     JapaneseName: V Randel
     Level: 178
-    Hp: 262936
-    BaseExp: 446991
-    JobExp: 290544
+    Hp: 521361
+    BaseExp: 834178
+    JobExp: 542216
     Attack: 4000
     Attack2: 8000
     Defense: 51
@@ -2180,9 +2180,9 @@ Body:
     Name: Flamel Emule
     JapaneseName: V Flamel
     Level: 176
-    Hp: 243844
-    BaseExp: 414535
-    JobExp: 269448
+    Hp: 481324
+    BaseExp: 770118
+    JobExp: 500577
     Attack: 3333
     Attack2: 6666
     Defense: 44
@@ -2229,9 +2229,9 @@ Body:
     Name: Celia Alde
     JapaneseName: V Celia
     Level: 178
-    Hp: 236642
-    BaseExp: 402291
-    JobExp: 261489
+    Hp: 469225
+    BaseExp: 750760
+    JobExp: 487994
     Attack: 2000
     Attack2: 4000
     Defense: 44
@@ -2278,9 +2278,9 @@ Body:
     Name: Chen Liu
     JapaneseName: V Chen
     Level: 178
-    Hp: 233136
-    BaseExp: 396331
-    JobExp: 257615
+    Hp: 462273
+    BaseExp: 739637
+    JobExp: 480764
     Attack: 5333
     Attack2: 10666
     Defense: 45
@@ -2327,9 +2327,9 @@ Body:
     Name: Gertie Wie
     JapaneseName: V Gertie
     Level: 178
-    Hp: 210348
-    BaseExp: 357592
-    JobExp: 232435
+    Hp: 417089
+    BaseExp: 667342
+    JobExp: 433772
     Attack: 4667
     Attack2: 9667
     Defense: 44
@@ -2376,9 +2376,9 @@ Body:
     Name: Alphoccio Basil
     JapaneseName: V Alphoccio
     Level: 176
-    Hp: 215156
-    BaseExp: 365765
-    JobExp: 237747
+    Hp: 424698
+    BaseExp: 679517
+    JobExp: 441686
     Attack: 2667
     Attack2: 6000
     Defense: 44
@@ -2425,9 +2425,9 @@ Body:
     Name: Trentini
     JapaneseName: V Trentini
     Level: 176
-    Hp: 215156
-    BaseExp: 365765
-    JobExp: 237747
+    Hp: 424698
+    BaseExp: 679517
+    JobExp: 441686
     Attack: 2667
     Attack2: 6000
     Defense: 44
@@ -2474,7 +2474,7 @@ Body:
     Name: Royal Guard Randel
     JapaneseName: V G Randel
     Level: 188
-    Hp: 415955
+    Hp: 843005
     Attack: 12000
     Attack2: 4000
     Defense: 63
@@ -2503,7 +2503,7 @@ Body:
     Name: Genetic Flamel
     JapaneseName: V G Flamel
     Level: 186
-    Hp: 339958
+    Hp: 686044
     Attack: 5000
     Attack2: 10000
     Defense: 49
@@ -2532,7 +2532,7 @@ Body:
     Name: Sorcerer Celia
     JapaneseName: V G Celia
     Level: 188
-    Hp: 374359
+    Hp: 758705
     Attack: 3000
     Attack2: 10000
     Defense: 49
@@ -2561,7 +2561,7 @@ Body:
     Name: Sura Chen
     JapaneseName: V G Chen
     Level: 188
-    Hp: 291168
+    Hp: 590104
     Attack: 8000
     Attack2: 6000
     Defense: 52
@@ -2590,7 +2590,7 @@ Body:
     Name: Shadow Chaser Gertie
     JapaneseName: V G Gertie
     Level: 188
-    Hp: 332764
+    Hp: 674404
     Attack: 7000
     Attack2: 5000
     Defense: 49
@@ -2619,7 +2619,7 @@ Body:
     Name: Minstrel Alphoccio
     JapaneseName: V G Alphoccio
     Level: 186
-    Hp: 339958
+    Hp: 686044
     Attack: 4000
     Attack2: 12000
     Defense: 49
@@ -2648,7 +2648,7 @@ Body:
     Name: Wanderer Trentini
     JapaneseName: V G Trentini
     Level: 186
-    Hp: 339958
+    Hp: 686044
     Attack: 4000
     Attack2: 12000
     Defense: 49

@@ -7,9 +7,9 @@ Body:
     AegisName: IARA
     Name: Iara
     Level: 79
-    Hp: 1934
-    BaseExp: 3288
-    JobExp: 2137
+    Hp: 3197
+    BaseExp: 5115
+    JobExp: 3325
     Attack: 171
     Attack2: 270
     MagicDefense: 12
@@ -53,9 +53,9 @@ Body:
     AegisName: PIRANHA
     Name: Piranha
     Level: 75
-    Hp: 2124
-    BaseExp: 3611
-    JobExp: 2347
+    Hp: 3439
+    BaseExp: 5502
+    JobExp: 3576
     Attack: 182
     Attack2: 223
     Defense: 16

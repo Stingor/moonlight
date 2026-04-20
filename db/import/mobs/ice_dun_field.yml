@@ -7,9 +7,9 @@ Body:
     AegisName: SNOWIER
     Name: Snowier
     Level: 60
-    Hp: 14227
-    BaseExp: 24186
-    JobExp: 15721
+    Hp: 16571
+    BaseExp: 26514
+    JobExp: 17234
     Attack: 770
     Attack2: 1347
     Defense: 15
@@ -55,8 +55,8 @@ Body:
     Name: Siroma
     Level: 42
     Hp: 9940
-    BaseExp: 16898
-    JobExp: 10984
+    BaseExp: 15904
+    JobExp: 10338
     Attack: 220
     Attack2: 440
     Defense: 11
@@ -95,9 +95,9 @@ Body:
     AegisName: ICE_TITAN
     Name: Ice Titan
     Level: 60
-    Hp: 18923
-    BaseExp: 32169
-    JobExp: 20910
+    Hp: 22040
+    BaseExp: 35264
+    JobExp: 22922
     Attack: 1090
     Attack2: 1570
     Defense: 16
@@ -142,9 +142,9 @@ Body:
     AegisName: GAZETI
     Name: Gazeti
     Level: 55
-    Hp: 15539
-    BaseExp: 26416
-    JobExp: 17170
+    Hp: 20802
+    BaseExp: 33283
+    JobExp: 21634
     Attack: 512
     Attack2: 612
     Defense: 13
@@ -189,9 +189,9 @@ Body:
     AegisName: MUSCIPULAR
     Name: Muscipular
     Level: 57
-    Hp: 11589
-    BaseExp: 19701
-    JobExp: 12806
+    Hp: 14653
+    BaseExp: 23445
+    JobExp: 15239
     Attack: 521
     Attack2: 726
     Defense: 14
@@ -237,8 +237,8 @@ Body:
     Name: Drosera
     Level: 46
     Hp: 11179
-    BaseExp: 19004
-    JobExp: 12353
+    BaseExp: 17886
+    JobExp: 11626
     Attack: 389
     Attack2: 589
     Defense: 12
@@ -284,8 +284,8 @@ Body:
     Name: Roween
     Level: 31
     Hp: 6617
-    BaseExp: 11249
-    JobExp: 7312
+    BaseExp: 10587
+    JobExp: 6882
     Attack: 298
     Attack2: 377
     MagicDefense: 6
@@ -324,8 +324,8 @@ Body:
     Name: Galion
     Level: 44
     Hp: 8772
-    BaseExp: 14912
-    JobExp: 9693
+    BaseExp: 14035
+    JobExp: 9123
     Attack: 336
     Attack2: 441
     Defense: 17
@@ -366,8 +366,8 @@ Body:
     Name: Stapo
     Level: 23
     Hp: 6984
-    BaseExp: 11873
-    JobExp: 7717
+    BaseExp: 11174
+    JobExp: 7263
     Attack: 135
     Attack2: 370
     Defense: 6

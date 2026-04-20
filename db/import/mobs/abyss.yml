@@ -7,9 +7,9 @@ Body:
     AegisName: ACIDUS
     Name: Acidus
     Level: 80
-    Hp: 18117
-    BaseExp: 30799
-    JobExp: 20019
+    Hp: 30101
+    BaseExp: 48162
+    JobExp: 31305
     Attack: 1289
     Attack2: 2109
     Defense: 18
@@ -57,9 +57,9 @@ Body:
     AegisName: FERUS
     Name: Ferus
     Level: 70
-    Hp: 20156
-    BaseExp: 34265
-    JobExp: 22272
+    Hp: 31748
+    BaseExp: 50797
+    JobExp: 33018
     Attack: 1056
     Attack2: 1496
     Defense: 17
@@ -108,8 +108,8 @@ Body:
     Name: Novus
     Level: 42
     Hp: 5257
-    BaseExp: 8937
-    JobExp: 5809
+    BaseExp: 8411
+    JobExp: 5467
     Attack: 284
     Attack2: 384
     Defense: 11
@@ -146,9 +146,9 @@ Body:
     AegisName: ACIDUS_
     Name: Acidus
     Level: 76
-    Hp: 19161
-    BaseExp: 32574
-    JobExp: 21173
+    Hp: 31191
+    BaseExp: 49906
+    JobExp: 32439
     Attack: 1180
     Attack2: 2000
     Defense: 18
@@ -196,9 +196,9 @@ Body:
     AegisName: FERUS_
     Name: Ferus
     Level: 69
-    Hp: 25111
-    BaseExp: 42689
-    JobExp: 27748
+    Hp: 39325
+    BaseExp: 62920
+    JobExp: 40898
     Attack: 930
     Attack2: 1170
     Defense: 17
@@ -244,8 +244,8 @@ Body:
     Name: Novus
     Level: 43
     Hp: 4084
-    BaseExp: 6943
-    JobExp: 4513
+    BaseExp: 6534
+    JobExp: 4247
     Attack: 314
     Attack2: 414
     Defense: 11
@@ -283,9 +283,9 @@ Body:
     Name: Hydrolancer
     JapaneseName: Hydro
     Level: 89
-    Hp: 17117
-    BaseExp: 29099
-    JobExp: 18914
+    Hp: 25721
+    BaseExp: 41154
+    JobExp: 26750
     Attack: 2554
     Attack2: 3910
     Defense: 26
@@ -332,7 +332,7 @@ Body:
     Name: Dragon Egg
     Level: 43
     Hp: 27826
-    BaseExp: 47304
+    BaseExp: 44522
     Attack: 1
     Attack2: 2
     Defense: 13

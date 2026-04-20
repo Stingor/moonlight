@@ -7,9 +7,9 @@ Body:
     AegisName: COMODO
     Name: Comodo
     Level: 81
-    Hp: 1852
-    BaseExp: 3148
-    JobExp: 2046
+    Hp: 3092
+    BaseExp: 4947
+    JobExp: 3216
     Attack: 427
     Attack2: 42
     Defense: 18
@@ -50,9 +50,9 @@ Body:
     AegisName: BANASPATY
     Name: Banaspaty
     Level: 85
-    Hp: 1268
-    BaseExp: 2156
-    JobExp: 1401
+    Hp: 2158
+    BaseExp: 3453
+    JobExp: 2244
     Attack: 200
     Attack2: 182
     Defense: 19
@@ -95,9 +95,9 @@ Body:
     AegisName: BUTOIJO
     Name: Butoijo
     Level: 88
-    Hp: 1967
-    BaseExp: 3344
-    JobExp: 2174
+    Hp: 3396
+    BaseExp: 5434
+    JobExp: 3532
     Attack: 358
     Attack2: 102
     Defense: 19

@@ -8,9 +8,9 @@ Body:
     Name: King Dramoh
     JapaneseName: King Kray
     Level: 117
-    Hp: 6791
-    BaseExp: 11545
-    JobExp: 7504
+    Hp: 11384
+    BaseExp: 18214
+    JobExp: 11839
     Attack: 1320
     Attack2: 330
     Defense: 36
@@ -56,9 +56,9 @@ Body:
     AegisName: SROPHO
     Name: Sropho
     Level: 113
-    Hp: 4613
-    BaseExp: 7842
-    JobExp: 5097
+    Hp: 8801
+    BaseExp: 14082
+    JobExp: 9153
     Attack: 571
     Attack2: 565
     Defense: 24
@@ -103,9 +103,9 @@ Body:
     AegisName: POT_DOFLE
     Name: Pot Dofle
     Level: 115
-    Hp: 4118
-    BaseExp: 7001
-    JobExp: 4551
+    Hp: 7911
+    BaseExp: 12658
+    JobExp: 8228
     Attack: 1088
     Attack2: 212
     Defense: 27
@@ -148,9 +148,9 @@ Body:
     AegisName: SEDORA
     Name: Sedora
     Level: 110
-    Hp: 3917
-    BaseExp: 6659
-    JobExp: 4328
+    Hp: 7393
+    BaseExp: 11829
+    JobExp: 7689
     Attack: 758
     Attack2: 444
     Defense: 25

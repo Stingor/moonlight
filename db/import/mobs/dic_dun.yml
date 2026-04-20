@@ -8,9 +8,9 @@ Body:
     Name: One-Horned Scaraba
     JapaneseName: Scaraba
     Level: 130
-    Hp: 8561
-    BaseExp: 14554
-    JobExp: 9460
+    Hp: 17274
+    BaseExp: 27638
+    JobExp: 17965
     Attack: 886
     Attack2: 91
     Defense: 29
@@ -54,9 +54,9 @@ Body:
     Name: Two-Horned Scaraba
     JapaneseName: Scaraba
     Level: 134
-    Hp: 9288
-    BaseExp: 15790
-    JobExp: 10264
+    Hp: 18968
+    BaseExp: 30349
+    JobExp: 19727
     Attack: 1935
     Attack2: 105
     Defense: 30
@@ -99,9 +99,9 @@ Body:
     AegisName: ANTLER_SCARABA
     Name: Antler Scaraba
     Level: 136
-    Hp: 9583
-    BaseExp: 16291
-    JobExp: 10589
+    Hp: 19687
+    BaseExp: 31499
+    JobExp: 20474
     Attack: 1418
     Attack2: 410
     Defense: 30
@@ -144,9 +144,9 @@ Body:
     AegisName: RAKE_SCARABA
     Name: Rake Scaraba
     Level: 139
-    Hp: 9921
-    BaseExp: 16866
-    JobExp: 10963
+    Hp: 20561
+    BaseExp: 32898
+    JobExp: 21384
     Attack: 1645
     Attack2: 112
     Defense: 35
@@ -189,9 +189,9 @@ Body:
     AegisName: HORN_SCARABA_EGG
     Name: Scaraba Egg
     Level: 125
-    Hp: 11416
-    BaseExp: 19407
-    JobExp: 12615
+    Hp: 22675
+    BaseExp: 36280
+    JobExp: 23582
     Attack: 1
     Attack2: 1
     Defense: 32
@@ -222,9 +222,9 @@ Body:
     AegisName: HORN_SCARABA2_EGG
     Name: Scaraba Egg
     Level: 126
-    Hp: 11771
-    BaseExp: 20011
-    JobExp: 13007
+    Hp: 23454
+    BaseExp: 37526
+    JobExp: 24392
     Attack: 1
     Attack2: 1
     Defense: 32
@@ -255,9 +255,9 @@ Body:
     AegisName: ANTLER_SCARABA_EGG
     Name: Antler Scaraba Egg
     Level: 127
-    Hp: 12113
-    BaseExp: 20592
-    JobExp: 13385
+    Hp: 24212
+    BaseExp: 38739
+    JobExp: 25180
     Attack: 1
     Attack2: 1
     Defense: 32
@@ -288,9 +288,9 @@ Body:
     AegisName: RAKE_SCARABA_EGG
     Name: Rake Scaraba Egg
     Level: 128
-    Hp: 12443
-    BaseExp: 21153
-    JobExp: 13749
+    Hp: 24950
+    BaseExp: 39920
+    JobExp: 25948
     Attack: 1
     Attack2: 1
     Defense: 32
@@ -323,9 +323,9 @@ Body:
     AegisName: I_HORN_SCARABA
     Name: Gold One-Horn Scaraba
     Level: 130
-    Hp: 34245
-    BaseExp: 58216
-    JobExp: 37840
+    Hp: 69094
+    BaseExp: 110550
+    JobExp: 71858
     Attack: 1270
     Attack2: 590
     Defense: 32
@@ -368,9 +368,9 @@ Body:
     AegisName: I_HORN_SCARABA2
     Name: Gold Two-Horn Scaraba
     Level: 134
-    Hp: 37151
-    BaseExp: 63157
-    JobExp: 41052
+    Hp: 75871
+    BaseExp: 121394
+    JobExp: 78906
     Attack: 690
     Attack2: 3090
     Defense: 30
@@ -413,9 +413,9 @@ Body:
     AegisName: I_ANTLER_SCARABA
     Name: Gold Antler Scaraba
     Level: 136
-    Hp: 38332
-    BaseExp: 65164
-    JobExp: 42357
+    Hp: 78749
+    BaseExp: 125998
+    JobExp: 81899
     Attack: 412
     Attack2: 3211
     Defense: 30
@@ -458,9 +458,9 @@ Body:
     AegisName: I_RAKE_SCARABA
     Name: Gold Rake Scaraba
     Level: 139
-    Hp: 39684
-    BaseExp: 67463
-    JobExp: 43851
+    Hp: 82242
+    BaseExp: 131587
+    JobExp: 85532
     Attack: 1830
     Attack2: 630
     Defense: 35
@@ -503,9 +503,9 @@ Body:
     AegisName: I_HORN_SCARABA_EGG
     Name: Gold One-Horn Scaraba E
     Level: 125
-    Hp: 22832
-    BaseExp: 38814
-    JobExp: 25229
+    Hp: 45351
+    BaseExp: 72562
+    JobExp: 47165
     Attack: 1
     Attack2: 1
     Defense: 32
@@ -535,9 +535,9 @@ Body:
     AegisName: I_HORN_SCARABA2_EGG
     Name: Gold Two-Horn Scaraba E
     Level: 126
-    Hp: 23541
-    BaseExp: 40020
-    JobExp: 26013
+    Hp: 46908
+    BaseExp: 75053
+    JobExp: 48784
     Attack: 1
     Attack2: 1
     Defense: 32
@@ -567,9 +567,9 @@ Body:
     AegisName: I_ANTLER_SCARABA_EGG
     Name: Gold Antler Scaraba Egg
     Level: 127
-    Hp: 24226
-    BaseExp: 41184
-    JobExp: 26770
+    Hp: 48424
+    BaseExp: 77478
+    JobExp: 50361
     Attack: 1
     Attack2: 1
     Defense: 32
@@ -599,9 +599,9 @@ Body:
     AegisName: I_RAKE_SCARABA_EGG
     Name: Gold Rake Scaraba Egg
     Level: 128
-    Hp: 24885
-    BaseExp: 42304
-    JobExp: 27498
+    Hp: 49900
+    BaseExp: 79840
+    JobExp: 51896
     Attack: 1
     Attack2: 1
     Defense: 32
@@ -633,7 +633,7 @@ Body:
     AegisName: I_G_ANTLER_SCARABA
     Name: Gold Antler Scaraba
     Level: 136
-    Hp: 44229
+    Hp: 78749
     Attack: 412
     Attack2: 3211
     Defense: 35
@@ -661,7 +661,7 @@ Body:
     AegisName: I_G_RAKE_SCARABA
     Name: Gold Rake Scaraba
     Level: 139
-    Hp: 45790
+    Hp: 82242
     Attack: 1830
     Attack2: 630
     Defense: 40
@@ -689,7 +689,7 @@ Body:
     AegisName: I_G_HORN_SCARABA
     Name: Gold One-Horn Scaraba
     Level: 130
-    Hp: 39513
+    Hp: 69094
     Attack: 1270
     Attack2: 590
     Defense: 37
@@ -717,7 +717,7 @@ Body:
     AegisName: I_G_HORN_SCARABA2
     Name: Gold Two-Horn Scaraba
     Level: 134
-    Hp: 42866
+    Hp: 75871
     Attack: 690
     Attack2: 3090
     Defense: 35
