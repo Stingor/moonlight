@@ -419,29 +419,6 @@ BUILDIN_FUNC(getguildstoragelist)
 }
 
 /**
- * guild_has_permission( permission )
- * Checks if the attached player has the given guild permission.
- * Returns 1 if the player has the permission, 0 otherwise.
- * Permissions : GUILD_PERM_INVITE (0x001), GUILD_PERM_EXPEL (0x010), GUILD_PERM_STORAGE (0x100)
- * Example : if (guild_has_permission(GUILD_PERM_STORAGE)) { openstorage(); }
- */
-BUILDIN_FUNC(guild_has_permission)
-{
-	TBL_PC* sd;
-	if (!script_rid2sd(sd)) {
-		script_pushint(st, 0);
-		return SCRIPT_CMD_FAILURE;
-	}
-	if (!sd->guild) {
-		script_pushint(st, 0);
-		return SCRIPT_CMD_SUCCESS;
-	}
-	int32 permission = script_getnum(st, 2);
-	script_pushint(st, guild_has_permission(*sd, static_cast<e_guild_permission>(permission)) ? 1 : 0);
-	return SCRIPT_CMD_SUCCESS;
-}
-
-/**
 * Load specified storage, use it before using storagecountitem with storage id > 0
  */
 BUILDIN_FUNC(loadstorage)
