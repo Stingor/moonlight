@@ -15,6 +15,14 @@ ecl_tdun03,50,46,0	warp	tdun3up_tdun4dn	1,1,ecl_tdun04,26,24
 ecl_tdun04,26,26,0	warp	tdun4dn_tdun3up	1,1,ecl_tdun03,50,44
 ecl_tdun04,34,17,0	warp	tdun4-1_ttop	1,1,ecl_fild01,183,73
 ecl_fild01,183,70,0	warp	ttop_tdun4-1	1,1,ecl_tdun04,33,19
+// npc\rathena\quests\quests_eclage.txt
+// npc\rathena\warps\cities\eclage.txt
+
+//==================================================
+// ecl_fild01 - Blooming Flower Land
+//==================================================
+ecl_fild01	monster	Menblatt	2363,60,5000
+ecl_fild01	monster	Petal	2364,50,5000
 
 //==================================================
 // ecl_tdun01 - Bifrost Tower F1

@@ -3,6 +3,90 @@ Header:
   Version: 5
 
 Body:
+  - Id: 2363
+    AegisName: MENBLATT
+    Name: Menblatt
+    Level: 143
+    Hp: 23856
+    BaseExp: 38170
+    JobExp: 24810
+    Attack: 816
+    Attack2: 201
+    Defense: 31
+    MagicDefense: 19
+    Str: 70
+    Agi: 68
+    Vit: 40
+    Int: 55
+    Dex: 108
+    Luk: 30
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Insect
+    Element: Wind
+    ElementLevel: 2
+    WalkSpeed: 145
+    AttackDelay: 472
+    AttackMotion: 1056
+    DamageMotion: 480
+    Ai: 21
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Fancy_Fairy_Wing
+        Rate: 4000
+      - Item: Great_Wing
+        Rate: 2000
+      - Item: Sharp_Feeler
+        Rate: 4608
+      - Item: Menblatt_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2364
+    AegisName: PETAL
+    Name: Petal
+    Level: 141
+    Hp: 24053
+    BaseExp: 38485
+    JobExp: 25015
+    Attack: 671
+    Attack2: 173
+    Defense: 31
+    MagicDefense: 19
+    Str: 70
+    Agi: 82
+    Vit: 55
+    Int: 45
+    Dex: 108
+    Luk: 25
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Brute
+    Element: Wind
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 1500
+    AttackMotion: 768
+    DamageMotion: 480
+    Ai: 21
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Pile_Of_Acorn
+        Rate: 4000
+      - Item: Unripe_Acorn
+        Rate: 2000
+      - Item: Acorn
+        Rate: 2000
+      - Item: Piece_Of_Darkness
+        Rate: 500
+      - Item: Petal_Card
+        Rate: 1
+        StealProtected: true
   - Id: 2365
     AegisName: CENERE
     Name: Cenere
