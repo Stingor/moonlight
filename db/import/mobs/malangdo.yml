@@ -1,0 +1,185 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 1894
+    AegisName: POURING
+    Name: Pouring
+    Level: 50
+    Hp: 23
+    BaseExp: 37
+    Attack: 550
+    Attack2: 1250
+    Defense: 17
+    MagicDefense: 11
+    Str: 45
+    Agi: 30
+    Vit: 36
+    Int: 55
+    Dex: 999
+    Luk: 30
+    AttackRange: 1
+    Size: Small
+    Race: Plant
+    Element: Ghost
+    ElementLevel: 3
+    WalkSpeed: 300
+    AttackDelay: 1672
+    AttackMotion: 672
+    DamageMotion: 480
+    Ai: 07
+    Class: Boss
+    Drops:
+      - Item: RF_Taining_Notice
+        Rate: 9000
+      - Item: RF_Taining_Notice
+        Rate: 100
+      - Item: RF_Taining_Notice
+        Rate: 100
+      - Item: Jellopy
+        Rate: 3000
+      - Item: Jellopy
+        Rate: 2000
+      - Item: Jellopy
+        Rate: 2000
+      - Item: Jellopy
+        Rate: 2000
+  - Id: 2197
+    AegisName: RED_ERUMA
+    Name: Red Eruma
+    Level: 91
+    Hp: 4802
+    BaseExp: 7683
+    JobExp: 4994
+    Attack: 620
+    Attack2: 290
+    Defense: 23
+    MagicDefense: 12
+    Str: 77
+    Agi: 90
+    Vit: 88
+    Int: 21
+    Dex: 99
+    Luk: 21
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Fish
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 140
+    AttackDelay: 768
+    AttackMotion: 1224
+    DamageMotion: 432
+    Ai: 03
+    Drops:
+      - Item: Clam_Shell
+        Rate: 2500
+      - Item: Flesh_Of_Clam
+        Rate: 1000
+      - Item: Grit
+        Rate: 1500
+      - Item: Elunium_Stone
+        Rate: 50
+      - Item: Oridecon_Stone
+        Rate: 50
+      - Item: Old_Blue_Box
+        Rate: 10
+      - Item: Bad_Can
+        Rate: 700
+      - Item: Red_Eruma_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2199
+    AegisName: SIORAVA
+    Name: Siorava
+    Level: 87
+    Hp: 3585
+    BaseExp: 5736
+    JobExp: 3728
+    Attack: 450
+    Attack2: 210
+    Defense: 21
+    MagicDefense: 13
+    Str: 10
+    Agi: 40
+    Vit: 66
+    Int: 70
+    Dex: 67
+    Luk: 10
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Water
+    ElementLevel: 1
+    WalkSpeed: 250
+    AttackDelay: 1536
+    AttackMotion: 1296
+    DamageMotion: 576
+    Ai: 02
+    Drops:
+      - Item: Delicious_Jelly
+        Rate: 700
+      - Item: Skull
+        Rate: 500
+      - Item: Skel_Bone
+        Rate: 500
+      - Item: Horrendous_Mouth
+        Rate: 500
+      - Item: Tatters_Clothes
+        Rate: 500
+      - Item: Twilight_Desert
+        Rate: 1
+      - Item: Siorava_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2208
+    AegisName: WILD_RIDER
+    Name: Wild Rider
+    Level: 95
+    Hp: 18593
+    BaseExp: 29749
+    JobExp: 19337
+    Attack: 1320
+    Attack2: 330
+    Defense: 28
+    MagicDefense: 17
+    Str: 89
+    Agi: 124
+    Vit: 89
+    Int: 56
+    Dex: 112
+    Luk: 56
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Fish
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 120
+    AttackDelay: 432
+    AttackMotion: 792
+    DamageMotion: 360
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Gill
+        Rate: 7000
+      - Item: Delicious_Jelly
+        Rate: 7000
+      - Item: Skyblue_Jewel
+        Rate: 4000
+      - Item: Mistic_Frozen
+        Rate: 2000
+      - Item: Light_Granule
+        Rate: 1000
+      - Item: Old_Violet_Box
+        Rate: 1000
+      - Item: Wild_Rider_Card
+        Rate: 10
+        StealProtected: true
