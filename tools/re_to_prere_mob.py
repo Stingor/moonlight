@@ -140,6 +140,10 @@ def convert_block(block, dry_run=False, convert_def=True, convert_exp=True, conv
 
     is_mvp        = has_flag(block, 'Mvp')
     is_class_boss = bool(re.search(r'^\s+Class:\s*Boss', block, re.MULTILINE))
+    aegis_m = re.search(r'^\s+AegisName:\s*(\S+)', block, re.MULTILINE)
+    aegis   = aegis_m.group(1) if aegis_m else ''
+    # Treat mobs with AegisName starting with 'N_' or 'NG_' as nightmare variants
+    is_nightmare = aegis.startswith(('N_', 'NG_'))
 
     report_parts = []
     new_block = block
@@ -176,7 +180,10 @@ def convert_block(block, dry_run=False, convert_def=True, convert_exp=True, conv
             mult, cap = HP_MULT_BOSS, HP_CAP_BOSS
         else:
             mult, cap = HP_MULT_NORMAL, HP_CAP_NORMAL
-        raw = old_hp * mult * (HP_LV_REF / level) ** HP_LV_EXP
+        # For nightmare mobs (AegisName starting with 'N_'), their native HP is x4.
+        # Apply the native multiplier before soft-cap calculation so the cap scales accordingly.
+        native_mult = 4 if is_nightmare else 1
+        raw = old_hp * mult * (HP_LV_REF / level) ** HP_LV_EXP * native_mult
         if raw <= cap:
             new_hp = max(HP_MIN, round(raw))
         else:
