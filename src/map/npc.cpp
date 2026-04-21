@@ -5237,6 +5237,20 @@ static const char* npc_parse_mob(char* w1, char* w2, char* w3, char* w4, const c
 		ShowError("npc_parse_mob: Invalid mob definition in file '%s', line '%d'.\n * w1=%s\n * w2=%s\n * w3=%s\n * w4=%s\n", filepath, strline(buffer,start-buffer), w1, w2, w3, w4);
 		return strchr(start,'\n');// skip and continue
 	}
+	// Strip surrounding quotes and inline comments from eventname
+	// e.g. "classement::OnMvpDead" // comment -> classement::OnMvpDead
+	if (mob.eventname[0] == '"') {
+		memmove(mob.eventname, mob.eventname + 1, strlen(mob.eventname));
+	}
+	{
+		char* q = strchr(mob.eventname, '"');
+		if (q) *q = '\0';
+		char* c = strstr(mob.eventname, "//");
+		if (c) {
+			while (c > mob.eventname && (*(c-1) == ' ' || *(c-1) == '\t')) c--;
+			*c = '\0';
+		}
+	}
 	if( mapindex_name2id(mapname) == 0 )
 	{
 		ShowError("npc_parse_mob: Unknown map '%s' in file '%s', line '%d'.\n", mapname, filepath, strline(buffer,start-buffer));
