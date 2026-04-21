@@ -1134,6 +1134,107 @@ Body:
         Rate: 9000
       - Item: Dark_Debris
         Rate: 9000
+  - Id: 1956
+    AegisName: NAGHT_SIEGER
+    Name: Naght Sieger
+    Level: 99
+    Hp: 2613509
+    BaseExp: 4181614
+    JobExp: 2718049
+    MvpExp: 100000
+    Attack: 32000
+    Attack2: 64000
+    Defense: 34
+    MagicDefense: 28
+    Agi: 60
+    Vit: 80
+    Int: 220
+    Dex: 317
+    Luk: 30
+    Str: 190
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Ghost
+    ElementLevel: 4
+    WalkSpeed: 100
+    AttackDelay: 76
+    AttackMotion: 432
+    DamageMotion: 504
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    Drops:
+      - Item: Twin_Edge_B
+        Rate: 9000
+      - Item: Twin_Edge_R
+        Rate: 9000
+      - Item: Flame_Manteau
+        Rate: 9000
+      - Item: Bone_Helm
+        Rate: 9000
+      - Item: Old_Card_Album
+        Rate: 9000
+      - Item: Pauldron
+        Rate: 9000
+      - Item: Turquoise
+        Rate: 9000
+      - Item: Nahtzigger_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 1957
+    AegisName: ENTWEIHEN
+    Name: Entweihen Crothen
+    Level: 90
+    Hp: 1461450
+    BaseExp: 2338320
+    JobExp: 1519908
+    MvpExp: 100000
+    Attack: 32000
+    Attack2: 40000
+    Defense: 30
+    MagicDefense: 24
+    Agi: 70
+    Vit: 40
+    Int: 160
+    Dex: 228
+    Luk: 30
+    Str: 90
+    AttackRange: 12
+    SkillRange: 14
+    ChaseRange: 16
+    Size: Medium
+    Race: Demon
+    Element: Dark
+    ElementLevel: 4
+    AttackDelay: 140
+    AttackMotion: 540
+    DamageMotion: 576
+    Ai: 10
+    Class: Boss
+    Modes:
+      Mvp: true
+    Drops:
+      - Item: Thorn_Staff
+        Rate: 9000
+      - Item: Holy_Stick
+        Rate: 9000
+      - Item: Celestial_Robe
+        Rate: 9000
+      - Item: Lich_Bone_Wand
+        Rate: 9000
+      - Item: Old_Card_Album
+        Rate: 9000
+      - Item: Survival_Rod_
+        Rate: 9000
+      - Item: Agate
+        Rate: 9000
+      - Item: Ant_Buyanne_Card
+        Rate: 10
+        StealProtected: true
   - Id: 2022
     AegisName: S_NYDHOG
     Name: Nidhoggur's Shadow
@@ -1347,6 +1448,58 @@ Body:
       - Item: Q_Scaraba_Card
         Rate: 1
         StealProtected: true
+  - Id: 2131
+    AegisName: LOST_DRAGON
+    Name: Lost Dragon
+    Level: 135
+    Hp: 193774
+    BaseExp: 310038
+    JobExp: 201525
+    MvpExp: 15000
+    Attack: 1975
+    Attack2: 530
+    Defense: 40
+    MagicDefense: 28
+    Str: 140
+    Agi: 81
+    Vit: 69
+    Int: 122
+    Dex: 147
+    Luk: 61
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Dragon
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 840
+    AttackMotion: 648
+    DamageMotion: 576
+    Ai: 21
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Old_Violet_Box
+        Rate: 2500
+      - Item: Old_Card_Album
+        Rate: 5000
+    Drops:
+      - Item: Gold_Ring
+        Rate: 1000
+      - Item: Ancient_Dagger
+        Rate: 1000
+      - Item: Yggdrasilberry
+        Rate: 1000
+      - Item: Seed_Of_Yggdrasil
+        Rate: 500
+      - Item: Leaf_Of_Yggdrasil
+        Rate: 500
+      - Item: Rosebine
+        Rate: 500
+      - Item: Alchemy_Glove
+        Rate: 300
   - Id: 2202
     AegisName: KRAKEN
     Name: Kraken
@@ -2148,6 +2301,62 @@ Body:
       - Item: Kades_Card
         Rate: 1
         StealProtected: true
+  - Id: 2319
+    AegisName: BUWAYA
+    Name: Buwaya
+    Level: 151
+    Hp: 1088101
+    BaseExp: 1740962
+    JobExp: 1131625
+    MvpExp: 1500006
+    Attack: 3614
+    Attack2: 3501
+    Defense: 47
+    MagicDefense: 34
+    Str: 151
+    Agi: 201
+    Vit: 130
+    Int: 231
+    Dex: 310
+    Luk: 66
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Dragon
+    Element: Water
+    ElementLevel: 4
+    WalkSpeed: 100
+    AttackDelay: 1424
+    AttackMotion: 576
+    DamageMotion: 360
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Yggdrasilberry
+        Rate: 5500
+      - Item: Old_Violet_Box
+        Rate: 2250
+      - Item: Old_Card_Album
+        Rate: 450
+    Drops:
+      - Item: Buwaya_Doll
+        Rate: 2000
+      - Item: Buwaya_Spirit_Piece
+        Rate: 50
+      - Item: Ancient_Grudge
+        Rate: 2000
+      - Item: Buwaya_Cloth
+        Rate: 1000
+      - Item: Kalasak
+        Rate: 100
+      - Item: Ancient_Grudge
+        Rate: 10000
+      - Item: Buwaya_Card
+        Rate: 1
+        StealProtected: true
   - Id: 2362
     AegisName: N_AMON_RA
     Name: Amon Ra (Nightmare)
@@ -2203,6 +2412,102 @@ Body:
       - Item: Yggdrasilberry
         Rate: 3000
       - Item: N_Amon_Ra_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2475
+    AegisName: MG_CORRUPTION_ROOT
+    Name: Corrupted Soul
+    Level: 150
+    Hp: 489323
+    BaseExp: 782917
+    JobExp: 508896
+    Attack: 3887
+    Attack2: 3887
+    Defense: 44
+    MagicDefense: 33
+    Str: 201
+    Agi: 20
+    Vit: 90
+    Int: 201
+    Dex: 201
+    Luk: 20
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Earth
+    ElementLevel: 3
+    WalkSpeed: 1000
+    AttackDelay: 576
+    AttackMotion: 672
+    DamageMotion: 480
+    Ai: 10
+    Class: Boss
+    Modes:
+      Mvp: true
+    Drops:
+      - Item: Old_Card_Album
+        Rate: 5000
+      - Item: Old_Violet_Box
+        Rate: 10000
+      - Item: Temporal_Crystal
+        Rate: 5000
+      - Item: Yggdrasilberry
+        Rate: 10000
+      - Item: Alchemy_Glove
+        Rate: 1000
+      - Item: Will_Of_Darkness_
+        Rate: 10000
+      - Item: CorruptionRoot_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2476
+    AegisName: MG_AMDARAIS
+    Name: Amdarias
+    Level: 150
+    Hp: 1153404
+    BaseExp: 1845446
+    JobExp: 1199540
+    Attack: 5290
+    Attack2: 3900
+    Defense: 44
+    MagicDefense: 32
+    Str: 255
+    Agi: 39
+    Vit: 90
+    Int: 169
+    Dex: 166
+    Luk: 20
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Undead
+    Element: Undead
+    ElementLevel: 4
+    WalkSpeed: 120
+    AttackDelay: 312
+    AttackMotion: 1200
+    DamageMotion: 432
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    Drops:
+      - Item: Old_Card_Album
+        Rate: 5000
+      - Item: Old_Violet_Box
+        Rate: 10000
+      - Item: Temporal_Crystal
+        Rate: 5000
+      - Item: Yggdrasilberry
+        Rate: 10000
+      - Item: Death_Guidance
+        Rate: 1000
+      - Item: Patriotism_Marks
+        Rate: 10000
+      - Item: Amdarais_Card
         Rate: 1
         StealProtected: true
   - Id: 2483
@@ -2263,6 +2568,552 @@ Body:
       - Item: Baphomet_Card
         Rate: 1
         StealProtected: true
+  - Id: 2529
+    AegisName: FACEWORM_QUEEN
+    Name: Faceworm Queen
+    Level: 155
+    Hp: 8095117
+    BaseExp: 12952187
+    JobExp: 8418922
+    MvpExp: 90909
+    Attack: 4024
+    Attack2: 4006
+    Defense: 51
+    MagicDefense: 34
+    Str: 200
+    Agi: 100
+    Vit: 200
+    Int: 200
+    Dex: 200
+    Luk: 100
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Insect
+    Element: Poison
+    ElementLevel: 4
+    WalkSpeed: 200
+    AttackDelay: 768
+    AttackMotion: 540
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Old_Violet_Box
+        Rate: 2500
+      - Item: Magic_Card_Album
+        Rate: 2500
+    Drops:
+      - Item: Yggdrasilberry
+        Rate: 1000
+      - Item: FaceWormQueen_Leg
+        Rate: 100
+      - Item: Broken_Horn
+        Rate: 5000
+        StealProtected: true
+      - Item: Faceworm_Queen_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2530
+    AegisName: FACEWORM_DARK
+    Name: Dark Faceworm
+    JapaneseName: Faceworm Dark
+    Level: 144
+    Hp: 1435028
+    BaseExp: 2296045
+    JobExp: 1492429
+    Attack: 2012
+    Attack2: 2003
+    Defense: 46
+    MagicDefense: 30
+    Str: 150
+    Agi: 100
+    Vit: 150
+    Int: 150
+    Dex: 150
+    Luk: 100
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Insect
+    Element: Poison
+    ElementLevel: 2
+    WalkSpeed: 180
+    AttackDelay: 576
+    AttackMotion: 480
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    Drops:
+      - Item: FaceWorm_Leg
+        Rate: 10
+      - Item: ShabbyOldScroll
+        Rate: 100
+      - Item: Dark_Faceworm_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2532
+    AegisName: FACEWORM_QUEEN_R
+    Name: Red Faceworm Queen
+    JapaneseName: Faceworm Queen (Red)
+    Level: 155
+    Hp: 8095117
+    BaseExp: 12952187
+    JobExp: 8418922
+    MvpExp: 90909
+    Attack: 12000
+    Attack2: 15000
+    Defense: 51
+    MagicDefense: 34
+    Str: 500
+    Agi: 100
+    Vit: 200
+    Int: 200
+    Dex: 200
+    Luk: 100
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Insect
+    Element: Fire
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 768
+    AttackMotion: 540
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Magic_Card_Album
+        Rate: 2500
+      - Item: Old_Violet_Box
+        Rate: 2500
+    Drops:
+      - Item: Flame_Heart
+        Rate: 5000
+      - Item: FaceWormQueen_Leg
+        Rate: 100
+      - Item: Broken_Horn
+        Rate: 5000
+        StealProtected: true
+  - Id: 2533
+    AegisName: FACEWORM_QUEEN_G
+    Name: Green Faceworm Queen
+    JapaneseName: Faceworm Queen (Green)
+    Level: 155
+    Hp: 8095117
+    BaseExp: 12952187
+    JobExp: 8418922
+    MvpExp: 90909
+    Attack: 5000
+    Attack2: 5000
+    Defense: 61
+    MagicDefense: 34
+    Str: 200
+    Agi: 100
+    Vit: 400
+    Int: 200
+    Dex: 200
+    Luk: 100
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Insect
+    Element: Earth
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 768
+    AttackMotion: 540
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Old_Violet_Box
+        Rate: 2500
+      - Item: Magic_Card_Album
+        Rate: 2500
+    Drops:
+      - Item: Broken_Horn
+        Rate: 5000
+      - Item: FaceWormQueen_Leg
+        Rate: 100
+      - Item: Great_Nature
+        Rate: 5000
+  - Id: 2534
+    AegisName: FACEWORM_QUEEN_B
+    Name: Blue Faceworm Queen
+    JapaneseName: Faceworm Queen (Blue)
+    Level: 155
+    Hp: 8095117
+    BaseExp: 12952187
+    JobExp: 8418922
+    MvpExp: 90909
+    Attack: 5000
+    Attack2: 10000
+    Defense: 51
+    MagicDefense: 42
+    Str: 200
+    Agi: 100
+    Vit: 200
+    Int: 400
+    Dex: 200
+    Luk: 100
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Insect
+    Element: Water
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 768
+    AttackMotion: 540
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Old_Violet_Box
+        Rate: 2500
+      - Item: Magic_Card_Album
+        Rate: 2500
+    Drops:
+      - Item: Broken_Horn
+        Rate: 5000
+      - Item: FaceWormQueen_Leg
+        Rate: 100
+      - Item: Mistic_Frozen
+        Rate: 5000
+  - Id: 2535
+    AegisName: FACEWORM_QUEEN_Y
+    Name: Yellow Faceworm Queen
+    JapaneseName: Faceworm Queen (Yellow)
+    Level: 155
+    Hp: 8095117
+    BaseExp: 12952187
+    JobExp: 8418922
+    MvpExp: 90909
+    Attack: 5000
+    Attack2: 5000
+    Defense: 51
+    MagicDefense: 34
+    Str: 200
+    Agi: 400
+    Vit: 200
+    Int: 200
+    Dex: 200
+    Luk: 100
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Insect
+    Element: Wind
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 768
+    AttackMotion: 540
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Old_Violet_Box
+        Rate: 2500
+      - Item: Magic_Card_Album
+        Rate: 2500
+    Drops:
+      - Item: Broken_Horn
+        Rate: 5000
+      - Item: FaceWormQueen_Leg
+        Rate: 100
+      - Item: Rough_Wind
+        Rate: 5000
+  - Id: 2942
+    AegisName: MM_EVIL_FANATICS
+    Name: Evil Fanatics
+    Level: 151
+    Hp: 2196225
+    BaseExp: 3513960
+    JobExp: 2284074
+    Attack: 3350
+    Attack2: 167
+    Defense: 42
+    MagicDefense: 27
+    Str: 118
+    Agi: 72
+    Vit: 40
+    Int: 55
+    Dex: 213
+    Luk: 30
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 1000
+    AttackMotion: 500
+    DamageMotion: 350
+    Ai: 10
+    Class: Boss
+    Modes:
+      CanMove: true
+      Mvp: true
+    Drops:
+      - Item: Evil_Fanatics_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2988
+    AegisName: XM_ANTONIO
+    Name: Wicked Vice Plant Manag
+    Level: 149
+    Hp: 12
+    Attack: 66
+    Attack2: 66
+    Defense: 42
+    MagicDefense: 27
+    Str: 44
+    Agi: 88
+    Vit: 44
+    Int: 44
+    Dex: 144
+    Luk: 44
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Undead
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 100
+    AttackDelay: 720
+    AttackMotion: 720
+    DamageMotion: 432
+    Ai: 01
+    Class: Boss
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+      Mvp: true
+    Drops:
+      - Item: Red_Socks_With_Holes
+        Rate: 2000
+      - Item: C_SantaHairband
+        Rate: 100
+      - Item: Vivid_Notation
+        Rate: 500
+      - Item: Red_Bag
+        Rate: 100
+      - Item: Luk_Dish08
+        Rate: 500
+  - Id: 2996
+    AegisName: XM_CELINE_KIMI
+    Name: Celine Kimi
+    Level: 160
+    Hp: 6666666
+    BaseExp: 13061293
+    JobExp: 8489840
+    MvpExp: 444444
+    Attack: 6666
+    Attack2: 6666
+    Defense: 44
+    MagicDefense: 44
+    Str: 144
+    Agi: 166
+    Vit: 44
+    Int: 444
+    Dex: 166
+    Luk: 166
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Undead
+    Element: Ghost
+    ElementLevel: 1
+    WalkSpeed: 100
+    AttackDelay: 768
+    AttackMotion: 1056
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Old_Card_Album
+        Rate: 10000
+      - Item: Old_Violet_Box
+        Rate: 10000
+      - Item: Closedmind_Box
+        Rate: 10000
+    Drops:
+      - Item: Closedmind_Box
+        Rate: 4000
+      - Item: Nabi_Hair_Pin
+        Rate: 4000
+      - Item: Bloody_Coin
+        Rate: 4000
+      - Item: C_Red_Bonnet
+        Rate: 100
+      - Item: Old_Parasol
+        Rate: 100
+      - Item: Flower
+        Rate: 10000
+      - Item: Celine_Kimi_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2999
+    AegisName: EP14_MORS_BOSSA
+    Name: Morocc Necromancer
+    Level: 158
+    Hp: 989644
+    BaseExp: 1583430
+    JobExp: 1029230
+    Attack: 700
+    Defense: 49
+    MagicDefense: 32
+    Str: 165
+    Agi: 190
+    Vit: 142
+    Int: 146
+    Dex: 299
+    Luk: 93
+    AttackRange: 1
+    SkillRange: 12
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 3
+    WalkSpeed: 100
+    AttackDelay: 300
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 10
+    Class: Boss
+    Modes:
+      CanMove: true
+      Mvp: true
+    Drops:
+      - Item: Yggdrasilberry
+        Rate: 2000
+      - Item: Old_Blue_Box
+        Rate: 200
+      - Item: Branch_Of_Dead_Tree
+        Rate: 200
+      - Item: Fruit_Of_Mastela
+        Rate: 200
+      - Item: Morocc's_Minion_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3000
+    AegisName: EP14_MORS_BOSSB
+    Name: Morocc Necromancer
+    Level: 101
+    Hp: 8649983
+    BaseExp: 13839973
+    JobExp: 8995982
+    Attack: 700
+    Attack2: 1
+    Int: 180
+    AttackRange: 12
+    SkillRange: 12
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Earth
+    ElementLevel: 4
+    WalkSpeed: 1000
+    AttackDelay: 2700
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 10
+    Class: Boss
+    Modes:
+      Mvp: true
+    Drops:
+      - Item: Yggdrasilberry
+        Rate: 2000
+      - Item: Old_Blue_Box
+        Rate: 200
+      - Item: Branch_Of_Dead_Tree
+        Rate: 200
+      - Item: PrizeOfHero
+        Rate: 5000
+      - Item: PrizeOfHero
+        Rate: 5000
+      - Item: Fruit_Of_Mastela
+        Rate: 200
+  - Id: 3073
+    AegisName: GRAND_PERE
+    Name: Awakened Ferre
+    JapaneseName: Grand Pere
+    Level: 140
+    Hp: 5846171
+    BaseExp: 9353874
+    JobExp: 6080018
+    Attack: 8500
+    Attack2: 3000
+    Defense: 48
+    MagicDefense: 32
+    Str: 200
+    Agi: 100
+    Vit: 200
+    Int: 200
+    Dex: 220
+    Luk: 100
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Undead
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 676
+    AttackMotion: 2592
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    Drops:
+      - Item: Magic_Card_Album
+        Rate: 1600
+      - Item: Magic_Card_Album
+        Rate: 800
+      - Item: Gigantic_Bow
+        Rate: 100
+      - Item: Bow_Of_Storm
+        Rate: 100
+      - Item: Jitterbug's_Tooth
+        Rate: 7000
+      - Item: Pendant_Of_Harmony
+        Rate: 400
+      - Item: Pendant_Of_Chaos
+        Rate: 400
+      - Item: Awaken_Pere_Card
+        Rate: 1
+        StealProtected: true
   - Id: 3074
     AegisName: TIMEHOLDER
     Name: Time Holder
@@ -2312,6 +3163,328 @@ Body:
       - Item: Menswear
         Rate: 3
       - Item: Time_Holder_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3124
+    AegisName: CHARLESTON3
+    Name: Charleston 3
+    Level: 145
+    Hp: 2094380
+    BaseExp: 3351008
+    JobExp: 2178155
+    MvpExp: 120204
+    Attack: 15000
+    Attack2: 25000
+    Defense: 44
+    MagicDefense: 29
+    Str: 208
+    Agi: 106
+    Vit: 205
+    Int: 206
+    Dex: 228
+    Luk: 105
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 676
+    AttackMotion: 2016
+    DamageMotion: 672
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Pilebuncker_P
+        Rate: 200
+      - Item: Tornado_Axe
+        Rate: 200
+      - Item: Robot's_Arm
+        Rate: 100
+      - Item: Giant_Blade
+        Rate: 200
+      - Item: Supplement_Part_Agi
+        Rate: 400
+      - Item: Upgrade_Part_Booster
+        Rate: 200
+      - Item: Charleston_Parts
+        Rate: 5000
+      - Item: Charleston3_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3181
+    AegisName: E1_FELOCK
+    Name: Captain Ferlock
+    Level: 130
+    Hp: 1014103
+    BaseExp: 1622565
+    JobExp: 1054667
+    Attack: 5871
+    Attack2: 4695
+    Defense: 38
+    MagicDefense: 25
+    Str: 109
+    Agi: 78
+    Vit: 50
+    Int: 55
+    Dex: 108
+    Luk: 55
+    AttackRange: 10
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Dragon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 170
+    AttackDelay: 168
+    AttackMotion: 1008
+    DamageMotion: 300
+    Ai: 01
+    Class: Boss
+    Modes:
+      Mvp: true
+    Drops:
+      - Item: Felock_Armor
+        Rate: 100
+      - Item: Felock_Cape
+        Rate: 100
+      - Item: Felock_Boots
+        Rate: 100
+      - Item: Vit_Dish07
+        Rate: 3000
+      - Item: Str_Dish07
+        Rate: 3000
+      - Item: Agi_Dish07
+        Rate: 3000
+      - Item: Int_Dish07
+        Rate: 3000
+      - Item: Dex_Dish07
+        Rate: 3000
+        StealProtected: true
+      - Item: Captain_Felock_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3191
+    AegisName: MM_M_GIGAN1
+    Name: Gigantes
+    Level: 160
+    Hp: 1613325
+    JobExp: 1677858
+    Attack: 4635
+    Attack2: 120
+    Defense: 44
+    MagicDefense: 29
+    Str: 156
+    Agi: 151
+    Vit: 30
+    Int: 62
+    Dex: 265
+    Luk: 21
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 250
+    AttackDelay: 1000
+    AttackMotion: 750
+    DamageMotion: 600
+    Ai: 04
+    Class: Boss
+    Modes:
+      IgnoreMelee: true
+      IgnoreRanged: true
+      Mvp: true
+    Drops:
+      - Item: Robe_Of_Sarah
+        Rate: 100
+      - Item: Gigantes_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3192
+    AegisName: MM_M_GIGAN2
+    Name: Gigantes
+    Level: 160
+    Hp: 2393291
+    Attack: 5128
+    Attack2: 89
+    Defense: 44
+    MagicDefense: 27
+    Str: 212
+    Agi: 138
+    Vit: 43
+    Int: 21
+    Dex: 227
+    Luk: 15
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 250
+    AttackDelay: 1000
+    AttackMotion: 750
+    DamageMotion: 600
+    Ai: 04
+    Class: Boss
+    Modes:
+      IgnoreMagic: true
+      Mvp: true
+    Drops:
+      - Item: Robe_Of_Sarah
+        Rate: 100
+      - Item: Gigantes_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3193
+    AegisName: MM_M_GIGAN3
+    Name: Ancient Medium Gigantes
+    Level: 160
+    Hp: 273107
+    Attack: 3967
+    Attack2: 165
+    Defense: 44
+    MagicDefense: 28
+    Str: 121
+    Agi: 125
+    Vit: 45
+    Int: 35
+    Dex: 271
+    Luk: 15
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 300
+    AttackDelay: 1250
+    AttackMotion: 750
+    DamageMotion: 600
+    Ai: 21
+    Class: Boss
+    Modes:
+      IgnoreMelee: true
+      IgnoreRanged: true
+      Mvp: true
+    Drops:
+      - Item: Gigantes_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3194
+    AegisName: MM_L_GIGAN1
+    Name: Large Gigantes
+    Level: 160
+    Hp: 601839
+    Attack: 4172
+    Attack2: 82
+    Defense: 43
+    MagicDefense: 29
+    Str: 135
+    Agi: 135
+    Vit: 12
+    Int: 72
+    Dex: 220
+    Luk: 91
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 1000
+    AttackMotion: 500
+    DamageMotion: 500
+    Ai: 04
+    Class: Boss
+    Modes:
+      IgnoreMelee: true
+      IgnoreRanged: true
+      Mvp: true
+    Drops:
+      - Item: Gigantes_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3195
+    AegisName: MM_L_GIGAN2
+    Name: Large Gigantes
+    Level: 160
+    Hp: 675110
+    Attack: 3641
+    Attack2: 116
+    Defense: 43
+    MagicDefense: 28
+    Str: 102
+    Agi: 119
+    Vit: 18
+    Int: 45
+    Dex: 275
+    Luk: 71
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 1000
+    AttackMotion: 500
+    DamageMotion: 500
+    Ai: 04
+    Class: Boss
+    Modes:
+      IgnoreMagic: true
+      Mvp: true
+    Drops:
+      - Item: Gigantes_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3196
+    AegisName: MM_L_GIGAN3
+    Name: Ancient Gigantes
+    Level: 160
+    Hp: 2925165
+    Attack: 8957
+    Attack2: 61
+    Defense: 42
+    MagicDefense: 29
+    Str: 203
+    Agi: 141
+    Int: 66
+    Dex: 355
+    Luk: 103
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 330
+    AttackDelay: 1250
+    AttackMotion: 800
+    DamageMotion: 800
+    Ai: 21
+    Class: Boss
+    Modes:
+      IgnoreMelee: true
+      IgnoreRanged: true
+      Mvp: true
+    Drops:
+      - Item: Fragments_Of_Gigan
+        Rate: 10000
+      - Item: Gigantes_Card
         Rate: 1
         StealProtected: true
   - Id: 3220
@@ -2965,6 +4138,160 @@ Body:
       - Item: Archer_Soul
         Rate: 10000
       - Item: V_Trentini_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3254
+    AegisName: T_W_O
+    Name: T_W_O
+    Level: 165
+    Hp: 8061599
+    BaseExp: 12898558
+    JobExp: 8384063
+    Attack: 3955
+    Attack2: 7196
+    Defense: 43
+    MagicDefense: 30
+    Str: 90
+    Agi: 141
+    Vit: 7
+    Int: 87
+    Dex: 267
+    Luk: 70
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 1250
+    AttackMotion: 500
+    DamageMotion: 350
+    Ai: 10
+    Class: Boss
+    Modes:
+      CanMove: true
+      Mvp: true
+    MvpDrops:
+      - Item: Problematical_Part
+        Rate: 5000
+      - Item: Old_Violet_Box
+        Rate: 5000
+      - Item: Old_Violet_Box
+        Rate: 5000
+    Drops:
+      - Item: Test_Reagent
+        Rate: 3000
+      - Item: Spanner
+        Rate: 500
+      - Item: Old_Steel_Plate
+        Rate: 2000
+      - Item: T_W_O_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3450
+    AegisName: BIJOU
+    Name: Bijou
+    Level: 115
+    Hp: 4112953
+    BaseExp: 6580725
+    JobExp: 4277471
+    Attack: 14440
+    Attack2: 28880
+    Defense: 36
+    MagicDefense: 27
+    Str: 150
+    Agi: 40
+    Vit: 50
+    Int: 150
+    Dex: 150
+    Luk: 50
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Undead
+    Element: Undead
+    ElementLevel: 4
+    WalkSpeed: 200
+    AttackDelay: 2000
+    AttackMotion: 1536
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    Drops:
+      - Item: Fragments_Valkyrie_Power
+        Rate: 10000
+      - Item: C_Bijou_Hat
+        Rate: 10
+      - Item: Berserk
+        Rate: 500
+      - Item: Witherless_Rose
+        Rate: 1000
+      - Item: Black_Dyestuffs
+        Rate: 5000
+      - Item: Bijou_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3621
+    AegisName: EP16_2_MM_CUTIE
+    Name: Pet Child
+    Level: 120
+    Hp: 1344771
+    BaseExp: 2151634
+    JobExp: 1398562
+    MvpExp: 5000
+    Attack: 3400
+    Attack2: 1900
+    Defense: 39
+    MagicDefense: 23
+    Str: 160
+    Agi: 70
+    Vit: 100
+    Int: 40
+    Dex: 240
+    Luk: 50
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Brute
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 864
+    AttackMotion: 1268
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Old_Blue_Box
+        Rate: 5000
+      - Item: Old_Violet_Box
+        Rate: 5000
+      - Item: Yggdrasilberry
+        Rate: 5000
+    Drops:
+      - Item: Ultralight_Magic_Shield
+        Rate: 10
+      - Item: Treasure_Box
+        Rate: 500
+      - Item: Old_Violet_Box
+        Rate: 500
+      - Item: Old_Blue_Box
+        Rate: 500
+      - Item: Yggdrasilberry
+        Rate: 500
+      - Item: Carnium
+        Rate: 500
+      - Item: Bradium
+        Rate: 500
+      - Item: Cutie_Card
         Rate: 1
         StealProtected: true
   - Id: 3633

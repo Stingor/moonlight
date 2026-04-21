@@ -1,0 +1,266 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 3175
+    AegisName: E1_ROTAR_ZAIRO
+    Name: Rotar Zairo
+    Level: 113
+    Hp: 6726
+    BaseExp: 10762
+    JobExp: 6995
+    Attack: 1662
+    Attack2: 585
+    Defense: 26
+    MagicDefense: 16
+    Str: 109
+    Agi: 54
+    Vit: 60
+    Int: 50
+    Dex: 84
+    Luk: 30
+    AttackRange: 10
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Wind
+    ElementLevel: 2
+    WalkSpeed: 155
+    AttackDelay: 2416
+    AttackMotion: 2016
+    DamageMotion: 432
+    Ai: 05
+    Drops:
+      - Item: Airship_Boots
+        Rate: 50
+      - Item: Large_Jellopy
+        Rate: 250
+      - Item: Padded_Armor
+        Rate: 1
+      - Item: Wing_Of_Fly
+        Rate: 500
+      - Item: Zargon
+        Rate: 200
+      - Item: Garlet
+        Rate: 200
+        StealProtected: true
+      - Item: Rotar_Zairo_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3176
+    AegisName: E1_GREMLIN
+    Name: Gremlin
+    Level: 118
+    Hp: 8017
+    BaseExp: 12827
+    JobExp: 8338
+    Attack: 2848
+    Attack2: 138
+    Defense: 26
+    MagicDefense: 17
+    Str: 141
+    Agi: 75
+    Vit: 48
+    Int: 61
+    Dex: 126
+    Luk: 37
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 140
+    AttackDelay: 432
+    AttackMotion: 540
+    DamageMotion: 432
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Airship_Cape
+        Rate: 50
+      - Item: Will_Of_Darkness
+        Rate: 500
+      - Item: Sticky_Mucus
+        Rate: 500
+      - Item: Violet_Jewel
+        Rate: 50
+      - Item: Old_Blue_Box
+        Rate: 1
+      - Item: Gremlin_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3177
+    AegisName: E1_BEHOLDER
+    Name: Beholder
+    Level: 118
+    Hp: 8017
+    BaseExp: 12827
+    JobExp: 8338
+    Attack: 1848
+    Attack2: 1138
+    Defense: 26
+    MagicDefense: 17
+    Str: 141
+    Agi: 75
+    Vit: 48
+    Int: 61
+    Dex: 126
+    Luk: 37
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 140
+    AttackDelay: 432
+    AttackMotion: 540
+    DamageMotion: 432
+    Ai: 17
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Airship_Boots
+        Rate: 50
+      - Item: Prickly_Fruit
+        Rate: 500
+      - Item: Anodyne
+        Rate: 50
+      - Item: Rough_Wind
+        Rate: 50
+      - Item: Elunium
+        Rate: 1
+      - Item: Old_Blue_Box
+        Rate: 1
+      - Item: Beholder_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3178
+    AegisName: E1_ACIDUS
+    Name: Acidus
+    Level: 130
+    Hp: 16371
+    BaseExp: 26194
+    JobExp: 17026
+    Attack: 871
+    Attack2: 695
+    Defense: 28
+    MagicDefense: 18
+    Str: 109
+    Agi: 78
+    Vit: 50
+    Int: 55
+    Dex: 108
+    Luk: 55
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Dragon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 170
+    AttackDelay: 168
+    AttackMotion: 1008
+    DamageMotion: 300
+    Ai: 09
+    Drops:
+      - Item: Airship_Armor
+        Rate: 50
+      - Item: Light_Granule
+        Rate: 100
+      - Item: Dragon_Canine
+        Rate: 500
+      - Item: Dragonball_Yellow
+        Rate: 200
+  - Id: 3179
+    AegisName: E1_ACIDUS_
+    Name: Acidus
+    Level: 130
+    Hp: 13764
+    BaseExp: 22022
+    JobExp: 14314
+    Attack: 2484
+    Attack2: 1158
+    Defense: 29
+    MagicDefense: 18
+    Str: 106
+    Agi: 110
+    Vit: 61
+    Int: 53
+    Dex: 133
+    Luk: 53
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Dragon
+    Element: Wind
+    ElementLevel: 2
+    WalkSpeed: 180
+    AttackDelay: 168
+    AttackMotion: 768
+    DamageMotion: 360
+    Ai: 17
+    Modes:
+      ChangeTargetMelee: true
+      ChangeTargetChase: true
+    Drops:
+      - Item: Airship_Cape
+        Rate: 50
+      - Item: Dragon_Canine
+        Rate: 500
+      - Item: Dragon_Scale
+        Rate: 500
+      - Item: Dragonball_Blue
+        Rate: 200
+      - Item: Acidus_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3180
+    AegisName: E1_G_S_NYDHOG
+    Name: Wywern
+    Level: 117
+    Hp: 120031
+    BaseExp: 192050
+    JobExp: 124832
+    Attack: 3176
+    Attack2: 1840
+    Defense: 25
+    MagicDefense: 19
+    Str: 201
+    Agi: 30
+    Vit: 30
+    Int: 136
+    Dex: 123
+    Luk: 30
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Dragon
+    Element: Dark
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 1596
+    AttackMotion: 1620
+    DamageMotion: 864
+    Ai: 17
+    Modes:
+      ChangeTargetMelee: true
+      ChangeTargetChase: true
+    Drops:
+      - Item: Airship_Armor
+        Rate: 50
+      - Item: Dark_Red_Scale
+        Rate: 500
+      - Item: Treasure_Box
+        Rate: 1
+      - Item: Elunium
+        Rate: 10

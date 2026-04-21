@@ -1,0 +1,173 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 2938
+    AegisName: MM_MAGIC_SEAL
+    Name: Magic Seal
+    Level: 140
+    Hp: 550048
+    BaseExp: 880077
+    JobExp: 572050
+    Attack: 1
+    Attack2: 1
+    Defense: 30
+    MagicDefense: 21
+    Str: 16
+    Agi: 26
+    Vit: 30
+    Int: 115
+    Dex: 79
+    Luk: 5
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 300
+    AttackDelay: 1000
+    AttackMotion: 1000
+    DamageMotion: 1000
+  - Id: 2939
+    AegisName: MM_EVIL_SHADOW1
+    Name: Evil Shadow
+    Level: 138
+    Hp: 34410
+    BaseExp: 55056
+    JobExp: 35786
+    Attack: 3266
+    Attack2: 1307
+    Defense: 32
+    MagicDefense: 17
+    Str: 88
+    Agi: 44
+    Vit: 88
+    Int: 21
+    Dex: 95
+    Luk: 44
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 1500
+    AttackMotion: 600
+    DamageMotion: 500
+    Ai: 10
+    Modes:
+      CanMove: true
+      Detector: true
+    Drops:
+      - Item: Evil_Shadow_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2940
+    AegisName: MM_EVIL_SHADOW2
+    Name: Evil Shadow
+    Level: 141
+    Hp: 37891
+    BaseExp: 60626
+    JobExp: 39407
+    Attack: 2678
+    Attack2: 1071
+    Defense: 30
+    MagicDefense: 18
+    Str: 60
+    Agi: 103
+    Vit: 45
+    Int: 35
+    Dex: 172
+    Luk: 15
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 1000
+    AttackMotion: 500
+    DamageMotion: 600
+    Ai: 10
+    Modes:
+      CanMove: true
+      Detector: true
+    Drops:
+      - Item: Evil_Shadow_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2941
+    AegisName: MM_EVIL_SHADOW3
+    Name: Evil Shadow
+    Level: 142
+    Hp: 45023
+    BaseExp: 72037
+    JobExp: 46824
+    Attack: 3167
+    Attack2: 1267
+    Defense: 32
+    MagicDefense: 18
+    Str: 120
+    Agi: 87
+    Vit: 66
+    Int: 33
+    Dex: 106
+    Luk: 27
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 1800
+    AttackMotion: 780
+    DamageMotion: 480
+    Ai: 10
+    Modes:
+      CanMove: true
+      Detector: true
+    Drops:
+      - Item: Evil_Shadow_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2943
+    AegisName: MM_ICE_MINE
+    Name: Icemine
+    Level: 149
+    Hp: 2718
+    Sp: 200
+    Attack: 200
+    Attack2: 1
+    Defense: 40
+    MagicDefense: 26
+    Str: 200
+    Agi: 200
+    Vit: 200
+    Int: 200
+    Dex: 200
+    Luk: 200
+    AttackRange: 7
+    SkillRange: 12
+    ChaseRange: 12
+    Size: Small
+    Race: Insect
+    Element: Ghost
+    ElementLevel: 4
+    WalkSpeed: 1000
+    AttackMotion: 1000
+    Class: Battlefield
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+      Detector: true

@@ -1,0 +1,445 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 3087
+    AegisName: M_NYDHOG
+    Name: Nyddhog
+    Level: 160
+    Hp: 52133
+    BaseExp: 83413
+    JobExp: 54218
+    Attack: 1835
+    Attack2: 2279
+    Defense: 36
+    MagicDefense: 21
+    Str: 76
+    Agi: 66
+    Vit: 90
+    Int: 55
+    Dex: 189
+    Luk: 22
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 175
+    AttackDelay: 800
+    AttackMotion: 750
+    DamageMotion: 300
+    Ai: 04
+    Modes:
+      Detector: true
+  - Id: 3088
+    AegisName: MM_BRINARANEA_BABY
+    Name: Brinarea Baby
+    Level: 155
+    Hp: 39696
+    JobExp: 41284
+    Attack: 2051
+    Attack2: 2267
+    Defense: 32
+    MagicDefense: 23
+    Str: 16
+    Agi: 26
+    Vit: 30
+    Int: 115
+    Dex: 79
+    Luk: 5
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 300
+    AttackDelay: 1000
+    AttackMotion: 1000
+    DamageMotion: 1000
+    Ai: 04
+    Modes:
+      Detector: true
+  - Id: 3089
+    AegisName: MM_LOCO_KASA
+    Name: Loco Kasa
+    Level: 155
+    Hp: 47197
+    Attack: 3266
+    Attack2: 3932
+    Defense: 35
+    MagicDefense: 19
+    Str: 88
+    Agi: 44
+    Vit: 88
+    Int: 21
+    Dex: 95
+    Luk: 44
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 1500
+    AttackMotion: 600
+    DamageMotion: 500
+    Ai: 04
+    Modes:
+      Detector: true
+  - Id: 3090
+    AegisName: MM_LOCO_SALAMANDER
+    Name: Loco Salamander
+    Level: 155
+    Hp: 55526
+    Attack: 2357
+    Attack2: 3428
+    Defense: 33
+    MagicDefense: 20
+    Str: 60
+    Agi: 103
+    Vit: 45
+    Int: 35
+    Dex: 172
+    Luk: 15
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 1000
+    AttackMotion: 500
+    DamageMotion: 600
+    Ai: 04
+    Modes:
+      Detector: true
+  - Id: 3091
+    AegisName: MM_BRINARANEA
+    Name: Brinararea
+    Level: 165
+    Hp: 866949
+    Attack: 8255
+    Attack2: 28452
+    Defense: 34
+    MagicDefense: 23
+    Str: 135
+    Agi: 135
+    Vit: 12
+    Int: 72
+    Dex: 220
+    Luk: 91
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Water
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 1020
+    AttackMotion: 500
+    DamageMotion: 768
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Brinaranea_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3092
+    AegisName: MM_MUSPELLSKOLL
+    Name: Muspelskoll
+    Level: 165
+    Hp: 746778
+    Attack: 9600
+    Attack2: 11970
+    Defense: 33
+    MagicDefense: 22
+    Str: 202
+    Agi: 119
+    Vit: 6
+    Int: 45
+    Dex: 275
+    Luk: 71
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 608
+    AttackMotion: 408
+    DamageMotion: 336
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Muspellskoll_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3093
+    AegisName: MM_BRINARANEA_CORE
+    Name: Brinararea Core
+    Level: 160
+    Hp: 73
+    Attack: 1
+    Attack2: 2
+    Defense: 32
+    MagicDefense: 19
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Water
+    ElementLevel: 1
+    WalkSpeed: 250
+    AttackDelay: 2456
+    AttackMotion: 912
+    DamageMotion: 504
+    Ai: 04
+    Modes:
+      Detector: true
+  - Id: 3094
+    AegisName: MM_MUSPELLSKOLL_CORE
+    Name: Muspelskoll Core
+    Level: 160
+    Hp: 73
+    Attack: 1
+    Attack2: 2
+    Defense: 32
+    MagicDefense: 19
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Fire
+    ElementLevel: 1
+    WalkSpeed: 250
+    AttackDelay: 2456
+    AttackMotion: 912
+    DamageMotion: 504
+    Ai: 04
+    Modes:
+      Detector: true
+  - Id: 3095
+    AegisName: MM_GOD_SHADOW
+    Name: God Shadow
+    Level: 1
+    Hp: 1000000
+    Attack: 1
+    Attack2: 1
+    Defense: 1
+    MagicDefense: 1
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Fire
+    ElementLevel: 1
+    WalkSpeed: 250
+    AttackDelay: 2456
+    AttackMotion: 912
+    DamageMotion: 504
+    Ai: 04
+    Modes:
+      Detector: true
+  - Id: 3096
+    AegisName: MM_MOROCC_KID
+    Name: Morocc Kid
+    Level: 175
+    Hp: 826147
+    Attack: 4249
+    Attack2: 6241
+    Defense: 35
+    MagicDefense: 24
+    Str: 90
+    Agi: 122
+    Vit: 7
+    Int: 87
+    Dex: 287
+    Luk: 36
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Holy
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 1000
+    AttackMotion: 460
+    DamageMotion: 350
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: M_Morocc_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3097
+    AegisName: MM_MOROCC_ADT
+    Name: Morocc Adult
+    Level: 175
+    Hp: 994221
+    Attack: 4715
+    Attack2: 6924
+    Defense: 36
+    MagicDefense: 25
+    Str: 122
+    Agi: 103
+    Vit: 12
+    Int: 106
+    Dex: 269
+    Luk: 51
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 750
+    AttackMotion: 510
+    DamageMotion: 500
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Despair_God_Morocc_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3098
+    AegisName: MM_MOROCC_ORIGIN
+    Name: Morocc Origin
+    Level: 160
+    Hp: 505800
+    Attack: 6177
+    Attack2: 6217
+    Defense: 32
+    MagicDefense: 21
+    Str: 195
+    Agi: 35
+    Vit: 5
+    Int: 36
+    Dex: 355
+    Luk: 7
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Dark
+    ElementLevel: 4
+    WalkSpeed: 350
+    AttackDelay: 2000
+    AttackMotion: 750
+    DamageMotion: 750
+    Ai: 04
+    Modes:
+      Detector: true
+  - Id: 3099
+    AegisName: MM_MOROCC_REST
+    Name: Morocc Origin
+    Level: 160
+    Hp: 351598
+    Attack: 2963
+    Attack2: 3030
+    Defense: 33
+    MagicDefense: 21
+    Str: 110
+    Agi: 98
+    Vit: 13
+    Int: 48
+    Dex: 271
+    Luk: 9
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Dark
+    ElementLevel: 4
+    WalkSpeed: 200
+    AttackDelay: 500
+    AttackMotion: 510
+    DamageMotion: 350
+    Ai: 04
+    Modes:
+      Detector: true
+  - Id: 3101
+    AegisName: MM_MANA_WHITE
+    Name: Mana White
+    Level: 1
+    Hp: 30
+    Attack: 1
+    Attack2: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 1000
+    AttackDelay: 1
+    AttackMotion: 1
+    DamageMotion: 1
+    Ai: 04
+    Modes:
+      Detector: true
+  - Id: 3102
+    AegisName: MM_MANA_RED
+    Name: Mana of Life
+    Level: 1
+    Hp: 30
+    Attack: 1
+    Attack2: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 1000
+    AttackDelay: 1
+    AttackMotion: 1
+    DamageMotion: 1
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+  - Id: 3103
+    AegisName: MM_MANA_YELLOW
+    Name: Mana of Earth
+    Level: 1
+    Hp: 30
+    Attack: 1
+    Attack2: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 1000
+    AttackDelay: 1
+    AttackMotion: 1
+    DamageMotion: 1
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true

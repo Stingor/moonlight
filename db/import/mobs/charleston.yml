@@ -1,0 +1,231 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 3122
+    AegisName: CHARLESTON1
+    Name: Charleston 1
+    Level: 140
+    Hp: 784822
+    BaseExp: 1255715
+    JobExp: 816215
+    Attack: 32100
+    Attack2: 39050
+    Defense: 37
+    MagicDefense: 22
+    Str: 189
+    Agi: 78
+    Vit: 81
+    Int: 51
+    Dex: 108
+    Luk: 56
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Brute
+    Element: Earth
+    ElementLevel: 1
+    WalkSpeed: 150
+    AttackDelay: 676
+    AttackMotion: 2400
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+  - Id: 3123
+    AegisName: CHARLESTON2
+    Name: Charleston 2
+    Level: 140
+    Hp: 784822
+    BaseExp: 1255715
+    JobExp: 816215
+    Attack: 32100
+    Attack2: 39050
+    Defense: 37
+    MagicDefense: 22
+    Str: 189
+    Agi: 78
+    Vit: 81
+    Int: 51
+    Dex: 108
+    Luk: 56
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Brute
+    Element: Earth
+    ElementLevel: 1
+    WalkSpeed: 150
+    AttackDelay: 676
+    AttackMotion: 2400
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+  - Id: 3125
+    AegisName: STEP
+    Name: Step
+    Level: 130
+    Hp: 18728
+    BaseExp: 29965
+    JobExp: 19477
+    Attack: 4871
+    Attack2: 8566
+    Defense: 34
+    MagicDefense: 21
+    Str: 117
+    Agi: 127
+    Vit: 55
+    Int: 61
+    Dex: 116
+    Luk: 60
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 100
+    AttackDelay: 676
+    AttackMotion: 672
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Crushed_Can_Iron_Plate
+        Rate: 1000
+      - Item: Iron
+        Rate: 150
+      - Item: Explosive_Powder
+        Rate: 400
+      - Item: Huge_Metal_Scrap
+        Rate: 50
+      - Item: Old_Fuel
+        Rate: 50
+      - Item: Step_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3126
+    AegisName: ROCK_STEP
+    Name: Lockstep
+    Level: 131
+    Hp: 23727
+    BaseExp: 37963
+    JobExp: 24676
+    Attack: 5100
+    Attack2: 8425
+    Defense: 35
+    MagicDefense: 24
+    Str: 99
+    Agi: 95
+    Vit: 70
+    Int: 124
+    Dex: 155
+    Luk: 80
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 676
+    AttackMotion: 1056
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Failed_Engine
+        Rate: 500
+      - Item: Steel
+        Rate: 350
+      - Item: Old_Steel_Plate
+        Rate: 500
+      - Item: Huge_Metal_Scrap
+        Rate: 50
+      - Item: Old_Fuel
+        Rate: 50
+      - Item: Rock_Step_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3127
+    AegisName: KICK_STEP
+    Name: Hallway 1 Security Devi
+    Level: 132
+    Hp: 24293
+    BaseExp: 38869
+    JobExp: 25265
+    Attack: 5151
+    Attack2: 8369
+    Defense: 35
+    MagicDefense: 24
+    Str: 99
+    Agi: 92
+    Vit: 72
+    Int: 122
+    Dex: 161
+    Luk: 76
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 676
+    AttackMotion: 816
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Failed_Engine
+        Rate: 400
+      - Item: Steel
+        Rate: 250
+      - Item: Old_Steel_Plate
+        Rate: 300
+      - Item: Kick_Step_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3128
+    AegisName: KICK_AND_KICK
+    Name: Security Robot
+    Level: 133
+    Hp: 22168
+    BaseExp: 35469
+    JobExp: 23055
+    Attack: 5484
+    Attack2: 8642
+    Defense: 35
+    MagicDefense: 21
+    Str: 164
+    Agi: 116
+    Vit: 66
+    Int: 59
+    Dex: 141
+    Luk: 58
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 676
+    AttackMotion: 576
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Crushed_Can_Iron_Plate
+        Rate: 500
+      - Item: Iron
+        Rate: 100
+      - Item: Kick_&_Kick_Card
+        Rate: 1
+        StealProtected: true

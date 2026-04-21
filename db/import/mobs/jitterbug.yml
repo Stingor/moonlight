@@ -1,0 +1,273 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 3069
+    AegisName: PERE1
+    Name: Ferre
+    Level: 125
+    Hp: 17431
+    BaseExp: 27890
+    JobExp: 18128
+    Attack: 1871
+    Attack2: 695
+    Defense: 28
+    MagicDefense: 17
+    Str: 109
+    Agi: 121
+    Vit: 50
+    Int: 55
+    Dex: 108
+    Luk: 55
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demon
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 676
+    AttackMotion: 672
+    DamageMotion: 480
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Blue_Potion
+        Rate: 50
+      - Item: Harden_Breastplate
+        Rate: 1
+      - Item: Mud_Lump
+        Rate: 100
+      - Item: Yellow_Live
+        Rate: 300
+      - Item: Great_Nature
+        Rate: 25
+      - Item: Singing_Pere_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3070
+    AegisName: PERE2
+    Name: Ferre
+    Level: 126
+    Hp: 14470
+    BaseExp: 23152
+    JobExp: 15049
+    Attack: 2151
+    Attack2: 218
+    Defense: 29
+    MagicDefense: 20
+    Str: 91
+    Agi: 86
+    Vit: 67
+    Int: 116
+    Dex: 153
+    Luk: 71
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demon
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 676
+    AttackMotion: 1248
+    DamageMotion: 480
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: White_Potion
+        Rate: 100
+      - Item: Frozen_Breastplate
+        Rate: 1
+      - Item: Mud_Lump
+        Rate: 100
+      - Item: Crystal_Blue
+        Rate: 300
+      - Item: Mistic_Frozen
+        Rate: 25
+      - Item: Playing_Pere_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3071
+    AegisName: PERE3
+    Name: Ferre
+    Level: 127
+    Hp: 18700
+    BaseExp: 29920
+    JobExp: 19448
+    Attack: 2100
+    Attack2: 325
+    Defense: 29
+    MagicDefense: 20
+    Str: 91
+    Agi: 89
+    Vit: 65
+    Int: 118
+    Dex: 147
+    Luk: 75
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demon
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 676
+    AttackMotion: 672
+    DamageMotion: 480
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Contabass
+        Rate: 50
+      - Item: Harden_Breastplate
+        Rate: 1
+      - Item: Mud_Lump
+        Rate: 100
+      - Item: Yellow_Live
+        Rate: 300
+      - Item: Great_Nature
+        Rate: 25
+      - Item: Playing_Pere_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3072
+    AegisName: PERE4
+    Name: Ferre
+    Level: 128
+    Hp: 18116
+    BaseExp: 28986
+    JobExp: 18841
+    Attack: 2484
+    Attack2: 158
+    Defense: 29
+    MagicDefense: 17
+    Str: 156
+    Agi: 110
+    Vit: 61
+    Int: 53
+    Dex: 133
+    Luk: 53
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demon
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 676
+    AttackMotion: 1248
+    DamageMotion: 480
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Gymnastics_Ribbon
+        Rate: 50
+      - Item: Frozen_Breastplate
+        Rate: 1
+      - Item: Mud_Lump
+        Rate: 100
+      - Item: Crystal_Blue
+        Rate: 300
+      - Item: Mistic_Frozen
+        Rate: 25
+      - Item: Singing_Pere_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3108
+    AegisName: JITTERBUG1
+    Name: Jitterbug1
+    Level: 135
+    Hp: 831844
+    BaseExp: 1330950
+    JobExp: 865118
+    Attack: 5210
+    Attack2: 1695
+    Defense: 36
+    MagicDefense: 21
+    Str: 189
+    Agi: 78
+    Vit: 81
+    Int: 51
+    Dex: 108
+    Luk: 56
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Undead
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 676
+    AttackMotion: 2592
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Ukulele_Of_Newoz
+        Rate: 250
+      - Item: Winged_Ring_Of_Newoz
+        Rate: 500
+      - Item: Harden_Breastplate
+        Rate: 500
+      - Item: Jitterbug's_Tooth
+        Rate: 5000
+      - Item: Jitterbug's_Tooth
+        Rate: 1000
+      - Item: Jitterbug_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3109
+    AegisName: JITTERBUG2
+    Name: Jitterbug2
+    Level: 135
+    Hp: 831844
+    BaseExp: 1330950
+    JobExp: 865118
+    Attack: 5210
+    Attack2: 1695
+    Defense: 36
+    MagicDefense: 21
+    Str: 189
+    Agi: 78
+    Vit: 81
+    Int: 51
+    Dex: 108
+    Luk: 56
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Undead
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 676
+    AttackMotion: 2592
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Floral_Mic_Of_Igu
+        Rate: 250
+      - Item: Floral_Bracelet_Of_Igu
+        Rate: 500
+      - Item: Frozen_Breastplate
+        Rate: 500
+      - Item: Jitterbug's_Tooth
+        Rate: 5000
+      - Item: Jitterbug's_Tooth
+        Rate: 1000
+      - Item: Jitterbug_Card
+        Rate: 1
+        StealProtected: true

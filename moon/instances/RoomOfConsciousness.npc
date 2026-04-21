@@ -752,7 +752,7 @@ OnMobDead:
 	logmes "Fin d'instance "+instance_live_info(ILI_NAME)+""+('hm>1?" niveau "+'hm+" ":" ")+" Owner: "+getpartyleader(instance_live_info(ILI_OWNER));
 	if( 'hm > 1 ) {
 		getitem 6919,'hm*2+rand('hm*3),convertpcinfo(getpartyleader(instance_live_info(IM_PARTY),2),CPC_ACCOUNT); // Honor_Proof
-		getitem 12246,1,convertpcinfo(getpartyleader(instance_live_info(IM_PARTY),2),CPC_ACCOUNT);				  // Magic_Card_Album
+		if( 'hm > 7 ) getitem 12246,1,convertpcinfo(getpartyleader(instance_live_info(IM_PARTY),2),CPC_ACCOUNT); // Magic_Card_Album
 	}
 
 	if (playerattached() && 'exploit_disabled && ep16_royal == 19) {

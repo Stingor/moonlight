@@ -1,0 +1,462 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 2542
+    AegisName: IRENE_ELDER
+    Name: Doyen Irene
+    JapaneseName: Irene Elder
+    Level: 101
+    Hp: 219257
+    BaseExp: 350811
+    JobExp: 228027
+    Attack: 1749
+    Attack2: 360
+    Defense: 28
+    MagicDefense: 19
+    Str: 82
+    Agi: 36
+    Vit: 55
+    Int: 100
+    Dex: 182
+    Luk: 88
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 170
+    AttackDelay: 1276
+    AttackMotion: 792
+    DamageMotion: 360
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Str_Dish07
+        Rate: 100
+      - Item: Vit_Dish07
+        Rate: 100
+      - Item: Agi_Dish07
+        Rate: 100
+      - Item: Int_Dish07
+        Rate: 100
+      - Item: Dex_Dish07
+        Rate: 100
+      - Item: Luk_Dish07
+        Rate: 100
+      - Item: Cookbook10
+        Rate: 1
+      - Item: Fantastic_Cooking_Kits
+        Rate: 1
+        StealProtected: true
+      - Item: Irene_High_Elder_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 2543
+    AegisName: PAYONSOLDIER
+    Name: 1st Payon Soldier
+    Level: 101
+    Hp: 10175
+    BaseExp: 16280
+    JobExp: 10582
+    Attack: 545
+    Attack2: 51
+    Defense: 21
+    MagicDefense: 14
+    Str: 20
+    Agi: 46
+    Vit: 25
+    Int: 35
+    Dex: 64
+    Luk: 30
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 230
+    AttackDelay: 1384
+    AttackMotion: 792
+    DamageMotion: 360
+    Ai: 09
+    Drops:
+      - Item: Vit_Dish04
+        Rate: 533
+      - Item: Str_Dish04
+        Rate: 533
+      - Item: Agi_Dish04
+        Rate: 533
+      - Item: Luk_Dish04
+        Rate: 533
+      - Item: Int_Dish04
+        Rate: 533
+      - Item: High_end_Cooking_Kits
+        Rate: 266
+      - Item: Dex_Dish04
+        Rate: 533
+      - Item: Cookbook08
+        Rate: 1
+        StealProtected: true
+      - Item: Payon_Soldier_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2544
+    AegisName: PAYONSOLDIER2
+    Name: 2nd Payon Soldier
+    Level: 101
+    Hp: 10681
+    BaseExp: 17090
+    JobExp: 11108
+    Attack: 697
+    Attack2: 51
+    Defense: 21
+    MagicDefense: 14
+    Str: 20
+    Agi: 46
+    Vit: 25
+    Int: 35
+    Dex: 64
+    Luk: 30
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 1452
+    AttackMotion: 792
+    DamageMotion: 360
+    Ai: 09
+    Drops:
+      - Item: Str_Dish06
+        Rate: 400
+      - Item: Int_Dish06
+        Rate: 400
+      - Item: Dex_Dish06
+        Rate: 400
+      - Item: Vit_Dish06
+        Rate: 400
+      - Item: Luk_Dish06
+        Rate: 400
+      - Item: Agi_Dish06
+        Rate: 400
+      - Item: Imperial_Cooking_Kits
+        Rate: 133
+      - Item: Cookbook09
+        Rate: 1
+        StealProtected: true
+      - Item: Payon_Soldier_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2545
+    AegisName: GUARDDOG
+    Name: 1st Guard Dog
+    Level: 101
+    Hp: 10175
+    BaseExp: 16280
+    JobExp: 10582
+    Attack: 547
+    Attack2: 51
+    Defense: 21
+    MagicDefense: 14
+    Str: 20
+    Agi: 46
+    Vit: 25
+    Int: 35
+    Dex: 64
+    Luk: 30
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Brute
+    Element: Earth
+    ElementLevel: 1
+    WalkSpeed: 150
+    AttackDelay: 768
+    AttackMotion: 792
+    DamageMotion: 360
+    Ai: 17
+    Modes:
+      ChangeTargetMelee: true
+      ChangeTargetChase: true
+    Drops:
+      - Item: Str_Dish03
+        Rate: 600
+      - Item: Luk_Dish03
+        Rate: 600
+      - Item: Cookbook06
+        Rate: 1
+      - Item: Int_Dish03
+        Rate: 600
+      - Item: Vit_Dish03
+        Rate: 600
+      - Item: Agi_Dish03
+        Rate: 600
+      - Item: Dex_Dish03
+        Rate: 600
+      - Item: Outdoor_Cooking_Kits
+        Rate: 333
+        StealProtected: true
+  - Id: 2546
+    AegisName: GUARDDOG2
+    Name: 2nd Guard Dog
+    Level: 101
+    Hp: 10681
+    BaseExp: 17090
+    JobExp: 11108
+    Attack: 573
+    Attack2: 51
+    Defense: 21
+    MagicDefense: 14
+    Str: 20
+    Agi: 46
+    Vit: 25
+    Int: 35
+    Dex: 64
+    Luk: 30
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Brute
+    Element: Fire
+    ElementLevel: 1
+    WalkSpeed: 120
+    AttackDelay: 972
+    AttackMotion: 792
+    DamageMotion: 360
+    Ai: 09
+    Drops:
+      - Item: Str_Dish05
+        Rate: 466
+      - Item: Cookbook07
+        Rate: 1
+      - Item: Int_Dish05
+        Rate: 466
+      - Item: Vit_Dish05
+        Rate: 466
+      - Item: Agi_Dish05
+        Rate: 466
+      - Item: Dex_Dish05
+        Rate: 466
+      - Item: Luk_Dish05
+        Rate: 466
+      - Item: Indoor_Cooking_Kits
+        Rate: 200
+        StealProtected: true
+  - Id: 3190
+    AegisName: MM_SARAH
+    Name: Sarah Irene
+    JapaneseName: Sarah
+    Level: 160
+    Hp: 974963
+    Attack: 1090
+    Attack2: 1665
+    Defense: 32
+    MagicDefense: 27
+    Str: 43
+    Agi: 161
+    Vit: 6
+    Int: 188
+    Dex: 225
+    Luk: 136
+    AttackRange: 12
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 1000
+    AttackDelay: 800
+    AttackMotion: 500
+    Ai: 10
+    Modes:
+      NoRandomWalk: true
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+      TeleportBlock: true
+      KnockBackImmune: true
+      SkillImmune: true
+  - Id: 3197
+    AegisName: MM_M_GARGOYLE
+    Name: Mutant Gargoyle
+    JapaneseName: Gargoyle
+    Level: 150
+    Hp: 69038
+    Attack: 712
+    Attack2: 89
+    Defense: 33
+    MagicDefense: 20
+    Str: 147
+    Agi: 110
+    Vit: 66
+    Int: 57
+    Dex: 191
+    Luk: 70
+    AttackRange: 9
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Wind
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 1020
+    AttackMotion: 720
+    DamageMotion: 384
+    Ai: 05
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Zargon
+        Rate: 1940
+      - Item: Petite_DiablOfs_Wing
+        Rate: 250
+      - Item: Elven_Bow
+        Rate: 3
+      - Item: Thimble_Of_Archer
+        Rate: 1
+      - Item: Silence_Arrow
+        Rate: 1000
+      - Item: Elunium_Stone
+        Rate: 119
+  - Id: 3198
+    AegisName: MM_M_GALION
+    Name: Mutant Galion
+    JapaneseName: Galion
+    Level: 150
+    Hp: 78820
+    Attack: 801
+    Attack2: 77
+    Defense: 34
+    MagicDefense: 20
+    Str: 133
+    Agi: 142
+    Vit: 71
+    Int: 45
+    Dex: 166
+    Luk: 45
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Brute
+    Element: Wind
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 864
+    AttackMotion: 624
+    DamageMotion: 360
+    Ai: 07
+    Modes:
+      Aggressive: true
+      KnockBackImmune: true
+    Drops:
+      - Item: Rotten_Meat
+        Rate: 1500
+      - Item: Animal's_Skin
+        Rate: 1500
+      - Item: Rough_Wind
+        Rate: 5
+      - Item: Ulfhedinn
+        Rate: 3
+  - Id: 3199
+    AegisName: MM_M_MUTANT_DRAGON
+    Name: Wicked Mutant Dragon
+    JapaneseName: Mutant Dragon
+    Level: 150
+    Hp: 87350
+    Attack: 1176
+    Attack2: 98
+    Defense: 33
+    MagicDefense: 21
+    Str: 175
+    Agi: 161
+    Vit: 66
+    Int: 68
+    Dex: 201
+    Luk: 35
+    AttackRange: 4
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Dragon
+    Element: Fire
+    ElementLevel: 2
+    WalkSpeed: 250
+    AttackDelay: 1280
+    AttackMotion: 1080
+    DamageMotion: 240
+    Ai: 21
+    Modes:
+      KnockBackImmune: true
+    Drops:
+      - Item: Brigan
+        Rate: 2425
+      - Item: Dragon_Canine
+        Rate: 250
+      - Item: Dragon_Scale
+        Rate: 250
+      - Item: Rotten_Bandage
+        Rate: 250
+      - Item: Legacy_Of_Dragon
+        Rate: 50
+      - Item: Pyroxene
+        Rate: 750
+      - Item: Dragon_Breath
+        Rate: 25
+  - Id: 3200
+    AegisName: MM_M_CHIMERA
+    Name: Wicked Chimera
+    Level: 150
+    Hp: 80969
+    Attack: 1029
+    Attack2: 148
+    Defense: 36
+    MagicDefense: 22
+    Str: 166
+    Agi: 175
+    Vit: 110
+    Int: 88
+    Dex: 188
+    Luk: 85
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Brute
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 772
+    AttackMotion: 672
+    DamageMotion: 360
+    Ai: 21
+    Modes:
+      KnockBackImmune: true
+    Drops:
+      - Item: Brigan
+        Rate: 2668
+      - Item: Slender_Snake
+        Rate: 1250
+      - Item: Lemon
+        Rate: 500
+      - Item: War_Axe
+        Rate: 1
+      - Item: Citrine
+        Rate: 750
+      - Item: Great_Axe
+        Rate: 1
+      - Item: Oridecon
+        Rate: 80

@@ -1076,6 +1076,371 @@ Body:
       - Item: Removal_Card
         Rate: 1
         StealProtected: true
+  - Id: 1800
+    AegisName: G_EREMES_
+    Name: Assassin Cross Eremes
+    Level: 99
+    Hp: 737652
+    BaseExp: 1180243
+    JobExp: 767158
+    Attack: 3189
+    Attack2: 5289
+    Defense: 28
+    MagicDefense: 16
+    Str: 90
+    Agi: 181
+    Vit: 62
+    Int: 37
+    Dex: 146
+    Luk: 60
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Poison
+    ElementLevel: 4
+    WalkSpeed: 100
+    AttackDelay: 76
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Evil_Mind
+        Rate: 300
+  - Id: 1801
+    AegisName: G_HARWORD_
+    Name: Mastersmith Howard
+    JapaneseName: Whitesmith Harword
+    Level: 99
+    Hp: 763145
+    BaseExp: 1221032
+    JobExp: 793671
+    Attack: 4822
+    Attack2: 5033
+    Defense: 30
+    MagicDefense: 16
+    Str: 100
+    Agi: 73
+    Vit: 112
+    Int: 35
+    Dex: 163
+    Luk: 60
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Water
+    ElementLevel: 4
+    WalkSpeed: 100
+    AttackDelay: 76
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Evil_Mind
+        Rate: 300
+  - Id: 1802
+    AegisName: G_MAGALETA_
+    Name: High Priest Margaretha
+    JapaneseName: High Priest Magaleta
+    Level: 99
+    Hp: 571266
+    BaseExp: 914026
+    JobExp: 594117
+    Attack: 1688
+    Attack2: 2580
+    Defense: 28
+    MagicDefense: 22
+    Agi: 84
+    Vit: 64
+    Int: 182
+    Dex: 110
+    Luk: 100
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Holy
+    ElementLevel: 4
+    WalkSpeed: 125
+    AttackDelay: 1152
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Evil_Mind
+        Rate: 300
+  - Id: 1803
+    AegisName: G_SHECIL_
+    Name: Sniper Cecil
+    JapaneseName: Sniper Shecil
+    Level: 99
+    Hp: 705125
+    BaseExp: 1128200
+    JobExp: 733330
+    Attack: 1892
+    Attack2: 5113
+    Defense: 27
+    MagicDefense: 18
+    Agi: 180
+    Vit: 39
+    Int: 67
+    Dex: 232
+    Luk: 130
+    AttackRange: 14
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Wind
+    ElementLevel: 4
+    WalkSpeed: 100
+    AttackDelay: 76
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 20
+    Class: Boss
+    Drops:
+      - Item: Evil_Mind
+        Rate: 300
+  - Id: 1804
+    AegisName: G_KATRINN_
+    Name: High Wizard Kathryne
+    JapaneseName: High Wizard Katrinn
+    Level: 99
+    Hp: 559249
+    BaseExp: 894798
+    JobExp: 581619
+    Attack: 497
+    Attack2: 2094
+    Defense: 27
+    MagicDefense: 24
+    Agi: 89
+    Vit: 42
+    Int: 223
+    Dex: 154
+    Luk: 93
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Ghost
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 1152
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Evil_Mind
+        Rate: 300
+  - Id: 1805
+    AegisName: B_SEYREN_
+    Name: Lord Knight Seyren
+    Level: 99
+    Hp: 5
+    BaseExp: 8
+    JobExp: 5
+    Attack: 7238
+    Attack2: 11040
+    Defense: 29
+    MagicDefense: 17
+    Str: 120
+    Agi: 110
+    Vit: 81
+    Int: 65
+    Dex: 130
+    Luk: 52
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Fire
+    ElementLevel: 4
+    WalkSpeed: 100
+    AttackDelay: 76
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Evil_Mind
+        Rate: 10000
+  - Id: 1806
+    AegisName: B_EREMES_
+    Name: Assassin Cross Eremes
+    Level: 99
+    Hp: 5
+    BaseExp: 8
+    JobExp: 5
+    Attack: 4189
+    Attack2: 8289
+    Defense: 28
+    MagicDefense: 16
+    Str: 90
+    Agi: 181
+    Vit: 62
+    Int: 37
+    Dex: 122
+    Luk: 60
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Poison
+    ElementLevel: 4
+    WalkSpeed: 100
+    AttackDelay: 76
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Evil_Mind
+        Rate: 10000
+  - Id: 1807
+    AegisName: B_HARWORD_
+    Name: Mastersmith Howard
+    JapaneseName: Whitesmith Harword
+    Level: 99
+    Hp: 5
+    BaseExp: 8
+    JobExp: 5
+    Attack: 7822
+    Attack2: 8251
+    Defense: 30
+    MagicDefense: 16
+    Str: 100
+    Agi: 73
+    Vit: 112
+    Int: 35
+    Dex: 136
+    Luk: 60
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Earth
+    ElementLevel: 4
+    WalkSpeed: 100
+    AttackDelay: 76
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Evil_Mind
+        Rate: 10000
+  - Id: 1808
+    AegisName: B_MAGALETA_
+    Name: High Priest Margaretha
+    JapaneseName: High Priest Magaleta
+    Level: 99
+    Hp: 5
+    BaseExp: 8
+    JobExp: 5
+    Attack: 4688
+    Attack2: 5580
+    Defense: 28
+    MagicDefense: 22
+    Agi: 84
+    Vit: 64
+    Int: 182
+    Dex: 92
+    Luk: 100
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Holy
+    ElementLevel: 4
+    WalkSpeed: 125
+    AttackDelay: 1152
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Evil_Mind
+        Rate: 10000
+  - Id: 1809
+    AegisName: B_SHECIL_
+    Name: Sniper Cecil
+    JapaneseName: Sniper Shecil
+    Level: 99
+    Hp: 5
+    BaseExp: 8
+    JobExp: 5
+    Attack: 4892
+    Attack2: 9113
+    Defense: 27
+    MagicDefense: 18
+    Agi: 180
+    Vit: 39
+    Int: 67
+    Dex: 193
+    Luk: 130
+    AttackRange: 14
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Wind
+    ElementLevel: 4
+    WalkSpeed: 100
+    AttackDelay: 76
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Evil_Mind
+        Rate: 10000
+  - Id: 1810
+    AegisName: B_KATRINN_
+    Name: High Wizard Kathryne
+    JapaneseName: High Wizard Katrinn
+    Level: 99
+    Hp: 5
+    BaseExp: 8
+    JobExp: 5
+    Attack: 1197
+    Attack2: 4394
+    Defense: 27
+    MagicDefense: 24
+    Agi: 89
+    Vit: 42
+    Int: 223
+    Dex: 128
+    Luk: 93
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Ghost
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 1152
+    AttackMotion: 384
+    DamageMotion: 288
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Evil_Mind
+        Rate: 10000
   - Id: 2221
     AegisName: RANDEL
     Name: Randel
@@ -1666,6 +2031,90 @@ Body:
         Rate: 100
       - Item: Old_Violet_Box
         Rate: 10
+  - Id: 2242
+    AegisName: MD_DESERT_WOLF
+    Name: Desert Wolf
+    Level: 135
+    Hp: 175527
+    Attack: 676
+    Attack2: 59
+    Defense: 35
+    MagicDefense: 22
+    Str: 151
+    Agi: 69
+    Vit: 63
+    Int: 72
+    Dex: 98
+    Luk: 42
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 150
+    AttackDelay: 200
+    AttackMotion: 420
+    DamageMotion: 288
+    Ai: 21
+    Class: Boss
+  - Id: 2243
+    AegisName: MD_DESERT_WOLF_B
+    Name: Desert Wolf
+    Level: 130
+    Hp: 92801
+    Attack: 33
+    Attack2: 8
+    Defense: 31
+    Str: 101
+    Agi: 12
+    Vit: 8
+    Int: 121
+    Dex: 17
+    Luk: 7
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demon
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 130
+    AttackDelay: 200
+    AttackMotion: 900
+    DamageMotion: 240
+    Ai: 21
+    Class: Boss
+  - Id: 2244
+    AegisName: QUEST_CHEN
+    Name: Dark Martial Arts Maste
+    JapaneseName: Champion Chen
+    Level: 130
+    Hp: 300
+    Attack: 103
+    Attack2: 23
+    Defense: 35
+    MagicDefense: 24
+    Str: 122
+    Agi: 81
+    Vit: 83
+    Int: 130
+    Dex: 201
+    Luk: 61
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Water
+    ElementLevel: 4
+    WalkSpeed: 300
+    AttackDelay: 200
+    AttackMotion: 768
+    DamageMotion: 288
+    Ai: 21
+    Class: Boss
   - Id: 3208
     AegisName: V_EREMES
     Name: Eremes Guille
@@ -2705,368 +3154,3 @@ Body:
     Drops:
       - Item: Evil_Mind
         Rate: 300
-  - Id: 1800
-    AegisName: G_EREMES_
-    Name: Assassin Cross Eremes
-    Level: 99
-    Hp: 737652
-    BaseExp: 1180243
-    JobExp: 767158
-    Attack: 3189
-    Attack2: 5289
-    Defense: 28
-    MagicDefense: 16
-    Str: 90
-    Agi: 181
-    Vit: 62
-    Int: 37
-    Dex: 146
-    Luk: 60
-    AttackRange: 1
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Medium
-    Race: Demihuman
-    Element: Poison
-    ElementLevel: 4
-    WalkSpeed: 100
-    AttackDelay: 76
-    AttackMotion: 384
-    DamageMotion: 288
-    Ai: 21
-    Class: Boss
-    Drops:
-      - Item: Evil_Mind
-        Rate: 300
-  - Id: 1801
-    AegisName: G_HARWORD_
-    Name: Mastersmith Howard
-    JapaneseName: Whitesmith Harword
-    Level: 99
-    Hp: 763145
-    BaseExp: 1221032
-    JobExp: 793671
-    Attack: 4822
-    Attack2: 5033
-    Defense: 30
-    MagicDefense: 16
-    Str: 100
-    Agi: 73
-    Vit: 112
-    Int: 35
-    Dex: 163
-    Luk: 60
-    AttackRange: 1
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Medium
-    Race: Demihuman
-    Element: Water
-    ElementLevel: 4
-    WalkSpeed: 100
-    AttackDelay: 76
-    AttackMotion: 384
-    DamageMotion: 288
-    Ai: 21
-    Class: Boss
-    Drops:
-      - Item: Evil_Mind
-        Rate: 300
-  - Id: 1802
-    AegisName: G_MAGALETA_
-    Name: High Priest Margaretha
-    JapaneseName: High Priest Magaleta
-    Level: 99
-    Hp: 571266
-    BaseExp: 914026
-    JobExp: 594117
-    Attack: 1688
-    Attack2: 2580
-    Defense: 28
-    MagicDefense: 22
-    Agi: 84
-    Vit: 64
-    Int: 182
-    Dex: 110
-    Luk: 100
-    AttackRange: 1
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Medium
-    Race: Demihuman
-    Element: Holy
-    ElementLevel: 4
-    WalkSpeed: 125
-    AttackDelay: 1152
-    AttackMotion: 384
-    DamageMotion: 288
-    Ai: 21
-    Class: Boss
-    Drops:
-      - Item: Evil_Mind
-        Rate: 300
-  - Id: 1803
-    AegisName: G_SHECIL_
-    Name: Sniper Cecil
-    JapaneseName: Sniper Shecil
-    Level: 99
-    Hp: 705125
-    BaseExp: 1128200
-    JobExp: 733330
-    Attack: 1892
-    Attack2: 5113
-    Defense: 27
-    MagicDefense: 18
-    Agi: 180
-    Vit: 39
-    Int: 67
-    Dex: 232
-    Luk: 130
-    AttackRange: 14
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Medium
-    Race: Demihuman
-    Element: Wind
-    ElementLevel: 4
-    WalkSpeed: 100
-    AttackDelay: 76
-    AttackMotion: 384
-    DamageMotion: 288
-    Ai: 20
-    Class: Boss
-    Drops:
-      - Item: Evil_Mind
-        Rate: 300
-  - Id: 1804
-    AegisName: G_KATRINN_
-    Name: High Wizard Kathryne
-    JapaneseName: High Wizard Katrinn
-    Level: 99
-    Hp: 559249
-    BaseExp: 894798
-    JobExp: 581619
-    Attack: 497
-    Attack2: 2094
-    Defense: 27
-    MagicDefense: 24
-    Agi: 89
-    Vit: 42
-    Int: 223
-    Dex: 154
-    Luk: 93
-    AttackRange: 1
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Medium
-    Race: Demihuman
-    Element: Ghost
-    ElementLevel: 3
-    WalkSpeed: 150
-    AttackDelay: 1152
-    AttackMotion: 384
-    DamageMotion: 288
-    Ai: 21
-    Class: Boss
-    Drops:
-      - Item: Evil_Mind
-        Rate: 300
-  - Id: 1805
-    AegisName: B_SEYREN_
-    Name: Lord Knight Seyren
-    Level: 99
-    Hp: 5
-    BaseExp: 8
-    JobExp: 5
-    Attack: 7238
-    Attack2: 11040
-    Defense: 29
-    MagicDefense: 17
-    Str: 120
-    Agi: 110
-    Vit: 81
-    Int: 65
-    Dex: 130
-    Luk: 52
-    AttackRange: 1
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Medium
-    Race: Demihuman
-    Element: Fire
-    ElementLevel: 4
-    WalkSpeed: 100
-    AttackDelay: 76
-    AttackMotion: 384
-    DamageMotion: 288
-    Ai: 21
-    Class: Boss
-    Drops:
-      - Item: Evil_Mind
-        Rate: 10000
-  - Id: 1806
-    AegisName: B_EREMES_
-    Name: Assassin Cross Eremes
-    Level: 99
-    Hp: 5
-    BaseExp: 8
-    JobExp: 5
-    Attack: 4189
-    Attack2: 8289
-    Defense: 28
-    MagicDefense: 16
-    Str: 90
-    Agi: 181
-    Vit: 62
-    Int: 37
-    Dex: 122
-    Luk: 60
-    AttackRange: 1
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Medium
-    Race: Demihuman
-    Element: Poison
-    ElementLevel: 4
-    WalkSpeed: 100
-    AttackDelay: 76
-    AttackMotion: 384
-    DamageMotion: 288
-    Ai: 21
-    Class: Boss
-    Drops:
-      - Item: Evil_Mind
-        Rate: 10000
-  - Id: 1807
-    AegisName: B_HARWORD_
-    Name: Mastersmith Howard
-    JapaneseName: Whitesmith Harword
-    Level: 99
-    Hp: 5
-    BaseExp: 8
-    JobExp: 5
-    Attack: 7822
-    Attack2: 8251
-    Defense: 30
-    MagicDefense: 16
-    Str: 100
-    Agi: 73
-    Vit: 112
-    Int: 35
-    Dex: 136
-    Luk: 60
-    AttackRange: 1
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Medium
-    Race: Demihuman
-    Element: Earth
-    ElementLevel: 4
-    WalkSpeed: 100
-    AttackDelay: 76
-    AttackMotion: 384
-    DamageMotion: 288
-    Ai: 21
-    Class: Boss
-    Drops:
-      - Item: Evil_Mind
-        Rate: 10000
-  - Id: 1808
-    AegisName: B_MAGALETA_
-    Name: High Priest Margaretha
-    JapaneseName: High Priest Magaleta
-    Level: 99
-    Hp: 5
-    BaseExp: 8
-    JobExp: 5
-    Attack: 4688
-    Attack2: 5580
-    Defense: 28
-    MagicDefense: 22
-    Agi: 84
-    Vit: 64
-    Int: 182
-    Dex: 92
-    Luk: 100
-    AttackRange: 1
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Medium
-    Race: Demihuman
-    Element: Holy
-    ElementLevel: 4
-    WalkSpeed: 125
-    AttackDelay: 1152
-    AttackMotion: 384
-    DamageMotion: 288
-    Ai: 21
-    Class: Boss
-    Drops:
-      - Item: Evil_Mind
-        Rate: 10000
-  - Id: 1809
-    AegisName: B_SHECIL_
-    Name: Sniper Cecil
-    JapaneseName: Sniper Shecil
-    Level: 99
-    Hp: 5
-    BaseExp: 8
-    JobExp: 5
-    Attack: 4892
-    Attack2: 9113
-    Defense: 27
-    MagicDefense: 18
-    Agi: 180
-    Vit: 39
-    Int: 67
-    Dex: 193
-    Luk: 130
-    AttackRange: 14
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Medium
-    Race: Demihuman
-    Element: Wind
-    ElementLevel: 4
-    WalkSpeed: 100
-    AttackDelay: 76
-    AttackMotion: 384
-    DamageMotion: 288
-    Ai: 21
-    Class: Boss
-    Drops:
-      - Item: Evil_Mind
-        Rate: 10000
-  - Id: 1810
-    AegisName: B_KATRINN_
-    Name: High Wizard Kathryne
-    JapaneseName: High Wizard Katrinn
-    Level: 99
-    Hp: 5
-    BaseExp: 8
-    JobExp: 5
-    Attack: 1197
-    Attack2: 4394
-    Defense: 27
-    MagicDefense: 24
-    Agi: 89
-    Vit: 42
-    Int: 223
-    Dex: 128
-    Luk: 93
-    AttackRange: 1
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Medium
-    Race: Demihuman
-    Element: Ghost
-    ElementLevel: 3
-    WalkSpeed: 150
-    AttackDelay: 1152
-    AttackMotion: 384
-    DamageMotion: 288
-    Ai: 21
-    Class: Boss
-    Drops:
-      - Item: Evil_Mind
-        Rate: 10000

@@ -418,6 +418,89 @@ Body:
       IgnoreMisc: true
       IgnoreRanged: true
       KnockBackImmune: true
+  - Id: 2320
+    AegisName: BAKONAWA_1
+    Name: Bakonawa
+    Level: 156
+    Hp: 846369
+    Attack: 4801
+    Attack2: 2501
+    Defense: 46
+    Str: 251
+    Agi: 134
+    Vit: 194
+    Int: 70
+    Dex: 237
+    Luk: 66
+    AttackRange: 10
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Dragon
+    Element: Water
+    ElementLevel: 4
+    WalkSpeed: 1000
+    AttackDelay: 440
+    AttackMotion: 672
+    DamageMotion: 432
+    Ai: 10
+    Class: Boss
+  - Id: 2321
+    AegisName: BAKONAWA_2
+    Name: Bakonawa
+    Level: 156
+    Hp: 846369
+    Attack: 4801
+    Attack2: 2501
+    Defense: 46
+    Str: 251
+    Agi: 134
+    Vit: 194
+    Int: 70
+    Dex: 237
+    Luk: 66
+    AttackRange: 10
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Dragon
+    Element: Water
+    ElementLevel: 4
+    WalkSpeed: 1000
+    AttackDelay: 440
+    AttackMotion: 672
+    DamageMotion: 432
+    Ai: 10
+    Class: Boss
+  - Id: 2322
+    AegisName: BAKONAWA_3
+    Name: Bakonawa
+    Level: 156
+    Hp: 846369
+    BaseExp: 1354190
+    JobExp: 880224
+    Attack: 4801
+    Attack2: 2501
+    Defense: 46
+    Str: 251
+    Agi: 134
+    Vit: 194
+    Int: 70
+    Dex: 237
+    Luk: 66
+    AttackRange: 10
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Dragon
+    Element: Water
+    ElementLevel: 4
+    WalkSpeed: 1000
+    AttackDelay: 440
+    AttackMotion: 672
+    DamageMotion: 432
+    Ai: 10
+    Class: Boss
   - Id: 2327
     AegisName: BANGUNGOT_3
     Name: Bangungot
@@ -465,6 +548,239 @@ Body:
         Rate: 10000
       - Item: Bangungot_Card
         Rate: 1
+        StealProtected: true
+  - Id: 2328
+    AegisName: MA_DRUM
+    Name: Drum
+    Level: 1
+    Hp: 200
+    Attack: 1
+    Attack2: 1
+    Defense: 1
+    MagicDefense: 1
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Dex: 0
+    Luk: 0
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 1000
+    AttackDelay: 1
+    AttackMotion: 1
+    DamageMotion: 1
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+  - Id: 2329
+    AegisName: BUWAYA_EGG
+    Name: Buwaya's Egg
+    Level: 100
+    Hp: 5144
+    Attack: 1
+    Attack2: 1
+    Defense: 20
+    MagicDefense: 12
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 3
+    WalkSpeed: 1000
+    AttackDelay: 1001
+    AttackMotion: 1
+    DamageMotion: 1
+  - Id: 2330
+    AegisName: BUWAYA_SLAVE
+    Name: Slave
+    JapaneseName: Buwaya's Slave
+    Level: 135
+    Hp: 6411
+    Attack: 2413
+    Attack2: 2041
+    Defense: 32
+    MagicDefense: 20
+    Str: 151
+    Agi: 120
+    Vit: 110
+    Int: 102
+    Dex: 143
+    Luk: 61
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Plant
+    Element: Earth
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 576
+    AttackMotion: 960
+    DamageMotion: 504
+    Ai: 21
+    Modes:
+      Detector: true
+  - Id: 2331
+    AegisName: MA_SEAW
+    Name: Seaweed
+    Level: 100
+    Hp: 5
+    Attack: 1
+    Attack2: 1
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Fish
+    Element: Water
+    ElementLevel: 1
+    WalkSpeed: 1000
+    AttackDelay: 384
+    AttackMotion: 720
+    DamageMotion: 360
+    Ai: 10
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+      Detector: true
+  - Id: 2332
+    AegisName: BUWAYA_GHOST
+    Name: Buwaya
+    JapaneseName: Fake Buwaya
+    Level: 138
+    Hp: 9217
+    Attack: 1280
+    Attack2: 1252
+    Defense: 41
+    MagicDefense: 24
+    Str: 201
+    Agi: 248
+    Vit: 174
+    Int: 112
+    Dex: 371
+    Luk: 57
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Plant
+    Element: Water
+    ElementLevel: 4
+    WalkSpeed: 100
+    AttackDelay: 1424
+    AttackMotion: 576
+    DamageMotion: 360
+    Ai: 21
+    Class: Boss
+  - Id: 2333
+    AegisName: BUWAYA_WEAK
+    Name: Weakpoint
+    JapaneseName: Buwaya's Weakness
+    Level: 138
+    Hp: 6
+    Attack2: 1
+    Defense: 28
+    MagicDefense: 17
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Dex: 0
+    Luk: 0
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Plant
+    Element: Water
+    ElementLevel: 4
+    WalkSpeed: 1000
+    AttackDelay: 1
+    AttackMotion: 1
+    DamageMotion: 1
+    Class: Guardian
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+      KnockBackImmune: true
+  - Id: 2334
+    AegisName: G_WAKWAK
+    Name: Wakwak
+    Level: 145
+    Hp: 55302
+    Attack: 1544
+    Attack2: 3171
+    Defense: 34
+    MagicDefense: 25
+    Str: 101
+    Agi: 154
+    Vit: 104
+    Int: 184
+    Dex: 151
+    Luk: 71
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 424
+    AttackMotion: 576
+    DamageMotion: 360
+    Ai: 02
+  - Id: 2335
+    AegisName: MA_TREASURE
+    Name: Bakonawa's Treasure
+    JapaneseName: Treasure Chest
+    Level: 140
+    Hp: 2
+    Defense: 33
+    Dex: 1199
+    Str: 0
+    Agi: 0
+    Vit: 0
+    Int: 0
+    Luk: 0
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Holy
+    ElementLevel: 1
+    Class: Boss
+    Drops:
+      - Item: Bakonawa_Doll
+        Rate: 2000
+      - Item: Bakonawa_Spirit_Piece
+        Rate: 50
+      - Item: Ancient_Grudge
+        Rate: 2000
+      - Item: Bakonawa_Armor
+        Rate: 1000
+      - Item: Kalasak
+        Rate: 100
+      - Item: Gold
+        Rate: 2000
+      - Item: Ancient_Grudge
+        Rate: 10000
+      - Item: Bakonawa_Card
+        Rate: 10
         StealProtected: true
   - Id: 2338
     AegisName: MD_MANANANGGAL

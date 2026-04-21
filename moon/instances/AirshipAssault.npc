@@ -910,7 +910,7 @@ OnStart:
 	disablenpc instance_npcname("Wywern#2air2");
 	disablenpc instance_npcname("Wywern#3air2");
 	enablenpc instance_npcname("calla#air2");
-	monster 'map_air2$,235,49,"Wywern",3180,1, instance_npcname("calla#air2") + "::OnMyMobDead";// E1_G_S_NYDHOG
+	mobhm('hm,0,'map_air2$,235,49,"Wywern",3180,1, instance_npcname("calla#air2") + "::OnMyMobDead");// E1_G_S_NYDHOG
 	end;
 OnMyMobDead:
 	if (mobcount( 'map_air2$, instance_npcname("calla#air2") + "::OnMyMobDead" ) < 1) {
@@ -1026,7 +1026,7 @@ OnStart:
 	disablenpc instance_npcname("Captain Ferlock#air2");
 	disablenpc instance_npcname("Iris#2air2");
 	enablenpc instance_npcname("callb#air2");
-	monster 'map_air2$,247,51,"Out of control Captain",3181,1, instance_npcname("callb#air2") + "::OnMyMobDead";// E1_FELOCK
+	mobhm('hm,0,'map_air2$,247,51,"Out of control Captain",3181,1, instance_npcname("callb#air2") + "::OnMyMobDead");// E1_FELOCK
 	end;
 OnMyMobDead:
 	if (mobcount( 'map_air2$, instance_npcname("callb#air2") + "::OnMyMobDead" ) < 1)

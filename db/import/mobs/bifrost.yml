@@ -3,58 +3,6 @@ Header:
   Version: 5
 
 Body:
-  - Id: 2131
-    AegisName: LOST_DRAGON
-    Name: Lost Dragon
-    Level: 135
-    Hp: 193774
-    BaseExp: 310038
-    JobExp: 201525
-    MvpExp: 15000
-    Attack: 1975
-    Attack2: 530
-    Defense: 40
-    MagicDefense: 28
-    Str: 140
-    Agi: 81
-    Vit: 69
-    Int: 122
-    Dex: 147
-    Luk: 61
-    AttackRange: 3
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Large
-    Race: Dragon
-    Element: Dark
-    ElementLevel: 3
-    WalkSpeed: 150
-    AttackDelay: 840
-    AttackMotion: 648
-    DamageMotion: 576
-    Ai: 21
-    Modes:
-      Mvp: true
-    MvpDrops:
-      - Item: Old_Violet_Box
-        Rate: 2500
-      - Item: Old_Card_Album
-        Rate: 5000
-    Drops:
-      - Item: Gold_Ring
-        Rate: 1000
-      - Item: Ancient_Dagger
-        Rate: 1000
-      - Item: Yggdrasilberry
-        Rate: 1000
-      - Item: Seed_Of_Yggdrasil
-        Rate: 500
-      - Item: Leaf_Of_Yggdrasil
-        Rate: 500
-      - Item: Rosebine
-        Rate: 500
-      - Item: Alchemy_Glove
-        Rate: 300
   - Id: 2132
     AegisName: POM_SPIDER
     Name: Pom Spider

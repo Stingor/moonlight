@@ -1,0 +1,390 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 2987
+    AegisName: XM_TREE
+    Name: Decorated Evil Tree
+    Level: 148
+    Hp: 149556
+    BaseExp: 239290
+    JobExp: 155538
+    Attack: 1444
+    Attack2: 1444
+    Defense: 32
+    MagicDefense: 20
+    Str: 44
+    Agi: 66
+    Vit: 44
+    Int: 44
+    Dex: 144
+    Luk: 44
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Undead
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 917
+    AttackMotion: 1584
+    DamageMotion: 576
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Hanging_Doll
+        Rate: 900
+      - Item: Rotten_Rope
+        Rate: 2668
+      - Item: Tree_Knot
+        Rate: 2037
+      - Item: Vivid_Notation
+        Rate: 500
+      - Item: Red_Gemstone
+        Rate: 50
+      - Item: Branch_Of_Dead_Tree
+        Rate: 20
+      - Item: Elder_Branch
+        Rate: 200
+      - Item: Decorated_Evil_Tree_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2989
+    AegisName: XM_COOKIE
+    Name: Vicious Cookie
+    Level: 149
+    Hp: 51024
+    BaseExp: 81638
+    JobExp: 53065
+    Attack: 1444
+    Attack2: 1
+    Defense: 32
+    MagicDefense: 20
+    Str: 44
+    Agi: 88
+    Vit: 44
+    Int: 44
+    Dex: 144
+    Luk: 44
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demon
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 1248
+    AttackMotion: 1248
+    DamageMotion: 240
+    Ai: 03
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Mould_Powder
+        Rate: 2000
+      - Item: Dark_Red_Jewel
+        Rate: 100
+      - Item: Well_Baked_Cookie
+        Rate: 500
+      - Item: Candy_Striper
+        Rate: 500
+      - Item: Vicious_Cookie_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2990
+    AegisName: XM_CRUISER
+    Name: Corrupt Cruiser
+    Level: 140
+    Hp: 56745
+    Attack: 1444
+    Attack2: 1444
+    Defense: 30
+    MagicDefense: 19
+    Str: 44
+    Agi: 88
+    Vit: 44
+    Int: 44
+    Dex: 144
+    Luk: 44
+    AttackRange: 12
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Undead
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 1296
+    AttackMotion: 1296
+    DamageMotion: 432
+    Ai: 05
+    Modes:
+      Detector: true
+  - Id: 2991
+    AegisName: XM_MYSTCASE
+    Name: Evil Dwelling Box
+    Level: 148
+    Hp: 71146
+    BaseExp: 113834
+    JobExp: 73992
+    Attack: 1444
+    Attack2: 1444
+    Defense: 32
+    MagicDefense: 20
+    Str: 44
+    Agi: 44
+    Vit: 44
+    Int: 44
+    Dex: 44
+    Luk: 44
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 1248
+    AttackMotion: 1248
+    DamageMotion: 432
+    Ai: 03
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Mould_Powder
+        Rate: 2000
+      - Item: Piece_Of_Cake
+        Rate: 100
+      - Item: Bloody_Letter
+        Rate: 50
+      - Item: Unsent_Letter
+        Rate: 50
+      - Item: Evil_Dwelling_Box_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2992
+    AegisName: XM_LUDE
+    Name: Creepy Demon
+    Level: 140
+    Hp: 1334
+    BaseExp: 2134
+    JobExp: 1387
+    Attack: 444
+    Attack2: 444
+    Defense: 30
+    MagicDefense: 19
+    Str: 44
+    Agi: 44
+    Vit: 44
+    Int: 44
+    Dex: 44
+    Luk: 44
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Undead
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 100
+    AttackDelay: 890
+    AttackMotion: 960
+    DamageMotion: 480
+    Ai: 01
+    Modes:
+      Angry: true
+      ChangeTargetMelee: true
+      ChangeTargetChase: true
+    Drops:
+      - Item: Pumpkin_Bucket
+        Rate: 1600
+      - Item: Ectoplasm
+        Rate: 2862
+      - Item: Transparent_Cloth
+        Rate: 500
+      - Item: Gold
+        Rate: 1000
+      - Item: White_Gold_Bullion
+        Rate: 1000
+      - Item: Bloody_Coin
+        Rate: 1000
+      - Item: Bloody_Coin
+        Rate: 1000
+      - Item: Creepy_Demon_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2993
+    AegisName: XM_HYLOZOIST
+    Name: Malicious Baby Ghost
+    Level: 145
+    Hp: 126153
+    BaseExp: 201845
+    JobExp: 131199
+    Attack: 1666
+    Attack2: 1666
+    Defense: 32
+    MagicDefense: 20
+    Str: 144
+    Agi: 66
+    Vit: 66
+    Int: 66
+    Dex: 166
+    Luk: 66
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demon
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 110
+    AttackDelay: 741
+    AttackMotion: 1536
+    DamageMotion: 480
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Broken_Needle
+        Rate: 1000
+      - Item: Spool
+        Rate: 1000
+      - Item: Needle_Pouch
+        Rate: 1000
+      - Item: Stuffed_Doll
+        Rate: 40
+      - Item: Dark_Red_Clot
+        Rate: 1000
+      - Item: Water_Of_Darkness
+        Rate: 500
+      - Item: Malicious_Baby_Ghost_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2994
+    AegisName: XM_MARIONETTE
+    Name: Dancing Marionette
+    Level: 148
+    Hp: 76915
+    BaseExp: 123064
+    JobExp: 79992
+    Attack: 444
+    Attack2: 1444
+    Defense: 32
+    MagicDefense: 24
+    Str: 44
+    Agi: 44
+    Vit: 44
+    Int: 144
+    Dex: 88
+    Luk: 44
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demon
+    Element: Ghost
+    ElementLevel: 1
+    WalkSpeed: 120
+    AttackDelay: 1480
+    AttackMotion: 480
+    DamageMotion: 1056
+    Ai: 09
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Lusty_Iron
+        Rate: 100
+      - Item: Shadow_Walk_
+        Rate: 3
+      - Item: Brooch_
+        Rate: 1
+      - Item: Fire_Scroll_3_5
+        Rate: 250
+      - Item: Dark_Red_Clot
+        Rate: 1000
+      - Item: Damp_Darkness
+        Rate: 100
+      - Item: Dancing_Marionette_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2995
+    AegisName: XM_TEDDY_BEAR
+    Name: Abandoned Teddy Bear
+    Level: 148
+    Hp: 49445
+    BaseExp: 79112
+    JobExp: 51423
+    Attack: 1444
+    Attack2: 1444
+    Defense: 32
+    MagicDefense: 20
+    Str: 44
+    Agi: 166
+    Vit: 44
+    Int: 44
+    Dex: 166
+    Luk: 44
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demon
+    Element: Undead
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 512
+    AttackMotion: 780
+    DamageMotion: 504
+    Ai: 20
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Screw
+        Rate: 1900
+      - Item: Oridecon_Hammer
+        Rate: 150
+      - Item: Str_Dish09
+        Rate: 100
+      - Item: Runstone_Quality
+        Rate: 1000
+      - Item: Runstone_Rare
+        Rate: 100
+      - Item: Abandoned_Teddy_Bear_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2997
+    AegisName: G_XM_CELINE_KIMI
+    Name: Kimi's Phantom
+    Level: 160
+    Hp: 2283308
+    Attack: 6666
+    Attack2: 6666
+    Defense: 39
+    MagicDefense: 40
+    Str: 144
+    Agi: 166
+    Vit: 44
+    Int: 444
+    Dex: 166
+    Luk: 166
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Undead
+    Element: Ghost
+    ElementLevel: 1
+    WalkSpeed: 100
+    AttackDelay: 768
+    AttackMotion: 1056
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Dried_Flower
+        Rate: 10000

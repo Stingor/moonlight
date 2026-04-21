@@ -1,0 +1,270 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 2528
+    AegisName: FACEWORM
+    Name: Faceworm
+    Level: 140
+    Hp: 144843
+    BaseExp: 231749
+    JobExp: 150637
+    Attack: 1818
+    Attack2: 1616
+    Defense: 33
+    MagicDefense: 21
+    Str: 100
+    Agi: 50
+    Vit: 100
+    Int: 100
+    Dex: 100
+    Luk: 50
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Insect
+    Element: Poison
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 384
+    AttackMotion: 720
+    DamageMotion: 480
+    Ai: 10
+    Modes:
+      CanMove: true
+      Detector: true
+    Drops:
+      - Item: Detrimindexta
+        Rate: 100
+      - Item: ShabbyOldScroll
+        Rate: 100
+      - Item: FaceWorm_Leg
+        Rate: 10
+      - Item: Fluorescent_Liquid
+        Rate: 1000
+        StealProtected: true
+      - Item: Karvodailnirol
+        Rate: 100
+        StealProtected: true
+      - Item: Faceworm_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2531
+    AegisName: VENOM_BUG
+    Name: Venom Bug
+    Level: 140
+    Hp: 3002
+    Attack: 340
+    Defense: 38
+    MagicDefense: 25
+    Str: 200
+    Agi: 200
+    Vit: 200
+    Int: 200
+    Dex: 200
+    Luk: 200
+    AttackRange: 1
+    SkillRange: 12
+    ChaseRange: 12
+    Size: Small
+    Race: Insect
+    Element: Poison
+    ElementLevel: 1
+    WalkSpeed: 1000
+    AttackDelay: 384
+    DamageMotion: 480
+    Ai: 10
+    Modes:
+      Detector: true
+      KnockBackImmune: true
+    Drops:
+      - Item: Sticky_Mucus
+        Rate: 5000
+      - Item: Fluorescent_Liquid
+        Rate: 1000
+        StealProtected: true
+  - Id: 2536
+    AegisName: HIDDEN_MOB3
+    Name: Monster 3
+    JapaneseName: Hidden Mob 3
+    Level: 151
+    Hp: 2660
+    Sp: 200
+    Attack: 2000
+    Defense: 35
+    MagicDefense: 22
+    Str: 100
+    Agi: 100
+    Vit: 100
+    Int: 100
+    Dex: 100
+    Luk: 100
+    AttackRange: 1
+    SkillRange: 12
+    ChaseRange: 12
+    Size: Small
+    Race: Insect
+    Element: Ghost
+    ElementLevel: 4
+    WalkSpeed: 1000
+    AttackMotion: 100
+    Ai: 10
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+      Detector: true
+      KnockBackImmune: true
+  - Id: 2537
+    AegisName: HIDDEN_MOB4
+    Name: Monster 4
+    JapaneseName: Hidden Mob 4
+    Level: 151
+    Hp: 2660
+    Sp: 200
+    Attack: 2000
+    Defense: 35
+    MagicDefense: 22
+    Str: 100
+    Agi: 100
+    Vit: 100
+    Int: 100
+    Dex: 100
+    Luk: 100
+    AttackRange: 1
+    SkillRange: 12
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Ghost
+    ElementLevel: 4
+    WalkSpeed: 1000
+    AttackMotion: 100
+    Ai: 10
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+      KnockBackImmune: true
+  - Id: 2539
+    AegisName: HIDDEN_MOB5
+    Name: Monster 5
+    JapaneseName: Hidden Mob 5
+    Level: 151
+    Hp: 2660
+    Sp: 200
+    Attack: 500
+    Defense: 35
+    MagicDefense: 22
+    Str: 100
+    Agi: 100
+    Vit: 100
+    Int: 100
+    Dex: 100
+    Luk: 100
+    AttackRange: 9
+    SkillRange: 12
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Ghost
+    ElementLevel: 4
+    WalkSpeed: 1000
+    AttackMotion: 500
+    Ai: 10
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+      Detector: true
+      KnockBackImmune: true
+  - Id: 2540
+    AegisName: FACEWORM_EGG
+    Name: Faceworm Egg
+    Level: 140
+    Hp: 3
+    BaseExp: 5
+    JobExp: 3
+    Defense: 28
+    MagicDefense: 17
+    Str: 10
+    Agi: 10
+    Vit: 10
+    Int: 10
+    Dex: 10
+    Luk: 10
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Insect
+    Element: Poison
+    ElementLevel: 1
+    WalkSpeed: 150
+    AttackDelay: 24
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+      Detector: true
+      KnockBackImmune: true
+    Drops:
+      - Item: Piece_Of_Egg_Shell
+        Rate: 5000
+      - Item: Sticky_Mucus
+        Rate: 5000
+      - Item: Faceworm_Egg_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 2541
+    AegisName: FACEWORM_LARVA
+    Name: Faceworm Larva
+    Level: 145
+    Hp: 73908
+    BaseExp: 118253
+    JobExp: 76864
+    Attack: 1414
+    Attack2: 1212
+    Defense: 32
+    MagicDefense: 19
+    Str: 10
+    Agi: 50
+    Vit: 50
+    Int: 50
+    Dex: 180
+    Luk: 50
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Insect
+    Element: Poison
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 1000
+    AttackMotion: 792
+    DamageMotion: 336
+    Ai: 10
+    Modes:
+      CanMove: true
+      Detector: true
+    Drops:
+      - Item: Zargon
+        Rate: 225
+      - Item: Round_Shell
+        Rate: 1750
+      - Item: Solid_Shell
+        Rate: 400
+        StealProtected: true
+      - Item: Sticky_Mucus
+        Rate: 1500
+        StealProtected: true
+      - Item: Faceworm_Larva_Card
+        Rate: 1
+        StealProtected: true

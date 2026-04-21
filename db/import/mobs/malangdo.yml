@@ -45,6 +45,576 @@ Body:
         Rate: 2000
       - Item: Jellopy
         Rate: 2000
+  - Id: 2174
+    AegisName: MD_VADON
+    Name: Deep Sea Vadon
+    JapaneseName: Ancient Crustacean
+    Level: 95
+    Hp: 67003
+    BaseExp: 107205
+    JobExp: 69683
+    Attack: 778
+    Attack2: 225
+    Defense: 31
+    MagicDefense: 17
+    Str: 145
+    Agi: 91
+    Vit: 138
+    Int: 60
+    Dex: 113
+    Luk: 45
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Fish
+    Element: Water
+    ElementLevel: 1
+    WalkSpeed: 300
+    AttackDelay: 1632
+    AttackMotion: 432
+    DamageMotion: 540
+    Ai: 20
+    Class: Boss
+    Drops:
+      - Item: Crystal_Blue
+        Rate: 20
+      - Item: Nipper
+        Rate: 4500
+      - Item: Garlet
+        Rate: 1500
+      - Item: Padded_Armor_
+        Rate: 3
+      - Item: Solid_Shell
+        Rate: 50
+      - Item: Elunium_Stone
+        Rate: 20
+      - Item: Low_Coin_Pocket
+        Rate: 2
+        StealProtected: true
+  - Id: 2175
+    AegisName: MD_MARSE
+    Name: Deep Sea Marse
+    JapaneseName: Deepsea Marse
+    Level: 95
+    Hp: 67003
+    BaseExp: 107205
+    JobExp: 69683
+    Attack: 500
+    Attack2: 820
+    Defense: 28
+    MagicDefense: 21
+    Str: 133
+    Agi: 37
+    Vit: 85
+    Int: 156
+    Dex: 133
+    Luk: 60
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Fish
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 300
+    AttackDelay: 1956
+    AttackMotion: 756
+    DamageMotion: 528
+    Ai: 20
+    Class: Boss
+    Drops:
+      - Item: Chinese_Ink
+        Rate: 4500
+      - Item: Tentacle
+        Rate: 1500
+      - Item: Skyblue_Jewel
+        Rate: 5
+      - Item: Mistic_Frozen
+        Rate: 6
+      - Item: Penetration
+        Rate: 3
+      - Item: Grape
+        Rate: 150
+      - Item: Low_Coin_Pocket
+        Rate: 2
+        StealProtected: true
+  - Id: 2176
+    AegisName: MD_CRAB
+    Name: Deep Sea Crab
+    JapaneseName: Deepsea Crab
+    Level: 95
+    Hp: 67003
+    BaseExp: 107205
+    JobExp: 69683
+    Attack: 696
+    Attack2: 234
+    Defense: 28
+    MagicDefense: 16
+    Str: 122
+    Agi: 54
+    Vit: 84
+    Int: 37
+    Dex: 98
+    Luk: 65
+    AttackRange: 1
+    SkillRange: 7
+    ChaseRange: 12
+    Size: Small
+    Race: Fish
+    Element: Water
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 992
+    AttackMotion: 792
+    DamageMotion: 360
+    Ai: 20
+    Class: Boss
+    Drops:
+      - Item: Crap_Shell
+        Rate: 2750
+      - Item: Nipper
+        Rate: 750
+      - Item: Stone
+        Rate: 350
+      - Item: Sparkling_Dust
+        Rate: 7
+      - Item: Elunium_Stone
+        Rate: 19
+      - Item: Low_Coin_Pocket
+        Rate: 2
+        StealProtected: true
+  - Id: 2177
+    AegisName: MD_CORNUTUS
+    Name: Deep Sea Cornutus
+    JapaneseName: Deepsea Cornutus
+    Level: 100
+    Hp: 82298
+    BaseExp: 131677
+    JobExp: 85590
+    Attack: 1129
+    Attack2: 237
+    Defense: 32
+    MagicDefense: 18
+    Str: 122
+    Agi: 87
+    Vit: 135
+    Int: 66
+    Dex: 137
+    Luk: 75
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Fish
+    Element: Water
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 1248
+    AttackMotion: 48
+    DamageMotion: 480
+    Ai: 20
+    Class: Boss
+    Modes:
+      IgnoreMagic: true
+    Drops:
+      - Item: Crystal_Blue
+        Rate: 23
+      - Item: Conch
+        Rate: 2750
+      - Item: Scell
+        Rate: 400
+      - Item: Elunium_Stone
+        Rate: 27
+      - Item: Shield_
+        Rate: 3
+      - Item: Solid_Shell
+        Rate: 500
+      - Item: Low_Coin_Pocket
+        Rate: 3
+        StealProtected: true
+  - Id: 2178
+    AegisName: MD_SHELLFISH
+    Name: Deep Sea Shellfish
+    JapaneseName: Deepsea Shellfish
+    Level: 100
+    Hp: 82298
+    BaseExp: 131677
+    JobExp: 85590
+    Attack: 720
+    Attack2: 1122
+    Defense: 28
+    MagicDefense: 24
+    Str: 72
+    Agi: 31
+    Vit: 68
+    Int: 225
+    Dex: 166
+    Luk: 60
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Fish
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 864
+    AttackMotion: 864
+    DamageMotion: 384
+    Ai: 20
+    Class: Boss
+    Modes:
+      IgnoreMagic: true
+    Drops:
+      - Item: Clam_Shell
+        Rate: 2750
+      - Item: Flesh_Of_Clam
+        Rate: 500
+      - Item: Stone
+        Rate: 250
+      - Item: Grit
+        Rate: 500
+      - Item: Sparkling_Dust
+        Rate: 5
+      - Item: Elunium_Stone
+        Rate: 9
+      - Item: Low_Coin_Pocket
+        Rate: 2
+        StealProtected: true
+  - Id: 2179
+    AegisName: MD_KUKRE
+    Name: Deep Sea Kukre
+    JapaneseName: Ancient Kukre
+    Level: 100
+    Hp: 82298
+    BaseExp: 131677
+    JobExp: 85590
+    Attack: 975
+    Attack2: 118
+    Defense: 31
+    MagicDefense: 17
+    Str: 125
+    Agi: 80
+    Vit: 112
+    Int: 60
+    Dex: 102
+    Luk: 30
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Insect
+    Element: Water
+    ElementLevel: 1
+    WalkSpeed: 150
+    AttackDelay: 1776
+    AttackMotion: 576
+    DamageMotion: 288
+    Ai: 20
+    Class: Boss
+    Drops:
+      - Item: Crystal_Blue
+        Rate: 15
+      - Item: Worm_Peelings
+        Rate: 2750
+      - Item: Garlet
+        Rate: 200
+      - Item: Monster's_Feed
+        Rate: 250
+      - Item: Insect_Feeler
+        Rate: 225
+      - Item: Earthworm_The_Dude
+        Rate: 10
+      - Item: Low_Coin_Pocket
+        Rate: 2
+        StealProtected: true
+  - Id: 2180
+    AegisName: MD_STROUF
+    Name: Deep Sea Strouf
+    JapaneseName: Ancient Sea Lord
+    Level: 145
+    Hp: 113538
+    BaseExp: 181661
+    JobExp: 118080
+    Attack: 1200
+    Attack2: 3500
+    Defense: 38
+    MagicDefense: 30
+    Str: 149
+    Agi: 126
+    Vit: 81
+    Int: 252
+    Dex: 183
+    Luk: 66
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Fish
+    Element: Water
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 1872
+    AttackMotion: 672
+    DamageMotion: 384
+    Ai: 20
+    Class: Boss
+    Drops:
+      - Item: Fin
+        Rate: 2668
+      - Item: Oridecon_Stone
+        Rate: 58
+      - Item: Trident_
+        Rate: 1
+      - Item: Feather
+        Rate: 1500
+      - Item: Skyblue_Jewel
+        Rate: 10
+      - Item: Gill
+        Rate: 750
+      - Item: Mid_Coin_Pocket
+        Rate: 3
+        StealProtected: true
+  - Id: 2181
+    AegisName: MD_SWORD_FISH
+    Name: Deep Sea Sword Fish
+    JapaneseName: Ancient Sword Fish
+    Level: 145
+    Hp: 113538
+    BaseExp: 181661
+    JobExp: 118080
+    Attack: 1849
+    Attack2: 235
+    Defense: 40
+    MagicDefense: 24
+    Str: 155
+    Agi: 156
+    Vit: 115
+    Int: 85
+    Dex: 194
+    Luk: 65
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Fish
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 1968
+    AttackMotion: 768
+    DamageMotion: 384
+    Ai: 20
+    Class: Boss
+    Modes:
+      IgnoreMagic: true
+    Drops:
+      - Item: Mistic_Frozen
+        Rate: 5
+      - Item: Sharp_Scale
+        Rate: 4500
+      - Item: Oridecon_Stone
+        Rate: 17
+      - Item: Snowy_Horn
+        Rate: 1
+      - Item: Elunium_Stone
+        Rate: 25
+      - Item: Gill
+        Rate: 300
+      - Item: Mid_Coin_Pocket
+        Rate: 3
+        StealProtected: true
+  - Id: 2182
+    AegisName: MD_MARC
+    Name: Deep Sea Marc
+    JapaneseName: Ancient Seahorse
+    Level: 145
+    Hp: 113538
+    BaseExp: 181661
+    JobExp: 118080
+    Attack: 1423
+    Attack2: 331
+    Defense: 45
+    MagicDefense: 24
+    Str: 150
+    Agi: 145
+    Vit: 221
+    Int: 83
+    Dex: 148
+    Luk: 66
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Fish
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 1272
+    AttackMotion: 72
+    DamageMotion: 480
+    Ai: 20
+    Class: Boss
+    Drops:
+      - Item: Mistic_Frozen
+        Rate: 9
+      - Item: Gill
+        Rate: 4500
+      - Item: Oridecon_Stone
+        Rate: 48
+      - Item: Fin
+        Rate: 500
+      - Item: Skyblue_Jewel
+        Rate: 5
+      - Item: White_Herb
+        Rate: 350
+      - Item: Old_Coin_Pocket
+        Rate: 3
+        StealProtected: true
+  - Id: 2183
+    AegisName: MD_ANOLIAN
+    Name: Deep Sea Anolian
+    JapaneseName: Mutant Anolian
+    Level: 151
+    Hp: 186211
+    BaseExp: 297938
+    JobExp: 193660
+    Attack: 2122
+    Attack2: 312
+    Defense: 45
+    MagicDefense: 26
+    Str: 177
+    Agi: 188
+    Vit: 205
+    Int: 126
+    Dex: 198
+    Luk: 61
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Fish
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 190
+    AttackDelay: 900
+    AttackMotion: 500
+    DamageMotion: 864
+    Ai: 20
+    Class: Boss
+    Modes:
+      IgnoreMagic: true
+    Drops:
+      - Item: Anolian_Skin
+        Rate: 2425
+      - Item: Crystal_Arrow
+        Rate: 1000
+      - Item: Red_Muffler
+        Rate: 5
+      - Item: Carga_Mace
+        Rate: 3
+      - Item: Brooch_
+        Rate: 1
+      - Item: Oridecon
+        Rate: 67
+      - Item: Mid_Coin_Pocket
+        Rate: 3
+        StealProtected: true
+  - Id: 2184
+    AegisName: MD_OBEAUNE
+    Name: Deep Sea Obeaune
+    JapaneseName: Deepsea Mermaid
+    Level: 151
+    Hp: 186211
+    BaseExp: 297938
+    JobExp: 193660
+    Attack: 1502
+    Attack2: 3845
+    Defense: 40
+    MagicDefense: 30
+    Str: 166
+    Agi: 87
+    Vit: 101
+    Int: 233
+    Dex: 196
+    Luk: 55
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Water
+    ElementLevel: 3
+    WalkSpeed: 200
+    AttackDelay: 1872
+    AttackMotion: 672
+    DamageMotion: 288
+    Ai: 20
+    Class: Boss
+    Drops:
+      - Item: Mistic_Frozen
+        Rate: 7
+      - Item: Heart_Of_Mermaid
+        Rate: 4500
+      - Item: Saint_Robe_
+        Rate: 5
+      - Item: Skyblue_Jewel
+        Rate: 5
+      - Item: Fin
+        Rate: 250
+      - Item: Witherless_Rose
+        Rate: 15
+      - Item: Mid_Coin_Pocket
+        Rate: 3
+        StealProtected: true
+  - Id: 2185
+    AegisName: MD_KAPHA
+    Name: Deep Sea Kapha
+    JapaneseName: Transform Kapha
+    Level: 151
+    Hp: 186211
+    BaseExp: 297938
+    JobExp: 193660
+    Attack: 2590
+    Attack2: 256
+    Defense: 42
+    MagicDefense: 24
+    Str: 167
+    Agi: 209
+    Vit: 128
+    Int: 61
+    Dex: 191
+    Luk: 20
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 165
+    AttackDelay: 2012
+    AttackMotion: 1728
+    DamageMotion: 672
+    Ai: 20
+    Class: Boss
+    Drops:
+      - Item: Yellow_Plate
+        Rate: 3250
+      - Item: Cyfar
+        Rate: 1750
+      - Item: Leaflet_Of_Aloe
+        Rate: 1150
+      - Item: Ment
+        Rate: 1
+      - Item: Guitar_Of_Blue_Solo
+        Rate: 5
+      - Item: Jitte_
+        Rate: 3
+      - Item: Old_Coin_Pocket
+        Rate: 3
+        StealProtected: true
   - Id: 2197
     AegisName: RED_ERUMA
     Name: Red Eruma
@@ -92,6 +662,473 @@ Body:
       - Item: Red_Eruma_Card
         Rate: 1
         StealProtected: true
+  - Id: 2186
+    AegisName: COELACANTH_N_E
+    Name: Coelacanth
+    Level: 100
+    Hp: 617236
+    BaseExp: 987578
+    JobExp: 641926
+    Attack: 1290
+    Attack2: 1290
+    Defense: 33
+    MagicDefense: 21
+    Str: 160
+    Agi: 160
+    Vit: 160
+    Int: 160
+    Dex: 160
+    Luk: 160
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Fish
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 165
+    AttackDelay: 864
+    AttackMotion: 864
+    DamageMotion: 432
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Agrade_Pocket
+        Rate: 5000
+      - Item: Mid_Coin_Pocket
+        Rate: 2000
+      - Item: Low_Coin_Pocket
+        Rate: 2000
+      - Item: High_Weapon_Box
+        Rate: 700
+      - Item: Mid_Coin_Pocket
+        Rate: 2000
+      - Item: Low_Coin_Pocket
+        Rate: 2000
+      - Item: Low_Coin_Pocket
+        Rate: 2000
+      - Item: Low_Coin_Pocket
+        Rate: 2000
+        StealProtected: true
+  - Id: 2187
+    AegisName: COELACANTH_N_A
+    Name: Gloomy Coelacanth
+    JapaneseName: Dark Coelacanth
+    Level: 100
+    Hp: 1131600
+    BaseExp: 1810560
+    JobExp: 1176864
+    Attack: 1890
+    Attack2: 1890
+    Defense: 33
+    MagicDefense: 21
+    Str: 160
+    Agi: 160
+    Vit: 160
+    Int: 160
+    Dex: 160
+    Luk: 160
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Fish
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 165
+    AttackDelay: 864
+    AttackMotion: 864
+    DamageMotion: 432
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Agrade_Pocket
+        Rate: 5000
+      - Item: Mid_Coin_Pocket
+        Rate: 5000
+      - Item: Low_Coin_Pocket
+        Rate: 5000
+      - Item: High_Weapon_Box
+        Rate: 750
+      - Item: Mid_Coin_Pocket
+        Rate: 5000
+      - Item: Low_Coin_Pocket
+        Rate: 5000
+      - Item: Low_Coin_Pocket
+        Rate: 5000
+      - Item: Low_Coin_Pocket
+        Rate: 5000
+        StealProtected: true
+      - Item: Black_Coelacanth_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2188
+    AegisName: COELACANTH_N_M
+    Name: Weird Coelacanth
+    JapaneseName: Grotesque Coelacanth
+    Level: 100
+    Hp: 1131600
+    BaseExp: 1810560
+    JobExp: 1176864
+    Attack: 1890
+    Attack2: 1890
+    Defense: 33
+    MagicDefense: 21
+    Str: 160
+    Agi: 160
+    Vit: 160
+    Int: 160
+    Dex: 160
+    Luk: 160
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Fish
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 165
+    AttackDelay: 864
+    AttackMotion: 864
+    DamageMotion: 432
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Agrade_Pocket
+        Rate: 5000
+      - Item: Mid_Coin_Pocket
+        Rate: 5000
+      - Item: Low_Coin_Pocket
+        Rate: 5000
+      - Item: High_Weapon_Box
+        Rate: 5000
+      - Item: Mid_Coin_Pocket
+        Rate: 5000
+      - Item: Low_Coin_Pocket
+        Rate: 5000
+      - Item: Low_Coin_Pocket
+        Rate: 5000
+      - Item: Low_Coin_Pocket
+        Rate: 5000
+        StealProtected: true
+      - Item: Odd_Coelacanth_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2189
+    AegisName: COELACANTH_H_M
+    Name: Mutant Coelacanth
+    Level: 155
+    Hp: 1326609
+    BaseExp: 2122574
+    JobExp: 1379673
+    Attack: 5500
+    Attack2: 5500
+    Defense: 49
+    MagicDefense: 32
+    Str: 260
+    Agi: 260
+    Vit: 260
+    Int: 260
+    Dex: 260
+    Luk: 260
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Fish
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 165
+    AttackDelay: 864
+    AttackMotion: 864
+    DamageMotion: 432
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Agrade_Pocket
+        Rate: 7000
+      - Item: Anger_Seagod
+        Rate: 7000
+      - Item: Old_Coin_Pocket
+        Rate: 5000
+      - Item: High_Weapon_Box
+        Rate: 5000
+      - Item: Mid_Coin_Pocket
+        Rate: 5000
+      - Item: Low_Coin_Pocket
+        Rate: 5000
+      - Item: Low_Coin_Pocket
+        Rate: 5000
+      - Item: Low_Coin_Pocket
+        Rate: 5000
+        StealProtected: true
+      - Item: Mutant_Coelacanth_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2190
+    AegisName: COELACANTH_H_A
+    Name: Violent Coelacanth
+    JapaneseName: Ferocious Coelacanth
+    Level: 155
+    Hp: 1326609
+    BaseExp: 2122574
+    JobExp: 1379673
+    Attack: 5500
+    Attack2: 5500
+    Defense: 49
+    MagicDefense: 32
+    Str: 260
+    Agi: 260
+    Vit: 260
+    Int: 260
+    Dex: 260
+    Luk: 260
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Fish
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 165
+    AttackDelay: 864
+    AttackMotion: 864
+    DamageMotion: 432
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Agrade_Pocket
+        Rate: 7000
+      - Item: Anger_Seagod
+        Rate: 5000
+      - Item: Old_Coin_Pocket
+        Rate: 5000
+      - Item: High_Weapon_Box
+        Rate: 5000
+      - Item: Mid_Coin_Pocket
+        Rate: 5000
+      - Item: Low_Coin_Pocket
+        Rate: 5000
+      - Item: Low_Coin_Pocket
+        Rate: 5000
+      - Item: Low_Coin_Pocket
+        Rate: 5000
+        StealProtected: true
+      - Item: Cruel_Coelacanth_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2191
+    AegisName: MD_SEAWEED
+    Name: Seaweed
+    Level: 100
+    Hp: 51436
+    Attack: 1
+    Attack2: 1
+    AttackRange: 1
+    Size: Small
+    Race: Fish
+    Element: Water
+    ElementLevel: 1
+    WalkSpeed: 1000
+    AttackDelay: 384
+    AttackMotion: 720
+    DamageMotion: 360
+    Ai: 10
+    Class: Boss
+    Modes:
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+  - Id: 2192
+    AegisName: MD_OCTOPUS
+    Name: Octopus
+    JapaneseName: Small Octopus
+    Level: 90
+    Hp: 3653
+    BaseExp: 5845
+    JobExp: 3799
+    Attack: 778
+    Attack2: 225
+    Defense: 30
+    MagicDefense: 16
+    Str: 145
+    Agi: 91
+    Vit: 138
+    Int: 60
+    Dex: 113
+    Luk: 45
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Fish
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 300
+    AttackDelay: 576
+    AttackMotion: 2160
+    DamageMotion: 504
+    Ai: 20
+    Class: Boss
+    Drops:
+      - Item: Chinese_Ink
+        Rate: 2500
+      - Item: Tentacle
+        Rate: 2500
+      - Item: Low_Coin_Pocket
+        Rate: 1
+        StealProtected: true
+      - Item: Mini_Octopus_Card
+        Rate: 10
+        StealProtected: true
+  - Id: 2193
+    AegisName: MD_OCTOPUS_LEG
+    Name: Octopus Leg
+    JapaneseName: Octupus Leg
+    Level: 90
+    Hp: 304405
+    BaseExp: 487048
+    JobExp: 316581
+    Attack: 778
+    Attack2: 225
+    Defense: 30
+    MagicDefense: 16
+    Str: 145
+    Agi: 91
+    Vit: 138
+    Int: 60
+    Dex: 113
+    Luk: 45
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Fish
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 300
+    AttackDelay: 432
+    AttackMotion: 720
+    DamageMotion: 360
+    Ai: 10
+    Class: Boss
+    Drops:
+      - Item: Chinese_Ink
+        Rate: 4500
+      - Item: Tentacle
+        Rate: 2500
+      - Item: Sticky_Mucus
+        Rate: 2500
+      - Item: Low_Coin_Pocket
+        Rate: 1
+        StealProtected: true
+  - Id: 2194
+    AegisName: MD_GIANT_OCTOPUS
+    Name: Giant Octopus
+    Level: 95
+    Hp: 279179
+    BaseExp: 446686
+    JobExp: 290346
+    Attack: 1900
+    Attack2: 1200
+    Defense: 31
+    MagicDefense: 17
+    Str: 145
+    Agi: 91
+    Vit: 138
+    Int: 60
+    Dex: 113
+    Luk: 45
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Fish
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 300
+    AttackDelay: 576
+    AttackMotion: 1584
+    DamageMotion: 360
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Bgrade_Pocket
+        Rate: 1500
+      - Item: Mid_Coin_Pocket
+        Rate: 500
+      - Item: High_Weapon_Box
+        Rate: 250
+      - Item: White_Potion_Box
+        Rate: 1500
+      - Item: Low_Coin_Pocket
+        Rate: 2000
+      - Item: Low_Coin_Pocket
+        Rate: 2000
+        StealProtected: true
+      - Item: Giant_Octopus_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 2195
+    AegisName: MD_G_KUKRE
+    Name: Kukre
+    JapaneseName: Ancient Kukre
+    Level: 100
+    Hp: 82298
+    Attack: 975
+    Attack2: 118
+    Defense: 26
+    MagicDefense: 14
+    Str: 125
+    Agi: 80
+    Vit: 112
+    Int: 60
+    Dex: 102
+    Luk: 30
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Insect
+    Element: Water
+    ElementLevel: 1
+    WalkSpeed: 150
+    AttackDelay: 1776
+    AttackMotion: 576
+    DamageMotion: 288
+    Ai: 20
+    Modes:
+      Detector: true
+  - Id: 2196
+    AegisName: MD_G_STROUF
+    Name: Strouf
+    JapaneseName: Ancient Sea Lord
+    Level: 145
+    Hp: 113538
+    Attack: 1200
+    Attack2: 3500
+    Defense: 38
+    MagicDefense: 30
+    Str: 149
+    Agi: 126
+    Vit: 81
+    Int: 252
+    Dex: 183
+    Luk: 66
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Fish
+    Element: Water
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 1872
+    AttackMotion: 672
+    DamageMotion: 384
+    Ai: 20
+    Class: Boss
   - Id: 2199
     AegisName: SIORAVA
     Name: Siorava

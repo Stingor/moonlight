@@ -1,0 +1,49 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 3622
+    AegisName: EP16_2_MM_S_GUARDS
+    Name: Special Guard
+    Level: 100
+    Hp: 11272
+    BaseExp: 18035
+    JobExp: 11723
+    Attack: 725
+    Attack2: 170
+    Defense: 23
+    MagicDefense: 14
+    Str: 108
+    Agi: 64
+    Vit: 57
+    Int: 62
+    Dex: 150
+    Luk: 42
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Fire
+    ElementLevel: 1
+    WalkSpeed: 200
+    AttackDelay: 1000
+    AttackMotion: 780
+    DamageMotion: 420
+    Ai: 04
+    Drops:
+      - Item: Boody_Red
+        Rate: 10
+      - Item: Steel
+        Rate: 10
+      - Item: Yellow_Gemstone
+        Rate: 10
+      - Item: Old_Blue_Box
+        Rate: 3
+      - Item: Seed_Of_Yggdrasil
+        Rate: 3
+      - Item: Oridecon_Stone
+        Rate: 15
+      - Item: Oridecon
+        Rate: 8

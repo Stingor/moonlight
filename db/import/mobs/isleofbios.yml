@@ -1,0 +1,470 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 3010
+    AegisName: EP14_3_DEATH_A_MOB1
+    Name: Corrupt Orc Baby
+    Level: 158
+    Hp: 61853
+    BaseExp: 98965
+    JobExp: 64327
+    Attack: 948
+    Attack2: 215
+    Defense: 36
+    MagicDefense: 21
+    Str: 120
+    Agi: 85
+    Vit: 80
+    Int: 60
+    Dex: 88
+    Luk: 50
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demihuman
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 864
+    AttackMotion: 400
+    DamageMotion: 150
+    Ai: 10
+    Modes:
+      CanMove: true
+    Drops:
+      - Item: Yggdrasilberry
+        Rate: 10
+      - Item: Old_Blue_Box
+        Rate: 20
+      - Item: Branch_Of_Dead_Tree
+        Rate: 20
+      - Item: Yellow_Gemstone
+        Rate: 20
+      - Item: Blue_Gemstone
+        Rate: 20
+      - Item: Red_Gemstone
+        Rate: 20
+      - Item: Fruit_Of_Mastela
+        Rate: 20
+  - Id: 3011
+    AegisName: EP14_3_DEATH_A_MOB2
+    Name: Corrupt Baby Desert Wol
+    Level: 158
+    Hp: 57620
+    BaseExp: 92192
+    JobExp: 59925
+    Attack: 948
+    Attack2: 215
+    Defense: 37
+    MagicDefense: 22
+    Str: 100
+    Agi: 85
+    Vit: 100
+    Int: 88
+    Dex: 120
+    Luk: 50
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Brute
+    Element: Fire
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 864
+    AttackMotion: 400
+    DamageMotion: 150
+    Ai: 10
+    Modes:
+      CanMove: true
+    Drops:
+      - Item: Yggdrasilberry
+        Rate: 10
+      - Item: Old_Blue_Box
+        Rate: 20
+      - Item: Branch_Of_Dead_Tree
+        Rate: 20
+      - Item: Yellow_Gemstone
+        Rate: 20
+      - Item: Blue_Gemstone
+        Rate: 20
+      - Item: Red_Gemstone
+        Rate: 20
+      - Item: Fruit_Of_Mastela
+        Rate: 20
+  - Id: 3012
+    AegisName: EP14_3_DEATH_A_MOB3
+    Name: Corrupt Familiar
+    Level: 158
+    Hp: 55061
+    BaseExp: 88098
+    JobExp: 57264
+    Attack: 948
+    Attack2: 215
+    Defense: 35
+    MagicDefense: 21
+    Str: 86
+    Agi: 85
+    Vit: 75
+    Int: 53
+    Dex: 100
+    Luk: 50
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Fish
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 120
+    AttackDelay: 864
+    AttackMotion: 400
+    DamageMotion: 150
+    Ai: 10
+    Modes:
+      CanMove: true
+    Drops:
+      - Item: Yggdrasilberry
+        Rate: 10
+      - Item: Old_Blue_Box
+        Rate: 20
+      - Item: Branch_Of_Dead_Tree
+        Rate: 20
+      - Item: Yellow_Gemstone
+        Rate: 20
+      - Item: Blue_Gemstone
+        Rate: 20
+      - Item: Red_Gemstone
+        Rate: 20
+      - Item: Fruit_Of_Mastela
+        Rate: 20
+  - Id: 3013
+    AegisName: EP14_3_DEATH_B_MOB1
+    Name: Corrupt Orc Warrior
+    Level: 158
+    Hp: 74223
+    BaseExp: 118757
+    JobExp: 77192
+    Attack: 948
+    Attack2: 215
+    Defense: 39
+    MagicDefense: 21
+    Str: 150
+    Agi: 85
+    Vit: 150
+    Int: 40
+    Dex: 122
+    Luk: 70
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 864
+    AttackMotion: 400
+    DamageMotion: 150
+    Ai: 10
+    Modes:
+      CanMove: true
+    Drops:
+      - Item: Yggdrasilberry
+        Rate: 10
+      - Item: Old_Blue_Box
+        Rate: 20
+      - Item: Branch_Of_Dead_Tree
+        Rate: 20
+      - Item: Yellow_Gemstone
+        Rate: 20
+      - Item: Blue_Gemstone
+        Rate: 20
+      - Item: Red_Gemstone
+        Rate: 20
+      - Item: Fruit_Of_Mastela
+        Rate: 20
+  - Id: 3014
+    AegisName: EP14_3_DEATH_B_MOB2
+    Name: Corrupt Desert Wolf
+    Level: 158
+    Hp: 72355
+    BaseExp: 115768
+    JobExp: 75249
+    Attack: 948
+    Attack2: 215
+    Defense: 37
+    MagicDefense: 21
+    Str: 120
+    Agi: 85
+    Vit: 110
+    Int: 55
+    Dex: 130
+    Luk: 70
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Brute
+    Element: Fire
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 864
+    AttackMotion: 400
+    DamageMotion: 150
+    Ai: 10
+    Modes:
+      CanMove: true
+    Drops:
+      - Item: Yggdrasilberry
+        Rate: 10
+      - Item: Old_Blue_Box
+        Rate: 20
+      - Item: Branch_Of_Dead_Tree
+        Rate: 20
+      - Item: Yellow_Gemstone
+        Rate: 20
+      - Item: Blue_Gemstone
+        Rate: 20
+      - Item: Red_Gemstone
+        Rate: 20
+      - Item: Fruit_Of_Mastela
+        Rate: 20
+  - Id: 3015
+    AegisName: EP14_3_DEATH_B_MOB3
+    Name: Corrupt Phen
+    Level: 158
+    Hp: 70292
+    BaseExp: 112467
+    JobExp: 73104
+    Attack: 948
+    Attack2: 215
+    Defense: 36
+    MagicDefense: 22
+    Str: 110
+    Agi: 85
+    Vit: 95
+    Int: 70
+    Dex: 115
+    Luk: 70
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Fish
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 864
+    AttackMotion: 400
+    DamageMotion: 150
+    Ai: 10
+    Modes:
+      CanMove: true
+    Drops:
+      - Item: Yggdrasilberry
+        Rate: 10
+      - Item: Old_Blue_Box
+        Rate: 20
+      - Item: Branch_Of_Dead_Tree
+        Rate: 20
+      - Item: Yellow_Gemstone
+        Rate: 20
+      - Item: Blue_Gemstone
+        Rate: 20
+      - Item: Red_Gemstone
+        Rate: 20
+      - Item: Fruit_Of_Mastela
+        Rate: 20
+  - Id: 3016
+    AegisName: EP14_3_DEATH_C_MOB1
+    Name: Corrupt Orc Zombie
+    Level: 158
+    Hp: 92779
+    BaseExp: 148446
+    JobExp: 96490
+    Attack: 948
+    Attack2: 215
+    Defense: 42
+    MagicDefense: 21
+    Str: 180
+    Agi: 145
+    Vit: 202
+    Int: 40
+    Dex: 88
+    Luk: 30
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Undead
+    ElementLevel: 2
+    WalkSpeed: 170
+    AttackDelay: 864
+    AttackMotion: 400
+    DamageMotion: 150
+    Ai: 10
+    Modes:
+      CanMove: true
+    Drops:
+      - Item: Yggdrasilberry
+        Rate: 10
+      - Item: Old_Blue_Box
+        Rate: 20
+      - Item: Branch_Of_Dead_Tree
+        Rate: 20
+      - Item: Yellow_Gemstone
+        Rate: 20
+      - Item: Blue_Gemstone
+        Rate: 20
+      - Item: Red_Gemstone
+        Rate: 20
+      - Item: Fruit_Of_Mastela
+        Rate: 20
+      - Item: Corrupt_Life_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3017
+    AegisName: EP14_3_DEATH_C_MOB2
+    Name: Corrupt Verit
+    Level: 158
+    Hp: 87266
+    BaseExp: 139626
+    JobExp: 90757
+    Attack: 948
+    Attack2: 215
+    Defense: 39
+    MagicDefense: 21
+    Str: 166
+    Agi: 87
+    Vit: 150
+    Int: 60
+    Dex: 150
+    Luk: 130
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Brute
+    Element: Undead
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 864
+    AttackMotion: 400
+    DamageMotion: 150
+    Ai: 10
+    Modes:
+      CanMove: true
+    Drops:
+      - Item: Yggdrasilberry
+        Rate: 10
+      - Item: Old_Blue_Box
+        Rate: 20
+      - Item: Branch_Of_Dead_Tree
+        Rate: 20
+      - Item: Yellow_Gemstone
+        Rate: 20
+      - Item: Blue_Gemstone
+        Rate: 20
+      - Item: Red_Gemstone
+        Rate: 20
+      - Item: Fruit_Of_Mastela
+        Rate: 20
+  - Id: 3018
+    AegisName: EP14_3_DEATH_C_MOB3
+    Name: Corrupt Megalodon
+    Level: 158
+    Hp: 85954
+    BaseExp: 137526
+    JobExp: 89392
+    Attack: 948
+    Attack2: 215
+    Defense: 39
+    MagicDefense: 23
+    Str: 157
+    Agi: 80
+    Vit: 140
+    Int: 90
+    Dex: 209
+    Luk: 84
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Fish
+    Element: Undead
+    ElementLevel: 2
+    WalkSpeed: 170
+    AttackDelay: 864
+    AttackMotion: 400
+    DamageMotion: 150
+    Ai: 10
+    Modes:
+      CanMove: true
+    Drops:
+      - Item: Yggdrasilberry
+        Rate: 10
+      - Item: Old_Blue_Box
+        Rate: 20
+      - Item: Branch_Of_Dead_Tree
+        Rate: 20
+      - Item: Yellow_Gemstone
+        Rate: 20
+      - Item: Blue_Gemstone
+        Rate: 20
+      - Item: Red_Gemstone
+        Rate: 20
+      - Item: Fruit_Of_Mastela
+        Rate: 20
+  - Id: 3029
+    AegisName: GRIM_REAPER_ANKOU
+    Name: Reaper Yanku
+    JapaneseName: Grim Reaper Ankou
+    Level: 159
+    Hp: 2204926
+    Sp: 1553
+    BaseExp: 3527882
+    JobExp: 2293123
+    Attack: 1500
+    Attack2: 1000
+    Defense: 47
+    MagicDefense: 30
+    Str: 200
+    Agi: 100
+    Vit: 200
+    Int: 200
+    Dex: 220
+    Luk: 100
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Undead
+    Element: Undead
+    ElementLevel: 4
+    WalkSpeed: 200
+    AttackDelay: 900
+    AttackMotion: 864
+    DamageMotion: 480
+    Ai: 10
+    Class: Boss
+    Modes:
+      CanMove: true
+    Drops:
+      - Item: Yggdrasilberry
+        Rate: 500
+      - Item: Old_Blue_Box
+        Rate: 200
+      - Item: Branch_Of_Dead_Tree
+        Rate: 200
+      - Item: PrizeOfHero
+        Rate: 10000
+      - Item: Fruit_Of_Mastela
+        Rate: 200
+      - Item: Grim_Reaper_Ankou_Card
+        Rate: 1
+        StealProtected: true
