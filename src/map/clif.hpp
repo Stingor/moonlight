@@ -1024,8 +1024,9 @@ void clif_wis_end( const map_session_data& sd, e_ack_whisper result );
 
 void clif_solved_charname( const map_session_data& sd, uint32 charid, const char* name );
 void clif_name( const block_list* src, const block_list* bl, send_target target );
+void clif_name_area_per_player(const block_list* bl);
 #define clif_name_self(bl) clif_name( (bl), (bl), SELF )
-#define clif_name_area(bl) clif_name( (bl), (bl), AREA )
+#define clif_name_area(bl) ((bl)->type == BL_MOB ? clif_name_area_per_player(bl) : clif_name( (bl), (bl), AREA ))
 
 void clif_use_card( const map_session_data* sd,int32 idx);
 void clif_insert_card( const map_session_data& sd, int32 idx_equip, int32 idx_card, bool failure );

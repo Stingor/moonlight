@@ -919,6 +919,28 @@ ACMD_FUNC(autolootrare)
 }
 
 /*==========================================
+ * @showmobinfo thx [Doo~]
+ * Loot only rare items in a db
+ *------------------------------------------*/
+ACMD_FUNC(showmobinfo)
+{
+	nullpo_retr(-1, sd);
+	if( sd->state.showmobinfo ) {
+		pc_setglobalreg(sd, add_str("showmobinfo"), 0);
+		sd->state.showmobinfo = 0;
+		clif_displaymessage(fd, msg_txt(sd,1861));
+		clif_refresh(sd);
+	}
+	else {
+		pc_setglobalreg(sd, add_str("showmobinfo"), 1);
+		sd->state.showmobinfo = 1;
+		clif_displaymessage(fd, msg_txt(sd,1860));
+		clif_refresh(sd);
+	}
+	return 0;
+}
+
+/*==========================================
  * @autolootpognon par [Stingor]
  * Loot only worth selected value
  *------------------------------------------*/

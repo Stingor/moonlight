@@ -2617,7 +2617,6 @@ void clif_scriptclear( const map_session_data& sd, int32 npcid ){
 	clif_send( &p, sizeof( p ), &sd, SELF );
  }
 
-
 void clif_sendfakenpc( map_session_data& sd, uint32 npcid ){
 	sd.state.using_fake_npc = 1;
 
@@ -10159,6 +10158,10 @@ void clif_name( const block_list* src, const block_list* bl, send_target target 
 				clif_send(&packet, sizeof(packet), src, target);
 			}else if( battle_config.show_mob_info ){
 				PACKET_ZC_ACK_REQNAMEALL packet = { 0 };
+				const unit_data *ud = nullptr;
+				const map_session_data *sd = nullptr;
+				const char *ele_ptr = nullptr;
+				const char *race_ptr = nullptr;
 
 				packet.packet_id = HEADER_ZC_ACK_REQNAMEALL;
 				packet.gid = bl->id;
@@ -10178,10 +10181,40 @@ void clif_name( const block_list* src, const block_list* bl, send_target target 
 					str_p += sprintf( str_p, "HP: %u%% | ", get_percentage( md->status.hp, md->status.max_hp ) );
 				}
 
+				// Advanced Mob Info inspired by [Doo~]
+				if (battle_config.mob_race_ele_view)
+				{
+					static const char *ele_tbl[] = { "Neutral", "Water", "Earth", "Fire", "Wind", "Poison", "Holy", "Shadow", "Ghost", "Undead" };
+					static const char *race_tbl[] = { "Formless", "Undead", "Brute", "Plant", "Insect", "Fish", "Demon", "D-Human", "Angel", "Dragon" };
+
+					const char *ele_ptr = nullptr;
+					const char *race_ptr = nullptr;
+
+					int ele_idx = md->status.def_ele;
+					if (ele_idx >= 0 && ele_idx < (int)(sizeof(ele_tbl)/sizeof(ele_tbl[0])))
+						ele_ptr = ele_tbl[ele_idx];
+
+					int race_idx = md->status.race;
+					if (race_idx >= 0 && race_idx < (int)(sizeof(race_tbl)/sizeof(race_tbl[0])))
+						race_ptr = race_tbl[race_idx];
+
+					if (src && src->type == BL_PC)
+						sd = (const map_session_data *)src;
+
+					ud = unit_bl2ud(bl);
+
+					if (ele_ptr && race_ptr && sd && sd->state.showmobinfo == 1) {
+						safestrncpy(packet.guild_name, race_ptr, NAME_LENGTH);
+						safestrncpy(packet.position_name, ele_ptr, NAME_LENGTH);
+					}
+				}
+
 				// Even thought mobhp ain't a name, we send it as one so the client can parse it. [Skotlex]
 				if( str_p != mobhp ){
 					*(str_p-3) = '\0'; //Remove trailing space + pipe.
 					safestrncpy( packet.party_name, mobhp, NAME_LENGTH );
+					if (race_ptr) safestrncpy( packet.guild_name, race_ptr, NAME_LENGTH );
+					if (ele_ptr) safestrncpy( packet.position_name, ele_ptr, NAME_LENGTH );
 				}
 
 				clif_send(&packet, sizeof(packet), src, target);
@@ -10213,6 +10246,22 @@ void clif_name( const block_list* src, const block_list* bl, send_target target 
 			ShowError("clif_name: bad type %d(%d)\n", bl->type, bl->id);
 			return;
 	}
+}
+
+// Helper to send clif_name to each player individually so packet can be tailored per receiver
+static int clif_name_area_per_player_sub(block_list* src_bl, va_list ap)
+{
+	const block_list* mob_bl = va_arg(ap, const block_list*);
+	if (src_bl && mob_bl)
+		clif_name(src_bl, mob_bl, SELF);
+	return 0;
+}
+
+void clif_name_area_per_player(const block_list* bl)
+{
+	if (bl == nullptr)
+		return;
+	map_foreachinrange(clif_name_area_per_player_sub, bl, AREA_SIZE, BL_PC, bl);
 }
 
 /// Taekwon Jump (TK_HIGHJUMP) effect (ZC_HIGHJUMP).

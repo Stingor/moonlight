@@ -458,6 +458,7 @@ public:
 		bool autolootmvp: 1;
 		bool autolootmvpreward: 1;
 		bool autolootrare: 1;
+		bool showmobinfo: 1;
 		uint32 autolootpognon;
 		// [Stingor] <--
 		// Bitmask of e_pcblock_action_flag values

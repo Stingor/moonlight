@@ -63,3 +63,5 @@
 	int32 mult_eventexp;
 	int32 mult_eventdrop;
 	int32 debugpos;
+	// element-based mob race view support
+	int32 mob_race_ele_view;

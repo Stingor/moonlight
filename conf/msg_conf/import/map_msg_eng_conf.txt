@@ -1757,3 +1757,6 @@
 // @storagealt
 1850: Storage alternatif %d ouvert.
 1851: Toutes les Cards sont stockées dans le storage alternatif 5.
+
+1860: Vous affichez désormais la race et l'élement des monstres.
+1861: Vous masquez désormais la race et l'élement des monstres.
