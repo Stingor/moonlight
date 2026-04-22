@@ -9659,7 +9659,7 @@ t_tick status_get_sc_def(const block_list* src, const block_list* bl, sc_type ty
 		if (skill != nullptr && skill->skill_type == BF_MAGIC &&
 			!skill->inf2[INF2_IGNOREGTB] &&
 			((skill->inf == INF_ATTACK_SKILL || skill->inf == INF_GROUND_SKILL || skill->inf == INF_SUPPORT_SKILL || skill->inf == INF_SELF_SKILL)
-			 && src != bl)) // Jamais bloquer un status appliqué sur le caster lui-même
+			 && src != bl)) // Jamais bloquer un status applique sur le caster lui-meme
 			return 0;
 	}
 
@@ -10177,8 +10177,29 @@ bool status_change_start(block_list* src, block_list* bl, sc_type type, int32 ra
 
 	nullpo_ret(bl);
 
-	if( !scdb ) {
-		ShowError("status_change_start: Invalid status change (%d)!\n", type);
+    if( !scdb ) {
+		// Enhanced debug information to help locate who is trying to start an invalid SC
+		if (src != nullptr && bl != nullptr) {
+			ShowError("status_change_start: Invalid status change (%d)! src(id=%d,type=0x%X) -> target(id=%d,type=0x%X,map=%d,x=%d,y=%d)\n",
+				type,
+				src->id, src->type,
+				bl->id, bl->type, bl->m, bl->x, bl->y);
+		}
+		else if (src != nullptr) {
+			ShowError("status_change_start: Invalid status change (%d)! src(id=%d,type=0x%X) -> target(NULL)\n",
+				type,
+				src->id, src->type);
+		}
+		else if (bl != nullptr) {
+			ShowError("status_change_start: Invalid status change (%d)! src(NULL) -> target(id=%d,type=0x%X,map=%d,x=%d,y=%d)\n",
+				type,
+				bl->id, bl->type, bl->m, bl->x, bl->y);
+		}
+		else {
+			ShowError("status_change_start: Invalid status change (%d)! src=NULL target=NULL\n", type);
+		}
+
+		// Keep original behavior
 		return false;
 	}
 
