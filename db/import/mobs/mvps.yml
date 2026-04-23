@@ -2056,6 +2056,13 @@ Body:
     Class: Boss
     Modes:
       Mvp: true
+    MvpDrops:
+      - Item: Magic_Card_Album
+        Rate: 5000
+      - Item: Old_Violet_Box
+        Rate: 5000
+      - Item: Goast_Chill
+        Rate: 5000
     Drops:
       - Item: High_Weapon_Box
         Rate: 9000
