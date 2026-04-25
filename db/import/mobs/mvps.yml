@@ -3159,7 +3159,7 @@ Body:
         Rate: 2000
       - Item: Yggdrasilberry
         Rate: 5000
-      - Item: Key_Of_Twisted_Time
+      - Item: Twisted_Key_of_Time
         Rate: 2000
     Drops:
       - Item: Needle_Of_Alarm
