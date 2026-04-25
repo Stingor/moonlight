@@ -56,8 +56,8 @@ HP_MULT_NORMAL  = 1.0    # multiplicateur normal  (lv >= HP_MULT_MIN_LV)
 HP_CAP_NORMAL   = 500000 # seuil de soft cap normal
 HP_MULT_BOSS    = 1.00   # multiplicateur boss
 HP_CAP_BOSS     = 2000000# seuil de soft cap boss
-HP_MULT_MVP     = 1.00   # multiplicateur MVP
-HP_CAP_MVP      = 8000000# seuil de soft cap MVP
+HP_MULT_MVP     = 0.60   # multiplicateur MVP
+HP_CAP_MVP      = 4000000# seuil de soft cap MVP
 HP_SOFT_FACTOR  = 0.02   # croissance residuelle au-dela du seuil
 HP_MULT_MIN_LV  = 50     # niveau minimum pour appliquer la reduction
 HP_MIN          = 1      # valeur HP minimale
@@ -183,7 +183,10 @@ def convert_block(block, dry_run=False, convert_def=True, convert_exp=True, conv
         # For nightmare mobs (AegisName starting with 'N_'), their native HP is x4.
         # Apply the native multiplier before soft-cap calculation so the cap scales accordingly.
         native_mult = 4 if is_nightmare else 1
-        raw = old_hp * mult * (HP_LV_REF / level) ** HP_LV_EXP * native_mult
+        if is_mvp:
+            raw = old_hp * mult ** HP_LV_EXP * native_mult
+        else:
+            raw = old_hp * mult * (HP_LV_REF / level) ** HP_LV_EXP * native_mult
         if raw <= cap:
             new_hp = max(HP_MIN, round(raw))
         else:
