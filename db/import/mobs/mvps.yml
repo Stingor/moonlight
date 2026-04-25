@@ -7,9 +7,9 @@ Body:
     AegisName: B_SEYREN
     Name: Lord Knight Seyren
     Level: 99
-    Hp: 2446244
-    BaseExp: 3913990
-    JobExp: 2544094
+    Hp: 2066750
+    BaseExp: 3306800
+    JobExp: 2149420
     MvpExp: 2417800
     Attack: 7238
     Attack2: 11040
@@ -65,9 +65,9 @@ Body:
     AegisName: B_EREMES
     Name: Assassin Cross Eremes
     Level: 99
-    Hp: 2211029
-    BaseExp: 3537646
-    JobExp: 2299470
+    Hp: 1868024
+    BaseExp: 2988838
+    JobExp: 1942745
     MvpExp: 2041700
     Attack: 4189
     Attack2: 8289
@@ -127,9 +127,9 @@ Body:
     Name: Whitesmith Howard
     JapaneseName: Whitesmith Harword
     Level: 99
-    Hp: 3528237
-    BaseExp: 5645179
-    JobExp: 3669366
+    Hp: 2980889
+    BaseExp: 4769422
+    JobExp: 3100124
     MvpExp: 2001170
     Attack: 7822
     Attack2: 8251
@@ -186,9 +186,9 @@ Body:
     Name: High Priest Margaretha
     JapaneseName: High Priest Magaleta
     Level: 99
-    Hp: 2508969
-    BaseExp: 4014350
-    JobExp: 2609328
+    Hp: 2119743
+    BaseExp: 3391589
+    JobExp: 2204533
     MvpExp: 2128500
     Attack: 4688
     Attack2: 5580
@@ -245,9 +245,9 @@ Body:
     Name: Sniper Cecil
     JapaneseName: Sniper Shecil
     Level: 99
-    Hp: 2163985
-    BaseExp: 3462376
-    JobExp: 2250544
+    Hp: 1828278
+    BaseExp: 2925245
+    JobExp: 1901409
     MvpExp: 2046500
     Attack: 4892
     Attack2: 9113
@@ -304,9 +304,9 @@ Body:
     Name: High Wizard Kathryne
     JapaneseName: High Wizard Katrinn
     Level: 99
-    Hp: 2352158
-    BaseExp: 3763453
-    JobExp: 2446244
+    Hp: 1987259
+    BaseExp: 3179614
+    JobExp: 2066749
     MvpExp: 2004100
     Attack: 1197
     Attack2: 4394
@@ -366,9 +366,9 @@ Body:
     Name: Egnigem Cenia
     JapaneseName: Ygnizem
     Level: 79
-    Hp: 2182595
-    BaseExp: 3492152
-    JobExp: 2269899
+    Hp: 1285133
+    BaseExp: 2056213
+    JobExp: 1336538
     MvpExp: 129380
     Attack: 3890
     Attack2: 5690
@@ -423,9 +423,9 @@ Body:
     Name: Thanatos Phantom
     JapaneseName: Thanatos
     Level: 99
-    Hp: 755649
-    BaseExp: 1209038
-    JobExp: 785875
+    Hp: 638422
+    BaseExp: 1021475
+    JobExp: 663959
     MvpExp: 1833000
     Attack: 3812
     Attack2: 7483
@@ -482,9 +482,9 @@ Body:
     Name: Detardeurus
     JapaneseName: Detale
     Level: 90
-    Hp: 3655908
-    BaseExp: 5849453
-    JobExp: 3802144
+    Hp: 2651887
+    BaseExp: 4243019
+    JobExp: 2757962
     MvpExp: 145925
     Attack: 4560
     Attack2: 5548
@@ -540,9 +540,9 @@ Body:
     AegisName: KIEL_
     Name: Kiel D-01
     Level: 90
-    Hp: 1523244
-    BaseExp: 2437190
-    JobExp: 1584174
+    Hp: 1104916
+    BaseExp: 1767866
+    JobExp: 1149113
     MvpExp: 1178100
     Attack: 3280
     Attack2: 6560
@@ -598,9 +598,9 @@ Body:
     AegisName: RANDGRIS
     Name: Valkyrie Randgris
     Level: 99
-    Hp: 1675259
-    BaseExp: 2680414
-    JobExp: 1742269
+    Hp: 1415370
+    BaseExp: 2264592
+    JobExp: 1471985
     MvpExp: 1427450
     Attack: 5560
     Attack2: 9980
@@ -654,9 +654,9 @@ Body:
     AegisName: GLOOMUNDERNIGHT
     Name: Gloom Under Night
     Level: 89
-    Hp: 1862476
-    BaseExp: 2979962
-    JobExp: 1936975
+    Hp: 1327048
+    BaseExp: 2123277
+    JobExp: 1380130
     MvpExp: 481087
     Attack: 5880
     Attack2: 9516
@@ -710,9 +710,9 @@ Body:
     AegisName: KTULLANUX
     Name: Ktullanux
     Level: 98
-    Hp: 1395093
-    BaseExp: 2232149
-    JobExp: 1450897
+    Hp: 1159676
+    BaseExp: 1855482
+    JobExp: 1206063
     MvpExp: 1360025
     Attack: 1680
     Attack2: 10360
@@ -766,9 +766,9 @@ Body:
     AegisName: ATROCE
     Name: Atroce
     Level: 82
-    Hp: 1061300
-    BaseExp: 1698080
-    JobExp: 1103752
+    Hp: 663303
+    BaseExp: 1061285
+    JobExp: 689835
     MvpExp: 147775
     Attack: 2526
     Attack2: 3646
@@ -824,9 +824,9 @@ Body:
     AegisName: IFRIT
     Name: Ifrit
     Level: 99
-    Hp: 3624937
-    BaseExp: 5799899
-    JobExp: 3769934
+    Hp: 3062587
+    BaseExp: 4900139
+    JobExp: 3185090
     MvpExp: 1577160
     Attack: 13530
     Attack2: 17000
@@ -883,9 +883,9 @@ Body:
     Name: Falling Bishop
     JapaneseName: Fallen Bishop
     Level: 80
-    Hp: 4156798
-    BaseExp: 6650877
-    JobExp: 4323070
+    Hp: 2497322
+    BaseExp: 3995715
+    JobExp: 2597215
     MvpExp: 555555
     Attack: 3220
     Attack2: 5040
@@ -940,7 +940,7 @@ Body:
     AegisName: BEELZEBUB
     Name: Beelzebub
     Level: 98
-    Hp: 3615236
+    Hp: 3005178
     MvpExp: 100000
     Attack: 4100
     Attack2: 4960
@@ -971,9 +971,9 @@ Body:
     AegisName: BEELZEBUB_
     Name: Beelzebub
     Level: 98
-    Hp: 2552713
-    BaseExp: 4084341
-    JobExp: 2654822
+    Hp: 2121951
+    BaseExp: 3395122
+    JobExp: 2206829
     MvpExp: 3333333
     Attack: 10000
     Attack2: 13410
@@ -1027,9 +1027,9 @@ Body:
     AegisName: GOPINICH
     Name: Gopinich
     Level: 85
-    Hp: 747501
-    BaseExp: 1196002
-    JobExp: 777401
+    Hp: 494828
+    BaseExp: 791725
+    JobExp: 514621
     MvpExp: 22625
     Attack: 1868
     Attack2: 6124
@@ -1085,9 +1085,9 @@ Body:
     AegisName: MOROCC_
     Name: Wounded Morocc
     Level: 99
-    Hp: 2613509
-    BaseExp: 4181614
-    JobExp: 2718049
+    Hp: 2208066
+    BaseExp: 3532906
+    JobExp: 2296389
     MvpExp: 1800000
     Attack: 15000
     Attack2: 18000
@@ -1138,9 +1138,9 @@ Body:
     AegisName: NAGHT_SIEGER
     Name: Naght Sieger
     Level: 99
-    Hp: 2613509
-    BaseExp: 4181614
-    JobExp: 2718049
+    Hp: 2208066
+    BaseExp: 3532906
+    JobExp: 2296389
     MvpExp: 100000
     Attack: 32000
     Attack2: 64000
@@ -1189,9 +1189,9 @@ Body:
     AegisName: ENTWEIHEN
     Name: Entweihen Crothen
     Level: 90
-    Hp: 1461450
-    BaseExp: 2338320
-    JobExp: 1519908
+    Hp: 1060092
+    BaseExp: 1696147
+    JobExp: 1102496
     MvpExp: 100000
     Attack: 32000
     Attack2: 40000
@@ -1240,9 +1240,9 @@ Body:
     Name: Nidhoggur's Shadow
     JapaneseName: Nidhoggr's Shadow
     Level: 117
-    Hp: 1381159
-    BaseExp: 2209854
-    JobExp: 1436405
+    Hp: 1524449
+    BaseExp: 2439118
+    JobExp: 1585427
     MvpExp: 2400000
     Attack: 17000
     Attack2: 49000
@@ -1339,9 +1339,9 @@ Body:
     AegisName: BOITATA
     Name: Boitata
     Level: 93
-    Hp: 741753
-    BaseExp: 1186805
-    JobExp: 771423
+    Hp: 567027
+    BaseExp: 907243
+    JobExp: 589708
     MvpExp: 37144
     Attack: 1060
     Attack2: 2022
@@ -1398,9 +1398,9 @@ Body:
     Name: Scaraba Queen
     JapaneseName: Queen Scaraba
     Level: 140
-    Hp: 733061
-    BaseExp: 1172898
-    JobExp: 762384
+    Hp: 1078243
+    BaseExp: 1725189
+    JobExp: 1121373
     MvpExp: 205110
     Attack: 2834
     Attack2: 1240
@@ -1452,9 +1452,9 @@ Body:
     AegisName: LOST_DRAGON
     Name: Lost Dragon
     Level: 135
-    Hp: 193774
-    BaseExp: 310038
-    JobExp: 201525
+    Hp: 268907
+    BaseExp: 430251
+    JobExp: 279663
     MvpExp: 15000
     Attack: 1975
     Attack2: 530
@@ -1504,9 +1504,9 @@ Body:
     AegisName: KRAKEN
     Name: Kraken
     Level: 124
-    Hp: 2042682
-    BaseExp: 3268291
-    JobExp: 2124389
+    Hp: 2474270
+    BaseExp: 3958832
+    JobExp: 2573241
     MvpExp: 491666
     Attack: 3823
     Attack2: 1830
@@ -1560,9 +1560,9 @@ Body:
     AegisName: LEAK
     Name: Leak
     Level: 94
-    Hp: 718951
-    BaseExp: 1150322
-    JobExp: 747709
+    Hp: 559082
+    BaseExp: 894531
+    JobExp: 581445
     MvpExp: 236400
     Attack: 3723
     Attack2: 1284
@@ -1618,9 +1618,9 @@ Body:
     AegisName: I_QUEEN_SCARABA
     Name: Gold Queen Scaraba
     Level: 140
-    Hp: 1934012
-    BaseExp: 3094419
-    JobExp: 2011372
+    Hp: 2844695
+    BaseExp: 4551512
+    JobExp: 2958483
     MvpExp: 2051100
     Attack: 4889
     Attack2: 6440
@@ -1672,9 +1672,9 @@ Body:
     AegisName: B_RANDEL
     Name: Paladin Randel
     Level: 160
-    Hp: 1665847
-    BaseExp: 2665355
-    JobExp: 1732481
+    Hp: 3033882
+    BaseExp: 4854211
+    JobExp: 3155237
     MvpExp: 2310750
     Attack: 5537
     Attack2: 3017
@@ -1730,9 +1730,9 @@ Body:
     AegisName: B_FLAMEL
     Name: Creator Flamel
     Level: 160
-    Hp: 1025696
-    BaseExp: 1641114
-    JobExp: 1066724
+    Hp: 1868024
+    BaseExp: 2988838
+    JobExp: 1942745
     MvpExp: 2611785
     Attack: 2355
     Attack2: 2514
@@ -1794,9 +1794,9 @@ Body:
     AegisName: B_CELIA
     Name: Professor Celia
     Level: 160
-    Hp: 933021
-    BaseExp: 1492834
-    JobExp: 970342
+    Hp: 1699241
+    BaseExp: 2718786
+    JobExp: 1767211
     MvpExp: 2513654
     Attack: 2481
     Attack2: 3114
@@ -1852,10 +1852,10 @@ Body:
     AegisName: B_CHEN
     Name: Champion Chen
     Level: 160
-    Hp: 1030388
+    Hp: 1876569
     Sp: 5000
-    BaseExp: 1648621
-    JobExp: 1071604
+    BaseExp: 3002510
+    JobExp: 1951632
     MvpExp: 2556784
     Attack: 3617
     Attack2: 1947
@@ -1911,9 +1911,9 @@ Body:
     AegisName: B_GERTIE
     Name: Stalker Gertie
     Level: 160
-    Hp: 983814
-    BaseExp: 1574102
-    JobExp: 1023166
+    Hp: 1791748
+    BaseExp: 2866797
+    JobExp: 1863418
     MvpExp: 2210349
     Attack: 6162
     Attack2: 1274
@@ -1969,9 +1969,9 @@ Body:
     AegisName: B_ALPHOCCIO
     Name: Clown Alphoccio
     Level: 160
-    Hp: 944290
-    BaseExp: 1510864
-    JobExp: 982062
+    Hp: 1719764
+    BaseExp: 2751622
+    JobExp: 1788554
     MvpExp: 2113018
     Attack: 2641
     Attack2: 3749
@@ -2027,9 +2027,9 @@ Body:
     AegisName: B_TRENTINI
     Name: Gypsy Trentini
     Level: 160
-    Hp: 944290
-    BaseExp: 1510864
-    JobExp: 982062
+    Hp: 1719764
+    BaseExp: 2751622
+    JobExp: 1788554
     MvpExp: 2231879
     Attack: 2016
     Attack2: 4036
@@ -2086,9 +2086,9 @@ Body:
     Name: Angry Student Pyuriel
     JapaneseName: Pyuriel
     Level: 141
-    Hp: 654528
-    BaseExp: 1047245
-    JobExp: 680709
+    Hp: 973757
+    BaseExp: 1558011
+    JobExp: 1012707
     MvpExp: 750061
     Attack: 2515
     Attack2: 1513
@@ -2142,9 +2142,9 @@ Body:
     AegisName: GIOIA
     Name: Gioia
     Level: 146
-    Hp: 704095
-    BaseExp: 1126552
-    JobExp: 732259
+    Hp: 1107561
+    BaseExp: 1772098
+    JobExp: 1151864
     MvpExp: 751725
     Attack: 1105
     Attack2: 2601
@@ -2199,9 +2199,9 @@ Body:
     Name: General Daehyun
     JapaneseName: Daehyon
     Level: 142
-    Hp: 733795
-    BaseExp: 1174072
-    JobExp: 763147
+    Hp: 1104098
+    BaseExp: 1766557
+    JobExp: 1148262
     MvpExp: 750780
     Attack: 2710
     Attack2: 1410
@@ -2256,9 +2256,9 @@ Body:
     Name: Dark Guardian Kades
     JapaneseName: Kades
     Level: 143
-    Hp: 727010
-    BaseExp: 1163216
-    JobExp: 756090
+    Hp: 1106241
+    BaseExp: 1769986
+    JobExp: 1150491
     MvpExp: 802000
     Attack: 2201
     Attack2: 2001
@@ -2312,9 +2312,9 @@ Body:
     AegisName: BUWAYA
     Name: Buwaya
     Level: 151
-    Hp: 1088101
-    BaseExp: 1740962
-    JobExp: 1131625
+    Hp: 1806359
+    BaseExp: 2890174
+    JobExp: 1878613
     MvpExp: 1500006
     Attack: 3614
     Attack2: 3501
@@ -2369,9 +2369,9 @@ Body:
     Name: Amon Ra (Nightmare)
     JapaneseName: Nightmare Amon Ra
     Level: 145
-    Hp: 2856372
-    BaseExp: 4570195
-    JobExp: 2970627
+    Hp: 4008880
+    BaseExp: 6414208
+    JobExp: 4169235
     MvpExp: 813243
     Attack: 4106
     Attack2: 6201
@@ -2425,9 +2425,9 @@ Body:
     AegisName: MG_CORRUPTION_ROOT
     Name: Corrupted Soul
     Level: 150
-    Hp: 489323
-    BaseExp: 782917
-    JobExp: 508896
+    Hp: 803736
+    BaseExp: 1285978
+    JobExp: 835886
     Attack: 3887
     Attack2: 3887
     Defense: 44
@@ -2473,9 +2473,9 @@ Body:
     AegisName: MG_AMDARAIS
     Name: Amdarias
     Level: 150
-    Hp: 1153404
-    BaseExp: 1845446
-    JobExp: 1199540
+    Hp: 1894520
+    BaseExp: 3031232
+    JobExp: 1970301
     Attack: 5290
     Attack2: 3900
     Defense: 44
@@ -2521,9 +2521,9 @@ Body:
     AegisName: NG_BAPHOMET
     Name: Nightmare Baphomet
     Level: 154
-    Hp: 4132614
-    BaseExp: 6612182
-    JobExp: 4297918
+    Hp: 4061599
+    BaseExp: 6498558
+    JobExp: 4224063
     MvpExp: 198262
     Attack: 3150
     Attack2: 9260
@@ -2579,9 +2579,9 @@ Body:
     AegisName: FACEWORM_QUEEN
     Name: Faceworm Queen
     Level: 155
-    Hp: 8095117
-    BaseExp: 12952187
-    JobExp: 8418922
+    Hp: 4361613
+    BaseExp: 6978581
+    JobExp: 4536078
     MvpExp: 90909
     Attack: 4024
     Attack2: 4006
@@ -2629,9 +2629,9 @@ Body:
     Name: Dark Faceworm
     JapaneseName: Faceworm Dark
     Level: 144
-    Hp: 1435028
-    BaseExp: 2296045
-    JobExp: 1492429
+    Hp: 2208066
+    BaseExp: 3532906
+    JobExp: 2296389
     Attack: 2012
     Attack2: 2003
     Defense: 46
@@ -2670,9 +2670,9 @@ Body:
     Name: Red Faceworm Queen
     JapaneseName: Faceworm Queen (Red)
     Level: 155
-    Hp: 8095117
-    BaseExp: 12952187
-    JobExp: 8418922
+    Hp: 4361613
+    BaseExp: 6978581
+    JobExp: 4536078
     MvpExp: 90909
     Attack: 12000
     Attack2: 15000
@@ -2717,9 +2717,9 @@ Body:
     Name: Green Faceworm Queen
     JapaneseName: Faceworm Queen (Green)
     Level: 155
-    Hp: 8095117
-    BaseExp: 12952187
-    JobExp: 8418922
+    Hp: 4361613
+    BaseExp: 6978581
+    JobExp: 4536078
     MvpExp: 90909
     Attack: 5000
     Attack2: 5000
@@ -2763,9 +2763,9 @@ Body:
     Name: Blue Faceworm Queen
     JapaneseName: Faceworm Queen (Blue)
     Level: 155
-    Hp: 8095117
-    BaseExp: 12952187
-    JobExp: 8418922
+    Hp: 4361613
+    BaseExp: 6978581
+    JobExp: 4536078
     MvpExp: 90909
     Attack: 5000
     Attack2: 10000
@@ -2809,9 +2809,9 @@ Body:
     Name: Yellow Faceworm Queen
     JapaneseName: Faceworm Queen (Yellow)
     Level: 155
-    Hp: 8095117
-    BaseExp: 12952187
-    JobExp: 8418922
+    Hp: 4361613
+    BaseExp: 6978581
+    JobExp: 4536078
     MvpExp: 90909
     Attack: 5000
     Attack2: 5000
@@ -2854,9 +2854,9 @@ Body:
     AegisName: MM_EVIL_FANATICS
     Name: Evil Fanatics
     Level: 151
-    Hp: 2196225
-    BaseExp: 3513960
-    JobExp: 2284074
+    Hp: 3645958
+    BaseExp: 5833533
+    JobExp: 3791796
     Attack: 3350
     Attack2: 167
     Defense: 42
@@ -2891,7 +2891,7 @@ Body:
     AegisName: XM_ANTONIO
     Name: Wicked Vice Plant Manag
     Level: 149
-    Hp: 12
+    Hp: 19
     Attack: 66
     Attack2: 66
     Defense: 42
@@ -2936,9 +2936,9 @@ Body:
     AegisName: XM_CELINE_KIMI
     Name: Celine Kimi
     Level: 160
-    Hp: 6666666
-    BaseExp: 13061293
-    JobExp: 8489840
+    Hp: 4508818
+    BaseExp: 7214109
+    JobExp: 4689171
     MvpExp: 444444
     Attack: 6666
     Attack2: 6666
@@ -2992,9 +2992,9 @@ Body:
     AegisName: EP14_MORS_BOSSA
     Name: Morocc Necromancer
     Level: 158
-    Hp: 989644
-    BaseExp: 1583430
-    JobExp: 1029230
+    Hp: 1766453
+    BaseExp: 2826325
+    JobExp: 1837111
     Attack: 700
     Defense: 49
     MagicDefense: 32
@@ -3036,9 +3036,9 @@ Body:
     AegisName: EP14_MORS_BOSSB
     Name: Morocc Necromancer
     Level: 101
-    Hp: 8649983
-    BaseExp: 13839973
-    JobExp: 8995982
+    Hp: 4626581
+    BaseExp: 7402530
+    JobExp: 4811644
     Attack: 700
     Attack2: 1
     Int: 180
@@ -3075,9 +3075,9 @@ Body:
     Name: Awakened Ferre
     JapaneseName: Grand Pere
     Level: 140
-    Hp: 5846171
-    BaseExp: 9353874
-    JobExp: 6080018
+    Hp: 4091980
+    BaseExp: 6547168
+    JobExp: 4255659
     Attack: 8500
     Attack2: 3000
     Defense: 48
@@ -3125,9 +3125,9 @@ Body:
     AegisName: TIMEHOLDER
     Name: Time Holder
     Level: 170
-    Hp: 5501638
-    BaseExp: 8802621
-    JobExp: 5721704
+    Hp: 4140807
+    BaseExp: 6625291
+    JobExp: 4306439
     MvpExp: 2291250
     Attack: 5250
     Attack2: 9100
@@ -3232,9 +3232,9 @@ Body:
     AegisName: E1_FELOCK
     Name: Captain Ferlock
     Level: 130
-    Hp: 1014103
-    BaseExp: 1622565
-    JobExp: 1054667
+    Hp: 1324839
+    BaseExp: 2119742
+    JobExp: 1377832
     Attack: 5871
     Attack2: 4695
     Defense: 38
@@ -3285,8 +3285,8 @@ Body:
     AegisName: MM_M_GIGAN1
     Name: Gigantes
     Level: 160
-    Hp: 1613325
-    JobExp: 1677858
+    Hp: 2938229
+    JobExp: 3055758
     Attack: 4635
     Attack2: 120
     Defense: 44
@@ -3324,7 +3324,7 @@ Body:
     AegisName: MM_M_GIGAN2
     Name: Gigantes
     Level: 160
-    Hp: 2393291
+    Hp: 4007174
     Attack: 5128
     Attack2: 89
     Defense: 44
@@ -3361,7 +3361,7 @@ Body:
     AegisName: MM_M_GIGAN3
     Name: Ancient Medium Gigantes
     Level: 160
-    Hp: 273107
+    Hp: 497389
     Attack: 3967
     Attack2: 165
     Defense: 44
@@ -3397,7 +3397,7 @@ Body:
     AegisName: MM_L_GIGAN1
     Name: Large Gigantes
     Level: 160
-    Hp: 601839
+    Hp: 1096084
     Attack: 4172
     Attack2: 82
     Defense: 43
@@ -3433,7 +3433,7 @@ Body:
     AegisName: MM_L_GIGAN2
     Name: Large Gigantes
     Level: 160
-    Hp: 675110
+    Hp: 1229528
     Attack: 3641
     Attack2: 116
     Defense: 43
@@ -3468,7 +3468,7 @@ Body:
     AegisName: MM_L_GIGAN3
     Name: Ancient Gigantes
     Level: 160
-    Hp: 2925165
+    Hp: 4026548
     Attack: 8957
     Attack2: 61
     Defense: 42
@@ -3505,9 +3505,9 @@ Body:
     AegisName: V_B_EREMES
     Name: Guillotine Cross Eremes
     Level: 189
-    Hp: 2340464
-    BaseExp: 3744742
-    JobExp: 2434082
+    Hp: 4031287
+    BaseExp: 6450059
+    JobExp: 4192538
     Attack: 16000
     Attack2: 32000
     Defense: 54
@@ -3555,9 +3555,9 @@ Body:
     AegisName: V_B_MAGALETA
     Name: Arch Bishop Margaretha
     Level: 187
-    Hp: 2720735
-    BaseExp: 4353176
-    JobExp: 2829564
+    Hp: 4047185
+    BaseExp: 6475496
+    JobExp: 4209072
     Attack: 5000
     Attack2: 10000
     Defense: 59
@@ -3606,9 +3606,9 @@ Body:
     Name: Ranger Cecil
     JapaneseName: Ranger Shecil
     Level: 189
-    Hp: 2340464
-    BaseExp: 3744742
-    JobExp: 2434082
+    Hp: 4031287
+    BaseExp: 6450059
+    JobExp: 4192538
     Attack: 7000
     Attack2: 14000
     Defense: 55
@@ -3657,9 +3657,9 @@ Body:
     Name: Mechanic Howard
     JapaneseName: Mechanic Harword
     Level: 187
-    Hp: 3400919
-    BaseExp: 5441470
-    JobExp: 3536956
+    Hp: 4078981
+    BaseExp: 6526370
+    JobExp: 4242140
     Attack: 10000
     Attack2: 20000
     Defense: 67
@@ -3708,9 +3708,9 @@ Body:
     Name: Warlock Kathryne
     JapaneseName: Warlock Katrinn
     Level: 187
-    Hp: 2040551
-    BaseExp: 3264882
-    JobExp: 2122173
+    Hp: 4015388
+    BaseExp: 6424621
+    JobExp: 4176004
     Attack: 4000
     Attack2: 8000
     Defense: 53
@@ -3758,9 +3758,9 @@ Body:
     AegisName: V_B_SEYREN
     Name: Rune Knight Seyren
     Level: 189
-    Hp: 2674816
-    BaseExp: 4279706
-    JobExp: 2781809
+    Hp: 4047185
+    BaseExp: 6475496
+    JobExp: 4209072
     Attack: 9000
     Attack2: 18000
     Defense: 68
@@ -3808,9 +3808,9 @@ Body:
     AegisName: V_B_RANDEL
     Name: Royal Guard Randel
     Level: 188
-    Hp: 3372021
-    BaseExp: 5395234
-    JobExp: 3506902
+    Hp: 4078981
+    BaseExp: 6526370
+    JobExp: 4242140
     Attack: 6000
     Attack2: 4000
     Defense: 68
@@ -3858,9 +3858,9 @@ Body:
     AegisName: V_B_FLAMEL
     Name: Genetic Flamel
     Level: 186
-    Hp: 2744177
-    BaseExp: 4390683
-    JobExp: 2853944
+    Hp: 4047185
+    BaseExp: 6475496
+    JobExp: 4209072
     Attack: 10000
     Attack2: 10000
     Defense: 54
@@ -3908,9 +3908,9 @@ Body:
     AegisName: V_B_CELIA
     Name: Sorcerer Celia
     Level: 188
-    Hp: 3034819
-    BaseExp: 4855710
-    JobExp: 3156212
+    Hp: 4063083
+    BaseExp: 6500933
+    JobExp: 4225606
     Attack: 6000
     Attack2: 10000
     Defense: 54
@@ -3958,9 +3958,9 @@ Body:
     AegisName: V_B_CHEN
     Name: Sura Chen
     Level: 188
-    Hp: 2360415
-    BaseExp: 3776664
-    JobExp: 2454832
+    Hp: 4031287
+    BaseExp: 6450059
+    JobExp: 4192538
     Attack: 16000
     Attack2: 6000
     Defense: 57
@@ -4008,9 +4008,9 @@ Body:
     AegisName: V_B_GERTIE
     Name: Shadow Chaser Gertie
     Level: 188
-    Hp: 2697617
-    BaseExp: 4316187
-    JobExp: 2805522
+    Hp: 4047185
+    BaseExp: 6475496
+    JobExp: 4209072
     Attack: 14000
     Attack2: 5000
     Defense: 54
@@ -4058,9 +4058,9 @@ Body:
     AegisName: V_B_ALPHOCCIO
     Name: Minstrel Alphoccio
     Level: 186
-    Hp: 2058133
-    BaseExp: 3293013
-    JobExp: 2140458
+    Hp: 4015388
+    BaseExp: 6424621
+    JobExp: 4176004
     Attack: 8000
     Attack2: 12000
     Defense: 54
@@ -4108,9 +4108,9 @@ Body:
     AegisName: V_B_TRENTINI
     Name: Wanderer Trentini
     Level: 186
-    Hp: 2058133
-    BaseExp: 3293013
-    JobExp: 2140458
+    Hp: 4015388
+    BaseExp: 6424621
+    JobExp: 4176004
     Attack: 8000
     Attack2: 12000
     Defense: 54
@@ -4158,9 +4158,9 @@ Body:
     AegisName: T_W_O
     Name: T_W_O
     Level: 165
-    Hp: 8061599
-    BaseExp: 12898558
-    JobExp: 8384063
+    Hp: 4343949
+    BaseExp: 6950318
+    JobExp: 4517707
     Attack: 3955
     Attack2: 7196
     Defense: 43
@@ -4208,9 +4208,9 @@ Body:
     AegisName: BIJOU
     Name: Bijou
     Level: 115
-    Hp: 4112953
-    BaseExp: 6580725
-    JobExp: 4277471
+    Hp: 4008323
+    BaseExp: 6413317
+    JobExp: 4168656
     Attack: 14440
     Attack2: 28880
     Defense: 36
@@ -4254,9 +4254,9 @@ Body:
     AegisName: EP16_2_MM_CUTIE
     Name: Pet Child
     Level: 120
-    Hp: 1344771
-    BaseExp: 2151634
-    JobExp: 1398562
+    Hp: 1545646
+    BaseExp: 2473034
+    JobExp: 1607472
     MvpExp: 5000
     Attack: 3400
     Attack2: 1900
@@ -4370,9 +4370,9 @@ Body:
     Name: Spider Chariot
     JapaneseName: Mechaspider
     Level: 158
-    Hp: 2424411
-    BaseExp: 3879058
-    JobExp: 2521388
+    Hp: 4006548
+    BaseExp: 6410477
+    JobExp: 4166810
     MvpExp: 100000
     Attack: 7657
     Attack2: 3062
@@ -4425,9 +4425,9 @@ Body:
     AegisName: CHIMERA_THEONE
     Name: The One
     Level: 245
-    Hp: 8514581
-    BaseExp: 13623330
-    JobExp: 8855164
+    Hp: 6349247
+    BaseExp: 10158795
+    JobExp: 6603217
     MvpExp: 500000
     Attack: 14541
     Attack2: 2756
@@ -4483,9 +4483,9 @@ Body:
     AegisName: EP17_2_PITAYA_BOSS
     Name: Boss Meow
     Level: 168
-    Hp: 4328161
-    BaseExp: 6925058
-    JobExp: 4501288
+    Hp: 4090451
+    BaseExp: 6544722
+    JobExp: 4254069
     MvpExp: 20328244
     Attack: 3024
     Attack2: 1714
@@ -4539,9 +4539,9 @@ Body:
     AegisName: MUSPELLSKOLL_H
     Name: Rigid Muspellskoll
     Level: 188
-    Hp: 8021828
-    BaseExp: 12834925
-    JobExp: 8342701
+    Hp: 4348632
+    BaseExp: 6957811
+    JobExp: 4522577
     MvpExp: 550000
     Attack: 5146
     Attack2: 2356
