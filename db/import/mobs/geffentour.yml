@@ -7,9 +7,9 @@ Body:
     AegisName: GEFFEN_MAGE_1
     Name: Arhi
     Level: 90
-    Hp: 60881
-    BaseExp: 97410
-    JobExp: 63316
+    Hp: 37065
+    BaseExp: 59304
+    JobExp: 38548
     Attack: 237
     Attack2: 237
     Defense: 20
@@ -42,9 +42,9 @@ Body:
     AegisName: GEFFEN_MAGE_2
     Name: Dio Anemos
     Level: 95
-    Hp: 111672
-    BaseExp: 178675
-    JobExp: 116139
+    Hp: 62353
+    BaseExp: 99765
+    JobExp: 64847
     Attack: 429
     Attack2: 429
     Defense: 22
@@ -79,9 +79,9 @@ Body:
     AegisName: GEFFEN_MAGE_3_1
     Name: Geffen Shoplifter
     Level: 100
-    Hp: 154309
-    BaseExp: 246894
-    JobExp: 160481
+    Hp: 79371
+    BaseExp: 126994
+    JobExp: 82546
     Attack: 385
     Attack2: 385
     Defense: 22
@@ -114,9 +114,9 @@ Body:
     AegisName: GEFFEN_MAGE_3_2
     Name: Geffen Bully
     Level: 100
-    Hp: 154309
-    BaseExp: 246894
-    JobExp: 160481
+    Hp: 79371
+    BaseExp: 126994
+    JobExp: 82546
     Attack: 385
     Attack2: 385
     Defense: 24
@@ -149,9 +149,9 @@ Body:
     AegisName: GEFFEN_MAGE_3_3
     Name: Geffen Gang Member
     Level: 100
-    Hp: 154309
-    BaseExp: 246894
-    JobExp: 160481
+    Hp: 79371
+    BaseExp: 126994
+    JobExp: 82546
     Attack: 385
     Attack2: 385
     Defense: 22
@@ -184,9 +184,9 @@ Body:
     AegisName: GEFFEN_MAGE_4
     Name: Faymont
     Level: 105
-    Hp: 190295
-    BaseExp: 304472
-    JobExp: 197907
+    Hp: 90530
+    BaseExp: 144848
+    JobExp: 94151
     Attack: 390
     Attack2: 390
     Defense: 24
@@ -219,9 +219,9 @@ Body:
     AegisName: GEFFEN_MAGE_5
     Name: Ordre
     Level: 110
-    Hp: 264968
-    BaseExp: 423949
-    JobExp: 275567
+    Hp: 117013
+    BaseExp: 187221
+    JobExp: 121694
     Attack: 630
     Attack2: 630
     Defense: 24
@@ -254,9 +254,9 @@ Body:
     AegisName: GEFFEN_MAGE_6
     Name: Blut Hase
     Level: 120
-    Hp: 384220
-    BaseExp: 614752
-    JobExp: 399589
+    Hp: 147625
+    BaseExp: 236200
+    JobExp: 153530
     Attack: 301
     Attack2: 301
     Defense: 30
@@ -289,9 +289,9 @@ Body:
     AegisName: GEFFEN_MAGE_7
     Name: Kuro Akuma
     Level: 130
-    Hp: 405641
-    BaseExp: 649026
-    JobExp: 421867
+    Hp: 137121
+    BaseExp: 219394
+    JobExp: 142606
     Attack: 664
     Attack2: 664
     Defense: 31
@@ -324,9 +324,9 @@ Body:
     AegisName: GEFFEN_MAGE_8
     Name: Ifodes
     Level: 140
-    Hp: 420333
-    BaseExp: 672533
-    JobExp: 437146
+    Hp: 126200
+    BaseExp: 201920
+    JobExp: 131248
     Attack: 483
     Attack2: 483
     Defense: 33
@@ -359,9 +359,9 @@ Body:
     AegisName: GEFFEN_MAGE_9
     Name: Licheniyes
     Level: 145
-    Hp: 454152
-    BaseExp: 726643
-    JobExp: 472318
+    Hp: 128909
+    BaseExp: 206254
+    JobExp: 134065
     Attack: 711
     Attack2: 711
     Defense: 32
@@ -394,9 +394,9 @@ Body:
     AegisName: GEFFEN_MAGE_10
     Name: Odoric
     Level: 150
-    Hp: 500754
-    BaseExp: 801206
-    JobExp: 520784
+    Hp: 134632
+    BaseExp: 215411
+    JobExp: 140017
     Attack: 750
     Attack2: 750
     Defense: 32
@@ -429,9 +429,9 @@ Body:
     AegisName: GEFFEN_MAGE_11
     Name: Ju
     Level: 155
-    Hp: 515512
-    BaseExp: 824819
-    JobExp: 536132
+    Hp: 131516
+    BaseExp: 210426
+    JobExp: 136777
     Attack: 1050
     Attack2: 1050
     Defense: 36
@@ -464,9 +464,9 @@ Body:
     AegisName: GEFFEN_MAGE_12
     Name: Dwigh
     Level: 160
-    Hp: 1697369
-    BaseExp: 2715790
-    JobExp: 1765264
+    Hp: 411580
+    BaseExp: 658528
+    JobExp: 428043
     Attack: 1500
     Attack2: 1500
     Defense: 42
@@ -501,9 +501,9 @@ Body:
     Name: Fay Kanavian
     JapaneseName: Fei Kanabian
     Level: 160
-    Hp: 1939851
-    BaseExp: 3103762
-    JobExp: 2017445
+    Hp: 470378
+    BaseExp: 752605
+    JobExp: 489193
     Attack: 1875
     Attack2: 1875
     Defense: 42
@@ -538,9 +538,9 @@ Body:
     Name: Fenrir
     JapaneseName: Geffen Fenrir
     Level: 160
-    Hp: 2056993
-    BaseExp: 3291189
-    JobExp: 2139273
+    Hp: 498782
+    BaseExp: 798051
+    JobExp: 518733
     Attack: 2250
     Attack2: 2250
     Defense: 47
@@ -586,7 +586,7 @@ Body:
     AegisName: ALPHONSE
     Name: Alphonse
     Level: 150
-    Hp: 268859
+    Hp: 72285
     Attack: 500
     Attack2: 500
     Defense: 32
@@ -615,7 +615,7 @@ Body:
     AegisName: ALPHONSE_JR
     Name: Alphonse Jr
     Level: 150
-    Hp: 26886
+    Hp: 7229
     Attack: 250
     Attack2: 200
     Defense: 32
@@ -644,9 +644,9 @@ Body:
     AegisName: E_GEFFEN_MAGE_3_2
     Name: Geffen Bully
     Level: 50
-    Hp: 15593
-    BaseExp: 24949
-    JobExp: 16217
+    Hp: 24314
+    BaseExp: 38902
+    JobExp: 25286
     Attack: 89
     Attack2: 22
     Defense: 11
@@ -675,9 +675,9 @@ Body:
     AegisName: E_GEFFEN_MAGE_3_3
     Name: Geffen Gang Member
     Level: 50
-    Hp: 15593
-    BaseExp: 24949
-    JobExp: 16217
+    Hp: 24314
+    BaseExp: 38902
+    JobExp: 25286
     Attack: 89
     Attack2: 22
     Defense: 11
