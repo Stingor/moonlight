@@ -44,7 +44,7 @@ BUILDIN_FUNC(getmonsterexprate)
 	}
 
 	uint16 mob_id = script_getnum(st, 2);
-	int32 type    = script_getnum(st, 3);
+	int32 type	 = script_getnum(st, 3);
 
 	std::shared_ptr<s_mob_db> mob = mob_db.find(mob_id);
 	if (mob == nullptr) {
@@ -73,23 +73,23 @@ BUILDIN_FUNC(getmonsterexprate)
 	if (nextjob)
 		job_pct = (double)job_exp * 100.0 / nextjob;
 
-       double chosen_pct  = (type == 1) ? job_pct  : base_pct;
-	   t_exp next_exp     = (type == 1) ? pc_nextjobexp(sd) : pc_nextbaseexp(sd);
+		double chosen_pct  = (type == 1) ? job_pct  : base_pct;
+		t_exp next_exp     = (type == 1) ? pc_nextjobexp(sd) : pc_nextbaseexp(sd);
 
-	   if (type == 1 && next_exp == MAX_LEVEL_JOB_EXP ||
-			   type == 0 && next_exp == MAX_LEVEL_BASE_EXP) {
-			   script_pushstrcopy( st, "" );
-			   return SCRIPT_CMD_SUCCESS;
-	   }
-	   if (chosen_pct > 100.0)
-			   chosen_pct = 100.0;
-	   char expstr[10];
-	   sprintf(expstr, "%.2f%%", chosen_pct);
-	   if( strcmp(expstr, "0.00%") == 0 )
-			   script_pushstrcopy(st, "");
-	   else
-			   script_pushstrcopy(st, expstr);
-	   return SCRIPT_CMD_SUCCESS;
+		if (type == 1 && next_exp == MAX_LEVEL_JOB_EXP ||
+				type == 0 && next_exp == MAX_LEVEL_BASE_EXP) {
+				script_pushstrcopy( st, "" );
+				return SCRIPT_CMD_SUCCESS;
+		}
+		if (chosen_pct > 100.0)
+				chosen_pct = 100.0;
+		char expstr[10];
+		sprintf(expstr, "%.2f%%", chosen_pct);
+		if( strcmp(expstr, "0.00%") == 0 )
+				script_pushstrcopy(st, "");
+		else
+				script_pushstrcopy(st, expstr);
+		return SCRIPT_CMD_SUCCESS;
 }
 
 /* getskillname (skill_id)
@@ -181,12 +181,12 @@ BUILDIN_FUNC(setwaitingroomtitle)
 {
 	struct npc_data* nd;
 	const char* title = script_getstr(st, 2);
-    
+	 
 	if( script_hasdata(st,3) )
 		nd = npc_name2id(script_getstr(st, 3));
 	else
 		nd = (struct npc_data *)map_id2bl(st->oid);
-    
+	 
 	if( nd != nullptr )
 		chat_changetitlenpcchat(nd, title);
 
@@ -219,15 +219,15 @@ BUILDIN_FUNC(npcstand)
 
 /*BUILDIN_FUNC(addcloneskill)
 {
-    int skill_id,skill_lv, lv;
-    map_session_data* sd;
+	 int skill_id,skill_lv, lv;
+	 map_session_data* sd;
 	uint16 idx;
-    
+	 
 	if (!script_rid2sd(sd))
 		return SCRIPT_CMD_FAILURE;
 	
-    skill_id = script_getnum(st, 2);
-    skill_lv = script_getnum(st, 3);
+	 skill_id = script_getnum(st, 2);
+	 skill_lv = script_getnum(st, 3);
 	
 	if (!(idx = skill_get_index(skill_id)))
 		return SCRIPT_CMD_FAILURE;
@@ -279,7 +279,7 @@ BUILDIN_FUNC(getalliance)
 
 BUILDIN_FUNC(getpartnername)
 {
-    TBL_PC *sd = nullptr;
+	 TBL_PC *sd = nullptr;
 	
 	if (!script_rid2sd(sd))
 		return SCRIPT_CMD_SUCCESS;
