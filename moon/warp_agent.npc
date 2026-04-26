@@ -639,8 +639,8 @@ L_Jitter:
 						erasequest 12322;
 				}
 				callsub Party_Check,.@md_name$;
-				.@hardmode = callsub(Hard_Mode,GetColor(.@questid));
-				.@turbo = callsub(Turbo_Mode,GetColor(.@questid));
+				.@hardmode = callsub(Hard_Mode,GetColor(.@questid1));
+				.@turbo = callsub(Turbo_Mode,GetColor1(.@questid1));
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid1,.@questid2;
 				break;
 			}
