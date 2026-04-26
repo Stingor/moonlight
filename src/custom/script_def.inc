@@ -10,6 +10,8 @@
 
 //BUILDIN_DEF(example,""),
 	// [Stingor]
+	BUILDIN_DEF(getmonsterexprate,"ii?"),
+	BUILDIN_DEF(getmapspawns,"s"),
 	BUILDIN_DEF(viewequip,"vv"),
 	BUILDIN_DEF(getpartnername,""),
 	BUILDIN_DEF(getskillname,"i"),

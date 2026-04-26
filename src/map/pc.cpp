@@ -8430,7 +8430,7 @@ int32 pc_checkjoblevelup(map_session_data *sd)
 * @param job_exp Job EXP before peronal bonuses
 * @param src Block list that affecting the exp calculation
 */
-static void pc_calcexp(map_session_data *sd, t_exp *base_exp, t_exp *job_exp, block_list *src)
+void pc_calcexp(map_session_data *sd, t_exp *base_exp, t_exp *job_exp, block_list *src)
 {
 	int32 bonus = 0, vip_bonus_base = 0, vip_bonus_job = 0;
 

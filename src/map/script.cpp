@@ -4941,6 +4941,8 @@ BUILDIN_FUNC(mes)
 		}
 	}
 
+	pc_setreg(sd, add_str("@mesnpccount"), pc_readreg2(sd, "@mesnpccount") + 1);
+
 	st->mes_active = 1; // Invoking character has a NPC dialog box open.
 	return SCRIPT_CMD_SUCCESS;
 }
@@ -4963,6 +4965,7 @@ BUILDIN_FUNC(next)
 #ifdef SECURE_NPCTIMEOUT
 	sd->npc_idle_type = NPCT_WAIT;
 #endif
+	pc_setreg(sd, add_str("@mesnpccount"), 0);
 	st->state = STOP;
 	clif_scriptnext( *sd, st->oid );
 	return SCRIPT_CMD_SUCCESS;
@@ -4983,6 +4986,7 @@ BUILDIN_FUNC(clear)
 	if (!script_rid2sd(sd))
 		return SCRIPT_CMD_FAILURE;
 
+	pc_setreg(sd, add_str("@mesnpccount"), 0);
 	clif_scriptclear( *sd, st->oid );
 	return SCRIPT_CMD_SUCCESS;
 }
@@ -5019,6 +5023,7 @@ BUILDIN_FUNC(close)
 		st->clear_cutin = true;
 	}
 
+	pc_setreg(sd, add_str("@mesnpccount"), 0);
 	clif_scriptclose( *sd, st->oid );
 
 	return SCRIPT_CMD_SUCCESS;
@@ -5040,6 +5045,7 @@ BUILDIN_FUNC(close2)
 	if( st->mes_active )
 		st->mes_active = 0;
 
+	pc_setreg(sd, add_str("@mesnpccount"), 0);
 	clif_scriptclose( *sd, st->oid );
 
 	return SCRIPT_CMD_SUCCESS;
@@ -10515,6 +10521,7 @@ BUILDIN_FUNC(end)
 			clif_scriptclose( *sd, st->oid );
 		}else
 			sd->state.callshop = 0;
+		pc_setreg(sd, add_str("@mesnpccount"), 0);
 	}
 
 	return SCRIPT_CMD_SUCCESS;
@@ -18766,6 +18773,7 @@ BUILDIN_FUNC(getmonsterinfo)
 		case MOB_MODE:       script_pushint(st, mob->status.mode); break;
 		case MOB_MVPEXP:     script_pushint(st, mob->mexp); break;
 		case MOB_ID:         script_pushint(st, mob->id); break;
+		case MOB_CLASS:      script_pushint(st, mob->status.class_); break;
 		default:
 			ShowError( "buildin_getmonsterinfo: Invalid getmonsterinfo type '%d'.\n", type );
 			st->state = END;
@@ -27687,6 +27695,7 @@ BUILDIN_FUNC(setdialogsize){
 		return SCRIPT_CMD_FAILURE;
 	}
 
+	pc_setreg(sd, add_str("@mesnpccount"), 0);
 	clif_set_npc_window_size( *sd, x, y );
 
 	return SCRIPT_CMD_SUCCESS;
@@ -28652,7 +28661,7 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(permission_add, "i?"),
 	BUILDIN_DEF2(permission_add, "permission_remove", "i?"),
 
-	BUILDIN_DEF( mesitemicon, "v??" ),
+	BUILDIN_DEF(mesitemicon, "v??"),
 	BUILDIN_DEF(meshyperlink, "ss"),
 	BUILDIN_DEF(mesemotion,"i"),
 

@@ -250,21 +250,6 @@ function	script	getmapname	{
 	return "Map inconnue";
 }
 
-// ARG0..N = map names ; builds a menu with getmapname, calls warp_fct on selection
-// Returns without warping when "Menu Précédent" is chosen.
-function	script	warpmenu	{
-	.@n = getargcount();
-	.@sel$ = "";
-	for (.@i = 0; .@i < .@n; .@i++) {
-		if (.@i > 0) .@sel$ += ":";
-		.@sel$ += "• " + getmapname(getarg(.@i)) + " ("+getarg(.@i)+")";
-	}
-	.@c = select(.@sel$ + ":• ^e64c00Menu Précédent^000000") - 1;
-	if (.@c < .@n)
-		warp_fct(getarg(.@c));
-	return;
-}
-
 // FONCTION ADD/REMOVE VOTE
 function	script	moonlight_vote	{
 	.@nombrevote = getarg(0);

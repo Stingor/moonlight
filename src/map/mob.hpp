@@ -328,6 +328,11 @@ private:
 
 extern MapDropDatabase map_drop_db;
 extern std::unordered_map<uint16, std::vector<spawn_info>> mob_spawn_data;
+struct map_spawn_info {
+	uint16 mob_id;
+	uint16 qty;
+};
+extern std::unordered_map<uint16, std::vector<map_spawn_info>> map_spawn_data;
 
 struct s_dmglog{
 	int32 id; //char id
@@ -572,6 +577,7 @@ void mob_reload_itemmob_data(void);
 void mob_reload(void);
 void mob_add_spawn(uint16 mob_id, const struct spawn_info& new_spawn);
 const std::vector<spawn_info> mob_get_spawns(uint16 mob_id);
+const std::vector<map_spawn_info> map_get_spawns(uint16 map_index);
 bool mob_has_spawn(uint16 mob_id);
 
 int32 mob_getdroprate(block_list *src, std::shared_ptr<s_mob_db> mob, int32 base_rate, int32 drop_modifier, mob_data* md = nullptr, int32 factor = 1);

@@ -3159,14 +3159,19 @@ Body:
     Name: "Abyss Lakes Underground Cave F4"
   - Map: amicitia1
     Id: 1067
+    Name: "Abandoned Lab Amicitia F1"
   - Map: amicitia2
     Id: 1068
+    Name: "Abandoned Lab Amicitia F2"
   - Map: ba_2whs01
     Id: 1069
+    Name: "Tartar Cellar F1"
   - Map: ba_2whs02
     Id: 1070
+    Name: "Tartar Cellar F2"
   - Map: ba_bath
     Id: 1071
+    Name: "Meditation Bath"
   - Map: ba_chess
     Id: 1072
   - Map: ba_go
@@ -3175,16 +3180,22 @@ Body:
     Id: 1074
   - Map: ba_lib
     Id: 1075
+    Name: "Library - Memory Corridor"
   - Map: ba_lost
     Id: 1076
+    Name: "Forgotten Valley"
   - Map: ba_maison
     Id: 1077
+    Name: "Varmundt Mansion Garden"
   - Map: ba_pw01
     Id: 1078
+    Name: "Power Plant F1"
   - Map: ba_pw02
     Id: 1079
+    Name: "Sewage Treatment Station"
   - Map: ba_pw03
     Id: 1080
+    Name: "Power Plant F2"
   - Map: ein_dun03
     Id: 1081
   - Map: e_hugel

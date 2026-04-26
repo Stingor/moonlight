@@ -69,6 +69,7 @@ const t_tick MOB_MAX_DELAY = 24 * 3600 * 1000;
 
 // holds Monster Spawn informations
 std::unordered_map<uint16, std::vector<spawn_info>> mob_spawn_data;
+std::unordered_map<uint16, std::vector<map_spawn_info>> map_spawn_data;
 
 MobItemRatioDatabase mob_item_drop_ratio;
 
@@ -3784,6 +3785,19 @@ const std::vector<spawn_info> mob_get_spawns(uint16 mob_id)
 }
 
 /**
+* Returns the MapSpawnInfos of the map entry (map_spawn_data[map_index])
+* if map is not in map_spawn_data returns empty map_spawn_info vector
+* @param map_index - Looking for spawns of this map index
+*/
+const std::vector<map_spawn_info> map_get_spawns(uint16 map_index)
+{
+	auto map_spawn_it = map_spawn_data.find(map_index);
+	if ( map_spawn_it != map_spawn_data.end() )
+		return map_spawn_it->second;
+	return std::vector<map_spawn_info>();
+}
+
+/**
  * Checks if a monster is spawned. Returns true if yes, false otherwise.
  * @param mob_id - Monster ID which is checked
 */
@@ -3815,6 +3829,17 @@ void mob_add_spawn(uint16 mob_id, const struct spawn_info& new_spawn)
 		itSameMap->qty += new_spawn.qty; // add quantity, if map is found
 	else
 		spawns.push_back(new_spawn); // else, add the whole spawn info
+
+	std::vector<map_spawn_info>& map_spawns = map_spawn_data[m];
+	auto itSameMob = std::find_if(map_spawns.begin(), map_spawns.end(),
+		[&mob_id](const map_spawn_info& s) { return (s.mob_id == mob_id); });
+	if (itSameMob == map_spawns.end())
+		map_spawns.push_back({ mob_id, new_spawn.qty }); // add the whole spawn info if mob is not found
+	else
+		itSameMob->qty += new_spawn.qty; // add quantity, if mob is found
+	std::sort(map_spawns.begin(), map_spawns.end(), 
+		[](const map_spawn_info & a, const map_spawn_info & b) -> bool
+		{ return a.qty > b.qty; });
 
 	// sort spawns by spawn quantity
 	std::sort(spawns.begin(), spawns.end(),
@@ -7382,6 +7407,7 @@ void mob_reload(void) {
 void mob_clear_spawninfo()
 {	//Clears spawn related information for a script reload.
 	mob_spawn_data.clear();
+	map_spawn_data.clear();
 }
 
 /*==========================================

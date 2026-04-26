@@ -18,9 +18,105 @@
 //	return 0;
 //}
 
+
+/**
+ * Returns the percentage of EXP (base or job) a player would receive from killing a monster.
+ * getmonsterexprate(<mob_id>, <type>{, "<player_name>"})
+ * <type>: 0 = base exp %, 1 = job exp %
+ * Return value is in 1/100th of a percent (e.g. 1234 = 12.34%)
+ */
+BUILDIN_FUNC(getmonsterexprate)
+{
+	map_session_data *sd = nullptr;
+
+	if (script_hasdata(st, 4)) {
+		if (!script_nick2sd(4, sd)) {
+			script_pushint(st, -1);
+			return SCRIPT_CMD_SUCCESS;
+		}
+	} else {
+		script_rid2sd(sd);
+	}
+
+	if (sd == nullptr) {
+		script_pushint(st, -1);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	uint16 mob_id = script_getnum(st, 2);
+	int32 type    = script_getnum(st, 3);
+
+	std::shared_ptr<s_mob_db> mob = mob_db.find(mob_id);
+	if (mob == nullptr) {
+		script_pushint(st, -1);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	t_exp base_exp = mob->base_exp;
+	t_exp job_exp  = mob->job_exp;
+
+	if (sd->status.base_level > 200 && base_exp > 0) { // [Stingor]
+		base_exp = (t_exp)((float)base_exp / exp(((float)(sd->status.base_level) - 200.0f) / 250.0f));
+		if (sd->status.class_ == JOB_TAEKWON)
+			base_exp /= 2;
+	}
+
+	pc_calcexp(sd, &base_exp, &job_exp, sd);
+
+	double base_pct = 0, job_pct = 0;
+	t_exp base_exp2 = base_exp;
+	t_exp nextbase = pc_nextbaseexp(sd);
+	t_exp nextjob = pc_nextjobexp(sd);
+
+	if (nextbase)
+		base_pct = (double)base_exp2 * 100.0 / nextbase;
+	if (nextjob)
+		job_pct = (double)job_exp * 100.0 / nextjob;
+
+       double chosen_pct  = (type == 1) ? job_pct  : base_pct;
+	   t_exp next_exp     = (type == 1) ? pc_nextjobexp(sd) : pc_nextbaseexp(sd);
+
+	   if (type == 1 && next_exp == MAX_LEVEL_JOB_EXP ||
+			   type == 0 && next_exp == MAX_LEVEL_BASE_EXP) {
+			   script_pushstrcopy( st, "" );
+			   return SCRIPT_CMD_SUCCESS;
+	   }
+	   if (chosen_pct > 100.0)
+			   chosen_pct = 100.0;
+	   char expstr[10];
+	   sprintf(expstr, "%.2f%%", chosen_pct);
+	   if( strcmp(expstr, "0.00%") == 0 )
+			   script_pushstrcopy(st, "");
+	   else
+			   script_pushstrcopy(st, expstr);
+	   return SCRIPT_CMD_SUCCESS;
+}
+
 /* getskillname (skill_id)
  * Pushes the name of the given skill id as a string, or empty string if unknown.
  */
+BUILDIN_FUNC(getmapspawns)
+{
+	if (script_isstring(st, 2)) {
+		const char *mapname = script_getstr(st, 2);
+		int32 m = mapindex_name2idx(mapname, nullptr);
+		int32 i = 0, total = 0;
+		if( m < 0 ) {
+			script_pushint(st,0);
+			return SCRIPT_CMD_SUCCESS;
+		}
+		std::vector<map_spawn_info> spawns = map_get_spawns(m);
+		for (const auto& spawn : spawns) {
+			setd_sub_num( st, nullptr, ".@mobids", i, spawn.mob_id, nullptr );
+			setd_sub_num( st, nullptr, ".@mobnums", i, spawn.qty, nullptr );
+			total += spawn.qty;
+			i++;
+		}
+		setd_sub_num( st, nullptr, ".@mobtotal", 0, total, nullptr );
+	}
+	return SCRIPT_CMD_SUCCESS;
+}
+
 BUILDIN_FUNC(getskillname)
 {
 	int32 skill_id = script_getnum(st, 2);

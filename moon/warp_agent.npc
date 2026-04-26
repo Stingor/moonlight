@@ -26,11 +26,14 @@
 
 gonryun,165,129,3	script	Warp Agent::warp_agent	4_F_01,{
 	function GetColor;
+	function GetMobs;
+	function WarpMenu;
 
 L_WarpaCmd:
 	mes "[ ^1F81D4" + strnpcinfo(0) + "^000000 ]";
 	mes "Bonjour ^4a8b3e" + strcharinfo(0) + "^000000 !";
 	mes "Je suis le Npc qui sert à se teleporter dans les villes et les donjons ainsi que de sauvegarder !";
+	setdialogsize(300,50*@mesnpccount);
 L_warpa:
 	if( lastm_warpa$ == "" && lastx_warpa == 0 && lasty_warpa == 0 )
 		@lastwarp$ = "";
@@ -53,15 +56,19 @@ L_warpa:
 		"• ^f08eedInstances^000000", L_Instance,
 		"• ^c08dedAutre^000000", L_Autre,
 		"• ^f279acRooms^000000", L_Rooms,
+		"• ^3655ffDétail des maps^000000 ("+(WarpaDetail?"^20ff1fON":"^ff0000OFF")+"^000000)", L_Option,
 		.@save$, L_Save;
 	warp_fct(lastm_warpa$, lastx_warpa, lasty_warpa);
 	end;
-
+L_Option:
+	set WarpaDetail, !WarpaDetail;
+	goto L_warpa;
 L_Villes:
 	clear;
 L_VillesCmd:
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 	mes "Sélectionnez la destination de votre choix :";
+	setdialogsize(300,50*@mesnpccount);
 	// Ajouter une ville: une valeur par tableau + l'entrée dans .@vn$
 	setarray .@vn$[0],
 		"^ff0000• Gonryun^000000", "• Alberta",     "• Aldebaran",   "• Amatsu",
@@ -111,6 +118,7 @@ L_Guild_Dungeons:
 	clear;
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 	mes "Sélectionnez la destination de votre choix :";
+	setdialogsize(300,50*@mesnpccount);
 	// Ajouter un guild dungeon: une valeur par tableau + l'entrée dans .@gn$
 	setarray .@gn$[0],
 		"• Corridor of the Abyss - Tears of Hero",
@@ -162,10 +170,12 @@ L_Instance:
 		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 		mes "Party genérée...";
 		mes "Attention, il n'est pas possible de retourner dans une instance une fois que vous l'avez quittée.";
+		setdialogsize(300,50*@mesnpccount);
 		next;
 	}
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 	mes "Sélectionnez la destination de votre choix :";
+	setdialogsize(300,50*@mesnpccount);
 	switch( select( GetColor(15050)+"• Airship Assault (Solo & HM)^000000",
 					GetColor(12278)+"• Bakonawa Lake^000000",
 					GetColor(9223)+"• Bangungot Hospital 2F (HM)^000000",
@@ -756,9 +766,69 @@ L_Bijou:
 	}
 	end;
 
-
 function GetColor {
 	return ((checkquest(getarg(0),PLAYTIME) == 2 || checkquest(getarg(0),PLAYTIME) == -1)?"^00A000":"^FF0000");
+}
+
+function GetMobs {
+	.@mobtotal = 0;
+	.@moblvl = 0;
+	.@rate = 0;
+	deletearray .@mobids[0],getarraysize(.@mobids);
+	deletearray .@mobnums[0],getarraysize(.@mobnums);
+	getmapspawns(getarg(0));
+	if (.@mobtotal) {
+		mes "- ^51a1f3" + getmapname(getarg(0)) + " ("+getarg(0)+")^000000 - " + .@mobtotal + " monstres :";
+		for(.@i = 0; .@i < getarraysize(.@mobids); .@i++) {
+			.@bexp$ = getmonsterexprate(.@mobids[.@i], 0);
+			.@jexp$ = getmonsterexprate(.@mobids[.@i], 1);
+			if( .@bexp$ != "" && .@jexp$ != "" )
+				.@exp$ = " EXP:"+.@bexp$+"/"+.@jexp$;
+			else if( .@bexp$ != "" )
+				.@exp$ = " EXP:"+.@bexp$;
+			else
+				.@exp$ = "";
+			if( getmonsterinfo(.@mobids[.@i], MOB_MODE) & MD_MVP || getmonsterinfo(.@mobids[.@i], MOB_MVPEXP) > 0 )
+				mes "["+.@mobnums[.@i] + "] ^i[1]"+getmonsterinfo(.@mobids[.@i], MOB_NAME)
+				 + " (LV:"+getmonsterinfo(.@mobids[.@i], MOB_LV) + "" + .@exp$ +" ID: "+.@mobids[.@i]+")";
+			else if( getmonsterinfo(.@mobids[.@i], MOB_CLASS) == CLASS_BOSS )
+				mes "["+.@mobnums[.@i] + "] ^i[2]"+getmonsterinfo(.@mobids[.@i], MOB_NAME)
+				 + " (LV:"+getmonsterinfo(.@mobids[.@i], MOB_LV) + "" + .@exp$ +" ID: "+.@mobids[.@i]+")";
+			else
+				mes "["+.@mobnums[.@i] + "] " + getmonsterinfo(.@mobids[.@i], MOB_NAME)
+				 + " (LV:"+getmonsterinfo(.@mobids[.@i], MOB_LV) + "" + .@exp$ +" ID: "+.@mobids[.@i]+")";
+		}
+	}
+	else {
+		mes "- ^51a1f3" + getmapname(getarg(0)) + "^000000 - ne contient aucun mob.";
+		setdialogsize(200,100);
+		return;
+	}
+}
+
+// ARG0..N = map names ; builds a menu with getmapname, calls warp_fct on selection
+// Returns without warping when "Menu Précédent" is chosen.
+function WarpMenu {
+	.@n = getargcount();
+	.@sel$ = "";
+	@mesnpctotal = 0;
+	if (WarpaDetail) clear;
+	for (.@i = 0; .@i < .@n; .@i++) {
+		if (.@i > 0) .@sel$ += ":";
+		explode(.@map$[0], getarg(.@i), ",");
+		.@sel$ += "• " + getmapname(.@map$[0]) + " ("+.@map$[0]+")";
+		if (WarpaDetail) GetMobs(.@map$[0]);
+	}
+	if (WarpaDetail) setdialogsize(500,10+cap_value(25*@mesnpccount,150,600));
+	.@c = select(.@sel$ + ":• ^e64c00Menu Précédent^000000") - 1;
+	if (.@c < .@n) {
+		explode(.@map$[0], getarg(.@c), ",");
+		if( atoi(.@map$[1]) > 0 && atoi(.@map$[2]) > 0 )
+			warp_fct(.@map$[0],atoi(.@map$[1]),atoi(.@map$[2]));
+		else
+			warp_fct(.@map$[0]);
+	}
+	return;
 }
 
 Hard_Mode:
@@ -946,6 +1016,7 @@ L_Fields:
 	clear;
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 	mes "Sélectionnez le <<Field>> de votre choix :";
+	setdialogsize(300,80);
 	// Ajouter un field: une ligne dans le menu + un label L_fld_xxx ci-dessous
 	menu "• Amatsu (ama_fild)",           L_fld_ama,
 		 "• Ayothaya (ayo_fild)",          L_fld_ayo,
@@ -982,43 +1053,43 @@ L_Fields:
 	goto L_warpa;
 	end;
 
-L_fld_ama: warpmenu("ama_fild01"); goto L_Fields; end;
-L_fld_ayo: warpmenu("ayo_fild01", "ayo_fild02"); goto L_Fields; end;
-L_fld_bif: warpmenu("bif_fild01", "bif_fild02"); goto L_Fields; end;
-L_fld_bra: warpmenu("bra_fild01"); goto L_Fields; end;
-L_fld_cmd: warpmenu("cmd_fild01", "cmd_fild02", "cmd_fild03", "cmd_fild04", "cmd_fild05",
+L_fld_ama: WarpMenu("ama_fild01"); goto L_Fields; end;
+L_fld_ayo: WarpMenu("ayo_fild01", "ayo_fild02"); goto L_Fields; end;
+L_fld_bif: WarpMenu("bif_fild01", "bif_fild02"); goto L_Fields; end;
+L_fld_bra: WarpMenu("bra_fild01"); goto L_Fields; end;
+L_fld_cmd: WarpMenu("cmd_fild01", "cmd_fild02", "cmd_fild03", "cmd_fild04", "cmd_fild05",
 					"cmd_fild06", "cmd_fild07", "cmd_fild08", "cmd_fild09"); goto L_Fields; end;
-L_fld_dew: warpmenu("dew_fild01"); goto L_Fields; end;
-L_fld_ecl: warpmenu("ecl_fild01"); goto L_Fields; end;
-L_fld_ein: warpmenu("ein_fild01", "ein_fild02", "ein_fild03", "ein_fild04", "ein_fild05",
+L_fld_dew: WarpMenu("dew_fild01"); goto L_Fields; end;
+L_fld_ecl: WarpMenu("ecl_fild01"); goto L_Fields; end;
+L_fld_ein: WarpMenu("ein_fild01", "ein_fild02", "ein_fild03", "ein_fild04", "ein_fild05",
 					"ein_fild06", "ein_fild07", "ein_fild08", "ein_fild09", "ein_fild10"); goto L_Fields; end;
-L_fld_dic: warpmenu("dic_fild01", "dic_fild02"); goto L_Fields; end;
-L_fld_gef: warpmenu("gef_fild00", "gef_fild01", "gef_fild02", "gef_fild03", "gef_fild04",
+L_fld_dic: WarpMenu("dic_fild01", "dic_fild02"); goto L_Fields; end;
+L_fld_gef: WarpMenu("gef_fild00", "gef_fild01", "gef_fild02", "gef_fild03", "gef_fild04",
 					"gef_fild05", "gef_fild06", "gef_fild07", "gef_fild08", "gef_fild09",
 					"gef_fild10", "gef_fild11", "gef_fild12", "gef_fild13", "gef_fild14"); goto L_Fields; end;
-L_fld_roc: warpmenu("rockrdg1", "rockrdg2"); goto L_Fields; end;
-L_fld_gon: warpmenu("gon_fild01"); goto L_Fields; end;
-L_fld_hug: warpmenu("hu_fild01", "hu_fild02", "hu_fild03", "hu_fild04", "hu_fild05",
+L_fld_roc: WarpMenu("rockrdg1", "rockrdg2"); goto L_Fields; end;
+L_fld_gon: WarpMenu("gon_fild01"); goto L_Fields; end;
+L_fld_hug: WarpMenu("hu_fild01", "hu_fild02", "hu_fild03", "hu_fild04", "hu_fild05",
 					"hu_fild06", "hu_fild07"); goto L_Fields; end;
-L_fld_las: warpmenu("lasa_fild01", "lasa_fild02"); goto L_Fields; end;
-L_fld_lhz: warpmenu("lhz_fild01", "lhz_fild02", "lhz_fild03"); goto L_Fields; end;
-L_fld_lou: warpmenu("lou_fild01"); goto L_Fields; end;
-L_fld_xma: warpmenu("xmas_fild01"); goto L_Fields; end;
-L_fld_mal: warpmenu("ma_fild01", "ma_fild02"); goto L_Fields; end;
-L_fld_man: warpmenu("man_fild01", "man_fild02", "man_fild03"); goto L_Fields; end;
-L_fld_mjo: warpmenu("mjolnir_01", "mjolnir_02", "mjolnir_03", "mjolnir_04", "mjolnir_05",
+L_fld_las: WarpMenu("lasa_fild01", "lasa_fild02"); goto L_Fields; end;
+L_fld_lhz: WarpMenu("lhz_fild01", "lhz_fild02", "lhz_fild03"); goto L_Fields; end;
+L_fld_lou: WarpMenu("lou_fild01"); goto L_Fields; end;
+L_fld_xma: WarpMenu("xmas_fild01"); goto L_Fields; end;
+L_fld_mal: WarpMenu("ma_fild01", "ma_fild02"); goto L_Fields; end;
+L_fld_man: WarpMenu("man_fild01", "man_fild02", "man_fild03"); goto L_Fields; end;
+L_fld_mjo: WarpMenu("mjolnir_01", "mjolnir_02", "mjolnir_03", "mjolnir_04", "mjolnir_05",
 					"mjolnir_06", "mjolnir_07", "mjolnir_08", "mjolnir_09", "mjolnir_10",
 					"mjolnir_11", "mjolnir_12"); goto L_Fields; end;
-L_fld_mos: warpmenu("mosk_fild01", "mosk_fild02"); goto L_Fields; end;
-L_fld_nam: warpmenu("nameless_n"); goto L_Fields; end;
-L_fld_nif: warpmenu("nif_fild01", "nif_fild02"); goto L_Fields; end;
-L_fld_pay: warpmenu("pay_fild01", "pay_fild02", "pay_fild03", "pay_fild04", "pay_fild05",
+L_fld_mos: WarpMenu("mosk_fild01", "mosk_fild02"); goto L_Fields; end;
+L_fld_nam: WarpMenu("nameless_n"); goto L_Fields; end;
+L_fld_nif: WarpMenu("nif_fild01", "nif_fild02"); goto L_Fields; end;
+L_fld_pay: WarpMenu("pay_fild01", "pay_fild02", "pay_fild03", "pay_fild04", "pay_fild05",
 					"pay_fild06", "pay_fild07", "pay_fild08", "pay_fild09", "pay_fild10",
 					"pay_fild11"); goto L_Fields; end;
-L_fld_prt: warpmenu("prt_fild00", "prt_fild01", "prt_fild02", "prt_fild03", "prt_fild04",
+L_fld_prt: WarpMenu("prt_fild00", "prt_fild01", "prt_fild02", "prt_fild03", "prt_fild04",
 					"prt_fild05", "prt_fild06", "prt_fild07", "prt_fild08", "prt_fild09",
 					"prt_fild10", "prt_fild11"); goto L_Fields; end;
-L_fld_rac: warpmenu("ra_fild01", "ra_fild02", "ra_fild03", "ra_fild04", "ra_fild05",
+L_fld_rac: WarpMenu("ra_fild01", "ra_fild02", "ra_fild03", "ra_fild04", "ra_fild05",
 					"ra_fild06", "ra_fild07", "ra_fild08", "ra_fild09", "ra_fild10",
 					"ra_fild11", "ra_fild12", "ra_fild13"); goto L_Fields; end;
 L_fld_moc:
@@ -1062,58 +1133,59 @@ L_fld_moc:
 			break;
 	}
 	end;
-L_fld_spl: warpmenu("spl_fild01", "spl_fild02", "spl_fild03"); goto L_Fields; end;
-L_fld_umb: warpmenu("um_fild01", "um_fild02", "um_fild03", "um_fild04"); goto L_Fields; end;
-L_fld_vei: warpmenu("ve_fild01", "ve_fild02", "ve_fild03", "ve_fild04", "ve_fild05",
+L_fld_spl: WarpMenu("spl_fild01", "spl_fild02", "spl_fild03"); goto L_Fields; end;
+L_fld_umb: WarpMenu("um_fild01", "um_fild02", "um_fild03", "um_fild04"); goto L_Fields; end;
+L_fld_vei: WarpMenu("ve_fild01", "ve_fild02", "ve_fild03", "ve_fild04", "ve_fild05",
 					"ve_fild06", "ve_fild07"); goto L_Fields; end;
-L_fld_yun: warpmenu("yuno_fild01", "yuno_fild02", "yuno_fild03", "yuno_fild04", "yuno_fild05",
+L_fld_yun: WarpMenu("yuno_fild01", "yuno_fild02", "yuno_fild03", "yuno_fild04", "yuno_fild05",
 					"yuno_fild06", "yuno_fild07", "yuno_fild08", "yuno_fild09", "yuno_fild10",
 					"yuno_fild11", "yuno_fild12"); goto L_Fields; end;
 L_Donjons:
 	clear;
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-	mes "Sélectionnez le donjon de votre choix puis le niveau que vous désirez :";
-	menu "• Abbey Donjon",L_abbey,
+	mes "Sélectionnez le donjon de votre choix puis le niveau que vous désirez.";
+	setdialogsize(280,120);
+	menu "• Abbey Donjon",L_abb,
 		 "• Amicitia",L_ami,
-		 "• Abyss Lake",L_abyss,
+		 "• Abyss Lake",L_aby,
 		 "• Amatsu Donjon",L_ama,
 		 "• Ant Hell",L_ant,
 		 "• Ayothaya Donjon",L_ayo,
-		 "• Beach Donjon",L_beach,
+		 "• Beach Donjon",L_bea,
 		 "• Bifrost Tower",L_bif,
 		 "• Bio Lab",L_bio,
 		 "• Brasilis Donjon",L_bra,
 		 "• Byalan",L_bya,
-		 "• Clock Tower",L_clock,
-		 "• Coal Mine",L_coal,
-		 "• Culvert",L_culv,
+		 "• Clock Tower",L_clo,
+		 "• Coal Mine",L_coa,
+		 "• Culvert",L_cul,
 		 "• Dewata Donjon",L_dew,
 		 "• Dicaste Donjon",L_dic,
 		 "• Einbech Donjon",L_ein,
-		 "• Geffen Donjon",L_geff,
-		 "• Gefenia",L_gefe,
-		 "• Glast Heim",L_glast,
+		 "• Geffen Donjon",L_gef,
+		 "• Gefenia",L_gia,
+		 "• Glast Heim",L_gla,
 		 "• Gonryun Donjon",L_gon,
 		 "• Hidden Donjon",L_hid,
 		 "• Ice Donjon",L_ice,
 		 "• Juperos",L_jup,
-		 "• Kiel Hire",L_kiel,
+		 "• Kiel Hire",L_kie,
 		 "• Lasagna Donjon",L_las,
 		 "• Louyang Donjon",L_lou,
 		 "• Magma Donjon",L_mag,
-		 "• Malaya",L_malay,
-		 "• Malangdo",L_malan,
-		 "• Moskovia Donjon",L_mosk,
-		 "• Odin Temple",L_odin,
+		 "• Malaya",L_mly,
+		 "• Malangdo",L_mln,
+		 "• Moskovia Donjon",L_mos,
+		 "• Odin Temple",L_odn,
 		 "• Orc Donjon",L_orc,
 		 "• Payon Donjon",L_pay,
 		 "• Pyramids",L_pyr,
-		 "• Rock Ridge",L_rock,
+		 "• Rock Ridge",L_rck,
 		 "• Sanctuary",L_san,
-		 "• Sphinx",L_sphinx,
-		 "• Sunken Ship",L_sunk,
+		 "• Sphinx",L_sph,
+		 "• Sunken Ship",L_snk,
 		 "• Thanatos Tower",L_tha,
-		 "• Thor volcano",L_thor,
+		 "• Thor volcano",L_thr,
 		 "• Toy Factory",L_toy,
 		 "• Turtle Donjon",L_tur,
 		 "• Varmundt's Mansion",L_var,
@@ -1121,382 +1193,297 @@ L_Donjons:
 		 "• Yggdrasil Root",L_ygg,
 		 "• ^e64c00Menu Précédent.^000000",-;
 		goto L_warpa;
-		end;
-L_abbey:
-	switch( select("• Niveau 1 (abbey01):• Niveau 2 (abbey02):• Niveau 3 (abbey03)") ) {
-		case 1: warp_fct("abbey01", 51, 13);
-		case 2: warp_fct("abbey02", 149, 11);
-		case 3: warp_fct("abbey03", 119, 8);
-	}
-end;
-L_ami:
-	if( select("• Niveau 1 (amicitia1):• Niveau 2 (amicitia2)") == 1 )
-		warp_fct("amicitia1", 253, 244);
+
+L_abb: WarpMenu("abbey01,51,13",
+				"abbey02,149,11",
+				"abbey03,119,8"); goto L_Donjons;
+L_ami: WarpMenu("amicitia1,253,244",
+				"amicitia2,145,278"); goto L_Donjons;
+L_aby: WarpMenu("abyss_01,262,270",
+				"abyss_02,270,270",
+				"abyss_03,116,27"); goto L_Donjons;
+L_ama: WarpMenu("ama_dun01,227,10",
+				"ama_dun02,32,43",
+				"ama_dun03,119,15"); goto L_Donjons;
+L_ant: WarpMenu("anthell01,32,262",
+				"anthell02,34,263"); goto L_Donjons;
+L_ayo: WarpMenu("ayo_dun01,274,19",
+				"ayo_dun02,230,235"); goto L_Donjons;
+L_bea: WarpMenu("beach_dun,266,67",
+				"beach_dun2,255,244",
+				"beach_dun3,23,260"); goto L_Donjons;
+L_bif: WarpMenu("ecl_tdun01,60,13",
+				"ecl_tdun02,60,88",
+				"ecl_tdun03,47,13"); goto L_Donjons;
+L_bio: WarpMenu("lhz_dun01,149,282",
+				"lhz_dun02,282,156",
+				"lhz_dun03,140,133",
+				"lhz_dun04,245,55",
+				"lhz_dun_n,140,133"); goto L_Donjons;
+L_bra: WarpMenu("bra_dun01",
+				"bra_dun02,261,260"); goto L_Donjons;
+L_bya: WarpMenu("iz_dun00,168,168",
+				"iz_dun01,41,37",
+				"iz_dun02,236,204",
+				"iz_dun03,32,63",
+				"iz_dun04,26,27",
+				"iz_dun05,141,187"); goto L_Donjons;
+L_clo: WarpMenu("c_tower1,200,163",
+				"c_tower2,268,26",
+				"c_tower3,64,148",
+				"c_tower4,32,63",
+				"alde_dun01,297,25",
+				"alde_dun02,262,41",
+				"alde_dun03,276,53",
+				"alde_dun04,89,38",
+				"c_tower2_,268,26",
+				"c_tower3_,65,147"); goto L_Donjons;
+L_coa: WarpMenu("coal_dun01,28,28",
+				"coal_dun02,28,28",
+				"coal_dun03,28,28"); goto L_Donjons;
+L_cul: WarpMenu("prt_sewb1,132,248",
+				"prt_sewb2,19,19",
+				"prt_sewb3,180,169",
+				"prt_sewb4,100,92"); goto L_Donjons;
+L_dew: WarpMenu("dew_dun01,289,160",
+				"dew_dun02,302,30"); goto L_Donjons;
+L_dic: WarpMenu("dic_dun01,366,45",
+				"dic_dun02,102,142",
+				"dic_dun03,101,144"); goto L_Donjons;
+L_ein: WarpMenu("ein_dun01,22,18",
+				"ein_dun02,292,290"); goto L_Donjons;
+L_gef: WarpMenu("gef_dun00,104,98",
+				"gef_dun01,115,236",
+				"gef_dun02,106,132",
+				"gef_dun03,203,200"); goto L_Donjons;
+L_gia: WarpMenu("gefenia01,59,167",
+				"gefenia02,201,35",
+				"gefenia03,264,236",
+				"gefenia04,33,270"); goto L_Donjons;
+L_gla:
+	if( WarpaDetail)
+		switch( select("• Castle:• Donjon:• Nightmare:• ^e64c00Menu Précédent^000000") ) {
+			case 1:
+	   WarpMenu("gl_church,156,8",
+				"gl_chyard,147,15",
+				"gl_in01,121,59",
+				"gl_cas01,199,29",
+				"gl_cas02,104,25",
+				"gl_knt01,150,10",
+				"gl_knt02,157,287"); goto L_gla;
+			case 2:
+	   WarpMenu("gl_prison,14,70",
+				"gl_prison1,150,14",
+				"gl_step,117,124",
+				"gl_sew01,258,255",
+				"gl_sew02,108,291",
+				"gl_sew03,171,273",
+				"gl_sew04,68,277",
+				"gl_dun01,133,271",
+				"gl_dun02,224,274"); goto L_gla;
+			case 3:
+	   WarpMenu("gl_chyard_,147,15",
+				"gl_cas02_,104,25"); goto L_gla;
+			default: goto L_Donjons;
+		}
 	else
-		warp_fct("amicitia2", 145, 278);
-end;
-L_abyss:
-	switch( select("• Niveau 1 (abyss_01):• Niveau 2 (abyss_02):• Niveau 3 (abyss_03)") ) {
-		case 1: warp_fct("abyss_01", 262, 270);
-		case 2: warp_fct("abyss_02", 270, 270);
-		case 3: warp_fct("abyss_03", 116, 27);
-	}
-end;
-L_ama:
-	switch( select("• Niveau 1 (ama_dun01):• Niveau 2 (ama_dun02):• Niveau 3 (ama_dun03)") ) {
-		case 1: warp_fct("ama_dun01", 227, 10);
-		case 2: warp_fct("ama_dun02", 32, 43);
-		case 3: warp_fct("ama_dun03", 119, 15);
-	}
-end;
-L_ant:
-	if( select("• Niveau 1 (anthell01):• Niveau 2 (anthell02)") == 1 )
-		warp_fct("anthell01", 32, 262);
-	else
-		warp_fct("anthell02", 34, 263);
-end;
-L_ayo:
-	if( select("• Niveau 1 (ayo_dun01):• Niveau 2 (ayo_dun02)") == 1 )
-		warp_fct("ayo_dun01", 274, 19);
-	else
-		warp_fct("ayo_dun02", 230, 235);
-end;
-L_beach:
-	switch( select("• Niveau 1 (beach_dun):• Niveau 2 (beach_dun2):• Niveau 3 (beach_dun3)") ) {
-		case 1: warp_fct("beach_dun", 266, 67);
-		case 2: warp_fct("beach_dun2", 255, 244);
-		case 3: warp_fct("beach_dun3", 23, 260);
-	}
-end;
-L_bif:
-	switch( select("• Niveau 1 (ecl_tdun01):• Niveau 2 (ecl_tdun02):• Niveau 3 (ecl_tdun03)") ) {
-		case 1: warp_fct("ecl_tdun01", 60, 13);
-		case 2: warp_fct("ecl_tdun02", 60, 88);
-		case 3: warp_fct("ecl_tdun03", 47, 13);
-	}
-end;
-L_bio:
-	switch( select("• Niveau 1 (lhz_dun01):• Niveau 2 (lhz_dun02):• Niveau 3 (lhz_dun03):• Niveau 4 (lhz_dun04):• Nightmare (lhz_dun_n)") ) {
-		case 1: warp_fct("lhz_dun01", 149, 282);
-		case 2: warp_fct("lhz_dun02", 282, 156);
-		case 3: warp_fct("lhz_dun03", 140, 133);
-		case 4: warp_fct("lhz_dun04", 245, 55);
-		case 5: warp_fct("lhz_dun_n", 140, 133);
-	}
-end;
-L_bra:
-	if( select("• Niveau 1 (bra_dun01):• Niveau 2 (bra_dun02)") == 1 )
-		warp_fct("bra_dun01");
-	else
-		warp_fct("bra_dun02", 261, 260);
-end;
-L_bya:
-	switch( select("• Niveau 1 (iz_dun00):• Niveau 2 (iz_dun01):• Niveau 3 (iz_dun02):• Niveau 4 (iz_dun03):• Niveau 5 (iz_dun04):• Niveau 6 (iz_dun05)") ) {
-		case 1: warp_fct("iz_dun00", 168, 168);
-		case 2: warp_fct("iz_dun01", 41, 37);
-		case 3: warp_fct("iz_dun02", 236, 204);
-		case 4: warp_fct("iz_dun03", 32, 63);
-		case 5: warp_fct("iz_dun04", 26, 27);
-		case 6: warp_fct("iz_dun05", 141, 187);
-	}
-end;
-L_clock:
-	switch( select("• Niveau 1 (c_tower1):• Niveau 2 (c_tower2):• Niveau 3 (c_tower3):• Niveau 4 (c_tower4):• Sous-sol 1 (alde_dun01):• Sous-sol 2 (alde_dun02):• Sous-sol 3 (alde_dun03):• Sous-sol 4 (alde_dun04):•Nightmare 1 (c_tower2_):•Nightmare 2 (c_tower3_)") ) {
-		case 1: warp_fct("c_tower1", 200, 163);
-		case 2: warp_fct("c_tower2", 268, 26);
-		case 3: warp_fct("c_tower3", 64, 148);
-		case 4: warp_fct("c_tower4", 32, 63);
-		case 5: warp_fct("alde_dun01", 297, 25);
-		case 6: warp_fct("alde_dun02", 262, 41);
-		case 7: warp_fct("alde_dun03", 276, 53);
-		case 8: warp_fct("alde_dun04", 89, 38);
-		case 9: warp_fct("c_tower2_", 268, 26);
-		case 10: warp_fct("c_tower3_", 65, 147);
-	}
-end;
-L_coal:
-	switch( select("• Niveau 1 (mjo_dun01):• Niveau 2 (mjo_dun02):• Niveau 3 (mjo_dun03)") ) {
-		case 1: warp_fct("mjo_dun01", 52, 17);
-		case 2: warp_fct("mjo_dun02", 381, 343);
-		case 3: warp_fct("mjo_dun03", 302, 261);
-	}
-end;
-L_culv:
-	switch( select("• Niveau 1 (prt_sewb1):• Niveau 2 (prt_sewb2):• Niveau 3 (prt_sewb3):• Niveau 4 (prt_sewb4)") ) {
-		case 1: warp_fct("prt_sewb1", 132, 248);
-		case 2: warp_fct("prt_sewb2", 19, 19);
-		case 3: warp_fct("prt_sewb3", 180, 169);
-		case 4: warp_fct("prt_sewb4", 100, 92);
-	}
-end;
-L_dew:
-	switch( select("• Niveau 1 (dew_dun01):• Niveau 2 (dew_dun02)") ) {
-		case 1: warp_fct("dew_dun01", 289, 160);
-		case 2: warp_fct("dew_dun02", 302, 30);
-	}
-end;
-L_dic:
-	switch( select("• Niveau 1 (dic_dun01):• Niveau 2 (dic_dun02):• Niveau 3 (dic_dun03)") ) {
-		case 1: warp_fct("dic_dun01", 366, 45);
-		case 2: warp_fct("dic_dun02", 102, 142);
-		case 3: warp_fct("dic_dun03", 101, 144);
-	}
-end;
-L_ein:
-	if( select("• Niveau 1 (ein_dun01):• Niveau 2 (ein_dun02)") == 1 )
-		warp_fct("ein_dun01", 22, 18);
-	else
-		warp_fct("ein_dun02", 292, 290);
-end;
-L_geff:
-	switch( select("• Niveau 1 (gef_dun00):• Niveau 2 (gef_dun01):• Niveau 3 (gef_dun02):• Niveau 4 (gef_dun03)") ) {
-		case 1: warp_fct("gef_dun00", 104, 98);
-		case 2: warp_fct("gef_dun01", 115, 236);
-		case 3: warp_fct("gef_dun02", 106, 132);
-		case 4: warp_fct("gef_dun03", 203, 200);
-	}
-end;
-L_gefe:
-	switch( select("• Niveau 1 (gefenia01):• Niveau 2 (gefenia02):• Niveau 3 (gefenia03):• Niveau 4 (gefenia04)") ) {
-		case 1: warp_fct("gefenia01", 59, 167);
-		case 2: warp_fct("gefenia02", 201, 35);
-		case 3: warp_fct("gefenia03", 264, 236);
-		case 4: warp_fct("gefenia04", 33, 270);
-	}
-end;
-L_glast:
-	switch( select("• St. Abbey (gl_church):• Churchyard (gl_chyard):• Dans Glast Heim (gl_in01):• 1er étage (gl_cas01):• 2ème étage (gl_cas02):• Chevalrie 1 (gl_knt01):• Chevalrie 2 (gl_knt02):• Prison 1 (gl_prison):• Prison 2 (gl_prison1):• Etages (gl_step):• Egout 1 (gl_sew01):• Egout 2 (gl_sew02):• Egout 3 (gl_sew03):• Egout 4 (gl_sew04):• Sous-sol 1 (gl_dun01):• Sous-sol 2 (gl_dun02):• Nightmare Churchyard (gl_chyard_):• Nightmare 2ème étage (gl_cas02_)") ) {
-		case 1: warp_fct("gl_church", 156, 8);
-		case 2: warp_fct("gl_chyard", 147, 15);
-		case 3: warp_fct("gl_in01", 121, 59);
-		case 4: warp_fct("gl_cas01", 199, 29);
-		case 5: warp_fct("gl_cas02", 104, 25);
-		case 6: warp_fct("gl_knt01", 150, 10);
-		case 7: warp_fct("gl_knt02", 157, 287);
-		case 8: warp_fct("gl_prison", 14, 70);
-		case 9: warp_fct("gl_prison1", 150, 14);
-		case 10: warp_fct("gl_step", 117, 124);
-		case 11: warp_fct("gl_sew01", 258, 255);
-		case 12: warp_fct("gl_sew02", 108, 291);
-		case 13: warp_fct("gl_sew03", 171, 273);
-		case 14: warp_fct("gl_sew04", 68, 277);
-		case 15: warp_fct("gl_dun01", 133, 271);
-		case 16: warp_fct("gl_dun02", 224, 274);
-		case 17: warp_fct("gl_chyard_", 147, 15);
-		case 18: warp_fct("gl_cas02_", 104, 25);
-	}
-end;
-L_gon:
-	switch( select("• Niveau 1 (gon_dun01):• Niveau 2 (gon_dun02):• Niveau 3 (gon_dun03)") ) {
-		case 1: warp_fct("gon_dun01", 153, 48);
-		case 2: warp_fct("gon_dun02", 17, 114);
-		case 3: warp_fct("gon_dun03", 68, 9);
-	}
-end;
-L_hid:
-	switch( select("• Niveau 1 (prt_maze01):• Niveau 2 (prt_maze02):• Niveau 3 (prt_maze03)") ) {
-		case 1: warp_fct("prt_maze01", 176, 7);
-		case 2: warp_fct("prt_maze02", 93, 20);
-		case 3: warp_fct("prt_maze03", 23, 8);
-	}
-end;
-L_ice:
-	switch( select("• Niveau 1 (ice_dun01):• Niveau 2 (ice_dun02):• Niveau 3 (ice_dun03)") ) {
-		case 1: warp_fct("ice_dun01", 157, 14);
-		case 2: warp_fct("ice_dun02", 151, 156);
-		case 3: warp_fct("ice_dun03", 149, 22);
-	}
-end;
-L_jup:
-	switch( select("• Niveau 1 (juperos_01):• Niveau 2 (juperos_02):• Niveau 3 (jupe_core)") ) {
-		case 1: warp_fct("juperos_01", 53, 243);
-		case 2: warp_fct("juperos_02", 41, 65);
-		case 3: warp_fct("jupe_core", 150, 20);
-	}
-end;
-L_kiel:
-	if( select("• Niveau 1 (kh_dun01):• Niveau 2 (kh_dun02)") == 1 )
-		warp_fct("kh_dun01", 28, 211);
-	else
-		warp_fct("kh_dun02", 42, 197);
-end;
-L_las:
-	switch( select("• Niveau 1 (lasa_dun01):• Niveau 2 (lasa_dun02):• Niveau 3 (lasa_dun03)") ) {
-		case 1: warp_fct("lasa_dun01", 23, 143);
-		case 2: warp_fct("lasa_dun02", 22, 171);
-		case 3: warp_fct("lasa_dun03", 190, 19);
-	}
-end;
-L_lou:
-	switch( select("• Niveau 1 (lou_dun01):• Niveau 2 (lou_dun02):• Niveau 3 (lou_dun03)") ) {
-		case 1: warp_fct("lou_dun01", 215, 193);
-		case 2: warp_fct("lou_dun02", 280, 23);
-		case 3: warp_fct("lou_dun03", 165, 38);
-	}
-end;
-L_mag:
-	switch( select("• Niveau 1 (mag_dun01):• Niveau 2 (mag_dun02):• Niveau 3 (mag_dun03)") ) {
-		case 1: warp_fct("mag_dun01",126,69);
-		case 2: warp_fct("mag_dun02",47,32);
-		case 3: warp_fct("mag_dun03",120,120);
-	}
-end;
-L_malay: warp_fct("ma_dun01", 29, 106);
-L_malan: warp_fct("mal_dun01", 33, 230);
-L_mosk:
-	switch( select("• Niveau 1 (mosk_dun01):• Niveau 2 (mosk_dun02):• Niveau 3 (mosk_dun03)") ) {
-		case 1: warp_fct("mosk_dun01", 205, 52);
-		case 2: warp_fct("mosk_dun02", 160, 35);
-		case 3: warp_fct("mosk_dun03", 34, 136);
-	}
-end;
-L_odin:
-	switch( select("• Niveau 1 (odin_tem01):• Niveau 2 (odin_tem02):• Niveau 3 (odin_tem03)") ) {
-		case 1: warp_fct("odin_tem01", 97, 146);
-		case 2: warp_fct("odin_tem02", 26, 181);
-		case 3: warp_fct("odin_tem03", 120, 54);
-	}
-end;
-L_orc:
-	if( select("• Niveau 1 (orcsdun01):• Niveau 2 (orcsdun02)") == 1 )
-		warp_fct("orcsdun01", 32, 169);
-	else
-		warp_fct("orcsdun02", 21, 185);
-end;
-L_pay:
-	switch( select("• Niveau 1 (pay_dun00):• Niveau 2 (pay_dun01):• Niveau 3 (pay_dun02):• Niveau 4 (pay_dun03):• Niveau 5 (pay_dun04)") ) {
-		case 1: warp_fct("pay_dun00", 22, 180);
-		case 2: warp_fct("pay_dun01", 19, 33);
-		case 3: warp_fct("pay_dun02", 19, 63);
-		case 4: warp_fct("pay_dun03", 155, 159);
-		case 5: warp_fct("pay_dun04", 201, 204);
-	}
-end;
-L_pyr:
-	switch( select("• Niveau 1 (moc_pryd01):• Niveau 2 (moc_pryd02):• Niveau 3 (moc_pryd03):• Niveau 4 (moc_pryd04):Sous-sol 1 (moc_pryd05):Sous-sol 2 (moc_pryd06):Sous-sol 1 - Nightmare (moc_prydn1):Sous-sol 2 - Nightmare (moc_prydn2)") ) {
-		case 1: warp_fct("moc_pryd01", 192, 9);
-		case 2: warp_fct("moc_pryd02", 10, 192);
-		case 3: warp_fct("moc_pryd03", 100, 92);
-		case 4: warp_fct("moc_pryd04", 181, 11);
-		case 5: warp_fct("moc_pryd05", 94, 96);
-		case 6: warp_fct("moc_pryd06", 192, 8);
-		case 7: warp_fct("moc_prydn1", 94, 96);
-		case 8: warp_fct("moc_prydn2", 192, 8);
-	}
-end;
-L_rock:
-	if( select("• Rockridge Mine (rockmi1):• Underground Waterway (harboro2)") == 1 )
-		warp_fct("rockmi1");
-	else
-		warp_fct("harboro2");
-end;
-L_san:
-	switch( select("• Niveau 1 (ra_san01):• Niveau 2 (ra_san02):• Niveau 3 (ra_san03):• Niveau 4 (ra_san04):• Niveau 5 (ra_san05)") ) {
-		case 1: warp_fct("ra_san01", 140, 130);
-		case 2: warp_fct("ra_san02", 213, 269);
-		case 3: warp_fct("ra_san03", 123, 278);
-		case 4: warp_fct("ra_san04", 119, 110);
-		case 5: warp_fct("ra_san05", 150, 12);
-	}
-end;
-L_sphinx:
-	switch( select("• Niveau 1 (in_sphinx1):• Niveau 2 (in_sphinx2):• Niveau 3 (in_sphinx3):• Niveau 4 (in_sphinx4):• Niveau 5 (in_sphinx5)") ) {
-		case 1: warp_fct("in_sphinx1", 192, 9);
-		case 2: warp_fct("in_sphinx2", 149, 81);
-		case 3: warp_fct("in_sphinx3", 210, 54);
-		case 4: warp_fct("in_sphinx4", 10, 222);
-		case 5: warp_fct("in_sphinx5", 100, 99);
-	}
-end;
-L_sunk:
-	if( select("• Niveau 1 (treasure01):• Niveau 2 (treasure02)") == 1 )
-		warp_fct("treasure01", 69, 24);
-	else
-		warp_fct("treasure02", 102, 27);
-end;
-L_tha:
-	switch( select("• Niveau 1 (tha_t01):• Niveau 2 (tha_t02):• Niveau 3 (tha_t03):• Niveau 4 (tha_t04):• Niveau 5 (tha_t05):• Niveau 6 (tha_t06):• Niveau 7 (tha_t07):• Niveau 8 (tha_t08):• Niveau 9 (tha_t09):• Niveau 10 (tha_t10):• Niveau 11 (tha_t11):• Niveau 12 (tha_t12):Niveau Boss (thana_boss)") ) {
-		case 1: warp_fct("tha_t01", 150, 70);
-		case 2: warp_fct("tha_t02", 150, 130);
-		case 3: warp_fct("tha_t03", 220, 161);
-		case 4: warp_fct("tha_t04", 60, 143);
-		case 5: warp_fct("tha_t05", 62, 8);
-		case 6: warp_fct("tha_t06", 207, 9);
-		case 7: warp_fct("tha_t07", 30, 166);
-		case 8: warp_fct("tha_t08", 29, 44);
-		case 9: warp_fct("tha_t09", 87, 146);
-		case 10:warp_fct("tha_t10");
-		case 11:warp_fct("tha_t11");
-		case 12:warp_fct("tha_t12");
-		case 13:
-			if( $@thana_summon >= 6 && $@thana_summon_name$ == "" ) {
-				clear;
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-				mes "Thanatos est déjà mort.";
-				mes $@thana_summon_name_$+" l'a tué à "+gettimestr("%H:%M:%S",21,$@thana_summon_time);
-				close;
-			}
-			else {
-				if( $@thana_summon_name$ != "" ) {
-					if( $@thana_summon_name$ != strcharinfo(0)
-						&& getcharid(1, $@thana_summon_name$) != 0
-						&& getcharid(1) != 0
-						&& getcharid(1, $@thana_summon_name$) == getcharid(1)
-						&& $@thana_summon2 > 0) {
-						clear;
-						mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-						mes $@thana_summon_name$+" a commencé l'invocation.";
-						close2;
-						warp_fct("thana_boss", 142, 222);
-						end;
-					}
-					else if( $@thana_summon_name$ != strcharinfo(0) && $@thana_summon2 > 0 ) {
-						clear;
-						mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-						mes $@thana_summon_name$+" invoque actuellement Thanatos, vous ne pouvez acceder à cet étage.";
-						close;
+	   WarpMenu("gl_church,156,8",
+				"gl_chyard,147,15",
+				"gl_in01,121,59",
+				"gl_cas01,199,29",
+				"gl_cas02,104,25",
+				"gl_knt01,150,10",
+				"gl_knt02,157,287",
+				"gl_prison,14,70",
+				"gl_prison1,150,14",
+				"gl_step,117,124",
+				"gl_sew01,258,255",
+				"gl_sew02,108,291",
+				"gl_sew03,171,273",
+				"gl_sew04,68,277",
+				"gl_dun01,133,271",
+				"gl_dun02,224,274",
+				"gl_chyard_,147,15",
+				"gl_cas02_,104,25"); goto L_Donjons;
+L_gon: WarpMenu("gon_dun01,153,48",
+				"gon_dun02,17,114",
+				"gon_dun03,68,9"); goto L_Donjons;
+L_hid: WarpMenu("prt_maze01,176,7",
+				"prt_maze02,93,20",
+				"prt_maze03,23,8"); goto L_Donjons;
+L_ice: WarpMenu("ice_dun01,157,14",
+				"ice_dun02,151,156",
+				"ice_dun03,149,22"); goto L_Donjons;
+L_jup: WarpMenu("juperos_01,53,243",
+				"juperos_02,41,65",
+				"jupe_core,150,20"); goto L_Donjons;
+L_kie: WarpMenu("kh_dun01,28,211",
+				"kh_dun02,42,197"); goto L_Donjons;
+L_las: WarpMenu("lasa_dun01,23,143",
+				"lasa_dun02,22,171",
+				"lasa_dun03,190,19"); goto L_Donjons;
+L_lou: WarpMenu("lou_dun01,215,193",
+				"lou_dun02,280,23",
+				"lou_dun03,165,38"); goto L_Donjons;
+L_mag: WarpMenu("mag_dun01,126,69",
+				"mag_dun02,47,32",
+				"mag_dun03,120,120"); goto L_Donjons;
+L_mly: WarpMenu("ma_dun01,29,106"); goto L_Donjons;
+L_mln: WarpMenu("mal_dun01,33,230"); goto L_Donjons;
+L_mos: WarpMenu("mosk_dun01,205,52",
+				"mosk_dun02,160,35",
+				"mosk_dun03,34,136"); goto L_Donjons;
+L_odn: WarpMenu("odin_tem01,97,146",
+				"odin_tem02,26,181",
+				"odin_tem03,120,54"); goto L_Donjons;
+L_orc: WarpMenu("orcsdun01,32,169",
+				"orcsdun02,21,185"); goto L_Donjons;
+L_pay: WarpMenu("pay_dun00,22,180",
+				"pay_dun01,19,33",
+				"pay_dun02,19,63",
+				"pay_dun03,155,159",
+				"pay_dun04,201,204"); goto L_Donjons;
+L_pyr: WarpMenu("moc_pryd01,192,9",
+				"moc_pryd02,10,192",
+				"moc_pryd03,100,92",
+				"moc_pryd04,181,11",
+				"moc_pryd05,94,96",
+				"moc_pryd06,192,8",
+				"moc_prydn1,94,96",
+				"moc_prydn2,192,8"); goto L_Donjons;
+L_rck: WarpMenu("rockmi1",
+				"harboro2"); goto L_Donjons;
+L_san: WarpMenu("ra_san01,140,130",
+				"ra_san02,213,269",
+				"ra_san03,123,278",
+				"ra_san04,119,110",
+				"ra_san05,150,12"); goto L_Donjons;
+L_sph: WarpMenu("in_sphinx1,192,9",
+				"in_sphinx2,149,81",
+				"in_sphinx3,210,54",
+				"in_sphinx4,10,222",
+				"in_sphinx5,100,99"); goto L_Donjons;
+L_snk: WarpMenu("treasure01,69,24",
+				"treasure02,102,27"); goto L_Donjons;
+L_tha: 
+	if( WarpaDetail) {
+		switch( select("• Niveau 1 à 6:• Niveau 7 à 12:• Boss:• ^e64c00Menu Précédent^000000") ) {
+			case 1:
+	   WarpMenu("tha_t01,150,70",
+				"tha_t02,150,130",
+				"tha_t03,220,161",
+				"tha_t04,60,143",
+				"tha_t05,62,8",
+				"tha_t06,207,9"); goto L_tha;
+			case 2:
+	   WarpMenu("tha_t07,30,166",
+				"tha_t08,29,44",
+				"tha_t09,87,146",
+				"tha_t10",
+				"tha_t11",
+				"tha_t12"); goto L_tha;
+			case 3:
+				if( $@thana_summon >= 6 && $@thana_summon_name$ == "" ) {
+					clear;
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Thanatos est déjà mort.";
+					mes $@thana_summon_name_$+" l'a tué à "+gettimestr("%H:%M:%S",21,$@thana_summon_time);
+					close;
+				}
+				else {
+					if( $@thana_summon_name$ != "" ) {
+						if( $@thana_summon_name$ != strcharinfo(0)
+							&& getcharid(1, $@thana_summon_name$) != 0
+							&& getcharid(1) != 0
+							&& getcharid(1, $@thana_summon_name$) == getcharid(1)
+							&& $@thana_summon2 > 0) {
+							clear;
+							mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+							mes $@thana_summon_name$+" a commencé l'invocation.";
+							close2;
+							warp_fct("thana_boss", 142, 222);
+							end;
+						}
+						else if( $@thana_summon_name$ != strcharinfo(0) && $@thana_summon2 > 0 ) {
+							clear;
+							mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+							mes $@thana_summon_name$+" invoque actuellement Thanatos, vous ne pouvez acceder à cet étage.";
+							close;
+						}
 					}
 				}
-			}
-			warp_fct("thana_boss", 142, 222);
+				warp_fct("thana_boss", 142, 222);
+			default: goto L_Donjons;
+		}
+	}
+	else {
+		switch( select("• Niveau 1 (tha_t01):• Niveau 2 (tha_t02):• Niveau 3 (tha_t03):• Niveau 4 (tha_t04):• Niveau 5 (tha_t05):• Niveau 6 (tha_t06):• Niveau 7 (tha_t07):• Niveau 8 (tha_t08):• Niveau 9 (tha_t09):• Niveau 10 (tha_t10):• Niveau 11 (tha_t11):• Niveau 12 (tha_t12):Niveau Boss (thana_boss)") ) {
+			case 1: warp_fct("tha_t01", 150, 70);
+			case 2: warp_fct("tha_t02", 150, 130);
+			case 3: warp_fct("tha_t03", 220, 161);
+			case 4: warp_fct("tha_t04", 60, 143);
+			case 5: warp_fct("tha_t05", 62, 8);
+			case 6: warp_fct("tha_t06", 207, 9);
+			case 7: warp_fct("tha_t07", 30, 166);
+			case 8: warp_fct("tha_t08", 29, 44);
+			case 9: warp_fct("tha_t09", 87, 146);
+			case 10:warp_fct("tha_t10");
+			case 11:warp_fct("tha_t11");
+			case 12:warp_fct("tha_t12");
+			case 13:
+				if( $@thana_summon >= 6 && $@thana_summon_name$ == "" ) {
+					clear;
+					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes "Thanatos est déjà mort.";
+					mes $@thana_summon_name_$+" l'a tué à "+gettimestr("%H:%M:%S",21,$@thana_summon_time);
+					close;
+				}
+				else {
+					if( $@thana_summon_name$ != "" ) {
+						if( $@thana_summon_name$ != strcharinfo(0)
+							&& getcharid(1, $@thana_summon_name$) != 0
+							&& getcharid(1) != 0
+							&& getcharid(1, $@thana_summon_name$) == getcharid(1)
+							&& $@thana_summon2 > 0) {
+							clear;
+							mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+							mes $@thana_summon_name$+" a commencé l'invocation.";
+							close2;
+							warp_fct("thana_boss", 142, 222);
+							end;
+						}
+						else if( $@thana_summon_name$ != strcharinfo(0) && $@thana_summon2 > 0 ) {
+							clear;
+							mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+							mes $@thana_summon_name$+" invoque actuellement Thanatos, vous ne pouvez acceder à cet étage.";
+							close;
+						}
+					}
+				}
+				warp_fct("thana_boss", 142, 222);
+		}
 	}
 end;
-L_thor:
-	switch( select("• Niveau 1 (thor_v01):• Niveau 2 (thor_v02):• Niveau 3 (thor_v03)") ) {
-		case 1: warp_fct("thor_v01", 20, 230);
-		case 2: warp_fct("thor_v02", 80, 204);
-		case 3: warp_fct("thor_v03", 34, 272);
-	}
-end;
-L_toy:
-	if( select("• Niveau 1 (xmas_dun01):• Niveau 2 (xmas_dun02)") == 1 )
-		warp_fct("xmas_dun01", 205, 21);
-	else
-		warp_fct("xmas_dun02", 130, 135);
-end;
-L_tur:
-	switch( select("• Entrée (tur_dun01):• Niveau 1 (tur_dun02):• Niveau 2 (tur_dun03):• Niveau 3 (tur_dun04)") ) {
-		case 1: warp_fct("tur_dun01", 159, 36);
-		case 2: warp_fct("tur_dun02", 148, 263);
-		case 3: warp_fct("tur_dun03", 132, 189);
-		case 4: warp_fct("tur_dun04", 100, 190);
-	}
-end;
-L_var: 
-	switch( select("• Forgotten Valley (ba_lost):• Varmundt Mansion Garden (ba_maison):• Meditation Bath (ba_bath):• Library - Memory Corridor (ba_lib):• Power Plant - Level 1 (ba_pw01):• Sewage Treatment Station (ba_pw02):• Power Plant - Level 2 (ba_pw03):• Tartar Cellar - Level 1 (ba_2whs01):• Tartar Cellar - Level 2 (ba_2whs02)") ) {
-		case 1: warp_fct("ba_lost");
-		case 2: warp_fct("ba_maison");
-		case 3: warp_fct("ba_bath");
-		case 4: warp_fct("ba_lib");
-		case 5: warp_fct("ba_pw01");
-		case 6: warp_fct("ba_pw02");
-		case 7: warp_fct("ba_pw03");
-		case 8: warp_fct("ba_2whs01");
-		case 9: warp_fct("ba_2whs02");
-	}
-end;
-L_wer: warp_fct("slabw01", 14, 88); end;
-L_ygg: warp_fct("nyd_dun01", 54, 70); end;
+L_thr: WarpMenu("thor_v01,20,230",
+				"thor_v02,80,204",
+				"thor_v03,34,272"); goto L_Donjons;
+L_toy: WarpMenu("xmas_dun01,205,21",
+				"xmas_dun02,130,135"); goto L_Donjons;
+L_tur: WarpMenu("tur_dun01,159,36",
+				"tur_dun02,148,263",
+				"tur_dun03,132,189",
+				"tur_dun04,100,190"); goto L_Donjons;
+L_var: WarpMenu("ba_lost",
+				"ba_maison",
+				"ba_bath",
+				"ba_lib",
+				"ba_pw01",
+				"ba_pw02",
+				"ba_pw03",
+				"ba_2whs01",
+				"ba_2whs02"); goto L_Donjons;
+L_wer: WarpMenu("slabw01,14,88"); goto L_Donjons; end;
+L_ygg: WarpMenu("nyd_dun01,54,70"); goto L_Donjons; end;
 
 L_Rooms:
 	clear;

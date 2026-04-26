@@ -1592,6 +1592,7 @@ void pc_setmadogear(map_session_data* sd, bool flag, e_mado_type type = MADO_ROB
 void pc_changelook(map_session_data *,int32,int32);
 void pc_equiplookall(map_session_data *sd);
 void pc_set_costume_view(map_session_data *sd);
+void pc_calcexp(map_session_data *sd, t_exp *base_exp, t_exp *job_exp, block_list *src);
 
 int64 pc_readparam( const map_session_data* sd, int64 type );
 bool pc_setparam(map_session_data *sd, int64 type, int64 val);
