@@ -640,7 +640,7 @@ L_Jitter:
 				}
 				callsub Party_Check,.@md_name$;
 				.@hardmode = callsub(Hard_Mode,GetColor(.@questid1));
-				.@turbo = callsub(Turbo_Mode,GetColor1(.@questid1));
+				.@turbo = callsub(Turbo_Mode,GetColor(.@questid1));
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid1,.@questid2;
 				break;
 			}
@@ -816,7 +816,18 @@ function WarpMenu {
 	for (.@i = 0; .@i < .@n; .@i++) {
 		if (.@i > 0) .@sel$ += ":";
 		explode(.@map$[0], getarg(.@i), ",");
-		.@sel$ += "• " + getmapname(.@map$[0]) + " ("+.@map$[0]+")";
+		deletearray .@mobids[0], getarraysize(.@mobids);
+		deletearray .@mobnums[0], getarraysize(.@mobnums);
+		.@mobtotal = 0;
+		getmapspawns(.@map$[0]);
+		.@avglv$ = "";
+		if (.@mobtotal > 0) {
+			.@lvsum = 0;
+			for (.@j = 0; .@j < getarraysize(.@mobids); .@j++)
+				.@lvsum += getmonsterinfo(.@mobids[.@j], MOB_LV) * .@mobnums[.@j];
+			.@avglv$ = " ~LV" + (.@lvsum / .@mobtotal);
+		}
+		.@sel$ += "• " + getmapname(.@map$[0]) + " ("+.@map$[0]+")" + .@avglv$;
 		if (WarpaDetail) GetMobs(.@map$[0]);
 	}
 	if (WarpaDetail) setdialogsize(500,10+cap_value(25*@mesnpccount,150,600));
