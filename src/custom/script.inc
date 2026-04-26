@@ -46,6 +46,11 @@ BUILDIN_FUNC(getmonsterexprate)
 	uint16 mob_id = script_getnum(st, 2);
 	int32 type	 = script_getnum(st, 3);
 
+	if (type != 0 && type != 1) {
+		script_pushstrcopy(st, "");
+		return SCRIPT_CMD_SUCCESS;
+	}
+
 	std::shared_ptr<s_mob_db> mob = mob_db.find(mob_id);
 	if (mob == nullptr) {
 		script_pushint(st, -1);
@@ -74,10 +79,10 @@ BUILDIN_FUNC(getmonsterexprate)
 		job_pct = (double)job_exp * 100.0 / nextjob;
 
 		double chosen_pct  = (type == 1) ? job_pct  : base_pct;
-		t_exp next_exp     = (type == 1) ? pc_nextjobexp(sd) : pc_nextbaseexp(sd);
+		t_exp next_exp     = (type == 1) ? nextjob : nextbase;
 
-		if (type == 1 && next_exp == MAX_LEVEL_JOB_EXP ||
-				type == 0 && next_exp == MAX_LEVEL_BASE_EXP) {
+		if ((type == 1 && next_exp == MAX_LEVEL_JOB_EXP) ||
+				(type == 0 && next_exp == MAX_LEVEL_BASE_EXP)) {
 				script_pushstrcopy( st, "" );
 				return SCRIPT_CMD_SUCCESS;
 		}
