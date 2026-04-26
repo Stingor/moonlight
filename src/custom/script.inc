@@ -84,7 +84,7 @@ BUILDIN_FUNC(getmonsterexprate)
 		if (chosen_pct > 100.0)
 				chosen_pct = 100.0;
 		char expstr[10];
-		sprintf(expstr, "%.2f%%", chosen_pct);
+		snprintf(expstr, sizeof(expstr), "%.2f%%", chosen_pct);
 		if( strcmp(expstr, "0.00%") == 0 )
 				script_pushstrcopy(st, "");
 		else
