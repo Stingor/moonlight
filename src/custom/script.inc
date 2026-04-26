@@ -83,7 +83,7 @@ BUILDIN_FUNC(getmonsterexprate)
 
 		if ((type == 1 && next_exp == MAX_LEVEL_JOB_EXP) ||
 				(type == 0 && next_exp == MAX_LEVEL_BASE_EXP)) {
-				script_pushstrcopy( st, "" );
+				script_pushstrcopy(st, "");
 				return SCRIPT_CMD_SUCCESS;
 		}
 		if (chosen_pct > 100.0)

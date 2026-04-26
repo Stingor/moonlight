@@ -810,38 +810,45 @@ function GetMobs {
 // Returns without warping when "Menu Précédent" is chosen.
 function WarpMenu {
 	.@n = getargcount();
+
+	// Phase 1 : collecte spawns et LV moyen
+	for (.@i = 0; .@i < .@n; .@i++) {
+		explode(.@tmp$[0], getarg(.@i), ",");
+		.@mname$[.@i] = .@tmp$[0];
+		.@mxcoord[.@i] = atoi(.@tmp$[1]);
+		.@mycoord[.@i] = atoi(.@tmp$[2]);
+		deletearray .@mobids[0], getarraysize(.@mobids);
+		deletearray .@mobnums[0], getarraysize(.@mobnums);
+		.@mobtotal = 0;
+		getmapspawns(.@mname$[.@i]);
+		if (.@mobtotal > 0) {
+			.@lvsum = 0;
+			for (.@j = 0; .@j < getarraysize(.@mobids); .@j++)
+				.@lvsum += getmonsterinfo(.@mobids[.@j], MOB_LV) * .@mobnums[.@j];
+			.@avglv[.@i] = .@lvsum / .@mobtotal;
+		}
+	}
+
+	// Phase 2 : construction menu et affichage detail
 	.@sel$ = "";
 	@mesnpctotal = 0;
 	if (WarpaDetail) clear;
 	for (.@i = 0; .@i < .@n; .@i++) {
 		if (.@i > 0) .@sel$ += ":";
-		explode(.@map$[0], getarg(.@i), ",");
-		deletearray .@mobids[0], getarraysize(.@mobids);
-		deletearray .@mobnums[0], getarraysize(.@mobnums);
-		.@mobtotal = 0;
-		getmapspawns(.@map$[0]);
-		.@avglv$ = "";
-		if (.@mobtotal > 0) {
-			.@lvsum = 0;
-			for (.@j = 0; .@j < getarraysize(.@mobids); .@j++)
-				.@lvsum += getmonsterinfo(.@mobids[.@j], MOB_LV) * .@mobnums[.@j];
-			.@avglv$ = " ~LV" + (.@lvsum / .@mobtotal);
-		}
-		.@sel$ += "• " + getmapname(.@map$[0]) + " ("+.@map$[0]+")" + .@avglv$;
-		if (WarpaDetail) GetMobs(.@map$[0]);
+		.@avglv$ = .@avglv[.@i] > 0 ? " ~LV" + .@avglv[.@i] : "";
+		.@sel$ += "• " + getmapname(.@mname$[.@i]) + " (" + .@mname$[.@i] + ")" + .@avglv$;
+		if (WarpaDetail) GetMobs(.@mname$[.@i]);
 	}
 	if (WarpaDetail) setdialogsize(500,10+cap_value(25*@mesnpccount,150,600));
 	.@c = select(.@sel$ + ":• ^e64c00Menu Précédent^000000") - 1;
 	if (.@c < .@n) {
-		explode(.@map$[0], getarg(.@c), ",");
-		if( atoi(.@map$[1]) > 0 && atoi(.@map$[2]) > 0 )
-			warp_fct(.@map$[0],atoi(.@map$[1]),atoi(.@map$[2]));
+		if (.@mxcoord[.@c] > 0 && .@mycoord[.@c] > 0)
+			warp_fct(.@mname$[.@c], .@mxcoord[.@c], .@mycoord[.@c]);
 		else
-			warp_fct(.@map$[0]);
+			warp_fct(.@mname$[.@c]);
 	}
 	return;
 }
-
 Hard_Mode:
 	if( is_party_leader(getcharid(1)) == true && (getgroupid() == 99 || getarg(0) != "^FF0000") ) {
 		clear;
@@ -1064,93 +1071,119 @@ L_Fields:
 	goto L_warpa;
 	end;
 
-L_fld_ama: WarpMenu("ama_fild01"); goto L_Fields; end;
-L_fld_ayo: WarpMenu("ayo_fild01", "ayo_fild02"); goto L_Fields; end;
-L_fld_bif: WarpMenu("bif_fild01", "bif_fild02"); goto L_Fields; end;
-L_fld_bra: WarpMenu("bra_fild01"); goto L_Fields; end;
+L_fld_ama: WarpMenu("ama_fild01"); goto L_Fields;
+L_fld_ayo: WarpMenu("ayo_fild01", "ayo_fild02"); goto L_Fields;
+L_fld_bif: WarpMenu("bif_fild01", "bif_fild02"); goto L_Fields;
+L_fld_bra: WarpMenu("bra_fild01"); goto L_Fields;
 L_fld_cmd: WarpMenu("cmd_fild01", "cmd_fild02", "cmd_fild03", "cmd_fild04", "cmd_fild05",
-					"cmd_fild06", "cmd_fild07", "cmd_fild08", "cmd_fild09"); goto L_Fields; end;
-L_fld_dew: WarpMenu("dew_fild01"); goto L_Fields; end;
-L_fld_ecl: WarpMenu("ecl_fild01"); goto L_Fields; end;
+					"cmd_fild06", "cmd_fild07", "cmd_fild08", "cmd_fild09"); goto L_Fields;
+L_fld_dew: WarpMenu("dew_fild01"); goto L_Fields;
+L_fld_ecl: WarpMenu("ecl_fild01"); goto L_Fields;
 L_fld_ein: WarpMenu("ein_fild01", "ein_fild02", "ein_fild03", "ein_fild04", "ein_fild05",
-					"ein_fild06", "ein_fild07", "ein_fild08", "ein_fild09", "ein_fild10"); goto L_Fields; end;
-L_fld_dic: WarpMenu("dic_fild01", "dic_fild02"); goto L_Fields; end;
+					"ein_fild06", "ein_fild07", "ein_fild08", "ein_fild09", "ein_fild10"); goto L_Fields;
+L_fld_dic: WarpMenu("dic_fild01", "dic_fild02"); goto L_Fields;
 L_fld_gef: WarpMenu("gef_fild00", "gef_fild01", "gef_fild02", "gef_fild03", "gef_fild04",
 					"gef_fild05", "gef_fild06", "gef_fild07", "gef_fild08", "gef_fild09",
-					"gef_fild10", "gef_fild11", "gef_fild12", "gef_fild13", "gef_fild14"); goto L_Fields; end;
-L_fld_roc: WarpMenu("rockrdg1", "rockrdg2"); goto L_Fields; end;
-L_fld_gon: WarpMenu("gon_fild01"); goto L_Fields; end;
+					"gef_fild10", "gef_fild11", "gef_fild12", "gef_fild13", "gef_fild14"); goto L_Fields;
+L_fld_roc: WarpMenu("rockrdg1", "rockrdg2"); goto L_Fields;
+L_fld_gon: WarpMenu("gon_fild01"); goto L_Fields;
 L_fld_hug: WarpMenu("hu_fild01", "hu_fild02", "hu_fild03", "hu_fild04", "hu_fild05",
-					"hu_fild06", "hu_fild07"); goto L_Fields; end;
-L_fld_las: WarpMenu("lasa_fild01", "lasa_fild02"); goto L_Fields; end;
-L_fld_lhz: WarpMenu("lhz_fild01", "lhz_fild02", "lhz_fild03"); goto L_Fields; end;
-L_fld_lou: WarpMenu("lou_fild01"); goto L_Fields; end;
-L_fld_xma: WarpMenu("xmas_fild01"); goto L_Fields; end;
-L_fld_mal: WarpMenu("ma_fild01", "ma_fild02"); goto L_Fields; end;
-L_fld_man: WarpMenu("man_fild01", "man_fild02", "man_fild03"); goto L_Fields; end;
+					"hu_fild06", "hu_fild07"); goto L_Fields;
+L_fld_las: WarpMenu("lasa_fild01", "lasa_fild02"); goto L_Fields;
+L_fld_lhz: WarpMenu("lhz_fild01", "lhz_fild02", "lhz_fild03"); goto L_Fields;
+L_fld_lou: WarpMenu("lou_fild01"); goto L_Fields;
+L_fld_xma: WarpMenu("xmas_fild01"); goto L_Fields;
+L_fld_mal: WarpMenu("ma_fild01", "ma_fild02"); goto L_Fields;
+L_fld_man: WarpMenu("man_fild01", "man_fild02", "man_fild03"); goto L_Fields;
 L_fld_mjo: WarpMenu("mjolnir_01", "mjolnir_02", "mjolnir_03", "mjolnir_04", "mjolnir_05",
 					"mjolnir_06", "mjolnir_07", "mjolnir_08", "mjolnir_09", "mjolnir_10",
-					"mjolnir_11", "mjolnir_12"); goto L_Fields; end;
-L_fld_mos: WarpMenu("mosk_fild01", "mosk_fild02"); goto L_Fields; end;
-L_fld_nam: WarpMenu("nameless_n"); goto L_Fields; end;
-L_fld_nif: WarpMenu("nif_fild01", "nif_fild02"); goto L_Fields; end;
+					"mjolnir_11", "mjolnir_12"); goto L_Fields;
+L_fld_mos: WarpMenu("mosk_fild01", "mosk_fild02"); goto L_Fields;
+L_fld_nam: WarpMenu("nameless_n"); goto L_Fields;
+L_fld_nif: WarpMenu("nif_fild01", "nif_fild02"); goto L_Fields;
 L_fld_pay: WarpMenu("pay_fild01", "pay_fild02", "pay_fild03", "pay_fild04", "pay_fild05",
 					"pay_fild06", "pay_fild07", "pay_fild08", "pay_fild09", "pay_fild10",
-					"pay_fild11"); goto L_Fields; end;
+					"pay_fild11"); goto L_Fields;
 L_fld_prt: WarpMenu("prt_fild00", "prt_fild01", "prt_fild02", "prt_fild03", "prt_fild04",
 					"prt_fild05", "prt_fild06", "prt_fild07", "prt_fild08", "prt_fild09",
-					"prt_fild10", "prt_fild11"); goto L_Fields; end;
+					"prt_fild10", "prt_fild11"); goto L_Fields;
 L_fld_rac: WarpMenu("ra_fild01", "ra_fild02", "ra_fild03", "ra_fild04", "ra_fild05",
 					"ra_fild06", "ra_fild07", "ra_fild08", "ra_fild09", "ra_fild10",
-					"ra_fild11", "ra_fild12", "ra_fild13"); goto L_Fields; end;
+					"ra_fild11", "ra_fild12", "ra_fild13"); goto L_Fields;
 L_fld_moc:
-	switch( select("• moc_fild01:• moc_fild02:• moc_fild03:• moc_fild04:• moc_fild05:• moc_fild06:• moc_fild07:• moc_fild08:• moc_fild09:• moc_fild10:• moc_fild11:• moc_fild12:• moc_fild13:• moc_fild14:• moc_fild15:• moc_fild16:• moc_fild17:• moc_fild18:• moc_fild19:• moc_fild20:• moc_fild21:• moc_fild22") ) {
-		case 1:  warp_fct("moc_fild01");
-		case 2:  warp_fct("moc_fild02");
-		case 3:  warp_fct("moc_fild03");
-		case 4:  warp_fct("moc_fild04");
-		case 5:  warp_fct("moc_fild05");
-		case 6:  warp_fct("moc_fild06");
-		case 7:  warp_fct("moc_fild07");
-		case 8:  warp_fct("moc_fild08");
-		case 9:  warp_fct("moc_fild09");
-		case 10: warp_fct("moc_fild10");
-		case 11: warp_fct("moc_fild11");
-		case 12: warp_fct("moc_fild12");
-		case 13: warp_fct("moc_fild13");
-		case 14: warp_fct("moc_fild14");
-		case 15: warp_fct("moc_fild15");
-		case 16: warp_fct("moc_fild16");
-		case 17: warp_fct("moc_fild17");
-		case 18: warp_fct("moc_fild18");
-		case 19: warp_fct("moc_fild19");
-		case 20: warp_fct("moc_fild20");
-		case 21:
-			if (rebirth_moc_edq < 4)
-				warp_fct("moc_fild20", 349, 185);
-			else if (rebirth_moc_edq > 3 && rebirth_moc_edq < 8 && countitem(7826) > 0)
-				warp_fct("moc_fild21", 38, 193);
-			else if (rebirth_moc_edq == 8 && countitem(7826) > 0 )
-				warp_fct("moc_fild21", 38, 193);
-			break;
-		case 22: 
-			if (countitem(7826) > 0) 
-				warp_fct("moc_fild22", 38, 193);
-			else if (countitem(7826) < 1) {
-				mes "[Continental Guard]";
-				mes "Only members of the Continental Guards with Continental Guard Certificates are allowed to proceed beyond this point.";
-				close;
-			}
-			break;
+	if( WarpaDetail)
+		switch( select("• Field 1 à 10:• Field 11 à 20:• Field 21:• Field 22:• ^e64c00Menu Précédent^000000") ) {
+			case 1: WarpMenu("moc_fild01", "moc_fild02", "moc_fild03", "moc_fild04", "moc_fild05",
+					 "moc_fild06", "moc_fild07", "moc_fild08", "moc_fild09", "moc_fild10"); goto L_fld_moc;
+			case 2: WarpMenu("moc_fild11", "moc_fild12", "moc_fild13", "moc_fild14", "moc_fild15",
+					 "moc_fild16", "moc_fild17", "moc_fild18", "moc_fild19", "moc_fild20"); goto L_fld_moc;
+			case 3:
+				if (rebirth_moc_edq < 4)
+					warp_fct("moc_fild20", 349, 185);
+				else if (rebirth_moc_edq > 3 && rebirth_moc_edq < 8 && countitem(7826) > 0)
+					warp_fct("moc_fild21", 38, 193);
+				else if (rebirth_moc_edq == 8 && countitem(7826) > 0 )
+					warp_fct("moc_fild21", 38, 193);
+				goto L_fld_moc;
+			case 4:
+				if (countitem(7826) > 0) 
+					warp_fct("moc_fild22", 38, 193);
+				else if (countitem(7826) < 1) {
+					mes "[Continental Guard]";
+					mes "Only members of the Continental Guards with Continental Guard Certificates are allowed to proceed beyond this point.";
+					close;
+				}
+			default: goto L_Fields;
+		}
+	else {
+		switch( select("• moc_fild01:• moc_fild02:• moc_fild03:• moc_fild04:• moc_fild05:• moc_fild06:• moc_fild07:• moc_fild08:• moc_fild09:• moc_fild10:• moc_fild11:• moc_fild12:• moc_fild13:• moc_fild14:• moc_fild15:• moc_fild16:• moc_fild17:• moc_fild18:• moc_fild19:• moc_fild20:• moc_fild21:• moc_fild22") ) {
+			case 1:  warp_fct("moc_fild01");
+			case 2:  warp_fct("moc_fild02");
+			case 3:  warp_fct("moc_fild03");
+			case 4:  warp_fct("moc_fild04");
+			case 5:  warp_fct("moc_fild05");
+			case 6:  warp_fct("moc_fild06");
+			case 7:  warp_fct("moc_fild07");
+			case 8:  warp_fct("moc_fild08");
+			case 9:  warp_fct("moc_fild09");
+			case 10: warp_fct("moc_fild10");
+			case 11: warp_fct("moc_fild11");
+			case 12: warp_fct("moc_fild12");
+			case 13: warp_fct("moc_fild13");
+			case 14: warp_fct("moc_fild14");
+			case 15: warp_fct("moc_fild15");
+			case 16: warp_fct("moc_fild16");
+			case 17: warp_fct("moc_fild17");
+			case 18: warp_fct("moc_fild18");
+			case 19: warp_fct("moc_fild19");
+			case 20: warp_fct("moc_fild20");
+			case 21:
+				if (rebirth_moc_edq < 4)
+					warp_fct("moc_fild20", 349, 185);
+				else if (rebirth_moc_edq > 3 && rebirth_moc_edq < 8 && countitem(7826) > 0)
+					warp_fct("moc_fild21", 38, 193);
+				else if (rebirth_moc_edq == 8 && countitem(7826) > 0 )
+					warp_fct("moc_fild21", 38, 193);
+				break;
+			case 22: 
+				if (countitem(7826) > 0) 
+					warp_fct("moc_fild22", 38, 193);
+				else if (countitem(7826) < 1) {
+					mes "[Continental Guard]";
+					mes "Only members of the Continental Guards with Continental Guard Certificates are allowed to proceed beyond this point.";
+					close;
+				}
+				break;
+		}
 	}
 	end;
-L_fld_spl: WarpMenu("spl_fild01", "spl_fild02", "spl_fild03"); goto L_Fields; end;
-L_fld_umb: WarpMenu("um_fild01", "um_fild02", "um_fild03", "um_fild04"); goto L_Fields; end;
+L_fld_spl: WarpMenu("spl_fild01", "spl_fild02", "spl_fild03"); goto L_Fields;
+L_fld_umb: WarpMenu("um_fild01", "um_fild02", "um_fild03", "um_fild04"); goto L_Fields;
 L_fld_vei: WarpMenu("ve_fild01", "ve_fild02", "ve_fild03", "ve_fild04", "ve_fild05",
-					"ve_fild06", "ve_fild07"); goto L_Fields; end;
+					"ve_fild06", "ve_fild07"); goto L_Fields;
 L_fld_yun: WarpMenu("yuno_fild01", "yuno_fild02", "yuno_fild03", "yuno_fild04", "yuno_fild05",
 					"yuno_fild06", "yuno_fild07", "yuno_fild08", "yuno_fild09", "yuno_fild10",
-					"yuno_fild11", "yuno_fild12"); goto L_Fields; end;
+					"yuno_fild11", "yuno_fild12"); goto L_Fields;
 L_Donjons:
 	clear;
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
