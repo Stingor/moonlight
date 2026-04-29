@@ -17,19 +17,10 @@ void SkillBackSlide::castendNoDamageId(block_list *src, block_list *bl, uint16 s
 	if (unit_data *ud = unit_bl2ud(bl); ud != nullptr && !status_isendure(*bl, tick, true))
 		ud->endure_tick = tick + 200;
 
-#ifdef RENEWAL
 	int16 blew_count = skill_blown(src, bl, skill_get_blewcount(getSkillId(), skill_lv), unit_getdir(bl),
 	                               static_cast<enum e_skill_blown>(BLOWN_IGNORE_NO_KNOCKBACK | BLOWN_DONT_SEND_PACKET));
-	clif_skill_nodamage(src, *bl, getSkillId(), skill_lv);
-
 	if (blew_count > 0)
 		clif_blown(src); // Always blow, otherwise it shows a casting animation. [Lemongrass]
-#else
-	// int16 blew_count = skill_blown(src, bl, skill_get_blewcount(getSkillId(), skill_lv), unit_getdir(bl), BLOWN_IGNORE_NO_KNOCKBACK);
-	// clif_skill_nodamage(src, *bl, getSkillId(), skill_lv);
-	// clif_slide(*bl, bl->x, bl->y); //Show the casting animation on pre-re
-	skill_blown(src,bl,skill_get_blewcount(getSkillId(),skill_lv),unit_getdir(bl),static_cast<enum e_skill_blown>(BLOWN_IGNORE_NO_KNOCKBACK|BLOWN_DONT_SEND_PACKET));
 	clif_skill_nodamage(src, *bl, getSkillId(), skill_lv);
-	clif_blown(src);
-#endif
+
 }
