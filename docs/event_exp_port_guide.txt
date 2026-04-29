@@ -1,0 +1,188 @@
+================================================================================
+  GUIDE D'IMPLANTATION : event_exp (port vers une autre version rAthena)
+================================================================================
+
+Le système repose sur 3 composantes : un flag C++ global, un multiplicateur
+configurable (battle_config), et des script builtins pour le piloter depuis
+les NPC.
+
+
+--------------------------------------------------------------------------------
+1. VARIABLE GLOBALE C++ — src/map/map.cpp
+--------------------------------------------------------------------------------
+
+C'est le flag central. Ajouter près des autres flags globaux (agit_flag, etc.) :
+
+    bool event_exp = false; // Stingor
+
+Emplacement : autour de la ligne 146, avec les autres variables globales de
+serveur (agit_flag, agit2_flag, night_flag...).
+
+
+--------------------------------------------------------------------------------
+2. DECLARATION EXTERN — src/map/map.hpp (ou src/custom/map_custom.hpp)
+--------------------------------------------------------------------------------
+
+Pour que les autres fichiers .cpp puissent accéder au flag :
+
+    extern bool event_exp;
+
+Si tu n'as pas de fichier custom, mettre la déclaration directement dans map.hpp.
+
+
+--------------------------------------------------------------------------------
+3. PARAMETRE BATTLE_CONFIG — multiplicateur de taux
+--------------------------------------------------------------------------------
+
+--- Dans le struct battle_config_t (ex: src/map/battle.hpp) ---
+
+    int32 mult_eventexp;
+
+--- Dans le tableau d'initialisation (ex: src/map/battle.cpp) ---
+
+    { "mult_eventexp", &battle_config.mult_eventexp, 200, 100, 400 },
+
+Format : nom, pointeur, valeur_defaut, min, max.
+  200 = x2 (défaut), 100 = x1 (pas de bonus), 400 = x4 (maximum autorisé).
+
+
+--------------------------------------------------------------------------------
+4. APPLICATION DU MULTIPLICATEUR — src/map/pc.cpp
+--------------------------------------------------------------------------------
+
+Dans la fonction qui calcule l'EXP reçue (chercher SC_EXPBOOST ou base_exp +
+bonus), la ligne originale ressemble à :
+
+    t_exp exp = (t_exp)(*base_exp + ((double)*base_exp * ((bonus + vip_bonus_base) / 100.)));
+
+Remplacer par :
+
+    t_exp exp = (t_exp)(*base_exp + ((double)*base_exp * ((bonus + vip_bonus_base) / 100.)))
+                * (event_exp ? battle_config.mult_eventexp / 100 : 1); // Stingor
+
+Note : la division par 100 est nécessaire car mult_eventexp est stocké en
+pourcentage (200 = x2, 300 = x3, etc.).
+
+
+--------------------------------------------------------------------------------
+5. SCRIPT BUILTINS — src/map/script.cpp + déclarations
+--------------------------------------------------------------------------------
+
+--- Fonctions (dans script.cpp, partie BUILDIN_FUNC) ---
+
+    BUILDIN_FUNC(starteventexp)
+    {
+        event_exp = true;
+        return SCRIPT_CMD_SUCCESS;
+    }
+
+    BUILDIN_FUNC(stopeventexp)
+    {
+        event_exp = false;
+        return SCRIPT_CMD_SUCCESS;
+    }
+
+    BUILDIN_FUNC(eventexp)
+    {
+        script_pushint(st, event_exp);
+        return SCRIPT_CMD_SUCCESS;
+    }
+
+--- Déclarations (dans le tableau des builtins, chercher BUILDIN_DEF) ---
+
+    BUILDIN_DEF(starteventexp,""),
+    BUILDIN_DEF(stopeventexp,""),
+    BUILDIN_DEF(eventexp,""),
+
+
+--------------------------------------------------------------------------------
+6. AFFICHAGE DANS @mobinfo — src/map/atcommand.cpp
+--------------------------------------------------------------------------------
+
+Dans la commande @mobinfo, là où base_exp est affiché, appliquer le taux event
+pour que les joueurs voient l'EXP actuelle et non l'EXP de base :
+
+    t_exp base_exp = mob->base_exp;
+    t_exp job_exp  = mob->job_exp;
+
+    if (event_exp) { // Stingor
+        base_exp = apply_rate(base_exp, battle_config.mult_eventexp);
+        job_exp  = apply_rate(job_exp,  battle_config.mult_eventexp);
+    }
+
+
+--------------------------------------------------------------------------------
+7. NPC DE CONTROLE — script NPC (ex: npc/custom/atcommands.npc)
+--------------------------------------------------------------------------------
+
+NPC scripté exposant un atcommand @eventexp (niveau GM 80+) avec timer 30 min.
+Usage GM : @eventexp 300  (= x3),  @eventexp sans arg pour couper.
+
+-   script  #eventexp  -1,{
+OnInit:
+    bindatcmd("eventexp", strnpcinfo(0)+"::OnCommand", 80, 99);
+    end;
+
+OnTimer900000:
+    if (eventexp())
+        callfunc "announce2","Il reste 15min d'event exp !!",bc_all;
+    end;
+
+OnTimer1200000:
+    if (eventexp())
+        Announce "Il reste 10min d'event exp !!",bc_all;
+    end;
+
+OnTimer1500000:
+    if (eventexp())
+        Announce "Il reste 5min d'event exp !!",bc_all;
+    end;
+
+OnTimer1740000:
+    if (eventexp())
+        Announce "Il reste 1min d'event exp !!",bc_all;
+    end;
+
+OnCommand:
+    if (!eventexp()) {
+        $eventexp = gettimetick(2) + 1800;
+        $eventexprate = cap_value(atoi(.@atcmd_parameters$[0]), 200, 1000);
+        setBattleFlag "mult_eventexp", $eventexprate;
+        starteventexp();
+        setBattleFlag "party_even_share_bonus", 35;
+        callfunc "announce2","Attention rates augmentees pour 30min, base & job "
+                 +(1000*(getBattleFlag("mult_eventexp")/100))+" et bonus party share 35%!",bc_all;
+        initnpctimer;
+        end;
+    }
+
+OnTimer1800000:
+    if (eventexp()) {
+        stopeventexp();
+        setBattleFlag "mult_eventexp", 200;
+        setBattleFlag "party_even_share_bonus", 10;
+        callfunc "announce2","Retour a la normale! Base & Job rate a 1000 et bonus party share 10%!",bc_all;
+        stopnpctimer;
+    }
+    $eventexp = 0;
+    end;
+}
+
+
+--------------------------------------------------------------------------------
+RESUME — FICHIERS A TOUCHER
+--------------------------------------------------------------------------------
+
+  Fichier                          Action
+  -------                          ------
+  src/map/map.cpp                  Ajouter : bool event_exp = false;
+  src/map/map.hpp                  Ajouter : extern bool event_exp;
+  src/map/pc.cpp                   Multiplier base_exp par le flag
+  src/map/battle.hpp (struct)      Ajouter : int32 mult_eventexp;
+  src/map/battle.cpp (init)        Ajouter l'entree "mult_eventexp"
+  src/map/script.cpp               Ajouter les 3 BUILDIN_FUNC
+  src/map/script.cpp (defs)        Ajouter les 3 BUILDIN_DEF
+  src/map/atcommand.cpp            Appliquer dans @mobinfo
+  NPC script                       Creer le NPC avec le timer 30min
+
+================================================================================
