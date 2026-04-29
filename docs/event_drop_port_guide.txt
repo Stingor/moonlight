@@ -1,0 +1,238 @@
+================================================================================
+  GUIDE D'IMPLANTATION : event_drop (port vers une autre version rAthena)
+================================================================================
+
+Même architecture que event_exp : un flag C++ global, un multiplicateur
+configurable (battle_config), des script builtins, et deux points d'application
+dans mob.cpp (drops normaux + drops MVP/miniboss).
+
+
+--------------------------------------------------------------------------------
+1. VARIABLE GLOBALE C++ — src/map/map.cpp
+--------------------------------------------------------------------------------
+
+Ajouter près des autres flags globaux (agit_flag, et idéalement à côté de
+event_exp si tu as déjà porté ce dernier) :
+
+    bool event_drop = false; // Stingor
+
+Emplacement : autour de la ligne 145-146, avec les variables globales de
+serveur (agit_flag, agit2_flag, night_flag...).
+
+
+--------------------------------------------------------------------------------
+2. DECLARATION EXTERN — src/map/map.hpp (ou src/custom/map_custom.hpp)
+--------------------------------------------------------------------------------
+
+Pour que les autres fichiers .cpp puissent accéder au flag :
+
+    extern bool event_drop;
+
+
+--------------------------------------------------------------------------------
+3. PARAMETRE BATTLE_CONFIG — multiplicateur de taux
+--------------------------------------------------------------------------------
+
+--- Dans le struct battle_config_t (ex: src/map/battle.hpp) ---
+
+    int32 mult_eventdrop;
+
+--- Dans le tableau d'initialisation (ex: src/map/battle.cpp) ---
+
+    { "mult_eventdrop", &battle_config.mult_eventdrop, 200, 100, 400 },
+
+Format : nom, pointeur, valeur_defaut, min, max.
+  200 = x2 (défaut), 100 = x1 (pas de bonus), 400 = x4 (maximum autorisé).
+
+Note : contrairement à event_exp, mult_eventdrop est utilisé directement via
+apply_rate() sans division par 100 supplémentaire — apply_rate() gère ça.
+
+
+--------------------------------------------------------------------------------
+4. APPLICATION DU MULTIPLICATEUR — src/map/mob.cpp (2 endroits)
+--------------------------------------------------------------------------------
+
+Le drop est calculé dans mob_db_searchname() / mob_dead(). Il y a deux blocs
+à modifier : un pour les drops normaux (mobs standard) et un pour les drops
+MVP/miniboss.
+
+--- Bloc 1 : drops normaux ---
+
+Chercher le bloc qui vérifie `rnd() % 10000 >= drop_rate` et y ajouter juste
+avant la vérification :
+
+    if (event_drop) { // Stingor
+        drop_rate = apply_rate(drop_rate, battle_config.mult_eventdrop);
+        drop_rate = min(drop_rate, 10000); //cap it to 100%
+    }
+
+    // attempt to drop the item
+    if (rnd() % 10000 >= drop_rate)
+        continue;
+
+--- Bloc 2 : drops MVP / miniboss ---
+
+Un peu plus bas dans le même fichier, un second loop sur les drops (mdrop) :
+
+    temp = entry->rate;
+    if (event_drop) { // Stingor
+        temp = apply_rate(entry->rate, battle_config.mult_eventdrop);
+        temp = min(temp, 10000); //cap it to 100%
+    }
+
+    #if defined(RENEWAL_DROP)
+        temp = cap_value(apply_rate(temp, penalty), 0, 10000);
+    #endif
+
+Important : le cap à 10000 (= 100%) doit toujours être appliqué après le
+multiplicateur pour éviter des taux supérieurs à 100%.
+
+
+--------------------------------------------------------------------------------
+5. SCRIPT BUILTINS — src/map/script.cpp + déclarations
+--------------------------------------------------------------------------------
+
+--- Fonctions (dans script.cpp, partie BUILDIN_FUNC) ---
+
+    BUILDIN_FUNC(starteventdrop)
+    {
+        event_drop = true;
+        return SCRIPT_CMD_SUCCESS;
+    }
+
+    BUILDIN_FUNC(stopeventdrop)
+    {
+        event_drop = false;
+        return SCRIPT_CMD_SUCCESS;
+    }
+
+    BUILDIN_FUNC(eventdrop)
+    {
+        script_pushint(st, event_drop);
+        return SCRIPT_CMD_SUCCESS;
+    }
+
+--- Déclarations (dans le tableau des builtins, chercher BUILDIN_DEF) ---
+
+    BUILDIN_DEF(starteventdrop,""),
+    BUILDIN_DEF(stopeventdrop,""),
+    BUILDIN_DEF(eventdrop,""),
+
+
+--------------------------------------------------------------------------------
+6. AFFICHAGE DANS @mobinfo ET @whodrops — src/map/atcommand.cpp (2 endroits)
+--------------------------------------------------------------------------------
+
+Contrairement à event_exp, event_drop affecte l'affichage dans deux commandes.
+
+--- Dans @mobinfo (liste des drops du mob) ---
+
+Après le calcul de droprate via mob_getdroprate() :
+
+    int32 droprate = mob_getdroprate(sd, mob, entry->rate, drop_modifier);
+
+    if (event_drop) { // Stingor
+        droprate = apply_rate(droprate, battle_config.mult_eventdrop);
+        droprate = min(droprate, 10000); //cap it to 100%
+    }
+
+--- Dans @whodrops (liste des mobs qui droppent un item) ---
+
+Après le calcul de dropchance (et après le bonus VIP si tu en as un) :
+
+    if (pc_isvip(sd))
+        dropchance += (dropchance * battle_config.vip_drop_increase) / 100;
+
+    if (event_drop) // Stingor
+        dropchance = apply_rate(dropchance, battle_config.mult_eventdrop);
+
+    dropchance = min(dropchance, 10000); //cap it to 100%
+
+Note : dans @whodrops le cap est appliqué juste après, pas besoin de le
+dupliquer dans le bloc event_drop.
+
+
+--------------------------------------------------------------------------------
+7. NPC DE CONTROLE — script NPC (ex: npc/custom/atcommands.npc)
+--------------------------------------------------------------------------------
+
+NPC scripté exposant un atcommand @eventdrop (niveau GM 80+) avec timer 30 min.
+Le taux est fixé dans battle_conf (mult_eventdrop) avant le lancement, pas
+via paramètre de commande (contrairement à @eventexp).
+
+-   script  #eventdrop  -1,{
+OnInit:
+    bindatcmd("eventdrop", strnpcinfo(0)+"::OnCommand", 80, 99);
+    end;
+
+OnTimer900000:
+    if (eventdrop())
+        callfunc "announce2","Il reste 15min d'event drop !!",bc_all;
+    end;
+
+OnTimer1200000:
+    if (eventdrop())
+        Announce "Il reste 10min d'event drop !!",bc_all;
+    end;
+
+OnTimer1500000:
+    if (eventdrop())
+        Announce "Il reste 5min d'event drop !!",bc_all;
+    end;
+
+OnTimer1740000:
+    if (eventdrop())
+        Announce "Il reste 1min d'event drop !!",bc_all;
+    end;
+
+OnCommand:
+    if (!eventdrop()) {
+        $eventdrop = gettimetick(2) + 1800;
+        starteventdrop();
+        callfunc "announce2","Attention chance de drop cards, items communs et equippements multiplies par "
+                 +(getBattleFlag("mult_eventdrop")/100)+" pour 30min !!!",bc_all;
+        initnpctimer;
+        end;
+    }
+
+OnTimer1800000:
+    if (eventdrop()) {
+        $eventdrop = 0;
+        stopeventdrop();
+        callfunc "announce2","Fin d'event drop ! Retour a la normale.",bc_all;
+        stopnpctimer;
+    }
+    end;
+}
+
+
+--------------------------------------------------------------------------------
+DIFFERENCES CLES AVEC event_exp
+--------------------------------------------------------------------------------
+
+  Point                   event_exp               event_drop
+  -----                   ---------               ----------
+  Fichier modifié         pc.cpp (1 endroit)      mob.cpp (2 endroits)
+  Atcommand affecté       @mobinfo seulement      @mobinfo ET @whodrops
+  Paramètre commande      Oui (@eventexp 300)     Non (taux fixé en conf)
+  Division /100           Oui (dans pc.cpp)       Non (apply_rate suffit)
+  Cap 10000               Non nécessaire          Oui (drop ne peut > 100%)
+
+
+--------------------------------------------------------------------------------
+RESUME — FICHIERS A TOUCHER
+--------------------------------------------------------------------------------
+
+  Fichier                          Action
+  -------                          ------
+  src/map/map.cpp                  Ajouter : bool event_drop = false;
+  src/map/map.hpp                  Ajouter : extern bool event_drop;
+  src/map/mob.cpp                  Appliquer dans les 2 boucles de drop
+  src/map/battle.hpp (struct)      Ajouter : int32 mult_eventdrop;
+  src/map/battle.cpp (init)        Ajouter l'entree "mult_eventdrop"
+  src/map/script.cpp               Ajouter les 3 BUILDIN_FUNC
+  src/map/script.cpp (defs)        Ajouter les 3 BUILDIN_DEF
+  src/map/atcommand.cpp            Appliquer dans @mobinfo ET @whodrops
+  NPC script                       Creer le NPC avec le timer 30min
+
+================================================================================
