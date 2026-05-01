@@ -2951,6 +2951,16 @@ Body:
         # Price: 99999
       # - Item: C_Jirant_Circlet
         # Price: 99999
+      - Item: C_Will_O_Wisp_Lower
+        Price: 30
+      - Item: C_Poporing_Muffler
+        Price: 10
+      - Item: C_Snow_Flower
+        Price: 20
+      - Item: C_Golden_Majestic_Goat
+        Price: 20
+      - Item: C_Designer_Brush
+        Price: 10
       - Item: C_Yellow_Scarf
         Price: 99999
       - Item: C_Red_Pencil_In_Mouth
