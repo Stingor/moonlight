@@ -400,7 +400,7 @@ ACMD_FUNC(who) {
 /*===================================
  * vote
  *-----------------------------------*/
-ACMD_FUNC(vote)
+ACMD_FUNC(votes)
 {
 	char output[128];
 	int32 value;
@@ -420,7 +420,7 @@ ACMD_FUNC(vote)
 
 	parent_cmd = atcommand_alias_db.checkAlias(command + 1);
 
-	if (!strcmpi(parent_cmd, "vote"))
+	if (!strcmpi(parent_cmd, "votes"))
 	{
 		if (value > 0) {
 			if ((ret = pc_getcash(sd, value, 0, LOG_TYPE_COMMAND)) >= 0) {
