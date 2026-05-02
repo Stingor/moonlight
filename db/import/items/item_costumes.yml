@@ -15034,7 +15034,7 @@ Body:
     View: 1882
   - Id: 31722
     AegisName: C_Sedora_Hat
-    Name: Costume Sedora Hat    # !todo check english name
+    Name: Costume Sedora Hat
     Type: Armor
     Locations:
       Costume_Head_Top: true
@@ -16319,10 +16319,7 @@ Body:
     Type: Armor
     Locations:
       Costume_Head_Low: true
-    Script: |
-      hateffect HAT_EF_POISON_MASTER,true;
-    UnEquipScript: |
-      hateffect HAT_EF_POISON_MASTER,false;
+    View: 2061
   - Id: 31958
     AegisName: C_SantaPoring_Balloon
     Name: Costume Santa Poring Balloon
@@ -16577,14 +16574,14 @@ Body:
       NoAuction: true
   - Id: 400080
     AegisName: C_Kriemhild_Crown_TW
-    Name: Costume Kriemhild Crown    # !todo check english name
+    Name: Costume Kriemhild Crown
     Type: Armor
     Locations:
       Costume_Head_Top: true
     View: 1056
   - Id: 400081
     AegisName: C_2020RTC_Imp_TW
-    Name: Costume 2020RTC Naughty Ghost    # !todo check english name
+    Name: Costume 2020RTC Naughty Ghost
     Type: Armor
     Locations:
       Costume_Head_Top: true
@@ -16704,7 +16701,7 @@ Body:
     View: 1530
   - Id: 400136
     AegisName: C_Ancient_Gold_Deco_TW
-    Name: Costume Ancient Gold Deco    # !todo check english name
+    Name: Costume Ancient Gold Deco
     Type: Armor
     Locations:
       Costume_Head_Top: true
