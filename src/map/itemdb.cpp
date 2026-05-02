@@ -545,7 +545,7 @@ uint64 ItemDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		item->elv = lv;
 	} else {
 		if (!exists)
-			item->elv = 0;
+			item->elv = 1;
 	}
 
 	if (this->nodeExists(node, "EquipLevelMax")) {
@@ -1129,7 +1129,7 @@ void ItemDatabase::loadingFinished(){
 
 		if( item->type == IT_WEAPON ){
 			if( item->weapon_level == 0 ){
-				ShowWarning( "Item %s is a weapon, but does not have a weapon level. Consider adding it. Defaulting to 1.\n", item->name.c_str() );
+				// ShowWarning( "Item %s is a weapon, but does not have a weapon level. Consider adding it. Defaulting to 1.\n", item->name.c_str() );
 				item->weapon_level = 1;
 			}
 
@@ -1139,7 +1139,7 @@ void ItemDatabase::loadingFinished(){
 			}
 		}else if( item->type == IT_ARMOR ){
 			if( item->armor_level == 0 ){
-				ShowWarning( "Item %s is an armor, but does not have an armor level. Consider adding it. Defaulting to 1.\n", item->name.c_str() );
+				// ShowWarning( "Item %s is an armor, but does not have an armor level. Consider adding it. Defaulting to 1.\n", item->name.c_str() );
 				item->armor_level = 1;
 			}
 

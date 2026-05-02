@@ -21957,7 +21957,7 @@ Body:
             Rate: 1000
             Amount: 2
           - Index: 14
-            Item: Bloody_Branch _Box
+            Item: Bloody_Branch_Box
             Rate: 1100
           - Index: 15
             Item: Unbreak_Weap_Box

@@ -1,5 +1,5 @@
-$FolderA = "E:\Nouveau dossier\Moonlight-Destiny\data\sprite"
-$FolderB = "E:\Nouveau dossier\Moonlight-Destiny\data\spritenew"
+$FolderA = "D:\TWRO\Nouveau dossier\data"
+$FolderB = "D:\TWRO\Nouveau dossier\datatwro"
 
 $sw = [System.Diagnostics.Stopwatch]::StartNew()
 function Log($msg) { Write-Host "[$($sw.Elapsed.ToString('mm\:ss\.ff'))] $msg" }
