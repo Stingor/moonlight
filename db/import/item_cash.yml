@@ -3701,8 +3701,6 @@ Body:
         Price: 20
   - Tab: Limited
     Items:
-      - Item: C_1Grade_Balloon_TW  # Id: 31458 | ViewID = 1426
-        Price: 99999
       - Item: C_Male_Poring_Earmuff  # Id: 31461 | ViewID = 1160
         Price: 99999
       - Item: C_Female_Poring_Earmuff  # Id: 31462 | ViewID = 1162
