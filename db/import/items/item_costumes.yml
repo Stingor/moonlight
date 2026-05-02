@@ -9571,7 +9571,7 @@ Body:
       Override: 99
       NoDrop: true
       NoSell: true
-    Script: "hateffect(HAT_EF_DOUBLEGUMGANG,true); /* Need to confirm this */\n"
+    Script: "hateffect(HAT_EF_DOUBLEGUMGANG,true);\n"
     UnEquipScript: "hateffect(HAT_EF_DOUBLEGUMGANG,false);\n"
     ArmorLevel: 1
   - Id: 31057
@@ -9894,7 +9894,7 @@ Body:
       Override: 99
       NoDrop: true
       NoSell: true
-    Script: "hateffect(HAT_EF_GOLD_SHOWER,true);bonus2 bGetZenyNum,500,1;\n"
+    Script: "hateffect(HAT_EF_GOLD_SHOWER,true);\n"
     UnEquipScript: "hateffect(HAT_EF_GOLD_SHOWER,false);\n"
     ArmorLevel: 1
   - Id: 31092
@@ -14360,6 +14360,7 @@ Body:
     Locations:
       Costume_Head_Top: true
     EquipLevelMin: 1
+    View: 740
     ArmorLevel: 1
   - Id: 31711
     AegisName: Costume_Jewel_Crown
@@ -14692,6 +14693,7 @@ Body:
     Locations:
       Costume_Head_Top: true
     EquipLevelMin: 1
+    View: 1932
     ArmorLevel: 1
   - Id: 31791
     AegisName: Costume_Pig_Mask
@@ -15754,7 +15756,7 @@ Body:
     Locations:
       Costume_Head_Top: true
     ArmorLevel: 1
-    View: 502
+    View: 505
   - Id: 19874
     AegisName: C_Carnival_Circlet
     Name: Costume Carnival Circlet
@@ -15895,7 +15897,7 @@ Body:
     Locations:
       Costume_Head_Mid: true
     ArmorLevel: 1
-    View: 1094
+    View: 1097
     Script: |
       bonus2 bAddMonsterDropItem,22660,50;
   - Id: 19901
