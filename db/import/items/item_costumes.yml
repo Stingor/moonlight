@@ -13876,7 +13876,7 @@ Body:
       NoAuction: true
   - Id: 20617
     AegisName: C_Wing_Of_Eutaxy
-    Name: Costume Wing of Eutaxy    # !todo check english name
+    Name: Costume Wing of Eutaxy
     Type: Armor
     Locations:
       Costume_Garment: true
@@ -14225,7 +14225,7 @@ Body:
       Costume_Head_Low: true
   - Id: 31305
     AegisName: C_TW_1th_Balloon
-    Name: "Costume: Walking Poring"
+    Name: Costume: Walking Poring
     Type: Armor
     Locations:
       Costume_Head_Low: true
@@ -14239,42 +14239,42 @@ Body:
     View: 1672
   - Id: 31333
     AegisName: C_Straight_Pony_WH_V
-    Name: "Costume: Straight Pony (White)"
+    Name: Costume: Straight Pony (White)
     Type: Armor
     Locations:
       Costume_Head_Mid: true
     View: 1395
   - Id: 31334
     AegisName: C_Straight_Pony_BU_V
-    Name: "Costume: Straight Pony (Blue)"
+    Name: Costume: Straight Pony (Blue)
     Type: Armor
     Locations:
       Costume_Head_Mid: true
     View: 1394
   - Id: 31335
     AegisName: C_Straight_Pony_OM_V
-    Name: "Costume: Straight Pony (Brown)"
+    Name: Costume: Straight Pony (Brown)
     Type: Armor
     Locations:
       Costume_Head_Mid: true
     View: 1393
   - Id: 31336
     AegisName: C_Straight_Pony_RD_V
-    Name: "Costume: Straight Pony (Red)"
+    Name: Costume: Straight Pony (Red)
     Type: Armor
     Locations:
       Costume_Head_Mid: true
     View: 1392
   - Id: 31337
     AegisName: C_Straight_Pony_PP_V
-    Name: "Costume: Straight Pony (Purple)"
+    Name: Costume: Straight Pony (Purple)
     Type: Armor
     Locations:
       Costume_Head_Mid: true
     View: 1391
   - Id: 31338
     AegisName: C_Straight_Pony_GN_V
-    Name: "Costume: Straight Pony (Green)"
+    Name: Costume: Straight Pony (Green)
     Type: Armor
     Locations:
       Costume_Head_Mid: true
@@ -14544,14 +14544,14 @@ Body:
     View: 976
   - Id: 31423
     AegisName: C_Bear_Balloon
-    Name: "Costume: Cute Bear Bear Balloon (Brown)"
+    Name: Costume: Cute Bear Bear Balloon (Brown)
     Type: Armor
     Locations:
       Costume_Head_Low: true
     View: 1038
   - Id: 31424
     AegisName: C_LoveLove_Balloon
-    Name: Costume Love Love Balloon    # !todo check english name
+    Name: Costume Love Love Balloon
     Type: Armor
     Locations:
       Costume_Head_Low: true
@@ -14586,7 +14586,7 @@ Body:
     View: 1115
   - Id: 31429
     AegisName: C_Blue_Poring_Bubble
-    Name: Costume Blue Poring Bubble    # !todo check english name
+    Name: Costume Blue Poring Bubble
     Type: Armor
     Locations:
       Costume_Head_Low: true
@@ -14663,7 +14663,7 @@ Body:
       Costume_Head_Mid: true
   - Id: 31500
     AegisName: C_Sparkler_Stick_TH
-    Name: Costume Sparkler Stick    # !todo check english name
+    Name: Costume Sparkler Stick
     Type: Armor
     Locations:
       Costume_Head_Low: true
@@ -14698,7 +14698,7 @@ Body:
     View: 1756
   - Id: 31515
     AegisName: C_Leopard_Cat
-    Name: "Costume: Bengal Cat"
+    Name: Costume Bengal Cat
     Type: Armor
     Locations:
       Costume_Head_Mid: true
@@ -14747,7 +14747,7 @@ Body:
     View: 1350
   - Id: 31537
     AegisName: C_Return_TW_2th_Hat
-    Name: "Costume: 2nd Anniversary Hat"
+    Name: Costume 2nd Anniversary Hat
     Type: Armor
     Locations:
       Costume_Head_Top: true
@@ -14768,7 +14768,7 @@ Body:
     View: 1773
   - Id: 31557
     AegisName: C_Hoplite_Helmet_Silver
-    Name: Costume Hoplite Helmet Silver    # !todo check english name
+    Name: Costume Hoplite Helmet Silver
     Type: Armor
     Locations:
       Costume_Head_Top: true
@@ -14777,7 +14777,7 @@ Body:
     View: 1781
   - Id: 31558
     AegisName: C_Hoplite_Helmet_Black
-    Name: "Costume: Hoplite Helmet Black"
+    Name: Costume Hoplite Helmet Black
     Type: Armor
     Locations:
       Costume_Head_Top: true
@@ -14793,7 +14793,7 @@ Body:
     View: 1760
   - Id: 31584
     AegisName: C_Marin_Muffler
-    Name: "Costume: Marin's Muffler"
+    Name: Costume: Marin Muffler
     Type: Armor
     Locations:
       Costume_Head_Low: true
@@ -14807,7 +14807,7 @@ Body:
     View: 1796
   - Id: 31587
     AegisName: C_NationalDay_helmet_TW
-    Name: "Costume: Skoi Rider"
+    Name: Costume Skoi Rider
     Type: Armor
     Locations:
       Costume_Head_Top: true
@@ -14904,7 +14904,6 @@ Body:
     Type: Armor
     Locations:
       Costume_Head_Top: true
-    View: 1821
     Script: |
       hateffect HAT_EF_C_ROMANCE_ROSE_TW,true;
     UnEquipScript: |
