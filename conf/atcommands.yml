@@ -185,7 +185,7 @@ Body:
   - Command: cartlist
     Help: |
       Displays a list of items in the cart.
-  - Command: vote
+  - Command: votes
     Help: |
       Params: <amount> - Gives you the specified amount of vote points.
   - Command: changedress

@@ -67,7 +67,9 @@ struct s_cash_item_tab{
 
 class CashShopDatabase : public TypesafeYamlDatabase<uint16, s_cash_item_tab>{
 public:
-	CashShopDatabase() : TypesafeYamlDatabase( "ITEM_CASH_DB", 1 ){
+	uint32 defaultPrice;
+
+	CashShopDatabase() : TypesafeYamlDatabase( "ITEM_CASH_DB", 1 ), defaultPrice( 20 ){
 
 	}
 

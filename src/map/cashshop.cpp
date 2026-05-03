@@ -91,8 +91,15 @@ uint64 CashShopDatabase::parseBodyNode( const ryml::NodeRef& node ){
 
 		uint32 price;
 
-		if( !this->asUInt32( it, "Price", price ) ){
-			return 0;
+		if( this->nodeExists( it, "Price" ) ){
+			if( !this->asUInt32( it, "Price", price ) ){
+				return 0;
+			}
+		}else if( this->defaultPrice > 0 ){
+			price = this->defaultPrice;
+		}else{
+			this->invalidWarning( it["Item"], "Missing Price for item %s and no DefaultPrice configured, skipping.\n", item_name.c_str() );
+			continue;
 		}
 
 		if( price == 0 ){

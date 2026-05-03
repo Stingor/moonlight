@@ -20084,6 +20084,10 @@ Body:
     Type: Armor
     Locations:
       Costume_Head_Low: true
+    Script: |
+      hateffect HAT_EF_NIFLHEIM_NIGHT_SKY,true;
+    UnEquipScript: |
+      hateffect HAT_EF_NIFLHEIM_NIGHT_SKY,false;
   - Id: 410281
     AegisName: aegis_410281
     Name: Costume Tiger Face (Middle)
@@ -20096,8 +20100,11 @@ Body:
     Name: Costume Balloon Release
     Type: Armor
     Locations:
-      Costume_Head_Mid: true
-    View: 2345
+      Costume_Garment: true
+    Script: |
+      hateffect HAT_EF_C_1ST_EVT_BALLOON_MSP,true;
+    UnEquipScript: |
+      hateffect HAT_EF_C_1ST_EVT_BALLOON_MSP,false;
   - Id: 410283
     AegisName: aegis_410283
     Name: Costume Wing Headphone
@@ -20325,7 +20332,7 @@ Body:
     Name: Costume Interdimensional Rift
     Type: Armor
     Locations:
-      Costume_Head_Mid: true
+      Costume_Garment: true
     View: 2529
     Script: |
       hateffect(HAT_EF_INTERDIMENSIONAL_RIFT,true);
@@ -20365,7 +20372,6 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
-    View: 2539
     Script: |
       hateffect HAT_EF_C_DRAGON_GREEN_AURA,true;
     UnEquipScript: |
@@ -20376,7 +20382,6 @@ Body:
     Type: Armor
     Locations:
       Costume_Head_Mid: true
-    View: 2540
     Script: |
       hateffect HAT_EF_C_DRAGON_RED_AURA,true;
     UnEquipScript: |
@@ -20395,7 +20400,6 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
-    View: 2541
     Script: |
       hateffect HAT_EF_C_DRAGON_YELLOW_AURA,true;
     UnEquipScript: |
@@ -21812,7 +21816,7 @@ Body:
     Name: Costume Festival Stalls
     Type: Armor
     Locations:
-      Costume_Garment: true
+      Costume_Head_Low: true
     View: 2412
   - Id: 420237
     AegisName: C_Tiger_Muffler_MSP
@@ -22125,7 +22129,7 @@ Body:
     Name: Costume Kotatsu
     Type: Armor
     Locations:
-      Costume_Garment: true
+      Costume_Head_Low: true
     View: 2489
   - Id: 420307
     AegisName: C_Meer_Hair
@@ -22307,7 +22311,7 @@ Body:
     Name: Costume Pool
     Type: Armor
     Locations:
-      Costume_Garment: true
+      Costume_Head_Low: true
     View: 2566
   - Id: 420353
     AegisName: C_Cha_Ex_Twin
@@ -22412,7 +22416,7 @@ Body:
     Name: Costume Commentary Booth
     Type: Armor
     Locations:
-      Costume_Garment: true
+      Costume_Head_Low: true
     View: 2597
   - Id: 420385
     AegisName: C_Adventurer_Map
@@ -22656,7 +22660,7 @@ Body:
     Name: Costume Lunatic Kamakura
     Type: Armor
     Locations:
-      Costume_Garment: true
+      Costume_Head_Low: true
     View: 2648
   - Id: 420429
     AegisName: C_Guide_Of_Dead_Text
@@ -24778,7 +24782,7 @@ Body:
     Name: Costume Halloween Candy Pouch
     Type: Armor
     Locations:
-      Costume_Garment: true
+      Costume_Head_Low: true
     View: 2579
   - Id: 480501
     AegisName: C_Popcorn_Bucket
