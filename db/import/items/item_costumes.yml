@@ -192,7 +192,6 @@ Body:
       Costume_Head_Mid: true
       Costume_Head_Low: true
     View: 65
-    Script: "bonus bStr,2;\n"
   - Id: 19501
     AegisName: T_Spinx_Helm
     Name: T Spinx Helm
@@ -870,7 +869,6 @@ Body:
     Locations:
       Costume_Head_Top: true
     View: 613
-    Script: "bonus bHPrecovRate,20; bonus bSPrecovRate,20;\n"
   - Id: 19580
     AegisName: C_Sphinx_Helm
     Name: Costume Sphinx Helm
@@ -938,7 +936,6 @@ Body:
     Locations:
       Costume_Head_Top: true
     View: 182
-    Script: "bonus bAllStats,3; bonus2 bExpAddClass,Class_All,30;\n"
   - Id: 19589
     AegisName: C_Fallen_Angel_Lost_J
     Name: Costume Fallen Angel Lost
@@ -1024,7 +1021,6 @@ Body:
     Locations:
       Costume_Head_Top: true
     View: 589
-    Script: "bonus3 bAutoSpell,\"SA_FLAMELAUNCHER\",1,5;\n"
   - Id: 19600
     AegisName: Drooping_Kiehl
     Name: Costume Drooping Kiehl
@@ -20216,7 +20212,7 @@ Body:
     View: 2316
   - Id: 410308
     AegisName: C_Heine_Tab_1
-    Name: "Costume: Heine’s Tablet"
+    Name: "Costume: Heineâ€™s Tablet"
     Type: Armor
     Locations:
       Costume_Head_Mid: true
@@ -20230,7 +20226,7 @@ Body:
       NoAuction: true
   - Id: 410309
     AegisName: C_Heine_Tab_2
-    Name: "Costume: Heine’s Tablet (Rose)"
+    Name: "Costume: Heineâ€™s Tablet (Rose)"
     Type: Armor
     Locations:
       Costume_Head_Mid: true
@@ -20244,7 +20240,7 @@ Body:
       NoAuction: true
   - Id: 410310
     AegisName: C_Heine_Tab_3
-    Name: "Costume: Heine’s Tablet (Silver)"
+    Name: "Costume: Heineâ€™s Tablet (Silver)"
     Type: Armor
     Locations:
       Costume_Head_Mid: true
