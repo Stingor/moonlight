@@ -16127,9 +16127,9 @@ Body:
     AegisName: C_Mike_Stand
     Name: Costume Standing Mic
     Type: Armor
-    View: 2000
     Locations:
-      Costume_Head_Mid: true
+      Costume_Head_Low: true
+    View: 2000
   - Id: 31931
     AegisName: C_Half_Rim_Glasses
     Name: Costume Half Rim Glasses
@@ -18627,7 +18627,7 @@ Body:
     View: 2709
   - Id: 400951
     AegisName: C_2508_Salt_Hat
-    Name: Costume Night Market Special Salt    # !todo check english name
+    Name: Costume Night Market Special Salt
     Type: Armor
     Locations:
       Costume_Head_Top: true
@@ -19082,7 +19082,7 @@ Body:
     Type: Armor
     Locations:
       Costume_Head_Mid: true
-    View: 2080
+    # View: 2080
     Script: |
       hateffect HAT_EF_FALLING_SNOW,true;
     UnEquipScript: |
@@ -19409,7 +19409,7 @@ Body:
     Name: Costume Spotlight
     Type: Armor
     Locations:
-      Costume_Head_Mid: true
+      Costume_Head_Top: true
     Script: |
       hateffect HAT_EF_C_SPOT_LIGHT,true;
     UnEquipScript: |
