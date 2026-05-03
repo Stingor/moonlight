@@ -66,8 +66,14 @@ L_main:
 			.@opt2rand = rand(getarraysize(.RandOpt2_Armor));
 			.@Opt1 = .RandOpt1_Armor[.@opt1rand];
 			.@Opt2 = .RandOpt2_Armor[.@opt2rand];
-			.@Opt1_V = rand(.RandOpt1_Armor_minV[.@opt1rand],.RandOpt1_Armor_maxV[.@opt1rand]);
-			.@Opt2_V = rand(.RandOpt2_Armor_minV[.@opt2rand],.RandOpt2_Armor_maxV[.@opt2rand]);
+			if(.RandOpt1_Armor_minV[.@opt1rand] == .RandOpt1_Armor_maxV[.@opt1rand])
+				.@Opt1_V = .RandOpt1_Armor_minV[.@opt1rand];
+			else
+				.@Opt1_V = rand(.RandOpt1_Armor_minV[.@opt1rand],.RandOpt1_Armor_maxV[.@opt1rand]);
+			if(.RandOpt2_Armor_minV[.@opt2rand] == .RandOpt2_Armor_maxV[.@opt2rand])
+				.@Opt2_V = .RandOpt2_Armor_minV[.@opt2rand];
+			else
+				.@Opt2_V = rand(.RandOpt2_Armor_minV[.@opt2rand],.RandOpt2_Armor_maxV[.@opt2rand]);
 			setrandomoption(.@part,0,.@Opt1,.@Opt1_V,0);
 			setrandomoption(.@part,1,.@Opt2,.@Opt2_V,0);
 			mes " "+getarraysize(.RandOpt2_Armor) + " - "+.@opt2rand;
@@ -129,8 +135,14 @@ L_main:
 			.@opt2rand = rand(getarraysize(.RandOpt_Accessory));
 			.@Opt1 = .RandOpt_Accessory[.@opt1rand];
 			.@Opt2 = .RandOpt_Accessory[.@opt2rand];
-			.@Opt1_V = rand(.RandOpt_Accessory_minV[.@opt1rand],.RandOpt_Accessory_maxV[.@opt1rand]);
-			.@Opt2_V = rand(.RandOpt_Accessory_minV[.@opt2rand],.RandOpt_Accessory_maxV[.@opt2rand]);
+			if(.RandOpt_Accessory_minV[.@opt1rand] == .RandOpt_Accessory_maxV[.@opt1rand])
+				.@Opt1_V = .RandOpt_Accessory_minV[.@opt1rand];
+			else
+				.@Opt1_V = rand(.RandOpt_Accessory_minV[.@opt1rand],.RandOpt_Accessory_maxV[.@opt1rand]);
+			if(.RandOpt_Accessory_minV[.@opt2rand] == .RandOpt_Accessory_maxV[.@opt2rand])
+				.@Opt2_V = .RandOpt_Accessory_minV[.@opt2rand];
+			else
+				.@Opt2_V = rand(.RandOpt_Accessory_minV[.@opt2rand],.RandOpt_Accessory_maxV[.@opt2rand]);
 			setrandomoption(.@part,0,.@Opt1,.@Opt1_V,0);
 			setrandomoption(.@part,1,.@Opt2,.@Opt2_V,0);
 			logmes "Enchantement Random Accessoire: " + logequip(.@part);
