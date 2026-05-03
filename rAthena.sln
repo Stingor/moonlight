@@ -142,10 +142,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "moon", "moon", "{924740E5-D
 		moon\championmobs.npc = moon\championmobs.npc
 		moon\desloter.npc = moon\desloter.npc
 		moon\dungeons.conf = moon\dungeons.conf
+		moon\customs\dye_maker.npc = moon\customs\dye_maker.npc
 		moon\enchanter.npc = moon\enchanter.npc
 		moon\fields.conf = moon\fields.conf
 		moon\flag.npc = moon\flag.npc
 		moon\func.npc = moon\func.npc
+		moon\customs\gef_tour_merch.npc = moon\customs\gef_tour_merch.npc
 		moon\guide.npc = moon\guide.npc
 		moon\healer.npc = moon\healer.npc
 		moon\jobs.conf = moon\jobs.conf
@@ -154,6 +156,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "moon", "moon", "{924740E5-D
 		moon\marriage.npc = moon\marriage.npc
 		moon\motd.npc = moon\motd.npc
 		moon\mvps.npc = moon\mvps.npc
+		moon\customs\nightmare_biolab.npc = moon\customs\nightmare_biolab.npc
 		moon\pvptest.npc = moon\pvptest.npc
 		moon\refiner.npc = moon\refiner.npc
 		moon\rooms.npc = moon\rooms.npc
@@ -608,6 +611,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mobs", "mobs", "{F1C23466-6
 		db\import\mobs\slabw01.yml = db\import\mobs\slabw01.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rathena", "rathena", "{30571095-9A54-4878-9463-A7C391C0CF9E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -767,6 +772,7 @@ Global
 		{05542C23-D708-44FC-8175-DBAC4E9D9DB9} = {924740E5-D449-4188-80DB-F796DC79020F}
 		{7BC88804-FB04-40A6-BE9F-738483E25C83} = {6D9F5D00-2988-4812-844D-D155C4F588DC}
 		{F1C23466-629E-43DE-919F-ADA0C480D54F} = {7BC88804-FB04-40A6-BE9F-738483E25C83}
+		{30571095-9A54-4878-9463-A7C391C0CF9E} = {924740E5-D449-4188-80DB-F796DC79020F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {026DA20F-820C-40AA-983E-0E231EA90AD5}
