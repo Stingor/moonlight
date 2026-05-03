@@ -854,6 +854,7 @@ Hard_Mode:
 		clear;
 		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 		mes "Cette instance est disponible avec plusieur niveau de difficulté, êtes vous prêts à tenter?";
+		setdialogsize(300,300);
 		return select( "Facile(1)", "Normal(2)", "Moyen(3)", "", "Difficile(5)", "", "Très Difficile (7)", "", "", "MALADE (10)" );
 	}
 	return 1;
@@ -1282,9 +1283,9 @@ L_clo: WarpMenu("c_tower1,200,163",
 				"alde_dun04,89,38",
 				"c_tower2_,268,26",
 				"c_tower3_,65,147"); goto L_Donjons;
-L_coa: WarpMenu("coal_dun01,28,28",
-				"coal_dun02,28,28",
-				"coal_dun03,28,28"); goto L_Donjons;
+L_coa: WarpMenu("mjo_dun01,52,17",
+				"mjo_dun02,381,343",
+				"mjo_dun03,302,261"); goto L_Donjons;
 L_cul: WarpMenu("prt_sewb1,132,248",
 				"prt_sewb2,19,19",
 				"prt_sewb3,180,169",
