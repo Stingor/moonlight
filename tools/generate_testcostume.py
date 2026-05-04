@@ -14,6 +14,7 @@ Usage:
 import re
 
 YAML_PATH = "db/import/items/item_costumes.yml"
+CASH_PATH = "db/import/item_cash.yml"
 NPC_PATH = "moon/atcommands.npc"
 
 MARKER_START = "// AUTO-GENERATED-START"
@@ -22,7 +23,11 @@ MARKER_END = "// AUTO-GENERATED-END"
 HATEFFECT_RE = re.compile(r'hateffect[\s(]+?(HAT_EF_\w+)')
 
 
-def parse_items(yaml_text):
+def parse_cash_names(cash_text):
+    return set(re.findall(r'-\s+Item:\s+(\S+)', cash_text))
+
+
+def parse_items(yaml_text, cash_names):
     # Split into individual item blocks by the "  - Id:" pattern
     blocks = re.split(r'\n  - Id:', yaml_text)
     items = []
@@ -32,6 +37,10 @@ def parse_items(yaml_text):
         if not id_match:
             continue
         item_id = int(id_match.group(1))
+
+        aegis_match = re.search(r'\n\s+AegisName:\s+(\S+)', block)
+        if not aegis_match or aegis_match.group(1) not in cash_names:
+            continue
 
         is_costume_head = bool(re.search(r'Costume_Head:\s*true', block))
         is_costume_garment = bool(re.search(r'Costume_Garment:\s*true', block))
@@ -96,7 +105,10 @@ def main():
     with open(YAML_PATH, "r", encoding="utf-8") as f:
         yaml_text = f.read()
 
-    items = parse_items(yaml_text)
+    with open(CASH_PATH, "r", encoding="utf-8") as f:
+        cash_names = parse_cash_names(f.read())
+
+    items = parse_items(yaml_text, cash_names)
     n_effects = sum(1 for i in items if i["effect"])
     print(f"Parsed: {len(items)} items ({n_effects} with hateffect)")
 
