@@ -299,18 +299,18 @@ OnCommand:
 		}
 		if(.@size > .@per_page) .@menu$ = .@menu$ + "Page suivante:";
 		.@menu$ = .@menu$ + "Quitter";
-		@menu = select(.@menu$);
+		@menu = prompt(.@menu$);
 		if(@effid > 0) {
 			hateffect(@effid,false);
 			@effid = 0;
 		}
+		if(@menu == 0 || @menu > .@pg_count + (.@size > .@per_page)) {
+			setpcblock PCBLOCK_COMMANDS,false;
+			break;
+		}
 		if(.@size > .@per_page && @menu == .@pg_count + 1) {
 			.@page = 1 - .@page;
 			continue;
-		}
-		if(@menu > .@pg_count) {
-			setpcblock PCBLOCK_COMMANDS,false;
-			break;
 		}
 		.@ci = (.@offset + .@from + @menu - 1) % .@size;
 		.@offset = (.@offset + .@from + @menu) % .@size;
@@ -319,14 +319,6 @@ OnCommand:
 		hateffect(@effid,true);
 		dispbottom "Item visionne: " + replacestr(getitemname(.@items[.@ci]),"Costume ","") + " [" + .@items[.@ci] + "]";
 	}
-	end;
-
-OnClose:
-	if(@effid > 0) {
-		hateffect(@effid,false);
-		@effid = 0;
-	}
-	setpcblock PCBLOCK_COMMANDS,false;
 	end;
 }
 
