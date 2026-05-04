@@ -909,6 +909,7 @@
 	export_constant(EQP_SHADOW_ACC_L);
 	export_constant(EQP_ACC_RL);
 	export_constant(EQP_SHADOW_ACC_RL);
+	export_constant(EQP_COSTUME_HEAD);
 
 	export_constant2("EQP_Both_Hand", EQP_ARMS);
 	export_constant2("EQP_Right_Hand", EQP_HAND_R);

@@ -12217,6 +12217,16 @@ bool pc_equipitem(map_session_data *sd,int16 n,int32 req_pos,bool equipswitch)
 		pos = (req_pos&EQP_SHADOW_ARMS);
 		if( pos == EQP_SHADOW_ARMS )
 			pos = (equip_index[EQI_SHADOW_WEAPON] >= 0 ? EQP_SHADOW_SHIELD : EQP_SHADOW_WEAPON);
+	} else if(pos == EQP_COSTUME_HELM) { // Costume head: choose one slot among top/mid/low
+		pos = req_pos & EQP_COSTUME_HELM;
+		if(pos == EQP_COSTUME_HELM || !pos) { // Client sent all bits or none, pick first free slot
+			if(equip_index[EQI_COSTUME_HEAD_TOP] < 0)
+				pos = EQP_COSTUME_HEAD_TOP;
+			else if(equip_index[EQI_COSTUME_HEAD_MID] < 0)
+				pos = EQP_COSTUME_HEAD_MID;
+			else
+				pos = EQP_COSTUME_HEAD_LOW;
+		}
 	}
 
 	if (pos&EQP_HAND_R && battle_config.use_weapon_skill_range&BL_PC) {
