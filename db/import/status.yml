@@ -72,3 +72,63 @@ Body:
       _Bloodylust: true
     End:
       Edp: true
+  - Status: Lhz_Dun_N1
+    Icon: EFST_LHZ_DUN_N1
+    Flags:
+      NoClearbuff: true
+      NoClearance: true
+      NoRemoveOnDead: true
+      NoBanishingBuster: true
+      NoDispell: true
+      OverlapIgnoreLevel: true
+    Script: |
+      .@val1 = getstatus(SC_LHZ_DUN_N1, 1);
+      .@val2 = getstatus(SC_LHZ_DUN_N1, 2);
+      bonus2 bAddRace2,RC2_BIO5_SWORDMAN_THIEF, .@val1;
+      bonus2 bMagicAddRace2,RC2_BIO5_SWORDMAN_THIEF, .@val1;
+      bonus2 bSubRace2,RC2_BIO5_ACOLYTE_MERCHANT, .@val2;
+  - Status: Lhz_Dun_N2
+    Icon: EFST_LHZ_DUN_N2
+    Flags:
+      NoClearbuff: true
+      NoClearance: true
+      NoRemoveOnDead: true
+      NoBanishingBuster: true
+      NoDispell: true
+      OverlapIgnoreLevel: true
+    Script: |
+      .@val1 = getstatus(SC_LHZ_DUN_N2, 1);
+      .@val2 = getstatus(SC_LHZ_DUN_N2, 2);
+      bonus2 bAddRace2,RC2_BIO5_ACOLYTE_MERCHANT, .@val1;
+      bonus2 bMagicAddRace2,RC2_BIO5_ACOLYTE_MERCHANT, .@val1;
+      bonus2 bSubRace2,RC2_BIO5_MAGE_ARCHER, .@val2;
+  - Status: Lhz_Dun_N3
+    Icon: EFST_LHZ_DUN_N3
+    Flags:
+      NoClearbuff: true
+      NoClearance: true
+      NoRemoveOnDead: true
+      NoBanishingBuster: true
+      NoDispell: true
+      OverlapIgnoreLevel: true
+    Script: |
+      .@val1 = getstatus(SC_LHZ_DUN_N3, 1);
+      .@val2 = getstatus(SC_LHZ_DUN_N3, 2);
+      bonus2 bAddRace2,RC2_BIO5_MAGE_ARCHER, .@val1;
+      bonus2 bMagicAddRace2,RC2_BIO5_MAGE_ARCHER, .@val1;
+      bonus2 bSubRace2,RC2_BIO5_SWORDMAN_THIEF, .@val2;
+  - Status: Lhz_Dun_N4
+    Icon: EFST_LHZ_DUN_N4
+    Flags:
+      NoClearbuff: true
+      NoClearance: true
+      NoRemoveOnDead: true
+      NoBanishingBuster: true
+      NoDispell: true
+      OverlapIgnoreLevel: true
+    Script: |
+      .@val1 = getstatus(SC_LHZ_DUN_N4, 1);
+      .@val2 = getstatus(SC_LHZ_DUN_N4, 2);
+      bonus2 bAddRace2,RC2_BIO5_MVP, .@val1;
+      bonus2 bMagicAddRace2,RC2_BIO5_MVP, .@val1;
+      bonus2 bSubRace2,RC2_BIO5_MVP, .@val2;
