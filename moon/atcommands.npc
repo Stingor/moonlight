@@ -289,12 +289,12 @@ OnCommand:
 		.@menu$ = .@menu$ + replacestr(getitemname(.@items[.@i]),"Costume ","") + " " + .@items[.@i] + ":";
 	.@menu$ = .@menu$ + "Quitter";
 	while(1) {
-		@menu = prompt(.@menu$);
+		@menu = select(.@menu$);
 		if(@effid > 0) {
 			hateffect(@effid,false);
 			@effid = 0;
 		}
-		if(@menu == 0 || @menu > .@size) {
+		if(@menu > .@size) {
 			setpcblock PCBLOCK_COMMANDS,false;
 			break;
 		}
