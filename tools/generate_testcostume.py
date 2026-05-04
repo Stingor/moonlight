@@ -24,7 +24,8 @@ HATEFFECT_RE = re.compile(r'hateffect[\s(]+?(HAT_EF_\w+)')
 
 
 def parse_cash_names(cash_text):
-    return set(re.findall(r'-\s+Item:\s+(\S+)', cash_text))
+    # Use ^ anchor to avoid matching commented-out lines (# - Item: ...)
+    return set(re.findall(r'(?m)^\s+- Item:\s+(\S+)', cash_text))
 
 
 def parse_items(yaml_text, cash_names):
