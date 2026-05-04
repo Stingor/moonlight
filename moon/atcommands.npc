@@ -294,22 +294,41 @@ OnCommand:
 
 	setpcblock PCBLOCK_COMMANDS,true;
 	.@size = getarraysize(.@items);
-	.@menu$ = "";
-	for(.@i = 0; .@i < .@size; .@i++)
-		.@menu$ = .@menu$ + getitemname(.@items[.@i]) + " [" + .@items[.@i] + "]:";
-	.@menu$ = .@menu$ + "Quitter";
+	.@per_page = 20;
+	.@page = 0;
 	while(1) {
+		.@from = .@page * .@per_page;
+		.@to = .@from + .@per_page;
+		if(.@to > .@size) .@to = .@size;
+		.@pg_count = .@to - .@from;
+		.@has_prev = (.@page > 0);
+		.@has_next = (.@to < .@size);
+		.@menu$ = "";
+		for(.@i = .@from; .@i < .@to; .@i++)
+			.@menu$ = .@menu$ + getitemname(.@items[.@i]) + " [" + .@items[.@i] + "]:";
+		if(.@has_prev) .@menu$ = .@menu$ + "< Precedent:";
+		if(.@has_next) .@menu$ = .@menu$ + "Suivant >:";
+		.@menu$ = .@menu$ + "Quitter";
+		.@quit_pos = .@pg_count + .@has_prev + .@has_next + 1;
 		@menu = prompt(.@menu$);
 		if(.@effid > 0) {
 			hateffect(.@effid,false);
 			.@effid = 0;
 		}
-		if(@menu > .@size) {
+		if(@menu == 0 || @menu == .@quit_pos) {
 			setpcblock PCBLOCK_COMMANDS,false;
 			break;
 		}
-		.@effid = .@effects[@menu - 1];
-		hateffect(.@effid,true);
+		if(@menu <= .@pg_count) {
+			.@effid = .@effects[.@from + @menu - 1];
+			hateffect(.@effid,true);
+			continue;
+		}
+		if(.@has_prev && @menu == .@pg_count + 1) {
+			.@page--;
+			continue;
+		}
+		if(.@has_next) .@page++;
 	}
 	end;
 }
