@@ -541,14 +541,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "db", "db", "{7BC88804-FB04-
 		db\import\homunculus_db.yml = db\import\homunculus_db.yml
 		db\import\homun_skill_tree.txt = db\import\homun_skill_tree.txt
 		db\import\instance_db.yml = db\import\instance_db.yml
-		db\import\items\item_card.yml = db\import\items\item_card.yml
 		db\import\item_cash.yml = db\import\item_cash.yml
 		db\import\item_combos.yml = db\import\item_combos.yml
-		db\import\items\item_combos.yml = db\import\items\item_combos.yml
 		db\import\item_db.yml = db\import\item_db.yml
 		db\import\item_enchant.yml = db\import\item_enchant.yml
-		db\import\items\item_equip.yml = db\import\items\item_equip.yml
-		db\import\items\item_etc.yml = db\import\items\item_etc.yml
 		db\import\item_group_db.yml = db\import\item_group_db.yml
 		db\import\item_noequip.txt = db\import\item_noequip.txt
 		db\import\item_packages.yml = db\import\item_packages.yml
@@ -612,6 +608,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mobs", "mobs", "{F1C23466-6
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rathena", "rathena", "{30571095-9A54-4878-9463-A7C391C0CF9E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "items", "items", "{13806C33-FF51-4834-A3E8-05A73A23DE55}"
+	ProjectSection(SolutionItems) = preProject
+		db\import\items\item_card.yml = db\import\items\item_card.yml
+		db\import\items\item_combos.yml = db\import\items\item_combos.yml
+		db\import\items\item_costumes.yml = db\import\items\item_costumes.yml
+		db\import\items\item_equip.yml = db\import\items\item_equip.yml
+		db\import\items\item_etc.yml = db\import\items\item_etc.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -773,6 +778,7 @@ Global
 		{7BC88804-FB04-40A6-BE9F-738483E25C83} = {6D9F5D00-2988-4812-844D-D155C4F588DC}
 		{F1C23466-629E-43DE-919F-ADA0C480D54F} = {7BC88804-FB04-40A6-BE9F-738483E25C83}
 		{30571095-9A54-4878-9463-A7C391C0CF9E} = {924740E5-D449-4188-80DB-F796DC79020F}
+		{13806C33-FF51-4834-A3E8-05A73A23DE55} = {7BC88804-FB04-40A6-BE9F-738483E25C83}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {026DA20F-820C-40AA-983E-0E231EA90AD5}
