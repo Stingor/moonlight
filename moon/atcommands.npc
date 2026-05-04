@@ -317,6 +317,7 @@ OnCommand:
 		.@page = 0;
 		@effid = .@effects[.@ci];
 		hateffect(@effid,true);
+		dispbottom "Item visionne: " + replacestr(getitemname(.@items[.@ci]),"Costume ","") + " [" + .@items[.@ci] + "]";
 	}
 	end;
 
