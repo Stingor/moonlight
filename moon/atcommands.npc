@@ -282,7 +282,6 @@ OnCommand:
 		HAT_EF_C_2025ROSFESTA,HAT_EF_C_CURSED_SERPENT;
 	// AUTO-GENERATED-END
 
-	setpcblock PCBLOCK_COMMANDS,true;
 	.@size = getarraysize(.@items);
 	.@per_page = 46;
 	.@offset = 0;
@@ -309,8 +308,7 @@ OnCommand:
 			continue;
 		}
 		if(@menu > .@pg_count) {
-			setpcblock PCBLOCK_COMMANDS,false;
-			break;
+				break;
 		}
 		.@ci = (.@offset + .@from + @menu - 1) % .@size;
 		.@offset = (.@offset + .@from + @menu) % .@size;
@@ -326,7 +324,6 @@ OnClose:
 		hateffect(@effid,false);
 		@effid = 0;
 	}
-	setpcblock PCBLOCK_COMMANDS,false;
 	end;
 }
 
