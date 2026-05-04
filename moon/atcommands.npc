@@ -256,121 +256,60 @@ OnInit:
 	end;
 
 OnCommand:
-    switch( select( "Nouveautés Invasion", "Nouveautés Vot'shop", "Costumes Vot'shop" ) ) {
-        case 1:
-            setarray .@array1[0],20219,20297,31251,20026,19857,
-                                 19959,20103,31106,31107,
-                                 20075,20433,19521,19514,20259,
-                                 31518,20183;
-            setarray .@array2[0],0;
-                                 break;
-        case 2:
-            setarray .@array1[0],
-                                 20132,19661,31455,20381,20085,
-                                 31172,31027,20379,31512,20083,
-                                 31300,20448,31803,31798,
-                                 31731,31719,31616,31454,20135,
-                                 31299,31600,19823,31452,20081,
-                                 20089,20036,20319,20232,
-                                 20101,20404,31186,20234,
-                                 31437,20086,20088,20087,20380,
-                                 31693,20430,31549,20300,
-                                 20270,31614,20349,19985;
-            setarray .@array2[0],20285,HAT_EF_BLOSSOM_FLUTTERING,
-                                 20209,HAT_EF_MERMAID_LONGING,
-                                 20154,HAT_EF_MAPLE_FALLS,
-                                 20099,HAT_EF_LJOSALFAR;
-                                 break;
-        case 3:
-            setarray .@array1[0],
-                                 20587,20576,20577,20578,20582,
-                                 20579,20574,20572,20570,20543,
-                                 20530,20528,20527,20588,20826,
-                                 20586,20594,29996,29997,20575,
-                                 20571,29998,20589,20521,20513,
-                                 29999,20955,20940,
-                                 20842,20526,20525,20516,
-                                 20514,20512,20518,20510,20509,
-                                 20507,20504,20502,20500,20511,
-                                 20593,20597,20596,20727,20737,
-                                 20517,20505,
-                                 20590,29995,20592,20546,20764,
-                                 20763,20762,20761,20746,19381;
-            setarray .@array2[0],20457,HAT_EF_FEATHER_FLUTTERING,
-                                 20487,HAT_EF_FLORAL_WALTZ,
-                                 20515,HAT_EF_MAGICCIRCLE,
-                                 20519,HAT_EF_FULL_BLOOMCHERRY_TREE,
-                                 31056,HAT_EF_DOUBLEGUMGANG,
-                                 31091,HAT_EF_GOLD_SHOWER;
-                                 break;
-    }
+	// AUTO-GENERATED-START
+	// 143 costume items (143 with hateffect) - run tools/generate_testcostume.py to regenerate
+	setarray .@items[0],
+		5914,5979,19433,20240,20285,20435,20439,20457,20459,20487,
+		20515,20519,20522,20524,20535,20537,20538,20547,20548,20571,
+		31040,31056,31089,31091,31316,31325,31479,15842,15854,15952,
+		20520,20532,20540,20544,20549,20550,20551,20552,20553,20554,
+		20555,20556,20557,20558,20559,20560,20561,20562,20563,20564,
+		20565,20566,20567,20568,20569,20583,20601,20608,20609,20610,
+		20611,20621,20625,20626,20990,31623,31626,31768,31828,31839,
+		31942,400056,400057,400073,400074,400149,400309,400402,400475,400788,
+		401213,410005,410006,410021,410051,410081,410127,410231,410279,410280,
+		410282,410287,410289,410295,410315,410325,410329,410330,410331,410363,
+		410368,410485,410487,410576,420195,420205,420242,420271,420304,420337,
+		420338,420351,420382,420423,420424,420429,420430,420451,420511,420512,
+		420552,420576,420731,440008,480092,480097,480122,480131,480168,480203,
+		480205,480286,480288,480296,480298,480444,480458,480470,480505,480515,
+		480627,480664,480772;
+	setarray .@effects[0],
+		HAT_EF_FLUTTER_BUTTERFLY,HAT_EF_ANGEL_FLUTTERING,HAT_EF_RESONATETAEGO,HAT_EF_GIFT_OF_SNOW,HAT_EF_BLOSSOM_FLUTTERING,HAT_EF_CAMELLIA_HAIR_PIN,HAT_EF_GLOW_OF_NEW_YEAR,HAT_EF_FEATHER_FLUTTERING,HAT_EF_VALHALLA_IDOL,HAT_EF_FLORAL_WALTZ,
+		HAT_EF_MAGICCIRCLE,HAT_EF_FULL_BLOOMCHERRY_TREE,HAT_EF_C_BLESSINGS_OF_SOUL,HAT_EF_C_SHINING_ANGEL_WING,HAT_EF_DIGITAL_SPACE,HAT_EF_C_MAPLE_WHICH_FALLS_RD,HAT_EF_MAGICCIRCLERAINBOW,HAT_EF_C_GHOST_EFFECT,HAT_EF_C_POPPING_PORING_AURA,HAT_EF_C_VALKYRIE_WING,
+		HAT_EF_MAGICAL_FEATHER,HAT_EF_DOUBLEGUMGANG,HAT_EF_BAKURETSU_HADOU,HAT_EF_GOLD_SHOWER,HAT_EF_C_FLUTTERBUTTERFLY_BL,HAT_EF_QSCARABA,HAT_EF_MANYSTARS,HAT_EF_C_Disapear_Time_TW,HAT_EF_C_Phigasia_Scarf_EXE,HAT_EF_C_15TH_NOV_HELMET,
+		HAT_EF_FULL_BLOOMCHERRY_TREE,HAT_EF_DOUBLEGUMGANG,HAT_EF_FULL_BLOOMCHERRY_TREE,HAT_EF_GOLD_SHOWER,HAT_EF_LEVEL99_CYAN,HAT_EF_99LV_Warlock_Violet,HAT_EF_99LV_Sorcerer_LBlue,HAT_EF_99LV_Ranger_Green,HAT_EF_99LV_Minstrel_Pink,HAT_EF_99LV_Archbishop_White,
+		HAT_EF_99LV_Guill_Silver,HAT_EF_99LV_ShadowC_Black,HAT_EF_99LV_Mechanic_Gold,HAT_EF_99LV_Genetic_YGreen,HAT_EF_160LV_RUNE_RED,HAT_EF_160LV_Royal_G_Blue,HAT_EF_160LV_Warlock_Violet,HAT_EF_160LV_Sorcerer_LBlue,HAT_EF_160LV_Ranger_Green,HAT_EF_160LV_Minstrel_Pink,
+		HAT_EF_160LV_Archb_White,HAT_EF_160LV_Guill_Silver,HAT_EF_160LV_ShadowC_Black,HAT_EF_160LV_MECHANIC_GOLD,HAT_EF_160LV_Genetic_YGreen,HAT_EF_MAGIC_STAR_TW,HAT_EF_99LV_Rune_Red,HAT_EF_99LV_STAR_E_MBLUE,HAT_EF_160LV_STAR_E_MBLUE,HAT_EF_99LV_SOUL_R_GRAY,
+		HAT_EF_160LV_SOUL_R_GRAY,HAT_EF_C_DARK_LORD_MANTEAU,HAT_EF_C_ROS2023_CAPE_1,HAT_EF_C_ROS2023_CAPE_2,HAT_EF_GEARWHEEL,HAT_EF_C_ROMANCE_ROSE_TW,HAT_EF_FLUFFYWING,HAT_EF_2019RTC_CeleAura_TW,HAT_EF_C_MAPLE_WHICH_FALLS_RD,HAT_EF_FLUFFYWING,
+		HAT_EF_C_ROMANCE_ROSE_TW,HAT_EF_VIP_HAIR,HAT_EF_VIP_HAIR,HAT_EF_C_ROMANCE_ROSE_TW,HAT_EF_C_DISAPEAR_TIME_TW,HAT_EF_BLACK_THUNDER,HAT_EF_EFST_C_20TH_ANNIVERSARY_HAT,HAT_EF_C_1ST_EVT_HAT_MSP,HAT_EF_C_BULB_WREATH,HAT_EF_Qscaraba,
+		HAT_EF_C_JAOW_PIRUN,HAT_EF_C_Magic_Heir_TW,HAT_EF_C_SUDDEN_WEALTH_TW,HAT_EF_RESONATETAEGO,HAT_EF_FALLING_SNOW,HAT_EF_C_Released_Ground,HAT_EF_C_SPOT_LIGHT,HAT_EF_alice_tea,HAT_EF_AUTUMN_FULL_MOON,HAT_EF_NIFLHEIM_NIGHT_SKY,
+		HAT_EF_C_1ST_EVT_BALLOON_MSP,HAT_EF_COSMIC_CONNECTION,HAT_EF_C_BABY_GLOOM,HAT_EF_WINTERNIGHTBELLS,HAT_EF_C_CONSECRATE_F_AUREOLA,HAT_EF_INTERDIMENSIONAL_RIFT,HAT_EF_C_DRAGON_GREEN_AURA,HAT_EF_C_DRAGON_RED_AURA,HAT_EF_C_DRAGON_YELLOW_AURA,HAT_EF_AURA_OF_GHOST_S,
+		HAT_EF_PERM_FROST_OBLIVION,HAT_EF_C_SPOT_MIKE,HAT_EF_C_SPOT_FLOWER,HAT_EF_C_EYE_OF_NECROMANCER,HAT_EF_C_1ST_EVT_BALLOON_MSP,HAT_EF_20TH_SCARF_J,HAT_EF_C_FLUTTERING_HAZE,HAT_EF_COSMIC_CONNECTION,HAT_EF_NIGHTSKYOFRUTIE,HAT_EF_C_ANCIENT_RUNE,
+		HAT_EF_C_CLB_SS_LL,HAT_EF_C_AUSPICLOUD,HAT_EF_ATQUE_POENITENTIA,HAT_EF_INKPAINTING_DAY,HAT_EF_INKPAINTING_NIGHT,HAT_EF_GUIDE_OF_DEAD_TEXT,HAT_EF_MEDJED_TEXT,HAT_EF_HANMAC_MUNCH,HAT_EF_C_OVER_CLOUD,HAT_EF_C_AURORA_ON_CLOUDS,
+		HAT_EF_DIVINE_SKY_INVITE,HAT_EF_C_NIGHTMARE_CHAIN,HAT_EF_C_CLB_GAT_DOC,HAT_EF_C_MASTER,HAT_EF_C_SUDDEN_WEALTH_TW,HAT_EF_SNOW_POWDER,HAT_EF_C_SAMBA_CARNIVAL,HAT_EF_C_Swirling_Flame,HAT_EF_C_MELODY_WING,HAT_EF_Magiccircle_Blue_TW,
+		HAT_EF_C_Astra_Blessing,HAT_EF_SERPENT_SHADOW,HAT_EF_C_DARK_LORD_CLOAK,HAT_EF_C_SAKURA_FUBUKI,HAT_EF_rabbit_aura,HAT_EF_INTERDIMENSIONAL_RIFT,HAT_EF_C_FH_LOSTWING,HAT_EF_VACATION,HAT_EF_C_ROS2024_WING_1,HAT_EF_AUTUMN_FULL_MOON,
+		HAT_EF_C_2025ROSFESTA,HAT_EF_C_CURSED_SERPENT,HAT_EF_C_ANGEL_GIFT;
+	// AUTO-GENERATED-END
 
 	setpcblock PCBLOCK_COMMANDS,true;
-		.@menu$ = "";
-    if( getarraysize(.@array1) > 0 )
-        for( .@i = 0; .@i < getarraysize(.@array1); .@i++ )
-            .@menu$ = .@menu$ + getitemname(.@array1[.@i]) + " [" + .@array1[.@i] + "]:";
-    if( getarraysize(.@array2) > 1 )
-        for( .@i = 0; .@i < getarraysize(.@array2); .@i += 2 )
-            .@menu$ = .@menu$ + getitemname(.@array2[.@i]) + " [" + .@array2[.@i] + "]:";
+	.@size = getarraysize(.@items);
+	.@menu$ = "";
+	for(.@i = 0; .@i < .@size; .@i++)
+		.@menu$ = .@menu$ + getitemname(.@items[.@i]) + " [" + .@items[.@i] + "]:";
 	.@menu$ = .@menu$ + "Quitter";
-	.@id = getequipid(EQI_COSTUME_GARMENT);
-	@lookrobe = 0;
-	@lookrobe = getlook(LOOK_ROBE);
-	@looktop = 0;
-	@looktop = getlook(LOOK_HEAD_TOP);
-	@lookmid = 0;
-	@lookmid = getlook(LOOK_HEAD_MID);
-	@lookbot = 0;
-	@lookbot = getlook(LOOK_HEAD_BOTTOM);
-	if( .@id > 0 )
-		unequip EQI_COSTUME_GARMENT;
-	while( 1 ) {
-		@menu = prompt( .@menu$ );
-		@menu1 = getarraysize(.@array1);
-		if( .@effid > 0 ) {
+	while(1) {
+		@menu = prompt(.@menu$);
+		if(.@effid > 0) {
 			hateffect(.@effid,false);
 			.@effid = 0;
 		}
-		if( @menu > (@menu1+(getarraysize(.@array2) / 2)) ) {
-			if( .@id > 0 )
-				equip .@id;
-			changelook LOOK_ROBE,@lookrobe;
-			changelook LOOK_HEAD_TOP,@looktop;
-			changelook LOOK_HEAD_MID,@lookmid;
-			changelook LOOK_HEAD_BOTTOM,@lookbot;
+		if(@menu > .@size) {
 			setpcblock PCBLOCK_COMMANDS,false;
 			break;
 		}
-		if( @menu > @menu1 ) {
-			.@idx = (@menu - @menu1) * 2;
-			.@effid = .@array2[.@idx - 1];
-			// dispbottom ""+@menu+" - "+@menu1+" - "+.@idx+" - "+.@effid;
-			hateffect(.@effid,true);
-		}
-		else {
-			if( .@array1[@menu-1] == 20571 ) {
-				.@effid = HAT_EF_C_VALKYRIE_WING;
-				hateffect(.@effid,true);
-			}
-			if( getiteminfo(.@array1[@menu-1],5) & 8192 )
-                changelook LOOK_ROBE,getiteminfo(.@array1[@menu-1], 11);
-			if( getiteminfo(.@array1[@menu-1],5) & 1024 ) {
-                changelook LOOK_HEAD_MID,@lookmid;
-                changelook LOOK_HEAD_BOTTOM,@lookbot;
-                changelook LOOK_HEAD_TOP,getiteminfo(.@array1[@menu-1], 11);
-            }
-			if( getiteminfo(.@array1[@menu-1],5) & 2048 ) {
-                changelook LOOK_HEAD_TOP,@looktop;
-                changelook LOOK_HEAD_BOTTOM,@lookbot;
-                changelook LOOK_HEAD_MID,getiteminfo(.@array1[@menu-1], 11);
-            }
-			if( getiteminfo(.@array1[@menu-1],5) & 4096 ) {
-                changelook LOOK_HEAD_TOP,@looktop;
-                changelook LOOK_HEAD_MID,@lookmid;
-                changelook LOOK_HEAD_BOTTOM,getiteminfo(.@array1[@menu-1], 11);
-            }
-		}
+		.@effid = .@effects[@menu - 1];
+		hateffect(.@effid,true);
 	}
 	end;
 }
