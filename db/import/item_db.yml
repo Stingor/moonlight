@@ -70516,7 +70516,6 @@ Body:
     Type: Usable
     Buy: 20
     Weight: 50
-    Script: "getrandgroupitem(IG_Fruit_Basket,1); getrandgroupitem(IG_Fruit_Basket,1); getrandgroupitem(IG_Fruit_Basket,1);\n"
   - Id: 12574
     AegisName: Mora_Berry
     Name: Mora Berry
