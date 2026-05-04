@@ -284,26 +284,22 @@ OnCommand:
 
 	setpcblock PCBLOCK_COMMANDS,true;
 	.@size = getarraysize(.@items);
-	.@per_page = 20;
-	.@offset = 0;
+	.@menu$ = "";
+	for(.@i = 0; .@i < .@size; .@i++)
+		.@menu$ = .@menu$ + getitemname(.@items[.@i]) + " [" + .@items[.@i] + "]:";
+	.@menu$ = .@menu$ + "Quitter";
 	while(1) {
-		.@menu$ = "";
-		for(.@i = 0; .@i < .@per_page; .@i++)
-			.@menu$ = .@menu$ + getitemname(.@items[(.@offset + .@i) % .@size]) + " [" + .@items[(.@offset + .@i) % .@size] + "]:";
-		.@menu$ = .@menu$ + "Quitter";
 		@menu = prompt(.@menu$);
 		if(.@effid > 0) {
 			hateffect(.@effid,false);
 			.@effid = 0;
 		}
-		if(@menu == 0 || @menu > .@per_page) {
+		if(@menu == 0 || @menu > .@size) {
 			setpcblock PCBLOCK_COMMANDS,false;
 			break;
 		}
-		.@idx = (.@offset + @menu - 1) % .@size;
-		.@effid = .@effects[.@idx];
+		.@effid = .@effects[@menu - 1];
 		hateffect(.@effid,true);
-		.@offset = (.@offset + @menu) % .@size;
 	}
 	end;
 }
