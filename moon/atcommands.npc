@@ -292,29 +292,30 @@ OnCommand:
 		.@to = .@from + .@per_page;
 		if(.@to > .@size) .@to = .@size;
 		.@pg_count = .@to - .@from;
-		.@has_other = (.@size > .@per_page);
 		.@menu$ = "";
-		for(.@i = 0; .@i < .@pg_count; .@i++)
-			.@menu$ = .@menu$ + replacestr(getitemname(.@items[(.@offset + .@from + .@i) % .@size]),"Costume ","") + " " + .@items[(.@offset + .@from + .@i) % .@size] + ":";
-		if(.@has_other) .@menu$ = .@menu$ + "Page suivante:";
+		for(.@i = 0; .@i < .@pg_count; .@i++) {
+			.@ci = (.@offset + .@from + .@i) % .@size;
+			.@menu$ = .@menu$ + replacestr(getitemname(.@items[.@ci]),"Costume ","") + " " + .@items[.@ci] + ":";
+		}
+		if(.@size > .@per_page) .@menu$ = .@menu$ + "Page suivante:";
 		.@menu$ = .@menu$ + "Quitter";
 		@menu = select(.@menu$);
 		if(@effid > 0) {
 			hateffect(@effid,false);
 			@effid = 0;
 		}
-		if(@menu > .@pg_count + .@has_other) {
-			setpcblock PCBLOCK_COMMANDS,false;
-			break;
-		}
-		if(.@has_other && @menu == .@pg_count + 1) {
+		if(.@size > .@per_page && @menu == .@pg_count + 1) {
 			.@page = 1 - .@page;
 			continue;
 		}
-		.@sel_idx = (.@offset + .@from + @menu - 1) % .@size;
+		if(@menu > .@pg_count) {
+			setpcblock PCBLOCK_COMMANDS,false;
+			break;
+		}
+		.@ci = (.@offset + .@from + @menu - 1) % .@size;
 		.@offset = (.@offset + .@from + @menu) % .@size;
 		.@page = 0;
-		@effid = .@effects[.@sel_idx];
+		@effid = .@effects[.@ci];
 		hateffect(@effid,true);
 	}
 	end;
