@@ -15664,13 +15664,15 @@ void pc_set_costume_view(map_session_data *sd) {
 	// Costumes check
 	if (!map_getmapflag(sd->m, MF_NOCOSTUME) && !sd->status.disable_showcostumes) {
 		if ((i = sd->equip_index[EQI_COSTUME_HEAD_LOW]) != -1 && (id = sd->inventory_data[i])) {
-			if (!(id->equip&(EQP_COSTUME_HEAD_MID|EQP_COSTUME_HEAD_TOP)))
+			uint32 actual_equip = sd->inventory.u.items_inventory[i].equip;
+			if (!(actual_equip&(EQP_COSTUME_HEAD_MID|EQP_COSTUME_HEAD_TOP)))
 				sd->status.head_bottom = id->look;
 			else
 				sd->status.head_bottom = 0;
 		}
 		if ((i = sd->equip_index[EQI_COSTUME_HEAD_MID]) != -1 && (id = sd->inventory_data[i])) {
-			if (!(id->equip&EQP_COSTUME_HEAD_TOP))
+			uint32 actual_equip = sd->inventory.u.items_inventory[i].equip;
+			if (!(actual_equip&EQP_COSTUME_HEAD_TOP))
 				sd->status.head_mid = id->look;
 			else
 				sd->status.head_mid = 0;
