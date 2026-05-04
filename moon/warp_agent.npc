@@ -372,6 +372,7 @@ L_DevilTower:
 				mes "Cette instance est disponible avec plusieur niveau de difficulté, êtes vous prêts à tenter?";
 				mes "^FF0000Attention!!";
 				mes "Le timer reste le même pour chaque niveau !! Si vous échouez au 5 vous ne pourrez changer la difficulté.^000000";
+				setdialogsize(300,200);
 				.@hardmode = select( "Facile(1)", "Normal(2)", "Moyen(3)", "", "Difficile(5)", "", "Très Difficile(7)", "", "", "MALADE(10)", "", "", "", "", "Mindblown(15)", "", "", "", "", "Game Over(20)" );
 				callsub Create_Instance, .@md_name$, .@hardmode; // Création instance
 			}
@@ -400,6 +401,7 @@ L_DevilTower:
 				mes "Cette instance est disponible avec plusieur niveau de difficulté, êtes vous prêts à tenter?";
 				mes "^FF0000Attention!!";
 				mes "Le timer reste le même pour chaque niveau !! Si vous échouez au 5 vous ne pourrez changer la difficulté.^000000";
+				setdialogsize(300,200);
 				.@hardmode = select( "Facile(1)", "Normal(2)", "Moyen(3)", "", "Difficile(5)", "", "Très Difficile(7)", "", "", "MALADE(10)", "", "", "", "", "Mindblown(15)", "", "", "", "", "Game Over(20)" );
 			}
 			callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
@@ -450,6 +452,7 @@ L_DevilTower:
 					mes "Cette instance est disponible avec plusieur niveau de difficulté, êtes vous prêts à tenter?";
 					mes "^FF0000Attention!!";
 					mes "Le timer reste le même pour chaque niveau !! Si vous échouez au 5 vous ne pourrez changer la difficulté.^000000";
+					setdialogsize(300,200);
 					.@hardmode = select( "Facile(1)", "Normal(2)", "Moyen(3)", "", "Difficile(5)", "", "Très Difficile(7)", "", "", "MALADE(10)" );
 					callsub Create_Instance,.@md_name$,.@hardmode; // Création instance
 					if ( BaseLevel < 100 ) {
@@ -854,7 +857,7 @@ Hard_Mode:
 		clear;
 		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 		mes "Cette instance est disponible avec plusieur niveau de difficulté, êtes vous prêts à tenter?";
-		setdialogsize(300,300);
+		setdialogsize(300,200);
 		return select( "Facile(1)", "Normal(2)", "Moyen(3)", "", "Difficile(5)", "", "Très Difficile (7)", "", "", "MALADE (10)" );
 	}
 	return 1;
