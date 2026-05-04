@@ -22,9 +22,13 @@ def process_file(path):
     with open(path, "rb") as f:
         content = f.read()
 
-    # Pattern : "Position: Upper", "Position: Middle", "Position: Lower"
-    # ou combinaisons séparées par virgules : "Position: Upper, Middle", "Position: Upper, Middle, Lower", etc.
-    POSITION_PATTERN = rb'"Position: (?:(?:Upper|Middle|Lower)(?:,\s*)?){1,3}"'
+    # Pattern : toutes les variantes de position head costume :
+    # - valeurs uniques  : Upper, Middle, Lower, Top, Mid, Bot, Low, Bottom
+    # - séparées virgule : "Position: Upper, Middle", "Position: Upper, Middle, Lower"
+    # - séparées slash   : "Position: Upper / Middle / Lower" (idempotent)
+    HEAD_WORD = rb'(?:Upper|Middle|Lower|Top|Mid|Bot|Low|Bottom)'
+    POSITION_PATTERN = HEAD_WORD + rb'(?:[,/]\s*' + HEAD_WORD + rb')*'
+    POSITION_PATTERN = rb'"Position: ' + POSITION_PATTERN + rb'"'
 
     def replace_in_costume_block(match):
         block = match.group(0)
