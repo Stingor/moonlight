@@ -24942,7 +24942,7 @@ Body:
     Name: Costume Cursed Serpent
     Type: Armor
     Locations:
-      Costume_Garment: true
+      Costume_Head: true
     View: 291
     Script: |
       hateffect HAT_EF_C_CURSED_SERPENT,true;
