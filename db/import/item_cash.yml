@@ -3631,7 +3631,7 @@ Body:
       - Item: C_Detective_Mag_Glass  # Id: 480631 | ViewID = 285
       - Item: C_N_Mad_Bunny  # Id: 480632 | ViewID = 286
       - Item: C_Arcanum_Corvus_Corax  # Id: 480658 | ViewID = 289
-      - Item: C_Cursed_Serpent  # Id: 480664 | ViewID = 291
+      # - Item: C_Cursed_Serpent  # Id: 480664 | ViewID = 291
       - Item: C_Tan_Spear  # Id: 480665 | ViewID = 292
       - Item: C_Giant_Chained_Bear  # Id: 480717 | ViewID = 297
       - Item: C_Sweet_Folk  # Id: 480718 | ViewID = 298
