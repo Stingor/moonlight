@@ -153,7 +153,6 @@ Body:
       - Item: Costume_Fox  # Id: 31614 | ViewID = 1812
       - Item: C_Gryphon_Wing_Ears  # Id: 20270 | ViewID = 1328
       - Item: C_Hill_Wind_Mask  # Id: 20300 | ViewID = 1342
-      - Item: C_Little_Aquarium_Lower  # Id: 31549 | ViewID = 1363
       - Item: C_Ljosalfar  # Id: 20099 | ViewID = 1239
       - Item: C_Loyal_Servant_of_Devil_Morocc  # Id: 20430 | ViewID = 1440
       - Item: Costume_Lunatic_Muffler  # Id: 31693 | ViewID = 1732
@@ -221,8 +220,6 @@ Body:
       - Item: C_Red_Bunny_Band  # Id: 19532 | ViewID = 640
         Price: 5
       - Item: C_Boys_Cap  # Id: 19545 | ViewID = 102
-        Price: 5
-      - Item: C_Goggle  # Id: 19578 | ViewID = 1
         Price: 5
       - Item: C_Adventurers_Hat  # Id: 19581 | ViewID = 891
         Price: 5
@@ -300,13 +297,9 @@ Body:
         Price: 5
       - Item: C_Nurse_Cap  # Id: 19637 | ViewID = 64
         Price: 5
-      - Item: C_Mr_Smile  # Id: 19638 | ViewID = 65
-        Price: 5
       - Item: C_Sahkkat  # Id: 19639 | ViewID = 67
         Price: 5
       - Item: C_Charming_Ribbon  # Id: 19640 | ViewID = 211
-        Price: 5
-      - Item: C_Whikebain_Ears  # Id: 19643 | ViewID = 368
         Price: 5
       - Item: C_Takius_Blindfold  # Id: 19644 | ViewID = 184
         Price: 5
@@ -341,8 +334,6 @@ Body:
       - Item: C_Brown_Beanie  # Id: 19659 | ViewID = 279
         Price: 5
       - Item: C_Coppola  # Id: 19660 | ViewID = 252
-        Price: 5
-      - Item: C_Sweet_Bonnet  # Id: 19661 | ViewID = 938
         Price: 5
       - Item: C_Magician_Hat  # Id: 19662 | ViewID = 130
         Price: 5
@@ -394,8 +385,6 @@ Body:
         Price: 10
       - Item: C_White_Musang_Hat  # Id: 19571 | ViewID = 770
         Price: 10
-      - Item: C_Black_Musang_Hat  # Id: 19572 | ViewID = 771
-        Price: 10
       - Item: C_Hatta_Black  # Id: 19567 | ViewID = 676
         Price: 10
       - Item: C_Zorro_Mask  # Id: 19583 | ViewID = 50
@@ -419,8 +408,6 @@ Body:
       - Item: C_Poring_Cake_Hat  # Id: 19665 | ViewID = 417
         Price: 10
       - Item: C_Dragon_Helm  # Id: 19667 | ViewID = 464
-        Price: 10
-      - Item: C_Valkyrie_Feather_Band  # Id: 19613 | ViewID = 300
         Price: 10
       - Item: C_Whisper_Mask  # Id: 19610 | ViewID = 321
         Price: 10
@@ -453,7 +440,6 @@ Body:
       - Item: C_Tucan_Hat  # Id: 19561 | ViewID = 528
       - Item: C_Jaguar_Hat  # Id: 19562 | ViewID = 530
       - Item: C_Samurai_Mask  # Id: 19566 | ViewID = 644
-      - Item: C_Ancient_Horns  # Id: 19568 | ViewID = 757
       - Item: C_Heart_Wing_Hairband  # Id: 19573 | ViewID = 733
       - Item: C_Lord_of_Death  # Id: 19574 | ViewID = 742
       - Item: 10th_Anni_Poring_Hat  # Id: 19577 | ViewID = 874
@@ -479,8 +465,6 @@ Body:
       - Item: C_MoonStar_Accessory  # Id: 18742 | ViewID = 881
       - Item: C_World_Star  # Id: 18744 | ViewID = 883
       - Item: C_Resonate_Taego  # Id: 19433 | ViewID = 1823
-      - Item: C_Reginleif_Hairband_  # Id: 19669 | ViewID = 468
-        Price: 10
       - Item: C_Southern_Cross  # Id: 19670 | ViewID = 601
         Price: 5
       - Item: C_Piggie_Bank  # Id: 19671 | ViewID = 603
@@ -560,10 +544,6 @@ Body:
         Price: 5
       - Item: C_Gas_Mask  # Id: 19736 | ViewID = 91
         Price: 5
-      - Item: C_Corsair_K  # Id: 19737 | ViewID = 105
-        Price: 5
-      - Item: C_Detective_Hat_K  # Id: 19738 | ViewID = 189
-        Price: 5
       - Item: C_Sleeping_Kitty_Cat  # Id: 19739 | ViewID = 838
         Price: 10
       - Item: C_Majestic_Devil_Horns  # Id: 19741 | ViewID = 562
@@ -576,8 +556,6 @@ Body:
       - Item: C_Holy_Marching_Hat  # Id: 19745 | ViewID = 587
         Price: 10
       - Item: C_Cap_Of_Blindness  # Id: 19746 | ViewID = 326
-        Price: 10
-      - Item: C_Tha_Despero_Mask_  # Id: 19747 | ViewID = 693
         Price: 10
       - Item: C_Diadem  # Id: 19748 | ViewID = 335
         Price: 5
@@ -638,8 +616,6 @@ Body:
       - Item: C_Persika  # Id: 19779 | ViewID = 659
         Price: 10
       - Item: C_Rabbit_Ear_Knit_Hat  # Id: 19780 | ViewID = 867
-      - Item: C_Ear_Of_Angel's_Wing_  # Id: 19781 | ViewID = 158
-        Price: 5
       - Item: C_Drooping_Kitty  # Id: 19782 | ViewID = 142
         Price: 10
       - Item: C_Granpa_Beard  # Id: 19783 | ViewID = 25
@@ -671,8 +647,6 @@ Body:
         Price: 5
       - Item: C_Apple_Of_Archer  # Id: 19797 | ViewID = 72
         Price: 5
-      - Item: C_Angry_Mouth  # Id: 19798 | ViewID = 194
-        Price: 5
       - Item: C_Golden_Gear  # Id: 19799 | ViewID = 30
         Price: 5
       - Item: C_Carnation_Hairband  # Id: 19800 | ViewID = 878
@@ -689,7 +663,6 @@ Body:
         Price: 10
       - Item: C_Majestihelm  # Id: 19807 | ViewID = 1047
         Price: 10
-      - Item: C_Blazing_Sun  # Id: 19808 | ViewID = 654
       - Item: C_Ifrit_Ear  # Id: 19810 | ViewID = 422
       - Item: C_Beer_Hat  # Id: 19811 | ViewID = 418
       - Item: C_Big_Hibiscus  # Id: 19812 | ViewID = 333
@@ -710,8 +683,6 @@ Body:
         Price: 5
       - Item: C_Yellow_Doogun  # Id: 19822 | ViewID = 309
         Price: 5
-      - Item: C_White_Cat_Hood  # Id: 19823 | ViewID = 1052
-        Price: 10
       - Item: C_Evil_Druid_Hat  # Id: 19824 | ViewID = 1053
         Price: 10
       - Item: C_Vicious_Stop_Bandage  # Id: 19825 | ViewID = 1054
@@ -722,8 +693,6 @@ Body:
       - Item: C_Fedora  # Id: 19828 | ViewID = 195
         Price: 5
       - Item: C_Straw_Hat  # Id: 19829 | ViewID = 146
-        Price: 5
-      - Item: C_Sunglasses  # Id: 19830 | ViewID = 12
         Price: 5
       - Item: C_Filir_Hat  # Id: 19831 | ViewID = 408
       - Item: C_Poring_Hat  # Id: 19832 | ViewID = 120
@@ -753,8 +722,6 @@ Body:
         Price: 5
       - Item: C_Angeling_Hat  # Id: 19848 | ViewID = 204
         Price: 10
-      - Item: C_Munak_Turban  # Id: 19849 | ViewID = 51
-        Price: 5
       - Item: C_Bongun_Hat  # Id: 19850 | ViewID = 139
         Price: 5
       - Item: C_Brown_Bear_Cap  # Id: 19851 | ViewID = 143
@@ -771,7 +738,6 @@ Body:
         Price: 10
       - Item: C_Leaf_Headgear  # Id: 19858 | ViewID = 148
         Price: 10
-      - Item: C_Flying_Angel  # Id: 19859 | ViewID = 264
       - Item: C_Cryptura_Hair_Cap  # Id: 19860 | ViewID = 872
         Price: 5
       - Item: C_Heart_Hair_Pin  # Id: 19861 | ViewID = 126
@@ -803,8 +769,6 @@ Body:
         Price: 5
       - Item: C_Pair_Of_Red_Ribbon  # Id: 19889 | ViewID = 169
         Price: 5
-      - Item: C_Cigar  # Id: 19902 | ViewID = 54
-        Price: 5
       - Item: C_Witchs_Hat  # Id: 19903 | ViewID = 717
         Price: 10
       - Item: C_Halloween_Hat  # Id: 19910 | ViewID = 1098
@@ -817,13 +781,9 @@ Body:
       - Item: C_Gloomy_Pumpkin_Hat  # Id: 19917 | ViewID = 691
       - Item: C_Lude_Mask  # Id: 19918 | ViewID = 802
         Price: 10
-      - Item: C_Cube_Mask_  # Id: 19919 | ViewID = 472
-        Price: 10
       - Item: C_Adv_Whisper_Mask  # Id: 19920 | ViewID = 458
       - Item: C_Noah_Hat  # Id: 19922 | ViewID = 636
         Price: 10
-      - Item: C_One_Eyed_Glasses  # Id: 19925 | ViewID = 23
-        Price: 5
       - Item: C_Gothic_Heart_Wing  # Id: 19928 | ViewID = 1111
         Price: 5
       - Item: C_Classical_Ribbon  # Id: 19929 | ViewID = 1112
@@ -971,14 +931,9 @@ Body:
         Price: 10
       - Item: C_Jack_Castle_Bat  # Id: 20034 | ViewID = 1041
       - Item: C_Miracle_Blue_Rose  # Id: 20035 | ViewID = 1064
-      - Item: C_Sword_Master_Crown  # Id: 20036 | ViewID = 981
       - Item: C_Owlduke_Silk_Hat  # Id: 20037 | ViewID = 982
         Price: 10
       - Item: C_Alphonse_Helmet  # Id: 20038 | ViewID = 1207
-        Price: 10
-      - Item: C_Butterfly_Wing_Ear_J  # Id: 20039 | ViewID = 695
-        Price: 10
-      - Item: C_Rose_Crown  # Id: 20040 | ViewID = 583
         Price: 10
       - Item: C_Earth_Goddess_Flower  # Id: 20041 | ViewID = 864
         Price: 10
@@ -1038,8 +993,6 @@ Body:
         Price: 5
       - Item: C_Little_Fhat  # Id: 20075 | ViewID = 715
         Price: 5
-      - Item: C_Idun_Wing_Ears  # Id: 20076 | ViewID = 724
-        Price: 5
       - Item: C_Wing_Form_Spectacle  # Id: 20077 | ViewID = 925
         Price: 10
       - Item: C_White_Feather  # Id: 20078 | ViewID = 741
@@ -1047,19 +1000,9 @@ Body:
       - Item: C_Love_Daddy_2013  # Id: 20079 | ViewID = 1104
       - Item: C_Shaman's_Hair_Orna  # Id: 20080 | ViewID = 476
         Price: 10
-      - Item: C_Metal_Dragon_Helm  # Id: 20081 | ViewID = 1242
-        Price: 10
       - Item: C_Metal_Dragon_Hat  # Id: 20082 | ViewID = 1243
-      - Item: C_Mythlit_Hat  # Id: 20083 | ViewID = 1244
-        Price: 10
       - Item: C_Clover_Coronet  # Id: 20084 | ViewID = 325
         Price: 10
-      - Item: C_Clover_Silkhat  # Id: 20085 | ViewID = 735
-        Price: 10
-      - Item: C_Dragon_Cintamani_Hat1  # Id: 20086 | ViewID = 1245
-      - Item: C_Dragon_Cintamani_Hat2  # Id: 20087 | ViewID = 1246
-      - Item: C_Dragon_Cintamani_Hat3  # Id: 20088 | ViewID = 1247
-      - Item: C_Dragon_Cintamani_Hat4  # Id: 20089 | ViewID = 1248
       - Item: C_Egg_Shell  # Id: 20090 | ViewID = 101
         Price: 5
       - Item: C_Smoking_Pipe  # Id: 20091 | ViewID = 55
@@ -1078,12 +1021,8 @@ Body:
         Price: 5
       - Item: C_Vampire_Hairband  # Id: 20098 | ViewID = 1238
         Price: 10
-      - Item: C_Ljosalfar  # Id: 20099 | ViewID = 1239
       - Item: C_Volume_Fhat  # Id: 20100 | ViewID = 1240
         Price: 10
-      - Item: C_Bragi_Wing_Ears  # Id: 20101 | ViewID = 1241
-        Price: 5
-      - Item: C_Horse_King_J  # Id: 20102 | ViewID = 1189
       - Item: C_Drooping_Panda  # Id: 20103 | ViewID = 1029
       - Item: C_Picky_Egg_Shell  # Id: 20104 | ViewID = 1001
       - Item: C_Fish_Head_Hat  # Id: 20105 | ViewID = 386
@@ -1113,8 +1052,6 @@ Body:
         Price: 5
       - Item: C_Fur_Hat  # Id: 20119 | ViewID = 160
         Price: 5
-      - Item: C_Antenna  # Id: 20120 | ViewID = 97
-        Price: 5
       - Item: C_Lotus_Flower_Hat  # Id: 20121 | ViewID = 324
         Price: 5
       - Item: Happy_Summer_Ribbon  # Id: 20122 | ViewID = 1260
@@ -1140,8 +1077,6 @@ Body:
         Price: 10
       - Item: C_Helm_Of_Abyss_White  # Id: 20134 | ViewID = 1269
         Price: 5
-      - Item: C_12_Anniversary_Crown_Of_Saint  # Id: 20135 | ViewID = 1117
-        Price: 5
       - Item: C_12_Anniversary_Elf_Ears  # Id: 20136 | ViewID = 875
         Price: 5
       - Item: C_Bomb_Wick  # Id: 20137 | ViewID = 66
@@ -1157,8 +1092,6 @@ Body:
       - Item: C_Machoman_Glasses  # Id: 20142 | ViewID = 92
         Price: 10
       - Item: C_Candy_Cane_In_Mouth  # Id: 20143 | ViewID = 665
-        Price: 10
-      - Item: C_Ancient_Elven_Ear  # Id: 20144 | ViewID = 665
         Price: 10
       - Item: C_Robo_Eye  # Id: 20145 | ViewID = 345
         Price: 10
@@ -1184,8 +1117,6 @@ Body:
         Price: 5
       - Item: C_Blue_Hair_Band  # Id: 20159 | ViewID = 136
         Price: 5
-      - Item: C_Fried_Egg  # Id: 20160 | ViewID = 373
-        Price: 10
       - Item: C_Prontera_Army_Cap  # Id: 20161 | ViewID = 48
         Price: 5
       - Item: C_Fleece_Hat  # Id: 20162 | ViewID = 1277
@@ -1267,8 +1198,6 @@ Body:
       - Item: C_Chicken_Hat_  # Id: 20210 | ViewID = 1297
       - Item: C_Chicken_Hat__  # Id: 20211 | ViewID = 1298
       - Item: C_Loki_Nidhogg_Hat  # Id: 20212 | ViewID = 1304
-      - Item: C_Sirt_Evil_Eye  # Id: 20213 | ViewID = 345
-        Price: 10
       - Item: C_Evil_Marcher_Hat_J  # Id: 20214 | ViewID = 1002
         Price: 10
       - Item: C_Black_Devil_Mask  # Id: 20215 | ViewID = 760
@@ -1295,17 +1224,11 @@ Body:
         Price: 5
       - Item: C_Husky_Hat  # Id: 20227 | ViewID = 1016
         Price: 5
-      - Item: C_Pig_MoneyBox  # Id: 20228 | ViewID = 603
       - Item: C_Mask_Of_Bankrupt  # Id: 20230 | ViewID = 936
         Price: 10
       - Item: C_Snowman_Hat  # Id: 20231 | ViewID = 616
-      - Item: C_Celines_Ribbon  # Id: 20232 | ViewID = 967
-        Price: 10
       - Item: C_Gold_Angel_Sculpture  # Id: 20233 | ViewID = 646
-      - Item: C_Baphomet_Hat  # Id: 20234 | ViewID = 1311
       - Item: C_Frozen_Land_Rose  # Id: 20235 | ViewID = 1025
-        Price: 10
-      - Item: C_Hellomother_Hat  # Id: 20236 | ViewID = 241
         Price: 10
       - Item: C_Pink_Fur_Hat  # Id: 20237 | ViewID = 281
         Price: 10
@@ -1347,8 +1270,6 @@ Body:
         Price: 10
       - Item: C_Fox_Ears_Bell_Ribbon  # Id: 20262 | ViewID = 1070
         Price: 10
-      - Item: C_Hat_Of_Drowsy_Cat  # Id: 20263 | ViewID = 838
-        Price: 10
       - Item: C_Blood_Sucker  # Id: 20264 | ViewID = 893
         Price: 10
       - Item: C_Bird_Nest_Hat  # Id: 20265 | ViewID = 235
@@ -1360,15 +1281,11 @@ Body:
       - Item: C_Sleep_Eclipse_Family  # Id: 20268 | ViewID = 1326
       - Item: C_White_Fox_Ear_Ribbon  # Id: 20269 | ViewID = 1327
         Price: 10
-      - Item: C_Gryphon_Wing_Ears  # Id: 20270 | ViewID = 1328
-        Price: 10
       - Item: C_Sunflower  # Id: 20271 | ViewID = 37
         Price: 5
       - Item: C_Snowy_Horn  # Id: 20272 | ViewID = 42
         Price: 5
       - Item: C_Soft_Sheep_Hat  # Id: 20273 | ViewID = 738
-        Price: 10
-      - Item: C_Polar_Bear_Cap_J  # Id: 20274 | ViewID = 966
         Price: 10
       - Item: C_Balloon_Hat  # Id: 20277 | ViewID = 385
         Price: 10
@@ -1394,8 +1311,6 @@ Body:
         Price: 10
       - Item: C_Helm_of_Thoth  # Id: 20291 | ViewID = 860
         Price: 10
-      - Item: C_Black_Ramen_Hat  # Id: 20292 | ViewID = 1338
-        Price: 10
       - Item: C_Sleeper_Hat  # Id: 20293 | ViewID = 590
       - Item: C_Savage_Babe_Hat  # Id: 20294 | ViewID = 553
         Price: 10
@@ -1408,8 +1323,6 @@ Body:
       - Item: C_Happy_Lunatic_Ear  # Id: 20298 | ViewID = 1340
         Price: 10
       - Item: C_Face_Crusher  # Id: 20299 | ViewID = 1341
-        Price: 10
-      - Item: C_Hill_Wind_Mask  # Id: 20300 | ViewID = 1342
         Price: 10
       - Item: C_Golden_Savage_Hat  # Id: 20301 | ViewID = 648
         Price: 10
@@ -1436,15 +1349,12 @@ Body:
         Price: 10
       - Item: C_Charleston_Antenna  # Id: 20318 | ViewID = 1354
         Price: 10
-      - Item: C_Crimson_Booster  # Id: 20319 | ViewID = 1355
-        Price: 10
       - Item: C_Red_Bandana  # Id: 20320 | ViewID = 62
         Price: 10
       - Item: C_Pterios_Fins  # Id: 20321 | ViewID = 1009
         Price: 10
       - Item: C_Seal_Hat  # Id: 20322 | ViewID = 540
         Price: 10
-      - Item: C_Sparkling_Sound  # Id: 20323 | ViewID = 1074
       - Item: C_Pigeon_Hat  # Id: 20324 | ViewID = 1362
       - Item: C_Little_Aquarium  # Id: 20325 | ViewID = 1363
       - Item: C_Sailor_Collar  # Id: 20326 | ViewID = 1364
@@ -1481,7 +1391,6 @@ Body:
         Price: 10
       - Item: C_Sunday_Hat  # Id: 20348 | ViewID = 117
         Price: 10
-      - Item: C_Flying_Galapago  # Id: 20349 | ViewID = 1358
       - Item: C_Bouncing_Hair_Yellow  # Id: 20350 | ViewID = 1382
         Price: 10
       - Item: C_Bouncing_Hair_Green  # Id: 20351 | ViewID = 1383
@@ -1537,11 +1446,6 @@ Body:
         Price: 10
       - Item: C_Skymet  # Id: 20378 | ViewID = 868
         Price: 10
-      - Item: C_Pocketwatch_Hair_Ornament  # Id: 20379 | ViewID = 1404
-        Price: 10
-      - Item: C_Mechanical_Feather_Hairband  # Id: 20380 | ViewID = 1405
-        Price: 10
-      - Item: C_Steampunk_Hat  # Id: 20381 | ViewID = 1406
       - Item: C_Silver_Sniper_Doll  # Id: 20382 | ViewID = 1407
       - Item: C_Magic_Decoy_Doll  # Id: 20383 | ViewID = 1408
       - Item: C_Douce_Tiara  # Id: 20384 | ViewID = 1410
@@ -1569,7 +1473,6 @@ Body:
         Price: 10
       - Item: C_Subject_Aura_Red  # Id: 20407 | ViewID = 1418
       - Item: C_Requiem_Crown_of_Light_and_Dark  # Id: 20408 | ViewID = 1419
-      - Item: C_There_is_Something_  # Id: 20409 | ViewID = 1091
       - Item: C_1Grade_Balloon  # Id: 20416 | ViewID = 1426
       - Item: C_2Grade_Balloon  # Id: 20417 | ViewID = 1427
       - Item: C_3Grade_Balloon  # Id: 20418 | ViewID = 1428
@@ -1585,13 +1488,11 @@ Body:
       - Item: C_13Grade_Balloon  # Id: 20428 | ViewID = 1438
       - Item: C_Piamette_Bowtie  # Id: 20429 | ViewID = 1439
         Price: 10
-      - Item: C_Loyal_Servant_of_Devil_Morocc  # Id: 20430 | ViewID = 1440
       - Item: C_Magician_Headdress  # Id: 20431 | ViewID = 1441
       - Item: C_Khalitzburg_Knight_Helm  # Id: 20432 | ViewID = 1442
         Price: 10
       - Item: C_Louise_Red_Hat  # Id: 20433 | ViewID = 1443
         Price: 10
-      - Item: C_Drooping_Gunslinger  # Id: 20434 | ViewID = 1444
       - Item: C_Camellia_Hair_Pin  # Id: 20435 | ViewID = 1203
       - Item: C_Angelring_Furhat  # Id: 20436 | ViewID = 953
       - Item: C_Sakura_Hairband  # Id: 20437 | ViewID = 949
@@ -1637,8 +1538,6 @@ Body:
       - Item: C_Laser_of_Eagle  # Id: 20491 | ViewID = 1424
         Price: 10
       - Item: C_Unidentified_Flying_Poring  # Id: 20492 | ViewID = 1017
-      - Item: C_Quati_Hat  # Id: 20495 | ViewID = 527
-        Price: 10
       - Item: C_Black_Shiba_Inu_Hat  # Id: 20496 | ViewID = 894
         Price: 10
       - Item: C_Umbala_Spirit  # Id: 20497 | ViewID = 675
@@ -1656,8 +1555,6 @@ Body:
       - Item: C_Ghost_Effect  # Id: 20547
       - Item: Costume_Popping_Poring_Aura  # Id: 20548
       - Item: GrimReaper_Protection  # Id: 20798 | ViewID = 1450
-      - Item: C_Pretty_Bear  # Id: 31027 | ViewID = 1480
-        Price: 10
       - Item: C_Black_Cat_Hood  # Id: 31028 | ViewID = 1481
       - Item: C_Pig_Nose  # Id: 31029 | ViewID = 1482
         Price: 10
@@ -1786,10 +1683,6 @@ Body:
       - Item: C_JP_EV09  # Id: 31103 | ViewID = 1540
       - Item: C_Taini_Hat  # Id: 31104 | ViewID = 722
       - Item: C_RO_Celebration_Hat  # Id: 31105 | ViewID = 1541
-      - Item: C_Eyepatch_of_Peace  # Id: 31106 | ViewID = 697
-        Price: 10
-      - Item: C_Eyepatch_of_Prosperity  # Id: 31107 | ViewID = 698
-        Price: 10
       - Item: C_Doctor_Headband  # Id: 31113 | ViewID = 60
         Price: 5
       - Item: C_Theater_Prop  # Id: 31114 | ViewID = 80
@@ -1823,8 +1716,6 @@ Body:
         Price: 10
       - Item: C_Happy_Parrot  # Id: 31134 | ViewID = 1116
         Price: 10
-      - Item: C_Mini_Crown1  # Id: 31135 | ViewID = 707
-        Price: 10
       - Item: C_Clock_Casket  # Id: 31136 | ViewID = 1555
         Price: 10
       - Item: C_Blue_Rose_Ornament  # Id: 31137 | ViewID = 1556
@@ -1836,7 +1727,6 @@ Body:
         Price: 10
       - Item: C_Rose_Corsage_  # Id: 31141 | ViewID = 1570
         Price: 10
-      - Item: C_Time_Prison  # Id: 31142 | ViewID = 1309
       - Item: C_Indi_Feather_Band  # Id: 31144 | ViewID = 809
         Price: 10
       - Item: C_AliceFriesinger_Hat_69  # Id: 31145 | ViewID = 1249
@@ -1874,8 +1764,6 @@ Body:
       - Item: C_Hat_Of_Outlaw  # Id: 31169 | ViewID = 486
         Price: 10
       - Item: C_Wind_Wings  # Id: 31170 | ViewID = 493
-        Price: 10
-      - Item: C_Nekomimi  # Id: 31171 | ViewID = 182
         Price: 10
       - Item: C_Oyster_Parakeet  # Id: 31173 | ViewID = 419
       - Item: C_Suspicious_Bread_Bag  # Id: 31174 | ViewID = 429
@@ -1917,7 +1805,6 @@ Body:
       - Item: C_Charcoal_Stove  # Id: 31203 | ViewID = 1602
       - Item: C_Drooping_White_Cat  # Id: 31204 | ViewID = 378
       - Item: C_Large_Orc_Hero_Helm  # Id: 31205 | ViewID = 381
-      - Item: C_Rune_Hairband  # Id: 31206 | ViewID = 564
       - Item: C_Dokkebi_Mask  # Id: 31207 | ViewID = 689
       - Item: C_Straight_Long_YL  # Id: 31208 | ViewID = 1603
         Price: 10
@@ -1971,21 +1858,6 @@ Body:
         Price: 10
       - Item: C_Long_Twin_PP  # Id: 31233 | ViewID = 1628
         Price: 10
-      - Item: C_Persica  # Id: 31234 | ViewID = 659
-        Price: 10
-      - Item: C_Large_Ribbon_Muffler_Mid  # Id: 31235 | ViewID = 1312
-        Price: 10
-      - Item: C_Vicious_Mind_Aura_Mid  # Id: 31236 | ViewID = 1267
-      - Item: C_Pale_Yellow_Ribbon_Lower  # Id: 31237 | ViewID = 1474
-      - Item: C_True_Love_Upper  # Id: 31238 | ViewID = 489
-      - Item: C_Love_Rabbit_Hood_Upper  # Id: 31239 | ViewID = 549
-      - Item: C_Whisper_Mask_  # Id: 31240 | ViewID = 321
-      - Item: C_Burning_Sun_Lower  # Id: 31241 | ViewID = 654
-      - Item: C_Anubis_Helm_  # Id: 31242 | ViewID = 485
-      - Item: C_Tongue_Mask_Mid  # Id: 31243 | ViewID = 253
-      - Item: C_Skymet_  # Id: 31244 | ViewID = 868
-      - Item: C_Cherry  # Id: 31245 | ViewID = 602
-      - Item: C_Humming_Bird  # Id: 31246 | ViewID = 702
       - Item: C_Hippo_Hat  # Id: 31247 | ViewID = 859
       - Item: C_Isabella_Red_Ears  # Id: 31248 | ViewID = 1030
       - Item: C_Rabbit_Hopping  # Id: 31249 | ViewID = 1635
@@ -1996,67 +1868,13 @@ Body:
       - Item: C_Cat_Ear_Hat_White  # Id: 31252 | ViewID = 1638
       - Item: C_Rinzu_Helmet  # Id: 31253 | ViewID = 548
       - Item: C_Red_Hare_Hat  # Id: 31254 | ViewID = 1631
-      - Item: C_Sweet_Helmet  # Id: 31255 | ViewID = 1374
       - Item: C_Observer_J  # Id: 31260 | ViewID = 1639
         Price: 10
       - Item: C_Soda_in_Mouth  # Id: 31261 | ViewID = 1643
         Price: 10
-      - Item: C_Disposable_3D_Glasses  # Id: 31262 | ViewID = 661
       - Item: C_Disposable_Popcorn_Hat  # Id: 31263 | ViewID = 415
-      - Item: C_Wings_of_Protector_Lower  # Id: 31264 | ViewID = 990
-      - Item: C_Straight_Pony_Blue_Mid  # Id: 31265 | ViewID = 1394
-        Price: 10
-      - Item: C_Straight_Pony_Red_Mid  # Id: 31266 | ViewID = 1392
-        Price: 10
-      - Item: C_Straight_Pony_Yellow_Mid  # Id: 31267 | ViewID = 1389
-        Price: 10
-      - Item: C_Straight_Pony_Green_Mid  # Id: 31268 | ViewID = 1390
-        Price: 10
-      - Item: C_Straight_Pony_Black_Mid  # Id: 31269 | ViewID = 1371
-        Price: 10
-      - Item: C_Straight_Pony_White_Mid  # Id: 31270 | ViewID = 1395
-        Price: 10
-      - Item: C_Straight_Pony_Crimson_Mid  # Id: 31271 | ViewID = 1393
-        Price: 10
-      - Item: C_Straight_Pony_Purple_Mid  # Id: 31272 | ViewID = 1391
-        Price: 10
-      - Item: C_Cowlick_Blue_Mid  # Id: 31273 | ViewID = 1387
-        Price: 10
-      - Item: C_Cowlick_Red_Mid  # Id: 31274 | ViewID = 1385
-        Price: 10
-      - Item: C_Cowlick_Yellow_Mid  # Id: 31275 | ViewID = 1382
-        Price: 10
-      - Item: C_Cowlick_Green_Mid  # Id: 31276 | ViewID = 1383
-        Price: 10
-      - Item: C_Cowlick_Black_Mid  # Id: 31277 | ViewID = 1372
-        Price: 10
-      - Item: C_Cowlick_White_Mid  # Id: 31278 | ViewID = 1388
-        Price: 10
-      - Item: C_Cowlick_Crimson_Mid  # Id: 31279 | ViewID = 1386
-        Price: 10
-      - Item: C_Cowlick_Purple_Mid  # Id: 31280 | ViewID = 1384
-        Price: 10
-      - Item: C_Loose_Wave_Twin_Blue_Mid  # Id: 31281 | ViewID = 1401
-        Price: 10
-      - Item: C_Loose_Wave_Twin_Red_Mid  # Id: 31282 | ViewID = 1399
-        Price: 10
-      - Item: C_Loose_Wave_Twin_Yellow_Mid  # Id: 31283 | ViewID = 1396
-        Price: 10
-      - Item: C_Loose_Wave_Twin_Green_Mid  # Id: 31284 | ViewID = 1397
-        Price: 10
-      - Item: C_Loose_Wave_Twin_Black_Mid  # Id: 31285 | ViewID = 1373
-        Price: 10
-      - Item: C_Loose_Wave_Twin_White_Mid  # Id: 31286 | ViewID = 1402
-        Price: 10
-      - Item: C_Loose_Wave_Twin_Crimson_Mid  # Id: 31287 | ViewID = 1400
-        Price: 10
-      - Item: C_Loose_Wave_Twin_Purple_Mid  # Id: 31288 | ViewID = 1398
-        Price: 10
-      - Item: C_Black_Wing_Ears_Lower  # Id: 31289 | ViewID = 1336
       - Item: C_Angels_Feather_Cap  # Id: 31290 | ViewID = 929
       - Item: C_Devils_Feather_Cap  # Id: 31291 | ViewID = 930
-      - Item: C_Red_Wing_Hat  # Id: 31295 | ViewID = 613
-        Price: 10
       - Item: C_Strawberry_in_Mouth  # Id: 31296 | ViewID = 861
         Price: 10
       - Item: C_Fruit_of_Love  # Id: 31297 | ViewID = 140
@@ -2067,11 +1885,6 @@ Body:
         Price: 10
       - Item: C_Black_Magenta_Ribbon  # Id: 31302 | ViewID = 1659
         Price: 10
-      - Item: C_Black_Ramen_Hat_  # Id: 31303 | ViewID = 1338
-        Price: 10
-      - Item: C_Summer_Fan  # Id: 31304 | ViewID = 1051
-        Price: 10
-      - Item: C_Toucan_Hat  # Id: 31306 | ViewID = 528
       - Item: C_Violet_Macaw  # Id: 31307 | ViewID = 656
       - Item: C_Protect_Feathers  # Id: 31308 | ViewID = 1232
         Price: 10
@@ -2085,9 +1898,6 @@ Body:
       - Item: C_Stall_Of_Angel  # Id: 31315 | ViewID = 1664
       - Item: C_C_FlutterButterfly_BL  # Id: 31316 | ViewID = 1665
       - Item: C_Gerhard_Von_Devi  # Id: 31318 | ViewID = 1092
-      - Item: C_Summer_Fan_  # Id: 31319 | ViewID = 1051
-        Price: 10
-      - Item: C_Pinwheel_Hat  # Id: 31320 | ViewID = 456
       - Item: C_Shining_Sunflower  # Id: 31321 | ViewID = 681
       - Item: C_Candy_Hat  # Id: 31322 | ViewID = 853
       - Item: C_Yellow_Hunting_Cap  # Id: 31323 | ViewID = 484
@@ -2100,14 +1910,11 @@ Body:
       - Item: C_Chung_E_Shinyon_Cap  # Id: 31331 | ViewID = 1675
       - Item: C_Khalitzburg_KN_Helm_BL  # Id: 31332 | ViewID = 1676
       - Item: C_Harvest_Festa_Hat  # Id: 31368 | ViewID = 1677
-      - Item: C_Straight_Long_WH_  # Id: 31369 | ViewID = 1604
-      - Item: C_Straight_Long_YL_  # Id: 31370 | ViewID = 1603
       - Item: C_Crown_of_Ancient_king  # Id: 31373 | ViewID = 1412
       - Item: C_Explosion_gum  # Id: 31374 | ViewID = 1414
         Price: 10
       - Item: C_Mystic_Eye  # Id: 31375 | ViewID = 1490
         Price: 10
-      - Item: C_Glastheim_Obeserver  # Id: 31377 | ViewID = 1041
       - Item: C_Catharina_Von_Brad_60th  # Id: 31378 | ViewID = 1527
       - Item: C_Wind-Up_Key  # Id: 31379 | ViewID = 1335
       - Item: C_Crow  # Id: 31380 | ViewID = 1035
@@ -2144,7 +1951,6 @@ Body:
       - Item: C_Eleanor_Wig_YL  # Id: 31405 | ViewID = 1701
       - Item: C_Nydhog_Wig_WH  # Id: 31406 | ViewID = 1702
       - Item: C_Alice_Wig_PK  # Id: 31407 | ViewID = 1703
-      - Item: C_Ragnarok_Rush_Goat  # Id: 31408 | ViewID = 41
       - Item: C_Barrel_Helm  # Id: 31409 | ViewID = 1498
         Price: 10
       - Item: C_GodsHelm  # Id: 31410 | ViewID = 1678
@@ -2165,7 +1971,6 @@ Body:
         Price: 10
       - Item: C_Floating_Ice  # Id: 31432 | ViewID = 1562
       - Item: C_Celestial_Circle  # Id: 31433 | ViewID = 1073
-      - Item: C_Cloud_Burst  # Id: 31434 | ViewID = 705
       - Item: C_Ghost_Magicians_Knit_Hat  # Id: 31435 | ViewID = 854
       - Item: C_Lazy_Cat  # Id: 31436 | ViewID = 274
       - Item: C_Fluffy_Angel_Cape  # Id: 31438 | ViewID = 1706
@@ -2174,15 +1979,7 @@ Body:
         Price: 10
       - Item: C_Snow_Bear_Hood  # Id: 31440 | ViewID = 1708
       - Item: C_Penguin_Cap_BU  # Id: 31441 | ViewID = 1709
-      - Item: C_Smile_Mask_Middle  # Id: 31442 | ViewID = 65
-        Price: 5
-      - Item: C_Munak_Hat_  # Id: 31443 | ViewID = 51
-        Price: 5
-      - Item: C_Bongun_Hat_  # Id: 31444 | ViewID = 139
-        Price: 5
       - Item: C_Toy_Syringe  # Id: 31446 | ViewID = 842
-        Price: 10
-      - Item: C_Light_Moonlight_Hat  # Id: 31447 | ViewID = 913
         Price: 10
       - Item: C_Stings_Silk_Ribbon  # Id: 31448 | ViewID = 1457
         Price: 10
@@ -2193,8 +1990,6 @@ Body:
         Price: 10
       - Item: C_L_RibbonMuff_Black  # Id: 31453 | ViewID = 1716
         Price: 10
-      - Item: C_Laughing_Wonderful_Wolf_Hat  # Id: 31457 | ViewID = 1016
-      - Item: C_Sweet_Bonbon  # Id: 31459 | ViewID = 853
       - Item: C_Blessing_Sky_Lantern  # Id: 31460 | ViewID = 1720
       - Item: C_Flying_Drone  # Id: 31463 | ViewID = 1561
       - Item: C_Bloom_Afro  # Id: 31464 | ViewID = 837
@@ -2214,7 +2009,6 @@ Body:
       - Item: C_Black_Fox_Ear_Ribbon  # Id: 31475 | ViewID = 1726
       - Item: C_Cherry_Blossom_Hat_YL  # Id: 31476 | ViewID = 1727
         Price: 10
-      - Item: C_Eleanor_Wig_  # Id: 31478 | ViewID = 1502
       - Item: C_Group_of_Stars  # Id: 31479 | ViewID = 1729
       - Item: C_TriColor_CatCup  # Id: 31481 | ViewID = 1731
       - Item: C_Divers_Goggles  # Id: 31486 | ViewID = 10
@@ -2228,8 +2022,6 @@ Body:
       - Item: C_Cat_Ears_Cape_Brown  # Id: 31492 | ViewID = 1742
         Price: 10
       - Item: C_Volume_Low_Twin_WH  # Id: 31493 | ViewID = 1743
-      - Item: C_Volume_Low_Twin_Upper  # Id: 31494 | ViewID = 1683
-      - Item: C_Lolita_Two_Side_Up_  # Id: 31495 | ViewID = 1713
       - Item: C_Yggdrasil_Crown  # Id: 31496 | ViewID = 746
       - Item: C_Elephangel_TH  # Id: 31498 | ViewID = 1745
       - Item: C_Large_Hungry_Fish  # Id: 31504 | ViewID = 844
@@ -2240,12 +2032,10 @@ Body:
       - Item: C_Fawn_Ear  # Id: 31509 | ViewID = 1751
       - Item: C_ShortHair_CatEar  # Id: 31510 | ViewID = 1752
       - Item: C_LongHair_CatEar  # Id: 31511 | ViewID = 1753
-      - Item: C_Panda_Rabbit  # Id: 31512 | ViewID = 1754
       - Item: C_Black_Rabbit_Ears  # Id: 31513 | ViewID = 1755
       - Item: C_Mini_Melon  # Id: 31516 | ViewID = 1758
       - Item: C_Popping_Popcorn_Hat  # Id: 31518 | ViewID = 1763
       - Item: C_Noodles_Hat  # Id: 31519 | ViewID = 1764
-      - Item: C_Popcorn_Hat  # Id: 31520 | ViewID = 415
       - Item: C_Yuzu_Helmet  # Id: 31521 | ViewID = 791
       - Item: C_Orange_Helmet  # Id: 31522 | ViewID = 841
       - Item: C_Pomelo_Helmet  # Id: 31523 | ViewID = 924
@@ -2255,7 +2045,6 @@ Body:
       - Item: C_Happy_Rabbit_Ribbon  # Id: 31529 | ViewID = 1769
       - Item: C_Lovely_Heart_Cap  # Id: 31531 | ViewID = 1770
       - Item: C_Warm_Cat_Muffler_BL  # Id: 31533 | ViewID = 1771
-      - Item: C_Lovely_Feeling  # Id: 31538 | ViewID = 1717
       - Item: C_GeminiS58_Eyes_Red  # Id: 31540 | ViewID = 1654
       - Item: C_Drosera_Hairpin  # Id: 31541 | ViewID = 850
       - Item: C_Clay_Poring_Jar  # Id: 31542 | ViewID = 1634
@@ -2264,19 +2053,6 @@ Body:
       - Item: C_Eremes_Scarf_BU  # Id: 31545 | ViewID = 1776
       - Item: C_Clock_Casket_RD  # Id: 31546 | ViewID = 1777
       - Item: C_Poporing_Mascot_Head  # Id: 31547 | ViewID = 1778
-      - Item: C_Love_Cheek_Lower  # Id: 31548 | ViewID = 1318
-        Price: 10
-      - Item: C_Little_Aquarium_Lower  # Id: 31549 | ViewID = 1363
-      - Item: C_Tone_of_Gold_Mid  # Id: 31550 | ViewID = 1447
-      - Item: C_Black_Glasses_Lower  # Id: 31551 | ViewID = 404
-        Price: 10
-      - Item: C_Blue_Ribbon_Mid  # Id: 31552 | ViewID = 407
-        Price: 10
-      - Item: C_Wings_Of_Victory_Mid  # Id: 31553 | ViewID = 365
-        Price: 10
-      - Item: C_Bread_Bag_Mid  # Id: 31554 | ViewID = 412
-      - Item: C_Hoplite_Helmet_Upper  # Id: 31555 | ViewID = 660
-      - Item: C_Moonlight_Flower_Hat_Upper  # Id: 31556 | ViewID = 268
       - Item: C_Royalguard_Necklace  # Id: 31559 | ViewID = 1629
         Price: 10
       - Item: C_Clergy_Nurse_Cap  # Id: 31560 | ViewID = 1359
@@ -2300,12 +2076,8 @@ Body:
         Price: 10
       - Item: C_Electro_Two_Sides_Up  # Id: 31575 | ViewID = 1791
       - Item: C_Moon_Rabbit_Hat  # Id: 31576 | ViewID = 455
-      - Item: C_Roast_Memory_Upper  # Id: 31577 | ViewID = 1576
-      - Item: C_Alchemist_Mask_ML  # Id: 31578 | ViewID = 1497
       - Item: C_Love_Games  # Id: 31579 | ViewID = 1306
       - Item: C_Autumn_Flavor  # Id: 31580 | ViewID = 1792
-      - Item: C_Jack_Upper  # Id: 31581 | ViewID = 1415
-      - Item: C_Will_O_Wisp_Lower  # Id: 31583 | ViewID = 880
       - Item: C_Poporing_Muffler  # Id: 31586 | ViewID = 1797
         Price: 10
       - Item: C_Snow_Flower  # Id: 31588 | ViewID = 1799
@@ -2319,7 +2091,6 @@ Body:
       - Item: C_Golden_Fish_Hat  # Id: 31597 | ViewID = 1645
       - Item: C_Forest_Guide  # Id: 31598 | ViewID = 1802
       - Item: C_Medium_Wave  # Id: 31599 | ViewID = 1803
-      - Item: C_Kishu_Dog  # Id: 31600 | ViewID = 1804
       - Item: C_Under_Rim_Glasses_Blue  # Id: 31601 | ViewID = 1805
         Price: 10
       - Item: C_Autumn_Headband  # Id: 31606 | ViewID = 1119
@@ -2329,13 +2100,9 @@ Body:
       - Item: C_Yellow_Wizardry_Hat  # Id: 31610 | ViewID = 286
       - Item: C_Snake_Lord_Stole  # Id: 31611 | ViewID = 1810
       - Item: C_Large_Sorcerer_Crown  # Id: 31612 | ViewID = 1811
-      - Item: Costume_Fox  # Id: 31614 | ViewID = 1812
       - Item: Costume_Geisha_Make_Up  # Id: 31615 | ViewID = 1813
         Price: 10
-      - Item: Costume_Sleep_Sheep  # Id: 31616 | ViewID = 1814
       - Item: Costume_Heart_Of_Cat  # Id: 31624 | ViewID = 1822
-      - Item: Costume_Protection_Cloth  # Id: 31625 | ViewID = 1761
-        Price: 10
       - Item: Costume_Dokebi  # Id: 31628 | ViewID = 430
       - Item: Costume_Baphomet_Balloon  # Id: 31630 | ViewID = 1746
       - Item: Costume_Drooping_Schmidt  # Id: 31631 | ViewID = 1859
@@ -2397,7 +2164,6 @@ Body:
       - Item: Costume_Desert_Wolf_Hat  # Id: 31664 | ViewID = 783
       - Item: Costume_Poring_Beret  # Id: 31667 | ViewID = 1825
       - Item: Costume_Majorous_Horns  # Id: 31668 | ViewID = 888
-      - Item: C_Adv_Whisper_Mask_M  # Id: 31669 | ViewID = 458
       - Item: C_Miyabi_Long_Hair  # Id: 31670 | ViewID = 1864
       - Item: Costume_Twin_Cannon  # Id: 31671 | ViewID = 1865
       - Item: Costume_Mermaid_Wig  # Id: 31672 | ViewID = 1866
@@ -2406,16 +2172,12 @@ Body:
       - Item: Costume_Orange_Hat  # Id: 31675 | ViewID = 620
       - Item: Costume_Orange_In_Mouth  # Id: 31676 | ViewID = 814
         Price: 10
-      - Item: Costume_Drooping_Elven_Ears  # Id: 31682 | ViewID = 875
-        Price: 10
       - Item: Costume_Kururinpa_Tails  # Id: 31684 | ViewID = 1873
       - Item: Costume_Fluffy_Semi_Long  # Id: 31685 | ViewID = 1874
       - Item: Costume_Desert_Wolf_Baby  # Id: 31686 | ViewID = 1875
       - Item: Costume_Alchemist_Bag  # Id: 31687 | ViewID = 18760
       - Item: Costume_Poring_On_Shoulder  # Id: 31688 | ViewID = 1877
-      - Item: C_Piamette_Curls_  # Id: 31689 | ViewID = 1775
       - Item: Costume_Flame_Bird  # Id: 31690 | ViewID = 832
-      - Item: C_Bell_Pigeon_Low  # Id: 31691 | ViewID = 1034
       - Item: Costume_Dragon_Emperor_Wings  # Id: 31692 | ViewID = 1413
         Price: 10
       - Item: Costume_Stem_In_Mouth  # Id: 31695 | ViewID = 848
@@ -2444,14 +2206,10 @@ Body:
       - Item: Costume_Twinkling_Red_Eyes  # Id: 31716 | ViewID = 1888
         Price: 10
       - Item: Costume_Medium_Wave_BD  # Id: 31717 | ViewID = 1889
-      - Item: Costume_Sky_Lantern_Mid  # Id: 31718 | ViewID = 1720
-      - Item: Costume_Vesper_Hat  # Id: 31720 | ViewID = 1827
-      - Item: Costume_Resonating_Drums  # Id: 31721 | ViewID = 1823
       - Item: Costume_TW_Rice_Ball  # Id: 31723 | ViewID = 892
       - Item: Costume_TW_Bulgogi  # Id: 31724 | ViewID = 1773
       - Item: Costume_Miracle_Plant  # Id: 31729 | ViewID = 1893
       - Item: Costume_Volume_Low_Twin_SK  # Id: 31730 | ViewID = 1894
-      - Item: Costume_Sweets_Party  # Id: 31731 | ViewID = 1896
       - Item: Costume_Bear_Balloon  # Id: 31732 | ViewID = 1734
       - Item: Costume_Phantom_Masquerade  # Id: 31733 | ViewID = 1899
       - Item: Costume_Cirtrus_Ribbon  # Id: 31734 | ViewID = 1900
@@ -2461,7 +2219,6 @@ Body:
       - Item: Costume_Gambler_Card  # Id: 31762 | ViewID = 1679
         Price: 10
       - Item: Costume_Fortier_Mask  # Id: 31763 | ViewID = 876
-      - Item: C_Rainbow_Veil_Mid  # Id: 31764 | ViewID = 992
       - Item: Costume_Garnet_Tiara  # Id: 31765 | ViewID = 1906
       - Item: Costume_Peony_Hair_Ornament  # Id: 31766 | ViewID = 1907
       - Item: Costume_Orange_Bunny_Band  # Id: 31769 | ViewID = 751
@@ -2480,7 +2237,6 @@ Body:
       - Item: Costume_Seraphim_Feather  # Id: 31793 | ViewID = 1704
         Price: 10
       - Item: Costume_Puppy_Ears_Hat  # Id: 31794 | ViewID = 827
-      - Item: C_Elephangel_TH_Mid  # Id: 31795 | ViewID = 1745
       - Item: Costume_Drooping_Boto  # Id: 31796 | ViewID = 657
       - Item: Costume_Shih_Tzu_Hair  # Id: 31797 | ViewID = 1921
       - Item: Costume_Pretty_White_Bear  # Id: 31799 | ViewID = 1923
@@ -2555,11 +2311,8 @@ Body:
       - Item: C_Chullos  # Id: 19626 | ViewID = 287
       - Item: C_Poring_Letter  # Id: 19672 | ViewID = 604
         Price: 10
-      - Item: C_Love_Guard  # Id: 19673 | ViewID = 716
       - Item: C_Evil_Mask  # Id: 19674 | ViewID = 714
       - Item: C_Jumping_Poring  # Id: 19675 | ViewID = 349
-      - Item: C_Round_Eyes_J  # Id: 19679 | ViewID = 185
-        Price: 10
       - Item: C_Tongue_Mask  # Id: 19680 | ViewID = 253
         Price: 10
       - Item: C_Silver_Tiara  # Id: 19681 | ViewID = 218
@@ -2567,7 +2320,6 @@ Body:
       - Item: C_Sweet_Candy  # Id: 19683 | ViewID = 414
         Price: 10
       - Item: C_Happy_Wig  # Id: 19684 | ViewID = 305
-      - Item: C_RJC_Katusa  # Id: 19688 | ViewID = 533
       - Item: C_Blue_Ribbon  # Id: 19691 | ViewID = 407
       - Item: C_Antique_Pipe_J  # Id: 19692 | ViewID = 383
         Price: 10
@@ -2585,7 +2337,6 @@ Body:
       - Item: C_Yggdrasil_Hat  # Id: 19766 | ViewID = 997
       - Item: C_Cowboy_Hat_J  # Id: 19809 | ViewID = 411
       - Item: C_Bone_Hat  # Id: 19820 | ViewID = 732
-      - Item: C_Fox_Hat  # Id: 19838 | ViewID = 403
       - Item: C_Helm_Of_Sun  # Id: 19840 | ViewID = 138
       - Item: C_Happy_Summer_Wig  # Id: 19855 | ViewID = 1059
       - Item: C_Blue_Pajamas_Hat  # Id: 19866 | ViewID = 501
@@ -2608,9 +2359,6 @@ Body:
       - Item: C_Shrine_Maiden_Hat  # Id: 19894 | ViewID = 908
       - Item: C_Sorc_Night_Cap  # Id: 19895 | ViewID = 911
       - Item: C_Ph_Ro_10th_Cap  # Id: 19896 | ViewID = 1094
-      - Item: RPC13_1ST_Wreath  # Id: 19897 | ViewID = 261
-      - Item: RPC13_2ND_Wreath  # Id: 19898 | ViewID = 261
-      - Item: RPC13_3RD_Wreath  # Id: 19899 | ViewID = 261
       - Item: Special_Eyepatch  # Id: 19900 | ViewID = 1097
         Price: 10
       - Item: C_Viking_Helm  # Id: 19901 | ViewID = 86
@@ -2618,7 +2366,6 @@ Body:
       - Item: C_Skull_Cap  # Id: 19904 | ViewID = 713
         Price: 10
       - Item: C_Secret_Society_Hood  # Id: 19905 | ViewID = 806
-      - Item: C_24_Bolt  # Id: 19906 | ViewID = 696
       - Item: C_Fancy_Phantom_Mask  # Id: 19907 | ViewID = 710
       - Item: C_Joker_Jester_  # Id: 19908 | ViewID = 219
       - Item: C_White_Deviruchi_Cap  # Id: 19909 | ViewID = 272
@@ -2627,15 +2374,12 @@ Body:
         Price: 10
       - Item: C_Little_Devil_S_Horn  # Id: 19915 | ViewID = 1103
         Price: 10
-      - Item: C_Drooping_Wild_Rose  # Id: 19921 | ViewID = 541
       - Item: C_Dark_Age  # Id: 19923 | ViewID = 766
       - Item: C_Odin_Mask  # Id: 19924 | ViewID = 480
         Price: 10
       - Item: C_Ribbon_Black  # Id: 19926 | ViewID = 242
         Price: 5
       - Item: C_Gray_Drooping_Kitty  # Id: 19927 | ViewID = 275
-      - Item: C_Event_Pierrot_Nose  # Id: 19940 | ViewID = 49
-        Price: 5
       - Item: C_Orchid_Hairband  # Id: 19942 | ViewID = 376
         Price: 10
       - Item: C_Hat_Of_Judge  # Id: 19943 | ViewID = 377
@@ -2647,8 +2391,6 @@ Body:
       - Item: C_RWC_Champ_Crown  # Id: 19950 | ViewID = 914
       - Item: C_Solo_Play_Box2  # Id: 19951 | ViewID = 450
       - Item: C_Boss_Beret  # Id: 19975 | ViewID = 1134
-      - Item: C_Santa_Beard  # Id: 19981 | ViewID = 25
-        Price: 5
       - Item: C_Onigiri_In_Mouth  # Id: 19993 | ViewID = 774
       - Item: Flower_Blossom  # Id: 19995 | ViewID = 1176
       - Item: C_New_Year_Hairpin  # Id: 20229 | ViewID = 1155
@@ -2707,7 +2449,6 @@ Body:
       - Item: C_Pope_Ribbon  # Id: 20488 | ViewID = 1474
       - Item: C_Pope_Crown  # Id: 20489 | ViewID = 1475
       - Item: C_Wing_Headphone  # Id: 20493 | ViewID = 1347
-      - Item: C_Ufo_Poring_Hat  # Id: 20494 | ViewID = 1017
       - Item: C_Heart_Wing_Backpack  # Id: 20580 | ViewID = 58
       - Item: C_Soldier_Backpack  # Id: 20581 | ViewID = 59
       - Item: C_Magic_Star_TW  # Id: 20583
@@ -2787,7 +2528,6 @@ Body:
       - Item: C_TW_2th_Balloon  # Id: 31503 | ViewID = 1750
       - Item: C_American_S_hair  # Id: 31514 | ViewID = 1756
       - Item: C_Leopard_Cat  # Id: 31515 | ViewID = 1757
-      - Item: C_Kid_Deviling  # Id: 31525 | ViewID = 1036
       - Item: C_Greater_Dracul_Horn  # Id: 31530 | ViewID = 1695
       - Item: C_Neev_Barrette  # Id: 31532 | ViewID = 1696
       - Item: C_Rainbow_Star  # Id: 31534 | ViewID = 1019
@@ -2802,7 +2542,6 @@ Body:
       - Item: C_Drops_Muffler  # Id: 31585 | ViewID = 1796
         Price: 10
       - Item: C_NationalDay_helmet_TW  # Id: 31587 | ViewID = 1798
-      - Item: C_Crown_Of_Saint  # Id: 31591 | ViewID = 1117
       - Item: C_Cat_Ear_LongK  # Id: 31604 | ViewID = 1928
       - Item: C_Volume_Low_Twin_WHK  # Id: 31605 | ViewID = 1913
       - Item: C_Blue_Strong_Hair  # Id: 31613 | ViewID = 1858
@@ -2825,8 +2564,6 @@ Body:
       - Item: C_Sedora_Hat  # Id: 31722 | ViewID = 869
       - Item: C_Hankie_In_Mouth  # Id: 31726 | ViewID = 818
         Price: 10
-      - Item: C_Ribbon_Green  # Id: 31727 | ViewID = 244
-        Price: 10
       - Item: C_Nobility_Hat  # Id: 31728 | ViewID = 1181
       - Item: C_Aqua_Bunny_Band  # Id: 31773 | ViewID = 1012
         Price: 10
@@ -2845,7 +2582,6 @@ Body:
       - Item: C_Sloth_Hat  # Id: 31780 | ViewID = 638
       - Item: C_Green_Poring_Hairpin  # Id: 31781 | ViewID = 788
         Price: 10
-      - Item: C_Blood_Grimoire_J  # Id: 31790 | ViewID = 890
       - Item: C_Baryon_HeadPhone_TW  # Id: 31792 | ViewID = 1920
       - Item: C_Flower_Hat  # Id: 31804 | ViewID = 1172
       - Item: C_Sunglasses_Bball_Hat  # Id: 31805 | ViewID = 812
@@ -2859,7 +2595,6 @@ Body:
       - Item: C_TopPlayer_TW  # Id: 31818 | ViewID = 1930
       - Item: C_Golden_Baseball_Cap  # Id: 31820 | ViewID = 263
       - Item: C_Jeje_Cap  # Id: 31821 | ViewID = 1011
-      - Item: C_Summer_Baseball_Cap  # Id: 31822 | ViewID = 812
       - Item: C_Tongue_Charm_J  # Id: 31825 | ViewID = 801
         Price: 10
       - Item: C_Falling_Red_Foliage  # Id: 20537
@@ -2870,7 +2605,6 @@ Body:
         Price: 10
       - Item: C_Aviator_Hat  # Id: 31836 | ViewID = 972
       - Item: C_Golden_Wreath  # Id: 31838 | ViewID = 434
-      - Item: C_FluffyWing_J  # Id: 31839 | ViewID = 1826
       - Item: C_Striking_hat  # Id: 31842 | ViewID = 1759
       - Item: C_Heavenly_Order  # Id: 31843 | ViewID = 1093
       - Item: C_Mob_Scarf  # Id: 31844 | ViewID = 1568
@@ -2885,7 +2619,6 @@ Body:
       - Item: C_Phalanx  # Id: 31851 | ViewID = 1949
       - Item: C_WitchManteau  # Id: 31852 | ViewID = 1950
       - Item: C_ZombieMask  # Id: 31853 | ViewID = 1951
-      - Item: C_SnackParty_J  # Id: 31854 | ViewID = 1896
       - Item: Mushroom_Hair  # Id: 31855 | ViewID = 1953
       - Item: C_Airy_Two_Side_Up_BD  # Id: 31856 | ViewID = 1954
       - Item: C_Airy_Two_Side_Up_SV  # Id: 31857 | ViewID = 1955
@@ -2915,7 +2648,6 @@ Body:
       - Item: C_Exotic_Bob_R_BW  # Id: 31881 | ViewID = 1979
       - Item: C_Choco_Stick_In_Mouth  # Id: 31882 | ViewID = 884
         Price: 10
-      - Item: C_Nine_Tail_Fox_Hair_J  # Id: 31883 | ViewID = 1884
       - Item: C_Magic_Helm  # Id: 31884 | ViewID = 1917
       - Item: Cons_Of_Earth  # Id: 31885 | ViewID = 1982
       - Item: C_Pierced_Apple_E  # Id: 31886 | ViewID = 1952
@@ -2933,7 +2665,6 @@ Body:
       - Item: C_White_Strong_Hair  # Id: 20250 | ViewID = 1317
       - Item: C_10_Type_Glasses  # Id: 31902 | ViewID = 1237
         Price: 10
-      - Item: C_White_Snake  # Id: 31903 | ViewID = 413
       - Item: C_Para_Team_Hat100  # Id: 31904 | ViewID = 1529
       - Item: C_Blanc_Neige_Prince  # Id: 31905 | ViewID = 1983
       - Item: C_PGstone_Knit_Hat_PK  # Id: 31906 | ViewID = 1984
@@ -2950,8 +2681,6 @@ Body:
       - Item: C_2018_RTC_Cape4_TW_J  # Id: 31917 | ViewID = 32
       - Item: C_Party_Recruiter_Hat  # Id: 31918 | ViewID = 351
       - Item: C_Friend_Recruiter_Hat  # Id: 31919 | ViewID = 353
-      - Item: C_Western_Grace  # Id: 31920 | ViewID = 32
-        Price: 5
       - Item: C_Fairy_Long_CB  # Id: 31921 | ViewID = 1992
       - Item: C_Fluffy_Semi_Long_SV  # Id: 31922 | ViewID = 1993
       - Item: C_Baby_Polar_Bear  # Id: 31923 | ViewID = 1994
@@ -2960,7 +2689,6 @@ Body:
       - Item: C_Blue_Pencil_In_Mouth  # Id: 31927 | ViewID = 932
         Price: 10
       - Item: C_Cylinder_Hairband  # Id: 31928 | ViewID = 1477
-      - Item: C_Cryptura_Academy_Hat  # Id: 31929 | ViewID = 872
       - Item: C_Mike_Stand  # Id: 31930 | ViewID = 2000
       - Item: C_Half_Rim_Glasses  # Id: 31931 | ViewID = 2001
         Price: 10
@@ -3008,7 +2736,6 @@ Body:
       - Item: C_Fire_Giant_Red  # Id: 31978 | ViewID = 2308
       - Item: C_Fire_Giant_Gold  # Id: 31979 | ViewID = 2309
       - Item: C_BeachBall  # Id: 400020 | ViewID = 1918
-      - Item: C_Pierced_Apple_  # Id: 400046 | ViewID = 1952
       - Item: C_VIP_Hair_Female  # Id: 400056 | ViewID = 1990
       - Item: C_VIP_Hair_Male  # Id: 400057 | ViewID = 1989
       - Item: C_20th_Anniversary  # Id: 400076 | ViewID = 2005
@@ -3050,7 +2777,6 @@ Body:
       - Item: C_Evt_RagFes_band  # Id: 400188 | ViewID = 2179
       - Item: C_Navy_Drooping_Kitty  # Id: 400193 | ViewID = 749
       - Item: C_Pizza_Hat_J  # Id: 400195 | ViewID = 487
-      - Item: C_Autumnal_Flavor_J  # Id: 400196 | ViewID = 1792
       - Item: C_Sweet_Chef_Hat  # Id: 400197 | ViewID = 2163
       - Item: C_Cat_Ear_Red_Hat_TW  # Id: 400204 | ViewID = 2153
       - Item: C_Bun_Twin_Tail_BU  # Id: 400205 | ViewID = 2190
@@ -3078,7 +2804,6 @@ Body:
       - Item: C_AI_Nabi  # Id: 400280 | ViewID = 2259
       - Item: C_Pink_Angel_Hairband  # Id: 400290 | ViewID = 916
       - Item: C_Proba_Angel_Blessing  # Id: 400292 | ViewID = 444
-      - Item: C_KAKAO_Sky_Hat  # Id: 400305 | ViewID = 462
       - Item: C_20th_Anniversary_Hat  # Id: 400309 | ViewID = 2284
       - Item: C_Indomitable_Crown  # Id: 400310 | ViewID = 2283
       - Item: C_Reliance_Crown  # Id: 400311 | ViewID = 2281
@@ -3123,7 +2848,6 @@ Body:
       - Item: C_Juan_Hat_MSP  # Id: 400448 | ViewID = 2387
       - Item: C_Tare_Maid_Doll_Hat  # Id: 400449 | ViewID = 1083
       - Item: C_Lion_Crown  # Id: 400450 | ViewID = 2390
-      - Item: C_Rag_Origin_Hat_ROC  # Id: 400451 | ViewID = 2019
       - Item: C_Ally_of_the_Demons  # Id: 400458 | ViewID = 2268
       - Item: C_Naval_Officer_Hat  # Id: 400459 | ViewID = 792
       - Item: C_Burst_Flame  # Id: 400460 | ViewID = 451
@@ -3147,7 +2871,6 @@ Body:
       - Item: C_SnowmanHat  # Id: 400585 | ViewID = 2488
       - Item: C_Merlion_Hat_MSP  # Id: 400599 | ViewID = 2501
       - Item: C_Ribbon_Beret_B  # Id: 400604 | ViewID = 2507
-      - Item: C_VIP_Poring_Cake_Cap  # Id: 400605 | ViewID = 417
       - Item: C_Chic_Peony  # Id: 400633 | ViewID = 2380
       - Item: C_Ghost_Whisper  # Id: 400634 | ViewID = 2338
       - Item: C_CLB_SS_DF  # Id: 400664 | ViewID = 2531
@@ -3161,7 +2884,6 @@ Body:
       - Item: C_Khalitzburg_KN_Helm_W  # Id: 400656 | ViewID = 2392
       - Item: C_CatCoffeeCup_WH  # Id: 400670 | ViewID = 2538
       - Item: C_Broken_Egg  # Id: 400671 | ViewID = 2542
-      - Item: C_White_Cat_Hood_V  # Id: 400682 | ViewID = 1052
       - Item: C_Bell_Flower_Hat  # Id: 400683 | ViewID = 2550
       - Item: C_Jerboa_Headband  # Id: 400684 | ViewID = 2548
       - Item: C_Gold_Paeonia  # Id: 400692 | ViewID = 2558
@@ -3198,10 +2920,8 @@ Body:
       - Item: C_Steamroller  # Id: 400930 | ViewID = 2504
       - Item: C_Squirrel_Ear_Hat_W  # Id: 400754 | ViewID = 2371
       - Item: C_Ulle_Cap  # Id: 400755 | ViewID = 254
-      - Item: aegis_400756  # Id: 400756 | ViewID = 1420
       - Item: C_WH_Fox_Hood_Twin  # Id: 400757 | ViewID = 2646
       - Item: C_Work_Cap  # Id: 400761 | ViewID = 1793
-      - Item: aegis_400788  # Id: 400788 | ViewID = 1231
       - Item: C_C_F_Aureola_RD  # Id: 400789 | ViewID = 2668
       - Item: C_Sakura_Witch_Hat_W  # Id: 400898 | ViewID = 2582
       - Item: C_Striking_hat_A  # Id: 400899 | ViewID = 2391
@@ -3226,7 +2946,6 @@ Body:
       - Item: aegis_401016  # Id: 401016 | ViewID = 284
       - Item: aegis_401062  # Id: 401062 | ViewID = 2556
       - Item: C_Rune_Helm_Ice  # Id: 401113 | ViewID = 2203
-      - Item: C_Asgard_Circlet_TH  # Id: 401114 | ViewID = 2100
       - Item: aegis_401148  # Id: 401148 | ViewID = 789
       - Item: aegis_401196  # Id: 401196 | ViewID = 2425
       - Item: C_CLB_GAT_button  # Id: 401207 | ViewID = 2805
@@ -3345,7 +3064,6 @@ Body:
       - Item: C_bean_tteok  # Id: 410223 | ViewID = 2343
       - Item: C_Black_Rabbit  # Id: 410226 | ViewID = 2349
       - Item: C_Pope_Ribbon_R  # Id: 410224 | ViewID = 2152
-      - Item: aegis_410228  # Id: 410228 | ViewID = 998
       - Item: C_Serpent_Crystal  # Id: 410229 | ViewID = 2355
       - Item: C_Teaparty_Wonderland  # Id: 410231
       - Item: C_Rebel_Pocket_Watch  # Id: 410234 | ViewID = 2289
@@ -3363,7 +3081,6 @@ Body:
         Price: 10
       - Item: C_Alien_Sunglass_GN  # Id: 410253 | ViewID = 2406
         Price: 10
-      - Item: aegis_410257  # Id: 410257 | ViewID = 1340
       - Item: C_King_Headphone  # Id: 410261 | ViewID = 2421
       - Item: C_Sonic_Mini  # Id: 410262 | ViewID = 2429
       - Item: C_Super_Sonic_Mini  # Id: 410263 | ViewID = 2430
@@ -3393,12 +3110,9 @@ Body:
       - Item: aegis_410280  # Id: 410280
       - Item: C_1st_Evt_Balloon_MSP_V  # Id: 410282 | ViewID = 2345
       - Item: aegis_410288  # Id: 410288 | ViewID = 2480
-      - Item: aegis_410292  # Id: 410292 | ViewID = 2316
-      - Item: aegis_410293  # Id: 410293 | ViewID = 1463
       - Item: C_One_Sho_Bottle  # Id: 410296 | ViewID = 2491
       - Item: C_Blink_Eyes_A_Dragon  # Id: 410297 | ViewID = 2492
         Price: 10
-      - Item: C_Comp_Dragon_Hat  # Id: 410301 | ViewID = 2316
       - Item: C_GorgonCoronet  # Id: 410311 | ViewID = 2250
       - Item: C_Eye_Mask  # Id: 410317 | ViewID = 2524
         Price: 10
@@ -3438,7 +3152,6 @@ Body:
       - Item: C_Handiness_Telescope  # Id: 410447 | ViewID = 2375
       - Item: C_Blink_Eyes_Cosmic  # Id: 410448 | ViewID = 2708
         Price: 10
-      - Item: aegis_410470  # Id: 410470 | ViewID = 170
       - Item: C_Gear_Monocle  # Id: 410471 | ViewID = 2736
         Price: 10
       - Item: C_Chained_Bear  # Id: 410474 | ViewID = 2739
@@ -3476,7 +3189,6 @@ Body:
       - Item: C_Feather_Stola  # Id: 420071 | ViewID = 2130
       - Item: C_L_Knitting_Low_Twin_W  # Id: 420072 | ViewID = 2131
       - Item: C_Cat_Footprints  # Id: 420077 | ViewID = 2150
-      - Item: C_Ghost_Bat_J  # Id: 420078 | ViewID = 2093
       - Item: C_Inner_Color_Long  # Id: 420079 | ViewID = 2155
       - Item: C_Carrot_In_Mouth_J  # Id: 420081 | ViewID = 829
         Price: 10
@@ -3493,14 +3205,6 @@ Body:
       - Item: C_Airy_Two_Side_Up_WH  # Id: 420033 | ViewID = 2028
       - Item: C_Heart_Angel_TW  # Id: 420088 | ViewID = 2170
       - Item: C_Silky_Long_SV  # Id: 420092 | ViewID = 2181
-      - Item: C_Braid_Half_Up_WH_K  # Id: 420095 | ViewID = 2052
-      - Item: C_Braid_Half_Up_OM_K  # Id: 420096 | ViewID = 2053
-      - Item: C_Braid_Half_Up_PP_K  # Id: 420097 | ViewID = 2054
-      - Item: C_Braid_Half_Up_BL_K  # Id: 420098 | ViewID = 2051
-      - Item: C_Braid_Half_Up_BU_K  # Id: 420099 | ViewID = 2047
-      - Item: C_Braid_Half_Up_YL_K  # Id: 420100 | ViewID = 2049
-      - Item: C_Braid_Half_Up_RD_K  # Id: 420101 | ViewID = 2048
-      - Item: C_Braid_Half_Up_GN_K  # Id: 420102 | ViewID = 2050
       - Item: C_Charm_Of_Mistic_Froze  # Id: 420103 | ViewID = 1262
         Price: 10
       - Item: C_SR_Hair_SV  # Id: 420104 | ViewID = 2206
@@ -3575,8 +3279,6 @@ Body:
       - Item: C_Valkyrie_Hair_J  # Id: 420177 | ViewID = 2311
       - Item: C_Mask_Of_Orochimaru  # Id: 420190 | ViewID = 1089
         Price: 10
-      - Item: aegis_420206  # Id: 420206 | ViewID = 508
-      - Item: C_FAngel_Valletta_ROC  # Id: 420214 | ViewID = 1674
       - Item: C_Wanderer_Curl_WH  # Id: 420218 | ViewID = 2379
       - Item: C_Consecrate_F_Aureola  # Id: 420222 | ViewID = 2396
       - Item: C_Cheesy_Snack_In_Mouth  # Id: 420232 | ViewID = 843
@@ -3636,7 +3338,6 @@ Body:
       - Item: C_Angel_Berry_Wig  # Id: 420346 | ViewID = 2549
       - Item: C_Blue_Sunbed  # Id: 420349 | ViewID = 2562
       - Item: C_Green_Sunbed  # Id: 420350 | ViewID = 2563
-      - Item: C_Auspicloud  # Id: 420351 | ViewID = 383
       - Item: C_Pool  # Id: 420352 | ViewID = 2566
       - Item: C_Cha_Ex_Twin  # Id: 420353 | ViewID = 2567
       - Item: C_Experiment_Mind  # Id: 420358 | ViewID = 2664
@@ -3653,7 +3354,6 @@ Body:
       - Item: C_White_Rabbit_Hair  # Id: 420317 | ViewID = 2499
       - Item: C_Charm_Of_Rough_Wind  # Id: 420320 | ViewID = 1263
         Price: 10
-      - Item: aegis_420335  # Id: 420335 | ViewID = 2546
       - Item: C_Queen_of_Calamity  # Id: 420336 | ViewID = 2530
       - Item: C_Ancient_Rune  # Id: 420337
       - Item: C_Undead_Seal_Rose  # Id: 420347 | ViewID = 2525
@@ -3661,7 +3361,6 @@ Body:
       - Item: C_Baby_Seal  # Id: 420357 | ViewID = 2570
       - Item: C_Bell_Cat_Hair  # Id: 420360 | ViewID = 2573
         Price: 10
-      - Item: aegis_420365  # Id: 420365 | ViewID = 806
       - Item: C_Atque_Poenitentia  # Id: 420382 | ViewID = 2594
       - Item: C_S_Two_Side_Up_BD  # Id: 420393 | ViewID = 2610
       - Item: C_S_Two_Side_Up_BDP  # Id: 420394 | ViewID = 2611
@@ -3736,7 +3435,6 @@ Body:
       - Item: C_Sausage  # Id: 435000 | ViewID = 2320
       - Item: C_Ep19_Rgan  # Id: 436006 | ViewID = 2144
       - Item: C_Ep19_Iwin  # Id: 436007 | ViewID = 2143
-      - Item: C_HwaHoJumJung  # Id: 436008 | ViewID = 2216
       - Item: C_spiding  # Id: 436010 | ViewID = 2315
       - Item: C_SharkHead  # Id: 440000 | ViewID = 1919
       - Item: C_Aurelie_Hair  # Id: 420703 | ViewID = 2789
@@ -3771,7 +3469,6 @@ Body:
       - Item: C_Wing_Of_Angel_Move_GD  # Id: 480058 | ViewID = 75
       - Item: C_Wing_Of_Angel_Move_GR  # Id: 480060 | ViewID = 78
       - Item: C_Wing_Of_Angel_Move  # Id: 480069 | ViewID = 61
-      - Item: Calabash  # Id: 480071 | ViewID = 82
       - Item: C_Sandalphon_Wing_TW  # Id: 480082 | ViewID = 88
       - Item: C_CAPOO_Bag_TW  # Id: 480086 | ViewID = 89
       - Item: C_Sudden_Wealth_J  # Id: 480092 | ViewID = 96
@@ -3920,7 +3617,6 @@ Body:
       - Item: C_CLB_DT_TS_Wing  # Id: 480595 | ViewID = 268
       - Item: C_CLB_DT_TS_Hood  # Id: 480596 | ViewID = 2696
       - Item: C_Immortal_H_Spear  # Id: 480611 | ViewID = 274
-      - Item: C_Valkyrie_Hair  # Id: 490242 | ViewID = 2311
       - Item: C_I_Samurai_Sword  # Id: 480581 | ViewID = 265
       - Item: C_3color_dumplings_P  # Id: 480582 | ViewID = 266
       - Item: C_Starrysky_Fountainpen  # Id: 480603 | ViewID = 270
@@ -4023,7 +3719,6 @@ Body:
       # - Item: C_Party_Mem_Recruit_BR  # Id: 31111 | ViewID = 1545
       # - Item: C_Begging_Board_BR  # Id: 31112 | ViewID = 1546
       # - Item: C_Truemoney_TH  # Id: 31115 | ViewID = 1547
-      # - Item: C_Truemoney_TH7  # Id: 31116 | ViewID = 1547
       # - Item: C_Krathong_Crown_TH  # Id: 31143 | ViewID = 1560
       # - Item: C_Invisible_Mask_TW  # Id: 31292
       # - Item: C_Aches_Love_Cobra_TH  # Id: 31502 | ViewID = 1749
@@ -4054,7 +3749,6 @@ Body:
       # - Item: C_Nymph_Ear  # Id: 401295 | ViewID = 2818
       # - Item: C_LG_Feather_Hat  # Id: 401300 | ViewID = 2819
       # - Item: C_Ruck_Keeper  # Id: 401303 | ViewID = 2822
-      # - Item:  C_18y_Hat_JP  # Id: 410046 | ViewID = 2015
       # - Item: C_Puriku_Pcha  # Id: 410050 | ViewID = 2075
       # - Item: C_Happy_Balloon  # Id: 410077 | ViewID = 1183
       # - Item: C_Princess_Headphone  # Id: 410178 | ViewID = 2275
@@ -4093,13 +3787,11 @@ Body:
       # - Item: C_Petal_Twin_N  # Id: 420776 | ViewID = 2821
       # - Item: C_Malangmalang  # Id: 440035 | ViewID = 2806
       # - Item: C_Cupid_Wing_Pink_ROC  # Id: 480239
-      # - Item: C_Harmony_Wing_ROC  # Id: 480264 | ViewID = 136
       # - Item: C_Angelic_Long_BD  # Id: 480271 | ViewID = 2328
       # - Item: C_Angelic_Long_RBD  # Id: 480272 | ViewID = 2329
       # - Item: C_Angelic_Long_SV  # Id: 480273 | ViewID = 2330
       # - Item: C_Angelic_Long_RSV  # Id: 480274 | ViewID = 2331
       # - Item: aegis_480443  # Id: 480443 | ViewID = 220
-      # - Item: aegis_480444  # Id: 480444 | ViewID = 2529
       # - Item: C_JP_EV19  # Id: 480559 | ViewID = 262
       # - Item: aegis_480515  # Id: 480515
       # - Item: C_Nifl_Bloom_RD  # Id: 480648 | ViewID = 288
