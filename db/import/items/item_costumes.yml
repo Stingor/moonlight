@@ -24942,8 +24942,7 @@ Body:
     Name: Costume Cursed Serpent
     Type: Armor
     Locations:
-      Costume_Head: true
-    View: 291
+      Costume_Garment: true
     Script: |
       hateffect HAT_EF_C_CURSED_SERPENT,true;
     UnEquipScript: |
