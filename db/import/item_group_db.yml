@@ -5925,7 +5925,7 @@ Body:
             Rate: 6
           - Index: 3
             Item: Drops_Card
-            Rate: 11
+            Rate: 10
           - Index: 4
             Item: Poring__Card
             Rate: 1
