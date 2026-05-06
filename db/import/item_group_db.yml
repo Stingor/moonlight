@@ -15469,7 +15469,7 @@ Body:
             Rate: 1
           - Index: 30
             Item: Kades_Card
-            Rate: 3
+            Rate: 1
           - Index: 31
             Item: Amon_Ra_Card
             Rate: 2
