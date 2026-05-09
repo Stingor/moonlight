@@ -10916,11 +10916,11 @@ void clif_parse_WantToConnection(int32 fd, map_session_data* sd)
 
 /// Notification from the client, that it has finished map loading and is about to display player's character (CZ_NOTIFY_ACTORINIT).
 /// 007d
-void clif_parse_LoadEndAck(int32 fd,map_session_data *sd)
+void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 {
 	bool guild_notice = false;
 
-	if(sd->prev != nullptr)
+	if (sd->prev != nullptr)
 		return;
 
 	// Autotraders should ignore this entirely, clif_parse_LoadEndAck is always invoked manually for them
@@ -10932,7 +10932,7 @@ void clif_parse_LoadEndAck(int32 fd,map_session_data *sd)
 
 	if (sd->state.rewarp) { //Rewarp player.
 		sd->state.rewarp = 0;
-		clif_changemap( *sd, sd->m, sd->x, sd->y );
+		clif_changemap(*sd, sd->m, sd->x, sd->y);
 		return;
 	}
 
@@ -10940,14 +10940,14 @@ void clif_parse_LoadEndAck(int32 fd,map_session_data *sd)
 
 	// look
 #if PACKETVER < 4
-	clif_changelook(sd,LOOK_WEAPON,sd->status.weapon);
-	clif_changelook(sd,LOOK_SHIELD,sd->status.shield);
+	clif_changelook(sd, LOOK_WEAPON, sd->status.weapon);
+	clif_changelook(sd, LOOK_SHIELD, sd->status.shield);
 #else
-	clif_changelook(sd,LOOK_WEAPON,0);
+	clif_changelook(sd, LOOK_WEAPON, 0);
 #endif
 	pc_set_costume_view(sd);
 
-	clif_refresh_clothcolor( *sd, SELF );
+	clif_refresh_clothcolor(*sd, SELF);
 
 	// item
 	clif_inventorylist(sd);  // inventory list first, otherwise deleted items in pc_checkitem show up as 'unknown item'
@@ -10955,27 +10955,27 @@ void clif_parse_LoadEndAck(int32 fd,map_session_data *sd)
 	clif_equipswitch_list(sd);
 
 	// cart
-	if(pc_iscarton(sd)) {
+	if (pc_iscarton(sd)) {
 		clif_cartlist(sd);
-		clif_updatestatus(*sd,SP_CARTINFO);
+		clif_updatestatus(*sd, SP_CARTINFO);
 	}
 
 	// weight
-	clif_updatestatus(*sd,SP_WEIGHT);
-	clif_updatestatus(*sd,SP_MAXWEIGHT);
+	clif_updatestatus(*sd, SP_WEIGHT);
+	clif_updatestatus(*sd, SP_MAXWEIGHT);
 
 	// guild
 	// (needs to go before clif_spawn() to show guild emblems correctly)
-	if(sd->status.guild_id)
-		guild_send_memberinfoshort(sd,1);
+	if (sd->status.guild_id)
+		guild_send_memberinfoshort(sd, 1);
 
-	struct map_data *mapdata = map_getmapdata(sd->m);
+	struct map_data* mapdata = map_getmapdata(sd->m);
 
-	pc_setinvincibletimer( *sd );
+	pc_setinvincibletimer(*sd);
 
-	if( mapdata->users++ == 0 && battle_config.dynamic_mobs )
+	if (mapdata->users++ == 0 && battle_config.dynamic_mobs)
 		map_spawnmobs(sd->m);
-	if( !pc_isinvisible(sd) ) { // increment the number of pvp players on the map
+	if (!pc_isinvisible(sd)) { // increment the number of pvp players on the map
 		mapdata->users_pvp++;
 	}
 	sd->state.debug_remove_map = 0; // temporary state to track double remove_map's [FlavioJS]
@@ -10983,23 +10983,23 @@ void clif_parse_LoadEndAck(int32 fd,map_session_data *sd)
 	// reset the callshop flag if the player changes map
 	sd->state.callshop = 0;
 
-	if(map_addblock(sd))
+	if (map_addblock(sd))
 		return;
 	clif_spawn(sd);
 
 	// Party
 	// (needs to go after clif_spawn() to show hp bars correctly)
-	if(sd->status.party_id) {
+	if (sd->status.party_id) {
 		party_send_movemap(sd);
-		clif_party_hp( *sd ); // Show hp after displacement [LuzZza]
+		clif_party_hp(*sd); // Show hp after displacement [LuzZza]
 	}
 
-	if( sd->bg_id ) clif_bg_hp(sd); // BattleGround System
+	if (sd->bg_id) clif_bg_hp(sd); // BattleGround System
 
-	if(!pc_isinvisible(sd) && mapdata->getMapFlag(MF_PVP)) {
-		if(!battle_config.pk_mode) { // remove pvp stuff for pk_mode [Valaris]
+	if (!pc_isinvisible(sd) && mapdata->getMapFlag(MF_PVP)) {
+		if (!battle_config.pk_mode) { // remove pvp stuff for pk_mode [Valaris]
 			if (!mapdata->getMapFlag(MF_PVP_NOCALCRANK))
-				sd->pvp_timer = add_timer(gettick()+200, pc_calc_pvprank_timer, sd->id, 0);
+				sd->pvp_timer = add_timer(gettick() + 200, pc_calc_pvprank_timer, sd->id, 0);
 			sd->pvp_rank = 0;
 			sd->pvp_lastusers = 0;
 			sd->pvp_point = 5;
@@ -11007,53 +11007,55 @@ void clif_parse_LoadEndAck(int32 fd,map_session_data *sd)
 			sd->pvp_lost = 0;
 		}
 		clif_map_property(sd, MAPPROPERTY_FREEPVPZONE, SELF);
-	} else if(sd->duel_group) // set flag, if it's a duel [LuzZza]
+	}
+	else if (sd->duel_group) // set flag, if it's a duel [LuzZza]
 		clif_map_property(sd, MAPPROPERTY_FREEPVPZONE, SELF);
 	else if (mapdata->getMapFlag(MF_GVG_DUNGEON))
 		clif_map_property(sd, MAPPROPERTY_FREEPVPZONE, SELF); //TODO: Figure out the real packet to send here.
-	else if( mapdata_flag_gvg(mapdata) )
+	else if (mapdata_flag_gvg(mapdata))
 		clif_map_property(sd, MAPPROPERTY_AGITZONE, SELF);
 	else
 		clif_map_property(sd, MAPPROPERTY_NOTHING, SELF);
 
 	// info about nearby objects
 	// must use foreachinarea (CIRCULAR_AREA interferes with foreachinrange)
-	map_foreachinallarea(clif_getareachar, sd->m, sd->x-AREA_SIZE, sd->y-AREA_SIZE, sd->x+AREA_SIZE, sd->y+AREA_SIZE, BL_ALL, sd);
+	map_foreachinallarea(clif_getareachar, sd->m, sd->x - AREA_SIZE, sd->y - AREA_SIZE, sd->x + AREA_SIZE, sd->y + AREA_SIZE, BL_ALL, sd);
 
 	// pet
-	if( sd->pd ) {
-		if( battle_config.pet_no_gvg && mapdata_flag_gvg(mapdata) ) { //Return the pet to egg. [Skotlex]
-			clif_displaymessage(sd->fd, msg_txt(sd,666));
-			pet_return_egg( sd, sd->pd );
-		} else {
-			if(map_addblock(sd->pd))
+	if (sd->pd) {
+		if (battle_config.pet_no_gvg && mapdata_flag_gvg(mapdata)) { //Return the pet to egg. [Skotlex]
+			clif_displaymessage(sd->fd, msg_txt(sd, 666));
+			pet_return_egg(sd, sd->pd);
+		}
+		else {
+			if (map_addblock(sd->pd))
 				return;
 			clif_spawn(sd->pd);
-			clif_send_petdata( sd, *sd->pd, CHANGESTATEPET_INIT );
-			clif_send_petstatus( *sd, *sd->pd );
-//			skill_unit_move(&sd->pd->bl,gettick(),1);
+			clif_send_petdata(sd, *sd->pd, CHANGESTATEPET_INIT);
+			clif_send_petstatus(*sd, *sd->pd);
+			//			skill_unit_move(&sd->pd->bl,gettick(),1);
 		}
 	}
 
 	//homunculus [blackhole89]
-	if( hom_is_active(sd->hd) ) {
-		if(map_addblock(sd->hd))
+	if (hom_is_active(sd->hd)) {
+		if (map_addblock(sd->hd))
 			return;
 		clif_spawn(sd->hd);
-		clif_send_homdata( *sd->hd, SP_ACK );
+		clif_send_homdata(*sd->hd, SP_ACK);
 		// For some reason, official servers send the homunculus info twice, then update the HP/SP again.
 		clif_hominfo(sd, sd->hd, 1);
 		clif_hominfo(sd, sd->hd, 0);
 		clif_homunculus_updatestatus(*sd, SP_HP);
 		clif_homunculus_updatestatus(*sd, SP_SP);
-		clif_homskillinfoblock( *sd->hd );
+		clif_homskillinfoblock(*sd->hd);
 		status_calc_bl(sd->hd, { SCB_SPEED });
-		if( !(battle_config.hom_setting&HOMSET_NO_INSTANT_LAND_SKILL) )
-			skill_unit_move(sd->hd,gettick(),1); // apply land skills immediately
+		if (!(battle_config.hom_setting & HOMSET_NO_INSTANT_LAND_SKILL))
+			skill_unit_move(sd->hd, gettick(), 1); // apply land skills immediately
 	}
 
-	if( sd->md ) {
-		if(map_addblock(sd->md))
+	if (sd->md) {
+		if (map_addblock(sd->md))
 			return;
 		clif_spawn(sd->md);
 		clif_mercenary_info(sd);
@@ -11061,56 +11063,56 @@ void clif_parse_LoadEndAck(int32 fd,map_session_data *sd)
 		status_calc_bl(sd->md, { SCB_SPEED }); // Mercenary mimic their master's speed on each map change
 	}
 
-	if( sd->ed ) {
+	if (sd->ed) {
 		if (map_addblock(sd->ed))
 			return;
 		clif_spawn(sd->ed);
 		clif_elemental_info(sd);
 		clif_elemental_updatestatus(*sd, SP_HP);
-		clif_hpmeter_single( *sd, sd->ed->id, sd->ed->battle_status.hp, sd->ed->battle_status.max_hp );
+		clif_hpmeter_single(*sd, sd->ed->id, sd->ed->battle_status.hp, sd->ed->battle_status.max_hp);
 		clif_elemental_updatestatus(*sd, SP_SP);
 		status_calc_bl(sd->ed, { SCB_SPEED }); //Elemental mimic their master's speed on each map change
 	}
 
-	if(sd->state.connect_new) {
+	if (sd->state.connect_new) {
 		int32 lv;
 		guild_notice = true;
 		clif_skillinfoblock(*sd);
-		clif_hotkeys_send(sd,0);
+		clif_hotkeys_send(sd, 0);
 #if PACKETVER_MAIN_NUM >= 20190522 || PACKETVER_RE_NUM >= 20190508 || PACKETVER_ZERO_NUM >= 20190605
-		clif_hotkeys_send(sd,1);
+		clif_hotkeys_send(sd, 1);
 #endif
-		clif_updatestatus(*sd,SP_BASEEXP);
-		clif_updatestatus(*sd,SP_NEXTBASEEXP);
-		clif_updatestatus(*sd,SP_JOBEXP);
-		clif_updatestatus(*sd,SP_NEXTJOBEXP);
-		clif_updatestatus(*sd,SP_SKILLPOINT);
-		clif_initialstatus( *sd );
+		clif_updatestatus(*sd, SP_BASEEXP);
+		clif_updatestatus(*sd, SP_NEXTBASEEXP);
+		clif_updatestatus(*sd, SP_JOBEXP);
+		clif_updatestatus(*sd, SP_NEXTJOBEXP);
+		clif_updatestatus(*sd, SP_SKILLPOINT);
+		clif_initialstatus(*sd);
 
-		if (sd->sc.option&OPTION_FALCON)
+		if (sd->sc.option & OPTION_FALCON)
 			clif_status_load(sd, EFST_FALCON, 1);
-		else if (sd->sc.option&(OPTION_RIDING|OPTION_DRAGON))
+		else if (sd->sc.option & (OPTION_RIDING | OPTION_DRAGON))
 			clif_status_load(sd, EFST_RIDING, 1);
-		else if (sd->sc.option&OPTION_WUGRIDER)
+		else if (sd->sc.option & OPTION_WUGRIDER)
 			clif_status_load(sd, EFST_WUGRIDER, 1);
-		else if ( !map_flag_vs(sd->m) && sd->sc.getSCE(SC_ALL_RIDING)) // pas de riding en pvp [Stingor]
+		else if (!map_flag_vs(sd->m) && sd->sc.getSCE(SC_ALL_RIDING)) // pas de riding en pvp [Stingor]
 			clif_status_load(sd, EFST_ALL_RIDING, 1);
 
-		if(sd->status.manner < 0)
-			sc_start(sd,sd,SC_NOCHAT,100,0,0);
+		if (sd->status.manner < 0)
+			sc_start(sd, sd, SC_NOCHAT, 100, 0, 0);
 
 		//Auron reported that This skill only triggers when you logon on the map o.O [Skotlex]
-		if ((lv = pc_checkskill(sd,SG_KNOWLEDGE)) > 0) {
-			if(sd->m == sd->feel_map[0].m
+		if ((lv = pc_checkskill(sd, SG_KNOWLEDGE)) > 0) {
+			if (sd->m == sd->feel_map[0].m
 				|| sd->m == sd->feel_map[1].m
 				|| sd->m == sd->feel_map[2].m)
-				sc_start(sd,sd, SC_KNOWLEDGE, 100, lv, skill_get_time(SG_KNOWLEDGE, lv));
+				sc_start(sd, sd, SC_KNOWLEDGE, 100, lv, skill_get_time(SG_KNOWLEDGE, lv));
 		}
 
-		if(sd->pd && sd->pd->pet.intimate > 900)
-			clif_pet_emotion( *sd->pd, (sd->pd->pet.class_ - 100)*100 + 50 + pet_hungry_val(sd->pd) );
+		if (sd->pd && sd->pd->pet.intimate > 900)
+			clif_pet_emotion(*sd->pd, (sd->pd->pet.class_ - 100) * 100 + 50 + pet_hungry_val(sd->pd));
 
-		if(hom_is_active(sd->hd))
+		if (hom_is_active(sd->hd))
 			hom_init_timers(sd->hd);
 
 		if (night_flag && mapdata->getMapFlag(MF_NIGHTENABLED)) {
@@ -11119,59 +11121,61 @@ void clif_parse_LoadEndAck(int32 fd,map_session_data *sd)
 		}
 
 		// Notify everyone that this char logged in.
-		if( battle_config.friend_auto_add ){
-			for( const s_friend& my_friend : sd->status.friends ){
+		if (battle_config.friend_auto_add) {
+			for (const s_friend& my_friend : sd->status.friends) {
 				// Cancel early
-				if( my_friend.char_id == 0 ){
+				if (my_friend.char_id == 0) {
 					break;
 				}
 
-				if( map_session_data* tsd = map_charid2sd( my_friend.char_id ); tsd != nullptr ){
-					for( const s_friend& their_friend : tsd->status.friends ){
+				if (map_session_data* tsd = map_charid2sd(my_friend.char_id); tsd != nullptr) {
+					for (const s_friend& their_friend : tsd->status.friends) {
 						// Cancel early
-						if( their_friend.char_id == 0 ){
+						if (their_friend.char_id == 0) {
 							break;
 						}
 
-						if( their_friend.account_id != sd->status.account_id ){
+						if (their_friend.account_id != sd->status.account_id) {
 							continue;
 						}
 
-						if( their_friend.char_id != sd->status.char_id ){
+						if (their_friend.char_id != sd->status.char_id) {
 							continue;
 						}
 
-						clif_friendslist_toggle( *tsd, their_friend, true );
+						clif_friendslist_toggle(*tsd, their_friend, true);
 						break;
 					}
 				}
 			}
-		}else{
-			map_foreachpc( clif_friendslist_toggle_sub, sd->status.account_id, sd->status.char_id, static_cast<int32>( true ) );
+		}
+		else {
+			map_foreachpc(clif_friendslist_toggle_sub, sd->status.account_id, sd->status.char_id, static_cast<int32>(true));
 		}
 
 		if (!sd->state.autotrade) { // Don't trigger NPC event or opening vending/buyingstore will be failed
-			npc_script_event( *sd, NPCE_LOGIN );
+			npc_script_event(*sd, NPCE_LOGIN);
 		}
 
 		// Set facing direction before check below to update client
 		if (battle_config.spawn_direction)
 			unit_setdir(sd, sd->status.body_direction, false);
-	} else {
+	}
+	else {
 		//For some reason the client "loses" these on warp/map-change.
-		clif_updatestatus(*sd,SP_STR);
-		clif_updatestatus(*sd,SP_AGI);
-		clif_updatestatus(*sd,SP_VIT);
-		clif_updatestatus(*sd,SP_INT);
-		clif_updatestatus(*sd,SP_DEX);
-		clif_updatestatus(*sd,SP_LUK);
+		clif_updatestatus(*sd, SP_STR);
+		clif_updatestatus(*sd, SP_AGI);
+		clif_updatestatus(*sd, SP_VIT);
+		clif_updatestatus(*sd, SP_INT);
+		clif_updatestatus(*sd, SP_DEX);
+		clif_updatestatus(*sd, SP_LUK);
 #ifdef RENEWAL
-		clif_updatestatus(*sd,SP_POW);
-		clif_updatestatus(*sd,SP_STA);
-		clif_updatestatus(*sd,SP_WIS);
-		clif_updatestatus(*sd,SP_SPL);
-		clif_updatestatus(*sd,SP_CON);
-		clif_updatestatus(*sd,SP_CRT);
+		clif_updatestatus(*sd, SP_POW);
+		clif_updatestatus(*sd, SP_STA);
+		clif_updatestatus(*sd, SP_WIS);
+		clif_updatestatus(*sd, SP_SPL);
+		clif_updatestatus(*sd, SP_CON);
+		clif_updatestatus(*sd, SP_CRT);
 #endif
 
 		// abort currently running script
@@ -11179,32 +11183,27 @@ void clif_parse_LoadEndAck(int32 fd,map_session_data *sd)
 		sd->state.menu_or_input = 0;
 		sd->npc_menu = 0;
 
-		if(sd->npc_id)
+		if (sd->npc_id)
 			npc_event_dequeue(sd);
 	}
 
-	if( sd->state.changemap ) {// restore information that gets lost on map-change
-		clif_partyinvitationstate( *sd );
+	if( sd->state.connect_new ) { //Stingor
+		clif_partyinvitationstate(*sd);
+		clif_configuration(sd, CONFIG_CALL, sd->status.disable_call);
 #if PACKETVER >= 20070918
-		clif_equipcheckbox( *sd );
+		clif_equipcheckbox(*sd);
 #endif
-		clif_pet_autofeed_status(sd,false);
-		clif_configuration( sd, CONFIG_CALL, sd->status.disable_call );
-#if PACKETVER >= 20170920
-		// if( battle_config.homunculus_autofeed_always ){
-			// Always send ON or OFF
-			// if( sd->hd && battle_config.feature_homunculus_autofeed ){
-				// clif_configuration( sd, CONFIG_HOMUNCULUS_AUTOFEED, sd->hd->homunculus.autofeed );
-			// }else{
-				// clif_configuration( sd, CONFIG_HOMUNCULUS_AUTOFEED, false );
-			// }
-		// }else{
-		if( battle_config.homunculus_autofeed_always ){ //Stingor
-			// Only send when enabled
-			if( sd->hd && battle_config.feature_homunculus_autofeed && sd->hd->homunculus.autofeed )
-				clif_configuration( sd, CONFIG_HOMUNCULUS_AUTOFEED, true );
-		}
+	}
 
+	if( sd->state.changemap ) {// restore information that gets lost on map-change
+		clif_pet_autofeed_status(sd, false);
+
+#if PACKETVER >= 20170920
+		if (battle_config.homunculus_autofeed_always) {
+			// Only send when enabled
+			if (sd->hd && battle_config.feature_homunculus_autofeed && sd->hd->homunculus.autofeed)
+				clif_configuration(sd, CONFIG_HOMUNCULUS_AUTOFEED, true);
+		}
 #endif
 
 #if PACKETVER >= 20230419
