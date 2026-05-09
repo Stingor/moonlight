@@ -49,33 +49,6 @@ Header:
   Version: 5
 
 Body:
-  - Group: 2013_RWC_SCROLL
-    SubGroups:
-      - SubGroup: 0
-        Algorithm: All
-        List:
-          - Index: 0
-            Item: S_Neutral_Weapon
-          - Index: 1
-            Item: S_Neutral_Earring
-          - Index: 2
-            Item: S_Neutral_Pendent
-          - Index: 3
-            Item: S_Curse_Lift_Earring
-          - Index: 4
-            Item: S_Curse_Lift_Pendent
-          - Index: 5
-            Item: Guarantee_Weapon_11Up
-          - Index: 6
-            Item: Guarantee_Armor_11Up
-          - Index: 7
-            Item: Guarantee_Weapon_9Up
-          - Index: 8
-            Item: Guarantee_Armor_9Up
-          - Index: 9
-            Item: C_Wings_Of_Victory
-          - Index: 10
-            Item: Succu_Pet_Coupon
   - Group: ACCESORY
     SubGroups:
       - SubGroup: 1
