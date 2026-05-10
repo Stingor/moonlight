@@ -75,9 +75,8 @@ mora,88,89,5	script	Keeper of Secrets#pa082	495,{
 				mes "You are already allowed access to our relics by your possession of a Ring!";
 				close;
 			}
-			if (Class == Job_Arch_Bishop || Class == Job_Arch_Bishop_T || Class == Job_BABY_ARCH_BISHOP) {
+			if (Class == Job_Arch_Bishop || Class == Job_Arch_Bishop_T || Class == Job_Baby_Arch_Bishop) {
 				setarray .@items[0],2864,2865,2866; //Light_Of_Cure,Seal_Of_Cathedral,Ring_Of_Archbishop
-				.@item = .@items[rand(getarraysize(.@items))];
 				break;
 			} else {
 				mes "[Artifice]";
@@ -86,31 +85,28 @@ mora,88,89,5	script	Keeper of Secrets#pa082	495,{
 			}
 		case 3:
 			setarray .@items[0],2471,2472; //Shoes_Of_Affection,Shoes_Of_Judgement
-			.@item = .@items[rand(getarraysize(.@items))];
 			break;
 		case 4:
 			setarray .@items[0],2569,2570; //Shawl_Of_Affection,Shawl_Of_Judgement
-			.@item = .@items[rand(getarraysize(.@items))];
 			break;
 		case 5:
 			setarray .@items[0],15029,15030; //Robe_Of_Affection,Robe_Of_Judgement
-			.@item = .@items[rand(getarraysize(.@items))];
 			break;
 		case 6:
-			.@item = 2156; //Bible_Of_Promise1
+			setarray .@items[0],2156; //Bible_Of_Promise1
 			break;
 		case 7:
 			setarray .@items[0],1657,16013; //Wand_Of_Affection,Mace_Of_Judgement
-			.@item = .@items[rand(getarraysize(.@items))];
 			break;
 		}
+		set .@item, .@items[rand(getarraysize(.@items))];
 		delitem 6380,10; //Mora_Coin
 		getitem .@item,1;
 		mes "[Artifice]";
 		mes "You have obtained ^aa00aa"+getitemname(.@item)+"^000000. May the Blessing of the Light be with you.";
 		close;
 	case 3:
-		if (Class == Job_Arch_Bishop || Class == Job_Arch_Bishop_T || Class == Job_BABY_ARCH_BISHOP) {
+		if (Class == Job_Arch_Bishop || Class == Job_Arch_Bishop_T || Class == Job_Baby_Arch_Bishop) {
 			mes "[Artifice]";
 			mes "We exchange rings into coins for those who cannot control the ring.";
 			next;
