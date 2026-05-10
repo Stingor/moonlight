@@ -107052,7 +107052,7 @@ Body:
     Weight: 10
     Locations:
       Armor: true
-    Script: "bonus bMaxHPrate,(10+(getrefine()/3)); .@val = 5; if (BaseLevel >= 160) { .@val += 5; bonus bVit,3; } bonus bDef,.@val;\n"
+    Script: "bonus bDef,5; bonus bMaxHPrate,(5+getrefine()); if (BaseLevel >= 160) bonus bVit,3;\n"
   - Id: 27115
     AegisName: Ominous_Permeter_Card
     Name: Ominous Permeter Card
@@ -107090,7 +107090,7 @@ Body:
     Weight: 10
     Locations:
       Shoes: true
-    Script: "bonus bMaxHPrate,10; bonus bStr,2; if (BaseLevel >= 160) { .@val = 10; } if (getrefine() >= 9) { .@val += 10; } if (.@val) { bonus2 bSkillAtk,\"RK_HUNDREDSPEAR\",.@val; bonus2 bSkillAtk,\"LG_OVERBRAND\",.@val; }\n"
+    Script: "bonus bMaxHPrate,10; bonus bStr,2;\n"
   - Id: 27119
     AegisName: Ominous_Turtle_General_Card
     Name: Ominous Turtle General Card
@@ -107314,7 +107314,7 @@ Body:
     Weight: 10
     Locations:
       Shoes: true
-    Script: ".@r = getrefine(); .@sub = 2+(.@r >= 9 ? 3 : .@r >= 7 ? 1 : 0); bonus2 bSubEle,Ele_Fire,.@sub;\n"
+    Script: "bonus2 bSubEle,Ele_Fire,2; if(getrefine()>=7){ bonus2 bSubEle,Ele_Fire,1; } if(getrefine()>=9){ bonus2 bSubEle,Ele_Fire,2; }\n"
   - Id: 27167
     AegisName: Faceworm_Larva_Card
     Name: Faceworm Larva Card
