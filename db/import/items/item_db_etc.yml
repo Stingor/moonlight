@@ -3644,8 +3644,11 @@ Body:
   - Id: 6377
     AegisName: Buy_Market_Permit
     Name: Buy Market Permit
-    Buy: 20
+    Type: Usable
+    Buy: 500000
+    Sell: 25000
     Weight: 10
+    Script: "buyingstore 5;\n"
   - Id: 6378
     AegisName: Winning_Mark
     Name: Winning Mark

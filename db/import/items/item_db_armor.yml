@@ -5892,7 +5892,7 @@ Body:
     EquipLevelMin: 40
     Refineable: true
     Script: "bonus bMdef,5; bonus bMaxHP,100; bonus bMaxSP,200; bonus2 bMagicAddRace,RC_PLAYER_HUMAN,5; bonus2 bResEff,Eff_Freeze,25;\n"
-  - Id: 2499
+  - Id: 2499 # Verified
     AegisName: Temporal_Boots
     Name: Temporal Boots
     Type: Armor
@@ -31891,7 +31891,7 @@ Body:
     EquipLevelMin: 130
     Refineable: true
     Script: "bonus bMaxSPrate,10; bonus bMdef,5; .@r = getrefine(); if (.@r >= 7) { .@bonus = -10; if (.@r >= 9) { .@bonus -= 10; } bonus bVariableCastrate,.@bonus; }\n"
-  - Id: 22000
+  - Id: 22000 # Verified
     AegisName: Temporal_Str_Boots
     Name: Temporal Boots Of Strength
     Type: Armor
@@ -31903,7 +31903,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,300+(100*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); bonus bAtk,7*(.@r/3); if(readparam(bStr)>=120) bonus bAtk,50;\n"
-  - Id: 22001
+  - Id: 22001 # Verified
     AegisName: Temporal_Int_Boots
     Name: Temporal Boots Of Intelligence
     Type: Armor
@@ -31915,7 +31915,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMdef,5; bonus bMaxHP,300+(100*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); bonus bMatk,10*(.@r/3); if(readparam(bInt)>=120) bonus bMatk,60;\n"
-  - Id: 22002
+  - Id: 22002 # Verified
     AegisName: Temporal_Agi_Boots
     Name: Temporal Boots Of Agility
     Type: Armor
@@ -31927,7 +31927,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,300+(100*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); bonus bAspdRate,3*(.@r/3); if(readparam(bAgi)>=120) bonus bAspd,1;\n"
-  - Id: 22003
+  - Id: 22003 # Verified
     AegisName: Temporal_Vit_Boots
     Name: Temporal Boots Of Vitality
     Type: Armor
@@ -31939,7 +31939,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,300+(300*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); if(readparam(bVit)>=120) bonus bMaxHPrate,8;\n"
-  - Id: 22004
+  - Id: 22004 # Verified
     AegisName: Temporal_Dex_Boots
     Name: Temporal Boots Of Dexterity
     Type: Armor
@@ -31951,7 +31951,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,300+(100*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); bonus bDex,3*(.@r/3); if(readparam(bDex)>=120){ bonus bLongAtkRate,5; bonus bFixedCast,-500; }\n"
-  - Id: 22005
+  - Id: 22005 # Verified
     AegisName: Temporal_Luk_Boots
     Name: Temporal Boots Of Luck
     Type: Armor
@@ -31963,7 +31963,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,300+(100*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); bonus bMdef,5; bonus bCritAtkRate,2*(.@r/3); if(readparam(bLuk)>=120) bonus bCritAtkRate,30;\n"
-  - Id: 22006
+  - Id: 22006 # Verified
     AegisName: Temporal_Str_Boots_
     Name: Temporal Boots Of Strength [1]
     Type: Armor
@@ -31976,7 +31976,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,300+(100*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); bonus bAtk,7*(.@r/3); if(readparam(bStr)>=120) bonus bAtk,50;\n"
-  - Id: 22007
+  - Id: 22007 # Verified
     AegisName: Temporal_Vit_Boots_
     Name: Temporal Boots Of Vitality [1]
     Type: Armor
@@ -31989,7 +31989,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,300+(300*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); if(readparam(bVit)>=120) bonus bMaxHPrate,8;\n"
-  - Id: 22008
+  - Id: 22008 # Verified
     AegisName: Temporal_Dex_Boots_
     Name: Temporal Boots Of Dexterity [1]
     Type: Armor
@@ -32002,7 +32002,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,300+(100*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); bonus bDex,3*(.@r/3); if(readparam(bDex)>=120){ bonus bLongAtkRate,5; bonus bFixedCast,-500; }\n"
-  - Id: 22009
+  - Id: 22009 # Verified
     AegisName: Temporal_Int_Boots_
     Name: Temporal Boots Of Intelligence [1]
     Type: Armor
@@ -32015,7 +32015,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMdef,5; bonus bMaxHP,300+(100*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); bonus bMatk,10*(.@r/3); if(readparam(bInt)>=120) bonus bMatk,60;\n"
-  - Id: 22010
+  - Id: 22010 # Verified
     AegisName: Temporal_Agi_Boots_
     Name: Temporal Boots Of Agility [1]
     Type: Armor
@@ -32028,7 +32028,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,300+(100*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); bonus bAspdRate,3*(.@r/3); if(readparam(bAgi)>=120) bonus bAspd,1;\n"
-  - Id: 22011
+  - Id: 22011 # Verified
     AegisName: Temporal_Luk_Boots_
     Name: Temporal Boots Of Luck [1]
     Type: Armor
@@ -32497,7 +32497,7 @@ Body:
       Shoes: true
     Refineable: true
     Script: "bonus2 bSubRace,RC_All,1; bonus bMaxHPrate,2; bonus bMaxSPrate,2; .@r = getrefine(); if (.@r > 4) { bonus bDefRate,2; bonus bMaxHPrate,4; bonus bMaxSPrate,4; } if (.@r > 6) { bonus bDefRate,2; bonus bMaxHPrate,4; bonus bMaxSPrate,4; }\n"
-  - Id: 22107
+  - Id: 22107 # Verified
     AegisName: Modified_Str_Boots
     Name: Modified Str Boots
     Type: Armor
@@ -32514,7 +32514,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,300+(100*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); bonus bAtk,7*(.@r/3); if(readparam(bStr)>=120) bonus bBaseAtk,50;\n"
-  - Id: 22108
+  - Id: 22108 # Verified
     AegisName: Modified_Int_Boots
     Name: Modified Int Boots
     Type: Armor
@@ -32531,7 +32531,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMdef,5; bonus bMaxHP,300+(100*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); bonus bMatk,10*(.@r/3); if(readparam(bInt)>=120) bonus bMatk,60;\n"
-  - Id: 22109
+  - Id: 22109 # Verified
     AegisName: Modified_Agi_Boots
     Name: Modified Agi Boots
     Type: Armor
@@ -32548,7 +32548,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,300+(100*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); bonus bAspdRate,3*(.@r/3); if(readparam(bAgi)>=120) bonus bAspd,1;\n"
-  - Id: 22110
+  - Id: 22110 # Verified
     AegisName: Modified_Vit_Boots
     Name: Modified Vit Boots
     Type: Armor
@@ -32565,7 +32565,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,300+(300*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); if(readparam(bVit)>=120) bonus bMaxHPrate,8;\n"
-  - Id: 22111
+  - Id: 22111 # Verified
     AegisName: Modified_Dex_Boots
     Name: Modified Dex Boots
     Type: Armor
@@ -32582,7 +32582,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,300+(100*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); bonus bDex,3*(.@r/3); if(readparam(bDex)>=120){ bonus bLongAtkRate,5; bonus bFixedCast,-500; }\n"
-  - Id: 22112
+  - Id: 22112 # Verified
     AegisName: Modified_Luk_Boots
     Name: Modified Luk Boots
     Type: Armor
@@ -32599,7 +32599,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,300+(100*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); bonus bMdef,5; bonus bCritAtkRate,2*(.@r/3); if(readparam(bLuk)>=120) bonus bCritAtkRate,30;\n"
-  - Id: 22113
+  - Id: 22113 # Verified
     AegisName: Modified_Str_Boots_
     Name: Modified Str Boots [1]
     Type: Armor
@@ -32617,7 +32617,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,300+(100*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); bonus bAtk,7*(.@r/3); if(readparam(bStr)>=120) bonus bBaseAtk,50;\n"
-  - Id: 22114
+  - Id: 22114 # Verified
     AegisName: Modified_Int_Boots_
     Name: Modified Int Boots [1]
     Type: Armor
@@ -32635,7 +32635,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMdef,5; bonus bMaxHP,300+(100*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); bonus bMatk,10*(.@r/3); if(readparam(bInt)>=120) bonus bMatk,60;\n"
-  - Id: 22115
+  - Id: 22115 # Verified
     AegisName: Modified_Agi_Boots_
     Name: Modified Agi Boots [1]
     Type: Armor
@@ -32653,7 +32653,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,300+(100*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); bonus bAspdRate,3*(.@r/3); if(readparam(bAgi)>=120) bonus bAspd,1;\n"
-  - Id: 22116
+  - Id: 22116 # Verified
     AegisName: Modified_Vit_Boots_
     Name: Modified Vit Boots [1]
     Type: Armor
@@ -32671,7 +32671,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,300+(300*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); if(readparam(bVit)>=120) bonus bMaxHPrate,8;\n"
-  - Id: 22117
+  - Id: 22117 # Verified
     AegisName: Modified_Dex_Boots_
     Name: Modified Dex Boots [1]
     Type: Armor
@@ -32689,7 +32689,7 @@ Body:
     EquipLevelMin: 99
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,300+(100*(.@r/3)); bonus bMaxSP,30+(10*(.@r/3)); bonus bDex,3*(.@r/3); if(readparam(bDex)>=120){ bonus bLongAtkRate,5; bonus bFixedCast,-500; }\n"
-  - Id: 22118
+  - Id: 22118 # Verified
     AegisName: Modified_Luk_Boots_
     Name: Modified Luk Boots [1]
     Type: Armor

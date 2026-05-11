@@ -611,11 +611,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rathena", "rathena", "{3057
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "items", "items", "{13806C33-FF51-4834-A3E8-05A73A23DE55}"
 	ProjectSection(SolutionItems) = preProject
-		db\import\items\item_card.yml = db\import\items\item_card.yml
-		db\import\items\item_combos.yml = db\import\items\item_combos.yml
-		db\import\items\item_costumes.yml = db\import\items\item_costumes.yml
-		db\import\items\item_equip.yml = db\import\items\item_equip.yml
-		db\import\items\item_etc.yml = db\import\items\item_etc.yml
+		db\import\items\item_db_ammo.yml = db\import\items\item_db_ammo.yml
+		db\import\items\item_db_armor.yml = db\import\items\item_db_armor.yml
+		db\import\items\item_db_card.yml = db\import\items\item_db_card.yml
+		db\import\items\item_db_cash.yml = db\import\items\item_db_cash.yml
+		db\import\items\item_db_costumes.yml = db\import\items\item_db_costumes.yml
+		db\import\items\item_db_enchant.yml = db\import\items\item_db_enchant.yml
+		db\import\items\item_db_etc.yml = db\import\items\item_db_etc.yml
+		db\import\items\item_db_healing.yml = db\import\items\item_db_healing.yml
+		db\import\items\item_db_pet.yml = db\import\items\item_db_pet.yml
+		db\import\items\item_db_usable.yml = db\import\items\item_db_usable.yml
+		db\import\items\item_db_weapon.yml = db\import\items\item_db_weapon.yml
 	EndProjectSection
 EndProject
 Global

@@ -142,3 +142,147 @@ gon_in,166,26,3	shop	Instruments::shop_instru	1_M_BARD,1902:-1,1921:-1,1904:-1,1
 gon_in,168,30,3	shop	Fouets::shop_rope	4W_F_01,1951:-1,1975:-1,1953:-1,1955:-1,1997:-1,1965:-1,1966:-1,1967:-1,1971:-1,1968:-1,1959:-1,1957:-1,1961:-1,1980:-1,1984:-1,1989:-1,1962:-1,1985:-1,1963:-1,1973:-1,1972:-1,1964:-1,1969:-1,1996:-1,1970:-1,1979:-1,1982:-1,1994:-1,1976:-1,1974:-1,1990:-1
 gon_in,159,22,3	shop	Katars::shop_katar	4_F_JOB_ASSASSIN,1272:-1,1264:-1,1251:-1,1296:-1,1256:-1,1257:-1,1258:-1,1259:-1,1262:-1,1260:-1,1284:-1,1275:-1,1276:-1,1277:-1,1278:-1,1285:-1,1255:-1,1290:-1,1253:-1,1287:-1,1265:-1,1270:-1,1261:-1,1298:-1,1263:-1,1295:-1,1297:-1,1268:-1,1283:-1,1291:-1
 gon_in,161,34,3	shop	Ninjas::shop_ninja	1_M_03,13250:-1,13293:-1,13292:-1,13259:-1,13258:-1,13257:-1,13256:-1,13255:-1,13251:-1,13252:-1,13253:-1,13254:-1,13294:-1,7521:-1,7522:-1,7523:-1,7524:-1,13322:-1,13329:-1,13304:-1,13311:-1,13313:-1,13312:-1,13302:-1,13300:-1,13323:-1,13328:-1,13303:-1,13314:-1,13315:-1,13332:-1
+
+ama_in02,61,27,7	script	Alchemist::trade_elemstone	4_M_ALCHE_B,{
+	mes "[Laspuchin Gregory]";
+	mes "KiKiKiKeheheheh.";
+	mes "C'est incroyable !";
+	mes "Les résultats sont extraordinaires !!";
+	next;
+	mes "[Laspuchin Gregory]";
+	mes "Utiliser mes compétences dans";
+	mes "ce pays lointain, je ne m'y";
+	mes "attendais pas...";
+	mes "Keheheh... Le seigneur du palais";
+	mes "a été assez arrangeant.";
+	next;
+	mes "[Laspuchin Gregory]";
+	mes "Oups, je ferais mieux de faire";
+	mes "attention... Si la guilde apprend";
+	mes "où je suis, ce stupide de Myster";
+	mes "va se mettre en colère. Kehehehkeh...";
+	next;
+	mes "[Laspuchin Gregory]";
+	mes "Quoi ? Vous avez quelque chose à dire ?";
+	mes "Si vous êtes là pour le tourisme,";
+	mes "profitez de votre journée et rentrez";
+	mes "chez vous.";
+	mes "Kiikiiiii... Sinon,";
+	mes "je vous ferai goûter ma bouteille d'acide... !";
+	if (select("Excusez-moi:Vous avez besoin d'aide ?") == 1) {
+		mes "[Laspuchin Gregory]";
+		mes "Keheheh... Vous avez entendu";
+		mes "ce que j'ai dit ? Il vaut mieux";
+		mes "oublier tout ça...";
+		mes "Kiikiikiikiikiiii...";
+		close;
+	}
+	mes "[Laspuchin Gregory]";
+	mes "De l'aide, hein ?...";
+	mes "Maintenant que j'y pense...";
+	mes "Il me faudrait quelques objets...";
+	mes "Kehehehehheheh...";
+	next;
+	mes "[Laspuchin Gregory]";
+	mes "Laspuchin a besoin de pierres";
+	mes "d'enchantement pour une expérience.";
+	mes "Je les utiliserai efficacement...";
+	mes "Vous en avez sur vous ?";
+	if (select("Non:J'en ai") == 1) {
+		mes "[Laspuchin Gregory]";
+		mes "Alors, trouvez 8 pierres d'un même type.";
+		mes "Si vous m'apportez 8 pierres";
+		mes "d'enchantement du même type,";
+		mes "je les changerai contre une meilleure...";
+		next;
+		mes "[Laspuchin Gregory]";
+		mes "Des pierres d'enchantement, pas";
+		mes "des gemmes rondes.";
+		mes "Si vous apportez les mauvaises pierres,";
+		mes "je lancerai une bouteille enflammée !";
+		next;
+		mes "[Laspuchin Gregory]";
+		mes "Apportez-moi des pierres, esclave~ !!";
+		mes "Et tenez votre promesse ! Kehehehkehkeh...";
+		close;
+	}
+	mes "[Laspuchin Gregory]";
+	mes "Bon, qu'est-ce que vous m'apportez ?";
+	setarray .@Items[1],995,997,994,996;
+	set .@i, .@Items[select("Mystic Frozen:Grand Nature:Cœur de Flamme:Vent Brut")];
+	mes "[Laspuchin Gregory]";
+	if (countitem(.@i) > 7) {
+		mes "Je vais en prendre 8";
+		mes "et vous donner une pierre d'enchantement.";
+		mes "Ça vous convient ?";
+		mes "Keheheh.....";
+		next;
+		mes "[Laspuchin Gregory]";
+		mes "HiHi, que voulez-vous ? Choisissez !";
+		set .@menu$, "";
+		for(set .@j,1; .@j<5; set .@j,.@j+1) {
+			if (.@Items[.@j] != .@i) set .@menu$, .@menu$+getitemname(.@Items[.@j]);
+			set .@menu$, .@menu$+":";
+		}
+		set .@menu$, .@menu$+"Annuler l'échange";
+		set .@j, select(.@menu$);
+		mes "[Laspuchin Gregory]";
+		if (.@j == 5) {
+			mes "Ah, tant pis.";
+			mes "Ne dites à personne où je me trouve...";
+			mes "Keheheh... après tout, vous avez promis~";
+			close;
+		}
+		else if (.@j == 4) {
+			if (countitem(.@i) > 11) {
+				delitem .@i,12;
+				getitem 996,1;
+				mes "Kehhehheh, vous savez quoi ?";
+				mes "Je n'en ai pas beaucoup,";
+				mes "donc je vais vous en prendre ^0000FF12^000000, d'accord ?";
+				mes "Bien sûr que c'est d'accord.";
+				mes "C'est un honneur d'aider Laspuchin !";
+				close;
+			}
+			mes "Keheheh, vous savez quoi.";
+			mes "Je n'en ai pas beaucoup,";
+			mes "donc 8 ce n'est pas suffisant.";
+			mes "Si vous voulez les échanger contre du Vent Brut,";
+			mes "apportez-m'en 4 de plus. 8 + 4 = 12...";
+			mes "Il en faut ^0000FF12^000000.";
+			next;
+			mes "[Laspuchin Gregory]";
+			mes "Apportez-moi des pierres, esclave~ !!";
+			mes "Et tenez votre promesse ! Kehheheheheh...";
+			close;
+		}
+		else {
+			delitem .@i,8;
+			getitem .@Items[.@j],1;
+			mes "Keheheh ! Vous avez bien choisi !";
+			mes "Utilisez-la bien...";
+			mes "Revenez si vous avez d'autres pierres !";
+			close;
+		}
+	} else if (countitem(.@i)) {
+		mes "Vous ne pouvez pas aider Laspuchin";
+		mes "avec si peu de pierres... J'ai dit 8 !";
+		mes "Apportez-moi exactement 8 pierres !";
+		mes "Keheheh.....";
+		next;
+		mes "[Laspuchin Gregory]";
+		mes "Apportez-moi des pierres, esclave~ !!";
+		mes "Et tenez votre promesse ! Keheheheheh...";
+		close;
+	}
+	mes "Keheheh~ Vérifiez vos poches";
+	mes "avant de me dire";
+	mes "à quel point vous êtes stupide.....";
+	next;
+	mes "[Laspuchin Gregory]";
+	mes "Apportez-moi des pierres ! Vous avez dit que vous alliez m'aider !";
+	mes "Tenez vos promesses ! Kehehehkehkeh...";
+	close;
+}
+
+gon_in,95,17,7	duplicate(trade_elemstone)	Alchemist::elemstone_gon	4_M_ALCHE_B

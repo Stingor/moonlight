@@ -94,6 +94,7 @@ Footer:
   - Path: db/import/items/item_db_ammo.yml
   - Path: db/import/items/item_db_armor.yml
   - Path: db/import/items/item_db_card.yml
+  - Path: db/import/items/item_db_enchant.yml
   - Path: db/import/items/item_db_cash.yml
   - Path: db/import/items/item_db_etc.yml
   - Path: db/import/items/item_db_healing.yml

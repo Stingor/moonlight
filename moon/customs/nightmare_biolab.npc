@@ -404,9 +404,9 @@ lighthalzen,319,213,4	script	Veteran Adventurer#JCv2	4_M_MELODY,2,2,{
 	mes "Oh! You want to exchange mind or grudge pieces?";
 	next;
 	setarray .@items[0],
-		6469,200,	// Will of Warrior
-		6470,200,	// Blood Thirst
-		6471,300;	// Ghost Chill
+		6469,200,	//Will_Of_Warrior
+		6470,200,	//Blood_Thirst
+		6471,300;	//Goast_Chill
 	.@color$[0] = countitem(6820) < 200 ? "^777777" : "^000000";
 	.@color$[1] = countitem(6820) < 300 ? "^777777" : "^000000";
 	.@s = select( "Listen to the story.", .@color$[0] + "1 Will of Warrior (200 Energy pieces)", .@color$[0] + "1 Blood Thirst (200 energy pieces)", .@color$[1] + "1 Ghost Chill (300 energy pieces)^000000" ) - 2;

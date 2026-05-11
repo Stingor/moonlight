@@ -44,6 +44,7 @@ Body:
       - Item: Megaphone_  # Id: 12221
         Price: 2
       - Item: Convex_Mirror_Box  # Id: 12912
+      - Item: Buy_Market_Permit  # Id: 6377
         Price: 5
       - Item: C_Wing_Of_Fly  # Id: 12887
         Price: 7
