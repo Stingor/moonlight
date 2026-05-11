@@ -4897,38 +4897,13 @@ bool RandomOptionGroupDatabase::option_get_id(std::string name, uint16 &id) {
 * Read all item-related databases
 */
 static void itemdb_read(void) {
-	int32 i;
-	const char* dbsubpath[] = {
-		"",
-		"/" DBIMPORT,
-	};
-	
 	if (db_use_sqldbs)
 		itemdb_read_sqldb();
 	else
 		item_db.load();
-	
-	for(i=0; i<ARRAYLENGTH(dbsubpath); i++){
-		uint8 n1 = (uint8)(strlen(db_path)+strlen(dbsubpath[i])+1);
-		uint8 n2 = (uint8)(strlen(db_path)+strlen(DBPATH)+strlen(dbsubpath[i])+1);
-		char* dbsubpath1 = (char*)aMalloc(n1+1);
-		char* dbsubpath2 = (char*)aMalloc(n2+1);
-		
 
-		if(i==0) {
-			safesnprintf(dbsubpath1,n1,"%s%s",db_path,dbsubpath[i]);
-			safesnprintf(dbsubpath2,n2,"%s/%s%s",db_path,DBPATH,dbsubpath[i]);
-		}
-		else {
-			safesnprintf(dbsubpath1,n1,"%s%s",db_path,dbsubpath[i]);
-			safesnprintf(dbsubpath2,n1,"%s%s",db_path,dbsubpath[i]);
-		}
-
-		sv_readdb(dbsubpath1, "wing_db.txt",            ',', 2, 2, -1, &itemdb_read_wings, i > 0); // [Stingor]
-		sv_readdb(dbsubpath2, "item_noequip.txt",       ',', 2, 2, -1, &itemdb_read_noequip, i > 0);
-		aFree(dbsubpath1);
-		aFree(dbsubpath2);
-	}
+	sv_readdb("db/import", "wing_db.txt", ',', 2, 2, -1, &itemdb_read_wings, 0); // [Stingor]
+	sv_readdb("db/import", "item_noequip.txt", ',', 2, 2, -1, &itemdb_read_noequip, 0); // [Stingor]
 
 	random_option_db.load();
 	random_option_group.load();
