@@ -87,6 +87,8 @@ Header:
   Type: ITEM_DB
   Version: 3
 
+Body: []
+
 Footer:
   Imports:
   - Path: db/import/items/item_db_ammo.yml
