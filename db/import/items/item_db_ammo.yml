@@ -1,0 +1,1531 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2021 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Item Database
+###########################################################################
+#
+# Item Settings
+#
+###########################################################################
+# - Id                      Item ID.
+#   AegisName               Server name to reference the item in scripts and lookups, should use no spaces.
+#   Name                    Name in English for displaying as output.
+#   Type                    Item type. (Default: Etc)
+#   SubType                 Weapon or Ammo type. (Default: 0)
+#   Buy                     Buying price. When not specified, becomes double the sell price. (Default: 0)
+#   Sell                    Selling price. When not specified, becomes half the buy price. (Default: 0)
+#   Weight                  Item weight. Each 10 is 1 weight. (Default: 0)
+#   Attack                  Weapon's attack. (Default: 0)
+#   MagicAttack             Weapon's magic attack. (Default: 0)
+#   Defense                 Armor's defense. (Default: 0)
+#   Range                   Weapon's attack range. (Default: 0)
+#   Slots                   Available slots in item. (Default: 0)
+#   Jobs                    Jobs that can equip the item. (Map default is 'All: true')
+#   Classes                 Upper class types that can equip the item. (Map default is 'All: true')
+#   Gender                  Gender that can equip the item. (Default: Both)
+#   Locations               Equipment's placement. (Default: None)
+#   WeaponLevel             Weapon level. (Default: 1 for Weapons)
+#   ArmorLevel              Armor level. (Default: 1 for Armors)
+#   EquipLevelMin           Minimum required level to equip. (Default: 0)
+#   EquipLevelMax           Maximum level that can equip. (Default: 0)
+#   Refineable              If the item can be refined. (Default: false)
+#   View                    View sprite of an item. (Default: 0)
+#   AliasName               Another item's AegisName that will be sent to the client instead of this item's AegisName. (Default: null)
+#   Flags:                  Item flags. (Default: null)
+#     BuyingStore           If the item is available for Buyingstores. (Default: false)
+#     DeadBranch            If the item is a Dead Branch. (Default: false)
+#     Container             If the item is part of a container. (Default: false)
+#     UniqueId              If the item is a unique stack. (Default: false)
+#     BindOnEquip           If the item is bound to the character upon equipping. (Default: false)
+#     DropAnnounce          If the item has a special announcement to self on drop. (Default: false)
+#     NoConsume             If the item is consumed on use. (Default: false)
+#     DropEffect            If the item has a special effect on the ground when dropped by a monster. (Default: None)
+#   Delay:                  Item use delay. (Default: null)
+#     Duration              Duration of delay in seconds.
+#     Status                Status Change used to track delay. (Default: None)
+#   Stack:                  Item stack amount. (Default: null)
+#     Amount                Maximum amount that can be stacked.
+#     Inventory             If the stack is applied to player's inventory. (Default: true)
+#     Cart                  If the stack is applied to the player's cart. (Default: false)
+#     Storage               If the stack is applied to the player's storage. (Default: false)
+#     GuildStorage          If the stack is applied to the player's guild storage. (Default: false)
+#   NoUse:                  Conditions when the item is unusable. (Default: null)
+#     Override              Group level to override these conditions.
+#     Sitting               If the item can not be used while sitting. (Default: false)
+#   Trade:                  Trade restrictions. (Default: null)
+#     Override              Group level to override these conditions.
+#     NoDrop                If the item can not be dropped. (Default: false)
+#     NoTrade               If the item can not be traded. (Default: false)
+#     TradePartner          If the item can not be traded to the player's partner. (Default: false)
+#     NoSell                If the item can not be sold. (Default: false)
+#     NoCart                If the item can not be put in a cart. (Default: false)
+#     NoStorage             If the item can not be put in a storage. (Default: false)
+#     NoGuildStorage        If the item can not be put in a guild storage. (Default: false)
+#     NoMail                If the item can not be put in a mail. (Default: false)
+#     NoAuction             If the item can not be put in an auction. (Default: false)
+#   Script                  Script to execute when the item is used/equipped. (Default: null)
+#   EquipScript             Script to execute when the item is equipped. (Default: null)
+#   UnEquipScript           Script to execute when the item is unequipped or when a rental item expires. (Default: null)
+###########################################################################
+
+Header:
+  Type: ITEM_DB
+  Version: 3
+
+Body:
+  - Id: 1750
+    AegisName: Arrow
+    Name: Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 1
+    Attack: 25
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+  - Id: 1751
+    AegisName: Silver_Arrow
+    Name: Silver Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 3
+    Attack: 30
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Holy;\n"
+  - Id: 1752
+    AegisName: Fire_Arrow
+    Name: Fire Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 3
+    Attack: 30
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Fire;\n"
+  - Id: 1753
+    AegisName: Steel_Arrow
+    Name: Steel Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 5
+    Attack: 40
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+  - Id: 1754
+    AegisName: Crystal_Arrow
+    Name: Crystal Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 3
+    Attack: 30
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Water;\n"
+  - Id: 1755
+    AegisName: Arrow_Of_Wind
+    Name: Arrow of Wind
+    Type: Ammo
+    SubType: Arrow
+    Buy: 3
+    Attack: 30
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Wind;\n"
+  - Id: 1756
+    AegisName: Stone_Arrow
+    Name: Stone Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 3
+    Attack: 30
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Earth;\n"
+  - Id: 1757
+    AegisName: Immatrial_Arrow
+    Name: Immaterial Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 3
+    Attack: 30
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Ghost;\n"
+  - Id: 1758
+    AegisName: Stun_Arrow
+    Name: Stun Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 10
+    Attack: 1
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    Script: "bonus2 bAddEff,Eff_Stun,1000;\n"
+  - Id: 1759
+    AegisName: Freezing_Arrow
+    Name: Frozen Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 10
+    Attack: 1
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Water; bonus2 bAddEff,Eff_Freeze,1000;\n"
+  - Id: 1760
+    AegisName: Flash_Arrow
+    Name: Flash Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 10
+    Attack: 1
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    Script: "bonus2 bAddEff,Eff_Blind,1000;\n"
+  - Id: 1761
+    AegisName: Curse_Arrow
+    Name: Cursed Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 10
+    Attack: 1
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    Script: "bonus2 bAddEff,Eff_Curse,1000;\n"
+  - Id: 1762
+    AegisName: Rusty_Arrow
+    Name: Rusty Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 3
+    Attack: 30
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Poison;\n"
+  - Id: 1763
+    AegisName: Poison_Arrow
+    Name: Poison Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 10
+    Attack: 1
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Poison; bonus2 bAddEff,Eff_Poison,2000;\n"
+  - Id: 1764
+    AegisName: Incisive_Arrow
+    Name: Sharp Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 20
+    Attack: 10
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    Script: "bonus bCriticalLong,20;\n"
+  - Id: 1765
+    AegisName: Oridecon_Arrow
+    Name: Oridecon Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 30
+    Attack: 50
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+  - Id: 1766
+    AegisName: Arrow_Of_Counter_Evil
+    Name: Arrow of Counter Evil
+    Type: Ammo
+    SubType: Arrow
+    Buy: 30
+    Attack: 50
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Holy;\n"
+  - Id: 1767
+    AegisName: Arrow_Of_Shadow
+    Name: Arrow of Shadow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 3
+    Attack: 30
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Dark;\n"
+  - Id: 1768
+    AegisName: Sleep_Arrow
+    Name: Sleep Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 10
+    Attack: 1
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    Script: "bonus2 bAddEff,Eff_Sleep,2000;\n"
+  - Id: 1769
+    AegisName: Silence_Arrow
+    Name: Mute Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 10
+    Attack: 1
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    Script: "bonus2 bAddEff,Eff_Silence,1000;\n"
+  - Id: 1770
+    AegisName: Iron_Arrow
+    Name: Iron Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 3
+    Attack: 30
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+  - Id: 1771
+    AegisName: Venom_Knife
+    Name: Venom Knife
+    Type: Ammo
+    SubType: Dagger
+    Buy: 50
+    Attack: 30
+    Jobs:
+      Assassin: true
+    Locations:
+      Ammo: true
+  - Id: 1772
+    AegisName: Holy_Arrow
+    Name: Holy Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 30
+    Attack: 50
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Holy; bonus2 bAddRace,RC_Demon,5;\n"
+  - Id: 1773
+    AegisName: Arrow_Of_Elf
+    Name: Elven Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 5
+    Attack: 45
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 100
+  - Id: 1774
+    AegisName: Hunting_Arrow
+    Name: Hunting Arrow
+    Type: Ammo
+    SubType: Arrow
+    Buy: 5
+    Attack: 35
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+  - Id: 1775
+    AegisName: Siege_Arrow_S
+    Name: Siege Arrow S
+    Type: Ammo
+    SubType: Arrow
+    Buy: 10
+    Attack: 45
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 130
+  - Id: 1776
+    AegisName: Siege_Arrow_A
+    Name: Siege Arrow A
+    Type: Ammo
+    SubType: Arrow
+    Buy: 5
+    Attack: 30
+    Jobs:
+      Archer: true
+      Assassin: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+      Thief: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 95
+  - Id: 13200
+    AegisName: Bullet
+    Name: Bullet
+    Type: Ammo
+    SubType: Bullet
+    Buy: 1
+    Attack: 25
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+  - Id: 13201
+    AegisName: Silver_Bullet
+    Name: Surplus Silver Bullet
+    Type: Ammo
+    SubType: Bullet
+    Buy: 15
+    Attack: 15
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Holy;\n"
+  - Id: 13202
+    AegisName: Shell_Of_Blood
+    Name: Surplus Bloody Shell
+    Type: Ammo
+    SubType: Bullet
+    Buy: 30
+    Attack: 30
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    Script: "bonus2 bAddEff,Eff_Bleeding,100;\n"
+  - Id: 13203
+    AegisName: Flare_Sphere
+    Name: Surplus Flare Sphere
+    Type: Ammo
+    SubType: Grenade
+    Buy: 80
+    Attack: 50
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Fire;\n"
+  - Id: 13204
+    AegisName: Lighting_Sphere
+    Name: Surplus Lightning Sphere
+    Type: Ammo
+    SubType: Grenade
+    Buy: 80
+    Attack: 50
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Wind;\n"
+  - Id: 13205
+    AegisName: Poison_Sphere
+    Name: Surplus Poison Sphere
+    Type: Ammo
+    SubType: Grenade
+    Buy: 80
+    Attack: 50
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Poison; bonus2 bAddEff,Eff_Poison,500;\n"
+  - Id: 13206
+    AegisName: Blind_Sphere
+    Name: Surplus Blind Sphere
+    Type: Ammo
+    SubType: Grenade
+    Buy: 80
+    Attack: 50
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Dark; bonus2 bAddEff,Eff_Blind,500;\n"
+  - Id: 13207
+    AegisName: Freezing_Sphere
+    Name: Surplus Freezing Sphere
+    Type: Ammo
+    SubType: Grenade
+    Buy: 80
+    Attack: 50
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Water;\n"
+  - Id: 13208
+    AegisName: Gong_Bug
+    Name: Sow Bug
+    Type: Ammo
+    SubType: Bullet
+    Buy: 100
+    Attack: 50
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 50
+    Script: "bonus2 bAddEff,Eff_Stun,1000;\n"
+  - Id: 13210
+    AegisName: Slug_Bullet_1
+    Name: Slug Ammunition L
+    Type: Ammo
+    SubType: Bullet
+    Buy: 250
+    Attack: 30
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+  - Id: 13211
+    AegisName: Slug_Bullet_2
+    Name: Slug Ammunition M
+    Type: Ammo
+    SubType: Bullet
+    Buy: 500
+    Attack: 30
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+  - Id: 13212
+    AegisName: Slug_Bullet_3
+    Name: Slug Ammunition H
+    Type: Ammo
+    SubType: Bullet
+    Buy: 750
+    Attack: 30
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+  - Id: 13213
+    AegisName: Slug_Bullet_4
+    Name: Slug Ammunition SH
+    Type: Ammo
+    SubType: Bullet
+    Buy: 1000
+    Attack: 30
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+  - Id: 13214
+    AegisName: Slug_Bullet_5
+    Name: Slug Ammunition XH
+    Type: Ammo
+    SubType: Bullet
+    Buy: 1200
+    Attack: 30
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+  - Id: 13215
+    AegisName: AP_Ammo
+    Name: Armor-Piercing Bullet
+    Type: Ammo
+    SubType: Bullet
+    Buy: 15
+    Attack: 50
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 100
+    Script: "bonus bAtkEle,Ele_Neutral;\n"
+  - Id: 13216
+    AegisName: Blaze_Bullet
+    Name: Blazing Bullet
+    Type: Ammo
+    SubType: Bullet
+    Buy: 10
+    Attack: 40
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 100
+    Script: "bonus bAtkEle,Ele_Fire;\n"
+  - Id: 13217
+    AegisName: Freezing_Bullet
+    Name: Freezing Bullet
+    Type: Ammo
+    SubType: Bullet
+    Buy: 10
+    Attack: 40
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 100
+    Script: "bonus bAtkEle,Ele_Water;\n"
+  - Id: 13218
+    AegisName: Electric_Shock_Bullet
+    Name: Lightning Bullet
+    Type: Ammo
+    SubType: Bullet
+    Buy: 10
+    Attack: 40
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 100
+    Script: "bonus bAtkEle,Ele_Wind;\n"
+  - Id: 13219
+    AegisName: Magical_Stone_Bullet
+    Name: Magic Stone Bullet
+    Type: Ammo
+    SubType: Bullet
+    Buy: 10
+    Attack: 40
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 100
+    Script: "bonus bAtkEle,Ele_Earth;\n"
+  - Id: 13220
+    AegisName: Sanctified_Bullet
+    Name: Purifying Bullet
+    Type: Ammo
+    SubType: Bullet
+    Buy: 10
+    Attack: 40
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 100
+    Script: "bonus bAtkEle,Ele_Holy;\n"
+  - Id: 13221
+    AegisName: Silver_Bullet_
+    Name: Silver Bullet
+    Type: Ammo
+    SubType: Bullet
+    Buy: 5
+    Attack: 15
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Holy;\n"
+  - Id: 13222
+    AegisName: Shell_Of_Blood_
+    Name: Bloody Shell
+    Type: Ammo
+    SubType: Bullet
+    Buy: 10
+    Attack: 30
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    Script: "bonus2 bAddEff,Eff_Bleeding,100;\n"
+  - Id: 13223
+    AegisName: Flare_Sphere_
+    Name: Flare Sphere
+    Type: Ammo
+    SubType: Grenade
+    Buy: 15
+    Attack: 50
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Fire;\n"
+  - Id: 13224
+    AegisName: Lighting_Sphere_
+    Name: Lightning Sphere
+    Type: Ammo
+    SubType: Grenade
+    Buy: 15
+    Attack: 50
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Wind;\n"
+  - Id: 13225
+    AegisName: Poison_Sphere_
+    Name: Poison Sphere
+    Type: Ammo
+    SubType: Grenade
+    Buy: 15
+    Attack: 50
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Poison;\n"
+  - Id: 13226
+    AegisName: Blind_Sphere_
+    Name: Blind Sphere
+    Type: Ammo
+    SubType: Grenade
+    Buy: 15
+    Attack: 50
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Dark;\n"
+  - Id: 13227
+    AegisName: Freezing_Sphere_
+    Name: Freezing Sphere
+    Type: Ammo
+    SubType: Grenade
+    Buy: 15
+    Attack: 50
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Water;\n"
+  - Id: 13228
+    AegisName: Flare_Bullet
+    Name: Flare Bullet
+    Type: Ammo
+    SubType: Bullet
+    Buy: 10
+    Attack: 20
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Fire;\n"
+  - Id: 13229
+    AegisName: Lightning_Bullet
+    Name: Lightning Bullet
+    Type: Ammo
+    SubType: Bullet
+    Buy: 10
+    Attack: 20
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Wind;\n"
+  - Id: 13230
+    AegisName: Ice_Bullet
+    Name: Ice Bullet
+    Type: Ammo
+    SubType: Bullet
+    Buy: 10
+    Attack: 20
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Water;\n"
+  - Id: 13231
+    AegisName: Poison_Bullet
+    Name: Poison Bullet
+    Type: Ammo
+    SubType: Bullet
+    Buy: 10
+    Attack: 20
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Poison; bonus2 bAddEff,Eff_Poison,500;\n"
+  - Id: 13232
+    AegisName: Blind_Bullet
+    Name: Blind Bullet
+    Type: Ammo
+    SubType: Bullet
+    Buy: 10
+    Attack: 20
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Dark; bonus2 bAddEff,Eff_Blind,500;\n"
+  - Id: 13250
+    AegisName: Shuriken
+    Name: Shuriken
+    Type: Ammo
+    SubType: Shuriken
+    Buy: 4
+    Attack: 10
+    Jobs:
+      Ninja: true
+    Locations:
+      Ammo: true
+  - Id: 13251
+    AegisName: Nimbus_Shuriken
+    Name: Nimbus Shuriken
+    Type: Ammo
+    SubType: Shuriken
+    Buy: 10
+    Attack: 30
+    Jobs:
+      Ninja: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 20
+  - Id: 13252
+    AegisName: Flash_Shuriken
+    Name: Flash Shuriken
+    Type: Ammo
+    SubType: Shuriken
+    Buy: 20
+    Attack: 45
+    Jobs:
+      Ninja: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 40
+  - Id: 13253
+    AegisName: Sharp_Leaf_Shuriken
+    Name: Sharp Leaf Shuriken
+    Type: Ammo
+    SubType: Shuriken
+    Buy: 40
+    Attack: 70
+    Jobs:
+      Ninja: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 60
+  - Id: 13254
+    AegisName: Thorn_Needle_Shuriken
+    Name: Thorn Needle Shuriken
+    Type: Ammo
+    SubType: Shuriken
+    Buy: 100
+    Attack: 100
+    Jobs:
+      Ninja: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 80
+  - Id: 13255
+    AegisName: Kunai_Of_Icicle
+    Name: Icicle Kunai
+    Type: Ammo
+    SubType: Kunai
+    Buy: 10
+    Attack: 30
+    Jobs:
+      Ninja: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Water;\n"
+  - Id: 13256
+    AegisName: Kunai_Of_Black_Soil
+    Name: Black Earth Kunai
+    Type: Ammo
+    SubType: Kunai
+    Buy: 10
+    Attack: 30
+    Jobs:
+      Ninja: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Earth;\n"
+  - Id: 13257
+    AegisName: Kunai_Of_Furious_Wind
+    Name: High Wind Kunai
+    Type: Ammo
+    SubType: Kunai
+    Buy: 10
+    Attack: 30
+    Jobs:
+      Ninja: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Wind;\n"
+  - Id: 13258
+    AegisName: Kunai_Of_Fierce_Flame
+    Name: Heat Wave Kunai
+    Type: Ammo
+    SubType: Kunai
+    Buy: 10
+    Attack: 30
+    Jobs:
+      Ninja: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Fire;\n"
+  - Id: 13259
+    AegisName: Kunai_Of_Deadly_Poison
+    Name: Fell Poison Kunai
+    Type: Ammo
+    SubType: Kunai
+    Buy: 10
+    Attack: 30
+    Jobs:
+      Ninja: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Poison; bonus2 bAddEff,Eff_Poison,500;\n"
+  - Id: 13260
+    AegisName: Apple_Bomb
+    Name: Apple Bomb
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+  - Id: 13261
+    AegisName: Coconut_Bomb
+    Name: Coconut Bomb
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+  - Id: 13262
+    AegisName: Melon_Bomb
+    Name: Melon Bomb
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+  - Id: 13263
+    AegisName: Pineapple_Bomb
+    Name: Pineapple Bomb
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+  - Id: 13264
+    AegisName: Banana_Bomb
+    Name: Banana Bomb
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+  - Id: 13265
+    AegisName: Black_Lump
+    Name: Black Lump
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+  - Id: 13266
+    AegisName: Black_Hard_Lump
+    Name: Hard Black Lump
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+  - Id: 13267
+    AegisName: Very_Hard_Lump
+    Name: Extremely Hard Black Lump
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+  - Id: 13268
+    AegisName: Mysterious_Powder
+    Name: Mysterious Powder
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "sc_start SC_MYSTERIOUS_POWDER,10000,2;\n"
+  - Id: 13269
+    AegisName: Boost500_To_Throw
+    Name: Throwing Boost 500
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "sc_start SC_BOOST500,500000,10;\n"
+  - Id: 13270
+    AegisName: Full_SwingK_To_Throw
+    Name: Throwing Full Swing K
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "sc_start SC_FULL_SWING_K,500000,50;\n"
+  - Id: 13271
+    AegisName: Mana_Plus_To_Throw
+    Name: Throwing Mana Plus
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "sc_start SC_MANA_PLUS,500000,50;\n"
+  - Id: 13272
+    AegisName: Cure_Free_To_Throw
+    Name: Throwing Cure Free
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "sc_end SC_BLEEDING; sc_end SC_CURSE; sc_end SC_SILENCE; sc_end SC_POISON; sc_end SC_ORCISH; sc_end SC_CHANGEUNDEAD; sc_end SC_BLIND; sc_end SC_CONFUSION; sc_end SC_DPOISON; itemheal 500,0;\n"
+  - Id: 13273
+    AegisName: Stamina_Up_M_To_Throw
+    Name: Throwing Muramura M
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "sc_start SC_MUSTLE_M,500000,5;\n"
+  - Id: 13274
+    AegisName: Digestive_F_To_Throw
+    Name: Throwing Falmons F
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "sc_start SC_LIFE_FORCE_F,500000,5;\n"
+  - Id: 13275
+    AegisName: HP_Inc_PotS_To_Throw
+    Name: Throwing Increase HP Potion (Small)
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "/* Item bonus in source because of BaseLevel check */\n"
+  - Id: 13276
+    AegisName: HP_Inc_PotM_To_Throw
+    Name: Throwing Increase HP Potion (Medium)
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "/* Item bonus in source because of BaseLevel check */\n"
+  - Id: 13277
+    AegisName: HP_Inc_PotL_To_Throw
+    Name: Throwing Increase HP Potion (Large)
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "/* Item bonus in source because of BaseLevel check */\n"
+  - Id: 13278
+    AegisName: SP_Inc_PotS_To_Throw
+    Name: Throwing Increase SP Potion (Small)
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "/* Item bonus in source because of BaseLevel check */\n"
+  - Id: 13279
+    AegisName: SP_Inc_PotM_To_Throw
+    Name: Throwing Increase SP Potion (Medium)
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "/* Item bonus in source because of BaseLevel check */\n"
+  - Id: 13280
+    AegisName: SP_Inc_PotL_To_Throw
+    Name: Throwing Increase SP Potion (Large)
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "/* Item bonus in source because of BaseLevel check */\n"
+  - Id: 13281
+    AegisName: En_White_PotZ_To_Throw
+    Name: Throwing Concentrated White Potion Z
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "sc_start SC_EXTRACT_WHITE_POTION_Z,500000,20; itemheal 1000,0;\n"
+  - Id: 13282
+    AegisName: Vitata500_To_Throw
+    Name: Throwing Vitata 500
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "sc_start2 SC_VITATA_500,500000,20,5; itemheal 0,200;\n"
+  - Id: 13283
+    AegisName: En_Cel_Juice_To_Throw
+    Name: Throwing Ceromain Soup
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "sc_start SC_EXTRACT_SALAMINE_JUICE,500000,10;\n"
+  - Id: 13284
+    AegisName: Savage_BBQ_To_Throw
+    Name: Throwing Savage Full Roast
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "sc_start SC_SAVAGE_STEAK,300000,20;\n"
+  - Id: 13285
+    AegisName: Wug_Cocktail_To_Throw
+    Name: Throwing Cocktail Warg Blood
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "sc_start SC_COCKTAIL_WARG_BLOOD,300000,20;\n"
+  - Id: 13286
+    AegisName: M_Brisket_To_Throw
+    Name: Throwing Minor Stew
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "sc_start SC_MINOR_BBQ,300000,20;\n"
+  - Id: 13287
+    AegisName: Siroma_Icetea_To_Throw
+    Name: Throwing Siroma Iced Tea
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "sc_start SC_SIROMA_ICE_TEA,300000,20;\n"
+  - Id: 13288
+    AegisName: Drocera_Stew_To_Throw
+    Name: Throwing Drosera Herb Salad
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "sc_start SC_DROCERA_HERB_STEAMED,300000,20;\n"
+  - Id: 13289
+    AegisName: Petti_Noodle_To_Throw
+    Name: Throwing Petite Tail Soup
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "sc_start SC_PUTTI_TAILS_NOODLES,300000,20;\n"
+  - Id: 13290
+    AegisName: Black_Thing_To_Throw
+    Name: Throwing Black Mass
+    Type: Ammo
+    SubType: Throwweapon
+    Buy: 100
+    Jobs:
+      Alchemist: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "sc_start SC_STOMACHACHE,60000,rand(5,10);\n"
+  - Id: 13291
+    AegisName: Starfish
+    Name: Starfish
+    Type: Ammo
+    SubType: Shuriken
+    Buy: 4
+    Attack: 110
+    Jobs:
+      Ninja: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 50
+    Script: "bonus bAtkEle,Ele_Neutral; bonus2 bAddEff,Eff_Stun,1000;\n"
+  - Id: 13292
+    AegisName: Dried_Squid
+    Name: Dried Squid
+    Type: Ammo
+    SubType: Kunai
+    Buy: 10
+    Attack: 50
+    Jobs:
+      Ninja: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Neutral; bonus2 bAddEff,Eff_Stun,1000;\n"
+  - Id: 13293
+    AegisName: Flying_Fish
+    Name: Flying Fish
+    Type: Ammo
+    SubType: Kunai
+    Buy: 10
+    Attack: 50
+    Jobs:
+      Ninja: true
+    Locations:
+      Ammo: true
+    Script: "bonus bAtkEle,Ele_Neutral; bonus3 bAutoSpell,\"NPC_CRITICALWOUND\",1,3;\n"
+  - Id: 13294
+    AegisName: Explosive_Kunai
+    Name: Explosive Kunai
+    Type: Ammo
+    SubType: Kunai
+    Buy: 100
+    Attack: 50
+    Jobs:
+      Ninja: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 100
+    Script: "bonus bAtkEle,Ele_Neutral;\n"
+  - Id: 13295
+    AegisName: Light_Shuriken
+    Name: Light Shuriken
+    Type: Ammo
+    Attack: 5
+    Locations:
+      Ammo: true
+  - Id: 18000
+    AegisName: Cannon_Ball
+    Name: Cannon Ball
+    Type: Ammo
+    SubType: Cannonball
+    Buy: 100
+    Attack: 100
+    Jobs:
+      Alchemist: true
+      Blacksmith: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+  - Id: 18001
+    AegisName: Holy_Cannon_Ball
+    Name: Holy Cannon Ball
+    Type: Ammo
+    SubType: Cannonball
+    Buy: 200
+    Attack: 120
+    Jobs:
+      Alchemist: true
+      Blacksmith: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "bonus bAtkEle,Ele_Holy;\n"
+  - Id: 18002
+    AegisName: Dark_Cannon_Ball
+    Name: Dark Cannon Ball
+    Type: Ammo
+    SubType: Cannonball
+    Buy: 200
+    Attack: 120
+    Jobs:
+      Alchemist: true
+      Blacksmith: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "bonus bAtkEle,Ele_Dark;\n"
+  - Id: 18003
+    AegisName: Soul_Cannon_Ball
+    Name: Soul Cannon Ball
+    Type: Ammo
+    SubType: Cannonball
+    Buy: 200
+    Attack: 120
+    Jobs:
+      Alchemist: true
+      Blacksmith: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
+    Script: "bonus bAtkEle,Ele_Ghost;\n"
+  - Id: 18004
+    AegisName: Iron_Cannon_Ball
+    Name: Iron Cannon Ball
+    Type: Ammo
+    SubType: Cannonball
+    Buy: 500
+    Attack: 250
+    Jobs:
+      Alchemist: true
+      Blacksmith: true
+    Locations:
+      Ammo: true
+    EquipLevelMin: 99
