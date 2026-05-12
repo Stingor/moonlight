@@ -33,7 +33,7 @@ L_WarpaCmd:
 	mes "[ ^1F81D4" + strnpcinfo(0) + "^000000 ]";
 	mes "Bonjour ^4a8b3e" + strcharinfo(0) + "^000000 !";
 	mes "Je suis le Npc qui sert à se teleporter dans les villes et les donjons ainsi que de sauvegarder !";
-	setdialogsize(300,50*@mesnpccount);
+	setdialogsize(300,50*.@mesnpccount);
 L_warpa:
 	if( lastm_warpa$ == "" && lastx_warpa == 0 && lasty_warpa == 0 )
 		@lastwarp$ = "";
@@ -68,7 +68,7 @@ L_Villes:
 L_VillesCmd:
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 	mes "Sélectionnez la destination de votre choix :";
-	setdialogsize(300,50*@mesnpccount);
+	setdialogsize(300,50*.@mesnpccount);
 	// Ajouter une ville: une valeur par tableau + l'entrée dans .@vn$
 	setarray .@vn$[0],
 		"^ff0000• Gonryun^000000", "• Alberta",     "• Aldebaran",   "• Amatsu",
@@ -118,7 +118,7 @@ L_Guild_Dungeons:
 	clear;
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 	mes "Sélectionnez la destination de votre choix :";
-	setdialogsize(300,50*@mesnpccount);
+	setdialogsize(300,50*.@mesnpccount);
 	// Ajouter un guild dungeon: une valeur par tableau + l'entrée dans .@gn$
 	setarray .@gn$[0],
 		"• Corridor of the Abyss - Tears of Hero",
@@ -170,12 +170,12 @@ L_Instance:
 		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 		mes "Party genérée...";
 		mes "Attention, il n'est pas possible de retourner dans une instance une fois que vous l'avez quittée.";
-		setdialogsize(300,50*@mesnpccount);
+		setdialogsize(300,50*.@mesnpccount);
 		next;
 	}
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 	mes "Sélectionnez la destination de votre choix :";
-	setdialogsize(300,50*@mesnpccount);
+	setdialogsize(300,50*.@mesnpccount);
 	switch( select( GetColor(15050)+"• Airship Assault (Solo & HM)^000000",
 					GetColor(12278)+"• Bakonawa Lake^000000",
 					GetColor(9223)+"• Bangungot Hospital 2F (HM)^000000",
@@ -842,7 +842,7 @@ function WarpMenu {
 		.@sel$ += "• " + getmapname(.@mname$[.@i]) + " (" + .@mname$[.@i] + ")" + .@avglv$;
 		if (WarpaDetail) GetMobs(.@mname$[.@i]);
 	}
-	if (WarpaDetail) setdialogsize(500,10+cap_value(25*@mesnpccount,150,600));
+	if (WarpaDetail) setdialogsize(500,10+cap_value(25*.@mesnpccount,150,600));
 	.@c = select(.@sel$ + ":• ^e64c00Menu Précédent^000000") - 1;
 	if (.@c < .@n) {
 		if (.@mxcoord[.@c] > 0 && .@mycoord[.@c] > 0)
