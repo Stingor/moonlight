@@ -4941,7 +4941,7 @@ BUILDIN_FUNC(mes)
 		}
 	}
 
-	pc_setreg(sd, add_str("@mesnpccount"), pc_readreg2(sd, "@mesnpccount") + 1);
+	setd_sub_num(st, nullptr, ".@mesnpccount", 0, i64db_i64get(st->stack->scope.vars, reference_uid(add_str(".@mesnpccount"), 0)) + 1, nullptr);
 
 	st->mes_active = 1; // Invoking character has a NPC dialog box open.
 	return SCRIPT_CMD_SUCCESS;
@@ -4965,7 +4965,7 @@ BUILDIN_FUNC(next)
 #ifdef SECURE_NPCTIMEOUT
 	sd->npc_idle_type = NPCT_WAIT;
 #endif
-	pc_setreg(sd, add_str("@mesnpccount"), 0);
+	setd_sub_num(st, nullptr, ".@mesnpccount", 0, 0, nullptr);
 	st->state = STOP;
 	clif_scriptnext( *sd, st->oid );
 	return SCRIPT_CMD_SUCCESS;
@@ -4986,7 +4986,7 @@ BUILDIN_FUNC(clear)
 	if (!script_rid2sd(sd))
 		return SCRIPT_CMD_FAILURE;
 
-	pc_setreg(sd, add_str("@mesnpccount"), 0);
+	setd_sub_num(st, nullptr, ".@mesnpccount", 0, 0, nullptr);
 	clif_scriptclear( *sd, st->oid );
 	return SCRIPT_CMD_SUCCESS;
 }
@@ -5023,7 +5023,6 @@ BUILDIN_FUNC(close)
 		st->clear_cutin = true;
 	}
 
-	pc_setreg(sd, add_str("@mesnpccount"), 0);
 	clif_scriptclose( *sd, st->oid );
 
 	return SCRIPT_CMD_SUCCESS;
@@ -5045,7 +5044,6 @@ BUILDIN_FUNC(close2)
 	if( st->mes_active )
 		st->mes_active = 0;
 
-	pc_setreg(sd, add_str("@mesnpccount"), 0);
 	clif_scriptclose( *sd, st->oid );
 
 	return SCRIPT_CMD_SUCCESS;
@@ -10521,7 +10519,6 @@ BUILDIN_FUNC(end)
 			clif_scriptclose( *sd, st->oid );
 		}else
 			sd->state.callshop = 0;
-		pc_setreg(sd, add_str("@mesnpccount"), 0);
 	}
 
 	return SCRIPT_CMD_SUCCESS;
@@ -27695,7 +27692,7 @@ BUILDIN_FUNC(setdialogsize){
 		return SCRIPT_CMD_FAILURE;
 	}
 
-	pc_setreg(sd, add_str("@mesnpccount"), 0);
+	setd_sub_num(st, nullptr, ".@mesnpccount", 0, 0, nullptr);
 	clif_set_npc_window_size( *sd, x, y );
 
 	return SCRIPT_CMD_SUCCESS;
