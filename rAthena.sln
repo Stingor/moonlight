@@ -608,6 +608,40 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mobs", "mobs", "{F1C23466-6
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rathena", "rathena", "{30571095-9A54-4878-9463-A7C391C0CF9E}"
+	ProjectSection(SolutionItems) = preProject
+		moon\rathena\other\achievements.txt = moon\rathena\other\achievements.txt
+		moon\rathena\merchants\bio4_reward.npc = moon\rathena\merchants\bio4_reward.npc
+		moon\rathena\other\books.txt = moon\rathena\other\books.txt
+		moon\rathena\other\bulletin_boards.txt = moon\rathena\other\bulletin_boards.txt
+		moon\rathena\other\CashShop_Functions.txt = moon\rathena\other\CashShop_Functions.txt
+		moon\rathena\other\clans.txt = moon\rathena\other\clans.txt
+		moon\rathena\merchants\coin_exchange.npc = moon\rathena\merchants\coin_exchange.npc
+		moon\rathena\other\comodo_gambling.txt = moon\rathena\other\comodo_gambling.txt
+		moon\rathena\other\dimensional_gap.txt = moon\rathena\other\dimensional_gap.txt
+		moon\rathena\merchants\enchan_ko.npc = moon\rathena\merchants\enchan_ko.npc
+		moon\rathena\merchants\enchan_mora.npc = moon\rathena\merchants\enchan_mora.npc
+		moon\rathena\merchants\enchan_rockridge.npc = moon\rathena\merchants\enchan_rockridge.npc
+		moon\rathena\merchants\enchan_verus.npc = moon\rathena\merchants\enchan_verus.npc
+		moon\rathena\other\fortune.txt = moon\rathena\other\fortune.txt
+		moon\rathena\merchants\gemstone.txt = moon\rathena\merchants\gemstone.txt
+		moon\rathena\other\Global_Functions.txt = moon\rathena\other\Global_Functions.txt
+		moon\rathena\other\global_npcs.txt = moon\rathena\other\global_npcs.txt
+		moon\rathena\other\gm_npcs.txt = moon\rathena\other\gm_npcs.txt
+		moon\rathena\merchants\HorrorToyFactory_merchants.txt = moon\rathena\merchants\HorrorToyFactory_merchants.txt
+		moon\rathena\other\hugel_bingo.txt = moon\rathena\other\hugel_bingo.txt
+		moon\rathena\merchants\inn.txt = moon\rathena\merchants\inn.txt
+		moon\rathena\other\item_merge.txt = moon\rathena\other\item_merge.txt
+		moon\rathena\merchants\kunai_maker.txt = moon\rathena\merchants\kunai_maker.txt
+		moon\rathena\other\mercenary_rent.txt = moon\rathena\other\mercenary_rent.txt
+		moon\rathena\merchants\milk_trader.txt = moon\rathena\merchants\milk_trader.txt
+		moon\rathena\other\monster_museum.txt = moon\rathena\other\monster_museum.txt
+		moon\rathena\other\monster_race.txt = moon\rathena\other\monster_race.txt
+		moon\rathena\merchants\novice_exchange.txt = moon\rathena\merchants\novice_exchange.txt
+		moon\rathena\merchants\OldGlastHeim_merchants.txt = moon\rathena\merchants\OldGlastHeim_merchants.txt
+		moon\rathena\merchants\old_pharmacist.txt = moon\rathena\merchants\old_pharmacist.txt
+		moon\rathena\merchants\shops.txt = moon\rathena\merchants\shops.txt
+		moon\rathena\other\turbo_track.txt = moon\rathena\other\turbo_track.txt
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "items", "items", "{13806C33-FF51-4834-A3E8-05A73A23DE55}"
 	ProjectSection(SolutionItems) = preProject
