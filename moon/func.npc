@@ -299,3 +299,22 @@ function	script	logequip	{
 
 	return .@refine$ + "" + getequipname(.@part)+" ("+getequipuniqueid(.@part)+")"+.@cards$;
 }
+
+// Met en forme un log d'item avec UID
+function	script	logequipuid	{
+	.@uid$ = getarg(0);
+	getuidlist(.@uid$);
+	.@cards$ = "";
+	if( .@itembyuid_slot > 0 ) {
+		if( .@itembyuid_card1 ) arraypush .@cards$, getitemname(.@itembyuid_card1);
+		if( .@itembyuid_card2 ) arraypush .@cards$, getitemname(.@itembyuid_card2);
+		if( .@itembyuid_card3 ) arraypush .@cards$, getitemname(.@itembyuid_card3);
+		if( .@itembyuid_card4 ) arraypush .@cards$, getitemname(.@itembyuid_card4);
+		if( getarraysize(.@cards$) > 1 )
+			.@cards$ = " -> " + implode(.@cards$, " ");
+	}
+
+	.@refine$ = (.@itembyuid_refine > 0 ? "+" + .@itembyuid_refine + " " : "");
+
+	return sprintf("%s%s%s [UID:%s]", .@refine$, getitemname(.@itembyuid_nameid), .@cards$, .@uid$);
+}

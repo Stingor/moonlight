@@ -23,371 +23,76 @@
 
 gon_in,99,23,3	script	Mayomayo::enchant_gon	4_CAT_3COLOR,{
 	disable_items;
+	.@npc_name$ =  "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 	if( !@fastenchant ) {
-		@menumayo1$ = "Enchanter mes armes";
-		@menumayo2$ = "Enchanter mon armure";
-		@valmenuench = 1;
+		@menumayo$ = "Enchanter mes armes:Enchanter mon armure";
+		@valmenu = 1;
 	}
 	else {
-		@menumayo1$ = "Enchanter mon armure";
-		@menumayo2$ = "Enchanter mes armes";
-		@valmenuench = 2;
+		@menumayo$ = "Enchanter mon armure:Enchanter mes armes";
+		@valmenu = 2;
 	}
 
-	if( select( @menumayo1$, @menumayo2$ ) == @valmenuench ) {
-		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	if( select( @menumayo$ ) == @valmenu ) {
+		mes .@npc_name$;
 		if( !checkweight(1065,1)) {
 			mes "Vous avez trop de bordel dans votre sac...";
 			close;
 		}
-		if (MaxWeight - Weight < 10000) {
+		if( MaxWeight - Weight < 10000 ) {
 			mes "Vous êtes trop lourd"+(Sex?"":"e")+".";
 			close;
 		}
 L_menu:
 		mes "Bienvenu.";
 		mes "Je permet l'enchantement d'armes.";
-		if( select( "Je veux enchanter mon arme", "Je veux initialiser mon enchant - 150000z" ) == 1 )
-			@mal_enchant_select = 1;
-		else
-			@mal_enchant_select = 2;
-
-		if( !getequipisequiped(EQI_HAND_R) ) {
-			clear;
-			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-			mes "Ca vous dirai de mettre une arme en main droite?";
-			@mal_enchant_select = 0;
+		.@euid$ = getequipuniqueid(EQI_HAND_R);
+		if( .@euid$ == "" ) {
+			mes "^FF0000Mais pour ça faut encore en avoir une d'équippée.";
 			close;
 		}
 
-
-		@mal_equip_id = getequipid(EQI_HAND_R);
-		.@equip_type = getiteminfo(@mal_equip_id,11);
-		.@itemslots = getitemslots(@mal_equip_id);
-
-		if( .@itemslots >= 4 ) {
-			clear;
-			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-			mes "Impossible d'enchanter une arme à 4 slots..";
-			@mal_enchant_select = 0;
+		getuidlist(.@euid$);
+		if( .@itembyuid_slot >= 4 ) {
+			mes "^FF0000Mais pour ce faire il faut de la place libre sur l'arme, une arme à 4 slot de card ne peux pas être enchantée.";
 			close;
 		}
 
-		if( countitem(@mal_equip_id) > 1 ) {
-			clear;
-			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-			mes "Avant toute chose, gardez sur vous qu'un seul exemplaire de l'arme à enchanter..";
-			@mal_enchant_select = 0;
-			close;
+		.@select = select( "Je veux enchanter mon arme", "Je veux ré-initialiser mon enchant - 150000z" );
+		.@freeslot = 4 - .@itembyuid_slot;
+		for( .@i = 0; .@i < MAX_SLOTS; ++.@i ) {
+			if (getiteminfo(getd(".@itembyuid_card" + (.@i + 1)), ITEMINFO_SUBTYPE) == CARD_ENCHANT)
+				.@freeslot--;
 		}
 
-		.@weaponlevel = getequipweaponlv(EQI_HAND_R);
-		// callsub L_Socket,<cost multiplier>,<4-x enchants possible>;
-		switch( .@equip_type ) { //  Check weapon type first to speed up the checks.
-			case 1:	// Daggers
-				switch( @mal_equip_id ) {
-					case 1224: callsub L_Socket,1,2;	// Sword_Breaker
-					case 1225: callsub L_Socket,1,2;	// Mail_Breaker
-					case 1227: callsub L_Socket,1,2;	// Weeder_Knife
-					case 1229: callsub L_Socket,1,2;	// Mama's_Knife
-					case 1232: callsub L_Socket,1,2;	// Assasin_Dagger
-					case 1233: callsub L_Socket,1,2;	// Exercise
-					case 1235: callsub L_Socket,1,2;	// Azoth
-					case 1236: callsub L_Socket,1,2;	// Sucsamad
-					case 1237: callsub L_Socket,1,2;	// Grimtooth_
-					case 1240: callsub L_Socket,1,2;	// Princess_Knife
-					case 1241: callsub L_Socket,1,2;	// Cursed_Dagger
-					case 1242: callsub L_Socket,1,2;	// Counter_Dagger
-					case 1244: callsub L_Socket,1,2;	// Holy_Dagger
-					case 13046: callsub L_Socket,1,3;	// Krieg
-					case 13047: callsub L_Socket,1,2;	// Weihna
-					case 13061: callsub L_Socket,1,2;	// Black_Wing
-					case 1223: callsub L_Socket,2,2;	// Forturn_Sword
-					case 1228: callsub L_Socket,2,2;	// Combat_Knife
-					case 1234: callsub L_Socket,2,2;	// Moonlight_Sword
-					case 1230: callsub L_Socket,4,2;	// House_Auger
-					case 1231: callsub L_Socket,4,2;	// Bazerald
-					case 13062: callsub L_Socket,4,2;	// Ancient_Dagger
-				}
-				break;
-			case 16:	// Katars
-				switch( @mal_equip_id ) {
-					case 1271: callsub L_Socket,1,2;	// Blood_Tears
-					case 1263: callsub L_Socket,1,2;	// Unholy_Touch
-					case 1270: callsub L_Socket,1,2;	// Drill_Katar
-					case 1284: callsub L_Socket,1,2;	// Krishna
-					case 1285: callsub L_Socket,1,2;	// Cakram
-					case 1268: callsub L_Socket,2,2;	// Wild_Beast_Claw
-					case 1269: callsub L_Socket,2,2;	// Inverse_Scale
-					case 1265: callsub L_Socket,2,2;	// Bloody_Roar
-					case 1261: callsub L_Socket,4,2;	// Infiltrator
-					case 1266: callsub L_Socket,4,2;	// Infiltrator_
-					case 28010: callsub L_Socket,4,2;	// Juliette_D._Rachel
-				}
-				break;
-			case 6:	// 1-H Axes
-				switch( @mal_equip_id ) {
-					case 1305: callsub L_Socket,1,2;	// Cleaver
-					case 1311: callsub L_Socket,1,2;	// Vecer_Axe
-				}
-				break;
-			case 7:	// 2-H Axes
-				switch( @mal_equip_id ) {
-					case 1364: callsub L_Socket,1,2;	// Great_Axe
-					case 1365: callsub L_Socket,1,2;	// Sabbath
-					case 1385: callsub L_Socket,1,2;	// Bradium_Stonehammer
-					case 1367: callsub L_Socket,1,2;	// Slaughter
-					case 1368: callsub L_Socket,1,2;	// Tomahawk
-					case 1387: callsub L_Socket,2,2;	// Giant_Axe
-					case 1369: callsub L_Socket,2,2;	// Guillotine
-					case 1363: callsub L_Socket,2,2;	// Brood_Axe
-					case 1376: callsub L_Socket,4,2;	// Heart_Breaker
-					case 1377: callsub L_Socket,4,2;	// Hurricane_Fury
-					case 1366: callsub L_Socket,4,2;	// Right_Epsilon
-					case 1370: callsub L_Socket,4,2;	// Doom_Slayer
-					case 1371: callsub L_Socket,4,2;	// Doom_Slayer_
-				}
-				break;
-			case 2:	// 1-H Swords
-				switch( @mal_equip_id ) {
-					case 1131: callsub L_Socket,1,2;	// Ice_Falchon
-					case 1133: callsub L_Socket,1,2;	// Fire_Brand
-					case 1134: callsub L_Socket,1,2;	// Scissores_Sword
-					case 1135: callsub L_Socket,1,2;	// Cutlas
-					case 13400: callsub L_Socket,1,2;	// Cutlas_
-					case 1136: callsub L_Socket,1,2;	// Solar_Sword
-					case 1138: callsub L_Socket,1,2;	// Mysteltainn_
-					case 1139: callsub L_Socket,1,2;	// Tale_Fing_
-					case 1140: callsub L_Socket,1,2;	// Byeorrun_Gum
-					case 1141: callsub L_Socket,1,2;	// Immaterial_Sword
-					case 1148: callsub L_Socket,1,2;	// Star_Dust_Blade
-					case 13421: callsub L_Socket,1,2;	// Ruber
-					case 13431: callsub L_Socket,2,2;	// Chrome_Sword
-					case 1137: callsub L_Socket,2,2;	// Excalibur
-					case 1130: callsub L_Socket,2,2;	// Nagan
-					case 1132: callsub L_Socket,4,2;	// Edge
-					// case 13460: callsub L_Socket,?,2;	// Sealed_Magic_Sword
-					// case 13461: callsub L_Socket,?,2;	// Sealed_Evil_Sword
-					// case 13462: callsub L_Socket,?,2;	// Sealed_Maximum_Sword
-					case 13412: callsub L_Socket,1,3;	// Twin_Edge_B
-					case 13413: callsub L_Socket,1,3;	// Twin_Edge_R
-				}
-				break;
-			case 3:	// 2-H Swords
-				switch( @mal_equip_id ) {
-					case 1164: callsub L_Socket,1,2;	// Muramasa
-					case 1166: callsub L_Socket,1,2;	// Dragon_Slayer
-					case 1167: callsub L_Socket,1,2;	// Schweizersabel
-					case 1168: callsub L_Socket,1,2;	// Zweihander
-					case 1170: callsub L_Socket,1,2;	// Katzbalger
-					case 1171: callsub L_Socket,1,2;	// Zweihander_
-					case 1176: callsub L_Socket,1,2;	// Muscle_Cutter
-					case 1178: callsub L_Socket,1,2;	// Schweizersabel_
-					case 1180: callsub L_Socket,1,2;	// Dragon_Slayer_
-					case 1181: callsub L_Socket,1,2;	// Tae_Goo_Lyeon
-					case 1182: callsub L_Socket,1,2;	// Bloody_Eater
-					case 1188: callsub L_Socket,1,2;	// Veteran_Sword
-					case 1189: callsub L_Socket,1,3;	// Krasnaya
-					case 1196: callsub L_Socket,2,2;	// Chrome_Twohand_Sword
-					case 1165: callsub L_Socket,2,2;	// Masamune
-					case 1169: callsub L_Socket,2,2;	// Executioner_
-					case 1179: callsub L_Socket,2,2;	// Executioner__
-					case 1175: callsub L_Socket,2,2;	// Altas_Weapon
-					case 1185: callsub L_Socket,4,2;	// Violet_Fear
-					case 1186: callsub L_Socket,4,2;	// Death_Guidance
-					case 21018: callsub L_Socket,4,2;	// Lindy_Hop
-				}
-				break;
-			case 4:	// 1-H Spears
-				switch( @mal_equip_id ) {
-					case 1420: callsub L_Socket,1,2;	// Long_Horn
-					case 1413: callsub L_Socket,1,2;	// Gungnir
-					case 1414: callsub L_Socket,1,2;	// Gelerdria
-					case 1416: callsub L_Socket,1,2;	// Tjungkuletti
-					case 1418: callsub L_Socket,1,2;	// Gungnir_
-					case 1433: callsub L_Socket,2,2;	// Imperial_Spear
-					case 1415: callsub L_Socket,2,2;	// Skewer
-					case 1421: callsub L_Socket,2,2;	// Battle_Hook
-					case 1422: callsub L_Socket,4,2;	// Hunting_Spear
-					// case 1447: callsub L_Socket,?,3;	// Poison_Forged_Spear
-				}
-				break;
-			case 5:	// 2-H Spears
-				switch( @mal_equip_id ) {
-					case 1466: callsub L_Socket,1,2;	// Crescent_Scythe
-					case 1467: callsub L_Socket,1,2;	// Bill_Guisarme
-					case 1468: callsub L_Socket,1,2;	// Zephyrus
-					case 1469: callsub L_Socket,1,2;	// Longinus's_Spear
-					case 1470: callsub L_Socket,1,2;	// Brionac
-					case 1471: callsub L_Socket,1,2;	// Hell_Fire
-					case 1474: callsub L_Socket,1,2;	// Gae_Bolg
-					case 1476: callsub L_Socket,1,2;	// Crescent_Scythe_
-					case 1477: callsub L_Socket,1,2;	// Spectral_Spear
-					case 1478: callsub L_Socket,1,2;	// Ahlspiess
-					case 1479: callsub L_Socket,1,2;	// Spectral_Spear_
-					case 1480: callsub L_Socket,1,2;	// Gae_Bolg_
-					case 1481: callsub L_Socket,1,3;	// Zephyrus_
-					case 1484: callsub L_Socket,2,2;	// Cardo
-				}
-				break;
-			case 10:	// Staves
-				switch( @mal_equip_id ) {
-					case 1616: callsub L_Socket,1,2;	// Staff_Of_Wing
-					case 1629: callsub L_Socket,1,2;	// Walking_Stick
-					case 1631: callsub L_Socket,1,2;	// Holy_Stick
-					case 1643: callsub L_Socket,1,2;	// Dead_Tree_Cane
-					case 1654: callsub L_Socket,1,2;	// Mental_Stick
-					case 1636: callsub L_Socket,2,2;	// Thorn_Staff
-					case 1637: callsub L_Socket,2,2;	// Eraser
-					// case 1697: callsub L_Socket,?,2;	// Exquisite_Yellow_Foxtail_Model
-					// case 1693: callsub L_Socket,?,2;	// Magical_Yellow_Foxtail_Staff
-				}
-				break;
-			case 23:	// New 2-H Staves
-				switch( @mal_equip_id ) {
-					case 1473: callsub L_Socket,1,2;	// Wizardy_Staff
-					case 2004: callsub L_Socket,1,2;	// Kronos
-					case 2005: callsub L_Socket,1,2;	// Dea_Staff
-					case 2001: callsub L_Socket,2,2;	// Divine_Cross
-					case 2000: callsub L_Socket,4,2;	// Destruction_Rod
-					// case 2027: callsub L_Socket,4,?;	// Sunflower_Kid
-				}
-				break;
-			case 8:	// Maces
-				switch( @mal_equip_id ) {
-					case 1524: callsub L_Socket,1,2;	// Golden_Mace
-					case 1525: callsub L_Socket,1,2;	// Long_Mace
-					case 1527: callsub L_Socket,1,2;	// Quadrille
-					case 1539: callsub L_Socket,1,2;	// Golden_Mace_
-					case 1541: callsub L_Socket,1,2;	// Nemesis
-					case 16000: callsub L_Socket,1,2;	// Erde
-					case 16001: callsub L_Socket,1,2;	// Red_Square_Bag
-					case 16010: callsub L_Socket,1,2;	// Red_Ether_Bag
-					case 1523: callsub L_Socket,2,2;	// Spike
-					case 1538: callsub L_Socket,2,2;	// Spike_
-					case 1526: callsub L_Socket,2,2;	// Slash
-					case 1528: callsub L_Socket,4,2;	// Grand_Cross
-					case 1540: callsub L_Socket,4,2;	// Grand_Cross_
-				}
-				break;
-			case 15:	// Books
-				switch( @mal_equip_id ) {
-					case 1557: callsub L_Socket,1,2;	// Book_Of_The_Apocalypse
-					case 1558: callsub L_Socket,1,2;	// Girl's_Diary
-					case 1559: callsub L_Socket,1,2;	// Legacy_Of_Dragon
-					case 1561: callsub L_Socket,1,2;	// Hardback
-					case 1562: callsub L_Socket,1,2;	// Bible_Of_Battlefield
-					case 1565: callsub L_Socket,4,2;	// Death_Note
-				}
-				break;
-			case 12:	// Knuckles
-				switch( @mal_equip_id ) {
-					case 1813: callsub L_Socket,1,2;	// Kaiser_Knuckle
-					case 1814: callsub L_Socket,1,2;	// Berserk
-					case 1815: callsub L_Socket,1,2;	// Claw_Of_Garm
-					case 1816: callsub L_Socket,1,2;	// Berserk_
-					case 1830: callsub L_Socket,2,2;	// Sura_Rampage
-				}
-				break;
-			case 11:	// Bows
-				switch( @mal_equip_id ) {
-					case 1719: callsub L_Socket,1,2;	// Bow_Of_Roguemaster
-					case 1722: callsub L_Socket,1,2;	// Balistar
-					case 1724: callsub L_Socket,1,2;	// Dragon_Wing
-					case 1725: callsub L_Socket,1,2;	// Bow_Of_Minstrel
-					case 1727: callsub L_Socket,1,2;	// Balistar_
-					case 1737: callsub L_Socket,1,2;	// Ixion_Wing
-					case 1740: callsub L_Socket,1,2;	// Nepenthes_Bow
-					case 1741: callsub L_Socket,1,2;	// Cursed_Lyre
-					case 1745: callsub L_Socket,1,2;	// Falken_Blitz
-					case 1720: callsub L_Socket,2,2;	// Bow_Of_Rudra
-					case 18103: callsub L_Socket,1,2;	// Mystic_Bow
-				}
-				break;
-			case 13:	// Musical Instruments
-				switch( @mal_equip_id ) {
-					case 1913: callsub L_Socket,1,2;	// Electronic_Guitar
-					case 1918: callsub L_Socket,1,2;	// Oriental_Lute
-					case 1920: callsub L_Socket,1,2;	// Berserk_Guitar
-					case 1922: callsub L_Socket,1,2;	// Oriental_Lute_
-					case 1926: callsub L_Socket,1,2;	// Harp_Of_Nepenthes
-					case 1930: callsub L_Socket,2,2;	// Green_Whistle
-				}
-				break;
-			case 14:	// Whips
-				switch( @mal_equip_id ) {
-					case 1962: callsub L_Socket,1,2;	// Lariat
-					case 1963: callsub L_Socket,1,2;	// Rapture_Rose
-					case 1964: callsub L_Socket,1,2;	// Chemeti
-					case 1969: callsub L_Socket,1,2;	// Bladed_Whip
-					case 1970: callsub L_Socket,1,2;	// Queen's_Whip
-					case 1972: callsub L_Socket,1,2;	// Electric_Eel
-					case 1973: callsub L_Socket,1,2;	// Sea_Witch_Foot
-					case 1974: callsub L_Socket,1,2;	// Carrot_Whip
-					case 1976: callsub L_Socket,1,2;	// Queen's_Whip_
-					case 1979: callsub L_Socket,1,2;	// Stem_Of_Nepenthes
-					case 1984: callsub L_Socket,2,2;	// Stem_Whip
-					case 1985: callsub L_Socket,4,2;	// Rosebine
-				}
-				break;
-			case 17:	// Revolvers
-			case 18:	// Rifles
-			case 19:	// Gatling guns
-			case 20:	// Shotguns
-			case 21:	// Grenade launchers
-				switch( @mal_equip_id ) {
-					case 13138: callsub L_Socket,4,2;	// Dark_Rose
-					case 28223: callsub L_Socket,4,2;	// Finisher
-					case 28224: callsub L_Socket,4,2;	// Dustfire
-					case 28225: callsub L_Socket,4,2;	// Burning_Rose
-					case 28226: callsub L_Socket,4,2;	// Avenger
-				}
-				break;
-		}
-		clear;
-		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-		mes "Je ne peux pas travailler sur cette arme en temps normal.";
-		mes "Mais grace à la carte Kiwi vous pouvez ..... AH NON PAS C'EST PAS LE BON TEXTE.";
-		next;
-		callsub L_Socket,.@weaponlevel,.@itemslots; // Toutes les autres armes [Stingor]
-		close;
-		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-		mes "Je ne peux pas travailler sur cet équipement.";
-		@mal_equip_id = 0;
-		@mal_enchant_select = 0;
-		next;
-		goto L_menu;
-
-L_Socket:
-		.@select = @mal_enchant_select;
-		.@equip_id = @mal_equip_id;
-		.@equip_refine = getequiprefinerycnt(EQI_HAND_R);
-		setarray .@equip_card[0], getequipcardid(EQI_HAND_R,0), getequipcardid(EQI_HAND_R,1), getequipcardid(EQI_HAND_R,2), getequipcardid(EQI_HAND_R,3);
-		@mal_equip_id = 0;
-		@mal_enchant_select = 0;
 		if( .@select == 1 ) {
+			if( .@freeslot < 1 ) goto L_MaxEnchant;
+
+			.@rname$ = getitemname(.@itembyuid_nameid);
+			if( .@itembyuid_refine > 0 ) .@rname$ = "+"+.@itembyuid_refine+" "+.@rname$;
+
 			clear;
-			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-			mes "^0000ff"+getitemname(.@equip_id)+"^000000! Vous voulez enchanter cette arme ??";
-			.@enccost = getarg(0);
-			.@enclimit = 4 - getarg(1);
-			setarray .@coin[0],6422,6421,6420,6419,6418,6423;	//  Payment ID
-			setarray .@cost[0],  15,  10,   6,   3,   2,   1;	//  Payment multiplier
+			mes .@npc_name$;
+			mes "^0000ff"+mesitemicon(.@itembyuid_nameid)+mesitemlink(.@itembyuid_nameid, false, .@rname$)+"^000000";
+			mes "Il est possible de faire " + (.@freeslot > 1 ? .@freeslot + " enchant." : "encore 1 enchant.");
+
+			setarray .@coin[0], 6422, 6421, 6420, 6419, 6418, 6423; // Payment ID
+			setarray .@cost[0],   15,   10,    6,    3,    2,    1; // Payment multiplier
 
 			.@menu$ = "";
-			.@size_coin = getarraysize(.@coin);
-			for ( .@i = 0; .@i < .@size_coin; ++.@i) {
+			for( .@i = 0; .@i < getarraysize(.@coin); ++.@i) {
+				.@totalcost[.@i] = .@itembyuid_weaponlevel * .@cost[.@i]; // Weapon level * cost
+				if (getgroupid() == 99) getitem .@coin[.@i], .@totalcost[.@i]; // GMs can bypass the cost
 				.@count[.@i] = countitem(.@coin[.@i]);
-				.@total[.@i] = .@enccost * .@cost[.@i];
-				if (.@count[.@i] < .@total[.@i])
-					.@menu$ += "^999999"+getitemname(.@coin[.@i])+" (missing "+(.@total[.@i]-.@count[.@i])+")^000000:";
+				if( .@count[.@i] < .@totalcost[.@i] )
+					.@menu$ += "^999999"+getitemname(.@coin[.@i])+" ["+.@coin[.@i]+"] ^ff0000(missing "+(.@totalcost[.@i]-.@count[.@i])+")^000000:";
 				else
-					.@menu$ += getitemname(.@coin[.@i])+" (have "+.@count[.@i]+", need "+.@total[.@i]+"):";
+					.@menu$ += getitemname(.@coin[.@i])+" ["+.@coin[.@i]+"] (have "+.@count[.@i]+", need "+.@totalcost[.@i]+"):";
 			}
 			.@coin_select = select(.@menu$) - 1;
-			if( .@count[.@coin_select] < .@total[.@coin_select] ) {
+			if( .@count[.@coin_select] < .@totalcost[.@coin_select] ) {
 				clear;
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes .@npc_name$;
 				mes "Pas assez de coins...";
 				next;
 				goto L_menu;
@@ -407,10 +112,10 @@ L_Socket:
 					break;
 				case 4:	// Agrade_Coin
 				case 5:	// Anger_Seagod
-					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-					mes "Si vous utilisez "+getitemname(.@coin[.@coin_select])+", vous pouvez choisir le type d'enchant.";
-					next;
-					switch( select( "Mêlée", "Distance", "Caster") ) {
+					clear;
+					mes .@npc_name$;
+					mes "Si vous utilisez "+mesitemicon(.@coin[.@coin_select])+mesitemlink(.@coin[.@coin_select])+", vous pouvez choisir le type d'enchant.";
+					switch( select( "Mêlée", "Distance", "Caster" ) ) {
 						case 1:
 							.@enchant_type = ((.@coin_select == 4) ? 4 : 1);
 							break;
@@ -423,29 +128,36 @@ L_Socket:
 					}
 					break;
 			}
-			if( .@equip_card[3] == 0 && .@enclimit == 1 ) {
+			if( .@itembyuid_card4 == 0 && .@freeslot == 1 ) {
 				.@socket = 4;
 				.@str$ = "votre seul";
 			}
-			else if( .@equip_card[3] == 0 && .@enclimit >= 2 ) {
-				.@socket = 4;
-				.@str$ = "le 1er";
+			else if( .@freeslot > 0 ) {
+				if( .@itembyuid_card4 == 0 ) {
+					.@socket = 4;
+					.@str$ = "le 1er";
+				}
+				else if( .@itembyuid_card3 == 0 ) {
+					.@socket = 3;
+					.@str$ = "le 2ème";
+				}
+				else if( .@itembyuid_card2 == 0 ) {
+					.@socket = 2;
+					.@str$ = "le 3ème";
+				}
+				else if( .@itembyuid_card1 == 0 ) {
+					.@socket = 1;
+					.@str$ = "le 4ème";
+				}
 			}
-			else if( .@equip_card[2] == 0 && .@enclimit >= 2 ) {
-				.@socket = 3;
-				.@str$ = "le 2nd";
-			}
-			else {
-				clear;
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-				mes "Cette arme est au max d'enchant. Changez d'arme ou retirez les enchants actuels.";
-				close;
-			}
+			else goto L_MaxEnchant;
+
 			clear;
-			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-			mes "Je vais tenter "+.@str$+" enchantement. ^ff0000Le refine et les cards ne seront pas affectés. L'équippement ne sera pas détruit!^000000";
+			mes .@npc_name$;
+			mes "Je vais tenter " + .@str$ + " enchantement.";
+			mes "^ff0000Le refine et les cards ne seront pas affectés. L'équippement ne sera pas détruit!^000000";
 			next;
-			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes .@npc_name$;
 			mes "Alors c'est parti!";
 			switch( .@enchant_type ) {
 				case 10:	// Egrade_Coin
@@ -609,96 +321,79 @@ L_Socket:
 					else .@enchant = 9;
 					break;
 				default:
-					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes .@npc_name$;
 					mes "Un truc qui cloche lol.";
 					close;
 			}
 
-			// anti-hack
-			if (callfunc("F_IsEquipIDHack", EQI_HAND_R, .@equip_id) ||
-				callfunc("F_IsEquipRefineHack", EQI_HAND_R, .@equip_refine) ||
-				callfunc("F_IsEquipCardHack", EQI_HAND_R, .@equip_card[0], .@equip_card[1], .@equip_card[2], .@equip_card[3]))
-				close;
+			if( getd(".@itembyuid_card" + .@socket) == 0 && .@freeslot > 0 )
+				setd(".@itembyuid_card" + .@socket, .@enchant);
+			else
+				goto L_MaxEnchant;
 
-				 if (.@equip_card[3] == 0 && .@enclimit == 1) .@equip_card[3] = .@enchant;
-			else if (.@equip_card[3] == 0 && .@enclimit >= 2) .@equip_card[3] = .@enchant;
-			else if (.@equip_card[2] == 0 && .@enclimit >= 2) .@equip_card[2] = .@enchant;
-			else {
-				clear;
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-				mes "Cette arme est au max d'enchantement !";
-				close;
-			}
 			if( .@enchant == 9 ) {	//  Should never happen.
 				specialeffect2 EF_SUI_EXPLOSION;
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-				mes "Oh my god!";
-				logmes "Enchantement Fail: " + logequip(EQI_HAND_R);
-				delitem .@coin[.@coin_select],.@total[.@coin_select];
-				delequip EQI_HAND_R;
+				clear;
+				mes .@npc_name$;
+				mes "Oh my god! J'ai raté XD!!!!!!!";
+				logmes "Enchantement Fail: " + logequipuid(.@euid$);
+				delitem .@coin[.@coin_select],.@totalcost[.@coin_select];
 				close;
 			}
-			specialeffect2 EF_REPAIRWEAPON;
-			mes "...";
-			mes "J'ai enchanté le ^990000slot "+.@socket+"^000000 de cette arme.";
-			delitem .@coin[.@coin_select], .@total[.@coin_select];
-			.@logmes$ = "Enchantement Arme: " + logequip(EQI_HAND_R) + " -> [Slot #" + .@socket + "] " + getitemname(.@equip_card[.@socket - 1]);
-			npctalk "Houuuah!! "+getitemname(.@equip_id)+" reçois "+getitemname(.@equip_card[.@socket - 1]), "", bc_self;
-			delequip EQI_HAND_R;
-			// GetNonSlotItemSock2 .@equip_refine .@equip_id .@equip_card[0] .@equip_card[1] .@equip_card[2] .@equip_card[3]
-			getitem2 .@equip_id,1,1,.@equip_refine,0,.@equip_card[0],.@equip_card[1],.@equip_card[2],.@equip_card[3];
-			equip .@equip_id;
-			logmes .@logmes$ + " [UID:"+getequipuniqueid(EQI_HAND_R)+"]";
-			close;
+			.@result = alteritem(.@euid$, INVITEMINFO_CARD1 + (.@socket - 1), getd(".@itembyuid_card" + .@socket));
+			switch( .@result ) {
+				case -1:
+					specialeffect2 EF_SUI_EXPLOSION;
+				case 0:
+					clear;
+					mes .@npc_name$;
+					mes "Oh non, il y a eu un problème avec l'enchantement... Contactez un GM pour enquêter ça.";
+					logmes "Enchantement Error ("+.@result+"): " + logequipuid(.@euid$) + " -> [Slot #" + .@socket + "] " + getitemname(getd(".@itembyuid_card" + .@socket));
+					close;
+				case 1:
+					delitem .@coin[.@coin_select], .@totalcost[.@coin_select];
+					specialeffect2 EF_REPAIRWEAPON;
+					npctalk "Houuuah!! " + getitemname(.@itembyuid_nameid) + " reçois "+getitemname(getd(".@itembyuid_card" + .@socket)), "", bc_self;
+					clear;
+					mes .@npc_name$;
+					mes "Enchantement réussi! Je suis vraiment doué hein?";
+					mes "J'ai enchanté le ^990000slot " + .@socket + "^000000 de cette arme.";
+					logmes "Enchantement Arme: " + logequipuid(.@euid$) + " -> [Slot #" + .@socket + "] " + getitemname(getd(".@itembyuid_card" + .@socket));
+					close;
+			}
 		}
 		else if( .@select == 2 ) {
 			clear;
-			if( .@equip_card[3] == 0 ) {
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes .@npc_name$;
+			if( .@itembyuid_card4 == 0 ) {
 				mes "Aucun enchantement n'est présent sur cette arme.";
-				close;
+				next;
+				goto L_menu;
 			}
-			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 			mes "Je peux retirer l'enchantement sans toucher au ^ff0000 refine et les cards. L'équippement ne sera pas détruit!^000000";
-			next;
-			if( select( "Non merci...", "Payer 150000z" ) == 1 ) {
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			if( select( "Non merci...", "Payer les ^ff0000150.000^000000 zenys" ) == 1 ) {
+				clear;
+				mes .@npc_name$;
 				mes "Oh ok.";
 				next;
 				goto L_menu;
 			}
 			if( Zeny < 150000 ) {
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				clear;
+				mes .@npc_name$;
 				mes "Désolé mais tu n'as pas l'argent nécessaire!";
 				close;
 			}
-			if( !getequipisequiped(EQI_HAND_R) ) {
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-				mes "Mais attend t'as pas d'arme en faite!?";
-				close;
-			}
-			specialeffect2 EF_REPAIRWEAPON;
-			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-			mes "L'enchantement est maintenant retiré.";
 			Zeny -= 150000;
-
-			// anti-hack
-			if( callfunc("F_IsEquipIDHack", EQI_HAND_R, .@equip_id) ||
-				callfunc("F_IsEquipRefineHack", EQI_HAND_R, .@equip_refine) ||
-				callfunc("F_IsEquipCardHack", EQI_HAND_R, .@equip_card[0], .@equip_card[1], .@equip_card[2], .@equip_card[3]) )
-				close;
-
-			.@logmes$ = "Enchantement Reset: " + logequip(EQI_HAND_R);
-			delequip EQI_HAND_R;
-
-			// GetNonSlotItemSock2 .@equip_refine .@equip_id .@equip_card[0] .@equip_card[1] .@equip_card[2] .@equip_card[3]
-			for( .@i = getiteminfo(.@equip_id,10); .@i < MAX_SLOTS; .@i++ ) {
-				if( callfunc("F_IsCharm",.@equip_card[.@i]) == true )
-					.@equip_card[.@i] = 0;// Armor Enchant System
+			clear;
+			mes .@npc_name$;
+			mes "Les enchantements sont retirés.";
+			specialeffect2 EF_SPELLBREAKER;
+			for( .@i = 0; .@i < MAX_SLOTS; ++.@i ) {
+				if( getiteminfo(getd(".@itembyuid_card" + (.@i + 1)), ITEMINFO_SUBTYPE) == CARD_ENCHANT )
+					alteritem(.@euid$, INVITEMINFO_CARD1 + .@i, 0);
 			}
-			getitem2 .@equip_id,1,1,.@equip_refine,0,.@equip_card[0],.@equip_card[1],.@equip_card[2],.@equip_card[3];
-			equip .@equip_id;
-			logmes .@logmes$ + " [UID:"+getequipuniqueid(EQI_HAND_R)+"]";
+			logmes "Enchantements Reset: " + logequipuid(.@euid$);
 			next;
 			goto L_menu;
 		}
@@ -708,19 +403,19 @@ L_fastoff:
 		if( Zeny >= 400000 ) {
 			if( !@fastenchant ) {
 				@menufastench$ = "Activer le fast enchant";
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes .@npc_name$;
 				mes "Je recherche des moyens d'améliorer les armures en renforçant leurs pouvoirs.";
 				next;
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes .@npc_name$;
 				mes "J'ai développé une compétence extraordinaire qui permet d'insuffler dans les slots d'une armure un pouvoir permettant de développer certaines statistiques.";
 				next;
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes .@npc_name$;
 				mes "Mais si vous voulez utiliser mes services, vous devrez bien garder à l'esprit que si vous avez deux armures du même type dans votre inventaire, seule la première sera enchantée.";
 				next;
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes .@npc_name$;
 				mes "Et dans ce cas, ça pourrait vouloir dire que l'armure que vous ne vouliez pas pourrait être enchantée à la place de la bonne. Alors si vous ne voulez pas risquer que ça arrive, ne portez sur vous ^5555ffqu'un seul exemplaire^000000 de l'armure que vous désirez enchanter...";
 				next;
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes .@npc_name$;
 				mes "Je ne serai pas responsable de ce qui pourrait arriver si vous en aviez plusieurs du même type dans votre inventaire.";
 				next;
 			}
@@ -764,10 +459,10 @@ L_faston:
 			end;
 		}
 		else {
-			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes .@npc_name$;
 			mes "J'ai pour tâche d'enchanter les armures. Pour le dire simplement, j'étudie le moyen de les améliorer.";
 			next;
-			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes .@npc_name$;
 			mes "Si jamais vous vouliez enchanter votre armure, il faudrait que vous m'apportiez 400,000 zenys ainsi que l'armure que sur laquelle vous voudriez que je travaille, et je m'y mettrai.";
 			close;
 		}
@@ -779,23 +474,23 @@ S_EnchantArmor:
 		.@failrate = getarg(1);
 		.@supzeny = 600000;
 		if( countitem(.@itemid) == 1 && !getequipcardcnt(EQI_ARMOR) && getequipid(EQI_ARMOR) == .@itemid ) {
-			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-			
+			mes .@npc_name$;
+
 			if( !@fastenchant ) {
 				mes "L'enchantement des armures coûte 400,000 zenys. Le bonus généré est aléatoire, et bien sûr il y a une chance pour cela échoue et que votre armure soit détruite.";
 				next;
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes .@npc_name$;
 				mes "Tout d'abord, et avant tout, ^ff5555le Taux de Raffinage actuel de l'armure ainsi que les Cartes qui y sont attachées seront perdues.^000000";
 				mes "Voulez-vous enchanter votre armure malgré cela?";
 				if( select("Hum... Je vais y réfléchir.:Allez-y.") == 1 ) {
 					clear;
-					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes .@npc_name$;
 					mes "Eh bien, je dois dire que je comprends. La sécurité d'abord, hein?";
 					mes "Passez une bonne "+ ( isday() ? "journée" : "soirée" ) +".";
 					close;
 				}
 				clear;
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes .@npc_name$;
 				mes "Bon avec un petit pot de vin de ^5555ff600.000z^000000 supplementaire, je peux vous garantir un enchantement.";
 				mes "Ca vous interesse ?";
 			}
@@ -807,7 +502,7 @@ S_EnchantArmor:
 
 			if( Zeny < (400000 + .@supzeny) ) {
 				clear;
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes .@npc_name$;
 				mes "Oh, désolé mais vous n'avez pas assez de Zenys sur vous!";
 				close;
 			}
@@ -862,7 +557,7 @@ L_rerand:
 					if( .@supzeny == 600000 )
 						goto L_rerand;
 					specialeffect2 EF_PHARMACY_FAIL;
-					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes .@npc_name$;
 					mes "Oh, quel dommage! Je n'ai pas pu enchanter l'armure comme vous le vouliez.";
 					logmes "Enchantement Armor fail: " + logequip(EQI_ARMOR);
 					close;
@@ -877,13 +572,19 @@ L_rerand:
 				end;
 		}
 		else {
-			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes .@npc_name$;
 			mes "Hein? Mais qu'est-ce que vous voulez que j'enchante?";
 			mes	"Revenez avec un, et un seul exemplaire de l'armure sur laquelle je devrai travailler et equippez là!";
 			mes	"Retirez aussi la card bon sang!!";
 			close;
 		}
 	}
+L_MaxEnchant:
+	clear;
+	mes .@npc_name$;
+	mes "Cette arme est au max d'enchant.";
+	next;
+	goto L_menu;
 }
 
 malangdo,213,167,4	duplicate(enchant_gon)	Mayomayo::malangdodup	4_CAT_3COLOR
