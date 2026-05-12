@@ -690,3 +690,395 @@ BUILDIN_FUNC(getmapdisplayname)
 	script_pushconststr(st, display ? display : "");
 	return SCRIPT_CMD_SUCCESS;
 }
+
+/* getuidlist("<unique_id>"{, <char_id>})
+ * Finds an item in the player's inventory by its unique_id (as string).
+ * Populates @itembyuid_* scalar variables with all fields of the item.
+ * Returns 1 if found, 0 if not found.
+ */
+BUILDIN_FUNC(getuidlist)
+{
+	TBL_PC *sd;
+	if (!script_accid2sd(3, sd)) {
+		script_pushint(st, 0);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	const char* uid_str = script_getstr(st, 2);
+	uint64 uid = (uint64)strtoull(uid_str, nullptr, 10);
+	if (uid == 0) {
+		ShowError("buildin_getuidlist: invalid unique_id \"%s\"\n", uid_str);
+		script_pushint(st, 0);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	for (int32 i = 0; i < MAX_INVENTORY; i++) {
+		struct item *it = &sd->inventory.u.items_inventory[i];
+		if (it->nameid == 0 || it->unique_id != uid)
+			continue;
+
+		setd_sub_num(st, nullptr, ".@itembyuid_nameid", 0, it->nameid, nullptr);
+		setd_sub_num(st, nullptr, ".@itembyuid_idx",    0, i,           nullptr);
+		setd_sub_num(st, nullptr, ".@itembyuid_amount", 0, it->amount,  nullptr);
+		setd_sub_num(st, nullptr, ".@itembyuid_equip",  0, it->equip,   nullptr);
+		setd_sub_num(st, nullptr, ".@itembyuid_refine", 0, it->refine,  nullptr);
+		setd_sub_num(st, nullptr, ".@itembyuid_identify",    0, it->identify,    nullptr);
+		setd_sub_num(st, nullptr, ".@itembyuid_attribute",   0, it->attribute,   nullptr);
+		setd_sub_num(st, nullptr, ".@itembyuid_expire",      0, it->expire_time, nullptr);
+		setd_sub_num(st, nullptr, ".@itembyuid_bound",       0, it->bound,       nullptr);
+		setd_sub_num(st, nullptr, ".@itembyuid_enchantgrade",0, it->enchantgrade,nullptr);
+		setd_sub_num(st, nullptr, ".@itembyuid_tradable",    0, pc_can_trade_item(sd, i), nullptr);
+		setd_sub_num(st, nullptr, ".@itembyuid_favorite",    0, it->favorite,    nullptr);
+		for (int32 k = 0; k < MAX_SLOTS; k++) {
+			char var[NAME_LENGTH];
+			sprintf(var, ".@itembyuid_card%d", k + 1);
+			setd_sub_num(st, nullptr, var, 0, it->card[k], nullptr);
+		}
+		for (int32 k = 0; k < MAX_ITEM_RDM_OPT; k++) {
+			char var[50];
+			sprintf(var, ".@itembyuid_option_id%d", k + 1);
+			setd_sub_num(st, nullptr, var, 0, it->option[k].id, nullptr);
+			sprintf(var, ".@itembyuid_option_value%d", k + 1);
+			setd_sub_num(st, nullptr, var, 0, it->option[k].value, nullptr);
+			sprintf(var, ".@itembyuid_option_parameter%d", k + 1);
+			setd_sub_num(st, nullptr, var, 0, it->option[k].param, nullptr);
+		}
+
+		// Static DB fields
+		std::shared_ptr<item_data> id = item_db.find(it->nameid);
+		if (id) {
+			setd_sub_num(st, nullptr, ".@itembyuid_type",        0, id->type,         nullptr);
+			setd_sub_num(st, nullptr, ".@itembyuid_subtype",     0, id->subtype,       nullptr);
+			setd_sub_num(st, nullptr, ".@itembyuid_position",    0, id->equip,         nullptr);
+			setd_sub_num(st, nullptr, ".@itembyuid_slot",        0, id->slots,         nullptr);
+			if (id->type == IT_WEAPON)
+				setd_sub_num(st, nullptr, ".@itembyuid_weaponlevel", 0, id->weapon_level, nullptr);
+			if (id->type == IT_ARMOR)
+				setd_sub_num(st, nullptr, ".@itembyuid_armorlevel",  0, id->armor_level,  nullptr);
+			setd_sub_num(st, nullptr, ".@itembyuid_equiplvlmin", 0, id->elv,           nullptr);
+			setd_sub_num(st, nullptr, ".@itembyuid_equiplvlmax", 0, id->elvmax,        nullptr);
+			setd_sub_num(st, nullptr, ".@itembyuid_weight",      0, id->weight,        nullptr);
+			setd_sub_num(st, nullptr, ".@itembyuid_atk",         0, id->atk,           nullptr);
+			setd_sub_num(st, nullptr, ".@itembyuid_def",         0, id->def,           nullptr);
+#ifdef RENEWAL
+			setd_sub_num(st, nullptr, ".@itembyuid_matk",        0, id->matk,          nullptr);
+#endif
+		}
+
+		script_pushint(st, 1);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	script_pushint(st, 0);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/* arraypush <array>, <value1>{, <value2>...}
+ * Appends one or more values at the end of an array.
+ */
+BUILDIN_FUNC(arraypush)
+{
+	struct script_data *data = script_getdata(st, 2);
+	if (!data_isreference(data)) {
+		ShowError("script:arraypush: not a variable\n");
+		script_reportdata(data);
+		st->state = END;
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	const char* name = reference_getname(data);
+	struct reg_db *ref = reference_getref(data);
+	int32 id = reference_getid(data);
+	map_session_data* sd = nullptr;
+
+	if (not_server_variable(*name) && !script_rid2sd(sd))
+		return SCRIPT_CMD_FAILURE;
+
+	uint32 idx = script_array_highest_key(st, sd, name, ref);
+
+	if (is_string_variable(name)) {
+		for (int32 i = 3; i <= script_lastdata(st) && idx < SCRIPT_MAX_ARRAYSIZE; i++, idx++)
+			set_reg_str(st, sd, reference_uid(id, idx), name, script_getstr(st, i), ref);
+	} else {
+		for (int32 i = 3; i <= script_lastdata(st) && idx < SCRIPT_MAX_ARRAYSIZE; i++, idx++)
+			set_reg_num(st, sd, reference_uid(id, idx), name, script_getnum64(st, i), ref);
+	}
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/* arraypop <array>
+ * Removes the last element of an array and returns its value.
+ * Returns 0 or "" if the array is empty.
+ */
+BUILDIN_FUNC(arraypop)
+{
+	struct script_data *data = script_getdata(st, 2);
+	if (!data_isreference(data)) {
+		ShowError("script:arraypop: not a variable\n");
+		script_reportdata(data);
+		st->state = END;
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	const char* name = reference_getname(data);
+	struct reg_db *ref = reference_getref(data);
+	int32 id = reference_getid(data);
+	map_session_data* sd = nullptr;
+
+	if (not_server_variable(*name) && !script_rid2sd(sd))
+		return SCRIPT_CMD_FAILURE;
+
+	uint32 size = script_array_highest_key(st, sd, name, ref);
+	if (size == 0) {
+		if (is_string_variable(name))
+			script_pushconststr(st, "");
+		else
+			script_pushint(st, 0);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	uint32 last = size - 1;
+	int64 uid = reference_uid(id, last);
+
+	if (is_string_variable(name)) {
+		const char* val = get_val2_str(st, uid, ref);
+		script_pushstrcopy(st, val);
+		script_removetop(st, -2, -1);
+		set_reg_str(st, sd, uid, name, "", ref);
+	} else {
+		int64 val = get_val2_num(st, uid, ref);
+		script_removetop(st, -1, 0);
+		script_pushint(st, val);
+		set_reg_num(st, sd, uid, name, 0, ref);
+	}
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/* getiteminfobyuid("<unique_id>", <type>{, <char_id>})
+ * Returns a single field from the inventory item matching the given unique_id.
+ * Use INVITEMINFO_* constants for <type>.
+ * Returns -1 if the item is not found or the type is invalid.
+ */
+BUILDIN_FUNC(getiteminfobyuid)
+{
+	TBL_PC *sd;
+	if (!script_accid2sd(4, sd)) {
+		script_pushint(st, -1);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	const char* uid_str = script_getstr(st, 2);
+	uint64 uid = (uint64)strtoull(uid_str, nullptr, 10);
+	if (uid == 0) {
+		ShowError("buildin_getiteminfobyuid: invalid unique_id \"%s\"\n", uid_str);
+		script_pushint(st, -1);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	int32 type = script_getnum(st, 3);
+
+	for (int32 i = 0; i < MAX_INVENTORY; i++) {
+		struct item *it = &sd->inventory.u.items_inventory[i];
+		if (it->nameid == 0 || it->unique_id != uid)
+			continue;
+
+		switch ((e_inviteminfo)type) {
+			case INVITEMINFO_NAMEID:       script_pushint(st, it->nameid); break;
+			case INVITEMINFO_IDX:          script_pushint(st, i); break;
+			case INVITEMINFO_AMOUNT:       script_pushint(st, it->amount); break;
+			case INVITEMINFO_EQUIP:        script_pushint(st, it->equip); break;
+			case INVITEMINFO_REFINE:       script_pushint(st, it->refine); break;
+			case INVITEMINFO_IDENTIFY:     script_pushint(st, it->identify); break;
+			case INVITEMINFO_ATTRIBUTE:    script_pushint(st, it->attribute); break;
+			case INVITEMINFO_EXPIRE:       script_pushint(st, it->expire_time); break;
+			case INVITEMINFO_BOUND:        script_pushint(st, it->bound); break;
+			case INVITEMINFO_ENCHANTGRADE: script_pushint(st, it->enchantgrade); break;
+			case INVITEMINFO_TRADABLE:     script_pushint(st, pc_can_trade_item(sd, i)); break;
+			case INVITEMINFO_FAVORITE:     script_pushint(st, it->favorite); break;
+			case INVITEMINFO_CARD1:        script_pushint(st, it->card[0]); break;
+			case INVITEMINFO_CARD2:        script_pushint(st, it->card[1]); break;
+			case INVITEMINFO_CARD3:        script_pushint(st, it->card[2]); break;
+			case INVITEMINFO_CARD4:        script_pushint(st, it->card[3]); break;
+			case INVITEMINFO_OPTION_ID1:    script_pushint(st, it->option[0].id); break;
+			case INVITEMINFO_OPTION_VALUE1: script_pushint(st, it->option[0].value); break;
+			case INVITEMINFO_OPTION_PARAM1: script_pushint(st, it->option[0].param); break;
+			case INVITEMINFO_OPTION_ID2:    script_pushint(st, it->option[1].id); break;
+			case INVITEMINFO_OPTION_VALUE2: script_pushint(st, it->option[1].value); break;
+			case INVITEMINFO_OPTION_PARAM2: script_pushint(st, it->option[1].param); break;
+			case INVITEMINFO_OPTION_ID3:    script_pushint(st, it->option[2].id); break;
+			case INVITEMINFO_OPTION_VALUE3: script_pushint(st, it->option[2].value); break;
+			case INVITEMINFO_OPTION_PARAM3: script_pushint(st, it->option[2].param); break;
+			case INVITEMINFO_OPTION_ID4:    script_pushint(st, it->option[3].id); break;
+			case INVITEMINFO_OPTION_VALUE4: script_pushint(st, it->option[3].value); break;
+			case INVITEMINFO_OPTION_PARAM4: script_pushint(st, it->option[3].param); break;
+			case INVITEMINFO_OPTION_ID5:    script_pushint(st, it->option[4].id); break;
+			case INVITEMINFO_OPTION_VALUE5: script_pushint(st, it->option[4].value); break;
+			case INVITEMINFO_OPTION_PARAM5: script_pushint(st, it->option[4].param); break;
+			default:
+				ShowError("buildin_getiteminfobyuid: unknown type %d\n", type);
+				script_pushint(st, -1);
+				return SCRIPT_CMD_FAILURE;
+		}
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	script_pushint(st, -1);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/* alteritem("<unique_id>", <INVITEMINFO_*>, <value>{, <char_id>})
+ * Modifies a single field of an inventory item identified by its unique_id.
+ * Uses INVITEMINFO_* constants to select the field.
+ * Handles equip/unequip cycle automatically if item is currently equipped.
+ * Returns 1 on success, 0 if uid not found, -1 if field is not modifiable.
+ */
+BUILDIN_FUNC(alteritem)
+{
+	TBL_PC *sd;
+	if (!script_accid2sd(5, sd)) {
+		script_pushint(st, 0);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	const char* uid_str = script_getstr(st, 2);
+	uint64 uid = (uint64)strtoull(uid_str, nullptr, 10);
+	if (uid == 0) {
+		ShowError("buildin_alteritem: invalid unique_id \"%s\"\n", uid_str);
+		script_pushint(st, 0);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	e_inviteminfo type = (e_inviteminfo)script_getnum(st, 3);
+	int64 value = script_getnum(st, 4);
+
+	for (int32 i = 0; i < MAX_INVENTORY; i++) {
+		struct item *it = &sd->inventory.u.items_inventory[i];
+		if (it->nameid == 0 || it->unique_id != uid)
+			continue;
+
+		uint32 ep = it->equip;
+		if (ep) {
+			pc_unequipitem(sd, i, 2);
+			clif_delitem(*sd, i, 1, 3);
+		}
+
+		switch (type) {
+			case INVITEMINFO_REFINE:       it->refine       = (char)cap_value(value, 0, MAX_REFINE); break;
+			case INVITEMINFO_IDENTIFY:     it->identify     = (char)cap_value(value, 0, 1);          break;
+			case INVITEMINFO_ATTRIBUTE:    it->attribute    = (char)cap_value(value, 0, 1);          break;
+			case INVITEMINFO_BOUND:        it->bound        = (char)cap_value(value, 0, 4);          break;
+			case INVITEMINFO_ENCHANTGRADE: it->enchantgrade = (uint8)cap_value(value, 0, 4);         break;
+			case INVITEMINFO_FAVORITE:     it->favorite     = (char)cap_value(value, 0, 1);          break;
+			case INVITEMINFO_CARD1:        it->card[0]      = (t_itemid)value; break;
+			case INVITEMINFO_CARD2:        it->card[1]      = (t_itemid)value; break;
+			case INVITEMINFO_CARD3:        it->card[2]      = (t_itemid)value; break;
+			case INVITEMINFO_CARD4:        it->card[3]      = (t_itemid)value; break;
+			case INVITEMINFO_OPTION_ID1:    it->option[0].id    = (int16)value; break;
+			case INVITEMINFO_OPTION_VALUE1: it->option[0].value = (int16)value; break;
+			case INVITEMINFO_OPTION_PARAM1: it->option[0].param = (char)value;  break;
+			case INVITEMINFO_OPTION_ID2:    it->option[1].id    = (int16)value; break;
+			case INVITEMINFO_OPTION_VALUE2: it->option[1].value = (int16)value; break;
+			case INVITEMINFO_OPTION_PARAM2: it->option[1].param = (char)value;  break;
+			case INVITEMINFO_OPTION_ID3:    it->option[2].id    = (int16)value; break;
+			case INVITEMINFO_OPTION_VALUE3: it->option[2].value = (int16)value; break;
+			case INVITEMINFO_OPTION_PARAM3: it->option[2].param = (char)value;  break;
+			case INVITEMINFO_OPTION_ID4:    it->option[3].id    = (int16)value; break;
+			case INVITEMINFO_OPTION_VALUE4: it->option[3].value = (int16)value; break;
+			case INVITEMINFO_OPTION_PARAM4: it->option[3].param = (char)value;  break;
+			case INVITEMINFO_OPTION_ID5:    it->option[4].id    = (int16)value; break;
+			case INVITEMINFO_OPTION_VALUE5: it->option[4].value = (int16)value; break;
+			case INVITEMINFO_OPTION_PARAM5: it->option[4].param = (char)value;  break;
+			default:
+				if (ep) {
+					clif_additem(sd, i, 1, 0);
+					pc_equipitem(sd, i, ep);
+				}
+				script_pushint(st, -1);
+				return SCRIPT_CMD_SUCCESS;
+		}
+
+		log_pick_pc(sd, LOG_TYPE_SCRIPT, 1, it);
+		clif_additem(sd, i, 1, 0);
+		if (ep)
+			pc_equipitem(sd, i, ep);
+
+		script_pushint(st, 1);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	script_pushint(st, 0);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/* equipuid("<unique_id>"{, <char_id>})
+ * Equips an item from the player's inventory identified by its unique_id (as string).
+ * Returns 1 on success, 0 if not found, -1 if equip failed.
+ */
+BUILDIN_FUNC(equipuid)
+{
+	TBL_PC *sd;
+	if (!script_accid2sd(3, sd)) {
+		script_pushint(st, 0);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	const char* uid_str = script_getstr(st, 2);
+	uint64 uid = (uint64)strtoull(uid_str, nullptr, 10);
+	if (uid == 0) {
+		ShowError("buildin_equipuid: invalid unique_id \"%s\"\n", uid_str);
+		script_pushint(st, 0);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	for (int32 i = 0; i < MAX_INVENTORY; i++) {
+		struct item *it = &sd->inventory.u.items_inventory[i];
+		if (it->nameid == 0 || it->unique_id != uid)
+			continue;
+
+		std::shared_ptr<item_data> id = item_db.find(it->nameid);
+		if (!id) {
+			script_pushint(st, -1);
+			return SCRIPT_CMD_SUCCESS;
+		}
+
+		script_pushint(st, pc_equipitem(sd, i, id->equip) ? 1 : -1);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	script_pushint(st, 0);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/* delitembyuid("<unique_id>"{, <char_id>})
+ * Deletes an item from the player's inventory identified by its unique_id (as string).
+ * Returns nothing. Logs an error if the item is not found.
+ */
+BUILDIN_FUNC(delitembyuid)
+{
+	TBL_PC *sd;
+	if (!script_accid2sd(3, sd)) {
+		st->state = END;
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	const char* uid_str = script_getstr(st, 2);
+	uint64 uid = (uint64)strtoull(uid_str, nullptr, 10);
+	if (uid == 0) {
+		ShowError("buildin_delitembyuid: invalid unique_id \"%s\"\n", uid_str);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	for (int32 i = 0; i < MAX_INVENTORY; i++) {
+		struct item *it = &sd->inventory.u.items_inventory[i];
+		if (it->nameid == 0)
+			continue;
+		if (it->unique_id == uid) {
+			pc_delitem(sd, i, it->amount, 0, 0, LOG_TYPE_SCRIPT);
+			return SCRIPT_CMD_SUCCESS;
+		}
+	}
+
+	ShowError("buildin_delitembyuid: item with unique_id \"%s\" not found in inventory of player '%s'\n",
+		uid_str, sd->status.name);
+	return SCRIPT_CMD_FAILURE;
+}
