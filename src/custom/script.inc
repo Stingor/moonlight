@@ -957,10 +957,6 @@ BUILDIN_FUNC(alteritem)
 			continue;
 
 		uint32 ep = it->equip;
-		if (ep) {
-			pc_unequipitem(sd, i, 2);
-			clif_delitem(*sd, i, 1, 3);
-		}
 
 		switch (type) {
 			case INVITEMINFO_REFINE:       it->refine       = (char)cap_value(value, 0, MAX_REFINE); break;
@@ -989,18 +985,14 @@ BUILDIN_FUNC(alteritem)
 			case INVITEMINFO_OPTION_VALUE5: it->option[4].value = (int16)value; break;
 			case INVITEMINFO_OPTION_PARAM5: it->option[4].param = (char)value;  break;
 			default:
-				if (ep) {
-					clif_additem(sd, i, 1, 0);
-					pc_equipitem(sd, i, ep);
-				}
 				script_pushint(st, -1);
 				return SCRIPT_CMD_SUCCESS;
 		}
 
 		log_pick_pc(sd, LOG_TYPE_SCRIPT, 1, it);
-		clif_additem(sd, i, 1, 0);
+		clif_equiplist(sd);
 		if (ep)
-			pc_equipitem(sd, i, ep);
+			status_calc_pc(sd, SCO_FORCE);
 
 		script_pushint(st, 1);
 		return SCRIPT_CMD_SUCCESS;
