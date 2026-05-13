@@ -992,7 +992,6 @@ BUILDIN_FUNC(getiteminfobyuid)
 /* alteritem("<unique_id>", <INVITEMINFO_*>, <value>{, <char_id>})
  * Modifies a single field of an inventory item identified by its unique_id.
  * Uses INVITEMINFO_* constants to select the field.
- * Handles equip/unequip cycle automatically if item is currently equipped.
  * Returns 1 on success, 0 if uid not found, -1 if field is not modifiable.
  */
 BUILDIN_FUNC(alteritem)
