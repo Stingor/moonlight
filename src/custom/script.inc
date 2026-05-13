@@ -691,6 +691,69 @@ BUILDIN_FUNC(getmapdisplayname)
 	return SCRIPT_CMD_SUCCESS;
 }
 
+/* isinitemgroup(<item_id>, <group_id>)
+ * Returns 1 if the given item ID is present in any sub-group of the item group,
+ * 0 if not found, -1 if the group does not exist.
+ */
+BUILDIN_FUNC(isinitemgroup)
+{
+	t_itemid nameid  = (t_itemid)script_getnum(st, 2);
+	uint16   group_id = (uint16)script_getnum(st, 3);
+
+	std::shared_ptr<s_item_group_db> group = itemdb_group.find(group_id);
+	if (!group) {
+		script_pushint(st, -1);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	for (const auto& random_pair : group->random) {
+		for (const auto& entry_pair : random_pair.second->data) {
+			if (entry_pair.second->nameid == nameid) {
+				script_pushint(st, entry_pair.second->rate);
+				return SCRIPT_CMD_SUCCESS;
+			}
+		}
+	}
+
+	script_pushint(st, 0);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/* itemlinkuid("<unique_id>"{, <char_id>})
+ * Returns an itemlink string for the inventory item matching the given unique_id.
+ * Encodes all instance data (refine, cards, enchantgrade, options) like itemlink().
+ * Returns "" if not found.
+ */
+BUILDIN_FUNC(itemlinkuid)
+{
+	TBL_PC *sd;
+	if (!script_accid2sd(3, sd)) {
+		script_pushconststr(st, "");
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	const char* uid_str = script_getstr(st, 2);
+	uint64 uid = (uint64)strtoull(uid_str, nullptr, 10);
+	if (uid == 0) {
+		ShowError("buildin_itemlinkuid: invalid unique_id \"%s\"\n", uid_str);
+		script_pushconststr(st, "");
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	for (int32 i = 0; i < MAX_INVENTORY; i++) {
+		struct item *it = &sd->inventory.u.items_inventory[i];
+		if (it->nameid == 0 || it->unique_id != uid)
+			continue;
+
+		std::string link = item_db.create_item_link(*it);
+		script_pushstrcopy(st, link.c_str());
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	script_pushconststr(st, "");
+	return SCRIPT_CMD_SUCCESS;
+}
+
 /* getuidlist("<unique_id>"{, <char_id>})
  * Finds an item in the player's inventory by its unique_id (as string).
  * Populates @itembyuid_* scalar variables with all fields of the item.

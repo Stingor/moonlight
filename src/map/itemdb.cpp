@@ -1355,8 +1355,8 @@ std::string ItemDatabase::create_item_link(struct item& item, std::shared_ptr<it
 		}
 
 		itemstr += closing_tag;
-		if ((itemdb_isequip2(id)) && (data->slots == 0))
-			itemstr += " [" + std::to_string(data->slots) + "]";
+		//if ((itemdb_isequip2(id)) && (data->slots == 0))
+		//	itemstr += " [" + std::to_string(data->slots) + "]";
 
 		return itemstr;
 	}

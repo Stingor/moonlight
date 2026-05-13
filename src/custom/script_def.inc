@@ -36,6 +36,8 @@
 	BUILDIN_DEF2(storagecountitem,"storagecountitem2","viiiiiii?"),
 	BUILDIN_DEF(instance_create,"s????"),
 	BUILDIN_DEF(getmapdisplayname,"s"),
+	BUILDIN_DEF(isinitemgroup,"ii"),
+	BUILDIN_DEF(itemlinkuid,"s?"),
 	BUILDIN_DEF(arraypush,"rv*"),
 	BUILDIN_DEF(arraypop,"r"),
 	BUILDIN_DEF(getuidlist,"?"),

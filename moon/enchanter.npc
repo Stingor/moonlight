@@ -1,24 +1,5 @@
-//Le Livre d'Ymir http://www.bookofymir.net/
-//traduit par No Healing
 //===== rAthena Script =======================================
-//= Armor Enchanter
-//===== By: ==================================================
-//= L0ne_W0lf
-//===== Current Version: =====================================
-//= 2.0
-//===== Compatible With: =====================================
-//= rAthena Project
-//===== Description: =========================================
-//= [Official Conversion]
-//= Add a +1, +2, or +3 random stat to a specified armor.
-//===== Additional Comments: =================================
-//= 1.0 First version.
-//= 1.1 Corrected typo (Sit -> Suit) (bugreport:4586)
-//= 1.2 Optimized. [Euphy]
-//= 1.3 Fixed some typos and optimized a little more. [Daegaladh]
-//= 1.3a Added 'disable_items' command. [Euphy]
-//= 1.4 Option 100% enchant + lastenchant [Stingor]
-//= 2.0 Logging update [Stingor]
+//= Enchanter
 //============================================================
 
 gon_in,99,23,3	script	Mayomayo::enchant_gon	4_CAT_3COLOR,{
@@ -44,11 +25,13 @@ gon_in,99,23,3	script	Mayomayo::enchant_gon	4_CAT_3COLOR,{
 			close;
 		}
 L_menu:
+		clear;
 		mes "Bienvenu.";
 		mes "Je permet l'enchantement d'armes.";
+
 		.@euid$ = getequipuniqueid(EQI_HAND_R);
 		if( .@euid$ == "" ) {
-			mes "^FF0000Mais pour ça faut encore en avoir une d'équippée.";
+			mes "^FF0000Mais pour ça faut encore en avoir une d'équippée (en main droite).";
 			close;
 		}
 
@@ -57,328 +40,471 @@ L_menu:
 			mes "^FF0000Mais pour ce faire il faut de la place libre sur l'arme, une arme à 4 slot de card ne peux pas être enchantée.";
 			close;
 		}
-
-		.@select = select( "Je veux enchanter mon arme", "Je veux ré-initialiser mon enchant - 150000z" );
 		.@freeslot = 4 - .@itembyuid_slot;
 		for( .@i = 0; .@i < MAX_SLOTS; ++.@i ) {
 			if (getiteminfo(getd(".@itembyuid_card" + (.@i + 1)), ITEMINFO_SUBTYPE) == CARD_ENCHANT)
 				.@freeslot--;
 		}
+		.@menuopt1$ = (.@freeslot < 1 ? "Reroll un de mes enchant" : "");
+		.@menuopt2$ = (.@freeslot > 0 ? "Je veux enchanter mon arme" : "");
+		.@selected = 0;
+		.@menu$ = "";
 
-		if( .@select == 1 ) {
-			if( .@freeslot < 1 ) goto L_MaxEnchant;
-
-			.@rname$ = getitemname(.@itembyuid_nameid);
-			if( .@itembyuid_refine > 0 ) .@rname$ = "+"+.@itembyuid_refine+" "+.@rname$;
-
-			clear;
-			mes .@npc_name$;
-			mes "^0000ff"+mesitemicon(.@itembyuid_nameid)+mesitemlink(.@itembyuid_nameid, false, .@rname$)+"^000000";
-			mes "Il est possible de faire " + (.@freeslot > 1 ? .@freeslot + " enchant." : "encore 1 enchant.");
-
-			setarray .@coin[0], 6422, 6421, 6420, 6419, 6418, 6423; // Payment ID
-			setarray .@cost[0],   15,   10,    6,    3,    2,    1; // Payment multiplier
-
-			.@menu$ = "";
-			for( .@i = 0; .@i < getarraysize(.@coin); ++.@i) {
-				.@totalcost[.@i] = .@itembyuid_weaponlevel * .@cost[.@i]; // Weapon level * cost
-				if (getgroupid() == 99) getitem .@coin[.@i], .@totalcost[.@i]; // GMs can bypass the cost
-				.@count[.@i] = countitem(.@coin[.@i]);
-				if( .@count[.@i] < .@totalcost[.@i] )
-					.@menu$ += "^999999"+getitemname(.@coin[.@i])+" ["+.@coin[.@i]+"] ^ff0000(missing "+(.@totalcost[.@i]-.@count[.@i])+")^000000:";
-				else
-					.@menu$ += getitemname(.@coin[.@i])+" ["+.@coin[.@i]+"] (have "+.@count[.@i]+", need "+.@totalcost[.@i]+"):";
+		switch (select( .@menuopt1$, .@menuopt2$, "Je veux ré-initialiser mon enchant - ^ff0000150.000^000000 zenys")) {
+		case 1: // reroll a specific enchant slot
+			for (.@i = 0; .@i < MAX_SLOTS; ++.@i) {
+				if (getiteminfo(getd(".@itembyuid_card" + (.@i + 1)), ITEMINFO_SUBTYPE) == CARD_ENCHANT)
+					.@menu$ += "Reroll " + getitemname(getd(".@itembyuid_card" + (.@i + 1))) + " (" + (.@i + 1) + "ème slot):";
 			}
+			.@selected = select(.@menu$);
+			mes "Êtes-vous sûr de vouloir reroll";
+			mes mesitemicon(getd(".@itembyuid_card" + .@selected)) + mesitemlink(getd(".@itembyuid_card" + .@selected)) + "  de votre arme?";
+			if (select("Non", "Oui") == 1) goto L_menu;
+		case 2: // add an enchant on a free slot
+			if (.@freeslot < 1 && .@selected == 0) goto L_MaxEnchant;
+			if ( .@selected == 0 ) {
+				.@rname$ = getitemname(.@itembyuid_nameid);
+				if (.@itembyuid_refine > 0) .@rname$ = "+" + .@itembyuid_refine + " " + .@rname$;
+				clear;
+				mes .@npc_name$;
+				mes "^0000ff" + mesitemicon(.@itembyuid_nameid) + mesitemlink(.@itembyuid_nameid, false, .@rname$) + "^000000";
+				mes "Il est possible de faire " + (.@freeslot > 1 ? .@freeslot + " enchant." : "encore 1 enchant.");
+			}
+
+			setarray .@coin[0], 6422, 6421, 6420, 6419, 6418, 6423, 666; // Payment ID
+			setarray .@cost[0], 15, 10, 6, 3, 2, 1, 1; // Payment multiplier
+			
+			deletearray @inventorylist_id, getarraysize(@inventorylist_id);
+			deletearray @inventorylist_count, getarraysize(@inventorylist_count);
+			deletearray .@mvp_card, getarraysize(.@mvp_card);
+			deletearray .@mvp_cost, getarraysize(.@mvp_cost);
+			getinventorylist();
+			for (.@i = 0; .@i < @inventorylist_count; ++.@i) {
+				.@costmvp = isinitemgroup(@inventorylist_id[.@i], IG_MVPCARDENCHANT);
+				if (.@costmvp > 0) {
+					arraypush .@mvp_card, @inventorylist_id[.@i];
+					arraypush .@mvp_cost, .@costmvp;
+				}
+			}
+			
+			.@menu$ = "";
+			for (.@i = 0; .@i < getarraysize(.@coin); ++.@i) {
+				if (.@coin[.@i] == 666) {
+					.@menu$ += (getarraysize(.@mvp_card) > 0 ? "Sacrifice de mvp card:" : "^999999Sacrifice de mvp card (aucune)^000000:");
+					continue;
+				}
+				.@totalcost[.@i] = .@itembyuid_weaponlevel * .@cost[.@i]; // Weapon level * cost
+				//if (getgroupid() == 99) getitem .@coin[.@i], .@totalcost[.@i]; // GMs can bypass the cost
+				.@count[.@i] = countitem(.@coin[.@i]);
+				if (.@count[.@i] < .@totalcost[.@i])
+					.@menu$ += "^999999" + getitemname(.@coin[.@i]) + " [" + .@coin[.@i] + "] ^ff0000(missing " + (.@totalcost[.@i] - .@count[.@i]) + ")^000000:";
+				else
+					.@menu$ += getitemname(.@coin[.@i]) + " [" + .@coin[.@i] + "] (have " + .@count[.@i] + ", need " + .@totalcost[.@i] + "):";
+			}
+
 			.@coin_select = select(.@menu$) - 1;
-			if( .@count[.@coin_select] < .@totalcost[.@coin_select] ) {
+			if (.@coin[.@coin_select] != 666 && (.@count[.@coin_select] < .@totalcost[.@coin_select])) {
 				clear;
 				mes .@npc_name$;
 				mes "Pas assez de coins...";
 				next;
 				goto L_menu;
 			}
-			switch( .@coin_select ) {
-				case 0:	// Egrade_Coin
-					.@enchant_type = 10;
-					break;
-				case 1:	// Dgrade_Coin
-					.@enchant_type = 9;
-					break;
-				case 2:	// Cgrade_Coin
-					.@enchant_type = 8;
-					break;
-				case 3:	// Bgrade_Coin
-					.@enchant_type = 7;
-					break;
-				case 4:	// Agrade_Coin
-				case 5:	// Anger_Seagod
+			if (.@coin[.@coin_select] == 666 && getarraysize(.@mvp_card) <= 0) {
+				clear;
+				mes .@npc_name$;
+				mes "Pas de mvp card...";
+				next;
+				goto L_menu;
+			}
+			switch (.@coin_select) {
+			case 0:	// Egrade_Coin
+				.@enchant_type = 13;
+				break;
+			case 1:	// Dgrade_Coin
+				.@enchant_type = 12;
+				break;
+			case 2:	// Cgrade_Coin
+				.@enchant_type = 11;
+				break;
+			case 3:	// Bgrade_Coin
+				.@enchant_type = 10;
+				break;
+			case 4:	// Agrade_Coin
+			case 5:	// Anger_Seagod
+			case 6:	// MVP_card
+				if (.@coin_select == 6 && getarraysize(.@mvp_card) > 0) {
 					clear;
 					mes .@npc_name$;
-					mes "Si vous utilisez "+mesitemicon(.@coin[.@coin_select])+mesitemlink(.@coin[.@coin_select])+", vous pouvez choisir le type d'enchant.";
-					switch( select( "Mêlée", "Distance", "Caster" ) ) {
-						case 1:
-							.@enchant_type = ((.@coin_select == 4) ? 4 : 1);
-							break;
-						case 2:
-							.@enchant_type = ((.@coin_select == 4) ? 5 : 2);
-							break;
-						case 3:
-							.@enchant_type = ((.@coin_select == 4) ? 6 : 3);
-							break;
+					mes "En choisissant de sacrifier une ^i[1] MVP CARD vous pourrez choisir le type d'enchant.";
+					.@menu$ = "";
+					for (.@i = 0; .@i < getarraysize(.@mvp_card); ++.@i) {
+						.@menu$ += getitemname(.@mvp_card[.@i]) + " [" + .@mvp_card[.@i] + "] (have " + countitem(.@mvp_card[.@i]) + ", need " + .@mvp_cost[.@i] + "):";
 					}
-					break;
-			}
-			if( .@itembyuid_card4 == 0 && .@freeslot == 1 ) {
-				.@socket = 4;
-				.@str$ = "votre seul";
-			}
-			else if( .@freeslot > 0 ) {
-				if( .@itembyuid_card4 == 0 ) {
-					.@socket = 4;
-					.@str$ = "le 1er";
-				}
-				else if( .@itembyuid_card3 == 0 ) {
-					.@socket = 3;
-					.@str$ = "le 2ème";
-				}
-				else if( .@itembyuid_card2 == 0 ) {
-					.@socket = 2;
-					.@str$ = "le 3ème";
-				}
-				else if( .@itembyuid_card1 == 0 ) {
-					.@socket = 1;
-					.@str$ = "le 4ème";
-				}
-			}
-			else goto L_MaxEnchant;
-
-			clear;
-			mes .@npc_name$;
-			mes "Je vais tenter " + .@str$ + " enchantement.";
-			mes "^ff0000Le refine et les cards ne seront pas affectés. L'équippement ne sera pas détruit!^000000";
-			next;
-			mes .@npc_name$;
-			mes "Alors c'est parti!";
-			switch( .@enchant_type ) {
-				case 10:	// Egrade_Coin
-					.@i = rand(1,531);
-						 if (.@i < 101) .@enchant = 4787;	// Mdef4
-					else if (.@i < 201) .@enchant = 4792;	// Def6
-					else if (.@i < 301) .@enchant = 4801;	// SP100
-					else if (.@i < 351) .@enchant = 4795;	// HP100
-					else if (.@i < 401) .@enchant = 4796;	// HP200
-					else if (.@i < 451) .@enchant = 4819;	// Atk1
-					else if (.@i < 476) .@enchant = 4720;	// Dexterity1
-					else if (.@i < 501) .@enchant = 4740;	// Vitality1
-					else if (.@i < 526) .@enchant = 4750;	// Luck1
-					else if (.@i < 528) .@enchant = 4700;	// Strength1
-					else if (.@i < 530) .@enchant = 4730;	// Agility1
-					else if (.@i < 532) .@enchant = 4710;	// Inteligence1
-					else .@enchant = 9;
-					break;
-				case 9:	// Dgrade_Coin
-					.@i = rand(1,531);
-						 if (.@i < 101) .@enchant = 4795;	// HP100
-					else if (.@i < 201) .@enchant = 4796;	// HP200
-					else if (.@i < 301) .@enchant = 4819;	// Atk1
-					else if (.@i < 351) .@enchant = 4720;	// Dexterity1
-					else if (.@i < 401) .@enchant = 4740;	// Vitality1
-					else if (.@i < 451) .@enchant = 4750;	// Luck1
-					else if (.@i < 476) .@enchant = 4700;	// Strength1
-					else if (.@i < 501) .@enchant = 4730;	// Agility1
-					else if (.@i < 526) .@enchant = 4710;	// Inteligence1
-					else if (.@i < 528) .@enchant = 4701;	// Strength2
-					else if (.@i < 530) .@enchant = 4731;	// Agility2
-					else if (.@i < 532) .@enchant = 4711;	// Inteligence2
-					else .@enchant = 9;
-					break;
-				case 8:	// Cgrade_Coin
-					.@i = rand(1,531);
-						 if (.@i < 101) .@enchant = 4720;	// Dexterity1
-					else if (.@i < 201) .@enchant = 4740;	// Vitality1
-					else if (.@i < 301) .@enchant = 4750;	// Luck1
-					else if (.@i < 351) .@enchant = 4700;	// Strength1
-					else if (.@i < 401) .@enchant = 4730;	// Agility1
-					else if (.@i < 451) .@enchant = 4710;	// Inteligence1
-					else if (.@i < 476) .@enchant = 4701;	// Strength2
-					else if (.@i < 501) .@enchant = 4731;	// Agility2
-					else if (.@i < 526) .@enchant = 4711;	// Inteligence2
-					else if (.@i < 528) .@enchant = 4702;	// Strength3
-					else if (.@i < 530) .@enchant = 4732;	// Agility3
-					else if (.@i < 532) .@enchant = 4712;	// Inteligence3
-					else .@enchant = 9;
-					break;
-				case 7:	// Bgrade_Coin
-					.@i = rand(1,531);
-						 if (.@i < 101) .@enchant = 4700;	// Strength1
-					else if (.@i < 201) .@enchant = 4730;	// Agility1
-					else if (.@i < 301) .@enchant = 4710;	// Inteligence1
-					else if (.@i < 351) .@enchant = 4701;	// Strength2
-					else if (.@i < 401) .@enchant = 4731;	// Agility2
-					else if (.@i < 451) .@enchant = 4711;	// Inteligence2
-					else if (.@i < 476) .@enchant = 4702;	// Strength3
-					else if (.@i < 501) .@enchant = 4732;	// Agility3
-					else if (.@i < 526) .@enchant = 4712;	// Inteligence3
-					else if (.@i < 528) .@enchant = 4703;	// Strength4
-					else if (.@i < 530) .@enchant = 4733;	// Agility4
-					else if (.@i < 532) .@enchant = 4713;	// Inteligence4
-					else .@enchant = 9;
-					break;
-				case 6:	// Agrade_Coin - Caster
-					.@i = rand(1,555);
-						 if (.@i < 81)  .@enchant = 4711;	// Inteligence2
-					else if (.@i < 161) .@enchant = 4721;	// Dexterity2
-					else if (.@i < 241) .@enchant = 4814;	// Spell2
-					else if (.@i < 311) .@enchant = 4712;	// Inteligence3
-					else if (.@i < 371) .@enchant = 4722;	// Dexterity3
-					else if (.@i < 431) .@enchant = 4813;	// Spell3
-					else if (.@i < 476) .@enchant = 4713;	// Inteligence4
-					else if (.@i < 516) .@enchant = 4812;	// Spell4
-					else if (.@i < 526) .@enchant = 4760;	// Matk1
-					else if (.@i < 546) .@enchant = 4714;	// Inteligence5
-					else if (.@i < 551) .@enchant = 4826;	// Spell5
-					else if (.@i < 556) .@enchant = 4761;	// Matk2
-					else .@enchant = 9;
-					break;
-				case 5:	// Agrade_Coin - Long Range
-					.@i = rand(1,555);
-						 if (.@i < 81)  .@enchant = 4731;	// Agility2
-					else if (.@i < 161) .@enchant = 4833;	// Expert_Archer2
-					else if (.@i < 241) .@enchant = 4817;	// Sharp2
-					else if (.@i < 311) .@enchant = 4732;	// Agility3
-					else if (.@i < 371) .@enchant = 4834;	// Expert_Archer3
-					else if (.@i < 431) .@enchant = 4816;	// Sharp3
-					else if (.@i < 476) .@enchant = 4733;	// Agility4
-					else if (.@i < 516) .@enchant = 4835;	// Expert_Archer4
-					else if (.@i < 526) .@enchant = 4807;	// Atk_Speed1
-					else if (.@i < 546) .@enchant = 4734;	// Agility5
-					else if (.@i < 551) .@enchant = 4836;	// Expert_Archer5
-					else if (.@i < 556) .@enchant = 4807;	// Atk_Speed1
-					else .@enchant = 9;
-					break;
-				case 4:	// Agrade_Coin - Short Range
-					.@i = rand(1,555);
-						 if (.@i < 81)  .@enchant = 4731;	// Agility2
-					else if (.@i < 161) .@enchant = 4808;	// Fighting_Spirit4
-					else if (.@i < 241) .@enchant = 4817;	// Sharp2
-					else if (.@i < 311) .@enchant = 4732;	// Agility3
-					else if (.@i < 371) .@enchant = 4820;	// Fighting_Spirit5
-					else if (.@i < 431) .@enchant = 4816;	// Sharp3
-					else if (.@i < 476) .@enchant = 4733;	// Agility4
-					else if (.@i < 516) .@enchant = 4821;	// Fighting_Spirit6
-					else if (.@i < 526) .@enchant = 4807;	// Atk_Speed1
-					else if (.@i < 546) .@enchant = 4734;	// Agility5
-					else if (.@i < 551) .@enchant = 4822;	// Fighting_Spirit7
-					else if (.@i < 556) .@enchant = 4807;	// Atk_Speed1
-					else .@enchant = 9;
-					break;
-				case 3:	// Anger_Seagod - Caster
-					.@i = rand(1,555);
-						 if (.@i < 81)  .@enchant = 4712;	// Inteligence3
-					else if (.@i < 161) .@enchant = 4722;	// Dexterity3
-					else if (.@i < 241) .@enchant = 4813;	// Spell3
-					else if (.@i < 311) .@enchant = 4713;	// Inteligence4
-					else if (.@i < 371) .@enchant = 4812;	// Spell4
-					else if (.@i < 431) .@enchant = 4760;	// Matk1
-					else if (.@i < 476) .@enchant = 4714;	// Inteligence5
-					else if (.@i < 516) .@enchant = 4826;	// Spell5
-					else if (.@i < 526) .@enchant = 4761;	// Matk2
-					else if (.@i < 546) .@enchant = 4715;	// Inteligence6
-					else if (.@i < 551) .@enchant = 4827;	// Spell6
-					else if (.@i < 556) .@enchant = 4761;	// Matk2
-					else .@enchant = 9;
-					break;
-				case 2:	// Anger_Seagod - Long Range
-					.@i = rand(1,555);
-						 if (.@i < 81)  .@enchant = 4732;	// Agility3
-					else if (.@i < 161) .@enchant = 4834;	// Expert_Archer3
-					else if (.@i < 241) .@enchant = 4843;	// Sharp4
-					else if (.@i < 311) .@enchant = 4733;	// Agility4
-					else if (.@i < 371) .@enchant = 4835;	// Expert_Archer4
-					else if (.@i < 431) .@enchant = 4844;	// Sharp5
-					else if (.@i < 476) .@enchant = 4734;	// Agility5
-					else if (.@i < 516) .@enchant = 4836;	// Expert_Archer5
-					else if (.@i < 526) .@enchant = 4807;	// Atk_Speed1
-					else if (.@i < 546) .@enchant = 4735;	// Agility6
-					else if (.@i < 551) .@enchant = 4837;	// Expert_Archer6
-					else if (.@i < 556) .@enchant = 4807;	// Atk_Speed1
-					else .@enchant = 9;
-					break;
-				case 1:	// Anger_Seagod - Short Range
-					.@i = rand(1,555);
-						 if (.@i < 81)  .@enchant = 4732;	// Agility3
-					else if (.@i < 161) .@enchant = 4820;	// Fighting_Spirit5
-					else if (.@i < 241) .@enchant = 4843;	// Sharp4
-					else if (.@i < 311) .@enchant = 4733;	// Agility4
-					else if (.@i < 371) .@enchant = 4821;	// Fighting_Spirit6
-					else if (.@i < 431) .@enchant = 4844;	// Sharp5
-					else if (.@i < 476) .@enchant = 4734;	// Agility5
-					else if (.@i < 516) .@enchant = 4822;	// Fighting_Spirit7
-					else if (.@i < 526) .@enchant = 4807;	// Atk_Speed1
-					else if (.@i < 546) .@enchant = 4735;	// Agility6
-					else if (.@i < 551) .@enchant = 4823;	// Fighting_Spirit8
-					else if (.@i < 556) .@enchant = 4807;	// Atk_Speed1
-					else .@enchant = 9;
-					break;
-				default:
+					.@mvpchoice = select(.@menu$) - 1;
+					if (countitem(.@mvp_card[.@mvpchoice]) < .@mvp_cost[.@mvpchoice]) {
+						mes .@npc_name$;
+						mes "Pas assez de mvp card...";
+						next;
+						goto L_menu;
+					}
+					.@coin[.@coin_select] = .@mvp_card[.@mvpchoice];
+					.@totalcost[.@coin_select] = .@mvp_cost[.@mvpchoice];
+				} else if (.@coin_select == 6 && getarraysize(.@mvp_card) <= 0) {
+					clear;
 					mes .@npc_name$;
-					mes "Un truc qui cloche lol.";
-					close;
+					mes "Pas de mvp card...";
+					next;
+					goto L_menu;
+				}
+				else {
+					clear;
+					mes .@npc_name$;
+					mes "Si vous utilisez " + mesitemicon(.@coin[.@coin_select]) + mesitemlink(.@coin[.@coin_select]) + ", vous pouvez choisir le type d'enchant.";
+				}
+				switch (select("Mêlée", "Distance", "Caster")) {
+				case 1:
+					.@enchant_type = ((.@coin_select == 4) ? 7 : (.@coin_select == 6 ? 1 : 4));
+					break;
+				case 2:
+					.@enchant_type = ((.@coin_select == 4) ? 8 : (.@coin_select == 6 ? 2 : 5));
+					break;
+				case 3:
+					.@enchant_type = ((.@coin_select == 4) ? 9 : (.@coin_select == 6 ? 3 : 6));
+					break;
+				}
+				break;
 			}
 
-			if( getd(".@itembyuid_card" + .@socket) == 0 && .@freeslot > 0 )
-				setd(".@itembyuid_card" + .@socket, .@enchant);
-			else
-				goto L_MaxEnchant;
+			switch (.@enchant_type) {
+			case 13:	// Egrade_Coin
+				.@i = rand(1, 531);
+				if (.@i < 101)      .@enchant = Mdef4;
+				else if (.@i < 201) .@enchant = Def6;
+				else if (.@i < 301) .@enchant = SP100;
+				else if (.@i < 351) .@enchant = HP100;
+				else if (.@i < 401) .@enchant = HP200;
+				else if (.@i < 451) .@enchant = Atk1;
+				else if (.@i < 476) .@enchant = Dexterity1;
+				else if (.@i < 501) .@enchant = Vitality1;
+				else if (.@i < 526) .@enchant = Luck1;
+				else if (.@i < 528) .@enchant = Strength1;
+				else if (.@i < 530) .@enchant = Agility1;
+				else if (.@i < 532) .@enchant = Inteligence1;
+				else .@enchant = 9;
+				break;
+			case 12:	// Dgrade_Coin
+				.@i = rand(1, 531);
+				if (.@i < 101)      .@enchant = HP100;
+				else if (.@i < 201) .@enchant = HP200;
+				else if (.@i < 301) .@enchant = Atk1;
+				else if (.@i < 351) .@enchant = Dexterity1;
+				else if (.@i < 401) .@enchant = Vitality1;
+				else if (.@i < 451) .@enchant = Luck1;
+				else if (.@i < 476) .@enchant = Strength1;
+				else if (.@i < 501) .@enchant = Agility1;
+				else if (.@i < 526) .@enchant = Inteligence1;
+				else if (.@i < 528) .@enchant = Strength2;
+				else if (.@i < 530) .@enchant = Agility2;
+				else if (.@i < 532) .@enchant = Inteligence2;
+				else .@enchant = 9;
+				break;
+			case 11:	// Cgrade_Coin
+				.@i = rand(1, 531);
+				if (.@i < 101)      .@enchant = Dexterity1;
+				else if (.@i < 201) .@enchant = Vitality1;
+				else if (.@i < 301) .@enchant = Luck1;
+				else if (.@i < 351) .@enchant = Strength1;
+				else if (.@i < 401) .@enchant = Agility1;
+				else if (.@i < 451) .@enchant = Inteligence1;
+				else if (.@i < 476) .@enchant = Strength2;
+				else if (.@i < 501) .@enchant = Agility2;
+				else if (.@i < 526) .@enchant = Inteligence2;
+				else if (.@i < 528) .@enchant = Strength3;
+				else if (.@i < 530) .@enchant = Agility3;
+				else if (.@i < 532) .@enchant = Inteligence3;
+				else .@enchant = 9;
+				break;
+			case 10:	// Bgrade_Coin
+				.@i = rand(1, 531);
+				if (.@i < 101)      .@enchant = Strength1;
+				else if (.@i < 201) .@enchant = Agility1;
+				else if (.@i < 301) .@enchant = Inteligence1;
+				else if (.@i < 351) .@enchant = Strength2;
+				else if (.@i < 401) .@enchant = Agility2;
+				else if (.@i < 451) .@enchant = Inteligence2;
+				else if (.@i < 476) .@enchant = Strength3;
+				else if (.@i < 501) .@enchant = Agility3;
+				else if (.@i < 526) .@enchant = Inteligence3;
+				else if (.@i < 528) .@enchant = Strength4;
+				else if (.@i < 530) .@enchant = Agility4;
+				else if (.@i < 532) .@enchant = Inteligence4;
+				else .@enchant = 9;
+				break;
+			case 9:	// Agrade_Coin - Caster
+				.@i = rand(1, 555);
+				if (.@i < 81)       .@enchant = Inteligence2;
+				else if (.@i < 161) .@enchant = Dexterity2;
+				else if (.@i < 241) .@enchant = Spell2;
+				else if (.@i < 311) .@enchant = Inteligence3;
+				else if (.@i < 371) .@enchant = Dexterity3;
+				else if (.@i < 431) .@enchant = Spell3;
+				else if (.@i < 476) .@enchant = Inteligence4;
+				else if (.@i < 516) .@enchant = Spell4;
+				else if (.@i < 526) .@enchant = Matk1;
+				else if (.@i < 546) .@enchant = Inteligence5;
+				else if (.@i < 551) .@enchant = Spell5;
+				else if (.@i < 556) .@enchant = Matk2;
+				else .@enchant = 9;
+				break;
+			case 8:	// Agrade_Coin - Long Range
+				.@i = rand(1, 555);
+				if (.@i < 81)       .@enchant = Agility2;
+				else if (.@i < 161) .@enchant = Expert_Archer2;
+				else if (.@i < 241) .@enchant = Sharp2;
+				else if (.@i < 311) .@enchant = Agility3;
+				else if (.@i < 371) .@enchant = Expert_Archer3;
+				else if (.@i < 431) .@enchant = Sharp3;
+				else if (.@i < 476) .@enchant = Agility4;
+				else if (.@i < 516) .@enchant = Expert_Archer4;
+				else if (.@i < 526) .@enchant = Atk_Speed1;
+				else if (.@i < 546) .@enchant = Agility5;
+				else if (.@i < 551) .@enchant = Expert_Archer5;
+				else if (.@i < 556) .@enchant = Atk_Speed1;
+				else .@enchant = 9;
+				break;
+			case 7:	// Agrade_Coin - Short Range
+				.@i = rand(1, 555);
+				if (.@i < 81)       .@enchant = Agility2;
+				else if (.@i < 161) .@enchant = Fighting_Spirit4;
+				else if (.@i < 241) .@enchant = Sharp2;
+				else if (.@i < 311) .@enchant = Agility3;
+				else if (.@i < 371) .@enchant = Fighting_Spirit5;
+				else if (.@i < 431) .@enchant = Sharp3;
+				else if (.@i < 476) .@enchant = Agility4;
+				else if (.@i < 516) .@enchant = Fighting_Spirit6;
+				else if (.@i < 526) .@enchant = Atk_Speed1;
+				else if (.@i < 546) .@enchant = Agility5;
+				else if (.@i < 551) .@enchant = Fighting_Spirit7;
+				else if (.@i < 556) .@enchant = Atk_Speed1;
+				else .@enchant = 9;
+				break;
+			case 6:	// Anger_Seagod - Caster
+				.@i = rand(1, 555);
+				if (.@i < 81)       .@enchant = Inteligence3;
+				else if (.@i < 161) .@enchant = Dexterity3;
+				else if (.@i < 241) .@enchant = Spell3;
+				else if (.@i < 311) .@enchant = Inteligence4;
+				else if (.@i < 371) .@enchant = Spell4;
+				else if (.@i < 431) .@enchant = Matk1;
+				else if (.@i < 476) .@enchant = Inteligence5;
+				else if (.@i < 516) .@enchant = Spell5;
+				else if (.@i < 526) .@enchant = Matk2;
+				else if (.@i < 546) .@enchant = Inteligence6;
+				else if (.@i < 551) .@enchant = Spell6;
+				else if (.@i < 556) .@enchant = Matk2;
+				else .@enchant = 9;
+				break;
+			case 5:	// Anger_Seagod - Long Range
+				.@i = rand(1, 555);
+				if (.@i < 81)  .@enchant = Agility3;
+				else if (.@i < 161) .@enchant = Expert_Archer3;
+				else if (.@i < 241) .@enchant = Sharp4;
+				else if (.@i < 311) .@enchant = Agility4;
+				else if (.@i < 371) .@enchant = Expert_Archer4;
+				else if (.@i < 431) .@enchant = Sharp5;
+				else if (.@i < 476) .@enchant = Agility5;
+				else if (.@i < 516) .@enchant = Expert_Archer5;
+				else if (.@i < 526) .@enchant = Atk_Speed1;
+				else if (.@i < 546) .@enchant = Agility6;
+				else if (.@i < 551) .@enchant = Expert_Archer6;
+				else if (.@i < 556) .@enchant = Atk_Speed1;
+				else .@enchant = 9;
+				break;
+			case 4:	// Anger_Seagod - Short Range
+				.@i = rand(1, 555);
+				if (.@i < 81)  .@enchant = Agility3;
+				else if (.@i < 161) .@enchant = Fighting_Spirit5;
+				else if (.@i < 241) .@enchant = Sharp4;
+				else if (.@i < 311) .@enchant = Agility4;
+				else if (.@i < 371) .@enchant = Fighting_Spirit6;
+				else if (.@i < 431) .@enchant = Sharp5;
+				else if (.@i < 476) .@enchant = Agility5;
+				else if (.@i < 516) .@enchant = Fighting_Spirit7;
+				else if (.@i < 526) .@enchant = Atk_Speed1;
+				else if (.@i < 546) .@enchant = Agility6;
+				else if (.@i < 551) .@enchant = Fighting_Spirit8;
+				else if (.@i < 556) .@enchant = Atk_Speed1;
+				else .@enchant = 9;
+				break;
+			case 3:	// mvp_card - Caster
+				.@i = rand(1, 1000);
+				if (.@i < 300)       .@enchant = Vitality7;
+				else if (.@i < 400)  .@enchant = Inteligence7;
+				else if (.@i < 500)  .@enchant = Spell7;
+				else if (.@i < 600)  .@enchant = Matk4p;
+				else if (.@i < 720)  .@enchant = Vitality8;
+				else if (.@i < 760)  .@enchant = Inteligence8;
+				else if (.@i < 800)  .@enchant = Spell8;
+				else if (.@i < 840)  .@enchant = Matk5p;
+				else if (.@i < 875)  .@enchant = Vitality9;
+				else if (.@i < 900)  .@enchant = Inteligence9;
+				else if (.@i < 925)  .@enchant = Spell9;
+				else if (.@i < 950)  .@enchant = Matk6p;
+				else if (.@i < 970)  .@enchant = Vitality10;
+				else if (.@i < 980)  .@enchant = Inteligence10;
+				else if (.@i < 990)  .@enchant = Spell10;
+				else if (.@i < 1000) .@enchant = Matk7p;
+				else .@enchant = 9;
+				break;
+			case 2:	// mvp_card - Long Range
+				.@i = rand(1, 1000);
+				if (.@i < 300)       .@enchant = Atk_Speed2;
+				else if (.@i < 400)  .@enchant = Agility7;
+				else if (.@i < 500)  .@enchant = Dexterity7;
+				else if (.@i < 600)  .@enchant = Expert_Archer7;
+				else if (.@i < 720)  .@enchant = Sharp3;
+				else if (.@i < 760)  .@enchant = Agility8;
+				else if (.@i < 800)  .@enchant = Dexterity8;
+				else if (.@i < 840)  .@enchant = Expert_Archer8;
+				else if (.@i < 875)  .@enchant = Sharp4;
+				else if (.@i < 900)  .@enchant = Agility9;
+				else if (.@i < 925)  .@enchant = Dexterity9;
+				else if (.@i < 950)  .@enchant = Expert_Archer9;
+				else if (.@i < 970)  .@enchant = Sharp5;
+				else if (.@i < 980)  .@enchant = Agility10;
+				else if (.@i < 990)  .@enchant = Dexterity10;
+				else if (.@i < 1000) .@enchant = Expert_Archer10;
+				else .@enchant = 9;
+				break;
+			case 1:	// mvp_card - Short Range
+				.@i = rand(1, 1000);
+				if (.@i < 300)       .@enchant = Luck7;
+				else if (.@i < 400)  .@enchant = Agility7;
+				else if (.@i < 500)  .@enchant = Strength7;
+				else if (.@i < 600)  .@enchant = Fighting_Spirit7;
+				else if (.@i < 720)  .@enchant = Luck8;
+				else if (.@i < 760)  .@enchant = Agility8;
+				else if (.@i < 800)  .@enchant = Strength8;
+				else if (.@i < 840)  .@enchant = Fighting_Spirit8;
+				else if (.@i < 875)  .@enchant = Luck9;
+				else if (.@i < 900)  .@enchant = Agility9;
+				else if (.@i < 925)  .@enchant = Strength9;
+				else if (.@i < 950)  .@enchant = Fighting_Spirit9;
+				else if (.@i < 970)  .@enchant = Luck10;
+				else if (.@i < 980)  .@enchant = Agility10;
+				else if (.@i < 990)  .@enchant = Strength10;
+				else if (.@i < 1000) .@enchant = Fighting_Spirit10;
+				else .@enchant = 9;
+				break;
+			default:
+				mes .@npc_name$;
+				mes "Un truc qui cloche lol.";
+				close;
+			}
 
-			if( .@enchant == 9 ) {	//  Should never happen.
+			if (.@selected == 0) {
+				if (.@itembyuid_card4 == 0 && .@freeslot == 1) {
+					.@socket = 4;
+					.@str$ = "votre seul";
+				}
+				else if (.@freeslot > 0) {
+					if (.@itembyuid_card4 == 0) {
+						.@socket = 4;
+						.@str$ = "le 1er";
+					}
+					else if (.@itembyuid_card3 == 0) {
+						.@socket = 3;
+						.@str$ = "le 2ème";
+					}
+					else if (.@itembyuid_card2 == 0) {
+						.@socket = 2;
+						.@str$ = "le 3ème";
+					}
+					else if (.@itembyuid_card1 == 0) {
+						.@socket = 1;
+						.@str$ = "le 4ème";
+					}
+				}
+				else goto L_MaxEnchant;
+				clear;
+				mes .@npc_name$;
+				mes "Je vais tenter " + .@str$ + " enchantement.";
+				mes "^ff0000Le refine et les cards ne seront pas affectés. L'équippement ne sera pas détruit!^000000";
+				next;
+				mes .@npc_name$;
+				mes "Alors c'est parti!";
+
+				if (getd(".@itembyuid_card" + .@socket) == 0 && .@freeslot > 0)
+					setd(".@itembyuid_card" + .@socket, .@enchant);
+				else if (.@selected == 0)
+					goto L_MaxEnchant;
+			}
+			else {
+				.@socket = .@selected;
+				clear;
+				mes .@npc_name$;
+				mes "Alors c'est partie pour reroll";
+				mes mesitemicon(getd(".@itembyuid_card" + .@selected)) + mesitemlink(getd(".@itembyuid_card" + .@selected)) + "  de votre arme.";
+				setd(".@itembyuid_card" + .@socket, .@enchant);
+				next;
+			}
+
+			if (.@enchant == 9) {	//  Should never happen.
 				specialeffect2 EF_SUI_EXPLOSION;
 				clear;
 				mes .@npc_name$;
 				mes "Oh my god! J'ai raté XD!!!!!!!";
 				logmes "Enchantement Fail: " + logequipuid(.@euid$);
-				delitem .@coin[.@coin_select],.@totalcost[.@coin_select];
+				delitem .@coin[.@coin_select], .@totalcost[.@coin_select];
 				close;
 			}
 			.@result = alteritem(.@euid$, INVITEMINFO_CARD1 + (.@socket - 1), getd(".@itembyuid_card" + .@socket));
-			switch( .@result ) {
-				case -1:
-					specialeffect2 EF_SUI_EXPLOSION;
-				case 0:
-					clear;
-					mes .@npc_name$;
-					mes "Oh non, il y a eu un problème avec l'enchantement... Contactez un GM pour enquêter ça.";
-					logmes "Enchantement Error ("+.@result+"): " + logequipuid(.@euid$) + " -> [Slot #" + .@socket + "] " + getitemname(getd(".@itembyuid_card" + .@socket));
-					close;
-				case 1:
-					delitem .@coin[.@coin_select], .@totalcost[.@coin_select];
-					specialeffect2 EF_REPAIRWEAPON;
-					npctalk "Houuuah!! " + getitemname(.@itembyuid_nameid) + " reçois "+getitemname(getd(".@itembyuid_card" + .@socket)), "", bc_self;
-					clear;
-					mes .@npc_name$;
-					mes "Enchantement réussi! Je suis vraiment doué hein?";
-					mes "J'ai enchanté le ^990000slot " + .@socket + "^000000 de cette arme.";
-					logmes "Enchantement Arme: " + logequipuid(.@euid$) + " -> [Slot #" + .@socket + "] " + getitemname(getd(".@itembyuid_card" + .@socket));
-					close;
+			.@enchant$ = getitemname(getd(".@itembyuid_card" + .@socket));
+			switch (.@result) {
+			case -1:
+				specialeffect2 EF_SUI_EXPLOSION;
+			case 0:
+				clear;
+				mes .@npc_name$;
+				mes "Oh non, il y a eu un problème avec l'enchantement... Contactez un GM pour enquêter ça.";
+				logmes "Enchantement Error (" + .@result + "): " + logequipuid(.@euid$) + " -> [Slot #" + .@socket + "] " + .@enchant$;
+				close;
+			case 1:
+				delitem .@coin[.@coin_select], .@totalcost[.@coin_select];
+				specialeffect2 EF_REPAIRWEAPON;
+				.@slots$ = ((.@freeslot - 1 < 1) ? " qui est maintenant au max d'enchants." : " encore " + F_InsertPlural(.@freeslot - 1, "slot") + " disponible.");
+				if( .@coin_select == 6) {
+					npctalk strcharinfo(0) + " gratte " + (.@totalcost[.@coin_select] > 1 ? "ses" : "son") + " " + itemlink(.@coin[.@coin_select]) + " collector encore sous blister", "", bc_self;
+					npctalk "et reçois " + itemlink(getd(".@itembyuid_card" + .@socket)) + " sur " + itemlinkuid(.@euid$) + .@slots$, "", bc_self;
+				}
+				else
+					npctalk "Houuuah!! " + itemlinkuid(.@euid$) + " reçois " + itemlink(getd(".@itembyuid_card" + .@socket)) + .@slots$, "", bc_self;
+				clear;
+				mes .@npc_name$;
+				mes "Enchantement réussi! Je suis vraiment doué hein?";
+				mes "J'ai enchanté le ^990000slot " + .@socket + "^000000 de cette arme.";
+				logmes "Enchantement Arme: " + logequipuid(.@euid$) + " -> [Slot #" + .@socket + "] " + .@enchant$;
+				if ( (.@freeslot - 1) > 0) goto L_menu;
+				else close;
 			}
-		}
-		else if( .@select == 2 ) {
+		case 3:
 			clear;
 			mes .@npc_name$;
-			if( .@itembyuid_card4 == 0 ) {
+			if (.@itembyuid_card4 == 0) {
 				mes "Aucun enchantement n'est présent sur cette arme.";
 				next;
 				goto L_menu;
 			}
 			mes "Je peux retirer l'enchantement sans toucher au ^ff0000 refine et les cards. L'équippement ne sera pas détruit!^000000";
-			if( select( "Non merci...", "Payer les ^ff0000150.000^000000 zenys" ) == 1 ) {
+			if (select("Non merci...", "Payer les ^ff0000150.000^000000 zenys") == 1) {
 				clear;
 				mes .@npc_name$;
 				mes "Oh ok.";
 				next;
 				goto L_menu;
 			}
-			if( Zeny < 150000 ) {
+			if (Zeny < 150000) {
 				clear;
 				mes .@npc_name$;
 				mes "Désolé mais tu n'as pas l'argent nécessaire!";
@@ -389,8 +515,8 @@ L_menu:
 			mes .@npc_name$;
 			mes "Les enchantements sont retirés.";
 			specialeffect2 EF_SPELLBREAKER;
-			for( .@i = 0; .@i < MAX_SLOTS; ++.@i ) {
-				if( getiteminfo(getd(".@itembyuid_card" + (.@i + 1)), ITEMINFO_SUBTYPE) == CARD_ENCHANT )
+			for (.@i = 0; .@i < MAX_SLOTS; ++.@i) {
+				if (getiteminfo(getd(".@itembyuid_card" + (.@i + 1)), ITEMINFO_SUBTYPE) == CARD_ENCHANT)
 					alteritem(.@euid$, INVITEMINFO_CARD1 + .@i, 0);
 			}
 			logmes "Enchantements Reset: " + logequipuid(.@euid$);
@@ -517,42 +643,42 @@ S_EnchantArmor:
 			delequip EQI_ARMOR;
 L_rerand:
 			switch( rand(1, .@failrate) ) {
-				case 1: .@addpart = 4702;break;
-				case 2: .@addpart = 4712;break;
-				case 3: .@addpart = 4722;break;
-				case 4: .@addpart = 4732;break;
-				case 5: .@addpart = 4742;break;
-				case 6: .@addpart = 4752;break;
+				case 1: .@addpart = 4702;break; // Strength3
+				case 2: .@addpart = 4712;break; // Inteligence3
+				case 3: .@addpart = 4722;break; // Dexterity3
+				case 4: .@addpart = 4732;break; // Agility3
+				case 5: .@addpart = 4742;break; // Vitality3
+				case 6: .@addpart = 4752;break; // Luck3
 				case 7:
-				case 8: .@addpart = 4701;break;
+				case 8: .@addpart = 4701;break; // Strength2
 				case 9:
-				case 10: .@addpart = 4711;break;
+				case 10: .@addpart = 4711;break; // Inteligence2
 				case 11:
-				case 12: .@addpart = 4721;break;
+				case 12: .@addpart = 4721;break; // Dexterity2
 				case 13:
-				case 14: .@addpart = 4731;break;
+				case 14: .@addpart = 4731;break; // Agility2
 				case 15:
-				case 16: .@addpart = 4741;break;
+				case 16: .@addpart = 4741;break; // Vitality2
 				case 17:
-				case 18: .@addpart = 4751;break;
+				case 18: .@addpart = 4751;break; // Luck2
 				case 19:
 				case 20:
-				case 21: .@addpart = 4700;break;
+				case 21: .@addpart = 4700;break; // Strength1
 				case 22:
 				case 23:
-				case 24: .@addpart = 4710;break;
+				case 24: .@addpart = 4710;break; // Inteligence1
 				case 25:
 				case 26:
-				case 27: .@addpart = 4720;break;
+				case 27: .@addpart = 4720;break; // Dexterity1
 				case 28:
 				case 29:
-				case 30: .@addpart = 4730;break;
+				case 30: .@addpart = 4730;break; // Agility1
 				case 31:
 				case 32:
-				case 33: .@addpart = 4740;break;
+				case 33: .@addpart = 4740;break; // Vitality1
 				case 34:
 				case 35:
-				case 36: .@addpart = 4750;break;
+				case 36: .@addpart = 4750;break; // Luck1
 				default:
 					if( .@supzeny == 600000 )
 						goto L_rerand;
