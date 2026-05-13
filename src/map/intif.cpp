@@ -3526,7 +3526,7 @@ static bool intif_parse_StorageReceived(int32 fd)
 
 		case TABLE_STORAGE:
 			 if (stor->stor_id && (stor->state.get == 1 || stor->state.put == 1))
-				 storage_premiumStorage_open(sd);
+				 if (sd->state.pc_loaded) storage_premiumStorage_open(sd);
 			 else {
 #ifdef VIP_ENABLE
 				if (!pc_isvip(sd))

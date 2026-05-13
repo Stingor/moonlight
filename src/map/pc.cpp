@@ -2462,6 +2462,7 @@ void pc_reg_received(map_session_data *sd)
 	intif_storage_request(sd, TABLE_STORAGE, 0, STOR_MODE_ALL); // Request storage data
 	intif_storage_request(sd, TABLE_CART, 0, STOR_MODE_ALL); // Request cart data
 	intif_storage_request(sd, TABLE_INVENTORY, 0, STOR_MODE_ALL); // Request inventory data
+	intif_storage_request(sd, TABLE_STORAGE, 5, STOR_MODE_ALL); // Request premium storage data
 
 	// Restore IM_CHAR instance to the player
 	for (const auto &instance : instances) {

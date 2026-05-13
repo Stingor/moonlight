@@ -1091,7 +1091,7 @@ ACMD_FUNC(shopsearch)
 			for( j = 0; j < pl_sd->vend_num; j++ ) {
 				if( pl_sd->cart.u.items_cart[pl_sd->vending[j].index].nameid == item->nameid ) {
 					// If the item is the same, it will show this? Computer translations are bad.
-					sprintf(output, "Vendeur: %s | Quantité %d | Prix: %d | Shop: %s | Coord: %d,%d", pl_sd->status.name, pl_sd->vending[j].amount, pl_sd->vending[j].value,pl_sd->message,pl_sd->x,pl_sd->y);
+					sprintf(output, "Vendeur: %s | Quantitï¿½ %d | Prix: %d | Shop: %s | Coord: %d,%d", pl_sd->status.name, pl_sd->vending[j].amount, pl_sd->vending[j].value,pl_sd->message,pl_sd->x,pl_sd->y);
 					clif_viewpoint(*sd, 1, 1, pl_sd->x, pl_sd->y, count+1, 0xFFFFFF);
 					
 					if(pl_sd->vending[j].value < MinPrize)
@@ -1188,19 +1188,14 @@ ACMD_FUNC(storecard)
 		return -1;
 	}
 
-	if (!intif_storage_request(sd, TABLE_STORAGE, 5, STOR_MODE_PUT)) {
-		clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
-		return -1;
-	} else if (storage_premiumStorage_load(sd, 5, STOR_MODE_PUT) == 0) {
+	if (storage_premiumStorage_load(sd, 5, STOR_MODE_PUT) == 0) {
 		clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
 		return -1;
 	}
 
-	if (sd->premiumStorage.stor_id == 5) {
-		for (int i = 0; i < MAX_INVENTORY; i++) {
-			if (sd->inventory.u.items_inventory[i].amount && itemdb_type(sd->inventory.u.items_inventory[i].nameid) == IT_CARD)
-				storage_storageadd(sd, &sd->premiumStorage, i, sd->inventory.u.items_inventory[i].amount);
-		}
+	for (int i = 0; i < MAX_INVENTORY; i++) {
+		if (sd->inventory.u.items_inventory[i].amount && itemdb_type(sd->inventory.u.items_inventory[i].nameid) == IT_CARD)
+			storage_storageadd(sd, &sd->premiumStorage, i, sd->inventory.u.items_inventory[i].amount);
 	}
 
 	storage_premiumStorage_close(sd);
