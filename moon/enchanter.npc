@@ -475,8 +475,21 @@ L_faston:
 				close;
 			}
 			// Table d'enchant armure : paires (enchant, rate/1000)
-			// Tier 1 = 300 | Tier 2 = 200 | Tier 3 = 100
 			setarray .@tbl[0],
+				Strength10,  1, Inteligence10,  1, Dexterity10,  1,
+				Agility10,   1,  Vitality10,    1,  Luck10,      1,
+				Strength9,   2, Inteligence9,   2, Dexterity9,   2,
+				Agility9,    2,  Vitality9,     2,  Luck9,       2,
+				Strength8,   3, Inteligence8,   3, Dexterity8,   3,
+				Agility8,    3,  Vitality8,     3,  Luck8,       3,
+				Strength7,   6, Inteligence7,   6, Dexterity7,   6,
+				Agility7,    6,  Vitality7,     6,  Luck7,       6,
+				Strength6,  12, Inteligence6,  12, Dexterity6,  12,
+				Agility6,   12,  Vitality6,    12,  Luck6,       12,
+				Strength5,  25,  Inteligence5, 25,  Dexterity5,  25,
+				Agility5,   25,  Vitality5,    25,  Luck5,       25,
+				Strength4,  50,  Inteligence4, 50,  Dexterity4,  50,
+				Agility4,   50,  Vitality4,    50,  Luck4,       50,
 				Strength3,  100,  Inteligence3, 100,  Dexterity3,  100,
 				Agility3,   100,  Vitality3,    100,  Luck3,       100,
 				Strength2,  200,  Inteligence2, 200,  Dexterity2,  200,
