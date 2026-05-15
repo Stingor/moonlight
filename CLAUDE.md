@@ -2,7 +2,8 @@
 
 ## Git
 - Travailler directement sur la branche `main`.
-- Ne jamais créer de branche séparée ni de pull request.
+- Ne jamais créer de branche séparée, de pull request, ni de worktree.
+- Ne jamais utiliser `isolation: "worktree"` dans les appels à l'Agent tool.
 - Ne pas committer ou pusher, proposer éventuellement de le faire mais toujours attendre une validation
 
 ## Encodage des fichiers NPC / scripts rAthena
