@@ -21,7 +21,7 @@ gon_in,99,23,3	script	Mayomayo::enchant_gon	4_CAT_3COLOR,{
 			close;
 		}
 		if( MaxWeight - Weight < 10000 ) {
-			mes "Vous êtes trop lourd"+(Sex?"":"e")+".";
+			mes "Vous ï¿½tes trop lourd"+(Sex?"":"e")+".";
 			close;
 		}
 L_menu:
@@ -31,13 +31,13 @@ L_menu:
 
 		.@euid$ = getequipuniqueid(EQI_HAND_R);
 		if( .@euid$ == "" ) {
-			mes "^FF0000Mais pour ça faut encore en avoir une d'équippée (en main droite).";
+			mes "^FF0000Mais pour ï¿½a faut encore en avoir une d'ï¿½quippï¿½e (en main droite).";
 			close;
 		}
 
 		getuidlist(.@euid$);
 		if( .@itembyuid_slot >= 4 ) {
-			mes "^FF0000Mais pour ce faire il faut de la place libre sur l'arme, une arme à 4 slot de card ne peux pas être enchantée.";
+			mes "^FF0000Mais pour ce faire il faut de la place libre sur l'arme, une arme ï¿½ 4 slot de card ne peux pas ï¿½tre enchantï¿½e.";
 			close;
 		}
 		.@freeslot = 4 - .@itembyuid_slot;
@@ -50,14 +50,14 @@ L_menu:
 		.@selected = 0;
 		.@menu$ = "";
 
-		switch (select( .@menuopt1$, .@menuopt2$, "Je veux ré-initialiser mon enchant - ^ff0000150.000^000000 zenys", "Ciao")) {
+		switch (select( .@menuopt1$, .@menuopt2$, "Je veux rï¿½-initialiser mon enchant - ^ff0000150.000^000000 zenys", "Ciao")) {
 		case 1: // reroll a specific enchant slot
 			for (.@i = 0; .@i < MAX_SLOTS; ++.@i) {
 				if (getiteminfo(getd(".@itembyuid_card" + (.@i + 1)), ITEMINFO_SUBTYPE) == CARD_ENCHANT)
-					.@menu$ += "Reroll " + getitemname(getd(".@itembyuid_card" + (.@i + 1))) + " (" + (.@i + 1) + "ème slot):";
+					.@menu$ += "Reroll " + getitemname(getd(".@itembyuid_card" + (.@i + 1))) + " (" + (.@i + 1) + "ï¿½me slot):";
 			}
 			.@selected = select(.@menu$);
-			mes "Êtes-vous sûr de vouloir reroll";
+			mes "ï¿½tes-vous sï¿½r de vouloir reroll";
 			mes mesitemicon(getd(".@itembyuid_card" + .@selected)) + mesitemlink(getd(".@itembyuid_card" + .@selected)) + "  de votre arme?";
 			if (select("Non", "Oui") == 1) goto L_menu;
 		case 2: // add an enchant on a free slot
@@ -162,7 +162,7 @@ L_menu:
 					mes .@npc_name$;
 					mes "Si vous utilisez " + mesitemicon(.@coin[.@coin_select]) + mesitemlink(.@coin[.@coin_select]) + ", vous pouvez choisir le type d'enchant.";
 				}
-				switch (select("Mêlée", "Distance", "Caster")) {
+				switch (select("Mï¿½lï¿½e", "Distance", "Caster")) {
 				case 1:
 					.@enchant_type = ((.@coin_select == 4) ? 7 : (.@coin_select == 6 ? 1 : 4));
 					break;
@@ -402,22 +402,22 @@ L_menu:
 					}
 					else if (.@itembyuid_card3 == 0) {
 						.@socket = 3;
-						.@str$ = "le 2ème";
+						.@str$ = "le 2ï¿½me";
 					}
 					else if (.@itembyuid_card2 == 0) {
 						.@socket = 2;
-						.@str$ = "le 3ème";
+						.@str$ = "le 3ï¿½me";
 					}
 					else if (.@itembyuid_card1 == 0) {
 						.@socket = 1;
-						.@str$ = "le 4ème";
+						.@str$ = "le 4ï¿½me";
 					}
 				}
 				else goto L_MaxEnchant;
 				clear;
 				mes .@npc_name$;
 				mes "Je vais tenter " + .@str$ + " enchantement.";
-				mes "^ff0000Le refine et les cards ne seront pas affectés. L'équippement ne sera pas détruit!^000000";
+				mes "^ff0000Le refine et les cards ne seront pas affectï¿½s. L'ï¿½quippement ne sera pas dï¿½truit!^000000";
 				next;
 				mes .@npc_name$;
 				mes "Alors c'est parti!";
@@ -441,7 +441,7 @@ L_menu:
 				specialeffect2 EF_SUI_EXPLOSION;
 				clear;
 				mes .@npc_name$;
-				mes "Oh my god! J'ai raté XD!!!!!!!";
+				mes "Oh my god! J'ai ratï¿½ XD!!!!!!!";
 				logmes "Enchantement Fail: " + logequipuid(.@euid$);
 				delitem .@coin[.@coin_select], .@totalcost[.@coin_select];
 				close;
@@ -454,7 +454,7 @@ L_menu:
 			case 0:
 				clear;
 				mes .@npc_name$;
-				mes "Oh non, il y a eu un problème avec l'enchantement... Contactez un GM pour enquêter ça.";
+				mes "Oh non, il y a eu un problï¿½me avec l'enchantement... Contactez un GM pour enquï¿½ter ï¿½a.";
 				logmes "Enchantement Error (" + .@result + "): " + logequipuid(.@euid$) + " -> [Slot #" + .@socket + "] " + .@enchant$;
 				close;
 			case 1:
@@ -463,14 +463,14 @@ L_menu:
 				.@slots$ = ((.@freeslot - 1 < 1) ? " qui est maintenant au max d'enchants." : " encore " + F_InsertPlural(.@freeslot - 1, "slot") + " disponible.");
 				if( .@coin_select == 6) {
 					npctalk strcharinfo(0) + " gratte " + (.@totalcost[.@coin_select] > 1 ? "ses" : "son") + " " + itemlink(.@coin[.@coin_select]) + " collector encore sous blister", "", bc_self;
-					npctalk "et reçois " + itemlink(getd(".@itembyuid_card" + .@socket)) + " sur " + itemlinkuid(.@euid$) + .@slots$, "", bc_self;
+					npctalk "et reï¿½ois " + itemlink(getd(".@itembyuid_card" + .@socket)) + " sur " + itemlinkuid(.@euid$) + .@slots$, "", bc_self;
 				}
 				else
-					npctalk "Houuuah!! " + itemlinkuid(.@euid$) + " reçois " + itemlink(getd(".@itembyuid_card" + .@socket)) + .@slots$, "", bc_self;
+					npctalk "Houuuah!! " + itemlinkuid(.@euid$) + " reï¿½ois " + itemlink(getd(".@itembyuid_card" + .@socket)) + .@slots$, "", bc_self;
 				clear;
 				mes .@npc_name$;
-				mes "Enchantement réussi! Je suis vraiment doué hein?";
-				mes "J'ai enchanté le ^990000slot " + .@socket + "^000000 de cette arme.";
+				mes "Enchantement rï¿½ussi! Je suis vraiment douï¿½ hein?";
+				mes "J'ai enchantï¿½ le ^990000slot " + .@socket + "^000000 de cette arme.";
 				logmes "Enchantement Arme" + (.@selected ? " (reroll)" : "") + ": " + logequipuid(.@euid$) + " -> [Slot #" + .@socket + "] " + .@enchant$;
 				if (.@selected || (.@freeslot - 1) > 0) goto L_menu;
 				else close;
@@ -479,11 +479,11 @@ L_menu:
 			clear;
 			mes .@npc_name$;
 			if (.@itembyuid_card4 == 0) {
-				mes "Aucun enchantement n'est présent sur cette arme.";
+				mes "Aucun enchantement n'est prï¿½sent sur cette arme.";
 				next;
 				goto L_menu;
 			}
-			mes "Je peux retirer l'enchantement sans toucher au ^ff0000 refine et les cards. L'équippement ne sera pas détruit!^000000";
+			mes "Je peux retirer l'enchantement sans toucher au ^ff0000 refine et les cards. L'ï¿½quippement ne sera pas dï¿½truit!^000000";
 			if (select("Non merci...", "Payer les ^ff0000150.000^000000 zenys") == 1) {
 				clear;
 				mes .@npc_name$;
@@ -494,13 +494,13 @@ L_menu:
 			if (Zeny < 150000) {
 				clear;
 				mes .@npc_name$;
-				mes "Désolé mais tu n'as pas l'argent nécessaire!";
+				mes "Dï¿½solï¿½ mais tu n'as pas l'argent nï¿½cessaire!";
 				close;
 			}
 			Zeny -= 150000;
 			clear;
 			mes .@npc_name$;
-			mes "Les enchantements sont retirés.";
+			mes "Les enchantements sont retirï¿½s.";
 			specialeffect2 EF_SPELLBREAKER;
 			for (.@i = 0; .@i < MAX_SLOTS; ++.@i) {
 				if (getiteminfo(getd(".@itembyuid_card" + (.@i + 1)), ITEMINFO_SUBTYPE) == CARD_ENCHANT)
@@ -521,13 +521,13 @@ L_fastoff:
 		if (!@fastenchant) {
 			@menufastench$ = "Activer le fast enchant";
 			mes .@npc_name$;
-			mes "Je recherche des moyens d'améliorer les armures en renforçant leurs pouvoirs.";
+			mes "Je recherche des moyens d'amï¿½liorer les armures en renforï¿½ant leurs pouvoirs.";
 			next;
 			mes .@npc_name$;
-			mes "J'ai développé une compétence extraordinaire qui permet d'insuffler dans les slots d'une armure un pouvoir permettant de développer certaines statistiques.";
+			mes "J'ai dï¿½veloppï¿½ une compï¿½tence extraordinaire qui permet d'insuffler dans les slots d'une armure un pouvoir permettant de dï¿½velopper certaines statistiques.";
 			next;
 			mes .@npc_name$;
-			mes "Si vous voulez utiliser mes services, seule l'armure équipée sera enchantée.";
+			mes "Si vous voulez utiliser mes services, seule l'armure ï¿½quipï¿½e sera enchantï¿½e.";
 			next;
 		}
 L_faston:
@@ -536,13 +536,13 @@ L_faston:
 			.@euid$ = getequipuniqueid(EQI_ARMOR);
 			if (.@euid$ == "") {
 				mes .@npc_name$;
-				mes "Ceci étant dis il va falloir venir avec une armure équipée !";
+				mes "Ceci ï¿½tant dis il va falloir venir avec une armure ï¿½quipï¿½e !";
 				close;
 			}
 			getuidlist(.@euid$);
 			mes .@npc_name$;
 			mes "Alors ?";
-			mes (.@zeny > 0 ? F_InsertDot(.@zeny) + " zenys déjà dépensés." : "");
+			mes (.@zeny > 0 ? F_InsertDot(.@zeny) + " zenys dï¿½jï¿½ dï¿½pensï¿½s." : "");
 			.@rname$ = getitemname(.@itembyuid_nameid);
 			if (.@itembyuid_refine > 0) .@rname$ = "+" + .@itembyuid_refine + " " + .@rname$ + (.@itembyuid_slot ? " [" + .@itembyuid_slot + "]" : "");
 			if (getiteminfo(.@itembyuid_card4, ITEMINFO_SUBTYPE) == CARD_ENCHANT) {
@@ -553,20 +553,20 @@ L_faston:
 				.@menuopt1$ = "Enchanter " + .@rname$;
 				.@reroll = 0;
 			}
-			if (select(.@menuopt1$, (@fastenchant ? "Désactiver" : "Activer") + " le fast enchant") == 2) {
+			if (select(.@menuopt1$, (@fastenchant ? "Dï¿½sactiver" : "Activer") + " le fast enchant") == 2) {
 				@fastenchant = !@fastenchant;
 				goto L_faston;
 			}
 			if (!@fastenchant) {
 				clear;
 				mes .@npc_name$;
-				mes "L'enchantement ou réenchantement des armures coûte ^5555ff1.000.000^000000 zenys.";
-				mes "Le bonus généré est aléatoire.";
-				if (select("Hum... Je vais y réfléchir.", "Allez-y.") == 1 ) {
+				mes "L'enchantement ou rï¿½enchantement des armures coï¿½te ^5555ff1.000.000^000000 zenys.";
+				mes "Le bonus gï¿½nï¿½rï¿½ est alï¿½atoire.";
+				if (select("Hum... Je vais y rï¿½flï¿½chir.", "Allez-y.") == 1 ) {
 					clear;
 					mes .@npc_name$;
-					mes "Pas de problème.";
-					mes "Passez une bonne " + ( isday() ? "journée" : "soirée" ) + ".";
+					mes "Pas de problï¿½me.";
+					mes "Passez une bonne " + ( isday() ? "journï¿½e" : "soirï¿½e" ) + ".";
 					close;
 				}
 			}
@@ -574,49 +574,26 @@ L_faston:
 			if (Zeny < 1000000) {
 				clear;
 				mes .@npc_name$;
-				mes "Oh, désolé mais vous n'avez pas assez de Zenys sur vous!";
+				mes "Oh, dï¿½solï¿½ mais vous n'avez pas assez de Zenys sur vous!";
 				close;
 			}
-L_rerand:
-			switch(rand(1, 55)) {
-				case 1:  .@enchant = Strength3;break;
-				case 2:  .@enchant = Inteligence3;break;
-				case 3:  .@enchant = Dexterity3;break;
-				case 4:  .@enchant = Agility3;break;
-				case 5:  .@enchant = Vitality3;break;
-				case 6:  .@enchant = Luck3;break;
-				case 7:
-				case 8:  .@enchant = Strength2;break;
-				case 9:
-				case 10: .@enchant = Inteligence2;break;
-				case 11:
-				case 12: .@enchant = Dexterity2;break;
-				case 13:
-				case 14: .@enchant = Agility2;break;
-				case 15:
-				case 16: .@enchant = Vitality2;break;
-				case 17:
-				case 18: .@enchant = Luck2;break;
-				case 19:
-				case 20:
-				case 21: .@enchant = Strength1;break;
-				case 22:
-				case 23:
-				case 24: .@enchant = Inteligence1;break;
-				case 25:
-				case 26:
-				case 27: .@enchant = Dexterity1;break;
-				case 28:
-				case 29:
-				case 30: .@enchant = Agility1;break;
-				case 31:
-				case 32:
-				case 33: .@enchant = Vitality1;break;
-				case 34:
-				case 35:
-				case 36: .@enchant = Luck1;break;
-				default:
-					goto L_rerand;
+			// Table d'enchant armure : paires (enchant, poids)
+			// Tier 3 = poids 1 | Tier 2 = poids 2 | Tier 1 = poids 3
+			setarray .@tbl[0],
+				Strength3,    1,  Inteligence3, 1,  Dexterity3,   1,
+				Agility3,     1,  Vitality3,    1,  Luck3,        1,
+				Strength2,    2,  Inteligence2, 2,  Dexterity2,   2,
+				Agility2,     2,  Vitality2,    2,  Luck2,        2,
+				Strength1,    3,  Inteligence1, 3,  Dexterity1,   3,
+				Agility1,     3,  Vitality1,    3,  Luck1,        3;
+			.@total = 0;
+			for (.@i = 1; .@i < getarraysize(.@tbl); .@i += 2)
+				.@total += .@tbl[.@i];
+			.@r = rand(.@total);
+			.@acc = 0;
+			for (.@i = 0; .@i < getarraysize(.@tbl); .@i += 2) {
+				.@acc += .@tbl[.@i + 1];
+				if (.@r < .@acc) { .@enchant = .@tbl[.@i]; break; }
 			}
 			.@result = (alteritem(.@euid$, INVITEMINFO_CARD4, .@enchant));
 			switch(.@result)
@@ -626,7 +603,7 @@ L_rerand:
 					specialeffect2 EF_SUI_EXPLOSION;
 					clear;
 					mes .@npc_name$;
-					mes "Oh non, il y a eu un problème avec l'enchantement... Contactez un GM pour enquêter ça.";
+					mes "Oh non, il y a eu un problï¿½me avec l'enchantement... Contactez un GM pour enquï¿½ter ï¿½a.";
 					logmes "Enchantement " + (@fastenchant ? "Fast " : "") + (.@reroll ? "Reroll " : "") + " Error (" + .@result + "): " + logequipuid(.@euid$) + " -> [Slot #4] " + getitemname(.@enchant);
 					close;
 					break;
@@ -637,8 +614,8 @@ L_rerand:
 					progressbar "ffff00", (@fastenchant ? 1 : 3);
 					clear;
 					mes .@npc_name$;
-					mes (.@reroll ? "Le reroll de l'enchantement a réussi." : "L'enchantement a réussi.");
-					npctalk "Houuuah!! " + itemlinkuid(.@euid$) + " reçois " + itemlink(.@itembyuid_card4), "", bc_self;
+					mes (.@reroll ? "Le reroll de l'enchantement a rï¿½ussi." : "L'enchantement a rï¿½ussi.");
+					npctalk "Houuuah!! " + itemlinkuid(.@euid$) + " reï¿½ois " + itemlink(.@itembyuid_card4), "", bc_self;
 					logmes "Enchantement " + (@fastenchant ? "Fast " : "") + (.@reroll ? "Reroll " : "") + ": " + logequipuid(.@euid$) + " -> [Slot #4] " + getitemname(.@enchant);
 					break;
 			}
@@ -646,7 +623,7 @@ L_rerand:
 				goto L_faston;
 		}
 		mes .@npc_name$;
-		mes "Oh, désolé mais vous n'avez pas assez de Zenys pour continuer à enchanter vos armures!";
+		mes "Oh, dï¿½solï¿½ mais vous n'avez pas assez de Zenys pour continuer ï¿½ enchanter vos armures!";
 		close;
 	}
 	end;
