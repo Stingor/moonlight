@@ -474,24 +474,24 @@ L_faston:
 				mes "Oh, désolé mais vous n'avez pas assez de Zenys sur vous!";
 				close;
 			}
-			// Table d'enchant armure : paires (enchant, poids)
-			// Tier 3 = poids 1 | Tier 2 = poids 2 | Tier 1 = poids 3
+			// Table d'enchant armure : paires (enchant, rate/1000)
+			// Tier 1 = 300 | Tier 2 = 200 | Tier 3 = 100
 			setarray .@tbl[0],
-				Strength3,    1,  Inteligence3, 1,  Dexterity3,   1,
-				Agility3,     1,  Vitality3,    1,  Luck3,        1,
-				Strength2,    2,  Inteligence2, 2,  Dexterity2,   2,
-				Agility2,     2,  Vitality2,    2,  Luck2,        2,
-				Strength1,    3,  Inteligence1, 3,  Dexterity1,   3,
-				Agility1,     3,  Vitality1,    3,  Luck1,        3;
-			.@total = 0;
-			for (.@i = 1; .@i < getarraysize(.@tbl); .@i += 2)
-				.@total += .@tbl[.@i];
-			.@r = rand(.@total);
-			.@acc = 0;
-			for (.@i = 0; .@i < getarraysize(.@tbl); .@i += 2) {
-				.@acc += .@tbl[.@i + 1];
-				if (.@r < .@acc) { .@enchant = .@tbl[.@i]; break; }
-			}
+				Strength3,  100,  Inteligence3, 100,  Dexterity3,  100,
+				Agility3,   100,  Vitality3,    100,  Luck3,       100,
+				Strength2,  200,  Inteligence2, 200,  Dexterity2,  200,
+				Agility2,   200,  Vitality2,    200,  Luck2,       200,
+				Strength1,  300,  Inteligence1, 300,  Dexterity1,  300,
+				Agility1,   300,  Vitality1,    300,  Luck1,       300;
+			do {
+				.@hits = 0;
+				for (.@i = 0; .@i < getarraysize(.@tbl); .@i += 2)
+					if (rand(1000) < .@tbl[.@i + 1]) {
+						.@pool[.@hits] = .@tbl[.@i];
+						.@hits++;
+					}
+			} while (!.@hits);
+			.@enchant = .@pool[rand(.@hits)];
 			.@result = (alteritem(.@euid$, INVITEMINFO_CARD4, .@enchant));
 			switch(.@result)
 			{
