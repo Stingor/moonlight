@@ -9360,21 +9360,27 @@ BUILDIN_FUNC(getequipuniqueid)
 	// get inventory position of item
 	i = pc_checkequip(sd,equip_bitmask[num]);
 	if (i < 0) {
+		// No item equipped in this slot — normal case, no warning
+		script_pushconststr(st, "");
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	item = &sd->inventory.u.items_inventory[i];
+	if (item == nullptr || item->unique_id == 0) {
+		// Item is equipped but has no unique_id — this is a bug
+		ShowWarning("buildin_getequipuniqueid: item in slot %d has no unique_id (nameid=%u)\n",
+			num, item ? item->nameid : 0);
 		script_pushconststr(st, "");
 		return SCRIPT_CMD_FAILURE;
 	}
 
-	item = &sd->inventory.u.items_inventory[i];
-	if (item != 0) {
+	{
 		int32 maxlen = 256;
 		char *buf = (char *)aMalloc(maxlen*sizeof(char));
-
 		memset(buf, 0, maxlen);
 		snprintf(buf, maxlen-1, "%llu", (unsigned long long)item->unique_id);
-
 		script_pushstr(st, buf);
-	} else
-		script_pushconststr(st, "");
+	}
 
 	return SCRIPT_CMD_SUCCESS;
 }
