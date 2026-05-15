@@ -618,7 +618,7 @@ prt_cas_q,18,37,5	script	Skia Nerius#ep162_01	4_EP16_SKIA,{
 		mes "[Kronecker]";
 		mes "You can continue to enjoy everything you did as a guest. We have agreed on it.";
 		mes "As you always have shown us honest faith.";
-		getitem 6919,10;	// TokenOfHonor
+		getitem Honor_Proof,10;
 		getexp 500000,500000;
 		completequest 7741;// Let's return
 		terra_gloria_main = 24;
@@ -2872,8 +2872,8 @@ OnInit:
 
 // Main - Einbroch Inn
 function	script	F_Terra_Gloria_Inn	{
-	if (countitem(25179) < 1) {	// no way to retrieve the item ?
-		mes "Since you do not have the ^00ffff" + getitemname(25179) + "^000000, you cannot proceed any further.";
+	if (countitem(Blessing_Star) < 1) {	// no way to retrieve the item ?
+		mes "Since you do not have the ^00ffff" + getitemname(Blessing_Star) + "^000000, you cannot proceed any further.";
 		close;
 	}
 	mes "[Tess]";
@@ -3021,7 +3021,7 @@ function	script	F_Terra_Gloria_Inn	{
 	mes "[Skia]";
 	mes "Yes~";
 	mes "Mr. Philopontess, so long!";
-	delitem 25179,1;	// Blessing_Star
+	delitem Blessing_Star,1;
 	erasequest 7740;// Star of Blessing obtained
 	setquest 7741;// Let's return
 	terra_gloria_main = 23;
@@ -3550,7 +3550,7 @@ que_swat,150,58,3	script	Rookie#ep162_03	4_M_ROOKIE,{
 			mes "We will count on you again next time.";
 			erasequest 7742;// Sweeping the remnants
 			setquest 7743;// Sweeping the remnants (Standby)
-			getitem 25155,3;	// Swz_Honor_Token
+			getitem Swz_Honor_Token,3;	
 			getexp 200000,200000;
 			close3;
 		}
@@ -3645,7 +3645,7 @@ que_swat,145,57,3	script	Philopontess#ep162_04	4_M_PHILOFONTES,{
 		next;
 		mes "[Tess]";
 		mes "Thank you for your support in advance.";
-		getitem 25155,10;	// Swz_Honor_Token
+		getitem Swz_Honor_Token,10;	
 		getexp 500000,500000;
 		terra_gloria_main = 25;
 		questinfo_refresh();
@@ -3702,7 +3702,7 @@ que_swat,145,57,3	script	Philopontess#ep162_04	4_M_PHILOFONTES,{
 			setquest 7745;		// Hiding Researcher (Standby)
 			erasequest 7760;	// Well hidden
 			erasequest 7744;	// Hiding Researcher
-			getitem 25155,3;	// Swz_Honor_Token
+			getitem Swz_Honor_Token,3;	
 			getexp 200000,200000;
 			next;
 			mes "[Tess]";
@@ -3818,7 +3818,7 @@ que_swat,161,53,3	script	Yuslan#ep162_1	4_M_GUNSLINGER3,{
 			mes "Please be with us next time!";
 			erasequest 7761;// Make Chimeras rest in peace
 			setquest 7762;// Make Chimeras rest in peace (Standby)
-			getitem 25155,3;	// Swz_Honor_Token
+			getitem Swz_Honor_Token,3;	
 			getexp 300000,300000;
 			close;
 		}
@@ -3874,7 +3874,7 @@ rebel_in,70,78,3	script	Elena Volkova#16.2rm	4_F_ELENA,{
 		mes "Lebedev guys baked it...";
 		mes "Then, I have no choice but to taste it. Give it to me.";
 		next;
-		if (countitem(25161) < 1) {
+		if (countitem(Delicious_Handmade_Cookie) < 1) {
 			mes "[USU commander Elena]";
 			mes "...Why are you empty-handed? Where is the cookie?";
 			close3;
@@ -3884,7 +3884,7 @@ rebel_in,70,78,3	script	Elena Volkova#16.2rm	4_F_ELENA,{
 		mes "It smells good.";
 		mes "Seems like they gave a great effort. Tell them thanks.";
 		completequest 16031;// Service: Cookies delivery
-		delitem 25161,1;// Handmade_cookie2
+		delitem Delicious_Handmade_Cookie,1;
 		close3;
 	}
 
@@ -4104,7 +4104,7 @@ rebel_in,70,78,3	script	Elena Volkova#16.2rm	4_F_ELENA,{
 					erasequest 16061;	// Fair and equitable result
 					setquest 16010;// Battle in great condition
 					completequest 14602;// Hunter on second floor
-					getitem 25155,10;	// Swz_Honor_Token
+					getitem Swz_Honor_Token,10;	
 					close3;
 				case 2:
 					mes "[USU commander Elena]";
@@ -4237,7 +4237,7 @@ rebel_in,70,78,3	script	Elena Volkova#16.2rm	4_F_ELENA,{
 				setquest 16010;// Battle in great condition
 				completequest 14602;// Hunter on second floor
 				getexp 200000,200000;
-				getitem 25155,10;	// Swz_Honor_Token
+				getitem Swz_Honor_Token,10;	
 				close3;
 			}
 		}
@@ -4476,7 +4476,7 @@ rebel_in,70,78,3	script	Elena Volkova#16.2rm	4_F_ELENA,{
 			erasequest 16061;	// Fair and equitable result
 			setquest 16010;// Battle in great condition
 			getexp 400000,400000;
-			getitem 25155,3;// Swz_Honor_Token
+			getitem Swz_Honor_Token,3;
 			close3;
 		}
 		end;
@@ -4811,7 +4811,7 @@ rebel_in,70,78,3	script	Elena Volkova#16.2rm	4_F_ELENA,{
 			mes "I will count on you in the future.";
 			completequest 16019;// Elena Volkova's Solution
 			getexp 200000,200000;
-			getitem 25155,10;// Swz_Honor_Token
+			getitem Swz_Honor_Token,10;
 			lebedev_quest_16_2 = 11;
 			questinfo_refresh();
 			close3;
@@ -4837,7 +4837,7 @@ OnInit:
 	questinfo( QTYPE_QUEST, QMARK_NONE, "terra_gloria_main > 16 && (lebedev_quest_16_2 == 0 || lebedev_quest_16_2 == 5 || lebedev_quest_16_2 == 8 || lebedev_quest_16_2 == 10)" );
 
 	// twins daily quest : "Service: Cookies delivery"
-	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16031) == 1 && countitem(25161) > 0" );
+	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16031) == 1 && countitem(Delicious_Handmade_Cookie) > 0" );
 	end;
 }
 
@@ -5473,7 +5473,7 @@ rebel_in,122,71,3	script	Rebellion leader#162gmb	4_M_RUPERT,{
 		cutin "ep162_dn03.bmp",2;
 		cloakonnpcself( "Dien#162gmbs2" );
 		if (terra_gloria_lady_part == 9) {
-			getitem 25155,10;	// Swz_Honor_Token
+			getitem Swz_Honor_Token,10;	
 			getexp 200000,200000;
 			completequest 14600;// Gentleman on second floor
 			completequest 11462;// Doubt
@@ -6810,7 +6810,7 @@ rebel_in,86,61,5	script	Lazy#16nego05	4_M_LAZY,{
 		npctalk "Please visit us again, adventurer.", "Rookie#16nego02", bc_self;
 		erasequest 14614;// Convince the leaders
 		setquest 14615;// Between negotiation and deception
-		getitem 25155,10;	// Swz_Honor_Token
+		getitem Swz_Honor_Token,10;	
 		getexp 1000000,500000;
 		terra_gloria_main = 17;
 		questinfo_refresh();
@@ -7718,10 +7718,10 @@ rebel_in,162,87,5	script	Rebellion Guard leader#2	4_M_REBELLION,{
 				next;
 				mes "[Rebellion Guard leader Larcis]";
 				mes "If you bring this token to Strasse at the stairs at 10 o'clock in the corridor of the 2nd floor, you will receive something useful in return.";
-				delitem 25165,1;// High_Class_Tea
+				delitem High_Class_Tea,1;
 				erasequest 11465;// Dien's High Class Tea
 				setquest 11466;// Dien's High Class Tea
-				getitem 25155,3;// Swz_Honor_Token
+				getitem Swz_Honor_Token,3;
 				getexp 150000,150000;
 				break;
 			case 1:
@@ -7732,10 +7732,10 @@ rebel_in,162,87,5	script	Rebellion Guard leader#2	4_M_REBELLION,{
 				next;
 				mes "[Rebellion Guard leader Larcis]";
 				mes "If you bring this token to Strasse at the stairs at 10 o'clock in the corridor of the 2nd floor, you will receive something useful in return.";
-				delitem 25167,1;// Old_Letter
+				delitem Old_Letter,1;
 				erasequest 11467;// Ridsh's Old Letter
 				setquest 11468;// Ridsh's Old Letter
-				getitem 25155,3;// Swz_Honor_Token
+				getitem Swz_Honor_Token,3;
 				getexp 150000,150000;
 				break;
 			case 2:
@@ -7746,8 +7746,8 @@ rebel_in,162,87,5	script	Rebellion Guard leader#2	4_M_REBELLION,{
 				next;
 				mes "[Rebellion Guard leader Larcis]";
 				mes "If you bring this token to Strasse at the stairs at 10 o'clock in the corridor of the 2nd floor, you will receive something useful in return.";
-				delitem 25166,4;	// Very_Shining_Ring
-				getitem 25155,3;	// Swz_Honor_Token
+				delitem Very_Shining_Ring,4;
+				getitem Swz_Honor_Token,3;	
 				erasequest 11469;// Cotness's Shiny Ring
 				setquest 11470;// Cotness's Shiny Ring
 				getexp 150000,150000;
@@ -7763,9 +7763,9 @@ OnInit:
 	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(11467) == 0 && (checkquest(11468,PLAYTIME) == -1 || checkquest(11468,PLAYTIME) == 2) && isbegin_quest(11464) == 2" );
 	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(11469) == 0 && (checkquest(11470,PLAYTIME) == -1 || checkquest(11470,PLAYTIME) == 2) && isbegin_quest(11464) == 2" );
 
-	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(11465,HUNTING) == 2 && countitem(25165) > 0 && isbegin_quest(11464) == 2" );
-	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(11467,HUNTING) == 2 && countitem(25167) > 0 && isbegin_quest(11464) == 2" );
-	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(11469,HUNTING) == 2 && countitem(25166) > 3 && isbegin_quest(11464) == 2" );
+	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(11465,HUNTING) == 2 && countitem(High_Class_Tea) > 0 && isbegin_quest(11464) == 2" );
+	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(11467,HUNTING) == 2 && countitem(Old_Letter) > 0 && isbegin_quest(11464) == 2" );
+	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(11469,HUNTING) == 2 && countitem(Very_Shining_Ring) > 3 && isbegin_quest(11464) == 2" );
 	end;
 }
 
@@ -8478,7 +8478,7 @@ rebel_in,78,66,6	script	Arivero Yurhik#TFQ02	4_M_GUNSLINGER,{
 		mes "The basic repair is all over.";
 		mes "Now let me insert a Star Crumb, the core material..";
 		next;
-		if (countitem(1000) < 1) {
+		if (countitem(Star_Crumb) < 1) {
 			emotion ET_HUM;
 			mes "[Arivero Yurhik]";
 			mes "The basic repairing is all over. But you haven't brought the Star Crumb yet. Please bring it soon.";
@@ -8520,7 +8520,7 @@ rebel_in,78,66,6	script	Arivero Yurhik#TFQ02	4_M_GUNSLINGER,{
 		mes "[Arivero Yurhik]";
 		mes "Please get four Great Natures and come to Yuno. They have opposite attributes to the Wind attribute.";
 		next;
-		delitem 1000,1;// Star Crumb
+		delitem Star_Crumb,1;
 		erasequest 5734;	// Core materials are always a problem
 		setquest 5735;	// To Yuno
 		yurhik_quest = 8;
@@ -8592,7 +8592,7 @@ rebel_in,78,63,6	script	Rebellion leader#TFQ15	4_M_RUPERT,{
 		mes "Since it was not an official mission, I cannot give you a huge reward. But it's still a remarkable achievement.";
 		next;
 		completequest 5737;	// Clana Namieri
-		getitem 25155,10;// Swz_Honor_Token
+		getitem Swz_Honor_Token,10;
 		getexp 1000000,4000000;
 		yurhik_quest = 11;
 		mes "[Rebellion leader]";
@@ -8613,7 +8613,7 @@ OnInit:
 
 einbech,212,212,6	script	Arivero Yurhik#TFQ04	4_M_GUNSLINGER,{
 	if (yurhik_quest == 2) {
-		if (countitem(994) < 1) {
+		if (countitem(Flame_Heart) < 1) {
 			mes "[Arivero Yurhik]";
 			mes "Welcome, pal. Have you brought the item full of fire attributes that I asked you for?";
 			next;
@@ -8669,7 +8669,7 @@ einbech,212,212,6	script	Arivero Yurhik#TFQ04	4_M_GUNSLINGER,{
 		mes "That's it!! Water!! A water attribute.";
 		mes "If we attack it using a Water attribute, the equipment will be destroyed. Hey, pal. Bring an item with a strong Water attribute.";
 		next;
-		delitem 994,1;// Flame Heart
+		delitem Flame_Heart,1;
 		erasequest 5729;	// To Einbech
 		setquest 5730;	// Things that can destroy the device
 		yurhik_quest = 3;
@@ -8682,13 +8682,13 @@ einbech,212,212,6	script	Arivero Yurhik#TFQ04	4_M_GUNSLINGER,{
 		mes "[Arivero Yurhik]";
 		mes "Welcome, pal. Have you brought the item full of Water attributes that I asked you for?";
 		next;
-		if (countitem(995) < 1) {
+		if (countitem(Mistic_Frozen) < 1) {
 			mes "[Arivero Yurhik]";
 			mes "Not yet?";
 			mes "We need an item that has a strong Water attribute.";
 			close;
 		}
-		if (countitem(995) < 3) {
+		if (countitem(Mistic_Frozen) < 3) {
 			mes "[Arivero Yurhik]";
 			mes "Mystic Frozen? Certainly it's an item that has a strong Water attribute. Right. Mystic Frozen will be the equipment strong enough for our purpose. But one or two will not be enough.";
 			mes "I think we need at least three of them.";
@@ -8722,7 +8722,7 @@ einbech,212,212,6	script	Arivero Yurhik#TFQ04	4_M_GUNSLINGER,{
 		mes "[Arivero Yurhik]";
 		mes "But, eventually, teleporting will become possible.";
 		next;
-		delitem 995,3;// Mystic Frozen
+		delitem Mystic_Frozen,3;
 		erasequest 5730;	// // Things that can destroy the device
 		setquest 5731;	// // Clana Namieri
 		yurhik_quest = 4;
@@ -8753,7 +8753,7 @@ einbech,215,210,4	duplicate(dummy_cloaked_npc)	Teleport Prohibition equipment#1	
 
 lighthalzen,135,233,6	script	Arivero Yurhik#TFQ07	4_M_GUNSLINGER,{
 	if (yurhik_quest == 5) {
-		if (countitem(995) < 1 || countitem(996) < 3) {
+		if (countitem(Mistic_Frozen) < 1 || countitem(Rough_Wind) < 3) {
 			mes "[Arivero Yurhik]";
 			mes "Sorry! Sorry! As a matter of fact, I arrived here early. But I had to talk to the agent to get the right location. I should have arrived and called you in advance. Sorry to make you come here alone.";
 			next;
@@ -8830,8 +8830,8 @@ lighthalzen,135,233,6	script	Arivero Yurhik#TFQ07	4_M_GUNSLINGER,{
 		mes "Ha! In the past, due to the magic power of this prohibition equipment.. Oh! It's nothing.";
 		mes "We cannot help walking.";
 		next;
-		delitem 995,1;// Mystic Frozen
-		delitem 996,3;// Rough Wind
+		delitem Mystic_Frozen,1;
+		delitem Rough_Wind,3;
 		erasequest 5732;	// To Lighthalzen
 		setquest 5733;	// Clana Namieri
 		yurhik_quest = 6;
@@ -8875,7 +8875,7 @@ yuno,204,226,6	script	Arivero Yurhik#TFQ10	4_M_GUNSLINGER,{
 		mes "[Arivero Yurhik]";
 		mes "Have you brought Great Nature?";
 		next;
-		if (countitem(997) < 3) {
+		if (countitem(Great_Nature) < 3) {
 			mes "[Arivero Yurhik]";
 			mes "Not yet. I will be guarding this here. Please bring it quickly.";
 			mes "According to our agent, Rekenber and the government are serious now.";
@@ -8910,7 +8910,7 @@ yuno,204,226,6	script	Arivero Yurhik#TFQ10	4_M_GUNSLINGER,{
 		mes "[Arivero Yurhik]";
 		mes "We destroyed the prohibition equipment and there appear to be.. no eyewitnesses. Just in case, let's scatter and move to Einbroch.";
 		next;
-		delitem 997,3;// Great Nature
+		delitem Great_Nature,3;
 		erasequest 5735;	// To Yuno
 		setquest 5736;	// To Einbroch
 		yurhik_quest = 9;
@@ -8949,7 +8949,7 @@ einbroch,262,42,4	script	Arivero Yurhik#TFQ13	4_M_GUNSLINGER,{
 		next;
 		mes "Vero is pressing me, as if he does not have much time left. Something is fish. But I'm not asking him, as I know he won't tell me.";
 		next;
-		if (countitem(994) < 3 || countitem(997) < 1) {
+		if (countitem(Flame_Heart) < 3 || countitem(Great_Nature) < 1) {
 			mes "[Arivero Yurhik]";
 			mes "Please. And the last one is...";
 			mes "No! Nothing. Please bring it here as soon as possible.";
@@ -9019,8 +9019,8 @@ einbroch,262,42,4	script	Arivero Yurhik#TFQ13	4_M_GUNSLINGER,{
 		sleep2 4000;
 		npctalk "Oh..", "Arivero Yurhik#TFQ13", bc_self;
 		cloakonnpcself( "Arivero Yurhik#TFQ13" );
-		delitem 997,1;// Great Nature
-		delitem 994,3;// Flame Heart
+		delitem Great_Nature,1;
+		delitem Flame_Heart,3;
 		erasequest 5736;	// To Einbroch
 		setquest 5737;	// Clana Namieri
 		yurhik_quest = 10;
@@ -9083,18 +9083,18 @@ rebel_in,91,67,3	script	Ericsson Adler#16.2rm	4_MAL_CAPTAIN,{
 		mes "(......Cookies...?)";
 		erasequest 16016;// Borrowing wisdom of the experts
 		setquest 16033;// Bring dessert and listen the story
-		getitem 25161,1;// Handmade_cookie2
+		getitem Delicious_Handmade_Cookie,1;
 		lebedev_quest_16_2 = 7;
 		questinfo_refresh();
 		close;
 	}
-	if (lebedev_quest_16_2 == 7 && countitem(25161) < 1) {
+	if (lebedev_quest_16_2 == 7 && countitem(Delicious_Handmade_Cookie) < 1) {
 		mes "[Detached Force commander Ericsson]";
 		mes "You're back! Don't be so nervous. They are good kids. Go speak to them.";
 		next;
 		mes "[Detached Force commander Ericsson]";
 		mes "Don't preach at them too much. If they have problems, listen to them. Make sure you give them cookies.";
-		getitem 25161,1;// Handmade_cookie2
+		getitem Delicious_Handmade_Cookie,1;
 		close;
 	}
 	// twins daily quest
@@ -9103,7 +9103,7 @@ rebel_in,91,67,3	script	Ericsson Adler#16.2rm	4_MAL_CAPTAIN,{
 		mes "Cookies? Lebedev twins made them?";
 		mes "Then I have no choice but to eat them. Give them to me.";
 		next;
-		if (countitem(25161) < 1) {
+		if (countitem(Delicious_Handmade_Cookie) < 1) {
 			mes "[Detached Force commander Ericsson]";
 			mes "You said there were cookies. Where are they?";
 			close;
@@ -9114,7 +9114,7 @@ rebel_in,91,67,3	script	Ericsson Adler#16.2rm	4_MAL_CAPTAIN,{
 		mes "[Detached Force commander Ericsson]";
 		mes "Hmm, good! Tell them thanks.";
 		completequest 16030;// Service: Cookies delivery
-		delitem 25161,1;// Handmade_cookie2
+		delitem Delicious_Handmade_Cookie,1;
 		close;
 	}
 
@@ -9229,7 +9229,7 @@ rebel_in,91,67,3	script	Ericsson Adler#16.2rm	4_MAL_CAPTAIN,{
 			mes "If you do not mind, will you stop by sometimes and put down some flowers?";
 			completequest 16048;// Traces of old story
 			setquest 16049;// Quiet dawn
-			getitem 25155,10;// Swz_Honor_Token
+			getitem Swz_Honor_Token,10;
 			getexp 200000,200000;
 			close;
 		case 2:	// daily
@@ -9265,7 +9265,7 @@ rebel_in,91,67,3	script	Ericsson Adler#16.2rm	4_MAL_CAPTAIN,{
 			erasequest 16053;// Ongoing old story
 			erasequest 16050;// Tribute hour
 			setquest 16049;// Quiet dawn
-			getitem 25155,3;// Swz_Honor_Token
+			getitem Swz_Honor_Token,3;
 			getexp 170000,200000;
 			close;
 		}
@@ -9289,7 +9289,7 @@ OnInit:
 	end;
 
 	// twins daily quest : "Service: Cookies delivery"
-	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16030) == 1 && countitem(25161) > 0" );
+	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16030) == 1 && countitem(Delicious_Handmade_Cookie) > 0" );
 	end;
 }
 
@@ -9321,7 +9321,7 @@ einbroch,167,160,3	script	Flower Girl#16.2rm	1_M_SIZ,{
 		mes "[Flower Girl]";
 		mes "Did you bring ^0000CD3 Slick Paper^000000?";
 		mes "If you bring, I will make a bouquet for you without having to pay for the flowers.";
-		if (countitem(7111) < 3)
+		if (countitem(Smooth_Paper) < 3)
 			close;
 		next;
 		if (select( "Hand over the slick paper.", "Do not give the paper." ) == 2) {
@@ -9331,8 +9331,8 @@ einbroch,167,160,3	script	Flower Girl#16.2rm	1_M_SIZ,{
 		}
 		mes "[Flower Girl]";
 		mes "Here, this bouquet is beautiful.";
-		delitem 7111,3;// Smooth_Paper
-		getitem 25152,1;// Cherish_Bouquet
+		delitem Smooth_Paper,3;
+		getitem Cherished_Bouquet,1;
 		if (isbegin_quest(16046) == 1) {
 			erasequest 16046;// DIY obtaining bouquet materials
 			setquest 16047;// Quiet memorial ceremony
@@ -9344,7 +9344,7 @@ einbroch,167,160,3	script	Flower Girl#16.2rm	1_M_SIZ,{
 		close;
 	}
 	if (isbegin_quest(16047) == 1 || isbegin_quest(16052) == 1) {
-		if (countitem(25152) < 1) {
+		if (countitem(Cherished_Bouquet) < 1) {
 			mes "[Flower Girl]";
 			mes "Hello, welcome back. Which flower do you need?";
 			next;
@@ -9360,15 +9360,15 @@ einbroch,167,160,3	script	Flower Girl#16.2rm	1_M_SIZ,{
 				mes "Oops! Sorry. A Bunch Of Flowers... Don't you need it?";
 				close;
 			}
-			if (countitem(7111) < 3) {
+			if (countitem(Smooth_Paper) < 3) {
 				mes "[Flower Girl]";
 				mes "Sorry. If I don't have enough smooth paper, I cannot make a Bunch Of Flowers...";
 				close;
 			}
 			mes "[Flower Girl]";
 			mes "Here, this bouquet is beautiful.";
-			delitem 7111,3;// Smooth_Paper
-			getitem 25152,1;// Cherish_Bouquet
+			delitem Smooth_Paper,3;
+			getitem Cherished_Bouquet,1;
 			close;
 		}
 		mes "[Flower Girl]";
@@ -9396,14 +9396,14 @@ einbroch,167,160,3	script	Flower Girl#16.2rm	1_M_SIZ,{
 
 OnInit:
 	questinfo( QTYPE_QUEST,QMARK_YELLOW, " isbegin_quest(16045) == 1 " );
-	questinfo( QTYPE_QUEST,QMARK_YELLOW, "(isbegin_quest(16046) == 1 || isbegin_quest(16051) == 1) && countitem(7111) > 2" );
+	questinfo( QTYPE_QUEST,QMARK_YELLOW, "(isbegin_quest(16046) == 1 || isbegin_quest(16051) == 1) && countitem(Smooth_Paper) > 2" );
 	questinfo( QTYPE_QUEST,QMARK_YELLOW, " isbegin_quest(16050) == 1 " );
 	end;
 }
 
 einbroch,162,153,3	script	Huge Tree#16.2rm	4_BULLETIN_BOARD2,{
 	if (isbegin_quest(16047) == 1) {
-		if (countitem(25152) < 1) {
+		if (countitem(Cherished_Bouquet) < 1) {
 			mes "You searched through your back.";
 			next;
 			mes "[" + strcharinfo(0) + "]";
@@ -9451,7 +9451,7 @@ einbroch,162,153,3	script	Huge Tree#16.2rm	4_BULLETIN_BOARD2,{
 			mes "Irene will thank you. Bye...";
 			erasequest 16047;// Quiet memorial ceremony
 			setquest 16048;// Traces of old story
-			delitem 25152,1;// Cherish_Bouquet
+			delitem Cherished_Bouquet,1;
 			close;
 		}
 		mes "[" + strcharinfo(0) + "]";
@@ -9529,11 +9529,11 @@ einbroch,162,153,3	script	Huge Tree#16.2rm	4_BULLETIN_BOARD2,{
 		mes "Thank you. If you don't mind, please stop by my house occasionally and talk to this old woman...";
 		erasequest 16047;// Quiet memorial ceremony
 		setquest 16048;// Traces of old story
-		delitem 25152,1;// Cherish_Bouquet
+		delitem Cherished_Bouquet,1;
 		close;
 	}
 	if (isbegin_quest(16052) == 1) {
-		if (countitem(25152) < 1) {
+		if (countitem(Cherished_Bouquet) < 1) {
 			mes "You searched through your back.";
 			next;
 			mes "[" + strcharinfo(0) + "]";
@@ -9553,7 +9553,7 @@ einbroch,162,153,3	script	Huge Tree#16.2rm	4_BULLETIN_BOARD2,{
 		mes "Just then, you met grandma Lucy near the tree and said hello to her.";
 		erasequest 16052;// Quiet memorial ceremony
 		setquest 16053;// Ongoing old story
-		delitem 25152,1;// Cherish_Bouquet
+		delitem Cherished_Bouquet,1;
 		close;
 	}
 	mes "[Huge Tree]";
@@ -9562,8 +9562,8 @@ einbroch,162,153,3	script	Huge Tree#16.2rm	4_BULLETIN_BOARD2,{
 	close;
 
 OnInit:
-	questinfo( QTYPE_QUEST,QMARK_YELLOW, " isbegin_quest(16047) == 1 && countitem(25152) > 0 " );
-	questinfo( QTYPE_QUEST,QMARK_YELLOW, " isbegin_quest(16052) == 1 && countitem(25152) > 0 " );
+	questinfo( QTYPE_QUEST,QMARK_YELLOW, " isbegin_quest(16047) == 1 && countitem(Cherished_Bouquet) > 0 " );
+	questinfo( QTYPE_QUEST,QMARK_YELLOW, " isbegin_quest(16052) == 1 && countitem(Cherished_Bouquet) > 0 " );
 	end;
 }
 
@@ -9637,7 +9637,7 @@ rebel_in,19,48,5	script	Mason Bender#16.2rm	4_M_KHMAN,{
 		mes "No, no. I don't have any prejudice against them any more.";
 		mes "Please give it to me. Let me judge it with my talented taste!";
 		next;
-		if (countitem(25161) < 1) {
+		if (countitem(Delicious_Handmade_Cookie) < 1) {
 			mes "[Mason Bender]";
 			mes "Why aren't you giving me the cookie?";
 			next;
@@ -9656,7 +9656,7 @@ rebel_in,19,48,5	script	Mason Bender#16.2rm	4_M_KHMAN,{
 		mes "[Mason Bender]";
 		mes "I can see how much effort they gave to make them. It's delicious.";
 		completequest 16028;// Service: Cookies delivery
-		delitem 25161,1;// Handmade_cookie2
+		delitem Delicious_Handmade_Cookie,1;
 		close;
 	}
 
@@ -9729,11 +9729,11 @@ rebel_in,19,48,5	script	Mason Bender#16.2rm	4_M_KHMAN,{
 			setquest 16055;	// Advertising: Dou you want a clean city?
 			setquest 16056;	// Advertising: Then blow it all away!
 			setquest 16057;	// Advertising: Suitable revenge for old age!
-			getitem 25163,3;	// Arms_Shop_AD
+			getitem Arms_Shop_Ad,3;
 			close;
 		case 1:
 			if (isbegin_quest(16055) != 2 || isbegin_quest(16056) != 2 || isbegin_quest(16057) != 2) {
-				if (countitem(25163) < 1) {
+				if (countitem(Arms_Shop_Ad) < 1) {
 					mes "[Mason Bender]";
 					mes "Now, I count on you.";
 					mes "In the meantime, I will get ready to receive customers.";
@@ -9744,7 +9744,7 @@ rebel_in,19,48,5	script	Mason Bender#16.2rm	4_M_KHMAN,{
 					mes "[Mason Bender]";
 					mes "Please don't mistreat the leaflets. This time, I will give them to you again.";
 					.@count = (isbegin_quest(16055) != 2) + (isbegin_quest(16056) != 2) + (isbegin_quest(16057) != 2);
-					getitem 25163,.@count;	// Arms_Shop_AD
+					getitem Arms_Shop_Ad, .@count;
 					close;
 				}
 				mes "[Mason Bender]";
@@ -9783,7 +9783,7 @@ rebel_in,19,48,5	script	Mason Bender#16.2rm	4_M_KHMAN,{
 			erasequest 16057;	// Advertising: Suitable revenge for old age!
 			setquest 16058;	// Slow advertising effect
 			getexp 100000,100000;
-			getitem 25155,10;	// Swz_Honor_Token
+			getitem Swz_Honor_Token,10;	
 			close;
 		case 2:
 			break;
@@ -9883,11 +9883,11 @@ rebel_in,19,48,5	script	Mason Bender#16.2rm	4_M_KHMAN,{
 		setquest 16055;	// Advertising: Dou you want a clean city?
 		setquest 16056;	// Advertising: Then blow it all away!
 		setquest 16057;	// Advertising: Suitable revenge for old age!
-		getitem 25163,3;	// Arms_Shop_AD
+		getitem Arms_Shop_AD,3;
 		close;
 	}
 	if (isbegin_quest(16055) != 2 || isbegin_quest(16056) != 2 || isbegin_quest(16057) != 2) {
-		if (countitem(25163) < 1) {
+		if (countitem(Arms_Shop_AD) < 1) {
 			mes "[Mason Bender]";
 			mes "Now, I count on you.";
 			mes "In the meantime, I will get ready to receive customers.";
@@ -9898,7 +9898,7 @@ rebel_in,19,48,5	script	Mason Bender#16.2rm	4_M_KHMAN,{
 			mes "[Mason Bender]";
 			mes "Please don't mistreat the leaflets. This time, I will give them to you again.";
 			.@count = (isbegin_quest(16055) != 2) + (isbegin_quest(16056) != 2) + (isbegin_quest(16057) != 2);
-			getitem 25163,.@count;	// Arms_Shop_AD
+			getitem Arms_Shop_AD,.@count;
 			close;
 		}
 		mes "[Mason Bender]";
@@ -9925,7 +9925,7 @@ rebel_in,19,48,5	script	Mason Bender#16.2rm	4_M_KHMAN,{
 	erasequest 16059;	// Differentiated advertising strategy
 	setquest 16058;	// Slow advertising effect
 	getexp 100000,100000;
-	getitem 25155,3;// Swz_Honor_Token
+	getitem Swz_Honor_Token,3;
 	close;
 
 OnInit:
@@ -9938,7 +9938,7 @@ OnInit:
 	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16014) == 1" );
 
 	// twins daily quest : "Service: Cookies delivery"
-	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16028) == 1 && countitem(25161) > 0" );
+	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16028) == 1 && countitem(Delicious_Handmade_Cookie) > 0" );
 	end;
 }
 
@@ -9952,7 +9952,7 @@ einbech,71,168,1	script	Tired Looking Man#16.2r	4_M_SEAMAN,{
 		mes "I call it a pleasure... What's wrong with my life?";
 		close;
 	case 1:
-		if (countitem(25163) < 1) {
+		if (countitem(Arms_Shop_AD) < 1) {
 			mes "[Tired Looking Man]";
 			mes "Oh, I won't buy it. Besides, you're empty-handed.";
 			mes "I'm so tired after a hard work. Don't annoy me and just leave.";
@@ -9965,7 +9965,7 @@ einbech,71,168,1	script	Tired Looking Man#16.2r	4_M_SEAMAN,{
 		next;
 		mes "[Tired Looking Man]";
 		mes "Mortar? Are we having a war? Why would I buy it?";
-		delitem 25163,1;	// Arms_Shop_AD
+		delitem Arms_Shop_AD,1;
 		completequest 16055;	// Advertising: Dou you want a clean city?
 		close;
 	case 2:
@@ -9991,7 +9991,7 @@ einbech,79,100,3	script	Tired Looking Old man#1	4_M_BARYO_OLD,{
 		mes "Not a single fish lives here. What's going to happen to this village after the remaining old men are gone?";
 		close;
 	case 1:
-		if (countitem(25163) < 1) {
+		if (countitem(Arms_Shop_AD) < 1) {
 			mes "[Tired Looking Old man]";
 			mes "No. I don't need a cannon.";
 			mes "No matter how much you suggest it to me, I don't need it.";
@@ -10004,7 +10004,7 @@ einbech,79,100,3	script	Tired Looking Old man#1	4_M_BARYO_OLD,{
 		next;
 		mes "[Tired Looking Old man]";
 		mes "I will take the leaflets if you give me... But I only need a little amount of gunpowder in the mine.";
-		delitem 25163,1;	// Arms_Shop_AD
+		delitem Arms_Shop_AD,1;
 		completequest 16056;	// Advertising: Then blow it all away!
 		close;
 	case 2:
@@ -10030,7 +10030,7 @@ einbech,170,143,3	script	Sleepy Looking Old woman	4_F_BARYO_OLD,{
 		mes "I cannot see and hear well. But listen carefully and don't worry.";
 		close;
 	case 1:
-		if (countitem(25163) < 1) {
+		if (countitem(Arms_Shop_AD) < 1) {
 			mes "[Sleepy Looking Old woman]";
 			mes "What? Lunch? I've had it already. By the way, you didn't even bring any food.";
 			close;
@@ -10042,7 +10042,7 @@ einbech,170,143,3	script	Sleepy Looking Old woman	4_F_BARYO_OLD,{
 		next;
 		mes "[Sleepy Looking Old woman]";
 		mes "Dried filefish fillet? Are you selling it? Oh, I don't have tooth so I can't eat it.";
-		delitem 25163,1;	// Arms_Shop_AD
+		delitem Arms_Shop_AD,1;
 		completequest 16057;	// Advertising: Suitable revenge for old age!
 		close;
 	case 2:
@@ -10128,7 +10128,7 @@ rebel_in,108,27,3	script	Milo River#16.2rm	4_M_GUNSLINGER2,{
 		mes "Hey, I'm just kidding. Don't look at me like that.";
 		mes "They seem to have found their former character. That's good. You did a great job.";
 		next;
-		if (countitem(25161) < 1) {
+		if (countitem(Delicious_Handmade_Cookie) < 1) {
 			mes "[Milo River]";
 			mes "...By the way, where are the cookies?";
 			mes "You don't have anything for me? What a shame! Well~ I like cookies too~";
@@ -10138,7 +10138,7 @@ rebel_in,108,27,3	script	Milo River#16.2rm	4_M_GUNSLINGER2,{
 		mes "So don't look at me like that!!";
 		mes "Just give me the cookies!";
 		completequest 16027;// Service: Cookies delivery
-		delitem 25161,1;// Handmade_cookie2
+		delitem Delicious_Handmade_Cookie,1;
 		close;
 	}
 
@@ -10235,7 +10235,7 @@ rebel_in,108,27,3	script	Milo River#16.2rm	4_M_GUNSLINGER2,{
 		mes "What have you brought? I will read the list.";
 		mes "Tell me what you brought!";
 		next;
-		setarray .@item_id[0],12046,12047,12048,12062,12063;
+		setarray .@item_id[0],Int_Dish01,Int_Dish02,Int_Dish03,Dex_Dish02,Dex_Dish03;
 		//.@s = select( "Grape Herb Tea", "Autumn Red Tea", "Honey Herb Tea", "Chocolate Mousse Cake", "Fruits Mix", "I don't have any." ) - 1;
 		.@s = select( getitemname(.@item_id[0]), getitemname(.@item_id[1]), getitemname(.@item_id[2]), getitemname(.@item_id[3]), getitemname(.@item_id[4]), "I don't have any." ) - 1;
 		if (.@s == 5) {
@@ -10331,11 +10331,11 @@ rebel_in,108,27,3	script	Milo River#16.2rm	4_M_GUNSLINGER2,{
 				mes "[Milo River]";
 				mes "Thank you! I will give you enough Anchovy cookies.";
 				mes "They are for cats. Give them to Charity and bring back the rest of them. Make sure you don't eat them.";
-				getitem 25162,1;	// Anchovy_cookie
+				getitem Crispy_Anchovy,1;
 				setquest 16041;// Investigation: Capture strolling cat operation
 				close;
 			case 1:
-				if (countitem(25162) < 1) {
+				if (countitem(Crispy_Anchovy) < 1) {
 					mes "[Milo River]";
 					mes "Oops? You've come back in empty hands. Where are your Anchovy cookies? Have you run out of them already?";
 					next;
@@ -10349,7 +10349,7 @@ rebel_in,108,27,3	script	Milo River#16.2rm	4_M_GUNSLINGER2,{
 					next;
 					mes "[Milo River]";
 					mes "Anyway, I'll give you the Anchovy cookies again. Please keep them safe. This time, you return with Charity and Anchovy cookies!";
-					getitem 25162,1;	// Anchovy_cookie
+					getitem Crispy_Anchovy,1;
 					close;
 				}
 				mes "[Milo River]";
@@ -10387,11 +10387,11 @@ rebel_in,108,27,3	script	Milo River#16.2rm	4_M_GUNSLINGER2,{
 					mes "[Milo River]";
 					mes "Use the Anchovy cookies to find Charity and bring the rest of them!";
 					mes "Make sure you don't eat them. Got it?";
-					getitem 25162,1;// Crispy Anchovy
+					getitem Crispy_Anchovy,1;
 					setquest 16043;// Investigation: Capture someone's craving operation
 					close;
 				case 1:
-					if (countitem(25162) < 1) {
+					if (countitem(Crispy_Anchovy) < 1) {
 						mes "[Milo River]";
 						mes "Oops? You've come back in empty hands. Where are your Anchovy cookies? Have you run out of them already?";
 						next;
@@ -10405,7 +10405,7 @@ rebel_in,108,27,3	script	Milo River#16.2rm	4_M_GUNSLINGER2,{
 						next;
 						mes "[Milo River]";
 						mes "Anyway, I'll give you the Anchovy cookies again. Please keep them safe. This time, you return with Charity and Anchovy cookies!";
-						getitem 25162,1;// Crispy Anchovy
+						getitem Crispy_Anchovy,1;
 						close;
 					}
 					mes "[Milo River]";
@@ -10495,12 +10495,12 @@ rebel_in,108,27,3	script	Milo River#16.2rm	4_M_GUNSLINGER2,{
 			}
 			cloakonnpcself( "Morana Rudel#16.2rm" );
 			cloakonnpcself( "Nice Looking Gun#16.2rm" );
-			if (countitem(25162) > 0)
-				delitem 25162,1;	// Anchovy_cookie
+			if (countitem(Crispy_Anchovy) > 0)
+				delitem Crispy_Anchovy, 1;
 			erasequest 16044;// In charge of Charity
 			setquest 16042;// Charity temporarily stays
 			getexp 100000,100000;
-			getitem 25155,10;	// Swz_Honor_Token
+			getitem Swz_Honor_Token,10;
 			next;
 			mes "[Charity]";
 			mes "Meow~";
@@ -10545,7 +10545,7 @@ S_Item:
 		completequest 16032;// Hospitality to senior
 	setquest 16034;// Sweet cookies once a day
 	getexp 200000,200000;
-	getitem 25155,3;// Swz_Honor_Token
+	getitem Swz_Honor_Token,3;
 	close;
 
 OnInit:
@@ -10559,7 +10559,7 @@ OnInit:
 	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16013) == 1" );
 
 	// twins daily quest : "Service: Cookies delivery"
-	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16027) == 1 && countitem(25161) > 0" );
+	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16027) == 1 && countitem(Delicious_Handmade_Cookie) > 0" );
 	end;
 }
 
@@ -10571,7 +10571,7 @@ rebel_in,106,25,3	duplicate(dummy_cloaked_npc)	Charity#16.2rm	4_CAT
 // Milo - Cat
 einbech,34,209,3	script	Empty bench#16.2rm2	HIDDEN_NPC,{
 	if (isbegin_quest(16041) == 1 || isbegin_quest(16043) == 1) {
-		if (countitem(25162) < 1) {
+		if (countitem(Crispy_Anchovy) < 1) {
 			mes "No more Anchovy cookie. Let's go back to Milo and get some more.";
 			close;
 		}
@@ -10638,7 +10638,7 @@ rebel_in,90,51,5	script	Rachel Smith#16.2rm	4_F_GUNSLINGER2,{
 		mes "Cookies? Where did you get them? Aha... Made by Lebedev kids?";
 		mes "Well. Thank you!";
 		next;
-		if (countitem(25161) < 1) {
+		if (countitem(Delicious_Handmade_Cookie) < 1) {
 			mes "[Rachel Smith]";
 			mes "Hmm? Where is the cookie?";
 			close;
@@ -10647,7 +10647,7 @@ rebel_in,90,51,5	script	Rachel Smith#16.2rm	4_F_GUNSLINGER2,{
 		mes "[Rachel Smith]";
 		mes "Smells nice... I will ask them the recipe later.";
 		completequest 16029;// Service: Cookies delivery
-		delitem 25161,1;// Handmade_cookie2
+		delitem Delicious_Handmade_Cookie,1;
 		close;
 	}
 
@@ -10704,16 +10704,16 @@ rebel_in,90,51,5	script	Rachel Smith#16.2rm	4_F_GUNSLINGER2,{
 		mes "[Rachel Smith]";
 		mes "Bring this revolver to Einbroch Blacksmith guild and show it to them. Since I am a member of that guild, they will recognize it when they see the revolver repaired by me. I am counting on you.";
 		setquest 16035;// Delivery: Explosive revolver materials
-		getitem 25151,1;	// Rachels_Revolver
+		getitem Rachels_Revolver,1;
 		rachel_quest_16_2 = 1;
 		close;
 	}
 	if (rachel_quest_16_2 == 1) {
-		if (countitem(25151) < 1) {
+		if (countitem(Rachels_Revolver) < 1) {
 			mes "[Rachel Smith]";
 			mes "Hmm... Where is my revolver?";
 			mes "This is irresponsible. I will give you another gun. Don't do this again.";
-			getitem 25151,1;// Rachels_Revolver
+			getitem Rachels_Revolver,1;
 			close;
 		}
 		mes "[Rachel Smith]";
@@ -10756,7 +10756,7 @@ rebel_in,90,51,5	script	Rachel Smith#16.2rm	4_F_GUNSLINGER2,{
 			next;
 			completequest 16036;// Expert's keen eye
 			setquest 16040;// Collect 5 Irons
-			getitem 25155,7;// Swz_Honor_Token
+			getitem Swz_Honor_Token,7;
 			rachel_quest_16_2 = 3;
 			close;
 		}
@@ -10764,7 +10764,7 @@ rebel_in,90,51,5	script	Rachel Smith#16.2rm	4_F_GUNSLINGER2,{
 		mes "Yes. I will.";
 		mes "I have no other choice.";
 		completequest 16036;// Expert's keen eye
-		getitem 25155,7;// Swz_Honor_Token
+		getitem Swz_Honor_Token,7;
 		rachel_quest_16_2 = 3;
 		close;
 	}
@@ -10783,9 +10783,9 @@ rebel_in,90,51,5	script	Rachel Smith#16.2rm	4_F_GUNSLINGER2,{
 		erasequest 16037;// Material collection once a day
 		break;
 	}
-	if (isbegin_quest(16038) == 1)		callsub( S_Quest, 16038, 984,2, "two" );	// Oridecon
-	else if (isbegin_quest(16039) == 1) callsub( S_Quest, 16039, 985,2, "two" );	// Elunium
-	else if (isbegin_quest(16040) == 1) callsub( S_Quest, 16040, 998,5, "five" );	// Iron
+	if (isbegin_quest(16038) == 1)		callsub( S_Quest, 16038, Oridecon,2, "two" );
+	else if (isbegin_quest(16039) == 1) callsub( S_Quest, 16039, Elunium,2, "two" );
+	else if (isbegin_quest(16040) == 1) callsub( S_Quest, 16040, Iron,5, "five" );
 	else {
 		mes "[Rachel Smith]";
 		mes "Welcome, adventurer. Thanks to your help last time, I was able to work without difficulty.";
@@ -10873,20 +10873,20 @@ S_Quest:
 	delitem .@item_req, .@count_req;
 	setquest 16037;// Material collection once a day
 	getexp 200000,200000;
-	getitem 25155,3;// Swz_Honor_Token
+	getitem Swz_Honor_Token,3;
 	close;
 
 OnInit:
 	.@terra_main$ = "terra_gloria_main > 16";
 	.@has_item$ = 
-		"(isbegin_quest(16038) == 1 && countitem(984) > 1) || " +
-		"(isbegin_quest(16039) == 1 && countitem(985) > 1) || " +
-		"(isbegin_quest(16040) == 1 && countitem(998) > 4)";
+		"(isbegin_quest(16038) == 1 && countitem(Oridecon) > 1) || " +
+		"(isbegin_quest(16039) == 1 && countitem(Elunium) > 1) || " +
+		"(isbegin_quest(16040) == 1 && countitem(Iron) > 4)";
 	questinfo( QTYPE_QUEST, QMARK_NONE, (.@terra_main$ + " && isbegin_quest(16035) == 0 && (isbegin_quest(16036) == 0 || isbegin_quest(16036) == 1)") );
 	questinfo( QTYPE_QUEST, QMARK_NONE, (.@terra_main$ + " && ((checkquest(16037,PLAYTIME) == -1 && (" + .@has_item$ + ")) || checkquest(16037,PLAYTIME) == 2)") );
 
 	// twins daily quest : "Service: Cookies delivery"
-	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16029) == 1 && countitem(25161) > 0" );
+	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16029) == 1 && countitem(Delicious_Handmade_Cookie) > 0" );
 	end;
 }
 
@@ -10901,7 +10901,7 @@ ein_in01,38,21,3	script	Blacksmith Jack#16.2rm	4_M_MIDDLE1,{
 		mes "[Blacksmith Jack]";
 		mes "Oh, you have come here after being requested by the member of our guild. Let me see it.";
 		next;
-		if (countitem(25151) < 1) {
+		if (countitem(Rachels_Revolver) < 1) {
 			mes "[Blacksmith Jack]";
 			mes "Come on. I have to look at the weapon to give you an advice.";
 			mes "I am a Blacksmith, not a psychic.";
@@ -10926,7 +10926,7 @@ ein_in01,38,21,3	script	Blacksmith Jack#16.2rm	4_M_MIDDLE1,{
 		next;
 		mes "[Blacksmith Jack]";
 		mes "Go back and tell her. It might be exploded in the meantime...";
-		delitem 25151,1;// Rachels_Revolver
+		delitem Rachels_Revolver,1;
 		erasequest 16035;// Delivery: Explosive revolver materials
 		setquest 16036;// Expert's keen eye
 		rachel_quest_16_2 = 2;
@@ -11141,8 +11141,8 @@ rebel_in,90,40,5	script	Hogar#pa0829	4_M_MASKMAN,{
 			mes "[Hogar]";
 			mes "You are taking off your gear.";
 			close;
-		case 15163:
-		case 15164:
+		case Fictitious_Robe:
+		case Consultative_Robe:
 			break;
 		default:
 			mes "[Hogar]";
@@ -11154,32 +11154,32 @@ rebel_in,90,40,5	script	Hogar#pa0829	4_M_MASKMAN,{
 			mes "No more upgrade is possible on this gear. Do you have anything else?";
 			close;
 		}
-		if (countitem(25155) < 20) {
+		if (countitem(Swz_Honor_Token) < 20) {
 			mes "[Hogar]";
-			mes "Listen, fellow. If you don't have any " + getitemname(25155) + ", you cannot trade with me.";
+			mes "Listen, fellow. If you don't have any " + getitemname(Swz_Honor_Token) + ", you cannot trade with me.";
 			close;
 		}
 
 		// unknown rates
 		setarray .@enhance[0],
-			4994,	// Rune of Strength Lv 1
-			4997,	// Rune of Agility Lv 1
-			29009,	// Rune of Vitality Lv 1
-			29000,	// Rune of Intellect Lv 1
-			29003,	// Rune of Dexterity Lv 1
-			29006,	// Rune of Luck Lv 1
-			4995,	// Rune of Strength Lv 2
-			4998,	// Rune of Agility Lv 2
-			29010,	// Rune of Vitality Lv 2
-			29001,	// Rune of Intellect Lv 2
-			29004,	// Rune of Dexterity Lv 2
-			29007,	// Rune of Luck Lv 2
-			4996,	// Rune of Strength Lv 3
-			4999,	// Rune of Agility Lv 3
-			29011,	// Rune of Vitality Lv 3
-			29002,	// Rune of Intellect Lv 3
-			29005,	// Rune of Dexterity Lv 3
-			29008;	// Rune of Luck Lv 3
+			Rune_of_Strength_Lv_1,
+			Rune_of_Agility_Lv_1,
+			Rune_of_Vitality_Lv_1,
+			Rune_of_Intellect_Lv_1,
+			Rune_of_Dexterity_Lv_1,
+			Rune_of_Luck_Lv_1,
+			Rune_of_Strength_Lv_2,
+			Rune_of_Agility_Lv_2,
+			Rune_of_Vitality_Lv_2,
+			Rune_of_Intellect_Lv_2,
+			Rune_of_Dexterity_Lv_2,
+			Rune_of_Luck_Lv_2,
+			Rune_of_Strength_Lv_3,
+			Rune_of_Agility_Lv_3,
+			Rune_of_Vitality_Lv_3,
+			Rune_of_Intellect_Lv_3,
+			Rune_of_Dexterity_Lv_3,
+			Rune_of_Luck_Lv_3;
 		.@size = getarraysize(.@enhance);
 
 		if (.@card[3] == 0)
@@ -11187,7 +11187,7 @@ rebel_in,90,40,5	script	Hogar#pa0829	4_M_MASKMAN,{
 		else if (.@card[2] == 0)
 			.@card[2] = .@enhance[ rand(.@size) ];
 
-		delitem 25155,20;	// Swz_Honor_Token
+		delitem Swz_Honor_Token,20;	
 		delequip EQI_ARMOR;
 		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
 		specialeffect2 EF_REPAIRWEAPON;
@@ -11215,8 +11215,8 @@ rebel_in,90,40,5	script	Hogar#pa0829	4_M_MASKMAN,{
 			mes "[Hogar]";
 			mes "I forgot to tell you something. I only upgrade accessories equipped on the left slot. Equip it on your left slot first and then let me upgrade it.";
 			close;
-		case 28425:
-		case 28426:
+		case Mercenary_Ring_Type_A:
+		case Mercenary_Ring_Type_B:
 			break;
 		default:
 			mes "[Hogar]";
@@ -11228,26 +11228,26 @@ rebel_in,90,40,5	script	Hogar#pa0829	4_M_MASKMAN,{
 			mes "No more upgrade is possible on this gear. Do you have anything else?";
 			close;
 		}
-		if (countitem(25155) < 5) {
+		if (countitem(Swz_Honor_Token) < 5) {
 			mes "[Hogar]";
-			mes "Listen, fellow. If you don't have any " + getitemname(25155) + ", you cannot trade with me.";
+			mes "Listen, fellow. If you don't have any " + getitemname(Swz_Honor_Token) + ", you cannot trade with me.";
 			close;
 		}
 
 		// unknown rates
 		setarray .@enhance[0],
-			4710,	// INT+1
-			4730,	// AGI+1
-			4740,	// VIT+1
-			4720,	// DEX+1
-			4750,	// LUK+1
-			4700,	// STR+1
-			4711,	// INT+2
-			4721,	// DEX+2
-			4701,	// STR+2
-			4731,	// AGI+2
-			4751,	// LUK+2
-			4741;	// VIT+2
+			Inteligence1,
+			Agility1,
+			Vitality1,
+			Dexterity1,
+			Luck1,
+			Strength1,
+			Inteligence2,
+			Dexterity2,
+			Strength2,
+			Agility2,
+			Luck2,
+			Vitality2;
 		.@size = getarraysize(.@enhance);
 
 		if (.@card[3] == 0)
@@ -11255,7 +11255,7 @@ rebel_in,90,40,5	script	Hogar#pa0829	4_M_MASKMAN,{
 		else if (.@card[2] == 0)
 			.@card[2] = .@enhance[ rand(.@size) ];
 
-		delitem 25155,5;	// Swz_Honor_Token
+		delitem Swz_Honor_Token,5;	
 		delequip EQI_ACC_L;
 		getitem2 .@equip_id,1,1,0,0,.@card[0],.@card[1],.@card[2],.@card[3];
 		specialeffect2 EF_REPAIRWEAPON;
@@ -11284,8 +11284,8 @@ rebel_in,90,40,5	script	Hogar#pa0829	4_M_MASKMAN,{
 			mes "[Hogar]";
 			mes "You are taking off your gear.";
 			close;
-		case 15163:
-		case 15164:
+		case Fictitious_Robe:
+		case Consultative_Robe:
 			break;
 		default:
 			mes "[Hogar]";
@@ -11297,12 +11297,12 @@ rebel_in,90,40,5	script	Hogar#pa0829	4_M_MASKMAN,{
 			mes "Whoops, this item has not been fully upgraded. The initialization is not possible yet.";
 			close;
 		}
-		if (countitem(25155) < 10) {
+		if (countitem(Swz_Honor_Token) < 10) {
 			mes "[Hogar]";
-			mes "Listen, fellow. If you don't have any " + getitemname(25155) + ", you cannot trade with me.";
+			mes "Listen, fellow. If you don't have any " + getitemname(Swz_Honor_Token) + ", you cannot trade with me.";
 			close;
 		}
-		delitem 25155,10;	// Swz_Honor_Token
+		delitem Swz_Honor_Token,10;	
 		delequip EQI_ARMOR;
 		getitem2 .@equip_id,1,1,.@refine,0,.@card[0],0,0,0;
 		specialeffect2 EF_REPAIRWEAPON;
@@ -11341,8 +11341,8 @@ rebel_in,90,40,5	script	Hogar#pa0829	4_M_MASKMAN,{
 			mes "[Hogar]";
 			mes "I forgot to tell you something. I only initialize accessories equipped on the left slot. Equip it on your left slot first and then let me initialize it.";
 			close;
-		case 28425:
-		case 28426:
+		case Mercenary_Ring_Type_A:
+		case Mercenary_Ring_Type_B:
 			break;
 		default:
 			mes "[Hogar]";
@@ -11354,12 +11354,12 @@ rebel_in,90,40,5	script	Hogar#pa0829	4_M_MASKMAN,{
 			mes "Whoops, this item has not been fully upgraded. The initialization is not possible yet.";
 			close;
 		}
-		if (countitem(25155) < 10) {
+		if (countitem(Swz_Honor_Token) < 10) {
 			mes "[Hogar]";
-			mes "Listen, fellow. If you don't have any " + getitemname(25155) + ", you cannot trade with me.";
+			mes "Listen, fellow. If you don't have any " + getitemname(Swz_Honor_Token) + ", you cannot trade with me.";
 			close;
 		}
-		delitem 25155,10;	// Swz_Honor_Token
+		delitem Swz_Honor_Token,10;	
 		delequip EQI_ACC_L;
 		if (rand(100) < 20) {
 			specialeffect2 EF_LORD;
@@ -11376,19 +11376,19 @@ rebel_in,90,40,5	script	Hogar#pa0829	4_M_MASKMAN,{
 }
 
 // Exchanges
-rebel_in,100,40,4	script	Butterfly Merchant#rebel_in	4_M_ORIENT02,{
-	mes "[Butterfly Merchant]";
-	mes "... ... ... ... ...";
-	mes "Do you need " + getitemname(100904) + "?";	// Teleport_Ep16_01
-	close2;
-	callshop "shop_rebel_in";
-	end;
-}
+//rebel_in,100,40,4	script	Butterfly Merchant#rebel_in	4_M_ORIENT02,{
+//	mes "[Butterfly Merchant]";
+//	mes "... ... ... ... ...";
+//	mes "Do you need " + getitemname(100904) + "?";	// Teleport_Ep16_01
+//	close2;
+//	callshop "shop_rebel_in";
+//	end;
+//}
 
 rebel_in,99,51,3	script	Imperial Operator#ext162	4_M_REPAIR,{
 	mes "[Imperial Operator]";
 	mes "Hello.";
-	mes "We have ^4d4dffImperial^000000 equipment that can be exchanged for " + mesitemlink( 25155, false ) + ".";
+	mes "We have ^4d4dffImperial^000000 equipment that can be exchanged for " + mesitemlink( Swz_Honor_Token, false ) + ".";
 	mes "I will guide you to exchange items according to your job.";
 	close2;
 	switch( eaclass() & EAJ_THIRDMASK ) {
@@ -11492,7 +11492,7 @@ rebel_in,74,67,5	script	Strasse#rebel_in	4_M_TATIO,{
 	mes "[Strasse]";
 	mes "Hello. How may I help you?";
 	next;
-	if (countitem(25155) < 1) {
+	if (countitem(Swz_Honor_Token) < 1) {
 		mes "[Strasse]";
 		mes "Hmm... You don't have any Schwartz Honor Tokens.";
 		mes "Please come back after taking care of other tasks.";
@@ -11511,12 +11511,12 @@ rebel_in,74,67,5	script	Strasse#rebel_in	4_M_TATIO,{
 	next;
 
 	setarray .@item[0],
-		15163, 1000,	// Agenda_Robe
-		15164, 1000,	// Consultation_Robe
-		20456, 1500,	// C_Combat_Vestige
-		19115, 2500,	// Republic_Hat
-		28425, 1500,	// Mercenary_Ring_A
-		28426, 1500;	// Mercenary_Ring_B
+		Fictitious_Robe, 1000,
+		Consultative_Robe, 1000,
+		C_Combat_Vestige, 1500,
+		Republic_Hat, 2500,
+		Mercenary_Ring_Type_A, 1500,
+		Mercenary_Ring_Type_B, 1500;
 
 	.@s = (select( "Agenda Robe", "Consultation Robe", "Costume Combat Vestige", "Hat of Republic", "Mercenary Ring A type", "Mercenary Ring B type" ) - 1) * 2;
 	mes "[Strasse]";
@@ -11529,7 +11529,7 @@ rebel_in,74,67,5	script	Strasse#rebel_in	4_M_TATIO,{
 		mes "Please come back after you decided.";
 		close;
 	}
-	if (countitem(25155) < .@item[.@s+1]) {// Swz_Honor_Token
+	if (countitem(Swz_Honor_Token) < .@item[.@s+1]) {
 		mes "[Strasse]";
 		mes "You don't have enough tokens...";
 		mes "Please collect some more.";
@@ -11538,7 +11538,7 @@ rebel_in,74,67,5	script	Strasse#rebel_in	4_M_TATIO,{
 	// custom text
 	mes "[Strasse]";
 	mes "Here is your " + mesitemlink( .@item[.@s], false ) + ".";
-	delitem 25155, .@item[.@s+1];
+	delitem Swz_Honor_Token, .@item[.@s+1];
 	getitem .@item[.@s],1;
 	close;
 }
@@ -11554,7 +11554,7 @@ rebel_in,103,37,7	duplicate(dummy_cloaked_npc)	Trainee#16nego01	4_F_GUNSLINGER3
 rebel_in,104,39,5	duplicate(dummy_cloaked_npc)	Trainee#16nego02	4_M_GUNSLINGER3
 
 rebel_in,108,36,3	script	Master#16nego02	4_F_HUWOMAN,{
-	if (checkweight(25155,3) == 0 || (MaxWeight - Weight) < 1000) {
+	if (checkweight(Swz_Honor_Token,3) == 0 || (MaxWeight - Weight) < 1000) {
 		emotion ET_OHNO;
 		mes "[Master]";
 		mes "You have too many items in your inventory. Why don't you come back after making it lighter? It looks too heavy.";
@@ -11608,7 +11608,7 @@ rebel_in,108,36,3	script	Master#16nego02	4_F_HUWOMAN,{
 		mes "[Master]";
 		mes "So you've brought what I told you? Let's see...";
 		next;
-		if (countitem(25153) < 3) {
+		if (countitem(Broken_Gun_Wreck) < 3) {
 			mes "[Master]";
 			mes "Hmm.. Not enough. I asked you to bring ^0000cdthree Broken Gun^000000.";
 			next;
@@ -11639,9 +11639,9 @@ rebel_in,108,36,3	script	Master#16nego02	4_F_HUWOMAN,{
 		mes "[Master]";
 		mes "Thank you so much.";
 		erasequest 14611;// Gun recycling
-		delitem 25153,3;// Broken_Gun_Wreck
+		delitem Broken_Gun_Wreck,3;
 		setquest 14612;// Time for repair
-		getitem 25155,3;// Swz_Honor_Token
+		getitem Swz_Honor_Token,3;
 		getexp 200000,200000;
 		close;
 	case 2:
@@ -11775,7 +11775,7 @@ rebel_in,108,36,3	script	Master#16nego02	4_F_HUWOMAN,{
 		mes "[Master]";
 		mes "Welcome back. Have you brought what I ask you for?";
 		next;
-		if (countitem(25153) < 3) {
+		if (countitem(Broken_Gun_Wreck) < 3) {
 			mes "[Master]";
 			mes "Hmm.. Not enough. I asked you to bring three Broken Gun.";
 			next;
@@ -11913,8 +11913,8 @@ rebel_in,108,36,3	script	Master#16nego02	4_F_HUWOMAN,{
 		mes "Thank you so much.";
 		erasequest 14610;// Gun recycling
 		setquest 14612;// Time for repair
-		delitem 25153,3;// Broken_Gun_Wreck
-		getitem 25155,3;// Swz_Honor_Token
+		delitem Broken_Gun_Wreck,3;
+		getitem Swz_Honor_Token,3;
 		getexp 200000,200000;
 		close;
 	case 2:
@@ -11924,15 +11924,15 @@ rebel_in,108,36,3	script	Master#16nego02	4_F_HUWOMAN,{
 
 OnInit:
 	.@terra_main$ = "terra_gloria_main > 16";
-	questinfo( QTYPE_QUEST, QMARK_NONE, (.@terra_main$ + " && (checkquest(14610,HUNTING) == -1 || (checkquest(14610,HUNTING) == 2 && countitem(25153) > 2)) && checkquest(14612,PLAYTIME) == -1 && isbegin_quest(14611) == 0") );
-	questinfo( QTYPE_QUEST, QMARK_NONE, (.@terra_main$ + " && (checkquest(14612,PLAYTIME) == 2 || (checkquest(14611,HUNTING) == 2 && countitem(25153) > 2))") );
+	questinfo( QTYPE_QUEST, QMARK_NONE, (.@terra_main$ + " && (checkquest(14610,HUNTING) == -1 || (checkquest(14610,HUNTING) == 2 && countitem(Broken_Gun_Wreck) > 2)) && checkquest(14612,PLAYTIME) == -1 && isbegin_quest(14611) == 0") );
+	questinfo( QTYPE_QUEST, QMARK_NONE, (.@terra_main$ + " && (checkquest(14612,PLAYTIME) == 2 || (checkquest(14611,HUNTING) == 2 && countitem(Broken_Gun_Wreck) > 2))") );
 	end;
 }
 
 ein_fild09,70,175,5	script	Suspicious Heap of Earth#1	4_SOIL,{
 	if (isbegin_quest(14610) == 0 && isbegin_quest(14611) == 0)
 		end;
-	if (countitem(25153) >= 3) {	// what if true but hunting not completed?
+	if (countitem(Broken_Gun_Wreck) >= 3) {	// what if true but hunting not completed?
 		mes "[" + strcharinfo(0) + "]";
 		mes "You've reclaimed enough of them. Let's go back to the Master.";
 		close;
@@ -12366,7 +12366,7 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Denny]";
 			mes "Adventurer! Have you brought them all? Let me see.";
 			next;
-			if (countitem(999) < 5 || countitem(7319) < 15) {
+			if (countitem(Steel) < 5 || countitem(Old_Steel_Plate) < 15) {
 				mes "[Denny]";
 				mes "Well... As I told you, please bring ^0000cdfive Steel and 15 Old Steel Plate^000000. We need them to repair the pipe.";
 				next;
@@ -12422,10 +12422,10 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Rookie]";
 			mes "Please take a good rest today. We will count on you again tomorrow. You must be exhausted.";
 			erasequest 14603;// Pipe repair materials
-			delitem 999,5;// Steel
-			delitem 7319,15;// Old_Steel_Plate
+			delitem Steel,5;// Steel
+			delitem Old_Steel_Plate,15;// Old_Steel_Plate
 			setquest 14609;// Quiet time
-			getitem 25155,3;// Swz_Honor_Token
+			getitem Swz_Honor_Token,3;
 			getexp 200000,200000;
 			close3;
 		case 2:
@@ -12623,7 +12623,7 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Cyan]";
 			mes "Welcome back, dear!!! Have you got them all for me? Right?";
 			next;
-			if (countitem(7068) < 10 || countitem(1003) < 3) {
+			if (countitem(Burnt_Tree) < 10 || countitem(Coal) < 3) {
 				mes "[Cyan]";
 				mes "Oh, it's not there. And it's not enough... Perhaps you forgot what we told you to bring?";
 				next;
@@ -12707,10 +12707,10 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Rookie]";
 			mes "Phew, I am exhausted as well. Please take a good rest now and come back after the ^0000cddawn^000000.";
 			erasequest 14604;// National Fuel Solar Fuel
-			delitem 7068,10;// Burn_Tree
-			delitem 1003,3;// Coal
+			delitem Burnt_Tree,10;
+			delitem Coal,3;
 			setquest 14609;// Quiet time
-			getitem 25155,3;// Swz_Honor_Token
+			getitem Swz_Honor_Token,3;
 			getexp 200000,200000;
 			close3;
 		case 2:
@@ -12900,7 +12900,7 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Magenta]";
 			mes "You've come! Have you brought everything I asked for? Let me see!";
 			next;
-			if (countitem(7321) < 10 || countitem(7315) < 10) {
+			if (countitem(Glimmering_Crystal) < 10 || countitem(Black_Crystal) < 10) {
 				mes "[Magenta]";
 				mes "Ah!!!! Not enough quantity!!! Adventurer, I thank you for helping us. But this is not enough!";
 				next;
@@ -12982,10 +12982,10 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Rookie]";
 			mes "That fellow is really loud, isn't he? I apologize on behalf of him. Please take a good rest and come back ^0000cdafter the dawn^000000.";
 			erasequest 14605;// Sparkling things
-			delitem 7321,10;// Fragment_Of_Crystal
-			delitem 7315,10;// Dark_Crystal_Fragment
+			delitem Glimmering_Crystal,10;
+			delitem Black_Crystal,10;
 			setquest 14609;// Quiet time
-			getitem 25155,3;// Swz_Honor_Token
+			getitem Swz_Honor_Token,3;
 			getexp 200000,200000;
 			close3;
 		}
@@ -13049,7 +13049,7 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Denny]";
 			mes "Adventurer! Have you brought them all? Let me see.";
 			next;
-			if (countitem(999) < 5 || countitem(7319) < 15) {
+			if (countitem(Steel) < 5 || countitem(Old_Steel_Plate) < 15) {
 				mes "[Denny]";
 				mes "Well... As I told you, please bring ^0000cdfive Steel and 15 Old Steel Plate^000000. We need them to repair the pipe.";
 				next;
@@ -13105,10 +13105,10 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Rookie]";
 			mes "Please take a good rest today. We will count on you again tomorrow. You must be exhausted.";
 			erasequest 14606;// Pipe repair materials
-			delitem 999,5;// Steel
-			delitem 7319,15;// Old_Steel_Plate
+			delitem Steel,5;
+			delitem Old_Steel_Plate,15;
 			setquest 14609;// Quiet time
-			getitem 25155,3;// Swz_Honor_Token
+			getitem Swz_Honor_Token,3;
 			getexp 200000,200000;
 			close3;
 		}
@@ -13287,7 +13287,7 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Cyan]";
 			mes "My dear~~~ You're late! I've been waiting for you for a long time! Have you brought the right one again? I mean, the firewood.";
 			next;
-			if (countitem(7068) < 10 || countitem(1003) < 3) {
+			if (countitem(Burnt_Tree) < 10 || countitem(Coal) < 3) {
 				mes "[Cyan]";
 				mes "Oh, it's not there. And it's not enough... Perhaps you forgot what we told you to bring?";
 				next;
@@ -13348,10 +13348,10 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Rookie]";
 			mes "Please take a good rest today. We will count on you again tomorrow.";
 			erasequest 14607;// National Fuel Solar Fuel
-			delitem 7068,10;// Burn_Tree
-			delitem 1003,3;// Coal
+			delitem Burnt_Tree,10;
+			delitem Coal,3;
 			setquest 14609;// Quiet time
-			getitem 25155,3;// Swz_Honor_Token
+			getitem Swz_Honor_Token,3;
 			getexp 200000,200000;
 			close3;
 		}
@@ -13402,7 +13402,7 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Magenta]";
 			mes "You've come! Have you brought everything I asked for? Let me see!";
 			next;
-			if (countitem(7321) < 10 || countitem(7315) < 10) {
+			if (countitem(Glimmering_Crystal) < 10 || countitem(Black_Crystal) < 10) {
 				mes "[Magenta]";
 				mes "Ah!!!! Not enough quantity!!! Adventurer, I thank you for helping us. But this is not enough!";
 				next;
@@ -13448,10 +13448,10 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Rookie]";
 			mes "Please take a good rest today. We will count on you again tomorrow.";
 			erasequest 14608;// Sparkling things
-			delitem 7321,10;// Fragment_Of_Crystal
-			delitem 7315,10;// Dark_Crystal_Fragment
+			delitem Glimmering_Crystal,10;
+			delitem Black_Crystal,10;
 			setquest 14609;// Quiet time
-			getitem 25155,3;// Swz_Honor_Token
+			getitem Swz_Honor_Token,3;
 			getexp 0,300000;
 			close3;
 		}
@@ -13463,12 +13463,12 @@ OnInit:
 		"terra_gloria_main > 16 && (checkquest(14609,PLAYTIME) == -1 || checkquest(14609,PLAYTIME) == 2)" +
 		" && isbegin_quest(14603) == 0 && isbegin_quest(14604) == 0 && isbegin_quest(14605) == 0 && isbegin_quest(14606) == 0 && isbegin_quest(14607) == 0 && isbegin_quest(14608) == 0";
 	questinfo( QTYPE_QUEST, QMARK_NONE, .@conditions$ );
-	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14603,HUNTING) == 2 && countitem(999) > 4 && countitem(7319) > 14");
-	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14604,HUNTING) == 2 && countitem(7068) > 9 && countitem(1003) > 2");
-	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14605,HUNTING) == 2 && countitem(7321) > 9 && countitem(7315) > 9");
-	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14606,HUNTING) == 2 && countitem(999) > 4 && countitem(7319) > 14");
-	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14607,HUNTING) == 2 && countitem(7068) > 9 && countitem(1003) < 3");
-	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14608,HUNTING) == 2 && countitem(7321) > 9 && countitem(7315) > 9");
+	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14603,HUNTING) == 2 && countitem(Steel) > 4 && countitem(Old_Steel_Plate) > 14");
+	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14604,HUNTING) == 2 && countitem(Burnt_Tree) > 9 && countitem(Coal) > 2");
+	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14605,HUNTING) == 2 && countitem(Glimmering_Crystal) > 9 && countitem(Black_Crystal) > 9");
+	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14606,HUNTING) == 2 && countitem(Steel) > 4 && countitem(Old_Steel_Plate) > 14");
+	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14607,HUNTING) == 2 && countitem(Burnt_Tree) > 9 && countitem(Coal) < 3");
+	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14608,HUNTING) == 2 && countitem(Glimmering_Crystal) > 9 && countitem(Black_Crystal) > 9");
 	end;
 }
 
@@ -13854,7 +13854,7 @@ rebel_in,109,54,3	script	Jana Levedeva#16.2rm	4_F_ANYA,{
 		close;
 	}
 	if (lebedev_quest_16_2 == 7) {
-		if (countitem(25161) < 1) {
+		if (countitem(Delicious_Handmade_Cookie) < 1) {
 			mes "[Jana Levedeva]";
 			mes "You're here again?";
 			next;
@@ -13979,7 +13979,7 @@ rebel_in,109,54,3	script	Jana Levedeva#16.2rm	4_F_ANYA,{
 		mes "[" + strcharinfo(0) + "]";
 		mes "(You heard their story. Let's go to ^0000CDElena Volkova^000000 and tell her.)";
 		lebedev_quest_16_2 = 8;
-		delitem 25161,1;// Handmade_cookie2
+		delitem Delicious_Handmade_Cookie,1;
 		erasequest 16033;// Bring dessert and listen the story
 		setquest 16017;// Twin's sincere confession
 		close;
@@ -14157,14 +14157,14 @@ rebel_in,109,54,3	script	Jana Levedeva#16.2rm	4_F_ANYA,{
 			mes "To Milo, Mason and Rachel.";
 			mes "And to commander Adler and commander Elena as well, please.";
 			mes "Make sure you tell them we made these.";
-			if (checkweight(25161,5) == 0) {
+			if (checkweight(Delicious_Handmade_Cookie,5) == 0) {
 				next;
 				mes "[Jana Levedeva]";
 				mes "You don't have enough space in your bag.";
 				mes "Please make some space. We don't want the cookies to get broken.";
 				close;
 			}
-			getitem 25161,5;// Handmade_cookie2
+			getitem Delicious_Handmade_Cookie,5;
 			setquest 16027;// Service: Cookies delivery
 			setquest 16028;// Service: Cookies delivery
 			setquest 16029;// Service: Cookies delivery
@@ -14191,7 +14191,7 @@ rebel_in,109,54,3	script	Jana Levedeva#16.2rm	4_F_ANYA,{
 		mes "If you tell the book name to the librarian, he/she will hand it you.";
 		close;
 	case 16024:
-		if (countitem(25160) < 1) {
+		if (countitem(Borrow_Book) < 1) {
 			mes "[Jana Levedeva]";
 			mes "Oh, you're back? Please give the book!";
 			mes "The book... You don't have it? Don't tell me you lost it.";
@@ -14212,12 +14212,12 @@ rebel_in,109,54,3	script	Jana Levedeva#16.2rm	4_F_ANYA,{
 		mes "(Hmm, she's not mentioning about returning it.)";
 		erasequest 16024;// Service: Loaned book delivery
 		setquest 16020;// Daily babysitting
-		delitem 25160,1;// Borrow_Book
+		delitem Borrow_Book,1;
 		getexp 200000,200000;
-		getitem 25155,3;// Swz_Honor_Token
+		getitem Swz_Honor_Token,3;
 		close;
 	case 16025:
-		if (checkquest(.@quest_list[.@i],HUNTING) != 2 || countitem(6244) < 1) {
+		if (checkquest(.@quest_list[.@i],HUNTING) != 2 || countitem(Gun_Powder) < 1) {
 			mes "[Jana Levedeva]";
 			mes "Oh! We're going to Einbech mine. Please implement a previous exploration for us.";
 			next;
@@ -14229,14 +14229,14 @@ rebel_in,109,54,3	script	Jana Levedeva#16.2rm	4_F_ANYA,{
 		mes "[Ilya Lebedev]";
 		mes "Thank you for doing us a favor!";
 		mes "About the result, I will inform you later!";
-		delitem 6244,1;// Gun_Powder
+		delitem Gun_Powder,1;
 		erasequest 16025;// Service: Exploring the Mine Dungeon
 		setquest 16020;// Daily babysitting
 		getexp 200000,200000;
-		getitem 25155,3;// Swz_Honor_Token
+		getitem Swz_Honor_Token,3;
 		close;
 	case 16026:
-		if (checkquest(.@quest_list[.@i],HUNTING) != 2 || countitem(6213) < 1) {
+		if (checkquest(.@quest_list[.@i],HUNTING) != 2 || countitem(Explosive_Powder) < 1) {
 			mes "[Jana Levedeva]";
 			mes "Oh! We're going to Einbech mine. Please implement a previous exploration for us.";
 			next;
@@ -14248,11 +14248,11 @@ rebel_in,109,54,3	script	Jana Levedeva#16.2rm	4_F_ANYA,{
 		mes "[Ilya Lebedev]";
 		mes "Thank you for doing us a favor!";
 		mes "Jana says she will inform you about the result after the experiment!!";
-		delitem 6213,1;// Explosive_Powder
+		delitem Explosive_Powder,1;
 		erasequest 16026;// Service: Exploring the Mine Dungeon
 		setquest 16020;// Daily babysitting
 		getexp 200000,200000;
-		getitem 25155,3;// Swz_Honor_Token
+		getitem Swz_Honor_Token,3;
 		close;
 	case 16027:
 		for ( .@i = 16027; .@quest_id <= 16031; .@quest_id++ ) {
@@ -14263,7 +14263,7 @@ rebel_in,109,54,3	script	Jana Levedeva#16.2rm	4_F_ANYA,{
 			mes "[Jana Levedeva]";
 			mes "Please bring them to the five people I mentioned.";
 			mes "They are Milo, Mason, Rachel, commander Ericsson and commander Elena.";
-			if (countitem(25161) < 1) {
+			if (countitem(Delicious_Handmade_Cookie) < 1) {
 				next;
 				mes "[Jana Levedeva]";
 				mes "Oh, did you eat all those cookies?";
@@ -14273,7 +14273,7 @@ rebel_in,109,54,3	script	Jana Levedeva#16.2rm	4_F_ANYA,{
 				mes "[Jana Levedeva]";
 				mes "We will give you some more. Make sure you bring them to those five people please.";
 				mes "Glutton " + strcharinfo(0) + " Older " + .@genre$ + " we will make you more cookies for you next time!";
-				getitem 25161, .@cookie;// Handmade_cookie2
+				getitem Delicious_Handmade_Cookie, .@cookie;
 			}
 			close;
 		}
@@ -14288,7 +14288,7 @@ rebel_in,109,54,3	script	Jana Levedeva#16.2rm	4_F_ANYA,{
 		erasequest 16031;// Service: Cookies delivery
 		setquest 16020;// Daily babysitting
 		getexp 200000,200000;
-		getitem 25155,3;// Swz_Honor_Token
+		getitem Swz_Honor_Token,3;
 		close;
 	}
 	end;
@@ -14296,16 +14296,16 @@ rebel_in,109,54,3	script	Jana Levedeva#16.2rm	4_F_ANYA,{
 OnInit:
 	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16012) == 1" );
 	questinfo( QTYPE_QUEST, QMARK_NONE, "lebedev_quest_16_2 == 4" );
-	questinfo( QTYPE_QUEST, QMARK_NONE, "lebedev_quest_16_2 == 7 && countitem(25161) > 0" );
+	questinfo( QTYPE_QUEST, QMARK_NONE, "lebedev_quest_16_2 == 7 && countitem(Delicious_Handmade_Cookie) > 0" );
 	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16018) == 1" );
 
 	// daily
 	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(16020,PLAYTIME) == 2" );
 	questinfo( QTYPE_QUEST, QMARK_NONE, "lebedev_quest_16_2 > 10 && checkquest(16020,PLAYTIME) == -1 && isbegin_quest(16021) == 0 && isbegin_quest(16023) == 0 && isbegin_quest(16024) == 0 && isbegin_quest(16025) == 0 && isbegin_quest(16026) == 0 && isbegin_quest(16027) == 0" );
 	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16027) == 2 && isbegin_quest(16028) == 2 && isbegin_quest(16029) == 2 && isbegin_quest(16030) == 2 && isbegin_quest(16031) == 2" );
-	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16024) == 1 && countitem(25160) > 0" );
-	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(16025,HUNTING) == 2 && countitem(6244) > 0" );
-	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(16026,HUNTING) == 2 && countitem(6213) > 0" );
+	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16024) == 1 && countitem(Borrow_Book) > 0" );
+	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(16025,HUNTING) == 2 && countitem(Gun_Powder) > 0" );
+	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(16026,HUNTING) == 2 && countitem(Explosive_Powder) > 0" );
 	end;
 }
 
@@ -14324,7 +14324,7 @@ prt_in,165,89,1	script	Librarian in charge of juveniles 	1_F_LIBRARYGIRL,{
 		mes "For juvenile books, only designated rental service is available.";
 		close;
 	}
-	if (isbegin_quest(16024) == 1 && countitem(25160) < 1) {
+	if (isbegin_quest(16024) == 1 && countitem(Borrow_Book) < 1) {
 		mes "[Librarian in charge of juveniles]";
 		mes "Have you lost the book you borrowed?";
 		mes "Yes... We accept your report of a loss.";
@@ -14384,7 +14384,7 @@ prt_in,165,89,1	script	Librarian in charge of juveniles 	1_F_LIBRARYGIRL,{
 	mes "Yes. Here it is. Please abide by the deadline.";
 	erasequest .@quest_id[.@i];
 	setquest 16024;// Service: Loaned book delivery
-	getitem 25160,1;// Borrow_Book
+	getitem Borrow_Book,1;
 	close;
 }
 
@@ -14392,7 +14392,7 @@ prt_in,165,89,1	script	Librarian in charge of juveniles 	1_F_LIBRARYGIRL,{
 prt_in,177,26,6	script	Knight Windsor#ep162	4_M_JOB_KNIGHT1,{
 	switch( isbegin_quest(7746) ) {
 	case 0:
-		if (countitem(25180) < 1)
+		if (countitem(Old_Couple_Ring) < 1)
 			break;
 		mes "[Benedict Windsor]";
 		mes "What is it?";
@@ -14430,7 +14430,7 @@ prt_in,177,26,6	script	Knight Windsor#ep162	4_M_JOB_KNIGHT1,{
 		mes "[Benedict Windsor]";
 		mes "... Thanks.";
 		mes "...";
-		delitem 25180,1;// Old_Couple_Ring
+		delitem Old_Rings,1;
 		setquest 7746;// A pair of old rings
 		completequest 7746;// A pair of old rings
 		getexp 100000,100000;
@@ -14441,7 +14441,7 @@ prt_in,177,26,6	script	Knight Windsor#ep162	4_M_JOB_KNIGHT1,{
 	}
 	switch( isbegin_quest(7747) ) {
 	case 0:
-		if (countitem(25185) < 1)
+		if (countitem(Locket_Pendant) < 1)
 			break;
 		mes "[Benedict Windsor]";
 		mes "... That rocket belongs to Cheiron.";
@@ -14459,7 +14459,7 @@ prt_in,177,26,6	script	Knight Windsor#ep162	4_M_JOB_KNIGHT1,{
 		mes "[Benedict Windsor]";
 		mes "You ...";
 		mes "......";
-		delitem 25185,1;// Locket_Pendant
+		delitem Locket_Pendant,1;
 		setquest 7747;// Locket Pendant
 		completequest 7747;// Locket Pendant
 		getexp 100000,100000;
@@ -14477,7 +14477,7 @@ prt_in,177,26,6	script	Knight Windsor#ep162	4_M_JOB_KNIGHT1,{
 prt_monk,93,254,3	script	Sister Margaret#ep162	1_F_PRIEST,{
 	switch( isbegin_quest(7748) ) {
 	case 0:
-		if (countitem(25181) < 1) {
+		if (countitem(Wood_Rosary) < 1) {
 			mes "[Margaret]";
 			mes "Shrines and convents have a very close relationship.";
 			mes "They come to help us like this frequently.";
@@ -14505,7 +14505,7 @@ prt_monk,93,254,3	script	Sister Margaret#ep162	1_F_PRIEST,{
 		mes "[Margaret]";
 		mes "... Thank you very much for giving this to me.";
 		mes "May the blessing of Jooshin be with you forever.";
-		delitem 25181,1;// Wood Rosary
+		delitem Wood_Rosary,1;
 		setquest 7748;// Wooden Rosary
 		completequest 7748;// Wooden Rosary
 		getexp 100000,100000;
@@ -14539,7 +14539,7 @@ prt_monk,93,254,3	script	Sister Margaret#ep162	1_F_PRIEST,{
 yuno_in01,163,31,3	script	Blacksmith Cleaver#ep16	4_TOWER_17,{
 	switch( isbegin_quest(7749) ) {
 	case 0:
-		if (countitem(25183) < 1) {
+		if (countitem(Decorated_Archers_Thimble) < 1) {
 			mes "[Cleaver]";
 			mes "You can smelt your gears over there.";
 			mes "I don't take requests for personal production or smelting.";
@@ -14588,7 +14588,7 @@ yuno_in01,163,31,3	script	Blacksmith Cleaver#ep16	4_TOWER_17,{
 		mes "Thank you ... for coming all the way here.";
 		mes "I have to delay my work for a while.";
 		mes "....";
-		delitem 25183,1;// Deco_Thimble_Archer
+		delitem Decorated_Archers_Thimble,1;
 		setquest 7749;// Bow Thimble Decoration
 		completequest 7749;// Bow Thimble Decoration
 		getexp 100000,100000;
@@ -14610,7 +14610,7 @@ yuno_in01,163,31,3	script	Blacksmith Cleaver#ep16	4_TOWER_17,{
 que_job01,89,91,1	script	Guile Marovitz#ep162	1_M_JOBTESTER,{
 	switch( isbegin_quest(7750) ) {
 	case 0:
-		if (countitem(25182) < 1) {
+		if (countitem(Assassins_Mark_Dagger) < 1) {
 			mes "[Guile Marovitz]";
 			mes "... If you want to become an Assassin, go east of the desert.";
 			close;
@@ -14638,7 +14638,7 @@ que_job01,89,91,1	script	Guile Marovitz#ep162	1_M_JOBTESTER,{
 		mes "[Guile Marovitz]";
 		mes "I will take him ... well.";
 		mes "Thank you.";
-		delitem 25182,1;// Assassin_PT_Dagger
+		delitem Assassins_Mark_Dagger,1;
 		setquest 7750;// Assassin Dagger with Glyph
 		erasequest 7750;// Assassin Dagger with Glyph
 		getexp 100000,100000;
@@ -14712,7 +14712,7 @@ payon_in03,194,39,3	script	Hunter Sherine#ep162	4_F_JOB_HUNTER,{
 		next;
 		mes "[Sherine]";
 		mes "... Thank ... you ...";
-		delitem 25184,1;// Portable_Sewingbox
+		delitem Portable_Sewingbox,1;
 		setquest 7751;// Portable Sewing Kit
 		erasequest 7751;// Portable Sewing Kit
 		getexp 100000,100000;
