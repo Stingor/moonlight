@@ -178,154 +178,74 @@ L_menu:
 
 			switch (.@enchant_type) {
 			case 13:	// Egrade_Coin
-				.@i = rand(1, 531);
-				if (.@i < 101)      .@enchant = Mdef4;
-				else if (.@i < 201) .@enchant = Def6;
-				else if (.@i < 301) .@enchant = SP100;
-				else if (.@i < 351) .@enchant = HP100;
-				else if (.@i < 401) .@enchant = HP200;
-				else if (.@i < 451) .@enchant = Atk1;
-				else if (.@i < 476) .@enchant = Dexterity1;
-				else if (.@i < 501) .@enchant = Vitality1;
-				else if (.@i < 526) .@enchant = Luck1;
-				else if (.@i < 528) .@enchant = Strength1;
-				else if (.@i < 530) .@enchant = Agility1;
-				else if (.@i < 532) .@enchant = Inteligence1;
+				setarray .@tbl[0],
+					Mdef4,        100,  Def6,          100,  SP100,        100,
+					HP100,         50,  HP200,          50,  Atk1,          50,
+					Dexterity1,    25,  Vitality1,      25,  Luck1,         25,
+					Strength1,      2,  Agility1,        2,  Inteligence1,   2;
 				break;
 			case 12:	// Dgrade_Coin
-				.@i = rand(1, 531);
-				if (.@i < 101)      .@enchant = HP100;
-				else if (.@i < 201) .@enchant = HP200;
-				else if (.@i < 301) .@enchant = Atk1;
-				else if (.@i < 351) .@enchant = Dexterity1;
-				else if (.@i < 401) .@enchant = Vitality1;
-				else if (.@i < 451) .@enchant = Luck1;
-				else if (.@i < 476) .@enchant = Strength1;
-				else if (.@i < 501) .@enchant = Agility1;
-				else if (.@i < 526) .@enchant = Inteligence1;
-				else if (.@i < 528) .@enchant = Strength2;
-				else if (.@i < 530) .@enchant = Agility2;
-				else if (.@i < 532) .@enchant = Inteligence2;
+				setarray .@tbl[0],
+					HP100,        100,  HP200,         100,  Atk1,         100,
+					Dexterity1,    50,  Vitality1,      50,  Luck1,         50,
+					Strength1,     25,  Agility1,       25,  Inteligence1,  25,
+					Strength2,      2,  Agility2,        2,  Inteligence2,   2;
 				break;
 			case 11:	// Cgrade_Coin
-				.@i = rand(1, 531);
-				if (.@i < 101)      .@enchant = Dexterity1;
-				else if (.@i < 201) .@enchant = Vitality1;
-				else if (.@i < 301) .@enchant = Luck1;
-				else if (.@i < 351) .@enchant = Strength1;
-				else if (.@i < 401) .@enchant = Agility1;
-				else if (.@i < 451) .@enchant = Inteligence1;
-				else if (.@i < 476) .@enchant = Strength2;
-				else if (.@i < 501) .@enchant = Agility2;
-				else if (.@i < 526) .@enchant = Inteligence2;
-				else if (.@i < 528) .@enchant = Strength3;
-				else if (.@i < 530) .@enchant = Agility3;
-				else if (.@i < 532) .@enchant = Inteligence3;
+				setarray .@tbl[0],
+					Dexterity1,   100,  Vitality1,     100,  Luck1,        100,
+					Strength1,     50,  Agility1,       50,  Inteligence1,  50,
+					Strength2,     25,  Agility2,       25,  Inteligence2,  25,
+					Strength3,      2,  Agility3,        2,  Inteligence3,   2;
 				break;
 			case 10:	// Bgrade_Coin
-				.@i = rand(1, 531);
-				if (.@i < 101)      .@enchant = Strength1;
-				else if (.@i < 201) .@enchant = Agility1;
-				else if (.@i < 301) .@enchant = Inteligence1;
-				else if (.@i < 351) .@enchant = Strength2;
-				else if (.@i < 401) .@enchant = Agility2;
-				else if (.@i < 451) .@enchant = Inteligence2;
-				else if (.@i < 476) .@enchant = Strength3;
-				else if (.@i < 501) .@enchant = Agility3;
-				else if (.@i < 526) .@enchant = Inteligence3;
-				else if (.@i < 528) .@enchant = Strength4;
-				else if (.@i < 530) .@enchant = Agility4;
-				else if (.@i < 532) .@enchant = Inteligence4;
+				setarray .@tbl[0],
+					Strength1,    100,  Agility1,      100,  Inteligence1, 100,
+					Strength2,     50,  Agility2,       50,  Inteligence2,  50,
+					Strength3,     25,  Agility3,       25,  Inteligence3,  25,
+					Strength4,      2,  Agility4,        2,  Inteligence4,   2;
 				break;
-			case 9:	// Agrade_Coin - Caster
-				.@i = rand(1, 555);
-				if (.@i < 81)       .@enchant = Inteligence2;
-				else if (.@i < 161) .@enchant = Dexterity2;
-				else if (.@i < 241) .@enchant = Spell2;
-				else if (.@i < 311) .@enchant = Inteligence3;
-				else if (.@i < 371) .@enchant = Dexterity3;
-				else if (.@i < 431) .@enchant = Spell3;
-				else if (.@i < 476) .@enchant = Inteligence4;
-				else if (.@i < 516) .@enchant = Spell4;
-				else if (.@i < 526) .@enchant = Matk1;
-				else if (.@i < 546) .@enchant = Inteligence5;
-				else if (.@i < 551) .@enchant = Spell5;
-				else if (.@i < 556) .@enchant = Matk2;
+			case 9:		// Agrade_Coin - Caster
+				setarray .@tbl[0],
+					Inteligence2,  80,  Dexterity2,     80,  Spell2,        80,
+					Inteligence3,  70,  Dexterity3,     60,  Spell3,        60,
+					Inteligence4,  45,  Spell4,         40,  Matk1,         10,
+					Inteligence5,  20,  Spell5,          5,  Matk2,          5;
 				break;
-			case 8:	// Agrade_Coin - Long Range
-				.@i = rand(1, 555);
-				if (.@i < 81)       .@enchant = Agility2;
-				else if (.@i < 161) .@enchant = Expert_Archer2;
-				else if (.@i < 241) .@enchant = Sharp2;
-				else if (.@i < 311) .@enchant = Agility3;
-				else if (.@i < 371) .@enchant = Expert_Archer3;
-				else if (.@i < 431) .@enchant = Sharp3;
-				else if (.@i < 476) .@enchant = Agility4;
-				else if (.@i < 516) .@enchant = Expert_Archer4;
-				else if (.@i < 526) .@enchant = Atk_Speed1;
-				else if (.@i < 546) .@enchant = Agility5;
-				else if (.@i < 551) .@enchant = Expert_Archer5;
-				else if (.@i < 556) .@enchant = Atk_Speed1;
+			case 8:		// Agrade_Coin - Long Range
+				setarray .@tbl[0],
+					Agility2,      80,  Expert_Archer2, 80,  Sharp2,        80,
+					Agility3,      70,  Expert_Archer3, 60,  Sharp3,        60,
+					Agility4,      45,  Expert_Archer4, 40,  Atk_Speed1,    15,
+					Agility5,      20,  Expert_Archer5,  5;
 				break;
-			case 7:	// Agrade_Coin - Short Range
-				.@i = rand(1, 555);
-				if (.@i < 81)       .@enchant = Agility2;
-				else if (.@i < 161) .@enchant = Fighting_Spirit4;
-				else if (.@i < 241) .@enchant = Sharp2;
-				else if (.@i < 311) .@enchant = Agility3;
-				else if (.@i < 371) .@enchant = Fighting_Spirit5;
-				else if (.@i < 431) .@enchant = Sharp3;
-				else if (.@i < 476) .@enchant = Agility4;
-				else if (.@i < 516) .@enchant = Fighting_Spirit6;
-				else if (.@i < 526) .@enchant = Atk_Speed1;
-				else if (.@i < 546) .@enchant = Agility5;
-				else if (.@i < 551) .@enchant = Fighting_Spirit7;
-				else if (.@i < 556) .@enchant = Atk_Speed1;
+			case 7:		// Agrade_Coin - Short Range
+				setarray .@tbl[0],
+					Agility2,      80,  Fighting_Spirit4,80,  Sharp2,       80,
+					Agility3,      70,  Fighting_Spirit5,60,  Sharp3,       60,
+					Agility4,      45,  Fighting_Spirit6,40,  Atk_Speed1,   15,
+					Agility5,      20,  Fighting_Spirit7, 5;
 				break;
-			case 6:	// Anger_Seagod - Caster
-				.@i = rand(1, 555);
-				if (.@i < 81)       .@enchant = Inteligence3;
-				else if (.@i < 161) .@enchant = Dexterity3;
-				else if (.@i < 241) .@enchant = Spell3;
-				else if (.@i < 311) .@enchant = Inteligence4;
-				else if (.@i < 371) .@enchant = Spell4;
-				else if (.@i < 431) .@enchant = Matk1;
-				else if (.@i < 476) .@enchant = Inteligence5;
-				else if (.@i < 516) .@enchant = Spell5;
-				else if (.@i < 526) .@enchant = Matk2;
-				else if (.@i < 546) .@enchant = Inteligence6;
-				else if (.@i < 551) .@enchant = Spell6;
-				else if (.@i < 556) .@enchant = Matk3;
+			case 6:		// Anger_Seagod - Caster
+				setarray .@tbl[0],
+					Inteligence3,  80,  Dexterity3,     80,  Spell3,        80,
+					Inteligence4,  70,  Spell4,         60,  Matk1,         60,
+					Inteligence5,  45,  Spell5,         40,  Matk2,         10,
+					Inteligence6,  20,  Spell6,          5,  Matk3,          5;
 				break;
-			case 5:	// Anger_Seagod - Long Range
-				.@i = rand(1, 555);
-				if (.@i < 81)  .@enchant = Agility3;
-				else if (.@i < 161) .@enchant = Expert_Archer3;
-				else if (.@i < 241) .@enchant = Sharp4;
-				else if (.@i < 311) .@enchant = Agility4;
-				else if (.@i < 371) .@enchant = Expert_Archer4;
-				else if (.@i < 431) .@enchant = Sharp5;
-				else if (.@i < 476) .@enchant = Agility5;
-				else if (.@i < 516) .@enchant = Expert_Archer5;
-				else if (.@i < 526) .@enchant = Atk_Speed1;
-				else if (.@i < 546) .@enchant = Agility6;
-				else if (.@i < 551) .@enchant = Expert_Archer6;
-				else if (.@i < 556) .@enchant = Atk_Speed2;
+			case 5:		// Anger_Seagod - Long Range
+				setarray .@tbl[0],
+					Agility3,      80,  Expert_Archer3, 80,  Sharp4,        80,
+					Agility4,      70,  Expert_Archer4, 60,  Sharp5,        60,
+					Agility5,      45,  Expert_Archer5, 40,  Atk_Speed1,    10,
+					Agility6,      20,  Expert_Archer6,  5,  Atk_Speed2,     5;
 				break;
-			case 4:	// Anger_Seagod - Short Range
-				.@i = rand(1, 555);
-				if (.@i < 81)  .@enchant = Agility3;
-				else if (.@i < 161) .@enchant = Fighting_Spirit5;
-				else if (.@i < 241) .@enchant = Sharp4;
-				else if (.@i < 311) .@enchant = Agility4;
-				else if (.@i < 371) .@enchant = Fighting_Spirit6;
-				else if (.@i < 431) .@enchant = Sharp5;
-				else if (.@i < 476) .@enchant = Agility5;
-				else if (.@i < 516) .@enchant = Fighting_Spirit7;
-				else if (.@i < 526) .@enchant = Atk_Speed1;
-				else if (.@i < 546) .@enchant = Agility6;
-				else if (.@i < 551) .@enchant = Fighting_Spirit8;
-				else if (.@i < 556) .@enchant = Atk_Speed2;
+			case 4:		// Anger_Seagod - Short Range
+				setarray .@tbl[0],
+					Agility3,      80,  Fighting_Spirit5,80,  Sharp4,       80,
+					Agility4,      70,  Fighting_Spirit6,60,  Sharp5,       60,
+					Agility5,      45,  Fighting_Spirit7,40,  Atk_Speed1,   10,
+					Agility6,      20,  Fighting_Spirit8, 5,  Atk_Speed2,    5;
 				break;
 			case 3:	// mvp_card - Caster
 				.@i = rand(1, 1000);
@@ -388,6 +308,19 @@ L_menu:
 				mes .@npc_name$;
 				mes "Un truc qui cloche lol.";
 				close;
+			}
+
+			// Weighted pick for cases 4-13 (coin-based)
+			if (getarraysize(.@tbl) > 0) {
+				.@total = 0;
+				for (.@i = 1; .@i < getarraysize(.@tbl); .@i += 2)
+					.@total += .@tbl[.@i];
+				.@r = rand(.@total);
+				.@acc = 0;
+				for (.@i = 0; .@i < getarraysize(.@tbl); .@i += 2) {
+					.@acc += .@tbl[.@i + 1];
+					if (.@r < .@acc) { .@enchant = .@tbl[.@i]; break; }
+				}
 			}
 
 			if (.@selected == 0) {
