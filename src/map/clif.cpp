@@ -343,29 +343,14 @@ uint16 clif_getport(void)
 
 #if PACKETVER >= 20071106
 static inline unsigned char clif_bl_type(const block_list* bl, bool walking) {
-
-	// Lecture de la class mob avail trick
-	int32 class_ = status_get_viewdata(bl)->look[LOOK_BASE];
-	int32 type = bl->type;
-
-	if ( type == BL_NPC || type == BL_MOB || type == BL_PC )
-	{
-		if ( class_ < NPC_RANGE1_START ) type = BL_PC;
-		else if ( class_ < 1000 ) type = BL_NPC;
-		else if ( class_ < 5200 ) type = BL_MOB;
-		else if ( mobavaildb_checkid(class_) ) type = BL_PC;
-		else if ( class_ > 20020 && class_ < 31999) type = BL_MOB;
-		else if ( npcdb_checkid(class_) ) type = BL_NPC;
-		else type = BL_PC;
-	}
-
-	switch (type) {
+	
+	switch (bl->type) {
 	case BL_PC:    return (disguised(bl) && !pcdb_checkid(status_get_viewdata(bl)->look[LOOK_BASE]))? 0x1:0x0; //PC_TYPE
 	case BL_ITEM:  return 0x2; //ITEM_TYPE
 	case BL_SKILL: return 0x3; //SKILL_TYPE
 	case BL_CHAT:  return 0x4; //UNKNOWN_TYPE
 	case BL_MOB:
-		if( pcdb_checkid( status_get_viewdata( bl )->look[LOOK_BASE] ) ){
+		if( pcdb_checkid(status_get_viewdata(bl)->look[LOOK_BASE]) ){
 			return 0x0; //PC_TYPE
 		}else{
 			switch( ( (mob_data*)bl )->special_state.ai ){
@@ -382,10 +367,10 @@ static inline unsigned char clif_bl_type(const block_list* bl, bool walking) {
 // There is one exception and this is if they are walking.
 // Since walking NPCs are not supported on official servers, the client does not know how to handle it.
 #if PACKETVER >= 20170726
-		if (mobavaildb_checkid(status_get_viewdata(bl)->look[LOOK_BASE]) || pcdb_checkid( status_get_viewdata( bl )->look[LOOK_BASE] ) && walking)
+		if (pcdb_checkid(status_get_viewdata(bl)->look[LOOK_BASE]) && (walking || status_get_viewdata(bl)->dead_sit))
 			return 0x0;
-		else if (mobdb_checkid( status_get_viewdata( bl )->look[LOOK_BASE] ))	// FIXME: categorize NPCs able to walk
-			return 0xC;
+		else if (mobdb_checkid(status_get_viewdata(bl)->look[LOOK_BASE]))	// FIXME: categorize NPCs able to walk
+			return 0xc;
 		else
 			return 0x6;
 #else
@@ -5218,10 +5203,12 @@ void clif_getareachar_unit( map_session_data* sd,block_list *bl ){
 				clif_specialeffect_single(bl,EF_BABYBODY2,sd->fd);
 			clif_efst_status_change_sub(sd, bl, SELF);
 			clif_progressbar_npc(nd, sd);
-			if( status_get_viewdata(bl)->look[LOOK_BASE] && nd->sitted ) // [Stingor]
-				clif_sitting(*nd);
-			else
-				clif_standing(*nd);
+			if (status_get_viewdata(bl)->look[LOOK_BASE]) { // [Stingor]
+				if (nd->vd.dead_sit == 2)
+					clif_sitting(*nd);
+				else if (nd->vd.dead_sit == 0)
+					clif_standing(*nd);
+			}
 		}
 		break;
 	case BL_MOB:

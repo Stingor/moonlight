@@ -9519,10 +9519,12 @@ void status_set_viewdata(block_list *bl, int32 class_)
 					ShowDebug("Source (NPC): %s (invisible/not on a map)\n", nd->name);
 				ShowDebug( "Source (NPC): %s is located in: %s\n", nd->name, nd->path );
 			}
-			if( status_get_viewdata(bl)->look[LOOK_BASE] && nd->sitted ) // [Stingor]
-				clif_sitting(*nd);
-			else
-				clif_standing(*nd);
+			if (status_get_viewdata(bl)->look[LOOK_BASE]) { // [Stingor]
+				if (nd->vd.dead_sit == 2)
+					clif_sitting(*nd);
+				else if (nd->vd.dead_sit == 0)
+					clif_standing(*nd);
+			}
 			break;
 		}
 	break;

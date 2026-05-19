@@ -202,8 +202,8 @@ BUILDIN_FUNC(npcsit)
 {
 	struct npc_data *nd=(struct npc_data *)map_id2bl(st->oid);
 	
-	if( nd && mobavaildb_checkid(nd->class_) ) {
-		nd->sitted = 1;
+	if( nd && nd->vd.dead_sit == 0 ) {
+		nd->vd.dead_sit = 2;
 		clif_sitting(*nd);
 	}
 	
@@ -214,8 +214,8 @@ BUILDIN_FUNC(npcstand)
 {
 	struct npc_data *nd=(struct npc_data *)map_id2bl(st->oid);
 	
-	if( nd && mobavaildb_checkid(nd->class_) ) {
-		nd->sitted = 0;
+	if( nd && nd->vd.dead_sit == 2 ) {
+		nd->vd.dead_sit = 0;
 		clif_standing(*nd);
 	}
 

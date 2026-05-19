@@ -14789,12 +14789,12 @@ BUILDIN_FUNC(getiteminfo)
 		return SCRIPT_CMD_SUCCESS;
 	}
 	switch( type ) {
-		case ITEMINFO_BUY: script_pushint(st, i_data->value_buy); break;
-		case ITEMINFO_SELL: script_pushint(st, i_data->value_sell); break;
-		case ITEMINFO_TYPE: script_pushint(st, i_data->type); break;
-		case ITEMINFO_MAXCHANCE: script_pushint(st, i_data->maxchance); break;
-		case ITEMINFO_GENDER: script_pushint(st, i_data->sex); break;
-		case ITEMINFO_LOCATIONS: script_pushint(st, i_data->equip); break;
+		case ITEMINFO_BUY: script_pushint(st, i_data->value_buy); break; // 0
+		case ITEMINFO_SELL: script_pushint(st, i_data->value_sell); break; // 1
+		case ITEMINFO_TYPE: script_pushint(st, i_data->type); break; // 2
+		case ITEMINFO_MAXCHANCE: script_pushint(st, i_data->maxchance); break; // 3
+		case ITEMINFO_GENDER: script_pushint(st, i_data->sex); break; // 4
+		case ITEMINFO_LOCATIONS: script_pushint(st, i_data->equip); break; // 5
 		case ITEMINFO_WEIGHT: script_pushint(st, i_data->weight); break;
 		case ITEMINFO_ATTACK: script_pushint(st, i_data->atk); break;
 		case ITEMINFO_DEFENSE: script_pushint(st, i_data->def); break;
