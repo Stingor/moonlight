@@ -640,6 +640,8 @@ static bool item_db_yaml2sql(const std::string &file, const std::string &table) 
 				if (appendEntry(locations["Left_Accessory"], value))
 					column.append("`location_left_accessory`,");
 			}
+			if (appendEntry(locations["Costume_Head"], value))
+				column.append("`location_costume_head`,");
 			if (appendEntry(locations["Costume_Head_Top"], value))
 				column.append("`location_costume_head_top`,");
 			if (appendEntry(locations["Costume_Head_Mid"], value))

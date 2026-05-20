@@ -34632,7 +34632,6 @@ Body:
     Name: 10Def 10Mdef Small Norm
     Level: 10
     Hp: 100000000
-    MvpExp: 1
     Defense: 10
     MagicDefense: 10
     Size: Small
@@ -34641,16 +34640,11 @@ Body:
     ElementLevel: 1
     WalkSpeed: 200
     DamageMotion: 1000
-    Class: Guardian
-    Modes:
-      KnockBackImmune: true
-      Mvp: true
   - Id: 2409
     AegisName: DUMMY_50DEF_50MDEF
     Name: 50Def-Mdef Medium Boss
     Level: 50
     Hp: 100000000
-    MvpExp: 1
     Defense: 50
     MagicDefense: 50
     Size: Medium
@@ -34665,7 +34659,6 @@ Body:
     Name: 100Def-Mdef Large Boss
     Level: 100
     Hp: 100000000
-    MvpExp: 1
     Defense: 100
     MagicDefense: 100
     Size: Large

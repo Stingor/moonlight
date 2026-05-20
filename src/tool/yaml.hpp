@@ -566,6 +566,7 @@ uint64 ItemDatabase::parseBodyNode(const ryml::NodeRef& node) {
 					"Head_Low",
 					"Head_Mid",
 					"Head_Top",
+					"Costume_Head",
 					"Costume_Head_Low",
 					"Costume_Head_Mid",
 					"Costume_Head_Top"

@@ -186,7 +186,7 @@ L_Instance:
 					(instance_delay_cellar < gettimetick(2)?"^00A000":"^FF0000")+"• Endless Cellar (HM, Custom)^000000",
 					GetColor(60200)+"• Endless Tower (HM)^000000",
 					GetColor(12325)+"• Faceworms Nest (Solo)^000000",
-					(GeffenTournament < gettimetick(2)?"^00A000":"^FF0000")+"• Gef. Magic Tour. (HM, Solo, Custom)^000000",
+					GetColor(9316)+"• Gef. Magic Tour. (HM, Solo, Custom)^000000",
 					GetColor(1261)+"• Ghost Palace (Solo)^000000",
 					GetColor(7211)+"• Hazy Forest^000000",
 					GetColor(12331)+"• Horror Toy Factory (HM)^000000",
@@ -420,8 +420,9 @@ L_DevilTower:
 			warp_fct("dali", 85, 64);
 		}
 		case 11: { // Geffen Magic Tournament
-			if( select( (GeffenTournament < gettimetick(2)?"^00A000":"^FF0000")+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
+			if( select( GetColor(9316)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
 				.@md_name$ = "Geffen Magic Tournament";
+				.@questid = 9316; // Re-exploring the crack of spaces
 				callsub Party_Check,.@md_name$;
 				callsub Leader_Check; // Pour instance Solo
 
@@ -442,47 +443,17 @@ L_DevilTower:
 					if (checkquest(9315) != -1)
 						changequest 9315,9316;
 				}
-
-				if( GeffenTournament < gettimetick(2) ) {
-					for (.@i = 9284; .@i <= 9314; .@i++)
-						if( checkquest(.@i) != -1 )
-							erasequest .@i;
-					clear;
-					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-					mes "Cette instance est disponible avec plusieur niveau de difficulté, êtes vous prêts à tenter?";
-					mes "^FF0000Attention!!";
-					mes "Le timer reste le même pour chaque niveau !! Si vous échouez au 5 vous ne pourrez changer la difficulté.^000000";
-					setdialogsize(300,200);
-					.@hardmode = select( "Facile(1)", "Normal(2)", "Moyen(3)", "", "Difficile(5)", "", "Très Difficile(7)", "", "", "MALADE(10)" );
-					callsub Create_Instance,.@md_name$,.@hardmode; // Création instance
-					if ( BaseLevel < 100 ) {
-						mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-						mes "Vous venez être au moins niveau 100 pour entrer cette instance!";
-						close;
-					} 
-					switch( instance_enter(.@md_name$) ) {
-						case IE_NOMEMBER: goto L_NOMEMBER;
-						case IE_NOINSTANCE: goto L_NOINSTANCE;
-						case IE_OTHER: goto L_OTHER;
-						case IE_OK:
-						GeffenTournament = gettimetick(2) + 72000; // 20h
-						if( checkquest(9316,PLAYTIME) != -1 )
-							erasequest 9316;
-						setquest 9316;
-						end;
-					}
-				}
-				else {
-					clear;
-					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-					mes "Vous devez attendre la fin du cooldown.";
-					.@time = GeffenTournament - gettimetick(2);
-					.@sec = .@time % 60;
-					.@min = (.@time / 60) % 60;
-					.@hrs = (.@time / 3600) % 24;
-					mes "Cooldown: ^3355FF"+(.@hrs < 10 ? "0" : "")+.@hrs+":"+(.@min < 10 ? "0" : "")+.@min+":"+(.@sec < 10 ? "0" : "")+.@sec+"^000000";
-					end;
-				}
+				for (.@i = 9284; .@i <= 9314; .@i++)
+					if( checkquest(.@i) != -1 )
+						erasequest .@i;
+				clear;
+				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes "Cette instance est disponible avec plusieur niveau de difficulté, êtes vous prêts à tenter?";
+				mes "^FF0000Attention!!";
+				mes "Le timer reste le même pour chaque niveau !! Si vous échouez au 5 vous ne pourrez changer la difficulté.^000000";
+				setdialogsize(300, 200);
+				.@hardmode = callsub(Hard_Mode,GetColor(.@questid));
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
 				break;
 			}
 			warp_fct("dali", 94, 141);
@@ -939,7 +910,7 @@ Quick_Enter:
 	goto L_Instance;
 
 Process_Instance:
-	if( checkquest(getarg(3),PLAYTIME) == 2 )
+	if( checkquest(getarg(3), PLAYTIME) == 2 )
 		erasequest getarg(3); // Reset de la quest cooldown
 	if( getgroupid() == 99 ) {
 		if( select("bypassgm?", "non") == 1 )
@@ -964,7 +935,7 @@ Process_Instance:
 			end;
 		}
 	}
-	switch( checkquest(getarg(3),PLAYTIME) ) {
+	switch( checkquest(getarg(3), PLAYTIME) ) {
 		case -1:
 			clear;
 			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
