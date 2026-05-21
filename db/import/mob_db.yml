@@ -34695,10 +34695,6 @@ Body:
     ElementLevel: 1
     WalkSpeed: 200
     DamageMotion: 1000
-    Class: Guardian
-    Modes:
-      KnockBackImmune: true
-      Mvp: true
   - Id: 2428
     AegisName: G_L_SEYREN
     Name: Knight Seyren
