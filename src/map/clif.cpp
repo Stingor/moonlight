@@ -20343,11 +20343,9 @@ void clif_ranklist( map_session_data& sd, e_rank rankingtype ){
 			break;			
 	}
 
-	clif_send( &p, sizeof( p ), &sd, SELF );
-
-	// ZC_ACK_RANKING2 only sends CIDs — the client needs names resolved separately.
-	// Proactively send ZC_ACK_REQNAME_BYGID for each entry so offline players
-	// don't appear as "Nameless".
+	// ZC_ACK_RANKING2 only sends CIDs — the client resolves names via its cache.
+	// Send ZC_ACK_REQNAME_BYGID BEFORE the ranking packet so the names are already
+	// cached when the client renders the window (avoids "Nameless" on first open).
 	if( list != nullptr ){
 		size_t nameSize = std::min<size_t>( ARRAYLENGTH( p.CIDs ), MAX_FAME_LIST );
 		for( size_t j = 0; j < nameSize; j++ ){
@@ -20372,6 +20370,8 @@ void clif_ranklist( map_session_data& sd, e_rank rankingtype ){
 				clif_solved_charname( sd, list[j].id, name );
 		}
 	}
+
+	clif_send( &p, sizeof( p ), &sd, SELF );
 
 #elif PACKETVER_MAIN_NUM >= 20130605 || PACKETVER_RE_NUM >= 20130529 || defined(PACKETVER_ZERO)
 	PACKET_ZC_ACK_RANKING p = {};
