@@ -20344,6 +20344,35 @@ void clif_ranklist( map_session_data& sd, e_rank rankingtype ){
 	}
 
 	clif_send( &p, sizeof( p ), &sd, SELF );
+
+	// ZC_ACK_RANKING2 only sends CIDs — the client needs names resolved separately.
+	// Proactively send ZC_ACK_REQNAME_BYGID for each entry so offline players
+	// don't appear as "Nameless".
+	if( list != nullptr ){
+		size_t nameSize = std::min<size_t>( ARRAYLENGTH( p.CIDs ), MAX_FAME_LIST );
+		for( size_t j = 0; j < nameSize; j++ ){
+			if( list[j].id == 0 )
+				continue;
+
+			const char* name = nullptr;
+
+			// Online player: use their live name
+			map_session_data* tsd = map_charid2sd( list[j].id );
+			if( tsd != nullptr ){
+				name = tsd->status.name;
+			} else if( list[j].name[0] != '\0' && strcmp( list[j].name, "-" ) != 0 ){
+				// Stored name in fame_list
+				name = list[j].name;
+			} else {
+				// Last resort: nick_db cache
+				name = map_charid2nick( list[j].id );
+			}
+
+			if( name != nullptr )
+				clif_solved_charname( sd, list[j].id, name );
+		}
+	}
+
 #elif PACKETVER_MAIN_NUM >= 20130605 || PACKETVER_RE_NUM >= 20130529 || defined(PACKETVER_ZERO)
 	PACKET_ZC_ACK_RANKING p = {};
 
