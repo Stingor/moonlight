@@ -1137,6 +1137,45 @@ void ItemDatabase::loadingFinished(){
 				ShowWarning( "Item %s is a weapon, but has an armor level. Defaulting to 0.\n", item->name.c_str() );
 				item->armor_level = 0;
 			}
+
+			// Moonlight custom weapon pricing formula.
+			// Buy price is computed from weapon level, attack and slots.
+			// Sell price is derived from buy by a level-specific divisor.
+			// This overrides any Buy:/Sell: value present in the YAML.
+			{
+				uint32 buy = 0, sell = 0;
+				switch( item->weapon_level ){
+					case 1:
+						// 1 000z base + 10z/atk + 100z/slot  |  sell = buy / 2
+						buy  = 1000u + item->atk * 10u + item->slots * 100u;
+						sell = buy / 2u;
+						break;
+					case 2:
+						// 100 000z base + 100z/atk + 1 500z/slot  |  sell = buy / 7
+						buy  = 100000u + item->atk * 100u + item->slots * 1500u;
+						sell = buy / 7u;
+						break;
+					case 3:
+						// 300 000z base + 1 000z/atk + 25 000z/slot  |  sell = buy / 20
+						buy  = 300000u + item->atk * 1000u + item->slots * 25000u;
+						sell = buy / 20u;
+						break;
+					case 4:
+						// 8 000 000z base + 10 000z/atk + 150 000z/slot  |  sell = buy / 100
+						buy  = 8000000u + item->atk * 10000u + item->slots * 150000u;
+						sell = buy / 100u;
+						break;
+					default:
+						break;
+				}
+
+				if( buy > 0 ){
+					item->value_buy  = buy;
+					item->value_sell = sell;
+					// Mark both as explicitly set so the hasPriceValue derivation below is skipped.
+					hasPriceValue[item->nameid] = { true, true };
+				}
+			}
 		}else if( item->type == IT_ARMOR ){
 			if( item->armor_level == 0 ){
 				// ShowWarning( "Item %s is an armor, but does not have an armor level. Consider adding it. Defaulting to 1.\n", item->name.c_str() );
@@ -1146,6 +1185,55 @@ void ItemDatabase::loadingFinished(){
 			if( item->weapon_level != 0 ){
 				ShowWarning( "Item %s is an armor, but has a weapon level. Defaulting to 0.\n", item->name.c_str() );
 				item->weapon_level = 0;
+			}
+
+			// Moonlight custom armor pricing formula.
+			// Buy price is based on equipment location, defense and slots.
+			// Items with no recognized location keep their YAML price.
+			{
+				uint32 buy = 0, sell_div = 2;
+
+				if( item->equip & EQP_ARMOR ){
+					// Body armor : 5 000 + def×8 000 + slots×40 000  |  sell = buy / 5
+					buy      = 5000u + item->def * 8000u + item->slots * 40000u;
+					sell_div = 5;
+				} else if( item->equip & EQP_HAND_L ){
+					// Shield     : 3 000 + def×10 000 + slots×50 000  |  sell = buy / 5
+					buy      = 3000u + item->def * 10000u + item->slots * 50000u;
+					sell_div = 5;
+				} else if( item->equip & EQP_GARMENT ){
+					// Garment    : 2 000 + def×5 000 + slots×25 000   |  sell = buy / 4
+					buy      = 2000u + item->def * 5000u + item->slots * 25000u;
+					sell_div = 4;
+				} else if( item->equip & EQP_SHOES ){
+					// Shoes      : 1 000 + def×4 000 + slots×20 000   |  sell = buy / 4
+					buy      = 1000u + item->def * 4000u + item->slots * 20000u;
+					sell_div = 4;
+				} else if( item->equip & EQP_HEAD_TOP ){
+					// Head top   :   500 + def×3 000 + slots×10 000   |  sell = buy / 3
+					buy      = 500u + item->def * 3000u + item->slots * 10000u;
+					sell_div = 3;
+				} else if( item->equip & EQP_HEAD_MID ){
+					// Head mid   :   200 + def×2 000 + slots×5 000    |  sell = buy / 3
+					buy      = 200u + item->def * 2000u + item->slots * 5000u;
+					sell_div = 3;
+				} else if( item->equip & EQP_HEAD_LOW ){
+					// Head low   :   100 + def×1 000 + slots×3 000    |  sell = buy / 2
+					buy      = 100u + item->def * 1000u + item->slots * 3000u;
+					sell_div = 2;
+				} else if( item->equip & EQP_ACC_RL ){
+					// Accessory  :   500 + def×1 000 + slots×5 000    |  sell = buy / 2
+					buy      = 500u + item->def * 1000u + item->slots * 5000u;
+					sell_div = 2;
+				}
+				// equip == 0 or unrecognized location : leave YAML price untouched
+
+				if( buy > 0 ){
+					item->value_buy  = buy;
+					item->value_sell = buy / sell_div;
+					// Mark both as explicitly set so the hasPriceValue derivation below is skipped.
+					hasPriceValue[item->nameid] = { true, true };
+				}
 			}
 		}else{
 			if( item->weapon_level != 0 ){
