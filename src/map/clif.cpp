@@ -19376,6 +19376,15 @@ static void clif_parse_ReqOpenBuyingStore( int32 fd, map_session_data* sd ){
 		return;
 	}
 
+	if( sd->m == map_mapname2mapid(MAP_GONRYUN)
+		&& (sd->x >= battle_config.shopx1 && sd->x <= battle_config.shopx2)
+		&& (sd->y >= battle_config.shopy1 && sd->y <= battle_config.shopy2)
+		&& pc_get_group_level(sd) <= 80
+		) { // [Stingor] zone réservée aux shops
+		clif_displaymessage(sd->fd, msg_txt(sd, 1833));
+		return;
+	}
+
 	char storename[MESSAGE_SIZE];
 
 	safestrncpy( storename, p->storeName, sizeof( storename ) );
