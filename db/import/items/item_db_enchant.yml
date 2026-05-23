@@ -3420,42 +3420,42 @@ Body:
     Type: Card
     SubType: Enchant
     Buy: 20
-    Script: ".@r = getrefine(); if (.@r>=7) { bonus bStr,5; } if (.@r>=10) { bonus2 bAddClass,Class_All,5; }\n"
+    Script: "if (getrefine()>=7) { bonus bStr,5; } if (getallrefine()>=20) { bonus2 bAddClass,Class_All,5; }\n"
   - Id: 4995
     AegisName: Rune_of_Strength_Lv_2
     Name: Rune of Strength Lv 2
     Type: Card
     SubType: Enchant
     Buy: 20
-    Script: ".@r = getrefine(); if (.@r>=7) { bonus bStr,6; } if (.@r>=11) { bonus bStr,1; bonus2 bAddClass,Class_All,7; }\n"
+    Script: "if (getrefine()>=7) { bonus bStr,6; } if (getallrefine()>=22) { bonus bStr,1; bonus2 bAddClass,Class_All,7; }\n"
   - Id: 4996
     AegisName: Rune_of_Strength_Lv_3
     Name: Rune of Strength_Lv 3
     Type: Card
     SubType: Enchant
     Buy: 20
-    Script: ".@r = getrefine(); if (.@r>=7) { bonus bStr,7; } if (.@r>=12) { bonus bStr,1; bonus2 bAddClass,Class_All,8; } if (.@r>=13) { bonus bStr,1; bonus2 bAddClass,Class_All,2; }\n"
+    Script: "if (getrefine()>=7) { bonus bStr,7; } if (getallrefine()>=24) { bonus bStr,1; bonus2 bAddClass,Class_All,8; } if (getallrefine()>=26) { bonus bStr,1; bonus2 bAddClass,Class_All,2; }\n"
   - Id: 4997
     AegisName: Rune_of_Agility_Lv_1
     Name: Rune of Agility Lv 1
     Type: Card
     SubType: Enchant
     Buy: 20
-    Script: ".@r = getrefine(); if (.@r>=7) { bonus bAgi,5; } if (.@r>=10) { bonus bFlee2,5; }\n"
+    Script: "if (getrefine()>=7) { bonus bAgi,5; } if (getallrefine()>=20) { bonus bFlee2,5; }\n"
   - Id: 4998
     AegisName: Rune_of_Agility_Lv_2
     Name: Rune of Agility Lv 2
     Type: Card
     SubType: Enchant
     Buy: 20
-    Script: ".@r = getrefine(); if (.@r>=7) { bonus bAgi,6; } if (.@r>=11) { bonus bAgi,1; bonus bFlee2,7; }\n"
+    Script: "if (getrefine()>=7) { bonus bAgi,6; } if (getallrefine()>=22) { bonus bAgi,1; bonus bFlee2,7; }\n"
   - Id: 4999
     AegisName: Rune_of_Agility_Lv_3
     Name: Rune of Agility Lv 3
     Type: Card
     SubType: Enchant
     Buy: 20
-    Script: ".@r = getrefine(); if (.@r>=7) { bonus bAgi,7; } if (.@r>=12) { bonus bAgi,1; bonus bFlee2,5; } if (.@r>=13) { bonus bAgi,1; bonus bFlee2,5; }\n"
+    Script: "if (getrefine()>=7) { bonus bAgi,7; } if (getallrefine()>=24) { bonus bAgi,1; bonus bFlee2,5; } if (getallrefine()>=26) { bonus bAgi,1; bonus bFlee2,5; }\n"
   - Id: 6716
     AegisName: Cri_Stone
     Name: Critical Stone(Upper)
