@@ -3675,7 +3675,7 @@ int32 mob_dead(mob_data *md, block_list *src, int32 type)
 	}
 
 	// Display kill separator if enabled
-	if( sd && sd->kill_separate ) {
+	if( sd && sd->state.kill_separate ) {
 		clif_displaymessage(sd->fd, msg_txt(sd, 1864)); // ---------------------------------------------
 	}
 

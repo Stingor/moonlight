@@ -451,6 +451,7 @@ public:
 		bool barter_extended_open;
 		bool enchantgrade_open; // Whether the enchantgrade window is open or not
 		// [Stingor] -->
+		bool kill_separate: 1;
 		bool sellstuff: 1;
 		bool sellitem: 1;
 		bool showspeed: 1;

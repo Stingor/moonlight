@@ -1729,10 +1729,10 @@
 1817: Vous venez de rendre moche %s.
 1818: @sitstand <Pseudo ou char ID>.
 1819: Il est mort ducon!
-1820: Autoloot des mvp désactivé.
-1821: Autoloot des mvp activé.
-1822: Autoloot des Ygg, opb, obb, oca, Frag. Thanatos, gold, cards etc désactivé.
-1823: Autoloot des Ygg, opb, obb, oca, Frag. Thanatos, gold, cards etc activé.
+1820: Autoloot des mvp activé.
+1821: Autoloot des mvp désactivé.
+1822: Autoloot des Ygg, opb, obb, oca, Frag. Thanatos, gold, cards etc activé.
+1823: Autoloot des Ygg, opb, obb, oca, Frag. Thanatos, gold, cards etc désactivé.
 1824: Autoloot des équipements désactivé.
 1825: Autoloot des équipements activé.
 1826: Autolootpognon désactivé.
@@ -1746,8 +1746,8 @@
 1834: Vous devez être au dessus de la statue de Gonryun pour pouvoir ouvrir une Chat Room !
 1835: Vous cachez désormais les Wings.
 1836: Vous affichez désormais les Wings.
-1837: Autoloot des mvp reward désactivé.
-1838: Autoloot des mvp reward activé.
+1837: Autoloot des mvp reward activé.
+1838: Autoloot des mvp reward désactivé.
 1839: Vous n'êtes pas en party.
 1840: Affichage buffs party désactivés.
 1841: Affichage buffs party activés.

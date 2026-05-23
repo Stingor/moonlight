@@ -863,17 +863,15 @@ ACMD_FUNC(sitstand)
 ACMD_FUNC(autolootmvp)
 {
 	nullpo_retr(-1, sd);
+	
+	sd->state.autolootmvp = !sd->state.autolootmvp;
+	pc_setglobalreg(sd, add_str("alootmvp"), sd->state.autolootmvp);
 
-	if( sd->state.autolootmvp ) {
-		sd->state.autolootmvp = 0;
-		pc_setglobalreg(sd, add_str("alootmvp"), 0);
+	if( sd->state.autolootmvp )
 		clif_displaymessage(fd, msg_txt(sd,1820));
-	}
-	else {
-		pc_setglobalreg(sd, add_str("alootmvp"), 1);
-		sd->state.autolootmvp = 1;
+	else
 		clif_displaymessage(fd, msg_txt(sd,1821));
-	}
+
 	return 0;
 }
 
@@ -884,17 +882,15 @@ ACMD_FUNC(autolootmvp)
 ACMD_FUNC(autolootmvpreward)
 {
 	nullpo_retr(-1, sd);
+	
+	sd->state.autolootmvpreward = !sd->state.autolootmvpreward;
+	pc_setglobalreg(sd, add_str("alootmvpreward"), sd->state.autolootmvpreward);
 
-	if( sd->state.autolootmvpreward ) {
-		sd->state.autolootmvpreward = 0;
-		pc_setglobalreg(sd, add_str("alootmvpreward"), 0);
+	if( sd->state.autolootmvpreward )
 		clif_displaymessage(fd, msg_txt(sd,1837));
-	}
-	else {
-		pc_setglobalreg(sd, add_str("alootmvpreward"), 1);
-		sd->state.autolootmvpreward = 1;
+	else
 		clif_displaymessage(fd, msg_txt(sd,1838));
-	}
+
 	return 0;
 }
 
@@ -905,16 +901,15 @@ ACMD_FUNC(autolootmvpreward)
 ACMD_FUNC(autolootrare)
 {
 	nullpo_retr(-1, sd);
-	if( sd->state.autolootrare ) {
-		pc_setglobalreg(sd, add_str("alootrare"), 0);
-		sd->state.autolootrare = 0;
+	
+	sd->state.autolootrare = !sd->state.autolootrare;
+	pc_setglobalreg(sd, add_str("alootrare"), sd->state.autolootrare);
+
+	if( sd->state.autolootrare )
 		clif_displaymessage(fd, msg_txt(sd,1822));
-	}
-	else {
-		pc_setglobalreg(sd, add_str("alootrare"), 1);
-		sd->state.autolootrare = 1;
+	else
 		clif_displaymessage(fd, msg_txt(sd,1823));
-	}
+
 	return 0;
 }
 
@@ -925,18 +920,17 @@ ACMD_FUNC(autolootrare)
 ACMD_FUNC(showmobinfo)
 {
 	nullpo_retr(-1, sd);
-	if( sd->state.showmobinfo ) {
-		pc_setglobalreg(sd, add_str("showmobinfo"), 0);
-		sd->state.showmobinfo = 0;
-		clif_displaymessage(fd, msg_txt(sd,1861));
-		clif_refresh(sd);
-	}
-	else {
-		pc_setglobalreg(sd, add_str("showmobinfo"), 1);
-		sd->state.showmobinfo = 1;
+
+	sd->state.showmobinfo = !sd->state.showmobinfo;
+	pc_setglobalreg(sd, add_str("showmobinfo"), sd->state.showmobinfo);
+
+	if( sd->state.showmobinfo )
 		clif_displaymessage(fd, msg_txt(sd,1860));
-		clif_refresh(sd);
-	}
+	else 
+		clif_displaymessage(fd, msg_txt(sd,1861));
+
+	clif_refresh(sd);
+
 	return 0;
 }
 
@@ -1746,19 +1740,19 @@ ACMD_FUNC(whereis)
 /**
  * @separate - Toggle kill separator display
  * Displays a separator line after each mob kill for easier drop tracking
- * Useful for level 999+ characters who don't have access to @showexp
+ * Useful for level 999+ characters
  **/
 ACMD_FUNC(separate)
 {
 	nullpo_retr(-1, sd);
 
-	sd->kill_separate = !sd->kill_separate;
+	sd->state.kill_separate = !sd->state.kill_separate;
+	pc_setglobalreg(sd, add_str("separate"), sd->state.kill_separate);
 
-	if( sd->kill_separate ) {
+	if( sd->state.kill_separate )
 		clif_displaymessage(fd, msg_txt(sd, 1862)); // Kill separator: ACTIVE
-	} else {
+	else
 		clif_displaymessage(fd, msg_txt(sd, 1863)); // Kill separator: DESACTIVE
-	}
 
 	return 0;
 }

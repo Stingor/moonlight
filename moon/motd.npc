@@ -46,6 +46,10 @@ OnMinute45:
 
 OnMinute30:
 	setarray .@tips$,
+	"Recherchez un item de vos avec @searchid et @deepsearchid",
+	"@showmobinfo pour voir la race et l'élément d'un mob dans son nom",
+	"Des difficultés à suivre vos kill de mobs? @separate",
+	"Accédez à vos storages avec @storage1...5",
 	"Vendre vos golds ou autres item protégers? @sellitem/@itemprotect/@protectitem",
 	"Vendre vos stuff refined ou avec des cards? @sellstuff/@protectstuff/@stuffprotect",
 	"Vous @vote(z) mais ne gagnez pas de points? Utilisez bien l'icone RoTopServ, une fois log sur le site!",
@@ -56,7 +60,7 @@ OnMinute30:
 	"Marre de missclic sur Tic et Tac? @stfutictac ... xD",
 	"Marre de missclic sur les npc qui ne vous servent à rien ? @npcblock !",
 	"N'hésitez pas à visiter le forum, on y parle surement de vous, de votre classe ou d'un de vos item preféré (pour le up ou le nerf) !",
-	"virus","virus","virus","virus","virus","virus","virus","virus";
+	"virus","virus","virus","virus","virus","virus","virus","virus","virus","virus","virus","virus","virus","virus","virus";
 
 	.@rndtips = rand(getarraysize(.@tips$));
 	if( .@tips$[.@rndtips] != "virus" )

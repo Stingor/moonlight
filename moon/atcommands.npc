@@ -615,44 +615,6 @@ OnCommand:
 	end;
 }
 
--	script	#loupgarou	-1,{
-OnInit:
-	bindatcmd("loupgarou",strnpcinfo(0)+"::OnCommand",99,99);
-	end;
-
-OnCommand:
-	if( $eventloup ) {
-		if( getarraysize($@loupgarou$) >= 10 ) {
-			mes "[Loup Garou]";
-			mes "Navré pour le moment le format de l'event est à 10 joueurs !";
-			close;
-		}
-
-		for( .@i = 0; .@i < getarraysize($@loupgarou$); .@i++ ) {
-			if( $@loupgarou$[.@i] == strcharinfo(0) ) {
-				mes "[Loup Garou]";
-				mes "Wow ça va pas la peine de spam la commande XD.";
-				close2;
-				warp "region_8", rand(46,53), rand(46,53);
-				end;
-			}
-		}
-
-		mes "[Loup Garou]";
-		mes "Tu es à présent inscrit et vas être téléporté sur place.";
-		$@loupgarou$[getarraysize($@loupgarou$)] = strcharinfo(0);
-		close2;
-		warp "region_8", rand(46,53), rand(46,53);
-		end;
-	}
-	else {
-		mes "[Loup Garou]";
-		mes "Aucun event lou garou n'est actif :o";
-		close;
-	}
-	end;
-}
-
 -	script	#eventexp	-1,{
 OnInit:
 	bindatcmd("eventexp",strnpcinfo(0)+"::OnCommand",80,99);
