@@ -64,7 +64,14 @@ Thumbs.db
 /3rdparty/httplib/obj
 
 # /conf/
-/conf/import
+/conf/import/char_conf.txt
+/conf/import/inter_conf.txt
+/conf/import/log_conf.txt
+/conf/import/login_conf.txt
+/conf/import/map_conf.txt
+/conf/import/packet_conf.txt
+/conf/import/web_conf.txt
+/conf/import/script_conf.txt
 
 # /lib
 /lib
