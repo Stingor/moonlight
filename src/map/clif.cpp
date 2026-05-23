@@ -17790,11 +17790,28 @@ void clif_parse_Adopt_request(int32 fd, map_session_data *sd)
 	TBL_PC *tsd = map_id2sd(RFIFOL(fd,packet_db[RFIFOW(fd,0)].pos[0]));
 	TBL_PC *p_sd = map_charid2sd(sd->status.partner_id);
 
-	if( pc_try_adopt(sd, p_sd, tsd) == ADOPT_ALLOWED )
-	{
-		tsd->adopt_invite = sd->status.account_id;
-		clif_Adopt_request(tsd, sd, p_sd->status.account_id);
+	// [Stingor] Diagnostic: log adopt attempts since most pc_try_adopt
+	// failure paths return silently with no client feedback.
+	enum adopt_responses adopt_res = pc_try_adopt(sd, p_sd, tsd);
+	if( adopt_res != ADOPT_ALLOWED ){
+		const char* reason = "?";
+		switch( adopt_res ){
+			case ADOPT_ALREADY_ADOPTED:     reason = "ALREADY_ADOPTED (baby already has parents or pending invite)"; break;
+			case ADOPT_MARRIED_AND_PARTY:   reason = "MARRIED_AND_PARTY (need married + both parents & baby in same party)"; break;
+			case ADOPT_EQUIP_RINGS:         reason = "EQUIP_RINGS (both parents must wear wedding ring 2634/2635)"; break;
+			case ADOPT_NOT_NOVICE:          reason = "NOT_NOVICE (baby must be Novice/1st class/SuperNovice)"; break;
+			case ADOPT_CHARACTER_NOT_FOUND: reason = "CHARACTER_NOT_FOUND (target, spouse or self offline)"; break;
+			case ADOPT_MORE_CHILDREN:       reason = "MORE_CHILDREN (parent already has a child)"; break;
+			case ADOPT_LEVEL_70:            reason = "LEVEL_70 (both parents need base level >= 70)"; break;
+			case ADOPT_MARRIED:             reason = "MARRIED (baby candidate is already married)"; break;
+			default: break;
+		}
+		ShowInfo("Adopt request from '%s' rejected: %s\n", sd->status.name, reason);
+		return;
 	}
+
+	tsd->adopt_invite = sd->status.account_id;
+	clif_Adopt_request(tsd, sd, p_sd->status.account_id);
 }
 
 
