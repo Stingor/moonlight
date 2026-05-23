@@ -1760,3 +1760,7 @@
 
 1860: Vous affichez désormais la race et l'élement des monstres.
 1861: Vous masquez désormais la race et l'élement des monstres.
+// @separate
+1862: Kill separator: ACTIVE
+1863: Kill separator: DESACTIVE
+1864: ---------------------------------------------

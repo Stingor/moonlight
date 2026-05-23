@@ -1742,3 +1742,23 @@ ACMD_FUNC(whereis)
 
 	return 0;
 }
+
+/**
+ * @separate - Toggle kill separator display
+ * Displays a separator line after each mob kill for easier drop tracking
+ * Useful for level 999+ characters who don't have access to @showexp
+ **/
+ACMD_FUNC(separate)
+{
+	nullpo_retr(-1, sd);
+
+	sd->kill_separate = !sd->kill_separate;
+
+	if( sd->kill_separate ) {
+		clif_displaymessage(fd, msg_txt(sd, 1862)); // Kill separator: ACTIVE
+	} else {
+		clif_displaymessage(fd, msg_txt(sd, 1863)); // Kill separator: DESACTIVE
+	}
+
+	return 0;
+}

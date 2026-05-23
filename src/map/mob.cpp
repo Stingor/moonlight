@@ -3674,6 +3674,11 @@ int32 mob_dead(mob_data *md, block_list *src, int32 type)
 		return ud->state.walk_script ? 3 : 5; // Note: Actually, it's 4. Oh well...
 	}
 
+	// Display kill separator if enabled
+	if( sd && sd->kill_separate ) {
+		clif_displaymessage(sd->fd, msg_txt(sd, 1864)); // ---------------------------------------------
+	}
+
 	// MvP tomb [GreenBox]
 	if (battle_config.mvp_tomb_enabled && md->spawn->state.boss && map_getmapflag(md->m, MF_NOTOMB) != 1)
 		mvptomb_create(md, mvp_sd != nullptr ? mvp_sd->status.name : (first_sd != nullptr ? first_sd->status.name : nullptr), time(nullptr));

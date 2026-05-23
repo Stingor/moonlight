@@ -42,3 +42,4 @@
 	ACMD_DEF(storecard),
 	ACMD_DEF(partybuff), // [Vykimo]
 	ACMD_DEF(showmobinfo),
+	ACMD_DEF(separate),
