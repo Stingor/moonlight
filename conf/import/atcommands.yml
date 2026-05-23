@@ -1,0 +1,151 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2017 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Atcommand Database
+###########################################################################
+#
+# Atcommand Settings
+#
+###########################################################################
+# - Command                  Command name.
+#   Aliases:                 Aliases for the command. (Optional)
+#     - <AliasName>
+#   Help                     Help message for the command. (Optional)
+###########################################################################
+
+Header:
+  Type: ATCOMMAND_DB
+  Version: 1
+
+Body:
+  - Command: separate
+    Help: |
+      Ajoute un separateur textuel dans le chat après chaque kill de mob.
+  - Command: sellstuff
+    Aliases:
+      - protectstuff
+      - stuffprotect
+      - sellstuffs
+    Help: |
+      Vendre les items protégés.
+  - Command: sellitem
+    Aliases:
+      - protectitem
+      - itemprotect
+      - sellitems
+      - sellgold
+    Help: |
+      Vendre les items rares.
+  - Command: shopsearch
+    Aliases:
+      - whosell
+  - Command: storagealt1
+    Aliases:
+      - storage1
+      - altstorage1
+    Help: |
+      Acceder au storage alternatif 1.
+  - Command: storagealt2
+    Aliases:
+      - storage2
+      - altstorage2
+    Help: |
+      Acceder au storage alternatif 2.
+  - Command: storagealt3
+    Aliases:
+      - storage3
+      - altstorage3
+    Help: |
+      Acceder au storage alternatif 3.
+  - Command: storagealt4
+    Aliases:
+      - storage4
+      - altstorage4
+    Help: |
+      Acceder au storage alternatif 4.
+  - Command: storagealt5
+    Aliases:
+      - storagecard
+      - storagecards
+      - storage5
+      - cardstorage
+      - altstorage5
+    Help: |
+      Acceder au storage alternatif 5 pratique pour les cards @storecard.
+  - Command: storecard
+    Aliases:
+      - cardstore
+      - cardsstore
+      - storeallcard
+      - storeallcards
+    Help: |
+      Envoie toutes vos cards dans le storagecard.
+  - Command: autolootitem
+    Aliases:
+      - autolootitems
+      - alootitems
+      - alootitem
+      - alootids
+      - alootid
+      - autolootid
+      - lootid
+    Help: |
+      Autoloot des items en particulier. autoloot +501 / autoloot -501 (jusqu'à 50 items).
+  - Command: autolootmvp
+    Aliases:
+      - alootmvp
+      - almvp
+      - lootmvp
+      - mvp
+    Help: |
+      Autoloot des boss mvps.
+  - Command: autolootmvpreward
+    Aliases:
+      - alootmvpreward
+      - almvpreward
+      - lootmvpreward
+      - mvpreward
+    Help: |
+      Autoloot des mvp rewards.
+  - Command: autolootrare
+    Aliases:
+      - alootrare
+      - alrare
+      - lootrare
+      - rare
+    Help: |
+      Autoloot d'une séléction d'items rares listés sur le forum.
+  - Command: autolootpognon
+    Aliases:
+      - alootpognon
+      - alpognon
+      - lootpognon
+      - pognon
+      - flouze
+      - flouz
+      - oseille
+      - blé
+      - ble
+    Help: |
+      Autoloot des items ayant au minimum le prix de revente indiqué.
+  - Command: partybuff
+    Aliases:
+      - spb
+      - showpartybuff
+    Help: |
+      Affiche / Masque les status des buffs party.
