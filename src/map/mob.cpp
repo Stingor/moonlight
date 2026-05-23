@@ -6974,8 +6974,10 @@ static void mob_drop_ratio_adjust(void){
 					id->maxchance = rate; // item has bigger drop chance or sold in shops
 				}
 
-				if( mob->sprite[0] != 'C' && mob->sprite[2] != '_' ) {
-					if( mob->sprite[0] != 'E' && mob->sprite[1] != '_' ) {
+				// Skip clone (C_xxx) and event (E_xxx) sprites from the @whodrops index.
+				// Fix [Stingor]: was "&&" + sprite[2], which excluded ANY sprite starting with C or E.
+				if( mob->sprite[0] != 'C' || mob->sprite[1] != '_' ) {
+					if( mob->sprite[0] != 'E' || mob->sprite[1] != '_' ) {
 						ARR_FIND( 0, MAX_SEARCH, i, id->mob[i].id == mob_id );
 						if( i >= MAX_SEARCH ) {
 							for( k = 0; k < MAX_SEARCH; k++ ){
