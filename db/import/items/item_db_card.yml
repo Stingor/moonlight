@@ -8668,7 +8668,7 @@ Body:
     Weight: 10
     Locations:
       Shoes: true
-    Script: "bonus bMaxHP,1000; bonus bMaxSP,200; if(getrefine() >= 12){ bonus bMaxHPrate,15; bonus bMaxSPrate,15; }\n"
+    Script: "bonus bMaxHP,1000; bonus bMaxSP,200; if(getrefine() >= 10){ bonus bMaxHPrate,15; bonus bMaxSPrate,15; }\n"
   - Id: 27151
     AegisName: Heart_Hunter_Evil_Card
     Name: Heart Hunter Evil Card
