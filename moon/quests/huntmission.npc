@@ -94,7 +94,41 @@ L_main:
     query_sql("SELECT char_id FROM `char_reg_num` WHERE `key` = 'Mission0' AND `char_id` IN(SELECT `char_id` FROM `char` WHERE `account_id` = " + getcharid(3) + ")", .@mn);
     query_sql("SELECT char_id FROM `char_reg_num` WHERE `key` = 'Mission_MVP_ID' AND `char_id` IN(SELECT `char_id` FROM `char` WHERE `account_id` = " + getcharid(3) + ")", .@bn);
 
-	switch( select((!Mission0 ? (#Mission_Count?" ~ Mission en cours sur ["+getcharname(.@mn)+"]::":(#Mission_Delay <= gettimetick(2) ?"^ff0000 ~ Mission en Cooldown^000000::":" ~ Nouvelle mission mob::")) : ": ~ Status mission mob - "+Mission0_+"/50 "+Mission1_+"/50 "+Mission2_+"/50: ~ Abandonner - "+getmonsterinfo(Mission0, MOB_NAME)+" - "+getmonsterinfo(Mission1, MOB_NAME)+" - "+getmonsterinfo(Mission2, MOB_NAME)),(!Mission_MVP_ID? (#Mission_Count_MVP?" ~ Mission en cours sur ["+getcharname(.@bn)+"]::":(#Mission_Delay_MVP <= gettimetick(2) ? "^ff0000 ~ Mission MVP en cooldown^000000::" : " ~ Nouvelle mission MVP::")) : ": ~ Status mission MVP: ~ Abandonner "+(Mission_MVP_ID>0?"- "+getmonsterinfo($mvps[(Mission_MVP_ID-2 < 0?0:Mission_MVP_ID-2)], MOB_NAME):""))+":" + (#Mission_DB_Delay <= gettimetick(2) ? " ~ Mission DB en cooldown" : " ~ DB journalière - "+(1000 - #Mission_Count_DB)+" mobs restants.") + ": ~ Info mission mob: ~ Info mission MVP: ~ Info mission DB: ~ Top Hunters mob: ~ Top Hunters MVP") ) {
+	// === Construire les options du menu ===
+	// MOB mission
+	if( !Mission0 ) {
+		if( #Mission_Count )
+			.@mob_option$ = " ~ Mission en cours sur ["+getcharname(.@mn)+"]::";
+		else if( #Mission_Delay <= gettimetick(2) )
+			.@mob_option$ = "^ff0000 ~ Mission en Cooldown^000000::";
+		else
+			.@mob_option$ = " ~ Nouvelle mission mob::";
+	} else {
+		.@mob_option$ = ": ~ Status mission mob - "+Mission0_+"/50 "+Mission1_+"/50 "+Mission2_+"/50: ~ Abandonner - "+getmonsterinfo(Mission0, MOB_NAME)+" - "+getmonsterinfo(Mission1, MOB_NAME)+" - "+getmonsterinfo(Mission2, MOB_NAME);
+	}
+
+	// MVP mission
+	if( !Mission_MVP_ID ) {
+		if( #Mission_Count_MVP )
+			.@mvp_option$ = " ~ Mission en cours sur ["+getcharname(.@bn)+"]::";
+		else if( #Mission_Delay_MVP <= gettimetick(2) )
+			.@mvp_option$ = "^ff0000 ~ Mission MVP en cooldown^000000::";
+		else
+			.@mvp_option$ = " ~ Nouvelle mission MVP::";
+	} else {
+		.@mvp_option$ = ": ~ Status mission MVP: ~ Abandonner "+(Mission_MVP_ID>0?"- "+getmonsterinfo($mvps[(Mission_MVP_ID-2 < 0?0:Mission_MVP_ID-2)], MOB_NAME):"");
+	}
+
+	// DB mission
+	if( #Mission_DB_Delay <= gettimetick(2) )
+		.@db_option$ = " ~ Mission DB en cooldown";
+	else
+		.@db_option$ = " ~ DB journalière - "+(1000 - #Mission_Count_DB)+" mobs restants.";
+
+	// Menu principal
+	.@menu$ = .@mob_option$ + ":" + .@mvp_option$ + ":" + .@db_option$ + ": ~ Info mission mob: ~ Info mission MVP: ~ Info mission DB: ~ Top Hunters mob: ~ Top Hunters MVP";
+
+	switch( select(.@menu$) ) {
 		clear;
 		case 1:
 			mes "[Chuck Testa]";
