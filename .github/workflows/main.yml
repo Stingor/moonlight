@@ -35,3 +35,19 @@ jobs:
                -X POST \
                -d @payload.json \
                "${{ secrets.DISCORD_WEBHOOK }}"
+
+      - name: Send commits to changelog
+        run: |
+          jq -c '.commits[]' "$GITHUB_EVENT_PATH" | while IFS= read -r commit; do
+            body=$(echo "$commit" | jq -c '{
+              hash: .id,
+              message: .message,
+              timestamp: .timestamp,
+              author: .author.name,
+              files: (.added + .removed + .modified)
+            }')
+            curl -fsSL -X POST "https://moonlight-destiny.fr/changelog_api.php" \
+              -H "Authorization: Bearer ${{ secrets.CHANGELOG_TOKEN }}" \
+              -H "Content-Type: application/json" \
+              -d "$body"
+          done
