@@ -2791,3 +2791,835 @@ Body:
     Type: Card
     SubType: Enchant
     Buy: 20
+  - Id: 4845
+    AegisName: Sea_Energy
+    Name: Strength Of Ocean
+    Type: Card
+    SubType: Enchant
+  - Id: 4875
+    AegisName: Bear's_Power
+    Name: Bear's Power
+    Type: Card
+    SubType: Enchant
+    Script: "autobonus2 \"{ bonus bStr,200; bonus2 bHPLossRate,500,1000; }\",20,5000,BF_WEAPON,\"{ active_transform 1060,5000; specialeffect2 EF_POTION_BERSERK; showscript \\\"Bigfoot Power !\\\"; }\";\n"
+  - Id: 4876
+    AegisName: Runaway_Magic
+    Name: Runaway Magic
+    Type: Card
+    SubType: Enchant
+    Script: "autobonus \"{ bonus bInt,200; bonus2 bSPLossRate,200,1000; }\",15,10000,BF_MAGIC,\"{ specialeffect2 EF_LAMADAN; }\";\n"
+  - Id: 4877
+    AegisName: Speed_Of_Light
+    Name: Speed of Light
+    Type: Card
+    SubType: Enchant
+    Script: "autobonus \"{ bonus bAspdRate,100; bonus bFlee,100; bonus2 bHPLossRate,400,1000; bonus2 bSPLossRate,40,1000;}\",10,5000,BF_WEAPON,\"{ specialeffect2 EF_FLASHER; }\";\n"
+  - Id: 4878
+    AegisName: Muscle_Fool
+    Name: Muscle Fool
+    Type: Card
+    SubType: Enchant
+    Script: "autobonus2 \"{ bonus bDef,50; bonus2 bAddRace,RC_All,-50; bonus bMatkRate,-50; }\",20,5000,BF_WEAPON,\"{ specialeffect2 EF_MAGNUMBREAK; }\";\n"
+  - Id: 4879
+    AegisName: Hawkeye
+    Name: Hawkeye
+    Type: Card
+    SubType: Enchant
+    Script: "autobonus \"{ bonus bDex,200; bonus2 bSPLossRate,50,1000; }\",30,5000,BF_WEAPON,\"{ specialeffect2 EF_FLASHER; }\";\n"
+  - Id: 4880
+    AegisName: Lucky_Day
+    Name: Lucky Day
+    Type: Card
+    SubType: Enchant
+    Script: "autobonus \"{ bonus bLuk,200; bonus2 bAddMonsterDropItem,7444,10; }\",15,5000,BF_WEAPON|BF_MAGIC,\"{ specialeffect2 EF_MVP; showscript \\\"LUCKY MAX !!\\\"; }\"; autobonus2 \"{ bonus bLuk,200; bonus2 bAddMonsterDropItem,7444,1; }\",1,5000,BF_WEAPON|BF_MAGIC,\"{ specialeffect2 EF_MVP; showscript \\\"LUCKY MAX !!\\\"; }\";\n"
+  - Id: 4908
+    AegisName: Force1
+    Name: Darklord Essence Force1
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Weight: 10
+    Locations:
+      Head_Low: true
+      Head_Mid: true
+      Head_Top: true
+      Right_Hand: true
+      Shoes: true
+      Left_Hand: true
+      Armor: true
+      Garment: true
+      Both_Accessory: true
+    Script: "bonus bStr,1; bonus bBaseAtk,3; bonus bInt,-1;\n"
+  - Id: 4909
+    AegisName: Force2
+    Name: Darklord Essence Force2
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Weight: 10
+    Locations:
+      Head_Low: true
+      Head_Mid: true
+      Head_Top: true
+      Right_Hand: true
+      Shoes: true
+      Left_Hand: true
+      Armor: true
+      Garment: true
+      Both_Accessory: true
+    Script: "bonus bStr,2; bonus bBaseAtk,6; bonus bInt,-2;\n"
+  - Id: 4910
+    AegisName: Force3
+    Name: Darklord Essence Force3
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Weight: 10
+    Locations:
+      Head_Low: true
+      Head_Mid: true
+      Head_Top: true
+      Right_Hand: true
+      Shoes: true
+      Left_Hand: true
+      Armor: true
+      Garment: true
+      Both_Accessory: true
+    Script: "bonus bStr,4; bonus bBaseAtk,12; bonus bInt,-4;\n"
+  - Id: 4911
+    AegisName: Intellect1
+    Name: Darklord Essence Intelligence1
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Weight: 10
+    Locations:
+      Head_Low: true
+      Head_Mid: true
+      Head_Top: true
+      Right_Hand: true
+      Shoes: true
+      Left_Hand: true
+      Armor: true
+      Garment: true
+      Both_Accessory: true
+    Script: "bonus bInt,1; bonus bMatk,3; bonus bStr,-1;\n"
+  - Id: 4912
+    AegisName: Intellect2
+    Name: Darklord Essence Intelligence2
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Weight: 10
+    Locations:
+      Head_Low: true
+      Head_Mid: true
+      Head_Top: true
+      Right_Hand: true
+      Shoes: true
+      Left_Hand: true
+      Armor: true
+      Garment: true
+      Both_Accessory: true
+    Script: "bonus bInt,2; bonus bMatk,6; bonus bStr,-2;\n"
+  - Id: 4913
+    AegisName: Intellect3
+    Name: Darklord Essence Intelligence3
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Weight: 10
+    Locations:
+      Head_Low: true
+      Head_Mid: true
+      Head_Top: true
+      Right_Hand: true
+      Shoes: true
+      Left_Hand: true
+      Armor: true
+      Garment: true
+      Both_Accessory: true
+    Script: "bonus bInt,4; bonus bMatk,12; bonus bStr,-4;\n"
+  - Id: 4914
+    AegisName: Swiftness1
+    Name: Darklord Essence Speed1
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Weight: 10
+    Locations:
+      Head_Low: true
+      Head_Mid: true
+      Head_Top: true
+      Right_Hand: true
+      Shoes: true
+      Left_Hand: true
+      Armor: true
+      Garment: true
+      Both_Accessory: true
+    Script: "bonus bAgi,1; bonus bFlee,2; bonus bVit,-1;\n"
+  - Id: 4915
+    AegisName: Swiftness2
+    Name: Darklord Essence Speed2
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Weight: 10
+    Locations:
+      Head_Low: true
+      Head_Mid: true
+      Head_Top: true
+      Right_Hand: true
+      Shoes: true
+      Left_Hand: true
+      Armor: true
+      Garment: true
+      Both_Accessory: true
+    Script: "bonus bAgi,2; bonus bFlee,4; bonus bVit,-2;\n"
+  - Id: 4916
+    AegisName: Swiftness3
+    Name: Darklord Essence Speed3
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Weight: 10
+    Locations:
+      Head_Low: true
+      Head_Mid: true
+      Head_Top: true
+      Right_Hand: true
+      Shoes: true
+      Left_Hand: true
+      Armor: true
+      Garment: true
+      Both_Accessory: true
+    Script: "bonus bAgi,4; bonus bFlee,8; bonus bVit,-4;\n"
+  - Id: 4917
+    AegisName: Tough1
+    Name: Darklord Essence Vitality1
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Weight: 10
+    Locations:
+      Head_Low: true
+      Head_Mid: true
+      Head_Top: true
+      Right_Hand: true
+      Shoes: true
+      Left_Hand: true
+      Armor: true
+      Garment: true
+      Both_Accessory: true
+    Script: "bonus bVit,1; bonus bDef,3; bonus bMdef,2; bonus bAgi,-1;\n"
+  - Id: 4918
+    AegisName: Tough2
+    Name: Darklord Essence Vitality2
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Weight: 10
+    Locations:
+      Head_Low: true
+      Head_Mid: true
+      Head_Top: true
+      Right_Hand: true
+      Shoes: true
+      Left_Hand: true
+      Armor: true
+      Garment: true
+      Both_Accessory: true
+    Script: "bonus bVit,2; bonus bDef,6; bonus bMdef,4; bonus bAgi,-2;\n"
+  - Id: 4919
+    AegisName: Tough3
+    Name: Darklord Essence Vitality3
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Weight: 10
+    Locations:
+      Head_Low: true
+      Head_Mid: true
+      Head_Top: true
+      Right_Hand: true
+      Shoes: true
+      Left_Hand: true
+      Armor: true
+      Garment: true
+      Both_Accessory: true
+    Script: "bonus bVit,4; bonus bDef,12; bonus bMdef,8; bonus bAgi,-4;\n"
+  - Id: 4920
+    AegisName: Artful1
+    Name: Darklord Essence Concentration1
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Weight: 10
+    Locations:
+      Head_Low: true
+      Head_Mid: true
+      Head_Top: true
+      Right_Hand: true
+      Shoes: true
+      Left_Hand: true
+      Armor: true
+      Garment: true
+      Both_Accessory: true
+    Script: "bonus bDex,1; bonus bHit,2; bonus bLuk,-1;\n"
+  - Id: 4921
+    AegisName: Artful2
+    Name: Darklord Essence Concentration2
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Weight: 10
+    Locations:
+      Head_Low: true
+      Head_Mid: true
+      Head_Top: true
+      Right_Hand: true
+      Shoes: true
+      Left_Hand: true
+      Armor: true
+      Garment: true
+      Both_Accessory: true
+    Script: "bonus bDex,2; bonus bHit,4; bonus bLuk,-2;\n"
+  - Id: 4922
+    AegisName: Artful3
+    Name: Darklord Essence Concentration3
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Weight: 10
+    Locations:
+      Head_Low: true
+      Head_Mid: true
+      Head_Top: true
+      Right_Hand: true
+      Shoes: true
+      Left_Hand: true
+      Armor: true
+      Garment: true
+      Both_Accessory: true
+    Script: "bonus bDex,4; bonus bHit,8; bonus bLuk,-4;\n"
+  - Id: 4923
+    AegisName: Fortune1
+    Name: Darklord Essence Luck1
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Weight: 10
+    Locations:
+      Head_Low: true
+      Head_Mid: true
+      Head_Top: true
+      Right_Hand: true
+      Shoes: true
+      Left_Hand: true
+      Armor: true
+      Garment: true
+      Both_Accessory: true
+    Script: "bonus bLuk,1; bonus bCritical,1; bonus bDex,-1;\n"
+  - Id: 4924
+    AegisName: Fortune2
+    Name: Darklord Essence Luck2
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Weight: 10
+    Locations:
+      Head_Low: true
+      Head_Mid: true
+      Head_Top: true
+      Right_Hand: true
+      Shoes: true
+      Left_Hand: true
+      Armor: true
+      Garment: true
+      Both_Accessory: true
+    Script: "bonus bLuk,2; bonus bCritical,2; bonus bDex,-2;\n"
+  - Id: 4925
+    AegisName: Fortune3
+    Name: Darklord Essence Luck3
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Weight: 10
+    Locations:
+      Head_Low: true
+      Head_Mid: true
+      Head_Top: true
+      Right_Hand: true
+      Shoes: true
+      Left_Hand: true
+      Armor: true
+      Garment: true
+      Both_Accessory: true
+    Script: "bonus bLuk,4; bonus bCritical,4; bonus bDex,-4;\n"
+  - Id: 4951
+    AegisName: Darkness_Drop
+    Name: Darkness Drop
+    Type: Card
+    SubType: Enchant
+    Script: "bonus2 bAddEle,Ele_Dark,2; bonus2 bMagicAtkEle,Ele_Dark,2; bonus2 bSubEle,Ele_Dark,1;\n"
+  - Id: 4952
+    AegisName: Fire_Drop
+    Name: Fire Drop
+    Type: Card
+    SubType: Enchant
+    Script: "bonus2 bAddEle,Ele_Fire,2; bonus2 bMagicAtkEle,Ele_Fire,2; bonus2 bSubEle,Ele_Fire,1;\n"
+  - Id: 4953
+    AegisName: Water_Drop
+    Name: Water Drop
+    Type: Card
+    SubType: Enchant
+    Script: "bonus2 bAddEle,Ele_Water,2; bonus2 bMagicAtkEle,Ele_Water,2; bonus2 bSubEle,Ele_Water,1;\n"
+  - Id: 4954
+    AegisName: Earth_Drop
+    Name: Earth Drop
+    Type: Card
+    SubType: Enchant
+    Script: "bonus2 bAddEle,Ele_Earth,2; bonus2 bMagicAtkEle,Ele_Earth,2; bonus2 bSubEle,Ele_Earth,1;\n"
+  - Id: 4955
+    AegisName: Holy_Drop
+    Name: Holy Drop
+    Type: Card
+    SubType: Enchant
+    Script: "bonus2 bAddEle,Ele_Holy,2; bonus2 bMagicAtkEle,Ele_Holy,2; bonus2 bSubEle,Ele_Holy,1;\n"
+  - Id: 4956
+    AegisName: Recovery_Drop
+    Name: Recovery Drop
+    Type: Card
+    SubType: Enchant
+    Script: "setarray .@skills$, \"AL_HEAL\", \"PR_SANCTUARY\", \"AM_POTIONPITCHER\", \"AB_HIGHNESSHEAL\", \"AB_CHEAL\"; for( .@i = 0; .@i < getarraysize(.@skills$); .@i++ ){ bonus2 bSkillHeal,.@skills$[.@i],2; bonus2 bSkillHeal2,.@skills$[.@i],2; } /* TODO: Depending on some recovery items HP recovery amount + 2% */\n"
+  - Id: 4957
+    AegisName: Famitsus_Power
+    Name: Famitsu's Power
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bMaxHP,832;\n"
+  - Id: 4958
+    AegisName: Gemini
+    Name: Gemini
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bDelayrate,-1;\n"
+  - Id: 4959
+    AegisName: Sagittarius
+    Name: Sagittarius
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bLongAtkRate,1;\n"
+  - Id: 4960
+    AegisName: Aquarius
+    Name: Aquarius
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bUseSPrate,-2;\n"
+  - Id: 4961
+    AegisName: Aries
+    Name: Aries
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bMatk,10;\n"
+  - Id: 4962
+    AegisName: Cancer
+    Name: Cancer
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bAtk,3;\n"
+  - Id: 4963
+    AegisName: Taurus
+    Name: Taurus
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bAtk,4; bonus bHit,1;\n"
+  - Id: 4964
+    AegisName: Capricorn
+    Name: Capricorn
+    Type: Card
+    SubType: Enchant
+    Script: "bonus2 bMagicAddRace,RC_All,3;\n"
+  - Id: 4965
+    AegisName: Pisces
+    Name: Pisces
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bVariableCastrate,-2;\n"
+  - Id: 4966
+    AegisName: Scorpio
+    Name: Scorpio
+    Type: Card
+    SubType: Enchant
+    Script: "bonus2 bAddRace,RC_All,1;\n"
+  - Id: 4967
+    AegisName: Leo
+    Name: Leo
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bAspdRate,3;\n"
+  - Id: 4968
+    AegisName: Virgo
+    Name: Virgo
+    Type: Card
+    SubType: Enchant
+    Script: "setarray .@skills$, \"AL_HEAL\", \"PR_SANCTUARY\", \"AM_POTIONPITCHER\", \"AB_HIGHNESSHEAL\", \"AB_CHEAL\"; for( .@i = 0; .@i < getarraysize(.@skills$); .@i++ ){ bonus2 bSkillHeal,.@skills$[.@i],1; }\n"
+  - Id: 4969
+    AegisName: Libra
+    Name: Libra
+    Type: Card
+    SubType: Enchant
+    Script: "setarray .@skills$, \"AL_HEAL\", \"PR_SANCTUARY\", \"AM_POTIONPITCHER\", \"AB_HIGHNESSHEAL\", \"AB_CHEAL\"; for( .@i = 0; .@i < getarraysize(.@skills$); .@i++ ){ bonus2 bSkillHeal2,.@skills$[.@i],1; } /* TODO: Depending on some recovery items HP recovery amount + 1% */\n"
+  - Id: 4970
+    AegisName: Fire_Property_Reactor
+    Name: Fire Property Reactor
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bDefEle,Ele_Fire;\n"
+  - Id: 4971
+    AegisName: Water_Property_Reactor
+    Name: Water Property Reactor
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bDefEle,Ele_Water;\n"
+  - Id: 4972
+    AegisName: Earth_Property_Reactor
+    Name: Earth Property Reactor
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bDefEle,Ele_Earth;\n"
+  - Id: 4973
+    AegisName: Wind_Property_Reactor
+    Name: Wind Property Reactor
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bDefEle,Ele_Wind;\n"
+  - Id: 4974
+    AegisName: Fire_Resistance_Reactor
+    Name: Fire Resistance Reactor
+    Type: Card
+    SubType: Enchant
+    Script: "bonus2 bSubEle,Ele_Fire,25; bonus2 bSubEle,Ele_Water,-25;\n"
+  - Id: 4975
+    AegisName: Water_Resistance_Reactor
+    Name: Water Resistance Reactor
+    Type: Card
+    SubType: Enchant
+    Script: "bonus2 bSubEle,Ele_Water,25; bonus2 bSubEle,Ele_Wind,-25;\n"
+  - Id: 4976
+    AegisName: Earth_Resistance_Reactor
+    Name: Earth Resistance Reactor
+    Type: Card
+    SubType: Enchant
+    Script: "bonus2 bSubEle,Ele_Earth,25; bonus2 bSubEle,Ele_Fire,-25;\n"
+  - Id: 4977
+    AegisName: Wind_Resistance_Reactor
+    Name: Wind Resistance Reactor
+    Type: Card
+    SubType: Enchant
+    Script: "bonus2 bSubEle,Ele_Wind,25; bonus2 bSubEle,Ele_Earth,-25;\n"
+  - Id: 4978
+    AegisName: Recovery_Reactor_101
+    Name: Recovery Reactor 101
+    Type: Card
+    SubType: Enchant
+    Script: "if (getrefine()>=7) bonus2 bHPRegenRate,100,5000; else bonus2 bHPRegenRate,50,5000;\n"
+  - Id: 4979
+    AegisName: Recovery_Reactor_102
+    Name: Recovery Reactor 102
+    Type: Card
+    SubType: Enchant
+    Script: "if (getrefine()>=7) bonus2 bSPRegenRate,5,5000; else bonus2 bHPRegenRate,3,5000;\n"
+  - Id: 4980
+    AegisName: Recovery_Reactor_201
+    Name: Recovery Reactor 201
+    Type: Card
+    SubType: Enchant
+    Script: "if (getrefine()>=7) bonus bHPrecovRate,100; else bonus bHPrecovRate,50;\n"
+  - Id: 4981
+    AegisName: Recovery_Reactor_202
+    Name: Recovery Reactor 202
+    Type: Card
+    SubType: Enchant
+    Script: "if (getrefine()>=7) bonus bSPrecovRate,100; else bonus bSPrecovRate,50;\n"
+  - Id: 4982
+    AegisName: STR_Supplement_Reactor
+    Name: STR Supplement Reactor
+    Type: Card
+    SubType: Enchant
+    Script: "if (getrefine()>=7) { .@bonus = 10; } bonus bBaseAtk,.@bonus + 5*(readparam(bStr)/10);\n"
+  - Id: 4983
+    AegisName: INT_Supplement_Reactor
+    Name: INT Supplement Reactor
+    Type: Card
+    SubType: Enchant
+    Script: "if (getrefine()>=7) { .@bonus = 10; } bonus bMatk,.@bonus + 5*(readparam(bInt)/10);\n"
+  - Id: 4984
+    AegisName: DEF_Supplement_Reactor
+    Name: DEF SupplementReactor
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bDef,10;\n"
+  - Id: 4985
+    AegisName: PD_Supplement_Reactor
+    Name: PD Supplement Reactor
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bFlee2,3;\n"
+  - Id: 4986
+    AegisName: Attack_Supplement_Reactor
+    Name: Attack Supplement Reactor
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bBaseAtk,20;\n"
+  - Id: 4987
+    AegisName: Magic_Supplement_Reactor
+    Name: Magic Supplement Reactor
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bMatk,20;\n"
+  - Id: 4988
+    AegisName: HP_Supplement_Reactor
+    Name: HP Supplement Reactor
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bMaxHPrate,5;\n"
+  - Id: 4989
+    AegisName: SP_Supplement_Reactor
+    Name: SP Supplement Reactor
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bMaxSPrate,3;\n"
+  - Id: 4990
+    AegisName: Frozen_Supplement_Reactor
+    Name: Frozen Supplement Reactor
+    Type: Card
+    SubType: Enchant
+    Script: "bonus2 bResEff,Eff_Freeze,10000;\n"
+  - Id: 4991
+    AegisName: ASPD_Supplement_Reactor
+    Name: ASPD Supplement Reactor
+    Type: Card
+    SubType: Enchant
+    Script: "bonus bAspd,1;\n"
+  - Id: 4992
+    AegisName: HPAbsorb1_Supplement_Reactor
+    Name: HP Absorb Supplement Reactor
+    Type: Card
+    SubType: Enchant
+    Script: "bonus2 bHPDrainRate,10,1;\n"
+  - Id: 4993
+    AegisName: SPAbsorb1_Supplement_Reactor
+    Name: SP Absorb Supplement Reactor
+    Type: Card
+    SubType: Enchant
+    Script: "bonus2 bSPDrainRate,10,1;\n"
+  - Id: 4994
+    AegisName: Rune_of_Strength_Lv_1
+    Name: Rune of Strength Lv 1
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Script: ".@r = getrefine(); if (.@r>=7) { bonus bStr,5; } if (.@r>=10) { bonus2 bAddClass,Class_All,5; }\n"
+  - Id: 4995
+    AegisName: Rune_of_Strength_Lv_2
+    Name: Rune of Strength Lv 2
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Script: ".@r = getrefine(); if (.@r>=7) { bonus bStr,6; } if (.@r>=11) { bonus bStr,1; bonus2 bAddClass,Class_All,7; }\n"
+  - Id: 4996
+    AegisName: Rune_of_Strength_Lv_3
+    Name: Rune of Strength_Lv 3
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Script: ".@r = getrefine(); if (.@r>=7) { bonus bStr,7; } if (.@r>=12) { bonus bStr,1; bonus2 bAddClass,Class_All,8; } if (.@r>=13) { bonus bStr,1; bonus2 bAddClass,Class_All,2; }\n"
+  - Id: 4997
+    AegisName: Rune_of_Agility_Lv_1
+    Name: Rune of Agility Lv 1
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Script: ".@r = getrefine(); if (.@r>=7) { bonus bAgi,5; } if (.@r>=10) { bonus bFlee2,5; }\n"
+  - Id: 4998
+    AegisName: Rune_of_Agility_Lv_2
+    Name: Rune of Agility Lv 2
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Script: ".@r = getrefine(); if (.@r>=7) { bonus bAgi,6; } if (.@r>=11) { bonus bAgi,1; bonus bFlee2,7; }\n"
+  - Id: 4999
+    AegisName: Rune_of_Agility_Lv_3
+    Name: Rune of Agility Lv 3
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Script: ".@r = getrefine(); if (.@r>=7) { bonus bAgi,7; } if (.@r>=12) { bonus bAgi,1; bonus bFlee2,5; } if (.@r>=13) { bonus bAgi,1; bonus bFlee2,5; }\n"
+  - Id: 6716
+    AegisName: Cri_Stone
+    Name: Critical Stone(Upper)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus bCritical,1;\n"
+  - Id: 6717
+    AegisName: MHPStone_Middle
+    Name: Fitness Stone(Middle)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus bMaxHP,50;\n"
+  - Id: 6718
+    AegisName: MSPStone_Bottom
+    Name: Magical Stone(Lower)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus bMaxSP,10;\n"
+  - Id: 6740
+    AegisName: HealStone_Top
+    Name: Stone Recovery(Upper)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus bAddItemHealRate,2;\n"
+  - Id: 6741
+    AegisName: HealStone2_Top
+    Name: Stone Recovery Skills(Upper)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus bHealPower2,2;\n"
+  - Id: 6742
+    AegisName: HealStone_Middle
+    Name: Stone Recovery(Middle)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus2 bHPRegenRate,10,10000;\n"
+  - Id: 6743
+    AegisName: HPStone_Middle
+    Name: HP Stone(Middle)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus bMaxHPrate,1;\n"
+  - Id: 6744
+    AegisName: SPStone_Middle
+    Name: SP Stone(Middle)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus bMaxSPrate,1;\n"
+  - Id: 6790
+    AegisName: BigStone_Top
+    Name: Large Stone(Upper)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus2 bAddSize,Size_Large,1;\n"
+  - Id: 6791
+    AegisName: MediumStone_Top
+    Name: Medium Stone(Upper)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus2 bAddSize,Size_Medium,1;\n"
+  - Id: 6792
+    AegisName: SmallStone_Top
+    Name: Small Stone(Upper)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus2 bAddSize,Size_Small,1;\n"
+  - Id: 6908
+    AegisName: ASPDStone_Robe
+    Name: Stone ASPD (Garment)
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Weight: 100
+  - Id: 6943
+    AegisName: ATKStone_Top
+    Name: Attack Stone(Upper)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus2 bAddClass,Class_All,1;\n"
+  - Id: 6944
+    AegisName: MATKStone_Top
+    Name: Magic Stone(Upper)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus bMatkRate,1;\n"
+  - Id: 6945
+    AegisName: Floor_Str2
+    Name: Strength Stone(Middle)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus bStr,1;\n"
+  - Id: 6946
+    AegisName: Floor_Int2
+    Name: Intelligence Stone(Middle)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus bInt,1;\n"
+  - Id: 6947
+    AegisName: Floor_Agi2
+    Name: Agility Stone(Middle)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus bAgi,1;\n"
+  - Id: 6948
+    AegisName: Floor_Dex2
+    Name: Dexterity Stone(Middle)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus bDex,1;\n"
+  - Id: 6949
+    AegisName: Floor_Vit2
+    Name: Vitality Stone(Middle)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus bVit,1;\n"
+  - Id: 6950
+    AegisName: Floor_Luk2
+    Name: Lucky Stone(Middle)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus bLuk,1;\n"
+  - Id: 6951
+    AegisName: HPStone_Bottom
+    Name: HP Stone(Lower)
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Weight: 100
+    Script: "bonus bMaxHPrate,1;\n"
