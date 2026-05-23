@@ -633,6 +633,8 @@ L_Jitter:
 		case 24: { // Room of Consciousness
 L_Bijou:
 			if( select( GetColor(7706)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
+				mes "";
+				clear;
 				.@md_name$ = "Room of Consciousness";
 				.@questid1 = 7706; // Nillem Is Not Almighty
 				.@questid2 = 7705; // Hope You Cannot Let Go
