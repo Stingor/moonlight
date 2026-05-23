@@ -1103,6 +1103,47 @@ BUILDIN_FUNC(equipuid)
 	return SCRIPT_CMD_SUCCESS;
 }
 
+/*==========================================
+ * Sum of the refine levels of every equipped item. [Stingor]
+ * Each inventory index is counted at most once, so two-handed weapons
+ * (taking both HAND_L and HAND_R) and multi-slot headgears are not
+ * double-counted.
+ * getallrefine({<char_id>})
+ * return: total refine across all equipped items (0 if nothing equipped)
+ *------------------------------------------*/
+BUILDIN_FUNC(getallrefine)
+{
+	TBL_PC *sd;
+
+	if (!script_charid2sd(2, sd)) {
+		script_pushint(st, 0);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	int32 total = 0;
+	int16 seen[EQI_MAX];
+	int32 seen_count = 0;
+
+	for (int32 slot = 0; slot < EQI_MAX; slot++) {
+		int32 idx = pc_checkequip(sd, equip_bitmask[slot]);
+		if (idx < 0)
+			continue;
+
+		bool already = false;
+		for (int32 k = 0; k < seen_count; k++) {
+			if (seen[k] == idx) { already = true; break; }
+		}
+		if (already)
+			continue;
+
+		seen[seen_count++] = (int16)idx;
+		total += sd->inventory.u.items_inventory[idx].refine;
+	}
+
+	script_pushint(st, total);
+	return SCRIPT_CMD_SUCCESS;
+}
+
 /* delitembyuid("<unique_id>"{, <char_id>})
  * Deletes an item from the player's inventory identified by its unique_id (as string).
  * Returns nothing. Logs an error if the item is not found.

@@ -45,3 +45,4 @@
 	BUILDIN_DEF(equipuid,"s?"),
 	BUILDIN_DEF(delitembyuid,"s?"),
 	BUILDIN_DEF(getiteminfobyuid,"si?"),
+	BUILDIN_DEF(getallrefine,"?"),
