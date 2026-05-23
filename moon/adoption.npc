@@ -38,9 +38,15 @@ prt_church,25,170,3	script	Adoption::adoption_moon	1_M_PUBMASTER,{
 		close;
 	}
 
-	if( BaseLevel < 70 || readparam(SP_BASELEVEL,getpartnername()) < 70 ) {
+	if( BaseLevel < 70 ) {
 		mes "["+strnpcinfo(0)+"]";
 		mes "Tu n'est pas encore assez mature pour avoir un enfant !";
+		close;	
+	}
+
+	if( readparam(Baselevel,getpartnername()) < 70 ) {
+		mes "["+strnpcinfo(0)+"]";
+		mes "Ton partenaire n'est pas assez mature pour avoir un enfant, weirdo !";
 		close;	
 	}
 
@@ -61,30 +67,44 @@ prt_church,25,170,3	script	Adoption::adoption_moon	1_M_PUBMASTER,{
 
 	mes "["+strnpcinfo(0)+"]";
 	mes "Dites moi le nom de votre futur enfant je vous prit !";
-	next;
 	input .@enfant$;
-	if( !countinarray(.@partymembername$[0], .@enfant$) ) {
+	clear;
+	.@found_child = 0;
+	for( .@i = 0; .@i < .@partymembercount; .@i++ ) {
+		if( .@partymembername$[.@i] == .@enfant$ ) {
+			.@found_child = 1;
+			break;
+		}
+	}
+	if( !.@found_child ) {
 		mes "["+strnpcinfo(0)+"]";
 		mes "Votre enfant se doit d'être dans la même party que vous ...";
 		close;
 	}
 
-	if( !countinarray(.@partymembername$[0], getpartnername()) ) {
+	.@found_partner = 0;
+	for( .@i = 0; .@i < .@partymembercount; .@i++ ) {
+		if( .@partymembername$[.@i] == getpartnername() ) {
+			.@found_partner = 1;
+			break;
+		}
+	}
+	if( !.@found_partner ) {
 		mes "["+strnpcinfo(0)+"]";
 		mes "Votre conjoint se doit d'être dans votre groupe, tout comme votre futur enfant ...";
 		close;
 	}
 
-	if( readparam(SP_CLASS,.@enfant$) >= Job_Novice &&
-		readparam(SP_CLASS,.@enfant$) <= Job_Thief ) {
+	if( readparam(Class, .@enfant$) >= Job_Novice &&
+		readparam(Class, .@enfant$) <= Job_Thief ) {
 		mes "["+strnpcinfo(0)+"]";
 		mes "Bien, tout me paraît en ordre, si ça ne fonctionne pas, veuillez verifier ces points:";
 		mes "- Vous devez être en party, père, mère et enfant.";
 		mes "- Vous devez porter vos anneaux de marriage.";
 		mes "- Votre futur enfant ne doit pas dépasser le stade d'évolution des classes 1-1.";
 		mes "- Le nom de votre enfant doit être correctement entré.";
-		progressbar "FFFFFF",5000;
-		if(	adopt(strcharinfo(0),.@enfant$) ) {
+		progressbar "FFFFFF",3;
+		if(	adopt(strcharinfo(0), .@enfant$) ) {
 			clear;
 			mes "["+strnpcinfo(0)+"]";
 			mes "Voilà !";

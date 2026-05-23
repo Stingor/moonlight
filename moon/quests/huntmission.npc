@@ -140,15 +140,28 @@ L_main:
 				case 1:
 					clear;
 					mes "[Chuck Testa]";
-					mes "C'est bon, j'ai retiré votre mission actuelle.";
-					specialeffect2 EF_STORMKICK4;
-					for( .@i = 0; .@i < .Quests; .@i++ ) {
-						setd "Mission"+.@i, 0;
-						setd "Mission"+.@i+"_", 0;
+					mes "Êtes-vous vraiment sûr de vouloir abandonner cette mission ?";
+					mes "Vous ne recevrez aucune récompense.";
+					switch( select(" ~ Oui, abandonner: ~ Non, garder la mission") ) {
+						case 1:
+							clear;
+							mes "[Chuck Testa]";
+							mes "C'est bon, j'ai retiré votre mission actuelle.";
+							specialeffect2 EF_STORMKICK4;
+							for( .@i = 0; .@i < .Quests; .@i++ ) {
+								setd "Mission"+.@i, 0;
+								setd "Mission"+.@i+"_", 0;
+							}
+							#Mission_Count = 0;
+							#Mission_Delay = gettimetick(2) + (.Delay * 3600);
+							close;
+						case 2:
+							clear;
+							mes "[Chuck Testa]";
+							mes "D'accord, bonne chasse !";
+							emotion ET_SMILE;
+							close;
 					}
-					#Mission_Count = 0;
-					#Mission_Delay = gettimetick(2) + (.Delay * 3600);
-					close;
 				case 2:
 					clear;
 					mes "[Chuck Testa]";
@@ -233,13 +246,26 @@ L_main:
 				case 1:
 					clear;
 					mes "[Chuck Testa]";
-					mes "C'est bon, j'ai retiré votre mission MVP actuelle.";
-					specialeffect2 EF_STORMKICK4;
-					Mission_MVP = 0;
-					Mission_MVP_ID = 0;
-					#Mission_Count_MVP = 0;
-					#Mission_Delay_MVP = gettimetick(2) + (.Delay * 3600);
-					close;
+					mes "Êtes-vous vraiment sûr de vouloir abandonner cette mission MVP ?";
+					mes "Vous ne recevrez aucune récompense.";
+					switch( select(" ~ Oui, abandonner: ~ Non, garder la mission") ) {
+						case 1:
+							clear;
+							mes "[Chuck Testa]";
+							mes "C'est bon, j'ai retiré votre mission MVP actuelle.";
+							specialeffect2 EF_STORMKICK4;
+							Mission_MVP = 0;
+							Mission_MVP_ID = 0;
+							#Mission_Count_MVP = 0;
+							#Mission_Delay_MVP = gettimetick(2) + (.Delay * 3600);
+							close;
+						case 2:
+							clear;
+							mes "[Chuck Testa]";
+							mes "D'accord, bonne chasse !";
+							emotion ET_SMILE;
+							close;
+					}
 				case 2:
 					clear;
 					mes "[Chuck Testa]";
