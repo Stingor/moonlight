@@ -21940,9 +21940,6 @@ Body:
     Locations:
       Costume_Head: true
     View: 2401
-    Script: |
-      bonus2 bDropAddRace,RC_All,7;
-      bonus2 bExpAddRace,RC_All,20;
   - Id: 420306
     AegisName: C_Kotatsu
     Name: Costume Kotatsu

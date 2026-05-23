@@ -30063,7 +30063,7 @@ Body:
     Script: "bonus bCritical,2; bonus bCritAtkRate,2; if(getrefine()>=7){ bonus bCritical,3; bonus bCritAtkRate,3; }\n"
   - Id: 22035
     AegisName: Vet_Nepen_Heel
-    Name: Heoric Nepenthes Shoes [1]
+    Name: Heroic Nepenthes Shoes [1]
     Type: Armor
     Weight: 300
     Defense: 6

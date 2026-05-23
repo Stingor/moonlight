@@ -35,6 +35,7 @@ Body:
     Ai: 21
     Modes:
       Detector: true
+      Aggressive: true
     Drops:
       - Item: Burning_Heart
         Rate: 2000
@@ -87,6 +88,7 @@ Body:
     Ai: 21
     Modes:
       Detector: true
+      Aggressive: true
     Drops:
       - Item: Burning_Horse_Shoe
         Rate: 2100
@@ -136,6 +138,8 @@ Body:
     ClientAttackMotion: 336
     DamageMotion: 384
     Ai: 21
+    Modes:
+      Aggressive: true
     Drops:
       - Item: Dragon's_Skin
         Rate: 1015
@@ -185,6 +189,8 @@ Body:
     ClientAttackMotion: 336
     DamageMotion: 336
     Ai: 21
+    Modes:
+      Aggressive: true
     Drops:
       - Item: Dragon's_Skin
         Rate: 1016
@@ -234,6 +240,8 @@ Body:
     ClientAttackMotion: 480
     DamageMotion: 336
     Ai: 21
+    Modes:
+      Aggressive: true
     Drops:
       - Item: Wing_Of_Red_Bat
         Rate: 1325
@@ -283,6 +291,8 @@ Body:
     ClientAttackMotion: 432
     DamageMotion: 500
     Ai: 21
+    Modes:
+      Aggressive: true
     Drops:
       - Item: Flame_Heart
         Rate: 15
@@ -332,6 +342,8 @@ Body:
     ClientAttackMotion: 720
     DamageMotion: 336
     Ai: 21
+    Modes:
+      Aggressive: true
     Drops:
       - Item: Cold_Magma
         Rate: 921
