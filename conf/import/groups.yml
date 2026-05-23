@@ -1,0 +1,334 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2022 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Player Group Database
+###########################################################################
+#
+# Player Group Settings
+#
+###########################################################################
+# - Id                    Group ID.
+#   Name                  Group name.
+#   Level                 GM Level used for ranking groups. (Default: 0)
+#   LogCommands           Whether atcommands should be logged or not. (Default: false)
+#   Commands:             List of atcommands that can be used by this group. (Default: none)
+#     <atcommand name>    Whether the specified atcommand can be used by this group or not.
+#   CharCommands:         List of charcommands that can be used by this group. (Default: none)
+#     <charcommand name>  Whether the specified charcommand can be used by this group or not.
+#   Permissions:          List of permissions the group has. (Default: none)
+#     <permission name>   Whether the group has this permission or not.
+#   Inherit:              List of groups that will be inherited. (Default: none)
+#     <group name>        Whether this group will be inherited or not.
+###########################################################################
+
+Header:
+  Type: PLAYER_GROUP_DB
+  Version: 1
+
+Body:
+  - Id: 0
+    # group 0 is the default group for every new account
+    Name: Player
+    Level: 0
+    Commands:
+      separate: true
+      commands: true
+      rates: true
+      who: true
+      uptime: true
+      showdelay: true
+      exp: true
+      mobinfo: true
+      iteminfo: true
+      servertime: true
+      jailtime: true
+      hominfo: true
+      homstats: true
+      showexp: true
+      showzeny: true
+      whodrops: true
+      whereis: true
+      pettalk: true
+      homtalk: true
+      help: true
+      mail: true
+      load: true
+      me: true
+      storage: true
+      guildstorage: true
+      kill: true
+      refresh: true
+      noask: true
+      idsearch: true
+      noks: true
+      stats: true
+      storagealt1: true
+      storagealt2: true
+      storagealt3: true
+      storagealt4: true
+      storagealt5: true
+      storecard: true
+      partybuff: true
+      autoloot: true
+      autolootitem: true
+      autoloottype: true
+      autotrade: true
+      request: true
+      breakguild: true
+      channel: true
+      feelreset: true
+      hatereset: true
+      sellstuff: true
+      sellitem: true
+      showspeed: true
+      autolootmvp: true
+      autolootmvpreward: true
+      autolootrare: true
+      autolootpognon: true
+      shopsearch: true
+      whogm: true
+      bodystyle: true
+      storeall: true
+      party: true
+      wings: true
+      showmobinfo: true
+    Permissions:
+      # without this basic permissions regular players could not trade or party
+      can_trade: true
+      can_party: true
+      attendance: false
+  - Id: 40
+    Name: Guard
+    Inherit:
+      Player: true
+    Level: 40
+    Commands:
+      unjail: true
+      jail: true
+      mutearea: true
+      accinfo: true
+      mapmove: true
+      me: true
+      storage: true
+      guildstorage: true
+      kill: true
+      refresh: true
+      noask: true
+      noks: true
+      stats: true
+      jumpto: true
+      where: true
+      party: true
+      jump: true
+      who2: true
+      who3: true
+      whomap: true
+      whomap2: true
+      whomap3: true
+      kami: true
+      kamib: true
+      kamic: true
+      lkami: true
+      go: true
+      recall: true
+      kick: true
+      ban: true
+      block: true
+      unblock: true
+      unban: true
+      jailfor: true
+      mute: true
+      unmute: true
+      follow: true
+      broadcast: true
+      localbroadcast: true
+      mapinfo: true
+      users: true
+      resurrect: true
+    CharCommands:
+      mapmove: true
+      me: true
+      storage: true
+      guildstorage: true
+      kill: true
+      refresh: true
+      noask: true
+      noks: true
+      stats: true
+      jumpto: true
+      where: true
+      party: true
+      jump: true
+    LogCommands: true
+    Permissions:
+      receive_requests: true
+      join_chat: true
+      kick_chat: true
+      hide_session: true
+      who_display_aid: true
+      hack_info: true
+      any_warp: true
+      view_hpmeter: true
+  - Id: 80
+    Name: Event Manager
+    Level: 80
+    Inherit:
+      Player: true
+      Guard: true
+    Commands:
+      moche: true
+      attackskill: true
+      aoeskill: true
+      sitstand: true
+      save: true
+      playertalk: true
+      item: true
+      monster: true
+      jobchange: true
+      allstats: true
+      allskill: true
+      jlvl: true
+      blvl: true
+      homlevel: true
+      homevolution: true
+      disguiseguild: true
+      undisguiseguild: true
+      disguise: true
+      undisguise: true
+      marry: true
+      divorce: true
+      resetskill: true
+      resetstat: true
+      zeny: true
+      trollolol: true
+      celebrate: true
+      fastmove: true
+      alive: true
+      repairall: true
+      summon: true
+      raise: true
+      raisemap: true
+      nuke: true
+      hide: true
+      changelook: true
+      speed: true
+      heal: true
+      delitem: true
+      killmonster: true
+      killmonster2: true
+      cleanmap: true
+      charcommands: true
+      sakura: true
+      snow: true
+      day: true
+      night: true
+      fireworks: true
+      leaves: true
+      fog: true
+      clouds2: true
+      clouds: true
+      clearweather: true
+      clone: true
+      slaveclone: true
+      evilclone: true
+      refine: true
+      item2: true
+      itemreset: true
+      itemlist: true
+      storagelist: true
+      model: true
+      showmobs: true
+      pvpon: true
+      pvpoff: true
+      gvgon: true
+      gvgoff: true
+      killer: true
+      killable: true
+      fakename: true
+      monsterbig: true
+      monstersmall: true
+      useskill: true
+      skillid: true
+      size: true
+      monsterignore: true
+      doom: true
+      doommap: true
+      option: true
+      effect: true
+      points: true
+      mount: true
+      cloneequip: true
+      clonestat: true
+      costume: true
+    CharCommands:
+      item: true
+      disguise: true
+      undisguise: true
+      marry: true
+      divorce: true
+      heal: true
+      delitem: true
+      killer: true
+      killable: true
+      fakename: true
+      option: true
+      effect: true
+      mount: true
+    LogCommands: true
+    Permissions:
+      join_chat: true
+      kick_chat: true
+      who_display_aid: true
+      hack_info: true
+      skill_unconditional: true
+      view_hpmeter: true
+      receive_requests: true
+      view_equipment: true
+      can_trade: true
+      any_warp: true
+      macro_detect: true
+  - Id: 99
+    Name: Admin
+    Level: 99
+    Inherit:
+      Player: true
+      Guard: true
+      Event Manager: true
+    CharCommands:
+      blvl: true
+      jlvl: true
+      job: true
+    LogCommands: true
+    Permissions:
+      hide_session: true
+      can_party: true
+      command_enable: true
+      all_skill: false
+      all_equipment: false
+      skill_unconditional: false
+      use_check: true
+      use_changemaptype: true
+      all_commands: true
+      channel_admin: true
+      can_trade_bounded: true
+      item_unconditional: false
+      bypass_stat_onclone: true
+      bypass_max_stat: true
+      macro_register: true
+      trade_unconditional: true
+      # all_permission: true
