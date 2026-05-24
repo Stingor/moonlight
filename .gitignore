@@ -162,3 +162,4 @@ tools/__pycache__/re_to_prere_mob.cpython-312.pyc
 /.claude
 /.localpilot
 /out
+/sql-files/upgrades
