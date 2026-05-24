@@ -10182,10 +10182,17 @@ bool status_change_start(block_list* src, block_list* bl, sc_type type, int32 ra
     if( !scdb ) {
 		// Enhanced debug information to help locate who is trying to start an invalid SC
 		if (src != nullptr && bl != nullptr) {
-			ShowError("status_change_start: Invalid status change (%d)! src(id=%d,type=0x%X) -> target(id=%d,type=0x%X,map=%d,x=%d,y=%d)\n",
-				type,
-				src->id, src->type,
-				bl->id, bl->type, bl->m, bl->x, bl->y);
+			map_session_data *sd = BL_CAST(BL_PC, bl);
+			if (sd)
+				ShowError("status_change_start: Invalid status change (%d)! src(id=%d,type=0x%X) -> target(id=%d,char_id=%d,name=%s,map=%d,x=%d,y=%d)\n",
+					type,
+					src->id, src->type,
+					bl->id, sd->status.char_id, sd->status.name, bl->m, bl->x, bl->y);
+			else
+				ShowError("status_change_start: Invalid status change (%d)! src(id=%d,type=0x%X) -> target(id=%d,type=0x%X,map=%d,x=%d,y=%d)\n",
+					type,
+					src->id, src->type,
+					bl->id, bl->type, bl->m, bl->x, bl->y);
 		}
 		else if (src != nullptr) {
 			ShowError("status_change_start: Invalid status change (%d)! src(id=%d,type=0x%X) -> target(NULL)\n",
