@@ -1315,6 +1315,19 @@ void ItemDatabase::loadingFinished(){
 		if (item->name.empty())
 			continue;
 
+		// Skip AegisNames that contain characters invalid for script identifiers
+		// (only [A-Za-z0-9_] are accepted by skip_word in script.cpp).
+		// Examples: Monster's_Feed (apostrophe), Crimson_One-Handed_Staff (hyphen).
+		bool valid = true;
+		for (char c : item->name) {
+			if (!ISALNUM(c) && c != '_') {
+				valid = false;
+				break;
+			}
+		}
+		if (!valid)
+			continue;
+
 		int64 existing;
 		if (script_get_constant(item->name.c_str(), &existing)) {
 			if (existing != (int64)item->nameid) {
