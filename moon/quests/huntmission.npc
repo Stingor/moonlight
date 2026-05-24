@@ -116,7 +116,7 @@ L_main:
 		else
 			.@mvp_option$ = " ~ Nouvelle mission MVP::";
 	} else {
-		.@mvp_option$ = ": ~ Status mission MVP: ~ Abandonner "+(Mission_MVP_ID>0?"- "+getmonsterinfo($mvps[(Mission_MVP_ID-2 < 0?0:Mission_MVP_ID-2)], MOB_NAME):"");
+		.@mvp_option$ = ": ~ Status mission MVP: ~ Abandonner "+(Mission_MVP_ID>0?"- "+getmonsterinfo(Mission_MVP_ID, MOB_NAME):"");
 	}
 
 	// DB mission
@@ -145,9 +145,9 @@ L_main:
 				close;
 			}
 			mes "Vous devez chasser:";
-			query_sql("SELECT ID FROM `mob_db` WHERE left(Sprite, 4) != 'meta' AND left(Sprite, 2) != 'E_' AND ~Mode & 32 AND EXP > 0 AND MVP1id = 0 AND DropCardid > 4000 AND DropCardid < 5000 AND DropCardper = 1 AND ID < 2000 AND instr('"+.Blacklist$+"',ID) = 0 ORDER BY rand() LIMIT " + .Quests, .@mob);
+			callsub L_PickMissionMobs;
 			for( .@i = 0; .@i < .Quests; .@i++ ) {
-				setd "Mission" + .@i, .@mob[.@i];
+				setd "Mission" + .@i, @hm_mob[.@i];
 				setd "Mission" + .@i +"_", 0;
 			}
 			#Mission_Count = 50;
@@ -211,9 +211,9 @@ L_main:
 						setd "Mission"+.@i, 0;
 						setd "Mission"+.@i+"_", 0;
 					}
-					query_sql("SELECT ID FROM `mob_db` WHERE left(Sprite, 4) != 'meta' AND left(Sprite, 2) != 'E_' AND ~Mode & 32 AND EXP > 0 AND MVP1id = 0 AND DropCardid > 4000 AND DropCardid < 5000 AND DropCardper = 1 AND ID < 2000 AND instr('"+ .Blacklist$ +"',ID) = 0 ORDER BY rand() LIMIT " + .Quests, .@mob);
+					callsub L_PickMissionMobs;
 					for( .@i = 0; .@i < .Quests; .@i++ ) {
-						setd "Mission" + .@i, .@mob[.@i];
+						setd "Mission" + .@i, @hm_mob[.@i];
 						setd "Mission" + .@i +"_", 0;
 					}
 					#Mission_Count = 50;
@@ -247,11 +247,8 @@ L_main:
 				close;
 			}
 			Mission_MVP = 0;
-			.@i = rand(2, getarraysize($mvps) + 1);
-			if( .@i%2 == 0 )
-				Mission_MVP_ID = .@i;
-			else
-				Mission_MVP_ID = .@i - 1;
+			callsub L_PickMvpMob;
+			Mission_MVP_ID = @hm_mvp;
 			#Mission_Count_MVP = 1;
 			callsub Mission_Status_MVP;
 			mes "Venez me voir une fois terminé.";
@@ -312,9 +309,8 @@ L_main:
 					#KAFRAPOINTS -= .@reset_cost;
 					#Mission_MVP_Reset++;
 					Mission_MVP = 0;
-					Mission_MVP_ID = rand(2, getarraysize($mvps) + 1);
-					if( Mission_MVP_ID%2 != 0 )
-						Mission_MVP_ID--;
+					callsub L_PickMvpMob;
+					Mission_MVP_ID = @hm_mvp;
 					#Mission_Count_MVP = 1;
 					.@next_cost = 1 + (#Mission_MVP_Reset * (#Mission_MVP_Reset + 1) / 2);
 					dispbottom "Nouvelle mission MVP assignée! Coût prochain reset: " + .@next_cost + " pt(s).";
@@ -505,12 +501,16 @@ Mission_Status_MVP:
 	}
 	@f = false;
 	deletearray .@j[0], getarraysize(.@j);
-	mes "Wanted: "+Chk(Mission_MVP,1) + getmonsterinfo($mvps[Mission_MVP_ID-2], MOB_NAME) + " [id:" + $mvps[Mission_MVP_ID-2] + "] - (" + Mission_MVP + "/1)^000000";
+	// Mission_MVP_ID stocke maintenant le mob_id directement (pas un index dans $mvps[]).
+	// Les points proviennent toujours de $mvps[] via L_MvpPoints (fallback 4).
+	callsub L_MvpPoints, Mission_MVP_ID;
+	.@pts = @hm_mvp_pts;
+	mes "Wanted: "+Chk(Mission_MVP,1) + getmonsterinfo(Mission_MVP_ID, MOB_NAME) + " [id:" + Mission_MVP_ID + "] - (" + Mission_MVP + "/1)^000000";
 
 	// Zeny formula:
-	.@zeny = $mvps[Mission_MVP_ID-1] * 1000000;
+	.@zeny = .@pts * 1000000;
 	mes "Récompenses:";
-	mes " > Points d'event: ^0055FF"+ $mvps[Mission_MVP_ID-1] +"pts^000000";
+	mes " > Points d'event: ^0055FF"+ .@pts +"pts^000000";
 	mes " > Zenys: ^0055FF" + F_InsertComma(.@zeny) + "^000000";
 	mes " > "+mesitemicon(12214) +" -> 1 "+ mesitemlink(12214); // Convex_Mirror
 	if( @f && getgroupid() < 80 ) {
@@ -524,7 +524,7 @@ Mission_Status_MVP:
 	Mission_MVP = 0;
 	.@prepoints = #KAFRAPOINTS;
 	getitem 12214,1; // Convex_Mirror
-	.@pointss = $mvps[Mission_MVP_ID-1];
+	.@pointss = .@pts;
 	if( Zeny <= MAX_ZENY - .@zeny )
 		Zeny += .@zeny;
 	else if ( BankVault <= MAX_ZENY - .@zeny ) {
@@ -545,7 +545,7 @@ Mission_Status_MVP:
 
 	if( .@pointss > 10 ) {
 		dispbottom "Vous gagnez rien (stingor est averti qu'un bug s'est produit).";
-		logmes "un bug est arrivé, stingor est au courant xD  "+$mvps[Mission_MVP_ID-1]+" -> "+.@pointss;
+		logmes "un bug est arrivé, stingor est au courant xD  "+.@pts+" -> "+.@pointss;
 		Mission_MVP_ID = 0;
 		end;
 	}
@@ -554,8 +554,8 @@ Mission_Status_MVP:
 		#Mission_MVP_Reset -= 2;
 	else
 		#Mission_MVP_Reset = 0;
-	dispbottom "Vous gagnez "+$mvps[Mission_MVP_ID-1]+" points d'event et 1 Convex Mirror.";
-	logmes "Termine sa mission MVP à ["+.@prepoints+"->"+#KAFRAPOINTS+"] pts: "+getmonsterinfo($mvps[Mission_MVP_ID-2], MOB_NAME);
+	dispbottom "Vous gagnez "+.@pts+" points d'event et 1 Convex Mirror.";
+	logmes "Termine sa mission MVP à ["+.@prepoints+"->"+#KAFRAPOINTS+"] pts: "+getmonsterinfo(Mission_MVP_ID, MOB_NAME);
 	Mission_MVP_ID = 0;
 	emotion ET_BEST;
 	specialeffect2 68;
@@ -643,6 +643,69 @@ OnNPCKillEvent:
 		}
 	}
 	end;
+
+// ===========================================================================
+// Picker des mobs de mission normale via le groupe summon Branch_Of_Dead_Tree.
+// Remplace l'ancienne requete SQL sur mob_db. Remplit @hm_mob[0..Quests-1].
+// Filtre : exclut les boss et les plantes (RMF flags), exclut les ID
+// presents dans .Blacklist$, evite les doublons.
+// ===========================================================================
+L_PickMissionMobs:
+	deletearray @hm_mob[0], getarraysize(@hm_mob);
+	.@count = 0;
+	.@tries = 0;
+	while( .@count < .Quests && .@tries < 500 ) {
+		.@tries++;
+		.@id = getrandmobid(MOBG_BRANCH_OF_DEAD_TREE, RMF_MOB_NOT_BOSS | RMF_MOB_NOT_PLANT);
+		if( .@id <= 0 ) continue;
+		// Blacklist (encadre de virgules pour eviter les sous-chaines, ex: 88 vs 1088)
+		if( compare(","+.Blacklist$+",", ","+.@id+",") ) continue;
+		// Anti-doublon
+		.@dup = 0;
+		for( .@j = 0; .@j < .@count; .@j++ ) {
+			if( @hm_mob[.@j] == .@id ) { .@dup = 1; break; }
+		}
+		if( .@dup ) continue;
+		@hm_mob[.@count] = .@id;
+		.@count++;
+	}
+	return;
+
+// ===========================================================================
+// Picker MVP via le groupe summon Bloody_Dead_Branch.
+// Filtre par le flag MD_MVP : le groupe contient aussi des mini-boss sans
+// le flag MVP qu'on doit ecarter. Retourne le mob_id dans @hm_mvp
+// (0 si echec apres 500 essais).
+// ===========================================================================
+L_PickMvpMob:
+	@hm_mvp = 0;
+	.@tries = 0;
+	while( !@hm_mvp && .@tries < 500 ) {
+		.@tries++;
+		.@cand = getrandmobid(MOBG_BLOODY_DEAD_BRANCH, RMF_NONE);
+		if( .@cand <= 0 ) continue;
+		if( getmonsterinfo(.@cand, MOB_MODE) & MD_MVP )
+			@hm_mvp = .@cand;
+	}
+	return;
+
+// ===========================================================================
+// Lookup des points d'event associes a un mob MVP.
+// Cherche le mob_id dans $mvps[] (table conservee comme reference de points)
+// et retourne le score associe via @hm_mvp_pts. Defaut : 4 (valeur la plus
+// courante dans $mvps[]).
+//   getarg(0) = mob_id
+// ===========================================================================
+L_MvpPoints:
+	@hm_mvp_pts = 4;
+	.@n = getarraysize($mvps);
+	for( .@k = 0; .@k < .@n; .@k += 2 ) {
+		if( $mvps[.@k] == getarg(0) ) {
+			@hm_mvp_pts = $mvps[.@k+1];
+			break;
+		}
+	}
+	return;
 
 OnInit:
 	.Delay = 4;            // Quest delay, in hours (0 to disable).

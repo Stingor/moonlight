@@ -27,7 +27,8 @@ OnMvpDead:
 				.@mobid = 1874;
 			if( .@mobid == 1916 )
 				.@mobid = 1917;
-			if( .@mobid == $mvps[Mission_MVP_ID-2] ) {
+			// Mission_MVP_ID stocke maintenant le mob_id directement (cf. huntmission.npc L_PickMvpMob)
+			if( .@mobid == Mission_MVP_ID ) {
 				Mission_MVP = 1;
 				dispbottom "[Chasse MVP] Vous avez tué le MVP pour votre mission retournez voir Chuck !";
 			}
@@ -337,7 +338,8 @@ OnInit:
 OnLoDDead:
 	query_sql("UPDATE `char` SET mvp_count = mvp_count + 1 WHERE `char_id` = '"+getcharid(0,strcharinfo(0))+"'");
 	if( Mission_MVP != #Mission_Count_MVP && Mission_MVP_ID > 1) {
-		if( killedrid == $mvps[Mission_MVP_ID-2] ) {
+		// Mission_MVP_ID stocke maintenant le mob_id directement
+		if( killedrid == Mission_MVP_ID ) {
 			Mission_MVP = 1;
 			dispbottom "[Chasse MVP] Vous avez tué le MVP pour votre mission retournez voir Chuck !";
 		}
