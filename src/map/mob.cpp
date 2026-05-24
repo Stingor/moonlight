@@ -5651,6 +5651,30 @@ void MobDatabase::loadingFinished() {
 		mob->status.sp = mob->status.max_sp;
 	}
 
+	// [Stingor] Register each mob's AegisName as a script constant so scripts
+	// can write self-documenting names instead of numeric mob_ids, e.g.
+	//     setarray $mvps[0], AMON_RA, 2, DARK_LORD, 2, ...
+	// instead of
+	//     setarray $mvps[0], 1511, 2, 1272, 2, ...
+	// Mirrors how rAthena exposes item AegisNames to scripts. Collisions with
+	// pre-existing constants are skipped with a warning instead of overwriting.
+	for (const auto &mobdata : *this) {
+		std::shared_ptr<s_mob_db> mob = mobdata.second;
+		if (mob->sprite.empty())
+			continue;
+
+		int64 existing;
+		if (script_get_constant(("MOB_" + mob->sprite).c_str(), &existing)) {
+			if (existing != (int64)mob->id) {
+				ShowWarning("MobDatabase: mob AegisName '%s' (id=%u) collides with existing script constant (value=%" PRId64 "). Skipping registration.\n",
+					("MOB_" + mob->sprite).c_str(), mob->id, existing);
+			}
+			continue;
+		}
+
+		script_set_constant(("MOB_" + mob->sprite).c_str(), (int64)mob->id, false, false);
+	}
+
 	TypesafeCachedYamlDatabase::loadingFinished();
 }
 
