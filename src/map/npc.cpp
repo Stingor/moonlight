@@ -5657,14 +5657,21 @@ void normalize_tabs_in_buffer(char* buffer) {
 	char* w = buffer;
 
 	while (*r) {
+		// Copy // comments verbatim so braces inside them don't affect
+		// script_depth (an unbalanced { in a comment would otherwise
+		// poison depth tracking for all subsequent lines in the file).
+		if (*r == '/' && r[1] == '/' && script_depth == 0) {
+			while (*r && *r != '\n')
+				*w++ = *r++;
+			continue;
+		}
 
-		// Détection entrée/sortie script
 		if (*r == '{') {
 			script_depth++;
 			*w++ = *r++;
 			continue;
 		}
-		else if (*r == '}') {
+		if (*r == '}') {
 			if (script_depth > 0)
 				script_depth--;
 			*w++ = *r++;
@@ -5672,7 +5679,9 @@ void normalize_tabs_in_buffer(char* buffer) {
 		}
 
 		if (script_depth == 0) {
-			// On compresse les TAB hors scripts
+			// Collapse consecutive TABs in header fields so that sv_parse
+			// (which uses TAB as field separator) sees exactly one separator
+			// between fields even if the source file has extra indentation.
 			if (*r == '\t') {
 				*w++ = '\t';
 				while (r[1] == '\t')
@@ -5681,7 +5690,7 @@ void normalize_tabs_in_buffer(char* buffer) {
 				*w++ = *r;
 			}
 		} else {
-			// Dans un script, on copie tel quel
+			// Inside a script block: copy verbatim.
 			*w++ = *r;
 		}
 
@@ -5738,7 +5747,12 @@ int32 npc_parsesrcfile(const char* filepath)
 
 	int32 lines = 0;
 
-	normalize_tabs_in_buffer(buffer); // [Stingor] we need to do this before parsing, otherwise scripts with tabulations will be broken, and we won't be able to parse the file at all (since we use tabs as separators in the main file)
+	// [Stingor] Collapse consecutive TABs in header fields so that sv_parse
+	// (TAB-separated) sees exactly one separator between fields even when the
+	// source file has extra indentation. TABs inside script blocks are left
+	// untouched. Must run before sv_parse and before len is used.
+	normalize_tabs_in_buffer(buffer);
+	len = strlen(buffer); // recalculate: normalization may have shortened the buffer
 
 	// parse buffer
 	for ( const char* p = skip_space(buffer); p && *p ; p = skip_space(p) ) {
