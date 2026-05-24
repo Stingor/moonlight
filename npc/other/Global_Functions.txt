@@ -381,6 +381,29 @@ function	script	Time2Str	{
 	return .@Time$;
 }
 
+function	script	Time2StrShort	{
+	.@Time_Left = getarg(0) - gettimetick(2);
+	
+	.@Days =.@Time_Left / 86400;
+	.@Time_Left -= (.@Days * 86400);
+	.@Hours = .@Time_Left / 3600;
+	.@Time_Left -= (.@Hours * 3600);
+	.@Minutes =.@Time_Left / 60;
+	.@Time_Left -= (.@Minutes * 60);
+	
+	.@Time$ = "";
+	if( .@Days > 0 )
+		.@Time$ += .@Days + "d ";
+
+	if( .@Hours > 0 )
+		.@Time$ += .@Hours + "h ";
+
+	if( .@Minutes > 0 )
+		.@Time$ += .@Minutes + "m";
+	
+	return .@Time$;
+}
+
 
 //////////////////////////////////////////////////////////////////////////////////
 // Checks if equipment has been swapped (i.e. via hacks).
