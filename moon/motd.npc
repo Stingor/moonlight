@@ -60,6 +60,7 @@ OnMinute30:
 	"Marre de missclic sur Tic et Tac? @stfutictac ... xD",
 	"Marre de missclic sur les npc qui ne vous servent à rien ? @npcblock !",
 	"N'hésitez pas à visiter le forum, on y parle surement de vous, de votre classe ou d'un de vos item preféré (pour le up ou le nerf) !",
+	"Un serveur discord est disponible pour échanger avec les autres joueurs !",
 	"virus","virus","virus","virus","virus","virus","virus","virus","virus","virus","virus","virus","virus","virus","virus";
 
 	.@rndtips = rand(getarraysize(.@tips$));
