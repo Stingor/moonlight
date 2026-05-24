@@ -28,9 +28,9 @@ gonryun,165,129,3	script	Warp Agent::warp_agent	4_F_01,{
 	function GetColor;
 	function GetMobs;
 	function WarpMenu;
-
+	.@npc_name$ = "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 L_WarpaCmd:
-	mes "[ ^1F81D4" + strnpcinfo(0) + "^000000 ]";
+	mes .@npc_name$;
 	mes "Bonjour ^4a8b3e" + strcharinfo(0) + "^000000 !";
 	mes "Je suis le Npc qui sert à se teleporter dans les villes et les donjons ainsi que de sauvegarder !";
 	setdialogsize(300,50*.@mesnpccount);
@@ -61,12 +61,12 @@ L_warpa:
 	warp_fct(lastm_warpa$, lastx_warpa, lasty_warpa);
 	end;
 L_Option:
-	set WarpaDetail, !WarpaDetail;
+	WarpaDetail = !WarpaDetail;
 	goto L_warpa;
 L_Villes:
 	clear;
 L_VillesCmd:
-	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes .@npc_name$;
 	mes "Sélectionnez la destination de votre choix :";
 	setdialogsize(300,50*.@mesnpccount);
 	// Ajouter une ville: une valeur par tableau + l'entrée dans .@vn$
@@ -116,7 +116,7 @@ L_VillesCmd:
 
 L_Guild_Dungeons:
 	clear;
-	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes .@npc_name$;
 	mes "Sélectionnez la destination de votre choix :";
 	setdialogsize(300,50*.@mesnpccount);
 	// Ajouter un guild dungeon: une valeur par tableau + l'entrée dans .@gn$
@@ -167,13 +167,13 @@ L_Instance:
 	.@party_id = getcharid(1);
 	if( .@party_id < 1 ) {
 		party_create("party" + gettimetick(0));
-		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes .@npc_name$;
 		mes "Party genérée...";
 		mes "Attention, il n'est pas possible de retourner dans une instance une fois que vous l'avez quittée.";
 		setdialogsize(300,50*.@mesnpccount);
 		next;
 	}
-	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes .@npc_name$;
 	mes "Sélectionnez la destination de votre choix :";
 	setdialogsize(300,50*.@mesnpccount);
 	switch( select( GetColor(15050)+"• Airship Assault (Solo & HM)^000000",
@@ -279,7 +279,7 @@ L_Charleston:
 					if( isbegin_quest(13184) )
 						erasequest 13184;
 					erasequest 13186;
-					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes .@npc_name$;
 					mes "Vous venez de completer des quêtes!";
 					next;
 					goto L_Charleston;
@@ -307,7 +307,7 @@ L_DevilTower:
 					erasequest 7576;// Morocc castle seal
 					getexp 450000,450000;
 					clear;
-					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes .@npc_name$;
 					mes "Vous venez de completer des quêtes!";
 					next;
 					goto L_DevilTower;
@@ -318,7 +318,7 @@ L_DevilTower:
 					erasequest 7574;// Thanatos Tower
 					getexp 300000,300000;
 					clear;
-					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes .@npc_name$;
 					mes "Vous venez de completer des quêtes!";
 					next;
 					goto L_DevilTower;
@@ -330,7 +330,7 @@ L_DevilTower:
 					if (isbegin_quest(7573)) erasequest 7573;// Magic Swordman Thanatos
 					getexp 200000,200000;
 					clear;
-					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes .@npc_name$;
 					mes "Vous venez de completer des quêtes!";
 					next;
 					goto L_DevilTower;
@@ -340,7 +340,7 @@ L_DevilTower:
 					case -1:
 						callsub Create_Instance,.@md_name$,.@hardmode; // Création instance
 						if ( BaseLevel < 100 ) {
-							mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+							mes .@npc_name$;
 							mes "Vous venez être au moins niveau 100 pour entrer cette instance!";
 							close;
 						} 
@@ -368,7 +368,7 @@ L_DevilTower:
 			.instance_delay = 20 * 60 * 60; // 20h
 			callsub Party_Check,.@md_name$;
 			if( is_party_leader(getcharid(1)) == true && instance_delay_cellar < gettimetick(2) ) {
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes .@npc_name$;
 				mes "Cette instance est disponible avec plusieur niveau de difficulté, êtes vous prêts à tenter?";
 				mes "^FF0000Attention!!";
 				mes "Le timer reste le même pour chaque niveau !! Si vous échouez au 5 vous ne pourrez changer la difficulté.^000000";
@@ -377,7 +377,7 @@ L_DevilTower:
 				callsub Create_Instance, .@md_name$, .@hardmode; // Création instance
 			}
 			if ( BaseLevel < 100 ) {
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes .@npc_name$;
 				mes "Vous venez être au moins niveau 100 pour entrer cette instance!";
 				close;
 			} 
@@ -397,7 +397,7 @@ L_DevilTower:
 			.@questid = 60200; // Endless Tower Effect
 			callsub Party_Check,.@md_name$;
 			if( is_party_leader(getcharid(1)) == true && GetColor(.@questid) != "^FF0000" ) {
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes .@npc_name$;
 				mes "Cette instance est disponible avec plusieur niveau de difficulté, êtes vous prêts à tenter?";
 				mes "^FF0000Attention!!";
 				mes "Le timer reste le même pour chaque niveau !! Si vous échouez au 5 vous ne pourrez changer la difficulté.^000000";
@@ -447,7 +447,7 @@ L_DevilTower:
 					if( checkquest(.@i) != -1 )
 						erasequest .@i;
 				clear;
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes .@npc_name$;
 				mes "Cette instance est disponible avec plusieur niveau de difficulté, êtes vous prêts à tenter?";
 				mes "^FF0000Attention!!";
 				mes "Le timer reste le même pour chaque niveau !! Si vous échouez au 5 vous ne pourrez changer la difficulté.^000000";
@@ -561,7 +561,7 @@ L_Jitter:
 					}
 					erasequest .@questid2;
 					getexp 1500000, 500000;
-					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes .@npc_name$;
 					mes "Vous venez de completer des quêtes!";
 					next;
 					goto L_Jitter;
@@ -642,7 +642,7 @@ L_Bijou:
 					erasequest .@questid2;
 					getitem 6919,10;
 					getexp 400000,400000;
-					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes .@npc_name$;
 					mes "Vous venez de completer des quêtes!";
 					next;
 					goto L_Bijou;
@@ -686,7 +686,7 @@ L_Bijou:
 					case -1:
 						callsub Create_Instance,.@md_name$,.@hardmode; // Création instance
 						if ( BaseLevel < 100 ) {
-							mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+							mes .@npc_name$;
 							mes "Vous venez être au moins niveau 100 pour entrer cette instance!";
 							close;
 						} 
@@ -828,7 +828,7 @@ function WarpMenu {
 Hard_Mode:
 	if( is_party_leader(getcharid(1)) == true && (getgroupid() == 99 || getarg(0) != "^FF0000") ) {
 		clear;
-		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes .@npc_name$;
 		mes "Cette instance est disponible avec plusieur niveau de difficulté, êtes vous prêts à tenter?";
 		setdialogsize(300,200);
 		return select( "Facile(1)", "Normal(2)", "Moyen(3)", "", "Difficile(5)", "", "Très Difficile (7)", "", "", "MALADE (10)" );
@@ -838,7 +838,7 @@ Hard_Mode:
 Turbo_Mode:
 	if( is_party_leader(getcharid(1)) == true && (getgroupid() == 99 || getarg(0) != "^FF0000") ) {
 		clear;
-		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes .@npc_name$;
 		mes "Cette instance est disponible avec le mode turbo.";
 		mes "^FF0000Attention!!";
 		mes "une fois activé vous sauterez la plupart des dialogues!!^000000";
@@ -850,7 +850,7 @@ Turbo_Mode:
 Party_Check: // Check si une party existe bien
 	if( instance_check_party(getcharid(1), 1) == 0 ) {
 		clear;
-		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes .@npc_name$;
 		mes "^0000ff"+getarg(0)+"^000000 - Problème de party";
 		mes "Faites une party.";
 		close;
@@ -860,7 +860,7 @@ Party_Check: // Check si une party existe bien
 Leader_Check: // Pour instance Solo
 	if( is_party_leader(getcharid(1)) == false ) {
 		clear;
-		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes .@npc_name$;
 		mes "^ff0000Cette instance est à faire seul. Seul le party leader peut entrer.^000000";
 		close;
 	}
@@ -876,7 +876,7 @@ Create_Instance: // Création instance
 	if( is_party_leader(getcharid(1)) == true ) {
 		if( instance_create(getarg(0), IM_PARTY, getcharid(1), .@hardmode, .@turbo) < 1 ) {
 			clear;
-			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes .@npc_name$;
 			mes "Party name: " + getpartyname(getcharid(1));
 			mes "Character name: " + strcharinfo(0);
 			mes "^0000ff" + getarg(0) + "^000000 - Création echouée!";
@@ -893,7 +893,7 @@ Create_Instance: // Création instance
 
 Quick_Enter:
 	if ( BaseLevel < 100 ) {
-		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes .@npc_name$;
 		mes "Vous venez être au moins niveau 100 pour entrer cette instance!";
 		close;
 	} 
@@ -906,7 +906,7 @@ Quick_Enter:
 			end;
 	}
 	clear;
-	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes .@npc_name$;
 	mes "^ff0000Le timer de cette instance expire à 4h du matin.^000000";
 	next;
 	goto L_Instance;
@@ -940,13 +940,13 @@ Process_Instance:
 	switch( checkquest(getarg(3), PLAYTIME) ) {
 		case -1:
 			clear;
-			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes .@npc_name$;
 			mes "^ff0000Si vous mourrez ou sortez vous ne pourrez plus entrer de nouveau.^000000";
 			if( select("-:Ok:-") == 2 ) next;
 			else close;
 			callsub Create_Instance, getarg(0), getarg(1); // Création instance
 			if ( BaseLevel < 100 ) {
-				mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+				mes .@npc_name$;
 				mes "Vous venez être au moins niveau 100 pour entrer cette instance!";
 				close;
 			} 
@@ -969,7 +969,7 @@ Process_Instance:
 				// callsub Quick_Enter,getarg(0); end;
 		case 2:
 			clear;
-			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes .@npc_name$;
 			mes "^ff0000Vous devez attendre le reset de votre instance.^000000";
 			close;
 	}
@@ -977,23 +977,23 @@ Process_Instance:
 
 L_NOMEMBER:
 	clear;
-	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes .@npc_name$;
 	mes "^ff0000Vous n'avez plus de party ?^000000";
 	close;
 L_NOINSTANCE:
 	clear;
-	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes .@npc_name$;
 	mes "^ff0000L'instance ne semble pas être générée.^000000";
 	close;
 L_OTHER:
 	clear;
-	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes .@npc_name$;
 	mes "Une erreur est survenue.";
 	close;
 
 L_Autre:
 	clear;
-	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes .@npc_name$;
 	mes "Sélectionnez la destination de votre choix :";
 	switch( select("• Forge:• Shop armement:• Eden Group:• Flame Bassin:• Mid Camp:• Seals:• Yggdrasil:• ^e64c00Menu Précédent.^000000") ) {
 		case 1: warp_fct("gon_in", 94, 21);
@@ -1009,7 +1009,7 @@ L_Autre:
 
 L_Fields:
 	clear;
-	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes .@npc_name$;
 	mes "Sélectionnez le <<Field>> de votre choix :";
 	setdialogsize(300,80);
 	// Ajouter un field: une ligne dans le menu + un label L_fld_xxx ci-dessous
@@ -1163,7 +1163,7 @@ L_fld_yun: WarpMenu("yuno_fild01", "yuno_fild02", "yuno_fild03", "yuno_fild04", 
 					"yuno_fild11", "yuno_fild12"); goto L_Fields;
 L_Donjons:
 	clear;
-	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes .@npc_name$;
 	mes "Sélectionnez le donjon de votre choix puis le niveau que vous désirez.";
 	setdialogsize(280,120);
 	menu "• Abbey Donjon",L_abb,
@@ -1406,7 +1406,7 @@ L_tha:
 			case 3:
 				if( $@thana_summon >= 6 && $@thana_summon_name$ == "" ) {
 					clear;
-					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes .@npc_name$;
 					mes "Thanatos est déjà mort.";
 					mes $@thana_summon_name_$+" l'a tué à "+gettimestr("%H:%M:%S",21,$@thana_summon_time);
 					close;
@@ -1419,7 +1419,7 @@ L_tha:
 							&& getcharid(1, $@thana_summon_name$) == getcharid(1)
 							&& $@thana_summon2 > 0) {
 							clear;
-							mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+							mes .@npc_name$;
 							mes $@thana_summon_name$+" a commencé l'invocation.";
 							close2;
 							warp_fct("thana_boss", 142, 222);
@@ -1427,7 +1427,7 @@ L_tha:
 						}
 						else if( $@thana_summon_name$ != strcharinfo(0) && $@thana_summon2 > 0 ) {
 							clear;
-							mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+							mes .@npc_name$;
 							mes $@thana_summon_name$+" invoque actuellement Thanatos, vous ne pouvez acceder à cet étage.";
 							close;
 						}
@@ -1454,7 +1454,7 @@ L_tha:
 			case 13:
 				if( $@thana_summon >= 6 && $@thana_summon_name$ == "" ) {
 					clear;
-					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+					mes .@npc_name$;
 					mes "Thanatos est déjà mort.";
 					mes $@thana_summon_name_$+" l'a tué à "+gettimestr("%H:%M:%S",21,$@thana_summon_time);
 					close;
@@ -1467,7 +1467,7 @@ L_tha:
 							&& getcharid(1, $@thana_summon_name$) == getcharid(1)
 							&& $@thana_summon2 > 0) {
 							clear;
-							mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+							mes .@npc_name$;
 							mes $@thana_summon_name$+" a commencé l'invocation.";
 							close2;
 							warp_fct("thana_boss", 142, 222);
@@ -1475,7 +1475,7 @@ L_tha:
 						}
 						else if( $@thana_summon_name$ != strcharinfo(0) && $@thana_summon2 > 0 ) {
 							clear;
-							mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+							mes .@npc_name$;
 							mes $@thana_summon_name$+" invoque actuellement Thanatos, vous ne pouvez acceder à cet étage.";
 							close;
 						}
@@ -1508,7 +1508,7 @@ L_ygg: WarpMenu("nyd_dun01,54,70"); goto L_Donjons; end;
 
 L_Rooms:
 	clear;
-	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes .@npc_name$;
 	mes "Sélectionnez la salle de votre choix :";
 	switch( select("• Carnage Room [ ^FF0000"+getmapusers("pvp_n_3-5")+"^000000 joueur(s) ]:• PvP Room [ ^FF0000"+getmapusers("pvp_n_4-1")+"^000000 joueur(s) ]:• Duel Room [ ^FF0000"+getmapusers("pvp_n_2-1")+"^000000 joueur(s) ]:• GvG Room [ ^FF0000"+getmapusers("pvp_n_5-1")+"^000000 joueur(s) ]:• DB Room [ ^FF0000"+getmapusers("pvp_n_1-1")+"^000000 joueur(s) ]:• BB Room [ ^FF0000"+getmapusers("pvp_n_3-1")+"^000000 joueur(s) ]:• Test Room [ ^FF0000"+getmapusers("pvp_n_5-5")+"^000000 joueur(s) ]:• ^e64c00Menu Précédent.^000000") ) {
 		case 1:	// Carnage Room
@@ -1517,7 +1517,7 @@ L_Rooms:
 			break;
 		case 2:	// PvP Room
 			clear;
-			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes .@npc_name$;
 			mes "N'oubliez-pas que dans cette salle, battez vous de façon loyal...";
 			mes "Freekill interdit et punissable.";
 			mes "Fairplay oblige.";
@@ -1534,7 +1534,7 @@ L_Rooms:
 			break;
 		case 4:	// GvG Room
 			clear;
-			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+			mes .@npc_name$;
 			mes "N'oubliez-pas que dans cette salle, battez vous de façon loyal...";
 			mes "Freekill interdit et punissable.";
 			mes "Fairplay oblige.";
@@ -1556,7 +1556,7 @@ L_Rooms:
 Check_Buffs:
 	if( getstatus(SC_CP_WEAPON) || getstatus(SC_CP_ARMOR) || getstatus(SC_CP_SHIELD) || getstatus(SC_CP_HELM) || getstatus(SC_SPIRIT) ) {
 		next;
-		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+		mes .@npc_name$;
 		mes "Vous êtes sur le point d'entrer en pvp avec une protection d'Alchemist et/ou un boost Soul Linker.";
 		mes "Vous allez être dispell de ce buff, êtes vous certain de vouloir rentrer ?";
 		if( select("Non:Oui") == 1 )
@@ -1573,7 +1573,7 @@ Check_Buffs:
 L_Save:
 	clear;
 L_SaveCmd:
-	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes .@npc_name$;
 	atcommand "@save";
 	mes "Ton point de sauvegarde est à présent à l'endroit où tu es placé.";
 	mes "Bon jeu !";
