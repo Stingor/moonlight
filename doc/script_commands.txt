@@ -3845,7 +3845,7 @@ It will return -1 if there is no such monster (or the type value is invalid),
 or "null" if you requested the monster's name.
 
 Valid types are:
-	MOB_NAME          - monster's japanese name
+	MOB_NAME          - monster's english name
 	MOB_LV            - monster's level
 	MOB_MAXHP         - monster's maximum hp
 	MOB_BASEEXP       - monster's base experience
@@ -3873,6 +3873,7 @@ Valid types are:
 	MOB_MODE          - monster's mode
 	MOB_MVPEXP        - monster's mvp experience
 	MOB_ID            - monster's ID
+	MOB_JNAME         - monster's japanese name
 
 For more details, see the sample in 'doc/sample/getmonsterinfo.txt'.
 

@@ -3856,6 +3856,7 @@
 	export_constant(MOB_MVPEXP);
 	export_constant(MOB_ID);
 	export_constant(MOB_CLASS);
+	export_constant(MOB_JNAME);
 
 	// Renamed monsterinfo types - 2025-03-11
 	export_deprecated_constant2("MOB_ATK1",MOB_ATKMIN); 

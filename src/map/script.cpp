@@ -18747,7 +18747,7 @@ BUILDIN_FUNC(getmonsterinfo)
 	}
 
 	switch ( type ) {
-		case MOB_NAME:       script_pushstrcopy(st, mob->jname.c_str()); break;
+		case MOB_NAME:       script_pushstrcopy(st, mob->name.c_str()); break;
 		case MOB_LV:         script_pushint(st, mob->lv); break;
 		case MOB_MAXHP:      script_pushint(st, mob->status.max_hp); break;
 		case MOB_MAXSP:      script_pushint(st, mob->status.max_sp); break;
@@ -18777,6 +18777,7 @@ BUILDIN_FUNC(getmonsterinfo)
 		case MOB_MVPEXP:     script_pushint(st, mob->mexp); break;
 		case MOB_ID:         script_pushint(st, mob->id); break;
 		case MOB_CLASS:      script_pushint(st, mob->status.class_); break;
+		case MOB_JNAME:      script_pushstrcopy(st, mob->jname.c_str()); break;
 		default:
 			ShowError( "buildin_getmonsterinfo: Invalid getmonsterinfo type '%d'.\n", type );
 			st->state = END;
