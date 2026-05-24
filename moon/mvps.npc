@@ -1,20 +1,7 @@
-//===== Moonlight-Destiny ==================================
+//===== Moonlight-Destiny ====================================
 //= Script spawn des MVP.
-//===== Par: =================================================
-//= Yaro / Moonlight-Destiny Dev Team
-//===== Version courrante: ===================================
-//= 2.2
-//===== Description: =========================================
-//= Tous les spawn de pvm sont rassemblés dans ce fichier
-//===== Commentaires: ========================================
-//= 1.0 Creation [Stingor]
-//= 2.0 Mise à jour [Stingor]
-//= 2.1 Alignement des mvp à +/- 10min de spawn aleatoire [Stingor]
-//= 2.2 rAthena update & tweaks [Stingor]
 //============================================================
-
 gonryun,1,1,0	script	classement	-1,{
-
 OnMvpDrakeDead:
 	if( playerattached() )
 		@killdrake = 1;
@@ -23,10 +10,10 @@ OnMvpDead:
 		query_sql("UPDATE `char` SET mvp_count = mvp_count + 1 WHERE `char_id` = '"+getcharid(0,strcharinfo(0))+"'");
 		if( Mission_MVP != #Mission_Count_MVP && Mission_MVP_ID > 1 ) {
 			.@mobid = killedrid;
-			if( .@mobid == 1873 )
-				.@mobid = 1874;
-			if( .@mobid == 1916 )
-				.@mobid = 1917;
+			if( .@mobid == MOB_BEELZEBUB )
+				.@mobid = MOB_BEELZEBUB_;
+			if( .@mobid == MOB_MOROCC )
+				.@mobid = MOB_MOROCC_;
 			// Mission_MVP_ID stocke maintenant le mob_id directement (cf. huntmission.npc L_PickMvpMob)
 			if( .@mobid == Mission_MVP_ID ) {
 				Mission_MVP = 1;
@@ -38,138 +25,97 @@ OnMvpBBDead:
 	end;
 
 OnInit:
-	setarray $mvps[0],  1511,2,		 //Amon Ra
-						1272,2,      //Dark Lord
-						1389,2,      //Dracula
-						1086,2,      //Golden Thief Bug
-						1150,2,      //Moonlight Flower
-						2362,2,      //Nightmare Amon Ra
-						1087,2,      //Orc Hero
-						1038,2,      //Osiris
-						1157,2,      //Pharaoh
-						1251,2,      //Stormy Knight
-						1312,2,      //Turtle General
-						1785,2,      //Atroce
-						1492,3,      //Samurai Specter
-						1418,3,      //Evil Snake Lord
-						1630,4,      //White Lady
-						1039,4,      //Baphomet
-						2483,4,      //Baphomet (Nightmare)
-						2068,4,      //Boitata
-						1046,4,      //Doppelganger
-						1115,4,      //Eddga
-						1658,4,      //Egnigem Cenia
-						1871,4,      //Fallen Bishop
-						20648,4,      //Boss Pitaya
-						1252,4,      //Garm
-						2165,4,      //Gold Queen Scaraba
-						1885,4,      //Gopinich
-						1734,4,      //Kiel D-01
-						2202,4,      //Kraken
-						2156,4,      //Leak
-						1373,4,      //Lord of Death
-						1147,4,      //Maya
-						1059,4,      //Mistress
-						1190,4,      //Orc Lord
-						1159,4,      //Phreeoni
-						2087,4,      //Scaraba Queen
-						3741,4,      //Spider Chariot
-						3074,4,      //Time Holder
-						1685,4,      //Vesper
-						1112,4,      //Drake
-						3633,4,      //Venomous Chimera
-						1623,4,      //RSX-0806
-						1779,4,      //Ktullanux
-						1719,5,      //Detardeurus
-						1768,6,      //Gloom Under Night
-						1583,6,      //Tao Gunka
-						20419,6,     //Rigid Muspellskoll
-						1688,8,      //Lady Tanee
-						2249,8,      //Angry Student Pyuriel
-						2255,8,      //Dark Guardian Kades
-						2253,8,      //General Daehyun
-						2251,8,      //Gioia
-						1751,8,      //Valkyrie Randgris
-						1832,10,     //Ifrit
-						1874,10,     //Beelzebub
-						20928,10,    //The one
-						1917,10;     //Wounded Morroc
+	setarray $mvps[0],  MOB_AMON_RA,2,MOB_DARK_LORD,2,MOB_DRACULA,2,MOB_GOLDEN_BUG,2,
+						MOB_MOONLIGHT,2,MOB_N_AMON_RA,2,MOB_ORK_HERO,2,MOB_OSIRIS,2,
+						MOB_PHARAOH,2,MOB_KNIGHT_OF_WINDSTORM,2,MOB_TURTLE_GENERAL,2,
+						MOB_ATROCE,2,MOB_INCANTATION_SAMURAI,3,MOB_DARK_SNAKE_LORD,3,
+						MOB_BACSOJIN_,4,MOB_BAPHOMET,4,MOB_NG_BAPHOMET,4,MOB_BOITATA,4,
+						MOB_DOPPELGANGER,4,MOB_EDDGA,4,MOB_B_YGNIZEM,4,MOB_FALLINGBISHOP,4,
+						MOB_EP17_2_PITAYA_BOSS,4,MOB_GARM,4,MOB_I_QUEEN_SCARABA,4,
+						MOB_GOPINICH,4,MOB_KIEL_,4,MOB_KRAKEN,4,MOB_LEAK,4,
+						MOB_LORD_OF_DEATH,4,MOB_MAYA,4,MOB_MISTRESS,4,MOB_ORC_LORD,4,
+						MOB_PHREEONI,4,MOB_QUEEN_SCARABA,4,MOB_MECHASPIDER,4,
+						MOB_TIMEHOLDER,4,MOB_APOCALIPS_H,4,MOB_DRAKE,4,MOB_EP16_2_VENOM_KIMERA,4,
+						MOB_RSX_0806,4,MOB_APOCALIPS_H,4,MOB_B_SUPERNOVICE,4,MOB_KTULLANUX,4,
+						MOB_DETALE,5,MOB_GLOOMUNDERNIGHT,6,MOB_TAO_GUNKA,6,MOB_MUSPELLSKOLL_H,6,
+						MOB_LADY_TANEE,8,MOB_PYURIEL,8,MOB_KADES,8,MOB_DAEHYON,8,
+						MOB_GIOIA,8,MOB_RANDGRIS,8,MOB_IFRIT,10,MOB_BEELZEBUB_,10,
+						MOB_CHIMERA_THEONE,10,MOB_MOROCC_,10;
 	end;
 }
 
-
-abbey02	boss_monster	Fallen Bishop	1871,1,7200000,600000,"classement::OnMvpDead"
-abbey03	boss_monster	Beelzebub	1873,1,43200000,600000,"classement::OnMvpDead"
-abyss_03	boss_monster	Detardeurus	1719,1,10800000,600000,"classement::OnMvpDead"
-ama_dun03	boss_monster	Samurai Specter	1492,1,5460000,600000,"classement::OnMvpDead"
-anthell02	boss_monster	Maya	1147,1,7200000,600000,"classement::OnMvpDead"
-ayo_dun02	boss_monster	Lady Tanee	1688,1,25200000,600000,"classement::OnMvpDead"
-beach_dun	boss_monster	Tao Gunka	1583,1,18000000,600000,"classement::OnMvpDead"
-bra_dun02	boss_monster	Boitata	2068,1,7200000,600000,"classement::OnMvpDead"
-c_tower3_	boss_monster	Time Holder	3074,1,7200000,600000,"classement::OnMvpDead"
-dew_dun01	boss_monster	Leak	2156,1,7200000,600000,"classement::OnMvpDead"
-dic_dun02	boss_monster	Scaraba Queen	2087,1,7200000,600000,"classement::OnMvpDead"
-dic_dun03	boss_monster	Gold Queen Scaraba	2165,1,7200000,600000,"classement::OnMvpDead"
-ein_dun02	boss_monster	RSX-0806	1623,1,7500000,600000,"classement::OnMvpDead"
-gef_dun01	boss_monster	Dracula	1389,1,3600000,600000,"classement::OnMvpDead"
-gef_dun02	boss_monster	Doppelganger	1046,1,7200000,600000,"classement::OnMvpDead"
-gef_fild03	boss_monster	Orc Hero	1087,1,3600000,600000,"classement::OnMvpDead"
-gef_fild10	boss_monster	Orc Lord	1190,1,7200000,600000,"classement::OnMvpDead"
-gl_chyard	boss_monster	Dark Lord	1272,1,3600000,600000,"classement::OnMvpDead"
-gld2_ald	boss_monster	Gioia	2251,1,28800000,600000,"classement::OnMvpDead"
-gld2_gef	boss_monster	Dark Guardian Kades	2255,1,28800000,600000,"classement::OnMvpDead"
-gld2_pay	boss_monster	General Daehyun	2253,1,28800000,600000,"classement::OnMvpDead"
-gld2_prt	boss_monster	Angry Student Pyuriel	2249,1,28800000,600000,"classement::OnMvpDead"
-gld_dun01	boss_monster	Moonlight Flower	1150,1,28800000,600000,"classement::OnMvpDead"
-gld_dun01_2	boss_monster	Eddga	1115,1,28800000,600000,"classement::OnMvpDead"
-gld_dun02	boss_monster	Mistress	1059,1,28800000,600000,"classement::OnMvpDead"
-gld_dun02_2	boss_monster	Maya	1147,1,28800000,600000,"classement::OnMvpDead"
-gld_dun03	boss_monster	Baphomet	1039,1,28800000,600000,"classement::OnMvpDead"
-gld_dun03_2	boss_monster	Atroce	1785,1,28800000,600000,"classement::OnMvpDead"
-gld_dun04	boss_monster	Doppelganger	1046,1,28800000,600000,"classement::OnMvpDead"
-gld_dun04_2	boss_monster	Dark Lord	1272,1,28800000,600000,"classement::OnMvpDead"
-gon_dun03	boss_monster	Evil Snake Lord	1418,1,5650000,600000,"classement::OnMvpDead"
-in_sphinx5	boss_monster	Pharaoh	1157,1,3600000,600000,"classement::OnMvpDead"
-iz_dun05	boss_monster	Kraken	2202,1,7200000,600000,"classement::OnMvpDead"
-jupe_core	boss_monster	Vesper	1685,1,7200000,600000,"classement::OnMvpDead"
-kh_dun02	boss_monster	Kiel D-01	1734,1,7200000,600000,"classement::OnMvpDead"
-lhz_dun02	boss_monster	Egnigem Cenia	1658,1,7200000,600000,"classement::OnMvpDead"
-lou_dun03	boss_monster	White Lady	1630,1,7000000,600000,"classement::OnMvpDead"
-mjolnir_04	boss_monster	Mistress	1059,1,7200000,600000,"classement::OnMvpDead"
-moc_fild17	boss_monster	Phreeoni	1159,1,7200000,600000,"classement::OnMvpDead"
-moc_fild22	boss_monster	Wounded Morroc	1917,1,43200000,600000,"classement::OnMvpDead"
-moc_pryd04	boss_monster	Osiris	1038,1,3600000,600000,"classement::OnMvpDead"
-moc_pryd06	boss_monster	Amon Ra	1511,1,3600000,600000,"classement::OnMvpDead"
-moc_prydn2	boss_monster	Nightmare Amon Ra	2362,1,3600000,600000,"classement::OnMvpDead"
-mosk_dun03	boss_monster	Gopinich	1885,1,7200000,600000,"classement::OnMvpDead"
-odin_tem03	boss_monster	Valkyrie Randgris	1751,1,28800000,600000,"classement::OnMvpDead"
-pay_dun04	boss_monster	Moonlight Flower	1150,1,3600000,600000,"classement::OnMvpDead"
-pay_fild10	boss_monster	Eddga	1115,1,7200000,600000,"classement::OnMvpDead"
-prt_maze03	boss_monster	Baphomet	1039,1,7200000,600000,"classement::OnMvpDead"
-prt_sewb4	boss_monster	Golden Thief Bug	1086,1,3600000,600000,"classement::OnMvpDead"
-ra_fild03	boss_monster	Atroce	1785,1,10800000,600000,"classement::OnMvpDead"
-ra_fild04	boss_monster	Atroce	1785,1,18000000,600000,"classement::OnMvpDead"
-ra_san05	boss_monster	Gloom Under Night	1768,1,18000000,600000,"classement::OnMvpDead"
-rockmi1	boss_monster	Spider Chariot	3741,1,7200000,600000,"classement::OnMvpDead"
-teg_dun01	boss_monster	The Last One	2441,1,28800000,600000,"classement::OnMvpDead"
-teg_dun02	boss_monster	King of the Alley	2442,1,7200000,600000,"classement::OnMvpDead"
-thor_v03	boss_monster	Ifrit	1832,1,39600000,600000,"classement::OnMvpDead"
-treasure02	boss_monster	Drake	1112,1,7200000,600000,"classement::OnMvpDrakeDead"
-tur_dun04	boss_monster	Turtle General	1312,1,3600000,600000,"classement::OnMvpDead"
-ve_fild01	boss_monster	Atroce	1785,1,10800000,600000,"classement::OnMvpDead"
-ve_fild02	boss_monster	Atroce	1785,1,21600000,600000,"classement::OnMvpDead"
-xmas_dun02	boss_monster	Stormy Knight	1251,1,3600000,600000,"classement::OnMvpDead"
-xmas_fild01	boss_monster	Garm	1252,1,7200000,600000,"classement::OnMvpDead"
-gef_dun03	boss_monster	Baphomet	1039,1,7200000,600000,"classement::OnMvpDead"
-gef_dun03	boss_monster	Doppelganger	1046,1,7200000,600000,"classement::OnMvpDead"
-gef_dun03	boss_monster	Dark Lord	1272,1,7200000,600000,"classement::OnMvpDead"
-gef_dun03	boss_monster	Lord of Death	1373,1,7200000,600000,"classement::OnMvpDead"
-gl_cas02_	boss_monster	Baphomet (Nightmare)	2483,1,7200000,600000,"classement::OnMvpDead"
-ice_dun03	boss_monster	Ktullanux	1779,1,7200000,600000,"classement::OnMvpDead"
-slabw01	boss_monster	Venomous Chimera	3633,1,3600000,600000,"classement::OnMvpDead"
-mag_dun03	boss_monster	Rigid Muspellskoll	20419,1,3600000,600000,"classement::OnMvpDead"
-amicitia2	boss_monster	The One	20928,1,21600000,600000,"classement::OnMvpDead"
-ba_lost	boss_monster	Boss Pitaya	20648,1,7200000,600000,"classement::OnMvpDead"
+abbey02		boss_monster	Fallen Bishop			FALLINGBISHOP,1,7200000,600000,"classement::OnMvpDead"
+abbey03		boss_monster	Beelzebub				BEELZEBUB_,1,43200000,600000,"classement::OnMvpDead"
+abyss_03	boss_monster	Detardeurus				DETALE,1,10800000,600000,"classement::OnMvpDead"
+ama_dun03	boss_monster	Samurai Specter			INCANTATION_SAMURAI,1,5460000,600000,"classement::OnMvpDead"
+anthell02	boss_monster	Maya					MAYA,1,7200000,600000,"classement::OnMvpDead"
+ayo_dun02	boss_monster	Lady Tanee				LADY_TANEE,1,25200000,600000,"classement::OnMvpDead"
+beach_dun	boss_monster	Tao Gunka				TAO_GUNKA,1,18000000,600000,"classement::OnMvpDead"
+bra_dun02	boss_monster	Boitata					BOITATA,1,7200000,600000,"classement::OnMvpDead"
+c_tower3_	boss_monster	Time Holder				TIMEHOLDER,1,7200000,600000,"classement::OnMvpDead"
+dew_dun01	boss_monster	Leak					LEAK,1,7200000,600000,"classement::OnMvpDead"
+dic_dun02	boss_monster	Scaraba Queen			QUEEN_SCARABA,1,7200000,600000,"classement::OnMvpDead"
+dic_dun03	boss_monster	Gold Queen Scaraba		I_QUEEN_SCARABA,1,7200000,600000,"classement::OnMvpDead"
+ein_dun02	boss_monster	RSX-0806				RSX_0806,1,7500000,600000,"classement::OnMvpDead"
+gef_dun01	boss_monster	Dracula					DRACULA,1,3600000,600000,"classement::OnMvpDead"
+gef_dun02	boss_monster	Doppelganger			DOPPELGANGER,1,7200000,600000,"classement::OnMvpDead"
+gef_fild03	boss_monster	Orc Hero				ORK_HERO,1,3600000,600000,"classement::OnMvpDead"
+gef_fild10	boss_monster	Orc Lord				ORC_LORD,1,7200000,600000,"classement::OnMvpDead"
+gl_chyard	boss_monster	Dark Lord				DARK_LORD,1,3600000,600000,"classement::OnMvpDead"
+gld2_ald	boss_monster	Gioia					GIOIA,1,28800000,600000,"classement::OnMvpDead"
+gld2_gef	boss_monster	Dark Guardian Kades		KADES,1,28800000,600000,"classement::OnMvpDead"
+gld2_pay	boss_monster	General Daehyun			DAEHYON,1,28800000,600000,"classement::OnMvpDead"
+gld2_prt	boss_monster	Angry Student Pyuriel	PYURIEL,1,28800000,600000,"classement::OnMvpDead"
+gld_dun01	boss_monster	Moonlight Flower		MOONLIGHT,1,28800000,600000,"classement::OnMvpDead"
+gld_dun01_2	boss_monster	Eddga					EDDGA,1,28800000,600000,"classement::OnMvpDead"
+gld_dun02	boss_monster	Mistress				MISTRESS,1,28800000,600000,"classement::OnMvpDead"
+gld_dun02_2	boss_monster	Maya					MAYA,1,28800000,600000,"classement::OnMvpDead"
+gld_dun03	boss_monster	Baphomet				BAPHOMET,1,28800000,600000,"classement::OnMvpDead"
+gld_dun03_2	boss_monster	Atroce					ATROCE,1,28800000,600000,"classement::OnMvpDead"
+gld_dun04	boss_monster	Doppelganger			DOPPELGANGER,1,28800000,600000,"classement::OnMvpDead"
+gld_dun04_2	boss_monster	Dark Lord				DARK_LORD,1,28800000,600000,"classement::OnMvpDead"
+gon_dun03	boss_monster	Evil Snake Lord			DARK_SNAKE_LORD,1,5650000,600000,"classement::OnMvpDead"
+in_sphinx5	boss_monster	Pharaoh					PHARAOH,1,3600000,600000,"classement::OnMvpDead"
+iz_dun05	boss_monster	Kraken					KRAKEN,1,7200000,600000,"classement::OnMvpDead"
+jupe_core	boss_monster	Vesper					APOCALIPS_H,1,7200000,600000,"classement::OnMvpDead"
+kh_dun02	boss_monster	Kiel D-01				KIEL_,1,7200000,600000,"classement::OnMvpDead"
+lhz_dun02	boss_monster	Egnigem Cenia			B_YGNIZEM,1,7200000,600000,"classement::OnMvpDead"
+lou_dun03	boss_monster	White Lady				BACSOJIN_,1,7000000,600000,"classement::OnMvpDead"
+mjolnir_04	boss_monster	Mistress				MISTRESS,1,7200000,600000,"classement::OnMvpDead"
+moc_fild17	boss_monster	Phreeoni				PHREEONI,1,7200000,600000,"classement::OnMvpDead"
+moc_fild22	boss_monster	Wounded Morroc			MOROCC_,1,43200000,600000,"classement::OnMvpDead"
+moc_pryd04	boss_monster	Osiris					OSIRIS,1,3600000,600000,"classement::OnMvpDead"
+moc_pryd06	boss_monster	Amon Ra					AMON_RA,1,3600000,600000,"classement::OnMvpDead"
+moc_prydn2	boss_monster	Nightmare Amon Ra		N_AMON_RA,1,3600000,600000,"classement::OnMvpDead"
+mosk_dun03	boss_monster	Gopinich				GOPINICH,1,7200000,600000,"classement::OnMvpDead"
+odin_tem03	boss_monster	Valkyrie Randgris		RANDGRIS,1,28800000,600000,"classement::OnMvpDead"
+pay_dun04	boss_monster	Moonlight Flower		MOONLIGHT,1,3600000,600000,"classement::OnMvpDead"
+pay_fild10	boss_monster	Eddga					EDDGA,1,7200000,600000,"classement::OnMvpDead"
+prt_maze03	boss_monster	Baphomet				BAPHOMET,1,7200000,600000,"classement::OnMvpDead"
+prt_sewb4	boss_monster	Golden Thief Bug		GOLDEN_BUG,1,3600000,600000,"classement::OnMvpDead"
+ra_fild03	boss_monster	Atroce					ATROCE,1,10800000,600000,"classement::OnMvpDead"
+ra_fild04	boss_monster	Atroce					ATROCE,1,18000000,600000,"classement::OnMvpDead"
+ra_san05	boss_monster	Gloom Under Night		GLOOMUNDERNIGHT,1,18000000,600000,"classement::OnMvpDead"
+rockmi1		boss_monster	Spider Chariot			MECHASPIDER,1,7200000,600000,"classement::OnMvpDead"
+teg_dun01	boss_monster	The Last One			CHIMERA_THEONE,1,28800000,600000,"classement::OnMvpDead"
+teg_dun02	boss_monster	King of the Alley		B_SUPERNOVICE,1,7200000,600000,"classement::OnMvpDead"
+thor_v03	boss_monster	Ifrit					IFRIT,1,39600000,600000,"classement::OnMvpDead"
+treasure02	boss_monster	Drake					DRAKE,1,7200000,600000,"classement::OnMvpDrakeDead"
+tur_dun04	boss_monster	Turtle General			TURTLE_GENERAL,1,3600000,600000,"classement::OnMvpDead"
+ve_fild01	boss_monster	Atroce					ATROCE,1,10800000,600000,"classement::OnMvpDead"
+ve_fild02	boss_monster	Atroce					ATROCE,1,21600000,600000,"classement::OnMvpDead"
+xmas_dun02	boss_monster	Stormy Knight			KNIGHT_OF_WINDSTORM,1,3600000,600000,"classement::OnMvpDead"
+xmas_fild01	boss_monster	Garm					GARM,1,7200000,600000,"classement::OnMvpDead"
+gef_dun03	boss_monster	Baphomet				BAPHOMET,1,7200000,600000,"classement::OnMvpDead"
+gef_dun03	boss_monster	Doppelganger			DOPPELGANGER,1,7200000,600000,"classement::OnMvpDead"
+gef_dun03	boss_monster	Dark Lord				DARK_LORD,1,7200000,600000,"classement::OnMvpDead"
+gef_dun03	boss_monster	Lord of Death			LORD_OF_DEATH,1,7200000,600000,"classement::OnMvpDead"
+gl_cas02_	boss_monster	Baphomet (Nightmare)	NG_BAPHOMET,1,7200000,600000,"classement::OnMvpDead"
+ice_dun03	boss_monster	Ktullanux				KTULLANUX,1,7200000,600000,"classement::OnMvpDead"
+slabw01		boss_monster	Venomous Chimera		EP16_2_VENOM_KIMERA,1,3600000,600000,"classement::OnMvpDead"
+mag_dun03	boss_monster	Rigid Muspellskoll		MUSPELLSKOLL_H,1,3600000,600000,"classement::OnMvpDead"
+amicitia2	boss_monster	The One					CHIMERA_THEONE,1,21600000,600000,"classement::OnMvpDead"
+ba_lost		boss_monster	Boss Pitaya				EP17_2_PITAYA_BOSS,1,7200000,600000,"classement::OnMvpDead"
 
 // PAR SCRIPT  1h40 - 2h10
 lhz_dun03,0,0,0	script	mvp_lhz_dun03	-1,{
@@ -178,7 +124,7 @@ OnTimer7200000: // delay1 = 7200000 ms (120 min)
 	sleep rand(1,10)*60000; // 0 to 10 minutes
 OnInit:
 	// Summon a random MVP on
-	.@mob = rand(1646,1651);
+	.@mob = rand(MOB_B_SEYREN,MOB_B_KATRINN);
 	monster "lhz_dun03",0,0,getmonsterinfo(.@mob, MOB_NAME),.@mob,1,strnpcinfo(3)+"::OnMyMVPDead";
 
 	// Summon a random 99 on
@@ -187,6 +133,10 @@ OnInit:
 	end;
 
 OnMyMVPDead:
+	if( killedrid == Mission_MVP_ID ) {
+		Mission_MVP = 1;
+		dispbottom "[Chasse MVP] Vous avez tué le MVP pour votre mission retournez voir Chuck !";
+	}
 	query_sql("UPDATE `char` SET mvp_count = mvp_count + 1 WHERE `char_id` = '"+getcharid(0,strcharinfo(0))+"'");
 	killmonster "lhz_dun03",strnpcinfo(3)+"::OnMy99Dead";
 	initnpctimer;
@@ -200,7 +150,7 @@ OnTimer7200000: // delay1 = 7200000 ms (120 min)
 	sleep rand(1,10)*60000; // 0 to 10 minutes
 OnInit:
 	// Summon a random MVP
-	.@mob = rand(2235,2241);
+	.@mob = rand(MOB_B_RANDEL,MOB_B_TRENTINI);
 	monster "lhz_dun04",0,0,getmonsterinfo(.@mob, MOB_NAME),.@mob,1,strnpcinfo(3)+"::OnMyMVPDead";
 
 	// Summon a random 99
@@ -209,6 +159,10 @@ OnInit:
 	end;
 
 OnMyMVPDead:
+	if( killedrid == Mission_MVP_ID ) {
+		Mission_MVP = 1;
+		dispbottom "[Chasse MVP] Vous avez tué le MVP pour votre mission retournez voir Chuck !";
+	}
 	query_sql("UPDATE `char` SET mvp_count = mvp_count + 1 WHERE `char_id` = '"+getcharid(0,strcharinfo(0))+"'");
 	killmonster "lhz_dun04",strnpcinfo(3)+"::OnMy99Dead";
 	initnpctimer;
@@ -338,7 +292,6 @@ OnInit:
 OnLoDDead:
 	query_sql("UPDATE `char` SET mvp_count = mvp_count + 1 WHERE `char_id` = '"+getcharid(0,strcharinfo(0))+"'");
 	if( Mission_MVP != #Mission_Count_MVP && Mission_MVP_ID > 1) {
-		// Mission_MVP_ID stocke maintenant le mob_id directement
 		if( killedrid == Mission_MVP_ID ) {
 			Mission_MVP = 1;
 			dispbottom "[Chasse MVP] Vous avez tué le MVP pour votre mission retournez voir Chuck !";
