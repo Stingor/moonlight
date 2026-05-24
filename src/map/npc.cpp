@@ -5651,6 +5651,47 @@ static const char* npc_parse_mapflag(char* w1, char* w2, char* w3, char* w4, con
 	return strchr(start,'\n');// continue
 }
 
+void normalize_tabs_in_buffer(char* buffer) {
+	int script_depth = 0;
+	char* r = buffer;
+	char* w = buffer;
+
+	while (*r) {
+
+		// Détection entrée/sortie script
+		if (*r == '{') {
+			script_depth++;
+			*w++ = *r++;
+			continue;
+		}
+		else if (*r == '}') {
+			if (script_depth > 0)
+				script_depth--;
+			*w++ = *r++;
+			continue;
+		}
+
+		if (script_depth == 0) {
+			// On compresse les TAB hors scripts
+			if (*r == '\t') {
+				*w++ = '\t';
+				while (r[1] == '\t')
+					r++;
+			} else {
+				*w++ = *r;
+			}
+		} else {
+			// Dans un script, on copie tel quel
+			*w++ = *r;
+		}
+
+		r++;
+	}
+
+	*w = '\0';
+}
+
+
 /**
  * Read file and create npc/func/mapflag/monster... accordingly.
  * @param filepath : Relative path of file from map-serv bin
@@ -5662,8 +5703,8 @@ int32 npc_parsesrcfile(const char* filepath)
 	if (check_filepath(filepath) != 2) { //this is not a file 
 		ShowDebug("npc_parsesrcfile: Path doesn't seem to be a file skipping it : '%s'.\n", filepath);
 		return 0;
-	} 
-            
+	}
+
 	// read whole file to buffer
 	FILE* fp = fopen(filepath, "rb");
 	if (fp == nullptr) {
@@ -5696,6 +5737,8 @@ int32 npc_parsesrcfile(const char* filepath)
 	}
 
 	int32 lines = 0;
+
+	normalize_tabs_in_buffer(buffer); // [Stingor] we need to do this before parsing, otherwise scripts with tabulations will be broken, and we won't be able to parse the file at all (since we use tabs as separators in the main file)
 
 	// parse buffer
 	for ( const char* p = skip_space(buffer); p && *p ; p = skip_space(p) ) {
