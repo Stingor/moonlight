@@ -1303,6 +1303,30 @@ void ItemDatabase::loadingFinished(){
 		item_db.put( ITEMID_DUMMY, dummy_item );
 	}
 
+	// [Stingor] Register each item's AegisName as a script constant so scripts
+	// can write self-documenting names instead of numeric item IDs, e.g.
+	//     getitem Red_Potion, 1;
+	// instead of
+	//     getitem 501, 1;
+	// Mirrors how mob AegisNames are exposed to scripts (see mob.cpp MobDatabase::loadingFinished).
+	// Collisions with pre-existing constants are skipped with a warning instead of overwriting.
+	for (const auto &tmp_item : *this) {
+		std::shared_ptr<item_data> item = tmp_item.second;
+		if (item->name.empty())
+			continue;
+
+		int64 existing;
+		if (script_get_constant(item->name.c_str(), &existing)) {
+			if (existing != (int64)item->nameid) {
+				ShowWarning("ItemDatabase: item AegisName '%s' (id=%u) collides with existing script constant (value=%" PRId64 "). Skipping registration.\n",
+					item->name.c_str(), item->nameid, existing);
+			}
+			continue;
+		}
+
+		script_set_constant(item->name.c_str(), (int64)item->nameid, false, false);
+	}
+
 	TypesafeCachedYamlDatabase::loadingFinished();
 	hasPriceValue.clear();
 }
