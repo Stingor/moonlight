@@ -29,6 +29,29 @@ static std::vector<SpawnEntry>              g_spawns;
 static std::set<std::string>                g_visited;
 static std::unordered_map<std::string, int> g_aegis_to_id; // AegisName -> numeric mob_id
 
+// Spawns that cannot be detected by static NPC parsing (script-based, random pool).
+// lhz_dun03/04: random MVP from range, spawned by timer script in mvps.npc.
+// niflheim: Lord of Death spawned conditionally by event script in mvps.npc.
+static const SpawnEntry g_hardcoded[] = {
+    // lhz_dun03 — MVP versions (B_SEYREN=1646 .. B_KATRINN=1651), spawned by timer script
+    { "lhz_dun03", 0,0,0,0, 1646, 1, 7200000, 0, true },  // B_SEYREN  (Lord Knight Seyren MVP)
+    { "lhz_dun03", 0,0,0,0, 1647, 1, 7200000, 0, true },  // B_EREMES  (Assassin Cross Eremes MVP)
+    { "lhz_dun03", 0,0,0,0, 1648, 1, 7200000, 0, true },  // B_HARWORD (Whitesmith Howard MVP)
+    { "lhz_dun03", 0,0,0,0, 1649, 1, 7200000, 0, true },  // B_MAGALETA (High Priest Margaretha MVP)
+    { "lhz_dun03", 0,0,0,0, 1650, 1, 7200000, 0, true },  // B_SHECIL  (Sniper Cecil MVP)
+    { "lhz_dun03", 0,0,0,0, 1651, 1, 7200000, 0, true },  // B_KATRINN (High Wizard Kathryne MVP)
+    // lhz_dun04 — MVP versions (B_RANDEL=2235 .. B_TRENTINI=2241), spawned by timer script
+    { "lhz_dun04", 0,0,0,0, 2235, 1, 7200000, 0, true },  // B_RANDEL
+    { "lhz_dun04", 0,0,0,0, 2236, 1, 7200000, 0, true },  // B_FLAMEL
+    { "lhz_dun04", 0,0,0,0, 2237, 1, 7200000, 0, true },  // B_CELIA
+    { "lhz_dun04", 0,0,0,0, 2238, 1, 7200000, 0, true },  // B_CHEN
+    { "lhz_dun04", 0,0,0,0, 2239, 1, 7200000, 0, true },  // B_GERTIE
+    { "lhz_dun04", 0,0,0,0, 2240, 1, 7200000, 0, true },  // B_ALPHOCCIO
+    { "lhz_dun04", 0,0,0,0, 2241, 1, 7200000, 0, true },  // B_TRENTINI
+    // niflheim — Lord of Death, event conditional spawn (6 possible locations)
+    { "niflheim",  0,0,0,0, 1373, 1, 7200000, 0, true },  // Lord of Death
+};
+
 static std::string trim(const std::string& s) {
     auto a = s.find_first_not_of(" \t\r\n");
     if (a == std::string::npos) return {};
@@ -251,13 +274,8 @@ static void write_sql(const fs::path& out_path) {
 // ---------------------------------------------------------------------------
 
 int main(int argc, char* argv[]) {
-    if (argc < 3) {
-        std::cerr << "usage: gen_mob_spawns <repo_root> <output.sql>\n";
-        return 1;
-    }
-
-    fs::path root   = argv[1];
-    fs::path output = argv[2];
+    fs::path root   = (argc >= 2) ? argv[1] : ".";
+    fs::path output = (argc >= 3) ? argv[2] : "tools/mob_spawn.sql";
     fs::path conf   = root / "moon" / "scripts_moon.conf";
 
     if (!fs::exists(conf)) {
@@ -267,9 +285,18 @@ int main(int argc, char* argv[]) {
 
     load_mob_db(root);
     parse_conf(root, conf);
+
+    for (const auto& e : g_hardcoded)
+        g_spawns.push_back(e);
+
     write_sql(output);
 
     std::cout << "Generated " << g_spawns.size()
               << " spawn entries -> " << output << '\n';
+
+    if (argc < 2) {
+        std::cout << "Press Enter to exit...\n";
+        std::cin.get();
+    }
     return 0;
 }
