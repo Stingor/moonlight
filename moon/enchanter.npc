@@ -429,6 +429,7 @@ L_fastoff:
 		}
 L_faston:
 		if (Zeny >= 1000000) {
+			mes "";
 			clear;
 			.@euid$ = getequipuniqueid(EQI_ARMOR);
 			if (.@euid$ == "") {
@@ -504,7 +505,8 @@ L_faston:
 						.@hits++;
 					}
 			} while (!.@hits);
-			.@enchant = .@pool[rand(.@hits)];
+			if (.@hits > 1) .@enchant = .@pool[rand(.@hits)];
+			else .@enchant = .@pool[0];
 			.@result = (alteritem(.@euid$, INVITEMINFO_CARD4, .@enchant));
 			switch(.@result)
 			{
@@ -525,7 +527,7 @@ L_faston:
 					clear;
 					mes .@npc_name$;
 					mes (.@reroll ? "Le reroll de l'enchantement a réussi." : "L'enchantement a réussi.");
-					npctalk "Houuuah!! " + itemlinkuid(.@euid$) + " reçois " + itemlink(.@itembyuid_card4), "", bc_self;
+					npctalk "Houuuah!! " + itemlinkuid(.@euid$) + " reçois " + itemlink(.@enchant), "", bc_self;
 					logmes "Enchantement " + (@fastenchant ? "Fast " : "") + (.@reroll ? "Reroll " : "") + ": " + logequipuid(.@euid$) + " -> [Slot #4] " + getitemname(.@enchant);
 					break;
 			}
