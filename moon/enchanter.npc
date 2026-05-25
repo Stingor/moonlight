@@ -339,7 +339,7 @@ L_menu:
 				clear;
 				mes .@npc_name$;
 				mes "Oh my god! J'ai raté XD!!!!!!!";
-				logmes "Enchantement Fail: " + logequipuid(.@euid$);
+				logmes "Enchantement Arme Fail: " + logequipuid(.@euid$);
 				delitem .@coin[.@coin_select], .@totalcost[.@coin_select];
 				close;
 			}
@@ -352,7 +352,7 @@ L_menu:
 				clear;
 				mes .@npc_name$;
 				mes "Oh non, il y a eu un problème avec l'enchantement... Contactez un GM pour enquêter ça.";
-				logmes "Enchantement Error (" + .@result + "): " + logequipuid(.@euid$) + " -> [Slot #" + .@socket + "] " + .@enchant$;
+				logmes "Enchantement Arme Error (" + .@result + "): " + logequipuid(.@euid$) + " -> [Slot #" + .@socket + "] " + .@enchant$;
 				close;
 			case 1:
 				delitem .@coin[.@coin_select], .@totalcost[.@coin_select];
@@ -403,7 +403,7 @@ L_menu:
 				if (getiteminfo(getd(".@itembyuid_card" + (.@i + 1)), ITEMINFO_SUBTYPE) == CARD_ENCHANT)
 					alteritem(.@euid$, INVITEMINFO_CARD1 + .@i, 0);
 			}
-			logmes "Enchantements Reset: " + logequipuid(.@euid$);
+			logmes "Enchantements Arme Reset: " + logequipuid(.@euid$);
 			next;
 			goto L_menu;
 		case 4:
@@ -516,7 +516,7 @@ L_faston:
 					clear;
 					mes .@npc_name$;
 					mes "Oh non, il y a eu un problème avec l'enchantement... Contactez un GM pour enquêter ça.";
-					logmes "Enchantement " + (@fastenchant ? "Fast " : "") + (.@reroll ? "Reroll " : "") + " Error (" + .@result + "): " + logequipuid(.@euid$) + " -> [Slot #4] " + getitemname(.@enchant);
+					logmes "Enchantement Armor " + (@fastenchant ? "Fast " : "") + (.@reroll ? "Reroll " : "") + " Error (" + .@result + "): " + logequipuid(.@euid$) + " -> [Slot #4] " + getitemname(.@enchant);
 					close;
 					break;
 				case 1:
@@ -528,7 +528,7 @@ L_faston:
 					mes .@npc_name$;
 					mes (.@reroll ? "Le reroll de l'enchantement a réussi." : "L'enchantement a réussi.");
 					npctalk "Houuuah!! " + itemlinkuid(.@euid$) + " reçois " + itemlink(.@enchant), "", bc_self;
-					logmes "Enchantement " + (@fastenchant ? "Fast " : "") + (.@reroll ? "Reroll " : "") + ": " + logequipuid(.@euid$) + " -> [Slot #4] " + getitemname(.@enchant);
+					logmes "Enchantement Armor " + (@fastenchant ? "Fast " : "") + (.@reroll ? "Reroll " : "") + ": " + logequipuid(.@euid$) + " -> [Slot #4] " + getitemname(.@enchant);
 					break;
 			}
 			if (Zeny >= 1000000)

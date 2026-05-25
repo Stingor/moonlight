@@ -6586,21 +6586,8 @@ int32 pc_useitem(map_session_data *sd,int32 n)
 	sd->canuseitem_tick = tick + battle_config.item_use_interval; // 500
 
 	// [Stingor] -->
-	switch (sd->itemid)	{
-		case 601: // Fly Wing
-		case 603: // OBB
-		case 604: // DEADBRANCH
-		case 616: // OCA
-		case 617: // OPB
-		case 644: // GIFT BOX
-		case 664: // GIFT BOX
-		case 665: // GIFT BOX
-		case 666: // GIFT BOX
-		case 667: // GIFT BOX
-			sd->canuseitem_tick = tick + 100;
-			break;
-		default: break;
-	}
+	if (itemdb_group.item_exists(IG_FASTUSE, sd->itemid))
+		sd->canuseitem_tick = tick + 100;
 
 	if (sd->itemid > 0 && itemdb_type(sd->itemid) == IT_HEALING && map_flag_vs(sd->m))
 		sd->canuseitem_tick += battle_config.item_use_interval_pvp; // delay custom pour pvp 

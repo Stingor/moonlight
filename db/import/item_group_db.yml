@@ -30344,3 +30344,73 @@ Body:
             Item: Detale_Card
             Rate: 1
             Announced: true
+  - Group: FASTUSE
+    SubGroups:
+      - SubGroup: 1
+        List:
+          - Index: 0
+            Item: Wing_Of_Fly
+            Rate: 80
+          - Index: 1
+            Item: Old_Blue_Box
+            Rate: 50
+          - Index: 2
+            Item: Branch_Of_Dead_Tree
+            Rate: 50
+          - Index: 3
+            Item: Old_Card_Album
+            Rate: 50
+          - Index: 4
+            Item: Old_Violet_Box
+            Rate: 25
+          - Index: 5
+            Item: Gift_Box
+            Rate: 50
+          - Index: 6
+            Item: Gift_Box_1
+            Rate: 50
+          - Index: 7
+            Item: Gift_Box_2
+            Rate: 50
+          - Index: 8
+            Item: Gift_Box_3
+            Rate: 50
+          - Index: 9
+            Item: Gift_Box_4
+            Rate: 50
+          - Index: 10
+            Item: Bloody_Dead_Branch
+            Rate: 20
+          - Index: 11
+            Item: Old_Coin_Pocket
+            Rate: 20
+          - Index: 12
+            Item: High_Coin_Pocket
+            Rate: 1
+          - Index: 13
+            Item: Mid_Coin_Pocket
+            Rate: 5
+          - Index: 14
+            Item: Low_Coin_Pocket
+            Rate: 10
+          - Index: 15
+            Item: Sgrade_Pocket
+            Rate: 1
+          - Index: 16
+            Item: Agrade_Pocket
+            Rate: 5
+          - Index: 17
+            Item: Bgrade_Pocket
+            Rate: 10
+          - Index: 18
+            Item: Cgrade_Pocket
+            Rate: 15
+          - Index: 19
+            Item: Dgrade_Pocket
+            Rate: 20
+          - Index: 20
+            Item: Egrade_Pocket
+            Rate: 25
+          - Index: 21
+            Item: High_Weapon_Box
+            Rate: 25

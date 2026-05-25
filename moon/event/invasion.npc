@@ -325,7 +325,7 @@ function	script	end_invasion	{
 		if( #maluswininvasion <= 0)
 			#maluswininvasion += 100;
 		else
-			#maluswininvasion += 100 + (#maluswininvasion / 5);	//	100 + 20% du malus restant
+			#maluswininvasion += 100 + (#maluswininvasion / 2);	//	100 + 50% du malus restant
 
 		setarray .@reward[0],20219,  // Costume Angel Marcher Hat
                              20297,  // Costume Cactus Hat
@@ -344,23 +344,6 @@ function	script	end_invasion	{
                              20259,  // Costume Pink Clover
                              31518,  // Costume Pop Popcorn Hat
                              20183;  // Costume There is...Something
-    // 5403,   // fish in mouth
-    // 5474,   // afk board
-    // 5775,   // choco donut
-    // 18678,  // leek in mouth
-    // 18703,  // stem in mouth
-    // 18665,  // orange in mouth
-    // 18528,  // Neko crew
-    // 18683,  // carrot in mouth
-    // 18716,  // strawberry in mouth
-    // 18677,  // cherry twig in mouth
-    // 18536,  // fox tail in mouth
-    // 18746,  // chilly breath
-    // 18679,  // Abacus in mouth
-    // 18697,  // Syringe in mouth
-    // 18698,  // Cheesy snack in mouth
-    // 18712,  // Fan in mouth
-    // 19306;  // Heart Cards in mouth
 		.@winitem = .@reward[rand(getarraysize(.@reward))];
 
 		logmes "Gagne " + getitemname(.@winitem) + " à l'invasion avec " + $@NbrKillMax + " monstres, malus de " + #maluswininvasion;

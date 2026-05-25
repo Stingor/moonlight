@@ -15,6 +15,7 @@
 	export_constant(IG_AUTOLOOTRARE);
 	export_constant(IG_SELLITEM);
 	export_constant(IG_SELLSTUFF);
+	export_constant(IG_FASTUSE);
 	export_constant(IG_MVPCARDENCHANT);
 
 	export_constant2("bAspd2", SP_ASPD2);
