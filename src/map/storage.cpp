@@ -128,14 +128,24 @@ void do_reconnect_storage(void){
 /**
  * Player attempt tp open his storage.
  * @param sd : player
- * @return  0:success, 1:fail
+ * @return  0:opened, 1:fail, 2:was already open and closed (toggle)
  */
 int32 storage_storageopen(map_session_data *sd)
 {
 	nullpo_ret(sd);
 
-	if(sd->state.storage_flag)
-		return 1; //Already open?
+	if (sd->state.storage_flag == 1) {
+		storage_storageclose(sd); // toggle: close instead of refusing
+		return 2;
+	}
+
+	if (sd->state.storage_flag == 3) {
+		storage_premiumStorage_close(sd); // toggle alt storage
+		return 2;
+	}
+
+	if (sd->state.storage_flag) // guild (2)
+		return 1;
 
 	if( !pc_can_give_items(sd) ) { // check is this GM level is allowed to put items to storage
 		clif_displaymessage( sd->fd, msg_txt( sd, 246 ) ); // Your GM level doesn't authorize you to perform this action.

@@ -1130,11 +1130,6 @@ ACMD_FUNC(storagealt)
 		return -1;
 	}
 
-	if (sd->state.storage_flag == 1 || sd->state.storage_flag == 3) {
-		clif_displaymessage(fd, msg_txt(sd,250)); // You have already opened your storage. Close it first.
-		return -1;
-	}
-
 	// Résoudre l'alias vers la commande principale (ex: "cardstorage" -> "storagealt5")
 	const char *resolved = atcommand_alias_db.checkAlias(command + 1);
 	const char *p = resolved;
@@ -1148,8 +1143,17 @@ ACMD_FUNC(storagealt)
 		p++;
 	}
 
+	if (sd->state.storage_flag == 1) {
+		storage_storageclose(sd);
+		return 0;
+	}
+	if (sd->state.storage_flag == 3) {
+		storage_premiumStorage_close(sd);
+		return 0;
+	}
+
 	if (storage_premiumStorage_load(sd, num, STOR_MODE_ALL) == 0) {
-		clif_displaymessage(fd, msg_txt(sd,250)); // You have already opened your storage. Close it first.
+		clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
 		return -1;
 	}
 	char output[128];
@@ -1177,9 +1181,13 @@ ACMD_FUNC(storecard)
 		return -1;
 	}
 
-	if (sd->state.storage_flag == 1 || sd->state.storage_flag == 3) {
-		clif_displaymessage(fd, msg_txt(sd,250)); // You have already opened your storage. Close it first.
-		return -1;
+	if (sd->state.storage_flag == 1) {
+		storage_storageclose(sd);
+		return 0;
+	}
+	if (sd->state.storage_flag == 3) {
+		storage_premiumStorage_close(sd);
+		return 0;
 	}
 
 	if (storage_premiumStorage_load(sd, 5, STOR_MODE_PUT) == 0) {

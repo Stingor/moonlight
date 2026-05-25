@@ -1039,18 +1039,16 @@ ACMD_FUNC(storage)
 		return -1;
 	}
 
-	if (sd->state.storage_flag == 1 || sd->state.storage_flag == 3) {
-		clif_displaymessage(fd, msg_txt(sd,250)); // You have already opened your storage. Close it first.
-		return -1;
+	switch (storage_storageopen(sd)) {
+		case 0:
+			clif_displaymessage(fd, msg_txt(sd,919)); // Storage opened.
+			break;
+		case 2:
+			break; // was open, now closed — client already received close packet
+		default:
+			clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
+			return -1;
 	}
-
-	if (storage_storageopen(sd))
-	{
-		clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
-		return -1;
-	}
-
-	clif_displaymessage(fd, msg_txt(sd,919)); // Storage opened.
 
 	return 0;
 }
