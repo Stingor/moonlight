@@ -3676,7 +3676,7 @@ int32 mob_dead(mob_data *md, block_list *src, int32 type)
 
 	// Display kill separator if enabled
 	if( sd && sd->state.kill_separate ) {
-		clif_displaymessage(sd->fd, msg_txt(sd, 1864)); // ---------------------------------------------
+		clif_messagecolor(sd, color_table[COLOR_LIGHT_GREEN], msg_txt(sd, 1864), false, SELF); // ---------------------------------------------
 	}
 
 	// MvP tomb [GreenBox]
