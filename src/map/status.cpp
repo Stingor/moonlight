@@ -10184,28 +10184,34 @@ bool status_change_start(block_list* src, block_list* bl, sc_type type, int32 ra
 		if (src != nullptr && bl != nullptr) {
 			map_session_data *sd = BL_CAST(BL_PC, bl);
 			if (sd)
-				ShowError("status_change_start: Invalid status change (%d)! src(id=%d,type=0x%X) -> target(id=%d,char_id=%d,name=%s,map=%d,x=%d,y=%d)\n",
+				ShowError("status_change_start: Invalid status change (%d)! src(id=%d,type=0x%X) -> target(id=%d,char_id=%d,name=%s,map=%d,x=%d,y=%d) rate=%d val=[%d,%d,%d,%d] dur=%lld flag=%u delay=%d\n",
 					type,
 					src->id, src->type,
-					bl->id, sd->status.char_id, sd->status.name, bl->m, bl->x, bl->y);
+					bl->id, sd->status.char_id, sd->status.name, bl->m, bl->x, bl->y,
+					rate, val1, val2, val3, val4, (long long)duration, flag, delay);
 			else
-				ShowError("status_change_start: Invalid status change (%d)! src(id=%d,type=0x%X) -> target(id=%d,type=0x%X,map=%d,x=%d,y=%d)\n",
+				ShowError("status_change_start: Invalid status change (%d)! src(id=%d,type=0x%X) -> target(id=%d,type=0x%X,map=%d,x=%d,y=%d) rate=%d val=[%d,%d,%d,%d] dur=%lld flag=%u delay=%d\n",
 					type,
 					src->id, src->type,
-					bl->id, bl->type, bl->m, bl->x, bl->y);
+					bl->id, bl->type, bl->m, bl->x, bl->y,
+					rate, val1, val2, val3, val4, (long long)duration, flag, delay);
 		}
 		else if (src != nullptr) {
-			ShowError("status_change_start: Invalid status change (%d)! src(id=%d,type=0x%X) -> target(NULL)\n",
+			ShowError("status_change_start: Invalid status change (%d)! src(id=%d,type=0x%X) -> target(NULL) rate=%d val=[%d,%d,%d,%d] dur=%lld flag=%u delay=%d\n",
 				type,
-				src->id, src->type);
+				src->id, src->type,
+				rate, val1, val2, val3, val4, (long long)duration, flag, delay);
 		}
 		else if (bl != nullptr) {
-			ShowError("status_change_start: Invalid status change (%d)! src(NULL) -> target(id=%d,type=0x%X,map=%d,x=%d,y=%d)\n",
+			ShowError("status_change_start: Invalid status change (%d)! src(NULL) -> target(id=%d,type=0x%X,map=%d,x=%d,y=%d) rate=%d val=[%d,%d,%d,%d] dur=%lld flag=%u delay=%d\n",
 				type,
-				bl->id, bl->type, bl->m, bl->x, bl->y);
+				bl->id, bl->type, bl->m, bl->x, bl->y,
+				rate, val1, val2, val3, val4, (long long)duration, flag, delay);
 		}
 		else {
-			ShowError("status_change_start: Invalid status change (%d)! src=NULL target=NULL\n", type);
+			ShowError("status_change_start: Invalid status change (%d)! src=NULL target=NULL rate=%d val=[%d,%d,%d,%d] dur=%lld flag=%u delay=%d\n",
+				type,
+				rate, val1, val2, val3, val4, (long long)duration, flag, delay);
 		}
 
 		// Keep original behavior
