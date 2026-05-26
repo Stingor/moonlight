@@ -1,3 +1,4 @@
+//===== Moonlight-Destiny ====================================
 -	script	#vote	-1,{
 OnInit:
 	bindatcmd("vote", strnpcinfo(3)+"::OnCommand");
@@ -822,8 +823,8 @@ OnAutoLoad:
 	function ClearVars;
 
 OnAtcommand:
-	accountid = getcharid(3);
-	charid = getcharid(0);
+	.@accountid = getcharid(3);
+	.@charid = getcharid(0);
 	.@itemid = .@atcmd_parameters$[0];
 	if( .@atcmd_command$ == "@deepsearchid" )
 		.@deep = 1;
@@ -844,21 +845,21 @@ OnAtcommand:
 	else
 	{ //Si tout est ok on query
 		dispbottom "[ Recherche de "+.@itemname$+" ("+.@itemid+") ]",0xF0FF0F;
+		.@iscard = (getiteminfo(.@itemid, ITEMINFO_TYPE) == IT_CARD);
+		freeloop(1);
 		// Dans l'inventaire - sd->inventory
-		showscript "Recherche dans l'inventaire", accountid, SELF;
+		showscript "Recherche dans l'inventaire", .@accountid, SELF;
 		progressbar "FFFFFF",1;
 		.@nbi = countitem(.@itemid);
 		if( .@nbi > 0 )
 			dispbottom "[ "+.@nbi+" dans votre inventaire ! ]",0xF0FF0F;
-		if( .@deep && getiteminfo( .@itemid, ITEMINFO_TYPE ) == IT_CARD )
+		if( .@deep && .@iscard )
 		{
 			ClearVars();
 			getinventorylist();
 			if( @inventorylist_count > 0 ) {
-				showscript "Recherche dans les slots d'items de l'inventaire", accountid, SELF;
+				showscript "Recherche dans les slots d'items de l'inventaire", .@accountid, SELF;
 				progressbar "FFFFFF",1;
-				.@it = 0;
-				
 				for( .@i = 0; .@i < @inventorylist_count; ++.@i )
 				{
 					.@nb = 0;
@@ -867,23 +868,20 @@ OnAtcommand:
 					if( @inventorylist_card1[.@i] == .@itemid) .@nb++;
 					if( @inventorylist_card2[.@i] == .@itemid) .@nb++;
 					if( @inventorylist_card3[.@i] == .@itemid) .@nb++;
-					if( @inventorylist_card0[.@i] == .@itemid ||
-						@inventorylist_card1[.@i] == .@itemid ||
-						@inventorylist_card2[.@i] == .@itemid ||
-						@inventorylist_card3[.@i] == .@itemid)
+					if (.@nb > 0)
 					{
-						.@flaggeditemid[.@it] = @inventorylist_id[.@i]; // Cet item contient 1 ou plus de la card / gem recherchée.
-						.@flaggeditemeq[.@it] = @inventorylist_equip[.@i]; // Cet item est peut-être équipé
-						.@flaggeditemnb[.@it] = .@nb; // nb de card contenu
-						.@flaggeditemrefine[.@it] = @inventorylist_refine[.@i]; // niveau de refine
-						.@it++;
+						arraypush .@flaggeditemid, @inventorylist_id[.@i];
+						arraypush .@flaggeditemeq, @inventorylist_equip[.@i];
+						arraypush .@flaggeditemnb, .@nb;
+						arraypush .@flaggeditemrefine, @inventorylist_refine[.@i];
 						.@nbi += .@nb;
 					}
 				}
-				if( getarraysize(.@flaggeditemid) > 0 )
+				.@it = getarraysize(.@flaggeditemid);
+				if (.@it > 0)
 				{
 					dispbottom "[ Contenu dans du stuff de l'inventaire ]",0xF0FF0F;
-					for (.@i = 0; .@i < getarraysize(.@flaggeditemid); ++.@i) {
+					for (.@i = 0; .@i < .@it; ++.@i) {
 						dispbottom "| "+(.@flaggeditemrefine[.@i]>0?"+"+.@flaggeditemrefine[.@i]+" ":"")+""+getitemname(.@flaggeditemid[.@i])+""+(.@flaggeditemeq[.@i]?" qui est équipé":"")+" en contient "+.@flaggeditemnb[.@i]+" !";
 						sleep2 100;
 					}
@@ -892,41 +890,39 @@ OnAtcommand:
 		}
 
 		// Dans le storage - sd->storage.stor_id == 0
-		.@nb1 = SearchStorage(.@itemid, accountid, 0, .@deep);
+		.@nb1 = SearchStorage(.@itemid, .@accountid, 0, .@deep, .@iscard);
 
 		// Dans le storage1 - sd->premiumStorage.stor_id == 1
-		.@nb2 = SearchStorage(.@itemid, accountid, 1, .@deep);
+		.@nb2 = SearchStorage(.@itemid, .@accountid, 1, .@deep, .@iscard);
 
 		// Dans le storage2 - sd->premiumStorage.stor_id == 2
-		.@nb3 = SearchStorage(.@itemid, accountid, 2, .@deep);
+		.@nb3 = SearchStorage(.@itemid, .@accountid, 2, .@deep, .@iscard);
 
 		// Dans le storage3 - sd->premiumStorage.stor_id == 3
-		.@nb4 = SearchStorage(.@itemid, accountid, 3, .@deep);
+		.@nb4 = SearchStorage(.@itemid, .@accountid, 3, .@deep, .@iscard);
 
 		// Dans le storage4 - sd->premiumStorage.stor_id == 4
-		.@nb5 = SearchStorage(.@itemid, accountid, 4, .@deep);
+		.@nb5 = SearchStorage(.@itemid, .@accountid, 4, .@deep, .@iscard);
 
 		// Dans le storage5 - sd->premiumStorage.stor_id == 5
-		.@nb6 = SearchStorage(.@itemid, accountid, 5, .@deep);
+		.@nb6 = SearchStorage(.@itemid, .@accountid, 5, .@deep, .@iscard);
 
 		// Dans la charette - sd->cart
 		if( checkcart() )
 		{
-			showscript "Recherche dans le cart", accountid, SELF;
+			showscript "Recherche dans le cart", .@accountid, SELF;
 			progressbar "FFFFFF",1;
 			.@nbc = cartcountitem(.@itemid);
 			if( .@nbc > 0 )
 				dispbottom "[ "+.@nbc+" dans votre charette !",0xF0FF0F;
-			if( .@deep && getiteminfo( .@itemid, ITEMINFO_TYPE ) == IT_CARD )
+			if( .@deep && .@iscard )
 			{
 				ClearVars();
 				getcartlist();
 				if( @cartlist_count > 0 )
 				{
-					showscript "Recherche dans les slots d'items du cart", accountid, SELF;
+					showscript "Recherche dans les slots d'items du cart", .@accountid, SELF;
 					progressbar "FFFFFF",1;
-					.@it = 0;
-					
 					for (.@i = 0; .@i < @cartlist_count; ++.@i)
 					{
 						.@nb = 0;
@@ -935,22 +931,19 @@ OnAtcommand:
 						if( @cartlist_card1[.@i] == .@itemid) .@nb++;
 						if( @cartlist_card2[.@i] == .@itemid) .@nb++;
 						if( @cartlist_card3[.@i] == .@itemid) .@nb++;
-						if( @cartlist_card0[.@i] == .@itemid ||
-							@cartlist_card1[.@i] == .@itemid ||
-							@cartlist_card2[.@i] == .@itemid ||
-							@cartlist_card3[.@i] == .@itemid)
+						if (.@nb > 0)
 						{
-							.@flaggeditemid[.@it] = @cartlist_id[.@i]; // Cet item contient 1 ou plus de la card / gem recherchée.
-							.@flaggeditemnb[.@it] = .@nb; // nb de card contenu
-							.@flaggeditemrefine[.@it] = @cartlist_refine[.@i]; // niveau de refine
-							.@it++;
+							arraypush .@flaggeditemid, @cartlist_id[.@i];
+							arraypush .@flaggeditemnb, .@nb;
+							arraypush .@flaggeditemrefine, @cartlist_refine[.@i];
 							.@nbc += .@nb;
 						}
 					}
-					if( getarraysize(.@flaggeditemid) > 0 )
+					.@it = getarraysize(.@flaggeditemid);
+					if (.@it > 0)
 					{
 						dispbottom "[ Contenu dans du stuff du cart ]",0xF0FF0F;
-						for (.@i = 0; .@i < getarraysize(.@flaggeditemid); ++.@i)
+						for (.@i = 0; .@i < .@it; ++.@i)
 						{
 							dispbottom "| "+(.@flaggeditemrefine[.@i]>0?"+"+.@flaggeditemrefine[.@i]+" ":"")+""+getitemname(.@flaggeditemid[.@i])+" en contient "+.@flaggeditemnb[.@i]+" !";
 							sleep2 100;
@@ -963,21 +956,19 @@ OnAtcommand:
 		// Dans le guild storage - sd->guild
 		if( getcharid(2) )
 		{
-			showscript "Recherche dans le guild storage", accountid, SELF;
+			showscript "Recherche dans le guild storage", .@accountid, SELF;
 			progressbar "FFFFFF",1;
 			.@nbg = guildstoragecountitem(.@itemid);
 			if( .@nbg > 0 )
 				dispbottom "[ "+.@nbg+" dans votre guild storage !",0xF0FF0F;
-			if( .@deep && getiteminfo( .@itemid, ITEMINFO_TYPE ) == IT_CARD )
+			if( .@deep && .@iscard )
 			{
 				ClearVars();
 				getguildstoragelist();
 				if( @guildstoragelist_count > 0 )
 				{
-					showscript "Recherche dans les slots d'items du guild storage", accountid, SELF;
+					showscript "Recherche dans les slots d'items du guild storage", .@accountid, SELF;
 					progressbar "FFFFFF",1;
-					.@it = 0;
-					
 					for (.@i = 0; .@i < @guildstoragelist_count; ++.@i)
 					{
 						.@nb = 0;
@@ -986,22 +977,19 @@ OnAtcommand:
 						if( @guildstoragelist_card1[.@i] == .@itemid) .@nb++;
 						if( @guildstoragelist_card2[.@i] == .@itemid) .@nb++;
 						if( @guildstoragelist_card3[.@i] == .@itemid) .@nb++;
-						if( @guildstoragelist_card0[.@i] == .@itemid ||
-							@guildstoragelist_card1[.@i] == .@itemid ||
-							@guildstoragelist_card2[.@i] == .@itemid ||
-							@guildstoragelist_card3[.@i] == .@itemid)
+						if (.@nb > 0)
 						{
-							.@flaggeditemid[.@it] = @guildstoragelist_id[.@i]; // Cet item contient 1 ou plus de la card / gem recherchée.
-							.@flaggeditemnb[.@it] = .@nb; // nb de card contenu
-							.@flaggeditemrefine[.@it] = @guildstoragelist_refine[.@i]; // niveau de refine
-							.@it++;
+							arraypush .@flaggeditemid, @guildstoragelist_id[.@i];
+							arraypush .@flaggeditemnb, .@nb;
+							arraypush .@flaggeditemrefine, @guildstoragelist_refine[.@i];
 							.@nbg += .@nb;
 						}
 					}
-					if( getarraysize(.@flaggeditemid) > 0 )
+					.@it = getarraysize(.@flaggeditemid);
+					if (.@it > 0)
 					{
 						dispbottom "[ Contenu dans du stuff du guild storage ]",0xF0FF0F;
-						for (.@i = 0; .@i < getarraysize(.@flaggeditemid); ++.@i)
+						for (.@i = 0; .@i < .@it; ++.@i)
 						{
 							dispbottom "| "+(.@flaggeditemrefine[.@i]>0?"+"+.@flaggeditemrefine[.@i]+" ":"")+""+getitemname(.@flaggeditemid[.@i])+" en contient "+.@flaggeditemnb[.@i]+" !";
 							sleep2 100;
@@ -1019,13 +1007,13 @@ OnAtcommand:
 			/* RECHERCHE SUR LES AUTRES PERSONNAGES */
 
 			//Recupération de la liste des personnages du joueur sauf celui en ligne
-			query_sql("SELECT `char_id`, `name`, `class`, `base_level` FROM `char` WHERE `char_id` <> "+charid+" AND account_id = "+accountid, .@charidList, .@charnameList$, .@charclassList, .@charlvlList);
+			query_sql("SELECT `char_id`, `name`, `class`, `base_level` FROM `char` WHERE `char_id` <> "+.@charid+" AND account_id = "+.@accountid, .@charidList, .@charnameList$, .@charclassList, .@charlvlList);
 			if( getarraysize(.@charidList) > 0 )
 			{
 				dispbottom "[ Recherche dans le reste du compte ]",0xF0FF0F;
 				if( getarraysize(.@charidList) > 1 )
 				{
-					showscript "Recherche sur les "+getarraysize(.@charidList)+" autres personnages de votre compte", accountid, SELF;
+					showscript "Recherche sur les "+getarraysize(.@charidList)+" autres personnages de votre compte", .@accountid, SELF;
 					progressbar "FFFFFF",1;
 				}
 				//Parcours de la liste des personnages à la recherche de l'item
@@ -1033,7 +1021,7 @@ OnAtcommand:
 				{
 					ClearVars();
 					.@nb = 0;
-					showscript "Recherche sur votre "+jobname(.@charclassList[.@p])+" - "+.@charnameList$[.@p]+" (Lv:"+.@charlvlList[.@p]+")", accountid, SELF;
+					showscript "Recherche sur votre "+jobname(.@charclassList[.@p])+" - "+.@charnameList$[.@p]+" (Lv:"+.@charlvlList[.@p]+")", .@accountid, SELF;
 					progressbar "FFFFFF",1;
 					query_sql("SELECT SUM(`amount`) FROM `inventory` WHERE `char_id` = "+.@charidList[.@p]+" AND `nameid` = "+.@itemid, .@nb);
 
@@ -1043,17 +1031,15 @@ OnAtcommand:
 						dispbottom "| "+.@charnameList$[.@p]+" - "+jobname(.@charclassList[.@p])+" (Lv:"+.@charlvlList[.@p]+") en a "+.@nb+" dans son inventaire.";
 						.@total += .@nb;
 					}
-					if( getiteminfo( .@itemid, ITEMINFO_TYPE ) == IT_CARD )
+					if( .@iscard )
 					{
 						query_sql("SELECT `nameid`, `equip`, `refine`, `card0`, `card1`, `card2`, `card3` FROM `inventory` WHERE `char_id` = "+.@charidList[.@p]+" AND (`card0` = "+.@itemid+" OR `card1` = "+.@itemid+" OR `card2` = "+.@itemid+" OR `card3` = "+.@itemid+")",
 							@inventorylist_id, @inventorylist_equip, @inventorylist_refine, @inventorylist_card0, @inventorylist_card1, @inventorylist_card2, @inventorylist_card3);
 							@inventorylist_count = getarraysize(@inventorylist_id);
 
 						if( @inventorylist_count > 0 ) {
-							showscript "Recherche dans les slots d'items de l'inventaire", accountid, SELF;
+							showscript "Recherche dans les slots d'items de l'inventaire", .@accountid, SELF;
 							progressbar "FFFFFF",1;
-							.@it = 0;
-							
 							for (.@i = 0; .@i < @inventorylist_count; ++.@i)
 							{
 								.@nb = 0;
@@ -1062,23 +1048,20 @@ OnAtcommand:
 								if( @inventorylist_card1[.@i] == .@itemid) .@nb++;
 								if( @inventorylist_card2[.@i] == .@itemid) .@nb++;
 								if( @inventorylist_card3[.@i] == .@itemid) .@nb++;
-								if( @inventorylist_card0[.@i] == .@itemid ||
-									@inventorylist_card1[.@i] == .@itemid ||
-									@inventorylist_card2[.@i] == .@itemid ||
-									@inventorylist_card3[.@i] == .@itemid)
+								if (.@nb > 0)
 								{
-									.@flaggeditemid[.@it] = @inventorylist_id[.@i]; // Cet item contient 1 ou plus de la card / gem recherchée.
-									.@flaggeditemeq[.@it] = @inventorylist_equip[.@i]; // Cet item est peut-être équipé
-									.@flaggeditemnb[.@it] = .@nb; // nb de card contenu
-									.@flaggeditemrefine[.@it] = @inventorylist_refine[.@i]; // niveau de refine
-									.@it++;
+									arraypush .@flaggeditemid, @inventorylist_id[.@i];
+									arraypush .@flaggeditemeq, @inventorylist_equip[.@i];
+									arraypush .@flaggeditemnb, .@nb;
+									arraypush .@flaggeditemrefine, @inventorylist_refine[.@i];
 									.@total += .@nb;
 								}
 							}
-							if ( getarraysize(.@flaggeditemid) > 0 )
+							.@it = getarraysize(.@flaggeditemid);
+							if (.@it > 0)
 							{
 								dispbottom "[ Contenu dans du stuff de l'inventaire de "+.@charnameList$[.@p]+"]",0xF0FF0F;
-								for (.@i = 0; .@i < getarraysize(.@flaggeditemid); ++.@i) {
+								for (.@i = 0; .@i < .@it; ++.@i) {
 									dispbottom "| "+(.@flaggeditemrefine[.@i]>0?"+"+.@flaggeditemrefine[.@i]+" ":"")+""+getitemname(.@flaggeditemid[.@i])+""+(.@flaggeditemeq[.@i]?" qui est équipé":"")+" en contient "+.@flaggeditemnb[.@i]+" !";
 									sleep2 100;
 								}
@@ -1095,17 +1078,15 @@ OnAtcommand:
 						dispbottom "| "+.@charnameList$[.@p]+" - "+jobname(.@charclassList[.@p])+" (Lv:"+.@charlvlList[.@p]+") en a "+.@nb+" dans sa charette.";
 						.@total += .@nb;
 					}
-					if( getiteminfo( .@itemid, ITEMINFO_TYPE ) == IT_CARD )
+					if( .@iscard )
 					{
 						query_sql("SELECT `nameid`, `equip`, `refine`, `card0`, `card1`, `card2`, `card3` FROM `cart_inventory` WHERE `char_id` = "+.@charidList[.@p]+" AND (`card0` = "+.@itemid+" OR `card1` = "+.@itemid+" OR `card2` = "+.@itemid+" OR `card3` = "+.@itemid+")",
 							@cartlist_id, @cartlist_equip, @cartlist_refine, @cartlist_card0, @cartlist_card1, @cartlist_card2, @cartlist_card3);
 							@cartlist_count = getarraysize(@cartlist_id);
 
 						if( @cartlist_count > 0 ) {
-							showscript "Recherche dans les slots d'items du cart de "+.@charnameList$[.@p], accountid, SELF;
+							showscript "Recherche dans les slots d'items du cart de "+.@charnameList$[.@p], .@accountid, SELF;
 							progressbar "FFFFFF",1;
-							.@it = 0;
-							
 							for (.@i = 0; .@i < @cartlist_count; ++.@i)
 							{
 								.@nb = 0;
@@ -1114,23 +1095,20 @@ OnAtcommand:
 								if( @cartlist_card1[.@i] == .@itemid) .@nb++;
 								if( @cartlist_card2[.@i] == .@itemid) .@nb++;
 								if( @cartlist_card3[.@i] == .@itemid) .@nb++;
-								if( @cartlist_card0[.@i] == .@itemid ||
-									@cartlist_card1[.@i] == .@itemid ||
-									@cartlist_card2[.@i] == .@itemid ||
-									@cartlist_card3[.@i] == .@itemid)
+								if (.@nb > 0)
 								{
-									.@flaggeditemid[.@it] = @cartlist_id[.@i]; // Cet item contient 1 ou plus de la card / gem recherchée.
-									.@flaggeditemeq[.@it] = @cartlist_equip[.@i]; // Cet item est peut-être équipé
-									.@flaggeditemnb[.@it] = .@nb; // nb de card contenu
-									.@flaggeditemrefine[.@it] = @cartlist_refine[.@i]; // niveau de refine
-									.@it++;
+									arraypush .@flaggeditemid, @cartlist_id[.@i];
+									arraypush .@flaggeditemeq, @cartlist_equip[.@i];
+									arraypush .@flaggeditemnb, .@nb;
+									arraypush .@flaggeditemrefine, @cartlist_refine[.@i];
 									.@total += .@nb;
 								}
 							}
-							if ( getarraysize(.@flaggeditemid) > 0 )
+							.@it = getarraysize(.@flaggeditemid);
+							if (.@it > 0)
 							{
 								dispbottom "[ Contenu dans du stuff du cart de "+.@charnameList$[.@p]+"]",0xF0FF0F;
-								for (.@i = 0; .@i < getarraysize(.@flaggeditemid); ++.@i) {
+								for (.@i = 0; .@i < .@it; ++.@i) {
 									dispbottom "| "+(.@flaggeditemrefine[.@i]>0?"+"+.@flaggeditemrefine[.@i]+" ":"")+""+getitemname(.@flaggeditemid[.@i])+" en contient "+.@flaggeditemnb[.@i]+" !";
 									sleep2 100;
 								}
@@ -1147,6 +1125,7 @@ OnAtcommand:
 		else
 			dispbottom "Vous n'avez pas "+.@itemname$+" !",0xF0FF0F;
 		ClearVars();
+		freeloop(0);
 		end;
 	}
 
@@ -1155,6 +1134,7 @@ function SearchStorage {
 	.@aid = getarg(1);
 	.@stor_id = getarg(2,0);
 	.@deep = getarg(3);
+	.@iscard = getarg(4, 0);
 	ClearVars();
 	if( .@stor_id > 0 )
 		loadstorage .@stor_id;	// bien faire un sleep2 ou progressbar pour attendre le load du storage
@@ -1163,14 +1143,12 @@ function SearchStorage {
 	.@nbr = storagecountitem(.@id, .@aid, .@stor_id);
 	if (.@nbr > 0)
 		dispbottom "[ "+.@nbr+" dans le Storage"+(.@stor_id>0?.@stor_id:"")+" ]",0xF0FF0F;
-	if (.@deep && getiteminfo( .@id, ITEMINFO_TYPE ) == IT_CARD)
+	if (.@deep && .@iscard)
 	{
 		getstoragelist(.@stor_id);
 		if( @storagelist_count > 0 ) {
 			showscript "Recherche dans les slots d'items du storage"+(.@stor_id>0?.@stor_id:""), .@aid, SELF;
 			progressbar "FFFFFF",1;
-			.@it = 0;
-			
 			for (.@i = 0; .@i < @storagelist_count; ++.@i)
 			{
 				.@nb = 0;
@@ -1179,22 +1157,19 @@ function SearchStorage {
 				if( @storagelist_card1[.@i] == .@id) .@nb++;
 				if( @storagelist_card2[.@i] == .@id) .@nb++;
 				if( @storagelist_card3[.@i] == .@id) .@nb++;
-				if( @storagelist_card0[.@i] == .@id ||
-					@storagelist_card1[.@i] == .@id ||
-					@storagelist_card2[.@i] == .@id ||
-					@storagelist_card3[.@i] == .@id)
+				if (.@nb > 0)
 				{
-					.@flaggeditemid[.@it] = @storagelist_id[.@i]; // Cet item contient 1 ou plus de la card / gem recherchée.
-					.@flaggeditemnb[.@it] = .@nb; // nb de card contenu
-					.@flaggeditemrefine[.@it] = @storagelist_refine[.@i]; // niveau de refine
-					.@it++;
+					arraypush .@flaggeditemid, @storagelist_id[.@i];
+					arraypush .@flaggeditemnb, .@nb;
+					arraypush .@flaggeditemrefine, @storagelist_refine[.@i];
 					.@nbr += .@nb;
 				}
 			}
-			if ( getarraysize(.@flaggeditemid) > 0 )
+			.@it = getarraysize(.@flaggeditemid);
+			if (.@it > 0)
 			{
 				dispbottom "[ Contenu dans du stuff de storage"+(.@stor_id>0?.@stor_id:"")+" ]",0xF0FF0F;
-				for (.@i = 0; .@i < getarraysize(.@flaggeditemid); ++.@i)
+				for (.@i = 0; .@i < .@it; ++.@i)
 				{
 					dispbottom "| "+(.@flaggeditemrefine[.@i]>0?"+"+.@flaggeditemrefine[.@i]+" ":"")+""+getitemname(.@flaggeditemid[.@i])+" en contient "+.@flaggeditemnb[.@i]+" !";
 					sleep2 100;
