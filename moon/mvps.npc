@@ -97,7 +97,7 @@ ra_fild03	boss_monster	Atroce					ATROCE,1,10800000,600000,"classement::OnMvpDea
 ra_fild04	boss_monster	Atroce					ATROCE,1,18000000,600000,"classement::OnMvpDead"
 ra_san05	boss_monster	Gloom Under Night		GLOOMUNDERNIGHT,1,18000000,600000,"classement::OnMvpDead"
 rockmi1		boss_monster	Spider Chariot			MECHASPIDER,1,7200000,600000,"classement::OnMvpDead"
-teg_dun01	boss_monster	The Last One			CHIMERA_THEONE,1,28800000,600000,"classement::OnMvpDead"
+teg_dun01	boss_monster	The Last One			B_NOVICE,1,28800000,600000,"classement::OnMvpDead"
 teg_dun02	boss_monster	King of the Alley		B_SUPERNOVICE,1,7200000,600000,"classement::OnMvpDead"
 thor_v03	boss_monster	Ifrit					IFRIT,1,39600000,600000,"classement::OnMvpDead"
 treasure02	boss_monster	Drake					DRAKE,1,7200000,600000,"classement::OnMvpDrakeDead"
