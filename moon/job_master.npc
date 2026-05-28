@@ -907,11 +907,6 @@ L_LoadBuild:
 	.@sel = select(.@menu$) - 1;
 	if( .@sel < 0 || .@sel >= .maxbuilds ) return;
 	if( build_name$[.@sel] == "" ) return;
-	if( SkillPoint ) {
-		mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-		mes "Tu dois d'abord placer tous tes points de Skill !";
-		return;
-	}
 	clear;
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 	mes "Tes stats vont être ^ff0000reset^000000 puis le build ^1F81D4"+build_name$[.@sel]+"^000000 sera appliqué.";
@@ -930,6 +925,7 @@ L_LoadBuild:
 		mes "Erreur : tu n'as pas assez de points pour appliquer ce build.";
 		mes "(Nécessaire : "+.@need+", Disponible : "+StatusPoint+")";
 		mes "Tes stats ont été reset, replace-les manuellement.";
+		next;
 		return;
 	}
 	statusup2 bStr, build_str[.@sel] - 1;
