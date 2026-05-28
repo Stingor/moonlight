@@ -1072,6 +1072,12 @@ ACMD_FUNC(guildstorage)
 		return -1;
 	}
 
+	// Toggle: guild storage already open → close it
+	if (sd->state.storage_flag == 2) {
+		storage_guild_storageclose(sd);
+		return 0;
+	}
+
 	switch (storage_guild_storageopen(sd)) {
 		case GSTORAGE_OPEN:
 			clif_displaymessage(fd, msg_txt(sd, 920)); // Guild storage opened.
