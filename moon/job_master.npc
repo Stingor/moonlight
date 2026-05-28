@@ -939,7 +939,7 @@ L_LoadBuild:
 	statusup2 bDex, build_dex[.@sel] - 1;
 	statusup2 bLuk, build_luk[.@sel] - 1;
 	StatusPoint -= .@need;
-	clear;
+	next;
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 	mes "Build ^1F81D4"+build_name$[.@sel]+"^000000 appliqué !";
 	mes "Bon jeu !";
