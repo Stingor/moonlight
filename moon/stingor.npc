@@ -26,11 +26,11 @@ OnInit:
 		npcsit;
 
 		if( query_sql("SELECT `id`,`shout_name`,`shout_message` FROM `igshoutbox` ORDER BY id ASC LIMIT 0,1",.@id,.@pseudo$[0],.@chat$[0]) ) {
-			if( .@pseudo$[0] == "Stingor" ) {
+			if( strcmp(.@pseudo$[0],"Stingor") ) {
 				setnpcdisplay("stingor_npc","WEB-Stingor(NPC)",20500);
 				movenpc "stingor_npc",160,114;
 			}
-			else if( .@pseudo$[0] == "Pinpin" && !strpos(.@chat$[0], "@", 0) ) {
+			else if( strcmp(.@pseudo$[0],"Pinpin") && !strpos(.@chat$[0], "@", 0) ) {
 				setnpcdisplay("stingor_npc","WEB-Pinpin(NPC)",20501);
 				.enable = 1;
 				enablenpc "stingor_npc";
@@ -38,7 +38,7 @@ OnInit:
 				sleep 100;
 				npcsit;
 			}
-			else if( .@pseudo$[0] == "nolliehoLy" && !strpos(.@chat$[0], "@", 0) ) {
+			else if( strcmp(.@pseudo$[0],"nolliehoLy")) && !strpos(.@chat$[0], "@", 0) ) {
 				setnpcdisplay("stingor_npc","WEB-nolliehoLy(NPC)",20502);
 				.enable = 1;
 				enablenpc "stingor_npc";
@@ -46,7 +46,7 @@ OnInit:
 				sleep 100;
 				npcsit;
 			}
-			else if( .@pseudo$[0] == "Chansey" && !strpos(.@chat$[0], "@", 0) ) {
+			else if( strcmp(.@pseudo$[0],"Chansey") && !strpos(.@chat$[0], "@", 0) ) {
 				.@pseudo$[0] = "Blissey";
 				setnpcdisplay("stingor_npc","WEB-Blissey(NPC)",20503);
 				.enable = 1;
@@ -56,7 +56,7 @@ OnInit:
 				npcsit;
 			}
 			cleararray .@arg$[0],"",getarraysize(.@arg$);
-			if( strpos(.@chat$[0], "@", 0) == 0 && (.@pseudo$[0] == "Stingor" || .@pseudo$[0] == "Pinpin") ) {
+			if( strpos(.@chat$[0], "@", 0) == 0 && strcmp(.@pseudo$[0],"Stingor") ) {
 				explode(.@arg$, .@chat$[0], " ");
 				atcommand .@arg$[0]+" "+.@arg$[1];
 				logmes .@arg$[0]+" "+.@arg$[1];
