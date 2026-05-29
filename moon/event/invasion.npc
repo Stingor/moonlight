@@ -99,6 +99,7 @@ OnLaunchInvasion:
 	$nbmobinvasion = $@MobUndead1+$@MobUndead2+$@MobUndead3+$@MobUndead4;
 	$@Score1 = 0; $@Score2 = 0; $@Score3 = 0;
 	$@Winn1$ = ""; $@Winn2$ = ""; $@Winn3$ = "";
+	$@CharId1 = 0; $@CharId2 = 0; $@CharId3 = 0;
 	.nbr = 0;
 	setarray .tMobUndead1[0], 1015, 1016, 1026, 1028, 1032, 1064, 1071, 1076, 1132, 1152, 1153, 1169, 1188, 1290, 1292, 1298, 1404, 1503, 1508, 1509, 1866, 2355, 2484, 2605, 2606, 2649, 2659, 2660, 2676, 2723, 2746, 2772, 2790, 2851, 2854;
 	setarray .tMobUndead2[0], 1036, 1041, 1186, 1257, 1276, 1297, 1382, 1403, 1504, 1510, 1512, 1632, 1682, 1867, 1974, 2311, 2314, 2315, 2354, 2360, 2631, 2688, 2740, 2766, 2792, 2796, 2822, 2823, 2886, 2887;
@@ -306,24 +307,28 @@ OnMvpUndeadKill:
 L_UpdateLeaderboard:
 	.@name$ = strcharinfo(0);
 	.@score = @NbrKill;
-	if( $@Winn1$ == .@name$ )      { $@Score1 = .@score; }
-	else if( $@Winn2$ == .@name$ ) { $@Score2 = .@score; }
-	else if( $@Winn3$ == .@name$ ) { $@Score3 = .@score; }
+	.@cid   = getcharid(0);
+	if( $@Winn1$ == .@name$ )      { $@Score1 = .@score; $@CharId1 = .@cid; }
+	else if( $@Winn2$ == .@name$ ) { $@Score2 = .@score; $@CharId2 = .@cid; }
+	else if( $@Winn3$ == .@name$ ) { $@Score3 = .@score; $@CharId3 = .@cid; }
 	else if( $@Winn3$ == "" || .@score > $@Score3 ) {
-		$@Winn3$ = .@name$; $@Score3 = .@score;
+		$@Winn3$ = .@name$; $@Score3 = .@score; $@CharId3 = .@cid;
 	} else return;
 	// Tri à bulles décroissant (3 éléments)
 	if( $@Score2 > $@Score1 ) {
 		.@t$ = $@Winn1$; $@Winn1$ = $@Winn2$; $@Winn2$ = .@t$;
 		.@t  = $@Score1; $@Score1 = $@Score2; $@Score2 = .@t;
+		.@t  = $@CharId1; $@CharId1 = $@CharId2; $@CharId2 = .@t;
 	}
 	if( $@Score3 > $@Score2 ) {
 		.@t$ = $@Winn2$; $@Winn2$ = $@Winn3$; $@Winn3$ = .@t$;
 		.@t  = $@Score2; $@Score2 = $@Score3; $@Score3 = .@t;
+		.@t  = $@CharId2; $@CharId2 = $@CharId3; $@CharId3 = .@t;
 	}
 	if( $@Score2 > $@Score1 ) {
 		.@t$ = $@Winn1$; $@Winn1$ = $@Winn2$; $@Winn2$ = .@t$;
 		.@t  = $@Score1; $@Score1 = $@Score2; $@Score2 = .@t;
+		.@t  = $@CharId1; $@CharId1 = $@CharId2; $@CharId2 = .@t;
 	}
 	return;
 }
@@ -347,73 +352,54 @@ function	script	end_invasion	{
 	                       31106, 31107, 19817, 20075, 20433, 19521, 19514,
 	                       20259, 31518, 20183;
 
-	// === 1ère place ===
-	if( $@Winn1$ != "" ) {
-		attachrid(getcharid(3, $@Winn1$));
+	// === 1ère place : mail direct (fonctionne en ligne et hors-ligne) ===
+	if( $@CharId1 > 0 ) {
+		.@item1 = .@reward[rand(getarraysize(.@reward))];
+		setarray .@mi[0], 12103, 12210, 570, .@item1;
+		setarray .@ma[0], 5, 1, 30, 1;
+		mail $@CharId1, "Invasion", "1ère place !", "Félicitations ! Vos récompenses sont dans ce mail.", 0, .@mi, .@ma;
+		attachrid($@CharId1);
 		if( playerattached() ) {
-			if( #maluswininvasion <= 0 )
-				#maluswininvasion += 100;
-			else
-				#maluswininvasion += 100 + (#maluswininvasion / 2);
-			.@item1 = .@reward[rand(getarraysize(.@reward))];
-			logmes "1er invasion (" + $@Score1 + " kills) - malus " + #maluswininvasion;
-			if( checkweight(12103,5,12210,1,570,30,.@item1,1) ) {
-				getitem 12103,5; getitem 12210,1; getitem 570,30; getitem .@item1,1;
-			} else {
-				setarray .@mi[0], 12103, 12210, 570, .@item1;
-				setarray .@ma[0], 5, 1, 30, 1;
-				mail getcharid(0), "Invasion #1", "Félicitations !", "Tu as fini 1er de l'invasion !", 0, .@mi, .@ma;
-				dispbottom "Récompenses envoyées par mail.";
-			}
-			announce $@Winn1$ + " termine 1er avec " + $@Score1 + " kills !",bc_all|bc_npc,0xFFFF00;
-			announce ((Sex == SEX_FEMALE) ? "Elle" : "Il") + " gagne 5 Bloody Branch, 1 Bubble Gum X2, 30 Lucky Candy et " + getitemname(.@item1) + "!",bc_all|bc_npc,0xFFFF00;
-		} else
-			logmes $@Winn1$ + " (1er) hors ligne, pas de récompense.";
+			if( #maluswininvasion <= 0 ) #maluswininvasion += 100;
+			else #maluswininvasion += 100 + (#maluswininvasion / 2);
+			logmes "1er invasion (" + $@Score1 + " kills) malus " + #maluswininvasion;
+		}
+		announce $@Winn1$ + " termine 1er avec " + $@Score1 + " kills !",bc_all|bc_npc,0xFFFF00;
+		announce $@Winn1$ + " gagne 5 Bloody Branch, 1 Bubble Gum X2, 30 Lucky Candy et " + getitemname(.@item1) + " !",bc_all|bc_npc,0xFFFF00;
 	}
 
 	// === 2ème place ===
-	if( $@Winn2$ != "" ) {
-		attachrid(getcharid(3, $@Winn2$));
+	if( $@CharId2 > 0 ) {
+		.@item2 = .@reward[rand(getarraysize(.@reward))];
+		setarray .@mi[0], 12103, 570, .@item2;
+		setarray .@ma[0], 3, 15, 1;
+		mail $@CharId2, "Invasion", "2ème place !", "Félicitations ! Vos récompenses sont dans ce mail.", 0, .@mi, .@ma;
+		attachrid($@CharId2);
 		if( playerattached() ) {
 			#maluswininvasion += 50;
-			.@item2 = .@reward[rand(getarraysize(.@reward))];
-			logmes "2ème invasion (" + $@Score2 + " kills) - malus " + #maluswininvasion;
-			if( checkweight(12103,3,570,15,.@item2,1) ) {
-				getitem 12103,3; getitem 570,15; getitem .@item2,1;
-			} else {
-				setarray .@mi[0], 12103, 570, .@item2;
-				setarray .@ma[0], 3, 15, 1;
-				mail getcharid(0), "Invasion #2", "Félicitations !", "Tu as fini 2ème de l'invasion !", 0, .@mi, .@ma;
-				dispbottom "Récompenses envoyées par mail.";
-			}
-			announce $@Winn2$ + " termine 2ème avec " + $@Score2 + " kills !",bc_all|bc_npc,0xFFFF00;
-			announce ((Sex == SEX_FEMALE) ? "Elle" : "Il") + " gagne 3 Bloody Branch, 15 Lucky Candy et " + getitemname(.@item2) + "!",bc_all|bc_npc,0xFFFF00;
-		} else
-			logmes $@Winn2$ + " (2ème) hors ligne, pas de récompense.";
+			logmes "2ème invasion (" + $@Score2 + " kills) malus " + #maluswininvasion;
+		}
+		announce $@Winn2$ + " termine 2ème avec " + $@Score2 + " kills !",bc_all|bc_npc,0xFFFF00;
+		announce $@Winn2$ + " gagne 3 Bloody Branch, 15 Lucky Candy et " + getitemname(.@item2) + " !",bc_all|bc_npc,0xFFFF00;
 	}
 
 	// === 3ème place ===
-	if( $@Winn3$ != "" ) {
-		attachrid(getcharid(3, $@Winn3$));
+	if( $@CharId3 > 0 ) {
+		setarray .@mi[0], 12103, 570;
+		setarray .@ma[0], 1, 5;
+		mail $@CharId3, "Invasion", "3ème place !", "Félicitations ! Vos récompenses sont dans ce mail.", 0, .@mi, .@ma;
+		attachrid($@CharId3);
 		if( playerattached() ) {
 			#maluswininvasion += 25;
-			logmes "3ème invasion (" + $@Score3 + " kills) - malus " + #maluswininvasion;
-			if( checkweight(12103,1,570,5) ) {
-				getitem 12103,1; getitem 570,5;
-			} else {
-				setarray .@mi[0], 12103, 570;
-				setarray .@ma[0], 1, 5;
-				mail getcharid(0), "Invasion #3", "Félicitations !", "Tu as fini 3ème de l'invasion !", 0, .@mi, .@ma;
-				dispbottom "Récompenses envoyées par mail.";
-			}
-			announce $@Winn3$ + " termine 3ème avec " + $@Score3 + " kills !",bc_all|bc_npc,0xFFFF00;
-			announce ((Sex == SEX_FEMALE) ? "Elle" : "Il") + " gagne 1 Bloody Branch et 5 Lucky Candy!",bc_all|bc_npc,0xFFFF00;
-		} else
-			logmes $@Winn3$ + " (3ème) hors ligne, pas de récompense.";
+			logmes "3ème invasion (" + $@Score3 + " kills) malus " + #maluswininvasion;
+		}
+		announce $@Winn3$ + " termine 3ème avec " + $@Score3 + " kills !",bc_all|bc_npc,0xFFFF00;
+		announce $@Winn3$ + " gagne 1 Bloody Branch et 5 Lucky Candy !",bc_all|bc_npc,0xFFFF00;
 	}
 
 	$@Score1 = 0; $@Score2 = 0; $@Score3 = 0;
 	$@Winn1$ = ""; $@Winn2$ = ""; $@Winn3$ = "";
+	$@CharId1 = 0; $@CharId2 = 0; $@CharId3 = 0;
 	if( isnight() ) day;
 	hideonnpc "warp_invasion";
 	end;
