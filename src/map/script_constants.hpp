@@ -5471,6 +5471,7 @@
 	export_constant(IG_BATTLE_MANUAL_LIMIT_BOX);
 	export_constant(IG_UNLIMITED_20_BOX);
 	export_constant(IG_CUSTOMIZING_BOX);
+	export_constant(IG_INVASION_COSTUME);
 	export_constant(IG_NYANGVINE_BOX10_);
 	export_constant(IG_NYANGVINE_BOX100);
 	export_constant(IG_SERVICE30_M_01_BOX);

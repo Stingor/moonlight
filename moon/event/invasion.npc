@@ -347,14 +347,9 @@ function	script	end_invasion	{
 	removemapflag $mapinvasion$,mf_nightenabled;	   // night off
 	removemapflag "gonryun",mf_nightenabled;	       // night off
 	removemapflag $mapinvasion$,mf_monster_noteleport; // MONSTER TELEPORT ON
-	// Pool de costumes (commun aux 3 places)
-	setarray .@reward[0], 20219, 20297, 31251, 20026, 19857, 19959, 20103,
-	                       31106, 31107, 19817, 20075, 20433, 19521, 19514,
-	                       20259, 31518, 20183;
-
 	// === 1ère place : mail direct (fonctionne en ligne et hors-ligne) ===
 	if( $@CharId1 > 0 ) {
-		.@item1 = .@reward[rand(getarraysize(.@reward))];
+		.@item1 = groupranditem(IG_INVASION_COSTUME);
 		setarray .@mi[0], 12103, 12210, 570, .@item1;
 		setarray .@ma[0], 5, 1, 30, 1;
 		mail $@CharId1, "Invasion", "1ère place !", "Félicitations ! Vos récompenses sont dans ce mail.", 0, .@mi, .@ma;
@@ -370,9 +365,8 @@ function	script	end_invasion	{
 
 	// === 2ème place ===
 	if( $@CharId2 > 0 ) {
-		.@item2 = .@reward[rand(getarraysize(.@reward))];
-		setarray .@mi[0], 12103, 570, .@item2;
-		setarray .@ma[0], 3, 15, 1;
+		setarray .@mi[0], 12103, 570;
+		setarray .@ma[0], 3, 15;
 		mail $@CharId2, "Invasion", "2ème place !", "Félicitations ! Vos récompenses sont dans ce mail.", 0, .@mi, .@ma;
 		attachrid($@CharId2);
 		if( playerattached() ) {
@@ -380,7 +374,7 @@ function	script	end_invasion	{
 			logmes "2ème invasion (" + $@Score2 + " kills) malus " + #maluswininvasion;
 		}
 		announce $@Winn2$ + " termine 2ème avec " + $@Score2 + " kills !",bc_all|bc_npc,0xFFFF00;
-		announce $@Winn2$ + " gagne 3 Bloody Branch, 15 Lucky Candy et " + getitemname(.@item2) + " !",bc_all|bc_npc,0xFFFF00;
+		announce $@Winn2$ + " gagne 3 Bloody Branch, 15 Lucky Candy !",bc_all|bc_npc,0xFFFF00;
 	}
 
 	// === 3ème place ===

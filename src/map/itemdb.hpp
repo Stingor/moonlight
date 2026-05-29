@@ -3258,6 +3258,8 @@ enum e_random_item_group {
 	IG_RT_CH01_YGGLEAF_C,
 	IG_RT_CH01_YGGLEAF_3,
 
+	IG_INVASION_COSTUME,
+
 	IG_MAX
 };
 
