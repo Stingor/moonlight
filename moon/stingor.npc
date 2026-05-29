@@ -40,7 +40,7 @@ OnInit:
 				sleep 100;
 				npcsit;
 			}
-			else if( strcmp(.@pseudo$,"nolliehoLy")) && !strpos(.@chat$, "@", 0) ) {
+			else if( strcmp(.@pseudo$,"nolliehoLy") && !strpos(.@chat$, "@", 0) ) {
 				setnpcdisplay("stingor_npc","WEB-nolliehoLy(NPC)",20502);
 				.enable = 1;
 				enablenpc "stingor_npc";
