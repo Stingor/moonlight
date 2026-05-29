@@ -3,6 +3,7 @@ gonryun,160,114,4	script	WEB-Stingor(NPC)::stingor_npc	20500,{
 
 OnInit:
 	setcell "gonryun",160,114,160,114,cell_walkable,0;
+	sleep 1000;
 	npcsit;
 	while( 1 ) {
 		if( isloggedin(2000001,150000) && strnpcinfo(0) == "WEB-Stingor(NPC)" ) {
@@ -28,45 +29,39 @@ OnInit:
 		if( query_sql("SELECT `id`,`shout_name`,`shout_message` FROM `igshoutbox` ORDER BY id ASC LIMIT 0,1",.@id,.@pseudo$[0],.@chat$[0]) ) {
 			.@pseudo$ = .@pseudo$[0];
 			.@chat$ = .@chat$[0];
-			if( strcmp(.@pseudo$,"Stingor") ) {
-				setnpcdisplay("stingor_npc","WEB-Stingor(NPC)",20500);
+			if( .@pseudo$ == "Stingor" ) {
+				setnpcdisplay("stingor_npc", "WEB-Stingor(NPC)", 20500);
 				movenpc "stingor_npc",160,114;
 			}
-			else if( strcmp(.@pseudo$,"Pinpin") && !strpos(.@chat$, "@", 0) ) {
-				setnpcdisplay("stingor_npc","WEB-Pinpin(NPC)",20501);
+			else if( .@pseudo$ == "Pinpin" ) {
+				setnpcdisplay("stingor_npc", "WEB-Pinpin(NPC)", 20501);
 				.enable = 1;
 				enablenpc "stingor_npc";
 				movenpc "stingor_npc",159,114;
 				sleep 100;
 				npcsit;
 			}
-			else if( strcmp(.@pseudo$,"nolliehoLy") && !strpos(.@chat$, "@", 0) ) {
-				setnpcdisplay("stingor_npc","WEB-nolliehoLy(NPC)",20502);
+			else if( .@pseudo$ == "nolliehoLy" ) {
+				setnpcdisplay("stingor_npc", "WEB-nolliehoLy(NPC)", 20502);
 				.enable = 1;
 				enablenpc "stingor_npc";
 				movenpc "stingor_npc",162,114;
 				sleep 100;
 				npcsit;
 			}
-			else if( strcmp(.@pseudo$,"Chansey") && !strpos(.@chat$, "@", 0) ) {
+			else if( .@pseudo$ == "Chansey" ) {
 				.@pseudo$ = "Blissey";
-				setnpcdisplay("stingor_npc","WEB-Blissey(NPC)",20503);
+				setnpcdisplay("stingor_npc", "WEB-Blissey(NPC)", 20503);
 				.enable = 1;
 				enablenpc "stingor_npc";
 				movenpc "stingor_npc",161,114;
 				sleep 100;
 				npcsit;
 			}
-			cleararray .@arg$[0],"",getarraysize(.@arg$);
-			if( strpos(.@chat$, "@", 0) == 0 && strcmp(.@pseudo$,"Stingor") ) {
-				explode(.@arg$, .@chat$, " ");
-				atcommand .@arg$[0]+" "+.@arg$[1];
-				logmes .@arg$[0]+" "+.@arg$[1];
-			}
-			else
-				npctalk "WEB-"+.@pseudo$+"(NPC) : "+.@chat$;
+			npctalk "WEB-"+.@pseudo$+"(NPC) : "+.@chat$;
 			query_sql("DELETE FROM `igshoutbox` WHERE `id` = '"+.@id[0]+"'");
-			setarray .@chat$,"";
+			setarray .@pseudo$[0],"";
+			setarray .@chat$[0],"";
 		}
 		sleep 1000;
 	}
