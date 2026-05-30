@@ -621,3 +621,217 @@ Body:
         MaxLevel: 3
         RequiredIntimacy: 910
         RequireEvolution: true
+  - Class: Eira
+    Name: Eira
+    Food: Small_Snow_Flower
+    Race: Angel
+    Element: Wind
+    Size: Medium
+    Status:
+      - Type: Hp
+        Base: 150
+        GrowthMinimum: 40
+        GrowthMaximum: 160
+      - Type: Sp
+        Base: 40
+        GrowthMinimum: 20
+        GrowthMaximum: 42
+      - Type: Str
+        Base: 17
+        GrowthMinimum: 13
+        GrowthMaximum: 39
+      - Type: Agi
+        Base: 20
+        GrowthMinimum: 28
+        GrowthMaximum: 42
+      - Type: Vit
+        Base: 15
+        GrowthMinimum: 15
+        GrowthMaximum: 25
+      - Type: Int
+        Base: 35
+        GrowthMinimum: 14
+        GrowthMaximum: 48
+      - Type: Dex
+        Base: 24
+        GrowthMinimum: 16
+        GrowthMaximum: 36
+      - Type: Luk
+        Base: 12
+        GrowthMinimum: 9
+        GrowthMaximum: 18
+    SkillTree:
+      - Skill: HLIF_HEAL
+        MaxLevel: 1
+        RequiredLevel: 128
+  - Class: Bayeri
+    Name: Bayeri
+    Food: Fresh_Plant
+    Race: Brute
+    Element: Holy
+    Size: Medium
+    Status:
+      - Type: Hp
+        Base: 320
+        GrowthMinimum: 90
+        GrowthMaximum: 360
+      - Type: Sp
+        Base: 10
+        GrowthMinimum: 48
+        GrowthMaximum: 52
+      - Type: Str
+        Base: 20
+        GrowthMinimum: 18
+        GrowthMaximum: 36
+      - Type: Agi
+        Base: 17
+        GrowthMinimum: 8
+        GrowthMaximum: 36
+      - Type: Vit
+        Base: 35
+        GrowthMinimum: 16
+        GrowthMaximum: 32
+      - Type: Int
+        Base: 11
+        GrowthMinimum: 22
+        GrowthMaximum: 44
+      - Type: Dex
+        Base: 24
+        GrowthMinimum: 12
+        GrowthMaximum: 24
+      - Type: Luk
+        Base: 12
+        GrowthMinimum: 20
+        GrowthMaximum: 36
+    SkillTree:
+      - Skill: HLIF_HEAL
+        MaxLevel: 1
+        RequiredLevel: 105
+  - Class: Sera
+    Name: Sera
+    Food: Apple_Pudding
+    Race: Insect
+    Element: Earth
+    Size: Medium
+    Status:
+      - Type: Hp
+        Base: 90
+        GrowthMinimum: 60
+        GrowthMaximum: 240
+      - Type: Sp
+        Base: 25
+        GrowthMinimum: 36
+        GrowthMaximum: 64
+      - Type: Str
+        Base: 29
+        GrowthMinimum: 10
+        GrowthMaximum: 25
+      - Type: Agi
+        Base: 35
+        GrowthMinimum: 16
+        GrowthMaximum: 32
+      - Type: Vit
+        Base: 9
+        GrowthMinimum: 5
+        GrowthMaximum: 25
+      - Type: Int
+        Base: 8
+        GrowthMinimum: 7
+        GrowthMaximum: 35
+      - Type: Dex
+        Base: 30
+        GrowthMinimum: 28
+        GrowthMaximum: 40
+      - Type: Luk
+        Base: 9
+        GrowthMinimum: 20
+        GrowthMaximum: 40
+    SkillTree:
+      - Skill: HLIF_HEAL
+        MaxLevel: 1
+        RequiredLevel: 132
+  - Class: Dieter
+    Name: Dieter
+    Food: Big_Cell
+    Race: Formless
+    Element: Fire
+    Size: Medium
+    Status:
+      - Type: Hp
+        Base: 80
+        GrowthMinimum: 240
+        GrowthMaximum: 480
+      - Type: Sp
+        Base: 11
+        GrowthMinimum: 40
+        GrowthMaximum: 120
+      - Type: Str
+        Base: 11
+        GrowthMinimum: 20
+        GrowthMaximum: 40
+      - Type: Agi
+        Base: 11
+        GrowthMinimum: 13
+        GrowthMaximum: 26
+      - Type: Vit
+        Base: 11
+        GrowthMinimum: 18
+        GrowthMaximum: 36
+      - Type: Int
+        Base: 11
+        GrowthMinimum: 15
+        GrowthMaximum: 40
+      - Type: Dex
+        Base: 11
+        GrowthMinimum: 16
+        GrowthMaximum: 32
+      - Type: Luk
+        Base: 11
+        GrowthMinimum: 4
+        GrowthMaximum: 16
+    SkillTree:
+      - Skill: HLIF_HEAL
+        MaxLevel: 1
+        RequiredLevel: 122
+  - Class: Eleanor
+    Name: Eleanor
+    Food: Bun_
+    Element: Poison
+    Size: Medium
+    Status:
+      - Type: Hp
+        Base: 320
+        GrowthMinimum: 60
+        GrowthMaximum: 300
+      - Type: Sp
+        Base: 10
+        GrowthMinimum: 10
+        GrowthMaximum: 20
+      - Type: Str
+        Base: 20
+        GrowthMinimum: 20
+        GrowthMaximum: 40
+      - Type: Agi
+        Base: 17
+        GrowthMinimum: 10
+        GrowthMaximum: 50
+      - Type: Vit
+        Base: 35
+        GrowthMinimum: 24
+        GrowthMaximum: 48
+      - Type: Int
+        Base: 11
+        GrowthMinimum: 5
+        GrowthMaximum: 15
+      - Type: Dex
+        Base: 24
+        GrowthMinimum: 12
+        GrowthMaximum: 36
+      - Type: Luk
+        Base: 12
+        GrowthMinimum: 2
+        GrowthMaximum: 10
+    SkillTree:
+      - Skill: HLIF_HEAL
+        MaxLevel: 1
+        RequiredLevel: 100
