@@ -1920,6 +1920,8 @@ OnWarpColor:
 	end;
 
 OnMyMobDead:
+	if (mobismvp(killedrid))
+		MissionMVP(0, "NydhoggsNest: "+getmonsterinfo(killedrid, MOB_NAME)+" tué");
 	set .@map$, instance_mapname("2@nyd");
 	if (mobcount(.@map$,instance_npcname("nyd_2f_boss_enter_call")+"::OnMyMobDead") < 1) {
 		mapannounce .@map$, "Nidhoggur's Shadow : World Tree Yggdrasil's guardian... his powers are disappearing...",bc_map,"0x00ff99";
