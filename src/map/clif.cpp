@@ -3132,7 +3132,12 @@ void clif_inventorylist( map_session_data *sd ){
 	int32 equip = 0;
 	int32 normal = 0;
 
-	inventory_sortitem( sd->inventory.u.items_inventory, sd->inventory_data, MAX_INVENTORY );
+	// NOTE: inventory is intentionally NOT sorted here.
+	// Sorting sd->inventory in-place would invalidate equip_switch_index[] (items
+	// with equipSwitch!=0 have equip==0 so skip_equipped doesn't protect them),
+	// cause client-side visual glitches when slot indices shift between clif_additem
+	// and clif_inventorylist calls, and potentially break other slot-index caches.
+	// client_sort_storage applies only to storage/guild_storage/cart/premiumStorage.
 
 	for( int32 i = 0; i < MAX_INVENTORY; i++ ){
 		if( sd->inventory.u.items_inventory[i].nameid == 0 || sd->inventory_data[i] == nullptr ){
