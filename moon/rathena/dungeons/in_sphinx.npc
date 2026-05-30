@@ -56,7 +56,7 @@ in_sphinx3	monster	Pasana	1154,5,5000
 //==================================================
 in_sphinx4	monster	Minorous	1149,50,5000
 in_sphinx4	monster	Pasana	1154,20,5000
-in_sphinx4	monster	Anubis	1098,15,5000
+in_sphinx4	monster	Anubis	1098,25,5000
 in_sphinx4	monster	Mimic	1191,4,5000
 
 //==================================================

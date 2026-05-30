@@ -173,7 +173,7 @@ ra_fild13	monster	Roween	1782,5
 //==================================================
 ra_san01	monster	Vanberk	1771,82,5000
 ra_san01	monster	Isilla	1772,36,5000
-ra_san01	monster	Gremlin	1632,10,5000
+ra_san01	monster	Gremlin	1632,25,5000
 ra_san01	monster	Beholder	1633,6,5000
 ra_san01	monster	Hodremlin	1773,6,5000
 
@@ -183,7 +183,7 @@ ra_san01	monster	Hodremlin	1773,6,5000
 ra_san02	monster	Isilla	1772,85,5000
 ra_san02	monster	Vanberk	1771,30,5000
 ra_san02	monster	Gremlin	1632,10,5000
-ra_san02	monster	Beholder	1633,10,5000
+ra_san02	monster	Beholder	1633,25,5000
 ra_san02	monster	Hodremlin	1773,3,5000
 ra_san02	monster	Seeker	1774,2,5000
 

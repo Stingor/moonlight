@@ -23,6 +23,7 @@ mag_dun01	monster	Lava Golem	1366,20,5000
 mag_dun01	monster	Blazer	1367,20,5000
 mag_dun01	monster	Kaho	1072,20,5000
 mag_dun01	monster	Grizzly	1381,10,5000
+mag_dun02	monster	Gig	1387,10,5000
 
 //==================================================
 // mag_dun02 - Nogg Road
@@ -32,7 +33,7 @@ mag_dun02	monster	Deleter	1385,40,5000
 mag_dun02	monster	Deleter	1384,38,5000
 mag_dun02	monster	Blazer	1367,20,5000
 mag_dun02	monster	Diabolic	1382,15,5000
-mag_dun02	monster	Gig	1387,10,5000
+mag_dun02	monster	Gig	1387,25,5000
 
 //==================================================
 // mag_dun03 - Nogg Road

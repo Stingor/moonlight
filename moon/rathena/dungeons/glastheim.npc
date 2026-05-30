@@ -151,7 +151,7 @@ gl_dun02	monster	Gargoyle	1253,15,2000
 // gl_in01 - Inside Glast Heim
 //==================================================
 gl_in01	monster	Marionette	1143,20,2000
-gl_in01	monster	Sage Worm	1281,14,2000
+gl_in01	monster	Sage Worm	1281,25,2000
 gl_in01	monster	Dark Frame	1260,10,2000
 gl_in01	monster	Rideword	1195,8,2000
 gl_in01	monster	Wanderer	1208,1,2000
@@ -163,7 +163,7 @@ gl_in01	monster	Alice	1275,1,2000
 gl_knt01	monster	Raydric	1163,90,2000
 gl_knt01	monster	Rideword	1195,21,2000
 gl_knt01	monster	Raydric Archer	1276,10,2000
-gl_knt01	monster	Abysmal Knight	1219,10,2000
+gl_knt01	monster	Abysmal Knight	1219,25,2000
 gl_knt01	monster	Khalitzburg	1132,10,2000
 gl_knt01	monster	Alice	1275,1,2000
 gl_knt01,21,278	monster	Giant Whisper	1186,1,3600000,1800000
@@ -205,7 +205,7 @@ gl_prison	monster	Hunter Fly	1035,10,2000
 gl_prison1	monster	Injustice	1257,40,2000
 gl_prison1	monster	Skeleton Prisoner	1196,30,2000
 gl_prison1	monster	Rybio	1201,10,2000
-gl_prison1	monster	Phendark	1202,10,2000
+gl_prison1	monster	Phendark	1202,25,2000
 gl_prison1	monster	Hunter Fly	1035,10,2000
 gl_prison1	monster	Cramp	1209,5,2000
 gl_prison1	monster	Zealotus	1200,1,3600000,1800000

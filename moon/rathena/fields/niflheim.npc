@@ -23,14 +23,14 @@ nif_fild01	monster	Disguise	1506,50,5000
 nif_fild01	monster	Quve	1508,30,5000
 nif_fild01	monster	Dullahan	1504,20,5000
 nif_fild01	monster	Gibbet	1503,10,5000
-nif_fild01	monster	Heirozoist	1510,10,5000
+nif_fild01	monster	Heirozoist	1510,25,5000
 
 //==================================================
 // nif_fild02 - Vally of Gyoll
 //==================================================
 nif_fild02	monster	Loli Ruri	1505,21,5000
 nif_fild02	monster	Gibbet	1503,20,5000
-nif_fild02	monster	Bloody Murderer	1507,11,5000
+nif_fild02	monster	Bloody Murderer	1507,25,5000
 nif_fild02	monster	Dullahan	1504,10,5000
 nif_fild02	monster	Lude	1509,10,5000
 nif_fild02	monster	Heirozoist	1510,10,5000
