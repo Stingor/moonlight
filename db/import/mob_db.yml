@@ -25759,6 +25759,8 @@ Body:
       IgnoreMisc: true
       IgnoreRanged: true
       KnockBackImmune: true
+      ChangeTargetMelee: true
+      ChangeTargetChase: true
     Drops:
       - Item: Leaf_Of_Yggdrasil
         Rate: 3000

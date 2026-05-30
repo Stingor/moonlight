@@ -1,0 +1,32 @@
+// Drapeau WoE rotatifs - Gonryun
+// Affiche en alternance l'embleme des 4 chateaux actifs
+
+gonryun,139,117,5	script	DrapeauWoE	722,{
+	// Clic : afficher les propriétaires des 4 châteaux
+	mes "[Drapeau WoE]";
+	for (.@i = 0; .@i < 4; .@i++) {
+		.@gid = GetCastleData(.castles$[.@i], 1);
+		if (.@gid > 0)
+			mes "^0055FF"+getcastlename(.castles$[.@i])+"^000000 : "+getguildname(.@gid);
+		else
+			mes "^0055FF"+getcastlename(.castles$[.@i])+"^000000 : ^FF0000Sans guilde^000000";
+	}
+	close;
+
+OnAgitInit2:
+	FlagEmblem GetCastleData(.castles$[.idx], 1);
+	end;
+
+OnInit:
+	setarray .castles$[0], "schg_cas01", "schg_cas02", "arug_cas01", "arug_cas02";
+	.idx = 0;
+	FlagEmblem GetCastleData(.castles$[.idx], 1);
+	initnpctimer;
+	end;
+
+OnTimer5000:
+	.idx = (.idx + 1) % 4;
+	FlagEmblem GetCastleData(.castles$[.idx], 1);
+	initnpctimer;
+	end;
+}
