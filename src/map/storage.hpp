@@ -62,6 +62,19 @@ void storage_storagesave(map_session_data *sd);
 void storage_storageclose(map_session_data *sd);
 void storage_sortitem(struct item* items, uint32 size);
 void inventory_sortitem(struct item* items, struct item_data** item_data, uint32 size);
+
+/// Sort modes for @tri_* commands
+enum e_sort_mode : uint8 {
+	SORT_NAMEID  = 0, ///< by item ID (default)
+	SORT_TYPE    = 1, ///< by item type
+	SORT_AMOUNT  = 2, ///< by quantity descending
+	SORT_WEIGHT  = 3, ///< by unit weight descending
+	SORT_PRICE   = 4, ///< by sell price descending
+	SORT_NAME    = 5, ///< by display name (alphabetical)
+};
+
+void sort_storage_items(struct item* items, uint32 size, e_sort_mode mode);
+void sort_inventory_items(map_session_data* sd, e_sort_mode mode);
 void do_init_storage(void);
 void do_final_storage(void);
 void do_reconnect_storage(void);

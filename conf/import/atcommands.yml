@@ -149,3 +149,31 @@ Body:
       - showpartybuff
     Help: |
       Affiche / Masque les status des buffs party.
+  - Command: tri_inventaire
+    Aliases:
+      - triinv
+      - sortinv
+    Help: |
+      Trie l'inventaire. Modes : defaut | type | quantite | poids | prix | nom
+      Le choix est persistant et appliqué automatiquement.
+  - Command: tri_cart
+    Aliases:
+      - tricart
+      - sortcart
+    Help: |
+      Trie le cart. Modes : defaut | type | quantite | poids | prix | nom
+      Le choix est persistant et appliqué à chaque équipement du cart.
+  - Command: tri_storage
+    Aliases:
+      - tristorage
+      - sortstorage
+    Help: |
+      Trie le storage. Modes : defaut | type | quantite | poids | prix | nom
+      Le storage doit être fermé. Le tri s'applique à la prochaine ouverture.
+  - Command: tri_gstorage
+    Aliases:
+      - trigstorage
+      - sortgstorage
+    Help: |
+      Trie le storage de guilde. Modes : defaut | type | quantite | poids | prix | nom
+      Le storage doit être fermé. Le tri s'applique à la prochaine ouverture.

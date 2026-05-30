@@ -461,6 +461,10 @@ public:
 		bool autolootrare: 1;
 		bool showmobinfo: 1;
 		uint32 autolootpognon;
+		uint8 sort_inv;      ///< e_sort_mode: tri préféré pour l'inventaire
+		uint8 sort_cart;     ///< e_sort_mode: tri préféré pour le chariot
+		uint8 sort_storage;  ///< e_sort_mode: tri préféré pour le coffre perso
+		uint8 sort_gstorage; ///< e_sort_mode: tri préféré pour le coffre de guilde
 		// [Stingor] <--
 		// Bitmask of e_pcblock_action_flag values
 		uint16 block_action;

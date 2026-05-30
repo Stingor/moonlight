@@ -50,6 +50,10 @@ Body:
       commands: true
       rates: true
       who: true
+      tri_inventaire: true
+      tri_cart: true
+      tri_storage: true
+      tri_gstorage: true
       uptime: true
       showdelay: true
       exp: true

@@ -1764,3 +1764,100 @@ ACMD_FUNC(separate)
 
 	return 0;
 }
+
+// ── @tri_inventaire / @tri_cart / @tri_storage / @tri_gstorage ───────────────
+
+static e_sort_mode atcmd_parse_sort_mode(const char* msg)
+{
+	if( !msg || !*msg ) return (e_sort_mode)255;
+	if( strncmpi(msg, "defaut",   6) == 0 ) return SORT_NAMEID;
+	if( strncmpi(msg, "type",     4) == 0 ) return SORT_TYPE;
+	if( strncmpi(msg, "quantite", 8) == 0 ) return SORT_AMOUNT;
+	if( strncmpi(msg, "poids",    5) == 0 ) return SORT_WEIGHT;
+	if( strncmpi(msg, "prix",     4) == 0 ) return SORT_PRICE;
+	if( strncmpi(msg, "nom",      3) == 0 ) return SORT_NAME;
+	return (e_sort_mode)255; // invalide
+}
+
+static void atcmd_show_sort_usage(const int32 fd, map_session_data* sd, const char* cmd)
+{
+	char buf[160];
+	snprintf(buf, sizeof(buf), "Usage : @%s <defaut|type|quantite|poids|prix|nom>", cmd);
+	clif_displaymessage(fd, buf);
+}
+
+// Noms des modes de tri pour les messages
+static const char* atcmd_sort_mode_name(e_sort_mode mode)
+{
+	switch( mode ) {
+		case SORT_NAMEID: return "d\xe9" "faut (ID)";
+		case SORT_TYPE:   return "type";
+		case SORT_AMOUNT: return "quantit\xe9";
+		case SORT_WEIGHT: return "poids";
+		case SORT_PRICE:  return "prix";
+		case SORT_NAME:   return "nom (A-Z)";
+		default:          return "?";
+	}
+}
+
+ACMD_FUNC(tri_inventaire)
+{
+	nullpo_retr(-1, sd);
+	e_sort_mode mode = atcmd_parse_sort_mode(message);
+	if( mode == (e_sort_mode)255 ) { atcmd_show_sort_usage(fd, sd, "tri_inventaire"); return -1; }
+	sd->state.sort_inv = (uint8)mode;
+	pc_setglobalreg(sd, add_str("TRI_INV"), (int32)mode);
+	sort_inventory_items(sd, mode);
+	clif_inventorylist(sd);
+	char buf[64];
+	snprintf(buf, sizeof(buf), "Inventaire tri\xe9 par %s.", atcmd_sort_mode_name(mode));
+	clif_displaymessage(fd, buf);
+	return 0;
+}
+
+ACMD_FUNC(tri_cart)
+{
+	nullpo_retr(-1, sd);
+	e_sort_mode mode = atcmd_parse_sort_mode(message);
+	if( mode == (e_sort_mode)255 ) { atcmd_show_sort_usage(fd, sd, "tri_cart"); return -1; }
+	sd->state.sort_cart = (uint8)mode;
+	pc_setglobalreg(sd, add_str("TRI_CART"), (int32)mode);
+	if( pc_iscarton(sd) ) {
+		sort_storage_items(sd->cart.u.items_cart, ARRAYLENGTH(sd->cart.u.items_cart), mode);
+		clif_cartlist(sd);
+	}
+	char buf[80];
+	snprintf(buf, sizeof(buf), "Tri du chariot d\xe9" "fini : %s.%s",
+		atcmd_sort_mode_name(mode),
+		pc_iscarton(sd) ? "" : " (appliqu\xe9 \xe0 l'ouverture)");
+	clif_displaymessage(fd, buf);
+	return 0;
+}
+
+ACMD_FUNC(tri_storage)
+{
+	nullpo_retr(-1, sd);
+	if( sd->state.storage_flag ) { clif_displaymessage(fd, "Fermez d'abord votre coffre."); return -1; }
+	e_sort_mode mode = atcmd_parse_sort_mode(message);
+	if( mode == (e_sort_mode)255 ) { atcmd_show_sort_usage(fd, sd, "tri_storage"); return -1; }
+	sd->state.sort_storage = (uint8)mode;
+	pc_setglobalreg(sd, add_str("TRI_STOR"), (int32)mode);
+	char buf[80];
+	snprintf(buf, sizeof(buf), "Tri du coffre d\xe9" "fini : %s. (appliqu\xe9 \xe0 l'ouverture)", atcmd_sort_mode_name(mode));
+	clif_displaymessage(fd, buf);
+	return 0;
+}
+
+ACMD_FUNC(tri_gstorage)
+{
+	nullpo_retr(-1, sd);
+	if( sd->state.storage_flag ) { clif_displaymessage(fd, "Fermez d'abord votre coffre."); return -1; }
+	e_sort_mode mode = atcmd_parse_sort_mode(message);
+	if( mode == (e_sort_mode)255 ) { atcmd_show_sort_usage(fd, sd, "tri_gstorage"); return -1; }
+	sd->state.sort_gstorage = (uint8)mode;
+	pc_setglobalreg(sd, add_str("TRI_GSTOR"), (int32)mode);
+	char buf[80];
+	snprintf(buf, sizeof(buf), "Tri du coffre de guilde d\xe9" "fini : %s. (appliqu\xe9 \xe0 l'ouverture)", atcmd_sort_mode_name(mode));
+	clif_displaymessage(fd, buf);
+	return 0;
+}

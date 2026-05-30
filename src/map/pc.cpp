@@ -2453,6 +2453,10 @@ void pc_reg_received(map_session_data *sd)
 	sd->state.kill_separate = pc_readglobalreg(sd, add_str("separate")) ? 1 : 0;
 	sd->state.showmobinfo = pc_readglobalreg(sd, add_str("showmobinfo")) ? 1 : 0;
 	sd->state.showexp = pc_readglobalreg(sd, add_str("showexp"));
+	sd->state.sort_inv      = (uint8)pc_readglobalreg(sd, add_str("TRI_INV"));
+	sd->state.sort_cart     = (uint8)pc_readglobalreg(sd, add_str("TRI_CART"));
+	sd->state.sort_storage  = (uint8)pc_readglobalreg(sd, add_str("TRI_STOR"));
+	sd->state.sort_gstorage = (uint8)pc_readglobalreg(sd, add_str("TRI_GSTOR"));
 	sd->state.showzeny = pc_readglobalreg(sd, add_str("showzeny"));
 	if (pc_get_group_level(sd) >= 80)
 		sd->state.block_action |= PCBLOCK_IMMUNE;
@@ -11313,6 +11317,7 @@ void pc_setoption(map_session_data *sd,int32 type, int32 subtype)
 
 #ifndef NEW_CARTS
 	if( type&OPTION_CART && !( p_type&OPTION_CART ) ) { //Cart On
+		if( sd->state.sort_cart ) sort_storage_items(sd->cart.u.items_cart, ARRAYLENGTH(sd->cart.u.items_cart), (e_sort_mode)sd->state.sort_cart);
 		clif_cartlist(sd);
 		clif_updatestatus(*sd, SP_CARTINFO);
 		if(pc_checkskill(sd, MC_PUSHCART) < 10)
@@ -11410,6 +11415,7 @@ bool pc_setcart(map_session_data *sd,int32 type) {
 			break;
 		default:/* everything else is an allowed ID so we can move on */
 			if( !sd->sc.getSCE(SC_PUSH_CART) ) { /* first time, so fill cart data */
+				if( sd->state.sort_cart ) sort_storage_items(sd->cart.u.items_cart, ARRAYLENGTH(sd->cart.u.items_cart), (e_sort_mode)sd->state.sort_cart);
 				clif_cartlist(sd);
 				status_calc_cart_weight(sd, (e_status_calc_weight_opt)(CALCWT_ITEM|CALCWT_MAXBONUS|CALCWT_CARTSTATE));
 			}

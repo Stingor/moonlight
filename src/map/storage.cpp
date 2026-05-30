@@ -137,6 +137,139 @@ void inventory_sortitem(struct item* items, struct item_data** item_data, uint32
 	}
 }
 
+// ── Comparateurs pour les @tri_* ─────────────────────────────────────────────
+
+static bool sort_cmp_type(const struct item& a, const struct item& b)
+{
+	if( !a.nameid || !a.amount ) return false;
+	if( !b.nameid || !b.amount ) return true;
+	auto da = item_db.find(a.nameid), db = item_db.find(b.nameid);
+	int ta = da ? (int)da->type : 99, tb = db ? (int)db->type : 99;
+	return ta != tb ? ta < tb : a.nameid < b.nameid;
+}
+
+static bool sort_cmp_amount(const struct item& a, const struct item& b)
+{
+	if( !a.nameid || !a.amount ) return false;
+	if( !b.nameid || !b.amount ) return true;
+	return a.amount != b.amount ? a.amount > b.amount : a.nameid < b.nameid;
+}
+
+static bool sort_cmp_weight(const struct item& a, const struct item& b)
+{
+	if( !a.nameid || !a.amount ) return false;
+	if( !b.nameid || !b.amount ) return true;
+	auto da = item_db.find(a.nameid), db = item_db.find(b.nameid);
+	int wa = da ? da->weight : 0, wb = db ? db->weight : 0;
+	return wa != wb ? wa > wb : a.nameid < b.nameid;
+}
+
+static bool sort_cmp_price(const struct item& a, const struct item& b)
+{
+	if( !a.nameid || !a.amount ) return false;
+	if( !b.nameid || !b.amount ) return true;
+	auto da = item_db.find(a.nameid), db = item_db.find(b.nameid);
+	int pa = da ? da->value_sell : 0, pb = db ? db->value_sell : 0;
+	return pa != pb ? pa > pb : a.nameid < b.nameid;
+}
+
+static bool sort_cmp_name(const struct item& a, const struct item& b)
+{
+	if( !a.nameid || !a.amount ) return false;
+	if( !b.nameid || !b.amount ) return true;
+	auto da = item_db.find(a.nameid), db = item_db.find(b.nameid);
+	const std::string& na = da ? da->ename : std::string();
+	const std::string& nb = db ? db->ename : std::string();
+	int cmp = strcmpi(na.c_str(), nb.c_str());
+	return cmp != 0 ? cmp < 0 : a.nameid < b.nameid;
+}
+
+using item_cmp_fn = bool(*)(const struct item&, const struct item&);
+static item_cmp_fn get_cmp(e_sort_mode mode)
+{
+	switch( mode ) {
+		case SORT_TYPE:   return sort_cmp_type;
+		case SORT_AMOUNT: return sort_cmp_amount;
+		case SORT_WEIGHT: return sort_cmp_weight;
+		case SORT_PRICE:  return sort_cmp_price;
+		case SORT_NAME:   return sort_cmp_name;
+		default:          return nullptr;
+	}
+}
+
+/**
+ * Sort storage/guild_storage/cart items by the given mode.
+ * No parallel data array — safe to sort the full buffer directly.
+ */
+void sort_storage_items(struct item* items, uint32 size, e_sort_mode mode)
+{
+	nullpo_retv(items);
+	item_cmp_fn fn = get_cmp(mode);
+	if( fn )
+		std::sort(items, items + size, fn);
+	else
+		qsort(items, size, sizeof(struct item), storage_comp_item); // SORT_NAMEID
+}
+
+/**
+ * Sort inventory items by the given mode.
+ * - Equipped items (item.equip != 0) stay anchored → equip_index[] stays valid.
+ * - inventory_data[] is sorted in parallel → no desync.
+ * - equip_switch_index[] is rebuilt after sort.
+ */
+void sort_inventory_items(map_session_data* sd, e_sort_mode mode)
+{
+	nullpo_retv(sd);
+
+	struct sort_pair {
+		struct item       it;
+		struct item_data* data;
+	};
+
+	item_cmp_fn base_fn = get_cmp(mode);
+	auto fn = [&](const sort_pair& a, const sort_pair& b) -> bool {
+		if( base_fn ) return base_fn(a.it, b.it);
+		// SORT_NAMEID fallback
+		if( !a.it.nameid || !a.it.amount ) return false;
+		if( !b.it.nameid || !b.it.amount ) return true;
+		return a.it.nameid < b.it.nameid;
+	};
+
+	struct item*       items     = sd->inventory.u.items_inventory;
+	struct item_data** item_data = sd->inventory_data;
+
+	std::vector<uint32>    free_pos;
+	std::vector<sort_pair> free_pairs;
+	free_pos.reserve(MAX_INVENTORY);
+	free_pairs.reserve(MAX_INVENTORY);
+
+	for( int i = 0; i < MAX_INVENTORY; i++ ) {
+		if( !items[i].equip ) { // skip equipped — equip_index[] must stay valid
+			free_pos.push_back(i);
+			free_pairs.push_back({ items[i], item_data[i] });
+		}
+	}
+
+	std::sort(free_pairs.begin(), free_pairs.end(), fn);
+
+	for( size_t i = 0; i < free_pos.size(); i++ ) {
+		items[free_pos[i]]     = free_pairs[i].it;
+		item_data[free_pos[i]] = free_pairs[i].data;
+	}
+
+	// Rebuild equip_switch_index[] — items with equipSwitch have equip==0
+	// so they may have moved; rebuild from current inventory state.
+	memset(sd->equip_switch_index, -1, sizeof(sd->equip_switch_index));
+	for( int i = 0; i < MAX_INVENTORY; i++ ) {
+		if( !items[i].equipSwitch || !item_data[i] ) continue;
+		uint32 pos = items[i].equipSwitch;
+		for( int j = 0; j < EQI_MAX; j++ ) {
+			if( (pos & equip_bitmask[j]) && sd->equip_switch_index[j] == -1 )
+				sd->equip_switch_index[j] = i;
+		}
+	}
+}
+
 /**
  * Initiate storage module
  * Called from map.cpp::do_init()
@@ -199,7 +332,7 @@ int32 storage_storageopen(map_session_data *sd)
 	}
 
 	sd->state.storage_flag = 1;
-	storage_sortitem(sd->storage.u.items_storage, ARRAYLENGTH(sd->storage.u.items_storage));
+	sort_storage_items(sd->storage.u.items_storage, ARRAYLENGTH(sd->storage.u.items_storage), (e_sort_mode)sd->state.sort_storage);
 	clif_storagelist(sd, sd->storage.u.items_storage, ARRAYLENGTH(sd->storage.u.items_storage), storage_getName(0));
 	clif_updatestorageamount(*sd, sd->storage.amount, sd->storage.max_amount);
 
@@ -667,7 +800,7 @@ char storage_guild_storageopen(map_session_data* sd)
 
 	gstor->status = true;
 	sd->state.storage_flag = 2;
-	storage_sortitem(gstor->u.items_guild, ARRAYLENGTH(gstor->u.items_guild));
+	sort_storage_items(gstor->u.items_guild, ARRAYLENGTH(gstor->u.items_guild), (e_sort_mode)sd->state.sort_gstorage);
 	clif_storagelist(sd, gstor->u.items_guild, ARRAYLENGTH(gstor->u.items_guild), "Guild Storage");
 	clif_updatestorageamount(*sd, gstor->amount, gstor->max_amount);
 

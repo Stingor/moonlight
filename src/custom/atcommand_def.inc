@@ -43,3 +43,7 @@
 	ACMD_DEF(partybuff), // [Vykimo]
 	ACMD_DEF(showmobinfo),
 	ACMD_DEF(separate),
+	ACMD_DEF(tri_inventaire),
+	ACMD_DEF(tri_cart),
+	ACMD_DEF(tri_storage),
+	ACMD_DEF(tri_gstorage),
