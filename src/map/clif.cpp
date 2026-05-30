@@ -3132,7 +3132,7 @@ void clif_inventorylist( map_session_data *sd ){
 	int32 equip = 0;
 	int32 normal = 0;
 
-	storage_sortitem( sd->inventory.u.items_inventory, ARRAYLENGTH( sd->inventory.u.items_inventory ) );
+	storage_sortitem( sd->inventory.u.items_inventory, ARRAYLENGTH( sd->inventory.u.items_inventory ), true );
 
 	for( int32 i = 0; i < MAX_INVENTORY; i++ ){
 		if( sd->inventory.u.items_inventory[i].nameid == 0 || sd->inventory_data[i] == nullptr ){

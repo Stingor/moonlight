@@ -80,15 +80,48 @@ static int32 storage_comp_item(const void *_i1, const void *_i2)
 /**
  * Sort item by storage_comp_item (nameid)
  * used when we open up our storage or guild_storage
- * @param items : list of items to sort
- * @param size : number of item in list
+ * @param items        : list of items to sort
+ * @param size         : number of items in list
+ * @param skip_equipped: if true, equipped items (item.equip != 0) are left in
+ *                       place and only non-equipped items are sorted. Must be
+ *                       true when sorting sd->inventory to avoid invalidating
+ *                       sd->equip_index[] which tracks inventory slot indices.
  */
-void storage_sortitem(struct item* items, uint32 size)
+void storage_sortitem(struct item* items, uint32 size, bool skip_equipped)
 {
 	nullpo_retv(items);
 
-	if( battle_config.client_sort_storage )
+	if( !battle_config.client_sort_storage )
+		return;
+
+	if( !skip_equipped ) {
 		qsort(items, size, sizeof(struct item), storage_comp_item);
+		return;
+	}
+
+	// Inventory path: sort only non-equipped items, keeping equipped items
+	// anchored to their current slots so sd->equip_index[] stays valid.
+	std::vector<uint32> free_pos;
+	std::vector<struct item> free_items;
+	free_pos.reserve(size);
+	free_items.reserve(size);
+
+	for( uint32 i = 0; i < size; i++ ) {
+		if( !items[i].equip ) {
+			free_pos.push_back(i);
+			free_items.push_back(items[i]);
+		}
+	}
+
+	std::sort(free_items.begin(), free_items.end(), [](const struct item& a, const struct item& b) {
+		if( a.nameid == b.nameid ) return false;
+		if( !a.nameid || !a.amount ) return false;
+		if( !b.nameid || !b.amount ) return true;
+		return a.nameid < b.nameid;
+	});
+
+	for( size_t i = 0; i < free_pos.size(); i++ )
+		items[free_pos[i]] = free_items[i];
 }
 
 /**
