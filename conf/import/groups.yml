@@ -50,6 +50,7 @@ Body:
       commands: true
       rates: true
       who: true
+      blockexp: true
       tri_inventaire: true
       tri_cart: true
       tri_storage: true

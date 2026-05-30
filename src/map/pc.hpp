@@ -460,6 +460,7 @@ public:
 		bool autolootmvpreward: 1;
 		bool autolootrare: 1;
 		bool showmobinfo: 1;
+		bool block_exp: 1;   ///< @blockexp : bloque le gain d'EXP
 		uint32 autolootpognon;
 		uint8 sort_inv;      ///< e_sort_mode: tri préféré pour l'inventaire
 		uint8 sort_cart;     ///< e_sort_mode: tri préféré pour le chariot

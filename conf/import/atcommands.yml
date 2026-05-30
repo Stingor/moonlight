@@ -149,6 +149,15 @@ Body:
       - showpartybuff
     Help: |
       Affiche / Masque les status des buffs party.
+  - Command: blockexp
+    Aliases:
+      - expblock
+      - noexp
+      - lockexp
+    Help: |
+      Active/désactive le blocage du gain d'EXP.
+      Utile pour faire des raids en party sans monter de niveau.
+      Le réglage est persistant entre les sessions.
   - Command: tri_inventaire
     Aliases:
       - triinv

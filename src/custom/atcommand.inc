@@ -1765,6 +1765,23 @@ ACMD_FUNC(separate)
 	return 0;
 }
 
+// ── @blockexp ────────────────────────────────────────────────────────────────
+
+ACMD_FUNC(blockexp)
+{
+	nullpo_retr(-1, sd);
+
+	sd->state.block_exp = !sd->state.block_exp;
+	pc_setglobalreg(sd, add_str("blockexp"), sd->state.block_exp);
+
+	if( sd->state.block_exp )
+		clif_displaymessage(fd, "Gain d'EXP : BLOQU\xc9. Vous ne gagnerez plus d'exp\xe9rience.");
+	else
+		clif_displaymessage(fd, "Gain d'EXP : ACTIV\xc9. Vous gagnez \xe0 nouveau de l'exp\xe9rience.");
+
+	return 0;
+}
+
 // ── @tri_inventaire / @tri_cart / @tri_storage / @tri_gstorage ───────────────
 
 static e_sort_mode atcmd_parse_sort_mode(const char* msg)

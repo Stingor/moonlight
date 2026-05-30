@@ -2452,6 +2452,7 @@ void pc_reg_received(map_session_data *sd)
 	sd->state.autolootpognon = static_cast<int32>(pc_readglobalreg(sd, add_str("alootpognon")));
 	sd->state.kill_separate = pc_readglobalreg(sd, add_str("separate")) ? 1 : 0;
 	sd->state.showmobinfo = pc_readglobalreg(sd, add_str("showmobinfo")) ? 1 : 0;
+	sd->state.block_exp   = pc_readglobalreg(sd, add_str("blockexp"))   ? 1 : 0;
 	sd->state.showexp = pc_readglobalreg(sd, add_str("showexp"));
 	sd->state.sort_inv      = (uint8)pc_readglobalreg(sd, add_str("TRI_INV"));
 	sd->state.sort_cart     = (uint8)pc_readglobalreg(sd, add_str("TRI_CART"));
@@ -8560,6 +8561,9 @@ void pc_gainexp(map_session_data *sd, block_list *src, t_exp base_exp, t_exp job
 	}
 
 	if(sd->prev == nullptr || pc_isdead(sd))
+		return;
+
+	if( sd->state.block_exp ) // @blockexp : gain d'EXP bloqué volontairement
 		return;
 
 	if (!(exp_flag&2)) {
