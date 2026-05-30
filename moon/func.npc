@@ -12,7 +12,7 @@ function	script	MissionMVP	{
 		Mission_MVP = 1;
 		dispbottom "[Chasse MVP] Vous avez tué le MVP de votre mission, retournez voir Chuck !";
 	}
-	if( getarg(1) ) // Message de log ? (par défaut aucun)
+	if( getarg(1,"") != "" ) // Message de log ? (par défaut aucun)
 		logmes getarg(1);
 
 	// --- Membres de party dans la même instance ---
