@@ -10,6 +10,8 @@
 
 //BUILDIN_DEF(example,""),
 	// [Stingor]
+	BUILDIN_DEF(mobismvp,"i"),
+	BUILDIN_DEF(mobisboss,"i"),
 	BUILDIN_DEF(getmonsterexprate,"ii?"),
 	BUILDIN_DEF(getmapspawns,"s"),
 	BUILDIN_DEF(viewequip,"vv"),

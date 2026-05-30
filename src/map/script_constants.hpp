@@ -3857,8 +3857,6 @@
 	export_constant(MOB_ID);
 	export_constant(MOB_CLASS);
 	export_constant(MOB_JNAME);
-	export_constant(MOB_ISMVP);
-	export_constant(MOB_ISBOSS);
 
 	// Renamed monsterinfo types - 2025-03-11
 	export_deprecated_constant2("MOB_ATK1",MOB_ATKMIN); 

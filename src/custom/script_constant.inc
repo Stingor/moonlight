@@ -2,6 +2,8 @@
 // For more information, see LICENCE in the main folder
 	
 	/* Stingor */
+	export_constant(MOB_ISMVP);
+	export_constant(MOB_ISBOSS);
 	export_constant(MAX_LEVEL_BASE_EXP);
 	export_constant(MAX_LEVEL_JOB_EXP);
 	export_constant(MF_NODUEL);

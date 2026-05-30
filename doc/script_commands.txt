@@ -3874,8 +3874,25 @@ Valid types are:
 	MOB_MVPEXP        - monster's mvp experience
 	MOB_ID            - monster's ID
 	MOB_JNAME         - monster's japanese name
+	MOB_ISMVP         - 1 if monster is an MVP (BOSSTYPE_MVP), 0 otherwise
+	MOB_ISBOSS        - 1 if monster is a Miniboss (BOSSTYPE_MINIBOSS), 0 otherwise
 
 For more details, see the sample in 'doc/sample/getmonsterinfo.txt'.
+
+---------------------------------------
+
+*mobismvp(<mob id>)
+*mobisboss(<mob id>)
+
+Shorthand helpers to check a monster's boss type without going through
+getmonsterinfo. Return 1 if the condition is true, 0 otherwise.
+
+  mobismvp(<mob id>)  - returns 1 if the monster is an MVP (BOSSTYPE_MVP)
+  mobisboss(<mob id>) - returns 1 if the monster is a Miniboss (BOSSTYPE_MINIBOSS)
+
+Example:
+  if (mobismvp(killedrid))
+      dispbottom "You killed an MVP!";
 
 ---------------------------------------
 

@@ -1177,3 +1177,23 @@ BUILDIN_FUNC(delitembyuid)
 		uid_str, sd->status.name);
 	return SCRIPT_CMD_FAILURE;
 }
+
+/**
+ * mobismvp(<mob_id>) -> 1 if BOSSTYPE_MVP, 0 otherwise
+ * mobisboss(<mob_id>) -> 1 if BOSSTYPE_MINIBOSS, 0 otherwise
+ */
+BUILDIN_FUNC(mobismvp)
+{
+	uint16 mob_id = script_getnum(st, 2);
+	std::shared_ptr<s_mob_db> mob = mob_db.find(mob_id);
+	script_pushint(st, mob != nullptr && mob->get_bosstype() == BOSSTYPE_MVP ? 1 : 0);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+BUILDIN_FUNC(mobisboss)
+{
+	uint16 mob_id = script_getnum(st, 2);
+	std::shared_ptr<s_mob_db> mob = mob_db.find(mob_id);
+	script_pushint(st, mob != nullptr && mob->get_bosstype() == BOSSTYPE_MINIBOSS ? 1 : 0);
+	return SCRIPT_CMD_SUCCESS;
+}
