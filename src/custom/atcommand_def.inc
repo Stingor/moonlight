@@ -44,6 +44,7 @@
 	ACMD_DEF(showmobinfo),
 	ACMD_DEF(separate),
 	ACMD_DEF(blockexp),
+	ACMD_DEF(homskin),
 	ACMD_DEF(tri_inventaire),
 	ACMD_DEF(tri_cart),
 	ACMD_DEF(tri_storage),

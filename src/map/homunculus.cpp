@@ -575,6 +575,25 @@ int32 hom_levelup(homun_data *hd)
 * @param class_: New class
 * @reutrn Fails if the class cannot be changed, otherwise true
 */
+/**
+ * Apply cosmetic skin stored in player's global reg "homskin".
+ * Only changes the view data (sprite), not the actual class or stats.
+ * Called just before clif_spawn(hd) so the spawn packet already has the right sprite.
+ */
+void hom_apply_skin(homun_data *hd)
+{
+	if( !hd || !hd->master )
+		return;
+
+	int32 skin = (int32)pc_readglobalreg(hd->master, add_str("homskin"));
+
+	if( skin <= 0 )
+		return; // no skin set — use real class viewdata (already set by hom_alloc)
+
+	if( hom_get_viewdata(skin) )
+		status_set_viewdata(hd, skin); // visual only, hd->homunculus.class_ unchanged
+}
+
 static bool hom_change_class(homun_data *hd, int32 class_) {
 	std::shared_ptr<s_homunculus_db> homun = homunculus_db.homun_search(class_);
 
@@ -1139,6 +1158,7 @@ bool hom_call(map_session_data *sd)
 		hd->m = sd->m;
 		if(map_addblock(hd))
 			return false;
+		hom_apply_skin(hd);
 		clif_spawn(hd);
 		clif_send_homdata( *hd, SP_ACK );
 		// For some reason, official servers send the homunculus info twice, then update the HP/SP again.
@@ -1210,6 +1230,7 @@ int32 hom_recv_data(uint32 account_id, struct s_homunculus *sh, int32 flag)
 	{
 		if(map_addblock(hd))
 			return 0;
+		hom_apply_skin(hd);
 		clif_spawn(hd);
 		clif_send_homdata( *hd, SP_ACK );
 		// For some reason, official servers send the homunculus info twice, then update the HP/SP again.
@@ -1313,6 +1334,7 @@ int32 hom_ressurect(map_session_data* sd, unsigned char per, int16 x, int16 y)
 		hd->y = y;
 		if(map_addblock(hd))
 			return 0;
+		hom_apply_skin(hd);
 		clif_spawn(hd);
 	}
 

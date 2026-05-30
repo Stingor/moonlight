@@ -3,10 +3,12 @@
 
 #include "atcommand.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <cstdlib>
 #include <set>
 #include <unordered_map>
+#include <vector>
 
 #include <common/cbasetypes.hpp>
 #include <common/database.hpp>
@@ -8448,6 +8450,17 @@ ACMD_FUNC(makehomun)
 
 	if (!message || !*message) {
 		clif_displaymessage(fd, msg_txt(sd,1256)); // Please enter a homunculus ID (usage: @makehomun <homunculus id>).
+		clif_displaymessage(fd, "-- Homunculus disponibles (IDs avec stats complets) --");
+		// Seules les entrees homunculus_db ont des stats completes (creables)
+		std::vector<std::pair<int32,std::string>> list;
+		for( const auto& entry : homunculus_db )
+			list.push_back({ entry.first, entry.second->name });
+		std::sort(list.begin(), list.end(), [](const auto& a, const auto& b){ return a.first < b.first; });
+		char buf[128];
+		for( const auto& e : list ) {
+			snprintf(buf, sizeof(buf), "  %d  %s", e.first, e.second.c_str());
+			clif_displaymessage(fd, buf);
+		}
 		return -1;
 	}
 
@@ -10176,7 +10189,7 @@ ACMD_FUNC(font)
 /*==========================================
  * type: 1 = commands (@), 2 = charcommands (#)
  *------------------------------------------*/
-static void atcommand_commands_sub(map_session_data* sd, const int32 fd, AtCommandType type)
+static void atcommand_commands_sub(map_session_data* sd, const int32 fd, AtCommandType type, const char* filter = nullptr)
 {
 	char line_buff[CHATBOX_SIZE];
 	char* cur = line_buff;
@@ -10187,7 +10200,13 @@ static void atcommand_commands_sub(map_session_data* sd, const int32 fd, AtComma
 	memset(line_buff,' ',CHATBOX_SIZE);
 	line_buff[CHATBOX_SIZE-1] = 0;
 
-	clif_displaymessage(fd, msg_txt(sd,273)); // "Commands available:"
+	if( filter && *filter ) {
+		char hdr2[CHATBOX_SIZE];
+		snprintf(hdr2, sizeof(hdr2), "%s (filtre: \"%s\")", msg_txt(sd,273), filter);
+		clif_displaymessage(fd, hdr2);
+	} else {
+		clif_displaymessage(fd, msg_txt(sd,273)); // "Commands available:"
+	}
 
 	for (cmd = (AtCommandInfo*)dbi_first(iter); dbi_exists(iter); cmd = (AtCommandInfo*)dbi_next(iter)) {
 		switch( type ) {
@@ -10203,6 +10222,9 @@ static void atcommand_commands_sub(map_session_data* sd, const int32 fd, AtComma
 				continue;
 		}
 
+		// Filtre optionnel par mot-clé
+		if( filter && *filter && stristr(cmd->command, filter) == nullptr )
+			continue;
 
 		size_t slen = strlen( cmd->command );
 
@@ -10263,7 +10285,7 @@ static void atcommand_commands_sub(map_session_data* sd, const int32 fd, AtComma
  *------------------------------------------*/
 ACMD_FUNC(commands)
 {
-	atcommand_commands_sub(sd, fd, COMMAND_ATCOMMAND);
+	atcommand_commands_sub(sd, fd, COMMAND_ATCOMMAND, (message && *message) ? message : nullptr);
 	return 0;
 }
 

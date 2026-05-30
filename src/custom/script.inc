@@ -198,6 +198,89 @@ BUILDIN_FUNC(setwaitingroomtitle)
 	return 0;
 }
 
+/**
+ * sethomskinn(<class_id>) — change le skin visuel de l'homonculus sans affecter les stats.
+ * class_id == 0 → remet le sprite d'origine.
+ * Retourne 1 si succès, 0 si class_id invalide.
+ * Modifie aussi le nom du hom : ajoute " (NomSkin)" ou retire le suffixe.
+ */
+BUILDIN_FUNC(sethomskinn)
+{
+	map_session_data* sd;
+	if( !script_rid2sd(sd) ) return SCRIPT_CMD_FAILURE;
+
+	int32 class_id = script_getnum(st, 2);
+
+	// Correspondance class_id → nom affiché
+	auto get_skin_name = [](int32 id) -> const char* {
+		switch(id) {
+			case MER_LIF:          return "Lif";
+			case MER_AMISTR:       return "Amistr";
+			case MER_FILIR:        return "Filir";
+			case MER_VANILMIRTH:   return "Vanilmirth";
+			case MER_LIF2:         return "Lif 2";
+			case MER_AMISTR2:      return "Amistr 2";
+			case MER_FILIR2:       return "Filir 2";
+			case MER_VANILMIRTH2:  return "Vanilmirth 2";
+			case MER_LIF_H:        return "Lif E";
+			case MER_AMISTR_H:     return "Amistr E";
+			case MER_FILIR_H:      return "Filir E";
+			case MER_VANILMIRTH_H: return "Vanilmirth E";
+			case MER_LIF_H2:       return "Lif 2 E";
+			case MER_AMISTR_H2:    return "Amistr 2 E";
+			case MER_FILIR_H2:     return "Filir 2 E";
+			case MER_VANILMIRTH_H2:return "Vanilm. 2 E";
+			case MER_EIRA:         return "Eira";
+			case MER_BAYERI:       return "Bayeri";
+			case MER_SERA:         return "Sera";
+			case MER_DIETER:       return "Dieter";
+			case MER_ELEANOR:      return "Eleanor";
+			default:               return nullptr;
+		}
+	};
+	const char* skin_name = get_skin_name(class_id);
+
+	// Retire le suffixe " (xxx)" existant du nom, retourne le nom de base
+	auto strip_skin_suffix = [](char* name) {
+		char* p = strrchr(name, '(');
+		if( p && p > name && *(p - 1) == ' ' )
+			*(p - 1) = '\0';
+	};
+
+	if( class_id == 0 ) {
+		pc_setglobalreg(sd, add_str("homskin"), 0);
+		if( sd->hd ) {
+			status_set_viewdata(sd->hd, sd->hd->homunculus.class_);
+			strip_skin_suffix(sd->hd->homunculus.name);
+			unit_refresh(sd->hd);
+		}
+		script_pushint(st, 1);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	// Valider via hom_get_viewdata : accepte toutes les formes (base, évoluées, Hom S)
+	// même si elles n'ont pas d'entrée complète dans homunculus_db.
+	if( !hom_get_viewdata(class_id) ) {
+		script_pushint(st, 0);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	pc_setglobalreg(sd, add_str("homskin"), class_id);
+	if( sd->hd ) {
+		status_set_viewdata(sd->hd, class_id);
+		if( skin_name ) {
+			// Retire l'ancien suffixe puis ajoute le nouveau
+			strip_skin_suffix(sd->hd->homunculus.name);
+			char base[NAME_LENGTH];
+			safestrncpy(base, sd->hd->homunculus.name, NAME_LENGTH);
+			snprintf(sd->hd->homunculus.name, NAME_LENGTH, "%s (%s)", base, skin_name);
+		}
+		unit_refresh(sd->hd);
+	}
+	script_pushint(st, 1);
+	return SCRIPT_CMD_SUCCESS;
+}
+
 BUILDIN_FUNC(npcsit)
 {
 	struct npc_data *nd=(struct npc_data *)map_id2bl(st->oid);

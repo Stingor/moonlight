@@ -42,7 +42,7 @@ L_Menu:
 	if (BaseLevel == 999 && !(base3rd || base4th) ) .@menu5$ = "¤ Skin 3ème classe !:¤ Skin 4ème classe !";
 	else if (BaseLevel == 999 && (base3rd || base4th) ) .@menu5$ = "¤ Retour skin normal !";
 	else .@menu$ = "";
-	.@s = select("¤ Couleur des vêtements", "¤ Couleur des cheveux", "¤ Coiffure", "¤ Hats/Transmogrification", .@menu5$);
+	.@s = select("¤ Couleur des vêtements", "¤ Couleur des cheveux", "¤ Coiffure", "¤ Hats/Transmogrification", (gethominfo(0) ? "¤ Skin Homonculus" : ""), .@menu5$);
 	if (.@s == 4) {
 		.@cost = 250000;
 		clear;
@@ -149,6 +149,30 @@ L_mainmenu:
 		close;
 	}
 	if (.@s == 5) {
+		clear;
+		mes .@npc_name$;
+		mes "Je peux modifier l'apparence de votre Homonculus S !";
+		mes "Choisissez un skin parmi les cinq formes disponibles.";
+		mes "Quel skin souhaitez-vous ?";
+		setarray .@hid[1], 6048,6049,6050,6051,6052, 0;
+		.@hc = select(
+			"¤ Eira (6048)",
+			"¤ Bayeri (6049)",
+			"¤ Sera (6050)",
+			"¤ Dieter (6051)",
+			"¤ Eleanor (6052)",
+			"¤ ^FF0000Retirer le skin^000000"
+		);
+		sethomskinn(.@hid[.@hc]);
+		clear;
+		mes .@npc_name$;
+		if (.@hid[.@hc] == 0)
+			mes "Skin de l'Homonculus retiré.";
+		else
+			mes "Skin de l'Homonculus appliqué !";
+		close;
+	}
+	if (.@s == 6) {
 		if (base3rd || base4th) {
 			if (checkoption(OPTION_RIDING))
 				setoption OPTION_DRAGON,0;
@@ -186,7 +210,7 @@ L_mainmenu:
 		}
 		goto L_Menu;
 	}
-	if (.@s == 6) {
+	if (.@s == 7) {
 		switch (Class) {
 			case JOB_LORD_KNIGHT:
 				changebase JOB_DRAGON_KNIGHT;

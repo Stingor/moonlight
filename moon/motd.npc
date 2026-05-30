@@ -246,6 +246,14 @@ OnPCLoginEvent:
 			break;
 		}
 	}
+	// Skin Homonculus S
+	if( homskin )
+		addtimer 1000, strnpcinfo(0)+"::OnHomSkinLogin";
+	end;
+
+OnHomSkinLogin:
+	if( homskin && gethominfo(0) > 0 )
+		sethomskinn(homskin);
 	end;
 
 OnPCDieEvent:

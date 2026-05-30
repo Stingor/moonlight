@@ -149,6 +149,14 @@ Body:
       - showpartybuff
     Help: |
       Affiche / Masque les status des buffs party.
+  - Command: homskin
+    Aliases:
+      - skinhom
+    Help: |
+      Change le skin visuel de l'homonculus sans affecter ses stats.
+      @homskin <class_id> — applique le sprite de cet ID d'homonculus.
+      @homskin reset      — retire le skin (retour au sprite réel).
+      Le skin est persistant et s'applique automatiquement au rappel.
   - Command: blockexp
     Aliases:
       - expblock

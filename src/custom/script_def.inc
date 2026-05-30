@@ -19,6 +19,7 @@
 	BUILDIN_DEF(getskillname,"i"),
 	BUILDIN_DEF(getalliance,"i"),
 	BUILDIN_DEF(setwaitingroomtitle,"s?"),
+	BUILDIN_DEF(sethomskinn,"i"),
 	BUILDIN_DEF(npcsit,""),
 	BUILDIN_DEF(npcstand,""),
 	//BUILDIN_DEF(addcloneskill,"ii"),

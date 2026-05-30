@@ -1765,6 +1765,71 @@ ACMD_FUNC(separate)
 	return 0;
 }
 
+// ── @homskin ──────────────────────────────────────────────────────────────────
+
+ACMD_FUNC(homskin)
+{
+	nullpo_retr(-1, sd);
+
+	if( !sd->hd ) {
+		clif_displaymessage(fd, "Vous n'avez pas d'homonculus actif.");
+		return -1;
+	}
+
+	// @homskin sans argument → liste tous les sprites valides (via hom_get_viewdata)
+	if( !message || !*message ) {
+		clif_displaymessage(fd, "Usage : @homskin <class_id> | @homskin reset");
+		clif_displaymessage(fd, "-- Sprites homonculus disponibles --");
+		static const struct { int32 id; const char* name; } hom_list[] = {
+			{ MER_LIF,           "Lif"              }, { MER_AMISTR,         "Amistr"            },
+			{ MER_FILIR,         "Filir"             }, { MER_VANILMIRTH,     "Vanilmirth"        },
+			{ MER_LIF2,          "Lif (variante)"    }, { MER_AMISTR2,        "Amistr (variante)" },
+			{ MER_FILIR2,        "Filir (variante)"  }, { MER_VANILMIRTH2,    "Vanilmirth (var.)" },
+			{ MER_LIF_H,         "Lif evolue"        }, { MER_AMISTR_H,       "Amistr evolue"     },
+			{ MER_FILIR_H,       "Filir evolue"      }, { MER_VANILMIRTH_H,   "Vanilmirth evolue" },
+			{ MER_LIF_H2,        "Lif evolue (var.)" }, { MER_AMISTR_H2,      "Amistr evo (var.)" },
+			{ MER_FILIR_H2,      "Filir evo (var.)"  }, { MER_VANILMIRTH_H2,  "Vanil. evo (var.)" },
+			{ MER_EIRA,          "Eira [Hom S]"      }, { MER_BAYERI,         "Bayeri [Hom S]"    },
+			{ MER_SERA,          "Sera [Hom S]"      }, { MER_DIETER,         "Dieter [Hom S]"    },
+			{ MER_ELEANOR,       "Eleanor [Hom S]"   },
+		};
+		char buf[64];
+		for( const auto& e : hom_list ) {
+			if( !hom_get_viewdata(e.id) ) continue; // sprite non chargé
+			snprintf(buf, sizeof(buf), "  %d  %s", e.id, e.name);
+			clif_displaymessage(fd, buf);
+		}
+		return -1;
+	}
+
+	// @homskin reset / 0 → retire le skin
+	if( strncmpi(message, "reset", 5) == 0 || atoi(message) == 0 ) {
+		pc_setglobalreg(sd, add_str("homskin"), 0);
+		// Restaure le view data réel de l'homonculus
+		status_set_viewdata(sd->hd, sd->hd->homunculus.class_);
+		unit_refresh(sd->hd);
+		clif_displaymessage(fd, "Skin de l'homonculus r\xe9" "initialis\xe9.");
+		return 0;
+	}
+
+	int32 class_id = atoi(message);
+	if( !hom_get_viewdata(class_id) ) {
+		char buf[64];
+		snprintf(buf, sizeof(buf), "ID %d invalide (sprite introuvable).", class_id);
+		clif_displaymessage(fd, buf);
+		return -1;
+	}
+
+	pc_setglobalreg(sd, add_str("homskin"), class_id);
+	status_set_viewdata(sd->hd, class_id);
+	unit_refresh(sd->hd);
+
+	char buf[96];
+	snprintf(buf, sizeof(buf), "Skin de l'homonculus chang\xe9 : ID %d.", class_id);
+	clif_displaymessage(fd, buf);
+	return 0;
+}
+
 // ── @blockexp ────────────────────────────────────────────────────────────────
 
 ACMD_FUNC(blockexp)
