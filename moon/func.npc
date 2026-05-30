@@ -17,7 +17,7 @@ function	script	MissionMVP	{
 
 	// --- Membres de party dans la même instance ---
 	.@killer_map$ = strcharinfo(3);
-	.@party_id    = getpartyid();
+	.@party_id    = getcharid(1);
 
 	if( .@party_id > 0 ) {
 		getpartymember(.@party_id, 2); // remplit $@partymembercid[] et $@partymembercount

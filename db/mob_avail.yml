@@ -71,13 +71,14 @@ Body:
     HeadMid: Ear_Of_Angel's_Wing
     HeadLow: Well_Baked_Toast
   - Mob: MVP_BLISSEY
-    Sprite: JOB_CREATOR
+    Sprite: JOB_BABY_ARCH_BISHOP
     Sex: Female
-    HairStyle: 2
-    HairColor: 3
-    ClothColor: 29
-    HeadTop: Charming_Ribbon
-    HeadMid: C_MoonStar_Accessory
+    HairStyle: 27
+    HairColor: 6
+    ClothColor: 17
+    HeadTop: C_Lovely_Ribbon_Hair
+    HeadMid: Costume_Smiling_Eyes
+    HeadLow: C_Pool
   - Mob: JAMIEDW
     Sprite: JOB_BABY_THIEF
     Sex: Male
