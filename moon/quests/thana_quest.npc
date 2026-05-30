@@ -2234,9 +2234,10 @@ OnEnable:
 	end;
 OnMyMobDead:
 	if (mobcount("thana_boss","#summon_thanatos::OnMyMobDead") < 1) {
+		MissionMVP(true, "Thanatos tué");
 		mapannounce "thana_boss","RAWWWWWWWWWWR........ This can't be.........................",bc_map,"0xff0000"; //FW_NORMAL 12 0 0
 		donpcevent "#cooltime_thana::OnEnable";
-		set $@thana_summon, 6;
+		$@thana_summon = 6;
 	}
 	end;
 }
@@ -2256,8 +2257,6 @@ OnStop:
 OnTimer3000:
 	mapannounce "thana_boss","Warning!!",bc_map,"0x00ff00"; //FW_NORMAL 12 0 0
 	mapannounce "thana_boss","Le Thanatos appartenant à "+$@thana_summon_name$+" vient d'être tué !",1;
-	query_sql("UPDATE `char` SET mvp_count = mvp_count + 1 WHERE `char_id` = '" + getcharid(0,$@thana_summon_name$) + "'");
-	// logmes "Thanathos tué par "+$@thana_summon_name$+".";
 	$@thana_summon_time = gettimetick(2);
 	end;
 OnTimer6000:

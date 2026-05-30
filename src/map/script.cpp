@@ -18778,11 +18778,33 @@ BUILDIN_FUNC(getmonsterinfo)
 		case MOB_ID:         script_pushint(st, mob->id); break;
 		case MOB_CLASS:      script_pushint(st, mob->status.class_); break;
 		case MOB_JNAME:      script_pushstrcopy(st, mob->jname.c_str()); break;
+		case MOB_ISMVP:      script_pushint(st, mob->get_bosstype() == BOSSTYPE_MVP ? 1 : 0); break;
+		case MOB_ISBOSS:     script_pushint(st, mob->get_bosstype() == BOSSTYPE_MINIBOSS ? 1 : 0); break;
 		default:
 			ShowError( "buildin_getmonsterinfo: Invalid getmonsterinfo type '%d'.\n", type );
 			st->state = END;
 			return SCRIPT_CMD_FAILURE;
 	}
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/**
+ * mobismvp(<mob_id>) -> 1 if MVP, 0 otherwise
+ * mobisboss(<mob_id>) -> 1 if Miniboss, 0 otherwise
+ */
+BUILDIN_FUNC(mobismvp)
+{
+	uint16 mob_id = script_getnum(st, 2);
+	std::shared_ptr<s_mob_db> mob = mob_db.find(mob_id);
+	script_pushint(st, mob != nullptr && mob->get_bosstype() == BOSSTYPE_MVP ? 1 : 0);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+BUILDIN_FUNC(mobisboss)
+{
+	uint16 mob_id = script_getnum(st, 2);
+	std::shared_ptr<s_mob_db> mob = mob_db.find(mob_id);
+	script_pushint(st, mob != nullptr && mob->get_bosstype() == BOSSTYPE_MINIBOSS ? 1 : 0);
 	return SCRIPT_CMD_SUCCESS;
 }
 
@@ -28324,6 +28346,8 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(undisguise,"?"), //undisguise player. Lupus
 	BUILDIN_DEF(getrandmobid, "i??"),
 	BUILDIN_DEF(getmonsterinfo,"vi"), //Lupus
+	BUILDIN_DEF(mobismvp,"i"),
+	BUILDIN_DEF(mobisboss,"i"),
 	BUILDIN_DEF(addmonsterdrop,"vii??"), //Akinari [Lupus]
 	BUILDIN_DEF(delmonsterdrop,"vi"), //Akinari [Lupus]
 	BUILDIN_DEF(axtoi,"s"),
