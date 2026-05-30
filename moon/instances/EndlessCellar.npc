@@ -749,6 +749,8 @@ OnInstanceInit:
 	end;
 	
 OnMobDead:
+	if (mobismvp(killedrid))
+		MissionMVP(0, "Endless Cellar: "+getmonsterinfo(killedrid, MOB_NAME)+" tué");
 	.@i = 0;
 	'EC_Mobs = 'EC_Mobs - 1;
 	if ('EC_Mobs < 0) 'EC_Mobs = 0;
@@ -791,6 +793,7 @@ OnPorDead:
 	end;
 
 OnPain1:
+	MissionMVP(0, "Endless Cellar: High Priest Magaleta tué");
 	'mvpdead--;
 	if( 'mvpdead != 0 ) end;
 	'mvpdead = 'mult;
@@ -801,6 +804,7 @@ OnPain1:
 	end;
 
 OnPain2:
+	MissionMVP(0, "Endless Cellar: High Wizard Katrinn tué");
 	'mvpdead--;
 	if( 'mvpdead != 0 ) end;
 	'mvpdead = 'mult;
@@ -811,6 +815,7 @@ OnPain2:
 	end;
 
 OnPain3:
+	MissionMVP(0, "Endless Cellar: Sniper Shecil tué");
 	'mvpdead--;
 	if( 'mvpdead != 0 ) end;
 	'mvpdead = 'mult;
@@ -821,6 +826,7 @@ OnPain3:
 	end;
 
 OnPain4:
+	MissionMVP(0, "Endless Cellar: Assassin Cross Eremes tué");
 	'mvpdead--;
 	if( 'mvpdead != 0 ) end;
 	'mvpdead = 'mult;
@@ -831,6 +837,7 @@ OnPain4:
 	end;
 
 OnPain5:
+	MissionMVP(0, "Endless Cellar: Whitesmith Harword tué");
 	'mvpdead--;
 	if( 'mvpdead != 0 ) end;
 	'mvpdead = 'mult;
@@ -841,6 +848,7 @@ OnPain5:
 	end;
 
 OnPain6:
+	MissionMVP(0, "Endless Cellar: Lord Knight Seyren tué");
 	'mvpdead--;
 	if( 'mvpdead != 0 ) end;
 	'mvpdead = 'mult;
@@ -859,6 +867,7 @@ OnPain6:
 	end;
 
 OnBapho:
+	MissionMVP(0, "Endless Cellar: Super Baphomet tué");
 	'mvpdead--;
 	if( 'mvpdead != 0 ) end;
 	'mvpdead = 'mult;

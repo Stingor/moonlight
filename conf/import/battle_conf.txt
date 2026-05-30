@@ -113,7 +113,7 @@ display_version: no
 display_hallucination: yes
 display_status_timers: yes
 client_reshuffle_dice: yes
-client_sort_storage: yes
+client_sort_storage: no
 update_enemy_position: no
 spawn_direction: yes
 mvp_exp_reward_message: no

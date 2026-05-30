@@ -1232,6 +1232,8 @@ OnInstanceInit:
 	end;
 
 OnMyMobDead:
+	if (mobismvp(killedrid))
+		MissionMVP(0, "Endless Tower: "+getmonsterinfo(killedrid, MOB_NAME)+" tué");
 	set .@map$, instance_mapname("1@tower");
 	set .@mob_dead_num,mobcount(.@map$,instance_npcname("#1F Controller")+"::OnMyMobDead");
 	if (.@mob_dead_num < 1) {
@@ -1265,6 +1267,8 @@ OnTouch_:
 	end;
 
 OnMyMobDead:
+	if (mobismvp(killedrid))
+		MissionMVP(0, "Endless Tower: "+getmonsterinfo(killedrid, MOB_NAME)+" tué");
 	set .@map$, strnpcinfo(4);
 	set .@level, atoi(replacestr(strnpcinfo(0),"FGate102tower","")) + 1;
 	set .@mob_dead_num,mobcount(.@map$,instance_npcname(strnpcinfo(0))+"::OnMyMobDead");
@@ -1392,6 +1396,8 @@ OnInstanceInit:
 	end;
 
 OnMyMobDead:
+	if (mobismvp(killedrid))
+		MissionMVP(0, "Endless Tower: "+getmonsterinfo(killedrid, MOB_NAME)+" tué");
 	set .@map$, instance_mapname("2@tower");
 	set .@mob_dead_num,mobcount(.@map$,instance_npcname("Immortal Furnace#1")+"::OnMyMobDead");
 	if (.@mob_dead_num < 1) {
@@ -1503,6 +1509,8 @@ OnInstanceInit:
 	end;
 
 OnMyMobDead:
+	if (mobismvp(killedrid))
+		MissionMVP(0, "Endless Tower: "+getmonsterinfo(killedrid, MOB_NAME)+" tué");
 	set .@map$, instance_mapname("3@tower");
 	set .@mob_dead_num,mobcount(.@map$,instance_npcname("Immortal Furnace#2")+"::OnMyMobDead");
 	if (.@mob_dead_num < 1) {
@@ -1614,6 +1622,8 @@ OnInstanceInit:
 	end;
 
 OnMyMobDead:
+	if (mobismvp(killedrid))
+		MissionMVP(0, "Endless Tower: "+getmonsterinfo(killedrid, MOB_NAME)+" tué");
 	set .@map$, instance_mapname("4@tower");
 	set .@mob_dead_num,mobcount(.@map$,instance_npcname("Immortal Furnace#3")+"::OnMyMobDead");
 	if (.@mob_dead_num < 1) {
@@ -1794,6 +1804,7 @@ OnInstanceInit:
 	end;
 
 OnMyMobDead:
+	MissionMVP(0, "Endless Tower: "+getmonsterinfo(killedrid, MOB_NAME)+" tué");
 	set .@map$, instance_mapname("5@tower");
 	set .@mob_dead_num,mobcount(.@map$,instance_npcname("#102FShadowDust1")+"::OnMyMobDead");
 	if (.@mob_dead_num < 1) {
@@ -2063,6 +2074,7 @@ OnTimer10500:
 	end;
 
 OnMyMobDead:
+	MissionMVP(0, "Endless Tower: "+getmonsterinfo(killedrid, MOB_NAME)+" tué");
 	addrid(5,0,instance_mapname("6@tower"));
 	setarray .@item$[0], 616, 12103, 12106, 12109, 12130, 12246;
 	setarray .@amount$[0], 'hm, 'hm, 'hm, 'hm, 'hm, 'hm;

@@ -660,6 +660,8 @@ L_PickMvpMob:
 	while( !@hm_mvp && .@tries < 500 ) {
 		.@tries++;
 		.@cand = getrandmobid(MOBG_BLOODY_DEAD_BRANCH, RMF_NONE);
+		// Blacklist (encadre de virgules pour eviter les sous-chaines, ex: 88 vs 1088)
+		if( compare(","+.Blacklist$+",", ","+.@id+",") ) continue;
 		if( .@cand <= 0 ) continue;
 		if( getmonsterinfo(.@cand, MOB_MODE) & MD_MVP )
 			@hm_mvp = .@cand;
@@ -682,7 +684,7 @@ L_MvpPoints:
 			break;
 		}
 		else if ( getarg(0) >= MOB_B_SEYREN && getarg(0) <= MOB_B_KATRINN || getarg(0) >= MOB_B_RANDEL && getarg(0) <= MOB_B_TRENTINI ) {
-			@hm_mvp_pts = 10;
+			@hm_mvp_pts = 20;
 			break;
 		}
 	}
@@ -697,6 +699,6 @@ OnInit:
 		"1244,1245,1250,1268,1270,1290,1293,1294,1296,1298,1299,"+
 		"1300,1301,1303,1304,1305,1306,1308,1309,1311,1313,1377,"+
 		"1515,1588,1618,1629,1631,1675,1676,1677,1678,1679,1796,1797,1929,1957,1974,"+
-		"1975,1976,1977,1978,1979";
+		"1975,1976,1977,1978,1979,2341";
 	end;
 }
