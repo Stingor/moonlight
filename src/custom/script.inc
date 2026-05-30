@@ -201,24 +201,26 @@ BUILDIN_FUNC(setwaitingroomtitle)
 BUILDIN_FUNC(npcsit)
 {
 	struct npc_data *nd=(struct npc_data *)map_id2bl(st->oid);
-	
+
 	if( nd && nd->vd.dead_sit == 0 ) {
 		nd->vd.dead_sit = 2;
-		clif_sitting(*nd);
+		// Le client RO ignore ZC_NOTIFY_ACT(DMG_SIT_DOWN) pour les NPCs.
+		// unit_refresh envoie clear + clif_set_unit_idle (inclut state=2 depuis
+		// le fix clif_spawn), ce qui est le seul moyen fiable de mettre à jour
+		// l'apparence assise pour tous les joueurs en vue.
+		unit_refresh(nd);
 	}
-	
 	return 0;
 }
 
 BUILDIN_FUNC(npcstand)
 {
 	struct npc_data *nd=(struct npc_data *)map_id2bl(st->oid);
-	
+
 	if( nd && nd->vd.dead_sit == 2 ) {
 		nd->vd.dead_sit = 0;
-		clif_standing(*nd);
+		unit_refresh(nd);
 	}
-
 	return 0;
 }
 

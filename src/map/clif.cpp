@@ -1704,7 +1704,10 @@ int32 clif_spawn( const block_list* bl, bool walking ){
 		return 0;
 	}
 
-	if( bl->type == BL_NPC && !vd->dead_sit ){
+	// Always use clif_set_unit_idle for NPCs: packet_idle_unit has the 'state' field
+	// (dead_sit) while packet_spawn_unit does not. Without this, sitting NPCs always
+	// appear standing after clif_spawn because the sitting state is never transmitted.
+	if( bl->type == BL_NPC ){
 		clif_set_unit_idle( bl, walking, AREA_WOS, bl );
 	}else{
 		clif_spawn_unit( bl, AREA_WOS );
