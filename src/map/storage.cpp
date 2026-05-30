@@ -106,7 +106,7 @@ void inventory_sortitem(struct item* items, struct item_data** item_data, uint32
 	if( !battle_config.client_sort_storage )
 		return;
 
-	// Collect non-equipped slots — equipped items keep their index so equip_index[] stays valid.
+	// Collect non-equipped slots and equipped items keep their index so equip_index[] stays valid.
 	struct sort_pair {
 		struct item      it;
 		struct item_data* data;
