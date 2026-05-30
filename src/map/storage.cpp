@@ -78,50 +78,63 @@ static int32 storage_comp_item(const void *_i1, const void *_i2)
 }
 
 /**
- * Sort item by storage_comp_item (nameid)
- * used when we open up our storage or guild_storage
- * @param items        : list of items to sort
- * @param size         : number of items in list
- * @param skip_equipped: if true, equipped items (item.equip != 0) are left in
- *                       place and only non-equipped items are sorted. Must be
- *                       true when sorting sd->inventory to avoid invalidating
- *                       sd->equip_index[] which tracks inventory slot indices.
+ * Sort items by nameid (storage, guild storage, cart).
+ * @param items : list of items to sort
+ * @param size  : number of items in list
  */
-void storage_sortitem(struct item* items, uint32 size, bool skip_equipped)
+void storage_sortitem(struct item* items, uint32 size)
 {
 	nullpo_retv(items);
+
+	if( battle_config.client_sort_storage )
+		qsort(items, size, sizeof(struct item), storage_comp_item);
+}
+
+/**
+ * Sort inventory items by nameid while keeping:
+ *   - equipped items anchored (sd->equip_index[] must stay valid)
+ *   - sd->inventory_data[] in sync (parallel pointer array)
+ * @param items     : sd->inventory.u.items_inventory
+ * @param item_data : sd->inventory_data (parallel array, sorted alongside items)
+ * @param size      : MAX_INVENTORY
+ */
+void inventory_sortitem(struct item* items, struct item_data** item_data, uint32 size)
+{
+	nullpo_retv(items);
+	nullpo_retv(item_data);
 
 	if( !battle_config.client_sort_storage )
 		return;
 
-	if( !skip_equipped ) {
-		qsort(items, size, sizeof(struct item), storage_comp_item);
-		return;
-	}
+	// Collect non-equipped slots — equipped items keep their index so equip_index[] stays valid.
+	struct sort_pair {
+		struct item      it;
+		struct item_data* data;
+	};
 
-	// Inventory path: sort only non-equipped items, keeping equipped items
-	// anchored to their current slots so sd->equip_index[] stays valid.
-	std::vector<uint32> free_pos;
-	std::vector<struct item> free_items;
+	std::vector<uint32>     free_pos;
+	std::vector<sort_pair>  free_pairs;
 	free_pos.reserve(size);
-	free_items.reserve(size);
+	free_pairs.reserve(size);
 
 	for( uint32 i = 0; i < size; i++ ) {
 		if( !items[i].equip ) {
 			free_pos.push_back(i);
-			free_items.push_back(items[i]);
+			free_pairs.push_back({ items[i], item_data[i] });
 		}
 	}
 
-	std::sort(free_items.begin(), free_items.end(), [](const struct item& a, const struct item& b) {
-		if( a.nameid == b.nameid ) return false;
-		if( !a.nameid || !a.amount ) return false;
-		if( !b.nameid || !b.amount ) return true;
-		return a.nameid < b.nameid;
+	std::sort(free_pairs.begin(), free_pairs.end(), [](const sort_pair& a, const sort_pair& b) {
+		if( a.it.nameid == b.it.nameid ) return false;
+		if( !a.it.nameid || !a.it.amount ) return false;
+		if( !b.it.nameid || !b.it.amount ) return true;
+		return a.it.nameid < b.it.nameid;
 	});
 
-	for( size_t i = 0; i < free_pos.size(); i++ )
-		items[free_pos[i]] = free_items[i];
+	for( size_t i = 0; i < free_pos.size(); i++ ) {
+		items[free_pos[i]]     = free_pairs[i].it;
+		item_data[free_pos[i]] = free_pairs[i].data;
+	}
 }
 
 /**
