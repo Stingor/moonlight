@@ -677,6 +677,15 @@ def get_response(player: str, message: str, conn=None) -> str:
         print(f"[Groq] CTX pour {player}: {ctx!r}", file=sys.stderr)
     else:
         print(f"[Groq] CTX vide pour {player}: {message[:60]!r}", file=sys.stderr)
+
+    # Si pas de données serveur mais question qui touche au jeu → rappel anti-hallucination
+    _GAME_WORDS = {"exp", "xp", "level", "lvl", "farm", "spot", "map", "mob",
+                   "drop", "item", "card", "carte", "skill", "classe", "build",
+                   "where", "où", "qui", "quoi", "quel", "quelle"}
+    words_low = set(re.sub(r"[²,!?.]", " ", message).lower().split())
+    if not ctx and words_low & _GAME_WORDS:
+        ctx = "[AUCUNE DONNÉE SERVEUR] Tu n'as pas d'info sur cette question pour CE serveur — ne cite aucune map, mob ou item spécifique."
+
     full_message = (ctx + "\n" + message).strip() if ctx else message
 
     histories[player].append({"role": "user", "content": full_message})
