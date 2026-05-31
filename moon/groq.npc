@@ -1,0 +1,40 @@
+//===== Moonlight-Destiny ====================================
+
+gonryun,159,116,4	script	Sting::sting_IA	MVP_STING,{
+	mes "["+strnpcinfo(0)+"]";
+	mes "Salut "+strcharinfo(0)+" !";
+	mes "Mentionne mon nom dans le chat pour me parler.";
+	close;
+
+L_chat:
+	if(gettimetick(2) - .cooldown < 5) end;
+	.cooldown = gettimetick(2);
+
+	.@player$ = $@p1$;
+	.@msg$    = $@p2$;
+	.@reqid$  = ""+getcharid(3)+gettimetick(2);
+
+	query_sql "INSERT INTO chatbot_queue (reqid, player, message) VALUES ('"+ .@reqid$ +"','"+ escape_sql(.@player$) +"','"+ escape_sql(.@msg$) +"')";
+	sleep2 3500;
+	query_sql "SELECT response FROM chatbot_queue WHERE reqid='"+ .@reqid$ +"' AND status='done'", .@response$;
+
+	if(.@response$ != "")
+		npctalk strnpcinfo(0)+" : "+.@response$;
+	end;
+
+OnTimer10000:
+	.@nx = .ox - .wr + rand(0, .wr * 2);
+	.@ny = .oy - .wr + rand(0, .wr * 2);
+	npcwalkto .@nx, .@ny;
+	initnpctimer;
+	end;
+
+OnInit:
+	.ox = 159;
+	.oy = 116;
+	.wr = 5;
+	defpattern 2, "(?i)([^:]+) *: *(.*sting.*)", "L_chat";
+	activatepset 2;
+	initnpctimer;
+	end;
+}

@@ -110,6 +110,7 @@ Thumbs.db
 # /tools/
 /tools/convert
 /tools/adduser
+/tools/groq.env
 /tools/*.exe
 /tools/*.ilk
 /tools/*.pdb
@@ -167,3 +168,4 @@ tools/__pycache__/re_to_prere_mob.cpython-312.pyc
 /re-ne-pas-utiliser/
 /npc/
 /npc-ne-pas-utiliser/
+/tools/.venv
