@@ -307,6 +307,35 @@ BUILDIN_FUNC(npcstand)
 	return 0;
 }
 
+/* npcwalktothensit <x>,<y>
+ * Marche vers (x,y) et s'assoit automatiquement a l'arrivee. [Stingor]
+ */
+BUILDIN_FUNC(npcwalktothensit)
+{
+	struct npc_data *nd = (struct npc_data *)map_id2bl(st->oid);
+	int x = script_getnum(st, 2);
+	int y = script_getnum(st, 3);
+
+	if (!nd) return SCRIPT_CMD_FAILURE;
+	if (nd->m < 0) return SCRIPT_CMD_FAILURE;
+
+	if (!nd->status.hp)
+		status_calc_npc(nd, SCO_FIRST);
+	else
+		status_calc_npc(nd, SCO_NONE);
+
+	// Se lever d'abord si assis
+	if (nd->vd.dead_sit == 2) {
+		nd->vd.dead_sit = 0;
+		unit_refresh(nd);
+	}
+
+	nd->ud.state.sit_on_arrive = 1;
+	unit_walktoxy(nd, (short)x, (short)y, 0);
+
+	return SCRIPT_CMD_SUCCESS;
+}
+
 /*BUILDIN_FUNC(addcloneskill)
 {
 	 int skill_id,skill_lv, lv;

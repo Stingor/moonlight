@@ -427,10 +427,66 @@ static bool item_db_yaml2sql(const std::string &file, const std::string &table) 
 			column.append("`type`,");
 		if (appendEntry(input["SubType"], value, true))
 			column.append("`subtype`,");
-		if (appendEntry(input["Buy"], value))
-			column.append("`price_buy`,");
-		if (appendEntry(input["Sell"], value))
-			column.append("`price_sell`,");
+		// [Stingor] Moonlight custom pricing — mirrors ItemDatabase::loadingFinished()
+		{
+			std::string type_str = input["Type"].IsDefined() ?
+				string_trim(input["Type"].as<std::string>()) : "";
+
+			uint32_t buy = 0, sell = 0;
+			bool custom_price = false;
+
+			if (type_str == "Weapon") {
+				uint32_t wlv   = input["WeaponLevel"].IsDefined() ? input["WeaponLevel"].as<uint32_t>() : 1;
+				uint32_t atk   = input["Attack"].IsDefined()      ? input["Attack"].as<uint32_t>()      : 0;
+				uint32_t slots = input["Slots"].IsDefined()        ? input["Slots"].as<uint32_t>()        : 0;
+				switch (wlv) {
+					case 1: buy = 1000u    + atk * 10u     + slots * 100u;    sell = buy / 2u;   break;
+					case 2: buy = 100000u  + atk * 100u    + slots * 1500u;   sell = buy / 7u;   break;
+					case 3: buy = 300000u  + atk * 1000u   + slots * 25000u;  sell = buy / 20u;  break;
+					case 4: buy = 8000000u + atk * 10000u  + slots * 150000u; sell = buy / 100u; break;
+					default: break;
+				}
+				if (buy > 0) custom_price = true;
+
+			} else if (type_str == "Armor") {
+				uint32_t def   = input["Defense"].IsDefined() ? input["Defense"].as<uint32_t>() : 0;
+				uint32_t slots = input["Slots"].IsDefined()   ? input["Slots"].as<uint32_t>()   : 0;
+				uint32_t sell_div = 2;
+				const YAML::Node &locs = input["Locations"];
+
+				// Helper : loc définie et vraie (true / Both_*)
+				auto hasLoc = [&](const char *key, const char *bothKey = nullptr) -> bool {
+					if (locs.IsDefined() && locs[key].IsDefined()) return true;
+					if (bothKey && locs.IsDefined() && locs[bothKey].IsDefined()) return true;
+					return false;
+				};
+
+				if      (hasLoc("Armor"))                                        { buy = 5000u  + def * 8000u  + slots * 40000u; sell_div = 5; }
+				else if (hasLoc("Left_Hand", "Both_Hand"))                       { buy = 3000u  + def * 10000u + slots * 50000u; sell_div = 5; }
+				else if (hasLoc("Garment"))                                      { buy = 2000u  + def * 5000u  + slots * 25000u; sell_div = 4; }
+				else if (hasLoc("Shoes"))                                        { buy = 1000u  + def * 4000u  + slots * 20000u; sell_div = 4; }
+				else if (hasLoc("Head_Top"))                                     { buy = 500u   + def * 3000u  + slots * 10000u; sell_div = 3; }
+				else if (hasLoc("Head_Mid"))                                     { buy = 200u   + def * 2000u  + slots * 5000u;  sell_div = 3; }
+				else if (hasLoc("Head_Low"))                                     { buy = 100u   + def * 1000u  + slots * 3000u;  sell_div = 2; }
+				else if (hasLoc("Right_Accessory","Both_Accessory") ||
+				         hasLoc("Left_Accessory", "Both_Accessory"))             { buy = 500u   + def * 1000u  + slots * 5000u;  sell_div = 2; }
+
+				if (buy > 0) { sell = buy / sell_div; custom_price = true; }
+			}
+
+			if (custom_price) {
+				value.append(std::to_string(buy));  value.append(",");
+				column.append("`price_buy`,");
+				value.append(std::to_string(sell)); value.append(",");
+				column.append("`price_sell`,");
+			} else {
+				if (appendEntry(input["Buy"], value))
+					column.append("`price_buy`,");
+				if (appendEntry(input["Sell"], value))
+					column.append("`price_sell`,");
+			}
+		}
+		// [/Stingor]
 		if (appendEntry(input["Weight"], value))
 			column.append("`weight`,");
 		if (appendEntry(input["Attack"], value))

@@ -56,6 +56,7 @@ struct unit_data {
 		unsigned walk_easy : 1 ;
 		unsigned running : 1;
 		unsigned walk_script : 1;
+		unsigned sit_on_arrive : 1; // [Stingor] npcwalktothensit
 		unsigned blockedmove : 1;
 		unsigned blockedskill : 1;
 		unsigned ignore_cell_stack_limit : 1;

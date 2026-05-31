@@ -22,6 +22,7 @@
 	BUILDIN_DEF(sethomskinn,"i"),
 	BUILDIN_DEF(npcsit,""),
 	BUILDIN_DEF(npcstand,""),
+	BUILDIN_DEF(npcwalktothensit,"ii"),
 	//BUILDIN_DEF(addcloneskill,"ii"),
 	BUILDIN_DEF(starteventexp,""),
 	BUILDIN_DEF(stopeventexp,""),

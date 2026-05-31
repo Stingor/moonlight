@@ -22,10 +22,10 @@ L_chat:
 		npctalk strnpcinfo(0)+" : "+.@response$;
 	end;
 
-OnTimer10000:
+OnTimer60000:
 	.@nx = .ox - .wr + rand(0, .wr * 2);
 	.@ny = .oy - .wr + rand(0, .wr * 2);
-	npcwalkto .@nx, .@ny;
+	npcwalktothensit .@nx, .@ny;
 	initnpctimer;
 	end;
 
@@ -34,6 +34,7 @@ OnInit:
 	.oy = 116;
 	.wr = 5;
 	defpattern 2, "(?i)([^:]+) *: *(.*sting.*)", "L_chat";
+	defpattern 2, "([^:]+) *: *(².*)", "L_chat";
 	activatepset 2;
 	initnpctimer;
 	end;

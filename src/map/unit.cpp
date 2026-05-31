@@ -675,6 +675,15 @@ static TIMER_FUNC(unit_walktoxy_timer)
 			}
 
 		}
+		// [Stingor] npcwalktothensit — sit on arrival
+		if (ud->state.sit_on_arrive) {
+			ud->state.sit_on_arrive = 0;
+			npc_data* nd_sit = BL_CAST(BL_NPC, bl);
+			if (nd_sit && nd_sit->vd.dead_sit == 0) {
+				nd_sit->vd.dead_sit = 2;
+				unit_refresh(nd_sit);
+			}
+		}
 	}
 
 	switch(bl->type) {
