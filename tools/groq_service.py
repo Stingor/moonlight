@@ -41,8 +41,9 @@ DB_CONFIG = {
     "charset":     "utf8mb4",
     "cursorclass": pymysql.cursors.DictCursor,
 }
-DB_RATHENA    = os.environ.get("DB_RATHENA",    "rathena")
-TRANSLATE_URL = os.environ.get("TRANSLATE_URL", "http://localhost/api/translate_script.php")
+DB_RATHENA        = os.environ.get("DB_RATHENA",        "rathena")
+TRANSLATE_URL     = os.environ.get("TRANSLATE_URL",     "http://localhost/api/translate_script.php")
+TRANSLATE_TOKEN   = os.environ.get("TRANSLATE_TOKEN",   "")
 
 SYSTEM_PROMPT = (
     "Tu es Sting, un vieux de la vieille qui traîne à Gonryun sur Moonlight-Destiny (pre-renewal, 1000x, max 999). "
@@ -302,20 +303,64 @@ def _item_droppers(item_aegis, conn):
     return result
 
 def _translate_script(script: str) -> str:
-    """Traduit un script rAthena via le endpoint PHP du site (localhost)."""
-    if not script or not TRANSLATE_URL:
-        return script.strip()
-    try:
-        import urllib.parse
-        url = TRANSLATE_URL + "?script=" + urllib.parse.quote(script)
-        req = urllib.request.Request(url, headers={"User-Agent": "python-requests/2.31.0"})
-        ctx = None if url.startswith("http://") else SSL_CTX
-        with urllib.request.urlopen(req, timeout=3, context=ctx) as resp:
-            result = resp.read().decode("utf-8").strip()
-            return result if result else script.strip()
-    except Exception as e:
-        print(f"[Groq] translate_script fallback ({e})", file=sys.stderr)
-        return script.strip()  # fallback : script brut
+    """Traduit un script rAthena via le endpoint PHP du site, avec fallback Python."""
+    if not script:
+        return ""
+    # Essai via PHP
+    if TRANSLATE_URL:
+        try:
+            import urllib.parse
+            url = TRANSLATE_URL + "?script=" + urllib.parse.quote(script)
+            if TRANSLATE_TOKEN:
+                url += "&token=" + urllib.parse.quote(TRANSLATE_TOKEN)
+            req = urllib.request.Request(url, headers={"User-Agent": "python-requests/2.31.0"})
+            ctx = None if url.startswith("http://") else SSL_CTX
+            with urllib.request.urlopen(req, timeout=3, context=ctx) as resp:
+                result = resp.read().decode("utf-8").strip()
+                if result and "aucun script" not in result:
+                    return result
+        except Exception as e:
+            print(f"[Groq] translate_script PHP indispo ({e}), fallback Python", file=sys.stderr)
+    # Fallback Python — couvre les cas les plus courants
+    _BONUS_MAP = {
+        "bNoGemStone": "plus besoin de gemstone pour les skills",
+        "bNoBottle":   "plus besoin de bouteille (Alchimiste)",
+        "bNoAmmo":     "plus besoin de munitions (Gunslinger)",
+        "bNoZeny":     "skills sans coût en zeny",
+        "bNoItem":     "skills sans item requis",
+        "bDefRatioAtkClass": "ignore la DEF dure de la cible",
+        "bNoCastCancel": "incantation incassable",
+        "bNoKnockback":  "insensible au knockback",
+        "bIntravision":  "voit les ennemis camouflés",
+    }
+    parts = []
+    for token in re.split(r';\s*', script.strip().strip('{}')):
+        token = token.strip()
+        if not token:
+            continue
+        m = re.match(r'bonus2?\s+(\w+)(?:\s*,\s*(.+))?', token)
+        if not m:
+            parts.append(token)
+            continue
+        b, val = m.group(1), (m.group(2) or "").strip()
+        try: v = int(val)
+        except: v = None
+        if b in _BONUS_MAP:
+            parts.append(_BONUS_MAP[b])
+        elif b == "bUseSPrate" and v is not None:
+            parts.append(f"Consommation SP +{v}% (coûte {v}% de SP en plus)" if v > 0
+                         else f"Consommation SP {v}% (coûte {abs(v)}% de SP en moins)")
+        elif b in ("bStr","bAgi","bVit","bInt","bDex","bLuk") and v is not None:
+            parts.append(f"+{v} {b[1:]}" if v > 0 else f"{v} {b[1:]}")
+        elif b in ("bDef","bAtk","bMaxHP","bMaxSP","bAspd","bHit","bFlee","bMdef") and v is not None:
+            lbl = {"bDef":"DEF","bAtk":"ATK","bMaxHP":"HP max","bMaxSP":"SP max",
+                   "bAspd":"ASPD","bHit":"Hit","bFlee":"Flee","bMdef":"MDEF"}[b]
+            parts.append(f"+{v} {lbl}" if v > 0 else f"{v} {lbl}")
+        elif b == "bSPDrainValue" and v is not None:
+            parts.append(f"drain {abs(v)} SP par coup" if v < 0 else f"+{v} SP récupéré par coup")
+        else:
+            parts.append(token)
+    return ", ".join(p for p in parts if p)
 
 
 def _item_info(item_id, conn):
