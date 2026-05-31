@@ -15,11 +15,23 @@ L_chat:
 	.@reqid$  = ""+getcharid(3)+gettimetick(2);
 
 	query_sql "INSERT INTO chatbot_queue (reqid, player, message) VALUES ('"+ .@reqid$ +"','"+ escape_sql(.@player$) +"','"+ escape_sql(.@msg$) +"')";
-	sleep2 3500;
-	query_sql "SELECT response FROM chatbot_queue WHERE reqid='"+ .@reqid$ +"' AND status='done'", .@response$;
+	// Attente adaptative : check toutes les 2s jusqu'a 12s max
+	.@tries = 0;
+	while(.@response$ == "" && .@tries < 6) {
+		sleep2 2000;
+		query_sql "SELECT response FROM chatbot_queue WHERE reqid='"+ .@reqid$ +"' AND status='done'", .@response$;
+		.@tries++;
+	}
 
-	if(.@response$ != "")
-		npctalk strnpcinfo(0)+" : "+.@response$;
+	if(.@response$ != "") {
+		explode(.@parts$, .@response$, "|");
+		.@i = 0;
+		while(.@parts$[.@i] != "") {
+			npctalk strnpcinfo(0)+" : "+.@parts$[.@i];
+			.@i++;
+			if(.@parts$[.@i] != "") sleep2 1200;
+		}
+	}
 	end;
 
 OnTimer60000:
