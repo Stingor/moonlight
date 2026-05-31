@@ -1,3 +1,5 @@
+//===== Moonlight-Destiny ====================================
+
 function	script	LinkFlag	{
 	// dispbottom getarg(0);
 //	if (!getcharid(2) || getcharid(2) != getcastledata(strnpcinfo(4),CD_GUILD_ID))

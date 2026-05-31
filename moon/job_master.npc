@@ -1,26 +1,7 @@
-//===== Moonlight-Destiny ==================================
+//===== Moonlight-Destiny ====================================
 //= Script Job Changeur.
-//===== Par: =================================================
-//= Yaro / Moonlight-Destiny Dev Team
-//===== Version courrante: ===================================
-//= 2.0
-//===== Description: =========================================
-//= Permet aux joueurs de changer de job,
-//= reset stats et skills et
-//= Platinium skills.
-//===== Commentaires: ========================================
-//= 1.0 Creation [Stingor]
-//= 1.1 Ajout support pour Baby [Stingor]
-//= 1.2 Correction erreurs [Stingor]
-//= 1.3a Ajout support Taekwon Rank dans reset skill [Stingor]
-//= 1.3b Passage de var "@jobmini" à ".@jobmini" [Stingor]
-//= 1.3c Correction bug avec Baby_Bard & Baby_Dancer [Stingor]
-//= 1.5 Sauvegarde du job avant rebirth. [Stingor]
-//= 1.6 Ajout couleurs [Kamitsu]
-//= 1.7 Ajout d'un uniquename [Stingor]
-//= 1.8 Cleanup+vars .@ [Stingor]
-//= 2.0 rAthena update & tweaks [Stingor]
 //============================================================
+
 gonryun,163,122,4	script	Job Master::jobmaster	4W_F_01,{
 	if( #BlockMoonNpc & 1 ) {
 		dispbottom "Vous bloquez le npc avec @npcblock 1 !";

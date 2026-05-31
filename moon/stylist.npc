@@ -1,27 +1,7 @@
-//===== Moonlight-Destiny ==================================
-//= Script styliste avancé.
-//===== Par: =================================================
-//= Hudelf©
-//= Modifié par Yaro / Moonlight-Destiny Dev Team
-//===== Version courrante: ===================================
-//= 3.2
-//===== Description: =========================================
-//= Styliste traditionnel avec de nouvelles options
-//= Vous pouvez défiler en avant ou arrière et
-//= sauvegarder 3 palettes quand vous vous loggez.
-//===== Commentaires: ========================================
-//= 1.0 Creation
-//= 2.0 Réecriture
-//= 2.1 Changement de type des vars+fix typo
-//= 2.2 Suppression des labels+Traduction FR. [Kamitsu]
-//= 2.3 Ajout couleurs [Kamitsu]
-//= 2.4 Ajout d'un uniquename [Stingor]
-//= 2.5 Configuration des palettes [Frecky]
-//= 2.6 Fix de l'affichage du nom du NPC
-//= 3.0 Mise à jour des max+min [Stingor]
-//= 3.1 Cleanup [Stingor]
-//= 3.2 rAthena update & tweaks [Stingor]
+//===== Moonlight-Destiny ====================================
+//= Script styliste.
 //============================================================
+
 gonryun,160,126,5	script	Styliste::stylist_gon	2_M_DYEINGER,{
 	if (#BlockMoonNpc & 4) {
 		dispbottom "Vous bloquez le npc avec @npcblock 3 !";

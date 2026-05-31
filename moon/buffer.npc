@@ -1,3 +1,5 @@
+//===== Moonlight-Destiny ====================================
+
 pvp_n_3-1,105,75,4	script	PtitfCp::bufferfcp	20510,{
 	end;
 

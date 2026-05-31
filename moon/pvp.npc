@@ -1,3 +1,4 @@
+//===== Moonlight-Destiny ====================================
 //========================================================================================
 //Title: Ghost's PvP System (Multi-announcer + Ladder)
 //Version: 1.3
@@ -29,7 +30,7 @@
 //Changelog:
 //	v1.3 = Fixed .PvPMap$[0] settings [Ghost]
 //	     = Added .GMLevel at configuration [Ghost]
-//	     = Change SK Hex Color to ^00FF00 for visibility [Ghost]
+//	     = Change SK Hex Color to for visibility [Ghost]
 //	     = Fixed Streak Kill ended broadcast [Ghost]
 //	     = Typographical error (Ms. Pudding to Flamboyant) on Announcer Setting corrected [Ghost]
 //           = Changed Top 10 Players ranking from KDR to Kills [Ghost]

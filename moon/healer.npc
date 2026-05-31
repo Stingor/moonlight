@@ -1,52 +1,8 @@
-//===== Moonlight-Destiny ==================================
+//===== Moonlight-Destiny ====================================
 //= Script Healer.
-//===== Par: =================================================
-//= Yaro / Moonlight-Destiny Dev Team
-//===== Version courrante: ===================================
-//= 2.1
-//===== Description: =========================================
-//= Permet aux joueurs de se restaurer et arrêter
-//= certains effets néfastes.
-//===== Commentaires: ========================================
-//= 1.0 Creation [Stingor]
-//= 1.1a Ajout Rachel,Veins [Stingor]
-//= 1.1b Ajout de noms uniques [Stingor]
-//= 1.2 Ajout duplicate Moscovia [Stingor]
-//= 1.3 Ajout effect pour le joueur [Kamitsu]
-//= 2.0 Mise à jour, retrait des effects [Stingor]
-//= 2.1 rAthena update & tweaks [Stingor]
 //============================================================
 
 gonryun,152,129,6	script	Nymphe de la Lune::healer	1_F_02,{
-
-	if( getgmlevel() == 99 ) {
-		// setarray .@mailitem[0], 616, 12103, 12106, 12109, 12130, 12246;
-		// setarray .@mailamount[0], 5, 5, 5, 5, 5, 5;
-				// .@title$ = "Fin d'instance";
-				// .@body$ = "Félicitation vous avez terminé l'instance Endless Cellar !";
-				// mail 154903, "Endless Cellar", .@title$, .@body$, 0, .@mailitem, .@mailamount;
-		// .@title$ = "Invasion";
-		// .@body$ = "Félicitation vous avez gagné l'invasion !";
-		// mail 155013, "Invasion", .@title$, .@body$, 0, .@mailitem, .@mailamount;
-		// dispbottom "Des récompenses vous sont envoyées par mail ! (Pas de place)";
-
-		// mapannounce "lhz_dun_n", "Un Mini-Boss "+getmonsterinfo(3218,MOB_NAME)+" apparait !", bc_map;	// unknown message
-		// monster "lhz_dun_n",0,0,"--en--",3218,1, "lhz_dun_n::OnMiniDead";
-		
-
-	// dispbottom floor(10/2,1),0x000000,150000;
-				// donpcevent "Agit2_Event::OnAgitInit2";
-		
-        // getpartymember(8215,1,.@party_cid);
-        // getpartymember(8215,2,.@party_aid);
-        // .@n = $@partymembercount;
-        // for(.@i=0;.@i<.@n;.@i++){
-            // if(isloggedin(.@party_aid[.@i],.@party_cid[.@i])){
-				// getitem 12246, 7, .@party_aid[.@i];
-            // }
-        // }
-	}
-
 	percentheal 100,100;
 	sc_end SC_Poison;
 	sc_end SC_Silence;

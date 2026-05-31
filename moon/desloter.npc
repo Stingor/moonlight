@@ -1,24 +1,5 @@
-//===== Moonlight-Destiny ==================================
+//===== Moonlight-Destiny ====================================
 //= Script pour Desloter un équipement.
-//===== Par: =================================================
-//= Script de base par eAthena
-//= Modifié par Yaro / Moonlight-Destiny Dev Team
-//===== Version courrante: ===================================
-//= 2.1
-//===== Description: =========================================
-//= Permet aux joueur de retirer des Cards d'un équipement.
-//===== Commentaires: ========================================
-//= 1.0 Taduction du script de eAthena
-//= 1.1a Récodage,nettoyage [Stingor]
-//= 1.1b Ajout gestion Yaro Coin [Stingor]
-//= 1.1c Passage de varriable "@" à ".@" [Stingor]
-//= 1.2 Désactivation COIN [Stingor]
-//= 1.3 Ajout couleurs [Kamitsu]
-//= 1.4 Ajout d'un uniquename [Stingor]
-//= 1.5 Ajout de logmes [Stingor]
-//= 1.6 Cleanup+vars [Stingor]
-//= 2.0 rAthena update & tweaks [Stingor]
-//= 2.1 Logging update [Stingor]
 //============================================================
 
 gonryun,169,114,4	script	Vieille dame::desloter_gonryun	1_F_ORIENT_04,{

@@ -1,27 +1,5 @@
-//===== Moonlight-Destiny ==================================
+//===== Moonlight-Destiny ====================================
 //= Script warp agent.
-//===== Par: =================================================
-//= Yaro / Moonlight-Destiny Dev Team
-//===== Version courrante: ===================================
-//= 3.1
-//===== Description: =========================================
-//= Permet aux joueurs de se teleporter, sauvegarder
-//=	Acceder au instances.
-//===== Commentaires: ========================================
-//= 1.0 Creation [Stingor]
-//= 1.1 Ajouter d'une save dynamique sur menu sauvegarde [Kamitsu]
-//= 1.2 Ajout de Moscovia en ville+duplicate [Stingor]
-//= 1.3 Correction warp aldebaran (mauvais x/y) [Stingor]
-//= 1.4 Ajout couleurs [Kamitsu]
-//= 1.5 Ajout de uniquenames type ::warpa_map [Stingor]
-//= 1.6 Ajout de $map_pvp$ pour le switcher [Stingor]
-//= 1.7 Fix au complet des warp dungeon qui ne warp pas au bon niveau [Frecky]
-//= 1.8 Effacement du warp de Rebirth lab, cette map n'existe pas [Frecky]
-//= 2.0 Mise à jour [Stingor]
-//= 2.1 Ajout support party pour thana warp+support clés
-//= 2.2 Cleanup [Stingor]
-//= 3.0 rAthena update & tweaks [Stingor]
-//= 3.1 Ajout Fields [Stingor]
 //============================================================
 
 gonryun,165,129,3	script	Warp Agent::warp_agent	4_F_01,{

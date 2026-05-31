@@ -1,18 +1,5 @@
-//===== Moonlight-Destiny ==================================
+//===== Moonlight-Destiny ====================================
 //= Script Adoption.
-//===== Par: =================================================
-//= Yaro / Moonlight-Destiny Dev Team
-//===== Version courrante: ===================================
-//= 2.0
-//===== Description: =========================================
-//= Permet aux joueur de prendre un novive ou classe
-//= en adoption.
-//===== Commentaires: ========================================
-//= 1.0 Creation [Stingor]
-//= 1.1 Ajout d'un uniquename [Stingor]
-//= 1.2 Passage des var @ en .@ [Stingor]
-//= 1.3 Cleanup [Stingor]
-//= 2.0 rAthena update & tweaks [Stingor]
 //============================================================
 
 prt_church,83,122,0	warp	prtch03	1,2,prt_church,34,171

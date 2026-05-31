@@ -1,4 +1,5 @@
 //===== Moonlight-Destiny ====================================
+
 -	script	#vote	-1,{
 OnInit:
 	bindatcmd("vote", strnpcinfo(3)+"::OnCommand");

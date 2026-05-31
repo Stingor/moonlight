@@ -1,3 +1,5 @@
+//===== Moonlight-Destiny ====================================
+
 gonryun,147,128,4	script	Guild Archivist	123,{
 	.@gid = getcharid(2);
 	if (!.@gid) {

@@ -1,21 +1,7 @@
-//===== Moonlight-Destiny ==================================
-//= Script pour Banque et location.
-//===== Par: =================================================
-//= Eathena
-//= Le Livre d'Ymir
-//= Yaro / Moonlight-Destiny Dev Team
-//===== Version courrante: ===================================
-//= 3.3
-//===== Description: =========================================
-//= Ajoute des slot dans armes et armures
-//===== Commentaires: ========================================
-//= 1.0 Eathena
-//= 2.0 Le Livre d'Ymir http://www.bookofymir.net/ [NoHealing]
-//= 3.0 Ajout strnpcinfo(0),noms en anglais [Stingor]
-//= 3.1 Ajout logmes réussite ou échec+info echec pour le joueur [Stingor]
-//= 3.2 rAthena update & tweaks [Stingor]
-//= 3.3 Logging update [Stingor]
+//===== Moonlight-Destiny ====================================
+//= Script pour l'ajout de slots.
 //============================================================
+
 -	script	Seiyablem#dummy::SocketEnchant	-1,{
 	if( checkweight(1065,1) == 0 ) {
 		mes "Attendez une minute! Vous portez trop d'items sur vous. Veuillez revenir après avoir déposé quelques objets dans votre Storage.";

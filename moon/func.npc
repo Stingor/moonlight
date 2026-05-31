@@ -1,3 +1,5 @@
+//===== Moonlight-Destiny ====================================
+
 function	script	MissionMVP	{
 	if( !playerattached() ) return;
 	.@killed_mob = killedrid;    // id du monstre tué
