@@ -358,6 +358,33 @@ def _translate_script(script: str) -> str:
             parts.append(f"+{v} {lbl}" if v > 0 else f"{v} {lbl}")
         elif b == "bSPDrainValue" and v is not None:
             parts.append(f"drain {abs(v)} SP par coup" if v < 0 else f"+{v} SP récupéré par coup")
+        # skill / itemskill : donne accès à un skill
+        elif re.match(r'(?:item)?skill\s', token):
+            ms = re.match(r'(?:item)?skill\s+"?(\w+)"?\s*,\s*(\d+)', token)
+            if ms:
+                parts.append(f"donne le skill {ms.group(1)} niveau {ms.group(2)}")
+            else:
+                parts.append(token)
+        # sc_end : soigne un status
+        elif token.startswith("sc_end"):
+            ms = re.match(r'sc_end\s+(\w+)', token)
+            parts.append(f"soigne le status {ms.group(1)}" if ms else token)
+        # sc_start : applique un status
+        elif token.startswith("sc_start"):
+            ms = re.match(r'sc_start\s+(\w+)\s*,\s*(\d+)', token)
+            if ms:
+                parts.append(f"applique le status {ms.group(1)} pendant {int(ms.group(2))//1000}s")
+            else:
+                parts.append(token)
+        # heal / percentheal
+        elif token.startswith("heal ") or token.startswith("percentheal"):
+            ms = re.match(r'(?:percent)?heal\s+(.+?)\s*,\s*(.+)', token)
+            if ms:
+                h, s = ms.group(1), ms.group(2)
+                pct = "%" if token.startswith("percent") else ""
+                parts.append(f"soigne {h}{pct} HP et {s}{pct} SP")
+            else:
+                parts.append(token)
         else:
             parts.append(token)
     return ", ".join(p for p in parts if p)
