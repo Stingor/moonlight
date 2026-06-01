@@ -707,7 +707,7 @@ def _log_to_chatlog(cursor, player: str, message: str, response: str):
             f"INSERT INTO `{DB_LOGS}`.`chatlog` "
             "(`id`,`time`,`type`,`type_id`,`src_charid`,`src_accountid`,"
             "`src_map`,`src_map_x`,`src_map_y`,`dst_charname`,`message`) "
-            "VALUES (NULL, NOW(), 'O', '0', 'Sting', '0', 'gonryun', '159', '116', '0', %s)",
+            "VALUES (NULL, NOW(), 'O', '0', 'Sting-Bot', '0', 'gonryun', '159', '116', '0', %s)",
             (bot_response,)
         )
     except Exception as e:
