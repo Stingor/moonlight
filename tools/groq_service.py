@@ -551,6 +551,7 @@ def _get_player_info(player: str, conn=None, player_ctx: str = "") -> str:
         if len(parts) < 7:
             return ""
         _, base_lvl, job_lvl, class_id, zeny, weight, max_weight = parts[:7]
+        nearby = [n.strip() for n in parts[7].split(",") if n.strip()] if len(parts) > 7 else []
         job_name   = _JOB_NAMES.get(int(class_id), f"classe {class_id}")
         zeny_fmt   = f"{int(zeny):,}"
         weight_pct = int(int(weight) / int(max_weight) * 100) if int(max_weight) > 0 else 0
@@ -558,9 +559,10 @@ def _get_player_info(player: str, conn=None, player_ctx: str = "") -> str:
         if weight_pct >= 90:   weight_str += " (⚠ SURPOIDS CRITIQUE)"
         elif weight_pct >= 70: weight_str += " (en surpoids)"
         admin_note = " ⚠ C'EST STINGOR, TON MENTOR ET ADMIN DU SERVEUR — montre-lui du respect (à ta façon)." if player.lower() == "stingor" else ""
+        nearby_str = f" | À proximité : {', '.join(nearby)}" if nearby else ""
         return (
             f"[JOUEUR] {player} — {job_name} niv.{base_lvl}/{job_lvl}, "
-            f"{zeny_fmt} zeny, {weight_str}{admin_note}"
+            f"{zeny_fmt} zeny, {weight_str}{nearby_str}{admin_note}"
         )
     except Exception as e:
         print(f"[Groq] player_info ignoré : {e}", file=sys.stderr)
