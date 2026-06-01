@@ -7,6 +7,7 @@ gonryun,159,116,4	script	Sting::sting_IA	MVP_STING,{
 	close;
 
 L_chat:
+	if(.online == 0) end;
 	if(gettimetick(2) - .cooldown < 5) end;
 	.cooldown = gettimetick(2);
 
@@ -43,6 +44,35 @@ L_chat:
 	end;
 
 OnTimer3000:
+	// --- Verifie le statut online/offline (quota tokens) ---
+	.@st = 0;
+	query_sql "SELECT online FROM chatbot_status WHERE id=1", .@st;
+	if (.@st == 0 && .online != 0) {
+		// Passage online -> offline : message d'au revoir + se cache
+		.@bye$ = "";
+		query_sql "SELECT note FROM chatbot_status WHERE id=1", .@bye$;
+		if (.@bye$ != "") {
+			explode(.@bp$, .@bye$, "|");
+			.@k = 0;
+			while (.@bp$[.@k] != "") {
+				npctalk strnpcinfo(0)+" : "+.@bp$[.@k];
+				.@k++;
+				if (.@bp$[.@k] != "") sleep 1200;
+			}
+		}
+		hideonnpc strnpcinfo(0);
+		.online = 0;
+		initnpctimer;
+		end;
+	}
+	if (.@st != 0 && .online == 0) {
+		// Passage offline -> online : reapparait + dit bonjour
+		hideoffnpc strnpcinfo(0);
+		.online = 1;
+		npctalk strnpcinfo(0)+" : *Sting reapparait* Me revoila, vous m'avez manque bande de tocards ?";
+	}
+	if (.online == 0) { initnpctimer; end; }
+
 	// --- Scan HP : se moque d'un joueur proche en faible vie (cooldown global 90s) ---
 	if (.mockcd == 0 || gettimetick(2) - .mockcd >= 90) {
 		getareaunits(BL_PC, "gonryun", .ox-.scanr, .oy-.scanr, .ox+.scanr, .oy+.scanr, .@gids);
@@ -99,6 +129,7 @@ OnInit:
 	.scanr = 6;
 	.tick = 0;
 	.mockcd = 0;
+	.online = 1;
 	defpattern 2, "(?i)([^:]+) *: *(.*sting.*)", "L_chat";
 	defpattern 2, "([^:]+) *: *(².*)", "L_chat";
 	activatepset 2;

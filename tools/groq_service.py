@@ -90,6 +90,31 @@ CLEANUP_HOURS  = 1
 SSL_CTX   = ssl.create_default_context(cafile=certifi.where())
 histories    = {}  # player -> [{"role": ..., "content": ...}]
 last_item    = {}  # player -> (item_id, item_name, item_aegis)  dernier item discuté
+_offline_until = 0.0  # timestamp epoch jusqu'auquel le bot est "déco" (rate limit)
+
+# Répliques de déco/reco (RP quand les tokens sont épuisés)
+_GOODBYE = "Bon les noobs, j'ai la flemme là, je vais farmer ailleurs. À plus tard, essayez de pas crever sans moi.|*Sting se déconnecte*"
+_HELLO   = "*Sting réapparaît* Me revoilà, vous m'avez manqué bande de tocards ?"
+
+
+class RateLimitError(Exception):
+    """Levée quand l'API Groq renvoie 429 (quota épuisé)."""
+    def __init__(self, retry_after: float):
+        self.retry_after = retry_after
+        super().__init__(f"rate limit, retry in {retry_after:.0f}s")
+
+
+def _set_bot_status(cursor, online: int, resume_epoch: float = 0.0, note: str = ""):
+    """Met à jour chatbot_status (table de contrôle online/offline pour le NPC)."""
+    try:
+        cursor.execute(
+            "INSERT INTO chatbot_status (id, online, resume_at, note) "
+            "VALUES (1, %s, FROM_UNIXTIME(%s), %s) "
+            "ON DUPLICATE KEY UPDATE online=%s, resume_at=FROM_UNIXTIME(%s), note=%s",
+            (online, int(resume_epoch), note, online, int(resume_epoch), note)
+        )
+    except Exception as e:
+        print(f"[Groq] set_bot_status ignoré : {e}", file=sys.stderr)
 
 # ── Index noms (chargé au démarrage depuis SQL) ───────────────────────────────
 _MOB_NAMES  = {}   # name_lower -> (id, name_english, name_aegis, is_mvp)
@@ -733,6 +758,13 @@ def groq_chat(messages: list) -> str:
             data = json.loads(resp.read().decode("utf-8"))
     except urllib.error.HTTPError as e:
         body = e.read().decode("utf-8", errors="replace")
+        if e.code == 429:
+            # Parse "try again in 2m32.064s" ou "try again in 45s"
+            m = re.search(r"try again in (?:(\d+)m)?([\d.]+)s", body)
+            retry = 60.0
+            if m:
+                retry = (int(m.group(1) or 0) * 60) + float(m.group(2))
+            raise RateLimitError(retry) from e
         raise RuntimeError(f"HTTP {e.code} — {body}") from e
 
     reply = data["choices"][0]["message"]["content"].strip()
@@ -826,7 +858,15 @@ def _log_to_chatlog(cursor, player: str, message: str, response: str):
 
 
 def process_pending(conn):
+    global _offline_until
     with conn.cursor() as cursor:
+        # ── Reprise : tokens de nouveau dispo → le bot "revient" ──
+        if _offline_until and time.time() >= _offline_until:
+            _offline_until = 0.0
+            _set_bot_status(cursor, 1, 0, "")
+            conn.commit()
+            print("[Groq] Tokens dispo — bot de nouveau online", file=sys.stderr)
+
         cursor.execute(
             "SELECT id, reqid, player, message, player_ctx FROM chatbot_queue "
             "WHERE status='pending' ORDER BY created_at LIMIT 5"
@@ -834,6 +874,15 @@ def process_pending(conn):
         rows = cursor.fetchall()
 
         for row in rows:
+            # Si offline (quota épuisé), on ne traite pas : on vide la requête
+            if _offline_until and time.time() < _offline_until:
+                cursor.execute(
+                    "UPDATE chatbot_queue SET response='', status='done' WHERE id=%s",
+                    (row["id"],)
+                )
+                conn.commit()
+                continue
+
             cursor.execute(
                 "UPDATE chatbot_queue SET status='processing' WHERE id=%s",
                 (row["id"],)
@@ -850,6 +899,15 @@ def process_pending(conn):
                 print(f"       -> {response!r}")
                 # Log dans chatlog (réponse sans séparateurs multi-lignes)
                 _log_to_chatlog(cursor, row["player"], row["message"], response)
+            except RateLimitError as rl:
+                # Quota épuisé → bot "se déconnecte" et renvoie le message d'au revoir
+                _offline_until = time.time() + rl.retry_after + 5
+                _set_bot_status(cursor, 0, _offline_until, _GOODBYE)
+                cursor.execute(
+                    "UPDATE chatbot_queue SET response=%s, status='done' WHERE id=%s",
+                    (_GOODBYE, row["id"])
+                )
+                print(f"[Groq] QUOTA ÉPUISÉ — déco {rl.retry_after:.0f}s", file=sys.stderr)
             except Exception as exc:
                 import traceback
                 cursor.execute(
@@ -884,6 +942,10 @@ def main():
                 except Exception as e:
                     print(f"[Groq] Index non chargé (pas grave) : {e}", file=sys.stderr)
                     names_loaded = True  # ne pas retenter en boucle
+                # Statut initial : online
+                with conn.cursor() as _cur:
+                    _set_bot_status(_cur, 1, 0, "")
+                conn.commit()
             process_pending(conn)
         except pymysql.Error as exc:
             print(f"[Groq] Erreur DB: {exc}", file=sys.stderr)
