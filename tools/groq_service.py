@@ -523,10 +523,11 @@ def _get_player_info(player: str, conn) -> str:
         weight_warn = ""
         if weight_pct >= 90:   weight_warn = " (⚠ SURPOIDS CRITIQUE)"
         elif weight_pct >= 70: weight_warn = " (en surpoids)"
+        admin_note = " ⚠ C'EST STINGOR, TON MENTOR ET ADMIN DU SERVEUR — montre-lui du respect (à ta façon)." if player.lower() == "stingor" else ""
         return (
             f"[JOUEUR] {player} — {job_name} niv.{r['base_level']}/{r['job_level']}, "
             f"{r['zeny']:,} zeny, "
-            f"poids {weight_pct}%{weight_warn}"
+            f"poids {weight_pct}%{weight_warn}{admin_note}"
         )
     except Exception as e:
         print(f"[Groq] player_info ignoré : {e}", file=sys.stderr)
