@@ -510,24 +510,27 @@ def _get_player_info(player: str, conn) -> str:
     try:
         with conn.cursor() as cur:
             cur.execute(
-                f"SELECT c.base_level, c.job_level, c.class, c.zeny, c.weight, c.max_weight "
+                f"SELECT c.char_id, c.base_level, c.job_level, c.class, c.zeny, "
+                f"COALESCE(SUM(id2.weight * inv.amount), 0) AS carry_weight "
                 f"FROM `{DB_RATHENA}`.`char` c "
-                f"WHERE c.name = %s LIMIT 1",
+                f"LEFT JOIN `{DB_RATHENA}`.`inventory` inv ON inv.char_id = c.char_id "
+                f"LEFT JOIN `{DB_RATHENA}`.item_db2 id2 ON id2.id = inv.nameid "
+                f"WHERE c.name = %s "
+                f"GROUP BY c.char_id, c.base_level, c.job_level, c.class, c.zeny "
+                f"LIMIT 1",
                 (player,)
             )
             r = cur.fetchone()
         if not r:
             return ""
-        job_name  = _JOB_NAMES.get(r["class"], f"classe {r['class']}")
-        weight_pct = int(r["weight"] / r["max_weight"] * 100) if r["max_weight"] else 0
-        weight_warn = ""
-        if weight_pct >= 90:   weight_warn = " (⚠ SURPOIDS CRITIQUE)"
-        elif weight_pct >= 70: weight_warn = " (en surpoids)"
+        job_name = _JOB_NAMES.get(r["class"], f"classe {r['class']}")
+        # Poids max ≈ 20000 + STR*300 — on ne connait pas le STR ici, on utilise 20000 comme base
+        carry = int((r["carry_weight"] or 0) / 10)  # weight en DB = 1/10 unité
         admin_note = " ⚠ C'EST STINGOR, TON MENTOR ET ADMIN DU SERVEUR — montre-lui du respect (à ta façon)." if player.lower() == "stingor" else ""
         return (
             f"[JOUEUR] {player} — {job_name} niv.{r['base_level']}/{r['job_level']}, "
             f"{r['zeny']:,} zeny, "
-            f"poids {weight_pct}%{weight_warn}{admin_note}"
+            f"poids inventaire ~{carry}{admin_note}"
         )
     except Exception as e:
         print(f"[Groq] player_info ignoré : {e}", file=sys.stderr)
