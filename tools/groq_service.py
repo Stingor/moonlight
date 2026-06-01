@@ -491,20 +491,53 @@ def _top_zeny_mobs(conn, limit: int = 8):
     return result
 
 _JOB_NAMES = {
+    # Base
     0:"Novice", 1:"Swordman", 2:"Mage", 3:"Archer", 4:"Acolyte", 5:"Merchant",
     6:"Thief", 7:"Knight", 8:"Priest", 9:"Wizard", 10:"Blacksmith", 11:"Hunter",
-    12:"Assassin", 14:"Crusader", 15:"Monk", 16:"Sage", 17:"Rogue",
-    18:"Alchemist", 19:"Bard", 20:"Dancer", 23:"Super Novice",
-    24:"Gunslinger", 25:"Ninja",
+    12:"Assassin", 13:"Knight (Peco)", 14:"Crusader", 15:"Monk", 16:"Sage",
+    17:"Rogue", 18:"Alchemist", 19:"Bard", 20:"Dancer", 21:"Crusader (Peco)",
+    22:"Wedding", 23:"Super Novice", 24:"Gunslinger", 25:"Ninja",
+    26:"Christmas", 27:"Summer", 28:"Hanbok", 29:"Oktoberfest",
+    # Trans
     4001:"High Novice", 4002:"High Swordman", 4003:"High Mage", 4004:"High Archer",
     4005:"High Acolyte", 4006:"High Merchant", 4007:"High Thief",
     4008:"Lord Knight", 4009:"High Priest", 4010:"High Wizard",
-    4011:"Whitesmith", 4012:"Sniper", 4013:"Assassin Cross",
+    4011:"Whitesmith", 4012:"Sniper", 4013:"Assassin Cross", 4014:"Lord Knight (Peco)",
     4015:"Paladin", 4016:"Champion", 4017:"Professor",
-    4018:"Stalker", 4019:"Creator", 4020:"Clown", 4021:"Gypsy",
-    4023:"Super Novice (High)",
-    # Classes custom Moonlight-Destiny
-    4099:"Arch Bishop",
+    4018:"Stalker", 4019:"Creator", 4020:"Clown", 4021:"Gypsy", 4022:"Paladin (Peco)",
+    # Baby
+    4023:"Baby Novice", 4024:"Baby Swordman", 4025:"Baby Mage", 4026:"Baby Archer",
+    4027:"Baby Acolyte", 4028:"Baby Merchant", 4029:"Baby Thief",
+    4030:"Baby Knight", 4031:"Baby Priest", 4032:"Baby Wizard",
+    4033:"Baby Blacksmith", 4034:"Baby Hunter", 4035:"Baby Assassin",
+    4037:"Baby Crusader", 4038:"Baby Monk", 4039:"Baby Sage",
+    4040:"Baby Rogue", 4041:"Baby Alchemist", 4042:"Baby Bard", 4043:"Baby Dancer",
+    4045:"Super Baby",
+    # Extended
+    4046:"Taekwon", 4047:"Star Gladiator", 4049:"Soul Linker",
+    4051:"Death Knight", 4052:"Dark Collector",
+    # 3rd jobs
+    4054:"Rune Knight", 4055:"Warlock", 4056:"Ranger", 4057:"Arch Bishop",
+    4058:"Mechanic", 4059:"Guillotine Cross",
+    4060:"Rune Knight (T)", 4061:"Warlock (T)", 4062:"Ranger (T)",
+    4063:"Arch Bishop (T)", 4064:"Mechanic (T)", 4065:"Guillotine Cross (T)",
+    4066:"Royal Guard", 4067:"Sorcerer", 4068:"Minstrel", 4069:"Wanderer",
+    4070:"Sura", 4071:"Genetic", 4072:"Shadow Chaser",
+    4073:"Royal Guard (T)", 4074:"Sorcerer (T)", 4075:"Minstrel (T)",
+    4076:"Wanderer (T)", 4077:"Sura (T)", 4078:"Genetic (T)", 4079:"Shadow Chaser (T)",
+    # Baby 3rd
+    4096:"Baby Rune Knight", 4097:"Baby Warlock", 4098:"Baby Ranger",
+    4099:"Baby Arch Bishop", 4100:"Baby Mechanic", 4101:"Baby Guillotine Cross",
+    4102:"Baby Royal Guard", 4103:"Baby Sorcerer", 4104:"Baby Minstrel",
+    4105:"Baby Wanderer", 4106:"Baby Sura", 4107:"Baby Genetic", 4108:"Baby Shadow Chaser",
+    4190:"Super Novice Extended", 4191:"Super Baby Extended",
+    # 4th jobs
+    4252:"Dragon Knight", 4253:"Meister", 4254:"Shadow Cross", 4255:"Arch Mage",
+    4256:"Cardinal", 4257:"Windhawk", 4258:"Imperial Guard", 4259:"Biolo",
+    4260:"Abyss Chaser", 4261:"Elemental Master", 4262:"Inquisitor",
+    4263:"Troubadour", 4264:"Trouvere",
+    4302:"Sky Emperor", 4303:"Soul Ascetic", 4304:"Shinkiro", 4305:"Shiranui",
+    4306:"Night Watch", 4307:"Hyper Novice", 4308:"Spirit Handler",
 }
 
 def _get_player_info(player: str, conn=None, player_ctx: str = "") -> str:
