@@ -769,6 +769,16 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
     message = message.lstrip("²").strip()
     message = message[:300]
 
+    # Événement auto : joueur arrivé à proximité avec peu de HP
+    if message.startswith("[AUTO_LOWHP]"):
+        toks = message.split()
+        pct = toks[1] if len(toks) > 1 else "?"
+        message = (
+            f"(ÉVÈNEMENT — réagis à voix haute, ne réponds à personne : {player} vient de débarquer "
+            f"près de toi à Gonryun en titubant, à seulement {pct}% de HP. "
+            f"Charrie-le méchamment sur sa faiblesse en 1 phrase courte et cinglante.)"
+        )
+
     player_info = _get_player_info(player, conn, player_ctx)
     ctx = find_context(message, conn, player)
     print(f"[Groq] {'CTX' if ctx else 'CTX vide'} | joueur={'OK' if player_info else 'VIDE'} | {player}: {message[:50]!r}", file=sys.stderr)
