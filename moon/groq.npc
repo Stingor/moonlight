@@ -60,14 +60,14 @@ OnTimer3000:
 				if (.@bp$[.@k] != "") sleep 1200;
 			}
 		}
-		hideonnpc strnpcinfo(0);
+		hideonnpc strnpcinfo(3);
 		.online = 0;
 		initnpctimer;
 		end;
 	}
 	if (.@st != 0 && .online == 0) {
 		// Passage offline -> online : reapparait + dit bonjour
-		hideoffnpc strnpcinfo(0);
+		hideoffnpc strnpcinfo(3);
 		.online = 1;
 		npctalk strnpcinfo(0)+" : *Sting reapparait* Me revoila, vous m'avez manque bande de tocards ?";
 	}
