@@ -15,7 +15,7 @@ L_chat:
 	.@reqid$  = ""+getcharid(3)+gettimetick(2);
 
 	// Joueurs à proximité (6 cases)
-	getunits(BL_PC, .@near_ids, false, "gonryun", .ox-6, .oy-6, .ox+6, .oy+6);
+	getunits(BL_PC, .@near_ids, 0, "gonryun", .ox-6, .oy-6, .ox+6, .oy+6);
 	.@nearby$ = "";
 	for (.@n = 0; .@n < getarraysize(.@near_ids); .@n++) {
 		query_sql "SELECT name FROM `rathena`.`char` WHERE char_id = "+.@near_ids[.@n], .@nname$;
