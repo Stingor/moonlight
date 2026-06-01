@@ -723,10 +723,11 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
 
     player_info = _get_player_info(player, conn, player_ctx)
     ctx = find_context(message, conn, player)
+    print(f"[Groq] {'CTX' if ctx else 'CTX vide'} | joueur={'OK' if player_info else 'VIDE'} | {player}: {message[:50]!r}", file=sys.stderr)
     if ctx:
-        print(f"[Groq] CTX pour {player}: {ctx!r}", file=sys.stderr)
-    else:
-        print(f"[Groq] CTX vide pour {player}: {message[:60]!r}", file=sys.stderr)
+        print(f"       ctx: {ctx[:120]!r}", file=sys.stderr)
+    if player_info:
+        print(f"       joueur: {player_info!r}", file=sys.stderr)
 
     # Si pas de données serveur mais question qui touche au jeu → rappel anti-hallucination
     _GAME_WORDS = {"exp", "xp", "level", "lvl", "farm", "spot", "map", "mob",
