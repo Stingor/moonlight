@@ -552,7 +552,9 @@ def _get_player_info(player: str, conn=None, player_ctx: str = "") -> str:
         if len(parts) < 7:
             return ""
         _, base_lvl, job_lvl, class_id, zeny, weight, max_weight = parts[:7]
-        nearby = [n.strip() for n in parts[7].split(",") if n.strip()] if len(parts) > 7 else []
+        player_clean = player.strip().lower()
+        nearby = [n.strip() for n in parts[7].split(",")
+                  if n.strip() and n.strip().lower() != player_clean] if len(parts) > 7 else []
         job_name   = _JOB_NAMES.get(int(class_id), f"classe {class_id}")
         zeny_fmt   = f"{int(zeny):,}"
         weight_pct = int(int(weight) / int(max_weight) * 100) if int(max_weight) > 0 else 0
@@ -753,6 +755,7 @@ def _split_response(text: str, max_len: int = 150) -> str:
 
 
 def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> str:
+    player = player.strip()
     if player not in histories:
         histories[player] = []
 
@@ -768,12 +771,14 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
         print(f"       joueur: {player_info!r}", file=sys.stderr)
 
     # Si pas de données serveur mais question qui touche au jeu → rappel anti-hallucination
-    _GAME_WORDS = {"exp", "xp", "level", "lvl", "farm", "spot", "map", "mob",
-                   "drop", "item", "card", "carte", "skill", "classe", "build",
-                   "where", "où", "qui", "quoi", "quel", "quelle"}
-    words_low = set(re.sub(r"[²,!?.]", " ", message).lower().split())
-    if not ctx and words_low & _GAME_WORDS:
-        ctx = "[AUCUNE DONNÉE SERVEUR] Tu n'as pas d'info sur cette question pour CE serveur — ne cite aucune map, mob ou item spécifique."
+    # Détection par radical (couvre pluriels : mob/mobs, carte/cartes, spot/spots...)
+    _GAME_ROOTS = ("exp", "xp", "level", "lvl", "niveau", "farm", "spot", "map",
+                   "mob", "monstre", "drop", "item", "objet", "card", "carte",
+                   "skill", "classe", "build", "stuff", "zeny", "spawn")
+    msg_norm = re.sub(r"[²,!?.]", " ", message).lower()
+    if not ctx and any(root in msg_norm for root in _GAME_ROOTS):
+        ctx = ("[AUCUNE DONNÉE SERVEUR] Tu n'as AUCUNE info fiable pour répondre à cette question sur CE serveur. "
+               "Ne cite AUCUNE map, AUCUN mob, AUCUN item, AUCUN spot de farm — renvoie vers la database du site avec ton sarcasme.")
 
     parts = [p for p in [player_info, ctx] if p]
     full_message = ("\n".join(parts) + "\n" + message).strip() if parts else message
