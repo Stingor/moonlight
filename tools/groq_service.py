@@ -505,32 +505,27 @@ _JOB_NAMES = {
     4023:"Super Novice (High)",
 }
 
-def _get_player_info(player: str, conn) -> str:
-    """Récupère niveau, classe, zeny, poids du joueur depuis la table char."""
+def _get_player_info(player: str, conn=None, player_ctx: str = "") -> str:
+    """Construit le contexte joueur depuis player_ctx fourni par le NPC rAthena.
+    Format: 'nom|base_level|job_level|class|zeny|weight|max_weight'
+    """
     try:
-        with conn.cursor() as cur:
-            cur.execute(
-                f"SELECT c.char_id, c.base_level, c.job_level, c.class, c.zeny, "
-                f"COALESCE(SUM(id2.weight * inv.amount), 0) AS carry_weight "
-                f"FROM `{DB_RATHENA}`.`char` c "
-                f"LEFT JOIN `{DB_RATHENA}`.`inventory` inv ON inv.char_id = c.char_id "
-                f"LEFT JOIN `{DB_RATHENA}`.item_db2 id2 ON id2.id = inv.nameid "
-                f"WHERE c.name = %s "
-                f"GROUP BY c.char_id, c.base_level, c.job_level, c.class, c.zeny "
-                f"LIMIT 1",
-                (player,)
-            )
-            r = cur.fetchone()
-        if not r:
+        if not player_ctx:
             return ""
-        job_name = _JOB_NAMES.get(r["class"], f"classe {r['class']}")
-        # Poids max ≈ 20000 + STR*300 — on ne connait pas le STR ici, on utilise 20000 comme base
-        carry = int((r["carry_weight"] or 0) / 10)  # weight en DB = 1/10 unité
+        parts = player_ctx.split("|")
+        if len(parts) < 7:
+            return ""
+        _, base_lvl, job_lvl, class_id, zeny, weight, max_weight = parts[:7]
+        job_name   = _JOB_NAMES.get(int(class_id), f"classe {class_id}")
+        zeny_fmt   = f"{int(zeny):,}"
+        weight_pct = int(int(weight) / int(max_weight) * 100) if int(max_weight) > 0 else 0
+        weight_str = f"poids {weight_pct}%"
+        if weight_pct >= 90:   weight_str += " (⚠ SURPOIDS CRITIQUE)"
+        elif weight_pct >= 70: weight_str += " (en surpoids)"
         admin_note = " ⚠ C'EST STINGOR, TON MENTOR ET ADMIN DU SERVEUR — montre-lui du respect (à ta façon)." if player.lower() == "stingor" else ""
         return (
-            f"[JOUEUR] {player} — {job_name} niv.{r['base_level']}/{r['job_level']}, "
-            f"{r['zeny']:,} zeny, "
-            f"poids inventaire ~{carry}{admin_note}"
+            f"[JOUEUR] {player} — {job_name} niv.{base_lvl}/{job_lvl}, "
+            f"{zeny_fmt} zeny, {weight_str}{admin_note}"
         )
     except Exception as e:
         print(f"[Groq] player_info ignoré : {e}", file=sys.stderr)
@@ -719,14 +714,14 @@ def _split_response(text: str, max_len: int = 150) -> str:
     return '|'.join(parts)
 
 
-def get_response(player: str, message: str, conn=None) -> str:
+def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> str:
     if player not in histories:
         histories[player] = []
 
     message = message.lstrip("²").strip()
     message = message[:300]
 
-    player_info = _get_player_info(player, conn) if conn else ""
+    player_info = _get_player_info(player, conn, player_ctx)
     ctx = find_context(message, conn, player)
     if ctx:
         print(f"[Groq] CTX pour {player}: {ctx!r}", file=sys.stderr)
@@ -772,7 +767,7 @@ def _log_to_chatlog(cursor, player: str, message: str, response: str):
 def process_pending(conn):
     with conn.cursor() as cursor:
         cursor.execute(
-            "SELECT id, reqid, player, message FROM chatbot_queue "
+            "SELECT id, reqid, player, message, player_ctx FROM chatbot_queue "
             "WHERE status='pending' ORDER BY created_at LIMIT 5"
         )
         rows = cursor.fetchall()
@@ -785,7 +780,7 @@ def process_pending(conn):
             conn.commit()
 
             try:
-                response = get_response(row["player"], row["message"], conn)
+                response = get_response(row["player"], row["message"], conn, row.get("player_ctx", ""))
                 cursor.execute(
                     "UPDATE chatbot_queue SET response=%s, status='done' WHERE id=%s",
                     (response, row["id"])

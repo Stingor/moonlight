@@ -14,7 +14,8 @@ L_chat:
 	.@msg$    = $@p2$;
 	.@reqid$  = ""+getcharid(3)+gettimetick(2);
 
-	query_sql "INSERT INTO chatbot_queue (reqid, player, message) VALUES ('"+ .@reqid$ +"','"+ escape_sql(.@player$) +"','"+ escape_sql(.@msg$) +"')";
+	.@pctx$ = .@player$+"|"+BaseLevel+"|"+JobLevel+"|"+Class+"|"+Zeny+"|"+Weight+"|"+MaxWeight;
+	query_sql "INSERT INTO chatbot_queue (reqid, player, message, player_ctx) VALUES ('"+ .@reqid$ +"','"+ escape_sql(.@player$) +"','"+ escape_sql(.@msg$) +"','"+ escape_sql(.@pctx$) +"')";
 	// Attente adaptative : check toutes les 2s jusqu'a 12s max
 	.@tries = 0;
 	while(.@response$ == "" && .@tries < 6) {
