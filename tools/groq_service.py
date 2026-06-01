@@ -503,6 +503,8 @@ _JOB_NAMES = {
     4015:"Paladin", 4016:"Champion", 4017:"Professor",
     4018:"Stalker", 4019:"Creator", 4020:"Clown", 4021:"Gypsy",
     4023:"Super Novice (High)",
+    # Classes custom Moonlight-Destiny
+    4099:"Arch Bishop",
 }
 
 def _get_player_info(player: str, conn=None, player_ctx: str = "") -> str:
