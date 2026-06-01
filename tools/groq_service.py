@@ -53,6 +53,9 @@ SYSTEM_PROMPT = (
     "Ton style : sarcasme, piques, humour noir, trash talk assumé. Tu te moques des questions bêtes. "
     "Tu as des opinions tranchées sur les items/mobs ('cette carte est de la merde', 'classic noob trap', 'pue du fion', 'sent la bite' etc.). "
     "Tu parles en argot de joueur RO : 'mob', 'farm', 'drop', 'oneshot', 'full stuff', 'noob', 'tryhard', etc. "
+    "Quand tu vois [JOUEUR] dans le message, tu peux utiliser (pas obligatoirement) ces infos pour personnaliser ta réponse : "
+    "moque-toi du niveau si c'est bas, du zeny si c'est peu, fais des blagues sur le surpoids, "
+    "adapte tes conseils à la classe du joueur. "
     "RÈGLE DONNÉES : si le message contient [DONNÉES SERVEUR], ces chiffres sont exacts — cite-les tels quels "
     "avec les suffixes [MVP]/[Boss] si présents, n'en invente pas. "
     "RÈGLE EFFETS : quand tu vois 'Effet:' dans les données, c'est déjà traduit en français — "
@@ -486,6 +489,49 @@ def _top_zeny_mobs(conn, limit: int = 8):
         )
     return result
 
+_JOB_NAMES = {
+    0:"Novice", 1:"Swordman", 2:"Mage", 3:"Archer", 4:"Acolyte", 5:"Merchant",
+    6:"Thief", 7:"Knight", 8:"Priest", 9:"Wizard", 10:"Blacksmith", 11:"Hunter",
+    12:"Assassin", 14:"Crusader", 15:"Monk", 16:"Sage", 17:"Rogue",
+    18:"Alchemist", 19:"Bard", 20:"Dancer", 23:"Super Novice",
+    24:"Gunslinger", 25:"Ninja",
+    4001:"High Novice", 4002:"High Swordman", 4003:"High Mage", 4004:"High Archer",
+    4005:"High Acolyte", 4006:"High Merchant", 4007:"High Thief",
+    4008:"Lord Knight", 4009:"High Priest", 4010:"High Wizard",
+    4011:"Whitesmith", 4012:"Sniper", 4013:"Assassin Cross",
+    4015:"Paladin", 4016:"Champion", 4017:"Professor",
+    4018:"Stalker", 4019:"Creator", 4020:"Clown", 4021:"Gypsy",
+    4023:"Super Novice (High)",
+}
+
+def _get_player_info(player: str, conn) -> str:
+    """Récupère niveau, classe, zeny, poids du joueur depuis la table char."""
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                f"SELECT c.base_level, c.job_level, c.class, c.zeny, c.weight, c.max_weight "
+                f"FROM `{DB_RATHENA}`.`char` c "
+                f"WHERE c.name = %s LIMIT 1",
+                (player,)
+            )
+            r = cur.fetchone()
+        if not r:
+            return ""
+        job_name  = _JOB_NAMES.get(r["class"], f"classe {r['class']}")
+        weight_pct = int(r["weight"] / r["max_weight"] * 100) if r["max_weight"] else 0
+        weight_warn = ""
+        if weight_pct >= 90:   weight_warn = " (⚠ SURPOIDS CRITIQUE)"
+        elif weight_pct >= 70: weight_warn = " (en surpoids)"
+        return (
+            f"[JOUEUR] {player} — {job_name} niv.{r['base_level']}/{r['job_level']}, "
+            f"{r['zeny']:,} zeny, "
+            f"poids {weight_pct}%{weight_warn}"
+        )
+    except Exception as e:
+        print(f"[Groq] player_info ignoré : {e}", file=sys.stderr)
+        return ""
+
+
 def _word_match(key: str, text: str) -> bool:
     """Vérifie que key apparaît comme mot (ou groupe de mots) entier dans text."""
     # Délimiteurs acceptés : début/fin de chaîne, espace, ponctuation, crochets, apostrophe
@@ -675,6 +721,7 @@ def get_response(player: str, message: str, conn=None) -> str:
     message = message.lstrip("²").strip()
     message = message[:300]
 
+    player_info = _get_player_info(player, conn) if conn else ""
     ctx = find_context(message, conn, player)
     if ctx:
         print(f"[Groq] CTX pour {player}: {ctx!r}", file=sys.stderr)
@@ -689,7 +736,8 @@ def get_response(player: str, message: str, conn=None) -> str:
     if not ctx and words_low & _GAME_WORDS:
         ctx = "[AUCUNE DONNÉE SERVEUR] Tu n'as pas d'info sur cette question pour CE serveur — ne cite aucune map, mob ou item spécifique."
 
-    full_message = (ctx + "\n" + message).strip() if ctx else message
+    parts = [p for p in [player_info, ctx] if p]
+    full_message = ("\n".join(parts) + "\n" + message).strip() if parts else message
 
     histories[player].append({"role": "user", "content": full_message})
     if len(histories[player]) > HISTORY_MAX:
