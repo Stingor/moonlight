@@ -700,17 +700,8 @@ def get_response(player: str, message: str, conn=None) -> str:
 
 
 def _log_to_chatlog(cursor, player: str, message: str, response: str):
-    """Insère la question du joueur et la réponse du bot dans rathena_logs.chatlog."""
+    """Insère la réponse du bot dans rathena_logs.chatlog (le message joueur est déjà loggué par rAthena)."""
     try:
-        # Message du joueur (type 'O' = public chat)
-        cursor.execute(
-            f"INSERT INTO `{DB_LOGS}`.`chatlog` "
-            "(`id`,`time`,`type`,`type_id`,`src_charid`,`src_accountid`,"
-            "`src_map`,`src_map_x`,`src_map_y`,`dst_charname`,`message`) "
-            "VALUES (NULL, NOW(), 'O', '0', %s, '0', 'gonryun', '159', '116', '0', %s)",
-            (player, message)
-        )
-        # Réponse du bot — multi-lignes fusionnées en une seule entrée
         bot_response = response.replace("|", " ")
         cursor.execute(
             f"INSERT INTO `{DB_LOGS}`.`chatlog` "
