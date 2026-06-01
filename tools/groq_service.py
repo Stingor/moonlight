@@ -942,12 +942,14 @@ def process_pending(conn):
                 _log_to_chatlog(cursor, row["player"], row["message"], response)
             except RateLimitError as rl:
                 if rl.daily:
-                    # Quota JOURNALIER → bot "se déconnecte" (RP) et dit au revoir
+                    # Quota JOURNALIER → bot "se déconnecte" (RP)
+                    # L'annonce d'au revoir est faite par le NPC (OnTimer + note),
+                    # on renvoie une réponse VIDE au joueur pour éviter le doublon.
                     _offline_until = time.time() + rl.retry_after + 5
                     _set_bot_status(cursor, 0, _offline_until, _GOODBYE)
                     cursor.execute(
-                        "UPDATE chatbot_queue SET response=%s, status='done' WHERE id=%s",
-                        (_GOODBYE, row["id"])
+                        "UPDATE chatbot_queue SET response='', status='done' WHERE id=%s",
+                        (row["id"],)
                     )
                     print(f"[Groq] QUOTA JOURNALIER ÉPUISÉ — déco {rl.retry_after/60:.1f}min", file=sys.stderr)
                 else:
