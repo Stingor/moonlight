@@ -90,7 +90,8 @@ CLEANUP_HOURS  = 1
 SSL_CTX   = ssl.create_default_context(cafile=certifi.where())
 histories    = {}  # player -> [{"role": ..., "content": ...}]
 last_item    = {}  # player -> (item_id, item_name, item_aegis)  dernier item discuté
-_offline_until = 0.0  # timestamp epoch jusqu'auquel le bot est "déco" (rate limit)
+_offline_until = 0.0  # timestamp epoch : bot "déco" RP (quota journalier TPD)
+_pause_until   = 0.0  # timestamp epoch : pause courte silencieuse (limite/minute TPM)
 
 # Répliques de déco/reco (RP quand les tokens sont épuisés)
 _GOODBYE = "Bon les noobs, j'ai la flemme là, je vais farmer ailleurs. À plus tard, essayez de pas crever sans moi.|*Sting se déconnecte*"
@@ -98,10 +99,14 @@ _HELLO   = "*Sting réapparaît* Me revoilà, vous m'avez manqué bande de tocar
 
 
 class RateLimitError(Exception):
-    """Levée quand l'API Groq renvoie 429 (quota épuisé)."""
-    def __init__(self, retry_after: float):
+    """Levée quand l'API Groq renvoie 429 (quota épuisé).
+    daily=True → quota journalier (TPD/RPD) : déco RP longue.
+    daily=False → limite par minute (TPM/RPM) : attente courte silencieuse.
+    """
+    def __init__(self, retry_after: float, daily: bool = False):
         self.retry_after = retry_after
-        super().__init__(f"rate limit, retry in {retry_after:.0f}s")
+        self.daily = daily
+        super().__init__(f"rate limit ({'jour' if daily else 'minute'}), retry in {retry_after:.0f}s")
 
 
 def _set_bot_status(cursor, online: int, resume_epoch: float = 0.0, note: str = ""):
@@ -772,7 +777,9 @@ def groq_chat(messages: list) -> str:
             if retry is None:
                 m = re.search(r"try again in (?:(\d+)m)?([\d.]+)s", body)
                 retry = (int(m.group(1) or 0) * 60 + float(m.group(2))) if m else 60.0
-            raise RateLimitError(retry) from e
+            # Quota journalier (TPD/RPD) → déco RP ; sinon limite/minute → attente courte
+            is_daily = bool(re.search(r"per day|TPD|RPD", body, re.I))
+            raise RateLimitError(retry, daily=is_daily) from e
         raise RuntimeError(f"HTTP {e.code} — {body}") from e
 
     reply = data["choices"][0]["message"]["content"].strip()
@@ -888,7 +895,7 @@ def _log_to_chatlog(cursor, player: str, message: str, response: str):
 
 
 def process_pending(conn):
-    global _offline_until
+    global _offline_until, _pause_until
     with conn.cursor() as cursor:
         # ── Reprise : tokens de nouveau dispo → le bot "revient" ──
         if _offline_until and time.time() >= _offline_until:
@@ -896,6 +903,10 @@ def process_pending(conn):
             _set_bot_status(cursor, 1, 0, "")
             conn.commit()
             print("[Groq] Tokens dispo — bot de nouveau online", file=sys.stderr)
+
+        # ── Pause courte (limite/minute) : on ne touche pas aux requêtes, on attend ──
+        if _pause_until and time.time() < _pause_until:
+            return
 
         cursor.execute(
             "SELECT id, reqid, player, message, player_ctx FROM chatbot_queue "
@@ -930,14 +941,25 @@ def process_pending(conn):
                 # Log dans chatlog (réponse sans séparateurs multi-lignes)
                 _log_to_chatlog(cursor, row["player"], row["message"], response)
             except RateLimitError as rl:
-                # Quota épuisé → bot "se déconnecte" et renvoie le message d'au revoir
-                _offline_until = time.time() + rl.retry_after + 5
-                _set_bot_status(cursor, 0, _offline_until, _GOODBYE)
-                cursor.execute(
-                    "UPDATE chatbot_queue SET response=%s, status='done' WHERE id=%s",
-                    (_GOODBYE, row["id"])
-                )
-                print(f"[Groq] QUOTA ÉPUISÉ — déco {rl.retry_after:.0f}s", file=sys.stderr)
+                if rl.daily:
+                    # Quota JOURNALIER → bot "se déconnecte" (RP) et dit au revoir
+                    _offline_until = time.time() + rl.retry_after + 5
+                    _set_bot_status(cursor, 0, _offline_until, _GOODBYE)
+                    cursor.execute(
+                        "UPDATE chatbot_queue SET response=%s, status='done' WHERE id=%s",
+                        (_GOODBYE, row["id"])
+                    )
+                    print(f"[Groq] QUOTA JOURNALIER ÉPUISÉ — déco {rl.retry_after/60:.1f}min", file=sys.stderr)
+                else:
+                    # Limite par minute → pause courte, requête remise en pending (réessai)
+                    _pause_until = time.time() + rl.retry_after + 1
+                    cursor.execute(
+                        "UPDATE chatbot_queue SET status='pending' WHERE id=%s",
+                        (row["id"],)
+                    )
+                    print(f"[Groq] limite/minute — pause {rl.retry_after:.0f}s puis réessai", file=sys.stderr)
+                    conn.commit()
+                    break  # on arrête le batch, on réessaiera après la pause
             except Exception as exc:
                 import traceback
                 cursor.execute(
