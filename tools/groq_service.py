@@ -756,19 +756,49 @@ def groq_chat(messages: list) -> str:
     try:
         with urllib.request.urlopen(req, timeout=10, context=SSL_CTX) as resp:
             data = json.loads(resp.read().decode("utf-8"))
+            _log_rate_headers(resp.headers)
     except urllib.error.HTTPError as e:
         body = e.read().decode("utf-8", errors="replace")
         if e.code == 429:
-            # Parse "try again in 2m32.064s" ou "try again in 45s"
-            m = re.search(r"try again in (?:(\d+)m)?([\d.]+)s", body)
-            retry = 60.0
-            if m:
-                retry = (int(m.group(1) or 0) * 60) + float(m.group(2))
+            _log_rate_headers(e.headers)
+            # Priorité : header retry-after (sec) > reset-tokens header > body "try again in"
+            retry = None
+            ra = e.headers.get("retry-after")
+            if ra:
+                try: retry = float(ra)
+                except ValueError: pass
+            if retry is None:
+                retry = _parse_groq_duration(e.headers.get("x-ratelimit-reset-tokens"))
+            if retry is None:
+                m = re.search(r"try again in (?:(\d+)m)?([\d.]+)s", body)
+                retry = (int(m.group(1) or 0) * 60 + float(m.group(2))) if m else 60.0
             raise RateLimitError(retry) from e
         raise RuntimeError(f"HTTP {e.code} — {body}") from e
 
     reply = data["choices"][0]["message"]["content"].strip()
     return _split_response(reply)
+
+
+def _parse_groq_duration(s):
+    """Parse une durée Groq type '2m59.56s', '7.66s', '1h2m3s' → secondes (float) ou None."""
+    if not s:
+        return None
+    total, found = 0.0, False
+    for val, unit in re.findall(r"([\d.]+)\s*(h|m|s|ms)", s):
+        found = True
+        v = float(val)
+        total += v * {"h": 3600, "m": 60, "s": 1, "ms": 0.001}[unit]
+    return total if found else None
+
+
+def _log_rate_headers(headers):
+    """Affiche le quota restant et le délai de reset (monitoring console)."""
+    rem_t = headers.get("x-ratelimit-remaining-tokens")
+    rem_r = headers.get("x-ratelimit-remaining-requests")
+    rst_t = headers.get("x-ratelimit-reset-tokens")
+    if rem_t is not None or rst_t is not None:
+        print(f"[Groq] quota: tokens restants={rem_t}, requêtes restantes={rem_r}, reset tokens dans {rst_t}",
+              file=sys.stderr)
 
 
 def _split_response(text: str, max_len: int = 150) -> str:
