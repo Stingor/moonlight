@@ -94,8 +94,9 @@ _offline_until = 0.0  # timestamp epoch : bot "déco" RP (quota journalier TPD)
 _pause_until   = 0.0  # timestamp epoch : pause courte silencieuse (limite/minute TPM)
 
 # Répliques de déco/reco (RP quand les tokens sont épuisés)
-_GOODBYE = "Bon les noobs, j'ai la flemme là, je vais farmer ailleurs. À plus tard, essayez de pas crever sans moi.|*Sting se déconnecte*"
-_HELLO   = "*Sting réapparaît* Me revoilà, vous m'avez manqué bande de tocards ?"
+_GOODBYE = "Bon j'ai la flemme là, je vais faire autre chose. À plus tard, essayez de pas crever sans moi."
+_HELLO   = "Me revoilà, vous m'avez manqué bande de tocards ?"
+_AFK     = "Bon j'afk deux minutes, bougez pas les bras cassés.|*Sting part chier*"
 
 
 class RateLimitError(Exception):
@@ -897,14 +898,21 @@ def _log_to_chatlog(cursor, player: str, message: str, response: str):
 def process_pending(conn):
     global _offline_until, _pause_until
     with conn.cursor() as cursor:
-        # ── Reprise : tokens de nouveau dispo → le bot "revient" ──
+        # ── Reprise après déco journalière ──
         if _offline_until and time.time() >= _offline_until:
             _offline_until = 0.0
             _set_bot_status(cursor, 1, 0, "")
             conn.commit()
             print("[Groq] Tokens dispo — bot de nouveau online", file=sys.stderr)
 
-        # ── Pause courte (limite/minute) : on ne touche pas aux requêtes, on attend ──
+        # ── Reprise après AFK (limite/minute) ──
+        if _pause_until and time.time() >= _pause_until:
+            _pause_until = 0.0
+            _set_bot_status(cursor, 1, 0, "")
+            conn.commit()
+            print("[Groq] Limite/minute passée — bot de retour", file=sys.stderr)
+
+        # ── Encore en pause AFK : on attend sans traiter ──
         if _pause_until and time.time() < _pause_until:
             return
 
@@ -953,15 +961,16 @@ def process_pending(conn):
                     )
                     print(f"[Groq] QUOTA JOURNALIER ÉPUISÉ — déco {rl.retry_after/60:.1f}min", file=sys.stderr)
                 else:
-                    # Limite par minute → pause courte, requête remise en pending (réessai)
+                    # Limite par minute → AFK : Sting s'absente, arrête de bouger, revient après
                     _pause_until = time.time() + rl.retry_after + 1
+                    _set_bot_status(cursor, 2, _pause_until, _AFK)
                     cursor.execute(
-                        "UPDATE chatbot_queue SET status='pending' WHERE id=%s",
+                        "UPDATE chatbot_queue SET response='', status='done' WHERE id=%s",
                         (row["id"],)
                     )
-                    print(f"[Groq] limite/minute — pause {rl.retry_after:.0f}s puis réessai", file=sys.stderr)
+                    print(f"[Groq] limite/minute — AFK {rl.retry_after:.0f}s", file=sys.stderr)
                     conn.commit()
-                    break  # on arrête le batch, on réessaiera après la pause
+                    break  # on arrête le batch jusqu'à la fin de l'AFK
             except Exception as exc:
                 import traceback
                 cursor.execute(
