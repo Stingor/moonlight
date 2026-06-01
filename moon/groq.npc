@@ -78,7 +78,7 @@ OnTimer3000:
 	// Transition -> RETOUR online
 	if (.@st == 1 && .online != 1) {
 		if (.online == 0) hideoffnpc strnpcinfo(3);
-		.@back$ = .online == 0 ? "*Sting reapparait* Me revoila, vous m'avez manque bande de tocards ?" : "Bon je suis de retour, vous avez rien casse ?";
+		.@back$ = .online == 0 ? "Me revoila, vous m'avez manque bande de tocards ?" : "Bon je suis de retour, vous avez rien casse ?";
 		.online = 1;
 		npctalk strnpcinfo(0)+" : "+.@back$;
 	}
