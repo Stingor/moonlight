@@ -127,6 +127,32 @@ OnTimer3000:
 		}
 	}
 
+	// --- Buffs (Blessing + Agi Up) sur un joueur proche toutes les ~300s ---
+	if (.buffcd == 0 || gettimetick(2) - .buffcd >= 300) {
+		getareaunits(BL_PC, "gonryun", .ox-.scanr, .oy-.scanr, .ox+.scanr, .oy+.scanr, .@bids);
+		.@bcount = getarraysize(.@bids);
+		if (.@bcount > 0) {
+			.@bid = .@bids[rand(.@bcount)];
+			if (attachrid(.@bid)) {
+				.@bname$ = strcharinfo(0);
+				.@npcgid = getnpcid(0);
+				detachrid;
+				// Cast visuel depuis le NPC vers la cible
+				unitskilluseid .@npcgid, AL_BLESSING, 10, .@bid;
+				sleep 500;
+				unitskilluseid .@npcgid, AL_INCAGI, 10, .@bid;
+				// Applique les buffs (unitskilluseid sur NPC ne garantit pas l'effet)
+				if (attachrid(.@bid)) {
+					sc_start SC_BLESSING, 120000, 10;
+					sc_start SC_INCREASEAGI, 120000, 10;
+					detachrid;
+				}
+				.buffcd = gettimetick(2);
+				npctalk strnpcinfo(0)+" : "+.buff_msgs$[rand(getarraysize(.buff_msgs$))];
+			}
+		}
+	}
+
 	// --- Wandering toutes les ~60s (20 ticks de 3s) ---
 	.tick++;
 	if (.tick >= 20) {
@@ -145,7 +171,14 @@ OnInit:
 	.scanr = 6;
 	.tick = 0;
 	.mockcd = 0;
+	.buffcd = 0;
 	.online = 1;
+	.buff_msgs$[0] = "Bon j'vais vous buff sinon vous allez crever. De rien.";
+	.buff_msgs$[1] = "Tiens prends un Blessing, t'as l'air d'en avoir besoin.";
+	.buff_msgs$[2] = "C'est gratuit... cette fois. La prochaine ca sera 50k z.";
+	.buff_msgs$[3] = "AGI UP ! Non pas parce que j'aime, juste parce que ca me derange de vous voir trainer.";
+	.buff_msgs$[4] = "Allez, un petit buff des familles. Et merciez moi.";
+	.buff_msgs$[5] = "Bon j'me sens d'humeur genereuse... n'abusez pas.";
 	defpattern 2, "(?i)([^:]+) *: *(.*sting.*)", "L_chat";
 	defpattern 2, "([^:]+) *: *(².*)", "L_chat";
 	activatepset 2;

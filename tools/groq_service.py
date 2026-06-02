@@ -959,7 +959,7 @@ def process_pending(conn):
                     _offline_until = time.time() + rl.retry_after + 5
                     _set_bot_status(cursor, 0, _offline_until, _GOODBYE)
                     cursor.execute(
-                        "UPDATE chatbot_queue SET response='', status='done' WHERE id=%s",
+                        "UPDATE chatbot_queue SET response='lol', status='done' WHERE id=%s",
                         (row["id"],)
                     )
                     print(f"[Groq] QUOTA JOURNALIER ÉPUISÉ — déco {rl.retry_after/60:.1f}min", file=sys.stderr)
@@ -968,7 +968,7 @@ def process_pending(conn):
                     _pause_until = time.time() + rl.retry_after + 1
                     _set_bot_status(cursor, 2, _pause_until, _AFK)
                     cursor.execute(
-                        "UPDATE chatbot_queue SET response='', status='done' WHERE id=%s",
+                        "UPDATE chatbot_queue SET response='lol', status='done' WHERE id=%s",
                         (row["id"],)
                     )
                     print(f"[Groq] limite/minute — AFK {rl.retry_after:.0f}s", file=sys.stderr)
