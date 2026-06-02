@@ -802,14 +802,29 @@ def _parse_groq_duration(s):
     return total if found else None
 
 
+_last_rate_info = {"display": ""}   # partagé avec process_pending
+
+
 def _log_rate_headers(headers):
-    """Affiche le quota restant et le délai de reset (monitoring console)."""
-    rem_t = headers.get("x-ratelimit-remaining-tokens")
-    rem_r = headers.get("x-ratelimit-remaining-requests")
-    rst_t = headers.get("x-ratelimit-reset-tokens")
+    """Affiche le quota et met à jour _last_rate_info pour la fenêtre NPC."""
+    rem_t  = headers.get("x-ratelimit-remaining-tokens")
+    lim_t  = headers.get("x-ratelimit-limit-tokens")
+    rem_r  = headers.get("x-ratelimit-remaining-requests")
+    rst_t  = headers.get("x-ratelimit-reset-tokens")   # ex: "5h23m12.5s"
     if rem_t is not None or rst_t is not None:
-        print(f"[Groq] quota: tokens restants={rem_t}, requêtes restantes={rem_r}, reset tokens dans {rst_t}",
+        print(f"[Groq] quota: tokens={rem_t}/{lim_t}, req={rem_r}, reset dans {rst_t}",
               file=sys.stderr)
+        # Construit la chaîne affichée dans la fenêtre NPC
+        pct = ""
+        try:
+            if rem_t and lim_t:
+                pct = f" ({int(rem_t)*100//int(lim_t)}%)"
+        except Exception:
+            pass
+        rst_str = rst_t or "?"
+        _last_rate_info["display"] = (
+            f"Tokens : {rem_t or '?'}/{lim_t or '100000'}{pct} | Reset : {rst_str}"
+        )
 
 
 def _split_response(text: str, max_len: int = 150) -> str:
@@ -949,6 +964,15 @@ def process_pending(conn):
                 )
                 print(f"[Groq] {row['player']}: {row['message'][:60]!r}")
                 print(f"       -> {response!r}")
+                # Met à jour info_display dans chatbot_status
+                if _last_rate_info["display"]:
+                    try:
+                        cursor.execute(
+                            "UPDATE chatbot_status SET info_display=%s WHERE id=1",
+                            (_last_rate_info["display"],)
+                        )
+                    except Exception:
+                        pass
                 # Log dans chatlog (réponse sans séparateurs multi-lignes)
                 _log_to_chatlog(cursor, row["player"], row["message"], response)
             except RateLimitError as rl:

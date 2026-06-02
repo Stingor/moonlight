@@ -1,9 +1,27 @@
 //===== Moonlight-Destiny ====================================
 
 gonryun,159,116,4	script	Sting::sting_IA	MVP_STING,{
+	.@st = 1;
+	query_sql "SELECT online, note, info_display FROM chatbot_status WHERE id=1",
+	          .@st, .@note$, .@info$;
+
 	mes "["+strnpcinfo(0)+"]";
-	mes "Salut "+strcharinfo(0)+" !";
-	mes "Mentionne mon nom dans le chat pour me parler.";
+	if (.@st == 0) {
+		mes "^FF0000[HORS LIGNE]^000000";
+		mes "J'ai autre chose a faire, revenez plus tard.";
+		mes "";
+		mes "^888888" + .@note$ + "^000000";
+	} else if (.@st == 2) {
+		mes "^FF8800[AFK]^000000";
+		mes "Pas disponible deux minutes, soyez pas impatients.";
+	} else {
+		mes "^00AA00[EN LIGNE]^000000";
+		mes "Mentionne mon nom dans le chat pour me parler.";
+	}
+	if (.@info$ != "") {
+		mes "";
+		mes "^666666" + .@info$ + "^000000";
+	}
 	close;
 
 L_chat:
