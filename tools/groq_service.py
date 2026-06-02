@@ -735,11 +735,11 @@ def find_context(message: str, conn, player: str = "") -> str:
     # Item détecté mais aucune info disponible (pas dans la DB)
     if item_match and words & (_KW_DROP | _KW_SPAWN | _KW_ITEM):
         _, item_name_fb, _ = item_match
-        return f"[DONNÉES SERVEUR] Aucune donnée disponible pour {item_name_fb} sur ce serveur."
+        return f"[DONNÉES SERVEUR] Aucune donnée disponible pour {item_name_fb}."
     # Mob détecté avec keywords drop/spawn mais aucun drop/spawn trouvé
     if mob_match and words & (_KW_DROP | _KW_SPAWN):
         _, mob_name_fb, _, _ = mob_match
-        return f"[DONNÉES SERVEUR] Aucune donnée de drop/spawn pour {mob_name_fb} sur ce serveur."
+        return f"[DONNÉES SERVEUR] Aucune donnée de drop/spawn pour {mob_name_fb}."
     return ""
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -867,7 +867,7 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
                    "skill", "classe", "build", "stuff", "zeny", "spawn")
     msg_norm = re.sub(r"[²,!?.]", " ", message).lower()
     if not ctx and any(root in msg_norm for root in _GAME_ROOTS):
-        ctx = ("[AUCUNE DONNÉE SERVEUR] Tu n'as AUCUNE info fiable pour répondre à cette question sur CE serveur. "
+        ctx = ("[AUCUNE DONNÉE SERVEUR] Tu n'as AUCUNE info fiable pour répondre à cette question. "
                "Ne cite AUCUNE map, AUCUN mob, AUCUN item, AUCUN spot de farm — renvoie vers la database du site avec ton sarcasme.")
 
     parts = [p for p in [player_info, ctx] if p]

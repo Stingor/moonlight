@@ -38,6 +38,7 @@ L_chat:
 		while(.@parts$[.@i] != "") {
 			npctalk strnpcinfo(0)+" : "+.@parts$[.@i];
 			.@i++;
+			sleep2 200;
 			if(.@parts$[.@i] != "") sleep2 1200;
 		}
 	}
@@ -52,6 +53,7 @@ S_AnnonceNote:
 		while (.@np$[.@k] != "") {
 			npctalk strnpcinfo(0)+" : "+.@np$[.@k];
 			.@k++;
+			sleep2 200;
 			if (.@np$[.@k] != "") sleep 1200;
 		}
 	}
@@ -78,21 +80,22 @@ OnTimer3000:
 	// Transition -> RETOUR online
 	if (.@st == 1 && .online != 1) {
 		if (.online == 0) hideoffnpc strnpcinfo(3);
-		.@back$ = .online == 0 ? "Me revoila, vous m'avez manque bande de tocards ?" : "Bon je suis de retour, vous avez rien casse ?";
+		.@back$ = .online == 0 ? "Yo" : "re";
 		.online = 1;
 		npctalk strnpcinfo(0)+" : "+.@back$;
 	}
 	// Etats inactifs : deco (cache) ou afk (immobile) -> on ne scanne/bouge pas
 	if (.online != 1) { initnpctimer; end; }
 
-	// --- Scan HP : se moque d'un joueur proche en faible vie (cooldown global 90s) ---
-	if (.mockcd == 0 || gettimetick(2) - .mockcd >= 90) {
+	// --- Scan HP : se moque d'un joueur proche en faible vie (cooldown global 300s) ---
+	if (.mockcd == 0 || gettimetick(2) - .mockcd >= 300) {
 		getareaunits(BL_PC, "gonryun", .ox-.scanr, .oy-.scanr, .ox+.scanr, .oy+.scanr, .@gids);
 		.@found$ = "";
 		for (.@i = 0; .@i < getarraysize(.@gids); .@i++) {
 			if (attachrid(.@gids[.@i]) == 0) continue;
-			.@hp = Hp; .@mhp = MaxHp;
-			if (.@mhp > 0 && .@hp * 100 / .@mhp <= 25) {
+			.@hp = Hp;
+			.@mhp = MaxHp;
+			if (.@mhp > 0 && .@hp * 100 / .@mhp <= 5) {
 				.@found$ = strcharinfo(0);
 				.@pct    = .@hp * 100 / .@mhp;
 				.@pctx$  = .@found$+"|"+BaseLevel+"|"+JobLevel+"|"+Class+"|"+Zeny+"|"+Weight+"|"+MaxWeight+"|";
@@ -117,6 +120,7 @@ OnTimer3000:
 				while (.@rp$[.@j] != "") {
 					npctalk strnpcinfo(0)+" : "+.@rp$[.@j];
 					.@j++;
+					sleep2 200;
 					if (.@rp$[.@j] != "") sleep 1200;
 				}
 			}

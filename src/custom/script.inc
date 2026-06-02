@@ -336,6 +336,26 @@ BUILDIN_FUNC(npcwalktothensit)
 	return SCRIPT_CMD_SUCCESS;
 }
 
+/* logchat "<message>";
+ * Insère un message dans la chatlog avec src_charid = nom du NPC appelant.
+ * Identique à logmes mais cible la table chatlog (LOG_CHAT_GLOBAL). [Stingor]
+ */
+BUILDIN_FUNC(logchat)
+{
+	const char* msg = script_getstr(st, 2);
+	npc_data* nd = (npc_data*)map_id2bl(st->oid);
+
+	if (!nd) {
+		ShowError("buildin_logchat: pas de NPC source.\n");
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	const char* mapname = map_getmapdata(nd->m) ? map_getmapdata(nd->m)->name : "?";
+	log_chat(LOG_CHAT_GLOBAL, 0, nd->name, 0, mapname, nd->bl.x, nd->bl.y, "", msg);
+
+	return SCRIPT_CMD_SUCCESS;
+}
+
 /*BUILDIN_FUNC(addcloneskill)
 {
 	 int skill_id,skill_lv, lv;

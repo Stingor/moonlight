@@ -23,6 +23,7 @@
 	BUILDIN_DEF(npcsit,""),
 	BUILDIN_DEF(npcstand,""),
 	BUILDIN_DEF(npcwalktothensit,"ii"),
+	BUILDIN_DEF(logchat,"s"),
 	//BUILDIN_DEF(addcloneskill,"ii"),
 	BUILDIN_DEF(starteventexp,""),
 	BUILDIN_DEF(stopeventexp,""),
