@@ -43,9 +43,9 @@ L_chat:
 	}
 	.@pctx$ = .@player$+"|"+BaseLevel+"|"+JobLevel+"|"+Class+"|"+Zeny+"|"+Weight+"|"+MaxWeight+"|"+.@nearby$;
 	query_sql "INSERT INTO chatbot_queue (reqid, player, message, player_ctx) VALUES ('"+ .@reqid$ +"','"+ escape_sql(.@player$) +"','"+ escape_sql(.@msg$) +"','"+ escape_sql(.@pctx$) +"')";
-	// Attente adaptative : check toutes les 2s jusqu'a 12s max
+	// Attente adaptative : check toutes les 2s jusqu'a 20s max
 	.@tries = 0;
-	while(.@response$ == "" && .@tries < 6) {
+	while(.@response$ == "" && .@tries < 10) {
 		sleep2 2000;
 		query_sql "SELECT response FROM chatbot_queue WHERE reqid='"+ .@reqid$ +"' AND status='done'", .@response$;
 		.@tries++;
