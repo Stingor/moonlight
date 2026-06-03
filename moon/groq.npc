@@ -54,7 +54,8 @@ L_chat:
 		explode(.@parts$, .@response$, "|");
 		.@i = 0;
 		while(.@parts$[.@i] != "") {
-			npctalk strnpcinfo(0)+" : "+.@parts$[.@i];
+			.@mes$ = strnpcinfo(0)+" : "+.@parts$[.@i];
+			npctalk .@mes$; logchat .@mes$;
 			.@i++;
 			sleep2 200;
 			if(.@parts$[.@i] != "") sleep2 1200;
@@ -69,7 +70,8 @@ S_AnnonceNote:
 		explode(.@np$, .@note$, "|");
 		.@k = 0;
 		while (.@np$[.@k] != "") {
-			npctalk strnpcinfo(0)+" : "+.@np$[.@k];
+			.@mes$ = strnpcinfo(0)+" : "+.@np$[.@k];
+			npctalk .@mes$; logchat .@mes$;
 			.@k++;
 			sleep2 200;
 			if (.@np$[.@k] != "") sleep 1200;
@@ -100,7 +102,8 @@ OnTimer3000:
 		if (.online == 0) hideoffnpc strnpcinfo(3);
 		.@back$ = .online == 0 ? "Yo" : "re";
 		.online = 1;
-		npctalk strnpcinfo(0)+" : "+.@back$;
+		.@mes$ = strnpcinfo(0)+" : "+.@back$;
+		npctalk .@mes$; logchat .@mes$;
 	}
 	// Etats inactifs : deco (cache) ou afk (immobile) -> on ne scanne/bouge pas
 	if (.online != 1) { initnpctimer; end; }
@@ -136,7 +139,8 @@ OnTimer3000:
 				explode(.@rp$, .@resp$, "|");
 				.@j = 0;
 				while (.@rp$[.@j] != "") {
-					npctalk strnpcinfo(0)+" : "+.@rp$[.@j];
+					.@mes$ = strnpcinfo(0)+" : "+.@rp$[.@j];
+					npctalk .@mes$; logchat .@mes$;
 					.@j++;
 					sleep2 200;
 					if (.@rp$[.@j] != "") sleep 1200;
@@ -166,7 +170,8 @@ OnTimer3000:
 					detachrid;
 				}
 				.buffcd = gettimetick(2);
-				npctalk strnpcinfo(0)+" : "+.buff_msgs$[rand(getarraysize(.buff_msgs$))];
+				.@mes$ = strnpcinfo(0)+" : "+.buff_msgs$[rand(getarraysize(.buff_msgs$))];
+				npctalk .@mes$; logchat .@mes$;
 			}
 		}
 	}
@@ -193,13 +198,13 @@ OnPCLoadMapEvent:
 	if (.@mvpname$ == "") end;
 	sleep 3000;
 	.@r = rand(5);
-	if (.@r == 0)      npctalk strnpcinfo(0)+" : "+strcharinfo(0)+" ! C'etait MON "+.@mvpname$+" ! J'arrivais !";
-	else if (.@r == 1) npctalk strnpcinfo(0)+" : J'y crois pas... "+strcharinfo(0)+" a pris "+.@mvpname$+". J'avais besoin du drop MOI.";
-	else if (.@r == 2) npctalk strnpcinfo(0)+" : "+.@mvpname$+" par "+strcharinfo(0)+"... Tres bien. Tres. Bien.";
-	else if (.@r == 3) npctalk strnpcinfo(0)+" : Bravo "+strcharinfo(0)+", t'as pris mon "+.@mvpname$+". T'aurais pu attendre 2 min.";
-	else               npctalk strnpcinfo(0)+" : "+strcharinfo(0)+" ! Je CHERCHAIS "+.@mvpname$+" ! Fais gaffe la prochaine fois.";
+	if (.@r == 0)      .@mes$ = strnpcinfo(0)+" : "+strcharinfo(0)+" ! C'etait MON "+.@mvpname$+" ! J'arrivais !";
+	else if (.@r == 1) .@mes$ = strnpcinfo(0)+" : J'y crois pas... "+strcharinfo(0)+" a pris "+.@mvpname$+". J'avais besoin du drop MOI.";
+	else if (.@r == 2) .@mes$ = strnpcinfo(0)+" : "+.@mvpname$+" par "+strcharinfo(0)+"... Tres bien. Tres. Bien.";
+	else if (.@r == 3) .@mes$ = strnpcinfo(0)+" : Bravo "+strcharinfo(0)+", t'as pris mon "+.@mvpname$+". T'aurais pu attendre 2 min.";
+	else               .@mes$ = strnpcinfo(0)+" : "+strcharinfo(0)+" ! Je CHERCHAIS "+.@mvpname$+" ! Fais gaffe la prochaine fois.";
+	npctalk .@mes$; logchat .@mes$;
 	end;
-
 
 OnInit:
 	.ox = 159;
