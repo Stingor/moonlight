@@ -182,6 +182,25 @@ OnTimer3000:
 	initnpctimer;
 	end;
 
+OnPCLoadMapEvent:
+	// Sting se plaint si le joueur qui arrive a tue un MVP recemment (10min)
+	if (.online != 1) end;
+	if ($sting_mvp_done) end;
+	if ($sting_mvp_killer_id != getcharid(0)) end;
+	if (gettimetick(2) - $sting_mvp_time > 600) end;
+	$sting_mvp_done = 1;
+	.@mvpname$ = getmonsterinfo($sting_mvp_mob_id, MOB_NAME);
+	if (.@mvpname$ == "") end;
+	sleep 3000;
+	.@r = rand(5);
+	if (.@r == 0)      npctalk strnpcinfo(0)+" : "+strcharinfo(0)+" ! C'etait MON "+.@mvpname$+" ! J'arrivais !";
+	else if (.@r == 1) npctalk strnpcinfo(0)+" : J'y crois pas... "+strcharinfo(0)+" a pris "+.@mvpname$+". J'avais besoin du drop MOI.";
+	else if (.@r == 2) npctalk strnpcinfo(0)+" : "+.@mvpname$+" par "+strcharinfo(0)+"... Tres bien. Tres. Bien.";
+	else if (.@r == 3) npctalk strnpcinfo(0)+" : Bravo "+strcharinfo(0)+", t'as pris mon "+.@mvpname$+". T'aurais pu attendre 2 min.";
+	else               npctalk strnpcinfo(0)+" : "+strcharinfo(0)+" ! Je CHERCHAIS "+.@mvpname$+" ! Fais gaffe la prochaine fois.";
+	end;
+
+
 OnInit:
 	.ox = 159;
 	.oy = 116;

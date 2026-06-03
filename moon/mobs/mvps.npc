@@ -7,6 +7,12 @@ OnMvpDrakeDead:
 		@killdrake = 1;
 OnMvpDead:
 	if( playerattached() ) {
+		// [Stingor] Stocke le tueur pour que Sting se plaigne
+		$sting_mvp_killer_id = getcharid(0);
+		$sting_mvp_killer$   = strcharinfo(0);
+		$sting_mvp_mob_id    = killedrid;
+		$sting_mvp_time      = gettimetick(2);
+		$sting_mvp_done      = 0;
 		query_sql("UPDATE `char` SET mvp_count = mvp_count + 1 WHERE `char_id` = '"+getcharid(0,strcharinfo(0))+"'");
 		if( Mission_MVP != #Mission_Count_MVP && Mission_MVP_ID > 1 ) {
 			.@mobid = killedrid;
