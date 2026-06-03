@@ -27975,6 +27975,7 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(cleararray,"rvi"),
 	BUILDIN_DEF(copyarray,"rri"),
 	BUILDIN_DEF(getarraysize,"r"),
+	BUILDIN_DEF2(getarraysize,"size","r"),
 	BUILDIN_DEF(deletearray,"r?"),
 	BUILDIN_DEF(getelementofarray,"ri"),
 	BUILDIN_DEF(inarray,"rv"),
