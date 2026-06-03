@@ -351,7 +351,7 @@ BUILDIN_FUNC(logchat)
 	}
 
 	const char* mapname = map_getmapdata(nd->m) ? map_getmapdata(nd->m)->name : "?";
-	log_chat(LOG_CHAT_GLOBAL, 0, nd->name, 0, mapname, nd->bl.x, nd->bl.y, "", msg);
+	log_chat(LOG_CHAT_GLOBAL, 0, nd->name, 0, mapname, nd->x, nd->y, "", msg);
 
 	return SCRIPT_CMD_SUCCESS;
 }
