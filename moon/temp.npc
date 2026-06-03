@@ -1,2 +1,50 @@
 //===== Moonlight-Destiny ====================================
 // place holder
+gonryun,1,1,0	script	classement	-1,{
+OnMvpDrakeDead:
+	if( playerattached() )
+		@killdrake = 1;
+OnMvpDead:
+	if( playerattached() ) {
+		// [Stingor] Stocke le tueur pour que Sting se plaigne
+		$sting_mvp_killer_id = getcharid(0);
+		$sting_mvp_killer$   = strcharinfo(0);
+		$sting_mvp_mob_id    = killedrid;
+		$sting_mvp_time      = gettimetick(2);
+		$sting_mvp_done      = 0;
+		query_sql("UPDATE `char` SET mvp_count = mvp_count + 1 WHERE `char_id` = '"+getcharid(0,strcharinfo(0))+"'");
+		if( Mission_MVP != #Mission_Count_MVP && Mission_MVP_ID > 1 ) {
+			.@mobid = killedrid;
+			if( .@mobid == MOB_BEELZEBUB )
+				.@mobid = MOB_BEELZEBUB_;
+			if( .@mobid == MOB_MOROCC )
+				.@mobid = MOB_MOROCC_;
+			// Mission_MVP_ID stocke maintenant le mob_id directement (cf. huntmission.npc L_PickMvpMob)
+			if( .@mobid == Mission_MVP_ID ) {
+				Mission_MVP = 1;
+				dispbottom "[Chasse MVP] Vous avez tué le MVP pour votre mission retournez voir Chuck !";
+			}
+		}
+	}
+OnMvpBBDead:
+	end;
+
+OnInit:
+	setarray $mvps[0],  MOB_AMON_RA,2,MOB_DARK_LORD,2,MOB_DRACULA,2,MOB_GOLDEN_BUG,2,
+						MOB_MOONLIGHT,2,MOB_N_AMON_RA,2,MOB_ORK_HERO,2,MOB_OSIRIS,2,
+						MOB_PHARAOH,2,MOB_KNIGHT_OF_WINDSTORM,2,MOB_TURTLE_GENERAL,2,
+						MOB_ATROCE,2,MOB_INCANTATION_SAMURAI,3,MOB_DARK_SNAKE_LORD,3,
+						MOB_BACSOJIN_,4,MOB_BAPHOMET,4,MOB_NG_BAPHOMET,4,MOB_BOITATA,4,
+						MOB_DOPPELGANGER,4,MOB_EDDGA,4,MOB_B_YGNIZEM,4,MOB_FALLINGBISHOP,4,
+						MOB_EP17_2_PITAYA_BOSS,4,MOB_GARM,4,MOB_I_QUEEN_SCARABA,4,
+						MOB_GOPINICH,4,MOB_KIEL_,4,MOB_KRAKEN,4,MOB_LEAK,4,
+						MOB_LORD_OF_DEATH,4,MOB_MAYA,4,MOB_MISTRESS,4,MOB_ORC_LORD,4,
+						MOB_PHREEONI,4,MOB_QUEEN_SCARABA,4,MOB_MECHASPIDER,4,
+						MOB_TIMEHOLDER,5,MOB_APOCALIPS_H,4,MOB_DRAKE,4,MOB_EP16_2_VENOM_KIMERA,4,
+						MOB_RSX_0806,4,MOB_APOCALIPS_H,4,MOB_B_SUPERNOVICE,4,MOB_KTULLANUX,4,
+						MOB_DETALE,5,MOB_GLOOMUNDERNIGHT,6,MOB_TAO_GUNKA,6,MOB_MUSPELLSKOLL_H,6,
+						MOB_LADY_TANEE,8,MOB_PYURIEL,8,MOB_KADES,8,MOB_DAEHYON,8,
+						MOB_GIOIA,8,MOB_RANDGRIS,8,MOB_IFRIT,10,MOB_BEELZEBUB_,10,
+						MOB_CHIMERA_THEONE,10,MOB_MOROCC_,10,MOB_ENTWEIHEN,25,MOB_NAGHT_SIEGER,35,MOB_THANATOS,10,MOB_S_NYDHOG,15;
+	end;
+}
