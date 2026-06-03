@@ -1,4 +1,4 @@
-//===== eAthena Script ===========================================//
+//===== Moonlight-Destiny =========================================//
 //= Invoqueur de MVP
 //===== By =======================================================//
 //= Bribes par Hiroshi248 modifié par Kamitsu && Stingor
@@ -347,8 +347,40 @@ function	script	end_invasion	{
 	removemapflag $mapinvasion$,mf_nightenabled;	   // night off
 	removemapflag "gonryun",mf_nightenabled;	       // night off
 	removemapflag $mapinvasion$,mf_monster_noteleport; // MONSTER TELEPORT ON
+	// === 3ème place ===
+	if( $@CharId3 > 0 ) {
+		deletearray .@mi[0],getarraysize(.@mi);
+		deletearray .@ma[0],getarraysize(.@ma);
+		setarray .@mi[0], 12103, 570;
+		setarray .@ma[0], 1, 5;
+		mail $@CharId3, "Invasion", "3ème place !", "Félicitations ! Vos récompenses sont dans ce mail.", 0, .@mi, .@ma;
+		attachrid($@CharId3);
+		if( playerattached() ) {
+			#maluswininvasion += 25;
+			logmes "3ème invasion (" + $@Score3 + " kills) malus " + #maluswininvasion;
+		}
+		announce $@Winn3$ + " termine 3ème avec " + $@Score3 + " kills !",bc_all|bc_npc,0xFFFF00;
+		announce $@Winn3$ + " gagne 1 Bloody Branch et 5 Lucky Candy !",bc_all|bc_npc,0xFFFF00;
+	}
+	// === 2ème place ===
+	if( $@CharId2 > 0 ) {
+		deletearray .@mi[0],getarraysize(.@mi);
+		deletearray .@ma[0],getarraysize(.@ma);
+		setarray .@mi[0], 12103, 570;
+		setarray .@ma[0], 3, 15;
+		mail $@CharId2, "Invasion", "2ème place !", "Félicitations ! Vos récompenses sont dans ce mail.", 0, .@mi, .@ma;
+		attachrid($@CharId2);
+		if( playerattached() ) {
+			#maluswininvasion += 50;
+			logmes "2ème invasion (" + $@Score2 + " kills) malus " + #maluswininvasion;
+		}
+		announce $@Winn2$ + " termine 2ème avec " + $@Score2 + " kills !",bc_all|bc_npc,0xFFFF00;
+		announce $@Winn2$ + " gagne 3 Bloody Branch, 15 Lucky Candy !",bc_all|bc_npc,0xFFFF00;
+	}
 	// === 1ère place : mail direct (fonctionne en ligne et hors-ligne) ===
 	if( $@CharId1 > 0 ) {
+		deletearray .@mi[0],getarraysize(.@mi);
+		deletearray .@ma[0],getarraysize(.@ma);
 		.@item1 = groupranditem(IG_INVASION_COSTUME);
 		setarray .@mi[0], 12103, 12210, 570, .@item1;
 		setarray .@ma[0], 5, 1, 30, 1;
@@ -361,34 +393,6 @@ function	script	end_invasion	{
 		}
 		announce $@Winn1$ + " termine 1er avec " + $@Score1 + " kills !",bc_all|bc_npc,0xFFFF00;
 		announce $@Winn1$ + " gagne 5 Bloody Branch, 1 Bubble Gum X2, 30 Lucky Candy et " + getitemname(.@item1) + " !",bc_all|bc_npc,0xFFFF00;
-	}
-
-	// === 2ème place ===
-	if( $@CharId2 > 0 ) {
-		setarray .@mi[0], 12103, 570;
-		setarray .@ma[0], 3, 15;
-		mail $@CharId2, "Invasion", "2ème place !", "Félicitations ! Vos récompenses sont dans ce mail.", 0, .@mi, .@ma;
-		attachrid($@CharId2);
-		if( playerattached() ) {
-			#maluswininvasion += 50;
-			logmes "2ème invasion (" + $@Score2 + " kills) malus " + #maluswininvasion;
-		}
-		announce $@Winn2$ + " termine 2ème avec " + $@Score2 + " kills !",bc_all|bc_npc,0xFFFF00;
-		announce $@Winn2$ + " gagne 3 Bloody Branch, 15 Lucky Candy !",bc_all|bc_npc,0xFFFF00;
-	}
-
-	// === 3ème place ===
-	if( $@CharId3 > 0 ) {
-		setarray .@mi[0], 12103, 570;
-		setarray .@ma[0], 1, 5;
-		mail $@CharId3, "Invasion", "3ème place !", "Félicitations ! Vos récompenses sont dans ce mail.", 0, .@mi, .@ma;
-		attachrid($@CharId3);
-		if( playerattached() ) {
-			#maluswininvasion += 25;
-			logmes "3ème invasion (" + $@Score3 + " kills) malus " + #maluswininvasion;
-		}
-		announce $@Winn3$ + " termine 3ème avec " + $@Score3 + " kills !",bc_all|bc_npc,0xFFFF00;
-		announce $@Winn3$ + " gagne 1 Bloody Branch et 5 Lucky Candy !",bc_all|bc_npc,0xFFFF00;
 	}
 
 	$@Score1 = 0; $@Score2 = 0; $@Score3 = 0;
