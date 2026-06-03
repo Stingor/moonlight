@@ -263,7 +263,7 @@ OnStingDead:
 	.pvpevent = 0;
 	#KAFRAPOINTS += 10;
 	dispbottom "Vous gagnez 10 points d'évent pour avoir tué Sting au PvP !";
-	callfunc "announce2", strcharinfo(0)+" a tué "+strnpcinfo(0)+" au PvP et empoche 10 points d'évent !", bc_blue|bc_all;
+	announce strcharinfo(0)+" a tué "+strnpcinfo(0)+" au PvP et empoche 10 points d'évent !", bc_blue|bc_all;
 	movenpc strnpcinfo(3), .ox, .oy;
 	hideoffnpc strnpcinfo(3);
 	.trip = 0;
