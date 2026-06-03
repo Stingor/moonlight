@@ -81,6 +81,13 @@ S_AnnonceNote:
 	return;
 
 OnTimer3000:
+	// --- Relai shoutbox web : les messages du compte "Stingor" sortent par Sting-Bot ---
+	if (query_sql("SELECT `id`,`shout_message` FROM `igshoutbox` WHERE `shout_name`='Stingor' ORDER BY `id` ASC LIMIT 1", .@wid, .@wmsg$)) {
+		.@wm$ = strnpcinfo(0)+" : "+.@wmsg$;
+		npctalk .@wm$;
+		query_sql("DELETE FROM `igshoutbox` WHERE `id`="+.@wid);
+	}
+
 	// --- Verifie le statut : 1=online, 0=deco (jour), 2=afk (minute) ---
 	.@st = 1;
 	query_sql "SELECT online FROM chatbot_status WHERE id=1", .@st;
@@ -207,7 +214,7 @@ OnTimer3000:
 		getareaunits(BL_PC, "gonryun", .ox-.scanr, .oy-.scanr, .ox+.scanr, .oy+.scanr, .@bids);
 		.@bcount = getarraysize(.@bids);
 		if (.@bcount > 0) {
-			.@bid = .@bids[rand(.@bcount)];
+			.@bid = .@bcount > 1 ? .@bids[rand(.@bcount)] : .@bids[0];
 			if (attachrid(.@bid)) {
 				.@bname$ = strcharinfo(0);
 				.@npcgid = getnpcid(0);

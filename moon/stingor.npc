@@ -28,14 +28,10 @@ OnInit:
 		}
 		npcsit;
 
-		if( query_sql("SELECT `id`,`shout_name`,`shout_message` FROM `igshoutbox` ORDER BY id ASC LIMIT 0,1",.@id,.@pseudo$[0],.@chat$[0]) ) {
+		if( query_sql("SELECT `id`,`shout_name`,`shout_message` FROM `igshoutbox` WHERE `shout_name` <> 'Stingor' ORDER BY id ASC LIMIT 0,1",.@id,.@pseudo$[0],.@chat$[0]) ) {
 			.@pseudo$ = .@pseudo$[0];
 			.@chat$ = .@chat$[0];
-			if( .@pseudo$ == "Stingor" ) {
-				setnpcdisplay("stingor_npc", "WEB-Stingor(NPC)", 20500);
-				movenpc "stingor_npc",160,114;
-			}
-			else if( .@pseudo$ == "Pinpin" ) {
+			if( .@pseudo$ == "Pinpin" ) {
 				setnpcdisplay("stingor_npc", "WEB-Pinpin(NPC)", 20501);
 				.enable = 1;
 				enablenpc "stingor_npc";

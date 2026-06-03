@@ -53517,20 +53517,20 @@ Body:
       Mvp: true
   - Id: 20500
     AegisName: MVP_STING
-    Name: Stingor
+    Name: Sting-Bot
     Level: 255
-    Hp: 42949670
+    Hp: 10949670
     Sp: 1000000
-    BaseExp: 16777215
-    JobExp: 16777215
+    BaseExp: 1677721
+    JobExp: 1677721
     Attack: 54238
     Attack2: 65040
-    Defense: 3
-    MagicDefense: 8
-    Str: 100
+    Defense: 22
+    MagicDefense: 28
+    Str: 200
     Agi: 100
-    Vit: 23
-    Int: 100
+    Vit: 100
+    Int: 350
     Dex: 100
     Luk: 100
     AttackRange: 2
@@ -53538,11 +53538,11 @@ Body:
     ChaseRange: 12
     Size: Medium
     Race: Player_Human
-    Element: Fire
+    Element: Holy
     ElementLevel: 4
     WalkSpeed: 110
     AttackDelay: 125
-    AttackMotion: 250
+    AttackMotion: 125
     DamageMotion: 800
     Ai: 21
     Class: Boss
