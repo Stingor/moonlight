@@ -255,7 +255,7 @@ OnInit:
 	.buff_msgs$[4] = "Allez, un petit buff des familles. Et merciez moi.";
 	.buff_msgs$[5] = "Bon j'me sens d'humeur genereuse... n'abusez pas.";
 	defpattern 2, "(?i)([^:]+) *: *(.*sting.*)", "L_chat";
-	defpattern 2, "([^:]+) *: *(ï¿½.*)", "L_chat";
+	defpattern 2, "([^:]+) *: *(².*)", "L_chat";
 	activatepset 2;
 	initnpctimer;
 	end;
