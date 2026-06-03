@@ -8,7 +8,7 @@ gonryun,159,116,4	script	Sting-Bot::sting_IA	MVP_STING,{
 	mes "["+strnpcinfo(0)+"]";
 	if (.@st == 0) {
 		mes "^FF0000[HORS LIGNE]^000000";
-		mes "J'ai autre chose a faire, revenez plus tard.";
+		mes "J'ai autre chose à faire, revenez plus tard.";
 		mes "";
 		mes "^888888" + .@note$ + "^000000";
 	} else if (.@st == 2) {
@@ -109,25 +109,55 @@ OnTimer3000:
 	// Etats inactifs : deco (cache) ou afk (immobile) -> on ne scanne/bouge pas
 	if (.online != 1) { initnpctimer; end; }
 
-	// --- Faux depart en donjon (rare : ~1.5%/tick, cooldown 15min) ---
-	if (.trip == 0 && gettimetick(2) - .tripcd > 900 && rand(1000) < 15) {
+	// --- Faux depart en donjon (rare : ~1.5%/tick, cooldown 30min) ---
+	if (.trip == 0 && gettimetick(2) - .tripcd > 1800 && rand(1000) < 15) {
 		.trip = 1;
 		.tripcd = gettimetick(2);
-		.@m1$ = strnpcinfo(0)+" : "+.trip_go$[rand(4)];
+		.@m1$ = strnpcinfo(0)+" : "+.trip_go$[rand(size(.trip_go$))];
 		npctalk .@m1$; logchat .@m1$;
 		npcwalkto 165, 127;        // marche vers le warpeur
-		sleep 5000;                // laisse le temps d'arriver
-		.@m2$ = strnpcinfo(0)+" : Bon j'y vais. Touchez pas a mes affaires.";
-		npctalk .@m2$; logchat .@m2$;
-		sleep 1500;
+		sleep 6000;                // laisse le temps d'arriver
 		hideonnpc strnpcinfo(3);   // disparait (parti farm)
 		.trip = 2;
 		sleep rand(180000, 360000); // absent 3 a 6 min
 		movenpc strnpcinfo(3), .ox, .oy;
 		hideoffnpc strnpcinfo(3);
-		.@m3$ = strnpcinfo(0)+" : "+.trip_back$[rand(4)];
+		.@m3$ = strnpcinfo(0)+" : "+.trip_back$[rand(size(.trip_back$))];
 		npctalk .@m3$; logchat .@m3$;
 		.trip = 0;
+		initnpctimer; end;
+	}
+
+	// --- Event PvP : Sting defie les joueurs et part affronter qui ose au PvP ---
+	if (.pvpevent == 0 && gettimetick(2) - .pvpcd > 7200 && rand(1000) < 10) {
+		.pvpevent = 1;
+		.pvpcd = gettimetick(2);
+		.trip = 1;                 // bloque chat/trip pendant l'event
+		.@t1$ = strnpcinfo(0)+" : "+.pvp_taunt$[rand(size(.pvp_taunt$))];
+		npctalk .@t1$; logchat .@t1$;
+		announce strnpcinfo(0)+" en a marre de vos questions et part régler ça au PvP !", bc_blue|bc_all;
+		sleep 2000;
+		npcwalkto 155, 128;        // marche vers le warpeur
+		sleep 5000;
+		.@t2$ = strnpcinfo(0)+" : Rendez-vous en carnage. Si vous avez des couilles.";
+		npctalk .@t2$; logchat .@t2$;
+		sleep 1500;
+		hideonnpc strnpcinfo(3);   // disparait (parti au PvP)
+		// Spawn du boss tuable sur la map PvP, mort -> OnStingDead
+		monster "pvp_n_3-5", 0, 0, "Stingor", 20500, 1, strnpcinfo(3)+"::OnStingDead";
+		announce strnpcinfo(0)+" vous attend en carnage room ! Tuez-le (killing blow) pour 10 points d'évent !", bc_blue|bc_all;
+		// Timeout 15 min : si toujours vivant, personne ne l'a eu
+		sleep 900000;
+		if (.pvpevent == 1) {
+			killmonster "pvp_n_3-5", strnpcinfo(3)+"::OnStingDead";
+			.pvpevent = 0;
+			movenpc strnpcinfo(3), .ox, .oy;
+			hideoffnpc strnpcinfo(3);
+			.trip = 0;
+			.@tw$ = strnpcinfo(0)+" : "+.pvp_win$[rand(size(.pvp_win$))];
+			npctalk .@tw$; logchat .@tw$;
+			announce strnpcinfo(0)+" est rentré invaincu. Personne n'a osé.", bc_blue|bc_all;
+		}
 		initnpctimer; end;
 	}
 
@@ -193,8 +223,6 @@ OnTimer3000:
 					detachrid;
 				}
 				.buffcd = gettimetick(2);
-				.@mes$ = strnpcinfo(0)+" : "+.buff_msgs$[rand(getarraysize(.buff_msgs$))];
-				npctalk .@mes$;
 			}
 		}
 	}
@@ -221,12 +249,28 @@ OnPCLoadMapEvent:
 	if (.@mvpname$ == "") end;
 	sleep 3000;
 	.@r = rand(5);
-	if (.@r == 0)      .@mes$ = strnpcinfo(0)+" : "+strcharinfo(0)+" ! C'etait MON "+.@mvpname$+" ! J'arrivais !";
+	if (.@r == 0)      .@mes$ = strnpcinfo(0)+" : "+strcharinfo(0)+" ! C'était MON "+.@mvpname$+" ! J'arrivais !";
 	else if (.@r == 1) .@mes$ = strnpcinfo(0)+" : J'y crois pas... "+strcharinfo(0)+" a pris "+.@mvpname$+". J'avais besoin du drop MOI.";
-	else if (.@r == 2) .@mes$ = strnpcinfo(0)+" : "+.@mvpname$+" par "+strcharinfo(0)+"... Tres bien. Tres. Bien.";
+	else if (.@r == 2) .@mes$ = strnpcinfo(0)+" : "+.@mvpname$+" par "+strcharinfo(0)+"... Très bien. Très. Bien.";
 	else if (.@r == 3) .@mes$ = strnpcinfo(0)+" : Bravo "+strcharinfo(0)+", t'as pris mon "+.@mvpname$+". T'aurais pu attendre 2 min.";
 	else               .@mes$ = strnpcinfo(0)+" : "+strcharinfo(0)+" ! Je CHERCHAIS "+.@mvpname$+" ! Fais gaffe la prochaine fois.";
 	npctalk .@mes$; logchat .@mes$;
+	end;
+
+OnStingDead:
+	// Un joueur a porte le coup fatal au boss Sting sur la map PvP (RID = tueur)
+	if (.pvpevent != 1) end;
+	.pvpevent = 0;
+	#KAFRAPOINTS += 10;
+	dispbottom "Vous gagnez 10 points d'évent pour avoir tué Sting au PvP !";
+	callfunc "announce2", strcharinfo(0)+" a tué "+strnpcinfo(0)+" au PvP et empoche 10 points d'évent !", bc_blue|bc_all;
+	movenpc strnpcinfo(3), .ox, .oy;
+	hideoffnpc strnpcinfo(3);
+	.trip = 0;
+	initnpctimer;
+	sleep 1500;
+	.@ml$ = strnpcinfo(0)+" : "+.pvp_lose$[rand(size(.pvp_lose$))];
+	npctalk .@ml$; logchat .@ml$;
 	end;
 
 OnInit:
@@ -240,20 +284,48 @@ OnInit:
 	.online = 1;
 	.trip = 0;
 	.tripcd = 0;
-	.trip_go$[0] = "Bon, je vais me faire un donjon, ca farm pas tout seul.";
+	.trip_go$[0] = "Bon, je vais me faire un donjon, ça farm pas tout seul.";
 	.trip_go$[1] = "Allez, un petit MVP m'attend. Bougez pas.";
 	.trip_go$[2] = "J'me casse farm, j'en ai marre de vos questions.";
 	.trip_go$[3] = "Direction le donjon. Essayez de survivre sans moi.";
-	.trip_back$[0] = "De retour ! Le donjon c'etait de la pure merde.";
-	.trip_back$[1] = "Bon me revoila. J'ai oneshot tout le monde la-bas.";
-	.trip_back$[2] = "Pfff, MVP rate de 2%. Quelqu'un me l'a vole, c'est sur.";
-	.trip_back$[3] = "Me revoila les tocards. Vous m'avez meme pas manque.";
-	.buff_msgs$[0] = "Bon j'vais vous buff sinon vous allez crever. De rien.";
-	.buff_msgs$[1] = "Tiens prends un Blessing, t'as l'air d'en avoir besoin.";
-	.buff_msgs$[2] = "C'est gratuit... cette fois. La prochaine ca sera 50k z.";
-	.buff_msgs$[3] = "AGI UP ! Non pas parce que j'aime, juste parce que ca me derange de vous voir trainer.";
-	.buff_msgs$[4] = "Allez, un petit buff des familles. Et merciez moi.";
-	.buff_msgs$[5] = "Bon j'me sens d'humeur genereuse... n'abusez pas.";
+	.trip_go$[4] = "Je vais chercher une carte à 0.5%. Comme d'hab, je l'aurai du premier coup.";
+	.trip_go$[5] = "Pause donjon. Si y'a le feu en ville, débrouillez-vous.";
+	.trip_go$[6] = "J'vais oneshot deux-trois MVP, ça détend. À toute.";
+	.trip_go$[7] = "Bon, le farm m'appelle. Gardez la boutique, les bras cassés.";
+	.trip_back$[0] = "De retour ! Le donjon c'était de la pure merde.";
+	.trip_back$[1] = "Bon me revoilà. J'ai oneshot tout le monde là-bas.";
+	.trip_back$[2] = "Pfff, MVP raté de 2%. Quelqu'un me l'a volé, c'est sûr.";
+	.trip_back$[3] = "Me revoilà les tocards. Vous m'avez même pas manqué.";
+	.trip_back$[4] = "Sac plein de drops rares. Non vous pouvez pas voir, c'est dans ma banque.";
+	.trip_back$[5] = "Voilà, donjon nettoyé. Vous pouvez applaudir.";
+	.trip_back$[6] = "Retour express. Même les boss s'ennuyaient avec moi.";
+	.trip_back$[7] = "Bon, j'ai fini. Quelqu'un a fait un truc utile pendant ce temps ? Non ? Logique.";
+	.pvpevent = 0;
+	.pvpcd = 0;
+	.pvp_taunt$[0] = "Bon, vous me soûlez avec vos questions. Qui a les couilles de m'affronter au PvP ?";
+	.pvp_taunt$[1] = "J'm'ennuie. Allez, je vous défie tous. Direction l'arène.";
+	.pvp_taunt$[2] = "Vous voulez voir un vrai joueur ? Suivez-moi au PvP, bande de tocards.";
+	.pvp_taunt$[3] = "Marre de jouer les baby-sitters. On règle ça au PvP, tout de suite.";
+	.pvp_taunt$[4] = "Y'a un PvP qui m'appelle. Venez mourir, c'est gratuit.";
+	.pvp_taunt$[5] = "Allez, qui veut tâter du Sting ? Promis je fais semblant d'avoir mal.";
+	.pvp_taunt$[6] = "J'offre 10 points d'event à qui me touche. Spoiler : personne touchera.";
+	.pvp_taunt$[7] = "Assez papoté. Celui qui me bat gagne le droit de fermer sa bouche. Au PvP, vite.";
+	.pvp_win$[0] = "Personne. Comme d'hab. Vous valez rien.";
+	.pvp_win$[1] = "J'ai attendu, j'ai gagné par forfait. Lamentable.";
+	.pvp_win$[2] = "Même pas un pour essayer ? Retournez farmer des Poring.";
+	.pvp_win$[3] = "Invaincu. Encore. C'était couru d'avance.";
+	.pvp_win$[4] = "J'ai poireauté 15 minutes pour ça. Vous me devez des excuses.";
+	.pvp_win$[5] = "Aucun courageux. Je note vos noms. Tous.";
+	.pvp_win$[6] = "Victoire par abandon général. Pathétique, mais je prends.";
+	.pvp_win$[7] = "Vous avez eu peur, c'est ça ? Je comprends. Je ferais pareil.";
+	.pvp_lose$[0] = "Ok ok, t'as eu de la chance. UNE fois.";
+	.pvp_lose$[1] = "Pfff. Bug du serveur, c'est évident. Castor va m'entendre.";
+	.pvp_lose$[2] = "Profite, ça arrivera plus. Je vous ai laissé gagner.";
+	.pvp_lose$[3] = "T'es content ? Voilà tes points. Maintenant dégage.";
+	.pvp_lose$[4] = "J'avais le lag. Sinon t'étais mort en deux secondes.";
+	.pvp_lose$[5] = "Bravo. Tu as battu un NPC. Mets ça sur ton CV.";
+	.pvp_lose$[6] = "C'est bon, range ta joie. La prochaine fois je suis sérieux.";
+	.pvp_lose$[7] = "Dix points bien mérités... à une chance près. Savoure, ça durera pas.";
 	defpattern 2, "(?i)([^:]+) *: *(.*sting.*)", "L_chat";
 	defpattern 2, "([^:]+) *: *(².*)", "L_chat";
 	activatepset 2;
