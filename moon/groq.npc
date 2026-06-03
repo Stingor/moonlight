@@ -166,7 +166,7 @@ OnTimer3000:
 					detachrid;
 				}
 				.buffcd = gettimetick(2);
-				npctalk strnpcinfo(0)+" : "+.buff_msgs$[rand(getarraysize(.buff_msgs$))];
+				npctalk strnpcinfo(0)+" : "+.buff_msgs$[rand(6)];
 			}
 		}
 	}
