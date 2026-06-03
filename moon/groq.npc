@@ -159,10 +159,10 @@ OnTimer3000:
 				.@bname$ = strcharinfo(0);
 				.@npcgid = getnpcid(0);
 				detachrid;
-				// Cast visuel depuis le NPC vers la cible (IDs: AL_BLESSING=34, AL_INCAGI=29)
-				unitskilluseid .@npcgid, 34, 10, .@bid;
+				// Cast visuel depuis le NPC vers la cible (skills en string, idiome rAthena)
+				unitskilluseid .@npcgid, "AL_BLESSING", 10, .@bid;
 				sleep 500;
-				unitskilluseid .@npcgid, 29, 10, .@bid;
+				unitskilluseid .@npcgid, "AL_INCAGI", 10, .@bid;
 				// Applique les buffs
 				if (attachrid(.@bid)) {
 					sc_start SC_BLESSING, 120000, 10;
