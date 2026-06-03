@@ -42,7 +42,6 @@ DB_CONFIG = {
     "cursorclass": pymysql.cursors.DictCursor,
 }
 DB_RATHENA        = os.environ.get("DB_RATHENA",        "rathena")
-DB_LOGS           = os.environ.get("DB_LOGS",           "rathena_logs")
 TRANSLATE_URL     = os.environ.get("TRANSLATE_URL",     "http://localhost/api/translate_script.php")
 TRANSLATE_TOKEN   = os.environ.get("TRANSLATE_TOKEN",   "")
 
@@ -898,20 +897,6 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
     return reply
 
 
-def _log_to_chatlog(cursor, player: str, message: str, response: str):
-    """Insère la réponse du bot dans rathena_logs.chatlog (le message joueur est déjà loggué par rAthena)."""
-    try:
-        bot_response = response.replace("|", " ")
-        cursor.execute(
-            f"INSERT INTO `{DB_LOGS}`.`chatlog` "
-            "(`id`,`time`,`type`,`type_id`,`src_charid`,`src_accountid`,"
-            "`src_map`,`src_map_x`,`src_map_y`,`dst_charname`,`message`) "
-            "VALUES (NULL, NOW(), 'O', '0', 'Sting-Bot', '0', 'gonryun', '159', '116', '0', %s)",
-            (bot_response,)
-        )
-    except Exception as e:
-        print(f"[Groq] chatlog insert ignoré : {e}", file=sys.stderr)
-
 
 def process_pending(conn):
     global _offline_until, _pause_until
@@ -973,8 +958,6 @@ def process_pending(conn):
                         )
                     except Exception:
                         pass
-                # Log dans chatlog (réponse sans séparateurs multi-lignes)
-                _log_to_chatlog(cursor, row["player"], row["message"], response)
             except RateLimitError as rl:
                 if rl.daily:
                     # Quota JOURNALIER → bot "se déconnecte" (RP)
