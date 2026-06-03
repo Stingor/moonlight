@@ -1,6 +1,6 @@
 //===== Moonlight-Destiny ====================================
 
-gonryun,159,116,4	script	Sting::sting_IA	MVP_STING,{
+gonryun,159,116,4	script	Sting-Bot::sting_IA	MVP_STING,{
 	.@st = 1;
 	query_sql "SELECT online, note, info_display FROM chatbot_status WHERE id=1",
 	          .@st, .@note$, .@info$;
@@ -26,6 +26,7 @@ gonryun,159,116,4	script	Sting::sting_IA	MVP_STING,{
 
 L_chat:
 	if(.online != 1) end;
+	if(.trip != 0) end;
 	if(gettimetick(2) - .cooldown < 5) end;
 	.cooldown = gettimetick(2);
 
@@ -107,6 +108,28 @@ OnTimer3000:
 	}
 	// Etats inactifs : deco (cache) ou afk (immobile) -> on ne scanne/bouge pas
 	if (.online != 1) { initnpctimer; end; }
+
+	// --- Faux depart en donjon (rare : ~1.5%/tick, cooldown 15min) ---
+	if (.trip == 0 && gettimetick(2) - .tripcd > 900 && rand(1000) < 15) {
+		.trip = 1;
+		.tripcd = gettimetick(2);
+		.@m1$ = strnpcinfo(0)+" : "+.trip_go$[rand(4)];
+		npctalk .@m1$; logchat .@m1$;
+		npcwalkto 165, 127;        // marche vers le warpeur
+		sleep 5000;                // laisse le temps d'arriver
+		.@m2$ = strnpcinfo(0)+" : Bon j'y vais. Touchez pas a mes affaires.";
+		npctalk .@m2$; logchat .@m2$;
+		sleep 1500;
+		hideonnpc strnpcinfo(3);   // disparait (parti farm)
+		.trip = 2;
+		sleep rand(180000, 360000); // absent 3 a 6 min
+		movenpc strnpcinfo(3), .ox, .oy;
+		hideoffnpc strnpcinfo(3);
+		.@m3$ = strnpcinfo(0)+" : "+.trip_back$[rand(4)];
+		npctalk .@m3$; logchat .@m3$;
+		.trip = 0;
+		initnpctimer; end;
+	}
 
 	// --- Scan HP : se moque d'un joueur proche en faible vie (cooldown global 300s) ---
 	if (.mockcd == 0 || gettimetick(2) - .mockcd >= 300) {
@@ -215,6 +238,16 @@ OnInit:
 	.mockcd = 0;
 	.buffcd = 0;
 	.online = 1;
+	.trip = 0;
+	.tripcd = 0;
+	.trip_go$[0] = "Bon, je vais me faire un donjon, ca farm pas tout seul.";
+	.trip_go$[1] = "Allez, un petit MVP m'attend. Bougez pas.";
+	.trip_go$[2] = "J'me casse farm, j'en ai marre de vos questions.";
+	.trip_go$[3] = "Direction le donjon. Essayez de survivre sans moi.";
+	.trip_back$[0] = "De retour ! Le donjon c'etait de la pure merde.";
+	.trip_back$[1] = "Bon me revoila. J'ai oneshot tout le monde la-bas.";
+	.trip_back$[2] = "Pfff, MVP rate de 2%. Quelqu'un me l'a vole, c'est sur.";
+	.trip_back$[3] = "Me revoila les tocards. Vous m'avez meme pas manque.";
 	.buff_msgs$[0] = "Bon j'vais vous buff sinon vous allez crever. De rien.";
 	.buff_msgs$[1] = "Tiens prends un Blessing, t'as l'air d'en avoir besoin.";
 	.buff_msgs$[2] = "C'est gratuit... cette fois. La prochaine ca sera 50k z.";
@@ -222,7 +255,7 @@ OnInit:
 	.buff_msgs$[4] = "Allez, un petit buff des familles. Et merciez moi.";
 	.buff_msgs$[5] = "Bon j'me sens d'humeur genereuse... n'abusez pas.";
 	defpattern 2, "(?i)([^:]+) *: *(.*sting.*)", "L_chat";
-	defpattern 2, "([^:]+) *: *(².*)", "L_chat";
+	defpattern 2, "([^:]+) *: *(ï¿½.*)", "L_chat";
 	activatepset 2;
 	initnpctimer;
 	end;
