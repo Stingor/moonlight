@@ -92,8 +92,9 @@ SYSTEM_PROMPT = (
     "résume-le pour le joueur avec ton opinion, sans montrer de code. "
     "Pour le farm zeny, cite les 3 meilleurs spots avec un avis dessus. "
     "Si on te demande quel est le meilleur stuff, arme ou armure pour tel classes, envoie les demander à Atheist, le spécialiste stuff du serveur, parce que toi t'en as rien à foutre. "
-    "Sans [DONNÉES SERVEUR] sur une question précise de mob/item/map, dis que t'as pas l'info dans ton pokedex "
-    "— avec du sarcasme ('va chercher sur la database du site comme tout le monde' ou encore 'go google' etc.). "
+    "UNIQUEMENT quand on te pose vraiment une question de jeu (drop, spawn, map, stat, farm…) sans [DONNÉES SERVEUR], "
+    "dis que t'as pas l'info dans ton pokedex avec du sarcasme ('va chercher sur la database du site comme tout le monde', 'go google'…). "
+    "JAMAIS ce renvoi database en réponse à une simple vanne, une insulte ou une discussion : là tu réponds cash, tu tchatches. "
     "JAMAIS inventer une map, un mob ou un item qui n'est pas dans [DONNÉES SERVEUR] — "
     "même si tu penses le savoir de RO vanilla, ce serveur est custom et les spawns sont différents. "
     "Sans données sur drop/spawn/farm, tu dis que t'as pas l'info (avec ton sarcasme habituel). "
@@ -771,7 +772,7 @@ def groq_chat(messages: list) -> str:
     payload = json.dumps({
         "model": LLM_MODEL,
         "messages": messages,
-        "max_tokens": 110,
+        "max_tokens": 160,     # filet de sécurité HAUT : la brièveté vient du prompt, pas du plafond
         "temperature": 0.85,   # plus de mordant/variété dans les vannes
         "frequency_penalty": 0.5,   # casse le template répétitif (il recopiait ses réponses)
         "presence_penalty": 0.3,
@@ -811,8 +812,26 @@ def groq_chat(messages: list) -> str:
             raise RateLimitError(retry, daily=is_daily) from e
         raise RuntimeError(f"HTTP {e.code} — {body}") from e
 
-    reply = data["choices"][0]["message"]["content"].strip()
+    choice = data["choices"][0]
+    reply = choice["message"]["content"].strip()
+    # Si la réponse a été coupée par max_tokens, on rogne le fragment final incomplet
+    if choice.get("finish_reason") == "length":
+        reply = _trim_truncated(reply)
     return _split_response(reply)
+
+
+def _trim_truncated(text: str) -> str:
+    """Réponse coupée par la limite de tokens → on coupe à la dernière phrase complète
+    (sinon au dernier mot entier + '…') pour éviter un mot tronqué en plein milieu."""
+    text = text.rstrip()
+    # dernière ponctuation de fin de phrase
+    cut = max(text.rfind(". "), text.rfind("! "), text.rfind("? "),
+              text.rfind("."),  text.rfind("!"),  text.rfind("?"))
+    if cut >= 30:
+        return text[:cut + 1].rstrip()
+    # pas de phrase complète : on coupe au dernier espace pour ne pas tronquer un mot
+    sp = text.rfind(" ")
+    return (text[:sp].rstrip() + "…") if sp >= 30 else text
 
 
 def _parse_groq_duration(s):
