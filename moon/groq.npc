@@ -251,7 +251,9 @@ OnPCLoadMapEvent:
 	if ($sting_mvp_done) end;
 	if ($sting_mvp_killer_id != getcharid(0)) end;
 	if (gettimetick(2) - $sting_mvp_time > 600) end;
+	if (gettimetick(2) - $sting_mvp_cd < .mvp_cd) end;
 	$sting_mvp_done = 1;
+	$sting_mvp_cd   = gettimetick(2);
 	.@mvpname$ = getmonsterinfo($sting_mvp_mob_id, MOB_NAME);
 	if (.@mvpname$ == "") end;
 	.@killer$ = strcharinfo(0);
@@ -289,6 +291,7 @@ OnInit:
 	.tick = 0;
 	.mockcd = 0;
 	.buffcd = 0;
+	.mvp_cd = 1800;
 	.online = 1;
 	.trip = 0;
 	.tripcd = 0;
