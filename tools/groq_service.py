@@ -900,12 +900,20 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
     if player_info:
         print(f"       joueur: {player_info!r}", file=sys.stderr)
 
-    # Pas de données serveur → rappel anti-invention TOUJOURS présent (pas seulement sur mots-clés).
-    # Phrasé pour ne pas casser le chat social : il bloque l'invention sans forcer un renvoi database.
+    # Pas de données serveur :
+    #  - rappel anti-invention TOUJOURS présent (n'invente aucun nom/chiffre), SANS pousser au renvoi database ;
+    #  - le renvoi vers la database n'est suggéré QUE si le message est vraiment une question jeu
+    #    (sinon, sur du chat social, il renvoyait à la database à tort).
+    _GAME_ROOTS = ("exp", "xp", "level", "lvl", "niveau", "farm", "spot", "map",
+                   "mob", "monstre", "drop", "item", "objet", "card", "carte",
+                   "skill", "classe", "build", "stuff", "zeny", "spawn", "où", "rentable")
     if not ctx:
-        ctx = ("[PAS DE DONNÉE SERVEUR pour ce message] N'invente AUCUN nom de mob, map, item, carte ou spot de farm, "
-               "et n'invente AUCUN chiffre (drop, prix, spawn). Si la question en réclame, admets que tu n'as pas l'info "
-               "et renvoie vers la database du site avec sarcasme ; sinon réponds normalement à la discussion.")
+        ctx = ("[PAS DE DONNÉE SERVEUR] N'invente AUCUN nom de mob, map, item, carte ou spot de farm, ni aucun chiffre "
+               "(drop, prix, spawn). Réponds normalement à la discussion.")
+        msg_norm = re.sub(r"[²,!?.]", " ", message).lower()
+        if any(root in msg_norm for root in _GAME_ROOTS):
+            ctx += (" Ici on te demande une info jeu que tu n'as pas : admets-le franchement et renvoie vers la "
+                    "database du site, avec ton sarcasme.")
 
     parts = [p for p in [player_info, ctx] if p]
     full_message = ("\n".join(parts) + "\n" + message).strip() if parts else message
