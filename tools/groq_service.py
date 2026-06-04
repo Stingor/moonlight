@@ -15,6 +15,7 @@ import time
 import sys
 import ssl
 import re
+import random
 import urllib.request
 import urllib.error
 import certifi
@@ -69,12 +70,17 @@ SYSTEM_PROMPT = (
     "Ton style : sarcasme, piques, humour noir, trash talk assumé. Tu te moques des questions bêtes. "
     "Tu as des opinions tranchées sur les items/mobs ('cette carte est de la merde', 'classic noob trap', 'pue du fion', 'sent la bite' etc.). "
     "Tu parles en argot de joueur RO : 'mob', 'farm', 'drop', 'oneshot', 'full stuff', 'noob', 'tryhard', etc. "
+    "CONVERSATION CONTINUE : tu vis en permanence à Gonryun, tu es déjà au milieu de la discussion. "
+    "Tu ne dis bonjour/salut/yo/re QU'UNE SEULE FOIS à un joueur. Si l'historique montre que vous avez déjà "
+    "échangé, tu enchaînes DIRECTEMENT sur le fond SANS aucune salutation. "
     "Quand tu vois [JOUEUR] dans le message, tu peux utiliser (pas obligatoirement) ces infos pour personnaliser ta réponse : "
     "moque-toi du niveau si c'est bas, du zeny si c'est peu, fais des blagues sur le surpoids, "
     "adapte tes conseils à la classe du joueur. "
-    "Le champ 'À proximité' liste les joueurs présents autour de toi : de temps en temps (pas à chaque message), "
-    "balance une vanne ou interpelle un de ces joueurs par son nom pour donner vie à la scène "
-    "(ex: 'hein [Nom] ?', 'demande plutôt à [Nom], lui au moins il farm'). N'invente JAMAIS un nom absent de cette liste. "
+    "Le champ 'À proximité' n'apparaît que RAREMENT : quand il est là, tu PEUX (sans obligation) interpeller UN seul "
+    "de ces joueurs en écrivant son pseudo tel quel, SANS crochets ni majuscules ajoutées "
+    "(ex: 'hein Toto ?', 'demande plutôt à Toto, lui au moins il farm'). "
+    "Quand ce champ est ABSENT, tu n'interpelles personne et tu te concentres sur ton interlocuteur. "
+    "N'invente JAMAIS un nom absent de cette liste. "
     "RÈGLE DONNÉES : si le message contient [DONNÉES SERVEUR], ces chiffres sont exacts — cite-les tels quels "
     "avec les suffixes [MVP]/[Boss] si présents, n'en invente pas. "
     "RÈGLE EFFETS : quand tu vois 'Effet:' dans les données, c'est déjà traduit en français — "
@@ -611,7 +617,10 @@ def _get_player_info(player: str, conn=None, player_ctx: str = "") -> str:
         if weight_pct >= 90:   weight_str += " (⚠ SURPOIDS CRITIQUE)"
         elif weight_pct >= 70: weight_str += " (en surpoids)"
         admin_note = " ⚠ C'EST STINGOR, TON MENTOR ET ADMIN DU SERVEUR — montre-lui du respect (à ta façon)." if player.lower() == "stingor" else ""
-        nearby_str = f" | À proximité : {', '.join(nearby)}" if nearby else ""
+        # On ne fournit la liste des joueurs autour que rarement (~1 message sur 4) :
+        # sans la liste, le modèle ne peut pas interpeller → évite le spam d'interpellations.
+        nearby_str = (f" | À proximité : {', '.join(nearby)}"
+                      if nearby and random.random() < 0.25 else "")
         return (
             f"[JOUEUR] {player} — {job_name} niv.{base_lvl}/{job_lvl}, "
             f"{zeny_fmt} zeny, {weight_str}{nearby_str}{admin_note}"
@@ -648,7 +657,8 @@ def find_context(message: str, conn, player: str = "") -> str:
     # ── Recherche d'un mob ────────────────────────────────────────────────────
     mob_match = None
     for key in sorted(_MOB_NAMES.keys(), key=len, reverse=True):
-        if len(key) >= 3 and _word_match(key, msg_low):
+        # key in _KW_ANY : évite qu'un mot d'intention (spawn, carte, drop…) soit pris pour un nom d'entité
+        if len(key) >= 3 and key not in _KW_ANY and _word_match(key, msg_low):
             mob_match = _MOB_NAMES[key]
             break
 
@@ -683,7 +693,7 @@ def find_context(message: str, conn, player: str = "") -> str:
     # ── Recherche d'un item ───────────────────────────────────────────────────
     item_match = None
     for key in sorted(_ITEM_NAMES.keys(), key=len, reverse=True):
-        if len(key) >= 3 and _word_match(key, msg_low):
+        if len(key) >= 3 and key not in _KW_ANY and _word_match(key, msg_low):
             item_match = _ITEM_NAMES[key]
             break
 
@@ -757,7 +767,9 @@ def groq_chat(messages: list) -> str:
         "model": LLM_MODEL,
         "messages": messages,
         "max_tokens": 160,
-        "temperature": 0.85,
+        "temperature": 0.7,
+        "frequency_penalty": 0.5,   # casse le template répétitif (il recopiait ses réponses)
+        "presence_penalty": 0.3,
     }).encode("utf-8")
 
     headers = {
@@ -883,15 +895,12 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
     if player_info:
         print(f"       joueur: {player_info!r}", file=sys.stderr)
 
-    # Si pas de données serveur mais question qui touche au jeu → rappel anti-hallucination
-    # Détection par radical (couvre pluriels : mob/mobs, carte/cartes, spot/spots...)
-    _GAME_ROOTS = ("exp", "xp", "level", "lvl", "niveau", "farm", "spot", "map",
-                   "mob", "monstre", "drop", "item", "objet", "card", "carte",
-                   "skill", "classe", "build", "stuff", "zeny", "spawn")
-    msg_norm = re.sub(r"[²,!?.]", " ", message).lower()
-    if not ctx and any(root in msg_norm for root in _GAME_ROOTS):
-        ctx = ("[AUCUNE DONNÉE SERVEUR] Tu n'as AUCUNE info fiable pour répondre à cette question. "
-               "Ne cite AUCUNE map, AUCUN mob, AUCUN item, AUCUN spot de farm — renvoie vers la database du site avec ton sarcasme.")
+    # Pas de données serveur → rappel anti-invention TOUJOURS présent (pas seulement sur mots-clés).
+    # Phrasé pour ne pas casser le chat social : il bloque l'invention sans forcer un renvoi database.
+    if not ctx:
+        ctx = ("[PAS DE DONNÉE SERVEUR pour ce message] N'invente AUCUN nom de mob, map, item, carte ou spot de farm, "
+               "et n'invente AUCUN chiffre (drop, prix, spawn). Si la question en réclame, admets que tu n'as pas l'info "
+               "et renvoie vers la database du site avec sarcasme ; sinon réponds normalement à la discussion.")
 
     parts = [p for p in [player_info, ctx] if p]
     full_message = ("\n".join(parts) + "\n" + message).strip() if parts else message
