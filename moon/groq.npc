@@ -95,7 +95,7 @@ OnTimer3000:
 	// Transition -> DECO journaliere (annonce note + se cache)
 	if (.@st == 0 && .online != 0) {
 		callsub S_AnnonceNote;
-		hideonnpc strnpcinfo(3);
+		disablenpc strnpcinfo(3);
 		.online = 0;
 		initnpctimer; end;
 	}
@@ -107,7 +107,7 @@ OnTimer3000:
 	}
 	// Transition -> RETOUR online
 	if (.@st == 1 && .online != 1) {
-		if (.online == 0) hideoffnpc strnpcinfo(3);
+		if (.online == 0) enablenpc strnpcinfo(3);
 		.@back$ = .online == 0 ? "Yo" : "re";
 		.online = 1;
 		.@mes$ = strnpcinfo(0)+" : "+.@back$;
@@ -124,11 +124,11 @@ OnTimer3000:
 		npctalk .@m1$; logchat .@m1$;
 		npcwalkto 165, 127;        // marche vers le warpeur
 		sleep 6000;                // laisse le temps d'arriver
-		hideonnpc strnpcinfo(3);   // disparait (parti farm)
+		disablenpc strnpcinfo(3);   // disparait (parti farm)
 		.trip = 2;
 		sleep rand(180000, 360000); // absent 3 a 6 min
 		movenpc strnpcinfo(3), .ox, .oy;
-		hideoffnpc strnpcinfo(3);
+		enablenpc strnpcinfo(3);
 		.@m3$ = strnpcinfo(0)+" : "+.trip_back$[rand(size(.trip_back$))];
 		npctalk .@m3$; logchat .@m3$;
 		.trip = 0;
@@ -149,7 +149,7 @@ OnTimer3000:
 		.@t2$ = strnpcinfo(0)+" : Rendez-vous en carnage. Si vous avez des couilles.";
 		npctalk .@t2$; logchat .@t2$;
 		sleep 1500;
-		hideonnpc strnpcinfo(3);   // disparait (parti au PvP)
+		disablenpc strnpcinfo(3);   // disparait (parti au PvP)
 		// Spawn du boss tuable sur la map PvP, mort -> OnStingDead
 		monster "pvp_n_3-5", 0, 0, "Stingor", 20500, 1, strnpcinfo(3)+"::OnStingDead";
 		announce strnpcinfo(0)+" vous attend en carnage room ! Tuez-le (killing blow) pour 10 points d'évent !", bc_blue|bc_all;
@@ -159,7 +159,7 @@ OnTimer3000:
 			killmonster "pvp_n_3-5", strnpcinfo(3)+"::OnStingDead";
 			.pvpevent = 0;
 			movenpc strnpcinfo(3), .ox, .oy;
-			hideoffnpc strnpcinfo(3);
+			enablenpc strnpcinfo(3);
 			.trip = 0;
 			.@tw$ = strnpcinfo(0)+" : "+.pvp_win$[rand(size(.pvp_win$))];
 			npctalk .@tw$; logchat .@tw$;
@@ -275,7 +275,7 @@ OnStingDead:
 	dispbottom "Vous gagnez 10 points d'évent pour avoir tué Sting au PvP !";
 	announce strcharinfo(0)+" a tué "+strnpcinfo(0)+" au PvP et empoche 10 points d'évent !", bc_blue|bc_all;
 	movenpc strnpcinfo(3), .ox, .oy;
-	hideoffnpc strnpcinfo(3);
+	enablenpc strnpcinfo(3);
 	.trip = 0;
 	initnpctimer;
 	sleep 1500;
