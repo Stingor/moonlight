@@ -1,0 +1,7 @@
+Moonlight-Destiny est basé sur rAthena (https://github.com/rathena/rathena),
+lui-même continuation d'eAthena, distribué sous licence GNU GPL v3.
+
+Ce projet accumule des modifications depuis 2006 : d'abord des scripts NPC
+sur eAthena, puis des modifications plus profondes des sources, le tout
+porté par la suite sur rAthena. L'historique Git de ce dépôt ne couvre que
+la période la plus récente ; une part importante du travail lui est antérieure.
