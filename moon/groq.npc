@@ -46,7 +46,7 @@ L_chat:
 	// Attente adaptative : check toutes les 2s jusqu'a 20s max
 	.@tries = 0;
 	while(.@response$ == "" && .@tries < 10) {
-		sleep2 2000;
+		sleep 2000;
 		query_sql "SELECT response FROM chatbot_queue WHERE reqid='"+ .@reqid$ +"' AND status='done'", .@response$;
 		.@tries++;
 	}
@@ -58,8 +58,8 @@ L_chat:
 			.@mes$ = strnpcinfo(0)+" : "+.@parts$[.@i];
 			npctalk .@mes$; logchat .@mes$;
 			.@i++;
-			sleep2 200;
-			if(.@parts$[.@i] != "") sleep2 1200;
+			sleep 200;
+			if(.@parts$[.@i] != "") sleep 1200;
 		}
 	}
 	end;
@@ -74,7 +74,7 @@ S_AnnonceNote:
 			.@mes$ = strnpcinfo(0)+" : "+.@np$[.@k];
 			npctalk .@mes$; logchat .@mes$;
 			.@k++;
-			sleep2 200;
+			sleep 200;
 			if (.@np$[.@k] != "") sleep 1200;
 		}
 	}
@@ -202,7 +202,7 @@ OnTimer3000:
 					.@mes$ = strnpcinfo(0)+" : "+.@rp$[.@j];
 					npctalk .@mes$; logchat .@mes$;
 					.@j++;
-					sleep2 200;
+					sleep 200;
 					if (.@rp$[.@j] != "") sleep 1200;
 				}
 			}
