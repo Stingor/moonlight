@@ -893,6 +893,38 @@ def _split_response(text: str, max_len: int = 150) -> str:
     return '|'.join(parts)
 
 
+def _event_prompt(tag: str, player: str, rest: str) -> str:
+    """Construit le prompt one-shot d'un événement scripté du NPC (trip, PvP, MVP).
+    Renvoie None si le tag est inconnu (le NPC retombera sur sa réplique hardcodée).
+    `player` = joueur concerné quand il y en a un ; `rest` = reste du message (ex: nom du MVP).
+    """
+    if tag == "EVENT_TRIP_GO":
+        return ("(ÉVÈNEMENT — tu parles à voix haute en ville, tu ne réponds à personne : "
+                "tu annonces que tu pars farmer / te faire un donjon et que les joueurs vont se "
+                "débrouiller sans toi. 1 phrase courte, sarcastique et vantarde.)")
+    if tag == "EVENT_TRIP_BACK":
+        return ("(ÉVÈNEMENT — tu reviens en ville après ton farm/donjon. Vante ton butin OU râle "
+                "qu'on t'a volé un drop, et méprise les joueurs restés en ville. 1 phrase courte.)")
+    if tag == "EVENT_PVP_TAUNT":
+        return ("(ÉVÈNEMENT — tu en as marre des questions et tu défies TOUS les joueurs de venir "
+                "t'affronter au PvP. Provoque-les, promets que personne ne te touchera. 1 phrase cinglante.)")
+    if tag == "EVENT_PVP_WIN":
+        return ("(ÉVÈNEMENT — personne n'a osé venir t'affronter au PvP pendant 15 minutes. "
+                "Tu rentres invaincu et méprisant, tu te moques de leur lâcheté. 1 phrase.)")
+    if tag == "EVENT_PVP_LOSE":
+        who = player or "ce joueur"
+        return (f"(ÉVÈNEMENT — {who} vient de te battre au PvP. Tu refuses vraiment de l'admettre : "
+                f"excuse bidon (lag, bug, tu l'as laissé gagner…), tu restes arrogant. "
+                f"Adresse-toi à {who} en écrivant son pseudo tel quel sans crochets, 1 phrase.)")
+    if tag == "EVENT_MVP":
+        who = player or "ce joueur"
+        mvp = rest or "ce MVP"
+        return (f"(ÉVÈNEMENT — {who} vient de tuer le MVP {mvp} que tu convoitais. Tu râles, tu lui "
+                f"reproches de t'avoir piqué ton kill et ton drop. Adresse-toi à {who} en écrivant "
+                f"son pseudo tel quel sans crochets, 1 phrase.)")
+    return None
+
+
 def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> str:
     player = player.strip()
     if player not in histories:
@@ -900,6 +932,17 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
 
     message = message.lstrip("²").strip()
     message = message[:300]
+
+    # Événements scriptés du NPC (trip, PvP, MVP) : génération one-shot, HORS historique
+    # de conversation (un event ne doit pas polluer la mémoire du chat joueur).
+    if message.startswith("[EVENT_"):
+        m = re.match(r"\[(EVENT_[A-Z_]+)\]\s*(.*)", message)
+        if m:
+            ev = _event_prompt(m.group(1), player, m.group(2).strip())
+            if ev:
+                print(f"[Groq] EVENT {m.group(1)} | player={player!r} rest={m.group(2)!r}", file=sys.stderr)
+                return groq_chat([{"role": "system", "content": SYSTEM_PROMPT},
+                                  {"role": "user", "content": ev}])
 
     # Événement auto : joueur arrivé à proximité avec peu de HP
     if message.startswith("[AUTO_LOWHP]"):

@@ -80,6 +80,34 @@ S_AnnonceNote:
 	}
 	return;
 
+S_SayEvent:
+	// Generation IA d'une replique d'event via chatbot_queue (fallback = replique hardcodee).
+	// getarg(0)=message-tag, getarg(1)=repli de secours, getarg(2)=joueur ou "", getarg(3)=player_ctx ou "".
+	.@ev_msg$  = getarg(0);
+	.@ev_fb$   = getarg(1);
+	.@ev_pl$   = getarg(2, "");
+	.@ev_ctx$  = getarg(3, "");
+	.@ev_resp$ = "";
+	.@ev_reqid$ = "EV"+getnpcid(0)+gettimetick(2)+rand(1000);
+	query_sql "INSERT INTO chatbot_queue (reqid, player, message, player_ctx) VALUES ('"+ .@ev_reqid$ +"','"+ escape_sql(.@ev_pl$) +"','"+ escape_sql(.@ev_msg$) +"','"+ escape_sql(.@ev_ctx$) +"')";
+	.@ev_tries = 0;
+	while (.@ev_resp$ == "" && .@ev_tries < 6) {
+		sleep 1500;
+		query_sql "SELECT response FROM chatbot_queue WHERE reqid='"+ .@ev_reqid$ +"' AND status='done'", .@ev_resp$;
+		.@ev_tries++;
+	}
+	if (.@ev_resp$ == "") .@ev_resp$ = .@ev_fb$;   // service IA injoignable -> repli hardcode
+	explode(.@ev_parts$, .@ev_resp$, "|");
+	.@ev_i = 0;
+	while (.@ev_parts$[.@ev_i] != "") {
+		.@ev_line$ = strnpcinfo(0)+" : "+.@ev_parts$[.@ev_i];
+		npctalk .@ev_line$; logchat .@ev_line$;
+		.@ev_i++;
+		sleep 200;
+		if (.@ev_parts$[.@ev_i] != "") sleep 1200;
+	}
+	return;
+
 OnTimer3000:
 	// --- Relai shoutbox web : les messages du compte "Stingor" sortent par Sting-Bot ---
 	if (query_sql("SELECT `id`,`shout_message` FROM `igshoutbox` WHERE `shout_name`='Stingor' ORDER BY `id` ASC LIMIT 1", .@wid, .@wmsg$)) {
@@ -120,8 +148,7 @@ OnTimer3000:
 	if (.trip == 0 && gettimetick(2) - .tripcd > 1800 && rand(1000) < 15) {
 		.trip = 1;
 		.tripcd = gettimetick(2);
-		.@m1$ = strnpcinfo(0)+" : "+.trip_go$[rand(size(.trip_go$))];
-		npctalk .@m1$; logchat .@m1$;
+		callsub S_SayEvent, "[EVENT_TRIP_GO]", .trip_go$[rand(size(.trip_go$))], "", "";
 		npcwalkto 165, 127;        // marche vers le warpeur
 		sleep 6000;                // laisse le temps d'arriver
 		disablenpc strnpcinfo(3);   // disparait (parti farm)
@@ -129,8 +156,7 @@ OnTimer3000:
 		sleep rand(180000, 360000); // absent 3 a 6 min
 		movenpc strnpcinfo(3), .ox, .oy;
 		enablenpc strnpcinfo(3);
-		.@m3$ = strnpcinfo(0)+" : "+.trip_back$[rand(size(.trip_back$))];
-		npctalk .@m3$; logchat .@m3$;
+		callsub S_SayEvent, "[EVENT_TRIP_BACK]", .trip_back$[rand(size(.trip_back$))], "", "";
 		.trip = 0;
 		initnpctimer; end;
 	}
@@ -140,8 +166,7 @@ OnTimer3000:
 		.pvpevent = 1;
 		.pvpcd = gettimetick(2);
 		.trip = 1;                 // bloque chat/trip pendant l'event
-		.@t1$ = strnpcinfo(0)+" : "+.pvp_taunt$[rand(size(.pvp_taunt$))];
-		npctalk .@t1$; logchat .@t1$;
+		callsub S_SayEvent, "[EVENT_PVP_TAUNT]", .pvp_taunt$[rand(size(.pvp_taunt$))], "", "";
 		announce strnpcinfo(0)+" en a marre de vos questions et part régler ça au PvP !", bc_blue|bc_all;
 		sleep 2000;
 		npcwalkto 155, 128;        // marche vers le warpeur
@@ -151,21 +176,21 @@ OnTimer3000:
 		sleep 1500;
 		disablenpc strnpcinfo(3);   // disparait (parti au PvP)
 		// Spawn du boss tuable sur la map PvP, mort -> OnStingDead
-		monster "pvp_n_3-5", 0, 0, "Stingor", 20500, 1, strnpcinfo(3)+"::OnStingDead";
+		monster "pvp_n_3-5", 0, 0, "Stingor", 20500, 1, "#sting_pvp::OnStingDead";
 		announce strnpcinfo(0)+" vous attend en carnage room ! Tuez-le (killing blow) pour 10 points d'évent !", bc_blue|bc_all;
 		// Timeout 15 min : si toujours vivant, personne ne l'a eu
 		sleep 900000;
 		if (.pvpevent == 1) {
-			killmonster "pvp_n_3-5", strnpcinfo(3)+"::OnStingDead";
+			killmonster "pvp_n_3-5", "#sting_pvp::OnStingDead";
 			.pvpevent = 0;
 			movenpc strnpcinfo(3), .ox, .oy;
 			enablenpc strnpcinfo(3);
 			.trip = 0;
-			.@tw$ = strnpcinfo(0)+" : "+.pvp_win$[rand(size(.pvp_win$))];
-			npctalk .@tw$; logchat .@tw$;
+			callsub S_SayEvent, "[EVENT_PVP_WIN]", .pvp_win$[rand(size(.pvp_win$))], "", "";
 			announce strnpcinfo(0)+" est rentré invaincu. Personne n'a osé.", bc_blue|bc_all;
+			initnpctimer;
 		}
-		initnpctimer; end;
+		end;
 	}
 
 	// --- Scan HP : se moque d'un joueur proche en faible vie (cooldown global 300s) ---
@@ -259,28 +284,24 @@ OnPCLoadMapEvent:
 	.@killer$ = strcharinfo(0);
 	sleep 3000;
 	.@r = rand(5);
-	if (.@r == 0)      .@mes$ = strnpcinfo(0)+" : "+.@killer$+" ! C'était MON "+.@mvpname$+" ! J'arrivais !";
-	else if (.@r == 1) .@mes$ = strnpcinfo(0)+" : J'y crois pas... "+.@killer$+" a pris "+.@mvpname$+". J'avais besoin du drop MOI.";
-	else if (.@r == 2) .@mes$ = strnpcinfo(0)+" : "+.@mvpname$+" par "+.@killer$+"... Très bien. Très. Bien.";
-	else if (.@r == 3) .@mes$ = strnpcinfo(0)+" : Bravo "+.@killer$+", t'as pris mon "+.@mvpname$+". T'aurais pu attendre 2 min.";
-	else               .@mes$ = strnpcinfo(0)+" : "+.@killer$+" ! Je CHERCHAIS "+.@mvpname$+" ! Fais gaffe la prochaine fois.";
-	npctalk .@mes$; logchat .@mes$;
+	if (.@r == 0)      .@fb$ = .@killer$+" ! C'était MON "+.@mvpname$+" ! J'arrivais !";
+	else if (.@r == 1) .@fb$ = "J'y crois pas... "+.@killer$+" a pris "+.@mvpname$+". J'avais besoin du drop MOI.";
+	else if (.@r == 2) .@fb$ = .@mvpname$+" par "+.@killer$+"... Très bien. Très. Bien.";
+	else if (.@r == 3) .@fb$ = "Bravo "+.@killer$+", t'as pris mon "+.@mvpname$+". T'aurais pu attendre 2 min.";
+	else               .@fb$ = .@killer$+" ! Je CHERCHAIS "+.@mvpname$+" ! Fais gaffe la prochaine fois.";
+	callsub S_SayEvent, "[EVENT_MVP] "+.@mvpname$, .@fb$, .@killer$, "";
 	end;
 
-OnStingDead:
-	// Un joueur a porte le coup fatal au boss Sting sur la map PvP (RID = tueur)
-	if (.pvpevent != 1) end;
+OnPvpReturn:
+	// Appelé par le contrôleur #sting_pvp quand le boss PvP est tué (sans RID attaché).
+	// La récompense est donnée par le contrôleur ; ici Sting revient et raille le vainqueur.
 	.pvpevent = 0;
-	#KAFRAPOINTS += 10;
-	dispbottom "Vous gagnez 10 points d'évent pour avoir tué Sting au PvP !";
-	announce strcharinfo(0)+" a tué "+strnpcinfo(0)+" au PvP et empoche 10 points d'évent !", bc_blue|bc_all;
-	movenpc strnpcinfo(3), .ox, .oy;
 	enablenpc strnpcinfo(3);
+	movenpc strnpcinfo(3), .ox, .oy;
 	.trip = 0;
 	initnpctimer;
 	sleep 1500;
-	.@ml$ = strnpcinfo(0)+" : "+.pvp_lose$[rand(size(.pvp_lose$))];
-	npctalk .@ml$; logchat .@ml$;
+	callsub S_SayEvent, "[EVENT_PVP_LOSE]", .pvp_lose$[rand(size(.pvp_lose$))], $sting_pvp_killer$, "";
 	end;
 
 OnInit:
@@ -341,5 +362,22 @@ OnInit:
 	defpattern 2, "([^:]+) *: *(².*)", "L_chat";
 	activatepset 2;
 	initnpctimer;
+	end;
+}
+
+// === Contrôleur invisible : reçoit la mort du boss PvP. Le NPC Sting est disablenpc
+// pendant l'event => ses propres events ne partent pas (npc_event ignore is_invisible).
+// Ce NPC reste actif, récompense le tueur (il a son RID) puis rappelle Sting via donpcevent.
+gonryun,160,116,0	script	#sting_pvp	-1,{
+	end;
+
+OnStingDead:
+	// RID = joueur ayant porté le coup fatal au boss Sting (mob 20500) sur pvp_n_3-5.
+	$sting_pvp_killer$ = strcharinfo(0);
+	#KAFRAPOINTS += 10;
+	dispbottom "Vous gagnez 10 points d'évent pour avoir tué Sting au PvP !";
+	announce strcharinfo(0)+" a tué Sting-Bot au PvP et empoche 10 points d'évent !", bc_blue|bc_all;
+	// Sting-Bot est disablenpc : donpcevent le pilote quand meme (ignore le garde is_invisible).
+	donpcevent "sting_IA::OnPvpReturn";
 	end;
 }
