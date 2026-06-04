@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """
-Groq chatbot service — poll chatbot_queue, call Groq API, write response back.
+Chatbot service — poll chatbot_queue, call an OpenAI-compatible LLM, write response back.
+
+Backend configurable via groq.env : Groq (défaut) ou modèle local (LM Studio / Ollama).
+Voir le bloc « Config LLM » plus bas (LLM_URL / LLM_MODEL / LLM_API_KEY / LLM_TIMEOUT).
 
 Install: pip install pymysql certifi   (pur Python, pas de compilation)
 Run:     python tools/groq_service.py
@@ -28,10 +31,16 @@ if os.path.exists(_env_file):
                 _k, _v = _line.split("=", 1)
                 os.environ[_k.strip()] = _v.strip()
 
-# ── Config ────────────────────────────────────────────────────────────────────
-GROQ_API_KEY = os.environ["GROQ_API_KEY"]
-GROQ_MODEL   = "llama-3.3-70b-versatile"
-GROQ_URL     = "https://api.groq.com/openai/v1/chat/completions"
+# ── Config LLM (backend OpenAI-compatible : Groq, LM Studio, Ollama…) ─────────
+# Pour basculer sur un modèle local, renseigne dans groq.env :
+#   LLM_URL=http://192.168.1.XX:1234/v1/chat/completions   (LM Studio = 1234, Ollama = 11434)
+#   LLM_MODEL=qwen2.5-14b-instruct
+#   LLM_API_KEY=                  (vide en local : aucun en-tête d'auth envoyé)
+#   LLM_TIMEOUT=60                (modèle local en démarrage à froid = plus lent)
+LLM_URL     = os.environ.get("LLM_URL",   "https://api.groq.com/openai/v1/chat/completions")
+LLM_MODEL   = os.environ.get("LLM_MODEL", "llama-3.3-70b-versatile")
+LLM_API_KEY = os.environ.get("LLM_API_KEY", os.environ.get("GROQ_API_KEY", ""))
+LLM_TIMEOUT = float(os.environ.get("LLM_TIMEOUT", "60"))
 
 DB_CONFIG = {
     "host":        os.environ.get("DB_HOST",     "localhost"),
@@ -745,24 +754,24 @@ def find_context(message: str, conn, player: str = "") -> str:
 
 def groq_chat(messages: list) -> str:
     payload = json.dumps({
-        "model": GROQ_MODEL,
+        "model": LLM_MODEL,
         "messages": messages,
         "max_tokens": 160,
         "temperature": 0.85,
     }).encode("utf-8")
 
-    req = urllib.request.Request(
-        GROQ_URL,
-        data=payload,
-        headers={
-            "Authorization": f"Bearer {GROQ_API_KEY}",
-            "Content-Type": "application/json",
-            "User-Agent": "python-requests/2.31.0",
-        },
-        method="POST",
-    )
+    headers = {
+        "Content-Type": "application/json",
+        "User-Agent": "python-requests/2.31.0",
+    }
+    if LLM_API_KEY:   # local (LM Studio/Ollama) = pas de clé → pas d'en-tête d'auth
+        headers["Authorization"] = f"Bearer {LLM_API_KEY}"
+
+    req = urllib.request.Request(LLM_URL, data=payload, headers=headers, method="POST")
+    # SSL uniquement pour https (Groq) ; en LAN http on passe context=None
+    ctx = SSL_CTX if LLM_URL.startswith("https://") else None
     try:
-        with urllib.request.urlopen(req, timeout=10, context=SSL_CTX) as resp:
+        with urllib.request.urlopen(req, timeout=LLM_TIMEOUT, context=ctx) as resp:
             data = json.loads(resp.read().decode("utf-8"))
             _log_rate_headers(resp.headers)
     except urllib.error.HTTPError as e:
@@ -1000,8 +1009,11 @@ def process_pending(conn):
 
 
 def main():
-    k = GROQ_API_KEY
-    print(f"Groq service démarré — clé : {k[:8]}...{k[-4:]} (Ctrl+C pour arrêter)")
+    if LLM_API_KEY:
+        k = LLM_API_KEY
+        print(f"LLM service démarré — {LLM_MODEL} @ {LLM_URL} | clé : {k[:8]}...{k[-4:]} (Ctrl+C pour arrêter)")
+    else:
+        print(f"LLM service démarré — {LLM_MODEL} @ {LLM_URL} (local, sans clé — Ctrl+C pour arrêter)")
     conn = None
     names_loaded = False
     while True:
