@@ -91,7 +91,7 @@ S_SayEvent:
 	.@ev_reqid$ = "EV"+getnpcid(0)+gettimetick(2)+rand(1000);
 	query_sql "INSERT INTO chatbot_queue (reqid, player, message, player_ctx) VALUES ('"+ .@ev_reqid$ +"','"+ escape_sql(.@ev_pl$) +"','"+ escape_sql(.@ev_msg$) +"','"+ escape_sql(.@ev_ctx$) +"')";
 	.@ev_tries = 0;
-	while (.@ev_resp$ == "" && .@ev_tries < 6) {
+	while (.@ev_resp$ == "" && .@ev_tries < 14) {
 		sleep 1500;
 		query_sql "SELECT response FROM chatbot_queue WHERE reqid='"+ .@ev_reqid$ +"' AND status='done'", .@ev_resp$;
 		.@ev_tries++;

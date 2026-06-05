@@ -12,6 +12,7 @@ Run:     python tools/groq_service.py
 import os
 import json
 import time
+import datetime
 import sys
 import ssl
 import re
@@ -21,6 +22,13 @@ import urllib.error
 import certifi
 import pymysql
 import pymysql.cursors
+
+# ── Logs horodatés : préfixe [YYYY-MM-DD HH:MM:SS] sur chaque print (stdout+stderr) ──
+# Même format que LM Studio pour pouvoir corréler les deux consoles d'un coup d'œil.
+import builtins as _builtins
+_real_print = _builtins.print
+def print(*args, **kwargs):
+    _real_print(time.strftime("[%Y-%m-%d %H:%M:%S]"), *args, **kwargs)
 
 # ── Chargement automatique de groq.env ────────────────────────────────────────
 _env_file = os.path.join(os.path.dirname(__file__), "groq.env")
@@ -1013,7 +1021,7 @@ def process_pending(conn):
             return
 
         cursor.execute(
-            "SELECT id, reqid, player, message, player_ctx FROM chatbot_queue "
+            "SELECT id, reqid, player, message, player_ctx, created_at FROM chatbot_queue "
             "WHERE status='pending' ORDER BY created_at LIMIT 5"
         )
         rows = cursor.fetchall()
@@ -1040,7 +1048,15 @@ def process_pending(conn):
                     "UPDATE chatbot_queue SET response=%s, status='done' WHERE id=%s",
                     (response, row["id"])
                 )
-                print(f"[Groq] {row['player']}: {row['message'][:60]!r}")
+                # Latence file d'attente : age de la requete (insert NPC -> reponse prete).
+                # Si > la fenetre de poll du NPC (events=21s, chat=30s), le NPC a deja repli.
+                _age = ""
+                if row.get("created_at"):
+                    try:
+                        _age = f" [lat {(datetime.datetime.now() - row['created_at']).total_seconds():.1f}s]"
+                    except Exception:
+                        pass
+                print(f"[Groq] {row['player']}: {row['message'][:60]!r}{_age}")
                 print(f"       -> {response!r}")
                 # Met à jour info_display dans chatbot_status
                 if _last_rate_info["display"]:
