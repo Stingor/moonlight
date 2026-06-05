@@ -32,7 +32,8 @@ L_chat:
 
 	.@player$ = $@p1$;
 	.@msg$    = $@p2$;
-	.@reqid$  = ""+getcharid(3)+gettimetick(2);
+	.@aid     = getcharid(3);
+	.@reqid$  = ""+.@aid+gettimetick(2);
 
 	// Joueurs a proximite (6 cases)
 	getareaunits(BL_PC, "gonryun", .ox-6, .oy-6, .ox+6, .oy+6, .@near_names$);
@@ -54,6 +55,16 @@ L_chat:
 	if(.@response$ != "") {
 		explode(.@parts$, .@response$, "|");
 		.@i = 0;
+		// Sort decide par le modele : @HEAL@ / @RES@ en 1er segment -> cast vers le demandeur
+		if (.@parts$[0] == "@HEAL@" || .@parts$[0] == "@RES@") {
+			if (.@aid > 0 && isloggedin(.@aid)) {
+				if (.@parts$[0] == "@RES@")
+					unitskilluseid getnpcid(0), "AL_RESURRECTION", 4, .@aid;
+				else
+					unitskilluseid getnpcid(0), "AL_HEAL", 10, .@aid;
+			}
+			.@i = 1;
+		}
 		while(.@parts$[.@i] != "") {
 			.@mes$ = strnpcinfo(0)+" : "+.@parts$[.@i];
 			npctalk .@mes$; logchat .@mes$;
@@ -315,7 +326,7 @@ OnInit:
 	.tick = 0;
 	.mockcd = 0;
 	.buffcd = 0;
-	.mvp_cd = 1800;
+	.mvp_cd = 7200;
 	.online = 1;
 	.trip = 0;
 	.tripcd = 0;
