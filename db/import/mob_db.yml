@@ -53519,21 +53519,21 @@ Body:
     AegisName: MVP_STING
     Name: Sting-Bot
     Level: 255
-    Hp: 10949670
+    Hp: 20949670
     Sp: 1000000
     BaseExp: 1677721
     JobExp: 1677721
-    Attack: 54238
-    Attack2: 65040
+    Attack: 154238
+    Attack2: 165040
     Defense: 22
     MagicDefense: 28
     DamageTaken: 10
     Str: 200
     Agi: 100
     Vit: 100
-    Int: 350
-    Dex: 100
-    Luk: 100
+    Int: 1000
+    Dex: 350
+    Luk: 150
     AttackRange: 2
     SkillRange: 10
     ChaseRange: 12
