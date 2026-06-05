@@ -155,6 +155,7 @@ OnTimer3000:
 		.trip = 2;
 		sleep rand(180000, 360000); // absent 3 a 6 min
 		movenpc strnpcinfo(3), .ox, .oy;
+		npcstop;
 		enablenpc strnpcinfo(3);
 		callsub S_SayEvent, "[EVENT_TRIP_BACK]", .trip_back$[rand(size(.trip_back$))], "", "";
 		.trip = 0;
@@ -184,6 +185,7 @@ OnTimer3000:
 			killmonster "pvp_n_3-5", "#sting_pvp::OnStingDead";
 			.pvpevent = 0;
 			movenpc strnpcinfo(3), .ox, .oy;
+			npcstop;
 			enablenpc strnpcinfo(3);
 			.trip = 0;
 			callsub S_SayEvent, "[EVENT_PVP_WIN]", .pvp_win$[rand(size(.pvp_win$))], "", "";
@@ -297,11 +299,12 @@ OnPvpReturn:
 	// La récompense est donnée par le contrôleur ; ici Sting revient et raille le vainqueur.
 	.pvpevent = 0;
 	enablenpc strnpcinfo(3);
+	npcstop;   // movenpc ne stoppe pas une marche en cours -> reset etat de marche
 	movenpc strnpcinfo(3), .ox, .oy;
 	.trip = 0;
-	initnpctimer;
 	sleep 1500;
 	callsub S_SayEvent, "[EVENT_PVP_LOSE]", .pvp_lose$[rand(size(.pvp_lose$))], $sting_pvp_killer$, "";
+	initnpctimer;   // en dernier, comme le retour trip (relance OnTimer3000)
 	end;
 
 OnInit:
