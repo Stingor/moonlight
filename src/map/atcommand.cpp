@@ -5391,6 +5391,38 @@ ACMD_FUNC(hidenpc)
 	return 0;
 }
 
+/**
+ * Normalize a NPC script path argument for @loadnpc / @reloadnpcfile so the
+ * user can pass a bare name (e.g. "groq") instead of the full "moon/groq.npc":
+ *  - converts Windows-style backslashes to forward slashes;
+ *  - prepends the "moon/" script directory unless the path already starts with
+ *    it (so "moon/groq.npc" is left untouched);
+ *  - appends the default ".npc" extension when the filename has none.
+ */
+static void atcommand_normalize_npc_path(const char* input, char* out, size_t outsize)
+{
+	char path[1024];
+	safestrncpy(path, input, sizeof(path));
+	for (char* p = path; *p; ++p) if (*p == '\\') *p = '/';
+
+	// Prepend the moon/ script directory unless the user already supplied it
+	if (strncmp(path, "moon/", 5) != 0) {
+		char buf[1024];
+		safesnprintf(buf, sizeof(buf), "moon/%s", path);
+		safestrncpy(path, buf, sizeof(path));
+	}
+
+	// Append the default .npc extension if the filename part has none
+	char* slash = strrchr(path, '/');
+	char* name = slash ? slash + 1 : path;
+	if (strchr(name, '.') == nullptr) {
+		size_t len = strlen(path);
+		safesnprintf(path + len, sizeof(path) - len, ".npc");
+	}
+
+	safestrncpy(out, path, outsize);
+}
+
 ACMD_FUNC(loadnpc)
 {
 	if (!message || !*message) {
@@ -5398,10 +5430,8 @@ ACMD_FUNC(loadnpc)
 		return -1;
 	}
 
-	// Normalize path separators so Windows-style paths work on all platforms
 	char path[1024];
-	safestrncpy(path, message, sizeof(path));
-	for (char* p = path; *p; ++p) if (*p == '\\') *p = '/';
+	atcommand_normalize_npc_path(message, path, sizeof(path));
 
 	if (!npc_addsrcfile(path, true)) {
 		clif_displaymessage(fd, msg_txt(sd, 261)); // Script could not be loaded.
@@ -5449,10 +5479,8 @@ ACMD_FUNC(reloadnpcfile) {
 		return -1;
 	}
 
-	// Normalize path separators so Windows-style paths work on all platforms
 	char path[1024];
-	safestrncpy(path, message, sizeof(path));
-	for (char* p = path; *p; ++p) if (*p == '\\') *p = '/';
+	atcommand_normalize_npc_path(message, path, sizeof(path));
 
 	if (npc_unloadfile(path))
 		clif_displaymessage(fd, msg_txt(sd, 1386)); // File unloaded. Be aware that mapflags and monsters spawned directly are not removed.

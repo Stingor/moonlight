@@ -477,10 +477,8 @@ ACMD_FUNC(unloadnpcfile) {
 		return -1;
 	}
 
-	// Normalize path separators so Windows-style paths work on all platforms
 	char path[1024];
-	safestrncpy(path, message, sizeof(path));
-	for (char* p = path; *p; ++p) if (*p == '\\') *p = '/';
+	atcommand_normalize_npc_path(message, path, sizeof(path));
 
 	if (npc_unloadfile(path)) {
 		clif_displaymessage(fd, msg_txt(sd, 1386)); // File unloaded. Be aware that mapflags and monsters spawned directly are not removed.
