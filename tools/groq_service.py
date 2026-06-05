@@ -132,7 +132,7 @@ SYSTEM_PROMPT = (
 )
 
 POLL_INTERVAL  = 0.3
-HISTORY_MAX    = 20
+HISTORY_MAX    = 10
 CLEANUP_HOURS  = 1
 # ──────────────────────────────────────────────────────────────────────────────
 
@@ -799,7 +799,7 @@ def groq_chat(messages: list) -> str:
         "model": LLM_MODEL,
         "messages": messages,
         "max_tokens": 160,     # filet de sécurité HAUT : la brièveté vient du prompt, pas du plafond
-        "temperature": 0.85,   # plus de mordant/variété dans les vannes
+        "temperature": 0.80,   # plus de mordant/variété dans les vannes
         "frequency_penalty": 0.5,   # casse le template répétitif (il recopiait ses réponses)
         "presence_penalty": 0.3,
     }).encode("utf-8")
