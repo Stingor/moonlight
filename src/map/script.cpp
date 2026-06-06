@@ -18789,128 +18789,6 @@ BUILDIN_FUNC(getmonsterinfo)
 }
 
 /**
- * getmvprespawn(<mob_id>{, <spawnx_var>, <spawny_var>, <map_var$>, <killer_var$>, <killtime_var>})
- *   Returns seconds remaining before the MVP respawns, or -1 if not tracked.
- *   Negative values (other than -1) mean the tick is past but mob not yet appeared.
- *   Optional output variables: spawn X, spawn Y, map name, killer name, Unix kill time.
- *
- * Example:
- *   .@secs = getmvprespawn(1511, .@x, .@y, .@map$, .@killer$, .@when);
- *   if (.@secs < 0) mes "Baphomet est en vie.";
- *   else mes "Respawn dans " + .@secs + "s en (" + .@x + "," + .@y + ") sur " + .@map$;
- */
-BUILDIN_FUNC(getmvprespawn)
-{
-	int32 mob_id = script_getnum(st, 2);
-	auto it = mvp_respawn_cache.find((uint16)mob_id);
-	if (it == mvp_respawn_cache.end()) {
-		script_pushint(st, -1);
-		return SCRIPT_CMD_SUCCESS;
-	}
-
-	const s_mvp_respawn_info& info = it->second;
-	int64 remsecs = (int64)(DIFF_TICK(info.respawn_tick, gettick())) / 1000;
-	script_pushint(st, (int32)remsecs);
-
-	// Fill optional output variables (same pattern as query_sql)
-	if (script_hasdata(st, 3)) {
-		map_session_data* sd = nullptr;
-		struct script_data* data;
-		const char* varname;
-
-		auto fill_int = [&](int arg, int64 val) {
-			if (!script_hasdata(st, arg)) return;
-			data = script_getdata(st, arg);
-			if (!data_isreference(data)) return;
-			varname = reference_getname(data);
-			if (not_server_variable(*varname) && sd == nullptr) script_rid2sd(sd);
-			setd_sub_num(st, sd, varname, 0, val, reference_getref(data));
-		};
-		auto fill_str = [&](int arg, const char* val) {
-			if (!script_hasdata(st, arg)) return;
-			data = script_getdata(st, arg);
-			if (!data_isreference(data)) return;
-			varname = reference_getname(data);
-			if (not_server_variable(*varname) && sd == nullptr) script_rid2sd(sd);
-			setd_sub_str(st, sd, varname, 0, val, reference_getref(data));
-		};
-
-		fill_int(3, info.spawn_x);
-		fill_int(4, info.spawn_y);
-		fill_str(5, info.mapid >= 0 ? map[info.mapid].name : "");
-		fill_str(6, info.killer_name);
-		fill_int(7, info.kill_time);
-	}
-	return SCRIPT_CMD_SUCCESS;
-}
-
-/**
- * getallmvprespawn(<mobid_var>, <remsecs_var>, <spawnx_var>, <spawny_var>,
- *                  <map_var$>, <killer_var$>, <killtime_var>)
- *   Returns number of tracked dead MVPs and fills arrays with respawn info.
- *   Variable scope follows the query_sql convention (.@ local, @ account-temp, etc.).
- *
- * Example:
- *   .@n = getallmvprespawn(.@id, .@secs, .@x, .@y, .@map$, .@killer$, .@when);
- *   for (.@i = 0; .@i < .@n; .@i++) {
- *       mes getmonsterinfo(.@id[.@i], MOB_NAME) + " : dans " + .@secs[.@i] + "s";
- *       mes "  " + .@map$[.@i] + " (" + .@x[.@i] + "," + .@y[.@i] + ") tue par " + .@killer$[.@i];
- *   }
- */
-BUILDIN_FUNC(getallmvprespawn)
-{
-	// Validate all 7 output variable arguments
-	map_session_data* sd = nullptr;
-	for (int arg = 2; arg <= 8; arg++) {
-		struct script_data* data = script_getdata(st, arg);
-		if (!data_isreference(data)) {
-			ShowError("buildin_getallmvprespawn: argument %d is not a variable\n", arg - 1);
-			script_reportdata(data);
-			st->state = END;
-			return SCRIPT_CMD_FAILURE;
-		}
-		const char* name = reference_getname(data);
-		if (not_server_variable(*name) && sd == nullptr) {
-			if (!script_rid2sd(sd)) {
-				ShowError("buildin_getallmvprespawn: player variable '%s' requires attached player\n", name);
-				st->state = END;
-				return SCRIPT_CMD_FAILURE;
-			}
-		}
-	}
-
-	t_tick now = gettick();
-	int32 count = 0;
-
-	for (const auto& pair : mvp_respawn_cache) {
-		const s_mvp_respawn_info& info = pair.second;
-		int64 remsecs = (int64)(DIFF_TICK(info.respawn_tick, now)) / 1000;
-		const char* mapname = (info.mapid >= 0) ? map[info.mapid].name : "";
-
-		auto set_i = [&](int arg, int64 val) {
-			struct script_data* data = script_getdata(st, arg);
-			setd_sub_num(st, sd, reference_getname(data), count, val, reference_getref(data));
-		};
-		auto set_s = [&](int arg, const char* val) {
-			struct script_data* data = script_getdata(st, arg);
-			setd_sub_str(st, sd, reference_getname(data), count, val, reference_getref(data));
-		};
-
-		set_i(2, info.mob_id);
-		set_i(3, remsecs);
-		set_i(4, info.spawn_x);
-		set_i(5, info.spawn_y);
-		set_s(6, mapname);
-		set_s(7, info.killer_name);
-		set_i(8, info.kill_time);
-		count++;
-	}
-
-	script_pushint(st, count);
-	return SCRIPT_CMD_SUCCESS;
-}
-
-/**
  * Check player's vending/buyingstore/autotrade state
  * checkvending({"<Player Name>"})
  * @author [Nab4]
@@ -28449,8 +28327,6 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(undisguise,"?"), //undisguise player. Lupus
 	BUILDIN_DEF(getrandmobid, "i??"),
 	BUILDIN_DEF(getmonsterinfo,"vi"), //Lupus
-	BUILDIN_DEF(getmvprespawn,"i?????"),    // mob_id + 5 optional output vars
-	BUILDIN_DEF(getallmvprespawn,"rrrrrrr"), // 7 required output array vars
 	BUILDIN_DEF(addmonsterdrop,"vii??"), //Akinari [Lupus]
 	BUILDIN_DEF(delmonsterdrop,"vi"), //Akinari [Lupus]
 	BUILDIN_DEF(axtoi,"s"),

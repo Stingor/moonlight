@@ -137,7 +137,6 @@ OnTimer3000:
 	// [Persist] Sauvegarde des cooldowns (survit aux reloads et redemarrages serveur)
 	$sting_persist_pvpcdtick = .pvpcdtick;
 	$sting_persist_tripcd    = .tripcd;
-	$sting_persist_buffcd    = .buffcd;
 	$sting_persist_mockcd    = .mockcd;
 	// --- Relai shoutbox web : les messages du compte "Stingor" sortent par Sting-Bot ---
 	if (query_sql("SELECT `id`,`shout_message` FROM `igshoutbox` WHERE `shout_name`='Stingor' ORDER BY `id` ASC LIMIT 1", .@wid, .@wmsg$)) {
@@ -243,6 +242,15 @@ OnTimer3000:
 	if ($sting_mvp_ev_active == 1) {
 		if (.pvpevent == 0) {
 			if (.trip == 0) {
+				// Premiere entree en active==1 : Sting s'assoit pres de la tombe
+				if (.mvp_ev_started == 0) {
+					.mvp_ev_started = 1;
+					if ($sting_mvp_ev_map$ == "gonryun") {
+						npcwalktothensit 157, 112;
+					} else {
+						npcwalktothensit 165, 127;
+					}
+				}
 				// Resolution via cache C++ (peuple quelques secondes apres mob_setdelayspawn)
 				if ($sting_mvp_ev_respawn_at == 0) {
 					.@_s = getmvprespawn($sting_mvp_ev_mob_id, .@_x, .@_y, .@_m$, .@_k$, .@_t);
@@ -254,27 +262,31 @@ OnTimer3000:
 					}
 					// Sinon : retry au prochain tick (3s)
 				}
-				// Decider du depart selon la fenetre de temps
+				// Decider du depart : attendre que le MVP soit effectivement respawne
 				if ($sting_mvp_ev_respawn_at > 0) {
 					.@_delta = $sting_mvp_ev_respawn_at - gettimetick(2);
 					// Trop tard (> 5 min apres respawn prevu) : annuler l'event
 					if (.@_delta < -300) {
 						$sting_mvp_ev_cd     = gettimetick(2);
 						$sting_mvp_ev_active = 0;
+						.mvp_ev_started = 0;
+						npcstop;
+						movenpc strnpcinfo(3), .ox, .oy;
 					}
-					// Dans la fenetre (<= 2 min avant ou < 5 min apres) : Sting part
-					if (.@_delta >= -300 && .@_delta <= 120) {
-						$sting_mvp_ev_active = 2;
-						.trip = 1;
-						.@_t2$ = strnpcinfo(0)+" : Je file sur "+$sting_mvp_ev_map$+" surveiller "+$sting_mvp_ev_name$+". Il va pas respawn sans moi.";
-						npctalk .@_t2$; logchat .@_t2$;
-						announce strnpcinfo(0)+" part surveiller "+$sting_mvp_ev_name$+" sur "+$sting_mvp_ev_map$+" ! Rejoignez-le pour 5 points d'event !", bc_blue|bc_all;
-						sleep 1000;
-						npcwalkto 165, 127;
-						sleep 6000;
-						disablenpc strnpcinfo(3);
-						initnpctimer;
-						end;
+					// Heure atteinte : cache C++ vide = MVP effectivement respawne
+					if (.@_delta <= 0 && .@_delta >= -300) {
+						if (getmvprespawn($sting_mvp_ev_mob_id) < 0) {
+							$sting_mvp_ev_active = 2;
+							.trip = 1;
+							.@_t2$ = strnpcinfo(0)+" : "+$sting_mvp_ev_name$+" vient de respawn ! Foncez !";
+							npctalk .@_t2$; logchat .@_t2$;
+							announce $sting_mvp_ev_name$+" a respawn sur "+$sting_mvp_ev_map$+" ! PVP actif ! +5 pts pour le tueur !", bc_blue|bc_all;
+							disablenpc strnpcinfo(3);
+							monster $sting_mvp_ev_map$, $sting_mvp_ev_x, $sting_mvp_ev_y, "Sting-Bot", 20500, 1, "classement::OnMvpEvStingDead";
+							setmapflag $sting_mvp_ev_map$, mf_pvp;
+							initnpctimer;
+							end;
+						}
 					}
 				}
 			}
@@ -289,6 +301,9 @@ OnTimer3000:
 			enablenpc strnpcinfo(3);
 			.@_t3$ = strnpcinfo(0)+" : Bien joué. Maintenant repartez farmer.";
 			npctalk .@_t3$; logchat .@_t3$;
+			killmonster $sting_mvp_ev_map$, "classement::OnMvpEvStingDead";
+			removemapflag $sting_mvp_ev_map$, mf_pvp;
+			.mvp_ev_started = 0;
 			$sting_mvp_ev_cd     = gettimetick(2);
 			$sting_mvp_ev_active = 0;
 			.trip = 0;
@@ -299,6 +314,9 @@ OnTimer3000:
 				movenpc strnpcinfo(3), .ox, .oy;
 				npcstop;
 				enablenpc strnpcinfo(3);
+				killmonster $sting_mvp_ev_map$, "classement::OnMvpEvStingDead";
+				removemapflag $sting_mvp_ev_map$, mf_pvp;
+				.mvp_ev_started = 0;
 				$sting_mvp_ev_cd     = gettimetick(2);
 				$sting_mvp_ev_active = 0;
 				.trip = 0;
@@ -347,29 +365,6 @@ OnTimer3000:
 		}
 	}
 
-	// --- Buffs (Blessing + Agi Up) sur un joueur proche toutes les ~900s ---
-	if (.buffcd == 0 || gettimetick(2) - .buffcd >= 900) {
-		getareaunits(BL_PC, "gonryun", .ox-.scanr, .oy-.scanr, .ox+.scanr, .oy+.scanr, .@bids);
-		.@bcount = getarraysize(.@bids);
-		if (.@bcount > 0) {
-			if (.@bcount > 1)
-				.@bid = .@bids[rand(.@bcount)];
-			else
-				.@bid = .@bids[0];
-			if (attachrid(.@bid)) {
-				.@bname$ = strcharinfo(0);
-				.@npcgid = getnpcid(0);
-				detachrid;
-				// Cast visuel depuis le NPC vers la cible (skills en string, idiome rAthena)
-				unitskilluseid .@npcgid, "AL_BLESSING", 10, .@bid;
-				sleep 300;
-				unitskilluseid .@npcgid, "AL_INCAGI", 10, .@bid;
-				sleep 1200;
-				unitskilluseid .@npcgid, "PR_IMPOSITIO", 5, .@bid;
-				.buffcd = gettimetick(2);
-			}
-		}
-	}
 
 	// --- Wandering toutes les ~60s (20 ticks de 3s) ---
 	.tick++;
@@ -531,9 +526,11 @@ S_GmReset:
 		npcstop;
 		movenpc strnpcinfo(3), .ox, .oy;
 	}
-	// Retirer le flag PvP de la map MVP si on l'avait posé
-	if ($sting_pvpevent == 1 && $sting_mvp_ev_map_was_pvp == 0 && $sting_mvp_ev_map$ != "") {
+	// Retirer le flag PvP de la map MVP si active==2
+	if ($sting_mvp_ev_active == 2 && $sting_mvp_ev_map$ != "") {
+		killmonster $sting_mvp_ev_map$, "classement::OnMvpEvStingDead";
 		removemapflag $sting_mvp_ev_map$, mf_pvp;
+		.mvp_ev_started = 0;
 	}
 	// Tuer Stingor si event PvP en cours
 	if (.pvpevent == 1) {
@@ -556,7 +553,6 @@ S_GmReset:
 	// [Persist] Efface les cooldowns sauvegardes (reset complet = on repart de zero)
 	$sting_persist_pvpcdtick = 0;
 	$sting_persist_tripcd    = 0;
-	$sting_persist_buffcd    = 0;
 	$sting_persist_mockcd    = 0;
 	// Reset état NPC
 	.pvpevent = 0;
@@ -579,7 +575,7 @@ S_GmShowVars:
 	mes "^0000FFNPC local :^000000";
 	mes "  .online=" + .online + "  .trip=" + .trip + "  .pvpevent=" + .pvpevent;
 	mes "  .pvpcdtick=" + .pvpcdtick + "  .pvpcd=" + .pvpcd;
-	mes "  .afkcd=" + .afkcd + "  .buffcd=" + .buffcd;
+	mes "  .afkcd=" + .afkcd;
 	mes "";
 	mes "^0000FFEvent MVP :^000000";
 	mes "  $active=" + $sting_mvp_ev_active + "  $mob=" + $sting_mvp_ev_mob_id;
@@ -595,14 +591,15 @@ S_GmShowVars:
 	mes "  $sting_dbg_forcepvp=" + $sting_dbg_forcepvp;
 	return;
 
+
 OnInit:
 	.ox = 159;
 	.oy = 116;
+	.mvp_ev_started = 0;
 	.wr = 5;
 	.scanr = 6;      // rayon de scan pour les events automatiques (moqueries HP bas, buffs)
 	.tick = 0;       // pour le mouvement aléatoire
 	.mockcd = 0;     // cooldown des moqueries HP basées sur le scan
-	.buffcd = 0;     // cooldown des buffs automatiques
 	.mvp_cd = 14400; // 4h de cooldown entre les plaintes de Sting après un kill de MVP (si le killer est le même joueur)
 	.online = 1;     // 0 = hors ligne (cache), 1 = en ligne (actif), 2 = AFK (immobile)
 	.trip = 0;       // 0 = pas de trip, 1 = parti, 2 = parti depuis un moment (disablenpc)
@@ -657,7 +654,6 @@ OnInit:
 	// Les timestamps > 0 indiquent une valeur sauvegardee (gettimetick(2) ~ 1.7e9)
 	if ($sting_persist_pvpcdtick > 0) { .pvpcdtick = $sting_persist_pvpcdtick; }
 	if ($sting_persist_tripcd > 0)    { .tripcd    = $sting_persist_tripcd; }
-	if ($sting_persist_buffcd > 0)    { .buffcd    = $sting_persist_buffcd; }
 	if ($sting_persist_mockcd > 0)    { .mockcd    = $sting_persist_mockcd; }
 	activatepset 2;
 	initnpctimer;

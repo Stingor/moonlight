@@ -55,6 +55,12 @@ OnMvpDead:
 			}
 		}
 	}
+OnMvpEvStingDead:
+	if (playerattached() && $sting_mvp_ev_active == 2 && killedrid == 20500) { // Sting-Bot
+		#KAFRAPOINTS += 5;
+		dispbottom "[Event Sting] Sting-Bot éliminé ! +5 points d'event.";
+		announce strcharinfo(0)+" a tué Sting-Bot pendant l'event MVP ! +5 points d'event !", bc_blue|bc_all;
+	}
 OnMvpBBDead:
 	end;
 
@@ -81,7 +87,8 @@ OnInit:
 abbey02		boss_monster	Fallen Bishop			FALLINGBISHOP,1,7200000,600000,"classement::OnMvpDead"
 abbey03		boss_monster	Beelzebub				BEELZEBUB_,1,43200000,600000,"classement::OnMvpDead"
 abyss_03	boss_monster	Detardeurus				DETALE,1,10800000,600000,"classement::OnMvpDead"
-ama_dun03	boss_monster	Samurai Specter			INCANTATION_SAMURAI,1,5460000,600000,"classement::OnMvpDead"
+// ama_dun03	boss_monster	Samurai Specter			INCANTATION_SAMURAI,1,5460000,600000,"classement::OnMvpDead"
+gonryun,157,112	boss_monster	Samurai Specter			INCANTATION_SAMURAI,1,80000,60000,"classement::OnMvpDead"
 anthell02	boss_monster	Maya					MAYA,1,7200000,600000,"classement::OnMvpDead"
 ayo_dun02	boss_monster	Lady Tanee				LADY_TANEE,1,25200000,600000,"classement::OnMvpDead"
 beach_dun	boss_monster	Tao Gunka				TAO_GUNKA,1,18000000,600000,"classement::OnMvpDead"
