@@ -55,11 +55,20 @@ L_chat:
 	if(.@response$ != "") {
 		explode(.@parts$, .@response$, "|");
 		.@i = 0;
-		// Sort decide par le modele : @HEAL@ / @RES@ en 1er segment -> cast vers le demandeur
-		if (.@parts$[0] == "@HEAL@" || .@parts$[0] == "@RES@") {
+		// Sort decide par le modele : @HEAL@ / @RES@ / @BUFF@ en 1er segment -> cast vers le demandeur
+		if (.@parts$[0] == "@HEAL@" || .@parts$[0] == "@RES@" || .@parts$[0] == "@BUFF@") {
 			if (.@aid > 0 && isloggedin(.@aid)) {
 				if (.@parts$[0] == "@RES@")
 					unitskilluseid getnpcid(0), "AL_RESURRECTION", 4, .@aid;
+				else if (.@parts$[0] == "@BUFF@") {
+					unitskilluseid getnpcid(0), "AL_BLESSING", 10, .@aid;
+					unitskilluseid getnpcid(0), "AL_INCAGI", 10, .@aid;
+					if (attachrid(.@aid)) {
+						sc_start SC_BLESSING, 240000, 10;
+						sc_start SC_INCREASEAGI, 240000, 10;
+						detachrid;
+					}
+				}
 				else
 					unitskilluseid getnpcid(0), "AL_HEAL", 10, .@aid;
 			}
