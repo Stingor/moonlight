@@ -1456,3 +1456,57 @@ BUILDIN_FUNC(getallmvprespawn)
 	script_pushint(st, count);
 	return SCRIPT_CMD_SUCCESS;
 }
+
+/* addtempnpc "map", x, y, sprite, "name" -> gid (0 = failure)
+ * Spawns at a random walkable cell 3-4 cells away from (x,y), not on the exact spot. */
+BUILDIN_FUNC(addtempnpc)
+{
+	const char* mapname   = script_getstr(st, 2);
+	int16 x               = (int16)script_getnum(st, 3);
+	int16 y               = (int16)script_getnum(st, 4);
+	short sprite          = (short)script_getnum(st, 5);
+	const char* disp_name = script_getstr(st, 6);
+
+	int16 m = map_mapname2mapid(mapname);
+	if (m < 0) {
+		script_pushint(st, 0);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	// Find a walkable cell offset 3-4 cells away (avoid spawning on tomb/mob position)
+	struct map_data* mapdata = map_getmapdata(m);
+	int16 fx = x, fy = y;
+	for (int attempt = 0; attempt < 30; attempt++) {
+		int dx = (rand() % 9) - 4;  // -4 to +4
+		int dy = (rand() % 9) - 4;
+		if (std::abs(dx) + std::abs(dy) < 3)  // minimum Manhattan distance of 3
+			continue;
+		int16 nx = x + (int16)dx;
+		int16 ny = y + (int16)dy;
+		if (nx < 0 || ny < 0 || nx >= mapdata->xs || ny >= mapdata->ys)
+			continue;
+		if (map_getcell(m, nx, ny, CELL_CHKPASS)) {
+			fx = nx;
+			fy = ny;
+			break;
+		}
+	}
+
+	int gid = npc_create_temp_npc(m, fx, fy, sprite, disp_name);
+	script_pushint(st, gid);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/* removetempnpc gid -> 1 on success, 0 if not found */
+BUILDIN_FUNC(removetempnpc)
+{
+	int gid = script_getnum(st, 2);
+	block_list* bl = map_id2bl(gid);
+	if (!bl || bl->type != BL_NPC) {
+		script_pushint(st, 0);
+		return SCRIPT_CMD_SUCCESS;
+	}
+	npc_unload((npc_data*)bl, true);
+	script_pushint(st, 1);
+	return SCRIPT_CMD_SUCCESS;
+}

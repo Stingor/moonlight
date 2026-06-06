@@ -53,3 +53,5 @@
 	BUILDIN_DEF(getallrefine,"?"),
 	BUILDIN_DEF(getmvprespawn,"i???????"),  // mob_id + 7 optional output vars (spawnx,spawny,map$,killer$,killtime,tombx,tomby)
 	BUILDIN_DEF(getallmvprespawn,"rrrrrrr"), // 7 required output array vars
+	BUILDIN_DEF(addtempnpc,"siiis"),        // mapname, x, y, sprite, dispname -> gid
+	BUILDIN_DEF(removetempnpc,"i"),         // gid -> 1/0

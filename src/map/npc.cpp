@@ -3879,6 +3879,47 @@ npc_data* npc_add_warp(char* name, int16 from_mapid, int16 from_x, int16 from_y,
 }
 
 /**
+ * Creates and spawns a temporary visual NPC on the given map at (x,y).
+ * The NPC uses sprite `sprite` and display name `display_name`.
+ * It has no script — pure visual only. Use removetempnpc()/npc_unload() to remove it.
+ * @return nd->id on success, 0 on failure
+ */
+int npc_create_temp_npc(int16 m, int16 x, int16 y, short sprite, const char* display_name)
+{
+	npc_data* nd = npc_create_npc(m, x, y);
+
+	snprintf(nd->exname, ARRAYLENGTH(nd->exname), "tempnpc_%d", nd->id);
+	safestrncpy(nd->name, display_name, ARRAYLENGTH(nd->name));
+
+	nd->class_ = sprite;
+	nd->speed = DEFAULT_NPC_WALK_SPEED;
+	nd->type = BL_NPC;
+	nd->subtype = NPCTYPE_SCRIPT;
+	nd->trigger_on_hidden = false;
+	nd->u.scr.timerid = INVALID_TIMER;
+
+	npc_script++;
+
+	map_addnpc(m, nd);
+	npc_setcells(nd);
+	if (map_addblock(nd)) {
+		npc_script--;
+		nd->~npc_data();
+		aFree(nd);
+		return 0;
+	}
+	map_addiddb(nd);
+	status_set_viewdata(nd, nd->class_);
+	unit_dataset(nd);
+	strdb_put(npcname_db, nd->exname, nd);
+
+	if (map_getmapdata(m)->users)
+		clif_spawn(nd);
+
+	return nd->id;
+}
+
+/**
  * Parses a warp npc.
  * Line definition <from mapname>,<fromX>,<fromY>,<facing>%TAB%warp(<state)%TAB%<warp name>%TAB%<spanx>,<spany>,<to mapname>,<toX>,<toY>
  * Line definition <from mapname>,<fromX>,<fromY>,<facing>%TAB%warp2(<state)%TAB%<warp name>%TAB%<spanx>,<spany>,<to mapname>,<toX>,<toY>

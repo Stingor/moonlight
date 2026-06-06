@@ -242,10 +242,6 @@ OnTimer3000:
 	if ($sting_mvp_ev_active == 1) {
 		if (.pvpevent == 0) {
 			if (.trip == 0) {
-				// Premiere entree en active==1 : Sting s'assoit pres de la tombe
-				if (.mvp_ev_started == 0) {
-					.mvp_ev_started = 1;
-				}
 				// Resolution via cache C++ (peuple quelques secondes apres mob_setdelayspawn)
 				if ($sting_mvp_ev_respawn_at == 0) {
 					.@_s = getmvprespawn($sting_mvp_ev_mob_id, .@_x, .@_y, .@_m$, .@_k$, .@_t, .@_tx, .@_ty);
@@ -255,19 +251,23 @@ OnTimer3000:
 						$sting_mvp_ev_y          = .@_y;
 						$sting_mvp_ev_tomb_x     = .@_tx;
 						$sting_mvp_ev_tomb_y     = .@_ty;
-						// Tombe sur gonryun : Sting s'assoit exactement sur la tombe
-						if ($sting_mvp_ev_map$ == "gonryun" && .@_tx > 0) {
-							npcwalktothensit .@_tx, .@_ty;
-						}
 						if (.@_k$ != "") { $sting_mvp_ev_killer$ = .@_k$; }
 					}
 					// Sinon : retry au prochain tick (3s)
+				}
+				// Spawn dummy Sting a la tombe (une seule fois, coordonnees disponibles)
+				if ($sting_mvp_ev_tomb_x > 0 && .mvp_ev_dummy_gid == 0) {
+					.mvp_ev_dummy_gid = addtempnpc($sting_mvp_ev_map$, $sting_mvp_ev_tomb_x, $sting_mvp_ev_tomb_y, 4190, strnpcinfo(0));
 				}
 				// Decider du depart : attendre que le MVP soit effectivement respawne
 				if ($sting_mvp_ev_respawn_at > 0) {
 					.@_delta = $sting_mvp_ev_respawn_at - gettimetick(2);
 					// Trop tard (> 5 min apres respawn prevu) : annuler l'event
 					if (.@_delta < -300) {
+						if (.mvp_ev_dummy_gid > 0) {
+							removetempnpc .mvp_ev_dummy_gid;
+							.mvp_ev_dummy_gid = 0;
+						}
 						$sting_mvp_ev_cd     = gettimetick(2);
 						$sting_mvp_ev_active = 0;
 						.mvp_ev_started = 0;
@@ -282,6 +282,11 @@ OnTimer3000:
 							.@_t2$ = strnpcinfo(0)+" : "+$sting_mvp_ev_name$+" vient de respawn ! Foncez !";
 							npctalk .@_t2$; logchat .@_t2$;
 							announce $sting_mvp_ev_name$+" a respawn sur "+$sting_mvp_ev_map$+" ! PVP actif ! +5 pts pour le tueur !", bc_blue|bc_all;
+							// Retire le dummy Sting de la tombe avant de disparaitre
+							if (.mvp_ev_dummy_gid > 0) {
+								removetempnpc .mvp_ev_dummy_gid;
+								.mvp_ev_dummy_gid = 0;
+							}
 							disablenpc strnpcinfo(3);
 							monster $sting_mvp_ev_map$, $sting_mvp_ev_x, $sting_mvp_ev_y, "Sting-Bot", 20500, 1, "classement::OnMvpEvStingDead";
 							setmapflag $sting_mvp_ev_map$, mf_pvp;
@@ -527,6 +532,11 @@ S_GmReset:
 		npcstop;
 		movenpc strnpcinfo(3), .ox, .oy;
 	}
+	// Retirer le dummy Sting si event en phase d'attente (active==1)
+	if (.mvp_ev_dummy_gid > 0) {
+		removetempnpc .mvp_ev_dummy_gid;
+		.mvp_ev_dummy_gid = 0;
+	}
 	// Retirer le flag PvP de la map MVP si active==2
 	if ($sting_mvp_ev_active == 2 && $sting_mvp_ev_map$ != "") {
 		killmonster $sting_mvp_ev_map$, "classement::OnMvpEvStingDead";
@@ -599,6 +609,7 @@ OnInit:
 	.ox = 159;
 	.oy = 116;
 	.mvp_ev_started = 0;
+	.mvp_ev_dummy_gid = 0;
 	.wr = 5;
 	.scanr = 6;      // rayon de scan pour les events automatiques (moqueries HP bas, buffs)
 	.tick = 0;       // pour le mouvement aléatoire
