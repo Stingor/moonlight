@@ -3884,7 +3884,7 @@ npc_data* npc_add_warp(char* name, int16 from_mapid, int16 from_x, int16 from_y,
  * It has no script — pure visual only. Use removetempnpc()/npc_unload() to remove it.
  * @return nd->id on success, 0 on failure
  */
-int npc_create_temp_npc(int16 m, int16 x, int16 y, short sprite, const char* display_name)
+int npc_create_temp_npc(int16 m, int16 x, int16 y, short sprite, const char* display_name, uint8 dir)
 {
 	npc_data* nd = npc_create_npc(m, x, y);
 
@@ -3911,6 +3911,7 @@ int npc_create_temp_npc(int16 m, int16 x, int16 y, short sprite, const char* dis
 	map_addiddb(nd);
 	status_set_viewdata(nd, nd->class_);
 	unit_dataset(nd);
+	nd->ud.dir = dir;
 	strdb_put(npcname_db, nd->exname, nd);
 
 	if (map_getmapdata(m)->users)

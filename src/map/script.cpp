@@ -19861,7 +19861,7 @@ BUILDIN_FUNC(setunitdata)
 			case UNPC_WEAPON: clif_changelook(bl, LOOK_WEAPON, (uint16)value); break;
 			case UNPC_ROBE: clif_changelook(bl, LOOK_ROBE, (uint16)value); break;
 			case UNPC_BODY2: clif_changelook(bl, LOOK_BODY2, (uint16)value); break;
-			case UNPC_DEADSIT: nd->vd.dead_sit = (char)value; unit_refresh(bl); break;
+			case UNPC_DEADSIT: nd->vd.dead_sit = (uint16)value; unit_refresh(bl); break;
 			case UNPC_GROUP_ID: nd->ud.group_id = value; unit_refresh(bl); break;
 			default:
 				ShowError("buildin_setunitdata: Unknown data identifier %d for BL_NPC.\n", type);

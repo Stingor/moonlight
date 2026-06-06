@@ -1457,8 +1457,9 @@ BUILDIN_FUNC(getallmvprespawn)
 	return SCRIPT_CMD_SUCCESS;
 }
 
-/* addtempnpc "map", x, y, sprite, "name" -> gid (0 = failure)
- * Spawns at a random walkable cell 3-4 cells away from (x,y), not on the exact spot. */
+/* addtempnpc "map", x, y, sprite, "name"{, dir} -> gid (0 = failure)
+ * Spawns at a random walkable cell 3-4 cells away from (x,y), not on the exact spot.
+ * dir: 0=N 1=NW 2=W 3=SW 4=S(default) 5=SE 6=E 7=NE */
 BUILDIN_FUNC(addtempnpc)
 {
 	const char* mapname   = script_getstr(st, 2);
@@ -1466,6 +1467,7 @@ BUILDIN_FUNC(addtempnpc)
 	int16 y               = (int16)script_getnum(st, 4);
 	short sprite          = (short)script_getnum(st, 5);
 	const char* disp_name = script_getstr(st, 6);
+	uint8 dir             = script_hasdata(st, 7) ? (uint8)script_getnum(st, 7) : (uint8)DIR_SOUTH;
 
 	int16 m = map_mapname2mapid(mapname);
 	if (m < 0) {
@@ -1492,7 +1494,7 @@ BUILDIN_FUNC(addtempnpc)
 		}
 	}
 
-	int gid = npc_create_temp_npc(m, fx, fy, sprite, disp_name);
+	int gid = npc_create_temp_npc(m, fx, fy, sprite, disp_name, dir);
 	script_pushint(st, gid);
 	return SCRIPT_CMD_SUCCESS;
 }

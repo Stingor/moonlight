@@ -1119,8 +1119,8 @@ int32 mob_setdelayspawn(mob_data *md)
 			npc_data *tomb_nd = map_id2nd(md->tomb_nid);
 			if (tomb_nd && tomb_nd->subtype == NPCTYPE_TOMB) {
 				safestrncpy(info.killer_name, tomb_nd->u.tomb.killer_name, NAME_LENGTH);
-				info.tomb_x = (int16)tomb_nd->bl.x;
-				info.tomb_y = (int16)tomb_nd->bl.y;
+				info.tomb_x = (int16)tomb_nd->x;
+				info.tomb_y = (int16)tomb_nd->y;
 			}
 		}
 		mvp_respawn_cache[(uint16)md->spawn->id] = info;

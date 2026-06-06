@@ -53527,7 +53527,7 @@ Body:
     Attack2: 165040
     Defense: 22
     MagicDefense: 28
-    DamageTaken: 10
+    DamageTaken: 60
     Str: 300
     Agi: 100
     Vit: 100

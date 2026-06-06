@@ -4,7 +4,7 @@ gonryun,159,116,4	script	Sting-Bot::sting_IA	MVP_STING,{
 	.@st = 1;
 	query_sql "SELECT online, note, info_display FROM chatbot_status WHERE id=1",
 	          .@st, .@note$, .@info$;
-
+	npcsit;
 	mes "["+strnpcinfo(0)+"]";
 	if (.@st == 0) {
 		mes "^FF0000[HORS LIGNE]^000000";
@@ -241,6 +241,22 @@ OnTimer3000:
 	// active=1 : en attente resolution respawn_at | active=2 : Sting parti
 	if ($sting_mvp_ev_active == 1) {
 		if (.pvpevent == 0) {
+			// Heure atteinte : cache C++ vide = MVP effectivement respawne
+			if (.trip == 1 && .@_delta <= 0 && .@_delta >= -300) {
+				if (getmvprespawn($sting_mvp_ev_mob_id) < 0) {
+					// Retire le dummy Sting de la tombe avant de disparaitre
+					if (.mvp_ev_dummy_gid > 0) {
+						removetempnpc .mvp_ev_dummy_gid;
+						.mvp_ev_dummy_gid = 0;
+					}
+					$sting_mvp_ev_active = 2;
+					announce $sting_mvp_ev_name$+" a respawn sur "+$sting_mvp_ev_map$+" ! PVP actif ! +5 pts event pour le tueur (et +5 pour niquer le bot 1er) !", bc_blue|bc_all;
+					monster $sting_mvp_ev_map$, $sting_mvp_ev_x, $sting_mvp_ev_y, "Sting-Bot", 20500, 1, "classement::OnMvpEvStingDead";
+					setmapflag $sting_mvp_ev_map$, mf_pvp;
+					initnpctimer;
+					end;
+				}
+			}
 			if (.trip == 0) {
 				// Resolution via cache C++ (peuple quelques secondes apres mob_setdelayspawn)
 				if ($sting_mvp_ev_respawn_at == 0) {
@@ -254,10 +270,6 @@ OnTimer3000:
 						if (.@_k$ != "") { $sting_mvp_ev_killer$ = .@_k$; }
 					}
 					// Sinon : retry au prochain tick (3s)
-				}
-				// Spawn dummy Sting a la tombe (une seule fois, coordonnees disponibles)
-				if ($sting_mvp_ev_tomb_x > 0 && .mvp_ev_dummy_gid == 0) {
-					.mvp_ev_dummy_gid = addtempnpc($sting_mvp_ev_map$, $sting_mvp_ev_tomb_x, $sting_mvp_ev_tomb_y, 4190, strnpcinfo(0));
 				}
 				// Decider du depart : attendre que le MVP soit effectivement respawne
 				if ($sting_mvp_ev_respawn_at > 0) {
@@ -274,25 +286,23 @@ OnTimer3000:
 						npcstop;
 						movenpc strnpcinfo(3), .ox, .oy;
 					}
-					// Heure atteinte : cache C++ vide = MVP effectivement respawne
-					if (.@_delta <= 0 && .@_delta >= -300) {
-						if (getmvprespawn($sting_mvp_ev_mob_id) < 0) {
-							$sting_mvp_ev_active = 2;
-							.trip = 1;
-							.@_t2$ = strnpcinfo(0)+" : "+$sting_mvp_ev_name$+" vient de respawn ! Foncez !";
-							npctalk .@_t2$; logchat .@_t2$;
-							announce $sting_mvp_ev_name$+" a respawn sur "+$sting_mvp_ev_map$+" ! PVP actif ! +5 pts pour le tueur !", bc_blue|bc_all;
-							// Retire le dummy Sting de la tombe avant de disparaitre
-							if (.mvp_ev_dummy_gid > 0) {
-								removetempnpc .mvp_ev_dummy_gid;
-								.mvp_ev_dummy_gid = 0;
-							}
-							disablenpc strnpcinfo(3);
-							monster $sting_mvp_ev_map$, $sting_mvp_ev_x, $sting_mvp_ev_y, "Sting-Bot", 20500, 1, "classement::OnMvpEvStingDead";
-							setmapflag $sting_mvp_ev_map$, mf_pvp;
-							initnpctimer;
-							end;
+					// Dans la fenetre (<= 2 min avant ou < 5 min apres) : Sting part
+					if (.@_delta >= -300 && .@_delta <= 120) {
+						// Spawn dummy Sting a la tombe (une seule fois, coordonnees disponibles)
+						if ($sting_mvp_ev_tomb_x > 0 && $sting_mvp_ev_tomb_y > 0 && .mvp_ev_dummy_gid == 0) {
+							.mvp_ev_dummy_gid = addtempnpc($sting_mvp_ev_map$, $sting_mvp_ev_tomb_x, $sting_mvp_ev_tomb_y, 20500, strnpcinfo(0), DIR_SOUTHEAST);
+							setunitdata .mvp_ev_dummy_gid, UNPC_DEADSIT, 2;
 						}
+						.trip = 1;
+						.@_t2$ = strnpcinfo(0)+" : Je file sur "+$sting_mvp_ev_map$+" surveiller "+$sting_mvp_ev_name$+". Il va pas respawn sans moi.";
+						npctalk .@_t2$; logchat .@_t2$;
+						announce strnpcinfo(0)+" part surveiller "+$sting_mvp_ev_name$+" sur "+$sting_mvp_ev_map$+" ! Rejoignez-le pour 5 points d'event et un peu d'action!", bc_blue|bc_all;
+						sleep 1000;
+						npcwalkto 165, 127;
+						sleep 6000;
+						disablenpc strnpcinfo(3);
+						initnpctimer;
+						end;
 					}
 				}
 			}
@@ -305,14 +315,29 @@ OnTimer3000:
 			movenpc strnpcinfo(3), .ox, .oy;
 			npcstop;
 			enablenpc strnpcinfo(3);
-			.@_t3$ = strnpcinfo(0)+" : Bien joué. Maintenant repartez farmer.";
-			npctalk .@_t3$; logchat .@_t3$;
 			killmonster $sting_mvp_ev_map$, "classement::OnMvpEvStingDead";
 			removemapflag $sting_mvp_ev_map$, mf_pvp;
+			.@_evk$ = $sting_mvp_ev_killer$;
+			.@_evm$ = $sting_mvp_ev_name$;
 			.mvp_ev_started = 0;
 			$sting_mvp_ev_cd     = gettimetick(2);
 			$sting_mvp_ev_active = 0;
 			.trip = 0;
+			// Dialogue de retour : mélange EVENT_PVP_LOSE (Sting a "perdu" le MVP)
+			// et EVENT_MVP (on lui a pris son MVP) pour varier les répliques
+			if (rand(2) == 0) {
+				callsub S_SayEvent, "[EVENT_PVP_LOSE]", .pvp_lose$[rand(size(.pvp_lose$))], .@_evk$, "";
+			} else {
+				.@_r = rand(5);
+				if (.@_r == 0)      .@_fb$ = .@_evk$+" a pris MON "+.@_evm$+" sous mon nez. Bravo champion.";
+				else if (.@_r == 1) .@_fb$ = "Sérieux "+.@_evk$+" ? "+.@_evm$+" était à MOI, j'allais le prendre.";
+				else if (.@_r == 2) .@_fb$ = .@_evm$+" par "+.@_evk$+"... Profite, j'avais le lag.";
+				else if (.@_r == 3) .@_fb$ = "T'as eu "+.@_evm$+" "+.@_evk$+", mais c'est moi qui ai fait tout le boulot.";
+				else                .@_fb$ = .@_evk$+", t'as volé mon "+.@_evm$+". Je m'en souviendrai.";
+				callsub S_SayEvent, "[EVENT_MVP] "+.@_evm$, .@_fb$, .@_evk$, "";
+			}
+			initnpctimer;
+			end;
 		}
 		// Timeout : MVP pas tue dans les 3h apres le respawn prevu
 		if ($sting_mvp_ev_mvp_dead == 0) {
@@ -591,11 +616,11 @@ S_GmShowVars:
 	mes "  .afkcd=" + .afkcd;
 	mes "";
 	mes "^0000FFEvent MVP :^000000";
-	mes "  $active=" + $sting_mvp_ev_active + "  $mob=" + $sting_mvp_ev_mob_id;
-	mes "  $name=" + $sting_mvp_ev_name$ + "  $map=" + $sting_mvp_ev_map$;
-	mes "  $x=" + $sting_mvp_ev_x + "  $y=" + $sting_mvp_ev_y;
-	.@rt = $sting_mvp_ev_respawn_at - gettimetick(2);
-	mes "  respawn dans " + .@rt + "s  (mvp_dead=" + $sting_mvp_ev_mvp_dead + ")";
+	mes "active=" + $sting_mvp_ev_active + "  mob:" + $sting_mvp_ev_mob_id;
+	mes "name=" + $sting_mvp_ev_name$ + "  map:" + $sting_mvp_ev_map$;
+	mes "x:" + $sting_mvp_ev_x + " y:" + $sting_mvp_ev_y;
+	mes "Tomb: x:" + $sting_mvp_ev_tomb_x + " y:" + $sting_mvp_ev_tomb_y;
+	mes "Respawn: " + ($sting_mvp_ev_respawn_at - gettimetick(2)) + "s (mvp_dead=" + $sting_mvp_ev_mvp_dead + ")";
 	.@cdd = gettimetick(2) - $sting_mvp_ev_cd;
 	mes "  cooldown écoulé : " + .@cdd + "s / 10800s  killer=" + $sting_mvp_ev_killer$;
 	mes "";
