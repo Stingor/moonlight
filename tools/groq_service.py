@@ -928,6 +928,17 @@ def _strip_emoji(text: str) -> str:
     return _EMOJI_RE.sub("", text).strip()
 
 
+def _strip_skill_tokens(text: str) -> str:
+    """Retire les tokens de sort [[HEAL]]/[[RES]]/[[BUFF]] (et tout [[...]] résiduel).
+    À utiliser sur les répliques d'event scripté : elles n'ont pas de cible à soigner et
+    ne passent pas par le handler de chat joueur du NPC, donc un token y resterait affiché
+    brut en jeu au lieu de déclencher (ou d'être consommé par) le sort."""
+    for tok in ("[[HEAL]]", "[[RES]]", "[[BUFF]]"):
+        text = text.replace(tok, "")
+    text = re.sub(r"\[\[[^\]]*\]\]", "", text)   # filet : tout autre token [[...]]
+    return text.strip().strip("|").strip()
+
+
 def _split_response(text: str, max_len: int = 220) -> str:
     """Découpe une réponse longue en morceaux séparés par | (max 3 morceaux).
     Si le modèle a déjà utilisé | comme séparateurs, on respecte son découpage."""
@@ -1040,8 +1051,8 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
             ev = _event_prompt(m.group(1), player, m.group(2).strip())
             if ev:
                 print(f"[Groq] EVENT {m.group(1)} | player={player!r} rest={m.group(2)!r}", file=sys.stderr)
-                return _strip_emoji(groq_chat([{"role": "system", "content": SYSTEM_PROMPT},
-                                               {"role": "user", "content": ev}]))
+                return _strip_skill_tokens(_strip_emoji(groq_chat([{"role": "system", "content": SYSTEM_PROMPT},
+                                                                    {"role": "user", "content": ev}])))
 
     # Événement auto : joueur arrivé à proximité avec peu de HP
     is_auto = message.startswith("[AUTO_LOWHP]")

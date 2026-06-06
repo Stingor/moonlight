@@ -1512,3 +1512,50 @@ BUILDIN_FUNC(removetempnpc)
 	script_pushint(st, 1);
 	return SCRIPT_CMD_SUCCESS;
 }
+
+/* getmobxy(mob_id, "map", .@x, .@y) -> 1 if a live mob of that id is on the map (x,y set), else 0
+ * Matches on the real md->mob_id (not the view sprite), reads the actual current coordinates. */
+BUILDIN_FUNC(getmobxy)
+{
+	int32 mob_id        = script_getnum(st, 2);
+	const char* mapname = script_getstr(st, 3);
+	int16 m = map_mapname2mapid(mapname);
+	if (m < 0) {
+		script_pushint(st, 0);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	int16 fx = 0, fy = 0;
+	bool found = false;
+	struct s_mapiterator* iter = mapit_geteachmob();
+	for (block_list* bl = (block_list*)mapit_first(iter); mapit_exists(iter); bl = (block_list*)mapit_next(iter)) {
+		if (bl->m != m)
+			continue;
+		mob_data* md = (mob_data*)bl;
+		if (md->mob_id != mob_id)
+			continue;
+		fx = md->x;
+		fy = md->y;
+		found = true;
+		break;
+	}
+	mapit_free(iter);
+
+	// Fill output vars .@x (arg 4) and .@y (arg 5)
+	map_session_data* sd = nullptr;
+	struct script_data* data;
+	const char* varname;
+	auto fill_int = [&](int arg, int64 val) {
+		if (!script_hasdata(st, arg)) return;
+		data = script_getdata(st, arg);
+		if (!data_isreference(data)) return;
+		varname = reference_getname(data);
+		if (not_server_variable(*varname) && sd == nullptr) script_rid2sd(sd);
+		setd_sub_num(st, sd, varname, 0, val, reference_getref(data));
+	};
+	fill_int(4, fx);
+	fill_int(5, fy);
+
+	script_pushint(st, found ? 1 : 0);
+	return SCRIPT_CMD_SUCCESS;
+}

@@ -244,6 +244,11 @@ OnTimer3000:
 			// Heure atteinte : cache C++ vide = MVP effectivement respawne
 			if (.trip == 1 && .@_delta <= 0 && .@_delta >= -300) {
 				if (getmvprespawn($sting_mvp_ev_mob_id) < 0) {
+					// Position reelle du MVP fraichement respawne (mob vivant) ; sinon fallback spawn configure
+					if (getmobxy($sting_mvp_ev_mob_id, $sting_mvp_ev_map$, .@_mx, .@_my)) {
+						$sting_mvp_ev_x = .@_mx;
+						$sting_mvp_ev_y = .@_my;
+					}
 					// Retire le dummy Sting de la tombe avant de disparaitre
 					if (.mvp_ev_dummy_gid > 0) {
 						removetempnpc .mvp_ev_dummy_gid;
@@ -322,7 +327,10 @@ OnTimer3000:
 			.mvp_ev_started = 0;
 			$sting_mvp_ev_cd     = gettimetick(2);
 			$sting_mvp_ev_active = 0;
+			$sting_mvp_ev_mvp_dead = 0;
 			.trip = 0;
+			// Laisse aux joueurs le temps de rentrer en ville avant la tirade de Sting
+			sleep 15000;
 			// Dialogue de retour : mélange EVENT_PVP_LOSE (Sting a "perdu" le MVP)
 			// et EVENT_MVP (on lui a pris son MVP) pour varier les répliques
 			if (rand(2) == 0) {

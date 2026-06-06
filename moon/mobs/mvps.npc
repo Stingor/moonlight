@@ -86,7 +86,8 @@ OnInit:
 	end;
 }
 
-abbey02		boss_monster	Fallen Bishop			FALLINGBISHOP,1,7200000,600000,"classement::OnMvpDead"
+// abbey02		boss_monster	Fallen Bishop			FALLINGBISHOP,1,7200000,600000,"classement::OnMvpDead"
+abbey02		boss_monster	Fallen Bishop			FALLINGBISHOP,1,100000,60000,"classement::OnMvpDead"
 abbey03		boss_monster	Beelzebub				BEELZEBUB_,1,43200000,600000,"classement::OnMvpDead"
 abyss_03	boss_monster	Detardeurus				DETALE,1,10800000,600000,"classement::OnMvpDead"
 ama_dun03	boss_monster	Samurai Specter			INCANTATION_SAMURAI,1,5460000,600000,"classement::OnMvpDead"
