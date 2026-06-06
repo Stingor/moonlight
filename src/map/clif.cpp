@@ -15014,10 +15014,20 @@ void clif_parse_GMKick(int32 fd, map_session_data *sd)
 		case BL_NPC:
 		{
 			npc_data* nd = (npc_data *)target;
-			if( pc_can_use_command(sd, "unloadnpc", COMMAND_ATCOMMAND)) {
-				npc_unload_duplicates(nd);
-				npc_unload(nd,true);
-				npc_read_event_script();
+			if( pc_can_use_command(sd, "reloadnpcfile", COMMAND_ATCOMMAND) && nd->path && *nd->path) {
+				// Copy path before unload — nd->path is freed by npc_unloadfile
+				char npc_path[1024];
+				safestrncpy(npc_path, nd->path, sizeof(npc_path));
+				npc_unloadfile(npc_path);
+				if (npc_addsrcfile(npc_path, true)) {
+					npc_read_event_script();
+					npc_event_doall_path(script_config.init_event_name, npc_path);
+					ShowStatus("NPC file '" CL_WHITE "%s" CL_RESET "' reloaded by %s.\n", npc_path, sd->status.name);
+					clif_displaymessage(sd->fd, msg_txt(sd, 262)); // Script loaded.
+				} else {
+					ShowError("NPC reload failed: '" CL_WHITE "%s" CL_RESET "'\n", npc_path);
+					clif_displaymessage(sd->fd, msg_txt(sd, 261)); // Script could not be loaded.
+				}
 			}
 		}
 		break;
