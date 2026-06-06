@@ -245,19 +245,20 @@ OnTimer3000:
 				// Premiere entree en active==1 : Sting s'assoit pres de la tombe
 				if (.mvp_ev_started == 0) {
 					.mvp_ev_started = 1;
-					if ($sting_mvp_ev_map$ == "gonryun") {
-						npcwalktothensit 157, 112;
-					} else {
-						npcwalktothensit 165, 127;
-					}
 				}
 				// Resolution via cache C++ (peuple quelques secondes apres mob_setdelayspawn)
 				if ($sting_mvp_ev_respawn_at == 0) {
-					.@_s = getmvprespawn($sting_mvp_ev_mob_id, .@_x, .@_y, .@_m$, .@_k$, .@_t);
+					.@_s = getmvprespawn($sting_mvp_ev_mob_id, .@_x, .@_y, .@_m$, .@_k$, .@_t, .@_tx, .@_ty);
 					if (.@_s >= 0) {
 						$sting_mvp_ev_respawn_at = gettimetick(2) + .@_s;
 						$sting_mvp_ev_x          = .@_x;
 						$sting_mvp_ev_y          = .@_y;
+						$sting_mvp_ev_tomb_x     = .@_tx;
+						$sting_mvp_ev_tomb_y     = .@_ty;
+						// Tombe sur gonryun : Sting s'assoit exactement sur la tombe
+						if ($sting_mvp_ev_map$ == "gonryun" && .@_tx > 0) {
+							npcwalktothensit .@_tx, .@_ty;
+						}
 						if (.@_k$ != "") { $sting_mvp_ev_killer$ = .@_k$; }
 					}
 					// Sinon : retry au prochain tick (3s)
@@ -548,6 +549,8 @@ S_GmReset:
 	$sting_mvp_ev_respawn_at = 0;
 	$sting_mvp_ev_mvp_dead   = 0;
 	$sting_mvp_ev_killer$    = "";
+	$sting_mvp_ev_tomb_x     = 0;
+	$sting_mvp_ev_tomb_y     = 0;
 	$sting_pvpevent          = 0;
 	$sting_dbg_forcepvp      = 0;
 	// [Persist] Efface les cooldowns sauvegardes (reset complet = on repart de zero)

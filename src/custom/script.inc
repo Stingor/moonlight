@@ -1333,15 +1333,16 @@ BUILDIN_FUNC(mobisboss)
 }
 
 /**
- * getmvprespawn(<mob_id>{, <spawnx_var>, <spawny_var>, <map_var$>, <killer_var$>, <killtime_var>})
+ * getmvprespawn(<mob_id>{, <spawnx_var>, <spawny_var>, <map_var$>, <killer_var$>, <killtime_var>{, <tombx_var>, <tomby_var>}})
  *   Returns seconds remaining before the MVP respawns, or -1 if not tracked.
  *   Negative values (other than -1) mean the tick is past but mob not yet appeared.
- *   Optional output variables: spawn X, spawn Y, map name, killer name, Unix kill time.
+ *   Optional output variables: spawn X, spawn Y, map name, killer name, Unix kill time,
+ *   tomb X (where MVP died), tomb Y (where MVP died).
  *
  * Example:
- *   .@secs = getmvprespawn(1511, .@x, .@y, .@map$, .@killer$, .@when);
+ *   .@secs = getmvprespawn(1511, .@x, .@y, .@map$, .@killer$, .@when, .@tx, .@ty);
  *   if (.@secs < 0) mes "Baphomet est en vie.";
- *   else mes "Respawn dans " + .@secs + "s en (" + .@x + "," + .@y + ") sur " + .@map$;
+ *   else mes "Respawn dans " + .@secs + "s, tombe en (" + .@tx + "," + .@ty + ") sur " + .@map$;
  */
 BUILDIN_FUNC(getmvprespawn)
 {
@@ -1384,6 +1385,8 @@ BUILDIN_FUNC(getmvprespawn)
 		fill_str(5, info.mapid >= 0 ? map[info.mapid].name : "");
 		fill_str(6, info.killer_name);
 		fill_int(7, info.kill_time);
+		fill_int(8, info.tomb_x);
+		fill_int(9, info.tomb_y);
 	}
 	return SCRIPT_CMD_SUCCESS;
 }

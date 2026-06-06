@@ -1113,10 +1113,15 @@ int32 mob_setdelayspawn(mob_data *md)
 		info.respawn_tick = respawn_tick;
 		info.kill_time    = (int64)time(nullptr);
 		info.killer_name[0] = '\0';
+		info.tomb_x = 0;
+		info.tomb_y = 0;
 		if (md->tomb_nid) {
 			npc_data *tomb_nd = map_id2nd(md->tomb_nid);
-			if (tomb_nd && tomb_nd->subtype == NPCTYPE_TOMB)
+			if (tomb_nd && tomb_nd->subtype == NPCTYPE_TOMB) {
 				safestrncpy(info.killer_name, tomb_nd->u.tomb.killer_name, NAME_LENGTH);
+				info.tomb_x = (int16)tomb_nd->bl.x;
+				info.tomb_y = (int16)tomb_nd->bl.y;
+			}
 		}
 		mvp_respawn_cache[(uint16)md->spawn->id] = info;
 	}

@@ -342,6 +342,8 @@ struct s_mvp_respawn_info {
 	int16   mapid;                    ///< Internal map index
 	int16   spawn_x;                  ///< Configured spawn X (0 = random)
 	int16   spawn_y;                  ///< Configured spawn Y (0 = random)
+	int16   tomb_x;                   ///< X where the MVP actually died (tomb position)
+	int16   tomb_y;                   ///< Y where the MVP actually died (tomb position)
 	t_tick  respawn_tick;             ///< Absolute server tick at respawn
 	int64   kill_time;                ///< Unix timestamp of kill
 	char    killer_name[NAME_LENGTH]; ///< Name of the killer (may be empty)

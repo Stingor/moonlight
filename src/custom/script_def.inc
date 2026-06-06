@@ -51,5 +51,5 @@
 	BUILDIN_DEF(delitembyuid,"s?"),
 	BUILDIN_DEF(getiteminfobyuid,"si?"),
 	BUILDIN_DEF(getallrefine,"?"),
-	BUILDIN_DEF(getmvprespawn,"i?????"),    // mob_id + 5 optional output vars
+	BUILDIN_DEF(getmvprespawn,"i???????"),  // mob_id + 7 optional output vars (spawnx,spawny,map$,killer$,killtime,tombx,tomby)
 	BUILDIN_DEF(getallmvprespawn,"rrrrrrr"), // 7 required output array vars
