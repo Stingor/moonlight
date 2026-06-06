@@ -70,6 +70,7 @@ const t_tick MOB_MAX_DELAY = 24 * 3600 * 1000;
 // holds Monster Spawn informations
 std::unordered_map<uint16, std::vector<spawn_info>> mob_spawn_data;
 std::unordered_map<uint16, std::vector<map_spawn_info>> map_spawn_data;
+std::unordered_map<uint16, s_mvp_respawn_info> mvp_respawn_cache;
 
 MobItemRatioDatabase mob_item_drop_ratio;
 
@@ -1055,6 +1056,9 @@ TIMER_FUNC(mob_delayspawn){
 			return 0;
 		}
 		md->spawn_timer = INVALID_TIMER;
+		// [MVP Respawn Cache] Clear entry — MVP is about to become alive again.
+		if (md->spawn && md->spawn->state.boss)
+			mvp_respawn_cache.erase((uint16)md->spawn->id);
 		mob_spawn(md);
 	}
 	return 0;
@@ -1095,7 +1099,28 @@ int32 mob_setdelayspawn(mob_data *md)
 
 	if( md->spawn_timer != INVALID_TIMER )
 		delete_timer(md->spawn_timer, mob_delayspawn);
-	md->spawn_timer = add_timer(gettick()+spawntime, mob_delayspawn, md->id, 0);
+
+	t_tick respawn_tick = gettick() + spawntime;
+	md->spawn_timer = add_timer(respawn_tick, mob_delayspawn, md->id, 0);
+
+	// [MVP Respawn Cache] Store exact respawn info for boss mobs (queryable via getmvprespawn()).
+	if (md->spawn && md->spawn->state.boss) {
+		s_mvp_respawn_info info;
+		info.mob_id       = (uint16)md->spawn->id;
+		info.mapid        = md->m;
+		info.spawn_x      = (int16)md->spawn->x;
+		info.spawn_y      = (int16)md->spawn->y;
+		info.respawn_tick = respawn_tick;
+		info.kill_time    = (int64)time(nullptr);
+		info.killer_name[0] = '\0';
+		if (md->tomb_nid) {
+			npc_data *tomb_nd = map_id2nd(md->tomb_nid);
+			if (tomb_nd && tomb_nd->subtype == NPCTYPE_TOMB)
+				safestrncpy(info.killer_name, tomb_nd->u.tomb.killer_name, NAME_LENGTH);
+		}
+		mvp_respawn_cache[(uint16)md->spawn->id] = info;
+	}
+
 	return 0;
 }
 

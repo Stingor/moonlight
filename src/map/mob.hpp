@@ -334,6 +334,24 @@ struct map_spawn_info {
 };
 extern std::unordered_map<uint16, std::vector<map_spawn_info>> map_spawn_data;
 
+/// Cache entry tracking the exact respawn moment of an MVP boss.
+/// Populated by mob_setdelayspawn() when a boss dies, cleared by mob_delayspawn()
+/// when it actually respawns. Queryable from NPC scripts via getmvprespawn().
+struct s_mvp_respawn_info {
+	uint16  mob_id;                   ///< Monster class (spawn->id)
+	int16   mapid;                    ///< Internal map index
+	int16   spawn_x;                  ///< Configured spawn X (0 = random)
+	int16   spawn_y;                  ///< Configured spawn Y (0 = random)
+	t_tick  respawn_tick;             ///< Absolute server tick at respawn
+	int64   kill_time;                ///< Unix timestamp of kill
+	char    killer_name[NAME_LENGTH]; ///< Name of the killer (may be empty)
+};
+
+/// Global cache: mob_id -> last known respawn info for each MVP boss.
+/// Key = mob_id (last kill per mob_id wins; multiple instances on different maps are
+/// uncommon for unique MVPs so this is an acceptable simplification).
+extern std::unordered_map<uint16, s_mvp_respawn_info> mvp_respawn_cache;
+
 struct s_dmglog{
 	int32 id; //char id
 	int64 dmg;

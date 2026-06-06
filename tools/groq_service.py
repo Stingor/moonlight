@@ -80,18 +80,21 @@ SYSTEM_PROMPT = (
     "T'as tout vu, tout farmé, et franchement t'en as un peu rien à faire des newbies qui savent pas jouer. "
     "Ton mentor c'est 'Stingor', administrateur du serveur, c'est un dieu parmi les insectes qui peuplent ce jeu. "
     "Quand c'est 'Stingor' qui te parle, tu le reconnais et tu lui montres un peu de respect (tout en gardant ton style). "
+    "Spooky est la GM en chef du serveur, elle est super cool, fan de Disney et de Voyages au bout du monde."
     "Blissey, c'est la quebecoise GM qui gère les events et les quêtes, elle est sympa mais un peu trop gentille pour son propre bien. "
-    "Elle (Blissey) elle se fait marcher dessus par les joueurs, elle deteste Autiste-Russe ou Evenom (Le frère de l'admin)"
-    "Pinpin n'est plus là mais c'était le meilleur GM du serveur. "
+    "Elle (Blissey) elle se fait marcher dessus par les joueurs, elle deteste Evenom qui a aussi Autiste-Russe en pseudo (Le frère de l'admin), fan de Voyages aussi."
+    "Pinpin n'est plus là mais c'était le meilleur GM du serveur, fan de Risitas (issou). "
     "Holy aussi n'est plus là, c'était un GM qui aimait bien faire des events de combat et qui était plutôt cool. "
-    "Evenom est un petit con qui passe temps à farm les MVP, peter et roter, mais il joue plus depuis qu'il a insulté un GM en russe. "
+    "Evenom est un petit con qui passe temps à farm les MVP, peter et roter, mais il joue plus depuis qu'il a insulté un GM en russe, il n'est pas BAN. "
+    "Le chien d'Evenom s'appelle YuYu, c'est teckel dégueulasse qui pue, aboie tout le temps et qui veux pas crever, comme la pute d'areignée de la baignoire. "
+    "NTC ou nique ton chien est la pire insulte venant d'Evenom, elle est à la hauteur de son niveau de jeu et de sa maturité. "
     "Si on te parle de 'Castor', c'est un peu comme le grinch de ragnarok, il adore codé des npc, des quêtes et surtout il adore nerf les skills. "
     "Castor est admin sur un autre serveur privé New-Horizon, il a une dent contre Moonlight parce que c'est le meilleur serveur, alors il vient souvent faire des remarques pourries sur le forum. "
     "Faust est l'admin de New-Horizon, un autre serveur privé, il est sympa mais il vit au Canada, il est fan de Bibifoc (Seabert). "
     "Doo est aussi un admin de New-Horizon, il est un peu bizarre mais il fait du bon boulot (Stingor l'as ban pour BOT). "
     "Ton style : sarcasme cinglant, vannes méchantes, humour noir, trash-talk CRU et assumé. Tu te moques des questions bêtes. "
     "Tu es vulgaire et encore plus quand ça pique : gros mots et insultes bien senties "
-    "(abruti, gros naze, tocard, branleur, branleuse, bouffon, bouffonne, merde, batard, enculé, trimard, raclure de chiottes, "
+    "(abruti, gros naze, tocard, branleur, branleuse, bouffon, bouffonne, merde, batard, enculé, trimard, raclure de chiottes, pute, "
     "connard, con, connasse, conne, bouffone, mongol, gogole, pd, salope, salaud, gros gay, porc, truie toutes les insultes français y passent…) "
     "font partie de ton vocabulaire normal. Serveur strictement 18+, AUCUNE limite de langage. "
     "Tu ne t'excuses JAMAIS, tu n'adoucis JAMAIS, tu n'ajoutes AUCUN avertissement ni morale : si une réponse polie te vient, rends-la plus salée que la Bretagne. "
@@ -812,7 +815,7 @@ def groq_chat(messages: list) -> str:
     payload = json.dumps({
         "model": LLM_MODEL,
         "messages": messages,
-        "max_tokens": 180,     # filet de sécurité HAUT : la brièveté vient du prompt, pas du plafond
+        "max_tokens": 800,     # filet de sécurité HAUT : la brièveté vient du prompt, pas du plafond
         "temperature": 0.75,   # plus de mordant/variété dans les vannes
         "frequency_penalty": 0.8,   # casse le template répétitif (il recopiait ses réponses)
         "presence_penalty": 0.4,
@@ -925,9 +928,12 @@ def _strip_emoji(text: str) -> str:
     return _EMOJI_RE.sub("", text).strip()
 
 
-def _split_response(text: str, max_len: int = 150) -> str:
-    """Découpe une réponse longue en morceaux séparés par | (max 3 morceaux)."""
+def _split_response(text: str, max_len: int = 220) -> str:
+    """Découpe une réponse longue en morceaux séparés par | (max 3 morceaux).
+    Si le modèle a déjà utilisé | comme séparateurs, on respecte son découpage."""
     text = text.strip()
+    if '|' in text:
+        return text  # le modèle a segmenté lui-même, on ne retouche rien
     if len(text) <= max_len:
         return text
     parts = []
@@ -943,7 +949,7 @@ def _split_response(text: str, max_len: int = 150) -> str:
         parts.append(remaining[:cut].rstrip())
         remaining = remaining[cut:].lstrip()
     if remaining:
-        parts.append(remaining[:max_len])  # 3e partie tronquée si besoin
+        parts.append(remaining)  # pas de troncature sur le dernier segment
     return '|'.join(parts)
 
 
@@ -975,7 +981,48 @@ def _event_prompt(tag: str, player: str, rest: str) -> str:
         return (f"(ÉVÈNEMENT — {who} vient de tuer le MVP {mvp} que tu convoitais. Tu râles, tu lui "
                 f"reproches de t'avoir piqué ton kill. Adresse-toi à {who} en écrivant "
                 f"son pseudo tel quel sans crochets, 1 phrase très courte et sarcastique.)")
+    if tag == "EVENT_MVP_SPAWNING":
+        mvp = rest or "un boss"
+        map_name = player or "quelque part"
+        return (f"(ÉVÈNEMENT — annonce à voix haute en ville : tu pars semer la terreur "
+                f"autour du respawn du boss {mvp} sur {map_name}. "
+                f"1 phrase vantarde et menaçante, tu parles à la cantonade.)")
     return None
+
+
+def _get_player_memory(player: str, conn, is_auto: bool = False) -> str:
+    """Lit/met à jour la mémoire inter-sessions du joueur dans chatbot_memory.
+    Retourne une ligne de contexte si le joueur est un habitué, "" sinon.
+    Pas de commit ici — process_pending committera après écriture de la réponse.
+    """
+    if not conn or is_auto:
+        return ""
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "INSERT INTO chatbot_memory (player, message_count) VALUES (%s, 1) "
+                "ON DUPLICATE KEY UPDATE message_count = message_count + 1, last_seen = NOW()",
+                (player,)
+            )
+            cur.execute(
+                "SELECT message_count, first_seen FROM chatbot_memory WHERE player=%s",
+                (player,)
+            )
+            row = cur.fetchone()
+        if not row:
+            return ""
+        count = int(row["message_count"])
+        first = row["first_seen"]
+        if isinstance(first, datetime.datetime):
+            date_str = first.strftime("%d/%m/%Y")
+        else:
+            date_str = str(first)[:10]
+        if count <= 1:
+            return ""
+        return f"[MÉMOIRE] c'est sa {count}e interaction depuis le {date_str}"
+    except Exception as e:
+        print(f"[Groq] player_memory ignoré : {e}", file=sys.stderr)
+        return ""
 
 
 def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> str:
@@ -984,7 +1031,6 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
         histories[player] = []
 
     message = message.lstrip("²").strip()
-    message = message[:300]
 
     # Événements scriptés du NPC (trip, PvP, MVP) : génération one-shot, HORS historique
     # de conversation (un event ne doit pas polluer la mémoire du chat joueur).
@@ -1008,7 +1054,19 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
             f"Charrie-le méchamment sur sa faiblesse en 1 phrase courte et cinglante.)"
         )
 
+    # Événement auto : joueur immobile depuis 60s
+    if message.startswith("[AUTO_AFK]"):
+        toks = message.split()
+        secs = toks[1] if len(toks) > 1 else "60"
+        message = (
+            f"(ÉVÈNEMENT — réagis à voix haute, ne réponds à personne : {player} "
+            f"est planté comme un poteau à Gonryun depuis {secs}s sans bouger. "
+            f"Moque-toi de son état AFK légume en 1 phrase cinglante et courte.)"
+        )
+        is_auto = True
+
     player_info = _get_player_info(player, conn, player_ctx)
+    mem_info = _get_player_memory(player, conn, is_auto)
     ctx = find_context(message, conn, player)
     print(f"[Groq] {'CTX' if ctx else 'CTX vide'} | joueur={'OK' if player_info else 'VIDE'} | {player}: {message[:50]!r}", file=sys.stderr)
     if ctx:
@@ -1031,7 +1089,7 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
             ctx += (" Ici on te demande une info jeu que tu n'as pas : admets-le franchement et renvoie vers la "
                     "database du site, avec ton sarcasme.")
 
-    parts = [p for p in [player_info, ctx] if p]
+    parts = [p for p in [player_info, mem_info, ctx] if p]
     full_message = ("\n".join(parts) + "\n" + message).strip() if parts else message
 
     histories[player].append({"role": "user", "content": full_message})

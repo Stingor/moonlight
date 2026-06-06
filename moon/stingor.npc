@@ -1,6 +1,6 @@
 //===== Moonlight-Destiny ====================================
 
-gonryun,160,114,4	script	WEB-Stingor(NPC)::stingor_npc	20500,{
+gonryun,160,114,4	script	Blissey(NPC)::stingor_npc	20503,{
 	end;
 
 OnInit:

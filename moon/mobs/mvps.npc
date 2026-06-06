@@ -13,6 +13,34 @@ OnMvpDead:
 		$sting_mvp_mob_id    = killedrid;
 		$sting_mvp_time      = gettimetick(2);
 		$sting_mvp_done      = 0;
+		// [Event Sting MVP] Stocke ce MVP pour un event de respawn (si cooldown OK et pas d'event en cours)
+		if ($sting_pvpevent == 0 && $sting_mvp_ev_active == 0) {
+			if ($sting_mvp_ev_cd == 0 || gettimetick(2) - $sting_mvp_ev_cd >= 10800) {
+				if (killedrid != 20500) {
+					getmapxy(.@mv_map$, .@mx, .@my, BL_PC);
+					// Exclure maps a spawn script : pas de mvp_respawn_cache C++ pour ces mobs
+					// (biolab lhz_dun03/04 spawnes par timer NPC, LoD niflheim par invasion script)
+					if (.@mv_map$ != "lhz_dun03" && .@mv_map$ != "lhz_dun04" && .@mv_map$ != "niflheim") {
+						$sting_mvp_ev_mob_id     = killedrid;
+						$sting_mvp_ev_name$      = getmonsterinfo(killedrid, MOB_NAME);
+						$sting_mvp_ev_map$       = .@mv_map$;
+						$sting_mvp_ev_x          = 0;  // resolu via getmvprespawn() dans OnTimer3000
+						$sting_mvp_ev_y          = 0;
+						$sting_mvp_ev_killer$    = $sting_mvp_killer$;
+						$sting_mvp_ev_respawn_at = 0;  // sentinelle : cache C++ pas encore peuple
+						$sting_mvp_ev_active     = 1;
+						$sting_mvp_ev_mvp_dead   = 0;
+					}
+				}
+			}
+		}
+		// [Event Sting MVP] Recompense le tueur du MVP cible si l'event est actif
+		if ($sting_mvp_ev_active == 2 && killedrid == $sting_mvp_ev_mob_id) {
+			#KAFRAPOINTS += 5;
+			dispbottom "[Event Sting] "+$sting_mvp_ev_name$+" éliminé ! +5 points d'event.";
+			announce strcharinfo(0)+" a tué "+$sting_mvp_ev_name$+" pendant l'event Sting ! +5 points d'event !", bc_blue|bc_all;
+			$sting_mvp_ev_mvp_dead = 1;
+		}
 		query_sql("UPDATE `char` SET mvp_count = mvp_count + 1 WHERE `char_id` = '"+getcharid(0,strcharinfo(0))+"'");
 		if( Mission_MVP != #Mission_Count_MVP && Mission_MVP_ID > 1 ) {
 			.@mobid = killedrid;
