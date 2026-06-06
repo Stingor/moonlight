@@ -1047,12 +1047,16 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
     # de conversation (un event ne doit pas polluer la mémoire du chat joueur).
     if message.startswith("[EVENT_"):
         m = re.match(r"\[(EVENT_[A-Z_]+)\]\s*(.*)", message)
-        if m:
-            ev = _event_prompt(m.group(1), player, m.group(2).strip())
-            if ev:
-                print(f"[Groq] EVENT {m.group(1)} | player={player!r} rest={m.group(2)!r}", file=sys.stderr)
-                return _strip_skill_tokens(_strip_emoji(groq_chat([{"role": "system", "content": SYSTEM_PROMPT},
-                                                                    {"role": "user", "content": ev}])))
+        ev = _event_prompt(m.group(1), player, m.group(2).strip()) if m else None
+        if ev:
+            print(f"[Groq] EVENT {m.group(1)} | player={player!r} rest={m.group(2)!r}", file=sys.stderr)
+            return _strip_skill_tokens(_strip_emoji(groq_chat([{"role": "system", "content": SYSTEM_PROMPT},
+                                                                {"role": "user", "content": ev}])))
+        # Tag d'event non reconnu (ou regex KO) : surtout NE PAS retomber dans le chemin chat
+        # normal, sinon le modèle reçoit le tag brut "[EVENT_XXX]" et le récite tel quel
+        # ("Trip go ? ..."). Retour vide -> le NPC affiche sa réplique hardcodée (getarg(1)).
+        print(f"[Groq] EVENT non géré, fallback hardcodé : {message!r}", file=sys.stderr)
+        return ""
 
     # Événement auto : joueur arrivé à proximité avec peu de HP
     is_auto = message.startswith("[AUTO_LOWHP]")
