@@ -812,6 +812,10 @@ def find_context(message: str, conn, player: str = "") -> str:
 
 
 def groq_chat(messages: list) -> str:
+    # Diag : prompt réellement transmis au modèle (dernier tour 'user') — c'est ce qui
+    # distingue un prompt d'event FR d'un tag brut "[EVENT_xxx]" qui aurait fui.
+    _usr = next((m["content"] for m in reversed(messages) if m.get("role") == "user"), "")
+    print(f"[Groq]   -> LLM ({len(messages)} msg) user[:200]={_usr[:200]!r}", file=sys.stderr)
     payload = json.dumps({
         "model": LLM_MODEL,
         "messages": messages,
@@ -857,6 +861,7 @@ def groq_chat(messages: list) -> str:
 
     choice = data["choices"][0]
     reply = choice["message"]["content"].strip()
+    print(f"[Groq]   <- LLM brut[:200]={reply[:200]!r} finish={choice.get('finish_reason')!r}", file=sys.stderr)
     # Si la réponse a été coupée par max_tokens, on rogne le fragment final incomplet
     if choice.get("finish_reason") == "length":
         reply = _trim_truncated(reply)
@@ -1042,6 +1047,7 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
         histories[player] = []
 
     message = message.lstrip("²").strip()
+    print(f"[Groq] === requête player={player!r} message[:80]={message[:80]!r}", file=sys.stderr)
 
     # Événements scriptés du NPC (trip, PvP, MVP) : génération one-shot, HORS historique
     # de conversation (un event ne doit pas polluer la mémoire du chat joueur).

@@ -66,7 +66,7 @@ L_chat:
 		if (.@parts$[0] == "@HEAL@" || .@parts$[0] == "@RES@" || .@parts$[0] == "@BUFF@") {
 			if (.@aid > 0 && isloggedin(.@aid)) {
 				if (.@parts$[0] == "@RES@")
-					unitskilluseid getnpcid(0), "ALL_RESSURECTION", 4, .@aid;
+					unitskilluseid getnpcid(0), "ALL_RESURRECTION", 4, .@aid;
 				else if (.@parts$[0] == "@BUFF@") {
 					unitskilluseid getnpcid(0), "AL_BLESSING", 10, .@aid;
 					sleep 300;
