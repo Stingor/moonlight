@@ -330,14 +330,14 @@ OnInit:
 	.ox = 159;
 	.oy = 116;
 	.wr = 5;
-	.scanr = 6;
-	.tick = 0;
-	.mockcd = 0;
-	.buffcd = 0;
-	.mvp_cd = 7200;
-	.online = 1;
-	.trip = 0;
-	.tripcd = 0;
+	.scanr = 6;      // rayon de scan pour les events automatiques (moqueries HP bas, buffs)
+	.tick = 0;       // pour le mouvement aléatoire
+	.mockcd = 0;     // cooldown des moqueries HP basées sur le scan
+	.buffcd = 0;     // cooldown des buffs automatiques
+	.mvp_cd = 14400; // 4h de cooldown entre les plaintes de Sting après un kill de MVP (si le killer est le même joueur)
+	.online = 1;     // 0 = hors ligne (cache), 1 = en ligne (actif), 2 = AFK (immobile)
+	.trip = 0;       // 0 = pas de trip, 1 = parti, 2 = parti depuis un moment (disablenpc)
+	.tripcd = 0;     // timestamp du dernier départ en donjon (pour le cooldown)
 	.trip_go$[0] = "Bon, je vais me faire un donjon, ça farm pas tout seul.";
 	.trip_go$[1] = "Allez, un petit MVP m'attend. Bougez pas.";
 	.trip_go$[2] = "J'me casse farm, j'en ai marre de vos questions.";
@@ -354,9 +354,9 @@ OnInit:
 	.trip_back$[5] = "Voilà, donjon nettoyé. Vous pouvez applaudir.";
 	.trip_back$[6] = "Retour express. Même les boss s'ennuyaient avec moi.";
 	.trip_back$[7] = "Bon, j'ai fini. Quelqu'un a fait un truc utile pendant ce temps ? Non ? Logique.";
-	.pvpevent = 0;
-	.pvpcdtick = 0;
-	.pvpcd = 10800;
+	.pvpevent = 0;  // flag de l'event PvP en cours : 0 = aucun, 1 = en cours (Sting est parti au PvP, boss spawn, attente du résultat)
+	.pvpcdtick = 0; // timestamp du dernier event PvP (pour le cooldown)
+	.pvpcd = 10800; // 3h de cooldown entre les events PvP (pour éviter les abus et laisser le temps aux joueurs de se préparer)
 	.pvp_taunt$[0] = "Bon, vous me soûlez avec vos questions. Qui a les couilles de m'affronter au PvP ?";
 	.pvp_taunt$[1] = "J'm'ennuie. Allez, je vous défie tous. Direction l'arène.";
 	.pvp_taunt$[2] = "Vous voulez voir un vrai joueur ? Suivez-moi au PvP, bande de tocards.";

@@ -53528,11 +53528,11 @@ Body:
     Defense: 22
     MagicDefense: 28
     DamageTaken: 10
-    Str: 200
+    Str: 300
     Agi: 100
     Vit: 100
     Int: 1000
-    Dex: 350
+    Dex: 600
     Luk: 150
     AttackRange: 2
     SkillRange: 10
