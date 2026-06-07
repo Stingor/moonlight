@@ -3,8 +3,8 @@
 //============================================================
 
 gon_in,86,13,0	script	Marcel::refine_gon	4_M_LGTMAN,{
-
-	mes "["+strnpcinfo(0)+"]";
+	.@npcname$ = "["+^6e4200strnpcinfo(0)^000000+"]";
+	mes .@npcname$;
 	mes "Je suis un Armsmith... Je peux rafiner toutes les armes ou les armures que tu veux!";
 	mes "Quelle pièce de ton équipement souhaites tu que je refine?";
 Main_Menu:
@@ -22,7 +22,7 @@ Main_Menu:
 		.@equip5$ == "" &&
 		.@equip6$ == "" ) {
 		clear;
-		mes "["+strnpcinfo(0)+"]";
+		mes .@npcname$;
 		mes "Wow.. t'es vraiement unstuff en faite...";
 		Close;
 	}
@@ -37,7 +37,7 @@ Main_Menu:
 			@part = EQI_HEAD_TOP;
 			if( getequipisequiped(EQI_HEAD_TOP) ) goto L_check;
 			clear;
-			mes "["+strnpcinfo(0)+"]";
+			mes .@npcname$;
 			mes "Est-ce que tu me demande de refine ton cerveau d'idiot !?";
 			emotion 6;
 			break;
@@ -45,7 +45,7 @@ Main_Menu:
 			@part = EQI_ARMOR;
 			if( getequipisequiped(EQI_ARMOR) ) goto L_check;
 			clear;
-			mes "["+strnpcinfo(0)+"]";
+			mes .@npcname$;
 			mes "Tu me demande de fondre ton corps avec la chaleur de mon feu...!?";
 			emotion 6;
 			break;
@@ -53,7 +53,7 @@ Main_Menu:
 			@part = EQI_HAND_L;
 			if( getequipisequiped(EQI_HAND_L) ) goto L_check;
 			clear;
-			mes "["+strnpcinfo(0)+"]";
+			mes .@npcname$;
 			mes "Je ne peux pas transformer ta main gauche en arme ultime...";
 			emotion 4;
 			break;
@@ -61,7 +61,7 @@ Main_Menu:
 			@part = EQI_HAND_R;
 			if( getequipisequiped(EQI_HAND_R) ) goto L_check;
 			clear;
-			mes "["+strnpcinfo(0)+"]";
+			mes .@npcname$;
 			mes "Je ne peux pas transformer ta main droite en arme ultime...";
 			emotion 4;
 			break;
@@ -69,14 +69,14 @@ Main_Menu:
 			@part = EQI_GARMENT;
 			if( getequipisequiped(EQI_GARMENT) ) goto L_check;
 			clear;
-			mes "["+strnpcinfo(0)+"]";
+			mes .@npcname$;
 			mes "Regarde là... Tu n'a aucune cape sur toi...";
 			break;
 		case 7:
 			@part = EQI_SHOES;
 			if( getequipisequiped(EQI_SHOES) ) goto L_check;
 			clear;
-			mes "["+strnpcinfo(0)+"]";
+			mes .@npcname$;
 			mes "Ack!! Ce sont tes pieds!. Je ne peux définitivement pas refine ca... uck!!";
 			emotion 16;
 			break;
@@ -100,24 +100,24 @@ L_check:
 			goto L_refinemenu;
 		}
 		clear;
-		mes "["+strnpcinfo(0)+"]";
+		mes .@npcname$;
 		mes ""+(getequipweaponlv(@part)?"Cet arme":"Cette armure")+" a atteint le level maximum de refine. Je ne peux rien faire de plus...";
 		close;
 	}
 	clear;
-	mes "["+strnpcinfo(0)+"]";
+	mes .@npcname$;
 	mes "Je ne peux pas travailler sur cet item...";
 	close;
 
 LNoItem:
 	clear;
-	mes "["+strnpcinfo(0)+"]";
+	mes .@npcname$;
 	mes "Regarde... Tu n'a plus d'items...";
 	close;
 
 LNoFake:
 	clear;
-	mes "["+strnpcinfo(0)+"]";
+	mes .@npcname$;
 	mes "Clan... Non,mais tu crois que je suis stupide !?!";
 	mes "Tu l'as changé...";
 	mes "Je vais finir par t'assomer avec mon Hammer!!!";
@@ -125,20 +125,20 @@ LNoFake:
 
 Lcancel:
 	clear;
-	mes "["+strnpcinfo(0)+"]";
+	mes .@npcname$;
 	mes "Tu es donc.. Hmm donc il est...";
 	close;
 
 Lcancel1:
 	clear;
-	mes "["+strnpcinfo(0)+"]";
+	mes .@npcname$;
 	mes "Bon choix.";
 	mes "Ah... bon choix. Je me sentirais vraiment mal si je cassai encore une pièce d'équipement de mes mains.";
 	close;
 
 Lcancel2:
 clear;
-	mes "["+strnpcinfo(0)+"]";
+	mes .@npcname$;
 	mes "C'est tout ce que tu as? Malheureusement, je ne peux pas travailler pour ce prix. Essaye de te mettre à ma place.";
 	close;
 
@@ -146,7 +146,7 @@ clear;
 L_refinemenu:
 	if( .@refinerycnt >= .@safe ) goto Lnosafe;
 	clear;
-	mes "["+strnpcinfo(0)+"]";
+	mes .@npcname$;
 	mes "Je peux refine ceci à la limite voulue ou au nombre de fois désiré... C'est ton choix...";
 	menu "La limite s'il te plait.",Lsafe,"Je décide combien de fois.",Lnosafe,"Au maximum je suis un fou...",Lnosafelol,"J'ai assez de votes pour +1 à 100% ("+.@votecost+" votes)",L_voteref;
 
@@ -154,7 +154,7 @@ Lsafe:
 	.@refinecnt = .@safe - .@refinerycnt;
 	.@fullprice = .@price * .@refinecnt;
 	clear;
-	mes "["+strnpcinfo(0)+"]";
+	mes .@npcname$;
 	mes "Ca va te coûter "+.@refinecnt+" "+getitemname(.@material)+" et "+.@fullprice+" Zeny. C'est bon?";
 	menu "oui",-,"Non...",Lcancel;
 	if( countitem(.@material) < .@refinecnt || Zeny < .@fullprice ) goto Lcancel2;
@@ -165,7 +165,7 @@ Lsafe:
 Lnosafe:
 	clear;
 	.@safe = 0;
-	mes "["+strnpcinfo(0)+"]";
+	mes .@npcname$;
 	mes "Combien de fois veux-tu que je raffine ton item?";
 	mes "À moins que tu ai assez voté pour le serveur ("+.@votecost+") !";
 	next;
@@ -183,7 +183,7 @@ L_confirm_nosafe:
 	if( .@refinecheck > 10 ) goto Lcancel3;
 	.@fullprice = .@price * .@refinecnt;
 	clear;
-	mes "["+strnpcinfo(0)+"]";
+	mes .@npcname$;
 	mes "Ca va te coûter "+.@refinecnt+" "+getitemname(.@material)+" et "+.@fullprice+" Zeny... C'est bon?";
 	menu "oui...",-,"non...",Lcancel;
 	goto Lwarn; // .@safe vaut 0 ici : toujours via Lwarn
@@ -191,7 +191,7 @@ L_confirm_nosafe:
 Lwarn:
 	clear;
 	.@refinecheck -= .@safe;
-	mes "["+strnpcinfo(0)+"]";
+	mes .@npcname$;
 	mes "Je vais essayer de refine l'équipement à "+.@refinecheck+". Si la limite est dépassée, ton équipement sera peut être détruit... ok?";
 	menu "oui",-,"Non...",Lcancel1;
 	if( (countitem(.@material) < .@refinecnt) || (Zeny < .@fullprice) ) goto Lcancel2;
@@ -201,7 +201,7 @@ Lwarn:
 
 Lcancel3:
 	clear;
-	mes "["+strnpcinfo(0)+"]";
+	mes .@npcname$;
 	mes "Je ne peux pas refine cet item plus de fois.";
 	close;
 
@@ -216,13 +216,14 @@ L_refinesafe:
 		.@refinecnt--;
 	} while( .@refinecnt != 0 );
 	emotion 21;
-	mes "["+strnpcinfo(0)+"]";
+	mes .@npcname$;
 	mes "C'est fini !";
 	goto Main_Menu;
 
 L_refinenumber:
 	if( getequipisequiped(@part) == 0 ) goto LNoItem; // hacker has removed the item (no changed,why?)
 	if( getequipid(@part) != .@refineitemid ) goto LNoFake; // hacker has changed the item
+	mes .@npcname$;
 	mes "Clang,clang!!!";
 	do {
 		if( getequippercentrefinery(@part) <= rand(100) ) goto Lfail_number;
@@ -232,7 +233,7 @@ L_refinenumber:
 		.@refinecnt--;
 	} while( .@refinecnt != 0 );
 	emotion 21;
-	mes "["+strnpcinfo(0)+"]";
+	mes .@npcname$;
 	mes "C'est fini !";
 	goto Main_Menu;
 
@@ -241,7 +242,7 @@ Lfail_number:
 	failedrefitem @part;
 	emotion 23;
 	clear;
-	mes "["+strnpcinfo(0)+"]";
+	mes .@npcname$;
 	mes "WAHHHH!!! Je suis désolé... Je t'avais prévenu de ce qui pourrait arriver...";
 	if( .@refinecnt-- > 0 ) {
 		mes "Voici le reste inutilisé de Zeny et de matériel...";
@@ -254,7 +255,7 @@ Lfail_number:
 L_voteref:
 	if( callfunc("getvote",callfunc("getuniqueid",getcharid(3))) >= .@votecost ) {
 		clear;
-		mes "["+strnpcinfo(0)+"]";
+		mes .@npcname$;
 		mes "Vous allez dépenser "+.@votecost+" votes !!!";
 		switch( select("Non","Non","Oui","Non","Quitter") ) {
 			case 3:
@@ -264,13 +265,13 @@ L_voteref:
 				break;
 			default:
 				clear;
-				mes "["+strnpcinfo(0)+"]";
+				mes .@npcname$;
 				mes "Ok ! Mieux vaut être sûr !";
 				break;
 		}
 		close;
 	}
-	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	mes .@npcname$;
 	mes "Vous n'avez pas assez de Votes ("+.@votecost+").";
 	close;
 }
@@ -279,7 +280,6 @@ L_voteref:
 //= Equipment Repair Function
 //============================================================
 gon_in,100,20,4	script	George::repair_gon	4_M_04,{
-
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 	mes "Je suis "+strnpcinfo(0)+" le réparateur et je peux reparer n'importe quel arme ou armure !";
 	next;
@@ -317,7 +317,7 @@ gon_in,88,23,6	script	Donald::orielu_gon	4_M_04,{
 	mes "["+strnpcinfo(0)+"]";
 	mes "Si vous me rapportez des Rough Oridecon, Rough Eluniums ou le materiel nécessaire pour faire des repair kit WOE SE je peux les convertir pour vous.";
 	mes "Vous pouvez m'en rapporter autant que vous voulez mais par multiple de ^0000ff5^000000 pour les Rough.";
-L_main:
+	L_main:
 	if( countitem(Oridecon_Stone) < 5 && countitem(Elunium_Stone) < 5 && // Rough
 		countitem(Oridecon) < 1 && countitem(Elunium) < 1 && countitem(Stone) < 30 && countitem(Blue_Gemstone) < 5 && countitem(Red_Gemstone) < 5 && countitem(Yellow_Gemstone) < 5 && // guardian stone repair kit
 		countitem(Steel) < 10 && countitem(Emveretarcon) < 10 && countitem(Wooden_Block) < 30 && countitem(Oridecon) < 5 // barricade repair kit
