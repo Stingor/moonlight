@@ -4,7 +4,6 @@ gonryun,159,116,4	script	Sting-Bot::sting_IA	MVP_STING,{
 	.@st = 1;
 	query_sql "SELECT online, note, info_display FROM chatbot_status WHERE id=1",
 	          .@st, .@note$, .@info$;
-	npcsit;
 	mes "["+strnpcinfo(0)+"]";
 	if (.@st == 0) {
 		mes "^FF0000[HORS LIGNE]^000000";
@@ -168,8 +167,8 @@ OnTimer3000:
 	// Etats inactifs : deco (cache) ou afk (immobile) -> on ne scanne/bouge pas
 	if (.online != 1) { initnpctimer; end; }
 
-	// --- Faux depart en donjon (rare : ~1.5%/tick, cooldown 30min) ---
-	if (.trip == 0 && gettimetick(2) - .tripcd > 1800 && rand(1000) < 15) {
+	// --- Faux depart en donjon (rare : ~1.5%/tick, cooldown .trip_cooldown s) ---
+	if (.trip == 0 && gettimetick(2) - .tripcd > .trip_cooldown && rand(1000) < 15) {
 		.trip = 1;
 		.tripcd = gettimetick(2);
 		callsub S_SayEvent, "[EVENT_TRIP_GO]", .trip_go$[rand(size(.trip_go$))], "", "";
@@ -177,7 +176,7 @@ OnTimer3000:
 		sleep 6000;                // laisse le temps d'arriver
 		disablenpc strnpcinfo(3);   // disparait (parti farm)
 		.trip = 2;
-		sleep rand(180000, 360000); // absent 3 a 6 min
+		sleep rand(.trip_sleep_min, .trip_sleep_max); // durée configurable dans OnInit
 		movenpc strnpcinfo(3), .ox, .oy;
 		npcstop;
 		enablenpc strnpcinfo(3);
@@ -656,6 +655,9 @@ OnInit:
 	.online = 1;     // 0 = hors ligne (cache), 1 = en ligne (actif), 2 = AFK (immobile)
 	.trip = 0;       // 0 = pas de trip, 1 = parti, 2 = parti depuis un moment (disablenpc)
 	.tripcd = 0;     // timestamp du dernier départ en donjon (pour le cooldown)
+	.trip_cooldown  = 7200;    // cooldown en secondes entre deux trips donjon (défaut 2h)
+	.trip_sleep_min = 600000;  // durée min d'absence en ms (défaut 10 min)
+	.trip_sleep_max = 1800000; // durée max d'absence en ms (défaut 30 min)
 	.trip_go$[0] = "Bon, je vais me faire un donjon, ça farm pas tout seul.";
 	.trip_go$[1] = "Allez, un petit MVP m'attend. Bougez pas.";
 	.trip_go$[2] = "J'me casse farm, j'en ai marre de vos questions.";
@@ -709,6 +711,7 @@ OnInit:
 	if ($sting_persist_mockcd > 0)    { .mockcd    = $sting_persist_mockcd; }
 	activatepset 2;
 	initnpctimer;
+	npcsit;
 	end;
 }
 
