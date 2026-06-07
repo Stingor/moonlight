@@ -100,4 +100,11 @@ extern void ShowError(const char *, ...);
 extern void ShowFatalError(const char *, ...);
 extern void ShowConfigWarning(config_setting_t *config, const char *string, ...);
 
+// [Stingor] Console output hook: when set, every shown message is also passed
+// to this callback (used by the admin channel to stream the console remotely).
+// 'flag' is an enum msg_type value; 'msg' is the formatted text (may contain
+// ANSI color codes). Keep the callback lightweight and non-reentrant.
+typedef void (*t_console_hook)(int32 flag, const char *msg);
+void set_console_hook(t_console_hook hook);
+
 #endif /* SHOWMSG_HPP */

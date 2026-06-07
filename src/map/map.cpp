@@ -5107,6 +5107,9 @@ void MapServer::finalize(){
 	chrif_char_reset_offline();
 	chrif_flush_fifo();
 
+#ifndef MAP_GENERATOR
+	do_final_admin(); // [Stingor] custom: admin channel (src/map/admin.cpp)
+#endif
 	do_final_atcommand();
 	do_final_battle();
 	do_final_chrif();
@@ -5516,6 +5519,10 @@ bool MapServer::initialize( int32 argc, char *argv[] ){
 	do_init_buyingstore();
 
 	npc_event_do_oninit();	// Init npcs (OnInit)
+
+#ifndef MAP_GENERATOR
+	do_init_admin(); // [Stingor] custom: admin channel (src/map/admin.cpp)
+#endif
 
 	if (battle_config.pk_mode)
 		ShowNotice("Server is running on '" CL_WHITE "PK Mode" CL_RESET "'.\n");

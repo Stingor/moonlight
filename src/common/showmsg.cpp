@@ -662,6 +662,14 @@ int32	FPRINTF(FILE *file, const char *fmt, ...)
 
 char timestamp_format[20] = "%d-%b-%y %X"; //For displaying Timestamps
 
+// [Stingor] Optional console output hook (see showmsg.hpp / admin channel).
+static t_console_hook console_hook = nullptr;
+
+void set_console_hook(t_console_hook hook)
+{
+	console_hook = hook;
+}
+
 int32 _vShowMessage(enum msg_type flag, const char *string, va_list ap)
 {
 	va_list apcopy;
@@ -717,6 +725,20 @@ int32 _vShowMessage(enum msg_type flag, const char *string, va_list ap)
 	    (flag == MSG_DEBUG && msg_silent&32)
 	)
 		return 0; //Do not print it.
+
+	// [Stingor] forward the console line to the admin channel log feed.
+	if( console_hook != nullptr ){
+		static bool in_console_hook = false; // guard: the hook must not re-enter
+		if( !in_console_hook ){
+			in_console_hook = true;
+			char hookline[1024];
+			va_copy(apcopy, ap);
+			vsnprintf(hookline, sizeof(hookline), string, apcopy);
+			va_end(apcopy);
+			console_hook((int32)flag, hookline);
+			in_console_hook = false;
+		}
+	}
 
 	if (timestamp_format[0] && flag != MSG_NONE)
 	{	//Display time format. [Skotlex]

@@ -72,6 +72,7 @@ Thumbs.db
 /conf/import/packet_conf.txt
 /conf/import/web_conf.txt
 /conf/import/script_conf.txt
+/conf/import/admin_conf.txt
 
 # /lib
 /lib
@@ -114,6 +115,10 @@ Thumbs.db
 /tools/*.exe
 /tools/*.ilk
 /tools/*.pdb
+# PyInstaller build artifacts (admin GUI exe)
+/tools/dist/
+/tools/build/
+/tools/*.spec
 
 # Visual Studio
 .vs

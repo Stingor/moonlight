@@ -1448,6 +1448,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="achievement.cpp" />
+    <ClCompile Include="admin.cpp" />
     <ClCompile Include="atcommand.cpp" />
     <ClCompile Include="battle.cpp" />
     <ClCompile Include="battleground.cpp" />
@@ -5193,5 +5194,10 @@
     <Copy SourceFiles="$(SolutionDir)db\import-tmpl\status_disabled.txt" DestinationFolder="$(SolutionDir)db\import\" ContinueOnError="true" Condition="!Exists('$(SolutionDir)db\import\status_disabled.txt')" />
     <Copy SourceFiles="$(SolutionDir)db\import-tmpl\status.yml" DestinationFolder="$(SolutionDir)db\import\" ContinueOnError="true" Condition="!Exists('$(SolutionDir)db\import\status.yml')" />
     <Copy SourceFiles="$(SolutionDir)db\import-tmpl\stylist.yml" DestinationFolder="$(SolutionDir)db\import\" ContinueOnError="true" Condition="!Exists('$(SolutionDir)db\import\stylist.yml')" />
+  </Target>
+  <!-- [Stingor] Refresh the standalone admin GUI exe after each map-server build.
+       Skips itself if admin_gui.py is unchanged; never fails the C++ build. -->
+  <Target Name="StingorBuildAdminGui" AfterTargets="AfterBuild">
+    <Exec Command="python &quot;$(SolutionDir)tools\build_admin_exe.py&quot; --if-newer" ContinueOnError="true" />
   </Target>
 </Project>

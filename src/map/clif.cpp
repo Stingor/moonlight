@@ -6779,6 +6779,13 @@ void clif_displaymessage(const int32 fd, const char* mes)
 {
 	nullpo_retv(mes);
 
+#ifndef MAP_GENERATOR
+	// [Stingor] admin channel: capture GM output into the admin reply instead
+	// of sending RO packets, while an admin-channel atcommand is running.
+	if( admin_capture_line( mes ) )
+		return;
+#endif
+
 	if( session_isActive( fd ) ){
 		char *message, *line;
 

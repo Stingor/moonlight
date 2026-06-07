@@ -259,6 +259,9 @@
     <ClCompile Include="achievement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="admin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="atcommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
