@@ -147,7 +147,7 @@ SYSTEM_PROMPT = (
 )
 
 POLL_INTERVAL  = 0.3
-HISTORY_MAX    = 10
+HISTORY_MAX    = 12
 CLEANUP_HOURS  = 1
 # ──────────────────────────────────────────────────────────────────────────────
 
@@ -820,10 +820,10 @@ def groq_chat(messages: list) -> str:
     payload = json.dumps({
         "model": LLM_MODEL,
         "messages": messages,
-        "max_tokens": 800,     # filet de sécurité HAUT : la brièveté vient du prompt, pas du plafond
-        "temperature": 0.75,   # plus de mordant/variété dans les vannes
-        "frequency_penalty": 0.8,   # casse le template répétitif (il recopiait ses réponses)
-        "presence_penalty": 0.4,
+        "max_tokens": 600,     # filet de sécurité HAUT : la brièveté vient du prompt, pas du plafond
+        "temperature": 0.85,   # plus de mordant/variété dans les vannes
+        "frequency_penalty": 1,   # casse le template répétitif (il recopiait ses réponses)
+        "presence_penalty": 0.5,
     }).encode("utf-8")
 
     headers = {
