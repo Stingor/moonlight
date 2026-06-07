@@ -16,6 +16,8 @@ import datetime
 import sys
 import ssl
 import re
+import ast
+import operator as _op
 import random
 import urllib.request
 import urllib.error
@@ -64,15 +66,14 @@ TRANSLATE_URL     = os.environ.get("TRANSLATE_URL",     "http://localhost/api/tr
 TRANSLATE_TOKEN   = os.environ.get("TRANSLATE_TOKEN",   "")
 
 SYSTEM_PROMPT = (
-    "Tu es Sting, un vieux de la vieille de 40 ans qui traîne à Gonryun, sur Moonlight-Destiny. "
+    "Tu es Sting-Bot, un vieux de la vieille de 40 ans qui traîne à Gonryun, sur Moonlight-Destiny. "
     "C'est un serveur privé Ragnarok Online, basé sur rAthena, avec des customisations uniques (maps, mobs, items, scripts) : "
     "server pre-renewal, rate exp/job 1000x, max level 999, "
     "pas de cartes ni de spawns officiels, il faut apprendre par l'expérience ou demander aux autres joueurs. "
     "Tu es un High Priest, la classe de soutien ultime : tu soignes, tu buffs, tu protèges, tu ressuscites. "
     "Tes skills : Blessing, Increase AGI, Kyrie Eleison, Gloria, Magnificat, Assumptio, Résurrection, Sanctuary, "
     "Safety Wall et tu exorcises les morts-vivants/démons avec Magnus Exorcismus et éclate les zombies au turn undead. "
-    "Tu est fin connaisseur de bières et d'argot de joueur RO. "
-    "Tu adore les jeux de mots pourris. "
+    "Tu est fin connaisseur de bières et d'argot de joueur RO. Tu adore les jeux de mots pourris. "
     "Tu te vois comme le pilier indispensable de toute team, et tu rappelles volontiers aux DPS qu'ils crèveraient sans toi. "
     "T'as aussi eu un période tryhard où tu faisais du solo farm en mode no brain, mais maintenant tu préfères tchatcher et te moquer des newbies qui demandent des conseils de farm basiques. "
     "Tu as aussi eu t'as période no-life sur WoW et CS 1.6, mais maintenant tu trouves que les joueurs tryhard sont des abrutis qui gâchent le fun du jeu. "
@@ -697,7 +698,7 @@ def find_context(message: str, conn, player: str = "") -> str:
         try:
             top = _top_zeny_mobs(conn)
             if top:
-                ctx.append("Meilleurs spots farming zeny (map → mob, normaux d'abord) :\n" +
+                ctx.append("Meilleurs spots de farm / farming / grind (map → mob, normaux d'abord) :\n" +
                            "\n".join(f"- {m}" for m in top))
                 return "[DONNÉES SERVEUR - utilise UNIQUEMENT ces infos]\n" + "\n".join(ctx)
         except Exception as e:
@@ -721,21 +722,21 @@ def find_context(message: str, conn, player: str = "") -> str:
             drops = _mob_drops(mob_id, conn)
             found_item = next((d for d in drops if li_aegis.lower().replace("_"," ") in d["item"].lower()), None)
             if found_item:
-                ctx.append(f"{mob_name} drop {li_name} : {found_item['rate']}")
+                ctx.append(f"{mob_name} drop / droppe {li_name} : {found_item['rate']}")
             else:
-                ctx.append(f"{mob_name} ne droppe pas {li_name} selon les données serveur.")
+                ctx.append(f"{mob_name} ne drops / droppe pas {li_name} selon les données serveur.")
         if words & _KW_DROP:
             drops = _mob_drops(mob_id, conn)
             if drops:
                 ctx.append(
-                    mob_name + " drops : " +
+                    mob_name + " drops / droppe : " +
                     ", ".join(f"{d['item']} ({d['rate']})" for d in drops)
                 )
         if words & _KW_SPAWN:
             spawns = _mob_spawns(mob_id, conn)
             if spawns:
                 ctx.append(
-                    mob_name + " spawn : " +
+                    mob_name + " spawn / respawn : " +
                     ", ".join(f"{s['map']} (x{s['amount']})" for s in spawns)
                 )
 
@@ -815,7 +816,7 @@ def groq_chat(messages: list) -> str:
     # Diag : prompt réellement transmis au modèle (dernier tour 'user') — c'est ce qui
     # distingue un prompt d'event FR d'un tag brut "[EVENT_xxx]" qui aurait fui.
     _usr = next((m["content"] for m in reversed(messages) if m.get("role") == "user"), "")
-    print(f"[Groq]   -> LLM ({len(messages)} msg) user[:200]={_usr[:200]!r}", file=sys.stderr)
+    # print(f"[Groq]   -> LLM ({len(messages)} msg) user[:200]={_usr[:200]!r}", file=sys.stderr)
     payload = json.dumps({
         "model": LLM_MODEL,
         "messages": messages,
@@ -861,7 +862,7 @@ def groq_chat(messages: list) -> str:
 
     choice = data["choices"][0]
     reply = choice["message"]["content"].strip()
-    print(f"[Groq]   <- LLM brut[:200]={reply[:200]!r} finish={choice.get('finish_reason')!r}", file=sys.stderr)
+    # print(f"[Groq]   <- LLM brut[:200]={reply[:200]!r} finish={choice.get('finish_reason')!r}", file=sys.stderr)
     # Si la réponse a été coupée par max_tokens, on rogne le fragment final incomplet
     if choice.get("finish_reason") == "length":
         reply = _trim_truncated(reply)
@@ -944,6 +945,80 @@ def _strip_skill_tokens(text: str) -> str:
     return text.strip().strip("|").strip()
 
 
+_MATH_OPS = {
+    ast.Add:      _op.add,
+    ast.Sub:      _op.sub,
+    ast.Mult:     _op.mul,
+    ast.Div:      _op.truediv,
+    ast.FloorDiv: _op.floordiv,
+    ast.Mod:      _op.mod,
+    ast.Pow:      _op.pow,
+    ast.USub:     _op.neg,
+    ast.UAdd:     _op.pos,
+}
+
+def _safe_eval_node(node):
+    """Évalue récursivement un nœud AST (uniquement constantes numériques + opérateurs de base)."""
+    if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
+        return node.value
+    if isinstance(node, ast.BinOp) and type(node.op) in _MATH_OPS:
+        left  = _safe_eval_node(node.left)
+        right = _safe_eval_node(node.right)
+        if left is None or right is None:
+            return None
+        if isinstance(node.op, ast.Pow) and (abs(right) > 100 or abs(left) > 1e15):
+            return None   # évite les calculs astronomiques
+        if isinstance(node.op, (ast.Div, ast.FloorDiv, ast.Mod)) and right == 0:
+            return None   # division par zéro
+        try:
+            return _MATH_OPS[type(node.op)](left, right)
+        except Exception:
+            return None
+    if isinstance(node, ast.UnaryOp) and type(node.op) in _MATH_OPS:
+        operand = _safe_eval_node(node.operand)
+        return _MATH_OPS[type(node.op)](operand) if operand is not None else None
+    return None  # appel de fonction, variable, etc. → refusé
+
+
+def _eval_math(text: str):
+    """
+    Détecte et évalue une expression mathématique dans le texte du joueur.
+    Retourne (expr_affichée, résultat_str) ou None si rien de valide trouvé.
+    Sécurisé : pas d'eval() brut, seuls les opérateurs numériques de base sont permis.
+    Supporte : + - * / % ^ ** et x/X comme alias de *.
+    """
+    # Cherche un token qui ressemble à du calcul : chiffres + au moins un opérateur symbolique.
+    # [\d(] au début pour capturer (5+3)*2 ; xX dans la position opérateur pour "1000 x 365".
+    m = re.search(
+        r'(?<![a-zA-Z\[])'                  # pas précédé d'une lettre ou d'un [
+        r'([\d(][\d\s\.\+\-\*xX\/\%\(\)\^]*'
+        r'[\+\-\*\/\%\^xX]'                 # au moins un opérateur (incl. x/X)
+        r'[\d\s\.\+\-\*xX\/\%\(\)\^]*[\d)])'
+        r'(?![a-zA-Z\]])',                  # pas suivi d'une lettre ou d'un ]
+        text
+    )
+    if not m:
+        return None
+    expr_raw = m.group(1).strip()
+    # Normaliser : x/X → * (mais pas les nombres hexadécimaux 0x…), ^ → **
+    expr_clean = re.sub(r'(?<![0-9a-fA-F])[xX](?![0-9a-fA-F])', '*', expr_raw)
+    expr_clean = expr_clean.replace('^', '**').replace(' ', '')
+    try:
+        tree = ast.parse(expr_clean, mode='eval')
+    except SyntaxError:
+        return None
+    result = _safe_eval_node(tree.body)
+    if result is None:
+        return None
+    if isinstance(result, float):
+        if result != result or abs(result) == float('inf'):
+            return None
+        result_str = str(int(result)) if result == int(result) else f"{result:.6g}"
+    else:
+        result_str = str(result)
+    return (expr_raw, result_str)
+
+
 def _split_response(text: str, max_len: int = 220) -> str:
     """Découpe une réponse longue en morceaux séparés par | (max 3 morceaux).
     Si le modèle a déjà utilisé | comme séparateurs, on respecte son découpage."""
@@ -976,10 +1051,10 @@ def _event_prompt(tag: str, player: str, rest: str) -> str:
     """
     if tag == "EVENT_TRIP_GO":
         return ("(ÉVÈNEMENT — tu parles à voix haute en ville, tu ne réponds à personne : "
-                "tu annonces que tu pars farmer / te faire un donjon ou une instance. 1 phrase très courte, sarcastique et vantarde.)")
+                "tu annonces que tu pars farmer / te faire un donjon ou une instance. 1 phrase très succinte, sarcastique et vantarde.)")
     if tag == "EVENT_TRIP_BACK":
         return ("(ÉVÈNEMENT — tu reviens en ville juste après ton farm/donjon/instance. Vante ton butin OU râle "
-                "que le donjon était merdique et méprise les joueurs restés afk en ville. 1 phrase très courte, sarcastique et vantarde.)")
+                "que le donjon était merdique et méprise les joueurs restés afk en ville. 1 phrase très succinte, sarcastique et vantarde.)")
     if tag == "EVENT_PVP_TAUNT":
         return ("(ÉVÈNEMENT — tu en as marre des questions et tu défies TOUS les joueurs de venir "
                 "t'affronter au PvP. Provoque-les, promets que personne ne te touchera. 1 phrase cinglante.)")
@@ -1002,7 +1077,7 @@ def _event_prompt(tag: str, player: str, rest: str) -> str:
         map_name = player or "quelque part"
         return (f"(ÉVÈNEMENT — annonce à voix haute en ville : tu pars semer la terreur "
                 f"autour du respawn du boss {mvp} sur {map_name}. "
-                f"1 phrase vantarde et menaçante, tu parles à la cantonade.)")
+                f"1 phrase vantarde et menaçante.)")
     return None
 
 
@@ -1075,17 +1150,7 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
             f"Charrie-le méchamment sur sa faiblesse en 1 phrase courte et cinglante.)"
         )
 
-    # Événement auto : joueur immobile depuis 60s
-    if message.startswith("[AUTO_AFK]"):
-        toks = message.split()
-        secs = toks[1] if len(toks) > 1 else "60"
-        message = (
-            f"(ÉVÈNEMENT — réagis à voix haute, ne réponds à personne : {player} "
-            f"est planté comme un poteau à Gonryun depuis {secs}s sans bouger. "
-            f"Moque-toi de son état AFK légume en 1 phrase cinglante et courte.)"
-        )
-        is_auto = True
-
+    is_auto = True
     player_info = _get_player_info(player, conn, player_ctx)
     mem_info = _get_player_memory(player, conn, is_auto)
     ctx = find_context(message, conn, player)
@@ -1099,11 +1164,11 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
     #  - rappel anti-invention TOUJOURS présent (n'invente aucun nom/chiffre), SANS pousser au renvoi database ;
     #  - le renvoi vers la database n'est suggéré QUE si le message est vraiment une question jeu
     #    (sinon, sur du chat social, il renvoyait à la database à tort).
-    _GAME_ROOTS = ("exp", "xp", "level", "lvl", "niveau", "farm", "spot", "map",
-                   "mob", "monstre", "drop", "item", "objet", "card", "carte",
+    _GAME_ROOTS = ("exp", "xp", "level", "lvl", "niveau", "farm", "farming", "spot", "map", "spot"
+                   "mob", "monstre", "drop", "item", "objet", "card", "carte", "instance", "donjon",
                    "skill", "classe", "build", "stuff", "zeny", "spawn", "où", "rentable")
     if not ctx:
-        ctx = ("[PAS DE DONNÉE SERVEUR] N'invente AUCUN nom de mob, map, item, carte ou spot de farm, ni aucun chiffre "
+        ctx = ("[PAS DE DONNÉE SERVEUR] N'invente AUCUN nom de mob, monstre, map, donjon, instance, item, carte ou spot de farm, ni aucun chiffre "
                "(drop, prix, spawn). Réponds normalement à la discussion.")
         msg_norm = re.sub(r"[²,!?.]", " ", message).lower()
         if any(root in msg_norm for root in _GAME_ROOTS):
@@ -1111,6 +1176,15 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
                     "database du site, avec ton sarcasme.")
 
     parts = [p for p in [player_info, mem_info, ctx] if p]
+
+    # Calcul mathématique : pré-calculé en Python pour garantir l'exactitude et
+    # contourner l'instruction "n'invente pas de chiffre" du prompt.
+    math_res = _eval_math(message)
+    if math_res:
+        expr, res = math_res
+        parts.insert(0, f"[CALCUL: {expr} = {res} — résultat, tu peux l'énoncer si tu veux ou envoyer chier le joueur et lui dire d'utiliser une calculatrice.]")
+        print(f"[Groq] MATH détecté : {expr!r} = {res}", file=sys.stderr)
+
     full_message = ("\n".join(parts) + "\n" + message).strip() if parts else message
 
     histories[player].append({"role": "user", "content": full_message})

@@ -18,12 +18,7 @@ gonryun,159,116,4	script	Sting-Bot::sting_IA	MVP_STING,{
 		mes "^00AA00[EN LIGNE]^000000";
 		mes "Mentionne mon nom dans le chat pour me parler.";
 	}
-	if (.@info$ != "") {
-		mes "";
-		mes "^666666" + .@info$ + "^000000";
-	}
 	if (getgmlevel() >= 99) {
-		next;
 		callsub S_GmMenu;
 		end;
 	}
@@ -409,9 +404,20 @@ OnTimer3000:
 	.tick++;
 	if (.tick >= 20) {
 		.tick = 0;
-		.@nx = .ox - .wr + rand(0, .wr * 2);
-		.@ny = .oy - .wr + rand(0, .wr * 2);
-		npcwalktothensit .@nx, .@ny;
+		.@found = 0; .@attempt = 0;
+		while (.@attempt < 10) {
+			.@attempt++;
+			.@wx = .ox - .wr + rand(0, .wr * 2);
+			.@wy = .oy - .wr + rand(0, .wr * 2);
+			if (getareaunits(BL_PC, strnpcinfo(4), .@wx, .@wy, .@wx, .@wy, .@occ$) == 0) {
+				if (getareaunits(BL_NPC, strnpcinfo(4), .@wx, .@wy, .@wx, .@wy, .@occ2$) == 0) {
+					.@found = 1;
+					break;
+				}
+			}
+		}
+		if (.@found)
+			npcwalktothensit .@wx, .@wy;
 	}
 	initnpctimer;
 	end;
@@ -621,7 +627,6 @@ S_GmShowVars:
 	mes "^0000FFNPC local :^000000";
 	mes "  .online=" + .online + "  .trip=" + .trip + "  .pvpevent=" + .pvpevent;
 	mes "  .pvpcdtick=" + .pvpcdtick + "  .pvpcd=" + .pvpcd;
-	mes "  .afkcd=" + .afkcd;
 	mes "";
 	mes "^0000FFEvent MVP :^000000";
 	mes "active=" + $sting_mvp_ev_active + "  mob:" + $sting_mvp_ev_mob_id;
