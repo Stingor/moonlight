@@ -75,7 +75,7 @@ L_chat:
 		}
 		while(.@parts$[.@i] != "") {
 			.@mes$ = strnpcinfo(0)+" : "+.@parts$[.@i];
-			npctalk .@mes$;
+			npctalk .@mes$; logchat .@mes$;
 			.@i++;
 			sleep 200;
 			if(.@parts$[.@i] != "") sleep 1200;
@@ -120,7 +120,7 @@ S_SayEvent:
 	.@ev_i = 0;
 	while (.@ev_parts$[.@ev_i] != "") {
 		.@ev_line$ = strnpcinfo(0)+" : "+.@ev_parts$[.@ev_i];
-		npctalk .@ev_line$;
+		npctalk .@ev_line$; logchat .@ev_line$;
 		.@ev_i++;
 		sleep 200;
 		if (.@ev_parts$[.@ev_i] != "") sleep 1200;
@@ -209,7 +209,7 @@ OnTimer3000:
 		npcwalkto 155, 128;        // marche vers le warpeur
 		sleep 6000;
 		.@t2$ = strnpcinfo(0)+" : Rendez-vous en carnage. Si vous avez des couilles.";
-		npctalk .@t2$;
+		npctalk .@t2$; logchat .@t2$;
 		sleep 1000;
 		disablenpc strnpcinfo(3);   // disparait (parti au PvP)
 		// Spawn du boss tuable sur la map PvP, mort -> OnStingDead
@@ -389,7 +389,7 @@ OnTimer3000:
 				.@j = 0;
 				while (.@rp$[.@j] != "") {
 					.@mes$ = strnpcinfo(0)+" : "+.@rp$[.@j];
-					npctalk .@mes$;
+					npctalk .@mes$; logchat .@mes$;
 					.@j++;
 					sleep 200;
 					if (.@rp$[.@j] != "") sleep 1200;
