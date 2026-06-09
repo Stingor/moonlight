@@ -59,3 +59,5 @@
 	BUILDIN_DEF(getitemtype,"v"),           // item_id|"name" -> IT_* type, -1 si inconnu
 	BUILDIN_DEF(refineitem,"si?"),          // "uid", goal(1..MAX_REFINE){, char_id} -> 1 goal atteint / -1 detruit / 0 echec/erreur
 	BUILDIN_DEF(getrefineuid,"s?"),         // "uid"{, char_id} -> refine level, -1 si introuvable
+	BUILDIN_DEF(restartnpc,""),             // relance le NPC depuis le debut (comme goto vers un label en tete)
+	BUILDIN_DEF2(restartnpc,"gotomain",""), // alias de restartnpc

@@ -1721,3 +1721,17 @@ BUILDIN_FUNC(getrefineuid)
 	script_pushint(st, -1);
 	return SCRIPT_CMD_SUCCESS;
 }
+
+/* restartnpc;
+ * Restarts the current NPC script from the very beginning, exactly as a "goto"
+ * to a label placed at the top of the NPC would. Position 0 is the entry point
+ * where execution starts when the NPC is clicked.
+ * Scope (.@) variables are NOT cleared - this is a jump, not a fresh click.
+ * Beware of infinite loops: guard the call behind a condition, like any goto.
+ */
+BUILDIN_FUNC(restartnpc)
+{
+	st->pos = 0;      // position 0 = the NPC's entry point
+	st->state = GOTO; // resume execution there
+	return SCRIPT_CMD_SUCCESS;
+}

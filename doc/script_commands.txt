@@ -1449,6 +1449,24 @@ This command should be avoided and only used if there is no other option.
 
 ---------------------------------------
 
+*restartnpc;
+*gotomain;
+
+This command restarts the current NPC script from the very beginning, exactly as
+a 'goto' to a label placed at the very top of the NPC would do. It jumps to the
+entry point (position 0) where execution starts when the NPC is clicked, without
+needing to declare a label there. 'gotomain' is an alias of 'restartnpc'.
+
+Scope (.@) variables are NOT cleared - this is a jump, not a fresh click. As with
+'goto', guard the call behind a condition to avoid an infinite loop.
+
+	mes "Back to the main menu?";
+	if (select("Yes", "Leave") == 1)
+		restartnpc;	// re-runs the NPC from the top
+	close;
+
+---------------------------------------
+
 *menu "<option_text>",<target_label>{,"<option_text>",<target_label>,...};
 
 This command will create a selectable menu for the invoking character. Only one
