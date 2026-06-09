@@ -110,7 +110,7 @@ function	script	instancereward	{
 		else 
 			dispbottom "Vous ne gagnez pas de zeny car vous êtes trop riche.";
 
-		for( .@i = 0; .@i < getarraysize(.@item$); .@i++ ) {
+		for( .@i = 0; .@i < size(.@item$); .@i++ ) {
 			if( atoi(.@amount$[.@i]) < 1 ) continue;
 			if( checkweight(atoi(.@item$[.@i]),atoi(.@amount$[.@i]))  )
 				getitem atoi(.@item$[.@i]),atoi(.@amount$[.@i]);
@@ -350,11 +350,29 @@ function	script	logequipuid	{
 		if( .@itembyuid_card2 ) arraypush .@cards$, getitemname(.@itembyuid_card2);
 		if( .@itembyuid_card3 ) arraypush .@cards$, getitemname(.@itembyuid_card3);
 		if( .@itembyuid_card4 ) arraypush .@cards$, getitemname(.@itembyuid_card4);
-		if( getarraysize(.@cards$) > 1 )
+		if( size(.@cards$) )
 			.@cards$ = " -> " + implode(.@cards$, " ");
 	}
 
 	.@refine$ = (.@itembyuid_refine > 0 ? "+" + .@itembyuid_refine + " " : "");
 
 	return sprintf("%s%s%s [UID:%s]", .@refine$, getitemname(.@itembyuid_nameid), .@cards$, .@uid$);
+}
+
+function	script	mesitemlinkuid	{
+	.@uid$ = getarg(0);
+	getuidlist(.@uid$);
+	.@cards$ = "";
+	if( .@itembyuid_slot > 0 ) {
+		if( .@itembyuid_card1 ) arraypush .@cards$, getitemname(.@itembyuid_card1);
+		if( .@itembyuid_card2 ) arraypush .@cards$, getitemname(.@itembyuid_card2);
+		if( .@itembyuid_card3 ) arraypush .@cards$, getitemname(.@itembyuid_card3);
+		if( .@itembyuid_card4 ) arraypush .@cards$, getitemname(.@itembyuid_card4);
+		if( size(.@cards$) )
+			.@cards$ = " -> " + implode(.@cards$, " ");
+	}
+
+	.@refine$ = (.@itembyuid_refine > 0 ? "+" + .@itembyuid_refine + " " : "");
+
+	return mesitemlink(.@itembyuid_nameid, 1, sprintf("%s%s%s", .@refine$, getitemname(.@itembyuid_nameid), .@cards$));
 }

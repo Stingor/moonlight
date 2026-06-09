@@ -9,26 +9,21 @@ gon_in,86,13,0	script	Marcel::refine_gon	4_M_LGTMAN,{
 	mes "Je suis un Armsmith... Je peux rafiner toutes les armes ou les armures que tu veux!";
 	mes "Quelle pièce de ton équipement souhaites tu que je refine?";
 Main_Menu:
-	if( (.@equip1$ = getequipname(EQI_HEAD_TOP)) == "-1" ) .@equip1$ = "";
-	if( (.@equip2$ = getequipname(EQI_ARMOR)) == "-1" ) .@equip2$ = "";
-	if( (.@equip3$ = getequipname(EQI_HAND_L)) == "-1" ) .@equip3$ = "";
-	if( (.@equip4$ = getequipname(EQI_HAND_R)) == "-1" ) .@equip4$ = "";
-	if( (.@equip5$ = getequipname(EQI_GARMENT)) == "-1" ) .@equip5$ = "";
-	if( (.@equip6$ = getequipname(EQI_SHOES)) == "-1" ) .@equip6$ = "";
-
-	if( .@equip1$ == "" &&
-		.@equip2$ == "" &&
-		.@equip3$ == "" &&
-		.@equip4$ == "" &&
-		.@equip5$ == "" &&
-		.@equip6$ == "" ) {
-		clear;
-		mes .@npcname$;
-		mes "Wow.. t'es vraiement unstuff en faite... XD";
-		next;
+	setarray .@slot[0], EQI_HEAD_TOP, EQI_ARMOR, EQI_HAND_L, EQI_HAND_R, EQI_GARMENT, EQI_SHOES;
+	for( .@i = size(.@slot); size(.@slot); --.@i) {
+		.@part = arraypop(.@slot);
+		setd(".@equip" + .@i + "$", getequipname(.@part));
+		setd(".@equipref" + .@i, getequiprefinerycnt(.@part));
+		if( getd(".@equipref" + .@i) > 0 )
+			setd(".@equip" + .@i + "$", "+" + getd(".@equipref" + .@i) + " " + getd(".@equip" + .@i + "$"));
 	}
 
-	.@lastpart$ = ((getequipid(@part) > 0)?("Derniere pièce refine - "+getitemname(getequipid(@part))):"");
+	.@lastpart$ = .@ref$ = "";
+	if( getequipid(@part) > 0 ) {
+		if( getequiprefinerycnt(@part) )
+			.@ref$ = "+" + getequiprefinerycnt(@part) + " ";
+		.@lastpart$ = "Derniere pièce refine - " + .@ref$ + getitemname(getequipid(@part));
+	}
 
 	switch( select(.@lastpart$,.@equip1$,.@equip2$,.@equip3$,.@equip4$,.@equip5$,.@equip6$,"^ff0000Batch Refine^000000") ) {
 		case 1:
@@ -36,7 +31,7 @@ Main_Menu:
 			break;
 		case 2:
 			@part = EQI_HEAD_TOP;
-			if( getequipisequiped(EQI_HEAD_TOP) ) goto L_check;
+			if( getequipisequiped(@part) ) goto L_check;
 			clear;
 			mes .@npcname$;
 			mes "Est-ce que tu me demande de refine ton cerveau d'idiot !?";
@@ -44,7 +39,7 @@ Main_Menu:
 			break;
 		case 3:
 			@part = EQI_ARMOR;
-			if( getequipisequiped(EQI_ARMOR) ) goto L_check;
+			if( getequipisequiped(@part) ) goto L_check;
 			clear;
 			mes .@npcname$;
 			mes "Tu me demande de fondre ton corps avec la chaleur de mon feu...!?";
@@ -52,7 +47,7 @@ Main_Menu:
 			break;
 		case 4:
 			@part = EQI_HAND_L;
-			if( getequipisequiped(EQI_HAND_L) ) goto L_check;
+			if( getequipisequiped(@part) ) goto L_check;
 			clear;
 			mes .@npcname$;
 			mes "Je ne peux pas transformer ta main gauche en arme ultime...";
@@ -60,7 +55,7 @@ Main_Menu:
 			break;
 		case 5:
 			@part = EQI_HAND_R;
-			if( getequipisequiped(EQI_HAND_R) ) goto L_check;
+			if( getequipisequiped(@part) ) goto L_check;
 			clear;
 			mes .@npcname$;
 			mes "Je ne peux pas transformer ta main droite en arme ultime...";
@@ -68,17 +63,17 @@ Main_Menu:
 			break;
 		case 6:
 			@part = EQI_GARMENT;
-			if( getequipisequiped(EQI_GARMENT) ) goto L_check;
+			if( getequipisequiped(@part) ) goto L_check;
 			clear;
 			mes .@npcname$;
 			mes "Regarde là... Tu n'a aucune cape sur toi...";
 			break;
 		case 7:
 			@part = EQI_SHOES;
-			if( getequipisequiped(EQI_SHOES) ) goto L_check;
+			if( getequipisequiped(@part) ) goto L_check;
 			clear;
 			mes .@npcname$;
-			mes "Ack!! Ce sont tes pieds!. Je ne peux définitivement pas refine ca... uck!!";
+			mes "Ack!! Ce sont tes pieds!. Je ne peux définitivement pas refine ça... uck!!";
 			emotion 16;
 			break;
 		case 8:
@@ -116,22 +111,20 @@ Main_Menu:
 //Check if the item is refinable...
 L_check:
 	if( getequipisenableref(@part) ) {
-		.@refinerycnt = getequiprefinerycnt(@part); //save refinery count
+		.@refineuid$ = getequipuniqueid(@part);      // exact item instance (anti-swap)
+		.@refinerycnt = getequiprefinerycnt(@part);  // current refine level
 		.@votecost = .@refinerycnt + 6;
 		if( .@refinerycnt < 10 ) { // item not at max refine
 			.@refineitemid = getequipid(@part); // save id of the item
-			switch( getequipweaponlv(@part) ) {
-				case 1: .@material = Phracon;      .@price = 50;    .@safe = 7; break; // arme lv1
-				case 2: .@material = Emveretarcon; .@price = 200;   .@safe = 6; break; // arme lv2
-				case 3: .@material = Oridecon;     .@price = 5000;  .@safe = 5; break; // arme lv3
-				case 4: .@material = Oridecon;     .@price = 20000; .@safe = 4; break; // arme lv4
-				default: .@material = Elunium;     .@price = 2000;  .@safe = 4; break; // armure
-			}
+			callsub F_MarcelRefineCost, .@refineitemid, .@cost;
+			.@material = .@cost[0];
+			.@price    = .@cost[1];
+			.@safe     = .@cost[2];
 			goto L_refinemenu;
 		}
 		clear;
 		mes .@npcname$;
-		mes ""+(getequipweaponlv(@part)?"Cet arme":"Cette armure")+" a atteint le level maximum de refine. Je ne peux rien faire de plus...";
+		mes "Cette " + (getequipweaponlv(@part) ? "arme" : "armure") + " a atteint le level maximum de refine. Je ne peux rien faire de plus...";
 		close;
 	}
 	clear;
@@ -177,35 +170,85 @@ L_refinemenu:
 	if( .@refinerycnt >= .@safe ) goto Lnosafe;
 	clear;
 	mes .@npcname$;
+	mes "Item : " + mesitemlinkuid(.@refineuid$);
+	mes "Safe limit: +" + .@safe;
+	mes "Chance du prochain +1 : ^0055ff" + getequippercentrefinery(@part) + "%^000000";
 	mes "Je peux refine ceci à la limite voulue ou au nombre de fois désiré... C'est ton choix...";
-	menu "La limite s'il te plait.",Lsafe,"Je décide combien de fois.",Lnosafe,"Au maximum je suis un fou...",Lnosafelol,"J'ai assez de votes pour +1 à 100% ("+.@votecost+" votes)",L_voteref,"[Batch] Raffiner plusieurs items identiques";
+	setdialogsize(340,180);
+	menu "La limite s'il te plait.",Lsafe,
+		 "Je décide combien de fois.",Lnosafe,
+		 "Au maximum je suis un fou...",Lnosafelol,
+		 "J'ai assez de votes pour +1 à 100% (" + .@votecost + " votes)",L_voteref,
+		 "[Batch] Raffiner plutot plusieurs items identiques",Main_Batch;
 
 Lsafe:
 	.@refinecnt = .@safe - .@refinerycnt;
 	.@fullprice = .@price * .@refinecnt;
 	clear;
 	mes .@npcname$;
-	mes "Ca va te coûter "+.@refinecnt+" "+getitemname(.@material)+" et "+.@fullprice+" Zeny. C'est bon?";
+	mes "Ca va te coûter " + .@refinecnt + " " + mesitemlink(.@material) + " et " + F_InsertDot(.@fullprice) + " Zeny. C'est bon?";
 	menu "oui",-,"Non...",Lcancel;
 	if( countitem(.@material) < .@refinecnt || Zeny < .@fullprice ) goto Lcancel2;
+	if( getequipuniqueid(@part) != .@refineuid$ ) goto LNoFake;   // anti-swap
 	Zeny -= .@fullprice;
 	delitem .@material,.@refinecnt;
-	goto L_refinesafe;
+	logmes "Refine Safe: +" + .@refinerycnt + " -> +" + .@safe + " " + getitemname(.@refineitemid);
+	refineitem(.@refineuid$, .@safe);   // tous les paliers <= safe sont a 100%
+	emotion 21;
+	clear;
+	mes .@npcname$;
+	mes "C'est fini ! " + mesitemlink(.@refineitemid) + " est maintenant à +" + getrefineuid(.@refineuid$) + ".";
+	setdialogsize(300,150);
+	next;
+	goto Main_Menu;
 
 Lnosafe:
 	clear;
 	.@safe = 0;
 	mes .@npcname$;
 	mes "Combien de fois veux-tu que je raffine ton item?";
-	mes "À moins que tu ai assez voté pour le serveur ("+.@votecost+") !";
-	next;
-	menu "Choisir le nombre",-,"J'ai assez de votes ("+.@votecost+" votes) !",L_voteref;
-	input .@refinecnt,1,10;
+	mes "À moins que tu ai assez voté pour le serveur (" + .@votecost + ") !";
+	switch( select((getrefineuid(.@refineuid$) > 8 ? "" : "Juste +1"),(getrefineuid(.@refineuid$) > 8 ? "" : "Choisir le nombre"),"^ff0000Go +10^000000","J'ai assez de votes (" + .@votecost + " votes) !", "Annuler tout") ) {
+		case 1: .@refinecnt = 1; break;
+		case 2: input .@refinecnt,1,10; break;
+		case 3: .@refinecnt = 10 - .@refinerycnt; break;
+		case 4: goto L_voteref;
+		default: goto Main_Menu;
+	}
 	goto L_confirm_nosafe;
 
 Lnosafelol:
-	.@safe = 0;
 	.@refinecnt = 10 - .@refinerycnt;
+	.@fullprice = .@price * .@refinecnt;
+	clear;
+	mes .@npcname$;
+	mes "Je vais pousser " + mesitemlink(.@refineitemid) + " jusqu'à +10 !";
+	mes "Coût : " + .@refinecnt + " " + mesitemlink(.@material) + " et " + F_InsertDot(.@fullprice) + " Zeny.";
+	mes "^ff0000Au-delà de +" + .@safe + ", l'équipement peut être détruit !^000000";
+	setdialogsize(340,180);
+	menu "Je suis un fou, go !",-,"Non...",Lcancel1;
+	if( countitem(.@material) < .@refinecnt || Zeny < .@fullprice ) goto Lcancel2;
+	if( getequipuniqueid(@part) != .@refineuid$ ) goto LNoFake;
+	Zeny -= .@fullprice;
+	delitem .@material,.@refinecnt;
+	.@before = .@refinerycnt;
+	if( refineitem(.@refineuid$, 10) < 1 ) {
+		emotion 23;
+		logmes "Refine Max Fail(destroyed): +" + .@before + " " + getitemname(.@refineitemid);
+		clear;
+		mes .@npcname$;
+		mes "WAHHHH!!! Détruit... Je t'avais prévenu de ce qui pourrait arriver...";
+		setdialogsize(300,150);
+		close;
+	}
+	emotion 21;
+	logmes "Refine Max: +" + .@before + " -> +" + getrefineuid(.@refineuid$) + " " + getitemname(.@refineitemid);
+	clear;
+	mes .@npcname$;
+	mes "C'est fini ! " + mesitemlink(.@refineitemid) + " est maintenant à +" + getrefineuid(.@refineuid$) + ".";
+	setdialogsize(300,150);
+	next;
+	goto Main_Menu;
 
 L_confirm_nosafe:
 	if( .@refinecnt < 1 ) goto Lcancel3; //fixed by Lupus
@@ -214,7 +257,7 @@ L_confirm_nosafe:
 	.@fullprice = .@price * .@refinecnt;
 	clear;
 	mes .@npcname$;
-	mes "Ca va te coûter "+.@refinecnt+" "+getitemname(.@material)+" et "+.@fullprice+" Zeny... C'est bon?";
+	mes "Ca va te coûter " + .@refinecnt + " " + mesitemlink(.@material) + " et " + F_InsertDot(.@fullprice) + " Zeny... C'est bon?";
 	menu "oui...",-,"non...",Lcancel;
 	goto Lwarn; // .@safe vaut 0 ici : toujours via Lwarn
 
@@ -222,7 +265,7 @@ Lwarn:
 	clear;
 	.@refinecheck -= .@safe;
 	mes .@npcname$;
-	mes "Je vais essayer de refine l'équipement à "+.@refinecheck+". Si la limite est dépassée, ton équipement sera peut être détruit... ok?";
+	mes "Je vais essayer de refine l'équipement à " + .@refinecheck + ". Si la limite est dépassée, ton équipement sera peut être détruit... ok?";
 	menu "oui",-,"Non...",Lcancel1;
 	if( (countitem(.@material) < .@refinecnt) || (Zeny < .@fullprice) ) goto Lcancel2;
 	Zeny -= .@fullprice;
@@ -235,33 +278,18 @@ Lcancel3:
 	mes "Je ne peux pas refine cet item plus de fois.";
 	close;
 
-// SubFunction: Safe Refine ---------------------
-L_refinesafe:
-	if( getequipisequiped(@part) == 0 ) goto LNoItem; // hacker has removed the item (no changed,why?)
-	if( getequipid(@part) != .@refineitemid || getequippercentrefinery(@part) < 100) goto LNoFake; // hacker has changed the item
-	do {
-		logmes "Refine Success: " + logequip(@part);
-		successrefitem @part;
-		sleep2 200;
-		.@refinecnt--;
-	} while( .@refinecnt != 0 );
-	emotion 21;
-	mes .@npcname$;
-	mes "C'est fini !";
-	goto Main_Menu;
-
 L_refinenumber:
-	if( getequipisequiped(@part) == 0 ) goto LNoItem; // hacker has removed the item (no changed,why?)
-	if( getequipid(@part) != .@refineitemid ) goto LNoFake; // hacker has changed the item
+	if( getequipisequiped(@part) == 0 ) goto LNoItem; // hacker has removed the item
+	if( getequipid(@part) != .@refineitemid || getequipuniqueid(@part) != .@refineuid$ ) goto LNoFake; // anti-swap (id + uid)
 	mes .@npcname$;
 	mes "Clang,clang!!!";
-	do {
+	while( .@refinecnt > 0 ) {
 		if( getequippercentrefinery(@part) <= rand(100) ) goto Lfail_number;
-		logmes "Refine Success: " + logequip(@part);
+		logmes "Refine Success: " + logequipuid(.@refineuid$);
 		successrefitem @part;
 		sleep2 200;
 		.@refinecnt--;
-	} while( .@refinecnt != 0 );
+	}
 	emotion 21;
 	mes .@npcname$;
 	mes "C'est fini !";
@@ -299,7 +327,8 @@ L_voteref:
 				mes "Ok ! Mieux vaut être sûr !";
 				break;
 		}
-		close;
+		clear;
+		gotomain;
 	}
 	mes .@npcname$;
 	mes "Vous n'avez pas assez de Votes ("+.@votecost+").";
@@ -322,13 +351,10 @@ L_batch:
 	mes "Item : " + mesitemlink(.@batchitemid);
 	mes "Disponible : ^5050bd"+.@batch_qty_max+"^000000";
 	setdialogsize(280,180);
-	switch( getiteminfo(.@batchitemid, ITEMINFO_WEAPONLEVEL) ) {
-		case 1:  .@material = Phracon;      .@price = 50;    .@safe = 7; break; // arme lv1
-		case 2:  .@material = Emveretarcon; .@price = 200;   .@safe = 6; break; // arme lv2
-		case 3:  .@material = Oridecon;     .@price = 5000;  .@safe = 5; break; // arme lv3
-		case 4:  .@material = Oridecon;     .@price = 20000; .@safe = 4; break; // arme lv4
-		default: .@material = Elunium;      .@price = 2000;  .@safe = 4; break; // armure
-	}
+	callsub F_MarcelRefineCost, .@batchitemid, .@cost;
+	.@material = .@cost[0];
+	.@price    = .@cost[1];
+	.@safe     = .@cost[2];
 	switch( select("Jusqu'à la limite safe +" + .@safe, "Je choisis le niveau cible", "Au max (+10)", "Annuler") ) {
 		case 1: .@batch_goal = .@safe; goto L_batch_qty;
 		case 2: break;
@@ -507,6 +533,16 @@ L_batch_qty:
 	}
 	next;
 	goto Main_Batch;
+
+F_MarcelRefineCost:
+	switch( getiteminfo(getarg(0), ITEMINFO_WEAPONLEVEL) ) {
+		case 1: setarray getarg(1), Phracon, 50, 7; break;       // arme lv1
+		case 2: setarray getarg(1), Emveretarcon, 200, 6; break; // arme lv2
+		case 3: setarray getarg(1), Oridecon, 5000, 5; break;    // arme lv3
+		case 4: setarray getarg(1), Oridecon, 20000, 4; break;   // arme lv4
+		default: setarray getarg(1), Elunium, 2000, 4; break;    // armure
+	}
+	return;
 }
 
 //============================================================
