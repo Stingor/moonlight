@@ -822,9 +822,9 @@ def groq_chat(messages: list) -> str:
         "model": LLM_MODEL,
         "messages": messages,
         "max_tokens": 600,     # filet de sécurité HAUT : la brièveté vient du prompt, pas du plafond
-        "temperature": 1,   # plus de mordant/variété dans les vannes
-        "frequency_penalty": 0.8,   # casse le template répétitif (il recopiait ses réponses)
-        "presence_penalty": 0.8,
+        "temperature": 0.8,   # plus de mordant/variété dans les vannes
+        "frequency_penalty": 0.6,   # casse le template répétitif (il recopiait ses réponses)
+        "presence_penalty": 0.6,
     }).encode("utf-8")
 
     headers = {
