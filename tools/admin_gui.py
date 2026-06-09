@@ -220,6 +220,7 @@ class AdminGUI:
         self.log.tag_config("err", foreground="#c00")
         self.log.tag_config("info", foreground="#666")
         self.log.tag_config("out", foreground="#222")
+        self._bind_copy_menu(self.log)
         paned.add(cmd_frame, weight=1)
 
         srv_frame = ttk.LabelFrame(paned, text="Console serveur")
@@ -232,7 +233,47 @@ class AdminGUI:
         self.srvlog.tag_config("srv_debug", foreground="#5cc")
         self.srvlog.tag_config("srv_err", foreground="#e55")
         self.srvlog.tag_config("srv_def", foreground="#ccc")
+        self._bind_copy_menu(self.srvlog)
         paned.add(srv_frame, weight=1)
+
+    def _bind_copy_menu(self, widget):
+        """Attach a right-click context menu with copy actions to a Text widget."""
+        menu = tk.Menu(widget, tearoff=0)
+        menu.add_command(label="Copier la sélection",
+                         command=lambda: self._copy_selection(widget))
+        menu.add_command(label="Tout copier",
+                         command=lambda: self._copy_all(widget))
+        menu.add_separator()
+        menu.add_command(label="Effacer",
+                         command=lambda: self._clear_log(widget))
+
+        def show_menu(event):
+            try:
+                widget.selection_get()
+                menu.entryconfig("Copier la sélection", state="normal")
+            except tk.TclError:
+                menu.entryconfig("Copier la sélection", state="disabled")
+            menu.tk_popup(event.x_root, event.y_root)
+
+        widget.bind("<Button-3>", show_menu)
+
+    def _copy_selection(self, widget):
+        try:
+            text = widget.selection_get()
+            self.root.clipboard_clear()
+            self.root.clipboard_append(text)
+        except tk.TclError:
+            pass
+
+    def _copy_all(self, widget):
+        text = widget.get("1.0", "end-1c")
+        self.root.clipboard_clear()
+        self.root.clipboard_append(text)
+
+    def _clear_log(self, widget):
+        widget.configure(state="normal")
+        widget.delete("1.0", "end")
+        widget.configure(state="disabled")
 
     # ---- logging ------------------------------------------------------------
     def _log(self, text, tag="info"):
