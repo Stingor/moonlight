@@ -5916,6 +5916,58 @@ Example:
 
 ---------------------------------------
 
+*getuidlist("<unique_id>"{,<char_id>})
+
+This function looks up an inventory item by its unique_id (passed as a string,
+since unique IDs are 64-bit values - see 'getequipuniqueid'). When the item is
+found it fills a set of .@itembyuid_* scope variables with every field of that
+item and returns 1. If no item with that unique_id is found it returns 0 and
+sets nothing.
+
+Instance fields (always set when the item is found):
+    .@itembyuid_nameid        item ID
+    .@itembyuid_idx           inventory index
+    .@itembyuid_amount        stack amount
+    .@itembyuid_equip         equip location bitmask (0 if not equipped)
+    .@itembyuid_refine        refine level
+    .@itembyuid_identify      0 = unidentified, 1 = identified
+    .@itembyuid_attribute     1 = broken
+    .@itembyuid_expire        rental expire timestamp (0 if none)
+    .@itembyuid_bound         bind type (0 = not bound)
+    .@itembyuid_enchantgrade  enchant grade
+    .@itembyuid_tradable      1 if the item can currently be traded
+    .@itembyuid_favorite      1 if flagged as favorite
+    .@itembyuid_card1 .. _card4               the 4 card/slot values
+    .@itembyuid_option_id1 .. _option_id5     random option IDs
+    .@itembyuid_option_value1 .. _option_value5
+    .@itembyuid_option_parameter1 .. _option_parameter5
+
+Static database fields (set only when the item ID exists in the item DB):
+    .@itembyuid_type          IT_* item type
+    .@itembyuid_subtype       weapon/ammo subtype
+    .@itembyuid_position      equip slot bitmask from the DB
+    .@itembyuid_slot          number of card slots
+    .@itembyuid_weaponlevel   weapon level (only for weapons)
+    .@itembyuid_armorlevel    armor level (only for armors)
+    .@itembyuid_equiplvlmin   minimum equip level
+    .@itembyuid_equiplvlmax   maximum equip level
+    .@itembyuid_weight        weight
+    .@itembyuid_atk           attack
+    .@itembyuid_def           defense
+    .@itembyuid_matk          magic attack (renewal builds only)
+
+For a single field, 'getiteminfobyuid' is lighter than reading the whole set.
+
+Example:
+
+    .@uid$ = getequipuniqueid(EQI_HAND_R);
+    if (getuidlist(.@uid$)) {
+        mes "+" + .@itembyuid_refine + " " + getitemname(.@itembyuid_nameid);
+        mes "Tradable: " + .@itembyuid_tradable;
+    }
+
+---------------------------------------
+
 *unequip <equipment slot>{,<char_id>};
 
 This command will unequip whatever is currently equipped in the invoking
