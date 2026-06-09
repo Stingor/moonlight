@@ -3,7 +3,8 @@
 //============================================================
 
 gon_in,86,13,0	script	Marcel::refine_gon	4_M_LGTMAN,{
-	.@npcname$ = "["+^6e4200strnpcinfo(0)^000000+"]";
+	disable_items;
+	.@npcname$ = "[^6e4200"+strnpcinfo(0)+"^000000]";
 	mes .@npcname$;
 	mes "Je suis un Armsmith... Je peux rafiner toutes les armes ou les armures que tu veux!";
 	mes "Quelle pièce de ton équipement souhaites tu que je refine?";
@@ -23,13 +24,13 @@ Main_Menu:
 		.@equip6$ == "" ) {
 		clear;
 		mes .@npcname$;
-		mes "Wow.. t'es vraiement unstuff en faite...";
-		Close;
+		mes "Wow.. t'es vraiement unstuff en faite... XD";
+		next;
 	}
 
 	.@lastpart$ = ((getequipid(@part) > 0)?("Derniere pièce refine - "+getitemname(getequipid(@part))):"");
 
-	switch( select(.@lastpart$,.@equip1$,.@equip2$,.@equip3$,.@equip4$,.@equip5$,.@equip6$) ) {
+	switch( select(.@lastpart$,.@equip1$,.@equip2$,.@equip3$,.@equip4$,.@equip5$,.@equip6$,"^ff0000Batch Refine^000000") ) {
 		case 1:
 			if( getequipisequiped(@part) ) goto L_check;
 			break;
@@ -80,6 +81,35 @@ Main_Menu:
 			mes "Ack!! Ce sont tes pieds!. Je ne peux définitivement pas refine ca... uck!!";
 			emotion 16;
 			break;
+		case 8:
+			clear;
+	Main_Batch:
+			while( size(.@refinelist_id) > 0 ) arraypop(.@refinelist_id);
+			while( size(.@refinelist_uid$) > 0 ) arraypop(.@refinelist_uid$);
+			while( size(.@batchitems) > 0 ) arraypop(.@batchitems);
+			mes .@npcname$;
+			mes "Je peux refine un paquet d'items identiques!";
+			getinventorylist();
+			for( .@i = 0; .@i < @inventorylist_count; ++.@i ) {
+				if( countitem(@inventorylist_id[.@i]) < 2 ) continue; // skip items for which the player doesn't have at least 2
+				if( @inventorylist_type[.@i] == 0 || @inventorylist_type[.@i] & ~(IT_ARMOR|IT_WEAPON) ) continue; // skip non-armor and non-weapon items
+				if( @inventorylist_card1[.@i] > 0 || @inventorylist_card2[.@i] > 0 || @inventorylist_card3[.@i] > 0 || @inventorylist_card4[.@i] > 0 ) continue; // skip carded items
+				if( @inventorylist_refine[.@i] >= 10 ) continue; // skip items already at +10
+				if( @inventorylist_favorite[.@i] == 1 ) continue; // skip favorited items
+				if( inarray(.@batchitems, @inventorylist_id[.@i]) == -1 ) arraypush .@batchitems, @inventorylist_id[.@i];
+				arraypush .@refinelist_id, @inventorylist_id[.@i];
+				arraypush .@refinelist_uid$, @inventorylist_uid[.@i];
+			}
+			if( size(.@batchitems) < 1 ) {
+				clear;
+				mes .@npcname$;
+				mes "Tu n'as aucun item éligible pour le batch refine (pas d'arme ou d'armure, ou déjà à +10, ou cardé).";
+				mes "Assure toi d'avoir au moins 2 exemplaires d'un même item pour pouvoir utiliser le batch refine aussi.";
+				mes "Si l'item n'as pas d'uniqueid disponible, il ne peut pas être raffiné en lot voir avec le staff.";
+				setdialogsize(280,280);
+				close;
+			}
+			goto L_batch;
 	}
 	goto Main_Menu;
 
@@ -148,7 +178,7 @@ L_refinemenu:
 	clear;
 	mes .@npcname$;
 	mes "Je peux refine ceci à la limite voulue ou au nombre de fois désiré... C'est ton choix...";
-	menu "La limite s'il te plait.",Lsafe,"Je décide combien de fois.",Lnosafe,"Au maximum je suis un fou...",Lnosafelol,"J'ai assez de votes pour +1 à 100% ("+.@votecost+" votes)",L_voteref;
+	menu "La limite s'il te plait.",Lsafe,"Je décide combien de fois.",Lnosafe,"Au maximum je suis un fou...",Lnosafelol,"J'ai assez de votes pour +1 à 100% ("+.@votecost+" votes)",L_voteref,"[Batch] Raffiner plusieurs items identiques";
 
 Lsafe:
 	.@refinecnt = .@safe - .@refinerycnt;
@@ -274,6 +304,209 @@ L_voteref:
 	mes .@npcname$;
 	mes "Vous n'avez pas assez de Votes ("+.@votecost+").";
 	close;
+
+// Batch Refine ================================================
+L_batch:
+	// on construit le menu de sélection d'item à batcher
+	.@menu$ = "";
+	for( .@i = 0; .@i < size(.@batchitems); ++.@i )
+		.@menu$ += countitem(.@batchitems[.@i])+" x "+getitemname(.@batchitems[.@i])+":";
+	.@menu$ += "Annuler";
+	.@s = select(.@menu$) - 1;
+	if( .@batchitems[.@s] == 0 ) goto Main_Menu;
+	.@batchitemid = .@batchitems[.@s];
+	.@batch_qty_max = countitem(.@batchitemid);
+	clear;
+	mes .@npcname$;
+	mes "=== Mode Batch ===";
+	mes "Item : " + mesitemlink(.@batchitemid);
+	mes "Disponible : ^5050bd"+.@batch_qty_max+"^000000";
+	setdialogsize(280,180);
+	switch( getiteminfo(.@batchitemid, ITEMINFO_WEAPONLEVEL) ) {
+		case 1:  .@material = Phracon;      .@price = 50;    .@safe = 7; break; // arme lv1
+		case 2:  .@material = Emveretarcon; .@price = 200;   .@safe = 6; break; // arme lv2
+		case 3:  .@material = Oridecon;     .@price = 5000;  .@safe = 5; break; // arme lv3
+		case 4:  .@material = Oridecon;     .@price = 20000; .@safe = 4; break; // arme lv4
+		default: .@material = Elunium;      .@price = 2000;  .@safe = 4; break; // armure
+	}
+	switch( select("Jusqu'à la limite safe +" + .@safe, "Je choisis le niveau cible", "Au max (+10)", "Annuler") ) {
+		case 1: .@batch_goal = .@safe; goto L_batch_qty;
+		case 2: break;
+		case 3: .@batch_goal = 10; goto L_batch_qty;
+		default: goto Main_Menu;
+	}
+	clear;
+	mes .@npcname$;
+	mes "Niveau de refine ciblé ? (entre +1 et +10)";
+	input .@batch_goal, 0, 10;
+	if( .@batch_goal < 1 ) goto Main_Batch;
+L_batch_qty:
+	while( size(.@ref_id) > 0 ) arraypop(.@ref_id);
+	while( size(.@ref_uid$) > 0 ) arraypop(.@ref_uid$);
+	.@totalref = 0;
+	while( size(.@refinelist_id) > 0 ) {
+		.@itemid = arraypop(.@refinelist_id);
+		.@itemuid$ = arraypop(.@refinelist_uid$);
+		.@itemref = getrefineuid(.@itemuid$);
+		if( .@itemid < 1 ) break; // no more items to sort
+		if( .@itemid != .@batchitemid ) continue; // skip items that are not the selected batch item (can happen if the player has more than 2 different items eligible for batch refine)
+		if( .@itemref >= .@batch_goal ) continue; // skip items that are already at or above the target refine level
+		arraypush .@ref_id, .@itemid;
+		arraypush .@ref_uid$, .@itemuid$;
+		.@totalref += .@itemref;
+	}
+	.@batch_qty = size(.@ref_id);
+	if( .@batch_qty < 1 ) {
+		clear;
+		mes .@npcname$;
+		mes "Tes items sont déjà refine à +"+.@batch_goal+" ou plus.";
+		next;
+		goto Main_Batch;
+	}
+	.@batch_issafe  = (.@batch_goal <= .@safe);
+
+	clear;
+	mes .@npcname$;
+	mes "=== Récapitulatif ===";
+	mes .@batch_qty+" x "+mesitemlink(.@batchitemid);
+	mes "Ciblé: +"+.@batch_goal;
+	mes "Coût estimé : "+(.@batch_goal * .@batch_qty - .@totalref)+" "+mesitemlink(.@material)
+	    +" et "+F_InsertDot(.@price * .@batch_goal * .@batch_qty - .@price *.@totalref)+"z";
+	if( .@batch_issafe == 0 ) {
+		mes "^ff0000ATTENTION : au-delà de +"+.@safe+", des items peuvent être détruits !^000000";
+	}
+	setdialogsize(280,280);
+	menu "C'est parti !",-,"Annuler",Main_Menu;
+	clear;
+	.@batch_done      = 0;
+	.@batch_success   = 0;
+	.@batch_fail      = 0;
+	.@batch_qty++; // shift 1
+	.@solo = 0;
+	while( size(.@log$) ) arraypop(.@log$);
+	while( --.@batch_qty > 0 ) {
+		.@itemid = arraypop(.@ref_id);
+		.@itemuid$ = arraypop(.@ref_uid$);
+		.@itemref = getrefineuid(.@itemuid$);
+		if( .@itemid < 1 ) break; // no more items to refine
+		if( .@itemid != .@batchitemid ) continue; // skip items that are not the selected batch item (can happen if the player has more than 2 different items eligible for batch refine)
+		if( .@itemref >= .@batch_goal ) continue; // skip items that are already at or above the target refine level
+		if( .@batch_qty < 1 ) break; // no more items to refine
+	L_retry_item:
+		.@item_cnt = .@batch_goal - .@itemref; // number of items needed to reach the target refine level from the current refine level
+		if( countitem(.@material) < .@item_cnt ) {
+			clear;
+			mes .@npcname$;
+			mes "Plus assez de "+mesitemlink(.@material)+"! Batch interrompu après "+.@batch_done+" items.";
+			mes "Il en faut "+.@item_cnt+" pour le prochain item.";
+			mes "Et "+(.@item_cnt * .@batch_qty)+" pour le reste des "+mesitemlink(.@itemid)+".";
+			mes "Je peux vous en vendre mais c'est pas cheap ! C'est le prix de la flemme!";
+			mes "Log des 20 dernier refines:";
+			.@tt = 0;
+			if( size(.@log$) ) {
+				for( .@i = size(.@log$) + 1; .@i > 0; --.@i){
+					mes .@log$[.@i - 1];
+					if( ++.@tt >= 20 ) break;
+				}
+			}
+			.@opt1$ = "Acheter " + .@item_cnt + "x " + getitemname(.@material) + " pour " + F_InsertDot(.@item_cnt * .@price * 5) + "z - (" + F_InsertDot(.@price * 5) + "z par " + getitemname(.@material) + ")";
+			.@opt2$ = (.@batch_qty > 1 ? ("Acheter " + (.@item_cnt * .@batch_qty) + "x " + getitemname(.@material) + " pour " + F_InsertDot(.@item_cnt * .@price * 5 * .@batch_qty) + "z - (" + F_InsertDot(.@price * 5 * .@item_cnt) + "z par " + getitemname(.@itemid) + ")") : "");
+			switch( select(.@opt1$, .@opt2$, "Abandonner") ) {
+				case 1:
+					if( checkweight(.@material, .@item_cnt) == 0 ) {
+						clear;
+						mes .@npcname$;
+						mes "Plus assez de place pour porter le matériel nécessaire ! Batch interrompu après "+.@batch_done+" items.";
+						close;
+					}
+					if( Zeny < (.@item_cnt * .@price * 5) ) {
+						clear;
+						mes .@npcname$;
+						mes "Plus assez de Zeny pour acheter le matériel nécessaire ! Batch interrompu après "+.@batch_done+" items.";
+						close;
+					}
+					Zeny -= (.@item_cnt * .@price * 5);
+					.@totalzeny += (.@item_cnt * .@price * 5);
+					getitem .@material, .@item_cnt;
+					.@solo = 1;
+					break;
+				case 2:
+					if( checkweight(.@material, (.@item_cnt * .@batch_qty)) == 0 ) {
+						clear;
+						mes .@npcname$;
+						mes "Plus assez de place pour porter le matériel nécessaire ! Batch interrompu après "+.@batch_done+" items.";
+						close;
+					}
+					if( Zeny < (.@item_cnt * .@price * 5 * .@batch_qty) ) {
+						clear;
+						mes .@npcname$;
+						mes "Plus assez de Zeny pour acheter tout le matériel restant ! Batch interrompu après "+.@batch_done+" items.";
+						close;
+					}
+					Zeny -= (.@item_cnt * .@price * 5 * .@batch_qty);
+					.@totalzeny += (.@item_cnt * .@price * 5 * .@batch_qty);
+					getitem .@material, (.@item_cnt * .@batch_qty);
+					break;
+				default: goto Main_Batch;
+			}
+			goto L_retry_item; // retry the same item with the newly bought materials
+		}
+		if( Zeny < .@item_cnt * .@price ) {
+			clear;
+			mes .@npcname$;
+			mes "Plus assez de Zeny ! Batch interrompu après "+.@batch_done+" items.";
+			close;
+		}
+		if( .@solo == 0 ) sleep2 50;
+		Zeny -= .@item_cnt * .@price;
+		.@totalzeny += .@item_cnt * .@price;
+		delitem .@material, .@item_cnt;
+		.@batch_done++;
+		.@result = refineitem(.@itemuid$, .@batch_goal);
+		if( .@result == -1 ) {
+			logmes "Batch Refine Fail(item destroyed): " + logequipuid(.@itemuid$);
+			arraypush(.@log$,.@batch_done + " -> " + "^ff0000Refine Fail :S !^000000 Item +" + .@itemref + " détruit avant d'arriver à +" + .@batch_goal + ".");
+			.@batch_fail++;
+		}
+		else if( .@result == 0 ) {
+			logmes "Batch Refine Error: " + logequipuid(.@itemuid$);
+			arraypush(.@log$,.@batch_done + " -> " + "^d32f2fRefine Error :S !^000000");
+		}
+		else {
+			logmes "Batch Refine Success: " + logequipuid(.@itemuid$);
+			arraypush(.@log$,.@batch_done + " -> " + "^25ac14Refine réussit !^000000 de +" + .@itemref + " à +"+.@batch_goal);
+			.@batch_success++;
+		}
+		if( .@solo == 0 || .@batch_qty == 1 ) {
+			clear;
+			mes .@npcname$;
+			mes "Log des 20 dernier refines:";
+			.@tt = 0;
+			for( .@i = size(.@log$) + 1; .@i > 0; --.@i){
+				mes .@log$[.@i - 1];
+				if( ++.@tt >= 20 ) break;
+			}
+			sleep2 50;
+			setdialogsize(380,350);
+		}
+	}
+	next;
+	mes .@npcname$;
+	if( .@batch_done ) {
+		mes "Batch terminé !";
+		mes .@batch_done + " items traités.";
+		mes .@batch_fail + " items ^d32f2fdétruits^000000.";
+		mes .@batch_success + " items ^25ac14réussis^000000.";
+		mes .@totalzeny + " zeny dépensés.";
+		setdialogsize(280,220);
+		.@totalzeny = 0;
+	}
+	else {
+		mes "Tous les items sont déjà refine à +" + .@batch_goal + " ou plus.";
+		setdialogsize(280,120);
+	}
+	next;
+	goto Main_Batch;
 }
 
 //============================================================
