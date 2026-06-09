@@ -448,7 +448,6 @@ Mission_Status_MVP:
 	Mission_MVP = 0;
 	.@prepoints = #KAFRAPOINTS;
 	getitem Convex_Mirror,1; // Convex_Mirror
-	.@pointss = .@pts;
 	if( Zeny <= MAX_ZENY - .@zeny )
 		Zeny += .@zeny;
 	else if ( BankVault <= MAX_ZENY - .@zeny ) {
@@ -467,13 +466,7 @@ Mission_Status_MVP:
 	else
 		query_sql("UPDATE `char_reg_num` SET `value` = " + Mission_Total_MVP + " WHERE `char_id` = " + getcharid(0) + " AND `key` = 'Mission_Total_MVP'");
 
-	if( .@pointss > 10 ) {
-		dispbottom "Vous gagnez rien (stingor est averti qu'un bug s'est produit).";
-		logmes "un bug est arrivé, stingor est au courant xD  "+.@pts+" -> "+.@pointss;
-		Mission_MVP_ID = 0;
-		end;
-	}
-	#KAFRAPOINTS += .@pointss;
+	#KAFRAPOINTS += .@pts;
 	if( #Mission_MVP_Reset > 2 )
 		#Mission_MVP_Reset -= 2;
 	else
@@ -661,7 +654,7 @@ L_PickMvpMob:
 		.@tries++;
 		.@cand = getrandmobid(MOBG_BLOODY_DEAD_BRANCH, RMF_NONE);
 		// Blacklist (encadre de virgules pour eviter les sous-chaines, ex: 88 vs 1088)
-		if( compare(","+.Blacklist$+",", ","+.@id+",") ) continue;
+		if( compare(","+.Blacklist$+",", ","+.@cand+",") ) continue;
 		if( .@cand <= 0 ) continue;
 		if( getmonsterinfo(.@cand, MOB_MODE) & MD_MVP )
 			@hm_mvp = .@cand;
