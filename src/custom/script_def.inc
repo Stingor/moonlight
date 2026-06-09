@@ -56,3 +56,6 @@
 	BUILDIN_DEF(addtempnpc,"siiis?"),        // mapname, x, y, sprite, dispname -> gid, dir
 	BUILDIN_DEF(removetempnpc,"i"),         // gid -> 1/0
 	BUILDIN_DEF(getmobxy,"is??"),           // mob_id, mapname{, &x, &y} -> 1/0 (live mob real coords)
+	BUILDIN_DEF(getitemtype,"v"),           // item_id|"name" -> IT_* type, -1 si inconnu
+	BUILDIN_DEF(refineitem,"si?"),          // "uid", goal(1..MAX_REFINE){, char_id} -> 1 goal atteint / -1 detruit / 0 echec/erreur
+	BUILDIN_DEF(getrefineuid,"s?"),         // "uid"{, char_id} -> refine level, -1 si introuvable

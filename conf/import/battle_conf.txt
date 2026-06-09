@@ -568,6 +568,7 @@ feature.itemlink: on
 feature.mesitemlink: on
 feature.mesitemlink_brackets: no
 feature.mesitemlink_dbname: no
+feature.mesitemlink_trailing_space: yes
 feature.mesitemicon: yes
 
 feature.stylist: on

@@ -1457,6 +1457,23 @@ BUILDIN_FUNC(getallmvprespawn)
 	return SCRIPT_CMD_SUCCESS;
 }
 
+/* getitemtype(<item_id|"item_name">) -> item type (IT_*), or -1 if unknown.
+ * Raccourci direct pour getiteminfo(<id>, ITEMINFO_TYPE).
+ * Accepte un ID numérique ou un nom (AegisName).
+ */
+BUILDIN_FUNC(getitemtype)
+{
+	std::shared_ptr<item_data> i_data;
+
+	if (script_isstring(st, 2))
+		i_data = item_db.searchname(script_getstr(st, 2));
+	else
+		i_data = item_db.find(script_getnum(st, 2));
+
+	script_pushint(st, i_data != nullptr ? (int32)i_data->type : -1);
+	return SCRIPT_CMD_SUCCESS;
+}
+
 /* addtempnpc "map", x, y, sprite, "name"{, dir} -> gid (0 = failure)
  * Spawns at a random walkable cell 3-4 cells away from (x,y), not on the exact spot.
  * dir: 0=N 1=NW 2=W 3=SW 4=S(default) 5=SE 6=E 7=NE */
@@ -1557,5 +1574,150 @@ BUILDIN_FUNC(getmobxy)
 	fill_int(5, fy);
 
 	script_pushint(st, found ? 1 : 0);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/* refineitem("<unique_id>", <goal>{, <char_id>})
+ * Refine the inventory item identified by its unique_id until it reaches the
+ * <goal> refine level. <goal> is capped between 1 and MAX_REFINE.
+ * Refine chances and breaking rate come from the refine database (refine_db) —
+ * so "safe" levels (100% chance) always succeed, and only the levels above the
+ * safe limit can fail / destroy the item. The progression stops as soon as the
+ * goal is reached, the item breaks, or a non-breaking failure occurs.
+ * Returns:
+ *    1 : the item reached the goal refine level (already at it counts too)
+ *   -1 : the item was destroyed while refining
+ *    0 : the goal was not reached (a failure stopped it before the goal), or
+ *        the item could not be refined (not found, no_refine, broken).
+ */
+BUILDIN_FUNC(refineitem)
+{
+	TBL_PC *sd;
+	if (!script_accid2sd(4, sd)) {
+		script_pushint(st, 0);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	const char* uid_str = script_getstr(st, 2);
+	uint64 uid = (uint64)strtoull(uid_str, nullptr, 10);
+	if (uid == 0) {
+		ShowError("buildin_refineitem: invalid unique_id \"%s\"\n", uid_str);
+		script_pushint(st, 0);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	int32 goal = cap_value(script_getnum(st, 3), 1, MAX_REFINE);
+
+	for (int32 i = 0; i < MAX_INVENTORY; i++) {
+		struct item *item = &sd->inventory.u.items_inventory[i];
+		if (item->nameid == 0 || item->unique_id != uid)
+			continue;
+
+		struct item_data *id = sd->inventory_data[i];
+
+		// Item must exist, be refinable and not broken
+		if (id == nullptr || id->flag.no_refine || item->attribute) {
+			script_pushint(st, 0);
+			return SCRIPT_CMD_SUCCESS;
+		}
+
+		// Already at or above the requested refine level -> nothing to do
+		if (item->refine >= goal) {
+			script_pushint(st, 1);
+			return SCRIPT_CMD_SUCCESS;
+		}
+
+		// Refine one level at a time until the goal is reached, the item
+		// breaks, or a non-breaking failure stops the progression.
+		while (item->refine < goal) {
+			std::shared_ptr<s_refine_level_info> info = refine_db.findLevelInfo(*id, *item);
+			if (info == nullptr || info->costs.empty())
+				break;
+
+			std::shared_ptr<s_refine_cost> cost = util::umap_find(info->costs, (uint16)REFINE_COST_NORMAL);
+			if (cost == nullptr)
+				break;
+
+			log_pick_pc(sd, LOG_TYPE_SCRIPT, -1, item);
+
+			// chance is out of 10000 — safe levels are 10000 (always succeed)
+			if (cost->chance >= (rnd() % 10000)) {
+				// Success
+				item->refine = cap_value(item->refine + 1, 0, MAX_REFINE);
+				log_pick_pc(sd, LOG_TYPE_SCRIPT, 1, item);
+				if (id->type == IT_WEAPON)
+					achievement_update_objective(sd, AG_ENCHANT_SUCCESS, 2, id->weapon_level, item->refine);
+			} else {
+				// Failure beyond the safe level
+				achievement_update_objective(sd, AG_ENCHANT_FAIL, 1, 1);
+
+				// The item breaks and is destroyed — pc_delitem unequips,
+				// recalculates the status and refreshes the client by itself.
+				if (cost->breaking_rate > 0 && (rnd() % 10000) < cost->breaking_rate) {
+					clif_refine(*sd, i, ITEMREFINING_FAILURE);
+					clif_delitem(*sd, i, 1, 3);
+					pc_delitem(sd, i, 1, 0, 2, LOG_TYPE_SCRIPT);
+					clif_misceffect(*sd, NOTIFYEFFECT_REFINE_FAILURE);
+					script_pushint(st, -1);
+					return SCRIPT_CMD_SUCCESS;
+				}
+
+				// Stop on the first failure that did not destroy the item
+				break;
+			}
+		}
+
+		bool reached = (item->refine >= goal);
+
+		// Show the result and refresh the client / equip bonuses
+		clif_misceffect(*sd, reached ? NOTIFYEFFECT_REFINE_SUCCESS : NOTIFYEFFECT_REFINE_FAILURE);
+		clif_refine(*sd, i, reached ? ITEMREFINING_SUCCESS : ITEMREFINING_FAILURE2);
+		clif_delitem(*sd, i, 1, 3);
+		clif_additem(sd, i, 1, 0);
+		clif_equiplist(sd);
+		if (item->equip)
+			status_calc_pc(sd, SCO_FORCE);
+
+		script_pushint(st, reached ? 1 : 0);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	// unique_id not found in the inventory
+	script_pushint(st, 0);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/* getrefineuid("<unique_id>"{, <char_id>})
+ * Returns the refine level of the inventory item identified by its unique_id
+ * (passed as a string, since unique IDs are 64-bit values).
+ * Returns -1 if the unique_id is not found in the player's inventory.
+ */
+BUILDIN_FUNC(getrefineuid)
+{
+	TBL_PC *sd;
+	if (!script_accid2sd(3, sd)) {
+		script_pushint(st, -1);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	const char* uid_str = script_getstr(st, 2);
+	uint64 uid = (uint64)strtoull(uid_str, nullptr, 10);
+	if (uid == 0) {
+		ShowError("buildin_getrefineuid: invalid unique_id \"%s\"\n", uid_str);
+		script_pushint(st, -1);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	for (int32 i = 0; i < MAX_INVENTORY; i++) {
+		struct item *it = &sd->inventory.u.items_inventory[i];
+		if (it->nameid == 0 || it->unique_id != uid)
+			continue;
+
+		script_pushint(st, it->refine);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	// unique_id not found in the inventory
+	script_pushint(st, -1);
 	return SCRIPT_CMD_SUCCESS;
 }

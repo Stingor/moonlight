@@ -8901,6 +8901,7 @@ static const struct _battle_data {
 	{ "feature.mesitemlink",                &battle_config.feature_mesitemlink,             1,      0,      1,              },
 	{ "feature.mesitemlink_brackets",       &battle_config.feature_mesitemlink_brackets,    0,      0,      1,              },
 	{ "feature.mesitemlink_dbname",         &battle_config.feature_mesitemlink_dbname,      0,      0,      1,              },
+	{ "feature.mesitemlink_trailing_space", &battle_config.feature_mesitemlink_trailing_space, 0,   0,      1,              },
 	{ "feature.mesitemicon",                &battle_config.feature_mesitemicon,             1,      0,      1,              },
 	{ "feature.mesitemicon_dbname",         &battle_config.feature_mesitemicon_dbname,      0,      0,      1,              },
 	{ "break_mob_equip",                    &battle_config.break_mob_equip,                 0,      0,      1,              },

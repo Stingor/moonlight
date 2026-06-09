@@ -12645,7 +12645,10 @@ BUILDIN_FUNC(debugmes)
 {
 	const char *str;
 	str=script_getstr(st,2);
-	ShowDebug("script debug : %d %d : %s\n",st->rid,st->oid,str);
+	if( script_hasdata(st,3) )
+		ShowDebug("script debug : %d %d : %s\n",st->rid,st->oid,str);
+	else
+		ShowDebug("script debug : %s\n",str);
 	return SCRIPT_CMD_SUCCESS;
 }
 
@@ -15044,14 +15047,20 @@ BUILDIN_FUNC(getinventorylist)
 	TBL_PC *sd;
 	char card_var[NAME_LENGTH], randopt_var[50];
 	int32 i,j=0,k;
+	int32 old_count;
 
 	if (!script_charid2sd(2,sd))
 		return SCRIPT_CMD_FAILURE;
+
+	// [Stingor] Mémorise l'ancien count pour nettoyer les entrées périmées après le remplissage
+	old_count = (int32)pc_readreg(sd, add_str("@inventorylist_count"));
+
 	for(i=0;i<MAX_INVENTORY;i++){
 		if(sd->inventory.u.items_inventory[i].nameid > 0 && sd->inventory.u.items_inventory[i].amount > 0){
 			pc_setreg(sd,reference_uid(add_str("@inventorylist_id"), j),sd->inventory.u.items_inventory[i].nameid);
 			pc_setreg(sd,reference_uid(add_str("@inventorylist_idx"), j),i);
 			pc_setreg(sd,reference_uid(add_str("@inventorylist_amount"), j),sd->inventory.u.items_inventory[i].amount);
+			pc_setreg(sd,reference_uid(add_str("@inventorylist_type"), j),itemdb_type(sd->inventory.u.items_inventory[i].nameid));
 			pc_setreg(sd,reference_uid(add_str("@inventorylist_equip"), j),sd->inventory.u.items_inventory[i].equip);
 			pc_setreg(sd,reference_uid(add_str("@inventorylist_refine"), j),sd->inventory.u.items_inventory[i].refine);
 			pc_setreg(sd,reference_uid(add_str("@inventorylist_identify"), j),sd->inventory.u.items_inventory[i].identify);
@@ -15075,9 +15084,41 @@ BUILDIN_FUNC(getinventorylist)
 			}
 			pc_setreg(sd,reference_uid(add_str("@inventorylist_tradable"), j),pc_can_trade_item(sd, i));
 			pc_setreg(sd,reference_uid(add_str("@inventorylist_favorite"), j),sd->inventory.u.items_inventory[i].favorite);
+			pc_setreg(sd,reference_uid(add_str("@inventorylist_uid"), j),sd->inventory.u.items_inventory[i].unique_id);
 			j++;
 		}
 	}
+
+	// [Stingor] Efface les entrées [j..old_count-1] laissées par un appel précédent
+	for(i = j; i < old_count; i++){
+		pc_setreg(sd,reference_uid(add_str("@inventorylist_id"), i),0);
+		pc_setreg(sd,reference_uid(add_str("@inventorylist_idx"), i),0);
+		pc_setreg(sd,reference_uid(add_str("@inventorylist_amount"), i),0);
+		pc_setreg(sd,reference_uid(add_str("@inventorylist_type"), i),0);
+		pc_setreg(sd,reference_uid(add_str("@inventorylist_equip"), i),0);
+		pc_setreg(sd,reference_uid(add_str("@inventorylist_refine"), i),0);
+		pc_setreg(sd,reference_uid(add_str("@inventorylist_identify"), i),0);
+		pc_setreg(sd,reference_uid(add_str("@inventorylist_attribute"), i),0);
+		for(k = 0; k < MAX_SLOTS; k++){
+			sprintf(card_var, "@inventorylist_card%d",k+1);
+			pc_setreg(sd,reference_uid(add_str(card_var), i),0);
+		}
+		pc_setreg(sd,reference_uid(add_str("@inventorylist_expire"), i),0);
+		pc_setreg(sd,reference_uid(add_str("@inventorylist_bound"), i),0);
+		pc_setreg(sd,reference_uid(add_str("@inventorylist_enchantgrade"), i),0);
+		for(k = 0; k < MAX_ITEM_RDM_OPT; k++){
+			sprintf(randopt_var, "@inventorylist_option_id%d",k+1);
+			pc_setreg(sd,reference_uid(add_str(randopt_var), i),0);
+			sprintf(randopt_var, "@inventorylist_option_value%d",k+1);
+			pc_setreg(sd,reference_uid(add_str(randopt_var), i),0);
+			sprintf(randopt_var, "@inventorylist_option_parameter%d",k+1);
+			pc_setreg(sd,reference_uid(add_str(randopt_var), i),0);
+		}
+		pc_setreg(sd,reference_uid(add_str("@inventorylist_tradable"), i),0);
+		pc_setreg(sd,reference_uid(add_str("@inventorylist_favorite"), i),0);
+		pc_setreg(sd,reference_uid(add_str("@inventorylist_uid"), i),0);
+	}
+
 	pc_setreg(sd,add_str("@inventorylist_count"),j);
 	return SCRIPT_CMD_SUCCESS;
 }
@@ -27944,7 +27985,7 @@ BUILDIN_FUNC(preg_match) {
 /// for an explanation on args, see add_buildin_func
 struct script_function buildin_func[] = {
 	// NPC interaction
-	BUILDIN_DEF(mes,"s*"),
+	BUILDIN_DEF(mes,"v*"),
 	BUILDIN_DEF(next,""),
 	BUILDIN_DEF(clear,""),
 	BUILDIN_DEF(close,""),
@@ -28139,8 +28180,8 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(sc_end_class,"??"),
 	BUILDIN_DEF(getstatus, "i??"),
 	BUILDIN_DEF(getscrate,"ii?"),
-	BUILDIN_DEF(debugmes,"s"),
-	BUILDIN_DEF(errormes,"s"),
+	BUILDIN_DEF(debugmes,"v?"),
+	BUILDIN_DEF(errormes,"v"),
 	BUILDIN_DEF2(catchpet,"pet","??"),
 	BUILDIN_DEF2(birthpet,"bpet",""),
 	BUILDIN_DEF(catchpet,"??"),

@@ -62,7 +62,7 @@ L_menu:
 			}
 			.@selected = .@slot_map[select(.@menu$) - 1];
 			mes "Êtes-vous sûr de vouloir reroll";
-			mes mesitemicon(getd(".@itembyuid_card" + .@selected)) + mesitemlink(getd(".@itembyuid_card" + .@selected)) + "  de votre arme?";
+			mes mesitemicon(getd(".@itembyuid_card" + .@selected)) + mesitemlink(getd(".@itembyuid_card" + .@selected)) + " de votre arme?";
 			if (select("Non", "Oui") == 1) goto L_menu;
 		case 2: // add an enchant on a free slot
 			if (.@freeslot < 1 && .@selected == 0) goto L_MaxEnchant;
@@ -333,7 +333,7 @@ L_menu:
 				clear;
 				mes .@npc_name$;
 				mes "Alors c'est partie pour reroll";
-				mes mesitemicon(getd(".@itembyuid_card" + .@selected)) + mesitemlink(getd(".@itembyuid_card" + .@selected)) + "  de votre arme.";
+				mes mesitemicon(getd(".@itembyuid_card" + .@selected)) + mesitemlink(getd(".@itembyuid_card" + .@selected)) + " de votre arme.";
 				setd(".@itembyuid_card" + .@socket, .@enchant);
 				next;
 			}

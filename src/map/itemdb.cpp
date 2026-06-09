@@ -1559,6 +1559,13 @@ std::string ItemDatabase::create_item_link_for_mes( std::shared_ptr<item_data>& 
 
 		itemstr += closing_tag;
 
+		if( battle_config.feature_mesitemlink_trailing_space ){
+			// The client absorbs a regular space (0x20) placed right after the
+			// closing tag, but not a non-breaking space (0xA0). Appending one
+			// keeps a visible separator before any text that follows the link.
+			itemstr += "\xA0";
+		}
+
 		return itemstr;
 	}
 #endif

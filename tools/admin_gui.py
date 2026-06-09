@@ -34,7 +34,7 @@ ANSI_RE = re.compile(r"\x1b\[[0-9;]*[A-Za-z]")
 MSG_TAGS = {1: "srv_status", 2: "srv_sql", 5: "srv_warn",
             6: "srv_debug", 7: "srv_err", 8: "srv_err"}
 # Auto-reconnect retry interval (seconds) while "connect" is desired.
-RETRY_SECONDS = 3
+RETRY_SECONDS = 1
 
 # One-click reload targets -> "RELOAD <target>" -> "@reload<target>"
 RELOAD_TARGETS = [

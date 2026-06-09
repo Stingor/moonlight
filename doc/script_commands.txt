@@ -2524,6 +2524,43 @@ Also useful when passing arrays to functions or accessing another npc's arrays:
 
 ---------------------------------------
 
+*arraypush <array name>,<value>{,<value>...};
+
+This command appends one or more values at the end of the given array, in the
+order they are passed. It works with both integer arrays and string arrays; the
+values must match the type of the array.
+
+The values are written starting at index getarraysize(<array name>), i.e. right
+after the last filled element. Any trailing zeros or empty strings are therefore
+overwritten, just like getarraysize() ignores them. Appending stops once the
+array reaches the maximum array size.
+
+Example:
+
+    setarray .@array[0], 10, 20, 30;
+    arraypush .@array, 40, 50;
+    // .@array is now 10, 20, 30, 40, 50
+
+---------------------------------------
+
+*arraypop(<array name>)
+
+This function removes the last element of the given array and returns its value.
+The "last element" is the one at index getarraysize(<array name>) - 1, so any
+trailing zeros or empty strings are ignored. The freed slot is reset to 0 for an
+integer array or to "" for a string array.
+
+If the array is empty, nothing is changed and the function returns 0 for an
+integer array, or an empty string for a string array.
+
+Example:
+
+    setarray .@array[0], 10, 20, 30;
+    .@last = arraypop(.@array);
+    // .@last == 30, and .@array is now 10, 20
+
+---------------------------------------
+
 *readparam(<parameter number>{,"<character name>"})
 *readparam(<parameter number>{,<char_id>})
 
@@ -3025,6 +3062,7 @@ recreate these items perfectly if they are destroyed. Here's what you get:
 @inventorylist_id[]                - array of item ids.
 @inventorylist_idx[]               - array of item inventory index.
 @inventorylist_amount[]            - their corresponding item amounts.
+@inventorylist_type[]              - type
 @inventorylist_equip[]             - on which position the item is equipped (see EQP_* constants)
                                      It will contain 0 if the item is not equipped.
 @inventorylist_refine[]            - for how much it is refined.
@@ -5817,6 +5855,64 @@ This command will downgrade an item in the specified equipment slot of the invok
 character by -1, or a count if given. For a list of equipment slots see 'getequipid'.
 This command will also display a 'refine failure' effect on the character and put
 appropriate messages into their chat window.
+
+---------------------------------------
+
+*refineitem "<unique_id>",<goal>{,<char_id>};
+
+This command will refine the inventory item identified by its unique_id, passed
+as a string (unique IDs are 64-bit values - see 'getequipuniqueid' and
+'getuidlist'). It refines the item one level at a time until it reaches the
+<goal> refine level, where <goal> is capped between 1 and MAX_REFINE.
+
+Refine chances and breaking rate are read from the refine database
+(db/[pre-]re/refine.yml). Refine levels at or below the safe limit always succeed
+(100% chance); only levels above the safe limit can fail. On a failed attempt the
+item is either destroyed (according to its breaking rate) or left untouched. The
+progression stops as soon as the goal is reached, the item breaks, or a
+non-breaking failure occurs. If the item is currently equipped, its bonuses are
+recalculated automatically.
+
+This command returns:
+    1 - the item reached the goal refine level (already being at it counts too)
+   -1 - the item was destroyed while refining
+    0 - the goal was not reached (a failure stopped it before the goal), or the
+        item could not be refined (unique_id not found, no_refine, or broken)
+
+NOTE: success/break/downgrade behaviour is entirely data-driven from refine.yml,
+using the Normal cost type. On a pre-renewal server, armor refining above the
+safe limit has a 100% breaking rate for every ore (there is no HD/downgrade path
+like renewal), so any failure destroys the item. Reaching a high goal is then
+authentically near-impossible (e.g. a clean +4->+10 armor run is well under 1%),
+and most attempts return -1. This is expected pre-renewal behaviour, not a bug.
+
+Example:
+    // refine the equipped right-hand weapon up to +9
+    .@uid$ = getequipuniqueid(EQI_HAND_R);
+    .@result = refineitem(.@uid$, 9);
+    if (.@result == 1)
+        mes "The item is now +9!";
+    else if (.@result == -1)
+        mes "Your equipment was destroyed...";
+    else
+        mes "The item could not reach +9.";
+
+---------------------------------------
+
+*getrefineuid("<unique_id>"{,<char_id>})
+
+This function returns the refine level of the inventory item identified by its
+unique_id, passed as a string (unique IDs are 64-bit values - see
+'getequipuniqueid' and 'getuidlist').
+
+It returns -1 if no item with that unique_id is found in the player's inventory.
+
+Example:
+
+    .@uid$ = getequipuniqueid(EQI_HAND_R);
+    .@refine = getrefineuid(.@uid$);
+    if (.@refine >= 0)
+        mes "This item is refined to +" + .@refine + ".";
 
 ---------------------------------------
 

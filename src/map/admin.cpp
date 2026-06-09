@@ -187,9 +187,11 @@ static void admin_exec( int32 fd, const std::string& line ){
 
 	// Capture the atcommand's GM output (sent via clif_displaymessage) so we can
 	// stream it back to the admin client instead of dropping it.
+	// Use type=2 (console invocation): bypasses ATCMD_NOSCRIPT (type 0/3 only) which
+	// would silently skip commands like @reloadscript without executing them. [Stingor]
 	admin_capturing = true;
 	admin_capture_buf.clear();
-	bool ok = is_atcommand( admin_dummy->fd, admin_dummy, atcmd.c_str(), 0 );
+	bool ok = is_atcommand( admin_dummy->fd, admin_dummy, atcmd.c_str(), 2 );
 	admin_capturing = false;
 
 	// Captured output: one line per "OUT" record, prefixed with ": ".
@@ -274,36 +276,41 @@ static int32 admin_connect( int32 listen_fd ){
 
 /// Console output hook: push each server console line to subscribed clients.
 /// Called from clif/showmsg in the (single) main thread, like everything else.
+/// A single Show* call may contain embedded '\n'; each sub-line is sent as a
+/// separate "* <flag> <text>" record so the GUI can display them individually.
 static void admin_console_forward( int32 flag, const char* msg ){
 	if( msg == nullptr ){
 		return;
 	}
 
-	// Sanitize to a single line (Show* messages usually end with '\n').
-	std::string line( msg );
-	while( !line.empty() && ( line.back() == '\n' || line.back() == '\r' ) ){
-		line.pop_back();
-	}
-	if( line.empty() ){
-		return;
-	}
-	for( size_t i = 0; i < line.size(); i++ ){
-		if( line[i] == '\n' || line[i] == '\r' ){
-			line[i] = ' ';
-		}
-	}
+	const std::string flag_prefix = "* " + std::to_string( (int32)flag ) + " ";
 
-	// "* <flag> <message>" — distinct from command output (": ") and status.
-	std::string out = "* " + std::to_string( (int32)flag ) + " " + line;
+	// Split on '\n' and send each non-empty fragment as its own record.
+	const char* p = msg;
+	while( *p ){
+		const char* nl = p;
+		while( *nl && *nl != '\n' ) nl++;
 
-	for( int32 i = 0; i < fd_max; i++ ){
-		if( session[i] == nullptr || session[i]->func_parse != admin_parse ){
-			continue;
+		// Build the fragment, stripping trailing '\r'.
+		std::string fragment( p, nl );
+		while( !fragment.empty() && fragment.back() == '\r' ){
+			fragment.pop_back();
 		}
-		s_admin_session* asd = reinterpret_cast<s_admin_session*>( session[i]->session_data );
-		if( asd != nullptr && asd->log_subscribed ){
-			admin_reply( i, out );
+
+		if( !fragment.empty() ){
+			std::string out = flag_prefix + fragment;
+			for( int32 i = 0; i < fd_max; i++ ){
+				if( session[i] == nullptr || session[i]->func_parse != admin_parse ){
+					continue;
+				}
+				s_admin_session* asd = reinterpret_cast<s_admin_session*>( session[i]->session_data );
+				if( asd != nullptr && asd->log_subscribed ){
+					admin_reply( i, out );
+				}
+			}
 		}
+
+		p = ( *nl == '\n' ) ? nl + 1 : nl;
 	}
 }
 
