@@ -1051,10 +1051,10 @@ def _event_prompt(tag: str, player: str, rest: str) -> str:
     `player` = joueur concerné quand il y en a un ; `rest` = reste du message (ex: nom du MVP).
     """
     if tag == "EVENT_TRIP_GO":
-        return ("(ÉVÈNEMENT — tu parles à voix haute en ville, tu ne réponds à personne : "
-                "tu annonces que tu pars farmer / te faire un donjon ou une instance. 1 phrase très succinte, sarcastique et vantarde.)")
+        return ("(ÉVÈNEMENT — Tu part farm un peu. "
+                "Tu annonces que tu pars farmer / te faire un donjon ou une instance. 1 phrase très succinte, sarcastique et vantarde.)")
     if tag == "EVENT_TRIP_BACK":
-        return ("(ÉVÈNEMENT — tu reviens en ville juste après ton farm/donjon/instance. Vante ton butin OU râle "
+        return ("(ÉVÈNEMENT — Tu reviens en ville juste après ton farm/donjon/instance. Vante ton butin OU râle "
                 "que le donjon était merdique et méprise les joueurs restés afk en ville. 1 phrase très succinte, sarcastique et vantarde.)")
     if tag == "EVENT_PVP_TAUNT":
         return ("(ÉVÈNEMENT — tu en as marre des questions et tu défies TOUS les joueurs de venir "
