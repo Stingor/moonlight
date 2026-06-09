@@ -12643,12 +12643,52 @@ BUILDIN_FUNC(getstatus)
  *------------------------------------------*/
 BUILDIN_FUNC(debugmes)
 {
-	const char *str;
-	str=script_getstr(st,2);
-	if( script_hasdata(st,3) )
-		ShowDebug("script debug : %d %d : %s\n",st->rid,st->oid,str);
+	bool with_prefix = script_hasdata( st, 3 ); // optional 2nd arg adds the rid/oid prefix
+	struct script_data* data = script_getdata( st, 2 );
+
+	// If a variable holding more than one element is passed (e.g. debugmes .@arr;),
+	// dump the whole array to the console, like PHP's print_r/var_dump.
+	if( data_isreference( data ) ){
+		const char* name = reference_getname( data );
+		struct reg_db* ref = reference_getref( data );
+		int32 id = reference_getid( data );
+		map_session_data* sd = nullptr;
+
+		if( not_server_variable( *name ) )
+			script_rid2sd( sd );
+
+		uint32 size = script_array_highest_key( st, sd, name, ref );
+
+		if( size > 1 ){
+			bool is_str = is_string_variable( name );
+
+			if( with_prefix )
+				ShowDebug( "script debug : %d %d : %s (array, %u elements)\n", st->rid, st->oid, name, size );
+			else
+				ShowDebug( "script debug : %s (array, %u elements)\n", name, size );
+
+			for( uint32 i = 0; i < size; i++ ){
+				int64 uid = reference_uid( id, i );
+
+				if( is_str ){
+					const char* v = get_val2_str( st, uid, ref );
+					ShowDebug( "  %s[%u] = \"%s\"\n", name, i, v );
+					script_removetop( st, -1, 0 ); // get_val2_str leaves the value on the stack
+				}else{
+					ShowDebug( "  %s[%u] = %" PRId64 "\n", name, i, get_val2_num( st, uid, ref ) );
+				}
+			}
+
+			return SCRIPT_CMD_SUCCESS;
+		}
+	}
+
+	// Default: single value (scalar, literal, or array element [0]).
+	const char* str = script_getstr( st, 2 );
+	if( with_prefix )
+		ShowDebug( "script debug : %d %d : %s\n", st->rid, st->oid, str );
 	else
-		ShowDebug("script debug : %s\n",str);
+		ShowDebug( "script debug : %s\n", str );
 	return SCRIPT_CMD_SUCCESS;
 }
 
