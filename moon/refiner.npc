@@ -464,12 +464,12 @@ L_batch_qty:
 		.@batch_done++;
 		.@result = refineitem(.@itemuid$, .@batch_goal);
 		if( .@result == -1 ) {
-			logmes "Batch Refine Fail(item destroyed): " + logequipuid(.@itemuid$);
+			logmes "Batch Refine Fail(item destroyed): +" + .@itemref + " " + getitemname(.@itemid) + " [UID:" + .@itemuid$ + "]";
 			arraypush(.@log$,.@batch_done + " -> " + "^ff0000Refine Fail :S !^000000 Item +" + .@itemref + " détruit avant d'arriver à +" + .@batch_goal + ".");
 			.@batch_fail++;
 		}
 		else if( .@result == 0 ) {
-			logmes "Batch Refine Error: " + logequipuid(.@itemuid$);
+			logmes "Batch Refine Error: +" + .@itemref + " " + getitemname(.@itemid) + " [UID:" + .@itemuid$ + "]";
 			arraypush(.@log$,.@batch_done + " -> " + "^d32f2fRefine Error :S !^000000");
 		}
 		else {
