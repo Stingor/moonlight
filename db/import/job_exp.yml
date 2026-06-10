@@ -85,6 +85,7 @@ Body:
       Supernovice: true
       Xmas: true
       Taekwon: true
+      Baby_Taekwon: true
     MaxBaseLevel: 999
     BaseExp:
       - Level: 1
@@ -6160,6 +6161,11 @@ Body:
       Baby_Dancer: true
       Baby_Crusader2: true
       Super_Baby: true
+      Baby_Ninja: true
+      Baby_Gunslinger: true
+      Baby_Star_Gladiator: true
+      Baby_Star_Gladiator2: true
+      Baby_Soul_Linker: true
     MaxBaseLevel: 999
     BaseExp:
       - Level: 1
@@ -8325,7 +8331,6 @@ Body:
       Baby_Bard: true
       Baby_Dancer: true
       Baby_Crusader2: true
-      Taekwon: true
     MaxJobLevel: 60
     JobExp:
       - Level: 1
@@ -8952,8 +8957,6 @@ Body:
       - Level: 50
         Exp: 1398312
   - Jobs:
-      Gunslinger: true
-      Ninja: true
       Lord_Knight: true
       High_Priest: true
       High_Wizard: true
@@ -8969,6 +8972,8 @@ Body:
       Clown: true
       Gypsy: true
       Paladin2: true
+      Gunslinger: true
+      Ninja: true
       Star_Gladiator: true
       Star_Gladiator2: true
     MaxJobLevel: 80
@@ -9394,22 +9399,12 @@ Body:
       - Level: 52
         Exp: 718557
   - Jobs:
-      Baby_Knight: true
-      Baby_Priest: true
-      Baby_Wizard: true
-      Baby_Blacksmith: true
-      Baby_Hunter: true
-      Baby_Assassin: true
-      Baby_Knight2: true
-      Baby_Crusader: true
-      Baby_Monk: true
-      Baby_Sage: true
-      Baby_Rogue: true
-      Baby_Alchemist: true
-      Baby_Bard: true
-      Baby_Dancer: true
-      Baby_Crusader2: true
-    MaxJobLevel: 75
+      Taekwon: true
+      Baby_Taekwon: true
+      Baby_Star_Gladiator: true
+      Baby_Star_Gladiator2: true
+      Baby_Soul_Linker: true
+    MaxJobLevel: 80
     JobExp:
       - Level: 1
         Exp: 144
@@ -9825,15 +9820,9 @@ Body:
       Rebellion: true
       Summoner: true
       Baby_Summoner: true
-      Baby_Ninja: true
       Baby_Kagerou: true
       Baby_Oboro: true
-      Baby_Taekwon: true
-      Baby_Star_Gladiator: true
-      Baby_Soul_Linker: true
-      Baby_Gunslinger: true
       Baby_Rebellion: true
-      Baby_Star_Gladiator2: true
       Star_Emperor: true
       Soul_Reaper: true
       Baby_Star_Emperor: true
@@ -11902,15 +11891,9 @@ Body:
       Rebellion: true
       Summoner: true
       Baby_Summoner: true
-      Baby_Ninja: true
       Baby_Kagerou: true
       Baby_Oboro: true
-      Baby_Taekwon: true
-      Baby_Star_Gladiator: true
-      Baby_Soul_Linker: true
-      Baby_Gunslinger: true
       Baby_Rebellion: true
-      Baby_Star_Gladiator2: true
       Star_Emperor: true
       Soul_Reaper: true
       Baby_Star_Emperor: true
