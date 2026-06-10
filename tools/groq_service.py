@@ -1150,7 +1150,6 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
             f"Charrie-le méchamment sur sa faiblesse en 1 phrase courte et cinglante.)"
         )
 
-    is_auto = True
     player_info = _get_player_info(player, conn, player_ctx)
     mem_info = _get_player_memory(player, conn, is_auto)
     ctx = find_context(message, conn, player)
