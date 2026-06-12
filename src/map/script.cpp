@@ -7264,7 +7264,7 @@ BUILDIN_FUNC(countitem)
 			ShowDebug("buildin_%s: appel via fake_nd (script d'item/equip/bonus/achievement).\n", command);
 			ShowDebug("buildin_%s: joueur attache: %s (CID=%d, AID=%d) sur %s (%d,%d).\n",
 				command, sd->status.name, sd->status.char_id, sd->status.account_id,
-				map_mapid2mapname(sd->bl.m), sd->bl.x, sd->bl.y);
+				map_mapid2mapname(sd->m), sd->x, sd->y);
 			for (int32 j = 0; j < EQI_MAX; j++) {
 				int32 idx = sd->equip_index[j];
 				if (idx >= 0 && idx < MAX_INVENTORY && sd->inventory.u.items_inventory[idx].nameid)
