@@ -7257,6 +7257,22 @@ BUILDIN_FUNC(countitem)
 
 	if (!id) {
 		ShowError("buildin_%s: Invalid item '%s'.\n", command, script_getstr(st, 2)); // returns string, regardless of what it was
+		// --- Diag [moonlight]: tracer le script fautif quand l'appel vient de fake_nd
+		// (EquipScript/UnEquipScript/use/bonus_script/achievement). Le moteur n'affiche
+		// que "FAKE_NPC" comme source, donc on dump le joueur + son equipement ici. ---
+		if (fake_nd && st->oid == fake_nd->id) {
+			ShowDebug("buildin_%s: appel via fake_nd (script d'item/equip/bonus/achievement).\n", command);
+			ShowDebug("buildin_%s: joueur attache: %s (CID=%d, AID=%d) sur %s (%d,%d).\n",
+				command, sd->status.name, sd->status.char_id, sd->status.account_id,
+				map_mapid2mapname(sd->bl.m), sd->bl.x, sd->bl.y);
+			for (int32 j = 0; j < EQI_MAX; j++) {
+				int32 idx = sd->equip_index[j];
+				if (idx >= 0 && idx < MAX_INVENTORY && sd->inventory.u.items_inventory[idx].nameid)
+					ShowDebug("buildin_%s:   equip[%d] -> id=%u (%s)\n", command, j,
+						sd->inventory.u.items_inventory[idx].nameid,
+						sd->inventory_data[idx] ? sd->inventory_data[idx]->name.c_str() : "?");
+			}
+		}
 		script_pushint(st, 0);
 		return SCRIPT_CMD_FAILURE;
 	}

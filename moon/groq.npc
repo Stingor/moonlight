@@ -365,12 +365,14 @@ OnTimer3000:
 			if (attachrid(.@gids[.@i]) == 0) continue;
 			.@hp = Hp;
 			.@mhp = MaxHp;
-			if (.@mhp > 0 && .@hp * 100 / .@mhp <= 5) {
-				.@found$ = strcharinfo(0);
-				.@pct    = .@hp * 100 / .@mhp;
-				.@pctx$  = .@found$+"|"+BaseLevel+"|"+JobLevel+"|"+Class+"|"+Zeny+"|"+Weight+"|"+MaxWeight+"|";
-				detachrid;
-				break;
+			if (.@mhp > 0) {
+				if (.@hp * 100 / .@mhp <= 5) {
+					.@found$ = strcharinfo(0);
+					.@pct    = .@hp * 100 / .@mhp;
+					.@pctx$  = .@found$+"|"+BaseLevel+"|"+JobLevel+"|"+Class+"|"+Zeny+"|"+Weight+"|"+MaxWeight+"|";
+					detachrid;
+					break;
+				}
 			}
 			detachrid;
 		}
