@@ -3666,11 +3666,10 @@ bool status_change_start(block_list* src, block_list* bl, sc_type type, int32 ra
 // sc_start: captures __FILE__/__LINE__ at every call site to identify SC_NONE callers.
 // sc_start_impl is defined in status.cpp; do NOT call it directly.
 bool sc_start_impl(block_list *src, block_list *bl, sc_type type, int32 rate, int32 val1, t_tick duration, int32 delay, const char* file, int line);
-#define _sc6(s,b,t,r,v,d)     sc_start_impl((s),(b),(t),(r),(v),(d),0,__FILE__,__LINE__)
-#define _sc7(s,b,t,r,v,d,dl)  sc_start_impl((s),(b),(t),(r),(v),(d),(dl),__FILE__,__LINE__)
-#define _SC_N(_1,_2,_3,_4,_5,_6,_7,N,...) N
-#define _SC_EXPAND(x) x
-#define sc_start(...) _SC_EXPAND(_SC_N(__VA_ARGS__,_sc7,_sc6))(__VA_ARGS__)
+#define sc_start(src, bl, type, rate, val1, dur) \
+	sc_start_impl((src),(bl),(type),(rate),(val1),(dur),0,__FILE__,__LINE__)
+#define sc_start_d(src, bl, type, rate, val1, dur, dl) \
+	sc_start_impl((src),(bl),(type),(rate),(val1),(dur),(dl),__FILE__,__LINE__)
 static bool sc_start2(block_list *src, block_list *bl, sc_type type, int32 rate, int32 val1, int32 val2, t_tick duration, int32 delay = 0) {
 	return status_change_start(src, bl, type, 100 * rate, val1, val2, 0, 0, duration, SCSTART_NONE, delay);
 }

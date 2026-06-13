@@ -11,7 +11,7 @@ SkillMercenaryFreezingTrap::SkillMercenaryFreezingTrap() : SkillImpl(MA_FREEZING
 void SkillMercenaryFreezingTrap::applyAdditionalEffects(block_list *src, block_list *target, uint16 skill_lv, t_tick tick, int32 attack_type, enum damage_lv dmg_lv) const {
 	status_data* sstatus = status_get_status_data(*src);
 
-	sc_start(src, target, SC_FREEZE, 100, skill_lv, skill_get_time2(getSkillId(), skill_lv), sstatus->amotion + 100);
+	sc_start_d(src, target, SC_FREEZE, 100, skill_lv, skill_get_time2(getSkillId(), skill_lv), sstatus->amotion + 100);
 }
 
 void SkillMercenaryFreezingTrap::castendPos2(block_list* src, int32 x, int32 y, uint16 skill_lv, t_tick tick, int32& flag) const {
