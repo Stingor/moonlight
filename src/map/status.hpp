@@ -3663,9 +3663,14 @@ bool status_isendure(const block_list& bl, t_tick tick, bool visible);
 t_tick status_get_sc_def(const block_list* src, const block_list* bl, sc_type type, int32 rate, t_tick tick, uint8 flag);
 bool status_change_start(block_list* src, block_list* bl, sc_type type, int32 rate, int32 val1, int32 val2, int32 val3, int32 val4, t_tick duration, uint8 flag, int32 delay = 0);
 //Short version, receives rate in 1->100 range, and does not uses a flag setting.
-static bool sc_start(block_list *src, block_list *bl, sc_type type, int32 rate, int32 val1, t_tick duration, int32 delay = 0) {
-	return status_change_start(src, bl, type, 100 * rate, val1, 0, 0, 0, duration, SCSTART_NONE, delay);
-}
+// sc_start: captures __FILE__/__LINE__ at every call site to identify SC_NONE callers.
+// sc_start_impl is defined in status.cpp; do NOT call it directly.
+bool sc_start_impl(block_list *src, block_list *bl, sc_type type, int32 rate, int32 val1, t_tick duration, int32 delay, const char* file, int line);
+#define _sc6(s,b,t,r,v,d)     sc_start_impl((s),(b),(t),(r),(v),(d),0,__FILE__,__LINE__)
+#define _sc7(s,b,t,r,v,d,dl)  sc_start_impl((s),(b),(t),(r),(v),(d),(dl),__FILE__,__LINE__)
+#define _SC_N(_1,_2,_3,_4,_5,_6,_7,N,...) N
+#define _SC_EXPAND(x) x
+#define sc_start(...) _SC_EXPAND(_SC_N(__VA_ARGS__,_sc7,_sc6))(__VA_ARGS__)
 static bool sc_start2(block_list *src, block_list *bl, sc_type type, int32 rate, int32 val1, int32 val2, t_tick duration, int32 delay = 0) {
 	return status_change_start(src, bl, type, 100 * rate, val1, val2, 0, 0, duration, SCSTART_NONE, delay);
 }

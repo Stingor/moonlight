@@ -10180,6 +10180,15 @@ TIMER_FUNC(status_change_start_timer) {
  * @param delay: Delay in milliseconds before the SC is applied
  * @return Whether the status change was resisted (false) or will be applied (true)
  */
+bool sc_start_impl(block_list *src, block_list *bl, sc_type type, int32 rate, int32 val1, t_tick duration, int32 delay, const char* file, int line) {
+	if (type <= SC_NONE) {
+		ShowWarning("sc_start called with SC_NONE at %s:%d (src_id=%d bl_id=%d dur=%lld val1=%d)\n",
+			file, line, src ? src->id : -1, bl ? bl->id : -1, (long long)duration, val1);
+		return false;
+	}
+	return status_change_start(src, bl, type, 100 * rate, val1, 0, 0, 0, duration, SCSTART_NONE, delay);
+}
+
 bool status_change_start(block_list* src, block_list* bl, sc_type type, int32 rate, int32 val1, int32 val2, int32 val3, int32 val4, t_tick duration, uint8 flag, int32 delay) {
 	std::shared_ptr<s_status_change_db> scdb = status_db.find(type);
 
