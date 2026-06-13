@@ -2046,4 +2046,7 @@
 	parseable_packet( HEADER_CZ_MOVE_ITEM_TO_PERSONAL, sizeof( PACKET_CZ_MOVE_ITEM_TO_PERSONAL ), clif_parse_MoveFromKafraFav, 0 );
 #endif
 
+// [Stingor] Bourgeon DLL <-> server settings packet (fixed 8 bytes, always active)
+parseable_packet(HEADER_CZ_BOURGEON_SETTING, sizeof(PACKET_CZ_BOURGEON_SETTING), clif_parse_bourgeon_setting, 0);
+
 #endif /* CLIF_PACKETDB_HPP */

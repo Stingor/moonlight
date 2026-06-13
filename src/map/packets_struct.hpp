@@ -5899,6 +5899,26 @@ struct PACKET_CZ_ADVENTURER_AGENCY_JOIN_RESULT {
 DEFINE_PACKET_HEADER(CZ_ADVENTURER_AGENCY_JOIN_RESULT, 0x0af8);
 #endif  // PACKETVER_MAIN_NUM >= 20191218 || PACKETVER_RE_NUM >= 20191211 || PACKETVER_ZERO_NUM >= 20191224
 
+// [Stingor] Bourgeon DLL <-> server settings packets (opcodes free in PACKETVER 20250716)
+// ZC (server -> client): sends all settings on login. Variable-length.
+// Layout: [packetType:2][packetLength:2][count:2][{id:2, value:2} * count]
+struct PACKET_ZC_BOURGEON_SETTINGS {
+	int16 packetType;
+	int16 packetLength;
+	int16 count;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_SETTINGS, 0x0bfe);
+
+// CZ (client -> server): reports a single setting change. Fixed 8 bytes.
+// Layout: [packetType:2][packetLength:2][id:2][value:2]
+struct PACKET_CZ_BOURGEON_SETTING {
+	int16 packetType;
+	int16 packetLength;
+	int16 id;
+	int16 value;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_SETTING, 0x0bfd);
+
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)
 #endif // not NetBSD < 6 / Solaris

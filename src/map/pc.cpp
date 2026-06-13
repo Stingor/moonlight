@@ -2548,6 +2548,8 @@ void pc_reg_received(map_session_data *sd)
 	}
 
 	channel_autojoin(sd);
+
+	clif_bourgeon_settings(sd); // [Stingor] push Bourgeon settings to the client
 }
 
 static int32 pc_calc_skillpoint(map_session_data* sd)

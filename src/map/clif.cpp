@@ -5132,6 +5132,105 @@ void clif_hide_wings( const map_session_data* sd ) // [Stingor]
 	mapit_free(iter);
 }
 
+// [Stingor] Bourgeon settings sync (ZC 0x0BFE / CZ 0x0BFD)
+//
+// Setting IDs (must match MoonlightUi client-side constants in moonlight_ui.h):
+//   0 = SHOWEXP   1 = SHOWZENY   2 = SHOWMOBINFO
+//   3 = SEPARATE  4 = BLOCKEXP   5 = ALOOTRARE
+// Discord is client-only (saved to bourgeon_settings.yaml) — not sent here.
+enum e_bourgeon_setting : int16 {
+	BOURGEON_SETTING_SHOW_EXP      = 0,
+	BOURGEON_SETTING_SHOW_ZENY     = 1,
+	BOURGEON_SETTING_SHOW_MOB_INFO = 2,
+	BOURGEON_SETTING_SEPARATE      = 3,
+	BOURGEON_SETTING_BLOCK_EXP     = 4,
+	BOURGEON_SETTING_ALOOT_RARE    = 5,
+};
+
+// Sends the full set of settings to the client on login.
+// Layout: [packetType:2][packetLength:2][count:2][{id:2, value:2} * count]
+void clif_bourgeon_settings(map_session_data* sd) {
+	nullpo_retv(sd);
+	const int32 fd = sd->fd;
+	if (!session_isActive(fd))
+		return;
+
+	struct { int16 id; int16 value; } settings[] = {
+		{ BOURGEON_SETTING_SHOW_EXP,      static_cast<int16>(sd->state.showexp       ? 1 : 0) },
+		{ BOURGEON_SETTING_SHOW_ZENY,     static_cast<int16>(sd->state.showzeny      ? 1 : 0) },
+		{ BOURGEON_SETTING_SHOW_MOB_INFO, static_cast<int16>(sd->state.showmobinfo   ? 1 : 0) },
+		{ BOURGEON_SETTING_SEPARATE,      static_cast<int16>(sd->state.kill_separate ? 1 : 0) },
+		{ BOURGEON_SETTING_BLOCK_EXP,     static_cast<int16>(sd->state.block_exp     ? 1 : 0) },
+		{ BOURGEON_SETTING_ALOOT_RARE,    static_cast<int16>(sd->state.autolootrare  ? 1 : 0) },
+	};
+	const int16 count = static_cast<int16>(ARRAYLENGTH(settings));
+	const int16 pkt_len = static_cast<int16>(sizeof(PACKET_ZC_BOURGEON_SETTINGS) + count * 4);
+
+	WFIFOHEAD(fd, pkt_len);
+	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_SETTINGS;
+	WFIFOW(fd, 2) = pkt_len;
+	WFIFOW(fd, 4) = count;
+	int16 offset = static_cast<int16>(sizeof(PACKET_ZC_BOURGEON_SETTINGS));
+	for (int16 i = 0; i < count; ++i) {
+		WFIFOW(fd, offset)     = settings[i].id;
+		WFIFOW(fd, offset + 2) = settings[i].value;
+		offset += 4;
+	}
+	WFIFOSET(fd, pkt_len);
+}
+
+// Forward declaration — defined later in this file (used by BL_MOB resend below).
+static int32 clif_getareachar(block_list* bl, va_list ap);
+
+// Handles a single setting change reported by the client (CZ 0x0BFD).
+// Layout: [packetType:2][packetLength:2][id:2][value:2]
+void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	const PACKET_CZ_BOURGEON_SETTING* p =
+		reinterpret_cast<const PACKET_CZ_BOURGEON_SETTING*>(RFIFOP(fd, 0));
+
+	switch (p->id) {
+		case BOURGEON_SETTING_SHOW_EXP:
+			sd->state.showexp = (p->value != 0) ? 1 : 0;
+			pc_setglobalreg(sd, add_str("showexp"), sd->state.showexp);
+			clif_displaymessage(fd, msg_txt(sd, sd->state.showexp ? 1317 : 1316));
+			break;
+		case BOURGEON_SETTING_SHOW_ZENY:
+			sd->state.showzeny = (p->value != 0) ? 1 : 0;
+			pc_setglobalreg(sd, add_str("showzeny"), sd->state.showzeny);
+			clif_displaymessage(fd, msg_txt(sd, sd->state.showzeny ? 1319 : 1318));
+			break;
+		case BOURGEON_SETTING_SHOW_MOB_INFO:
+			sd->state.showmobinfo = (p->value != 0);
+			pc_setglobalreg(sd, add_str("showmobinfo"), sd->state.showmobinfo ? 1 : 0);
+			clif_displaymessage(fd, msg_txt(sd, sd->state.showmobinfo ? 1860 : 1861));
+			// clif_refresh is avoided: it starts with clif_changemap which unloads
+			// client textures mid-D3D-frame when triggered via Bourgeon (crashes).
+			// Re-sending only BL_MOB updates visible mob names without the map reload.
+			map_foreachinallrange(clif_getareachar, sd, AREA_SIZE, BL_MOB, sd);
+			break;
+		case BOURGEON_SETTING_SEPARATE:
+			sd->state.kill_separate = (p->value != 0);
+			pc_setglobalreg(sd, add_str("separate"), sd->state.kill_separate ? 1 : 0);
+			clif_displaymessage(fd, msg_txt(sd, sd->state.kill_separate ? 1862 : 1863));
+			break;
+		case BOURGEON_SETTING_BLOCK_EXP:
+			sd->state.block_exp = (p->value != 0);
+			pc_setglobalreg(sd, add_str("blockexp"), sd->state.block_exp ? 1 : 0);
+			clif_displaymessage(fd, msg_txt(sd, sd->state.block_exp ? 1865 : 1866));
+			break;
+		case BOURGEON_SETTING_ALOOT_RARE:
+			sd->state.autolootrare = (p->value != 0);
+			pc_setglobalreg(sd, add_str("alootrare"), sd->state.autolootrare ? 1 : 0);
+			clif_displaymessage(fd, msg_txt(sd, sd->state.autolootrare ? 1822 : 1823));
+			break;
+		default:
+			ShowWarning("clif_parse_bourgeon_setting: unknown setting id %d from %s\n",
+				p->id, sd->status.name);
+			break;
+	}
+}
+
 void clif_getareachar_unit( map_session_data* sd,block_list *bl ){
 	if( bl == nullptr ){
 		return;

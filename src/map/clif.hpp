@@ -1514,4 +1514,7 @@ void clif_noask_sub( const map_session_data& sd, const map_session_data& tsd, in
 
 void clif_specialpopup(const map_session_data& sd, int32 id);
 
+// [Stingor] Bourgeon settings sync
+void clif_bourgeon_settings(map_session_data* sd);
+
 #endif /* CLIF_HPP */

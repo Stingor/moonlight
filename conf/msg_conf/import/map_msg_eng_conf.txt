@@ -1764,3 +1764,9 @@
 1862: Kill separator: ACTIVE
 1863: Kill separator: DESACTIVE
 1864: ---------------------------------------------
+// block_exp
+1865: Gain d'EXP : BLOQUÉ. Vous ne gagnerez plus d'expérience.
+1866: Gain d'EXP : ACTIVÉ. Vous gagnez à nouveau de l'expérience.
+
+1900: Le #gonryun du Discord est maintenant intégré au chat de la map Gonryun
+1901: Vous ne communiquez plus et ne voyez plus les messages du #gonryun de la map Gonryun
