@@ -651,10 +651,14 @@ _JOB_NAMES = {
 def _get_player_info(player: str, conn=None, player_ctx: str = "") -> str:
     """Construit le contexte joueur depuis player_ctx fourni par le NPC rAthena.
     Format: 'nom|base_level|job_level|class|zeny|weight|max_weight'
+    Valeur spéciale 'discord' : joueur qui parle depuis Discord, pas en jeu.
     """
     try:
         if not player_ctx:
             return ""
+        if player_ctx == "discord":
+            admin_note = " ⚠ C'EST STINGOR, TON MENTOR ET ADMIN DU SERVEUR — montre-lui du respect (à ta façon)." if player.lower() == "stingor" else ""
+            return f"[JOUEUR] {player} — parle depuis Discord (pas connecté en jeu){admin_note}"
         parts = player_ctx.split("|")
         if len(parts) < 7:
             return ""
@@ -1256,7 +1260,7 @@ def _discord_poll(conn):
         if not content:
             continue
         print(f"[Discord] <- {player!r}: {content[:60]!r}", file=sys.stderr)
-        response = get_response(player, content, conn)
+        response = get_response(player, content, conn, player_ctx="discord")
         if response:
             _discord_post(player, content, response)
 
