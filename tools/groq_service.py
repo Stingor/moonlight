@@ -1202,7 +1202,7 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
         histories[player] = histories[player][-HISTORY_MAX:]
 
     messages = [{"role": "system", "content": SYSTEM_PROMPT}] + histories[player]
-    reply = _strip_emoji(groq_chat(messages))
+    reply = _strip_emoji(groq_chat(messages)).lstrip('²').strip()
     # Action décidée par le modèle : [[HEAL]] / [[RES]] -> vrai sort côté NPC.
     # On retire le token du texte affiché et on préfixe un segment d'action "@ACT@|..."
     # que le NPC parse (pas de migration SQL). Désactivé pour l'event auto low-HP.
