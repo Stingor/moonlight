@@ -65,7 +65,10 @@ DB_CONFIG = {
 DB_RATHENA        = os.environ.get("DB_RATHENA",        "rathena")
 TRANSLATE_URL     = os.environ.get("TRANSLATE_URL",     "http://localhost/api/translate_script.php")
 TRANSLATE_TOKEN   = os.environ.get("TRANSLATE_TOKEN",   "")
-DISCORD_WEBHOOK   = os.environ.get("DISCORD_WEBHOOK",  "")  # vide = désactivé
+DISCORD_WEBHOOK      = os.environ.get("DISCORD_WEBHOOK",      "")  # vide = désactivé
+DISCORD_BOT_TOKEN    = os.environ.get("DISCORD_BOT_TOKEN",    "")  # token du bot pour lire le channel
+DISCORD_READ_CHANNEL = os.environ.get("DISCORD_READ_CHANNEL", "")  # ID du channel à scruter
+DISCORD_POLL_SEC     = float(os.environ.get("DISCORD_POLL_SEC", "2.0"))  # intervalle de poll (s)
 
 SYSTEM_PROMPT = (
     "Tu es Sting-Bot, un vieux de la vieille de 40 ans qui traîne à Gonryun, sur Moonlight-Destiny. "
@@ -897,7 +900,9 @@ def _parse_groq_duration(s):
     return total if found else None
 
 
-_last_rate_info = {"display": ""}   # partagé avec process_pending
+_last_rate_info      = {"display": ""}   # partagé avec process_pending
+_discord_last_msg_id = ""               # curseur : dernier message Discord traité
+_discord_last_poll   = 0.0             # timestamp du dernier poll Discord
 
 
 def _log_rate_headers(headers):
@@ -1210,6 +1215,52 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
 
 
 
+def _discord_poll(conn):
+    """Lit les nouveaux messages du channel Discord et les traite via Sting-Bot."""
+    global _discord_last_msg_id, _discord_last_poll
+    if not DISCORD_BOT_TOKEN or not DISCORD_READ_CHANNEL or not DISCORD_WEBHOOK:
+        return
+    if time.time() - _discord_last_poll < DISCORD_POLL_SEC:
+        return
+    _discord_last_poll = time.time()
+
+    url = f"https://discord.com/api/v10/channels/{DISCORD_READ_CHANNEL}/messages?limit=10"
+    if _discord_last_msg_id:
+        url += f"&after={_discord_last_msg_id}"
+    try:
+        req = urllib.request.Request(url, headers={
+            "Authorization": f"Bot {DISCORD_BOT_TOKEN}",
+            "User-Agent": "curl/7.88.1",
+        })
+        with urllib.request.urlopen(req, timeout=5) as r:
+            messages = json.loads(r.read().decode("utf-8"))
+    except Exception as e:
+        print(f"[Discord] poll ERREUR : {e}", file=sys.stderr)
+        return
+
+    if not messages:
+        return
+
+    # Premier appel : initialise le curseur sur le message le plus récent sans traiter
+    if not _discord_last_msg_id:
+        _discord_last_msg_id = messages[0]["id"]
+        return
+
+    # Traitement du plus ancien au plus récent
+    for msg in sorted(messages, key=lambda m: int(m["id"])):
+        _discord_last_msg_id = msg["id"]
+        if msg.get("author", {}).get("bot"):
+            continue
+        player  = msg["author"]["username"]
+        content = msg.get("content", "").strip()
+        if not content:
+            continue
+        print(f"[Discord] <- {player!r}: {content[:60]!r}", file=sys.stderr)
+        response = get_response(player, content, conn)
+        if response:
+            _discord_post(player, content, response)
+
+
 def _discord_post(player: str, message: str, response: str):
     """Poste un résumé de la conversation sur le webhook Discord (fire-and-forget)."""
     if not DISCORD_WEBHOOK:
@@ -1222,7 +1273,7 @@ def _discord_post(player: str, message: str, response: str):
         return
     def _send():
         try:
-            disp = re.sub(r'^@[A-Z]+@\|?', '', response)
+            disp = re.sub(r'^@[A-Z]+@\|?', '', response).replace('|', ' ')
             payload = json.dumps({
                 "content": disp[:2000] or "...",
             }).encode("utf-8")
@@ -1362,6 +1413,10 @@ def main():
         print(f"Discord webhook : activé ({DISCORD_WEBHOOK[:40]}…)")
     else:
         print("Discord webhook : DÉSACTIVÉ (DISCORD_WEBHOOK absent de groq.env)")
+    if DISCORD_BOT_TOKEN and DISCORD_READ_CHANNEL:
+        print(f"Discord poll    : activé (channel {DISCORD_READ_CHANNEL}, toutes les {DISCORD_POLL_SEC}s)")
+    else:
+        print("Discord poll    : DÉSACTIVÉ (DISCORD_BOT_TOKEN / DISCORD_READ_CHANNEL absents)")
     conn = None
     names_loaded = False
     while True:
@@ -1380,6 +1435,7 @@ def main():
                     _set_bot_status(_cur, 1, 0, "")
                 conn.commit()
             process_pending(conn)
+            _discord_poll(conn)
         except pymysql.Error as exc:
             print(f"[Groq] Erreur DB: {exc}", file=sys.stderr)
             conn = None
