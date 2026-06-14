@@ -5919,6 +5919,11 @@ struct PACKET_CZ_BOURGEON_SETTING {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(CZ_BOURGEON_SETTING, 0x0bfd);
 
+// NOTE: there is no ZC_BOURGEON_MAP packet. The Bourgeon client reads the
+// current map name from the standard 0x0091 ZC_NPCACK_MAPMOVE packet instead.
+// Custom ZC opcodes in the 0x0BFx range (0x0BFC, 0x0BFF) collide with fixed
+// length entries baked into the Ragexe client and desync the recv stream.
+
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)
 #endif // not NetBSD < 6 / Solaris
