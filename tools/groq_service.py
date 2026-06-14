@@ -1259,10 +1259,22 @@ def _discord_poll(conn):
         content = msg.get("content", "").strip()
         if not content:
             continue
+        if not content.startswith('²'):
+            continue
+        content = content[1:].strip()  # retire le ² avant d'envoyer au bot
         print(f"[Discord] <- {player!r}: {content[:60]!r}", file=sys.stderr)
         response = get_response(player, content, conn, player_ctx="discord")
         if response:
             _discord_post(player, content, response)
+            # Relay in-game : npctalk dans Gonryun via chatbot_broadcast
+            disp = re.sub(r'^@[A-Z]+@\|?', '', response).replace('|', ' ')
+            broadcast = f"[Discord][{player}] {disp}"[:490]
+            try:
+                with conn.cursor() as _cur:
+                    _cur.execute("INSERT INTO chatbot_broadcast (message) VALUES (%s)", (broadcast,))
+                conn.commit()
+            except Exception as e:
+                print(f"[Discord] broadcast ERREUR : {e}", file=sys.stderr)
 
 
 def _discord_post(player: str, message: str, response: str):
