@@ -1259,9 +1259,11 @@ def _discord_poll(conn):
         content = msg.get("content", "").strip()
         if not content:
             continue
-        if not content.startswith('²'):
+        content_low = content.lower()
+        if content.startswith('²'):
+            content = content[1:].strip()
+        elif 'sting' not in content_low:
             continue
-        content = content[1:].strip()  # retire le ² avant d'envoyer au bot
         print(f"[Discord] <- {player!r}: {content[:60]!r}", file=sys.stderr)
         response = get_response(player, content, conn, player_ctx="discord")
         if response:
