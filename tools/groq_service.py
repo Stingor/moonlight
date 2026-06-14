@@ -1237,6 +1237,33 @@ def _log_discord_chat(conn, src_name: str, message: str):
         print(f"[Discord] chatlog ERREUR : {e}", file=sys.stderr)
 
 
+_CHAT_MAX_BYTES = 243  # CHAT_SIZE_MAX(256) - ZC_NPC_CHAT header(12) - null(1)
+
+def _chat_chunks(prefix: str, text: str) -> list:
+    """Split text into lines each fitting within _CHAT_MAX_BYTES when UTF-8 encoded."""
+    cont  = "  "
+    p_b   = len(prefix.encode("utf-8"))
+    c_b   = len(cont.encode("utf-8"))
+    chunks: list = []
+    remaining = text
+    first = True
+    while remaining:
+        avail = _CHAT_MAX_BYTES - (p_b if first else c_b)
+        pfx   = prefix if first else cont
+        first = False
+        enc   = remaining.encode("utf-8")
+        if len(enc) <= avail:
+            chunks.append(pfx + remaining)
+            break
+        chunk = enc[:avail].decode("utf-8", errors="ignore")
+        sp = chunk.rfind(" ")
+        if sp > 0:
+            chunk = chunk[:sp]
+        chunks.append(pfx + chunk)
+        remaining = remaining[len(chunk):].lstrip()
+    return chunks
+
+
 def _discord_poll(conn):
     """Lit les nouveaux messages du channel Discord et les traite via Sting-Bot."""
     global _discord_last_msg_id, _discord_last_poll
@@ -1290,10 +1317,12 @@ def _discord_poll(conn):
             disp = re.sub(r'^@[A-Z]+@\|?', '', response).replace('|', ' ')
             _log_discord_chat(conn, "(Discord)Sting-Bot", disp)
             # Relay in-game : npctalk dans Gonryun via chatbot_broadcast
-            broadcast = f"[Discord][{player}] {disp}"[:490]
+            # Split at word boundaries so each row fits clif_messagecolor's 243-byte limit.
+            lines = _chat_chunks(f"[Discord][{player}] ", disp)
             try:
                 with conn.cursor() as _cur:
-                    _cur.execute("INSERT INTO chatbot_broadcast (message) VALUES (%s)", (broadcast,))
+                    for line in lines:
+                        _cur.execute("INSERT INTO chatbot_broadcast (message) VALUES (%s)", (line,))
                 conn.commit()
             except Exception as e:
                 print(f"[Discord] broadcast ERREUR : {e}", file=sys.stderr)
