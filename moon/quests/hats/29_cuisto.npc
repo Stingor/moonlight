@@ -1,4 +1,4 @@
-prt_cas,328,214,5	script	Cuisto::q_29	4_M_DOMINO,{
+prt_cas,328,214,5	script	Cuisto::q_29	4_F_DOMINO,{
 
 	setarray .@item1[0], 3000000, 5365, 250, 7031, 250, 910, 250, 912, 20, 12127, 100, 737;
 	setarray .@item2[0], 1000000, 5413, 200, 549, 10, 12128, 100, 7121;
