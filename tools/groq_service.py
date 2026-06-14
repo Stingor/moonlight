@@ -63,6 +63,7 @@ DB_CONFIG = {
     "cursorclass": pymysql.cursors.DictCursor,
 }
 DB_RATHENA        = os.environ.get("DB_RATHENA",        "rathena")
+DB_LOG            = os.environ.get("DB_LOG",            "rathena_logs")
 TRANSLATE_URL     = os.environ.get("TRANSLATE_URL",     "http://localhost/api/translate_script.php")
 TRANSLATE_TOKEN   = os.environ.get("TRANSLATE_TOKEN",   "")
 DISCORD_WEBHOOK      = os.environ.get("DISCORD_WEBHOOK",      "")  # vide = désactivé
@@ -1226,7 +1227,7 @@ def _log_discord_chat(conn, src_name: str, message: str):
     try:
         with conn.cursor() as cur:
             cur.execute(
-                "INSERT INTO log_chat (time, type, type_id, src_charid, src_accountid, "
+                f"INSERT INTO `{DB_LOG}`.log_chat (time, type, type_id, src_charid, src_accountid, "
                 "src_map, src_map_x, src_map_y, dst_charname, message) "
                 "VALUES (NOW(), 0, 0, %s, 0, 'gonryun', 154, 111, '', %s)",
                 (src_name[:64], message[:500])
