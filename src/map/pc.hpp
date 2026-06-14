@@ -1,4 +1,4 @@
-// Copyright (c) rAthena Dev Teams - Licensed under GNU GPL
+﻿// Copyright (c) rAthena Dev Teams - Licensed under GNU GPL
 // For more information, see LICENCE in the main folder
 
 #ifndef PC_HPP
@@ -461,6 +461,7 @@ public:
 		bool autolootrare: 1;
 		bool showmobinfo: 1;
 		bool block_exp: 1;   ///< @blockexp : bloque le gain d'EXP
+		bool has_bourgeon: 1; ///< client sent CZ_BOURGEON_INTEGRITY -> safe to send ZC Bourgeon packets
 		uint32 autolootpognon;
 		uint8 sort_inv;      ///< e_sort_mode: tri préféré pour l'inventaire
 		uint8 sort_cart;     ///< e_sort_mode: tri préféré pour le chariot

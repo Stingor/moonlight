@@ -1264,10 +1264,85 @@ def _chat_chunks(prefix: str, text: str) -> list:
     return chunks
 
 
+def _ensure_discord_relay_table(conn):
+    """Create discord_relay table if it does not exist yet."""
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "CREATE TABLE IF NOT EXISTS `discord_relay` ("
+                "  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,"
+                "  `message` VARCHAR(480) NOT NULL DEFAULT '',"
+                "  `sent` TINYINT UNSIGNED NOT NULL DEFAULT 0,"
+                "  PRIMARY KEY (`id`),"
+                "  INDEX `idx_sent` (`sent`, `id`)"
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
+            )
+            # If the table pre-existed without AUTO_INCREMENT (MySQL strict mode raises 1364),
+            # repair it now so INSERT (message) works without specifying id.
+            try:
+                cur.execute(
+                    "ALTER TABLE `discord_relay` "
+                    "MODIFY COLUMN `id` INT UNSIGNED NOT NULL AUTO_INCREMENT"
+                )
+            except Exception:
+                cur.execute(
+                    "ALTER TABLE `discord_relay` "
+                    "ADD PRIMARY KEY (`id`), "
+                    "MODIFY COLUMN `id` INT UNSIGNED NOT NULL AUTO_INCREMENT"
+                )
+        conn.commit()
+    except Exception as e:
+        print(f"[Discord] discord_relay table ERREUR : {e}", file=sys.stderr)
+
+
+def _ensure_chatbot_broadcast_table(conn):
+    """Ensure chatbot_broadcast has AUTO_INCREMENT on id (pre-existing tables may lack it)."""
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "CREATE TABLE IF NOT EXISTS `chatbot_broadcast` ("
+                "  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,"
+                "  `message` VARCHAR(512) NOT NULL DEFAULT '',"
+                "  `sent` TINYINT UNSIGNED NOT NULL DEFAULT 0,"
+                "  PRIMARY KEY (`id`),"
+                "  INDEX `idx_sent` (`sent`, `id`)"
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
+            )
+            # If the table pre-existed without AUTO_INCREMENT, repair it.
+            # First try a plain MODIFY (works when id is already PRIMARY KEY).
+            # If that fails because id has no key yet, add PRIMARY KEY at the same time.
+            try:
+                cur.execute(
+                    "ALTER TABLE `chatbot_broadcast` "
+                    "MODIFY COLUMN `id` INT UNSIGNED NOT NULL AUTO_INCREMENT"
+                )
+            except Exception:
+                cur.execute(
+                    "ALTER TABLE `chatbot_broadcast` "
+                    "ADD PRIMARY KEY (`id`), "
+                    "MODIFY COLUMN `id` INT UNSIGNED NOT NULL AUTO_INCREMENT"
+                )
+        conn.commit()
+    except Exception as e:
+        print(f"[Discord] chatbot_broadcast table ERREUR : {e}", file=sys.stderr)
+
+
+def _write_discord_relay(conn, author: str, content: str):
+    """Write a Discord user message to discord_relay for in-game display via ZC_BOURGEON_DISCORD_MSG."""
+    lines = _chat_chunks(f"[#gonryun][{author}] ", content)
+    try:
+        with conn.cursor() as cur:
+            for line in lines:
+                cur.execute("INSERT INTO discord_relay (message) VALUES (%s)", (line,))
+        conn.commit()
+    except Exception as e:
+        print(f"[Discord] relay ERREUR : {e}", file=sys.stderr)
+
+
 def _discord_poll(conn):
     """Lit les nouveaux messages du channel Discord et les traite via Sting-Bot."""
     global _discord_last_msg_id, _discord_last_poll
-    if not DISCORD_BOT_TOKEN or not DISCORD_READ_CHANNEL or not DISCORD_WEBHOOK:
+    if not DISCORD_BOT_TOKEN or not DISCORD_READ_CHANNEL:
         return
     if time.time() - _discord_last_poll < DISCORD_POLL_SEC:
         return
@@ -1281,7 +1356,7 @@ def _discord_poll(conn):
             "Authorization": f"Bot {DISCORD_BOT_TOKEN}",
             "User-Agent": "curl/7.88.1",
         })
-        with urllib.request.urlopen(req, timeout=5) as r:
+        with urllib.request.urlopen(req, timeout=5, context=SSL_CTX) as r:
             messages = json.loads(r.read().decode("utf-8"))
     except Exception as e:
         print(f"[Discord] poll ERREUR : {e}", file=sys.stderr)
@@ -1300,14 +1375,26 @@ def _discord_poll(conn):
         _discord_last_msg_id = msg["id"]
         if msg.get("author", {}).get("bot"):
             continue
-        player  = msg["author"]["username"]
+        player  = (msg.get("member", {}).get("nick")
+                   or msg["author"].get("global_name")
+                   or msg["author"]["username"])
         content = msg.get("content", "").strip()
         if not content:
             continue
+
+        # Strip bot prefix before relay so ² alone or ²<space> sends nothing
         content_low = content.lower()
-        if content.startswith('²'):
+        is_bot_cmd  = content.startswith('²')
+        if is_bot_cmd:
             content = content[1:].strip()
-        elif 'sting' not in content_low:
+        if not content:
+            continue
+
+        # Relay ALL user messages in-game via discord_relay → ZC_BOURGEON_DISCORD_MSG
+        _write_discord_relay(conn, player, content)
+
+        # Bot processing : seulement si le message mentionne sting ou a le préfixe ²
+        if not is_bot_cmd and 'sting' not in content_low:
             continue
         print(f"[Discord] <- {player!r}: {content[:60]!r}", file=sys.stderr)
         _log_discord_chat(conn, f"(Discord){player}", content)
@@ -1316,9 +1403,10 @@ def _discord_poll(conn):
             _discord_post(player, content, response)
             disp = re.sub(r'^@[A-Z]+@\|?', '', response).replace('|', ' ')
             _log_discord_chat(conn, "(Discord)Sting-Bot", disp)
-            # Relay in-game : npctalk dans Gonryun via chatbot_broadcast
-            # Split at word boundaries so each row fits clif_messagecolor's 243-byte limit.
-            lines = _chat_chunks(f"[Discord][{player}] ", disp)
+            # Bot response → discord_relay (Bourgeon overlay, checkbox-gated)
+            _write_discord_relay(conn, "Sting-Bot", disp)
+            # Bot response → chatbot_broadcast → NPC npctalk (shown to all regardless of checkbox)
+            lines = _chat_chunks("", disp)
             try:
                 with conn.cursor() as _cur:
                     for line in lines:
@@ -1353,7 +1441,8 @@ def _discord_post(player: str, message: str, response: str):
                 },
                 method="POST",
             )
-            with urllib.request.urlopen(req, timeout=4) as r:
+            ctx = SSL_CTX if DISCORD_WEBHOOK.startswith("https://") else None
+            with urllib.request.urlopen(req, timeout=4, context=ctx) as r:
                 pass
         except Exception as e:
             print(f"[Discord] ERREUR : {e}", file=sys.stderr)
@@ -1497,6 +1586,8 @@ def main():
                 except Exception as e:
                     print(f"[Groq] Index non chargé (pas grave) : {e}", file=sys.stderr)
                     names_loaded = True  # ne pas retenter en boucle
+                _ensure_discord_relay_table(conn)
+                _ensure_chatbot_broadcast_table(conn)
                 # Statut initial : online
                 with conn.cursor() as _cur:
                     _set_bot_status(_cur, 1, 0, "")

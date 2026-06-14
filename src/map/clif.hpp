@@ -1516,5 +1516,7 @@ void clif_specialpopup(const map_session_data& sd, int32 id);
 
 // [Stingor] Bourgeon settings sync
 void clif_bourgeon_settings(map_session_data* sd);
+// [Stingor] Send Discord relay message (0x0C1F) to all players on gonryun
+void clif_bourgeon_discord_msg_all(const char* msg);
 
 #endif /* CLIF_HPP */

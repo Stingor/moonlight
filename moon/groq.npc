@@ -128,7 +128,7 @@ S_SayEvent:
 	return;
 
 OnTimer3000:
-	// --- Relay Discord -> in-game : diffuse les reponses bot depuis Discord ---
+	// --- Relay Discord -> in-game : bot responses via npctalk (chatbot_broadcast) ---
 	query_sql "SELECT id, message FROM chatbot_broadcast WHERE sent=0 ORDER BY id LIMIT 3", .@bids, .@bmsgs$;
 	.@bn = getarraysize(.@bids);
 	for (.@bi = 0; .@bi < .@bn; .@bi++) {
@@ -738,5 +738,25 @@ OnStingDead:
 	announce strcharinfo(0)+" a tué Sting-Bot au PvP et empoche 10 points d'évent !", bc_blue|bc_all;
 	// Sting-Bot est disablenpc : donpcevent le pilote quand meme (ignore le garde is_invisible).
 	donpcevent "sting_IA::OnPvpReturn";
+	end;
+}
+
+// NPC invisible dedie au relay Discord -> Bourgeon overlay (ZC_BOURGEON_DISCORD_MSG).
+// Timer independant : tourne meme quand sting_IA dort pendant un trip ou un event PvP.
+gonryun,159,116,0	script	#sting_discord_relay	-1,{
+	end;
+
+OnTimer3000:
+	query_sql "SELECT id, message FROM discord_relay WHERE sent=0 ORDER BY id LIMIT 5", .@drids, .@drmsgs$;
+	.@drn = getarraysize(.@drids);
+	for (.@dri = 0; .@dri < .@drn; .@dri++) {
+		bourgeon_discord_relay_all(.@drmsgs$[.@dri]);
+		query_sql "UPDATE discord_relay SET sent=1 WHERE id=" + .@drids[.@dri];
+	}
+	initnpctimer;
+	end;
+
+OnInit:
+	initnpctimer;
 	end;
 }

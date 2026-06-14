@@ -5317,6 +5317,11 @@ static TIMER_FUNC(clif_bourgeon_integrity_kick_timer) {
 }
 
 // Handles the client's integrity report (CZ 0x0BFB): [type:2][len:2][sha256:32]
+//
+// This is the handshake that identifies a Bourgeon client.  Only after this
+// packet is received do we set has_bourgeon and send ZC Bourgeon packets back,
+// so vanilla RO clients (which never send CZ_BOURGEON_INTEGRITY) are never hit
+// by opcodes that collide with their own handlers.
 void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!bourgeon_integrity_conf.loaded)
@@ -5328,6 +5333,8 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 		bourgeon_integrity_conf.exempt_ips.count(session[fd]->client_addr) > 0) {
 		ShowInfo("Bourgeon integrity: %s exempt (IP %s).\n",
 			sd->status.name, ip2str(session[fd]->client_addr, nullptr));
+		sd->state.has_bourgeon = true;
+		clif_bourgeon_settings(sd);
 		return;
 	}
 
@@ -5339,9 +5346,12 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 		snprintf(hex + i * 2, 3, "%02x", p->hash[i]);
 	hex[64] = '\0';
 
-	// Approved build — nothing to do.
-	if (bourgeon_integrity_conf.hashes.count(hex) > 0)
+	// Approved build — mark client and push settings.
+	if (bourgeon_integrity_conf.hashes.count(hex) > 0) {
+		sd->state.has_bourgeon = true;
+		clif_bourgeon_settings(sd);
 		return;
+	}
 
 	// Failure: always report to the console/log, even in development mode.
 	ShowWarning("Bourgeon integrity FAIL: %s (AID %d, account-level %d) hash=%s%s\n",
@@ -5358,7 +5368,42 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 		}
 		// 2. Kick after 5 s so the player has time to read the popup.
 		add_timer(gettick() + 5000, clif_bourgeon_integrity_kick_timer, sd->id, 0);
+	} else {
+		// Not enforcing but still a Bourgeon client (just wrong hash) — mark and
+		// send settings so their overlay works while they update.
+		sd->state.has_bourgeon = true;
+		clif_bourgeon_settings(sd);
 	}
+}
+
+// Sends ZC_BOURGEON_DISCORD_MSG (0x0C1F) to a single session.
+static int32 clif_bourgeon_discord_msg_pc(map_session_data* sd, va_list ap) {
+	const int32      mapid     = va_arg(ap, int32);
+	const uint8*     buf       = va_arg(ap, const uint8*);
+	const int32      pkt_len   = va_arg(ap, int32);
+	if (sd->m != mapid) return 0;
+	if (!sd->state.has_bourgeon) return 0;  // don't send to vanilla clients
+	const int32 fd = sd->fd;
+	if (!session_isActive(fd)) return 0;
+	WFIFOHEAD(fd, pkt_len);
+	memcpy(WFIFOP(fd, 0), buf, pkt_len);
+	WFIFOSET(fd, pkt_len);
+	return 0;
+}
+
+// Sends a pre-formatted Discord relay message to every player currently on gonryun.
+// msg is UTF-8 (e.g. "[Discord][username] some text") and is at most 243 bytes.
+void clif_bourgeon_discord_msg_all(const char* msg) {
+	nullpo_retv(msg);
+	const int32 gonryun_map = map_mapname2mapid("gonryun");
+	if (gonryun_map < 0) return;
+	const int32 msg_len = (int32)strnlen(msg, 243);
+	const int32 pkt_len = 4 + msg_len + 1;  // header + msg + null
+	uint8 buf[4 + 244] = {};
+	WBUFW(buf, 0) = HEADER_ZC_BOURGEON_DISCORD_MSG;
+	WBUFW(buf, 2) = (uint16)pkt_len;
+	memcpy(buf + 4, msg, msg_len);
+	map_foreachpc(clif_bourgeon_discord_msg_pc, gonryun_map, buf, pkt_len);
 }
 
 void clif_getareachar_unit( map_session_data* sd,block_list *bl ){

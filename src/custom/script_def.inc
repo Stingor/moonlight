@@ -61,3 +61,4 @@
 	BUILDIN_DEF(getrefineuid,"s?"),         // "uid"{, char_id} -> refine level, -1 si introuvable
 	BUILDIN_DEF(restartnpc,""),             // relance le NPC depuis le debut (comme goto vers un label en tete)
 	BUILDIN_DEF2(restartnpc,"gotomain",""), // alias de restartnpc
+	BUILDIN_DEF(bourgeon_discord_relay_all,"s"), // envoie ZC_BOURGEON_DISCORD_MSG à tous les joueurs de gonryun

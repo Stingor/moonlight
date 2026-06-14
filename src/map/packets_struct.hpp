@@ -5941,6 +5941,16 @@ struct PACKET_ZC_BOURGEON_KICK_NOTICE {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_KICK_NOTICE, 0x0bfa);
 
+// ZC (server -> client): relays a Discord chat message to the Bourgeon overlay.
+// Variable-length. Layout: [packetType:2][packetLength:2][msg:variable, null-terminated]
+// The overlay shows the message if the player's relay checkbox is ON, ignores it if OFF.
+struct PACKET_ZC_BOURGEON_DISCORD_MSG {
+	int16 packetType;
+	int16 packetLength;
+	char msg[1];  // variable-length, null-terminated; pre-formatted as "[Discord][name] text"
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_DISCORD_MSG, 0x0c1f);
+
 // NOTE: there is no ZC_BOURGEON_MAP packet. The Bourgeon client reads the
 // current map name from the standard 0x0091 ZC_NPCACK_MAPMOVE packet instead.
 // Custom ZC opcodes in the 0x0BFx range (0x0BFC, 0x0BFF) collide with fixed
