@@ -19,6 +19,7 @@ import re
 import ast
 import operator as _op
 import random
+import threading
 import urllib.request
 import urllib.error
 import certifi
@@ -64,6 +65,7 @@ DB_CONFIG = {
 DB_RATHENA        = os.environ.get("DB_RATHENA",        "rathena")
 TRANSLATE_URL     = os.environ.get("TRANSLATE_URL",     "http://localhost/api/translate_script.php")
 TRANSLATE_TOKEN   = os.environ.get("TRANSLATE_TOKEN",   "")
+DISCORD_WEBHOOK   = os.environ.get("DISCORD_WEBHOOK",  "")  # vide = désactivé
 
 SYSTEM_PROMPT = (
     "Tu es Sting-Bot, un vieux de la vieille de 40 ans qui traîne à Gonryun, sur Moonlight-Destiny. "
@@ -1208,6 +1210,45 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
 
 
 
+def _discord_post(player: str, message: str, response: str):
+    """Poste un résumé de la conversation sur le webhook Discord (fire-and-forget)."""
+    if not DISCORD_WEBHOOK:
+        return
+    # Filtre les messages auto/events : seul le vrai chat joueur part sur Discord
+    if message.startswith("[AUTO_") or message.startswith("[EVENT_"):
+        return
+    # Réponse vide = bot hors-ligne, rien d'intéressant à poster
+    if not response or response == "lol":
+        return
+    def _send():
+        try:
+            # Nettoie le préfixe d'action @HEAL@|... pour n'afficher que le texte
+            disp = re.sub(r'^@[A-Z]+@\|?', '', response)
+            payload = json.dumps({
+                "embeds": [{
+                    "color": 0x4e5d94,
+                    "fields": [
+                        {"name": "Joueur",    "value": player[:100],          "inline": True},
+                        {"name": "Message",   "value": message[:500],         "inline": False},
+                        {"name": "Sting-Bot", "value": disp[:1000] or "…",   "inline": False},
+                    ],
+                    "footer": {"text": "Moonlight-Destiny • Gonryun"},
+                    "timestamp": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+                }]
+            }).encode("utf-8")
+            req = urllib.request.Request(
+                DISCORD_WEBHOOK,
+                data=payload,
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=4, context=SSL_CTX) as r:
+                pass
+        except Exception as e:
+            print(f"[Discord] webhook ignoré : {e}", file=sys.stderr)
+    threading.Thread(target=_send, daemon=True).start()
+
+
 def process_pending(conn):
     global _offline_until, _pause_until
     with conn.cursor() as cursor:
@@ -1267,6 +1308,7 @@ def process_pending(conn):
                         pass
                 print(f"[Groq] {row['player']}: {row['message'][:60]!r}{_age}")
                 print(f"       -> {response!r}")
+                _discord_post(row["player"], row["message"], response)
                 # Met à jour info_display dans chatbot_status
                 if _last_rate_info["display"]:
                     try:
