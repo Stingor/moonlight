@@ -1222,30 +1222,23 @@ def _discord_post(player: str, message: str, response: str):
         return
     def _send():
         try:
-            # Nettoie le préfixe d'action @HEAL@|... pour n'afficher que le texte
             disp = re.sub(r'^@[A-Z]+@\|?', '', response)
             payload = json.dumps({
-                "embeds": [{
-                    "color": 0x4e5d94,
-                    "fields": [
-                        {"name": "Joueur",    "value": player[:100],          "inline": True},
-                        {"name": "Message",   "value": message[:500],         "inline": False},
-                        {"name": "Sting-Bot", "value": disp[:1000] or "…",   "inline": False},
-                    ],
-                    "footer": {"text": "Moonlight-Destiny • Gonryun"},
-                    "timestamp": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
-                }]
+                "content": disp[:2000] or "...",
             }).encode("utf-8")
             req = urllib.request.Request(
                 DISCORD_WEBHOOK,
                 data=payload,
-                headers={"Content-Type": "application/json"},
+                headers={
+                    "Content-Type": "application/json",
+                    "User-Agent": "curl/7.88.1",
+                },
                 method="POST",
             )
-            with urllib.request.urlopen(req, timeout=4, context=SSL_CTX) as r:
+            with urllib.request.urlopen(req, timeout=4) as r:
                 pass
         except Exception as e:
-            print(f"[Discord] webhook ignoré : {e}", file=sys.stderr)
+            print(f"[Discord] ERREUR : {e}", file=sys.stderr)
     threading.Thread(target=_send, daemon=True).start()
 
 
@@ -1365,6 +1358,10 @@ def main():
         print(f"LLM service démarré — {LLM_MODEL} @ {LLM_URL} | clé : {k[:8]}...{k[-4:]} (Ctrl+C pour arrêter)")
     else:
         print(f"LLM service démarré — {LLM_MODEL} @ {LLM_URL} (local, sans clé — Ctrl+C pour arrêter)")
+    if DISCORD_WEBHOOK:
+        print(f"Discord webhook : activé ({DISCORD_WEBHOOK[:40]}…)")
+    else:
+        print("Discord webhook : DÉSACTIVÉ (DISCORD_WEBHOOK absent de groq.env)")
     conn = None
     names_loaded = False
     while True:
