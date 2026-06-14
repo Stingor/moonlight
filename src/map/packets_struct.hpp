@@ -5919,6 +5919,17 @@ struct PACKET_CZ_BOURGEON_SETTING {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(CZ_BOURGEON_SETTING, 0x0bfd);
 
+// CZ (client -> server): the Bourgeon DLL reports a SHA-256 of its own ddraw.dll
+// (on-disk) when the player enters the game, for anti-tamper verification.
+// Enforcement + the development bypass live entirely server-side. Fixed 36 bytes.
+// Layout: [packetType:2][packetLength:2][sha256:32]
+struct PACKET_CZ_BOURGEON_INTEGRITY {
+	int16 packetType;
+	int16 packetLength;
+	uint8 hash[32];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_INTEGRITY, 0x0bfb);
+
 // NOTE: there is no ZC_BOURGEON_MAP packet. The Bourgeon client reads the
 // current map name from the standard 0x0091 ZC_NPCACK_MAPMOVE packet instead.
 // Custom ZC opcodes in the 0x0BFx range (0x0BFC, 0x0BFF) collide with fixed

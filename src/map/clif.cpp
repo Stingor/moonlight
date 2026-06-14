@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <fstream>
 #include <unordered_set>
 
 #include <common/cbasetypes.hpp>
@@ -5228,6 +5229,117 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 			ShowWarning("clif_parse_bourgeon_setting: unknown setting id %d from %s\n",
 				p->id, sd->status.name);
 			break;
+	}
+}
+
+// [Stingor] Bourgeon DLL integrity check (CZ 0x0BFB)
+//
+// The client sends a SHA-256 of its own ddraw.dll on game entry. We compare it
+// against an allowlist of approved build hashes. Enforcement and the
+// "development" bypass are entirely server-side here, so they can't be spoofed
+// by a tampered client.
+//
+// Config: conf/bourgeon_integrity.conf
+//   enforce: 0          // 0 = development (log only, never kick); 1 = enforce
+//   hash: <sha256 hex>  // one approved ddraw.dll hash per line (repeatable)
+//   exempt_ip: <ip>     // client IPs that bypass the check (dev/admin machines)
+//
+// NOTE: this raises the bar (catches missing/old/casually-modified DLLs) but is
+// not foolproof — a client controlling the machine can replay a valid hash.
+struct s_bourgeon_integrity_conf {
+	bool loaded = false;
+	bool enforce = false;
+	std::unordered_set<std::string> hashes;
+	std::unordered_set<uint32> exempt_ips;  // client_addr values that bypass the check
+};
+static s_bourgeon_integrity_conf bourgeon_integrity_conf;
+
+void clif_bourgeon_integrity_reload() {
+	s_bourgeon_integrity_conf& c = bourgeon_integrity_conf;
+	c.loaded = true;
+	c.enforce = false;
+	c.hashes.clear();
+	c.exempt_ips.clear();
+
+	const char* path = "conf/bourgeon_integrity.conf";
+	std::ifstream f(path);
+	if (!f) {
+		ShowWarning("Bourgeon integrity: '%s' not found — enforcement disabled.\n", path);
+		return;
+	}
+
+	std::string line;
+	while (std::getline(f, line)) {
+		// Strip comments (// or #) and surrounding whitespace.
+		size_t cpos = line.find("//");
+		if (cpos != std::string::npos) line.erase(cpos);
+		cpos = line.find('#');
+		if (cpos != std::string::npos) line.erase(cpos);
+		const size_t colon = line.find(':');
+		if (colon == std::string::npos) continue;
+
+		auto trim = [](std::string s) -> std::string {
+			const size_t b = s.find_first_not_of(" \t\r\n");
+			if (b == std::string::npos) return "";
+			const size_t e = s.find_last_not_of(" \t\r\n");
+			return s.substr(b, e - b + 1);
+		};
+		std::string key = trim(line.substr(0, colon));
+		std::string val = trim(line.substr(colon + 1));
+		if (key.empty() || val.empty()) continue;
+
+		if (key == "enforce") {
+			c.enforce = (atoi(val.c_str()) != 0);
+		} else if (key == "hash") {
+			for (char& ch : val) ch = static_cast<char>(tolower(static_cast<unsigned char>(ch)));
+			c.hashes.insert(val);
+		} else if (key == "exempt_ip") {
+			const uint32 ip = str2ip(val.c_str());
+			if (ip != 0) c.exempt_ips.insert(ip);
+		}
+	}
+
+	ShowStatus("Bourgeon integrity: enforce=%s, %u approved hash(es), %u exempt IP(s).\n",
+		c.enforce ? "true" : "false", static_cast<uint32>(c.hashes.size()),
+		static_cast<uint32>(c.exempt_ips.size()));
+}
+
+// Handles the client's integrity report (CZ 0x0BFB): [type:2][len:2][sha256:32]
+void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!bourgeon_integrity_conf.loaded)
+		clif_bourgeon_integrity_reload();
+
+	// Exempt IPs (developer/admin machines) bypass the check entirely, so a
+	// locally-built DLL with a changing hash can still connect to the live server.
+	if (session_isValid(fd) &&
+		bourgeon_integrity_conf.exempt_ips.count(session[fd]->client_addr) > 0) {
+		ShowInfo("Bourgeon integrity: %s exempt (IP %s).\n",
+			sd->status.name, ip2str(session[fd]->client_addr, nullptr));
+		return;
+	}
+
+	const PACKET_CZ_BOURGEON_INTEGRITY* p =
+		reinterpret_cast<const PACKET_CZ_BOURGEON_INTEGRITY*>(RFIFOP(fd, 0));
+
+	char hex[65];
+	for (int32 i = 0; i < 32; ++i)
+		snprintf(hex + i * 2, 3, "%02x", p->hash[i]);
+	hex[64] = '\0';
+
+	// Approved build — nothing to do.
+	if (bourgeon_integrity_conf.hashes.count(hex) > 0)
+		return;
+
+	// Failure: always report to the console/log, even in development mode.
+	ShowWarning("Bourgeon integrity FAIL: %s (AID %d, account-level %d) hash=%s%s\n",
+		sd->status.name, sd->status.account_id, pc_get_group_level(sd), hex,
+		bourgeon_integrity_conf.enforce ? " — kicking" : " — log only (enforce off)");
+
+	if (bourgeon_integrity_conf.enforce) {
+		// Kick: notify + drop the connection (clif_authfail_fd calls set_eof).
+		// Could be escalated to a ban (e.g. chrif_req_login_operation) if desired.
+		clif_authfail_fd(fd, 3);  // generic "rejected from server" notice
 	}
 }
 

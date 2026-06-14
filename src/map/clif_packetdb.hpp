@@ -2049,4 +2049,7 @@
 // [Stingor] Bourgeon DLL <-> server settings packet (fixed 8 bytes, always active)
 parseable_packet(HEADER_CZ_BOURGEON_SETTING, sizeof(PACKET_CZ_BOURGEON_SETTING), clif_parse_bourgeon_setting, 0);
 
+// [Stingor] Bourgeon DLL integrity report (fixed 36 bytes, always active)
+parseable_packet(HEADER_CZ_BOURGEON_INTEGRITY, sizeof(PACKET_CZ_BOURGEON_INTEGRITY), clif_parse_bourgeon_integrity, 0);
+
 #endif /* CLIF_PACKETDB_HPP */
