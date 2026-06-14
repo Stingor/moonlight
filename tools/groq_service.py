@@ -1227,9 +1227,9 @@ def _log_discord_chat(conn, src_name: str, message: str):
     try:
         with conn.cursor() as cur:
             cur.execute(
-                f"INSERT INTO `{DB_LOG}`.chatlog (time, type, type_id, src_charid, src_accountid, "
-                "src_map, src_map_x, src_map_y, dst_charname, message) "
-                "VALUES (NOW(), 0, 0, %s, 0, 'gonryun', 154, 111, '', %s)",
+                f"INSERT INTO `{DB_LOG}`.chatlog (time, src_charid, "
+                "src_map, dst_charname, message) "
+                "VALUES (NOW(), %s, 'gonryun', '', %s)",
                 (src_name[:64], message[:500])
             )
         conn.commit()
