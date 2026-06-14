@@ -1219,6 +1219,23 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
 
 
 
+def _log_discord_chat(conn, src_name: str, message: str):
+    """Insère un message Discord dans log_chat pour le site web.
+    src_charid est un VARCHAR custom contenant le nom de l'émetteur.
+    """
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "INSERT INTO log_chat (time, type, type_id, src_charid, src_accountid, "
+                "src_map, src_map_x, src_map_y, dst_charname, message) "
+                "VALUES (NOW(), 0, 0, %s, 0, 'gonryun', 154, 111, '', %s)",
+                (src_name[:64], message[:500])
+            )
+        conn.commit()
+    except Exception as e:
+        print(f"[Discord] log_chat ERREUR : {e}", file=sys.stderr)
+
+
 def _discord_poll(conn):
     """Lit les nouveaux messages du channel Discord et les traite via Sting-Bot."""
     global _discord_last_msg_id, _discord_last_poll
@@ -1265,11 +1282,13 @@ def _discord_poll(conn):
         elif 'sting' not in content_low:
             continue
         print(f"[Discord] <- {player!r}: {content[:60]!r}", file=sys.stderr)
+        _log_discord_chat(conn, f"(Discord){player}", content)
         response = get_response(player, content, conn, player_ctx="discord")
         if response:
             _discord_post(player, content, response)
-            # Relay in-game : npctalk dans Gonryun via chatbot_broadcast
             disp = re.sub(r'^@[A-Z]+@\|?', '', response).replace('|', ' ')
+            _log_discord_chat(conn, "(Discord)Sting-Bot", disp)
+            # Relay in-game : npctalk dans Gonryun via chatbot_broadcast
             broadcast = f"[Discord][{player}] {disp}"[:490]
             try:
                 with conn.cursor() as _cur:
