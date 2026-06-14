@@ -5308,6 +5308,14 @@ void clif_bourgeon_integrity_reload() {
 		static_cast<uint32>(c.exempt_ips.size()));
 }
 
+// Fires ~5 s after clif_parse_bourgeon_integrity sends the kick-notice packet.
+static TIMER_FUNC(clif_bourgeon_integrity_kick_timer) {
+	map_session_data* sd = map_id2sd(id);
+	if (sd != nullptr && session_isValid(sd->fd))
+		clif_authfail_fd(sd->fd, 3);
+	return 0;
+}
+
 // Handles the client's integrity report (CZ 0x0BFB): [type:2][len:2][sha256:32]
 void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
@@ -5338,12 +5346,18 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 	// Failure: always report to the console/log, even in development mode.
 	ShowWarning("Bourgeon integrity FAIL: %s (AID %d, account-level %d) hash=%s%s\n",
 		sd->status.name, sd->status.account_id, pc_get_group_level(sd), hex,
-		bourgeon_integrity_conf.enforce ? " — kicking" : " — log only (enforce off)");
+		bourgeon_integrity_conf.enforce ? " - kicking" : " - log only (enforce off)");
 
 	if (bourgeon_integrity_conf.enforce) {
-		// Kick: notify + drop the connection (clif_authfail_fd calls set_eof).
-		// Could be escalated to a ban (e.g. chrif_req_login_operation) if desired.
-		clif_authfail_fd(fd, 3);  // generic "rejected from server" notice
+		// 1. Tell the Bourgeon overlay to show an "update your client" popup.
+		{
+			PACKET_ZC_BOURGEON_KICK_NOTICE p{};
+			p.packetType   = HEADER_ZC_BOURGEON_KICK_NOTICE;
+			p.packetLength = sizeof(p);
+			socket_send<PACKET_ZC_BOURGEON_KICK_NOTICE>(fd, p);
+		}
+		// 2. Kick after 5 s so the player has time to read the popup.
+		add_timer(gettick() + 5000, clif_bourgeon_integrity_kick_timer, sd->id, 0);
 	}
 }
 

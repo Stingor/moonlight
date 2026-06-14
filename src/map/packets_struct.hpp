@@ -5932,6 +5932,15 @@ struct PACKET_CZ_BOURGEON_INTEGRITY {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(CZ_BOURGEON_INTEGRITY, 0x0bfb);
 
+// ZC (server -> client): tells the Bourgeon overlay the client is outdated
+// before the server kicks it. The overlay shows a popup then the kick fires
+// ~5 seconds later. Fixed 4 bytes. Layout: [packetType:2][packetLength:2]
+struct PACKET_ZC_BOURGEON_KICK_NOTICE {
+	int16 packetType;
+	int16 packetLength;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_KICK_NOTICE, 0x0bfa);
+
 // NOTE: there is no ZC_BOURGEON_MAP packet. The Bourgeon client reads the
 // current map name from the standard 0x0091 ZC_NPCACK_MAPMOVE packet instead.
 // Custom ZC opcodes in the 0x0BFx range (0x0BFC, 0x0BFF) collide with fixed
