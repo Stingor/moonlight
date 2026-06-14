@@ -5165,13 +5165,17 @@ void clif_bourgeon_settings(map_session_data* sd) {
 		{ BOURGEON_SETTING_ALOOT_RARE,    static_cast<int16>(sd->state.autolootrare  ? 1 : 0) },
 	};
 	const int16 count = static_cast<int16>(ARRAYLENGTH(settings));
-	const int16 pkt_len = static_cast<int16>(sizeof(PACKET_ZC_BOURGEON_SETTINGS) + count * 4);
+	// Explicit wire header length to avoid struct-padding ambiguity:
+	// [type:2][len:2][char_id:4][count:2] = 10 bytes, then count * {id:2,value:2}.
+	const int16 header_len = 10;
+	const int16 pkt_len = static_cast<int16>(header_len + count * 4);
 
 	WFIFOHEAD(fd, pkt_len);
 	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_SETTINGS;
 	WFIFOW(fd, 2) = pkt_len;
-	WFIFOW(fd, 4) = count;
-	int16 offset = static_cast<int16>(sizeof(PACKET_ZC_BOURGEON_SETTINGS));
+	WFIFOL(fd, 4) = sd->status.char_id;
+	WFIFOW(fd, 8) = count;
+	int16 offset = header_len;
 	for (int16 i = 0; i < count; ++i) {
 		WFIFOW(fd, offset)     = settings[i].id;
 		WFIFOW(fd, offset + 2) = settings[i].value;

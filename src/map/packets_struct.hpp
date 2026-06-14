@@ -5900,11 +5900,13 @@ DEFINE_PACKET_HEADER(CZ_ADVENTURER_AGENCY_JOIN_RESULT, 0x0af8);
 #endif  // PACKETVER_MAIN_NUM >= 20191218 || PACKETVER_RE_NUM >= 20191211 || PACKETVER_ZERO_NUM >= 20191224
 
 // [Stingor] Bourgeon DLL <-> server settings packets (opcodes free in PACKETVER 20250716)
-// ZC (server -> client): sends all settings on login. Variable-length.
-// Layout: [packetType:2][packetLength:2][count:2][{id:2, value:2} * count]
+// ZC (server -> client): sends the player's char_id + all settings on login.
+// Variable-length.
+// Layout: [packetType:2][packetLength:2][char_id:4][count:2][{id:2, value:2} * count]
 struct PACKET_ZC_BOURGEON_SETTINGS {
 	int16 packetType;
 	int16 packetLength;
+	uint32 char_id;
 	int16 count;
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_SETTINGS, 0x0bfe);
