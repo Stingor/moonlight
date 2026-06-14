@@ -1221,20 +1221,20 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
 
 
 def _log_discord_chat(conn, src_name: str, message: str):
-    """Insère un message Discord dans log_chat pour le site web.
+    """Insère un message Discord dans chatlog pour le site web.
     src_charid est un VARCHAR custom contenant le nom de l'émetteur.
     """
     try:
         with conn.cursor() as cur:
             cur.execute(
-                f"INSERT INTO `{DB_LOG}`.log_chat (time, type, type_id, src_charid, src_accountid, "
+                f"INSERT INTO `{DB_LOG}`.chatlog (time, type, type_id, src_charid, src_accountid, "
                 "src_map, src_map_x, src_map_y, dst_charname, message) "
                 "VALUES (NOW(), 0, 0, %s, 0, 'gonryun', 154, 111, '', %s)",
                 (src_name[:64], message[:500])
             )
         conn.commit()
     except Exception as e:
-        print(f"[Discord] log_chat ERREUR : {e}", file=sys.stderr)
+        print(f"[Discord] chatlog ERREUR : {e}", file=sys.stderr)
 
 
 def _discord_poll(conn):
