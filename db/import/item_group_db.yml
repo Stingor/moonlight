@@ -1389,7 +1389,7 @@ Body:
             Item: Jitterbug's_Tooth
             Rate: 1
           - Index: 8
-            Item: Piece_Of_Memory_Green
+            Item: Old_Violet_Box
             Rate: 1
           - Index: 9
             Item: Piece_Of_Memory_Green
@@ -1429,6 +1429,9 @@ Body:
             Rate: 1
           - Index: 21
             Item: Cursed_Fragment
+            Rate: 1
+          - Index: 22
+            Item: Old_Blue_Box
             Rate: 1
   - Group: BACSOJIN_SCROLL
     SubGroups:
