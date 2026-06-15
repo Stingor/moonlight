@@ -3,6 +3,7 @@
 
 #include <cstdio>
 #include <cstring>
+#include <fstream>
 #include <new>
 #include <string>
 
@@ -33,6 +34,8 @@
  *    RELOAD <target>    shortcut for "@reload<target>" (itemdb, mobdb, skilldb,
  *                       script, battleconf, statusdb, atcommand, ...)
  *    ATCMD <command>    run any atcommand (a leading '@' is optional)
+ *    INTEGRITY <sha256> replace the approved hash in conf/bourgeon_integrity.conf
+ *                       and reload it; use "reload" to reload without changing hash
  *    QUIT               close the connection
  *
  *  Commands run inside the single-threaded main loop, exactly like the server
@@ -155,6 +158,76 @@ static void admin_exec( int32 fd, const std::string& line ){
 	if( cmd == "LOG" ){
 		asd->log_subscribed = ( strcmpi( arg.c_str(), "on" ) == 0 || strcmpi( arg.c_str(), "yes" ) == 0 || arg == "1" );
 		admin_reply( fd, asd->log_subscribed ? "OK log on" : "OK log off" );
+		return;
+	}
+
+	// INTEGRITY reload          — reload conf/bourgeon_integrity.conf in place
+	// INTEGRITY <sha256hex>    — replace hash in the conf, then reload
+	if( cmd == "INTEGRITY" ){
+		if( arg.empty() ){
+			admin_reply( fd, "ERR usage: INTEGRITY <sha256hex> | INTEGRITY reload" );
+			return;
+		}
+
+		const char* integrity_path = "conf/bourgeon_integrity.conf";
+
+		if( strcmpi( arg.c_str(), "reload" ) == 0 ){
+			clif_bourgeon_integrity_reload();
+			admin_reply( fd, "OK integrity reloaded" );
+			return;
+		}
+
+		// Validate: must be exactly 64 hex characters (SHA-256).
+		if( arg.size() != 64 ){
+			admin_reply( fd, "ERR INTEGRITY: hash must be exactly 64 hex characters" );
+			return;
+		}
+		std::string hash = arg;
+		for( char& c : hash ) c = static_cast<char>(tolower(static_cast<unsigned char>(c)));
+		for( char c : hash ){
+			if( !isxdigit(static_cast<unsigned char>(c)) ){
+				admin_reply( fd, "ERR INTEGRITY: non-hex character in hash" );
+				return;
+			}
+		}
+
+		// Read the conf file, replacing every "hash: ..." line with the new hash
+		// (first occurrence) and dropping any duplicates. Everything else is kept.
+		std::ifstream in(integrity_path, std::ios::binary);
+		if( !in ){
+			admin_reply( fd, std::string("ERR INTEGRITY: cannot open ") + integrity_path );
+			return;
+		}
+		std::string out_content;
+		std::string line;
+		bool hash_placed = false;
+		while( std::getline(in, line) ){
+			size_t s = line.find_first_not_of(" \t");
+			bool is_hash_line = (s != std::string::npos && line.compare(s, 5, "hash:") == 0);
+			if( is_hash_line ){
+				if( !hash_placed ){
+					out_content += "hash: " + hash + "\n";
+					hash_placed = true;
+				}
+			} else {
+				out_content += line + "\n";
+			}
+		}
+		in.close();
+		if( !hash_placed ){
+			out_content += "hash: " + hash + "\n";
+		}
+
+		std::ofstream out_file(integrity_path, std::ios::trunc | std::ios::binary);
+		if( !out_file ){
+			admin_reply( fd, std::string("ERR INTEGRITY: cannot write ") + integrity_path );
+			return;
+		}
+		out_file << out_content;
+		out_file.close();
+
+		clif_bourgeon_integrity_reload();
+		admin_reply( fd, "OK integrity hash updated: " + hash );
 		return;
 	}
 
