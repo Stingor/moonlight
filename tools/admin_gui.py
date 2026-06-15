@@ -500,7 +500,9 @@ class AdminGUI:
             if not self._history or self._history[-1] != cmd:
                 self._history.append(cmd)
             self._history_pos = len(self._history)
-            self._send_async("ATCMD " + cmd)
+            _RAW = ("INTEGRITY ", "RELOAD ", "LOG ", "NAME ", "QUIT")
+            line = cmd if any(cmd.upper().startswith(p) for p in _RAW) else "ATCMD " + cmd
+            self._send_async(line)
             self.cmd_var.set("")
 
     def _history_up(self, event=None):
