@@ -5138,7 +5138,7 @@ void clif_hide_wings( const map_session_data* sd ) // [Stingor]
 // Setting IDs (must match MoonlightUi client-side constants in moonlight_ui.h):
 //   0 = SHOWEXP   1 = SHOWZENY   2 = SHOWMOBINFO   3 = SEPARATE
 //   4 = BLOCKEXP  5 = ALOOTRARE  6 = ALOOTRATE      7 = ALOOTPOGNON  8 = ALOOTTYPE
-// Discord is client-only (saved to bourgeon_settings.yaml) — not sent here.
+//   9 = DISCORD_CHAT
 // ALOOTRATE  wire: 0-100 (%)        stored: *100 (0-10000)
 // ALOOTPOGNON wire: 0-10000 (/100z) stored: *100 (0-1,000,000 z)
 // ALOOTTYPE  wire: 0 or 1           stored: 0 or 0xFFFF (all-types bitmask)
@@ -5152,6 +5152,7 @@ enum e_bourgeon_setting : int16 {
 	BOURGEON_SETTING_ALOOT_RATE    = 6,
 	BOURGEON_SETTING_ALOOT_POGNON  = 7,
 	BOURGEON_SETTING_ALOOT_TYPE    = 8,
+	BOURGEON_SETTING_DISCORD_CHAT  = 9,
 };
 
 // Sends the full set of settings to the client on login.
@@ -5172,6 +5173,7 @@ void clif_bourgeon_settings(map_session_data* sd) {
 		{ BOURGEON_SETTING_ALOOT_RATE,    static_cast<int16>(sd->state.autoloot / 100) },
 		{ BOURGEON_SETTING_ALOOT_POGNON,  static_cast<int16>(sd->state.autolootpognon / 100) },
 		{ BOURGEON_SETTING_ALOOT_TYPE,    static_cast<int16>(sd->state.autoloottype) },
+		{ BOURGEON_SETTING_DISCORD_CHAT,  static_cast<int16>(sd->state.discord_chat  ? 1 : 0) },
 	};
 	const int16 count = static_cast<int16>(ARRAYLENGTH(settings));
 	// Explicit wire header length to avoid struct-padding ambiguity:
@@ -5281,6 +5283,11 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 			}
 			break;
 		}
+		case BOURGEON_SETTING_DISCORD_CHAT:
+			sd->state.discord_chat = (p->value != 0);
+			pc_setglobalreg(sd, add_str("discord_chat"), sd->state.discord_chat ? 1 : 0);
+			clif_displaymessage(fd, sd->state.discord_chat ? "Discord relay : ON" : "Discord relay : OFF");
+			break;
 		default:
 			ShowWarning("clif_parse_bourgeon_setting: unknown setting id %d from %s\n",
 				p->id, sd->status.name);
@@ -12036,6 +12043,18 @@ void clif_parse_GlobalMessage(int32 fd, map_session_data* sd)
 
 	// send message to others (using the send buffer for temp. storage)
 	clif_GlobalMessage( *sd, output, sd->chatID ? CHAT_WOS : AREA_CHAT_WOC );
+
+	// [Stingor] Outbound Discord relay
+	if (sd->state.discord_chat && sd->state.has_bourgeon) {
+		char esc_name[NAME_LENGTH * 2 + 1];
+		char esc_msg[CHAT_SIZE_MAX * 2 + 1];
+		Sql_EscapeString(mmysql_handle, esc_name, sd->status.name);
+		Sql_EscapeString(mmysql_handle, esc_msg, message);
+		if (Sql_Query(mmysql_handle,
+			"INSERT INTO \discord_outbound\ (player, message) VALUES ('%s', '%s')",
+			esc_name, esc_msg) != SQL_SUCCESS)
+			Sql_ShowDebug(mmysql_handle);
+	}
 
 	length = strlen(output) + 1;
 

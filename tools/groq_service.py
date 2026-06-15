@@ -908,6 +908,7 @@ def _parse_groq_duration(s):
 _last_rate_info      = {"display": ""}   # partagé avec process_pending
 _discord_last_msg_id = ""               # curseur : dernier message Discord traité
 _discord_last_poll   = 0.0             # timestamp du dernier poll Discord
+_discord_outbound_last_post = 0.0      # timestamp du dernier webhook outbound
 
 
 def _log_rate_headers(headers):
@@ -1327,6 +1328,24 @@ def _ensure_chatbot_broadcast_table(conn):
         print(f"[Discord] chatbot_broadcast table ERREUR : {e}", file=sys.stderr)
 
 
+def _ensure_discord_outbound_table(conn):
+    """Create discord_outbound table if it does not exist yet."""
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "CREATE TABLE IF NOT EXISTS `discord_outbound` ("
+                "  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,"
+                "  `player` VARCHAR(24) NOT NULL DEFAULT '',"
+                "  `message` VARCHAR(500) NOT NULL DEFAULT '',"
+                "  `sent` TINYINT UNSIGNED NOT NULL DEFAULT 0,"
+                "  PRIMARY KEY (`id`),"
+                "  INDEX `idx_sent` (`sent`, `id`)"
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
+            )
+        conn.commit()
+    except Exception as e:
+        print(f"[Discord] discord_outbound table ERREUR : {e}", file=sys.stderr)
+
 def _write_discord_relay(conn, author: str, content: str):
     """Write a Discord user message to discord_relay for in-game display via ZC_BOURGEON_DISCORD_MSG."""
     lines = _chat_chunks(f"[#gonryun][{author}] ", content)
@@ -1439,6 +1458,53 @@ def _discord_post(player: str, message: str, response: str):
             print(f"[Discord] ERREUR : {e}", file=sys.stderr)
     threading.Thread(target=_send, daemon=True).start()
 
+
+def _discord_outbound_poll(conn):
+    """Lit discord_outbound et poste les messages des joueurs sur le webhook Discord."""
+    global _discord_outbound_last_post
+    if not DISCORD_WEBHOOK:
+        return
+    now = time.time()
+    if now - _discord_outbound_last_post < 2.0:
+        return
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "SELECT `id`, `player`, `message` FROM `discord_outbound` "
+                "WHERE `sent` = 0 ORDER BY `id` LIMIT 5"
+            )
+            rows = cur.fetchall()
+        if not rows:
+            return
+        for row_id, player, message in rows:
+            if now - _discord_outbound_last_post < 2.0:
+                break
+            try:
+                payload = json.dumps({
+                    "content": f"**[In-Game]** **{player}** : {message}"[:2000],
+                }).encode("utf-8")
+                req = urllib.request.Request(
+                    DISCORD_WEBHOOK,
+                    data=payload,
+                    headers={
+                        "Content-Type": "application/json",
+                        "User-Agent": "curl/7.88.1",
+                    },
+                    method="POST",
+                )
+                ctx = SSL_CTX if DISCORD_WEBHOOK.startswith("https://") else None
+                with urllib.request.urlopen(req, timeout=4, context=ctx) as r:
+                    pass
+                _discord_outbound_last_post = time.time()
+                now = _discord_outbound_last_post
+            except Exception as e:
+                print(f"[Discord] outbound webhook ERREUR : {e}", file=sys.stderr)
+            finally:
+                with conn.cursor() as cur:
+                    cur.execute("UPDATE `discord_outbound` SET `sent` = 1 WHERE `id` = %s", (row_id,))
+                conn.commit()
+    except Exception as e:
+        print(f"[Discord] outbound poll ERREUR : {e}", file=sys.stderr)
 
 def process_pending(conn):
     global _offline_until, _pause_until
@@ -1579,12 +1645,14 @@ def main():
                     names_loaded = True  # ne pas retenter en boucle
                 _ensure_discord_relay_table(conn)
                 _ensure_chatbot_broadcast_table(conn)
+                _ensure_discord_outbound_table(conn)
                 # Statut initial : online
                 with conn.cursor() as _cur:
                     _set_bot_status(_cur, 1, 0, "")
                 conn.commit()
             process_pending(conn)
             _discord_poll(conn)
+            _discord_outbound_poll(conn)
         except pymysql.Error as exc:
             print(f"[Groq] Erreur DB: {exc}", file=sys.stderr)
             conn = None

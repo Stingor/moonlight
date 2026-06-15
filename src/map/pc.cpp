@@ -2453,6 +2453,7 @@ void pc_reg_received(map_session_data *sd)
 	sd->state.autoloottype   = static_cast<uint16>(pc_readglobalreg(sd, add_str("autoloottype")));
 	sd->state.kill_separate = pc_readglobalreg(sd, add_str("separate")) ? 1 : 0;
 	sd->state.showmobinfo = pc_readglobalreg(sd, add_str("showmobinfo")) ? 1 : 0;
+	sd->state.discord_chat = pc_readglobalreg(sd, add_str("discord_chat")) != 0;
 	sd->state.block_exp   = pc_readglobalreg(sd, add_str("blockexp"))   ? 1 : 0;
 	sd->state.showexp = pc_readglobalreg(sd, add_str("showexp"));
 	sd->state.sort_inv      = (uint8)pc_readglobalreg(sd, add_str("TRI_INV"));
