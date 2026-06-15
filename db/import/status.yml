@@ -132,3 +132,39 @@ Body:
       bonus2 bAddRace2,RC2_BIO5_MVP, .@val1;
       bonus2 bMagicAddRace2,RC2_BIO5_MVP, .@val1;
       bonus2 bSubRace2,RC2_BIO5_MVP, .@val2;
+  - Status: Quest_Buff1
+    Icon: EFST_QUEST_BUFF1
+    Flags:
+      NoRemoveOnDead: true
+      NoClearbuff: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+    Script: |
+      .@val1 = getstatus(SC_QUEST_BUFF1, 1);
+      bonus bMatk, .@val1;
+      bonus bBaseAtk, .@val1;
+  - Status: Quest_Buff2
+    Icon: EFST_QUEST_BUFF2
+    Flags:
+      NoRemoveOnDead: true
+      NoClearbuff: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+    Script: |
+      .@val1 = getstatus(SC_QUEST_BUFF2, 1);
+      bonus bMatk, .@val1;
+      bonus bBaseAtk, .@val1;
+  - Status: Quest_Buff3
+    Icon: EFST_QUEST_BUFF3
+    Flags:
+      NoRemoveOnDead: true
+      NoClearbuff: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+    Script: |
+      .@val1 = getstatus(SC_QUEST_BUFF3, 1);
+      bonus bMatk, .@val1;
+      bonus bBaseAtk, .@val1;
