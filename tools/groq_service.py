@@ -67,6 +67,7 @@ DB_LOG            = os.environ.get("DB_LOG",            "rathena_logs")
 TRANSLATE_URL     = os.environ.get("TRANSLATE_URL",     "http://localhost/api/translate_script.php")
 TRANSLATE_TOKEN   = os.environ.get("TRANSLATE_TOKEN",   "")
 DISCORD_WEBHOOK      = os.environ.get("DISCORD_WEBHOOK",      "")  # vide = désactivé
+DISCORD_OUTBOUND_WEBHOOK = os.environ.get("DISCORD_OUTBOUND_WEBHOOK", "")  # webhook Bourgeon pour l'outbound in-game
 DISCORD_BOT_TOKEN    = os.environ.get("DISCORD_BOT_TOKEN",    "")  # token du bot pour lire le channel
 DISCORD_READ_CHANNEL = os.environ.get("DISCORD_READ_CHANNEL", "")  # ID du channel à scruter
 DISCORD_POLL_SEC     = float(os.environ.get("DISCORD_POLL_SEC", "2.0"))  # intervalle de poll (s)
@@ -1462,7 +1463,7 @@ def _discord_post(player: str, message: str, response: str):
 def _discord_outbound_poll(conn):
     """Lit discord_outbound et poste les messages des joueurs sur le webhook Discord."""
     global _discord_outbound_last_post
-    if not DISCORD_WEBHOOK:
+    if not DISCORD_OUTBOUND_WEBHOOK:
         return
     now = time.time()
     if now - _discord_outbound_last_post < 2.0:
@@ -1479,12 +1480,21 @@ def _discord_outbound_poll(conn):
         for row_id, player, message in rows:
             if now - _discord_outbound_last_post < 2.0:
                 break
+            # Mark sent BEFORE posting — avoids duplicate posts if the webhook
+            # call succeeds but the DB update later fails (infinite-repost loop).
+            try:
+                with conn.cursor() as cur:
+                    cur.execute("UPDATE `discord_outbound` SET `sent` = 1 WHERE `id` = %s", (row_id,))
+                conn.commit()
+            except Exception as e:
+                print(f"[Discord] outbound mark-sent ERREUR row {row_id}: {e}", file=sys.stderr)
+                continue
             try:
                 payload = json.dumps({
                     "content": f"**[In-Game]** **{player}** : {message}"[:2000],
                 }).encode("utf-8")
                 req = urllib.request.Request(
-                    DISCORD_WEBHOOK,
+                    DISCORD_OUTBOUND_WEBHOOK,
                     data=payload,
                     headers={
                         "Content-Type": "application/json",
@@ -1492,17 +1502,13 @@ def _discord_outbound_poll(conn):
                     },
                     method="POST",
                 )
-                ctx = SSL_CTX if DISCORD_WEBHOOK.startswith("https://") else None
+                ctx = SSL_CTX if DISCORD_OUTBOUND_WEBHOOK.startswith("https://") else None
                 with urllib.request.urlopen(req, timeout=4, context=ctx) as r:
                     pass
                 _discord_outbound_last_post = time.time()
                 now = _discord_outbound_last_post
             except Exception as e:
                 print(f"[Discord] outbound webhook ERREUR : {e}", file=sys.stderr)
-            finally:
-                with conn.cursor() as cur:
-                    cur.execute("UPDATE `discord_outbound` SET `sent` = 1 WHERE `id` = %s", (row_id,))
-                conn.commit()
     except Exception as e:
         print(f"[Discord] outbound poll ERREUR : {e}", file=sys.stderr)
 
