@@ -1337,12 +1337,20 @@ def _ensure_discord_outbound_table(conn):
                 "CREATE TABLE IF NOT EXISTS `discord_outbound` ("
                 "  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,"
                 "  `player` VARCHAR(24) NOT NULL DEFAULT '',"
+                "  `char_id` INT UNSIGNED NOT NULL DEFAULT 0,"
                 "  `message` VARCHAR(500) NOT NULL DEFAULT '',"
                 "  `sent` TINYINT UNSIGNED NOT NULL DEFAULT 0,"
                 "  PRIMARY KEY (`id`),"
                 "  INDEX `idx_sent` (`sent`, `id`)"
                 ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
             )
+            try:
+                cur.execute(
+                    "ALTER TABLE `discord_outbound` "
+                    "ADD COLUMN `char_id` INT UNSIGNED NOT NULL DEFAULT 0 AFTER `player`"
+                )
+            except Exception:
+                pass  # column already exists
         conn.commit()
     except Exception as e:
         print(f"[Discord] discord_outbound table ERREUR : {e}", file=sys.stderr)
@@ -1471,13 +1479,13 @@ def _discord_outbound_poll(conn):
     try:
         with conn.cursor() as cur:
             cur.execute(
-                "SELECT `id`, `player`, `message` FROM `discord_outbound` "
+                "SELECT `id`, `player`, `char_id`, `message` FROM `discord_outbound` "
                 "WHERE `sent` = 0 ORDER BY `id` LIMIT 5"
             )
             rows = cur.fetchall()
         if not rows:
             return
-        for row_id, player, message in rows:
+        for row_id, player, char_id, message in rows:
             if now - _discord_outbound_last_post < 2.0:
                 break
             # Mark sent BEFORE posting — avoids duplicate posts if the webhook
@@ -1490,9 +1498,13 @@ def _discord_outbound_poll(conn):
                 print(f"[Discord] outbound mark-sent ERREUR row {row_id}: {e}", file=sys.stderr)
                 continue
             try:
-                payload = json.dumps({
-                    "content": f"**[In-Game]** **{player}** : {message}"[:2000],
-                }).encode("utf-8")
+                wp = {
+                    "username": player,
+                    "content":  message[:2000],
+                }
+                if char_id:
+                    wp["avatar_url"] = f"https://moonlight-destiny.fr/images/CacheAvatar/{char_id}.png"
+                payload = json.dumps(wp).encode("utf-8")
                 req = urllib.request.Request(
                     DISCORD_OUTBOUND_WEBHOOK,
                     data=payload,

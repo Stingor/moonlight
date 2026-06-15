@@ -12051,8 +12051,8 @@ void clif_parse_GlobalMessage(int32 fd, map_session_data* sd)
 		Sql_EscapeString(mmysql_handle, esc_name, sd->status.name);
 		Sql_EscapeString(mmysql_handle, esc_msg, message);
 		if (Sql_Query(mmysql_handle,
-			"INSERT INTO \discord_outbound\ (player, message) VALUES ('%s', '%s')",
-			esc_name, esc_msg) != SQL_SUCCESS)
+			"INSERT INTO `discord_outbound` (player, char_id, message) VALUES ('%s', %u, '%s')",
+			esc_name, sd->status.char_id, esc_msg) != SQL_SUCCESS)
 			Sql_ShowDebug(mmysql_handle);
 	}
 
