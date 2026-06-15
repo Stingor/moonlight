@@ -1485,7 +1485,11 @@ def _discord_outbound_poll(conn):
             rows = cur.fetchall()
         if not rows:
             return
-        for row_id, player, char_id, message in rows:
+        for row in rows:
+            row_id  = row["id"]
+            player  = row["player"]
+            char_id = row["char_id"]
+            message = row["message"]
             if now - _discord_outbound_last_post < 2.0:
                 break
             # Mark sent BEFORE posting — avoids duplicate posts if the webhook
