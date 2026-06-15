@@ -2064,6 +2064,14 @@ Body:
     Reward:
       Script: " specialeffect2 EF_BLESSING; sc_start SC_BLESSING,120000,20; "
     Score: 50
+  - Id: 200035
+    Group: Goal_Level
+    Name: Level 200 achieved!
+    Condition: " BaseLevel >= 200 "
+    Rewards:
+    #  Item: C_Magestic_Goat2
+      Script: " specialeffect2 EF_BLESSING; sc_start SC_BLESSING,30000,10; "
+    Score: 100
   - Id: 220000
     Group: Chatting_Create
     Name: Community begin
