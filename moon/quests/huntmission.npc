@@ -19,7 +19,6 @@ gonryun,152,119,6	script	Chuck Testa::huntmission	806,{
 	}
 
 	if( !#Mission_DB_Delay ) {
-		next;
 		mes "[Chuck Testa]";
 		mes "Héhéhé nouveauté !!!";
 		emotion ET_HUK;
@@ -32,7 +31,6 @@ gonryun,152,119,6	script	Chuck Testa::huntmission	806,{
 	}
 
 	if( !#Mission_Delay_MVP ) {
-		next;
 		mes "[Chuck Testa]";
 		mes "Héhéhé nouveauté !!!";
 		emotion ET_HUK;
