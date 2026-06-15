@@ -34,12 +34,16 @@ L_chat:
 	.@aid     = getcharid(3);
 	.@reqid$  = ""+.@aid+gettimetick(2);
 
-	// Joueurs a proximite (6 cases)
+	// Joueurs a proximite (6 cases, limite 5 pour eviter overflow player_ctx)
 	getareaunits(BL_PC, "gonryun", .ox-6, .oy-6, .ox+6, .oy+6, .@near_names$);
 	.@nearby$ = "";
+	.@nc = 0;
 	for (.@n = 0; .@n < getarraysize(.@near_names$); .@n++) {
-		if (.@near_names$[.@n] != .@player$ && .@near_names$[.@n] != "")
+		if (.@near_names$[.@n] != .@player$ && .@near_names$[.@n] != "") {
 			.@nearby$ = .@nearby$ == "" ? .@near_names$[.@n] : .@nearby$+","+.@near_names$[.@n];
+			.@nc = .@nc + 1;
+			if (.@nc >= 5) break;
+		}
 	}
 	.@pctx$ = .@player$+"|"+BaseLevel+"|"+JobLevel+"|"+Class+"|"+Zeny+"|"+Weight+"|"+MaxWeight+"|"+.@nearby$;
 	query_sql "INSERT INTO chatbot_queue (reqid, player, message, player_ctx) VALUES ('"+ .@reqid$ +"','"+ escape_sql(.@player$) +"','"+ escape_sql(.@msg$) +"','"+ escape_sql(.@pctx$) +"')";
