@@ -908,6 +908,7 @@ ACMD_FUNC(autolootrare)
 	else
 		clif_displaymessage(fd, msg_txt(sd,1823));
 
+	if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
 	return 0;
 }
 
@@ -924,11 +925,11 @@ ACMD_FUNC(showmobinfo)
 
 	if( sd->state.showmobinfo )
 		clif_displaymessage(fd, msg_txt(sd,1860));
-	else 
+	else
 		clif_displaymessage(fd, msg_txt(sd,1861));
 
 	clif_refresh(sd);
-
+	if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
 	return 0;
 }
 
@@ -952,6 +953,7 @@ ACMD_FUNC(autolootpognon)
 			if( (sscanf(message, "%d", &prix) < 1) || prix <= 0 ) {
 				prix = sd->state.autolootpognon = 0;
 				clif_displaymessage(fd, msg_txt(sd,1828));
+				if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
 				return -1;
 			}
 
@@ -969,6 +971,7 @@ ACMD_FUNC(autolootpognon)
 		else
 			clif_displaymessage(fd, msg_txt(sd,1827));
 	}
+	if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
 	return 0;
 }
 
@@ -1760,6 +1763,7 @@ ACMD_FUNC(separate)
 	else
 		clif_displaymessage(fd, msg_txt(sd, 1863)); // Kill separator: DESACTIVE
 
+	if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
 	return 0;
 }
 
@@ -1842,6 +1846,7 @@ ACMD_FUNC(blockexp)
 	else
 		clif_displaymessage(fd, "Gain d'EXP : ACTIV\xc9. Vous gagnez \xe0 nouveau de l'exp\xe9rience.");
 
+	if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
 	return 0;
 }
 

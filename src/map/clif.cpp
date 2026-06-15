@@ -5136,9 +5136,12 @@ void clif_hide_wings( const map_session_data* sd ) // [Stingor]
 // [Stingor] Bourgeon settings sync (ZC 0x0BFE / CZ 0x0BFD)
 //
 // Setting IDs (must match MoonlightUi client-side constants in moonlight_ui.h):
-//   0 = SHOWEXP   1 = SHOWZENY   2 = SHOWMOBINFO
-//   3 = SEPARATE  4 = BLOCKEXP   5 = ALOOTRARE
+//   0 = SHOWEXP   1 = SHOWZENY   2 = SHOWMOBINFO   3 = SEPARATE
+//   4 = BLOCKEXP  5 = ALOOTRARE  6 = ALOOTRATE      7 = ALOOTPOGNON  8 = ALOOTTYPE
 // Discord is client-only (saved to bourgeon_settings.yaml) — not sent here.
+// ALOOTRATE  wire: 0-100 (%)        stored: *100 (0-10000)
+// ALOOTPOGNON wire: 0-10000 (/100z) stored: *100 (0-1,000,000 z)
+// ALOOTTYPE  wire: 0 or 1           stored: 0 or 0xFFFF (all-types bitmask)
 enum e_bourgeon_setting : int16 {
 	BOURGEON_SETTING_SHOW_EXP      = 0,
 	BOURGEON_SETTING_SHOW_ZENY     = 1,
@@ -5146,6 +5149,9 @@ enum e_bourgeon_setting : int16 {
 	BOURGEON_SETTING_SEPARATE      = 3,
 	BOURGEON_SETTING_BLOCK_EXP     = 4,
 	BOURGEON_SETTING_ALOOT_RARE    = 5,
+	BOURGEON_SETTING_ALOOT_RATE    = 6,
+	BOURGEON_SETTING_ALOOT_POGNON  = 7,
+	BOURGEON_SETTING_ALOOT_TYPE    = 8,
 };
 
 // Sends the full set of settings to the client on login.
@@ -5163,6 +5169,9 @@ void clif_bourgeon_settings(map_session_data* sd) {
 		{ BOURGEON_SETTING_SEPARATE,      static_cast<int16>(sd->state.kill_separate ? 1 : 0) },
 		{ BOURGEON_SETTING_BLOCK_EXP,     static_cast<int16>(sd->state.block_exp     ? 1 : 0) },
 		{ BOURGEON_SETTING_ALOOT_RARE,    static_cast<int16>(sd->state.autolootrare  ? 1 : 0) },
+		{ BOURGEON_SETTING_ALOOT_RATE,    static_cast<int16>(sd->state.autoloot / 100) },
+		{ BOURGEON_SETTING_ALOOT_POGNON,  static_cast<int16>(sd->state.autolootpognon / 100) },
+		{ BOURGEON_SETTING_ALOOT_TYPE,    static_cast<int16>(sd->state.autoloottype) },
 	};
 	const int16 count = static_cast<int16>(ARRAYLENGTH(settings));
 	// Explicit wire header length to avoid struct-padding ambiguity:
@@ -5229,6 +5238,49 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 			pc_setglobalreg(sd, add_str("alootrare"), sd->state.autolootrare ? 1 : 0);
 			clif_displaymessage(fd, msg_txt(sd, sd->state.autolootrare ? 1822 : 1823));
 			break;
+		case BOURGEON_SETTING_ALOOT_RATE: {
+			uint16 rate = static_cast<uint16>(std::max(0, std::min(10000, (int)p->value * 100)));
+			sd->state.autoloot = rate;
+			pc_setglobalreg(sd, add_str("autoloot"), rate);
+			char aloot_rate_buf[32];
+			snprintf(aloot_rate_buf, sizeof(aloot_rate_buf), "Autoloot : %d%%", (int)p->value);
+			clif_displaymessage(fd, aloot_rate_buf);
+			break;
+		}
+		case BOURGEON_SETTING_ALOOT_POGNON: {
+			uint32 zeny = static_cast<uint32>((uint16)p->value) * 100;
+			sd->state.autolootpognon = zeny;
+			pc_setglobalreg(sd, add_str("alootpognon"), static_cast<int32>(zeny));
+			char aloot_pgn_buf[48];
+			snprintf(aloot_pgn_buf, sizeof(aloot_pgn_buf), "Autolootpognon : %u z", zeny);
+			clif_displaymessage(fd, aloot_pgn_buf);
+			break;
+		}
+		case BOURGEON_SETTING_ALOOT_TYPE: {
+			sd->state.autoloottype = static_cast<uint16>(p->value);
+			pc_setglobalreg(sd, add_str("autoloottype"), sd->state.autoloottype);
+			if (sd->state.autoloottype) {
+				static const struct { int bit; const char* name; } kTypes[] = {
+					{1<<0,"Healing"},{1<<2,"Usable"},{1<<3,"Etc"},
+					{1<<4,"Armor"},{1<<5,"Weapon"},{1<<6,"Card"},
+					{1<<7,"PetEgg"},{1<<8,"PetArmor"},{1<<10,"Ammo"},{1<<11,"Delay"},
+				};
+				char list[96] = "";
+				bool first = true;
+				for (const auto& t : kTypes) {
+					if (!(sd->state.autoloottype & t.bit)) continue;
+					if (!first) strncat(list, ", ", sizeof(list) - strlen(list) - 1);
+					strncat(list, t.name, sizeof(list) - strlen(list) - 1);
+					first = false;
+				}
+				char aloot_type_buf[128];
+				snprintf(aloot_type_buf, sizeof(aloot_type_buf), "Autoloottype ON : %s", list);
+				clif_displaymessage(fd, aloot_type_buf);
+			} else {
+				clif_displaymessage(fd, "Autoloottype : OFF");
+			}
+			break;
+		}
 		default:
 			ShowWarning("clif_parse_bourgeon_setting: unknown setting id %d from %s\n",
 				p->id, sd->status.name);

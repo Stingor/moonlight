@@ -7084,6 +7084,7 @@ ACMD_FUNC(autoloot)
 	}else
 		clif_displaymessage(fd, msg_txt(sd,1188)); // Autoloot is now off.
 
+	if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
 	return 0;
 }
 
@@ -7296,6 +7297,7 @@ ACMD_FUNC(autoloottype)
 			clif_displaymessage(fd, msg_txt(sd,1491)); // Your autoloottype list has been reset.
 			break;
 	}
+	if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
 	return 0;
 }
 
@@ -9331,12 +9333,14 @@ ACMD_FUNC(showexp)
 		sd->state.showexp = 0;
 		pc_setglobalreg(sd, add_str("showexp"), 0);
 		clif_displaymessage(fd, msg_txt(sd,1316)); // Gained exp will not be shown.
+		if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
 		return 0;
 	}
 
 	sd->state.showexp = 1;
 	pc_setglobalreg(sd, add_str("showexp"), 1);
 	clif_displaymessage(fd, msg_txt(sd,1317)); // Gained exp is now shown.
+	if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
 	return 0;
 }
 
@@ -9346,12 +9350,14 @@ ACMD_FUNC(showzeny)
 		sd->state.showzeny = 0;
 		pc_setglobalreg(sd, add_str("showzeny"), 0);
 		clif_displaymessage(fd, msg_txt(sd,1318)); // Gained zeny will not be shown.
+		if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
 		return 0;
 	}
 
 	sd->state.showzeny = 1;
 	pc_setglobalreg(sd, add_str("showzeny"), 0);
 	clif_displaymessage(fd, msg_txt(sd,1319)); // Gained zeny is now shown.
+	if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
 	return 0;
 }
 
