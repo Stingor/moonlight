@@ -1405,15 +1405,6 @@ def _discord_poll(conn):
             _log_discord_chat(conn, "(Discord)Sting-Bot", disp)
             # Bot response → discord_relay (Bourgeon overlay, checkbox-gated)
             _write_discord_relay(conn, "Sting-Bot", disp)
-            # Bot response → chatbot_broadcast → NPC npctalk (shown to all regardless of checkbox)
-            lines = _chat_chunks("", disp)
-            try:
-                with conn.cursor() as _cur:
-                    for line in lines:
-                        _cur.execute("INSERT INTO chatbot_broadcast (message) VALUES (%s)", (line,))
-                conn.commit()
-            except Exception as e:
-                print(f"[Discord] broadcast ERREUR : {e}", file=sys.stderr)
 
 
 def _discord_post(player: str, message: str, response: str):
