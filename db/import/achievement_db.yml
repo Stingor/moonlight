@@ -2356,7 +2356,7 @@ Body:
     Name: Novice Poring - taming
     Targets:
       - Id: 0
-        MobID: LITTLE_PORING
+        Mob: LITTLE_PORING
     Score: 10
   - Id: 230111
     Group: Taming
