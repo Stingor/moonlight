@@ -1646,7 +1646,7 @@ def base62decode(s, chars="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ
     return val
 
 ITEML_PATTERN = re.compile(
-    r"<ITEML>([0-9]{5})([0-9])([A-Za-z0-9].*?)</ITEML>"
+    r"<ITEML>([A-Za-z0-9]{5})([0-1])([A-Za-z0-9].*?)</ITEML>"
 )
 CONTROL_CHARS = "%'&)"
 
