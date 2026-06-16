@@ -1467,7 +1467,6 @@ def _discord_post(player: str, message: str, response: str):
             print(f"[Discord] ERREUR : {e}", file=sys.stderr)
     threading.Thread(target=_send, daemon=True).start()
 
-
 def _discord_outbound_poll(conn):
     """Lit discord_outbound et poste les messages des joueurs sur le webhook Discord."""
     global _discord_outbound_last_post
@@ -1504,7 +1503,7 @@ def _discord_outbound_poll(conn):
             try:
                 wp = {
                     "username": player,
-                    "content":  message[:2000],
+                    "content":  replace_iteml(message[:2000]),
                 }
                 if char_id:
                     wp["avatar_url"] = f"https://moonlight-destiny.fr/images/CacheAvatar/{char_id}.png"
@@ -1637,6 +1636,23 @@ def process_pending(conn):
         )
         conn.commit()
 
+def base62decode(s, chars="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"):
+    val = 0
+    base = len(chars)
+    lookup = {c: i for i, c in enumerate(chars)}
+    for i, c in enumerate(s):
+        val += lookup[c] * (base ** (len(s) - i - 1))
+    return val
+
+def replace_iteml(msg):
+    pattern = r"<ITEML>[A-Za-z0-9]{5}[0-9]{1}([A-Za-z0-9]{2}).*?</ITEML>"
+
+    def repl(match):
+        code = match.group(1)
+        itemid = base62decode(code)
+        return f"https://moonlight-destiny.fr/index.php?page=itemdb&itemid={itemid}"
+
+    return re.sub(pattern, repl, msg)
 
 def main():
     if LLM_API_KEY:
