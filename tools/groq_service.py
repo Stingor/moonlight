@@ -1661,7 +1661,7 @@ ITEML_PATTERN = re.compile(
 )
 
 ITEMDB_URL = re.compile(
-    r"https?://moonlight-destiny\.fr/index\.php\?page=itemdb&itemid=(\d+)$"
+    r"https?://moonlight-destiny\.fr/index\.php\?page=itemdb&itemid=(\d+)\S*"
 )
 
 def make_iteml(itemid: int) -> str:
