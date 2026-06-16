@@ -5375,6 +5375,22 @@ static TIMER_FUNC(clif_bourgeon_integrity_kick_timer) {
 	return 0;
 }
 
+// Fires 15 s after first login. If has_bourgeon is still false the player has no
+// Bourgeon DLL — notify them in-game and log so the admin knows who is unpatched.
+static TIMER_FUNC(clif_bourgeon_check_dll_timer) {
+	map_session_data* sd = map_id2sd(id);
+	if (sd == nullptr || !session_isValid(sd->fd))
+		return 0;
+	if (!sd->state.has_bourgeon) {
+		clif_displaymessage(sd->fd,
+			"[ Moonlight ] Un patch important est disponible."
+			" Telechargez le launcher sur moonlight-destiny.fr pour mettre a jour.");
+		ShowInfo("[Bourgeon] Joueur '%s' (char_id=%d, AID=%d) sans DLL Bourgeon.\n",
+			sd->status.name, sd->status.char_id, sd->status.account_id);
+	}
+	return 0;
+}
+
 // Handles the client's integrity report (CZ 0x0BFB): [type:2][len:2][sha256:32]
 //
 // This is the handshake that identifies a Bourgeon client.  Only after this
@@ -11684,6 +11700,11 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 		clif_Mail_new(sd, 0, nullptr, nullptr);
 	}
 #endif
+
+	// [Stingor] On first login, schedule a check: if the player has no Bourgeon DLL
+	// after 15 s, notify them in-game and log.
+	if (sd->state.connect_new)
+		add_timer(gettick() + 15000, clif_bourgeon_check_dll_timer, sd->bl.id, 0);
 
 	sd->state.connect_new = 0;
 	sd->state.changemap = false;
@@ -26503,6 +26524,7 @@ void do_init_clif(void) {
 
 	add_timer_func_list(clif_clearunit_delayed_sub, "clif_clearunit_delayed_sub");
 	add_timer_func_list(clif_delayquit, "clif_delayquit");
+	add_timer_func_list(clif_bourgeon_check_dll_timer, "clif_bourgeon_check_dll_timer");
 
 #if PACKETVER_MAIN_NUM >= 20190403 || PACKETVER_RE_NUM >= 20190320
 	add_timer_func_list( clif_ping_timer, "clif_ping_timer" );
