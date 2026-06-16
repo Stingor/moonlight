@@ -1407,7 +1407,7 @@ def _discord_poll(conn):
         player  = (msg.get("member", {}).get("nick")
                    or msg["author"].get("global_name")
                    or msg["author"]["username"])
-        content = msg.get("content", "").strip()
+        content = replace_itemdb_links(msg.get("content", "").strip())
         if not content:
             continue
 
@@ -1637,17 +1637,46 @@ def process_pending(conn):
         )
         conn.commit()
 
-def base62decode(s, chars="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"):
+BASE62 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+def base62decode(s: str) -> int:
+    base = len(BASE62)
+    lookup = {c: i for i, c in enumerate(BASE62)}
     val = 0
-    base = len(chars)
-    lookup = {c: i for i, c in enumerate(chars)}
-    for i, c in enumerate(s):
-        val += lookup[c] * (base ** (len(s) - i - 1))
+    for c in s:
+        val = val * base + lookup[c]
     return val
+
+def base62_encode(val: int) -> str:
+    if val == 0:
+        return "0"
+    out = ""
+    while val > 0:
+        out = BASE62[val % 62] + out
+        val //= 62
+    return out
 
 ITEML_PATTERN = re.compile(
     r"<ITEML>([A-Za-z0-9]{5})([0-1])([A-Za-z0-9].*?)</ITEML>"
 )
+
+ITEMDB_URL = re.compile(
+    r"https?://moonlight-destiny\.fr/index\.php\?page=itemdb&itemid=(\d+)"
+)
+
+def make_iteml(itemid: int) -> str:
+    equip = "00000"
+    iseq = "0"
+    item = base62_encode(itemid)
+    return f"<ITEML>{equip}{iseq}{item}</ITEML>"
+
+def replace_itemdb_links(message: str) -> str:
+    def repl(m):
+        itemid = int(m.group(1))
+        return make_iteml(itemid)
+
+    return ITEMDB_URL.sub(repl, message)
+
 CONTROL_CHARS = "%'&)"
 
 def extract_itemid_token(rest: str):
