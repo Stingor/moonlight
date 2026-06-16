@@ -169,6 +169,9 @@ _GOODBYE = "Bon j'ai la flemme là, je vais faire autre chose. À plus tard, ess
 _HELLO   = "Me revoilà, vous m'avez manqué bande de tocards ?"
 _AFK     = "Bon j'afk deux minutes, bougez pas les bras cassés.|*Sting part chier*"
 
+ITEML_PATTERN = re.compile(
+    r"<ITEML>([0-9]{5})([0-9])([A-Za-z0-9]+).*?</ITEML>"
+)
 
 class RateLimitError(Exception):
     """Levée quand l'API Groq renvoie 429 (quota épuisé).
@@ -196,6 +199,7 @@ def _set_bot_status(cursor, online: int, resume_epoch: float = 0.0, note: str = 
 # ── Index noms (chargé au démarrage depuis SQL) ───────────────────────────────
 _MOB_NAMES  = {}   # name_lower -> (id, name_english, name_aegis, is_mvp)
 _ITEM_NAMES = {}   # name_lower -> (id, name_english, name_aegis)
+_ITEM_BY_ID = {}
 
 _KW_DROP  = {"drop", "drops", "droppe", "droppé", "droppent",
              "farm", "farmer", "farmé", "farming",
@@ -245,6 +249,7 @@ def load_names(conn):
                 # Variante avec espaces à la place des underscores (ex : "thanatos card" → Thanatos_Card)
                 spaced = r["name_aegis"].lower().replace("_", " ")
                 _ITEM_NAMES.setdefault(spaced, e)
+            _ITEM_BY_ID[r["id"]] = e
 
     nb_m = len(set(v[0] for v in _MOB_NAMES.values()))
     nb_i = len(set(v[0] for v in _ITEM_NAMES.values()))
@@ -1644,15 +1649,66 @@ def base62decode(s, chars="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ
         val += lookup[c] * (base ** (len(s) - i - 1))
     return val
 
+def parse_iteml(block):
+    m = ITEML_PATTERN.search(block)
+    if not m:
+        return None
+
+    part5, digit, rest = m.groups()
+
+    # ItemID = base62decode(rest[0:2])
+    itemid = base62decode(rest[:2])
+
+    # refine
+    refine = None
+    s = rest[2:]
+    if s.startswith("%"):
+        refine = base62decode(s[1:3])
+        s = s[3:]
+
+    # remove '00 (apostrophe)
+    if s.startswith("'"):
+        s = s[3:]
+
+    # remove &00
+    if s.startswith("&"):
+        s = s[3:]
+
+    # cartes
+    cards = []
+    for card in re.findall(r"\)([A-Za-z0-9]+)", s):
+        if card != "00":
+            cards.append(base62decode(card))
+
+    return {
+        "itemid": itemid,
+        "refine": refine,
+        "cards": cards,
+    }
+
+def getitemname(itemid):
+    item = _ITEM_BY_ID.get(itemid)
+    if not item:
+        return None
+    return item[1]  # name_english
+
 def replace_iteml(msg):
-    pattern = r"<ITEML>[A-Za-z0-9]{5}[0-9]{1}([A-Za-z0-9]{2}).*?</ITEML>"
-
     def repl(match):
-        code = match.group(1)
-        itemid = base62decode(code)
-        return f"https://moonlight-destiny.fr/index.php?page=itemdb&itemid={itemid}"
+        block = match.group(0)
+        data = parse_iteml(block)
+        if not data:
+            return block
 
-    return re.sub(pattern, repl, msg)
+        refine = ""
+        if data["refine"] and data["refine"] > 0:
+            refine = f"+{data['refine']}"
+
+        name = ""
+        name = getitemname(data["itemid"])
+        itemid = data["itemid"]
+        return f"[<{refine} {name}>](https://moonlight-destiny.fr/index.php?page=itemdb&itemid={itemid})"
+
+    return ITEML_PATTERN.sub(repl, msg)
 
 def main():
     if LLM_API_KEY:
