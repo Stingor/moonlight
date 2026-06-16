@@ -1650,14 +1650,11 @@ ITEML_PATTERN = re.compile(
 )
 CONTROL_CHARS = "%'&)"
 
-CONTROL_CHARS = "%'&)"
-
 def extract_itemid_token(rest: str):
     for i, c in enumerate(rest):
         if c in CONTROL_CHARS:
             return rest[:i], rest[i:]
-    return rest, ""  # aucun modificateur
-
+    return rest, ""
 
 def parse_iteml(block: str):
     m = ITEML_PATTERN.search(block)
@@ -1666,26 +1663,26 @@ def parse_iteml(block: str):
 
     part5, digit, rest = m.groups()
 
-    # 1) ItemID variable
+    # ItemID variable
     item_token, tail = extract_itemid_token(rest)
     itemid = base62decode(item_token)
 
-    # 2) refine
+    # refine
     refine = None
     s = tail
     if s.startswith("%"):
         refine = base62decode(s[1:3])
         s = s[3:]
 
-    # 3) remove '00
+    # remove '00
     if s.startswith("'"):
         s = s[3:]
 
-    # 4) remove &00
+    # remove &00
     if s.startswith("&"):
         s = s[3:]
 
-    # 5) cartes
+    # cartes
     cards = []
     for card in re.findall(r"\)([A-Za-z0-9]+)", s):
         if card != "00":
@@ -1712,12 +1709,12 @@ def replace_iteml(msg):
 
         refine = ""
         if data["refine"] and data["refine"] > 0:
-            refine = f"+{data['refine']}"
+            refine = f"+{data['refine']} "
 
         name = ""
         name = getitemname(data["itemid"])
         itemid = data["itemid"]
-        return f" [<{refine} {name}>](https://moonlight-destiny.fr/index.php?page=itemdb&itemid={itemid}) "
+        return f" [<{refine}{name}>](https://moonlight-destiny.fr/index.php?page=itemdb&itemid={itemid}) "
 
     return ITEML_PATTERN.sub(repl, msg)
 
