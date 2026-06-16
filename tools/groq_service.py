@@ -1706,7 +1706,7 @@ def replace_iteml(msg):
         name = ""
         name = getitemname(data["itemid"])
         itemid = data["itemid"]
-        return f"[<{refine} {name}>](https://moonlight-destiny.fr/index.php?page=itemdb&itemid={itemid})"
+        return f"[<{refine} {name}>](https://moonlight-destiny.fr/index.php?page=itemdb&itemid={itemid}) "
 
     return ITEML_PATTERN.sub(repl, msg)
 
