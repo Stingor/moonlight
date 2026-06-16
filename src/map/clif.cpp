@@ -12075,7 +12075,7 @@ void clif_parse_GlobalMessage(int32 fd, map_session_data* sd)
 	clif_GlobalMessage( *sd, output, sd->chatID ? CHAT_WOS : AREA_CHAT_WOC );
 
 	// [Stingor] Outbound Discord relay
-	if (sd->state.discord_chat && sd->state.has_bourgeon) {
+	if (sd->state.discord_chat && sd->state.has_bourgeon && sd->m == map_mapname2mapid(MAP_GONRYUN)) {
 		char esc_name[NAME_LENGTH * 2 + 1];
 		char esc_msg[CHAT_SIZE_MAX * 2 + 1];
 		Sql_EscapeString(mmysql_handle, esc_name, sd->status.name);
