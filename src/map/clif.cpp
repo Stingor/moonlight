@@ -5383,9 +5383,18 @@ static TIMER_FUNC(clif_bourgeon_check_dll_timer) {
 		return 0;
 	if (!sd->state.has_bourgeon) {
 		clif_displaymessage(sd->fd,
-			"[ Moonlight ] Un patch important est disponible."
-			" Telechargez le launcher sur moonlight-destiny.fr pour mettre a jour.");
-		ShowInfo("[Bourgeon] Joueur '%s' (char_id=%d, AID=%d) sans DLL Bourgeon.\n",
+			"[ Moonlight-Destiny ] Un patch important est disponible."
+			" Utilisez le patcher du jeu pour mettre a jour.");
+		clif_displaymessage(sd->fd,
+			"[ Moonlight-Destiny ] Un patch important est disponible."
+			" Utilisez le patcher du jeu pour mettre a jour.");
+		clif_displaymessage(sd->fd,
+			"[ Moonlight-Destiny ] Un patch important est disponible."
+			" Utilisez le patcher du jeu pour mettre a jour.");
+		clif_displaymessage(sd->fd,
+			"[ Moonlight-Destiny ] Un patch important est disponible."
+			" Utilisez le patcher du jeu pour mettre a jour.");
+		ShowWarning("[Bourgeon] Joueur '%s' (char_id=%d, AID=%d) sans DLL Bourgeon.\n",
 			sd->status.name, sd->status.char_id, sd->status.account_id);
 	}
 	return 0;
