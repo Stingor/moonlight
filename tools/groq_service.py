@@ -169,10 +169,6 @@ _GOODBYE = "Bon j'ai la flemme là, je vais faire autre chose. À plus tard, ess
 _HELLO   = "Me revoilà, vous m'avez manqué bande de tocards ?"
 _AFK     = "Bon j'afk deux minutes, bougez pas les bras cassés.|*Sting part chier*"
 
-ITEML_PATTERN = re.compile(
-    r"<ITEML>([0-9]{5})([0-9])([A-Za-z0-9]+).*?</ITEML>"
-)
-
 class RateLimitError(Exception):
     """Levée quand l'API Groq renvoie 429 (quota épuisé).
     daily=True → quota journalier (TPD/RPD) : déco RP longue.
@@ -1649,32 +1645,47 @@ def base62decode(s, chars="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQ
         val += lookup[c] * (base ** (len(s) - i - 1))
     return val
 
-def parse_iteml(block):
+ITEML_PATTERN = re.compile(
+    r"<ITEML>([0-9]{5})([0-9])([A-Za-z0-9].*?)</ITEML>"
+)
+CONTROL_CHARS = "%'&)"
+
+CONTROL_CHARS = "%'&)"
+
+def extract_itemid_token(rest: str):
+    for i, c in enumerate(rest):
+        if c in CONTROL_CHARS:
+            return rest[:i], rest[i:]
+    return rest, ""  # aucun modificateur
+
+
+def parse_iteml(block: str):
     m = ITEML_PATTERN.search(block)
     if not m:
         return None
 
     part5, digit, rest = m.groups()
 
-    # ItemID = base62decode(rest[0:2])
-    itemid = base62decode(rest[:2])
+    # 1) ItemID variable
+    item_token, tail = extract_itemid_token(rest)
+    itemid = base62decode(item_token)
 
-    # refine
+    # 2) refine
     refine = None
-    s = rest[2:]
+    s = tail
     if s.startswith("%"):
         refine = base62decode(s[1:3])
         s = s[3:]
 
-    # remove '00 (apostrophe)
+    # 3) remove '00
     if s.startswith("'"):
         s = s[3:]
 
-    # remove &00
+    # 4) remove &00
     if s.startswith("&"):
         s = s[3:]
 
-    # cartes
+    # 5) cartes
     cards = []
     for card in re.findall(r"\)([A-Za-z0-9]+)", s):
         if card != "00":
@@ -1706,7 +1717,7 @@ def replace_iteml(msg):
         name = ""
         name = getitemname(data["itemid"])
         itemid = data["itemid"]
-        return f"[<{refine} {name}>](https://moonlight-destiny.fr/index.php?page=itemdb&itemid={itemid}) "
+        return f" [<{refine} {name}>](https://moonlight-destiny.fr/index.php?page=itemdb&itemid={itemid}) "
 
     return ITEML_PATTERN.sub(repl, msg)
 
