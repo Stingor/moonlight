@@ -1004,7 +1004,7 @@
 1023: Vous n'êtes pas autorisé à reduire la durée d'un bannissement.
 
 // @charunblock
-1024: Entrez un nom de Joueur (usage: @charunblock <nom du joueur>).
+1024: MVP Drop Rates: Common %.2fx / Healing %.2fx / Usable %.2fx / Equipment %.2fx / Card %.2fx
 
 // @recall
 1025: The player is currently autotrading and cannot be recalled.
