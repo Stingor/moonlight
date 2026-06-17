@@ -5632,7 +5632,7 @@ BUILDIN_FUNC(rand)
 BUILDIN_FUNC(warp)
 {
 	int32 ret;
-	int32 x,y;
+	int32 x = 0,y = 0;
 	const char* str;
 	map_session_data* sd;
 
@@ -5640,9 +5640,9 @@ BUILDIN_FUNC(warp)
 		return SCRIPT_CMD_SUCCESS;
 
 	str = script_getstr(st,2);
-	x = script_getnum(st,3);
-	y = script_getnum(st,4);
-
+	if( script_hasdata(st, 3) )	x = script_getnum(st,3);
+	if( script_hasdata(st, 4) )	y = script_getnum(st,4);
+	
 	if(strcmp(str,"Random")==0)
 		ret = pc_randomwarp(sd,CLR_TELEPORT,true);
 	else if(strcmp(str,"SavePoint")==0 || strcmp(str,"Save")==0)
@@ -28059,8 +28059,8 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(jobchange,"i??"),
 	BUILDIN_DEF(jobname,"i"),
 	BUILDIN_DEF(input,"r??"),
-	BUILDIN_DEF(warp,"sii?"),
-	BUILDIN_DEF2(warp, "warpchar", "sii?"),
+	BUILDIN_DEF(warp,"s???"),
+	BUILDIN_DEF2(warp, "warpchar", "s???"),
 	BUILDIN_DEF(areawarp,"siiiisii??"),
 	BUILDIN_DEF(warpparty,"siii???"), // [Fredzilla] [Paradox924X]
 	BUILDIN_DEF(warpguild,"siii"), // [Fredzilla]

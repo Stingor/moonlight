@@ -4,27 +4,28 @@
 	end;
 
 OnMinute00:
-	callfunc "announce2", "Ding-Dong, nouvelle heure, nouveau @vote ! Utilisez le lien de @vote ou le site uniquement.",bc_blue|bc_all;
+	announce "Ding-Dong, nouvelle heure, nouveau @vote ! Utilisez le lien de @vote ou le site uniquement.", bc_blue|bc_all;
 OnInit:
-
+	 // On bloque les cellules autour du Warper et Healer
 	setcell "gonryun",164,128,166,130,cell_walkable,0; // Warper
 	setcell "gonryun",151,128,153,130,cell_walkable,0; // Healer
 
-	$qtyedropper = 200;
-	$woeflagcd = 180;
+	$qtyedropper = 200; // Nb de cards nécessaires pour event drop
+	$woeflagcd = 180; // Cooldown pour l'utilisation du TP flags woe
 
 	if( gettime(DT_HOUR) == 17 ) {
 		// 17h00 tous les jours
 		donpcevent "CardPackerEventDropper::OnDropperEnable";
-		callfunc "announce2", "Le npc pour event drop est dispo (près de la poule) donnez lui "+$qtyedropper+" Card et un event drop se lancera !",bc_all;
+		announce "Le npc pour event drop est dispo (près de la poule) donnez lui " + $qtyedropper + " Card et un event drop se lancera !", bc_all;
 	}
 
-	if( gettime(DT_HOUR) == 19 || gettime(DT_HOUR) == 23 || gettime(DT_HOUR) == 02 ) {// 19h00 à 20h00 puis 23h00 à 00h00
+	if( gettime(DT_HOUR) == 19 || gettime(DT_HOUR) == 23 || gettime(DT_HOUR) == 02 ) {
+		// 19h00 à 20h00 puis 23h00 à 00h00
 		if( !eventexp() ) {
 			starteventexp();
 			setBattleFlag "party_even_share_bonus", 35;
 			// setBattleFlag "aoe_teleport_acd", 2000;
-			callfunc "announce2", "Attention rates augmentées pour 1h, base & job "+(1000*(getBattleFlag("mult_eventexp")/100))+" et bonus party share 35%!",bc_all;
+			announce "Attention rates augmentées pour 1h, base & job " + (1000*(getBattleFlag("mult_eventexp")/100)) + " et bonus party share 35%!", bc_all;
 			initnpctimer;
 			$eventexp = gettimetick(2) + 3600;
 		}
@@ -37,9 +38,9 @@ OnMinute01:
 	end;
 
 OnMinute15:
-	announce "Stingor : Je fais maintenant aussi partie du staff de New Horizon : newhorizon.fr",bc_all;
-	announce "Rejoignez donc ce serveur pour y découvrir un gameplay différent et plein de nouveautés !",bc_all;
-	announce "Ou restez ici… après tout, le mien est meilleur xD",bc_all;
+	announce "Stingor : Je fais maintenant aussi partie du staff de New Horizon : newhorizon.fr", bc_all;
+	announce "Rejoignez donc ce serveur pour y découvrir un gameplay différent et plein de nouveautés !", bc_all;
+	announce "Ou restez ici… après tout, le mien est meilleur xD", bc_all;
 
 OnMinute45:
 	if( rand(4) == 2 )
@@ -66,7 +67,7 @@ OnMinute30:
 	"@channel est dispo, vous pouvez vous en servir ! Dans la case des whispers #map, #global, #trade, #ally!",
 	"virus","virus","virus","virus","virus","virus","virus","virus","virus","virus","virus","virus","virus","virus","virus";
 
-	.@rndtips = rand(getarraysize(.@tips$));
+	.@rndtips = rand(size(.@tips$));
 	if( .@tips$[.@rndtips] != "virus" )
 		announce .@tips$[.@rndtips],bc_blue|bc_all;
 	else {
@@ -77,32 +78,32 @@ OnMinute30:
 
 OnTimer900000:
 	if( eventexp() )
-		callfunc "announce2", "Il reste 45min d'event exp !!",bc_all;
+		announce "Il reste 45min d'event exp !!", bc_all;
 	end;
 
 OnTimer1800000:
 	if( eventexp() )
-		callfunc "announce2", "Il reste 30min d'event exp !!",bc_all;
+		announce "Il reste 30min d'event exp !!", bc_all;
 	end;
 
 OnTimer2700000:
 	if( eventexp() )
-		callfunc "announce2", "Il reste 15min d'event exp !!",bc_all;
+		announce "Il reste 15min d'event exp !!", bc_all;
 	end;
 
 OnTimer3000000:
 	if( eventexp() )
-		announce "Il reste 10min d'event exp !!",bc_all;
+		announce "Il reste 10min d'event exp !!", bc_all;
 	end;
 
 OnTimer3300000:
 	if( eventexp() )
-		announce "Il reste 5min d'event exp !!",bc_all;
+		announce "Il reste 5min d'event exp !!", bc_all;
 	end;
 
 OnTimer3540000:
 	if( eventexp() )
-		announce "Il reste 1min d'event exp !!",bc_all;
+		announce "Il reste 1min d'event exp !!", bc_all;
 	end;
 
 OnTimer3600000:
@@ -110,14 +111,13 @@ OnTimer3600000:
 		stopeventexp();
 		setBattleFlag "party_even_share_bonus", 10;
 		// setBattleFlag "aoe_teleport_acd", 300;
-		callfunc "announce2", "Retour à la normale, base & job 1000 et bonus party share 10%!",bc_all;
+		announce "Retour à la normale, base & job 1000 et bonus party share 10%!", bc_all;
 		stopnpctimer;
 		$eventexp = 0;
 	}
 	end;
 
-OnClock0400: // Reset instance Cellar et Geffen
-	query_sql("UPDATE `char_reg_num` SET `value` = '0' WHERE `char_reg_num`.`key` = 'GeffenTournament'");
+OnClock0400: // Reset instance Cellar (Pas geré en quest_db)
 	query_sql("UPDATE `char_reg_num` SET `value` = '0' WHERE `char_reg_num`.`key` = 'instance_delay_cellar'");
 	end;
 
@@ -125,74 +125,74 @@ OnPCLoginEvent:
 	if( agitcheck() && getcharid(2) )
 		#woeflagcd = gettimetick(2);
 
-	announce "Bienvenue sur Moonlight-Destiny (PEGI 18 - BAD LANGUAGE - FEAR - DRUGS - VIOLENCE) !",bc_self,0xFF0000;
-	announce "Tous les soirs, event exp de 19h à 20h, 23h à 00h et 02h à 03h!",bc_self,0x77ABC9;
-	announce "Toutes les heures Event Tarot (sauf si le npc event drop est là)!",bc_self,0x77ABC9;
-	announce "Parfois à 15min et 45min un Thief bug spawn dans une ville!",bc_self,0x77ABC9;
-	announce "Event drop tous les jours vers 17h (Si le npc est satisfait)!",bc_self,0x77ABC9;
-	announce "De 21h30 à 23h30 (sauf jour de WoE) Battleground Happy Hours! Récompenses doublés!",bc_self,0x77ABC9;
+	announce "Bienvenue sur Moonlight-Destiny (PEGI 18 - BAD LANGUAGE - FEAR - DRUGS - VIOLENCE) !", bc_self, 0xFF0000;
+	announce "Tous les soirs, event exp de 19h à 20h, 23h à 00h et 02h à 03h!", bc_self, 0x77ABC9;
+	announce "Toutes les heures Event Tarot (sauf si le npc event drop est là)!", bc_self, 0x77ABC9;
+	announce "Parfois à 15min et 45min un Thief bug spawn dans une ville!", bc_self, 0x77ABC9;
+	announce "Event drop tous les jours vers 17h (Si le npc est satisfait)!", bc_self, 0x77ABC9;
+	announce "De 21h30 à 23h30 (sauf jour de WoE) Battleground Happy Hours! Récompenses doublés!", bc_self, 0x77ABC9;
 	if( getusers(1) > $RecordOnline )
 		$RecordOnline = getusers(1);
 
 	if( $eventinvasion ) {
-		announce "Attention!!!",bc_self,0xffff00;
-		announce "Event invasion en cours!!!",bc_self,0xffff00;
+		announce "Attention!!!", bc_self, 0xffff00;
+		announce "Event invasion en cours!!!", bc_self, 0xffff00;
 	}
 
 	if( agitcheck() || agitcheck2() ) {
-		announce "Attention!!!",bc_self,0xffff00;
-		announce "La WoE est en cours!!!",bc_self,0xffff00;
+		announce "Attention!!!", bc_self, 0xffff00;
+		announce "La WoE est en cours!!!", bc_self, 0xffff00;
 	}
 	else if( (gettime(DT_DAYOFWEEK) == WEDNESDAY || gettime(DT_DAYOFWEEK) == SATURDAY || gettime(DT_DAYOFWEEK) == SUNDAY) && gettime(DT_HOUR) <= 22 && gettime(DT_MINUTE) <= 30 ) {
-		announce "Aujourd'hui WoE de 21h30 à 22h30 !",bc_self,0xffff00;
+		announce "Aujourd'hui WoE de 21h30 à 22h30 !", bc_self, 0xffff00;
 		if( gettime(DT_HOUR) <= 17 && gettime(DT_MINUTE) <= 35 && gettime(DT_DAYOFWEEK) != SUNDAY )
-		announce "Aujourd'hui NPC pour event drop dispo à 17h!",bc_self,0xffff00;
+		announce "Aujourd'hui NPC pour event drop dispo à 17h!", bc_self, 0xffff00;
 	}
 
 	if( eventexp() )
-		announce "Attention!!! Event Exp en cours (Exp Base et Job x2)!",bc_self,0xffff00;
+		announce "Attention!!! Event Exp en cours (Exp Base et Job x2)!", bc_self, 0xffff00;
 
 	if( eventdrop() )
-		announce "Attention!!! Event Drop en cours (drop cards, item communs et equippements x2)!",bc_self,0xffff00;
+		announce "Attention!!! Event Drop en cours (drop cards, item communs et equippements x2)!", bc_self, 0xffff00;
 
 	if( $bghappyhour )
-		announce "Attention!!! Battleground Happy Hours! Double de badges à gagner!",bc_self,0xffff00;
+		announce "Attention!!! Battleground Happy Hours! Double de badges à gagner!", bc_self, 0xffff00;
 
-	announce "Stingor : Je fais maintenant aussi partie du staff de New Horizon : newhorizon.fr",bc_self,0xffff00;
-	announce "Rejoignez donc ce serveur pour y découvrir un gameplay différent et plein de nouveautés !",bc_self,0xffff00;
-	announce "Ou restez ici… après tout, le mien est meilleur xD",bc_self,0xffff00;
+	announce "Stingor : Je fais maintenant aussi partie du staff de New Horizon : newhorizon.fr", bc_self, 0xffff00;
+	announce "Rejoignez donc ce serveur pour y découvrir un gameplay différent et plein de nouveautés !", bc_self, 0xffff00;
+	announce "Ou restez ici… après tout, le mien est meilleur xD", bc_self, 0xffff00;
 
-	if( TransmogLow > 0 ) setlook 3,TransmogLow;
-	if( TransmogTop > 0 ) setlook 4,TransmogTop;
-	if( TransmogMid > 0 ) setlook 5,TransmogMid;
+	if( TransmogLow > 0 ) setlook 3, TransmogLow;
+	if( TransmogTop > 0 ) setlook 4, TransmogTop;
+	if( TransmogMid > 0 ) setlook 5, TransmogMid;
 
 	if( base3rd ) {
 		switch( Class ) {
-			case Job_Ninja:
-				if( Sex ) changebase Job_Kagerou;
-				else changebase Job_Oboro;
-				break;
-			case Job_Baby_Ninja:
-				if( Sex ) changebase Job_Baby_Kagerou;
-				else changebase Job_Baby_Oboro;
-				break;
-			case Job_Gunslinger:
-				changebase Job_Rebellion;
-				break;
-			case Job_Baby_Gunslinger:
-				changebase Job_Baby_Rebellion;
-				break;
-			default:
-				.@3rd = roclass(eaclass()|EAJL_THIRD);
-				if( .@3rd != -1 ) changebase .@3rd;
-				break;
+		case Job_Ninja:
+			if( Sex ) changebase Job_Kagerou;
+			else changebase Job_Oboro;
+			break;
+		case Job_Baby_Ninja:
+			if( Sex ) changebase Job_Baby_Kagerou;
+			else changebase Job_Baby_Oboro;
+			break;
+		case Job_Gunslinger:
+			changebase Job_Rebellion;
+			break;
+		case Job_Baby_Gunslinger:
+			changebase Job_Baby_Rebellion;
+			break;
+		default:
+			.@3rd = roclass(eaclass()|EAJL_THIRD);
+			if( .@3rd != -1 ) changebase .@3rd;
+			break;
 		}
 	}
 	if( base4th ) {
 		switch(Class) {
 		case JOB_LORD_KNIGHT:
 			changebase JOB_DRAGON_KNIGHT;
-			if(checkoption(OPTION_RIDING))
+			if( checkoption(OPTION_RIDING) )
 				setoption OPTION_DRAGON, 1;
 			break;
 		case JOB_HIGH_WIZARD:
@@ -232,11 +232,11 @@ OnPCLoginEvent:
 			changebase JOB_SOUL_ASCETIC;
 			break;
 		case JOB_NINJA:
-			if(Sex) changebase JOB_SHIRANUI;
+			if( Sex ) changebase JOB_SHIRANUI;
 			else changebase JOB_SHINKIRO;
 			break;
 		case JOB_BABY_NINJA:
-			if(Sex) changebase JOB_SHIRANUI;
+			if( Sex ) changebase JOB_SHIRANUI;
 			else changebase JOB_SHINKIRO;
 			break;
 		case JOB_GUNSLINGER:
@@ -260,28 +260,28 @@ OnHomSkinLogin:
 	end;
 
 OnPCDieEvent:
-	sc_end_class getcharid(0),JOB_DANCER;
+	sc_end_class getcharid(0), JOB_DANCER;
 end;
 
 OnPCLoadMapEvent:
 	if( @lookrobe && getlook(LOOK_ROBE) != @lookrobe || @menu == 255 )
-		changelook LOOK_ROBE,@lookrobe;
+		changelook LOOK_ROBE, @lookrobe;
 
 	.@charmap$ = strcharinfo(3);
-	query_sql("UPDATE `char` SET `cur_map` = '"+.@charmap$+"' WHERE `char_id` = '"+getcharid(0)+"'");
+	query_sql("UPDATE `char` SET `cur_map` = '" + .@charmap$ + "' WHERE `char_id` = '" + getcharid(0) + "'");
 
-	if( !compare("aldeg_cas01,gefg_cas01,payg_cas01,prtg_cas01,schg_cas02,poring_w01,quiz_01,force_1-1,bat_c01,bat_c02,bat_c03,bat_b01,bat_b02,bat_a01,bat_a02,@tower,@new", .@charmap$)
-     && !compare("@tower,@new,@jtb,@xm_d,@ma_c,@ma_h", substr(.@charmap$, 4, getstrlen(.@charmap$)-1)) )
+	.@mapscheck$ = "aldeg_cas01,gefg_cas01,payg_cas01,prtg_cas01,schg_cas02,poring_w01,quiz_01,force_1-1,bat_c01,bat_c02,bat_c03,bat_b01,bat_b02,bat_a01,bat_a02,@tower,@new,@jtb,@xm_d,@ma_c,@ma_h";
+	if( !compare(.@mapscheck$, substr(.@charmap$, 1, getstrlen(.@charmap$) - 1)) )
 		end;
 
-	if( .@len = query_sql("SELECT `login`.`account_id` FROM `char` RIGHT JOIN `login` ON `login`.`account_id` = `char`.`account_id` WHERE `char`.`online` = 1 AND `login`.`user_id` = '"+ callfunc("getuniqueid",getcharid(3)) +"'", .@a ) ) {
+	if( .@len = query_sql("SELECT `login`.`account_id` FROM `char` JOIN `login` ON `login`.`account_id` = `char`.`account_id` WHERE `char`.`online` = 1 AND `login`.`user_id` = '"+ getuniqueid(getcharid(3)) +"'", .@a ) ) {
 		if( .@len - 1 ) {
-			for( .@d = 0; .@d < .@len; .@d = .@d + 1 ) {
+			for( .@d = 0; .@d < .@len; ++.@d ) {
 				getmapxy(.@map$, .@x, .@y, BL_PC, rid2name(.@a[.@d]));
 				if( .@charmap$ == .@map$ && compare("aldeg_cas01,gefg_cas01,payg_cas01,prtg_cas01,schg_cas02", .@map$) && rid2name(.@a[.@d]) != strcharinfo(0) ) {
 					dispbottom "Multi-Accounts Interdis en WOE.";
 					logmes "Tentative de multi-Account WOE/BG.";
-					warp "SavePoint",0,0;
+					warp "SavePoint";
 					end;
 				}
 				if( .@charmap$ == .@map$ && compare("poring_w01,quiz_01,force_1-1", .@map$) && rid2name(.@a[.@d]) != strcharinfo(0) ) {
@@ -295,7 +295,7 @@ OnPCLoadMapEvent:
 					logmes "Multi-Account BG.";
 					end;
 				}
-				if( .@charmap$ == .@map$ && compare("@tower,@new,@jtb,@xm_d,@ma_c,@ma_h", substr(.@charmap$, 4, getstrlen(.@charmap$)-1)) && rid2name(.@a[.@d]) != strcharinfo(0) ) {
+				if( .@charmap$ == .@map$ && compare("@tower,@new,@jtb,@xm_d,@ma_c,@ma_h", substr(.@charmap$, 1, getstrlen(.@charmap$)-1)) && rid2name(.@a[.@d]) != strcharinfo(0) ) {
 					dispbottom "Multi-Account détecté desactivation des recompenses en trop.";
 					@norewardinstance = 1;
 					logmes "Multi-Account instance.";
