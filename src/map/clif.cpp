@@ -5245,8 +5245,12 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 			sd->state.autoloot = rate;
 			pc_setglobalreg(sd, add_str("autoloot"), rate);
 			char aloot_rate_buf[32];
-			snprintf(aloot_rate_buf, sizeof(aloot_rate_buf), "Autoloot : %d%%", (int)p->value);
-			clif_displaymessage(fd, aloot_rate_buf);
+			if( p->value <= 0)
+				clif_displaymessage(fd, "Autoloot : OFF");
+			else {
+				snprintf(aloot_rate_buf, sizeof(aloot_rate_buf), "Autoloot : %d%%", (int)p->value);
+				clif_displaymessage(fd, aloot_rate_buf);
+			}
 			break;
 		}
 		case BOURGEON_SETTING_ALOOT_POGNON: {
@@ -5370,8 +5374,12 @@ void clif_bourgeon_integrity_reload() {
 // Fires ~5 s after clif_parse_bourgeon_integrity sends the kick-notice packet.
 static TIMER_FUNC(clif_bourgeon_integrity_kick_timer) {
 	map_session_data* sd = map_id2sd(id);
-	if (sd != nullptr && session_isValid(sd->fd))
-		clif_authfail_fd(sd->fd, 3);
+	if (sd == nullptr || !session_isValid(sd->fd))
+		return 0;
+	// If the IP was exempted between the time the kick was scheduled and now, cancel.
+	if (bourgeon_integrity_conf.exempt_ips.count(session[sd->fd]->client_addr) > 0)
+		return 0;
+	clif_authfail_fd(sd->fd, 3);
 	return 0;
 }
 
