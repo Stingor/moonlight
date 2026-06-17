@@ -5390,6 +5390,7 @@ static TIMER_FUNC(clif_bourgeon_check_dll_timer) {
 	if (sd == nullptr || !session_isValid(sd->fd))
 		return 0;
 	if (!sd->state.has_bourgeon) {
+		// 1. Tell the user they have to patch
 		clif_displaymessage(sd->fd,
 			"[ Moonlight-Destiny ] Un patch important est disponible."
 			" Utilisez le patcher du jeu pour mettre a jour.");
@@ -5402,8 +5403,12 @@ static TIMER_FUNC(clif_bourgeon_check_dll_timer) {
 		clif_displaymessage(sd->fd,
 			"[ Moonlight-Destiny ] Un patch important est disponible."
 			" Utilisez le patcher du jeu pour mettre a jour.");
+		clif_displaymessage(sd->fd,
+			"[ Moonlight-Destiny ] Vous serez déconnectez dans 5 secondes.");
 		ShowWarning("[Bourgeon] Joueur '%s' (char_id=%d, AID=%d) sans DLL Bourgeon.\n",
 			sd->status.name, sd->status.char_id, sd->status.account_id);
+		// 2. Kick after 5 s so the player has time to read the popup.
+		add_timer(gettick() + 5000, clif_bourgeon_integrity_kick_timer, sd->id, 0);
 	}
 	return 0;
 }
@@ -11721,7 +11726,7 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 	// [Stingor] On first login, schedule a check: if the player has no Bourgeon DLL
 	// after 15 s, notify them in-game and log.
 	if (sd->state.connect_new)
-		add_timer(gettick() + 15000, clif_bourgeon_check_dll_timer, sd->id, 0);
+		add_timer(gettick() + 5000, clif_bourgeon_check_dll_timer, sd->id, 0);
 
 	sd->state.connect_new = 0;
 	sd->state.changemap = false;
