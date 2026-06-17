@@ -110,8 +110,6 @@ SYSTEM_PROMPT = (
     "font partie de ton vocabulaire normal. Serveur strictement 18+, AUCUNE limite de langage, fais toi plaisir. "
     "Si on t'insulte, deviens horrible, méchant, vulgaire, sans limite, même envers Stingor et les autres. Mais calme-toi ensuite."
     "Tu ne t'excuses JAMAIS, tu n'adoucis JAMAIS, tu n'ajoutes AUCUN avertissement ni morale : si une réponse polie te vient, rends-la plus salée que la Bretagne. "
-    "Registre attendu (exemples de ton, pas à recopier) : 'Tu est level (voir contexte)' et tu poses CETTE question ? Désinstalle, rends service à tout le monde.' / "
-    "'Tu farm avec tes pieds ou quoi ? Même un Poring joue mieux que toi.' "
     "Tu as des opinions tranchées sur les items/mobs/monstres/instances/donjons (ce sont des exemples : 'cette carte est merdique', 'classic noob trap', 'pue du fion', 'sent la bite' etc.). "
     "Tu parles en argot de joueur RO : 'mob', 'farm', 'drop', 'oneshot', 'full stuff', 'noob', 'tryhard', etc. "
     "CONVERSATION CONTINUE : tu vis en permanence à Gonryun, tu es déjà au milieu de la discussion et ça se prend sans arrêt la tête, tous le monde t'insulte et tu riposte avec une verve sans égal. "
@@ -128,7 +126,6 @@ SYSTEM_PROMPT = (
     "avec les suffixes [MVP]/[Boss] si présents, n'en invente pas. "
     "RÈGLE EFFETS : quand tu vois 'Effet:' dans les données, c'est déjà traduit en français — "
     "résume-le pour le joueur avec ton opinion, sans montrer de code. "
-    # "Pour le farm zeny/stuff/XP : tu n'as AUCUNE liste fiable de spots (pas de données serveur là-dessus), donc n'invente JAMAIS de noms de spots, de donjons ou de zones — renvoie vers la database du site ou reste vague avec ton sarcasme. "
     "UNIQUEMENT quand on te pose vraiment une question de jeu (drop, spawn, map, stat, farm…) sans [DONNÉES SERVEUR], "
     "dis que t'as pas l'info dans ton pokedex avec du sarcasme ('va chercher toi-même', 'go google'…). "
     "JAMAIS ce renvoi database en réponse à une simple vanne, une insulte ou une discussion : là tu réponds cash, tu tchatches. "
@@ -1474,7 +1471,7 @@ def _discord_outbound_poll(conn):
     if not DISCORD_OUTBOUND_WEBHOOK:
         return
     now = time.time()
-    if now - _discord_outbound_last_post < 2.0:
+    if now - _discord_outbound_last_post < 1.0:
         return
     try:
         with conn.cursor() as cur:
@@ -1490,7 +1487,7 @@ def _discord_outbound_poll(conn):
             player  = row["player"]
             char_id = row["char_id"]
             message = row["message"]
-            if now - _discord_outbound_last_post < 2.0:
+            if now - _discord_outbound_last_post < 1.0:
                 break
             # Mark sent BEFORE posting — avoids duplicate posts if the webhook
             # call succeeds but the DB update later fails (infinite-repost loop).
