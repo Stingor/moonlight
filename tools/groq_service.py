@@ -1411,8 +1411,6 @@ def _discord_poll(conn):
         # Strip bot prefix before relay so ² alone or ²<space> sends nothing
         content_low = content.lower()
         is_bot_cmd  = content.startswith('²')
-        if is_bot_cmd:
-            content = content[1:].strip()
         if not content:
             continue
 
@@ -1425,8 +1423,6 @@ def _discord_poll(conn):
         print(f"[Discord] <- {player!r}: {content[:60]!r}", file=sys.stderr)
         _log_discord_chat(conn, f"(Discord){player}", content)
         response = get_response(player, content, conn, player_ctx="discord")
-        if is_bot_cmd:
-            content = f"²{content}"
         if response:
             _discord_post(player, content, response)
             disp = re.sub(r'^@[A-Z]+@\|?', '', response).replace('|', ' ')
