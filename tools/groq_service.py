@@ -1426,7 +1426,7 @@ def _discord_poll(conn):
         _log_discord_chat(conn, f"(Discord){player}", content)
         response = get_response(player, content, conn, player_ctx="discord")
         if response:
-            _discord_post(player, content, response)
+            _discord_post(player, f"²{content}", response)
             disp = re.sub(r'^@[A-Z]+@\|?', '', response).replace('|', ' ')
             _log_discord_chat(conn, "(Discord)Sting-Bot", disp)
             # Bot response → discord_relay (Bourgeon overlay, checkbox-gated)
