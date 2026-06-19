@@ -6607,6 +6607,13 @@ void status_calc_bl_(block_list* bl, std::bitset<SCB_MAX> flag, uint8 opt)
 			clif_updatestatus(*sd,SP_ASPD);
 		if(b_status.speed != status->speed)
 			clif_updatestatus(*sd,SP_SPEED);
+		if(sd->state.showspeed && (b_status.speed != status->speed || b_status.amotion != status->amotion)) {
+			char spd_buf[64];
+			snprintf(spd_buf, sizeof(spd_buf), "Speed: %.2f cells/s | ASPD: %.2f atk/s",
+				status->speed  > 0 ? 1000.0 / status->speed  : 0.0,
+				status->amotion > 0 ? 1000.0 / status->amotion : 0.0);
+			clif_displaymessage(sd->fd, spd_buf);
+		}
 
 		if(b_status.batk != status->batk
 #ifndef RENEWAL

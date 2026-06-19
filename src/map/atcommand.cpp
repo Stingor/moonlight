@@ -9365,11 +9365,13 @@ ACMD_FUNC(showdelay)
 {
 	if (sd->state.showdelay) {
 		sd->state.showdelay = 0;
+		pc_setglobalreg(sd, add_str("showdelay"), 0);
 		clif_displaymessage(fd, msg_txt(sd,1320)); // Skill delay failures will not be shown.
 		return 0;
 	}
 
 	sd->state.showdelay = 1;
+	pc_setglobalreg(sd, add_str("showdelay"), 1);
 	clif_displaymessage(fd, msg_txt(sd,1321)); // Skill delay failures are now shown.
 	return 0;
 }
@@ -9707,9 +9709,11 @@ ACMD_FUNC(noask)
 	if(sd->state.noask) {
 		clif_displaymessage(fd, msg_txt(sd,391)); // Autorejecting is deactivated.
 		sd->state.noask = 0;
+		pc_setglobalreg(sd, add_str("noask"), 0);
 	} else {
 		clif_displaymessage(fd, msg_txt(sd,390)); // Autorejecting is activated.
 		sd->state.noask = 1;
+		pc_setglobalreg(sd, add_str("noask"), 1);
 	}
 
 	return 0;
@@ -9797,6 +9801,7 @@ ACMD_FUNC(ksprotection)
 
 	if( sd->state.noks ) {
 		sd->state.noks = 0;
+		pc_setglobalreg(sd, add_str("noks"), 0);
 		clif_displaymessage(fd, msg_txt(sd,1325)); // [ K.S Protection Inactive ]
 	}
 	else
@@ -9804,16 +9809,19 @@ ACMD_FUNC(ksprotection)
 		if( !message || !*message || !strcmpi(message, "party") )
 		{ // Default is Party
 			sd->state.noks = 2;
+			pc_setglobalreg(sd, add_str("noks"), 2);
 			clif_displaymessage(fd, msg_txt(sd,1326)); // [ K.S Protection Active - Option: Party ]
 		}
 		else if( !strcmpi(message, "self") )
 		{
 			sd->state.noks = 1;
+			pc_setglobalreg(sd, add_str("noks"), 1);
 			clif_displaymessage(fd, msg_txt(sd,1327)); // [ K.S Protection Active - Option: Self ]
 		}
 		else if( !strcmpi(message, "guild") )
 		{
 			sd->state.noks = 3;
+			pc_setglobalreg(sd, add_str("noks"), 3);
 			clif_displaymessage(fd, msg_txt(sd,1328)); // [ K.S Protection Active - Option: Guild ]
 		}
 		else

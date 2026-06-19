@@ -5139,6 +5139,8 @@ void clif_hide_wings( const map_session_data* sd ) // [Stingor]
 //   0 = SHOWEXP   1 = SHOWZENY   2 = SHOWMOBINFO   3 = SEPARATE
 //   4 = BLOCKEXP  5 = ALOOTRARE  6 = ALOOTRATE      7 = ALOOTPOGNON  8 = ALOOTTYPE
 //   9 = DISCORD_CHAT
+//  10 = SHOWDELAY 11 = SHOWSPEED 12 = SELLSTUFF      13 = SELLITEM    14 = NOASK
+//  15 = NOKS (0=off 1=self 2=party 3=guild)          16 = WINGS
 // ALOOTRATE  wire: 0-100 (%)        stored: *100 (0-10000)
 // ALOOTPOGNON wire: 0-10000 (/100z) stored: *100 (0-1,000,000 z)
 // ALOOTTYPE  wire: 0 or 1           stored: 0 or 0xFFFF (all-types bitmask)
@@ -5153,6 +5155,15 @@ enum e_bourgeon_setting : int16 {
 	BOURGEON_SETTING_ALOOT_POGNON  = 7,
 	BOURGEON_SETTING_ALOOT_TYPE    = 8,
 	BOURGEON_SETTING_DISCORD_CHAT  = 9,
+	BOURGEON_SETTING_SHOWDELAY     = 10,
+	BOURGEON_SETTING_SHOWSPEED     = 11,
+	BOURGEON_SETTING_SELLSTUFF     = 12,
+	BOURGEON_SETTING_SELLITEM      = 13,
+	BOURGEON_SETTING_NOASK         = 14,
+	BOURGEON_SETTING_NOKS          = 15,
+	BOURGEON_SETTING_WINGS         = 16,
+	BOURGEON_SETTING_ALOOT_MVP     = 17,
+	BOURGEON_SETTING_ALOOT_MVPRWD  = 18,
 };
 
 // Sends the full set of settings to the client on login.
@@ -5174,6 +5185,15 @@ void clif_bourgeon_settings(map_session_data* sd) {
 		{ BOURGEON_SETTING_ALOOT_POGNON,  static_cast<int16>(sd->state.autolootpognon / 100) },
 		{ BOURGEON_SETTING_ALOOT_TYPE,    static_cast<int16>(sd->state.autoloottype) },
 		{ BOURGEON_SETTING_DISCORD_CHAT,  static_cast<int16>(sd->state.discord_chat  ? 1 : 0) },
+		{ BOURGEON_SETTING_SHOWDELAY,     static_cast<int16>(sd->state.showdelay     ? 1 : 0) },
+		{ BOURGEON_SETTING_SHOWSPEED,     static_cast<int16>(sd->state.showspeed     ? 1 : 0) },
+		{ BOURGEON_SETTING_SELLSTUFF,     static_cast<int16>(sd->state.sellstuff     ? 1 : 0) },
+		{ BOURGEON_SETTING_SELLITEM,      static_cast<int16>(sd->state.sellitem      ? 1 : 0) },
+		{ BOURGEON_SETTING_NOASK,         static_cast<int16>(sd->state.noask         ? 1 : 0) },
+		{ BOURGEON_SETTING_NOKS,          static_cast<int16>(sd->state.noks) },
+		{ BOURGEON_SETTING_WINGS,         static_cast<int16>((sd->sc.option & OPTION_WINGS) ? 1 : 0) },
+		{ BOURGEON_SETTING_ALOOT_MVP,     static_cast<int16>(sd->state.autolootmvp     ? 1 : 0) },
+		{ BOURGEON_SETTING_ALOOT_MVPRWD,  static_cast<int16>(sd->state.autolootmvpreward ? 1 : 0) },
 	};
 	const int16 count = static_cast<int16>(ARRAYLENGTH(settings));
 	// Explicit wire header length to avoid struct-padding ambiguity:
@@ -5291,6 +5311,60 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 			sd->state.discord_chat = (p->value != 0);
 			pc_setglobalreg(sd, add_str("discord_chat"), sd->state.discord_chat ? 1 : 0);
 			clif_displaymessage(fd, sd->state.discord_chat ? "Discord relay : ON" : "Discord relay : OFF");
+			break;
+		case BOURGEON_SETTING_SHOWDELAY:
+			sd->state.showdelay = (p->value != 0) ? 1 : 0;
+			pc_setglobalreg(sd, add_str("showdelay"), sd->state.showdelay);
+			clif_displaymessage(fd, sd->state.showdelay ? msg_txt(sd, 1321) : msg_txt(sd, 1320));
+			break;
+		case BOURGEON_SETTING_SHOWSPEED:
+			sd->state.showspeed = (p->value != 0);
+			pc_setglobalreg(sd, add_str("showspeed"), sd->state.showspeed ? 1 : 0);
+			clif_displaymessage(fd, sd->state.showspeed ? msg_txt(sd, 1806) : msg_txt(sd, 1805));
+			break;
+		case BOURGEON_SETTING_SELLSTUFF:
+			sd->state.sellstuff = (p->value != 0);
+			pc_setglobalreg(sd, add_str("sellstuff"), sd->state.sellstuff ? 1 : 0);
+			clif_displaymessage(fd, sd->state.sellstuff ? msg_txt(sd, 1802) : msg_txt(sd, 1801));
+			break;
+		case BOURGEON_SETTING_SELLITEM:
+			sd->state.sellitem = (p->value != 0);
+			pc_setglobalreg(sd, add_str("sellitem"), sd->state.sellitem ? 1 : 0);
+			clif_displaymessage(fd, sd->state.sellitem ? msg_txt(sd, 1804) : msg_txt(sd, 1803));
+			break;
+		case BOURGEON_SETTING_NOASK:
+			sd->state.noask = (p->value != 0) ? 1 : 0;
+			pc_setglobalreg(sd, add_str("noask"), sd->state.noask);
+			clif_displaymessage(fd, sd->state.noask ? msg_txt(sd, 390) : msg_txt(sd, 391));
+			break;
+		case BOURGEON_SETTING_NOKS: {
+			uint8 noks_val = static_cast<uint8>(std::min(3, (int)(uint16)p->value));
+			sd->state.noks = noks_val;
+			pc_setglobalreg(sd, add_str("noks"), noks_val);
+			static const int noks_msgs[] = { 1325, 1327, 1326, 1328 }; // OFF Self Party Guild
+			clif_displaymessage(fd, msg_txt(sd, noks_msgs[noks_val]));
+			break;
+		}
+		case BOURGEON_SETTING_WINGS:
+			if (p->value) {
+				pc_setoption(sd, sd->sc.option | OPTION_WINGS);
+				clif_show_wings(sd);
+				clif_displaymessage(fd, msg_txt(sd, 1836));
+			} else {
+				pc_setoption(sd, sd->sc.option & ~OPTION_WINGS);
+				clif_hide_wings(sd);
+				clif_displaymessage(fd, msg_txt(sd, 1835));
+			}
+			break;
+		case BOURGEON_SETTING_ALOOT_MVP:
+			sd->state.autolootmvp = (p->value != 0);
+			pc_setglobalreg(sd, add_str("alootmvp"), sd->state.autolootmvp ? 1 : 0);
+			clif_displaymessage(fd, msg_txt(sd, sd->state.autolootmvp ? 1820 : 1821));
+			break;
+		case BOURGEON_SETTING_ALOOT_MVPRWD:
+			sd->state.autolootmvpreward = (p->value != 0);
+			pc_setglobalreg(sd, add_str("alootmvpreward"), sd->state.autolootmvpreward ? 0 : 1); // inverted: 1 = disabled (pc.cpp loads via !globalreg)
+			clif_displaymessage(fd, msg_txt(sd, sd->state.autolootmvpreward ? 1837 : 1838));
 			break;
 		default:
 			ShowWarning("clif_parse_bourgeon_setting: unknown setting id %d from %s\n",
@@ -12087,11 +12161,15 @@ void clif_parse_GlobalMessage(int32 fd, map_session_data* sd)
 	// send message to others (using the send buffer for temp. storage)
 	clif_GlobalMessage( *sd, output, sd->chatID ? CHAT_WOS : AREA_CHAT_WOC );
 
-	// [Stingor] Outbound Discord relay
-	if (sd->state.discord_chat && sd->state.has_bourgeon && sd->m == map_mapname2mapid(MAP_GONRYUN)) {
+	// [Stingor] Outbound Discord relay - OUT always active
+	if (sd->m == map_mapname2mapid(MAP_GONRYUN)) {
 		char esc_name[NAME_LENGTH * 2 + 1];
 		char esc_msg[CHAT_SIZE_MAX * 2 + 1];
 		Sql_EscapeString(mmysql_handle, esc_name, sd->status.name);
+		if( sd->state.discord_chat )
+			sprintf(esc_name,"%s (In-Game)" , esc_name);
+		else 
+			sprintf(esc_name,"%s (In-Game mais Discord OFF)" , esc_name);
 		Sql_EscapeString(mmysql_handle, esc_msg, message);
 		if (Sql_Query(mmysql_handle,
 			"INSERT INTO `discord_outbound` (player, char_id, message) VALUES ('%s', %u, '%s')",

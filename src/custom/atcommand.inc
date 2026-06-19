@@ -525,10 +525,12 @@ ACMD_FUNC(sellstuff)
 	if( sd->state.sellstuff ) {
 		clif_displaymessage(fd, msg_txt(sd,1801));
 		sd->state.sellstuff = 0;
+		pc_setglobalreg(sd, add_str("sellstuff"), 0);
 	}
 	else {
 		clif_displaymessage(fd, msg_txt(sd,1802));
 		sd->state.sellstuff = 1;
+		pc_setglobalreg(sd, add_str("sellstuff"), 1);
 	}
 
 	return 0;
@@ -545,10 +547,12 @@ ACMD_FUNC(sellitem)
 	if( sd->state.sellitem ) {
 		clif_displaymessage(fd, msg_txt(sd,1803));
 		sd->state.sellitem = 0;
+		pc_setglobalreg(sd, add_str("sellitem"), 0);
 	}
 	else {
 		clif_displaymessage(fd, msg_txt(sd,1804));
 		sd->state.sellitem = 1;
+		pc_setglobalreg(sd, add_str("sellitem"), 1);
 	}
 
 	return 0;
@@ -564,10 +568,12 @@ ACMD_FUNC(showspeed)
 
 	if( sd->state.showspeed )  {
 		sd->state.showspeed = 0;
+		pc_setglobalreg(sd, add_str("showspeed"), 0);
 		clif_displaymessage(fd, msg_txt(sd,1805));
 	}
 	else{
 		sd->state.showspeed = 1;
+		pc_setglobalreg(sd, add_str("showspeed"), 1);
 		clif_displaymessage(fd, msg_txt(sd,1806));
 	}
 
@@ -882,7 +888,7 @@ ACMD_FUNC(autolootmvpreward)
 	nullpo_retr(-1, sd);
 	
 	sd->state.autolootmvpreward = !sd->state.autolootmvpreward;
-	pc_setglobalreg(sd, add_str("alootmvpreward"), sd->state.autolootmvpreward);
+	pc_setglobalreg(sd, add_str("alootmvpreward"), sd->state.autolootmvpreward ? 0 : 1); // inverted: 1 = disabled (pc.cpp loads via !globalreg)
 
 	if( sd->state.autolootmvpreward )
 		clif_displaymessage(fd, msg_txt(sd,1837));

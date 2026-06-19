@@ -2453,6 +2453,12 @@ void pc_reg_received(map_session_data *sd)
 	sd->state.autoloottype   = static_cast<uint16>(pc_readglobalreg(sd, add_str("autoloottype")));
 	sd->state.kill_separate = pc_readglobalreg(sd, add_str("separate")) ? 1 : 0;
 	sd->state.showmobinfo = pc_readglobalreg(sd, add_str("showmobinfo")) ? 1 : 0;
+	sd->state.showdelay  = pc_readglobalreg(sd, add_str("showdelay"))  ? 1 : 0;
+	sd->state.showspeed  = pc_readglobalreg(sd, add_str("showspeed"))  ? 1 : 0;
+	sd->state.sellstuff  = pc_readglobalreg(sd, add_str("sellstuff"))  ? 1 : 0;
+	sd->state.sellitem   = pc_readglobalreg(sd, add_str("sellitem"))   ? 1 : 0;
+	sd->state.noask      = pc_readglobalreg(sd, add_str("noask"))      ? 1 : 0;
+	sd->state.noks       = static_cast<uint8>(std::min(3, (int)pc_readglobalreg(sd, add_str("noks"))));
 	sd->state.discord_chat = 1; // Default to enabled, if the registry doesn't exist yet
 	if( Sql_Query( mmysql_handle, "SELECT `value` FROM `char_reg_num` WHERE `key` LIKE 'discord_chat' and `char_id` = '%d' LIMIT 1;", sd->status.char_id ) == SQL_SUCCESS )
 	{ // Check if the registry exists
