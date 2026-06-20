@@ -7023,6 +7023,25 @@ void clif_skill_damage( const block_list& src, const block_list& dst, t_tick tic
 		}
 		clif_send( &packet, sizeof( packet ), &src, SELF );
 	}
+
+	// For skill units (Storm Gust, Meteor Storm, LoV…): send a private
+	// ZC_BOURGEON_SKILL_DMG (0x0C22) to the original caster so their
+	// Bourgeon DPS meter can attribute the damage correctly, without
+	// altering the visual ZC_NOTIFY_SKILL packet that uses the unit's ID.
+	if (src.type == BL_SKILL && sdamage > 0) {
+		const TBL_SKILL* su = reinterpret_cast<const TBL_SKILL*>(&src);
+		if (su->group) {
+			block_list* caster_bl = map_id2bl(su->group->src_id);
+			if (caster_bl && caster_bl->type == BL_PC) {
+				PACKET_ZC_BOURGEON_SKILL_DMG notif{};
+				notif.packetType   = HEADER_ZC_BOURGEON_SKILL_DMG;
+				notif.packetLength = sizeof(notif);
+				notif.src_aid      = su->group->src_id;
+				notif.damage       = (int32)std::min(sdamage, (int64)INT_MAX);
+				clif_send(&notif, sizeof(notif), caster_bl, SELF);
+			}
+		}
+	}
 }
 
 

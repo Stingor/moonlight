@@ -5974,6 +5974,19 @@ struct PACKET_ZC_BOURGEON_PRESET_LIST {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_PRESET_LIST, 0x0c21);
 
+// ZC (server -> client): private damage notification for Bourgeon DPS meter.
+// Sent SELF-only when a skill unit (Storm Gust, Meteor Storm, LoV…) deals
+// damage, so the client can attribute the hit to the original caster's AID
+// without changing the visual ZC_NOTIFY_SKILL packet.
+// Layout: [type:2][len:2][src_aid:4][damage:4]  — 12 bytes total.
+struct PACKET_ZC_BOURGEON_SKILL_DMG {
+	int16  packetType;
+	int16  packetLength;
+	uint32 src_aid;
+	int32  damage;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_SKILL_DMG, 0x0c22);
+
 // NOTE: there is no ZC_BOURGEON_MAP packet. The Bourgeon client reads the
 // current map name from the standard 0x0091 ZC_NPCACK_MAPMOVE packet instead.
 // Custom ZC opcodes in the 0x0BFx range (0x0BFC, 0x0BFF) collide with fixed
