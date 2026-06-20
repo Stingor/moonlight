@@ -204,6 +204,7 @@ static item_cmp_fn get_cmp(e_sort_mode mode)
 void sort_storage_items(struct item* items, uint32 size, e_sort_mode mode)
 {
 	nullpo_retv(items);
+	if( mode == SORT_NONE ) return;
 	item_cmp_fn fn = get_cmp(mode);
 	if( fn )
 		std::sort(items, items + size, fn);
@@ -220,6 +221,7 @@ void sort_storage_items(struct item* items, uint32 size, e_sort_mode mode)
 void sort_inventory_items(map_session_data* sd, e_sort_mode mode)
 {
 	nullpo_retv(sd);
+	if( mode == SORT_NONE ) return;
 
 	struct sort_pair {
 		struct item       it;

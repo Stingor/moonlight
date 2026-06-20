@@ -1867,13 +1867,14 @@ static e_sort_mode atcmd_parse_sort_mode(const char* msg)
 	if( strncmpi(msg, "poids",    5) == 0 ) return SORT_WEIGHT;
 	if( strncmpi(msg, "prix",     4) == 0 ) return SORT_PRICE;
 	if( strncmpi(msg, "nom",      3) == 0 ) return SORT_NAME;
+	if( strncmpi(msg, "aucun",    5) == 0 ) return SORT_NONE;
 	return (e_sort_mode)255; // invalide
 }
 
 static void atcmd_show_sort_usage(const int32 fd, map_session_data* sd, const char* cmd)
 {
 	char buf[160];
-	snprintf(buf, sizeof(buf), "Usage : @%s <defaut|type|quantite|poids|prix|nom>", cmd);
+	snprintf(buf, sizeof(buf), "Usage : @%s <defaut|type|quantite|poids|prix|nom|aucun>", cmd);
 	clif_displaymessage(fd, buf);
 }
 
@@ -1887,6 +1888,7 @@ static const char* atcmd_sort_mode_name(e_sort_mode mode)
 		case SORT_WEIGHT: return "poids";
 		case SORT_PRICE:  return "prix";
 		case SORT_NAME:   return "nom (A-Z)";
+		case SORT_NONE:   return "aucun";
 		default:          return "?";
 	}
 }
@@ -1898,11 +1900,17 @@ ACMD_FUNC(tri_inventaire)
 	if( mode == (e_sort_mode)255 ) { atcmd_show_sort_usage(fd, sd, "tri_inventaire"); return -1; }
 	sd->state.sort_inv = (uint8)mode;
 	pc_setglobalreg(sd, add_str("TRI_INV"), (int32)mode);
-	sort_inventory_items(sd, mode);
-	clif_inventorylist(sd);
-	char buf[64];
-	snprintf(buf, sizeof(buf), "Inventaire tri\xe9 par %s.", atcmd_sort_mode_name(mode));
-	clif_displaymessage(fd, buf);
+	if( mode != SORT_NONE ) {
+		sort_inventory_items(sd, mode);
+		clif_inventorylist(sd);
+	}
+	if( mode == SORT_NONE )
+		clif_displaymessage(fd, "Tri de l'inventaire désactivé.");
+	else {
+		char buf[80];
+		snprintf(buf, sizeof(buf), "Inventaire trié par %s.", atcmd_sort_mode_name(mode));
+		clif_displaymessage(fd, buf);
+	}
 	return 0;
 }
 

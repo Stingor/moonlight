@@ -1516,6 +1516,10 @@ void clif_specialpopup(const map_session_data& sd, int32 id);
 
 // [Stingor] Bourgeon settings sync
 void clif_bourgeon_settings(map_session_data* sd);
+// [Stingor] Re-sync autolootid list to client (clear + rebuild) — call after @alootid changes
+void clif_bourgeon_sync_alootid(map_session_data* sd);
+// [Stingor] Send preset list (ZC 0x0C21) to client — call after any preset DB change
+void clif_bourgeon_send_preset_list(map_session_data* sd);
 // [Stingor] Send Discord relay message (0x0C1F) to all players on gonryun
 void clif_bourgeon_discord_msg_all(const char* msg);
 // [Stingor] (Re)load conf/bourgeon_integrity.conf — called by admin INTEGRITY command

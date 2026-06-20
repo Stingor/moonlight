@@ -7143,6 +7143,7 @@ ACMD_FUNC(autolootitem)
 		sprintf(atcmd_output, msg_txt(sd,1192), item_data->name.c_str(), item_db.create_item_link( item_data ).c_str(), item_data->nameid); // Autolooting item: '%s'/'%s' {%u}
 		clif_displaymessage(fd, atcmd_output);
 		sd->state.autolooting = 1;
+		clif_bourgeon_sync_alootid(sd);
 		break;
 	case 2:
 		ARR_FIND(0, AUTOLOOTITEM_SIZE, i, sd->state.autolootid[i] == item_data->nameid);
@@ -7157,6 +7158,7 @@ ACMD_FUNC(autolootitem)
 		if (i == AUTOLOOTITEM_SIZE) {
 			sd->state.autolooting = 0;
 		}
+		clif_bourgeon_sync_alootid(sd);
 		break;
 	case 3:
 		sprintf(atcmd_output, msg_txt(sd,1195), AUTOLOOTITEM_SIZE); // You can have %d items on your autolootitem list.
@@ -7188,6 +7190,7 @@ ACMD_FUNC(autolootitem)
 		memset(sd->state.autolootid, 0, sizeof(sd->state.autolootid));
 		clif_displaymessage(fd, msg_txt(sd,1200)); // Your autolootitem list has been reset.
 		sd->state.autolooting = 0;
+		clif_bourgeon_sync_alootid(sd);
 		break;
 	}
 	return 0;

@@ -5911,13 +5911,13 @@ struct PACKET_ZC_BOURGEON_SETTINGS {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_SETTINGS, 0x0bfe);
 
-// CZ (client -> server): reports a single setting change. Fixed 8 bytes.
-// Layout: [packetType:2][packetLength:2][id:2][value:2]
+// CZ (client -> server): reports a single setting change. Fixed 10 bytes.
+// Layout: [packetType:2][packetLength:2][id:2][value:4]
 struct PACKET_CZ_BOURGEON_SETTING {
 	int16 packetType;
 	int16 packetLength;
 	int16 id;
-	int16 value;
+	uint32 value;
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(CZ_BOURGEON_SETTING, 0x0bfd);
 
@@ -5950,6 +5950,29 @@ struct PACKET_ZC_BOURGEON_DISCORD_MSG {
 	char msg[1];  // variable-length, null-terminated; pre-formatted as "[Discord][name] text"
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_DISCORD_MSG, 0x0c1f);
+
+// CZ (client -> server): preset management command. Variable-length.
+// Layout: [type:2][len:2][cmd:1][no:1][name:variable, may be empty, not null-terminated]
+// cmd: 1=LIST, 2=SAVE(no,name), 3=LOAD(no), 4=DELETE(no), 5=SET_AUTOLOAD(no, 0=disable all)
+struct PACKET_CZ_BOURGEON_PRESET_CMD {
+	int16 packetType;
+	int16 packetLength;
+	uint8 cmd;
+	uint8 no;
+	char  name[1];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_PRESET_CMD, 0x0c20);
+
+// ZC (server -> client): sends the preset list. Variable-length.
+// Layout: [type:2][len:2][active_no:1][count:1]
+// Followed by count entries: [no:1][autoload:1][namelen:1][name:namelen bytes, not null-terminated]
+struct PACKET_ZC_BOURGEON_PRESET_LIST {
+	int16 packetType;
+	int16 packetLength;
+	uint8 active_no;
+	uint8 count;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_PRESET_LIST, 0x0c21);
 
 // NOTE: there is no ZC_BOURGEON_MAP packet. The Bourgeon client reads the
 // current map name from the standard 0x0091 ZC_NPCACK_MAPMOVE packet instead.

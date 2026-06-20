@@ -71,6 +71,7 @@ enum e_sort_mode : uint8 {
 	SORT_WEIGHT  = 3, ///< by unit weight descending
 	SORT_PRICE   = 4, ///< by sell price descending
 	SORT_NAME    = 5, ///< by display name (alphabetical)
+	SORT_NONE    = 6, ///< no sort (preserve server order)
 };
 
 void sort_storage_items(struct item* items, uint32 size, e_sort_mode mode);

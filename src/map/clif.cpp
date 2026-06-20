@@ -5141,6 +5141,7 @@ void clif_hide_wings( const map_session_data* sd ) // [Stingor]
 //   9 = DISCORD_CHAT
 //  10 = SHOWDELAY 11 = SHOWSPEED 12 = SELLSTUFF      13 = SELLITEM    14 = NOASK
 //  15 = NOKS (0=off 1=self 2=party 3=guild)          16 = WINGS
+//  19 = TRI_INV   20 = TRI_CART  21 = TRI_STORAGE    22 = TRI_GSTORAGE (0=nameid…6=none)
 // ALOOTRATE  wire: 0-100 (%)        stored: *100 (0-10000)
 // ALOOTPOGNON wire: 0-10000 (/100z) stored: *100 (0-1,000,000 z)
 // ALOOTTYPE  wire: 0 or 1           stored: 0 or 0xFFFF (all-types bitmask)
@@ -5164,42 +5165,94 @@ enum e_bourgeon_setting : int16 {
 	BOURGEON_SETTING_WINGS         = 16,
 	BOURGEON_SETTING_ALOOT_MVP     = 17,
 	BOURGEON_SETTING_ALOOT_MVPRWD  = 18,
+	BOURGEON_SETTING_TRI_INV       = 19,
+	BOURGEON_SETTING_TRI_CART      = 20,
+	BOURGEON_SETTING_TRI_STORAGE   = 21,
+	BOURGEON_SETTING_TRI_GSTORAGE  = 22,
+	BOURGEON_SETTING_ALOOT_ID      = 23,  // add item ID to autolootid list (0=clear all)
+	BOURGEON_SETTING_ALOOT_ID_REM  = 24,  // remove item ID from autolootid list
 };
 
 // Sends the full set of settings to the client on login.
-// Layout: [packetType:2][packetLength:2][count:2][{id:2, value:2} * count]
+// Layout: [packetType:2][packetLength:2][char_id:4][count:2][{id:2, value:4} * count]
 void clif_bourgeon_settings(map_session_data* sd) {
 	nullpo_retv(sd);
 	const int32 fd = sd->fd;
 	if (!session_isActive(fd))
 		return;
 
-	struct { int16 id; int16 value; } settings[] = {
-		{ BOURGEON_SETTING_SHOW_EXP,      static_cast<int16>(sd->state.showexp       ? 1 : 0) },
-		{ BOURGEON_SETTING_SHOW_ZENY,     static_cast<int16>(sd->state.showzeny      ? 1 : 0) },
-		{ BOURGEON_SETTING_SHOW_MOB_INFO, static_cast<int16>(sd->state.showmobinfo   ? 1 : 0) },
-		{ BOURGEON_SETTING_SEPARATE,      static_cast<int16>(sd->state.kill_separate ? 1 : 0) },
-		{ BOURGEON_SETTING_BLOCK_EXP,     static_cast<int16>(sd->state.block_exp     ? 1 : 0) },
-		{ BOURGEON_SETTING_ALOOT_RARE,    static_cast<int16>(sd->state.autolootrare  ? 1 : 0) },
-		{ BOURGEON_SETTING_ALOOT_RATE,    static_cast<int16>(sd->state.autoloot / 100) },
-		{ BOURGEON_SETTING_ALOOT_POGNON,  static_cast<int16>(sd->state.autolootpognon / 100) },
-		{ BOURGEON_SETTING_ALOOT_TYPE,    static_cast<int16>(sd->state.autoloottype) },
-		{ BOURGEON_SETTING_DISCORD_CHAT,  static_cast<int16>(sd->state.discord_chat  ? 1 : 0) },
-		{ BOURGEON_SETTING_SHOWDELAY,     static_cast<int16>(sd->state.showdelay     ? 1 : 0) },
-		{ BOURGEON_SETTING_SHOWSPEED,     static_cast<int16>(sd->state.showspeed     ? 1 : 0) },
-		{ BOURGEON_SETTING_SELLSTUFF,     static_cast<int16>(sd->state.sellstuff     ? 1 : 0) },
-		{ BOURGEON_SETTING_SELLITEM,      static_cast<int16>(sd->state.sellitem      ? 1 : 0) },
-		{ BOURGEON_SETTING_NOASK,         static_cast<int16>(sd->state.noask         ? 1 : 0) },
-		{ BOURGEON_SETTING_NOKS,          static_cast<int16>(sd->state.noks) },
-		{ BOURGEON_SETTING_WINGS,         static_cast<int16>((sd->sc.option & OPTION_WINGS) ? 1 : 0) },
-		{ BOURGEON_SETTING_ALOOT_MVP,     static_cast<int16>(sd->state.autolootmvp     ? 1 : 0) },
-		{ BOURGEON_SETTING_ALOOT_MVPRWD,  static_cast<int16>(sd->state.autolootmvpreward ? 1 : 0) },
+	struct { int16 id; uint32 value; } settings[] = {
+		{ BOURGEON_SETTING_SHOW_EXP,      (uint32)(sd->state.showexp       ? 1 : 0) },
+		{ BOURGEON_SETTING_SHOW_ZENY,     (uint32)(sd->state.showzeny      ? 1 : 0) },
+		{ BOURGEON_SETTING_SHOW_MOB_INFO, (uint32)(sd->state.showmobinfo   ? 1 : 0) },
+		{ BOURGEON_SETTING_SEPARATE,      (uint32)(sd->state.kill_separate ? 1 : 0) },
+		{ BOURGEON_SETTING_BLOCK_EXP,     (uint32)(sd->state.block_exp     ? 1 : 0) },
+		{ BOURGEON_SETTING_ALOOT_RARE,    (uint32)(sd->state.autolootrare  ? 1 : 0) },
+		{ BOURGEON_SETTING_ALOOT_RATE,    (uint32)(sd->state.autoloot / 100) },
+		{ BOURGEON_SETTING_ALOOT_POGNON,  (uint32)(sd->state.autolootpognon / 100) },
+		{ BOURGEON_SETTING_ALOOT_TYPE,    (uint32)(sd->state.autoloottype) },
+		{ BOURGEON_SETTING_DISCORD_CHAT,  (uint32)(sd->state.discord_chat  ? 1 : 0) },
+		{ BOURGEON_SETTING_SHOWDELAY,     (uint32)(sd->state.showdelay     ? 1 : 0) },
+		{ BOURGEON_SETTING_SHOWSPEED,     (uint32)(sd->state.showspeed     ? 1 : 0) },
+		{ BOURGEON_SETTING_SELLSTUFF,     (uint32)(sd->state.sellstuff     ? 1 : 0) },
+		{ BOURGEON_SETTING_SELLITEM,      (uint32)(sd->state.sellitem      ? 1 : 0) },
+		{ BOURGEON_SETTING_NOASK,         (uint32)(sd->state.noask         ? 1 : 0) },
+		{ BOURGEON_SETTING_NOKS,          (uint32)(sd->state.noks) },
+		{ BOURGEON_SETTING_WINGS,         (uint32)((sd->sc.option & OPTION_WINGS) ? 1 : 0) },
+		{ BOURGEON_SETTING_ALOOT_MVP,     (uint32)(sd->state.autolootmvp     ? 1 : 0) },
+		{ BOURGEON_SETTING_ALOOT_MVPRWD,  (uint32)(sd->state.autolootmvpreward ? 1 : 0) },
+		{ BOURGEON_SETTING_TRI_INV,       (uint32)(sd->state.sort_inv) },
+		{ BOURGEON_SETTING_TRI_CART,      (uint32)(sd->state.sort_cart) },
+		{ BOURGEON_SETTING_TRI_STORAGE,   (uint32)(sd->state.sort_storage) },
+		{ BOURGEON_SETTING_TRI_GSTORAGE,  (uint32)(sd->state.sort_gstorage) },
 	};
-	const int16 count = static_cast<int16>(ARRAYLENGTH(settings));
+	// Count non-zero autolootid entries to append after the fixed block.
+	int16 aloot_id_count = 0;
+	for (int i = 0; i < AUTOLOOTITEM_SIZE; ++i)
+		if (sd->state.autolootid[i] != 0)
+			++aloot_id_count;
+
+	const int16 fixed_count = static_cast<int16>(ARRAYLENGTH(settings));
+	const int16 total_count = fixed_count + aloot_id_count;
 	// Explicit wire header length to avoid struct-padding ambiguity:
-	// [type:2][len:2][char_id:4][count:2] = 10 bytes, then count * {id:2,value:2}.
+	// [type:2][len:2][char_id:4][count:2] = 10 bytes, then count * {id:2,value:4}.
 	const int16 header_len = 10;
-	const int16 pkt_len = static_cast<int16>(header_len + count * 4);
+	const int16 pkt_len = static_cast<int16>(header_len + total_count * 6);
+
+	WFIFOHEAD(fd, pkt_len);
+	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_SETTINGS;
+	WFIFOW(fd, 2) = pkt_len;
+	WFIFOL(fd, 4) = sd->status.char_id;
+	WFIFOW(fd, 8) = total_count;
+	int16 offset = header_len;
+	for (int16 i = 0; i < fixed_count; ++i) {
+		WFIFOW(fd, offset)     = settings[i].id;
+		WFIFOL(fd, offset + 2) = settings[i].value;
+		offset += 6;
+	}
+	for (int i = 0; i < AUTOLOOTITEM_SIZE; ++i) {
+		if (sd->state.autolootid[i] == 0) continue;
+		WFIFOW(fd, offset)     = BOURGEON_SETTING_ALOOT_ID;
+		WFIFOL(fd, offset + 2) = (uint32)(sd->state.autolootid[i]);
+		offset += 6;
+	}
+	WFIFOSET(fd, pkt_len);
+}
+
+// Sends a mini ZC_BOURGEON_SETTINGS with just the autolootid list.
+// Sends {ALOOT_ID, 0} first to clear the client's list, then one entry per active id.
+void clif_bourgeon_sync_alootid(map_session_data* sd) {
+	nullpo_retv(sd);
+	const int32 fd = sd->fd;
+	if (!session_isActive(fd)) return;
+
+	int16 active = 0;
+	for (int i = 0; i < AUTOLOOTITEM_SIZE; ++i)
+		if (sd->state.autolootid[i] != 0) ++active;
+
+	const int16 count      = 1 + active;  // clear sentinel + each active id
+	const int16 header_len = 10;
+	const int16 pkt_len    = static_cast<int16>(header_len + count * 6);
 
 	WFIFOHEAD(fd, pkt_len);
 	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_SETTINGS;
@@ -5207,19 +5260,226 @@ void clif_bourgeon_settings(map_session_data* sd) {
 	WFIFOL(fd, 4) = sd->status.char_id;
 	WFIFOW(fd, 8) = count;
 	int16 offset = header_len;
-	for (int16 i = 0; i < count; ++i) {
-		WFIFOW(fd, offset)     = settings[i].id;
-		WFIFOW(fd, offset + 2) = settings[i].value;
-		offset += 4;
+	WFIFOW(fd, offset)     = BOURGEON_SETTING_ALOOT_ID;
+	WFIFOL(fd, offset + 2) = 0;  // clear client list
+	offset += 6;
+	for (int i = 0; i < AUTOLOOTITEM_SIZE; ++i) {
+		if (sd->state.autolootid[i] == 0) continue;
+		WFIFOW(fd, offset)     = BOURGEON_SETTING_ALOOT_ID;
+		WFIFOL(fd, offset + 2) = (uint32)(sd->state.autolootid[i]);
+		offset += 6;
 	}
 	WFIFOSET(fd, pkt_len);
+}
+
+// ── Bourgeon preset management (ZC 0x0C21 / CZ 0x0C20) ───────────────────────
+
+// Query distinct preset metadata for one character (max 10 rows).
+// Returns the row count; fills nos[], names[] (null-terminated, max 50 chars), autos[].
+static int clif_bourgeon_query_presets(int char_id,
+                                       uint8 nos[10], char names[10][51], uint8 autos[10]) {
+	if (Sql_Query(mmysql_handle,
+	    "SELECT `no`, COALESCE(`name`,''), COALESCE(`auto`,0)"
+	    " FROM `alootid` WHERE `cid`=%d GROUP BY `no` ORDER BY `no` LIMIT 10",
+	    char_id) != SQL_SUCCESS) {
+		Sql_ShowDebug(mmysql_handle);
+		return 0;
+	}
+	int count = 0;
+	char *no_s, *name_s, *auto_s;
+	while (SQL_SUCCESS == Sql_NextRow(mmysql_handle) && count < 10) {
+		Sql_GetData(mmysql_handle, 0, &no_s,   nullptr);
+		Sql_GetData(mmysql_handle, 1, &name_s, nullptr);
+		Sql_GetData(mmysql_handle, 2, &auto_s, nullptr);
+		nos[count]  = (uint8)atoi(no_s   ? no_s   : "0");
+		autos[count]= (uint8)atoi(auto_s ? auto_s : "0");
+		strncpy(names[count], name_s ? name_s : "", 50);
+		names[count][50] = '\0';
+		++count;
+	}
+	Sql_FreeResult(mmysql_handle);
+	return count;
+}
+
+// Sends the preset list (ZC 0x0C21) to a Bourgeon client.
+void clif_bourgeon_send_preset_list(map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+	const int32 fd = sd->fd;
+	if (!session_isActive(fd)) return;
+
+	uint8 nos[10]; char names[10][51]; uint8 autos[10];
+	const int count = clif_bourgeon_query_presets(sd->status.char_id, nos, names, autos);
+
+	int name_lens[10], data_len = 0;
+	for (int i = 0; i < count; ++i) {
+		name_lens[i] = (int)strnlen(names[i], 50);
+		data_len += 3 + name_lens[i];  // [no:1][autoload:1][namelen:1] + name bytes
+	}
+	const int16 pkt_len = static_cast<int16>(6 + data_len);
+
+	WFIFOHEAD(fd, pkt_len);
+	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_PRESET_LIST;
+	WFIFOW(fd, 2) = pkt_len;
+	WFIFOB(fd, 4) = sd->state.alootid_active_preset;
+	WFIFOB(fd, 5) = (uint8)count;
+	int off = 6;
+	for (int i = 0; i < count; ++i) {
+		WFIFOB(fd, off)     = nos[i];
+		WFIFOB(fd, off + 1) = autos[i];
+		WFIFOB(fd, off + 2) = (uint8)name_lens[i];
+		memcpy(WFIFOP(fd, off + 3), names[i], name_lens[i]);
+		off += 3 + name_lens[i];
+	}
+	WFIFOSET(fd, pkt_len);
+}
+
+// Loads the preset marked auto=1 for this character into sd->state.autolootid.
+// Called before clif_bourgeon_settings so the initial alootid sync includes it.
+static void clif_bourgeon_autoload_preset(map_session_data* sd) {
+	nullpo_retv(sd);
+	if (Sql_Query(mmysql_handle,
+	    "SELECT `no`, `nameid` FROM `alootid`"
+	    " WHERE `cid`=%d AND `auto`=1 LIMIT %d",
+	    sd->status.char_id, AUTOLOOTITEM_SIZE) != SQL_SUCCESS) {
+		Sql_ShowDebug(mmysql_handle);
+		return;
+	}
+	char *no_s, *nameid_s;
+	uint8 preset_no = 0;
+	int slot = 0;
+	memset(sd->state.autolootid, 0, sizeof(sd->state.autolootid));
+	while (SQL_SUCCESS == Sql_NextRow(mmysql_handle) && slot < AUTOLOOTITEM_SIZE) {
+		Sql_GetData(mmysql_handle, 0, &no_s,    nullptr);
+		Sql_GetData(mmysql_handle, 1, &nameid_s, nullptr);
+		if (!nameid_s) continue;
+		const t_itemid id = (t_itemid)strtoul(nameid_s, nullptr, 10);
+		if (id == 0) continue;
+		preset_no = (uint8)atoi(no_s ? no_s : "0");
+		sd->state.autolootid[slot++] = id;
+	}
+	Sql_FreeResult(mmysql_handle);
+	if (slot > 0) {
+		sd->state.alootid_active_preset = preset_no;
+		sd->state.autolooting = 1;
+	}
+}
+
+// Handles CZ_BOURGEON_PRESET_CMD (0x0C20): preset list/save/load/delete/set-autoload.
+void clif_parse_bourgeon_preset_cmd(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+
+	const int pkt_len = RFIFOW(fd, 2);
+	if (pkt_len < 6) return;
+
+	const uint8 cmd     = RFIFOB(fd, 4);
+	const uint8 no      = RFIFOB(fd, 5);
+	const int   name_len = pkt_len - 6;
+	char name[51] = {};
+	if (name_len > 0) {
+		const int copy_len = name_len < 50 ? name_len : 50;
+		memcpy(name, RFIFOP(fd, 6), copy_len);
+		name[copy_len] = '\0';
+	}
+
+	char esc_name[103] = {};
+	Sql_EscapeStringLen(mmysql_handle, esc_name, name, strnlen(name, 50));
+	const int cid = sd->status.char_id;
+
+	switch (cmd) {
+	case 1:  // LIST
+		clif_bourgeon_send_preset_list(sd);
+		break;
+
+	case 2: {  // SAVE(no, name) — overwrite preset no with current alootid list
+		if (no < 1 || no > 10) break;
+		Sql_Query(mmysql_handle,
+		    "DELETE FROM `alootid` WHERE `cid`=%d AND `no`=%d", cid, no);
+		// Preserve autoload flag if preset existed
+		Sql_Query(mmysql_handle,
+		    "SELECT `auto` FROM `alootid` WHERE `cid`=%d AND `no`=%d LIMIT 1", cid, no);
+		// (result already cleared by DELETE — auto starts at 0 for new preset)
+		bool any = false;
+		std::string vals;
+		for (int i = 0; i < AUTOLOOTITEM_SIZE; ++i) {
+			if (sd->state.autolootid[i] == 0) continue;
+			if (any) vals += ',';
+			char entry[128];
+			snprintf(entry, sizeof(entry), "(%d,%d,%u,'%s',0)",
+			         cid, (int)no, (unsigned)sd->state.autolootid[i], esc_name);
+			vals += entry;
+			any = true;
+		}
+		if (any) {
+			Sql_Query(mmysql_handle,
+			    "INSERT INTO `alootid` (`cid`,`no`,`nameid`,`name`,`auto`) VALUES %s",
+			    vals.c_str());
+			sd->state.alootid_active_preset = no;
+		}
+		clif_bourgeon_send_preset_list(sd);
+		break;
+	}
+
+	case 3:  // LOAD(no) — replace active alootid list with preset no
+		if (no < 1 || no > 10) break;
+		if (Sql_Query(mmysql_handle,
+		    "SELECT `nameid` FROM `alootid` WHERE `cid`=%d AND `no`=%d LIMIT %d",
+		    cid, (int)no, AUTOLOOTITEM_SIZE) == SQL_SUCCESS) {
+			memset(sd->state.autolootid, 0, sizeof(sd->state.autolootid));
+			int slot = 0;
+			char* data;
+			while (SQL_SUCCESS == Sql_NextRow(mmysql_handle) && slot < AUTOLOOTITEM_SIZE) {
+				if (SQL_SUCCESS == Sql_GetData(mmysql_handle, 0, &data, nullptr) && data)
+					sd->state.autolootid[slot++] = (t_itemid)strtoul(data, nullptr, 10);
+			}
+			Sql_FreeResult(mmysql_handle);
+			sd->state.alootid_active_preset = no;
+			bool any_active = false;
+			for (int i = 0; i < AUTOLOOTITEM_SIZE; ++i)
+				if (sd->state.autolootid[i]) { any_active = true; break; }
+			sd->state.autolooting = any_active ? 1 : 0;
+			clif_bourgeon_sync_alootid(sd);
+		}
+		clif_bourgeon_send_preset_list(sd);
+		break;
+
+	case 4:  // DELETE(no)
+		if (no < 1 || no > 10) break;
+		Sql_Query(mmysql_handle,
+		    "DELETE FROM `alootid` WHERE `cid`=%d AND `no`=%d", cid, (int)no);
+		if (sd->state.alootid_active_preset == no)
+			sd->state.alootid_active_preset = 0;
+		clif_bourgeon_send_preset_list(sd);
+		break;
+
+	case 5:  // SET_AUTOLOAD(no) — mark no as autoload; 0 disables all
+		if (no == 0) {
+			Sql_Query(mmysql_handle,
+			    "UPDATE `alootid` SET `auto`=0 WHERE `cid`=%d", cid);
+		} else if (no >= 1 && no <= 10) {
+			Sql_Query(mmysql_handle,
+			    "UPDATE `alootid` SET `auto`=CASE WHEN `no`=%d THEN 1 ELSE 0 END"
+			    " WHERE `cid`=%d", (int)no, cid);
+		}
+		clif_bourgeon_send_preset_list(sd);
+		break;
+
+	case 6:  // RENAME(no, new_name) — update name without changing items
+		if (no < 1 || no > 10 || name_len == 0) break;
+		Sql_Query(mmysql_handle,
+		    "UPDATE `alootid` SET `name`='%s' WHERE `cid`=%d AND `no`=%d",
+		    esc_name, cid, (int)no);
+		clif_bourgeon_send_preset_list(sd);
+		break;
+	}
 }
 
 // Forward declaration — defined later in this file (used by BL_MOB resend below).
 static int32 clif_getareachar(block_list* bl, va_list ap);
 
 // Handles a single setting change reported by the client (CZ 0x0BFD).
-// Layout: [packetType:2][packetLength:2][id:2][value:2]
+// Layout: [packetType:2][packetLength:2][id:2][value:4]
 void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	const PACKET_CZ_BOURGEON_SETTING* p =
@@ -5366,6 +5626,97 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 			pc_setglobalreg(sd, add_str("alootmvpreward"), sd->state.autolootmvpreward ? 0 : 1); // inverted: 1 = disabled (pc.cpp loads via !globalreg)
 			clif_displaymessage(fd, msg_txt(sd, sd->state.autolootmvpreward ? 1837 : 1838));
 			break;
+		case BOURGEON_SETTING_TRI_INV: {
+			uint8 v = static_cast<uint8>(std::min(6, (int)(uint16)p->value));
+			sd->state.sort_inv = v;
+			pc_setglobalreg(sd, add_str("TRI_INV"), v);
+			if( v != SORT_NONE ) {
+				sort_inventory_items(sd, (e_sort_mode)v);
+				clif_inventorylist(sd);
+			}
+			static const char* kTriNames[] = { "Par ID", "Par type", "Par quantite", "Par poids", "Par prix", "Par nom", "Aucun" };
+			char buf[64]; snprintf(buf, sizeof(buf), "Tri inventaire : %s", kTriNames[v]);
+			clif_displaymessage(fd, buf);
+			break;
+		}
+		case BOURGEON_SETTING_TRI_CART: {
+			uint8 v = static_cast<uint8>(std::min(6, (int)(uint16)p->value));
+			sd->state.sort_cart = v;
+			pc_setglobalreg(sd, add_str("TRI_CART"), v);
+			if( v != SORT_NONE && pc_iscarton(sd) ) {
+				sort_storage_items(sd->cart.u.items_cart, ARRAYLENGTH(sd->cart.u.items_cart), (e_sort_mode)v);
+				clif_cartlist(sd);
+			}
+			static const char* kTriNames[] = { "Par ID", "Par type", "Par quantite", "Par poids", "Par prix", "Par nom", "Aucun" };
+			char buf[64]; snprintf(buf, sizeof(buf), "Tri chariot : %s", kTriNames[v]);
+			clif_displaymessage(fd, buf);
+			break;
+		}
+		case BOURGEON_SETTING_TRI_STORAGE: {
+			uint8 v = static_cast<uint8>(std::min(6, (int)(uint16)p->value));
+			sd->state.sort_storage = v;
+			pc_setglobalreg(sd, add_str("TRI_STOR"), v);
+			static const char* kTriNames[] = { "Par ID", "Par type", "Par quantite", "Par poids", "Par prix", "Par nom", "Aucun" };
+			char buf[64]; snprintf(buf, sizeof(buf), "Tri coffre : %s", kTriNames[v]);
+			clif_displaymessage(fd, buf);
+			break;
+		}
+		case BOURGEON_SETTING_TRI_GSTORAGE: {
+			uint8 v = static_cast<uint8>(std::min(6, (int)(uint16)p->value));
+			sd->state.sort_gstorage = v;
+			pc_setglobalreg(sd, add_str("TRI_GSTOR"), v);
+			static const char* kTriNames[] = { "Par ID", "Par type", "Par quantite", "Par poids", "Par prix", "Par nom", "Aucun" };
+			char buf[64]; snprintf(buf, sizeof(buf), "Tri coffre guilde : %s", kTriNames[v]);
+			clif_displaymessage(fd, buf);
+			break;
+		}
+		case BOURGEON_SETTING_ALOOT_ID: {
+			if (p->value == 0) {
+				memset(sd->state.autolootid, 0, sizeof(sd->state.autolootid));
+				sd->state.autolooting = 0;
+				clif_displaymessage(fd, "Autolootid : liste effacee");
+			} else {
+				const t_itemid item_id = static_cast<t_itemid>(p->value);
+				if (!item_db.find(item_id)) {
+					clif_displaymessage(fd, msg_txt(sd, 1189)); // Item not found.
+					clif_bourgeon_sync_alootid(sd); // resync to revert client-side optimistic add
+					break;
+				}
+				int32 i;
+				ARR_FIND(0, AUTOLOOTITEM_SIZE, i, sd->state.autolootid[i] == item_id);
+				if (i == AUTOLOOTITEM_SIZE) { // not already in list
+					ARR_FIND(0, AUTOLOOTITEM_SIZE, i, sd->state.autolootid[i] == 0);
+					if (i == AUTOLOOTITEM_SIZE) {
+						clif_displaymessage(fd, msg_txt(sd, 1191)); // list full
+						clif_bourgeon_sync_alootid(sd);
+					} else {
+						sd->state.autolootid[i] = item_id;
+						sd->state.autolooting = 1;
+						char buf[48];
+						snprintf(buf, sizeof(buf), "Autolootid +%u", (unsigned)item_id);
+						clif_displaymessage(fd, buf);
+					}
+				}
+			}
+			break;
+		}
+		case BOURGEON_SETTING_ALOOT_ID_REM: {
+			const t_itemid item_id = static_cast<t_itemid>(p->value);
+			if (item_id > 0) {
+				int32 i;
+				ARR_FIND(0, AUTOLOOTITEM_SIZE, i, sd->state.autolootid[i] == item_id);
+				if (i != AUTOLOOTITEM_SIZE) {
+					sd->state.autolootid[i] = 0;
+					char buf[48];
+					snprintf(buf, sizeof(buf), "Autolootid -%u", (unsigned)item_id);
+					clif_displaymessage(fd, buf);
+					ARR_FIND(0, AUTOLOOTITEM_SIZE, i, sd->state.autolootid[i] != 0);
+					if (i == AUTOLOOTITEM_SIZE)
+						sd->state.autolooting = 0;
+				}
+			}
+			break;
+		}
 		default:
 			ShowWarning("clif_parse_bourgeon_setting: unknown setting id %d from %s\n",
 				p->id, sd->status.name);
@@ -5505,7 +5856,9 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 		ShowInfo("Bourgeon integrity: %s exempt (IP %s).\n",
 			sd->status.name, ip2str(session[fd]->client_addr, nullptr));
 		sd->state.has_bourgeon = true;
+		clif_bourgeon_autoload_preset(sd);
 		clif_bourgeon_settings(sd);
+		clif_bourgeon_send_preset_list(sd);
 		return;
 	}
 
@@ -5520,7 +5873,9 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 	// Approved build — mark client and push settings.
 	if (bourgeon_integrity_conf.hashes.count(hex) > 0) {
 		sd->state.has_bourgeon = true;
+		clif_bourgeon_autoload_preset(sd);
 		clif_bourgeon_settings(sd);
+		clif_bourgeon_send_preset_list(sd);
 		return;
 	}
 
@@ -5543,7 +5898,9 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 		// Not enforcing but still a Bourgeon client (just wrong hash) — mark and
 		// send settings so their overlay works while they update.
 		sd->state.has_bourgeon = true;
+		clif_bourgeon_autoload_preset(sd);
 		clif_bourgeon_settings(sd);
+		clif_bourgeon_send_preset_list(sd);
 	}
 }
 
