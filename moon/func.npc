@@ -293,14 +293,14 @@ function	script	getmapname	{
 // FONCTION ADD/REMOVE VOTE
 function	script	moonlight_vote	{
 	.@nombrevote = getarg(0);
-	.@uniqueid = callfunc("getuniqueid",getarg(1));
+	.@uniqueid = getuniqueid(getarg(1));
 	if( !.@nombrevote || !.@uniqueid ) {
 		mes "["+strnpcinfo(0)+"]";
 		mes "Une erreur est survenue lors du traitement de l'opération.";
 		mes "Merci de contacter l'Administrateur.";
 		close;
 	}
-	.@vote = callfunc("getvote",callfunc("getuniqueid",getcharid(3)));
+	.@vote = getvote(getuniqueid(getcharid(3)));
 	if( .@vote < .@nombrevote ) {
 		mes "["+strnpcinfo(0)+"]";
 		mes "Vous n'avez pas assez de Votes pour cette opération.";

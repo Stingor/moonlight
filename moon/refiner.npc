@@ -311,7 +311,7 @@ Lfail_number:
 	close;
 
 L_voteref:
-	if( callfunc("getvote",callfunc("getuniqueid",getcharid(3))) >= .@votecost ) {
+	if( getvote(getuniqueid(getcharid(3))) >= .@votecost ) {
 		clear;
 		mes .@npcname$;
 		mes "Vous allez dépenser "+.@votecost+" votes !!!";
