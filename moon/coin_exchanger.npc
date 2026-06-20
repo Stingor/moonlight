@@ -1,0 +1,272 @@
+//=======================================================================//
+//																		 //
+// NPCs Chien des Bois et Collectionneur								 //
+//																		 //
+//=======================================================================//
+//																		 //
+// Par Spider pour Moonlight Destiny									 //
+//																		 //
+// Crédit sprite et images de l'item : icabit du forum rAthena			 //
+//																		 //
+//=======================================================================//
+//																		 //
+// Chien des Bois échange un Moonlight Coin contre 1 milliard de zeny.	 //
+//																		 //
+// Collectionneur échange 1 milliard de zeny contre 1 Moonlight Coin.	 //
+//																		 //
+// Plus de soucis de stockage ni d'échange de gros volumes de zeny !	 //
+//																		 //
+//=======================================================================//
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+//																		 //
+//								NPC 1									 //
+//																		 //
+///////////////////////////////////////////////////////////////////////////
+
+
+gonryun,133,99,5	script	Chien des Bois	514,{
+
+// Message de bienvenue
+mes "[Chien des Bois]";
+Switch( rand(3) ){
+	case 0: mes "pssst pssssssst";
+	break;
+	Case 1: mes "Hé +(Sex?"batard":"batarde")+";
+	break;
+	Case 2: mes "Woof Woof !";
+	break;
+}
+
+// Proposition
+Sleep 500;
+Mes "",
+mes "Tu veux des Moonlight Coins ?";
+sleep 200;
+mes "C'est ^FF00001.000.000.000^000000z l'unité";
+sleep 200;
+mes "Allé sort la trésorerie t'atten quoi !";
+sleep 200;
+mes "Et tu pose pas de questions";
+
+// Choix
+Menu "Tié ouf !", MenuCloseChien, "Deal !", MenuBuyCoin;
+
+
+///////////////////////////////////////////////////////////////////////////
+
+
+// Refus de l'échange
+MenuCloseChien:
+
+// Message d'au revoir
+clear;
+mes "[Chien des Bois]";
+mes "Déblaye alors kess tu fai !";
+
+callsub Sub_IsSTN;
+close;
+
+
+///////////////////////////////////////////////////////////////////////////
+
+
+// Echange accepté
+MenuBuyCoin:
+
+clear;
+mes "[Chien des Bois]";
+
+// Check zeny
+if (zeny >= .UnMilliardMvoyez){
+	
+	// Message assez de zeny
+	Switch( rand(3) ){
+	case 0: mes "Encore +(Sex?"un":"une")+ qui c fait boloss hahahahaha";
+	break;
+	Case 1: mes "Mais non +(Sex?"il":"elle")+ a marché +(Sex?"le con":"la conne")+ °°";
+	break;
+	Case 2: mes "Aboule le fric et prend ta merde";
+	break;
+	}
+	
+	// Retire les zeny + log
+	zeny -= .UnMilliardMvoyez;
+	logmes ""+strcharinfo(0)+" vient de dépenser 1 milliard pour acheter un Moonlight Coin";
+	// Donne 1 Moonlight Coin + log
+	getitem 1234560001, 1;
+	logmes ""+strcharinfo(0)+" vient de recevoir un Moonlight Coin de Chien des Bois";
+	
+	next;
+	
+	Switch( rand(3) ){
+		
+		// Message d'au revoir
+		mes "[Chien des Bois]";
+		case 0: mes "Azy maintenant casse toi !";
+		break;
+		Case 1: mes "Mais bouges de la wai !";
+		break;
+		Case 2: mes "Déblaye tu vas attiré les problèmes !";
+		break;
+	}
+	
+	callsub Sub_IsSTN;
+	close;
+}
+else{
+	
+	// Message pas assez de zeny
+	mes "Elle est ou la thune";
+	sleep 200;
+	mes "ta voulu m'arnaqué hein";
+	sleep 500;
+	mes "Dégage de la, saleté";
+	callsub Sub_IsSTN;
+	close;
+}
+
+
+///////////////////////////////////////////////////////////////////////////
+
+
+// Mode STN, cc STN <3
+Sub_IsSTN:
+
+// check juste son sinX jsuis gentil x)
+if (strcharinfo(0); == ".STN."){
+	
+	// Message d'amour
+	switch( rand(3) ){
+		case 0:
+			sleep 500;
+			Mes"";
+			mes "~ Chien des Bois fait ^FFFF00pipi^000000 sur .STN. ~";
+			close;
+		break;
+		case 1:
+			sleep 500;
+			Mes"";
+			mes"~ ^#FF00CC<3^000000 Chien des Bois monte la jambe de .STN. ^#FF00CC<3^000000 ~";
+		close;
+		break;
+		case 2:
+			close2;
+			sleep 200;
+			atcommand "@nuke " + strcharinfo(0);
+		break;		
+	}
+	
+	// Signature
+	sleep 200;
+	mes"[Spider]";
+	Mes"Mouahahahaha";
+	sleep 500;
+	mes"<3";
+	close;
+}
+}
+
+
+///////////////////////////////////////////////////////////////////////////
+//																		 //
+//								NPC 2									 //
+//																		 //
+///////////////////////////////////////////////////////////////////////////
+
+
+gonryun,186,96,3	script	Collectionneur	10056,{
+	
+// Message de bienvenue et proposition
+Mes"Collectionneur";
+mes"Salutations +(Sex?"Aventurier":"Aventurière")+, je suis en quête de précieux Moonlight Coins.";
+sleep 200;
+mes"Je suis prêt à vous en acheter un pour ^FF00001.000.000.000^000000z.";
+sleep 200;
+mes"Êtes-vous en possession d'un tel Artéfact ?";
+
+// Choix
+Menu "Je ne l'ai pas.", MenuCloseCollec, "J'ai la Relique !", MenuSellCoin;
+
+
+///////////////////////////////////////////////////////////////////////////
+
+
+// Refus de l'échange
+MenuCloseCollec:
+
+// Message d'au revoir
+clear;
+Mes"Collectionneur";
+mes"Je comprend, au revoir très cher.";
+close;
+
+
+///////////////////////////////////////////////////////////////////////////
+
+
+// Echange accepté
+MenuSellCoin:
+
+Clear;
+// Check Moonlight Coin dans l'inventaire
+if(coutitem(1234560001) != 0){
+	// Item présent
+	
+	// Check max zeny
+	if((zeny + UnMilliardMvoyez) <= MAX_ZENY){
+		
+		// Message assez de place pour les zeny
+		Mes"Collectionneur";
+		Mes"Mon précieux *__*";
+		sleep 500;
+		Mes"Enfin, je voulais dire...";
+		sleep 500;
+		Mes"Prennez ces quelques sous et donnez moi immédiatement le Moonlight Coin !";
+		
+		// Retire un Moonlight Coin + log
+		delitem(1234560001, 1);
+		logmes ""+strcharinfo(0)+" vient de donner un Moonlight Coin au Collectionneur";
+		// Donne les zeny + log
+		zeny += UnMilliardMvoyez;
+		logmes ""+strcharinfo(0)+" vient d'encaisser 1 milliard après vente d'un Moonlight Coin";
+		Close;
+	}
+	else{
+		
+		// Message trop de zeny sur soi
+		Mes"Collectionneur";
+		mes"Il me semble que votre bourse est trop remplie, faites donc un peu de place my +(Sex?"Lord":"Lady")+.";
+		close;
+	}
+	
+}
+else{
+	
+	// Message pas de zeny pour les filou !
+	mes"~ Fumble critique ~";
+	sleep 500;
+	mes"Jet de persuasion ^FF0000échoué^000000.";
+	Next;
+	
+	//Message d'au revoir
+	Mes"Collectionneur";
+	mes"Je suis à la recherche de collaborateurs sérieux.";
+	sleep 500;
+	mes"Si vous n'avez pas ce qui m'interesse allez-vous-en, +(Sex?"roturier":"roturière")+ !";
+	close;
+}
+}
+
+
+///////////////////////////////////////////////////////////////////////////
+
+
+OnInit:
+
+// 1mm ou 1B ou 1.000.000.000 ou 1 milliard, mvoyez !
+.UnMilliardMvoyez = 1000000000;
+end;

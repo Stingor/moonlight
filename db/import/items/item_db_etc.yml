@@ -12817,3 +12817,13 @@ Body:
     Type: Etc
     Buy: 250
     Weight: 10
+  - Id: 30001
+    AegisName: Moonlight_Coin
+    Name: Moonlight Coin
+    Type: Etc
+    Sell: 1
+    Weight: 10
+    Trade:
+      Override: 99
+      NoDrop: true
+      NoSell: true
