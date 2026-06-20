@@ -12183,7 +12183,7 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 	// [Stingor] On first login, schedule a check: if the player has no Bourgeon DLL
 	// after 15 s, notify them in-game and log.
 	if (sd->state.connect_new)
-		add_timer(gettick() + 5000, clif_bourgeon_check_dll_timer, sd->id, 0);
+		add_timer(gettick() + 15000, clif_bourgeon_check_dll_timer, sd->id, 0);
 
 	sd->state.connect_new = 0;
 	sd->state.changemap = false;
