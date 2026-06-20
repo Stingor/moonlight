@@ -5394,20 +5394,27 @@ void clif_parse_bourgeon_preset_cmd(int32 fd, map_session_data* sd) {
 
 	case 2: {  // SAVE(no, name) — overwrite preset no with current alootid list
 		if (no < 1 || no > 10) break;
+		// Read auto flag BEFORE deleting so it is preserved across saves.
+		uint8 preserve_auto = 0;
+		if (Sql_Query(mmysql_handle,
+		    "SELECT `auto` FROM `alootid` WHERE `cid`=%d AND `no`=%d LIMIT 1", cid, no)
+		    == SQL_SUCCESS) {
+			char* row_auto = nullptr;
+			if (Sql_NextRow(mmysql_handle) == SQL_SUCCESS)
+				Sql_GetData(mmysql_handle, 0, &row_auto, nullptr);
+			if (row_auto) preserve_auto = (uint8)atoi(row_auto);
+			Sql_FreeResult(mmysql_handle);
+		}
 		Sql_Query(mmysql_handle,
 		    "DELETE FROM `alootid` WHERE `cid`=%d AND `no`=%d", cid, no);
-		// Preserve autoload flag if preset existed
-		Sql_Query(mmysql_handle,
-		    "SELECT `auto` FROM `alootid` WHERE `cid`=%d AND `no`=%d LIMIT 1", cid, no);
-		// (result already cleared by DELETE — auto starts at 0 for new preset)
 		bool any = false;
 		std::string vals;
 		for (int i = 0; i < AUTOLOOTITEM_SIZE; ++i) {
 			if (sd->state.autolootid[i] == 0) continue;
 			if (any) vals += ',';
 			char entry[128];
-			snprintf(entry, sizeof(entry), "(%d,%d,%u,'%s',0)",
-			         cid, (int)no, (unsigned)sd->state.autolootid[i], esc_name);
+			snprintf(entry, sizeof(entry), "(%d,%d,%u,'%s',%d)",
+			         cid, (int)no, (unsigned)sd->state.autolootid[i], esc_name, (int)preserve_auto);
 			vals += entry;
 			any = true;
 		}
