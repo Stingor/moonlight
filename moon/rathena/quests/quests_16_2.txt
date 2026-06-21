@@ -7633,7 +7633,7 @@ rebel_in,162,87,5	script	Rebellion Guard leader#2	4_M_REBELLION,{
 	mes "Then would you please have a look at the tasks given by Dien, Ridsh and Cotnes?";
 	next;
 	setarray .@quest_id[0], 11465, 11467, 11469;
-	setarray .@item_id[0], 25165, 25167, 25166;
+	setarray .@item_id[0], High_Class_Tea, Old_Letter, Very_Shining_Ring;
 	setarray .@amount[0], 1, 1, 4;
 	while(true) {
 		setarray .@menu$[0], "Dien's High Class Tea", "Ridsh's Old Letter", "Cotnes's Very Shining Ring", "Don't do it.";
@@ -14663,7 +14663,7 @@ que_job01,89,91,1	script	Guile Marovitz#ep162	1_M_JOBTESTER,{
 payon_in03,194,39,3	script	Hunter Sherine#ep162	4_F_JOB_HUNTER,{
 	switch( isbegin_quest(7751) ) {
 	case 0:
-		if (countitem(25184) < 1) {
+		if (countitem(Portable_Sewingbox) < 1) {
 			mes "[Sherine]";
 			mes "In the past, the Hunter guild was in the Payon Forest.";
 			mes "And I grew up in Payon.";

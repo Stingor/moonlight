@@ -12529,7 +12529,7 @@ Body:
     Name: Antique Gunpowder
     Weight: 10
   - Id: 25155
-    AegisName: Schwartz's_Honor_Token
+    AegisName: Swz_Honor_Token
     Name: Schwartz's Honor Token
   - Id: 25156
     AegisName: Piece_of_Chimera
@@ -12581,10 +12581,10 @@ Body:
     AegisName: Wood_Rosary
     Name: Wood Rosary
   - Id: 25182
-    AegisName: Assassin's_Mark_Dagger
+    AegisName: Assassins_Mark_Dagger
     Name: Assassin's Mark Dagger
   - Id: 25183
-    AegisName: Decorated_Archer's_Thimble
+    AegisName: Decorated_Archers_Thimble
     Name: Decorated Archer's Thimble
   - Id: 25184
     AegisName: Portable_Sewingbox
