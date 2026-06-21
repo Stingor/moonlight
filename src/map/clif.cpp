@@ -5731,12 +5731,11 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 	}
 }
 
-// [Stingor] Bourgeon DLL integrity check (CZ 0x0BFB)
+// [Stingor] Bourgeon DLL integrity check + MachineGuid (CZ 0x0BFB)
 //
-// The client sends a SHA-256 of its own ddraw.dll on game entry. We compare it
-// against an allowlist of approved build hashes. Enforcement and the
-// "development" bypass are entirely server-side here, so they can't be spoofed
-// by a tampered client.
+// The client sends a SHA-256 of its own ddraw.dll and the Windows MachineGuid
+// on game entry. The hash is verified against an allowlist; the GUID is used to
+// detect multi-account abuse (same machine, different accounts online at once).
 //
 // Config: conf/bourgeon_integrity.conf
 //   enforce: 0          // 0 = development (log only, never kick); 1 = enforce
@@ -5745,6 +5744,14 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 //
 // NOTE: this raises the bar (catches missing/old/casually-modified DLLs) but is
 // not foolproof — a client controlling the machine can replay a valid hash.
+
+// In-memory map: MachineGuid -> account_id currently online with that GUID.
+// Populated on CZ_BOURGEON_INTEGRITY, cleared on map_quit via
+// clif_bourgeon_unregister_guid. Used to detect multi-account abuse.
+static std::unordered_map<std::string, int32> s_guid_to_account;
+// Reverse map: account_id -> MachineGuid, needed for O(1) cleanup on logout.
+static std::unordered_map<int32, std::string> s_account_to_guid;
+
 struct s_bourgeon_integrity_conf {
 	bool loaded = false;
 	bool enforce = false;
@@ -5845,7 +5852,45 @@ static TIMER_FUNC(clif_bourgeon_check_dll_timer) {
 	return 0;
 }
 
-// Handles the client's integrity report (CZ 0x0BFB): [type:2][len:2][sha256:32]
+// Removes a player's MachineGuid from the online-GUID maps.
+// Must be called from map_quit so the slot is freed for the next session.
+void clif_bourgeon_unregister_guid(int32 account_id) {
+	auto it = s_account_to_guid.find(account_id);
+	if (it == s_account_to_guid.end()) return;
+	s_guid_to_account.erase(it->second);
+	s_account_to_guid.erase(it);
+}
+
+// Registers or updates the GUID for this account. Logs a warning when the same
+// GUID is already online under a different account (multi-account detection).
+static void clif_bourgeon_register_guid(map_session_data* sd, const char* raw_guid) {
+	// raw_guid is 36 chars, NOT null-terminated — copy safely.
+	char guid[37];
+	std::memcpy(guid, raw_guid, 36);
+	guid[36] = '\0';
+
+	// All-zero GUID means the client failed to read the registry (unlikely).
+	bool all_zero = true;
+	for (int i = 0; i < 36 && all_zero; ++i)
+		if (guid[i] != '\0') all_zero = false;
+	if (all_zero) return;
+
+	const std::string guid_str(guid);
+	const int32 aid = sd->status.account_id;
+
+	auto it = s_guid_to_account.find(guid_str);
+	if (it != s_guid_to_account.end() && it->second != aid) {
+		ShowWarning("[Bourgeon] Multi-account detected: AID %d (%s) shares MachineGuid with AID %d already online.\n",
+			aid, sd->status.name, it->second);
+	}
+
+	// Update both maps (idempotent on reconnect with same account).
+	s_guid_to_account[guid_str] = aid;
+	s_account_to_guid[aid]      = guid_str;
+}
+
+// Handles the client's integrity report (CZ 0x0BFB):
+//   [type:2][len:2][sha256:32][machine_guid:36]
 //
 // This is the handshake that identifies a Bourgeon client.  Only after this
 // packet is received do we set has_bourgeon and send ZC Bourgeon packets back,
@@ -5856,8 +5901,13 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 	if (!bourgeon_integrity_conf.loaded)
 		clif_bourgeon_integrity_reload();
 
-	// Exempt IPs (developer/admin machines) bypass the check entirely, so a
-	// locally-built DLL with a changing hash can still connect to the live server.
+	const PACKET_CZ_BOURGEON_INTEGRITY* p =
+		reinterpret_cast<const PACKET_CZ_BOURGEON_INTEGRITY*>(RFIFOP(fd, 0));
+
+	// Always register the GUID regardless of hash result.
+	clif_bourgeon_register_guid(sd, p->machine_guid);
+
+	// Exempt IPs (developer/admin machines) bypass the hash check entirely.
 	if (session_isValid(fd) &&
 		bourgeon_integrity_conf.exempt_ips.count(session[fd]->client_addr) > 0) {
 		ShowInfo("Bourgeon integrity: %s exempt (IP %s).\n",
@@ -5868,9 +5918,6 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 		clif_bourgeon_send_preset_list(sd);
 		return;
 	}
-
-	const PACKET_CZ_BOURGEON_INTEGRITY* p =
-		reinterpret_cast<const PACKET_CZ_BOURGEON_INTEGRITY*>(RFIFOP(fd, 0));
 
 	char hex[65];
 	for (int32 i = 0; i < 32; ++i)
@@ -5894,10 +5941,10 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 	if (bourgeon_integrity_conf.enforce) {
 		// 1. Tell the Bourgeon overlay to show an "update your client" popup.
 		{
-			PACKET_ZC_BOURGEON_KICK_NOTICE p{};
-			p.packetType   = HEADER_ZC_BOURGEON_KICK_NOTICE;
-			p.packetLength = sizeof(p);
-			socket_send<PACKET_ZC_BOURGEON_KICK_NOTICE>(fd, p);
+			PACKET_ZC_BOURGEON_KICK_NOTICE pkt{};
+			pkt.packetType   = HEADER_ZC_BOURGEON_KICK_NOTICE;
+			pkt.packetLength = sizeof(pkt);
+			socket_send<PACKET_ZC_BOURGEON_KICK_NOTICE>(fd, pkt);
 		}
 		// 2. Kick after 5 s so the player has time to read the popup.
 		add_timer(gettick() + 5000, clif_bourgeon_integrity_kick_timer, sd->id, 0);

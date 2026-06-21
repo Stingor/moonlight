@@ -5922,13 +5922,13 @@ struct PACKET_CZ_BOURGEON_SETTING {
 DEFINE_PACKET_HEADER(CZ_BOURGEON_SETTING, 0x0bfd);
 
 // CZ (client -> server): the Bourgeon DLL reports a SHA-256 of its own ddraw.dll
-// (on-disk) when the player enters the game, for anti-tamper verification.
-// Enforcement + the development bypass live entirely server-side. Fixed 36 bytes.
-// Layout: [packetType:2][packetLength:2][sha256:32]
+// and the Windows MachineGuid (for multi-account detection). Fixed 72 bytes.
+// Layout: [packetType:2][packetLength:2][sha256:32][machine_guid:36]
 struct PACKET_CZ_BOURGEON_INTEGRITY {
 	int16 packetType;
 	int16 packetLength;
 	uint8 hash[32];
+	char  machine_guid[36];  // registry MachineGuid, NOT null-terminated
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(CZ_BOURGEON_INTEGRITY, 0x0bfb);
 

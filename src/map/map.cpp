@@ -2272,6 +2272,8 @@ int32 map_quit(map_session_data *sd) {
 
 	pc_itemcd_do(sd,false);
 
+	clif_bourgeon_unregister_guid(sd->status.account_id);
+
 	npc_script_event( *sd, NPCE_LOGOUT );
 
 	//Unit_free handles clearing the player related data,
