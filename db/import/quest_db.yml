@@ -254,14 +254,37 @@ Body:
     Title: You said the party is ready?
   - Id: 11464
     Title: You said the party is ready?
+  - Id: 11465
+    Title: Dien's High Class Tea
+    Targets:
+      - Mob: EP16_2_H_HUNTER_EV
+        Count: 1
+    Drops:
+      - Mob: EP16_2_H_HUNTER_EV
+        Item: High_Class_Tea
+        Rate: 10000
+  - Id: 11466
+    Title: Dien's High Class Tea
+    TimeLimit: 4h
+  - Id: 11467
+    Title: Ridsh's Old Letter
+    Targets:
+      - Mob: EP16_2_H_HUNTER_V
+        Count: 1
+    Drops:
+      - Mob: EP16_2_H_HUNTER_V
+        Item: Old_Letter
+        Rate: 5000
+  - Id: 11468
+    Title: Ridsh's Old Letter
+    TimeLimit: 4h
   - Id: 12374
     Title: Heart Hunter Base occupation
   - Id: 12375
     Title: Base maintenance
     TimeLimit: 4h
-
-  - Id: 14594
-    Title: Ready to walk the dream
+  - Id: 12376
+    Title: First transaction
   - Id: 14595
     Title: To Einbech train station
   - Id: 14596
@@ -270,3 +293,75 @@ Body:
     Title: Corner of Einbech
   - Id: 14598
     Title: Invisible entrance
+  - Id: 14599
+    Title: A glass of tea gratitude
+  - Id: 14600
+    Title: Gentleman on second floor
+  - Id: 14601
+    Title: Ladies on second floor
+  - Id: 14602
+    Title: Hunter on second floor
+  - Id: 14603
+    Title: Pipe repair materials
+    Targets:
+      - Mob: WASTE_STOVE
+        Count: 10
+  - Id: 14604
+    Title: National Fuel Solar Fuel
+    Targets:
+      - Mob: WASTE_STOVE
+        Count: 10
+  - Id: 14605
+    Title: Sparkling things
+    Targets:
+      - Mob: OBSIDIAN
+        Count: 5
+      - Mob: MINERAL
+        Count: 5
+  - Id: 14606
+    Title: Pipe repair materials
+    Targets:
+      - Mob: WASTE_STOVE
+        Count: 10
+  - Id: 14607
+    Title: National Fuel Solar Fuel
+    Targets:
+      - Mob: WASTE_STOVE
+        Count: 10
+  - Id: 14608
+    Title: Sparkling things
+    Targets:
+      - Mob: OBSIDIAN
+        Count: 5
+      - Mob: MINERAL
+        Count: 5
+  - Id: 14609
+    Title: Quiet time
+    TimeLimit: 4h
+  - Id: 14610
+    Title: Gun recycling
+    Targets:
+      - Mob: EP16_2_BROKEN_GUN
+        Count: 5
+    Drops:
+      - Mob: EP16_2_BROKEN_GUN
+        Item: Broken_Gun_Wreck
+        Rate: 5000
+  - Id: 14611
+    Title: Gun recycling
+    Targets:
+      - Mob: EP16_2_BROKEN_GUN
+        Count: 5
+    Drops:
+      - Mob: EP16_2_BROKEN_GUN
+        Item: Broken_Gun_Wreck
+        Rate: 5000
+  - Id: 14612
+    Title: Time for repair
+    TimeLimit: 4h
+  - Id: 14613
+    Title: Est on second floor
+  - Id: 14614
+    Title: Convince the leaders
+  - Id: 14615
+    Title: Between negotiation and deception
