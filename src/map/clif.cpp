@@ -12794,6 +12794,23 @@ void clif_parse_Emotion(int32 fd, map_session_data *sd){
 }
 
 
+/// CZ_REQ_BUY_CASH_EMOTION (0x0BEC, 7 bytes) — client wants to buy an emotion pack.
+/// On a private server there is no real cash shop, so we immediately ACK with success
+/// (ZC_ACK_BUY_CASH_EMOTION, 0x0BED, 9 bytes).  The client then calls
+/// CCashEmotionMgr_MarkPackPurchased which moves the pack into the "purchased" tab.
+void clif_parse_buy_cash_emotion(int32 fd, map_session_data *sd) {
+	if (sd == nullptr)
+		return;
+	const auto* req = reinterpret_cast<const PACKET_CZ_REQ_BUY_CASH_EMOTION*>(RFIFOP(fd, 0));
+	PACKET_ZC_ACK_BUY_CASH_EMOTION p{};
+	p.packetType = HEADER_ZC_ACK_BUY_CASH_EMOTION;
+	p.pack_id    = req->pack_id;
+	p.has_count  = 0;
+	p.count      = 0;
+	clif_send(&p, sizeof(p), sd, SELF);
+}
+
+
 /// Amount of currently online players, reply to /w /who
 /// 00c2 <count>.L (ZC_USER_COUNT)
 static void clif_user_count(map_session_data& sd)

@@ -2036,6 +2036,24 @@ struct PACKET_CZ_REQ_EMOTION_EXPANSION{
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(CZ_REQ_EMOTION_EXPANSION, 0xbe9);
 
+struct PACKET_CZ_REQ_BUY_CASH_EMOTION {
+	int16  packetType;
+	uint16 pack_id;
+	uint8  unknown[3];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_REQ_BUY_CASH_EMOTION, 0xBEC)
+
+// Server → client: emotion pack purchased successfully (9 bytes).
+// Triggers CCashEmotionMgr_MarkPackPurchased on the client; pack moves to
+// the "purchased" tab and all its emotions become usable.
+struct PACKET_ZC_ACK_BUY_CASH_EMOTION {
+	int16  packetType; // 0x0BED
+	uint16 pack_id;
+	uint8  has_count;  // 0 = unlimited; 1 = count follows
+	int32  count;      // ignored when has_count == 0
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_ACK_BUY_CASH_EMOTION, 0xBED)
+
 struct PACKET_ZC_DISAPPEAR_ENTRY{
 	int16 packetType;
 	int32 GID;
