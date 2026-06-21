@@ -5904,6 +5904,21 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 	const PACKET_CZ_BOURGEON_INTEGRITY* p =
 		reinterpret_cast<const PACKET_CZ_BOURGEON_INTEGRITY*>(RFIFOP(fd, 0));
 
+	// Old Bourgeon builds (pre-MachineGuid) send only 36 bytes (no machine_guid field).
+	// Show them the update popup and kick, so they know to patch rather than seeing a
+	// silent disconnect.
+	if (p->packetLength < static_cast<int16>(sizeof(PACKET_CZ_BOURGEON_INTEGRITY))) {
+		ShowWarning("Bourgeon integrity: outdated client (pkt len %d, expected %zu) from %s (AID %d) — kicking with notice.\n",
+			p->packetLength, sizeof(PACKET_CZ_BOURGEON_INTEGRITY),
+			sd->status.name, sd->status.account_id);
+		PACKET_ZC_BOURGEON_KICK_NOTICE pkt{};
+		pkt.packetType   = HEADER_ZC_BOURGEON_KICK_NOTICE;
+		pkt.packetLength = sizeof(pkt);
+		socket_send<PACKET_ZC_BOURGEON_KICK_NOTICE>(fd, pkt);
+		add_timer(gettick() + 5000, clif_bourgeon_integrity_kick_timer, sd->id, 0);
+		return;
+	}
+
 	// Always register the GUID regardless of hash result.
 	clif_bourgeon_register_guid(sd, p->machine_guid);
 
