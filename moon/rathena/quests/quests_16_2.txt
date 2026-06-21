@@ -12623,7 +12623,7 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Cyan]";
 			mes "Welcome back, dear!!! Have you got them all for me? Right?";
 			next;
-			if (countitem(Burnt_Tree) < 10 || countitem(Coal) < 3) {
+			if (countitem(Burn_Tree) < 10 || countitem(Coal) < 3) {
 				mes "[Cyan]";
 				mes "Oh, it's not there. And it's not enough... Perhaps you forgot what we told you to bring?";
 				next;
@@ -12707,7 +12707,7 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Rookie]";
 			mes "Phew, I am exhausted as well. Please take a good rest now and come back after the ^0000cddawn^000000.";
 			erasequest 14604;// National Fuel Solar Fuel
-			delitem Burnt_Tree,10;
+			delitem Burn_Tree,10;
 			delitem Coal,3;
 			setquest 14609;// Quiet time
 			getitem Swz_Honor_Token,3;
@@ -12900,7 +12900,7 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Magenta]";
 			mes "You've come! Have you brought everything I asked for? Let me see!";
 			next;
-			if (countitem(Glimmering_Crystal) < 10 || countitem(Black_Crystal) < 10) {
+			if (countitem(Fragment_Of_Crystal) < 10 || countitem(Dark_Crystal_Fragment) < 10) {
 				mes "[Magenta]";
 				mes "Ah!!!! Not enough quantity!!! Adventurer, I thank you for helping us. But this is not enough!";
 				next;
@@ -12982,8 +12982,8 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Rookie]";
 			mes "That fellow is really loud, isn't he? I apologize on behalf of him. Please take a good rest and come back ^0000cdafter the dawn^000000.";
 			erasequest 14605;// Sparkling things
-			delitem Glimmering_Crystal,10;
-			delitem Black_Crystal,10;
+			delitem Fragment_Of_Crystal,10;
+			delitem Dark_Crystal_Fragment,10;
 			setquest 14609;// Quiet time
 			getitem Swz_Honor_Token,3;
 			getexp 200000,200000;
@@ -13287,7 +13287,7 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Cyan]";
 			mes "My dear~~~ You're late! I've been waiting for you for a long time! Have you brought the right one again? I mean, the firewood.";
 			next;
-			if (countitem(Burnt_Tree) < 10 || countitem(Coal) < 3) {
+			if (countitem(Burn_Tree) < 10 || countitem(Coal) < 3) {
 				mes "[Cyan]";
 				mes "Oh, it's not there. And it's not enough... Perhaps you forgot what we told you to bring?";
 				next;
@@ -13348,7 +13348,7 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Rookie]";
 			mes "Please take a good rest today. We will count on you again tomorrow.";
 			erasequest 14607;// National Fuel Solar Fuel
-			delitem Burnt_Tree,10;
+			delitem Burn_Tree,10;
 			delitem Coal,3;
 			setquest 14609;// Quiet time
 			getitem Swz_Honor_Token,3;
@@ -13402,7 +13402,7 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Magenta]";
 			mes "You've come! Have you brought everything I asked for? Let me see!";
 			next;
-			if (countitem(Glimmering_Crystal) < 10 || countitem(Black_Crystal) < 10) {
+			if (countitem(Fragment_Of_Crystal) < 10 || countitem(Dark_Crystal_Fragment) < 10) {
 				mes "[Magenta]";
 				mes "Ah!!!! Not enough quantity!!! Adventurer, I thank you for helping us. But this is not enough!";
 				next;
@@ -13448,8 +13448,8 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 			mes "[Rookie]";
 			mes "Please take a good rest today. We will count on you again tomorrow.";
 			erasequest 14608;// Sparkling things
-			delitem Glimmering_Crystal,10;
-			delitem Black_Crystal,10;
+			delitem Fragment_Of_Crystal,10;
+			delitem Dark_Crystal_Fragment,10;
 			setquest 14609;// Quiet time
 			getitem Swz_Honor_Token,3;
 			getexp 0,300000;
@@ -13464,11 +13464,11 @@ OnInit:
 		" && isbegin_quest(14603) == 0 && isbegin_quest(14604) == 0 && isbegin_quest(14605) == 0 && isbegin_quest(14606) == 0 && isbegin_quest(14607) == 0 && isbegin_quest(14608) == 0";
 	questinfo( QTYPE_QUEST, QMARK_NONE, .@conditions$ );
 	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14603,HUNTING) == 2 && countitem(Steel) > 4 && countitem(Old_Steel_Plate) > 14");
-	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14604,HUNTING) == 2 && countitem(Burnt_Tree) > 9 && countitem(Coal) > 2");
-	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14605,HUNTING) == 2 && countitem(Glimmering_Crystal) > 9 && countitem(Black_Crystal) > 9");
+	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14604,HUNTING) == 2 && countitem(Burn_Tree) > 9 && countitem(Coal) > 2");
+	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14605,HUNTING) == 2 && countitem(Fragment_Of_Crystal) > 9 && countitem(Dark_Crystal_Fragment) > 9");
 	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14606,HUNTING) == 2 && countitem(Steel) > 4 && countitem(Old_Steel_Plate) > 14");
-	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14607,HUNTING) == 2 && countitem(Burnt_Tree) > 9 && countitem(Coal) < 3");
-	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14608,HUNTING) == 2 && countitem(Glimmering_Crystal) > 9 && countitem(Black_Crystal) > 9");
+	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14607,HUNTING) == 2 && countitem(Burn_Tree) > 9 && countitem(Coal) < 3");
+	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(14608,HUNTING) == 2 && countitem(Fragment_Of_Crystal) > 9 && countitem(Dark_Crystal_Fragment) > 9");
 	end;
 }
 
@@ -14191,7 +14191,7 @@ rebel_in,109,54,3	script	Jana Levedeva#16.2rm	4_F_ANYA,{
 		mes "If you tell the book name to the librarian, he/she will hand it you.";
 		close;
 	case 16024:
-		if (countitem(Borrow_Book) < 1) {
+		if (countitem(Borrowed_Book) < 1) {
 			mes "[Jana Levedeva]";
 			mes "Oh, you're back? Please give the book!";
 			mes "The book... You don't have it? Don't tell me you lost it.";
@@ -14212,7 +14212,7 @@ rebel_in,109,54,3	script	Jana Levedeva#16.2rm	4_F_ANYA,{
 		mes "(Hmm, she's not mentioning about returning it.)";
 		erasequest 16024;// Service: Loaned book delivery
 		setquest 16020;// Daily babysitting
-		delitem Borrow_Book,1;
+		delitem Borrowed_Book,1;
 		getexp 200000,200000;
 		getitem Swz_Honor_Token,3;
 		close;
@@ -14303,7 +14303,7 @@ OnInit:
 	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(16020,PLAYTIME) == 2" );
 	questinfo( QTYPE_QUEST, QMARK_NONE, "lebedev_quest_16_2 > 10 && checkquest(16020,PLAYTIME) == -1 && isbegin_quest(16021) == 0 && isbegin_quest(16023) == 0 && isbegin_quest(16024) == 0 && isbegin_quest(16025) == 0 && isbegin_quest(16026) == 0 && isbegin_quest(16027) == 0" );
 	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16027) == 2 && isbegin_quest(16028) == 2 && isbegin_quest(16029) == 2 && isbegin_quest(16030) == 2 && isbegin_quest(16031) == 2" );
-	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16024) == 1 && countitem(Borrow_Book) > 0" );
+	questinfo( QTYPE_QUEST, QMARK_NONE, "isbegin_quest(16024) == 1 && countitem(Borrowed_Book) > 0" );
 	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(16025,HUNTING) == 2 && countitem(Gun_Powder) > 0" );
 	questinfo( QTYPE_QUEST, QMARK_NONE, "checkquest(16026,HUNTING) == 2 && countitem(Explosive_Powder) > 0" );
 	end;
@@ -14324,7 +14324,7 @@ prt_in,165,89,1	script	Librarian in charge of juveniles 	1_F_LIBRARYGIRL,{
 		mes "For juvenile books, only designated rental service is available.";
 		close;
 	}
-	if (isbegin_quest(16024) == 1 && countitem(Borrow_Book) < 1) {
+	if (isbegin_quest(16024) == 1 && countitem(Borrowed_Book) < 1) {
 		mes "[Librarian in charge of juveniles]";
 		mes "Have you lost the book you borrowed?";
 		mes "Yes... We accept your report of a loss.";
@@ -14384,7 +14384,7 @@ prt_in,165,89,1	script	Librarian in charge of juveniles 	1_F_LIBRARYGIRL,{
 	mes "Yes. Here it is. Please abide by the deadline.";
 	erasequest .@quest_id[.@i];
 	setquest 16024;// Service: Loaned book delivery
-	getitem Borrow_Book,1;
+	getitem Borrowed_Book,1;
 	close;
 }
 
@@ -14392,7 +14392,7 @@ prt_in,165,89,1	script	Librarian in charge of juveniles 	1_F_LIBRARYGIRL,{
 prt_in,177,26,6	script	Knight Windsor#ep162	4_M_JOB_KNIGHT1,{
 	switch( isbegin_quest(7746) ) {
 	case 0:
-		if (countitem(Old_Couple_Ring) < 1)
+		if (countitem(Old_Rings) < 1)
 			break;
 		mes "[Benedict Windsor]";
 		mes "What is it?";
