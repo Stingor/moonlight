@@ -1,16 +1,5 @@
 //===== rAthena Script =======================================
 //= Alberta Warp Script
-//===== By: ==================================================
-//= Athena (1.0)
-//= Nana (1.1)
-//===== Current Version: =====================================
-//= 1.1
-//===== Compatible With: =====================================
-//= rAthena Project
-//===== Description: =========================================
-//= Warp Points for Alberta, Treasure Island & Turtle Island
-//===== Additional Comments: =================================
-//= No comment!
 //============================================================
 
 //Alberta City

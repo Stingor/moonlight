@@ -1,18 +1,5 @@
 //===== rAthena Script =======================================
 //= Moscovia City Warp Script
-//===== By: ==================================================
-//= $ephiroth
-//===== Current Version: =====================================
-//= 1.2
-//===== Compatible With: =====================================
-//= rAthena Project
-//===== Description: =========================================
-//= Warp Points for Moscovia City
-//===== Additional Comments: =================================
-//= 1.0 Initial version [$ephiroth]
-//= 1.1 Fixed "Private House" Warps. [Samuray22]
-//	-Thanks to $ephiroth
-//= 1.2 Updated from jA
 //============================================================
 
 // ---[ Mansion ]--- 

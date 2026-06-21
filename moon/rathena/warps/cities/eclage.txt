@@ -1,18 +1,5 @@
 //===== rAthena Script =======================================
 //= Eclage Warp Script
-//===== By: ==================================================
-//= Chilly
-//===== Current Version: =====================================
-//= 1.1
-//===== Compatible With: ===================================== 
-//= rAthena Project
-//===== Description: =========================================
-//= Warp Points for Eclage
-//===== Additional Comments: =================================
-//= 1.0 First Version.
-//= 1.0a Disabled quest warp. [Euphy]
-//= 1.1 Warps corresponds to official co-ordinates and
-//=	Warp Portal official names. [Dastgir]
 //============================================================
 
 // Town Warps

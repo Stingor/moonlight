@@ -1,15 +1,5 @@
 //===== rAthena Script =======================================
 //= Lighthalzen Warp Script
-//===== By: ==================================================
-//= Sara-chan (1.0)
-//===== Current Version: =====================================
-//= 1.9
-//===== Compatible With: =====================================
-//= rAthena Project; RO Episode 8+
-//===== Description: =========================================
-//= Warp Points for Lighthalzen
-//===== Additional Comments: =================================
-//= 1.9 Rescripted to Aegis 10.3 standards. [L0ne_W0lf]
 //============================================================
 
 lighthalzen,101,248,0	warp	lhz_rekenber1-1	1,1,lhz_in01,111,126

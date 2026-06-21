@@ -1,17 +1,5 @@
 //===== rAthena Script =======================================
 //= Port Malaya Warp Script
-//===== By: ==================================================
-//= Chilly
-//===== Current Version: =====================================
-//= 1.2
-//===== Compatible With: =====================================
-//= rAthena Project
-//===== Description: =========================================
-//= Warp Points for Port Malaya
-//===== Additional Comments: =================================
-//= 1.0 First Version.
-//= 1.1 Updated to match official scripts. [Masao]
-//= 1.2 Added official Jeepney warp scripts. [Euphy]
 //============================================================
 
 // Town Warps

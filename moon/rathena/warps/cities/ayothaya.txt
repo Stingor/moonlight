@@ -1,16 +1,5 @@
 //===== rAthena Script =======================================
 //= Ayothaya Town Warps Script
-//===== By: ==================================================
-//= Muad_Dib, L0ne_W0lf (1.0)
-//===== Current Version: =====================================
-//= 1.5a
-//===== Compatible With: =====================================
-//= rAthena Project; RO Episode 8+
-//===== Description: =========================================
-//= Warp Points for Ayothaya
-//===== Additional Comments: =================================
-//= 1.5 Rescripted to Aegis 10.3 standards. [L0ne_W0lf]
-//= 1.5a Cleared up a few misnamed warps. [L0ne_W0lf]
 //============================================================
 
 ayothaya,130,97,0	warp	ayo_tool1-1	1,1,ayo_in01,43,183
@@ -49,12 +38,3 @@ ayothaya,62,104,0	warp	ayo_house2_1-1	1,1,ayo_in01,191,183
 ayo_in01,194,183,0	warp	ayo_house2_1-2	1,1,ayothaya,65,104
 ayothaya,208,283,0	warp	ayo_shrine1-1	1,1,ayo_in02,100,152
 ayo_in02,100,148,0	warp	ayo_shrine1-2	1,1,ayothaya,208,280
-
-//============================================================ 
-// Old changelog
-//============================================================ 
-//= 1.1 Fixed Armory part by massdriller [Thanks to akusarujin]
-//= 1.2 Revised warps, due to official Ayothaya Town NPC [MasterOfMuppets]
-//= 1.3 Fixed swapped Inn Exits, thanks to Sir_Loon [Lupus]
-//= 1.4 Fixed a warp-back. [erKURITA]
-//============================================================
