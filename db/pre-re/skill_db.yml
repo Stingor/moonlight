@@ -27664,6 +27664,7 @@ Body:
       IgnoreItemBonus: true
     Requires:
       SpCost: 1
+    Status: Return_To_Eldicastes
   - Id: 2535
     Name: ALL_BUYING_STORE
     Description: Open Buying Store
@@ -27697,6 +27698,7 @@ Body:
       IgnoreItemBonus: true
     Requires:
       SpCost: 1
+    Status: Guardian_Recall
   - Id: 2537
     Name: ALL_ODINS_POWER
     Description: Odin's Power
@@ -29698,6 +29700,111 @@ Body:
     HitCount: 1
     CastTime: 3000
     Cooldown: 300000
+    Status: Eclage_Recall
+  - Id: 3041
+    Name: ALL_NIFLHEIM_RECALL
+    Description: Niflheim Recall
+    MaxLevel: 1
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+    Cooldown: 300000
+    FixedCastTime: 1000
+    CastTimeFlags:
+      IgnoreDex: true
+      IgnoreStatus: true
+      IgnoreItemBonus: true
+    CastDelayFlags:
+      IgnoreDex: true
+      IgnoreStatus: true
+      IgnoreItemBonus: true
+    Requires:
+      SpCost: 10
+    Status: All_Niflheim_Recall
+  - Id: 3042
+    Name: ALL_PRONTERA_RECALL
+    Description: Prontera Recall
+    MaxLevel: 2
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+    Cooldown:
+      - Level: 1
+        Time: 1800000
+      - Level: 2
+        Time: 900000
+    FixedCastTime: 1000
+    CastTimeFlags:
+      IgnoreDex: true
+      IgnoreStatus: true
+      IgnoreItemBonus: true
+    CastDelayFlags:
+      IgnoreDex: true
+      IgnoreStatus: true
+      IgnoreItemBonus: true
+    Requires:
+      SpCost: 1
+    Status: All_Prontera_Recall
+  - Id: 3043
+    Name: ALL_GLASTHEIM_RECALL
+    Description: Return To Glast Heim
+    MaxLevel: 1
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+    Cooldown: 300000
+    FixedCastTime: 1000
+    CastTimeFlags:
+      IgnoreDex: true
+      IgnoreStatus: true
+      IgnoreItemBonus: true
+    CastDelayFlags:
+      IgnoreDex: true
+      IgnoreStatus: true
+      IgnoreItemBonus: true
+    Requires:
+      SpCost: 1
+    Status: All_Glastheim_Recall
+  - Id: 3044
+    Name: ALL_THANATOS_RECALL
+    Description: Return To Thanatos
+    MaxLevel: 1
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+    Cooldown: 300000
+    FixedCastTime: 1000
+    CastTimeFlags:
+      IgnoreDex: true
+      IgnoreStatus: true
+      IgnoreItemBonus: true
+    CastDelayFlags:
+      IgnoreDex: true
+      IgnoreStatus: true
+      IgnoreItemBonus: true
+    Requires:
+      SpCost: 1
+    Status: All_Thanatos_Recall
+  - Id: 3045
+    Name: ALL_LIGHTHALZEN_RECALL
+    Description: Return To Lighthalzen
+    MaxLevel: 1
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+    Cooldown: 300000
+    FixedCastTime: 1000
+    CastTimeFlags:
+      IgnoreDex: true
+      IgnoreStatus: true
+      IgnoreItemBonus: true
+    CastDelayFlags:
+      IgnoreDex: true
+      IgnoreStatus: true
+      IgnoreItemBonus: true
+    Requires:
+      SpCost: 1
+    Status: All_Lighthalzen_Recall
   - Id: 5001
     Name: GC_DARKCROW
     Description: Dark Claw
