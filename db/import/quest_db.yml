@@ -335,33 +335,124 @@ Body:
         Count: 5
       - Mob: MINERAL
         Count: 5
-  - Id: 14609
-    Title: Quiet time
+  - Id: 16009
+    Title: Fighting is the language of warmonger
+  - Id: 16010
+    Title: Battle in great condition
     TimeLimit: 4h
-  - Id: 14610
-    Title: Gun recycling
-    Targets:
-      - Mob: EP16_2_BROKEN_GUN
-        Count: 5
-    Drops:
-      - Mob: EP16_2_BROKEN_GUN
-        Item: Broken_Gun_Wreck
-        Rate: 5000
-  - Id: 14611
-    Title: Gun recycling
-    Targets:
-      - Mob: EP16_2_BROKEN_GUN
-        Count: 5
-    Drops:
-      - Mob: EP16_2_BROKEN_GUN
-        Item: Broken_Gun_Wreck
-        Rate: 5000
-  - Id: 14612
-    Title: Time for repair
+  - Id: 16011
+    Title: Arena entrance
+  - Id: 16012
+    Title: Troublesome twin
+  - Id: 16013
+    Title: "Testimony: Chef's story"
+  - Id: 16014
+    Title: "Testimony: Sniper's story"
+  - Id: 16015
+    Title: The cause of failure is a careless attempt
+  - Id: 16016
+    Title: Borrowing wisdom of the experts
+  - Id: 16017
+    Title: Twin's sincere confession
+  - Id: 16018
+    Title: Encourage instead of punishment
+  - Id: 16019
+    Title: Elena Volkova's Solution
+  - Id: 16020
+    Title: Daily babysitting
     TimeLimit: 4h
-  - Id: 14613
-    Title: Est on second floor
-  - Id: 14614
-    Title: Convince the leaders
-  - Id: 14615
-    Title: Between negotiation and deception
+  - Id: 16021
+    Title: "Service: Book lending agent"
+  - Id: 16022
+    Title: "Service: Book lending agent"
+  - Id: 16023
+    Title: "Service: Book lending agent"
+  - Id: 16024
+    Title: "Service: Loaned book delivery"
+  - Id: 16025
+    Title: "Service: Exploring the Mine Dungeon"
+    Targets:
+      - Mob: PITMAN
+        Count: 30
+  - Id: 16026
+    Title: "Service: Exploring the Mine Dungeon"
+    Targets:
+      - Mob: NOXIOUS
+        Count: 20
+      - Mob: VENOMOUS
+        Count: 20
+  - Id: 16027
+    Title: "Service: Cookies delivery"
+  - Id: 16028
+    Title: "Service: Cookies delivery"
+  - Id: 16029
+    Title: "Service: Cookies delivery"
+  - Id: 16030
+    Title: "Service: Cookies delivery"
+  - Id: 16031
+    Title: "Service: Cookies delivery"
+  - Id: 16032
+    Title: Hospitality to senior
+  - Id: 16033
+    Title: Bring dessert and listen the story
+  - Id: 16034
+    Title: Sweet cookies once a day
+    TimeLimit: 4h
+  - Id: 16035
+    Title: "Delivery: Explosive revolver materials"
+  - Id: 16036
+    Title: Expert's keen eye
+  - Id: 16037
+    Title: Material collection once a day
+    TimeLimit: 4h
+  - Id: 16038
+    Title: Collect 2 Oridecons
+  - Id: 16039
+    Title: Collect 2 Eluniums
+  - Id: 16040
+    Title: Collect 5 Irons
+  - Id: 16041
+    Title: "Investigation: Capture strolling cat operation"
+  - Id: 16042
+    Title: Charity temporarily stays
+    TimeLimit: 4h
+  - Id: 16043
+    Title: "Investigation: Capture someone's craving operation"
+  - Id: 16044
+    Title: In charge of Charity
+  - Id: 16045
+    Title: Veteran's small memorial service
+  - Id: 16046
+    Title: DIY obtaining bouquet materials
+  - Id: 16047
+    Title: Quiet memorial ceremony
+  - Id: 16048
+    Title: Traces of old story
+  - Id: 16049
+    Title: Quiet dawn
+    TimeLimit: 4h
+  - Id: 16050
+    Title: Tribute hour
+  - Id: 16051
+    Title: DIY obtaining bouquet materials
+  - Id: 16052
+    Title: Quiet memorial ceremony
+  - Id: 16053
+    Title: Ongoing old story
+  - Id: 16054
+    Title: Differentiated advertising strategy
+  - Id: 16055
+    Title: "Advertising: Dou you want a clean city?"
+  - Id: 16056
+    Title: "Advertising: Then blow it all away!"
+  - Id: 16057
+    Title: "Advertising: Suitable revenge for old age!"
+  - Id: 16058
+    Title: Slow advertising effect
+    TimeLimit: 4h
+  - Id: 16059
+    Title: Differentiated advertising strategy
+  - Id: 16060
+    Title: Fighting is the language of warmonger
+  - Id: 16061
+    Title: Fair and equitable result
