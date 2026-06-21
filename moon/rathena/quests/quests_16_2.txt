@@ -11477,7 +11477,7 @@ rebel_in,99,51,3	script	Imperial Operator#ext162	4_M_REPAIR,{
 
 rebel_in,74,67,5	script	Strasse#rebel_in	4_M_TATIO,{
 	disable_items;
-	if (checkweight(501,1) == 0) {
+	if (checkweight(Red_Potion,1) == 0) {
 		mes "[Strasse]";
 		mes "You have too much in your inventory.";
 		mes "Please make it lighter and come back.";
