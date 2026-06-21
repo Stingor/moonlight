@@ -1913,6 +1913,90 @@ Body:
     Buy: 20
     Weight: 10
     Script: "autobonus \"{ bonus bLuk,50; bonus2 bMagicAtkEle,Ele_All,10; bonus2 bHPLossRate,300,1000; }\",20,10000,BF_MAGIC; /* unknown rate */\n"
+  - Id: 29000 # Verified
+    AegisName: Rune_of_Intellect_Lv_1
+    Name: Rune of Intellect Lv 1
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Script: "if (getrefine()>=7) { bonus bInt,5; } if (getallrefine()>=20) { bonus bMatkRate,5; }\n"
+  - Id: 29001 # Verified
+    AegisName: Rune_of_Intellect_Lv_2
+    Name: Rune of Intellect Lv 2
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Script: "if (getrefine()>=7) { bonus bInt,6; } if (getallrefine()>=22) { bonus bInt,1; bonus bMatkRate,7; }\n"
+  - Id: 29002 # Verified
+    AegisName: Rune_of_Intellect_Lv_3
+    Name: Rune of Intellect Lv 3
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Script: "if (getrefine()>=7) { bonus bInt,7; } if (getallrefine()>=24) { bonus bInt,1; bonus bMatkRate,8; } if (getallrefine()>=26) { bonus bInt,1; bonus bMatkRate,2; }\n"
+  - Id: 29003 # Verified
+    AegisName: Rune_of_Dexterity_Lv_1
+    Name: Rune of Dexterity Lv 1
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Script: "if (getrefine()>=7) { bonus bDex,5; } if (getallrefine()>=20) { bonus bLongAtkRate,5; }\n"
+  - Id: 29004 # Verified
+    AegisName: Rune_of_Dexterity_Lv_2
+    Name: Rune of Dexterity Lv 2
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Script: "if (getrefine()>=7) { bonus bDex,6; } if (getallrefine()>=22) { bonus bDex,1; bonus bLongAtkRate,7; }\n"
+  - Id: 29005 # Verified
+    AegisName: Rune_of_Dexterity_Lv_3
+    Name: Rune of Dexterity Lv 3
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Script: "if (getrefine()>=7) { bonus bDex,7; } if (getallrefine()>=24) { bonus bDex,1; bonus bLongAtkRate,8; } if (getallrefine()>=26) { bonus bDex,1; bonus bLongAtkRate,2; }\n"
+  - Id: 29006 # Verified
+    AegisName: Rune_of_Luck_Lv_1
+    Name: Rune of Luck Lv 1
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Script: "if (getrefine()>=7) { bonus bLuk,5; } if (getallrefine()>=20) { bonus bCritAtkRate,5; }\n"
+  - Id: 29007 # Verified
+    AegisName: Rune_of_Luck_Lv_2
+    Name: Rune of Luck Lv 2
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Script: "if (getrefine()>=7) { bonus bLuk,6; } if (getallrefine()>=22) { bonus bLuk,1; bonus bCritAtkRate,7; }\n"
+  - Id: 29008 # Verified
+    AegisName: Rune_of_Luck_Lv_3
+    Name: Rune of Luck Lv 3
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Script: "if (getrefine()>=7) { bonus bLuk,7; } if (getallrefine()>=24) { bonus bLuk,1; bonus bCritAtkRate,8; } if (getallrefine()>=26) { bonus bLuk,1; bonus bCritAtkRate,6; }\n"
+  - Id: 29009 # Verified
+    AegisName: Rune_of_Vitality_Lv_1
+    Name: Rune of Vitality Lv 1
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Script: "if (getrefine()>=7) { bonus bVit,5; } if (getallrefine()>=20) { bonus bMaxHPrate,5; }\n"
+  - Id: 29010 # Verified
+    AegisName: Rune_of_Vitality_Lv_2
+    Name: Rune of Vitality Lv 2
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Script: "if (getrefine()>=7) { bonus bVit,6; } if (getallrefine()>=22) { bonus bVit,1; bonus bMaxHPrate,7; }\n"
+  - Id: 29011 # Verified
+    AegisName: Rune_of_Vitality_Lv_3
+    Name: Rune of Vitality Lv 3
+    Type: Card
+    SubType: Enchant
+    Buy: 20
+    Script: "if (getrefine()>=7) { bonus bVit,7; } if (getallrefine()>=24) { bonus bVit,1; bonus bMaxHPrate,8; } if (getallrefine()>=26) { bonus bVit,1; bonus bMaxHPrate,2; }\n"
   - Id: 29061
     AegisName: Ambition1Lv
     Name: Mettle Lv. 1
