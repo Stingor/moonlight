@@ -49,7 +49,7 @@ OnMinute45:
 
 OnMinute30:
 	setarray .@tips$,
-	"Recherchez un item de vos avec @searchid et @deepsearchid",
+	"Recherchez un item dans votre inventaire, storages et même personnages avec @searchid et @deepsearchid",
 	"@showmobinfo pour voir la race et l'élément d'un mob dans son nom",
 	"Des difficultés à suivre vos kill de mobs? @separate",
 	"Accédez à vos storages avec @storage1...5",
