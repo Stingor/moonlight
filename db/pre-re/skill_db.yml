@@ -24942,6 +24942,7 @@ Body:
       Weapon:
         Musical: true
         Whip: true
+    Status: DeepSleep
   - Id: 2423
     Name: WM_SIRCLEOFNATURE
     Description: Circle of Nature's Sound

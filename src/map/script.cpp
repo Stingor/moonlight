@@ -24691,7 +24691,7 @@ BUILDIN_FUNC(adopt)
 	}
 
 	script_pushint(st, response);
-	return SCRIPT_CMD_FAILURE;
+	return SCRIPT_CMD_SUCCESS;
 }
 
 /**
