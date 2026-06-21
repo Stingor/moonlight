@@ -1524,5 +1524,7 @@ void clif_bourgeon_send_preset_list(map_session_data* sd);
 void clif_bourgeon_discord_msg_all(const char* msg);
 // [Stingor] (Re)load conf/bourgeon_integrity.conf — called by admin INTEGRITY command
 void clif_bourgeon_integrity_reload();
+// [Stingor] Receive cheat detection report from a Bourgeon client (CZ 0x0C23)
+void clif_parse_bourgeon_cheat_report(int32 fd, map_session_data* sd);
 
 #endif /* CLIF_HPP */

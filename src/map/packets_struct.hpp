@@ -5979,6 +5979,9 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_PRESET_LIST, 0x0c21);
 // damage, so the client can attribute the hit to the original caster's AID
 // without changing the visual ZC_NOTIFY_SKILL packet.
 // Layout: [type:2][len:2][src_aid:4][damage:4]  — 12 bytes total.
+// !! MUST stay 12 bytes: 0x0C22 is fixed-length 12 in the 20250716 client's
+// !! vanilla packet table.  Any extra field shifts the stream pointer and
+// !! causes recv desync (dmg=garbage, game freezes during AoE spam).
 struct PACKET_ZC_BOURGEON_SKILL_DMG {
 	int16  packetType;
 	int16  packetLength;
@@ -5986,6 +5989,17 @@ struct PACKET_ZC_BOURGEON_SKILL_DMG {
 	int32  damage;
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_SKILL_DMG, 0x0c22);
+
+// CZ (client -> server): cheat detection report. Fixed 100 bytes.
+// Layout: [packetType:2][packetLength:2][tool_name:32][detail:64]
+// Sent once per new detection; only accepted from has_bourgeon sessions.
+struct PACKET_CZ_BOURGEON_CHEAT_REPORT {
+	int16 packetType;
+	int16 packetLength;
+	char tool_name[32];
+	char detail[64];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_CHEAT_REPORT, 0x0c23);
 
 // NOTE: there is no ZC_BOURGEON_MAP packet. The Bourgeon client reads the
 // current map name from the standard 0x0091 ZC_NPCACK_MAPMOVE packet instead.

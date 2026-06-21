@@ -5911,6 +5911,27 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 	}
 }
 
+// Handles CZ_BOURGEON_CHEAT_REPORT (0x0C23): [type:2][len:2][tool_name:32][detail:64]
+// The client sends this once per new detection (process scan, window scan, or injected module).
+// We log to the map-server console so the admin can see which player uses which tool.
+void clif_parse_bourgeon_cheat_report(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+
+	const auto* p = reinterpret_cast<const PACKET_CZ_BOURGEON_CHEAT_REPORT*>(RFIFOP(fd, 0));
+
+	// Null-terminate defensively (fields may not be null-terminated by a buggy client).
+	char tool[33] = {}, detail[65] = {};
+	strncpy(tool,   p->tool_name, 32);
+	strncpy(detail, p->detail,    64);
+
+	ShowWarning("[CheatDetector] %s (AID:%d CID:%d) -- outil: %s | %s\n",
+		sd->status.name,
+		sd->status.account_id,
+		sd->status.char_id,
+		tool, detail);
+}
+
 // Sends ZC_BOURGEON_DISCORD_MSG (0x0C1F) to a single session.
 static int32 clif_bourgeon_discord_msg_pc(map_session_data* sd, va_list ap) {
 	const int32      mapid     = va_arg(ap, int32);
@@ -12183,7 +12204,7 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 	// [Stingor] On first login, schedule a check: if the player has no Bourgeon DLL
 	// after 15 s, notify them in-game and log.
 	if (sd->state.connect_new)
-		add_timer(gettick() + 15000, clif_bourgeon_check_dll_timer, sd->id, 0);
+		add_timer(gettick() + 5000, clif_bourgeon_check_dll_timer, sd->id, 0);
 
 	sd->state.connect_new = 0;
 	sd->state.changemap = false;

@@ -2055,4 +2055,7 @@ parseable_packet(HEADER_CZ_BOURGEON_INTEGRITY, sizeof(PACKET_CZ_BOURGEON_INTEGRI
 // [Stingor] Bourgeon preset management (variable length, always active)
 parseable_packet(HEADER_CZ_BOURGEON_PRESET_CMD, -1, clif_parse_bourgeon_preset_cmd, 0);
 
+// [Stingor] Bourgeon cheat detection report (fixed 100 bytes, always active)
+parseable_packet(HEADER_CZ_BOURGEON_CHEAT_REPORT, sizeof(PACKET_CZ_BOURGEON_CHEAT_REPORT), clif_parse_bourgeon_cheat_report, 0);
+
 #endif /* CLIF_PACKETDB_HPP */
