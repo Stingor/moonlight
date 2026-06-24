@@ -15,6 +15,10 @@ gonryun,152,129,6	script	Nymphe de la Lune::healer	1_F_02,{
 	sc_end SC_XMAS;
 	sc_end SC_HANBOK;
 	sc_end SC_WEDDING;
+	sc_end SC_STRIPWEAPON;
+	sc_end SC_STRIPSHIELD;
+	sc_end SC_STRIPARMOR;
+	sc_end SC_STRIPHELM;
 	if( getstatus(SC_SUMMER) ) {
 		sc_end SC_SUMMER;
 		sc_end SC_SPEEDUP0;
