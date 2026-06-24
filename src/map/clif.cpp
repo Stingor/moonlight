@@ -7051,6 +7051,10 @@ void clif_skill_cooldown( map_session_data &sd, uint16 skill_id, t_tick tick ){
 #endif
 }
 
+// Defined below clif_skill_damage; forward-declared here so the accumulation in
+// that function can reference it. See clif_bourgeon_flush_skill_dmg().
+extern std::unordered_map<int32, int64> bourgeon_skill_dmg_accum;
+
 /// Skill attack effect and damage.
 /// 0114 <skill id>.W <src id>.L <dst id>.L <tick>.L <src delay>.L <dst delay>.L <damage>.W <level>.W <div>.W <type>.B (ZC_NOTIFY_SKILL)
 /// 01de <skill id>.W <src id>.L <dst id>.L <tick>.L <src delay>.L <dst delay>.L <damage>.L <level>.W <div>.W <type>.B (ZC_NOTIFY_SKILL2)
@@ -7107,24 +7111,43 @@ void clif_skill_damage( const block_list& src, const block_list& dst, t_tick tic
 		clif_send( &packet, sizeof( packet ), &src, SELF );
 	}
 
-	// For skill units (Storm Gust, Meteor Storm, LoV…): send a private
-	// ZC_BOURGEON_SKILL_DMG (0x0C22) to the original caster so their
-	// Bourgeon DPS meter can attribute the damage correctly, without
-	// altering the visual ZC_NOTIFY_SKILL packet that uses the unit's ID.
+	// For skill units (Storm Gust, Meteor Storm, LoV…): the original caster's
+	// Bourgeon DPS meter needs the damage attributed to them via a private
+	// ZC_BOURGEON_SKILL_DMG (0x0C22), without altering the visual
+	// ZC_NOTIFY_SKILL packet that uses the unit's ID.
+	//
+	// We do NOT send one packet per hit: under heavy AoE (Storm Gust/Meteor on
+	// a large mob pack) that floods the caster's recv stream with hundreds of
+	// tiny SELF packets per second and freezes the client. Instead we just
+	// accumulate per caster here; clif_bourgeon_flush_skill_dmg() emits a single
+	// summed packet per caster at the end of each skill_unit_timer cycle.
 	if (src.type == BL_SKILL && sdamage > 0) {
 		const TBL_SKILL* su = reinterpret_cast<const TBL_SKILL*>(&src);
-		if (su->group) {
-			block_list* caster_bl = map_id2bl(su->group->src_id);
-			if (caster_bl && caster_bl->type == BL_PC) {
-				PACKET_ZC_BOURGEON_SKILL_DMG notif{};
-				notif.packetType   = HEADER_ZC_BOURGEON_SKILL_DMG;
-				notif.packetLength = sizeof(notif);
-				notif.src_aid      = su->group->src_id;
-				notif.damage       = (int32)std::min(sdamage, (int64)INT_MAX);
-				clif_send(&notif, sizeof(notif), caster_bl, SELF);
-			}
+		if (su->group)
+			bourgeon_skill_dmg_accum[su->group->src_id] += sdamage;
+	}
+}
+
+// Per-caster (account/block id) damage accumulated during the current
+// skill_unit_timer cycle. Drained by clif_bourgeon_flush_skill_dmg().
+std::unordered_map<int32, int64> bourgeon_skill_dmg_accum;
+
+void clif_bourgeon_flush_skill_dmg() {
+	if (bourgeon_skill_dmg_accum.empty())
+		return;
+
+	for (const auto& entry : bourgeon_skill_dmg_accum) {
+		block_list* caster_bl = map_id2bl(entry.first);
+		if (caster_bl && caster_bl->type == BL_PC && entry.second > 0) {
+			PACKET_ZC_BOURGEON_SKILL_DMG notif{};
+			notif.packetType   = HEADER_ZC_BOURGEON_SKILL_DMG;
+			notif.packetLength = sizeof(notif);
+			notif.src_aid      = entry.first;
+			notif.damage       = (int32)std::min(entry.second, (int64)INT_MAX);
+			clif_send(&notif, sizeof(notif), caster_bl, SELF);
 		}
 	}
+	bourgeon_skill_dmg_accum.clear();
 }
 
 
@@ -12266,7 +12289,7 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 	// [Stingor] On first login, schedule a check: if the player has no Bourgeon DLL
 	// after 15 s, notify them in-game and log.
 	if (sd->state.connect_new)
-		add_timer(gettick() + 5000, clif_bourgeon_check_dll_timer, sd->id, 0);
+		add_timer(gettick() + 15000, clif_bourgeon_check_dll_timer, sd->id, 0);
 
 	sd->state.connect_new = 0;
 	sd->state.changemap = false;
