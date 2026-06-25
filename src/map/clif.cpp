@@ -4244,6 +4244,26 @@ void clif_initialstatus( map_session_data& sd ) {
 	clif_updatestatus(sd, SP_ATTACKRANGE);
 	clif_updatestatus(sd, SP_ASPD);
 
+	// The derived combat stats are also packed into PACKET_ZC_STATUS (0x00bd) above, but
+	// that packet stores them as signed 16-bit shorts. On a high-rate server MATK (and
+	// potentially ATK/DEF/etc.) exceed 32767 and wrap negative on the client, and stay
+	// wrong on every login/zone until the next stat recalc. Re-send them here through the
+	// wide 0x00b0 (ZC_PAR_CHANGE, 32-bit) path so the client shows the true value
+	// immediately. Same scaling as 0x00bd (crit/flee2 are /10 in clif_updatestatus), so
+	// only the field width changes, not the displayed numbers.
+	clif_updatestatus(sd, SP_ATK1);
+	clif_updatestatus(sd, SP_ATK2);
+	clif_updatestatus(sd, SP_MATK1);
+	clif_updatestatus(sd, SP_MATK2);
+	clif_updatestatus(sd, SP_DEF1);
+	clif_updatestatus(sd, SP_DEF2);
+	clif_updatestatus(sd, SP_MDEF1);
+	clif_updatestatus(sd, SP_MDEF2);
+	clif_updatestatus(sd, SP_HIT);
+	clif_updatestatus(sd, SP_FLEE1);
+	clif_updatestatus(sd, SP_FLEE2);
+	clif_updatestatus(sd, SP_CRITICAL);
+
 #ifdef RENEWAL
 	clif_updatestatus(sd, SP_POW);
 	clif_updatestatus(sd, SP_STA);
