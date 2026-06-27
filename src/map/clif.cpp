@@ -5780,6 +5780,16 @@ static std::unordered_map<std::string, int32> s_guid_to_account;
 // Reverse map: account_id -> MachineGuid, needed for O(1) cleanup on logout.
 static std::unordered_map<int32, std::string> s_account_to_guid;
 
+// account_id -> login_id1 of the session that already PASSED the integrity check.
+// The Bourgeon client only sends CZ_BOURGEON_INTEGRITY once per process, so when
+// a player changes character (same login session, new zone connection) it never
+// re-sends it. login_id1 is stable for the whole account session but regenerated
+// on a fresh login, so a stored entry that still matches sd->login_id1 means
+// "already verified this session, just changing character" -> don't demand the
+// packet again. A real relog gets a new login_id1 and is re-checked. Stale
+// entries are harmless (login_id1 won't match), so this map is never cleared.
+static std::unordered_map<int32, uint32> s_verified_login;
+
 struct s_bourgeon_integrity_conf {
 	bool loaded = false;
 	bool enforce = false;
@@ -5917,6 +5927,18 @@ static void clif_bourgeon_register_guid(map_session_data* sd, const char* raw_gu
 	s_account_to_guid[aid]      = guid_str;
 }
 
+// Marks a session as a verified Bourgeon client: flags it, remembers the login
+// session (so character changes within it don't need to re-send the integrity
+// packet), then pushes the player's settings/presets to this (possibly new)
+// session. Used by both the integrity handler and the char-change auto-grant.
+static void clif_bourgeon_grant_verified(map_session_data* sd) {
+	sd->state.has_bourgeon = true;
+	s_verified_login[sd->status.account_id] = sd->login_id1;
+	clif_bourgeon_autoload_preset(sd);
+	clif_bourgeon_settings(sd);
+	clif_bourgeon_send_preset_list(sd);
+}
+
 // Handles the client's integrity report (CZ 0x0BFB):
 //   [type:2][len:2][sha256:32][machine_guid:36]
 //
@@ -5955,10 +5977,7 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 		bourgeon_integrity_conf.exempt_ips.count(session[fd]->client_addr) > 0) {
 		ShowInfo("Bourgeon integrity: %s exempt (IP %s).\n",
 			sd->status.name, ip2str(session[fd]->client_addr, nullptr));
-		sd->state.has_bourgeon = true;
-		clif_bourgeon_autoload_preset(sd);
-		clif_bourgeon_settings(sd);
-		clif_bourgeon_send_preset_list(sd);
+		clif_bourgeon_grant_verified(sd);
 		return;
 	}
 
@@ -5969,10 +5988,7 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 
 	// Approved build — mark client and push settings.
 	if (bourgeon_integrity_conf.hashes.count(hex) > 0) {
-		sd->state.has_bourgeon = true;
-		clif_bourgeon_autoload_preset(sd);
-		clif_bourgeon_settings(sd);
-		clif_bourgeon_send_preset_list(sd);
+		clif_bourgeon_grant_verified(sd);
 		return;
 	}
 
@@ -5994,10 +6010,7 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 	} else {
 		// Not enforcing but still a Bourgeon client (just wrong hash) — mark and
 		// send settings so their overlay works while they update.
-		sd->state.has_bourgeon = true;
-		clif_bourgeon_autoload_preset(sd);
-		clif_bourgeon_settings(sd);
-		clif_bourgeon_send_preset_list(sd);
+		clif_bourgeon_grant_verified(sd);
 	}
 }
 
@@ -12315,9 +12328,17 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 #endif
 
 	// [Stingor] On first login, schedule a check: if the player has no Bourgeon DLL
-	// after 15 s, notify them in-game and log.
-	if (sd->state.connect_new)
-		add_timer(gettick() + 15000, clif_bourgeon_check_dll_timer, sd->id, 0);
+	// after 15 s, notify them in-game and log. If this account already passed the
+	// check earlier in the SAME login session (login_id1 matches), the player is
+	// just changing character — the client won't re-send CZ_BOURGEON_INTEGRITY, so
+	// re-grant straight away instead of scheduling a kick.
+	if (sd->state.connect_new) {
+		auto vit = s_verified_login.find(sd->status.account_id);
+		if (vit != s_verified_login.end() && vit->second == sd->login_id1)
+			clif_bourgeon_grant_verified(sd);
+		else
+			add_timer(gettick() + 15000, clif_bourgeon_check_dll_timer, sd->id, 0);
+	}
 
 	sd->state.connect_new = 0;
 	sd->state.changemap = false;
