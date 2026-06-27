@@ -5969,7 +5969,7 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 	}
 
 	// Failure: always report to the console/log, even in development mode.
-	ShowWarning("Bourgeon integrity FAIL: %s (AID %d, account-level %d) hash=%s%s\n",
+	ShowWarning("[Bourgeon] integrity FAIL: %s (AID %d, account-level %d) hash=%s%s\n",
 		sd->status.name, sd->status.account_id, pc_get_group_level(sd), hex,
 		bourgeon_integrity_conf.enforce ? " - kicking" : " - log only (enforce off)");
 

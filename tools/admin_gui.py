@@ -14,8 +14,9 @@ import socket
 import threading
 import tkinter as tk
 import webbrowser
+from collections import deque
 from datetime import datetime
-from tkinter import ttk, scrolledtext
+from tkinter import ttk, scrolledtext, font as tkfont
 
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = "7799"
@@ -36,11 +37,25 @@ MSG_TAGS = {1: "srv_status", 2: "srv_sql", 5: "srv_warn",
 # Auto-reconnect retry interval (seconds) while "connect" is desired.
 RETRY_SECONDS = 1
 
-# One-click reload targets -> "RELOAD <target>" -> "@reload<target>"
+# One-click reload targets -> "RELOAD <target>" -> "@reload<target>".
+# Rendered alphabetically as compact buttons (see _build_actions).
 RELOAD_TARGETS = [
-    "itemdb", "mobdb", "skilldb", "script",
-    "battleconf", "statusdb", "atcommand", "msgconf",
+    "achievementdb", "atcommand", "attendancedb", "barterdb",
+    "battleconf", "instancedb", "itemdb", "mobdb",
+    "msgconf", "pcdb", "questdb", "script",
+    "skilldb", "statusdb",
 ]
+
+# Server-console line filters: (substring, checkbox label). A line containing
+# the substring is shown only while its box is checked; lines matching no filter
+# are always shown. Add a tuple here to expose another toggle.
+LOG_FILTERS = [
+    ("[CheatDetector]", "CheatDetector"),
+    ("[Bourgeon]", "Bourgeon"),
+]
+# Keep at most this many server-console lines buffered so that toggling a filter
+# can re-display the past lines that match (older lines are dropped).
+SRVLOG_BUFFER = 5000
 
 
 class AdminConnection:
@@ -111,6 +126,10 @@ class AdminGUI:
         self._want_connected = False # user intent: keep (re)connecting
         self._connect_inflight = False  # a connect attempt is running
         self._retry_scheduled = False   # a reconnect is queued
+        # Server-console history: (timestamp, color tag, message) kept so the
+        # filter checkboxes can re-render the panel retroactively.
+        self._srv_lines = deque(maxlen=SRVLOG_BUFFER)
+        self._log_filter_vars = {}   # filter substring -> BooleanVar (checked = shown)
 
         root.title("Moonlight - Admin map-server")
         root.minsize(620, 460)
@@ -178,15 +197,22 @@ class AdminGUI:
             row=1, column=5, columnspan=3, padx=4, pady=(0, 4), sticky="w")
 
     def _build_actions(self):
-        # Quick reload buttons
+        # Quick reload buttons, alphabetical and compact.
         reloads = ttk.LabelFrame(self.root, text="Reloads rapides")
         reloads.pack(fill="x", padx=8, pady=4)
+
+        # Dedicated small style so the larger target set stays on a few short
+        # rows: smaller font + tight padding shrink each button.
+        base_family = tkfont.nametofont("TkDefaultFont").actual("family")
+        ttk.Style(self.root).configure("Reload.TButton",
+                                       font=(base_family, 8), padding=(2, 1))
+
         self.reload_btns = []
-        cols = 4
-        for i, target in enumerate(RELOAD_TARGETS):
-            b = ttk.Button(reloads, text=target,
+        cols = 5
+        for i, target in enumerate(sorted(RELOAD_TARGETS)):
+            b = ttk.Button(reloads, text=target, style="Reload.TButton",
                            command=lambda t=target: self._send_async("RELOAD " + t))
-            b.grid(row=i // cols, column=i % cols, padx=4, pady=4, sticky="ew")
+            b.grid(row=i // cols, column=i % cols, padx=2, pady=2, sticky="ew")
             self.reload_btns.append(b)
         for c in range(cols):
             reloads.columnconfigure(c, weight=1)
@@ -224,9 +250,20 @@ class AdminGUI:
         paned.add(cmd_frame, weight=1)
 
         srv_frame = ttk.LabelFrame(paned, text="Console serveur")
+
+        # Filter bar: one checkbox per LOG_FILTERS entry (checked = visible).
+        filt = ttk.Frame(srv_frame)
+        filt.pack(fill="x", padx=4, pady=(4, 0))
+        ttk.Label(filt, text="Afficher :").pack(side="left", padx=(0, 4))
+        for pattern, label in LOG_FILTERS:
+            var = tk.BooleanVar(value=True)
+            self._log_filter_vars[pattern] = var
+            ttk.Checkbutton(filt, text=label, variable=var,
+                            command=self._refilter_serverlog).pack(side="left", padx=2)
+
         self.srvlog = scrolledtext.ScrolledText(srv_frame, height=10, state="disabled",
                                                 wrap="word", background="#111", foreground="#ccc")
-        self.srvlog.pack(fill="both", expand=True, padx=4, pady=4)
+        self.srvlog.pack(fill="both", expand=True, padx=4, pady=(2, 4))
         self.srvlog.tag_config("srv_status", foreground="#5c5")
         self.srvlog.tag_config("srv_sql", foreground="#c5c")
         self.srvlog.tag_config("srv_warn", foreground="#db3")
@@ -274,6 +311,8 @@ class AdminGUI:
         widget.configure(state="normal")
         widget.delete("1.0", "end")
         widget.configure(state="disabled")
+        if widget is self.srvlog:
+            self._srv_lines.clear()
 
     # ---- logging ------------------------------------------------------------
     def _log(self, text, tag="info"):
@@ -319,8 +358,32 @@ class AdminGUI:
         msg = ANSI_RE.sub("", msg)
         tag = MSG_TAGS.get(flag, "srv_def")
         ts = datetime.now().strftime("%H:%M:%S")
+        self._srv_lines.append((ts, tag, msg))
+        if self._line_visible(msg):
+            self._append_serverline(ts, tag, msg)
+
+    def _line_visible(self, msg):
+        """False if msg matches a filter whose checkbox is currently unchecked."""
+        for pattern, var in self._log_filter_vars.items():
+            if not var.get() and pattern in msg:
+                return False
+        return True
+
+    def _append_serverline(self, ts, tag, msg):
+        at_bottom = self.srvlog.yview()[1] >= 0.999
         self.srvlog.configure(state="normal")
         self.srvlog.insert("end", f"[{ts}] {msg}\n", tag)
+        self.srvlog.configure(state="disabled")
+        if at_bottom:
+            self.srvlog.see("end")
+
+    def _refilter_serverlog(self):
+        """Re-render the server panel from the buffer after a filter toggle."""
+        self.srvlog.configure(state="normal")
+        self.srvlog.delete("1.0", "end")
+        for ts, tag, msg in self._srv_lines:
+            if self._line_visible(msg):
+                self.srvlog.insert("end", f"[{ts}] {msg}\n", tag)
         self.srvlog.see("end")
         self.srvlog.configure(state="disabled")
 
