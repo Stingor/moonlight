@@ -7441,8 +7441,11 @@ int32 skill_unit_onplace_timer(skill_unit *unit, block_list *bl, t_tick tick)
 
 		case UNT_MAGNUS:
 #ifndef RENEWAL
-			if (!battle_check_undead(tstatus->race,tstatus->def_ele) && tstatus->race!=RC_DEMON)
-				break;
+			if (!battle_check_undead(tstatus->race,tstatus->def_ele) && tstatus->race!=RC_DEMON) {
+				map_session_data* ssd = BL_CAST(BL_PC, ss);
+				if (!ssd || !ssd->special_state.magnus_all_race || bl->type == BL_PC)
+					break;
+			}
 #endif
 			skill_attack(BF_MAGIC,ss,unit,bl,sg->skill_id,sg->skill_lv,tick,0);
 			break;

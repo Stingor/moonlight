@@ -494,6 +494,7 @@ public:
 		uint32 no_item : 1;
 		uint32 aspd2 : 10;
 		uint32 no_zeny : 1;
+		uint32 magnus_all_race : 1;
 		// [Stingor] <--
 		uint32 intravision : 1; // Maya Purple Card effect [DracoRPG]
 		uint32 perfect_hiding : 1; // [Valaris]

@@ -26,6 +26,7 @@
 	export_constant2("bNoBottle",SP_NO_BOTTLE);
 	export_constant2("bNoItem",SP_NO_ITEM);
 	export_constant2("bNoZeny",SP_NO_ZENY);
+	export_constant2("bMagnusAllRace",SP_MAGNUS_ALL_RACE);
 
 	export_constant(INVITEMINFO_NAMEID);
 	export_constant(INVITEMINFO_IDX);

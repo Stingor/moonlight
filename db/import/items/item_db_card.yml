@@ -4171,7 +4171,7 @@ Body:
     Flags:
       BuyingStore: true
       DropEffect: RED_PILLAR
-    Script: "bonus5 bAutoSpellWhenHit,\"HP_ASSUMPTIO\",5,50,BF_WEAPON|BF_MAGIC,0;\n"
+    Script: "bonus5 bAutoSpellWhenHit,\"HP_ASSUMPTIO\",5,50,BF_WEAPON|BF_MAGIC,0; bonus bMagnusAllRace,1;\n"
   - Id: 4364
     AegisName: Magaleta_Card
     Name: Margaretha Sorin Card

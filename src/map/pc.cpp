@@ -4257,6 +4257,10 @@ void pc_bonus(map_session_data *sd,int32 type,int32 val)
 			if(sd->state.lr_flag != 2)
 				sd->special_state.aspd2 = 1;
 			break;
+		case SP_MAGNUS_ALL_RACE:
+			if(sd->state.lr_flag != 2)
+				sd->special_state.magnus_all_race = 1;
+			break;
 		// [Stingor] <--
 		case SP_INTRAVISION: // Maya Purple Card effect allowing to see Hiding/Cloaking people [DracoRPG]
 			if (sd->state.lr_flag != LR_FLAG_ARROW) {
@@ -10468,6 +10472,7 @@ int64 pc_readparam( const map_session_data* sd, int64 type )
 		case SP_NO_ITEM:         val = sd->special_state.no_item?1:0; break;
 		case SP_ASPD2:           val = sd->special_state.aspd2?1:0; break;
 		case SP_NO_ZENY:   		 val = sd->special_state.no_zeny?1:0; break;
+		case SP_MAGNUS_ALL_RACE: val = sd->special_state.magnus_all_race?1:0; break;
 		// [Stingor] <--
 		case SP_INTRAVISION:     val = sd->special_state.intravision?1:0; break;
 		case SP_NO_KNOCKBACK:    val = sd->special_state.no_knockback?1:0; break;
