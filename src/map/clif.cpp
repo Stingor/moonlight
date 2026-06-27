@@ -5191,6 +5191,7 @@ enum e_bourgeon_setting : int16 {
 	BOURGEON_SETTING_TRI_GSTORAGE  = 22,
 	BOURGEON_SETTING_ALOOT_ID      = 23,  // add item ID to autolootid list (0=clear all)
 	BOURGEON_SETTING_ALOOT_ID_REM  = 24,  // remove item ID from autolootid list
+	BOURGEON_SETTING_REFRESH       = 25,  // client asks for a self clif_refresh (drop stale client UI composites, e.g. menu-icon ghost); value ignored
 };
 
 // Sends the full set of settings to the client on login.
@@ -5744,6 +5745,13 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 			}
 			break;
 		}
+		case BOURGEON_SETTING_REFRESH:
+			// Client asks for a self clif_refresh -- e.g. to re-composite the UI and
+			// drop a stale native menu-icon "ghost" after the ImGui icon replacement
+			// is enabled. Manual @refresh is proven safe here; the old mob-info crash
+			// note was a race condition, not clif_refresh itself. value is ignored.
+			clif_refresh(sd);
+			break;
 		default:
 			ShowWarning("clif_parse_bourgeon_setting: unknown setting id %d from %s\n",
 				p->id, sd->status.name);
