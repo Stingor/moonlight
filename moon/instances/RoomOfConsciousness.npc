@@ -168,6 +168,10 @@ OnTimer200:
 OnTimer2200:
 	mapannounce 'map_name$, "Fenrir: The enemies are swarming in. We must get rid of them all!", bc_map,0xFFFF00,FW_NORMAL,12;
 	// coords inaccurate
+	// Init du compteur AVANT le spawn : mobhm() contient des sleep (buff hard mode) qui
+	// rendent la main au scheduler. Une AoE persistante (Magnus Exorcismus) peut tuer les
+	// mobs pendant ce sleep et declencher OnMobDead avant l'init -> compteur bloque, jamais a 0.
+	'skeleton_wave[0] = 7;
 	mobhm('hm,0,'map_name$,83,67,"Enchanted Skeleton",3446,1, instance_npcname("eq#mir1") + "::OnMobDead");// P_SKELETON
 	mobhm('hm,0,'map_name$,91,51,"Enchanted Skeleton",3446,1, instance_npcname("eq#mir1") + "::OnMobDead");// P_SKELETON
 	mobhm('hm,0,'map_name$,111,67,"Enchanted Skeleton",3446,1, instance_npcname("eq#mir1") + "::OnMobDead");// P_SKELETON
@@ -175,7 +179,6 @@ OnTimer2200:
 	mobhm('hm,0,'map_name$,109,50,"Enchanted Soldier Skeleton",3447,1, instance_npcname("eq#mir1") + "::OnMobDead");// P_SOLDIER_SKELETON
 	mobhm('hm,0,'map_name$,109,47,"Enchanted Archer Skeleton",3445,1, instance_npcname("eq#mir1") + "::OnMobDead");// P_ARCHER_SKELETON
 	mobhm('hm,0,'map_name$,90,48,"Enchanted Archer Skeleton",3445,1, instance_npcname("eq#mir1") + "::OnMobDead");// P_ARCHER_SKELETON
-	'skeleton_wave[0] = 7;
 	stopnpctimer;
 	end;
 
@@ -191,6 +194,9 @@ OnTimer4200:
 	end;
 OnTimer6200:
 	// coords inaccurate
+	// Init du compteur AVANT le spawn (cf. vague 1) : sinon Magnus Exorcismus tue la vague 2
+	// pendant les sleep de mobhm et OnMobDead2 decremente un compteur non initialise.
+	'skeleton_wave[1] = 7;
 	mobhm('hm,0,'map_name$,83,67,"Enchanted Skeleton",3446,1, instance_npcname("eq#mir1") + "::OnMobDead2");// P_SKELETON
 	mobhm('hm,0,'map_name$,91,51,"Enchanted Skeleton",3446,1, instance_npcname("eq#mir1") + "::OnMobDead2");// P_SKELETON
 	mobhm('hm,0,'map_name$,111,67,"Enchanted Skeleton",3446,1, instance_npcname("eq#mir1") + "::OnMobDead2");// P_SKELETON
@@ -198,7 +204,6 @@ OnTimer6200:
 	mobhm('hm,0,'map_name$,109,50,"Enchanted Soldier Skeleton",3447,1, instance_npcname("eq#mir1") + "::OnMobDead2");// P_SOLDIER_SKELETON
 	mobhm('hm,0,'map_name$,109,47,"Enchanted Archer Skeleton",3445,1, instance_npcname("eq#mir1") + "::OnMobDead2");// P_ARCHER_SKELETON
 	mobhm('hm,0,'map_name$,90,48,"Enchanted Archer Skeleton",3445,1, instance_npcname("eq#mir1") + "::OnMobDead2");// P_ARCHER_SKELETON
-	'skeleton_wave[1] = 7;
 	stopnpctimer;
 	end;
 
