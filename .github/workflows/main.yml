@@ -27,7 +27,7 @@ jobs:
 
           jq -n --arg description "$msg" '{
             embeds: [{
-              title: "Nouveaux commits poussés :",
+              title: "Nouveaux commits poussés (Emulateur) :",
               description: $description,
               color: 5814783
             }]
