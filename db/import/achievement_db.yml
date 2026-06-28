@@ -2171,7 +2171,7 @@ Body:
   - Id: 220015
     Group: Enchant_Success
     Name: I can't quit from refining! (2)
-    Condition: " ARG0 == 1 && ARG1 >= 12 "
+    Condition: " ARG0 == 1 && ARG1 >= 10 "
     Score: 15
   - Id: 220016
     Group: Enchant_Success
@@ -2181,7 +2181,7 @@ Body:
   - Id: 220017
     Group: Enchant_Success
     Name: I can't quit from refining! (4)
-    Condition: " ARG0 == 2 && ARG1 >= 12 "
+    Condition: " ARG0 == 2 && ARG1 >= 10 "
     Score: 15
   - Id: 220018
     Group: Enchant_Success
@@ -2191,7 +2191,7 @@ Body:
   - Id: 220019
     Group: Enchant_Success
     Name: I can't quit from refining! (6)
-    Condition: " ARG0 == 3 && ARG1 >= 12 "
+    Condition: " ARG0 == 3 && ARG1 >= 10 "
     Score: 20
   - Id: 220020
     Group: Enchant_Success
@@ -2201,7 +2201,7 @@ Body:
   - Id: 220021
     Group: Enchant_Success
     Name: I can't quit from refining! (8)
-    Condition: " ARG0 == 4 && ARG1 >= 12 "
+    Condition: " ARG0 == 4 && ARG1 >= 10 "
     Score: 30
   - Id: 220022
     Group: Enchant_Fail
