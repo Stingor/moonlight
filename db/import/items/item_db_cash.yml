@@ -9000,7 +9000,7 @@ Body:
     Type: Cash
     Buy: 10
     Weight: 1000
-    Script: "getgroupitem(IG_Sealed_Mind_Box);\n"
+    Script: "getgroupitem(IG_CLOSEDMIND_BOX);\n"
   - Id: 22541
     AegisName: PC_Room_Coupon_Box_VI
     Name: PC Room Coupon Box VI
