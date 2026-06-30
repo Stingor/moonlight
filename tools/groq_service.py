@@ -1419,11 +1419,11 @@ def _discord_poll(conn):
         # Relay ALL user messages in-game via discord_relay → ZC_BOURGEON_DISCORD_MSG
         _write_discord_relay(conn, player, content)
 
+        _log_discord_chat(conn, f"(Discord){player}", content)
         # Bot processing : seulement si le message mentionne sting ou a le préfixe ²
         if not is_bot_cmd and 'sting' not in content_low:
             continue
         print(f"[Discord] <- {player!r}: {content[:60]!r}", file=sys.stderr)
-        _log_discord_chat(conn, f"(Discord){player}", content)
         response = get_response(player, content, conn, player_ctx="discord")
         if response:
             _discord_post(player, content, response)
