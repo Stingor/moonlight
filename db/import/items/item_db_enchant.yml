@@ -1103,7 +1103,7 @@ Body:
     SubType: Enchant
     Buy: 20
     Weight: 10
-    Script: "bonus bStr,1; .@r = getrefine(); if(.@r>7) { bonus bStr,3; } if(.@r>8) { bonus2 bAddClass,Class_All,1; if (Class == Job_Assassin_Cross) bonus2 bSkillAtk,\"ASC_BREAKER\",1; } if(.@r>11) { bonus bAspd,1; bonus bFixedCastrate,-7; }\n"
+    Script: "bonus bStr,1; .@r = getrefine(); if(.@r>7) { bonus bStr,3; } if(.@r>8) { bonus2 bAddClass,Class_All,1; if (Class == Job_Assassin_Cross) bonus2 bSkillAtk,\"ASC_BREAKER\",1; } if(getallrefine()>=24) { bonus bAspd,1; bonus bFixedCastrate,-7; }\n"
   - Id: 4854
     AegisName: S_Agi
     Name: Special Agi
@@ -1111,7 +1111,7 @@ Body:
     SubType: Enchant
     Buy: 20
     Weight: 10
-    Script: "bonus bAgi,1; .@r = getrefine(); if(.@r>7) { bonus bAgi,3; } if(.@r>8) { bonus2 bAddClass,Class_All,1; if (Class == Job_Assassin_Cross) bonus2 bSkillAtk,\"ASC_BREAKER\",1; } if(.@r>11) { bonus bAspd,1; bonus bFixedCastrate,-7; }\n"
+    Script: "bonus bAgi,1; .@r = getrefine(); if(.@r>7) { bonus bAgi,3; } if(.@r>8) { bonus2 bAddClass,Class_All,1; if (Class == Job_Assassin_Cross) bonus2 bSkillAtk,\"ASC_BREAKER\",1; } if(getallrefine()>=24) { bonus bAspd,1; bonus bFixedCastrate,-7; }\n"
   - Id: 4855
     AegisName: S_Vital
     Name: Special Vit
@@ -1119,7 +1119,7 @@ Body:
     SubType: Enchant
     Buy: 20
     Weight: 10
-    Script: "bonus bVit,1; .@r = getrefine(); if(.@r>7) { bonus bVit,3; } if(.@r>8) { bonus bMaxSPrate,1; } if(.@r>11) { bonus bAspd,1; bonus bFixedCastrate,-7; }\n"
+    Script: "bonus bVit,1; .@r = getrefine(); if(.@r>7) { bonus bVit,3; } if(.@r>8) { bonus bMaxSPrate,1; } if(getallrefine()>=24) { bonus bAspd,1; bonus bFixedCastrate,-7; }\n"
   - Id: 4856
     AegisName: S_Int
     Name: Special Int
@@ -1127,7 +1127,7 @@ Body:
     SubType: Enchant
     Buy: 20
     Weight: 10
-    Script: "bonus bInt,1; .@r = getrefine(); if(.@r>7) { bonus bInt,3; } if(.@r>8) { bonus bMatkRate,1; } if(.@r>11) { bonus bAspd,1; bonus bFixedCastrate,-7; }\n"
+    Script: "bonus bInt,1; .@r = getrefine(); if(.@r>7) { bonus bInt,3; } if(.@r>8) { bonus bMatkRate,1; } if(getallrefine()>=24) { bonus bAspd,1; bonus bFixedCastrate,-7; }\n"
   - Id: 4857
     AegisName: S_Dex
     Name: Special Dex
@@ -1135,7 +1135,7 @@ Body:
     SubType: Enchant
     Buy: 20
     Weight: 10
-    Script: "bonus bDex,1; .@r = getrefine(); if(.@r>7) { bonus bDex,3; } if(.@r>8) { bonus bMatkRate,1; } if(.@r>11) { bonus bAspd,1; bonus bFixedCastrate,-7; }\n"
+    Script: "bonus bDex,1; .@r = getrefine(); if(.@r>7) { bonus bDex,3; } if(.@r>8) { bonus bMatkRate,1; } if(getallrefine()>=24) { bonus bAspd,1; bonus bFixedCastrate,-7; }\n"
   - Id: 4858
     AegisName: S_Luck
     Name: Special Luk
@@ -1143,7 +1143,7 @@ Body:
     SubType: Enchant
     Buy: 20
     Weight: 10
-    Script: "bonus bLuk,1; .@r = getrefine(); if(.@r>7) { bonus bLuk,3; } if(.@r>8) { bonus bMaxHPrate,1; } if(.@r>11) { bonus bAspd,1; bonus bFixedCastrate,-7; }\n"
+    Script: "bonus bLuk,1; .@r = getrefine(); if(.@r>7) { bonus bLuk,3; } if(.@r>8) { bonus bMaxHPrate,1; } if(getallrefine()>=24) { bonus bAspd,1; bonus bFixedCastrate,-7; }\n"
   - Id: 4859
     AegisName: Evasion1
     Name: Evasion1
