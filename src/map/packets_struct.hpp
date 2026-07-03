@@ -6010,11 +6010,43 @@ struct PACKET_CZ_BOURGEON_CHEAT_REPORT {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(CZ_BOURGEON_CHEAT_REPORT, 0x0f0a);  // ex-0x0c23
 
+// CZ (client -> server): request technical data for an item or a skill. Fixed 10.
+// Layout: [packetType:2][packetLength:2][id:4][is_skill:1][scope:1]
+//   scope (item only): 0 = normal drops, 1 = MVP rewards (two separate on-demand
+//   buttons client-side, so the expensive mvpitem scan runs only when asked).
+struct PACKET_CZ_BOURGEON_REQ_TECHDATA {
+	int16  packetType;
+	int16  packetLength;
+	uint32 id;
+	uint8  is_skill;
+	uint8  scope;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_TECHDATA, 0x0f0b);
+
+// ZC (server -> client): technical-data response for the enriched description.
+// Variable-length. Header: [packetType:2][packetLength:2][id:4][is_skill:1][scope:1] then:
+//   is_skill=0 (item drops) : [count:1][truncated:1][treasure_excluded:1] then `count` entries:
+//     [mob_id:4][rate:4 (1/100 %, VIP+level-adjusted like @whodrops)]
+//     [boss:1 (0 normal / 1 mini-boss / 2 MVP)]
+//     [src:1 (0 = normal drop / 1 = MVP reward)][namelen:1][name:namelen]
+//   is_skill=1 (skill cast)  : [max_lv:1] then `max_lv` entries:
+//     [cast_var:4][cast_fixed:4][cooldown:4][after_delay:4]  (all ms)
+// scope echoes the request so the client caches drops/MVP separately.
+// The variable payload is appended manually with WFIFO; packetLength is set last.
+struct PACKET_ZC_BOURGEON_TECHDATA {
+	int16  packetType;
+	int16  packetLength;
+	uint32 id;
+	uint8  is_skill;
+	uint8  scope;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_TECHDATA, 0x0f0c);
+
 // NOTE: there is no ZC_BOURGEON_MAP packet. The Bourgeon client reads the
 // current map name from the standard 0x0091 ZC_NPCACK_MAPMOVE packet instead.
 // Historique : les anciens opcodes 0x0BFx/0x0C2x partageaient des entrées du
 // client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans
-// la zone sûre 0x0F00+ (2026-07-03) ; prochain libre = 0x0F0B.
+// la zone sûre 0x0F00+ (2026-07-03) ; prochain libre = 0x0F0D.
 
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)

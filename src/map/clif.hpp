@@ -1556,5 +1556,9 @@ void clif_bourgeon_integrity_reload();
 void clif_bourgeon_unregister_guid(int32 account_id);
 // [Stingor] Receive cheat detection report from a Bourgeon client (CZ 0x0F0A)
 void clif_parse_bourgeon_cheat_report(int32 fd, map_session_data* sd);
+// [Stingor] Enriched description tech data (CZ 0x0F0B request -> ZC 0x0F0C reply):
+// item drop sources (reuse item_data->mob[], @whodrops-style rates + boss type)
+// or skill cast/cooldown/delay per level.
+void clif_parse_bourgeon_reqtechdata(int32 fd, map_session_data* sd);
 
 #endif /* CLIF_HPP */

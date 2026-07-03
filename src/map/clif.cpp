@@ -6017,6 +6017,123 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 // Handles CZ_BOURGEON_CHEAT_REPORT (0x0F0A): [type:2][len:2][tool_name:32][detail:64]
 // The client sends this once per new detection (process scan, window scan, or injected module).
 // We log to the map-server console so the admin can see which player uses which tool.
+// [Stingor] Enriched-description tech data (CZ 0x0F0B -> ZC 0x0F0C).
+// Item: drop sources from item_data->mob[] (the index rAthena builds for
+// @whodrops), rates adjusted like @whodrops (level penalty + VIP), plus the
+// mob boss type (normal/mini-boss/MVP). Skill: cast/cooldown/delay per level.
+void clif_parse_bourgeon_reqtechdata(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+	const PACKET_CZ_BOURGEON_REQ_TECHDATA* p =
+		reinterpret_cast<const PACKET_CZ_BOURGEON_REQ_TECHDATA*>(RFIFOP(fd, 0));
+	const uint32 req_id   = p->id;
+	const bool   is_skill = (p->is_skill != 0);
+	const uint8  scope    = p->scope;  // item: 0 = drops normaux, 1 = MVP rewards
+
+	WFIFOHEAD(fd, 16384);
+	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_TECHDATA;
+	WFIFOL(fd, 4) = req_id;
+	WFIFOB(fd, 8) = is_skill ? 1 : 0;
+	WFIFOB(fd, 9) = scope;
+	int16 offset = 10;
+
+	if (!is_skill) {
+		struct TechEntry { uint32 mob_id; uint32 rate; uint8 boss; uint8 src; std::string name; };
+		std::vector<TechEntry> entries;
+		uint8 truncated = 0, treasure_excluded = 0;
+		const size_t kMaxEntries = 200;  // borne (count est un uint8 côté paquet)
+
+		// Scan COMPLET du mob_db (et NON l'index inverse id->mob[], cappé à
+		// MAX_SEARCH et saturé par les MVP à 100% -> il évince les mobs normaux).
+		// entry->rate est DÉJÀ le taux ajusté serveur (mob_drop_ratio_adjust
+		// l'écrit en place, cf. mob.cpp) -> identique au bestiaire web.
+		// scope 0 = "Monstres" (mobs NON-boss), scope 1 = "MVP/boss" : le
+		// classement se fait sur get_bosstype() du MOB, pas sur le mécanisme.
+		for (const auto& pair : mob_db) {
+			const std::shared_ptr<s_mob_db>& mob = pair.second;
+			if (mob == nullptr) continue;
+			const bool is_boss = mob->get_bosstype() != BOSSTYPE_NONE;
+			if ((scope == 0) == is_boss) continue;  // mauvais bucket
+			const uint8 boss = static_cast<uint8>(mob->get_bosstype());
+			// Coffres au trésor (RC2_TREASURE ou AegisName TREASURE_BOX*) : exclus.
+			const bool is_treasure =
+				util::vector_exists(mob->race2, RC2_TREASURE) ||
+				mob->sprite.compare(0, 12, "TREASURE_BOX") == 0;
+
+			// Drops normaux (dropitem, taux déjà ajusté).
+			for (const auto& drop : mob->dropitem) {
+				if (drop == nullptr || drop->nameid != req_id || drop->rate == 0)
+					continue;
+				if (is_treasure) {  // compté une fois, non listé
+					if (treasure_excluded < 255) treasure_excluded++;
+					break;
+				}
+				if (entries.size() >= kMaxEntries) { truncated = 1; break; }
+				TechEntry e;
+				e.mob_id = mob->id;
+				e.rate   = drop->rate;
+				e.boss   = boss;
+				e.src    = 0;  // drop normal
+				e.name   = mob->jname.substr(0, 24);
+				entries.push_back(std::move(e));
+			}
+			if (truncated) break;
+			// MVP rewards (mvpitem) : bucket MVP/boss uniquement.
+			if (scope == 1 && !is_treasure) {
+				for (const auto& drop : mob->mvpitem) {
+					if (drop == nullptr || drop->nameid != req_id || drop->rate == 0)
+						continue;
+					if (entries.size() >= kMaxEntries) { truncated = 1; break; }
+					TechEntry e;
+					e.mob_id = mob->id;
+					e.rate   = drop->rate;
+					e.boss   = boss;
+					e.src    = 1;  // MVP reward
+					e.name   = mob->jname.substr(0, 24);
+					entries.push_back(std::move(e));
+				}
+				if (truncated) break;
+			}
+		}
+		// Header: [count:1][truncated:1][treasure_excluded:1] then entries
+		// [mob_id:4][rate:4][boss:1][src:1][namelen:1][name].
+		WFIFOB(fd, offset) = static_cast<uint8>(entries.size()); offset += 1;
+		WFIFOB(fd, offset) = truncated;                          offset += 1;
+		WFIFOB(fd, offset) = treasure_excluded;                  offset += 1;
+		for (const TechEntry& e : entries) {
+			const uint8 namelen = static_cast<uint8>(e.name.size());
+			WFIFOL(fd, offset) = e.mob_id;                    offset += 4;
+			WFIFOL(fd, offset) = e.rate;                      offset += 4;
+			WFIFOB(fd, offset) = e.boss;                      offset += 1;
+			WFIFOB(fd, offset) = e.src;                       offset += 1;
+			WFIFOB(fd, offset) = namelen;                     offset += 1;
+			memcpy(WFIFOP(fd, offset), e.name.c_str(), namelen); offset += namelen;
+		}
+	} else {
+		// Skill: [max_lv:1] then per level [cast_var:4][cast_fixed:4][cooldown:4][delay:4].
+		const uint16 skid = static_cast<uint16>(req_id);
+		std::shared_ptr<s_skill_db> skdb = skill_db.find(skid);
+		int32 maxlv = (skdb != nullptr) ? skdb->max : 0;
+		if (maxlv < 0)  maxlv = 0;
+		if (maxlv > 20) maxlv = 20;  // sane cap
+		WFIFOB(fd, offset) = static_cast<uint8>(maxlv); offset += 1;
+		for (int32 lv = 1; lv <= maxlv; lv++) {
+			WFIFOL(fd, offset) = skill_get_cast(skid, lv);       offset += 4;
+#ifdef RENEWAL_CAST
+			WFIFOL(fd, offset) = skill_get_fixed_cast(skid, lv);
+#else
+			WFIFOL(fd, offset) = 0;
+#endif
+			offset += 4;
+			WFIFOL(fd, offset) = skill_get_cooldown(skid, lv);   offset += 4;
+			WFIFOL(fd, offset) = skill_get_delay(skid, lv);      offset += 4;
+		}
+	}
+
+	WFIFOW(fd, 2) = offset;  // packetLength
+	WFIFOSET(fd, offset);
+}
+
 void clif_parse_bourgeon_cheat_report(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;

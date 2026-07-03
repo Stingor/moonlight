@@ -531,6 +531,9 @@ int32 skill_get_range2(const block_list* bl, uint16 skill_id, uint16 skill_lv, b
 int32 skill_get_splash( uint16 skill_id , uint16 skill_lv );
 int32 skill_get_num( uint16 skill_id ,uint16 skill_lv );
 int32 skill_get_cast( uint16 skill_id ,uint16 skill_lv );
+#ifdef RENEWAL_CAST
+int32 skill_get_fixed_cast( uint16 skill_id ,uint16 skill_lv );
+#endif
 int32 skill_get_delay( uint16 skill_id ,uint16 skill_lv );
 int32 skill_get_walkdelay( uint16 skill_id ,uint16 skill_lv );
 int32 skill_get_time( uint16 skill_id ,uint16 skill_lv );

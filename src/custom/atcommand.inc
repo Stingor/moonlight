@@ -1643,9 +1643,19 @@ ACMD_FUNC(whodrops)
 
 				dropchance = min(dropchance, 10000); //cap it to 100%
 
+				// Prefixe le nom du monstre par son type (MVP / Mini-Boss).
+				const char* bosstag = "";
+				switch (mob->get_bosstype()) {
+					case BOSSTYPE_MVP:      bosstag = "[MVP] ";       break;
+					case BOSSTYPE_MINIBOSS: bosstag = "[Mini-Boss] "; break;
+					default: break;
+				}
+				char mobname[NAME_LENGTH + 16];
+				safesnprintf(mobname, sizeof(mobname), "%s%s", bosstag, mob->jname.c_str());
+
 				const std::vector<spawn_info> spawns = mob_get_spawns(mobid);
 				if (spawns.size() < 1)
-					sprintf(atcmd_output, "- %s (%d): %02.02f%% - %s", mob->jname.c_str(), mobid, (dropchance / 100.), msg_txt(sd, 1290)); // Instance/Quest/Event
+					sprintf(atcmd_output, "- %s (%d): %02.02f%% - %s", mobname, mobid, (dropchance / 100.), msg_txt(sd, 1290)); // Instance/Quest/Event
 				else if (spawns.size() == 1) {
 					int16 mapid = map_mapindex2mapid(spawns[0].mapindex);
 					if (mapid > 1) {
@@ -1657,15 +1667,15 @@ ACMD_FUNC(whodrops)
 							else
 								safestrncpy(location, display ? display : internal, sizeof(location));
 							if (spawns[0].qty > 1)
-								sprintf(atcmd_output, "- %s (%d): %02.02f%% - %d mobs dans %s", mob->jname.c_str(), mobid, (dropchance / 100.), spawns[0].qty, location);
+								sprintf(atcmd_output, "- %s (%d): %02.02f%% - %d mobs dans %s", mobname, mobid, (dropchance / 100.), spawns[0].qty, location);
 							else
-								sprintf(atcmd_output, "- %s (%d): %02.02f%% - 1 mob dans %s", mob->jname.c_str(), mobid, (dropchance / 100.), location);
+								sprintf(atcmd_output, "- %s (%d): %02.02f%% - 1 mob dans %s", mobname, mobid, (dropchance / 100.), location);
 						}
 				}
 				else if (spawns.size() < 4) {
 					char buf[CHAT_SIZE_MAX];
 
-					sprintf(atcmd_output, "- %s (%d): %02.02f%% - ", mob->jname.c_str(), mobid, (dropchance / 100.));
+					sprintf(atcmd_output, "- %s (%d): %02.02f%% - ", mobname, mobid, (dropchance / 100.));
 
 					for (auto& spawn : spawns)
 					{
@@ -1677,7 +1687,7 @@ ACMD_FUNC(whodrops)
 					}
 				}
 				else
-					sprintf(atcmd_output, "- %s (%d): %02.02f%% - Respawn dans %zd maps - @whereis %d", mob->jname.c_str(), mobid, (dropchance / 100.), spawns.size(), mobid);
+					sprintf(atcmd_output, "- %s (%d): %02.02f%% - Respawn dans %zd maps - @whereis %d", mobname, mobid, (dropchance / 100.), spawns.size(), mobid);
 
 				clif_displaymessage(fd, atcmd_output);
 			}
@@ -1905,10 +1915,10 @@ ACMD_FUNC(tri_inventaire)
 		clif_inventorylist(sd);
 	}
 	if( mode == SORT_NONE )
-		clif_displaymessage(fd, "Tri de l'inventaire désactivé.");
+		clif_displaymessage(fd, "Tri de l'inventaire dï¿½sactivï¿½.");
 	else {
 		char buf[80];
-		snprintf(buf, sizeof(buf), "Inventaire trié par %s.", atcmd_sort_mode_name(mode));
+		snprintf(buf, sizeof(buf), "Inventaire triï¿½ par %s.", atcmd_sort_mode_name(mode));
 		clif_displaymessage(fd, buf);
 	}
 	return 0;
