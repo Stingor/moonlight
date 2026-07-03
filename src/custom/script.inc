@@ -1737,7 +1737,7 @@ BUILDIN_FUNC(restartnpc)
 }
 
 /* bourgeon_discord_relay_all("<msg>");
- * Sends a pre-formatted Discord relay message (ZC_BOURGEON_DISCORD_MSG, 0x0C1F)
+ * Sends a pre-formatted Discord relay message (ZC_BOURGEON_DISCORD_MSG, 0x0F08)
  * to all players currently on the gonryun map.  The Bourgeon overlay shows it
  * if the player's Discord checkbox is ON, silently drops it otherwise.
  * Called from groq.npc's OnTimer3000 after draining the discord_relay SQL table.

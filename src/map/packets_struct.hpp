@@ -5899,7 +5899,14 @@ struct PACKET_CZ_ADVENTURER_AGENCY_JOIN_RESULT {
 DEFINE_PACKET_HEADER(CZ_ADVENTURER_AGENCY_JOIN_RESULT, 0x0af8);
 #endif  // PACKETVER_MAIN_NUM >= 20191218 || PACKETVER_RE_NUM >= 20191211 || PACKETVER_ZERO_NUM >= 20191224
 
-// [Stingor] Bourgeon DLL <-> server settings packets (opcodes free in PACKETVER 20250716)
+// [Stingor] Bourgeon DLL <-> server custom packets.
+// ZONE 0x0F00..0x0FFF : au-dessus de l'opcode max du client (0x0C35) => vus par le
+// client comme flag=-1 (variable, inconnu), immunisés contre les montées de version
+// du client ET contre les collisions de longueur fixe. Côté serveur, MAX_PACKET_DB a
+// été remonté à 0xFFF (clif.hpp) pour permettre l'enregistrement des CZ.
+// !! Doit rester synchronisé avec Bourgeon/src/plugins/bourgeon_opcodes.h (client).
+// Carte complète : Bourgeon/docs/opcode_map.md
+//
 // ZC (server -> client): sends the player's char_id + all settings on login.
 // Variable-length.
 // Layout: [packetType:2][packetLength:2][char_id:4][count:2][{id:2, value:2} * count]
@@ -5909,7 +5916,7 @@ struct PACKET_ZC_BOURGEON_SETTINGS {
 	uint32 char_id;
 	int16 count;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_SETTINGS, 0x0bfe);
+DEFINE_PACKET_HEADER(ZC_BOURGEON_SETTINGS, 0x0f05);  // ex-0x0bfe
 
 // CZ (client -> server): reports a single setting change. Fixed 10 bytes.
 // Layout: [packetType:2][packetLength:2][id:2][value:4]
@@ -5919,7 +5926,7 @@ struct PACKET_CZ_BOURGEON_SETTING {
 	int16 id;
 	uint32 value;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_SETTING, 0x0bfd);
+DEFINE_PACKET_HEADER(CZ_BOURGEON_SETTING, 0x0f04);  // ex-0x0bfd
 
 // CZ (client -> server): the Bourgeon DLL reports a SHA-256 of its own ddraw.dll
 // and the Windows MachineGuid (for multi-account detection). Fixed 72 bytes.
@@ -5930,7 +5937,7 @@ struct PACKET_CZ_BOURGEON_INTEGRITY {
 	uint8 hash[32];
 	char  machine_guid[36];  // registry MachineGuid, NOT null-terminated
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_INTEGRITY, 0x0bfb);
+DEFINE_PACKET_HEADER(CZ_BOURGEON_INTEGRITY, 0x0f02);  // ex-0x0bfb
 
 // ZC (server -> client): tells the Bourgeon overlay the client is outdated
 // before the server kicks it. The overlay shows a popup then the kick fires
@@ -5939,7 +5946,7 @@ struct PACKET_ZC_BOURGEON_KICK_NOTICE {
 	int16 packetType;
 	int16 packetLength;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_KICK_NOTICE, 0x0bfa);
+DEFINE_PACKET_HEADER(ZC_BOURGEON_KICK_NOTICE, 0x0f03);  // ex-0x0bfa
 
 // ZC (server -> client): relays a Discord chat message to the Bourgeon overlay.
 // Variable-length. Layout: [packetType:2][packetLength:2][msg:variable, null-terminated]
@@ -5949,7 +5956,7 @@ struct PACKET_ZC_BOURGEON_DISCORD_MSG {
 	int16 packetLength;
 	char msg[1];  // variable-length, null-terminated; pre-formatted as "[Discord][name] text"
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_DISCORD_MSG, 0x0c1f);
+DEFINE_PACKET_HEADER(ZC_BOURGEON_DISCORD_MSG, 0x0f08);  // ex-0x0c1f
 
 // CZ (client -> server): preset management command. Variable-length.
 // Layout: [type:2][len:2][cmd:1][no:1][name:variable, may be empty, not null-terminated]
@@ -5961,7 +5968,7 @@ struct PACKET_CZ_BOURGEON_PRESET_CMD {
 	uint8 no;
 	char  name[1];
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_PRESET_CMD, 0x0c20);
+DEFINE_PACKET_HEADER(CZ_BOURGEON_PRESET_CMD, 0x0f06);  // ex-0x0c20
 
 // ZC (server -> client): sends the preset list. Variable-length.
 // Layout: [type:2][len:2][active_no:1][count:1]
@@ -5972,23 +5979,25 @@ struct PACKET_ZC_BOURGEON_PRESET_LIST {
 	uint8 active_no;
 	uint8 count;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_PRESET_LIST, 0x0c21);
+DEFINE_PACKET_HEADER(ZC_BOURGEON_PRESET_LIST, 0x0f07);  // ex-0x0c21
 
 // ZC (server -> client): private damage notification for Bourgeon DPS meter.
 // Sent SELF-only when a skill unit (Storm Gust, Meteor Storm, LoV…) deals
 // damage, so the client can attribute the hit to the original caster's AID
 // without changing the visual ZC_NOTIFY_SKILL packet.
 // Layout: [type:2][len:2][src_aid:4][damage:4]  — 12 bytes total.
-// !! MUST stay 12 bytes: 0x0C22 is fixed-length 12 in the 20250716 client's
-// !! vanilla packet table.  Any extra field shifts the stream pointer and
-// !! causes recv desync (dmg=garbage, game freezes during AoE spam).
+// Depuis le passage à 0x0F09 (au-dessus de 0x0C35), l'opcode est flag=-1 côté
+// client = VARIABLE (longueur lue du flux). L'ancienne contrainte "doit rester
+// 12 octets" (0x0C22 était fixe-12 dans le client, ce qui gelait le jeu si on
+// ajoutait un champ) NE S'APPLIQUE PLUS : ce paquet peut désormais être étendu
+// (ex. ajouter skill_id) sans désync, tant que packetLength est correct.
 struct PACKET_ZC_BOURGEON_SKILL_DMG {
 	int16  packetType;
 	int16  packetLength;
 	uint32 src_aid;
 	int32  damage;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_SKILL_DMG, 0x0c22);
+DEFINE_PACKET_HEADER(ZC_BOURGEON_SKILL_DMG, 0x0f09);  // ex-0x0c22
 
 // CZ (client -> server): cheat detection report. Fixed 100 bytes.
 // Layout: [packetType:2][packetLength:2][tool_name:32][detail:64]
@@ -5999,12 +6008,13 @@ struct PACKET_CZ_BOURGEON_CHEAT_REPORT {
 	char tool_name[32];
 	char detail[64];
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_CHEAT_REPORT, 0x0c23);
+DEFINE_PACKET_HEADER(CZ_BOURGEON_CHEAT_REPORT, 0x0f0a);  // ex-0x0c23
 
 // NOTE: there is no ZC_BOURGEON_MAP packet. The Bourgeon client reads the
 // current map name from the standard 0x0091 ZC_NPCACK_MAPMOVE packet instead.
-// Custom ZC opcodes in the 0x0BFx range (0x0BFC, 0x0BFF) collide with fixed
-// length entries baked into the Ragexe client and desync the recv stream.
+// Historique : les anciens opcodes 0x0BFx/0x0C2x partageaient des entrées du
+// client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans
+// la zone sûre 0x0F00+ (2026-07-03) ; prochain libre = 0x0F0B.
 
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)

@@ -5153,7 +5153,7 @@ void clif_hide_wings( const map_session_data* sd ) // [Stingor]
 	mapit_free(iter);
 }
 
-// [Stingor] Bourgeon settings sync (ZC 0x0BFE / CZ 0x0BFD)
+// [Stingor] Bourgeon settings sync (ZC 0x0F05 / CZ 0x0F04)
 //
 // Setting IDs (must match MoonlightUi client-side constants in moonlight_ui.h):
 //   0 = SHOWEXP   1 = SHOWZENY   2 = SHOWMOBINFO   3 = SEPARATE
@@ -5293,7 +5293,7 @@ void clif_bourgeon_sync_alootid(map_session_data* sd) {
 	WFIFOSET(fd, pkt_len);
 }
 
-// ── Bourgeon preset management (ZC 0x0C21 / CZ 0x0C20) ───────────────────────
+// ── Bourgeon preset management (ZC 0x0F07 / CZ 0x0F06) ───────────────────────
 
 // Query distinct preset metadata for one character (max 10 rows).
 // Returns the row count; fills nos[], names[] (null-terminated, max 50 chars), autos[].
@@ -5322,7 +5322,7 @@ static int clif_bourgeon_query_presets(int char_id,
 	return count;
 }
 
-// Sends the preset list (ZC 0x0C21) to a Bourgeon client.
+// Sends the preset list (ZC 0x0F07) to a Bourgeon client.
 void clif_bourgeon_send_preset_list(map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
@@ -5386,7 +5386,7 @@ static void clif_bourgeon_autoload_preset(map_session_data* sd) {
 	}
 }
 
-// Handles CZ_BOURGEON_PRESET_CMD (0x0C20): preset list/save/load/delete/set-autoload.
+// Handles CZ_BOURGEON_PRESET_CMD (0x0F06): preset list/save/load/delete/set-autoload.
 void clif_parse_bourgeon_preset_cmd(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
@@ -5506,7 +5506,7 @@ void clif_parse_bourgeon_preset_cmd(int32 fd, map_session_data* sd) {
 // Forward declaration — defined later in this file (used by BL_MOB resend below).
 static int32 clif_getareachar(block_list* bl, va_list ap);
 
-// Handles a single setting change reported by the client (CZ 0x0BFD).
+// Handles a single setting change reported by the client (CZ 0x0F04).
 // Layout: [packetType:2][packetLength:2][id:2][value:4]
 void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
@@ -5759,7 +5759,7 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 	}
 }
 
-// [Stingor] Bourgeon DLL integrity check + MachineGuid (CZ 0x0BFB)
+// [Stingor] Bourgeon DLL integrity check + MachineGuid (CZ 0x0F02)
 //
 // The client sends a SHA-256 of its own ddraw.dll and the Windows MachineGuid
 // on game entry. The hash is verified against an allowlist; the GUID is used to
@@ -5939,7 +5939,7 @@ static void clif_bourgeon_grant_verified(map_session_data* sd) {
 	clif_bourgeon_send_preset_list(sd);
 }
 
-// Handles the client's integrity report (CZ 0x0BFB):
+// Handles the client's integrity report (CZ 0x0F02):
 //   [type:2][len:2][sha256:32][machine_guid:36]
 //
 // This is the handshake that identifies a Bourgeon client.  Only after this
@@ -6014,7 +6014,7 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 	}
 }
 
-// Handles CZ_BOURGEON_CHEAT_REPORT (0x0C23): [type:2][len:2][tool_name:32][detail:64]
+// Handles CZ_BOURGEON_CHEAT_REPORT (0x0F0A): [type:2][len:2][tool_name:32][detail:64]
 // The client sends this once per new detection (process scan, window scan, or injected module).
 // We log to the map-server console so the admin can see which player uses which tool.
 void clif_parse_bourgeon_cheat_report(int32 fd, map_session_data* sd) {
@@ -6035,7 +6035,7 @@ void clif_parse_bourgeon_cheat_report(int32 fd, map_session_data* sd) {
 		tool, detail);
 }
 
-// Sends ZC_BOURGEON_DISCORD_MSG (0x0C1F) to a single session.
+// Sends ZC_BOURGEON_DISCORD_MSG (0x0F08) to a single session.
 static int32 clif_bourgeon_discord_msg_pc(map_session_data* sd, va_list ap) {
 	const int32      mapid     = va_arg(ap, int32);
 	const uint8*     buf       = va_arg(ap, const uint8*);
@@ -7154,7 +7154,7 @@ void clif_skill_damage( const block_list& src, const block_list& dst, t_tick tic
 
 	// For skill units (Storm Gust, Meteor Storm, LoV…): the original caster's
 	// Bourgeon DPS meter needs the damage attributed to them via a private
-	// ZC_BOURGEON_SKILL_DMG (0x0C22), without altering the visual
+	// ZC_BOURGEON_SKILL_DMG (0x0F09), without altering the visual
 	// ZC_NOTIFY_SKILL packet that uses the unit's ID.
 	//
 	// We do NOT send one packet per hit: under heavy AoE (Storm Gust/Meteor on

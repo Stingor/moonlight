@@ -59,7 +59,12 @@ enum e_searchstore_failure : uint16;
 
 enum e_PacketDBVersion { // packet DB
 	MIN_PACKET_DB  = 0x064,
-	MAX_PACKET_DB  = 0xCFF,
+	// [Stingor/Bourgeon] Remonté de 0xCFF à 0xFFF pour couvrir la plage custom
+	// Bourgeon 0x0F00..0x0FFF (au-dessus de l'opcode max du client 0x0C35, donc
+	// zéro collision côté client ; ≤ MAX_PACKET_DB donc enregistrable côté serveur
+	// via packetdb_addpacket, qui ignore silencieusement tout cmd > MAX_PACKET_DB).
+	// Voir Bourgeon/src/plugins/bourgeon_opcodes.h (source unique) + docs/opcode_map.md.
+	MAX_PACKET_DB  = 0xFFF,
 #if !defined(MAX_PACKET_POS)
 	MAX_PACKET_POS = 20,
 #endif
@@ -1008,7 +1013,7 @@ void clif_skill_fail( const map_session_data& sd, uint16 skill_id, enum useskill
 void clif_skill_cooldown( map_session_data &sd, uint16 skill_id, t_tick tick );
 void clif_skill_damage( const block_list& src, const block_list& dst, t_tick tick, int32 sdelay, int32 ddelay, int64 sdamage, int16 div, uint16 skill_id, uint16 skill_lv, e_damage_type type);
 // Bourgeon DPS meter: flush the per-caster skill-unit damage accumulated during
-// a skill_unit_timer cycle into one ZC_BOURGEON_SKILL_DMG (0x0c22) packet each.
+// a skill_unit_timer cycle into one ZC_BOURGEON_SKILL_DMG (0x0F09) packet each.
 void clif_bourgeon_flush_skill_dmg();
 //int32 clif_skill_damage2(block_list *src,block_list *dst,t_tick tick,int32 sdelay,int32 ddelay,int32 damage,int32 div,uint16 skill_id,uint16 skill_lv,enum e_damage_type type);
 bool clif_skill_nodamage( const block_list* src, const block_list& dst, uint16 skill_id, int32 heal, bool success = true );
@@ -1541,15 +1546,15 @@ void clif_specialpopup(const map_session_data& sd, int32 id);
 void clif_bourgeon_settings(map_session_data* sd);
 // [Stingor] Re-sync autolootid list to client (clear + rebuild) — call after @alootid changes
 void clif_bourgeon_sync_alootid(map_session_data* sd);
-// [Stingor] Send preset list (ZC 0x0C21) to client — call after any preset DB change
+// [Stingor] Send preset list (ZC 0x0F07) to client — call after any preset DB change
 void clif_bourgeon_send_preset_list(map_session_data* sd);
-// [Stingor] Send Discord relay message (0x0C1F) to all players on gonryun
+// [Stingor] Send Discord relay message (0x0F08) to all players on gonryun
 void clif_bourgeon_discord_msg_all(const char* msg);
 // [Stingor] (Re)load conf/bourgeon_integrity.conf — called by admin INTEGRITY command
 void clif_bourgeon_integrity_reload();
 // [Stingor] Remove a player's MachineGuid from the online GUID map (call on logout)
 void clif_bourgeon_unregister_guid(int32 account_id);
-// [Stingor] Receive cheat detection report from a Bourgeon client (CZ 0x0C23)
+// [Stingor] Receive cheat detection report from a Bourgeon client (CZ 0x0F0A)
 void clif_parse_bourgeon_cheat_report(int32 fd, map_session_data* sd);
 
 #endif /* CLIF_HPP */
