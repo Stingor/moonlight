@@ -2019,7 +2019,7 @@ Body:
   - Id: 200029
     Group: Goal_Status
     Name: Incarnation of Love and Hate
-    Condition: " BaseLevel == 99 && Class == JOB_NOVICE "
+    Condition: " BaseLevel >= 99 && Class == JOB_NOVICE "
     Rewards:
       ItemID: Abrasive_Box_10
       Script: " specialeffect2 EF_BLESSING; sc_start SC_BLESSING,30000,10; "
@@ -2027,7 +2027,7 @@ Body:
   - Id: 200030
     Group: Goal_Status
     Name: I really love it!
-    Condition: " BaseLevel == 99 && (Class >= JOB_SWORDMAN && Class <= JOB_THIEF) "
+    Condition: " BaseLevel >= 99 && (Class >= JOB_SWORDMAN && Class <= JOB_THIEF) "
     Rewards:
       ItemID: Battle_Manual_X2
       Script: " specialeffect2 EF_BLESSING; sc_start SC_BLESSING,30000,10; "
