@@ -12271,7 +12271,12 @@ bool pc_equipitem(map_session_data *sd,int16 n,int32 req_pos,bool equipswitch)
 #ifdef RENEWAL
 			pos = (equip_index[EQI_HAND_R] >= 0 && equip_index[EQI_HAND_L] < 0) ? EQP_HAND_L : EQP_HAND_R;
 #else
-			pos = equip_index[EQI_HAND_R] >= 0 ? EQP_HAND_L : EQP_HAND_R;
+			// [moonlight] Dual-wield UX fix: use the renewal-style pick so double-clicking a weapon
+			// fills right, then left, then (both hands full) replaces the RIGHT/main hand instead of
+			// always the left. Drag onto a specific hand slot still targets it (single-bit req_pos
+			// skips this whole branch). Stock pre-re line was:
+			//   pos = equip_index[EQI_HAND_R] >= 0 ? EQP_HAND_L : EQP_HAND_R;
+			pos = (equip_index[EQI_HAND_R] >= 0 && equip_index[EQI_HAND_L] < 0) ? EQP_HAND_L : EQP_HAND_R;
 #endif
 	} else if(pos == EQP_SHADOW_ACC) { // Shadow System
 		pos = req_pos&EQP_SHADOW_ACC;
