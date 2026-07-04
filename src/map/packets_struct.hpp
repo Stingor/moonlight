@@ -6042,11 +6042,44 @@ struct PACKET_ZC_BOURGEON_TECHDATA {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_TECHDATA, 0x0f0c);
 
+// CZ (client -> server): estimate a skill's damage. Fixed 14.
+// Layout: [packetType:2][packetLength:2][skill_id:4][skill_lv:2][target_mob_id:4]
+//   skill_lv 0 = utiliser le niveau appris par le joueur (pc_checkskill).
+//   target_mob_id 0 = dummy neutre 0-def (dégâts bruts) ; sinon = vrai monstre
+//   (ses vrais def/mdef/élément/race/taille -> dégâts réels contre lui).
+struct PACKET_CZ_BOURGEON_REQ_DAMAGE {
+	int16  packetType;
+	int16  packetLength;
+	uint32 skill_id;
+	uint16 skill_lv;
+	uint32 target_mob_id;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_DAMAGE, 0x0f0d);
+
+// ZC (server -> client): estimated skill damage. VARIABLE length : les champs
+// fixes ci-dessous, PUIS [namelen:1][name] (nom du monstre, vide pour dummy/soi).
+// target_mob_id renvoyé en écho (0 = neutre, 0xFFFFFFFF = soi-même, sinon mob).
+// status: 0 = ok, 1 = sort non offensif, 2 = erreur. atk_type = BF_WEAPON/MAGIC/MISC.
+struct PACKET_ZC_BOURGEON_DAMAGE {
+	int16  packetType;
+	int16  packetLength;
+	uint32 skill_id;
+	uint16 skill_lv;
+	uint32 target_mob_id;
+	uint8  status;
+	uint8  atk_type;
+	uint16 hits;      // div_ (nombre de coups)
+	int64  dmg_min;
+	int64  dmg_max;
+	int64  dmg_avg;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_DAMAGE, 0x0f0e);
+
 // NOTE: there is no ZC_BOURGEON_MAP packet. The Bourgeon client reads the
 // current map name from the standard 0x0091 ZC_NPCACK_MAPMOVE packet instead.
 // Historique : les anciens opcodes 0x0BFx/0x0C2x partageaient des entrées du
 // client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans
-// la zone sûre 0x0F00+ (2026-07-03) ; prochain libre = 0x0F0D.
+// la zone sûre 0x0F00+ (2026-07-03) ; prochain libre = 0x0F0F.
 
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)

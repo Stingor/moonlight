@@ -4,6 +4,7 @@
 
 #include "clif.hpp"
 
+#include <cmath>
 #include <cstdarg>
 #include <cstdio>
 #include <cstdlib>
@@ -6110,28 +6111,160 @@ void clif_parse_bourgeon_reqtechdata(int32 fd, map_session_data* sd) {
 			memcpy(WFIFOP(fd, offset), e.name.c_str(), namelen); offset += namelen;
 		}
 	} else {
-		// Skill: [max_lv:1] then per level [cast_var:4][cast_fixed:4][cooldown:4][delay:4].
+		// Skill: [max_lv:1] then per level [cast_total:4][unused:4][cooldown:4][delay:4].
+		// Valeurs EFFECTIVES = EXACTEMENT ce que le vrai chemin de cast calcule
+		// (unit_skilluse) : skill_castfix -> skill_vfcastfix inclut DEX/INT + le
+		// varcast/fixcast du GEAR + les buffs (Sacrament, Bragi, etc.).
+		//  - cast total : skill_castfix + skill_vfcastfix ;
+		//  - cooldown : pc_get_skillcooldown (bonus items/cartes) ;
+		//  - délai : skill_delayfix (DEX/AGI + delay_rate + réductions).
 		const uint16 skid = static_cast<uint16>(req_id);
 		std::shared_ptr<s_skill_db> skdb = skill_db.find(skid);
 		int32 maxlv = (skdb != nullptr) ? skdb->max : 0;
 		if (maxlv < 0)  maxlv = 0;
 		if (maxlv > 20) maxlv = 20;  // sane cap
+
+		// skill_vfcastfix décrémente SC_MEMORIZE (Foresight) : on gèle son
+		// compteur pendant l'aperçu pour ne pas consommer le buff du joueur.
+		status_change* sc = status_get_sc(sd);
+		status_change_entry* mem = sc ? sc->getSCE(SC_MEMORIZE) : nullptr;
+		const int32 mem_bak = mem ? mem->val2 : 0;
+		if (mem) mem->val2 = 0x7fffffff;
+
 		WFIFOB(fd, offset) = static_cast<uint8>(maxlv); offset += 1;
 		for (int32 lv = 1; lv <= maxlv; lv++) {
-			WFIFOL(fd, offset) = skill_get_cast(skid, lv);       offset += 4;
+			int32 casttime = skill_castfix(sd, skid, lv);
 #ifdef RENEWAL_CAST
-			WFIFOL(fd, offset) = skill_get_fixed_cast(skid, lv);
+			casttime = skill_vfcastfix(sd, casttime, skid, lv);
 #else
-			WFIFOL(fd, offset) = 0;
+			casttime = skill_castfix_sc(sd, casttime, skill_get_castnodex(skid));
 #endif
-			offset += 4;
-			WFIFOL(fd, offset) = skill_get_cooldown(skid, lv);   offset += 4;
-			WFIFOL(fd, offset) = skill_get_delay(skid, lv);      offset += 4;
+			if (casttime < 0) casttime = 0;
+
+			WFIFOL(fd, offset) = casttime;                          offset += 4;  // cast total
+			WFIFOL(fd, offset) = 0;                                 offset += 4;  // (inutilisé)
+			WFIFOL(fd, offset) = pc_get_skillcooldown(sd, skid, lv); offset += 4;
+			WFIFOL(fd, offset) = skill_delayfix(sd, skid, lv);       offset += 4;
 		}
+		if (mem) mem->val2 = mem_bak;  // restaure Foresight
 	}
 
 	WFIFOW(fd, 2) = offset;  // packetLength
 	WFIFOSET(fd, offset);
+}
+
+// Estime les dégâts BRUTS (non réduits) d'un sort via battle_calc_attack contre
+// un dummy neutre construit ENTIÈREMENT en source (0 def/mdef, Neutral/Formless/
+// Medium ; aucune entrée mob_db, aucun spawn). Échantillonné pour min/max/moy.
+void clif_parse_bourgeon_reqdamage(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+	const PACKET_CZ_BOURGEON_REQ_DAMAGE* p =
+		reinterpret_cast<const PACKET_CZ_BOURGEON_REQ_DAMAGE*>(RFIFOP(fd, 0));
+	const uint16 skill_id      = static_cast<uint16>(p->skill_id);
+	const uint32 target_mob_id = p->target_mob_id;  // 0 = dummy neutre
+	uint16 skill_lv = p->skill_lv;
+
+	// Niveau : 0 = niveau appris par le joueur (sinon 1). Clampé au max du sort.
+	if (skill_lv == 0) {
+		skill_lv = pc_checkskill(sd, skill_id);
+		if (skill_lv == 0) skill_lv = 1;
+	}
+	std::shared_ptr<s_skill_db> skdb = skill_db.find(skill_id);
+	if (skdb != nullptr && skill_lv > skdb->max) skill_lv = skdb->max;
+	if (skill_lv < 1) skill_lv = 1;
+
+	WFIFOHEAD(fd, sizeof(PACKET_ZC_BOURGEON_DAMAGE) + 32);  // + [namelen:1][name]
+	PACKET_ZC_BOURGEON_DAMAGE* r =
+		reinterpret_cast<PACKET_ZC_BOURGEON_DAMAGE*>(WFIFOP(fd, 0));
+	r->packetType   = HEADER_ZC_BOURGEON_DAMAGE;
+	r->packetLength = sizeof(PACKET_ZC_BOURGEON_DAMAGE);
+	r->skill_id      = p->skill_id;
+	r->skill_lv      = skill_lv;
+	r->target_mob_id = target_mob_id;  // écho
+	r->status   = 0;
+	r->atk_type = 0;
+	r->hits     = 0;
+	r->dmg_min  = r->dmg_max = r->dmg_avg = 0;
+
+	// Sort non offensif -> pas de dégâts à estimer.
+	if (skill_id == 0 || skill_get_nk(skill_id, NK_NODAMAGE)) {
+		r->status = 1;
+		WFIFOSET(fd, sizeof(PACKET_ZC_BOURGEON_DAMAGE));
+		return;
+	}
+
+	const int32 atk_type = skill_get_type(skill_id);  // BF_WEAPON/MAGIC/MISC
+	r->atk_type = static_cast<uint8>(atk_type & 0xFF);
+
+	// Cible = block_list visé :
+	//  - target_mob_id == 0xFFFFFFFF -> SOI-MÊME (miroir PvP : src == target),
+	//    aucun mob créé (le joueur combat un clone de son build).
+	//  - target_mob_id == 0          -> dummy neutre BOURGEON_DMG_DUMMY (0 def).
+	//  - sinon                       -> vrai monstre (ses stats réels).
+	// Pour un mob on le CRÉE en mémoire (vd/sc/ud/db init par status_calc_mob)
+	// SANS map_addblock ni clif_spawn -> jamais visible ; unit_free nettoie.
+	const uint32 kTargetSelf = 0xFFFFFFFFu;
+	const int32  kDummyMobId = 3995;  // BOURGEON_DMG_DUMMY
+	mob_data*   md        = nullptr;  // créé seulement pour dummy/monstre
+	block_list* target_bl = sd;       // défaut = soi-même
+	std::string target_name;          // nom du monstre (vrai mob uniquement)
+	if (target_mob_id != kTargetSelf) {
+		const int32 use_mob_id = (target_mob_id != 0)
+			? static_cast<int32>(target_mob_id) : kDummyMobId;
+		md = mob_once_spawn_sub(sd, sd->m, sd->x, sd->y, "--ja--",
+			use_mob_id, "", 0, AI_NONE);
+		if (md == nullptr) {
+			r->status = 2;  // monstre/dummy introuvable (id invalide ?)
+			WFIFOSET(fd, sizeof(PACKET_ZC_BOURGEON_DAMAGE));
+			return;
+		}
+		status_set_viewdata(md, md->mob_id);   // vd
+		status_calc_mob(md, SCO_FIRST);        // status depuis la db (vrais stats)
+		// Dummy neutre uniquement : 0 def/mdef -> dégâts bruts non réduits.
+		if (target_mob_id == 0) {
+			md->status.def = 0;
+			md->status.def2  = 0;
+			md->status.mdef = 0;
+			md->status.mdef2 = 0;
+		} else {
+			target_name = md->name;  // vrai monstre -> on renvoie son nom
+		}
+		target_bl = md;
+	}
+
+	// Le weapon ATK a une plage aléatoire -> on échantillonne pour min/max/moy.
+	// battle_calc_attack calcule sans appliquer -> sûr d'appeler en boucle.
+	int64 dmin = 0x7fffffffffffffffLL, dmax = 0;
+	double sum = 0.0;
+	int16 hits = 1;
+	const int32 kSamples = 100;
+	for (int32 i = 0; i < kSamples; i++) {
+		Damage dmg = battle_calc_attack(atk_type, sd, target_bl,
+			skill_id, skill_lv, 0);
+		int64 total = dmg.damage + dmg.damage2;  // total (déjà tous les coups)
+		if (total < 0) total = 0;
+		if (total < dmin) dmin = total;
+		if (total > dmax) dmax = total;
+		sum += static_cast<double>(total);
+		hits = dmg.div_ > 0 ? dmg.div_ : 1;
+	}
+	if (dmin > dmax) dmin = dmax;
+	if (md) unit_free(md, CLR_OUTSIGHT);  // désenregistrement + free (mob only)
+
+	r->hits    = static_cast<uint16>(hits);
+	r->dmg_min = dmin;
+	r->dmg_max = dmax;
+	r->dmg_avg = static_cast<int64>(sum / kSamples + 0.5);
+
+	// Nom de la cible appended : [namelen:1][name] (vide pour dummy/soi-même).
+	const int16 base = sizeof(PACKET_ZC_BOURGEON_DAMAGE);
+	const uint8 nl = static_cast<uint8>(
+		target_name.size() > 24 ? 24 : target_name.size());
+	WFIFOB(fd, base) = nl;
+	if (nl) memcpy(WFIFOP(fd, base + 1), target_name.c_str(), nl);
+	r->packetLength = base + 1 + nl;
+	WFIFOSET(fd, base + 1 + nl);
 }
 
 void clif_parse_bourgeon_cheat_report(int32 fd, map_session_data* sd) {
