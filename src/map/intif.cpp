@@ -2194,6 +2194,7 @@ void intif_parse_achievements(int32 fd)
 			}
 
 			received[i].score = adb->score;
+			received[i].bound = adb->bound;
 
 			if (received[i].completed == 0) // Insert at the beginning
 				memcpy(&sd->achievement_data.achievements[sd->achievement_data.incompleteCount++], &received[i], sizeof(struct achievement));

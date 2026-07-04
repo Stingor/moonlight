@@ -25,6 +25,7 @@
 # - Id                  Achievement ID.
 #   Group               Achievement group type. (Defaut: None)
 #   Name                Achievement name.
+#   Unbound             Achievement is unbound. (Default: false)
 #   Targets:            List of targets the achievement requires. (Default: null)
 #     - Id              Index value used for import methods.
 #       Mob             Target mob. (Default: 0)
@@ -1808,6 +1809,7 @@ Body:
     Group: Goal_Level
     Name: Acquire the first aura!
     Condition: " BaseLevel >= 99 "
+    Unbound: true
     Rewards:
       Item: White_Slim_Pot_Box2
       Script: " specialeffect2 EF_BLESSING; sc_start SC_BLESSING,30000,10; "
@@ -1817,6 +1819,7 @@ Body:
     Group: Goal_Level
     Name: Acquire the second aura!
     Condition: " BaseLevel >= 150 "
+    Unbound: true
     Dependents:
       200000: true
     Rewards:
@@ -1828,10 +1831,11 @@ Body:
     Group: Goal_Level
     Name: Acquire the third aura!
     Condition: " BaseLevel >= 175 "
+    Unbound: true
     Dependents:
       200001: true
     Rewards:
-      ItemID: Advanced_Jao_King_Hat
+      Item: Advanced_Jao_King_Hat
       Script: " specialeffect2 EF_BLESSING; sc_start SC_BLESSING,30000,10; "
       TitleId: 1002
     Score: 70
@@ -1839,6 +1843,7 @@ Body:
     Group: Goal_Level
     Name: Master Job level!
     Condition: " JobLevel >= 50 "
+    Unbound: true
     Rewards:
       Item: Old_Violet_Box
       Script: " specialeffect2 EF_BLESSING; sc_start SC_BLESSING,30000,10; "
@@ -1850,8 +1855,9 @@ Body:
     Condition: " JobLevel >= 70 "
     Dependents:
       200003: true
+    Unbound: true
     Rewards:
-      ItemID: Old_Card_Album_
+      Item: Old_Card_Album_
       Script: " specialeffect2 EF_BLESSING; sc_start SC_BLESSING,30000,10; "
       TitleId: 1004
     Score: 50
@@ -1902,7 +1908,7 @@ Body:
     Name: Elite Adventurer! (1)
     Condition: " Class >= JOB_RUNE_KNIGHT && Class <= JOB_GUILLOTINE_CROSS "
     Rewards:
-      ItemID: Abrasive_Box_10
+      Item: Abrasive_Box_10
       Script: " specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,30000,10; "
     Score: 50
   - Id: 200012
@@ -1910,7 +1916,7 @@ Body:
     Name: Transcendentaler! (1)
     Condition: " Class >= JOB_RUNE_KNIGHT_T && Class <= JOB_GUILLOTINE_CROSS_T "
     Rewards:
-      ItemID: Abrasive_Box_10
+      Item: Abrasive_Box_10
       Script: " specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,30000,10; "
     Score: 60
   - Id: 200013
@@ -1918,7 +1924,7 @@ Body:
     Name: Elite Adventurer! (2)
     Condition: " Class >= JOB_ROYAL_GUARD && Class <= JOB_SHADOW_CHASER "
     Rewards:
-      ItemID: Abrasive_Box_10
+      Item: Abrasive_Box_10
       Script: " specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,30000,10; "
     Score: 50
   - Id: 200014
@@ -1926,7 +1932,7 @@ Body:
     Name: Transcendentaler! (2)
     Condition: " Class >= JOB_ROYAL_GUARD_T && Class <= JOB_SHADOW_CHASER_T "
     Rewards:
-      ItemID: Abrasive_Box_10
+      Item: Abrasive_Box_10
       Script: " specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,30000,10; "
     Score: 60
   - Id: 200015
@@ -1941,43 +1947,50 @@ Body:
     Name: This is My way!
     Condition: " Class == JOB_STAR_GLADIATOR || Class == JOB_SOUL_LINKER || Class == JOB_KAGEROU || Class == JOB_OBORO || Class == JOB_REBELLION "
     Rewards:
-      ItemID: Abrasive_Box_10
+      Item: Abrasive_Box_10
       Script: " specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,30000,10; "
     Score: 20
   - Id: 200017
     Group: Goal_Status
     Name: Bearish Power!
     Condition: " readparam(bStr) >= 90 "
+    Unbound: true
     Score: 10
   - Id: 200018
     Group: Goal_Status
     Name: Overflowing Magic!
     Condition: " readparam(bInt) >= 90 "
+    Unbound: true
     Score: 10
   - Id: 200019
     Group: Goal_Status
     Name: Healthy Body and Mental Health!
     Condition: " readparam(bVit) >= 90 "
+    Unbound: true
     Score: 10
   - Id: 200020
     Group: Goal_Status
     Name: Speed of Light
     Condition: " readparam(bAgi) >= 90 "
+    Unbound: true
     Score: 10
   - Id: 200021
     Group: Goal_Status
     Name: Hawk Eyes
     Condition: " readparam(bDex) >= 90 "
+    Unbound: true
     Score: 10
   - Id: 200022
     Group: Goal_Status
     Name: Maximum Luck
     Condition: " readparam(bLuk) >= 90 "
+    Unbound: true
     Score: 10
   - Id: 200023
     Group: Goal_Status
     Name: Dragonlike Power!
     Condition: " readparam(bStr) >= 125 "
+    Unbound: true
     Rewards:
       Script: " sc_start SC_GIANTGROWTH,180000,1; "
     Score: 20
@@ -1985,6 +1998,7 @@ Body:
     Group: Goal_Status
     Name: Magic Insanity
     Condition: " readparam(bInt) >= 125 "
+    Unbound: true
     Rewards:
       Script: " specialeffect2 EF_HASTEUP; bonus_script \"{ bonus2 bHPLossRate,100,10000; bonus bBaseAtk,20; bonus bAspdRate,25; }\",60,0,0,EFST_STEAMPACK; "
     Score: 20
@@ -1992,6 +2006,7 @@ Body:
     Group: Goal_Status
     Name: Rock Alloy
     Condition: " readparam(bVit) >= 125 "
+    Unbound: true
     Rewards:
       Script: " specialeffect2 EF_HEAL3; sc_start2 SC_S_LIFEPOTION,600000,-5,5; "
     Score: 20
@@ -1999,6 +2014,7 @@ Body:
     Group: Goal_Status
     Name: Speed of Light
     Condition: " readparam(bAgi) >= 125 "
+    Unbound: true
     Rewards:
       Script: " specialeffect2 EF_STEAL; sc_start SC_INCFLEE2,60000,20; "
     Score: 20
@@ -2006,6 +2022,7 @@ Body:
     Group: Goal_Status
     Name: Falcon's Eyes
     Condition: " readparam(bDex) >= 125 "
+    Unbound: true
     Rewards:
       Script: " specialeffect2 EF_MAGICALATTHIT; sc_start SC_INCCRI,300000,30; "
     Score: 20
@@ -2013,6 +2030,7 @@ Body:
     Group: Goal_Status
     Name: Lucky Fever
     Condition: " readparam(bLuk) >= 125 "
+    Unbound: true
     Rewards:
       Script: " specialeffect2 EF_GLORIA; sc_start SC_GLORIA,15000,0; "
     Score: 20
@@ -2021,7 +2039,7 @@ Body:
     Name: Incarnation of Love and Hate
     Condition: " BaseLevel >= 99 && Class == JOB_NOVICE "
     Rewards:
-      ItemID: Abrasive_Box_10
+      Item: Abrasive_Box_10
       Script: " specialeffect2 EF_BLESSING; sc_start SC_BLESSING,30000,10; "
     Score: 30
   - Id: 200030
@@ -2029,20 +2047,22 @@ Body:
     Name: I really love it!
     Condition: " BaseLevel >= 99 && (Class >= JOB_SWORDMAN && Class <= JOB_THIEF) "
     Rewards:
-      ItemID: Battle_Manual_X2
+      Item: Battle_Manual_X2
       Script: " specialeffect2 EF_BLESSING; sc_start SC_BLESSING,30000,10; "
     Score: 30
   - Id: 200031
     Group: Job_Change
     Name: Reborn in Valhalla!
     Condition: " Class == JOB_NOVICE_HIGH "
-    Reward:
+    Unbound: true
+    Rewards:
       Script: " specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,30000,10; "
     Score: 10
   - Id: 200032
     Group: Goal_Level
     Name: The start of another adventure!
     Condition: " BaseLevel >= 100 "
+    Unbound: true
     #Rewards:
     #  Item: Rebeginer_Box_100
     Score: 10
@@ -2050,24 +2070,27 @@ Body:
     Group: Goal_Level
     Name: Acquire level 600!
     Condition: " BaseLevel >= 600 "
-    Dependent:
-      - Id: 200002
-    Reward:
+    Unbound: true
+    Dependents:
+      200002: true
+    Rewards:
       Script: " specialeffect2 EF_BLESSING; sc_start SC_BLESSING,120000,15; "
     Score: 50
   - Id: 200034
     Group: Goal_Level
     Name: Acquire Max level!
     Condition: " BaseLevel >= 999 "
-    Dependent:
-      - Id: 200033
-    Reward:
+    Unbound: true
+    Dependents:
+      200033: true
+    Rewards:
       Script: " specialeffect2 EF_BLESSING; sc_start SC_BLESSING,120000,20; "
     Score: 50
   - Id: 200035
     Group: Goal_Level
     Name: Level 200 achieved!
     Condition: " BaseLevel >= 200 "
+    Unbound: true
     Rewards:
       Item: C_Magestic_Goat2
       Script: " specialeffect2 EF_BLESSING; sc_start SC_BLESSING,30000,10; "

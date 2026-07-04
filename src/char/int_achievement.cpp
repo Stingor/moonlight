@@ -20,12 +20,48 @@
 #include "int_mail.hpp"
 
 /**
- * Load achievements for a character.
+ * Resolve the account id that owns a character.
+ *
+ * Achievements are stored per account (account-wide progression), but the map
+ * server still addresses characters by char_id. This translates a char_id into
+ * its owning account_id so the achievement queries can key on the account.
  * @param char_id: Character ID
+ * @return Owning account ID, or 0 if it could not be resolved
+ */
+static uint32 mapif_achievement_account_id(uint32 char_id)
+{
+	uint32 account_id = 0;
+
+	if( SQL_ERROR == Sql_Query( sql_handle, "SELECT `account_id` FROM `%s` WHERE `char_id` = '%u'", schema_config.char_db, char_id ) ){
+		Sql_ShowDebug(sql_handle);
+		return 0;
+	}
+
+	if( SQL_SUCCESS == Sql_NextRow( sql_handle ) ){
+		char* data;
+
+		Sql_GetData( sql_handle, 0, &data, nullptr );
+		account_id = (uint32)strtoul( data, nullptr, 10 );
+	}
+
+	Sql_FreeResult( sql_handle );
+
+	return account_id;
+}
+
+/**
+ * Load achievements for a character.
+ *
+ * Returns both the character's own (player-bound) achievements and the
+ * achievements bound to its account (account-wide progression). By convention,
+ * player-bound rows are stored as (char_id=X, account_id=0) and account-bound
+ * rows as (char_id=0, account_id=A).
+ * @param char_id: Character ID
+ * @param account_id: Owning account ID (for account-bound achievements)
  * @param count: Pointer to return the number of found entries.
  * @return Array of found entries. It has *count entries, and it is care of the caller to aFree() it afterwards.
  */
-struct achievement *mapif_achievements_fromsql(uint32 char_id, int32 *count)
+struct achievement *mapif_achievements_fromsql(uint32 char_id, uint32 account_id, int32 *count)
 {
 	struct achievement *achievelog = nullptr;
 	struct achievement tmp_achieve;
@@ -42,7 +78,7 @@ struct achievement *mapif_achievements_fromsql(uint32 char_id, int32 *count)
 	StringBuf_AppendStr(&buf, "SELECT `id`, COALESCE(UNIX_TIMESTAMP(`completed`),0), COALESCE(UNIX_TIMESTAMP(`rewarded`),0)");
 	for (i = 0; i < MAX_ACHIEVEMENT_OBJECTIVES; ++i)
 		StringBuf_Printf(&buf, ", `count%d`", i + 1);
-	StringBuf_Printf(&buf, " FROM `%s` WHERE `char_id` = '%u'", schema_config.achievement_table, char_id);
+	StringBuf_Printf(&buf, " FROM `%s` WHERE `char_id` = '%u' OR (`char_id` = '0' AND `account_id` = '%u')", schema_config.achievement_table, char_id, account_id);
 
 	if( SQL_ERROR == stmt.PrepareStr(StringBuf_Value(&buf))
 	||  SQL_ERROR == stmt.Execute() )
@@ -75,20 +111,25 @@ struct achievement *mapif_achievements_fromsql(uint32 char_id, int32 *count)
 		}
 	}
 
-	ShowInfo("achievement load complete from DB - id: %d (total: %d)\n", char_id, *count);
+	ShowInfo("achievement load complete from DB - char: %d (total: %d)\n", char_id, *count);
 
 	return achievelog;
 }
 
 /**
  * Deletes an achievement from a character's achievementlog.
+ *
+ * Matches either the player-bound row (char_id=X) or the account-bound row
+ * (char_id=0, account_id=A) that carries this achievement id, so the caller
+ * does not have to know the achievement's binding.
  * @param char_id: Character ID
+ * @param account_id: Owning account ID
  * @param achievement_id: Achievement ID
  * @return false in case of errors, true otherwise
  */
-bool mapif_achievement_delete(uint32 char_id, int32 achievement_id)
+bool mapif_achievement_delete(uint32 char_id, uint32 account_id, int32 achievement_id)
 {
-	if (SQL_ERROR == Sql_Query(sql_handle, "DELETE FROM `%s` WHERE `id` = '%d' AND `char_id` = '%u'", schema_config.achievement_table, achievement_id, char_id)) {
+	if (SQL_ERROR == Sql_Query(sql_handle, "DELETE FROM `%s` WHERE `id` = '%d' AND (`char_id` = '%u' OR (`char_id` = '0' AND `account_id` = '%u'))", schema_config.achievement_table, achievement_id, char_id, account_id)) {
 		Sql_ShowDebug(sql_handle);
 		return false;
 	}
@@ -98,11 +139,16 @@ bool mapif_achievement_delete(uint32 char_id, int32 achievement_id)
 
 /**
  * Adds an achievement to a character's achievementlog.
+ *
+ * The achievement's binding (ad->bound, provided by the map server from the
+ * achievement database) decides how the row is keyed: account-bound rows are
+ * stored as (char_id=0, account_id=A), player-bound rows as (char_id=X, account_id=0).
  * @param char_id: Character ID
+ * @param account_id: Owning account ID
  * @param ad: Achievement data
  * @return false in case of errors, true otherwise
  */
-bool mapif_achievement_add(uint32 char_id, struct achievement* ad)
+bool mapif_achievement_add(uint32 char_id, uint32 account_id, struct achievement* ad)
 {
 	StringBuf buf;
 	int32 i;
@@ -115,11 +161,17 @@ bool mapif_achievement_add(uint32 char_id, struct achievement* ad)
 	}
 
 	StringBuf_Init(&buf);
-	StringBuf_Printf(&buf, "INSERT INTO `%s` (`char_id`, `id`, `completed`, `rewarded`", schema_config.achievement_table);
+	StringBuf_Printf(&buf, "INSERT INTO `%s` (`char_id`, `account_id`, `id`, `completed`, `rewarded`", schema_config.achievement_table);
 	for (i = 0; i < MAX_ACHIEVEMENT_OBJECTIVES; ++i)
 		StringBuf_Printf(&buf, ", `count%d`", i + 1);
 	StringBuf_AppendStr(&buf, ")");
-	StringBuf_Printf(&buf, " VALUES ('%u', '%d',", char_id, ad->achievement_id, (uint32)ad->completed, (uint32)ad->rewarded);
+	if( ad->bound == ACHIEVEMENT_BOUND_ACCOUNT ){
+		// Account-wide achievement: key on the account, char_id left at 0
+		StringBuf_Printf(&buf, " VALUES ('0', '%u', '%d',", account_id, ad->achievement_id);
+	}else{
+		// Player-bound achievement: key on the character, account_id left at 0
+		StringBuf_Printf(&buf, " VALUES ('%u', '0', '%d',", char_id, ad->achievement_id);
+	}
 	if( ad->completed ){
 		StringBuf_Printf(&buf, "FROM_UNIXTIME('%u'),", (uint32)ad->completed);
 	}else{
@@ -144,11 +196,15 @@ bool mapif_achievement_add(uint32 char_id, struct achievement* ad)
 
 /**
  * Updates an achievement in a character's achievementlog.
+ *
+ * Matches either the player-bound row (char_id=X) or the account-bound row
+ * (char_id=0, account_id=A) that carries this achievement id.
  * @param char_id: Character ID
+ * @param account_id: Owning account ID
  * @param ad: Achievement data
  * @return false in case of errors, true otherwise
  */
-bool mapif_achievement_update(uint32 char_id, struct achievement* ad)
+bool mapif_achievement_update(uint32 char_id, uint32 account_id, struct achievement* ad)
 {
 	StringBuf buf;
 	int32 i;
@@ -167,7 +223,7 @@ bool mapif_achievement_update(uint32 char_id, struct achievement* ad)
 	}
 	for (i = 0; i < MAX_ACHIEVEMENT_OBJECTIVES; ++i)
 		StringBuf_Printf(&buf, ", `count%d` = '%d'", i + 1, ad->count[i]);
-	StringBuf_Printf(&buf, " WHERE `id` = %d AND `char_id` = %u", ad->achievement_id, char_id);
+	StringBuf_Printf(&buf, " WHERE `id` = %d AND (`char_id` = %u OR (`char_id` = 0 AND `account_id` = %u))", ad->achievement_id, char_id, account_id);
 
 	if (SQL_ERROR == Sql_QueryStr(sql_handle, StringBuf_Value(&buf))) {
 		Sql_ShowDebug(sql_handle);
@@ -197,13 +253,20 @@ int32 mapif_parse_achievement_save(int32 fd)
 {
 	int32 i, j, k, old_n, new_n = (RFIFOW(fd, 2) - 8) / sizeof(struct achievement);
 	uint32 char_id = RFIFOL(fd, 4);
+	uint32 account_id = mapif_achievement_account_id(char_id);
 	struct achievement *old_ad = nullptr, *new_ad = nullptr;
 	bool success = true;
+
+	if( account_id == 0 ){
+		// Could not resolve the owning account: abort rather than risk writing with a wrong key
+		mapif_achievement_save(fd, char_id, false);
+		return 0;
+	}
 
 	if (new_n > 0)
 		new_ad = (struct achievement *)RFIFOP(fd, 8);
 
-	old_ad = mapif_achievements_fromsql(char_id, &old_n);
+	old_ad = mapif_achievements_fromsql(char_id, account_id, &old_n);
 
 	for (i = 0; i < new_n; i++) {
 		ARR_FIND(0, old_n, j, new_ad[i].achievement_id == old_ad[j].achievement_id);
@@ -211,7 +274,7 @@ int32 mapif_parse_achievement_save(int32 fd)
 			// Only counts, complete, and reward are changable.
 			ARR_FIND(0, MAX_ACHIEVEMENT_OBJECTIVES, k, new_ad[i].count[k] != old_ad[j].count[k]);
 			if (k != MAX_ACHIEVEMENT_OBJECTIVES || new_ad[i].completed != old_ad[j].completed || new_ad[i].rewarded != old_ad[j].rewarded) {
-				if ((success = mapif_achievement_update(char_id, &new_ad[i])) == false)
+				if ((success = mapif_achievement_update(char_id, account_id, &new_ad[i])) == false)
 					break;
 			}
 
@@ -222,14 +285,14 @@ int32 mapif_parse_achievement_save(int32 fd)
 			}
 		} else { // Add new achievements
 			if (new_ad[i].achievement_id) {
-				if ((success = mapif_achievement_add(char_id, &new_ad[i])) == false)
+				if ((success = mapif_achievement_add(char_id, account_id, &new_ad[i])) == false)
 					break;
 			}
 		}
 	}
 
 	for (i = 0; i < old_n; i++) { // Achievements not in new_ad but in old_ad are to be erased.
-		if ((success = mapif_achievement_delete(char_id, old_ad[i].achievement_id)) == false)
+		if ((success = mapif_achievement_delete(char_id, account_id, old_ad[i].achievement_id)) == false)
 			break;
 	}
 
@@ -247,8 +310,9 @@ int32 mapif_parse_achievement_save(int32 fd)
 void mapif_achievement_load( int32 fd, uint32 char_id ){
 	struct achievement *tmp_achievementlog = nullptr;
 	int32 num_achievements = 0;
+	uint32 account_id = mapif_achievement_account_id(char_id);
 
-	tmp_achievementlog = mapif_achievements_fromsql(char_id, &num_achievements);
+	tmp_achievementlog = mapif_achievements_fromsql(char_id, account_id, &num_achievements);
 
 	WFIFOHEAD(fd, num_achievements * sizeof(struct achievement) + 8);
 	WFIFOW(fd, 0) = 0x3862;
@@ -296,8 +360,9 @@ int32 mapif_parse_achievement_reward(int32 fd){
 	time_t current = time(nullptr);
 	uint32 char_id = RFIFOL(fd, 2);
 	int32 achievement_id = RFIFOL(fd, 6);
+	uint32 account_id = mapif_achievement_account_id(char_id);
 
-	if( Sql_Query( sql_handle, "UPDATE `%s` SET `rewarded` = FROM_UNIXTIME('%u') WHERE `char_id`='%u' AND `id` = '%d' AND `completed` IS NOT NULL AND `rewarded` IS NULL", schema_config.achievement_table, (uint32)current, char_id, achievement_id ) == SQL_ERROR ||
+	if( Sql_Query( sql_handle, "UPDATE `%s` SET `rewarded` = FROM_UNIXTIME('%u') WHERE (`char_id`='%u' OR (`char_id`='0' AND `account_id`='%u')) AND `id` = '%d' AND `completed` IS NOT NULL AND `rewarded` IS NULL", schema_config.achievement_table, (uint32)current, char_id, account_id, achievement_id ) == SQL_ERROR ||
 		Sql_NumRowsAffected(sql_handle) <= 0 ){
 		current = 0;
 	}else if( RFIFOW(fd,10) > 0 ){ // Do not send a mail if no item reward

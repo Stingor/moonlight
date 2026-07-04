@@ -96,6 +96,21 @@ uint64 AchievementDatabase::parseBodyNode(const ryml::NodeRef& node){
 		achievement->name = name;
 	}
 
+	if( this->nodeExists( node, "Unbound" ) ){
+		bool unbound;
+
+		if( !this->asBool( node, "Unbound", unbound ) ){
+			return 0;
+		}
+
+		// Achievements are account-bound by default; "Unbound: true" opts this
+		// achievement out so that its progress is tracked per character instead.
+		achievement->bound = unbound ? ACHIEVEMENT_BOUND_PLAYER : ACHIEVEMENT_BOUND_ACCOUNT;
+	}else{
+		if( !exists )
+			achievement->bound = ACHIEVEMENT_BOUND_ACCOUNT;
+	}
+
 	if( this->nodeExists( node, "Targets" ) ){
 		const auto& targets = node["Targets"];
 
@@ -472,6 +487,7 @@ struct achievement *achievement_add(map_session_data *sd, int32 achievement_id)
 
 	sd->achievement_data.achievements[index].achievement_id = achievement_id;
 	sd->achievement_data.achievements[index].score = adb->score;
+	sd->achievement_data.achievements[index].bound = adb->bound;
 	sd->achievement_data.save = true;
 
 	clif_achievement_update(sd, &sd->achievement_data.achievements[index], sd->achievement_data.count - sd->achievement_data.incompleteCount);
@@ -1180,6 +1196,7 @@ void do_final_achievement(void){
 s_achievement_db::s_achievement_db()
 	: achievement_id(0)
 	, name("")
+	, bound(ACHIEVEMENT_BOUND_ACCOUNT)
 	, group()
 	, targets()
 	, dependent_ids()

@@ -77,6 +77,7 @@ struct achievement_target {
 struct s_achievement_db {
 	uint32 achievement_id;
 	std::string name;
+	enum e_achievement_bound bound; // Whether progress is player- or account-bound
 	enum e_achievement_group group;
 	std::map<uint16, std::shared_ptr<achievement_target>> targets;
 	std::vector<uint32> dependent_ids;

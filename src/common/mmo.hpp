@@ -220,6 +220,15 @@ const t_itemid WEDDING_RING_F = 2635;
 #define MAX_ACHIEVEMENT_DEPENDENTS 20 /// Maximum different dependents in achievement_db.yml
 #define ACHIEVEMENT_NAME_LENGTH 50 /// Max Achievement Name length
 
+/// Achievement binding scope. Account-bound (shared across the whole account) is
+/// the DEFAULT; an achievement opts out with "Unbound: true" in achievement_db.yml
+/// to be tracked per character instead. ACCOUNT is value 0 so a zero-initialised
+/// entry defaults to the account-bound behaviour.
+enum e_achievement_bound : int32 {
+	ACHIEVEMENT_BOUND_ACCOUNT = 0, ///< Progress is shared across the whole account (default)
+	ACHIEVEMENT_BOUND_PLAYER,      ///< Progress is tracked per character (opt-out via "Unbound: true")
+};
+
 enum item_types {
 	IT_HEALING = 0,
 	IT_UNKNOWN, //1
@@ -297,6 +306,7 @@ struct achievement {
 	time_t completed;                      ///< Date completed
 	time_t rewarded;                       ///< Received reward?
 	int32 score;                             ///< Amount of points achievement is worth
+	enum e_achievement_bound bound;          ///< Player- or account-bound (from achievement DB; used for storage keying)
 };
 
 // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
