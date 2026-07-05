@@ -33,11 +33,9 @@ Header:
   Version: 1
 
 Body:
-  - Tab: Hot
+  - Tab: Consumables
     Items:
       - Item: Lucky_Candy  # Id: 570
-        Price: 1
-      - Item: Costume_Festival_Box  # Id: 14628
         Price: 1
       - Item: Bloody_Branch_Box  # Id: 12910
         Price: 2
@@ -46,13 +44,6 @@ Body:
       - Item: Convex_Mirror_Box  # Id: 12912
       - Item: Buy_Market_Permit  # Id: 6377
         Price: 5
-      - Item: C_Wing_Of_Fly  # Id: 12887
-        Price: 7
-      - Item: Magic_Card_Album  # Id: 12246
-      - Item: Boarding_Halter  # Id: 12622
-        Price: 10
-  - Tab: Scrolls
-    Items:
       - Item: Battle_Manual_X2  # Id: 14533
         Price: 3
       - Item: Bubble_Gum  # Id: 12210
@@ -61,14 +52,21 @@ Body:
         Price: 5
       - Item: Battle_Manual_X4  # Id: 14545
       - Item: Comp_Bubble_Gum  # Id: 12264
+      - Item: C_Wing_Of_Fly  # Id: 12887
+        Price: 7
+      - Item: Magic_Card_Album  # Id: 12246
   - Tab: Other
     Items:
+      - Item: Costume_Festival_Box  # Id: 14628
+        Price: 1
+      - Item: Boarding_Halter  # Id: 12622
+        Price: 10
       - Item: Change_Slot_Card  # Id: 12786
         Price: 2
       - Item: Change_Name_Card  # Id: 12790
         Price: 10
       - Item: Symbol_Of_Sun  # Id: 7086
-  - Tab: Permanent
+  - Tab: Hot
     Items:
       - Item: C_Little_Devil_Wings  # Id: 20502 | ViewID = 12
       - Item: C_Cupids_Pink_Wings  # Id: 20504 | ViewID = 14
@@ -2878,7 +2876,7 @@ Body:
       - Item: C_Lucky_Purse  # Id: 400588 | ViewID = 2493
       - Item: C_Clockwise  # Id: 400594 | ViewID = 2350
       - Item: C_Petit_Choco_Hat  # Id: 400596 | ViewID = 2498
-      - Item: Riot_Chip  # Id: 400607 | ViewID = 1201
+      - Item: aegis_400607  # Id: 400607 | ViewID = 1201
       - Item: C_Flower_S_Knit_Hat  # Id: 400635 | ViewID = 2516
       - Item: C_Octopus_Leg_I_M_V  # Id: 400655 | ViewID = 2401
         Price: 10
