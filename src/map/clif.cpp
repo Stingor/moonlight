@@ -12203,6 +12203,8 @@ void clif_parse_WantToConnection(int32 fd, map_session_data* sd)
 
 
 /// Notification from the client, that it has finished map loading and is about to display player's character (CZ_NOTIFY_ACTORINIT).
+void clif_grant_all_cash_emotions(map_session_data& sd);  // defined below
+
 /// 007d
 void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 {
@@ -12225,6 +12227,9 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 	}
 
 	sd->state.warping = 0;
+
+	// Unlock all cash emotions for free (permanent). Idempotent across warps.
+	clif_grant_all_cash_emotions(*sd);
 
 	// look
 #if PACKETVER < 4
@@ -13191,6 +13196,50 @@ void clif_parse_buy_cash_emotion(int32 fd, map_session_data *sd) {
 	p.has_count  = 0;
 	p.count      = 0;
 	clif_send(&p, sizeof(p), sd, SELF);
+}
+
+
+/// Broadcast a cash emotion (pack skin) to the area so all clients render it
+/// through the unified emote path with the correct pack_id.
+void clif_play_cash_emotion( block_list& bl, uint16 pack_id, uint16 emotion_id ){
+	PACKET_ZC_PLAY_CASH_EMOTION p{};
+	p.packetType = HEADER_ZC_PLAY_CASH_EMOTION;
+	p.GID        = bl.id;
+	p.pack_id    = pack_id;
+	p.emotion_id = emotion_id;
+	clif_send( &p, sizeof(p), &bl, AREA );
+}
+
+
+/// CZ_REQ_EMOTION_EXPANSION (0x0BE9) — client uses a cash emotion.
+/// Packet: {u16 op, u16 pack_id, u16 emotion_id}. Broadcast it back with the pack_id
+/// so the client renders the pack skin instead of a base emote.
+void clif_parse_cash_emotion_use(int32 fd, map_session_data* sd) {
+	if (sd == nullptr)
+		return;
+	uint16 pack_id    = RFIFOW(fd, 2);
+	uint16 emotion_id = RFIFOW(fd, 4);
+	clif_play_cash_emotion(*sd, pack_id, emotion_id);
+}
+
+
+/// Grant every cash-emotion pack to the player (permanent) so all cash emotes
+/// are usable for free. Client ownership lives in a "purchased" vector filled
+/// only by CCashEmotionMgr_MarkPackPurchased, driven by ZC_ACK_BUY_CASH_EMOTION
+/// (0x0BED). We simply replay that per pack id at login; has_count=0 means
+/// unlimited/permanent. The client de-dupes the vector so this is idempotent
+/// across warps. pack_id 0 = base emotes; bump the max if the client
+/// CashEmotionList lua defines more packs.
+void clif_grant_all_cash_emotions(map_session_data& sd) {
+	constexpr uint16 kMaxCashEmotionPack = 16;
+	for (uint16 pack_id = 1; pack_id <= kMaxCashEmotionPack; pack_id++) {
+		PACKET_ZC_ACK_BUY_CASH_EMOTION p{};
+		p.packetType = HEADER_ZC_ACK_BUY_CASH_EMOTION;
+		p.pack_id    = pack_id;
+		p.has_count  = 0;  // 0 = unlimited / permanent
+		p.count      = 0;
+		clif_send(&p, sizeof(p), &sd, SELF);
+	}
 }
 
 

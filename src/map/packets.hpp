@@ -2054,6 +2054,17 @@ struct PACKET_ZC_ACK_BUY_CASH_EMOTION {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_ACK_BUY_CASH_EMOTION, 0xBED)
 
+// Server -> clients: play a cash emotion (pack skin) on an actor.
+// The client render is unified: pack_id 0 = base emote.spr, pack_id N = cash pack sprite.
+// Opcode is a CANDIDATE to confirm live (client already has the receive handler @0x00c4b3xx).
+struct PACKET_ZC_PLAY_CASH_EMOTION {
+	int16  packetType;
+	uint32 GID;
+	uint16 pack_id;
+	uint16 emotion_id;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_PLAY_CASH_EMOTION, 0xBEA)
+
 struct PACKET_ZC_DISAPPEAR_ENTRY{
 	int16 packetType;
 	int32 GID;
