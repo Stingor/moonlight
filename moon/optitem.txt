@@ -1,0 +1,35 @@
+//===== moonlight custom NPC ================================
+//= @optitem  (outil de TEST GM)
+//===== Description =========================================
+//= Donne un item avec 3 random options fixes, pour tester
+//= l'affichage des options (ex: plugin Bourgeon item_desc).
+//=   Options: STR +5 (id 3), MaxHP +500 (id 1), ATK +10% (id 13)
+//= Usage: @optitem <item_id> [refine]
+//===========================================================
+-	script	optitem_atcmd	-1,{
+
+OnInit:
+	bindatcmd "optitem", strnpcinfo(3)+"::OnCommand", 60, 60;
+	end;
+
+OnCommand:
+	if (.@atcmd_numparameters < 1) {
+		message strcharinfo(0), "Usage: @optitem <item_id> [refine]";
+		end;
+	}
+	.@id     = atoi(.@atcmd_parameters$[0]);
+	.@refine = (.@atcmd_numparameters >= 2) ? atoi(.@atcmd_parameters$[1]) : 0;
+	if (.@id <= 0) {
+		message strcharinfo(0), "@optitem: ID d'item invalide.";
+		end;
+	}
+
+	// 3 random options de test (id = index client -> nom resolu cote client).
+	setarray .@optid[0],    3,   1,  13;   // VAR_STRAMOUNT, VAR_MAXHPAMOUNT, VAR_ATKPERCENT
+	setarray .@optval[0],   5, 500,  10;
+	setarray .@optparam[0], 0,   0,   0;
+
+	getitem3 .@id, 1, 1, .@refine, 0, 0, 0, 0, 0, .@optid, .@optval, .@optparam;
+	message strcharinfo(0), "@optitem: item "+.@id+" donne avec STR+5, MaxHP+500, ATK+10%.";
+	end;
+}
