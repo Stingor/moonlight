@@ -5316,8 +5316,8 @@ void clif_bourgeon_storage_prices(map_session_data* sd, const struct item* items
 	for (int32 i = 0; i < items_length; ++i)
 		if (items[i].nameid != 0) ++count;
 
-	// [type:2][len:2][count:2] + n*[id:4][sell:4][subtype:1][equip:4] = 6 + n*13
-	const int16 pkt_len = static_cast<int16>(6 + count * 13);
+	// [type:2][len:2][count:2] + n*[id:4][sell:4][subtype:1][equip:4][slots:2] = 6 + n*15
+	const int16 pkt_len = static_cast<int16>(6 + count * 15);
 	WFIFOHEAD(fd, pkt_len);
 	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_STORAGE_PRICES;
 	WFIFOW(fd, 2) = pkt_len;
@@ -5330,7 +5330,8 @@ void clif_bourgeon_storage_prices(map_session_data* sd, const struct item* items
 		WFIFOL(fd, offset + 4) = id ? static_cast<uint32>(id->value_sell) : 0;
 		WFIFOB(fd, offset + 8) = id ? id->subtype : 0;                 // type d'arme/munition
 		WFIFOL(fd, offset + 9) = id ? id->equip : 0;                   // masque slot d'équip
-		offset += 13;
+		WFIFOW(fd, offset + 13) = id ? id->slots : 0;                  // nb de slots de carte
+		offset += 15;
 	}
 	WFIFOSET(fd, pkt_len);
 }
