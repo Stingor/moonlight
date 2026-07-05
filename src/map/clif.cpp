@@ -5981,6 +5981,25 @@ static void clif_bourgeon_grant_verified(map_session_data* sd) {
 	clif_bourgeon_send_preset_list(sd);
 }
 
+// ── TRANSITION cutover opcodes 0x0F00+ (2026-07) ─────────────────────────────
+// Un client qui envoie encore l'ANCIEN opcode d'intégrité (0x0BFB) tourne sur une
+// DLL Bourgeon pré-migration. Son overlay écoute l'ANCIEN kick-notice (0x0BFA), PAS
+// le nouveau 0x0F03 — il faut donc lui répondre sur l'ancien opcode, sinon il subit
+// une déconnexion « paquet inconnu » silencieuse sans popup « mets à jour ». On lui
+// renvoie le kick-notice legacy brut (4 o) puis on kicke après 5 s (même chemin que
+// la branche outdated). À RETIRER une fois la playerbase migrée (patcher-enforced).
+void clif_parse_bourgeon_integrity_legacy(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	ShowWarning("Bourgeon: legacy integrity opcode 0x0BFB from %s (AID %d) — pre-migration client, kicking with update notice.\n",
+		sd->status.name, sd->status.account_id);
+	// ANCIEN ZC_BOURGEON_KICK_NOTICE opcode 0x0BFA, 4 octets : ce que l'ancien overlay écoute.
+	WFIFOHEAD(fd, 4);
+	WFIFOW(fd, 0) = 0x0bfa;
+	WFIFOW(fd, 2) = 4;
+	WFIFOSET(fd, 4);
+	add_timer(gettick() + 5000, clif_bourgeon_integrity_kick_timer, sd->id, 0);
+}
+
 // Handles the client's integrity report (CZ 0x0F02):
 //   [type:2][len:2][sha256:32][machine_guid:36]
 //
