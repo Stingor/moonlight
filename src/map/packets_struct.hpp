@@ -6075,6 +6075,18 @@ struct PACKET_ZC_BOURGEON_DAMAGE {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_DAMAGE, 0x0f0e);
 
+// ZC (server -> client): prix de vente NPC des items du storage. VARIABLE.
+// Layout: [packetType:2][packetLength:2][count:2] puis count * [id:4][sell:4].
+// Envoyé juste après clif_storagelist (perso/guilde/premium) ; le viewer Bourgeon
+// calcule la valeur totale (sell * quantité) + affiche une colonne prix.
+// Dédupliqué par nameid côté serveur (le prix de vente est par-id).
+struct PACKET_ZC_BOURGEON_STORAGE_PRICES {
+	int16 packetType;
+	int16 packetLength;
+	int16 count;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_STORAGE_PRICES, 0x0f0f);
+
 // NOTE: there is no ZC_BOURGEON_MAP packet. The Bourgeon client reads the
 // current map name from the standard 0x0091 ZC_NPCACK_MAPMOVE packet instead.
 // Historique : les anciens opcodes 0x0BFx/0x0C2x partageaient des entrées du

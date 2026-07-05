@@ -1544,6 +1544,8 @@ void clif_specialpopup(const map_session_data& sd, int32 id);
 
 // [Stingor] Bourgeon settings sync
 void clif_bourgeon_settings(map_session_data* sd);
+// [Stingor] Bourgeon storage sell-prices (ZC 0x0F0F) — call after clif_storagelist
+void clif_bourgeon_storage_prices(map_session_data* sd, const struct item* items, int32 items_length);
 // [Stingor] Re-sync autolootid list to client (clear + rebuild) — call after @alootid changes
 void clif_bourgeon_sync_alootid(map_session_data* sd);
 // [Stingor] Send preset list (ZC 0x0F07) to client — call after any preset DB change

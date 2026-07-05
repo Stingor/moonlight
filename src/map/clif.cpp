@@ -5021,6 +5021,10 @@ void clif_storageitemadded( const map_session_data* sd, const item* i, int32 ind
 #endif
 
 	clif_send( &p, sizeof( p ), sd, SELF );
+
+	// [Stingor] Bourgeon : pousse le prix de vente du nouvel item pour que le
+	// viewer connaisse sa valeur immédiatement (sans rouvrir le storage).
+	clif_bourgeon_storage_prices( const_cast<map_session_data*>( sd ), i, 1 );
 }
 
 
@@ -5290,6 +5294,43 @@ void clif_bourgeon_sync_alootid(map_session_data* sd) {
 		WFIFOW(fd, offset)     = BOURGEON_SETTING_ALOOT_ID;
 		WFIFOL(fd, offset + 2) = (uint32)(sd->state.autolootid[i]);
 		offset += 6;
+	}
+	WFIFOSET(fd, pkt_len);
+}
+
+// ── Bourgeon storage sell-prices (ZC 0x0F0F) ────────────────────────────────
+// Envoie le prix de vente NPC (value_sell) des items du storage, dédupliqué par
+// nameid (le prix est par-id), juste après clif_storagelist. Le viewer Bourgeon
+// calcule la valeur totale (sell * quantité) + affiche une colonne prix.
+void clif_bourgeon_storage_prices(map_session_data* sd, const struct item* items,
+                                  int32 items_length) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+	const int32 fd = sd->fd;
+	if (!session_isActive(fd)) return;
+
+	// Métadonnées par-slot (doublons possibles) ; le client dédup via sa map id->meta.
+	// Par item : prix de vente + subtype (type d'arme/munition) + equip (masque slot),
+	// pour les sous-catégories du viewer (armes par type, armures par slot, etc.).
+	int16 count = 0;
+	for (int32 i = 0; i < items_length; ++i)
+		if (items[i].nameid != 0) ++count;
+
+	// [type:2][len:2][count:2] + n*[id:4][sell:4][subtype:1][equip:4] = 6 + n*13
+	const int16 pkt_len = static_cast<int16>(6 + count * 13);
+	WFIFOHEAD(fd, pkt_len);
+	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_STORAGE_PRICES;
+	WFIFOW(fd, 2) = pkt_len;
+	WFIFOW(fd, 4) = count;
+	int32 offset = 6;
+	for (int32 i = 0; i < items_length; ++i) {
+		if (items[i].nameid == 0) continue;
+		struct item_data* id = itemdb_search(items[i].nameid);
+		WFIFOL(fd, offset)     = items[i].nameid;
+		WFIFOL(fd, offset + 4) = id ? static_cast<uint32>(id->value_sell) : 0;
+		WFIFOB(fd, offset + 8) = id ? id->subtype : 0;                 // type d'arme/munition
+		WFIFOL(fd, offset + 9) = id ? id->equip : 0;                   // masque slot d'équip
+		offset += 13;
 	}
 	WFIFOSET(fd, pkt_len);
 }
