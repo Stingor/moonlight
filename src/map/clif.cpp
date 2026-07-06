@@ -12228,8 +12228,12 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 
 	sd->state.warping = 0;
 
-	// Unlock all cash emotions for free (permanent). Idempotent across warps.
-	clif_grant_all_cash_emotions(*sd);
+	// Unlock all cash emotions for free (permanent). ONE grant per map-server
+	// connection only (connect_new) : the client remembers ownership for its
+	// process lifetime, so re-sending on every warp just spams the client with
+	// "Successfully purchased emotion." (one line per pack) at each clif_changemap.
+	if (sd->state.connect_new)
+		clif_grant_all_cash_emotions(*sd);
 
 	// look
 #if PACKETVER < 4
