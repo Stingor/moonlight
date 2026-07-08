@@ -1,4 +1,8 @@
 //===== Moonlight-Destiny ====================================
+function	script	erasearray	{
+	while( size(getarg(0)) ) arraypop(getarg(0));
+	return;
+}
 
 function	script	MissionMVP	{
 	if( !playerattached() ) return;
