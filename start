@@ -26,6 +26,26 @@ get_status(){
 	#return ${PSRUN} #seems to cause an issue for some os
 }
 
+# Wait for a server to fully stop after a kill, showing a single
+# self-refreshing progress line (elapsed time) instead of spamming.
+wait_stop(){
+	srv=$1
+	waited=0
+	PSRUN=""
+	get_status ${srv}
+	while [ -n "${PSRUN}" ]; do
+		printf "\r  waiting for '%s' (p%s) to shut down... %ds  " "${srv}" "${PSRUN}" "${waited}"
+		sleep 1
+		waited=$((waited+1))
+		get_status ${srv}
+	done
+	if [ ${waited} -gt 0 ]; then
+		printf "\r  '%s' stopped after %ds.%s\n" "${srv}" "${waited}" "                              "
+	else
+		echo "  '${srv}' stopped."
+	fi
+}
+
 #checking if already started, launch and mark in log
 start_serv(){ 
 	get_status $1
@@ -89,19 +109,15 @@ watch_serv(){
 restart(){
 	$0 stop
 	if [ $1 ]; then sleep $1; fi
+	# 'stop' already waited for every server to end; just confirm they are
+	# down and clean up any leftover fifo before restarting.
 	for i in ${L_SRV} ${C_SRV} ${M_SRV}
 	do
-		FIFO="$1_fifo"
-		while true; do
-			get_status ${i}
-			if [ ${PSRUN} ]; then echo "'${i}' is still running p${PSRUN} waiting for the process to end"; sleep 10;
-			else 
-				if [ -e ./${FIFO} ]; then rm "$FIFO"; fi
-				break
-			fi
-		done
+		FIFO="${i}_fifo"
+		wait_stop ${i}
+		if [ -e ./${FIFO} ]; then rm "$FIFO"; fi
 	done
-  $0 start
+	$0 start
 }
 
 case $1 in
@@ -140,19 +156,14 @@ case $1 in
 		do
 			PIDFILE=.${i}.pid
 			if [ -e ./${PIDFILE} ]; then
-				kill $(cat ${PIDFILE})
-				
-				while true; do
-					get_status ${i}
-					if [ ${PSRUN} ]; then echo "'${i}' is still running p${PSRUN} waiting for the process to end"; sleep 1;
-					else
-						break
-					fi
-				done
-				
+				SVPID=$(cat ${PIDFILE})
+				echo "Stopping '${i}' (p${SVPID}) - saving data & cleaning up, this can take a while..."
+				kill ${SVPID} 2>/dev/null
+				wait_stop ${i}
 				rm ${PIDFILE}
 			fi
 		done
+		echo "rAthena was stopped."
 	;;
 	'restart')
 		 restart
