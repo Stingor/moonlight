@@ -973,7 +973,7 @@ L_Autre:
 	clear;
 	mes .@npc_name$;
 	mes "Sélectionnez la destination de votre choix :";
-	switch( select("• Forge:• Shop armement:• Eden Group:• Flame Bassin:• Mid Camp:• Seals:• Yggdrasil:• ^e64c00Menu Précédent.^000000") ) {
+	switch( select("• Forge:• Shop armement:• Eden Group:• Flame Bassin:• Mid Camp:• Seals:• Yggdrasil:• Rebellion Base:• ^e64c00Menu Précédent.^000000") ) {
 		case 1: warp_fct("gon_in", 94, 21);
 		case 2: warp_fct("gon_in", 163, 23);
 		case 3: warp_fct("moc_para01", 31, 14);
@@ -981,6 +981,13 @@ L_Autre:
 		case 5: warp_fct("mid_camp", 220, 235);
 		case 6: warp_fct("cmd_fild02", 193, 169);
 		case 7: warp_fct("yggdrasil01", 52, 63);
+        case 8:
+            if (terra_gloria_main > 14)
+                warp_fct("rebel_in", 40,43);
+            else{
+                mes "You don't have access to the Rebellion Base.";
+                close;
+            }
 		default: goto L_warpa;
 	}
 	end;
