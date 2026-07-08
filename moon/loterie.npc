@@ -1,0 +1,137 @@
+//===== Moonlight-Destiny ==========================================//
+//==================================================================//
+//																	//
+// NPC ZenyMillions													//
+//																	//
+//==================================================================//
+//																	//
+// Par Spider pour Moonlight Destiny								//
+// (revu / corrigé)													//
+//																	//
+//==================================================================//
+//																	//
+// Le NPC ZenyMillions de Gonryun permet de participer une fois		//
+//																	//
+// par jour à la grande loterie pour tenter de gagner la cagnotte.	//
+//																	//
+//==================================================================//
+
+
+
+
+gonryun,175,123,3	script	ZenyMillions	803,{
+
+	mes "[ZenyMillions]";
+	mes "Pour participer à la loterie, achetez un billet à 1.000.000z.";
+	mes "Le gagnant remporte la cagnotte ! En cas de perte, votre mise";
+	mes "est ajoutée à la cagnotte. Une participation par jour.";
+	mes "La cagnotte est de : "+ $Cagnotte_ZenyMillions +"z !!";
+
+	switch( select("Participer","Non merci") ) {
+	case 1:
+		// Solde suffisant ? Sinon le prélèvement échoue silencieusement
+		// (le setter refuse un Zeny négatif) => le joueur jouerait gratuitement.
+		if (Zeny < 1000000) {
+			clear;
+			mes "[ZenyMillions]";
+			mes "Il te faut 1.000.000z pour un billet.";
+			close;
+		}
+		// Déjà joué aujourd'hui ? (compteur ET index en .@i)
+		for ( .@i = 0; .@i < getarraysize($Players_ZenyMillions); .@i++ ) {
+			if ($Players_ZenyMillions[.@i] == getcharid(3)) {
+				clear;
+				mes "[ZenyMillions]";
+				mes "Une seule participation par jour.";
+				close;
+			}
+		}
+		// Paiement puis inscription
+		Zeny -= 1000000;
+		arraypush $Players_ZenyMillions, getcharid(3);
+
+		// --- Resolution ATOMIQUE : tirage + tout le calcul d'argent AVANT le moindre
+		// --- yield (next/sleep2). Une deconnexion pendant l'animation ne peut plus
+		// --- separer le paiement du resultat (anti perte de mise / de cagnotte).
+		.@mon_numero = rand(1,100);
+		.@numero_gagnant = $Numero_Gagnant;
+		.@win = (.@mon_numero == $Numero_Gagnant);
+		if (.@win) {
+			.@gain = $Cagnotte_ZenyMillions;
+			$Cagnotte_ZenyMillions = 20000000;
+			$Numero_Gagnant = rand(1,100);
+
+			// Vérif zeny, sinon envoi par courrier
+			if (Zeny + .@gain < MAX_ZENY)
+				Zeny += .@gain;
+			else {
+				mail getcharid(0), "ZenyMillions", "Cagnotte", "Félicitations vous avez remporté "+ .@gain +"z", .@gain;
+				.@mailed = 1;
+			}
+
+			logmes "a gagné la cagnotte ZenyMillions de "+ .@gain +"z";
+			announce ""+ strcharinfo(0) +" vient de gagner la cagnotte ZenyMillions !!", bc_all;
+		} else {
+			$Cagnotte_ZenyMillions += 1000000;
+		}
+
+		// --- A partir d'ici : purement cosmetique, les yields sont sans risque ---
+		clear;
+		mes "[ZenyMillions]";
+		mes "Bonne chance !";
+		next;
+
+		if (.@win) {
+			clear;
+			mes "[ZenyMillions]";
+			mes "Le numéro gagnant est le : "+ .@mon_numero;
+			mes "Tirage en cours...";
+			sleep2 1000;
+			mes "Votre numéro est le : "+ .@mon_numero;
+			mes "Félicitations !!!";
+			mes "Vous venez de gagner la cagnotte de "+ .@gain +"z !";
+			if (.@mailed)
+				dispbottom "Les zenys vous ont été envoyés par courrier (RodEx) car vous êtes déjà très riche !!";
+
+			// Célébration sur le NPC et le joueur
+			for ( .@j = 0; .@j < 3; .@j++ ) {
+				specialeffect 709;
+				sleep2 200;
+			}
+			close2;
+			specialeffect2 68;
+			for ( .@j = 0; .@j < 3; .@j++ ) {
+				specialeffect 709;
+				sleep2 200;
+			}
+			end;
+		}
+		// PERDANT
+		clear;
+		mes "[ZenyMillions]";
+		mes "Le numéro gagnant est le : "+ .@numero_gagnant;
+		mes "Votre numéro est le : "+ .@mon_numero;
+		mes "C'est perdu quel dommage !";
+		mes "Un million de zenys est ajouté à la cagnotte.";
+		close;
+
+	case 2:
+		// Refus de participation
+		mes "[ZenyMillions]";
+		mes "A la prochaine !";
+		close;
+	}
+	end;   // garde-fou : évite de tomber dans OnInit si un chemin oublie close/end
+
+// Reset quotidien fiable, déclenché par l'horloge du serveur à minuit.
+OnClock0000:
+	erasearray $Players_ZenyMillions; // vide le tableau des joueurs ayant participé
+	end;
+
+OnInit:
+	if ($Cagnotte_ZenyMillions < 20000000)
+		$Cagnotte_ZenyMillions = 20000000;
+	if ($Numero_Gagnant == 0)
+		$Numero_Gagnant = rand(1,100);
+	end;
+}
