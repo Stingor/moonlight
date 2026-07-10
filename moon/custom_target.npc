@@ -1,0 +1,253 @@
+//===== Moonlight-Destiny ======================================//
+//==============================================================//
+//																//
+// NPC Custom Target											//
+//																//
+//==============================================================//
+//																//
+// Par Spider pour Moonlight Destiny							//
+//																//
+//==============================================================//
+//																//
+// Le NPC Custom Target permet de spawn des mobs paramétrables 	//
+//																//
+// en Test Room et d'avoir diverses actions sur eux.			//
+//																//
+//==============================================================//
+
+
+
+
+pvp_n_5-5,99,100,4	script	Custom Target	402,{
+	// Choix parmi 10 slots
+	mes "[Custom Target]";
+	mes "Je peux spawner un mob customisé";
+	mes "Tu peux heal, voir les infos, localiser ou détruire un mob existant";
+	switch(select("1 - "+ .CT_State$[0],"2 - "+ .CT_State$[1],"3 - "+ .CT_State$[2],"4 - "+ .CT_State$[3],"5 - "+ .CT_State$[4],"6 - "+ .CT_State$[5],"7 - "+ .CT_State$[6],"8 - "+ .CT_State$[7],"9 - "+ .CT_State$[8],"10 - "+ .CT_State$[9],"Fermer")){
+		case 1: callsub S_IsFree,0;
+		case 2: callsub S_IsFree,1;
+		case 3: callsub S_IsFree,2;
+		case 4: callsub S_IsFree,3;
+		case 5: callsub S_IsFree,4;
+		case 6: callsub S_IsFree,5;
+		case 7: callsub S_IsFree,6;
+		case 8: callsub S_IsFree,7;
+		case 9: callsub S_IsFree,8;
+		case 10: callsub S_IsFree,9;
+		default: break;
+	}
+	close;
+
+// Check si création ou intéraction
+S_IsFree:
+	.@i = getarg(0);
+	clear;
+	mes "[Menu Mob " + .@i + "]";
+	// Si libre
+	if (.CT_State$[.@i] == "Libre")
+		// Création du mob
+		callsub S_Create,.@i;
+	else { // Si occupé
+		// Heal - infos - localisation - desrtuction - close
+		switch(select("Heal", "Infos", "Localiser", "Détruire", "Fermer")) {
+			case 1: callsub S_Heal,.@i;
+			case 2:	callsub S_Infos,.@i;
+			case 3: callsub S_Locate,.@i;
+			case 4: callsub S_Destroy,.@i;
+			default: break;
+		}
+	}
+	close;
+
+// Création et customisation du mob
+S_Create:
+	.@i = getarg(0);
+	mes "Taille du mob ?";
+	switch(select("Small", "Medium", "Large")) {
+		case 1:
+			.CT_Size[.@i] = 0;
+			.CT_SizeName$[.@i] = "S";
+			.CT_Size$[.@i] = "Small";
+		break;
+		case 2:
+			.CT_Size[.@i] = 1;
+			.CT_SizeName$[.@i] = "M";
+			.CT_Size$[.@i] = "Medium";
+		break;
+		case 3:
+			.CT_Size[.@i] = 2;
+			.CT_SizeName$[.@i] = "L";
+			.CT_Size$[.@i] = "Large";
+		break;
+	}
+	clear;
+	mes "Taille : " + .CT_Size$[.@i];
+	mes "Classe du mob ?";
+	switch(select("Normal", "Boss")) {
+		case 1:
+			.CT_ID[.@i] = 2408;
+			.CT_Classe$[.@i] = "Normal";
+		break;
+		case 2:
+			.CT_ID[.@i] = 2409;
+			.CT_Classe$[.@i] = "Boss";
+		break;
+	}
+	clear;
+	mes "Classe : " + .CT_Classe$[.@i];
+	mes "Def du mob entre 0 et 100 ?";
+	input .CT_Def[.@i], 0, 100;
+	if (.CT_Def[.@i] < 0 || .CT_Def[.@i] > 100) {
+		mes "J'ai dit entre 0 et 100 !";
+		close;
+	}
+	clear;
+	mes "Def : "+ .CT_Def[.@i];
+	mes "Mdef du mob entre 0 et 100 ?";
+	input .CT_Mdef[.@i], 0, 100;
+	if (.CT_Mdef[.@i] < 0 || .CT_Mdef[.@i] > 100) {
+		mes "J'ai dit entre 0 et 100 !";
+		close;
+	}
+	clear;
+	mes "Mdef : " + .CT_Mdef[.@i];
+	mes "Elément du mob ?";
+	mes "<URL>Tables des éléments<INFO>https://ratemyserver.net/index.php?page=misc_table_attr</INFO></URL>";
+	switch(select("Neutral", "Water", "Earth", "Fire", "Wind", "Poison", "Holy", "Shadow", "Ghost", "Undead")){
+		case 1: .CT_Element$[.@i] = "Neutral"; .CT_EleType[.@i] = Ele_Neutral; break;
+		case 2: .CT_Element$[.@i] = "Water"; .CT_EleType[.@i] = Ele_Water; break;
+		case 3: .CT_Element$[.@i] = "Earth"; .CT_EleType[.@i] = Ele_Earth; break;
+		case 4: .CT_Element$[.@i] = "Fire"; .CT_EleType[.@i] = Ele_Fire; break;
+		case 5: .CT_Element$[.@i] = "Wind"; .CT_EleType[.@i] = Ele_Wind; break;
+		case 6: .CT_Element$[.@i] = "Poison"; .CT_EleType[.@i] = Ele_Poison; break;
+		case 7: .CT_Element$[.@i] = "Holy"; .CT_EleType[.@i] = Ele_Holy; break;
+		case 8: .CT_Element$[.@i] = "Shadow"; .CT_EleType[.@i] = Ele_Dark; break;
+		case 9: .CT_Element$[.@i] = "Ghost"; .CT_EleType[.@i] = Ele_Ghost; break;
+		case 10: .CT_Element$[.@i] = "Undead"; .CT_EleType[.@i] = Ele_Undead; break;
+	}
+	clear;
+	mes "Elément : "+ .CT_Element$[.@i];
+	mes "Niveau de l'élément du mob ?";
+	switch(select("4", "3", "2", "1")){
+		case 1: .CT_EleLevel[.@i] = 4; break;
+		case 2: .CT_EleLevel[.@i] = 3; break;
+		case 3: .CT_EleLevel[.@i] = 2; break;
+		case 4: .CT_EleLevel[.@i] = 1; break;
+	}
+	clear;
+	mes "Niveau de l'élément : " + .CT_EleLevel[.@i];
+	mes "Race du mob ?";
+	switch(select("Formless", "Undead", "Brute", "Plant", "Insect", "Fish", "Demon", "Demihuman", "Angel", "Dragon")){
+		case 1: .CT_Race$[.@i] = "Formless"; .CT_RaceType[.@i] = RC_Formless; break;
+		case 2: .CT_Race$[.@i] = "Undead"; .CT_RaceType[.@i] = RC_Undead; break;
+		case 3: .CT_Race$[.@i] = "Brute"; .CT_RaceType[.@i] = RC_Brute; break;
+		case 4: .CT_Race$[.@i] = "Plant"; .CT_RaceType[.@i] = RC_Plant; break;
+		case 5: .CT_Race$[.@i] = "Insect"; .CT_RaceType[.@i] = RC_Insect; break;
+		case 6: .CT_Race$[.@i] = "Fish"; .CT_RaceType[.@i] = RC_Fish; break;
+		case 7: .CT_Race$[.@i] = "Demon"; .CT_RaceType[.@i] = RC_Demon; break;
+		case 8: .CT_Race$[.@i] = "Demihuman"; .CT_RaceType[.@i] = RC_DemiHuman; break;
+		case 9: .CT_Race$[.@i] = "Angel"; .CT_RaceType[.@i] = RC_Angel; break;
+		case 10: .CT_Race$[.@i] = "Dragon"; .CT_RaceType[.@i] = RC_Dragon; break;
+	}
+	clear;
+	mes "Race : " + .CT_Race$[.@i];
+
+	// Nom du mob
+	.@CT_MobName$ = sprintf("%s Def:%d Mdef:%d", .CT_SizeName$[.@i], .CT_Def[.@i], .CT_Mdef[.@i]);
+	getfreecell ("pvp_n_5-5",.CT_X[.@i],.CT_Y[.@i],99,100,15,15);
+	// Spawn semi customisé
+	monster "pvp_n_5-5",.CT_X[.@i],.CT_Y[.@i],.@CT_MobName$,.CT_ID[.@i],1,"Custom Target::OnCustomKilled",.CT_Size[.@i];
+
+	// Stockage GID
+	.CT_GID[.@i] = $@mobid[0];
+	// Occupation Emplacement
+	.CT_State$[.@i] = sprintf("%d - %s", .@i + 1, .@CT_MobName$);
+
+	// Fin customisation
+	setunitdata .CT_GID[.@i],UMOB_DEF,.CT_Def[.@i];
+	setunitdata .CT_GID[.@i],UMOB_MDEF,.CT_Mdef[.@i];
+	setunitdata .CT_GID[.@i],UMOB_ELETYPE,.CT_EleType[.@i];
+	setunitdata .CT_GID[.@i],UMOB_ELELEVEL,.CT_EleLevel[.@i];
+	setunitdata .CT_GID[.@i],UMOB_RACE,.CT_RaceType[.@i];
+
+	// Montre l'emplacement
+	callsub S_Locate,.@i;
+
+	// Superfluxxx ?
+	end;
+
+S_Heal:
+	// Cast Full Heal
+	unitskilluseid .CT_GID[getarg(0)],"NPC_ALLHEAL",1;
+	mes "Mob soigné";
+	close;
+	
+
+S_Infos:
+	// Donne les infos
+	.@i = getarg(0);
+	mes "Size : " + .CT_Size$[.@i];
+	mes "Classe : " + .CT_Classe$[.@i];
+	mes "Def : " + .CT_Def[.@i];
+	mes "Mdef : " + .CT_Mdef[.@i];
+	mes "Element : " + .CT_Element$[.@i];
+	mes "Race : " + .CT_Race$[.@i];
+	
+	// Montre l'emplacement
+	callsub S_Locate,.@i;
+	
+	// Superfluxxx ?
+	end;
+
+S_Locate:
+
+	// Donne position et signale le mob
+	.@i = getarg(0);
+	mes "Position du mob : "+ .CT_X[.@i] +","+ .CT_Y[.@i];
+	close2;
+	unitskilluseid .CT_GID[.@i],"MC_LOUD",1;
+	end;
+
+S_Destroy:
+
+	// Tue le mob, libère sa place et son GID
+	.@i = getarg(0);
+	unitkill .CT_GID[.@i];
+	.CT_State$[.@i] = "Libre";
+	.CT_GID[.@i] = 0;
+	mes "Mob éliminé";
+	close;
+
+OnCustomKilled:
+
+	// Libère la place et le GID
+	for( .@i = 0; .@i < getarraysize(.CT_GID[0]); ++.@i ) {
+		if (.CT_GID[.@i] == killedgid){
+		.CT_State$[.@i] = "Libre";
+		.CT_GID[.@i] = 0;
+		}
+	}
+	end;
+
+
+OnInit:
+	// Tue tous les mobs custom existants en cas de reload du npc
+	killmonster "pvp_n_5-5","Custom Target::OnCustomKilled";
+
+	// Initialise tous les talbeaux
+	setarray .CT_State$[0],"Libre","Libre","Libre","Libre","Libre","Libre","Libre","Libre","Libre","Libre";
+	setarray .CT_GID[0],0,0,0,0,0,0,0,0,0,0;
+	setarray .CT_Size[0],0,0,0,0,0,0,0,0,0,0;
+	setarray .CT_SizeName$[0],"0","0","0","0","0","0","0","0","0","0";
+	setarray .CT_Size$[0],"0","0","0","0","0","0","0","0","0","0";
+	setarray .CT_Classe$[0],"0","0","0","0","0","0","0","0","0","0";
+	setarray .CT_ID[0],0,0,0,0,0,0,0,0,0,0;
+	setarray .CT_Def[0],0,0,0,0,0,0,0,0,0,0;
+	setarray .CT_Mdef[0],0,0,0,0,0,0,0,0,0,0;
+	setarray .CT_Element$[0],"0","0","0","0","0","0","0","0","0","0";
+	setarray .CT_EleLevel[0],0,0,0,0,0,0,0,0,0,0;
+	setarray .CT_Race$[0],"0","0","0","0","0","0","0","0","0","0";
+	setarray .CT_X[0],0,0,0,0,0,0,0,0,0,0;
+	setarray .CT_Y[0],0,0,0,0,0,0,0,0,0,0;
+	end;
+}
