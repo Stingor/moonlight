@@ -45,6 +45,9 @@ Body:
     Name: "PvP Room"
   - Map: pvp_n_2-1
     Name: "Duel Room"
+  - Map: ggpro
+    Id: 1600
+    Name: "Admin map"
 # Example (new map):
 #  - Map: my_custom_map
 #    Id: 2000

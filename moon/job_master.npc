@@ -633,7 +633,7 @@ L_CLONE_SKILL:
 			}
 			close;
 		}
-		case 6:
+		case 6: {
 			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 			mes "Bienvenue dans l'élite.";
 			skill "NV_FIRSTAID", 1, SKILL_PERM_GRANT;
@@ -725,10 +725,12 @@ L_CLONE_SKILL:
 			if( BaseLevel == 999 )
 				atcommand "@allskill";
 			close;
-		default:
+		}
+		default: {
 			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 			mes "Bonne journée.";
 			close;
+		}
 	}
 
 Job:
