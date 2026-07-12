@@ -603,7 +603,7 @@ Body:
     Name: "Arena"
   - Map: pvp_room
     Id: 190
-    Name: "PvP : Waiting Room"
+    Name: "PvP Waiting Room"
   - Map: prt_castle
     Id: 191
     Name: "Prontera Castle"
@@ -675,256 +675,256 @@ Body:
     Name: "Prontera Culvert F4"
   - Map: pvp_2vs2
     Id: 214
-    Name: "PvP : Event Coliseum"
+    Name: "PvP Event Coliseum"
   - Map: pvp_c_room
     Id: 215
-    Name: "PvP : Waiting Room"
+    Name: "PvP Waiting Room"
   - Map: pvp_n_1-1
     Id: 216
-    Name: "PvP : Room Sandwich"
+    Name: "PvP Room Sandwich"
   - Map: pvp_n_1-2
     Id: 217
-    Name: "PvP : Room Rock On"
+    Name: "PvP Room Rock On"
   - Map: pvp_n_1-3
     Id: 218
-    Name: "PvP : Four Room"
+    Name: "PvP Four Room"
   - Map: pvp_n_1-4
     Id: 219
-    Name: "PvP : Room Undercross"
+    Name: "PvP Room Undercross"
   - Map: pvp_n_1-5
     Id: 220
-    Name: "PvP : Room Copass"
+    Name: "PvP Room Copass"
   - Map: pvp_n_2-1
     Id: 221
-    Name: "PvP : Room Sandwich"
+    Name: "PvP Room Sandwich"
   - Map: pvp_n_2-2
     Id: 222
-    Name: "PvP : Room Rock On"
+    Name: "PvP Room Rock On"
   - Map: pvp_n_2-3
     Id: 223
-    Name: "PvP : Four Room"
+    Name: "PvP Four Room"
   - Map: pvp_n_2-4
     Id: 224
-    Name: "PvP : Room Undercross"
+    Name: "PvP Room Undercross"
   - Map: pvp_n_2-5
     Id: 225
-    Name: "PvP : Room Copass"
+    Name: "PvP Room Copass"
   - Map: pvp_n_3-1
     Id: 226
-    Name: "PvP : Room Sandwich"
+    Name: "PvP Room Sandwich"
   - Map: pvp_n_3-2
     Id: 227
-    Name: "PvP : Room Rock On"
+    Name: "PvP Room Rock On"
   - Map: pvp_n_3-3
     Id: 228
-    Name: "PvP : Four Room"
+    Name: "PvP Four Room"
   - Map: pvp_n_3-4
     Id: 229
-    Name: "PvP : Room Undercross"
+    Name: "PvP Room Undercross"
   - Map: pvp_n_3-5
     Id: 230
-    Name: "PvP : Room Copass"
+    Name: "PvP Room Copass"
   - Map: pvp_n_4-1
     Id: 231
-    Name: "PvP : Room Sandwich"
+    Name: "PvP Room Sandwich"
   - Map: pvp_n_4-2
     Id: 232
-    Name: "PvP : Room Rock On"
+    Name: "PvP Room Rock On"
   - Map: pvp_n_4-3
     Id: 233
-    Name: "PvP : Four Room"
+    Name: "PvP Four Room"
   - Map: pvp_n_4-4
     Id: 234
-    Name: "PvP : Room Undercross"
+    Name: "PvP Room Undercross"
   - Map: pvp_n_4-5
     Id: 235
-    Name: "PvP : Room Copass"
+    Name: "PvP Room Copass"
   - Map: pvp_n_5-1
     Id: 236
-    Name: "PvP : Room Sandwich"
+    Name: "PvP Room Sandwich"
   - Map: pvp_n_5-2
     Id: 237
-    Name: "PvP : Room Rock On"
+    Name: "PvP Room Rock On"
   - Map: pvp_n_5-3
     Id: 238
-    Name: "PvP : Four Room"
+    Name: "PvP Four Room"
   - Map: pvp_n_5-4
     Id: 239
-    Name: "PvP : Room Undercross"
+    Name: "PvP Room Undercross"
   - Map: pvp_n_5-5
     Id: 240
-    Name: "PvP : Room Copass"
+    Name: "PvP Room Copass"
   - Map: pvp_n_6-1
     Id: 241
-    Name: "PvP : Room Sandwich"
+    Name: "PvP Room Sandwich"
   - Map: pvp_n_6-2
     Id: 242
-    Name: "PvP : Room Rock On"
+    Name: "PvP Room Rock On"
   - Map: pvp_n_6-3
     Id: 243
-    Name: "PvP : Four Room"
+    Name: "PvP Four Room"
   - Map: pvp_n_6-4
     Id: 244
-    Name: "PvP : Room Undercross"
+    Name: "PvP Room Undercross"
   - Map: pvp_n_6-5
     Id: 245
-    Name: "PvP : Room Copass"
+    Name: "PvP Room Copass"
   - Map: pvp_n_7-1
     Id: 246
-    Name: "PvP : Room Sandwich"
+    Name: "PvP Room Sandwich"
   - Map: pvp_n_7-2
     Id: 247
-    Name: "PvP : Room Rock On"
+    Name: "PvP Room Rock On"
   - Map: pvp_n_7-3
     Id: 248
-    Name: "PvP : Four Room"
+    Name: "PvP Four Room"
   - Map: pvp_n_7-4
     Id: 249
-    Name: "PvP : Room Undercross"
+    Name: "PvP Room Undercross"
   - Map: pvp_n_7-5
     Id: 250
-    Name: "PvP : Room Copass"
+    Name: "PvP Room Copass"
   - Map: pvp_n_8-1
     Id: 251
-    Name: "PvP : Room Sandwich"
+    Name: "PvP Room Sandwich"
   - Map: pvp_n_8-2
     Id: 252
-    Name: "PvP : Room Rock On"
+    Name: "PvP Room Rock On"
   - Map: pvp_n_8-3
     Id: 253
-    Name: "PvP : Four Room"
+    Name: "PvP Four Room"
   - Map: pvp_n_8-4
     Id: 254
-    Name: "PvP : Room Undercross"
+    Name: "PvP Room Undercross"
   - Map: pvp_n_8-5
     Id: 255
-    Name: "PvP : Room Copass"
+    Name: "PvP Room Copass"
   - Map: pvp_n_room
     Id: 256
-    Name: "PvP : Waiting Room"
+    Name: "PvP Waiting Room"
   - Map: pvp_y_1-1
     Id: 257
-    Name: "PvP : Room Prontera"
+    Name: "PvP Room Prontera"
   - Map: pvp_y_1-2
     Id: 258
-    Name: "PvP : Room Izlude"
+    Name: "PvP Room Izlude"
   - Map: pvp_y_1-3
     Id: 259
-    Name: "PvP : Room Payon"
+    Name: "PvP Room Payon"
   - Map: pvp_y_1-4
     Id: 260
-    Name: "PvP : Room Alberta"
+    Name: "PvP Room Alberta"
   - Map: pvp_y_1-5
     Id: 261
-    Name: "PvP : Room Morroc"
+    Name: "PvP Room Morroc"
   - Map: pvp_y_2-1
     Id: 262
-    Name: "PvP : Room Prontera"
+    Name: "PvP Room Prontera"
   - Map: pvp_y_2-2
     Id: 263
-    Name: "PvP : Room Izlude"
+    Name: "PvP Room Izlude"
   - Map: pvp_y_2-3
     Id: 264
-    Name: "PvP : Room Payon"
+    Name: "PvP Room Payon"
   - Map: pvp_y_2-4
     Id: 265
-    Name: "PvP : Room Alberta"
+    Name: "PvP Room Alberta"
   - Map: pvp_y_2-5
     Id: 266
-    Name: "PvP : Room Morroc"
+    Name: "PvP Room Morroc"
   - Map: pvp_y_3-1
     Id: 267
-    Name: "PvP : Room Prontera"
+    Name: "PvP Room Prontera"
   - Map: pvp_y_3-2
     Id: 268
-    Name: "PvP : Room Izlude"
+    Name: "PvP Room Izlude"
   - Map: pvp_y_3-3
     Id: 269
-    Name: "PvP : Room Payon"
+    Name: "PvP Room Payon"
   - Map: pvp_y_3-4
     Id: 270
-    Name: "PvP : Room Alberta"
+    Name: "PvP Room Alberta"
   - Map: pvp_y_3-5
     Id: 271
-    Name: "PvP : Room Morroc"
+    Name: "PvP Room Morroc"
   - Map: pvp_y_4-1
     Id: 272
-    Name: "PvP : Room Prontera"
+    Name: "PvP Room Prontera"
   - Map: pvp_y_4-2
     Id: 273
-    Name: "PvP : Room Izlude"
+    Name: "PvP Room Izlude"
   - Map: pvp_y_4-3
     Id: 274
-    Name: "PvP : Room Payon"
+    Name: "PvP Room Payon"
   - Map: pvp_y_4-4
     Id: 275
-    Name: "PvP : Room Alberta"
+    Name: "PvP Room Alberta"
   - Map: pvp_y_4-5
     Id: 276
-    Name: "PvP : Room Morroc"
+    Name: "PvP Room Morroc"
   - Map: pvp_y_5-1
     Id: 277
-    Name: "PvP : Room Prontera"
+    Name: "PvP Room Prontera"
   - Map: pvp_y_5-2
     Id: 278
-    Name: "PvP : Room Izlude"
+    Name: "PvP Room Izlude"
   - Map: pvp_y_5-3
     Id: 279
-    Name: "PvP : Room Payon"
+    Name: "PvP Room Payon"
   - Map: pvp_y_5-4
     Id: 280
-    Name: "PvP : Room Alberta"
+    Name: "PvP Room Alberta"
   - Map: pvp_y_5-5
     Id: 281
-    Name: "PvP : Room Morroc"
+    Name: "PvP Room Morroc"
   - Map: pvp_y_6-1
     Id: 282
-    Name: "PvP : Room Prontera"
+    Name: "PvP Room Prontera"
   - Map: pvp_y_6-2
     Id: 283
-    Name: "PvP : Room Izlude"
+    Name: "PvP Room Izlude"
   - Map: pvp_y_6-3
     Id: 284
-    Name: "PvP : Room Payon"
+    Name: "PvP Room Payon"
   - Map: pvp_y_6-4
     Id: 285
-    Name: "PvP : Room Alberta"
+    Name: "PvP Room Alberta"
   - Map: pvp_y_6-5
     Id: 286
-    Name: "PvP : Room Morroc"
+    Name: "PvP Room Morroc"
   - Map: pvp_y_7-1
     Id: 287
-    Name: "PvP : Room Prontera"
+    Name: "PvP Room Prontera"
   - Map: pvp_y_7-2
     Id: 288
-    Name: "PvP : Room Izlude"
+    Name: "PvP Room Izlude"
   - Map: pvp_y_7-3
     Id: 289
-    Name: "PvP : Room Payon"
+    Name: "PvP Room Payon"
   - Map: pvp_y_7-4
     Id: 290
-    Name: "PvP : Room Alberta"
+    Name: "PvP Room Alberta"
   - Map: pvp_y_7-5
     Id: 291
-    Name: "PvP : Room Morroc"
+    Name: "PvP Room Morroc"
   - Map: pvp_y_8-1
     Id: 292
-    Name: "PvP : Room Prontera"
+    Name: "PvP Room Prontera"
   - Map: pvp_y_8-2
     Id: 293
-    Name: "PvP : Room Izlude"
+    Name: "PvP Room Izlude"
   - Map: pvp_y_8-3
     Id: 294
-    Name: "PvP : Room Payon"
+    Name: "PvP Room Payon"
   - Map: pvp_y_8-4
     Id: 295
-    Name: "PvP : Room Alberta"
+    Name: "PvP Room Alberta"
   - Map: pvp_y_8-5
     Id: 296
-    Name: "PvP : Room Morroc"
+    Name: "PvP Room Morroc"
   - Map: pvp_y_room
     Id: 297
-    Name: "PvP : Waiting Room"
+    Name: "PvP Waiting Room"
   - Map: sword_1-1
     Id: 298
     Name: "Swordman Test Hall"
