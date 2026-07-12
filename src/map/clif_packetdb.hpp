@@ -2068,4 +2068,7 @@ parseable_packet(HEADER_CZ_BOURGEON_REQ_TECHDATA, sizeof(PACKET_CZ_BOURGEON_REQ_
 parseable_packet(HEADER_CZ_BOURGEON_REQ_DAMAGE, sizeof(PACKET_CZ_BOURGEON_REQ_DAMAGE), clif_parse_bourgeon_reqdamage, 0);
 parseable_packet(HEADER_CZ_BOURGEON_REQ_ITEMSCRIPT, sizeof(PACKET_CZ_BOURGEON_REQ_ITEMSCRIPT), clif_parse_bourgeon_reqitemscript, 0);
 
+// [Stingor] Bourgeon in-game bug report (variable length -> -1)
+parseable_packet(HEADER_CZ_BOURGEON_BUG_REPORT, -1, clif_parse_bourgeon_bug_report, 0);
+
 #endif /* CLIF_PACKETDB_HPP */

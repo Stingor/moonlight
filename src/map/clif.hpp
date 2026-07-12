@@ -1566,5 +1566,8 @@ void clif_parse_bourgeon_cheat_report(int32 fd, map_session_data* sd);
 void clif_parse_bourgeon_reqtechdata(int32 fd, map_session_data* sd);
 void clif_parse_bourgeon_reqdamage(int32 fd, map_session_data* sd);
 void clif_parse_bourgeon_reqitemscript(int32 fd, map_session_data* sd);
+// [Stingor] In-game contextual bug report (CZ 0x0F13 -> ZC 0x0F14 ack).
+// Stores into `bug_reports` (read via the moonlight website) + Discord relay.
+void clif_parse_bourgeon_bug_report(int32 fd, map_session_data* sd);
 
 #endif /* CLIF_HPP */

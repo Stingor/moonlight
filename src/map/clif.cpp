@@ -5411,7 +5411,7 @@ void clif_bourgeon_stat_bonus(map_session_data* sd) {
 	// Buffer = bloc fixe + [cond_count:2] + N conditionnels (~133 max, 256 réservés) +
 	// [skill_count:2] + M skills (autospell+autospell2+skillatk, 128 réservés).
 	uint8 buf[sizeof(PACKET_ZC_BOURGEON_STAT_BONUS)
-	          + 2 + 256 * sizeof(PACKET_BOURGEON_STAT_COND)
+	          + 2 + 512 * sizeof(PACKET_BOURGEON_STAT_COND)
 	          + 2 + 128 * sizeof(PACKET_BOURGEON_STAT_SKILL)
 	          + 2 + 128 * sizeof(PACKET_BOURGEON_STAT_ITEM)];
 	PACKET_ZC_BOURGEON_STAT_BONUS* p = reinterpret_cast<PACKET_ZC_BOURGEON_STAT_BONUS*>(buf);
@@ -5462,6 +5462,17 @@ void clif_bourgeon_stat_bonus(map_session_data* sd) {
 	p->def_misc_pct   = sd->bonus.misc_def_rate;
 	p->splash         = sd->bonus.splash_range;
 	p->splash_add     = sd->bonus.splash_add_range;
+	// Lot F — vol de vie (per = % volé ; rate = chance, non affichée)
+	p->hp_drain_pct   = sd->right_weapon.hp_drain_rate.per;
+	p->sp_drain_pct   = sd->right_weapon.sp_drain_rate.per;
+	// Lot G — très niche
+	p->break_weapon_pct = sd->bonus.break_weapon_rate;
+	p->break_armor_pct  = sd->bonus.break_armor_rate;
+	p->zeny_bonus_pct   = sd->bonus.get_zeny_rate;
+	p->classchange_pct  = sd->bonus.classchange;
+	p->dmg_ret_reduce   = sd->bonus.reduce_damage_return;
+	p->magic_hp_gain    = sd->bonus.magic_hp_gain_value;
+	p->magic_sp_gain    = sd->bonus.magic_sp_gain_value;
 
 	// Bonus conditionnels : n'émettre que les entrées non nulles.
 	int off = sizeof(PACKET_ZC_BOURGEON_STAT_BONUS);
@@ -5485,7 +5496,8 @@ void clif_bourgeon_stat_bonus(map_session_data* sd) {
 	for (int r = 0; r < RC_MAX;  ++r) emit(BSC_ADD_RACE, (int16)r, sd->right_weapon.addrace[r]);
 	for (int z = 0; z < SZ_MAX;  ++z) emit(BSC_ADD_SIZE, (int16)z, sd->right_weapon.addsize[z]);
 	// Lot D — conditionnels supplémentaires
-	for (int e = 0; e < ELE_MAX; ++e) emit(BSC_MADD_ELE,  (int16)e, sd->indexed_bonus.magic_addele[e]);
+	for (int e = 0; e < ELE_MAX; ++e)
+		emit(BSC_MADD_ELE, (int16)e, sd->indexed_bonus.magic_addele[e] + sd->indexed_bonus.magic_addele_script[e]);
 	for (int r = 0; r < RC_MAX;  ++r) emit(BSC_MADD_RACE, (int16)r, sd->indexed_bonus.magic_addrace[r]);
 	for (int z = 0; z < SZ_MAX;  ++z) emit(BSC_MADD_SIZE, (int16)z, sd->indexed_bonus.magic_addsize[z]);
 	for (int r = 0; r < RC_MAX;  ++r) emit(BSC_CRIT_RACE,     (int16)r, sd->indexed_bonus.critaddrace[r]);
@@ -5494,23 +5506,55 @@ void clif_bourgeon_stat_bonus(map_session_data* sd) {
 	for (int e = 0; e < ELE_MAX; ++e) emit(BSC_SUBDEF_ELE, (int16)e, sd->indexed_bonus.subdefele[e]);
 	for (int c = 0; c < CLASS_MAX; ++c) emit(BSC_SUB_CLASS, (int16)c, sd->indexed_bonus.subclass[c]);
 	for (int r = 0; r < RC2_MAX;   ++r) emit(BSC_SUB_RACE2, (int16)r, sd->indexed_bonus.subrace2[r]);
+	// Farm : +EXP / +drop vs race/classe
+	for (int r = 0; r < RC_MAX;    ++r) emit(BSC_EXP_RACE,   (int16)r, sd->indexed_bonus.expaddrace[r]);
+	for (int c = 0; c < CLASS_MAX; ++c) emit(BSC_EXP_CLASS,  (int16)c, sd->indexed_bonus.expaddclass[c]);
+	for (int r = 0; r < RC_MAX;    ++r) emit(BSC_DROP_RACE,  (int16)r, sd->indexed_bonus.dropaddrace[r]);
+	for (int c = 0; c < CLASS_MAX; ++c) emit(BSC_DROP_CLASS, (int16)c, sd->indexed_bonus.dropaddclass[c]);
+	// Très niche
+	for (int r = 0; r < RC_MAX; ++r) emit(BSC_DEFSET_RACE,  (int16)r, sd->def_set_race[r].rate);
+	for (int r = 0; r < RC_MAX; ++r) emit(BSC_MDEFSET_RACE, (int16)r, sd->mdef_set_race[r].rate);
+	for (int r = 0; r < RC_MAX; ++r) emit(BSC_HPVANISH_RACE, (int16)r, sd->hp_vanish_race[r].per);
+	for (int r = 0; r < RC_MAX; ++r) emit(BSC_SPVANISH_RACE, (int16)r, sd->sp_vanish_race[r].per);
+	for (int r = 0; r < RC_MAX;    ++r) emit(BSC_COMA_RACE,  (int16)r, sd->indexed_bonus.coma_race[r]);
+	for (int c = 0; c < CLASS_MAX; ++c) emit(BSC_COMA_CLASS, (int16)c, sd->indexed_bonus.coma_class[c]);
+	for (int r = 0; r < RC_MAX; ++r) emit(BSC_IGN_RES_RACE,  (int16)r, sd->indexed_bonus.ignore_res_by_race[r]);
+	for (int r = 0; r < RC_MAX; ++r) emit(BSC_IGN_MRES_RACE, (int16)r, sd->indexed_bonus.ignore_mres_by_race[r]);
+	for (int r = 0; r < RC2_MAX; ++r) emit(BSC_MADD_RACE2,     (int16)r, sd->indexed_bonus.magic_addrace2[r]);
+	for (int r = 0; r < RC2_MAX; ++r) emit(BSC_IGN_MDEF_RACE2, (int16)r, sd->indexed_bonus.ignore_mdef_by_race2[r]);
+	for (int r = 0; r < RC_MAX; ++r) emit(BSC_SP_GAIN_RACE,  (int16)r, sd->indexed_bonus.sp_gain_race[r]);
 	*reinterpret_cast<int16*>(buf + count_off) = count;
 
 	// Bonus liés à un skill (tuple enrichi id+niveau). Liste séparée.
 	const int skcount_off = off;
 	off += 2;
 	int16 skcount = 0;
-	auto emit_sk = [&](uint16 code, uint16 skill_id, int16 lv, int32 val) {
+	auto emit_sk = [&](uint16 code, uint16 skill_id, int16 lv, int32 val, uint16 aux = 0) {
 		if (val == 0) return;
 		PACKET_BOURGEON_STAT_SKILL* e = reinterpret_cast<PACKET_BOURGEON_STAT_SKILL*>(buf + off);
-		e->code = code; e->skill_id = skill_id; e->lv = lv; e->value = val;
+		e->code = code; e->skill_id = skill_id; e->lv = lv; e->value = val; e->aux = aux;
 		off += sizeof(PACKET_BOURGEON_STAT_SKILL);
 		++skcount;
 	};
 	for (const auto& a : sd->autospell)  emit_sk(BSK_AUTOSPELL,     a.id, (int16)a.lv, a.rate);
 	for (const auto& a : sd->autospell2) emit_sk(BSK_AUTOSPELL_HIT, a.id, (int16)a.lv, a.rate);
-	for (const auto& s : sd->skillatk)   emit_sk(BSK_SKILLATK,      s.id, 0,           s.val);
-	// addeff : le client résout le nom du statut depuis l'EFST (sc -> icône).
+	// autospell3 : autocast en lançant un skill déclencheur (aux = trigger_skill).
+	for (const auto& a : sd->autospell3) emit_sk(BSK_AUTOSPELL_SKILL, a.id, (int16)a.lv, a.rate, a.trigger_skill);
+	for (const auto& s : sd->skillatk)   emit_sk(BSK_SKILLATK,  s.id, 0, s.val);
+	for (const auto& s : sd->subskill)   emit_sk(BSK_SUBSKILL,   s.id, 0, s.val);
+	// Modificateurs par-skill (id = skill ; val = %/ms/plat selon le code)
+	for (const auto& s : sd->skillusesprate)   emit_sk(BSK_SKILL_SPRATE,    s.id, 0, s.val);
+	for (const auto& s : sd->skillusesp)       emit_sk(BSK_SKILL_SPCOST,    s.id, 0, s.val);
+	for (const auto& s : sd->skillcastrate)    emit_sk(BSK_SKILL_VCASTRATE, s.id, 0, s.val);
+	for (const auto& s : sd->skillfixcastrate) emit_sk(BSK_SKILL_FCASTRATE, s.id, 0, s.val);
+	for (const auto& s : sd->skillvarcast)     emit_sk(BSK_SKILL_VCAST,     s.id, 0, s.val);
+	for (const auto& s : sd->skillfixcast)     emit_sk(BSK_SKILL_FCAST,     s.id, 0, s.val);
+	for (const auto& s : sd->skillcooldown)    emit_sk(BSK_SKILL_COOLDOWN,  s.id, 0, s.val);
+	for (const auto& s : sd->skilldelay)       emit_sk(BSK_SKILL_DELAY,     s.id, 0, s.val);
+	for (const auto& s : sd->skillheal)        emit_sk(BSK_SKILL_HEAL,      s.id, 0, s.val);
+	for (const auto& s : sd->skillheal2)       emit_sk(BSK_SKILL_HEAL2,     s.id, 0, s.val);
+	for (const auto& s : sd->skillblown)       emit_sk(BSK_SKILL_BLOWN,     s.id, 0, s.val);
+	// addeff / reseff : le client résout le nom du statut depuis l'EFST (sc -> icône).
 	for (const auto& a : sd->addeff) {
 		const efst_type efst = status_db.getIcon(a.sc);
 		if (efst != EFST_BLANK) emit_sk(BSK_ADDEFF, (uint16)efst, 0, a.rate);
@@ -5518,6 +5562,10 @@ void clif_bourgeon_stat_bonus(map_session_data* sd) {
 	for (const auto& a : sd->addeff_atked) {
 		const efst_type efst = status_db.getIcon(a.sc);
 		if (efst != EFST_BLANK) emit_sk(BSK_ADDEFF_HIT, (uint16)efst, 0, a.rate);
+	}
+	for (const auto& r : sd->reseff) {
+		const efst_type efst = status_db.getIcon((sc_type)r.id);
+		if (efst != EFST_BLANK) emit_sk(BSK_RESEFF, (uint16)efst, 0, r.val);
 	}
 	*reinterpret_cast<int16*>(buf + skcount_off) = skcount;
 
@@ -5532,7 +5580,10 @@ void clif_bourgeon_stat_bonus(map_session_data* sd) {
 		off += sizeof(PACKET_BOURGEON_STAT_ITEM);
 		++itcount;
 	};
-	for (const auto& d : sd->add_drop) emit_it(BSI_ADD_DROP, d.nameid, d.rate);
+	for (const auto& d : sd->add_drop) {
+		if (d.nameid)     emit_it(BSI_ADD_DROP,       d.nameid, d.rate);  // item précis
+		else if (d.group) emit_it(BSI_ADD_DROP_GROUP, d.group,  d.rate);  // groupe (group id dans nameid)
+	}
 	*reinterpret_cast<int16*>(buf + itcount_off) = itcount;
 
 	p->packetLength = static_cast<int16>(off);
@@ -6547,6 +6598,124 @@ void clif_parse_bourgeon_reqitemscript(int32 fd, map_session_data* sd) {
 
 	WFIFOW(fd, 2) = offset;  // packetLength
 	WFIFOSET(fd, offset);
+}
+
+// [Stingor] Rapport de bug in-game contextuel (CZ 0x0F13 -> ACK ZC 0x0F14).
+// Le paquet ne porte que {catégorie, JSON de contexte, message}. L'identité, la
+// map et la position sont ajoutées ICI depuis la session (jamais approuvées depuis
+// le client). Insère dans `bug_reports` (lu par le site) + relais Discord.
+void clif_parse_bourgeon_bug_report(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+
+	auto send_ack = [&](uint8 status) {
+		WFIFOHEAD(fd, sizeof(PACKET_ZC_BOURGEON_BUG_REPORT_ACK));
+		PACKET_ZC_BOURGEON_BUG_REPORT_ACK* r =
+			reinterpret_cast<PACKET_ZC_BOURGEON_BUG_REPORT_ACK*>(WFIFOP(fd, 0));
+		r->packetType = HEADER_ZC_BOURGEON_BUG_REPORT_ACK;
+		r->packetLength = sizeof(PACKET_ZC_BOURGEON_BUG_REPORT_ACK);
+		r->status = status;
+		WFIFOSET(fd, sizeof(PACKET_ZC_BOURGEON_BUG_REPORT_ACK));
+	};
+
+	// Rate-limit autoritatif : 1 rapport / 30 s par compte (le client throttle
+	// aussi, mais on ne s'y fie pas).
+	static std::unordered_map<uint32, t_tick> s_last;  // account_id -> dernier tick
+	const t_tick now = gettick();
+	auto it = s_last.find(sd->status.account_id);
+	if (it != s_last.end() && DIFF_TICK(now, it->second) < 30000) {
+		send_ack(1);
+		return;
+	}
+
+	const PACKET_CZ_BOURGEON_BUG_REPORT* p =
+		reinterpret_cast<const PACKET_CZ_BOURGEON_BUG_REPORT*>(RFIFOP(fd, 0));
+	const uint16 pkt_len = p->packetLength;
+	// Header fixe = 7 octets : [type:2][len:2][category:1][ctx_len:2].
+	if (pkt_len < 7) { send_ack(2); return; }
+	uint16 ctx_len = p->ctx_len;
+	if (7 + (int)ctx_len > (int)pkt_len) ctx_len = pkt_len - 7;  // borne dans le paquet
+	const char* ctx_ptr = reinterpret_cast<const char*>(RFIFOP(fd, 7));
+	const int msg_off = 7 + ctx_len;
+	const int msg_len = (int)pkt_len - msg_off;
+	if (msg_len <= 0) { send_ack(2); return; }  // message vide : rien à signaler
+	const char* msg_ptr = reinterpret_cast<const char*>(RFIFOP(fd, msg_off));
+
+	// Bornes de stockage (schéma : `context` TEXT, `message` VARCHAR(512)).
+	const uint16 store_ctx = ctx_len > 1024 ? 1024 : ctx_len;
+	const int    store_msg = msg_len > 500 ? 500 : msg_len;
+
+	const uint8 category = p->category;
+	static const char* const kCatNames[] = { "generic", "item", "skill", "npc", "quest" };
+	const char* cat = (category < 5) ? kCatNames[category] : "generic";
+	const char* mapname = map_getmapdata(sd->m)->name;
+
+	// Contexte final (copie bornée, null-safe). Pour un rapport NPC, on RÉSOUT le
+	// GID (= bl.id de la NPC côté serveur) pour joindre son nom de script (exname),
+	// sa map et ses coordonnées — bien plus exploitable que le GID brut pour
+	// retrouver la NPC/le script fautif.
+	std::string ctx_final(ctx_ptr, store_ctx);
+	if (category == 3) {  // npc
+		const char* g = strstr(ctx_final.c_str(), "npc_gid");
+		if (g) {
+			g += 7;  // saute la clé jusqu'au 1er chiffre (":", espaces, guillemet)
+			while (*g && *g != '-' && (*g < '0' || *g > '9')) g++;
+			const int32 gid = atoi(g);
+			npc_data* nd = (gid > 0) ? map_id2nd(gid) : nullptr;
+			if (nd) {
+				map_data* nmd = map_getmapdata(nd->m);
+				char extra[224];
+				snprintf(extra, sizeof(extra),
+					",\"npc_map\":\"%s\",\"npc_pos\":\"%d,%d\",\"npc_script\":\"%s\"",
+					nmd ? nmd->name : "", nd->x, nd->y, nd->exname);
+				// Insère avant l'accolade fermante -> JSON toujours valide.
+				const size_t brace = ctx_final.rfind('}');
+				if (brace != std::string::npos) ctx_final.insert(brace, extra);
+				else                            ctx_final += extra;
+			}
+		}
+	}
+	if (ctx_final.size() > 1024) ctx_final.resize(1024);  // borne colonne TEXT
+
+	char esc_name[NAME_LENGTH * 2 + 1];
+	char esc_ctx[1024 * 2 + 1];
+	char esc_msg[500 * 2 + 1];
+	char esc_map[64 * 2 + 1];
+	Sql_EscapeStringLen(mmysql_handle, esc_name, sd->status.name,
+	                    strnlen(sd->status.name, NAME_LENGTH));
+	Sql_EscapeStringLen(mmysql_handle, esc_ctx, ctx_final.c_str(), ctx_final.size());
+	Sql_EscapeStringLen(mmysql_handle, esc_msg, msg_ptr, store_msg);
+	Sql_EscapeStringLen(mmysql_handle, esc_map, mapname, strnlen(mapname, 24));
+
+	if (Sql_Query(mmysql_handle,
+		"INSERT INTO `bug_reports` "
+		"(`account_id`,`char_id`,`char_name`,`category`,`context`,`message`,`map_name`,`x`,`y`) "
+		"VALUES (%u, %u, '%s', '%s', '%s', '%s', '%s', %d, %d)",
+		sd->status.account_id, sd->status.char_id, esc_name, cat, esc_ctx, esc_msg,
+		esc_map, sd->x, sd->y) != SQL_SUCCESS) {
+		Sql_ShowDebug(mmysql_handle);
+		send_ack(2);
+		return;
+	}
+
+	// Relais Discord : réutilise la table `discord_outbound` déjà consommée par le
+	// relai (visibilité admin instantanée en plus de la base).
+	char dc_name[NAME_LENGTH + 48];
+	snprintf(dc_name, sizeof(dc_name), "[BUG %s] %s", cat, sd->status.name);
+	char esc_dcname[sizeof(dc_name) * 2 + 1];
+	Sql_EscapeString(mmysql_handle, esc_dcname, dc_name);
+	char dc_msg[1400];
+	snprintf(dc_msg, sizeof(dc_msg), "ctx=%s | %s,%d,%d | %.*s ",
+		ctx_final.c_str(), mapname, sd->x, sd->y, store_msg, msg_ptr);
+	char esc_dcmsg[sizeof(dc_msg) * 2 + 1];
+	Sql_EscapeString(mmysql_handle, esc_dcmsg, dc_msg);
+	if (Sql_Query(mmysql_handle,
+		"INSERT INTO `discord_outbound` (player, char_id, message) VALUES ('%s', %u, '%s')",
+		esc_dcname, sd->status.char_id, esc_dcmsg) != SQL_SUCCESS)
+		Sql_ShowDebug(mmysql_handle);
+
+	s_last[sd->status.account_id] = now;
+	send_ack(0);
 }
 
 void clif_parse_bourgeon_cheat_report(int32 fd, map_session_data* sd) {

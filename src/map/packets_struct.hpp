@@ -6142,6 +6142,17 @@ struct PACKET_ZC_BOURGEON_STAT_BONUS {
 	int32 def_misc_pct;    // réduc. dégâts divers reçus % (bonus.misc_def_rate)
 	int32 splash;          // portée de splash, en cases (bonus.splash_range)
 	int32 splash_add;      // portée de splash additionnelle (bonus.splash_add_range)
+	// --- Lot F : vol de vie à l'attaque ---
+	int32 hp_drain_pct;    // % de PV volés à l'attaque (right_weapon.hp_drain_rate.per)
+	int32 sp_drain_pct;    // % de SP volés à l'attaque (right_weapon.sp_drain_rate.per)
+	// --- Lot G : très niche ---
+	int32 break_weapon_pct; // chance de casser l'arme de la cible % (bonus.break_weapon_rate)
+	int32 break_armor_pct;  // chance de casser l'armure de la cible % (bonus.break_armor_rate)
+	int32 zeny_bonus_pct;   // bonus de Zeny sur les monstres % (bonus.get_zeny_rate)
+	int32 classchange_pct;  // chance de transformer la cible % (bonus.classchange)
+	int32 dmg_ret_reduce;   // réduction des dégâts renvoyés subis % (bonus.reduce_damage_return)
+	int32 magic_hp_gain;    // PV gagnés en lançant un sort (bonus.magic_hp_gain_value)
+	int32 magic_sp_gain;    // SP gagnés en lançant un sort (bonus.magic_sp_gain_value)
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_STAT_BONUS, 0x0f10);
 
@@ -6170,15 +6181,32 @@ enum e_bourgeon_stat_cond : uint16 {
 	BSC_SUBDEF_ELE = 13, // résist. selon l'élément d'arme ennemie (indexed_bonus.subdefele[ELE])
 	BSC_SUB_CLASS  = 14, // réduc. dégâts vs classe (Normal/Boss/…)  (indexed_bonus.subclass[CLASS])
 	BSC_SUB_RACE2  = 15, // réduc. dégâts vs groupe de monstres RC2  (indexed_bonus.subrace2[RC2])
+	BSC_EXP_RACE   = 16, // +% EXP vs race   (indexed_bonus.expaddrace[RC])
+	BSC_EXP_CLASS  = 17, // +% EXP vs classe (indexed_bonus.expaddclass[CLASS])
+	BSC_DROP_RACE  = 18, // +% drop vs race   (indexed_bonus.dropaddrace[RC])
+	BSC_DROP_CLASS = 19, // +% drop vs classe (indexed_bonus.dropaddclass[CLASS])
+	// --- très niche (value = taux %) ---
+	BSC_DEFSET_RACE  = 20, // chance de fixer la DEF de la cible (def_set_race[RC].rate)
+	BSC_MDEFSET_RACE = 21, // chance de fixer la MDEF de la cible (mdef_set_race[RC].rate)
+	BSC_HPVANISH_RACE = 22, // % de PV retirés à la cible (hp_vanish_race[RC].per)
+	BSC_SPVANISH_RACE = 23, // % de SP retirés à la cible (sp_vanish_race[RC].per)
+	BSC_COMA_RACE    = 24, // chance de coma vs race   (indexed_bonus.coma_race[RC])
+	BSC_COMA_CLASS   = 25, // chance de coma vs classe (indexed_bonus.coma_class[CLASS])
+	BSC_IGN_RES_RACE  = 26, // ignore RES vs race  (indexed_bonus.ignore_res_by_race[RC])
+	BSC_IGN_MRES_RACE = 27, // ignore MRES vs race (indexed_bonus.ignore_mres_by_race[RC])
+	BSC_MADD_RACE2    = 28, // +% dégâts magiques vs groupe RC2 (indexed_bonus.magic_addrace2[RC2])
+	BSC_IGN_MDEF_RACE2 = 29, // ignore MDEF vs groupe RC2 (indexed_bonus.ignore_mdef_by_race2[RC2])
+	BSC_SP_GAIN_RACE  = 30, // SP gagnés en tuant une race (indexed_bonus.sp_gain_race[RC])
 };
 
 // Une entrée conditionnelle liée à un SKILL (tuple enrichi : id + niveau). Le client
 // résout le nom via GetSkillName(id). Liste SÉPARÉE des conditionnels indexés.
 struct PACKET_BOURGEON_STAT_SKILL {
 	uint16 code;      // e_bourgeon_stat_skill
-	uint16 skill_id;  // id du skill (résolu en nom côté client)
+	uint16 skill_id;  // id du skill OU EFST (addeff/reseff), résolu en nom côté client
 	int16  lv;        // niveau du skill casté (autospell) ; 0 sinon
-	int32  value;     // taux (autospell, ‰) ou +% dégâts (skillatk)
+	int32  value;     // taux / +% / réduc. % selon le code
+	uint16 aux;       // skill déclencheur (autospell3 on-skill) ; 0 sinon
 } __attribute__((packed));
 
 // Codes des bonus liés à un skill. MIROIR côté client (character_sheet.cc).
@@ -6186,10 +6214,25 @@ enum e_bourgeon_stat_skill : uint16 {
 	BSK_AUTOSPELL     = 1,  // autocast à l'attaque  (sd->autospell)
 	BSK_AUTOSPELL_HIT = 2,  // autocast quand touché (sd->autospell2)
 	BSK_SKILLATK      = 3,  // +% dégâts sur un skill (sd->skillatk : s_item_bonus{id,val})
-	// Pour ADDEFF, skill_id porte un EFST (status_db.getIcon(sc)) ; le client résout
-	// le nom via GetStateIconDescript. rate en 1/100 % (10000 = 100%).
+	// Pour ADDEFF/RESEFF, skill_id porte un EFST (status_db.getIcon(sc)) ; le client
+	// résout le nom via GetStateIconDescript. rate en 1/100 % (10000 = 100%).
 	BSK_ADDEFF     = 4,  // inflige un statut à la cible en attaquant (sd->addeff)
 	BSK_ADDEFF_HIT = 5,  // inflige un statut à l'attaquant quand touché (sd->addeff_atked)
+	BSK_RESEFF     = 6,  // résistance à un statut (sd->reseff : s_item_bonus{sc,val})
+	BSK_SUBSKILL   = 7,  // réduction de dégâts d'un skill (sd->subskill : s_item_bonus{id,val})
+	BSK_AUTOSPELL_SKILL = 8, // autocast en lançant un skill (sd->autospell3 ; aux=déclencheur)
+	// --- modificateurs par-skill (s_item_bonus{id=skill,val}) ---
+	BSK_SKILL_SPRATE    = 9,  // coût SP du skill %  (sd->skillusesprate)
+	BSK_SKILL_SPCOST    = 10, // coût SP du skill plat (sd->skillusesp)
+	BSK_SKILL_VCASTRATE = 11, // cast variable du skill % (sd->skillcastrate)
+	BSK_SKILL_FCASTRATE = 12, // cast fixe du skill %     (sd->skillfixcastrate)
+	BSK_SKILL_VCAST     = 13, // cast variable du skill ms (sd->skillvarcast)
+	BSK_SKILL_FCAST     = 14, // cast fixe du skill ms     (sd->skillfixcast)
+	BSK_SKILL_COOLDOWN  = 15, // cooldown du skill ms      (sd->skillcooldown)
+	BSK_SKILL_DELAY     = 16, // after-cast delay du skill % (sd->skilldelay)
+	BSK_SKILL_HEAL      = 17, // soin donné par le skill % (sd->skillheal)
+	BSK_SKILL_HEAL2     = 18, // soin reçu du skill %      (sd->skillheal2)
+	BSK_SKILL_BLOWN     = 19, // knockback du skill, cases (sd->skillblown)
 };
 
 // Une entrée liée à un ITEM (nameid uint32, trop large pour le tuple skill). Le client
@@ -6202,7 +6245,8 @@ struct PACKET_BOURGEON_STAT_ITEM {
 
 // Codes des bonus liés à un item. MIROIR côté client (character_sheet.cc).
 enum e_bourgeon_stat_item : uint16 {
-	BSI_ADD_DROP = 1,  // bonus de drop d'un item (sd->add_drop)
+	BSI_ADD_DROP       = 1,  // bonus de drop d'un item précis (sd->add_drop, nameid)
+	BSI_ADD_DROP_GROUP = 2,  // bonus de drop d'un GROUPE d'items (sd->add_drop, group ; nameid porte le group id)
 };
 
 // CZ (client -> server): demande le SCRIPT BRUT + les COMBOS d'un item. Fixe 8.
@@ -6235,6 +6279,32 @@ struct PACKET_ZC_BOURGEON_ITEMSCRIPT {
 	uint8  status;
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_ITEMSCRIPT, 0x0f12);
+
+// CZ (client -> server): rapport de bug joueur, CONTEXTUEL. VARIABLE.
+// Layout: [packetType:2][packetLength:2][category:1][ctx_len:2][ctx:ctx_len][message: reste]
+//   category : 0=générique 1=item 2=skill 3=npc 4=quête (e_bug_report_category)
+//   ctx      : JSON de contexte machine, ex. {"item_id":501,"refine":7} (stocké verbatim)
+//   message  : texte libre UTF-8 du joueur (borné VARCHAR(512) côté DB)
+// L'IDENTITÉ (compte/perso), la MAP et la POSITION sont ajoutées côté serveur
+// depuis la session — jamais lues depuis le paquet.
+struct PACKET_CZ_BOURGEON_BUG_REPORT {
+	int16  packetType;
+	int16  packetLength;
+	uint8  category;
+	uint16 ctx_len;
+	// suivi de ctx[ctx_len] puis message[] jusqu'à packetLength.
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_BUG_REPORT, 0x0f13);
+
+// ZC (server -> client): accusé de réception du rapport de bug. Fixe 5.
+// Layout: [packetType:2][packetLength:2][status:1]
+//   status : 0 = enregistré, 1 = rate-limité (trop rapide), 2 = erreur/vide.
+struct PACKET_ZC_BOURGEON_BUG_REPORT_ACK {
+	int16 packetType;
+	int16 packetLength;
+	uint8 status;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_BUG_REPORT_ACK, 0x0f14);
 
 // NOTE: there is no ZC_BOURGEON_MAP packet. The Bourgeon client reads the
 // current map name from the standard 0x0091 ZC_NPCACK_MAPMOVE packet instead.

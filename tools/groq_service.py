@@ -68,6 +68,7 @@ TRANSLATE_URL     = os.environ.get("TRANSLATE_URL",     "http://localhost/api/tr
 TRANSLATE_TOKEN   = os.environ.get("TRANSLATE_TOKEN",   "")
 DISCORD_WEBHOOK      = os.environ.get("DISCORD_WEBHOOK",      "")  # vide = désactivé
 DISCORD_OUTBOUND_WEBHOOK = os.environ.get("DISCORD_OUTBOUND_WEBHOOK", "")  # webhook Bourgeon pour l'outbound in-game
+DISCORD_BUGREPORT_WEBHOOK = os.environ.get("DISCORD_BUGREPORT_WEBHOOK", "")  # webhook du canal #bug-reports (vide = repli sur l'outbound)
 DISCORD_BOT_TOKEN    = os.environ.get("DISCORD_BOT_TOKEN",    "")  # token du bot pour lire le channel
 DISCORD_READ_CHANNEL = os.environ.get("DISCORD_READ_CHANNEL", "")  # ID du channel à scruter
 DISCORD_POLL_SEC     = float(os.environ.get("DISCORD_POLL_SEC", "2.0"))  # intervalle de poll (s)
@@ -1468,7 +1469,8 @@ def _discord_post(player: str, message: str, response: str):
 def _discord_outbound_poll(conn):
     """Lit discord_outbound et poste les messages des joueurs sur le webhook Discord."""
     global _discord_outbound_last_post
-    if not DISCORD_OUTBOUND_WEBHOOK:
+    # Actif si AU MOINS un des deux webhooks est configuré (chat général et/ou bug).
+    if not DISCORD_OUTBOUND_WEBHOOK and not DISCORD_BUGREPORT_WEBHOOK:
         return
     now = time.time()
     if now - _discord_outbound_last_post < 1.0:
@@ -1489,6 +1491,18 @@ def _discord_outbound_poll(conn):
             message = row["message"]
             if now - _discord_outbound_last_post < 1.0:
                 break
+            # Route AVANT de marquer envoyé : les rapports de bug (client Bourgeon)
+            # sont préfixés « [BUG … ] » dans `player` par le serveur -> canal dédié
+            # #bug-reports si configuré, sinon repli sur l'outbound général. Si aucun
+            # webhook cible, on laisse la ligne pending (pas de perte silencieuse).
+            is_bug = isinstance(player, str) and player.startswith("[BUG")
+            target_webhook = (
+                DISCORD_BUGREPORT_WEBHOOK
+                if (is_bug and DISCORD_BUGREPORT_WEBHOOK)
+                else DISCORD_OUTBOUND_WEBHOOK
+            )
+            if not target_webhook:
+                continue
             # Mark sent BEFORE posting — avoids duplicate posts if the webhook
             # call succeeds but the DB update later fails (infinite-repost loop).
             try:
@@ -1507,7 +1521,7 @@ def _discord_outbound_poll(conn):
                     wp["avatar_url"] = f"https://moonlight-destiny.fr/images/CacheAvatar/{char_id}.png"
                 payload = json.dumps(wp).encode("utf-8")
                 req = urllib.request.Request(
-                    DISCORD_OUTBOUND_WEBHOOK,
+                    target_webhook,
                     data=payload,
                     headers={
                         "Content-Type": "application/json",
@@ -1515,7 +1529,7 @@ def _discord_outbound_poll(conn):
                     },
                     method="POST",
                 )
-                ctx = SSL_CTX if DISCORD_OUTBOUND_WEBHOOK.startswith("https://") else None
+                ctx = SSL_CTX if target_webhook.startswith("https://") else None
                 with urllib.request.urlopen(req, timeout=4, context=ctx) as r:
                     pass
                 _discord_outbound_last_post = time.time()
@@ -1758,6 +1772,10 @@ def main():
         print(f"Discord poll    : activé (channel {DISCORD_READ_CHANNEL}, toutes les {DISCORD_POLL_SEC}s)")
     else:
         print("Discord poll    : DÉSACTIVÉ (DISCORD_BOT_TOKEN / DISCORD_READ_CHANNEL absents)")
+    if DISCORD_BUGREPORT_WEBHOOK:
+        print(f"Discord bug-rep : canal dédié activé ({DISCORD_BUGREPORT_WEBHOOK[:40]}…)")
+    else:
+        print("Discord bug-rep : repli sur l'outbound général (DISCORD_BUGREPORT_WEBHOOK absent de groq.env)")
     conn = None
     names_loaded = False
     while True:
