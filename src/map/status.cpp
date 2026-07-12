@@ -4101,6 +4101,7 @@ int32 status_calc_pc_sub(map_session_data* sd, uint8 opt)
 	memset(sd->indexed_bonus.param_bonus, 0, sizeof(sd->indexed_bonus.param_bonus));
 
 	base_status->def += (refinedef+50)/100;
+	sd->bonus.refine_def = (refinedef+50)/100; // [Bourgeon] capture pour l'affichage fiche (ZC 0x0F10)
 
 	// Parse Cards
 	for (i = 0; i < EQI_MAX; i++) {

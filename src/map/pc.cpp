@@ -11459,6 +11459,7 @@ bool pc_setcart(map_session_data *sd,int32 type) {
 	pc_setoption(sd, option);
 #endif
 
+	clif_bourgeon_companion_state(sd);  // [Stingor] resync feuille de perso (no-op si !has_bourgeon)
 	return true;
 }
 
@@ -11473,6 +11474,7 @@ void pc_setfalcon(map_session_data* sd, int32 flag)
 	} else if( pc_isfalcon(sd) ){
 		pc_setoption(sd,sd->sc.option&~OPTION_FALCON); // remove falcon
 	}
+	clif_bourgeon_companion_state(sd);  // [Stingor] resync feuille de perso (no-op si !has_bourgeon)
 }
 
 /*==========================================
@@ -11489,6 +11491,7 @@ void pc_setriding(map_session_data* sd, int32 flag)
 	} else if( pc_isriding(sd) ){
 			pc_setoption(sd, sd->sc.option&~OPTION_RIDING);
 	}
+	clif_bourgeon_companion_state(sd);  // [Stingor] resync feuille de perso (no-op si !has_bourgeon)
 }
 
 /**

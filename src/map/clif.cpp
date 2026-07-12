@@ -5473,6 +5473,9 @@ void clif_bourgeon_stat_bonus(map_session_data* sd) {
 	p->dmg_ret_reduce   = sd->bonus.reduce_damage_return;
 	p->magic_hp_gain    = sd->bonus.magic_hp_gain_value;
 	p->magic_sp_gain    = sd->bonus.magic_sp_gain_value;
+	// Part du raffinage (refine + enchant grade) dans l'ATK/DEF
+	p->refine_atk       = sd->base_status.rhw.atk2 + sd->base_status.lhw.atk2;
+	p->refine_def       = sd->bonus.refine_def;
 
 	// Bonus conditionnels : n'émettre que les entrées non nulles.
 	int off = sizeof(PACKET_ZC_BOURGEON_STAT_BONUS);
@@ -6162,6 +6165,67 @@ static void clif_bourgeon_register_guid(map_session_data* sd, const char* raw_gu
 	s_account_to_guid[aid]      = guid_str;
 }
 
+// [Bourgeon] Construit (une seule fois, mis en cache) la table itemId(client) ->
+// ordinal de hat effect, en SCANNANT le source des scripts d'item (conservé au chargement
+// du YAML, cf. clif_parse_bourgeon_reqitemscript). Le hat effect d'un costume est déclaré
+// par `hateffect HAT_EF_xxx,...` dans son Script/EquipScript — c'est la SEULE source de
+// vérité (le client ne mappe pas item->ordinal, juste une appartenance). Statique donc
+// identique pour tous les joueurs.
+static const std::vector<std::pair<uint32, int16>>& clif_bourgeon_build_hateffect_map() {
+	static std::vector<std::pair<uint32, int16>> s_map;
+	static bool built = false;
+	if (built) return s_map;
+	built = true;
+	auto is_ident = [](char c) {
+		return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') ||
+		       (c >= 'a' && c <= 'z') || c == '_';
+	};
+	for (const auto& entry : item_db) {
+		const std::shared_ptr<item_data>& idata = entry.second;
+		if (idata == nullptr) continue;
+		// hateffect(...,true) est dans le Script principal du costume ; on scanne aussi
+		// l'EquipScript par sûreté. Premier token HAT_EF_xxx trouvé = l'ordinal.
+		const std::string* srcs[2] = { &idata->script_src, &idata->equip_script_src };
+		for (const std::string* src : srcs) {
+			const size_t hp = src->find("HAT_EF_");
+			if (hp == std::string::npos) continue;
+			size_t e = hp;
+			while (e < src->size() && is_ident((*src)[e])) e++;
+			const std::string name = src->substr(hp, e - hp);
+			int64 val = 0;
+			if (script_get_constant(name.c_str(), &val) && val > 0 && val < 0x7fff) {
+				s_map.emplace_back(static_cast<uint32>(client_nameid(idata->nameid)),
+				                   static_cast<int16>(val));
+				break;  // un hat effect par item suffit
+			}
+		}
+	}
+	return s_map;
+}
+
+// [Bourgeon] Pousse la table itemId->ordinal de hat effect (ZC 0x0F17) à un client
+// Bourgeon vérifié. VARIABLE : [type:2][len:2][count:2] puis count × {itemId:4, ord:2}.
+void clif_bourgeon_hateffect_map(map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+	if (!session_isActive(sd->fd)) return;
+	const std::vector<std::pair<uint32, int16>>& m = clif_bourgeon_build_hateffect_map();
+	size_t n = m.size();
+	if (n > 5000) n = 5000;  // garde-fou (packetLength int16)
+	const size_t plen = 6 + n * 6;
+	const int32 fd = sd->fd;
+	WFIFOHEAD(fd, plen);
+	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_HATEFFECT_MAP;
+	WFIFOW(fd, 2) = static_cast<int16>(plen);
+	WFIFOW(fd, 4) = static_cast<int16>(n);
+	size_t off = 6;
+	for (size_t i = 0; i < n; ++i) {
+		WFIFOL(fd, off)     = m[i].first;   off += 4;
+		WFIFOW(fd, off)     = m[i].second;  off += 2;
+	}
+	WFIFOSET(fd, plen);
+}
+
 // Marks a session as a verified Bourgeon client: flags it, remembers the login
 // session (so character changes within it don't need to re-send the integrity
 // packet), then pushes the player's settings/presets to this (possibly new)
@@ -6177,6 +6241,12 @@ static void clif_bourgeon_grant_verified(map_session_data* sd) {
 	// vide jusqu'au 1er recalc post-vérif (changement de map). indexed_bonus est
 	// déjà rempli à ce stade (joueur spawné).
 	clif_bourgeon_stat_bonus(sd);
+	// État initial des compagnons (cart/peco/falcon) : les setters n'ont pas encore
+	// tourné avec has_bourgeon posé, donc on pousse explicitement (comme stat_bonus).
+	clif_bourgeon_companion_state(sd);
+	// Table itemId->ordinal de hat effect (preview des costumes sans viewid). Statique,
+	// construite une fois puis mise en cache : coût négligeable par login.
+	clif_bourgeon_hateffect_map(sd);
 }
 
 // ── TRANSITION cutover opcodes 0x0F00+ (2026-07) ─────────────────────────────
@@ -6734,6 +6804,121 @@ void clif_parse_bourgeon_cheat_report(int32 fd, map_session_data* sd) {
 		sd->status.account_id,
 		sd->status.char_id,
 		tool, detail);
+}
+
+// [Stingor] Pousse l'état des compagnons (ZC 0x0F16, SELF) : niveaux de skills requis
+// + états actifs (cart/peco/falcon). La feuille de perso s'en sert pour afficher/gater
+// les cases sans lire côté client des IDs de skills ni le bitmask option (ce dernier ne
+// reflète PAS le cart sous NEW_CARTS). Appelé au login vérifié et à la fin de
+// pc_setcart/pc_setriding/pc_setfalcon (couvre aussi les changements via la Kafra).
+void clif_bourgeon_companion_state(map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+	if (!session_isActive(sd->fd)) return;
+
+	PACKET_ZC_BOURGEON_COMPANION_STATE p = {};
+	p.packetType   = HEADER_ZC_BOURGEON_COMPANION_STATE;
+	p.packetLength = sizeof(p);
+	p.pushcart_lv   = pc_checkskill(sd, MC_PUSHCART);
+	p.changecart_lv = pc_checkskill(sd, MC_CHANGECART);
+	p.riding_lv     = pc_checkskill(sd, KN_RIDING);
+	p.falcon_lv     = pc_checkskill(sd, HT_FALCON);
+
+	// Type de cart courant (0 = aucun). Sous NEW_CARTS c'est l'état SC_PUSH_CART (val1),
+	// SINON les bits OPTION_CART1..5 (le client lit alors le bitmask, mais on unifie ici).
+	uint8 cart = 0;
+#ifdef NEW_CARTS
+	if (sd->sc.getSCE(SC_PUSH_CART))
+		cart = (uint8)sd->sc.getSCE(SC_PUSH_CART)->val1;
+#else
+	{
+		const int32 opt = sd->sc.option;
+		if      (opt & OPTION_CART5) cart = 5;
+		else if (opt & OPTION_CART4) cart = 4;
+		else if (opt & OPTION_CART3) cart = 3;
+		else if (opt & OPTION_CART2) cart = 2;
+		else if (opt & OPTION_CART1) cart = 1;
+	}
+#endif
+	p.cart_active   = cart;
+	p.riding_active = pc_isriding(sd) ? 1 : 0;
+	p.falcon_active = pc_isfalcon(sd) ? 1 : 0;
+
+	// Type de déco de cart max (cycle côté client) : palier de niveau de base, à condition
+	// que MC_CHANGECART soit appris (les paliers reproduisent clif_parse_ChangeCart).
+	uint8 dmax = 1;
+	const int32 base = sd->status.base_level;
+	if (base > 40) dmax = 2;
+	if (base > 65) dmax = 3;
+	if (base > 80) dmax = 4;
+	if (base > 90) dmax = 5;
+#ifdef NEW_CARTS
+	if (base > 100) dmax = 6;
+	if (base > 110) dmax = 7;
+	if (base > 120) dmax = 8;
+	if (base > 130) dmax = 9;
+#endif
+	p.cart_deco_max = (p.changecart_lv > 0) ? dmax : 0;
+
+	// Ids skills (= enum aegis, identiques client) pour l'icône de la case côté client.
+	p.pushcart_id = MC_PUSHCART;
+	p.riding_id   = KN_RIDING;
+	p.falcon_id   = HT_FALCON;
+
+	clif_send(reinterpret_cast<uint8*>(&p), sizeof(p), sd, SELF);
+}
+
+// [Stingor] Reçoit CZ_BOURGEON_COMPANION (0x0F15) : invoquer/basculer un compagnon depuis
+// la feuille de perso. On NE fait JAMAIS confiance au client — pc_setcart/riding/falcon
+// re-valident le skill requis ; la déco vérifie MC_CHANGECART + le palier de niveau de base.
+// L'état est renvoyé au client par la queue de ces setters (clif_bourgeon_companion_state).
+void clif_parse_bourgeon_companion(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+
+	const auto* p = reinterpret_cast<const PACKET_CZ_BOURGEON_COMPANION*>(RFIFOP(fd, 0));
+	const uint8 kind = p->kind, action = p->action, arg = p->arg;
+
+	switch (kind) {
+		case BGCOMP_CART:
+			if (action == BGCOMP_OFF) {
+				pc_setcart(sd, 0);
+			} else if (action == BGCOMP_ON) {
+				// pc_setcart re-valide MC_PUSHCART + borne 0..MAX_CARTS. Type 1 par défaut.
+				pc_setcart(sd, (arg >= 1 && arg <= MAX_CARTS) ? arg : 1);
+			} else if (action == BGCOMP_DECO) {
+				// Décoration : exige MC_CHANGECART + palier de niveau (cf. clif_parse_ChangeCart).
+				if (pc_checkskill(sd, MC_CHANGECART) >= 1) {
+					const int32 base = sd->status.base_level;
+					bool ok = (arg == 1)
+						|| (arg == 2 && base > 40)
+						|| (arg == 3 && base > 65)
+						|| (arg == 4 && base > 80)
+						|| (arg == 5 && base > 90);
+#ifdef NEW_CARTS
+					ok = ok
+						|| (arg == 6 && base > 100)
+						|| (arg == 7 && base > 110)
+						|| (arg == 8 && base > 120)
+						|| (arg == 9 && base > 130)
+#if PACKETVER >= 20191106
+						|| (arg == 13 && base > 100)
+#endif
+						;
+#endif
+					if (ok) pc_setcart(sd, arg);
+				}
+			}
+			break;
+		case BGCOMP_PECO:
+			pc_setriding(sd, action == BGCOMP_ON ? 1 : 0);
+			break;
+		case BGCOMP_FALCON:
+			pc_setfalcon(sd, action == BGCOMP_ON ? 1 : 0);
+			break;
+		default:
+			break;
+	}
 }
 
 // Sends ZC_BOURGEON_DISCORD_MSG (0x0F08) to a single session.

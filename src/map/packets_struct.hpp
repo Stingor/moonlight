@@ -6153,6 +6153,9 @@ struct PACKET_ZC_BOURGEON_STAT_BONUS {
 	int32 dmg_ret_reduce;   // réduction des dégâts renvoyés subis % (bonus.reduce_damage_return)
 	int32 magic_hp_gain;    // PV gagnés en lançant un sort (bonus.magic_hp_gain_value)
 	int32 magic_sp_gain;    // SP gagnés en lançant un sort (bonus.magic_sp_gain_value)
+	// --- part du RAFFINAGE dans l'ATK/DEF (pour l'affichage « dont X du refine ») ---
+	int32 refine_atk;       // ATK issu du refine+grade de l'arme (base_status.rhw.atk2 + lhw.atk2)
+	int32 refine_def;       // DEF issue du refine des armures (bonus.refine_def)
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_STAT_BONUS, 0x0f10);
 
@@ -6305,6 +6308,71 @@ struct PACKET_ZC_BOURGEON_BUG_REPORT_ACK {
 	uint8 status;
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_BUG_REPORT_ACK, 0x0f14);
+
+// CZ (client -> server): invoquer/basculer un compagnon (chariot / peco / faucon)
+// DEPUIS la feuille de perso, sans passer par la NPC Kafra. Fixe 7.
+// Layout: [packetType:2][packetLength:2][kind:1][action:1][arg:1]
+//   kind   : e_bourgeon_companion_kind (0=cart 1=peco/riding 2=falcon)
+//   action : e_bourgeon_companion_action (0=off 1=on 2=deco-cart)
+//   arg    : type de décoration/cart pour action=deco (cart), sinon type "on" souhaité (cart) / ignoré
+// Le serveur re-valide TOUJOURS le skill requis (pc_setcart/riding/falcon le font ;
+// la déco vérifie MC_CHANGECART + le palier de niveau). On ne fait jamais confiance au client.
+enum e_bourgeon_companion_kind : uint8 {
+	BGCOMP_CART   = 0,
+	BGCOMP_PECO   = 1,  // KN_RIDING
+	BGCOMP_FALCON = 2,  // HT_FALCON
+};
+enum e_bourgeon_companion_action : uint8 {
+	BGCOMP_OFF  = 0,
+	BGCOMP_ON   = 1,
+	BGCOMP_DECO = 2,  // cart : changer la décoration (arg = type)
+};
+struct PACKET_CZ_BOURGEON_COMPANION {
+	int16 packetType;
+	int16 packetLength;
+	uint8 kind;
+	uint8 action;
+	uint8 arg;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_COMPANION, 0x0f15);
+
+// ZC (server -> client) SELF: état des compagnons (niveaux de skills + états actifs),
+// poussé au login vérifié et à chaque changement (pc_setcart/riding/falcon). Fixe.
+// La feuille de perso l'utilise pour AFFICHER/gater les cases sans lire côté client
+// des IDs de skills ni le bitmask option (cassé pour le cart sous NEW_CARTS).
+struct PACKET_ZC_BOURGEON_COMPANION_STATE {
+	int16 packetType;
+	int16 packetLength;
+	uint8 pushcart_lv;    // MC_PUSHCART   (0 = non appris -> pas de case cart)
+	uint8 changecart_lv;  // MC_CHANGECART (0 = non appris -> pas de déco)
+	uint8 riding_lv;      // KN_RIDING     (0 = non appris -> pas de case peco)
+	uint8 falcon_lv;      // HT_FALCON     (0 = non appris -> pas de case faucon)
+	uint8 cart_active;    // type de cart courant (0 = aucun, 1..MAX_CARTS)
+	uint8 riding_active;  // 1 = sur peco/monture
+	uint8 falcon_active;  // 1 = faucon présent
+	uint8 cart_deco_max;  // type de déco max autorisé par le niveau de base (cycle client)
+	// Ids AEGIS des skills (= enum e_skill, identiques côté client) pour charger l'ICÔNE
+	// de la case sans hardcoder d'id côté client (cf. principe « ne jamais hardcoder »).
+	uint16 pushcart_id;   // MC_PUSHCART
+	uint16 riding_id;     // KN_RIDING
+	uint16 falcon_id;     // HT_FALCON
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_COMPANION_STATE, 0x0f16);
+
+// ZC (server -> client) SELF: table itemId(client) -> ordinal de hat effect
+// (e_hat_effects), poussée au login vérifié. Permet au client de PRÉVISUALISER les
+// costumes SANS viewid (cashshop / description) sans les équiper : le hat effect est
+// une donnée de SCRIPT d'item (hateffect HAT_EF_x), invisible côté client autrement.
+// Statique (dérivée des scripts item_db au 1er envoi, mise en cache) donc identique
+// pour tous les joueurs. VARIABLE.
+// Layout: [packetType:2][packetLength:2][count:2] puis count × { itemId:4, ordinal:2 }.
+struct PACKET_ZC_BOURGEON_HATEFFECT_MAP {
+	int16  packetType;
+	int16  packetLength;
+	int16  count;
+	// suivi de count × { uint32 itemId; int16 ordinal; }
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_HATEFFECT_MAP, 0x0f17);
 
 // NOTE: there is no ZC_BOURGEON_MAP packet. The Bourgeon client reads the
 // current map name from the standard 0x0091 ZC_NPCACK_MAPMOVE packet instead.

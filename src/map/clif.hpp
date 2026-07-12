@@ -1544,6 +1544,9 @@ void clif_specialpopup(const map_session_data& sd, int32 id);
 
 // [Stingor] Bourgeon settings sync
 void clif_bourgeon_settings(map_session_data* sd);
+// [Stingor] Bourgeon table itemId->ordinal de hat effect (ZC 0x0F17) — preview costumes
+// sans viewid ; poussée au login vérifié. Statique (scan des scripts item_db, cache).
+void clif_bourgeon_hateffect_map(map_session_data* sd);
 // [Stingor] Bourgeon storage sell-prices (ZC 0x0F0F) — call after clif_storagelist
 void clif_bourgeon_storage_prices(map_session_data* sd, const struct item* items, int32 items_length);
 // [Stingor] Re-sync autolootid list to client (clear + rebuild) — call after @alootid changes
@@ -1569,5 +1572,11 @@ void clif_parse_bourgeon_reqitemscript(int32 fd, map_session_data* sd);
 // [Stingor] In-game contextual bug report (CZ 0x0F13 -> ZC 0x0F14 ack).
 // Stores into `bug_reports` (read via the moonlight website) + Discord relay.
 void clif_parse_bourgeon_bug_report(int32 fd, map_session_data* sd);
+// [Stingor] Compagnons depuis la feuille de perso (CZ 0x0F15) : invoquer/basculer
+// chariot/peco/faucon soi-même (re-validation skill serveur). L'état est renvoyé
+// via clif_bourgeon_companion_state (ZC 0x0F16), aussi poussé par les setters cart/
+// riding/falcon (synchro y compris quand la Kafra les change).
+void clif_parse_bourgeon_companion(int32 fd, map_session_data* sd);
+void clif_bourgeon_companion_state(map_session_data* sd);
 
 #endif /* CLIF_HPP */

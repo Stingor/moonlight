@@ -711,6 +711,7 @@ public:
 		int16 weapon_atk_rate, weapon_matk_rate;
 		int32 skill_ratio;
 		int32 delayrate2; // [Stingor]
+		int32 refine_def; // [Bourgeon] DEF issue du refine des armures (capturée en status_calc), pour l'affichage fiche
 	} bonus;
 	// zeroed vars end here.
 
