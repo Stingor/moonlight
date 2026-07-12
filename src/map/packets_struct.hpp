@@ -6087,6 +6087,155 @@ struct PACKET_ZC_BOURGEON_STORAGE_PRICES {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_STORAGE_PRICES, 0x0f0f);
 
+// ZC (server -> client): apport des ÉQUIPEMENTS et des CARTES aux stats, compilé
+// par status_calc_pc. sd->indexed_bonus.param_equip = apport équipement (copié en
+// status.cpp), param_bonus = apport cartes (cf. le split memcpy/memset). Push à
+// chaque recalc (équip, level up, login). Le header longueur est CONSERVÉ pour une
+// extension future (bonus conditionnels vs race/élément, autocast…) sans nouvel
+// opcode. Phase 1 : split des 6 stats primaires (STR..LUK) + ATK/MATK issus de l'équip.
+// Bloc FIXE. Suivi en queue de : int16 cond_count, puis cond_count entrées
+// PACKET_BOURGEON_STAT_COND (bonus conditionnels vs race/élément/taille).
+struct PACKET_ZC_BOURGEON_STAT_BONUS {
+	int16 packetType;
+	int16 packetLength;
+	int16 param_equip[6];  // STR,AGI,VIT,INT,DEX,LUK — apport ÉQUIPEMENT
+	int16 param_bonus[6];  // STR,AGI,VIT,INT,DEX,LUK — apport CARTES
+	int32 eatk;            // ATK issu de l'équip (sd->bonus.eatk)
+	int32 ematk;           // MATK issu de l'équip (sd->bonus.ematk)
+	int32 melee_pct;       // % dégât mêlée non-armé (bonus.short_attack_atk_rate)
+	int32 ranged_pct;      // % dégât à distance (bonus.long_attack_atk_rate)
+	int32 crit_dmg_pct;    // % dégât critique (bonus.crit_atk_rate)
+	int32 hp_add;          // PV max ajoutés par l'équip (bonus.hp)
+	int32 sp_add;          // SP max ajoutés par l'équip (bonus.sp)
+	int32 aspd_add;        // ASPD plate (bonus.aspd_add)
+	int32 vcast_pct;       // temps de cast variable, n/100 (bonus.varcastrate ; <0 = réduction)
+	int32 fcast_pct;       // temps de cast fixe (bonus.fixcastrate ; <0 = réduction)
+	// --- Lot A : offensif ---
+	int32 atk_pct;         // % ATK global (bonus.atk_rate)
+	int32 matk_pct;        // % MATK global (sd->matk_rate)
+	int32 dmg_ret_melee;   // renvoi de dégâts mêlée % (bonus.short_weapon_damage_return)
+	int32 dmg_ret_ranged;  // renvoi de dégâts distance % (bonus.long_weapon_damage_return)
+	int32 dmg_ret_magic;   // renvoi de dégâts magique % (bonus.magic_damage_return)
+	int32 double_pct;      // chance de double attaque % (bonus.double_rate)
+	int32 perfect_hit;     // coup parfait % (bonus.perfect_hit)
+	// --- Lot B : survie ---
+	int32 hp_pct;          // % PV max (sd->hprate)
+	int32 sp_pct;          // % SP max (sd->sprate)
+	int32 hp_regen_pct;    // % récup PV naturelle (sd->hprecov_rate)
+	int32 sp_regen_pct;    // % récup SP naturelle (sd->sprecov_rate)
+	int32 crit_def_pct;    // réduction des critiques reçus % (bonus.crit_def_rate)
+	int32 hp_on_kill;      // PV gagnés en tuant (bonus.hp_gain_value)
+	int32 sp_on_kill;      // SP gagnés en tuant (bonus.sp_gain_value)
+	int32 unbreak_pct;     // chance d'éviter la casse d'équip % (bonus.unbreakable)
+	// --- Lot C : utilitaire ---
+	int32 pot_hp_pct;      // efficacité potions PV % (bonus.itemhealrate2)
+	int32 pot_sp_pct;      // efficacité potions SP % (bonus.itemsphealrate2)
+	int32 heal_up_pct;     // puissance de soin donné % (bonus.add_heal_rate)
+	int32 delay_pct;       // after-cast delay % (bonus.delayrate ; <0 = réduction)
+	int32 add_vcast_ms;    // cast variable en ms (bonus.add_varcast)
+	int32 add_fcast_ms;    // cast fixe en ms (bonus.add_fixcast)
+	int32 steal_pct;       // taux de vol % (bonus.add_steal_rate)
+	// --- Lot E : réduction de dégâts par type d'attaque + splash ---
+	int32 def_melee_pct;   // réduc. dégâts mêlée reçus % (bonus.near_attack_def_rate)
+	int32 def_ranged_pct;  // réduc. dégâts distance reçus % (bonus.long_attack_def_rate)
+	int32 def_magic_pct;   // réduc. dégâts magiques reçus % (bonus.magic_def_rate)
+	int32 def_misc_pct;    // réduc. dégâts divers reçus % (bonus.misc_def_rate)
+	int32 splash;          // portée de splash, en cases (bonus.splash_range)
+	int32 splash_add;      // portée de splash additionnelle (bonus.splash_add_range)
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_STAT_BONUS, 0x0f10);
+
+// Une entrée conditionnelle : (code de catégorie, index élément/race/taille, valeur %).
+// Le client mappe (code, idx) -> libellé (cf. character_sheet.cc, tables de noms).
+struct PACKET_BOURGEON_STAT_COND {
+	uint16 code;   // e_bourgeon_stat_cond
+	int16  idx;    // ELE_* / RC_* / SZ_* selon le code
+	int32  value;  // magnitude en %
+} __attribute__((packed));
+
+// Codes de catégorie des bonus conditionnels. MIROIR côté client (character_sheet.cc).
+enum e_bourgeon_stat_cond : uint16 {
+	BSC_SUB_ELE  = 1,  // résistance % vs élément reçu   (indexed_bonus.subele[ELE])
+	BSC_SUB_RACE = 2,  // résistance % vs race           (indexed_bonus.subrace[RC])
+	BSC_SUB_SIZE = 3,  // résistance % vs taille          (indexed_bonus.subsize[SZ])
+	BSC_ADD_ELE  = 4,  // +% dégâts vs élément cible      (right_weapon.addele[ELE])
+	BSC_ADD_RACE = 5,  // +% dégâts vs race               (right_weapon.addrace[RC])
+	BSC_ADD_SIZE = 6,  // +% dégâts vs taille             (right_weapon.addsize[SZ])
+	BSC_MADD_ELE  = 7,  // +% dégâts MAGIQUES vs élément  (indexed_bonus.magic_addele[ELE])
+	BSC_MADD_RACE = 8,  // +% dégâts MAGIQUES vs race     (indexed_bonus.magic_addrace[RC])
+	BSC_MADD_SIZE = 9,  // +% dégâts MAGIQUES vs taille   (indexed_bonus.magic_addsize[SZ])
+	BSC_CRIT_RACE = 10, // +crit vs race                  (indexed_bonus.critaddrace[RC])
+	BSC_IGN_DEF_RACE  = 11, // ignore DEF vs race %       (indexed_bonus.ignore_def_by_race[RC])
+	BSC_IGN_MDEF_RACE = 12, // ignore MDEF vs race %      (indexed_bonus.ignore_mdef_by_race[RC])
+	BSC_SUBDEF_ELE = 13, // résist. selon l'élément d'arme ennemie (indexed_bonus.subdefele[ELE])
+	BSC_SUB_CLASS  = 14, // réduc. dégâts vs classe (Normal/Boss/…)  (indexed_bonus.subclass[CLASS])
+	BSC_SUB_RACE2  = 15, // réduc. dégâts vs groupe de monstres RC2  (indexed_bonus.subrace2[RC2])
+};
+
+// Une entrée conditionnelle liée à un SKILL (tuple enrichi : id + niveau). Le client
+// résout le nom via GetSkillName(id). Liste SÉPARÉE des conditionnels indexés.
+struct PACKET_BOURGEON_STAT_SKILL {
+	uint16 code;      // e_bourgeon_stat_skill
+	uint16 skill_id;  // id du skill (résolu en nom côté client)
+	int16  lv;        // niveau du skill casté (autospell) ; 0 sinon
+	int32  value;     // taux (autospell, ‰) ou +% dégâts (skillatk)
+} __attribute__((packed));
+
+// Codes des bonus liés à un skill. MIROIR côté client (character_sheet.cc).
+enum e_bourgeon_stat_skill : uint16 {
+	BSK_AUTOSPELL     = 1,  // autocast à l'attaque  (sd->autospell)
+	BSK_AUTOSPELL_HIT = 2,  // autocast quand touché (sd->autospell2)
+	BSK_SKILLATK      = 3,  // +% dégâts sur un skill (sd->skillatk : s_item_bonus{id,val})
+	// Pour ADDEFF, skill_id porte un EFST (status_db.getIcon(sc)) ; le client résout
+	// le nom via GetStateIconDescript. rate en 1/100 % (10000 = 100%).
+	BSK_ADDEFF     = 4,  // inflige un statut à la cible en attaquant (sd->addeff)
+	BSK_ADDEFF_HIT = 5,  // inflige un statut à l'attaquant quand touché (sd->addeff_atked)
+};
+
+// Une entrée liée à un ITEM (nameid uint32, trop large pour le tuple skill). Le client
+// résout le nom via le DB item. Liste SÉPARÉE.
+struct PACKET_BOURGEON_STAT_ITEM {
+	uint16 code;    // e_bourgeon_stat_item
+	uint32 nameid;  // id d'item (résolu en nom côté client)
+	int32  rate;    // taux (add_drop : 1~10000 => /100 = %)
+} __attribute__((packed));
+
+// Codes des bonus liés à un item. MIROIR côté client (character_sheet.cc).
+enum e_bourgeon_stat_item : uint16 {
+	BSI_ADD_DROP = 1,  // bonus de drop d'un item (sd->add_drop)
+};
+
+// CZ (client -> server): demande le SCRIPT BRUT + les COMBOS d'un item. Fixe 8.
+// Layout: [packetType:2][packetLength:2][id:4].
+struct PACKET_CZ_BOURGEON_REQ_ITEMSCRIPT {
+	int16  packetType;
+	int16  packetLength;
+	uint32 id;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_ITEMSCRIPT, 0x0f11);
+
+// ZC (server -> client): scripts source + combos d'un item, pour les onglets
+// « Script » et « Combos » de la description enrichie. VARIABLE.
+// Header: [packetType:2][packetLength:2][id:4][status:1]
+//   status : 0 = ok, 1 = item introuvable (payload vide au-delà du header).
+// Puis, si status==0 :
+//   -- scripts (chaînes préfixées longueur 16 bits, sans NUL) --
+//     [script_len:2][script:script_len]
+//     [equip_len:2][equip:equip_len]
+//     [unequip_len:2][unequip:unequip_len]
+//   -- combos --
+//     [combo_count:1] puis combo_count fois :
+//       [member_count:1] puis member_count fois : [member_id:4][namelen:1][name]
+//       [script_len:2][script:script_len]
+// Les textes sont émis manuellement au WFIFO ; packetLength est écrit en dernier.
+struct PACKET_ZC_BOURGEON_ITEMSCRIPT {
+	int16  packetType;
+	int16  packetLength;
+	uint32 id;
+	uint8  status;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_ITEMSCRIPT, 0x0f12);
+
 // NOTE: there is no ZC_BOURGEON_MAP packet. The Bourgeon client reads the
 // current map name from the standard 0x0091 ZC_NPCACK_MAPMOVE packet instead.
 // Historique : les anciens opcodes 0x0BFx/0x0C2x partageaient des entrées du

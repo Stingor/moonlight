@@ -5018,6 +5018,11 @@ int32 status_calc_pc_( map_session_data* sd, uint8 opt ){
 		script_attach_state( previous_st );
 	}
 
+	// [Stingor] Bourgeon : pousser au client l'apport équip/cartes compilé par ce
+	// recalc (param_equip/param_bonus/bonus.eatk sont finalisés ici). Self-gardé
+	// (has_bourgeon + session active) => no-op pour un client vanilla.
+	clif_bourgeon_stat_bonus( sd );
+
 	// Return the original return value
 	return ret;
 }

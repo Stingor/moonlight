@@ -5398,6 +5398,147 @@ void clif_bourgeon_send_preset_list(map_session_data* sd) {
 	WFIFOSET(fd, pkt_len);
 }
 
+// Envoie au client l'apport des ÉQUIPEMENTS et des CARTES aux stats, tel que
+// compilé par status_calc_pc. sd->indexed_bonus.param_equip = apport équip,
+// param_bonus = apport cartes (cf. le split memcpy/memset dans status_calc_pc_sub).
+// Push à chaque recalc ; le client (character_sheet) affiche le détail. Longueur
+// fixe en Phase 1, mais le header conserve packetLength pour extension future.
+void clif_bourgeon_stat_bonus(map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+	if (!session_isActive(sd->fd)) return;
+
+	// Buffer = bloc fixe + [cond_count:2] + N conditionnels (~133 max, 256 réservés) +
+	// [skill_count:2] + M skills (autospell+autospell2+skillatk, 128 réservés).
+	uint8 buf[sizeof(PACKET_ZC_BOURGEON_STAT_BONUS)
+	          + 2 + 256 * sizeof(PACKET_BOURGEON_STAT_COND)
+	          + 2 + 128 * sizeof(PACKET_BOURGEON_STAT_SKILL)
+	          + 2 + 128 * sizeof(PACKET_BOURGEON_STAT_ITEM)];
+	PACKET_ZC_BOURGEON_STAT_BONUS* p = reinterpret_cast<PACKET_ZC_BOURGEON_STAT_BONUS*>(buf);
+	p->packetType = HEADER_ZC_BOURGEON_STAT_BONUS;
+	for (int i = 0; i < 6; ++i) {  // PARAM_STR..PARAM_LUK = 0..5
+		p->param_equip[i] = static_cast<int16>(sd->indexed_bonus.param_equip[i]);
+		p->param_bonus[i] = static_cast<int16>(sd->indexed_bonus.param_bonus[i]);
+	}
+	p->eatk         = sd->bonus.eatk;
+	p->ematk        = sd->bonus.ematk;
+	p->melee_pct    = sd->bonus.short_attack_atk_rate;
+	p->ranged_pct   = sd->bonus.long_attack_atk_rate;
+	p->crit_dmg_pct = sd->bonus.crit_atk_rate;
+	p->hp_add       = sd->bonus.hp;
+	p->sp_add       = sd->bonus.sp;
+	p->aspd_add     = sd->bonus.aspd_add;
+	p->vcast_pct    = sd->bonus.varcastrate;
+	p->fcast_pct    = sd->bonus.fixcastrate;
+	// Lot A — offensif
+	p->atk_pct        = sd->bonus.atk_rate;
+	p->matk_pct       = sd->matk_rate;
+	p->dmg_ret_melee  = sd->bonus.short_weapon_damage_return;
+	p->dmg_ret_ranged = sd->bonus.long_weapon_damage_return;
+	p->dmg_ret_magic  = sd->bonus.magic_damage_return;
+	p->double_pct     = sd->bonus.double_rate;
+	p->perfect_hit    = sd->bonus.perfect_hit;
+	// Lot B — survie
+	p->hp_pct       = sd->hprate;
+	p->sp_pct       = sd->sprate;
+	p->hp_regen_pct = sd->hprecov_rate;
+	p->sp_regen_pct = sd->sprecov_rate;
+	p->crit_def_pct = sd->bonus.crit_def_rate;
+	p->hp_on_kill   = sd->bonus.hp_gain_value;
+	p->sp_on_kill   = sd->bonus.sp_gain_value;
+	p->unbreak_pct  = sd->bonus.unbreakable;
+	// Lot C — utilitaire
+	p->pot_hp_pct   = sd->bonus.itemhealrate2;
+	p->pot_sp_pct   = sd->bonus.itemsphealrate2;
+	p->heal_up_pct  = sd->bonus.add_heal_rate;
+	p->delay_pct    = sd->bonus.delayrate;
+	p->add_vcast_ms = sd->bonus.add_varcast;
+	p->add_fcast_ms = sd->bonus.add_fixcast;
+	p->steal_pct    = sd->bonus.add_steal_rate;
+	// Lot E — réduction par type d'attaque + splash
+	p->def_melee_pct  = sd->bonus.near_attack_def_rate;
+	p->def_ranged_pct = sd->bonus.long_attack_def_rate;
+	p->def_magic_pct  = sd->bonus.magic_def_rate;
+	p->def_misc_pct   = sd->bonus.misc_def_rate;
+	p->splash         = sd->bonus.splash_range;
+	p->splash_add     = sd->bonus.splash_add_range;
+
+	// Bonus conditionnels : n'émettre que les entrées non nulles.
+	int off = sizeof(PACKET_ZC_BOURGEON_STAT_BONUS);
+	const int count_off = off;
+	off += 2;  // place réservée pour cond_count
+	int16 count = 0;
+	auto emit = [&](uint16 code, int16 idx, int32 val) {
+		if (val == 0) return;
+		PACKET_BOURGEON_STAT_COND* e = reinterpret_cast<PACKET_BOURGEON_STAT_COND*>(buf + off);
+		e->code = code; e->idx = idx; e->value = val;
+		off += sizeof(PACKET_BOURGEON_STAT_COND);
+		++count;
+	};
+	// Résist. élémentaire = subele + subele_script (comme battle.cpp) ; couvre aussi
+	// l'index ELE_ALL (=10, « tous éléments »).
+	for (int e = 0; e < ELE_MAX; ++e)
+		emit(BSC_SUB_ELE, (int16)e, sd->indexed_bonus.subele[e] + sd->indexed_bonus.subele_script[e]);
+	for (int r = 0; r < RC_MAX;  ++r) emit(BSC_SUB_RACE, (int16)r, sd->indexed_bonus.subrace[r]);
+	for (int z = 0; z < SZ_MAX;  ++z) emit(BSC_SUB_SIZE, (int16)z, sd->indexed_bonus.subsize[z]);
+	for (int e = 0; e < ELE_MAX; ++e) emit(BSC_ADD_ELE,  (int16)e, sd->right_weapon.addele[e]);
+	for (int r = 0; r < RC_MAX;  ++r) emit(BSC_ADD_RACE, (int16)r, sd->right_weapon.addrace[r]);
+	for (int z = 0; z < SZ_MAX;  ++z) emit(BSC_ADD_SIZE, (int16)z, sd->right_weapon.addsize[z]);
+	// Lot D — conditionnels supplémentaires
+	for (int e = 0; e < ELE_MAX; ++e) emit(BSC_MADD_ELE,  (int16)e, sd->indexed_bonus.magic_addele[e]);
+	for (int r = 0; r < RC_MAX;  ++r) emit(BSC_MADD_RACE, (int16)r, sd->indexed_bonus.magic_addrace[r]);
+	for (int z = 0; z < SZ_MAX;  ++z) emit(BSC_MADD_SIZE, (int16)z, sd->indexed_bonus.magic_addsize[z]);
+	for (int r = 0; r < RC_MAX;  ++r) emit(BSC_CRIT_RACE,     (int16)r, sd->indexed_bonus.critaddrace[r]);
+	for (int r = 0; r < RC_MAX;  ++r) emit(BSC_IGN_DEF_RACE,  (int16)r, sd->indexed_bonus.ignore_def_by_race[r]);
+	for (int r = 0; r < RC_MAX;  ++r) emit(BSC_IGN_MDEF_RACE, (int16)r, sd->indexed_bonus.ignore_mdef_by_race[r]);
+	for (int e = 0; e < ELE_MAX; ++e) emit(BSC_SUBDEF_ELE, (int16)e, sd->indexed_bonus.subdefele[e]);
+	for (int c = 0; c < CLASS_MAX; ++c) emit(BSC_SUB_CLASS, (int16)c, sd->indexed_bonus.subclass[c]);
+	for (int r = 0; r < RC2_MAX;   ++r) emit(BSC_SUB_RACE2, (int16)r, sd->indexed_bonus.subrace2[r]);
+	*reinterpret_cast<int16*>(buf + count_off) = count;
+
+	// Bonus liés à un skill (tuple enrichi id+niveau). Liste séparée.
+	const int skcount_off = off;
+	off += 2;
+	int16 skcount = 0;
+	auto emit_sk = [&](uint16 code, uint16 skill_id, int16 lv, int32 val) {
+		if (val == 0) return;
+		PACKET_BOURGEON_STAT_SKILL* e = reinterpret_cast<PACKET_BOURGEON_STAT_SKILL*>(buf + off);
+		e->code = code; e->skill_id = skill_id; e->lv = lv; e->value = val;
+		off += sizeof(PACKET_BOURGEON_STAT_SKILL);
+		++skcount;
+	};
+	for (const auto& a : sd->autospell)  emit_sk(BSK_AUTOSPELL,     a.id, (int16)a.lv, a.rate);
+	for (const auto& a : sd->autospell2) emit_sk(BSK_AUTOSPELL_HIT, a.id, (int16)a.lv, a.rate);
+	for (const auto& s : sd->skillatk)   emit_sk(BSK_SKILLATK,      s.id, 0,           s.val);
+	// addeff : le client résout le nom du statut depuis l'EFST (sc -> icône).
+	for (const auto& a : sd->addeff) {
+		const efst_type efst = status_db.getIcon(a.sc);
+		if (efst != EFST_BLANK) emit_sk(BSK_ADDEFF, (uint16)efst, 0, a.rate);
+	}
+	for (const auto& a : sd->addeff_atked) {
+		const efst_type efst = status_db.getIcon(a.sc);
+		if (efst != EFST_BLANK) emit_sk(BSK_ADDEFF_HIT, (uint16)efst, 0, a.rate);
+	}
+	*reinterpret_cast<int16*>(buf + skcount_off) = skcount;
+
+	// Bonus liés à un item (nameid 32 bits). Liste séparée.
+	const int itcount_off = off;
+	off += 2;
+	int16 itcount = 0;
+	auto emit_it = [&](uint16 code, uint32 nameid, int32 rate) {
+		if (rate == 0 || nameid == 0) return;
+		PACKET_BOURGEON_STAT_ITEM* e = reinterpret_cast<PACKET_BOURGEON_STAT_ITEM*>(buf + off);
+		e->code = code; e->nameid = nameid; e->rate = rate;
+		off += sizeof(PACKET_BOURGEON_STAT_ITEM);
+		++itcount;
+	};
+	for (const auto& d : sd->add_drop) emit_it(BSI_ADD_DROP, d.nameid, d.rate);
+	*reinterpret_cast<int16*>(buf + itcount_off) = itcount;
+
+	p->packetLength = static_cast<int16>(off);
+	clif_send(buf, off, sd, SELF);
+}
+
 // Loads the preset marked auto=1 for this character into sd->state.autolootid.
 // Called before clif_bourgeon_settings so the initial alootid sync includes it.
 static void clif_bourgeon_autoload_preset(map_session_data* sd) {
@@ -5980,6 +6121,11 @@ static void clif_bourgeon_grant_verified(map_session_data* sd) {
 	clif_bourgeon_autoload_preset(sd);
 	clif_bourgeon_settings(sd);
 	clif_bourgeon_send_preset_list(sd);
+	// Push initial de l'apport équip/cartes : le status_calc_pc du spawn a tourné
+	// AVANT has_bourgeon (donc son push a été gaté out) ; sans ceci, la fiche reste
+	// vide jusqu'au 1er recalc post-vérif (changement de map). indexed_bonus est
+	// déjà rempli à ce stade (joueur spawné).
+	clif_bourgeon_stat_bonus(sd);
 }
 
 // ── TRANSITION cutover opcodes 0x0F00+ (2026-07) ─────────────────────────────
@@ -6326,6 +6472,81 @@ void clif_parse_bourgeon_reqdamage(int32 fd, map_session_data* sd) {
 	if (nl) memcpy(WFIFOP(fd, base + 1), target_name.c_str(), nl);
 	r->packetLength = base + 1 + nl;
 	WFIFOSET(fd, base + 1 + nl);
+}
+
+// [Bourgeon] Script SOURCE brut + COMBOS d'un item (CZ 0x0F11 -> ZC 0x0F12), pour
+// les onglets « Script » et « Combos » de la description enrichie. Le texte source
+// est conservé au chargement du YAML (item->script_src / combo->script_src ; le
+// bytecode compilé n'étant pas décompilable). Accessible à tout client Bourgeon.
+void clif_parse_bourgeon_reqitemscript(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+	const PACKET_CZ_BOURGEON_REQ_ITEMSCRIPT* p =
+		reinterpret_cast<const PACKET_CZ_BOURGEON_REQ_ITEMSCRIPT*>(RFIFOP(fd, 0));
+	const t_itemid req_id = p->id;
+
+	WFIFOHEAD(fd, 32768);
+	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_ITEMSCRIPT;
+	WFIFOL(fd, 4) = req_id;
+	int16 offset = 9;  // après [type:2][len:2][id:4][status:1]
+
+	std::shared_ptr<item_data> idata = item_db.find(req_id);
+	if (idata == nullptr) {
+		WFIFOB(fd, 8) = 1;  // status : item introuvable
+		WFIFOW(fd, 2) = offset;
+		WFIFOSET(fd, offset);
+		return;
+	}
+	WFIFOB(fd, 8) = 0;  // status : ok
+
+	// packetLength est un int16 : on borne le paquet bien en deçà de 32767.
+	// Chaque chaîne est préfixée d'une longueur 16 bits et tronquée à la place
+	// restante (les gros scripts de combo ne débordent jamais le buffer).
+	const int32 kMaxPkt = 32000;
+	auto put_str = [&](const std::string& s) {
+		int32 n = static_cast<int32>(s.size());
+		int32 room = kMaxPkt - (offset + 2);
+		if (room < 0) room = 0;
+		if (n > room)    n = room;
+		if (n > 0xFFFF)  n = 0xFFFF;
+		WFIFOW(fd, offset) = static_cast<uint16>(n); offset += 2;
+		if (n > 0) memcpy(WFIFOP(fd, offset), s.c_str(), n);
+		offset += static_cast<int16>(n);
+	};
+
+	// -- scripts (principal / équip / déséquip) --
+	put_str(idata->script_src);
+	put_str(idata->equip_script_src);
+	put_str(idata->unequip_script_src);
+
+	// -- combos auxquels CET item participe (idata->combos) --
+	// Compteur écrit en placeholder puis corrigé (on peut tronquer sur la place).
+	const int16 combo_count_off = offset;
+	offset += 1;
+	uint8 written = 0;
+	for (const std::shared_ptr<s_item_combo>& c : idata->combos) {
+		if (written >= 255 || offset >= kMaxPkt - 64) break;
+		if (c == nullptr) continue;
+		const size_t nm = c->nameid.size();
+		const uint8 mcount = static_cast<uint8>(nm > 255 ? 255 : nm);
+		WFIFOB(fd, offset) = mcount; offset += 1;
+		for (uint8 mi = 0; mi < mcount; mi++) {
+			const t_itemid mid = c->nameid[mi];
+			std::shared_ptr<item_data> mdata = item_db.find(mid);
+			const std::string mname = mdata ? mdata->ename : std::string();
+			const uint8 nl = static_cast<uint8>(mname.size() > 40 ? 40 : mname.size());
+			WFIFOL(fd, offset) = mid; offset += 4;
+			WFIFOB(fd, offset) = nl;  offset += 1;
+			if (nl) memcpy(WFIFOP(fd, offset), mname.c_str(), nl);
+			offset += nl;
+		}
+		put_str(c->script_src);
+		written++;
+	}
+	WFIFOB(fd, combo_count_off) = written;
+
+	WFIFOW(fd, 2) = offset;  // packetLength
+	WFIFOSET(fd, offset);
 }
 
 void clif_parse_bourgeon_cheat_report(int32 fd, map_session_data* sd) {

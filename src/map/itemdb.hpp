@@ -3323,6 +3323,7 @@ enum e_group_algorithm_type : uint8 {
 struct s_item_combo {
 	std::vector<t_itemid> nameid;
 	script_code *script;
+	std::string script_src;  // [Bourgeon] source brute du script de combo (desc enrichie)
 	uint16 id;
 
 	~s_item_combo() {
@@ -3508,6 +3509,12 @@ struct item_data
 	struct script_code *script;	//Default script for everything.
 	struct script_code *equip_script;	//Script executed once when equipping.
 	struct script_code *unequip_script;//Script executed once when unequipping.
+	// [Bourgeon] Texte SOURCE brut des scripts (conservé au chargement du YAML
+	// pour l'onglet « Script » de la description enrichie ; le bytecode compilé
+	// ci-dessus n'est pas décompilable). Vide = aucun script de ce type.
+	std::string script_src;
+	std::string equip_script_src;
+	std::string unequip_script_src;
 	struct {
 		unsigned available : 1;
 		uint32 no_equip;

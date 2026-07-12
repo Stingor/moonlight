@@ -1550,6 +1550,8 @@ void clif_bourgeon_storage_prices(map_session_data* sd, const struct item* items
 void clif_bourgeon_sync_alootid(map_session_data* sd);
 // [Stingor] Send preset list (ZC 0x0F07) to client — call after any preset DB change
 void clif_bourgeon_send_preset_list(map_session_data* sd);
+// [Stingor] Send equip/card stat breakdown (ZC 0x0F10) — called at end of status_calc_pc
+void clif_bourgeon_stat_bonus(map_session_data* sd);
 // [Stingor] Send Discord relay message (0x0F08) to all players on gonryun
 void clif_bourgeon_discord_msg_all(const char* msg);
 // [Stingor] (Re)load conf/bourgeon_integrity.conf — called by admin INTEGRITY command
@@ -1563,5 +1565,6 @@ void clif_parse_bourgeon_cheat_report(int32 fd, map_session_data* sd);
 // or skill cast/cooldown/delay per level.
 void clif_parse_bourgeon_reqtechdata(int32 fd, map_session_data* sd);
 void clif_parse_bourgeon_reqdamage(int32 fd, map_session_data* sd);
+void clif_parse_bourgeon_reqitemscript(int32 fd, map_session_data* sd);
 
 #endif /* CLIF_HPP */
