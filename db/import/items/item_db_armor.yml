@@ -27664,7 +27664,7 @@ Body:
     EquipLevelMin: 170
     Refineable: true
     View: 623
-    Script: "bonus bAllStats,1; bonus bMdef,5; .@r = getrefine(); bonus bBaseAtk,4*.@r; bonus bAspd,.@r/5; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus2 bSkillAtk,\"RK_IGNITIONBREAK\",20*.@r/2; bonus2 bSkillAtk,\"RK_HUNDREDSPEAR\",15*.@r/2;\n"
+    Script: "bonus bAllStats,1; bonus bMdef,5; .@r = getrefine(); bonus bBaseAtk,4*.@r; bonus bAspd,.@r/5; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2;\n"
   - Id: 18972
     AegisName: Old_Mitra
     Name: Old Mitra [1]
@@ -27679,7 +27679,7 @@ Body:
     EquipLevelMin: 170
     Refineable: true
     View: 624
-    Script: "bonus bAllStats,1; bonus bMdef,5; .@r = getrefine(); bonus bMatk,2*.@r; bonus bBaseAtk,4*.@r; bonus bHealPower,.@r; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus2 bSkillAtk,\"AB_JUDEX\",20*.@r/2; bonus2 bSkillAtk,\"PR_MAGNUS\",10*.@r/2;\n"
+    Script: "bonus bAllStats,1; bonus bMdef,5; .@r = getrefine(); bonus bMatk,2*.@r; bonus bBaseAtk,4*.@r; bonus bHealPower,.@r; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus2 bSkillAtk,\"PR_MAGNUS\",10*.@r/2;\n"
   - Id: 18973
     AegisName: Old_Driver_Band_R
     Name: Old Driver Band [1]
@@ -27694,7 +27694,7 @@ Body:
     EquipLevelMin: 170
     Refineable: true
     View: 626
-    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bBaseAtk,4*.@r; bonus bAspd,.@r/5; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus2 bSkillAtk,\"NC_POWERSWING\",20*.@r/2; bonus2 bSkillAtk,\"NC_AXETORNADO\",20*.@r/2;\n"
+    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bBaseAtk,4*.@r; bonus bAspd,.@r/5; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2;\n"
   - Id: 18974
     AegisName: Old_Driver_Band_Y
     Name: Old Driver Band(Yellow) [1]
@@ -27709,7 +27709,7 @@ Body:
     EquipLevelMin: 170
     Refineable: true
     View: 637
-    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bBaseAtk,4*.@r; bonus bAspd,.@r/5; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus2 bSkillAtk,\"NC_ARMSCANNON\",5*(.@r/2); bonus2 bSkillCooldown,\"NC_SELFDESTRUCTION\",-10000*(.@r/4);\n"
+    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bBaseAtk,4*.@r; bonus bAspd,.@r/5; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2;\n"
   - Id: 18975
     AegisName: Old_Shadow_Handicraft
     Name: Old Shadow Handicraft [1]
@@ -27724,7 +27724,7 @@ Body:
     EquipLevelMin: 170
     Refineable: true
     View: 627
-    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bBaseAtk,4*.@r; bonus bMatk,4*.@r; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus2 bSkillAtk,\"SC_TRIANGLESHOT\",25*.@r/2; if (.@r>=6) { bonus2 bSkillCooldown,\"SC_ENERVATION\",-1000; bonus2 bSkillCooldown,\"SC_UNLUCKY\",-1000; } if (.@r>=8) { bonus2 bSkillCooldown,\"SC_LAZINESS\",-1000; bonus2 bSkillCooldown,\"SC_WEAKNESS\",-1000; } if (.@r>=10) { bonus2 bSkillCooldown,\"SC_IGNORANCE\",-1000; bonus2 bSkillCooldown,\"SC_GROOMY\",-1000; }\n"
+    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bBaseAtk,4*.@r; bonus bMatk,4*.@r; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2;\n"
   - Id: 18976
     AegisName: Old_Minstrel_Song_Hat
     Name: Old Minstrel Song's Hat [1]
@@ -27740,7 +27740,7 @@ Body:
     EquipLevelMin: 170
     Refineable: true
     View: 628
-    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bLongAtkRate,.@r; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus2 bSkillAtk,\"CG_ARROWVULCAN\",20*.@r/2; bonus2 bSkillAtk,\"WM_SEVERE_RAINSTORM\",5*.@r/2;\n"
+    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bLongAtkRate,.@r; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus2 bSkillAtk,\"CG_ARROWVULCAN\",20*.@r/2;\n"
   - Id: 18977
     AegisName: Old_Midas_Whisper
     Name: Old Midas Whisper [1]
@@ -27755,7 +27755,7 @@ Body:
     EquipLevelMin: 170
     Refineable: true
     View: 629
-    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bBaseAtk,4*.@r; bonus bLongAtkRate,.@r; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus2 bSkillAtk,\"GN_CARTCANNON\",15*.@r/2;\n"
+    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bBaseAtk,4*.@r; bonus bLongAtkRate,.@r; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2;\n"
   - Id: 18978
     AegisName: Old_Magic_Stone_Hat
     Name: Old Magic Stone Hat [1]
@@ -27770,7 +27770,7 @@ Body:
     EquipLevelMin: 170
     Refineable: true
     View: 630
-    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bMdef,5; bonus bMatkRate,.@r; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus2 bSkillAtk,\"WL_SOULEXPANSION\",5*.@r/2; bonus2 bSkillCooldown,\"WL_CRIMSONROCK\",-1000-(.@r*100);\n"
+    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bMdef,5; bonus bMatkRate,.@r; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2;\n"
   - Id: 18979
     AegisName: Old_Blazing_Soul
     Name: Old Blazing Soul [1]
@@ -27785,7 +27785,7 @@ Body:
     EquipLevelMin: 170
     Refineable: true
     View: 631
-    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bBaseAtk,4*.@r; bonus bCritical,2*.@r; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus2 bSkillAtk,\"SR_RAMPAGEBLASTER\",15*.@r/2; bonus2 bSkillAtk,\"SR_RIDEINLIGHTNING\",20*.@r/2;\n"
+    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bBaseAtk,4*.@r; bonus bCritical,2*.@r; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2;\n"
   - Id: 18980
     AegisName: Old_Wind_Whisper
     Name: Old Wind Whisper [1]
@@ -27800,7 +27800,7 @@ Body:
     EquipLevelMin: 170
     Refineable: true
     View: 633
-    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bAtk2,4*.@r; bonus bMatkRate,.@r; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus bMdef,5; bonus2 bSkillAtk,\"SO_POISON_BUSTER\",15*(.@r/2); bonus2 bSkillAtk,\"SO_VARETYR_SPEAR\",20*(.@r/2);\n"
+    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bAtk2,4*.@r; bonus bMatkRate,.@r; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus bMdef,5;\n"
   - Id: 18981
     AegisName: Old_Dying_Swan
     Name: Old Dying Swan [1]
@@ -27816,7 +27816,7 @@ Body:
     EquipLevelMin: 170
     Refineable: true
     View: 635
-    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bLongAtkRate,.@r; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus2 bSkillAtk,\"CG_ARROWVULCAN\",20*.@r/2; bonus2 bSkillAtk,\"WM_SEVERE_RAINSTORM\",5*.@r/2;\n"
+    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bLongAtkRate,.@r; bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus2 bSkillAtk,\"CG_ARROWVULCAN\",20*.@r/2;\n"
   - Id: 18982
     AegisName: Old_Circlet_Of_Bone
     Name: Old Circlet Of Bones [1]
@@ -27831,7 +27831,7 @@ Body:
     EquipLevelMin: 170
     Refineable: true
     View: 1141
-    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus bCriticalRate,.@r; bonus bAspdRate,1; bonus2 bSkillAtk,\"GC_CROSSIMPACT\",10*.@r/2; bonus2 bSkillAtk,\"GC_CROSSRIPPERSLASHER\",20*.@r/2;\n"
+    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus bCriticalRate,.@r; bonus bAspdRate,1;\n"
   - Id: 18983
     AegisName: Old_Protect_Of_Crown
     Name: Old Protect Of Crown [1]
@@ -27846,7 +27846,7 @@ Body:
     EquipLevelMin: 170
     Refineable: true
     View: 1140
-    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus bMdef,5; bonus bBaseAtk,4*.@r; bonus bAspd,.@r/5; bonus2 bSkillAtk,\"LG_CANNONSPEAR\",20*.@r/2; bonus2 bSkillAtk,\"LG_OVERBRAND\",5*.@r/2;\n"
+    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus bMdef,5; bonus bBaseAtk,4*.@r; bonus bAspd,.@r/5;\n"
   - Id: 18984
     AegisName: Old_Camo_RabbitHood
     Name: Old Camouflage Rabbit Hood [1]
@@ -27861,7 +27861,7 @@ Body:
     EquipLevelMin: 170
     Refineable: true
     View: 1142
-    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus bLongAtkRate,.@r; bonus bFlee2,.@r/3; bonus2 bSkillAtk,\"RA_CLUSTERBOMB\",15*.@r/2; bonus2 bSkillAtk,\"RA_WUGSTRIKE\",10*.@r/2;\n"
+    Script: "bonus bAllStats,1; .@r = getrefine(); bonus bMaxHPrate,.@r/2; bonus bMaxSPrate,.@r/2; bonus bLongAtkRate,.@r; bonus bFlee2,.@r/3;\n"
   - Id: 18985
     AegisName: Falconer_Flute
     Name: Falconer Flute
