@@ -628,6 +628,7 @@ L_CLONE_SKILL:
 			if( plagiarizeskill(CLONE_SKILL, CLONE_SKILL_LV) ) {
 				mes "Vous possédez maintenant :";
 				mes getskillname(CLONE_SKILL)+" Lv"+CLONE_SKILL_LV;
+				sc_start SC_PRESERVE, 1200000, 1;
 			}
 			else {
 				mes "Il faut retirer preserve skill avant de copier un autre skill.";
