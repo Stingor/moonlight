@@ -2754,7 +2754,7 @@ Body:
       - Item: C_Glory_Symbol_TW  # Id: 400144 | ViewID = 2101
       - Item: Drooping_Betelgeuse  # Id: 400147 | ViewID = 2114
       - Item: C_Black_Dragon_Style  # Id: 400148 | ViewID = 2115
-      - Item: C_Black_Thunder  # Id: 400149
+      # - Item: C_Black_Thunder  # Id: 400149 ne fonctionne pas
       - Item: C_Astrologer_T_Hat  # Id: 400157 | ViewID = 2125
       - Item: C_Demon_Crown  # Id: 400158 | ViewID = 2135
       - Item: C_Wave_Noodle  # Id: 400160 | ViewID = 2138
@@ -3470,7 +3470,6 @@ Body:
       - Item: C_Wing_Of_Angel_Move  # Id: 480069 | ViewID = 61
       - Item: C_Sandalphon_Wing_TW  # Id: 480082 | ViewID = 88
       - Item: C_CAPOO_Bag_TW  # Id: 480086 | ViewID = 89
-      - Item: C_Sudden_Wealth_J  # Id: 480092 | ViewID = 96
       - Item: C_Scepter  # Id: 480093 | ViewID = 97
       - Item: C_Giant_White_Rabbit  # Id: 480095 | ViewID = 98
       - Item: C_Put_On_Coat  # Id: 480096 | ViewID = 99

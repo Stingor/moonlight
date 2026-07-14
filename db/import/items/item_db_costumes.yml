@@ -94,7 +94,6 @@ Body:
     Type: Armor
     Locations:
       Costume_Head: true
-    View: 1378
     Script: "hateffect HAT_EF_FLUTTER_BUTTERFLY,true;\n"
     UnEquipScript: "hateffect HAT_EF_FLUTTER_BUTTERFLY,false;\n"
   - Id: 5979
@@ -103,7 +102,6 @@ Body:
     Type: Armor
     Locations:
       Costume_Head: true
-    View: 1380
     Script: "hateffect HAT_EF_ANGEL_FLUTTERING,true;\n"
     UnEquipScript: "hateffect HAT_EF_ANGEL_FLUTTERING,false;\n"
   - Id: 5980
@@ -7816,8 +7814,7 @@ Body:
     Type: Armor
     Locations:
       Costume_Head: true
-    View: 1500
-    Script: "hateffect(HAT_EF_BAKURETSU_HADOU,true); /* Need to confirm this */\n"
+    Script: "hateffect(HAT_EF_BAKURETSU_HADOU,true);\n"
     UnEquipScript: "hateffect(HAT_EF_BAKURETSU_HADOU,false);\n"
   - Id: 31090
     AegisName: C_Angelring_Hat
@@ -9295,7 +9292,6 @@ Body:
     Type: Armor
     Locations:
       Costume_Head: true
-    View: 1665
     Script: "hateffect(HAT_EF_C_FLUTTERBUTTERFLY_BL,true);\n"
     UnEquipScript: "hateffect(HAT_EF_C_FLUTTERBUTTERFLY_BL,false);\n"
   - Id: 31317
@@ -20096,10 +20092,6 @@ Body:
     Locations:
       Costume_Head: true
     View: 2518
-    Script: |
-      hateffect HAT_EF_C_CONSECRATE_F_AUREOLA,true;
-    UnEquipScript: |
-      hateffect HAT_EF_C_CONSECRATE_F_AUREOLA,false;
   - Id: 410316
     AegisName: Bear_Candy_Cart
     Name: Costume Bear Candy Cart
@@ -20184,6 +20176,7 @@ Body:
     Type: Armor
     Locations:
       Costume_Head: true
+    View: 1823
     Trade:
       NoDrop: true
       NoTrade: true
@@ -20201,6 +20194,14 @@ Body:
     Type: Armor
     Locations:
       Costume_Head: true
+    View: 1823
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
     Script: |
       hateffect HAT_EF_C_DRAGON_RED_AURA,true;
     UnEquipScript: |
@@ -20211,6 +20212,7 @@ Body:
     Type: Armor
     Locations:
       Costume_Head: true
+    View: 1823
     Trade:
       NoDrop: true
       NoTrade: true
@@ -22217,9 +22219,9 @@ Body:
       Costume_Head: true
     View: 2594
     Script: |
-      hateffect HAT_EF_ATQUE_POENITENTIA,true;
+      hateffect HAT_EF_ATQUE_POENITENTIA2,true;
     UnEquipScript: |
-      hateffect HAT_EF_ATQUE_POENITENTIA,false;
+      hateffect HAT_EF_ATQUE_POENITENTIA2,false;
   - Id: 420383
     AegisName: C_Sparkly_Rainbow_Hair
     Name: Costume Sparkly Rainbow Hair
@@ -23482,10 +23484,6 @@ Body:
     Locations:
       Costume_Garment: true
     View: 96
-    Script: |
-      hateffect HAT_EF_C_SUDDEN_WEALTH_TW,true;
-    UnEquipScript: |
-      hateffect HAT_EF_C_SUDDEN_WEALTH_TW,false;
   - Id: 480093
     AegisName: C_Scepter
     Name: Costume Scepter

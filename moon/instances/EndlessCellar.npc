@@ -749,8 +749,10 @@ OnInstanceInit:
 	end;
 	
 OnMobDead:
-	if (mobismvp(killedrid))
-		MissionMVP(0, "Endless Cellar: "+getmonsterinfo(killedrid, MOB_NAME)+" tué");
+	if (playerattached()) {
+		if (mobismvp(killedrid))
+			MissionMVP(0, "Endless Cellar: "+getmonsterinfo(killedrid, MOB_NAME)+" tué");
+	}
 	.@i = 0;
 	'EC_Mobs = 'EC_Mobs - 1;
 	if ('EC_Mobs < 0) 'EC_Mobs = 0;

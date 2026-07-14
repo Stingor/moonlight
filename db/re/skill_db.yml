@@ -13128,6 +13128,8 @@ Body:
     TargetType: Self
     DamageFlags:
       NoDamage: true
+    Flags:
+      Toggleable: true
     HitCount: 1
     Duration1: 600000
     FixedCastTime: 1000

@@ -508,6 +508,7 @@ L_MainMenu:
 				@lastskill$ = "Dernier skill copié...";
 			else
 				@lastskill$ = "";
+			sc_end SC_PRESERVE;
 			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 			mes "Sélectionnez le skill à copier:";
 			switch( select( @lastskill$, "Acolyte","Hunter","Mage","Merchant","Swordman","Thief","Ninja","Taekwon" ) ) {
@@ -559,7 +560,7 @@ L_MainMenu:
 					break;
 				case 6:
 					switch( select( "Bowling Bash","Grand Cross","Martyr's Reckoning","Pressure","Shield Chain" ) ) {
-						case 1: .@skillid = 62; .@skilllevel = 10; break;
+						case 1: .@skillid = KN_BOWLINGBASH; .@skilllevel = 10; break;
 						case 2: .@skillid = 254; .@skilllevel = 10; break;
 						case 3: .@skillid = 368; .@skilllevel = 5; break;
 						case 4: .@skillid = 367; .@skilllevel = 5; break;
@@ -581,7 +582,7 @@ L_MainMenu:
 						case 1: .@skillid = 534; .@skilllevel = 10; break;
 						case 2: .@skillid = 535; .@skilllevel = 10; break;
 						case 3: .@skillid = 536; .@skilllevel = 5; break;
-						case 4: .@skillid = 537; .@skilllevel = 10; break;
+						case 4: .@skillid = NJ_HYOUSENSOU; .@skilllevel = 10; break;
 						case 5: .@skillid = 539; .@skilllevel = 5; break;
 						case 6: .@skillid = 540; .@skilllevel = 10; break;
 						case 7: .@skillid = 541; .@skilllevel = 5; break;
@@ -629,7 +630,7 @@ L_CLONE_SKILL:
 				mes getskillname(CLONE_SKILL)+" Lv"+CLONE_SKILL_LV;
 			}
 			else {
-				mes "Une erreur est survenue, contactez Stingor xD.";
+				mes "Il faut retirer preserve skill avant de copier un autre skill.";
 			}
 			close;
 		}

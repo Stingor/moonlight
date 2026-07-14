@@ -3947,8 +3947,10 @@ getmonsterinfo. Return 1 if the condition is true, 0 otherwise.
   mobisboss(<mob id>) - returns 1 if the monster is a Miniboss (BOSSTYPE_MINIBOSS)
 
 Example:
-  if (mobismvp(killedrid))
-      dispbottom "You killed an MVP!";
+	if (playerattached()) {
+		if (mobismvp(killedrid))
+			dispbottom "You killed an MVP!";
+	}
 
 ---------------------------------------
 
