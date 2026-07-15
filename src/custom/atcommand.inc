@@ -68,10 +68,23 @@ ACMD_FUNC(jobchange)
 /*==========================================
  * @storeall by [MouseJstr]
  * Put everything into storage
+ * [Stingor] num == 0/empty -> storage standard, num == 1~5 -> storage alternatif correspondant
  *------------------------------------------*/
 ACMD_FUNC(storeall)
 {
+	int32 num = 0;
+	const char* text;
 	nullpo_retr(-1, sd);
+
+	if (message && *message)
+		sscanf(message, "%11d", &num);
+
+	if (num < 0 || num > 5 || (num > 0 && !storage_exists((uint8)num))) {
+		text = atcommand_help_string(command);
+		if (text)
+			clif_displaymessage(fd, text);
+		return -1;
+	}
 
 	if (pc_istrading2(sd)) {
 		clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
@@ -88,6 +101,28 @@ ACMD_FUNC(storeall)
 		return -1;
 	}
 
+	if (num > 0) { // [Stingor] Storage alternatif
+		if (storage_premiumStorage_load(sd, (uint8)num, STOR_MODE_PUT) == 0) {
+			clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
+			return -1;
+		}
+
+		for (int32 i = 0; i < MAX_INVENTORY; i++) {
+			if (sd->inventory.u.items_inventory[i].amount) {
+				if(sd->inventory.u.items_inventory[i].equip == 0 && !sd->inventory.u.items_inventory[i].favorite)
+				storage_storageadd(sd, &sd->premiumStorage, i, sd->inventory.u.items_inventory[i].amount);
+			}
+		}
+
+		storage_premiumStorage_close(sd);
+
+		char output[128];
+		sprintf(output, msg_txt(sd,1852), num); // Tous les objets sont stockés dans le storage alternatif %d.
+		clif_displaymessage(fd, output);
+
+		return 0;
+	}
+
 	if( storage_storageopen(sd) ) {
 		clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
 		return -1;
@@ -99,11 +134,11 @@ ACMD_FUNC(storeall)
 			storage_storageadd(sd, &sd->storage, i, sd->inventory.u.items_inventory[i].amount);
 		}
 	}
-	
+
 	storage_storageclose(sd);
 
 	clif_displaymessage(fd, msg_txt(sd,1162)); // All items stored.
-	
+
 	return 0;
 }
 

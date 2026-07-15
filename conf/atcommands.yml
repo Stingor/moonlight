@@ -1390,7 +1390,10 @@ Body:
       Opens storage.
   - Command: storeall
     Help: |
+      Params: [<storage number>]
       Puts all your possessions in storage.
+      0 or no parameter: standard storage.
+      1-5: matching alternate/premium storage.
   - Command: storagelist
     Help: |
       Displays a list of items in the storage.
