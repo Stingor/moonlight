@@ -3,6 +3,7 @@
 
 #include "storage.hpp"
 
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <map>
@@ -1322,6 +1323,14 @@ void storage_premiumStorage_open(map_session_data *sd) {
 	clif_storagelist(sd, sd->premiumStorage.u.items_storage, ARRAYLENGTH(sd->premiumStorage.u.items_storage), storage_getName(sd->premiumStorage.stor_id));
 	clif_updatestorageamount(*sd, sd->premiumStorage.amount, sd->premiumStorage.max_amount);
 	clif_bourgeon_storage_prices(sd, sd->premiumStorage.u.items_storage, ARRAYLENGTH(sd->premiumStorage.u.items_storage));
+
+	// [Stingor] @storeall N: the premium storage may only become truly available here (loaded
+	// asynchronously from the char-server), so the deferred item transfer runs at this point,
+	// never right after storage_premiumStorage_load(), to avoid racing the async load.
+	if (sd->state.pending_storeall) {
+		sd->state.pending_storeall = false;
+		storage_premiumStorage_storeall(sd);
+	}
 }
 
 /**
@@ -1392,6 +1401,37 @@ void storage_premiumStorage_close(map_session_data *sd) {
 		sd->state.storage_flag = 0;
 		clif_storageclose( *sd );
 	}
+}
+
+/**
+ * Move all unequipped, non-favorite inventory items into the premium storage
+ * that is currently loaded for this player, then close it.
+ * Must only run once the requested premium storage is actually loaded (i.e.
+ * from storage_premiumStorage_open()), since storage_premiumStorage_load()
+ * may only have fired an async request to the char-server when switching to
+ * a storage number that wasn't already cached in sd->premiumStorage.
+ * @param sd Player
+ * @author [Stingor]
+ **/
+void storage_premiumStorage_storeall(map_session_data *sd) {
+	char output[128];
+	uint8 num;
+
+	nullpo_retv(sd);
+
+	num = sd->premiumStorage.stor_id;
+
+	for (int32 i = 0; i < MAX_INVENTORY; i++) {
+		if (sd->inventory.u.items_inventory[i].amount) {
+			if (sd->inventory.u.items_inventory[i].equip == 0 && !sd->inventory.u.items_inventory[i].favorite)
+				storage_storageadd(sd, &sd->premiumStorage, i, sd->inventory.u.items_inventory[i].amount);
+		}
+	}
+
+	storage_premiumStorage_close(sd);
+
+	sprintf(output, msg_txt(sd,1852), num); // Tous les objets sont stockés dans le storage alternatif %d.
+	clif_displaymessage(sd->fd, output);
 }
 
 /**

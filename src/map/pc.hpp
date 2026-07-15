@@ -433,6 +433,7 @@ public:
 		uint32 gmaster_flag : 1;
 		uint32 prevend : 1;//used to flag wheather you've spent 40sp to open the vending or not.
 		bool pending_vending_ui; // flag whether the vending packet should still be sent to this player or not
+		bool pending_storeall; // [Stingor] @storeall N is waiting for the requested premium storage to actually finish loading
 		uint32 warping : 1;//states whether you're in the middle of a warp processing
 		uint32 permanent_speed : 1; // When 1, speed cannot be changed through status_calc_pc().
 		bool hold_recalc;

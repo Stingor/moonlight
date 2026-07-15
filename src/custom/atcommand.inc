@@ -102,23 +102,22 @@ ACMD_FUNC(storeall)
 	}
 
 	if (num > 0) { // [Stingor] Storage alternatif
-		if (storage_premiumStorage_load(sd, (uint8)num, STOR_MODE_PUT) == 0) {
+		if (sd->state.pending_storeall) {
 			clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
 			return -1;
 		}
 
-		for (int32 i = 0; i < MAX_INVENTORY; i++) {
-			if (sd->inventory.u.items_inventory[i].amount) {
-				if(sd->inventory.u.items_inventory[i].equip == 0 && !sd->inventory.u.items_inventory[i].favorite)
-				storage_storageadd(sd, &sd->premiumStorage, i, sd->inventory.u.items_inventory[i].amount);
-			}
+		// storage_premiumStorage_load() may only fire an async request to the char-server
+		// when switching to a storage number that isn't already cached: the transfer itself
+		// is deferred to storage_premiumStorage_open(), which runs once it's truly loaded,
+		// whether that happens synchronously (right here) or later (async response).
+		sd->state.pending_storeall = true;
+
+		if (storage_premiumStorage_load(sd, (uint8)num, STOR_MODE_PUT) == 0) {
+			sd->state.pending_storeall = false;
+			clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
+			return -1;
 		}
-
-		storage_premiumStorage_close(sd);
-
-		char output[128];
-		sprintf(output, msg_txt(sd,1852), num); // Tous les objets sont stockés dans le storage alternatif %d.
-		clif_displaymessage(fd, output);
 
 		return 0;
 	}
