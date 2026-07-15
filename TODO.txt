@@ -1,0 +1,1 @@
+TODO: npc stylist, possibilitée de recopier le style d'un autre personne du compte hairstyle/haircolor/clothcolor
