@@ -135,7 +135,8 @@ uint16 skill_name2id(const char* name) {
  * @return AEGIS Skill name
  **/
 const char* skill_get_name( uint16 skill_id ) {
-	return skill_db.find(skill_id)->name;
+	std::shared_ptr<s_skill_db> skill = skill_db.find(skill_id);
+	return skill ? skill->name : "";
 }
 
 /**
@@ -144,7 +145,8 @@ const char* skill_get_name( uint16 skill_id ) {
  * @return English Skill name
  **/
 const char* skill_get_desc( uint16 skill_id ) {
-	return skill_db.find(skill_id)->desc;
+	std::shared_ptr<s_skill_db> skill = skill_db.find(skill_id);
+	return skill ? skill->desc : "";
 }
 
 static bool skill_check(uint16 id) {
