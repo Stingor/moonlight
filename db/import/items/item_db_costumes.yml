@@ -20336,7 +20336,7 @@ Body:
     Type: Armor
     Locations:
       Costume_Head: true
-    Trage:
+    Trade:
       NoMail: true
       NoAuction: true
       NoGuildStorage: true
@@ -20386,7 +20386,7 @@ Body:
     Type: Armor
     Locations:
       Costume_Head: true
-    Trage:
+    Trade:
       NoDrop: true
       NoSell: true
       NoMail: true
