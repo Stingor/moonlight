@@ -5928,14 +5928,20 @@ struct PACKET_CZ_BOURGEON_SETTING {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(CZ_BOURGEON_SETTING, 0x0f04);  // ex-0x0bfd
 
-// CZ (client -> server): the Bourgeon DLL reports a SHA-256 of its own ddraw.dll
-// and the Windows MachineGuid (for multi-account detection). Fixed 72 bytes.
-// Layout: [packetType:2][packetLength:2][sha256:32][machine_guid:36]
+// CZ (client -> server): the Bourgeon DLL reports a SHA-256 of its own ddraw.dll,
+// the Windows MachineGuid (for multi-account detection) and the patch level read
+// from rpatchur's cache file. Fixed 76 bytes.
+// Layout: [packetType:2][packetLength:2][sha256:32][machine_guid:36][patch_index:4]
+//
+// The hash and the patch level are versioned independently: an approved DLL says
+// nothing about whether the player's GRF/loose content is current, since rpatchur
+// ships them as separate patches. Hence the extra field.
 struct PACKET_CZ_BOURGEON_INTEGRITY {
 	int16 packetType;
 	int16 packetLength;
 	uint8 hash[32];
 	char  machine_guid[36];  // registry MachineGuid, NOT null-terminated
+	int32 patch_index;       // rpatchur last_patch_index; -1 = never patched
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(CZ_BOURGEON_INTEGRITY, 0x0f02);  // ex-0x0bfb
 

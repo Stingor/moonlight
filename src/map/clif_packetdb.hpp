@@ -2050,7 +2050,8 @@
 // [Stingor] Bourgeon DLL <-> server settings packet (fixed 8 bytes, always active)
 parseable_packet(HEADER_CZ_BOURGEON_SETTING, sizeof(PACKET_CZ_BOURGEON_SETTING), clif_parse_bourgeon_setting, 0);
 
-// [Stingor] Bourgeon DLL integrity report + MachineGuid (variable-length: old clients send 36, new send 72)
+// [Stingor] Bourgeon DLL integrity report + MachineGuid + patch level
+// (variable-length: legacy clients send 36 or 72, current send 76)
 parseable_packet(HEADER_CZ_BOURGEON_INTEGRITY, -1, clif_parse_bourgeon_integrity, 0);
 // [Stingor] TRANSITION : ancien opcode d'intégrité (pré-migration 0x0F00+). Fait le pont
 // vers l'ancien kick-notice pour que les vieux clients voient le popup « mets à jour »

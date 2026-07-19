@@ -163,17 +163,96 @@ static void admin_exec( int32 fd, const std::string& line ){
 
 	// INTEGRITY reload          — reload conf/bourgeon_integrity.conf in place
 	// INTEGRITY <sha256hex>    — replace hash in the conf, then reload
+	// INTEGRITY minpatch <n>   — replace min_patch_index in the conf, then reload
 	if( cmd == "INTEGRITY" ){
 		if( arg.empty() ){
-			admin_reply( fd, "ERR usage: INTEGRITY <sha256hex> | INTEGRITY reload" );
+			admin_reply( fd, "ERR usage: INTEGRITY <sha256hex> | INTEGRITY minpatch <n> | INTEGRITY reload" );
 			return;
 		}
 
 		const char* integrity_path = "conf/bourgeon_integrity.conf";
 
+		// Rewrites "<key>: <value>" in the conf: the first matching line is replaced
+		// in place, any duplicate is dropped, and the key is appended if absent.
+		// Everything else (comments, other keys) is preserved verbatim.
+		auto set_conf_key = [&]( const std::string& key, const std::string& value, std::string& err ) -> bool {
+			std::ifstream in(integrity_path, std::ios::binary);
+			if( !in ){
+				err = std::string("cannot open ") + integrity_path;
+				return false;
+			}
+			const std::string prefix = key + ":";
+			std::string out_content;
+			std::string line;
+			bool placed = false;
+			while( std::getline(in, line) ){
+				const size_t s = line.find_first_not_of(" \t");
+				const bool is_key_line =
+					(s != std::string::npos && line.compare(s, prefix.size(), prefix) == 0);
+				if( is_key_line ){
+					if( !placed ){
+						out_content += key + ": " + value + "\n";
+						placed = true;
+					}
+				} else {
+					out_content += line + "\n";
+				}
+			}
+			in.close();
+			if( !placed )
+				out_content += key + ": " + value + "\n";
+
+			std::ofstream out_file(integrity_path, std::ios::trunc | std::ios::binary);
+			if( !out_file ){
+				err = std::string("cannot write ") + integrity_path;
+				return false;
+			}
+			out_file << out_content;
+			out_file.close();
+			return true;
+		};
+
 		if( strcmpi( arg.c_str(), "reload" ) == 0 ){
 			clif_bourgeon_integrity_reload();
 			admin_reply( fd, "OK integrity reloaded" );
+			return;
+		}
+
+		// INTEGRITY minpatch <n> — raise the required rpatchur patch level. This is
+		// the cosmetic-patch path: no server rebuild, no new DLL, so the approved
+		// hash is untouched and players are not forced to re-download the DLL.
+		// Only clients connecting after this takes effect are checked; players
+		// already in game keep playing until their next login.
+		if( arg.size() > 8 && strncmpi( arg.c_str(), "minpatch", 8 ) == 0 &&
+			(arg[8] == ' ' || arg[8] == '\t') ){
+			std::string value = arg.substr(9);
+			const size_t b = value.find_first_not_of(" \t");
+			if( b == std::string::npos ){
+				admin_reply( fd, "ERR usage: INTEGRITY minpatch <n>   (-1 disables the check)" );
+				return;
+			}
+			value = value.substr(b, value.find_last_not_of(" \t") - b + 1);
+
+			// Accept a plain integer, optionally negative (-1 disables the check).
+			size_t i = (value[0] == '-') ? 1 : 0;
+			if( i >= value.size() ){
+				admin_reply( fd, "ERR INTEGRITY: minpatch must be an integer" );
+				return;
+			}
+			for( ; i < value.size(); ++i ){
+				if( !isdigit(static_cast<unsigned char>(value[i])) ){
+					admin_reply( fd, "ERR INTEGRITY: minpatch must be an integer" );
+					return;
+				}
+			}
+
+			std::string err;
+			if( !set_conf_key( "min_patch_index", value, err ) ){
+				admin_reply( fd, "ERR INTEGRITY: " + err );
+				return;
+			}
+			clif_bourgeon_integrity_reload();
+			admin_reply( fd, "OK integrity min_patch_index updated: " + value );
 			return;
 		}
 
@@ -191,40 +270,11 @@ static void admin_exec( int32 fd, const std::string& line ){
 			}
 		}
 
-		// Read the conf file, replacing every "hash: ..." line with the new hash
-		// (first occurrence) and dropping any duplicates. Everything else is kept.
-		std::ifstream in(integrity_path, std::ios::binary);
-		if( !in ){
-			admin_reply( fd, std::string("ERR INTEGRITY: cannot open ") + integrity_path );
+		std::string err;
+		if( !set_conf_key( "hash", hash, err ) ){
+			admin_reply( fd, "ERR INTEGRITY: " + err );
 			return;
 		}
-		std::string out_content;
-		std::string line;
-		bool hash_placed = false;
-		while( std::getline(in, line) ){
-			size_t s = line.find_first_not_of(" \t");
-			bool is_hash_line = (s != std::string::npos && line.compare(s, 5, "hash:") == 0);
-			if( is_hash_line ){
-				if( !hash_placed ){
-					out_content += "hash: " + hash + "\n";
-					hash_placed = true;
-				}
-			} else {
-				out_content += line + "\n";
-			}
-		}
-		in.close();
-		if( !hash_placed ){
-			out_content += "hash: " + hash + "\n";
-		}
-
-		std::ofstream out_file(integrity_path, std::ios::trunc | std::ios::binary);
-		if( !out_file ){
-			admin_reply( fd, std::string("ERR INTEGRITY: cannot write ") + integrity_path );
-			return;
-		}
-		out_file << out_content;
-		out_file.close();
 
 		clif_bourgeon_integrity_reload();
 		admin_reply( fd, "OK integrity hash updated: " + hash );

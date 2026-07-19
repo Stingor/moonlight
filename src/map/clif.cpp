@@ -6007,6 +6007,13 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 //   enforce: 0          // 0 = development (log only, never kick); 1 = enforce
 //   hash: <sha256 hex>  // one approved ddraw.dll hash per line (repeatable)
 //   exempt_ip: <ip>     // client IPs that bypass the check (dev/admin machines)
+//   min_patch_index: -1 // lowest rpatchur last_patch_index accepted; -1 disables
+//
+// min_patch_index catches players who bypass the launcher: Bourgeon loads through
+// the ddraw proxy, so the game starts even if rpatchur never ran and the content
+// is stale. Bumping it here costs nothing on the client side — the DLL hash is
+// unchanged, so raising the required patch level does NOT force everyone to
+// re-download the DLL.
 //
 // NOTE: this raises the bar (catches missing/old/casually-modified DLLs) but is
 // not foolproof — a client controlling the machine can replay a valid hash.
@@ -6033,6 +6040,10 @@ struct s_bourgeon_integrity_conf {
 	bool enforce = false;
 	std::unordered_set<std::string> hashes;
 	std::unordered_set<uint32> exempt_ips;  // client_addr values that bypass the check
+	// Lowest accepted rpatchur last_patch_index. -1 (the default when the key is
+	// absent) disables the content check entirely, so an un-updated conf keeps the
+	// previous behaviour.
+	int32 min_patch_index = -1;
 };
 static s_bourgeon_integrity_conf bourgeon_integrity_conf;
 
@@ -6042,6 +6053,7 @@ void clif_bourgeon_integrity_reload() {
 	c.enforce = false;
 	c.hashes.clear();
 	c.exempt_ips.clear();
+	c.min_patch_index = -1;
 
 	const char* path = "conf/bourgeon_integrity.conf";
 	std::ifstream f(path);
@@ -6078,12 +6090,14 @@ void clif_bourgeon_integrity_reload() {
 		} else if (key == "exempt_ip") {
 			const uint32 ip = str2ip(val.c_str());
 			if (ip != 0) c.exempt_ips.insert(ip);
+		} else if (key == "min_patch_index") {
+			c.min_patch_index = static_cast<int32>(atoi(val.c_str()));
 		}
 	}
 
-	ShowStatus("Bourgeon integrity: enforce=%s, %u approved hash(es), %u exempt IP(s).\n",
+	ShowStatus("Bourgeon integrity: enforce=%s, %u approved hash(es), %u exempt IP(s), min_patch_index=%d.\n",
 		c.enforce ? "true" : "false", static_cast<uint32>(c.hashes.size()),
-		static_cast<uint32>(c.exempt_ips.size()));
+		static_cast<uint32>(c.exempt_ips.size()), c.min_patch_index);
 }
 
 // Fires ~5 s after clif_parse_bourgeon_integrity sends the kick-notice packet.
@@ -6269,7 +6283,7 @@ void clif_parse_bourgeon_integrity_legacy(int32 fd, map_session_data* sd) {
 }
 
 // Handles the client's integrity report (CZ 0x0F02):
-//   [type:2][len:2][sha256:32][machine_guid:36]
+//   [type:2][len:2][sha256:32][machine_guid:36][patch_index:4]
 //
 // This is the handshake that identifies a Bourgeon client.  Only after this
 // packet is received do we set has_bourgeon and send ZC Bourgeon packets back,
@@ -6283,9 +6297,9 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 	const PACKET_CZ_BOURGEON_INTEGRITY* p =
 		reinterpret_cast<const PACKET_CZ_BOURGEON_INTEGRITY*>(RFIFOP(fd, 0));
 
-	// Old Bourgeon builds (pre-MachineGuid) send only 36 bytes (no machine_guid field).
-	// Show them the update popup and kick, so they know to patch rather than seeing a
-	// silent disconnect.
+	// Older Bourgeon builds send a shorter packet: 36 bytes (pre-MachineGuid) or 72
+	// (pre-patch_index). Show them the update popup and kick, so they know to patch
+	// rather than seeing a silent disconnect.
 	if (p->packetLength < static_cast<int16>(sizeof(PACKET_CZ_BOURGEON_INTEGRITY))) {
 		ShowWarning("Bourgeon integrity: outdated client (pkt len %d, expected %zu) from %s (AID %d) — kicking with notice.\n",
 			p->packetLength, sizeof(PACKET_CZ_BOURGEON_INTEGRITY),
@@ -6308,6 +6322,26 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 			sd->status.name, ip2str(session[fd]->client_addr, nullptr));
 		clif_bourgeon_grant_verified(sd);
 		return;
+	}
+
+	// Outdated game content. Checked before the hash: the DLL can be a perfectly
+	// approved build while the GRF and loose files are several patches behind,
+	// because rpatchur versions them separately. The client reacts to the same
+	// kick-notice by relaunching the patcher on its way out.
+	if (bourgeon_integrity_conf.min_patch_index >= 0 &&
+		p->patch_index < bourgeon_integrity_conf.min_patch_index) {
+		ShowWarning("[Bourgeon] content outdated: %s (AID %d) patch_index=%d < required %d%s\n",
+			sd->status.name, sd->status.account_id, p->patch_index,
+			bourgeon_integrity_conf.min_patch_index,
+			bourgeon_integrity_conf.enforce ? " - kicking" : " - log only (enforce off)");
+		if (bourgeon_integrity_conf.enforce) {
+			PACKET_ZC_BOURGEON_KICK_NOTICE pkt{};
+			pkt.packetType   = HEADER_ZC_BOURGEON_KICK_NOTICE;
+			pkt.packetLength = sizeof(pkt);
+			socket_send<PACKET_ZC_BOURGEON_KICK_NOTICE>(fd, pkt);
+			add_timer(gettick() + 5000, clif_bourgeon_integrity_kick_timer, sd->id, 0);
+			return;
+		}
 	}
 
 	char hex[65];
