@@ -283,7 +283,7 @@ std::unique_ptr<const SkillImpl> SkillFactoryThief::create(const e_skill skill_i
 		case ST_FULLSTRIP:
 			return std::make_unique<SkillDivestAll>();
 		case ST_PRESERVE:
-			return std::make_unique<StatusSkillImpl>(skill_id);
+			return std::make_unique<StatusSkillImpl>(skill_id, true);
 		case ST_REJECTSWORD:
 			return std::make_unique<SkillCounterInstinct>();
 		case TF_BACKSLIDING:
