@@ -7120,6 +7120,10 @@ int32 battle_damage_area(block_list *bl, va_list ap) {
  */
 void battle_autocast_aftercast(block_list* src, uint16 skill_id, uint16 skill_lv, t_tick tick)
 {
+	// The player did not choose to cast this skill, so optionally don't lock them out of their own skills
+	if (!battle_config.autocast_aftercast_delay)
+		return;
+
 	unit_data *ud = unit_bl2ud(src);
 
 	if (ud) {
@@ -7538,8 +7542,6 @@ enum damage_lv battle_weapon_attack(block_list* src, block_list* target, t_tick 
 		sp = skill_get_sp(skill_id,skill_lv) * 2 / 3;
 
 		if (status_charge(src, 0, sp)) {
-			struct unit_data *ud = unit_bl2ud(src);
-
 			switch (skill_get_casttype(skill_id)) {
 				case CAST_GROUND:
 					skill_castend_pos2(src, target->x, target->y, skill_id, skill_lv, tick, flag);
@@ -7551,15 +7553,7 @@ enum damage_lv battle_weapon_attack(block_list* src, block_list* target, t_tick 
 					skill_castend_damage_id(src, target, skill_id, skill_lv, tick, flag);
 					break;
 			}
-			if (ud) {
-				int32 autospell_tick = skill_delayfix(src, skill_id, skill_lv);
-
-				if (DIFF_TICK(ud->canact_tick, tick + autospell_tick) < 0) {
-					ud->canact_tick = i64max(tick + autospell_tick, ud->canact_tick);
-					if (battle_config.display_status_timers && sd)
-						clif_status_change(src, EFST_POSTDELAY, 1, autospell_tick, 0, 0, 0);
-				}
-			}
+			battle_autocast_aftercast(src, skill_id, skill_lv, tick);
 		}
 	}
 	if (sd) {
@@ -8299,6 +8293,7 @@ static const struct _battle_data {
 	{ "delay_dependon_dex",                 &battle_config.delay_dependon_dex,              0,      0,      1,              },
 	{ "delay_dependon_agi",                 &battle_config.delay_dependon_agi,              0,      0,      1,              },
 	{ "skill_delay_attack_enable",          &battle_config.sdelay_attack_enable,            0,      0,      1,              },
+	{ "autocast_aftercast_delay",           &battle_config.autocast_aftercast_delay,        1,      0,      1,              },
 	{ "left_cardfix_to_right",              &battle_config.left_cardfix_to_right,           0,      0,      1,              },
 	{ "cardfix_monster_physical",           &battle_config.cardfix_monster_physical,        1,      0,      1,              },
 	{ "skill_add_range",                    &battle_config.skill_add_range,                 0,      0,      INT_MAX,        },

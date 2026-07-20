@@ -1505,7 +1505,6 @@ int32 skill_additional_effect( block_list* src, block_list *bl, uint16 skill_id,
 	}
 
 	if( sd && sd->ed && sc && !status_isdead(*bl) && !skill_id ) {
-		struct unit_data *ud = unit_bl2ud(src);
 		int32 skill;
 
 		if( sc->getSCE(SC_WILD_STORM_OPTION) )
@@ -1522,14 +1521,7 @@ int32 skill_additional_effect( block_list* src, block_list *bl, uint16 skill_id,
 		if ( rnd()%100 < 25 && skill ){
 			skill_castend_damage_id(src, bl, skill, 5, tick, 0);
 
-			if (ud) {
-				int32 delay = skill_delayfix(src, skill, skill_lv);
-				if (DIFF_TICK(ud->canact_tick, tick + delay) < 0){
-					ud->canact_tick = i64max(tick + delay, ud->canact_tick);
-					if ( battle_config.display_status_timers )
-						clif_status_change(src, EFST_POSTDELAY, 1, delay, 0, 0, 0);
-				}
-			}
+			battle_autocast_aftercast(src, skill, skill_lv, tick);
 		}
 	}
 
@@ -1600,17 +1592,7 @@ int32 skill_additional_effect( block_list* src, block_list *bl, uint16 skill_id,
 			sd->state.autocast = 0;
 
 			//Set canact delay. [Skotlex]
-			unit_data *ud = unit_bl2ud(src);
-
-			if (ud) {
-				int32 delay = skill_delayfix(src, skill, autospl_skill_lv);
-
-				if (DIFF_TICK(ud->canact_tick, tick + delay) < 0){
-					ud->canact_tick = i64max(tick + delay, ud->canact_tick);
-					if ( battle_config.display_status_timers && sd )
-						clif_status_change(src, EFST_POSTDELAY, 1, delay, 0, 0, 0);
-				}
-			}
+			battle_autocast_aftercast(src, skill, autospl_skill_lv, tick);
 		}
 	}
 
@@ -1887,17 +1869,7 @@ int32 skill_counter_additional_effect (block_list* src, block_list *bl, uint16 s
 			dstsd->state.autocast = 0;
 
 			//Set canact delay. [Skotlex]
-			unit_data *ud = unit_bl2ud(bl);
-
-			if (ud) {
-				int32 delay = skill_delayfix(bl, autospl_skill_id, autospl_skill_lv);
-
-				if (DIFF_TICK(ud->canact_tick, tick + delay) < 0){
-					ud->canact_tick = i64max(tick + delay, ud->canact_tick);
-					if ( battle_config.display_status_timers && dstsd )
-						clif_status_change(bl, EFST_POSTDELAY, 1, delay, 0, 0, 0);
-				}
-			}
+			battle_autocast_aftercast(bl, autospl_skill_id, autospl_skill_lv, tick);
 		}
 	}
 
@@ -3197,7 +3169,11 @@ int64 skill_attack (int32 attack_type, block_list* src, block_list *dsrc, block_
 		dmg.flag&BF_SKILL && dmg.damage+dmg.damage2 > 0 && damage < status_get_hp(bl)) //Cannot copy skills if the blow will kill you. [Skotlex]
 		skill_do_copy(src,bl,skill_id,skill_lv);
 
-	if (dmg.dmg_lv >= ATK_MISS && (type = skill_get_walkdelay(skill_id, skill_lv)) > 0)
+	// An autocast is not a deliberate action, so optionally don't pause the caster's normal
+	// attack for it: that is what breaks the attack momentum on card procs (Turtle General).
+	bool autocast_no_pause = ( sd != nullptr && sd->state.autocast && !battle_config.autocast_aftercast_delay );
+
+	if (!autocast_no_pause && dmg.dmg_lv >= ATK_MISS && (type = skill_get_walkdelay(skill_id, skill_lv)) > 0)
 	{	//Skills with can't walk delay also stop normal attacking for that
 		//duration when the attack connects. [Skotlex]
 		struct unit_data *ud = unit_bl2ud(src);

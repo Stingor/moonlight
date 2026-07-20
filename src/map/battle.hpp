@@ -129,6 +129,9 @@ int32 battle_fix_damage(block_list* src, block_list* target, int64 damage, int16
 
 int32 battle_calc_chorusbonus(const map_session_data* sd);
 
+// Applies the aftercast delay of an autocasted skill (honors battle_config.autocast_aftercast_delay)
+void battle_autocast_aftercast(block_list* src, uint16 skill_id, uint16 skill_lv, t_tick tick);
+
 // Summary normal attack treatment (basic attack)
 enum damage_lv battle_weapon_attack( block_list *bl,block_list *target,t_tick tick,int32 flag);
 
@@ -169,6 +172,7 @@ struct Battle_Config
 	int32 cast_rate, delay_rate;
 	int32 delay_dependon_dex, delay_dependon_agi;
 	int32 sdelay_attack_enable;
+	int32 autocast_aftercast_delay;
 	int32 left_cardfix_to_right;
 	int32 cardfix_monster_physical;
 	int32 skill_add_range;
