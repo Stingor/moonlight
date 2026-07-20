@@ -40,6 +40,15 @@ struct unit_data {
 	bool stepaction; //Action should be executed on step [Playtester]
 	int32 steptimer; //Timer that triggers the action [Playtester]
 	uint16 stepskill_id, stepskill_lv; //Remembers skill that should be casted on step [Playtester]
+	// [Stingor] Skill demandée pendant l'auto-attaque : rejouée à canact_tick au
+	// lieu d'être jetée. Le client officiel n'envoie le useskill qu'une fois la
+	// motion d'attaque finie ; Bourgeon l'envoie tout de suite, donc le paquet
+	// arrive quelques ms trop tôt et le garde de clif_parse_skill_toid le perdait.
+	int32 delayskill_timer;
+	uint16 delayskill_id, delayskill_lv;
+	int32 delayskill_target;   // cible (skill sur unité)
+	int16 delayskill_x, delayskill_y; // case visée (skill au sol)
+	bool delayskill_pos;       // true = skill au sol, false = skill sur cible
 	t_tick attackabletime;
 	t_tick canact_tick;
 	t_tick canmove_tick;

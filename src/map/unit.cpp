@@ -3507,6 +3507,7 @@ void unit_dataset(block_list *bl)
 	ud->skilltimer     = INVALID_TIMER;
 	ud->attacktimer    = INVALID_TIMER;
 	ud->steptimer      = INVALID_TIMER;
+	ud->delayskill_timer = INVALID_TIMER; // [Stingor] rejeu de skill en auto-attaque
 	t_tick tick = gettick();
 	ud->attackabletime = tick;
 	ud->canact_tick = tick;
@@ -3628,6 +3629,13 @@ int32 unit_remove_map_(block_list *bl, clr_type clrtype, const char* file, int32
 	//Clear stepaction even if there is no timer
 	if (ud->stepaction || ud->steptimer != INVALID_TIMER)
 		unit_stop_stepaction(bl);
+
+	// [Stingor] Annule un rejeu de skill différé encore en attente (map-change,
+	// warp, mort) : la skill mémorisée ne doit pas repartir dans un autre contexte.
+	if (ud->delayskill_timer != INVALID_TIMER) {
+		delete_timer(ud->delayskill_timer, clif_delayskill_timer);
+		ud->delayskill_timer = INVALID_TIMER;
+	}
 
 	// Do not reset can-act delay. [Skotlex]
 	ud->attackabletime = ud->canmove_tick /*= ud->canact_tick*/ = gettick();

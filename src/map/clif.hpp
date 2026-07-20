@@ -1475,6 +1475,7 @@ void clif_equipswitch_reply( const map_session_data* sd, bool failed );
 void clif_pet_evolution_result( const map_session_data* sd, e_pet_evolution_result result );
 
 void clif_parse_skill_toid( map_session_data* sd, uint16 skill_id, uint16 skill_lv, int32 target_id );
+TIMER_FUNC(clif_delayskill_timer); // [Stingor] rejeu d'une skill lancée pendant l'auto-attaque
 
 void clif_inventory_expansion_info( const map_session_data* sd );
 

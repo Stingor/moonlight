@@ -15058,6 +15058,31 @@ static void clif_parse_UseSkillToPos_mercenary(s_mercenary_data *md, map_session
 		unit_skilluse_pos(md, x, y, skill_id, skill_lv);
 }
 
+// [Stingor] Rejeu d'une skill demandée pendant l'auto-attaque.
+// Le client officiel n'envoie le CZ_USE_SKILL qu'une fois la motion d'attaque
+// terminée ; Bourgeon l'envoie dès le clic, donc le paquet arrive quelques ms
+// avant la fin du délai d'attaque (canact_tick) et clif_parse_skill_toid le
+// jetait (USESKILL_FAIL_SKILLINTERVAL). Au lieu de perdre le paquet, on le
+// mémorise et on rappelle clif_parse_skill_toid dès que canact_tick expire.
+// AUCUN bypass : la skill ne part jamais avant la fin du délai, et toute la
+// validation (mort, warp, pc_cant_act, portée…) est refaite au rejeu.
+TIMER_FUNC(clif_delayskill_timer){
+	map_session_data* sd = map_id2sd(id);
+
+	if( sd == nullptr )
+		return 0; // joueur déconnecté : rien à rejouer
+
+	if( sd->ud.delayskill_timer != tid )
+		return 0; // timer remplacé entre-temps (spam de skills)
+
+	sd->ud.delayskill_timer = INVALID_TIMER;
+	if( sd->ud.delayskill_pos )
+		unit_skilluse_pos( sd, sd->ud.delayskill_x, sd->ud.delayskill_y, sd->ud.delayskill_id, sd->ud.delayskill_lv );
+	else
+		clif_parse_skill_toid( sd, sd->ud.delayskill_id, sd->ud.delayskill_lv, sd->ud.delayskill_target );
+	return 0;
+}
+
 void clif_parse_skill_toid( map_session_data* sd, uint16 skill_id, uint16 skill_lv, int32 target_id ){
 	if( sd == nullptr ){
 		return;
@@ -15127,6 +15152,27 @@ void clif_parse_skill_toid( map_session_data* sd, uint16 skill_id, uint16 skill_
 			return;
 	} else if( DIFF_TICK(tick, sd->ud.canact_tick) < 0 ) {
 		if( sd->skillitem != skill_id ) {
+			// [Stingor] Skill demandée pendant l'auto-attaque : Bourgeon envoie le
+			// paquet dès le clic (le client officiel throttle jusqu'à la fin de la
+			// motion), donc il arrive quelques ms trop tôt. Plutôt que de le perdre
+			// — ce qui obligeait à recliquer en boucle, d'autant plus que l'ASPD est
+			// haute — on rejoue la skill dès que canact_tick expire. Hors auto-
+			// attaque, on garde le rejet d'origine.
+			if( sd->ud.attacktimer != INVALID_TIMER || sd->ud.state.attack_continue ) {
+				// On stoppe l'auto-attaque : sinon elle repousserait canact_tick à
+				// chaque coup et le rejeu retomberait sans cesse dans ce garde (le
+				// bug reviendrait, en pire à haute ASPD). C'est aussi ce que fait
+				// unit_skilluse_id pour un cast normal.
+				unit_stop_attack( sd );
+				if( sd->ud.delayskill_timer != INVALID_TIMER )
+					delete_timer( sd->ud.delayskill_timer, clif_delayskill_timer );
+				sd->ud.delayskill_pos    = false;
+				sd->ud.delayskill_id     = skill_id;
+				sd->ud.delayskill_lv     = skill_lv;
+				sd->ud.delayskill_target = target_id;
+				sd->ud.delayskill_timer  = add_timer( sd->ud.canact_tick + 1, clif_delayskill_timer, sd->id, 0 );
+				return;
+			}
 			clif_skill_fail( *sd, skill_id, USESKILL_FAIL_SKILLINTERVAL );
 			return;
 		}
@@ -15243,6 +15289,23 @@ static void clif_parse_UseSkillToPosSub( int32 fd, map_session_data& sd, uint16 
 
 	if( DIFF_TICK(tick, sd.ud.canact_tick) < 0 ) {
 		if( sd.skillitem != skill_id ) {
+			// [Stingor] Même correctif que pour le skill sur cible (voir
+			// clif_parse_skill_toid) : une skill au sol lancée pendant l'auto-
+			// attaque arrive quelques ms trop tôt. On stoppe l'attaque et on la
+			// rejoue à canact_tick au lieu de la perdre. Le message éventuel
+			// (Graffiti/TalkieBox) a déjà été copié dans sd.message plus haut.
+			if( sd.ud.attacktimer != INVALID_TIMER || sd.ud.state.attack_continue ) {
+				unit_stop_attack( &sd );
+				if( sd.ud.delayskill_timer != INVALID_TIMER )
+					delete_timer( sd.ud.delayskill_timer, clif_delayskill_timer );
+				sd.ud.delayskill_pos    = true;
+				sd.ud.delayskill_id     = skill_id;
+				sd.ud.delayskill_lv     = skill_lv;
+				sd.ud.delayskill_x      = x;
+				sd.ud.delayskill_y      = y;
+				sd.ud.delayskill_timer  = add_timer( sd.ud.canact_tick + 1, clif_delayskill_timer, sd.id, 0 );
+				return;
+			}
 			clif_skill_fail( sd, skill_id, USESKILL_FAIL_SKILLINTERVAL );
 			return;
 		}
