@@ -5197,6 +5197,7 @@ enum e_bourgeon_setting : int16 {
 	BOURGEON_SETTING_ALOOT_ID      = 23,  // add item ID to autolootid list (0=clear all)
 	BOURGEON_SETTING_ALOOT_ID_REM  = 24,  // remove item ID from autolootid list
 	BOURGEON_SETTING_REFRESH       = 25,  // client asks for a self clif_refresh (drop stale client UI composites, e.g. menu-icon ghost); value ignored
+	BOURGEON_SETTING_STAFF         = 26,  // [server->client only] pc_get_group_level(sd) ; >0 = staff/GM, gate client des fonctionnalites reservees
 };
 
 // Sends the full set of settings to the client on login.
@@ -5231,6 +5232,10 @@ void clif_bourgeon_settings(map_session_data* sd) {
 		{ BOURGEON_SETTING_TRI_CART,      (uint32)(sd->state.sort_cart) },
 		{ BOURGEON_SETTING_TRI_STORAGE,   (uint32)(sd->state.sort_storage) },
 		{ BOURGEON_SETTING_TRI_GSTORAGE,  (uint32)(sd->state.sort_gstorage) },
+		// Niveau de groupe du compte -> le client reserve au staff (>0) les
+		// fonctionnalites de confiance (p.ex. affichage permanent des noms).
+		// Server->client uniquement : le client ne renvoie jamais cet id.
+		{ BOURGEON_SETTING_STAFF,         (uint32)pc_get_group_level(sd) },
 	};
 	// Count non-zero autolootid entries to append after the fixed block.
 	int16 aloot_id_count = 0;
