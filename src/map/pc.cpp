@@ -5678,50 +5678,72 @@ bool pc_skill_plagiarism_reset(map_session_data &sd, uint8 type)
 /*==========================================
  * Append a card to an item ?
  *------------------------------------------*/
-int32 pc_insert_card(map_session_data* sd, int32 idx_card, int32 idx_equip)
+/**
+ * Predicate : la carte idx_card peut-elle être sertie sur l'équipement idx_equip ?
+ * Miroir exact des gardes de pc_insert_card / clif_use_card (index SERVEUR, 0-based).
+ * Extrait pour être réutilisé par le sertissage rapide de Bourgeon
+ * (clif_bourgeon_compat_cards) : lister les cartes compatibles d'un équipement =
+ * appliquer ce prédicat sur toutes les cartes de l'inventaire. Aucun effet de bord.
+ */
+bool pc_can_insert_card(map_session_data* sd, int32 idx_card, int32 idx_equip)
 {
-	nullpo_ret(sd);
+	if (sd == nullptr)
+		return false;
+	if (idx_equip < 0 || idx_equip >= MAX_INVENTORY)
+		return false;
+	if (idx_card < 0 || idx_card >= MAX_INVENTORY)
+		return false;
 
-	if (idx_equip < 0 || idx_equip >= MAX_INVENTORY) {
-		return 0;
-	}
-	if (idx_card < 0 || idx_card >= MAX_INVENTORY) {
-		return 0;
-	}
-
-	int32 i;
-	t_itemid nameid;
 	struct item_data* item_eq = sd->inventory_data[idx_equip];
 	struct item_data* item_card = sd->inventory_data[idx_card];
 
 	if(item_eq == nullptr)
-		return 0; //Invalid item index.
+		return false; //Invalid item index.
 	if(item_card == nullptr)
-		return 0; //Invalid card index.
+		return false; //Invalid card index.
 	if( sd->inventory.u.items_inventory[idx_equip].nameid == 0 || sd->inventory.u.items_inventory[idx_equip].amount < 1 )
-		return 0; // target item missing
+		return false; // target item missing
 	if( sd->inventory.u.items_inventory[idx_card].nameid == 0 || sd->inventory.u.items_inventory[idx_card].amount < 1 )
-		return 0; // target card missing
+		return false; // target card missing
 	if( item_eq->type != IT_WEAPON && item_eq->type != IT_ARMOR )
-		return 0; // only weapons and armor are allowed
+		return false; // only weapons and armor are allowed
 	if( item_card->type != IT_CARD )
-		return 0; // must be a card
+		return false; // must be a card
 	if( sd->inventory.u.items_inventory[idx_equip].identify == 0 )
-		return 0; // target must be identified
+		return false; // target must be identified
 	if( itemdb_isspecial(sd->inventory.u.items_inventory[idx_equip].card[0]) )
-		return 0; // card slots reserved for other purposes
+		return false; // card slots reserved for other purposes
 	if( (item_eq->equip & item_card->equip) == 0 )
-		return 0; // card cannot be compounded on this item type
+		return false; // card cannot be compounded on this item type
 	if( item_eq->type == IT_WEAPON && item_card->equip == EQP_SHIELD )
-		return 0; // attempted to place shield card on left-hand weapon.
+		return false; // attempted to place shield card on left-hand weapon.
 	if( item_eq->type == IT_ARMOR && (item_card->equip & EQP_ACC) && ((item_card->equip & EQP_ACC) != EQP_ACC) && ((item_eq->equip & EQP_ACC) != (item_card->equip & EQP_ACC)) )
-		return 0; // specific accessory-card can only be inserted to specific accessory.
+		return false; // specific accessory-card can only be inserted to specific accessory.
 	if( sd->inventory.u.items_inventory[idx_equip].equip != 0 )
-		return 0; // item must be unequipped
+		return false; // item must be unequipped
 
+	int32 i;
 	ARR_FIND( 0, item_eq->slots, i, sd->inventory.u.items_inventory[idx_equip].card[i] == 0 );
 	if( i == item_eq->slots )
-		return 0; // no free slots
+		return false; // no free slots
+
+	return true;
+}
+
+int32 pc_insert_card(map_session_data* sd, int32 idx_card, int32 idx_equip)
+{
+	nullpo_ret(sd);
+
+	// Toutes les gardes de compatibilité (index, type, identification, slot libre,
+	// non équipé…) sont dans pc_can_insert_card, partagé avec le sertissage rapide.
+	if( !pc_can_insert_card(sd, idx_card, idx_equip) )
+		return 0;
+
+	int32 i;
+	t_itemid nameid;
+	struct item_data* item_eq = sd->inventory_data[idx_equip];
+
+	ARR_FIND( 0, item_eq->slots, i, sd->inventory.u.items_inventory[idx_equip].card[i] == 0 );
 
 	// remember the card id to insert
 	nameid = sd->inventory.u.items_inventory[idx_card].nameid;

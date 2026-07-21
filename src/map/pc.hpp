@@ -1532,6 +1532,7 @@ bool pc_skill(map_session_data *sd, uint16 skill_id, int32 level, enum e_addskil
 bool pc_skill_plagiarism(map_session_data &sd, uint16 skill_id, uint16 skill_lv);
 bool pc_skill_plagiarism_reset(map_session_data &sd, uint8 type);
 
+bool pc_can_insert_card(map_session_data *sd,int32 idx_card,int32 idx_equip);
 int32 pc_insert_card(map_session_data *sd,int32 idx_card,int32 idx_equip);
 
 int32 pc_identifyall(map_session_data *sd, bool identify_item);

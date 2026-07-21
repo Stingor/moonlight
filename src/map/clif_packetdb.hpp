@@ -2075,4 +2075,7 @@ parseable_packet(HEADER_CZ_BOURGEON_BUG_REPORT, -1, clif_parse_bourgeon_bug_repo
 // [Stingor] Bourgeon companion toggle (cart/peco/falcon) from the character sheet (fixed)
 parseable_packet(HEADER_CZ_BOURGEON_COMPANION, sizeof(PACKET_CZ_BOURGEON_COMPANION), clif_parse_bourgeon_companion, 0);
 
+// [Stingor] Bourgeon sertissage rapide : cartes compatibles d'un équipement (fixed)
+parseable_packet(HEADER_CZ_BOURGEON_REQ_COMPAT_CARDS, sizeof(PACKET_CZ_BOURGEON_REQ_COMPAT_CARDS), clif_parse_bourgeon_reqcompatcards, 0);
+
 #endif /* CLIF_PACKETDB_HPP */

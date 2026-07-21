@@ -6093,6 +6093,31 @@ struct PACKET_ZC_BOURGEON_STORAGE_PRICES {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_STORAGE_PRICES, 0x0f0f);
 
+// CZ (client -> server): sertissage rapide — demande la liste des cartes de
+// l'inventaire compatibles avec un équipement donné (menu contextuel du viewer).
+// index_equip = index d'inventaire CLIENT de l'équipement (server_index() côté serveur).
+// Fixe 6.
+struct PACKET_CZ_BOURGEON_REQ_COMPAT_CARDS {
+	int16  packetType;
+	int16  packetLength;
+	uint16 index_equip;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_COMPAT_CARDS, 0x0f18);
+
+// ZC (server -> client): réponse au sertissage rapide. VARIABLE.
+// Layout: [packetType:2][packetLength:2][index_equip:2][count:2] puis
+//   count * [index_card:2] (index d'inventaire CLIENT de chaque carte compatible).
+// index_equip renvoyé en écho pour que le client valide qu'il s'agit bien de la
+// requête en cours. La compatibilité est calculée par pc_can_insert_card (prédicat
+// EXACT du sertissage) -> aucun faux positif : chaque carte listée sera acceptée.
+struct PACKET_ZC_BOURGEON_COMPAT_CARDS {
+	int16  packetType;
+	int16  packetLength;
+	uint16 index_equip;
+	int16  count;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_COMPAT_CARDS, 0x0f19);
+
 // ZC (server -> client): apport des ÉQUIPEMENTS et des CARTES aux stats, compilé
 // par status_calc_pc. sd->indexed_bonus.param_equip = apport équipement (copié en
 // status.cpp), param_bonus = apport cartes (cf. le split memcpy/memset). Push à

@@ -6515,6 +6515,39 @@ void clif_parse_bourgeon_reqtechdata(int32 fd, map_session_data* sd) {
 	WFIFOSET(fd, offset);
 }
 
+// Sertissage rapide (Bourgeon) : le client demande, pour un ÉQUIPEMENT donné, la
+// liste des cartes de l'inventaire qui peuvent y être serties. On applique le
+// prédicat EXACT du sertissage (pc_can_insert_card) à chaque carte -> la liste
+// renvoyée est identique à ce que pc_insert_card accepterait (zéro faux positif).
+// index_equip reçu/renvoyé en convention CLIENT (client_index = server+2).
+void clif_parse_bourgeon_reqcompatcards(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+
+	const PACKET_CZ_BOURGEON_REQ_COMPAT_CARDS* p =
+		reinterpret_cast<const PACKET_CZ_BOURGEON_REQ_COMPAT_CARDS*>(RFIFOP(fd, 0));
+	const uint16 equip_cidx = p->index_equip;          // convention client (écho)
+	const uint16 equip_idx  = server_index(equip_cidx);
+	if (equip_idx >= MAX_INVENTORY) return;
+
+	WFIFOHEAD(fd, 8 + MAX_INVENTORY * 2);
+	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_COMPAT_CARDS;
+	WFIFOW(fd, 4) = equip_cidx;  // écho de l'équipement demandé
+	int16 count = 0;
+	int16 offset = 8;            // [type:2][len:2][equip:2][count:2]
+	for (int32 i = 0; i < MAX_INVENTORY; i++) {
+		if (sd->inventory_data[i] == nullptr) continue;
+		if (sd->inventory_data[i]->type != IT_CARD) continue;
+		if (!pc_can_insert_card(sd, i, equip_idx)) continue;
+		WFIFOW(fd, offset) = client_index(i);
+		offset += 2;
+		count++;
+	}
+	WFIFOW(fd, 6) = count;
+	WFIFOW(fd, 2) = offset;  // packetLength
+	WFIFOSET(fd, offset);
+}
+
 // Estime les dégâts BRUTS (non réduits) d'un sort via battle_calc_attack contre
 // un dummy neutre construit ENTIÈREMENT en source (0 def/mdef, Neutral/Formless/
 // Medium ; aucune entrée mob_db, aucun spawn). Échantillonné pour min/max/moy.
