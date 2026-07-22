@@ -242,7 +242,7 @@ struct npc_data : public block_list {
 struct eri;
 extern struct eri *npc_sc_display_ers;
 
-#define START_NPC_NUM 110000000
+#define START_NPC_NUM 3000000
 
 enum e_job_types
 {

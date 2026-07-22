@@ -174,7 +174,7 @@ const t_itemid WEDDING_RING_F = 2635;
 
 //Limits to avoid ID collision with other game objects
 #define START_ACCOUNT_NUM 2000000
-#define END_ACCOUNT_NUM 100000000
+#define END_ACCOUNT_NUM 2999999
 #define START_CHAR_NUM 150000
 
 //Guilds
