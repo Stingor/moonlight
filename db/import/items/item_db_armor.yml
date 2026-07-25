@@ -5439,7 +5439,7 @@ Body:
     Locations:
       Shoes: true
     Refineable: true
-    Script: ".@r = getrefine(); bonus bMdef,.@r; if(.@r>=14){ bonus bSpeedRate,25; }\n"
+    Script: "bonus bMdef,getrefine(); if(getallrefine()>=14){ bonus bSpeedRate,25; }\n"
   - Id: 2492
     AegisName: Bayani_Bangungot_Boots
     Name: Bayani Bangungot Boots of Nightmare [1]
@@ -5450,7 +5450,7 @@ Body:
     Locations:
       Shoes: true
     Refineable: true
-    Script: ".@r = getrefine(); bonus bMdef,.@r; if(.@r>=12){ bonus bSpeedRate,25; }\n"
+    Script: "bonus bMdef,getrefine(); if(getallrefine()>=12){ bonus bSpeedRate,25; }\n"
   - Id: 2493
     AegisName: Goibne's_Combat_Boots_
     Name: Goibne's Greaves [1]
