@@ -509,9 +509,9 @@ static bool mmo_auth_fromsql(AccountDB_SQL* db, struct mmo_account* acc, uint32 
 	// retrieve login entry for the specified account
 	if( SQL_ERROR == Sql_Query(sql_handle,
 #ifdef VIP_ENABLE
-		"SELECT `account_id`,`userid`,`user_pass`,`sex`,`email`,`group_id`,`state`,`unban_time`,`expiration_time`,`logincount`,`lastlogin`,`last_ip`,`birthdate`,`character_slots`,`pincode`, `pincode_change`, `vip_time`, `old_group` FROM `%s` WHERE `account_id` = %d",
+		"SELECT `account_id`,`userid`,`user_pass`,`sex`,`email`,`group_id`,`state`,`unban_time`,`expiration_time`,`logincount`,`lastlogin`,`last_ip`,`birthdate`,`character_slots`,`pincode`, `pincode_change`, `vip_time`, `old_group`, `web_auth_token` FROM `%s` WHERE `account_id` = %d",
 #else
-		"SELECT `account_id`,`userid`,`user_pass`,`sex`,`email`,`group_id`,`state`,`unban_time`,`expiration_time`,`logincount`,`lastlogin`,`last_ip`,`birthdate`,`character_slots`,`pincode`, `pincode_change` FROM `%s` WHERE `account_id` = %d",
+		"SELECT `account_id`,`userid`,`user_pass`,`sex`,`email`,`group_id`,`state`,`unban_time`,`expiration_time`,`logincount`,`lastlogin`,`last_ip`,`birthdate`,`character_slots`,`pincode`, `pincode_change`, `web_auth_token` FROM `%s` WHERE `account_id` = %d",
 #endif
 		db->account_db, account_id )
 	) {
@@ -544,9 +544,13 @@ static bool mmo_auth_fromsql(AccountDB_SQL* db, struct mmo_account* acc, uint32 
 #ifdef VIP_ENABLE
 	Sql_GetData(sql_handle, 16, &data, nullptr); acc->vip_time = atol(data);
 	Sql_GetData(sql_handle, 17, &data, nullptr); acc->old_group = atoi(data);
+	// [Moonlight] charge web_auth_token (login OTP web) — index 18 en mode VIP
+	Sql_GetData(sql_handle, 18, &data, nullptr); safestrncpy(acc->web_auth_token, data==nullptr?"":data, sizeof(acc->web_auth_token));
+#else
+	// [Moonlight] charge web_auth_token (login OTP web) — index 16 hors VIP
+	Sql_GetData(sql_handle, 16, &data, nullptr); safestrncpy(acc->web_auth_token, data==nullptr?"":data, sizeof(acc->web_auth_token));
 #endif
 	Sql_FreeResult(sql_handle);
-	acc->web_auth_token[0] = '\0';
 
 	if( acc->char_slots > MAX_CHARS ){
 		ShowError( "Account %s (AID=%u) exceeds MAX_CHARS. Capping...\n", acc->userid, acc->account_id );

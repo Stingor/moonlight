@@ -1579,6 +1579,8 @@ void clif_parse_bourgeon_bug_report(int32 fd, map_session_data* sd);
 // via clif_bourgeon_companion_state (ZC 0x0F16), aussi poussé par les setters cart/
 // riding/falcon (synchro y compris quand la Kafra les change).
 void clif_parse_bourgeon_companion(int32 fd, map_session_data* sd);
+// Saut cosmétique (CZ 0x0F1A) : relayé en ZC 0x0F1B à la zone, sous cooldown.
+void clif_parse_bourgeon_jump(int32 fd, map_session_data* sd);
 void clif_bourgeon_companion_state(map_session_data* sd);
 
 #endif /* CLIF_HPP */

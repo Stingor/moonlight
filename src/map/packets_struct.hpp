@@ -6118,6 +6118,31 @@ struct PACKET_ZC_BOURGEON_COMPAT_CARDS {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_COMPAT_CARDS, 0x0f19);
 
+// CZ (client -> server): "je viens de sauter" (barre espace). AUCUN payload — le
+// serveur connaît l'émetteur par sa session. Fixe 4.
+// Le saut est purement ESTHÉTIQUE : le client décale le sprite en hauteur, la
+// position logique du personnage ne bouge pas (ni case, ni portée, ni collision).
+// Le serveur ne fait donc que RELAYER, sous cooldown anti-flood (cf.
+// clif_parse_bourgeon_jump) — même traitement que les emotes, pour la même raison.
+struct PACKET_CZ_BOURGEON_JUMP {
+	int16 packetType;
+	int16 packetLength;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_JUMP, 0x0f1a);
+
+// ZC (server -> client) AREA SANS SELF: le joueur `gid` vient de sauter, joue
+// l'animation sur son sprite. Fixe 8. Envoyé UNIQUEMENT aux sessions
+// has_bourgeon : un client vanilla qui reçoit un opcode > 0x0C35 vide son buffer
+// de réception (RecvBuffer_ResetAll_OnUnknownOpcode) et perdrait les paquets
+// suivants du même flush — desync réel, pas cosmétique.
+// Sans self : le sauteur s'anime déjà localement au moment de l'appui.
+struct PACKET_ZC_BOURGEON_JUMP {
+	int16  packetType;
+	int16  packetLength;
+	uint32 gid;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_JUMP, 0x0f1b);
+
 // ZC (server -> client): apport des ÉQUIPEMENTS et des CARTES aux stats, compilé
 // par status_calc_pc. sd->indexed_bonus.param_equip = apport équipement (copié en
 // status.cpp), param_bonus = apport cartes (cf. le split memcpy/memset). Push à

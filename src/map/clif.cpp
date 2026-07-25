@@ -7023,6 +7023,72 @@ void clif_bourgeon_discord_msg_all(const char* msg) {
 	map_foreachpc(clif_bourgeon_discord_msg_pc, gonryun_map, buf, pkt_len);
 }
 
+// [Stingor] Bourgeon — saut cosmétique (CZ 0x0F1A -> ZC 0x0F1B).
+//
+// Envoie ZC_BOURGEON_JUMP à une session de la zone (callback map_foreachinallrange).
+// Filtre has_bourgeon : un client vanilla qui reçoit un opcode > 0x0C35 déclenche
+// RecvBuffer_ResetAll_OnUnknownOpcode côté client = vidage du buffer de réception,
+// donc perte des paquets suivants du même flush (desync réel — c'est exactement le
+// bug de l'item fantôme au dépôt storage). Ne jamais diffuser ces opcodes en aveugle.
+static int32 clif_bourgeon_jump_sub(block_list* bl, va_list ap) {
+	map_session_data* tsd = BL_CAST(BL_PC, bl);
+	if (tsd == nullptr) return 0;
+
+	const uint32 gid    = va_arg(ap, uint32);
+	const int32  src_fd = va_arg(ap, int32);
+
+	if (tsd->fd == src_fd) return 0;            // sans self : il s'anime déjà localement
+	if (!tsd->state.has_bourgeon) return 0;     // don't send to vanilla clients
+	const int32 fd = tsd->fd;
+	if (!session_isActive(fd)) return 0;
+
+	WFIFOHEAD(fd, sizeof(PACKET_ZC_BOURGEON_JUMP));
+	PACKET_ZC_BOURGEON_JUMP* p =
+		reinterpret_cast<PACKET_ZC_BOURGEON_JUMP*>(WFIFOP(fd, 0));
+	// packetLength DOIT être exact : l'opcode étant > 0x0C35, il est inconnu de la
+	// table de longueurs du client, qui lit donc la taille depuis le flux (bytes 2..3).
+	p->packetType   = HEADER_ZC_BOURGEON_JUMP;
+	p->packetLength = (int16)sizeof(PACKET_ZC_BOURGEON_JUMP);
+	p->gid          = gid;
+	WFIFOSET(fd, sizeof(PACKET_ZC_BOURGEON_JUMP));
+	return 0;
+}
+
+// Cooldown du saut, en ms. Calé sur la durée de l'arc côté client (~600 ms) :
+// assez permissif pour ré-enchaîner dès l'atterrissage, assez strict pour tuer
+// le stroboscope. (Les emotes utilisent 1 s, cf. emotionlasttime.)
+static const t_tick BOURGEON_JUMP_COOLDOWN = 600;
+
+// Le client signale un saut ; on relaie aux joueurs à portée. Purement visuel :
+// aucune position, aucun état de personnage n'est modifié côté serveur.
+//
+// COOLDOWN OBLIGATOIRE : sans lui, un client modifié peut spammer le paquet et
+// faire vibrer son personnage en stroboscope sur l'écran de tous les joueurs à
+// portée (griefing visuel), en plus d'amplifier ~×50 le trafic sortant sur un
+// map-server mono-thread. Le client honnête s'auto-limite déjà (espace ignoré
+// tant qu'on est en l'air), mais c'est justement la garde qu'un client modifié
+// retire — donc le contrôle doit être ici. Même raisonnement que les emotes
+// (cf. emotionlasttime, clif_parse_Emotion).
+void clif_parse_bourgeon_jump(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+
+	// Cooldown = durée de l'arc côté client : on peut ré-enchaîner dès qu'on a
+	// atterri, mais pas plus vite. Excédent jeté SILENCIEUSEMENT (pas de message
+	// d'erreur : ce serait une seconde amplification, et le saut est cosmétique).
+	const t_tick tick = gettick();
+	if (sd->bourgeon_jumplasttime != 0 &&
+	    DIFF_TICK(tick, sd->bourgeon_jumplasttime) < BOURGEON_JUMP_COOLDOWN)
+		return;
+	sd->bourgeon_jumplasttime = tick;
+
+	// sd->id (map_session_data DÉRIVE de block_list) == account_id pour un PC :
+	// c'est bien l'AID que le client stocke dans l'acteur (+0x110) et par lequel
+	// ActorList_FindByGID le retrouve.
+	map_foreachinallrange(clif_bourgeon_jump_sub, sd, AREA_SIZE, BL_PC,
+	                      (uint32)sd->id, fd);
+}
+
 void clif_getareachar_unit( map_session_data* sd,block_list *bl ){
 	if( bl == nullptr ){
 		return;

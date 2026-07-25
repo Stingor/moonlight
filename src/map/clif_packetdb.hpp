@@ -2078,4 +2078,7 @@ parseable_packet(HEADER_CZ_BOURGEON_COMPANION, sizeof(PACKET_CZ_BOURGEON_COMPANI
 // [Stingor] Bourgeon sertissage rapide : cartes compatibles d'un équipement (fixed)
 parseable_packet(HEADER_CZ_BOURGEON_REQ_COMPAT_CARDS, sizeof(PACKET_CZ_BOURGEON_REQ_COMPAT_CARDS), clif_parse_bourgeon_reqcompatcards, 0);
 
+// [Stingor] Bourgeon : saut cosmétique à la barre espace (relayé à la zone).
+parseable_packet(HEADER_CZ_BOURGEON_JUMP, sizeof(PACKET_CZ_BOURGEON_JUMP), clif_parse_bourgeon_jump, 0);
+
 #endif /* CLIF_PACKETDB_HPP */

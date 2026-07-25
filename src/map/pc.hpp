@@ -555,6 +555,12 @@ public:
 	int32 followtarget;
 
 	time_t emotionlasttime; // to limit flood with emotion packets
+	// [Stingor] Bourgeon : idem pour le saut (CZ 0x0F1A), qui est rediffusé à la
+	// zone comme une emote. En t_tick (ms) et non time_t : le cooldown vaut la
+	// durée de l'arc (~600 ms), donc la seconde de emotionlasttime est trop grossière.
+	// Initialisé explicitement : une valeur résiduelle FUTURE rendrait DIFF_TICK
+	// négatif et bloquerait les sauts durablement (le test est « < cooldown »).
+	t_tick bourgeon_jumplasttime = 0;
 
 	int16 skillitem,skillitemlv;
 	bool skillitem_keep_requirement;

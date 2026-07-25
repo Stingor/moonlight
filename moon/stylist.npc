@@ -7,7 +7,7 @@ gonryun,160,126,5	script	Styliste::stylist_gon	2_M_DYEINGER,{
 		dispbottom "Vous bloquez le npc avec @npcblock 3 !";
 		end;
 	}
-	setarray .@max[1],491,251,43; // Number of cloths,haircolors,hairstyles in client
+	setarray .@max[1],491,251,80; // Number of cloths,haircolors,hairstyles in client
 	setarray .@blacklist[0],0; // NPC will skip any cloth colors in this array.
 	setarray .@type[1],7,6,1; // DO NOT EDIT
 	.@style = 1;

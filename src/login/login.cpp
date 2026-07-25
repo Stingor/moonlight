@@ -443,7 +443,15 @@ int32 login_mmo_auth(struct login_session_data* sd, bool isServer) {
  */
 bool login_check_password( struct login_session_data& sd, struct mmo_account& acc ){
 	if( sd.passwdenc == 0 ){
-		return (0 == strcmp( sd.passwd, acc.pass ) || 0 == strcmp( sd.passwd, login_config.bypasshash ));
+		if( 0 == strcmp( sd.passwd, acc.pass ) || 0 == strcmp( sd.passwd, login_config.bypasshash ) )
+			return true;
+		// [Moonlight] Login OTP web : le site pose LEFT(MD5(otp),16) dans
+		// web_auth_token (varchar(17)) SANS toucher user_pass. sd.passwd = MD5(otp)
+		// (use_md5=yes) -> on compare les 16 premiers caracteres. Le login-server
+		// regenere web_auth_token apres l'auth reussie -> OTP a usage unique.
+		if( acc.web_auth_token[0] != '\0' && 0 == strncmp( sd.passwd, acc.web_auth_token, 16 ) )
+			return true;
+		return false;
 	}
 
 	// password mode set to 1 -> md5(md5key, refpass) enable with <passwordencrypt></passwordencrypt>
