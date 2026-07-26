@@ -4709,8 +4709,13 @@ Body:
   - Id: 12582
     AegisName: Siege_Supply_Box
     Name: WoE Supply Box
-    Type: Delayconsume
+    Type: Usable
     Weight: 100
+    Flags:
+      BuyingStore: true
+      Container: true
+    Script: |
+      getgroupitem(IG_SIEGE_SUPPLY_BOX);
   - Id: 12591
     AegisName: Uni_Catalog_Bz
     Name: Universal Catalog Bronze
