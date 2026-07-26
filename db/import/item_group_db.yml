@@ -35796,3 +35796,113 @@ Body:
             Item: Crystal_Jewel__
             Rate: 1000
             Amount: 10
+  - Group: SIEGE_SUPPLY_BOX
+    SubGroups:
+      - SubGroup: 1
+        List:
+          - Index: 0
+            Item: White_Slim_Potion_Box_
+            Rate: 50
+          - Index: 1
+            Item: Mastela_Fruit_Box_
+            Rate: 50
+          - Index: 2
+            Item: White_Potion_Box_
+            Rate: 10
+          - Index: 3
+            Item: Royal_Jelly_Box2_
+            Rate: 50
+          - Index: 4
+            Item: Blue_Herb_Box2
+            Rate: 10
+          - Index: 5
+            Item: Yellow_Gemstone
+            Rate: 50
+            Amount: 50
+          - Index: 6
+            Item: Red_Gemstone
+            Rate: 50
+            Amount: 50
+          - Index: 7
+            Item: Blue_Gemstone
+            Rate: 50
+            Amount: 50
+          - Index: 8
+            Item: Detrimindexta
+            Rate: 50
+            Amount: 20
+          - Index: 9
+            Item: Karvodailnirol
+            Rate: 50
+            Amount: 20
+          - Index: 10
+            Item: Bomb_Mushroom_Spore
+            Rate: 50
+            Amount: 10
+          - Index: 11
+            Item: Tear_Gas
+            Rate: 50
+            Amount: 10
+          - Index: 12
+            Item: Explosive_Powder
+            Rate: 50
+            Amount: 20
+          - Index: 13
+            Item: Smoke_Powder
+            Rate: 50
+            Amount: 20
+          - Index: 14
+            Item: Runstone_Ancient
+            Rate: 50
+            Amount: 10
+          - Index: 15
+            Item: Light_Granule
+            Rate: 50
+            Amount: 10
+          - Index: 16
+            Item: Special_Alloy_Trap
+            Rate: 50
+            Amount: 50
+          - Index: 17
+            Item: Poison_Herb_Nerium
+            Rate: 50
+            Amount: 20
+          - Index: 18
+            Item: Poison_Herb_Rantana
+            Rate: 50
+            Amount: 20
+          - Index: 19
+            Item: Poison_Herb_Makulata
+            Rate: 50
+            Amount: 20
+          - Index: 20
+            Item: Poison_Herb_Seratum
+            Rate: 50
+            Amount: 20
+          - Index: 21
+            Item: Poison_Herb_Scopolia
+            Rate: 50
+            Amount: 20
+          - Index: 22
+            Item: Poison_Herb_Amoena
+            Rate: 50
+            Amount: 20
+          - Index: 23
+            Item: Yggdrasil_Seed_Box_
+            Rate: 30
+          - Index: 24
+            Item: Speed_Up_Potion
+            Rate: 10
+            Amount: 10
+          - Index: 25
+            Item: Mandragora_Flowerpot
+            Rate: 10
+            Amount: 10
+          - Index: 26
+            Item: Mora_Hip_Tea
+            Rate: 10
+            Amount: 10
+          - Index: 27
+            Item: Rafflecino
+            Rate: 10
+            Amount: 10
