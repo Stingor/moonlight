@@ -35801,16 +35801,16 @@ Body:
       - SubGroup: 1
         List:
           - Index: 0
-            Item: White_Slim_Potion_Box_
+            Item: White_Slim_Potion_Box
             Rate: 50
           - Index: 1
-            Item: Mastela_Fruit_Box_
+            Item: Mastela_Fruit_Box
             Rate: 50
           - Index: 2
-            Item: White_Potion_Box_
+            Item: White_Potion_Box
             Rate: 10
           - Index: 3
-            Item: Royal_Jelly_Box2_
+            Item: Royal_Jelly_Box
             Rate: 50
           - Index: 4
             Item: Blue_Herb_Box2
@@ -35888,7 +35888,7 @@ Body:
             Rate: 50
             Amount: 20
           - Index: 23
-            Item: Yggdrasil_Seed_Box_
+            Item: Yggdrasil_Seed_Box
             Rate: 30
           - Index: 24
             Item: Speed_Up_Potion
