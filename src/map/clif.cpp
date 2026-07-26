@@ -18393,11 +18393,28 @@ void clif_mail_delete( map_session_data* sd, struct mail_message *msg, bool succ
 ///     1 = failure
 void clif_Mail_return(int32 fd, int32 mail_id, int16 fail)
 {
+#if PACKETVER_MAIN_NUM >= 20201104 || PACKETVER_RE_NUM >= 20211103 || PACKETVER_ZERO_NUM >= 20201118
+	// RODEX clients do not dispatch 0x0274 at all - it is not even in their receive
+	// table, so the reply was silently dropped and the returned mail stayed in the
+	// list until a manual refresh. They expect 0x0b99, which they route to the same
+	// handler as a delete acknowledgement: on success it removes the mail from the
+	// local map, closes the read window and drops the inbox row.
+	PACKET_ZC_RODEX_RETURN p = {};
+
+	p.packetType = HEADER_ZC_RODEX_RETURN;
+	p.msgId = mail_id;
+	p.result = fail;
+
+	WFIFOHEAD(fd,sizeof(p));
+	memcpy(WFIFOP(fd,0), &p, sizeof(p));
+	WFIFOSET(fd,sizeof(p));
+#else
 	WFIFOHEAD(fd,packet_len(0x274));
 	WFIFOW(fd,0) = 0x274;
 	WFIFOL(fd,2) = mail_id;
 	WFIFOW(fd,6) = fail;
 	WFIFOSET(fd,packet_len(0x274));
+#endif
 }
 
 /// Notification about new mail.
@@ -19075,12 +19092,14 @@ void clif_parse_Mail_return(int32 fd, map_session_data *sd){
 #if PACKETVER_MAIN_NUM >= 20201104 || PACKETVER_RE_NUM >= 20211103 || PACKETVER_ZERO_NUM >= 20201118
 	const PACKET_CZ_RODEX_RETURN* p = reinterpret_cast<PACKET_CZ_RODEX_RETURN*>( RFIFOP( fd, 0 ) );
 
-	//ShowDump( p, sizeof( p ) );
-
+	// This used to bail out with "not supported for now". The guard dates back to the
+	// initial 2021-11-03RagexeRE port, when the struct was still called
+	// PACKET_CZ_UNCONFIRMED_RODEX_RETURN: the layout was guessed, not verified, and
+	// acting on a misdecoded mail id would have returned the wrong mail. The struct has
+	// since been renamed without the UNCONFIRMED prefix, so the layout is confirmed, and
+	// everything below - plus intif_Mail_return and the char server side - has been
+	// running unchanged on the pre-20201104 branch all along.
 	int32 mail_id = p->msgId;
-
-	// not supported for now
-	return;
 #else
 	int32 mail_id = RFIFOL(fd,packet_db[RFIFOW(fd,0)].pos[0]);
 #endif

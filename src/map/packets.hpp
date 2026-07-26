@@ -226,6 +226,17 @@ struct PACKET_CZ_RODEX_RETURN{
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(CZ_RODEX_RETURN, 0xb98)
 
+// Reply to CZ_RODEX_RETURN. The pre-RODEX reply (0x0274) is no longer dispatched by
+// modern clients: 2021-11-03RagexeRE and later route 0x0b99 to the very handler that
+// acknowledges a deletion, so a successful return makes the client drop the mail from
+// its list on its own. result == 0 means success.
+struct PACKET_ZC_RODEX_RETURN{
+	int16 packetType;
+	uint32 msgId;
+	uint32 result;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_RODEX_RETURN, 0xb99)
+
 struct PACKET_CZ_REQ_STYLE_CLOSE{
 	int16 packetType;
 } __attribute__((packed));
