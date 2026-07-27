@@ -53,18 +53,30 @@ def load_body(mode):
 def detect_mode():
     """Mode du SERVEUR, lu dans src/config/renewal.hpp — pas une valeur à retenir.
 
-    rAthena décide à la compilation : `#define PRERE` (non commenté) désactive tout le
-    renouveau, et `#define RENEWAL` vit à l'intérieur du `#ifndef PRERE`. Se tromper de
-    mode donne un arbre qui ne correspond pas au serveur : en re, la DB de guilde ajoute
-    quatre compétences que le serveur ignorerait, affichées verrouillées à vie.
+    On suit la sémantique du préprocesseur, pas un seul marqueur, parce que le mode se
+    bascule de DEUX façons ici : soit `#define PRERE` (qui neutralise tout le bloc
+    renouveau), soit en commentant `#define RENEWAL` à l'intérieur de ce bloc. Ne
+    regarder que l'un des deux se trompe dès que l'autre est utilisé.
+
+        renewal  <=>  PRERE absent ET RENEWAL présent
+
+    ⚠ Une ligne `#define RENEWAL` existe TOUJOURS dans le fichier tant qu'elle n'est pas
+    commentée, même quand PRERE la neutralise : la trouver ne prouve RIEN à elle seule.
+
+    Se tromper de mode donne un arbre qui ne correspond pas au serveur : en re, la DB de
+    guilde ajoute quatre compétences que le serveur ignorerait, affichées verrouillées à
+    vie côté client.
     """
     header = REPO / "src/config/renewal.hpp"
-    if header.exists():
-        for line in header.read_text(encoding="utf-8", errors="replace").splitlines():
-            if re.match(r"\s*#define\s+PRERE\b", line):
-                return "pre-re"
-        return "re"
-    return "pre-re"  # header absent : le mode le plus restrictif
+    if not header.exists():
+        return "pre-re"  # header absent : le mode le plus restrictif
+    text = header.read_text(encoding="utf-8", errors="replace")
+    defined = lambda macro: any(
+        re.match(rf"\s*#define\s+{macro}\b", line) for line in text.splitlines()
+    )
+    if defined("PRERE"):
+        return "pre-re"
+    return "re" if defined("RENEWAL") else "pre-re"
 
 
 def load_skill_ids(mode):
