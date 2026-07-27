@@ -1,0 +1,114 @@
+-- Client mirror of db/pre-re/guild_skill_tree.yml - generated 2026-07-27.
+-- DO NOT EDIT: re-run tools/gen/gen_guild_skill_tree_lub.py.
+-- Guild skill tree (max levels + requirements) for the Bourgeon guild tab;
+-- the server remains the only authority on what it actually allows.
+-- Numeric ids on purpose: this file depends on NO other Lua table.
+GUILD_SKILL_TREE = {
+	[10000] = {  -- GD_APPROVAL
+		"GD_APPROVAL",
+		MaxLv = 1
+	},
+	[10001] = {  -- GD_KAFRACONTRACT
+		"GD_KAFRACONTRACT",
+		MaxLv = 1,
+		_NeedSkillList = {
+			{ 10000, 1 }  -- GD_APPROVAL
+		}
+	},
+	[10002] = {  -- GD_GUARDRESEARCH
+		"GD_GUARDRESEARCH",
+		MaxLv = 1,
+		_NeedSkillList = {
+			{ 10000, 1 }  -- GD_APPROVAL
+		}
+	},
+	[10003] = {  -- GD_GUARDUP
+		"GD_GUARDUP",
+		MaxLv = 3
+	},
+	[10004] = {  -- GD_EXTENSION
+		"GD_EXTENSION",
+		MaxLv = 10
+	},
+	[10005] = {  -- GD_GLORYGUILD
+		"GD_GLORYGUILD",
+		MaxLv = 0
+	},
+	[10006] = {  -- GD_LEADERSHIP
+		"GD_LEADERSHIP",
+		MaxLv = 5
+	},
+	[10007] = {  -- GD_GLORYWOUNDS
+		"GD_GLORYWOUNDS",
+		MaxLv = 5
+	},
+	[10008] = {  -- GD_SOULCOLD
+		"GD_SOULCOLD",
+		MaxLv = 5,
+		_NeedSkillList = {
+			{ 10007, 1 }  -- GD_GLORYWOUNDS
+		}
+	},
+	[10009] = {  -- GD_HAWKEYES
+		"GD_HAWKEYES",
+		MaxLv = 5,
+		_NeedSkillList = {
+			{ 10006, 1 }  -- GD_LEADERSHIP
+		}
+	},
+	[10010] = {  -- GD_BATTLEORDER
+		"GD_BATTLEORDER",
+		MaxLv = 1,
+		_NeedSkillList = {
+			{ 10000, 1 }  -- GD_APPROVAL,
+			{ 10004, 2 }  -- GD_EXTENSION
+		}
+	},
+	[10011] = {  -- GD_REGENERATION
+		"GD_REGENERATION",
+		MaxLv = 3,
+		_NeedSkillList = {
+			{ 10000, 1 }  -- GD_APPROVAL,
+			{ 10004, 5 }  -- GD_EXTENSION,
+			{ 10010, 1 }  -- GD_BATTLEORDER
+		}
+	},
+	[10012] = {  -- GD_RESTORE
+		"GD_RESTORE",
+		MaxLv = 1,
+		_NeedSkillList = {
+			{ 10011, 1 }  -- GD_REGENERATION
+		}
+	},
+	[10013] = {  -- GD_EMERGENCYCALL
+		"GD_EMERGENCYCALL",
+		MaxLv = 1,
+		_NeedSkillList = {
+			{ 10000, 1 }  -- GD_APPROVAL,
+			{ 10002, 1 }  -- GD_GUARDRESEARCH,
+			{ 10004, 5 }  -- GD_EXTENSION,
+			{ 10010, 1 }  -- GD_BATTLEORDER,
+			{ 10011, 1 }  -- GD_REGENERATION
+		}
+	},
+	[10014] = {  -- GD_DEVELOPMENT
+		"GD_DEVELOPMENT",
+		MaxLv = 1
+	}
+}
+
+function GdDump()
+	local out = ""
+	for id, e in pairs(GUILD_SKILL_TREE) do
+		local req = ""
+		if e._NeedSkillList ~= nil then
+			for _, r in ipairs(e._NeedSkillList) do
+				if req ~= "" then req = req .. "|" end
+				req = req .. r[1] .. ":" .. r[2]
+			end
+		end
+		out = out .. id .. "," .. e.MaxLv .. "," .. req .. ";"
+	end
+	return out
+end
+
