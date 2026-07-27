@@ -1518,7 +1518,11 @@ def _discord_outbound_poll(conn):
                     "content":  replace_iteml(message[:2000]),
                 }
                 if char_id:
-                    wp["avatar_url"] = f"https://moonlight-destiny.fr/images/CacheAvatar/{char_id}.png"
+                    # CacheAvatarDiscord = variante carrée 128x128 du sprite (le PNG
+                    # de CacheAvatar est rogné au plus juste et non carré : Discord
+                    # le recadre dans son cercle et l'agrandit, d'où pieds coupés et
+                    # rendu flou). Généré par la page UCP « Avatar » du site.
+                    wp["avatar_url"] = f"https://moonlight-destiny.fr/images/CacheAvatarDiscord/{char_id}.png"
                 payload = json.dumps(wp).encode("utf-8")
                 req = urllib.request.Request(
                     target_webhook,
