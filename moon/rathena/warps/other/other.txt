@@ -33,3 +33,4 @@
 //guild_vs5,0,0,0	warp	warp4	0,0,hoge,0,0
 //guild_vs5,0,0,0	warp	warp4	0,0,hoge,0,0
 //guild_vs5,0,0,0	warp	warp4	0,0,hoge,0,0
+ggpro,31,20,0	warp	ggprowarp	0,0,gonryun,158,114

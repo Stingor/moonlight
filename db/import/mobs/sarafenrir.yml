@@ -271,23 +271,32 @@ Body:
     AttackRange: 12
     SkillRange: 10
     ChaseRange: 12
-    Size: Small
-    Race: Formless
+    Size: Medium
+    Race: Demihuman
     Element: Neutral
     ElementLevel: 1
     WalkSpeed: 1000
     AttackDelay: 800
     AttackMotion: 500
     Ai: 10
+    Class: Boss
     Modes:
-      NoRandomWalk: true
       IgnoreMagic: true
       IgnoreMelee: true
       IgnoreMisc: true
       IgnoreRanged: true
-      TeleportBlock: true
-      KnockBackImmune: true
-      SkillImmune: true
+      Mvp: true
+    MvpDrops:
+      - Item: Old_Violet_Box
+        Rate: 5000
+      - Item: Old_Blue_Box
+        Rate: 5000
+    Drops:
+      - Item: Robe_Of_Sarah
+        Rate: 1000
+      - Item: Sarah_Card
+        Rate: 1
+        StealProtected: true
   - Id: 3197
     AegisName: MM_M_GARGOYLE
     Name: Mutant Gargoyle
