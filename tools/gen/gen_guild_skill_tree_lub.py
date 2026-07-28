@@ -80,13 +80,18 @@ def detect_mode():
 
 
 def load_skill_ids(mode):
-    """Nom de compétence -> id numérique, depuis skill_db.yml.
+    """Nom de compétence -> (id numérique, libellé lisible), depuis skill_db.yml.
 
     Le fichier généré porte les ids EN CLAIR plutôt que des SKID.<nom> : la table SKID
     n'est pas garantie présente dans l'état Lua où on charge le fichier, et une clé nil
     ferait échouer tout le script. Le nom reste en commentaire pour la lisibilité.
+
+    Le libellé (`Description` côté serveur, « Battle Orders ») est embarqué lui aussi :
+    le Lua GetSkillName du client ne résout pas les compétences de guilde, et sans ça
+    l'onglet n'a aucun nom à afficher pour une compétence encore verrouillée (le paquet
+    serveur, seule autre source, n'arrive justement pas pour celles-là).
     """
-    ids = {}
+    ids, labels = {}, {}
     for rel in ("db/skill_db.yml", f"db/{mode}/skill_db.yml"):
         path = REPO / rel
         if not path.exists():
@@ -95,10 +100,13 @@ def load_skill_ids(mode):
         for entry in doc.get("Body") or []:
             if entry.get("Name") and entry.get("Id") is not None:
                 ids[entry["Name"]] = entry["Id"]
-    return ids
+                # « , » et « ; » séparent les champs du dump : on les neutralise.
+                label = str(entry.get("Description") or entry["Name"])
+                labels[entry["Name"]] = label.replace(",", " ").replace(";", " ").strip()
+    return ids, labels
 
 
-def emit(body, mode, ids):
+def emit(body, mode, ids, labels):
     stamp = datetime.date.today().isoformat()
     # Commentaires en ASCII pur : ce fichier part dans le GRF et sera ouvert par des
     # outils qui lisent en CP949 (les .lub du client le sont), ou l'UTF-8 s'affiche en
@@ -117,13 +125,20 @@ def emit(body, mode, ids):
         if name not in ids:
             missing.append(name)
             continue
-        lines = [f'\t\t"{name}"', f"\t\tMaxLv = {entry.get('MaxLevel', 1)}"]
+        lines = [f'\t\t"{name}"',
+                 f'\t\tSkillName = "{labels.get(name, name)}"',
+                 f"\t\tMaxLv = {entry.get('MaxLevel', 1)}"]
         required = [r for r in (entry.get("Required") or []) if r["Id"] in ids]
         missing += [r["Id"] for r in (entry.get("Required") or []) if r["Id"] not in ids]
         if required:
-            reqs = ",\n".join(
-                f"\t\t\t{{ {ids[r['Id']]}, {r.get('Level', 1)} }}  -- {r['Id']}"
-                for r in required
+            # ⚠ La virgule de séparation doit précéder le commentaire : après un « -- »
+            # elle serait avalée jusqu'à la fin de ligne, et Lua verrait deux tables
+            # accolées (« '}' expected near '{' »).
+            reqs = "\n".join(
+                "\t\t\t{{ {}, {} }}{}  -- {}".format(
+                    ids[r["Id"]], r.get("Level", 1),
+                    "," if k + 1 < len(required) else "", r["Id"])
+                for k, r in enumerate(required)
             )
             lines.append("\t\t_NeedSkillList = {\n" + reqs + "\n\t\t}")
         out.append(f"\t[{ids[name]}] = {{  -- {name}")
@@ -141,7 +156,7 @@ def emit(body, mode, ids):
 # lieu d'un aller-retour par compétence. Nom court (<= 15 car.) : le wrapper natif
 # Lua_CallGlobal_va passe le nom en std::string PAR VALEUR et un nom plus long
 # sortirait du SSO, ce qui corrompt la libération côté appelant.
-# Format : "id,maxLv,prereq:lvl|prereq:lvl;" répété. Sans prérequis -> champ vide.
+# Format : "id,maxLv,nom,prereq:lvl|prereq:lvl;" répété. Sans prérequis -> champ vide.
 DUMPER = """
 function GdDump()
 \tlocal out = ""
@@ -153,11 +168,29 @@ function GdDump()
 \t\t\t\treq = req .. r[1] .. ":" .. r[2]
 \t\t\tend
 \t\tend
-\t\tout = out .. id .. "," .. e.MaxLv .. "," .. req .. ";"
+\t\tout = out .. id .. "," .. e.MaxLv .. "," .. e.SkillName .. "," .. req .. ";"
 \tend
 \treturn out
 end
 """
+
+
+def sanity_check(text):
+    """Relit la sortie avant de l'écrire — le client, lui, ne pardonne pas.
+
+    Il n'y a pas d'interpréteur Lua sous la main, donc on vérifie ce qui a DÉJÀ cassé :
+    une virgule de séparation avalée par un commentaire de fin de ligne, qui laissait
+    deux tables accolées (« '}' expected near '{' » à l'ouverture du client).
+    Rend un message d'erreur, ou None si la structure tient.
+    """
+    stripped = re.sub(r"--.*", "", text)  # aucun « -- » ne vit dans une chaîne ici
+    if stripped.count("{") != stripped.count("}"):
+        return "accolades déséquilibrées"
+    if re.search(r"\}\s*\{", stripped):
+        return "deux tables consécutives sans virgule (commentaire mangeant la virgule ?)"
+    if re.search(r"\}\s*\[", stripped):
+        return "entrée suivante sans virgule de séparation"
+    return None
 
 
 def main():
@@ -178,11 +211,15 @@ def main():
         print("Aucune entrée lue — vérifier le chemin de la DB.", file=sys.stderr)
         return 1
 
-    ids = load_skill_ids(mode)
+    ids, labels = load_skill_ids(mode)
     if not ids:
         print("skill_db.yml illisible : impossible de résoudre les ids.", file=sys.stderr)
         return 1
-    text = emit(body, mode, ids)
+    text = emit(body, mode, ids, labels)
+    problem = sanity_check(text)
+    if problem:
+        print(f"Sortie invalide, rien n'est écrit : {problem}", file=sys.stderr)
+        return 1
     target = pathlib.Path(args.output) if args.output else \
         pathlib.Path(__file__).with_name("skilltreeguild.lub")
     target.write_text(text, encoding="utf-8", newline="\r\n")

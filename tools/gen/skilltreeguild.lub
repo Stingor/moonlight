@@ -6,10 +6,12 @@
 GUILD_SKILL_TREE = {
 	[10000] = {  -- GD_APPROVAL
 		"GD_APPROVAL",
+		SkillName = "Official Guild Approval",
 		MaxLv = 1
 	},
 	[10001] = {  -- GD_KAFRACONTRACT
 		"GD_KAFRACONTRACT",
+		SkillName = "Kafra Contract",
 		MaxLv = 1,
 		_NeedSkillList = {
 			{ 10000, 1 }  -- GD_APPROVAL
@@ -17,6 +19,7 @@ GUILD_SKILL_TREE = {
 	},
 	[10002] = {  -- GD_GUARDRESEARCH
 		"GD_GUARDRESEARCH",
+		SkillName = "Guardian Research",
 		MaxLv = 1,
 		_NeedSkillList = {
 			{ 10000, 1 }  -- GD_APPROVAL
@@ -24,26 +27,32 @@ GUILD_SKILL_TREE = {
 	},
 	[10003] = {  -- GD_GUARDUP
 		"GD_GUARDUP",
+		SkillName = "Strengthen Guardians",
 		MaxLv = 3
 	},
 	[10004] = {  -- GD_EXTENSION
 		"GD_EXTENSION",
+		SkillName = "Guild Extension",
 		MaxLv = 10
 	},
 	[10005] = {  -- GD_GLORYGUILD
 		"GD_GLORYGUILD",
+		SkillName = "Guild's Glory",
 		MaxLv = 0
 	},
 	[10006] = {  -- GD_LEADERSHIP
 		"GD_LEADERSHIP",
+		SkillName = "Great Leadership",
 		MaxLv = 5
 	},
 	[10007] = {  -- GD_GLORYWOUNDS
 		"GD_GLORYWOUNDS",
+		SkillName = "Glorious Wounds",
 		MaxLv = 5
 	},
 	[10008] = {  -- GD_SOULCOLD
 		"GD_SOULCOLD",
+		SkillName = "Cold Heart",
 		MaxLv = 5,
 		_NeedSkillList = {
 			{ 10007, 1 }  -- GD_GLORYWOUNDS
@@ -51,6 +60,7 @@ GUILD_SKILL_TREE = {
 	},
 	[10009] = {  -- GD_HAWKEYES
 		"GD_HAWKEYES",
+		SkillName = "Sharp Gaze",
 		MaxLv = 5,
 		_NeedSkillList = {
 			{ 10006, 1 }  -- GD_LEADERSHIP
@@ -58,23 +68,26 @@ GUILD_SKILL_TREE = {
 	},
 	[10010] = {  -- GD_BATTLEORDER
 		"GD_BATTLEORDER",
+		SkillName = "Battle Orders",
 		MaxLv = 1,
 		_NeedSkillList = {
-			{ 10000, 1 }  -- GD_APPROVAL,
+			{ 10000, 1 },  -- GD_APPROVAL
 			{ 10004, 2 }  -- GD_EXTENSION
 		}
 	},
 	[10011] = {  -- GD_REGENERATION
 		"GD_REGENERATION",
+		SkillName = "Regeneration",
 		MaxLv = 3,
 		_NeedSkillList = {
-			{ 10000, 1 }  -- GD_APPROVAL,
-			{ 10004, 5 }  -- GD_EXTENSION,
+			{ 10000, 1 },  -- GD_APPROVAL
+			{ 10004, 5 },  -- GD_EXTENSION
 			{ 10010, 1 }  -- GD_BATTLEORDER
 		}
 	},
 	[10012] = {  -- GD_RESTORE
 		"GD_RESTORE",
+		SkillName = "Restoration",
 		MaxLv = 1,
 		_NeedSkillList = {
 			{ 10011, 1 }  -- GD_REGENERATION
@@ -82,17 +95,19 @@ GUILD_SKILL_TREE = {
 	},
 	[10013] = {  -- GD_EMERGENCYCALL
 		"GD_EMERGENCYCALL",
+		SkillName = "Urgent Call",
 		MaxLv = 1,
 		_NeedSkillList = {
-			{ 10000, 1 }  -- GD_APPROVAL,
-			{ 10002, 1 }  -- GD_GUARDRESEARCH,
-			{ 10004, 5 }  -- GD_EXTENSION,
-			{ 10010, 1 }  -- GD_BATTLEORDER,
+			{ 10000, 1 },  -- GD_APPROVAL
+			{ 10002, 1 },  -- GD_GUARDRESEARCH
+			{ 10004, 5 },  -- GD_EXTENSION
+			{ 10010, 1 },  -- GD_BATTLEORDER
 			{ 10011, 1 }  -- GD_REGENERATION
 		}
 	},
 	[10014] = {  -- GD_DEVELOPMENT
 		"GD_DEVELOPMENT",
+		SkillName = "Permanent Development",
 		MaxLv = 1
 	}
 }
@@ -107,7 +122,7 @@ function GdDump()
 				req = req .. r[1] .. ":" .. r[2]
 			end
 		end
-		out = out .. id .. "," .. e.MaxLv .. "," .. req .. ";"
+		out = out .. id .. "," .. e.MaxLv .. "," .. e.SkillName .. "," .. req .. ";"
 	end
 	return out
 end
