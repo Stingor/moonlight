@@ -2885,7 +2885,7 @@ Body:
     Name: Bear's Power
     Type: Card
     SubType: Enchant
-    Script: "autobonus2 \"{ bonus bStr,200; bonus2 bHPLossRate,500,1000; }\",20,5000,BF_WEAPON,\"{ active_transform 1060,5000; specialeffect2 EF_POTION_BERSERK; showscript \\\"Bigfoot Power !\\\"; }\";\n"
+    Script: "autobonus \"{ bonus bStr,200; bonus2 bHPLossRate,500,1000; }\",20,5000,BF_WEAPON,\"{ active_transform 1060,5000; specialeffect2 EF_POTION_BERSERK; showscript \\\"Bigfoot Power !\\\"; }\";\n"
   - Id: 4876
     AegisName: Runaway_Magic
     Name: Runaway Magic
