@@ -22999,7 +22999,7 @@ Body:
       Armor: true
     EquipLevelMin: 125
     Refineable: true
-    Script: "bonus bMaxHP,500; bonus bMaxSP,50; bonus bMdef,10; bonus bAllStats,1; .@r = getrefine(); if(.@r>=7) { bonus bMaxHP,500; bonus bMaxSP,50; } if(.@r>=9) { bonus bMaxHP,200; bonus bMaxSP,20; } if(.@r>=12) { bonus bMaxHP,300; bonus bMaxSP,30; }\n"
+    Script: "bonus bMaxHP,500; bonus bMaxSP,50; bonus bMdef,10; bonus bAllStats,1; .@r = getrefine(); if(.@r>=7) { bonus bMaxHP,500; bonus bMaxSP,50; } if(.@r>=9) { bonus bMaxHP,200; bonus bMaxSP,20; } if(getallrefine()>=24) { bonus bMaxHP,300; bonus bMaxSP,30; }\n"
   - Id: 15121
     AegisName: Robe_Of_Sarah
     Name: Sarah's Battle Robe [1]
@@ -29404,7 +29404,7 @@ Body:
       Garment: true
     EquipLevelMin: 125
     Refineable: true
-    Script: "bonus2 bSubEle,Ele_Neutral,10; bonus bFlee,20; bonus bVariableCastrate,-10; .@r = getrefine(); if(.@r>=7) { bonus bVariableCastrate,-10; } if(.@r>=9) { bonus bVariableCastrate,-10;} if(.@r>=12) { bonus bVariableCastrate,-5; }\n"
+    Script: "bonus2 bSubEle,Ele_Neutral,10; bonus bFlee,20; bonus bVariableCastrate,-10; .@r = getrefine(); if(.@r>=7) { bonus bVariableCastrate,-10; } if(.@r>=9) { bonus bVariableCastrate,-10;} if(getallrefine()>=24) { bonus bVariableCastrate,-5; }\n"
   - Id: 20748
     AegisName: Manteau_Of_Fallen
     Name: Fallen Warrior Manteau
@@ -30166,7 +30166,7 @@ Body:
       Shoes: true
     EquipLevelMin: 125
     Refineable: true
-    Script: "bonus bAgi,1; .@r = getrefine(); bonus bAspdRate,5; if(.@r>=7) { bonus bAgi,1; bonus bAspdRate,5; } if(.@r>=9) { bonus bAgi,1; bonus bAspdRate,5; } if(.@r>=12) { bonus bAspd,1; }\n"
+    Script: "bonus bAgi,1; .@r = getrefine(); bonus bAspdRate,5; if(.@r>=7) { bonus bAgi,1; bonus bAspdRate,5; } if(.@r>=9) { bonus bAgi,1; bonus bAspdRate,5; } if(getallrefine()>=24) { bonus bAspd,1; }\n"
   - Id: 22059
     AegisName: Aegir_Shoes
     Name: Aegir Shoes [1]
