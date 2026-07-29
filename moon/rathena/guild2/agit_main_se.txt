@@ -1825,9 +1825,13 @@ function	script	ReturnFlag	{
 		close;
 	}
 	if (getcharid(2) == .@GID && getarg(1,0)) {
-		if( agitcheck() && ((gettimetick(2) - #woeflagcd) < $woeflagcd) ) {
+		// Cooldown drapeau : uniquement pendant la WoE. Ces chateaux sont WoE SE,
+		// donc agitcheck2() ; agitcheck() est conserve au cas ou la WoE FE tourne aussi.
+		.@woe = agitcheck() || agitcheck2();
+		.@left = $woeflagcd - (gettimetick(2) - #woeflagcd);
+		if( .@woe && .@left > 0 ) {
 			mes "Flag en cooldown.";
-			mes "Encore "+($woeflagcd - (gettimetick(2) - #woeflagcd))+"sec.";
+			mes "Encore "+.@left+"sec.";
 			close;
 		}
 		mes "[ Ringing Voice ]";
@@ -1836,9 +1840,12 @@ function	script	ReturnFlag	{
 		mes "to your stronghold?";
 		next;
 		if(select("Return to the Stronghold:Cancel") == 1 && getcharid(2) == getcastledata(.@map$,CD_GUILD_ID)) {
-			if( agitcheck() && ((gettimetick(2) - #woeflagcd) < $woeflagcd) ) {
+			// Re-evaluation : la WoE a pu demarrer pendant la boite de dialogue.
+			.@woe = agitcheck() || agitcheck2();
+			.@left = $woeflagcd - (gettimetick(2) - #woeflagcd);
+			if( .@woe && .@left > 0 ) {
 				mes "Flag en cooldown.";
-				mes "Encore "+($woeflagcd - (gettimetick(2) - #woeflagcd))+"sec.";
+				mes "Encore "+.@left+"sec.";
 				close;
 			}
 			if (compare(.@map$,"arug")) {
@@ -1851,9 +1858,9 @@ function	script	ReturnFlag	{
 				else if (.@map$ == "schg_cas03") setarray .@i[0],308,202;
 				else setarray .@i[0],120,290;	// Castles 1,4,5 are identical.
 			}
-			if( ($woeflagcd - (gettimetick(2) - #woeflagcd)) <= 0 )
+			// On n'arme le cooldown que pendant la WoE (hors WoE : TP libre).
+			if( .@woe )
 				#woeflagcd = gettimetick(2);
-			else end;
 			warp .@map$,.@i[0],.@i[1];
 		}
 		close;
