@@ -1582,5 +1582,10 @@ void clif_parse_bourgeon_companion(int32 fd, map_session_data* sd);
 // Saut cosmétique (CZ 0x0F1A) : relayé en ZC 0x0F1B à la zone, sous cooldown.
 void clif_parse_bourgeon_jump(int32 fd, map_session_data* sd);
 void clif_bourgeon_companion_state(map_session_data* sd);
+// [Stingor] Maîtrise culinaire (ZC 0x0F1C, SELF). Seul terme de la formule de réussite
+// de la cuisine que le client ne peut pas déduire, et valeur que le jeu n'affiche nulle
+// part alors qu'elle bouge à chaque plat. Poussée au login vérifié et à chaque
+// changement (pc_setparam SP_COOKMASTERY). No-op si !has_bourgeon.
+void clif_bourgeon_cook_mastery(map_session_data* sd);
 
 #endif /* CLIF_HPP */

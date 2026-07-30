@@ -6266,6 +6266,10 @@ static void clif_bourgeon_grant_verified(map_session_data* sd) {
 	// Table itemId->ordinal de hat effect (preview des costumes sans viewid). Statique,
 	// construite une fois puis mise en cache : coût négligeable par login.
 	clif_bourgeon_hateffect_map(sd);
+	// Maîtrise culinaire : lue au chargement du personnage (pc.cpp), donc déjà en place
+	// ici. Même raison que stat_bonus — sans ce push explicite, la valeur n'arriverait
+	// qu'au prochain plat cuisiné.
+	clif_bourgeon_cook_mastery(sd);
 }
 
 // ── TRANSITION cutover opcodes 0x0F00+ (2026-07) ─────────────────────────────
@@ -6936,6 +6940,31 @@ void clif_bourgeon_companion_state(map_session_data* sd) {
 	p.pushcart_id = MC_PUSHCART;
 	p.riding_id   = KN_RIDING;
 	p.falcon_id   = HT_FALCON;
+
+	clif_send(reinterpret_cast<uint8*>(&p), sizeof(p), sd, SELF);
+}
+
+// [Stingor] Pousse la maîtrise culinaire (ZC 0x0F1C, SELF).
+//
+// `cook_mastery` est un char reg (`COOK_MASTERY`, pc.cpp) qui ne sort JAMAIS vers le
+// client par un chemin vanilla. Or c'est le seul terme que le client ne peut pas
+// reconstituer pour estimer la réussite d'un plat, et il pèse lourd : le terme
+// aléatoire qu'il gouverne vaut [600,2900] à 0 et [3000,4900] à 1999, soit une
+// vingtaine de points de pourcentage d'écart en moyenne.
+//
+// Bonus non négligeable : la valeur elle-même est INVISIBLE en jeu. Elle monte à
+// chaque plat réussi et redescend à chaque échec, d'un pas qui dépend de l'itemlv
+// (skill.cpp), sans qu'aucune interface ne la montre. La pousser, c'est rendre
+// observable une progression que le joueur subit à l'aveugle.
+void clif_bourgeon_cook_mastery(map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+	if (!session_isActive(sd->fd)) return;
+
+	PACKET_ZC_BOURGEON_COOK_MASTERY p = {};
+	p.packetType   = HEADER_ZC_BOURGEON_COOK_MASTERY;
+	p.packetLength = sizeof(p);
+	p.mastery      = sd->cook_mastery;
 
 	clif_send(reinterpret_cast<uint8*>(&p), sizeof(p), sd, SELF);
 }

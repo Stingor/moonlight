@@ -6143,6 +6143,30 @@ struct PACKET_ZC_BOURGEON_JUMP {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_JUMP, 0x0f1b);
 
+// ZC (server -> client) SELF: maîtrise culinaire (`COOK_MASTERY`, plage [0,1999]).
+//
+// Pourquoi un paquet pour UNE valeur : c'est le seul terme de la formule de réussite
+// de la cuisine que le client ne peut pas connaître. Tous les autres lui sont
+// accessibles (niveau de base, DEX, LUK, itemlv de la recette via le YAML de recettes,
+// niveau du kit via l'objet consommé). Sans elle, l'estimation affichable est une
+// fourchette de ~22 points de pourcentage — inutilisable :
+//   make_per += 100 * (rnd()%(30 + 5*(cm/400) - lo) + lo),  lo = 6 + cm/80
+// soit [600,2900] à maîtrise nulle et [3000,4900] à maîtrise pleine (skill.cpp,
+// branche `default:` de skill_produce_mix, « Assume Cooking Dish »).
+//
+// Et elle vaut d'être montrée pour elle-même : la maîtrise monte à chaque plat réussi
+// et REDESCEND à chaque échec (skill.cpp, pc_setparam SP_COOKMASTERY), sans que le jeu
+// ne l'affiche NULLE PART. Un joueur ne peut aujourd'hui ni la connaître ni la suivre.
+//
+// Poussée au login vérifié (clif_bourgeon_grant_verified) et à chaque changement de
+// valeur (pc_setparam). Fixe 6.
+struct PACKET_ZC_BOURGEON_COOK_MASTERY {
+	int16 packetType;
+	int16 packetLength;
+	int16 mastery;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_COOK_MASTERY, 0x0f1c);
+
 // ZC (server -> client): apport des ÉQUIPEMENTS et des CARTES aux stats, compilé
 // par status_calc_pc. sd->indexed_bonus.param_equip = apport équipement (copié en
 // status.cpp), param_bonus = apport cartes (cf. le split memcpy/memset). Push à

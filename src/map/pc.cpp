@@ -10811,6 +10811,11 @@ bool pc_setparam(map_session_data *sd,int64 type,int64 val_tmp)
 		val = cap_value(val, 0, 1999);
 		sd->cook_mastery = val;
 		pc_setglobalreg(sd, add_str(COOKMASTERY_VAR), sd->cook_mastery);
+		// [Stingor] Le client Bourgeon en a besoin pour estimer la réussite d'un plat,
+		// et l'affiche telle quelle : la maîtrise bouge à CHAQUE plat (up au succès, down
+		// à l'échec) et n'apparaît nulle part dans le jeu. Le garde `== val` ci-dessus
+		// nous évite déjà les push inutiles. No-op si !has_bourgeon.
+		clif_bourgeon_cook_mastery(sd);
 		return true;
 	default:
 		ShowError("pc_setparam: Attempted to set unknown parameter '%lld'.\n", type);
