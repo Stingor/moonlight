@@ -3691,6 +3691,11 @@ bool status_calc_weight(map_session_data *sd, enum e_status_calc_weight_opt flag
 			sd->max_weight += 15000;
 	}
 
+	// Permission GM : poids max fixe au plafond, indépendant de la STR et des bonus [Stingor]
+	// UINT32_MAX / 100 pour que weight * 100 tienne toujours dans un uint32 (cf. pc_getpercentweight)
+	if (pc_has_permission(sd, PC_PERM_FIXED_MAX_WEIGHT))
+		sd->max_weight = UINT32_MAX / 100;
+
 	// Update the client if the new weight calculations don't match
 	if (b_weight != sd->weight)
 		clif_updatestatus(*sd, SP_WEIGHT);

@@ -336,4 +336,5 @@ Body:
       bypass_max_stat: true
       macro_register: true
       trade_unconditional: true
+      fixed_max_weight: true
       # all_permission: true

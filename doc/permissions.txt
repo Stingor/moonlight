@@ -136,6 +136,14 @@ item delay, etc).
 Allows player to ignore the trade conditions of items (drop, trade, sell, cart, storage/gstorage, mail and auction).
 
 ---------------------------------------
+
+*fixed_max_weight (PC_PERM_FIXED_MAX_WEIGHT)
+
+Fixes the player's maximum inventory weight at the maximum safe value
+(UINT32_MAX / 100), independent of STR, job base weight and any bonus.
+Custom permission. [Stingor]
+
+---------------------------------------
  
 ======================
 | 3. Command-related |
