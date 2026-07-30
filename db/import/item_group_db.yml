@@ -15713,6 +15713,9 @@ Body:
           - Index: 119
             Item: Q_Scaraba_Card
             Rate: 30
+          - Index: 120
+            Item: Jitterbug_Card
+            Rate: 80
   - Group: MAGICIAN_CARD_BOX
     SubGroups:
       - SubGroup: 0
