@@ -185,7 +185,7 @@ Body:
     Weight: 200
     Flags:
       BuyingStore: true
-    Script: "produce 21;\n"
+    Script: "if (BaseJob == Job_Blacksmith) produce 21;\n"
   - Id: 613
     AegisName: Iron_Hammer
     Name: Iron Hammer
@@ -194,7 +194,7 @@ Body:
     Weight: 200
     Flags:
       BuyingStore: true
-    Script: "produce 1;\n"
+    Script: "if (BaseJob == Job_Blacksmith) produce 1;\n"
   - Id: 614
     AegisName: Golden_Hammer
     Name: Golden Hammer
@@ -203,7 +203,7 @@ Body:
     Weight: 300
     Flags:
       BuyingStore: true
-    Script: "produce 2;\n"
+    Script: "if (BaseJob == Job_Blacksmith) produce 2;\n"
   - Id: 615
     AegisName: Oridecon_Hammer
     Name: Oridecon Hammer
@@ -212,7 +212,7 @@ Body:
     Weight: 400
     Flags:
       BuyingStore: true
-    Script: "produce 3;\n"
+    Script: "if (BaseJob == Job_Blacksmith) produce 3;\n"
   - Id: 616
     AegisName: Old_Card_Album
     Name: Old Card Album
