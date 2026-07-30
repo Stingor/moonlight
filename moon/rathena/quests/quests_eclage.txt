@@ -10239,17 +10239,17 @@ ecl_fild01,234,266,0	duplicate(#pa0829Reactor1)	#pa0829Reactor6	HIDDEN_WARP_NPC,
 ecl_fild01,110,198,0	script	#pa0829Reactor2	HIDDEN_WARP_NPC,3,3,{
 	end;
 OnTouch_:
-	// disable_items;
-	 if (checkweight(1201,1) == 0) {
-		mes "It seems like there are too many types of items. Let's try again after reducing the number of types.";
-		close;
-	}
-	if ((MaxWeight - Weight) < 10000) {
-		mes "It seems like my possessions are too heavy. Let's try again after lightening the load.";
-		close;
-	}
 	if (ep14_2_etran == 32) {
 		mes "[????]";
+		// disable_items;
+		if (checkweight(1201,1) == 0) {
+			mes "It seems like there are too many types of items. Let's try again after reducing the number of types.";
+			close;
+		}
+		if ((MaxWeight - Weight) < 10000) {
+			mes "It seems like my possessions are too heavy. Let's try again after lightening the load.";
+			close;
+		}
 		switch(rand(1,3)) {
 		case 1:
 			mes "My father did not steal the refined items!!";
@@ -10278,6 +10278,7 @@ OnTouch_:
 		}
 	}
 }
+
 ecl_fild01,179,125,0	duplicate(#pa0829Reactor2)	#pa0829Reactor7	HIDDEN_WARP_NPC,3,3
 
 ecl_fild01,165,158,0	script	#pa0829Reactor3	HIDDEN_WARP_NPC,3,3,{
