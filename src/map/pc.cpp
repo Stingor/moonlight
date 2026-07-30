@@ -7245,7 +7245,7 @@ enum e_setpos pc_setpos(map_session_data* sd, uint16 mapindex, int32 x, int32 y,
 				return SETPOS_OK; //preventing warp
 				//break; //allow warp anyway
 			}
-		} while(map_getcell(m,x,y,CELL_CHKNOPASS) || (!battle_config.teleport_on_portal && npc_check_areanpc(1,m,x,y,1)));
+		} while(map_getcell(m,x,y,CELL_CHKNOPASS) || (!battle_config.teleport_on_portal && npc_check_areanpc(3,m,x,y,1)));
 	}
 
 	if (sd->state.vending && map_getcell(m,x,y,CELL_CHKNOVENDING)) {
@@ -7364,7 +7364,7 @@ char pc_randomwarp(map_session_data *sd, clr_type type, bool ignore_mapflag)
 	do {
 		x = rnd_value<int16>(edge, mapdata->xs - edge - 1);
 		y = rnd_value<int16>(edge, mapdata->ys - edge - 1);
-	} while((map_getcell(sd->m,x,y,CELL_CHKNOPASS) || (!battle_config.teleport_on_portal && npc_check_areanpc(1,sd->m,x,y,1))) && (i++) < 1000);
+	} while((map_getcell(sd->m,x,y,CELL_CHKNOPASS) || (!battle_config.teleport_on_portal && npc_check_areanpc(3,sd->m,x,y,1))) && (i++) < 1000);
 
 	if (i < 1000)
 		return pc_setpos(sd,mapdata->index,x,y,type);

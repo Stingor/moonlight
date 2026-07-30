@@ -5845,7 +5845,7 @@ BUILDIN_FUNC(warpparty)
 			do {
 				x = rnd_value(1, mapdata->xs - 1);
 				y = rnd_value(1, mapdata->ys - 1);
-			} while ((map_getcell(m,x,y,CELL_CHKNOPASS) || (!battle_config.teleport_on_portal && npc_check_areanpc(1,m,x,y,1))) && (i++) < 1000);
+			} while ((map_getcell(m,x,y,CELL_CHKNOPASS) || (!battle_config.teleport_on_portal && npc_check_areanpc(3,m,x,y,1))) && (i++) < 1000);
 
 			if (i >= 1000) {
 				ShowError("buildin_warpparty: moving player '%s' to \"%s\",%d,%d failed.\n", sd->status.name, str, x, y);
