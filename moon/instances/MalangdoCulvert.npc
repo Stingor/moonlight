@@ -668,7 +668,7 @@ OnClear:
 }
 
 1@pump,36,111,4	script	#Culvert_n1	844,14,14,{ //temporary workaround for ALL_SAMEMAP
-	progressbar "0xFFFF00",10;
+	progressbar "0xFFFF00",3;
 	stopnpctimer;
 	disablenpc();
 	end;
@@ -928,7 +928,7 @@ OnTimer425000:
 }
 
 2@pump,53,114,4	script	#Culvert_h1	844,14,14,{ //temporary workaround for ALL_SAMEMAP
-	progressbar "0xFFFF00",15;
+	progressbar "0xFFFF00",3;
 	stopnpctimer;
 	disablenpc();
 	end;
