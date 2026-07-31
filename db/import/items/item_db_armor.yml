@@ -22767,15 +22767,18 @@ Body:
     Defense: 12
     Slots: 1
     Jobs:
-      Alchemist: true
       Assassin: true
+      Rogue: true
+      Alchemist: true
       Blacksmith: true
       Crusader: true
+      Hunter: true
+      BardDancer: true
       Knight: true
       Merchant: true
-      Rogue: true
       Swordman: true
       Thief: true
+      Archer: true
     Locations:
       Armor: true
     EquipLevelMin: 120
