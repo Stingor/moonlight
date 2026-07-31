@@ -26,7 +26,7 @@ L_Menu:
 			.@menu5$ = "¤ Skin 3ème classe !:¤ Skin 4ème classe !";
 	}
 	else if (BaseLevel == 999 && (base3rd || base4th) ) .@menu5$ = "¤ Retour skin normal !";
-	else .@menu$ = "";
+	else .@menu5$ = "";
 	.@s = select("¤ Couleur des vêtements", "¤ Couleur des cheveux", "¤ Coiffure", "¤ Hats/Transmogrification", (gethominfo(0) ? "¤ Skin Homonculus" : ""), .@menu5$);
 	if (.@s == 4) {
 		.@cost = 250000;
