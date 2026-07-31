@@ -6280,6 +6280,8 @@ enum e_bourgeon_stat_cond : uint16 {
 	BSC_MADD_RACE2    = 28, // +% dégâts magiques vs groupe RC2 (indexed_bonus.magic_addrace2[RC2])
 	BSC_IGN_MDEF_RACE2 = 29, // ignore MDEF vs groupe RC2 (indexed_bonus.ignore_mdef_by_race2[RC2])
 	BSC_SP_GAIN_RACE  = 30, // SP gagnés en tuant une race (indexed_bonus.sp_gain_race[RC])
+	BSC_IGN_DEF_CLASS  = 31, // ignore DEF vs classe %  (ignore_def_by_class[CLASS] ; bitmask bonus1 → 100)
+	BSC_IGN_MDEF_CLASS = 32, // ignore MDEF vs classe % (ignore_mdef_by_class[CLASS] ; bitmask bonus1 → 100)
 };
 
 // Une entrée conditionnelle liée à un SKILL (tuple enrichi : id + niveau). Le client

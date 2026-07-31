@@ -5509,8 +5509,18 @@ void clif_bourgeon_stat_bonus(map_session_data* sd) {
 	for (int r = 0; r < RC_MAX;  ++r) emit(BSC_MADD_RACE, (int16)r, sd->indexed_bonus.magic_addrace[r]);
 	for (int z = 0; z < SZ_MAX;  ++z) emit(BSC_MADD_SIZE, (int16)z, sd->indexed_bonus.magic_addsize[z]);
 	for (int r = 0; r < RC_MAX;  ++r) emit(BSC_CRIT_RACE,     (int16)r, sd->indexed_bonus.critaddrace[r]);
-	for (int r = 0; r < RC_MAX;  ++r) emit(BSC_IGN_DEF_RACE,  (int16)r, sd->indexed_bonus.ignore_def_by_race[r]);
-	for (int r = 0; r < RC_MAX;  ++r) emit(BSC_IGN_MDEF_RACE, (int16)r, sd->indexed_bonus.ignore_mdef_by_race[r]);
+	// Ignore DEF/MDEF : le bonus1 (bIgnoreDefRace/Class, bIgnoreMdefRace/Class) est un
+	// BITMASK « ignore tout » distinct du tableau en % du bonus2 — replié ici en 100 %.
+	const int32 igndef_race_mask  = sd->right_weapon.ignore_def_race  | sd->left_weapon.ignore_def_race;
+	const int32 igndef_class_mask = sd->right_weapon.ignore_def_class | sd->left_weapon.ignore_def_class;
+	for (int r = 0; r < RC_MAX; ++r)
+		emit(BSC_IGN_DEF_RACE,  (int16)r, (igndef_race_mask & (1 << r)) ? 100 : sd->indexed_bonus.ignore_def_by_race[r]);
+	for (int r = 0; r < RC_MAX; ++r)
+		emit(BSC_IGN_MDEF_RACE, (int16)r, (sd->bonus.ignore_mdef_race & (1 << r)) ? 100 : sd->indexed_bonus.ignore_mdef_by_race[r]);
+	for (int c = 0; c < CLASS_MAX; ++c)
+		emit(BSC_IGN_DEF_CLASS,  (int16)c, (igndef_class_mask & (1 << c)) ? 100 : sd->indexed_bonus.ignore_def_by_class[c]);
+	for (int c = 0; c < CLASS_MAX; ++c)
+		emit(BSC_IGN_MDEF_CLASS, (int16)c, (sd->bonus.ignore_mdef_class & (1 << c)) ? 100 : sd->indexed_bonus.ignore_mdef_by_class[c]);
 	for (int e = 0; e < ELE_MAX; ++e) emit(BSC_SUBDEF_ELE, (int16)e, sd->indexed_bonus.subdefele[e]);
 	for (int c = 0; c < CLASS_MAX; ++c) emit(BSC_SUB_CLASS, (int16)c, sd->indexed_bonus.subclass[c]);
 	for (int r = 0; r < RC2_MAX;   ++r) emit(BSC_SUB_RACE2, (int16)r, sd->indexed_bonus.subrace2[r]);
