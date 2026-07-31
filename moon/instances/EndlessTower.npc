@@ -988,7 +988,7 @@ function	script	F_Tower_Monster	{
 		mobhm('hm,1,.@map$,267,96,277,132,"Bow Master",1830,15*'mult+'add,.@label$);
 		break;
 	case 95:
-		mobhm('hm,1,.@map$,352,96,362,132,"Beelzebub",1873,1*'mult,.@label$);
+		mobhm('hm,1,.@map$,352,96,362,132,"Beelzebub",1874,1*'mult,.@label$);
 		mobhm('hm,1,.@map$,352,96,362,132,"Hunter Fly",1035,30*'mult+'add,.@label$);
 		mobhm('hm,1,.@map$,352,96,362,132,"Steel Chonchon",1042,5*'mult+'add,.@label$);
 		mobhm('hm,1,.@map$,352,96,362,132,"Dragon FLy",1091,5*'mult+'add,.@label$);
