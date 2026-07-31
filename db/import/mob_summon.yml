@@ -189,6 +189,128 @@ Body:
         Rate: 400000
       - Mob: ATROCE
         Rate: 400000
+      - Mob: KRAKEN
+        Rate: 50000
+      - Mob: I_QUEEN_SCARABA
+        Rate: 50000
+      - Mob: BUWAYA
+        Rate: 50000
+      - Mob: B_NOVICE
+        Rate: 25000
+      - Mob: MG_CORRUPTION_ROOT
+        Rate: 25000
+      - Mob: MG_AMDARAIS
+        Rate: 25000
+      - Mob: FACEWORM_QUEEN
+        Rate: 25000
+      - Mob: FACEWORM_QUEEN_R
+        Rate: 25000
+      - Mob: FACEWORM_QUEEN_G
+        Rate: 25000
+      - Mob: FACEWORM_QUEEN_B
+        Rate: 25000
+      - Mob: FACEWORM_QUEEN_Y
+        Rate: 25000
+      - Mob: MM_EVIL_FANATICS
+        Rate: 25000
+      - Mob: XM_CELINE_KIMI
+        Rate: 25000
+      - Mob: EP14_MORS_BOSSA
+        Rate: 25000
+      - Mob: EP14_MORS_BOSSB
+        Rate: 25000
+      - Mob: GRAND_PERE
+        Rate: 25000
+      - Mob: E1_FELOCK
+        Rate: 25000
+      - Mob: MM_M_GIGAN1
+        Rate: 25000
+      - Mob: V_B_EREMES
+        Rate: 25000
+      - Mob: V_B_MAGALETA
+        Rate: 25000
+      - Mob: V_B_SHECIL
+        Rate: 25000
+      - Mob: V_B_HARWORD
+        Rate: 25000
+      - Mob: V_B_KATRINN
+        Rate: 25000
+      - Mob: V_B_SEYREN
+        Rate: 25000
+      - Mob: V_B_RANDEL
+        Rate: 25000
+      - Mob: V_B_FLAMEL
+        Rate: 25000
+      - Mob: V_B_CELIA
+        Rate: 25000
+      - Mob: V_B_CHEN
+        Rate: 25000
+      - Mob: V_B_GERTIE
+        Rate: 25000
+      - Mob: V_B_ALPHOCCIO
+        Rate: 25000
+      - Mob: V_B_TRENTINI
+        Rate: 25000
+      - Mob: T_W_O
+        Rate: 25000
+      - Mob: BIJOU
+        Rate: 25000
+      - Mob: NG_BAPHOMET
+        Rate: 50000
+      - Mob: BAKONAWA_3
+        Rate: 25000
+      - Mob: BANGUNGOT_3
+        Rate: 25000
+      - Mob: CHARLESTON3
+        Rate: 25000
+      - Mob: PORING_V
+        Rate: 25000
+      - Mob: GEFFEN_MAGE_1
+        Rate: 25000
+      - Mob: GEFFEN_MAGE_2
+        Rate: 25000
+      - Mob: GEFFEN_MAGE_3_1
+        Rate: 25000
+      - Mob: GEFFEN_MAGE_3_2
+        Rate: 25000
+      - Mob: GEFFEN_MAGE_3_3
+        Rate: 25000
+      - Mob: GEFFEN_MAGE_4
+        Rate: 25000
+      - Mob: GEFFEN_MAGE_5
+        Rate: 25000
+      - Mob: GEFFEN_MAGE_6
+        Rate: 25000
+      - Mob: GEFFEN_MAGE_7
+        Rate: 25000
+      - Mob: GEFFEN_MAGE_8
+        Rate: 25000
+      - Mob: GEFFEN_MAGE_9
+        Rate: 25000
+      - Mob: GEFFEN_MAGE_10
+        Rate: 25000
+      - Mob: GEFFEN_MAGE_11
+        Rate: 25000
+      - Mob: GEFFEN_MAGE_12
+        Rate: 25000
+      - Mob: GEFFEN_FENRIR
+        Rate: 25000
+      - Mob: LOST_DRAGON
+        Rate: 25000
+      - Mob: COELACANTH_N_A
+        Rate: 25000
+      - Mob: COELACANTH_N_M
+        Rate: 25000
+      - Mob: COELACANTH_H_M
+        Rate: 25000
+      - Mob: COELACANTH_H_A
+        Rate: 25000
+      - Mob: GRIM_REAPER_ANKOU
+        Rate: 25000
+      - Mob: MD_GIANT_OCTOPUS
+        Rate: 25000
+      - Mob: IRENE_ELDER
+        Rate: 25000
   - Group: Branch_Of_Dead_Tree
     Default: SCORPION
     Summon:
