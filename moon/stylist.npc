@@ -19,7 +19,7 @@ L_Menu:
 	mes "Je peux changer votre apparence si vous le souhaitez.";
 	mes " ";
 	mes "Il vous suffit de choisir ce que vous souhaitez modifier:";
-	if (BaseLevel == 999 && !(base3rd || base4th) ) {
+	if (BaseLevel == 999 && !(base3rd || base4th) && Class != JOB_SUPER_NOVICE && Class != JOB_SUPER_BABY) {
 		if (Class == JOB_NINJA || Class == JOB_BABY_NINJA || Class == JOB_GUNSLINGER || Class == JOB_BABY_GUNSLINGER)
 			.@menu5$ = "¤ Skin 3ème classe !";
 		else
@@ -186,12 +186,6 @@ L_mainmenu:
 				case JOB_BABY_GUNSLINGER:
 					changebase JOB_BABY_REBELLION;
 					break;
-				case JOB_SUPER_NOVICE:
-					changebase JOB_SUPER_NOVICE_E;
-					break;
-				case JOB_SUPER_BABY:
-					changebase JOB_SUPER_BABY_E;
-					break;
 				default:
 					changebase roclass(eaclass()|EAJL_THIRD);
 					break;
@@ -260,9 +254,6 @@ L_mainmenu:
 				break;
 			case JOB_GUNSLINGER:
 				changebase JOB_NIGHT_WATCH;
-				break;
-			case JOB_SUPER_NOVICE:
-				changebase JOB_HYPER_NOVICE;
 				break;
 			default:
 				break;
