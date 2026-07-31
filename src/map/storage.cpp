@@ -1319,7 +1319,7 @@ void storage_premiumStorage_open(map_session_data *sd) {
 	nullpo_retv(sd);
 
 	sd->state.storage_flag = 3;
-	storage_sortitem(sd->premiumStorage.u.items_storage, ARRAYLENGTH(sd->premiumStorage.u.items_storage));
+	sort_storage_items(sd->premiumStorage.u.items_storage, ARRAYLENGTH(sd->premiumStorage.u.items_storage), (e_sort_mode)sd->state.sort_storage);
 	clif_storagelist(sd, sd->premiumStorage.u.items_storage, ARRAYLENGTH(sd->premiumStorage.u.items_storage), storage_getName(sd->premiumStorage.stor_id));
 	clif_updatestorageamount(*sd, sd->premiumStorage.amount, sd->premiumStorage.max_amount);
 	clif_bourgeon_storage_prices(sd, sd->premiumStorage.u.items_storage, ARRAYLENGTH(sd->premiumStorage.u.items_storage));

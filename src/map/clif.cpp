@@ -3323,7 +3323,7 @@ void clif_cartlist( map_session_data *sd ){
 	int32 normal = 0;
 	int32 equip = 0;
 
-	storage_sortitem( sd->cart.u.items_cart, ARRAYLENGTH( sd->cart.u.items_cart ) );
+	sort_storage_items( sd->cart.u.items_cart, ARRAYLENGTH( sd->cart.u.items_cart ), (e_sort_mode)sd->state.sort_cart );
 
 	for( int32 i = 0; i < MAX_CART; i++ ){
 		if( sd->cart.u.items_cart[i].nameid == 0 ){
@@ -11960,7 +11960,7 @@ void clif_messagecolor_target(const block_list* bl, unsigned long color, const c
 void clif_refresh_storagewindow(map_session_data *sd) {
 	// Notify the client that the storage is open
 	if( sd->state.storage_flag == 1 ) {
-		storage_sortitem(sd->storage.u.items_storage, ARRAYLENGTH(sd->storage.u.items_storage));
+		sort_storage_items(sd->storage.u.items_storage, ARRAYLENGTH(sd->storage.u.items_storage), (e_sort_mode)sd->state.sort_storage);
 		clif_storagelist(sd, sd->storage.u.items_storage, ARRAYLENGTH(sd->storage.u.items_storage), storage_getName(0));
 		clif_updatestorageamount(*sd, sd->storage.amount, sd->storage.max_amount);
 	}
@@ -11972,14 +11972,14 @@ void clif_refresh_storagewindow(map_session_data *sd) {
 		if( !gstor ) // Shouldn't happen. The information should already be at the map-server
 			intif_request_guild_storage(sd->status.account_id, sd->status.guild_id);
 		else {
-			storage_sortitem(gstor->u.items_guild, ARRAYLENGTH(gstor->u.items_guild));
+			sort_storage_items(gstor->u.items_guild, ARRAYLENGTH(gstor->u.items_guild), (e_sort_mode)sd->state.sort_gstorage);
 			clif_storagelist(sd, gstor->u.items_guild, ARRAYLENGTH(gstor->u.items_guild), "Guild Storage");
 			clif_updatestorageamount(*sd, gstor->amount, gstor->max_amount);
 		}
 	}
 	// Notify the client that the premium storage is open
 	if (sd->state.storage_flag == 3) {
-		storage_sortitem(sd->premiumStorage.u.items_storage, ARRAYLENGTH(sd->premiumStorage.u.items_storage));
+		sort_storage_items(sd->premiumStorage.u.items_storage, ARRAYLENGTH(sd->premiumStorage.u.items_storage), (e_sort_mode)sd->state.sort_storage);
 		clif_storagelist(sd, sd->premiumStorage.u.items_storage, ARRAYLENGTH(sd->premiumStorage.u.items_storage), storage_getName(sd->premiumStorage.stor_id));
 		clif_updatestorageamount(*sd, sd->premiumStorage.amount, sd->premiumStorage.max_amount);
 	}
