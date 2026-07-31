@@ -725,7 +725,7 @@ L_Bijou:
 	end;
 
 function GetColor {
-	return ((checkquest(getarg(0),PLAYTIME) == 2 || checkquest(getarg(0),PLAYTIME) == -1)?"^00A000":"^FF0000");
+	return ((checkquest(getarg(0),PLAYTIME) == 2 || checkquest(getarg(0),PLAYTIME) == -1)?"^000000":"^FF0000");
 }
 
 function GetMobs {
