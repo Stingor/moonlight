@@ -140,7 +140,8 @@ L_Guild_Dungeons:
 		.@sel$ = .@sel$ + (.@i > 0 ? ":" : "") + .@gn$[.@i];
 	.@c = select(.@sel$ + ":• ^e64c00Menu Précédent.^000000") - 1;
 	if (.@c >= .@n) goto L_warpa;
-	warp_fct(.@gm$[.@c], .@gx[.@c], .@gy[.@c]);
+	if ( WarpaDetail) WarpMenu(.@gm$[.@c]);
+	else warp_fct(.@gm$[.@c], .@gx[.@c], .@gy[.@c]);
 	end;
 
 L_Instance:
