@@ -19,6 +19,8 @@ L_Menu:
 	mes "Je peux changer votre apparence si vous le souhaitez.";
 	mes " ";
 	mes "Il vous suffit de choisir ce que vous souhaitez modifier:";
+	.@menu4$ = "":
+	if (gethominfo(0)) .@menu4$ = "¤ Skin Homonculus";
 	.@menu5$ = "";
 	if (BaseLevel == 999 ) {
 		if (!(base3rd || base4th) && Class != JOB_SUPER_NOVICE && Class != JOB_SUPER_BABY) {
@@ -32,7 +34,7 @@ L_Menu:
 		}
 		else if ((base3rd || base4th) ) .@menu5$ = "¤ Retour skin normal !";
 	}
-	.@s = select("¤ Couleur des vêtements", "¤ Couleur des cheveux", "¤ Coiffure", "¤ Hats/Transmogrification", (gethominfo(0) ? "¤ Skin Homonculus" : ""), .@menu5$);
+	.@s = select("¤ Couleur des vêtements", "¤ Couleur des cheveux", "¤ Coiffure", "¤ Hats/Transmogrification", .@menu4$, .@menu5$);
 	if (.@s == 4) {
 		.@cost = 250000;
 		clear;
