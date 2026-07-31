@@ -186,6 +186,12 @@ L_mainmenu:
 				case JOB_BABY_GUNSLINGER:
 					changebase JOB_BABY_REBELLION;
 					break;
+				case JOB_SUPER_NOVICE:
+					changebase JOB_SUPER_NOVICE_E;
+					break;
+				case JOB_SUPER_BABY:
+					changebase JOB_SUPER_BABY_E;
+					break;
 				default:
 					changebase roclass(eaclass()|EAJL_THIRD);
 					break;
@@ -232,6 +238,12 @@ L_mainmenu:
 			case JOB_STALKER:
 				changebase JOB_ABYSS_CHASER;
 				break;
+			case JOB_CLOWN:
+				changebase JOB_TROUBADOUR;
+				break;
+			case JOB_GYPSY:
+				changebase JOB_TROUVERE;
+				break;
 			case JOB_STAR_GLADIATOR:
 				changebase JOB_SKY_EMPEROR;
 				break;
@@ -249,8 +261,8 @@ L_mainmenu:
 			case JOB_GUNSLINGER:
 				changebase JOB_NIGHT_WATCH;
 				break;
-			case JOB_BABY_GUNSLINGER:
-				changebase JOB_NIGHT_WATCH;
+			case JOB_SUPER_NOVICE:
+				changebase JOB_HYPER_NOVICE;
 				break;
 			default:
 				break;
