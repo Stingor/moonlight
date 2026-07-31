@@ -27,6 +27,7 @@ L_warpa:
 	else .@save$ = "";
 
 	menu @lastwarp$, -,
+		($eventinvasion ? "Invasion" : ""), L_Invasion,
 		"• ^5ca57bVilles^000000", L_Villes,
 		"• ^f28e0dDonjons^000000", L_Donjons,
 		"• ^d28efdFields^000000", L_Fields,
@@ -41,6 +42,9 @@ L_warpa:
 L_Option:
 	WarpaDetail = !WarpaDetail;
 	goto L_warpa;
+L_Invasion:
+	warp_fct($mapinvasion$);
+	end;
 L_Villes:
 	clear;
 L_VillesCmd:
