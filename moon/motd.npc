@@ -53,7 +53,7 @@ OnMinute30:
 	"@showmobinfo pour voir la race et l'élément d'un mob dans son nom",
 	"Des difficultés à suivre vos kill de mobs? @separate",
 	"Accédez à vos storages avec @storage1...5",
-	"Vendre vos golds ou autres item protégers? @sellitem/@itemprotect/@protectitem",
+	"Vendre vos golds ou autres item protégés? @sellitem/@itemprotect/@protectitem",
 	"Vendre vos stuff refined ou avec des cards? @sellstuff/@protectstuff/@stuffprotect",
 	"Vous @vote(z) mais ne gagnez pas de points? Utilisez bien l'icone RoTopServ, une fois log sur le site!",
 	"Vous cherchez où se trouve un mob ? @whereis poring / @whereis ID_MOB !",
