@@ -2056,7 +2056,7 @@ Body:
         Price: 10
       - Item: C_Clergy_Nurse_Cap  # Id: 31560 | ViewID = 1359
       - Item: C_Heavenly_Dark_Flame  # Id: 31561 | ViewID = 1008
-      - Item: C_Zealotus Doll
+      - Item: C_Zealotus_Doll
       - Item: C_Blue_Eye_Shadow  # Id: 31563 | ViewID = 1020
         Price: 10
       - Item: C_Variant_Veil  # Id: 31564 | ViewID = 1785

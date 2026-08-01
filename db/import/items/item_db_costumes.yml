@@ -7265,7 +7265,7 @@ Body:
       Costume_Head: true
     View: 1450
   - Id: 20826
-    AegisName: Angel_feather
+    AegisName: Angel_Feather
     Name: Costume Angel Feather
     Type: Armor
     Weight: 200
@@ -10484,7 +10484,7 @@ Body:
       Costume_Head: true
     View: 1008
   - Id: 31562
-    AegisName: C_Zealotus Doll
+    AegisName: C_Zealotus_Doll
     Name: C Zealotus Doll
     Type: Armor
     Locations:
