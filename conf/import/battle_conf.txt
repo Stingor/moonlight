@@ -617,4 +617,4 @@ mon_trans_disable_in_gvg: no
 discount_item_point_shop: 0
 disp_servervip_msg: no
 mail_delay: 1000
-hide_fav_sell: no
+hide_fav_sell: yes

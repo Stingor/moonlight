@@ -257,8 +257,6 @@ Body:
         Rate: 25000
       - Mob: NG_BAPHOMET
         Rate: 50000
-      - Mob: BAKONAWA_3
-        Rate: 25000
       - Mob: BANGUNGOT_3
         Rate: 25000
       - Mob: CHARLESTON3

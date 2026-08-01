@@ -5291,7 +5291,7 @@ Body:
     Weight: 10
     Locations:
       Armor: true
-    Script: ".@r = getrefine(); bonus bDef,5; if(.@r>=12) { bonus bDef,10; bonus bMaxHPrate,10; } if(.@r>=14) { bonus bMaxHPrate,3; }\n"
+    Script: ".@r = getallrefine(); bonus bDef,5; if(.@r>=24) { bonus bDef,10; bonus bMaxHPrate,10; } if(.@r>=28) { bonus bMaxHPrate,3; }\n"
   - Id: 4463
     AegisName: Tendrilion_Card
     Name: Tendrilrion Card
@@ -5300,7 +5300,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "bonus bCritical,5; .@r = getrefine(); if(.@r>=12) { bonus bBaseAtk,35; } if(.@r>=14) { bonus bCritical,10; }\n"
+    Script: "bonus bCritical,5; .@r = getallrefine(); if(.@r>=24) { bonus bBaseAtk,35; } if(.@r>=28) { bonus bCritical,10; }\n"
   - Id: 4464
     AegisName: Aunoe_Card
     Name: Aunoe Card
@@ -5318,7 +5318,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "bonus bBaseAtk,10; if(getiteminfo(getequipid(EQI_HAND_R),11)==W_2HSWORD) { .@r = getrefine(); if(.@r>=10) { bonus bAspd,1; } if(.@r>=14) { bonus bAspd,1; } }\n"
+    Script: "bonus bBaseAtk,10; if(getiteminfo(getequipid(EQI_HAND_R),11)==W_2HSWORD) { if(getrefine()>=10) { bonus bAspd,1; } if(getallrefine()>=28) { bonus bAspd,2; } }\n"
   - Id: 4466
     AegisName: Beholder_Master_Card
     Name: Beholder Master Card
@@ -5327,7 +5327,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "bonus bLongAtkRate,3; if(getiteminfo(getequipid(EQI_HAND_R),11)==W_BOW) { .@r = getrefine(); if(.@r>=10) { bonus bAspd,1; } if(.@r>=14) { bonus bAspd,1; } }\n"
+    Script: "bonus bLongAtkRate,3; if(getiteminfo(getequipid(EQI_HAND_R),11)==W_BOW) { if(getrefine()>=10) { bonus bAspd,1; } if(getallrefine()>=28) { bonus bAspd,2; } }\n"
   - Id: 4467
     AegisName: Heavy_Metaling_Card
     Name: Heavy Metaling Card
@@ -6336,7 +6336,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "bonus bBaseAtk,10; if(getiteminfo(getequipid(EQI_HAND_R),11) == W_DAGGER) { .@r = getrefine(); if(.@r>=10) { bonus bAspd,1; } if(.@r>=14) { bonus bAspd,1; } }\n"
+    Script: "bonus bBaseAtk,10; if(getiteminfo(getequipid(EQI_HAND_R),11) == W_DAGGER) {if(getrefine()>=10) { bonus bAspd,1; } if(getallrefine()>=28) { bonus bAspd2,1; } }\n"
   - Id: 4576
     AegisName: Gioia_Card
     Name: Gioia Card
@@ -6627,6 +6627,7 @@ Body:
     Locations:
       Armor: true
     Script: "bonus bMaxHPrate,-44; bonus bHPGainValue,200+10*getrefine();\n"
+    UnEquipScript: "heal -4444,0;\n"
   - Id: 4606
     AegisName: UndeadKnightF_Card
     Name: Grudge of Royal Knight Card
@@ -6645,7 +6646,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "bonus bBaseAtk,5; bonus bMatk,5; if(getiteminfo(getequipid(EQI_HAND_R),11) == W_BOOK) { .@r = getrefine(); if(.@r>=10) { bonus bBaseAtk,20; bonus bMatk,20; } if(.@r>=14) { bonus bBaseAtk,20; bonus bMatk,20; } }\n"
+    Script: "bonus bBaseAtk,5; bonus bMatk,5; if(getiteminfo(getequipid(EQI_HAND_R),11) == W_BOOK) {if(getrefine()>=10) { bonus bBaseAtk,20; bonus bMatk,20; } if(getallrefine()>=28) { bonus bBaseAtk,20; bonus bMatk,20; } }\n"
   - Id: 4608
     AegisName: White_Knight_Card
     Name: White Knight Card
@@ -7401,7 +7402,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "bonus bMaxSP,-300; bonus bBreakArmorRate,1500; /* Custom rate [Secret] */\n"
+    Script: "bonus bMaxSP,-300; bonus bBreakArmorRate,1500;\n"
   - Id: 4698
     AegisName: Step_Card
     Name: Step Card
@@ -7410,7 +7411,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "bonus2 bSkillAtk,\"NC_AXEBOOMERANG\",30+((getrefine() >= 10)*30);\n"
+    Script: "bonus2 bSkillAtk,\"MC_MAMMONITE\",30+((getrefine() >= 10)*30);\n"
   - Id: 4699
     AegisName: Rock_Step_Card
     Name: Rock Step Card
@@ -7419,7 +7420,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "bonus2 bSkillAtk,\"NC_ARMSCANNON\",20+((getrefine()>=10)*20);\n"
+    Script: "bonus2 bSkillAtk,\"WS_CARTTERMINATION\",20+((getrefine()>=10)*20);\n"
   - Id: 6846
     AegisName: Limited_Gym_Membership_Card
     Name: (Limited)Gym Membership Card
@@ -7445,7 +7446,7 @@ Body:
     Weight: 10
     Locations:
       Armor: true
-    Script: "bonus bMaxHPrate,8; if((eaclass()&EAJ_THIRDMASK) == EAJ_MECHANIC){ bonus bLongAtkDef,30; }\n"
+    Script: "bonus bMaxHPrate,8; if((eaclass()&EAJ_BASEMASK) == EAJ_MERCHANT){ bonus bLongAtkDef,30; }\n"
   - Id: 27013
     AegisName: Kick_&_Kick_Card
     Name: Kick & Kick Card
@@ -7454,7 +7455,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "bonus2 bSkillAtk,\"NC_VULCANARM\",10+((getrefine()>=10)*20);\n"
+    Script: "bonus2 bSkillAtk,\"MC_CARTREVOLUTION\",10+((getrefine()>=10)*20);\n"
   - Id: 27014
     AegisName: Green_Cenere_Card
     Name: Green Cenere Card
@@ -8070,7 +8071,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: ".@atk = 5; .@r = getrefine(); if(getiteminfo(getequipid(EQI_HAND_R),11) == W_SPEAR && .@r >= 10){ .@atk += 20; if(.@r >= 14){ .@atk += 20; } } bonus bAtk,.@atk; bonus bMatk,.@atk;\n"
+    Script: ".@atk = 5; if(getiteminfo(getequipid(EQI_HAND_R),11) == W_SPEAR && getrefine() >= 10){ .@atk += 20; if(getallrefine() >= 28){ .@atk += 20; } } bonus bAtk,.@atk; bonus bMatk,.@atk;\n"
   - Id: 27170
     AegisName: Shotgun_Buffalo_Bandit_Card
     Name: Shotgun Buffalo Bandit Card
@@ -8360,7 +8361,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: ".@rate = 10 + (getiteminfo(getequipid(EQI_HAND_R),11) == W_BOOK ? 20 : 0) + (getrefine() >= 14 ? 20 : 0); bonus2 bSkillAtk,\"MG_FIREBOLT\",.@rate; bonus2 bSkillAtk,\"MG_COLDBOLT\",.@rate; bonus2 bSkillAtk,\"MG_LIGHTNINGBOLT\",.@rate;\n"
+    Script: ".@rate = 10 + (getiteminfo(getequipid(EQI_HAND_R),11) == W_BOOK ? 20 : 0) + (getallrefine() >= 28 ? 20 : 0); bonus2 bSkillAtk,\"MG_FIREBOLT\",.@rate; bonus2 bSkillAtk,\"MG_COLDBOLT\",.@rate; bonus2 bSkillAtk,\"MG_LIGHTNINGBOLT\",.@rate;\n"
   - Id: 27262
     AegisName: Dwigh_Card
     Name: Dwigh Card

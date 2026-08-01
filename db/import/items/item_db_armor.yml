@@ -10260,7 +10260,7 @@ Body:
     Locations:
       Both_Accessory: true
     EquipLevelMin: 100
-    Script: "bonus bCritical,3; bonus2 bSkillUseSP,\"GC_DARKILLUSION\",5;\n"
+    Script: "bonus bCritical,3; bonus2 bSkillUseSP,\"ASC_METEORASSAULT\",5;\n"
   - Id: 2887
     AegisName: Nab_Ring
     Name: Nab Ring

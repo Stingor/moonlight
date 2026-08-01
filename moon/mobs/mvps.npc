@@ -158,6 +158,7 @@ slabw01		boss_monster	Venomous Chimera		EP16_2_VENOM_KIMERA,1,3600000,600000,"cl
 mag_dun03	boss_monster	Rigid Muspellskoll		MUSPELLSKOLL_H,1,3600000,600000,"classement::OnMvpDead"
 amicitia2	boss_monster	The One					CHIMERA_THEONE,1,21600000,600000,"classement::OnMvpDead"
 ba_lost		boss_monster	Boss Pitaya				EP17_2_PITAYA_BOSS,1,7200000,600000,"classement::OnMvpDead"
+lasa_dun01	boss_monster	Big Eggring				DR_BIG_EGGRING,1,3600000,1800000,"classement::OnMvpDead"
 
 // PAR SCRIPT  1h40 - 2h10
 lhz_dun03,0,0,0	script	mvp_lhz_dun03	-1,{

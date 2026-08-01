@@ -3092,13 +3092,13 @@ Body:
           - Charleston3_Card
           - Kick_Step_Card
     Script: |
-      bonus bNoMadoFuel;
+      bonus bNoZeny;
   - Combos:
       - Combo:
           - Rock_Step_Card
           - Kick_Step_Card
     Script: |
-      bonus bNoMadoFuel;
+      bonus bNoZeny;
   - Combos:
       - Combo:
           - Gemini
@@ -4765,7 +4765,7 @@ Body:
           - Kick_&_Kick_Card
           - Kick_Step_Card
     Script: |
-      bonus bNoMadoFuel;
+      bonus bNoZeny;
   - Combos:
       - Combo:
           - Repair_Robot_Turbo_Card

@@ -9,7 +9,6 @@
 //==================================================
 lasa_dun01	monster	Trans Spore	3501,40
 lasa_dun01	monster	Scout Basilisk	3502,40
-lasa_dun01	boss_monster	Big Eggring	3505,1,3600000,1800000,1
 
 //==================================================
 // lasa_dun02 - Dragon's Nest

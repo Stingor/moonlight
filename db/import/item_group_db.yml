@@ -15803,6 +15803,138 @@ Body:
           - Index: 149
             Item: Irene_High_Elder_Card
             Rate: 1
+          - Index: 150
+            Item: Antonio_Card
+            Rate: 80
+          - Index: 151
+            Item: Soheon_Card
+            Rate: 30
+          - Index: 152
+            Item: Retribution_Card
+            Rate: 30
+          - Index: 153
+            Item: Bow_Guardian_Card
+            Rate: 30
+          - Index: 154
+            Item: Byorgue_Card
+            Rate: 30
+          - Index: 155
+            Item: Sword_Guardian_Card
+            Rate: 30
+          - Index: 156
+            Item: Salamander_Card
+            Rate: 30
+          - Index: 157
+            Item: Observation_Card
+            Rate: 30
+          - Index: 158
+            Item: Tha_Dolor_Card
+            Rate: 30
+          - Index: 159
+            Item: Galion_Card
+            Rate: 30
+          - Index: 160
+            Item: Gold_Scaraba_Card
+            Rate: 30
+          - Index: 161
+            Item: Kasa_Card
+            Rate: 30
+          - Index: 162
+            Item: King_Dramoh_Card
+            Rate: 30
+          - Index: 163
+            Item: Solace_Card
+            Rate: 30
+          - Index: 164
+            Item: Shelter_Card
+            Rate: 30
+          - Index: 165
+            Item: Necromancer_Card
+            Rate: 30
+          - Index: 166
+            Item: Owl_Viscount_Card
+            Rate: 30
+          - Index: 167
+            Item: Owl_Marquees_Card
+            Rate: 30
+          - Index: 168
+            Item: Skeggiold_Card
+            Rate: 30
+          - Index: 169
+            Item: V_B_Eremes_Card
+            Rate: 30
+          - Index: 170
+            Item: V_B_Magaleta_Card
+            Rate: 30
+          - Index: 171
+            Item: V_B_Katrinn_Card
+            Rate: 30
+          - Index: 172
+            Item: V_B_Shecil_Card
+            Rate: 30
+          - Index: 173
+            Item: V_B_Harword_Card
+            Rate: 30
+          - Index: 174
+            Item: V_B_Seyren_Card
+            Rate: 30
+          - Index: 175
+            Item: V_B_Randel_Card
+            Rate: 30
+          - Index: 176
+            Item: V_B_Flamel_Card
+            Rate: 30
+          - Index: 177
+            Item: V_B_Celia_Card
+            Rate: 30
+          - Index: 178
+            Item: V_B_Chen_Card
+            Rate: 30
+          - Index: 179
+            Item: V_B_Gertie_Card
+            Rate: 30
+          - Index: 180
+            Item: V_B_Alphoccio_Card
+            Rate: 30
+          - Index: 181
+            Item: V_B_Trentini_Card
+            Rate: 30
+          - Index: 182
+            Item: Lora_Card
+            Rate: 30
+          - Index: 183
+            Item: Wild_Rider_Card
+            Rate: 30
+          - Index: 184
+            Item: Elvira_Card
+            Rate: 30
+          - Index: 185
+            Item: Rudo_Card
+            Rate: 30
+          - Index: 186
+            Item: Hardrock_Mommos_Card
+            Rate: 30
+          - Index: 187
+            Item: Tendrilion_Card
+            Rate: 30
+          - Index: 188
+            Item: Ant_Buyanne_Card
+            Rate: 3
+          - Index: 189
+            Item: Big_Eggring_Card
+            Rate: 1
+          - Index: 190
+            Item: UndeadKnightM_Card
+            Rate: 30
+          - Index: 191
+            Item: UndeadKnightF_Card
+            Rate: 30
+          - Index: 192
+            Item: Dark_Faceworm_Card
+            Rate: 30
+          - Index: 193
+            Item: Mini_Octopus_Card
+            Rate: 30
   - Group: MAGICIAN_CARD_BOX
     SubGroups:
       - SubGroup: 0
@@ -29661,6 +29793,27 @@ Body:
             Rate: 1
           - Index: 926
             Item: Huuma_Calm_Mind
+            Rate: 1
+          - Index: 927
+            Item: Cryptura_Academy_Hat
+            Rate: 1
+          - Index: 928
+            Item: Novice_Plate
+            Rate: 1
+          - Index: 929
+            Item: Novice_Hood
+            Rate: 1
+          - Index: 930
+            Item: Novice_Boots
+            Rate: 1
+          - Index: 931
+            Item: Novice_Egg_Cap
+            Rate: 1
+          - Index: 932
+            Item: Novice_Knife
+            Rate: 1
+          - Index: 933
+            Item: Novice_Guard
             Rate: 1
   - Group: VIOLET_SCROLL
     SubGroups:
