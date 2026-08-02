@@ -1587,5 +1587,14 @@ void clif_bourgeon_companion_state(map_session_data* sd);
 // part alors qu'elle bouge à chaque plat. Poussée au login vérifié et à chaque
 // changement (pc_setparam SP_COOKMASTERY). No-op si !has_bourgeon.
 void clif_bourgeon_cook_mastery(map_session_data* sd);
+// [Stingor] Onglets de storage du viewer Bourgeon.
+// ZC 0x0F1E : storages que le joueur a le DROIT d'ouvrir (mêmes permissions que les
+// commandes @storage / @storagealtN) + celui qui est ouvert (cur_id, 0xFF = aucun).
+// Poussé au login vérifié et à chaque ouverture de storage — donc aussi quand le
+// storage NATIF est utilisé : le client se contente alors de le mémoriser.
+void clif_bourgeon_storage_list(map_session_data* sd, uint8 cur_id);
+// CZ 0x0F1D : ouvrir un storage, ou basculer depuis celui qui est ouvert (ferme
+// puis rouvre — les @storagealt, eux, se contentent de fermer).
+void clif_parse_bourgeon_open_storage(int32 fd, map_session_data* sd);
 
 #endif /* CLIF_HPP */

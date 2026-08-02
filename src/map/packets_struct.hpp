@@ -6167,6 +6167,40 @@ struct PACKET_ZC_BOURGEON_COOK_MASTERY {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_COOK_MASTERY, 0x0f1c);
 
+// CZ (client -> server): ouvrir un storage, ou BASCULER vers un autre depuis les
+// onglets du viewer Bourgeon. Fixe 5.
+// Layout: [packetType:2][packetLength:2][stor_id:1]
+//   stor_id : 0 = storage principal, 1..N = alternatif (conf/inter_server.yml).
+//
+// Ce que ce paquet apporte sur les @storagealt existants (src/custom/atcommand.inc) :
+// ceux-ci FERMENT quand un storage est déjà ouvert (toggle) — basculer coûte donc
+// deux commandes. Le handler ici enchaîne fermeture + ouverture, ce qu'un onglet
+// doit faire en un clic. Les DROITS restent exactement ceux des commandes
+// (pc_can_use_command sur "storage" / "storagealtN") : un onglet ne peut rien
+// ouvrir que le joueur ne puisse déjà taper.
+struct PACKET_CZ_BOURGEON_OPEN_STORAGE {
+	int16 packetType;
+	int16 packetLength;
+	uint8 stor_id;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_OPEN_STORAGE, 0x0f1d);
+
+// ZC (server -> client): storages accessibles à CE personnage + celui qui est ouvert.
+// VARIABLE : [packetType:2][packetLength:2][cur_id:1][count:1]
+//            puis count fois [stor_id:1][name:NAME_LENGTH]
+//   cur_id : id du storage ouvert, 0xFF si aucun (liste poussée au login).
+//   name   : nom du storage (inter_server.yml), NUL-paddé sur NAME_LENGTH.
+// La liste est FILTRÉE par les droits du joueur — le client dessine ce qu'il
+// reçoit, il ne connaît aucun nom ni aucun id à l'avance.
+struct PACKET_ZC_BOURGEON_STORAGE_LIST {
+	int16 packetType;
+	int16 packetLength;
+	uint8 cur_id;
+	uint8 count;
+	// suivi de count * [stor_id:1][name:NAME_LENGTH]
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_STORAGE_LIST, 0x0f1e);
+
 // ZC (server -> client): apport des ÉQUIPEMENTS et des CARTES aux stats, compilé
 // par status_calc_pc. sd->indexed_bonus.param_equip = apport équipement (copié en
 // status.cpp), param_bonus = apport cartes (cf. le split memcpy/memset). Push à

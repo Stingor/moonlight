@@ -2081,4 +2081,7 @@ parseable_packet(HEADER_CZ_BOURGEON_REQ_COMPAT_CARDS, sizeof(PACKET_CZ_BOURGEON_
 // [Stingor] Bourgeon : saut cosmétique à la barre espace (relayé à la zone).
 parseable_packet(HEADER_CZ_BOURGEON_JUMP, sizeof(PACKET_CZ_BOURGEON_JUMP), clif_parse_bourgeon_jump, 0);
 
+// [Stingor] Bourgeon : onglets de storage — ouvrir/basculer vers un storage (fixed)
+parseable_packet(HEADER_CZ_BOURGEON_OPEN_STORAGE, sizeof(PACKET_CZ_BOURGEON_OPEN_STORAGE), clif_parse_bourgeon_open_storage, 0);
+
 #endif /* CLIF_PACKETDB_HPP */

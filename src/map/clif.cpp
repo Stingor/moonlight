@@ -5341,6 +5341,123 @@ void clif_bourgeon_storage_prices(map_session_data* sd, const struct item* items
 	WFIFOSET(fd, pkt_len);
 }
 
+// ── Bourgeon : onglets de storage (ZC 0x0F1E / CZ 0x0F1D) ────────────────────
+//
+// Le viewer Bourgeon affiche un onglet par storage accessible et bascule de l'un
+// à l'autre en un clic. Deux paquets : la LISTE (ce que le joueur a le droit
+// d'ouvrir, poussée au login et à chaque ouverture) et la DEMANDE d'ouverture.
+
+// Nom de la commande @ qui ouvre ce storage. C'est ELLE qui porte le droit
+// (conf/import/groups.yml : storage / storagealt1..5), donc onglets et commandes
+// partagent exactement la même autorisation — il n'y a pas de seconde table de
+// permissions à tenir à jour, et un onglet ne peut rien ouvrir que le joueur ne
+// puisse déjà taper.
+static const char* clif_bourgeon_storage_command(uint8 stor_id, char* buf, size_t cap) {
+	if (stor_id == 0)
+		return "storage";
+	safesnprintf(buf, cap, "storagealt%u", stor_id);
+	return buf;
+}
+
+// Liste des storages accessibles + celui qui est ouvert (0xFF = aucun).
+// [type:2][len:2][cur_id:1][count:1] + n*[stor_id:1][name:NAME_LENGTH]
+void clif_bourgeon_storage_list(map_session_data* sd, uint8 cur_id) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+	const int32 fd = sd->fd;
+	if (!session_isActive(fd)) return;
+
+	// Balayage par id CROISSANT plutôt qu'itération de storage_db (unordered_map) :
+	// l'ordre des onglets doit être le même d'une ouverture à l'autre et d'un
+	// joueur à l'autre. L'id d'un storage tient sur un uint8, la boucle est bornée.
+	uint8 ids[UINT8_MAX + 1];
+	uint8 count = 0;
+	for (int32 id = 0; id <= UINT8_MAX; ++id) {
+		if (!storage_exists(static_cast<uint8>(id))) continue;
+		char command[32];
+		if (!pc_can_use_command(sd,
+				clif_bourgeon_storage_command(static_cast<uint8>(id), command, sizeof(command)),
+				COMMAND_ATCOMMAND))
+			continue;
+		ids[count++] = static_cast<uint8>(id);
+	}
+
+	const int16 pkt_len = static_cast<int16>(6 + count * (1 + NAME_LENGTH));
+	WFIFOHEAD(fd, pkt_len);
+	// Le buffer WFIFO n'est pas vierge : on met à zéro AVANT d'écrire les noms,
+	// qui sont NUL-paddés sur NAME_LENGTH (le client lit une chaîne bornée).
+	memset(WFIFOP(fd, 0), 0, pkt_len);
+	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_STORAGE_LIST;
+	WFIFOW(fd, 2) = pkt_len;
+	WFIFOB(fd, 4) = cur_id;
+	WFIFOB(fd, 5) = count;
+	int32 offset = 6;
+	for (uint8 i = 0; i < count; ++i) {
+		WFIFOB(fd, offset) = ids[i];
+		safestrncpy(WFIFOCP(fd, offset + 1), storage_getName(ids[i]), NAME_LENGTH);
+		offset += 1 + NAME_LENGTH;
+	}
+	WFIFOSET(fd, pkt_len);
+}
+
+// Ouvre le storage demandé, ou BASCULE depuis celui qui est ouvert.
+// [type:2][len:2][stor_id:1]
+void clif_parse_bourgeon_open_storage(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+
+	const PACKET_CZ_BOURGEON_OPEN_STORAGE* p =
+		reinterpret_cast<const PACKET_CZ_BOURGEON_OPEN_STORAGE*>(RFIFOP(fd, 0));
+	const uint8 stor_id = p->stor_id;
+
+	// Id absent de inter_server.yml : liste périmée côté client, on ignore en
+	// silence plutôt que d'afficher une erreur que le joueur ne peut pas corriger.
+	if (!storage_exists(stor_id))
+		return;
+
+	char command[32];
+	if (!pc_can_use_command(sd, clif_bourgeon_storage_command(stor_id, command, sizeof(command)),
+			COMMAND_ATCOMMAND)) {
+		clif_displaymessage(fd, msg_txt(sd, 246)); // Your GM level doesn't authorize you to perform this action.
+		return;
+	}
+	if (pc_istrading2(sd)) {
+		clif_displaymessage(fd, msg_txt(sd, 1161)); // You currently cannot open your storage.
+		return;
+	}
+	if (sd->state.storage_flag == 2) {
+		clif_displaymessage(fd, msg_txt(sd, 251)); // You have already opened your guild storage. Close it first.
+		return;
+	}
+
+	// Onglet déjà actif recliqué : ne RIEN faire. Les @storagealt, eux, ferment
+	// dans ce cas (toggle) — un onglet qui referme la fenêtre serait un piège.
+	if ((stor_id == 0 && sd->state.storage_flag == 1) ||
+		(stor_id != 0 && sd->state.storage_flag == 3 && sd->premiumStorage.stor_id == stor_id))
+		return;
+
+	// Fermer d'abord, toujours. Deux raisons :
+	//  - storage_storageopen() et storage_premiumStorage_load() REFUSENT tant
+	//    qu'un storage est ouvert (le premier bascule même en fermeture) ;
+	//  - la fermeture envoie ZC_CLOSE_STORE (0x00f8), dont le handler client VIDE
+	//    le modèle d'items. C'est ce qui garantit qu'aucun item de l'ancien
+	//    storage ne se mélange à la liste du suivant.
+	if (sd->state.storage_flag == 1)
+		storage_storageclose(sd);
+	else if (sd->state.storage_flag == 3)
+		storage_premiumStorage_close(sd);
+
+	if (stor_id == 0) {
+		if (storage_storageopen(sd) != 0)
+			clif_displaymessage(fd, msg_txt(sd, 1161)); // You currently cannot open your storage.
+	} else if (!storage_premiumStorage_load(sd, stor_id, STOR_MODE_ALL)) {
+		clif_displaymessage(fd, msg_txt(sd, 1161)); // You currently cannot open your storage.
+	}
+	// Le paquet d'ouverture (et la liste) partent depuis storage_storageopen /
+	// storage_premiumStorage_open : le chargement d'un storage alternatif est
+	// ASYNCHRONE (intif_storage_request), il n'y a rien à confirmer ici.
+}
+
 // ── Bourgeon preset management (ZC 0x0F07 / CZ 0x0F06) ───────────────────────
 
 // Query distinct preset metadata for one character (max 10 rows).
@@ -6280,6 +6397,9 @@ static void clif_bourgeon_grant_verified(map_session_data* sd) {
 	// ici. Même raison que stat_bonus — sans ce push explicite, la valeur n'arriverait
 	// qu'au prochain plat cuisiné.
 	clif_bourgeon_cook_mastery(sd);
+	// Storages accessibles (onglets du viewer) : la liste ne dépend que des droits
+	// du joueur, elle peut donc partir dès le login. 0xFF = aucun storage ouvert.
+	clif_bourgeon_storage_list(sd, 0xFF);
 }
 
 // ── TRANSITION cutover opcodes 0x0F00+ (2026-07) ─────────────────────────────

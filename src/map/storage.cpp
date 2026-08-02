@@ -339,6 +339,10 @@ int32 storage_storageopen(map_session_data *sd)
 	clif_storagelist(sd, sd->storage.u.items_storage, ARRAYLENGTH(sd->storage.u.items_storage), storage_getName(0));
 	clif_updatestorageamount(*sd, sd->storage.amount, sd->storage.max_amount);
 	clif_bourgeon_storage_prices(sd, sd->storage.u.items_storage, ARRAYLENGTH(sd->storage.u.items_storage));
+	// [Stingor] Onglets du viewer Bourgeon : quel storage est ouvert, et lesquels
+	// sont accessibles. Envoyé à CHAQUE ouverture, quelle qu'en soit l'origine
+	// (commande @storage, script NPC, onglet) — no-op si le client n'a pas la DLL.
+	clif_bourgeon_storage_list(sd, 0);
 
 	return 0;
 }
@@ -1323,6 +1327,10 @@ void storage_premiumStorage_open(map_session_data *sd) {
 	clif_storagelist(sd, sd->premiumStorage.u.items_storage, ARRAYLENGTH(sd->premiumStorage.u.items_storage), storage_getName(sd->premiumStorage.stor_id));
 	clif_updatestorageamount(*sd, sd->premiumStorage.amount, sd->premiumStorage.max_amount);
 	clif_bourgeon_storage_prices(sd, sd->premiumStorage.u.items_storage, ARRAYLENGTH(sd->premiumStorage.u.items_storage));
+	// [Stingor] Onglets du viewer Bourgeon (cf. storage_storageopen) : c'est ce
+	// paquet qui dit au client SUR QUEL storage il vient d'atterrir — le nom seul
+	// ne suffit pas à identifier l'onglet actif.
+	clif_bourgeon_storage_list(sd, sd->premiumStorage.stor_id);
 
 	// [Stingor] @storeall N: the premium storage may only become truly available here (loaded
 	// asynchronously from the char-server), so the deferred item transfer runs at this point,
