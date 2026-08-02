@@ -6702,9 +6702,12 @@ void clif_parse_bourgeon_reqmobinfo(int32 fd, map_session_data* sd) {
 		}
 	}
 
-	// 16 Ko : même enveloppe que la fiche d'item. Les trois listes sont bornées
-	// (255 entrées chacune, noms d'items à 24 caractères) -> largement en deçà.
-	WFIFOHEAD(fd, 16384);
+	// 32 Ko. Les trois listes sont bornées à 255 entrées, mais le PIRE cas cumulé
+	// les dépasse : drops 255*(10+32) + spawns 255*(3+24) + skills 255*(5+32)
+	// = 27 030 octets. En pratique on est deux ordres de grandeur en dessous
+	// (mob_skill_db est plafonné à MAX_MOBSKILL = 50) ; l'enveloppe couvre le
+	// pire cas pour de bon, plutôt que de parier dessus.
+	WFIFOHEAD(fd, 32768);
 	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_MOBINFO;
 	WFIFOL(fd, 4) = req_id;                 // écho : le client apparie sa requête
 	if (mob == nullptr) {
@@ -6832,14 +6835,43 @@ void clif_parse_bourgeon_reqmobinfo(int32 fd, map_session_data* sd) {
 	}
 
 	// ── Skills du monstre ─────────────────────────────────────────────────────
+	// 🔴 Le NOM part avec l'id. Le client ne sait nommer que les compétences de
+	// JOUEUR (son wrapper Lua `GetSkillName` rend « Unknown-Skill » sur tout le
+	// reste) : sans ce nom, toutes les `NPC_*` — l'essentiel de l'arsenal d'un
+	// monstre — disparaissaient de la fiche. `desc` est le libellé lisible de
+	// skill_db (« Emotion ») ; à défaut, l'AegisName (« NPC_EMOTION »).
+	//
+	// mob->skill contient une entrée par LIGNE de mob_skill_db, pas par
+	// compétence : le même skill y revient pour chaque état d'IA / condition.
+	// On déduplique sur (id, niveau) — deux niveaux différents restent deux
+	// lignes, c'est une information ; deux fois le même n'en est pas une.
 	{
-		size_t count = mob->skill.size();
-		if (count > 255) count = 255;
-		WFIFOB(fd, offset) = static_cast<uint8>(count); offset += 1;
-		for (size_t i = 0; i < count; i++) {
-			const std::shared_ptr<s_mob_skill>& sk = mob->skill[i];
-			WFIFOW(fd, offset) = (sk != nullptr) ? sk->skill_id : 0; offset += 2;
-			WFIFOW(fd, offset) = (sk != nullptr) ? sk->skill_lv : 0; offset += 2;
+		struct SkillOut { uint16 id; uint16 lv; std::string name; };
+		std::vector<SkillOut> skills;
+		const size_t kMaxSkills = 255;
+		for (const std::shared_ptr<s_mob_skill>& sk : mob->skill) {
+			if (sk == nullptr || sk->skill_id == 0) continue;
+			if (skills.size() >= kMaxSkills) break;
+			bool dup = false;
+			for (const SkillOut& done : skills) {
+				if (done.id == sk->skill_id && done.lv == sk->skill_lv) { dup = true; break; }
+			}
+			if (dup) continue;
+			SkillOut out;
+			out.id = sk->skill_id;
+			out.lv = sk->skill_lv;
+			const char* desc = skill_get_desc(sk->skill_id);
+			if (desc == nullptr || *desc == '\0') desc = skill_get_name(sk->skill_id);
+			out.name = (desc != nullptr) ? std::string(desc).substr(0, 32) : std::string();
+			skills.push_back(std::move(out));
+		}
+		WFIFOB(fd, offset) = static_cast<uint8>(skills.size()); offset += 1;
+		for (const SkillOut& s : skills) {
+			const uint8 namelen = static_cast<uint8>(s.name.size());
+			WFIFOW(fd, offset) = s.id;                           offset += 2;
+			WFIFOW(fd, offset) = s.lv;                           offset += 2;
+			WFIFOB(fd, offset) = namelen;                        offset += 1;
+			memcpy(WFIFOP(fd, offset), s.name.c_str(), namelen); offset += namelen;
 		}
 	}
 

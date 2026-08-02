@@ -6263,7 +6263,15 @@ DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_MOBINFO, 0x0f1f);
 //   [spawn_count:1] puis spawn_count fois :
 //       [qty:2][maplen:1][map:maplen]   nom d'index de carte (ex. « prt_fild08 »)
 //   [skill_count:1] puis skill_count fois :
-//       [skill_id:2][skill_lv:2]
+//       [skill_id:2][skill_lv:2][namelen:1][name:namelen]
+//       name = skill_db `desc` (« Emotion »), à défaut l'AegisName
+//       (« NPC_EMOTION »). 🔴 Il PART du serveur parce que le client ne sait
+//       nommer que les compétences de JOUEUR : son wrapper Lua rend
+//       « Unknown-Skill » sur toutes les `NPC_*`, soit l'essentiel de
+//       l'arsenal d'un monstre. Le client préfère son propre nom quand il en
+//       a un (localisé) et retombe sur celui-ci sinon.
+//       Dédupliqué sur (id, niveau) : mob_skill_db porte une LIGNE par état
+//       d'IA et par condition, pas une par compétence.
 //
 // Les trois listes sont bornées (uint8 de comptage) ; le serveur tronque et le
 // client le signale. Tout est envoyé à la volée en WFIFO, packetLength en dernier.
