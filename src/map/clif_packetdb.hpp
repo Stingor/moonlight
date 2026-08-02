@@ -2084,4 +2084,8 @@ parseable_packet(HEADER_CZ_BOURGEON_JUMP, sizeof(PACKET_CZ_BOURGEON_JUMP), clif_
 // [Stingor] Bourgeon : onglets de storage — ouvrir/basculer vers un storage (fixed)
 parseable_packet(HEADER_CZ_BOURGEON_OPEN_STORAGE, sizeof(PACKET_CZ_BOURGEON_OPEN_STORAGE), clif_parse_bourgeon_open_storage, 0);
 
+// [Stingor] Bourgeon : fiche détaillée d'un monstre (remplace la fenêtre native
+// Monster Info du skill Sense, cf. Bourgeon/docs/monster_info_re.md) — fixed
+parseable_packet(HEADER_CZ_BOURGEON_REQ_MOBINFO, sizeof(PACKET_CZ_BOURGEON_REQ_MOBINFO), clif_parse_bourgeon_reqmobinfo, 0);
+
 #endif /* CLIF_PACKETDB_HPP */

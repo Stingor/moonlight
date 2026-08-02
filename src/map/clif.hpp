@@ -1596,5 +1596,9 @@ void clif_bourgeon_storage_list(map_session_data* sd, uint8 cur_id);
 // CZ 0x0F1D : ouvrir un storage, ou basculer depuis celui qui est ouvert (ferme
 // puis rouvre — les @storagealt, eux, se contentent de fermer).
 void clif_parse_bourgeon_open_storage(int32 fd, map_session_data* sd);
+// CZ 0x0F1F -> ZC 0x0F20 : fiche détaillée d'un monstre (stats, résistances,
+// drops, cartes de spawn, skills). Tout ce que ZC_MONSTER_INFO (0x018C, Sense)
+// ne transporte pas. Cf. Bourgeon/docs/monster_info_re.md.
+void clif_parse_bourgeon_reqmobinfo(int32 fd, map_session_data* sd);
 
 #endif /* CLIF_HPP */

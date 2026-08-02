@@ -6201,6 +6201,80 @@ struct PACKET_ZC_BOURGEON_STORAGE_LIST {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_STORAGE_LIST, 0x0f1e);
 
+// CZ (client -> server): fiche détaillée d'un monstre. Fixe 9.
+// Layout: [packetType:2][packetLength:2][mob_id:4][by_view:1]
+//   by_view = 1 quand l'id vient de ZC_MONSTER_INFO (skill Sense) : le client y
+//   reçoit la classe de VUE (md->vd->look[LOOK_BASE]), pas l'id de mob_db — un
+//   monstre déguisé (ViewClass) porte alors l'id d'un AUTRE monstre. Le serveur
+//   fait la correspondance inverse, le client n'a pas mob_db.
+//   by_view = 0 quand l'id vient déjà d'une source base-de-données (lien depuis
+//   la table des drops d'un item, par exemple).
+//   Cf. Bourgeon/docs/monster_info_re.md §3.1 et §7.2.
+struct PACKET_CZ_BOURGEON_REQ_MOBINFO {
+	int16  packetType;
+	int16  packetLength;
+	uint32 mob_id;
+	uint8  by_view;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_MOBINFO, 0x0f1f);
+
+// ZC (server -> client): fiche détaillée d'un monstre. VARIABLE.
+//
+// C'est le pendant « monstre » de ZC_BOURGEON_TECHDATA (fiche d'item) : tout ce
+// que ZC_MONSTER_INFO (0x018C, skill Sense) NE transporte PAS — EXP, stats de
+// base, ATK/MATK, modes, vitesse, drops, cartes de spawn, skills.
+//
+// Header fixe: [packetType:2][packetLength:2][mob_id:4][status:1]
+//   status : 0 = ok, 1 = monstre inconnu (rien ne suit).
+// Puis, si status == 0 :
+//   [sprite_class:4]   classe de VUE -> c'est CELLE-CI qui charge le .spr/.act
+//   [level:2][hp:4][sp:4]
+//   [base_exp:4][job_exp:4][mvp_exp:4]
+//   [atk_min:2][atk_max:2][matk_min:2][matk_max:2]
+//   [def:2][def2:2][mdef:2][mdef2:2]
+//   [str:2][agi:2][vit:2][int_:2][dex:2][luk:2]
+//   [attack_range:2]
+//   [size:1][race:1][element:1][element_lv:1][boss:1][class:1]
+//
+// ⚠ HIT / FLEE / CRIT ne sont VOLONTAIREMENT pas envoyés : mob_db ne les porte
+// pas. Ce sont des dérivés que status_calc_misc() ne calcule qu'au SPAWN, sur
+// un block_list ; l'entrée de mob_db les laisse à zéro. Les envoyer serait
+// afficher des zéros crédibles — pire qu'une absence.
+// Le CLIENT les recalcule à partir des champs ci-dessus, ce qui ne coûte rien :
+// en pré-renewal (status.cpp, branche #else) HIT = niveau + DEX et
+// FLEE = niveau + AGI, et le critique d'un monstre vaut TOUJOURS zéro puisque
+// battle_config.enable_critical (= 17 = BL_PC|BL_MER) exclut BL_MOB — comme
+// enable_perfect_flee (= 1 = BL_PC) exclut son esquive parfaite.
+//
+// ⚠ Retirés du paquet (et pas seulement de l'affichage) : les portées de VUE et
+// de POURSUITE, le délai d'attaque et les deux durées d'animation. Ce sont des
+// détails de moteur qui n'aidaient personne à décider s'il faut attaquer ou
+// fuir. Le bloc fixe passe de 98 à 88 octets.
+//   [mode:4]                            bitfield MD_* (agressif, assist, loot…)
+//   [speed:2]                           temps de marche d'UNE case, en ms
+//                                       (le client l'affiche en cases/seconde)
+//   [resist:2 * 10]                     % encaissé par élément d'ATTAQUE 0..9,
+//                                       SIGNÉ (le client peut afficher < 0, ce
+//                                       que 0x018C ne permet pas : il borne à 0)
+//   [namelen:1][name:namelen]           jname (nom affiché)
+//   [drop_count:1] puis drop_count fois :
+//       [nameid:4][rate:4][kind:1][namelen:1][name:namelen]
+//       kind : 0 = drop normal, 1 = récompense MVP ; rate en 1/100 %
+//   [spawn_count:1] puis spawn_count fois :
+//       [qty:2][maplen:1][map:maplen]   nom d'index de carte (ex. « prt_fild08 »)
+//   [skill_count:1] puis skill_count fois :
+//       [skill_id:2][skill_lv:2]
+//
+// Les trois listes sont bornées (uint8 de comptage) ; le serveur tronque et le
+// client le signale. Tout est envoyé à la volée en WFIFO, packetLength en dernier.
+struct PACKET_ZC_BOURGEON_MOBINFO {
+	int16  packetType;
+	int16  packetLength;
+	uint32 mob_id;
+	uint8  status;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_MOBINFO, 0x0f20);
+
 // ZC (server -> client): apport des ÉQUIPEMENTS et des CARTES aux stats, compilé
 // par status_calc_pc. sd->indexed_bonus.param_equip = apport équipement (copié en
 // status.cpp), param_bonus = apport cartes (cf. le split memcpy/memset). Push à

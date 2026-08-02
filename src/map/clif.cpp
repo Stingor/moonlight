@@ -6670,6 +6670,183 @@ void clif_parse_bourgeon_reqtechdata(int32 fd, map_session_data* sd) {
 	WFIFOSET(fd, offset);
 }
 
+// [Stingor] Fiche détaillée d'un monstre (CZ 0x0F1F -> ZC 0x0F20).
+//
+// Remplace et dépasse la fenêtre native « Monster Info » du skill Sense, qui ne
+// dispose que des 9 champs de ZC_MONSTER_INFO (0x018C) et d'aucun nom fiable.
+// Cf. Bourgeon/docs/monster_info_re.md pour le détail de ce que fait le natif.
+//
+// Résolution de l'id : le client peut envoyer une classe de VUE (by_view = 1,
+// cas du skill Sense, qui reçoit md->vd->look[LOOK_BASE]). On tente d'abord
+// l'id tel quel — pour l'immense majorité des monstres, vue == id de base — puis
+// seulement en cas d'échec on balaie mob_db à la recherche du ViewClass. Cet
+// ordre est important : un monstre déguisé emprunte l'apparence d'un AUTRE
+// monstre existant, l'inverser ferait perdre le cas normal.
+void clif_parse_bourgeon_reqmobinfo(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+
+	const PACKET_CZ_BOURGEON_REQ_MOBINFO* p =
+		reinterpret_cast<const PACKET_CZ_BOURGEON_REQ_MOBINFO*>(RFIFOP(fd, 0));
+	const uint32 req_id  = p->mob_id;
+	const bool   by_view = (p->by_view != 0);
+
+	std::shared_ptr<s_mob_db> mob = mob_db.find(req_id);
+	if (mob == nullptr && by_view) {
+		for (const auto& pair : mob_db) {
+			if (pair.second != nullptr &&
+				static_cast<uint32>(pair.second->vd.look[LOOK_BASE]) == req_id) {
+				mob = pair.second;
+				break;
+			}
+		}
+	}
+
+	// 16 Ko : même enveloppe que la fiche d'item. Les trois listes sont bornées
+	// (255 entrées chacune, noms d'items à 24 caractères) -> largement en deçà.
+	WFIFOHEAD(fd, 16384);
+	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_MOBINFO;
+	WFIFOL(fd, 4) = req_id;                 // écho : le client apparie sa requête
+	if (mob == nullptr) {
+		WFIFOB(fd, 8) = 1;                  // status 1 = inconnu, rien ne suit
+		WFIFOW(fd, 2) = 9;
+		WFIFOSET(fd, 9);
+		return;
+	}
+	WFIFOB(fd, 8) = 0;                      // status 0 = ok
+	int16 offset = 9;
+
+	const status_data& st = mob->status;
+
+	// L'id de SPRITE part explicitement : le client charge 몬스터\<resname>.spr
+	// depuis cette classe-là, pas depuis mob->id (qui diffère si ViewClass).
+	WFIFOL(fd, offset) = static_cast<uint32>(mob->vd.look[LOOK_BASE]); offset += 4;
+
+	WFIFOW(fd, offset) = mob->lv;                                   offset += 2;
+	WFIFOL(fd, offset) = static_cast<uint32>(st.max_hp);            offset += 4;
+	WFIFOL(fd, offset) = static_cast<uint32>(st.max_sp);            offset += 4;
+	WFIFOL(fd, offset) = static_cast<uint32>(mob->base_exp);        offset += 4;
+	WFIFOL(fd, offset) = static_cast<uint32>(mob->job_exp);         offset += 4;
+	WFIFOL(fd, offset) = static_cast<uint32>(mob->mexp);            offset += 4;
+
+	WFIFOW(fd, offset) = static_cast<uint16>(st.rhw.atk);           offset += 2;
+	WFIFOW(fd, offset) = static_cast<uint16>(st.rhw.atk2);          offset += 2;
+	WFIFOW(fd, offset) = static_cast<uint16>(st.matk_min);          offset += 2;
+	WFIFOW(fd, offset) = static_cast<uint16>(st.matk_max);          offset += 2;
+	WFIFOW(fd, offset) = static_cast<uint16>(st.def);               offset += 2;
+	WFIFOW(fd, offset) = static_cast<uint16>(st.def2);              offset += 2;
+	WFIFOW(fd, offset) = static_cast<uint16>(st.mdef);              offset += 2;
+	WFIFOW(fd, offset) = static_cast<uint16>(st.mdef2);             offset += 2;
+
+	WFIFOW(fd, offset) = static_cast<uint16>(st.str);               offset += 2;
+	WFIFOW(fd, offset) = static_cast<uint16>(st.agi);               offset += 2;
+	WFIFOW(fd, offset) = static_cast<uint16>(st.vit);               offset += 2;
+	WFIFOW(fd, offset) = static_cast<uint16>(st.int_);              offset += 2;
+	WFIFOW(fd, offset) = static_cast<uint16>(st.dex);               offset += 2;
+	WFIFOW(fd, offset) = static_cast<uint16>(st.luk);               offset += 2;
+
+	// Seule la portée d'ATTAQUE part : les portées de vue (range2) et de
+	// poursuite (range3) n'apprennent rien au joueur et encombraient la fiche.
+	WFIFOW(fd, offset) = static_cast<uint16>(st.rhw.range);         offset += 2;
+
+	WFIFOB(fd, offset) = static_cast<uint8>(st.size);               offset += 1;
+	WFIFOB(fd, offset) = static_cast<uint8>(st.race);               offset += 1;
+	WFIFOB(fd, offset) = static_cast<uint8>(st.def_ele);            offset += 1;
+	WFIFOB(fd, offset) = static_cast<uint8>(st.ele_lv);             offset += 1;
+	WFIFOB(fd, offset) = static_cast<uint8>(mob->get_bosstype());   offset += 1;
+	WFIFOB(fd, offset) = static_cast<uint8>(st.class_);             offset += 1;
+	WFIFOL(fd, offset) = static_cast<uint32>(st.mode);              offset += 4;
+
+	// Temps de marche d'UNE case, en ms. Le client le retourne en cases/seconde.
+	// Les trois autres timings (adelay, amotion, dmotion) ont été retirés : ce
+	// sont des détails d'animation que personne ne lit sur une fiche.
+	WFIFOW(fd, offset) = static_cast<uint16>(st.speed);             offset += 2;
+
+	// Résistances élémentaires, dans l'ordre des constantes ELE_*. SIGNÉES,
+	// contrairement à ZC_MONSTER_INFO qui les borne à 0 parce que le natif les
+	// lit en octet non signé (une résistance négative s'y afficherait « 255-x »).
+	for (int32 ele = ELE_NEUTRAL; ele < ELE_ALL; ele++) {
+		WFIFOW(fd, offset) = static_cast<uint16>(
+			elemental_attribute_db.getAttribute(st.ele_lv, static_cast<uint16>(ele), st.def_ele));
+		offset += 2;
+	}
+
+	{  // nom affiché
+		const std::string name = mob->jname.substr(0, 32);
+		const uint8 namelen = static_cast<uint8>(name.size());
+		WFIFOB(fd, offset) = namelen; offset += 1;
+		memcpy(WFIFOP(fd, offset), name.c_str(), namelen); offset += namelen;
+	}
+
+	// ── Drops : drops normaux PUIS récompenses MVP, dans l'ordre du mob_db ─────
+	// rate est déjà le taux ajusté serveur (mob_drop_ratio_adjust l'écrit en
+	// place au chargement) : c'est le même chiffre que la fiche d'item et que le
+	// bestiaire web, en 1/100 de %.
+	{
+		struct DropOut { t_itemid nameid; uint32 rate; uint8 kind; std::string name; };
+		std::vector<DropOut> drops;
+		const size_t kMaxDrops = 255;
+		for (int32 pass = 0; pass < 2 && drops.size() < kMaxDrops; pass++) {
+			const auto& list = (pass == 0) ? mob->dropitem : mob->mvpitem;
+			for (const auto& d : list) {
+				if (d == nullptr || d->nameid == 0 || d->rate == 0) continue;
+				if (drops.size() >= kMaxDrops) break;
+				DropOut out;
+				out.nameid = d->nameid;
+				out.rate   = d->rate;
+				out.kind   = static_cast<uint8>(pass);  // 0 = drop, 1 = MVP
+				std::shared_ptr<item_data> id = item_db.find(d->nameid);
+				out.name = (id != nullptr) ? id->ename.substr(0, 32) : std::string();
+				drops.push_back(std::move(out));
+			}
+		}
+		WFIFOB(fd, offset) = static_cast<uint8>(drops.size()); offset += 1;
+		for (const DropOut& d : drops) {
+			const uint8 namelen = static_cast<uint8>(d.name.size());
+			WFIFOL(fd, offset) = d.nameid;                       offset += 4;
+			WFIFOL(fd, offset) = d.rate;                         offset += 4;
+			WFIFOB(fd, offset) = d.kind;                         offset += 1;
+			WFIFOB(fd, offset) = namelen;                        offset += 1;
+			memcpy(WFIFOP(fd, offset), d.name.c_str(), namelen); offset += namelen;
+		}
+	}
+
+	// ── Cartes de spawn ───────────────────────────────────────────────────────
+	// mob_spawn_data est alimenté à la LECTURE des scripts de spawn, donc il ne
+	// couvre que les spawns permanents : les invocations de script (monster ...),
+	// les summons et les donjons instanciés n'y sont pas. Le client l'annonce.
+	{
+		const std::vector<spawn_info> spawns = mob_get_spawns(static_cast<uint16>(mob->id));
+		size_t count = spawns.size();
+		if (count > 255) count = 255;
+		WFIFOB(fd, offset) = static_cast<uint8>(count); offset += 1;
+		for (size_t i = 0; i < count; i++) {
+			const char* mapname = mapindex_id2name(spawns[i].mapindex);
+			const std::string m = (mapname != nullptr) ? std::string(mapname).substr(0, 24)
+			                                           : std::string();
+			const uint8 maplen = static_cast<uint8>(m.size());
+			WFIFOW(fd, offset) = spawns[i].qty;                offset += 2;
+			WFIFOB(fd, offset) = maplen;                       offset += 1;
+			memcpy(WFIFOP(fd, offset), m.c_str(), maplen);     offset += maplen;
+		}
+	}
+
+	// ── Skills du monstre ─────────────────────────────────────────────────────
+	{
+		size_t count = mob->skill.size();
+		if (count > 255) count = 255;
+		WFIFOB(fd, offset) = static_cast<uint8>(count); offset += 1;
+		for (size_t i = 0; i < count; i++) {
+			const std::shared_ptr<s_mob_skill>& sk = mob->skill[i];
+			WFIFOW(fd, offset) = (sk != nullptr) ? sk->skill_id : 0; offset += 2;
+			WFIFOW(fd, offset) = (sk != nullptr) ? sk->skill_lv : 0; offset += 2;
+		}
+	}
+
+	WFIFOW(fd, 2) = offset;  // packetLength
+	WFIFOSET(fd, offset);
+}
+
 // Sertissage rapide (Bourgeon) : le client demande, pour un ÉQUIPEMENT donné, la
 // liste des cartes de l'inventaire qui peuvent y être serties. On applique le
 // prédicat EXACT du sertissage (pc_can_insert_card) à chaque carte -> la liste
