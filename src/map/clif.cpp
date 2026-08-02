@@ -6237,6 +6237,15 @@ static TIMER_FUNC(clif_bourgeon_integrity_kick_timer) {
 	map_session_data* sd = map_id2sd(id);
 	if (sd == nullptr || !session_isValid(sd->fd))
 		return 0;
+	// 🔴 Le handshake est-il arrivé PENDANT les 5 s de sursis ? Ce timer est armé
+	// sur un verdict pris 5 s plus tôt ; sans ce test, un joueur dont le
+	// CZ_BOURGEON_INTEGRITY débarque en retard est reconnu par
+	// clif_parse_bourgeon_integrity (has_bourgeon posé, settings poussés) PUIS
+	// déconnecté quand même. C'est le cas de loin le plus fréquent des faux kicks
+	// « sans DLL Bourgeon », et il touche les joueurs NORMAUX — la garde
+	// exempt_ips ci-dessous ne couvre que les machines de dev.
+	if (sd->state.has_bourgeon)
+		return 0;
 	// If the IP was exempted between the time the kick was scheduled and now, cancel.
 	if (bourgeon_integrity_conf.exempt_ips.count(session[sd->fd]->client_addr) > 0)
 		return 0;
@@ -6249,6 +6258,13 @@ static TIMER_FUNC(clif_bourgeon_integrity_kick_timer) {
 static TIMER_FUNC(clif_bourgeon_check_dll_timer) {
 	map_session_data* sd = map_id2sd(id);
 	if (sd == nullptr || !session_isValid(sd->fd))
+		return 0;
+	// Machine exemptée (dev / localhost) : elle ne doit JAMAIS déclencher le
+	// broadcast ni le kick, même si le handshake 0x0F02 traîne au-delà des 15 s.
+	// Les deux autres sites qui décident d'un kick consultent cette liste
+	// (clif_parse_bourgeon_integrity et clif_bourgeon_integrity_kick_timer) ;
+	// celui-ci était le seul à ne pas le faire.
+	if (bourgeon_integrity_conf.exempt_ips.count(session[sd->fd]->client_addr) > 0)
 		return 0;
 	if (!sd->state.has_bourgeon) {
 		// 1. Tell the user they have to patch
