@@ -119,15 +119,15 @@ def read_client(path: Path) -> str:
         return data.decode("cp949")
 
 
-def write_atomic(path: Path, text: str) -> None:
+def write_atomic(path: Path, text: str, encoding: str = "ascii") -> None:
     """Encode first, then swap. Never truncate the target on an encode error."""
     try:
-        blob = text.encode("ascii")
+        blob = text.encode(encoding)
     except UnicodeEncodeError as exc:
         bad = text[exc.start:exc.end]
         raise SystemExit(
-            f"Refus d'ecrire : caractere non-ASCII {bad!r} a l'offset {exc.start}. "
-            "Le client ne sait pas afficher les accents dans ce fichier."
+            f"Refus d'ecrire : caractere hors {encoding} {bad!r} a l'offset "
+            f"{exc.start}. Le client ne sait pas afficher les accents ici."
         )
     tmp = path.with_suffix(path.suffix + ".tmp")
     tmp.write_bytes(blob)
