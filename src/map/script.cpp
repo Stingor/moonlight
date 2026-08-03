@@ -28345,7 +28345,7 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(checkoption2,"i?"),
 	BUILDIN_DEF(guildgetexp,"i"),
 	BUILDIN_DEF(guildchangegm,"is"),
-	BUILDIN_DEF(logmes,"s"), //this command actls as MES but rints info into LOG file either SQL/TXT [Lupus]
+	BUILDIN_DEF(logmes,"v"), //this command actls as MES but rints info into LOG file either SQL/TXT [Lupus]
 	BUILDIN_DEF(summon,"si??"), // summons a slave monster [Celest]
 	BUILDIN_DEF(isnight,""), // check whether it is night time [Celest]
 	BUILDIN_DEF(isday,""), // check whether it is day time [Celest]
