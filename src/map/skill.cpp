@@ -46,9 +46,9 @@
 #include "status.hpp"
 #include "unit.hpp"
 
-// Skill factory is compiled as separate translation units per job category
-// to reduce peak memory usage during compilation
-#include "skills/skill_factory.hpp"
+// Include .cpp files into the TU to optimize compile time
+// For reference see unity builds or amalgamated builds
+#include "skills/skill_factory.cpp"
 
 using namespace rathena;
 
