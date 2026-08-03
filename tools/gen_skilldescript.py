@@ -145,6 +145,39 @@ def parse_described(text: str) -> "set[str]":
     return set(re.findall(r"\[SKID\.([A-Za-z_]\w*)\]", text))
 
 
+def parse_blocks(text: str) -> "dict[str, tuple[int, int, list[str]]]":
+    """Map each [SKID.NAME] = { ... } to (start, end, its quoted strings).
+
+    Brace depth is tracked outside of string literals so that a '{' inside a
+    description does not confuse the scan.
+    """
+    out: dict = {}
+    for m in re.finditer(r"\[SKID\.([A-Za-z_]\w*)\]\s*=\s*\{", text):
+        i, depth, instr = m.end() - 1, 0, False
+        while i < len(text):
+            c = text[i]
+            if instr:
+                if c == "\\":
+                    i += 2
+                    continue
+                if c == '"':
+                    instr = False
+            else:
+                if c == '"':
+                    instr = True
+                elif c == "{":
+                    depth += 1
+                elif c == "}":
+                    depth -= 1
+                    if depth == 0:
+                        break
+            i += 1
+        body = text[m.end():i]
+        strings = [s for s in re.findall(r'"((?:[^"\\]|\\.)*)"', body) if s.strip()]
+        out[m.group(1)] = (m.start(), i + 1, strings)
+    return out
+
+
 def load_skill_db(paths: "list[Path]") -> dict:
     """Merge several rAthena skill_db.yml (later files win)."""
     merged: dict = {}
@@ -310,9 +343,11 @@ def level_stats(sk: dict, lv: int, dmg: dict) -> str:
 
 
 def build_block(const: str, skid: int, sk: dict, prose: str | None,
-                per_level: bool) -> str:
+                per_level: bool, label: str | None = None) -> str:
     sk = sk or {}
-    label = (sk.get("Description") or pretty_name(const)).strip()
+    # An existing stub already carries the official client name: keep it
+    # rather than the server's, so both client tables stay consistent.
+    label = label or (sk.get("Description") or pretty_name(const)).strip()
     maxlv = int(sk.get("MaxLevel") or 1)
 
     lines = [f'"{label} - ID:{skid}"', f'"Max Level: {maxlv}"']
@@ -383,13 +418,21 @@ def main() -> int:
                     help="ecrire dans skilldescript.lub (sinon rapport seul)")
     ap.add_argument("--dump-todo", metavar="FILE",
                     help="exporter en JSON les skills a decrire")
-    ap.add_argument("--overrides", metavar="FILE",
-                    help="JSON {SKID_NAME: 'texte'} de descriptions manuelles")
+    ap.add_argument("--overrides", metavar="FILE", action="append", default=[],
+                    help="JSON {SKID_NAME: 'texte'} de descriptions manuelles "
+                         "(repetable, les fichiers suivants ecrasent)")
     ap.add_argument("--include-markers", action="store_true",
                     help="inclure aussi les constantes sentinelles (*_BEGIN, ...)")
     ap.add_argument("--no-levels", action="store_true",
                     help="ne pas generer les lignes [Lv n]")
+    ap.add_argument("--fill-empty", action="store_true",
+                    help="remplacer aussi les blocs vides [SKID.X] = {}")
+    ap.add_argument("--fill-stubs", action="store_true",
+                    help="remplacer aussi les blocs reduits au seul nom "
+                         "(implique --fill-empty)")
     args = ap.parse_args()
+    if args.fill_stubs:
+        args.fill_empty = True
 
     cdir = Path(args.client)
     f_id, f_desc = cdir / "skillid.lub", cdir / "skilldescript.lub"
@@ -399,7 +442,7 @@ def main() -> int:
 
     id_text, desc_text = read_client(f_id), read_client(f_desc)
     ids = parse_skillid(id_text)
-    described = parse_described(desc_text)
+    blocks = parse_blocks(desc_text)
 
     # Serveur PRE-RENEWAL : db/pre-re + db/import uniquement. Jamais db/re.
     skdb = load_skill_db([
@@ -407,32 +450,40 @@ def main() -> int:
         REPO / "db/import/skill_db.yml",
     ])
 
-    missing, markers = [], []
+    # A block counts as poor when it holds no text at all, or nothing beyond
+    # its own name -- the client then shows the skill without any tooltip.
+    def poor(const: str) -> bool:
+        n = len(blocks[const][2])
+        return n == 0 if not args.fill_stubs else n <= 1
+
+    missing, refill, markers = [], [], []
     for const, skid in ids:
-        if const in described:
-            continue
         if not args.include_markers and (
                 MARKER_RE.search(const) or const in MARKER_EXTRA):
             markers.append((const, skid))
             continue
-        missing.append((const, skid))
+        if const not in blocks:
+            missing.append((const, skid))
+        elif args.fill_empty and poor(const):
+            refill.append((const, skid))
 
-    with_db = [(c, i) for c, i in missing if c in skdb]
-    no_db = [(c, i) for c, i in missing if c not in skdb]
+    todo_all = missing + refill
+    no_db = [c for c, _ in todo_all if c not in skdb]
 
     print(f"SKID declares          : {len(ids)}")
-    print(f"deja decrits           : {len(described)}")
+    print(f"blocs presents         : {len(blocks)}")
     print(f"sentinelles ignorees   : {len(markers)}")
-    print(f"a generer              : {len(missing)}")
-    print(f"  - avec donnees serveur : {len(with_db)}")
+    print(f"entrees absentes       : {len(missing)}")
+    print(f"blocs a re-remplir     : {len(refill)}")
+    print(f"total a generer        : {len(todo_all)}")
+    print(f"  - avec donnees serveur : {len(todo_all) - len(no_db)}")
     print(f"  - sans donnees serveur : {len(no_db)}")
     if no_db:
-        print("    " + ", ".join(c for c, _ in no_db[:15])
-              + (" ..." if len(no_db) > 15 else ""))
+        print("    " + ", ".join(no_db[:15]) + (" ..." if len(no_db) > 15 else ""))
 
     overrides = {}
-    if args.overrides:
-        raw = json.loads(Path(args.overrides).read_text(encoding="utf-8"))
+    for path in args.overrides:
+        raw = json.loads(Path(path).read_text(encoding="utf-8"))
         for k, v in raw.items():
             overrides[k] = v["description"] if isinstance(v, dict) else v
 
@@ -447,7 +498,7 @@ def main() -> int:
                 "element": skdb.get(const, {}).get("Element"),
                 "description": overrides.get(const, ""),
             }
-            for const, skid in missing
+            for const, skid in todo_all
         }
         Path(args.dump_todo).write_text(
             json.dumps(todo, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -457,32 +508,45 @@ def main() -> int:
         print("\n(rapport seul -- relancer avec --apply pour ecrire)")
         return 0
 
-    blocks = [
-        build_block(const, skid, skdb.get(const, {}),
-                    overrides.get(const) or None, not args.no_levels)
-        for const, skid in missing
-    ]
-    if not blocks:
-        print("\nRien a ajouter.")
+    if not todo_all:
+        print("\nRien a faire.")
         return 0
 
-    close = desc_text.rstrip()
-    if not close.endswith("}"):
-        return print("Format inattendu : le fichier ne se termine pas par '}'") or 1
-    head = close[:-1].rstrip()          # everything up to the table's closing brace
-    if not head.endswith(","):
-        head += ","
+    def block_for(const: str, skid: int, label: str | None = None) -> str:
+        return build_block(const, skid, skdb.get(const, {}),
+                           overrides.get(const) or None, not args.no_levels,
+                           label=label)
 
-    payload = ("\r\n\t-- ==== entrees generees par tools/gen_skilldescript.py ====\r\n"
-               + ",\r\n".join(blocks) + "\r\n}\r\n")
-    new_text = head + payload
+    new_text = desc_text
+
+    # Rewrite poor blocks in place, back to front so earlier offsets hold.
+    for const, skid in sorted(refill, key=lambda t: blocks[t[0]][0], reverse=True):
+        start, end, strings = blocks[const]
+        # Reuse the official client name when the stub carried one.
+        label = strings[0].split(" - ID:")[0].strip() if strings else None
+        new_text = new_text[:start] + block_for(const, skid, label).lstrip("\t") \
+            + new_text[end:]
+
+    if missing:
+        close = new_text.rstrip()
+        if not close.endswith("}"):
+            return print("Format inattendu : le fichier ne finit pas par '}'") or 1
+        head = close[:-1].rstrip()
+        if not head.endswith(","):
+            head += ","
+        new_text = (head
+                    + "\r\n\t-- ==== entrees generees par "
+                      "tools/gen_skilldescript.py ====\r\n"
+                    + ",\r\n".join(block_for(c, i) for c, i in missing)
+                    + "\r\n}\r\n")
 
     bak = f_desc.with_suffix(".lub.bak")
     if not bak.exists():
         bak.write_bytes(f_desc.read_bytes())
         print(f"\nSauvegarde : {bak}")
     write_atomic(f_desc, new_text)
-    print(f"{len(blocks)} entrees ajoutees dans {f_desc}")
+    print(f"{len(missing)} entrees ajoutees, {len(refill)} blocs reecrits "
+          f"dans {f_desc}")
     return 0
 
 
