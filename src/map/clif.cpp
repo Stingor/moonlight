@@ -24961,8 +24961,13 @@ void clif_parse_Mail_send(int32 fd, map_session_data *sd){
 	mail_send(sd, RFIFOCP(fd,info->pos[1]), RFIFOCP(fd,info->pos[2]), RFIFOCP(fd,info->pos[4]), RFIFOB(fd,info->pos[3]));
 #else
 	uint16 length = RFIFOW(fd, 2);
+#if PACKETVER <= 20160330
+	constexpr uint16 headerLength = 64;
+#else
+	constexpr uint16 headerLength = 68;
+#endif
 
-	if( length < 0x3e ){
+	if( length < headerLength ){
 		ShowWarning("Too short...\n");
 		clif_Mail_send(sd, WRITE_MAIL_FAILED);
 		return;
@@ -24988,32 +24993,23 @@ void clif_parse_Mail_send(int32 fd, map_session_data *sd){
 	uint64 zeny = RFIFOQ(fd, 52);
 	uint16 titleLength = RFIFOW(fd, 60);
 	uint16 textLength = RFIFOW(fd, 62);
-	uint16 realTitleLength = min(titleLength, MAIL_TITLE_LENGTH);
-	uint16 realTextLength = min(textLength, MAIL_BODY_LENGTH);
 
-#if PACKETVER <= 20160330
-	const uint32 textOffset = 64;
-#else
-	// 64 = <char id>.L
-	const uint32 textOffset = 68;
-#endif
-
-	// Both declared lengths must fit inside the packet: the title and the body are
-	// read from the receive buffer at offsets derived from them, so an oversized
-	// length would read past what the client actually sent.
-	if( textOffset + titleLength + textLength > length ){
-		ShowWarning("clif_parse_Mail_send: char '%s' sent mail lengths beyond the packet (%u + %u > %u).\n", sd->status.name, titleLength, textLength, length - textOffset);
+	if( titleLength > length - headerLength || textLength > length - headerLength - titleLength ){
+		ShowWarning("Invalid Rodex mail content length from account %d.\n", sd->status.account_id);
 		clif_Mail_send(sd, WRITE_MAIL_FAILED);
 		return;
 	}
+
+	uint16 realTitleLength = min(titleLength, MAIL_TITLE_LENGTH);
+	uint16 realTextLength = min(textLength, MAIL_BODY_LENGTH);
 
 	// Zeroed: safestrncpy leaves its destination untouched for a zero length, and a
 	// declared length of zero would otherwise send uninitialized stack bytes.
 	char title[MAIL_TITLE_LENGTH] = {};
 	char text[MAIL_BODY_LENGTH] = {};
 
-	safestrncpy(title, RFIFOCP(fd, textOffset), realTitleLength);
-	safestrncpy(text, RFIFOCP(fd, textOffset + titleLength), realTextLength);
+	safestrncpy(title, RFIFOCP(fd, headerLength), realTitleLength);
+	safestrncpy(text, RFIFOCP(fd, headerLength + titleLength), realTextLength);
 
 	if( zeny > 0 ){
 		if( mail_setitem(sd,0,(uint32)zeny) != MAIL_ATTACH_SUCCESS ){
