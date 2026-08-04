@@ -30531,7 +30531,7 @@ Body:
         - Level: 5
           Amount: 24
       ItemCost:
-        - Item: Nepeta_Cataria
+        - Item: Catnip_Fruit
           Amount: 1
     Unit:
       Id: Catnippowder
@@ -31008,7 +31008,7 @@ Body:
         Time: 1000
     Requires:
       ItemCost:
-        - Item: Nepeta_Cataria
+        - Item: Catnip_Fruit
           Amount: 1
     Unit:
       Id: Dummyskill
