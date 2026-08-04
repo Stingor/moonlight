@@ -440,7 +440,39 @@ int32 map_addblock(block_list* bl)
 
 	if( x < 0 || x >= mapdata->xs || y < 0 || y >= mapdata->ys )
 	{
-		ShowError("map_addblock: out-of-bounds coordinates (\"%s\",%d,%d), map is %dx%d\n", mapdata->name, x, y, mapdata->xs, mapdata->ys);
+		// Extra context to identify whoever tries to place an object outside of the map
+		const char* bl_type = "unknown";
+		char bl_info[NAME_LENGTH + 32];
+
+		bl_info[0] = '\0';
+
+		switch( bl->type ){
+			case BL_PC:
+				bl_type = "player";
+				safesnprintf( bl_info, sizeof( bl_info ), " name=\"%s\"", ( (map_session_data*)bl )->status.name );
+				break;
+			case BL_NPC:
+				bl_type = "npc";
+				safesnprintf( bl_info, sizeof( bl_info ), " name=\"%s\"", ( (npc_data*)bl )->name );
+				break;
+			case BL_MOB:
+				bl_type = "mob";
+				safesnprintf( bl_info, sizeof( bl_info ), " name=\"%s\" class=%d", ( (mob_data*)bl )->name, (int32)( (mob_data*)bl )->mob_id );
+				break;
+			case BL_ITEM:
+				bl_type = "flooritem";
+				safesnprintf( bl_info, sizeof( bl_info ), " nameid=%u", (uint32)( (flooritem_data*)bl )->item.nameid );
+				break;
+			case BL_SKILL: bl_type = "skillunit"; break;
+			case BL_PET: bl_type = "pet"; break;
+			case BL_HOM: bl_type = "homunculus"; break;
+			case BL_MER: bl_type = "mercenary"; break;
+			case BL_ELEM: bl_type = "elemental"; break;
+			case BL_CHAT: bl_type = "chatroom"; break;
+			default: break;
+		}
+
+		ShowError("map_addblock: out-of-bounds coordinates (\"%s\",%d,%d), map is %dx%d [%s id=%d%s]\n", mapdata->name, x, y, mapdata->xs, mapdata->ys, bl_type, bl->id, bl_info);
 		return 1;
 	}
 
