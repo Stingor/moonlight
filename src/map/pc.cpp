@@ -2734,6 +2734,9 @@ void pc_calc_skilltree(map_session_data *sd)
 			uint16 skid = skillsit.first;
 			uint16 sk_idx = skill_get_index(skid);
 
+			if (sk_idx == 0)
+				continue; // Skill absent de skill_db : on ignore l'entree de l'arbre au lieu de crasher. [Stingor]
+
 			if (sd->status.skill[sk_idx].id)
 				continue; //Skill already known.
 
@@ -2741,7 +2744,10 @@ void pc_calc_skilltree(map_session_data *sd)
 				// Checking required skills
 				std::shared_ptr<s_skill_tree_entry> entry = skillsit.second;
 
-				if (entry != nullptr && !entry->need.empty()) {
+				if (entry == nullptr)
+					continue; // Entree d'arbre corrompue : entry est deref sans test plus bas. [Stingor]
+
+				if (!entry->need.empty()) {
 					for (const auto &it : entry->need) {
 						uint16 sk_need_id = it.first;
 						uint16 sk_need_idx = skill_get_index(sk_need_id);
@@ -2782,6 +2788,9 @@ void pc_calc_skilltree(map_session_data *sd)
 
 			if (!fail) {
 				std::shared_ptr<s_skill_db> skill = skill_db.find(skid);
+
+				if (skill == nullptr)
+					continue; // Ceinture + bretelles : c'est ici que le deref nullptr tuait le serveur. [Stingor]
 
 				if (!sd->status.skill[sk_idx].lv && (
 					(skill->inf2[INF2_ISQUEST] && !battle_config.quest_skill_learn) ||
