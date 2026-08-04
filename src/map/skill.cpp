@@ -12738,6 +12738,32 @@ int32 skill_unit_move(block_list *bl, t_tick tick, int32 flag)
 	return 0;
 }
 
+/**
+ * Moves a skill unit to the given cell, handling destinations outside of the map.
+ * Unit groups that follow their caster (guild auras, Warmer, Banding, ...) legitimately overflow
+ * the map borders on small maps: the unit is then simply unlinked from the block list and keeps
+ * its coordinates, so it gets linked back as soon as it comes inside again. This is what
+ * map_moveblock() ends up doing anyway, minus the out-of-bounds error spam.
+ * @param bl Skill unit
+ * @param x Destination X
+ * @param y Destination Y
+ * @param tick Current tick
+ * @return true if the unit ended up inside the map, false otherwise
+ */
+static bool skill_unit_moveblock(block_list *bl, int32 x, int32 y, t_tick tick) {
+	map_data *mapdata = map_getmapdata(bl->m);
+
+	if (mapdata != nullptr && (x < 0 || x >= mapdata->xs || y < 0 || y >= mapdata->ys)) {
+		map_delblock(bl);
+		bl->x = (int16)x;
+		bl->y = (int16)y;
+		return false;
+	}
+
+	map_moveblock(bl, x, y, tick);
+	return true;
+}
+
 /*==========================================
  * Moves skill unit to map m with coordinates x & y (example when knocked back)
  * @param bl Skill unit
@@ -12765,7 +12791,9 @@ void skill_unit_move_unit(block_list *bl, int32 dx, int32 dy) {
 		return;
 	}
 
-	map_moveblock(bl, dx, dy, tick);
+	if (!skill_unit_moveblock(bl, dx, dy, tick))
+		return; //Ended up outside of the map, nothing to trigger there.
+
 	map_foreachincell(skill_unit_effect,bl->m,bl->x,bl->y,su->group->bl_flag,bl,tick,1);
 	skill_getareachar_skillunit_visibilty(su, AREA);
 	return;
@@ -12832,11 +12860,13 @@ void skill_unit_move_unit_group(std::shared_ptr<s_skill_unit_group> group, int16
 			map_foreachincell(skill_unit_effect,unit1->m,unit1->x,unit1->y,group->bl_flag,unit1,tick,4);
 		}
 		//Move Cell using "smart" criteria (avoid useless moving around)
+		bool inside = true;
+
 		switch(m_flag[i]) {
 			case 0:
 			//Cell moves independently, safely move it.
 				map_foreachinmovearea(clif_outsight, unit1, AREA_SIZE, dx, dy, BL_PC, unit1);
-				map_moveblock(unit1, unit1->x+dx, unit1->y+dy, tick);
+				inside = skill_unit_moveblock(unit1, unit1->x+dx, unit1->y+dy, tick);
 				break;
 			case 1:
 			//Cell moves unto another cell, look for a replacement cell that won't collide
@@ -12850,7 +12880,7 @@ void skill_unit_move_unit_group(std::shared_ptr<s_skill_unit_group> group, int16
 					dx2 = unit2->x + dx - unit1->x;
 					dy2 = unit2->y + dy - unit1->y;
 					map_foreachinmovearea(clif_outsight, unit1, AREA_SIZE, dx2, dy2, BL_PC, unit1);
-					map_moveblock(unit1, unit2->x+dx, unit2->y+dy, tick);
+					inside = skill_unit_moveblock(unit1, unit2->x+dx, unit2->y+dy, tick);
 					j++; //Skip this cell as we have used it.
 					break;
 				}
@@ -12859,7 +12889,7 @@ void skill_unit_move_unit_group(std::shared_ptr<s_skill_unit_group> group, int16
 			case 3:
 				break; //Don't move the cell as a cell will end on this tile anyway.
 		}
-		if (!(m_flag[i]&0x2)) { //We only moved the cell in 0-1
+		if (inside && !(m_flag[i]&0x2)) { //We only moved the cell in 0-1, and only inside of the map
 			if (group->state.song_dance&0x1) //Check for dissonance effect.
 				skill_dance_overlap(*unit1, OVERLAP_SET);
 			skill_getareachar_skillunit_visibilty(unit1, AREA);
