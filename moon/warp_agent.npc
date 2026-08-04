@@ -166,7 +166,7 @@ L_Instance:
 					GetColor(12347)+"• Central Laboratory^000000",
 					GetColor(13185)+"• Charleston in Distess^000000",
 					GetColor(7577)+"• Devil's Tower^000000",
-					(instance_delay_cellar < gettimetick(2)?"^00A000":"^FF0000")+"• Endless Cellar (HM, Custom)^000000",
+					(instance_delay_cellar < gettimetick(2)?"^000000":"^FF0000")+"• Endless Cellar (HM, Custom)^000000",
 					GetColor(60200)+"• Endless Tower (HM)^000000",
 					GetColor(12325)+"• Faceworms Nest (Solo)^000000",
 					GetColor(9316)+"• Gef. Magic Tour. (HM, Solo, Custom)^000000",
