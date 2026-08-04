@@ -24837,3 +24837,203 @@ Body:
             Level: 9
       - Name: WE_CHEERUP
         MaxLevel: 1
+  - Job: Summoner
+    Tree:
+      - Name: SU_BASIC_SKILL
+        MaxLevel: 1
+      - Name: SU_BITE
+        MaxLevel: 1
+        Requires:
+          - Name: SU_BASIC_SKILL
+            Level: 1
+      - Name: SU_HIDE
+        MaxLevel: 1
+        Requires:
+          - Name: SU_BITE
+            Level: 1
+      - Name: SU_SCRATCH
+        MaxLevel: 3
+        Requires:
+          - Name: SU_HIDE
+            Level: 1
+      - Name: SU_STOOP
+        MaxLevel: 1
+        Requires:
+          - Name: SU_SCRATCH
+            Level: 3
+      - Name: SU_LOPE
+        MaxLevel: 3
+        Requires:
+          - Name: SU_STOOP
+            Level: 1
+      - Name: SU_SPRITEMABLE
+        MaxLevel: 1
+        Requires:
+          - Name: SU_LOPE
+            Level: 3
+      - Name: SU_POWEROFLAND
+        MaxLevel: 1
+        Requires:
+          - Name: SU_CN_POWDERING
+            Level: 3
+      - Name: SU_SV_STEMSPEAR
+        MaxLevel: 5
+        Requires:
+          - Name: SU_SPRITEMABLE
+            Level: 1
+      - Name: SU_CN_POWDERING
+        MaxLevel: 5
+        Requires:
+          - Name: SU_CN_METEOR
+            Level: 3
+      - Name: SU_CN_METEOR
+        MaxLevel: 5
+        Requires:
+          - Name: SU_SV_ROOTTWIST
+            Level: 3
+      - Name: SU_SV_ROOTTWIST
+        MaxLevel: 5
+        Requires:
+          - Name: SU_SV_STEMSPEAR
+            Level: 3
+      - Name: SU_POWEROFLIFE
+        MaxLevel: 1
+        Requires:
+          - Name: SU_LUNATICCARROTBEAT
+            Level: 3
+      - Name: SU_SCAROFTAROU
+        MaxLevel: 5
+        Requires:
+          - Name: SU_ARCLOUSEDASH
+            Level: 3
+      - Name: SU_PICKYPECK
+        MaxLevel: 5
+        Requires:
+          - Name: SU_SPRITEMABLE
+            Level: 1
+      - Name: SU_ARCLOUSEDASH
+        MaxLevel: 5
+        Requires:
+          - Name: SU_PICKYPECK
+            Level: 3
+      - Name: SU_LUNATICCARROTBEAT
+        MaxLevel: 5
+        Requires:
+          - Name: SU_SCAROFTAROU
+            Level: 3
+      - Name: SU_POWEROFSEA
+        MaxLevel: 1
+        Requires:
+          - Name: SU_TUNAPARTY
+            Level: 3
+      - Name: SU_TUNABELLY
+        MaxLevel: 5
+        Requires:
+          - Name: SU_BUNCHOFSHRIMP
+            Level: 3
+      - Name: SU_TUNAPARTY
+        MaxLevel: 5
+        Requires:
+          - Name: SU_TUNABELLY
+            Level: 3
+      - Name: SU_BUNCHOFSHRIMP
+        MaxLevel: 5
+        Requires:
+          - Name: SU_FRESHSHRIMP
+            Level: 3
+      - Name: SU_FRESHSHRIMP
+        MaxLevel: 5
+        Requires:
+          - Name: SU_SPRITEMABLE
+            Level: 1
+      - Name: SU_SOULATTACK
+        MaxLevel: 1
+        Requires:
+          - Name: SU_SPRITEMABLE
+            Level: 1
+      - Name: SU_POWEROFFLOCK
+        MaxLevel: 5
+        BaseLevel: 100
+        Requires:
+          - Name: SU_HISS
+            Level: 5
+      - Name: SU_SVG_SPIRIT
+        MaxLevel: 5
+        BaseLevel: 100
+        Requires:
+          - Name: SU_POWEROFFLOCK
+            Level: 5
+      - Name: SU_HISS
+        MaxLevel: 5
+        BaseLevel: 100
+        Requires:
+          - Name: SU_POWEROFLIFE
+            Level: 1
+      - Name: SU_NYANGGRASS
+        MaxLevel: 5
+        BaseLevel: 100
+        Requires:
+          - Name: SU_MEOWMEOW
+            Level: 5
+      - Name: SU_GROOMING
+        MaxLevel: 5
+        BaseLevel: 100
+        Requires:
+          - Name: SU_POWEROFSEA
+            Level: 1
+      - Name: SU_PURRING
+        MaxLevel: 5
+        BaseLevel: 100
+        Requires:
+          - Name: SU_GROOMING
+            Level: 5
+      - Name: SU_SHRIMPARTY
+        MaxLevel: 5
+        BaseLevel: 100
+        Requires:
+          - Name: SU_PURRING
+            Level: 5
+      - Name: SU_SPIRITOFLIFE
+        MaxLevel: 1
+        BaseLevel: 100
+        Requires:
+          - Name: SU_SVG_SPIRIT
+            Level: 5
+      - Name: SU_MEOWMEOW
+        MaxLevel: 5
+        BaseLevel: 100
+        Requires:
+          - Name: SU_CHATTERING
+            Level: 5
+      - Name: SU_SPIRITOFLAND
+        MaxLevel: 1
+        BaseLevel: 100
+        Requires:
+          - Name: SU_NYANGGRASS
+            Level: 5
+      - Name: SU_CHATTERING
+        MaxLevel: 5
+        BaseLevel: 100
+        Requires:
+          - Name: SU_POWEROFLAND
+            Level: 1
+      - Name: SU_SPIRITOFSEA
+        MaxLevel: 1
+        BaseLevel: 100
+        Requires:
+          - Name: SU_SHRIMPARTY
+            Level: 5
+      - Name: WE_CALLBABY
+        MaxLevel: 1
+  - Job: Baby_Summoner
+    Inherit:
+      Summoner: true
+    Tree:
+      - Name: WE_CALLBABY
+        MaxLevel: 0
+      - Name: WE_BABY
+        MaxLevel: 1
+      - Name: WE_CALLPARENT
+        MaxLevel: 1
+      - Name: WE_CHEERUP
+        MaxLevel: 1
