@@ -15447,494 +15447,476 @@ Body:
             Item: Kades_Card
             Rate: 1
           - Index: 31
-            Item: Amon_Ra_Card
-            Rate: 2
-          - Index: 32
-            Item: Bacsojin_Card
-            Rate: 2
-          - Index: 33
-            Item: Dark_Lord_Card
-            Rate: 2
-          - Index: 34
-            Item: Golden_Bug_Card
-            Rate: 2
-          - Index: 35
-            Item: Maya_Card
-            Rate: 2
-          - Index: 36
-            Item: B_Seyren_Card
-            Rate: 2
-          - Index: 37
-            Item: B_Eremes_Card
-            Rate: 2
-          - Index: 38
-            Item: B_Harword_Card
-            Rate: 2
-          - Index: 39
-            Item: B_Magaleta_Card
-            Rate: 2
-          - Index: 40
-            Item: B_Shecil_Card
-            Rate: 2
-          - Index: 41
-            Item: B_Katrinn_Card
-            Rate: 2
-          - Index: 42
-            Item: Phreeoni_Card
-            Rate: 3
-          - Index: 43
-            Item: Garm_Card
-            Rate: 3
-          - Index: 44
-            Item: Incant_Samurai_Card
-            Rate: 3
-          - Index: 45
-            Item: Mistress_Card
-            Rate: 3
-          - Index: 46
-            Item: Knight_Windstorm_Card
-            Rate: 3
-          - Index: 47
-            Item: Buwaya_Card
-            Rate: 3
-          - Index: 48
-            Item: Turtle_General_Card
-            Rate: 3
-          - Index: 49
-            Item: Orc_Load_Card
-            Rate: 3
-          - Index: 50
-            Item: Gloom_Under_Night_Card
-            Rate: 3
-          - Index: 51
-            Item: Ifrit_Card
-            Rate: 3
-          - Index: 52
-            Item: Ktullanux_Card
-            Rate: 3
-          - Index: 53
-            Item: Fallen_Bishop_Card
-            Rate: 3
-          - Index: 54
-            Item: Apocalips_H_Card
-            Rate: 3
-          - Index: 55
-            Item: B_Ygnizem_Card
-            Rate: 5
-          - Index: 56
-            Item: Moonlight_Flower_Card
-            Rate: 5
-          - Index: 57
-            Item: Dark_Snake_Lord_Card
-            Rate: 5
-          - Index: 58
-            Item: Nahtzigger_Card
-            Rate: 5
-          - Index: 59
-            Item: Detale_Card
-            Rate: 5
-          - Index: 60
-            Item: Berzebub_Card
-            Rate: 5
-          - Index: 61
-            Item: Lord_Of_Death_Card
-            Rate: 8
-          - Index: 62
-            Item: Lady_Tanee_Card
-            Rate: 8
-          - Index: 63
-            Item: Baphomet_Card
-            Rate: 10
-          - Index: 64
-            Item: Pharaoh_Card
-            Rate: 10
-          - Index: 65
-            Item: Dracula_Card
-            Rate: 12
-          - Index: 66
-            Item: Drake_Card
-            Rate: 12
-          - Index: 67
-            Item: Eddga_Card
-            Rate: 12
-          - Index: 68
-            Item: Osiris_Card
-            Rate: 12
-          - Index: 69
-            Item: Orc_Hero_Card
-            Rate: 14
-          - Index: 70
-            Item: Rsx_0806_Card
-            Rate: 15
-          - Index: 71
-            Item: Atroce_Card
-            Rate: 24
-          - Index: 72
-            Item: Doppelganger_Card
-            Rate: 24
-          - Index: 73
-            Item: Ghostring_Card
-            Rate: 50
-          - Index: 74
-            Item: Angeling_Card
-            Rate: 50
-          - Index: 75
-            Item: Deviling_Card
-            Rate: 50
-          - Index: 76
-            Item: Archangeling_Card
-            Rate: 50
-          - Index: 77
-            Item: Maya_Puple_Card
-            Rate: 50
-          - Index: 78
-            Item: Gryphon_Card
-            Rate: 80
-          - Index: 79
-            Item: Dark_Illusion_Card
-            Rate: 80
-          - Index: 80
-            Item: Dragon_Fly_Card
-            Rate: 80
-          - Index: 81
-            Item: Vagabond_Wolf_Card
-            Rate: 80
-          - Index: 82
-            Item: Mastering_Card
-            Rate: 80
-          - Index: 83
-            Item: Mutant_Dragon_Card
-            Rate: 80
-          - Index: 84
-            Item: Mysteltainn_Card
-            Rate: 80
-          - Index: 85
-            Item: Vocal_Card
-            Rate: 80
-          - Index: 86
-            Item: Owl_Duke_Card
-            Rate: 80
-          - Index: 87
-            Item: Owl_Baron_Card
-            Rate: 80
-          - Index: 88
-            Item: Executioner_Card
-            Rate: 80
-          - Index: 89
-            Item: Tirfing_Card
-            Rate: 80
-          - Index: 90
-            Item: Eclipse_Card
-            Rate: 80
-          - Index: 91
-            Item: Chepet_Card
-            Rate: 80
-          - Index: 92
-            Item: Choco_Card
-            Rate: 80
-          - Index: 93
-            Item: Cat_O_Nine_Tail_Card
-            Rate: 80
-          - Index: 94
-            Item: Kobold_Leader_Card
-            Rate: 80
-          - Index: 95
-            Item: Chimera_Card
-            Rate: 80
-          - Index: 96
-            Item: Toad_Card
-            Rate: 80
-          - Index: 97
-            Item: Bloody_Knight_Card
-            Rate: 80
-          - Index: 98
-            Item: Ungoliant_Card
-            Rate: 80
-          - Index: 99
-            Item: Gemini_Card
-            Rate: 80
-          - Index: 100
-            Item: Hydro_Card
-            Rate: 80
-          - Index: 101
-            Item: Tha_Maero_Card
-            Rate: 80
-          - Index: 102
-            Item: Tha_Odium_Card
-            Rate: 80
-          - Index: 103
-            Item: Tha_Despero_Card
-            Rate: 80
-          - Index: 104
-            Item: Magic_Card_Album
-            Rate: 80
-          - Index: 105
             Item: The_One_Card
             Rate: 1
-          - Index: 106
+          - Index: 32
+            Item: Time_Holder_Card
+            Rate: 1
+          - Index: 33
+            Item: Pitaya_Boss_Card
+            Rate: 1
+          - Index: 34
+            Item: Paladin_Card
+            Rate: 1
+          - Index: 35
+            Item: Creator_Card
+            Rate: 1
+          - Index: 36
+            Item: Professor_Card
+            Rate: 1
+          - Index: 37
+            Item: Champion_Card
+            Rate: 1
+          - Index: 38
+            Item: Stalker_Card
+            Rate: 1
+          - Index: 39
+            Item: Clown_Card
+            Rate: 1
+          - Index: 40
+            Item: Gypsy_Card
+            Rate: 1
+          - Index: 41
+            Item: Kraken_Card
+            Rate: 1
+          - Index: 42
+            Item: Gold_Q_Scaraba_Card
+            Rate: 1
+          - Index: 43
+            Item: Faceworm_Queen_Card
+            Rate: 1
+          - Index: 44
+            Item: Evil_Fanatics_Card
+            Rate: 1
+          - Index: 45
+            Item: Morocc's_Minion_Card
+            Rate: 1
+          - Index: 46
+            Item: Awaken_Pere_Card
+            Rate: 1
+          - Index: 47
+            Item: Captain_Felock_Card
+            Rate: 1
+          - Index: 48
+            Item: Gigantes_Card
+            Rate: 1
+          - Index: 49
+            Item: Charleston3_Card
+            Rate: 1
+          - Index: 50
+            Item: Poring__Card
+            Rate: 1
+          - Index: 51
+            Item: Arhi_Card
+            Rate: 1
+          - Index: 52
+            Item: Dio_Anemos_Card
+            Rate: 1
+          - Index: 53
+            Item: Geffen_Shoplifter_Card
+            Rate: 1
+          - Index: 54
+            Item: Geffen_Bully_Card
+            Rate: 1
+          - Index: 55
+            Item: Geffen_Gang_Member_Card
+            Rate: 1
+          - Index: 56
+            Item: Faymont_Card
+            Rate: 1
+          - Index: 57
+            Item: Ordre_Card
+            Rate: 1
+          - Index: 58
+            Item: Blut_Hase_Card
+            Rate: 1
+          - Index: 59
+            Item: Kuro_Akuma_Card
+            Rate: 1
+          - Index: 60
+            Item: Ifodes_Card
+            Rate: 1
+          - Index: 61
+            Item: Licheniyes_Card
+            Rate: 1
+          - Index: 62
+            Item: Odoric_Card
+            Rate: 1
+          - Index: 63
+            Item: Ju_Card
+            Rate: 1
+          - Index: 64
+            Item: Dwigh_Card
+            Rate: 1
+          - Index: 65
+            Item: Fenrir_Card
+            Rate: 1
+          - Index: 66
+            Item: Black_Coelacanth_Card
+            Rate: 1
+          - Index: 67
+            Item: Odd_Coelacanth_Card
+            Rate: 1
+          - Index: 68
+            Item: Giant_Octopus_Card
+            Rate: 1
+          - Index: 69
+            Item: Irene_High_Elder_Card
+            Rate: 1
+          - Index: 70
+            Item: Big_Eggring_Card
+            Rate: 1
+          - Index: 71
+            Item: Amon_Ra_Card
+            Rate: 2
+          - Index: 72
+            Item: Bacsojin_Card
+            Rate: 2
+          - Index: 73
+            Item: Dark_Lord_Card
+            Rate: 2
+          - Index: 74
+            Item: Golden_Bug_Card
+            Rate: 2
+          - Index: 75
+            Item: Maya_Card
+            Rate: 2
+          - Index: 76
+            Item: B_Seyren_Card
+            Rate: 2
+          - Index: 77
+            Item: B_Eremes_Card
+            Rate: 2
+          - Index: 78
+            Item: B_Harword_Card
+            Rate: 2
+          - Index: 79
+            Item: B_Magaleta_Card
+            Rate: 2
+          - Index: 80
+            Item: B_Shecil_Card
+            Rate: 2
+          - Index: 81
+            Item: B_Katrinn_Card
+            Rate: 2
+          - Index: 82
             Item: Firm_Muspell_Card
             Rate: 2
+          - Index: 83
+            Item: Phreeoni_Card
+            Rate: 3
+          - Index: 84
+            Item: Garm_Card
+            Rate: 3
+          - Index: 85
+            Item: Incant_Samurai_Card
+            Rate: 3
+          - Index: 86
+            Item: Mistress_Card
+            Rate: 3
+          - Index: 87
+            Item: Knight_Windstorm_Card
+            Rate: 3
+          - Index: 88
+            Item: Buwaya_Card
+            Rate: 3
+          - Index: 89
+            Item: Turtle_General_Card
+            Rate: 3
+          - Index: 90
+            Item: Orc_Load_Card
+            Rate: 3
+          - Index: 91
+            Item: Gloom_Under_Night_Card
+            Rate: 3
+          - Index: 92
+            Item: Ifrit_Card
+            Rate: 3
+          - Index: 93
+            Item: Ktullanux_Card
+            Rate: 3
+          - Index: 94
+            Item: Fallen_Bishop_Card
+            Rate: 3
+          - Index: 95
+            Item: Apocalips_H_Card
+            Rate: 3
+          - Index: 96
+            Item: Ant_Buyanne_Card
+            Rate: 3
+          - Index: 97
+            Item: B_Ygnizem_Card
+            Rate: 5
+          - Index: 98
+            Item: Moonlight_Flower_Card
+            Rate: 5
+          - Index: 99
+            Item: Dark_Snake_Lord_Card
+            Rate: 5
+          - Index: 100
+            Item: Nahtzigger_Card
+            Rate: 5
+          - Index: 101
+            Item: Detale_Card
+            Rate: 5
+          - Index: 102
+            Item: Berzebub_Card
+            Rate: 5
+          - Index: 103
+            Item: Lord_Of_Death_Card
+            Rate: 8
+          - Index: 104
+            Item: Lady_Tanee_Card
+            Rate: 8
+          - Index: 105
+            Item: Baphomet_Card
+            Rate: 10
+          - Index: 106
+            Item: Pharaoh_Card
+            Rate: 10
           - Index: 107
             Item: Toxic_Enchanted_Chimera_Card
             Rate: 10
           - Index: 108
-            Item: Time_Holder_Card
-            Rate: 1
+            Item: Dracula_Card
+            Rate: 12
           - Index: 109
-            Item: Pitaya_Boss_Card
-            Rate: 1
+            Item: Drake_Card
+            Rate: 12
           - Index: 110
-            Item: Paladin_Card
-            Rate: 1
+            Item: Eddga_Card
+            Rate: 12
           - Index: 111
-            Item: Creator_Card
-            Rate: 1
+            Item: Osiris_Card
+            Rate: 12
           - Index: 112
-            Item: Professor_Card
-            Rate: 1
+            Item: Orc_Hero_Card
+            Rate: 14
           - Index: 113
-            Item: Champion_Card
-            Rate: 1
+            Item: Rsx_0806_Card
+            Rate: 15
           - Index: 114
-            Item: Stalker_Card
-            Rate: 1
+            Item: Atroce_Card
+            Rate: 24
           - Index: 115
-            Item: Clown_Card
-            Rate: 1
+            Item: Doppelganger_Card
+            Rate: 24
           - Index: 116
-            Item: Gypsy_Card
-            Rate: 1
-          - Index: 117
-            Item: Gopinich_Card
-            Rate: 40
-          - Index: 118
             Item: Leak_Card
             Rate: 30
-          - Index: 119
+          - Index: 117
             Item: Q_Scaraba_Card
             Rate: 30
-          - Index: 120
-            Item: Jitterbug_Card
-            Rate: 80
-          - Index: 121
-            Item: Kraken_Card
-            Rate: 1
-          - Index: 122
-            Item: Gold_Q_Scaraba_Card
-            Rate: 1
-          - Index: 123
-            Item: Faceworm_Queen_Card
-            Rate: 1
-          - Index: 124
-            Item: Evil_Fanatics_Card
-            Rate: 1
-          - Index: 125
-            Item: Morocc's_Minion_Card
-            Rate: 1
-          - Index: 126
-            Item: Awaken_Pere_Card
-            Rate: 1
-          - Index: 127
-            Item: Captain_Felock_Card
-            Rate: 1
-          - Index: 128
-            Item: Gigantes_Card
-            Rate: 1
-          - Index: 129
-            Item: Charleston3_Card
-            Rate: 1
-          - Index: 130
-            Item: Poring__Card
-            Rate: 1
-          - Index: 131
-            Item: Arhi_Card
-            Rate: 1
-          - Index: 132
-            Item: Dio_Anemos_Card
-            Rate: 1
-          - Index: 133
-            Item: Geffen_Shoplifter_Card
-            Rate: 1
-          - Index: 134
-            Item: Geffen_Bully_Card
-            Rate: 1
-          - Index: 135
-            Item: Geffen_Gang_Member_Card
-            Rate: 1
-          - Index: 136
-            Item: Faymont_Card
-            Rate: 1
-          - Index: 137
-            Item: Ordre_Card
-            Rate: 1
-          - Index: 138
-            Item: Blut_Hase_Card
-            Rate: 1
-          - Index: 139
-            Item: Kuro_Akuma_Card
-            Rate: 1
-          - Index: 140
-            Item: Ifodes_Card
-            Rate: 1
-          - Index: 141
-            Item: Licheniyes_Card
-            Rate: 1
-          - Index: 142
-            Item: Odoric_Card
-            Rate: 1
-          - Index: 143
-            Item: Ju_Card
-            Rate: 1
-          - Index: 144
-            Item: Dwigh_Card
-            Rate: 1
-          - Index: 145
-            Item: Fenrir_Card
-            Rate: 1
-          - Index: 146
-            Item: Black_Coelacanth_Card
-            Rate: 1
-          - Index: 147
-            Item: Odd_Coelacanth_Card
-            Rate: 1
-          - Index: 148
-            Item: Giant_Octopus_Card
-            Rate: 1
-          - Index: 149
-            Item: Irene_High_Elder_Card
-            Rate: 1
-          - Index: 150
-            Item: Antonio_Card
-            Rate: 80
-          - Index: 151
+          - Index: 118
             Item: Soheon_Card
             Rate: 30
-          - Index: 152
+          - Index: 119
             Item: Retribution_Card
             Rate: 30
-          - Index: 153
+          - Index: 120
             Item: Bow_Guardian_Card
             Rate: 30
-          - Index: 154
+          - Index: 121
             Item: Byorgue_Card
             Rate: 30
-          - Index: 155
+          - Index: 122
             Item: Sword_Guardian_Card
             Rate: 30
-          - Index: 156
+          - Index: 123
             Item: Salamander_Card
             Rate: 30
-          - Index: 157
+          - Index: 124
             Item: Observation_Card
             Rate: 30
-          - Index: 158
+          - Index: 125
             Item: Tha_Dolor_Card
             Rate: 30
-          - Index: 159
+          - Index: 126
             Item: Galion_Card
             Rate: 30
-          - Index: 160
+          - Index: 127
             Item: Gold_Scaraba_Card
             Rate: 30
-          - Index: 161
+          - Index: 128
             Item: Kasa_Card
             Rate: 30
-          - Index: 162
+          - Index: 129
             Item: King_Dramoh_Card
             Rate: 30
-          - Index: 163
+          - Index: 130
             Item: Solace_Card
             Rate: 30
-          - Index: 164
+          - Index: 131
             Item: Shelter_Card
             Rate: 30
-          - Index: 165
+          - Index: 132
             Item: Necromancer_Card
             Rate: 30
-          - Index: 166
+          - Index: 133
             Item: Owl_Viscount_Card
             Rate: 30
-          - Index: 167
+          - Index: 134
             Item: Owl_Marquees_Card
             Rate: 30
-          - Index: 168
+          - Index: 135
             Item: Skeggiold_Card
             Rate: 30
-          - Index: 169
+          - Index: 136
             Item: V_B_Eremes_Card
             Rate: 30
-          - Index: 170
+          - Index: 137
             Item: V_B_Magaleta_Card
             Rate: 30
-          - Index: 171
+          - Index: 138
             Item: V_B_Katrinn_Card
             Rate: 30
-          - Index: 172
+          - Index: 139
             Item: V_B_Shecil_Card
             Rate: 30
-          - Index: 173
+          - Index: 140
             Item: V_B_Harword_Card
             Rate: 30
-          - Index: 174
+          - Index: 141
             Item: V_B_Seyren_Card
             Rate: 30
-          - Index: 175
+          - Index: 142
             Item: V_B_Randel_Card
             Rate: 30
-          - Index: 176
+          - Index: 143
             Item: V_B_Flamel_Card
             Rate: 30
-          - Index: 177
+          - Index: 144
             Item: V_B_Celia_Card
             Rate: 30
-          - Index: 178
+          - Index: 145
             Item: V_B_Chen_Card
             Rate: 30
-          - Index: 179
+          - Index: 146
             Item: V_B_Gertie_Card
             Rate: 30
-          - Index: 180
+          - Index: 147
             Item: V_B_Alphoccio_Card
             Rate: 30
-          - Index: 181
+          - Index: 148
             Item: V_B_Trentini_Card
             Rate: 30
-          - Index: 182
+          - Index: 149
             Item: Lora_Card
             Rate: 30
-          - Index: 183
+          - Index: 150
             Item: Wild_Rider_Card
             Rate: 30
-          - Index: 184
+          - Index: 151
             Item: Elvira_Card
             Rate: 30
-          - Index: 185
+          - Index: 152
             Item: Rudo_Card
             Rate: 30
-          - Index: 186
+          - Index: 153
             Item: Hardrock_Mommos_Card
             Rate: 30
-          - Index: 187
+          - Index: 154
             Item: Tendrilion_Card
             Rate: 30
-          - Index: 188
-            Item: Ant_Buyanne_Card
-            Rate: 3
-          - Index: 189
-            Item: Big_Eggring_Card
-            Rate: 1
-          - Index: 190
+          - Index: 155
             Item: UndeadKnightM_Card
             Rate: 30
-          - Index: 191
+          - Index: 156
             Item: UndeadKnightF_Card
             Rate: 30
-          - Index: 192
+          - Index: 157
             Item: Dark_Faceworm_Card
             Rate: 30
-          - Index: 193
+          - Index: 158
             Item: Mini_Octopus_Card
             Rate: 30
+          - Index: 159
+            Item: Gopinich_Card
+            Rate: 40
+          - Index: 160
+            Item: Ghostring_Card
+            Rate: 50
+          - Index: 161
+            Item: Angeling_Card
+            Rate: 50
+          - Index: 162
+            Item: Deviling_Card
+            Rate: 50
+          - Index: 163
+            Item: Archangeling_Card
+            Rate: 50
+          - Index: 164
+            Item: Maya_Puple_Card
+            Rate: 50
+          - Index: 165
+            Item: Gryphon_Card
+            Rate: 80
+          - Index: 166
+            Item: Dark_Illusion_Card
+            Rate: 80
+          - Index: 167
+            Item: Dragon_Fly_Card
+            Rate: 80
+          - Index: 168
+            Item: Vagabond_Wolf_Card
+            Rate: 80
+          - Index: 169
+            Item: Mastering_Card
+            Rate: 80
+          - Index: 170
+            Item: Mutant_Dragon_Card
+            Rate: 80
+          - Index: 171
+            Item: Mysteltainn_Card
+            Rate: 80
+          - Index: 172
+            Item: Owl_Duke_Card
+            Rate: 80
+          - Index: 173
+            Item: Owl_Baron_Card
+            Rate: 80
+          - Index: 174
+            Item: Executioner_Card
+            Rate: 80
+          - Index: 175
+            Item: Tirfing_Card
+            Rate: 80
+          - Index: 176
+            Item: Eclipse_Card
+            Rate: 80
+          - Index: 177
+            Item: Cat_O_Nine_Tail_Card
+            Rate: 80
+          - Index: 178
+            Item: Chimera_Card
+            Rate: 80
+          - Index: 179
+            Item: Toad_Card
+            Rate: 80
+          - Index: 180
+            Item: Gemini_Card
+            Rate: 80
+          - Index: 181
+            Item: Hydro_Card
+            Rate: 80
+          - Index: 182
+            Item: Tha_Maero_Card
+            Rate: 80
+          - Index: 183
+            Item: Tha_Odium_Card
+            Rate: 80
+          - Index: 184
+            Item: Tha_Despero_Card
+            Rate: 80
+          - Index: 185
+            Item: Magic_Card_Album
+            Rate: 80
+          - Index: 186
+            Item: Jitterbug_Card
+            Rate: 80
+          - Index: 187
+            Item: Antonio_Card
+            Rate: 80
   - Group: MAGICIAN_CARD_BOX
     SubGroups:
       - SubGroup: 0
