@@ -1733,6 +1733,27 @@ def _discord_poll(conn):
                    or msg["author"].get("global_name")
                    or msg["author"]["username"])
         content = replace_itemdb_links(msg.get("content", "").strip())
+
+        # ── Pièces jointes ──────────────────────────────────────────────────
+        # 🔴 UNE IMAGE COLLÉE N'EST PAS DANS `content`. Un Ctrl+V de capture
+        # d'écran produit un message au contenu VIDE, dont l'image vit dans
+        # `attachments` — il était donc sauté par le `if not content` ci-dessous,
+        # et rien n'arrivait en jeu. Ce n'était pas un filtre : personne ne
+        # regardait.
+        #
+        # On ajoute donc l'adresse de chaque image au texte relayé. Le miroir la
+        # recopie ensuite chez nous (cf. _mirror_rewrite), ce qui règle du même
+        # coup les deux tares de ces liens : ils sont SIGNÉS et expirent, et ils
+        # dépassent à eux seuls le plafond de 243 octets du paquet de relais.
+        #
+        # Images seulement : un .zip ou un .pdf n'a rien à afficher en jeu, et
+        # son adresse signée arriverait tronquée, donc morte.
+        for att in (msg.get("attachments") or []):
+            ctype = (att.get("content_type") or "").lower()
+            url   = att.get("url") or ""
+            if url and ctype.startswith("image/"):
+                content = (content + " " + url).strip()
+
         if not content:
             continue
 
