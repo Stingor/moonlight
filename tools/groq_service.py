@@ -1356,8 +1356,215 @@ def _ensure_discord_outbound_table(conn):
     except Exception as e:
         print(f"[Discord] discord_outbound table ERREUR : {e}", file=sys.stderr)
 
+# ── Miroir d'images du relais Discord ────────────────────────────────────────
+#
+# Une image postée sur Discord est RECOPIÉE ICI, et le lien réécrit vers notre
+# domaine avant d'atteindre le jeu.
+#
+# POURQUOI. Sans ça, c'est le CLIENT qui va chercher l'image chez un hébergeur
+# choisi par l'auteur du message — donc qui lui livre son adresse IP au simple
+# survol. En passant par le miroir, le joueur ne contacte jamais que
+# moonlight-destiny.fr : c'est le SERVEUR qui prend le risque, une fois, et lui
+# est déjà public. C'est le principe de media.discordapp.net.
+#
+# Effets de bord bienvenus : les hébergeurs qui refusent un client inconnu (klipy
+# répond 403) acceptent un serveur correctement identifié ; les liens Discord
+# signés, qui expirent, deviennent des copies permanentes ; et l'adresse réécrite
+# est BIEN PLUS COURTE que l'originale, donc elle cesse de heurter le plafond de
+# 243 octets du paquet de relais.
+RELAY_MIRROR_DIR      = "/var/www/images/relay"
+RELAY_MIRROR_URL      = "https://moonlight-destiny.fr/images/relay"
+RELAY_MIRROR_MAX      = 8 * 1024 * 1024   # octets téléchargés
+RELAY_MIRROR_TIMEOUT  = 8                 # secondes par requête
+RELAY_MIRROR_HOPS     = 3                 # redirections + saut og:image
+RELAY_MIRROR_MAX_AGE  = 30 * 86400        # purge des copies plus vieilles
+RELAY_MIRROR_UA       = ("Mozilla/5.0 (X11; Linux x86_64) "
+                         "(compatible; MoonlightRelay/1.0; "
+                         "+https://moonlight-destiny.fr)")
+# Extensions autorisées, déduites du format DÉCODÉ (jamais de l'URL ni de
+# l'en-tête). Apache sert le Content-Type d'après l'extension : c'est donc ici
+# que se joue la protection contre le HTML déguisé en image.
+_MIRROR_EXT = {"PNG": "png", "JPEG": "jpg", "GIF": "gif",
+               "WEBP": "webp", "BMP": "bmp"}
+_MIRROR_URL_RE = re.compile(r"https?://[^\s<>\"']+", re.IGNORECASE)
+_mirror_last_prune = 0.0
+
+
+def _mirror_public_host(url: str) -> bool:
+    """L'hôte résout-il vers une adresse PUBLIQUE ?
+
+    🔴 SANS CE TEST, LE MIROIR EST UNE FAILLE SSRF. Le serveur irait chercher
+    l'adresse que n'importe qui poste sur Discord : http://127.0.0.1:8080/admin,
+    une machine du LAN, ou 169.254.169.254 chez un hébergeur cloud. On refuse
+    donc tout ce qui n'est pas une IP publique — et on rappelle ce test à CHAQUE
+    saut, sinon une simple redirection le contourne.
+    """
+    import socket, ipaddress
+    from urllib.parse import urlparse
+    try:
+        host = urlparse(url).hostname
+        if not host:
+            return False
+        for info in socket.getaddrinfo(host, None):
+            ip = ipaddress.ip_address(info[4][0])
+            if (ip.is_private or ip.is_loopback or ip.is_link_local
+                    or ip.is_reserved or ip.is_multicast or ip.is_unspecified):
+                return False
+        return True
+    except Exception:
+        return False
+
+
+def _mirror_og_image(html: str, base_url: str) -> str:
+    """L'image d'une PAGE (klipy, tenor…), via sa balise OpenGraph."""
+    from urllib.parse import urljoin
+    m = re.search(
+        r"<meta[^>]+og:image[^>]*>", html[:65536], re.IGNORECASE)
+    if not m:
+        return ""
+    c = re.search(r"content\s*=\s*[\"']([^\"']+)[\"']", m.group(0), re.IGNORECASE)
+    if not c:
+        return ""
+    return urljoin(base_url, c.group(1).replace("&amp;", "&"))
+
+
+def _mirror_download(url: str):
+    """Télécharge une image, en suivant redirections et og:image à la main.
+
+    Rend (bytes, url_finale) ou (None, "")."""
+    import requests
+    hops = 0
+    while hops < RELAY_MIRROR_HOPS:
+        hops += 1
+        if not _mirror_public_host(url):          # à CHAQUE saut
+            print(f"[Miroir] hote non public refuse : {url}", file=sys.stderr)
+            return None, ""
+        try:
+            r = requests.get(url, timeout=RELAY_MIRROR_TIMEOUT, stream=True,
+                             allow_redirects=False,
+                             headers={"User-Agent": RELAY_MIRROR_UA,
+                                      "Accept": "image/*,text/html;q=0.8,*/*;q=0.5"})
+        except Exception as e:
+            print(f"[Miroir] echec reseau {url} : {e}", file=sys.stderr)
+            return None, ""
+
+        if r.status_code in (301, 302, 303, 307, 308):
+            nxt = r.headers.get("Location", "")
+            r.close()
+            if not nxt:
+                return None, ""
+            from urllib.parse import urljoin
+            url = urljoin(url, nxt)
+            continue
+        if r.status_code != 200:
+            print(f"[Miroir] HTTP {r.status_code} sur {url}", file=sys.stderr)
+            r.close()
+            return None, ""
+
+        ctype = (r.headers.get("Content-Type") or "").lower()
+        # Lecture BORNÉE : un Content-Length menteur ne doit pas remplir le disque.
+        data = b""
+        for chunk in r.iter_content(65536):
+            data += chunk
+            if len(data) > RELAY_MIRROR_MAX:
+                print(f"[Miroir] trop gros : {url}", file=sys.stderr)
+                r.close()
+                return None, ""
+        r.close()
+
+        if ctype.startswith("image/"):
+            return data, url
+        if ctype.startswith("text/html"):
+            nxt = _mirror_og_image(data.decode("utf-8", "replace"), url)
+            if not nxt:
+                print(f"[Miroir] pas d'og:image : {url}", file=sys.stderr)
+                return None, ""
+            url = nxt
+            continue
+        print(f"[Miroir] type refuse '{ctype}' : {url}", file=sys.stderr)
+        return None, ""
+    return None, ""
+
+
+def _mirror_image(url: str) -> str:
+    """Recopie une image sous notre domaine. Rend l'adresse publique, ou ""."""
+    import hashlib
+    from io import BytesIO
+    try:
+        from PIL import Image
+    except Exception:
+        return ""
+
+    data, _final = _mirror_download(url)
+    if not data:
+        return ""
+
+    # 🔴 C'EST PILLOW QUI DÉCIDE DU FORMAT, pas l'en-tête ni l'extension de
+    # l'URL. On réhéberge des octets fournis par un tiers SUR NOTRE DOMAINE :
+    # servir un fichier HTML sous le nom d'une image donnerait un XSS stocké sur
+    # moonlight-destiny.fr, là où les joueurs ont une session. Un fichier que
+    # Pillow refuse d'ouvrir n'est pas écrit, et l'extension vient de ce qu'il a
+    # RECONNU — donc Apache lui donnera le bon Content-Type.
+    try:
+        img = Image.open(BytesIO(data))
+        img.verify()
+        fmt = (img.format or "").upper()
+    except Exception as e:
+        print(f"[Miroir] image illisible ({e}) : {url}", file=sys.stderr)
+        return ""
+    ext = _MIRROR_EXT.get(fmt)
+    if not ext:
+        print(f"[Miroir] format refuse '{fmt}' : {url}", file=sys.stderr)
+        return ""
+
+    name = hashlib.sha256(data).hexdigest()[:16] + "." + ext
+    path = os.path.join(RELAY_MIRROR_DIR, name)
+    try:
+        os.makedirs(RELAY_MIRROR_DIR, exist_ok=True)
+        if not os.path.exists(path):        # même contenu = même nom : rien à refaire
+            tmp = path + ".part"
+            with open(tmp, "wb") as f:
+                f.write(data)
+            os.replace(tmp, path)           # publication ATOMIQUE
+            os.chmod(path, 0o644)
+    except Exception as e:
+        print(f"[Miroir] ecriture ERREUR : {e}", file=sys.stderr)
+        return ""
+    return f"{RELAY_MIRROR_URL}/{name}"
+
+
+def _mirror_prune():
+    """Purge les copies trop anciennes. Sans plafond, le disque finirait plein."""
+    try:
+        now = time.time()
+        for n in os.listdir(RELAY_MIRROR_DIR):
+            p = os.path.join(RELAY_MIRROR_DIR, n)
+            if os.path.isfile(p) and now - os.path.getmtime(p) > RELAY_MIRROR_MAX_AGE:
+                os.remove(p)
+    except Exception:
+        pass
+
+
+def _mirror_rewrite(content: str) -> str:
+    """Remplace les liens d'images du message par leur copie chez nous.
+
+    Un lien qu'on n'a pas su recopier est laissé TEL QUEL : il reste cliquable en
+    jeu, avec l'avertissement habituel. Un miroir en panne ne doit pas faire
+    disparaître le message.
+    """
+    def sub(m):
+        mirrored = _mirror_image(m.group(0))
+        return mirrored or m.group(0)
+    try:
+        return _MIRROR_URL_RE.sub(sub, content)
+    except Exception as e:
+        print(f"[Miroir] reecriture ERREUR : {e}", file=sys.stderr)
+        return content
+
+
 def _write_discord_relay(conn, author: str, content: str):
     """Write a Discord user message to discord_relay for in-game display via ZC_BOURGEON_DISCORD_MSG."""
+    content = _mirror_rewrite(content)
     lines = _chat_chunks(f"[#gonryun][{author}] ", content)
     try:
         with conn.cursor() as cur:
@@ -1376,6 +1583,14 @@ def _discord_poll(conn):
     if time.time() - _discord_last_poll < DISCORD_POLL_SEC:
         return
     _discord_last_poll = time.time()
+
+    # Purge du miroir, au plus une fois par heure. Accrochée au poll plutôt qu'à
+    # un thread : elle n'a aucune urgence, et un balayage de dossier n'a pas à
+    # tourner en permanence.
+    global _mirror_last_prune
+    if time.time() - _mirror_last_prune > 3600:
+        _mirror_last_prune = time.time()
+        _mirror_prune()
 
     url = f"https://discord.com/api/v10/channels/{DISCORD_READ_CHANNEL}/messages?limit=10"
     if _discord_last_msg_id:
