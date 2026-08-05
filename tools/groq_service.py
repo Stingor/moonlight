@@ -1515,7 +1515,7 @@ def _discord_outbound_poll(conn):
             try:
                 wp = {
                     "username": player,
-                    "content":  replace_iteml(message[:2000]),
+                    "content":  replace_chat_links(message[:2000]),
                 }
                 if char_id:
                     # CacheAvatarDiscord = variante carrée 128x128 du sprite (le PNG
@@ -1761,6 +1761,41 @@ def replace_iteml(msg):
         return f" [<{refine}{name}>](https://moonlight-destiny.fr/index.php?page=itemdb&itemid={itemid}) "
 
     return ITEML_PATTERN.sub(repl, msg)
+
+# ── Liens de monstre (balise propre au client Bourgeon) ──────────────────────
+# Format : `<MOBL>id:rang:nom</MOBL>` (cf. chat_window.cc). Le nom voyage DANS
+# la balise parce que le client ne connaît pas mob_db ; il est le DERNIER champ,
+# donc libre de contenir espaces, apostrophes et ':'. Le client interdit '<' et
+# '>' dans le nom, d'où [^<>] qui empêche une balise mal fermée d'avaler la
+# suite de la ligne.
+MOBL_PATTERN = re.compile(r"<MOBL>(\d+):(-?\d+):([^<>]*?)</MOBL>")
+
+BESTIARY_URL = "https://moonlight-destiny.fr/index.php?page=bestiary&mobid="
+
+# Mêmes rangs que le client : 2 = MVP, 1 = mini-boss, 0 = monstre ordinaire.
+MOB_RANK_TAG = {1: "[Boss] ", 2: "[MVP] "}
+
+def getmobname(mob_id):
+    for e in _MOB_NAMES.values():
+        if e[0] == mob_id:
+            return e[1]
+    return None
+
+def replace_mobl(msg):
+    def repl(match):
+        mob_id = int(match.group(1))
+        rank   = int(match.group(2))
+        # Nom transporté par la balise = ce que le client affiche. Repli sur
+        # l'index SQL puis sur l'id nu si la balise arrive tronquée.
+        name   = match.group(3).strip() or getmobname(mob_id) or f"Monstre #{mob_id}"
+        tag    = MOB_RANK_TAG.get(rank, "")
+        return f" [<{tag}{name}>]({BESTIARY_URL}{mob_id}) "
+
+    return MOBL_PATTERN.sub(repl, msg)
+
+def replace_chat_links(msg):
+    """Balises de lien du client -> Markdown Discord (items puis monstres)."""
+    return replace_mobl(replace_iteml(msg))
 
 def main():
     if LLM_API_KEY:
