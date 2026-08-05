@@ -69,6 +69,12 @@ typedef uint64 t_exp;
 
 /// Max EXP for guilds
 const t_exp MAX_GUILD_EXP = INT32_MAX;
+/// Max cumulated EXP contribution of a single guild member.
+/// [Stingor] This counter is never reset and is used as a delta base to compute
+/// how much EXP the guild gains (see int_guild.cpp, GMI_EXP). Capping it at
+/// MAX_GUILD_EXP froze the counter of veteran members, making them contribute
+/// nothing at all and stalling guilds around level 26.
+const t_exp MAX_GUILD_MEMBER_EXP = INT64_MAX;
 /// Max Base EXP for player on Max Base Level
 const t_exp MAX_LEVEL_BASE_EXP = 99999999;
 /// Max Job EXP for player on Max Job Level

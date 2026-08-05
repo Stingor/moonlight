@@ -634,7 +634,7 @@ int32 guild_payexp_timer_sub(DBKey key, DBData *data, va_list ap) {
 		return 0;
 	}
 
-	g->guild.member[i].exp = util::safe_addition_cap(g->guild.member[i].exp, c->exp, MAX_GUILD_EXP);
+	g->guild.member[i].exp = util::safe_addition_cap(g->guild.member[i].exp, c->exp, MAX_GUILD_MEMBER_EXP);
 
 	intif_guild_change_memberinfo(g->guild.guild_id,c->account_id,c->char_id,
 		GMI_EXP,&g->guild.member[i].exp,sizeof(g->guild.member[i].exp));
@@ -1699,7 +1699,7 @@ t_exp guild_payexp(map_session_data *sd,t_exp exp) {
 	//Otherwise tax everything.
 
 	c = (struct guild_expcache *)db_data2ptr(guild_expcache_db->ensure(guild_expcache_db, db_i2key(sd->status.char_id), create_expcache, sd));
-	c->exp = util::safe_addition_cap(c->exp, exp, MAX_GUILD_EXP);
+	c->exp = util::safe_addition_cap(c->exp, exp, MAX_GUILD_MEMBER_EXP);
 
 	return exp;
 }
@@ -1717,7 +1717,7 @@ t_exp guild_getexp(map_session_data *sd,t_exp exp) {
 		return 0;
 
 	c = (struct guild_expcache *)db_data2ptr(guild_expcache_db->ensure(guild_expcache_db, db_i2key(sd->status.char_id), create_expcache, sd));
-	c->exp = util::safe_addition_cap(c->exp, exp, MAX_GUILD_EXP);
+	c->exp = util::safe_addition_cap(c->exp, exp, MAX_GUILD_MEMBER_EXP);
 
 	return exp;
 }
