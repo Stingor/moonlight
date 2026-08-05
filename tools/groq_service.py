@@ -1389,6 +1389,59 @@ _MIRROR_EXT = {"PNG": "png", "JPEG": "jpg", "GIF": "gif",
 _MIRROR_URL_RE = re.compile(r"https?://[^\s<>\"']+", re.IGNORECASE)
 _mirror_last_prune = 0.0
 
+# ── klipy : passer par l'API plutôt que par la page ──────────────────────────
+#
+# klipy.com sert ses PAGES derrière un défi JavaScript Cloudflare : mesuré, curl
+# nu, un agent identifiable et un Chrome complet avec tous ses en-têtes prennent
+# le même 403 (« cf-mitigated: challenge »). Aucun bricolage d'en-tête n'y change
+# rien — l'empreinte TLS trahit le client avant même le premier octet de HTTP.
+#
+# Mais son API et son CDN, eux, sont OUVERTS. On y va donc par la porte prévue :
+#   page   https://klipy.com/gifs/<slug>
+#   API    https://api.klipy.com/api/v1/<cle>/gifs/<slug>
+#   média  https://static.klipy.com/... (200, image/gif, sans defi)
+#
+# ⚠ LA CLÉ EST DANS LE CHEMIN, pas dans un en-tête : aucune trace ne doit donc
+# jamais afficher l'URL de l'API. Les messages ci-dessous ne citent que le slug.
+KLIPY_API_KEY = os.environ.get("KLIPY_API_KEY", "")
+_KLIPY_PAGE_RE = re.compile(
+    r"^https?://(?:www\.)?klipy\.com/gifs/([A-Za-z0-9_.-]+)", re.IGNORECASE)
+# Du plus petit au plus grand : un aperçu de chat n'a aucun besoin de la version
+# HD, et le plafond de telechargement comme la VRAM du client s'en portent mieux.
+_KLIPY_SIZES = ("sm", "md", "hd")
+
+
+def _klipy_media_url(url: str) -> str:
+    """Résout une PAGE klipy en URL de média via l'API. "" si non applicable."""
+    m = _KLIPY_PAGE_RE.match(url)
+    if not m:
+        return ""
+    slug = m.group(1)
+    if not KLIPY_API_KEY:
+        print(f"[Miroir] klipy '{slug}' : KLIPY_API_KEY absente de groq.env",
+              file=sys.stderr)
+        return ""
+    api = f"https://api.klipy.com/api/v1/{KLIPY_API_KEY}/gifs/{slug}"
+    try:
+        req = urllib.request.Request(
+            api, headers={"Content-Type": "application/json",
+                          "User-Agent": RELAY_MIRROR_UA})
+        with urllib.request.urlopen(req, timeout=RELAY_MIRROR_TIMEOUT) as r:
+            payload = json.loads(r.read(1024 * 1024).decode("utf-8", "replace"))
+    except Exception as e:
+        # e peut contenir l'URL — donc la CLÉ. On ne journalise que le slug.
+        print(f"[Miroir] klipy '{slug}' : API injoignable ({type(e).__name__})",
+              file=sys.stderr)
+        return ""
+
+    files = (payload.get("data") or {}).get("file") or {}
+    for size in _KLIPY_SIZES:
+        u = ((files.get(size) or {}).get("gif") or {}).get("url")
+        if u:
+            return u
+    print(f"[Miroir] klipy '{slug}' : aucun gif dans la reponse", file=sys.stderr)
+    return ""
+
 
 def _mirror_public_host(url: str) -> bool:
     """L'hôte résout-il vers une adresse PUBLIQUE ?
@@ -1539,7 +1592,11 @@ def _mirror_image(url: str) -> str:
     """Recopie une image sous notre domaine. Rend l'adresse publique, ou ""."""
     import hashlib
 
-    data, _final = _mirror_download(url)
+    # Hébergeurs dont la PAGE est inaccessible mais qui exposent une API : on y
+    # substitue l'adresse du média avant de télécharger.
+    fetch_url = _klipy_media_url(url) or url
+
+    data, _final = _mirror_download(fetch_url)
     if not data:
         return ""
 
