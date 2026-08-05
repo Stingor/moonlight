@@ -1593,12 +1593,28 @@ void clif_bourgeon_cook_mastery(map_session_data* sd);
 // Poussé au login vérifié et à chaque ouverture de storage — donc aussi quand le
 // storage NATIF est utilisé : le client se contente alors de le mémoriser.
 void clif_bourgeon_storage_list(map_session_data* sd, uint8 cur_id);
+// ZC 0x0F21 : canaux de chat atteignables par ce personnage (carte, alliance,
+// publics de channels.conf filtrés par groupe). Poussé au login vérifié — la
+// combo de la barre de chat Bourgeon les propose à côté des modes natifs, et
+// choisir un canal revient à chuchoter à « #nom », ce que clif_parse_WisMessage
+// route déjà vers le canal.
+void clif_bourgeon_channel_list(map_session_data* sd);
 // CZ 0x0F1D : ouvrir un storage, ou basculer depuis celui qui est ouvert (ferme
 // puis rouvre — les @storagealt, eux, se contentent de fermer).
 void clif_parse_bourgeon_open_storage(int32 fd, map_session_data* sd);
 // CZ 0x0F1F -> ZC 0x0F20 : fiche détaillée d'un monstre (stats, résistances,
 // drops, cartes de spawn, skills). Tout ce que ZC_MONSTER_INFO (0x018C, Sense)
 // ne transporte pas. Cf. Bourgeon/docs/monster_info_re.md.
+//
+// La QUEUE du paquet porte l'identité, ajoutée pour lever une confusion réelle :
+// [aegislen:1][aegis:N][summoned:1][namesake_count:1][namesake_ref:4]
+// Des dizaines de monstres partagent exactement le nom affiché et l'apparence
+// d'un autre (versions d'événement, d'invocation, d'instance) ; sans ces champs,
+// le joueur qui ouvre l'un d'eux voit un monstre familier sans butin ni spawn et
+// croit à un bug de la fiche. Ce sont des FAITS, pas un drapeau « variante » :
+// 88 des homonymes de ce mob_db sont des monstres à part entière, spawnés et
+// avec butin, et 51 monstres de base n'ont aucun butin — les deux raccourcis
+// qu'on pourrait être tenté de prendre sont faux.
 void clif_parse_bourgeon_reqmobinfo(int32 fd, map_session_data* sd);
 
 #endif /* CLIF_HPP */

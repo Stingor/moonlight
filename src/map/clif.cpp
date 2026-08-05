@@ -5402,6 +5402,90 @@ void clif_bourgeon_storage_list(map_session_data* sd, uint8 cur_id) {
 	WFIFOSET(fd, pkt_len);
 }
 
+// ── Bourgeon : canaux de chat du serveur (ZC 0x0F21) ─────────────────────────
+//
+// La combo de la barre de chat Bourgeon liste les canaux du serveur en plus des
+// modes natifs (Tous/Groupe/Guilde/Clan/Alliés) ; en choisir un écrit « #nom »
+// dans la box destinataire, et le chuchotement vers un « # » est justement ce que
+// clif_parse_WisMessage route vers le canal (avec join automatique si le canal
+// n'a pas de mot de passe). Il n'y a donc rien à inventer côté envoi : ce paquet
+// ne sert qu'à faire CONNAÎTRE les canaux au client, qui n'a aucune autre source
+// que le texte localisé de « @channel list ».
+//
+// Une entrée par canal ATTEIGNABLE : le canal de carte, celui d'alliance, puis
+// les canaux publics de channels.conf que le groupe du joueur peut rejoindre.
+// Les canaux PRIVÉS (créés par les joueurs) sont volontairement absents — la
+// combo dit « où je parle », pas « ce qui existe » ; « @channel list » garde ce
+// rôle-là.
+static void clif_bourgeon_channel_entry(int32 fd, int32& offset, const Channel& channel,
+										bool require_guild) {
+	uint8 flags = require_guild ? 0x01 : 0x00;
+	if (channel.opt & CHAN_OPT_CAN_CHAT) flags |= 0x02;
+	WFIFOB(fd, offset)     = flags;
+	WFIFOL(fd, offset + 1) = static_cast<uint32>(channel.color);
+	safestrncpy(WFIFOCP(fd, offset + 5), channel.name, CHAN_NAME_LENGTH);
+	safestrncpy(WFIFOCP(fd, offset + 5 + CHAN_NAME_LENGTH), channel.alias, CHAN_NAME_LENGTH);
+	offset += 5 + 2 * CHAN_NAME_LENGTH;
+}
+
+void clif_bourgeon_channel_list(map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+	const int32 fd = sd->fd;
+	if (!session_isActive(fd)) return;
+
+	// Comptage AVANT écriture : la longueur du paquet en dépend, et le nombre de
+	// canaux publics n'est pas connu d'avance (channel_db, filtré par groupe).
+	DBIterator* iter = db_iterator(channel_get_db());
+	uint8 count = 0;
+	if (channel_config.map_tmpl.name[0]) ++count;
+	if (channel_config.ally_tmpl.name[0]) ++count;
+	for (Channel* channel = static_cast<Channel*>(dbi_first(iter)); dbi_exists(iter);
+		 channel = static_cast<Channel*>(dbi_next(iter))) {
+		if (channel->type != CHAN_TYPE_PUBLIC) continue;
+		if (!channel_pccheckgroup(channel, sd->group_id)) continue;
+		if (count == UINT8_MAX) break;
+		++count;
+	}
+	dbi_destroy(iter);
+
+	const int16 entry_len = static_cast<int16>(5 + 2 * CHAN_NAME_LENGTH);
+	const int16 pkt_len   = static_cast<int16>(5 + count * entry_len);
+	WFIFOHEAD(fd, pkt_len);
+	// Les noms et alias sont NUL-paddés : mettre à zéro AVANT d'écrire, le tampon
+	// WFIFO n'est pas vierge (même raison que la liste des storages).
+	memset(WFIFOP(fd, 0), 0, pkt_len);
+	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_CHANNEL_LIST;
+	WFIFOW(fd, 2) = pkt_len;
+	WFIFOB(fd, 4) = count;
+	int32 offset = 5;
+	uint8 written = 0;
+	// Même ORDRE que « @channel list » : carte, alliance, puis la configuration.
+	if (channel_config.map_tmpl.name[0] && written < count) {
+		clif_bourgeon_channel_entry(fd, offset, channel_config.map_tmpl, false);
+		++written;
+	}
+	if (channel_config.ally_tmpl.name[0] && written < count) {
+		// L'alliance n'existe que pour un joueur EN GUILDE. On l'envoie tout de
+		// même, marquée : le client sait s'il est en guilde (son propre guild_id),
+		// donc il masque l'entrée tout seul — et une guilde rejointe en cours de
+		// session fait apparaître le canal sans un paquet de plus.
+		clif_bourgeon_channel_entry(fd, offset, channel_config.ally_tmpl, true);
+		++written;
+	}
+	iter = db_iterator(channel_get_db());
+	for (Channel* channel = static_cast<Channel*>(dbi_first(iter)); dbi_exists(iter);
+		 channel = static_cast<Channel*>(dbi_next(iter))) {
+		if (channel->type != CHAN_TYPE_PUBLIC) continue;
+		if (!channel_pccheckgroup(channel, sd->group_id)) continue;
+		if (written >= count) break;
+		clif_bourgeon_channel_entry(fd, offset, *channel, false);
+		++written;
+	}
+	dbi_destroy(iter);
+	WFIFOSET(fd, pkt_len);
+}
+
 // Ouvre le storage demandé, ou BASCULE depuis celui qui est ouvert.
 // [type:2][len:2][stor_id:1]
 void clif_parse_bourgeon_open_storage(int32 fd, map_session_data* sd) {
@@ -6418,6 +6502,9 @@ static void clif_bourgeon_grant_verified(map_session_data* sd) {
 	// Storages accessibles (onglets du viewer) : la liste ne dépend que des droits
 	// du joueur, elle peut donc partir dès le login. 0xFF = aucun storage ouvert.
 	clif_bourgeon_storage_list(sd, 0xFF);
+	// Canaux de chat (combo de la barre de saisie). Même raison que les storages :
+	// la liste ne dépend que de la conf et du groupe du joueur.
+	clif_bourgeon_channel_list(sd);
 }
 
 // ── TRANSITION cutover opcodes 0x0F00+ (2026-07) ─────────────────────────────
@@ -6875,6 +6962,68 @@ void clif_parse_bourgeon_reqmobinfo(int32 fd, map_session_data* sd) {
 			WFIFOB(fd, offset) = namelen;                        offset += 1;
 			memcpy(WFIFOP(fd, offset), s.name.c_str(), namelen); offset += namelen;
 		}
+	}
+
+	// ── Identité : AegisName, invocation, homonymes ───────────────────────────
+	// Beaucoup de monstres partagent EXACTEMENT le nom affiché et l'apparence
+	// d'un autre — versions d'événement, d'invocation, d'instance. Un joueur qui
+	// ouvre la fiche de l'un d'eux voit un monstre familier sans butin ni spawn
+	// et croit à un bug de la description. Ces quatre champs lui donnent de quoi
+	// comprendre.
+	//
+	// 🔴 Ce sont des FAITS, pas un drapeau « variante ». Mesure sur ce mob_db :
+	// 266 noms affichés sont portés par plusieurs monstres, mais 88 de ces
+	// doublons (GOBLIN_2..5, DIMIK_1..4, VENATU_1..4, PICKY_, PETIT_…) sont des
+	// monstres à part entière, spawnés et avec butin. Un drapeau unique les
+	// mélangerait aux versions d'événement — précisément le faux positif qu'on
+	// cherche à éviter. Le client décide de ce qu'il en dit ; le serveur ne fait
+	// que rapporter.
+	{
+		// Deux tables bâties UNE fois, au premier appel : mob_db ne bouge plus
+		// après le chargement, et les reconstruire à chaque fiche coûterait un
+		// balayage complet par clic.
+		static std::unordered_map<std::string, std::pair<uint32, uint32>> namesakes;
+		static std::unordered_set<uint32> summoned;
+		static bool identity_built = false;
+		if (!identity_built) {
+			identity_built = true;
+			for (const auto& pair : mob_db) {
+				const std::shared_ptr<s_mob_db>& m = pair.second;
+				if (m == nullptr) continue;
+				std::pair<uint32, uint32>& slot = namesakes[m->jname];
+				slot.first++;
+				if (slot.second == 0 || m->id < slot.second) slot.second = m->id;
+				// Cible d'un NPC_SUMMONSLAVE. C'est le fait qui distingue le mieux
+				// les G_* — 88 des 213 le sont ici — SANS rien supposer de leur
+				// préfixe, lequel n'est pas fiable : des noms légitimes commencent
+				// par ORC_/KOBOLD_/GOBLIN_, et de vraies variantes portent au
+				// contraire un underscore FINAL (FABRE_, CHONCHON_).
+				for (const std::shared_ptr<s_mob_skill>& sk : m->skill) {
+					if (sk == nullptr || sk->skill_id != NPC_SUMMONSLAVE) continue;
+					for (int32 v = 0; v < 5; v++) {
+						if (sk->val[v] > 0)
+							summoned.insert(static_cast<uint32>(sk->val[v]));
+					}
+				}
+			}
+		}
+
+		const std::string aegis = mob->sprite.substr(0, 32);
+		const uint8 aegislen = static_cast<uint8>(aegis.size());
+		WFIFOB(fd, offset) = aegislen;                        offset += 1;
+		memcpy(WFIFOP(fd, offset), aegis.c_str(), aegislen);  offset += aegislen;
+
+		WFIFOB(fd, offset) = summoned.count(mob->id) ? 1 : 0; offset += 1;
+
+		// `namesake_count` se compte LUI-MÊME : 1 = ce nom n'appartient qu'à lui.
+		// `namesake_ref` = le plus petit id qui le porte, c'est-à-dire le monstre
+		// « d'origine » dans la numérotation d'Aegis — celui que le joueur croit
+		// avoir sous les yeux. Égal à mob->id quand c'est justement lui.
+		const auto it = namesakes.find(mob->jname);
+		const uint32 count = (it != namesakes.end()) ? it->second.first : 1;
+		const uint32 ref   = (it != namesakes.end()) ? it->second.second : mob->id;
+		WFIFOB(fd, offset) = static_cast<uint8>(count > 255 ? 255 : count); offset += 1;
+		WFIFOL(fd, offset) = ref;                                           offset += 4;
 	}
 
 	WFIFOW(fd, 2) = offset;  // packetLength

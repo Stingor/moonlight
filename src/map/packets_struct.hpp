@@ -6283,6 +6283,39 @@ struct PACKET_ZC_BOURGEON_MOBINFO {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_MOBINFO, 0x0f20);
 
+// ZC (server -> client): canaux de chat visibles par CE personnage.
+// VARIABLE : [packetType:2][packetLength:2][count:1]
+//            puis count fois [flags:1][color:4][name:CHAN_NAME_LENGTH][alias:CHAN_NAME_LENGTH]
+//   flags : bit0 = le canal n'existe que si le joueur est en guilde (#ally),
+//           bit1 = le joueur a le droit d'y écrire (CHAN_OPT_CAN_CHAT).
+//   color : couleur du canal telle que le serveur la STOCKE, c'est-à-dire en
+//           BGR (channel.cpp, read_config : « RGB to BGR » à la lecture de
+//           channels.conf). Le client refait la conversion, il ne devine rien.
+//   name  : SANS le '#' — c'est ainsi que `struct Channel` le range, et
+//           `channel_name2channel` compare toujours sur `chname + 1`.
+//   alias : libellé d'affichage (« [Global] »), tel qu'écrit dans channels.conf.
+//
+// Pourquoi ce paquet. Le client Bourgeon offre les canaux du serveur dans la
+// combo de la barre de chat ; il n'a aucun moyen de les CONNAÎTRE — ils vivent
+// dans conf/channels.conf, filtrés par groupid, et la seule façon de les lire
+// en jeu est de taper « @channel list » et d'en analyser le texte, qui est
+// localisé (msg_txt 1409/1410) donc instable. Même raison, même patron que
+// ZC_BOURGEON_STORAGE_LIST : le serveur possède la liste et ses droits, le
+// client dessine ce qu'il reçoit.
+//
+// La liste part au login. Elle n'a pas à être renvoyée ensuite : le nom des
+// canaux de MAP et d'ALLIANCE est celui du gabarit (`#map`, `#ally`), le même
+// sur toutes les cartes et pour toutes les guildes — seule leur EXISTENCE varie,
+// et pour l'alliance c'est le bit0 qui le dit, le client sachant déjà s'il est en
+// guilde.
+struct PACKET_ZC_BOURGEON_CHANNEL_LIST {
+	int16 packetType;
+	int16 packetLength;
+	uint8 count;
+	// suivi de count * [flags:1][color:4][name:CHAN_NAME_LENGTH][alias:CHAN_NAME_LENGTH]
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_CHANNEL_LIST, 0x0f21);
+
 // ZC (server -> client): apport des ÉQUIPEMENTS et des CARTES aux stats, compilé
 // par status_calc_pc. sd->indexed_bonus.param_equip = apport équipement (copié en
 // status.cpp), param_bonus = apport cartes (cf. le split memcpy/memset). Push à
