@@ -1428,49 +1428,69 @@ def _mirror_og_image(html: str, base_url: str) -> str:
     return urljoin(base_url, c.group(1).replace("&amp;", "&"))
 
 
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    """Empêche urllib de suivre les redirections TOUT SEUL.
+
+    🔴 Sans ça, le test SSRF ne servirait à rien : urllib suit les 3xx par défaut,
+    donc une adresse sur un hôte public pourrait rebondir vers 127.0.0.1 sans
+    qu'on repasse par la vérification. On les traite à la main, un saut à la fois.
+    """
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
 def _mirror_download(url: str):
     """Télécharge une image, en suivant redirections et og:image à la main.
 
-    Rend (bytes, url_finale) ou (None, "")."""
-    import requests
+    Rend (bytes, url_finale) ou (None, "").
+
+    ⚠ urllib et non `requests` : le reste de ce fichier fait déjà tout son réseau
+    avec urllib, et le venv du service n'a pas `requests`. Une dépendance de plus
+    ne se justifie pas pour un GET.
+    """
+    from urllib.parse import urljoin
+    opener = urllib.request.build_opener(_NoRedirect)
     hops = 0
     while hops < RELAY_MIRROR_HOPS:
         hops += 1
         if not _mirror_public_host(url):          # à CHAQUE saut
             print(f"[Miroir] hote non public refuse : {url}", file=sys.stderr)
             return None, ""
+
+        req = urllib.request.Request(url, headers={
+            "User-Agent": RELAY_MIRROR_UA,
+            "Accept": "image/*,text/html;q=0.8,*/*;q=0.5",
+        })
         try:
-            r = requests.get(url, timeout=RELAY_MIRROR_TIMEOUT, stream=True,
-                             allow_redirects=False,
-                             headers={"User-Agent": RELAY_MIRROR_UA,
-                                      "Accept": "image/*,text/html;q=0.8,*/*;q=0.5"})
+            r = opener.open(req, timeout=RELAY_MIRROR_TIMEOUT)
+            status, headers_obj = r.getcode(), r.headers
+        except urllib.error.HTTPError as e:
+            # Une redirection arrive ICI : _NoRedirect refuse de la suivre, urllib
+            # la remonte donc en HTTPError. C'est le comportement voulu.
+            if e.code in (301, 302, 303, 307, 308):
+                nxt = e.headers.get("Location", "")
+                if not nxt:
+                    return None, ""
+                url = urljoin(url, nxt)
+                continue
+            print(f"[Miroir] HTTP {e.code} sur {url}", file=sys.stderr)
+            return None, ""
         except Exception as e:
             print(f"[Miroir] echec reseau {url} : {e}", file=sys.stderr)
             return None, ""
 
-        if r.status_code in (301, 302, 303, 307, 308):
-            nxt = r.headers.get("Location", "")
-            r.close()
-            if not nxt:
+        with r:
+            if status != 200:
+                print(f"[Miroir] HTTP {status} sur {url}", file=sys.stderr)
                 return None, ""
-            from urllib.parse import urljoin
-            url = urljoin(url, nxt)
-            continue
-        if r.status_code != 200:
-            print(f"[Miroir] HTTP {r.status_code} sur {url}", file=sys.stderr)
-            r.close()
+            ctype = (headers_obj.get("Content-Type") or "").lower()
+            # Lecture BORNÉE, et d'UN octet de plus que le plafond : c'est ce qui
+            # distingue « pile à la limite » de « tronqué ». Un Content-Length
+            # menteur ne doit pas pouvoir remplir le disque.
+            data = r.read(RELAY_MIRROR_MAX + 1)
+        if len(data) > RELAY_MIRROR_MAX:
+            print(f"[Miroir] trop gros : {url}", file=sys.stderr)
             return None, ""
-
-        ctype = (r.headers.get("Content-Type") or "").lower()
-        # Lecture BORNÉE : un Content-Length menteur ne doit pas remplir le disque.
-        data = b""
-        for chunk in r.iter_content(65536):
-            data += chunk
-            if len(data) > RELAY_MIRROR_MAX:
-                print(f"[Miroir] trop gros : {url}", file=sys.stderr)
-                r.close()
-                return None, ""
-        r.close()
 
         if ctype.startswith("image/"):
             return data, url
@@ -1486,35 +1506,57 @@ def _mirror_download(url: str):
     return None, ""
 
 
+def _mirror_sniff(data: bytes) -> str:
+    """Le format RÉEL, lu dans les octets d'en-tête. Rend l'extension ou "".
+
+    🔴 C'EST LE CONTENU QUI DÉCIDE, jamais l'extension de l'URL ni l'en-tête
+    Content-Type — tous deux fournis par un tiers. On réhéberge ces octets SUR
+    NOTRE DOMAINE : un fichier HTML servi sous le nom d'une image donnerait un
+    XSS stocké sur moonlight-destiny.fr, là où les joueurs ont une session.
+    L'extension écrite sur disque vient donc d'ici, et Apache en déduit le
+    Content-Type. Le .htaccess du dossier (liste blanche + nosniff) ferme le reste.
+    """
+    if data[:8] == b"\x89PNG\r\n\x1a\n":                       return "png"
+    if data[:3] == b"\xff\xd8\xff":                            return "jpg"
+    if data[:6] in (b"GIF87a", b"GIF89a"):                     return "gif"
+    if data[:4] == b"RIFF" and data[8:12] == b"WEBP":          return "webp"
+    if data[:2] == b"BM":                                      return "bmp"
+    return ""
+
+
 def _mirror_image(url: str) -> str:
     """Recopie une image sous notre domaine. Rend l'adresse publique, ou ""."""
     import hashlib
-    from io import BytesIO
-    try:
-        from PIL import Image
-    except Exception:
-        return ""
 
     data, _final = _mirror_download(url)
     if not data:
         return ""
 
-    # 🔴 C'EST PILLOW QUI DÉCIDE DU FORMAT, pas l'en-tête ni l'extension de
-    # l'URL. On réhéberge des octets fournis par un tiers SUR NOTRE DOMAINE :
-    # servir un fichier HTML sous le nom d'une image donnerait un XSS stocké sur
-    # moonlight-destiny.fr, là où les joueurs ont une session. Un fichier que
-    # Pillow refuse d'ouvrir n'est pas écrit, et l'extension vient de ce qu'il a
-    # RECONNU — donc Apache lui donnera le bon Content-Type.
+    ext = _mirror_sniff(data)
+    if not ext:
+        print(f"[Miroir] format non reconnu : {url}", file=sys.stderr)
+        return ""
+
+    # Pillow, quand il est là, DÉCODE vraiment au lieu de se fier à l'en-tête —
+    # c'est plus fort qu'une signature, et ça écarte les fichiers tronqués ou
+    # bricolés. Optionnel à dessein : le venv du service ne l'a pas, et l'exiger
+    # ferait taire le miroir en entier. La signature reste le socle, Pillow le
+    # renforce. (`tools/.venv/bin/pip install Pillow` pour l'activer.)
     try:
+        from io import BytesIO
+        from PIL import Image
         img = Image.open(BytesIO(data))
         img.verify()
         fmt = (img.format or "").upper()
+        strong = _MIRROR_EXT.get(fmt)
+        if not strong:
+            print(f"[Miroir] format refuse '{fmt}' : {url}", file=sys.stderr)
+            return ""
+        ext = strong
+    except ImportError:
+        pass  # signature seule : documenté ci-dessus, pas une anomalie
     except Exception as e:
         print(f"[Miroir] image illisible ({e}) : {url}", file=sys.stderr)
-        return ""
-    ext = _MIRROR_EXT.get(fmt)
-    if not ext:
-        print(f"[Miroir] format refuse '{fmt}' : {url}", file=sys.stderr)
         return ""
 
     name = hashlib.sha256(data).hexdigest()[:16] + "." + ext
