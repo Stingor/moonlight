@@ -1473,6 +1473,17 @@ def _mirror_download(url: str):
                     return None, ""
                 url = urljoin(url, nxt)
                 continue
+            # 🔴 Distinguer un refus DÉFINITIF d'une panne. Un site derrière un
+            # defi JavaScript (Cloudflare) repond 403 a TOUT client automatise,
+            # quelle que soit la chaine d'agent — verifie sur klipy.com : curl nu,
+            # notre agent et un Chrome complet obtiennent le meme 403, avec
+            # « cf-mitigated: challenge ». Le dire evite de re-enqueter sur ce
+            # qui ne peut pas marcher.
+            if e.code == 403 and (e.headers.get("cf-mitigated")
+                                  or "cloudflare" in (e.headers.get("Server") or "").lower()):
+                print(f"[Miroir] site protege (defi JS), inaccessible aux clients "
+                      f"automatises : {url}", file=sys.stderr)
+                return None, ""
             print(f"[Miroir] HTTP {e.code} sur {url}", file=sys.stderr)
             return None, ""
         except Exception as e:
