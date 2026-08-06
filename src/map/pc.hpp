@@ -551,6 +551,29 @@ public:
 		char name[NAME_LENGTH];
 	} ignore[MAX_IGNORE_LIST];
 
+	// [Stingor] @ignore : personnages dont TOUT le chat est masqué pour ce joueur
+	// (zone, chatroom, chuchotements, party, guilde, clan, BG, channels, texte
+	// au-dessus de la tête). À ne pas confondre avec ignore[] ci-dessus (/ex, /in)
+	// qui ne filtre que les chuchotements.
+	//
+	// L'identité de référence est le user_id, c'est-à-dire le compte Moonlight :
+	// ni le nom (un joueur peut se faire renommer), ni le char_id ou l'account_id
+	// (il suffirait de changer de personnage ou de compte de jeu pour reparler).
+	// Ignorer quelqu'un vaut donc pour tous ses personnages, sur tous ses comptes
+	// de jeu, et depuis tous les vôtres.
+	//
+	// name n'est qu'un libellé d'affichage (@ignorelist) et de saisie (@unignore
+	// <nom>). Il n'est pas persisté — ce serait figer un nom que la personne peut
+	// changer ou abandonner : pc_ignorechat_load() le recalcule à chaque connexion
+	// en prenant son personnage de plus haut niveau.
+	//
+	// Liste compactée : la première entrée à user_id nul marque la fin, aucun trou
+	// au milieu (cf. pc_ignorechat_del). Persistée dans la table `user_ignore`.
+	struct s_ignorechat {
+		uint32 user_id;
+		char name[NAME_LENGTH];
+	} ignoreChats[MAX_IGNORECHAT_LIST];
+
 	int32 followtimer; // [MouseJstr]
 	int32 followtarget;
 
@@ -1839,6 +1862,28 @@ void pc_macro_detector_disconnect(map_session_data &sd);
 // Macro Reporter
 void pc_macro_reporter_area_select(map_session_data &sd, const int16 x, const int16 y, const int8 radius);
 void pc_macro_reporter_process(map_session_data &sd, int32 reporter_account_id = -1);
+
+// [Stingor] @ignore : masquage complet du chat d'un personnage
+/// Codes de retour de pc_ignorechat_add()
+enum e_ignorechat_add : uint8 {
+	IGNORECHAT_ADD_OK = 0,		///< ajouté
+	IGNORECHAT_ADD_DUPLICATE,	///< déjà présent dans la liste
+	IGNORECHAT_ADD_FULL,		///< liste pleine
+	IGNORECHAT_ADD_SELF,		///< tentative de s'ignorer soi-même
+	IGNORECHAT_ADD_PROTECTED,	///< cible membre de l'équipe du serveur
+};
+
+/// Compte Moonlight qu'aucun joueur ne peut masquer, quoi qu'il arrive : le test
+/// est fait dans pc_ignorechat() lui-même, donc même une entrée deja en base ou
+/// insérée à la main reste sans effet. Administration du serveur.
+#define IGNORECHAT_IMMUNE_USER_ID 11
+
+bool pc_ignorechat( const map_session_data* sd, uint32 user_id );
+bool pc_ignorechat_protected( uint32 user_id );
+uint32 pc_ignorechat_name2userid( const char* name, char* out_name = nullptr );
+e_ignorechat_add pc_ignorechat_add( map_session_data* sd, uint32 user_id, const char* name );
+bool pc_ignorechat_del( map_session_data* sd, uint32 user_id, const char* name );
+void pc_ignorechat_load( map_session_data* sd );
 
 #ifdef MAP_GENERATOR
 void pc_reputation_generate();

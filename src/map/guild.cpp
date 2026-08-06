@@ -1480,7 +1480,24 @@ int32 guild_recv_message( int32 guild_id, uint32 account_id, const char *mes, si
 	auto g = guild_search(guild_id);
 	if (!g)
 		return 0;
-	clif_guild_message(g->guild,mes,len);
+
+	// [Stingor] @ignore : le paquet de chat de guilde ne porte pas l'émetteur, on
+	// remonte à son compte Moonlight depuis l'AID pour filtrer les membres qui
+	// l'ont mis en ignore. La guilde ne mémorise pas le user_id de ses membres :
+	// il n'est lisible que sur une session ouverte ici, donc un émetteur hébergé
+	// par un autre map-server passe au travers (sans objet en mono map-server).
+	uint32 speaker = 0;
+
+	if( account_id != 0 ){
+		for( int32 i = 0; i < g->guild.max_member; i++ ){
+			if( g->guild.member[i].account_id == account_id && g->guild.member[i].sd != nullptr ){
+				speaker = g->guild.member[i].sd->status.user_id;
+				break;
+			}
+		}
+	}
+
+	clif_guild_message(g->guild,mes,len,speaker);
 	return 0;
 }
 

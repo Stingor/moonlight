@@ -2345,6 +2345,315 @@ bool pc_set_hate_mob(map_session_data *sd, int32 pos, block_list *bl)
 }
 
 /*==========================================
+ * [Stingor] @ignore : masquage complet du chat d'une personne.
+ *
+ * Contrairement a sd->ignore[] (/ex, /in) qui ne bloque que les chuchotements,
+ * cette liste masque TOUT ce que la cible dit et que le joueur pourrait voir :
+ * chat de zone, chatroom, chuchotements, party, guilde, clan, BG, channels et
+ * texte au-dessus de la tete. Le filtrage effectif se fait dans clif_send().
+ *
+ * L'identite manipulee est le user_id, c'est-a-dire le compte Moonlight, et non
+ * le nom, le char_id ou l'account_id : sinon il suffirait de se faire renommer,
+ * de changer de personnage ou de compte de jeu pour reparler a quelqu'un qui ne
+ * veut plus vous entendre. L'ignore vaut donc de personne a personne, et la
+ * liste suit son proprietaire sur tous ses personnages.
+ *
+ * Persistee dans la table `user_ignore`, ecrite au fil de l'eau (une requete par
+ * ajout/retrait) : aucune sauvegarde differee a la deconnexion, donc rien a
+ * perdre en cas de crash du map-server.
+ *------------------------------------------*/
+
+/**
+ * Le joueur masque-t-il le chat de ce compte ?
+ * Appelee pour chaque destinataire de chaque message : garder ce test rapide.
+ * @param sd: Joueur destinataire
+ * @param user_id: Compte Moonlight de l'emetteur
+ * @return true si le message doit etre masque
+ */
+bool pc_ignorechat( const map_session_data* sd, uint32 user_id ){
+	// Sortie immediate sur liste vide : le cas de l'immense majorite des joueurs.
+	// user_id nul = emetteur non resolu ou compte non rattache au site. Jamais
+	// filtre : sans cette garde, tous ces comptes se retrouveraient confondus.
+	if( sd == nullptr || user_id == 0 || sd->ignoreChats[0].user_id == 0 ){
+		return false;
+	}
+
+	// Le compte d'administration n'est jamais masquable. Le test vit ici, dans le
+	// chemin de filtrage lui-meme, et pas seulement au moment du @ignore : ainsi
+	// aucune entree residuelle en base ne peut le rendre muet.
+	if( user_id == IGNORECHAT_IMMUNE_USER_ID ){
+		return false;
+	}
+
+	for( int32 i = 0; i < MAX_IGNORECHAT_LIST && sd->ignoreChats[i].user_id != 0; i++ ){
+		if( sd->ignoreChats[i].user_id == user_id ){
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/**
+ * Resout un nom de personnage vers le compte Moonlight qui le detient.
+ * Sert aux commandes (cible potentiellement hors ligne) et aux chuchotements
+ * relayes par un autre map-server, qui ne transportent que le nom.
+ * @param name: Nom du personnage
+ * @param out_name: Optionnel, recoit le nom exact tel qu'ecrit en base (NAME_LENGTH).
+ *                  Peut pointer sur name : name n'est plus lu une fois out_name ecrit.
+ * @return user_id, ou 0 si le personnage n'existe pas
+ */
+uint32 pc_ignorechat_name2userid( const char* name, char* out_name ){
+	if( name == nullptr || name[0] == '\0' ){
+		return 0;
+	}
+
+	// Joueur connecte : tout est deja en memoire, pas de requete.
+	map_session_data* dstsd = map_nick2sd( name, false );
+
+	if( dstsd != nullptr ){
+		if( out_name != nullptr ){
+			safestrncpy( out_name, dstsd->status.name, NAME_LENGTH );
+		}
+
+		return dstsd->status.user_id;
+	}
+
+	char esc_name[NAME_LENGTH * 2 + 1];
+
+	Sql_EscapeStringLen( mmysql_handle, esc_name, name, strnlen( name, NAME_LENGTH ) );
+
+	if( Sql_Query( mmysql_handle,
+			"SELECT `l`.`user_id`, `c`.`name` FROM `char` AS `c` "
+			"JOIN `login` AS `l` ON `l`.`account_id` = `c`.`account_id` "
+			"WHERE `c`.`name` = '%s' LIMIT 1",
+			esc_name ) != SQL_SUCCESS ){
+		Sql_ShowDebug( mmysql_handle );
+		return 0;
+	}
+
+	uint32 user_id = 0;
+	char* id_data;
+	char* name_data;
+
+	if( Sql_NextRow( mmysql_handle ) == SQL_SUCCESS
+		&& Sql_GetData( mmysql_handle, 0, &id_data, nullptr ) == SQL_SUCCESS && id_data != nullptr
+		&& Sql_GetData( mmysql_handle, 1, &name_data, nullptr ) == SQL_SUCCESS && name_data != nullptr ){
+		user_id = static_cast<uint32>( strtoul( id_data, nullptr, 10 ) );
+
+		if( out_name != nullptr ){
+			safestrncpy( out_name, name_data, NAME_LENGTH );
+		}
+	}
+
+	Sql_FreeResult( mmysql_handle );
+
+	return user_id;
+}
+
+/**
+ * Le compte vise est-il a l'abri de @ignore ?
+ * Couvre le compte d'administration et toute personne disposant d'un compte de
+ * jeu rattache a un groupe de niveau non nul : un joueur ne doit pas pouvoir se
+ * rendre sourd aux consignes de l'equipe. Le controle passe par la base, il vaut
+ * donc aussi pour une cible hors ligne.
+ * @param user_id: Compte Moonlight vise
+ * @return true si le compte ne peut pas etre ignore
+ */
+bool pc_ignorechat_protected( uint32 user_id ){
+	if( user_id == 0 || user_id == IGNORECHAT_IMMUNE_USER_ID ){
+		return true;
+	}
+
+	// Liste des groupes de l'equipe, telle que definie dans groups.yml. Relue a
+	// chaque appel : la commande est rare et le nombre de groupes minuscule, ce
+	// qui evite un cache a invalider au @reloadatcommand.
+	std::string staff_groups;
+
+	for( const auto& entry : player_group_db ){
+		if( entry.second != nullptr && entry.second->level > 0 ){
+			if( !staff_groups.empty() ){
+				staff_groups += ",";
+			}
+
+			staff_groups += std::to_string( entry.first );
+		}
+	}
+
+	if( staff_groups.empty() ){
+		return false;
+	}
+
+	if( Sql_Query( mmysql_handle, "SELECT 1 FROM `login` WHERE `user_id` = '%u' AND `group_id` IN (%s) LIMIT 1",
+			user_id, staff_groups.c_str() ) != SQL_SUCCESS ){
+		Sql_ShowDebug( mmysql_handle );
+		// En cas d'echec on protege : mieux vaut refuser un @ignore legitime que
+		// laisser passer celui qui visait un membre de l'equipe.
+		return true;
+	}
+
+	bool protected_account = Sql_NumRows( mmysql_handle ) > 0;
+
+	Sql_FreeResult( mmysql_handle );
+
+	return protected_account;
+}
+
+/**
+ * Ajoute un compte a la liste d'ignore chat et le persiste.
+ * @param sd: Joueur
+ * @param user_id: Compte Moonlight a ignorer
+ * @param name: Nom du personnage vise ; sert de libelle jusqu'a la prochaine
+ *              reconnexion, ou pc_ignorechat_load() le recalculera
+ * @return code e_ignorechat_add
+ */
+e_ignorechat_add pc_ignorechat_add( map_session_data* sd, uint32 user_id, const char* name ){
+	nullpo_retr( IGNORECHAT_ADD_SELF, sd );
+
+	if( user_id == 0 || user_id == sd->status.user_id ){
+		return IGNORECHAT_ADD_SELF;
+	}
+
+	if( pc_ignorechat_protected( user_id ) ){
+		return IGNORECHAT_ADD_PROTECTED;
+	}
+
+	int32 i;
+
+	ARR_FIND( 0, MAX_IGNORECHAT_LIST, i, sd->ignoreChats[i].user_id == 0 || sd->ignoreChats[i].user_id == user_id );
+
+	if( i == MAX_IGNORECHAT_LIST ){
+		return IGNORECHAT_ADD_FULL;
+	}
+
+	if( sd->ignoreChats[i].user_id != 0 ){
+		return IGNORECHAT_ADD_DUPLICATE;
+	}
+
+	sd->ignoreChats[i].user_id = user_id;
+	safestrncpy( sd->ignoreChats[i].name, name != nullptr ? name : "", NAME_LENGTH );
+
+	if( Sql_Query( mmysql_handle, "REPLACE INTO `user_ignore` (`user_id`, `ignored_user_id`) VALUES ('%u', '%u')",
+			sd->status.user_id, user_id ) != SQL_SUCCESS ){
+		Sql_ShowDebug( mmysql_handle );
+	}
+
+	return IGNORECHAT_ADD_OK;
+}
+
+/**
+ * Retire un compte de la liste d'ignore chat et met a jour la persistance.
+ * @param sd: Joueur
+ * @param user_id: Compte a ne plus ignorer, 0 si non resolu
+ * @param name: Nom saisi, utilise en repli quand user_id vaut 0
+ * @return true si l'entree existait
+ */
+bool pc_ignorechat_del( map_session_data* sd, uint32 user_id, const char* name ){
+	nullpo_retr( false, sd );
+
+	int32 i;
+
+	if( user_id != 0 ){
+		ARR_FIND( 0, MAX_IGNORECHAT_LIST, i, sd->ignoreChats[i].user_id == 0 || sd->ignoreChats[i].user_id == user_id );
+	}else if( name != nullptr && name[0] != '\0' ){
+		// Repli sur le libelle : permet de retirer une entree dont le personnage
+		// de reference a ete supprime, donc introuvable en base.
+		ARR_FIND( 0, MAX_IGNORECHAT_LIST, i, sd->ignoreChats[i].user_id == 0 || strcmp( sd->ignoreChats[i].name, name ) == 0 );
+	}else{
+		return false;
+	}
+
+	if( i == MAX_IGNORECHAT_LIST || sd->ignoreChats[i].user_id == 0 ){
+		return false;
+	}
+
+	uint32 removed_id = sd->ignoreChats[i].user_id;
+
+	// Decale tout d'un cran pour garder la liste compactee : pc_ignorechat()
+	// s'arrete a la premiere entree vide et manquerait tout ce qui suit un trou.
+	memmove( &sd->ignoreChats[i], &sd->ignoreChats[i + 1], ( MAX_IGNORECHAT_LIST - i - 1 ) * sizeof( sd->ignoreChats[0] ) );
+	memset( &sd->ignoreChats[MAX_IGNORECHAT_LIST - 1], 0, sizeof( sd->ignoreChats[0] ) );
+
+	if( Sql_Query( mmysql_handle, "DELETE FROM `user_ignore` WHERE `user_id` = '%u' AND `ignored_user_id` = '%u'",
+			sd->status.user_id, removed_id ) != SQL_SUCCESS ){
+		Sql_ShowDebug( mmysql_handle );
+	}
+
+	return true;
+}
+
+/**
+ * Charge la liste d'ignore chat depuis la base, a la connexion du personnage.
+ * La liste appartient au compte Moonlight : elle suit le joueur d'un personnage
+ * et d'un compte de jeu a l'autre.
+ *
+ * Le libelle affiche par @ignorelist n'est pas stocke : le persister reviendrait
+ * a figer un nom que la personne visee peut changer, abandonner ou supprimer,
+ * alors que l'entree porte sur son compte entier. On le recalcule donc ici, en
+ * prenant son personnage de plus haut niveau, tous comptes de jeu confondus.
+ * @param sd: Joueur
+ */
+void pc_ignorechat_load( map_session_data* sd ){
+	nullpo_retv( sd );
+
+	memset( sd->ignoreChats, 0, sizeof( sd->ignoreChats ) );
+
+	if( sd->status.user_id == 0 ){
+		return;
+	}
+
+	if( Sql_Query( mmysql_handle,
+			"SELECT `i`.`ignored_user_id`, ("
+				"SELECT `c`.`name` FROM `login` AS `l` "
+				"JOIN `char` AS `c` ON `c`.`account_id` = `l`.`account_id` "
+				"WHERE `l`.`user_id` = `i`.`ignored_user_id` "
+				"ORDER BY `c`.`base_level` DESC, `c`.`char_id` ASC LIMIT 1"
+			") FROM `user_ignore` AS `i` WHERE `i`.`user_id` = '%u' LIMIT %d",
+			sd->status.user_id, MAX_IGNORECHAT_LIST ) != SQL_SUCCESS ){
+		Sql_ShowDebug( mmysql_handle );
+		return;
+	}
+
+	int32 i = 0;
+
+	while( i < MAX_IGNORECHAT_LIST && Sql_NextRow( mmysql_handle ) == SQL_SUCCESS ){
+		char* id_data;
+		char* name_data;
+
+		if( Sql_GetData( mmysql_handle, 0, &id_data, nullptr ) != SQL_SUCCESS || id_data == nullptr ){
+			continue;
+		}
+
+		uint32 ignored_id = static_cast<uint32>( strtoul( id_data, nullptr, 10 ) );
+
+		if( ignored_id == 0 ){
+			continue;
+		}
+
+		sd->ignoreChats[i].user_id = ignored_id;
+
+		// NULL si le compte vise n'a plus aucun personnage : @ignorelist se
+		// rabat alors sur l'identifiant, l'entree reste retirable.
+		if( Sql_GetData( mmysql_handle, 1, &name_data, nullptr ) == SQL_SUCCESS && name_data != nullptr ){
+			safestrncpy( sd->ignoreChats[i].name, name_data, NAME_LENGTH );
+		}
+
+		i++;
+	}
+
+	Sql_FreeResult( mmysql_handle );
+
+	// Une cible promue dans l'equipe depuis que l'entree a ete creee doit
+	// redevenir audible : on purge ici plutot que de payer ce controle a chaque
+	// message. Parcours a l'envers, pc_ignorechat_del() compacte la liste.
+	for( int32 j = i - 1; j >= 0; j-- ){
+		if( pc_ignorechat_protected( sd->ignoreChats[j].user_id ) ){
+			pc_ignorechat_del( sd, sd->ignoreChats[j].user_id, nullptr );
+		}
+	}
+}
+
+/*==========================================
  * Invoked once after the char/account/account2 registry variables are received. [Skotlex]
  * We didn't receive item information at this point so DO NOT attempt to do item operations here.
  * See intif_parse_StorageReceived() for item operations [lighta]
@@ -2474,6 +2783,7 @@ void pc_reg_received(map_session_data *sd)
 	sd->state.showzeny = pc_readglobalreg(sd, add_str("showzeny"));
 	if (pc_get_group_level(sd) >= 80)
 		sd->state.block_action |= PCBLOCK_IMMUNE;
+	pc_ignorechat_load(sd); // @ignore : liste des personnages dont le chat est masqué
 	// [Stingor] <--
 
 	sd->state.pc_loaded = false; // Ensure inventory data and status data is loaded before we calculate player stats

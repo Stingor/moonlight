@@ -78,6 +78,7 @@ void map_msg_reload(void);
 #define MAX_LEVEL 999
 #define MAX_DROP_PER_MAP 48
 #define MAX_IGNORE_LIST 20 	// official is 14
+#define MAX_IGNORECHAT_LIST 30	// [Stingor] @ignore : masquage total du chat (distinct de /ex)
 #define MAX_VENDING 12
 #define MAX_MAP_SIZE 512*512 	// Wasn't there something like this already? Can't find it.. [Shinryo]
 

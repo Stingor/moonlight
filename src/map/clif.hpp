@@ -1132,7 +1132,7 @@ void clif_guild_memberpositionchanged( const struct mmo_guild &g,int32 idx );
 void clif_guild_emblem( const map_session_data &sd, const struct mmo_guild &g );
 void clif_guild_emblem_area( const block_list* bl );
 void clif_guild_notice( const map_session_data& sd );
-void clif_guild_message( const struct mmo_guild& g, const char* mes, size_t len );
+void clif_guild_message( const struct mmo_guild& g, const char* mes, size_t len, uint32 chat_speaker = 0 );
 void clif_guild_reqalliance( const map_session_data& sd, uint32 account_id, const char* name );
 void clif_guild_allianceack( const map_session_data& sd, uint8 flag);
 void clif_guild_delalliance( const map_session_data& sd,uint32 guild_id,uint32 flag);
@@ -1254,7 +1254,10 @@ void clif_quest_update_objective( const map_session_data* sd, const quest* qd );
 void clif_quest_show_event( const map_session_data* sd, const block_list* bl, e_questinfo_types effect, e_questinfo_markcolor color );
 void clif_displayexp(const map_session_data* sd, t_exp exp, char type, bool quest, bool lost );
 
-int32 clif_send( const void* buf, int32 len, const block_list* bl, enum send_target type );
+/// [Stingor] @ignore : chat_speaker porte le user_id (compte Moonlight) de qui
+/// parle, pour les paquets de chat. Quand il est renseigné, chaque destinataire
+/// ayant mis ce compte en @ignore est sauté silencieusement. 0 = pas de filtrage.
+int32 clif_send( const void* buf, int32 len, const block_list* bl, enum send_target type, uint32 chat_speaker = 0 );
 void do_init_clif(void);
 void do_final_clif(void);
 
@@ -1382,7 +1385,7 @@ void clif_monster_hp_bar( const mob_data* md, int32 fd );
 
 // Clan System
 void clif_clan_basicinfo( const map_session_data& sd );
-void clif_clan_message( const clan &clan, const char *mes, size_t len );
+void clif_clan_message( const clan &clan, const char *mes, size_t len, uint32 chat_speaker = 0 );
 void clif_clan_onlinecount( const clan& clan );
 void clif_clan_leave( const map_session_data& sd );
 
@@ -1410,7 +1413,7 @@ enum clif_colors {
 };
 extern unsigned long color_table[COLOR_MAX];
 
-void clif_channel_msg(struct Channel *channel, const char *msg, unsigned long color);
+void clif_channel_msg(struct Channel *channel, const char *msg, unsigned long color, const map_session_data* speaker = nullptr);
 
 #define clif_menuskill_clear(sd) (sd)->menuskill_id = (sd)->menuskill_val = (sd)->menuskill_val2 = 0;
 

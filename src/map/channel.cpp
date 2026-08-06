@@ -459,7 +459,7 @@ int32 channel_send(struct Channel *channel, map_session_data *sd, const char *ms
 		if((channel->opt&CHAN_OPT_COLOR_OVERRIDE) && sd->fontcolor && sd->fontcolor < channel_config.colors_count && channel_config.colors[sd->fontcolor])
 			color = channel_config.colors[sd->fontcolor];
 		safesnprintf(output, CHAT_SIZE_MAX, "%s %s : %s", channel->alias, sd->status.name, msg);
-		clif_channel_msg(channel,output,color);
+		clif_channel_msg(channel,output,color,sd); // [Stingor] @ignore
 		sd->channel_tick[idx] = gettick();
 	}
 	return 0;

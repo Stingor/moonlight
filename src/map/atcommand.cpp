@@ -11676,6 +11676,161 @@ ACMD_FUNC(macrochecker){
 	return 0;
 }
 
+/*==========================================
+ * [Stingor] @ignore <nom> : masque TOUT le chat d'une personne
+ *
+ * Là où /ex ne bloque que les chuchotements, @ignore rend la cible entièrement
+ * muette pour l'auteur de la commande : chat de zone, chatroom, chuchotements,
+ * party, guilde, clan, BG, channels et texte au-dessus de la tête.
+ *
+ * L'ignore porte sur le compte Moonlight, pas sur le personnage nommé : la cible
+ * reste masquée sur tous ses persos et tous ses comptes de jeu, et la liste vous
+ * suit sur les vôtres. Persistée dans `user_ignore` (cf. pc_ignorechat_*).
+ *------------------------------------------*/
+
+/**
+ * Extrait le nom de personnage du paramètre de la commande.
+ * Les noms peuvent contenir des espaces, on ne coupe donc qu'aux extrémités.
+ * @param message: Paramètre brut de la commande
+ * @param out_name: Nom extrait (taille NAME_LENGTH)
+ * @return false si aucun nom exploitable
+ */
+static bool atcommand_ignore_parse( const char* message, char* out_name ){
+	memset( out_name, '\0', NAME_LENGTH );
+
+	if( message == nullptr || *message == '\0' ){
+		return false;
+	}
+
+	while( *message == ' ' ){
+		message++;
+	}
+
+	if( sscanf( message, "%23[^\n]", out_name ) < 1 ){
+		return false;
+	}
+
+	size_t len = strlen( out_name );
+
+	while( len > 0 && out_name[len - 1] == ' ' ){
+		out_name[--len] = '\0';
+	}
+
+	return len > 0;
+}
+
+ACMD_FUNC(ignore)
+{
+	char name[NAME_LENGTH];
+
+	nullpo_retr(-1, sd);
+
+	if( !atcommand_ignore_parse( message, name ) ){
+		clif_displaymessage( fd, msg_txt( sd, 1870 ) ); // Usage: @ignore <character name>
+		return -1;
+	}
+
+	// name est réécrit avec le nom exact au passage : corrige la casse saisie.
+	uint32 target_id = pc_ignorechat_name2userid( name, name );
+
+	if( target_id == 0 ){
+		sprintf( atcmd_output, msg_txt( sd, 1875 ), name ); // Character '%s' not found.
+		clif_displaymessage( fd, atcmd_output );
+		return -1;
+	}
+
+	switch( pc_ignorechat_add( sd, target_id, name ) ){
+		case IGNORECHAT_ADD_SELF:
+			clif_displaymessage( fd, msg_txt( sd, 1874 ) ); // You cannot ignore yourself.
+			return -1;
+
+		// Le contrôle vit dans pc_ignorechat_add() et non ici : il passe par la
+		// base, donc il vaut aussi pour un membre de l'équipe hors ligne.
+		case IGNORECHAT_ADD_PROTECTED:
+			clif_displaymessage( fd, msg_txt( sd, 1881 ) ); // You cannot ignore a member of the server staff.
+			return -1;
+
+		case IGNORECHAT_ADD_DUPLICATE:
+			sprintf( atcmd_output, msg_txt( sd, 1872 ), name ); // You are already ignoring '%s'.
+			clif_displaymessage( fd, atcmd_output );
+			return -1;
+
+		case IGNORECHAT_ADD_FULL:
+			sprintf( atcmd_output, msg_txt( sd, 1873 ), MAX_IGNORECHAT_LIST ); // Your ignore list is full (%d entries maximum).
+			clif_displaymessage( fd, atcmd_output );
+			return -1;
+
+		case IGNORECHAT_ADD_OK:
+			sprintf( atcmd_output, msg_txt( sd, 1871 ), name ); // '%s' is now ignored: you will no longer see any of their messages.
+			clif_displaymessage( fd, atcmd_output );
+			return 0;
+	}
+
+	return -1;
+}
+
+ACMD_FUNC(unignore)
+{
+	char name[NAME_LENGTH];
+
+	nullpo_retr(-1, sd);
+
+	if( !atcommand_ignore_parse( message, name ) ){
+		clif_displaymessage( fd, msg_txt( sd, 1876 ) ); // Usage: @unignore <character name>
+		return -1;
+	}
+
+	// N'importe lequel des personnages de la personne ignorée fait l'affaire,
+	// puisque tous mènent au même compte. L'échec de résolution n'est pas
+	// bloquant : pc_ignorechat_del() se rabat alors sur le libellé stocké, ce qui
+	// garde retirable une entrée dont le personnage a été supprimé entre-temps.
+	uint32 target_id = pc_ignorechat_name2userid( name );
+
+	if( !pc_ignorechat_del( sd, target_id, name ) ){
+		sprintf( atcmd_output, msg_txt( sd, 1878 ), name ); // You are not ignoring '%s'.
+		clif_displaymessage( fd, atcmd_output );
+		return -1;
+	}
+
+	sprintf( atcmd_output, msg_txt( sd, 1877 ), name ); // '%s' is no longer ignored.
+	clif_displaymessage( fd, atcmd_output );
+	return 0;
+}
+
+ACMD_FUNC(ignorelist)
+{
+	nullpo_retr(-1, sd);
+
+	int32 count = 0;
+
+	while( count < MAX_IGNORECHAT_LIST && sd->ignoreChats[count].user_id != 0 ){
+		count++;
+	}
+
+	if( count == 0 ){
+		clif_displaymessage( fd, msg_txt( sd, 1879 ) ); // You are not ignoring anyone.
+		return 0;
+	}
+
+	sprintf( atcmd_output, msg_txt( sd, 1880 ), count, MAX_IGNORECHAT_LIST ); // Ignored characters (%d/%d):
+	clif_displaymessage( fd, atcmd_output );
+
+	// Le libellé est le personnage principal de la personne visée ; ses autres
+	// personnages sont couverts par la même entrée. Vide = compte sans aucun
+	// personnage, on affiche son identifiant pour garder l'entrée identifiable.
+	for( int32 i = 0; i < count; i++ ){
+		if( sd->ignoreChats[i].name[0] != '\0' ){
+			sprintf( atcmd_output, " - %s", sd->ignoreChats[i].name );
+		}else{
+			sprintf( atcmd_output, " - #%u", sd->ignoreChats[i].user_id );
+		}
+
+		clif_displaymessage( fd, atcmd_output );
+	}
+
+	return 0;
+}
+
 #include <custom/atcommand.inc>
 
 /**
@@ -11935,6 +12090,9 @@ void atcommand_basecommands(void) {
 		ACMD_DEF(tonpc),
 		ACMD_DEF(commands),
 		ACMD_DEF(noask),
+		ACMD_DEF(ignore), // [Stingor]
+		ACMD_DEF(unignore), // [Stingor]
+		ACMD_DEF(ignorelist), // [Stingor]
 		ACMD_DEF(request),
 		ACMD_DEF(homlevel),
 		ACMD_DEF(homevolution),

@@ -1297,6 +1297,16 @@ int32 intif_parse_WisMessage(int32 fd)
 		return 0;
 	}
 	wisp_source = RFIFOCP(fd,12); // speed up [Yor]
+
+	// [Stingor] @ignore : masquage silencieux, on répond « succès » à l'émetteur.
+	// Le paquet inter-serveur ne transporte que le nom : on remonte au compte
+	// Moonlight par une requête, chemin froid puisque ce paquet n'existe qu'en
+	// configuration multi map-server.
+	if( pc_ignorechat( sd, pc_ignorechat_name2userid( wisp_source ) ) ){
+		intif_wis_reply(id, 0);
+		return 0;
+	}
+
 	for(i=0; i < MAX_IGNORE_LIST &&
 		sd->ignore[i].name[0] != '\0' &&
 		strcmp(sd->ignore[i].name, wisp_source) != 0

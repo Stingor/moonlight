@@ -421,8 +421,18 @@ static int32 clif_send_sub(block_list *bl, va_list ap)
 	nullpo_ret(src_bl = va_arg(ap,block_list*));
 	type = va_arg(ap,int32);
 
+	uint32 chat_speaker = va_arg(ap,uint32); // [Stingor] @ignore
+
 	if (sd && sd->sc.option & OPTION_WINGS ) // [Stingor]
 		clif_show_wings(sd);
+
+	// [Stingor] @ignore : ce destinataire a masqué tout le chat de l'émetteur.
+	// Placé après le rafraîchissement des ailes ci-dessus pour ne rien changer
+	// à ce comportement, et avant le switch qui n'a plus lieu d'être évalué.
+	if( chat_speaker != 0 && pc_ignorechat( sd, chat_speaker ) ){
+		return 0;
+	}
+
 	switch(type) {
 	case AREA_WOS:
 		if (bl == src_bl)
@@ -479,7 +489,7 @@ static int32 clif_send_sub(block_list *bl, va_list ap)
  * Packet Delegation (called on all packets that require data to be sent to more than one client)
  * functions that are sent solely to one use whose ID it posses use WFIFOSET
  *------------------------------------------*/
-int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_target type)
+int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_target type, uint32 chat_speaker)
 {
 	int32 i;
 	const map_session_data* sd, *tsd;
@@ -524,16 +534,16 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 	case AREA:
 	case AREA_WOSC:
 		if (sd && bl->prev == nullptr) //Otherwise source misses the packet.[Skotlex]
-			clif_send (buf, len, bl, SELF);
+			clif_send (buf, len, bl, SELF, chat_speaker);
 		[[fallthrough]];
 	case AREA_WOC:
 	case AREA_WOS:
 		map_foreachinallarea(clif_send_sub, bl->m, bl->x-AREA_SIZE, bl->y-AREA_SIZE, bl->x+AREA_SIZE, bl->y+AREA_SIZE,
-			BL_PC, buf, len, bl, type);
+			BL_PC, buf, len, bl, type, chat_speaker);
 		break;
 	case AREA_CHAT_WOC:
 		map_foreachinallarea(clif_send_sub, bl->m, bl->x-(AREA_SIZE-5), bl->y-(AREA_SIZE-5),
-			bl->x+(AREA_SIZE-5), bl->y+(AREA_SIZE-5), BL_PC, buf, len, bl, AREA_WOC);
+			bl->x+(AREA_SIZE-5), bl->y+(AREA_SIZE-5), BL_PC, buf, len, bl, AREA_WOC, chat_speaker);
 		break;
 
 	case CHAT:
@@ -549,6 +559,8 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 				break;
 			for(i = 0; i < cd->users; i++) {
 				if (type == CHAT_WOS && cd->usersd[i] == sd)
+					continue;
+				if( chat_speaker != 0 && pc_ignorechat( cd->usersd[i], chat_speaker ) ) // [Stingor] @ignore
 					continue;
 				if( session_isActive( fd = cd->usersd[i]->fd ) ){
 					WFIFOHEAD(fd,len);
@@ -594,6 +606,9 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 				if( type == PARTY_BUFF_INFO && !sd->state.spb )
 					continue;
 
+				if( chat_speaker != 0 && pc_ignorechat( sd, chat_speaker ) ) // [Stingor] @ignore
+					continue;
+
 				WFIFOHEAD(fd, len);
 				memcpy(WFIFOP(fd, 0), buf, len);
 				WFIFOSET(fd, len);
@@ -631,6 +646,9 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 		break;
 
 	case SELF:
+		if( chat_speaker != 0 && pc_ignorechat( sd, chat_speaker ) ) // [Stingor] @ignore
+			break;
+
 		if( clif_session_isValid(sd) ){
 			fd = sd->fd;
 			WFIFOHEAD(fd,len);
@@ -671,6 +689,9 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 					continue;
 
 				if( (type == GUILD_AREA || type == GUILD_AREA_WOS) && (sd->x < x0 || sd->y < y0 || sd->x > x1 || sd->y > y1) )
+					continue;
+
+				if( chat_speaker != 0 && pc_ignorechat( sd, chat_speaker ) ) // [Stingor] @ignore
 					continue;
 
 				WFIFOHEAD(fd,len);
@@ -714,6 +735,8 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 					continue;
 				if( (type == BG_AREA || type == BG_AREA_WOS) && (sd->x < x0 || sd->y < y0 || sd->x > x1 || sd->y > y1) )
 					continue;
+				if( chat_speaker != 0 && pc_ignorechat( sd, chat_speaker ) ) // [Stingor] @ignore
+					continue;
 				WFIFOHEAD(fd,len);
 				memcpy(WFIFOP(fd,0), buf, len);
 				WFIFOSET(fd,len);
@@ -726,6 +749,10 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 
 			for( i = 0; i < clan->max_member; i++ ){
 				if( ( sd = clan->members[i] ) == nullptr || !session_isActive( fd = sd->fd ) ){
+					continue;
+				}
+
+				if( chat_speaker != 0 && pc_ignorechat( sd, chat_speaker ) ){ // [Stingor] @ignore
 					continue;
 				}
 
@@ -9432,7 +9459,11 @@ void clif_GlobalMessage( const block_list& bl, const char* message, enum send_ta
 	safestrncpy( p->Message, message, len );
 	p->PacketLength += static_cast<decltype(p->PacketLength)>( len );
 
-	clif_send( p, p->PacketLength, &bl, target );
+	// [Stingor] @ignore : quand c'est un joueur qui parle, les destinataires qui
+	// l'ont mis en ignore ne reçoivent rien. Un PNJ n'est jamais filtré.
+	const map_session_data* speaker = BL_CAST( BL_PC, &bl );
+
+	clif_send( p, p->PacketLength, &bl, target, speaker != nullptr ? speaker->status.user_id : 0 );
 }
 
 
@@ -9462,7 +9493,7 @@ void clif_broadcast2(const block_list* bl, const char* mes, size_t len, unsigned
 /*
  * Display *msg to all *users in channel
  */
-void clif_channel_msg(struct Channel *channel, const char *msg, unsigned long color) {
+void clif_channel_msg(struct Channel *channel, const char *msg, unsigned long color, const map_session_data* speaker) {
 	DBIterator *iter;
 	map_session_data *user;
 	uint16 msg_len = 0, len = 0;
@@ -9486,7 +9517,8 @@ void clif_channel_msg(struct Channel *channel, const char *msg, unsigned long co
 
 	iter = db_iterator(channel->users);
 	for( user = (map_session_data *)dbi_first(iter); dbi_exists(iter); user = (map_session_data *)dbi_next(iter) ) {
-		clif_send(buf, len, user, SELF);
+		// [Stingor] @ignore : speaker nul = message système du channel, non filtrable
+		clif_send(buf, len, user, SELF, speaker != nullptr ? speaker->status.user_id : 0);
 	}
 	dbi_destroy(iter);
 }
@@ -10719,7 +10751,23 @@ void clif_party_message( const party_data& party, uint32 account_id, const char*
 	safestrncpy( p->chatMsg, mes, len );
 	p->PacketLength += static_cast<decltype(p->PacketLength)>( len );
 
-	clif_send( p, p->PacketLength, sd, PARTY );
+	// [Stingor] @ignore : le paquet ne porte que l'AID, on remonte au compte
+	// Moonlight de l'émetteur pour filtrer les membres qui l'ont mis en ignore.
+	// La party ne mémorise pas le user_id de ses membres : il n'est lisible que
+	// sur une session ouverte ici, donc un émetteur hébergé par un autre
+	// map-server passe au travers (sans objet en mono map-server).
+	uint32 speaker = 0;
+
+	if( account_id != 0 ){
+		for( int32 i = 0; i < MAX_PARTY; i++ ){
+			if( party.party.member[i].account_id == account_id && party.data[i].sd != nullptr ){
+				speaker = party.data[i].sd->status.user_id;
+				break;
+			}
+		}
+	}
+
+	clif_send( p, p->PacketLength, sd, PARTY, speaker );
 }
 
 
@@ -11916,7 +11964,7 @@ static void clif_guild_expulsionlist( const map_session_data& sd ){
 
 /// Guild chat message 
 /// 017f <packet len>.W <message>.?B (ZC_GUILD_CHAT)
-void clif_guild_message( const struct mmo_guild& g, const char* mes, size_t len ){
+void clif_guild_message( const struct mmo_guild& g, const char* mes, size_t len, uint32 chat_speaker ){
 	PACKET_ZC_GUILD_CHAT *p = reinterpret_cast<PACKET_ZC_GUILD_CHAT*>( packet_buffer );
 	// -1 for null terminator
 	static const size_t max_len = CHAT_SIZE_MAX - sizeof( *p ) - 1;
@@ -11939,7 +11987,7 @@ void clif_guild_message( const struct mmo_guild& g, const char* mes, size_t len 
 	safestrncpy(p->message, mes, len+1);
 	p->packetLength += static_cast<decltype(p->packetLength)>( len + 1 );
 
-	clif_send(p, p->packetLength, sd, GUILD_NOBG);
+	clif_send(p, p->packetLength, sd, GUILD_NOBG, chat_speaker); // [Stingor] @ignore
 }
 
 /// Request for guild alliance 
@@ -12849,7 +12897,9 @@ void clif_disp_overhead_( const block_list* bl, const char* mes, enum send_targe
 		WBUFW(buf,2) = len_mes + 8; // len of message + 8 (command+len+id)
 		WBUFL(buf,4) = bl->id;
 		safestrncpy(WBUFCP(buf,8), mes, len_mes);
-		clif_send(buf, WBUFW(buf,2), bl, AREA_CHAT_WOC);
+		// [Stingor] @ignore : couvre aussi @me et unittalk émis par un joueur
+		const map_session_data* speaker = BL_CAST( BL_PC, bl );
+		clif_send(buf, WBUFW(buf,2), bl, AREA_CHAT_WOC, speaker != nullptr ? speaker->status.user_id : 0);
 	}
 
 	// send back message to the speaker
@@ -14801,6 +14851,12 @@ void clif_parse_WisMessage(int32 fd, map_session_data* sd)
 		ARR_FIND(0, MAX_IGNORE_LIST, i, dstsd->ignore[i].name[0] == '\0' || strcmp(dstsd->ignore[i].name, sd->status.name) == 0);
 		if(i < MAX_IGNORE_LIST && dstsd->ignore[i].name[0] != '\0') { // source char present in ignore list
 			clif_wis_end( *sd, ACKWHISPER_IGNORED );
+			return;
+		}
+
+		// [Stingor] @ignore : masquage silencieux, l'émetteur croit avoir réussi
+		if( pc_ignorechat( dstsd, sd->status.user_id ) ){
+			clif_wis_end( *sd, ACKWHISPER_SUCCESS );
 			return;
 		}
 	}
@@ -21464,7 +21520,11 @@ void clif_bg_message( const s_battleground_data* bg, int32 src_id, const char *n
 	safestrncpy(WBUFCP(buf,8), name, NAME_LENGTH);
 	safestrncpy(WBUFCP(buf,8+NAME_LENGTH), mes, len );
 
-	clif_send(buf,WBUFW(buf,2), sd, BG);
+	// [Stingor] @ignore : src_id est l'id de bloc de l'émetteur (nul pour les
+	// messages système du BG, qui ne doivent jamais être filtrés)
+	const map_session_data* speaker = src_id != 0 ? map_id2sd( src_id ) : nullptr;
+
+	clif_send(buf,WBUFW(buf,2), sd, BG, speaker != nullptr ? speaker->status.user_id : 0);
 }
 
 /// Validates and processes battlechat messages.
@@ -23606,7 +23666,7 @@ void clif_party_leaderchanged( const map_session_data* sd, int32 prev_leader_aid
 * Sends a clan message to a player
 * 098e <length>.W <name>.24B <message>.?B (ZC_NOTIFY_CLAN_CHAT)
 **/
-void clif_clan_message( const clan& clan, const char *mes, size_t len ){
+void clif_clan_message( const clan& clan, const char *mes, size_t len, uint32 chat_speaker ){
 #if PACKETVER >= 20131223
 	const map_session_data* sd = clan_getavailablesd( clan );
 
@@ -23634,7 +23694,7 @@ void clif_clan_message( const clan& clan, const char *mes, size_t len ){
 	safestrncpy( p->Message, mes, len + 1 );
 	p->PacketLength += static_cast<decltype(p->PacketLength)>( len + 1 );
 
-	clif_send( p, p->PacketLength, sd, CLAN );
+	clif_send( p, p->PacketLength, sd, CLAN, chat_speaker ); // [Stingor] @ignore
 #endif
 }
 

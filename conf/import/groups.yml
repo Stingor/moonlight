@@ -81,6 +81,9 @@ Body:
       noask: true
       idsearch: true
       noks: true
+      ignore: true
+      unignore: true
+      ignorelist: true
       stats: true
       storagealt1: true
       storagealt2: true

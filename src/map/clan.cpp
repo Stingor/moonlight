@@ -209,7 +209,11 @@ void clan_recv_message( int32 clan_id, uint32 account_id, const char *mes, size_
 		return;
 	}
 
-	clif_clan_message( *clan, mes, len );
+	// [Stingor] @ignore : le clan ne conserve pas la liste de ses membres hors
+	// ligne, on ne peut résoudre l'émetteur que s'il est sur ce map-server.
+	const map_session_data* ssd = map_id2sd( account_id );
+
+	clif_clan_message( *clan, mes, len, ssd != nullptr ? ssd->status.user_id : 0 );
 }
 
 void clan_send_message( map_session_data& sd, const char *mes, size_t len ){

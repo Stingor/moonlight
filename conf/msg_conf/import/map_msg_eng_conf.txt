@@ -1771,3 +1771,17 @@
 
 1900: Le #gonryun du Discord est maintenant intégré au chat de la map Gonryun
 1901: Vous ne communiquez plus et ne voyez plus les messages du #gonryun de la map Gonryun
+
+// @ignore / @unignore / @ignorelist [Stingor]
+1870: Utilisation : @ignore <nom du personnage>
+1871: « %s » est maintenant ignoré : vous ne verrez plus rien de ce que dit cette personne, sur aucun de ses personnages.
+1872: Vous ignorez déjà cette personne (« %s » est l'un de ses personnages).
+1873: Votre liste d'ignore est pleine (%d entrées au maximum).
+1874: Vous ne pouvez pas vous ignorer vous-même.
+1875: Personnage « %s » introuvable.
+1876: Utilisation : @unignore <nom du personnage>
+1877: Cette personne n'est plus ignorée (« %s »).
+1878: Vous n'ignorez pas cette personne (« %s »).
+1879: Vous n'ignorez personne.
+1880: Personnes ignorées (%d/%d) :
+1881: Vous ne pouvez pas ignorer un membre de l'équipe du serveur.

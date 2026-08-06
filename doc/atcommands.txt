@@ -105,6 +105,39 @@ Toggles automatic rejection of deals and invites.
 
 ---------------------------------------
 
+@ignore <character name>
+@unignore <character name>
+@ignorelist
+
+Hides every chat message coming from the target: area chat, chat rooms,
+whispers, party, guild, clan, battleground, channels and overhead text. Unlike
+/ex (which only blocks whispers), this only affects what YOU see - the ignored
+player is never told about it, and their whispers are silently dropped with a
+fake success acknowledgement.
+
+The relation is stored between Moonlight accounts (login.user_id), not between
+characters: naming any character of the target ignores the person as a whole, so
+a rename, another character or a second game account cannot get around it. The
+list follows you across all of your own characters and game accounts as well.
+
+@ignore adds someone to the list, @unignore removes them, @ignorelist shows the
+current list. No name is stored: entries are labelled with the target's highest
+level character, looked up again on every login, so the label never goes stale.
+The list holds up to 30 entries, lives in the `user_ignore` SQL table and
+survives logout.
+
+Server staff cannot be ignored: any account belonging to a group whose level is
+above 0 is rejected, and the check runs against the database, so it applies to
+offline staff too. Should a target be promoted after being ignored, the stale
+entry is dropped on the next login. The administration account (see
+IGNORECHAT_IMMUNE_USER_ID in pc.hpp) is additionally screened inside the filter
+itself, so no leftover or hand-inserted row can ever silence it.
+
+Output Example:
+'Moonlight' is now ignored: you will no longer see any of their messages.
+
+---------------------------------------
+
 @noks
 
 Toggles Kill Steal Protection.
