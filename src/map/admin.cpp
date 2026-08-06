@@ -6,6 +6,7 @@
 #include <fstream>
 #include <new>
 #include <string>
+#include <vector>
 
 #include "../common/malloc.hpp"
 #include "../common/md5calc.hpp"
@@ -57,12 +58,73 @@
 #define ADMIN_DEFAULT_SECRET "CHANGE-ME-please"
 #define ADMIN_DEFAULT_NAME "Admin Console" // display name used by e.g. @broadcast
 #define ADMIN_LINE_MAX 4096               // anti-flood: drop a line longer than this
+#define ADMIN_MAX_AUTH_FAILS 5            // close the session after this many bad AUTH
 
 static bool   admin_enable     = true;
-static uint32 admin_bind_ip    = 0;       // 0 = INADDR_ANY = all interfaces (LAN)
+static uint32 admin_bind_ip    = 0;       // 0 = INADDR_ANY = every interface, public ones included
 static uint16 admin_port       = 7799;
 static char   admin_secret[256] = ADMIN_DEFAULT_SECRET;
 static bool   admin_secret_md5 = false;   // if true, admin_secret holds an MD5 hash
+
+/// One admin_allow entry: a network the channel accepts connections from.
+/// Both fields are in host byte order, like session[fd]->client_addr and the
+/// value str2ip() returns, so a match is a plain mask-and-compare.
+struct s_admin_allow {
+	uint32 net;   // network address, already masked
+	uint32 mask;  // netmask
+};
+
+/// Networks allowed to reach the channel. EMPTY MEANS ACCEPT EVERYONE: an
+/// existing conf without admin_allow keeps working exactly as before, and
+/// do_init_admin() warns when that combines with a wide-open bind.
+static std::vector<s_admin_allow> admin_allow;
+
+/// True when ip (host byte order) matches at least one allow-list entry.
+static bool admin_ip_allowed( uint32 ip ){
+	for( const s_admin_allow& a : admin_allow ){
+		if( ( ip & a.mask ) == a.net ){
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/// Parse one admin_allow value and append it. Accepted forms:
+///   192.168.1.20            single host
+///   192.168.1.0/24          prefix length
+///   192.168.1.0/255.255.255.0   dotted netmask (same spelling packet_athena.conf uses)
+static void admin_allow_add( const char* spec ){
+	char ip_s[64] = {}, mask_s[64] = {};
+	uint32 mask;
+
+	if( sscanf( spec, "%63[^/]/%63s", ip_s, mask_s ) == 2 ){
+		if( strchr( mask_s, '.' ) != nullptr ){
+			mask = str2ip( mask_s );
+		}else{
+			const int32 bits = atoi( mask_s );
+
+			if( bits <= 0 ){
+				mask = 0;
+			}else if( bits >= 32 ){
+				mask = 0xFFFFFFFFu;
+			}else{
+				mask = 0xFFFFFFFFu << ( 32 - bits );
+			}
+		}
+	}else{
+		mask = 0xFFFFFFFFu; // bare address = one host
+	}
+
+	const uint32 ip = str2ip( ip_s );
+
+	if( ip == 0xFFFFFFFFu ){ // what str2ip returns on a malformed address
+		ShowWarning( "Admin channel: ignoring invalid admin_allow entry '%s'.\n", spec );
+		return;
+	}
+
+	admin_allow.push_back( { ip & mask, mask } );
+}
 
 // connect_client() is the generic accept handler in common/socket.cpp. It is
 // not declared in socket.hpp, so we forward-declare it here to reuse it.
@@ -72,9 +134,10 @@ static int32 admin_listen_fd = -1;
 static map_session_data* admin_dummy = nullptr; // virtual GM used to run atcommands
 
 struct s_admin_session {
-	bool authed;
-	bool log_subscribed;            // receives the server console feed (LOG ON)
-	char display_name[NAME_LENGTH];
+	bool  authed;
+	bool  log_subscribed;           // receives the server console feed (LOG ON)
+	uint8 auth_fails;               // bad AUTH attempts so far on this connection
+	char  display_name[NAME_LENGTH];
 };
 
 // --- atcommand output capture ---------------------------------------------
@@ -130,10 +193,23 @@ static void admin_exec( int32 fd, const std::string& line ){
 
 		if( match ){
 			asd->authed = true;
+			asd->auth_fails = 0;
 			admin_reply( fd, "OK authenticated" );
-		}else{
-			ShowWarning( "Admin channel: failed AUTH on session #%d.\n", fd );
-			admin_reply( fd, "ERR bad secret" );
+			return;
+		}
+
+		// The secret is the only thing between the network and ATCMD, so a
+		// connection does not get to sit there trying candidates: drop it after
+		// a handful of misses and make the attempt visible in the console.
+		asd->auth_fails++;
+		ShowWarning( "Admin channel: failed AUTH on session #%d from %s (%d/%d).\n",
+			fd, ip2str( session[fd]->client_addr, nullptr ),
+			(int32)asd->auth_fails, ADMIN_MAX_AUTH_FAILS );
+		admin_reply( fd, "ERR bad secret" );
+
+		if( asd->auth_fails >= ADMIN_MAX_AUTH_FAILS ){
+			admin_reply( fd, "ERR too many failed attempts" );
+			set_eof( fd );
 		}
 		return;
 	}
@@ -380,11 +456,22 @@ static int32 admin_parse( int32 fd ){
 static int32 admin_connect( int32 listen_fd ){
 	int32 fd = connect_client( listen_fd );
 
+	// Address check first, before any session state exists: an unlisted peer
+	// never gets to send a byte, so it cannot brute force AUTH nor hold a
+	// connection open (these sockets carry flag.server, so they never time out).
+	if( fd > 0 && !admin_allow.empty() && !admin_ip_allowed( session[fd]->client_addr ) ){
+		ShowWarning( "Admin channel: rejected connection from %s (not in admin_allow).\n",
+			ip2str( session[fd]->client_addr, nullptr ) );
+		do_close( fd );
+		return -1;
+	}
+
 	if( fd > 0 ){
 		s_admin_session* asd;
 		CREATE( asd, s_admin_session, 1 );
 		asd->authed = false;
 		asd->log_subscribed = false;
+		asd->auth_fails = 0;
 		safestrncpy( asd->display_name, ADMIN_DEFAULT_NAME, sizeof( asd->display_name ) );
 
 		session[fd]->func_parse = admin_parse;
@@ -468,6 +555,8 @@ static void admin_config_read( const char* cfgName ){
 			admin_enable = config_switch( w2 ) != 0;
 		else if( strcmpi( w1, "admin_bind_ip" ) == 0 )
 			admin_bind_ip = str2ip( w2 );
+		else if( strcmpi( w1, "admin_allow" ) == 0 )
+			admin_allow_add( w2 ); // cumulative: repeat the key for several networks
 		else if( strcmpi( w1, "admin_port" ) == 0 )
 			admin_port = (uint16)atoi( w2 );
 		else if( strcmpi( w1, "admin_secret" ) == 0 )
@@ -484,6 +573,7 @@ static void admin_config_read( const char* cfgName ){
 }
 
 void do_init_admin( void ){
+	admin_allow.clear(); // admin_config_read() only ever appends (it recurses into imports)
 	admin_config_read( ADMIN_CONF_PATH );
 
 	if( !admin_enable ){
@@ -496,6 +586,10 @@ void do_init_admin( void ){
 	}
 	if( admin_secret_md5 && strlen( admin_secret ) != 32 ){
 		ShowWarning( "Admin channel: admin_secret_md5 is enabled but admin_secret is not a 32-char MD5 hash.\n" );
+	}
+	if( admin_allow.empty() && admin_bind_ip == 0 ){
+		ShowWarning( "Admin channel: bound to every interface with no admin_allow - anyone who can reach port %d may attempt AUTH. Set admin_allow (and/or admin_bind_ip) in %s.\n",
+			admin_port, ADMIN_CONF_PATH );
 	}
 
 	// Virtual GM character: group 99 = full privileges, fd 0 = no client output.
