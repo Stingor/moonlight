@@ -1812,6 +1812,100 @@ def _discord_post(player: str, message: str, response: str):
             print(f"[Discord] ERREUR : {e}", file=sys.stderr)
     threading.Thread(target=_send, daemon=True).start()
 
+# ── Emotes du jeu -> emojis custom Discord ──────────────────────────────────
+#
+# Le sélecteur d'emotes de Bourgeon écrit « :best: » dans le chat : la forme
+# lisible, celle que voit aussi un joueur sans le client modifié. Discord, lui,
+# n'affiche une image que pour « <:best:123456> ». On traduit donc au passage.
+#
+# 🔴 AUCUNE TABLE EN DUR, et aucune configuration de plus. Les emojis du serveur
+# Discord sont LUS via l'API : ajouter une emote se fait dans Discord, et le
+# relais la reprend au rafraîchissement suivant sans qu'on touche à ce fichier.
+# Un nom inconnu reste tel quel — « :best: » se lit très bien.
+#
+# Le serveur (guild) est DÉDUIT du channel déjà scruté, pas demandé : une
+# variable d'environnement de plus serait une occasion de plus de se tromper.
+DISCORD_EMOJI_REFRESH_SEC = 300.0
+
+# L'alternance compte : la forme DÉJÀ complète est consommée en premier et
+# ressort intacte. Sans elle, « <:best:1> » verrait son « :best: » intérieur
+# remplacé, ce qui produirait « <<:best:2>1> ».
+_EMOJI_RE = re.compile(r"<a?:[A-Za-z0-9_]+:\d+>|:([a-z0-9_]{2,32}):")
+
+_emoji_map        = {}    # nom minuscule -> « <:nom:id> » prêt à coller
+_emoji_guild_id   = ""
+_emoji_last_fetch = 0.0
+
+
+def _discord_api_get(path):
+    """GET authentifié sur l'API Discord. None en cas d'échec (jamais fatal)."""
+    if not DISCORD_BOT_TOKEN:
+        return None
+    try:
+        req = urllib.request.Request(
+            f"https://discord.com/api/v10{path}",
+            headers={
+                "Authorization": f"Bot {DISCORD_BOT_TOKEN}",
+                "User-Agent": "curl/7.88.1",
+            },
+        )
+        with urllib.request.urlopen(req, timeout=5, context=SSL_CTX) as r:
+            return json.loads(r.read().decode("utf-8"))
+    except Exception as e:
+        print(f"[Discord] GET {path} ERREUR : {e}", file=sys.stderr)
+        return None
+
+
+def _discord_guild_id():
+    """L'identifiant du serveur qui héberge le channel scruté. Résolu une fois."""
+    global _emoji_guild_id
+    if _emoji_guild_id or not DISCORD_READ_CHANNEL:
+        return _emoji_guild_id
+    data = _discord_api_get(f"/channels/{DISCORD_READ_CHANNEL}")
+    if data:
+        _emoji_guild_id = str(data.get("guild_id", "") or "")
+    return _emoji_guild_id
+
+
+def _emoji_refresh():
+    """Recharge la table des emojis custom, au plus une fois par intervalle."""
+    global _emoji_map, _emoji_last_fetch
+    if time.time() - _emoji_last_fetch < DISCORD_EMOJI_REFRESH_SEC:
+        return
+    _emoji_last_fetch = time.time()
+    guild_id = _discord_guild_id()
+    if not guild_id:
+        return
+    data = _discord_api_get(f"/guilds/{guild_id}/emojis")
+    if data is None:
+        return  # échec réseau : on GARDE la table précédente
+    table = {}
+    for emoji in data:
+        name     = emoji.get("name")
+        emoji_id = emoji.get("id")
+        if not name or not emoji_id:
+            continue
+        prefix = "a" if emoji.get("animated") else ""
+        table[name.lower()] = f"<{prefix}:{name}:{emoji_id}>"
+    _emoji_map = table
+
+
+def replace_game_emotes(text):
+    """« :best: » -> « <:best:123> » pour les emojis que ce serveur possède."""
+    if not text:
+        return text
+    _emoji_refresh()
+    if not _emoji_map:
+        return text
+
+    def _sub(m):
+        if m.group(1) is None:
+            return m.group(0)  # déjà une référence complète
+        return _emoji_map.get(m.group(1).lower(), m.group(0))
+
+    return _EMOJI_RE.sub(_sub, text)
+
+
 def _discord_outbound_poll(conn):
     """Lit discord_outbound et poste les messages des joueurs sur le webhook Discord."""
     global _discord_outbound_last_post
@@ -1861,7 +1955,10 @@ def _discord_outbound_poll(conn):
             try:
                 wp = {
                     "username": player,
-                    "content":  replace_chat_links(message[:2000]),
+                    # Les emotes du jeu (« :best: ») deviennent les emojis custom
+                    # du serveur Discord quand celui-ci les possède ; sinon elles
+                    # passent en clair, ce qui reste lisible.
+                    "content":  replace_game_emotes(replace_chat_links(message[:2000])),
                 }
                 if char_id:
                     # CacheAvatarDiscord = variante carrée 128x128 du sprite (le PNG
@@ -2157,6 +2254,17 @@ def main():
         print(f"Discord poll    : activé (channel {DISCORD_READ_CHANNEL}, toutes les {DISCORD_POLL_SEC}s)")
     else:
         print("Discord poll    : DÉSACTIVÉ (DISCORD_BOT_TOKEN / DISCORD_READ_CHANNEL absents)")
+    # Les emotes ne sont pas configurées : elles sont DÉCOUVERTES. On le dit au
+    # démarrage parce qu'une table vide n'a pas de symptôme visible côté joueur —
+    # « :best: » part en clair et personne ne saurait dire pourquoi.
+    if DISCORD_BOT_TOKEN and DISCORD_READ_CHANNEL:
+        _emoji_refresh()
+        if _emoji_map:
+            print(f"Discord emotes  : {len(_emoji_map)} emojis custom trouvés "
+                  f"(guild {_discord_guild_id()})")
+        else:
+            print("Discord emotes  : aucun emoji custom sur ce serveur — "
+                  "les « :nom: » partiront en clair")
     if DISCORD_BUGREPORT_WEBHOOK:
         print(f"Discord bug-rep : canal dédié activé ({DISCORD_BUGREPORT_WEBHOOK[:40]}…)")
     else:
