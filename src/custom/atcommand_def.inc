@@ -49,3 +49,6 @@
 	ACMD_DEF(tri_cart),
 	ACMD_DEF(tri_storage),
 	ACMD_DEF(tri_gstorage),
+	ACMD_DEF(ignore),
+	ACMD_DEF(unignore),
+	ACMD_DEF(ignorelist),
