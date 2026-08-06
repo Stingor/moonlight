@@ -7097,14 +7097,20 @@ void clif_parse_bourgeon_reqdamage(int32 fd, map_session_data* sd) {
 	r->hits     = 0;
 	r->dmg_min  = r->dmg_max = r->dmg_avg = 0;
 
-	// Sort non offensif -> pas de dégâts à estimer.
-	if (skill_id == 0 || skill_get_nk(skill_id, NK_NODAMAGE)) {
+	// Sort non offensif -> pas de dégâts à estimer. On teste aussi le type
+	// d'attaque : les sorts passifs / de guilde (GD_*) n'ont NI Type NI le flag
+	// NoDamage en db, donc skill_get_type() renvoie BF_NONE (0) et
+	// battle_calc_attack() hurlerait « unknown attack type! 0 » kSamples fois.
+	// (skdb nul = sort inconnu : on ne passe pas l'id aux skill_get_*, qui
+	//  logueraient « skill_get_index: Invalid skill id ».)
+	const int32 atk_type = (skdb != nullptr) ? skill_get_type(skill_id) : 0;
+	if (skdb == nullptr || skill_get_nk(skill_id, NK_NODAMAGE) ||
+		(atk_type != BF_WEAPON && atk_type != BF_MAGIC && atk_type != BF_MISC)) {
 		r->status = 1;
 		WFIFOSET(fd, sizeof(PACKET_ZC_BOURGEON_DAMAGE));
 		return;
 	}
 
-	const int32 atk_type = skill_get_type(skill_id);  // BF_WEAPON/MAGIC/MISC
 	r->atk_type = static_cast<uint8>(atk_type & 0xFF);
 
 	// Cible = block_list visé :
