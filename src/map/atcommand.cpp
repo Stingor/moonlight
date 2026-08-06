@@ -1674,7 +1674,8 @@ ACMD_FUNC(itemreset)
 	for (i = 0; i < MAX_INVENTORY; i++) {
 		if (sd->inventory.u.items_inventory[i].amount
 		 && sd->inventory.u.items_inventory[i].equip == 0
-		 && !sd->inventory.u.items_inventory[i].favorite) { // [Stingor]
+		 && !sd->inventory.u.items_inventory[i].favorite // [Stingor]
+		 && !itemdb_ishatched_egg(&sd->inventory.u.items_inventory[i])) { // [Stingor] l'oeuf eclos porte le pet sorti : le supprimer laisse un pet orphelin que pet_return_egg ne sait plus ranger (echec SILENCIEUX). Meme garde que dropall/storeall.
 			pc_delitem(sd, i, sd->inventory.u.items_inventory[i].amount, 0, 0, LOG_TYPE_COMMAND);
 		}
 	}

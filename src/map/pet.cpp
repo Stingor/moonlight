@@ -644,15 +644,21 @@ void pet_set_intimate(pet_data *pd, int32 value)
 
 	map_session_data *sd = pd->master;
 
-	int32 index = pet_egg_search( sd, pd->pet.pet_id );
+	// [Stingor] sd peut etre nullptr (cf. le "if (sd)" plus bas) et pet_egg_search() deREFERENCE sd sans garde ;
+	// l'oeuf peut aussi manquer de l'inventaire (pet orphelin : oeuf detruit par un @itemreset d'avant le correctif),
+	// auquel cas index vaut -1 et la branche "else" ecrivait dans items_inventory[-1] -- ECRITURE HORS BORNES,
+	// declenchee a chaque tick de faim. pc_delitem(), lui, se protege deja de n < 0.
+	int32 index = ( sd != nullptr ) ? pet_egg_search( sd, pd->pet.pet_id ) : -1;
 
-	if( pd->pet.intimate <= PET_INTIMATE_NONE ){
-		pc_delitem( sd, index, 1, 0, 0, LOG_TYPE_OTHER );
-	}else{
-		// Remove everything except the rename flag
-		sd->inventory.u.items_inventory[index].card[3] &= 1;
+	if( index >= 0 ){
+		if( pd->pet.intimate <= PET_INTIMATE_NONE ){
+			pc_delitem( sd, index, 1, 0, 0, LOG_TYPE_OTHER );
+		}else{
+			// Remove everything except the rename flag
+			sd->inventory.u.items_inventory[index].card[3] &= 1;
 
-		sd->inventory.u.items_inventory[index].card[3] |= pet_get_card3_intimacy( pd->pet.intimate );
+			sd->inventory.u.items_inventory[index].card[3] |= pet_get_card3_intimacy( pd->pet.intimate );
+		}
 	}
 
 	if (sd)
@@ -2273,7 +2279,16 @@ void pet_evolution(map_session_data *sd, int16 pet_id) {
 	}
 
 	if (sd->pd->pet.equip) {
+		// [Stingor] Ce cas et celui juste au-dessus (intimite < LOYAL) renvoyaient TOUS DEUX
+		// FAIL_RG_FAMILIAR, que le client rend par son message 2576 -- lequel parle d'intimite.
+		// Le joueur dont le familier porte un accessoire lisait donc une raison fausse.
+		// On ne peut pas corriger par un code dedie : le handler client de ZC_PET_EVOLUTION_RESULT
+		// (0x09FC) ne traite que 0..5 (-> messages 2571..2576), ignore 6 (SUCCESS), et traite 7 comme
+		// une REINITIALISATION des globals du pet. Son libelle MSI_PET_EVOLUTION_FAIL_PET_ACC_OFF
+		// existe mais porte l'index 2607, hors de la plage atteignable. Cf. docs/pet_re.md (Bourgeon) §7.3.
+		// On garde donc le code protocolaire et on ajoute un texte libre qui dit la vraie raison.
 		clif_pet_evolution_result(sd, e_pet_evolution_result::FAIL_RG_FAMILIAR);
+		clif_displaymessage(sd->fd, msg_txt(sd, 1882)); // Your pet must remove its accessory before it can evolve.
 		return;
 	}
 
