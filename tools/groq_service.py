@@ -1890,20 +1890,95 @@ def _emoji_refresh():
     _emoji_map = table
 
 
+# ── Repli : le GIF hébergé, pour ce que les emojis custom ne couvrent pas ────
+#
+# Mesuré en jeu : un webhook qui poste l'URL d'un GIF fait afficher l'image par
+# Discord, et quand le message ne contient QUE ce lien, Discord efface l'URL du
+# texte pour ne laisser que l'aperçu. Le rendu est alors celui d'une image nue,
+# sans rien autour — très proche d'un gros emoji.
+#
+# Ce n'est pourtant pas un emoji : c'est un embed, donc un bloc SOUS la ligne. La
+# différence ne se voit pas sur un message d'une seule emote, elle se voit dès
+# qu'il y a du texte autour — « coucou :best: ! » afficherait la phrase, puis
+# l'image détachée du mot qu'elle illustre, URL comprise cette fois (l'effacement
+# ne joue que si le lien est TOUT le message).
+#
+# D'où la règle : embed seulement si le message ne contient QUE des emotes. Sinon
+# on garde le texte, qui reste lisible.
+#
+# 🔴 L'ORDRE COMPTE. L'emoji custom passe d'abord : lui s'affiche INLINE, donc il
+# marche dans une phrase là où le lien ne marche pas. Le lien ne ramasse que ce
+# qui n'a pas d'emoji — la longue traîne, celle qui ne tient pas dans le quota de
+# 50 slots.
+DISCORD_EMOTE_URL = os.environ.get(
+    "DISCORD_EMOTE_URL", "https://moonlight-destiny.fr/images/smilies/{name}.gif")
+
+# 🔴 UNE seule, et c'est délibéré : l'effacement de l'URL par Discord n'a été
+# VÉRIFIÉ que sur un message réduit à un lien unique. Avec deux liens, le message
+# n'est plus « juste une URL » et le texte a toutes les chances de rester affiché
+# — on rendrait alors deux adresses en clair pour montrer deux images.
+#
+# Pour monter ce plafond, vérifier d'abord :
+#     INSERT INTO `discord_outbound` (`player`,`message`) VALUES
+#       ('test', 'https://…/a.gif https://…/b.gif');
+# Si les deux URL disparaissent au profit des deux aperçus, 2 ou 3 sont sûrs.
+DISCORD_EMOTE_URL_MAX = 1
+
+_emote_url_seen = {}  # nom -> le fichier existe-t-il ?
+
+
+def _emote_gif_exists(name):
+    """Le GIF est-il en ligne ? Mémorisé : une seule requête par nom et par vie
+    du service. Une panne réseau répond OUI — mieux vaut tenter l'embed que
+    montrer « :best: » alors que le fichier est là."""
+    if name in _emote_url_seen:
+        return _emote_url_seen[name]
+    url = DISCORD_EMOTE_URL.format(name=name)
+    ok = True
+    try:
+        req = urllib.request.Request(url, method="HEAD",
+                                     headers={"User-Agent": "curl/7.88.1"})
+        with urllib.request.urlopen(req, timeout=3, context=SSL_CTX) as r:
+            ok = (200 <= r.status < 300)
+    except urllib.error.HTTPError as e:
+        ok = False  # 404 : le fichier n'a pas été téléversé
+        print(f"[Discord] emote « {name} » absente ({e.code}) : {url}", file=sys.stderr)
+    except Exception:
+        ok = True   # réseau : on ne conclut rien contre le fichier
+    _emote_url_seen[name] = ok
+    return ok
+
+
 def replace_game_emotes(text):
-    """« :best: » -> « <:best:123> » pour les emojis que ce serveur possède."""
+    """« :best: » -> emoji custom si le serveur en a un, sinon lien vers le GIF
+    quand le message ne contient QUE des emotes."""
     if not text:
         return text
     _emoji_refresh()
-    if not _emoji_map:
+
+    if _emoji_map:
+        def _sub(m):
+            if m.group(1) is None:
+                return m.group(0)  # déjà une référence complète
+            return _emoji_map.get(m.group(1).lower(), m.group(0))
+        text = _EMOJI_RE.sub(_sub, text)
+
+    if not DISCORD_EMOTE_URL:
         return text
 
-    def _sub(m):
-        if m.group(1) is None:
-            return m.group(0)  # déjà une référence complète
-        return _emoji_map.get(m.group(1).lower(), m.group(0))
-
-    return _EMOJI_RE.sub(_sub, text)
+    # Ce qu'il reste : uniquement des « :nom: » séparés par des espaces ?
+    # `fullmatch` est le garde-fou — un seul mot en plus et on renonce.
+    stripped = text.strip()
+    if not re.fullmatch(r"(?::[a-z0-9_]{2,32}:\s*)+", stripped):
+        return text
+    names = re.findall(r":([a-z0-9_]{2,32}):", stripped)
+    if not (1 <= len(names) <= DISCORD_EMOTE_URL_MAX):
+        return text
+    urls = [DISCORD_EMOTE_URL.format(name=n) for n in names
+            if _emote_gif_exists(n)]
+    if len(urls) != len(names):
+        return text  # une seule manquante : on n'affiche pas un message bancal
+    return " ".join(urls)
 
 
 def _discord_outbound_poll(conn):
