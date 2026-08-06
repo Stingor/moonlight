@@ -9709,7 +9709,18 @@ void clif_wis_message( const map_session_data* sd, const char* nick, const char*
 		gmlvl = pc_get_group_level(ssd);
 	}
 
-	p->isAdmin = (gmlvl == 99) ? 1 : 0;
+	// [Bourgeon] Marqueur « GM » sur un chuchotement du staff.
+	//
+	// rAthena ne levait ce drapeau qu'au niveau 99 EXACTEMENT : un GM de niveau
+	// 999 arrivait donc chez le destinataire comme un joueur ordinaire, et le
+	// client n'avait aucun moyen de le distinguer. On reprend le seuil de staff
+	// déjà employé partout ailleurs dans ce fichier (>= 80).
+	//
+	// ⚠ Le client BASCULE la ligne en type 0x19 (broadcast) au lieu de 2 dès que
+	// ce champ est non nul (sub_CAFD00, 0x00cb0ade sur le 20250716) : elle échappe
+	// alors au filtre « Whisper » des onglets. Le chat de Bourgeon le rattrape et
+	// lui rend son type ; le chat natif, lui, l'affichera partout.
+	p->isAdmin = (gmlvl >= 80) ? 1 : 0;
 
 #if PACKETVER_MAIN_NUM >= 20131204 || PACKETVER_RE_NUM >= 20131120 || defined(PACKETVER_ZERO)
 	if( ssd != nullptr ){
