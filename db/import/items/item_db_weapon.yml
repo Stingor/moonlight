@@ -11872,6 +11872,7 @@ Body:
     Range: 11
     Jobs:
       Thief: true
+      Rogue: true
     Locations:
       Both_Hand: true
     WeaponLevel: 4
