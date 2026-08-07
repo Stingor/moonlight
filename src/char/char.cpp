@@ -429,7 +429,17 @@ int32 char_mmo_char_tosql(uint32 char_id, struct mmo_charstatus* p){
 		StringBuf_Printf(&buf, "INSERT INTO `%s`(`char_id`,`id`,`lv`,`flag`) VALUES ", schema_config.skill_db);
 		//insert here.
 		for( i = 0, count = 0; i < MAX_SKILL; ++i ) {
-			if( p->skill[i].id != 0 && p->skill[i].flag != SKILL_FLAG_TEMPORARY ) {
+			// [Stingor] SKILL_FLAG_PLAGIARIZED (2) et SKILL_FLAG_TMP_COMBO (4) sont des etats runtime :
+			// la formule "flag - SKILL_FLAG_REPLACED_LV_0" (10) utilisee plus bas leur donne un lv
+			// negatif (-8 / -6), refuse par la colonne `lv` tinyint UNSIGNED en sql_mode
+			// STRICT_TRANS_TABLES. L'INSERT groupe echouait alors EN ENTIER, alors que le DELETE
+			// juste au-dessus avait deja vide la table : le perso se retrouvait sans aucun skill.
+			// Le skill plagie n'est pas perdu pour autant : il est restaure au login depuis
+			// SKILL_VAR_PLAGIARISM / SKILL_VAR_REPRODUCE (voir pc.cpp).
+			if( p->skill[i].id != 0
+			 && p->skill[i].flag != SKILL_FLAG_TEMPORARY
+			 && p->skill[i].flag != SKILL_FLAG_PLAGIARIZED
+			 && p->skill[i].flag != SKILL_FLAG_TMP_COMBO ) {
 
 				if( p->skill[i].lv == 0 && ( p->skill[i].flag == SKILL_FLAG_PERM_GRANTED || p->skill[i].flag == SKILL_FLAG_PERMANENT ) )
 					continue;
