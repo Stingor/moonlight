@@ -817,6 +817,81 @@ by_skill:
   2495: [12429, 12430, 12431, 12432, 12433, 12434]
   2497: [6210, 6211, 6212, 12422, 12423, 12424, 12425, 12426, 12427, 12428, 12436, 12437, 12475]
 
+# ── Ce que CE serveur rend accessible ─────────────────────────────────
+# `renewal` = le mode des FORMULES (src/config/renewal.hpp). Il ne décide
+# PAS de ce qui suit : Moonlight est pre-renewal et ouvre pourtant les
+# classes de 3e, dont les recettes (runes, poisons GC, cuisine et
+# pharmacie Genetic) représentent près de la moitié de produce_db.
+#
+# `unavailable_skills` = les compétences citées par les recettes qu'AUCUNE
+# classe ne peut apprendre ici, d'après l'arbre EFFECTIF (db/pre-re/
+# skill_tree.yml complété par db/import/skill_tree.yml). Leurs recettes
+# existent dans produce_db mais sont injouables : le client les masque.
+# ⚠ Clé ABSENTE = information non calculable (arbre illisible), et non
+# « rien n'est indisponible » : le client doit alors tout montrer plutôt
+# que de masquer sur une supposition.
+server:
+  renewal: false
+  unavailable_skills: [2010, 2024, 2039, 2494, 2495, 2497]
+  # 2010 : 9 recettes masquées
+  # 2024 : 9 recettes masquées
+  # 2039 : 1 recettes masquées
+  # 2494 : 71 recettes masquées
+  # 2495 : 6 recettes masquées
+  # 2497 : 13 recettes masquées
+
+# ── Rendement d'une fabrication : combien d'exemplaires ───────────────
+# 🔴 La réponse est 1 PARTOUT, sauf pour les compétences ci-dessous, où
+# `skill_produce_mix` calcule lui-même une quantité (src/map/skill.cpp, le
+# switch qui précède `if (qty > 1 || rnd()%10000 < make_per)`). Un client
+# qui l'ignore annonce « 1 » sur une recette qui en rend douze.
+#   min/max : les bornes que le serveur peut produire, tous niveaux et
+#             toutes stats confondus — la valeur exacte dépend du
+#             personnage, que ce fichier ne connaît pas.
+#   mode    : per_unit    = chaque exemplaire est tiré séparément à
+#                           make_per (on peut en obtenir MOINS que max) ;
+#             all_or_none = la quantité part d'un coup si ça réussit ;
+#             bonus_roll  = 🔴 CUSTOM MOONLIGHT (bloc « [Stingor] » de
+#                           skill.cpp) : 1 exemplaire, plus un bonus de +1
+#                           a +4 tiré UNE fois sur une fabrication déjà
+#                           réussie. N'existe dans aucun rAthena ;
+#             table       = le rendement n'est pas le produit demandé mais
+#                           une table à part (skill_changematerial_db).
+# ⚠ La clé est le `skill` des recettes (le `req_skill` de produce_db), PAS
+# forcément la compétence que le serveur fait matcher : pour 2024 il
+# normalise GC_RESEARCHNEWPOISON en GC_CREATENEWPOISON (skill.cpp:13020)
+# avant d'entrer dans le switch. Indexer par req_skill est donc ce qui
+# permet au client de retrouver la règle depuis une recette.
+# ⚠ Table DÉCLARÉE, pas extraite : ces formules vivent dans du C++. À
+# revérifier quand skill_produce_mix bouge.
+#   chance  : probabilite du bonus, en POUR MILLE (162 = 16,2 %) ; propre
+#             a « bonus_roll », les autres modes n'ont pas de tirage separe.
+produce_qty:
+  0: {min: 1, max: 5, mode: bonus_roll, chance_permille: 162}   # Cuisine + bonus custom [Stingor]
+  31: {min: 1, max: 5, mode: bonus_roll, chance_permille: 162}   # AL_HOLYWATER + bonus custom [Stingor]
+  228: {min: 1, max: 5, mode: bonus_roll, chance_permille: 162}   # AM_PHARMACY + bonus custom [Stingor]
+  407: {min: 1, max: 5, mode: bonus_roll, chance_permille: 162}   # ASC_CDP + bonus custom [Stingor]
+  1007: {min: 1, max: 5, mode: bonus_roll, chance_permille: 162}   # SA_CREATECON + bonus custom [Stingor]
+  2010: {min: 2, max: 6, mode: per_unit}   # RK_RUNEMASTERY : 2 / 2~4 / 2~6 selon le niveau appris
+  2024: {min: 1, max: 10, mode: per_unit}   # GC_CREATENEWPOISON : 1..niveau de GC_RESEARCHNEWPOISON
+  2494: {min: 0, max: 0, mode: table}   # GN_CHANGEMATERIAL : rendement décrit par skill_changematerial_db
+  2495: {min: 0, max: 11, mode: all_or_none}   # GN_MIX_COOKING : 0/5/8/10/10~11 selon la difficulté
+  2497: {min: 1, max: 12, mode: all_or_none}   # GN_S_PHARMACY : {7..12} selon le niveau, moins 0 à 6
+
+# ── Production en MASSE (Twilight Alchemy) ────────────────────────────
+# Ces compétences rendent une fournée entière d'un seul lancement, sans
+# liste et sans passer par le `req_skill` d'une recette : elles appellent
+# skill_produce_mix avec une quantité en dur (skills/merchant/
+# twilightalchemy{1,2,3}.cpp). produce_db ne les mentionne NULLE PART — les
+# objets rendus y sont, mais sous AM_PHARMACY et à l'unité.
+# 🔴 « jusqu'à », pas « exactement » : chaque exemplaire est tiré à make_per.
+# ⚠ AM_TWILIGHT3 (498) est CUSTOM Moonlight : quantité aléatoire 51 à 89,
+# la MÊME pour les deux bouteilles, et plus d'alcool produit.
+bulk_recipes:
+  496: [[504, 200, 200]]   # White Potion
+  497: [[547, 200, 200]]   # Condensed White Potion
+  498: [[7136, 51, 89], [7135, 51, 89]]   # Acid Bottle, Bottle Grenade
+
 # ── Réglages serveur indispensables au calcul des chances ─────────────
 # 🔴 `weapon_produce` / `potion_produce` MULTIPLIENT make_per :
 #     make_per = make_per * rate / 100     (skill.cpp)

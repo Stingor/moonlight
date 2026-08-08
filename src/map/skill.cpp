@@ -13536,7 +13536,14 @@ bool skill_produce_mix(map_session_data *sd, uint16 skill_id, t_itemid nameid, i
 			}
 		} else if (tmp_item.amount) { //Success
 			// [Stingor] -->
-			if( skill_id == AM_PHARMACY || skill_id == SA_CREATECON || skill_id == AL_HOLYWATER || skill_id == ASC_CDP ) {
+			// La CUISINE passe bien par AM_PHARMACY, mais ses recettes ont
+			// `req_skill = 0` dans produce_db : `skill_id` y reste donc 0, et le
+			// test ci-dessous ne la voyait pas. On la reconnait exactement comme
+			// le fait le calcul de make_per plus haut -- menuskill arme sur
+			// AM_PHARMACY, et menuskill_val (le niveau du kit) dans ]10,20].
+			const bool is_cooking = sd->menuskill_id == AM_PHARMACY
+			                     && sd->menuskill_val > 10 && sd->menuskill_val <= 20;
+			if( skill_id == AM_PHARMACY || skill_id == SA_CREATECON || skill_id == AL_HOLYWATER || skill_id == ASC_CDP || is_cooking ) {
 				int32 randpot = rand() % 100;
 				switch( rand() % 5 ) {
 					case 1: if( randpot > 29 && randpot < 71 ) tmp_item.amount += 1; break;

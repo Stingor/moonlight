@@ -238,6 +238,166 @@ print(f"\n{len(recipes)} recettes + {len(arrow_recipes)} fleches ecrites dans {O
 # livrée aux joueurs, pas un réglage utilisateur.
 YAML_OUT = Path(sys.argv[2]) if len(sys.argv) > 2 else OUT.with_name("bourgeon_recipes.yaml")
 
+# ── Ce que CE serveur rend réellement accessible ───────────────────────────────
+# produce_db (même celui de pre-re) contient des recettes de compétences de 3e
+# classe : runes, poisons de Guillotine Cross, cuisine et pharmacie de Genetic.
+# Un serveur qui n'ouvre pas ces classes les afficherait pour rien — 112 recettes
+# sur 254, soit près de la moitié de l'Atlas en bruit.
+#
+# 🔴 Le critère est l'arbre du MODE DU SERVEUR — `db/pre-re/skill_tree.yml` ici —
+# et surtout PAS l'arbre effectif (base + import).
+#
+# La nuance a son histoire : `db/import/skill_tree.yml` rattache bel et bien
+# RK_RUNEMASTERY à Rune_Knight, les GN_* à Genetic, AB_ANCILLA à Arch_Bishop. On
+# pourrait donc croire ces recettes « jouables » et les garder. Décision du
+# projet : NON — ce sont des compétences de 3e classe, donc du contenu renewal,
+# et un serveur pre-renewal n'a pas à les proposer dans son atlas même si son
+# arbre les mentionne. Elles pèsent 109 recettes sur 254, soit près de la moitié
+# d'une liste censée montrer ce qu'on peut réellement fabriquer.
+#
+# Autrement dit : `renewal` (les formules) ne décide pas seul, mais il choisit
+# QUEL arbre fait foi. C'est cela qui écarte les recettes renewal.
+RENEWAL_HPP = SERVER / "src/config/renewal.hpp"
+server_is_renewal = False
+if RENEWAL_HPP.exists():
+    for raw in RENEWAL_HPP.read_text(encoding="utf-8", errors="replace").splitlines():
+        # Une ligne qui définit RENEWAL sans être commentée. Le fichier livre la
+        # ligne commentée par défaut, c'est le commentaire qui porte le sens.
+        if re.match(r"\s*#define\s+RENEWAL\s*(//.*)?$", raw):
+            server_is_renewal = True
+            break
+
+# nom de compétence -> id, pour traduire l'arbre (qui nomme) vers produce_db (qui
+# numérote). L'import écrase la base, comme le serveur le fait lui-même.
+skill_id_by_name = {}
+for db_path in (SERVER / "db/pre-re/skill_db.yml", SERVER / "db/import/skill_db.yml"):
+    if not db_path.exists():
+        continue
+    cur_id = None
+    for raw in db_path.read_text(encoding="utf-8", errors="replace").splitlines():
+        m = re.match(r"\s*-\s*Id:\s*(\d+)", raw)
+        if m:
+            cur_id = int(m.group(1))
+            continue
+        m = re.match(r"\s*Name:\s*(\w+)", raw)
+        if m and cur_id is not None:
+            skill_id_by_name[m.group(1)] = cur_id
+            cur_id = None
+
+# ⚠ L'arbre du MODE, SEUL. `db/import/skill_tree.yml` est délibérément exclu :
+# c'est lui qui ajoute les classes de 3e, et les prendre en compte ferait rentrer
+# tout le contenu renewal (cf. le pavé ci-dessus).
+learnable_skills = set()
+skill_tree_read = False
+tree_path = SERVER / ("db/re/skill_tree.yml" if server_is_renewal
+                      else "db/pre-re/skill_tree.yml")
+if tree_path.exists():
+    skill_tree_read = True
+    for name in re.findall(r"Name:\s*(\w+)", tree_path.read_text(
+            encoding="utf-8", errors="replace")):
+        if name in skill_id_by_name:
+            learnable_skills.add(skill_id_by_name[name])
+print(f"Mode serveur : {'RENEWAL' if server_is_renewal else 'PRE-RENEWAL'} ; "
+      f"arbre de competences {'lu' if skill_tree_read else 'INTROUVABLE'} "
+      f"({len(learnable_skills)} competences apprenables)")
+
+# ── Rendement : les compétences qui rendent plus d'un exemplaire ───────────────
+# `skill_produce_mix` (src/map/skill.cpp) fixe `qty = 1` puis le RECALCULE dans un
+# switch pour quelques compétences. Rien dans produce_db ni dans aucune db YAML ne
+# porte cette information : elle est en dur dans le C++, d'où cette table.
+#
+# ⚠ Elle est DÉCLARÉE, pas extraite : parser des formules C++ serait à la fois
+# fragile et illisible. Chaque entrée cite donc sa ligne d'origine, et la règle est
+# de repasser ici quand skill_produce_mix change.
+#
+# Clé = le `req_skill` de produce_db, celui que porte déjà chaque recette. Pour
+# 2024 c'est GC_RESEARCHNEWPOISON alors que le switch teste GC_CREATENEWPOISON :
+# le serveur normalise l'un en l'autre (skill.cpp, juste après la résolution de
+# `req_skill`), donc la règle s'applique bien aux recettes de clé 2024.
+#   chance : probabilite du bonus, en POUR MILLE (162 = 16,2 %). Uniquement pour
+#            « bonus_roll » : les autres modes n'ont pas de tirage separe.
+#
+# 🔴 CUSTOM MOONLIGHT (skill.cpp, bloc « [Stingor] » juste avant pc_additem) : une
+# fabrication REUSSIE recoit un bonus d'exemplaires, tire une seule fois.
+#     randpot = rand()%100 ; switch (rand()%5) :
+#       case 1 -> +1 si randpot dans [30,70]   (1/5 x 41/100 =  8,2 %)
+#       case 2 -> +2 si randpot dans [41,60]   (1/5 x 20/100 =  4,0 %)
+#       case 3 -> +3 si randpot dans [44,56]   (1/5 x 13/100 =  2,6 %)
+#       case 4 -> +4 si randpot dans [47,53]   (1/5 x  7/100 =  1,4 %)
+# soit 16,2 % de chances d'un bonus, pour une esperance de +0,296.
+# ⚠ N'existe dans AUCUN rAthena : ne pas le chercher en amont, et le revérifier si
+# le bloc [Stingor] bouge.
+PRODUCE_QTY = {
+    # 0 = la CUISINE. Ses recettes portent `req_skill = 0` (elles s'ouvrent avec un
+    # kit, pas avec une competence), donc `skill_id` reste 0 dans
+    # skill_produce_mix : le bloc [Stingor] la reconnait par `menuskill_id ==
+    # AM_PHARMACY && menuskill_val dans ]10,20]`, comme le fait deja le calcul de
+    # make_per. Voir la garde plus bas : cette entree n'est emise QUE si toutes
+    # les recettes de req_skill 0 sont bien des plats (itemlv 11 a 20).
+    0:    dict(min=1, max=5, mode="bonus_roll", chance=162,
+               why="Cuisine + bonus custom [Stingor]"),
+    31:   dict(min=1, max=5, mode="bonus_roll", chance=162,
+               why="AL_HOLYWATER + bonus custom [Stingor]"),
+    228:  dict(min=1, max=5, mode="bonus_roll", chance=162,
+               why="AM_PHARMACY + bonus custom [Stingor]"),
+    407:  dict(min=1, max=5, mode="bonus_roll", chance=162,
+               why="ASC_CDP + bonus custom [Stingor]"),
+    1007: dict(min=1, max=5, mode="bonus_roll", chance=162,
+               why="SA_CREATECON + bonus custom [Stingor]"),
+    # RK_RUNEMASTERY : 2 si appris <= 4, 2~4 jusqu'à 9, 2~6 au-delà.
+    2010: dict(min=2, max=6, mode="per_unit",
+               why="RK_RUNEMASTERY : 2 / 2~4 / 2~6 selon le niveau appris"),
+    # GC_CREATENEWPOISON : qty = 1 + rnd() % pc_checkskill(GC_RESEARCHNEWPOISON).
+    2024: dict(min=1, max=10, mode="per_unit",
+               why="GC_CREATENEWPOISON : 1..niveau de GC_RESEARCHNEWPOISON"),
+    # GN_MIX_COOKING : 0 / 5 / 8 / 10 / 10~11 selon (make_per - difficulté).
+    2495: dict(min=0, max=11, mode="all_or_none",
+               why="GN_MIX_COOKING : 0/5/8/10/10~11 selon la difficulté"),
+    # GN_S_PHARMACY : production_count[skill_lv-1] = {7,8,8,9,9,10,10,11,11,12},
+    # dont on retranche 0 à 6 selon (make_per - difficulté).
+    2497: dict(min=1, max=12, mode="all_or_none",
+               why="GN_S_PHARMACY : {7..12} selon le niveau, moins 0 à 6"),
+    # GN_CHANGEMATERIAL : le produit demandé n'est PAS ce qu'on reçoit — c'est
+    # skill_changematerial_db qui décide, avec un taux et une quantité par ligne.
+    2494: dict(min=0, max=0, mode="table",
+               why="GN_CHANGEMATERIAL : rendement décrit par skill_changematerial_db"),
+}
+
+# ── Production en MASSE : les Twilight Alchemy ─────────────────────────────────
+# Trois compétences produisent une fournée entière d'un seul lancement, sans
+# passer par une liste ni par le `req_skill` d'une recette : elles appellent
+# `skill_produce_mix` avec une quantité en dur (src/map/skills/merchant/
+# twilightalchemy{1,2,3}.cpp). Rien dans produce_db ne les mentionne — les objets
+# qu'elles rendent y figurent bien, mais sous AM_PHARMACY et à l'unité.
+#
+# 🔴 « Jusqu'à », pas « exactement » : la boucle de `skill_produce_mix` tire
+# CHAQUE exemplaire à `make_per`. Comme AM_TWILIGHT1/2/3 partagent le make_per
+# d'AM_PHARMACY et que `potion_produce` vaut 500 ici, le taux est en pratique très
+# haut — mais ce n'est pas une garantie, et l'annoncer comme telle serait faux.
+#
+# 🔴 AM_TWILIGHT3 est CUSTOM Moonlight (bloc « [Stingor] ») : le rAthena d'origine
+# rend 100 Alcohol + 50 Acid + 50 Fire pour 200 flacons vides. Ici l'alcool
+# disparaît, le coût tombe à 100 flacons, et la quantité devient aléatoire.
+#     amount = 50, puis switch (rand()%5) avec randpot = rand()%100 :
+#       case 1 -> +12..21 si randpot dans [15,85]
+#       case 2 -> +18..27 si randpot dans [25,75]
+#       case 3 -> +24..33 si randpot dans [35,65]
+#       case 4 -> +30..39 si randpot dans [45,55]
+#       default -> +1..10
+# ⚠ Les `break` sont DANS les `if`, donc un palier raté retombe sur le suivant.
+# Ce n'est PAS un bug : les intervalles sont emboîtés, si bien qu'un randpot hors
+# du plus large est forcément hors de tous les autres et finit au `default`. Le
+# code se comporte donc exactement comme un `else -> +1..10`. (À ne pas
+# « corriger » sans y regarder à deux fois : sortir les break changerait, lui,
+# le comportement.)
+# Bornes réelles : 50+1 = 51 au minimum, 50+39 = 89 au maximum, ~61 en moyenne,
+# et la MÊME quantité part pour les deux bouteilles.
+BULK_RECIPES = {
+    496: [(504, 200, 200)],                    # AM_TWILIGHT1 -> White Potion
+    497: [(547, 200, 200)],                    # AM_TWILIGHT2 -> White Slim Potion
+    498: [(7136, 51, 89), (7135, 51, 89)],     # AM_TWILIGHT3 -> Acid + Fire Bottle
+}
+
 # ── Refine : chances et niveaux d'arme ─────────────────────────────────────────
 # Le taux de refine est le SEUL entièrement calculable côté client :
 #   per = Rate/100 + (classe 3 ? +10 : (job_level - 50) / 2)   puis  per > rnd()%100
@@ -404,6 +564,90 @@ y.append("by_skill:")
 for skill_id in sorted(by_skill):
     ids = ", ".join(str(i) for i in by_skill[skill_id])
     y.append(f"  {skill_id}: [{ids}]")
+y.append("")
+y.append("# ── Ce que CE serveur rend accessible ─────────────────────────────────")
+y.append("# `renewal` = le mode des FORMULES (src/config/renewal.hpp). Il ne décide")
+y.append("# PAS de ce qui suit : Moonlight est pre-renewal et ouvre pourtant les")
+y.append("# classes de 3e, dont les recettes (runes, poisons GC, cuisine et")
+y.append("# pharmacie Genetic) représentent près de la moitié de produce_db.")
+y.append("#")
+y.append("# `unavailable_skills` = les compétences citées par les recettes qu'AUCUNE")
+y.append("# classe ne peut apprendre ici, d'après l'arbre EFFECTIF (db/pre-re/")
+y.append("# skill_tree.yml complété par db/import/skill_tree.yml). Leurs recettes")
+y.append("# existent dans produce_db mais sont injouables : le client les masque.")
+y.append("# ⚠ Clé ABSENTE = information non calculable (arbre illisible), et non")
+y.append("# « rien n'est indisponible » : le client doit alors tout montrer plutôt")
+y.append("# que de masquer sur une supposition.")
+y.append("server:")
+y.append(f"  renewal: {'true' if server_is_renewal else 'false'}")
+if skill_tree_read:
+    unavailable = sorted(s for s in by_skill if s != 0 and s not in learnable_skills)
+    y.append(f"  unavailable_skills: [{', '.join(str(s) for s in unavailable)}]")
+    if unavailable:
+        for skill_id in unavailable:
+            y.append(f"  # {skill_id} : {len(by_skill[skill_id])} recettes masquées")
+    else:
+        y.append("  # (aucune : toutes les compétences des recettes sont apprenables ici)")
+y.append("")
+y.append("# ── Rendement d'une fabrication : combien d'exemplaires ───────────────")
+y.append("# 🔴 La réponse est 1 PARTOUT, sauf pour les compétences ci-dessous, où")
+y.append("# `skill_produce_mix` calcule lui-même une quantité (src/map/skill.cpp, le")
+y.append("# switch qui précède `if (qty > 1 || rnd()%10000 < make_per)`). Un client")
+y.append("# qui l'ignore annonce « 1 » sur une recette qui en rend douze.")
+y.append("#   min/max : les bornes que le serveur peut produire, tous niveaux et")
+y.append("#             toutes stats confondus — la valeur exacte dépend du")
+y.append("#             personnage, que ce fichier ne connaît pas.")
+y.append("#   mode    : per_unit    = chaque exemplaire est tiré séparément à")
+y.append("#                           make_per (on peut en obtenir MOINS que max) ;")
+y.append("#             all_or_none = la quantité part d'un coup si ça réussit ;")
+y.append("#             bonus_roll  = 🔴 CUSTOM MOONLIGHT (bloc « [Stingor] » de")
+y.append("#                           skill.cpp) : 1 exemplaire, plus un bonus de +1")
+y.append("#                           a +4 tiré UNE fois sur une fabrication déjà")
+y.append("#                           réussie. N'existe dans aucun rAthena ;")
+y.append("#             table       = le rendement n'est pas le produit demandé mais")
+y.append("#                           une table à part (skill_changematerial_db).")
+y.append("# ⚠ La clé est le `skill` des recettes (le `req_skill` de produce_db), PAS")
+y.append("# forcément la compétence que le serveur fait matcher : pour 2024 il")
+y.append("# normalise GC_RESEARCHNEWPOISON en GC_CREATENEWPOISON (skill.cpp:13020)")
+y.append("# avant d'entrer dans le switch. Indexer par req_skill est donc ce qui")
+y.append("# permet au client de retrouver la règle depuis une recette.")
+y.append("# ⚠ Table DÉCLARÉE, pas extraite : ces formules vivent dans du C++. À")
+y.append("# revérifier quand skill_produce_mix bouge.")
+y.append("#   chance  : probabilite du bonus, en POUR MILLE (162 = 16,2 %) ; propre")
+y.append("#             a « bonus_roll », les autres modes n'ont pas de tirage separe.")
+y.append("produce_qty:")
+# 🔴 GARDE sur la clé 0. Elle vaut « la cuisine », et le bonus [Stingor] ne
+# s'applique qu'à elle (menuskill_val dans ]10,20]). Aujourd'hui les 60 recettes
+# de req_skill 0 sont TOUTES des plats, mais si produce_db recevait un jour une
+# recette sans compétence qui n'en soit pas une, l'entrée annoncerait un bonus que
+# le serveur n'accorde pas. On la retire alors plutôt que de mentir, et on le DIT :
+# une omission silencieuse se remarque encore moins qu'un chiffre faux.
+lv_by_product = {p: itemlv for p, itemlv, _, _, _ in recipes}
+non_cooking = [p for p in by_skill.get(0, []) if not 11 <= lv_by_product.get(p, 0) <= 20]
+if non_cooking:
+    print(f"⚠ produce_qty : {len(non_cooking)} recette(s) sans competence ne sont PAS "
+          f"de la cuisine ({non_cooking[:5]}) -> entree 0 retiree, le bonus custom "
+          f"ne leur est pas garanti")
+    PRODUCE_QTY.pop(0, None)
+for skill_id, q in sorted(PRODUCE_QTY.items()):
+    chance = f", chance_permille: {q['chance']}" if "chance" in q else ""
+    y.append(f"  {skill_id}: {{min: {q['min']}, max: {q['max']}, "
+             f"mode: {q['mode']}{chance}}}   # {q['why']}")
+y.append("")
+y.append("# ── Production en MASSE (Twilight Alchemy) ────────────────────────────")
+y.append("# Ces compétences rendent une fournée entière d'un seul lancement, sans")
+y.append("# liste et sans passer par le `req_skill` d'une recette : elles appellent")
+y.append("# skill_produce_mix avec une quantité en dur (skills/merchant/")
+y.append("# twilightalchemy{1,2,3}.cpp). produce_db ne les mentionne NULLE PART — les")
+y.append("# objets rendus y sont, mais sous AM_PHARMACY et à l'unité.")
+y.append("# 🔴 « jusqu'à », pas « exactement » : chaque exemplaire est tiré à make_per.")
+y.append("# ⚠ AM_TWILIGHT3 (498) est CUSTOM Moonlight : quantité aléatoire 51 à 89,")
+y.append("# la MÊME pour les deux bouteilles, et plus d'alcool produit.")
+y.append("bulk_recipes:")
+for skill_id, made in sorted(BULK_RECIPES.items()):
+    entries = ", ".join(f"[{item_id}, {lo}, {hi}]" for item_id, lo, hi in made)
+    y.append(f"  {skill_id}: [{entries}]"
+             f"   # {', '.join(name_by_id.get(i, f'Item {i}') for i, _, _ in made)}")
 y.append("")
 y.append("# ── Réglages serveur indispensables au calcul des chances ─────────────")
 y.append("# 🔴 `weapon_produce` / `potion_produce` MULTIPLIENT make_per :")
