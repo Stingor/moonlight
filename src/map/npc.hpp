@@ -123,6 +123,24 @@ public:
 
 extern BarterDatabase barter_db;
 
+/// Fixed GID declared for a given unique npc name.
+struct s_npc_fixed_id{
+	uint32 id;
+	std::string name;
+};
+
+class NpcFixedIdDatabase : public TypesafeYamlDatabase<uint32, s_npc_fixed_id>{
+public:
+	NpcFixedIdDatabase() : TypesafeYamlDatabase( "NPC_FIXED_ID_DB", 1 ){
+
+	}
+
+	const std::string getDefaultLocation() override;
+	uint64 parseBodyNode( const ryml::NodeRef& node ) override;
+};
+
+extern NpcFixedIdDatabase npc_fixed_id_db;
+
 struct s_barter_purchase{
 	std::shared_ptr<s_npc_barter_item> item;
 	uint32 amount;
@@ -242,7 +260,12 @@ struct npc_data : public block_list {
 struct eri;
 extern struct eri *npc_sc_display_ers;
 
-#define START_NPC_NUM 3000000
+/// Ids reserved for npcs declaring a fixed GID in moon/npc_fixed_id.yml.
+/// npc_get_new_npc_id() never hands out anything below START_NPC_NUM, so this
+/// range can not be stolen by a dynamically created npc, mob, pet or homunculus.
+#define FIXED_NPC_NUM 3000000
+#define FIXED_NPC_NUM_LAST (START_NPC_NUM - 1)
+#define START_NPC_NUM 3000100
 
 enum e_job_types
 {

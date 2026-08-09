@@ -891,6 +891,64 @@ s_npc_barter::~s_npc_barter(){
 
 BarterDatabase barter_db;
 
+const std::string NpcFixedIdDatabase::getDefaultLocation(){
+	return "moon/npc_fixed_id.yml";
+}
+
+uint64 NpcFixedIdDatabase::parseBodyNode( const ryml::NodeRef& node ){
+	if( !this->nodesExist( node, { "Id", "Npc" } ) ){
+		return 0;
+	}
+
+	uint32 id;
+
+	if( !this->asUInt32( node, "Id", id ) ){
+		return 0;
+	}
+
+	if( id < FIXED_NPC_NUM || id > FIXED_NPC_NUM_LAST ){
+		this->invalidWarning( node["Id"], "Id %u is outside of the reserved range [%d-%d].\n", id, FIXED_NPC_NUM, FIXED_NPC_NUM_LAST );
+		return 0;
+	}
+
+	std::string name;
+
+	if( !this->asString( node, "Npc", name ) ){
+		return 0;
+	}
+
+	if( name.empty() || name.length() > static_cast<size_t>( NPC_NAME_LENGTH ) ){
+		this->invalidWarning( node["Npc"], "Unique npc name \"%s\" is empty or longer than %d characters.\n", name.c_str(), NPC_NAME_LENGTH );
+		return 0;
+	}
+
+	std::shared_ptr<s_npc_fixed_id> entry = this->find( id );
+
+	if( entry != nullptr ){
+		this->invalidWarning( node["Id"], "Id %u is already reserved for npc \"%s\".\n", id, entry->name.c_str() );
+		return 0;
+	}
+
+	// A unique name can only be bound to a single id
+	for( const auto& it : *this ){
+		if( it.second->name == name ){
+			this->invalidWarning( node["Npc"], "Npc \"%s\" is already bound to id %u.\n", name.c_str(), it.first );
+			return 0;
+		}
+	}
+
+	entry = std::make_shared<s_npc_fixed_id>();
+
+	entry->id = id;
+	entry->name = name;
+
+	this->put( id, entry );
+
+	return 1;
+}
+
+NpcFixedIdDatabase npc_fixed_id_db;
+
 /**
  * Returns the viewdata for normal NPC classes.
  * @param class_: NPC class ID
@@ -3663,6 +3721,35 @@ void npc_loadsrcfiles() {
 		npc_total, npc_warp, npc_shop, npc_script, npc_mob, npc_cache_mob, npc_delay_mob);
 }
 
+/// Reports every fixed GID that no loaded npc ended up claiming.
+/// A typo in the unique name or a script that is not in scripts_moon.conf would
+/// otherwise go completely unnoticed, since npc_parsename() has no way to tell
+/// an unused entry apart from a npc that simply has not been parsed yet.
+static void npc_check_fixed_ids(){
+	for( const auto& it : npc_fixed_id_db ){
+		npc_data* nd = npc_name2id( it.second->name.c_str() );
+
+		if( nd == nullptr ){
+			ShowWarning( "npc_check_fixed_ids: No npc named \"%s\" was loaded, fixed id %u is unused.\n", it.second->name.c_str(), it.first );
+		}else if( nd->id != static_cast<int32>( it.first ) ){
+			ShowWarning( "npc_check_fixed_ids: Npc \"%s\" is running with id %d instead of its fixed id %u.\n", it.second->name.c_str(), nd->id, it.first );
+		}
+	}
+}
+
+/// Returns the fixed GID declared for this unique npc name, or 0 if there is none.
+/// The database only holds a handful of entries, so a linear scan is cheaper than
+/// maintaining a second index, and it only ever runs while scripts are being loaded.
+static int32 npc_get_fixed_npc_id( const char* exname ){
+	for( const auto& it : npc_fixed_id_db ){
+		if( strcmp( it.second->name.c_str(), exname ) == 0 ){
+			return static_cast<int32>( it.first );
+		}
+	}
+
+	return 0;
+}
+
 /// Parses and sets the name and exname of a npc.
 /// Assumes that m, x and y are already set in nd.
 static void npc_parsename(npc_data* nd, const char* name, const char* start, const char* buffer, const char* filepath)
@@ -3741,6 +3828,18 @@ static void npc_parsename(npc_data* nd, const char* name, const char* start, con
 		nd->path = npc_last_path;
 		if( npc_last_npd )
 			npc_last_npd->references++;
+	}
+
+	// The exname is only final here, and every caller registers the npc in id_db
+	// afterwards, so this is the one place where the id can still be swapped.
+	int32 fixed_id = npc_get_fixed_npc_id( nd->exname );
+
+	if( fixed_id != 0 ){
+		if( map_blid_exists( fixed_id ) ){
+			ShowError( "npc_parsename: Fixed id %d of npc \"%s\" is already in use, keeping dynamic id %d instead.\n", fixed_id, nd->exname, nd->id );
+		}else{
+			nd->id = fixed_id;
+		}
 	}
 }
 
@@ -6235,7 +6334,12 @@ int32 npc_reload(void) {
 	// reset mapflags
 	map_flags_init();
 
+	// Must be reloaded before the scripts, npc_parsename() reads it while parsing
+	npc_fixed_id_db.reload();
+
 	npc_loadsrcfiles();
+
+	npc_check_fixed_ids();
 
 	stylist_db.reload();
 	barter_db.reload();
@@ -6387,6 +6491,7 @@ void do_final_npc(void) {
 #endif
 	stylist_db.clear();
 	barter_db.clear();
+	npc_fixed_id_db.clear();
 	ers_destroy(timer_event_ers);
 	ers_destroy(npc_sc_display_ers);
 	npc_src_files.clear();
@@ -6456,7 +6561,12 @@ void do_init_npc(void){
 	timer_event_ers = ers_new(sizeof(struct timer_event_data),"npc.cpp::timer_event_ers",ERS_OPT_NONE);
 	npc_sc_display_ers = ers_new(sizeof(struct sc_display_entry), "npc.cpp:npc_sc_display_ers", ERS_OPT_NONE);
 
+	// Must be loaded before the scripts, npc_parsename() reads it while parsing
+	npc_fixed_id_db.load();
+
 	npc_loadsrcfiles();
+
+	npc_check_fixed_ids();
 
 	stylist_db.load();
 	barter_db.load();

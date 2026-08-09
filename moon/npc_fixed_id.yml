@@ -1,0 +1,37 @@
+###########################################################################
+# Fixed NPC Id Database
+###########################################################################
+#
+# Binds a unique npc name to a permanent GID.
+#
+# By default rAthena hands out npc GIDs from a counter that restarts at
+# START_NPC_NUM on every map-server boot, and keeps climbing across every
+# @reloadscript. A npc listed here always gets the same GID instead, which
+# makes it addressable from outside the map-server.
+#
+###########################################################################
+# - Id      GID to assign. Must be within the reserved range 3000000-3000099
+#           (FIXED_NPC_NUM to FIXED_NPC_NUM_LAST in src/map/npc.hpp).
+#           npc_get_new_npc_id() never allocates below START_NPC_NUM, so this
+#           range can not be taken by a mob, pet, homunculus or dynamic npc.
+#   Npc     Unique name of the npc (the part after "::" in its header, or the
+#           display name when there is no "::"). Case sensitive.
+###########################################################################
+#
+# Notes:
+#  - One id per npc and one npc per id, duplicates are rejected at load time.
+#  - Widening the range means raising both FIXED_NPC_NUM_LAST and
+#    START_NPC_NUM in src/map/npc.hpp, then recompiling.
+#  - Npcs created by duplicate() or instance_create() get their own unique
+#    names, so they keep dynamic ids and can not be pinned here.
+#  - A name that matches no loaded npc is reported at boot as unused.
+#
+###########################################################################
+
+Header:
+  Type: NPC_FIXED_ID_DB
+  Version: 1
+
+#Body:
+#  - Id: 3000000
+#    Npc: MyUniqueNpcName
