@@ -14108,6 +14108,9 @@ void clif_progressbar( const map_session_data* sd, unsigned long color, uint32 s
 /// 02f2
 void clif_progressbar_abort( const map_session_data* sd )
 {
+	if( sd->ud.state.blockedmove)
+		return;
+
 	int32 fd = sd->fd;
 
 	WFIFOHEAD(fd,packet_len(0x2f2));

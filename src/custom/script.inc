@@ -567,6 +567,17 @@ BUILDIN_FUNC(getstoragelist)
 		return SCRIPT_CMD_FAILURE;
 	}
 
+	// [Stingor] sd->premiumStorage holds one storage at a time. Listing it without checking which
+	// one is loaded silently returns another storage's contents under the requested ID. Callers
+	// must loadstorage() first, and the answer from the char-server is asynchronous: bail out with
+	// an empty list rather than reporting the wrong storage.
+	if (stor_id != 0 && sd->premiumStorage.stor_id != stor_id) {
+		ShowWarning("buildin_getstoragelist: Storage '%d' is not loaded (currently '%d') for char %d, call loadstorage() first.\n",
+			stor_id, (int32)sd->premiumStorage.stor_id, sd->status.char_id);
+		pc_setreg(sd, add_str("@storagelist_count"), 0);
+		return SCRIPT_CMD_FAILURE;
+	}
+
 	if (stor_id == 0)
 		items = sd->storage.u.items_storage;
 	else
@@ -655,32 +666,50 @@ BUILDIN_FUNC(getguildstoragelist)
 
 /**
 * Load specified storage, use it before using storagecountitem with storage id > 0
+ * loadstorage(<storage_id>)
+ * [Stingor] <storage_id> is the ID declared in conf/inter_server.yml and is used as-is,
+ * exactly like openstorage2 and @storeall N. It used to be decremented by one here, which
+ * silently loaded storage N-1 into sd->premiumStorage while getstoragelist/storagecountitem
+ * read it back under the name N: storage 1 was never loaded and the last one was unreachable.
  */
 BUILDIN_FUNC(loadstorage)
 {
 	TBL_PC* sd;
 	int32 stor_id;
-	char* command = (char*)script_getfuncname(st);
 
 	if (!script_rid2sd(sd)) {
-		ShowError("buildin_loadpremiumstorage: Player not attached. \n");
+		ShowError("buildin_loadstorage: Player not attached. \n");
 		return SCRIPT_CMD_FAILURE;
 	}
 
 	if (!script_hasdata(st, 2) || !script_isint(st, 2))
 		return SCRIPT_CMD_FAILURE;
 
-	stor_id = cap_value((script_getnum(st, 2) - 1), 0, 6);
+	stor_id = script_getnum(st, 2);
+
+	// [Stingor] Storage 0 lives in sd->storage, never in sd->premiumStorage: requesting it here
+	// would make intif_parse_StorageReceived() route the answer onto the main storage and
+	// overwrite it. It needs no loading anyway, it is already in memory since login.
+	if (stor_id <= 0 || stor_id > UINT8_MAX || !storage_exists((uint8)stor_id)) {
+		ShowError("buildin_loadstorage: Invalid storage_id '%d'!\n", stor_id);
+		return SCRIPT_CMD_FAILURE;
+	}
 
 	if (sd->premiumStorage.stor_id == stor_id) // Storage already loaded
 		return SCRIPT_CMD_SUCCESS;
 
-	if (!storage_exists(stor_id)) {
-		ShowError("buildin_loadpremiumstorage: Invalid storage_id '%d'!\n", stor_id);
+	// [Stingor] We bypass storage_premiumStorage_load(), so its safety checks have to be repeated
+	// here: overwriting sd->premiumStorage while it is open, or modified and not saved yet, loses
+	// items. pc_istrading2() is deliberately NOT tested, it includes sd->npc_id which is always
+	// set while a script runs (script_attach_state).
+	if (sd->state.storage_flag != 0 || sd->premiumStorage.dirty) {
+		ShowWarning("buildin_loadstorage: Storage busy (flag %d, dirty %d) for char %d, storage_id '%d' not loaded.\n",
+			(int32)sd->state.storage_flag, (int32)sd->premiumStorage.dirty, sd->status.char_id, stor_id);
 		return SCRIPT_CMD_FAILURE;
 	}
 
-	intif_storage_request(sd, TABLE_STORAGE, stor_id, STOR_MODE_NONE);
+	if (!intif_storage_request(sd, TABLE_STORAGE, (uint8)stor_id, STOR_MODE_NONE))
+		return SCRIPT_CMD_FAILURE;
 
 	return SCRIPT_CMD_SUCCESS;
 }
@@ -730,6 +759,16 @@ BUILDIN_FUNC(storagecountitem)
 	}
 
 	if (sd->state.storage_flag != 0) {
+		script_pushint(st, -1);
+		return SCRIPT_CMD_SUCCESS;
+	}
+
+	// [Stingor] Same reason as in buildin_getstoragelist: counting sd->premiumStorage without
+	// checking which storage is actually loaded returns another storage's count under the
+	// requested ID. -1 is the existing convention for "cannot count right now".
+	if (stor_id != 0 && sd->premiumStorage.stor_id != stor_id) {
+		ShowWarning("buildin_%s: Storage '%d' is not loaded (currently '%d') for char %d, call loadstorage() first.\n",
+			command, stor_id, (int32)sd->premiumStorage.stor_id, sd->status.char_id);
 		script_pushint(st, -1);
 		return SCRIPT_CMD_SUCCESS;
 	}
