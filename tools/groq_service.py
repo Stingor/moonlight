@@ -1739,6 +1739,126 @@ def _to_wire(s):
     return "".join(_MYSQL_LATIN1_CHR[b] for b in s.encode("utf-8"))
 
 
+# ── Mentions Discord -> texte lisible ───────────────────────────────────────
+#
+# 🔴 CE QUE L'API LIVRE N'EST PAS CE QUE DISCORD AFFICHE. Une mention voyage sous
+# forme d'identifiant nu — « <@755038659152969829> » — et c'est cet identifiant
+# qui arrivait tel quel en jeu. Le nom n'est nulle part dans le texte du message :
+# il faut le résoudre.
+#
+# Quatre formes, toutes traduites ici :
+#   <@id> / <@!id>    utilisateur  -> @Stingor
+#   <@&id>            rôle         -> @Staff
+#   <#id>             salon        -> #général
+#   <:nom:id>         emoji custom -> :nom:      (la forme lisible du client)
+# « @everyone » et « @here » arrivent déjà en clair : rien à faire pour eux.
+#
+# Aucune table en dur, exactement comme pour les emojis (cf. plus bas) : les noms
+# viennent de l'API, donc renommer quelqu'un sur Discord suffit. On s'appuie sur
+# _discord_api_get / _discord_guild_id, définis dans la section des emojis.
+#
+# ⚠ LE SURNOM DE SERVEUR D'ABORD, comme pour l'auteur du message (member.nick) :
+# c'est le nom que les gens lisent dans Discord, et l'auteur et sa mention doivent
+# se ressembler. Il coûte un GET par personne, gardé une heure ; le cache négatif
+# évite de marteler l'API pour un membre parti, dont on ne saura jamais le nick.
+#
+# Ce qu'on ne sait pas résoudre reste tel quel : un « <@id> » brut est laid, mais
+# il est vrai, là où un « @inconnu » inventerait une information.
+DISCORD_NAME_TTL          = 3600.0   # nom résolu : gardé une heure
+DISCORD_NAME_FAIL_TTL     = 300.0    # échec : réessayé au bout de cinq minutes
+DISCORD_GUILD_REFRESH_SEC = 300.0    # rôles et salons : même cadence que les emojis
+
+_user_name_cache = {}   # id -> (nom ou None, expiration)
+_role_map        = {}   # id de rôle  -> nom
+_channel_map     = {}   # id de salon -> nom
+_guild_maps_last = 0.0
+
+# Une seule alternance, comme _EMOJI_RE : chaque forme est consommée entière, donc
+# rien de ce qu'on écrit ne peut être re-remplacé au passage suivant.
+_MENTION_RE = re.compile(
+    r"<a?:([A-Za-z0-9_]{2,32}):\d+>"    # 1 : emoji custom
+    r"|<@!?(\d{15,25})>"                # 2 : utilisateur
+    r"|<@&(\d{15,25})>"                 # 3 : rôle
+    r"|<#(\d{15,25})>"                  # 4 : salon
+)
+
+
+def _discord_user_name(user_id: str, hint=None):
+    """Le nom affiché d'un membre. None si personne ne peut nous le dire."""
+    cached = _user_name_cache.get(user_id)
+    if cached and time.time() < cached[1]:
+        return cached[0]
+
+    name = None
+    guild_id = _discord_guild_id()
+    if guild_id:
+        member = _discord_api_get(f"/guilds/{guild_id}/members/{user_id}")
+        if member:
+            user = member.get("user") or {}
+            name = (member.get("nick")
+                    or user.get("global_name")
+                    or user.get("username")
+                    or None)
+    if not name and hint:
+        # Repli sur l'objet livré dans msg["mentions"] : gratuit, et il reste bon
+        # quand le membre a quitté le serveur (le GET ci-dessus répond alors 404).
+        name = hint.get("global_name") or hint.get("username") or None
+
+    _user_name_cache[user_id] = (
+        name, time.time() + (DISCORD_NAME_TTL if name else DISCORD_NAME_FAIL_TTL))
+    return name
+
+
+def _guild_maps_refresh():
+    """Recharge rôles et salons du serveur, au plus une fois par intervalle."""
+    global _role_map, _channel_map, _guild_maps_last
+    if time.time() - _guild_maps_last < DISCORD_GUILD_REFRESH_SEC:
+        return
+    _guild_maps_last = time.time()
+    guild_id = _discord_guild_id()
+    if not guild_id:
+        return
+    roles = _discord_api_get(f"/guilds/{guild_id}/roles")
+    if roles is not None:   # échec réseau : on GARDE la table précédente
+        _role_map = {str(r["id"]): r.get("name", "") for r in roles if r.get("id")}
+    channels = _discord_api_get(f"/guilds/{guild_id}/channels")
+    if channels is not None:
+        _channel_map = {str(c["id"]): c.get("name", "") for c in channels if c.get("id")}
+
+
+def resolve_discord_mentions(content: str, msg=None) -> str:
+    """« <@755038659152969829> » -> « @Stingor ». Voir le bandeau ci-dessus."""
+    if not content or "<" not in content:
+        return content
+
+    # Les utilisateurs mentionnés sont livrés AVEC le message : c'est notre repli
+    # sans réseau si l'appel au membre échoue.
+    hints = {}
+    for user in ((msg or {}).get("mentions") or []):
+        user_id = str(user.get("id") or "")
+        if user_id:
+            hints[user_id] = user
+
+    # Rôles et salons : deux GET, et seulement si le message en parle vraiment.
+    if "<@&" in content or "<#" in content:
+        _guild_maps_refresh()
+
+    def _one(m):
+        emoji, user_id, role_id, channel_id = m.groups()
+        if emoji:
+            return f":{emoji}:"
+        if user_id:
+            name = _discord_user_name(user_id, hints.get(user_id))
+            return f"@{name}" if name else m.group(0)
+        if role_id:
+            name = _role_map.get(role_id)
+            return f"@{name}" if name else m.group(0)
+        name = _channel_map.get(channel_id)
+        return f"#{name}" if name else m.group(0)
+
+    return _MENTION_RE.sub(_one, content)
+
+
 def _write_discord_relay(conn, author: str, content: str):
     """Write a Discord user message to discord_relay for in-game display via ZC_BOURGEON_DISCORD_MSG."""
     content = _mirror_rewrite(content)
@@ -1802,7 +1922,11 @@ def _discord_poll(conn):
         player  = (msg.get("member", {}).get("nick")
                    or msg["author"].get("global_name")
                    or msg["author"]["username"])
-        content = replace_itemdb_links(msg.get("content", "").strip())
+        # La résolution des mentions vient EN PREMIER, avant tout le reste : ce
+        # `content` est ensuite le message pour tout le monde — le relais en jeu,
+        # le chatlog du site, et le prompt du bot. Traduit ici, traduit partout.
+        content = replace_itemdb_links(
+            resolve_discord_mentions(msg.get("content", "").strip(), msg))
 
         # ── Pièces jointes ──────────────────────────────────────────────────
         # 🔴 UNE IMAGE COLLÉE N'EST PAS DANS `content`. Un Ctrl+V de capture
