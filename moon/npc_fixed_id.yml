@@ -32,6 +32,28 @@ Header:
   Type: NPC_FIXED_ID_DB
   Version: 1
 
-#Body:
-#  - Id: 3000000
-#    Npc: MyUniqueNpcName
+Body:
+ - Id: 3000000
+   Npc: stingor_npc
+ - Id: 3000001
+   Npc: stylist_gon
+ - Id: 3000002
+   Npc: shop_custom
+ - Id: 3000003
+   Npc: jobmaster
+ - Id: 3000004
+   Npc: pvpwarper_gon
+ - Id: 3000005
+   Npc: room_gonryun
+ - Id: 3000006
+   Npc: npcq_controller
+ - Id: 3000007
+   Npc: npcq_tic
+ - Id: 3000008
+   Npc: npcq_tac
+ - Id: 3000009
+   Npc: BatRecruit
+ - Id: 3000010
+   Npc: huntmission
+ - Id: 3000011
+   Npc: guide_gonryun
