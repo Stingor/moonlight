@@ -1672,6 +1672,73 @@ def _mirror_rewrite(content: str) -> str:
         return content
 
 
+# ── Le pont d'encodage avec rAthena ─────────────────────────────────────────
+#
+# 🔴 LES DEUX BOUTS NE PARLENT PAS LE MÊME MYSQL, et les tables de relais sont
+# précisément là où ça se voit :
+#   · rAthena n'appelle jamais SET NAMES (default_codepage est commenté dans
+#     inter_athena.conf), sa connexion est donc en latin1 ;
+#   · ce service se connecte en utf8mb4 (DB_CONFIG), et les colonnes le sont.
+#
+# Conséquence, mesurée : un emoji tapé en jeu part du client en UTF-8 (F0 9F A5
+# BA), rAthena le donne à MySQL sur une connexion latin1, MySQL prend donc CHAQUE
+# OCTET pour un caractère et stocke « ðŸ¥º ». Le webhook postait ce charabia tel
+# quel sur Discord. Dans l'autre sens, un emoji écrit ici en utf8mb4 est converti
+# vers latin1 à la lecture de rAthena, où il n'existe pas : il devient « ? ».
+#
+# On ne corrige PAS ça par un SET NAMES côté serveur : toute la base (noms de
+# personnages, objets, courrier) est stockée avec cette même convention depuis
+# toujours, et la basculer d'un coup transformerait chaque accent existant en
+# mojibake. On traduit donc ici, aux deux frontières, et nulle part ailleurs.
+def _build_mysql_latin1_table():
+    """Octet -> caractère, exactement comme le fait le « latin1 » de MySQL.
+
+    Ce n'est pas tout à fait l'ISO-8859-1 : MySQL emploie le CP1252 pour la plage
+    0x80-0x9F (le « Ÿ » de 0x9F, entre autres). Les cinq positions que le CP1252
+    laisse vides (0x81, 0x8D, 0x8F, 0x90, 0x9D) sont conservées telles quelles —
+    et elles ne sont pas anecdotiques ici, l'UTF-8 des emoji en est plein :
+    « 🍎 » s'écrit F0 9F 8D 8E.
+    """
+    table = []
+    for b in range(256):
+        try:
+            table.append(bytes([b]).decode("cp1252"))
+        except UnicodeDecodeError:
+            table.append(chr(b))
+    return table
+
+
+_MYSQL_LATIN1_CHR = _build_mysql_latin1_table()
+_MYSQL_LATIN1_ORD = {c: i for i, c in enumerate(_MYSQL_LATIN1_CHR)}
+
+
+def _from_wire(s):
+    """Le texte tel que rAthena l'a réellement émis.
+
+    ⚠ Conditionnel, à dessein : le client n'envoie en UTF-8 que ce qui ne rentre
+    pas en CP1252 (un emoji), et garde le CP1252 pour tout le reste. Un « héhé »
+    ordinaire arrive donc en octets CP1252, que ce décodage doit laisser
+    tranquilles — d'où le repli dès que la relecture en UTF-8 échoue.
+    """
+    if not s or not isinstance(s, str) or all(ord(c) < 0x80 for c in s):
+        return s
+    try:
+        raw = bytes(_MYSQL_LATIN1_ORD[c] for c in s)
+    except KeyError:
+        return s   # un caractère qui ne peut pas venir d'un octet : pas pour nous
+    try:
+        return raw.decode("utf-8")
+    except UnicodeDecodeError:
+        return s   # du vrai CP1252 (des accents) : on n'y touche pas
+
+
+def _to_wire(s):
+    """Ce qu'il faut ÉCRIRE pour que rAthena relise les octets UTF-8 voulus."""
+    if not s:
+        return s
+    return "".join(_MYSQL_LATIN1_CHR[b] for b in s.encode("utf-8"))
+
+
 def _write_discord_relay(conn, author: str, content: str):
     """Write a Discord user message to discord_relay for in-game display via ZC_BOURGEON_DISCORD_MSG."""
     content = _mirror_rewrite(content)
@@ -1679,7 +1746,10 @@ def _write_discord_relay(conn, author: str, content: str):
     try:
         with conn.cursor() as cur:
             for line in lines:
-                cur.execute("INSERT INTO discord_relay (message) VALUES (%s)", (line,))
+                # _to_wire : sans lui, l'emoji est converti vers latin1 à la
+                # lecture de rAthena et arrive en jeu sous forme de « ? ».
+                cur.execute("INSERT INTO discord_relay (message) VALUES (%s)",
+                            (_to_wire(line),))
         conn.commit()
     except Exception as e:
         print(f"[Discord] relay ERREUR : {e}", file=sys.stderr)
@@ -2003,7 +2073,9 @@ def _discord_outbound_poll(conn):
             row_id  = row["id"]
             player  = row["player"]
             char_id = row["char_id"]
-            message = row["message"]
+            # _from_wire : ce que rAthena a écrit sur une connexion latin1. Sans
+            # lui, un emoji tapé en jeu ressortait sur Discord en « ðŸ¥º ».
+            message = _from_wire(row["message"])
             if now - _discord_outbound_last_post < 1.0:
                 break
             # Route AVANT de marquer envoyé : les rapports de bug (client Bourgeon)
