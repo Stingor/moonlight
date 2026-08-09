@@ -1619,5 +1619,19 @@ void clif_parse_bourgeon_open_storage(int32 fd, map_session_data* sd);
 // avec butin, et 51 monstres de base n'ont aucun butin — les deux raccourcis
 // qu'on pourrait être tenté de prendre sont faux.
 void clif_parse_bourgeon_reqmobinfo(int32 fd, map_session_data* sd);
+// CZ 0x0F22 -> ZC 0x0F23 : propriétés SERVEUR d'une entité du monde, pour
+// l'inspecteur du STAFF (Bourgeon : EntityInspector). Le client lit déjà tout ce
+// qu'il possède (plaque de nom, acteur, position) ; ce paquet apporte l'autre
+// moitié — fichier de script d'un NPC, spawn d'un monstre, lanceur d'une unité
+// de compétence, réservation d'un objet au sol.
+//
+// 🔴 Gate SERVEUR : niveau de groupe >= 80, le même seuil que IsStaff() côté
+// client. Ce n'est pas une redite du bouton absent : la réponse porte des
+// char_id et des chemins de fichiers, et un client se modifie.
+//
+// La réponse est une liste CLÉ/VALEUR (une paire à valeur vide = titre de
+// section), pas une structure : ce qu'il y a à dire dépend du type de l'entité,
+// et ajouter une propriété ne doit pas devenir une rupture de protocole.
+void clif_parse_bourgeon_req_entity_props(int32 fd, map_session_data* sd);
 
 #endif /* CLIF_HPP */

@@ -7057,6 +7057,351 @@ void clif_parse_bourgeon_reqmobinfo(int32 fd, map_session_data* sd) {
 	WFIFOSET(fd, offset);
 }
 
+// [Stingor] Propriétés SERVEUR d'une entité du monde (CZ 0x0F22 -> ZC 0x0F23).
+//
+// Volet serveur de l'inspecteur du staff (Bourgeon : EntityInspector). Le client
+// sait déjà lire tout ce qu'IL possède — plaque de nom, acteur, position. Ce que
+// seul le serveur sait, c'est l'AUTRE moitié : de quel fichier de script vient ce
+// NPC, quel spawn a posé ce monstre, qui a lancé cette unité de compétence, à qui
+// est réservé cet objet au sol. C'est cette moitié-là qui part ici.
+//
+// 🔴 GATE SERVEUR, niveau de groupe >= 80 — le même seuil que IsStaff() côté
+// client. Le client ne montre le bouton qu'au staff, mais un client est une chose
+// qu'on modifie : la réponse porte des char_id, des chemins de scripts et des
+// identifiants de spawn, donc c'est ICI que ça se décide. Un non-staff reçoit
+// status 2 et RIEN d'autre — pas une réponse vide qui laisserait croire à une
+// entité introuvable.
+//
+// Sortie = liste clé/valeur (cf. PACKET_ZC_BOURGEON_ENTITY_PROPS) : une paire à
+// valeur vide est un titre de section. Le serveur décrit ce qu'il trouve ; le
+// client dessine, sans rien connaître des types du serveur.
+void clif_parse_bourgeon_req_entity_props(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+
+	const PACKET_CZ_BOURGEON_REQ_ENTITY_PROPS* p =
+		reinterpret_cast<const PACKET_CZ_BOURGEON_REQ_ENTITY_PROPS*>(RFIFOP(fd, 0));
+	const uint32 gid = p->gid;
+
+	// 8 Ko : les paires sont bornées ci-dessous (128 max, clé 63, valeur 191),
+	// donc le pire cas théorique tient largement — et `add` refuse d'écrire au
+	// delà de kMaxPayload de toute façon.
+	const int16 kMaxPayload = 7900;
+	WFIFOHEAD(fd, 8192);
+	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_ENTITY_PROPS;
+	WFIFOL(fd, 4) = gid;   // écho : le client apparie sa requête
+
+	// Staff seulement. Réponse explicite plutôt que silence : un bouton qui ne
+	// répond jamais ressemble à un bug, et le client sait dire « refusé ».
+	if (pc_get_group_level(sd) < 80) {
+		WFIFOB(fd, 8) = 2;   // status 2 = refusé
+		WFIFOB(fd, 9) = 0;   // count
+		WFIFOW(fd, 2) = 10;
+		WFIFOSET(fd, 10);
+		return;
+	}
+
+	block_list* bl = map_id2bl(gid);
+	if (bl == nullptr) {
+		WFIFOB(fd, 8) = 1;   // status 1 = aucune entité
+		WFIFOB(fd, 9) = 0;   // count
+		WFIFOW(fd, 2) = 10;
+		WFIFOSET(fd, 10);
+		return;
+	}
+
+	WFIFOB(fd, 8) = 0;       // status 0 = ok
+	int16  offset = 10;      // [type:2][len:2][gid:4][status:1][count:1]
+	uint8  count  = 0;
+
+	// Une paire (clé, valeur). Valeur vide = titre de section. Refuse d'écrire
+	// dès que le compteur ou le tampon sont pleins : une fiche tronquée vaut
+	// mieux qu'un débordement, et l'ordre d'écriture met le plus utile d'abord.
+	auto add = [&](const char* key, const std::string& val) {
+		if (count == 128) return;
+		size_t klen = strlen(key);   if (klen > 63)  klen = 63;
+		size_t vlen = val.size();    if (vlen > 191) vlen = 191;
+		if (offset + 2 + static_cast<int16>(klen) + static_cast<int16>(vlen) > kMaxPayload) return;
+		WFIFOB(fd, offset) = static_cast<uint8>(klen);          offset += 1;
+		memcpy(WFIFOP(fd, offset), key, klen);                  offset += static_cast<int16>(klen);
+		WFIFOB(fd, offset) = static_cast<uint8>(vlen);          offset += 1;
+		if (vlen > 0) memcpy(WFIFOP(fd, offset), val.c_str(), vlen);
+		offset += static_cast<int16>(vlen);
+		count++;
+	};
+	auto section = [&](const char* title) { add(title, std::string()); };
+	auto num = [](int64 v) { return std::to_string(v); };
+	auto hex32 = [](uint32 v) {
+		char b[16];
+		snprintf(b, sizeof(b), "0x%08X", v);
+		return std::string(b);
+	};
+
+	// ── Ce que TOUTE entité a ─────────────────────────────────────────────────
+	{
+		const char* type_name = "?";
+		switch (bl->type) {
+			case BL_PC:   type_name = "BL_PC (joueur)";              break;
+			case BL_MOB:  type_name = "BL_MOB (monstre)";            break;
+			case BL_NPC:  type_name = "BL_NPC";                      break;
+			case BL_ITEM: type_name = "BL_ITEM (objet au sol)";      break;
+			case BL_SKILL:type_name = "BL_SKILL (unite de skill)";   break;
+			case BL_PET:  type_name = "BL_PET";                      break;
+			case BL_HOM:  type_name = "BL_HOM (homoncule)";          break;
+			case BL_MER:  type_name = "BL_MER (mercenaire)";         break;
+			case BL_ELEM: type_name = "BL_ELEM (elemental)";         break;
+			case BL_CHAT: type_name = "BL_CHAT (salon)";             break;
+			default: break;
+		}
+		section("Serveur");
+		add("Type", type_name);
+		add("id", num(bl->id));
+		map_data* mapdata = map_getmapdata(bl->m);
+		add("Carte", std::string(mapdata != nullptr ? mapdata->name : "?") +
+		             " (" + num(bl->x) + ", " + num(bl->y) + ")");
+		if (mapdata != nullptr && mapdata->instance_id != 0)
+			add("Instance", num(mapdata->instance_id));
+	}
+
+	switch (bl->type) {
+	case BL_PC: {
+		map_session_data* tsd = BL_CAST(BL_PC, bl);
+		if (tsd == nullptr) break;
+		section("Personnage");
+		add("Nom", tsd->status.name);
+		add("Compte / perso", num(tsd->status.account_id) + " / " + num(tsd->status.char_id));
+		add("Classe", std::string(job_name(tsd->status.class_)) + " (" + num(tsd->status.class_) + ")");
+		add("Niveau", "base " + num(tsd->status.base_level) + ", metier " + num(tsd->status.job_level));
+		add("PV / SP", num(tsd->battle_status.hp) + " / " + num(tsd->battle_status.max_hp) + "   " +
+		               num(tsd->battle_status.sp) + " / " + num(tsd->battle_status.max_sp));
+		add("Groupe serveur", num(pc_get_group_level(tsd)));
+		add("Vitesse", num(tsd->battle_status.speed));
+		if (tsd->status.party_id != 0) {
+			party_data* pt = party_search(tsd->status.party_id);
+			add("Party", num(tsd->status.party_id) +
+			             (pt != nullptr ? std::string(" - ") + pt->party.name : std::string()));
+		}
+		if (tsd->status.guild_id != 0) {
+			auto g = guild_search(tsd->status.guild_id);
+			add("Guilde", num(tsd->status.guild_id) +
+			              (g != nullptr ? std::string(" - ") + g->guild.name : std::string()));
+		}
+		{  // ce qui EXPLIQUE un comportement bizarre, réuni sur une ligne
+			std::string flags;
+			auto flag = [&](bool on, const char* label) {
+				if (!on) return;
+				if (!flags.empty()) flags += ", ";
+				flags += label;
+			};
+			flag(pc_isdead(tsd), "mort");
+			flag(pc_issit(tsd), "assis");
+			flag(pc_isinvisible(tsd), "invisible");
+			flag(tsd->state.vending != 0, "echoppe");
+			flag(tsd->state.buyingstore != 0, "achat");
+			flag(tsd->state.autotrade != 0, "autotrade");
+			flag(tsd->chatID != 0, "salon");
+			flag(tsd->state.trading != 0, "echange");
+			add("Etat", flags.empty() ? "-" : flags);
+		}
+		break;
+	}
+	case BL_MOB: {
+		mob_data* md = BL_CAST(BL_MOB, bl);
+		if (md == nullptr) break;
+		section("Monstre");
+		add("mob_id", num(md->mob_id));
+		add("Nom", md->name);
+		if (md->db != nullptr && md->db->sprite.size() > 0) add("AegisName", md->db->sprite);
+		add("Niveau", num(md->level));
+		add("PV", num(md->status.hp) + " / " + num(md->status.max_hp));
+		add("Mode", hex32(static_cast<uint32>(md->status.mode)));
+		if (md->target_id != 0) add("Cible", num(md->target_id));
+		// Invocation : un mob sans maître ET sans spawn ne vient de nulle part
+		// (script `monster`), ce qui est exactement ce qu'on cherche à savoir
+		// quand un monstre est là où il ne devrait pas.
+		if (md->master_id != 0) add("Invoque par", num(md->master_id));
+		section("Origine");
+		if (md->spawn != nullptr) {
+			add("Spawn", num(md->spawn->num) + " ex., zone " +
+			             num(md->spawn->xs) + "x" + num(md->spawn->ys) +
+			             ", delai " + num(md->spawn->delay1) + " ms");
+			if (md->spawn->filepath[0] != '\0') add("Fichier", md->spawn->filepath);
+			if (md->spawn->eventname[0] != '\0') add("OnMyMobDead", md->spawn->eventname);
+		} else {
+			add("Spawn", "aucun (invoque par script ou par une competence)");
+		}
+		if (md->npc_event[0] != '\0') add("npc_event", md->npc_event);
+		break;
+	}
+	case BL_NPC: {
+		npc_data* nd = BL_CAST(BL_NPC, bl);
+		if (nd == nullptr) break;
+		const char* sub = "?";
+		switch (nd->subtype) {
+			case NPCTYPE_WARP:      sub = "WARP";       break;
+			case NPCTYPE_SHOP:      sub = "SHOP";       break;
+			case NPCTYPE_SCRIPT:    sub = "SCRIPT";     break;
+			case NPCTYPE_CASHSHOP:  sub = "CASHSHOP";   break;
+			case NPCTYPE_ITEMSHOP:  sub = "ITEMSHOP";   break;
+			case NPCTYPE_POINTSHOP: sub = "POINTSHOP";  break;
+			case NPCTYPE_TOMB:      sub = "TOMB";       break;
+			case NPCTYPE_MARKETSHOP:sub = "MARKETSHOP"; break;
+			case NPCTYPE_BARTER:    sub = "BARTER";     break;
+			default: break;
+		}
+		section("NPC");
+		add("Nom affiche", nd->name);
+		// 🔴 Le nom UNIQUE est celui que prennent `@disablenpc`, `donpcevent` et
+		// les duplicates : c'est LUI qu'on va taper, pas le nom affiché.
+		if (strcmp(nd->exname, nd->name) != 0) add("Nom unique", nd->exname);
+		add("Sous-type", sub);
+		add("Sprite", num(nd->class_));
+		// 🔴 LA raison d'être de ce paquet côté NPC : d'où vient ce script.
+		if (nd->path != nullptr && *nd->path != '\0') add("Fichier", nd->path);
+		if (nd->src_id != 0 && nd->src_id != nd->id) add("Duplique de", num(nd->src_id));
+		if (nd->instance_id != 0) add("Instance", num(nd->instance_id));
+		if (nd->subtype == NPCTYPE_WARP) {
+			const char* dest = mapindex_id2name(nd->u.warp.mapindex);
+			add("Destination", std::string(dest != nullptr ? dest : "?") +
+			                   " (" + num(nd->u.warp.x) + ", " + num(nd->u.warp.y) + ")");
+			add("Zone OnTouch", num(nd->u.warp.xs) + " x " + num(nd->u.warp.ys));
+		} else if (nd->subtype == NPCTYPE_SCRIPT) {
+			if (nd->u.scr.xs >= 0 || nd->u.scr.ys >= 0)
+				add("Zone OnTouch", num(nd->u.scr.xs) + " x " + num(nd->u.scr.ys));
+			if (nd->u.scr.guild_id != 0) add("Guilde", num(nd->u.scr.guild_id));
+			add("Etiquettes", num(nd->u.scr.label_list_num));
+		} else if (nd->subtype == NPCTYPE_SHOP || nd->subtype == NPCTYPE_CASHSHOP ||
+		           nd->subtype == NPCTYPE_ITEMSHOP || nd->subtype == NPCTYPE_POINTSHOP ||
+		           nd->subtype == NPCTYPE_MARKETSHOP) {
+			// 🔴 `u` est une UNION : ne lire `u.shop` que sur les sous-types qui
+			// l'écrivent. Un TOMB y range `u.tomb`, et « Articles : 1431655765 »
+			// est ce qu'on obtient en se trompant de membre.
+			add("Articles", num(nd->u.shop.count));
+		} else if (nd->subtype == NPCTYPE_TOMB) {
+			if (nd->u.tomb.killer_name[0] != '\0')
+				add("Tue par", nd->u.tomb.killer_name);
+		}
+		// e_npcv_status est un masque : on nomme les états qu'on sait nommer et
+		// on montre la valeur brute pour le reste, plutôt que d'affirmer à tort.
+		{
+			std::string st;
+			switch (nd->state) {
+				case NPCVIEW_ENABLE:  st = "actif";                break;
+				case NPCVIEW_DISABLE: st = "desactive";            break;
+				case NPCVIEW_HIDEON:  st = "cache (hideonnpc)";    break;
+				case NPCVIEW_HIDEOFF: st = "visible (hideoffnpc)"; break;
+				case NPCVIEW_CLOAKON: st = "cloak";                break;
+				case NPCVIEW_CLOAKOFF:st = "cloak off";            break;
+				default: st = hex32(static_cast<uint32>(nd->state)); break;
+			}
+			add("Etat", st);
+		}
+		break;
+	}
+	case BL_ITEM: {
+		flooritem_data* fi = BL_CAST(BL_ITEM, bl);
+		if (fi == nullptr) break;
+		section("Objet au sol");
+		std::shared_ptr<item_data> id = item_db.find(fi->item.nameid);
+		add("Objet", std::string(id != nullptr ? id->ename : "?") +
+		             " (" + num(fi->item.nameid) + ")");
+		add("Quantite", num(fi->item.amount));
+		if (fi->item.refine != 0) add("Raffinage", "+" + num(fi->item.refine));
+		if (fi->mob_id != 0) add("Lache par", "mob " + num(fi->mob_id));
+		// La réservation explique le « je ne peux pas ramasser » qu'on nous
+		// remonte comme un bug : ces trois char_id sont prioritaires, chacun sur
+		// sa fenêtre de temps.
+		if (fi->first_get_charid != 0 || fi->second_get_charid != 0 ||
+		    fi->third_get_charid != 0) {
+			add("Reserve a", num(fi->first_get_charid) + " / " +
+			                 num(fi->second_get_charid) + " / " +
+			                 num(fi->third_get_charid));
+		}
+		const TimerData* td = get_timer(fi->cleartimer);
+		if (td != nullptr) {
+			const t_tick left = DIFF_TICK(td->tick, gettick());
+			add("Disparait dans", num(left < 0 ? 0 : left / 1000) + " s");
+		}
+		break;
+	}
+	case BL_SKILL: {
+		skill_unit* su = BL_CAST(BL_SKILL, bl);
+		if (su == nullptr) break;
+		section("Unite de competence");
+		std::shared_ptr<s_skill_unit_group> g = su->group;
+		if (g == nullptr) { add("Groupe", "detruit"); break; }
+		const char* desc = skill_get_desc(g->skill_id);
+		if (desc == nullptr || *desc == '\0') desc = skill_get_name(g->skill_id);
+		add("Competence", std::string(desc != nullptr ? desc : "?") +
+		                  " (" + num(g->skill_id) + ") niveau " + num(g->skill_lv));
+		// Le lanceur : c'est la question qu'on se pose devant un Land Protector
+		// posé au mauvais endroit.
+		add("Lance par", num(g->src_id));
+		if (g->party_id != 0) add("Party", num(g->party_id));
+		if (g->guild_id != 0) add("Guilde", num(g->guild_id));
+		add("unit_id / group_id", num(g->unit_id) + " / " + num(g->group_id));
+		add("Intervalle", num(g->interval) + " ms");
+		{
+			const t_tick left = DIFF_TICK(g->tick + g->limit, gettick());
+			add("Expire dans", num(left < 0 ? 0 : left / 1000) + " s");
+		}
+		add("Cellules", num(g->alive_count) + " / " + num(g->unit_count));
+		add("Etat", std::string(su->alive ? "vivante" : "morte") +
+		            (su->hidden ? ", cachee" : ""));
+		break;
+	}
+	case BL_PET: {
+		pet_data* pd = BL_CAST(BL_PET, bl);
+		if (pd == nullptr) break;
+		section("Pet");
+		add("Nom", pd->pet.name);
+		add("Classe", num(pd->pet.class_));
+		add("Niveau", num(pd->pet.level));
+		add("Intimite / faim", num(pd->pet.intimate) + " / " + num(pd->pet.hungry));
+		add("Maitre (char)", num(pd->pet.char_id));
+		break;
+	}
+	case BL_HOM: {
+		homun_data* hd = BL_CAST(BL_HOM, bl);
+		if (hd == nullptr) break;
+		section("Homoncule");
+		add("Nom", hd->homunculus.name);
+		add("Classe", num(hd->homunculus.class_));
+		add("Niveau", num(hd->homunculus.level));
+		add("PV / SP", num(hd->homunculus.hp) + " / " + num(hd->homunculus.max_hp) + "   " +
+		               num(hd->homunculus.sp) + " / " + num(hd->homunculus.max_sp));
+		add("Intimite / faim", num(hd->homunculus.intimacy) + " / " + num(hd->homunculus.hunger));
+		add("Maitre (char)", num(hd->homunculus.char_id));
+		break;
+	}
+	case BL_MER: {
+		s_mercenary_data* mc = BL_CAST(BL_MER, bl);
+		if (mc == nullptr) break;
+		section("Mercenaire");
+		add("Classe", num(mc->mercenary.class_));
+		add("PV", num(mc->battle_status.hp) + " / " + num(mc->battle_status.max_hp));
+		add("Maitre (char)", num(mc->mercenary.char_id));
+		add("Expire dans", num(mc->mercenary.life_time / 1000) + " s");
+		break;
+	}
+	case BL_ELEM: {
+		s_elemental_data* ed = BL_CAST(BL_ELEM, bl);
+		if (ed == nullptr) break;
+		section("Elemental");
+		add("Classe", num(ed->elemental.class_));
+		add("PV", num(ed->battle_status.hp) + " / " + num(ed->battle_status.max_hp));
+		add("Maitre (char)", num(ed->elemental.char_id));
+		break;
+	}
+	default:
+		break;
+	}
+
+	WFIFOB(fd, 9) = count;
+	WFIFOW(fd, 2) = offset;  // packetLength
+	WFIFOSET(fd, offset);
+}
+
 // Sertissage rapide (Bourgeon) : le client demande, pour un ÉQUIPEMENT donné, la
 // liste des cartes de l'inventaire qui peuvent y être serties. On applique le
 // prédicat EXACT du sertissage (pc_can_insert_card) à chaque carte -> la liste

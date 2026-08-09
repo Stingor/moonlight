@@ -6316,6 +6316,61 @@ struct PACKET_ZC_BOURGEON_CHANNEL_LIST {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_CHANNEL_LIST, 0x0f21);
 
+// CZ (client -> server): propriétés SERVEUR d'une entité du monde. Fixe 8.
+// Layout: [packetType:2][packetLength:2][gid:4]
+//
+// `gid` est l'identifiant que le CLIENT voit — celui de son quad de picking.
+// Pour un joueur c'est l'account_id, pour tout le reste l'id d'objet : dans les
+// deux cas exactement la clé de map_id2bl(), donc rien à convertir.
+//
+// 🔴 RÉSERVÉ AU STAFF. La réponse décrit des choses qu'un joueur n'a pas à
+// connaître (fichier de script d'un NPC, id de spawn d'un mob, char_id d'un
+// autre joueur). Le gate est SERVEUR — niveau de groupe >= 80 — et pas
+// seulement l'absence de bouton côté client.
+struct PACKET_CZ_BOURGEON_REQ_ENTITY_PROPS {
+	int16  packetType;
+	int16  packetLength;
+	uint32 gid;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_ENTITY_PROPS, 0x0f22);
+
+// ZC (server -> client): propriétés SERVEUR d'une entité. VARIABLE.
+//
+// Header fixe: [packetType:2][packetLength:2][gid:4][status:1][count:1]
+//   status : 0 = ok, 1 = aucune entité pour ce gid, 2 = refusé (pas staff).
+// Puis count fois : [key_len:1][key:N][val_len:1][val:M]
+//
+// ⚠ Le type d'entité ne voyage PAS en champ binaire : `bl_type` est un MASQUE
+// (BL_CHAT = 0x100, BL_ELEM = 0x200) qui ne tient pas dans un octet, et un
+// second champ que personne ne lit ne vaut pas une largeur de plus. Le type part
+// en clair, comme première propriété de la section « Serveur » — c'est de toute
+// façon sous cette forme qu'il se lit.
+//
+// 🔴 Le corps est une LISTE CLÉ/VALEUR, pas une structure. Ce n'est pas de la
+// paresse : un inspecteur n'a pas de schéma, il décrit ce qu'il trouve, et ce
+// qu'il trouve dépend du type de l'entité — un NPC de warp, un mob invoqué et
+// une unité de compétence n'ont pas trois champs en commun. Une structure rigide
+// aurait imposé un champ « libre » de toute façon, et surtout : ajouter une
+// propriété deviendrait une rupture de protocole à déployer des deux côtés,
+// alors qu'ici le serveur seul suffit.
+//
+// Convention : une paire dont la VALEUR est vide est un TITRE DE SECTION. Le
+// client la dessine en séparateur. C'est ce qui remplace un découpage en groupes
+// dans le paquet lui-même.
+//
+// Les clés et les valeurs sont écrites par le SERVEUR et affichées telles
+// quelles : elles ne passent par aucun catalogue de traduction, comme les
+// messages serveur relayés par le chat.
+struct PACKET_ZC_BOURGEON_ENTITY_PROPS {
+	int16 packetType;
+	int16 packetLength;
+	uint32 gid;
+	uint8 status;
+	uint8 count;
+	// suivi de count * [key_len:1][key][val_len:1][val]
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_ENTITY_PROPS, 0x0f23);
+
 // ZC (server -> client): apport des ÉQUIPEMENTS et des CARTES aux stats, compilé
 // par status_calc_pc. sd->indexed_bonus.param_equip = apport équipement (copié en
 // status.cpp), param_bonus = apport cartes (cf. le split memcpy/memset). Push à

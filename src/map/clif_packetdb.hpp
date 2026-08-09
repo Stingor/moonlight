@@ -2088,4 +2088,8 @@ parseable_packet(HEADER_CZ_BOURGEON_OPEN_STORAGE, sizeof(PACKET_CZ_BOURGEON_OPEN
 // Monster Info du skill Sense, cf. Bourgeon/docs/monster_info_re.md) — fixed
 parseable_packet(HEADER_CZ_BOURGEON_REQ_MOBINFO, sizeof(PACKET_CZ_BOURGEON_REQ_MOBINFO), clif_parse_bourgeon_reqmobinfo, 0);
 
+// [Stingor] Bourgeon : propriétés SERVEUR d'une entité (inspecteur du staff).
+// Gate niveau de groupe >= 80 DANS le handler, pas seulement côté client — fixed
+parseable_packet(HEADER_CZ_BOURGEON_REQ_ENTITY_PROPS, sizeof(PACKET_CZ_BOURGEON_REQ_ENTITY_PROPS), clif_parse_bourgeon_req_entity_props, 0);
+
 #endif /* CLIF_PACKETDB_HPP */
