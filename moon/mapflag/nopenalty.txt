@@ -1,0 +1,57 @@
+//===== rAthena Script =======================================
+//= Mapflag: No penalty.
+//===== Description: =========================================
+//= Same as 'noexppenalty' and 'nozenypenalty' combined.
+//=
+//= Pose sur toutes les maps GvG : sans ce flag, pc_dead()
+//= applique IntimacyOwnerDie (-20) au pet a CHAQUE mort du
+//= joueur (src/map/pc.cpp, bloc pet). Ce test ne regarde que
+//= MF_NOEXPPENALTY, contrairement a la penalite d'exp qui
+//= exclut deja le GvG via mapdata_flag_gvg2(). Sur 2h de WoE,
+//= 50 morts suffisent a vider l'intimite (max 1000) : l'oeuf
+//= est alors supprime de l'inventaire et le pet efface de la
+//= base au changement de map suivant, sans aucun message.
+//= L'autofeed ne protege que de la faim, pas de ce compteur.
+//============================================================
+
+// GvG Arenas =============
+guild_vs1	mapflag	nopenalty
+guild_vs2	mapflag	nopenalty
+guild_vs3	mapflag	nopenalty
+guild_vs4	mapflag	nopenalty
+guild_vs5	mapflag	nopenalty
+
+// Guild Castles ==========
+aldeg_cas01	mapflag	nopenalty
+aldeg_cas02	mapflag	nopenalty
+aldeg_cas03	mapflag	nopenalty
+aldeg_cas04	mapflag	nopenalty
+aldeg_cas05	mapflag	nopenalty
+gefg_cas01	mapflag	nopenalty
+gefg_cas02	mapflag	nopenalty
+gefg_cas03	mapflag	nopenalty
+gefg_cas04	mapflag	nopenalty
+gefg_cas05	mapflag	nopenalty
+payg_cas01	mapflag	nopenalty
+payg_cas02	mapflag	nopenalty
+payg_cas03	mapflag	nopenalty
+payg_cas04	mapflag	nopenalty
+payg_cas05	mapflag	nopenalty
+prtg_cas01	mapflag	nopenalty
+prtg_cas02	mapflag	nopenalty
+prtg_cas03	mapflag	nopenalty
+prtg_cas04	mapflag	nopenalty
+prtg_cas05	mapflag	nopenalty
+schg_cas01	mapflag	nopenalty
+schg_cas02	mapflag	nopenalty
+schg_cas03	mapflag	nopenalty
+schg_cas04	mapflag	nopenalty
+schg_cas05	mapflag	nopenalty
+arug_cas01	mapflag	nopenalty
+arug_cas02	mapflag	nopenalty
+arug_cas03	mapflag	nopenalty
+arug_cas04	mapflag	nopenalty
+arug_cas05	mapflag	nopenalty
+
+// Custom GvG =============
+pvp_n_5-1	mapflag	nopenalty
