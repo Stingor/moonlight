@@ -57,3 +57,5 @@ Body:
    Npc: huntmission
  - Id: 3000011
    Npc: guide_gonryun
+ - Id: 3000012
+   Npc: kafra_gon
