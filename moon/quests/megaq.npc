@@ -1,7 +1,6 @@
 gonryun,160,97,3	script	#cadavre::npcq_controller	687,{
 OnStart:
 	ignoretimeout 1;
-	if( #blockmegaq1 ) end;
 	if( !#MEGAQ1 )
 	{
 		#MEGAQ1VAL1 = 1156;

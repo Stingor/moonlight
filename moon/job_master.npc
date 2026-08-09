@@ -3,12 +3,6 @@
 //============================================================
 
 gonryun,163,122,4	script	Job Master::jobmaster	4W_F_01,{
-	if( #BlockMoonNpc & 1 ) {
-		dispbottom "Vous bloquez le npc avec @npcblock 1 !";
-		end;
-	}
-
-L_MainMenu:
 	.@jobmini = 40;
 	.@baseminsupnono = 45;
 	.@skillcost = 5000;
@@ -488,7 +482,7 @@ L_MainMenu:
 					ResetStatus;
 					close;
 				}
-				default: goto L_MainMenu;
+				default: restartnpc;
 			}
 		}
 		case 4: {
@@ -818,8 +812,7 @@ L_BuildMenu:
 	case 5:
 		callsub L_ViewBuilds;
 		break;
-	default:
-		goto L_MainMenu;
+	default: restartnpc;
 	}
 	callsub L_BuildMenuBack;
 	end;

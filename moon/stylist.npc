@@ -3,18 +3,11 @@
 //============================================================
 
 gonryun,160,126,5	script	Styliste::stylist_gon	2_M_DYEINGER,{
-	if (#BlockMoonNpc & 4) {
-		dispbottom "Vous bloquez le npc avec @npcblock 3 !";
-		end;
-	}
 	setarray .@max[1],491,251,80; // Number of cloths,haircolors,hairstyles in client
 	setarray .@blacklist[0],0; // NPC will skip any cloth colors in this array.
 	setarray .@type[1],7,6,1; // DO NOT EDIT
 	.@style = 1;
 	.@npc_name$ = "[ ^1F81D4" + strnpcinfo(0) + "^000000 ]";
-	mes " ";
-L_Menu:
-	clear;
 	mes .@npc_name$;
 	mes "Je peux changer votre apparence si vous le souhaitez.";
 	mes " ";
@@ -196,7 +189,7 @@ L_mainmenu:
 			base4th = 0;
 			base3rd = 1;
 		}
-		goto L_Menu;
+		restartnpc;
 	}
 	if (.@s == 7) {
 		switch (Class) {
@@ -263,7 +256,7 @@ L_mainmenu:
 		}
 		base3rd = 0;
 		base4th = 1;
-		goto L_Menu;
+		restartnpc;
 	}
 	clear;
 	mes .@npc_name$;
@@ -353,7 +346,7 @@ L_mainmenu:
 				.@style = .@prev;
 			}
 			break;
-		case 3: goto L_Menu;
+		case 3: restartnpc;
 		case 4:
 			next;
 			mes .@npc_name$;

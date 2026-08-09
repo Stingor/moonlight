@@ -324,23 +324,6 @@ OnCommand:
 	end;
 }
 
--	script	#stfutictac	-1,{
-OnInit:
-	bindatcmd("stfutictac",strnpcinfo(0)+"::OnCommand",0,99);
-	end;
-
-OnCommand:
-	if( #blockmegaq1 ) {
-		dispbottom "Vous ne bloquez plus Tic et Tac!";
-		#blockmegaq1 = 0;
-	}
-	else {
-		dispbottom "Vous bloquez Tic et Tac!";
-		#blockmegaq1 = 1;
-	}
-	end;
-}
-
 -	script	#orc	-1,{
 OnInit:
 	bindatcmd("orc",strnpcinfo(0)+"::OnCommand",0,99);
@@ -446,77 +429,6 @@ OnCommand:
 	.@hp = cap_value(atoi(.@atcmd_parameters$[2]), 1, 100000000);
 	if( !getmapxy(.@map$, .@x, .@y, BL_PC) && (.@val = monster_event(.@map$, .@x, .@y, .@mobid, .@amount, .@hp, (atoi(.@atcmd_parameters$[3]) > 0 ? 1 : 0))) )
 		unittalk getcharid(3), "Summon de "+.@amount+" "+getmonsterinfo(.@mobid, MOB_NAME)+" à "+.@val+" HP";
-	end;
-}
-
--	script	#npcblock	-1,{
-OnInit:
-	bindatcmd("npcblock",strnpcinfo(0)+"::OnCommand",0,99);
-	end;
-
-OnCommand:
-	switch( .@atcmd_parameters$[0] ) {
-		case 1:
-			if( #BlockMoonNpc & 1 ) {
-				dispbottom "Vous ne bloquez plus le Job Master.";
-				#BlockMoonNpc &= ~1;
-			}
-			else {
-				dispbottom "Vous bloquez désormais le Job Master.";
-				#BlockMoonNpc |= 1;
-			}
-			break;
-		case 2:
-			if( #BlockMoonNpc & 2 ) {
-				dispbottom "Vous ne bloquez plus la Kafra.";
-				#BlockMoonNpc &= ~2;
-			}
-			else {
-				dispbottom "Vous bloquez désormais la Kafra.";
-				#BlockMoonNpc |= 2;
-			}
-			break;
-		case 3:
-			if( #BlockMoonNpc & 4 ) {
-				dispbottom "Vous ne bloquez plus le Styliste.";
-				#BlockMoonNpc &= ~4;
-			}
-			else {
-				dispbottom "Vous bloquez désormais le Styliste.";
-				#BlockMoonNpc |= 4;
-			}
-			break;
-		case 4:
-			if( #BlockMoonNpc & 8 ) {
-				dispbottom "Vous ne bloquez plus le PvP Warper.";
-				#BlockMoonNpc &= ~8;
-			}
-			else {
-				dispbottom "Vous bloquez désormais le PvP Warper.";
-				#BlockMoonNpc |= 8;
-			}
-			break;
-		case 5:
-			if( #BlockMoonNpc & 16 ) {
-				dispbottom "Vous ne bloquez plus le DB/BB/MVP Warper.";
-				#BlockMoonNpc &= ~16;
-			}
-			else {
-				dispbottom "Vous bloquez désormais le DB/BB/MVP Warper.";
-				#BlockMoonNpc |= 16;
-			}
-			break;
-		default:
-			if( #BlockMoonNpc ) {
-				dispbottom "Vous ne bloquez plus les npcs ([1]Job master, [2]kafra, [3]styliste, [4]pvp warper, [5]db/bb/mvp warper).";
-				#BlockMoonNpc = 0;
-			}
-			else {
-				dispbottom "Vous bloquez les npcs ([1]Job master, [2]kafra, [3]styliste, [4]pvp warper, [5]db/bb/mvp warper).";
-				#BlockMoonNpc = 31;
-			}
-			break;
-	}
 	end;
 }
 

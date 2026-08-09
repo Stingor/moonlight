@@ -3,10 +3,6 @@
 //============================================================
 
 gonryun,161,130,5	script	Rooms::room_gonryun	4_M_JOB_HUNTER,{
-	if( #BlockMoonNpc & 16 ) {
-		dispbottom "Vous bloquez le npc avec @npcblock 5 !";
-		end;
-	}
 	if( .init == 0 ) {
 		waitingroom(getmapusers("pvp_n_1-1")?"DB Room: "+getmapusers("pvp_n_1-1")+" joueur"+(getmapusers("pvp_n_1-1")==1?"":"s"):"Personne en DB"),0;
 		.init = 1;
@@ -326,11 +322,6 @@ pvp_n_5-1,102,70,4	script	#lol::returngvg	1_F_02,{
 }
 
 gonryun,156,130,4	script	PvP Warper::pvpwarper_gon	4_M_JOB_KNIGHT1,{
-	if( #BlockMoonNpc & 8 ) {
-		dispbottom "Vous bloquez le npc avec @npcblock 4 !";
-		end;
-	}
-
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 	mes "Voulez-vous combattre dans l'arène PvP ?";
 	percentheal 100,100;

@@ -4,11 +4,6 @@
 
 gonryun,155,122,5	script	Kafra::kafra_gon	4_F_KAFRA2,{
 	function ChangeGM;
-	if( #BlockMoonNpc & 2 ) {
-		dispbottom "Vous bloquez le npc avec @npcblock 2 !";
-		end;
-	}
-
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 	mes "Je suis le npc qui permet de louer un cart, un faucon ou encore un peco !";
 	mes "Mais aussi de changer de gm de guilde !!";
