@@ -751,7 +751,7 @@ function GetMobs {
 			else
 				.@exp$ = "";
 			.@mobnum$ = "["+.@mobnums[.@i] + "]";
-			if( bourgeon_ui()) {
+			if( bourgeon_ui(BOURGEON_UI_NPC_DIALOG)) {
 				.@moblvexp$ = " (LV:" + getmonsterinfo(.@mobids[.@i], MOB_LV) + .@exp$ +")";
 				if( getmonsterinfo(.@mobids[.@i], MOB_MODE) & MD_MVP || getmonsterinfo(.@mobids[.@i], MOB_MVPEXP) > 0 || getmonsterinfo(.@mobids[.@i], MOB_CLASS) == CLASS_BOSS )
 					mes .@mobnum$ + mobsprite(.@mobids[.@i]) + mesmoblink(.@mobids[.@i]) + .@moblvexp$;
