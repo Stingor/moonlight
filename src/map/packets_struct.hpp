@@ -6272,6 +6272,22 @@ DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_MOBINFO, 0x0f1f);
 //       a un (localisé) et retombe sur celui-ci sinon.
 //       Dédupliqué sur (id, niveau) : mob_skill_db porte une LIGNE par état
 //       d'IA et par condition, pas une par compétence.
+//   [aegislen:1][aegis:aegislen]        AegisName, l'identité UNIQUE du monstre
+//   [summoned:1][namesake_count:1][namesake_ref:4]
+//   [est_base_exp:4][est_job_exp:4]     ce que CE monstre rapporte à CE joueur
+//   [next_base_exp:4][next_job_exp:4]   les deux paliers du niveau suivant
+//   [exp_flags:1]                       bit0 = niveau de base MAX, bit1 = job MAX
+//
+// ⚠ Le bloc d'EXP estimée est le SEUL contenu de ce paquet qui dépende du joueur
+// qui regarde : mob_estimate_exp_gain y applique le malus de haut niveau et les
+// bonus personnels (bExpAddRace / bExpAddClass, Battle Manual, VIP, event EXP),
+// exactement comme le fait la warp agent en script via getmonsterexprate. C'est
+// un INSTANTANÉ — il vieillit dès que le joueur change de niveau ou de buff, et
+// c'est au client de redemander la fiche à ce moment-là.
+// Les paliers partent avec pour que le client exprime le gain en pour cent de la
+// barre sans dépendre de globales qu'il devrait tenir à jour lui-même. Au niveau
+// maximum, `next_*` vaut le plafond de STOCKAGE de l'EXP et non un palier à
+// franchir : d'où `exp_flags`, qui le dit plutôt que de laisser deviner.
 //
 // Les trois listes sont bornées (uint8 de comptage) ; le serveur tronque et le
 // client le signale. Tout est envoyé à la volée en WFIFO, packetLength en dernier.

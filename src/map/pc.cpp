@@ -8828,25 +8828,56 @@ int32 pc_checkjoblevelup(map_session_data *sd)
 */
 void pc_calcexp(map_session_data *sd, t_exp *base_exp, t_exp *job_exp, block_list *src)
 {
+	if (src == nullptr) {
+		pc_calcexp_from(sd, base_exp, job_exp, false, false, 0, 0, 0);
+		return;
+	}
+
+	status_data* status = status_get_status_data(*src);
+
+	pc_calcexp_from(sd, base_exp, job_exp, true, src->type == BL_MOB,
+		status->race, status->class_, (uint32)status_get_lv(src));
+}
+
+/**
+ * [Stingor] Corps de pc_calcexp, exprimé sur les CARACTÉRISTIQUES de la source
+ * (race, classe, niveau) plutôt que sur un block_list.
+ *
+ * C'est la seule forme utilisable pour ESTIMER ce qu'un monstre rapporterait : la
+ * fiche de monstre et la warp agent raisonnent sur une ligne de mob_db, il n'existe
+ * aucune instance sur la carte à passer en `src`. Passer `sd` à la place — ce que
+ * faisait getmonsterexprate — appliquait les bonus d'EXP de la race et de la classe
+ * du JOUEUR, et perdait le bonus VIP (réservé à `src->type == BL_MOB`).
+ *
+ * @param has_src    false = gain sans source (EXP de quête) : seuls les buffs comptent
+ * @param src_is_mob la source est un monstre (conditionne le bonus VIP)
+ * @param src_race   RC_* de la source, ignoré si !has_src
+ * @param src_class  CLASS_* de la source, ignoré si !has_src
+ * @param src_lv     niveau de la source (pk_mode), ignoré si !has_src
+ */
+void pc_calcexp_from(map_session_data *sd, t_exp *base_exp, t_exp *job_exp,
+	bool has_src, bool src_is_mob, int32 src_race, int32 src_class, uint32 src_lv)
+{
 	int32 bonus = 0, vip_bonus_base = 0, vip_bonus_job = 0;
 
-	if (src) {
-		status_data* status = status_get_status_data(*src);
-
-		if( sd->indexed_bonus.expaddrace[status->race] )
-			bonus += sd->indexed_bonus.expaddrace[status->race];
+	if (has_src) {
+		// Bornes explicites : une ligne de mob_db peut porter une race ou une classe
+		// hors table, et l'indexation se faisait jusqu'ici sur un status_data toujours
+		// issu d'un spawn, donc toujours valide.
+		if( CHK_RACE(src_race) && sd->indexed_bonus.expaddrace[src_race] )
+			bonus += sd->indexed_bonus.expaddrace[src_race];
 		if( sd->indexed_bonus.expaddrace[RC_ALL] )
 			bonus += sd->indexed_bonus.expaddrace[RC_ALL];
-		if( sd->indexed_bonus.expaddclass[status->class_] )
-			bonus += sd->indexed_bonus.expaddclass[status->class_];
+		if( CHK_CLASS(src_class) && sd->indexed_bonus.expaddclass[src_class] )
+			bonus += sd->indexed_bonus.expaddclass[src_class];
 		if( sd->indexed_bonus.expaddclass[CLASS_ALL] )
 			bonus += sd->indexed_bonus.expaddclass[CLASS_ALL];
 
 		if (battle_config.pk_mode &&
-			(int32)(status_get_lv(src) - sd->status.base_level) >= 20)
+			((int32)src_lv - (int32)sd->status.base_level) >= 20)
 			bonus += 15; // pk_mode additional exp if monster >20 levels [Valaris]
 
-		if (src && src->type == BL_MOB && pc_isvip(sd)) { // EXP bonus for VIP player
+		if (src_is_mob && pc_isvip(sd)) { // EXP bonus for VIP player
 			vip_bonus_base = battle_config.vip_base_exp_increase;
 			vip_bonus_job = battle_config.vip_job_exp_increase;
 		}
@@ -8904,6 +8935,31 @@ void pc_gainexp_disp(map_session_data *sd, t_exp base_exp, t_exp next_base_exp, 
 }
 
 /**
+ * [Stingor] Malus d'EXP de base au-delà du niveau 200 : décroissance exponentielle
+ * en e^((niveau - 200) / 250), moitié moins encore pour le Taekwon.
+ *
+ * EXTRAIT de pc_gainexp pour que l'ESTIMATION montrée au joueur (fiche de monstre,
+ * warp agent) soit littéralement le même calcul que le gain réel. Deux copies de
+ * cette formule auraient fini par diverger, et l'écart se serait vu comme un bug
+ * d'affichage plutôt que comme la duplication qu'il aurait été.
+ *
+ * @param sd Joueur
+ * @param base_exp EXP de base avant malus
+ * @return EXP de base après malus
+ **/
+t_exp pc_highlevel_exp_malus( const map_session_data* sd, t_exp base_exp )
+{
+	if (sd == nullptr || sd->status.base_level <= 200 || base_exp == 0)
+		return base_exp;
+
+	base_exp = (t_exp)((float)base_exp / exp(((float)(sd->status.base_level) - 200.0f) / 250.0f));
+	if (sd->status.class_ == JOB_TAEKWON)
+		base_exp /= 2;
+
+	return base_exp;
+}
+
+/**
  * Give Base or Job EXP to player, then calculate remaining exp for next lvl
  * @param sd Player
  * @param src EXP source
@@ -8919,11 +8975,7 @@ void pc_gainexp(map_session_data *sd, block_list *src, t_exp base_exp, t_exp job
 
 	nullpo_retv(sd);
 
-	if (sd->status.base_level > 200 && base_exp > 0) { // [Stingor]
-		base_exp = (t_exp)((float)base_exp / exp(((float)(sd->status.base_level) - 200.0f) / 250.0f));
-		if (sd->status.class_ == JOB_TAEKWON)
-			base_exp /= 2;
-	}
+	base_exp = pc_highlevel_exp_malus(sd, base_exp); // [Stingor]
 
 	if(sd->prev == nullptr || pc_isdead(sd))
 		return;

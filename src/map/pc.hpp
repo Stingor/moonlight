@@ -1642,6 +1642,13 @@ void pc_changelook(map_session_data *,int32,int32);
 void pc_equiplookall(map_session_data *sd);
 void pc_set_costume_view(map_session_data *sd);
 void pc_calcexp(map_session_data *sd, t_exp *base_exp, t_exp *job_exp, block_list *src);
+// [Stingor] Même calcul que pc_calcexp, mais exprimé sur les CARACTÉRISTIQUES de la
+// source au lieu d'un block_list : c'est la seule forme utilisable pour ESTIMER le
+// gain d'un monstre qui n'est pas sur la carte (fiche de monstre, warp agent).
+void pc_calcexp_from(map_session_data *sd, t_exp *base_exp, t_exp *job_exp,
+	bool has_src, bool src_is_mob, int32 src_race, int32 src_class, uint32 src_lv);
+// [Stingor] Malus d'EXP de base au-delà du niveau 200, extrait de pc_gainexp.
+t_exp pc_highlevel_exp_malus( const map_session_data* sd, t_exp base_exp );
 
 int64 pc_readparam( const map_session_data* sd, int64 type );
 bool pc_setparam(map_session_data *sd, int64 type, int64 val);

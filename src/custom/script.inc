@@ -23,7 +23,12 @@
  * Returns the percentage of EXP (base or job) a player would receive from killing a monster.
  * getmonsterexprate(<mob_id>, <type>{, "<player_name>"})
  * <type>: 0 = base exp %, 1 = job exp %
- * Return value is in 1/100th of a percent (e.g. 1234 = 12.34%)
+ *
+ * [Stingor] Rend une CHAÎNE déjà formatée (« 12.34% »), bornée à 100 %, et vide
+ * quand le gain est nul ou le niveau maximum atteint — l'ancien en-tête annonçait
+ * un entier en centièmes de pour cent, ce qu'elle n'a jamais renvoyé.
+ * Le calcul lui-même vit dans mob_estimate_exp_gain (src/map/mob.cpp), partagé
+ * avec la fiche de monstre du client (ZC 0x0F20).
  */
 BUILDIN_FUNC(getmonsterexprate)
 {
@@ -57,16 +62,13 @@ BUILDIN_FUNC(getmonsterexprate)
 		return SCRIPT_CMD_SUCCESS;
 	}
 
-	t_exp base_exp = mob->base_exp;
-	t_exp job_exp  = mob->job_exp;
-
-	if (sd->status.base_level > 200 && base_exp > 0) { // [Stingor]
-		base_exp = (t_exp)((float)base_exp / exp(((float)(sd->status.base_level) - 200.0f) / 250.0f));
-		if (sd->status.class_ == JOB_TAEKWON)
-			base_exp /= 2;
-	}
-
-	pc_calcexp(sd, &base_exp, &job_exp, sd);
+	// [Stingor] Même estimation que la fiche de monstre du client (ZC 0x0F20) :
+	// mob_estimate_exp_gain porte le calcul, les deux ne peuvent plus diverger.
+	// Elle passe le MONSTRE comme source à pc_calcexp, là où ce code passait `sd` —
+	// ce qui appliquait les bonus d'EXP de la race et de la classe du JOUEUR et
+	// perdait le bonus VIP, réservé aux sources de type BL_MOB.
+	t_exp base_exp = 0, job_exp = 0;
+	mob_estimate_exp_gain(*sd, *mob, base_exp, job_exp);
 
 	double base_pct = 0, job_pct = 0;
 	t_exp base_exp2 = base_exp;

@@ -7076,6 +7076,40 @@ void clif_parse_bourgeon_reqmobinfo(int32 fd, map_session_data* sd) {
 		WFIFOL(fd, offset) = ref;                                           offset += 4;
 	}
 
+	// ── Ce que ce monstre rapporte à CE joueur ────────────────────────────────
+	// L'EXP de mob_db envoyée plus haut est la même pour tout le monde ; celle-ci
+	// tient compte du personnage qui regarde — malus de haut niveau, cartes
+	// bExpAddRace / bExpAddClass, Battle Manual, VIP, event EXP. C'est le calcul
+	// que la warp agent expose déjà en script (getmonsterexprate), au mot près :
+	// les deux passent par mob_estimate_exp_gain.
+	//
+	// Les deux paliers du niveau suivant partent AVEC, pour que le client puisse
+	// exprimer le gain en pour cent de la barre — et en nombre de monstres — sans
+	// avoir à s'en remettre à des globales qu'il faudrait tenir à jour.
+	//
+	// ⚠ Instantané : le résultat dépend de l'état du joueur au moment de la
+	// demande (niveau, buffs). Le client redemande la fiche quand cet état change.
+	{
+		t_exp est_base = 0, est_job = 0;
+		mob_estimate_exp_gain(*sd, *mob, est_base, est_job);
+
+		const t_exp nextb = pc_nextbaseexp(sd);
+		const t_exp nextj = pc_nextjobexp(sd);
+
+		// Au niveau maximum, pc_nextbaseexp rend MAX_LEVEL_BASE_EXP (le plafond de
+		// stockage de l'EXP, pas un palier à franchir) : le pour cent qu'on en
+		// tirerait ne voudrait rien dire, d'où le drapeau plutôt qu'un zéro.
+		uint8 expflags = 0;
+		if (pc_is_maxbaselv(sd)) expflags |= 1;
+		if (pc_is_maxjoblv(sd))  expflags |= 2;
+
+		WFIFOL(fd, offset) = static_cast<uint32>(u64min(est_base, UINT32_MAX)); offset += 4;
+		WFIFOL(fd, offset) = static_cast<uint32>(u64min(est_job,  UINT32_MAX)); offset += 4;
+		WFIFOL(fd, offset) = static_cast<uint32>(u64min(nextb,    UINT32_MAX)); offset += 4;
+		WFIFOL(fd, offset) = static_cast<uint32>(u64min(nextj,    UINT32_MAX)); offset += 4;
+		WFIFOB(fd, offset) = expflags;                                          offset += 1;
+	}
+
 	WFIFOW(fd, 2) = offset;  // packetLength
 	WFIFOSET(fd, offset);
 }

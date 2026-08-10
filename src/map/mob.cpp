@@ -2839,6 +2839,42 @@ void mob_damage(mob_data *md, block_list *src, int32 damage)
 }
 
 /**
+ * [Stingor] Ce que CE monstre rapporterait à CE joueur s'il le tuait maintenant.
+ *
+ * Reproduit le chemin de mob_dead -> pc_gainexp dans le cas de référence, celui que
+ * le joueur a en tête quand il lit une fiche : IL le tue, SEUL, en lui ayant infligé
+ * la totalité des dégâts.
+ *
+ *   mob_db (déjà multiplié par battle_config.base_exp_rate / job_exp_rate au
+ *   chargement) -> malus de haut niveau -> bonus personnels (cartes bExpAddRace /
+ *   bExpAddClass, Battle Manual, VIP, event EXP).
+ *
+ * ⚠ Ce qui n'y est PAS, faute d'exister avant le combat : la part de dégâts, le
+ * partage de groupe, le bonus par attaquant supplémentaire, les mapflags de la carte
+ * (MF_NOBASEEXP, MF_BEXP…) et la taxe de guilde. Tout cela ne peut que RÉDUIRE le
+ * gain — hormis le bonus d'attaquants et un BEXP de carte. C'est donc une estimation
+ * pour un joueur seul, à l'appelant de le dire.
+ *
+ * @param sd Joueur
+ * @param mob Ligne de mob_db
+ * @param base_exp Reçoit l'EXP de base estimée
+ * @param job_exp Reçoit l'EXP de job estimée
+ */
+void mob_estimate_exp_gain(map_session_data &sd, const s_mob_db &mob, t_exp &base_exp, t_exp &job_exp)
+{
+	base_exp = mob.base_exp;
+	job_exp  = mob.job_exp;
+
+	base_exp = pc_highlevel_exp_malus(&sd, base_exp);
+
+	// 🔴 La source est le MONSTRE, pas le joueur : c'est sa race et sa classe qui
+	// décident des bonus bExpAddRace / bExpAddClass, et c'est le fait qu'elle soit un
+	// monstre qui ouvre le bonus VIP.
+	pc_calcexp_from(&sd, &base_exp, &job_exp, true, true,
+		mob.status.race, mob.status.class_, mob.lv);
+}
+
+/**
  * Get modified drop rate
  * @param src: Source object
  * @param mob: Monster data

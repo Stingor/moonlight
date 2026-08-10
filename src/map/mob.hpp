@@ -602,6 +602,11 @@ bool mob_has_spawn(uint16 mob_id);
 
 int32 mob_getdroprate(block_list *src, std::shared_ptr<s_mob_db> mob, int32 base_rate, int32 drop_modifier, mob_data* md = nullptr, int32 factor = 1);
 
+// [Stingor] Ce que CE monstre rapporterait à CE joueur s'il le tuait maintenant.
+// Sert à tout ce qui doit ANNONCER un gain sans qu'un monstre soit mort : la fiche
+// de monstre du client (ZC 0x0F20) et la warp agent (getmonsterexprate).
+void mob_estimate_exp_gain(map_session_data &sd, const s_mob_db &mob, t_exp &base_exp, t_exp &job_exp);
+
 // MvP Tomb System
 int32 mvptomb_setdelayspawn(npc_data *nd);
 TIMER_FUNC(mvptomb_delayspawn);
