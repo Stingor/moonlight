@@ -750,15 +750,23 @@ function GetMobs {
 				.@exp$ = " EXP:"+.@bexp$;
 			else
 				.@exp$ = "";
-			if( getmonsterinfo(.@mobids[.@i], MOB_MODE) & MD_MVP || getmonsterinfo(.@mobids[.@i], MOB_MVPEXP) > 0 )
-				mes "["+.@mobnums[.@i] + "] ^i[1]"+getmonsterinfo(.@mobids[.@i], MOB_NAME)
-				 + " (LV:"+getmonsterinfo(.@mobids[.@i], MOB_LV) + "" + .@exp$ +" ID: "+.@mobids[.@i]+")";
-			else if( getmonsterinfo(.@mobids[.@i], MOB_CLASS) == CLASS_BOSS )
-				mes "["+.@mobnums[.@i] + "] ^i[2]"+getmonsterinfo(.@mobids[.@i], MOB_NAME)
-				 + " (LV:"+getmonsterinfo(.@mobids[.@i], MOB_LV) + "" + .@exp$ +" ID: "+.@mobids[.@i]+")";
-			else
-				mes "["+.@mobnums[.@i] + "] " + getmonsterinfo(.@mobids[.@i], MOB_NAME)
-				 + " (LV:"+getmonsterinfo(.@mobids[.@i], MOB_LV) + "" + .@exp$ +" ID: "+.@mobids[.@i]+")";
+			.@mobnum$ = "["+.@mobnums[.@i] + "]";
+			if( bourgeon_ui()) {
+				.@moblvexp$ = " (LV:" + getmonsterinfo(.@mobids[.@i], MOB_LV) + .@exp$ +")";
+				if( getmonsterinfo(.@mobids[.@i], MOB_MODE) & MD_MVP || getmonsterinfo(.@mobids[.@i], MOB_MVPEXP) > 0 || getmonsterinfo(.@mobids[.@i], MOB_CLASS) == CLASS_BOSS )
+					mes .@mobnum$ + mobsprite(.@mobids[.@i]) + mesmoblink(.@mobids[.@i]) + .@moblvexp$;
+				else
+					mes .@mobnum$ + mesmoblink(.@mobids[.@i]) + .@moblvexp$;
+			}
+			else {
+				.@moblvexp$ = " (LV:" + .@moblv + .@exp$ + " ID: " + .@mobids[.@i] + ")";
+				if( getmonsterinfo(.@mobids[.@i], MOB_MODE) & MD_MVP || getmonsterinfo(.@mobids[.@i], MOB_MVPEXP) > 0 )
+					mes .@mobnum$ + " ^i[1]" + getmonsterinfo(.@mobids[.@i], MOB_NAME) + .@moblvexp$;
+				else if( getmonsterinfo(.@mobids[.@i], MOB_CLASS) == CLASS_BOSS )
+					mes .@mobnum$ + " ^i[2]" + getmonsterinfo(.@mobids[.@i], MOB_NAME) + .@moblvexp$;
+				else
+					mes .@mobnum$ + getmonsterinfo(.@mobids[.@i], MOB_NAME) + .@moblvexp$;
+			}
 		}
 	}
 	else {
