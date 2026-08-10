@@ -2098,4 +2098,8 @@ parseable_packet(HEADER_CZ_BOURGEON_REQ_ENTITY_PROPS, sizeof(PACKET_CZ_BOURGEON_
 // soient déployés dans la même seconde — le handler vérifie la longueur reçue.
 parseable_packet(HEADER_CZ_BOURGEON_UI_CAPS, -1, clif_parse_bourgeon_ui_caps, 0);
 
+// [Stingor] Bourgeon : outillage NPC du menu contextuel (recharger le fichier,
+// decharger, deplacer ici). Gate niveau de groupe >= 99 DANS le handler — fixed
+parseable_packet(HEADER_CZ_BOURGEON_NPC_ADMIN, sizeof(PACKET_CZ_BOURGEON_NPC_ADMIN), clif_parse_bourgeon_npc_admin, 0);
+
 #endif /* CLIF_PACKETDB_HPP */

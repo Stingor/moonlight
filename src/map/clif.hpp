@@ -1634,6 +1634,21 @@ void clif_parse_bourgeon_reqmobinfo(int32 fd, map_session_data* sd);
 // section), pas une structure : ce qu'il y a à dire dépend du type de l'entité,
 // et ajouter une propriété ne doit pas devenir une rupture de protocole.
 void clif_parse_bourgeon_req_entity_props(int32 fd, map_session_data* sd);
+// CZ 0x0F25 : outillage NPC du menu contextuel (Bourgeon : EntityContextMenu) —
+// recharger le fichier de script d'où vient un NPC, le décharger, le déplacer sur
+// la case du demandeur. Ce sont `@reloadnpcfile`, `@unloadnpc` et `@npcmove`,
+// mais désignés par le GID que le staff a sous le curseur.
+//
+// 🔴 Pourquoi pas une commande @ rejouée depuis le client : ces trois-là passent
+// par `npc_name2id`, dont la clé est `exname` (le nom UNIQUE), alors que le
+// client ne connaît que le nom AFFICHÉ. Sur un duplicate ou un `#suffixe`, les
+// deux diffèrent — la commande aurait échoué là où elle sert le plus. Et le
+// chemin du fichier à recharger n'existe QUE côté serveur (`nd->path`).
+//
+// 🔴 Gate SERVEUR : niveau de groupe >= 99 (l'inspecteur affiche, ceci modifie le
+// monde pour tous les joueurs connectés). Compte rendu par `clif_displaymessage`,
+// donc pas de ZC en retour.
+void clif_parse_bourgeon_npc_admin(int32 fd, map_session_data* sd);
 
 // ── Interface moderne : ce que le client SAIT afficher (CZ 0x0F24) ───────────
 //

@@ -7448,6 +7448,125 @@ void clif_parse_bourgeon_ui_caps(int32 fd, map_session_data* sd) {
 	sd->bourgeon_ui_caps = p->caps;
 }
 
+// [Stingor] Outillage NPC du menu contextuel (CZ 0x0F25).
+//
+// Volet serveur des trois entrées « administrateur » du clic droit sur un NPC
+// (Bourgeon : EntityContextMenu). Ce sont exactement `@reloadnpcfile`,
+// `@unloadnpc` et `@npcmove` — mais désignés par le GID que le staff a sous le
+// curseur, au lieu d'un nom qu'il faudrait connaître.
+//
+// 🔴 Pourquoi un paquet et pas une commande @ rejouée par le chat. Les trois
+// atcommands passent par `npc_name2id`, dont la clé est `nd->exname` — le nom
+// UNIQUE. Le client, lui, ne connaît que `nd->name`, le nom AFFICHÉ de la plaque,
+// et les deux diffèrent dès qu'il y a un `#suffixe` ou un duplicate : la commande
+// aurait raté précisément les NPC dupliqués, en répondant « This NPC doesn't
+// exist ». Et « recharger » n'était même pas exprimable : ce qui se recharge,
+// c'est le FICHIER, dont le chemin ne vit que dans `nd->path`.
+//
+// 🔴 Gate SERVEUR : niveau de groupe >= 99, plus haut que l'inspecteur (>= 80).
+// L'inspecteur AFFICHE ; ces trois-là MODIFIENT l'état du serveur pour tous les
+// joueurs connectés. Le bouton absent côté client n'est pas une garde.
+//
+// Le compte rendu part en `clif_displaymessage` — le canal des atcommands — donc
+// aucun ZC à écrire, et le message atterrit dans le chat comme celui de la
+// commande équivalente.
+void clif_parse_bourgeon_npc_admin(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+
+	const PACKET_CZ_BOURGEON_NPC_ADMIN* p =
+		reinterpret_cast<const PACKET_CZ_BOURGEON_NPC_ADMIN*>(RFIFOP(fd, 0));
+
+	// Refus EXPLICITE : un bouton qui ne répond jamais ressemble à une panne.
+	if (pc_get_group_level(sd) < 99) {
+		clif_displaymessage(fd, "Outils NPC : reserve au niveau de groupe 99.");
+		return;
+	}
+
+	npc_data* nd = map_id2nd(p->gid);
+	if (nd == nullptr) {
+		clif_displaymessage(fd, msg_txt(sd, 111));  // This NPC doesn't exist.
+		return;
+	}
+
+	char output[CHAT_SIZE_MAX];
+
+	switch (p->action) {
+	case BOURGEON_NPC_ADMIN_RELOAD_FILE: {
+		if (nd->path == nullptr || *nd->path == '\0') {
+			clif_displaymessage(fd, "Ce NPC ne vient d'aucun fichier : rien a recharger.");
+			return;
+		}
+		// 🔴 Copier le chemin AVANT de décharger, et ne plus toucher à `nd`
+		// ensuite. `npc_unloadfile` décharge tous les NPC du fichier puis appelle
+		// `npc_delsrcfile` ; le dernier `npc_unload` libère l'entrée de
+		// `npc_path_db` sur laquelle `nd->path` pointait. Après cet appel, `nd`
+		// ET `nd->path` sont morts.
+		char path[1024];
+		safestrncpy(path, nd->path, sizeof(path));
+		nd = nullptr;
+
+		npc_unloadfile(path);
+		if (!npc_addsrcfile(path, true)) {
+			safesnprintf(output, sizeof(output),
+				"Echec : le fichier '%s' n'a pas pu etre recharge (voir la console).", path);
+			clif_displaymessage(fd, output);
+			ShowDebug("clif_parse_bourgeon_npc_admin: NPC failed to load '" CL_WHITE "%s" CL_RESET "'.\n", path);
+			return;
+		}
+		npc_read_event_script();
+		ShowStatus("NPC file '" CL_WHITE "%s" CL_RESET "' was reloaded by %s.\n",
+			path, sd->status.name);
+		npc_event_doall_path(script_config.init_event_name, path);
+
+		safesnprintf(output, sizeof(output),
+			"Fichier '%s' recharge. Les mapflags et les monstres poses directement "
+			"n'ont PAS ete retires.", path);
+		clif_displaymessage(fd, output);
+		break;
+	}
+	case BOURGEON_NPC_ADMIN_UNLOAD: {
+		// Le nom se relève AVANT : `npc_unload` détruit `nd`, et le compte rendu
+		// doit pouvoir dire lequel a disparu.
+		char name[NPC_NAME_LENGTH];
+		safestrncpy(name, nd->exname, sizeof(name));
+
+		npc_unload_duplicates(nd);
+		npc_unload(nd, true);
+		nd = nullptr;
+		npc_read_event_script();
+
+		safesnprintf(output, sizeof(output),
+			"NPC '%s' decharge (avec ses duplicates). Rechargez son fichier pour "
+			"le faire revenir.", name);
+		clif_displaymessage(fd, output);
+		break;
+	}
+	case BOURGEON_NPC_ADMIN_MOVE_TO_ME: {
+		// ⚠ `npc_movenpc` ne vérifie PAS la carte : il poserait le NPC aux
+		// coordonnées demandées sur SA carte à lui. « Ici » n'a de sens que sur la
+		// même carte — et c'est toujours le cas quand on vient de le cliquer.
+		if (nd->m != sd->m) {
+			clif_displaymessage(fd, msg_txt(sd, 1154));  // NPC is not on this map.
+			return;
+		}
+		if (!npc_movenpc(nd, sd->x, sd->y)) {
+			clif_displaymessage(fd, msg_txt(sd, 1154));  // NPC is not on this map.
+			return;
+		}
+		safesnprintf(output, sizeof(output),
+			"NPC '%s' deplace en (%d, %d). Le deplacement n'est pas sauvegarde : "
+			"il reprendra sa place au prochain rechargement.",
+			nd->exname, nd->x, nd->y);
+		clif_displaymessage(fd, output);
+		break;
+	}
+	default:
+		clif_displaymessage(fd, "Outils NPC : action inconnue.");
+		break;
+	}
+}
+
 // ── Dégrader les balises maison pour qui ne les rend pas ─────────────────────
 //
 // 🔴 LE PROBLÈME QUE ÇA RÈGLE. Le dialogue NATIF du client efface les balises

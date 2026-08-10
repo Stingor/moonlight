@@ -6392,6 +6392,46 @@ struct PACKET_CZ_BOURGEON_UI_CAPS {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(CZ_BOURGEON_UI_CAPS, 0x0f24);
 
+// CZ (client -> server): outillage NPC du menu contextuel (Bourgeon :
+// EntityContextMenu, section staff). Layout: [packetType:2][packetLength:2]
+// [gid:4][action:1], `action` = `e_bourgeon_npc_admin_action`.
+//
+// 🔴 On désigne le NPC par son GID, PAS par son nom. `@unloadnpc`, `@npcmove` et
+// consorts passent par `npc_name2id`, dont la clé est `exname` — le nom UNIQUE.
+// Le client, lui, ne connaît que le nom AFFICHÉ (celui de la plaque, `nd->name`),
+// et les deux diffèrent dès qu'il y a un duplicate ou un `#suffixe`. Rejouer une
+// commande @ depuis le client aurait donc raté précisément les NPC dupliqués, en
+// silence, avec « This NPC doesn't exist ». Le GID, lui, est ce que le client a
+// sous le curseur et ce que `map_id2nd` prend directement.
+//
+// Corollaire : « recharger » n'était même pas exprimable côté client. Ce qui se
+// recharge, c'est le FICHIER (`@reloadnpcfile <path>`), et le chemin ne vit que
+// dans `nd->path`, côté serveur.
+//
+// 🔴 Gate SERVEUR : niveau de groupe >= 99. Plus haut que l'inspecteur (>= 80)
+// parce qu'ici on n'affiche pas, on MODIFIE l'état du serveur pour tout le monde
+// — décharger un NPC le retire à tous les joueurs connectés.
+//
+// Pas de ZC en retour : le compte rendu part en `clif_displaymessage`, comme
+// celui d'un atcommand, et s'affiche dans le chat sans rien de plus à écrire des
+// deux côtés.
+struct PACKET_CZ_BOURGEON_NPC_ADMIN {
+	int16  packetType;
+	int16  packetLength;
+	uint32 gid;
+	uint8  action;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_NPC_ADMIN, 0x0f25);
+
+// Miroir exact des `kNpcAdmin*` côté Bourgeon
+// (src/features/windows/entity_context_menu.cc) : les deux listes bougent
+// ensemble, et les valeurs ne se réordonnent pas.
+enum e_bourgeon_npc_admin_action : uint8 {
+	BOURGEON_NPC_ADMIN_RELOAD_FILE = 0,  // recharger le fichier de script d'où il vient
+	BOURGEON_NPC_ADMIN_UNLOAD      = 1,  // décharger ce NPC et ses duplicates
+	BOURGEON_NPC_ADMIN_MOVE_TO_ME  = 2,  // le poser sur la case du demandeur
+};
+
 // ZC (server -> client): apport des ÉQUIPEMENTS et des CARTES aux stats, compilé
 // par status_calc_pc. sd->indexed_bonus.param_equip = apport équipement (copié en
 // status.cpp), param_bonus = apport cartes (cf. le split memcpy/memset). Push à
