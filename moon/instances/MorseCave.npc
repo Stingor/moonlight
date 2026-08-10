@@ -943,6 +943,7 @@ OnTimer4000:
 	initnpctimer;
 	end;
 OnMobDead:
+	MissionMVP(0, "Morse Cave: "+getmonsterinfo(killedrid, MOB_NAME)+" tué");
 	end;
 }
 
@@ -994,6 +995,7 @@ OnTimer1000:
 	initnpctimer;
 	end;
 OnMobDead:
+	MissionMVP(0, "Morse Cave: "+getmonsterinfo(killedrid, MOB_NAME)+" tué");
 	end;
 }
 
