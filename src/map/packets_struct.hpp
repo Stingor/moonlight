@@ -6371,6 +6371,27 @@ struct PACKET_ZC_BOURGEON_ENTITY_PROPS {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_ENTITY_PROPS, 0x0f23);
 
+// CZ (client -> server): ce que l'interface moderne de ce client SAIT AFFICHER.
+// Layout: [packetType:2][packetLength:2][caps:4], masque `e_bourgeon_ui_cap`.
+//
+// 🔴 À quoi ça sert, et pourquoi `has_bourgeon` ne suffit pas. Le handshake
+// d'intégrité dit « c'est un client Bourgeon » ; il ne dit pas laquelle de ses
+// interfaces est ALLUMÉE — elles sont toutes opt-in, et le joueur peut en
+// éteindre une au milieu d'une conversation. Or les balises maison (`<MOBL>`,
+// `<CRAF>`, `<IMG>`…) ne sont rendues que par ces interfaces-là : envoyées à un
+// joueur resté sur le dialogue natif, elles s'afficheraient en toutes lettres.
+// C'est ce masque qui permet à `clif_scriptmes` de dégrader plutôt que de parier.
+//
+// Déclaré VARIABLE dans clif_packetdb.hpp (longueur lue du flux, handler qui
+// vérifie ce qu'il a reçu) : un champ pourra s'ajouter sans que les deux côtés
+// aient à être déployés dans la même seconde.
+struct PACKET_CZ_BOURGEON_UI_CAPS {
+	int16  packetType;
+	int16  packetLength;
+	uint32 caps;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_UI_CAPS, 0x0f24);
+
 // ZC (server -> client): apport des ÉQUIPEMENTS et des CARTES aux stats, compilé
 // par status_calc_pc. sd->indexed_bonus.param_equip = apport équipement (copié en
 // status.cpp), param_bonus = apport cartes (cf. le split memcpy/memset). Push à

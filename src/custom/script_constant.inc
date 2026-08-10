@@ -2,6 +2,11 @@
 // For more information, see LICENCE in the main folder
 	
 	/* Stingor */
+	// Interfaces modernes de Bourgeon, pour bourgeon_ui() — un bit = une surface
+	// qui rend les balises maison (cf. e_bourgeon_ui_cap, clif.hpp).
+	export_constant(BOURGEON_UI_NPC_DIALOG);
+	export_constant(BOURGEON_UI_CHAT);
+
 	export_constant(MOB_ISMVP);
 	export_constant(MOB_ISBOSS);
 	export_constant(MAX_LEVEL_BASE_EXP);

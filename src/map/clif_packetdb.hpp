@@ -2092,4 +2092,10 @@ parseable_packet(HEADER_CZ_BOURGEON_REQ_MOBINFO, sizeof(PACKET_CZ_BOURGEON_REQ_M
 // Gate niveau de groupe >= 80 DANS le handler, pas seulement côté client — fixed
 parseable_packet(HEADER_CZ_BOURGEON_REQ_ENTITY_PROPS, sizeof(PACKET_CZ_BOURGEON_REQ_ENTITY_PROPS), clif_parse_bourgeon_req_entity_props, 0);
 
+// [Stingor] Bourgeon : capacités d'affichage de l'interface moderne — ce que ce
+// client rendra des balises maison. Réémis à chaque bascule d'un réglage.
+// VARIABLE (-1) et non sizeof : un champ pourra s'ajouter sans que les deux côtés
+// soient déployés dans la même seconde — le handler vérifie la longueur reçue.
+parseable_packet(HEADER_CZ_BOURGEON_UI_CAPS, -1, clif_parse_bourgeon_ui_caps, 0);
+
 #endif /* CLIF_PACKETDB_HPP */

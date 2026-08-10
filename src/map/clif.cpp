@@ -2565,6 +2565,15 @@ void clif_parse_NPCMarketPurchase(int32 fd, map_session_data *sd) {
 void clif_scriptmes( const map_session_data& sd, uint32 npcid, const char *mes ){
 	PACKET_ZC_SAY_DIALOG* p = reinterpret_cast<PACKET_ZC_SAY_DIALOG*>( packet_buffer );
 
+	// [Stingor] Bourgeon : les balises maison ne sont rendues que par le dialogue
+	// moderne. Pour tous les autres — client vanilla, ou joueur qui a gardé le
+	// dialogue natif — on les remplace par le libellé qu'elles transportent, sinon
+	// elles s'afficheraient chevrons compris. Cf. clif_bourgeon_strip_own_tags.
+	std::string plain;
+	if( !( sd.bourgeon_ui_caps & BOURGEON_UI_NPC_DIALOG ) &&
+	    clif_bourgeon_strip_own_tags( mes, plain ) )
+		mes = plain.c_str();
+
 	int16 length = (int16)( strlen( mes ) + 1 );
 
 	p->PacketType = HEADER_ZC_SAY_DIALOG;
@@ -2728,6 +2737,20 @@ void clif_scriptmenu( map_session_data& sd, uint32 npcid, const char* mes ){
 	   bl->x<sd.x-AREA_SIZE-1 || bl->x>sd.x+AREA_SIZE+1 ||
 	   bl->y<sd.y-AREA_SIZE-1 || bl->y>sd.y+AREA_SIZE+1))))
 	   clif_sendfakenpc( sd, npcid );
+
+	// [Stingor] Bourgeon : même dégradation que clif_scriptmes — une option de menu
+	// est du texte comme un autre, et un `select` qui liste des monstres est
+	// justement l'endroit où l'on veut des liens.
+	//
+	// ⚠ Le séparateur d'options est ':' et NOS balises en contiennent : c'est déjà
+	// vrai chez le client moderne (qui découpe avant de parser), et le retrait
+	// laisse ici le seul libellé — donc, pour un client natif, une option par
+	// entrée, comme il faut. Un nom de monstre à ':' casserait le menu, mais c'est
+	// une limite RO qui préexiste (cf. le parseur du dialogue côté client).
+	std::string plain;
+	if( !( sd.bourgeon_ui_caps & BOURGEON_UI_NPC_DIALOG ) &&
+	    clif_bourgeon_strip_own_tags( mes, plain ) )
+		mes = plain.c_str();
 
 	// String length + 1 byte for zero termination
 	size_t mes_length = strlen( mes ) + 1;
@@ -7400,6 +7423,101 @@ void clif_parse_bourgeon_req_entity_props(int32 fd, map_session_data* sd) {
 	WFIFOB(fd, 9) = count;
 	WFIFOW(fd, 2) = offset;  // packetLength
 	WFIFOSET(fd, offset);
+}
+
+// ── Interface moderne : ce que ce client sait afficher (CZ 0x0F24) ───────────
+//
+// Le client l'annonce dès que le serveur l'a reconnu, PUIS à chaque fois qu'un
+// réglage d'interface bascule. On ne fait que le retenir : c'est `clif_scriptmes`
+// (et les scripts, via `bourgeon_ui()`) qui s'en servent.
+//
+// ⚠ Rien n'est persisté. Un joueur qui éteint le dialogue moderne en pleine
+// conversation doit être servi autrement à la ligne suivante, et sa session
+// suivante repart de zéro (le masque est réannoncé à chaque entrée en zone).
+void clif_parse_bourgeon_ui_caps(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+
+	const PACKET_CZ_BOURGEON_UI_CAPS* p =
+		reinterpret_cast<const PACKET_CZ_BOURGEON_UI_CAPS*>(RFIFOP(fd, 0));
+	// Paquet déclaré VARIABLE : un client plus ancien (ou plus récent) peut en
+	// envoyer une version plus courte. On ne lit `caps` que s'il est réellement là,
+	// plutôt que de lire au-delà du tampon annoncé.
+	if (p->packetLength < static_cast<int16>(sizeof(PACKET_CZ_BOURGEON_UI_CAPS)))
+		return;
+	sd->bourgeon_ui_caps = p->caps;
+}
+
+// ── Dégrader les balises maison pour qui ne les rend pas ─────────────────────
+//
+// 🔴 LE PROBLÈME QUE ÇA RÈGLE. Le dialogue NATIF du client efface les balises
+// qu'il CONNAÎT et laisse passer les autres : un `<MOBL>1002:0:Poring</MOBL>`
+// envoyé à un joueur resté en natif s'affiche en toutes lettres, chevrons et
+// deux-points compris. Un script devrait donc dupliquer chaque `mes` selon le
+// client d'en face — et l'oublier une fois suffit pour que la ligne parte cassée.
+// Ici, le script écrit UNE version et le serveur retire ce qui ne serait pas rendu.
+//
+// Ce que devient chaque balise :
+//   <MOBL>id:rang:nom</MOBL> -> nom       (c'est pour cela que le nom voyage)
+//   <ITMR>id:nom</ITMR>      -> nom
+//   <CRAF>id:nom</CRAF>      -> nom
+//   <SETL>clé:libellé</SETL> -> libellé
+//   <MOBS>, <MOBP>, <IMG>    -> RIEN : un média n'a pas de repli en texte.
+//
+// ⚠ Un script qui a besoin de dire autre chose à un client sans images (« viens
+// voir l'affiche au village ») teste `bourgeon_ui()` et écrit deux versions.
+// Cette fonction ne sait que retirer, elle n'invente pas de texte de remplacement.
+//
+// Une balise MAL FORMÉE (fermante absente) est laissée telle quelle : c'est une
+// erreur de script, et l'escamoter la rendrait invisible à son auteur.
+bool clif_bourgeon_strip_own_tags(const char* text, std::string& out) {
+	if (text == nullptr || strchr(text, '<') == nullptr)
+		return false;  // le cas de l'immense majorité des `mes` : rien à faire
+
+	// [ouvrante, fermante, index du champ à garder (-1 = tout supprimer)]
+	static const struct { const char* open; const char* close; int keep; } kTags[] = {
+		{ "<MOBL>", "</MOBL>", 2 },   // id:rang:nom
+		{ "<ITMR>", "</ITMR>", 1 },   // id:nom
+		{ "<CRAF>", "</CRAF>", 1 },   // id:nom
+		{ "<SETL>", "</SETL>", 1 },   // clé:libellé
+		{ "<MOBS>", "</MOBS>", -1 },
+		{ "<MOBP>", "</MOBP>", -1 },
+		{ "<IMG>",  "</IMG>",  -1 },
+	};
+
+	std::string result;
+	const char* p = text;
+	bool changed = false;
+	while (*p != '\0') {
+		if (*p != '<') { result += *p++; continue; }
+		bool matched = false;
+		for (const auto& tag : kTags) {
+			const size_t olen = strlen(tag.open);
+			if (strncmp(p, tag.open, olen) != 0) continue;
+			const char* body = p + olen;
+			const char* end = strstr(body, tag.close);
+			if (end == nullptr) break;  // fermante manquante : on laisse le texte brut
+			if (tag.keep >= 0) {
+				// Le champ à garder est le DERNIER : tout ce qui suit le n-ième ':'.
+				const char* field = body;
+				for (int i = 0; i < tag.keep && field < end; ++i) {
+					const char* colon = static_cast<const char*>(
+						memchr(field, ':', static_cast<size_t>(end - field)));
+					if (colon == nullptr) { field = end; break; }
+					field = colon + 1;
+				}
+				result.append(field, static_cast<size_t>(end - field));
+			}
+			p = end + strlen(tag.close);
+			matched = true;
+			changed = true;
+			break;
+		}
+		if (!matched) result += *p++;
+	}
+	if (!changed) return false;
+	out = std::move(result);
+	return true;
 }
 
 // Sertissage rapide (Bourgeon) : le client demande, pour un ÉQUIPEMENT donné, la

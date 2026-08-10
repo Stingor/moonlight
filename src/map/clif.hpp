@@ -5,6 +5,7 @@
 #define CLIF_HPP
 
 #include <cstdarg>
+#include <string>
 #include <vector>
 
 #include <common/cbasetypes.hpp>
@@ -1633,5 +1634,31 @@ void clif_parse_bourgeon_reqmobinfo(int32 fd, map_session_data* sd);
 // section), pas une structure : ce qu'il y a à dire dépend du type de l'entité,
 // et ajouter une propriété ne doit pas devenir une rupture de protocole.
 void clif_parse_bourgeon_req_entity_props(int32 fd, map_session_data* sd);
+
+// ── Interface moderne : ce que le client SAIT afficher (CZ 0x0F24) ───────────
+//
+// 🔴 Un bit = une SURFACE qui rend les balises maison, pas une préférence de jeu.
+// `has_bourgeon` dit qu'on parle à un client Bourgeon ; ceci dit laquelle de ses
+// interfaces est allumée, ce que le joueur peut changer à tout moment. Miroir
+// exact de `UiCaps::Cap` côté client (Bourgeon/src/features/systems/ui_caps.h) :
+// les deux listes doivent bouger ensemble.
+enum e_bourgeon_ui_cap : uint32 {
+	// Le dialogue NPC est rendu par l'overlay moderne : il connaît <MOBL>, <ITMR>,
+	// <CRAF>, <SETL>, <IMG>, <MOBS> et <MOBP>.
+	BOURGEON_UI_NPC_DIALOG = 0x00000001,
+	// La chatbox est celle de Bourgeon : mêmes balises de LIEN, pas les médias.
+	BOURGEON_UI_CHAT       = 0x00000002,
+};
+
+void clif_parse_bourgeon_ui_caps(int32 fd, map_session_data* sd);
+
+// Retire d'un texte les balises maison que ce client ne rendra pas, en gardant le
+// libellé qu'elles transportent (« <MOBL>1002:0:Poring</MOBL> » -> « Poring »).
+// Les médias (<IMG>, <MOBS>, <MOBP>), qui n'ont pas de repli textuel, disparaissent.
+//
+// Rend true si `out` a été rempli (donc si quelque chose a changé) ; false si le
+// texte est utilisable tel quel — cas de l'immense majorité des `mes`, qui ne
+// coûte alors qu'un `strchr`.
+bool clif_bourgeon_strip_own_tags(const char* text, std::string& out);
 
 #endif /* CLIF_HPP */

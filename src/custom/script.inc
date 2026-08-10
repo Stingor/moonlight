@@ -1789,3 +1789,216 @@ BUILDIN_FUNC(bourgeon_discord_relay_all)
 	script_pushint(st, 1);
 	return SCRIPT_CMD_SUCCESS;
 }
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * BALISES BOURGEON — des LIENS et des IMAGES dans un dialogue NPC
+ * ════════════════════════════════════════════════════════════════════════════
+ *
+ * Le client Bourgeon rend, dans son dialogue NPC moderne, des balises que le
+ * client vanilla ne connaît pas : liens vers un monstre / un objet / une recette,
+ * sprites de monstres, images. Les fonctions ci-dessous les COMPOSENT — un script
+ * n'a donc ni à connaître leur syntaxe, ni à aller chercher le nom d'un monstre.
+ *
+ *   mes "Méfie-toi de " + mobtag(1002) + " en chemin.";
+ *   mes mobsprite(1039) + " Baphomet garde l'entrée.";
+ *   mes "Il te faut " + itemtag(501) + " et la " + crafttag(970) + ".";
+ *   mes imgtag("https://moonlight-ro.com/img/event.png");
+ *
+ * 🔴 IL N'Y A RIEN À TESTER POUR LE CAS ORDINAIRE. Un joueur dont le dialogue
+ * moderne est éteint (ou un client vanilla) reçoit automatiquement le texte
+ * dégradé : la balise est remplacée par le nom qu'elle transporte, les médias
+ * disparaissent (clif_bourgeon_strip_own_tags, appelé par clif_scriptmes). Un
+ * script s'écrit donc UNE fois.
+ *
+ * `bourgeon_ui()` ne sert qu'à changer la STRUCTURE d'un dialogue — proposer un
+ * écran illustré ici, une liste de texte là — pas à répéter chaque `mes`.
+ */
+
+/* bourgeon_ui({<mask>{,<account_id>}})
+ * Sans argument : le masque des interfaces modernes ALLUMÉES chez ce joueur.
+ * Avec un masque : 1 si TOUS ses bits sont présents, 0 sinon.
+ * Constantes : BOURGEON_UI_NPC_DIALOG, BOURGEON_UI_CHAT.
+ *
+ *   if (bourgeon_ui(BOURGEON_UI_NPC_DIALOG)) { mes mobsprite(1039,1); }
+ *
+ * 0 pour un client vanilla, pour un client Bourgeon dont tout est éteint, et
+ * pour un joueur qui n'a pas encore annoncé ses capacités — les trois se valent
+ * du point de vue d'un script : ne comptez pas sur les balises.
+ */
+BUILDIN_FUNC(bourgeon_ui)
+{
+	TBL_PC *sd;
+	if (!script_accid2sd(3, sd)) {
+		script_pushint(st, 0);
+		return SCRIPT_CMD_SUCCESS;
+	}
+	if (script_hasdata(st, 2)) {
+		const uint32 mask = (uint32)script_getnum(st, 2);
+		script_pushint(st, (sd->bourgeon_ui_caps & mask) == mask ? 1 : 0);
+	} else {
+		script_pushint(st, (int32)sd->bourgeon_ui_caps);
+	}
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/* mobtag(<mob_id>{,"<nom>"}) -> "<MOBL>id:rang:nom</MOBL>"
+ * Un lien vers la FICHE d'un monstre. Clic gauche = sa fiche, clic droit = le
+ * menu, Maj+clic = le lien dans le chat.
+ *
+ * 🔴 Le nom voyage DANS la balise, et c'est structurel : le client ne sait pas
+ * nommer un monstre (il n'a pas mob_db, et le paquet de la fiche ne porte pas le
+ * nom). Sans lui, un joueur verrait un numéro — et un client sans Bourgeon, qui
+ * reçoit le texte dégradé, ne verrait rien du tout.
+ * Le nom explicite l'emporte, pour les monstres renommés par un script.
+ */
+BUILDIN_FUNC(mobtag)
+{
+	const int32 mob_id = script_getnum(st, 2);
+	std::shared_ptr<s_mob_db> mob = mob_db.find(mob_id);
+	if (mob == nullptr) {
+		ShowError("buildin_mobtag: monstre inconnu %d\n", mob_id);
+		script_pushstrcopy(st, "");
+		return SCRIPT_CMD_FAILURE;
+	}
+	const char* name = script_hasdata(st, 3) ? script_getstr(st, 3) : mob->jname.c_str();
+	// Le RANG décide de la pastille affichée ([Mob] / [Boss] / [MVP]).
+	const e_mob_bosstype boss = mob->get_bosstype();
+	const int32 rank = (boss == BOSSTYPE_MVP) ? 2 : (boss == BOSSTYPE_MINIBOSS ? 1 : 0);
+
+	char buf[CHAT_SIZE_MAX];
+	safesnprintf(buf, sizeof(buf), "<MOBL>%d:%d:%s</MOBL>", mob_id, rank, name);
+	script_pushstrcopy(st, buf);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/* itemtag(<item_id>{,"<nom>"}) -> "<ITMR>id:nom</ITMR>"
+ * Un lien vers la DESCRIPTION d'un objet — l'objet de BASE, sans refine ni cartes.
+ *
+ * ⚠ Ce n'est pas `itemlink` (rAthena), qui produit le `<ITEML>` du client : celui-ci
+ * est rendu par TOUS les clients, mais le client REFUSE de renvoyer un `<ITEML>`
+ * portant un objet absent du sac. Pour parler d'un objet que le joueur n'a pas —
+ * le cas d'un NPC qui explique une quête — c'est `itemtag` qu'il faut.
+ */
+BUILDIN_FUNC(itemtag)
+{
+	const t_itemid item_id = (t_itemid)script_getnum(st, 2);
+	std::shared_ptr<item_data> id = item_db.find(item_id);
+	if (id == nullptr) {
+		ShowError("buildin_itemtag: objet inconnu %u\n", item_id);
+		script_pushstrcopy(st, "");
+		return SCRIPT_CMD_FAILURE;
+	}
+	const char* name = script_hasdata(st, 3) ? script_getstr(st, 3) : id->ename.c_str();
+
+	char buf[CHAT_SIZE_MAX];
+	safesnprintf(buf, sizeof(buf), "<ITMR>%u:%s</ITMR>", item_id, name);
+	script_pushstrcopy(st, buf);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/* crafttag(<item_id>{,"<nom>"}) -> "<CRAF>id:nom</CRAF>"
+ * Un lien vers la RECETTE d'un objet : « [Recette: Acid Bottle] », qui ouvre
+ * l'Atlas des recettes plutôt que la description.
+ *
+ * ⚠ Le serveur ne SAIT PAS si l'objet a une recette : la table des recettes est un
+ * fichier du client (bourgeon_recipes.yaml). C'est donc le client qui tranche — pas
+ * de recette, le lien redevient du texte ordinaire.
+ */
+BUILDIN_FUNC(crafttag)
+{
+	const t_itemid item_id = (t_itemid)script_getnum(st, 2);
+	std::shared_ptr<item_data> id = item_db.find(item_id);
+	if (id == nullptr) {
+		ShowError("buildin_crafttag: objet inconnu %u\n", item_id);
+		script_pushstrcopy(st, "");
+		return SCRIPT_CMD_FAILURE;
+	}
+	const char* name = script_hasdata(st, 3) ? script_getstr(st, 3) : id->ename.c_str();
+
+	char buf[CHAT_SIZE_MAX];
+	safesnprintf(buf, sizeof(buf), "<CRAF>%u:%s</CRAF>", item_id, name);
+	script_pushstrcopy(st, buf);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/* mobsprite(<mob_id>{,<portrait>}) -> "<MOBS>id</MOBS>" ou "<MOBP>id</MOBP>"
+ * Le SPRITE animé d'un monstre. Deux formes, deux usages :
+ *   portrait = 0 (défaut) : inline, dans le fil du texte, taille d'une vignette —
+ *              pour une liste (« <sprite> Poring, inoffensif »).
+ *   portrait = 1          : le portrait de la PAGE, grand, dans une colonne à
+ *              gauche du texte — pour l'interlocuteur mis en scène.
+ * Un seul portrait par page : le dernier posé gagne.
+ *
+ * ⚠ Le client dessine le sprite qu'il a dans son GRF, par id de CLASSE. Un monstre
+ * dont le sprite manque n'affiche rien (et ne réserve pas de place).
+ */
+BUILDIN_FUNC(mobsprite)
+{
+	const int32 mob_id = script_getnum(st, 2);
+	if (mob_db.find(mob_id) == nullptr) {
+		ShowError("buildin_mobsprite: monstre inconnu %d\n", mob_id);
+		script_pushstrcopy(st, "");
+		return SCRIPT_CMD_FAILURE;
+	}
+	const bool portrait = script_hasdata(st, 3) && script_getnum(st, 3) != 0;
+
+	char buf[64];
+	safesnprintf(buf, sizeof(buf), portrait ? "<MOBP>%d</MOBP>" : "<MOBS>%d</MOBS>", mob_id);
+	script_pushstrcopy(st, buf);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/* imgtag("<source>"{,<largeur>,<hauteur>}) -> "<IMG>…</IMG>"
+ * Une IMAGE dans le dialogue. Deux sources possibles, distinguées par l'écriture :
+ *   · un CHEMIN de ressource du client (« data\texture\moon\affiche.bmp ») : rien
+ *     ne transite par le réseau, mais l'image doit être livrée par le patcher ;
+ *   · une ADRESSE http(s) : publiable sans repatcher personne.
+ *
+ * 🔴 Les adresses ne se chargent toutes seules que si l'HÔTE est dans la liste
+ * autorisée du client (le site Moonlight en fait partie). Ailleurs, le joueur voit
+ * un cartouche qui nomme le site et charge d'un clic : aller chercher une image,
+ * c'est contacter un serveur, et ce n'est pas au script d'en décider pour lui.
+ *
+ * Donner largeur et hauteur est recommandé pour une image web : c'est la seule
+ * forme dont la mise en page ne bouge pas au moment où l'image arrive.
+ */
+BUILDIN_FUNC(imgtag)
+{
+	const char* src = script_getstr(st, 2);
+	if (src == nullptr || *src == '\0') {
+		script_pushstrcopy(st, "");
+		return SCRIPT_CMD_FAILURE;
+	}
+	char buf[CHAT_SIZE_MAX];
+	if (script_hasdata(st, 4)) {
+		const int32 w = script_getnum(st, 3);
+		const int32 h = script_getnum(st, 4);
+		safesnprintf(buf, sizeof(buf), "<IMG>%d:%d:%s</IMG>", w, h, src);
+	} else {
+		safesnprintf(buf, sizeof(buf), "<IMG>%s</IMG>", src);
+	}
+	script_pushstrcopy(st, buf);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+/* settingtag("<clé>","<libellé>") -> "<SETL>clé:libellé</SETL>"
+ * Un lien vers une destination du panneau de réglages Bourgeon : le clic l'ouvre
+ * déjà déplié au bon endroit. Pour les NPC d'aide (« active l'option Objet obtenu »).
+ *
+ * ⚠ La CLÉ désigne la destination, jamais un numéro de section — un numéro décrit
+ * l'ordre d'une version du client. Une clé que le client ne connaît pas laisse le
+ * libellé en texte simple, ce qui est le bon échec.
+ */
+BUILDIN_FUNC(settingtag)
+{
+	const char* key = script_getstr(st, 2);
+	const char* label = script_getstr(st, 3);
+	if (key == nullptr || *key == '\0') {
+		script_pushstrcopy(st, "");
+		return SCRIPT_CMD_FAILURE;
+	}
+	char buf[CHAT_SIZE_MAX];
+	safesnprintf(buf, sizeof(buf), "<SETL>%s:%s</SETL>", key, label ? label : "");
+	script_pushstrcopy(st, buf);
+	return SCRIPT_CMD_SUCCESS;
+}

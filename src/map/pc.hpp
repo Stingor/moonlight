@@ -585,6 +585,16 @@ public:
 	// négatif et bloquerait les sauts durablement (le test est « < cooldown »).
 	t_tick bourgeon_jumplasttime = 0;
 
+	// [Stingor] Bourgeon : ce que l'interface moderne de CE client sait afficher
+	// (CZ_BOURGEON_UI_CAPS 0x0F24, masque e_bourgeon_ui_cap). Zéro = rien, donc un
+	// client vanilla, un client Bourgeon dont toutes les surfaces modernes sont
+	// éteintes, ou un client qui n'a pas encore parlé.
+	//
+	// 🔴 État de SESSION, jamais persisté : le joueur peut éteindre une interface
+	// en pleine conversation, et le client réannonce à chaque fois. Un masque
+	// sauvegardé décrirait l'interface d'hier.
+	uint32 bourgeon_ui_caps = 0;
+
 	int16 skillitem,skillitemlv;
 	bool skillitem_keep_requirement;
 	uint16 skill_id_old,skill_lv_old;
