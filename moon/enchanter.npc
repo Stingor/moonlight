@@ -62,16 +62,14 @@ L_menu:
 			}
 			.@selected = .@slot_map[select(.@menu$) - 1];
 			mes "Êtes-vous sûr de vouloir reroll";
-			mes mesitemicon(getd(".@itembyuid_card" + .@selected)) + mesitemlink(getd(".@itembyuid_card" + .@selected)) + " de votre arme?";
+			mes mesitemcell(getd(".@itembyuid_card" + .@selected)) + " de votre arme?";
 			if (select("Non", "Oui") == 1) goto L_menu;
 		case 2: // add an enchant on a free slot
 			if (.@freeslot < 1 && .@selected == 0) goto L_MaxEnchant;
 			if ( .@selected == 0 ) {
-				.@rname$ = getitemname(.@itembyuid_nameid);
-				if (.@itembyuid_refine > 0) .@rname$ = "+" + .@itembyuid_refine + " " + .@rname$;
 				clear;
 				mes .@npc_name$;
-				mes "^0000ff" + mesitemicon(.@itembyuid_nameid) + mesitemlink(.@itembyuid_nameid, false, .@rname$) + "^000000";
+				mes mesitemcell(.@itembyuid_nameid, .@itembyuid_refine);
 				mes "Il est possible de faire " + (.@freeslot > 1 ? .@freeslot + " enchant." : "encore 1 enchant.");
 			}
 
@@ -164,7 +162,7 @@ L_menu:
 				else {
 					clear;
 					mes .@npc_name$;
-					mes "Si vous utilisez " + mesitemicon(.@coin[.@coin_select]) + mesitemlink(.@coin[.@coin_select]) + ", vous pouvez choisir le type d'enchant.";
+					mes "Si vous utilisez " + mesitemcell(.@coin[.@coin_select]) + ", vous pouvez choisir le type d'enchant.";
 				}
 				switch (select("Mêlée", "Distance", "Caster")) {
 				case 1:
@@ -333,7 +331,7 @@ L_menu:
 				clear;
 				mes .@npc_name$;
 				mes "Alors c'est partie pour reroll";
-				mes mesitemicon(getd(".@itembyuid_card" + .@selected)) + mesitemlink(getd(".@itembyuid_card" + .@selected)) + " de votre arme.";
+				mes mesitemcell(getd(".@itembyuid_card" + .@selected)) + " de votre arme.";
 				setd(".@itembyuid_card" + .@socket, .@enchant);
 				next;
 			}

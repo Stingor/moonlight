@@ -57,7 +57,7 @@ gonryun,152,119,6	script	Chuck Testa::huntmission	806,{
             @hm_char_del_check_2 = true;
         }
     }
-    
+
 L_main:
 	mes "[Chuck Testa]";
 	mes F_Rand("Nop...", "Just Chuck Testa...");
@@ -122,7 +122,7 @@ L_main:
 		clear;
 		case 1:
 			.@tried = 1;
-			if( #Mission_Delay > gettimetick(2) && .Delay ) goto L_main;
+			if( getgroupid() < 80 && #Mission_Delay > gettimetick(2) && .Delay ) goto L_main;
 			mes "[Chuck Testa]";
 			if( #Mission_Count ) {
 				mes "Vous avez demarré une mission";
@@ -219,7 +219,7 @@ L_main:
 			break;
 		case 4:
 			.@tried = 2;
-			if( #Mission_Delay_MVP > gettimetick(2) && .Delay ) goto L_main;
+			if( getgroupid() < 80 && #Mission_Delay_MVP > gettimetick(2) && .Delay ) goto L_main;
 			mes "[Chuck Testa]";
 			if( #Mission_Count_MVP ) {
 				mes "Vous avez demarré une mission MVP";
@@ -306,7 +306,7 @@ L_main:
 			break;
 		case 7:
 			.@tried = 3;
-			if( #Mission_DB_Delay > gettimetick(2) && .Delay ) goto L_main;
+			if( getgroupid() < 80 && #Mission_DB_Delay > gettimetick(2) && .Delay ) goto L_main;
 			if( #Mission_Count_DB == 0 )
 				#Mission_Count_DB = 1;
 			callsub Mission_DB_Status;
@@ -325,7 +325,7 @@ L_main:
 		case 11:
 			mes "[Chuck Testa]";
 			mes "Top hunters mob:";
-			query_sql("SELECT char_id AS id, (SELECT `name` FROM `char` WHERE char_id = id),`value` FROM `char_reg_num` WHERE `key` = 'Mission_Total' ORDER BY CAST(`value` AS SIGNED) DESC LIMIT 10", .@id, .@name$, .@val);
+			query_sql("SELECT c.`char_id`, c.`name`, r.`value` FROM `char_reg_num` r JOIN `char` c ON c.`char_id` = r.`char_id` JOIN `login` l ON l.`account_id` = c.`account_id` WHERE r.`key` = 'Mission_Total' AND l.`group_id` < 80 ORDER BY CAST(r.`value` AS SIGNED) DESC LIMIT 10", .@id, .@name$, .@val);
 			for( .@i = 0; .@i < getarraysize(.@name$); .@i++ )
 				mes "  [Rank " + (.@i+1) + "]  " + ((.@name$[.@i] == "") ? "^777777none" : "^0055FF" + .@name$[.@i]+"^000000 : ^FF0000" + .@val[.@i] + " pt.") + "^000000";
 			setdialogsize(280,300);
@@ -333,7 +333,7 @@ L_main:
 		case 12:
 			mes "[Chuck Testa]";
 			mes "Top hunters MVP:";
-			query_sql("SELECT char_id AS id, (SELECT `name` FROM `char` WHERE char_id = id),`value` FROM `char_reg_num` WHERE `key` = 'Mission_Total_MVP' ORDER BY CAST(`value` AS SIGNED) DESC LIMIT 10", .@id, .@name$, .@val);
+			query_sql("SELECT c.`char_id`, c.`name`, r.`value` FROM `char_reg_num` r JOIN `char` c ON c.`char_id` = r.`char_id` JOIN `login` l ON l.`account_id` = c.`account_id` WHERE r.`key` = 'Mission_Total_MVP' AND l.`group_id` < 80 ORDER BY CAST(r.`value` AS SIGNED) DESC LIMIT 10", .@id, .@name$, .@val);
 			for( .@i = 0; .@i < getarraysize(.@name$); .@i++ )
 				mes "  [Rank " + (.@i+1) + "]  " + ((.@name$[.@i] == "") ? "^777777none" : "^0055FF" + .@name$[.@i]+"^000000 : ^FF0000" + .@val[.@i] + " pt.") + "^000000";
 			setdialogsize(280,300);
@@ -362,7 +362,7 @@ Mission_Status:
 	for( .@i = 0; .@i < .Quests; .@i++ ) {
 		.@j[.@i] = getd("Mission" + .@i);
 		.@j[.Quests] = .@j[.Quests] + getmonsterinfo(.@j[.@i], MOB_NAME);
-		mes " > "+Chk(getd("Mission"+.@i+"_"),#Mission_Count) + meshyperlink(getmonsterinfo(.@j[.@i], MOB_NAME) + " [id:" + .@j[.@i] + "] ", .HMURL$ + .@j[.@i]) + "- (" + getd("Mission"+.@i+"_") + "/" + #Mission_Count + ")^000000";
+		mes " > "+Chk(getd("Mission"+.@i+"_"),#Mission_Count) + mesmoblink(.@j[.@i]) + " - (" + getd("Mission"+.@i+"_") + "/" + #Mission_Count + ")^000000";
 	}
 
 	// Zeny formula:
@@ -427,14 +427,14 @@ Mission_Status_MVP:
 	// Les points proviennent toujours de $mvps[] via L_MvpPoints (fallback 4).
 	callsub L_MvpPoints, Mission_MVP_ID;
 	.@pts = @hm_mvp_pts;
-	mes "Wanted: "+Chk(Mission_MVP,1) + meshyperlink(getmonsterinfo(Mission_MVP_ID, MOB_NAME) + " [id:" + Mission_MVP_ID + "] ", .HMURL$ + Mission_MVP_ID) + "- (" + Mission_MVP + "/1)^000000";
+	mes "Wanted: "+Chk(Mission_MVP,1) + mesmoblink(Mission_MVP_ID) + " - (" + Mission_MVP + "/1)^000000";
 
 	// Zeny formula:
 	.@zeny = .@pts * 1000000;
 	mes "Récompenses:";
 	mes " > Points d'event: ^0055FF"+ .@pts +"pts^000000";
 	mes " > Zenys: ^0055FF" + F_InsertComma(.@zeny) + "^000000";
-	mes " > "+mesitemicon(12214) +" -> 1 "+ mesitemlink(12214); // Convex_Mirror
+	mes " > 1 "+ mesitemcell(Convex_Mirror);
 	if( @f && getgroupid() < 80 ) {
 		@f = false;
 		return;
@@ -445,7 +445,7 @@ Mission_Status_MVP:
 	close2;
 	Mission_MVP = 0;
 	.@prepoints = #KAFRAPOINTS;
-	getitem Convex_Mirror,1; // Convex_Mirror
+	getitem Convex_Mirror,1;
 	if( Zeny <= MAX_ZENY - .@zeny )
 		Zeny += .@zeny;
 	else if ( BankVault <= MAX_ZENY - .@zeny ) {
@@ -483,10 +483,10 @@ Mission_DB_Status:
 		mes "Récompenses:";
 		mes " > Points d'event: ^0055FF5pts^000000";
 		mes " > Zenys: ^0055FF" + F_InsertComma(5000000) + "^000000";
-		mes " > "+mesitemicon(12103) +" -> 10 "+ mesitemlink(12103); // BLOODY_DEAD_BRANCH
+		mes " > 10  "+ mesitemcell(Bloody_Dead_Branch);
 		return;
 	}
-	mes "Ah il ressemblerait que vous ayez bien tuer les 1000 mob en db!!";
+	mes "Ah il semblerait que vous ayez bien tué les 1000 mobs en DB!!";
 	close2;
 	emotion ET_BEST;
 	specialeffect2 EF_ANGEL;
@@ -509,11 +509,11 @@ Mission_DB_Status:
 		dispbottom "Vous ne gagnez pas de zeny car vous êtes au max.";
 
 	if( checkweight(Bloody_Dead_Branch,10) ) {
-		getitem Bloody_Dead_Branch,10; // BLOODY_DEAD_BRANCH
+		getitem Bloody_Dead_Branch,10;
 		logmes "Récompenses reçues.";
 	}
 	else {
-		setarray .@mailitem[0], 12103; // BLOODY_DEAD_BRANCH
+		setarray .@mailitem[0], Bloody_Dead_Branch;
 		setarray .@mailamount[0], 10;
 		.@title$ = "Chasse MVP";
 		.@body$ = "Félicitation vous termminez votre chasse MVP !";
@@ -684,7 +684,6 @@ L_MvpPoints:
 OnInit:
 	.Delay = 4;            // Quest delay, in hours (0 to disable).
 	.Quests = 3;           // Number of subquests per mission (increases rewards).
-	.HMURL$ = "https://moonlight-destiny.fr/index.php?page=bestiary&mobid=";  // base URL bestiaire (cliquable via meshyperlink)
 	.Blacklist$ =          // Blacklisted mob IDs.
 		"1062,1088,1108,1136,1137,1183,1186,1200,1212,1214,1220,1221,1234,1235,"+
 		"1244,1245,1250,1268,1270,1290,1293,1294,1296,1298,1299,"+

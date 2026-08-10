@@ -40,7 +40,7 @@ gonryun,133,99,5	script	Chien des Bois	514,{
 	// Proposition
 	sleep2 500; // sleep ne fonctionne pas avec un joueur attaché au npc
 	mes "";
-	mes "Tu veux des " + mesitemlink(Moonlight_Coin) + " ?";
+	mes "Tu veux des " + mesitemcell(Moonlight_Coin) + " ?";
 	sleep2 200;
 	mes "C'est ^FF00001.000.000.000^000000z l'unité";
 	sleep2 200;
@@ -146,7 +146,7 @@ Sub_IsSTN:
 gonryun,186,96,3	script	Collectionneur	10056,{
 	// Message de bienvenue et proposition
 	mes "[Collectionneur]";
-	mes "Salutations Aventuri" + (Sex?"er":"ère") + ", je suis en quête de précieux " + mesitemlink(Moonlight_Coin) + ".";
+	mes "Salutations Aventuri" + (Sex?"er":"ère") + ", je suis en quête de précieux " + mesitemcell(Moonlight_Coin) + ".";
 	sleep2 200;
 	mes "Je suis prêt à vous en acheter un pour ^FF00001.000.000.000^000000z.";
 	sleep2 200;
@@ -175,7 +175,7 @@ MenuSellCoin:
 			sleep2 500;
 			mes "Enfin, je voulais dire...";
 			sleep2 500;
-			mes "Prennez ces quelques sous et donnez moi immédiatement le " + mesitemlink(Moonlight_Coin) + " !";
+			mes "Prennez ces quelques sous et donnez moi immédiatement le " + mesitemcell(Moonlight_Coin) + " !";
 			
 			// Retire un Moonlight Coin + log
 			delitem(Moonlight_Coin, 1);

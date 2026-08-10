@@ -1,4 +1,41 @@
 //===== Moonlight-Destiny ====================================
+function	script	mesitemcell	{
+	// Nom d'un objet précédé de son icône, cliquable : lien natif si le dialogue
+	// moderne de Bourgeon est allumé chez le joueur, sinon lien objet du client.
+	// Ne pose aucune espace autour, c'est à l'appelant de le faire.
+	.@itemid = getarg(0,0);
+	.@refine = getarg(1,0);
+	.@name$ = getitemname(.@itemid);
+	if( .@name$ == "null" ) return "item inconnu [id:" + .@itemid + "]";
+	if( .@refine > 0 ) .@name$ = "+" + .@refine + " " + .@name$;
+	// playerattached() en if imbriqué : rAthena n'a pas de court-circuit, et
+	// bourgeon_ui() termine le script s'il n'y a aucun joueur attaché.
+	if( playerattached() ) {
+		if( bourgeon_ui(BOURGEON_UI_NPC_DIALOG) )
+			return itemtag(.@itemid, .@name$);
+	}
+	// mesitemlink() ajoute un NBSP final (feature.mesitemlink_trailing_space).
+	return mesitemicon(.@itemid) + mesitemlink(.@itemid, false, .@name$);
+}
+
+function	script	mesmoblink	{
+	// Nom d'un monstre, cliquable : lien natif si le dialogue moderne de
+	// Bourgeon est allumé chez le joueur, sinon lien web vers le bestiaire.
+	// Ne pose aucune espace autour du nom, c'est à l'appelant de le faire.
+	.@mobid = getarg(0,0);
+	.@name$ = getmonsterinfo(.@mobid, MOB_NAME);
+	if( .@name$ == "null" ) return "monstre inconnu [id:" + .@mobid + "]";
+
+	// playerattached() en if imbriqué : rAthena n'a pas de court-circuit, et
+	// bourgeon_ui() termine le script s'il n'y a aucun joueur attaché.
+	if( playerattached() ) {
+		if( bourgeon_ui(BOURGEON_UI_NPC_DIALOG) )
+			return mobtag(.@mobid);
+	}
+	return meshyperlink(.@name$ + " [id:" + .@mobid + "]",
+		"https://moonlight-destiny.fr/index.php?page=bestiary&mobid=" + .@mobid);
+}
+
 function	script	erasearray	{
 	while( size(getarg(0)) ) arraypop(getarg(0));
 	return;
