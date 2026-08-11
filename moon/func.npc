@@ -417,3 +417,71 @@ function	script	mesitemlinkuid	{
 
 	return mesitemlink(.@itembyuid_nameid, 1, sprintf("%s%s%s", .@refine$, getitemname(.@itembyuid_nameid), .@cards$));
 }
+
+
+// getskinjob(<palier>{,<classe>{,<sexe>}})
+//   palier 3 : sprite de 3eme classe, 4 : sprite de 4eme classe.
+//   Retourne le job id a passer a "setlook LOOK_BODY2", ou -1 si la classe
+//   n'a pas de sprite pour ce palier.
+//   Table unique : stylist.npc et tout autre appelant s'y referent.
+function	script	getskinjob	{
+	.@tier = getarg(0);
+	.@class = getarg(1, Class);
+	.@sex = getarg(2, Sex);
+
+	if( .@tier == 3 ) {
+		switch( .@class ) {
+			case JOB_NINJA:
+				if( .@sex ) return JOB_KAGEROU;
+				return JOB_OBORO;
+			case JOB_BABY_NINJA:
+				if( .@sex ) return JOB_BABY_KAGEROU;
+				return JOB_BABY_OBORO;
+			case JOB_GUNSLINGER:
+				return JOB_REBELLION;
+			case JOB_BABY_GUNSLINGER:
+				return JOB_BABY_REBELLION;
+		}
+		// Les autres classes suivent la table eA standard (renvoie -1 si aucune).
+		return roclass(eaclass(.@class)|EAJL_THIRD, .@sex);
+	}
+
+	if( .@tier == 4 ) {
+		switch( .@class ) {
+			case JOB_LORD_KNIGHT:		return JOB_DRAGON_KNIGHT;
+			case JOB_HIGH_WIZARD:		return JOB_ARCH_MAGE;
+			case JOB_SNIPER:			return JOB_WINDHAWK;
+			case JOB_HIGH_PRIEST:		return JOB_CARDINAL;
+			case JOB_WHITESMITH:		return JOB_MEISTER;
+			case JOB_ASSASSIN_CROSS:	return JOB_SHADOW_CROSS;
+			case JOB_PALADIN:			return JOB_IMPERIAL_GUARD;
+			case JOB_PROFESSOR:			return JOB_ELEMENTAL_MASTER;
+			case JOB_CHAMPION:			return JOB_INQUISITOR;
+			case JOB_CREATOR:			return JOB_BIOLO;
+			case JOB_STALKER:			return JOB_ABYSS_CHASER;
+			case JOB_CLOWN:				return JOB_TROUBADOUR;
+			case JOB_GYPSY:				return JOB_TROUVERE;
+			case JOB_STAR_GLADIATOR:	return JOB_SKY_EMPEROR;
+			case JOB_SOUL_LINKER:		return JOB_SOUL_ASCETIC;
+			case JOB_NINJA:
+			case JOB_BABY_NINJA:
+				if( .@sex ) return JOB_SHINKIRO;
+				return JOB_SHIRANUI;
+			case JOB_GUNSLINGER:
+			case JOB_BABY_GUNSLINGER:
+				return JOB_NIGHT_WATCH;
+		}
+	}
+	return -1;
+}
+
+// hasskinjob()
+//   Retourne le job id du skin actuellement porte, 0 si aucun.
+//   Source de verite : char.body (persiste), lu via getlook(LOOK_BODY2).
+//   "Aucun skin" se traduit par body == 0 ou body == classe reelle.
+function	script	hasskinjob	{
+	.@skin = getlook(LOOK_BODY2);
+	if( .@skin && .@skin != Class )
+		return .@skin;
+	return 0;
+}

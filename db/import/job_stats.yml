@@ -5548,3 +5548,30 @@ Body:
     BaseASPD:
       Fist: 400
       Book: 500
+
+  # --- Sprites de classe du styliste (moon/stylist.npc, getskinjob) ---
+  # Ces jobs ne sont jamais joues sur un serveur pre-renewal : ils ne sont
+  # declares que pour que job_db.exists() soit vrai, condition posee par
+  # pc_changelook() pour accepter "setlook LOOK_BODY2, <job>".
+  # Les retirer casse silencieusement les skins 3eme / 4eme classe.
+  - Jobs:
+      Star_Emperor: true
+      Soul_Reaper: true
+      Dragon_Knight: true
+      Arch_Mage: true
+      Windhawk: true
+      Cardinal: true
+      Meister: true
+      Shadow_Cross: true
+      Imperial_Guard: true
+      Elemental_Master: true
+      Inquisitor: true
+      Biolo: true
+      Abyss_Chaser: true
+      Troubadour: true
+      Trouvere: true
+      Sky_Emperor: true
+      Soul_Ascetic: true
+      Shiranui: true
+      Shinkiro: true
+      Night_Watch: true

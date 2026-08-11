@@ -7,15 +7,16 @@ gonryun,155,122,5	script	Kafra::kafra_gon	4_F_KAFRA2,{
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 	mes "Je suis le npc qui permet de louer un cart, un faucon ou encore un peco !";
 	mes "Mais aussi de changer de gm de guilde !!";
+	.@hasskin = hasskinjob();
 	if( BaseClass == Job_Merchant || Class == Job_SuperNovice ) .@menu$ = "Louer un cart";
 	else if( BaseJob == Job_Hunter ) .@menu$ = "Louer un Faucon";
-	else if( BaseJob == Job_Knight || BaseJob == Job_Crusader ) .@menu$ = ( BaseJob == Job_Knight && base3rd && checkoption(OPTION_DRAGON) ) ?"Couleur dragon":(BaseJob == Job_Knight && base3rd ?"Louer un Dragon":"Louer un Peco");
+	else if( BaseJob == Job_Knight || BaseJob == Job_Crusader ) .@menu$ = ( BaseJob == Job_Knight && .@hasskin && checkoption(OPTION_DRAGON) ) ?"Couleur dragon":(BaseJob == Job_Knight && .@hasskin ?"Louer un Dragon":"Louer un Peco");
 	else .@menu$ = "";
 	switch( select(.@menu$,"Ouvrir le storage (@storage)", "Consulter le log Guild Storage", "Changer le GM de Guilde", "Echange de Gympass", "Changer de genre (10 votes)") ) {
 		case 1:
 			clear;
 			mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-			if( BaseJob == Job_Knight && base3rd && checkoption(OPTION_DRAGON) ) {
+			if( BaseJob == Job_Knight && .@hasskin && checkoption(OPTION_DRAGON) ) {
 				mes "5 couleurs sont dispo:";
 				while (1)
 				{
@@ -66,7 +67,7 @@ gonryun,155,122,5	script	Kafra::kafra_gon	4_F_KAFRA2,{
 			else if( .@menu$ == "Louer un Peco" ) {
 				if( getskilllv(63) ) {
 					setriding(1);
-					if( BaseJob == Job_Knight && base3rd )
+					if( BaseJob == Job_Knight && .@hasskin )
 						setoption OPTION_DRAGON,1;
 					mes "Et un poulet free, un !";
 					mes "À bientôt !";

@@ -14,14 +14,15 @@ gonryun,160,126,5	script	Styliste::stylist_gon	2_M_DYEINGER,{
 	mes "Il vous suffit de choisir ce que vous souhaitez modifier:";
 	.@menu4$ = (gethominfo(0) ? "¤ Skin Homonculus" : "");
 	.@menu5$ = "";
+	.@hasskin = hasskinjob();
 	if (BaseLevel == 999 ) {
-		if (!(base3rd || base4th) && Class != JOB_SUPER_NOVICE && Class != JOB_SUPER_BABY) {
+		if (!.@hasskin && Class != JOB_SUPER_NOVICE && Class != JOB_SUPER_BABY) {
 			.@menu5$ = "¤ Skin 3ème classe !:¤ Skin 4ème classe !";
 			if (Class == JOB_NINJA || Class == JOB_BABY_NINJA || 
 				Class == JOB_GUNSLINGER || Class == JOB_BABY_GUNSLINGER)
 				.@menu5$ = "¤ Skin 3ème classe !";
 		}
-		else if ((base3rd || base4th) ) .@menu5$ = "¤ Retour skin normal !";
+		else if (.@hasskin) .@menu5$ = "¤ Retour skin normal !";
 	}
 	.@s = select("¤ Couleur des vêtements", "¤ Couleur des cheveux", "¤ Coiffure", "¤ Hats/Transmogrification", .@menu4$, .@menu5$);
 	if (.@s == 4) {
@@ -154,108 +155,28 @@ L_mainmenu:
 		close;
 	}
 	if (.@s == 6) {
-		if (base3rd || base4th) {
+		if (.@hasskin) {
 			if (checkoption(OPTION_RIDING))
 				setoption OPTION_DRAGON,0;
-			base3rd = 0;
-			base4th = 0;
-			changebase Class;
+			setlook LOOK_BODY2, Class;
 		}
 		else {
-			switch (Class) {
-				case JOB_LORD_KNIGHT:
-					changebase JOB_RUNE_KNIGHT;
-					if (checkoption(OPTION_RIDING))
-						setoption OPTION_DRAGON,1;
-					break;
-				case JOB_NINJA:
-					if (Sex) changebase JOB_KAGEROU;
-					else changebase JOB_OBORO;
-					break;
-				case JOB_BABY_NINJA:
-					if (Sex) changebase JOB_BABY_KAGEROU;
-					else changebase JOB_BABY_OBORO;
-					break;
-				case JOB_GUNSLINGER:
-					changebase JOB_REBELLION;
-					break;
-				case JOB_BABY_GUNSLINGER:
-					changebase JOB_BABY_REBELLION;
-					break;
-				default:
-					changebase roclass(eaclass()|EAJL_THIRD);
-					break;
+			.@job = getskinjob(3);
+			if (.@job > 0) {
+				setlook LOOK_BODY2, .@job;
+				if (Class == JOB_LORD_KNIGHT && checkoption(OPTION_RIDING))
+					setoption OPTION_DRAGON,1;
 			}
-			base4th = 0;
-			base3rd = 1;
 		}
 		restartnpc;
 	}
 	if (.@s == 7) {
-		switch (Class) {
-			case JOB_LORD_KNIGHT:
-				changebase JOB_DRAGON_KNIGHT;
-				if (checkoption(OPTION_RIDING))
-					setoption OPTION_DRAGON,1;
-				break;
-			case JOB_HIGH_WIZARD:
-				changebase JOB_ARCH_MAGE;
-				break;
-			case JOB_SNIPER:
-				changebase JOB_WINDHAWK;
-				break;
-			case JOB_HIGH_PRIEST:
-				changebase JOB_CARDINAL;
-				break;
-			case JOB_WHITESMITH:
-				changebase JOB_MEISTER;
-				break;
-			case JOB_ASSASSIN_CROSS:
-				changebase JOB_SHADOW_CROSS;
-				break;
-			case JOB_PALADIN:
-				changebase JOB_IMPERIAL_GUARD;
-				break;
-			case JOB_PROFESSOR:
-				changebase JOB_ELEMENTAL_MASTER;
-				break;
-			case JOB_CHAMPION:
-				changebase JOB_INQUISITOR;
-				break;
-			case JOB_CREATOR:
-				changebase JOB_BIOLO;
-				break;
-			case JOB_STALKER:
-				changebase JOB_ABYSS_CHASER;
-				break;
-			case JOB_CLOWN:
-				changebase JOB_TROUBADOUR;
-				break;
-			case JOB_GYPSY:
-				changebase JOB_TROUVERE;
-				break;
-			case JOB_STAR_GLADIATOR:
-				changebase JOB_SKY_EMPEROR;
-				break;
-			case JOB_SOUL_LINKER:
-				changebase JOB_SOUL_ASCETIC;
-				break;
-			case JOB_NINJA:
-				if (Sex) changebase JOB_SHIRANUI;
-				else changebase JOB_SHINKIRO;
-				break;
-			case JOB_BABY_NINJA:
-				if (Sex) changebase JOB_SHIRANUI;
-				else changebase JOB_SHINKIRO;
-				break;
-			case JOB_GUNSLINGER:
-				changebase JOB_NIGHT_WATCH;
-				break;
-			default:
-				break;
+		.@job = getskinjob(4);
+		if (.@job > 0) {
+			setlook LOOK_BODY2, .@job;
+			if (Class == JOB_LORD_KNIGHT && checkoption(OPTION_RIDING))
+				setoption OPTION_DRAGON,1;
 		}
-		base3rd = 0;
-		base4th = 1;
 		restartnpc;
 	}
 	clear;
