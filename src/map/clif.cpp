@@ -8016,6 +8016,16 @@ void clif_parse_bourgeon_bug_report(int32 fd, map_session_data* sd) {
 	snprintf(dc_name, sizeof(dc_name), "[BUG %s] %s", cat, sd->status.name);
 	char esc_dcname[sizeof(dc_name) * 2 + 1];
 	Sql_EscapeString(mmysql_handle, esc_dcname, dc_name);
+	// 🔴 Ce tampon doit tenir dans `discord_outbound`.`message`, elargi a 2000
+	// (cf. _ensure_discord_outbound_table dans tools/groq_service.py).
+	//
+	// MySQL tourne en STRICT_TRANS_TABLES : un depassement REFUSE l'insertion, il
+	// ne tronque pas. La colonne valait 500 alors qu'on assemble ici le contexte
+	// (jusqu'a 1024) ET le message (jusqu'a 500) -- un rapport un peu bavard etait
+	// donc rejete en silence. Il atterrissait bien dans `bug_reports`, dont la
+	// colonne ne porte QUE le message, et disparaissait du relais Discord.
+	// Constate le 2026-08-12 sur un rapport de 535 caracteres : 35 de trop, et le
+	// joueur n'avait aucun moyen de le savoir.
 	char dc_msg[1400];
 	snprintf(dc_msg, sizeof(dc_msg), "ctx=%s | %s,%d,%d | %.*s ",
 		ctx_final.c_str(), mapname, sd->x, sd->y, store_msg, msg_ptr);

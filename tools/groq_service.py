@@ -1330,6 +1330,26 @@ def _ensure_chatbot_broadcast_table(conn):
         print(f"[Discord] chatbot_broadcast table ERREUR : {e}", file=sys.stderr)
 
 
+# 🔴 Ces deux tailles sont un CONTRAT avec le serveur de jeu, pas un confort.
+#
+# `message` reçoit deux natures de ligne. Le chat, court. Et les rapports de bug,
+# où clif.cpp concatène « ctx=<json> | <map>,<x>,<y> | <message du joueur> » : le
+# contexte va jusqu'à 1024 et le message jusqu'à 500, donc la ligne assemblée
+# atteint le plafond du tampon d'émission (1400 octets).
+#
+# ⚠ MySQL tourne ici en STRICT_TRANS_TABLES : un dépassement REFUSE l'insertion,
+# il ne tronque pas. Sous les 500 d'origine, un rapport un peu bavard était donc
+# rejeté en silence — il atterrissait bien dans `bug_reports`, dont la colonne ne
+# porte QUE le message, et disparaissait du relais Discord. Constaté le
+# 2026-08-12 sur un rapport de 535 caractères : 35 de trop.
+#
+# `player` reçoit « [BUG <categorie>] <nom du personnage> », soit jusqu'à 14 + 23
+# caractères. Les 24 déclarés ici n'ont jamais suffi : la table de production
+# avait été élargie à la main, si bien qu'une installation NEUVE aurait refusé
+# tout rapport de bug dès le premier.
+DISCORD_OUTBOUND_PLAYER_LEN  = 64
+DISCORD_OUTBOUND_MESSAGE_LEN = 2000   # = plafond d'un message Discord
+
 def _ensure_discord_outbound_table(conn):
     """Create discord_outbound table if it does not exist yet."""
     try:
@@ -1337,9 +1357,9 @@ def _ensure_discord_outbound_table(conn):
             cur.execute(
                 "CREATE TABLE IF NOT EXISTS `discord_outbound` ("
                 "  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,"
-                "  `player` VARCHAR(24) NOT NULL DEFAULT '',"
+                f"  `player` VARCHAR({DISCORD_OUTBOUND_PLAYER_LEN}) NOT NULL DEFAULT '',"
                 "  `char_id` INT UNSIGNED NOT NULL DEFAULT 0,"
-                "  `message` VARCHAR(500) NOT NULL DEFAULT '',"
+                f"  `message` VARCHAR({DISCORD_OUTBOUND_MESSAGE_LEN}) NOT NULL DEFAULT '',"
                 "  `sent` TINYINT UNSIGNED NOT NULL DEFAULT 0,"
                 "  PRIMARY KEY (`id`),"
                 "  INDEX `idx_sent` (`sent`, `id`)"
@@ -1352,6 +1372,27 @@ def _ensure_discord_outbound_table(conn):
                 )
             except Exception:
                 pass  # column already exists
+            # Élargissement des installations existantes. 🔴 On INTERROGE avant
+            # d'altérer : un `MODIFY COLUMN` inconditionnel à chaque démarrage
+            # reconstruit la table, ce qui se paierait en secondes de blocage sur
+            # une table qui grossit d'un message par ligne de chat.
+            for col, want in (("player",  DISCORD_OUTBOUND_PLAYER_LEN),
+                              ("message", DISCORD_OUTBOUND_MESSAGE_LEN)):
+                cur.execute(
+                    "SELECT CHARACTER_MAXIMUM_LENGTH FROM information_schema.COLUMNS "
+                    "WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'discord_outbound' "
+                    "AND COLUMN_NAME = %s", (col,)
+                )
+                row = cur.fetchone()
+                have = None
+                if row:
+                    have = list(row.values())[0] if isinstance(row, dict) else row[0]
+                if have is not None and have < want:
+                    cur.execute(
+                        f"ALTER TABLE `discord_outbound` "
+                        f"MODIFY COLUMN `{col}` VARCHAR({want}) NOT NULL DEFAULT ''"
+                    )
+                    print(f"[Discord] discord_outbound.{col} elargi {have} -> {want}")
         conn.commit()
     except Exception as e:
         print(f"[Discord] discord_outbound table ERREUR : {e}", file=sys.stderr)
