@@ -6462,28 +6462,32 @@ enum e_bourgeon_npc_admin_action : uint8 {
 // Il y en a exactement BOURGEON_STYLE_RAMPS, et ce nombre fait partie du
 // format : le changer OBLIGE à incrémenter BOURGEON_STYLE_WIRE_VERSION.
 //
-// Miroir exact de src/features/fx/palette_sync.h côté Bourgeon.
+// Miroir exact de src/features/fx/style_sync.h côté Bourgeon.
 #define BOURGEON_STYLE_RAMPS        8
 #define BOURGEON_STYLE_ADJUST_BYTES (BOURGEON_STYLE_RAMPS * 5)  // 40
-// v2 (2026-08-11) : le seuil de longueur de rampe est passé de 3 à 1 côté
-// client. Les frontières ET le classement des rampes changent, donc une recette
-// v1 désigne d'autres pièces du costume — elle doit être JETÉE, pas relue.
-// 🔴 Miroir de `fx::palette_sync::kWireVersion`. Les deux bougent ensemble.
-// v3 (2026-08-11) : ajout de `palette_id`, la palette de vêtement OFFICIELLE
-// (0..552) sur laquelle la recette s'applique. Une v2 se MIGRE — ses réglages de
-// rampes restent valides, il lui manque seulement ce numéro, qui vaut alors -1
-// (« la palette que le serveur a assignée »).
-// v4 (2026-08-11) : ajout de `hair_palette_id`, la palette de CHEVEUX. Une v3 se
-// MIGRE (cheveux = ceux du personnage) ; ses réglages de corps restent valides.
-// v5 (2026-08-12) : ajout de `hair_style`, la COIFFURE. Une v4 se MIGRE (coupe =
-// celle du personnage).
+// 🔴 Miroir de `fx::style_sync::kWireVersion`. Les deux bougent ensemble.
+//
+// Une SEULE version est acceptée : les autres se jettent, et le joueur retrouve
+// son apparence native. Cet octet n'est pas là pour migrer, mais parce que le
+// client et le serveur ne sont jamais déployés à la même seconde — pendant un
+// patch, des clients d'hier et d'aujourd'hui se croisent sur la même carte.
+//
+// ⚠ Le serveur ne LIT pas ces octets, il les relaie ; c'est justement pour ça
+// qu'il doit filtrer ICI. Le client destinataire n'a aucun moyen de savoir de
+// quelle époque vient la recette qu'on lui envoie.
+//
+// v6 (2026-08-12) : classement des rampes pondéré par la saturation côté client.
+// Pas un octet ne bouge dans la trame — c'est le SENS des rangs qui change, une
+// recette ne désignant ses pièces que par un rang. Les cinq versions
+// précédentes (2026-08-11/12) ajoutaient des champs et se migraient ; celle-ci
+// se jette, comme la v2 qui avait déjà déplacé les frontières de rampes.
 //
 // 🔴 Elle est la SEULE entrée que le serveur interprète. Tout le reste, il le
 // range sans le comprendre ; celle-ci, il l'APPLIQUE par `pc_changelook`, ce qui
 // l'écrit dans `sd->status.hair`, la sauvegarde avec le personnage et l'annonce
 // à la zone par le ZC_SPRITE_CHANGE natif — clients vanilla compris. Elle est
 // dans la recette parce que POUR LE JOUEUR la coiffure fait partie du style.
-#define BOURGEON_STYLE_WIRE_VERSION 5
+#define BOURGEON_STYLE_WIRE_VERSION 6
 
 // Drapeaux d'une entrée de recette.
 enum e_bourgeon_style_flag : uint8 {

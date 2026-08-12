@@ -8330,40 +8330,30 @@ static bool bourgeon_style_from_hex(const char* src, uint8* out,
 	*out_palette_id = -1;
 	*out_hair_id = -1;
 	*out_hair_style = -1;
-	// 🔴 La version décide du sort de l'entrée. Une v1 est INCOMPATIBLE (la
-	// détection de rampes a changé, ses réglages désigneraient d'autres pièces) et
-	// se jette. Les suivantes se MIGRENT : ce qui manque prend sa valeur « rien
-	// d'imposé », et les réglages de rampes restent valides.
-	if (strncmp(src, "2:", 2) == 0) {
-		src += 2;  // ni palette, ni cheveux, ni coiffure
-	} else if (strncmp(src, "3:", 2) == 0) {
-		const char* sep = strchr(src + 2, ':');
-		if (sep == nullptr) return false;
-		*out_palette_id = (int16)atoi(src + 2);
-		src = sep + 1;  // cheveux et coiffure absents
-	} else if (strncmp(src, "4:", 2) == 0) {
-		const char* sep1 = strchr(src + 2, ':');
-		if (sep1 == nullptr) return false;
-		const char* sep2 = strchr(sep1 + 1, ':');
-		if (sep2 == nullptr) return false;
-		*out_palette_id = (int16)atoi(src + 2);
-		*out_hair_id = (int16)atoi(sep1 + 1);
-		src = sep2 + 1;  // coiffure absente
-	} else {
-		char attendu[8];
-		const int plen = sprintf(attendu, "%d:", BOURGEON_STYLE_WIRE_VERSION);
-		if (strncmp(src, attendu, plen) != 0) return false;
-		const char* sep1 = strchr(src + plen, ':');
-		if (sep1 == nullptr) return false;
-		const char* sep2 = strchr(sep1 + 1, ':');
-		if (sep2 == nullptr) return false;
-		const char* sep3 = strchr(sep2 + 1, ':');
-		if (sep3 == nullptr) return false;
-		*out_palette_id = (int16)atoi(src + plen);
-		*out_hair_id = (int16)atoi(sep1 + 1);
-		*out_hair_style = (int16)atoi(sep2 + 1);
-		src = sep3 + 1;
-	}
+	// 🔴 La version décide du sort de l'entrée, et une SEULE est acceptée : la
+	// courante. Des migrations ont existé (v2→v3→v4→v5) tant que les versions ne
+	// faisaient qu'AJOUTER des champs — les réglages de rampes gardaient leur
+	// sens. La v6 change le CLASSEMENT des rampes : le rang 3 d'hier ne désigne
+	// plus la même pièce du costume, donc migrer repeindrait les bottes en
+	// couleur de cape. Une entrée d'une autre version est jetée, et le joueur
+	// retrouve son apparence native.
+	//
+	// ⚠ Le serveur ne LIT pas ces octets, il les relaie — mais c'est justement
+	// pour ça qu'il doit filtrer ici : le client destinataire n'aurait plus aucun
+	// moyen de savoir de quelle époque vient la recette qu'on lui envoie.
+	char attendu[8];
+	const int plen = sprintf(attendu, "%d:", BOURGEON_STYLE_WIRE_VERSION);
+	if (strncmp(src, attendu, plen) != 0) return false;
+	const char* sep1 = strchr(src + plen, ':');
+	if (sep1 == nullptr) return false;
+	const char* sep2 = strchr(sep1 + 1, ':');
+	if (sep2 == nullptr) return false;
+	const char* sep3 = strchr(sep2 + 1, ':');
+	if (sep3 == nullptr) return false;
+	*out_palette_id = (int16)atoi(src + plen);
+	*out_hair_id = (int16)atoi(sep1 + 1);
+	*out_hair_style = (int16)atoi(sep2 + 1);
+	src = sep3 + 1;
 	for (int i = 0; i < BOURGEON_STYLE_ADJUST_BYTES * 2; ++i) {
 		const char c = src[i];
 		int v;
