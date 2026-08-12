@@ -1604,6 +1604,13 @@ void clif_bourgeon_style_single(map_session_data* sd, map_session_data* owner);
 // ayant validé son style avant notre connexion reste dans ses couleurs
 // d'origine jusqu'à ce qu'il le re-valide.
 void clif_bourgeon_style_area(map_session_data* sd);
+// Diffuse la recette de `sd` à tous les clients Bourgeon à portée.
+//
+// 🔴 À appeler quand `sd` APPARAÎT (`clif_spawn` : connexion, warp, changement de
+// carte). `clif_getareachar_unit` ne couvre que le sens inverse — ce que le
+// nouveau venu découvre — donc sans ceci personne ne voit jamais arriver le
+// style d'un joueur, pas même après qu'il se soit reconnecté.
+void clif_bourgeon_style_spawn(map_session_data* sd);
 // [Stingor] Un NPC pilote la fenêtre de couleurs (ZC 0x0F28) : 0 ferme, 1 ouvre,
 // 2 bascule. Exposé aux scripts par `bourgeon_style_open`.
 void clif_bourgeon_style_open(map_session_data* sd, uint8 mode);

@@ -1773,6 +1773,11 @@ int32 clif_spawn( const block_list* bl, bool walking ){
 			if (sd->spiritcharm_type != CHARM_TYPE_NONE && sd->spiritcharm > 0)
 				clif_spiritcharm( *sd );
 			clif_efst_status_change_sub(bl, bl, AREA);
+			// [Stingor] Ses couleurs de corps à ceux qui sont déjà là. Pendant exact
+			// du clif_refresh_clothcolor(AREA_WOS) ci-dessus, pour la même raison :
+			// `clif_getareachar_unit` ne dit à un joueur que ce qu'il DÉCOUVRE, jamais
+			// ce qui APPARAÎT sous ses yeux.
+			clif_bourgeon_style_spawn(sd);
 		}
 		break;
 	case BL_MOB:
@@ -8525,6 +8530,87 @@ void clif_bourgeon_style_area(map_session_data* sd) {
 	WFIFOHEAD(fd, len);
 	memcpy(WFIFOP(fd, 0), buf.data(), len);
 	WFIFOSET(fd, len);
+}
+
+// Envoie un paquet de style DÉJÀ FORMATÉ à un joueur de la zone (callback
+// map_foreachinallrange). Pré-formaté justement pour ne pas relire la recette de
+// l'émetteur une fois par spectateur : elle est la même pour tous.
+static int32 clif_bourgeon_style_spawn_sub(block_list* bl, va_list ap) {
+	map_session_data* tsd = BL_CAST(BL_PC, bl);
+	if (tsd == nullptr) return 0;
+
+	const int32  src_id = va_arg(ap, int32);
+	const uint8* buf    = va_arg(ap, const uint8*);
+	const int32  len    = va_arg(ap, int32);
+
+	if (tsd->id == src_id) return 0;         // le sien part par un chemin dédié
+	if (!tsd->state.has_bourgeon) return 0;  // client vanilla : rien à lui dire
+	const int32 fd = tsd->fd;
+	if (!session_isActive(fd)) return 0;
+
+	WFIFOHEAD(fd, len);
+	memcpy(WFIFOP(fd, 0), buf, len);
+	WFIFOSET(fd, len);
+	return 1;
+}
+
+// Le style de `sd` part vers tous les joueurs à portée, à son APPARITION.
+//
+// 🔴 L'angle mort de `clif_getareachar_unit`. Celui-ci ne couvre que deux
+// mouvements : « j'arrive et je découvre ceux qui sont déjà là »
+// (`clif_getareachar`) et « quelqu'un entre dans ma vue en MARCHANT »
+// (`clif_insight`). Il ne couvre pas le troisième : quelqu'un APPARAÎT. Une
+// connexion, un warp, un changement de carte passent par `clif_spawn`, qui
+// diffuse en AREA_WOS sans jamais repasser par `clif_getareachar_unit`.
+//
+// Le symptôme était ASYMÉTRIQUE, et c'est ce qui le trahit : le nouvel arrivant
+// voyait parfaitement le style de ceux déjà présents, mais eux ne voyaient pas
+// le sien. Se déconnecter puis se reconnecter n'y changeait rien, et ne le
+// pouvait pas : la reconnexion emprunte précisément le chemin qui manquait.
+//
+// ⚠ Le symptôme n'est pourtant pas systématique, et c'est ce qui égare : deux
+// joueurs qui MARCHENT l'un vers l'autre se voient très bien, parce que
+// `clif_insight` rejoue `clif_getareachar_unit` dans les DEUX sens. Seuls
+// restent aveugles ceux qui ne sont jamais sortis de la vue l'un de l'autre —
+// typiquement deux clients ouverts côte à côte, apparus au même endroit.
+//
+// 🔴 Le natif dit quoi faire, et ça se vérifie à l'œil : la couleur de vêtement,
+// qui est l'analogue exact de notre recette, est diffusée aux DEUX endroits —
+// `clif_refresh_clothcolor(*bl, SELF, sd)` dans `clif_getareachar_unit` et
+// `clif_refresh_clothcolor(*bl, AREA_WOS)` dans `clif_spawn`. Nous n'avions
+// branché que le premier.
+//
+// ⚠ `bourgeon_style_load` exige `vars_ok`, et il est acquis ici : `pc_reg_received`
+// pose `vars_ok` AVANT `state.active`, or `clif_parse_LoadEndAck` refuse de
+// continuer sans `state.active` — donc bien avant d'atteindre `clif_spawn`.
+void clif_bourgeon_style_spawn(map_session_data* sd) {
+	nullpo_retv(sd);
+	uint8 adjusts[BOURGEON_STYLE_ADJUST_BYTES];
+	int16 palette_id = -1, hair_id = -1, hair_style = -1;
+	if (!bourgeon_style_load(sd, adjusts, &palette_id, &hair_id, &hair_style))
+		return;  // pas de recette : rien à diffuser
+
+	// 🔴 AUCUNE garde sur le `has_bourgeon` de `sd`, et c'est le cœur du correctif.
+	// Ce qui compte est qu'il AIT une recette, pas que SON client soit déjà
+	// vérifié — au spawn il ne l'est justement jamais, la vérification arrive une
+	// seconde plus tard. Le filtre est par DESTINATAIRE, dans le callback : ce sont
+	// eux qui ne doivent pas recevoir un opcode qu'ils ne connaissent pas.
+	const int16 len = (int16)(sizeof(PACKET_ZC_BOURGEON_STYLES) +
+	                          sizeof(PACKET_BOURGEON_STYLE_ENTRY));
+	uint8 buf[sizeof(PACKET_ZC_BOURGEON_STYLES) +
+	          sizeof(PACKET_BOURGEON_STYLE_ENTRY)] = {};
+	PACKET_ZC_BOURGEON_STYLES* p =
+		reinterpret_cast<PACKET_ZC_BOURGEON_STYLES*>(buf);
+	p->packetType = HEADER_ZC_BOURGEON_STYLES;
+	p->packetLength = len;
+	p->count = 1;
+	bourgeon_style_fill(
+		reinterpret_cast<PACKET_BOURGEON_STYLE_ENTRY*>(
+			buf + sizeof(PACKET_ZC_BOURGEON_STYLES)),
+		sd, adjusts, palette_id, hair_id, hair_style, false);
+
+	map_foreachinallrange(clif_bourgeon_style_spawn_sub, sd, AREA_SIZE, BL_PC,
+	                      (int32)sd->id, (const uint8*)buf, (int32)len);
 }
 
 void clif_parse_bourgeon_style(int32 fd, map_session_data* sd) {
