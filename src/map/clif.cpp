@@ -6065,9 +6065,9 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 			pc_setglobalreg(sd, add_str("autoloot"), rate);
 			char aloot_rate_buf[32];
 			if( p->value <= 0)
-				clif_displaymessage(fd, "Autoloot : OFF");
+				clif_displaymessage(fd, "@autoloot: OFF");
 			else {
-				snprintf(aloot_rate_buf, sizeof(aloot_rate_buf), "Autoloot : %d%%", (int)p->value);
+				snprintf(aloot_rate_buf, sizeof(aloot_rate_buf), "@autoloot: %d%%", (int)p->value);
 				clif_displaymessage(fd, aloot_rate_buf);
 			}
 			break;
@@ -6077,7 +6077,7 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 			sd->state.autolootpognon = zeny;
 			pc_setglobalreg(sd, add_str("alootpognon"), static_cast<int32>(zeny));
 			char aloot_pgn_buf[48];
-			snprintf(aloot_pgn_buf, sizeof(aloot_pgn_buf), "Autolootpognon : %u z", zeny);
+			snprintf(aloot_pgn_buf, sizeof(aloot_pgn_buf), "@autolootpognon: %u z", zeny);
 			clif_displaymessage(fd, aloot_pgn_buf);
 			break;
 		}
@@ -6099,17 +6099,17 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 					first = false;
 				}
 				char aloot_type_buf[128];
-				snprintf(aloot_type_buf, sizeof(aloot_type_buf), "Autoloottype ON : %s", list);
+				snprintf(aloot_type_buf, sizeof(aloot_type_buf), "@autoloottype ON: %s", list);
 				clif_displaymessage(fd, aloot_type_buf);
 			} else {
-				clif_displaymessage(fd, "Autoloottype : OFF");
+				clif_displaymessage(fd, "@autoloottype: OFF");
 			}
 			break;
 		}
 		case BOURGEON_SETTING_DISCORD_CHAT:
 			sd->state.discord_chat = (p->value != 0);
 			pc_setglobalreg(sd, add_str("discord_chat"), sd->state.discord_chat ? 1 : 0);
-			clif_displaymessage(fd, sd->state.discord_chat ? "Discord relay : ON" : "Discord relay : OFF");
+			clif_displaymessage(fd, sd->state.discord_chat ? "Discord relay: ON" : "Discord relay: OFF");
 			break;
 		case BOURGEON_SETTING_SHOWDELAY:
 			sd->state.showdelay = (p->value != 0) ? 1 : 0;
@@ -6174,7 +6174,7 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 				clif_inventorylist(sd);
 			}
 			static const char* kTriNames[] = { "Par ID", "Par type", "Par quantite", "Par poids", "Par prix", "Par nom", "Aucun" };
-			char buf[64]; snprintf(buf, sizeof(buf), "Tri inventaire : %s", kTriNames[v]);
+			char buf[64]; snprintf(buf, sizeof(buf), "Tri inventaire: %s", kTriNames[v]);
 			clif_displaymessage(fd, buf);
 			break;
 		}
@@ -6187,7 +6187,7 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 				clif_cartlist(sd);
 			}
 			static const char* kTriNames[] = { "Par ID", "Par type", "Par quantite", "Par poids", "Par prix", "Par nom", "Aucun" };
-			char buf[64]; snprintf(buf, sizeof(buf), "Tri chariot : %s", kTriNames[v]);
+			char buf[64]; snprintf(buf, sizeof(buf), "Tri chariot: %s", kTriNames[v]);
 			clif_displaymessage(fd, buf);
 			break;
 		}
@@ -6196,7 +6196,7 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 			sd->state.sort_storage = v;
 			pc_setglobalreg(sd, add_str("TRI_STOR"), v);
 			static const char* kTriNames[] = { "Par ID", "Par type", "Par quantite", "Par poids", "Par prix", "Par nom", "Aucun" };
-			char buf[64]; snprintf(buf, sizeof(buf), "Tri coffre : %s", kTriNames[v]);
+			char buf[64]; snprintf(buf, sizeof(buf), "Tri coffre: %s", kTriNames[v]);
 			clif_displaymessage(fd, buf);
 			break;
 		}
@@ -6205,7 +6205,7 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 			sd->state.sort_gstorage = v;
 			pc_setglobalreg(sd, add_str("TRI_GSTOR"), v);
 			static const char* kTriNames[] = { "Par ID", "Par type", "Par quantite", "Par poids", "Par prix", "Par nom", "Aucun" };
-			char buf[64]; snprintf(buf, sizeof(buf), "Tri coffre guilde : %s", kTriNames[v]);
+			char buf[64]; snprintf(buf, sizeof(buf), "Tri coffre guilde: %s", kTriNames[v]);
 			clif_displaymessage(fd, buf);
 			break;
 		}
@@ -6213,7 +6213,7 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 			if (p->value == 0) {
 				memset(sd->state.autolootid, 0, sizeof(sd->state.autolootid));
 				sd->state.autolooting = 0;
-				clif_displaymessage(fd, "Autolootid : liste effacee");
+				clif_displaymessage(fd, "@autolootid: liste effacee");
 			} else {
 				const t_itemid item_id = static_cast<t_itemid>(p->value);
 				if (!item_db.find(item_id)) {
@@ -6232,7 +6232,7 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 						sd->state.autolootid[i] = item_id;
 						sd->state.autolooting = 1;
 						char buf[48];
-						snprintf(buf, sizeof(buf), "Autolootid +%u", (unsigned)item_id);
+						snprintf(buf, sizeof(buf), "@autolootid +%u", (unsigned)item_id);
 						clif_displaymessage(fd, buf);
 					}
 				}
@@ -6247,7 +6247,7 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 				if (i != AUTOLOOTITEM_SIZE) {
 					sd->state.autolootid[i] = 0;
 					char buf[48];
-					snprintf(buf, sizeof(buf), "Autolootid -%u", (unsigned)item_id);
+					snprintf(buf, sizeof(buf), "@autolootid -%u", (unsigned)item_id);
 					clif_displaymessage(fd, buf);
 					ARR_FIND(0, AUTOLOOTITEM_SIZE, i, sd->state.autolootid[i] != 0);
 					if (i == AUTOLOOTITEM_SIZE)
@@ -7529,7 +7529,7 @@ void clif_parse_bourgeon_npc_admin(int32 fd, map_session_data* sd) {
 
 	// Refus EXPLICITE : un bouton qui ne répond jamais ressemble à une panne.
 	if (pc_get_group_level(sd) < 99) {
-		clif_displaymessage(fd, "Outils NPC : reserve au niveau de groupe 99.");
+		clif_displaymessage(fd, "Outils NPC: reserve au niveau de groupe 99.");
 		return;
 	}
 
@@ -7612,7 +7612,7 @@ void clif_parse_bourgeon_npc_admin(int32 fd, map_session_data* sd) {
 		break;
 	}
 	default:
-		clif_displaymessage(fd, "Outils NPC : action inconnue.");
+		clif_displaymessage(fd, "Outils NPC: action inconnue.");
 		break;
 	}
 }
