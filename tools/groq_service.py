@@ -2507,9 +2507,33 @@ def replace_mobl(msg):
 
     return MOBL_PATTERN.sub(repl, msg)
 
+# ── Liens de STYLE (balise propre au client Bourgeon) ───────────────────────
+# Format : `<STYL>etiquette:recette</STYL>` (cf. chat_window.cc). L'etiquette est
+# le pseudo du porteur, ou le nom du prereglage quand c'est celui-ci qu'on
+# partage ; le client y interdit ':' et '<', donc le PREMIER ':' separe sans
+# ambiguite. La recette, elle, en contient (« 6:386:12:47:<80 hexa> »).
+STYL_PATTERN = re.compile(r"<STYL>([^<>:]*):([^<>]*?)</STYL>")
+
+def replace_styl(msg):
+    """Ne laisse passer que l'etiquette : la RECETTE est jetee.
+
+    Contrairement aux liens d'item et de monstre, il n'y a rien a rendre
+    cliquable. Une recette de style ne porte AUCUNE couleur : ce sont des plages
+    d'index de palette et des decalages HSV, que seul un client peut retraduire
+    en appliquant la recette sur le sprite du personnage. Hors du jeu elle ne
+    veut donc rien dire, meme pour qui sait la lire -- et elle coute une centaine
+    de caracteres d'hexadecimal qui noieraient le message autour.
+
+    On garde l'etiquette, pas rien : elle dit ce qui vient de se passer en jeu.
+    Supprimer la balise entiere ferait arriver sur Discord des lignes tronquees
+    du genre « regarde », dont personne ne devinerait ce qu'il leur manque.
+    """
+    return STYL_PATTERN.sub(lambda m: f" [Style : {m.group(1).strip() or '?'}] ",
+                            msg)
+
 def replace_chat_links(msg):
-    """Balises de lien du client -> Markdown Discord (items puis monstres)."""
-    return replace_mobl(replace_iteml(msg))
+    """Balises de lien du client -> Markdown Discord (items, monstres, styles)."""
+    return replace_styl(replace_mobl(replace_iteml(msg)))
 
 def main():
     if LLM_API_KEY:
