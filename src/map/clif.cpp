@@ -6559,6 +6559,13 @@ static void clif_bourgeon_grant_verified(map_session_data* sd) {
 	// mais le joueur retrouverait son apparence native à chaque connexion : la
 	// diffusion au spawn ne concerne que les AUTRES joueurs, jamais soi-même.
 	clif_bourgeon_style_single(sd, sd);
+	// 🔴 Et celles des AUTRES, déjà en vue. Symétrique de la ligne au-dessus, et
+	// oubliée jusqu'ici : la diffusion au spawn (`clif_getareachar_unit`) est
+	// gatée sur `has_bourgeon` du DESTINATAIRE, qu'on vient tout juste de poser.
+	// Tous ces envois ont donc été perdus, et rien ne les rejouait — un joueur
+	// ayant validé son style avant notre connexion restait dans ses couleurs
+	// d'origine jusqu'à ce qu'il le re-valide.
+	clif_bourgeon_style_area(sd);
 }
 
 // ── TRANSITION cutover opcodes 0x0F00+ (2026-07) ─────────────────────────────
@@ -8441,6 +8448,82 @@ void clif_bourgeon_style_single(map_session_data* sd, map_session_data* owner) {
 		reinterpret_cast<PACKET_BOURGEON_STYLE_ENTRY*>(
 			WFIFOP(fd, sizeof(PACKET_ZC_BOURGEON_STYLES))),
 		owner, adjusts, palette_id, hair_id, hair_style, false);
+	WFIFOSET(fd, len);
+}
+
+// Collecte les joueurs EN VUE qui ont un style (callback map_foreachinallrange).
+static int32 clif_bourgeon_style_area_sub(block_list* bl, va_list ap) {
+	map_session_data* owner = BL_CAST(BL_PC, bl);
+	if (owner == nullptr) return 0;
+	std::vector<map_session_data*>* out =
+		va_arg(ap, std::vector<map_session_data*>*);
+	map_session_data* self = va_arg(ap, map_session_data*);
+	if (owner == self) return 0;  // le sien part par un chemin dedie
+	out->push_back(owner);
+	return 1;
+}
+
+// Pousse d'un coup le style de TOUS les joueurs deja en vue.
+//
+// 🔴 Repare une fenetre de temps, et le symptome ne ressemblait a rien de connu :
+// un joueur ayant valide son style AVANT notre connexion restait dans ses
+// couleurs d'origine chez nous, jusqu'a ce qu'il le RE-valide. Comme si le
+// serveur ne nous l'avait jamais envoye -- ce qui etait exactement le cas.
+//
+// Le point de diffusion normal est `clif_getareachar_unit`, qui tourne au spawn
+// pour chaque unite deja en vue. Or il commence par `if (!sd->state.has_bourgeon)
+// return` sur le DESTINATAIRE, et ce drapeau n'est pose qu'a l'arrivee du paquet
+// d'integrite, une bonne seconde plus tard. Tous ces envois etaient donc gates
+// out, et rien ne les rejouait. Seule une re-validation, qui passe par la
+// diffusion de zone, rattrapait le coup.
+//
+// C'est la meme classe de piege que `stat_bonus` et `companion_state` juste
+// au-dessus : ce qui a tourne avant la verification doit etre REPOUSSE apres. Le
+// style de SOI l'etait deja ; celui des autres avait ete oublie.
+//
+// ⚠ Un SEUL paquet plutot que N : le format porte un champ `count`, il est fait
+// pour ca, et une ville peuplee vaut quelques dizaines d'entrees.
+void clif_bourgeon_style_area(map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+
+	std::vector<map_session_data*> vus;
+	map_foreachinallrange(clif_bourgeon_style_area_sub, sd, AREA_SIZE, BL_PC,
+	                      &vus, sd);
+	if (vus.empty()) return;
+
+	// Les entrees d'abord, le compte ensuite : un joueur en vue n'a pas
+	// forcement de recette, et on ne le sait qu'apres l'avoir lue.
+	std::vector<uint8> buf(sizeof(PACKET_ZC_BOURGEON_STYLES) +
+	                       vus.size() * sizeof(PACKET_BOURGEON_STYLE_ENTRY));
+	int16 count = 0;
+	for (map_session_data* owner : vus) {
+		uint8 adjusts[BOURGEON_STYLE_ADJUST_BYTES];
+		int16 palette_id = -1, hair_id = -1, hair_style = -1;
+		if (!bourgeon_style_load(owner, adjusts, &palette_id, &hair_id,
+		                           &hair_style))
+			continue;  // pas de recette : rien a dire de celui-la
+		bourgeon_style_fill(
+			reinterpret_cast<PACKET_BOURGEON_STYLE_ENTRY*>(
+				buf.data() + sizeof(PACKET_ZC_BOURGEON_STYLES) +
+				count * sizeof(PACKET_BOURGEON_STYLE_ENTRY)),
+			owner, adjusts, palette_id, hair_id, hair_style, false);
+		++count;
+	}
+	if (count == 0) return;
+
+	const int16 len = (int16)(sizeof(PACKET_ZC_BOURGEON_STYLES) +
+	                          count * sizeof(PACKET_BOURGEON_STYLE_ENTRY));
+	PACKET_ZC_BOURGEON_STYLES* p =
+		reinterpret_cast<PACKET_ZC_BOURGEON_STYLES*>(buf.data());
+	p->packetType = HEADER_ZC_BOURGEON_STYLES;
+	p->packetLength = len;
+	p->count = count;
+
+	const int32 fd = sd->fd;
+	if (!session_isActive(fd)) return;
+	WFIFOHEAD(fd, len);
+	memcpy(WFIFOP(fd, 0), buf.data(), len);
 	WFIFOSET(fd, len);
 }
 

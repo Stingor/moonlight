@@ -1596,6 +1596,14 @@ void clif_parse_bourgeon_style(int32 fd, map_session_data* sd);
 // Envoie à `sd` la recette de `owner`, si `owner` en a une et si `sd` est un
 // client Bourgeon. Appelé quand `owner` entre dans la vue de `sd`.
 void clif_bourgeon_style_single(map_session_data* sd, map_session_data* owner);
+// Pousse d'un coup le style de TOUS les joueurs déjà en vue de `sd`.
+//
+// 🔴 À appeler quand `sd` vient d'être reconnu comme client Bourgeon. La
+// diffusion normale (`clif_getareachar_unit`) tourne au SPAWN, donc avant que ce
+// drapeau ne soit posé, et elle est gatée dessus : sans ce rattrapage, un joueur
+// ayant validé son style avant notre connexion reste dans ses couleurs
+// d'origine jusqu'à ce qu'il le re-valide.
+void clif_bourgeon_style_area(map_session_data* sd);
 // [Stingor] Un NPC pilote la fenêtre de couleurs (ZC 0x0F28) : 0 ferme, 1 ouvre,
 // 2 bascule. Exposé aux scripts par `bourgeon_style_open`.
 void clif_bourgeon_style_open(map_session_data* sd, uint8 mode);
