@@ -6448,6 +6448,111 @@ enum e_bourgeon_npc_admin_action : uint8 {
 	BOURGEON_NPC_ADMIN_MOVE_TO_ME  = 2,  // le poser sur la case du demandeur
 };
 
+// ── Couleurs de corps choisies par le joueur ────────────────────────────────
+//
+// 🔴 Ce qui circule n'est PAS une palette : c'est une RECETTE, huit réglages HSV
+// appliqués aux « rampes » (les dégradés) de la palette interne du sprite. Le
+// serveur ne l'interprète jamais — il la stocke telle quelle et la rediffuse.
+// C'est ce qui la fait tenir en 40 octets au lieu du kilo-octet d'une palette,
+// et c'est aussi ce qui interdit d'y toucher : seuls les clients savent la
+// traduire en couleurs, et ils doivent tous la traduire IDENTIQUEMENT.
+//
+// Un RÉGLAGE de rampe fait 5 octets :
+//     [teinte:int16 LE][saturation:int8][luminosité:int8][absolu:uint8]
+// Il y en a exactement BOURGEON_STYLE_RAMPS, et ce nombre fait partie du
+// format : le changer OBLIGE à incrémenter BOURGEON_STYLE_WIRE_VERSION.
+//
+// Miroir exact de src/features/fx/palette_sync.h côté Bourgeon.
+#define BOURGEON_STYLE_RAMPS        8
+#define BOURGEON_STYLE_ADJUST_BYTES (BOURGEON_STYLE_RAMPS * 5)  // 40
+// v2 (2026-08-11) : le seuil de longueur de rampe est passé de 3 à 1 côté
+// client. Les frontières ET le classement des rampes changent, donc une recette
+// v1 désigne d'autres pièces du costume — elle doit être JETÉE, pas relue.
+// 🔴 Miroir de `fx::palette_sync::kWireVersion`. Les deux bougent ensemble.
+// v3 (2026-08-11) : ajout de `palette_id`, la palette de vêtement OFFICIELLE
+// (0..552) sur laquelle la recette s'applique. Une v2 se MIGRE — ses réglages de
+// rampes restent valides, il lui manque seulement ce numéro, qui vaut alors -1
+// (« la palette que le serveur a assignée »).
+// v4 (2026-08-11) : ajout de `hair_palette_id`, la palette de CHEVEUX. Une v3 se
+// MIGRE (cheveux = ceux du personnage) ; ses réglages de corps restent valides.
+// v5 (2026-08-12) : ajout de `hair_style`, la COIFFURE. Une v4 se MIGRE (coupe =
+// celle du personnage).
+//
+// 🔴 Elle est la SEULE entrée que le serveur interprète. Tout le reste, il le
+// range sans le comprendre ; celle-ci, il l'APPLIQUE par `pc_changelook`, ce qui
+// l'écrit dans `sd->status.hair`, la sauvegarde avec le personnage et l'annonce
+// à la zone par le ZC_SPRITE_CHANGE natif — clients vanilla compris. Elle est
+// dans la recette parce que POUR LE JOUEUR la coiffure fait partie du style.
+#define BOURGEON_STYLE_WIRE_VERSION 5
+
+// Drapeaux d'une entrée de recette.
+enum e_bourgeon_style_flag : uint8 {
+	BOURGEON_STYLE_CLEAR = 0x01,  // « plus de recette » : revenir au natif
+};
+
+// CZ (client -> server): le joueur partage son style. Fixe 52.
+// Layout: [packetType:2][packetLength:2][version:1][flags:1][palette_id:2]
+//         [hair_palette_id:2][hair_style:2][adjusts:40]
+//   palette_id      : palette de vêtement officielle 1..553, -1 = d'origine.
+//   hair_palette_id : palette de cheveux officielle 1..251, -1 = d'origine.
+//   hair_style      : coiffure 1..80, -1 = celle du personnage. 🔴 APPLIQUÉE.
+struct PACKET_CZ_BOURGEON_STYLE {
+	int16 packetType;
+	int16 packetLength;
+	uint8 version;
+	uint8 flags;
+	int16 palette_id;
+	int16 hair_palette_id;
+	int16 hair_style;
+	uint8 adjusts[BOURGEON_STYLE_ADJUST_BYTES];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_STYLE, 0x0f26);
+
+// Une entrée du lot ZC : 52 octets.
+//
+// ⚠ `hair_style` y figure mais n'est PAS à poser sur l'acteur : le serveur l'a
+// déjà appliquée et son ZC_SPRITE_CHANGE natif est parti avant. Elle sert à ce
+// que l'écho renvoyé au propriétaire porte une allure complète.
+struct PACKET_BOURGEON_STYLE_ENTRY {
+	uint32 gid;
+	uint8  version;
+	uint8  flags;
+	int16  palette_id;
+	int16  hair_palette_id;
+	int16  hair_style;
+	uint8  adjusts[BOURGEON_STYLE_ADJUST_BYTES];
+} __attribute__((packed));
+
+// ZC (server -> client): les recettes des joueurs en vue. VARIABLE.
+// Layout: [packetType:2][packetLength:2][count:2] puis count × 52 octets.
+//
+// Le LOT existe parce qu'arriver sur une carte peuplée fait entrer des dizaines
+// de joueurs d'un coup. En pratique la diffusion au spawn n'en envoie qu'un à la
+// fois (un joueur entre dans la vue d'un autre) ; le format n'impose donc rien,
+// mais il n'interdit pas non plus de grouper plus tard.
+struct PACKET_ZC_BOURGEON_STYLES {
+	int16 packetType;
+	int16 packetLength;
+	int16 count;
+	// suivi de count × PACKET_BOURGEON_STYLE_ENTRY.
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_STYLES, 0x0f27);
+
+// ZC (server -> client): un NPC pilote la fenêtre de couleurs du joueur. Fixe 5.
+// Layout: [packetType:2][packetLength:2][mode:1]
+//   mode : 0 = fermer, 1 = ouvrir, 2 = basculer.
+//
+// 🔴 « Ouvrir » et « basculer » sont DEUX commandes distinctes, et c'est
+// délibéré : un styliste qui dirait « bascule » refermerait la fenêtre que le
+// joueur venait d'ouvrir lui-même par son raccourci.
+struct PACKET_ZC_BOURGEON_STYLE_OPEN {
+	int16 packetType;
+	int16 packetLength;
+	uint8 mode;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_STYLE_OPEN, 0x0f28);
+
+
 // ZC (server -> client): apport des ÉQUIPEMENTS et des CARTES aux stats, compilé
 // par status_calc_pc. sd->indexed_bonus.param_equip = apport équipement (copié en
 // status.cpp), param_bonus = apport cartes (cf. le split memcpy/memset). Push à

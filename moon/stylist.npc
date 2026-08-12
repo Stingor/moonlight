@@ -181,6 +181,13 @@ L_mainmenu:
 	}
 	clear;
 	mes .@npc_name$;
+	mes "Vous avez la possibilité de changer votre apparence en utilisant l'UI de Moonlight.";
+	if (select("¤ Continuer avec le npc", "¤ Ouvrir l'UI") == 2) {
+		bourgeon_style_open;
+		close;
+	}
+	next;
+	mes .@npc_name$;
 	mes "Bon, comment voulez-vous chercher ?";
 	if (select("¤ Commencer par le début", "¤ Choisissir où commencer") == 2) {
 		// CHOOSE WHERE TO START =====================================================

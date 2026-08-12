@@ -2004,3 +2004,29 @@ BUILDIN_FUNC(settingtag)
 	script_pushstrcopy(st, buf);
 	return SCRIPT_CMD_SUCCESS;
 }
+
+/* bourgeon_style_open {<mode>}
+ * Ouvre, ferme ou bascule la fenêtre de style du client Bourgeon.
+ *   mode : 0 = fermer, 1 = ouvrir (défaut), 2 = basculer.
+ *
+ * 🔴 Un styliste dit OUVRIR, pas BASCULER : basculer refermerait la fenêtre que
+ * le joueur venait d'ouvrir lui-même par son raccourci. Les deux existent quand
+ * même — un PNJ interrupteur a un usage légitime de la bascule.
+ *
+ * Sans effet sur un client vanilla, qui n'a pas cette fenêtre : le script n'a
+ * donc rien à tester avant d'appeler.
+ */
+BUILDIN_FUNC(bourgeon_style_open)
+{
+	map_session_data *sd;
+
+	if( !script_rid2sd(sd) )
+		return SCRIPT_CMD_SUCCESS;
+
+	int32 mode = script_hasdata(st,2) ? script_getnum(st,2) : 1;
+	if( mode < 0 || mode > 2 )
+		mode = 1;
+
+	clif_bourgeon_style_open(sd, (uint8)mode);
+	return SCRIPT_CMD_SUCCESS;
+}

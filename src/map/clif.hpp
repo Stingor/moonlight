@@ -1585,6 +1585,20 @@ void clif_parse_bourgeon_bug_report(int32 fd, map_session_data* sd);
 void clif_parse_bourgeon_companion(int32 fd, map_session_data* sd);
 // Saut cosmétique (CZ 0x0F1A) : relayé en ZC 0x0F1B à la zone, sous cooldown.
 void clif_parse_bourgeon_jump(int32 fd, map_session_data* sd);
+// [Stingor] Couleurs de corps choisies par le joueur (CZ 0x0F26 -> ZC 0x0F27).
+//
+// 🔴 Le serveur ne comprend RIEN à ce qu'il transporte : la recette est un bloc
+// opaque de 40 octets que seuls les clients savent traduire en couleurs. Il la
+// valide (version, taille), la range dans une variable de personnage, et la
+// rediffuse. Toute tentative de l'interpréter ici créerait une deuxième
+// implémentation de l'algorithme de rampes, qui divergerait.
+void clif_parse_bourgeon_style(int32 fd, map_session_data* sd);
+// Envoie à `sd` la recette de `owner`, si `owner` en a une et si `sd` est un
+// client Bourgeon. Appelé quand `owner` entre dans la vue de `sd`.
+void clif_bourgeon_style_single(map_session_data* sd, map_session_data* owner);
+// [Stingor] Un NPC pilote la fenêtre de couleurs (ZC 0x0F28) : 0 ferme, 1 ouvre,
+// 2 bascule. Exposé aux scripts par `bourgeon_style_open`.
+void clif_bourgeon_style_open(map_session_data* sd, uint8 mode);
 void clif_bourgeon_companion_state(map_session_data* sd);
 // [Stingor] Maîtrise culinaire (ZC 0x0F1C, SELF). Seul terme de la formule de réussite
 // de la cuisine que le client ne peut pas déduire, et valeur que le jeu n'affiche nulle
