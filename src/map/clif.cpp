@@ -7951,8 +7951,15 @@ void clif_parse_bourgeon_bug_report(int32 fd, map_session_data* sd) {
 	const int    store_msg = msg_len > 500 ? 500 : msg_len;
 
 	const uint8 category = p->category;
-	static const char* const kCatNames[] = { "generic", "item", "skill", "npc", "quest" };
-	const char* cat = (category < 5) ? kCatNames[category] : "generic";
+	// 🔴 Miroir de BugReport::Category cote client. Un client PLUS RECENT que ce
+	// serveur enverra une categorie inconnue : elle retombe sur "generic" au lieu
+	// d'etre rejetee, de sorte qu'un rapport n'est jamais perdu pour un simple
+	// decalage de deploiement. C'est le bon compromis ici -- une categorie sert a
+	// TRIER, pas a decider.
+	static const char* const kCatNames[] = { "generic", "item", "skill", "npc",
+	                                         "quest", "style" };
+	const int kCatCount = (int)(sizeof(kCatNames) / sizeof(kCatNames[0]));
+	const char* cat = (category < kCatCount) ? kCatNames[category] : "generic";
 	const char* mapname = map_getmapdata(sd->m)->name;
 
 	// Contexte final (copie bornée, null-safe). Pour un rapport NPC, on RÉSOUT le

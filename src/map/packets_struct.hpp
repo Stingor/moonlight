@@ -6757,7 +6757,8 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_ITEMSCRIPT, 0x0f12);
 
 // CZ (client -> server): rapport de bug joueur, CONTEXTUEL. VARIABLE.
 // Layout: [packetType:2][packetLength:2][category:1][ctx_len:2][ctx:ctx_len][message: reste]
-//   category : 0=générique 1=item 2=skill 3=npc 4=quête (e_bug_report_category)
+//   category : 0=générique 1=item 2=skill 3=npc 4=quête 5=style
+//              (e_bug_report_category)
 //   ctx      : JSON de contexte machine, ex. {"item_id":501,"refine":7} (stocké verbatim)
 //   message  : texte libre UTF-8 du joueur (borné VARCHAR(512) côté DB)
 // L'IDENTITÉ (compte/perso), la MAP et la POSITION sont ajoutées côté serveur
