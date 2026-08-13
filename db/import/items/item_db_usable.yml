@@ -5930,6 +5930,16 @@ Body:
     Name: Character Position Change Coupon
     Type: Usable
     Script: "CharMoves++;\n"
+    Trade:
+      Override: 99
+      NoDrop: true
+      NoTrade: true
+      TradePartner: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
   - Id: 12787
     AegisName: Diabolic_Scroll
     Name: Diabolic Scroll
@@ -5954,6 +5964,16 @@ Body:
     Name: Character Name Change Coupon
     Type: Usable
     Script: "CharRename++;\n"
+    Trade:
+      Override: 99
+      NoDrop: true
+      NoTrade: true
+      TradePartner: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
   - Id: 12791
     AegisName: Combat_Pill
     Name: Combat Pill

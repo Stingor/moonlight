@@ -10170,6 +10170,14 @@ Body:
     Name: Token Of Siegfried
     Buy: 2
     Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
   - Id: 7622
     AegisName: New_Style_Coupon
     Name: Hairstyle Coupon
@@ -10180,9 +10188,14 @@ Body:
     Buy: 2
     Trade:
       Override: 100
+    Trade:
       NoDrop: true
       NoTrade: true
+      NoSell: true
+      NoCart: true
       NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
   - Id: 7624
     AegisName: Spring_Stanza23
     Name: Spring Stanza23
@@ -10739,6 +10752,16 @@ Body:
     AegisName: Max_Weight_Up_Scroll
     Name: Gym Pass
     Weight: 10
+    Trade:
+      Override: 99
+      NoDrop: true
+      NoTrade: true
+      TradePartner: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
   - Id: 7777
     AegisName: Gold_Box
     Name: Sealed Golden Box
