@@ -18,7 +18,7 @@ from collections import deque
 from datetime import datetime
 from tkinter import ttk, scrolledtext, font as tkfont
 
-DEFAULT_HOST = "127.0.0.1"
+DEFAULT_HOST = "192.168.1.13"
 DEFAULT_PORT = "7799"
 DEFAULT_SECRET = "CHANGE-ME-please"  # must match admin_secret in conf/admin.conf
 
