@@ -585,6 +585,19 @@ public:
 	// négatif et bloquerait les sauts durablement (le test est « < cooldown »).
 	t_tick bourgeon_jumplasttime = 0;
 
+	// [Stingor] Bourgeon : idem pour la validation de STYLE (CZ 0x0F26).
+	//
+	// 🔴 Ce n'est pas seulement du trafic. Chaque recette reçue fait fabriquer,
+	// chez CHAQUE joueur à portée, un bloc de palette de 1 Kio qui n'est jamais
+	// libéré — le pointeur part dans la file de rendu différée et le relâcher en
+	// cours de frame plante le client. Et la garde « cet acteur a déjà une
+	// recette » a dû être retirée pour qu'un re-partage soit visible, donc un
+	// paquet IDENTIQUE reconstruit quand même. Sans plafond ici, un client
+	// modifié fait grossir la mémoire des autres joueurs sans retour possible.
+	//
+	// Même remarque que ci-dessus sur l'initialisation explicite.
+	t_tick bourgeon_stylelasttime = 0;
+
 	// [Stingor] Bourgeon : ce que l'interface moderne de CE client sait afficher
 	// (CZ_BOURGEON_UI_CAPS 0x0F24, masque e_bourgeon_ui_cap). Zéro = rien, donc un
 	// client vanilla, un client Bourgeon dont toutes les surfaces modernes sont

@@ -8613,6 +8613,21 @@ void clif_bourgeon_style_spawn(map_session_data* sd) {
 	                      (int32)sd->id, (const uint8*)buf, (int32)len);
 }
 
+// Délai minimum entre deux validations de style, en ms.
+//
+// 🔴 Ce que ce plafond protège n'est PAS d'abord la bande passante. Chaque
+// recette reçue fait fabriquer, chez chaque joueur à portée, un bloc de palette
+// de 1 Kio qui n'est JAMAIS libéré : le pointeur part dans la file de rendu
+// différée du client, et le relâcher en cours de frame le plante (0xC0000374).
+// Un client modifié qui répète sa validation fait donc grossir la mémoire des
+// AUTRES joueurs, sans retour possible.
+//
+// Une seconde, et non les 600 ms du saut : le saut est bridé par la durée de son
+// animation, ici c'est le geste humain qui fait la borne. Personne ne valide un
+// style deux fois dans la même seconde autrement que par un double-clic — et
+// jeter le second est alors la bonne réponse, pas une gêne.
+static const t_tick BOURGEON_STYLE_COOLDOWN = 1000;
+
 void clif_parse_bourgeon_style(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
@@ -8624,6 +8639,42 @@ void clif_parse_bourgeon_style(int32 fd, map_session_data* sd) {
 	if (p->version != BOURGEON_STYLE_WIRE_VERSION) return;
 
 	const bool clear = (p->flags & BOURGEON_STYLE_CLEAR) != 0;
+
+	// La forme STOCKÉE de ce qui arrive, calculée tout de suite : elle sert à
+	// reconnaître un renvoi à l'identique avant d'engager le moindre travail.
+	char hex[BOURGEON_STYLE_ADJUST_BYTES * 2 + 32] = "";
+	if (!clear)
+		bourgeon_style_to_hex(p->adjusts, p->palette_id, p->hair_palette_id,
+		                        p->hair_style, hex);
+
+	// ── Garde 1 : un renvoi À L'IDENTIQUE ne fait rien ────────────────────────
+	//
+	// 🔴 Ce n'est pas un bridage, c'est une correction : rediffuser une recette
+	// que le personnage porte déjà ne change l'apparence de personne. Les quatre
+	// points de diffusion couvrent désormais tous les cas où un joueur doit
+	// DÉCOUVRIR un style ; un client n'a donc aucune raison légitime de renvoyer
+	// les mêmes octets.
+	//
+	// ⚠ Et c'est la garde qui compte le plus, parce qu'elle n'a AUCUN coût pour
+	// le joueur honnête : elle ne peut jeter qu'un paquet qui n'aurait rien fait.
+	// C'est aussi elle qui tue la forme d'abus la plus simple — répéter le même
+	// paquet — là où le cooldown ne fait que la ralentir.
+	if (sd->vars_ok) {
+		const char* actuel = pc_readregistry_str(sd, add_str(BOURGEON_STYLE_VAR));
+		if (actuel != nullptr && strcmp(actuel, hex) == 0) return;
+	}
+
+	// ── Garde 2 : le cooldown, pour l'abus qui FAIT VARIER les octets ─────────
+	//
+	// Jeté SILENCIEUSEMENT, comme pour le saut : un message d'erreur serait une
+	// seconde amplification. Le joueur honnête ne le rencontre pas ; s'il le
+	// rencontrait, sa propre vue serait déjà juste (le client applique en local)
+	// et il lui suffirait de revalider.
+	const t_tick tick = gettick();
+	if (sd->bourgeon_stylelasttime != 0 &&
+	    DIFF_TICK(tick, sd->bourgeon_stylelasttime) < BOURGEON_STYLE_COOLDOWN)
+		return;
+	sd->bourgeon_stylelasttime = tick;
 
 	// ── La COIFFURE : la seule entrée que le serveur INTERPRÈTE ──────────────
 	//
@@ -8645,18 +8696,11 @@ void clif_parse_bourgeon_style(int32 fd, map_session_data* sd) {
 	// Persistance. Sans `vars_ok` on ne peut ni lire ni écrire : on renonce
 	// silencieusement plutôt que de risquer la déconnexion — le joueur pourra
 	// re-partager, et l'aperçu local, lui, marche déjà.
-	if (sd->vars_ok) {
-		if (clear) {
-			pc_setregistry_str(sd, add_str(BOURGEON_STYLE_VAR), "");
-		} else {
-			// +32 : le préfixe "<version>:<palette>:<cheveux>:<coiffure>:" tient
-			// largement dedans (quatre nombres signés d'au plus 6 caractères).
-			char hex[BOURGEON_STYLE_ADJUST_BYTES * 2 + 32];
-			bourgeon_style_to_hex(p->adjusts, p->palette_id, p->hair_palette_id,
-			                        p->hair_style, hex);
-			pc_setregistry_str(sd, add_str(BOURGEON_STYLE_VAR), hex);
-		}
-	}
+	// `hex` a été construit plus haut pour la comparaison ; il vaut "" sur un
+	// effacement, ce qui est exactement ce qu'il faut ranger. Le recalculer ici
+	// laisserait DEUX endroits à corriger le jour où le format bouge.
+	if (sd->vars_ok)
+		pc_setregistry_str(sd, add_str(BOURGEON_STYLE_VAR), hex);
 
 	// Diffusion à la zone. AREA inclut l'émetteur ; son client ignore sa propre
 	// entrée (il a déjà posé la recette localement, et la reposer ferait sauter
