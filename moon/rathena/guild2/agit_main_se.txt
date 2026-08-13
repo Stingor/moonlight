@@ -23,8 +23,19 @@
 //============================================================
 -	script	Manager#template	-1,{
 OnAgitInit2:
+	// Demarrage du map-server : on restaure l'etat du chateau, puis les coffres
+	// au tresor, qui sont des monstres et n'ont donc pas survecu a l'arret.
+	if (strnpcinfo(2) == "template") end;
+	callsub S_RecvCastle;
+	callsub S_TreasureBoot;
+	end;
+
 OnRecvCastle2:
 	if (strnpcinfo(2) == "template") end;
+	callsub S_RecvCastle;
+	end;
+
+S_RecvCastle:
 	if (!getcastledata(strnpcinfo(2),CD_GUILD_ID)) {
 		donpcevent strnpcinfo(0)+"::OnStart";
 		// Monster spawns are identical for all castles.
@@ -44,7 +55,7 @@ OnRecvCastle2:
 	}
 	if (getcastledata(strnpcinfo(2),CD_ENABLED_KAFRA) < 1)
 		disablenpc "Kafra Employee#"+substr(strnpcinfo(2),0,1)+substr(strnpcinfo(2),8,9);
-	end;
+	return;
 
 OnAgitStart2:
 	if (strnpcinfo(2) == "template") end;
@@ -140,9 +151,15 @@ OnChange:
 	end;
 
 OnClock1200:
-	// Spawn Treasure Chests based on castle economy.
+	// Ponte quotidienne des coffres au tresor.
 	if (strnpcinfo(2) == "template") end;
-	if (!getcastledata(strnpcinfo(2),CD_GUILD_ID)) end;
+	callsub S_TreasureDaily;
+	end;
+
+// Ponte du jour : encaisse les investissements puis pose les coffres selon
+// l'economie du chateau.
+S_TreasureDaily:
+	if (!getcastledata(strnpcinfo(2),CD_GUILD_ID)) return;
 	killmonster strnpcinfo(2),strnpcinfo(0)+"::OnTreasureDied";
 	if (getcastledata(strnpcinfo(2),CD_INVESTED_ECONOMY)) {
 		set .@Economy,getcastledata(strnpcinfo(2),CD_CURRENT_ECONOMY);
@@ -157,7 +174,35 @@ OnClock1200:
 		setcastledata strnpcinfo(2),CD_INVESTED_DEFENSE,0;
 	}
 	set .@Treasure,getcastledata(strnpcinfo(2),CD_CURRENT_ECONOMY)/5+4;
-	if (!.@Treasure) end;
+	// La ponte du jour est datee : au demarrage, le serveur saura si elle a
+	// deja eu lieu. Le compteur de coffres restants repart de zero.
+	setd "$trea_day_"+strnpcinfo(2),gettime(DT_YYYYMMDD);
+	setd "$trea_left_"+strnpcinfo(2),0;
+	if (!.@Treasure) return;
+	callsub S_TreasureSpawn,.@Treasure;
+	return;
+
+// Appele au chargement des donnees de chateau (OnAgitInit2), donc a chaque
+// demarrage du map-server : remet les coffres que le reboot a fait disparaitre.
+S_TreasureBoot:
+	if (!getcastledata(strnpcinfo(2),CD_GUILD_ID)) return;
+	set .@today,gettime(DT_YYYYMMDD);
+	if (getd("$trea_day_"+strnpcinfo(2)) != .@today && gettime(DT_HOUR) >= 12) {
+		// Le serveur etait eteint a midi : on rejoue la ponte manquee.
+		callsub S_TreasureDaily;
+		return;
+	}
+	set .@left,getd("$trea_left_"+strnpcinfo(2));
+	if (.@left < 1) return;
+	// Filet de securite si les donnees de chateau sont rechargees a chaud.
+	killmonster strnpcinfo(2),strnpcinfo(0)+"::OnTreasureDied";
+	callsub S_TreasureSpawn,.@left;
+	return;
+
+// getarg(0) : nombre de coffres a poser, 24 au maximum.
+S_TreasureSpawn:
+	set .@amount,getarg(0);
+	if (.@amount > 24) set .@amount,24;
 	freeloop(1);
 	set .@treasurebox,1324;
 	if (compare(strnpcinfo(2),"arug")) {
@@ -188,16 +233,18 @@ OnClock1200:
 			setarray .@treasurey[0],388,389,390,390,390,390,389,388,387,386,385,384,384,384,384,384,384,384,385,386,386,386,386,386;
 		}
 	}
-	for(set .@i,0; .@i<4; set .@i,.@i+1)
+	for(set .@i,0; .@i<.@amount; set .@i,.@i+1)
 		monster strnpcinfo(2),.@treasurex[.@i],.@treasurey[.@i],"Treasure Chest",(.@i%2)?.@treasurebox:1324,1,strnpcinfo(0)+"::OnTreasureDied";
-	for(set .@i,4; .@i<24; set .@i,.@i+1) {
-		if (.@Treasure < .@i+1) break;
-		monster strnpcinfo(2),.@treasurex[.@i],.@treasurey[.@i],"Treasure Chest",(.@i%2)?.@treasurebox:1324,1,strnpcinfo(0)+"::OnTreasureDied";
-	}
 	freeloop(0);
-	end;
+	setd "$trea_left_"+strnpcinfo(2),.@amount;
+	return;
 
 OnTreasureDied:
+	// Un coffre ouvert en moins : ce compte permet de reposer exactement les
+	// coffres restants si le map-server redemarre avant la ponte suivante.
+	set .@left,getd("$trea_left_"+strnpcinfo(2))-1;
+	if (.@left < 0) set .@left,0;
+	setd "$trea_left_"+strnpcinfo(2),.@left;
 	end;
 }
 
