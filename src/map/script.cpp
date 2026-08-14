@@ -23950,12 +23950,26 @@ BUILDIN_FUNC(montransform) {
 			return SCRIPT_CMD_FAILURE;
 		}
 
-		if (!strcmp(script_getfuncname(st), "active_transform")) {
-			status_change_end(sd, SC_ACTIVE_MONSTER_TRANSFORM); // Clear previous
-			sc_start2(nullptr, sd, SC_ACTIVE_MONSTER_TRANSFORM, 100, mob_id, type, tick);
+		sc_type transform_sc = !strcmp(script_getfuncname(st), "active_transform") ? SC_ACTIVE_MONSTER_TRANSFORM : SC_MONSTER_TRANSFORM;
+		status_change_entry *sce = sd->sc.getSCE(transform_sc);
+
+		// [Stingor] Re-declenchement sur le meme monstre (typiquement un autobonus qui
+		// reproc pendant que la transformation tourne deja) : on se contente de prolonger
+		// la duree. Le status_change_end + sc_start d'origine envoyait au client
+		// "transformation off" puis "on", il reconstruisait le sprite de l'acteur deux fois,
+		// ce qui remet la motion a zero et casse le momentum de l'auto-attaque a chaque proc.
+		if (sce != nullptr && sce->val1 == mob_id && sce->val2 == type) {
+			if (sce->timer != INVALID_TIMER) { // Une transformation infinie n'est jamais raccourcie
+				const struct TimerData *td = get_timer(sce->timer);
+
+				if (td == nullptr || DIFF_TICK(gettick() + tick, td->tick) > 0) {
+					delete_timer(sce->timer, status_change_timer);
+					sce->timer = add_timer(gettick() + tick, status_change_timer, sd->id, transform_sc);
+				}
+			}
 		} else {
-			status_change_end(sd, SC_MONSTER_TRANSFORM); // Clear previous
-			sc_start2(nullptr, sd, SC_MONSTER_TRANSFORM, 100, mob_id, type, tick);
+			status_change_end(sd, transform_sc); // Clear previous
+			sc_start2(nullptr, sd, transform_sc, 100, mob_id, type, tick);
 		}
 		if (type != SC_NONE)
 			sc_start4(nullptr, sd, type, 100, val1, val2, val3, val4, tick);
