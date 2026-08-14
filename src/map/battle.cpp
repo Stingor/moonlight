@@ -5008,9 +5008,14 @@ static void battle_calc_attack_plant(struct Damage* wd, block_list *src,block_li
 
 		if (wd->damage > 0) {
 			wd->damage = battle_attr_fix(src, target, wd->damage, right_element, tstatus->def_ele, tstatus->ele_lv);
+			// [Stingor] En mode plante le degat vaut deja 1 : la moindre reduction elementaire
+			// (75% pour Eau/Terre/Feu/Vent/Poison/Fantome, 0% pour Saint) le tronque a 0 et le
+			// client affiche "Miss". Un endow ou un Aspersio rendait donc l'emperium intouchable.
+			wd->damage = i64max(wd->damage, 1);
 			wd->damage = battle_calc_gvg_damage(src, target, wd->damage, skill_id, wd->flag);
 		} else if (wd->damage2 > 0) {
 			wd->damage2 = battle_attr_fix(src, target, wd->damage2, left_element, tstatus->def_ele, tstatus->ele_lv);
+			wd->damage2 = i64max(wd->damage2, 1); // [Stingor] idem main gauche
 			wd->damage2 = battle_calc_gvg_damage(src, target, wd->damage2, skill_id, wd->flag);
 		}
 		return;
