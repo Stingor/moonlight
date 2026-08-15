@@ -8324,135 +8324,245 @@ void clif_parse_bourgeon_jump(int32 fd, map_session_data* sd) {
 // ne sont plus lues et les personnages concernés repartent sans style. Décidé en
 // connaissance de cause — seul le serveur de test avait des données. 🔴 Un
 // renommage ultérieur, lui, exigerait une migration SQL.
-static const char* const BOURGEON_STYLE_VAR = "bourgeon_style$";
+// Les variables de PERSONNAGE qui portent le style : UNE PAR CORPS habillé. Le
+// `$` final est ce qui en fait des variables de chaîne côté rAthena (et côté
+// char-server, ce qui les range dans `char_reg_str` plutôt que `char_reg_num`).
+//
+// 🔴 Une variable par variante, et non une seule chaîne concaténée :
+// `char_reg_str` borne sa valeur à 254 caractères, et quatre recettes n'y
+// tiendraient pas. Ce découpage évite du même coup toute migration de schéma.
+//
+// ⚠ L'ORDRE est significatif : la première occupée est la variante de REPLI,
+// celle que les clients appliquent aux corps qu'elle ne concerne pas. Les trous
+// sont compactés à chaque écriture, donc « la première » est toujours [0].
+//
+// ⚠ Renommée de `palette_recipe$` le 2026-08-12, avec le reste du protocole.
+// C'est la CLÉ des données enregistrées : les anciennes lignes de `char_reg_str`
+// ne sont plus lues et les personnages concernés repartent sans style. 🔴 Un
+// renommage ultérieur, lui, exigerait une migration SQL.
+static const char* const BOURGEON_STYLE_VARS[BOURGEON_STYLE_MAX_VARIANTS] = {
+	"bourgeon_style$",
+	"bourgeon_style2$",
+	"bourgeon_style3$",
+	"bourgeon_style4$",
+};
 
-// Forme stockée : "<version>:<80 caractères hexadécimaux>".
+// La recette d'UN corps. `body_key` est opaque ici : c'est le condensé, calculé
+// par le client, du chemin de sprite du corps concerné. Le serveur ne sait pas le
+// calculer et n'a pas à savoir ce qu'il désigne — il ne fait que le ranger et le
+// rendre.
+struct bourgeon_style_variant {
+	uint32 body_key;
+	int16 palette_id;
+	int16 hair_id;
+	int16 hair_style;
+	uint8 adjusts[BOURGEON_STYLE_ADJUST_BYTES];
+};
+
+// Forme stockee : "<version>:<corps sur 8 hex>:<palette>:<cheveux>:<coiffure>:<80 hex>".
 //
 // 🔴 La version est DANS la valeur, et pas seulement dans le paquet. Le format
-// des réglages dépend de l'algorithme de détection de rampes du client : quand
-// il change, une recette ancienne ne désigne plus les mêmes pièces du costume.
-// Sans ce marqueur, le serveur la rediffuserait en la tamponnant à la version
+// des réglages dépend de l'algorithme de détection de rampes du client : quand il
+// change, une recette ancienne ne désigne plus les mêmes pièces du costume. Sans
+// ce marqueur, le serveur la rediffuserait en la tamponnant à la version
 // courante, et tout le monde verrait des couleurs posées au hasard. Avec, elle
 // est simplement oubliée — le joueur refait son choix, ce qui est le seul
 // comportement honnête.
-static void bourgeon_style_to_hex(const uint8* src, int16 palette_id,
-                                    int16 hair_id, int16 hair_style,
-                                    char* out) {
+//
+// ⚠ MÊME forme que le cache local du client (features/fx/palette_cache.cc) : les
+// deux stockages s'invalident donc ensemble, au lieu d'en laisser un servir des
+// recettes que l'autre a jetées.
+static void bourgeon_style_to_hex(const bourgeon_style_variant& v, char* out) {
 	static const char kDigits[] = "0123456789abcdef";
-	int n = sprintf(out, "%d:%d:%d:%d:", BOURGEON_STYLE_WIRE_VERSION,
-	                (int)palette_id, (int)hair_id, (int)hair_style);
+	int n = sprintf(out, "%d:%08x:%d:%d:%d:", BOURGEON_STYLE_WIRE_VERSION,
+	                (unsigned)v.body_key, (int)v.palette_id, (int)v.hair_id,
+	                (int)v.hair_style);
 	for (int i = 0; i < BOURGEON_STYLE_ADJUST_BYTES; ++i) {
-		out[n + i * 2]     = kDigits[(src[i] >> 4) & 0xF];
-		out[n + i * 2 + 1] = kDigits[src[i] & 0xF];
+		out[n + i * 2]     = kDigits[(v.adjusts[i] >> 4) & 0xF];
+		out[n + i * 2 + 1] = kDigits[v.adjusts[i] & 0xF];
 	}
 	out[n + BOURGEON_STYLE_ADJUST_BYTES * 2] = '\0';
 }
 
-// Rend false si la chaîne n'est pas "<version courante>:" suivi d'exactement 80
-// chiffres hexadécimaux. Une valeur tronquée, trafiquée ou d'une AUTRE version
-// ne doit pas produire une demi-recette ni une recette mal alignée.
-static bool bourgeon_style_from_hex(const char* src, uint8* out,
-                                      int16* out_palette_id,
-                                      int16* out_hair_id,
-                                      int16* out_hair_style) {
-	if (src == nullptr) return false;
-	*out_palette_id = -1;
-	*out_hair_id = -1;
-	*out_hair_style = -1;
+// Rend false si la chaîne n'est pas « <version courante>:<8 hex>: » suivi des
+// trois nombres et d'exactement 80 chiffres hexadécimaux. Une valeur tronquée,
+// trafiquée ou d'une AUTRE version ne doit pas produire une demi-recette ni une
+// recette mal alignée.
+static bool bourgeon_style_from_hex(const char* src,
+                                      bourgeon_style_variant* out) {
+	if (src == nullptr || out == nullptr) return false;
+	memset(out, 0, sizeof(*out));
+	out->palette_id = -1;
+	out->hair_id = -1;
+	out->hair_style = -1;
 	// 🔴 La version décide du sort de l'entrée, et une SEULE est acceptée : la
 	// courante. Des migrations ont existé (v2→v3→v4→v5) tant que les versions ne
-	// faisaient qu'AJOUTER des champs — les réglages de rampes gardaient leur
-	// sens. La v6 change le CLASSEMENT des rampes : le rang 3 d'hier ne désigne
-	// plus la même pièce du costume, donc migrer repeindrait les bottes en
-	// couleur de cape. Une entrée d'une autre version est jetée, et le joueur
+	// faisaient qu'AJOUTER des champs — les réglages de rampes gardaient leur sens.
+	// La v6 change le CLASSEMENT des rampes et la v7 les range par corps : migrer
+	// repeindrait les bottes en couleur de cape, ou rattacherait une recette à un
+	// corps au hasard. Une entrée d'une autre version est jetée, et le joueur
 	// retrouve son apparence native.
 	//
-	// ⚠ Le serveur ne LIT pas ces octets, il les relaie — mais c'est justement
-	// pour ça qu'il doit filtrer ici : le client destinataire n'aurait plus aucun
-	// moyen de savoir de quelle époque vient la recette qu'on lui envoie.
+	// ⚠ Le serveur ne LIT pas ces octets, il les relaie — mais c'est justement pour
+	// ça qu'il doit filtrer ici : le client destinataire n'aurait plus aucun moyen
+	// de savoir de quelle époque vient la recette qu'on lui envoie.
 	char attendu[8];
 	const int plen = sprintf(attendu, "%d:", BOURGEON_STYLE_WIRE_VERSION);
 	if (strncmp(src, attendu, plen) != 0) return false;
-	const char* sep1 = strchr(src + plen, ':');
-	if (sep1 == nullptr) return false;
-	const char* sep2 = strchr(sep1 + 1, ':');
-	if (sep2 == nullptr) return false;
-	const char* sep3 = strchr(sep2 + 1, ':');
-	if (sep3 == nullptr) return false;
-	*out_palette_id = (int16)atoi(src + plen);
-	*out_hair_id = (int16)atoi(sep1 + 1);
-	*out_hair_style = (int16)atoi(sep2 + 1);
-	src = sep3 + 1;
-	for (int i = 0; i < BOURGEON_STYLE_ADJUST_BYTES * 2; ++i) {
-		const char c = src[i];
+	// Le corps : exactement huit chiffres hexadécimaux.
+	uint32 key = 0;
+	for (int i = 0; i < 8; ++i) {
+		const char c = src[plen + i];
 		int v;
 		if (c >= '0' && c <= '9')      v = c - '0';
 		else if (c >= 'a' && c <= 'f') v = c - 'a' + 10;
 		else if (c >= 'A' && c <= 'F') v = c - 'A' + 10;
 		else return false;
-		if (i & 1) out[i / 2] |= (uint8)v;
-		else       out[i / 2]  = (uint8)(v << 4);
+		key = (key << 4) | (uint32)v;
 	}
-	return src[BOURGEON_STYLE_ADJUST_BYTES * 2] == '\0';
+	if (src[plen + 8] != ':') return false;
+	// 🔴 Une clé nulle n'est pas une clé : elle ne correspondrait au corps de
+	// personne, donc la variante serait invisible tout en occupant un emplacement.
+	// Refusée à la lecture comme à l'écriture.
+	if (key == 0) return false;
+	out->body_key = key;
+
+	const char* p = src + plen + 9;
+	const char* sep1 = strchr(p, ':');
+	if (sep1 == nullptr) return false;
+	const char* sep2 = strchr(sep1 + 1, ':');
+	if (sep2 == nullptr) return false;
+	const char* sep3 = strchr(sep2 + 1, ':');
+	if (sep3 == nullptr) return false;
+	out->palette_id = (int16)atoi(p);
+	out->hair_id = (int16)atoi(sep1 + 1);
+	out->hair_style = (int16)atoi(sep2 + 1);
+	p = sep3 + 1;
+	for (int i = 0; i < BOURGEON_STYLE_ADJUST_BYTES * 2; ++i) {
+		const char c = p[i];
+		int v;
+		if (c >= '0' && c <= '9')      v = c - '0';
+		else if (c >= 'a' && c <= 'f') v = c - 'a' + 10;
+		else if (c >= 'A' && c <= 'F') v = c - 'A' + 10;
+		else return false;
+		if (i & 1) out->adjusts[i / 2] |= (uint8)v;
+		else       out->adjusts[i / 2]  = (uint8)(v << 4);
+	}
+	return p[BOURGEON_STYLE_ADJUST_BYTES * 2] == '\0';
 }
 
-// La recette de `sd`, ou false s'il n'en a pas (ou pas encore de variables).
-static bool bourgeon_style_load(map_session_data* sd, uint8* out,
-                                  int16* out_palette_id, int16* out_hair_id,
-                                  int16* out_hair_style) {
+// Toutes les variantes de `sd`, dans l'ordre des emplacements — donc le repli en
+// tête. Vide s'il n'a pas de style (ou pas encore de variables).
+static void bourgeon_style_load(map_session_data* sd,
+                                  std::vector<bourgeon_style_variant>& out) {
+	out.clear();
 	// 🔴 `pc_readregistry_str` fait `set_eof` — donc DÉCONNECTE — quand les
 	// variables ne sont pas chargées. On ne l'appelle jamais sans ce garde.
-	*out_palette_id = -1;
-	*out_hair_id = -1;
-	*out_hair_style = -1;
-	if (sd == nullptr || !sd->vars_ok) return false;
-	const char* hex = pc_readregistry_str(sd, add_str(BOURGEON_STYLE_VAR));
-	if (hex == nullptr || hex[0] == '\0') return false;
-	return bourgeon_style_from_hex(hex, out, out_palette_id, out_hair_id,
-	                                 out_hair_style);
+	if (sd == nullptr || !sd->vars_ok) return;
+	for (int i = 0; i < BOURGEON_STYLE_MAX_VARIANTS; ++i) {
+		const char* hex = pc_readregistry_str(sd, add_str(BOURGEON_STYLE_VARS[i]));
+		if (hex == nullptr || hex[0] == '\0') continue;  // emplacement libre
+		bourgeon_style_variant v;
+		if (!bourgeon_style_from_hex(hex, &v)) continue;  // version périmée : jetée
+		// Deux emplacements pour le même corps ne peuvent venir que d'une écriture à
+		// la main : on garde le premier, qui est aussi le plus ancien.
+		bool doublon = false;
+		for (const bourgeon_style_variant& e : out)
+			if (e.body_key == v.body_key) { doublon = true; break; }
+		if (!doublon) out.push_back(v);
+	}
+}
+
+// Réécrit les emplacements depuis la liste, COMPACTÉE : la première variante
+// occupe toujours [0], et c'est ce qui en fait le repli.
+static void bourgeon_style_store(
+		map_session_data* sd,
+		const std::vector<bourgeon_style_variant>& list) {
+	if (sd == nullptr || !sd->vars_ok) return;
+	char hex[BOURGEON_STYLE_ADJUST_BYTES * 2 + 48];
+	for (int i = 0; i < BOURGEON_STYLE_MAX_VARIANTS; ++i) {
+		if (i < (int)list.size()) bourgeon_style_to_hex(list[i], hex);
+		else                      hex[0] = '\0';  // emplacement libéré
+		pc_setregistry_str(sd, add_str(BOURGEON_STYLE_VARS[i]), hex);
+	}
 }
 
 // Remplit une entrée de lot. `gid` = l'AID, qui est le GID de l'acteur côté
-// client (cf. clif_parse_bourgeon_jump).
+// client (cf. clif_parse_bourgeon_jump). `v` nul = l'entrée d'EFFACEMENT.
 static void bourgeon_style_fill(PACKET_BOURGEON_STYLE_ENTRY* e,
-                                  map_session_data* owner, const uint8* adjusts,
-                                  int16 palette_id, int16 hair_id,
-                                  int16 hair_style, bool clear) {
+                                  map_session_data* owner,
+                                  const bourgeon_style_variant* v,
+                                  bool est_repli) {
 	e->gid = (uint32)owner->id;
 	e->version = BOURGEON_STYLE_WIRE_VERSION;
-	e->flags = clear ? BOURGEON_STYLE_CLEAR : 0;
-	e->palette_id = clear ? (int16)-1 : palette_id;
-	e->hair_palette_id = clear ? (int16)-1 : hair_id;
-	// La coiffure RÉELLEMENT portée, pas celle qu'on avait rangée : `pc_changelook`
-	// borne la valeur, et un styliste NPC a pu la changer depuis. C'est
-	// `sd->status.hair` qui fait foi, jamais la copie stockée.
-	e->hair_style = clear ? (int16)-1 : (int16)owner->status.hair;
-	if (clear) memset(e->adjusts, 0, sizeof(e->adjusts));
-	else       memcpy(e->adjusts, adjusts, sizeof(e->adjusts));
+	if (v == nullptr) {
+		e->flags = BOURGEON_STYLE_CLEAR;
+		e->body_key = 0;
+		e->palette_id = -1;
+		e->hair_palette_id = -1;
+		e->hair_style = -1;
+		memset(e->adjusts, 0, sizeof(e->adjusts));
+		return;
+	}
+	e->flags = est_repli ? BOURGEON_STYLE_DEFAULT : 0;
+	e->body_key = v->body_key;
+	e->palette_id = v->palette_id;
+	e->hair_palette_id = v->hair_id;
+	// La coiffure RÉELLEMENT portée, pas celle qu'on avait rangée :
+	// `pc_changelook` borne la valeur, et un styliste NPC a pu la changer depuis.
+	// C'est `sd->status.hair` qui fait foi, jamais la copie stockée.
+	e->hair_style = (int16)owner->status.hair;
+	memcpy(e->adjusts, v->adjusts, sizeof(e->adjusts));
+}
+
+// Taille d'un paquet portant TOUTES les variantes d'un seul joueur.
+#define BOURGEON_STYLE_ONE_MAX \
+	(sizeof(PACKET_ZC_BOURGEON_STYLES) + \
+	 BOURGEON_STYLE_MAX_VARIANTS * sizeof(PACKET_BOURGEON_STYLE_ENTRY))
+
+// Écrit l'en-tête et les entrées d'UN propriétaire dans `buf`, et rend la
+// longueur totale. `buf` doit tenir BOURGEON_STYLE_ONE_MAX octets.
+//
+// 🔴 TOUTES les variantes, toujours — même quand une seule vient de changer. Le
+// client vide ce qu'il sait d'un GID dès la première entrée qui le concerne :
+// c'est ce qui rend sa règle trivialement juste (« ce que je reçois est tout ce
+// qu'il a »), et c'est à ce prix. Une liste VIDE produit l'entrée d'effacement,
+// qui dit exactement « il n'a plus rien ».
+static int16 bourgeon_style_pack(
+		map_session_data* owner,
+		const std::vector<bourgeon_style_variant>& list, uint8* buf) {
+	const int16 n = (int16)(list.empty() ? 1 : list.size());
+	const int16 len = (int16)(sizeof(PACKET_ZC_BOURGEON_STYLES) +
+	                          n * sizeof(PACKET_BOURGEON_STYLE_ENTRY));
+	PACKET_ZC_BOURGEON_STYLES* p =
+		reinterpret_cast<PACKET_ZC_BOURGEON_STYLES*>(buf);
+	p->packetType = HEADER_ZC_BOURGEON_STYLES;
+	p->packetLength = len;
+	p->count = n;
+	PACKET_BOURGEON_STYLE_ENTRY* e =
+		reinterpret_cast<PACKET_BOURGEON_STYLE_ENTRY*>(
+			buf + sizeof(PACKET_ZC_BOURGEON_STYLES));
+	if (list.empty()) {
+		bourgeon_style_fill(e, owner, nullptr, false);
+		return len;
+	}
+	for (size_t i = 0; i < list.size(); ++i)
+		bourgeon_style_fill(e + i, owner, &list[i], i == 0);
+	return len;
 }
 
 void clif_bourgeon_style_single(map_session_data* sd, map_session_data* owner) {
 	if (sd == nullptr || owner == nullptr) return;
 	if (!sd->state.has_bourgeon) return;  // client vanilla : rien à lui dire
-	uint8 adjusts[BOURGEON_STYLE_ADJUST_BYTES];
-	int16 palette_id = -1, hair_id = -1, hair_style = -1;
-	if (!bourgeon_style_load(owner, adjusts, &palette_id, &hair_id,
-	                           &hair_style))
-		return;  // pas de recette
+	std::vector<bourgeon_style_variant> list;
+	bourgeon_style_load(owner, list);
+	if (list.empty()) return;  // pas de style : rien à dire de celui-là
 
 	const int32 fd = sd->fd;
-	const int16 len = (int16)(sizeof(PACKET_ZC_BOURGEON_STYLES) +
-	                          sizeof(PACKET_BOURGEON_STYLE_ENTRY));
+	uint8 buf[BOURGEON_STYLE_ONE_MAX];
+	const int16 len = bourgeon_style_pack(owner, list, buf);
 	WFIFOHEAD(fd, len);
-	PACKET_ZC_BOURGEON_STYLES* p =
-		reinterpret_cast<PACKET_ZC_BOURGEON_STYLES*>(WFIFOP(fd, 0));
-	p->packetType = HEADER_ZC_BOURGEON_STYLES;
-	p->packetLength = len;
-	p->count = 1;
-	bourgeon_style_fill(
-		reinterpret_cast<PACKET_BOURGEON_STYLE_ENTRY*>(
-			WFIFOP(fd, sizeof(PACKET_ZC_BOURGEON_STYLES))),
-		owner, adjusts, palette_id, hair_id, hair_style, false);
+	memcpy(WFIFOP(fd, 0), buf, len);
 	WFIFOSET(fd, len);
 }
 
@@ -8486,8 +8596,11 @@ static int32 clif_bourgeon_style_area_sub(block_list* bl, va_list ap) {
 // au-dessus : ce qui a tourne avant la verification doit etre REPOUSSE apres. Le
 // style de SOI l'etait deja ; celui des autres avait ete oublie.
 //
-// ⚠ Un SEUL paquet plutot que N : le format porte un champ `count`, il est fait
-// pour ca, et une ville peuplee vaut quelques dizaines d'entrees.
+// ⚠ Groupé plutôt qu'un paquet par joueur : le format porte un champ `count`, il
+// est fait pour ça. Mais plus « un SEUL » depuis la v7 : un joueur peut occuper
+// quatre entrées, et `packetLength` est un int16 — au-delà du plafond, la longueur
+// se lirait NÉGATIVE. D'où le découpage ci-dessous, qui ne coupe jamais un joueur
+// en deux.
 void clif_bourgeon_style_area(map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
@@ -8497,39 +8610,52 @@ void clif_bourgeon_style_area(map_session_data* sd) {
 	                      &vus, sd);
 	if (vus.empty()) return;
 
-	// Les entrees d'abord, le compte ensuite : un joueur en vue n'a pas
-	// forcement de recette, et on ne le sait qu'apres l'avoir lue.
-	std::vector<uint8> buf(sizeof(PACKET_ZC_BOURGEON_STYLES) +
-	                       vus.size() * sizeof(PACKET_BOURGEON_STYLE_ENTRY));
-	int16 count = 0;
-	for (map_session_data* owner : vus) {
-		uint8 adjusts[BOURGEON_STYLE_ADJUST_BYTES];
-		int16 palette_id = -1, hair_id = -1, hair_style = -1;
-		if (!bourgeon_style_load(owner, adjusts, &palette_id, &hair_id,
-		                           &hair_style))
-			continue;  // pas de recette : rien a dire de celui-la
-		bourgeon_style_fill(
-			reinterpret_cast<PACKET_BOURGEON_STYLE_ENTRY*>(
-				buf.data() + sizeof(PACKET_ZC_BOURGEON_STYLES) +
-				count * sizeof(PACKET_BOURGEON_STYLE_ENTRY)),
-			owner, adjusts, palette_id, hair_id, hair_style, false);
-		++count;
-	}
-	if (count == 0) return;
-
-	const int16 len = (int16)(sizeof(PACKET_ZC_BOURGEON_STYLES) +
-	                          count * sizeof(PACKET_BOURGEON_STYLE_ENTRY));
-	PACKET_ZC_BOURGEON_STYLES* p =
-		reinterpret_cast<PACKET_ZC_BOURGEON_STYLES*>(buf.data());
-	p->packetType = HEADER_ZC_BOURGEON_STYLES;
-	p->packetLength = len;
-	p->count = count;
-
 	const int32 fd = sd->fd;
 	if (!session_isActive(fd)) return;
-	WFIFOHEAD(fd, len);
-	memcpy(WFIFOP(fd, 0), buf.data(), len);
-	WFIFOSET(fd, len);
+
+	// 🔴 Découpé en plusieurs paquets si besoin, et ce n'est pas de la prudence
+	// gratuite : `packetLength` est un int16, et depuis la v7 un joueur peut
+	// occuper QUATRE entrées de 56 octets. Une ville dense tiendrait dans un seul
+	// paquet, une capitale un jour de patch, non — et le dépassement se lirait
+	// comme une longueur NÉGATIVE, donc comme une déconnexion inexpliquée.
+	constexpr int kMaxEntries = 256;  // 14 336 octets, très en deçà du plafond
+	std::vector<uint8> buf(sizeof(PACKET_ZC_BOURGEON_STYLES) +
+	                       kMaxEntries * sizeof(PACKET_BOURGEON_STYLE_ENTRY));
+	int16 count = 0;
+
+	const auto vider = [&]() {
+		if (count == 0) return;
+		const int16 len = (int16)(sizeof(PACKET_ZC_BOURGEON_STYLES) +
+		                          count * sizeof(PACKET_BOURGEON_STYLE_ENTRY));
+		PACKET_ZC_BOURGEON_STYLES* p =
+			reinterpret_cast<PACKET_ZC_BOURGEON_STYLES*>(buf.data());
+		p->packetType = HEADER_ZC_BOURGEON_STYLES;
+		p->packetLength = len;
+		p->count = count;
+		WFIFOHEAD(fd, len);
+		memcpy(WFIFOP(fd, 0), buf.data(), len);
+		WFIFOSET(fd, len);
+		count = 0;
+	};
+
+	for (map_session_data* owner : vus) {
+		std::vector<bourgeon_style_variant> list;
+		bourgeon_style_load(owner, list);
+		if (list.empty()) continue;  // pas de style : rien à dire de celui-là
+		// ⚠ Les variantes d'un même joueur ne sont JAMAIS coupées entre deux
+		// paquets : le client vide ce qu'il sait d'un GID à la première entrée qui
+		// le concerne, donc un joueur réparti sur deux lots ne garderait que la
+		// moitié de son style — celle du second.
+		if (count + (int16)list.size() > kMaxEntries) vider();
+		PACKET_BOURGEON_STYLE_ENTRY* e =
+			reinterpret_cast<PACKET_BOURGEON_STYLE_ENTRY*>(
+				buf.data() + sizeof(PACKET_ZC_BOURGEON_STYLES) +
+				count * sizeof(PACKET_BOURGEON_STYLE_ENTRY));
+		for (size_t i = 0; i < list.size(); ++i)
+			bourgeon_style_fill(e + i, owner, &list[i], i == 0);
+		count += (int16)list.size();
+	}
+	vider();
 }
 
 // Envoie un paquet de style DÉJÀ FORMATÉ à un joueur de la zone (callback
@@ -8585,29 +8711,17 @@ static int32 clif_bourgeon_style_spawn_sub(block_list* bl, va_list ap) {
 // continuer sans `state.active` — donc bien avant d'atteindre `clif_spawn`.
 void clif_bourgeon_style_spawn(map_session_data* sd) {
 	nullpo_retv(sd);
-	uint8 adjusts[BOURGEON_STYLE_ADJUST_BYTES];
-	int16 palette_id = -1, hair_id = -1, hair_style = -1;
-	if (!bourgeon_style_load(sd, adjusts, &palette_id, &hair_id, &hair_style))
-		return;  // pas de recette : rien à diffuser
+	std::vector<bourgeon_style_variant> list;
+	bourgeon_style_load(sd, list);
+	if (list.empty()) return;  // pas de style : rien à diffuser
 
 	// 🔴 AUCUNE garde sur le `has_bourgeon` de `sd`, et c'est le cœur du correctif.
 	// Ce qui compte est qu'il AIT une recette, pas que SON client soit déjà
 	// vérifié — au spawn il ne l'est justement jamais, la vérification arrive une
 	// seconde plus tard. Le filtre est par DESTINATAIRE, dans le callback : ce sont
 	// eux qui ne doivent pas recevoir un opcode qu'ils ne connaissent pas.
-	const int16 len = (int16)(sizeof(PACKET_ZC_BOURGEON_STYLES) +
-	                          sizeof(PACKET_BOURGEON_STYLE_ENTRY));
-	uint8 buf[sizeof(PACKET_ZC_BOURGEON_STYLES) +
-	          sizeof(PACKET_BOURGEON_STYLE_ENTRY)] = {};
-	PACKET_ZC_BOURGEON_STYLES* p =
-		reinterpret_cast<PACKET_ZC_BOURGEON_STYLES*>(buf);
-	p->packetType = HEADER_ZC_BOURGEON_STYLES;
-	p->packetLength = len;
-	p->count = 1;
-	bourgeon_style_fill(
-		reinterpret_cast<PACKET_BOURGEON_STYLE_ENTRY*>(
-			buf + sizeof(PACKET_ZC_BOURGEON_STYLES)),
-		sd, adjusts, palette_id, hair_id, hair_style, false);
+	uint8 buf[BOURGEON_STYLE_ONE_MAX];
+	const int16 len = bourgeon_style_pack(sd, list, buf);
 
 	map_foreachinallrange(clif_bourgeon_style_spawn_sub, sd, AREA_SIZE, BL_PC,
 	                      (int32)sd->id, (const uint8*)buf, (int32)len);
@@ -8637,15 +8751,20 @@ void clif_parse_bourgeon_style(int32 fd, map_session_data* sd) {
 	// Version inconnue : on jette, sans rien changer de ce qui est stocké. Un
 	// client plus récent n'a pas à effacer les couleurs qu'il ne sait pas relire.
 	if (p->version != BOURGEON_STYLE_WIRE_VERSION) return;
+	// Sans variables chargées, on ne peut ni lire ni écrire : on renonce
+	// silencieusement plutôt que de risquer la déconnexion — le joueur pourra
+	// re-partager, et l'aperçu local, lui, marche déjà.
+	if (!sd->vars_ok) return;
 
-	const bool clear = (p->flags & BOURGEON_STYLE_CLEAR) != 0;
+	const bool tout_effacer = (p->flags & BOURGEON_STYLE_CLEAR_ALL) != 0;
+	const bool effacer_ce_corps = (p->flags & BOURGEON_STYLE_CLEAR) != 0;
+	// 🔴 Une clé nulle ne désigne aucun corps : la ranger donnerait une variante
+	// qu'aucun client ne choisirait jamais, tout en occupant un des quatre
+	// emplacements du personnage. Seul « tout effacer » s'en passe.
+	if (!tout_effacer && p->body_key == 0) return;
 
-	// La forme STOCKÉE de ce qui arrive, calculée tout de suite : elle sert à
-	// reconnaître un renvoi à l'identique avant d'engager le moindre travail.
-	char hex[BOURGEON_STYLE_ADJUST_BYTES * 2 + 32] = "";
-	if (!clear)
-		bourgeon_style_to_hex(p->adjusts, p->palette_id, p->hair_palette_id,
-		                        p->hair_style, hex);
+	std::vector<bourgeon_style_variant> list;
+	bourgeon_style_load(sd, list);
 
 	// ── Garde 1 : un renvoi À L'IDENTIQUE ne fait rien ────────────────────────
 	//
@@ -8659,9 +8778,25 @@ void clif_parse_bourgeon_style(int32 fd, map_session_data* sd) {
 	// le joueur honnête : elle ne peut jeter qu'un paquet qui n'aurait rien fait.
 	// C'est aussi elle qui tue la forme d'abus la plus simple — répéter le même
 	// paquet — là où le cooldown ne fait que la ralentir.
-	if (sd->vars_ok) {
-		const char* actuel = pc_readregistry_str(sd, add_str(BOURGEON_STYLE_VAR));
-		if (actuel != nullptr && strcmp(actuel, hex) == 0) return;
+	//
+	// ⚠ Depuis la v7 elle compare la VARIANTE concernée, pas « le » style : deux
+	// corps différents portent forcément des octets différents, et confondre les
+	// deux ferait refuser à un joueur d'habiller sa monture comme son corps.
+	if (tout_effacer) {
+		if (list.empty()) return;  // déjà sans style : rien à faire
+	} else {
+		const bourgeon_style_variant* actuelle = nullptr;
+		for (const bourgeon_style_variant& v : list)
+			if (v.body_key == p->body_key) { actuelle = &v; break; }
+		if (effacer_ce_corps) {
+			if (actuelle == nullptr) return;  // ce corps n'a rien à effacer
+		} else {
+			if (actuelle != nullptr && actuelle->palette_id == p->palette_id &&
+			    actuelle->hair_id == p->hair_palette_id &&
+			    actuelle->hair_style == p->hair_style &&
+			    memcmp(actuelle->adjusts, p->adjusts, sizeof(actuelle->adjusts)) == 0)
+				return;  // les mêmes octets, pour le même corps : rien à faire
+		}
 	}
 
 	// ── Garde 2 : le cooldown, pour l'abus qui FAIT VARIER les octets ─────────
@@ -8690,34 +8825,56 @@ void clif_parse_bourgeon_style(int32 fd, map_session_data* sd) {
 	// ⚠ Un EFFACEMENT ne la défait pas : « supprimer son style » retire les
 	// palettes, il n'annule pas un passage chez le styliste. Pour changer de
 	// coupe, il faut en choisir une autre.
-	if (!clear && p->hair_style >= 1 && sd->status.hair != p->hair_style)
+	if (!tout_effacer && !effacer_ce_corps && p->hair_style >= 1 &&
+	    sd->status.hair != p->hair_style)
 		pc_changelook(sd, LOOK_HAIR, p->hair_style);
 
-	// Persistance. Sans `vars_ok` on ne peut ni lire ni écrire : on renonce
-	// silencieusement plutôt que de risquer la déconnexion — le joueur pourra
-	// re-partager, et l'aperçu local, lui, marche déjà.
-	// `hex` a été construit plus haut pour la comparaison ; il vaut "" sur un
-	// effacement, ce qui est exactement ce qu'il faut ranger. Le recalculer ici
-	// laisserait DEUX endroits à corriger le jour où le format bouge.
-	if (sd->vars_ok)
-		pc_setregistry_str(sd, add_str(BOURGEON_STYLE_VAR), hex);
+	// ── La liste des corps habillés ──────────────────────────────────────────
+	if (tout_effacer) {
+		list.clear();
+	} else if (effacer_ce_corps) {
+		for (size_t i = 0; i < list.size(); ++i) {
+			if (list[i].body_key != p->body_key) continue;
+			list.erase(list.begin() + i);
+			break;
+		}
+	} else {
+		bourgeon_style_variant v;
+		v.body_key = p->body_key;
+		v.palette_id = p->palette_id;
+		v.hair_id = p->hair_palette_id;
+		v.hair_style = p->hair_style;
+		memcpy(v.adjusts, p->adjusts, sizeof(v.adjusts));
 
-	// Diffusion à la zone. AREA inclut l'émetteur ; son client ignore sa propre
-	// entrée (il a déjà posé la recette localement, et la reposer ferait sauter
-	// en arrière un réglage en cours).
-	const int16 len = (int16)(sizeof(PACKET_ZC_BOURGEON_STYLES) +
-	                          sizeof(PACKET_BOURGEON_STYLE_ENTRY));
-	uint8 buf[sizeof(PACKET_ZC_BOURGEON_STYLES) +
-	          sizeof(PACKET_BOURGEON_STYLE_ENTRY)];
-	PACKET_ZC_BOURGEON_STYLES* out =
-		reinterpret_cast<PACKET_ZC_BOURGEON_STYLES*>(buf);
-	out->packetType = HEADER_ZC_BOURGEON_STYLES;
-	out->packetLength = len;
-	out->count = 1;
-	bourgeon_style_fill(
-		reinterpret_cast<PACKET_BOURGEON_STYLE_ENTRY*>(
-			buf + sizeof(PACKET_ZC_BOURGEON_STYLES)),
-		sd, p->adjusts, p->palette_id, p->hair_palette_id, p->hair_style, clear);
+		bool remplace = false;
+		for (bourgeon_style_variant& e : list) {
+			if (e.body_key != v.body_key) continue;
+			// Remplacement SUR PLACE : un corps déjà habillé garde son rang, donc le
+			// repli ne change pas parce qu'on a retouché une couleur.
+			e = v;
+			remplace = true;
+			break;
+		}
+		if (!remplace) {
+			// 🔴 Au plafond, on évince le PLUS ANCIEN — mais jamais le premier, qui
+			// est le repli : c'est lui qui habille tous les corps que le joueur n'a
+			// pas personnalisés, et le perdre les déshabillerait tous d'un coup.
+			while ((int)list.size() >= BOURGEON_STYLE_MAX_VARIANTS) {
+				if (list.size() <= 1) { list.clear(); break; }
+				list.erase(list.begin() + 1);
+			}
+			list.push_back(v);
+		}
+	}
+
+	bourgeon_style_store(sd, list);
+
+	// Diffusion à la zone, avec TOUTES les variantes : le client remplace en bloc
+	// ce qu'il sait de ce GID. AREA inclut l'émetteur ; son client ignore sa
+	// propre entrée tant que sa fenêtre est ouverte (il a déjà posé la recette
+	// localement, et la reposer ferait sauter en arrière un réglage en cours).
+	uint8 buf[BOURGEON_STYLE_ONE_MAX];
+	const int16 len = bourgeon_style_pack(sd, list, buf);
 	clif_send(buf, len, sd, AREA);
 }
 

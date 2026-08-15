@@ -6487,16 +6487,46 @@ enum e_bourgeon_npc_admin_action : uint8 {
 // l'écrit dans `sd->status.hair`, la sauvegarde avec le personnage et l'annonce
 // à la zone par le ZC_SPRITE_CHANGE natif — clients vanilla compris. Elle est
 // dans la recette parce que POUR LE JOUEUR la coiffure fait partie du style.
-#define BOURGEON_STYLE_WIRE_VERSION 6
+// v7 (2026-08-15) : une recette PAR CORPS. La trame gagne quatre octets de clé,
+// et un joueur peut avoir plusieurs entrées dans le même lot.
+//
+// 🔴 Le fait marquant, pour ce fichier : le serveur ne SAIT PAS ce que cette clé
+// désigne, et n'a pas à le savoir. C'est le condensé du chemin de sprite du
+// corps, calculé par le client — la seule machine qui résolve ce chemin, avec
+// tous ses cas particuliers (montures, styles de corps, costumes). Le serveur
+// range N recettes sous leurs clés, les rediffuse toutes, et laisse chaque
+// client destinataire choisir celle qui correspond au corps qu'il voit.
+//
+// Les recettes v6 sont donc jetées : ne portant aucune clé, rien ne dirait à
+// quel corps les rattacher.
+#define BOURGEON_STYLE_WIRE_VERSION 7
+
+// Nombre de corps qu'un personnage peut habiller séparément.
+//
+// 🔴 Ce plafond dimensionne le STOCKAGE : une variable de personnage par
+// variante (cf. BOURGEON_STYLE_VARS dans clif.cpp), chacune tenant très
+// largement sous les 254 caractères d'une `char_reg_str`. Le monter demande donc
+// d'ajouter des variables, pas seulement de changer ce nombre. Miroir de
+// `fx::style_sync::kMaxVariants`.
+#define BOURGEON_STYLE_MAX_VARIANTS 4
 
 // Drapeaux d'une entrée de recette.
 enum e_bourgeon_style_flag : uint8 {
-	BOURGEON_STYLE_CLEAR = 0x01,  // « plus de recette » : revenir au natif
+	// CZ : efface la variante de CE corps. ZC : ce joueur n'a plus rien du tout.
+	BOURGEON_STYLE_CLEAR = 0x01,
+	// CZ seulement : efface TOUTES les variantes du personnage.
+	BOURGEON_STYLE_CLEAR_ALL = 0x02,
+	// ZC seulement : cette variante est celle du REPLI, appliquée par le client
+	// aux corps qui n'ont pas la leur. 🔴 C'est le serveur qui la désigne — s'il
+	// laissait chaque client la deviner, deux clients pourraient en choisir des
+	// différentes selon l'ordre d'arrivée des paquets.
+	BOURGEON_STYLE_DEFAULT = 0x04,
 };
 
-// CZ (client -> server): le joueur partage son style. Fixe 52.
-// Layout: [packetType:2][packetLength:2][version:1][flags:1][palette_id:2]
-//         [hair_palette_id:2][hair_style:2][adjusts:40]
+// CZ (client -> server): le joueur partage le style d'UN de ses corps. Fixe 56.
+// Layout: [packetType:2][packetLength:2][version:1][flags:1][body_key:4]
+//         [palette_id:2][hair_palette_id:2][hair_style:2][adjusts:40]
+//   body_key        : condensé du sprite de corps. OPAQUE ici. 0 = refusé.
 //   palette_id      : palette de vêtement officielle 1..553, -1 = d'origine.
 //   hair_palette_id : palette de cheveux officielle 1..251, -1 = d'origine.
 //   hair_style      : coiffure 1..80, -1 = celle du personnage. 🔴 APPLIQUÉE.
@@ -6505,6 +6535,7 @@ struct PACKET_CZ_BOURGEON_STYLE {
 	int16 packetLength;
 	uint8 version;
 	uint8 flags;
+	uint32 body_key;
 	int16 palette_id;
 	int16 hair_palette_id;
 	int16 hair_style;
@@ -6512,7 +6543,8 @@ struct PACKET_CZ_BOURGEON_STYLE {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(CZ_BOURGEON_STYLE, 0x0f26);
 
-// Une entrée du lot ZC : 52 octets.
+// Une entrée du lot ZC : 56 octets. UNE PAR VARIANTE — un joueur qui a habillé
+// son corps et sa monture en occupe deux, avec le même `gid`.
 //
 // ⚠ `hair_style` y figure mais n'est PAS à poser sur l'acteur : le serveur l'a
 // déjà appliquée et son ZC_SPRITE_CHANGE natif est parti avant. Elle sert à ce
@@ -6521,6 +6553,7 @@ struct PACKET_BOURGEON_STYLE_ENTRY {
 	uint32 gid;
 	uint8  version;
 	uint8  flags;
+	uint32 body_key;
 	int16  palette_id;
 	int16  hair_palette_id;
 	int16  hair_style;
@@ -6528,7 +6561,12 @@ struct PACKET_BOURGEON_STYLE_ENTRY {
 } __attribute__((packed));
 
 // ZC (server -> client): les recettes des joueurs en vue. VARIABLE.
-// Layout: [packetType:2][packetLength:2][count:2] puis count × 52 octets.
+// Layout: [packetType:2][packetLength:2][count:2] puis count × 56 octets.
+//
+// 🔴 Un lot REDÉFINIT INTÉGRALEMENT les variantes des joueurs qu'il mentionne :
+// le client vide ce qu'il sait d'un GID à la première entrée qui le concerne.
+// Le serveur doit donc TOUJOURS envoyer l'ensemble complet d'un personnage, même
+// quand une seule de ses variantes vient de changer.
 //
 // Le LOT existe parce qu'arriver sur une carte peuplée fait entrer des dizaines
 // de joueurs d'un coup. En pratique la diffusion au spawn n'en envoie qu'un à la
