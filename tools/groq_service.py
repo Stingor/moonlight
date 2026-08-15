@@ -824,6 +824,70 @@ def find_context(message: str, conn, player: str = "") -> str:
 # ─────────────────────────────────────────────────────────────────────────────
 
 
+# ── Garde-fou anti-fuite de template / charabia (modèle local) ───────────────
+#
+# Symptôme vu en jeu : le modèle ne s'arrête pas à la fin de sa réponse et
+# recrache le balisage ChatML EN TEXTE, en s'inventant le tour suivant :
+#
+#   ...bande de ramollos ! <|im_start|>user (ÉVÈNEMENT — Tu part farm un peu...)
+#
+# Deux dégâts distincts :
+#   1. le prompt d'event scripté est lu à voix haute par le NPC ;
+#   2. `_split_response` respecte les « | » du modèle, donc les deux barres de
+#      « <|im_start|> » deviennent trois npctalk séparés : « < », « im_start »,
+#      « >...user (ÉVÈNEMENT... ». C'est exactement ce qu'on voit à l'écran.
+#
+# Deux verrous, car aucun ne suffit seul :
+#   - `stop` dans la requête : coupe côté serveur, mais seulement si le modèle
+#     émet le VRAI token spécial. Ici il sort en texte ordinaire, donc raté ;
+#   - ce filtre : coupe côté client, quoi qu'il arrive.
+
+_TEMPLATE_MARKERS = (
+    "<|", "<\uff5c",       # ChatML / DeepSeek (barre pleine chasse-fixe incluse)
+    "<s>", "</s>",          # Llama / Mistral
+    "[INST]", "[/INST]",
+    "<start_of_turn>", "<end_of_turn>",   # Gemma
+)
+
+# Un tour de dialogue que le modèle se serait inventé (« user: ... »).
+_TURN_RE = re.compile(r"^\s*(?:user|assistant|system|utilisateur)\s*:", re.I | re.M)
+
+# Recopie du prompt d'event scripté — jamais destiné à être prononcé.
+_EVENT_ECHO_RE = re.compile(r"\(\s*(?:ÉV|EV)[ÈÉE]NEMENT\b", re.I)
+
+
+def _strip_template_leak(text: str) -> str:
+    """Tronque la réponse au premier signe que le modèle a débordé de son tour."""
+    cut = len(text)
+    for mark in _TEMPLATE_MARKERS:
+        pos = text.find(mark)
+        if 0 <= pos < cut:
+            cut = pos
+    for rx in (_TURN_RE, _EVENT_ECHO_RE):
+        m = rx.search(text)
+        if m and m.start() < cut:
+            cut = m.start()
+    return text[:cut].strip()
+
+
+# Alphabets que le client RO ne sait pas rendre : il les affiche en « ? » — d'où
+# les « ????????? » observés en fin de réplique quand le modèle part en boucle.
+_NONLATIN_RE = re.compile(
+    "[\u0370-\u03ff\u0400-\u04ff\u0530-\u058f\u0590-\u05ff\u0600-\u06ff"
+    "\u0700-\u074f\u0900-\u097f\u0e00-\u0e7f\u1100-\u11ff\u2e80-\ua4cf"
+    "\uac00-\ud7af\uf900-\ufaff\ufe30-\ufe4f\uff00-\uffef]+"
+)
+
+_REPEAT_RE = re.compile(r'([!?.,;:«»"\-_/\\|*~#])\1{3,}')
+
+
+def _squash_gibberish(text: str) -> str:
+    """Rabote les emballements : ponctuation à la chaîne, alphabets illisibles."""
+    text = _NONLATIN_RE.sub("", text)
+    text = _REPEAT_RE.sub(r"\1\1\1", text)
+    return text.strip()
+
+
 def groq_chat(messages: list) -> str:
     # Diag : prompt réellement transmis au modèle (dernier tour 'user') — c'est ce qui
     # distingue un prompt d'event FR d'un tag brut "[EVENT_xxx]" qui aurait fui.
@@ -836,6 +900,9 @@ def groq_chat(messages: list) -> str:
         "temperature": 0.8,   # plus de mordant/variété dans les vannes
         "frequency_penalty": 0.6,   # casse le template répétitif (il recopiait ses réponses)
         "presence_penalty": 0.6,
+        # Premier verrou anti-fuite de template : le serveur coupe dès qu'un de
+        # ces marqueurs sort. Plafonné à 4 entrées (limite de l'API OpenAI).
+        "stop": ["<|im_end|>", "<|im_start|>", "<|endoftext|>", "\nuser\n"],
     }).encode("utf-8")
 
     headers = {
@@ -873,7 +940,13 @@ def groq_chat(messages: list) -> str:
         raise RuntimeError(f"HTTP {e.code} — {body}") from e
 
     choice = data["choices"][0]
-    reply = choice["message"]["content"].strip()
+    reply = _raw = choice["message"]["content"].strip()
+    # Second verrou : le modèle local sort parfois le balisage en TEXTE, donc le
+    # `stop` ci-dessus le rate. On coupe ici, avant tout découpage en segments.
+    reply = _squash_gibberish(_strip_template_leak(reply))
+    if reply != _raw:
+        print(f"[Groq] réponse assainie (fuite de template / charabia) : {_raw[:200]!r}",
+              file=sys.stderr)
     # print(f"[Groq]   <- LLM brut[:200]={reply[:200]!r} finish={choice.get('finish_reason')!r}", file=sys.stderr)
     # Si la réponse a été coupée par max_tokens, on rogne le fragment final incomplet
     if choice.get("finish_reason") == "length":
@@ -1039,7 +1112,11 @@ def _split_response(text: str, max_len: int = 220) -> str:
     Si le modèle a déjà utilisé | comme séparateurs, on respecte son découpage."""
     text = text.strip()
     if '|' in text:
-        return text  # le modèle a segmenté lui-même, on ne retouche rien
+        # Le modèle a segmenté lui-même : on respecte son découpage, mais on
+        # jette les segments vides (« a || b » -> un npctalk muet) et on plafonne
+        # à 3 pour qu'une réponse partie en boucle ne spamme pas le chat ville.
+        segs = [s.strip() for s in text.split('|') if s.strip()]
+        return '|'.join(segs[:3])
     if len(text) <= max_len:
         return text
     parts = []
