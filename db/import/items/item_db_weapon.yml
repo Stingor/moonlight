@@ -5697,7 +5697,7 @@ Body:
     Locations:
       Both_Hand: true
     WeaponLevel: 4
-    Script: "bonus bAspdRate,-25; bonus bUseSPrate,100; if(readparam(bStr)>=95) {bonus bBaseAtk,400; bonus2 bAddEff,Eff_Stun,3000; bonus BreakArmorRate,500;}\n"
+    Script: "bonus bAspdRate,-25; bonus bUseSPrate,100; if(readparam(bStr)>=95) {bonus bBaseAtk,400; bonus2 bAddEff,Eff_Stun,3000; bonus bBreakArmorRate,500;}\n"
   - Id: 1387
     AegisName: Giant_Axe
     Name: Giant Axe [1]

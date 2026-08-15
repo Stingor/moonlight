@@ -1314,7 +1314,7 @@ Body:
       .@i = getpetinfo(PETINFO_INTIMATE);
       
       if (.@i >= PET_INTIMATE_LOYAL) {
-        bonus Dex,2;
+        bonus bDex,2;
         bonus bHit,1;
       } else if (.@i >= PET_INTIMATE_CORDIAL) {
         bonus bDex,1;
