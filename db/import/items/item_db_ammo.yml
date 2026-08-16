@@ -448,8 +448,6 @@ Body:
     SubType: Dagger
     Buy: 50
     Attack: 30
-    Jobs:
-      Assassin: true
     Locations:
       Ammo: true
   - Id: 1772
