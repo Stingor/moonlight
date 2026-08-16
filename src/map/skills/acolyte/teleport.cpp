@@ -31,9 +31,11 @@ void SkillTeleport::castendNoDamageId(block_list* src, block_list* target, uint1
 		{
 			if( skill_lv == 1 )
 			{
+				short x = sd->x;
+				short y = sd->y;
 				pc_randomwarp( sd, CLR_TELEPORT );
 				if( pc_readreg2( sd, "FlyWingLast" ) )
-					clif_viewpoint(*sd, 1, 0, sd->x, sd->y, 255, 0xAA1010);
+					clif_viewpoint(*sd, 1, 0, x, y, 255, 0xAA1010);
 			}
 			else
 				pc_setpos( sd, mapindex_name2id( sd->status.save_point.map ), sd->status.save_point.x, sd->status.save_point.y, CLR_TELEPORT );
