@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <string>
 
 #include <common/cbasetypes.hpp>
 #include <common/ers.hpp>
@@ -153,6 +154,76 @@ static bool skill_check(uint16 id) {
 	if (id == 0 || skill_get_index(id) == 0)
 		return false;
 	return true;
+}
+
+/**
+ * Describe an object for logging purposes
+ * @param bl: Object to describe
+ * @return Type, name, ids and location of the object
+ **/
+static std::string skill_describe_bl( const block_list& bl ){
+	const char* type;
+
+	switch( bl.type ){
+		case BL_PC:   type = "player"; break;
+		case BL_MOB:  type = "mob"; break;
+		case BL_NPC:  type = "npc"; break;
+		case BL_PET:  type = "pet"; break;
+		case BL_HOM:  type = "homunculus"; break;
+		case BL_MER:  type = "mercenary"; break;
+		case BL_ELEM: type = "elemental"; break;
+		default:      type = "object"; break;
+	}
+
+	std::string desc = std::string( type ) + " '" + status_get_name( bl ) + "' (";
+
+	if( bl.type == BL_PC ){
+		const map_session_data& sd = static_cast<const map_session_data&>( bl );
+
+		desc += "AID " + std::to_string( sd.status.account_id ) + ", CID " + std::to_string( sd.status.char_id );
+	}else if( bl.type == BL_MOB ){
+		desc += "mob_id " + std::to_string( static_cast<const mob_data&>( bl ).mob_id ) + ", GID " + std::to_string( bl.id );
+	}else{
+		desc += "GID " + std::to_string( bl.id );
+	}
+
+	desc += ") at " + std::string( map_mapid2mapname( bl.m ) ) + " (" + std::to_string( bl.x ) + "," + std::to_string( bl.y ) + ")";
+
+	return desc;
+}
+
+/**
+ * Report a skill that reached a cast end handler without a usable implementation.
+ * Logs the skill identity, the caster and the target so the case can be reproduced.
+ * @param func: Name of the reporting function
+ * @param src: Object that used the skill
+ * @param target: Object targeted by the skill, nullptr when the skill targets a cell
+ * @param skill_id: Skill used
+ * @param skill_lv: Level of the skill used
+ * @param x: Targeted cell X, -1 when the skill has no target cell
+ * @param y: Targeted cell Y, -1 when the skill has no target cell
+ **/
+static void skill_report_unimplemented( const char* func, block_list* src, block_list* target, uint16 skill_id, uint16 skill_lv, int32 x, int32 y ){
+	std::shared_ptr<s_skill_db> skill = skill_db.find( skill_id );
+	std::string report = std::string( func ) + ": skill " + std::to_string( skill_id );
+
+	if( skill == nullptr ){
+		report += " has no entry in the skill database";
+	}else{
+		report += " (" + std::string( skill->name ) + " / " + std::string( skill->desc ) + ") level " + std::to_string( skill_lv ) + " has no implementation registered";
+	}
+
+	if( src != nullptr ){
+		report += " - used by " + skill_describe_bl( *src );
+	}
+
+	if( target != nullptr ){
+		report += " on " + skill_describe_bl( *target );
+	}else if( x >= 0 && y >= 0 ){
+		report += " on cell (" + std::to_string( x ) + "," + std::to_string( y ) + ")";
+	}
+
+	ShowWarning( "%s.\n", report.c_str() );
 }
 
 #define skill_get(id, var) do {\
@@ -4266,7 +4337,7 @@ int32 skill_castend_damage_id (block_list* src, block_list *bl, uint16 skill_id,
 			break;
 		}
 
-       ShowWarning("skill_castend_damage_id: Unknown skill used:%d\n",skill_id);
+		skill_report_unimplemented( __func__, src, bl, skill_id, skill_lv, -1, -1 );
 		clif_skill_damage( *src, *bl, tick, status_get_amotion(src), tstatus->dmotion,
 			0, abs(skill_get_num(skill_id, skill_lv)),
 			skill_id, skill_lv, skill_get_hit(skill_id) );
@@ -5478,7 +5549,7 @@ int32 skill_castend_pos2(block_list* src, int32 x, int32 y, uint16 skill_id, uin
 	if (std::shared_ptr<s_skill_db> skill = skill_db.find(skill_id); skill != nullptr && skill->impl != nullptr) {
 		skill->impl->castendPos2(src, x, y, skill_lv, tick, flag);
 	}else{
-		ShowWarning("skill_castend_pos2: Unknown skill used:%d\n",skill_id);
+		skill_report_unimplemented( __func__, src, nullptr, skill_id, skill_lv, x, y );
 		return 1;
 	}
 
