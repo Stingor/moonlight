@@ -760,6 +760,14 @@ OnAtcommand:
 	}
 	else
 	{ //Si tout est ok on query
+		// [Stingor] Une fenetre de stockage ouverte bloque loadstorage() ET storagecountitem()
+		// (garde sd->state.storage_flag cote source) : la recherche renverrait des storages
+		// vides sans le moindre message. -1 = "impossible de compter maintenant".
+		if( storagecountitem(.@itemid, .@accountid, 0) < 0 )
+		{
+			dispbottom "Fermez votre fenêtre de stockage avant d'utiliser @searchid.",0xFF9040;
+			end;
+		}
 		dispbottom "[ Recherche de "+.@itemname$+" ("+.@itemid+") ]",0xF0FF0F;
 		.@iscard = (getiteminfo(.@itemid, ITEMINFO_TYPE) == IT_CARD);
 		freeloop(1);
@@ -1074,6 +1082,15 @@ function SearchStorage {
 	showscript "Recherche dans le @storage"+(.@stor_id>0?.@stor_id:""), .@aid, SELF;
 	progressbar "FFFFFF",1;
 	.@nbr = storagecountitem(.@id, .@aid, .@stor_id);
+	// [Stingor] -1 = storage illisible : soit la fenetre de stockage a ete rouverte en cours
+	// de route, soit la reponse asynchrone du char-server au loadstorage n'est pas arrivee.
+	// On le dit au joueur au lieu d'afficher 0, et on renvoie 0 : un -1 propage jusqu'a
+	// .@total le fausserait d'une unite par storage illisible.
+	if( .@nbr < 0 )
+	{
+		dispbottom "[ Storage"+(.@stor_id>0?.@stor_id:"")+" illisible : fermez votre fenêtre de stockage et relancez la recherche ]",0xFF9040;
+		return 0;
+	}
 	if (.@nbr > 0)
 		dispbottom "[ "+.@nbr+" dans le Storage"+(.@stor_id>0?.@stor_id:"")+" ]",0xF0FF0F;
 	if (.@deep && .@iscard)
