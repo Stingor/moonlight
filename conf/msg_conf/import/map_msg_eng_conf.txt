@@ -1768,6 +1768,9 @@
 // block_exp
 1865: Gain d'EXP : BLOQUÉ. Vous ne gagnerez plus d'expérience.
 1866: Gain d'EXP : ACTIVÉ. Vous gagnez à nouveau de l'expérience.
+// @flywinglast
+1867: Fly Wing : le point d'arrivée sera marqué sur la carte.
+1868: Fly Wing : le point d'arrivée ne sera plus marqué.
 
 1900: Le #gonryun du Discord est maintenant intégré au chat de la map Gonryun
 1901: Vous ne communiquez plus et ne voyez plus les messages du #gonryun de la map Gonryun

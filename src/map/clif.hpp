@@ -1547,7 +1547,68 @@ void clif_noask_sub( const map_session_data& sd, const map_session_data& tsd, in
 
 void clif_specialpopup(const map_session_data& sd, int32 id);
 
-// [Stingor] Bourgeon settings sync
+// [Stingor] Bourgeon settings sync (ZC 0x0F05 / CZ 0x0F04)
+//
+// Identifiants des réglages sur le fil. Doivent rester alignés sur les
+// constantes kSetting* du client (Bourgeon/src/features/moonlight_ui/moonlight_ui.h) :
+// c'est un contrat de protocole, un id ne se réutilise donc jamais.
+//
+// Ce que chaque réglage vaut côté serveur, ce qu'il vaut sur le fil et dans
+// quel registre il dort est décrit une seule fois, dans la table
+// bourgeon_settings[] de clif.cpp. Ne pas écrire un membre sd->state.* de
+// réglage à la main : passer par bourgeon_setting_set(), sinon le registre,
+// l'UI du client et le message de confirmation divergent.
+enum e_bourgeon_setting : int16 {
+	BOURGEON_SETTING_SHOW_EXP      = 0,
+	BOURGEON_SETTING_SHOW_ZENY     = 1,
+	BOURGEON_SETTING_SHOW_MOB_INFO = 2,
+	BOURGEON_SETTING_SEPARATE      = 3,
+	BOURGEON_SETTING_BLOCK_EXP     = 4,
+	BOURGEON_SETTING_ALOOT_RARE    = 5,
+	BOURGEON_SETTING_ALOOT_RATE    = 6,
+	BOURGEON_SETTING_ALOOT_POGNON  = 7,
+	BOURGEON_SETTING_ALOOT_TYPE    = 8,
+	BOURGEON_SETTING_DISCORD_CHAT  = 9,
+	BOURGEON_SETTING_SHOWDELAY     = 10,
+	BOURGEON_SETTING_SHOWSPEED     = 11,
+	BOURGEON_SETTING_SELLSTUFF     = 12,
+	BOURGEON_SETTING_SELLITEM      = 13,
+	BOURGEON_SETTING_NOASK         = 14,
+	BOURGEON_SETTING_NOKS          = 15,
+	BOURGEON_SETTING_WINGS         = 16,
+	BOURGEON_SETTING_ALOOT_MVP     = 17,
+	BOURGEON_SETTING_ALOOT_MVPRWD  = 18,
+	BOURGEON_SETTING_TRI_INV       = 19,
+	BOURGEON_SETTING_TRI_CART      = 20,
+	BOURGEON_SETTING_TRI_STORAGE   = 21,
+	BOURGEON_SETTING_TRI_GSTORAGE  = 22,
+	BOURGEON_SETTING_ALOOT_ID      = 23,  // action : ajoute un itemId à la liste autolootid (0 = tout effacer)
+	BOURGEON_SETTING_ALOOT_ID_REM  = 24,  // action : retire un itemId de la liste
+	BOURGEON_SETTING_REFRESH       = 25,  // action : le client réclame un clif_refresh sur lui-même ; valeur ignorée
+	BOURGEON_SETTING_STAFF         = 26,  // serveur -> client : pc_get_group_level(sd), gate des fonctions réservées
+	BOURGEON_SETTING_FLYWING_LAST  = 27,  // marque d'où l'on vient après une Fly Wing / Téléport
+};
+
+// D'où vient un changement de réglage. Décide de ce que le moteur fait en plus
+// de poser la valeur : écrire le registre, parler au joueur, resynchroniser
+// l'interface du client.
+enum e_bourgeon_setting_src : uint8 {
+	BSET_SRC_LOGIN = 0,  ///< hydratation depuis les registres : cache mémoire seul, aucun effet visible
+	BSET_SRC_CLIENT,     ///< CZ_BOURGEON_SETTING : le client a déjà bougé son UI, inutile de la lui renvoyer
+	BSET_SRC_SERVER,     ///< @commande, NPC, admin : le client doit être resynchronisé
+};
+
+// Recharge tous les réglages persistés depuis les registres du personnage.
+// À appeler une fois par connexion, avant que le joueur n'entre sur la map.
+void bourgeon_setting_load( map_session_data* sd );
+// Pose la valeur *serveur* d'un réglage (celle du registre et du membre, pas
+// celle du fil). Renvoie false si l'id est inconnu ou en lecture seule.
+bool bourgeon_setting_set( map_session_data* sd, int16 id, uint32 value, e_bourgeon_setting_src src );
+// Bascule un réglage booléen. Source implicite : BSET_SRC_SERVER.
+bool bourgeon_setting_toggle( map_session_data* sd, int16 id );
+// Valeur serveur courante, lue au cache s'il existe, au registre sinon.
+uint32 bourgeon_setting_get( map_session_data* sd, int16 id );
+
 void clif_bourgeon_settings(map_session_data* sd);
 // [Stingor] Bourgeon table itemId->ordinal de hat effect (ZC 0x0F17) — preview costumes
 // sans viewid ; poussée au login vérifié. Statique (scan des scripts item_db, cache).

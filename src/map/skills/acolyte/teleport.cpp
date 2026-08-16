@@ -30,7 +30,11 @@ void SkillTeleport::castendNoDamageId(block_list* src, block_list* target, uint1
 		if( sd->state.autocast || ( (sd->skillitem == getSkillId() || battle_config.skip_teleport_lv1_menu) && skill_lv == 1 ) || skill_lv == 3 )
 		{
 			if( skill_lv == 1 )
-				pc_randomwarp(sd,CLR_TELEPORT);
+			{
+				pc_randomwarp( sd, CLR_TELEPORT );
+				if( pc_readreg2( sd, "FlyWingLast" ) )
+					clif_viewpoint(*sd, 1, 0, sd->x, sd->y, 255, 0xAA1010);
+			}
 			else
 				pc_setpos( sd, mapindex_name2id( sd->status.save_point.map ), sd->status.save_point.x, sd->status.save_point.y, CLR_TELEPORT );
 			return;

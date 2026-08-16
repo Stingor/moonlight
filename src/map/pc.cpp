@@ -2754,33 +2754,10 @@ void pc_reg_received(map_session_data *sd)
 		return;
 	sd->state.active = 1;
 	// [Stingor] -->
-	sd->state.autoloot = static_cast<short>(pc_readglobalreg(sd, add_str("autoloot")));
-	sd->state.autolootmvp = pc_readglobalreg(sd, add_str("alootmvp"));
-	sd->state.autolootmvpreward = !pc_readglobalreg(sd, add_str("alootmvpreward"));
-	sd->state.autolootrare = pc_readglobalreg(sd, add_str("alootrare"));
-	sd->state.autolootpognon = static_cast<int32>(pc_readglobalreg(sd, add_str("alootpognon")));
-	sd->state.autoloottype   = static_cast<uint16>(pc_readglobalreg(sd, add_str("autoloottype")));
-	sd->state.kill_separate = pc_readglobalreg(sd, add_str("separate")) ? 1 : 0;
-	sd->state.showmobinfo = pc_readglobalreg(sd, add_str("showmobinfo")) ? 1 : 0;
-	sd->state.showdelay  = pc_readglobalreg(sd, add_str("showdelay"))  ? 1 : 0;
-	sd->state.showspeed  = pc_readglobalreg(sd, add_str("showspeed"))  ? 1 : 0;
-	sd->state.sellstuff  = pc_readglobalreg(sd, add_str("sellstuff"))  ? 1 : 0;
-	sd->state.sellitem   = pc_readglobalreg(sd, add_str("sellitem"))   ? 1 : 0;
-	sd->state.noask      = pc_readglobalreg(sd, add_str("noask"))      ? 1 : 0;
-	sd->state.noks       = static_cast<uint8>(std::min(3, (int)pc_readglobalreg(sd, add_str("noks"))));
-	sd->state.discord_chat = 1; // Default to enabled, if the registry doesn't exist yet
-	if( Sql_Query( mmysql_handle, "SELECT `value` FROM `char_reg_num` WHERE `key` LIKE 'discord_chat' and `char_id` = '%d' LIMIT 1;", sd->status.char_id ) == SQL_SUCCESS )
-	{ // Check if the registry exists
-		if( Sql_NumRows(mmysql_handle) > 0 ) // If the registry exists, read it
-			sd->state.discord_chat = pc_readglobalreg(sd, add_str("discord_chat")) ? 1 : 0;
-	}
-	sd->state.block_exp = pc_readglobalreg(sd, add_str("blockexp")) ? 1 : 0;
-	sd->state.showexp = pc_readglobalreg(sd, add_str("showexp"));
-	sd->state.sort_inv      = (uint8)pc_readglobalreg(sd, add_str("TRI_INV"));
-	sd->state.sort_cart     = (uint8)pc_readglobalreg(sd, add_str("TRI_CART"));
-	sd->state.sort_storage  = (uint8)pc_readglobalreg(sd, add_str("TRI_STOR"));
-	sd->state.sort_gstorage = (uint8)pc_readglobalreg(sd, add_str("TRI_GSTOR"));
-	sd->state.showzeny = pc_readglobalreg(sd, add_str("showzeny"));
+	// Réglages joueur (autoloot, tri, affichages…) : leur chargement, leur
+	// persistance et leur envoi au client Bourgeon sont décrits en un seul
+	// endroit, la table bourgeon_settings[] de clif.cpp.
+	bourgeon_setting_load( sd );
 	if (pc_get_group_level(sd) >= 80)
 		sd->state.block_action |= PCBLOCK_IMMUNE;
 	pc_ignorechat_load(sd); // @ignore : liste des personnages dont le chat est masqué

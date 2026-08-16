@@ -5217,45 +5217,383 @@ void clif_hide_wings( const map_session_data* sd ) // [Stingor]
 
 // [Stingor] Bourgeon settings sync (ZC 0x0F05 / CZ 0x0F04)
 //
-// Setting IDs (must match MoonlightUi client-side constants in moonlight_ui.h):
-//   0 = SHOWEXP   1 = SHOWZENY   2 = SHOWMOBINFO   3 = SEPARATE
-//   4 = BLOCKEXP  5 = ALOOTRARE  6 = ALOOTRATE      7 = ALOOTPOGNON  8 = ALOOTTYPE
-//   9 = DISCORD_CHAT
-//  10 = SHOWDELAY 11 = SHOWSPEED 12 = SELLSTUFF      13 = SELLITEM    14 = NOASK
-//  15 = NOKS (0=off 1=self 2=party 3=guild)          16 = WINGS
-//  19 = TRI_INV   20 = TRI_CART  21 = TRI_STORAGE    22 = TRI_GSTORAGE (0=nameid…6=none)
-// ALOOTRATE  wire: 0-100 (%)        stored: *100 (0-10000)
-// ALOOTPOGNON wire: 0-10000 (/100z) stored: *100 (0-1,000,000 z)
-// ALOOTTYPE  wire: 0 or 1           stored: 0 or 0xFFFF (all-types bitmask)
-enum e_bourgeon_setting : int16 {
-	BOURGEON_SETTING_SHOW_EXP      = 0,
-	BOURGEON_SETTING_SHOW_ZENY     = 1,
-	BOURGEON_SETTING_SHOW_MOB_INFO = 2,
-	BOURGEON_SETTING_SEPARATE      = 3,
-	BOURGEON_SETTING_BLOCK_EXP     = 4,
-	BOURGEON_SETTING_ALOOT_RARE    = 5,
-	BOURGEON_SETTING_ALOOT_RATE    = 6,
-	BOURGEON_SETTING_ALOOT_POGNON  = 7,
-	BOURGEON_SETTING_ALOOT_TYPE    = 8,
-	BOURGEON_SETTING_DISCORD_CHAT  = 9,
-	BOURGEON_SETTING_SHOWDELAY     = 10,
-	BOURGEON_SETTING_SHOWSPEED     = 11,
-	BOURGEON_SETTING_SELLSTUFF     = 12,
-	BOURGEON_SETTING_SELLITEM      = 13,
-	BOURGEON_SETTING_NOASK         = 14,
-	BOURGEON_SETTING_NOKS          = 15,
-	BOURGEON_SETTING_WINGS         = 16,
-	BOURGEON_SETTING_ALOOT_MVP     = 17,
-	BOURGEON_SETTING_ALOOT_MVPRWD  = 18,
-	BOURGEON_SETTING_TRI_INV       = 19,
-	BOURGEON_SETTING_TRI_CART      = 20,
-	BOURGEON_SETTING_TRI_STORAGE   = 21,
-	BOURGEON_SETTING_TRI_GSTORAGE  = 22,
-	BOURGEON_SETTING_ALOOT_ID      = 23,  // add item ID to autolootid list (0=clear all)
-	BOURGEON_SETTING_ALOOT_ID_REM  = 24,  // remove item ID from autolootid list
-	BOURGEON_SETTING_REFRESH       = 25,  // client asks for a self clif_refresh (drop stale client UI composites, e.g. menu-icon ghost); value ignored
-	BOURGEON_SETTING_STAFF         = 26,  // [server->client only] pc_get_group_level(sd) ; >0 = staff/GM, gate client des fonctionnalites reservees
+// e_bourgeon_setting (clif.hpp) donne les identifiants ; la table ci-dessous
+// dit tout le reste.
+//
+// Un réglage joueur vit sur quatre plans : un membre de sd->state (le cache que
+// le gameplay relit à chaque drop, chaque gain d'exp), un registre de
+// personnage (la persistance), une valeur sur le fil (ce que l'UI du client
+// affiche) et un message de confirmation. Ces quatre plans étaient autrefois
+// écrits à la main dans trois fichiers différents — pc_reg_received pour le
+// chargement, atcommand.inc pour les @commandes, ce fichier pour le paquet —
+// et il suffisait d'en oublier un pour qu'un réglage se désynchronise. C'est
+// arrivé : @autolootmvp ne prévenait pas le client, et alootmvpreward a son
+// registre inversé (1 = désactivé), inversion qu'il fallait recopier
+// à l'identique aux trois endroits.
+//
+// Ici, une ligne décrit un réglage et les trois chemins en dérivent. Ajouter un
+// réglage = ajouter une ligne (plus la constante kSetting* côté client).
+//
+// Trois vocabulaires de valeur cohabitent, ne pas les confondre :
+//   - valeur serveur   : celle du membre et du registre (autoloot = 0..10000)
+//   - valeur du fil    : celle échangée avec le client   (autoloot = 0..100)
+//   - contenu registre : identique à la valeur serveur, sauf encode/decode
+//
+// Les ids 23/24/25 ne sont pas des réglages mais des actions ; ils n'ont pas de
+// ligne ici et sont traités à part dans clif_parse_bourgeon_setting.
+
+// Défini plus bas dans ce fichier ; le commit de SHOW_MOB_INFO en a besoin.
+static int32 clif_getareachar(block_list* bl, va_list ap);
+
+// Libellé d'un mode de tri, partagé par les quatre réglages TRI_*.
+static const char* bset_sort_name( uint32 mode ){
+	switch( mode ){
+		case SORT_NAMEID: return "d\xe9" "faut (ID)";
+		case SORT_TYPE:   return "type";
+		case SORT_AMOUNT: return "quantit\xe9";
+		case SORT_WEIGHT: return "poids";
+		case SORT_PRICE:  return "prix";
+		case SORT_NAME:   return "nom (A-Z)";
+		case SORT_NONE:   return "aucun";
+		default:          return "?";
+	}
+}
+
+static void bset_sort_msg( map_session_data& sd, uint32 v, const char* what, bool applied_now ){
+	char buf[128];
+	safesnprintf( buf, sizeof( buf ), "Tri %s : %s.%s", what, bset_sort_name( v ),
+		applied_now ? "" : " (appliqu\xe9 \xe0 l'ouverture)" );
+	clif_displaymessage( sd.fd, buf );
+}
+
+struct s_bourgeon_setting {
+	int16 id = -1;                    ///< identifiant sur le fil (e_bourgeon_setting)
+	const char* reg = nullptr;        ///< registre de persistance ; nullptr = réglage volatil
+	uint32 max = 1;                   ///< borne haute de la valeur serveur (booléen par défaut)
+	uint32 def = 0;                   ///< valeur si le registre n'a jamais été écrit
+	uint16 msg_on = 0, msg_off = 0;   ///< msg_txt() de confirmation ; 0 = muet (ou commit s'en charge)
+
+	/// Valeur serveur courante. nullptr = pas de cache mémoire, lire le registre.
+	uint32 (*get)( map_session_data& sd ) = nullptr;
+	/// Pose la valeur serveur dans le cache mémoire. Appelé aussi à la connexion,
+	/// donc strictement sans effet visible : pas de paquet, pas de message.
+	void (*apply)( map_session_data& sd, uint32 v ) = nullptr;
+	/// Conséquences visibles (message composé, retri, sprite). Jamais à la connexion.
+	void (*commit)( map_session_data& sd, uint32 v ) = nullptr;
+
+	/// Valeur serveur -> valeur du fil, et retour. nullptr = les deux coïncident.
+	uint32 (*to_wire)( uint32 v ) = nullptr;
+	uint32 (*from_wire)( uint32 v ) = nullptr;
+	/// Valeur serveur -> contenu du registre, et retour. nullptr = identité.
+	/// Sert aux réglages dont la base stocke autre chose que ce que l'on manipule.
+	int64 (*encode)( uint32 v ) = nullptr;
+	uint32 (*decode)( int64 v ) = nullptr;
+
+	bool readonly = false;            ///< serveur -> client seulement, jamais écrit
 };
+
+static const struct s_bourgeon_setting bourgeon_settings[] = {
+	{ BOURGEON_SETTING_SHOW_EXP, "showexp", 1, 0, 1317, 1316,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.showexp; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.showexp = v != 0; } },
+
+	{ BOURGEON_SETTING_SHOW_ZENY, "showzeny", 1, 0, 1319, 1318,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.showzeny; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.showzeny = v != 0; } },
+
+	{ BOURGEON_SETTING_SHOW_MOB_INFO, "showmobinfo", 1, 0, 1860, 1861,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.showmobinfo; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.showmobinfo = v != 0; },
+		[]( map_session_data& sd, uint32 v ){
+			// clif_refresh est évité : il commence par clif_changemap, qui décharge
+			// les textures du client au milieu d'une frame D3D quand l'ordre vient
+			// de Bourgeon (plantage). Renvoyer les seuls BL_MOB met à jour les noms
+			// visibles sans recharger la map.
+			map_foreachinallrange( clif_getareachar, &sd, AREA_SIZE, BL_MOB, &sd );
+		} },
+
+	{ BOURGEON_SETTING_SEPARATE, "separate", 1, 0, 1862, 1863,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.kill_separate; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.kill_separate = v != 0; } },
+
+	{ BOURGEON_SETTING_BLOCK_EXP, "blockexp", 1, 0, 1865, 1866,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.block_exp; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.block_exp = v != 0; } },
+
+	{ BOURGEON_SETTING_ALOOT_RARE, "alootrare", 1, 0, 1822, 1823,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.autolootrare; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.autolootrare = v != 0; } },
+
+	// Taux d'autoloot : le serveur raisonne en centièmes de pourcent (0..10000),
+	// le client en pourcents entiers (0..100).
+	{ BOURGEON_SETTING_ALOOT_RATE, "autoloot", 10000, 0, 0, 0,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.autoloot; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.autoloot = (uint16)v; },
+		[]( map_session_data& sd, uint32 v ){
+			char buf[32];
+			if( v == 0 ){
+				clif_displaymessage( sd.fd, "@autoloot: OFF" );
+			}else{
+				safesnprintf( buf, sizeof( buf ), "@autoloot: %u%%", v / 100 );
+				clif_displaymessage( sd.fd, buf );
+			}
+		},
+		[]( uint32 v ) -> uint32 { return v / 100; },
+		[]( uint32 v ) -> uint32 { return v > 100 ? 10000 : v * 100; } },
+
+	// Seuil en zeny. Le fil le transporte divisé par 100 pour tenir dans un uint16
+	// côté client ; le serveur et le registre gardent des zeny entiers.
+	{ BOURGEON_SETTING_ALOOT_POGNON, "alootpognon", 6553500, 0, 0, 0,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.autolootpognon; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.autolootpognon = v; },
+		[]( map_session_data& sd, uint32 v ){
+			if( v == 0 ){
+				clif_displaymessage( sd.fd, msg_txt( &sd, 1826 ) ); // Autolootpognon desactive.
+				return;
+			}
+			char buf[64];
+			safesnprintf( buf, sizeof( buf ), msg_txt( &sd, 1829 ), (int32)v ); // Autolootpognon fixe a %d z.
+			clif_displaymessage( sd.fd, buf );
+		},
+		[]( uint32 v ) -> uint32 { return v / 100; },
+		[]( uint32 v ) -> uint32 { return v > 65535 ? 6553500 : v * 100; } },
+
+	{ BOURGEON_SETTING_ALOOT_TYPE, "autoloottype", 0xFFFF, 0, 0, 0,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.autoloottype; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.autoloottype = (uint16)v; },
+		[]( map_session_data& sd, uint32 v ){
+			if( v == 0 ){
+				clif_displaymessage( sd.fd, "@autoloottype: OFF" );
+				return;
+			}
+			static const struct { int32 bit; const char* name; } kTypes[] = {
+				{ 1<<0, "Healing" }, { 1<<2, "Usable" }, { 1<<3, "Etc" },
+				{ 1<<4, "Armor" }, { 1<<5, "Weapon" }, { 1<<6, "Card" },
+				{ 1<<7, "PetEgg" }, { 1<<8, "PetArmor" }, { 1<<10, "Ammo" }, { 1<<11, "Delay" },
+			};
+			char list[96] = "";
+			bool first = true;
+			for( const auto& t : kTypes ){
+				if( !( v & t.bit ) ) continue;
+				if( !first ) strncat( list, ", ", sizeof( list ) - strlen( list ) - 1 );
+				strncat( list, t.name, sizeof( list ) - strlen( list ) - 1 );
+				first = false;
+			}
+			char buf[128];
+			safesnprintf( buf, sizeof( buf ), "@autoloottype ON: %s", list );
+			clif_displaymessage( sd.fd, buf );
+		} },
+
+	// Activé tant que le joueur n'a rien dit : def = 1. C'est tout l'intérêt de
+	// distinguer « registre absent » de « registre à 0 » — ça remplace la requête
+	// SQL synchrone que pc_reg_received lançait autrefois à chaque connexion.
+	{ BOURGEON_SETTING_DISCORD_CHAT, "discord_chat", 1, 1, 0, 0,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.discord_chat; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.discord_chat = v != 0; },
+		[]( map_session_data& sd, uint32 v ){
+			clif_displaymessage( sd.fd, v != 0 ? "Discord relay: ON" : "Discord relay: OFF" );
+		} },
+
+	{ BOURGEON_SETTING_SHOWDELAY, "showdelay", 1, 0, 1321, 1320,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.showdelay; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.showdelay = v != 0; } },
+
+	{ BOURGEON_SETTING_SHOWSPEED, "showspeed", 1, 0, 1806, 1805,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.showspeed; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.showspeed = v != 0; } },
+
+	{ BOURGEON_SETTING_SELLSTUFF, "sellstuff", 1, 0, 1802, 1801,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.sellstuff; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.sellstuff = v != 0; } },
+
+	{ BOURGEON_SETTING_SELLITEM, "sellitem", 1, 0, 1804, 1803,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.sellitem; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.sellitem = v != 0; } },
+
+	{ BOURGEON_SETTING_NOASK, "noask", 1, 0, 390, 391,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.noask; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.noask = v != 0; } },
+
+	{ BOURGEON_SETTING_NOKS, "noks", 3, 0, 0, 0,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.noks; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.noks = (uint8)v; },
+		[]( map_session_data& sd, uint32 v ){
+			static const uint16 kMsgs[] = { 1325, 1327, 1326, 1328 }; // OFF Self Party Guild
+			clif_displaymessage( sd.fd, msg_txt( &sd, kMsgs[v & 3] ) );
+		} },
+
+	// Pas de registre : l'affichage des ailes vit dans sc.option, que le status
+	// sauvegarde déjà. Rien à hydrater à la connexion, d'où l'absence de `reg`.
+	{ BOURGEON_SETTING_WINGS, nullptr, 1, 0, 1836, 1835,
+		[]( map_session_data& sd ) -> uint32 { return ( sd.sc.option & OPTION_WINGS ) ? 1 : 0; },
+		[]( map_session_data& sd, uint32 v ){
+			pc_setoption( &sd, v != 0 ? ( sd.sc.option | OPTION_WINGS ) : ( sd.sc.option & ~OPTION_WINGS ) );
+		},
+		[]( map_session_data& sd, uint32 v ){
+			if( v != 0 ) clif_show_wings( &sd );
+			else clif_hide_wings( &sd );
+		} },
+
+	{ BOURGEON_SETTING_ALOOT_MVP, "alootmvp", 1, 0, 1820, 1821,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.autolootmvp; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.autolootmvp = v != 0; } },
+
+	// Le seul réglage dont le registre est inversé (1 = désactivé), pour une
+	// raison historique : la base contient déjà des lignes dans ce sens. encode/
+	// decode isolent l'inversion ici, elle n'existe plus nulle part ailleurs.
+	{ BOURGEON_SETTING_ALOOT_MVPRWD, "alootmvpreward", 1, 1, 1837, 1838,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.autolootmvpreward; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.autolootmvpreward = v != 0; },
+		nullptr, nullptr, nullptr,
+		[]( uint32 v ) -> int64 { return v != 0 ? 0 : 1; },
+		[]( int64 v ) -> uint32 { return v != 0 ? 0 : 1; } },
+
+	{ BOURGEON_SETTING_TRI_INV, "TRI_INV", SORT_NONE, 0, 0, 0,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.sort_inv; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.sort_inv = (uint8)v; },
+		[]( map_session_data& sd, uint32 v ){
+			if( v != SORT_NONE ){
+				sort_inventory_items( &sd, (e_sort_mode)v );
+				clif_inventorylist( &sd );
+			}
+			bset_sort_msg( sd, v, "de l'inventaire", true );
+		} },
+
+	{ BOURGEON_SETTING_TRI_CART, "TRI_CART", SORT_NONE, 0, 0, 0,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.sort_cart; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.sort_cart = (uint8)v; },
+		[]( map_session_data& sd, uint32 v ){
+			bool now = v != SORT_NONE && pc_iscarton( &sd );
+			if( now ){
+				sort_storage_items( sd.cart.u.items_cart, ARRAYLENGTH( sd.cart.u.items_cart ), (e_sort_mode)v );
+				clif_cartlist( &sd );
+			}
+			bset_sort_msg( sd, v, "du chariot", now || v == SORT_NONE );
+		} },
+
+	{ BOURGEON_SETTING_TRI_STORAGE, "TRI_STOR", SORT_NONE, 0, 0, 0,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.sort_storage; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.sort_storage = (uint8)v; },
+		[]( map_session_data& sd, uint32 v ){ bset_sort_msg( sd, v, "du coffre", v == SORT_NONE ); } },
+
+	{ BOURGEON_SETTING_TRI_GSTORAGE, "TRI_GSTOR", SORT_NONE, 0, 0, 0,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.sort_gstorage; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.sort_gstorage = (uint8)v; },
+		[]( map_session_data& sd, uint32 v ){ bset_sort_msg( sd, v, "du coffre de guilde", v == SORT_NONE ); } },
+
+	// Niveau de groupe du compte : le client réserve au staff (>0) les fonctions
+	// de confiance (p.ex. affichage permanent des noms). Jamais accepté en entrée.
+	{ BOURGEON_SETTING_STAFF, nullptr, 99, 0, 0, 0,
+		[]( map_session_data& sd ) -> uint32 { return (uint32)pc_get_group_level( &sd ); },
+		nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+		true },
+
+	// [Stingor] Marque la position d'arrivée d'une Fly Wing / d'un Téléport niveau 1
+	// (cf. SkillTeleport::castendNoDamageId). Lu une fois par téléportation, donc
+	// pas de membre : le registre se suffit à lui-même, et un NPC de réglages peut
+	// l'écrire sans qu'un cache mémoire parte à la dérive.
+	{ BOURGEON_SETTING_FLYWING_LAST, "FlyWingLast", 1, 0, 1867, 1868 },
+};
+
+static const struct s_bourgeon_setting* bourgeon_setting_find( int16 id ){
+	for( const auto& s : bourgeon_settings ){
+		if( s.id == id ) return &s;
+	}
+
+	return nullptr;
+}
+
+// true si le registre a réellement été écrit un jour, par opposition à « vaut 0 ».
+// pc_readglobalreg ne sait pas faire la différence, et certains réglages sont
+// activés par défaut (discord_chat).
+static bool bourgeon_setting_reg_exists( const map_session_data& sd, int64 uid ){
+	return sd.vars_ok && i64db_get( sd.regs.vars, uid ) != nullptr;
+}
+
+// Valeur serveur telle que la base la connaît, cache mémoire ignoré.
+static uint32 bourgeon_setting_from_reg( map_session_data& sd, const struct s_bourgeon_setting& s ){
+	if( s.reg == nullptr ) return s.def;
+
+	int64 uid = add_str( s.reg );
+
+	if( !bourgeon_setting_reg_exists( sd, uid ) ) return s.def;
+
+	int64 raw = pc_readglobalreg( &sd, uid );
+
+	return s.decode != nullptr ? s.decode( raw ) : (uint32)raw;
+}
+
+// Valeur serveur courante : le cache mémoire quand il y en a un, le registre sinon.
+static uint32 bourgeon_setting_read( map_session_data& sd, const struct s_bourgeon_setting& s ){
+	return s.get != nullptr ? s.get( sd ) : bourgeon_setting_from_reg( sd, s );
+}
+
+// La même, traduite dans le vocabulaire du client.
+static uint32 bourgeon_setting_wire( map_session_data& sd, const struct s_bourgeon_setting& s ){
+	uint32 v = bourgeon_setting_read( sd, s );
+
+	return s.to_wire != nullptr ? s.to_wire( v ) : v;
+}
+
+uint32 bourgeon_setting_get( map_session_data* sd, int16 id ){
+	nullpo_retr( 0, sd );
+
+	const struct s_bourgeon_setting* s = bourgeon_setting_find( id );
+
+	return s != nullptr ? bourgeon_setting_read( *sd, *s ) : 0;
+}
+
+bool bourgeon_setting_set( map_session_data* sd, int16 id, uint32 value, e_bourgeon_setting_src src ){
+	nullpo_retr( false, sd );
+
+	const struct s_bourgeon_setting* s = bourgeon_setting_find( id );
+
+	if( s == nullptr || s->readonly ) return false;
+
+	if( value > s->max ) value = s->max;
+
+	if( s->apply != nullptr ) s->apply( *sd, value );
+
+	if( s->reg != nullptr && src != BSET_SRC_LOGIN )
+		pc_setglobalreg( sd, add_str( s->reg ), s->encode != nullptr ? s->encode( value ) : (int64)value );
+
+	if( src == BSET_SRC_LOGIN ) return true;
+
+	// Message d'abord, effets ensuite : les deux se cumulent, un réglage peut
+	// avoir un message standard *et* des conséquences (SHOW_MOB_INFO, WINGS).
+	// Ceux dont le message se compose (un taux, une liste, un mode) laissent
+	// msg_on à 0 et parlent depuis leur commit.
+	if( s->msg_on != 0 ) clif_displaymessage( sd->fd, msg_txt( sd, value != 0 ? s->msg_on : s->msg_off ) );
+
+	if( s->commit != nullptr ) s->commit( *sd, value );
+
+	// Le client vient de bouger son propre bouton : lui renvoyer l'état ne ferait
+	// que le faire clignoter. Un changement venu du serveur, en revanche, doit
+	// rattraper son interface.
+	if( src == BSET_SRC_SERVER && sd->state.has_bourgeon ) clif_bourgeon_settings( sd );
+
+	return true;
+}
+
+bool bourgeon_setting_toggle( map_session_data* sd, int16 id ){
+	nullpo_retr( false, sd );
+
+	return bourgeon_setting_set( sd, id, bourgeon_setting_get( sd, id ) != 0 ? 0 : 1, BSET_SRC_SERVER );
+}
+
+void bourgeon_setting_load( map_session_data* sd ){
+	nullpo_retv( sd );
+
+	for( const auto& s : bourgeon_settings ){
+		// Sans registre il n'y a rien à relire ; sans cache mémoire il n'y a rien
+		// à remplir, le réglage se lira dans le registre au moment voulu.
+		if( s.reg == nullptr || s.apply == nullptr ) continue;
+
+		// Depuis le registre explicitement : le cache que `get` interrogerait
+		// n'est pas encore rempli, c'est précisément ce que l'on est en train de faire.
+		bourgeon_setting_set( sd, s.id, bourgeon_setting_from_reg( *sd, s ), BSET_SRC_LOGIN );
+	}
+}
 
 // Sends the full set of settings to the client on login.
 // Layout: [packetType:2][packetLength:2][char_id:4][count:2][{id:2, value:4} * count]
@@ -5265,42 +5603,13 @@ void clif_bourgeon_settings(map_session_data* sd) {
 	if (!session_isActive(fd))
 		return;
 
-	struct { int16 id; uint32 value; } settings[] = {
-		{ BOURGEON_SETTING_SHOW_EXP,      (uint32)(sd->state.showexp       ? 1 : 0) },
-		{ BOURGEON_SETTING_SHOW_ZENY,     (uint32)(sd->state.showzeny      ? 1 : 0) },
-		{ BOURGEON_SETTING_SHOW_MOB_INFO, (uint32)(sd->state.showmobinfo   ? 1 : 0) },
-		{ BOURGEON_SETTING_SEPARATE,      (uint32)(sd->state.kill_separate ? 1 : 0) },
-		{ BOURGEON_SETTING_BLOCK_EXP,     (uint32)(sd->state.block_exp     ? 1 : 0) },
-		{ BOURGEON_SETTING_ALOOT_RARE,    (uint32)(sd->state.autolootrare  ? 1 : 0) },
-		{ BOURGEON_SETTING_ALOOT_RATE,    (uint32)(sd->state.autoloot / 100) },
-		{ BOURGEON_SETTING_ALOOT_POGNON,  (uint32)(sd->state.autolootpognon / 100) },
-		{ BOURGEON_SETTING_ALOOT_TYPE,    (uint32)(sd->state.autoloottype) },
-		{ BOURGEON_SETTING_DISCORD_CHAT,  (uint32)(sd->state.discord_chat  ? 1 : 0) },
-		{ BOURGEON_SETTING_SHOWDELAY,     (uint32)(sd->state.showdelay     ? 1 : 0) },
-		{ BOURGEON_SETTING_SHOWSPEED,     (uint32)(sd->state.showspeed     ? 1 : 0) },
-		{ BOURGEON_SETTING_SELLSTUFF,     (uint32)(sd->state.sellstuff     ? 1 : 0) },
-		{ BOURGEON_SETTING_SELLITEM,      (uint32)(sd->state.sellitem      ? 1 : 0) },
-		{ BOURGEON_SETTING_NOASK,         (uint32)(sd->state.noask         ? 1 : 0) },
-		{ BOURGEON_SETTING_NOKS,          (uint32)(sd->state.noks) },
-		{ BOURGEON_SETTING_WINGS,         (uint32)((sd->sc.option & OPTION_WINGS) ? 1 : 0) },
-		{ BOURGEON_SETTING_ALOOT_MVP,     (uint32)(sd->state.autolootmvp     ? 1 : 0) },
-		{ BOURGEON_SETTING_ALOOT_MVPRWD,  (uint32)(sd->state.autolootmvpreward ? 1 : 0) },
-		{ BOURGEON_SETTING_TRI_INV,       (uint32)(sd->state.sort_inv) },
-		{ BOURGEON_SETTING_TRI_CART,      (uint32)(sd->state.sort_cart) },
-		{ BOURGEON_SETTING_TRI_STORAGE,   (uint32)(sd->state.sort_storage) },
-		{ BOURGEON_SETTING_TRI_GSTORAGE,  (uint32)(sd->state.sort_gstorage) },
-		// Niveau de groupe du compte -> le client reserve au staff (>0) les
-		// fonctionnalites de confiance (p.ex. affichage permanent des noms).
-		// Server->client uniquement : le client ne renvoie jamais cet id.
-		{ BOURGEON_SETTING_STAFF,         (uint32)pc_get_group_level(sd) },
-	};
 	// Count non-zero autolootid entries to append after the fixed block.
 	int16 aloot_id_count = 0;
 	for (int i = 0; i < AUTOLOOTITEM_SIZE; ++i)
 		if (sd->state.autolootid[i] != 0)
 			++aloot_id_count;
 
-	const int16 fixed_count = static_cast<int16>(ARRAYLENGTH(settings));
+	const int16 fixed_count = static_cast<int16>(ARRAYLENGTH(bourgeon_settings));
 	const int16 total_count = fixed_count + aloot_id_count;
 	// Explicit wire header length to avoid struct-padding ambiguity:
 	// [type:2][len:2][char_id:4][count:2] = 10 bytes, then count * {id:2,value:4}.
@@ -5314,8 +5623,8 @@ void clif_bourgeon_settings(map_session_data* sd) {
 	WFIFOW(fd, 8) = total_count;
 	int16 offset = header_len;
 	for (int16 i = 0; i < fixed_count; ++i) {
-		WFIFOW(fd, offset)     = settings[i].id;
-		WFIFOL(fd, offset + 2) = settings[i].value;
+		WFIFOW(fd, offset)     = bourgeon_settings[i].id;
+		WFIFOL(fd, offset + 2) = bourgeon_setting_wire(*sd, bourgeon_settings[i]);
 		offset += 6;
 	}
 	for (int i = 0; i < AUTOLOOTITEM_SIZE; ++i) {
@@ -6014,9 +6323,6 @@ void clif_parse_bourgeon_preset_cmd(int32 fd, map_session_data* sd) {
 	}
 }
 
-// Forward declaration — defined later in this file (used by BL_MOB resend below).
-static int32 clif_getareachar(block_list* bl, va_list ap);
-
 // Handles a single setting change reported by the client (CZ 0x0F04).
 // Layout: [packetType:2][packetLength:2][id:2][value:4]
 void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
@@ -6025,190 +6331,9 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 		reinterpret_cast<const PACKET_CZ_BOURGEON_SETTING*>(RFIFOP(fd, 0));
 
 	switch (p->id) {
-		case BOURGEON_SETTING_SHOW_EXP:
-			sd->state.showexp = (p->value != 0) ? 1 : 0;
-			pc_setglobalreg(sd, add_str("showexp"), sd->state.showexp);
-			clif_displaymessage(fd, msg_txt(sd, sd->state.showexp ? 1317 : 1316));
-			break;
-		case BOURGEON_SETTING_SHOW_ZENY:
-			sd->state.showzeny = (p->value != 0) ? 1 : 0;
-			pc_setglobalreg(sd, add_str("showzeny"), sd->state.showzeny);
-			clif_displaymessage(fd, msg_txt(sd, sd->state.showzeny ? 1319 : 1318));
-			break;
-		case BOURGEON_SETTING_SHOW_MOB_INFO:
-			sd->state.showmobinfo = (p->value != 0);
-			pc_setglobalreg(sd, add_str("showmobinfo"), sd->state.showmobinfo ? 1 : 0);
-			clif_displaymessage(fd, msg_txt(sd, sd->state.showmobinfo ? 1860 : 1861));
-			// clif_refresh is avoided: it starts with clif_changemap which unloads
-			// client textures mid-D3D-frame when triggered via Bourgeon (crashes).
-			// Re-sending only BL_MOB updates visible mob names without the map reload.
-			map_foreachinallrange(clif_getareachar, sd, AREA_SIZE, BL_MOB, sd);
-			break;
-		case BOURGEON_SETTING_SEPARATE:
-			sd->state.kill_separate = (p->value != 0);
-			pc_setglobalreg(sd, add_str("separate"), sd->state.kill_separate ? 1 : 0);
-			clif_displaymessage(fd, msg_txt(sd, sd->state.kill_separate ? 1862 : 1863));
-			break;
-		case BOURGEON_SETTING_BLOCK_EXP:
-			sd->state.block_exp = (p->value != 0);
-			pc_setglobalreg(sd, add_str("blockexp"), sd->state.block_exp ? 1 : 0);
-			clif_displaymessage(fd, msg_txt(sd, sd->state.block_exp ? 1865 : 1866));
-			break;
-		case BOURGEON_SETTING_ALOOT_RARE:
-			sd->state.autolootrare = (p->value != 0);
-			pc_setglobalreg(sd, add_str("alootrare"), sd->state.autolootrare ? 1 : 0);
-			clif_displaymessage(fd, msg_txt(sd, sd->state.autolootrare ? 1822 : 1823));
-			break;
-		case BOURGEON_SETTING_ALOOT_RATE: {
-			uint16 rate = static_cast<uint16>(std::max(0, std::min(10000, (int)p->value * 100)));
-			sd->state.autoloot = rate;
-			pc_setglobalreg(sd, add_str("autoloot"), rate);
-			char aloot_rate_buf[32];
-			if( p->value <= 0)
-				clif_displaymessage(fd, "@autoloot: OFF");
-			else {
-				snprintf(aloot_rate_buf, sizeof(aloot_rate_buf), "@autoloot: %d%%", (int)p->value);
-				clif_displaymessage(fd, aloot_rate_buf);
-			}
-			break;
-		}
-		case BOURGEON_SETTING_ALOOT_POGNON: {
-			uint32 zeny = static_cast<uint32>((uint16)p->value) * 100;
-			sd->state.autolootpognon = zeny;
-			pc_setglobalreg(sd, add_str("alootpognon"), static_cast<int32>(zeny));
-			char aloot_pgn_buf[48];
-			snprintf(aloot_pgn_buf, sizeof(aloot_pgn_buf), "@autolootpognon: %u z", zeny);
-			clif_displaymessage(fd, aloot_pgn_buf);
-			break;
-		}
-		case BOURGEON_SETTING_ALOOT_TYPE: {
-			sd->state.autoloottype = static_cast<uint16>(p->value);
-			pc_setglobalreg(sd, add_str("autoloottype"), sd->state.autoloottype);
-			if (sd->state.autoloottype) {
-				static const struct { int bit; const char* name; } kTypes[] = {
-					{1<<0,"Healing"},{1<<2,"Usable"},{1<<3,"Etc"},
-					{1<<4,"Armor"},{1<<5,"Weapon"},{1<<6,"Card"},
-					{1<<7,"PetEgg"},{1<<8,"PetArmor"},{1<<10,"Ammo"},{1<<11,"Delay"},
-				};
-				char list[96] = "";
-				bool first = true;
-				for (const auto& t : kTypes) {
-					if (!(sd->state.autoloottype & t.bit)) continue;
-					if (!first) strncat(list, ", ", sizeof(list) - strlen(list) - 1);
-					strncat(list, t.name, sizeof(list) - strlen(list) - 1);
-					first = false;
-				}
-				char aloot_type_buf[128];
-				snprintf(aloot_type_buf, sizeof(aloot_type_buf), "@autoloottype ON: %s", list);
-				clif_displaymessage(fd, aloot_type_buf);
-			} else {
-				clif_displaymessage(fd, "@autoloottype: OFF");
-			}
-			break;
-		}
-		case BOURGEON_SETTING_DISCORD_CHAT:
-			sd->state.discord_chat = (p->value != 0);
-			pc_setglobalreg(sd, add_str("discord_chat"), sd->state.discord_chat ? 1 : 0);
-			clif_displaymessage(fd, sd->state.discord_chat ? "Discord relay: ON" : "Discord relay: OFF");
-			break;
-		case BOURGEON_SETTING_SHOWDELAY:
-			sd->state.showdelay = (p->value != 0) ? 1 : 0;
-			pc_setglobalreg(sd, add_str("showdelay"), sd->state.showdelay);
-			clif_displaymessage(fd, sd->state.showdelay ? msg_txt(sd, 1321) : msg_txt(sd, 1320));
-			break;
-		case BOURGEON_SETTING_SHOWSPEED:
-			sd->state.showspeed = (p->value != 0);
-			pc_setglobalreg(sd, add_str("showspeed"), sd->state.showspeed ? 1 : 0);
-			clif_displaymessage(fd, sd->state.showspeed ? msg_txt(sd, 1806) : msg_txt(sd, 1805));
-			break;
-		case BOURGEON_SETTING_SELLSTUFF:
-			sd->state.sellstuff = (p->value != 0);
-			pc_setglobalreg(sd, add_str("sellstuff"), sd->state.sellstuff ? 1 : 0);
-			clif_displaymessage(fd, sd->state.sellstuff ? msg_txt(sd, 1802) : msg_txt(sd, 1801));
-			break;
-		case BOURGEON_SETTING_SELLITEM:
-			sd->state.sellitem = (p->value != 0);
-			pc_setglobalreg(sd, add_str("sellitem"), sd->state.sellitem ? 1 : 0);
-			clif_displaymessage(fd, sd->state.sellitem ? msg_txt(sd, 1804) : msg_txt(sd, 1803));
-			break;
-		case BOURGEON_SETTING_NOASK:
-			sd->state.noask = (p->value != 0) ? 1 : 0;
-			pc_setglobalreg(sd, add_str("noask"), sd->state.noask);
-			clif_displaymessage(fd, sd->state.noask ? msg_txt(sd, 390) : msg_txt(sd, 391));
-			break;
-		case BOURGEON_SETTING_NOKS: {
-			uint8 noks_val = static_cast<uint8>(std::min(3, (int)(uint16)p->value));
-			sd->state.noks = noks_val;
-			pc_setglobalreg(sd, add_str("noks"), noks_val);
-			static const int noks_msgs[] = { 1325, 1327, 1326, 1328 }; // OFF Self Party Guild
-			clif_displaymessage(fd, msg_txt(sd, noks_msgs[noks_val]));
-			break;
-		}
-		case BOURGEON_SETTING_WINGS:
-			if (p->value) {
-				pc_setoption(sd, sd->sc.option | OPTION_WINGS);
-				clif_show_wings(sd);
-				clif_displaymessage(fd, msg_txt(sd, 1836));
-			} else {
-				pc_setoption(sd, sd->sc.option & ~OPTION_WINGS);
-				clif_hide_wings(sd);
-				clif_displaymessage(fd, msg_txt(sd, 1835));
-			}
-			break;
-		case BOURGEON_SETTING_ALOOT_MVP:
-			sd->state.autolootmvp = (p->value != 0);
-			pc_setglobalreg(sd, add_str("alootmvp"), sd->state.autolootmvp ? 1 : 0);
-			clif_displaymessage(fd, msg_txt(sd, sd->state.autolootmvp ? 1820 : 1821));
-			break;
-		case BOURGEON_SETTING_ALOOT_MVPRWD:
-			sd->state.autolootmvpreward = (p->value != 0);
-			pc_setglobalreg(sd, add_str("alootmvpreward"), sd->state.autolootmvpreward ? 0 : 1); // inverted: 1 = disabled (pc.cpp loads via !globalreg)
-			clif_displaymessage(fd, msg_txt(sd, sd->state.autolootmvpreward ? 1837 : 1838));
-			break;
-		case BOURGEON_SETTING_TRI_INV: {
-			uint8 v = static_cast<uint8>(std::min(6, (int)(uint16)p->value));
-			sd->state.sort_inv = v;
-			pc_setglobalreg(sd, add_str("TRI_INV"), v);
-			if( v != SORT_NONE ) {
-				sort_inventory_items(sd, (e_sort_mode)v);
-				clif_inventorylist(sd);
-			}
-			static const char* kTriNames[] = { "Par ID", "Par type", "Par quantite", "Par poids", "Par prix", "Par nom", "Aucun" };
-			char buf[64]; snprintf(buf, sizeof(buf), "Tri inventaire: %s", kTriNames[v]);
-			clif_displaymessage(fd, buf);
-			break;
-		}
-		case BOURGEON_SETTING_TRI_CART: {
-			uint8 v = static_cast<uint8>(std::min(6, (int)(uint16)p->value));
-			sd->state.sort_cart = v;
-			pc_setglobalreg(sd, add_str("TRI_CART"), v);
-			if( v != SORT_NONE && pc_iscarton(sd) ) {
-				sort_storage_items(sd->cart.u.items_cart, ARRAYLENGTH(sd->cart.u.items_cart), (e_sort_mode)v);
-				clif_cartlist(sd);
-			}
-			static const char* kTriNames[] = { "Par ID", "Par type", "Par quantite", "Par poids", "Par prix", "Par nom", "Aucun" };
-			char buf[64]; snprintf(buf, sizeof(buf), "Tri chariot: %s", kTriNames[v]);
-			clif_displaymessage(fd, buf);
-			break;
-		}
-		case BOURGEON_SETTING_TRI_STORAGE: {
-			uint8 v = static_cast<uint8>(std::min(6, (int)(uint16)p->value));
-			sd->state.sort_storage = v;
-			pc_setglobalreg(sd, add_str("TRI_STOR"), v);
-			static const char* kTriNames[] = { "Par ID", "Par type", "Par quantite", "Par poids", "Par prix", "Par nom", "Aucun" };
-			char buf[64]; snprintf(buf, sizeof(buf), "Tri coffre: %s", kTriNames[v]);
-			clif_displaymessage(fd, buf);
-			break;
-		}
-		case BOURGEON_SETTING_TRI_GSTORAGE: {
-			uint8 v = static_cast<uint8>(std::min(6, (int)(uint16)p->value));
-			sd->state.sort_gstorage = v;
-			pc_setglobalreg(sd, add_str("TRI_GSTOR"), v);
-			static const char* kTriNames[] = { "Par ID", "Par type", "Par quantite", "Par poids", "Par prix", "Par nom", "Aucun" };
-			char buf[64]; snprintf(buf, sizeof(buf), "Tri coffre guilde: %s", kTriNames[v]);
-			clif_displaymessage(fd, buf);
-			break;
-		}
+		// Trois des ids du protocole ne sont pas des réglages mais des ordres
+		// ponctuels : ils n'ont pas de ligne dans bourgeon_settings[] et se traitent
+		// ici. Tout le reste tombe dans le default et passe par la table.
 		case BOURGEON_SETTING_ALOOT_ID: {
 			if (p->value == 0) {
 				memset(sd->state.autolootid, 0, sizeof(sd->state.autolootid));
@@ -6263,10 +6388,25 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 			// note was a race condition, not clif_refresh itself. value is ignored.
 			clif_refresh(sd);
 			break;
-		default:
-			ShowWarning("clif_parse_bourgeon_setting: unknown setting id %d from %s\n",
-				p->id, sd->status.name);
+		default: {
+			const struct s_bourgeon_setting* s = bourgeon_setting_find( p->id );
+
+			if( s == nullptr ){
+				ShowWarning("clif_parse_bourgeon_setting: unknown setting id %d from %s\n",
+					p->id, sd->status.name);
+				break;
+			}
+
+			if( s->readonly ){
+				ShowWarning("clif_parse_bourgeon_setting: %s tried to write read-only setting id %d\n",
+					sd->status.name, p->id);
+				break;
+			}
+
+			bourgeon_setting_set( sd, p->id,
+				s->from_wire != nullptr ? s->from_wire( p->value ) : p->value, BSET_SRC_CLIENT );
 			break;
+		}
 	}
 }
 

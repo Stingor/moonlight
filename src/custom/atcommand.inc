@@ -556,17 +556,9 @@ ACMD_FUNC(sellstuff)
 {
 	nullpo_retr(-1, sd);
 
-	if( sd->state.sellstuff ) {
-		clif_displaymessage(fd, msg_txt(sd,1801));
-		sd->state.sellstuff = 0;
-		pc_setglobalreg(sd, add_str("sellstuff"), 0);
-	}
-	else {
-		clif_displaymessage(fd, msg_txt(sd,1802));
-		sd->state.sellstuff = 1;
-		pc_setglobalreg(sd, add_str("sellstuff"), 1);
-	}
-
+	// Registre, message et interface du client suivent : tout est décrit
+	// dans bourgeon_settings[] (clif.cpp).
+	bourgeon_setting_toggle(sd, BOURGEON_SETTING_SELLSTUFF);
 	return 0;
 }
 
@@ -578,17 +570,9 @@ ACMD_FUNC(sellitem)
 {
 	nullpo_retr(-1, sd);
 
-	if( sd->state.sellitem ) {
-		clif_displaymessage(fd, msg_txt(sd,1803));
-		sd->state.sellitem = 0;
-		pc_setglobalreg(sd, add_str("sellitem"), 0);
-	}
-	else {
-		clif_displaymessage(fd, msg_txt(sd,1804));
-		sd->state.sellitem = 1;
-		pc_setglobalreg(sd, add_str("sellitem"), 1);
-	}
-
+	// Registre, message et interface du client suivent : tout est décrit
+	// dans bourgeon_settings[] (clif.cpp).
+	bourgeon_setting_toggle(sd, BOURGEON_SETTING_SELLITEM);
 	return 0;
 }
 
@@ -600,17 +584,9 @@ ACMD_FUNC(showspeed)
 {
 	nullpo_retr(-1, sd);
 
-	if( sd->state.showspeed )  {
-		sd->state.showspeed = 0;
-		pc_setglobalreg(sd, add_str("showspeed"), 0);
-		clif_displaymessage(fd, msg_txt(sd,1805));
-	}
-	else{
-		sd->state.showspeed = 1;
-		pc_setglobalreg(sd, add_str("showspeed"), 1);
-		clif_displaymessage(fd, msg_txt(sd,1806));
-	}
-
+	// Registre, message et interface du client suivent : tout est décrit
+	// dans bourgeon_settings[] (clif.cpp).
+	bourgeon_setting_toggle(sd, BOURGEON_SETTING_SHOWSPEED);
 	return 0;
 }
 
@@ -901,15 +877,10 @@ ACMD_FUNC(sitstand)
 ACMD_FUNC(autolootmvp)
 {
 	nullpo_retr(-1, sd);
-	
-	sd->state.autolootmvp = !sd->state.autolootmvp;
-	pc_setglobalreg(sd, add_str("alootmvp"), sd->state.autolootmvp);
 
-	if( sd->state.autolootmvp )
-		clif_displaymessage(fd, msg_txt(sd,1820));
-	else
-		clif_displaymessage(fd, msg_txt(sd,1821));
-
+	// Registre, message et interface du client suivent : tout est décrit
+	// dans bourgeon_settings[] (clif.cpp).
+	bourgeon_setting_toggle(sd, BOURGEON_SETTING_ALOOT_MVP);
 	return 0;
 }
 
@@ -920,15 +891,10 @@ ACMD_FUNC(autolootmvp)
 ACMD_FUNC(autolootmvpreward)
 {
 	nullpo_retr(-1, sd);
-	
-	sd->state.autolootmvpreward = !sd->state.autolootmvpreward;
-	pc_setglobalreg(sd, add_str("alootmvpreward"), sd->state.autolootmvpreward ? 0 : 1); // inverted: 1 = disabled (pc.cpp loads via !globalreg)
 
-	if( sd->state.autolootmvpreward )
-		clif_displaymessage(fd, msg_txt(sd,1837));
-	else
-		clif_displaymessage(fd, msg_txt(sd,1838));
-
+	// Registre, message et interface du client suivent : tout est décrit
+	// dans bourgeon_settings[] (clif.cpp).
+	bourgeon_setting_toggle(sd, BOURGEON_SETTING_ALOOT_MVPRWD);
 	return 0;
 }
 
@@ -939,16 +905,10 @@ ACMD_FUNC(autolootmvpreward)
 ACMD_FUNC(autolootrare)
 {
 	nullpo_retr(-1, sd);
-	
-	sd->state.autolootrare = !sd->state.autolootrare;
-	pc_setglobalreg(sd, add_str("alootrare"), sd->state.autolootrare);
 
-	if( sd->state.autolootrare )
-		clif_displaymessage(fd, msg_txt(sd,1822));
-	else
-		clif_displaymessage(fd, msg_txt(sd,1823));
-
-	if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
+	// Registre, message et interface du client suivent : tout est décrit
+	// dans bourgeon_settings[] (clif.cpp).
+	bourgeon_setting_toggle(sd, BOURGEON_SETTING_ALOOT_RARE);
 	return 0;
 }
 
@@ -960,16 +920,9 @@ ACMD_FUNC(showmobinfo)
 {
 	nullpo_retr(-1, sd);
 
-	sd->state.showmobinfo = !sd->state.showmobinfo;
-	pc_setglobalreg(sd, add_str("showmobinfo"), sd->state.showmobinfo);
-
-	if( sd->state.showmobinfo )
-		clif_displaymessage(fd, msg_txt(sd,1860));
-	else
-		clif_displaymessage(fd, msg_txt(sd,1861));
-
-	clif_refresh(sd);
-	if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
+	// Registre, message et interface du client suivent : tout est décrit
+	// dans bourgeon_settings[] (clif.cpp).
+	bourgeon_setting_toggle(sd, BOURGEON_SETTING_SHOW_MOB_INFO);
 	return 0;
 }
 
@@ -983,24 +936,18 @@ ACMD_FUNC(autolootpognon)
 
 	if( message && *message ) {
 		if( !strcmp(message,"reset") ) {
-			pc_setglobalreg(sd, add_str("alootpognon"), 0);
-			sd->state.autolootpognon = 0;
-			clif_displaymessage(fd, msg_txt(sd,1826));
+			bourgeon_setting_set(sd, BOURGEON_SETTING_ALOOT_POGNON, 0, BSET_SRC_SERVER);
 		}
 		else {
 			int32 prix;
 
 			if( (sscanf(message, "%d", &prix) < 1) || prix <= 0 ) {
-				prix = sd->state.autolootpognon = 0;
+				bourgeon_setting_set(sd, BOURGEON_SETTING_ALOOT_POGNON, 0, BSET_SRC_SERVER);
 				clif_displaymessage(fd, msg_txt(sd,1828));
-				if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
 				return -1;
 			}
 
-			pc_setglobalreg(sd, add_str("alootpognon"), prix);
-			sd->state.autolootpognon = prix;
-			sprintf(atcmd_output, msg_txt(sd,1829), prix);
-			clif_displaymessage(fd, atcmd_output);
+			bourgeon_setting_set(sd, BOURGEON_SETTING_ALOOT_POGNON, (uint32)prix, BSET_SRC_SERVER);
 		}
 	}
 	else {
@@ -1011,7 +958,7 @@ ACMD_FUNC(autolootpognon)
 		else
 			clif_displaymessage(fd, msg_txt(sd,1827));
 	}
-	if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
+
 	return 0;
 }
 
@@ -1126,7 +1073,7 @@ ACMD_FUNC(shopsearch)
 			for( j = 0; j < pl_sd->vend_num; j++ ) {
 				if( pl_sd->cart.u.items_cart[pl_sd->vending[j].index].nameid == item->nameid ) {
 					// If the item is the same, it will show this? Computer translations are bad.
-					sprintf(output, "Vendeur: %s | Quantit� %d | Prix: %d | Shop: %s | Coord: %d,%d", pl_sd->status.name, pl_sd->vending[j].amount, pl_sd->vending[j].value,pl_sd->message,pl_sd->x,pl_sd->y);
+					sprintf(output, "Vendeur: %s | Quantit\xe9 %d | Prix: %d | Shop: %s | Coord: %d,%d", pl_sd->status.name, pl_sd->vending[j].amount, pl_sd->vending[j].value,pl_sd->message,pl_sd->x,pl_sd->y);
 					clif_viewpoint(*sd, 1, 1, pl_sd->x, pl_sd->y, count+1, 0xFFFFFF);
 					
 					if(pl_sd->vending[j].value < MinPrize)
@@ -1805,15 +1752,9 @@ ACMD_FUNC(separate)
 {
 	nullpo_retr(-1, sd);
 
-	sd->state.kill_separate = !sd->state.kill_separate;
-	pc_setglobalreg(sd, add_str("separate"), sd->state.kill_separate);
-
-	if( sd->state.kill_separate )
-		clif_displaymessage(fd, msg_txt(sd, 1862)); // Kill separator: ACTIVE
-	else
-		clif_displaymessage(fd, msg_txt(sd, 1863)); // Kill separator: DESACTIVE
-
-	if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
+	// Registre, message et interface du client suivent : tout est décrit
+	// dans bourgeon_settings[] (clif.cpp).
+	bourgeon_setting_toggle(sd, BOURGEON_SETTING_SEPARATE);
 	return 0;
 }
 
@@ -1888,15 +1829,21 @@ ACMD_FUNC(blockexp)
 {
 	nullpo_retr(-1, sd);
 
-	sd->state.block_exp = !sd->state.block_exp;
-	pc_setglobalreg(sd, add_str("blockexp"), sd->state.block_exp);
+	// Registre, message et interface du client suivent : tout est décrit
+	// dans bourgeon_settings[] (clif.cpp).
+	bourgeon_setting_toggle(sd, BOURGEON_SETTING_BLOCK_EXP);
+	return 0;
+}
 
-	if( sd->state.block_exp )
-		clif_displaymessage(fd, "Gain d'EXP : BLOQU\xc9. Vous ne gagnerez plus d'exp\xe9rience.");
-	else
-		clif_displaymessage(fd, "Gain d'EXP : ACTIV\xc9. Vous gagnez \xe0 nouveau de l'exp\xe9rience.");
+// ── @flywinglast ─────────────────────────────────────────────────────────────
 
-	if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
+// Marque ou non, sur la mini-carte, la position d'arrivée d'une Fly Wing ou
+// d'un Téléport niveau 1 (cf. SkillTeleport::castendNoDamageId).
+ACMD_FUNC(flywinglast)
+{
+	nullpo_retr(-1, sd);
+
+	bourgeon_setting_toggle(sd, BOURGEON_SETTING_FLYWING_LAST);
 	return 0;
 }
 
@@ -1922,39 +1869,13 @@ static void atcmd_show_sort_usage(const int32 fd, map_session_data* sd, const ch
 	clif_displaymessage(fd, buf);
 }
 
-// Noms des modes de tri pour les messages
-static const char* atcmd_sort_mode_name(e_sort_mode mode)
-{
-	switch( mode ) {
-		case SORT_NAMEID: return "d\xe9" "faut (ID)";
-		case SORT_TYPE:   return "type";
-		case SORT_AMOUNT: return "quantit\xe9";
-		case SORT_WEIGHT: return "poids";
-		case SORT_PRICE:  return "prix";
-		case SORT_NAME:   return "nom (A-Z)";
-		case SORT_NONE:   return "aucun";
-		default:          return "?";
-	}
-}
 
 ACMD_FUNC(tri_inventaire)
 {
 	nullpo_retr(-1, sd);
 	e_sort_mode mode = atcmd_parse_sort_mode(message);
 	if( mode == (e_sort_mode)255 ) { atcmd_show_sort_usage(fd, sd, "tri_inventaire"); return -1; }
-	sd->state.sort_inv = (uint8)mode;
-	pc_setglobalreg(sd, add_str("TRI_INV"), (int32)mode);
-	if( mode != SORT_NONE ) {
-		sort_inventory_items(sd, mode);
-		clif_inventorylist(sd);
-	}
-	if( mode == SORT_NONE )
-		clif_displaymessage(fd, "Tri de l'inventaire d�sactiv�.");
-	else {
-		char buf[80];
-		snprintf(buf, sizeof(buf), "Inventaire tri� par %s.", atcmd_sort_mode_name(mode));
-		clif_displaymessage(fd, buf);
-	}
+	bourgeon_setting_set(sd, BOURGEON_SETTING_TRI_INV, (uint32)mode, BSET_SRC_SERVER);
 	return 0;
 }
 
@@ -1963,17 +1884,7 @@ ACMD_FUNC(tri_cart)
 	nullpo_retr(-1, sd);
 	e_sort_mode mode = atcmd_parse_sort_mode(message);
 	if( mode == (e_sort_mode)255 ) { atcmd_show_sort_usage(fd, sd, "tri_cart"); return -1; }
-	sd->state.sort_cart = (uint8)mode;
-	pc_setglobalreg(sd, add_str("TRI_CART"), (int32)mode);
-	if( pc_iscarton(sd) ) {
-		sort_storage_items(sd->cart.u.items_cart, ARRAYLENGTH(sd->cart.u.items_cart), mode);
-		clif_cartlist(sd);
-	}
-	char buf[80];
-	snprintf(buf, sizeof(buf), "Tri du chariot d\xe9" "fini : %s.%s",
-		atcmd_sort_mode_name(mode),
-		pc_iscarton(sd) ? "" : " (appliqu\xe9 \xe0 l'ouverture)");
-	clif_displaymessage(fd, buf);
+	bourgeon_setting_set(sd, BOURGEON_SETTING_TRI_CART, (uint32)mode, BSET_SRC_SERVER);
 	return 0;
 }
 
@@ -1983,11 +1894,7 @@ ACMD_FUNC(tri_storage)
 	if( sd->state.storage_flag ) { clif_displaymessage(fd, "Fermez d'abord votre coffre."); return -1; }
 	e_sort_mode mode = atcmd_parse_sort_mode(message);
 	if( mode == (e_sort_mode)255 ) { atcmd_show_sort_usage(fd, sd, "tri_storage"); return -1; }
-	sd->state.sort_storage = (uint8)mode;
-	pc_setglobalreg(sd, add_str("TRI_STOR"), (int32)mode);
-	char buf[80];
-	snprintf(buf, sizeof(buf), "Tri du coffre d\xe9" "fini : %s. (appliqu\xe9 \xe0 l'ouverture)", atcmd_sort_mode_name(mode));
-	clif_displaymessage(fd, buf);
+	bourgeon_setting_set(sd, BOURGEON_SETTING_TRI_STORAGE, (uint32)mode, BSET_SRC_SERVER);
 	return 0;
 }
 
@@ -1997,11 +1904,7 @@ ACMD_FUNC(tri_gstorage)
 	if( sd->state.storage_flag ) { clif_displaymessage(fd, "Fermez d'abord votre coffre."); return -1; }
 	e_sort_mode mode = atcmd_parse_sort_mode(message);
 	if( mode == (e_sort_mode)255 ) { atcmd_show_sort_usage(fd, sd, "tri_gstorage"); return -1; }
-	sd->state.sort_gstorage = (uint8)mode;
-	pc_setglobalreg(sd, add_str("TRI_GSTOR"), (int32)mode);
-	char buf[80];
-	snprintf(buf, sizeof(buf), "Tri du coffre de guilde d\xe9" "fini : %s. (appliqu\xe9 \xe0 l'ouverture)", atcmd_sort_mode_name(mode));
-	clif_displaymessage(fd, buf);
+	bourgeon_setting_set(sd, BOURGEON_SETTING_TRI_GSTORAGE, (uint32)mode, BSET_SRC_SERVER);
 	return 0;
 }
 
