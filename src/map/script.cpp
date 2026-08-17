@@ -26963,12 +26963,94 @@ BUILDIN_FUNC(naviregisterwarp) {
 	y = script_getnum(st,5);
 	m = map_mapname2mapid(mapname);
 
+	// (0, 0) means "anywhere on that map" -- the shorthand `warp "<map>",0,0`
+	// uses, and what WarpMenu writes when it has no coordinates. The player only
+	// wants to REACH the map, so any cell they could stand on will do. But it has
+	// to be a real one, and here is why.
+	//
+	// The generator runs an A* FROM warp_dest to reach the other warps of the
+	// destination map, filling navi_linkdistance. One might expect (0,0) to make
+	// that search fail outright -- it does not. navi_path_search deliberately does
+	// NOT test the starting cell ("Do not check starting cell as that would get
+	// you stuck", the check is commented out), so the search proceeds from the map
+	// corner. Depending on the map it then either dies with an empty queue, or
+	// succeeds and yields distances MEASURED FROM A CORNER. The client picks its
+	// route by lowest cost, so those bogus numbers would quietly make it prefer or
+	// avoid this link. On a 204 link -- a teleport -- a cost counted in walking
+	// steps is meaningless anyway.
+	//
+	// So resolve it, by scanning outwards from the centre: deterministic, and it
+	// stops on the first hit, which on an open map is immediate.
+	//
+	// Do NOT use map_search_freecell() here: with a negative radius it throws 50
+	// RANDOM darts at the map. It fails on cluttered maps (ve_fild06 was the first
+	// to complain) and, worse, it makes generation non-deterministic -- two runs
+	// would emit different .lub files for identical scripts.
+	if (x == 0 && y == 0) {
+		const struct map_data *mdest = (m >= 0) ? map_getmapdata(m) : nullptr;
+
+		if (mdest == nullptr || mdest->xs <= 0 || mdest->ys <= 0) {
+			ShowWarning("buildin_naviregisterwarp: map '%s' is not loaded, skipping warp from NPC '%s'.\n",
+				mapname, nd->name);
+			return SCRIPT_CMD_SUCCESS;
+		}
+
+		const int32 cx = mdest->xs / 2;
+		const int32 cy = mdest->ys / 2;
+		const int32 max_ring = (mdest->xs > mdest->ys) ? mdest->xs : mdest->ys;
+		bool found = false;
+
+		for (int32 ring = 0; ring <= max_ring && !found; ring++) {
+			for (int32 dy = -ring; dy <= ring && !found; dy++) {
+				for (int32 dx = -ring; dx <= ring && !found; dx++) {
+					// Perimeter only: the inside was covered by smaller rings.
+					if (ring > 0 && dx != ring && dx != -ring && dy != ring && dy != -ring)
+						continue;
+
+					const int32 tx = cx + dx;
+					const int32 ty = cy + dy;
+
+					if (tx < 1 || ty < 1 || tx >= mdest->xs - 1 || ty >= mdest->ys - 1)
+						continue;
+					if (!map_getcell(m, tx, ty, CELL_CHKREACH))
+						continue;
+
+					x = tx;
+					y = ty;
+					found = true;
+				}
+			}
+		}
+
+		if (!found) {
+			ShowWarning("buildin_naviregisterwarp: no walkable cell on map '%s', skipping warp from NPC '%s'.\n",
+				mapname, nd->name);
+			return SCRIPT_CMD_SUCCESS;
+		}
+	}
+
 	link.npc = nd;
 	link.id = 0;
 	link.pos = nd->navi.pos;
 	link.warp_dest = {m, x, y};
 	link.name = warpname;
 	link.hidden = nd->navi.hidden;
+
+	// Optional client-side link type. Left out, the generator derives it from
+	// the NPC subtype (201 for a script), which the client always walks. Pass
+	// 204 for a transport the player must ask for -- the client then ignores
+	// the edge unless the "Kafra service" route option is on, so registering a
+	// warper NPC no longer flattens the whole graph to one hop.
+	if (script_hasdata(st, 6)) {
+		int32 type = script_getnum(st, 6);
+
+		if (type != 0 && (type < 200 || type > 205)) {
+			ShowError("buildin_naviregisterwarp: invalid link type %d for warp '%s' on NPC '%s', expected 200-205.\n",
+				type, warpname, nd->name);
+			return SCRIPT_CMD_FAILURE;
+		}
+		link.type = type;
+	}
 
 	nd->links.push_back(link);
 	
@@ -28739,7 +28821,7 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(openstylist, "?"),
 
 	// Navigation Generation System
-	BUILDIN_DEF(naviregisterwarp, "ssii"),
+	BUILDIN_DEF(naviregisterwarp, "ssii?"),
 	BUILDIN_DEF(navihide, ""),
 
 	BUILDIN_DEF(getitempos,""),

@@ -194,11 +194,12 @@ int32 enable_spy = 0; //To enable/disable @spy commands, which consume too much 
 int32 enable_grf = 0;	//To enable/disable reading maps from GRF files, bypassing mapcache [blackhole89]
 
 #ifdef MAP_GENERATOR
-struct s_generator_options {
-	bool navi;
-	bool itemmoveinfo;
-	bool reputation;
-} gen_options;
+// Declared in map.hpp so the generators can read it. --no-comment skips the
+// trailing "-- (map, x, y)" annotations in the navi distance tables: they are
+// pure documentation for a human reader, yet they account for roughly two
+// thirds of the bytes, and the client re-parses all of them as Lua on every
+// startup.
+struct s_generator_options gen_options;
 #endif
 
 /**
@@ -5361,6 +5362,16 @@ int32 mapgenerator_get_options(int32 argc, char** argv) {
 		if (arg[0] != '-' && (arg[0] != '/' || arg[1] == '-')) {// -, -- and /
 		} else if (arg[0] == '/' || (++arg)[0] == '-') {// long option
 			arg++;
+
+			// Handled before the cascade below, and deliberately without
+			// setting optionSet: this is a modifier, not a generation target.
+			// "--no-comment" alone must still trip the "you must set at least
+			// one" guard rather than silently generating nothing.
+			if (strcmp(arg, "no-comment") == 0) {
+				gen_options.no_comment = true;
+				argv[i] = nullptr;
+				continue;
+			}
 
 			if (strcmp(arg, "generate-navi") == 0) {
 				gen_options.navi = true;

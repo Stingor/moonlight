@@ -907,6 +907,19 @@ struct inter_conf {
 
 extern struct inter_conf inter_config;
 
+#ifdef MAP_GENERATOR
+// Command line switches of map-server-generator. Defined in map.cpp, exposed
+// here because the writers (navi.cpp) need to know whether to emit the
+// human-readable annotations.
+struct s_generator_options {
+	bool navi;
+	bool itemmoveinfo;
+	bool reputation;
+	bool no_comment;
+};
+extern struct s_generator_options gen_options;
+#endif
+
 int32 map_getcell(int16 m,int16 x,int16 y,cell_chk cellchk);
 int32 map_getcellp(struct map_data* m,int16 x,int16 y,cell_chk cellchk);
 void map_setcell(int16 m, int16 x, int16 y, cell_t cell, bool flag);

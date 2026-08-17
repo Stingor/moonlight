@@ -29,6 +29,14 @@ struct navi_link {
 	struct navi_pos warp_dest; // only set for warps
 	bool hidden; // hidden by script
 	std::string name; // custom name
+	// Client-side link type, see write_warp() for the list. 0 = derive it from
+	// the NPC subtype (200 for a real warp, 201 for a script). Anything else is
+	// written verbatim, which is how a script declares a transport the client
+	// must gate behind one of its route options (204 = Kafra service,
+	// 205 = airship). Defaulted here on purpose: npc_data::navi is not
+	// value-initialised, so an uninitialised type would leak garbage into the
+	// generated .lub.
+	int32 type = 0;
 };
 
 

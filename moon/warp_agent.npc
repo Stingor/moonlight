@@ -1581,6 +1581,415 @@ L_SaveCmd:
 	close;
 
 OnInit:
+	// [navi] destinations du Warp Agent ---------------------------------------
+	// naviregisterwarp ne fait rien hors map-server-generator : ce bloc est
+	// inerte en production, il ne sert qu'a la generation des .lub client.
+	//
+	// Le type 204 ("service Kafra" cote client) est le coeur de l'affaire.
+	// Le pathfinder du client filtre chaque arete sur son type et REFUSE les
+	// 204 tant que l'option d'itineraire correspondante est eteinte. Le graphe
+	// pedestre reste donc intact -- sans quoi le Warp Agent, qui dessert tout
+	// depuis 38 endroits, ramenerait n'importe quel trajet a un saut unique et
+	// la navigation ne dirait plus rien. Avec l'option, l'itineraire devient
+	// "parle au Warp Agent, prends telle ville, puis marche".
+	//
+	// Le 5e champ d'un Navi_Link est ce que le client AFFICHE ("Talk to ...").
+	// Laisse vide, le generateur y met <source>_<destination>_<id> : unique, mais
+	// illisible pour un joueur -- et l'unicite est deja portee par l'id du lien,
+	// pas par ce champ (le 6e, "unique name", reste vide de toute facon).
+	// strnpcinfo(1) rend le nom AFFICHE du PNJ, donc l'etiquette suit un
+	// renommage du Warp Agent sans qu'on ait a y revenir.
+	//
+	// Une destination en (0, 0) n'est pas une erreur : c'est le raccourci
+	// "n'importe ou sur cette carte", tel que l'ecrit deja WarpMenu quand il
+	// n'a pas de coordonnees. naviregisterwarp le resout en une cellule
+	// PRATICABLE (map_search_freecell), sans quoi le generateur produirait un
+	// lien qu'aucun chemin n'atteint -- il lance son A* DEPUIS la destination,
+	// et la cellule (0, 0) est le bord de la carte.
+	//
+	// Genere depuis les menus de ce meme fichier par
+	// scratchpad/gen_navi_warpagent.py -- reexecuter si les menus changent.
+	setarray .@navm$[0],
+		"gonryun", "alberta", "aldebaran", "amatsu",
+		"ayothaya", "brasilis", "comodo", "dewata",
+		"dicastes01", "eclage", "einbech", "einbroch",
+		"geffen", "hugel", "izlude", "jawaii",
+		"lasagna", "lighthalzen", "louyang", "xmas";
+	setarray .@navm$[20],
+		"malangdo", "malaya", "manuk", "mora",
+		"morocc", "moscovia", "niflheim", "payon",
+		"prontera", "rachel", "harboro1", "splendide",
+		"umbala", "veins", "yuno", "gld2_ald",
+		"gld2_gef", "gld2_pay", "gld2_prt", "gld_dun01";
+	setarray .@navm$[40],
+		"gld_dun01_2", "gld_dun02", "gld_dun02_2", "gld_dun03",
+		"gld_dun03_2", "gld_dun04", "gld_dun04_2", "arug_dun01",
+		"schg_dun01", "teg_dun01", "teg_dun02", "dali02",
+		"ma_scene01", "ma_dun01", "verus01", "verus04",
+		"dali", "bif_fild01", "moro_cav", "un_myst";
+	setarray .@navm$[60],
+		"mal_in01", "moc_para01", "nyd_dun02", "mal_dun01",
+		"glast_01", "gef_fild10", "prt_lib_q", "prt_cas_q",
+		"monk_test", "lhz_dun04", "gon_in", "mid_camp",
+		"cmd_fild02", "yggdrasil01", "rebel_in", "moc_fild20",
+		"moc_fild21", "moc_fild22", "thana_boss", "tha_t01";
+	setarray .@navm$[80],
+		"tha_t02", "tha_t03", "tha_t04", "tha_t05",
+		"tha_t06", "tha_t07", "tha_t08", "tha_t09",
+		"ama_fild01", "ayo_fild01", "ayo_fild02", "bif_fild02",
+		"bra_fild01", "cmd_fild01", "cmd_fild03", "cmd_fild04",
+		"cmd_fild05", "cmd_fild06", "cmd_fild07", "cmd_fild08";
+	setarray .@navm$[100],
+		"cmd_fild09", "dew_fild01", "ecl_fild01", "ein_fild01",
+		"ein_fild02", "ein_fild03", "ein_fild04", "ein_fild05",
+		"ein_fild06", "ein_fild07", "ein_fild08", "ein_fild09",
+		"ein_fild10", "dic_fild01", "dic_fild02", "gef_fild00",
+		"gef_fild01", "gef_fild02", "gef_fild03", "gef_fild04";
+	setarray .@navm$[120],
+		"gef_fild05", "gef_fild06", "gef_fild07", "gef_fild08",
+		"gef_fild09", "gef_fild11", "gef_fild12", "gef_fild13",
+		"gef_fild14", "rockrdg1", "rockrdg2", "gon_fild01",
+		"hu_fild01", "hu_fild02", "hu_fild03", "hu_fild04",
+		"hu_fild05", "hu_fild06", "hu_fild07", "lasa_fild01";
+	setarray .@navm$[140],
+		"lasa_fild02", "lhz_fild01", "lhz_fild02", "lhz_fild03",
+		"lou_fild01", "xmas_fild01", "ma_fild01", "ma_fild02",
+		"man_fild01", "man_fild02", "man_fild03", "mjolnir_01",
+		"mjolnir_02", "mjolnir_03", "mjolnir_04", "mjolnir_05",
+		"mjolnir_06", "mjolnir_07", "mjolnir_08", "mjolnir_09";
+	setarray .@navm$[160],
+		"mjolnir_10", "mjolnir_11", "mjolnir_12", "mosk_fild01",
+		"mosk_fild02", "nameless_n", "nif_fild01", "nif_fild02",
+		"pay_fild01", "pay_fild02", "pay_fild03", "pay_fild04",
+		"pay_fild05", "pay_fild06", "pay_fild07", "pay_fild08",
+		"pay_fild09", "pay_fild10", "pay_fild11", "prt_fild00";
+	setarray .@navm$[180],
+		"prt_fild01", "prt_fild02", "prt_fild03", "prt_fild04",
+		"prt_fild05", "prt_fild06", "prt_fild07", "prt_fild08",
+		"prt_fild09", "prt_fild10", "prt_fild11", "ra_fild01",
+		"ra_fild02", "ra_fild03", "ra_fild04", "ra_fild05",
+		"ra_fild06", "ra_fild07", "ra_fild08", "ra_fild09";
+	setarray .@navm$[200],
+		"ra_fild10", "ra_fild11", "ra_fild12", "ra_fild13",
+		"moc_fild01", "moc_fild02", "moc_fild03", "moc_fild04",
+		"moc_fild05", "moc_fild06", "moc_fild07", "moc_fild08",
+		"moc_fild09", "moc_fild10", "moc_fild11", "moc_fild12",
+		"moc_fild13", "moc_fild14", "moc_fild15", "moc_fild16";
+	setarray .@navm$[220],
+		"moc_fild17", "moc_fild18", "moc_fild19", "spl_fild01",
+		"spl_fild02", "spl_fild03", "um_fild01", "um_fild02",
+		"um_fild03", "um_fild04", "ve_fild01", "ve_fild02",
+		"ve_fild03", "ve_fild04", "ve_fild05", "ve_fild06",
+		"ve_fild07", "yuno_fild01", "yuno_fild02", "yuno_fild03";
+	setarray .@navm$[240],
+		"yuno_fild04", "yuno_fild05", "yuno_fild06", "yuno_fild07",
+		"yuno_fild08", "yuno_fild09", "yuno_fild10", "yuno_fild11",
+		"yuno_fild12", "abbey01", "abbey02", "abbey03",
+		"amicitia1", "amicitia2", "abyss_01", "abyss_02",
+		"abyss_03", "ama_dun01", "ama_dun02", "ama_dun03";
+	setarray .@navm$[260],
+		"anthell01", "anthell02", "ayo_dun01", "ayo_dun02",
+		"beach_dun", "beach_dun2", "beach_dun3", "ecl_tdun01",
+		"ecl_tdun02", "ecl_tdun03", "lhz_dun01", "lhz_dun02",
+		"lhz_dun03", "lhz_dun_n", "bra_dun01", "bra_dun02",
+		"iz_dun00", "iz_dun01", "iz_dun02", "iz_dun03";
+	setarray .@navm$[280],
+		"iz_dun04", "iz_dun05", "c_tower1", "c_tower2",
+		"c_tower3", "c_tower4", "alde_dun01", "alde_dun02",
+		"alde_dun03", "alde_dun04", "c_tower2_", "c_tower3_",
+		"mjo_dun01", "mjo_dun02", "mjo_dun03", "prt_sewb1",
+		"prt_sewb2", "prt_sewb3", "prt_sewb4", "dew_dun01";
+	setarray .@navm$[300],
+		"dew_dun02", "dic_dun01", "dic_dun02", "dic_dun03",
+		"ein_dun01", "ein_dun02", "gef_dun00", "gef_dun01",
+		"gef_dun02", "gef_dun03", "gefenia01", "gefenia02",
+		"gefenia03", "gefenia04", "gl_church", "gl_chyard",
+		"gl_in01", "gl_cas01", "gl_cas02", "gl_knt01";
+	setarray .@navm$[320],
+		"gl_knt02", "gl_prison", "gl_prison1", "gl_step",
+		"gl_sew01", "gl_sew02", "gl_sew03", "gl_sew04",
+		"gl_dun01", "gl_dun02", "gl_chyard_", "gl_cas02_",
+		"gon_dun01", "gon_dun02", "gon_dun03", "prt_maze01",
+		"prt_maze02", "prt_maze03", "ice_dun01", "ice_dun02";
+	setarray .@navm$[340],
+		"ice_dun03", "juperos_01", "juperos_02", "jupe_core",
+		"kh_dun01", "kh_dun02", "lasa_dun01", "lasa_dun02",
+		"lasa_dun03", "lou_dun01", "lou_dun02", "lou_dun03",
+		"mag_dun01", "mag_dun02", "mag_dun03", "mosk_dun01",
+		"mosk_dun02", "mosk_dun03", "odin_tem01", "odin_tem02";
+	setarray .@navm$[360],
+		"odin_tem03", "orcsdun01", "orcsdun02", "pay_dun00",
+		"pay_dun01", "pay_dun02", "pay_dun03", "pay_dun04",
+		"moc_pryd01", "moc_pryd02", "moc_pryd03", "moc_pryd04",
+		"moc_pryd05", "moc_pryd06", "moc_prydn1", "moc_prydn2",
+		"rockmi1", "harboro2", "ra_san01", "ra_san02";
+	setarray .@navm$[380],
+		"ra_san03", "ra_san04", "ra_san05", "in_sphinx1",
+		"in_sphinx2", "in_sphinx3", "in_sphinx4", "in_sphinx5",
+		"treasure01", "treasure02", "tha_t10", "tha_t11",
+		"tha_t12", "thor_v01", "thor_v02", "thor_v03",
+		"xmas_dun01", "xmas_dun02", "tur_dun01", "tur_dun02";
+	setarray .@navm$[400],
+		"tur_dun03", "tur_dun04", "ba_lost", "ba_maison",
+		"ba_bath", "ba_lib", "ba_pw01", "ba_pw02",
+		"ba_pw03", "ba_2whs01", "ba_2whs02", "slabw01",
+		"nyd_dun01";
+	setarray .@navx[0],
+		156, 50, 140, 200,
+		207, 195, 166, 200,
+		197, 167, 170, 65,
+		120, 96, 128, 135,
+		193, 158, 218, 148;
+	setarray .@navx[20],
+		167, 144, 286, 136,
+		158, 224, 194, 177,
+		155, 128, 283, 200,
+		122, 196, 153, 147,
+		152, 120, 140, 119;
+	setarray .@navx[40],
+		119, 39, 39, 50,
+		50, 116, 116, 199,
+		200, 42, 26, 139,
+		172, 151, 151, 77,
+		85, 161, 44, 159;
+	setarray .@navx[60],
+		164, 27, 95, 152,
+		204, 240, 88, 19,
+		306, 148, 94, 220,
+		193, 52, 40, 349,
+		38, 38, 142, 150;
+	setarray .@navx[80],
+		150, 220, 60, 62,
+		207, 30, 29, 87,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0;
+	setarray .@navx[100],
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0;
+	setarray .@navx[120],
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0;
+	setarray .@navx[140],
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0;
+	setarray .@navx[160],
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0;
+	setarray .@navx[180],
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0;
+	setarray .@navx[200],
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0;
+	setarray .@navx[220],
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0;
+	setarray .@navx[240],
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 51, 149, 119,
+		253, 145, 262, 270,
+		116, 227, 32, 119;
+	setarray .@navx[260],
+		32, 34, 274, 230,
+		266, 255, 23, 60,
+		60, 47, 149, 282,
+		140, 140, 0, 261,
+		168, 41, 236, 32;
+	setarray .@navx[280],
+		26, 141, 200, 268,
+		64, 32, 297, 262,
+		276, 89, 268, 65,
+		52, 381, 302, 132,
+		19, 180, 100, 289;
+	setarray .@navx[300],
+		302, 366, 102, 101,
+		22, 292, 104, 115,
+		106, 203, 59, 201,
+		264, 33, 156, 147,
+		121, 199, 104, 150;
+	setarray .@navx[320],
+		157, 14, 150, 117,
+		258, 108, 171, 68,
+		133, 224, 147, 104,
+		153, 17, 68, 176,
+		93, 23, 157, 151;
+	setarray .@navx[340],
+		149, 53, 41, 150,
+		28, 42, 23, 22,
+		190, 215, 280, 165,
+		126, 47, 120, 205,
+		160, 34, 97, 26;
+	setarray .@navx[360],
+		120, 32, 21, 22,
+		19, 19, 155, 201,
+		192, 10, 100, 181,
+		94, 192, 94, 192,
+		0, 0, 140, 213;
+	setarray .@navx[380],
+		123, 119, 150, 192,
+		149, 210, 10, 100,
+		69, 102, 0, 0,
+		0, 20, 80, 34,
+		205, 130, 159, 148;
+	setarray .@navx[400],
+		132, 100, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 14,
+		54;
+	setarray .@navy[0],
+		120, 240, 117, 110,
+		192, 215, 161, 174,
+		223, 194, 125, 200,
+		68, 145, 111, 202,
+		182, 92, 115, 131;
+	setarray .@navy[20],
+		136, 240, 230, 91,
+		93, 192, 186, 104,
+		182, 111, 212, 149,
+		138, 230, 123, 155,
+		118, 130, 132, 93;
+	setarray .@navy[40],
+		93, 161, 161, 44,
+		44, 45, 45, 195,
+		124, 36, 160, 82,
+		175, 8, 150, 118,
+		64, 334, 66, 38;
+	setarray .@navy[60],
+		21, 90, 193, 230,
+		268, 198, 82, 83,
+		143, 269, 21, 235,
+		169, 63, 43, 185,
+		193, 193, 222, 70;
+	setarray .@navy[80],
+		130, 161, 143, 8,
+		9, 166, 44, 146,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0;
+	setarray .@navy[100],
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0;
+	setarray .@navy[120],
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0;
+	setarray .@navy[140],
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0;
+	setarray .@navy[160],
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0;
+	setarray .@navy[180],
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0;
+	setarray .@navy[200],
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0;
+	setarray .@navy[220],
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 0;
+	setarray .@navy[240],
+		0, 0, 0, 0,
+		0, 0, 0, 0,
+		0, 13, 11, 8,
+		244, 278, 270, 270,
+		27, 10, 43, 15;
+	setarray .@navy[260],
+		262, 263, 19, 235,
+		67, 244, 260, 13,
+		88, 13, 282, 156,
+		133, 133, 0, 260,
+		168, 37, 204, 63;
+	setarray .@navy[280],
+		27, 187, 163, 26,
+		148, 63, 25, 41,
+		53, 38, 26, 147,
+		17, 343, 261, 248,
+		19, 169, 92, 160;
+	setarray .@navy[300],
+		30, 45, 142, 144,
+		18, 290, 98, 236,
+		132, 200, 167, 35,
+		236, 270, 8, 15,
+		59, 29, 25, 10;
+	setarray .@navy[320],
+		287, 70, 14, 124,
+		255, 291, 273, 277,
+		271, 274, 15, 25,
+		48, 114, 9, 7,
+		20, 8, 14, 156;
+	setarray .@navy[340],
+		22, 243, 65, 20,
+		211, 197, 143, 171,
+		19, 193, 23, 38,
+		69, 32, 120, 52,
+		35, 136, 146, 181;
+	setarray .@navy[360],
+		54, 169, 185, 180,
+		33, 63, 159, 204,
+		9, 192, 92, 11,
+		96, 8, 96, 8,
+		0, 0, 130, 269;
+	setarray .@navy[380],
+		278, 110, 12, 9,
+		81, 54, 222, 99,
+		24, 27, 0, 0,
+		0, 230, 204, 272,
+		21, 135, 36, 263;
+	setarray .@navy[400],
+		189, 190, 0, 0,
+		0, 0, 0, 0,
+		0, 0, 0, 88,
+		70;
+	for (.@i = 0; .@i < getarraysize(.@navm$); .@i++) {
+		// Un agent ne se declare pas une arete vers sa propre carte.
+		if (strnpcinfo(4) == .@navm$[.@i]) continue;
+		naviregisterwarp(strnpcinfo(1), .@navm$[.@i], .@navx[.@i], .@navy[.@i], 204);
+	}
+
 	if( strnpcinfo(3) == "warp_agent" ) {
 		defpattern 1, "([^:]+):.*\\s@warp.*", "L_WarpaCmd";
 		defpattern 1, "([^:]+):.*\\s@go.*", "L_VillesCmd";

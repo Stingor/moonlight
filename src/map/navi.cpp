@@ -16,6 +16,7 @@
 
 #include <common/db.hpp>
 #include <common/malloc.hpp>
+#include <common/mapindex.hpp>
 #include <common/showmsg.hpp>
 #include <common/utils.hpp>
 #include "map.hpp"
@@ -341,7 +342,16 @@ int32 map_type(const struct map_data * m) {
 }
 
 void write_map(std::ostream& os, const struct map_data * m) {
-	os << "\t{\"" << m->name << "\", \"" << m->name << "\", ";
+	// Second field is the DISPLAY name, which the client shows to the player.
+	// Writing the internal name twice is what produced "move to [ payon[ payon ] ]"
+	// instead of "[ Payon Town[ payon ] ]". map_index.yml already carries a Name
+	// for most maps, and mapindex_idx2displayname() falls back to the internal
+	// name on its own for the ~300 technical maps that have none -- so this is
+	// never worse than the old behaviour.
+	const char* display_name = mapindex_idx2displayname(m->index);
+
+	os << "\t{\"" << m->name << "\", \"";
+	os << (display_name != nullptr ? display_name : m->name) << "\", ";
 	os << map_type(m) << ", " << m->xs << ", " << m->ys << "},\n";
 }
 
@@ -359,8 +369,12 @@ void write_warp(std::ostream& os, const struct navi_link &nl) {
 	os << nl.id << ", "; // gid
 	// 200 = warp , 201 = npc script, 202 = Kafra Dungeon Warp,
 	// 203 = Cool Event Dungeon Warp, 204 Kafra/Cool Event/Alberta warp,
-	// 205 = airport  (currently we only support warps)
-	os << ((nl.npc->subtype == NPCTYPE_WARP) ? 200 : 201) << ", ";
+	// 205 = airport
+	// The client's pathfinder filters every edge on this value: 200/201 are
+	// always walkable, while 204 and 205 are only considered when the matching
+	// route option is enabled. That is what keeps a warper NPC out of the graph
+	// by default instead of collapsing every route to a single hop.
+	os << (nl.type != 0 ? nl.type : ((nl.npc->subtype == NPCTYPE_WARP) ? 200 : 201)) << ", ";
 	// sprite id, 99999 = warp portal
 	os << ((nl.npc->vd.look[LOOK_BASE] == JT_WARPNPC) ? 99999 : (int32)nl.npc->vd.look[LOOK_BASE]) << ", ";
 	if (nl.name.empty())
@@ -463,27 +477,38 @@ void write_object_lists() {
 				map[target].navi.warps_into.push_back(&nd->navi);
 				
 			} else { // Other NPCs
-				if (nd->class_ == -1 || nd->class_ == JT_HIDDEN_NPC
+				// Being LISTED and being a LINK are two different things, and
+				// conflating them used to drop edges: the old `continue` skipped
+				// the nd->links loop below as well, so a filtered NPC silently
+				// took its naviregisterwarp declarations with it.
+				//
+				// A nameless NPC is dead weight in the search -- the player
+				// cannot look up something that has no name, and it renders as a
+				// blank row (944 of 8519 entries on Moonlight, and as many rows
+				// in npcdistance, the largest generated file). But if it also
+				// declares warps, those must still reach the graph.
+				const bool listable = !(nd->class_ == -1 || nd->class_ == JT_HIDDEN_NPC
 					|| nd->class_ == JT_HIDDEN_WARP_NPC || nd->class_ == JT_GUILD_FLAG
-					|| nd->navi.hidden)
-					continue;
-				
-				nd->navi.id = 11984 + npc_count;
-				write_npc(npc_file, nd);
-				m->navi.npcs.push_back(nd);
+					|| nd->navi.hidden || nd->name[0] == '\0');
 
+				if (listable) {
+					nd->navi.id = 11984 + npc_count;
+					write_npc(npc_file, nd);
+					m->navi.npcs.push_back(nd);
+					npc_count++;
+				}
+
+				// Unconditional: a link is a link, whoever carries it.
 				for (auto &link : nd->links) {
 					int32 target = link.warp_dest.m;
 					if (target < 0)
 						continue;
-					
+
 					link.id = 13350 + warp_count++;
 					write_warp(links_file, link);
 					m->navi.warps_outof.push_back(&link);
 					map[target].navi.warps_into.push_back(&link);
 				}
-
-				npc_count++;
 			}
 		}
 
@@ -525,7 +550,32 @@ void write_map_header(std::ostream &os, const struct map_data * m) {
 			Find a path from nd to warp
 */
 void write_npc_distance(std::ostream &os, const npc_data * nd, const struct map_data * msrc) {
-	os << "\t\t{ " << nd->navi.id << ", -- (" << nd->name << " " << msrc->name << ", " << nd->navi.pos.x << ", " << nd->navi.pos.y << ")\n";
+	os << "\t\t{ " << nd->navi.id << ",";
+	if (!gen_options.no_comment)
+		os << " -- (" << nd->name << " " << msrc->name << ", " << nd->navi.pos.x << ", " << nd->navi.pos.y << ")";
+	os << "\n";
+	// Same run-length packing as write_map_distance, with the map name as an
+	// extra thing that has to match: {"<map>", first_id, distance, count}.
+	int32 run_first = 0, run_dist = -1, run_len = 0;
+	const char *run_map = nullptr;
+	const struct navi_link *run_sample = nullptr;
+
+	auto flush_run = [&]() {
+		if (run_len <= 0)
+			return;
+		os << "\t\t\t{ \"" << run_map << "\", " << run_first << ", " << std::to_string(run_dist);
+		if (run_len > 1)
+			os << ", " << run_len;
+		os << "},";
+		if (!gen_options.no_comment) {
+			os << " -- (" << msrc->name << ", " << run_sample->pos.x << ", " << run_sample->pos.y << ")";
+			if (run_len > 1)
+				os << " x" << run_len << " [" << run_first << ".." << (run_first + run_len - 1) << "]";
+		}
+		os << "\n";
+		run_len = 0;
+	};
+
 	for (const auto warp : msrc->navi.warps_into) {
 		struct navi_walkpath_data wpd = {0};
 		auto mdest = map_getmapdata(warp->pos.m);
@@ -536,8 +586,22 @@ void write_npc_distance(std::ostream &os, const npc_data * nd, const struct map_
 			continue;
 		}
 
-		os << "\t\t\t{ \"" << mdest->name << "\", " << warp->id << ", " << std::to_string(wpd.path_len) << "}, -- (" << msrc->name << ", " << warp->pos.x << ", " << warp->pos.y << ")\n";
+		const int32 id = warp->id;
+		const int32 dist = wpd.path_len;
+
+		if (run_len > 0 && id == run_first + run_len && dist == run_dist
+			&& strcmp(run_map, mdest->name) == 0) {
+			run_len++;
+			continue;
+		}
+		flush_run();
+		run_first = id;
+		run_dist = dist;
+		run_len = 1;
+		run_map = mdest->name;
+		run_sample = warp;
 	}
+	flush_run();
 	os << "\t\t\t{\"\", 0, 0}\n";
 	os << "\t\t},\n";
 }
@@ -590,7 +654,10 @@ void write_mapdist_header(std::ostream &os, const struct map_data * m) {
 			Add this as an "E" Warp
  */
 void write_map_distance(std::ostream &os, const struct navi_link * warp1, const struct map_data * m) {
-	os << "\t\t{ " << warp1->id << ", -- (" << " " << m->name << ", " << warp1->pos.x << ", " << warp1->pos.y << ")\n";
+	os << "\t\t{ " << warp1->id << ",";
+	if (!gen_options.no_comment)
+		os << " -- (" << " " << m->name << ", " << warp1->pos.x << ", " << warp1->pos.y << ")";
+	os << "\n";
 	// for (const auto warp2 : m->navi.warps_outof) {
 	// 	struct navi_walkpath_data wpd = {0};
 	// 	if (warp1 == warp2)
@@ -600,14 +667,56 @@ void write_map_distance(std::ostream &os, const struct navi_link * warp1, const 
 	// 	os << "\t\t\t{ \"P\", " << warp2->id << ", " << std::to_string(wpd.path_len) << "}, -- ReachableFromSrc warp (" << m->name << ", " << warp2->pos.x << ", " << warp2->pos.y << ")\n";
 	// }
 
+	// Runs of consecutive ids sharing the same distance are emitted as ONE row
+	// with a 4th field holding the count: {"E", first_id, distance, count}.
+	// A single pass keeps the classic 3-field form, so old readers are unaffected;
+	// navi_f expands the runs back (see queryNavi_Distance_Pass).
+	//
+	// This is not a micro-optimisation. Every NPC that offers many destinations
+	// from one spot -- a warper -- produces hundreds of outgoing links sharing a
+	// position, hence an identical distance, and they are re-listed for EVERY
+	// link entering the map. On Moonlight that is 83% of all passes: 153k rows
+	// collapsing into 2.2k runs.
+	int32 run_first = 0, run_dist = -1, run_len = 0;
+	const struct navi_link *run_sample = nullptr;
+
+	auto flush_run = [&]() {
+		if (run_len <= 0)
+			return;
+		os << "\t\t\t{ \"E\", " << run_first << ", " << std::to_string(run_dist);
+		if (run_len > 1)
+			os << ", " << run_len;
+		os << "},";
+		if (!gen_options.no_comment) {
+			os << " -- ReachableFromDst warp (" << map_getmapdata(run_sample->pos.m)->name
+			   << ", " << run_sample->pos.x << ", " << run_sample->pos.y << ")";
+			if (run_len > 1)
+				os << " x" << run_len << " [" << run_first << ".." << (run_first + run_len - 1) << "]";
+		}
+		os << "\n";
+		run_len = 0;
+	};
+
 	for (const auto warp3 : map_getmapdata(warp1->warp_dest.m)->navi.warps_outof) {
 		struct navi_walkpath_data wpd = {0};
 
 		if (!navi_path_search(&wpd, &warp1->warp_dest, &warp3->pos, CELL_CHKNOREACH))
 			continue;
-		
-		os << "\t\t\t{ \"E\", " << warp3->id << ", " << std::to_string(wpd.path_len) << "}, -- ReachableFromDst warp (" << map_getmapdata(warp3->pos.m)->name << ", " << warp3->pos.x << ", " << warp3->pos.y << ")\n";
+
+		const int32 id = warp3->id;
+		const int32 dist = wpd.path_len;
+
+		if (run_len > 0 && id == run_first + run_len && dist == run_dist) {
+			run_len++;
+			continue;
+		}
+		flush_run();
+		run_first = id;
+		run_dist = dist;
+		run_len = 1;
+		run_sample = warp3;
 	}
+	flush_run();
 
 	os << "\t\t\t{\"NULL\", 0, 0}\n";
 	os << "\t\t},\n";

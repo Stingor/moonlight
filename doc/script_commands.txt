@@ -10090,10 +10090,32 @@ with the given character id.
 
 ---------------------------------------
 
-*naviregisterwarp("<Name of Link>", "<dest_map>", <dest_x>, <dest_y>)
+*naviregisterwarp("<Name of Link>", "<dest_map>", <dest_x>, <dest_y>{, <type>})
 
 Only useful when using the map-server-generator. Registers an extra warp from this
 npc to the destination map/x/y for the generated client files.
+
+Leave "Name of Link" empty to have the generator build a unique one
+(<source>_<destination>_<id>). Prefer that whenever the script is duplicated: a
+literal name shared by every duplicate is not unique.
+
+The optional <type> is the link type written to navi_link, which the client's
+pathfinder uses to decide whether it may take the edge at all:
+
+	200 - warp portal            always walkable
+	201 - npc script             always walkable (the default for this command)
+	202 - Kafra Dungeon Warp     needs the Kafra service route option
+	203 - Cool Event Warp        needs the Kafra service route option
+	204 - Kafra/Alberta warp     needs the Kafra service route option
+	205 - airport                needs the airship route option
+
+Omit it, and the type is derived from the npc subtype, giving 201 for a script:
+the client then treats the edge like any road. That is the right choice for a
+boat or a quest teleporter, but the wrong one for a general purpose warper NPC,
+which would let the pathfinder reach anything in a single hop and make every
+route meaningless. Register those as 204 instead: the edge stays invisible until
+the player turns the matching option on, so walking routes are unaffected and
+asking for the warper becomes a deliberate choice.
 
 ---------------------------------------
 
