@@ -15826,7 +15826,9 @@ int16 pc_maxaspd( const map_session_data* sd ) {
 	uint32 aspd2 = sd->special_state.aspd2 * AMOTION_INTERVAL * AMOTION_DIVIDER_PC;
 
 	// [Stingor] -->
-	if (pc_get_group_level(sd) >= 80)
+	// @playertest : on saute le plafond GM pour retomber sur celui de la classe,
+	// afin de tester la cadence reelle d'un joueur sans changer de personnage.
+	if (pc_get_group_level(sd) >= 80 && !sd->state.playertest)
 		return battle_config.gm_aspd;
 	else if (sd->status.class_ == JOB_SNIPER ||
 		sd->status.class_ == JOB_CREATOR ||

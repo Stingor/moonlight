@@ -458,6 +458,7 @@ public:
 		bool sellitem: 1;
 		bool showspeed: 1;
 		bool gm_fast_move;
+		bool playertest: 1;  ///< @playertest : ignore les bypass GM d'ASPD (pc_maxaspd) et de delay de skill (skill_delayfix)
 		bool autolootmvp: 1;
 		bool autolootmvpreward: 1;
 		bool autolootrare: 1;

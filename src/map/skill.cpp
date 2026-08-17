@@ -10669,7 +10669,9 @@ int32 skill_delayfix(block_list *bl, uint16 skill_id, uint16 skill_lv)
 
 	if (bl->type == BL_PC) {
 		map_session_data* sd = (map_session_data*)bl;
-		if (pc_get_group_level(sd) >= 80 && battle_config.gm_delay_rate > 0) // [Stingor] delay rate reglable pour gm
+		// [Stingor] delay rate reglable pour gm ; @playertest le neutralise pour
+		// laisser le delay calcule normalement (dex/agi, bDelayRate, delay_rate).
+		if (pc_get_group_level(sd) >= 80 && battle_config.gm_delay_rate > 0 && !sd->state.playertest)
 			time = battle_config.gm_delay_rate;
 	}
 	//ShowInfo("Delay delayfix = %f\n",time);

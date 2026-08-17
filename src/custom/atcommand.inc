@@ -610,6 +610,42 @@ ACMD_FUNC(fastmove)
 }
 
 /*==========================================
+ * @playertest par [Stingor]
+ * Neutralise les deux bypass GM du combat pour tester avec la cadence d'un
+ * joueur normal, sans changer de personnage :
+ *   - pc_maxaspd()    : battle_config.gm_aspd (group_level >= 80)
+ *   - skill_delayfix(): battle_config.gm_delay_rate (group_level >= 80)
+ * L'equipement et les stats du personnage restent ceux du GM : la commande ne
+ * simule pas un joueur, elle retire seulement le plafond artificiel.
+ *----------------------------------------------------*/
+ACMD_FUNC(playertest)
+{
+	nullpo_retr(-1, sd);
+
+	sd->state.playertest = !sd->state.playertest;
+
+	// L'ASPD depend de pc_maxaspd() : il faut un recalcul complet pour que le
+	// nouveau plafond soit applique et repousse au client.
+	status_calc_pc(sd, SCO_FORCE);
+	clif_updatestatus(*sd, SP_ASPD);
+
+	int32 amotion = sd->battle_status.amotion;
+	int32 aspd = (AMOTION_ZERO_ASPD - amotion * AMOTION_DIVIDER_PC) / AMOTION_INTERVAL;
+
+	if (sd->state.playertest)
+		clif_displaymessage(fd, "@playertest ON : plafonds GM d'ASPD et de delay de skill ignor\xe9" "s.");
+	else
+		clif_displaymessage(fd, "@playertest OFF : plafonds GM r\xe9" "tablis.");
+
+	sprintf(atcmd_output, "ASPD %d (amotion %d ms, adelay %d ms) - delay de skill : %s",
+		aspd, amotion, sd->battle_status.adelay,
+		sd->state.playertest ? "calcul normal" : "forc\xe9 \xe0 gm_delay");
+	clif_displaymessage(fd, atcmd_output);
+
+	return 0;
+}
+
+/*==========================================
  * @mvpcard par [Stingor]
  * Active/Désactive le loot d'MvP card dans la map.
  *----------------------------------------------------*/

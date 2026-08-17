@@ -53,3 +53,4 @@
 	ACMD_DEF(ignore),
 	ACMD_DEF(unignore),
 	ACMD_DEF(ignorelist),
+	ACMD_DEF(playertest),
