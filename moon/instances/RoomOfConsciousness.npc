@@ -752,6 +752,7 @@ OnMobDead:
 	enablenpc instance_npcname("Fenrir#6mir");
 	enablenpc instance_npcname("Iris#6mir");
 	enablenpc instance_npcname("Bijou#6mir");
+	MissionMVP(0, "RoomOfConsciousness: "+getmonsterinfo(killedrid, MOB_NAME)+" tué");
 	addrid(5,0,instance_mapname("1@mir"));
 
 	logmes "Fin d'instance "+instance_live_info(ILI_NAME)+""+('hm>1?" niveau "+'hm+" ":" ")+" Owner: "+getpartyleader(instance_live_info(ILI_OWNER));

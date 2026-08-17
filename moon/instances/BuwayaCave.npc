@@ -379,6 +379,7 @@ OnInstanceInit:
 OnMyMobDead:
 	set .@map$, instance_mapname("1@ma_c");
 	if (mobcount(.@map$,instance_npcname("#buwaya_con")+"::OnMyMobDead") < 1) {
+		MissionMVP(0, "BuwayaCave: "+getmonsterinfo(killedrid, MOB_NAME)+" tué");
 		donpcevent instance_npcname("#box_call")+"::OnDisable";
 		donpcevent instance_npcname("#bunshin")+"::OnDisable";
 		donpcevent instance_npcname("#exit_mob")+"::OnDisable";
