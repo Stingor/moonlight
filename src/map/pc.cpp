@@ -3781,6 +3781,11 @@ void pc_delautobonus(map_session_data &sd, std::vector<std::shared_ptr<s_autobon
 	while( it != bonus.end() ){
 		std::shared_ptr<s_autobonus> b = *it;
 
+		// [Stingor] Decision propre a cette entree : l'ancien code ecrasait le parametre
+		// `restore`, si bien qu'un seul autobonus a l'equipement incomplet supprimait
+		// aussi toutes les entrees suivantes de la liste, sans reappliquer leur bonus.
+		bool keep = restore;
+
 		if( b->active != INVALID_TIMER && restore && b->bonus_script != nullptr ){
 			uint32 equip_pos_idx = 0;
 
@@ -3794,11 +3799,11 @@ void pc_delautobonus(map_session_data &sd, std::vector<std::shared_ptr<s_autobon
 				script_run_autobonus(b->bonus_script, &sd, b->pos);
 			}else{
 				// Not all required items equipped anymore
-				restore = false;
+				keep = false;
 			}
 		}
 
-		if( restore ){
+		if( keep ){
 			it++;
 			continue;
 		}
@@ -12849,7 +12854,14 @@ static void pc_deleteautobonus( std::vector<std::shared_ptr<s_autobonus>>& bonus
 	while( it != bonus.end() ){
 		std::shared_ptr<s_autobonus> b = *it;
 
-		if( ( b->pos & position ) != b->pos ){
+		// [Stingor] Un autobonus de combo porte le masque de TOUTES les positions
+		// impliquees. Exiger que l'item retire les couvre toutes revenait a ne jamais
+		// nettoyer l'entree quand on ne desequipe qu'une piece du combo : elle restait
+		// dans la liste et continuait d'etre tiree a chaque coup. Pire, reposer les
+		// cartes sur d'autres emplacements creait une seconde entree, la deduplication
+		// de pc_addautobonus comparant pos + script. Des qu'une position requise est
+		// liberee le combo n'est plus complet, donc l'autobonus doit partir.
+		if( ( b->pos & position ) == 0 ){
 			it++;
 			continue;
 		}
