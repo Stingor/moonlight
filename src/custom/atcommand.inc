@@ -1582,6 +1582,68 @@ ACMD_FUNC(iteminfo)
 	return 0;
 }
 
+// ── [Stingor] Bourgeon : @whodrops / @whereis en LIENS ────────────────────
+//
+// Les deux commandes ne parlent que de choses que l'interface moderne sait
+// ouvrir — des monstres et des cartes — mais elles les écrivaient à plat. La
+// chatbox de Bourgeon connaît déjà les balises (`<MOBL>` pour un monstre,
+// `<NAVIL>` pour un lieu) : il suffit de les poser ici.
+//
+// 🔴 GATÉ SUR LA CAPACITÉ, pas sur `has_bourgeon`. La chatbox moderne est
+// opt-in et peut être éteinte en cours de session (cf. `e_bourgeon_ui_cap`) ;
+// un client qui ne la rend pas lirait les chevrons en toutes lettres. La sortie
+// de ces commandes est un message SELF : personne d'autre ne la lit, donc le
+// choix se fait une fois pour toute la commande, sans version de repli à poster
+// en parallèle.
+static bool bourgeon_chat_markup(map_session_data* sd) {
+	return sd != nullptr && (sd->bourgeon_ui_caps & BOURGEON_UI_CHAT) != 0;
+}
+
+// Le nom d'un monstre. En lien, le RANG voyage dans la balise (0 normal, 1 boss,
+// 2 MVP) et c'est le LECTEUR qui compose sa vignette — « <[MVP] Golden Thief
+// Bug> » ; en clair, on garde le préfixe écrit à la main, tel qu'il l'était.
+//
+// 🔴 Le nom voyage DANS la balise, et ce n'est pas de la commodité : le client
+// n'a pas mob_db, il ne sait pas nommer un monstre à partir de son seul id.
+static std::string bourgeon_mob_link(map_session_data* sd, uint16 mob_id, const std::shared_ptr<s_mob_db>& mob) {
+	int32 rank = 0;
+	switch (mob->get_bosstype()) {
+		case BOSSTYPE_MVP:      rank = 2; break;
+		case BOSSTYPE_MINIBOSS: rank = 1; break;
+		default: break;
+	}
+	char buf[NAME_LENGTH + 64];
+	if (bourgeon_chat_markup(sd))
+		safesnprintf(buf, sizeof(buf), "<MOBL>%u:%d:%s</MOBL>", (uint32)mob_id, rank, mob->jname.c_str());
+	else
+		safesnprintf(buf, sizeof(buf), "%s%s", rank == 2 ? "[MVP] " : (rank == 1 ? "[Mini-Boss] " : ""), mob->jname.c_str());
+	return buf;
+}
+
+// Un lieu, en lien de NAVIGATION. `<NAVIL>` est la balise du CLIENT : le nom
+// INTERNE collé aux quatre caractères base 62 des coordonnées, « 0000 » valant
+// la carte entière — c'est exactement ce qu'on veut d'un lieu d'apparition, dont
+// on connaît une zone et non un point. Le nom AFFICHÉ n'est pas dans la balise et
+// n'a pas à y être : chacun le résout dans SA langue.
+//
+// Rend une chaîne VIDE si la carte n'est pas chargée sur ce serveur — à
+// l'appelant de dire autre chose plutôt que d'afficher un lieu vide.
+static std::string bourgeon_map_link(map_session_data* sd, uint16 mapindex) {
+	const int16 mapid = map_mapindex2mapid(mapindex);
+	if (mapid < 0)
+		return std::string();
+	const char* internal = map_getmapdata(mapid)->name;
+	const char* display  = mapindex_idx2displayname(mapindex);
+	char buf[MAP_DISPLAY_NAME_LENGTH + MAP_NAME_LENGTH + 24];
+	if (bourgeon_chat_markup(sd))
+		safesnprintf(buf, sizeof(buf), "<NAVIL>%s0000</NAVIL>", internal);
+	else if (display && strcmpi(display, internal) != 0)
+		safesnprintf(buf, sizeof(buf), "%s (%s)", display, internal);
+	else
+		safestrncpy(buf, display ? display : internal, sizeof(buf));
+	return buf;
+}
+
 /*==========================================
  * Show who drops the item.
  *------------------------------------------*/
@@ -1660,51 +1722,43 @@ ACMD_FUNC(whodrops)
 
 				dropchance = min(dropchance, 10000); //cap it to 100%
 
-				// Prefixe le nom du monstre par son type (MVP / Mini-Boss).
-				const char* bosstag = "";
-				switch (mob->get_bosstype()) {
-					case BOSSTYPE_MVP:      bosstag = "[MVP] ";       break;
-					case BOSSTYPE_MINIBOSS: bosstag = "[Mini-Boss] "; break;
-					default: break;
-				}
-				char mobname[NAME_LENGTH + 16];
-				safesnprintf(mobname, sizeof(mobname), "%s%s", bosstag, mob->jname.c_str());
+				// Le nom du monstre : lien cliquable pour la chatbox moderne,
+				// « [MVP] Nom » en clair pour les autres (cf. bourgeon_mob_link).
+				const std::string mobname = bourgeon_mob_link(sd, (uint16)mobid, mob);
 
 				const std::vector<spawn_info> spawns = mob_get_spawns(mobid);
 				if (spawns.size() < 1)
-					sprintf(atcmd_output, "- %s (%d): %02.02f%% - %s", mobname, mobid, (dropchance / 100.), msg_txt(sd, 1290)); // Instance/Quest/Event
+					safesnprintf(atcmd_output, sizeof(atcmd_output), "- %s (%d): %02.02f%% - %s", mobname.c_str(), mobid, (dropchance / 100.), msg_txt(sd, 1290)); // Instance/Quest/Event
 				else if (spawns.size() == 1) {
-					int16 mapid = map_mapindex2mapid(spawns[0].mapindex);
-					if (mapid > 1) {
-							const char* display = mapindex_idx2displayname(spawns[0].mapindex);
-							const char* internal = map_getmapdata(mapid)->name;
-							char location[MAP_DISPLAY_NAME_LENGTH + MAP_NAME_LENGTH + 3];
-							if (display && strcmpi(display, internal) != 0)
-								safesnprintf(location, sizeof(location), "%s (%s)", display, internal);
-							else
-								safestrncpy(location, display ? display : internal, sizeof(location));
-							if (spawns[0].qty > 1)
-								sprintf(atcmd_output, "- %s (%d): %02.02f%% - %d mobs dans %s", mobname, mobid, (dropchance / 100.), spawns[0].qty, location);
-							else
-								sprintf(atcmd_output, "- %s (%d): %02.02f%% - 1 mob dans %s", mobname, mobid, (dropchance / 100.), location);
-						}
+					// ⚠ Une carte non chargée laissait atcmd_output tel quel, donc la
+					// ligne PRÉCÉDENTE était réaffichée à l'identique : on retombe
+					// désormais sur la mention sans lieu.
+					const std::string location = bourgeon_map_link(sd, spawns[0].mapindex);
+					if (location.empty())
+						safesnprintf(atcmd_output, sizeof(atcmd_output), "- %s (%d): %02.02f%% - %s", mobname.c_str(), mobid, (dropchance / 100.), msg_txt(sd, 1290)); // Instance/Quest/Event
+					else if (spawns[0].qty > 1)
+						safesnprintf(atcmd_output, sizeof(atcmd_output), "- %s (%d): %02.02f%% - %d mobs dans %s", mobname.c_str(), mobid, (dropchance / 100.), spawns[0].qty, location.c_str());
+					else
+						safesnprintf(atcmd_output, sizeof(atcmd_output), "- %s (%d): %02.02f%% - 1 mob dans %s", mobname.c_str(), mobid, (dropchance / 100.), location.c_str());
 				}
 				else if (spawns.size() < 4) {
 					char buf[CHAT_SIZE_MAX];
 
-					sprintf(atcmd_output, "- %s (%d): %02.02f%% - ", mobname, mobid, (dropchance / 100.));
+					safesnprintf(atcmd_output, sizeof(atcmd_output), "- %s (%d): %02.02f%% - ", mobname.c_str(), mobid, (dropchance / 100.));
 
 					for (auto& spawn : spawns)
 					{
-						int16 mapid = map_mapindex2mapid(spawn.mapindex);
-						if (mapid < 0)
+						const std::string location = bourgeon_map_link(sd, spawn.mapindex);
+						if (location.empty())
 							continue;
-						safesnprintf(buf, sizeof(buf), "[%d->%s]", spawn.qty, map_getmapdata(mapid)->name);
-						strcat(atcmd_output, buf);
+						safesnprintf(buf, sizeof(buf), "[%d->%s]", spawn.qty, location.c_str());
+						// La balise allonge la ligne : on borne l'ajout, là où le
+						// `strcat` écrivait au-delà du tampon sans le dire.
+						strncat(atcmd_output, buf, sizeof(atcmd_output) - strlen(atcmd_output) - 1);
 					}
 				}
 				else
-					sprintf(atcmd_output, "- %s (%d): %02.02f%% - Respawn dans %zd maps - @whereis %d", mobname, mobid, (dropchance / 100.), spawns.size(), mobid);
+					safesnprintf(atcmd_output, sizeof(atcmd_output), "- %s (%d): %02.02f%% - Respawn dans %zd maps - @whereis %d", mobname.c_str(), mobid, (dropchance / 100.), spawns.size(), mobid);
 
 				clif_displaymessage(fd, atcmd_output);
 			}
@@ -1749,7 +1803,9 @@ ACMD_FUNC(whereis)
 		std::shared_ptr<s_mob_db> mob = mob_db.find(mob_id);
 
 		if (!mob) continue;
-		snprintf(atcmd_output, sizeof atcmd_output, msg_txt(sd, 1289), mob->jname.c_str()); // %s spawns in:
+		// Le monstre demandé est lui aussi un lien : c'est la première chose
+		// qu'on veut ouvrir quand la liste des lieux ne suffit pas.
+		snprintf(atcmd_output, sizeof atcmd_output, msg_txt(sd, 1289), bourgeon_mob_link(sd, mob_id, mob).c_str()); // %s spawns in:
 		clif_displaymessage(fd, atcmd_output);
 
 		const std::vector<spawn_info> spawns = mob_get_spawns(mob_id);
@@ -1760,17 +1816,10 @@ ACMD_FUNC(whereis)
 		else {
 			for (auto& spawn : spawns)
 				{
-					int16 mapid = map_mapindex2mapid(spawn.mapindex);
-					if (mapid < 0)
+					const std::string location = bourgeon_map_link(sd, spawn.mapindex);
+					if (location.empty())
 						continue;
-					const char* display = mapindex_idx2displayname(spawn.mapindex);
-					const char* internal = map_getmapdata(mapid)->name;
-					char location[MAP_DISPLAY_NAME_LENGTH + MAP_NAME_LENGTH + 3];
-					if (display && strcmpi(display, internal) != 0)
-						safesnprintf(location, sizeof(location), "%s (%s)", display, internal);
-					else
-						safestrncpy(location, display ? display : internal, sizeof(location));
-					snprintf(atcmd_output, sizeof atcmd_output, "%s (%d)", location, spawn.qty);
+					snprintf(atcmd_output, sizeof atcmd_output, "%s (%d)", location.c_str(), spawn.qty);
 					clif_displaymessage(fd, atcmd_output);
 				}
 		}
