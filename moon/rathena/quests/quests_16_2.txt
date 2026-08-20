@@ -8722,7 +8722,7 @@ einbech,212,212,6	script	Arivero Yurhik#TFQ04	4_M_GUNSLINGER,{
 		mes "[Arivero Yurhik]";
 		mes "But, eventually, teleporting will become possible.";
 		next;
-		delitem Mystic_Frozen,3;
+		delitem Mistic_Frozen,3;
 		erasequest 5730;	// // Things that can destroy the device
 		setquest 5731;	// // Clana Namieri
 		yurhik_quest = 4;
@@ -8830,7 +8830,7 @@ lighthalzen,135,233,6	script	Arivero Yurhik#TFQ07	4_M_GUNSLINGER,{
 		mes "Ha! In the past, due to the magic power of this prohibition equipment.. Oh! It's nothing.";
 		mes "We cannot help walking.";
 		next;
-		delitem Mystic_Frozen,1;
+		delitem Mistic_Frozen,1;
 		delitem Rough_Wind,3;
 		erasequest 5732;	// To Lighthalzen
 		setquest 5733;	// Clana Namieri
