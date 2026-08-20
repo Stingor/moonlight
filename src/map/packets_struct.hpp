@@ -6594,6 +6594,78 @@ struct PACKET_ZC_BOURGEON_STYLE_OPEN {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_STYLE_OPEN, 0x0f28);
 
+// ── [Stingor] Fenêtre de CIBLE (CZ 0x0F29 -> ZC 0x0F2A) ──────────────────────
+//
+// Le client connaît déjà le nom, la race et l'élément d'un monstre : le serveur
+// les lui écrit dans la plaque de nom (guild_name = race, position_name =
+// élément, party_name = « Lv. X | HP: Y% », cf. clif_name). Ce qu'il ne connaît
+// d'AUCUNE entité tierce, c'est le **SP** : aucun paquet du protocole ne le
+// transporte, et la barre du bas de UIMonsterGage reste donc à zéro côté client.
+// C'est ce trou-là que ce couple comble, avec les HP exacts en prime.
+//
+// Le client DEMANDE (il n'y a pas d'abonnement côté serveur) : tant que sa
+// fenêtre de cible est ouverte il réémet la requête à cadence lente. Aucun état
+// n'est gardé ici : pas de timer à nettoyer, pas de fuite à la déconnexion, et
+// une fenêtre fermée ne coûte rien.
+//
+// 🔴 GATE PVP. Sur un autre JOUEUR, HP et SP ne partent QUE s'il est du même
+// groupe ou de la même guilde (ou soi-même). Un adversaire renvoie son type et
+// rien d'autre : c'est une information de jeu, elle ne se donne pas.
+struct PACKET_CZ_BOURGEON_TARGET_INFO {
+	int16  packetType;
+	int16  packetLength;
+	uint32 gid;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_TARGET_INFO, 0x0f29);
+
+// ZC (server -> client): l'état de l'entité ciblée. Bloc FIXE.
+//
+//   status : 0 = ok, 1 = hors de portée ou inexistante (la fenêtre se ferme).
+//   known  : masque de ce qui est RENSEIGNÉ — 1 = HP, 2 = SP, 4 = niveau,
+//            8 = race/élément/taille. Un champ dont le bit est à 0 est à ignorer :
+//            « 0 PV » et « PV inconnus » ne se ressemblent pas à l'écran.
+//   type   : e_bourgeon_target_type (PC/MOB/NPC/HOM/MER/PET/ELEM), pas le masque
+//            bl_type qui ne tient pas dans un octet.
+struct PACKET_ZC_BOURGEON_TARGET_INFO {
+	int16  packetType;
+	int16  packetLength;
+	uint32 gid;
+	uint8  status;
+	uint8  known;
+	uint8  type;
+	int16  level;
+	uint32 hp;
+	uint32 maxhp;
+	uint32 sp;
+	uint32 maxsp;
+	uint8  race;
+	uint8  element;
+	uint8  element_lv;
+	uint8  size;
+	uint8  boss;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_TARGET_INFO, 0x0f2a);
+
+// Type d'entité tel qu'il voyage dans ZC_BOURGEON_TARGET_INFO.
+enum e_bourgeon_target_type : uint8 {
+	BOURGEON_TARGET_UNKNOWN = 0,
+	BOURGEON_TARGET_PC      = 1,
+	BOURGEON_TARGET_MOB     = 2,
+	BOURGEON_TARGET_NPC     = 3,
+	BOURGEON_TARGET_HOM     = 4,
+	BOURGEON_TARGET_MER     = 5,
+	BOURGEON_TARGET_PET     = 6,
+	BOURGEON_TARGET_ELEM    = 7,
+};
+
+// Bits de `known`.
+enum e_bourgeon_target_known : uint8 {
+	BOURGEON_TARGET_KNOWN_HP    = 1,
+	BOURGEON_TARGET_KNOWN_SP    = 2,
+	BOURGEON_TARGET_KNOWN_LEVEL = 4,
+	BOURGEON_TARGET_KNOWN_KIND  = 8,   // race + élément + taille + boss
+};
+
 
 // ZC (server -> client): apport des ÉQUIPEMENTS et des CARTES aux stats, compilé
 // par status_calc_pc. sd->indexed_bonus.param_equip = apport équipement (copié en

@@ -1724,6 +1724,19 @@ void clif_parse_bourgeon_reqmobinfo(int32 fd, map_session_data* sd);
 // section), pas une structure : ce qu'il y a à dire dépend du type de l'entité,
 // et ajouter une propriété ne doit pas devenir une rupture de protocole.
 void clif_parse_bourgeon_req_entity_props(int32 fd, map_session_data* sd);
+// CZ 0x0F29 -> ZC 0x0F2A : état de l'entité CIBLÉE, pour la fenêtre de cible de
+// Bourgeon (TargetFrame). Le client tient déjà nom / race / élément de sa plaque
+// de nom ; ce paquet apporte ce qu'aucun autre ne transporte — le **SP** d'une
+// entité tierce — et des PV exacts au lieu d'un pourcentage.
+//
+// 🔴 Pas d'abonnement : le client REDEMANDE tant que sa fenêtre est ouverte,
+// donc le serveur ne garde aucun état à nettoyer.
+// 🔴 Gate PVP, et il ne porte PAS sur les PV : ceux-là partent toujours, le
+// HUD de Bourgeon n'en montrant qu'une JAUGE dès que la cible est un joueur.
+// Le SP et le NIVEAU, eux, s'affichent en clair : ils restent réservés à la
+// party et à la guilde du propriétaire (la cible, ou le maître d'un compagnon).
+// 🔴 Hors AREA_SIZE ou map différente => statut 1, et la fenêtre se ferme.
+void clif_parse_bourgeon_target_info(int32 fd, map_session_data* sd);
 // CZ 0x0F25 : outillage NPC du menu contextuel (Bourgeon : EntityContextMenu) —
 // recharger le fichier de script d'où vient un NPC, le décharger, le déplacer sur
 // la case du demandeur. Ce sont `@reloadnpcfile`, `@unloadnpc` et `@npcmove`,

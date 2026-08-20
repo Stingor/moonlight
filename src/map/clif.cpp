@@ -7615,6 +7615,132 @@ void clif_parse_bourgeon_req_entity_props(int32 fd, map_session_data* sd) {
 	WFIFOSET(fd, offset);
 }
 
+// ── [Stingor] Fenêtre de CIBLE (CZ 0x0F29 -> ZC 0x0F2A) ─────────────────────
+//
+// Ce que le client sait déjà de sa cible, il le tient de la PLAQUE DE NOM :
+// clif_name lui écrit la race dans `guild_name`, l'élément dans `position_name`
+// et « Lv. X | HP: Y% » dans `party_name` (show_mob_info). Ce qu'il ne peut PAS
+// savoir, c'est le **SP** d'une entité tierce : aucun paquet du protocole ne le
+// transporte. Vérifié dans le client : la barre du bas de sa jauge d'entité
+// existe bel et bien (UIMonsterGage naît en mode deux barres) mais
+// UIPcGage_SetGaugeBottom n'y est jamais appelée qu'avec (0, 0).
+//
+// D'où ce couple : il apporte le SP, et des PV EXACTS là où la plaque de nom ne
+// donne qu'un pourcentage.
+//
+// 🔴 PAS D'ABONNEMENT, PAS DE TIMER. C'est le client qui redemande, à cadence
+// lente, tant que sa fenêtre de cible est ouverte. Le serveur ne garde donc
+// AUCUN état : rien à nettoyer à la déconnexion, au changement de map ou à la
+// fermeture de la fenêtre — trois occasions de fuite en moins.
+//
+// 🔴 GATE PVP. Sur un AUTRE JOUEUR, PV et SP ne partent que s'il est du même
+// groupe ou de la même guilde. Un adversaire reçoit son type et rien d'autre :
+// ses points de vie sont une information de jeu, elle ne se donne pas. La règle
+// suit le MAÎTRE pour un compagnon (homoncule, mercenaire, pet, elemental) —
+// sinon on lirait les PV d'un adversaire dans ceux de son homoncule.
+//
+// 🔴 HORS DE VUE = STATUT 1. « La fenêtre se ferme quand la cible sort
+// d'AREA_SIZE » se décide ICI, avec la même distance que tout le reste du
+// serveur, et pas dans une heuristique cliente qui divergerait.
+void clif_parse_bourgeon_target_info(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+
+	const PACKET_CZ_BOURGEON_TARGET_INFO* req =
+		reinterpret_cast<const PACKET_CZ_BOURGEON_TARGET_INFO*>(RFIFOP(fd, 0));
+
+	PACKET_ZC_BOURGEON_TARGET_INFO p = {};
+	p.packetType   = HEADER_ZC_BOURGEON_TARGET_INFO;
+	p.packetLength = sizeof(p);
+	p.gid          = req->gid;
+
+	block_list* bl = map_id2bl(req->gid);
+	if (bl == nullptr || bl->m != sd->m || !check_distance_bl(sd, bl, AREA_SIZE)) {
+		p.status = 1;                        // introuvable ou hors de vue
+		clif_send(&p, sizeof(p), sd, SELF);
+		return;
+	}
+
+	switch (bl->type) {
+		case BL_PC:   p.type = BOURGEON_TARGET_PC;   break;
+		case BL_MOB:  p.type = BOURGEON_TARGET_MOB;  break;
+		case BL_NPC:  p.type = BOURGEON_TARGET_NPC;  break;
+		case BL_HOM:  p.type = BOURGEON_TARGET_HOM;  break;
+		case BL_MER:  p.type = BOURGEON_TARGET_MER;  break;
+		case BL_PET:  p.type = BOURGEON_TARGET_PET;  break;
+		case BL_ELEM: p.type = BOURGEON_TARGET_ELEM; break;
+		default:      p.type = BOURGEON_TARGET_UNKNOWN; break;
+	}
+
+	// Un objet au sol, une unité de compétence ou un salon n'ont pas de status_data :
+	// les interroger déréférencerait un pointeur nul. Le NPC en a un, mais il ne
+	// veut rien dire (des PV de NPC ne s'affichent pas).
+	const bool has_status = (bl->type == BL_PC  || bl->type == BL_MOB || bl->type == BL_HOM ||
+	                         bl->type == BL_MER || bl->type == BL_PET || bl->type == BL_ELEM);
+
+	// Le joueur à qui « appartiennent » ces PV : la cible elle-même si c'est un
+	// joueur, son maître si c'est un compagnon, personne si c'est un monstre.
+	const map_session_data* owner = nullptr;
+	if (bl->type == BL_PC) {
+		owner = BL_CAST(BL_PC, bl);
+	} else if (bl->type == BL_HOM || bl->type == BL_MER || bl->type == BL_PET || bl->type == BL_ELEM) {
+		const block_list* master = battle_get_master(bl);
+		if (master != nullptr && master->type == BL_PC) owner = BL_CAST(BL_PC, master);
+	}
+
+	bool allowed = true;
+	if (owner != nullptr && owner != sd) {
+		const bool same_party = sd->status.party_id != 0 && sd->status.party_id == owner->status.party_id;
+		const bool same_guild = sd->status.guild_id != 0 && sd->status.guild_id == owner->status.guild_id;
+		allowed = same_party || same_guild;
+	}
+
+	if (has_status) {
+		// 🔴 Les PV partent TOUJOURS, y compris ceux d'un adversaire. Le HUD de
+		// Bourgeon n'en montre qu'une JAUGE quand la cible est un joueur : ni
+		// valeurs, ni pourcentage. Sans cet envoi, cette jauge restait vide
+		// jusqu'au premier coup porté — le client ne sait RIEN des PV d'un tiers,
+		// il ne les déduit que des dégâts qu'il voit passer, et un Cloaking ou un
+		// @hide recrée l'acteur et remet ce compteur à zéro.
+		p.hp    = static_cast<uint32>(status_get_hp(bl));
+		p.maxhp = static_cast<uint32>(status_get_max_hp(bl));
+		// Un maximum nul, c'est « cette entité n'a pas cette jauge » : le bit reste
+		// à 0 et le client n'affiche pas une barre vide qu'il prendrait pour un
+		// réservoir épuisé.
+		if (p.maxhp > 0) p.known |= BOURGEON_TARGET_KNOWN_HP;
+
+		// SP et niveau, eux, s'affichent EN CLAIR : ils restent réservés à la
+		// party et à la guilde. Un chiffre exact sur un adversaire est un
+		// avantage que le jeu ne donne pas ; une jauge, non.
+		if (allowed) {
+			p.sp    = static_cast<uint32>(status_get_sp(bl));
+			p.maxsp = static_cast<uint32>(status_get_max_sp(bl));
+			if (p.maxsp > 0) p.known |= BOURGEON_TARGET_KNOWN_SP;
+
+			const int32 lv = status_get_lv(bl);
+			if (lv > 0) {
+				p.level  = static_cast<int16>(cap_value(lv, 0, INT16_MAX));
+				p.known |= BOURGEON_TARGET_KNOWN_LEVEL;
+			}
+		}
+	}
+
+	// Race, élément, taille : PUBLICS, et déjà dans la plaque de nom des monstres.
+	// Les répéter en binaire évite au client de parser du texte (traduit, et absent
+	// dès que show_mob_info ne les met pas), et les donne aussi pour les entités
+	// dont la plaque ne les porte pas du tout.
+	if (has_status) {
+		p.race       = static_cast<uint8>(status_get_race(bl));
+		p.element    = static_cast<uint8>(status_get_element(bl));
+		p.element_lv = static_cast<uint8>(status_get_element_level(bl));
+		p.size       = static_cast<uint8>(status_get_size(bl));
+		p.boss       = static_cast<uint8>(status_get_class_(bl));
+		p.known     |= BOURGEON_TARGET_KNOWN_KIND;
+	}
+
+	clif_send(&p, sizeof(p), sd, SELF);
+}
+
 // ── Interface moderne : ce que ce client sait afficher (CZ 0x0F24) ───────────
 //
 // Le client l'annonce dès que le serveur l'a reconnu, PUIS à chaque fois qu'un
