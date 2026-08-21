@@ -22277,6 +22277,27 @@ Body:
           - Index: 87
             Item: Gypsy_Card
             Rate: 1
+          - Index: 88
+            Item: Big_Eggring_Card
+            Rate: 1
+          - Index: 89
+            Item: Boitata_Card
+            Rate: 1
+          - Index: 90
+            Item: Ant_Buyanne_Card
+            Rate: 1
+          - Index: 91
+            Item: Fenrir_Card
+            Rate: 1
+          - Index: 92
+            Item: Gold_Q_Scaraba_Card
+            Rate: 1
+          - Index: 93
+            Item: Nidhogg_Shadow_Card
+            Rate: 1
+          - Index: 94
+            Item: N_Amon_Ra_Card
+            Rate: 1
   - Group: SGRADE_POCKET
     SubGroups:
       - SubGroup: 0

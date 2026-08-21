@@ -10189,6 +10189,14 @@ Body:
     Buy: 20
     Weight: 10
     Script: "getrandgroupitem(IG_Candy_Holder,1); getrandgroupitem(IG_Candy_Holder,1); getrandgroupitem(IG_Candy_Holder,1);\n"
+  - Id: 22515
+    AegisName: Key_Of_Twisted_Time
+    Name: Twisted Key of Time
+    Type: DelayConsume
+    Buy: 10
+    Weight: 300
+    Script: |
+      itemskill "NPC_WIDECURSE",2;
   - Id: 22535
     AegisName: WorkerScroll_A
     Name: Scroll Summoning Workers(Male)

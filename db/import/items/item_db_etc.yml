@@ -12387,11 +12387,6 @@ Body:
     Buy: 10
     Weight: 10
     Script: "/* TODO */\n"
-  - Id: 22515
-    AegisName: Twisted_Key_of_Time
-    Name: Twisted Key of Time
-    Buy: 10
-    Weight: 300
   - Id: 22516
     AegisName: Dark_Red_Clot
     Name: Black As Night Piece
