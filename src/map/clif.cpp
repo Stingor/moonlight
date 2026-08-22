@@ -7389,6 +7389,12 @@ void clif_parse_bourgeon_req_entity_props(int32 fd, map_session_data* sd) {
 		               num(tsd->battle_status.sp) + " / " + num(tsd->battle_status.max_sp));
 		add("Groupe serveur", num(pc_get_group_level(tsd)));
 		add("Vitesse", num(tsd->battle_status.speed));
+		// Les monnaies de compte. Elles n'ont rien de diagnostique en soi, mais
+		// le staff en a besoin ICI : c'est le seul endroit où il peut lire le
+		// solde avant de le corriger depuis le menu contextuel (« Points
+		// d'event… »), qui ne les connaît pas — il n'envoie qu'un delta.
+		add("Points d'event", num(tsd->kafraPoints));
+		add("Votes", num(tsd->cashPoints));
 		if (tsd->status.party_id != 0) {
 			party_data* pt = party_search(tsd->status.party_id);
 			add("Party", num(tsd->status.party_id) +
@@ -7879,6 +7885,195 @@ void clif_parse_bourgeon_npc_admin(int32 fd, map_session_data* sd) {
 	}
 	default:
 		clif_displaymessage(fd, "Outils NPC: action inconnue.");
+		break;
+	}
+}
+
+// ── Outillage JOUEUR du menu contextuel (staff) ──────────────────────────────
+//
+// Ce que faisait le NPC `#gmclicdroit` : le staff cliquait droit sur un joueur,
+// le client émettait « voir l'équipement » (CZ 0x02d6) et le serveur détournait
+// ce paquet vers un dialogue NPC. Ce menu vit désormais dans le client
+// (Bourgeon : EntityContextMenu, sous-menu « Outils du staff ») et CE paquet le
+// sert — pendant que 0x02d6 retrouve son rôle : montrer un équipement.
+//
+// 🔴 On REJOUE les atcommands, on ne les réimplémente pas. Le serveur résout le
+// nom depuis l'AID puis passe la ligne à `is_atcommand(..., type 1)`, comme si le
+// staff l'avait tapée dans le chat : même table de permissions (conf/groups.yml),
+// mêmes refus, mêmes messages, même journal (`log_atcommand`). Réécrire les
+// contrôles ici aurait créé une seconde autorité, qui aurait fini par diverger de
+// la première — et un bouton qui agit là où la commande refuse est un trou.
+//
+// Les deux actions SANS atcommand équivalente (faire venir, points d'event) sont
+// écrites à la main, mais empruntent quand même leur droit à une commande
+// existante (`recall`, `points`) plutôt que d'inventer un seuil de plus.
+//
+// Pas de ZC : tout revient par `clif_displaymessage`, le canal des atcommands.
+void clif_parse_bourgeon_player_admin(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+
+	const PACKET_CZ_BOURGEON_PLAYER_ADMIN* p =
+		reinterpret_cast<const PACKET_CZ_BOURGEON_PLAYER_ADMIN*>(RFIFOP(fd, 0));
+
+	// Refus EXPLICITE : un bouton qui ne répond jamais ressemble à une panne.
+	if (pc_get_group_level(sd) < 80) {
+		clif_displaymessage(fd, "Outils joueur: reserve au staff.");
+		return;
+	}
+
+	map_session_data* tsd = map_id2sd(p->aid);
+	if (tsd == nullptr) {
+		clif_displaymessage(fd, msg_txt(sd, 3));  // Character not found.
+		return;
+	}
+
+	char output[CHAT_SIZE_MAX];
+
+	// Rejoue une atcommand au nom du demandeur, sur la cible désignée par son
+	// nom : toutes celles reprises ici prennent le nom en DERNIER argument, donc
+	// rien n'a besoin d'être échappé — un nom à espaces passe entier.
+	//
+	// 🔴 `is_atcommand` rend false quand elle n'a RIEN fait : permission de
+	// groupe absente, ou commande coupée par un dialogue NPC en cours. Elle se
+	// tait dans ce cas (le chat était censé afficher la ligne comme un message
+	// ordinaire), donc c'est à nous de dire pourquoi le bouton n'a rien produit.
+	auto run = [&](const char* cmd, const char* args = nullptr) -> void {
+		char line[CHAT_SIZE_MAX];
+		if (args != nullptr)
+			safesnprintf(line, sizeof(line), "%c%s %s %s", atcommand_symbol, cmd, args, tsd->status.name);
+		else
+			safesnprintf(line, sizeof(line), "%c%s %s", atcommand_symbol, cmd, tsd->status.name);
+		if (!is_atcommand(fd, sd, line, 1)) {
+			safesnprintf(output, sizeof(output),
+				"Refuse : votre groupe n'a pas '%c%s'.", atcommand_symbol, cmd);
+			clif_displaymessage(fd, output);
+		}
+	};
+
+	switch (p->action) {
+	case BOURGEON_PLAYER_ADMIN_COME_HERE: {
+		// Pas d'atcommand pour ça : `@recall` TÉLÉPORTE, ici le joueur MARCHE
+		// jusqu'à nous. On lui emprunte quand même son droit — c'est la même
+		// prérogative (« amène-moi ce joueur »), et lui inventer un seuil à part
+		// aurait fait un droit de plus à tenir à jour.
+		if (!pc_can_use_command(sd, "recall", COMMAND_ATCOMMAND)) {
+			clif_displaymessage(fd, "Refuse : votre groupe n'a pas 'recall'.");
+			return;
+		}
+		if (pc_get_group_level(sd) < pc_get_group_level(tsd)) {
+			clif_displaymessage(fd, msg_txt(sd, 81));  // Your GM level don't authorise you...
+			return;
+		}
+		if (tsd->m != sd->m) {
+			clif_displaymessage(fd, "Ce joueur n'est pas sur votre carte.");
+			return;
+		}
+		unit_data* ud = unit_bl2ud(tsd);
+		if (ud == nullptr) return;
+		// Déjà en marche forcée : `unitwalkto` refusait dans ce cas, et pour la
+		// même raison — deux destinations imposées se contredisent.
+		if (ud->state.force_walk) {
+			clif_displaymessage(fd, "Ce joueur marche deja vers une destination imposee.");
+			return;
+		}
+		// Assis, il ne partirait pas : le script d'origine le relevait d'abord.
+		if (pc_issit(tsd) && pc_setstand(tsd, false)) {
+			skill_sit(tsd, false);
+			clif_standing(*tsd);
+		}
+		if (!unit_can_reach_bl(tsd, sd, distance_bl(tsd, sd) + 1, 0, nullptr, nullptr)) {
+			clif_displaymessage(fd, "Aucun chemin depuis sa position jusqu'a la votre.");
+			return;
+		}
+		ud->state.force_walk = true;
+		// Le même différé d'une frame que `unitwalkto` : partir depuis le
+		// handler de paquet mettrait la marche en route au milieu de l'état
+		// courant de l'unité.
+		add_timer(gettick() + 50, unit_delay_walktobl_timer, tsd->id, sd->id);
+		safesnprintf(output, sizeof(output), "%s marche vers vous.", tsd->status.name);
+		clif_displaymessage(fd, output);
+		break;
+	}
+	case BOURGEON_PLAYER_ADMIN_SIT_STAND:
+		run("sitstand");
+		break;
+	case BOURGEON_PLAYER_ADMIN_EVENT_POINTS: {
+		// `@points` existe, mais elle agit sur SOI : la version « sur un autre »
+		// serait la charcommand `#points`, que les groupes n'ouvrent pas. On
+		// refait donc le geste ici, avec les mêmes fonctions de caisse (donc le
+		// même journal `log_cash`), et on lui emprunte son droit.
+		if (!pc_can_use_command(sd, "points", COMMAND_ATCOMMAND)) {
+			clif_displaymessage(fd, "Refuse : votre groupe n'a pas 'points'.");
+			return;
+		}
+		if (pc_get_group_level(sd) < pc_get_group_level(tsd)) {
+			clif_displaymessage(fd, msg_txt(sd, 81));  // Your GM level don't authorise you...
+			return;
+		}
+		// ⚠ Même garde que `@points` : la boutique ouverte affiche un solde
+		// qu'aucun paquet ne vient rafraîchir, et il mentirait jusqu'à sa
+		// fermeture.
+		if (tsd->state.cashshop_open) {
+			clif_displaymessage(fd, "Ce joueur a sa boutique de votes ouverte : fermez-la d'abord.");
+			return;
+		}
+		int32 delta = cap_value(p->param, -BOURGEON_PLAYER_ADMIN_POINTS_STEP,
+		                                   BOURGEON_PLAYER_ADMIN_POINTS_STEP);
+		if (delta == 0) {
+			clif_displaymessage(fd, msg_txt(sd, 1322));  // Please enter an amount.
+			return;
+		}
+		// Retirer plus qu'il n'en a vide le compteur au lieu d'échouer — c'est ce
+		// que faisaient et le NPC et `@points`.
+		if (delta < 0 && -delta > tsd->kafraPoints) delta = -tsd->kafraPoints;
+		const int32 done = (delta > 0) ? pc_getcash(tsd, 0, delta, LOG_TYPE_COMMAND)
+		                               : pc_paycash(tsd, 0, -delta, LOG_TYPE_COMMAND);
+		if (done < 0) {
+			clif_displaymessage(fd, msg_txt(sd, delta > 0 ? 149 : 41));
+			return;
+		}
+		// Les deux camps sont prévenus, comme dans le NPC : celui qui donne et
+		// celui qui reçoit. Un solde qui bouge sans un mot passe pour un bug.
+		safesnprintf(output, sizeof(output), "%s %d point(s) d'event a %s. Total : %d.",
+			delta > 0 ? "Ajoute" : "Retire", delta > 0 ? delta : -delta,
+			tsd->status.name, tsd->kafraPoints);
+		clif_displaymessage(fd, output);
+		safesnprintf(output, sizeof(output), "Vous %s %d point(s) d'event. Total : %d.",
+			delta > 0 ? "gagnez" : "perdez", delta > 0 ? delta : -delta, tsd->kafraPoints);
+		clif_displaymessage(tsd->fd, output);
+		ShowStatus("Points d'event : %s %+d a '" CL_WHITE "%s" CL_RESET "' (par %s).\n",
+			delta > 0 ? "ajout" : "retrait", delta, tsd->status.name, sd->status.name);
+		break;
+	}
+	case BOURGEON_PLAYER_ADMIN_MUTE:
+		// 60 minutes, la durée que posait le NPC. `@mute` AJOUTE au compteur de
+		// manières : appliquée deux fois, elle prolonge — elle ne bascule pas.
+		run("mute", "60");
+		break;
+	case BOURGEON_PLAYER_ADMIN_UNMUTE:
+		run("unmute");
+		break;
+	case BOURGEON_PLAYER_ADMIN_JAIL_TOGGLE:
+		// 🔴 C'est le SERVEUR qui choisit le sens : le client ne voit pas
+		// SC_JAILED. Il ne s'en remet pas pour autant à un `if` de son cru — il
+		// rejoue `@jail` ou `@unjail`, et chacune revérifie l'état ET sa propre
+		// permission de groupe (un « Guard » peut avoir l'une sans l'autre).
+		if (tsd->sc.getSCE(SC_JAILED) != nullptr)
+			run("unjail");
+		else
+			run("jail");
+		break;
+	case BOURGEON_PLAYER_ADMIN_NUKE:
+		run("nuke");
+		break;
+	case BOURGEON_PLAYER_ADMIN_BLOCK:
+		// `block` est l'alias de `char_block` : c'est le nom que conf/groups.yml
+		// emploie, et `checkAlias` le résout.
+		run("block");
+		break;
+	default:
+		clif_displaymessage(fd, "Outils joueur: action inconnue.");
 		break;
 	}
 }
@@ -22231,10 +22426,16 @@ void clif_bossmapinfo( const map_session_data& sd, mob_data* md, e_bossmap_info 
 
 /// Requesting equip of a player (CZ_EQUIPWIN_MICROSCOPE).
 /// 02d6 <account id>.L
+//
+// ⚠ Ce paquet a longtemps été DÉTOURNÉ : à partir du niveau de groupe 80, il
+// n'affichait pas l'équipement mais déclenchait le NPC `#gmclicdroit`, un menu GM
+// en dialogue. Conséquence : le staff était le seul à ne PAS pouvoir regarder un
+// équipement. Ce menu vit désormais dans le client (Bourgeon : EntityContextMenu,
+// sous-menu « Outils du staff », CZ_BOURGEON_PLAYER_ADMIN) et le paquet est rendu
+// à son rôle. Le droit de regarder reste `view_equipment` (conf/groups.yml).
 void clif_parse_ViewPlayerEquip(int32 fd, map_session_data* sd)
 {
 	int32 aid = RFIFOL(fd, packet_db[RFIFOW(fd,0)].pos[0]);
-	char param[CHAT_SIZE_MAX];
 	map_session_data* tsd = map_id2sd(aid);
 
 	if (!tsd)
@@ -22242,14 +22443,8 @@ void clif_parse_ViewPlayerEquip(int32 fd, map_session_data* sd)
 
 	if (sd->m != tsd->m)
 		return;
-	else if( pc_get_group_level(sd) >= 80 ) {
-		struct atcmd_binding_data *binding = get_atcommandbind_byname("@gmclicdroit");	// [Stingor]
-		sprintf(param, "%d", tsd->status.char_id);
 
-		if( binding != NULL && binding->npc_event[0] &&	pc_get_group_level(sd) >= binding->level )
-			npc_do_atcmd_event(sd, "@gmclicdroit", param, binding->npc_event);
-	}
-	else if( tsd->status.show_equip || pc_has_permission(sd, PC_PERM_VIEW_EQUIPMENT) )
+	if( tsd->status.show_equip || pc_has_permission(sd, PC_PERM_VIEW_EQUIPMENT) )
 		clif_viewequip_ack( *sd, *tsd );
 	else
 		clif_msg( *sd, MSI_OPEN_EQUIPEDITEM_REFUSED );

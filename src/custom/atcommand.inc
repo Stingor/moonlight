@@ -892,14 +892,17 @@ ACMD_FUNC(sitstand)
 		return -1;
 	}
 
+	// ⚠ `pl_sd`, PAS `sd` : `skill_sit` pose (ou retire) les bonus d'assise
+	// (Tumbling, Moonlit Petals). Ecrite avec `sd`, la commande les appliquait au
+	// GM qui l'emploie au lieu du joueur qu'il assoit.
 	if( pc_issit(pl_sd) ) {
 		pc_setstand(pl_sd, true);
-		skill_sit(sd, false);
+		skill_sit(pl_sd, false);
 		clif_standing(*pl_sd);
 	}
 	else {
 		pc_setsit(pl_sd);
-		skill_sit(sd, true);
+		skill_sit(pl_sd, true);
 		clif_sitting(*pl_sd);
 	}
 

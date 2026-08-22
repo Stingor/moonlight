@@ -1752,6 +1752,7 @@ void clif_parse_bourgeon_target_info(int32 fd, map_session_data* sd);
 // monde pour tous les joueurs connectés). Compte rendu par `clif_displaymessage`,
 // donc pas de ZC en retour.
 void clif_parse_bourgeon_npc_admin(int32 fd, map_session_data* sd);
+void clif_parse_bourgeon_player_admin(int32 fd, map_session_data* sd);
 
 // ── Interface moderne : ce que le client SAIT afficher (CZ 0x0F24) ───────────
 //

@@ -6448,6 +6448,75 @@ enum e_bourgeon_npc_admin_action : uint8 {
 	BOURGEON_NPC_ADMIN_MOVE_TO_ME  = 2,  // le poser sur la case du demandeur
 };
 
+// ── Outillage JOUEUR du menu contextuel (staff) ──────────────────────────────
+//
+// CZ (client -> server) : ce que faisait le NPC `#gmclicdroit`, porté dans le
+// sous-menu « Outils du staff » du menu contextuel (Bourgeon :
+// EntityContextMenu). Layout : [packetType:2][packetLength:2][aid:4][action:1]
+// [param:4], `action` = `e_bourgeon_player_admin_action`.
+//
+// 🔴 Le serveur RÉSOUT le nom lui-même puis rejoue l'atcommand correspondante
+// par `is_atcommand(..., type 1)`, exactement comme si le staff l'avait tapée.
+// C'est ce qui fait que la permission de groupe reste la SEULE autorité : un
+// « Event Manager » sans `block:` dans conf/groups.yml se voit refuser « Bannir »
+// même si le bouton s'affiche, et le compte rendu (réussite comme refus) part
+// dans le chat par le canal habituel. Refaire les contrôles ici aurait créé une
+// seconde table de droits qui aurait dérivé de la première.
+//
+// 🔴 Le client envoie l'AID, pas le nom. C'est ce qu'il a sous le curseur, et
+// c'est ce que `map_id2sd` prend directement — un nom recopié depuis la plaque
+// aurait pu être tronqué, ou désigner un homonyme d'une autre carte.
+//
+// Gate SERVEUR : niveau de groupe >= 80, le même que l'inspecteur — le seuil fin
+// est celui de chaque atcommand. Pas de ZC en retour : tout revient par
+// `clif_displaymessage`.
+struct PACKET_CZ_BOURGEON_PLAYER_ADMIN {
+	int16  packetType;
+	int16  packetLength;
+	uint32 aid;
+	uint8  action;
+	int32  param;    // BOURGEON_PLAYER_ADMIN_EVENT_POINTS : le delta, signé
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_PLAYER_ADMIN, 0x0f2b);
+
+// Miroir exact des `kPlayerAdmin*` côté Bourgeon
+// (src/features/windows/entity_context_menu.cc) : les deux listes bougent
+// ensemble, et les valeurs ne se réordonnent pas.
+//
+// ⚠ « Muet » et « rendre la parole » sont DEUX actions, pas une bascule. Le
+// client ne sait pas si la cible porte SC_NOCHAT, et un joueur muet reste dans le
+// monde, à côté de celui qui clique : une bascule aurait rendu la parole à qui
+// venait d'être puni par un autre membre du staff. `@mute 60` n'est d'ailleurs
+// pas l'inverse d'`@unmute` — elle AJOUTE 60 minutes au compteur de manières.
+//
+// 🔴 La PRISON, elle, est bien UNE seule action. Deux raisons, et la seconde est
+// la vraie : `pc_jail` téléporte sur `MAP_JAIL`, donc un joueur emprisonné n'est
+// visible QUE depuis la prison — or on ne peut cliquer droit que sur ce qu'on a à
+// l'écran. Dans le monde, la cible n'est jamais emprisonnée ; dans `sec_pri`,
+// elle l'est toujours. Les deux sens ne sont jamais disponibles en même temps, et
+// une entrée sur deux aurait toujours été morte. (`@jail` et `@unjail` refusent
+// de toute façon poliment quand l'état est déjà celui qu'elles produiraient.)
+enum e_bourgeon_player_admin_action : uint8 {
+	BOURGEON_PLAYER_ADMIN_COME_HERE    = 0,  // le faire marcher jusqu'à nous
+	BOURGEON_PLAYER_ADMIN_SIT_STAND    = 1,  // @sitstand (bascule)
+	BOURGEON_PLAYER_ADMIN_EVENT_POINTS = 2,  // param = delta de points d'event
+	BOURGEON_PLAYER_ADMIN_MUTE         = 3,  // @mute 60
+	BOURGEON_PLAYER_ADMIN_UNMUTE       = 4,  // @unmute
+	BOURGEON_PLAYER_ADMIN_JAIL_TOGGLE  = 5,  // @jail / @unjail selon SC_JAILED
+	BOURGEON_PLAYER_ADMIN_NUKE         = 6,  // @nuke
+	BOURGEON_PLAYER_ADMIN_BLOCK        = 7,  // @block : bannit le COMPTE
+};
+
+// ⚠ Pas d'action « expulser » ici, et ce n'est pas un oubli : le menu natif
+// du client en a déjà une (code 28 -> CZ_GM_KICK 0x00cc), et `clif_parse_GMKick`
+// rejoue exactement le même `@kick <nom>` avec les mêmes droits. Bourgeon la
+// rejoue donc plutôt que d'ouvrir un second chemin vers la même commande.
+
+// Bornes du don de points d'event, reprises telles quelles du NPC `#gmclicdroit`
+// qu'il remplace : au plus 50 dans un sens ou dans l'autre par geste. Le client
+// borne sa saisie, le serveur reborne — c'est lui qui décide.
+#define BOURGEON_PLAYER_ADMIN_POINTS_STEP 50
+
 // ── Couleurs de corps choisies par le joueur ────────────────────────────────
 //
 // 🔴 Ce qui circule n'est PAS une palette : c'est une RECETTE, huit réglages HSV
