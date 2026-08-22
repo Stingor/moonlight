@@ -43,9 +43,9 @@ Body:
         Rate: 160
       - Item: Elunium_Stone
         Rate: 100
-      - Item: Twisted_Key_of_Time
+      - Item: Key_Of_Twisted_Time
         Rate: 15
-      - Item: Twisted_Key_of_Time
+      - Item: Key_Of_Twisted_Time
         Rate: 15
       - Item: Big_Ben_Card
         Rate: 1
@@ -90,7 +90,7 @@ Body:
         Rate: 100
       - Item: Zargon
         Rate: 750
-      - Item: Twisted_Key_of_Time
+      - Item: Key_Of_Twisted_Time
         Rate: 10
       - Item: Big_Bell_Card
         Rate: 1
@@ -135,9 +135,9 @@ Body:
         Rate: 425
       - Item: Memorize_Book
         Rate: 1
-      - Item: Twisted_Key_of_Time
+      - Item: Key_Of_Twisted_Time
         Rate: 1000
-      - Item: Twisted_Key_of_Time
+      - Item: Key_Of_Twisted_Time
         Rate: 1000
       - Item: Nightmare_Timer_Keeper_Card
         Rate: 1
@@ -227,7 +227,7 @@ Body:
         Rate: 1
       - Item: Old_Card_Album
         Rate: 2
-      - Item: Twisted_Key_of_Time
+      - Item: Key_Of_Twisted_Time
         Rate: 1500
       - Item: Elder_Branch
         Rate: 500

@@ -3159,7 +3159,7 @@ Body:
         Rate: 2000
       - Item: Yggdrasilberry
         Rate: 5000
-      - Item: Twisted_Key_of_Time
+      - Item: Key_Of_Twisted_Time
         Rate: 2000
     Drops:
       - Item: Needle_Of_Alarm
@@ -3168,7 +3168,7 @@ Body:
         Rate: 10
       - Item: Brigan
         Rate: 3000
-      - Item: Twisted_Key_of_Time
+      - Item: Key_Of_Twisted_Time
         Rate: 3000
       - Item: One_Eyed_Glass_
         Rate: 20
