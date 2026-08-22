@@ -410,7 +410,15 @@ int32 skill_get_range2(const block_list* bl, uint16 skill_id, uint16 skill_lv, b
 		range = 14; // Server-sided base range can't be above 14
 	}
 
-	std::bitset<INF2_MAX> inf2 = skill_db.find(skill_id)->inf2;
+	std::shared_ptr<s_skill_db> skill = skill_db.find(skill_id);
+
+	// [Stingor] skill_id inconnu (0, ou un id custom mal regle) : le skill_db rend
+	// un pointeur NUL et ce deref faisait TOMBER le serveur. skill_get_range juste
+	// au-dessus est deja protege par la macro skill_get ; on aligne ce site dessus.
+	if (skill == nullptr)
+		return range;
+
+	std::bitset<INF2_MAX> inf2 = skill->inf2;
 
 	if(inf2[INF2_ALTERRANGEVULTURE] || inf2[INF2_ALTERRANGESNAKEEYE] ){
 		if( bl->type == BL_PC ) {
