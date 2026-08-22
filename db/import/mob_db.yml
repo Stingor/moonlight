@@ -34663,7 +34663,7 @@ Body:
     AegisName: DUMMY_10DEF_10MDEF
     Name: 10Def 10Mdef Small Norm
     Level: 10
-    Hp: 100000000
+    Hp: 10000000000
     Defense: 10
     MagicDefense: 10
     Size: Small
@@ -34676,7 +34676,7 @@ Body:
     AegisName: DUMMY_50DEF_50MDEF
     Name: 50Def-Mdef Medium Boss
     Level: 50
-    Hp: 100000000
+    Hp: 10000000000
     Defense: 50
     MagicDefense: 50
     Size: Medium
@@ -34690,7 +34690,7 @@ Body:
     AegisName: DUMMY_100DEF_100MDEF
     Name: 100Def-Mdef Large Boss
     Level: 100
-    Hp: 100000000
+    Hp: 10000000000
     Defense: 100
     MagicDefense: 100
     Size: Large
@@ -34704,7 +34704,7 @@ Body:
     AegisName: DUMMY_150
     Name: Dummy 150
     Level: 150
-    Hp: 100000000
+    Hp: 10000000000
     MvpExp: 1
     Defense: 100
     MagicDefense: 100
@@ -34719,7 +34719,7 @@ Body:
     AegisName: DUMMY_10_FIRE
     Name: Dummy 10
     Level: 10
-    Hp: 100000000
+    Hp: 10000000000
     MvpExp: 1
     Size: Medium
     Race: Formless
