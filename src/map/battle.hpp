@@ -294,7 +294,8 @@ struct Battle_Config
 	int32 ammo_check_weapon;
 	int32 wand_shot_sp_cost;			// [Stingor] tir de baguette : SP par coup ; 0 = fonctionnalite eteinte
 	int32 wand_shot_skill_id;			// [Stingor] tir de baguette : skill servant de gabarit au calcul magique
-	int32 wand_shot_matk_rate;			// [Stingor] tir de baguette : ratio applique au MATK, en % (100 = plein)
+	int32 wand_shot_matk_rate;
+	int32 wand_shot_matk_rate_nosp;			// [Stingor] tir de baguette : ratio applique au MATK, en % (100 = plein)
 
 	int32 max_aspd;
 	int32 max_walk_speed;	//Maximum walking speed after buffs [Skotlex]

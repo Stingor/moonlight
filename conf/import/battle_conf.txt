@@ -82,7 +82,12 @@ ammo_unequip: yes
 ammo_check_weapon: yes
 
 // Cout en SP d'un coup d'attaque normale porte avec une baguette (W_STAFF /
-// W_2HSTAFF). Les degats d'un tel coup sont alors calcules sur le MATK.
+// W_2HSTAFF). Les degats d'un tel coup sont TOUJOURS calcules sur le MATK.
+//
+// LE SP N'EST PAS UNE CONDITION, C'EST UN MULTIPLICATEUR : le tir part meme a
+// sec, mais au ratio "epuise" ci-dessous. Le joueur n'est donc jamais bloque, et
+// le coup reste un tir a distance dans les deux cas.
+//
 // 0 = fonctionnalite entierement eteinte. [Stingor]
 wand_shot_sp_cost: 3
 
@@ -98,7 +103,12 @@ wand_shot_skill_id: 192
 // d'un Fire Bolt, gratuitement. A 20 % le tir redevient un filler (~80 DPS) ;
 // il est plus facile de monter ce chiffre que de reprendre une puissance a
 // laquelle les joueurs se sont habitues. [Stingor]
-wand_shot_matk_rate: 20
+wand_shot_matk_rate: 30
+
+// Ratio applique quand le SP MANQUE, en % du MATK plein. Le tir part quand meme
+// -- c'est le "je tape encore, mais je suis a sec". A garder tres en dessous du
+// ratio plein : c'est lui qui rend le SP interessant a gerer. [Stingor]
+wand_shot_matk_rate_nosp: 5
 autospell_check_range: no
 knockback_left: yes
 warg_can_falcon: no

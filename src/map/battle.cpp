@@ -7288,15 +7288,6 @@ enum damage_lv battle_weapon_attack(block_list* src, block_list* target, t_tick 
 		}
 	}
 
-	// [Stingor] tir de baguette : refuser AVANT tout calcul quand le SP manque,
-	// exactement comme l'arc refuse sans munition. Le retour ATK_NONE arrete la
-	// boucle d'auto-attaque SANS purger la cible (unit_attack_timer_sub), donc un
-	// nouveau clic repart aussitot si le SP est revenu.
-	if (battle_is_wand_shot(sd) && sd->battle_status.sp < (uint32)battle_config.wand_shot_sp_cost) {
-		clif_skill_fail( *sd, 0, USESKILL_FAIL_SP_INSUFFICIENT );
-		return ATK_NONE;
-	}
-
 	if (sc != nullptr && !sc->empty()) {
 		if (sc->getSCE(SC_CLOAKING) && !(sc->getSCE(SC_CLOAKING)->val4 & 2))
 			status_change_end(src, SC_CLOAKING);
@@ -7467,24 +7458,31 @@ enum damage_lv battle_weapon_attack(block_list* src, block_list* target, t_tick 
 				ShowWarning("battle_weapon_attack: wand_shot_skill_id %hu absent du skill_db, tir de baguette calcule en physique.\n", wand_skill_id);
 				wand_shot_skill_signale = true;
 			}
-		} else if (status_charge(src, 0, battle_config.wand_shot_sp_cost)) {
+		} else {
+			// [Stingor] LE SP N'EST PAS UNE CONDITION, C'EST UN MULTIPLICATEUR. Le tir
+			// part toujours, et il est toujours MAGIQUE : seule sa puissance change.
+			// status_charge est un test-et-prelevement atomique -- s'il rend faux, rien
+			// n'a ete preleve et on retombe simplement au ratio "epuise".
+			//
+			// C'est ce qui permet a battle_is_wand_shot de garder UN seul sens ("ce
+			// joueur porte un baton") : ses deux lecteurs -- le jet de critique et ce
+			// bloc -- repondent la meme chose sans avoir a consulter le SP, alors que le
+			// jet tombe AVANT le prelevement.
+			const int32 wand_rate = status_charge(src, 0, battle_config.wand_shot_sp_cost)
+				? battle_config.wand_shot_matk_rate
+				: battle_config.wand_shot_matk_rate_nosp;
+
 			if (!is_infinite_defense(target, wd.flag)) {
 				struct Damage ad = battle_calc_attack(BF_MAGIC, src, target, wand_skill_id, 1, flag);
 
-				// Ratio d'equilibrage, en % du MATK plein. Regle A CHAUD par
-				// @reloadbattleconf : c'est le seul bouton a tourner pour doser la
-				// puissance du tir, sans jamais recompiler.
-				wd.damage = ad.damage * battle_config.wand_shot_matk_rate / 100;
+				// Les deux ratios se reglent A CHAUD (@reloadbattleconf) : ce sont les
+				// seuls boutons a tourner pour doser le tir, sans jamais recompiler.
+				wd.damage = ad.damage * wand_rate / 100;
 				DAMAGE_DIV_FIX(wd.damage, wd.div_);
 			} else {
 				wd.damage = 1;
 				DAMAGE_DIV_FIX(wd.damage, wd.div_);
 			}
-		} else {
-			// Course perdue avec le controle d'entree : un autre effet a vide le SP
-			// entre-temps. On ne tire pas gratuitement.
-			clif_skill_fail( *sd, 0, USESKILL_FAIL_SP_INSUFFICIENT );
-			return ATK_NONE;
 		}
 	}
 
@@ -8554,7 +8552,8 @@ static const struct _battle_data {
 	{ "ammo_check_weapon",                  &battle_config.ammo_check_weapon,               1,      0,      1,              },
 	{ "wand_shot_sp_cost",                  &battle_config.wand_shot_sp_cost,               0,      0,      1000,           },
 	{ "wand_shot_skill_id",                 &battle_config.wand_shot_skill_id,              192,    1,      INT_MAX,        },
-	{ "wand_shot_matk_rate",                &battle_config.wand_shot_matk_rate,             20,     0,      INT_MAX,        },
+	{ "wand_shot_matk_rate",                &battle_config.wand_shot_matk_rate,             30,     0,      INT_MAX,        },
+	{ "wand_shot_matk_rate_nosp",           &battle_config.wand_shot_matk_rate_nosp,        5,      0,      INT_MAX,        },
 	{ "max_aspd",                           &battle_config.max_aspd,                        190,    100,    199,            },
 	{ "max_third_aspd",                     &battle_config.max_third_aspd,                  193,    100,    199,            },
 	{ "max_summoner_aspd",                  &battle_config.max_summoner_aspd,               193,    100,    199,            },
