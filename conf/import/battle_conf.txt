@@ -80,6 +80,25 @@ synchronize_damage: on
 arrow_decrement: 1
 ammo_unequip: yes
 ammo_check_weapon: yes
+
+// Cout en SP d'un coup d'attaque normale porte avec une baguette (W_STAFF /
+// W_2HSTAFF). Les degats d'un tel coup sont alors calcules sur le MATK.
+// 0 = fonctionnalite entierement eteinte. [Stingor]
+wand_shot_sp_cost: 3
+
+// Skill servant de gabarit au calcul magique du tir de baguette. Il DOIT exister
+// dans le skill_db (sinon le tir retombe en physique, avec un avertissement).
+// 192 = NPC_MAGICALATTACK : magique, 1 coup, element de l'arme, et le switch de
+// battle_calc_magic_attack ne le connait pas -> 100 % du MATK. [Stingor]
+wand_shot_skill_id: 192
+
+// Puissance du tir de baguette, en % du MATK plein (100 = degats magiques
+// entiers). Mesure du 2026-08-21 : a 100 %, un wizard a 500 MATK sortait ~400
+// DPS en continu, sans cast et pour ~2,4 SP/s -- soit les trois quarts du DPS
+// d'un Fire Bolt, gratuitement. A 20 % le tir redevient un filler (~80 DPS) ;
+// il est plus facile de monter ce chiffre que de reprendre une puissance a
+// laquelle les joueurs se sont habitues. [Stingor]
+wand_shot_matk_rate: 20
 autospell_check_range: no
 knockback_left: yes
 warg_can_falcon: no

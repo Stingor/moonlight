@@ -3012,6 +3012,34 @@ static bool is_attack_left_handed( const block_list* src, int32 skill_id ){
 	return false;
 }
 
+/**
+ * Le porteur d'une baguette tire-t-il a distance ? [Stingor]
+ *
+ * Gate UNIQUE du "tir de baguette", lue a DEUX endroits : is_attack_critical
+ * (juste en dessous, pour interdire le critique) et battle_weapon_attack (pour
+ * le cout en SP et le calcul au MATK). La portee, elle, ne passe pas par ici :
+ * elle vient du champ Range de l'item (status_calc_pc_sub) et le client la
+ * recoit tout seul par ZC_ATTACK_RANGE.
+ *
+ * Definie ICI, et non aupres de battle_weapon_attack : c'est is_attack_critical
+ * qui vient en premier dans le fichier.
+ *
+ * ATTENTION : ne PAS reutiliser sd->state.arrow_atk pour cette fonctionnalite.
+ * Avec ammo_check_weapon, aucune fleche n'est equipable avec un baton, donc le
+ * controle de munition de battle_weapon_attack rendrait ATK_NONE des le premier
+ * coup et le joueur ne pourrait plus attaquer du tout.
+ *
+ * @param sd: joueur attaquant (peut etre nullptr)
+ * @return true si l'attaque normale doit couter du SP et frapper au MATK
+ */
+static bool battle_is_wand_shot(const map_session_data* sd)
+{
+	if (sd == nullptr || battle_config.wand_shot_sp_cost <= 0)
+		return false;
+
+	return sd->status.weapon == W_STAFF || sd->status.weapon == W_2HSTAFF;
+}
+
 /*=============================
  * Do we score a critical hit?
  *-----------------------------
@@ -3024,6 +3052,20 @@ static bool is_attack_critical(struct Damage* wd, block_list *src, const block_l
 {
 	if (!first_call)
 		return (wd->type == DMG_CRITICAL || wd->type == DMG_MULTI_HIT_CRITICAL);
+
+	// [Stingor] tir de baguette : l'attaque normale a la baguette est MAGIQUE --
+	// ses degats viennent du MATK (cf. battle_weapon_attack), et en pre-renewal la
+	// magie ne critique pas.
+	//
+	// On coupe le jet ICI, a la source, et non en corrigeant wd.type apres coup :
+	// un critique ne fait pas que s'afficher, il IGNORE LE FLEE (cf. le commentaire
+	// "crits always hit on official" au site d'appel). Ne rattraper que l'affichage
+	// aurait laisse le tir toucher a coup sur des qu'on a du CRIT.
+	//
+	// Borne a skill_id == 0 : un skill physique lance baton en main garde son
+	// comportement normal.
+	if (skill_id == 0 && battle_is_wand_shot(BL_CAST(BL_PC, src)))
+		return false;
 
 	if (skill_id == NPC_CRITICALSLASH || skill_id == LG_PINPOINTATTACK) //Always critical skills
 		return true;
@@ -7245,6 +7287,16 @@ enum damage_lv battle_weapon_attack(block_list* src, block_list* target, t_tick 
 			}
 		}
 	}
+
+	// [Stingor] tir de baguette : refuser AVANT tout calcul quand le SP manque,
+	// exactement comme l'arc refuse sans munition. Le retour ATK_NONE arrete la
+	// boucle d'auto-attaque SANS purger la cible (unit_attack_timer_sub), donc un
+	// nouveau clic repart aussitot si le SP est revenu.
+	if (battle_is_wand_shot(sd) && sd->battle_status.sp < (uint32)battle_config.wand_shot_sp_cost) {
+		clif_skill_fail( *sd, 0, USESKILL_FAIL_SP_INSUFFICIENT );
+		return ATK_NONE;
+	}
+
 	if (sc != nullptr && !sc->empty()) {
 		if (sc->getSCE(SC_CLOAKING) && !(sc->getSCE(SC_CLOAKING)->val4 & 2))
 			status_change_end(src, SC_CLOAKING);
@@ -7391,6 +7443,51 @@ enum damage_lv battle_weapon_attack(block_list* src, block_list* target, t_tick 
 	if (sd && wd.damage + wd.damage2 > 0 && battle_vellum_damage(sd, target, &wd))
 		vellum_damage = true;
 
+	// [Stingor] tir de baguette : les degats d'une attaque normale a la baguette
+	// sont MAGIQUES. On garde l'attaque physique pour tout le reste (cadence ASPD,
+	// div_, affichage, effets sur coup) et on ECRASE seulement les degats -- c'est
+	// exactement ce que fait SC_SPELLFIST quelques lignes plus bas.
+	//
+	// ATTENTION : le skill_id passe a battle_calc_attack(BF_MAGIC, ...) DOIT exister
+	// dans le skill_db. Avec 0, skill_get_range2 (skill.cpp) dereferencait un pointeur
+	// nul et le serveur TOMBAIT des le premier coup. On passe donc un vrai skill --
+	// par defaut NPC_MAGICALATTACK (192) : Type Magic, HitCount 1, Element Weapon (donc
+	// l'element de la baguette), et son unique implementation est castendDamageId, que
+	// nous n'appelons pas. Le switch de battle_calc_magic_attack ne le connait pas : il
+	// tombe dans le `default:`, qui rend 100 % du MATK (matk_min..matk_max).
+	if (battle_is_wand_shot(sd) && !vellum_damage) {
+		uint16 wand_skill_id = (uint16)battle_config.wand_shot_skill_id;
+
+		if (skill_db.find(wand_skill_id) == nullptr) {
+			// Ne JAMAIS appeler le calcul magique avec un skill absent : c'est le crash
+			// ci-dessus. On se rabat sur les degats physiques, en le disant une fois.
+			static bool wand_shot_skill_signale = false;
+
+			if (!wand_shot_skill_signale) {
+				ShowWarning("battle_weapon_attack: wand_shot_skill_id %hu absent du skill_db, tir de baguette calcule en physique.\n", wand_skill_id);
+				wand_shot_skill_signale = true;
+			}
+		} else if (status_charge(src, 0, battle_config.wand_shot_sp_cost)) {
+			if (!is_infinite_defense(target, wd.flag)) {
+				struct Damage ad = battle_calc_attack(BF_MAGIC, src, target, wand_skill_id, 1, flag);
+
+				// Ratio d'equilibrage, en % du MATK plein. Regle A CHAUD par
+				// @reloadbattleconf : c'est le seul bouton a tourner pour doser la
+				// puissance du tir, sans jamais recompiler.
+				wd.damage = ad.damage * battle_config.wand_shot_matk_rate / 100;
+				DAMAGE_DIV_FIX(wd.damage, wd.div_);
+			} else {
+				wd.damage = 1;
+				DAMAGE_DIV_FIX(wd.damage, wd.div_);
+			}
+		} else {
+			// Course perdue avec le controle d'entree : un autre effet a vide le SP
+			// entre-temps. On ne tire pas gratuitement.
+			clif_skill_fail( *sd, 0, USESKILL_FAIL_SP_INSUFFICIENT );
+			return ATK_NONE;
+		}
+	}
+
 	if( sc != nullptr && !sc->empty() ) {
 		if (sc->getSCE(SC_EXEEDBREAK))
 			status_change_end(src, SC_EXEEDBREAK);
@@ -7482,8 +7579,26 @@ enum damage_lv battle_weapon_attack(block_list* src, block_list* target, t_tick 
 			skill_additional_effect(src, target, 0, 0, wd.flag, wd.dmg_lv, tick);
 		if( wd.dmg_lv > ATK_BLOCK )
 			skill_counter_additional_effect(src, target, 0, 0, wd.flag, tick);
-	} else
+	} else {
+		// [Stingor] ATTENTION -- NE PAS rallonger ce delai pour "attendre l'arrivee d'un
+		// projectile lent" (tir de baguette). Essaye et RETIRE le 2026-08-22, mesure a
+		// l'appui :
+		//
+		// Le coup suivant part a `amotion`, la mort ne s'enregistre qu'a
+		// `amotion + delai`. TOUT delai > 0 laisse donc au moins un swing partir sur un
+		// mob deja mort -- exactement 1 + delai/amotion swings. Avec un baton (ASPD la
+		// plus lente du jeu) et 726 ms, cela faisait DEUX coups de trop par kill : 6 SP
+		// gaspilles, et deux lignes de chat "Quelqu'un subit N points de degats" parce
+		// que le client rejoue son message differe sur une entite qu'il ne resout plus.
+		//
+		// La cadence, elle, n'etait pas en cause : le timer est rearme sur
+		// status_get_amotion (unit.cpp), pas sur cette valeur.
+		//
+		// Le decalage visuel qu'on cherchait a corriger se traite ENTIEREMENT cote
+		// client, ou differer ne coute rien : Bourgeon/wand_bolt.cc complete la file
+		// datee de CActorSprite_ProcessDamageAction. Voir docs/wand_ranged_attack.md 11.7.
 		battle_delay_damage(tick, wd.amotion, src, target, wd.flag, 0, 0, damage, wd.dmg_lv, wd.div_, true, wd.isspdamage, is_norm_attacked);
+	}
 	if( tsc ) {
 		if( tsc->getSCE(SC_DEVOTION) ) {
 			struct status_change_entry *sce = tsc->getSCE(SC_DEVOTION);
@@ -8437,6 +8552,9 @@ static const struct _battle_data {
 	{ "arrow_decrement",                    &battle_config.arrow_decrement,                 1,      0,      2,              },
 	{ "ammo_unequip",                       &battle_config.ammo_unequip,                    1,      0,      1,              },
 	{ "ammo_check_weapon",                  &battle_config.ammo_check_weapon,               1,      0,      1,              },
+	{ "wand_shot_sp_cost",                  &battle_config.wand_shot_sp_cost,               0,      0,      1000,           },
+	{ "wand_shot_skill_id",                 &battle_config.wand_shot_skill_id,              192,    1,      INT_MAX,        },
+	{ "wand_shot_matk_rate",                &battle_config.wand_shot_matk_rate,             20,     0,      INT_MAX,        },
 	{ "max_aspd",                           &battle_config.max_aspd,                        190,    100,    199,            },
 	{ "max_third_aspd",                     &battle_config.max_third_aspd,                  193,    100,    199,            },
 	{ "max_summoner_aspd",                  &battle_config.max_summoner_aspd,               193,    100,    199,            },
