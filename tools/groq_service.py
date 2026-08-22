@@ -196,6 +196,7 @@ def _set_bot_status(cursor, online: int, resume_epoch: float = 0.0, note: str = 
 _MOB_NAMES  = {}   # name_lower -> (id, name_english, name_aegis, is_mvp)
 _ITEM_NAMES = {}   # name_lower -> (id, name_english, name_aegis)
 _ITEM_BY_ID = {}
+_MAP_NAMES  = {}   # nom INTERNE de carte (minuscules) -> nom affiché
 
 _KW_DROP  = {"drop", "drops", "droppe", "droppé", "droppent",
              "farm", "farmer", "farmé", "farming",
@@ -259,6 +260,25 @@ def load_names(conn):
     except Exception as e:
         print(f"[Groq] ERREUR mob_spawn inaccessible : {e}", file=sys.stderr)
         print(f"[Groq] Lance sur MySQL : GRANT SELECT ON {DB_RATHENA}.mob_spawn TO '{os.environ.get('DB_USER','groq')}'@'%'; FLUSH PRIVILEGES;", file=sys.stderr)
+
+    # Noms AFFICHÉS des cartes — la même table que le site (`getmapname()` dans
+    # includes/functions_moonlight.php). Elle sert aux liens de navigation
+    # (`<NAVIL>`, `<NAVS>`), qui ne transportent que le nom INTERNE : le nom
+    # affiché dépend de la langue du lecteur, donc l'expéditeur ne l'envoie pas.
+    #
+    # ⚠ Table du SITE, pas de rAthena : elle peut manquer sur une installation
+    # neuve. Son absence ne doit pas faire tomber tout l'index — les liens se
+    # replient alors sur le nom interne, ce qui reste lisible (« gonryun »).
+    try:
+        with conn.cursor() as cur3:
+            cur3.execute(f"SELECT `map`, `name` FROM `{DB_RATHENA}`.maplist")
+            for r in cur3.fetchall():
+                key = (r["map"] or "").strip().lower()
+                if key:
+                    _MAP_NAMES[key] = (r["name"] or "").strip() or key
+        print(f"[Groq] maplist : {len(_MAP_NAMES)} cartes nommées")
+    except Exception as e:
+        print(f"[Groq] maplist inaccessible ({e}) — les liens de lieu garderont le nom interne", file=sys.stderr)
 
 # ── Rates du serveur — calqués sur le site PHP ───────────────────────────────
 _DROP_CFG = {
@@ -2511,6 +2531,9 @@ ITEMDB_URL = re.compile(
     r"https?://moonlight-destiny\.fr/index\.php\?page=itemdb&itemid=(\d+)\S*"
 )
 
+# La fiche d'objet du site — une seule écriture pour tous les liens qu'on pose.
+ITEMDB_LINK = "https://moonlight-destiny.fr/index.php?page=itemdb&itemid="
+
 def make_iteml(itemid: int) -> str:
     equip = "00000"
     iseq = "0"
@@ -2590,7 +2613,7 @@ def replace_iteml(msg):
         name = ""
         name = getitemname(data["itemid"])
         itemid = data["itemid"]
-        return f" [<{refine}{name}>](https://moonlight-destiny.fr/index.php?page=itemdb&itemid={itemid}) "
+        return f" [<{refine}{name}>]({ITEMDB_LINK}{itemid}) "
 
     return ITEML_PATTERN.sub(repl, msg)
 
@@ -2649,9 +2672,145 @@ def replace_styl(msg):
     return STYL_PATTERN.sub(lambda m: f" [Style : {m.group(1).strip() or '?'}] ",
                             msg)
 
+# ── Liens de NAVIGATION (balises du client) ─────────────────────────────────
+# Format : `<NAVIL><carte><4 car. base 62></NAVIL>` (cf. chat_window.cc). Le
+# corps ne porte AUCUN séparateur : les QUATRE derniers caractères sont les
+# coordonnées — deux pour x, deux pour y, base 62 POIDS FAIBLE D'ABORD — et tout
+# ce qui précède est le nom INTERNE de la carte, lequel est lui-même fait de
+# caractères base 62. D'où la découpe par la FIN, la seule qui ne soit pas
+# ambiguë : le groupe non gourmand cède au minimum, l'ancrage sur `</NAVIL>`
+# force les quatre derniers à être les coordonnées.
+#
+# 🔴 Aucun libellé ne voyage dans la balise, et c'est délibéré : chaque client
+# nomme la carte dans SA langue. Hors du jeu il n'y a donc rien à recopier — le
+# nom affiché se résout ICI, contre `maplist` (repli sur le nom interne).
+NAVIL_PATTERN = re.compile(r"<NAVIL>([0-9A-Za-z_@#.\-]+?)([0-9A-Za-z]{4})</NAVIL>")
+
+# Format : `<NAVS>famille:carte:terme</NAVS>`, la carte étant FACULTATIVE (elle
+# n'est là que pour lever une ambiguïté : « le Warp Agent de Gonryun »). Le terme
+# est le DERNIER champ, donc libre de contenir espaces et ponctuation ; un nom
+# interne de carte, lui, n'a jamais d'espace — c'est ce qui les distingue.
+NAVS_PATTERN = re.compile(r"<NAVS>(\d+):([^<>]*?)</NAVS>")
+
+# Mêmes familles que le client (links::NaviKind).
+NAVI_KIND = {0: "Carte", 1: "PNJ", 2: "Monstre"}
+
+def getmapname(map_internal):
+    """Nom affiché d'une carte, repli sur son nom interne."""
+    if not map_internal:
+        return ""
+    return _MAP_NAMES.get(map_internal.strip().lower()) or map_internal
+
+def _navi_coord(pair: str) -> int:
+    """Deux caractères base 62, POIDS FAIBLE D'ABORD (Cstr_EncodeBase62)."""
+    return BASE62.index(pair[0]) + BASE62.index(pair[1]) * 62
+
+def replace_navil(msg):
+    def repl(match):
+        map_internal = match.group(1)
+        coords       = match.group(2)
+        x = _navi_coord(coords[0:2])
+        y = _navi_coord(coords[2:4])
+        name = getmapname(map_internal)
+        # Coordonnées à zéro = lien vers la carte entière, pas vers un point : le
+        # client n'affiche alors que le nom, on fait pareil.
+        if x > 0 and y > 0:
+            return f" [Lieu: {name} ({x},{y})] "
+        return f" [Lieu: {name}] "
+
+    return NAVIL_PATTERN.sub(repl, msg)
+
+def replace_navs(msg):
+    def repl(match):
+        kind = int(match.group(1))
+        rest = match.group(2)
+        head = NAVI_KIND.get(kind)
+        # Famille inconnue = balise d'un Bourgeon plus récent : on ne devine pas,
+        # on laisse le texte brut. Même règle que le client.
+        if head is None:
+            return match.group(0)
+        map_ctx = ""
+        if ":" in rest:
+            first, tail = rest.split(":", 1)
+            if first and not re.search(r"\s", first):
+                map_ctx, rest = first, tail
+        term = rest.strip()
+        if not term:
+            return match.group(0)
+        # Une carte se cherche par son nom interne : on l'affiche traduit, comme
+        # le client (NaviSearchTermShown).
+        shown = getmapname(term) if kind == 0 else term
+        label = f"{head}: {shown}"
+        if map_ctx:
+            label += f" ({getmapname(map_ctx)})"
+        # Une recherche de MONSTRE désigne une créature du bestiaire : quand le
+        # terme y correspond exactement, autant rendre le lien cliquable comme
+        # `<MOBL>`. Sinon (terme partiel, faute de frappe) le texte suffit — le
+        # jeu, lui, sait chercher approximativement, le site non.
+        entry = _MOB_NAMES.get(term.lower()) if kind == 2 else None
+        if entry:
+            return f" [<{label}>]({BESTIARY_URL}{entry[0]}) "
+        return f" [{label}] "
+
+    return NAVS_PATTERN.sub(repl, msg)
+
+# ── Référence d'objet et recette (balises du client) ────────────────────────
+# `<ITMR>id:nom</ITMR>` — l'objet dont on PARLE, par opposition à `<ITEML>` qui
+# est l'objet qu'on POSSÈDE (le client refuse d'envoyer un `<ITEML>` portant un
+# objet absent du sac). Le nom voyage dans la balise, dans la langue de
+# l'expéditeur : il fait foi, l'index SQL n'est qu'un repli.
+ITMR_PATTERN = re.compile(r"<ITMR>(\d+):([^<>]*?)</ITMR>")
+
+# `<CRAF>id:nom</CRAF>` — la FAÇON DE FAIRE l'objet, pas l'objet. Le lien mène
+# à l'Atlas des recettes en jeu ; hors du jeu il n'y a pas d'atlas, et la fiche
+# de l'objet ne dirait rien de sa fabrication : le libellé reste du texte.
+CRAF_PATTERN = re.compile(r"<CRAF>(\d+):([^<>]*?)</CRAF>")
+
+# `<SETL>clé:libellé</SETL>` — une destination du panneau de réglages du CLIENT.
+# Elle ne désigne rien hors du jeu ; le libellé transporté existe justement pour
+# ce cas (le client, lui, affiche le sien, traduit chez le lecteur).
+SETL_PATTERN = re.compile(r"<SETL>([^<>:]*):([^<>]*?)</SETL>")
+
+def replace_itmr(msg):
+    def repl(match):
+        item_id = int(match.group(1))
+        name    = match.group(2).strip() or getitemname(item_id) or f"Objet #{item_id}"
+        return f" [<{name}>]({ITEMDB_LINK}{item_id}) "
+
+    return ITMR_PATTERN.sub(repl, msg)
+
+def replace_craf(msg):
+    def repl(match):
+        item_id = int(match.group(1))
+        name    = match.group(2).strip() or getitemname(item_id) or f"Objet #{item_id}"
+        return f" [Recette: {name}] "
+
+    return CRAF_PATTERN.sub(repl, msg)
+
+def replace_setl(msg):
+    def repl(match):
+        key   = match.group(1).strip()
+        label = match.group(2).strip()
+        return f" [Réglage: {label or key or '?'}] "
+
+    return SETL_PATTERN.sub(repl, msg)
+
 def replace_chat_links(msg):
-    """Balises de lien du client -> Markdown Discord (items, monstres, styles)."""
-    return replace_styl(replace_mobl(replace_iteml(msg)))
+    """Balises de lien du client -> Markdown Discord.
+
+    Toutes les balises que la chatbox de Bourgeon sait rendre (cf. chat_window.cc)
+    passent ici : sans cela elles arrivent sur Discord en toutes lettres, chevrons
+    compris, et la ligne devient illisible pour qui n'est pas en jeu.
+    """
+    msg = replace_iteml(msg)
+    msg = replace_mobl(msg)
+    msg = replace_styl(msg)
+    msg = replace_navil(msg)
+    msg = replace_navs(msg)
+    msg = replace_itmr(msg)
+    msg = replace_craf(msg)
+    msg = replace_setl(msg)
+    return msg
 
 def main():
     if LLM_API_KEY:
