@@ -1075,71 +1075,6 @@ ACMD_FUNC(stats)
 	return 0;
 }
 
-/*==========================================
- * @whosell <Nom ou ID d'item>
- *----------------------------------------------------*/
-ACMD_FUNC(shopsearch)
-{
-	char item_name[100], output[255];
-	struct s_mapiterator* iter;
-	int32 j, count = 0;
-	map_session_data *pl_sd;
-	uint32 MinPrize = battle_config.vending_max_value, MaxPrize = 0;
-	
-	nullpo_retr(-1, sd);
-
-	memset(item_name, '\0', sizeof(item_name));
-
-	if( !message || !*message || sscanf(message, "%99[^\n]", item_name) < 1 ) {
-		clif_displaymessage(fd, msg_txt(sd,1830));
-		return -1;
-	}
-
-	std::shared_ptr<item_data> item = item_db.searchname(item_name);
-
-	if (item == nullptr) {
-		item = item_db.find(strtoul(item_name, nullptr, 10));
-	}
-
-	if (item == nullptr) {
-		clif_displaymessage(fd, msg_txt(sd, 19)); // Invalid item ID or name.
-		return -1;
-	}
-
-	iter = mapit_getallusers();
-	
-	for( pl_sd = (TBL_PC*)mapit_first(iter); mapit_exists(iter); pl_sd = (TBL_PC*)mapit_next(iter) ) {
-		if( pl_sd->vender_id ) {
-			// One player Online and are in the same map and are vending
-			for( j = 0; j < pl_sd->vend_num; j++ ) {
-				if( pl_sd->cart.u.items_cart[pl_sd->vending[j].index].nameid == item->nameid ) {
-					// If the item is the same, it will show this? Computer translations are bad.
-					sprintf(output, "Vendeur: %s | Quantit\xe9 %d | Prix: %d | Shop: %s | Coord: %d,%d", pl_sd->status.name, pl_sd->vending[j].amount, pl_sd->vending[j].value,pl_sd->message,pl_sd->x,pl_sd->y);
-					clif_viewpoint(*sd, 1, 1, pl_sd->x, pl_sd->y, count+1, 0xFFFFFF);
-					
-					if(pl_sd->vending[j].value < MinPrize)
-						MinPrize = pl_sd->vending[j].value;
-					
-					if(pl_sd->vending[j].value > MaxPrize)
-						MaxPrize = pl_sd->vending[j].value;
-					
-					clif_displaymessage(fd, output); // Message sent to player
-					count++;
-				}
-			}
-		}
-	}
-	mapit_free(iter);
-
-	if (count > 0)  {
-		sprintf(output, msg_txt(sd,1831), count, MinPrize, MaxPrize);
-		clif_displaymessage(fd, output);
-	}
-	else
-		clif_displaymessage(fd, msg_txt(sd,1832));
-
-	return 0;
-}
 
 /*==========================================
  * @storagealt [Stingor]
@@ -2148,6 +2083,481 @@ ACMD_FUNC(ignorelist)
 		}
 
 		clif_displaymessage( fd, atcmd_output );
+	}
+
+	return 0;
+}
+
+// ── [Stingor] Bourgeon : @shopsearch / @whosell — où acheter cet item ────────
+//
+// UNE seule commande pour les deux moitiés de la question. Le joueur ne cherche
+// pas « un NPC » ou « un vendeur » : il cherche où acheter, et le NPC à 5000z
+// ne vaut d'être connu qu'à côté du joueur qui brade à 3000z deux cases plus
+// loin. Deux commandes séparées auraient forcé à les connaître toutes les deux
+// et empêché la seule comparaison qui compte.
+//
+// 🔴 Côté NPC, on lit les boutiques EN MÉMOIRE, pas les scripts. Les shops
+// remaniés à chaud (npcshopitem / npcshopadditem / npcshopdelitem) et les
+// duplicates — qui partagent le tableau de leur original — sont donc vus tels
+// qu'ils sont RÉELLEMENT au moment de la recherche, ce qu'un grep dans npc/ ne
+// saurait pas faire. Reste hors de portée ce qu'aucune méthode ne verrait : un
+// dialogue scripté qui fait getitem contre des zeny sans passer par une
+// boutique.
+//
+// 🔴 La réponse nomme le NPC QUE LE JOUEUR VOIT, jamais la boutique interne.
+// Une bonne part des boutiques du serveur sont FLOTTANTES (carte `-`) et ne
+// s'ouvrent que par callshop depuis un script : « shop_mg (hors carte) » ne dit
+// rien à personne. On remonte donc au NPC qui les ouvre, et c'est SA position
+// qu'on affiche — cf. shopsearch_scan_script.
+#define SHOPSEARCH_MAX_HITS 15		// lignes affichées par section et par item
+#define SHOPSEARCH_MAX_MARKS 20		// points posés sur la minimap
+#define SHOPSEARCH_TITLE_LENGTH 40	// titre de boutique joueur, tronqué
+
+// Un lieu PRÉCIS, en lien de navigation. `bourgeon_map_link` vise la carte
+// entière (« 0000 ») parce qu'un lieu d'apparition est une zone ; ici on connaît
+// le point exact, alors on l'encode — base 62, poids faible d'abord, deux
+// caractères par coordonnée : la forme qu'écrit le bouton « Partager » du
+// client. La boucle native ne déborde qu'au-delà de 62², et une coordonnée de
+// carte est bornée par 512, donc deux caractères suffisent toujours.
+//
+// Rend une chaîne VIDE pour un NPC hors carte — à l'appelant de dire autre
+// chose plutôt que d'afficher un lieu vide.
+static std::string bourgeon_pos_link(map_session_data* sd, int16 mapid, uint16 x, uint16 y) {
+	if (mapid < 0)
+		return std::string();
+
+	const char* internal = map_getmapdata(mapid)->name;
+	char buf[MAP_DISPLAY_NAME_LENGTH + MAP_NAME_LENGTH + 32];
+
+	if (bourgeon_chat_markup(sd)) {
+		static const char base62[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		const char coords[5] = { base62[x % 62], base62[(x / 62) % 62], base62[y % 62], base62[(y / 62) % 62], '\0' };
+
+		safesnprintf(buf, sizeof(buf), "<NAVIL>%s%s</NAVIL>", internal, coords);
+	}
+	else {
+		// Le nom INTERNE, pas le nom d'affichage : sans lien cliquable, la ligne
+		// ne vaut que si elle se recopie telle quelle dans un @mapmove.
+		safesnprintf(buf, sizeof(buf), "%s %d,%d", internal, x, y);
+	}
+
+	return buf;
+}
+
+// La monnaie dépend du type de boutique, et le prix seul serait trompeur : 200
+// dans un pointshop n'est pas 200 zeny.
+static std::string shopsearch_price(const npc_data* nd, const struct npc_item_list& entry) {
+	char buf[128];
+
+	switch (nd->subtype) {
+		case NPCTYPE_CASHSHOP:
+			safesnprintf(buf, sizeof(buf), "%u cash", entry.value);
+			break;
+		case NPCTYPE_ITEMSHOP: {
+			std::shared_ptr<item_data> currency = item_db.find(nd->u.shop.itemshop_nameid);
+
+			safesnprintf(buf, sizeof(buf), "%u x %s", entry.value, currency != nullptr ? currency->ename.c_str() : "???");
+			break;
+		}
+		case NPCTYPE_POINTSHOP:
+			safesnprintf(buf, sizeof(buf), "%u %s", entry.value, nd->u.shop.pointshop_str);
+			break;
+		default:
+			safesnprintf(buf, sizeof(buf), "%uz", entry.value);
+			break;
+	}
+
+	return buf;
+}
+
+// Le NPC à aller voir, et ce qu'il demande.
+struct s_shopsearch_hit {
+	npc_data* nd;			// nullptr : boutique flottante sans porteur identifié
+	std::string label;		// nom TECHNIQUE de la boutique, seulement si nd est nul
+	std::string price;
+};
+
+// Une boutique flottante en attente de porteur.
+struct s_shopsearch_pending {
+	std::string exname;
+	std::string price;
+};
+
+// Un étal de joueur.
+struct s_shopsearch_vend {
+	map_session_data* sd;
+	int16 amount;
+	uint32 value;
+};
+
+// Quelles boutiques flottantes ce script ouvre-t-il ?
+//
+// callshop ne laisse aucun lien vers sa cible : le nom voyage en clair dans le
+// bytecode, empilé comme littéral. On cherche donc ce littéral — l'octet C_STR
+// suivi de la chaîne terminée par un zéro. C'est une HEURISTIQUE assumée : elle
+// attrape aussi un nom seulement cité dans une chaîne, mais un nom de boutique
+// flottante ne se promène pas ailleurs, et le pire cas est une ligne de trop.
+// Décoder le flux d'opcodes serait exact, mais demanderait de recopier get_com()
+// hors de script.cpp où il est privé : bien plus fragile pour le même résultat.
+static void shopsearch_scan_script(const struct script_code* code, const std::set<std::string>& names, size_t shortest, size_t longest, std::vector<std::string>& found) {
+	if (code == nullptr || code->script_buf == nullptr)
+		return;
+
+	for (int32 i = 0; i < code->script_size; i++) {
+		if (code->script_buf[i] != C_STR)
+			continue;
+
+		const char* literal = (const char*)code->script_buf + i + 1;
+		const size_t left = (size_t)(code->script_size - i - 1);
+		// ⚠ Le tampon n'est pas garanti nul-terminé à la fin : sans cette borne,
+		// un C_STR en dernier octet ferait lire au-delà.
+		const size_t length = strnlen(literal, left);
+
+		if (length == left)
+			break;
+
+		// Le test de longueur AVANT la construction de la std::string : l'octet 5
+		// se rencontre partout dans du bytecode, et allouer à chaque rencontre
+		// coûterait bien plus cher que la recherche elle-même.
+		if (length >= shortest && length <= longest && names.count(literal) != 0) {
+			found.push_back(literal);
+			// Un vrai littéral : rien à y chercher. Ailleurs on avance d'UN octet,
+			// car l'octet 5 croisé au milieu d'un nombre ou d'un nom n'est pas un
+			// C_STR : sauter sa pseudo-longueur enjamberait un vrai littéral posé
+			// juste derrière.
+			i += (int32)length;
+		}
+	}
+}
+
+ACMD_FUNC(shopsearch)
+{
+	nullpo_retr(-1, sd);
+
+	if (!message || !*message) {
+		clif_displaymessage(fd, msg_txt(sd, 1830)); // @shopsearch <nom ou ID d'item>
+		return -1;
+	}
+
+	std::map<t_itemid, std::shared_ptr<item_data>> item_array = {};
+	uint16 count = 1;
+	t_itemid itemid = strtoul(message, nullptr, 10);
+
+	if (itemid == 0) // Un nom a été saisi
+		count = itemdb_searchname_array(item_array, MAX_SEARCH, message);
+	else if ((item_array[0] = item_db.find(itemid)) == nullptr)
+		count = 0;
+
+	if (!count) {
+		clif_displaymessage(fd, msg_txt(sd, 19)); // Invalid item ID or name.
+		return -1;
+	}
+
+	if (count == MAX_SEARCH) {
+		safesnprintf(atcmd_output, sizeof(atcmd_output), msg_txt(sd, 269), MAX_SEARCH); // Displaying first %d matches
+		clif_displaymessage(fd, atcmd_output);
+	}
+
+	// UN SEUL balayage des NPC quel que soit le nombre d'items retenus : une
+	// recherche par nom en ramène jusqu'à MAX_SEARCH, et id_db compte quelques
+	// milliers d'entrées. Le set évite de rejouer la liste des items pour chaque
+	// ligne de chaque boutique.
+	//
+	// ⚠ La clé d'`item_array` n'est PAS l'id de l'item quand la recherche s'est
+	// faite par ID (rAthena y range le résultat en 0) : c'est `nameid` qui fait
+	// foi, ici comme à l'affichage.
+	std::set<t_itemid> wanted;
+
+	for (const auto& result : item_array)
+		wanted.insert(result.second->nameid);
+
+	std::map<t_itemid, std::vector<s_shopsearch_hit>> hits;
+	std::map<t_itemid, std::vector<s_shopsearch_pending>> pending;
+	std::set<std::string> floating_names;
+
+	auto record = [&](npc_data* nd, t_itemid nameid, const std::string& price) {
+		if (nd->m < 0) {
+			// Boutique flottante : on ne sait pas encore où l'on envoie le
+			// joueur, ça se règle à la passe suivante.
+			pending[nameid].push_back({ nd->exname, price });
+			floating_names.insert(nd->exname);
+			return;
+		}
+
+		hits[nameid].push_back({ nd, std::string(), price });
+	};
+
+	struct s_mapiterator* iter = mapit_geteachnpc();
+
+	for (npc_data* nd = (TBL_NPC*)mapit_first(iter); mapit_exists(iter); nd = (TBL_NPC*)mapit_next(iter)) {
+		if (nd == nullptr)
+			continue;
+
+		switch (nd->subtype) {
+			case NPCTYPE_SHOP:
+			case NPCTYPE_CASHSHOP:
+			case NPCTYPE_ITEMSHOP:
+			case NPCTYPE_POINTSHOP:
+			case NPCTYPE_MARKETSHOP:
+				if (nd->u.shop.shop_item == nullptr)
+					break;
+
+				for (uint16 i = 0; i < nd->u.shop.count; i++) {
+					const struct npc_item_list& entry = nd->u.shop.shop_item[i];
+
+					if (entry.nameid == 0 || wanted.find(entry.nameid) == wanted.end())
+						continue;
+
+					std::string price = shopsearch_price(nd, entry);
+
+#if PACKETVER >= 20131223
+					// Un marketshop tient un stock : épuisé, il ne vend plus rien,
+					// et le dire évite un aller-retour pour rien. -1 = illimité.
+					if (nd->subtype == NPCTYPE_MARKETSHOP && entry.qty >= 0) {
+						char stock[32];
+
+						safesnprintf(stock, sizeof(stock), " (stock: %d)", entry.qty);
+						price += stock;
+					}
+#endif
+
+					record(nd, entry.nameid, price);
+				}
+				break;
+
+			case NPCTYPE_BARTER: {
+				// Un barter ne range pas ses articles dans l'union : le npc_data
+				// n'en porte que le drapeau « étendu », la marchandise vit dans
+				// barter_db, indexée par le nom UNIQUE du NPC.
+				std::shared_ptr<s_npc_barter> barter = barter_db.find(nd->exname);
+
+				if (barter == nullptr)
+					break;
+
+				for (const auto& it : barter->items) {
+					std::shared_ptr<s_npc_barter_item> entry = it.second;
+
+					if (entry == nullptr || wanted.find(entry->nameid) == wanted.end())
+						continue;
+
+					char price[64];
+
+					if (entry->price > 0)
+						safesnprintf(price, sizeof(price), "troc + %uz", entry->price);
+					else
+						safestrncpy(price, "troc", sizeof(price));
+
+					record(nd, entry->nameid, price);
+				}
+				break;
+			}
+
+			default:
+				break;
+		}
+	}
+
+	mapit_free(iter);
+
+	// Qui ouvre les boutiques flottantes ? Un seul scan par bytecode DISTINCT :
+	// les duplicates partagent celui de leur original, et le NPC des villes en
+	// compte une trentaine. Les relire chacun serait trente fois le même travail.
+	std::map<std::string, std::vector<npc_data*>> callers;
+
+	if (!floating_names.empty()) {
+		size_t shortest = SIZE_MAX, longest = 0;
+
+		for (const std::string& name : floating_names) {
+			// std:: explicite : le min()/max() maison de rAthena est typé int32 et
+			// tronquerait les size_t.
+			shortest = std::min(shortest, name.length());
+			longest = std::max(longest, name.length());
+		}
+
+		std::map<const struct script_code*, std::vector<std::string>> scanned;
+
+		iter = mapit_geteachnpc();
+
+		for (npc_data* nd = (TBL_NPC*)mapit_first(iter); mapit_exists(iter); nd = (TBL_NPC*)mapit_next(iter)) {
+			// Un porteur lui-même hors carte ne mènerait nulle part : autant
+			// garder le nom technique, que le staff saura suivre.
+			if (nd == nullptr || nd->subtype != NPCTYPE_SCRIPT || nd->m < 0 || nd->u.scr.script == nullptr)
+				continue;
+
+			auto cached = scanned.find(nd->u.scr.script);
+
+			if (cached == scanned.end()) {
+				std::vector<std::string> found;
+
+				shopsearch_scan_script(nd->u.scr.script, floating_names, shortest, longest, found);
+				cached = scanned.emplace(nd->u.scr.script, std::move(found)).first;
+			}
+
+			for (const std::string& name : cached->second)
+				callers[name].push_back(nd);
+		}
+
+		mapit_free(iter);
+	}
+
+	for (const auto& waiting : pending) {
+		for (const s_shopsearch_pending& shop : waiting.second) {
+			const auto found = callers.find(shop.exname);
+
+			if (found == callers.end()) {
+				// Aucun script ne la nomme : boutique orpheline, ou nom composé
+				// à l'exécution. Le joueur n'en ferait rien — le staff, si.
+				if (pc_get_group_level(sd) > 0)
+					hits[waiting.first].push_back({ nullptr, shop.exname, shop.price });
+				continue;
+			}
+
+			for (npc_data* nd : found->second)
+				hits[waiting.first].push_back({ nd, std::string(), shop.price });
+		}
+	}
+
+	// Les étals de joueurs, seconde moitié de la réponse.
+	std::map<t_itemid, std::vector<s_shopsearch_vend>> vends;
+
+	iter = mapit_getallusers();
+
+	for (map_session_data* pl_sd = (TBL_PC*)mapit_first(iter); mapit_exists(iter); pl_sd = (TBL_PC*)mapit_next(iter)) {
+		if (pl_sd == nullptr || !pl_sd->vender_id)
+			continue;
+
+		for (int32 j = 0; j < pl_sd->vend_num; j++) {
+			const t_itemid nameid = pl_sd->cart.u.items_cart[pl_sd->vending[j].index].nameid;
+
+			if (wanted.find(nameid) == wanted.end())
+				continue;
+
+			vends[nameid].push_back({ pl_sd, pl_sd->vending[j].amount, pl_sd->vending[j].value });
+		}
+	}
+
+	mapit_free(iter);
+
+	int32 marks = 0;
+
+	for (const auto& result : item_array) {
+		std::shared_ptr<item_data> id = result.second;
+
+		safesnprintf(atcmd_output, sizeof(atcmd_output), "Item: %s (ID:%u)", item_db.create_item_link(id).c_str(), id->nameid);
+		clif_displaymessage(fd, atcmd_output);
+
+		const auto found = hits.find(id->nameid);
+		const auto sold = vends.find(id->nameid);
+		const bool has_npc = found != hits.end() && !found->second.empty();
+		const bool has_vend = sold != vends.end() && !sold->second.empty();
+
+		if (!has_npc && !has_vend) {
+			clif_displaymessage(fd, " - Aucun NPC ni joueur ne vend cet item.");
+			continue;
+		}
+
+		if (has_npc) {
+			// Le même NPC ressort autant de fois qu'il ouvre de boutiques —
+			// shop_mg, shop_wz, shop_sa… tous derrière la même marchande. À prix
+			// égal, c'est UNE adresse pour le joueur, pas trois.
+			std::set<std::string> seen;
+			std::vector<s_shopsearch_hit> unique;
+
+			for (const s_shopsearch_hit& hit : found->second) {
+				char key[64];
+
+				if (hit.nd != nullptr)
+					safesnprintf(key, sizeof(key), "%d|", hit.nd->id);
+				else
+					safestrncpy(key, "0|", sizeof(key));
+
+				if (seen.insert(std::string(key) + hit.price).second)
+					unique.push_back(hit);
+			}
+
+			// La boutique du coin d'abord : c'est la seule réponse qui intéresse
+			// quelqu'un qui cherche où acheter tout de suite.
+			std::stable_sort(unique.begin(), unique.end(), [&](const s_shopsearch_hit& a, const s_shopsearch_hit& b) {
+				const bool a_here = a.nd != nullptr && a.nd->m == sd->m;
+				const bool b_here = b.nd != nullptr && b.nd->m == sd->m;
+
+				return a_here > b_here;
+			});
+
+			safesnprintf(atcmd_output, sizeof(atcmd_output), " Boutiques NPC (%d) :", (int32)unique.size());
+			clif_displaymessage(fd, atcmd_output);
+
+			int32 shown = 0;
+
+			for (const s_shopsearch_hit& hit : unique) {
+				if (shown++ >= SHOPSEARCH_MAX_HITS) {
+					safesnprintf(atcmd_output, sizeof(atcmd_output), " ... et %d autres.", (int32)unique.size() - SHOPSEARCH_MAX_HITS);
+					clif_displaymessage(fd, atcmd_output);
+					break;
+				}
+
+				if (hit.nd == nullptr) {
+					safesnprintf(atcmd_output, sizeof(atcmd_output), " - %s : %s (boutique sans NPC)", hit.label.c_str(), hit.price.c_str());
+					clif_displaymessage(fd, atcmd_output);
+					continue;
+				}
+
+				const std::string place = bourgeon_pos_link(sd, hit.nd->m, hit.nd->x, hit.nd->y);
+				const char* flag = "";
+
+				if (hit.nd->instance_id != 0)
+					flag = " (instance)";
+				else if (hit.nd->state == NPCVIEW_DISABLE)
+					flag = " (d\xe9sactiv\xe9)";
+
+				safesnprintf(atcmd_output, sizeof(atcmd_output), " - %s @ %s : %s%s", hit.nd->name, place.c_str(), hit.price.c_str(), flag);
+				clif_displaymessage(fd, atcmd_output);
+
+				// Le point sur la minimap ne veut rien dire ailleurs que sur la
+				// carte où se tient le joueur.
+				if (hit.nd->m == sd->m && marks < SHOPSEARCH_MAX_MARKS)
+					clif_viewpoint(*sd, 1, 0, hit.nd->x, hit.nd->y, ++marks, 0xFFFFFF);
+			}
+		}
+
+		if (has_vend) {
+			std::vector<s_shopsearch_vend> stalls = sold->second;
+
+			// Le moins cher d'abord : chez les joueurs, c'est le prix qui décide,
+			// pas la distance.
+			std::stable_sort(stalls.begin(), stalls.end(), [](const s_shopsearch_vend& a, const s_shopsearch_vend& b) {
+				return a.value < b.value;
+			});
+
+			safesnprintf(atcmd_output, sizeof(atcmd_output), " Boutiques joueurs (%d) :", (int32)stalls.size());
+			clif_displaymessage(fd, atcmd_output);
+
+			int32 shown = 0;
+
+			for (const s_shopsearch_vend& stall : stalls) {
+				if (shown++ >= SHOPSEARCH_MAX_HITS) {
+					safesnprintf(atcmd_output, sizeof(atcmd_output), " ... et %d autres.", (int32)stalls.size() - SHOPSEARCH_MAX_HITS);
+					clif_displaymessage(fd, atcmd_output);
+					break;
+				}
+
+				const std::string place = bourgeon_pos_link(sd, stall.sd->m, stall.sd->x, stall.sd->y);
+				char title[SHOPSEARCH_TITLE_LENGTH];
+
+				// Le titre de l'étal porte souvent l'essentiel de l'annonce, mais
+				// il monte à 80 caractères : tronqué, il tient sur la ligne.
+				safestrncpy(title, stall.sd->message, sizeof(title));
+
+				safesnprintf(atcmd_output, sizeof(atcmd_output), " - %s @ %s : %uz (x%d) %s", stall.sd->status.name, place.c_str(), stall.value, stall.amount, title);
+				clif_displaymessage(fd, atcmd_output);
+
+				if (stall.sd->m == sd->m && marks < SHOPSEARCH_MAX_MARKS)
+					clif_viewpoint(*sd, 1, 0, stall.sd->x, stall.sd->y, ++marks, 0xFFFFFF);
+			}
+
+			safesnprintf(atcmd_output, sizeof(atcmd_output), msg_txt(sd, 1831), (int32)stalls.size(), stalls.front().value, stalls.back().value); // %d shop trouve - Fourchette des prix: %d ~ %d.
+			clif_displaymessage(fd, atcmd_output);
+		}
 	}
 
 	return 0;

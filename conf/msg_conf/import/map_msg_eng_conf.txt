@@ -1739,8 +1739,8 @@
 1827: @alootpognon reset pour désactiver - @alootpognon <Seuil prix de revente NPC>
 1828: Autolootpognon : Chiffre incorrect - Autolootpognon désactivé.
 1829: Autolootpognon fixé à %d z.
-1830: @whosell <Nom ou ID d'item>.
-1831: %d shop trouvé - Fourchette des prix: %d ~ %d.
+1830: Usage: @shopsearch <nom ou ID d'item> (alias: @whosell) - cherche chez les NPC et chez les joueurs.
+1831:  Prix joueurs : %d étal(s), de %dz à %dz.
 1832: Item introuvable.
 1833: Vous devez être au bord, sous les lampions pour pouvoir ouvrir un Shop !
 1834: Vous devez être au dessus de la statue de Gonryun pour pouvoir ouvrir une Chat Room !
