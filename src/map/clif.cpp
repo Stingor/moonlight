@@ -17030,7 +17030,19 @@ void clif_parse_ChatAddMember(int32 fd, map_session_data* sd){
 
 	const PACKET_CZ_REQ_ENTER_ROOM* p = reinterpret_cast<PACKET_CZ_REQ_ENTER_ROOM*>( RFIFOP( fd, 0 ) );
 
-	chat_joinchat( sd, p->chat_id, p->password );
+	// [Stingor] Le champ du paquet fait 8 octets et n'est PAS terminé par un NUL,
+	// alors que chat_joinchat compare sizeof(cd->pass) = CHATROOM_PASS_SIZE = 9
+	// octets. Passer le pointeur brut faisait donc lire un octet AU-DELÀ du paquet
+	// dès que le mot de passe occupait ses 8 caractères : la comparaison échouait
+	// sur ce résidu et l'entrée était refusée. Un mot de passe de 7 caractères ou
+	// moins marchait, parce que les deux côtés portaient un NUL au même index.
+	// On recopie donc dans un tampon terminé, comme le fait déjà
+	// clif_parse_CreateChatRoom.
+	char password[CHATROOM_PASS_SIZE];
+
+	safestrncpy( password, p->password, sizeof( password ) );
+
+	chat_joinchat( sd, p->chat_id, password );
 }
 
 
