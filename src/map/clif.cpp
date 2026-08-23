@@ -15503,6 +15503,10 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 	}
 
 	if( sd->state.connect_new ) { //Stingor
+		// Le mode @playertest est persistant : sans rappel, un GM le retrouve actif
+		// des jours plus tard et croit a une regression de son ASPD.
+		if( sd->state.playertest )
+			clif_displaymessage( sd->fd, "@playertest est toujours ON : plafonds GM d'ASPD et de delay de skill ignor\xe9" "s." );
 		clif_partyinvitationstate(*sd);
 		clif_configuration(sd, CONFIG_CALL, sd->status.disable_call);
 #if PACKETVER >= 20070918

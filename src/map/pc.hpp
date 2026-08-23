@@ -63,6 +63,7 @@ class MapGuild;
 #define TKMISSIONCOUNT_VAR "TK_MISSION_COUNT"
 #define ATTENDANCE_DATE_VAR "#AttendanceDate"
 #define ATTENDANCE_COUNT_VAR "#AttendanceCounter"
+#define PLAYERTEST_VAR "playertest" // [Stingor] @playertest : mode « cadence joueur » persistant
 #define ACHIEVEMENTLEVEL "AchievementLevel"
 
 //Total number of classes (for data storage)

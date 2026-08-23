@@ -623,6 +623,8 @@ ACMD_FUNC(playertest)
 	nullpo_retr(-1, sd);
 
 	sd->state.playertest = !sd->state.playertest;
+	// Persiste par personnage : le mode survit a la deconnexion, cf. pc_reg_received().
+	pc_setglobalreg(sd, add_str(PLAYERTEST_VAR), sd->state.playertest ? 1 : 0);
 
 	// L'ASPD depend de pc_maxaspd() : il faut un recalcul complet pour que le
 	// nouveau plafond soit applique et repousse au client.
