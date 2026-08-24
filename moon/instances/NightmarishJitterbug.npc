@@ -874,6 +874,11 @@ OnTouch_:
 		npctalk "Roter: Scatter--Thousand Flashlights!";
 		specialeffect EF_LEXAETERNA;
 		specialeffect EF_LEXAETERNA,AREA, .@gelka$;
+		// sleep2 détache le joueur (npc_id remis à 0) alors que la boîte de dialogue
+		// reste affichée côté client. S'il clique un autre NPC pendant ce laps, le
+		// script reprend sur le mauvais oid et le joueur reste bloqué sans erreur.
+		// On lui coupe le clic NPC pendant toute la temporisation.
+		setpcblock PCBLOCK_NPCCLICK, true;
 		sleep2 300;
 		specialeffect EF_LORD;
 		specialeffect EF_LORD,AREA, .@gelka$;
@@ -884,6 +889,7 @@ OnTouch_:
 		specialeffect EF_SUI_EXPLOSION,AREA, .@gelka$;
 		specialeffect EF_BEGINASURA;
 		specialeffect EF_BEGINASURA,AREA, .@gelka$;
+		setpcblock PCBLOCK_NPCCLICK, false;
 		next;
 		cutin "gelca01",2;
 		mes "[Gelka]";
@@ -1465,10 +1471,19 @@ OnTouch_:
 	mes "[Lagi]";
 	mes "Hey, come with me!";
 	npctalk "Lagi: Hey, come with me!", .@lagi$;
+	// sleep2 détache le joueur (npc_id remis à 0) alors que la boîte de dialogue
+	// reste affichée côté client. S'il clique un autre NPC pendant ce laps, le
+	// script reprend sur le mauvais oid et le joueur reste bloqué sans erreur.
+	// On lui coupe le clic NPC pendant toute la temporisation.
+	// Cas le plus grave du fichier : le close3 qui suit met le script en état
+	// CLOSE, ce qui supprime le filet de sécurité NPC_SECURE_TIMEOUT -> blocage
+	// définitif (relog obligatoire).
+	setpcblock PCBLOCK_NPCCLICK, true;
 	sleep2 1000;
 	disablenpc instance_npcname("Newoz#09");
 	disablenpc .@shaloshi$;
 	disablenpc .@lagi$;
+	setpcblock PCBLOCK_NPCCLICK, false;
 	close3;
 
 OnSpawnJit:
@@ -3409,6 +3424,11 @@ OnSpawnJit:
 	mes "Ferre, ferre, ferre, ferre-!";
 	npctalk "Ferre: Ferre, ferre, ferre, ferre-!", .@ferre_23$;
 	next;
+	// sleep2 détache le joueur (npc_id remis à 0) alors que la boîte de dialogue
+	// reste affichée côté client. S'il clique un autre NPC pendant ce laps, le
+	// script reprend sur le mauvais oid et le joueur reste bloqué sans erreur.
+	// On lui coupe le clic NPC pendant toute la temporisation.
+	setpcblock PCBLOCK_NPCCLICK, true;
 	sleep2 400;
 	disablenpc .@ferre_23$;
 	enablenpc .@ferre_24$;
@@ -3428,6 +3448,7 @@ OnSpawnJit:
 	sleep2 700;
 	specialeffect EF_LORD,AREA, .@ferre_24$;
 	specialeffect EF_SUI_EXPLOSION,AREA, .@ferre_24$;
+	setpcblock PCBLOCK_NPCCLICK, false;
 	cutin "shaloshi01",2;
 	mes "[Shaloshi]";
 	mes "Ferre has transformed into its true form!";
@@ -3575,9 +3596,15 @@ OnStop:
 	enablenpc .@arang$;
 	enablenpc .@runane$;
 	enablenpc .@roel$;
+	// sleep2 détache le joueur (npc_id remis à 0) alors que la boîte de dialogue
+	// reste affichée côté client. S'il clique un autre NPC pendant ce laps, le
+	// script reprend sur le mauvais oid et le joueur reste bloqué sans erreur.
+	// On lui coupe le clic NPC pendant toute la temporisation.
+	setpcblock PCBLOCK_NPCCLICK, true;
 	sleep2 500;
 	emotion ET_FRET, getnpcid(0,.@roter$);
 	emotion ET_THINK, getnpcid(0,.@melody$);
+	setpcblock PCBLOCK_NPCCLICK, false;
 	cutin "",255;
 	mes "[Melody-Jack]";
 	mes "Wow, this place is not going to last long--look how violently the ground is shaking! We really need to get out like yesterday, Newoz.";
@@ -4461,8 +4488,10 @@ OnNextIs23:
 		mobhm('hm,0,'map_jtb$,322,338, "--ja--", .@id, 1);
 		mobhm('hm,0,'map_jtb$,314,325, "--ja--", .@id, 1);
 	}
-	mobhm('hm,0,'map_jtb$,322,335, "Awakened Ferre", 3073,1, .@label$);	// GRAND_PERE
-	'boss_id = $@mobid[0];
+	// NB : on utilise la valeur de retour de mobhm et non $@mobid[0] : mobhm fait un
+	// sleep interne quand 'hm > 1, et $@mobid est un tableau global qu'un autre spawn
+	// (ex. les Jitterbug de Newoz#23) peut écraser pendant ce sommeil.
+	'boss_id = mobhm('hm,0,'map_jtb$,322,335, "Awakened Ferre", 3073,1, .@label$);	// GRAND_PERE
 	end;
 OnMobDead23:
 	if (mobcount('map_jtb$, 'jitterbug_main$ + "::OnMobDead23") == 0) {
