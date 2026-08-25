@@ -8219,6 +8219,12 @@ Body:
   - Id: 14592
     Title: Resting Time
     TimeLimit: 4h
+  - Id: 14613
+    Title: Est on second floor
+  - Id: 14614
+    Title: Convince the leaders
+  - Id: 14615
+    Title: Between negotiation and deception
   - Id: 14672
     Title: Preparing for the Firework Festival
     Targets:
