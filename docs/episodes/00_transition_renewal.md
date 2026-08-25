@@ -71,10 +71,20 @@ Mesuré le 2026‑08‑25 :
 - `src/config/renewal.hpp` ne définit que `#define PRERE`. **Aucune** option renewal.
 - `moon/job_master.npc:23` refuse la promotion vers les classes 3ᵉ :
   `class >= Job_Rune_Knight && class <= Job_Mechanic`.
-- Le roster de mobs vit dans `db/pre-re/mob_db.yml` (1 004 entrées) **plus**
-  `db/import/mob_db.yml` et `db/import/mobs/*.yml` — **2 117 entrées au total**.
-  C'est le mécanisme par lequel tout le contenu renewal déjà porté a été absorbé.
-- Les objets suivent le même schéma via `db/import/items/`.
+- **`db/pre-re/` est débranché.** Les fichiers racine `db/mob_db.yml`,
+  `db/item_db.yml`, `db/instance_db.yml`, `db/item_combos.yml`, `db/skill_tree.yml`,
+  `db/statpoint.yml`, `db/job_stats.yml`, `db/mob_summon.yml` et
+  `db/achievement_db.yml` ont leur ligne `- Path: db/pre-re/…` **mise en
+  commentaire** : seul `db/import/…` est chargé. Les fichiers `db/pre-re/mob_db.yml`,
+  `db/pre-re/item_db_*.yml` et `db/pre-re/instance_db.yml` sont donc **morts**.
+- Le roster de mobs réellement chargé est `db/import/mob_db.yml` (1 454 entrées)
+  plus les 46 fichiers de `db/import/mobs/` listés dans son `Footer` —
+  **2 117 entrées uniques**. Les 1 004 ids de `db/pre-re/mob_db.yml` en sont un
+  sous-ensemble strict, ce qui explique que rien ne manque à l'usage.
+- Objets : `db/import/items/*.yml`, **14 325 entrées**.
+- Instances : `db/import/instance_db.yml`, **39 entrées**.
+- Exception notable : **`quest_db` charge bien `db/pre-re/quest_db.yml`**
+  (3 691 entrées) puis `db/import/quest_db.yml` (156).
 
 Autrement dit : **la voie de migration est déjà tracée et éprouvée**. Elle consiste à
 déposer le contenu dans `db/import/` et `moon/`, puis à le référencer dans

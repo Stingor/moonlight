@@ -96,8 +96,10 @@ navigation), et les huit scripts d'instance cités plus haut.
 ### Non porté
 
 - **Mode Vague** — `moon/instances/WaveMode.txt` est présent mais **non référencé** dans
-  `moon/scripts_moon.conf`. Deux entrées d'instance à créer (`Wave Mode - Forest`,
-  `Wave Mode - Sky`, cartes `1@def01`/`1@def02`, cartes présentes dans le mapcache).
+  `moon/scripts_moon.conf`. Les deux entrées d'instance existent déjà
+  (`Wave Mode - Forest` id 22 et `Wave Mode - Sky` id 23 dans
+  `db/import/instance_db.yml`), et les cartes `1@def01`/`1@def02` sont dans le
+  mapcache : **il ne manque littéralement qu'une ligne de configuration**.
   C'est le seul manque PvE de l'épisode.
 - **Académie Criatura / nouvelle Izlude** — `moon/rathena/jobs/novice/academy.txt` est
   **commenté** (`scripts_moon.conf:115`). Choix assumé : Moonlight garde son propre
@@ -110,7 +112,7 @@ navigation), et les huit scripts d'instance cités plus haut.
 | | |
 |---|---|
 | Intérêt | très élevé — Old Glast Heim et l'Usine de Jouets sont du contenu de groupe durable |
-| Reste à faire | **brancher le Mode Vague** (1 ligne de conf + 2 entrées `instance_db`) |
+| Reste à faire | **une ligne** : référencer `WaveMode` dans `scripts_moon.conf` |
 
 ## Sources
 

@@ -99,9 +99,10 @@ C'est l'épisode où le déséquilibre est le plus visible : les joueurs peuvent
 dans le manoir de Varmundt, mais **aucune instance, aucune quête, aucune économie** n'y
 est attachée. Deux façons de refermer l'écart :
 
-- **voie courte** — décommenter `nif_dun` et brancher les quatre instances
-  (`1@bamn`, `1@bamq`, `1@ghg`, `1@herbs`, `1@lost` sont toutes dans le mapcache) ;
-  cela donne cinq contenus de groupe sans rien écrire ;
+- **voie courte** — décommenter `nif_dun`, déclarer les six entrées dans
+  `db/import/instance_db.yml` (aucune n'y figure aujourd'hui) et référencer les quatre
+  scripts ; `1@bamn`, `1@bamq`, `1@ghg`, `1@herbs` et `1@lost` sont toutes dans le
+  mapcache. Cela donne six contenus de groupe sans écrire une ligne de script ;
 - **voie longue** — porter `quests_17_2.txt` et la chaîne narrative, ce qui suppose
   d'avoir d'abord porté 17.1.
 
@@ -112,7 +113,7 @@ Dans les deux cas, le rééchelonnage 185‑200 → 90‑99 est le vrai travail.
 | | |
 |---|---|
 | Intérêt | élevé — le terrain est déjà ouvert, il manque ce qui le rend jouable |
-| Reste à faire | 6 entrées `instance_db` · 4 scripts à brancher · décommenter `nif_dun` · (optionnel) la chaîne de quêtes |
+| Reste à faire | 6 entrées dans `db/import/instance_db.yml` · 4 scripts à brancher · décommenter `nif_dun` · (optionnel) la chaîne de quêtes |
 
 ## Sources
 

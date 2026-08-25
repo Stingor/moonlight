@@ -71,7 +71,8 @@ roster pré-renewal.
 
 - **Temple du Dieu Démon** — `moon/instances/TempleofDemonGod.npc` existe **et n'est pas
   référencé** dans `moon/scripts_moon.conf`. L'entrée `Temple of the Demon God`
-  (`1@eom`) est pourtant déjà dans `db/pre-re/instance_db.yml`. Il ne manque donc
+  (`1@eom`, id 27) est pourtant déjà dans `db/import/instance_db.yml` — la base
+  d'instances réellement chargée. Il ne manque donc
   littéralement **qu'une ligne de conf** — la non-inscription est peut-être délibérée,
   à confirmer avant de la corriger.
 

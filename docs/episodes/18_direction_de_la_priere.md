@@ -110,7 +110,7 @@ Chemin identique à celui de [17.1](17-1_illusion.md), avec un volume légèreme
 
 1. verser les **13 mobs `EP18_*`** dans `db/import/mobs/` (`gw_fild.yml`, `oz_dun.yml`) ;
 2. décommenter deux lignes de `scripts_moon.conf` (747 et 782) ;
-3. ajouter **six entrées** à `db/pre-re/instance_db.yml` ;
+3. ajouter **six entrées** à `db/import/instance_db.yml` (base réellement chargée) ;
 4. brancher cinq scripts d'instance (laisser `DeepForest`, lié au Spirit Handler) ;
 5. arbitrer le **système de réputation** du Loup Gris : Moonlight n'utilise pas
    `reputation.yml` en pré-renewal, il faut soit l'activer, soit remplacer les paliers
@@ -126,7 +126,7 @@ qui en dépendent pour leur déverrouillage.
 | | |
 |---|---|
 | Intérêt | élevé — un village complet, un MVP, six instances |
-| Reste à faire | 13 mobs · 2 lignes de conf · 6 entrées `instance_db` · 5 scripts · arbitrage réputation |
+| Reste à faire | 13 mobs · 2 lignes de conf · 6 entrées dans `db/import/instance_db.yml` · 5 scripts · arbitrage réputation |
 
 ## Sources
 

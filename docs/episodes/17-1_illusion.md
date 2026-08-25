@@ -121,7 +121,8 @@ Le chemin est court et entièrement balisé :
 1. verser les **10 mobs `EP17_1_*`** dans `db/import/mobs/` (un fichier `sp_rudus.yml`),
    avec des statistiques rééchelonnées pour du niveau 90‑99 ;
 2. décommenter `scripts_moon.conf:789` ;
-3. ajouter les **cinq entrées d'instance** à `db/pre-re/instance_db.yml` ;
+3. ajouter les **cinq entrées d'instance** à `db/import/instance_db.yml` — c'est
+   cette base qui est chargée, `db/pre-re/instance_db.yml` étant débranché ;
 4. renommer les quatre `.txt` d'instance en `.npc` et les référencer ;
 5. porter `quests_17_1.txt` — c'est le plus gros morceau : la chaîne de quêtes est le
    fil narratif, et elle suppose l'épisode 16.2 achevé côté joueur ;
@@ -136,7 +137,7 @@ de chasse — ce qui reste une option défendable et bien moins coûteuse.
 | | |
 |---|---|
 | Intérêt | élevé — trois zones de chasse et cinq instances, toutes prêtes |
-| Reste à faire | 10 mobs · 1 ligne de conf · 5 entrées `instance_db` · 4 scripts à brancher · (optionnel) la chaîne de quêtes |
+| Reste à faire | 10 mobs · 1 ligne de conf · 5 entrées dans `db/import/instance_db.yml` · 4 scripts à brancher · (optionnel) la chaîne de quêtes |
 
 ## Sources
 

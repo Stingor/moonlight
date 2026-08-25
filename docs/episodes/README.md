@@ -32,18 +32,24 @@ Récapitulé depuis les fiches. Les chiffres sont mesurés, pas estimés.
 
 ### Niveau 1 — une ligne de configuration
 
-| Contenu | Épisode | Geste |
-|---|---|---|
-| Temple du Dieu Démon (`1@eom`) | 14.3 | référencer `moon/instances/TempleofDemonGod.npc` — l'entrée `instance_db` existe déjà |
-| Incohérence `dic_dun03` | 13.3 | régénérer le mapcache ou commenter le bloc de spawn |
+Trois instances ont déjà leur entrée dans `db/import/instance_db.yml` — la base
+réellement chargée — et leur script sur le disque. Il ne manque que la ligne
+`npc:` dans `moon/scripts_moon.conf`.
+
+| Contenu | Épisode | Entrée existante | Script |
+|---|---|---|---|
+| Mode Vague — Forêt et Ciel (`1@def01`, `1@def02`) | 14.2 | ids 22 et 23 | `moon/instances/WaveMode.txt` |
+| Temple du Dieu Démon (`1@eom`) | 14.3 | id 27 | `moon/instances/TempleofDemonGod.npc` |
+| Forteresse Céleste (`1@sthb`) | 16.1 | id 33 | `moon/instances/SkyFortress.txt` |
+
+Plus une incohérence à solder : `dic_dun03` (ép. 13.3) reçoit des spawns alors que la
+carte n'est pas dans le mapcache — régénérer le mapcache ou commenter le bloc.
 
 ### Niveau 2 — brancher un script et créer son entrée `instance_db`
 
 | Contenu | Épisode | Carte |
 |---|---|---|
-| Mode Vague (Forêt / Ciel) | 14.2 | `1@def01`, `1@def02` |
 | Espace Infini | 15.2 | `1@infi` |
-| Forteresse Céleste | 16.1 | `1@sthb` |
 | EDDA — Demi-lune en plein jour | 16.1 | `1@pop1` |
 | Donjon du week-end / du vendredi | 16.2 | `1@md_pay`, `1@md_gef` |
 | Village Poring | 16.2 | `1@begi` |
@@ -53,8 +59,9 @@ Récapitulé depuis les fiches. Les chiffres sont mesurés, pas estimés.
 | Ferme Perdue dans le Temps | 17.2 | `1@lost` |
 | Niflheim renewal (spawns) | 17.2 | `nif_dun01/02` |
 
-Soit **une quinzaine de contenus de groupe** dont les scripts sont déjà sur le disque et
-dont les cartes sont déjà dans le mapcache.
+Soit **douze contenus de groupe** dont les scripts sont déjà sur le disque et dont les
+cartes sont déjà dans le mapcache — il ne manque que la déclaration dans
+`db/import/instance_db.yml` et la ligne de conf.
 
 ### Niveau 3 — ajouter des mobs puis décommenter
 
@@ -107,7 +114,7 @@ personnages de niveau 100+. Repris sans retouche en pré-renewal, un mob d'épis
 devient soit intuable, soit trivial. Idem pour les équipements : la séparation
 ATK/MATK, le niveau d'équipement et la table de raffinage renewal n'existent pas ici.
 
-Ampleur mesurée sur `db/re` vs `db/pre-re` de rAthena :
+Ampleur du fossé **chez rAthena amont** (`db/pre-re` vs `db/re`) :
 
 | Base | pre-re | re | écart brut |
 |---|---:|---:|---:|
@@ -117,9 +124,35 @@ Ampleur mesurée sur `db/re` vs `db/pre-re` de rAthena :
 | `item_db_etc.yml` | 2 247 | 9 959 | 7 712 |
 | `instance_db.yml` | 37 | 78 | 41 |
 
-Ces écarts **ne sont pas la charge de travail** : Moonlight alimente son propre roster
-via `db/import/`. Le roster réel de mobs de Moonlight est de **2 117 entrées**
-(`db/pre-re/mob_db.yml` + `db/import/mob_db.yml` + `db/import/mobs/*.yml`).
+**Ces chiffres ne décrivent pas Moonlight** : `db/pre-re/` y est débranché — voir
+l'encadré ci-dessous.
+
+### 2 bis. Où vivent réellement les données de Moonlight
+
+Le chargement d'une base rAthena suit la chaîne `Footer: Imports:` depuis le fichier
+racine `db/<nom>.yml` (`YamlDatabase::parseImports`, `src/common/database.cpp:176`) —
+il n'y a **aucun** import implicite.
+
+Or Moonlight a mis en commentaire la ligne `- Path: db/pre-re/…` dans neuf fichiers
+racine : `mob_db`, `item_db`, `instance_db`, `item_combos`, `skill_tree`, `statpoint`,
+`job_stats`, `mob_summon`, `achievement_db`. **Tout passe par `db/import/`.**
+
+| Base | Ce qui est réellement chargé | Entrées |
+|---|---|---:|
+| mobs | `db/import/mob_db.yml` (1 454) + 46 fichiers de `db/import/mobs/` | **2 117** |
+| objets | `db/import/items/*.yml` (12 fichiers) | **14 325** |
+| instances | `db/import/instance_db.yml` | **39** |
+| quêtes | `db/pre-re/quest_db.yml` (3 691) + `db/import/quest_db.yml` (156) | **3 768** |
+
+Deux conséquences pratiques :
+
+- `db/pre-re/mob_db.yml`, `db/pre-re/item_db_*.yml` et `db/pre-re/instance_db.yml` sont
+  des **fichiers morts** : les éditer n'a aucun effet. Les 1 004 ids du premier sont un
+  sous-ensemble strict du roster réel, ce qui explique que rien ne manque à l'usage ;
+- **`quest_db` fait exception** : `db/pre-re/quest_db.yml` est bien chargé, c'est donc là
+  qu'une entrée de quête manquante doit être ajoutée.
+
+Toute la suite de ce dossier raisonne sur les bases `db/import/`.
 
 ### 3. Le client n'est pas le facteur limitant
 

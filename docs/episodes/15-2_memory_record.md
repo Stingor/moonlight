@@ -69,7 +69,8 @@ dans l'intervalle 15.2. Les deux lectures se défendent ; il est traité ici.
 
 - **Espace Infini** — `moon/instances/InfiniteSpace.txt` est présent mais **non
   référencé**. L'entrée `Infinite Space` (`1@infi`) manque à
-  `db/pre-re/instance_db.yml`. La carte `1@infi` **est** dans le mapcache pré-renewal.
+  `db/import/instance_db.yml` (la base réellement chargée : 39 entrées).
+  La carte `1@infi` **est** dans le mapcache pré-renewal.
   Reste à faire : ajouter l'entrée `instance_db`, référencer le script, vérifier le
   roster de mobs (rAthena a ajouté les monstres d'Infinite Space en 2022, PR #6491).
 - **Roulette de la chance**, **Para Market**, **évolution des familiers** — à vérifier au
@@ -80,7 +81,7 @@ dans l'intervalle 15.2. Les deux lectures se défendent ; il est traité ici.
 | | |
 |---|---|
 | Intérêt | moyen pour les cartes, **élevé** pour les systèmes (déjà acquis) |
-| Reste à faire | brancher **Espace Infini** — une entrée `instance_db` + une ligne de conf + contrôle du roster |
+| Reste à faire | brancher **Espace Infini** — une entrée dans `db/import/instance_db.yml` + une ligne de conf + contrôle du roster |
 
 ## Sources
 

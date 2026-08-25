@@ -78,8 +78,8 @@ Ajouts joints : jetons d'honneur, nouvel objet d'enchantement, préparatifs du b
 
 | Manque | Fichier présent ? | Ce qu'il faut faire |
 |---|---|---|
-| **Forteresse Céleste** | `moon/instances/SkyFortress.txt` — non référencé | entrée `instance_db` (`Sky Fortress Invasion`, `1@sthb`) + ligne de conf + contrôle du roster |
-| **EDDA Demi-lune** | `moon/instances/EddaHalfMoonInTheDaylight.txt` — non référencé | idem (`Half Moon In The Daylight`, `1@pop1`) |
+| **Forteresse Céleste** | `moon/instances/SkyFortress.txt` — non référencé | **une ligne de conf** : l'entrée `Sky Fortress Invasion` (id 33, `1@sthb`) est déjà dans `db/import/instance_db.yml` |
+| **EDDA Demi-lune** | `moon/instances/EddaHalfMoonInTheDaylight.txt` — non référencé | entrée `instance_db` à créer (`Half Moon In The Daylight`, `1@pop1`) + ligne de conf |
 | **Espace Infini** | `moon/instances/InfiniteSpace.txt` — non référencé | cf. fiche 15.2 |
 | **Summoner / Doram** | — | hors périmètre : classe renewal |
 
