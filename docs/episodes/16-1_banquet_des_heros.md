@@ -83,8 +83,8 @@ Ajouts joints : jetons d'honneur, nouvel objet d'enchantement, préparatifs du b
 | **Espace Infini** | `moon/instances/InfiniteSpace.txt` — non référencé | cf. fiche 15.2 |
 | **Summoner / Doram** | — | hors périmètre : classe renewal |
 
-Les trois cartes d'entrée (`1@sthb`, `1@pop1`, `1@infi`) **sont** dans le mapcache
-pré-renewal ; rien ne bloque côté client.
+Les trois cartes d'entrée (`1@sthb`, `1@pop1`, `1@infi`) **sont** dans le mapcache ;
+rien ne bloque côté client.
 
 ## 5. Migration pré-renewal
 

@@ -73,7 +73,7 @@ Autrement dit : le catalogue existe, le contenu jouable non.
 En revanche — et c'est le fait notable — **les cartes sont là** :
 `icecastle`, `icas_in`, `jor_tail`, `jor_back1/2/3`, `jor_nest`, `jor_dun02`, `jor_dun03`,
 `jor_ab01`, `jor_ab02`, `1@jorchs` sont toutes présentes dans
-`db/pre-re/map_cache.dat`. Le client de Moonlight sait afficher Issgard.
+`db/import/map_cache.dat`. Le client de Moonlight sait afficher Issgard.
 
 ## 5. Migration pré-renewal
 

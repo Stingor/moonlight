@@ -66,7 +66,7 @@ sur huit familles élémentaires en quatre tailles (S / M / L / SL).
 | Mobs de Hall of Life | — | **32 manquants** (`SPIRIT_G_LAND_*`, `SPIRIT_B_FLAME_*`, `SPIRIT_S_WIND_*`, `SPIRIT_I_WATER_*`, `SPIRIT_H_WATER_*`, `SPIRIT_D_WIND_*`, `SPIRIT_R_FLAME_*`, `SPIRIT_F_LAND_*`) |
 | Quêtes Jardin du Temps | — | absent |
 
-Les cartes de l'épisode 20 sont **toutes** dans `db/pre-re/map_cache.dat`, y compris
+Les cartes de l'épisode 20 sont **toutes** dans `db/import/map_cache.dat`, y compris
 `jor_maze`, `jor_sanct`, `1@20cn1/2`, `1@twig` et `1@twsd`.
 
 ## 4. Migration pré-renewal

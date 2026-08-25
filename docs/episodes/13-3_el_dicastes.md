@@ -70,14 +70,9 @@ Contenu mûr, converti depuis longtemps, corrigé au fil des années.
 Le contrôle d'écart mob (`db/re/mob_db.yml` des spawns rAthena vs roster Moonlight) ne
 signale **aucun mob manquant** sur `dic_dun`.
 
-### Un défaut latent à corriger
-
-`moon/mobs/dicaste.npc` fait apparaître des mobs sur **`dic_dun03`**, or cette carte est
-**absente de `db/pre-re/map_cache.dat`** — c'est la *seule* carte manquante de tout le
-périmètre 13.3 → 20. Le map-server rejette donc ces lignes de spawn au chargement.
-
-Deux issues : régénérer le mapcache si `dic_dun03.gat` est dans le GRF du client, ou
-commenter le bloc `dic_dun03` du fichier de spawn.
+`dic_dun03` — le 3ᵉ étage du Hall des Scarabées, ajouté après coup en renewal — est
+bien peuplé par `moon/mobs/dicaste.npc`, et la carte est présente dans
+`db/import/map_cache.dat` comme dans `db/map_index.txt`.
 
 ## 4. Migration pré-renewal
 
@@ -90,7 +85,7 @@ Rien à faire : c'est fait. Reste l'arbitrage d'équilibrage habituel (cf.
 | | |
 |---|---|
 | Intérêt pour un serveur pré-renewal | élevé — une ville complète, deux donjons, un MVP |
-| Reste à faire | **une ligne** : régler l'incohérence `dic_dun03` |
+| Reste à faire | **rien** |
 
 ## Sources
 

@@ -112,7 +112,7 @@ Note : `sp_os` n'a **aucun** fichier de spawn côté Moonlight ; il faudra repre
 `npc/re/mobs/special_border_area.txt` de rAthena.
 
 Toutes les cartes concernées (`sp_cor`, `sp_os`, `sp_rudus`→`sp_rudus4`, `1@rgsr`,
-`1@os_a`, `1@os_b`, `1@cor`) **sont** dans le mapcache pré-renewal.
+`1@os_a`, `1@os_b`, `1@cor`) **sont** dans le mapcache.
 
 ## 5. Migration pré-renewal
 

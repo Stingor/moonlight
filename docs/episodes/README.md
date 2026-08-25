@@ -42,9 +42,6 @@ réellement chargée — et leur script sur le disque. Il ne manque que la ligne
 | Temple du Dieu Démon (`1@eom`) | 14.3 | id 27 | `moon/instances/TempleofDemonGod.npc` |
 | Forteresse Céleste (`1@sthb`) | 16.1 | id 33 | `moon/instances/SkyFortress.txt` |
 
-Plus une incohérence à solder : `dic_dun03` (ép. 13.3) reçoit des spawns alors que la
-carte n'est pas dans le mapcache — régénérer le mapcache ou commenter le bloc.
-
 ### Niveau 2 — brancher un script et créer son entrée `instance_db`
 
 | Contenu | Épisode | Carte |
@@ -156,23 +153,28 @@ Toute la suite de ce dossier raisonne sur les bases `db/import/`.
 
 ### 3. Le client n'est pas le facteur limitant
 
-Contrôle sur `db/pre-re/map_cache.dat` de Moonlight : **1 103 cartes**, soit *plus* que
-le mapcache renewal de rAthena (1 025).
+Le mapcache suit lui aussi la logique d'import, mais par un autre mécanisme :
+`map_readallmaps` (`src/map/map.cpp:4018`) empile **trois** fichiers dans l'ordre
+`db/import/map_cache.dat`, `db/pre-re/map_cache.dat`, `db/map_cache.dat`, et pour
+chaque carte la **première occurrence trouvée gagne**.
 
-Deux vérifications exhaustives ont été faites :
+| Fichier | Cartes |
+|---|---:|
+| `db/import/map_cache.dat` | **1 309** |
+| `db/pre-re/map_cache.dat` | 1 103 — sous-ensemble strict du précédent |
+| `db/map_cache.dat` | 0 (fichier de 8 octets) |
+| **union effective** | **1 309** |
 
-1. les cartes de terrain des épisodes 13.3 à 20 (villes, champs, donjons, y compris
-   Issgard et le labyrinthe du serpent de l'épisode 20) ;
-2. les 31 cartes d'entrée des instances renewal que Moonlight n'a **pas** portées
-   (`1@infi`, `1@rgsr`, `1@os_a/b`, `1@cor`, `1@ghg`, `1@herbs`, `1@oz`, `1@nyr`,
-   `1@advs`, `1@jorlab`, `1@jorchs`, `1@iwp`, `1@whl`…).
+`db/map_index.txt` déclare 1 322 cartes, et il n'y a pas d'`import/map_index.txt`.
 
-Une seule carte manque à l'appel sur l'ensemble : **`dic_dun03`** (3ᵉ étage du Hall des
-Scarabées, ajouté après coup en renewal).
+Contrôle exhaustif : les **196 cartes** citées dans ce dossier — villes, champs,
+donjons et cartes d'entrée d'instance des épisodes 13.3 à 20, Issgard et le
+labyrinthe du serpent compris — sont **toutes** présentes, dans le cache comme dans
+l'index. **Zéro manquante.**
 
-Autrement dit : **le blocage est côté serveur, pas côté ressources graphiques**. Aucune
-fiche de ce dossier ne peut invoquer « le client ne sait pas afficher la carte » comme
-motif de blocage, sauf `dic_dun03`.
+Autrement dit : **le blocage est entièrement côté serveur**. Aucune fiche de ce
+dossier ne peut invoquer « le client ne sait pas afficher la carte » comme motif de
+blocage.
 
 ## Convention de lecture de l'état Moonlight
 

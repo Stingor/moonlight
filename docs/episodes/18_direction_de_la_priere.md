@@ -102,7 +102,7 @@ Treize identifiants, tous absents du roster de 2 117 entrées :
 | `oz_dun.npc` | `EP18_ASH_TOAD`, `EP18_RAKEHAND`, `EP18_SPARK`, `EP18_HOT_MOLAR`, `EP18_VOLCARING`, `EP18_LAVA_TOAD`, `EP18_BURNING_FANG` (MVP) |
 
 Toutes les cartes (`wolfvill`, `gw_fild01/02`, `oz_dun01/02`, `ra_fild10/11`, `1@nyr`,
-`1@adv`, `1@advs`, `1@oz`, `1@tcamp`, `1@exsh`) **sont** dans le mapcache pré-renewal.
+`1@adv`, `1@advs`, `1@oz`, `1@tcamp`, `1@exsh`) **sont** dans le mapcache.
 
 ## 5. Migration pré-renewal
 
