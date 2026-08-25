@@ -1021,6 +1021,15 @@ ACMD_FUNC(speed)
 
 	status_calc_bl(sd, { SCB_SPEED });
 
+	// [Stingor] La vitesse SURVIT à la déconnexion : rAthena l'oublie exprès
+	// (map.cpp, « Remove lock so speed is set back to normal at login »), le registre
+	// la repose au login via bourgeon_settings[] — comme @autoloot juste au-dessus.
+	// La resynchro dit la nouvelle valeur au curseur du client Bourgeon.
+	if( pc_get_group_level(sd) >= 80 ) { // Si jamais un GM a offer #speed à un joueur, on ne veut pas que le joueur garde sa vitesse à la déconnexion.
+		pc_setglobalreg(sd, add_str("gmspeed"), sd->base_status.speed);
+		if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
+	}
+
 	return 0;
 }
 

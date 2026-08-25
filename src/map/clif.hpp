@@ -1587,6 +1587,7 @@ enum e_bourgeon_setting : int16 {
 	BOURGEON_SETTING_REFRESH       = 25,  // action : le client réclame un clif_refresh sur lui-même ; valeur ignorée
 	BOURGEON_SETTING_STAFF         = 26,  // serveur -> client : pc_get_group_level(sd), gate des fonctions réservées
 	BOURGEON_SETTING_FLYWING_LAST  = 27,  // marque d'où l'on vient après une Fly Wing / Téléport
+	BOURGEON_SETTING_WALK_SPEED    = 28,  // vitesse de marche (@speed), en ms par cellule
 };
 
 // D'où vient un changement de réglage. Décide de ce que le moteur fait en plus

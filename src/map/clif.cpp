@@ -5290,6 +5290,11 @@ struct s_bourgeon_setting {
 	uint32 (*decode)( int64 v ) = nullptr;
 
 	bool readonly = false;            ///< serveur -> client seulement, jamais écrit
+	/// Commande @ dont ce réglage est la face « interface ». Renseignée, le réglage
+	/// emprunte le droit de CETTE commande (groups.yml) au lieu d'un seuil recopié
+	/// ici : même porte pour la commande tapée et pour le bouton du client, et un
+	/// droit retiré cesse aussi de reposer le réglage à la connexion.
+	const char* perm_atcmd = nullptr;
 };
 
 static const struct s_bourgeon_setting bourgeon_settings[] = {
@@ -5493,6 +5498,35 @@ static const struct s_bourgeon_setting bourgeon_settings[] = {
 	// pas de membre : le registre se suffit à lui-même, et un NPC de réglages peut
 	// l'écrire sans qu'un cache mémoire parte à la dérive.
 	{ BOURGEON_SETTING_FLYWING_LAST, "FlyWingLast", 1, 0, 1867, 1868 },
+
+	// [Stingor] Vitesse de marche, en MILLISECONDES PAR CELLULE (plus bas = plus
+	// rapide), l'unité de `@speed` et de `base_status.speed`. Réservée au groupe qui
+	// a la commande (perm_atcmd), et persistée : rAthena l'oublie exprès à la
+	// déconnexion (map.cpp, « Remove lock so speed is set back to normal at login »),
+	// on la repose donc au login. La repose est SANS PAQUET : `apply` pose la
+	// vitesse et le verrou avant le premier `status_calc_pc`, qui préserve
+	// `base_status.speed` tant que `permanent_speed` est armé.
+	{ BOURGEON_SETTING_WALK_SPEED, "gmspeed", MAX_WALK_SPEED, DEFAULT_WALK_SPEED, 0, 0,
+		[]( map_session_data& sd ) -> uint32 { return sd.base_status.speed; },
+		[]( map_session_data& sd, uint32 v ){
+			// Sous le plancher (un 0 laissé par un script, un registre bricolé), on
+			// rend la vitesse NORMALE plutôt que de clamper à 20 : une valeur qui n'a
+			// pas de sens ne doit pas se traduire par la vitesse la plus rapide du jeu.
+			if( v < MIN_WALK_SPEED ) v = DEFAULT_WALK_SPEED;
+			sd.base_status.speed = (uint16)cap_value( (int32)v, MIN_WALK_SPEED, MAX_WALK_SPEED );
+			// Le verrou est ce qui fait tenir la valeur au travers de status_calc_pc.
+			sd.state.permanent_speed = ( sd.base_status.speed != DEFAULT_WALK_SPEED ) ? 1 : 0;
+		},
+		// Seulement pour une écriture par PAQUET : `@speed` fait déjà son recalcul et
+		// ses messages elle-même, et le commit n'est jamais appelé à la connexion.
+		[]( map_session_data& sd, uint32 v ){
+			status_calc_bl( &sd, { SCB_SPEED } );
+			// Le test porte sur le VERROU et non sur `v != 0` : ici la valeur « neutre »
+			// est 150, pas zéro, et le couple msg_on/msg_off ne saurait pas l'exprimer.
+			clif_displaymessage( sd.fd, msg_txt( &sd, sd.state.permanent_speed ? 8 : 389 ) );
+		},
+		nullptr, nullptr, nullptr, nullptr,
+		false, "speed" },
 };
 
 static const struct s_bourgeon_setting* bourgeon_setting_find( int16 id ){
@@ -5549,6 +5583,13 @@ bool bourgeon_setting_set( map_session_data* sd, int16 id, uint32 value, e_bourg
 	const struct s_bourgeon_setting* s = bourgeon_setting_find( id );
 
 	if( s == nullptr || s->readonly ) return false;
+
+	// 🔴 Gate AVANT toute écriture, et pour les TROIS sources : un réglage adossé
+	// à une commande GM ne doit ni s'écrire depuis le client, ni se reposer au login
+	// pour un compte qui n'a plus le droit. Sans cela, la vitesse de marche
+	// deviendrait un cheat offert à quiconque sait former le paquet.
+	if( s->perm_atcmd != nullptr && !pc_can_use_command( sd, s->perm_atcmd, COMMAND_ATCOMMAND ) )
+		return false;
 
 	if( value > s->max ) value = s->max;
 
