@@ -1214,7 +1214,28 @@ TIMER_FUNC(npc_secure_timeout_timer){
 	}
 
 	if( DIFF_TICK(cur_tick,sd->npc_idle_tick) > (timeout*1000) ) {
+		// [Stingor] pc_close_npc remet sd->npc_id a 0 : le memoriser pour pouvoir
+		// encore adresser le client apres coup.
+		uint32 timeout_npc_id = sd->npc_id;
+
 		pc_close_npc(sd,1);
+
+		// [Stingor] pc_close_npc n'envoie que ZC_CLOSE_DIALOG (0x00b6), qui se contente
+		// d'ajouter un bouton "fermer" a la fenetre de texte tant que celle-ci est
+		// ouverte (cf. le commentaire de clif_scriptclose) : la LISTE DE CHOIX, elle,
+		// reste affichee. Le joueur revenu d'AFK clique dedans, et comme le script est
+		// mort la selection part sur la session NPC suivante -> avertissement
+		// "Invalid menu selection" et clif_GM_kick dans clif_parse_NpcSelectMenu.
+		// ZC_CLEAR_DIALOG (0x08d6) existe exactement pour ca : c'est ce qu'Hercules
+		// envoie sur le timeout, appel perdu par rAthena en refactorant vers
+		// pc_close_npc.
+		//
+		// Le garde-fou : si le script tournait encore, pc_close_npc a differe la
+		// fermeture de 500 ms (pc_close_npc_timer) sans rien fermer. La fenetre est
+		// alors encore legitime, on ne l'efface pas.
+		if( sd->npc_id == 0 ){
+			clif_scriptclear( *sd, timeout_npc_id );
+		}
 	} else if(sd->st && (sd->st->state == END || sd->st->state == CLOSE)){
 		// stop timer the script is already ending
 		if( sd->npc_idle_timer != INVALID_TIMER ){
@@ -2392,6 +2413,10 @@ bool npc_scriptcont(map_session_data* sd, int32 id, bool closing){
 		return true;
 	}
 
+	// [Stingor] L'etat est ecrase par END avant d'etre affiche : le memoriser pour que
+	// le message d'erreur soit exploitable (sinon il indique toujours '2' = END).
+	e_script_state prev_state = sd->st->state;
+
 	if( closing ){
 		switch( sd->st->state ){
 			// close
@@ -2405,9 +2430,17 @@ bool npc_scriptcont(map_session_data* sd, int32 id, bool closing){
 				sd->st->state = RUN;
 				break;
 			default:
+				// [Stingor] Fermeture recue alors que le script attend une saisie
+				// (menu / select / input => RERUNLINE) : cela arrive des que le joueur clique
+				// la croix de la fenetre de dialogue pendant que la liste de choix est encore
+				// ouverte. Sans ce reset, menu_or_input reste a 1 et npc_menu garde la
+				// selection perimee : le prochain script qui atteint un menu la consomme au
+				// lieu d'afficher la liste
+				// => "buildin_menu: Selection is out of range (N pairs are missing?)".
+				sd->state.menu_or_input = 0;
 				sd->st->state = END;
 				ShowError( "npc_scriptcont: unexpected state '%d' for closing call. NPC: '%s' (%s) func: '%s' (AID: %u CID: %u)\n",
-					sd->st->state,
+					prev_state,
 					nd ? nd->exname : "unknown", nd ? nd->path : "unknown",
 					sd->st->funcname ? sd->st->funcname : "unknown",
 					sd->status.account_id, sd->status.char_id ); // [Stingor]
@@ -2427,8 +2460,11 @@ bool npc_scriptcont(map_session_data* sd, int32 id, bool closing){
 				// keep state as it is
 				break;
 			default:
+				// [Stingor] Meme protection : le script est abandonne, plus aucune saisie
+				// n'est en attente.
+				sd->state.menu_or_input = 0;
 				sd->st->state = END;
-				ShowError( "npc_scriptcont: unexpected state '%d' for continue call. (AID: %u CID: %u)\n", sd->st->state, sd->status.account_id, sd->status.char_id );
+				ShowError( "npc_scriptcont: unexpected state '%d' for continue call. (AID: %u CID: %u)\n", prev_state, sd->status.account_id, sd->status.char_id );
 				break;
 		}
 	}
