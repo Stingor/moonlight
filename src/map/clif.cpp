@@ -9313,7 +9313,7 @@ void clif_parse_bourgeon_style(int32 fd, map_session_data* sd) {
 		return;
 	sd->bourgeon_stylelasttime = tick;
 
-	// ── La COIFFURE : la seule entrée que le serveur INTERPRÈTE ──────────────
+	// ── COIFFURE et COULEUR : les deux seules entrées que le serveur INTERPRÈTE ─
 	//
 	// 🔴 Tout le reste de la recette est un bloc opaque qu'on range et rediffuse.
 	// Celle-ci touche à `sd->status.hair` — un vrai état, sauvegardé avec le
@@ -9330,6 +9330,24 @@ void clif_parse_bourgeon_style(int32 fd, map_session_data* sd) {
 	if (!tout_effacer && !effacer_ce_corps && p->hair_style >= 1 &&
 	    sd->status.hair != p->hair_style)
 		pc_changelook(sd, LOOK_HAIR, p->hair_style);
+
+	// La COULEUR suit le MÊME chemin, et pour les mêmes raisons : ce n'est pas
+	// une couleur composée mais un id de palette OFFICIEL (1..251), celui du
+	// styliste et du fichier `head_N.pal`. `sd->status.hair_color` est donc un
+	// vrai état, sauvegardé et vu de tous — clients vanilla compris.
+	//
+	// 🔴 SANS ELLE, LA FENÊTRE DE GUILDE MENTAIT INDÉFINIMENT. La recette porte
+	// bien la couleur, et les clients Bourgeon la lisent ; mais la liste de
+	// guilde ne transporte PAS la recette — `guild_makemember` copie
+	// `sd.status.hair_color` et `clif` renvoie ce champ-là. Il restait donc figé
+	// sur le choix du styliste, quel que soit le style posé ensuite.
+	//
+	// ⚠ Les bornes viennent de `conf/import/battle_conf.txt` (1..251), PAS du
+	// `conf/battle/client.conf` de base, qui plafonne à 8 : `pc_changelook`
+	// borne sur min/max_hair_color, et ce plafond-là raboterait la couleur.
+	if (!tout_effacer && !effacer_ce_corps && p->hair_palette_id >= 1 &&
+	    sd->status.hair_color != p->hair_palette_id)
+		pc_changelook(sd, LOOK_HAIR_COLOR, p->hair_palette_id);
 
 	// ── La liste des corps habillés ──────────────────────────────────────────
 	if (tout_effacer) {
