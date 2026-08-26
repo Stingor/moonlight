@@ -9053,12 +9053,46 @@ static int16 bourgeon_style_pack(
 	return len;
 }
 
+// La couleur de cheveux de la recette, posée sur le PERSONNAGE.
+//
+// 🔴 SANS ÇA, LA FENÊTRE DE GUILDE NE RATTRAPE JAMAIS UN STYLE DÉJÀ POSÉ. La
+// liste de guilde ne transporte pas la recette : elle renvoie le `hair_color`
+// copié à l'inscription du membre. Le handler du paquet aligne bien les deux
+// quand une recette ARRIVE — mais un style enregistré de longue date n'envoie
+// plus rien, et deux gardes (mêmes octets, cooldown d'une seconde) court-
+// circuitent même une re-validation. Aucune reconnexion ne pouvait donc
+// corriger l'affichage.
+//
+// ⚠ LA RECETTE FAIT FOI. Un passage chez le styliste NPC après avoir posé un
+// style sera donc défait à la connexion suivante : c'est le prix de l'alignement,
+// et c'est cohérent — l'éditeur est l'outil de style du serveur, le NPC ne
+// connaît pas les recettes. Changer de couleur se fait dans l'éditeur.
+//
+// ⚠ La première variante qui porte une couleur décide : la recette est PAR
+// CORPS (un joueur en habille jusqu'à quatre), alors que la couleur de cheveux
+// est unique pour le personnage. Il n'y a pas de « bonne » variante à choisir.
+static void bourgeon_style_apply_hair_color(
+		map_session_data* sd, const std::vector<bourgeon_style_variant>& list) {
+	if (sd == nullptr) return;
+	for (const bourgeon_style_variant& v : list) {
+		if (v.hair_id < 1) continue;
+		if (sd->status.hair_color != v.hair_id)
+			pc_changelook(sd, LOOK_HAIR_COLOR, v.hair_id);
+		return;
+	}
+}
+
 void clif_bourgeon_style_single(map_session_data* sd, map_session_data* owner) {
 	if (sd == nullptr || owner == nullptr) return;
 	if (!sd->state.has_bourgeon) return;  // client vanilla : rien à lui dire
 	std::vector<bourgeon_style_variant> list;
 	bourgeon_style_load(owner, list);
 	if (list.empty()) return;  // pas de style : rien à dire de celui-là
+
+	// Le joueur reçoit SON propre style : c'est le moment d'aligner la couleur
+	// officielle du personnage dessus. Pas quand on lui décrit un AUTRE joueur —
+	// on repeindrait ses cheveux avec ceux du voisin.
+	if (sd == owner) bourgeon_style_apply_hair_color(owner, list);
 
 	const int32 fd = sd->fd;
 	uint8 buf[BOURGEON_STYLE_ONE_MAX];
