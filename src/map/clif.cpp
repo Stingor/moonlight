@@ -7788,6 +7788,152 @@ void clif_parse_bourgeon_target_info(int32 fd, map_session_data* sd) {
 	clif_send(&p, sizeof(p), sd, SELF);
 }
 
+// ── [Stingor] Buffs et debuffs d'une entité (CZ 0x0F2C -> ZC 0x0F2D) ─────────
+//
+// Le protocole vanilla n'annonce que les TRANSITIONS d'état : ZC 0x0983 part en
+// AREA quand un statut commence ou finit. Il n'existe aucun paquet qui donne
+// l'état COMPLET d'une entité.
+//
+// 🔴 Le chemin qui semblait le faire n'en fait presque rien.
+// `clif_insight` -> `clif_getareachar_unit` -> `clif_efst_status_change_sub` ne
+// lit pas les status changes : il lit `sc_display`, que `status_change_start` ne
+// remplit que pour les statuts portant `DisplayPc` / `DisplayNpc`. MESURÉ sur
+// db/pre-re/status.yml : **57 sur 599**, et pas les bons — ni Blessing, ni Agi
+// Up, ni Endure, ni Magnificat, ni Kyrie, ni même Poison, Stone ou Freeze.
+//
+// Côté client, un joueur déjà buffé qui entre à l'écran arrivait donc VIERGE, et
+// le restait jusqu'à ce qu'on le rebuffe. Ce handler comble ce trou, et du même
+// coup celui des membres du groupe qu'on ne voit pas du tout.
+//
+// 🔴 PAS D'ABONNEMENT. C'est le client qui redemande, à cadence lente et un
+// membre à la fois — le serveur ne garde aucun état, donc rien à nettoyer à la
+// déconnexion, au changement de carte ou à la dissolution du groupe.
+//
+// 🔴 LA DISTANCE N'EST PAS LA MÊME RÈGLE QUE POUR LA FENÊTRE DE CIBLE. Là-bas,
+// hors d'AREA_SIZE = statut 1. Ici, un membre de groupe hors de vue DOIT être
+// servi : c'est précisément le cas que ce paquet existe pour couvrir. La
+// distance ne borne donc que les entités qui ne m'appartiennent pas — un
+// monstre, un joueur tiers — pour ne pas offrir un scanner de carte.
+//
+// 🔴 GATE : le GROUPE, et rien d'autre. Plus stricte que celle de la fenêtre de
+// cible, qui ouvre le SP à la guilde également. Les états d'un personnage disent
+// bien plus que ses points — qui est sous Kyrie, à qui il reste deux secondes de
+// Endure, qui vient de perdre son Blessing. C'est de la lecture de jeu, et une
+// guilde n'est pas une équipe : deux de ses membres peuvent s'affronter.
+//
+// Les MONSTRES, eux, restent lisibles : c'est le second usage prévu (l'entité
+// couramment ciblée), et ils sont bornés par la distance juste au-dessus.
+void clif_parse_bourgeon_req_status_list(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+
+	const PACKET_CZ_BOURGEON_REQ_STATUS_LIST* req =
+		reinterpret_cast<const PACKET_CZ_BOURGEON_REQ_STATUS_LIST*>(RFIFOP(fd, 0));
+	const uint32 gid = req->gid;
+
+	const int16 head = static_cast<int16>(sizeof(PACKET_ZC_BOURGEON_STATUS_LIST));
+	WFIFOHEAD(fd, head + BOURGEON_STATUS_LIST_MAX * sizeof(BOURGEON_STATUS_ENTRY));
+	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_STATUS_LIST;
+	WFIFOL(fd, 4) = gid;
+	WFIFOB(fd, 8) = 0;   // status
+	WFIFOB(fd, 9) = 0;   // count
+
+	// Réponse courte : une raison, aucune entrée. Le client distingue « rien à
+	// signaler » (status 0, count 0) de « je ne peux pas savoir » — les deux se
+	// ressembleraient à l'écran, et confondre les deux ferait croire à un allié
+	// sans buff là où il est seulement hors de portée du protocole.
+	auto reply_status = [&](uint8 st) {
+		WFIFOB(fd, 8) = st;
+		WFIFOW(fd, 2) = head;
+		WFIFOSET(fd, head);
+	};
+
+	block_list* bl = map_id2bl(gid);
+	if (bl == nullptr) {
+		reply_status(1);
+		return;
+	}
+
+	// À qui « appartiennent » ces états : la cible si c'est un joueur, son maître
+	// si c'est un compagnon. Sans ça, on lirait les buffs d'un adversaire dans
+	// ceux de son homoncule.
+	const map_session_data* owner = nullptr;
+	if (bl->type == BL_PC) {
+		owner = BL_CAST(BL_PC, bl);
+	} else if (bl->type == BL_HOM || bl->type == BL_MER || bl->type == BL_PET ||
+	           bl->type == BL_ELEM) {
+		const block_list* master = battle_get_master(bl);
+		if (master != nullptr && master->type == BL_PC) owner = BL_CAST(BL_PC, master);
+	}
+
+	// 🔴 LE GROUPE, ET RIEN D'AUTRE. La fenêtre de cible ouvre son SP à la guilde
+	// aussi ; ici non. Les états d'un personnage disent bien plus que ses points :
+	// qui est sous Kyrie, à qui il reste deux secondes de Endure, qui vient de
+	// perdre son Blessing. C'est de la lecture de jeu, et une guilde n'est pas
+	// une équipe — deux de ses membres peuvent s'affronter en PVP.
+	const bool mine = (owner == sd);
+	bool allied = mine;
+	if (owner != nullptr && !mine) {
+		allied = sd->status.party_id != 0 &&
+		         sd->status.party_id == owner->status.party_id;
+		if (!allied) {
+			reply_status(2);            // pas de mon groupe : rien
+			return;
+		}
+	}
+
+	// La distance ne borne que ce qui ne m'appartient pas. Un allié reste lisible
+	// d'où qu'il soit — c'est le but du paquet ; un monstre, non, sinon on offre
+	// un moyen de sonder la carte sans y être.
+	if (!allied && (bl->m != sd->m || !check_distance_bl(sd, bl, AREA_SIZE))) {
+		reply_status(1);
+		return;
+	}
+
+	status_change* sc = status_get_sc(bl);
+	if (sc == nullptr) {
+		reply_status(0);                // pas d'états possibles : réponse VIDE, pas un refus
+		return;
+	}
+
+	const t_tick now = gettick();
+	int16 offset = head;
+	uint8 count = 0;
+
+	for (int32 i = SC_NONE + 1; i < SC_MAX && count < BOURGEON_STATUS_LIST_MAX; i++) {
+		const sc_type type = static_cast<sc_type>(i);
+		const status_change_entry* sce = sc->getSCE(type);
+		if (sce == nullptr) continue;
+
+		// Sans icône, le client n'a rien à afficher : c'est SON arbitrage
+		// (GetEFSTImgFileName ne rend alors aucun fichier), et l'envoyer ne
+		// ferait qu'alourdir un paquet qui part en rafale.
+		const int32 icon = status_db.getIcon(type);
+		if (icon == EFST_BLANK) continue;
+
+		// 0 = pas d'échéance. Un état sans timer est PERMANENT, pas expiré : le
+		// client ne doit pas le faire disparaître au premier tick.
+		uint32 remain = 0;
+		if (sce->timer != INVALID_TIMER) {
+			const TimerData* td = get_timer(sce->timer);
+			if (td != nullptr) {
+				const t_tick left = DIFF_TICK(td->tick, now);
+				if (left > 0) remain = static_cast<uint32>(left);
+			}
+		}
+
+		WFIFOW(fd, offset)     = static_cast<uint16>(icon);
+		WFIFOL(fd, offset + 2) = remain;
+		WFIFOL(fd, offset + 6) = remain;   // total : la durée restante fait foi ici
+		offset += static_cast<int16>(sizeof(BOURGEON_STATUS_ENTRY));
+		count++;
+	}
+
+	WFIFOB(fd, 9) = count;
+	WFIFOW(fd, 2) = offset;
+	WFIFOSET(fd, offset);
+}
+
 // ── Interface moderne : ce que ce client sait afficher (CZ 0x0F24) ───────────
 //
 // Le client l'annonce dès que le serveur l'a reconnu, PUIS à chaque fois qu'un

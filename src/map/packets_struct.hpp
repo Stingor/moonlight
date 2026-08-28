@@ -6715,6 +6715,65 @@ struct PACKET_ZC_BOURGEON_TARGET_INFO {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_TARGET_INFO, 0x0f2a);
 
+// ── [Stingor] Buffs et debuffs d'une entite (CZ 0x0F2C -> ZC 0x0F2D) ────────
+//
+// Le client RECOIT les changements d'etat des entites en vue (ZC 0x0983, en
+// AREA), mais uniquement au moment ou ils COMMENCENT ou FINISSENT. Il n'existe
+// aucun paquet vanilla qui donne l'etat COMPLET d'une entite.
+//
+// 🔴 Le chemin qui semblait le faire n'en fait presque rien. clif_insight ->
+// clif_getareachar_unit -> clif_efst_status_change_sub ne lit pas les status
+// changes : il lit `sc_display`, que status_change_start ne remplit que pour
+// les statuts portant DisplayPc / DisplayNpc. MESURE sur db/pre-re/status.yml :
+// 57 sur 599, et pas les bons — ni Blessing, ni Agi Up, ni Endure, ni Kyrie,
+// ni meme Poison, Stone ou Freeze.
+//
+// Consequence : un joueur deja buffe qui entre a l'ecran arrive VIERGE cote
+// client. Ce couple comble ce trou-la, et le meme coup celui des membres du
+// groupe qu'on ne voit pas du tout (AREA ne sort pas de la vue).
+//
+// Pas d'abonnement : le client REDEMANDE, comme pour la fenetre de cible. Le
+// serveur ne garde aucun etat, donc rien a nettoyer a la deconnexion.
+struct PACKET_CZ_BOURGEON_REQ_STATUS_LIST {
+	int16  packetType;
+	int16  packetLength;
+	uint32 gid;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_STATUS_LIST, 0x0f2c);
+
+// Une entree de la reponse. `remain` vaut 0 pour un etat SANS echeance (duree
+// infinie) : ce n'est pas « expire », c'est « ne compte pas a rebours ».
+struct BOURGEON_STATUS_ENTRY {
+	uint16 efst;
+	uint32 remain;
+	uint32 total;
+} __attribute__((packed));
+
+// ZC : l'etat COMPLET de l'entite. Longueur variable.
+//
+//   status : 0 = ok · 1 = introuvable, autre carte ou hors de vue · 2 = refuse
+//            (ce joueur n'est pas de mon groupe : voir la gate du handler).
+//   count  : nombre d'entrees qui suivent.
+//
+// 🔴 La reponse REMPLACE ce que le client savait de ce GID. C'est un etat, pas
+// une difference : une liste vide veut dire « aucun buff », et c'est une
+// information — a ne pas confondre avec le silence d'une entite hors de vue,
+// que `status` distingue.
+struct PACKET_ZC_BOURGEON_STATUS_LIST {
+	int16  packetType;
+	int16  packetLength;
+	uint32 gid;
+	uint8  status;
+	uint8  count;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_STATUS_LIST, 0x0f2d);
+
+// Plafond d'entrees par reponse. Un joueur tres charge depasse rarement la
+// vingtaine ; au-dela on tronque plutot que de faire enfler un paquet qui part
+// en rafale sur un groupe de 24.
+#define BOURGEON_STATUS_LIST_MAX 40
+
+
 // Type d'entité tel qu'il voyage dans ZC_BOURGEON_TARGET_INFO.
 enum e_bourgeon_target_type : uint8 {
 	BOURGEON_TARGET_UNKNOWN = 0,

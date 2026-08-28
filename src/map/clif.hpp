@@ -1738,6 +1738,18 @@ void clif_parse_bourgeon_req_entity_props(int32 fd, map_session_data* sd);
 // party et à la guilde du propriétaire (la cible, ou le maître d'un compagnon).
 // 🔴 Hors AREA_SIZE ou map différente => statut 1, et la fenêtre se ferme.
 void clif_parse_bourgeon_target_info(int32 fd, map_session_data* sd);
+// CZ 0x0F2C -> ZC 0x0F2D : la liste COMPLETE des etats actifs d'une entite.
+//
+// Le protocole vanilla n'annonce que les TRANSITIONS (ZC 0x0983 en AREA), et le
+// rattrapage a l'entree dans la vue ne couvre que les 57 statuts marques
+// DisplayPc sur 599 (cf. packets_struct.hpp). Un joueur deja buffe qui entre a
+// l'ecran arrive donc vierge cote client : ce paquet-ci le renseigne.
+//
+// 🔴 Meme gate PVP que la fenetre de cible : sur un AUTRE joueur, la liste ne
+// part que s'il est de mon groupe ou de ma guilde. Savoir qu'un adversaire est
+// sous Kyrie est une information de jeu, elle ne se donne pas.
+void clif_parse_bourgeon_req_status_list(int32 fd, map_session_data* sd);
+
 // CZ 0x0F25 : outillage NPC du menu contextuel (Bourgeon : EntityContextMenu) —
 // recharger le fichier de script d'où vient un NPC, le décharger, le déplacer sur
 // la case du demandeur. Ce sont `@reloadnpcfile`, `@unloadnpc` et `@npcmove`,
