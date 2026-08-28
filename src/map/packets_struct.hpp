@@ -6773,6 +6773,42 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_STATUS_LIST, 0x0f2d);
 // en rafale sur un groupe de 24.
 #define BOURGEON_STATUS_LIST_MAX 40
 
+// ── Les alterations SANS icone EFST ─────────────────────────────────────────
+//
+// 🔴 Sleep, Silence, Stun, Freeze, Stone, Poison, Curse, Blind, Confusion :
+// AUCUNE n'a de ligne `Icon:` dans db/pre-re/status.yml, et l'enumeration
+// efst_type ne contient ni EFST_SILENCE ni EFST_SLEEP. Le client ne les montre
+// pas en icone par conception — il les rend sur le SPRITE (les Z du sommeil, la
+// bulle du silence). Elles etaient donc invisibles dans toute surface qui liste
+// des etats.
+//
+// On leur donne des ids A NOUS, hors de portee des vrais EFST (le plus haut
+// tourne autour de 1500). Le client reconnait la plage et dessine une pastille
+// au lieu de chercher une image qui n'existe pas.
+//
+// ⚠ En passant par les sc_type plutot que par les masques opt1/opt2, on garde
+// la DUREE : un masque de bits ne dit que « present ou absent », alors que
+// `getSCE(type)->timer` donne l'echeance comme pour n'importe quel autre etat.
+#define BOURGEON_AILMENT_BASE 0xF000
+
+enum e_bourgeon_ailment : uint16 {
+	BAIL_STONE = 1,
+	BAIL_FREEZE,
+	BAIL_STUN,
+	BAIL_SLEEP,
+	BAIL_STONEWAIT,
+	BAIL_BURNING,
+	BAIL_IMPRISON,
+	BAIL_POISON,
+	BAIL_CURSE,
+	BAIL_SILENCE,
+	BAIL_CONFUSION,
+	BAIL_BLIND,
+	BAIL_BLEEDING,
+	BAIL_DPOISON,
+	BAIL_FEAR,
+};
+
 
 // Type d'entité tel qu'il voyage dans ZC_BOURGEON_TARGET_INFO.
 enum e_bourgeon_target_type : uint8 {

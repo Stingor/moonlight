@@ -7823,6 +7823,34 @@ void clif_parse_bourgeon_target_info(int32 fd, map_session_data* sd) {
 //
 // Les MONSTRES, eux, restent lisibles : c'est le second usage prévu (l'entité
 // couramment ciblée), et ils sont bornés par la distance juste au-dessus.
+// Les alterations que le client ne sait pas afficher en icone, et l'id que nous
+// leur donnons. Voir BOURGEON_AILMENT_BASE : elles n'ont AUCUN EFST, donc aucune
+// image cote client — c'est lui qui dessinera une pastille.
+//
+// ⚠ La liste est volontairement COURTE : uniquement les alterations classiques,
+// celles qu'un joueur surveille sur une cible. Y verser tout ce qui n'a pas
+// d'icone reviendrait a exposer des etats internes que le jeu ne montre nulle
+// part.
+static uint16 bourgeon_ailment_of(sc_type type) {
+	switch (type) {
+		case SC_STONE:      return BAIL_STONE;
+		case SC_FREEZE:     return BAIL_FREEZE;
+		case SC_STUN:       return BAIL_STUN;
+		case SC_SLEEP:      return BAIL_SLEEP;
+		case SC_STONEWAIT:  return BAIL_STONEWAIT;
+		case SC_BURNING:    return BAIL_BURNING;
+		case SC_POISON:     return BAIL_POISON;
+		case SC_CURSE:      return BAIL_CURSE;
+		case SC_SILENCE:    return BAIL_SILENCE;
+		case SC_CONFUSION:  return BAIL_CONFUSION;
+		case SC_BLIND:      return BAIL_BLIND;
+		case SC_BLEEDING:   return BAIL_BLEEDING;
+		case SC_DPOISON:    return BAIL_DPOISON;
+		case SC_FEAR:       return BAIL_FEAR;
+		default:            return 0;
+	}
+}
+
 void clif_parse_bourgeon_req_status_list(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
@@ -7905,11 +7933,20 @@ void clif_parse_bourgeon_req_status_list(int32 fd, map_session_data* sd) {
 		const status_change_entry* sce = sc->getSCE(type);
 		if (sce == nullptr) continue;
 
-		// Sans icône, le client n'a rien à afficher : c'est SON arbitrage
-		// (GetEFSTImgFileName ne rend alors aucun fichier), et l'envoyer ne
-		// ferait qu'alourdir un paquet qui part en rafale.
-		const int32 icon = status_db.getIcon(type);
-		if (icon == EFST_BLANK) continue;
+		// Sans icône, le client n'a en général rien à afficher : c'est SON
+		// arbitrage (GetEFSTImgFileName ne rend alors aucun fichier), et
+		// l'envoyer ne ferait qu'alourdir un paquet qui part en rafale.
+		//
+		// 🔴 SAUF les alterations classiques — sommeil, silence, gel, poison… —
+		// qui n'ont d'icone NULLE PART dans le client et restaient donc
+		// invisibles partout. On leur substitue un id a nous, que le client
+		// reconnait a sa plage (cf. BOURGEON_AILMENT_BASE).
+		int32 icon = status_db.getIcon(type);
+		if (icon == EFST_BLANK) {
+			const uint16 ailment = bourgeon_ailment_of(type);
+			if (ailment == 0) continue;
+			icon = BOURGEON_AILMENT_BASE + ailment;
+		}
 
 		// 0 = pas d'échéance. Un état sans timer est PERMANENT, pas expiré : le
 		// client ne doit pas le faire disparaître au premier tick.
