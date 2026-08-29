@@ -2313,6 +2313,134 @@ def replace_game_emotes(text):
     return " ".join(urls)
 
 
+# ── Rapports de bug : mise en forme Discord ──────────────────────────────────
+# Le map-server pousse un rapport dans `discord_outbound` sous une forme MACHINE
+# (clif.cpp, clif_parse_bourgeon_bug_report) :
+#   player  = « [BUG <categorie>] <perso> »
+#   message = « ctx=<json> | <map>,<x>,<y> | <texte du joueur> »
+# Relayée telle quelle, la ligne est exploitable mais pénible à lire : du JSON
+# brut avant la phrase du joueur. On la remet en forme ICI, dans le relais,
+# plutôt que côté serveur : la forme machine reste le format de STOCKAGE (table
+# `bug_reports`, lue par l'ACP du site), Discord n'en est qu'une VUE.
+#
+# Règle de repli : au moindre écart de format, on renvoie None et l'appelant
+# reposte le texte brut. Un rapport mal formé doit rester VISIBLE.
+
+_BUG_PLAYER_RE = re.compile(r"^\[BUG\s+([A-Za-z_]+)\]\s*(.*)$")
+
+# catégorie serveur -> (emoji, libellé FR, couleur de la barre latérale)
+_BUG_CATEGORIES = {
+    "generic": ("📝", "Général",    0x95A5A6),
+    "item":    ("🎒", "Objet",      0xE67E22),
+    "skill":   ("✨", "Compétence", 0x9B59B6),
+    "npc":     ("💬", "PNJ",        0x2ECC71),
+    "quest":   ("📜", "Quête",      0xF1C40F),
+    "style":   ("🎨", "Style",      0xE91E63),
+}
+
+# Clés du contexte déjà rendues par un champ dédié : elles ne doivent pas être
+# répétées dans le fourre-tout « Contexte », qui n'existe que pour les clés
+# qu'un client PLUS RÉCENT que ce script pourrait ajouter (rien n'est perdu).
+_BUG_CTX_RENDERED = {"item_id", "skill_id", "npc_gid", "name", "refine", "level",
+                     "npc_map", "npc_pos", "npc_script"}
+
+
+def _bug_split(message: str):
+    """« ctx={…} | map,x,y | texte » -> (ctx dict, "map,x,y", texte), sinon None.
+
+    Le JSON est décodé par `raw_decode` et NON par un découpage sur « | » : un
+    nom d'objet ou de PNJ contenant une barre verticale couperait au mauvais
+    endroit. Le texte du joueur, lui, est le DERNIER champ (maxsplit=2) : il a
+    donc le droit de contenir des « | ».
+    """
+    if not isinstance(message, str) or not message.startswith("ctx="):
+        return None
+    try:
+        ctx, end = json.JSONDecoder().raw_decode(message, 4)
+    except ValueError:
+        return None
+    if not isinstance(ctx, dict):
+        return None
+    parts = message[end:].split(" | ", 2)   # ['', 'map,x,y', 'texte']
+    if len(parts) < 3:
+        return None
+    return ctx, parts[1].strip(), parts[2].strip()
+
+
+def _bug_place(raw: str) -> str:
+    """« prontera,150,150 » -> « prontera (150, 150) »."""
+    bits = [b.strip() for b in str(raw).split(",")]
+    return f"{bits[0]} ({bits[1]}, {bits[2]})" if len(bits) == 3 else str(raw)
+
+
+def _bug_report_payload(player: str, message: str, char_id):
+    """Construit le payload webhook (embed) d'un rapport de bug, ou None."""
+    m = _BUG_PLAYER_RE.match(player or "")
+    if not m:
+        return None
+    category = m.group(1).lower()
+    char_name = m.group(2).strip()
+    parsed = _bug_split(message)
+    if parsed is None:
+        return None
+    ctx, place, text = parsed
+    emoji, cat_label, color = _BUG_CATEGORIES.get(category,
+                                                  _BUG_CATEGORIES["generic"])
+
+    fields = []
+    subject = str(ctx.get("name") or "?")
+    if "item_id" in ctx:
+        refine = ctx.get("refine")
+        head = f"+{refine} {subject}" if isinstance(refine, int) and refine > 0 else subject
+        fields.append({"name": "Objet", "value": f"{head}  ·  `#{ctx['item_id']}`",
+                       "inline": True})
+    elif "skill_id" in ctx:
+        level = ctx.get("level")
+        head = f"{subject} — Nv. {level}" if isinstance(level, int) and level >= 0 else subject
+        fields.append({"name": "Compétence", "value": f"{head}  ·  `#{ctx['skill_id']}`",
+                       "inline": True})
+    elif "npc_gid" in ctx:
+        fields.append({"name": "PNJ", "value": f"{subject}  ·  `GID {ctx['npc_gid']}`",
+                       "inline": True})
+        # npc_script/npc_map/npc_pos sont AJOUTÉS PAR LE SERVEUR (résolution du
+        # GID) : c'est la clé pour retrouver le script fautif, elle mérite son
+        # propre champ.
+        if ctx.get("npc_script"):
+            fields.append({"name": "Script", "value": f"`{ctx['npc_script']}`",
+                           "inline": True})
+        if ctx.get("npc_map"):
+            npc_where = f"{ctx['npc_map']},{ctx.get('npc_pos', '')}".rstrip(",")
+            fields.append({"name": "Emplacement du PNJ", "value": _bug_place(npc_where),
+                           "inline": True})
+
+    elif ctx.get("name"):
+        # Catégorie que ce script ne connaît pas encore, mais qui nomme son
+        # sujet : sans ce repli, `name` serait avalé par _BUG_CTX_RENDERED.
+        fields.append({"name": "Sujet", "value": subject, "inline": True})
+
+    fields.append({"name": "Position du joueur", "value": _bug_place(place),
+                   "inline": True})
+
+    extra = [f"`{k}` : {v}" for k, v in ctx.items() if k not in _BUG_CTX_RENDERED]
+    if extra:
+        fields.append({"name": "Contexte", "value": "\n".join(extra)[:1024],
+                       "inline": False})
+
+    embed = {
+        "title": f"{emoji}  Rapport de bug — {cat_label}",
+        "description": text[:1500] if text else "_(aucun message)_",
+        "color": color,
+        "fields": fields,
+        "footer": {"text": "Signalé en jeu"},
+        "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    }
+    payload = {"username": char_name or "Rapport de bug", "embeds": [embed]}
+    if char_id:
+        payload["avatar_url"] = (
+            f"https://moonlight-destiny.fr/images/CacheAvatarDiscord/{char_id}.png")
+    return payload
+
+
 def _discord_outbound_poll(conn):
     """Lit discord_outbound et poste les messages des joueurs sur le webhook Discord."""
     global _discord_outbound_last_post
@@ -2362,19 +2490,23 @@ def _discord_outbound_poll(conn):
                 print(f"[Discord] outbound mark-sent ERREUR row {row_id}: {e}", file=sys.stderr)
                 continue
             try:
-                wp = {
-                    "username": player,
-                    # Les emotes du jeu (« :best: ») deviennent les emojis custom
-                    # du serveur Discord quand celui-ci les possède ; sinon elles
-                    # passent en clair, ce qui reste lisible.
-                    "content":  replace_game_emotes(replace_chat_links(message[:2000])),
-                }
-                if char_id:
-                    # CacheAvatarDiscord = variante carrée 128x128 du sprite (le PNG
-                    # de CacheAvatar est rogné au plus juste et non carré : Discord
-                    # le recadre dans son cercle et l'agrandit, d'où pieds coupés et
-                    # rendu flou). Généré par la page UCP « Avatar » du site.
-                    wp["avatar_url"] = f"https://moonlight-destiny.fr/images/CacheAvatarDiscord/{char_id}.png"
+                # Un rapport de bug part en EMBED (titre, champs, couleur) ; le
+                # repli sur la ligne brute couvre un format inattendu.
+                wp = _bug_report_payload(player, message, char_id) if is_bug else None
+                if wp is None:
+                    wp = {
+                        "username": player,
+                        # Les emotes du jeu (« :best: ») deviennent les emojis custom
+                        # du serveur Discord quand celui-ci les possède ; sinon elles
+                        # passent en clair, ce qui reste lisible.
+                        "content":  replace_game_emotes(replace_chat_links(message[:2000])),
+                    }
+                    if char_id:
+                        # CacheAvatarDiscord = variante carrée 128x128 du sprite (le PNG
+                        # de CacheAvatar est rogné au plus juste et non carré : Discord
+                        # le recadre dans son cercle et l'agrandit, d'où pieds coupés et
+                        # rendu flou). Généré par la page UCP « Avatar » du site.
+                        wp["avatar_url"] = f"https://moonlight-destiny.fr/images/CacheAvatarDiscord/{char_id}.png"
                 payload = json.dumps(wp).encode("utf-8")
                 req = urllib.request.Request(
                     target_webhook,
