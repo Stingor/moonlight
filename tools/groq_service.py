@@ -127,7 +127,8 @@ SYSTEM_PROMPT = (
     "T'es pas un NPC assistant RO : tu peux parler de n'importe quoi — foot, bière, séries, musique, bagnoles, politique, actu, cul, tout. "
     "Si on t'emmène hors du jeu tu suis avec le même style ; aucune obligation de ramener la conversation à Ragnarok. "
     "Ton mentor/héros c'est 'Stingor', administrateur du serveur, c'est un dieu parmi les insectes qui peuplent ce jeu. "
-    "Quand c'est 'Stingor' qui te parle, tu le reconnais et tu lui montres un peu de respect (tout en gardant ton style). "
+    "Si c'est 'Stingor' qui t'écrit, tu le reconnais et tu t'adresses À LUI avec un peu de respect "
+    "(tout en gardant ton style) : tu lui réponds en face, tu ne parles pas de lui à quelqu'un d'autre. "
     "Spooky est la GM en chef du serveur, elle est super cool, fan de Disney et de Voyages au bout du monde. "
     "Blissey, c'est la quebecoise GM qui gère les events et les quêtes, elle est sympa mais un peu trop gentille pour son propre bien. "
     "Elle (Blissey) se fait marcher dessus par les joueurs, elle deteste Evenom qui a aussi Autiste-Russe en pseudo (Le frère de l'admin), fan de Voyages aussi. "
@@ -155,6 +156,10 @@ SYSTEM_PROMPT = (
     "CONVERSATION CONTINUE : tu vis en permanence à Gonryun, tu es déjà au milieu de la discussion et ça se prend sans arrêt la tête, tous le monde t'insulte et tu riposte avec une verve sans égal. "
     "Tu ne dis bonjour/salut/yo/re QU'UNE SEULE FOIS à un joueur. Si l'historique montre que vous avez déjà "
     "échangé, tu enchaînes DIRECTEMENT sur le fond SANS aucune salutation. "
+    "RÈGLE D'ADRESSE : le bloc [JOUEUR] décrit TOUJOURS la personne qui vient de t'écrire, "
+    "celle à qui tu réponds — jamais un tiers. Tu lui parles DIRECTEMENT, en la tutoyant. "
+    "Tu ne racontes JAMAIS à quelqu'un d'autre ce qu'elle est en train de faire, "
+    "et tu ne parles jamais d'elle à la troisième personne : elle est en face de toi. "
     "Quand tu vois [JOUEUR] dans le message, tu peux utiliser (pas obligatoirement) ces infos pour personnaliser ta réponse : "
     "moque-toi du niveau si c'est bas, du zeny si c'est peu, fais des blagues sur le surpoids UNIQUEMENT si le champ poids est présent (sinon ne le mentionne pas), "
     "adapte tes répliques et conseils à la classe du joueur. "
@@ -721,6 +726,35 @@ _JOB_NAMES = {
     4306:"Night Watch", 4307:"Hyper Novice", 4308:"Spirit Handler",
 }
 
+_ADMIN_NAMES = ("stingor",)
+
+
+def _is_admin(player: str) -> bool:
+    """Reconnaît l'admin malgré les décorations de pseudo.
+
+    Sur Discord le nom vient de `member.nick`, que les gens ornent volontiers :
+    « !Stingor » — le point d'exclamation fait remonter le membre en tête de la
+    liste. Une comparaison brute sur `player.lower()` échouait donc en silence,
+    et le bot répondait à son propre admin sans le reconnaître.
+    """
+    return re.sub(r"[^0-9a-z]", "", player.lower()) in _ADMIN_NAMES
+
+
+def _admin_note(player: str) -> str:
+    """Rappel d'identité pour l'admin, rédigé à la DEUXIÈME personne.
+
+    À la troisième (« montre-LUI du respect »), le modèle lisait une consigne
+    portant sur un tiers et répondait à un interlocuteur imaginaire : « Stingor
+    est en train de parler sur Discord, respecte-le un peu » — adressé à Stingor
+    lui-même.
+    """
+    if not _is_admin(player):
+        return ""
+    return (" ⚠ C'est Stingor EN PERSONNE qui t'écrit, là, maintenant : ton mentor et "
+            "l'admin du serveur. Tu réponds À LUI, en le tutoyant, avec un minimum de "
+            "respect (à ta façon).")
+
+
 def _get_player_info(player: str, conn=None, player_ctx: str = "") -> str:
     """Construit le contexte joueur depuis player_ctx fourni par le NPC rAthena.
     Format: 'nom|base_level|job_level|class|zeny|weight|max_weight'
@@ -730,8 +764,11 @@ def _get_player_info(player: str, conn=None, player_ctx: str = "") -> str:
         if not player_ctx:
             return ""
         if player_ctx == "discord":
-            admin_note = " ⚠ C'EST STINGOR, TON MENTOR ET ADMIN DU SERVEUR — montre-lui du respect (à ta façon)." if player.lower() == "stingor" else ""
-            return f"[JOUEUR] {player} — parle depuis Discord (pas connecté en jeu){admin_note}"
+            # « parle depuis Discord » décrivait la scène de l'extérieur ; le modèle
+            # enchaînait en racontant à un tiers ce que faisait le joueur. Formulé
+            # comme une adresse directe, il répond à la bonne personne.
+            return (f"[JOUEUR] {player} — c'est LUI qui t'écrit à l'instant, "
+                    f"depuis Discord (il n'est pas connecté en jeu){_admin_note(player)}")
         parts = player_ctx.split("|")
         if len(parts) < 7:
             return ""
@@ -747,7 +784,7 @@ def _get_player_info(player: str, conn=None, player_ctx: str = "") -> str:
         if weight_pct >= 90:   weight_str = f"poids {weight_pct}% (⚠ SURPOIDS CRITIQUE)"
         elif weight_pct >= 70: weight_str = f"poids {weight_pct}% (en surpoids)"
         else:                  weight_str = ""
-        admin_note = " ⚠ C'EST STINGOR, TON MENTOR ET ADMIN DU SERVEUR — montre-lui du respect (à ta façon)." if player.lower() == "stingor" else ""
+        admin_note = _admin_note(player)
         # On ne fournit la liste des joueurs autour que rarement (~1 message sur 4) :
         # sans la liste, le modèle ne peut pas interpeller → évite le spam d'interpellations.
         nearby_str = (f" | À proximité : {', '.join(nearby)}"
