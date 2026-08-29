@@ -8472,6 +8472,7 @@ void clif_parse_bourgeon_player_admin(int32 fd, map_session_data* sd) {
 //   <ITMR>id:nom</ITMR>      -> nom
 //   <CRAF>id:nom</CRAF>      -> nom
 //   <SETL>clé:libellé</SETL> -> libellé
+//   <STAL>efst:libellé</STAL> -> libellé  (l'index ne dit rien à un humain)
 //   <MOBS>, <MOBP>, <IMG>    -> RIEN : un média n'a pas de repli en texte.
 //
 // ⚠ Un script qui a besoin de dire autre chose à un client sans images (« viens
@@ -8490,6 +8491,7 @@ bool clif_bourgeon_strip_own_tags(const char* text, std::string& out) {
 		{ "<ITMR>", "</ITMR>", 1 },   // id:nom
 		{ "<CRAF>", "</CRAF>", 1 },   // id:nom
 		{ "<SETL>", "</SETL>", 1 },   // clé:libellé
+		{ "<STAL>", "</STAL>", 1 },   // efst:libellé
 		{ "<MOBS>", "</MOBS>", -1 },
 		{ "<MOBP>", "</MOBP>", -1 },
 		{ "<IMG>",  "</IMG>",  -1 },

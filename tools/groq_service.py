@@ -2771,6 +2771,14 @@ CRAF_PATTERN = re.compile(r"<CRAF>(\d+):([^<>]*?)</CRAF>")
 # ce cas (le client, lui, affiche le sien, traduit chez le lecteur).
 SETL_PATTERN = re.compile(r"<SETL>([^<>:]*):([^<>]*?)</SETL>")
 
+# `<STAL>efst:libellé</STAL>` — un ÉTAT (buff / altération), par son index EFST.
+#
+# 🔴 C'est l'INDEX qui voyage, pas le nom : chaque client tire ses noms d'états
+# de son propre Lua, donc dans sa langue. Hors du jeu il n'y a aucun Lua à
+# consulter — le libellé transporté existe exactement pour ce cas, comme pour
+# `<SETL>`. On ne fabrique pas de lien : il n'y a pas de page d'état à ouvrir.
+STAL_PATTERN = re.compile(r"<STAL>(\d+):([^<>]*?)</STAL>")
+
 def replace_itmr(msg):
     def repl(match):
         item_id = int(match.group(1))
@@ -2795,6 +2803,14 @@ def replace_setl(msg):
 
     return SETL_PATTERN.sub(repl, msg)
 
+def replace_stal(msg):
+    def repl(match):
+        efst  = match.group(1)
+        label = match.group(2).strip()
+        return f" [État: {label or f'#{efst}'}] "
+
+    return STAL_PATTERN.sub(repl, msg)
+
 def replace_chat_links(msg):
     """Balises de lien du client -> Markdown Discord.
 
@@ -2810,6 +2826,7 @@ def replace_chat_links(msg):
     msg = replace_itmr(msg)
     msg = replace_craf(msg)
     msg = replace_setl(msg)
+    msg = replace_stal(msg)
     return msg
 
 def main():
