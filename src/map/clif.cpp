@@ -7939,6 +7939,11 @@ void clif_parse_bourgeon_req_status_list(int32 fd, map_session_data* sd) {
 	const t_tick now = gettick();
 	int16 offset = head;
 	uint8 count = 0;
+	// Ce qui est DEJA parti, pour ne pas l'emettre deux fois : un vrai
+	// `sc_start` pose le status change ET le drapeau opt correspondant, or les
+	// deux chemins ci-dessous mènent a la meme icone.
+	std::vector<int32> sent_icons;
+
 
 	for (int32 i = SC_NONE + 1; i < SC_MAX && count < BOURGEON_STATUS_LIST_MAX; i++) {
 		const sc_type type = static_cast<sc_type>(i);
@@ -7972,6 +7977,90 @@ void clif_parse_bourgeon_req_status_list(int32 fd, map_session_data* sd) {
 		WFIFOL(fd, offset + 6) = remain;   // total : la durée restante fait foi ici
 		offset += static_cast<int16>(sizeof(BOURGEON_STATUS_ENTRY));
 		count++;
+		sent_icons.push_back(icon);
+	}
+
+	// ── Les icones SANS status change ───────────────────────────────────────
+	//
+	// 🔴 Deux bonus d'equipement ne creent AUCUN sc : rAthena termine le status
+	// change et n'envoie que l'image.
+	//
+	//   `bNoWalkDelay`  -> EFST_ENDURE       (status.cpp:4329)
+	//   `bIntravision`  -> EFST_CLAIRVOYANCE (pc.cpp:4573)
+	//
+	// Son propre commentaire le dit : « Officially the bonus no_walk_delay is
+	// actually just SC_ENDURE with unlimited duration » — mais l'implementation
+	// appelle `status_change_end(SC_ENDURE)` puis `clif_status_load`. Le porteur
+	// voit donc l'icone dans sa barre alors que `sc->getSCE(SC_ENDURE)` est NUL.
+	//
+	// Sans ce rattrapage, la liste ne pouvait PAS les contenir : ils n'existent
+	// nulle part ou l'on regarde. C'est le cas d'un GM portant Ahura Mazdah, qui
+	// donne les deux bonus.
+	//
+	// ⚠ La regle complete est DEJA une fonction : `status_isendure(bl, tick,
+	// visible)`, ou `visible` veut dire « l'effet doit-il etre montre au
+	// client ». Elle couvre le bonus d'equipement, le drapeau global
+	// `infinite_endure`, l'endure_tick ET les cartes ou Endure est interdit —
+	// la macro qui porte ce dernier test est interne a status.cpp et
+	// inaccessible d'ici, la recopier aurait fait une seconde verite.
+	// ⚠ `owner` peut etre nul (un MONSTRE n'appartient a personne) : ses opt1 et
+	// opt2 comptent tout autant, c'est meme la qu'on lit qu'il est gele. Seuls
+	// les deux bonus d'EQUIPEMENT exigent un joueur.
+	if (count < BOURGEON_STATUS_LIST_MAX) {
+		auto push_iconless = [&](int32 icon) {
+			if (count >= BOURGEON_STATUS_LIST_MAX) return;
+			WFIFOW(fd, offset)     = static_cast<uint16>(icon);
+			WFIFOL(fd, offset + 2) = 0;   // permanent : aucune echeance
+			WFIFOL(fd, offset + 6) = 0;
+			offset += static_cast<int16>(sizeof(BOURGEON_STATUS_ENTRY));
+			count++;
+		};
+		// ⚠ `status_isendure` rend vrai AUSSI quand le vrai SC est actif : sans
+		// ce garde, l'icone partirait deux fois, la boucle l'ayant deja emise.
+		if (sc->getSCE(SC_ENDURE) == nullptr && status_isendure(*bl, now, true))
+			push_iconless(EFST_ENDURE);
+		if (owner != nullptr && owner->special_state.intravision)
+			push_iconless(EFST_CLAIRVOYANCE);
+
+		// ── Les ALTERATIONS, qui vivent dans opt1/opt2 ────────────────────
+		//
+		// 🔴 Elles n'ont pas TOUJOURS de status change. `@option <opt1> <opt2>`
+		// ecrit ces champs DIRECTEMENT puis appelle `clif_changeoption` : le
+		// client affiche l'icone et joue l'effet sur le sprite, alors que
+		// `sc->getSCE(SC_SLEEP)` reste nul. C'est le cas d'un GM qui pose un
+		// etat a la main, et de tout ce qui passe par les drapeaux.
+		//
+		// Ces champs sont donc la source la PLUS SURE pour les alterations : un
+		// vrai `sc_start` les pose aussi (drapeau SendOption), alors que
+		// l'inverse n'est pas vrai. `sent_icons` evite le doublon quand les deux
+		// chemins parlent du meme etat.
+		//
+		// ⚠ opt1 est une VALEUR, opt2 un MASQUE de bits. Les traiter pareil
+		// donnerait un sommeil des qu'un poison est actif.
+		auto push_once = [&](int32 icon) {
+			for (int32 seen : sent_icons)
+				if (seen == icon) return;
+			push_iconless(icon);
+			sent_icons.push_back(icon);
+		};
+		switch (sc->opt1) {
+			case OPT1_STONE:     push_once(EFST_BODYSTATE_STONECURSE); break;
+			case OPT1_FREEZE:    push_once(EFST_BODYSTATE_FREEZING); break;
+			case OPT1_STUN:      push_once(EFST_BODYSTATE_STUN); break;
+			case OPT1_SLEEP:     push_once(EFST_BODYSTATE_SLEEP); break;
+			case OPT1_STONEWAIT: push_once(EFST_BODYSTATE_STONECURSE_ING); break;
+			case OPT1_BURNING:   push_once(EFST_BODYSTATE_BURNNING); break;
+			case OPT1_IMPRISON:  push_once(EFST_BODYSTATE_IMPRISON); break;
+			default: break;
+		}
+		if (sc->opt2 & OPT2_POISON)    push_once(EFST_HEALTHSTATE_POISON);
+		if (sc->opt2 & OPT2_CURSE)     push_once(EFST_HEALTHSTATE_CURSE);
+		if (sc->opt2 & OPT2_SILENCE)   push_once(EFST_HEALTHSTATE_SILENCE);
+		if (sc->opt2 & OPT2_CONFUSION) push_once(EFST_HEALTHSTATE_CONFUSION);
+		if (sc->opt2 & OPT2_BLIND)     push_once(EFST_HEALTHSTATE_BLIND);
+		if (sc->opt2 & OPT2_BLEEDING)  push_once(EFST_HEALTHSTATE_BLOODING);
+		if (sc->opt2 & OPT2_DPOISON)   push_once(EFST_HEALTHSTATE_HEAVYPOISON);
+		if (sc->opt2 & OPT2_FEAR)      push_once(EFST_HEALTHSTATE_FEAR);
 	}
 
 	WFIFOB(fd, 9) = count;
