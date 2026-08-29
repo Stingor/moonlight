@@ -25,6 +25,7 @@ import json
 import os
 import re
 import statistics
+import subprocess
 import sys
 import time
 import unicodedata
@@ -110,6 +111,8 @@ def measure_raw_speed(model: str) -> float:
         "max_tokens": 120,
         "temperature": 0.8,
     }
+    if gs.LLM_REASONING:
+        body["reasoning_effort"] = gs.LLM_REASONING
     req = urllib.request.Request(
         gs.LLM_URL, data=json.dumps(body).encode("utf-8"),
         headers={"Content-Type": "application/json"}, method="POST")
@@ -119,6 +122,36 @@ def measure_raw_speed(model: str) -> float:
     dt = time.perf_counter() - t0
     out = data.get("usage", {}).get("completion_tokens", 0)
     return out / dt if dt else 0.0
+
+
+def preload(model: str, parallel: int = 1, context: int = 8192) -> bool:
+    """Charge le modèle via `lms` avec des réglages explicites. Renvoie True si OK.
+
+    Sans ça, LM Studio le charge tout seul au premier appel (« just-in-time ») avec
+    parallel=4, et la mesure ne veut plus rien dire : Gemma 4 tombe de 100 à
+    21 tok/s, qwen2.5-14b de 61 à 5,5. Le banc doit donc imposer les conditions.
+
+    Le déchargement préalable n'est pas optionnel : `lms load` sur un modèle déjà
+    chargé en ouvre une SECONDE instance (« modele:2 ») au lieu de la remplacer.
+    Deux copies d'un 9 Go saturent la VRAM, et la mesure suivante mesure surtout
+    la saturation.
+    """
+    try:
+        subprocess.run(["lms", "unload", "--all"], capture_output=True, timeout=300)
+        p = subprocess.run(
+            ["lms", "load", model, "--parallel", str(parallel), "--gpu", "max",
+             "-c", str(context), "--yes"],
+            capture_output=True, text=True, timeout=900,
+            encoding="utf-8", errors="replace")
+    except Exception as e:
+        print("    préchargement impossible (%s) — LM Studio choisira seul" % e,
+              file=sys.stderr)
+        return False
+    if p.returncode != 0:
+        print("    préchargement refusé : %s"
+              % ((p.stderr or p.stdout or "").strip()[:200]), file=sys.stderr)
+        return False
+    return True
 
 
 def run_conversation(model: str, profile: str, turns: int) -> dict:
@@ -155,7 +188,7 @@ def run_conversation(model: str, profile: str, turns: int) -> dict:
             try:
                 if profile == "legacy":
                     # Témoin : appel nu, sans rappel de variété ni second tirage.
-                    raw, _ = counting_request(
+                    raw, _, _ = counting_request(
                         [{"role": "system", "content": gs.SYSTEM_PROMPT}] + hist)
                     reply = gs._squash_gibberish(gs._strip_template_leak(raw))
                     reply = gs._split_response(reply)
@@ -260,7 +293,7 @@ def stress_language(model: str, samples: int) -> None:
         print("  %-34s " % label, end="", flush=True)
         for i in range(samples):
             try:
-                raw, _ = gs._llm_request(
+                raw, _, _ = gs._llm_request(
                     [{"role": "system", "content": gs.SYSTEM_PROMPT},
                      {"role": "user", "content": prompt}],
                     max_tokens=600, temperature=0.8, seed=1000 + i, **extra)
@@ -296,7 +329,30 @@ def main():
     ap.add_argument("--stress-lang", type=int, metavar="N",
                     help="au lieu du scénario : N generations longues par jeu de "
                          "penalites, pour mesurer le derapage de langue")
+    ap.add_argument("--reasoning", metavar="EFFORT",
+                    help="reasoning_effort à transmettre (none/low/medium/high). "
+                         "Sur un modèle à raisonnement, « none » évite qu'il "
+                         "réfléchisse 400 tokens avant chaque vanne")
+    ap.add_argument("--timeout", type=float, metavar="S",
+                    help="timeout par requête ; à monter pour le premier appel "
+                         "d'un modèle non chargé (LM Studio le charge à la volée)")
+    ap.add_argument("--no-preload", action="store_true",
+                    help="ne pas charger les modèles via `lms` avant de les tester. "
+                         "À n'utiliser que si LM Studio est déjà réglé à la main : "
+                         "son chargement automatique impose parallel=4, qui divise "
+                         "la vitesse par 3 à 5 et rend la mesure trompeuse")
+    ap.add_argument("--parallel", type=int, default=1,
+                    help="slots parallèles au chargement (défaut 1 : un NPC de chat "
+                         "sert une requête à la fois, la latence prime)")
+    ap.add_argument("--context", type=int, default=8192,
+                    help="contexte au chargement (défaut 8192 ; le bot en utilise "
+                         "~3000, au-delà le KV-cache mange la VRAM pour rien)")
     args = ap.parse_args()
+
+    if args.reasoning is not None:
+        gs.LLM_REASONING = args.reasoning
+    if args.timeout:
+        gs.LLM_TIMEOUT = args.timeout
 
     models = [m.strip() for m in args.models.split(",") if m.strip()]
     profiles = [p.strip() for p in args.profiles.split(",") if p.strip()]
@@ -315,6 +371,10 @@ def main():
 
     results, detail = [], {}
     for model in models:
+        if not args.no_preload:
+            print("%s — chargement (parallel=%d, ctx=%d)..."
+                  % (model, args.parallel, args.context), end="", flush=True)
+            print(" ok" if preload(model, args.parallel, args.context) else "", flush=True)
         try:
             speed = measure_raw_speed(model)
         except Exception as e:

@@ -1022,6 +1022,12 @@ def _squash_gibberish(text: str) -> str:
 
 _RECENT_REPLIES = collections.deque(maxlen=12)   # dernières répliques, tous joueurs
 
+# Armé dès qu'un modèle s'est révélé « à raisonnement » en rendant un content vide.
+# Sans ça, chaque message coûterait DEUX appels : un pour rien, un pour la relance.
+# Un seul aller-retour perdu suffit donc à l'apprendre, et LLM_REASONING=none dans
+# groq.env évite même celui-là.
+_FORCE_NO_REASONING = False
+
 
 def _normalize_for_echo(text: str) -> str:
     """Forme comparable : minuscules, sans accents, sans ponctuation."""
@@ -1100,7 +1106,7 @@ def _stop_tokens() -> list:
 
 
 def _llm_request(messages: list, **overrides):
-    """Un aller-retour HTTP vers le backend. Renvoie (texte brut, finish_reason)."""
+    """Un aller-retour HTTP. Renvoie (texte brut, finish_reason, a_raisonné)."""
     body = {
         "model": LLM_MODEL,
         "messages": messages,
@@ -1119,6 +1125,8 @@ def _llm_request(messages: list, **overrides):
         body["repeat_penalty"] = LLM_REPEAT_PENALTY
     if LLM_REASONING:
         body["reasoning_effort"] = LLM_REASONING
+    elif _FORCE_NO_REASONING:
+        body["reasoning_effort"] = "none"
     body.update(overrides)
     payload = json.dumps(body).encode("utf-8")
 
@@ -1157,7 +1165,13 @@ def _llm_request(messages: list, **overrides):
         raise RuntimeError(f"HTTP {e.code} — {body_txt}") from e
 
     choice = data["choices"][0]
-    return choice["message"]["content"].strip(), choice.get("finish_reason")
+    msg = choice["message"]
+    # Modèles à raisonnement : LM Studio range le monologue dans un champ SÉPARÉ,
+    # pas dans un bloc <think> du texte. Qwen3.5-9B y engloutit 1 500 caractères et
+    # rend un `content` VIDE — le NPC resterait muet. On remonte l'info pour que
+    # groq_chat puisse relancer en coupant le raisonnement.
+    return (msg.get("content") or "").strip(), choice.get("finish_reason"), \
+        bool(msg.get("reasoning_content") or msg.get("reasoning"))
 
 
 def groq_chat(messages: list) -> str:
@@ -1170,7 +1184,7 @@ def groq_chat(messages: list) -> str:
     # intact le préfixe system+historique, que LM Studio garde en cache (mesuré :
     # 1,65 s → 1,40 s sur un préfixe chaud — le casser reviendrait cher).
     hint = _variety_hint()
-    raw, finish = _llm_request(_with_directive(messages, hint) if hint else messages)
+    raw, finish, thought = _llm_request(_with_directive(messages, hint) if hint else messages)
 
     # Second verrou : le modèle local sort parfois le balisage en TEXTE, donc le
     # `stop` de la requête le rate. On coupe ici, avant tout découpage en segments.
@@ -1179,19 +1193,35 @@ def groq_chat(messages: list) -> str:
         print(f"[Groq] réponse assainie (fuite de template / charabia) : {raw[:200]!r}",
               file=sys.stderr)
 
-    # Tirage perdu, pour l'une des deux raisons : le modèle a dérapé dans un
-    # alphabet illisible (sorti de sa distribution), ou son monologue de
-    # raisonnement a mangé tout le budget de tokens. Raboter ne laisserait qu'un
+    # Modèle à raisonnement laissé en roue libre : tout le budget de tokens part
+    # dans le monologue et le `content` revient VIDE (Qwen3.5-9B : 1 500 caractères
+    # de réflexion, zéro réponse). On ne relance pas à l'identique — on coupe le
+    # raisonnement, sinon le second tirage échoue exactement pareil.
+    if not reply and thought:
+        global _FORCE_NO_REASONING
+        if not _FORCE_NO_REASONING:
+            print(f"[Groq] {LLM_MODEL} raisonne en roue libre : réponse vide. "
+                  f"Le raisonnement est coupé pour les appels suivants. "
+                  f"Poser LLM_REASONING=none dans groq.env évite ce tir à blanc.",
+                  file=sys.stderr)
+            _FORCE_NO_REASONING = True
+        retry_raw, retry_finish, _ = _llm_request(messages, reasoning_effort="none")
+        retry_txt = _squash_gibberish(_strip_template_leak(_strip_reasoning(retry_raw)))
+        if retry_txt:
+            reply, finish = retry_txt, retry_finish
+
+    # Tirage perdu : le modèle a dérapé dans un alphabet illisible (sorti de sa
+    # distribution) ou n'a rien rendu d'exploitable. Raboter ne laisserait qu'un
     # moignon — on retire, à température basse, ce qui le ramène dans le rail.
     if _NONLATIN_RE.search(raw) or not reply:
         # Log volontairement bavard : le dérapage de langue n'a JAMAIS pu être
         # reproduit en banc (0 cas sur 36 générations, pénalités poussées à 1.0),
         # il est donc rare et dépend du contexte. Quand il se produira en prod,
         # on veut le message déclencheur, pas seulement la sortie.
-        print(f"[Groq] tirage perdu (langue / raisonnement) — relance."
+        print(f"[Groq] tirage perdu (langue / réponse vide) — relance."
               f"\n       user  : {_usr[-300:]!r}"
               f"\n       sortie: {raw[:300]!r}", file=sys.stderr)
-        retry_raw, retry_finish = _llm_request(
+        retry_raw, retry_finish, _ = _llm_request(
             messages, temperature=min(LLM_TEMPERATURE, 0.5), top_p=0.85,
             presence_penalty=0.0, frequency_penalty=0.0)
         retry_txt = _squash_gibberish(_strip_template_leak(_strip_reasoning(retry_raw)))
@@ -1206,7 +1236,7 @@ def groq_chat(messages: list) -> str:
             "[VARIÉTÉ] Tu viens tout juste de sortir ceci : « %s ». Recommence : "
             "même personnage, même mordant, mais une autre vanne, un autre angle, "
             "d'autres mots. Ne reprends ni l'amorce ni la structure." % echo[:180]))
-        retry_raw, retry_finish = _llm_request(nudge)
+        retry_raw, retry_finish, _ = _llm_request(nudge)
         retry_txt = _squash_gibberish(_strip_template_leak(_strip_reasoning(retry_raw)))
         if retry_txt and not _NONLATIN_RE.search(retry_raw) and not _looks_like_echo(retry_txt):
             reply, finish = retry_txt, retry_finish
