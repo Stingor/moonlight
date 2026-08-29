@@ -1749,6 +1749,7 @@ void clif_parse_bourgeon_target_info(int32 fd, map_session_data* sd);
 // part que s'il est de mon groupe ou de ma guilde. Savoir qu'un adversaire est
 // sous Kyrie est une information de jeu, elle ne se donne pas.
 void clif_parse_bourgeon_req_status_list(int32 fd, map_session_data* sd);
+void clif_parse_bourgeon_req_looks(int32 fd, map_session_data* sd);
 
 // CZ 0x0F25 : outillage NPC du menu contextuel (Bourgeon : EntityContextMenu) —
 // recharger le fichier de script d'où vient un NPC, le décharger, le déplacer sur

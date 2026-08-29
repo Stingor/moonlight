@@ -6774,6 +6774,54 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_STATUS_LIST, 0x0f2d);
 #define BOURGEON_STATUS_LIST_MAX 40
 
 
+// ── L'APPARENCE des membres du groupe et des amis (CZ 0x0f2e / ZC 0x0f2f) ────
+//
+// Pourquoi ce couple existe : la fenetre des membres de GUILDE affiche la tete
+// de chacun parce que ZC_MEMBERMGR_INFO porte hair / hair_color / gender. Les
+// paquets de groupe et d'amis ne portent RIEN de tel : cote client, l'apparence
+// ne peut alors venir que de l'acteur, donc de la portee — un membre sur une
+// autre carte n'a pas de tete, et un ami n'en a presque jamais.
+//
+// Ce couple comble ce trou, et rien d'autre : il ne dit pas qui est en ligne
+// (les listes natives le disent deja), seulement a quoi ressemble qui l'est.
+//
+// 🔴 Le SERVEUR choisit qui repondre, pas le client : il ne renseigne que les
+// membres du groupe du demandeur et ses amis. Le champ `what` ne fait que
+// RESTREINDRE ce qu'on demande — cocher les deux bits ne donne acces a rien de
+// plus. Sans cette regle, ce paquet dirait l'apparence de n'importe qui.
+//
+// Pas d'abonnement : le client REDEMANDE, comme pour les etats.
+struct PACKET_CZ_BOURGEON_REQ_LOOKS {
+	int16 packetType;
+	int16 packetLength;
+	uint8 what;   // bit 0 = groupe · bit 1 = amis
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_LOOKS, 0x0f2e);
+
+// Une entree : de quoi composer une tete, et rien de plus.
+//
+// ⚠ `job` sert a choisir la RACE (donc le dossier de sprites et la table de
+// coiffures) : sans lui un Doram irait chercher sa tete dans l'arborescence
+// humaine. Ce n'est pas un doublon de ce que porte la liste native.
+struct BOURGEON_LOOK_ENTRY {
+	uint32 aid;
+	uint16 job;
+	uint16 hair;
+	uint16 hair_color;
+	uint8  sex;   // 0 = femme
+} __attribute__((packed));
+
+struct PACKET_ZC_BOURGEON_LOOKS {
+	int16  packetType;
+	int16  packetLength;
+	uint16 count;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_LOOKS, 0x0f2f);
+
+// Plafond : MAX_PARTY (12) + MAX_FRIENDS (40) tient largement dessous.
+#define BOURGEON_LOOKS_MAX 64
+
+
 
 // Type d'entité tel qu'il voyage dans ZC_BOURGEON_TARGET_INFO.
 enum e_bourgeon_target_type : uint8 {

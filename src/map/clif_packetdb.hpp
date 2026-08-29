@@ -2100,6 +2100,7 @@ parseable_packet(HEADER_CZ_BOURGEON_REQ_ENTITY_PROPS, sizeof(PACKET_CZ_BOURGEON_
 // redemande tant que sa fenêtre est ouverte ; aucun état serveur — fixed
 parseable_packet(HEADER_CZ_BOURGEON_TARGET_INFO, sizeof(PACKET_CZ_BOURGEON_TARGET_INFO), clif_parse_bourgeon_target_info, 0);
 parseable_packet(HEADER_CZ_BOURGEON_REQ_STATUS_LIST, sizeof(PACKET_CZ_BOURGEON_REQ_STATUS_LIST), clif_parse_bourgeon_req_status_list, 0);
+parseable_packet(HEADER_CZ_BOURGEON_REQ_LOOKS, sizeof(PACKET_CZ_BOURGEON_REQ_LOOKS), clif_parse_bourgeon_req_looks, 0);
 
 // [Stingor] Bourgeon : capacités d'affichage de l'interface moderne — ce que ce
 // client rendra des balises maison. Réémis à chaque bascule d'un réglage.

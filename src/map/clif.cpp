@@ -8068,6 +8068,65 @@ void clif_parse_bourgeon_req_status_list(int32 fd, map_session_data* sd) {
 	WFIFOSET(fd, offset);
 }
 
+// ── L'apparence des membres du groupe et des amis EN LIGNE (CZ 0x0F2E) ───────
+//
+// 🔴 LA GATE EST LA MEME QUE POUR LES ETATS, et elle est ici aussi : le serveur
+// ne renseigne QUE le groupe du demandeur et ses amis. `what` restreint, il
+// n'autorise pas — un client qui poserait d'autres bits n'obtiendrait rien de
+// plus, et un GID quelconque n'est jamais interrogeable par ce paquet.
+//
+// Un joueur HORS LIGNE n'a pas de session : il n'apparait pas dans la reponse,
+// et c'est exact — le client ne dessine sa tete que pour qui est en ligne.
+void clif_parse_bourgeon_req_looks(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+
+	const PACKET_CZ_BOURGEON_REQ_LOOKS* req =
+		reinterpret_cast<const PACKET_CZ_BOURGEON_REQ_LOOKS*>(RFIFOP(fd, 0));
+	const uint8 what = req->what;
+
+	const int16 head = static_cast<int16>(sizeof(PACKET_ZC_BOURGEON_LOOKS));
+	const int16 entry = static_cast<int16>(sizeof(BOURGEON_LOOK_ENTRY));
+	WFIFOHEAD(fd, head + BOURGEON_LOOKS_MAX * entry);
+	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_LOOKS;
+
+	int32 count = 0;
+	uint32 sent[BOURGEON_LOOKS_MAX];
+	// Un ami peut aussi etre dans le groupe : sans ce dedoublonnage il occuperait
+	// deux entrees, et le client remplacerait la premiere par la seconde pour
+	// rien.
+	auto push = [&](map_session_data* t) {
+		if (t == nullptr || count >= BOURGEON_LOOKS_MAX) return;
+		for (int32 i = 0; i < count; i++)
+			if (sent[i] == t->status.account_id) return;
+		const int32 off = head + count * entry;
+		WFIFOL(fd, off + 0) = t->status.account_id;
+		WFIFOW(fd, off + 4) = static_cast<uint16>(t->status.class_);
+		WFIFOW(fd, off + 6) = static_cast<uint16>(t->status.hair);
+		WFIFOW(fd, off + 8) = static_cast<uint16>(t->status.hair_color);
+		WFIFOB(fd, off + 10) = static_cast<uint8>(t->status.sex);
+		sent[count] = t->status.account_id;
+		count++;
+	};
+
+	if (what & 1) {
+		struct party_data* p = party_search(sd->status.party_id);
+		if (p != nullptr)
+			for (int32 i = 0; i < MAX_PARTY; i++) push(p->data[i].sd);
+	}
+	if (what & 2) {
+		for (int32 i = 0; i < MAX_FRIENDS; i++) {
+			if (sd->status.friends[i].char_id == 0) continue;
+			push(map_charid2sd(sd->status.friends[i].char_id));
+		}
+	}
+
+	const int16 len = static_cast<int16>(head + count * entry);
+	WFIFOW(fd, 2) = len;
+	WFIFOW(fd, 4) = static_cast<uint16>(count);
+	WFIFOSET(fd, len);
+}
+
 // ── Interface moderne : ce que ce client sait afficher (CZ 0x0F24) ───────────
 //
 // Le client l'annonce dès que le serveur l'a reconnu, PUIS à chaque fois qu'un
