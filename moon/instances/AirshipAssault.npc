@@ -27,7 +27,7 @@ dali02,142,81,3	script	Dimensional Device#air1	PORTAL,{
 		erasequest 15051;
 	}
 	else if (checkquest(15051,PLAYTIME) == 2) {// Memorial Dungeon: Airship Assault
-		mes "^ff0000Le timer reset Ã  4h du matin.^000000";
+		mes "^ff0000Le timer reset à 4h du matin.^000000";
 		close;
 	}
 	.@party_id = getcharid(1);
@@ -293,7 +293,6 @@ dali02,142,81,3	script	Dimensional Device#air1	PORTAL,{
 		mes "[Captain Ferlock]";
 		mes "Damn... if only I had my weapon...";
 		next;
-		disablenpc instance_npcname("Captain Ferlock#air1");
 		cutin "h_chaos02",2;
 		mes "[Chaos]";
 		mes "Iris!! Let's go down to the engine room! Loki and Fenrir, hold this place!";
@@ -303,8 +302,14 @@ dali02,142,81,3	script	Dimensional Device#air1	PORTAL,{
 		mes "Oh...okay! Alright... Let's go!!";
 		close2;
 		cutin "",255;
-		if ('airship_status == 1)
+		// [Stingor] Ne désactiver Ferlock qu'une fois l'étape réellement lancée :
+		// s'il est désactivé pendant les dialogues, un Échap (ou un timeout NPC)
+		// coupe le script avant le donpcevent et bloque l'instance définitivement,
+		// puisqu'il est le seul PNJ capable de relancer l'étape.
+		if ('airship_status == 1) {
+			disablenpc instance_npcname("Captain Ferlock#air1");
 			donpcevent instance_npcname("#airshipputmob1") + "::OnStart";
+		}
 	}
 	end;
 }
@@ -1136,7 +1141,6 @@ OnTimer6000:
 	mes "[Captain Ferlock]";
 	mes "Yeah, you are right...";
 	mes "On that note I will leave you to take care of the aftermath. I'm off!!";
-	disablenpc instance_npcname("Captain Ferlock#2air2");
 	if( !'turbo ) {
 		next;
 		cutin "h_chaos03",2;
@@ -1198,8 +1202,12 @@ OnTimer6000:
 	mes "[Chaos]";
 	mes "You get out of here now!! This ship is in danger!!";
 	close2;
+	// [Stingor] Idem : le disablenpc est regroupé avec la récompense et le warp de
+	// sortie, pour qu'un Échap en cours de dialogue laisse la scène rejouable en
+	// reparlant à Chaos#air2.
 	if ('airship_status == 10){
 		'airship_status = 11;
+		disablenpc instance_npcname("Captain Ferlock#2air2");
 		enablenpc instance_npcname("warp5a#air2");
 		cutin "",255;
 		getexp 100000*'hm,65000*'hm;
