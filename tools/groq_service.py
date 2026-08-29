@@ -1195,8 +1195,11 @@ def _stop_tokens() -> list:
     Mistral utilisent ChatML : servir les mauvais marqueurs, c'est n'avoir aucun
     verrou côté serveur. Plafonné à 4 entrées (limite de l'API OpenAI).
     """
-    if "gemma" in LLM_MODEL.lower():
+    modele = LLM_MODEL.lower()
+    if "gemma" in modele:
         return ["<end_of_turn>", "<start_of_turn>", "<eos>", "\nuser\n"]
+    if "mistral" in modele or "mixtral" in modele or "magistral" in modele:
+        return ["[INST]", "[/INST]", "</s>", "\nuser\n"]
     return ["<|im_end|>", "<|im_start|>", "<|endoftext|>", "\nuser\n"]
 
 
