@@ -209,9 +209,14 @@ CLEANUP_HOURS  = 1
 # le même moule, « Alors écoute-moi bien… » resservi à deux joueurs — pour ~13 %
 # de seconds tirages. Un faux positif ne coûte qu'une réplique différente : le
 # risque est asymétrique, mieux vaut pencher vers la détection.
-ECHO_RATIO     = 0.42   # similarité au-delà de laquelle deux répliques font doublon
+ECHO_RATIO     = float(os.environ.get("ECHO_RATIO", "0.42"))
 ECHO_MIN_LEN   = 25     # en deçà (« lol », « mdr »), un doublon n'a rien d'anormal
-VARIETY_RECALL = 3      # nombre d'amorces récentes rappelées au modèle
+# Profondeur de mémoire et nombre d'amorces rappelées : réglables parce que les
+# modèles ne radotent pas au même rythme. Sur 30 tours, qwen2.5-14b sort 3 paires
+# de doublons, gemma-4-26b-a4b en sort 26 — une mémoire de 12 ne voit même pas
+# qu'il resert la même vanne quinze tours plus loin.
+ECHO_MEMORY    = int(os.environ.get("ECHO_MEMORY", "12"))
+VARIETY_RECALL = int(os.environ.get("VARIETY_RECALL", "3"))
 # ──────────────────────────────────────────────────────────────────────────────
 
 SSL_CTX   = ssl.create_default_context(cafile=certifi.where())
@@ -1020,7 +1025,7 @@ def _squash_gibberish(text: str) -> str:
 # à l'identique cinq fois de suite), et monter les pénalités OpenAI fait dérailler
 # la langue. On compare donc les réponses entre elles, ici.
 
-_RECENT_REPLIES = collections.deque(maxlen=12)   # dernières répliques, tous joueurs
+_RECENT_REPLIES = collections.deque(maxlen=ECHO_MEMORY)  # tous joueurs confondus
 
 # Armé dès qu'un modèle s'est révélé « à raisonnement » en rendant un content vide.
 # Sans ça, chaque message coûterait DEUX appels : un pour rien, un pour la relance.

@@ -267,6 +267,54 @@ def analyse(rows: list) -> dict:
     }
 
 
+def compare_events(models: list, tirages: int, parallel: int, context: int,
+                   preload_models: bool) -> None:
+    """Met côte à côte les répliques d'event de plusieurs modèles.
+
+    Les events sont le pire cas pour la langue : phrases longues, argotiques,
+    annoncées à voix haute en ville plutôt qu'adressées à un joueur. C'est là que
+    la syntaxe casse d'abord — Qwen3.5-9B en Q4_K_M sort « J'ai ramené plus de
+    zeny dans mes poings crevasses qu'tous vos pingles à faire une croix
+    ensemble » là où qwen2.5-14b reste lisible.
+
+    Aucun score automatique : la grammaire se juge à l'œil. Le script garantit
+    seulement des conditions identiques (mêmes seeds, mêmes réglages, même
+    chargement) pour que la comparaison veuille dire quelque chose.
+    """
+    tags = ["EVENT_TRIP_GO", "EVENT_TRIP_BACK", "EVENT_PVP_TAUNT", "EVENT_MVP"]
+    sorties = {}
+    for model in models:
+        if preload_models and not preload(model, parallel, context):
+            print("  %s : chargement impossible, ignoré" % model, flush=True)
+            continue
+        gs.LLM_MODEL = model
+        for tag in tags:
+            prompt = gs._event_prompt(tag, "Vexx", "Baphomet")
+            for k in range(tirages):
+                try:
+                    raw, _, _ = gs._llm_request(
+                        [{"role": "system", "content": gs.SYSTEM_PROMPT},
+                         {"role": "user", "content": prompt}],
+                        seed=700 + k, reasoning_effort="none")
+                except Exception as e:
+                    print("  %s / %s : %s" % (model, tag, e), flush=True)
+                    continue
+                txt = gs._strip_emoji(gs._squash_gibberish(
+                    gs._strip_template_leak(gs._strip_reasoning(raw))))
+                sorties.setdefault(tag, {}).setdefault(model, []).append(txt)
+        print("  %s : %d répliques" % (model, sum(len(v.get(model, []))
+                                                  for v in sorties.values())), flush=True)
+
+    print()
+    for tag in tags:
+        print("=" * 78)
+        print(tag)
+        for model in models:
+            for txt in sorties.get(tag, {}).get(model, []):
+                print("  [%-26s] %s" % (model[:26], txt.replace("|", " / ")[:210]))
+        print()
+
+
 def stress_language(model: str, samples: int) -> None:
     """Mesure le dérapage de langue en fonction des pénalités OpenAI.
 
@@ -329,6 +377,11 @@ def main():
     ap.add_argument("--stress-lang", type=int, metavar="N",
                     help="au lieu du scénario : N generations longues par jeu de "
                          "penalites, pour mesurer le derapage de langue")
+    ap.add_argument("--events", type=int, metavar="N", nargs="?", const=3,
+                    help="au lieu du scénario : N répliques d'event par tag et par "
+                         "modèle, mises côte à côte. À lire À L'ŒIL — c'est le seul "
+                         "moyen de juger si les phrases sont grammaticales, ce que "
+                         "les métriques du scénario ne voient pas")
     ap.add_argument("--reasoning", metavar="EFFORT",
                     help="reasoning_effort à transmettre (none/low/medium/high). "
                          "Sur un modèle à raisonnement, « none » évite qu'il "
@@ -356,6 +409,11 @@ def main():
 
     models = [m.strip() for m in args.models.split(",") if m.strip()]
     profiles = [p.strip() for p in args.profiles.split(",") if p.strip()]
+
+    if args.events:
+        compare_events(models, args.events, args.parallel, args.context,
+                       not args.no_preload)
+        return 0
 
     if args.stress_lang:
         for model in models:
