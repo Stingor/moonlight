@@ -52,6 +52,7 @@ Body:
         Price: 5
       - Item: Battle_Manual_X4  # Id: 14545
       - Item: Comp_Bubble_Gum  # Id: 12264
+        Price: 15
       - Item: C_Wing_Of_Fly  # Id: 12887
         Price: 7
       - Item: Magic_Card_Album  # Id: 12246

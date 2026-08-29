@@ -192,7 +192,6 @@ Body:
       who_display_aid: true
       hack_info: true
       any_warp: true
-      view_hpmeter: true
   - Id: 80
     Name: Event Manager
     Level: 80
