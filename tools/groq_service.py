@@ -1022,6 +1022,47 @@ def _squash_gibberish(text: str) -> str:
     return text.strip()
 
 
+# Le NPC a été vu prononcer en ville :
+#   "Merde, t'as pas fait le plein de potions ? T'es vraiment la reine des noobs,
+#    va !" (Donne juste un petit soin sans l'annoncer, puis continue à la charrier.)
+# Réplique entre guillemets + didascalie : le modèle imite le format qu'on lui
+# donne, puisque les prompts d'event sont eux-mêmes des « (ÉVÈNEMENT — …) ».
+# La consigne dans le prompt réduit le mimétisme, ce filtre le rattrape quand
+# elle ne suffit pas.
+_STAGE_VERBS = (
+    "donne", "continue", "ajoute", "fais", "lance", "envoie", "precise", "précise",
+    "garde", "reste", "note", "puis", "termine", "enchaine", "enchaîne", "repond",
+    "réponds", "reponds", "dis", "montre", "insiste", "adresse", "utilise",
+)
+# Parenthèse en toute fin de message, seule candidate à la didascalie.
+_TRAILING_PAREN_RE = re.compile(r"\s*\(([^()]{12,})\)\s*$")
+
+
+def _strip_stage_directions(text: str) -> str:
+    """Retire la didascalie finale, puis les guillemets englobants.
+
+    L'ordre compte : tant que la didascalie est là, la réplique ne se TERMINE pas
+    par un guillemet, et le retrait des guillemets ne se déclencherait pas.
+    """
+    # Didascalie finale. Le premier mot doit être un verbe d'instruction : sans ce
+    # garde-fou on couperait « Va farmer (si t'as le courage, ce dont je doute) »,
+    # qui fait partie de la réplique.
+    m = _TRAILING_PAREN_RE.search(text)
+    if m:
+        premier = _normalize_for_echo(m.group(1)).split()
+        if premier and premier[0] in _STAGE_VERBS:
+            text = text[:m.start()].strip()
+
+    # Réplique entièrement encadrée de guillemets : le modèle « cite » sa ligne.
+    # On ne touche pas aux guillemets INTERNES, qui sont du discours normal.
+    for ouvre, ferme in (('"', '"'), ("«", "»"), ("“", "”")):
+        t = text.strip()
+        if len(t) > 2 and t.startswith(ouvre) and t.endswith(ferme) \
+                and ouvre not in t[1:-1] and ferme not in t[1:-1]:
+            text = t[1:-1].strip()
+    return text.strip()
+
+
 # ── Anti-radotage ────────────────────────────────────────────────────────────
 # Le sampler ne peut pas nous aider : LM Studio ignore purement et simplement les
 # paramètres DRY (vérifié — même à dry_multiplier=4.0 le modèle recopie une phrase
@@ -1286,7 +1327,7 @@ def groq_chat(messages: list) -> str:
 
     # Second verrou : le modèle local sort parfois le balisage en TEXTE, donc le
     # `stop` de la requête le rate. On coupe ici, avant tout découpage en segments.
-    reply = _squash_gibberish(_strip_template_leak(_strip_reasoning(raw)))
+    reply = _strip_stage_directions(_squash_gibberish(_strip_template_leak(_strip_reasoning(raw))))
     if reply != raw:
         print(f"[Groq] réponse assainie (fuite de template / charabia) : {raw[:200]!r}",
               file=sys.stderr)
@@ -1316,7 +1357,7 @@ def groq_chat(messages: list) -> str:
                   file=sys.stderr)
             _FORCE_NO_REASONING = True
         retry_raw, retry_finish, _ = _llm_request(messages, reasoning_effort="none")
-        retry_txt = _squash_gibberish(_strip_template_leak(_strip_reasoning(retry_raw)))
+        retry_txt = _strip_stage_directions(_squash_gibberish(_strip_template_leak(_strip_reasoning(retry_raw))))
         if retry_txt:
             reply, finish = retry_txt, retry_finish
 
@@ -1334,7 +1375,7 @@ def groq_chat(messages: list) -> str:
         retry_raw, retry_finish, _ = _llm_request(
             messages, temperature=min(LLM_TEMPERATURE, 0.5), top_p=0.85,
             presence_penalty=0.0, frequency_penalty=0.0)
-        retry_txt = _squash_gibberish(_strip_template_leak(_strip_reasoning(retry_raw)))
+        retry_txt = _strip_stage_directions(_squash_gibberish(_strip_template_leak(_strip_reasoning(retry_raw))))
         if retry_txt and not _NONLATIN_RE.search(retry_raw):
             reply, finish = retry_txt, retry_finish
 
@@ -1347,7 +1388,7 @@ def groq_chat(messages: list) -> str:
             "même personnage, même mordant, mais une autre vanne, un autre angle, "
             "d'autres mots. Ne reprends ni l'amorce ni la structure." % echo[:180]))
         retry_raw, retry_finish, _ = _llm_request(nudge)
-        retry_txt = _squash_gibberish(_strip_template_leak(_strip_reasoning(retry_raw)))
+        retry_txt = _strip_stage_directions(_squash_gibberish(_strip_template_leak(_strip_reasoning(retry_raw))))
         if retry_txt and not _NONLATIN_RE.search(retry_raw) and not _looks_like_echo(retry_txt):
             reply, finish = retry_txt, retry_finish
 
@@ -1542,7 +1583,33 @@ def _split_response(text: str, max_len: int = 220) -> str:
     return '|'.join(parts)
 
 
+# Les prompts d'event sont des didascalies « (ÉVÈNEMENT — …) », et le modèle imite
+# ce format : il a répondu en ville par « "réplique" (Donne juste un petit soin
+# sans l'annoncer, puis continue à la charrier.) ». On lui dit donc explicitement
+# ce qu'on attend — la consigne réduit le mimétisme, _strip_stage_directions()
+# rattrape le reste.
+_EVENT_FORMAT = (" Écris UNIQUEMENT la phrase que tu cries à voix haute, telle quelle : "
+                 "sans guillemets autour, sans parenthèses décrivant ce que tu fais, "
+                 "sans didascalie."
+                 # Le chemin event ne passe NI par find_context NI par le bloc
+                 # « [PAS DE DONNÉE SERVEUR] » que get_response ajoute au chat
+                 # normal : c'est le seul endroit où le modèle parle sans le moindre
+                 # garde-fou. Résultat mesuré sur qwen2.5-14b, 3 fois sur 3 :
+                 # « je vais me faire le Chaos Shrine », « le Mystic Tower », « le
+                 # dungeon des MVPs » — aucun n'existe. Et ce sont les répliques que
+                 # le NPC crie à voix haute en ville.
+                 " Tu n'as AUCUNE donnée serveur sous les yeux : n'invente aucun nom "
+                 "de donjon, d'instance, de map, de mob ni d'item. Reste vague "
+                 "(« un donjon », « une instance », « des mobs pourris ») — c'est ta règle d'or.")
+
+
 def _event_prompt(tag: str, player: str, rest: str) -> str:
+    """Prompt one-shot d'un événement scripté, consigne de format comprise."""
+    corps = _event_prompt_body(tag, player, rest)
+    return (corps + _EVENT_FORMAT) if corps else None
+
+
+def _event_prompt_body(tag: str, player: str, rest: str) -> str:
     """Construit le prompt one-shot d'un événement scripté du NPC (trip, PvP, MVP).
     Renvoie None si le tag est inconnu (le NPC retombera sur sa réplique hardcodée).
     `player` = joueur concerné quand il y en a un ; `rest` = reste du message (ex: nom du MVP).

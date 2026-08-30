@@ -402,8 +402,8 @@ def compare_events(models: list, tirages: int, parallel: int, context: int,
                 except Exception as e:
                     print("  %s / %s : %s" % (model, tag, e), flush=True)
                     continue
-                txt = gs._strip_emoji(gs._squash_gibberish(
-                    gs._strip_template_leak(gs._strip_reasoning(raw))))
+                txt = gs._strip_emoji(gs._strip_stage_directions(gs._squash_gibberish(
+                    gs._strip_template_leak(gs._strip_reasoning(raw)))))
                 sorties.setdefault(tag, {}).setdefault(model, []).append(txt)
         print("  %s : %d répliques" % (model, sum(len(v.get(model, []))
                                                   for v in sorties.values())), flush=True)
