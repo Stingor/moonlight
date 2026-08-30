@@ -731,7 +731,7 @@ OnInit:
 // === Contrôleur invisible : reçoit la mort du boss PvP. Le NPC Sting est disablenpc
 // pendant l'event => ses propres events ne partent pas (npc_event ignore is_invisible).
 // Ce NPC reste actif, récompense le tueur (il a son RID) puis rappelle Sting via donpcevent.
-gonryun,160,116,0	script	#sting_pvp	-1,{
+-	script	#sting_pvp	-1,{
 	end;
 
 OnStingDead:
@@ -747,7 +747,7 @@ OnStingDead:
 
 // NPC invisible dedie au relay Discord -> Bourgeon overlay (ZC_BOURGEON_DISCORD_MSG).
 // Timer independant : tourne meme quand sting_IA dort pendant un trip ou un event PvP.
-gonryun,159,116,0	script	#sting_discord_relay	-1,{
+-	script	#sting_discord_relay	-1,{
 	end;
 
 OnTimer3000:
