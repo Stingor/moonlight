@@ -9457,6 +9457,15 @@ void status_set_viewdata(block_list *bl, int32 class_)
 					}
 				}
 				sd->vd.look[LOOK_BASE] = class_;
+				// A spectator keeps the invisible class, and it is not
+				// decoration: `clif_spawn` and the area-entry path both test
+				// THIS field — not OPTION_INVISIBLE — before sending a unit. It
+				// is set here rather than at auth time because every apparence
+				// recalculation would otherwise overwrite it, and a unit that
+				// reaches the client keeps its cell in the picking grid even
+				// when it draws nothing (see SPECTATOR_USERID in mmo.hpp).
+				if (sd->state.spectator)
+					sd->vd.look[LOOK_BASE] = JT_INVISIBLE;
 				sd->update_look( LOOK_WEAPON );
 				sd->update_look( LOOK_SHIELD );
 				sd->vd.look[LOOK_HEAD_TOP] = sd->status.head_top;

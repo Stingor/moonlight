@@ -234,6 +234,8 @@ ACMD_FUNC(users)
 
 		if( sd2->mapindex >= MAX_MAPINDEX )
 			continue;// invalid mapindex
+		if( sd2->state.spectator )
+			continue;// a viewpoint, not a player (see SPECTATOR_USERID in mmo.hpp)
 		if( !sd2->state.vending ) {
 			safesnprintf(buffer, sizeof(buffer), "[%s]", sd2->status.name);
 			strcat(mapinfo[sd2->mapindex].charid, buffer);
@@ -315,6 +317,12 @@ ACMD_FUNC(who) {
 
 	iter = mapit_getallusers();
 	for (pl_sd = (TBL_PC*)mapit_first(iter); mapit_exists(iter); pl_sd = (TBL_PC*)mapit_next(iter))	{
+		// Spectators are not players (see SPECTATOR_USERID in mmo.hpp), and the
+		// hidden-session test below cannot catch them: it hides an invisible
+		// player only from LOWER group levels, and a spectator has no group at
+		// all — so it would show up for everyone.
+		if (pl_sd->state.spectator)
+			continue;
 		if (!((pc_has_permission(pl_sd, PC_PERM_HIDE_SESSION) || pc_isinvisible(pl_sd)) && pc_get_group_level(pl_sd) > level)) { // you can look only lower or same level
 			if (stristr(pl_sd->status.name, player_name) == nullptr // search with no case sensitive
 				|| (map_id >= 0 && pl_sd->m != map_id))

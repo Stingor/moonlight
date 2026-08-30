@@ -293,6 +293,50 @@ int32 login_mmo_auth_new(const char* userid, const char* pass, const char sex, c
  *	6: banned
  *	x: acc state (TODO document me deeper)
  */
+
+/**
+ * Pick a free spectator id.
+ *
+ * The first version of this derived the id from the login connection slot,
+ * which looked airtight — two live sockets never share a slot. It is not: the
+ * client CLOSES its login socket as soon as it has the char-server list, so the
+ * slot is handed straight back to the OS while the session it named is still
+ * playing. The next client in gets the same slot, hence the same id, and both
+ * the login and the char server correctly answer "that account is already
+ * online" (refusal code 8). Reconnecting to a server one just left was enough
+ * to hit it, every single time.
+ *
+ * So the id is taken from what actually knows which ones are busy: the online
+ * table (populated by the char-server for everything that reached it) and the
+ * auth nodes (the short window between "login accepted" and "reached the
+ * char-server", where the online table has nothing yet). Both are keyed by
+ * account id and cost a hash lookup, and the loop only ever runs as many times
+ * as there are spectators connected.
+ *
+ * @return a free id, or 0 when the whole reserved range is taken.
+ */
+static uint32 login_spectator_pick_id( void ){
+	for( uint32 offset = 0; offset < SPECTATOR_ID_COUNT; ++offset ){
+		uint32 account_id = SPECTATOR_ACCOUNT_ID_BASE + offset;
+
+		if( account_id > END_ACCOUNT_NUM ){
+			break;
+		}
+
+		if( login_get_online_user( account_id ) != nullptr ){
+			continue;
+		}
+
+		if( login_get_auth_node( account_id ) != nullptr ){
+			continue;
+		}
+
+		return account_id;
+	}
+
+	return 0;
+}
+
 int32 login_mmo_auth(struct login_session_data* sd, bool isServer) {
 	struct mmo_account acc;
 
@@ -316,6 +360,37 @@ int32 login_mmo_auth(struct login_session_data* sd, bool isServer) {
 			}
 		}
 
+	}
+
+	// Spectator session: the login screen's living backdrop (see mmo.hpp).
+	// Authenticated without touching the account database at all — there is no
+	// account to look up, only a session to hand an id to. The password is
+	// ignored on purpose: it would guard nothing, since a spectator can neither
+	// speak, act, nor be seen, and every client would have to carry it in clear.
+	if( !isServer && strcmp( sd->userid, SPECTATOR_USERID ) == 0 ){
+		if( !login_config.spectator_enabled ){
+			ShowNotice( "Spectator session refused (disabled in login_athena.conf, ip: %s)\n", ip );
+			return 0; // 0 = Unregistered ID
+		}
+
+		uint32 account_id = login_spectator_pick_id();
+
+		if( account_id == 0 ){
+			ShowWarning( "Spectator session refused: every reserved id is in use.\n" );
+			return 3; // 3 = Rejected from server
+		}
+
+		sd->account_id = account_id;
+		sd->login_id1 = rnd_value( 1u, UINT32_MAX );
+		sd->login_id2 = rnd_value( 1u, UINT32_MAX );
+		sd->sex = 'M';
+		sd->group_id = 0;
+		safestrncpy( sd->lastlogin, "", sizeof( sd->lastlogin ) );
+		// No web auth token: a spectator has no web session either.
+		safestrncpy( sd->web_auth_token, "", WEB_AUTH_TOKEN_LENGTH );
+
+		ShowInfo( "Spectator session accepted (id: %d, ip: %s)\n", sd->account_id, ip );
+		return -1; // -1 = Success
 	}
 
 	size_t len = strnlen(sd->userid, NAME_LENGTH);
@@ -678,6 +753,8 @@ bool login_config_read(const char* cfgName, bool normal) {
 			login_config.use_web_auth_token = config_switch(w2);
 		else if (!strcmpi(w1, "disable_webtoken_delay"))
 			login_config.disable_webtoken_delay = cap_value(atoi(w2), 0, INT_MAX);
+		else if(!strcmpi(w1, "spectator_enabled"))
+			login_config.spectator_enabled = config_switch(w2);
 		else if(!strcmpi(w1, "client_hash")) {
 			int32 group = 0;
 			char md5[33];
@@ -800,6 +877,9 @@ void login_set_defaults() {
 #endif
 	login_config.use_web_auth_token = true;
 	login_config.disable_webtoken_delay = 10000;
+	// Off by default: a server that has not asked for the login backdrop should
+	// not be handing out sessions to an id it never configured.
+	login_config.spectator_enabled = false;
 }
 
 

@@ -1,0 +1,152 @@
+# This file is a part of Moonlight-Destiny.
+#
+###########################################################################
+# Spectator Points Database
+###########################################################################
+#
+# Where the login screen's living backdrop watches from. A spectator session
+# (see SPECTATOR_USERID in src/common/mmo.hpp) is dropped on one of these spots,
+# drawn at random, so the client does not always open on the same view.
+#
+# The spots below come from the warp agent (moon/warp_agent.npc): they are the
+# arrival points players actually use, so they are known-good cells.
+#
+###########################################################################
+#
+#  - Map      Map name the session spawns on.
+#    X        X coordinate on that map.
+#    Y        Y coordinate on that map.
+#    Rate     Relative weight of the draw. (Default: 100)
+#             Weights are relative to each other, not percentages: a spot at 200
+#             comes up twice as often as one at 100, and adding a spot does not
+#             require touching the others. Zero disables a spot without deleting
+#             it -- handy to park a view that does not look good yet.
+#             Every spot below is left at the default: weighting them is a call
+#             about where the players actually are.
+#
+# Reloadable with @reloaddb: no restart needed while hunting for good views.
+#
+###########################################################################
+#
+# Two things make a spot WORK, and neither shows in a map name:
+#   - it must be CLEAR. The camera sits 35 degrees above the horizon and orbits
+#     the spot; a wall two cells away fills half the screen.
+#   - it must be BUSY. Seeing other players walk by is the whole point of this
+#     backdrop over a static picture -- an empty corner is just a nicer wallpaper.
+#
+# A map this server does not serve is skipped at draw time, so a spot that stops
+# working costs nothing but does nothing either.
+#
+###########################################################################
+
+Header:
+  Type: SPECTATOR_POINT_DB
+  Version: 1
+
+Body:
+  - Map: gonryun
+    X: 156
+    Y: 120
+    Rate: 300
+  - Map: alberta
+    X: 50
+    Y: 240
+  - Map: aldebaran
+    X: 140
+    Y: 117
+  - Map: amatsu
+    X: 200
+    Y: 110
+  - Map: ayothaya
+    X: 207
+    Y: 192
+  - Map: brasilis
+    X: 195
+    Y: 215
+  - Map: comodo
+    X: 166
+    Y: 161
+  - Map: dewata
+    X: 200
+    Y: 174
+  - Map: dicastes01
+    X: 197
+    Y: 223
+  - Map: eclage
+    X: 167
+    Y: 194
+  - Map: einbech
+    X: 170
+    Y: 125
+  - Map: einbroch
+    X: 65
+    Y: 200
+  - Map: geffen
+    X: 120
+    Y: 68
+  - Map: hugel
+    X: 96
+    Y: 145
+  - Map: izlude
+    X: 128
+    Y: 111
+  - Map: jawaii
+    X: 135
+    Y: 202
+  - Map: lasagna
+    X: 193
+    Y: 182
+  - Map: lighthalzen
+    X: 158
+    Y: 92
+  - Map: louyang
+    X: 218
+    Y: 115
+  - Map: xmas
+    X: 148
+    Y: 131
+  - Map: malangdo
+    X: 167
+    Y: 136
+  - Map: malaya
+    X: 144
+    Y: 240
+  - Map: manuk
+    X: 286
+    Y: 230
+  - Map: mora
+    X: 136
+    Y: 91
+  - Map: morocc
+    X: 158
+    Y: 93
+  - Map: moscovia
+    X: 224
+    Y: 192
+  - Map: niflheim
+    X: 194
+    Y: 186
+  - Map: payon
+    X: 177
+    Y: 104
+  - Map: prontera
+    X: 155
+    Y: 182
+  - Map: rachel
+    X: 128
+    Y: 111
+  - Map: harboro1
+    X: 283
+    Y: 212
+  - Map: splendide
+    X: 200
+    Y: 149
+  - Map: umbala
+    X: 122
+    Y: 138
+  - Map: veins
+    X: 196
+    Y: 230
+  - Map: yuno
+    X: 153
+    Y: 123

@@ -918,6 +918,163 @@ int32 char_mmo_gender( const struct char_session_data *sd, const struct mmo_char
 
 //=====================================================================================================
 // Loads the basic character rooster for the given account. Returns total buffer used.
+/// Builds the character of a spectator session out of nothing (see mmo.hpp).
+///
+/// There is no row to read: the character id is derived from the account id, the
+/// place to stand is drawn from db/spectator_points.yml, and the rest
+/// is the blandest character that can exist. It is then registered in the char
+/// database exactly like a loaded one, so everything downstream — the character
+/// list, the hand-off to the map-server, `pc_authok` — takes the ordinary path
+/// without knowing this character was never stored anywhere.
+SpectatorPointDatabase spectator_point_db;
+
+const std::string SpectatorPointDatabase::getDefaultLocation(){
+	return std::string( db_path ) + "/spectator_points.yml";
+}
+
+uint64 SpectatorPointDatabase::parseBodyNode( const ryml::NodeRef& node ){
+	std::string map;
+
+	if( !this->asString( node, "Map", map ) ){
+		return 0;
+	}
+
+	// The key is just the order of appearance: nothing looks a spot up by id,
+	// they are only ever drawn from. Using the current size keeps them unique
+	// across a reload, where the database is cleared first.
+	uint32 id = static_cast<uint32>( this->size() );
+	std::shared_ptr<s_spectator_point> spot = std::make_shared<s_spectator_point>();
+
+	spot->map = map;
+
+	if( !this->asInt16( node, "X", spot->x ) ){
+		return 0;
+	}
+
+	if( !this->asInt16( node, "Y", spot->y ) ){
+		return 0;
+	}
+
+	if( this->nodeExists( node, "Rate" ) ){
+		if( !this->asUInt32( node, "Rate", spot->rate ) ){
+			return 0;
+		}
+	}else{
+		spot->rate = 100;
+	}
+
+	this->put( id, spot );
+
+	return 1;
+}
+
+std::shared_ptr<s_spectator_point> char_spectator_pick_point(){
+	// Two passes over a list of a few dozen entries, once per spectator session:
+	// the weights are configuration, so they can change under us at any reload,
+	// and caching a running total would be one more thing to invalidate.
+	uint32 total = 0;
+
+	for( const auto& entry : spectator_point_db ){
+		const std::shared_ptr<s_spectator_point>& spot = entry.second;
+
+		// Rate 0 parks a spot without deleting it.
+		if( spot->rate == 0 ){
+			continue;
+		}
+
+		// 🔴 And the map has to be SERVED. A spot naming a map no map-server
+		// carries — a renewal-only town on a pre-renewal setup, a typo — would
+		// hand the client a place it cannot reach: the session would die on
+		// arrival, and the login screen with it. Skipping costs one lookup.
+		if( char_search_mapserver( spot->map, (uint32)-1, (uint16)-1 ) < 0 ){
+			continue;
+		}
+
+		total += spot->rate;
+	}
+
+	if( total == 0 ){
+		return nullptr;
+	}
+
+	uint32 roll = rnd_value( 0u, total - 1 );
+
+	for( const auto& entry : spectator_point_db ){
+		const std::shared_ptr<s_spectator_point>& spot = entry.second;
+
+		if( spot->rate == 0 ){
+			continue;
+		}
+
+		if( char_search_mapserver( spot->map, (uint32)-1, (uint16)-1 ) < 0 ){
+			continue;
+		}
+
+		if( roll < spot->rate ){
+			return spot;
+		}
+
+		roll -= spot->rate;
+	}
+
+	return nullptr;
+}
+
+bool char_spectator_load( uint32 account_id, struct mmo_charstatus* p ){
+	if( p == nullptr || !spectator_account_id( account_id ) ){
+		return false;
+	}
+
+	uint32 char_id = SPECTATOR_CHAR_ID_BASE + ( account_id - SPECTATOR_ACCOUNT_ID_BASE );
+
+	memset( p, 0, sizeof( struct mmo_charstatus ) );
+
+	p->account_id = account_id;
+	p->char_id = char_id;
+	p->slot = 0;
+	// Never seen by another player — a spectator is hidden — but the client
+	// still needs a name to draw its own character-select entry.
+	safestrncpy( p->name, "Spectator", sizeof( p->name ) );
+	p->class_ = JOB_NOVICE;
+	p->base_level = 1;
+	p->job_level = 1;
+	p->max_hp = p->hp = 40;
+	p->max_sp = p->sp = 11;
+	p->str = p->agi = p->vit = p->int_ = p->dex = p->luk = 1;
+	p->sex = SEX_MALE;
+	p->inventory_slots = INVENTORY_BASE_SIZE;
+
+	// One of the spots from db/spectator_points.yml, drawn at random: the login
+	// screen opens on a different view every time rather than always the same
+	// street corner. A null draw means nothing usable was configured (or no map
+	// server carries any of the listed maps) — the default keeps the session
+	// alive rather than dropping the player nowhere.
+	std::shared_ptr<s_spectator_point> spot = char_spectator_pick_point();
+
+	if( spot != nullptr ){
+		safestrncpy( p->last_point.map, spot->map.c_str(), sizeof( p->last_point.map ) );
+		p->last_point.x = spot->x;
+		p->last_point.y = spot->y;
+	}else{
+		safestrncpy( p->last_point.map, MAP_DEFAULT_NAME, sizeof( p->last_point.map ) );
+		p->last_point.x = MAP_DEFAULT_X;
+		p->last_point.y = MAP_DEFAULT_Y;
+	}
+	p->save_point = p->last_point;
+
+	std::shared_ptr<struct mmo_charstatus> cp = util::umap_find( char_get_chardb(), char_id );
+
+	if( cp == nullptr ){
+		cp = std::make_shared<struct mmo_charstatus>();
+		cp->char_id = char_id;
+		char_get_chardb()[cp->char_id] = cp;
+	}
+
+	memcpy( cp.get(), p, sizeof( struct mmo_charstatus ) );
+
+	return true;
+}
+
 int32 char_mmo_chars_fromsql( char_session_data& sd, CHARACTER_INFO chars[], uint8* count ){
 	SqlStmt stmt{ *sql_handle };
 	struct mmo_charstatus p;
@@ -929,6 +1086,23 @@ int32 char_mmo_chars_fromsql( char_session_data& sd, CHARACTER_INFO chars[], uin
 	for( i = 0; i < MAX_CHARS; i++ ) {
 		sd.found_char[i] = -1;
 		sd.unban_time[i] = 0;
+	}
+
+	// A spectator has exactly one character, and it is not in the database.
+	if( spectator_account_id( sd.account_id ) ){
+		if( !char_spectator_load( sd.account_id, &p ) ){
+			return 0;
+		}
+
+		sd.found_char[p.slot] = p.char_id;
+		sd.unban_time[p.slot] = 0;
+		j = char_mmo_char_tobuf( chars[0], p );
+
+		if( count != nullptr ){
+			*count = 1;
+		}
+
+		return j;
 	}
 
 	// read char data
@@ -1991,6 +2165,35 @@ void char_set_session_flag_(int32 account_id, int32 val, bool set) {
 void char_auth_ok(int32 fd, struct char_session_data *sd) {
 	std::shared_ptr<struct online_char_data> character = util::umap_find( char_get_onlinedb(), sd->account_id );
 
+	// A spectator id is only ever handed out when nothing is using it (see
+	// login_spectator_pick_id): an entry still sitting here belongs to a session
+	// that is already gone, whose disconnection has simply not reached us yet —
+	// a client that crashed rather than closed. Refusing the new one would let
+	// that ghost hold the login screen hostage, and there is nothing to protect:
+	// a spectator owns no character and loses nothing when it is dropped.
+	if( character != nullptr && spectator_account_id( sd->account_id ) ){
+		if( character->server > -1 ){
+			mapif_disconnectplayer( map_server[character->server].fd, character->account_id, character->char_id, 2 );
+
+			if( map_server[character->server].users > 0 ){ // Prevent this value from going negative.
+				map_server[character->server].users--;
+			}
+		}
+
+		if( character->waiting_disconnect != INVALID_TIMER ){
+			delete_timer( character->waiting_disconnect, char_chardb_waiting_disconnect );
+			character->waiting_disconnect = INVALID_TIMER;
+		}
+
+		// No SQL anywhere on this path: there is no row to update, and the whole
+		// point of the feature is that it never touches the database.
+		char_get_chardb().erase( character->char_id );
+		char_get_onlinedb().erase( sd->account_id );
+		character = nullptr;
+
+		ShowInfo( "Dropped a stale spectator session (id: %d).\n", sd->account_id );
+	}
+
 	// Check if character is not online already. [Skotlex]
 	if( character != nullptr ){
 		if (character->server > -1)
@@ -2007,6 +2210,29 @@ void char_auth_ok(int32 fd, struct char_session_data *sd) {
 			return;
 		}
 		character->fd = fd;
+	}
+
+	// A spectator has no account row to ask the login-server about. Fill in what
+	// the account-data reply would have set, and hand over the character list
+	// straight away — the rest of the path is the ordinary one.
+	if( spectator_account_id( sd->account_id ) ){
+		sd->auth = true;
+		char_set_charselect( sd->account_id );
+
+		sd->char_slots = MIN_CHARS;
+		sd->group_id = 0;
+		sd->expiration_time = 0;
+		safestrncpy( sd->birthdate, "", sizeof( sd->birthdate ) );
+		safestrncpy( sd->pincode, "", sizeof( sd->pincode ) );
+
+		chclif_mmo_char_send( fd, *sd );
+#if PACKETVER_SUPPORTS_PINCODE
+		// The client will not display the character list until it has been told
+		// where it stands on the pin code — even when the system is disabled
+		// server-side. A spectator has none, and never will.
+		chclif_pincode_sendstate( fd, *sd, PINCODE_OK );
+#endif
+		return;
 	}
 
 	chlogif_send_reqaccdata(login_fd,sd); // request account data
@@ -2799,6 +3025,10 @@ void char_set_defaults(){
 	charserv_config.start_point[0].x = MAP_DEFAULT_X;
 	charserv_config.start_point[0].y = MAP_DEFAULT_Y;
 	charserv_config.start_point_count = 1;
+
+	// Spectator sessions watch the world from here (see mmo.hpp). Defaults to the
+	// same place a fresh character starts, so the feature is harmless until a
+	// server actually points it somewhere worth looking at.
 
 #if PACKETVER >= 20151001
 	safestrncpy( charserv_config.start_point_doram[0].map, MAP_DEFAULT_NAME, sizeof( charserv_config.start_point_doram[0].map ) );

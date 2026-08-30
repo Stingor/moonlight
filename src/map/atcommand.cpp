@@ -12159,6 +12159,11 @@ bool is_atcommand(const int32 fd, map_session_data* sd, const char* message, int
 	if ( !message || !*message )
 		return false;
 
+	// A spectator commands nothing (see SPECTATOR_USERID in mmo.hpp). Returning
+	// true swallows the line instead of letting it fall through to the chat.
+	if ( sd->state.spectator )
+		return true;
+
 	//If cannot use atcomamnd while talking with NPC [Kichi]
 	if (type == 1 && sd->npc_id && sd->state.disable_atcommand_on_npc)
 		return false;

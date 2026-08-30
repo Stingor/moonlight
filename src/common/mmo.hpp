@@ -177,6 +177,57 @@ const t_itemid WEDDING_RING_F = 2635;
 #define END_ACCOUNT_NUM 2999999
 #define START_CHAR_NUM 150000
 
+/// Spectator sessions — the living backdrop behind the client's login screen.
+///
+/// These are NOT accounts: nothing is ever read from or written to the database
+/// for them. A session announces itself with SPECTATOR_USERID, is handed a free
+/// id out of the reserved range, walks the normal login -> char -> map path, and
+/// disappears without leaving a row behind. That is what makes the
+/// whole thing free of bookkeeping: there is no pool to allocate, nothing to
+/// delete on logout, and a crashed client leaves no orphan.
+///
+/// The ids live at the TOP of the account range on purpose. Real accounts grow
+/// upwards from START_ACCOUNT_NUM, so the two ends never meet on a server of
+/// any sane size; and staying inside [START_ACCOUNT_NUM, END_ACCOUNT_NUM] keeps
+/// every existing range check happy — including the client's own. The space
+/// ABOVE the account range is not free: FIXED_NPC_NUM (3000000) and
+/// START_NPC_NUM (3000100) hand it to npcs, mobs, pets and homunculi.
+///
+/// An id must NOT be derived from the login connection slot, however tempting:
+/// the client closes its login socket as soon as it has the char-server list,
+/// so the slot goes back to the OS while the session it named is still playing.
+/// The next client in gets the same slot, the same id, and is refused for being
+/// "already online" (code 8) — by its own previous session. Ids are therefore
+/// picked from the ones nothing is currently using (login_spectator_pick_id).
+#define SPECTATOR_USERID "moonlight_spectator"
+#define SPECTATOR_ACCOUNT_ID_BASE 2900000
+#define SPECTATOR_CHAR_ID_BASE 2900000
+/// How many ids the range holds. Far more spectators than a server will ever
+/// hold at once, and still ~9k account ids of headroom before END_ACCOUNT_NUM.
+#define SPECTATOR_ID_COUNT 90000
+
+/// ⚠ Handing the client an invisible class (32767) in the character LIST, to
+/// stop it drawing the spectator's puppet, was tried and rolled back — but NOT
+/// because it was proven harmful. The crash that looked like its doing came from
+/// a char-server that had not been rebuilt, so this line never even ran; the
+/// real cause was a backdrop enter/leave loop.
+///
+/// Left untried rather than endorsed: the client would still have to look that
+/// job up in a sprite table on an entry of its own character list, which is not
+/// what @hide does (that one puts the class on OTHER units' view data). If it is
+/// ever retried, the char-select is where it would break, and the arrival cover
+/// on the client side already hides the puppet without touching any of this.
+
+/// Is this id one of ours? Both helpers are deliberately cheap: they are called
+/// on paths that run for every player, spectator or not.
+static inline bool spectator_account_id( uint32 account_id ){
+	return account_id >= SPECTATOR_ACCOUNT_ID_BASE && account_id <= END_ACCOUNT_NUM;
+}
+
+static inline bool spectator_char_id( uint32 char_id ){
+	return char_id >= SPECTATOR_CHAR_ID_BASE;
+}
+
 //Guilds
 #define MAX_GUILDMES1 60
 #define MAX_GUILDMES2 120

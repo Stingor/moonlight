@@ -1087,18 +1087,33 @@ bool chclif_parse_charselect( int32 fd, struct char_session_data& sd ){
 	int slot = p->slot;
 	char* data;
 
-	if ( SQL_SUCCESS != Sql_Query(sql_handle, "SELECT `char_id` FROM `%s` WHERE `account_id`='%d' AND `char_num`='%d' AND `delete_date` = 0", schema_config.char_db, sd.account_id, slot)
-		|| SQL_SUCCESS != Sql_NextRow(sql_handle)
-		|| SQL_SUCCESS != Sql_GetData(sql_handle, 0, &data, NULL) )
-	{	//Not found?? May be forged packet.
-		Sql_ShowDebug(sql_handle);
-		Sql_FreeResult(sql_handle);
-		chclif_reject(fd, 0); // rejected from server
-		return 1;
-	}
+	// A spectator's character was never written down: its id is derived from the
+	// session's, and its data is rebuilt further below instead of being read.
+	// Everything else in this function stays the ordinary path.
+	const bool spectator = spectator_account_id( sd.account_id );
+	uint32 char_id;
 
-	uint32 char_id = atoi(data);
-	Sql_FreeResult(sql_handle);
+	if( spectator ){
+		if( slot != 0 ){
+			chclif_reject( fd, 0 ); // rejected from server
+			return 1;
+		}
+
+		char_id = SPECTATOR_CHAR_ID_BASE + ( sd.account_id - SPECTATOR_ACCOUNT_ID_BASE );
+	}else{
+		if ( SQL_SUCCESS != Sql_Query(sql_handle, "SELECT `char_id` FROM `%s` WHERE `account_id`='%d' AND `char_num`='%d' AND `delete_date` = 0", schema_config.char_db, sd.account_id, slot)
+			|| SQL_SUCCESS != Sql_NextRow(sql_handle)
+			|| SQL_SUCCESS != Sql_GetData(sql_handle, 0, &data, NULL) )
+		{	//Not found?? May be forged packet.
+			Sql_ShowDebug(sql_handle);
+			Sql_FreeResult(sql_handle);
+			chclif_reject(fd, 0); // rejected from server
+			return 1;
+		}
+
+		char_id = atoi(data);
+		Sql_FreeResult(sql_handle);
+	}
 
 	// Prevent select a char while retrieving guild bound items
 	if (sd.flag&1) {
@@ -1113,11 +1128,17 @@ bool chclif_parse_charselect( int32 fd, struct char_session_data& sd ){
 	}
 
 	/* set char as online prior to loading its data so 3rd party applications will realise the sql data is not reliable */
-	char_set_char_online(-2,char_id,sd.account_id);
+	// Skipped for spectators: the online table describes stored characters, and
+	// this one does not exist outside the lifetime of its socket.
+	if( !spectator ){
+		char_set_char_online(-2,char_id,sd.account_id);
+	}
 
 	struct mmo_charstatus char_dat;
-	if( !char_mmo_char_fromsql(char_id, &char_dat, true) ) { /* failed? set it back offline */
-		char_set_char_offline(char_id, sd.account_id);
+	if( !( spectator ? char_spectator_load( sd.account_id, &char_dat ) : char_mmo_char_fromsql( char_id, &char_dat, true ) ) ) { /* failed? set it back offline */
+		if( !spectator ){
+			char_set_char_offline(char_id, sd.account_id);
+		}
 		/* failed to load something. REJECT! */
 		chclif_reject(fd, 0); // rejected from server
 		return 1;
@@ -1126,7 +1147,9 @@ bool chclif_parse_charselect( int32 fd, struct char_session_data& sd ){
 	//Have to switch over to the DB instance otherwise data won't propagate [Kevin]
 	std::shared_ptr<struct mmo_charstatus> cd = util::umap_find( char_get_chardb(), char_id );
 
-	if (charserv_config.log_char) {
+	// Spectators leave no trace, log included: there is no character behind them
+	// to account for.
+	if (charserv_config.log_char && !spectator) {
 		char esc_name[NAME_LENGTH*2+1];
 
 		Sql_EscapeStringLen(sql_handle, esc_name, char_dat.name, strnlen(char_dat.name, NAME_LENGTH));

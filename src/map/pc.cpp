@@ -2087,6 +2087,20 @@ bool pc_authok(map_session_data *sd, uint32 login_id2, time_t expiration_time, i
 
 	memcpy(&sd->status, st, sizeof(*st));
 
+	// A spectator session: a viewpoint for the client's login screen, never a
+	// player (see SPECTATOR_USERID in mmo.hpp). Marked HERE, before anything
+	// else reads the character, because half of what follows depends on it —
+	// starting with the invisibility posted just below.
+	sd->state.spectator = spectator_account_id( sd->status.account_id );
+
+	if( sd->state.spectator ){
+		// On `status`, not on `sc`: the two are resynchronised a few lines down
+		// (and again later), so an option written only on `sc` is erased by the
+		// first resync. This is the state the character carries, not an effect
+		// applied to it.
+		sd->status.option |= OPTION_INVISIBLE;
+	}
+
 	if (st->sex != sd->status.sex) {
 		clif_authfail_fd(sd->fd, 0);
 		return false;
@@ -2180,7 +2194,11 @@ bool pc_authok(map_session_data *sd, uint32 login_id2, time_t expiration_time, i
 	memset(&sd->equip_index, -1, sizeof(sd->equip_index));
 	memset(&sd->equip_switch_index, -1, sizeof(sd->equip_switch_index));
 
-	if( pc_isinvisible(sd) && !pc_can_use_command( sd, "hide", COMMAND_ATCOMMAND ) ){
+	// A spectator is hidden by nature, not by privilege: it has no group, and so
+	// no right to `@hide` — without this exception the line below would strip the
+	// invisibility that pc_authok just gave it, and the viewpoint would stand in
+	// the middle of the map for everyone to see.
+	if( pc_isinvisible(sd) && !sd->state.spectator && !pc_can_use_command( sd, "hide", COMMAND_ATCOMMAND ) ){
 		sd->status.option &= ~OPTION_INVISIBLE;
 	}
 

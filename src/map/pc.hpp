@@ -483,6 +483,11 @@ public:
 		bool roulette_open;
 		t_itemid item_reform;
 		uint64 item_enchant_index;
+		/// Spectator session: a viewpoint for the client's login screen, not a
+		/// player (see SPECTATOR_USERID in mmo.hpp). Nothing about it is stored,
+		/// so nothing about it may be saved either — and since its credentials
+		/// travel inside every client, it must not be able to speak or act.
+		bool spectator;
 	} state;
 	struct {
 		unsigned char no_weapon_damage, no_magic_damage, no_misc_damage;

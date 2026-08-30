@@ -1108,6 +1108,12 @@ void achievement_update_objective(map_session_data *sd, enum e_achievement_group
 	if (!battle_config.feature_achievement)
 		return;
 
+	// A spectator earns nothing (see SPECTATOR_USERID in mmo.hpp). It is not
+	// only a matter of taste: an achievement is stored, announced, and can hand
+	// out rewards — three things a character that exists in no table must not do.
+	if (sd != nullptr && sd->state.spectator)
+		return;
+
 	if (sd) {
 		va_list ap;
 		std::array<int32, MAX_ACHIEVEMENT_OBJECTIVES> count = {};

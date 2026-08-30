@@ -404,6 +404,14 @@ int32 intif_saveregistry(map_session_data *sd)
 	if (CheckForCharServer() || !sd->regs.vars)
 		return -1;
 
+	// Second door for spectators, and it is not redundant with the one in
+	// chrif_save: a script touching a variable saves registries on its own (see
+	// script.cpp, `vars_dirty`), and an `OnPCLoginEvent` runs for a spectator
+	// like it does for anyone. Without this, that path would insert rows for an
+	// account that exists nowhere.
+	if (sd->state.spectator)
+		return -1;
+
 	WFIFOHEAD(inter_fd, 60000 + 300);
 	WFIFOW(inter_fd,0)  = 0x3004;
 	// 0x2 = length (set later)
@@ -2259,6 +2267,11 @@ int32 intif_achievement_save(map_session_data *sd)
 	int32 len = sizeof(struct achievement) * sd->achievement_data.count + 8;
 
 	if (CheckForCharServer())
+		return 0;
+
+	// Second door, same reasoning as intif_saveregistry: a spectator's character
+	// id belongs to no row, so saving would create some.
+	if (sd->state.spectator)
 		return 0;
 
 	WFIFOHEAD(inter_fd, len);

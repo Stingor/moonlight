@@ -3655,6 +3655,11 @@ static int32 clif_hpmeter_sub( block_list *bl, va_list ap ){
 static int32 clif_hpmeter( const map_session_data* sd )
 {
 	nullpo_ret(sd);
+
+	// A spectator has no health to report: it is invisible, so a bar hanging in
+	// the air is the only thing anyone would see of it.
+	if (sd->state.spectator)
+		return 0;
 	map_foreachinallarea(clif_hpmeter_sub, sd->m, sd->x-AREA_SIZE, sd->y-AREA_SIZE, sd->x+AREA_SIZE, sd->y+AREA_SIZE, BL_PC, sd);
 	return 0;
 }
@@ -9798,6 +9803,22 @@ void clif_getareachar_unit( map_session_data* sd,block_list *bl ){
 	bool option = false;
 	uint32 option_val = 0;
 
+	// A spectator is never sent to anybody — not even as an invisible unit.
+	// Being invisible is not the same as being absent: the client still creates
+	// an actor for a unit it is told about, and that actor keeps its cell in the
+	// picking grid. That is the ghost reserving a tile nobody can click.
+	//
+	// The generic test further down only catches this for unit types listed in
+	// `hide_cloaked_units`, which is a server-wide setting about hidden PLAYERS;
+	// a viewpoint should disappear regardless of how that is configured.
+	if( bl->type == BL_PC ){
+		map_session_data* bl_sd = BL_CAST( BL_PC, bl );
+
+		if( bl_sd != nullptr && bl_sd->state.spectator ){
+			return;
+		}
+	}
+
 	vd = status_get_viewdata(bl);
 	if (!vd || vd->look[LOOK_BASE] == JT_INVISIBLE)
 		return;
@@ -15358,6 +15379,15 @@ static bool clif_process_message(map_session_data* sd, bool whisperFormat, char*
 	const char *input, *name, *message;
 	size_t nameLength, messageLength;
 
+	// A spectator is a viewpoint, not a voice (see SPECTATOR_USERID in mmo.hpp).
+	// This is the single gate every chat path goes through — public, whisper,
+	// party, guild — so refusing here refuses all of them at once. It matters
+	// because the spectator credentials travel inside every client: whoever
+	// finds them must not be handed a microphone.
+	if( sd->state.spectator ){
+		return false;
+	}
+
 	fd = sd->fd;
 
 	info = &packet_db[RFIFOW(fd,0)];
@@ -16120,6 +16150,17 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 	sd->state.changemap = false;
 	if (sd->sc.option & OPTION_WINGS ) // [Stingor]
 		clif_show_wings(sd);
+
+	// A spectator is hidden from the moment it authenticates — but nothing ever
+	// TELLS its own client so. The option is set before the spawn, and a client
+	// only hides itself when it is NOTIFIED of the change: that is exactly why
+	// `@option ... 64` makes the character vanish from its own screen while the
+	// login-time flag alone does not. One notification, once the map is loaded,
+	// and the viewpoint stops drawing the character it is meant to look past.
+	// Sent to itself only, and not to the area: the others already never saw it,
+	// and have no unit to apply the change to.
+	if (sd->state.spectator)
+		clif_changeoption_target(sd, sd);
 }
 
 
@@ -16321,6 +16362,12 @@ void clif_progressbar_npc( const npc_data *nd, const map_session_data* sd ){
 void clif_parse_WalkToXY(int32 fd, map_session_data *sd)
 {
 	int16 x, y;
+
+	// A spectator stands where the server put it. Refusing the request here and
+	// not in unit_walktoxy is deliberate: this is the CLIENT's order, so the
+	// server keeps every way of moving the viewpoint itself.
+	if (sd->state.spectator)
+		return;
 
 	if (pc_get_group_level(sd) >= 60 && sd->state.gm_fast_move) { // [Stingor]
 		RFIFOPOS(fd, packet_db[RFIFOW(fd,0)].pos[0], &x, &y, nullptr);

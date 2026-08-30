@@ -1977,6 +1977,11 @@ int32 npc_touch_areanpc(map_session_data* sd, int16 m, int16 x, int16 y, npc_dat
 	nullpo_retr(0, sd);
 	nullpo_retr(0, nd);
 
+	// Scripts also fire by walking on them — warps first among them. A spectator
+	// stays where it was put, and cannot be carried off its map by a cell.
+	if (sd->state.spectator)
+		return 1;
+
 	if (nd->is_invisible)
 		return 1; // a npc was found, but it is disabled
 	if (npc_is_cloaked(nd, sd))
@@ -2292,6 +2297,13 @@ int32 npc_click(map_session_data* sd, npc_data* nd)
 {
 	nullpo_retr(1, sd);
 
+	// A spectator watches the world, it does not talk to it (see
+	// SPECTATOR_USERID in mmo.hpp). Scripts are the widest door of all: a single
+	// dialogue reaches shops, warps, storage, quests and every variable a script
+	// can write — including for an account that exists nowhere.
+	if (sd->state.spectator)
+		return 1;
+
 	if (sd->npc_id != 0) {
 		ShowError("npc_click: npc_id != 0\n");
 		return 1;
@@ -2373,6 +2385,12 @@ bool npc_scriptcont(map_session_data* sd, int32 id, bool closing){
 	npc_data* nd = BL_CAST( BL_NPC, target );
 
 	nullpo_retr(true, sd);
+
+	// The other half of the same door: npc_click starts a dialogue, this one
+	// carries it on (menu answers, next, input, close). Refusing only the first
+	// would still leave a forged packet able to drive a script it never opened.
+	if (sd->state.spectator)
+		return true;
 
 #ifdef SECURE_NPCTIMEOUT
 	if( !closing && sd->npc_idle_timer == INVALID_TIMER && !sd->state.ignoretimeout )
@@ -6075,6 +6093,13 @@ int32 npc_parsesrcfile(const char* filepath)
 
 size_t npc_script_event( map_session_data& sd, enum npce_event type ){
 	if (type == NPCE_MAX)
+		return 0;
+
+	// The third door, and the one no packet filter would have caught: these
+	// scripts are launched by the SERVER for a player — OnPCLoginEvent and its
+	// kin. None of them means anything for a viewpoint, and any of them could
+	// greet it, warp it, or write a variable for an account that does not exist.
+	if (sd.state.spectator)
 		return 0;
 
 	std::vector<struct script_event_s>& vector = script_event[type];

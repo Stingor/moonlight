@@ -981,6 +981,10 @@ int32 inter_init_sql(const char *file)
 	}
 
 	interServerDb.load();
+	// Where the login screen's living backdrop watches from. Loaded here with the
+	// other char-server databases, so `@reloaddb` picks up new spots without a
+	// restart — which is the whole point of moving them out of the config file.
+	spectator_point_db.load();
 	inter_guild_sql_init();
 	inter_storage_sql_init();
 	inter_party_sql_init();

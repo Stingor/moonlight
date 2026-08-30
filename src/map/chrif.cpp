@@ -279,6 +279,25 @@ int32 chrif_save(map_session_data *sd, int32 flag) {
 
 	nullpo_retr(-1, sd);
 
+	// A spectator has no row anywhere (see SPECTATOR_USERID in mmo.hpp): there
+	// is nothing to update, and writing would be worse than useless — the
+	// inventory, skill and storage saves do not update, they DELETE then INSERT,
+	// which would seed the tables with rows belonging to a character that does
+	// not exist. This single return is what makes the whole feature free of
+	// cleanup: a spectator that crashes, quits or times out leaves nothing.
+	if( sd->state.spectator ){
+		// One thing still has to happen, though: ANNOUNCE THE DEPARTURE. Without
+		// it the char-server keeps the account in its online table, the
+		// login-server never clears it either, and login_spectator_pick_id walks
+		// one id further on every session — measured climbing 2900000..2900010 in
+		// a single afternoon. Nothing is saved here; this only says "gone".
+		if( ( flag & CSAVE_QUITTING ) && sd->state.active && !( flag & CSAVE_AUTOTRADE ) ){
+			chrif_auth_logout( sd, ( flag & CSAVE_QUIT ) ? ST_LOGOUT : ST_MAPCHANGE );
+		}
+
+		return 0;
+	}
+
 	pc_makesavestatus(sd);
 
 	if ( (flag&CSAVE_QUITTING) && sd->state.active) { //Store player data which is quitting
@@ -1834,6 +1853,13 @@ int32 send_users_tochar(void) {
 	iter = mapit_getallusers();
 
 	for( sd = (TBL_PC*)mapit_first(iter); mapit_exists(iter); sd = (TBL_PC*)mapit_next(iter) ) {
+		// Spectators are left out of this list entirely, and it settles two
+		// things at once: the player count everyone sees stops counting clients
+		// idling on the login screen, and the char-server stops being told to
+		// keep an `online` row for a character that exists in no table.
+		if( sd->state.spectator )
+			continue;
+
 		WFIFOL(char_fd,6+8*i) = sd->status.account_id;
 		WFIFOL(char_fd,6+8*i+4) = sd->status.char_id;
 		i++;
@@ -1841,9 +1867,10 @@ int32 send_users_tochar(void) {
 
 	mapit_free(iter);
 
-	WFIFOW(char_fd,2) = 6 + 8*users;
-	WFIFOW(char_fd,4) = users;
-	WFIFOSET(char_fd, 6+8*users);
+	// `users` sized the buffer (upper bound); `i` is what was actually written.
+	WFIFOW(char_fd,2) = 6 + 8*i;
+	WFIFOW(char_fd,4) = i;
+	WFIFOSET(char_fd, 6+8*i);
 
 	return 0;
 }

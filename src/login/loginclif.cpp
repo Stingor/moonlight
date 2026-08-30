@@ -83,6 +83,13 @@ static void logclif_auth_ok(struct login_session_data* sd) {
 	{
 		struct online_login_data* data = login_get_online_user( sd->account_id );
 
+		// NOTE: no special case for spectators here any more. There used to be
+		// one, dropping the online entry on the grounds that a recycled
+		// connection slot could not possibly still be in use — which was exactly
+		// the wrong lesson to draw from the "already online" refusals. The cause
+		// was the id being derived from that slot at all; ids are now picked
+		// from the ones nothing is using (login_spectator_pick_id), so an entry
+		// found here means a genuine conflict and deserves the normal handling.
 		if( data )
 		{// account is already marked as online!
 			if( data->char_server > -1 )

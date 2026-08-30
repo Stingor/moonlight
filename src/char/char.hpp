@@ -9,6 +9,7 @@
 #include <vector>
 
 #include <common/core.hpp> // CORE_ST_LAST
+#include <common/database.hpp>
 #include <common/mmo.hpp>
 #include <common/msg_conf.hpp>
 #include <common/packets.hpp>
@@ -105,6 +106,32 @@ struct Schema_Config {
 	char clan_alliance_table[DB_NAME_LEN];
 	char achievement_table[DB_NAME_LEN];
 };
+/// One place the login screen's living backdrop can watch from.
+/// Loaded from db/spectator_points.yml; see char_spectator_pick_point().
+struct s_spectator_point{
+	std::string map;
+	int16 x;
+	int16 y;
+	uint32 rate;
+};
+
+class SpectatorPointDatabase : public TypesafeYamlDatabase<uint32, s_spectator_point>{
+public:
+	SpectatorPointDatabase() : TypesafeYamlDatabase( "SPECTATOR_POINT_DB", 1 ){
+
+	}
+
+	const std::string getDefaultLocation() override;
+	uint64 parseBodyNode( const ryml::NodeRef& node ) override;
+};
+
+extern SpectatorPointDatabase spectator_point_db;
+
+/// Draws one spot at random, weighted by Rate, among the maps this server
+/// actually serves. Returns nullptr when there is nothing usable — the caller
+/// then falls back to its own default.
+std::shared_ptr<s_spectator_point> char_spectator_pick_point();
+
 extern struct Schema_Config schema_config;
 
 #if PACKETVER_SUPPORTS_PINCODE
@@ -188,7 +215,7 @@ struct CharServ_Config {
 	int32 char_check_db;	///checking sql-table at beginning ?
 
 	struct s_point_str start_point[MAX_STARTPOINT], start_point_doram[MAX_STARTPOINT]; // Initial position the player will spawn on the server
-	int16 start_point_count, start_point_count_doram; // Number of positions read
+		int16 start_point_count, start_point_count_doram; // Number of positions read
 	struct startitem start_items[MAX_STARTITEM], start_items_doram[MAX_STARTITEM]; // Initial items the player with spawn with on the server
 	uint32 start_status_points;
 	int32 console;
@@ -323,6 +350,9 @@ int32 char_check_char_name(char * name, char * esc_name);
 bool char_pincode_decrypt( uint32 userSeed, char* pin );
 int32 char_pincode_compare( int32 fd, char_session_data& sd, char* pin );
 void char_auth_ok(int32 fd, struct char_session_data *sd);
+/// Builds (and registers) the synthetic character of a spectator session. See
+/// SPECTATOR_USERID in mmo.hpp — nothing about it is ever stored.
+bool char_spectator_load( uint32 account_id, struct mmo_charstatus* p );
 void char_set_charselect(uint32 account_id);
 void char_read_fame_list(void);
 

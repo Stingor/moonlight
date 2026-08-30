@@ -703,6 +703,14 @@ int32 map_count_oncell(int16 m, int16 x, int16 y, int32 type, int32 flag)
 					if (nd->m < 0 || nd->sc.option&OPTION_HIDE || nd->dynamicnpc.owner_char_id != 0)
 						continue;
 				}
+				if (bl->type == BL_PC) {	// Don't count spectator sessions (see SPECTATOR_USERID in mmo.hpp)
+					// A viewpoint must not hold a cell: nobody can see it, so a
+					// cell it occupies would simply refuse players for no visible
+					// reason — a ghost standing in the middle of the city.
+					map_session_data *psd = BL_CAST(BL_PC, bl);
+					if (psd != nullptr && psd->state.spectator)
+						continue;
+				}
 				if(flag&1) {
 					struct unit_data *ud = unit_bl2ud(bl);
 					if(!ud || ud->walktimer == INVALID_TIMER)
