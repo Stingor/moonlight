@@ -1066,7 +1066,7 @@ void mvp_favorite_set( map_session_data& sd, uint16 slot_id, bool on ){
  * Manual entry
  * ------------------------------------------------------------------------- */
 
-e_mvp_group_result mvp_tracker_report_manual( map_session_data& sd, uint16 slot_id, int64 kill_time, int16 tomb_x, int16 tomb_y ){
+e_mvp_group_result mvp_tracker_report_manual( map_session_data& sd, uint16 slot_id, int64 kill_time, int16 tomb_x, int16 tomb_y, const char* shared_by ){
 	s_mvp_group* group = mvp_tracker_group_of( sd );
 
 	if( group == nullptr )
@@ -1109,7 +1109,10 @@ e_mvp_group_result mvp_tracker_report_manual( map_session_data& sd, uint16 slot_
 	}
 	obs.by_user_id = sd.status.user_id;
 	obs.reported_at = now;
-	safestrncpy( obs.killer_name, "", NAME_LENGTH );
+	// Who says so. Empty for a typed entry -- that is the player himself, and
+	// `by_user_id` already names him -- and the sender's handle when the line
+	// was imported off a chat link.
+	safestrncpy( obs.killer_name, shared_by != nullptr ? shared_by : "", NAME_LENGTH );
 
 	mvp_tracker_record( *group, slot_id, obs );
 

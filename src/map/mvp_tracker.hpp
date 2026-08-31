@@ -224,7 +224,10 @@ void mvp_tracker_report_scripted( map_session_data* sd, uint16 mob_id, int16 map
 /// `tomb_x`/`tomb_y` at -1 when the spot is unknown, which is always the case
 /// for a typed entry. A shared link carries them when its author had them, and
 /// -1 is deliberate: (0,0) is a perfectly valid cell.
-e_mvp_group_result mvp_tracker_report_manual( map_session_data& sd, uint16 slot_id, int64 kill_time, int16 tomb_x = -1, int16 tomb_y = -1 );
+/// `shared_by` is who the claim came FROM when it was imported off a chat
+/// link -- not who typed it in. It is recorded as the observation's name, the
+/// same slot a kill fills with the killer: both answer "who says so".
+e_mvp_group_result mvp_tracker_report_manual( map_session_data& sd, uint16 slot_id, int64 kill_time, int16 tomb_x = -1, int16 tomb_y = -1, const char* shared_by = nullptr );
 
 /// THE ONLY function allowed to read the draw. Two callers, not three: the two
 /// sites where the server has already decided that this player paid for the

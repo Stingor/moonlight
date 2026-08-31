@@ -8179,7 +8179,11 @@ void clif_parse_bourgeon_ui_caps(int32 fd, map_session_data* sd) {
 // autre carte revient à supposer « un texel du bitmap = une cellule », ce qui
 // est faux et se voit à l'écran.
 #define MVP_CATALOG_ENTRY_LEN  (int16)(2 + 2 + 1 + 4 + 4 + 2 + 2 + MAP_NAME_LENGTH_EXT + NAME_LENGTH)
-#define MVP_OBS_ENTRY_LEN      (int16)(2 + 1 + 2 + 8 + 8 + 2 + 2 + 4 + 8)
+// Le NOM au bout d'une observation, c'est QUI la porte : le tueur pour un kill,
+// le nom lu sur la tombe, ou celui qui a partagé le lien qu'on vient d'importer.
+// Le serveur le tenait depuis le début (`s_mvp_obs::killer_name`) et ne l'envoyait
+// à personne : la colonne Source du carnet disait « tué » sans jamais dire par qui.
+#define MVP_OBS_ENTRY_LEN      (int16)(2 + 1 + 2 + 8 + 8 + 2 + 2 + 4 + 8 + NAME_LENGTH)
 #define MVP_FAV_ENTRY_LEN      (int16)(2)
 #define MVP_GROUP_HEADER_LEN   (int16)(sizeof(PACKET_ZC_BOURGEON_MVP_GROUP))
 #define MVP_MEMBER_ENTRY_LEN   (int16)(4 + 2 + 1 + NAME_LENGTH)
@@ -8208,6 +8212,7 @@ static void clif_bourgeon_mvp_write_obs(int32 fd, int32& offset, uint16 slot_id,
 	WFIFOW(fd, offset + 23) = (uint16)obs.tomb_y;
 	WFIFOL(fd, offset + 25) = obs.by_user_id;
 	WFIFOQ(fd, offset + 29) = (uint64)obs.reported_at;
+	safestrncpy(WFIFOCP(fd, offset + 37), obs.killer_name, NAME_LENGTH);
 	offset += MVP_OBS_ENTRY_LEN;
 }
 
@@ -8441,17 +8446,30 @@ void clif_parse_bourgeon_mvp_cmd(int32 fd, map_session_data* sd) {
 		return;
 
 	case 10: {  // SAISIE MANUELLE : a = slot_id, b = heure de mort UNIX
-		// 🔴 La TOMBE voyage dans le champ TEXTE, sous la forme « x,y », plutôt
-		// que dans un opcode neuf. `a` et `b` sont pris, le texte ne sert à rien
-		// pour cette commande-là (ailleurs il porte un nom de groupe ou de
-		// personnage), et deux entiers ne justifient pas un troisième paquet.
+		// 🔴 La TOMBE et la PROVENANCE voyagent dans le champ TEXTE, sous la
+		// forme « x,y|Pseudo », plutôt que dans un opcode neuf. `a` et `b` sont
+		// pris, le texte ne sert à rien pour cette commande-là (ailleurs il porte
+		// un nom de groupe ou de personnage), et trois valeurs ne justifient pas
+		// un troisième paquet.
 		//
-		// Vide = pas de tombe : c'est le cas de la saisie à la main, et c'était
-		// le seul comportement avant l'import d'un lien `<MVPL>` de chat.
+		// Vide = ni tombe ni provenance : c'est le cas de la saisie au clavier,
+		// et c'était le seul comportement avant l'import d'un lien `<MVPL>`.
 		int16 tomb_x = -1;
 		int16 tomb_y = -1;
+		const char* shared_by = nullptr;
 
 		if( text[0] != '\0' ){
+			// Le nom vient EN DERNIER et n'est pas analysé : un pseudo peut porter
+			// n'importe quoi sauf la barre qui le précède.
+			char* bar = strchr( text, '|' );
+
+			if( bar != nullptr ){
+				*bar = '\0';
+
+				if( bar[1] != '\0' )
+					shared_by = bar + 1;
+			}
+
 			int32 tx = -1;
 			int32 ty = -1;
 
@@ -8462,7 +8480,7 @@ void clif_parse_bourgeon_mvp_cmd(int32 fd, map_session_data* sd) {
 			}
 		}
 
-		result = mvp_tracker_report_manual(*sd, (uint16)a, (int64)(int32)b, tomb_x, tomb_y);
+		result = mvp_tracker_report_manual(*sd, (uint16)a, (int64)(int32)b, tomb_x, tomb_y, shared_by);
 		break;
 	}
 

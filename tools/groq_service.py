@@ -3441,7 +3441,13 @@ def replace_mvpl(msg):
 
         # -1 et non 0,0 : la cellule (0,0) existe, une tombe peut s'y trouver.
         spot = f", tombe en {tx},{ty}" if tx >= 0 and ty >= 0 else ""
-        body = f"{name} ({where})"
+        # Le nom mène au bestiaire, comme celui d'un `<MOBL>` : depuis Discord,
+        # c'est la seule façon d'aller voir ce qu'on vient de vous annoncer.
+        # mob 0 = créneau scripté, dont le monstre change à chaque cycle : il n'y
+        # a pas de fiche à promettre.
+        mob_id = int(match.group(1))
+        shown  = f"[{name}]({BESTIARY_URL}{mob_id})" if mob_id else name
+        body   = f"{shown} ({where})"
 
         if when:
             return f" [MVP: {body} — {when}{spot}] "
