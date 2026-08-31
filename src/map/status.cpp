@@ -29,6 +29,7 @@
 #include "map.hpp"
 #include "mercenary.hpp"
 #include "mob.hpp"
+#include "mvp_tracker.hpp"
 #include "npc.hpp"
 #include "party.hpp" // [Stingor] SPB
 #include "path.hpp"
@@ -13386,6 +13387,10 @@ static bool status_change_start_post_delay(block_list* src, block_list* bl, sc_t
 				}else if( boss_md->spawn_timer != INVALID_TIMER ){
 					sce->val2 = 1;
 					clif_bossmapinfo( *sd, boss_md, BOSS_INFO_DEAD );
+					// [Stingor] MVP tracker : ce joueur a PAYÉ l'information avec
+					// un Convex Mirror, c'est donc l'un des deux seuls endroits
+					// où le tirage a le droit d'être publié.
+					mvp_tracker_earn_exact( *sd, *boss_md );
 				}
 			}
 			break;
@@ -14524,6 +14529,9 @@ TIMER_FUNC(status_change_timer){
 			}else if( boss_md->spawn_timer != INVALID_TIMER && sce->val2 == 0 ){
 				sce->val2 = 1;
 				clif_bossmapinfo( *sd, boss_md, BOSS_INFO_DEAD );
+				// [Stingor] MVP tracker : second et dernier appelant légitime —
+				// le boss est mort pendant le buff, sans réutiliser de miroir.
+				mvp_tracker_earn_exact( *sd, *boss_md );
 			}
 		}
 		break;

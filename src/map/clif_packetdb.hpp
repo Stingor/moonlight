@@ -2113,4 +2113,9 @@ parseable_packet(HEADER_CZ_BOURGEON_UI_CAPS, -1, clif_parse_bourgeon_ui_caps, 0)
 parseable_packet(HEADER_CZ_BOURGEON_NPC_ADMIN, sizeof(PACKET_CZ_BOURGEON_NPC_ADMIN), clif_parse_bourgeon_npc_admin, 0);
 parseable_packet(HEADER_CZ_BOURGEON_PLAYER_ADMIN, sizeof(PACKET_CZ_BOURGEON_PLAYER_ADMIN), clif_parse_bourgeon_player_admin, 0);
 
+// [Stingor] Bourgeon : carnet de chasse MVP. Un seul CZ pour TOUTES les
+// commandes (créer, inviter, favori, saisie manuelle…), sur le patron des
+// presets — VARIABLE (-1), la longueur du texte final s'en déduit.
+parseable_packet(HEADER_CZ_BOURGEON_MVP_CMD, -1, clif_parse_bourgeon_mvp_cmd, 0);
+
 #endif /* CLIF_PACKETDB_HPP */

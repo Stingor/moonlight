@@ -30,6 +30,7 @@
 #include "log.hpp"
 #include "map.hpp"
 #include "mob.hpp"
+#include "mvp_tracker.hpp"
 #include "navi.hpp"
 #include "pc.hpp"
 #include "pet.hpp"
@@ -2287,6 +2288,14 @@ void run_tomb(map_session_data* sd, npc_data* nd)
 	clif_scriptmes( *sd, nd->id, buffer );
 
 	clif_scriptclose( *sd, nd->id );
+
+	// [Stingor] Carnet de chasse MVP : lire une tombe, c'est observer. Rien à
+	// cliquer de plus — la tombe est publique, elle est à l'endroit exact de la
+	// mort, et son heure est celle qu'on serait venu chercher. C'est le repli
+	// des membres du groupe que mob_dead() n'a pas crédités.
+	if( nd->u.tomb.md != nullptr )
+		mvp_tracker_on_tomb_read( *sd, *nd->u.tomb.md, nd->u.tomb.kill_time,
+			nd->u.tomb.killer_name );
 }
 
 /*==========================================

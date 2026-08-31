@@ -6714,6 +6714,86 @@ struct PACKET_ZC_BOURGEON_TARGET_INFO {
 	uint8  boss;
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_TARGET_INFO, 0x0f2a);
+// [Stingor] MVP tracker (CZ 0x0F30, ZC 0x0F31, ZC 0x0F32).
+//
+// 🔴 0x0F2B..0x0F2F étaient DÉJÀ pris (PLAYER_ADMIN, REQ_STATUS_LIST /
+// STATUS_LIST, REQ_LOOKS / LOOKS) alors que le `kNextFree` de Bourgeon annonçait
+// encore 0x0F2B : ces cinq-là n'ont jamais été reportés côté client. La table de
+// ce fichier fait foi, pas `bourgeon_opcodes.h`.
+//
+// Trois opcodes, pas douze : même patron que CZ_BOURGEON_PRESET_CMD, qui porte
+// toutes les commandes de presets dans un seul paquet variable.
+//
+// CZ : toutes les commandes du carnet de chasse.
+// Layout: [type:2][len:2][cmd:1][a:4][b:4][text: len-13 octets, NON terminé]
+//   cmd 1  = SNAPSHOT     : demande catalogue + instantané + favoris + groupe
+//   cmd 2  = CREATE       : text = nom du groupe
+//   cmd 3  = DISSOLVE
+//   cmd 4  = INVITE       : text = nom de personnage
+//   cmd 5  = ACCEPT
+//   cmd 6  = DECLINE
+//   cmd 7  = LEAVE
+//   cmd 8  = KICK         : text = nom de personnage
+//   cmd 9  = FAVORITE     : a = slot_id, b = 0 retirer / 1 ajouter
+//   cmd 10 = MANUAL       : a = slot_id, b = heure de mort UNIX (0 = maintenant)
+// `a` et `b` sont toujours présents, même inutilisés : le décodage ne dépend
+// jamais de la commande, seule leur INTERPRÉTATION en dépend.
+struct PACKET_CZ_BOURGEON_MVP_CMD {
+	int16  packetType;
+	int16  packetLength;
+	uint8  cmd;
+	uint32 a;
+	uint32 b;
+	char   text[1];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_MVP_CMD, 0x0f30);
+
+// ZC : le catalogue, l'instantané, un delta, les favoris. Distingués par `kind`.
+// Layout: [type:2][len:2][kind:1][server_time:8][count:2] puis count entrées
+//   kind 0 CATALOGUE : [slot_id:2][mob_id:2][slot_kind:1][delay1:4][delay2:4]
+//                      [map:MAP_NAME_LENGTH_EXT][name:NAME_LENGTH]
+//   kind 1 INSTANTANÉ / kind 2 DELTA :
+//                      [slot_id:2][source:1][mob_id:2][kill_time:8][exact:8]
+//                      [tomb_x:2][tomb_y:2][by_user_id:4][reported_at:8]
+//   kind 3 FAVORIS   : [slot_id:2]
+//
+// `server_time` voyage dans CHAQUE paquet : le client en tire un décalage une
+// fois pour toutes et n'a plus jamais besoin d'un fuseau. Le prototype PHP s'est
+// fait piéger exactement là.
+// `exact = 0` veut dire « non mérité » : le client dessine alors une FENÊTRE
+// déduite de delay1/delay2, jamais un point.
+// `tomb_x = -1` veut dire « position inconnue ». 0,0 est une cellule VALIDE :
+// les confondre reproduirait le bug du Convex Mirror natif.
+struct PACKET_ZC_BOURGEON_MVP_STATE {
+	int16  packetType;
+	int16  packetLength;
+	uint8  kind;
+	int64  server_time;
+	uint16 count;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_MVP_STATE, 0x0f31);
+
+// ZC : le groupe, une invitation en attente, ou le refus d'une commande.
+// Layout: [type:2][len:2][kind:1][result:1][group_id:4][owner_user_id:4]
+//         [name:MVP_GROUP_NAME_LEN][count:1] puis count fois
+//         [user_id:4][level:2][online:1][char_name:NAME_LENGTH]
+//   kind 0 GROUPE     : group_id = 0 signifie « dans aucun groupe »
+//   kind 1 INVITATION : group_id + name de l'invitant, count = 0
+//   kind 2 RÉSULTAT   : result = e_mvp_group_result, le reste est vide
+// Les noms de personnage ne sont PAS stockés (ils mentiraient au premier
+// renommage) : ils sont recalculés ici, comme le fait pc_ignorechat_load.
+struct PACKET_ZC_BOURGEON_MVP_GROUP {
+	int16  packetType;
+	int16  packetLength;
+	uint8  kind;
+	uint8  result;
+	uint32 group_id;
+	uint32 owner_user_id;
+	char   name[32];
+	uint8  count;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_MVP_GROUP, 0x0f32);
+
 
 // ── [Stingor] Buffs et debuffs d'une entite (CZ 0x0F2C -> ZC 0x0F2D) ────────
 //

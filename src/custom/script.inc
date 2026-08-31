@@ -1374,32 +1374,63 @@ BUILDIN_FUNC(mobisboss)
 }
 
 /**
- * getmvprespawn(<mob_id>{, <spawnx_var>, <spawny_var>, <map_var$>, <killer_var$>, <killtime_var>{, <tombx_var>, <tomby_var>}})
+ * getmvprespawn(<mob_id>{,"<map>"}{, <spawnx_var>, <spawny_var>, <map_var$>, <killer_var$>, <killtime_var>{, <tombx_var>, <tomby_var>}})
  *   Returns seconds remaining before the MVP respawns, or -1 if not tracked.
  *   Negative values (other than -1) mean the tick is past but mob not yet appeared.
  *   Optional output variables: spawn X, spawn Y, map name, killer name, Unix kill time,
  *   tomb X (where MVP died), tomb Y (where MVP died).
  *
+ *   The cache is keyed on (mob_id, map): several MVPs live on more than one map.
+ *   The optional map name selects one of them; it is told apart from an output
+ *   variable because output variables are references and a map name is a plain
+ *   string. WITHOUT it, the MOST RECENT kill of that mob_id is returned, which is
+ *   exactly the pre-existing behaviour, so no caller has to change.
+ *
  * Example:
  *   .@secs = getmvprespawn(1511, .@x, .@y, .@map$, .@killer$, .@when, .@tx, .@ty);
+ *   .@secs = getmvprespawn(1785, "ra_san05");   // Atroce, that map only
  *   if (.@secs < 0) mes "Baphomet est en vie.";
  *   else mes "Respawn dans " + .@secs + "s, tombe en (" + .@tx + "," + .@ty + ") sur " + .@map$;
  */
 BUILDIN_FUNC(getmvprespawn)
 {
 	int32 mob_id = script_getnum(st, 2);
-	auto it = mvp_respawn_cache.find((uint16)mob_id);
-	if (it == mvp_respawn_cache.end()) {
+
+	// An optional map name may sit right after the mob id. Output variables are
+	// always references, so a non-reference argument here can only be the map.
+	int32 out_base = 3;
+	const s_mvp_respawn_info* found = nullptr;
+
+	if (script_hasdata(st, 3) && !data_isreference(script_getdata(st, 3))) {
+		const char* mapname = script_getstr(st, 3);
+		out_base = 4;
+		int16 mapid = (int16)map_mapname2mapid(mapname);
+		if (mapid >= 0) {
+			auto it = mvp_respawn_cache.find(s_mvp_respawn_key((uint16)mob_id, mapid));
+			if (it != mvp_respawn_cache.end())
+				found = &it->second;
+		}
+	} else {
+		// No map given: the most recent kill of that mob_id wins.
+		for (const auto& pair : mvp_respawn_cache) {
+			if (pair.first.first != (uint16)mob_id)
+				continue;
+			if (found == nullptr || pair.second.kill_time > found->kill_time)
+				found = &pair.second;
+		}
+	}
+
+	if (found == nullptr) {
 		script_pushint(st, -1);
 		return SCRIPT_CMD_SUCCESS;
 	}
 
-	const s_mvp_respawn_info& info = it->second;
+	const s_mvp_respawn_info& info = *found;
 	int64 remsecs = (int64)(DIFF_TICK(info.respawn_tick, gettick())) / 1000;
 	script_pushint(st, (int32)remsecs);
 
 	// Fill optional output variables (same pattern as query_sql)
-	if (script_hasdata(st, 3)) {
+	if (script_hasdata(st, out_base)) {
 		map_session_data* sd = nullptr;
 		struct script_data* data;
 		const char* varname;
@@ -1421,13 +1452,13 @@ BUILDIN_FUNC(getmvprespawn)
 			setd_sub_str(st, sd, varname, 0, val, reference_getref(data));
 		};
 
-		fill_int(3, info.spawn_x);
-		fill_int(4, info.spawn_y);
-		fill_str(5, info.mapid >= 0 ? map[info.mapid].name : "");
-		fill_str(6, info.killer_name);
-		fill_int(7, info.kill_time);
-		fill_int(8, info.tomb_x);
-		fill_int(9, info.tomb_y);
+		fill_int(out_base + 0, info.spawn_x);
+		fill_int(out_base + 1, info.spawn_y);
+		fill_str(out_base + 2, info.mapid >= 0 ? map[info.mapid].name : "");
+		fill_str(out_base + 3, info.killer_name);
+		fill_int(out_base + 4, info.kill_time);
+		fill_int(out_base + 5, info.tomb_x);
+		fill_int(out_base + 6, info.tomb_y);
 	}
 	return SCRIPT_CMD_SUCCESS;
 }
@@ -1436,6 +1467,8 @@ BUILDIN_FUNC(getmvprespawn)
  * getallmvprespawn(<mobid_var>, <remsecs_var>, <spawnx_var>, <spawny_var>,
  *                  <map_var$>, <killer_var$>, <killtime_var>)
  *   Returns number of tracked dead MVPs and fills arrays with respawn info.
+ *   ONE ROW PER (mob_id, map): an MVP that lives on several maps yields several
+ *   rows, distinguished by <map_var$>.
  *   Variable scope follows the query_sql convention (.@ local, @ account-temp, etc.).
  *
  * Example:

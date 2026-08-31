@@ -5,6 +5,8 @@
 #define MOB_HPP
 
 #include <deque>
+#include <map>
+#include <utility>
 #include <vector>
 
 #include <common/database.hpp>
@@ -349,10 +351,15 @@ struct s_mvp_respawn_info {
 	char    killer_name[NAME_LENGTH]; ///< Name of the killer (may be empty)
 };
 
-/// Global cache: mob_id -> last known respawn info for each MVP boss.
-/// Key = mob_id (last kill per mob_id wins; multiple instances on different maps are
-/// uncommon for unique MVPs so this is an acceptable simplification).
-extern std::unordered_map<uint16, s_mvp_respawn_info> mvp_respawn_cache;
+/// Global cache: (mob_id, mapid) -> last known respawn info for each MVP boss.
+/// The map index is part of the key because several MVPs live on more than one map
+/// (Atroce x4, Orc Hero x3, Dark Lord x3...): keyed on mob_id alone, the last kill
+/// would silently overwrite the others. `mapid` stays in the value too, since every
+/// consumer already reads it (script.inc -> map[info.mapid].name).
+/// A std::map keeps the iteration ordered (getallmvprespawn) and spares us a
+/// std::hash specialisation for the pair; the container holds ~100 entries.
+using s_mvp_respawn_key = std::pair<uint16, int16>;   ///< (mob_id, mapid)
+extern std::map<s_mvp_respawn_key, s_mvp_respawn_info> mvp_respawn_cache;
 
 struct s_dmglog{
 	int32 id; //char id

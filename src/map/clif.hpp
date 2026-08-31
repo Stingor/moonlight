@@ -1781,9 +1781,26 @@ enum e_bourgeon_ui_cap : uint32 {
 	BOURGEON_UI_NPC_DIALOG = 0x00000001,
 	// La chatbox est celle de Bourgeon : mêmes balises de LIEN, pas les médias.
 	BOURGEON_UI_CHAT       = 0x00000002,
+	// La fenêtre du carnet de chasse MVP est ouverte : les deltas seront montrés.
+	// Le bit tombe quand le joueur la ferme, et le serveur cesse alors de diffuser.
+	BOURGEON_UI_MVP_TRACKER = 0x00000004,
 };
 
 void clif_parse_bourgeon_ui_caps(int32 fd, map_session_data* sd);
+
+// [Stingor] MVP tracker (CZ 0x0F30, ZC 0x0F31, ZC 0x0F32).
+struct s_mvp_group;
+struct s_mvp_obs;
+
+void clif_parse_bourgeon_mvp_cmd(int32 fd, map_session_data* sd);
+void clif_bourgeon_mvp_catalog(map_session_data& sd);
+void clif_bourgeon_mvp_snapshot(map_session_data& sd);
+void clif_bourgeon_mvp_favorites(map_session_data& sd);
+void clif_bourgeon_mvp_delta(const s_mvp_group& group, uint16 slot_id, const s_mvp_obs& obs);
+void clif_bourgeon_mvp_group(map_session_data& sd);
+void clif_bourgeon_mvp_group_all(const s_mvp_group& group);
+void clif_bourgeon_mvp_invite(map_session_data& sd);
+void clif_bourgeon_mvp_result(map_session_data& sd, uint8 result);
 
 // Retire d'un texte les balises maison que ce client ne rendra pas, en gardant le
 // libellé qu'elles transportent (« <MOBL>1002:0:Poring</MOBL> » -> « Poring »).

@@ -48,6 +48,7 @@
 #include "map.hpp"
 #include "mercenary.hpp"
 #include "mob.hpp"
+#include "mvp_tracker.hpp"
 #include "npc.hpp"
 #include "party.hpp"
 #include "pc.hpp"
@@ -6746,6 +6747,12 @@ static void clif_bourgeon_grant_verified(map_session_data* sd) {
 	// Canaux de chat (combo de la barre de saisie). Même raison que les storages :
 	// la liste ne dépend que de la conf et du groupe du joueur.
 	clif_bourgeon_channel_list(sd);
+	// 🔴 Invitation au carnet de chasse MVP reçue pendant qu'il était HORS LIGNE.
+	// Sans ce push, elle n'arrivait qu'en réponse à une demande d'instantané,
+	// c'est-à-dire seulement si le joueur pensait à ouvrir le carnet — une
+	// invitation qu'il faut aller chercher n'en est pas une. C'est ICI et pas au
+	// login : avant le handshake d'intégrité, tout ZC Bourgeon est jeté.
+	clif_bourgeon_mvp_invite(*sd);
 	// SES PROPRES couleurs de corps. Sans ce push, la recette est bien stockée
 	// mais le joueur retrouverait son apparence native à chaque connexion : la
 	// diffusion au spawn ne concerne que les AUTRES joueurs, jamais soi-même.
@@ -8153,6 +8160,312 @@ void clif_parse_bourgeon_ui_caps(int32 fd, map_session_data* sd) {
 	if (p->packetLength < static_cast<int16>(sizeof(PACKET_CZ_BOURGEON_UI_CAPS)))
 		return;
 	sd->bourgeon_ui_caps = p->caps;
+}
+
+// [Stingor] Carnet de chasse MVP (CZ 0x0F30, ZC 0x0F31, ZC 0x0F32).
+//
+// Le fil ne transporte JAMAIS le tirage (`respawn_tick`), seulement la loi
+// (`delay1`, `delay2`) et ce qu'un groupe a observé. `exact_respawn` n'est non nul
+// que là où un Convex Mirror l'a payé — cf. mvp_tracker_earn_exact().
+//
+// `server_time` voyage dans chaque paquet d'état : le client en tire un décalage
+// et n'a plus jamais besoin d'un fuseau.
+
+// Taille d'une entrée, par `kind` de ZC_BOURGEON_MVP_STATE.
+#define MVP_STATE_HEADER_LEN   (int16)(sizeof(PACKET_ZC_BOURGEON_MVP_STATE))
+// 🔴 `map_xs`/`map_ys` sont dans le CATALOGUE et pas ailleurs, parce que le
+// client ne peut PAS les trouver seul : il ne mesure que la carte où il se
+// trouve (CWorld -> MapInfo). Sans elles, poser une tombe sur le plan d'une
+// autre carte revient à supposer « un texel du bitmap = une cellule », ce qui
+// est faux et se voit à l'écran.
+#define MVP_CATALOG_ENTRY_LEN  (int16)(2 + 2 + 1 + 4 + 4 + 2 + 2 + MAP_NAME_LENGTH_EXT + NAME_LENGTH)
+#define MVP_OBS_ENTRY_LEN      (int16)(2 + 1 + 2 + 8 + 8 + 2 + 2 + 4 + 8)
+#define MVP_FAV_ENTRY_LEN      (int16)(2)
+#define MVP_GROUP_HEADER_LEN   (int16)(sizeof(PACKET_ZC_BOURGEON_MVP_GROUP))
+#define MVP_MEMBER_ENTRY_LEN   (int16)(4 + 2 + 1 + NAME_LENGTH)
+
+/// Écrit l'en-tête commun de ZC_BOURGEON_MVP_STATE et rend l'offset du corps.
+static int32 clif_bourgeon_mvp_state_header(int32 fd, uint8 kind, int16 pkt_len, uint16 count) {
+	WFIFOHEAD(fd, pkt_len);
+	// Les noms sont NUL-paddés : le tampon WFIFO n'est pas vierge.
+	memset(WFIFOP(fd, 0), 0, pkt_len);
+	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_MVP_STATE;
+	WFIFOW(fd, 2) = pkt_len;
+	WFIFOB(fd, 4) = kind;
+	WFIFOQ(fd, 5) = (uint64)(int64)time(nullptr);
+	WFIFOW(fd, 13) = count;
+	return 15;
+}
+
+/// Sérialise une observation. Symétrique exact du décodage côté Bourgeon.
+static void clif_bourgeon_mvp_write_obs(int32 fd, int32& offset, uint16 slot_id, const s_mvp_obs& obs) {
+	WFIFOW(fd, offset + 0)  = slot_id;
+	WFIFOB(fd, offset + 2)  = (uint8)obs.source;
+	WFIFOW(fd, offset + 3)  = obs.mob_id;
+	WFIFOQ(fd, offset + 5)  = (uint64)obs.kill_time;
+	WFIFOQ(fd, offset + 13) = (uint64)obs.exact_respawn;
+	WFIFOW(fd, offset + 21) = (uint16)obs.tomb_x;
+	WFIFOW(fd, offset + 23) = (uint16)obs.tomb_y;
+	WFIFOL(fd, offset + 25) = obs.by_user_id;
+	WFIFOQ(fd, offset + 29) = (uint64)obs.reported_at;
+	offset += MVP_OBS_ENTRY_LEN;
+}
+
+void clif_bourgeon_mvp_catalog(map_session_data& sd) {
+	if (!sd.state.has_bourgeon) return;
+	const int32 fd = sd.fd;
+	if (!session_isActive(fd)) return;
+
+	const std::vector<s_mvp_slot>& slots = mvp_tracker_slots();
+	const int16 pkt_len = (int16)(MVP_STATE_HEADER_LEN + slots.size() * MVP_CATALOG_ENTRY_LEN);
+	int32 offset = clif_bourgeon_mvp_state_header(fd, 0, pkt_len, (uint16)slots.size());
+
+	for (const s_mvp_slot& slot : slots) {
+		WFIFOW(fd, offset + 0) = slot.slot_id;
+		WFIFOW(fd, offset + 2) = slot.mob_id;
+		WFIFOB(fd, offset + 4) = (uint8)slot.kind;
+		WFIFOL(fd, offset + 5) = slot.delay1;
+		WFIFOL(fd, offset + 9) = slot.delay2;
+
+		if (slot.mapid >= 0) {
+			struct map_data* mapdata = map_getmapdata(slot.mapid);
+			// La taille EN CELLULES, celle du .gat — pas celle du bitmap de
+			// radar, qui n'a aucune raison de lui être égale.
+			WFIFOW(fd, offset + 13) = (uint16)mapdata->xs;
+			WFIFOW(fd, offset + 15) = (uint16)mapdata->ys;
+			safestrncpy((char*)WFIFOP(fd, offset + 17), mapdata->name, MAP_NAME_LENGTH_EXT);
+		}
+
+		// Nom VIDE pour un créneau scripté : là-bas le mob n'est pas une identité
+		// mais un attribut de la dernière observation (Bio Lab le tire à chaque
+		// cycle). Le client affiche alors la carte, et le mob observé s'il en a un.
+		if (slot.mob_id != 0) {
+			std::shared_ptr<s_mob_db> mob = mob_db.find(slot.mob_id);
+			if (mob != nullptr)
+				safestrncpy((char*)WFIFOP(fd, offset + 17 + MAP_NAME_LENGTH_EXT), mob->jname.c_str(), NAME_LENGTH);
+		}
+
+		offset += MVP_CATALOG_ENTRY_LEN;
+	}
+
+	WFIFOSET(fd, pkt_len);
+}
+
+void clif_bourgeon_mvp_snapshot(map_session_data& sd) {
+	if (!sd.state.has_bourgeon) return;
+	const int32 fd = sd.fd;
+	if (!session_isActive(fd)) return;
+
+	const s_mvp_group* group = mvp_tracker_group_of(sd);
+	const size_t count = group != nullptr ? group->obs.size() : 0;
+	const int16 pkt_len = (int16)(MVP_STATE_HEADER_LEN + count * MVP_OBS_ENTRY_LEN);
+	int32 offset = clif_bourgeon_mvp_state_header(fd, 1, pkt_len, (uint16)count);
+
+	if (group != nullptr) {
+		for (const auto& entry : group->obs)
+			clif_bourgeon_mvp_write_obs(fd, offset, entry.first, entry.second);
+	}
+
+	WFIFOSET(fd, pkt_len);
+}
+
+void clif_bourgeon_mvp_favorites(map_session_data& sd) {
+	if (!sd.state.has_bourgeon) return;
+	const int32 fd = sd.fd;
+	if (!session_isActive(fd)) return;
+
+	const std::vector<uint16>& favorites = mvp_favorites_of(sd.status.user_id);
+	const int16 pkt_len = (int16)(MVP_STATE_HEADER_LEN + favorites.size() * MVP_FAV_ENTRY_LEN);
+	int32 offset = clif_bourgeon_mvp_state_header(fd, 3, pkt_len, (uint16)favorites.size());
+
+	for (uint16 slot_id : favorites) {
+		WFIFOW(fd, offset) = slot_id;
+		offset += MVP_FAV_ENTRY_LEN;
+	}
+
+	WFIFOSET(fd, pkt_len);
+}
+
+void clif_bourgeon_mvp_delta(const s_mvp_group& group, uint16 slot_id, const s_mvp_obs& obs) {
+	const int16 pkt_len = (int16)(MVP_STATE_HEADER_LEN + MVP_OBS_ENTRY_LEN);
+
+	for (map_session_data* member : group.online) {
+		// Le bit tombe quand le joueur ferme la fenêtre : on cesse alors de lui
+		// diffuser. Il continue d'ALIMENTER le groupe par ses kills.
+		if (!member->state.has_bourgeon) continue;
+		if (!(member->bourgeon_ui_caps & BOURGEON_UI_MVP_TRACKER)) continue;
+		const int32 fd = member->fd;
+		if (!session_isActive(fd)) continue;
+
+		int32 offset = clif_bourgeon_mvp_state_header(fd, 2, pkt_len, 1);
+		clif_bourgeon_mvp_write_obs(fd, offset, slot_id, obs);
+		WFIFOSET(fd, pkt_len);
+	}
+}
+
+void clif_bourgeon_mvp_group(map_session_data& sd) {
+	if (!sd.state.has_bourgeon) return;
+	const int32 fd = sd.fd;
+	if (!session_isActive(fd)) return;
+
+	const s_mvp_group* group = mvp_tracker_group_of(sd);
+	std::vector<s_mvp_member_view> members;
+
+	if (group != nullptr)
+		mvp_group_member_views(*group, members);
+
+	const int16 pkt_len = (int16)(MVP_GROUP_HEADER_LEN + members.size() * MVP_MEMBER_ENTRY_LEN);
+	WFIFOHEAD(fd, pkt_len);
+	memset(WFIFOP(fd, 0), 0, pkt_len);
+	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_MVP_GROUP;
+	WFIFOW(fd, 2) = pkt_len;
+	WFIFOB(fd, 4) = 0;  // kind 0 = GROUPE
+	WFIFOB(fd, 5) = 0;  // result
+	// group_id 0 : « dans aucun groupe ». C'est une réponse, pas une absence de
+	// réponse — le client doit pouvoir vider son panneau sur ce paquet.
+	WFIFOL(fd, 6)  = group != nullptr ? group->group_id : 0;
+	WFIFOL(fd, 10) = group != nullptr ? group->owner_user_id : 0;
+	if (group != nullptr)
+		safestrncpy((char*)WFIFOP(fd, 14), group->name, MVP_GROUP_NAME_LEN);
+	WFIFOB(fd, 14 + MVP_GROUP_NAME_LEN) = (uint8)members.size();
+
+	int32 offset = MVP_GROUP_HEADER_LEN;
+
+	for (const s_mvp_member_view& member : members) {
+		WFIFOL(fd, offset + 0) = member.user_id;
+		WFIFOW(fd, offset + 4) = (uint16)member.level;
+		WFIFOB(fd, offset + 6) = member.online ? 1 : 0;
+		safestrncpy((char*)WFIFOP(fd, offset + 7), member.name, NAME_LENGTH);
+		offset += MVP_MEMBER_ENTRY_LEN;
+	}
+
+	WFIFOSET(fd, pkt_len);
+}
+
+void clif_bourgeon_mvp_group_all(const s_mvp_group& group) {
+	// Copie du vecteur : clif_bourgeon_mvp_group() ne modifie pas `online`, mais
+	// la liste est aussi l'index de diffusion et un futur appelant pourrait la
+	// toucher. Le coût est celui de 24 pointeurs.
+	std::vector<map_session_data*> online = group.online;
+
+	for (map_session_data* member : online)
+		clif_bourgeon_mvp_group(*member);
+}
+
+void clif_bourgeon_mvp_invite(map_session_data& sd) {
+	if (!sd.state.has_bourgeon) return;
+	const int32 fd = sd.fd;
+	if (!session_isActive(fd)) return;
+
+	char group_name[MVP_GROUP_NAME_LEN] = {};
+	const uint32 group_id = mvp_group_pending_invite(sd, group_name);
+
+	if (group_id == 0) return;
+
+	const int16 pkt_len = MVP_GROUP_HEADER_LEN;
+	WFIFOHEAD(fd, pkt_len);
+	memset(WFIFOP(fd, 0), 0, pkt_len);
+	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_MVP_GROUP;
+	WFIFOW(fd, 2) = pkt_len;
+	WFIFOB(fd, 4) = 1;  // kind 1 = INVITATION
+	WFIFOB(fd, 5) = 0;
+	WFIFOL(fd, 6)  = group_id;
+	WFIFOL(fd, 10) = 0;
+	safestrncpy((char*)WFIFOP(fd, 14), group_name, MVP_GROUP_NAME_LEN);
+	WFIFOB(fd, 14 + MVP_GROUP_NAME_LEN) = 0;
+	WFIFOSET(fd, pkt_len);
+}
+
+void clif_bourgeon_mvp_result(map_session_data& sd, uint8 result) {
+	if (!sd.state.has_bourgeon) return;
+	const int32 fd = sd.fd;
+	if (!session_isActive(fd)) return;
+
+	const int16 pkt_len = MVP_GROUP_HEADER_LEN;
+	WFIFOHEAD(fd, pkt_len);
+	memset(WFIFOP(fd, 0), 0, pkt_len);
+	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_MVP_GROUP;
+	WFIFOW(fd, 2) = pkt_len;
+	WFIFOB(fd, 4) = 2;  // kind 2 = RÉSULTAT
+	WFIFOB(fd, 5) = result;
+	WFIFOSET(fd, pkt_len);
+}
+
+// Handles CZ_BOURGEON_MVP_CMD (0x0F30).
+void clif_parse_bourgeon_mvp_cmd(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+
+	const int32 pkt_len = RFIFOW(fd, 2);
+	// [type:2][len:2][cmd:1][a:4][b:4] = 13 octets avant le texte.
+	if (pkt_len < 13) return;
+
+	const uint8  cmd = RFIFOB(fd, 4);
+	const uint32 a   = RFIFOL(fd, 5);
+	const uint32 b   = RFIFOL(fd, 9);
+
+	// Le texte n'est PAS terminé par un NUL sur le fil : sa longueur se déduit de
+	// celle du paquet, comme pour les presets.
+	char text[NAME_LENGTH > MVP_GROUP_NAME_LEN ? NAME_LENGTH : MVP_GROUP_NAME_LEN] = {};
+	const int32 text_len = pkt_len - 13;
+
+	if (text_len > 0) {
+		const int32 copy_len = text_len < (int32)sizeof(text) - 1 ? text_len : (int32)sizeof(text) - 1;
+		memcpy(text, RFIFOP(fd, 13), copy_len);
+		text[copy_len] = '\0';
+	}
+
+	e_mvp_group_result result = MVP_GROUP_OK;
+	bool group_changed = false;
+
+	switch (cmd) {
+	case 1:  // SNAPSHOT : tout ce qu'il faut pour peupler la fenêtre.
+		clif_bourgeon_mvp_catalog(*sd);
+		clif_bourgeon_mvp_favorites(*sd);
+		clif_bourgeon_mvp_snapshot(*sd);
+		clif_bourgeon_mvp_group(*sd);
+		clif_bourgeon_mvp_invite(*sd);
+		return;
+
+	case 2:  result = mvp_group_create(*sd, text);   group_changed = true; break;
+	case 3:  result = mvp_group_dissolve(*sd);       group_changed = true; break;
+	case 4:  result = mvp_group_invite(*sd, text);   break;
+	case 5:  result = mvp_group_accept(*sd);         group_changed = true; break;
+	case 6:  result = mvp_group_decline(*sd);        break;
+	case 7:  result = mvp_group_leave(*sd);          group_changed = true; break;
+	case 8:  result = mvp_group_kick(*sd, text);     group_changed = true; break;
+
+	case 9:  // FAVORI : a = slot_id, b = 0 retirer / 1 ajouter
+		mvp_favorite_set(*sd, (uint16)a, b != 0);
+		clif_bourgeon_mvp_favorites(*sd);
+		return;
+
+	case 10:  // SAISIE MANUELLE : a = slot_id, b = heure de mort UNIX
+		result = mvp_tracker_report_manual(*sd, (uint16)a, (int64)(int32)b);
+		break;
+
+	default:
+		return;
+	}
+
+	clif_bourgeon_mvp_result(*sd, (uint8)result);
+
+	if (result != MVP_GROUP_OK)
+		return;
+
+	if (group_changed) {
+		// Le groupe de l'auteur a pu disparaître (dissolution, dernier sortant) :
+		// on le relit, et on prévient tout le monde plutôt que lui seul.
+		const s_mvp_group* group = mvp_tracker_group_of(*sd);
+
+		if (group != nullptr)
+			clif_bourgeon_mvp_group_all(*group);
+		else
+			clif_bourgeon_mvp_group(*sd);
+
+		// Entrer dans un groupe donne accès à ce qu'il sait déjà.
+		clif_bourgeon_mvp_snapshot(*sd);
+	}
 }
 
 // [Stingor] Outillage NPC du menu contextuel (CZ 0x0F25).

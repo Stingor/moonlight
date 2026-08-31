@@ -51,6 +51,7 @@
 #include "map.hpp"
 #include "mercenary.hpp"
 #include "mob.hpp"
+#include "mvp_tracker.hpp"
 #include "npc.hpp"
 #include "party.hpp" // party_search()
 #include "pc_groups.hpp"
@@ -2783,6 +2784,9 @@ void pc_reg_received(map_session_data *sd)
 	if (pc_get_group_level(sd) >= 80)
 		sd->state.block_action |= PCBLOCK_IMMUNE;
 	pc_ignorechat_load(sd); // @ignore : liste des personnages dont le chat est masqué
+	// MVP tracker : index de diffusion. Un même compte Moonlight peut avoir
+	// plusieurs comptes de jeu connectés, d'où un vecteur et non un pointeur.
+	mvp_tracker_on_login(*sd);
 	// [Stingor] <--
 
 	sd->state.pc_loaded = false; // Ensure inventory data and status data is loaded before we calculate player stats

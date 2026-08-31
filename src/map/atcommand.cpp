@@ -46,6 +46,7 @@
 #include "mapreg.hpp"
 #include "mercenary.hpp"
 #include "mob.hpp"
+#include "mvp_tracker.hpp"
 #include "npc.hpp"
 #include "party.hpp"
 #include "pc.hpp"

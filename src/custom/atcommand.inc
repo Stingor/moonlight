@@ -2570,3 +2570,217 @@ ACMD_FUNC(shopsearch)
 
 	return 0;
 }
+
+/*==========================================
+ * @mvpslots : liste le registre des créneaux du MVP tracker.
+ *
+ * Recette du lot 1 : le total doit valoir « nombre de boss_monster + 4 »,
+ * et chaque délai doit être celui écrit dans le script de spawn — aucune
+ * constante n'est recopiée en C++, sauf les quatre créneaux scriptés.
+ * Un argument facultatif filtre sur le nom de carte.
+ *------------------------------------------*/
+ACMD_FUNC(mvpslots)
+{
+	nullpo_retr(-1, sd);
+
+	const std::vector<s_mvp_slot>& slots = mvp_tracker_slots();
+	char filter[MAP_NAME_LENGTH_EXT];
+
+	filter[0] = '\0';
+
+	if (message && *message)
+		safestrncpy(filter, message, sizeof(filter));
+
+	static const char* kind_label[] = { "boss", "timer", "invasion", "verrou" };
+	int32 shown = 0;
+
+	for (const s_mvp_slot& slot : slots) {
+		const char* mapname = (slot.mapid >= 0) ? map_getmapdata(slot.mapid)->name : "?";
+
+		if (filter[0] != '\0' && strstr(mapname, filter) == nullptr)
+			continue;
+
+		const char* mobname = "(tire par le script)";
+		std::shared_ptr<s_mob_db> mob = (slot.mob_id != 0) ? mob_db.find(slot.mob_id) : nullptr;
+
+		if (mob != nullptr)
+			mobname = mob->jname.c_str();
+
+		// La LOI, jamais le tirage : fenêtre = [delay1, delay1 + delay2].
+		safesnprintf(atcmd_output, sizeof(atcmd_output), "#%d %s @ %s [%s] %u-%u min",
+			slot.slot_id, mobname, mapname, kind_label[slot.kind],
+			slot.delay1 / 60000, (slot.delay1 + slot.delay2) / 60000);
+		clif_displaymessage(fd, atcmd_output);
+		shown++;
+	}
+
+	safesnprintf(atcmd_output, sizeof(atcmd_output), "MVP tracker : %d creneaux affiches sur %d.", shown, (int32)slots.size());
+	clif_displaymessage(fd, atcmd_output);
+	return 0;
+}
+
+/*==========================================
+ * Libelle d'un code de retour du MVP tracker.
+ * Les messages restent en ASCII : ce sont des chaines serveur, envoyees telles
+ * quelles au client, comme les msg_txt du dossier conf/msg_conf.
+ *------------------------------------------*/
+static const char* mvp_group_result_text(e_mvp_group_result result)
+{
+	switch (result) {
+		case MVP_GROUP_OK:                  return "C'est fait.";
+		case MVP_GROUP_ERR_NO_ACCOUNT:      return "Ce compte de jeu n'est rattache a aucun compte Moonlight.";
+		case MVP_GROUP_ERR_ALREADY_MEMBER:  return "Vous etes deja dans un groupe : quittez-le d'abord (@mvpgroup leave).";
+		case MVP_GROUP_ERR_NOT_MEMBER:      return "Vous n'etes dans aucun groupe.";
+		case MVP_GROUP_ERR_NOT_OWNER:       return "Seul le proprietaire du groupe peut faire cela.";
+		case MVP_GROUP_ERR_NO_SUCH_USER:    return "Personnage introuvable : verifiez l'orthographe.";
+		case MVP_GROUP_ERR_NOT_INVITABLE:   return "Ce personnage n'est ni dans votre guilde ni dans vos amis.";
+		case MVP_GROUP_ERR_SELF:            return "Pas sur vous-meme.";
+		case MVP_GROUP_ERR_FULL:            return "Le groupe est complet.";
+		case MVP_GROUP_ERR_BAD_NAME:        return "Nom de groupe invalide (1 a 31 caracteres).";
+		case MVP_GROUP_ERR_NO_INVITE:       return "Aucune invitation en attente.";
+		case MVP_GROUP_ERR_TARGET_IN_GROUP: return "Cette personne appartient deja a un autre groupe.";
+		case MVP_GROUP_ERR_TARGET_SAME_GROUP: return "Ce personnage est deja dans votre groupe : son compte Moonlight y est, avec tous ses personnages.";
+		case MVP_GROUP_ERR_SQL:             return "Erreur de base de donnees, rien n'a ete change.";
+	}
+
+	return "Erreur inconnue.";
+}
+
+/*==========================================
+ * @mvpgroup : gestion du groupe de chasse MVP.
+ *
+ * Recette des lots 2 et 3 : cree un groupe, invite, verifie qu'un kill credite
+ * le groupe du tueur et lui seul (@mvpobs), et qu'un redemarrage garde le groupe
+ * mais perd les observations. Le protocole du client Bourgeon appellera
+ * exactement les memes fonctions.
+ *------------------------------------------*/
+ACMD_FUNC(mvpgroup)
+{
+	nullpo_retr(-1, sd);
+
+	char action[16];
+	char argument[NAME_LENGTH + MVP_GROUP_NAME_LEN];
+
+	action[0] = '\0';
+	argument[0] = '\0';
+
+	if (!message || !*message || sscanf(message, "%15s %55[^\n]", action, argument) < 1) {
+		clif_displaymessage(fd, "Usage : @mvpgroup <create|info|invite|accept|decline|leave|kick|dissolve> [nom]");
+		return -1;
+	}
+
+	if (strcmpi(action, "info") == 0) {
+		s_mvp_group* group = mvp_tracker_group_of(*sd);
+
+		if (group == nullptr) {
+			char invite_name[MVP_GROUP_NAME_LEN];
+
+			if (mvp_group_pending_invite(*sd, invite_name) != 0) {
+				safesnprintf(atcmd_output, sizeof(atcmd_output), "Invitation en attente du groupe '%s' (@mvpgroup accept).", invite_name);
+				clif_displaymessage(fd, atcmd_output);
+			} else {
+				clif_displaymessage(fd, mvp_group_result_text(MVP_GROUP_ERR_NOT_MEMBER));
+			}
+
+			return 0;
+		}
+
+		safesnprintf(atcmd_output, sizeof(atcmd_output), "Groupe '%s' (#%u) : %d membres, %d observations.",
+			group->name, group->group_id, (int32)group->members.size(), (int32)group->obs.size());
+		clif_displaymessage(fd, atcmd_output);
+
+		for (uint32 user_id : group->members) {
+			safesnprintf(atcmd_output, sizeof(atcmd_output), " - compte %u%s", user_id,
+				user_id == group->owner_user_id ? " (proprietaire)" : "");
+			clif_displaymessage(fd, atcmd_output);
+		}
+
+		return 0;
+	}
+
+	e_mvp_group_result result;
+
+	if (strcmpi(action, "create") == 0)
+		result = mvp_group_create(*sd, argument);
+	else if (strcmpi(action, "invite") == 0)
+		result = mvp_group_invite(*sd, argument);
+	else if (strcmpi(action, "accept") == 0)
+		result = mvp_group_accept(*sd);
+	else if (strcmpi(action, "decline") == 0)
+		result = mvp_group_decline(*sd);
+	else if (strcmpi(action, "leave") == 0)
+		result = mvp_group_leave(*sd);
+	else if (strcmpi(action, "kick") == 0)
+		result = mvp_group_kick(*sd, argument);
+	else if (strcmpi(action, "dissolve") == 0)
+		result = mvp_group_dissolve(*sd);
+	else {
+		clif_displaymessage(fd, "Usage : @mvpgroup <create|info|invite|accept|decline|leave|kick|dissolve> [nom]");
+		return -1;
+	}
+
+	clif_displaymessage(fd, mvp_group_result_text(result));
+	return result == MVP_GROUP_OK ? 0 : -1;
+}
+
+/*==========================================
+ * @mvpobs : ce que le groupe SAIT, sans passer par le client.
+ *
+ * Affiche la source, l'age de l'information et, quand elle a ete meritee,
+ * l'instant exact. Sinon la FENETRE deduite de la loi (delay1, delay2) : c'est
+ * la regle de non-triche rendue visible.
+ *------------------------------------------*/
+ACMD_FUNC(mvpobs)
+{
+	nullpo_retr(-1, sd);
+
+	s_mvp_group* group = mvp_tracker_group_of(*sd);
+
+	if (group == nullptr) {
+		clif_displaymessage(fd, mvp_group_result_text(MVP_GROUP_ERR_NOT_MEMBER));
+		return -1;
+	}
+
+	if (group->obs.empty()) {
+		clif_displaymessage(fd, "Aucune observation : le groupe n'a encore rien vu.");
+		return 0;
+	}
+
+	static const char* source_label[] = { "saisi", "tombe", "kill", "miroir" };
+	const std::vector<s_mvp_slot>& slots = mvp_tracker_slots();
+	int64 now = (int64)time(nullptr);
+
+	for (const auto& entry : group->obs) {
+		if (entry.first >= slots.size())
+			continue;
+
+		const s_mvp_slot& slot = slots[entry.first];
+		const s_mvp_obs& obs = entry.second;
+		std::shared_ptr<s_mob_db> mob = (obs.mob_id != 0) ? mob_db.find(obs.mob_id) : nullptr;
+		const char* mapname = (slot.mapid >= 0) ? map_getmapdata(slot.mapid)->name : "?";
+
+		if (obs.exact_respawn != 0) {
+			safesnprintf(atcmd_output, sizeof(atcmd_output), "#%d %s @ %s [%s] exact dans %dmin (vu il y a %dmin)",
+				slot.slot_id, mob != nullptr ? mob->jname.c_str() : "?", mapname, source_label[obs.source],
+				(int32)((obs.exact_respawn - now) / 60), (int32)((now - obs.reported_at) / 60));
+		} else {
+			// La LOI, pas le tirage : une fenetre, jamais un point.
+			int64 from = obs.kill_time + slot.delay1 / 1000;
+			int64 to = from + slot.delay2 / 1000;
+
+			safesnprintf(atcmd_output, sizeof(atcmd_output), "#%d %s @ %s [%s] fenetre dans %d-%dmin (vu il y a %dmin)",
+				slot.slot_id, mob != nullptr ? mob->jname.c_str() : "?", mapname, source_label[obs.source],
+				(int32)((from - now) / 60), (int32)((to - now) / 60), (int32)((now - obs.reported_at) / 60));
+		}
+
+		clif_displaymessage(fd, atcmd_output);
+
+		if (obs.tomb_x >= 0) {
+			safesnprintf(atcmd_output, sizeof(atcmd_output), "     tombe en (%d,%d), tue par %s",
+				obs.tomb_x, obs.tomb_y, obs.killer_name[0] != '\0' ? obs.killer_name : "?");
+			clif_displaymessage(fd, atcmd_output);
+		}
+	}
+
+	return 0;
+}

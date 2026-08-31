@@ -54,3 +54,6 @@
 	ACMD_DEF(unignore),
 	ACMD_DEF(ignorelist),
 	ACMD_DEF(playertest),
+	ACMD_DEF(mvpslots),
+	ACMD_DEF(mvpgroup),
+	ACMD_DEF(mvpobs),

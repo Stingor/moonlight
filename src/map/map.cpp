@@ -46,6 +46,7 @@
 #include "mapreg.hpp"
 #include "mercenary.hpp"
 #include "mob.hpp"
+#include "mvp_tracker.hpp"
 #include "navi.hpp"
 #include "npc.hpp"
 #include "party.hpp"
@@ -2272,6 +2273,10 @@ void map_deliddb(block_list *bl)
  *------------------------------------------*/
 int32 map_quit(map_session_data *sd) {
 	int32 i;
+
+	// [Stingor] MVP tracker : sortir de l'index de diffusion avant tout le reste,
+	// y compris avant le retour anticipé des sessions non actives.
+	mvp_tracker_on_logout(*sd);
 
 	if (sd->state.keepshop == false) { // Close vending/buyingstore
 		if (sd->state.vending)
@@ -5572,6 +5577,14 @@ bool MapServer::initialize( int32 argc, char *argv[] ){
 	do_init_buyingstore();
 
 	npc_event_do_oninit();	// Init npcs (OnInit)
+
+#ifndef MAP_GENERATOR
+	// [Stingor] MVP tracker: every boss_monster line is parsed by now, so the slot
+	// registry can be derived from the spawn data instead of duplicating delays.
+	// Groups and members come back from SQL; observations do NOT, by design.
+	mvp_tracker_build_registry();
+	mvp_tracker_load_groups();
+#endif
 
 #ifndef MAP_GENERATOR
 	do_init_admin(); // [Stingor] custom: admin channel (src/map/admin.cpp)

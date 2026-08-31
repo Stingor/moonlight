@@ -34,6 +34,7 @@
 #include "log.hpp"
 #include "map.hpp"
 #include "mercenary.hpp"
+#include "mvp_tracker.hpp"
 #include "npc.hpp"
 #include "party.hpp"
 #include "path.hpp"
@@ -70,7 +71,7 @@ const t_tick MOB_MAX_DELAY = 24 * 3600 * 1000;
 // holds Monster Spawn informations
 std::unordered_map<uint16, std::vector<spawn_info>> mob_spawn_data;
 std::unordered_map<uint16, std::vector<map_spawn_info>> map_spawn_data;
-std::unordered_map<uint16, s_mvp_respawn_info> mvp_respawn_cache;
+std::map<s_mvp_respawn_key, s_mvp_respawn_info> mvp_respawn_cache;
 
 MobItemRatioDatabase mob_item_drop_ratio;
 
@@ -1058,7 +1059,7 @@ TIMER_FUNC(mob_delayspawn){
 		md->spawn_timer = INVALID_TIMER;
 		// [MVP Respawn Cache] Clear entry — MVP is about to become alive again.
 		if (md->spawn && md->spawn->state.boss)
-			mvp_respawn_cache.erase((uint16)md->spawn->id);
+			mvp_respawn_cache.erase(s_mvp_respawn_key((uint16)md->spawn->id, md->m));
 		mob_spawn(md);
 	}
 	return 0;
@@ -1123,7 +1124,7 @@ int32 mob_setdelayspawn(mob_data *md)
 				info.tomb_y = (int16)tomb_nd->y;
 			}
 		}
-		mvp_respawn_cache[(uint16)md->spawn->id] = info;
+		mvp_respawn_cache[s_mvp_respawn_key((uint16)md->spawn->id, md->m)] = info;
 	}
 
 	return 0;
@@ -3732,6 +3733,13 @@ int32 mob_dead(mob_data *md, block_list *src, int32 type)
 			clif_clearunit_delayed(md, CLR_DEAD, tick+250);
 
 	}
+
+	// [Stingor] MVP tracker: BEFORE the !md->spawn return, on purpose. A scripted
+	// MVP (Bio Lab, Lord of Death, Thanatos) has no spawn data and would bail out
+	// here - yet this is the last point where mvp_sd, first_sd and the dmglog are
+	// still in hand, and the dmglog is what the crediting rule reads.
+	if( mvp_tracker_is_tracked( *md ) )
+		mvp_tracker_on_mvp_dead( *md, mvp_sd, first_sd );
 
 	if(!md->spawn){ //Tell status_damage to remove it from memory.
 		struct unit_data *ud = unit_bl2ud(md);
