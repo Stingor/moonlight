@@ -3364,6 +3364,25 @@ SETL_PATTERN = re.compile(r"<SETL>([^<>:]*):([^<>]*?)</SETL>")
 # `<SETL>`. On ne fabrique pas de lien : il n'y a pas de page d'état à ouvrir.
 STAL_PATTERN = re.compile(r"<STAL>(\d+):([^<>]*?)</STAL>")
 
+# `<MVPL>mob:carte:mort:exact:d1:d2:tombe_x:tombe_y:libellé</MVPL>` — un RESPAWN
+# de MVP partagé depuis le carnet de chasse.
+#
+# 🔴 La seule balise qui transporte un FAIT DATÉ plutôt qu'une référence. Un
+# objet ou un monstre existent quelque part et se retrouvent ; une heure de mort
+# ne vit que dans le carnet de celui qui l'a vue. D'où les neuf champs.
+#
+# 🔴 `d1` et `d2` sont LA LOI du créneau, en minutes — les deux chiffres publics
+# du script de spawn. Ils voyagent pour ICI et pour la shoutbox du site : le
+# client, lui, les a déjà dans son catalogue. Sans eux, une ligne relayée ne
+# pourrait annoncer qu'une heure de mort, c'est-à-dire justement pas ce qu'on
+# partage.
+#
+# Les instants partent en `<t:UNIX:t>`, la forme d'horodatage de Discord : elle
+# s'affiche dans le fuseau DU LECTEUR, ce qu'aucune heure écrite en dur ne peut
+# faire — et un relais Discord se lit depuis n'importe où.
+MVPL_PATTERN = re.compile(
+    r"<MVPL>(\d+):([^<>:]*):(-?\d+):(-?\d+):(\d+):(\d+):(-?\d+):(-?\d+):([^<>]*?)</MVPL>")
+
 def replace_itmr(msg):
     def repl(match):
         item_id = int(match.group(1))
@@ -3396,6 +3415,40 @@ def replace_stal(msg):
 
     return STAL_PATTERN.sub(repl, msg)
 
+def replace_mvpl(msg):
+    def repl(match):
+        where = getmapname(match.group(2))
+        kill  = int(match.group(3))
+        resp  = int(match.group(4))
+        d1    = int(match.group(5))
+        d2    = int(match.group(6))
+        tx    = int(match.group(7))
+        ty    = int(match.group(8))
+        name  = match.group(9).strip() or "?"
+
+        if resp > 0:
+            # Un instant EXACT ne s'obtient qu'avec un Convex Mirror. Le dire
+            # évite qu'on prenne cette précision pour une supposition.
+            when = f"retour <t:{resp}:t> (Convex Mirror)"
+        elif kill > 0 and d1 > 0:
+            start = kill + d1 * 60
+            end   = start + d2 * 60
+            when  = f"retour entre <t:{start}:t> et <t:{end}:t>"
+        elif kill > 0:
+            when = f"mort <t:{kill}:t>"
+        else:
+            when = ""
+
+        # -1 et non 0,0 : la cellule (0,0) existe, une tombe peut s'y trouver.
+        spot = f", tombe en {tx},{ty}" if tx >= 0 and ty >= 0 else ""
+        body = f"{name} ({where})"
+
+        if when:
+            return f" [MVP: {body} — {when}{spot}] "
+        return f" [MVP: {body}{spot}] "
+
+    return MVPL_PATTERN.sub(repl, msg)
+
 def replace_chat_links(msg):
     """Balises de lien du client -> Markdown Discord.
 
@@ -3412,6 +3465,7 @@ def replace_chat_links(msg):
     msg = replace_craf(msg)
     msg = replace_setl(msg)
     msg = replace_stal(msg)
+    msg = replace_mvpl(msg)
     return msg
 
 def main():

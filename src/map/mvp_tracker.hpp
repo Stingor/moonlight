@@ -217,7 +217,14 @@ void mvp_tracker_report_scripted( map_session_data* sd, uint16 mob_id, int16 map
 
 /// What a player types in. The weakest source, so it never overwrites a kill or
 /// a mirror - that is the overwrite rule doing its job, not a special case.
-e_mvp_group_result mvp_tracker_report_manual( map_session_data& sd, uint16 slot_id, int64 kill_time );
+/// Records what a player ASSERTS: the least precise source there is, and the
+/// right one for both ways a claim reaches us -- typed into the log by hand,
+/// or imported from an `<MVPL>` chat link somebody shared.
+///
+/// `tomb_x`/`tomb_y` at -1 when the spot is unknown, which is always the case
+/// for a typed entry. A shared link carries them when its author had them, and
+/// -1 is deliberate: (0,0) is a perfectly valid cell.
+e_mvp_group_result mvp_tracker_report_manual( map_session_data& sd, uint16 slot_id, int64 kill_time, int16 tomb_x = -1, int16 tomb_y = -1 );
 
 /// THE ONLY function allowed to read the draw. Two callers, not three: the two
 /// sites where the server has already decided that this player paid for the

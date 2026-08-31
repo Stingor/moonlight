@@ -1066,7 +1066,7 @@ void mvp_favorite_set( map_session_data& sd, uint16 slot_id, bool on ){
  * Manual entry
  * ------------------------------------------------------------------------- */
 
-e_mvp_group_result mvp_tracker_report_manual( map_session_data& sd, uint16 slot_id, int64 kill_time ){
+e_mvp_group_result mvp_tracker_report_manual( map_session_data& sd, uint16 slot_id, int64 kill_time, int16 tomb_x, int16 tomb_y ){
 	s_mvp_group* group = mvp_tracker_group_of( sd );
 
 	if( group == nullptr )
@@ -1091,8 +1091,22 @@ e_mvp_group_result mvp_tracker_report_manual( map_session_data& sd, uint16 slot_
 	obs.kill_time = kill_time;
 	obs.exact_respawn = 0;
 	obs.mob_id = mvp_slot_registry[slot_id].mob_id;
-	obs.tomb_x = -1;
-	obs.tomb_y = -1;
+	// A shared link may carry the tomb its author read; a typed entry never can.
+	// Clamped to the map, because nothing here is trusted: the numbers came off
+	// a chat line, which anybody can write by hand.
+	// mapid < 0 is possible on a scripted slot whose map never loaded, and
+	// map_getmapdata() does not guard: it would index the array with -1.
+	const int16 slot_mapid = mvp_slot_registry[slot_id].mapid;
+	struct map_data* mapdata = slot_mapid >= 0 ? map_getmapdata( slot_mapid ) : nullptr;
+
+	if( mapdata != nullptr && tomb_x >= 0 && tomb_y >= 0 &&
+		tomb_x < mapdata->xs && tomb_y < mapdata->ys ){
+		obs.tomb_x = tomb_x;
+		obs.tomb_y = tomb_y;
+	}else{
+		obs.tomb_x = -1;
+		obs.tomb_y = -1;
+	}
 	obs.by_user_id = sd.status.user_id;
 	obs.reported_at = now;
 	safestrncpy( obs.killer_name, "", NAME_LENGTH );

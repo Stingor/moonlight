@@ -8440,9 +8440,31 @@ void clif_parse_bourgeon_mvp_cmd(int32 fd, map_session_data* sd) {
 		clif_bourgeon_mvp_favorites(*sd);
 		return;
 
-	case 10:  // SAISIE MANUELLE : a = slot_id, b = heure de mort UNIX
-		result = mvp_tracker_report_manual(*sd, (uint16)a, (int64)(int32)b);
+	case 10: {  // SAISIE MANUELLE : a = slot_id, b = heure de mort UNIX
+		// 🔴 La TOMBE voyage dans le champ TEXTE, sous la forme « x,y », plutôt
+		// que dans un opcode neuf. `a` et `b` sont pris, le texte ne sert à rien
+		// pour cette commande-là (ailleurs il porte un nom de groupe ou de
+		// personnage), et deux entiers ne justifient pas un troisième paquet.
+		//
+		// Vide = pas de tombe : c'est le cas de la saisie à la main, et c'était
+		// le seul comportement avant l'import d'un lien `<MVPL>` de chat.
+		int16 tomb_x = -1;
+		int16 tomb_y = -1;
+
+		if( text[0] != '\0' ){
+			int32 tx = -1;
+			int32 ty = -1;
+
+			if( sscanf( text, "%11d,%11d", &tx, &ty ) == 2 && tx >= 0 && ty >= 0 &&
+				tx <= INT16_MAX && ty <= INT16_MAX ){
+				tomb_x = (int16)tx;
+				tomb_y = (int16)ty;
+			}
+		}
+
+		result = mvp_tracker_report_manual(*sd, (uint16)a, (int64)(int32)b, tomb_x, tomb_y);
 		break;
+	}
 
 	default:
 		return;
