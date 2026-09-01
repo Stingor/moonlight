@@ -335,6 +335,36 @@ Body:
         Count: 5
       - Mob: MINERAL
         Count: 5
+  - Id: 14609
+    Title: Quiet time
+    TimeLimit: 4h
+  - Id: 14610
+    Title: Gun recycling
+    Targets:
+      - Mob: EP16_2_BROKEN_GUN
+        Count: 5
+    Drops:
+      - Mob: EP16_2_BROKEN_GUN
+        Item: Broken_Gun_Wreck
+        Rate: 5000
+  - Id: 14611
+    Title: Gun recycling
+    Targets:
+      - Mob: EP16_2_BROKEN_GUN
+        Count: 5
+    Drops:
+      - Mob: EP16_2_BROKEN_GUN
+        Item: Broken_Gun_Wreck
+        Rate: 5000
+  - Id: 14612
+    Title: Time for repair
+    TimeLimit: 4h
+  - Id: 14613
+    Title: Est on second floor
+  - Id: 14614
+    Title: Convince the leaders
+  - Id: 14615
+    Title: Between negotiation and deception
   - Id: 16009
     Title: Fighting is the language of warmonger
   - Id: 16010
