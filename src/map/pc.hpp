@@ -615,6 +615,19 @@ public:
 	// sauvegardé décrirait l'interface d'hier.
 	uint32 bourgeon_ui_caps = 0;
 
+	// [Stingor] Bourgeon : « je suis absent » (CZ_BOURGEON_SETTING id 29, masque
+	// e_bourgeon_afk). Ce que le VOISINAGE doit en voir, et rien d'autre : le
+	// sommeil qu'il porte est un opt1 de politesse, écrit dans les paquets et
+	// jamais dans `sc.opt1` — un vrai status passerait par status_check_skilluse
+	// et unit_can_move, et interdirait de bouger à un joueur qui est censé
+	// simplement ne pas être là.
+	//
+	// 🔴 État de SESSION, jamais persisté : on ne revient pas d'un login absent.
+	// C'est le client qui l'ouvre et le referme, sur sa propre mesure de
+	// l'inactivité — le serveur n'a aucun moyen de distinguer un joueur parti
+	// d'un joueur qui lit son inventaire.
+	uint8 bourgeon_afk = 0;
+
 	int16 skillitem,skillitemlv;
 	bool skillitem_keep_requirement;
 	uint16 skill_id_old,skill_lv_old;

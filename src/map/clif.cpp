@@ -1074,6 +1074,41 @@ static int32 clif_setlevel(const block_list* bl) {
 	return lv;
 }
 
+/// [Stingor] Bourgeon : le sommeil de POLITESSE d'un joueur qui s'est absenté.
+///
+/// Le client dessine son « zzz » sur le seul champ `bodyState` du paquet, et
+/// c'est tout ce qu'on lui donne : rien n'est posé dans `sc.opt1`. Un vrai
+/// OPT1_SLEEP serait lu par status_check_skilluse et unit_can_move, et le joueur
+/// revenu de sa cuisine se retrouverait paralysé le temps que son client annonce
+/// son retour. Ici l'état ne vit que dans les octets envoyés.
+///
+/// Deux gardes :
+/// Une vraie altération PASSE DEVANT (`opt1 != 0`) : un joueur réellement figé
+/// doit se voir figé, et non endormi.
+///
+/// ⚠ Le dormeur le reçoit COMME LES AUTRES, et voit donc son propre sommeil. La
+/// première version l'en excluait, de crainte que son client ne lise ce champ
+/// pour brider ses entrées : MESURÉ, c'est faux. Le `bodyState` du joueur local
+/// n'atterrit que dans `g_OwnState_BodyState` (client, 0x15fb2ac), dont les neuf
+/// xrefs sont la boucle de réception, la barre d'icônes d'état, les deux
+/// handlers et la repose des globales d'apparence — aucune sur le chemin des
+/// entrées, qui ne consulte jamais cette valeur.
+static uint16 clif_bourgeon_bodystate( const block_list* bl, const status_change* sc ){
+	const uint16 opt1 = ( sc != nullptr ) ? sc->opt1 : 0;
+
+	if( opt1 != 0 ){
+		return opt1;
+	}
+
+	const map_session_data* sd = BL_CAST( BL_PC, bl );
+
+	if( sd == nullptr || !( sd->bourgeon_afk & BOURGEON_AFK_SLEEP ) ){
+		return 0;
+	}
+
+	return static_cast<uint16>( OPT1_SLEEP );
+}
+
 /*==========================================
  * Prepares 'unit standing/spawning' packet
  *------------------------------------------*/
@@ -1147,7 +1182,7 @@ static void clif_set_unit_idle( const block_list* bl, bool walking, send_target 
 	p.GID = bl->id;
 #endif
 	p.speed = status_get_speed(bl);
-	p.bodyState = (sc) ? sc->opt1 : 0;
+	p.bodyState = clif_bourgeon_bodystate( bl, sc );
 	p.healthState = (sc) ? sc->opt2 : 0;
 
 	// npc option changed?
@@ -1311,7 +1346,7 @@ static void clif_spawn_unit( const block_list* bl, enum send_target target ){
 	p.GID = bl->id;
 #endif
 	p.speed = status_get_speed( bl );
-	p.bodyState = (sc) ? sc->opt1 : 0;
+	p.bodyState = clif_bourgeon_bodystate( bl, sc );
 	p.healthState = (sc) ? sc->opt2 : 0;
 	p.effectState = (sc) ? sc->option : 0;
 	p.job = vd->look[LOOK_BASE];
@@ -1426,7 +1461,7 @@ static void clif_set_unit_walking( const block_list& bl, const map_session_data*
 #endif
 	p.speed = status_get_speed( &bl );
 	const status_change* sc = status_get_sc( &bl );
-	p.bodyState = (sc) ? sc->opt1 : 0;
+	p.bodyState = clif_bourgeon_bodystate( &bl, sc );
 	p.healthState = (sc) ? sc->opt2 : 0;
 	p.effectState = (sc) ? sc->option : 0;
 	const view_data* vd = status_get_viewdata( &bl );
@@ -6370,6 +6405,48 @@ void clif_parse_bourgeon_preset_cmd(int32 fd, map_session_data* sd) {
 	}
 }
 
+// [Stingor] Bourgeon : republie le sommeil de politesse à la ronde — le dormeur
+// compris, pour qu'il voie de ses yeux que son absence est bien annoncée.
+//
+// Jumeau volontairement maigre de clif_changeoption_target : mêmes octets, une
+// seule diffusion, pas de branche déguisement. Les voisins arrivés APRÈS n'ont
+// pas besoin de ce paquet — leur paquet d'apparition porte déjà le même champ.
+static void clif_bourgeon_afk_notify( map_session_data& sd ){
+	PACKET_ZC_STATE_CHANGE p = {};
+
+	p.packetType = HEADER_ZC_STATE_CHANGE;
+	p.AID = sd.id;
+	p.bodyState = clif_bourgeon_bodystate( &sd, &sd.sc );
+	p.healthState = sd.sc.opt2;
+	p.effectState = sd.sc.option;
+	p.isPKModeON = sd.status.karma;
+
+	clif_send( &p, sizeof( p ), &sd, AREA );
+}
+
+// [Stingor] Bourgeon : le client annonce (ou retire) l'absence de son joueur.
+//
+// Chaque signe a son propre paquet de rafraîchissement, et n'est renvoyé que si
+// LUI a changé : le joueur qui décoche le seul « zzz » ne doit pas faire
+// reconstruire au voisinage une étiquette de nom identique.
+static void clif_bourgeon_set_afk( map_session_data& sd, uint8 mask ){
+	const uint8 changed = sd.bourgeon_afk ^ mask;
+
+	if( changed == 0 ){
+		return;
+	}
+
+	sd.bourgeon_afk = mask;
+
+	if( changed & BOURGEON_AFK_SLEEP ){
+		clif_bourgeon_afk_notify( sd );
+	}
+
+	if( changed & BOURGEON_AFK_TAG ){
+		clif_name_area( &sd );
+	}
+}
+
 // Handles a single setting change reported by the client (CZ 0x0F04).
 // Layout: [packetType:2][packetLength:2][id:2][value:4]
 void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
@@ -6428,6 +6505,14 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 			}
 			break;
 		}
+		case BOURGEON_SETTING_AFK:
+			// Absence : un ORDRE, pas un réglage. Rien à persister — on ne se
+			// reconnecte pas absent — et rien à renvoyer au client, qui vient de le
+			// décider. Les bits inconnus tombent : un client en avance sur le serveur
+			// obtient les signes que celui-ci sait donner, et pas d'état bâtard.
+			clif_bourgeon_set_afk( *sd,
+				static_cast<uint8>( p->value & ( BOURGEON_AFK_SLEEP | BOURGEON_AFK_TAG ) ) );
+			break;
 		case BOURGEON_SETTING_REFRESH:
 			// Client asks for a self clif_refresh -- e.g. to re-composite the UI and
 			// drop a stale native menu-icon "ghost" after the ImGui icon replacement
@@ -15182,7 +15267,20 @@ void clif_name( const block_list* src, const block_list* bl, send_target target 
 				return;
 			}
 
-			safestrncpy( packet.name, sd->status.name, NAME_LENGTH );
+			// [Stingor] Bourgeon : le joueur absent porte son étiquette DANS son nom.
+			// C'est le seul endroit où le client accepte du texte libre devant un
+			// pseudo — il compose lui-même les autres lignes de l'étiquette (groupe,
+			// guilde, titre) et n'en laisse aucune à notre main.
+			// ⚠ Le champ fait NAME_LENGTH : un pseudo de plus de 17 caractères perd
+			// sa fin le temps de l'absence. C'est le prix du seul champ disponible,
+			// et il se paie sur un affichage qui redevient exact au retour.
+			// Un @fakename passe DEVANT (il rend plus haut) : se cacher l'emporte
+			// sur se signaler.
+			if( sd->bourgeon_afk & BOURGEON_AFK_TAG ){
+				safesnprintf( packet.name, NAME_LENGTH, "[AFK] %s", sd->status.name );
+			}else{
+				safestrncpy( packet.name, sd->status.name, NAME_LENGTH );
+			}
 
 			party_data *p = nullptr;
 

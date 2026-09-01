@@ -1588,6 +1588,18 @@ enum e_bourgeon_setting : int16 {
 	BOURGEON_SETTING_STAFF         = 26,  // serveur -> client : pc_get_group_level(sd), gate des fonctions réservées
 	BOURGEON_SETTING_FLYWING_LAST  = 27,  // marque d'où l'on vient après une Fly Wing / Téléport
 	BOURGEON_SETTING_WALK_SPEED    = 28,  // vitesse de marche (@speed), en ms par cellule
+	BOURGEON_SETTING_AFK           = 29,  // action : le client annonce son absence (masque e_bourgeon_afk)
+};
+
+// Ce que le voisinage doit voir d'un joueur absent. Un MASQUE et non une
+// bascule : le joueur choisit les signes qu'il veut donner, et le client
+// envoie les deux réglages en un seul mot.
+//
+// ⚠ Ces bits sont un CONTRAT avec le client (afk_screen.h, kAnnounce*) : leurs
+// valeurs ne changent plus, on n'en ajoute qu'à la suite.
+enum e_bourgeon_afk : uint8 {
+	BOURGEON_AFK_SLEEP = 0x01,  ///< le « zzz » du sommeil au-dessus du personnage
+	BOURGEON_AFK_TAG   = 0x02,  ///< « [AFK] » devant le pseudo, dans l'étiquette de nom
 };
 
 // D'où vient un changement de réglage. Décide de ce que le moteur fait en plus
