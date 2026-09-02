@@ -34,6 +34,7 @@
 #include "storage.hpp"
 
 static TIMER_FUNC(check_connect_char_server);
+static TIMER_FUNC(spectator_logout_ack);
 
 static struct eri *auth_db_ers; //For reutilizing player login structures.
 static DBMap* auth_db; // int32 id -> struct auth_node*
@@ -204,6 +205,34 @@ static bool chrif_auth_logout(TBL_PC* sd, enum sd_state state) {
 	return chrif_sd_to_auth(sd, state);
 }
 
+/// Closes a spectator's logout the way chrif_save_ack would, one tick later.
+///
+/// 🔴🔴 A spectator saves NOTHING (see chrif_save), so the char-server never
+/// sends the "final save" acknowledgement -- and that acknowledgement is the ONLY
+/// thing that removes a ST_LOGOUT node from auth_db. Left alone the node outlives
+/// the session for good: auth_db_cleanup_sub never drops a ST_LOGOUT one, it re-runs
+/// the save, which lands back in the spectator branch and does nothing. From then on
+/// clif_parse_WantToConnection finds the node and turns away every later session on
+/// that id with "server still recognizes your last login" -- silently, since that
+/// refusal only shows up as a ShowInfo. One id burnt per session, and the
+/// login-server hands the same one back, so the login screen's backdrop stops
+/// working until the map-server is restarted. Measured on the live server:
+/// HC_NOTIFY_ZONESVR sent, CZ_ENTER answered with 0x0081 code 8.
+///
+/// A tick later rather than in place: chrif_auth_delete frees the session data, and
+/// map_quit still walks it (unit_free_pc) after chrif_save has returned.
+static TIMER_FUNC(spectator_logout_ack){
+	const uint32 account_id = (uint32)id;
+	const uint32 char_id = (uint32)data;
+
+	// Same pair as the timeout path (auth_db_cleanup_sub): say "offline" first,
+	// then drop the node.
+	chrif_char_offline_nsd( account_id, char_id );
+	chrif_auth_delete( account_id, char_id, ST_LOGOUT );
+
+	return 0;
+}
+
 bool chrif_auth_finished( const map_session_data* sd ) {
 	struct auth_node *node= chrif_search(sd->status.account_id);
 
@@ -292,7 +321,15 @@ int32 chrif_save(map_session_data *sd, int32 flag) {
 		// one id further on every session — measured climbing 2900000..2900010 in
 		// a single afternoon. Nothing is saved here; this only says "gone".
 		if( ( flag & CSAVE_QUITTING ) && sd->state.active && !( flag & CSAVE_AUTOTRADE ) ){
-			chrif_auth_logout( sd, ( flag & CSAVE_QUIT ) ? ST_LOGOUT : ST_MAPCHANGE );
+			const bool quitting = ( flag & CSAVE_QUIT ) != 0;
+
+			// 🔴 And that departure has to be CLOSED, which nothing else here will
+			// do: see spectator_logout_ack. A logout left open burns the id for as
+			// long as the server runs.
+			if( chrif_auth_logout( sd, quitting ? ST_LOGOUT : ST_MAPCHANGE ) && quitting ){
+				add_timer( gettick() + 1, spectator_logout_ack, sd->status.account_id,
+					(intptr_t)sd->status.char_id );
+			}
 		}
 
 		return 0;
@@ -1987,6 +2024,7 @@ void do_init_chrif(void) {
 
 	add_timer_func_list(check_connect_char_server, "check_connect_char_server");
 	add_timer_func_list(auth_db_cleanup, "auth_db_cleanup");
+	add_timer_func_list(spectator_logout_ack, "spectator_logout_ack");
 
 	// establish map-char connection if not present
 	add_timer_interval(gettick() + 1000, check_connect_char_server, 0, 0, 10 * 1000);
