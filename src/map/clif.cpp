@@ -11221,7 +11221,25 @@ void clif_skillcasting( const block_list& src, const block_list* dst, uint16 dst
 		clif_send(&p,sizeof(p), &src, AREA);
 
 	if( skill_get_inf2( skill_id, INF2_SHOWSCALE ) ){
-		clif_skill_scale( &src, src.id, src.x, src.y, skill_id, skill_lv, casttime );
+		// Le centre de la zone est la CIBLE, pas le lanceur. kRO ne posait
+		// ShowScale que sur des sorts de MVP visant leur propre case
+		// (TargetType: Self), ou les deux coincident -- d'ou le src.x/src.y
+		// d'origine. Sur un sort vise au sol, il dessinait le carre sous les
+		// pieds du lanceur au lieu de l'endroit vise.
+		int32 scale_x = src.x, scale_y = src.y;
+
+		if( dst_x > 0 || dst_y > 0 ){
+			// Sort vise au sol : unit_skilluse_pos2 passe la case voulue.
+			scale_x = dst_x;
+			scale_y = dst_y;
+		}else if( dst != nullptr ){
+			// Sort vise sur une entite : unit_skilluse_id2 passe (0,0) et la
+			// cible dans dst, donc c'est elle qui porte la zone.
+			scale_x = dst->x;
+			scale_y = dst->y;
+		}
+
+		clif_skill_scale( &src, src.id, scale_x, scale_y, skill_id, skill_lv, casttime );
 	}
 }
 

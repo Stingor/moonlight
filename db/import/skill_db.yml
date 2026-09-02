@@ -3482,3 +3482,506 @@ Body:
         Time: 300000
     Requires:
       SpCost: 100
+# >>> bourgeon:showscale -- genere par tools/gen_skill_scale.py
+#     125 sorts ; ne pas editer a la main.
+  - Id: 25
+    Name: AL_PNEUMA
+    Flags:
+      ShowScale: true
+  - Id: 47
+    Name: AC_SHOWER
+    Flags:
+      ShowScale: true
+  - Id: 69
+    Name: PR_BENEDICTIO
+    Flags:
+      ShowScale: true
+  - Id: 80
+    Name: WZ_FIREPILLAR
+    Flags:
+      ShowScale: true
+  - Id: 83
+    Name: WZ_METEOR
+    Flags:
+      ShowScale: true
+  - Id: 85
+    Name: WZ_VERMILION
+    Flags:
+      ShowScale: true
+  - Id: 86
+    Name: WZ_WATERBALL
+    Flags:
+      ShowScale: true
+  - Id: 89
+    Name: WZ_STORMGUST
+    Flags:
+      ShowScale: true
+  - Id: 91
+    Name: WZ_HEAVENDRIVE
+    Flags:
+      ShowScale: true
+  - Id: 92
+    Name: WZ_QUAGMIRE
+    Flags:
+      ShowScale: true
+  - Id: 110
+    Name: BS_HAMMERFALL
+    Flags:
+      ShowScale: true
+  - Id: 119
+    Name: HT_SANDMAN
+    Flags:
+      ShowScale: true
+  - Id: 121
+    Name: HT_FREEZINGTRAP
+    Flags:
+      ShowScale: true
+  - Id: 122
+    Name: HT_BLASTMINE
+    Flags:
+      ShowScale: true
+  - Id: 123
+    Name: HT_CLAYMORETRAP
+    Flags:
+      ShowScale: true
+  - Id: 130
+    Name: HT_DETECTING
+    Flags:
+      ShowScale: true
+  - Id: 222
+    Name: RG_CLEANER
+    Flags:
+      ShowScale: true
+  - Id: 285
+    Name: SA_VOLCANO
+    Flags:
+      ShowScale: true
+  - Id: 286
+    Name: SA_DELUGE
+    Flags:
+      ShowScale: true
+  - Id: 287
+    Name: SA_VIOLENTGALE
+    Flags:
+      ShowScale: true
+  - Id: 288
+    Name: SA_LANDPROTECTOR
+    Flags:
+      ShowScale: true
+  - Id: 306
+    Name: BD_LULLABY
+    Flags:
+      ShowScale: true
+  - Id: 307
+    Name: BD_RICHMANKIM
+    Flags:
+      ShowScale: true
+  - Id: 308
+    Name: BD_ETERNALCHAOS
+    Flags:
+      ShowScale: true
+  - Id: 309
+    Name: BD_DRUMBATTLEFIELD
+    Flags:
+      ShowScale: true
+  - Id: 310
+    Name: BD_RINGNIBELUNGEN
+    Flags:
+      ShowScale: true
+  - Id: 311
+    Name: BD_ROKISWEIL
+    Flags:
+      ShowScale: true
+  - Id: 312
+    Name: BD_INTOABYSS
+    Flags:
+      ShowScale: true
+  - Id: 313
+    Name: BD_SIEGFRIED
+    Flags:
+      ShowScale: true
+  - Id: 317
+    Name: BA_DISSONANCE
+    Flags:
+      ShowScale: true
+  - Id: 319
+    Name: BA_WHISTLE
+    Flags:
+      ShowScale: true
+  - Id: 320
+    Name: BA_ASSASSINCROSS
+    Flags:
+      ShowScale: true
+  - Id: 321
+    Name: BA_POEMBRAGI
+    Flags:
+      ShowScale: true
+  - Id: 322
+    Name: BA_APPLEIDUN
+    Flags:
+      ShowScale: true
+  - Id: 325
+    Name: DC_UGLYDANCE
+    Flags:
+      ShowScale: true
+  - Id: 327
+    Name: DC_HUMMING
+    Flags:
+      ShowScale: true
+  - Id: 328
+    Name: DC_DONTFORGETME
+    Flags:
+      ShowScale: true
+  - Id: 329
+    Name: DC_FORTUNEKISS
+    Flags:
+      ShowScale: true
+  - Id: 330
+    Name: DC_SERVICEFORYOU
+    Flags:
+      ShowScale: true
+  - Id: 336
+    Name: WE_CALLPARTNER
+    Flags:
+      ShowScale: true
+  - Id: 362
+    Name: HP_BASILICA
+    Flags:
+      ShowScale: true
+  - Id: 395
+    Name: CG_MOONLIT
+    Flags:
+      ShowScale: true
+  - Id: 409
+    Name: WE_CALLPARENT
+    Flags:
+      ShowScale: true
+  - Id: 410
+    Name: WE_CALLBABY
+    Flags:
+      ShowScale: true
+  - Id: 428
+    Name: SG_SUN_WARM
+    Flags:
+      ShowScale: true
+  - Id: 429
+    Name: SG_MOON_WARM
+    Flags:
+      ShowScale: true
+  - Id: 430
+    Name: SG_STAR_WARM
+    Flags:
+      ShowScale: true
+  - Id: 478
+    Name: CR_SLIMPITCHER
+    Flags:
+      ShowScale: true
+  - Id: 483
+    Name: HW_GANBANTEIN
+    Flags:
+      ShowScale: true
+  - Id: 484
+    Name: HW_GRAVITATION
+    Flags:
+      ShowScale: true
+  - Id: 488
+    Name: CG_HERMODE
+    Flags:
+      ShowScale: true
+  - Id: 516
+    Name: GS_DESPERADO
+    Flags:
+      ShowScale: true
+  - Id: 521
+    Name: GS_GROUNDDRIFT
+    Flags:
+      ShowScale: true
+  - Id: 536
+    Name: NJ_BAKUENRYU
+    Flags:
+      ShowScale: true
+  - Id: 538
+    Name: NJ_SUITON
+    Flags:
+      ShowScale: true
+  - Id: 539
+    Name: NJ_HYOUSYOURAKU
+    Flags:
+      ShowScale: true
+  - Id: 541
+    Name: NJ_RAIGEKISAI
+    Flags:
+      ShowScale: true
+  - Id: 653
+    Name: NPC_EARTHQUAKE
+    Flags:
+      ShowScale: true
+  - Id: 670
+    Name: NPC_EVILLAND
+    Flags:
+      ShowScale: true
+  - Id: 706
+    Name: NPC_VENOMFOG
+    Flags:
+      ShowScale: true
+  - Id: 725
+    Name: NPC_REVERBERATION
+    Flags:
+      ShowScale: true
+  - Id: 2005
+    Name: RK_WINDCUTTER
+    Flags:
+      ShowScale: true
+  - Id: 2008
+    Name: RK_DRAGONBREATH
+    Flags:
+      ShowScale: true
+  - Id: 2032
+    Name: GC_POISONSMOKE
+    Flags:
+      ShowScale: true
+  - Id: 2044
+    Name: AB_EPICLESIS
+    Flags:
+      ShowScale: true
+  - Id: 2213
+    Name: WL_COMET
+    Flags:
+      ShowScale: true
+  - Id: 2237
+    Name: RA_DETONATOR
+    Flags:
+      ShowScale: true
+  - Id: 2238
+    Name: RA_ELECTRICSHOCKER
+    Flags:
+      ShowScale: true
+  - Id: 2239
+    Name: RA_CLUSTERBOMB
+    Flags:
+      ShowScale: true
+  - Id: 2249
+    Name: RA_MAGENTATRAP
+    Flags:
+      ShowScale: true
+  - Id: 2250
+    Name: RA_COBALTTRAP
+    Flags:
+      ShowScale: true
+  - Id: 2251
+    Name: RA_MAIZETRAP
+    Flags:
+      ShowScale: true
+  - Id: 2252
+    Name: RA_VERDURETRAP
+    Flags:
+      ShowScale: true
+  - Id: 2253
+    Name: RA_FIRINGTRAP
+    Flags:
+      ShowScale: true
+  - Id: 2254
+    Name: RA_ICEBOUNDTRAP
+    Flags:
+      ShowScale: true
+  - Id: 2260
+    Name: NC_COLDSLOWER
+    Flags:
+      ShowScale: true
+  - Id: 2273
+    Name: NC_NEUTRALBARRIER
+    Flags:
+      ShowScale: true
+  - Id: 2274
+    Name: NC_STEALTHFIELD
+    Flags:
+      ShowScale: true
+  - Id: 2301
+    Name: SC_CHAOSPANIC
+    Flags:
+      ShowScale: true
+  - Id: 2302
+    Name: SC_MAELSTROM
+    Flags:
+      ShowScale: true
+  - Id: 2303
+    Name: SC_BLOODYLUST
+    Flags:
+      ShowScale: true
+  - Id: 2319
+    Name: LG_BANDING
+    Flags:
+      ShowScale: true
+  - Id: 2321
+    Name: LG_RAYOFGENESIS
+    Flags:
+      ShowScale: true
+  - Id: 2414
+    Name: WM_REVERBERATION
+    Flags:
+      ShowScale: true
+  - Id: 2417
+    Name: WM_DOMINION_IMPULSE
+    Flags:
+      ShowScale: true
+  - Id: 2419
+    Name: WM_POEMOFNETHERWORLD
+    Flags:
+      ShowScale: true
+  - Id: 2426
+    Name: WM_GREAT_ECHO
+    Flags:
+      ShowScale: true
+  - Id: 2429
+    Name: WM_SOUND_OF_DESTRUCTION
+    Flags:
+      ShowScale: true
+  - Id: 2452
+    Name: SO_WARMER
+    Flags:
+      ShowScale: true
+  - Id: 2455
+    Name: SO_ARRULLO
+    Flags:
+      ShowScale: true
+  - Id: 2465
+    Name: SO_FIRE_INSIGNIA
+    Flags:
+      ShowScale: true
+  - Id: 2466
+    Name: SO_WATER_INSIGNIA
+    Flags:
+      ShowScale: true
+  - Id: 2467
+    Name: SO_WIND_INSIGNIA
+    Flags:
+      ShowScale: true
+  - Id: 2468
+    Name: SO_EARTH_INSIGNIA
+    Flags:
+      ShowScale: true
+  - Id: 2483
+    Name: GN_CRAZYWEED
+    Flags:
+      ShowScale: true
+  - Id: 2484
+    Name: GN_CRAZYWEED_ATK
+    Flags:
+      ShowScale: true
+  - Id: 2487
+    Name: GN_FIRE_EXPANSION_SMOKE_POWDER
+    Flags:
+      ShowScale: true
+  - Id: 2488
+    Name: GN_FIRE_EXPANSION_TEAR_GAS
+    Flags:
+      ShowScale: true
+  - Id: 2490
+    Name: GN_HELLS_PLANT
+    Flags:
+      ShowScale: true
+  - Id: 2518
+    Name: SR_RIDEINLIGHTNING
+    Flags:
+      ShowScale: true
+  - Id: 2555
+    Name: RL_B_TRAP
+    Flags:
+      ShowScale: true
+  - Id: 3006
+    Name: KO_BAKURETSU
+    Flags:
+      ShowScale: true
+  - Id: 3008
+    Name: KO_MUCHANAGE
+    Flags:
+      ShowScale: true
+  - Id: 3009
+    Name: KO_HUUMARANKA
+    Flags:
+      ShowScale: true
+  - Id: 5004
+    Name: RK_DRAGONBREATH_WATER
+    Flags:
+      ShowScale: true
+  - Id: 5006
+    Name: NC_MAGMA_ERUPTION
+    Flags:
+      ShowScale: true
+  - Id: 5013
+    Name: LG_KINGS_GRACE
+    Flags:
+      ShowScale: true
+  - Id: 5027
+    Name: SU_CN_POWDERING
+    Flags:
+      ShowScale: true
+  - Id: 5028
+    Name: SU_CN_METEOR
+    Flags:
+      ShowScale: true
+  - Id: 5042
+    Name: SU_CN_METEOR2
+    Flags:
+      ShowScale: true
+  - Id: 5048
+    Name: SU_NYANGGRASS
+    Flags:
+      ShowScale: true
+  - Id: 8020
+    Name: MH_POISON_MIST
+    Flags:
+      ShowScale: true
+  - Id: 8025
+    Name: MH_XENO_SLASHER
+    Flags:
+      ShowScale: true
+  - Id: 8041
+    Name: MH_LAVA_SLIDE
+    Flags:
+      ShowScale: true
+  - Id: 8043
+    Name: MH_VOLCANIC_ASH
+    Flags:
+      ShowScale: true
+  - Id: 8208
+    Name: MA_SHOWER
+    Flags:
+      ShowScale: true
+  - Id: 8211
+    Name: MA_SANDMAN
+    Flags:
+      ShowScale: true
+  - Id: 8212
+    Name: MA_FREEZINGTRAP
+    Flags:
+      ShowScale: true
+  - Id: 8406
+    Name: EL_WATER_BARRIER
+    Flags:
+      ShowScale: true
+  - Id: 8409
+    Name: EL_ZEPHYR
+    Flags:
+      ShowScale: true
+  - Id: 8412
+    Name: EL_POWER_OF_GAIA
+    Flags:
+      ShowScale: true
+  - Id: 10006
+    Name: GD_LEADERSHIP
+    Flags:
+      ShowScale: true
+  - Id: 10007
+    Name: GD_GLORYWOUNDS
+    Flags:
+      ShowScale: true
+  - Id: 10008
+    Name: GD_SOULCOLD
+    Flags:
+      ShowScale: true
+  - Id: 10009
+    Name: GD_HAWKEYES
+    Flags:
+      ShowScale: true
+# <<< bourgeon:showscale
