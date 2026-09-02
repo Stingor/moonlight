@@ -6879,6 +6879,27 @@ void clif_parse_bourgeon_integrity_legacy(int32 fd, map_session_data* sd) {
 // by opcodes that collide with their own handlers.
 void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
+
+	// 🔴 Une session spectateur n'est pas un joueur : elle REGARDE (invisible,
+	// muette, immobile), et le client qu'elle annonce est celui du joueur qui
+	// s'apprête à se connecter -- s'il est en retard d'un patch, il l'apprendra à
+	// SA connexion, sous son propre nom. La contrôler coûte deux fois : le décor de
+	// l'écran de connexion se fait jeter, et le journal se remplit de lignes
+	// « Spectator » au milieu de celles qui nomment les vrais joueurs à prévenir.
+	//
+	// Le drapeau est posé quand même, sans quoi le contrôle « sans DLL Bourgeon »
+	// viendrait la kicker quinze secondes plus tard. Mais rien de plus :
+	// 🔴🔴 clif_bourgeon_grant_verified INTERROGE LA BASE (alootid, par char_id) et
+	// pousse des données de personnage qu'un spectateur n'a pas -- toute la
+	// fonctionnalité tient à ce qu'aucune ligne ne soit écrite ni lue pour lui. Et
+	// le MachineGuid n'est pas enregistré non plus : c'est celui du joueur, qui le
+	// déclarera lui-même en entrant, et l'inscrire ici le ferait passer pour un
+	// multi-compte de sa propre session de décor.
+	if (sd->state.spectator) {
+		sd->state.has_bourgeon = true;
+		return;
+	}
+
 	if (!bourgeon_integrity_conf.loaded)
 		clif_bourgeon_integrity_reload();
 
