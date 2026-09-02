@@ -8052,6 +8052,61 @@ ACMD_FUNC(refresh)
 	return 0;
 }
 
+/*==========================================
+ * [Stingor] @refreshmap : RECHARGER la carte, sur place.
+ *
+ * `@refresh` renvoie l'état du joueur ; celle-ci fait recharger la CARTE. C'est
+ * ce qu'il faut au GreyWorld du client (terrain aplati, décors non chargés), qui
+ * fige tout cela au chargement : sans rechargement, basculer le réglage ne se
+ * voit qu'au warp suivant, et les décors retirés ne reviennent pas du tout.
+ *
+ * 🔴 UN `clif_changemap` SEUL NE SUFFIRAIT PAS. Le client rechargerait bien le
+ * décor, mais il vide sa liste d'acteurs et son `loadendack` ressortirait
+ * d'entrée de `clif_parse_LoadEndAck` (`sd->prev != nullptr` : de son point de
+ * vue le joueur n'a jamais quitté la carte). Décor juste, scène vide. Seul un
+ * vrai `pc_setpos` le retire de la carte et rend au `loadendack` son travail.
+ *
+ * ⚠ Et parce qu'il l'en retire, les monstres qui le visaient PERDENT LEUR CIBLE.
+ * D'où la même barrière que la déconnexion (`battle_config.prevent_logout`) :
+ * fuir un combat par ici ne doit pas être plus facile que par un /quit.
+ *
+ * PAS DE COOLDOWN, volontairement : une fly wing fait exactement le même
+ * `pc_setpos` et se spamme sans aucun frein. Brider celle-ci n'aurait protégé de
+ * rien qu'un objet de marchand ne permette déjà.
+ *------------------------------------------*/
+ACMD_FUNC(refreshmap)
+{
+	nullpo_retr(-1, sd);
+
+	if (sd->prev == nullptr) { // déjà en train de changer de carte
+		clif_displaymessage(fd, "Tu changes déjà de carte.");
+		return -1;
+	}
+	if (pc_isdead(sd)) {
+		clif_displaymessage(fd, "Impossible en étant mort.");
+		return -1;
+	}
+	// `pc_cant_act` couvre d'un coup tout ce que le retrait de la carte casserait
+	// sous les pieds du joueur : script de PNJ, échange, boutique, entrepôt,
+	// salon de chat, et les fenêtres modernes (barter, roulette, stylist…).
+	if (pc_cant_act(sd)) {
+		clif_displaymessage(fd, "Ferme d'abord ce que tu as ouvert.");
+		return -1;
+	}
+
+	if (battle_config.prevent_logout && sd->canlog_tick != 0 &&
+		DIFF_TICK(gettick(), sd->canlog_tick) <= battle_config.prevent_logout) {
+		clif_displaymessage(fd, "Impossible juste après un combat.");
+		return -1;
+	}
+
+	// CLR_OUTSIGHT et non CLR_TELEPORT : le joueur ne bouge pas d'une case, jouer
+	// l'effet de téléportation aux voisins leur raconterait quelque chose qui n'a
+	// pas lieu.
+	pc_setpos(sd, sd->mapindex, sd->x, sd->y, CLR_OUTSIGHT);
+	return 0;
+}
+
 ACMD_FUNC(refreshall)
 {
 	map_session_data* iter_sd;
@@ -11893,6 +11948,7 @@ void atcommand_basecommands(void) {
 		ACMD_DEF(changecharsex),
 		ACMD_DEF(mute),
 		ACMD_DEF(refresh),
+		ACMD_DEF(refreshmap), // [Stingor]
 		ACMD_DEF(refreshall),
 		ACMD_DEF(identify),
 		ACMD_DEF(identifyall),

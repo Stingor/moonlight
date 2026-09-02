@@ -58,6 +58,9 @@ Body:
       tri_gstorage: true
       uptime: true
       showdelay: true
+      # Recharger la carte sur place. Le client Bourgeon l'envoie quand le joueur
+      # bascule « aplatir le relief » (GreyWorld), et elle se tape aussi à la main.
+      refreshmap: true
       exp: true
       mobinfo: true
       iteminfo: true
