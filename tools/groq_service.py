@@ -76,7 +76,16 @@ LLM_TOP_K             = int(os.environ.get("LLM_TOP_K",               "40"))
 LLM_MIN_P             = float(os.environ.get("LLM_MIN_P",             "0.05"))
 LLM_REPEAT_PENALTY    = float(os.environ.get("LLM_REPEAT_PENALTY",    "1.05"))
 LLM_PRESENCE_PENALTY  = float(os.environ.get("LLM_PRESENCE_PENALTY",  "0.0"))
-LLM_FREQUENCY_PENALTY = float(os.environ.get("LLM_FREQUENCY_PENALTY", "0.0"))
+# frequency_penalty REMONTÉ à 0.6, la valeur d'origine du service. Il avait été
+# mis à 0 sur une comparaison bancale (le profil « legacy » changeait TROIS choses
+# à la fois : frequency 0.6, presence 0.6 et max_tokens 600). Isolé et mesuré sur
+# 3 runs de 30 tours par condition : doublons 10,7 -> 6,0 (-44 %), relances
+# 38,3 -> 34,7, amorces recyclées 0,7 -> 0, latence inchangée, zéro CJK.
+# presence_penalty reste à 0 : les deux ne font PAS la même chose — « presence »
+# pénalise un token dès sa première apparition, « frequency » proportionnellement
+# au nombre d'occurrences, donc bien plus doucement. Et c'est nommément
+# presence_penalty que Qwen incrimine pour le mélange de langues.
+LLM_FREQUENCY_PENALTY = float(os.environ.get("LLM_FREQUENCY_PENALTY", "0.6"))
 # 600 était un filet à 10x le besoin : le bot vise ~200 caractères (~60 tokens) et
 # en sort déjà 70-110. Quand il partait en pavé on payait 600 tokens pour en jeter
 # 540 — soit plusieurs secondes de latence pure perte.
@@ -1194,6 +1203,11 @@ _ROLE_BREAK_MARKERS = (
     # français, donc rien d'autre ne la rattraperait.
     "here is the translated", "here's the translated", "you are sting-bot",
     "translated version of", "as an ai", "i'm here to help",
+    # La consigne de variété est injectée à l'exécution, elle n'est donc PAS dans
+    # SYSTEM_PROMPT : ni les canaris ni _prompt_ngrams() ne la couvrent. Un modèle
+    # qui la récite en français passerait au travers — c'est arrivé en chinois,
+    # rattrapé par le seul filtre non latin.
+    "[interdit]", "[variété]", "ne commence pas par :",
 )
 
 
@@ -1237,17 +1251,28 @@ def _variety_hint():
 
     Préventif, contrairement au second tirage de groq_chat() : ~40 tokens de
     prompt coûtent bien moins cher qu'un aller-retour complet (~1,5 s).
+
+    RÉDIGÉE COURT ET SÈCHE, VOLONTAIREMENT. La première version était une phrase
+    d'instruction développée (« Tes dernières répliques commençaient par … Change
+    d'amorce, d'angle et de vanne : ne recycle aucune de celles-là »), et un
+    joueur a reçu ceci en pleine réponse, relevé dans les logs de production :
+
+        « Tous les tryhards dégénérés, venez me 挑战，写下你认为Sting-Bot会说出的
+          一句话，但不要使用之前的用词和结构。保持信息直接，无需描述或其他文字。 »
+
+    soit la consigne TRADUITE EN CHINOIS et récitée au lieu d'être appliquée. Un
+    modèle chinois à qui l'on adresse une longue directive méta en français peut
+    la prendre pour du contenu à reformuler, et la rend dans sa langue dominante.
+    Moins il y a de phrase à recopier, moins il y a de phrase à traduire.
     """
     opens = []
     for prev in list(_RECENT_REPLIES)[-VARIETY_RECALL:]:
         words = prev.split()
         if words:
-            opens.append(" ".join(words[:5]))
+            opens.append(" ".join(words[:4]))
     if not opens:
         return None
-    return ("[VARIÉTÉ] Tes dernières répliques commençaient par : "
-            + " / ".join("« %s… »" % o for o in opens)
-            + ". Change d'amorce, d'angle et de vanne : ne recycle aucune de celles-là.")
+    return "[INTERDIT] Ne commence pas par : " + " ; ".join(opens) + "."
 
 
 def _stop_tokens() -> list:
