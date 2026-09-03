@@ -2195,6 +2195,15 @@ void map_reqnickdb(map_session_data * sd, int32 charid)
 
 	nullpo_retv(sd);
 
+	// A spectator resolves nobody's name (see SPECTATOR_USERID in mmo.hpp).
+	// Unlike clif_parse_GetCharNameRequest, nothing here bounds the question to
+	// what the asker can see: an id this map-server does not hold is asked of the
+	// char-server, one query per packet, so walking the ids reads out the whole
+	// character directory.
+	if( sd->state.spectator ){
+		return;
+	}
+
 	tsd = map_charid2sd(charid);
 	if( tsd != nullptr )
 	{

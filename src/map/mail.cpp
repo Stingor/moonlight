@@ -464,6 +464,16 @@ void mail_send(map_session_data *sd, const char *dest_name, const char *title, c
 
 	nullpo_retv(sd);
 
+	// A spectator writes to nobody (see SPECTATOR_USERID in mmo.hpp). RODEX is a
+	// message addressed BY NAME, so neither distance nor map stands between it and
+	// its target — the very thing that made the friend request worth closing — and
+	// it does not merely reach a player: intif_Mail_send has the char-server INSERT
+	// it, title and body included, under a sender that exists in no table. Nor is
+	// the daily count a ceiling: it is spent per SESSION, and a session costs
+	// nothing.
+	if( sd->state.spectator )
+		return;
+
 	if( sd->state.trading )
 		return;
 

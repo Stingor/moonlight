@@ -2686,6 +2686,14 @@ static void intif_parse_Mail_receiver( int32 fd ){
 }
 
 bool intif_mail_checkreceiver( map_session_data* sd, char* name ){
+	// The same door as mail_send, one step earlier: this one answers whether a
+	// name exists — with that character's class and level — and answers it at once
+	// when the player is on this map-server, which also says they are online. A
+	// spectator asks nothing about anybody.
+	if( sd->state.spectator ){
+		return false;
+	}
+
 	map_session_data *tsd;
 
 	tsd = map_nick2sd( name, false );
