@@ -6860,6 +6860,10 @@ static void clif_bourgeon_grant_verified(map_session_data* sd) {
 // la branche outdated). À RETIRER une fois la playerbase migrée (patcher-enforced).
 void clif_parse_bourgeon_integrity_legacy(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
+	// Une session spectateur ne se contrôle pas, et ne se nomme pas dans le journal
+	// au milieu des joueurs à prévenir (même raison que l'opcode courant).
+	if (sd->state.spectator)
+		return;
 	ShowWarning("Bourgeon: legacy integrity opcode 0x0BFB from %s (AID %d) — pre-migration client, kicking with update notice.\n",
 		sd->status.name, sd->status.account_id);
 	// ANCIEN ZC_BOURGEON_KICK_NOTICE opcode 0x0BFA, 4 octets : ce que l'ancien overlay écoute.
@@ -6887,18 +6891,25 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 	// l'écran de connexion se fait jeter, et le journal se remplit de lignes
 	// « Spectator » au milieu de celles qui nomment les vrais joueurs à prévenir.
 	//
-	// Le drapeau est posé quand même, sans quoi le contrôle « sans DLL Bourgeon »
-	// viendrait la kicker quinze secondes plus tard. Mais rien de plus :
-	// 🔴🔴 clif_bourgeon_grant_verified INTERROGE LA BASE (alootid, par char_id) et
-	// pousse des données de personnage qu'un spectateur n'a pas -- toute la
-	// fonctionnalité tient à ce qu'aucune ligne ne soit écrite ni lue pour lui. Et
-	// le MachineGuid n'est pas enregistré non plus : c'est celui du joueur, qui le
-	// déclarera lui-même en entrant, et l'inscrire ici le ferait passer pour un
-	// multi-compte de sa propre session de décor.
-	if (sd->state.spectator) {
-		sd->state.has_bourgeon = true;
+	// 🔴🔴 ET LE DRAPEAU N'EST PAS POSÉ. Il l'était, pour la seule raison que le
+	// contrôle « sans DLL Bourgeon » serait venu la kicker quinze secondes plus
+	// tard. Mais `has_bourgeon` est la SEULE garde des vingt-trois handlers
+	// CZ_BOURGEON_*, dont ceux qui ÉCRIVENT EN BASE (presets alootid), poussent du
+	// texte vers Discord (rapport de bug, dont le rate-limit par account_id ne tient
+	// pas : une session en obtient un neuf à chaque fois) et font scanner le mob_db
+	// entier (données techniques). L'accorder ici revenait à ouvrir tout cela à
+	// quiconque lit l'identifiant réservé dans la DLL — sans compte, donc sans rien
+	// à bannir. Le kick est écarté à sa SOURCE : le contrôle n'est plus armé pour
+	// une session spectateur (cf. clif_parse_LoadEndAck).
+	//
+	// Rien d'autre non plus : 🔴🔴 clif_bourgeon_grant_verified INTERROGE LA BASE
+	// (alootid, par char_id) et pousse des données de personnage qu'un spectateur
+	// n'a pas -- toute la fonctionnalité tient à ce qu'aucune ligne ne soit écrite
+	// ni lue pour lui. Et le MachineGuid n'est pas enregistré : c'est celui du
+	// joueur, qui le déclarera lui-même en entrant, et l'inscrire ici le ferait
+	// passer pour un multi-compte de sa propre session de décor.
+	if (sd->state.spectator)
 		return;
-	}
 
 	if (!bourgeon_integrity_conf.loaded)
 		clif_bourgeon_integrity_reload();
@@ -16628,7 +16639,13 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 	// check earlier in the SAME login session (login_id1 matches), the player is
 	// just changing character — the client won't re-send CZ_BOURGEON_INTEGRITY, so
 	// re-grant straight away instead of scheduling a kick.
-	if (sd->state.connect_new) {
+	//
+	// 🔴 Jamais pour une session spectateur : son handshake est ignoré (cf.
+	// clif_parse_bourgeon_integrity, qui ne lui accorde plus rien), donc le contrôle
+	// la trouverait toujours « sans DLL ». Et il n'y a personne à prévenir derrière
+	// — le client qu'elle annonce est celui d'un joueur qui n'est pas encore
+	// connecté, et qui l'apprendra sous son propre nom en entrant.
+	if (sd->state.connect_new && !sd->state.spectator) {
 		auto vit = s_verified_login.find(sd->status.account_id);
 		if (vit != s_verified_login.end() && vit->second == sd->login_id1)
 			clif_bourgeon_grant_verified(sd);

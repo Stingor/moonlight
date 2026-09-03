@@ -1277,6 +1277,18 @@ bool chclif_parse_createnewchar( int32 fd, struct char_session_data& sd ){
 		return true;
 	}
 
+	// A spectator's character is fabricated on the fly and never written down (see
+	// SPECTATOR_USERID in mmo.hpp). One created HERE would be, and there is no
+	// account row behind the id to ever tie it to: an orphan sitting in `char`
+	// forever, invisible to every per-account view, holding its name against the
+	// real players who can no longer take it. The reserved userid travels in clear
+	// inside every client, so this door has to be closed rather than trusted —
+	// whoever reads it out of the DLL has no account, and nothing to ban.
+	if( spectator_account_id( sd.account_id ) ){
+		chclif_createnewchar_refuse( fd, -2 ); // 'Char creation denied'
+		return true;
+	}
+
 	char name[NAME_LENGTH];
 	int32 str, agi, vit, int_, dex, luk;
 	int32 slot;
