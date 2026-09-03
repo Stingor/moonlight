@@ -168,6 +168,10 @@ SYSTEM_PROMPT = (
     "CONVERSATION CONTINUE : tu vis en permanence à Gonryun, tu es déjà au milieu de la discussion et ça se prend sans arrêt la tête, tous le monde t'insulte et tu riposte avec une verve sans égal. "
     "Tu ne dis bonjour/salut/yo/re QU'UNE SEULE FOIS à un joueur. Si l'historique montre que vous avez déjà "
     "échangé, tu enchaînes DIRECTEMENT sur le fond SANS aucune salutation. "
+    "RÈGLE DE PERTINENCE : tu réponds à ce qui vient d'être DIT, rien d'autre. "
+    "Si le joueur ne pose aucune question, n'invente pas celle à laquelle tu répondrais : "
+    "ni stuff, ni farm, ni drop, ni conseil que personne ne t'a demandé. "
+    "Une remarque banale ou sympa appelle une vanne, pas un cours. "
     "RÈGLE D'ADRESSE : le bloc [JOUEUR] décrit TOUJOURS la personne qui vient de t'écrire, "
     "celle à qui tu réponds — jamais un tiers. Tu lui parles DIRECTEMENT, en la tutoyant. "
     "Tu ne racontes JAMAIS à quelqu'un d'autre ce qu'elle est en train de faire, "
@@ -755,30 +759,60 @@ _JOB_NAMES = {
 _ADMIN_NAMES = ("stingor",)
 
 
-def _is_admin(player: str) -> bool:
-    """Reconnaît l'admin malgré les décorations de pseudo.
+def _normalize_name(player: str) -> str:
+    """Pseudo débarrassé de ses décorations, pour le comparer.
 
     Sur Discord le nom vient de `member.nick`, que les gens ornent volontiers :
     « !Stingor » — le point d'exclamation fait remonter le membre en tête de la
     liste. Une comparaison brute sur `player.lower()` échouait donc en silence,
     et le bot répondait à son propre admin sans le reconnaître.
     """
-    return re.sub(r"[^0-9a-z]", "", player.lower()) in _ADMIN_NAMES
+    return re.sub(r"[^0-9a-z]", "", player.lower())
 
 
-def _admin_note(player: str) -> str:
-    """Rappel d'identité pour l'admin, rédigé à la DEUXIÈME personne.
+def _is_admin(player: str) -> bool:
+    """L'interlocuteur est-il l'administrateur du serveur ?"""
+    return _normalize_name(player) in _ADMIN_NAMES
 
-    À la troisième (« montre-LUI du respect »), le modèle lisait une consigne
-    portant sur un tiers et répondait à un interlocuteur imaginaire : « Stingor
-    est en train de parler sur Discord, respecte-le un peu » — adressé à Stingor
-    lui-même.
+
+# Le SYSTEM_PROMPT cite dix personnes réelles, et ce sont toutes des JOUEURS.
+# Quand l'une d'elles écrit, son nom réveille les associations du prompt et le bot
+# répond à côté. Observé en jeu : Atheist écrit « ça fait toujours plaisir de te
+# parler », le bot répond « lâche-moi avec tes questions débiles […] tu veux du
+# stuff ? va le farm toi-même » — parce que le prompt dit « envoie-les demander à
+# Atheist, le spécialiste stuff ». Il a renvoyé Atheist vers Atheist, sur un sujet
+# que personne n'avait abordé. Indépendant du modèle : Qwen faisait pareil.
+_FIGURE_NOTES = {
+    "stingor": "C'est Stingor EN PERSONNE qui t'écrit, là, maintenant : ton mentor et "
+               "l'admin du serveur. Tu réponds À LUI, en le tutoyant, avec un minimum "
+               "de respect (à ta façon).",
+    "atheist": "C'est Atheist LUI-MÊME qui t'écrit, le spécialiste stuff. Ne le renvoie "
+               "donc PAS vers Atheist, et ne lui parle pas de stuff s'il n'en parle pas.",
+    "spider":  "C'est Spider LUI-MÊME qui t'écrit, le gars des pavés sur le forum. Ne le "
+               "renvoie pas vers Spider.",
+    "castor":  "C'est Castor LUI-MÊME qui t'écrit, l'admin de New-Horizon.",
+    "faust":   "C'est Faust LUI-MÊME qui t'écrit, l'admin de New-Horizon.",
+    "doo":     "C'est Doo LUI-MÊME qui t'écrit, admin de New-Horizon.",
+    "evenom":  "C'est Evenom LUI-MÊME qui t'écrit.",
+    "blissey": "C'est Blissey ELLE-MÊME qui t'écrit, la GM.",
+    "spooky":  "C'est Spooky ELLE-MÊME qui t'écrit, la GM en chef.",
+}
+
+
+def _figure_note(player: str) -> str:
+    """Rappel d'identité quand l'interlocuteur est cité dans le prompt.
+
+    Rédigé à la DEUXIÈME personne : à la troisième (« montre-LUI du respect »),
+    le modèle lisait une consigne portant sur un tiers et répondait à un
+    interlocuteur imaginaire — « Stingor est en train de parler sur Discord,
+    respecte-le un peu », adressé à Stingor lui-même.
     """
-    if not _is_admin(player):
-        return ""
-    return (" ⚠ C'est Stingor EN PERSONNE qui t'écrit, là, maintenant : ton mentor et "
-            "l'admin du serveur. Tu réponds À LUI, en le tutoyant, avec un minimum de "
-            "respect (à ta façon).")
+    note = _FIGURE_NOTES.get(_normalize_name(player))
+    return (" ⚠ " + note) if note else ""
+
+
+# Conservé : le service et ses tests appellent encore ce nom.
+_admin_note = _figure_note
 
 
 def _get_player_info(player: str, conn=None, player_ctx: str = "") -> str:
