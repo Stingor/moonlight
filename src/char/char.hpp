@@ -300,6 +300,10 @@ struct char_session_data {
 	uint8 isvip;
 	time_t unban_time[MAX_CHARS];
 	int32 charblock_timer;
+	/// Bounds how long a spectator session may sit on the character select, and
+	/// nothing else (see char_spectator_charselect_timeout). Disarmed the moment
+	/// the client is sent to the map-server.
+	int32 spectator_charselect_timer;
 	uint8 flag; // &1 - Retrieving guild bound items
 };
 
@@ -327,6 +331,7 @@ void char_set_char_offline(uint32 char_id, uint32 account_id);
 void char_set_all_offline(int32 id);
 void char_disconnect_player(uint32 account_id);
 TIMER_FUNC(char_chardb_waiting_disconnect);
+TIMER_FUNC(char_spectator_charselect_timeout);
 
 int32 char_mmo_gender(const struct char_session_data *sd, const struct mmo_charstatus *p, char sex);
 int32 char_mmo_char_tobuf( CHARACTER_INFO& info, mmo_charstatus& p );

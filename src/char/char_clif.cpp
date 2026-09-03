@@ -846,6 +846,7 @@ int32 chclif_parse_reqtoconnect(int32 fd, struct char_session_data* sd,uint32 ip
 		sd->sex = sex;
 		sd->auth = false; // not authed yet
 		sd->pincode_correct = false; // not entered pincode correctly yet
+		sd->spectator_charselect_timer = INVALID_TIMER;
 
 		// send back account_id
 		WFIFOHEAD(fd,4);
@@ -1210,6 +1211,14 @@ bool chclif_parse_charselect( int32 fd, struct char_session_data& sd ){
 	}
 
 	chclif_send_map_data( fd, cd, i );
+
+	// On its way to the map-server, where battle_config.spectator_session_ttl
+	// bounds it from here on: the char-select timer has nothing left to watch, and
+	// leaving it armed would close this socket under a session that is playing.
+	if( spectator && sd.spectator_charselect_timer != INVALID_TIMER ){
+		delete_timer( sd.spectator_charselect_timer, char_spectator_charselect_timeout );
+		sd.spectator_charselect_timer = INVALID_TIMER;
+	}
 
 	// create temporary auth entry
 	std::shared_ptr<struct auth_node> node = std::make_shared<struct auth_node>();
@@ -1651,6 +1660,29 @@ public:
 	}
 } char_packet_db;
 
+/// Which packets a spectator session is allowed to send to the char-server.
+///
+/// The reserved userid travels in clear inside every client (see SPECTATOR_USERID
+/// in mmo.hpp), so this is the session an unknown host reaches with no account at
+/// all — and sd.found_char[0] holds the fabricated character, which is enough to
+/// walk into every handler whose only guard is "is this one of yours?". Asking to
+/// rename it runs a SELECT over the character table per packet: a free query, and
+/// an oracle telling whether any name exists.
+///
+/// A backdrop needs three packets to do its work, so this is a WHITELIST and not a
+/// guard per handler: whatever is added to the char-server later is closed by
+/// default, which is the opposite of how the map-server side had to be done.
+static bool char_spectator_packet_allowed( uint16 cmd ){
+	switch( cmd ){
+		case HEADER_PING:
+		case HEADER_CH_SELECT_CHAR:
+		case HEADER_CH_CHARLIST_REQ:
+			return true;
+		default:
+			return false;
+	}
+}
+
 /**
  * Entry point from client to char-serv
  * function that check incoming command then split it to correct handler.
@@ -1733,6 +1765,19 @@ int32 chclif_parse(int32 fd) {
 			}
 		}
 #endif
+
+		// A spectator only ever gets this far to pick the one character it was handed
+		// (see char_spectator_packet_allowed). Anything else closes the session rather
+		// than being ignored: an ignored packet stays in the buffer and the loop reads
+		// it again, and the pincode guard just above already answers a client sending
+		// what it should not the very same way. One line per session, not per packet.
+		if( sd != nullptr && spectator_account_id( sd->account_id )
+			&& !char_spectator_packet_allowed( cmd ) ){
+			ShowNotice( "Dropped a spectator session that sent packet 0x%x (id: %d).\n",
+				cmd, sd->account_id );
+			set_eof( fd );
+			return 0;
+		}
 
 		switch( cmd ) {
 			case 0x65: next=chclif_parse_reqtoconnect(fd,sd,ipl); break;

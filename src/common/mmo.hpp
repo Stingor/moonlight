@@ -200,6 +200,12 @@ const t_itemid WEDDING_RING_F = 2635;
 /// "already online" (code 8) — by its own previous session. Ids are therefore
 /// picked from the ones nothing is currently using (login_spectator_pick_id).
 #define SPECTATOR_USERID "moonlight_spectator"
+/// The name every spectator character wears. Reserved server-wide (see
+/// char_check_char_name): a player who took it would answer to map_nick2sd in
+/// place of the backdrop, and every path that addresses somebody BY NAME would
+/// stop meaning what it says. Nothing else would have caught it — the name is
+/// never written down, so the "does this name already exist" query is blind to it.
+#define SPECTATOR_CHAR_NAME "Spectator"
 #define SPECTATOR_ACCOUNT_ID_BASE 2900000
 #define SPECTATOR_CHAR_ID_BASE 2900000
 /// How many ids the range holds. Far more spectators than a server will ever

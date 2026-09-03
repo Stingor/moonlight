@@ -1034,7 +1034,7 @@ bool char_spectator_load( uint32 account_id, struct mmo_charstatus* p ){
 	p->slot = 0;
 	// Never seen by another player — a spectator is hidden — but the client
 	// still needs a name to draw its own character-select entry.
-	safestrncpy( p->name, "Spectator", sizeof( p->name ) );
+	safestrncpy( p->name, SPECTATOR_CHAR_NAME, sizeof( p->name ) );
 	p->class_ = JOB_NOVICE;
 	p->base_level = 1;
 	p->job_level = 1;
@@ -1550,6 +1550,12 @@ int32 char_check_char_name(char * name, char * esc_name)
 	// check for reserved names
 	if( strcmpi(name, charserv_config.wisp_server_name) == 0 )
 		return -1; // nick reserved for internal server messages
+
+	// The login screen backdrop wears this one on every session, and it is never
+	// written down — so the "already exists" query below cannot see it, and a
+	// player taking it would answer to map_nick2sd in the backdrop's place.
+	if( strcmpi(name, SPECTATOR_CHAR_NAME) == 0 )
+		return -1; // nick reserved for the spectator session
 
 	// check for the channel symbol
 	if( name[0] == '#' )
@@ -2162,6 +2168,64 @@ void char_set_session_flag_(int32 account_id, int32 val, bool set) {
 	}
 }
 
+/// How long a spectator session may sit on the character select before the
+/// char-server drops it, in seconds.
+///
+/// Not a config entry on purpose: conf/import/char_conf.txt is not in the
+/// repository, so an option there would leave production running on whatever
+/// this file says anyway — and nothing about this delay is worth tuning. A
+/// backdrop crosses the character select in a second or two.
+#define SPECTATOR_CHARSELECT_TTL 60
+
+/// Closes a spectator session that never left the character select.
+///
+/// battle_config.spectator_session_ttl bounds a session from the moment it
+/// enters the world, and nothing bounded it before that: one that stops here
+/// answers keep-alives for as long as it likes, holding its id and — since
+/// spectator_max_per_ip is what it is — the single backdrop slot its address
+/// gets, which is a real client's backdrop taken away.
+///
+/// The ordinary path leaves this timer nothing to do: a client closes its char
+/// socket the moment it is sent to the map-server, so no session answers to the
+/// id and this returns having touched nothing.
+///
+/// 🔴 A spectator id is RECYCLED as soon as the session holding it leaves
+/// (login_spectator_pick_id takes the first free one), so the id alone does not
+/// identify a session: without login_id1 as a witness, the timer of a session
+/// long gone would close the one that inherited its id. Same reasoning, and the
+/// same witness, as spectator_session_ttl_timer on the map-server.
+TIMER_FUNC(char_spectator_charselect_timeout){
+	struct char_session_data* sd = nullptr;
+	int32 i;
+
+	ARR_FIND( 0, fd_max, i, session[i] != nullptr
+		&& ( sd = (struct char_session_data*)session[i]->session_data ) != nullptr
+		&& sd->account_id == (uint32)id
+		&& sd->login_id1 == (uint32)data );
+
+	if( i == fd_max ){
+		return 0;
+	}
+
+	// Disarmed once the client was sent to the map-server, where
+	// spectator_session_ttl takes over. It cannot be read off online_char_data
+	// instead: send_users_tochar leaves spectators out, so their `server` stays
+	// -1 for as long as they play, and closing this socket on that reading would
+	// mark a live session offline and hand its id back while it is still in the
+	// world.
+	if( sd->spectator_charselect_timer != tid ){
+		return 0;
+	}
+
+	sd->spectator_charselect_timer = INVALID_TIMER;
+
+	ShowInfo( "Dropped a spectator session still sitting on the character select after %d s (id: %d).\n",
+		SPECTATOR_CHARSELECT_TTL, id );
+	set_eof( i );
+
+	return 0;
+}
+
 void char_auth_ok(int32 fd, struct char_session_data *sd) {
 	std::shared_ptr<struct online_char_data> character = util::umap_find( char_get_onlinedb(), sd->account_id );
 
@@ -2226,6 +2290,12 @@ void char_auth_ok(int32 fd, struct char_session_data *sd) {
 		safestrncpy( sd->pincode, "", sizeof( sd->pincode ) );
 
 		chclif_mmo_char_send( fd, *sd );
+
+		// Nothing else would ever close this session if it stopped right here (see
+		// char_spectator_charselect_timeout).
+		sd->spectator_charselect_timer = add_timer(
+			gettick() + SPECTATOR_CHARSELECT_TTL * 1000, char_spectator_charselect_timeout,
+			sd->account_id, (intptr_t)sd->login_id1 );
 #if PACKETVER_SUPPORTS_PINCODE
 		// The client will not display the character list until it has been told
 		// where it stands on the pin code — even when the system is disabled
