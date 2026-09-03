@@ -592,6 +592,13 @@ public:
 	// négatif et bloquerait les sauts durablement (le test est « < cooldown »).
 	t_tick bourgeon_jumplasttime = 0;
 
+	// [Stingor] Bourgeon : dernier rapport de triche accepté (CZ 0x0F1A). Le
+	// détecteur tourne côté client, donc la cadence est celle qu'il veut bien
+	// tenir : sans borne ici, un client bricolé écrit dans le journal du serveur
+	// aussi vite qu'il envoie. Porté par la SESSION plutôt que par une table
+	// statique account_id -> tick, qui grandirait sans que rien ne la vide.
+	t_tick bourgeon_cheatreport_tick = 0;
+
 	// [Stingor] Bourgeon : idem pour la validation de STYLE (CZ 0x0F26).
 	//
 	// 🔴 Ce n'est pas seulement du trafic. Chaque recette reçue fait fabriquer,

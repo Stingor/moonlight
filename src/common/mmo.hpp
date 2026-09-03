@@ -220,12 +220,21 @@ const t_itemid WEDDING_RING_F = 2635;
 
 /// Is this id one of ours? Both helpers are deliberately cheap: they are called
 /// on paths that run for every player, spectator or not.
+/// 🔴 The upper bound is SPECTATOR_ID_COUNT, not END_ACCOUNT_NUM. Both said the
+/// same thing about the ids that are actually handed out, but the range test also
+/// decides who is NOT a player: reaching to the end of the account space claimed
+/// ten thousand ids nobody ever distributes (2990000+), and an account that ever
+/// landed on one of them would have been invisible, exempt from the integrity
+/// check, and — the part that costs — NEVER SAVED. A promise this wide has to
+/// stop exactly where the promise is kept.
 static inline bool spectator_account_id( uint32 account_id ){
-	return account_id >= SPECTATOR_ACCOUNT_ID_BASE && account_id <= END_ACCOUNT_NUM;
+	return account_id >= SPECTATOR_ACCOUNT_ID_BASE
+		&& account_id < SPECTATOR_ACCOUNT_ID_BASE + SPECTATOR_ID_COUNT;
 }
 
 static inline bool spectator_char_id( uint32 char_id ){
-	return char_id >= SPECTATOR_CHAR_ID_BASE;
+	return char_id >= SPECTATOR_CHAR_ID_BASE
+		&& char_id < SPECTATOR_CHAR_ID_BASE + SPECTATOR_ID_COUNT;
 }
 
 //Guilds

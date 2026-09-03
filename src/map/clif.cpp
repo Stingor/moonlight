@@ -6447,6 +6447,16 @@ static void clif_bourgeon_set_afk( map_session_data& sd, uint8 mask ){
 // Layout: [packetType:2][packetLength:2][id:2][value:4]
 void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
+	// Comme les vingt-deux autres CZ_BOURGEON_* : ce canal n'est ouvert qu'à un
+	// client qui s'est annoncé. Il l'était pour tout le monde — seul handler à ne
+	// pas le demander — alors qu'un réglage y change l'état SERVEUR de la session.
+	// Les valeurs sensibles restent gardées par leur commande (`perm_atcmd`), mais
+	// une garde de fond ne remplace pas la porte d'entrée.
+	//
+	// 🔴 Sans danger de course : le client n'envoie un réglage que sur une action
+	// du joueur, jamais au démarrage, et son handshake d'intégrité part à l'entrée
+	// en jeu.
+	if (!sd->state.has_bourgeon) return;
 	const PACKET_CZ_BOURGEON_SETTING* p =
 		reinterpret_cast<const PACKET_CZ_BOURGEON_SETTING*>(RFIFOP(fd, 0));
 
@@ -9394,9 +9404,27 @@ void clif_parse_bourgeon_bug_report(int32 fd, map_session_data* sd) {
 	send_ack(0);
 }
 
+// Cadence du rapport de triche, en ms. Une par minute et par session : le
+// détecteur ne trouve pas dix fraudes par seconde, et ce qui arriverait à cette
+// vitesse-là ne serait plus un signalement mais un flot dans le journal.
+static const t_tick BOURGEON_CHEAT_REPORT_INTERVAL = 60000;
+
 void clif_parse_bourgeon_cheat_report(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
+
+	// Une par minute et par session. Le texte est écrit par le CLIENT et va tout
+	// droit dans le journal : sans cadence, un client bricolé le remplit à la
+	// vitesse du réseau, et un journal qu'on ne peut plus lire ne sert plus à
+	// signaler quoi que ce soit. Le rejet est SILENCIEUX — journaliser le refus
+	// serait exactement le flot qu'on cherche à couper.
+	const t_tick now = gettick();
+
+	if (sd->bourgeon_cheatreport_tick != 0 &&
+		DIFF_TICK(now, sd->bourgeon_cheatreport_tick) < BOURGEON_CHEAT_REPORT_INTERVAL)
+		return;
+
+	sd->bourgeon_cheatreport_tick = now;
 
 	const auto* p = reinterpret_cast<const PACKET_CZ_BOURGEON_CHEAT_REPORT*>(RFIFOP(fd, 0));
 
@@ -17443,6 +17471,14 @@ void clif_parse_ActionRequest(int32 fd, map_session_data *sd)
 		return;
 	}
 
+	// A spectator watches the world, it does not act in it (see SPECTATOR_USERID
+	// in mmo.hpp). Invisibility is not what stops an attack: the blow lands, the
+	// monster answers, and a viewpoint nobody can see ends up fighting in the
+	// middle of a town — or dying, which would take the backdrop down with it.
+	if( sd->state.spectator ){
+		return;
+	}
+
 	// TODO: shuffle packet
 	struct s_packet_db* info = &packet_db[RFIFOW(fd,0)];
 	clif_parse_ActionRequest_sub( *sd,
@@ -17640,6 +17676,14 @@ void clif_parse_TakeItem(int32 fd, map_session_data *sd)
 {
 	flooritem_data *fitem;
 	int32 map_object_id;
+
+	// A spectator watches the world, it does not pick things up in it (see
+	// SPECTATOR_USERID in mmo.hpp). What it takes is DESTROYED — the inventory
+	// receiving it belongs to a session nothing is ever saved for — and what it
+	// takes belonged to a player. Refused on the CLIENT's order, like WalkToXY, so
+	// the server keeps every way of handing the viewpoint something itself.
+	if (sd->state.spectator)
+		return;
 
 	// TODO: shuffle packet
 	map_object_id = RFIFOL(fd,packet_db[RFIFOW(fd,0)].pos[0]);
