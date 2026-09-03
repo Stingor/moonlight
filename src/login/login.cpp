@@ -931,11 +931,19 @@ void login_set_defaults() {
 	// Off by default: a server that has not asked for the login backdrop should
 	// not be handing out sessions to an id it never configured.
 	login_config.spectator_enabled = false;
-	// Two, not one: a session the client has just dropped can still read as alive
-	// for a few seconds (the map-server's logout has to travel), so a player coming
-	// back from a game would be refused the backdrop he just left. Two also covers
-	// a household behind one address. It is a ceiling, not a quota.
-	login_config.spectator_max_per_ip = 2;
+	// ONE live backdrop per address. A second client gets refused and falls back to
+	// the flat login screen, which is the intent: the scenery is worth one session
+	// per player, not one per window, and a session costs the map-server a full
+	// map_session_data whether anybody is looking at it or not.
+	//
+	// ⚠ Le point à surveiller si le décor venait à manquer chez un joueur SEUL : une
+	// session tout juste rendue peut se lire vivante encore un instant, le temps que
+	// le logout remonte du map jusqu'ici. Le client rend sa connexion AVANT de
+	// rebasculer, et il lui faut ensuite reconstruire son écran de connexion, donc
+	// la course est gagnée d'avance — mais si elle se perdait, le symptôme serait
+	// exactement celui-là : décor absent après un retour au login, et ce réglage est
+	// là pour le desserrer.
+	login_config.spectator_max_per_ip = 1;
 }
 
 
