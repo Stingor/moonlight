@@ -105,6 +105,7 @@ void storage_premiumStorage_save(map_session_data *sd);
 void storage_premiumStorage_close(map_session_data *sd);
 void storage_premiumStorage_quit(map_session_data *sd);
 void storage_premiumStorage_storeall(map_session_data *sd); // [Stingor] @storeall N
+void storage_premiumStorage_storecards(map_session_data *sd); // [Stingor] @storecard
 
 int32 compare_item(struct item *a, struct item *b);
 

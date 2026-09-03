@@ -1139,6 +1139,8 @@ ACMD_FUNC(storagealt)
  * @storecard [Stingor]
  * Met toutes les cards dans le card storage
  *------------------------------------------*/
+#define STORECARD_STORAGE_ID 5		// le storage alternatif dedie aux cartes (cf. msg 1851)
+
 ACMD_FUNC(storecard)
 {	
 	nullpo_retr(-1, sd);
@@ -1162,19 +1164,38 @@ ACMD_FUNC(storecard)
 		return 0;
 	}
 
-	if (storage_premiumStorage_load(sd, 5, STOR_MODE_PUT) == 0) {
+	// [Stingor] 2026-09-02 — CORRECTIF d'une course asynchrone.
+	// storage_premiumStorage_load() ne fait qu'EMETTRE une requete au char-server quand le coffre
+	// demande n'est pas deja celui en memoire (storage.cpp, `stor_id != num` -> intif_storage_request) :
+	// elle rend la main AVANT que le coffre soit charge. Ranger et fermer ici revenait donc, au
+	// PREMIER appel d'une session, a travailler sur un coffre encore vide — rien n'etait range, et
+	// le coffre s'ouvrait tout seul chez le joueur quand la reponse finissait par arriver. Au second
+	// appel le coffre etait deja en memoire, la branche synchrone s'appliquait et tout marchait :
+	// c'est ce qui rendait le defaut discret.
+	// Le transfert est desormais DIFFERE jusqu'a storage_premiumStorage_open(), exactement comme
+	// @storeall N — c'est le seul endroit ou le coffre est vraiment charge.
+	// Meme garde que @storeall N : sans elle, un coffre non declare dans inter_server.yml
+	// laisserait le drapeau arme sans qu'aucun storage_premiumStorage_open() ne vienne le
+	// desarmer — les deux commandes seraient alors bloquees jusqu'a la deconnexion.
+	if (!storage_exists(STORECARD_STORAGE_ID)) {
 		clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
 		return -1;
 	}
 
-	for (int i = 0; i < MAX_INVENTORY; i++) {
-		if (sd->inventory.u.items_inventory[i].amount && itemdb_type(sd->inventory.u.items_inventory[i].nameid) == IT_CARD)
-			storage_storageadd(sd, &sd->premiumStorage, i, sd->inventory.u.items_inventory[i].amount);
+	if (sd->state.pending_storeall) {
+		clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
+		return -1;
 	}
 
-	storage_premiumStorage_close(sd);
+	sd->state.pending_storeall = true;
+	sd->state.pending_storeall_cards_only = true;
 
-	clif_displaymessage(fd, msg_txt(sd,1851)); // Toutes les Cards sont stockées dans le storage alternatif 5.
+	if (storage_premiumStorage_load(sd, STORECARD_STORAGE_ID, STOR_MODE_PUT) == 0) {
+		sd->state.pending_storeall = false;
+		sd->state.pending_storeall_cards_only = false;
+		clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
+		return -1;
+	}
 	
 	return 0;
 }

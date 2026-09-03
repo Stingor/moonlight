@@ -1332,12 +1332,20 @@ void storage_premiumStorage_open(map_session_data *sd) {
 	// ne suffit pas à identifier l'onglet actif.
 	clif_bourgeon_storage_list(sd, sd->premiumStorage.stor_id);
 
-	// [Stingor] @storeall N: the premium storage may only become truly available here (loaded
-	// asynchronously from the char-server), so the deferred item transfer runs at this point,
+	// [Stingor] @storeall N / @storecard: the premium storage may only become truly available here
+	// (loaded asynchronously from the char-server), so the deferred item transfer runs at this point,
 	// never right after storage_premiumStorage_load(), to avoid racing the async load.
+	// pending_storeall dit qu'un rangement est arme ; pending_storeall_cards_only dit lequel.
 	if (sd->state.pending_storeall) {
+		bool cards_only = sd->state.pending_storeall_cards_only;
+
 		sd->state.pending_storeall = false;
-		storage_premiumStorage_storeall(sd);
+		sd->state.pending_storeall_cards_only = false;
+
+		if (cards_only)
+			storage_premiumStorage_storecards(sd);
+		else
+			storage_premiumStorage_storeall(sd);
 	}
 }
 
@@ -1440,6 +1448,30 @@ void storage_premiumStorage_storeall(map_session_data *sd) {
 
 	sprintf(output, msg_txt(sd,1852), num); // Tous les objets sont stockés dans le storage alternatif %d.
 	clif_displaymessage(sd->fd, output);
+}
+
+/**
+ * Store every card of the inventory into the premium storage that is currently loaded.
+ * Deferred half of @storecard: only ever called from storage_premiumStorage_open(), i.e.
+ * once the storage is REALLY loaded — see the comment there.
+ * @param sd Player who has the storage
+ * @author [Stingor]
+ **/
+void storage_premiumStorage_storecards(map_session_data *sd) {
+	nullpo_retv(sd);
+
+	// Le filtre est celui de la commande d'origine : la quantite et le type, rien d'autre.
+	// Contrairement a storeall(), les cartes « favorites » ne sont PAS epargnees — comportement
+	// historique, conserve tel quel pour ne pas changer ce que les joueurs ont pris l'habitude.
+	for (int32 i = 0; i < MAX_INVENTORY; i++) {
+		if (sd->inventory.u.items_inventory[i].amount
+			&& itemdb_type(sd->inventory.u.items_inventory[i].nameid) == IT_CARD)
+			storage_storageadd(sd, &sd->premiumStorage, i, sd->inventory.u.items_inventory[i].amount);
+	}
+
+	storage_premiumStorage_close(sd);
+
+	clif_displaymessage(sd->fd, msg_txt(sd,1851)); // Toutes les Cards sont stockées dans le storage alternatif 5.
 }
 
 /**
