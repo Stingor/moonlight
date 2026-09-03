@@ -220,6 +220,14 @@ ECHO_MIN_LEN   = 25     # en deçà (« lol », « mdr »), un doublon n'a rien 
 # qu'il resert la même vanne quinze tours plus loin.
 ECHO_MEMORY    = int(os.environ.get("ECHO_MEMORY", "12"))
 VARIETY_RECALL = int(os.environ.get("VARIETY_RECALL", "3"))
+# Longueur de l'amorce comparée. Était à 6, et c'est précisément la longueur où
+# les formules fétiches divergent : qwen2.5-14b ouvre 4 répliques sur 30 par
+# « ah ouais t'as », qwen3-14b en ouvre SIX par « t'as même pas » — servies à
+# quatre joueurs différents. À 6 mots on n'en voyait aucune (« t'as même pas LA
+# FORCE » contre « t'as même pas L'AIR »), à 4 on les prend toutes. C'est le
+# radotage le plus visible pour un joueur : ce n'est pas la fin de la phrase
+# qu'on remarque, c'est le fait qu'elle commence toujours pareil.
+ECHO_OPENING   = int(os.environ.get("ECHO_OPENING", "6"))
 # ──────────────────────────────────────────────────────────────────────────────
 
 SSL_CTX   = ssl.create_default_context(cafile=certifi.where())
@@ -1085,6 +1093,18 @@ def _normalize_for_echo(text: str) -> str:
     return " ".join(re.findall(r"[a-z0-9]+", text))
 
 
+def _similarity(a: str, b: str) -> float:
+    """Similarité de deux textes normalisés, indépendante de l'ordre des arguments.
+
+    difflib.SequenceMatcher n'est PAS symétrique : sur une paire réelle du banc,
+    ratio(A, B) = 0.403 et ratio(B, A) = 0.452 — de part et d'autre du seuil. La
+    même paire était donc un doublon ou non selon le sens de la comparaison, et
+    le seuil calibré sur le banc ne valait pas pour le service. On fixe l'ordre.
+    """
+    x, y = sorted((a, b))
+    return difflib.SequenceMatcher(None, x, y).ratio()
+
+
 def _looks_like_echo(text: str):
     """Renvoie la réplique récente dont `text` est un quasi-doublon, sinon None.
 
@@ -1099,9 +1119,10 @@ def _looks_like_echo(text: str):
         prev_norm = _normalize_for_echo(prev)
         if len(prev_norm) < ECHO_MIN_LEN:
             continue
-        if difflib.SequenceMatcher(None, norm, prev_norm).ratio() >= ECHO_RATIO:
+        if _similarity(norm, prev_norm) >= ECHO_RATIO:
             return prev
-        if norm.split()[:6] == prev_norm.split()[:6]:
+        mots, prev_mots = norm.split(), prev_norm.split()
+        if len(mots) >= ECHO_OPENING and mots[:ECHO_OPENING] == prev_mots[:ECHO_OPENING]:
             return prev
     return None
 
@@ -1239,7 +1260,10 @@ def _stop_tokens() -> list:
     modele = LLM_MODEL.lower()
     if "gemma" in modele:
         return ["<end_of_turn>", "<start_of_turn>", "<eos>", "\nuser\n"]
-    if "mistral" in modele or "mixtral" in modele or "magistral" in modele:
+    # « ministral » ne contient PAS « mistral » (m-i-N-i-s-t-r-a-l) : sans cette
+    # entrée, Ministral-3-14B recevrait les marqueurs ChatML et n'aurait aucun
+    # verrou côté serveur.
+    if any(k in modele for k in ("mistral", "ministral", "mixtral", "magistral")):
         return ["[INST]", "[/INST]", "</s>", "\nuser\n"]
     return ["<|im_end|>", "<|im_start|>", "<|endoftext|>", "\nuser\n"]
 

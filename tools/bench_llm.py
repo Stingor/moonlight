@@ -230,7 +230,7 @@ def analyse(rows: list) -> dict:
         for j in range(i + 1, len(norms)):
             if len(norms[i]) < gs.ECHO_MIN_LEN or len(norms[j]) < gs.ECHO_MIN_LEN:
                 continue
-            ratio = difflib.SequenceMatcher(None, norms[i], norms[j]).ratio()
+            ratio = gs._similarity(norms[i], norms[j])
             ratios.append(ratio)
             worst.append((ratio, i, j))
             if ratio >= gs.ECHO_RATIO:
