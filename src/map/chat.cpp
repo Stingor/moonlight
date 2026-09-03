@@ -80,6 +80,13 @@ int32 chat_createpcchat(map_session_data* sd, const char* title, const char* pas
 
 	nullpo_ret(sd);
 
+	// A spectator watches the world, it does not reach out to it (see
+	// SPECTATOR_USERID in mmo.hpp). A room title is free text broadcast to the
+	// area: it would hand a microphone back to the one session that must not have
+	// one — and clif_process_message, which refuses all the others, never sees it.
+	if( sd->state.spectator )
+		return 0;
+
 	if( sd->chatID )
 		return 0; //Prevent people abusing the chat system by creating multiple chats, as pointed out by End of Exam. [Skotlex]
 
@@ -135,6 +142,11 @@ int32 chat_joinchat(map_session_data* sd, int32 chatid, const char* pass)
 	chat_data* cd;
 
 	nullpo_ret(sd);
+
+	// See chat_createpcchat. Joining is not silent either: a room LISTS its
+	// members, so the one session nobody is supposed to see would be named in it.
+	if( sd->state.spectator )
+		return 0;
 
 	cd = (chat_data*)map_id2bl(chatid);
 

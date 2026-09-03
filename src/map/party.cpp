@@ -142,6 +142,14 @@ struct party_data* party_searchname(const char* str)
 }
 
 int32 party_create( map_session_data& sd, char *name, int32 item, int32 item2 ){
+	// A spectator watches the world, it does not reach out to it (see
+	// SPECTATOR_USERID in mmo.hpp). A party is WRITTEN DOWN (intif_create_party),
+	// under a char_id that never existed and will be handed to the next session:
+	// the row would outlive by far the minute the backdrop lasts.
+	if( sd.state.spectator ){
+		return 0;
+	}
+
 	struct party_member leader = {};
 	char tname[NAME_LENGTH];
 
@@ -381,6 +389,12 @@ int32 party_recv_info(struct party* sp, uint32 char_id)
 
 ///! TODO: Party invitation cross map-server through inter-server, so does with the reply.
 bool party_invite( map_session_data& sd, map_session_data *tsd ){
+	// See party_create: a spectator does not reach out to anybody, and an
+	// invitation is a window opening on somebody else's screen.
+	if( sd.state.spectator ){
+		return false;
+	}
+
 	struct party_data* p = party_search( sd.status.party_id );
 
 	if( p == nullptr ){

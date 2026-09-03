@@ -779,6 +779,15 @@ int32 channel_pcjoin(map_session_data *sd, char *chname, char *pass){
 	if(!sd || !chname)
 		return 0;
 
+	// A spectator watches the world, it does not LISTEN to it either (see
+	// SPECTATOR_USERID in mmo.hpp). This is not about what it could say — that door
+	// is shut in clif_process_message — but about what it hears: channel_autojoin
+	// runs for every session, so the backdrop was walking into #main and reading
+	// every line of it, on an id anybody can open without an account. The scenery
+	// has no use for a channel, and the count of members stops including it.
+	if( sd->state.spectator )
+		return 0;
+
 	if( channel_chk(chname,nullptr,1) ) {
 		clif_displaymessage(sd->fd, msg_txt(sd,1405));// Channel name must start with '#'.
 		return -1;

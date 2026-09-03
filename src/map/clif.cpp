@@ -21161,6 +21161,14 @@ void clif_parse_FriendsListAdd(int32 fd, map_session_data *sd)
 	map_session_data *f_sd;
 	int32 i;
 
+	// A spectator watches the world, it does not reach out to it (see
+	// SPECTATOR_USERID in mmo.hpp). This one is the worst of the lot: the target is
+	// picked BY NAME, so distance and map do not protect anybody, and whoever
+	// accepts writes a char_id with no character behind it into their own — saved —
+	// friend list, where it stays.
+	if (sd->state.spectator)
+		return;
+
 	// TODO: shuffle packet
 	f_sd = map_nick2sd(RFIFOCP(fd,packet_db[RFIFOW(fd,0)].pos[0]),false);
 

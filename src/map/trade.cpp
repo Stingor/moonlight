@@ -32,6 +32,12 @@ void trade_traderequest(map_session_data *sd, map_session_data *target_sd)
 {
 	nullpo_retv(sd);
 
+	// A spectator watches the world, it does not reach out to it (see
+	// SPECTATOR_USERID in mmo.hpp). It owns nothing and keeps nothing, so the only
+	// thing a trade window could ever be here is somebody else's interruption.
+	if (sd->state.spectator)
+		return;
+
 	if (map_getmapflag(sd->m, MF_NOTRADE)) {
 		clif_displaymessage (sd->fd, msg_txt(sd,272));
 		return; //Can't trade in notrade mapflag maps.
