@@ -413,8 +413,13 @@ int32 login_mmo_auth(struct login_session_data* sd, bool isServer) {
 
 		uint32 client_ip = session[sd->fd]->client_addr;
 
+		// Counted — and, along the way, forgotten for every id whose session is gone —
+		// even when no ceiling is set: this walk is the only thing that ever drops an
+		// entry from spectator_session_ip, and a map nothing prunes only grows.
+		int32 held = login_spectator_count_for_ip( client_ip );
+
 		if( login_config.spectator_max_per_ip > 0
-			&& login_spectator_count_for_ip( client_ip ) >= login_config.spectator_max_per_ip ){
+			&& held >= login_config.spectator_max_per_ip ){
 			ShowNotice( "Spectator session refused: %s already holds %d (spectator_max_per_ip).\n",
 				ip, login_config.spectator_max_per_ip );
 			return 3; // 3 = Rejected from server
