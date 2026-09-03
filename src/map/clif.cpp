@@ -31320,6 +31320,17 @@ void clif_partybooking_ask( map_session_data* sd, map_session_data* joining_sd )
 
 void clif_parse_partybooking_join( int32 fd, map_session_data* sd ){
 #if PACKETVER >= 20191204
+	// A spectator asks to join nothing (see SPECTATOR_USERID in mmo.hpp). The
+	// legacy booking was closed in party_booking_register; this is the modern one,
+	// and it reaches further: it targets map_charid2sd, so any player online on
+	// this map-server — no distance, no map — and it does not merely ask. It
+	// pushes a char_id into THAT player's party_booking_requests and opens a
+	// window on their screen. The "already asked" check is keyed by char_id, and a
+	// spectator's is recycled: every new session comes back with a fresh one.
+	if( sd->state.spectator ){
+		return;
+	}
+
 	const PACKET_CZ_PARTY_REQ_MASTER_TO_JOIN* p = reinterpret_cast<PACKET_CZ_PARTY_REQ_MASTER_TO_JOIN*>( RFIFOP( fd, 0 ) );
 
 	// Character is already in a party
