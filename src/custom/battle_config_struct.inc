@@ -65,3 +65,5 @@
 	int32 debugpos;
 	// element-based mob race view support
 	int32 mob_race_ele_view;
+	// Combien de secondes une session spectateur peut vivre (0 = sans limite).
+	int32 spectator_session_ttl;

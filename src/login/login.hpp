@@ -124,6 +124,7 @@ struct Login_Config {
 	bool use_web_auth_token;						/// Enable web authentication token system
 	int32 disable_webtoken_delay;						/// delay disabling web token after char logs off in milliseconds
 	bool spectator_enabled;							/// accept SPECTATOR_USERID sessions (login screen backdrop)
+	int32 spectator_max_per_ip;						/// simultaneous spectator sessions one client ip may hold (0 = no limit)
 };
 extern struct Login_Config login_config;
 

@@ -294,6 +294,48 @@ int32 login_mmo_auth_new(const char* userid, const char* pass, const char sex, c
  *	x: acc state (TODO document me deeper)
  */
 
+/// Is this spectator id still held? The online table (everything that reached
+/// the char-server) and the auth nodes (the window before it did) relay each
+/// other, so the pair is the only honest answer — and both cost a hash lookup.
+static bool login_spectator_id_alive( uint32 account_id ){
+	return login_get_online_user( account_id ) != nullptr
+		|| login_get_auth_node( account_id ) != nullptr;
+}
+
+/// Which client ip each spectator id was handed to. NOT the authority on who is
+/// still connected — that stays login_spectator_id_alive — just a note taken at
+/// handout time. Entries whose session is gone are dropped on the next count,
+/// which is the only cleanup it gets, and the only one it needs.
+static std::unordered_map<uint32, uint32> spectator_session_ip;
+
+/**
+ * How many spectator sessions one address is holding right now.
+ *
+ * Nothing else stands between an unknown host and as many sessions as the range
+ * holds: the backdrop asks for no password, so the dynamic ban — which only ever
+ * triggers on a FAILED one — never sees a thing, and the reserved userid travels
+ * in clear inside every client. A ceiling per address is what makes the door
+ * usable without making it free.
+ */
+static int32 login_spectator_count_for_ip( uint32 ip ){
+	int32 count = 0;
+
+	for( auto it = spectator_session_ip.begin(); it != spectator_session_ip.end(); ){
+		if( !login_spectator_id_alive( it->first ) ){
+			it = spectator_session_ip.erase( it );
+			continue;
+		}
+
+		if( it->second == ip ){
+			count++;
+		}
+
+		++it;
+	}
+
+	return count;
+}
+
 /**
  * Pick a free spectator id.
  *
@@ -323,11 +365,7 @@ static uint32 login_spectator_pick_id( void ){
 			break;
 		}
 
-		if( login_get_online_user( account_id ) != nullptr ){
-			continue;
-		}
-
-		if( login_get_auth_node( account_id ) != nullptr ){
+		if( login_spectator_id_alive( account_id ) ){
 			continue;
 		}
 
@@ -373,12 +411,23 @@ int32 login_mmo_auth(struct login_session_data* sd, bool isServer) {
 			return 0; // 0 = Unregistered ID
 		}
 
+		uint32 client_ip = session[sd->fd]->client_addr;
+
+		if( login_config.spectator_max_per_ip > 0
+			&& login_spectator_count_for_ip( client_ip ) >= login_config.spectator_max_per_ip ){
+			ShowNotice( "Spectator session refused: %s already holds %d (spectator_max_per_ip).\n",
+				ip, login_config.spectator_max_per_ip );
+			return 3; // 3 = Rejected from server
+		}
+
 		uint32 account_id = login_spectator_pick_id();
 
 		if( account_id == 0 ){
 			ShowWarning( "Spectator session refused: every reserved id is in use.\n" );
 			return 3; // 3 = Rejected from server
 		}
+
+		spectator_session_ip[account_id] = client_ip;
 
 		sd->account_id = account_id;
 		sd->login_id1 = rnd_value( 1u, UINT32_MAX );
@@ -755,6 +804,8 @@ bool login_config_read(const char* cfgName, bool normal) {
 			login_config.disable_webtoken_delay = cap_value(atoi(w2), 0, INT_MAX);
 		else if(!strcmpi(w1, "spectator_enabled"))
 			login_config.spectator_enabled = config_switch(w2);
+		else if(!strcmpi(w1, "spectator_max_per_ip"))
+			login_config.spectator_max_per_ip = cap_value(atoi(w2), 0, INT_MAX);
 		else if(!strcmpi(w1, "client_hash")) {
 			int32 group = 0;
 			char md5[33];
@@ -880,6 +931,11 @@ void login_set_defaults() {
 	// Off by default: a server that has not asked for the login backdrop should
 	// not be handing out sessions to an id it never configured.
 	login_config.spectator_enabled = false;
+	// Two, not one: a session the client has just dropped can still read as alive
+	// for a few seconds (the map-server's logout has to travel), so a player coming
+	// back from a game would be refused the backdrop he just left. Two also covers
+	// a household behind one address. It is a ceiling, not a quota.
+	login_config.spectator_max_per_ip = 2;
 }
 
 

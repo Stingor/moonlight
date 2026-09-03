@@ -67,4 +67,5 @@
 	{ "mult_eventdrop",						&battle_config.mult_eventdrop,					200,	100,	400,			},
 	{ "debugpos",							&battle_config.debugpos,						1,		0,		1,				},
 	{ "mob_race_ele_view",					&battle_config.mob_race_ele_view,				1,		0,		1,				},
+	{ "spectator_session_ttl",				&battle_config.spectator_session_ttl,			600,	0,		86400,			},
 

@@ -6703,6 +6703,34 @@ static TIMER_FUNC(clif_bourgeon_check_dll_timer) {
 	return 0;
 }
 
+// [Stingor] Coupe une session spectateur qui s'éternise (cf. SPECTATOR_USERID
+// dans mmo.hpp). Le décor n'a besoin d'être VIVANT que le temps qu'un joueur
+// remplisse son formulaire de connexion ; ce qui reste ouvert au-delà n'est plus
+// un décor, c'est une session gratuite que personne ne regarde — et l'identifiant
+// qui l'ouvre voyage en clair dans chaque client, sans mot de passe à échouer,
+// donc sans aucun des garde-fous qui protègent un vrai compte.
+//
+// 🔴 La DLL se coupe d'elle-même AVANT ce délai (login_spectator.cc,
+// kDecorLifetimeMs), et l'écart entre les deux est le contrat : une déconnexion
+// SUBIE passe par le chemin de détection de perte de lien, qui affiche une boîte
+// par-dessus l'écran de connexion du joueur. Ce minuteur-ci ne doit donc jamais
+// frapper un client Bourgeon — il est le filet tendu sous ce qui n'en est pas un.
+static TIMER_FUNC(spectator_session_ttl_timer) {
+	map_session_data* sd = map_id2sd(id);
+
+	// 🔴 Un identifiant spectateur est RECYCLÉ dès que la session qui le portait
+	// s'en va (login_spectator_pick_id le reprend parmi les libres). Sans ce
+	// témoin, le minuteur d'une session partie couperait celle qui a hérité de son
+	// identifiant : `login_id1` est tiré au hasard à chaque session, et les sépare.
+	if (sd == nullptr || !sd->state.spectator || sd->login_id1 != (uint32)data)
+		return 0;
+
+	ShowInfo("Spectator session closed after %d s (id: %d).\n",
+		battle_config.spectator_session_ttl, sd->status.account_id);
+	set_eof(sd->fd);
+	return 0;
+}
+
 // Removes a player's MachineGuid from the online-GUID maps.
 // Must be called from map_quit so the slot is freed for the next session.
 void clif_bourgeon_unregister_guid(int32 account_id) {
@@ -16652,6 +16680,14 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 		else
 			add_timer(gettick() + 15000, clif_bourgeon_check_dll_timer, sd->id, 0);
 	}
+
+	// [Stingor] Et pour une session spectateur, l'autre minuteur : celui qui la
+	// referme (cf. spectator_session_ttl_timer). Armé ici parce que `connect_new`
+	// n'est vrai qu'à la PREMIÈRE entrée en jeu — une seule fois par session, donc,
+	// et il est remis à zéro deux lignes plus bas.
+	if (sd->state.connect_new && sd->state.spectator && battle_config.spectator_session_ttl > 0)
+		add_timer(gettick() + battle_config.spectator_session_ttl * 1000,
+			spectator_session_ttl_timer, sd->id, (intptr_t)sd->login_id1);
 
 	sd->state.connect_new = 0;
 	sd->state.changemap = false;
@@ -31663,6 +31699,7 @@ void do_init_clif(void) {
 	add_timer_func_list(clif_clearunit_delayed_sub, "clif_clearunit_delayed_sub");
 	add_timer_func_list(clif_delayquit, "clif_delayquit");
 	add_timer_func_list(clif_bourgeon_check_dll_timer, "clif_bourgeon_check_dll_timer");
+	add_timer_func_list(spectator_session_ttl_timer, "spectator_session_ttl_timer");
 
 #if PACKETVER_MAIN_NUM >= 20190403 || PACKETVER_RE_NUM >= 20190320
 	add_timer_func_list( clif_ping_timer, "clif_ping_timer" );
