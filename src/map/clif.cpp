@@ -1078,6 +1078,12 @@ static int32 clif_setlevel(const block_list* bl) {
 /// revenu de sa cuisine se retrouverait paralysé le temps que son client annonce
 /// son retour. Ici l'état ne vit que dans les octets envoyés.
 ///
+/// 🔴 TOUT émetteur de `bodyState` doit passer ici, sans exception : les trois
+/// constructeurs d'unité (idle, spawn, walking) ET clif_changeoption_target. Le
+/// 2026-09-03 ce dernier écrivait encore `sc->opt1` brut : le premier changement
+/// d'option du dormeur (altération qui expire, @hide, déguisement) effaçait le
+/// « zzz » chez tous les voisins, et le sommeil paraissait avoir une durée.
+///
 /// Deux gardes :
 /// Une vraie altération PASSE DEVANT (`opt1 != 0`) : un joueur réellement figé
 /// doit se voir figé, et non endormi.
@@ -4580,7 +4586,12 @@ void clif_changeoption_target( const block_list* bl, const block_list* target ){
 
 	p.packetType = HEADER_ZC_STATE_CHANGE;
 	p.AID = bl->id;
-	p.bodyState = sc->opt1;
+	// [Stingor] Bourgeon : le quatrième émetteur de `bodyState`, et le seul qui
+	// rejoue en cours de vie. Écrire `sc->opt1` brut ici effaçait le « zzz » de
+	// politesse chez tous les voisins au premier changement d'option du dormeur
+	// (une altération qui expire, un @hide, un déguisement) — d'où un sommeil
+	// qui semblait avoir une durée. Cf. clif_bourgeon_bodystate.
+	p.bodyState = clif_bourgeon_bodystate( bl, sc );
 	p.healthState = sc->opt2;
 	p.effectState = sc->option;
 	p.isPKModeON = sd ? sd->status.karma : false;
@@ -6401,25 +6412,6 @@ void clif_parse_bourgeon_preset_cmd(int32 fd, map_session_data* sd) {
 	}
 }
 
-// [Stingor] Bourgeon : republie le sommeil de politesse à la ronde — le dormeur
-// compris, pour qu'il voie de ses yeux que son absence est bien annoncée.
-//
-// Jumeau volontairement maigre de clif_changeoption_target : mêmes octets, une
-// seule diffusion, pas de branche déguisement. Les voisins arrivés APRÈS n'ont
-// pas besoin de ce paquet — leur paquet d'apparition porte déjà le même champ.
-static void clif_bourgeon_afk_notify( map_session_data& sd ){
-	PACKET_ZC_STATE_CHANGE p = {};
-
-	p.packetType = HEADER_ZC_STATE_CHANGE;
-	p.AID = sd.id;
-	p.bodyState = clif_bourgeon_bodystate( &sd, &sd.sc );
-	p.healthState = sd.sc.opt2;
-	p.effectState = sd.sc.option;
-	p.isPKModeON = sd.status.karma;
-
-	clif_send( &p, sizeof( p ), &sd, AREA );
-}
-
 // [Stingor] Bourgeon : le client annonce (ou retire) l'absence de son joueur.
 //
 // Chaque signe a son propre paquet de rafraîchissement, et n'est renvoyé que si
@@ -6434,8 +6426,12 @@ static void clif_bourgeon_set_afk( map_session_data& sd, uint8 mask ){
 
 	sd.bourgeon_afk = mask;
 
+	// Republie l'état à la ronde — le dormeur compris, pour qu'il voie de ses
+	// yeux que son absence est bien annoncée. clif_changeoption lit le sommeil
+	// de politesse via clif_bourgeon_bodystate ; les voisins arrivés APRÈS n'ont
+	// pas besoin de ce paquet, leur paquet d'apparition porte le même champ.
 	if( changed & BOURGEON_AFK_SLEEP ){
-		clif_bourgeon_afk_notify( sd );
+		clif_changeoption( &sd );
 	}
 
 	if( changed & BOURGEON_AFK_TAG ){
