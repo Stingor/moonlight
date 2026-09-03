@@ -1488,6 +1488,14 @@ static struct party_booking_ad_info* create_party_booking_data(void)
 
 void party_booking_register(map_session_data *sd, int16 level, int16 mapid, int16* job)
 {
+	// A spectator advertises nothing (see SPECTATOR_USERID in mmo.hpp).
+	// clif_PartyBookingInsertNotify goes out to ALL_CLIENT: an unknown host with no
+	// account would put "Spectator" on the screen of every player connected, and
+	// the deletion map_quit performs sends that same notice a second time.
+	if( sd->state.spectator ){
+		return;
+	}
+
 	struct party_booking_ad_info *pb_ad;
 	int32 i;
 

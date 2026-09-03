@@ -17194,6 +17194,14 @@ void clif_changed_dir(const block_list& bl, enum send_target target){
 /// There are various variants of this packet, some of them have padding between fields.
 void clif_parse_ChangeDir(int32 fd, map_session_data *sd)
 {
+	// A spectator faces nothing in particular (see SPECTATOR_USERID in mmo.hpp),
+	// and clif_changed_dir goes to AREA_WOS: the packet carries its account id to
+	// every client standing nearby, which is a session announcing itself to people
+	// who were never told the unit exists.
+	if( sd->state.spectator ){
+		return;
+	}
+
 	unsigned char headdir, dir;
 	// TODO: shuffle packet
 	struct s_packet_db* info = &packet_db[RFIFOW(fd,0)];
@@ -17210,6 +17218,16 @@ void clif_parse_ChangeDir(int32 fd, map_session_data *sd)
 /// 00bf <type>.B (CZ_REQ_EMOTION).
 void clif_parse_Emotion(int32 fd, map_session_data *sd){
 	if( sd == nullptr ){
+		return;
+	}
+
+	// A spectator watches the world, it does not perform in it (see
+	// SPECTATOR_USERID in mmo.hpp). clif_emotion sends to AREA, so this would put
+	// a bubble on the screen of everyone standing nearby, over a unit they were
+	// never told about. Closed on its own account rather than left to
+	// basic_skill_check, which only happens to stop it today because the
+	// fabricated character knows no skill at all.
+	if( sd->state.spectator ){
 		return;
 	}
 #if PACKETVER_MAIN_NUM >= 20230705
@@ -17293,6 +17311,11 @@ void clif_play_cash_emotion( block_list& bl, uint16 pack_id, uint16 emotion_id )
 /// so the client renders the pack skin instead of a base emote.
 void clif_parse_cash_emotion_use(int32 fd, map_session_data* sd) {
 	if (sd == nullptr)
+		return;
+
+	// Same reason as clif_parse_Emotion, and with less holding it back: this one
+	// goes out to AREA with no rate limit and no skill check at all.
+	if (sd->state.spectator)
 		return;
 	uint16 pack_id    = RFIFOW(fd, 2);
 	uint16 emotion_id = RFIFOW(fd, 4);
@@ -23394,6 +23417,15 @@ void clif_Adopt_request( const map_session_data* sd, const map_session_data* src
 /// 01f9 <account id>.L
 void clif_parse_Adopt_request(int32 fd, map_session_data *sd)
 {
+	// A spectator adopts nobody (see SPECTATOR_USERID in mmo.hpp). It would be
+	// refused a few lines down anyway — its partner_id is 0 — but not before the
+	// diagnostic writes a line in the server log, once per packet of six bytes. A
+	// notice nobody can find any more among them is the expensive part, and that
+	// lesson was already paid for on the integrity check.
+	if( sd->state.spectator ){
+		return;
+	}
+
 	TBL_PC *tsd = map_id2sd(RFIFOL(fd,packet_db[RFIFOW(fd,0)].pos[0]));
 	TBL_PC *p_sd = map_charid2sd(sd->status.partner_id);
 
@@ -24413,6 +24445,13 @@ void clif_parse_bg_queue_apply_request(int32 fd, map_session_data *sd)
 		return;
 
 	nullpo_retv(sd);
+
+	// A spectator applies to nothing (see SPECTATOR_USERID in mmo.hpp). The queues
+	// it would sit in are shared with real players, and the name it sends lands in
+	// a ShowWarning as soon as no battleground answers to it: a line written to the
+	// server's journal, in text of the client's own choosing.
+	if( sd->state.spectator )
+		return;
 
 	int16 type = RFIFOW(fd,2);
 	char name[NAME_LENGTH];
