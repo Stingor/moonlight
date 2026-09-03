@@ -832,10 +832,6 @@ int32 party_member_withdraw(int32 party_id, uint32 account_id, uint32 char_id, c
 #endif
 
 		sd->status.party_id = 0;
-		if( sd->state.spb ) {
-			sd->state.spb = 0;
-			clif_displaymessage(sd->fd, msg_txt(sd,1840));
-		}
 		clif_name_area(sd); //Update name display [Skotlex]
 		//TODO: hp bars should be cleared too
 

@@ -40,7 +40,6 @@
 	ACMD_DEF2("storagealt4", storagealt),
 	ACMD_DEF2("storagealt5", storagealt),
 	ACMD_DEF(storecard),
-	ACMD_DEF(partybuff), // [Vykimo]
 	ACMD_DEF(showmobinfo),
 	ACMD_DEF(separate),
 	ACMD_DEF(blockexp),

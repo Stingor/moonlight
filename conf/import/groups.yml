@@ -95,7 +95,6 @@ Body:
       storagealt4: true
       storagealt5: true
       storecard: true
-      partybuff: true
       autoloot: true
       autolootitem: true
       autoloottype: true

@@ -428,7 +428,6 @@ public:
 		uint16 autoloot;
 		t_itemid autolootid[AUTOLOOTITEM_SIZE]; // [Zephyrus]
 		uint8 alootid_active_preset; // 0 = none, 1-10 = preset currently loaded
-		uint16 spb : 1; // @partybuff [Vykimo]
 		uint16 autoloottype;
 		uint32 autolooting : 1; //performance-saver, autolooting state for @alootid
 		uint32 gmaster_flag : 1;

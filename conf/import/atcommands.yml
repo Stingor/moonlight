@@ -143,12 +143,6 @@ Body:
       - ble
     Help: |
       Autoloot des items ayant au minimum le prix de revente indiqué.
-  - Command: partybuff
-    Aliases:
-      - spb
-      - showpartybuff
-    Help: |
-      Affiche / Masque les status des buffs party.
   - Command: homskin
     Aliases:
       - skinhom

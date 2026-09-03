@@ -1201,34 +1201,6 @@ ACMD_FUNC(storecard)
 }
 
 /*==========================================
- * @partybuff [Vykimo]
- *------------------------------------------*/
-ACMD_FUNC(partybuff)
-{
-	struct party_data* p = nullptr;
-	nullpo_retr(-1, sd);
-
-	if( !sd->status.party_id ) {
-		clif_displaymessage(fd, msg_txt(sd,1839)); // You're not in a party.
-		return -1;
-	}
-
-	p = party_search(sd->status.party_id);
-
-	if( sd->state.spb ) {
-		sd->state.spb = 0;
-		clif_displaymessage(fd, msg_txt(sd,1840)); // Displaying party member's buffs disabled.
-	} else {
-		sd->state.spb = 1;
-		clif_displaymessage(fd, msg_txt(sd,1841)); // Displaying party member's buffs enabled.
-	}
-
-    if (p)
-		clif_party_info(*p, sd);
-	return 0;
-}
-
-/*==========================================
  * Show Monster DB Info   v 1.0
  * originally by [Lupus]
  *------------------------------------------*/

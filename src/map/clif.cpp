@@ -583,7 +583,6 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 	case PARTY_WOS:
 	case PARTY_SAMEMAP:
 	case PARTY_SAMEMAP_WOS:
-	case PARTY_BUFF_INFO:
 		if (sd && sd->status.party_id)
 			p = party_search(sd->status.party_id);
 
@@ -598,13 +597,10 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 				if( sd->id == bl->id && (type == PARTY_WOS || type == PARTY_SAMEMAP_WOS || type == PARTY_AREA_WOS) )
 					continue;
 
-				if( type != PARTY_BUFF_INFO && type != PARTY && type != PARTY_WOS && bl->m != sd->m )
+				if( type != PARTY && type != PARTY_WOS && bl->m != sd->m )
 					continue;
 
 				if( (type == PARTY_AREA || type == PARTY_AREA_WOS) && (sd->x < x0 || sd->y < y0 || sd->x > x1 || sd->y > y1) )
-					continue;
-
-				if( type == PARTY_BUFF_INFO && !sd->state.spb )
 					continue;
 
 				if( chat_speaker != 0 && pc_ignorechat( sd, chat_speaker ) ) // [Stingor] @ignore
