@@ -964,7 +964,6 @@ Body:
         Rate: 57
       - Item: Zelunium_Ore
         Rate: 120
-#       RandomOptionGroup: AGW1
       - Item: Shadowdecon_Ore
         Rate: 120
       - Item: Polluted_W_Man_Card

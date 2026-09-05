@@ -44,10 +44,10 @@ Body:
         Rate: 500
       - Item: Ep172_Bh_Knuck
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: Ep172_Bh_Bow3
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
   - Id: 20633
     AegisName: EP17_2_BETA_CLEANER_A
     Name: Broken Cleaner
@@ -97,7 +97,7 @@ Body:
       - Item: Ep172_1h_Sword2
         Index: 5
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: Beta_Cleaner_Card
         Index: 6
         Rate: 1
@@ -153,7 +153,7 @@ Body:
       - Item: Ep172_Bh_Huuma
         Index: 5
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: Beta_Cleaner_Card
         Index: 6
         Rate: 1
@@ -201,10 +201,10 @@ Body:
         Rate: 10
       - Item: Ep172_Bh_Staff
         Rate: 5
-        # RandomOptionGroup: AUTO_IMP_MAGIC_2
+        RandomOptionGroup: AUTO_IMP_MAGIC_2
       - Item: Ep172_Bh_Knuck
         Rate: 5
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: Old_Violet_Box
         Rate: 5
         StealProtected: true
@@ -254,7 +254,7 @@ Body:
         Rate: 5
       - Item: Ep172_1h_Axe
         Rate: 5
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: Beta_Guards_Ng_Card
         Rate: 1
         StealProtected: true
@@ -299,7 +299,7 @@ Body:
         Rate: 500
       - Item: Ep172_1h_Whip
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MAGIC_2
+        RandomOptionGroup: AUTO_IMP_MAGIC_2
   - Id: 20641
     AegisName: EP17_2_OMEGA_CLEANER_NG
     Name: Broken Cleaning Robot
@@ -343,10 +343,10 @@ Body:
         Rate: 500
       - Item: Ep172_Bh_Bow
         Rate: 4
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: Ep172_Bh_Bow2
         Rate: 4
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: O_Cleaner_Ng_Card
         Rate: 1
         StealProtected: true
@@ -395,7 +395,7 @@ Body:
         Rate: 1
       - Item: Ep172_1h_Hammer
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: EP17_2_Sword_Fish_Card
         Rate: 1
         StealProtected: true
@@ -442,7 +442,7 @@ Body:
         Rate: 250
       - Item: Ep172_1h_Grenade
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: EP17_2_Piranha_Card
         Rate: 1
         StealProtected: true
@@ -532,7 +532,7 @@ Body:
         Rate: 150
       - Item: Ep172_Bh_Spear
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: Pitaya_R_Card
         Rate: 1
         StealProtected: true
@@ -579,7 +579,7 @@ Body:
         Rate: 150
       - Item: Ep172_1h_Gatling
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: Pitaya_Y_Card
         Rate: 1
         StealProtected: true
@@ -626,7 +626,7 @@ Body:
         Rate: 75
       - Item: Ep172_1h_Spear
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MAGIC_2
+        RandomOptionGroup: AUTO_IMP_MAGIC_2
       - Item: Pitaya_B_Card
         Rate: 1
         StealProtected: true
@@ -673,7 +673,7 @@ Body:
         Rate: 150
       - Item: Ep172_1h_Axe
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: Pitaya_V_Card
         Rate: 1
         StealProtected: true
@@ -720,7 +720,7 @@ Body:
         Rate: 75
       - Item: Ep172_1h_Dagger2
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: Pitaya_G_Card
         Rate: 1
         StealProtected: true
@@ -795,10 +795,10 @@ Body:
         Rate: 24
       - Item: Ep172_1h_Sword
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: Ep172_Bh_Sword
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: Heart_Hunter_Card
         Rate: 1
         StealProtected: true
@@ -847,10 +847,10 @@ Body:
         Rate: 100
       - Item: Ep172_1h_Sword
         Rate: 5
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: Ep172_Bh_Sword
         Rate: 5
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: Heart_Hunter_Card
         Rate: 1
         StealProtected: true
@@ -899,7 +899,7 @@ Body:
         Rate: 500
       - Item: Ep172_1h_Book2
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MAGIC_2
+        RandomOptionGroup: AUTO_IMP_MAGIC_2
       - Item: Bookworm_Card
         Rate: 1
         StealProtected: true
@@ -944,7 +944,7 @@ Body:
         Rate: 2500
       - Item: Ep172_1h_Book
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: Roaming_Splbook_Card
         Rate: 1
         StealProtected: true
@@ -991,7 +991,7 @@ Body:
         Rate: 240
       - Item: Ep172_1h_Wand
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MAGIC_2
+        RandomOptionGroup: AUTO_IMP_MAGIC_2
       - Item: Venenum3_Card
         Rate: 1
         StealProtected: true
@@ -1036,7 +1036,7 @@ Body:
         Rate: 125
       - Item: Ep172_1h_Dagger
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MAGIC_2
+        RandomOptionGroup: AUTO_IMP_MAGIC_2
       - Item: EP17_2_Cramp_Card
         Rate: 1
         StealProtected: true
@@ -1081,7 +1081,7 @@ Body:
         Rate: 1000
       - Item: Ep172_Bh_Katar
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: Waterfall_Card
         Rate: 1
         StealProtected: true
@@ -1126,10 +1126,10 @@ Body:
         Rate: 30
       - Item: Ep172_1h_Rifle
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: Ep172_1h_Shotgun
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: Bellare3_Card
         Rate: 1
         StealProtected: true
@@ -1214,7 +1214,7 @@ Body:
         Rate: 200
       - Item: Ep172_Bh_Staff
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MAGIC_2
+        RandomOptionGroup: AUTO_IMP_MAGIC_2
       - Item: Light_Granule
         Rate: 150
       - Item: Plasma_Y_Card
@@ -1261,7 +1261,7 @@ Body:
         Rate: 250
       - Item: Ep172_1h_Shotgun
         Rate: 5
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: Zelunium_Ore
         Rate: 150
       - Item: Shadowdecon_Ore
@@ -1308,7 +1308,7 @@ Body:
         Rate: 1250
       - Item: Ep172_1h_Hammer
         Rate: 5
-        # RandomOptionGroup: AUTO_IMP_MAGIC_2
+        RandomOptionGroup: AUTO_IMP_MAGIC_2
       - Item: Zelunium_Ore
         Rate: 150
       - Item: Shadowdecon_Ore
@@ -1355,7 +1355,7 @@ Body:
         Rate: 200
       - Item: Ep172_1h_Inst
         Rate: 5
-        # RandomOptionGroup: AUTO_IMP_MAGIC_2
+        RandomOptionGroup: AUTO_IMP_MAGIC_2
       - Item: Zelunium_Ore
         Rate: 150
       - Item: Shadowdecon_Ore
@@ -1402,7 +1402,7 @@ Body:
         Rate: 200
       - Item: Ep172_1h_Whip
         Rate: 5
-        # RandomOptionGroup: AUTO_IMP_MAGIC_2
+        RandomOptionGroup: AUTO_IMP_MAGIC_2
       - Item: Zelunium_Ore
         Rate: 150
       - Item: Shadowdecon_Ore
@@ -1455,7 +1455,7 @@ Body:
         Rate: 3
       - Item: Ep172_Bh_Bow2
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: EP17_2_Phen_Card
         Rate: 1
         StealProtected: true
@@ -1504,7 +1504,7 @@ Body:
         Rate: 550
       - Item: Ep172_Bh_Bow
         Rate: 3
-        # RandomOptionGroup: AUTO_IMP_MELEE_2
+        RandomOptionGroup: AUTO_IMP_MELEE_2
       - Item: EP17_2_Marc_Card
         Rate: 1
         StealProtected: true

@@ -47,10 +47,10 @@ Body:
         Rate: 80
       - Item: Lava_Leather_Suits
         Rate: 50
-        # RandomOptionGroup: MAGMA3
+        RandomOptionGroup: MAGMA3
       - Item: Lava_Leather_Shoes
         Rate: 50
-        # RandomOptionGroup: MAGMA3
+        RandomOptionGroup: MAGMA3
       # - Item: Magma_Essence
         # Rate: 5
       - Item: Firm_Blazzer_Card
@@ -100,7 +100,7 @@ Body:
         Rate: 80
       - Item: Lava_Leather_Manteau
         Rate: 50
-        # RandomOptionGroup: MAGMA3
+        RandomOptionGroup: MAGMA3
       # - Item: Magma_Essence
         # Rate: 5
       - Item: Zelunium_Ore
@@ -151,7 +151,7 @@ Body:
         Rate: 80
       - Item: Lava_Leather_Robe
         Rate: 50
-        # RandomOptionGroup: MAGMA3
+        RandomOptionGroup: MAGMA3
       # - Item: Magma_Essence
         # Rate: 5
       - Item: Zelunium_Ore
@@ -202,7 +202,7 @@ Body:
         Rate: 80
       - Item: Lava_Leather_Armor
         Rate: 50
-        # RandomOptionGroup: MAGMA3
+        RandomOptionGroup: MAGMA3
       # - Item: Magma_Essence
         # Rate: 5
       - Item: Zelunium_Ore
@@ -253,7 +253,7 @@ Body:
         Rate: 80
       - Item: Lava_Leather_Sandle
         Rate: 50
-        # RandomOptionGroup: MAGMA3
+        RandomOptionGroup: MAGMA3
       # - Item: Magma_Essence
         # Rate: 5
       - Item: Zelunium_Ore
@@ -308,7 +308,7 @@ Body:
         Rate: 80
       - Item: Lava_Leather_Hode
         Rate: 50
-        # RandomOptionGroup: MAGMA3
+        RandomOptionGroup: MAGMA3
       - Item: Firm_Kaho_Card
         Rate: 1
         StealProtected: true
@@ -353,10 +353,10 @@ Body:
         Rate: 80
       - Item: Lava_Leather_Muffler
         Rate: 50
-        # RandomOptionGroup: MAGMA3
+        RandomOptionGroup: MAGMA3
       - Item: Lava_Leather_Boots
         Rate: 50
-        # RandomOptionGroup: MAGMA3
+        RandomOptionGroup: MAGMA3
       # - Item: Magma_Essence
         # Rate: 5
       - Item: Zelunium_Ore
