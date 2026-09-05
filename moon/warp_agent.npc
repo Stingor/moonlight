@@ -162,37 +162,119 @@ L_Instance:
 	mes .@npc_name$;
 	mes "Sélectionnez la destination de votre choix :";
 	setdialogsize(300,50*.@mesnpccount);
-	switch( select( GetColor(15050)+"• Airship Assault (Solo & HM)^000000",
-					GetColor(12278)+"• Bakonawa Lake^000000",
-					GetColor(9223)+"• Bangungot Hospital 2F (HM)^000000",
-					GetColor(4229)+"• Buwaya Cave (HM)^000000",
-					GetColor(12347)+"• Central Laboratory^000000",
-					GetColor(13185)+"• Charleston in Distess^000000",
-					GetColor(7577)+"• Devil's Tower^000000",
-					(instance_delay_cellar < gettimetick(2)?"^000000":"^FF0000")+"• Endless Cellar (HM, Custom)^000000",
-					GetColor(60200)+"• Endless Tower (HM)^000000",
-					GetColor(12325)+"• Faceworms Nest (Solo)^000000",
-					GetColor(9316)+"• Gef. Magic Tour. (HM, Solo, Custom)^000000",
-					GetColor(1261)+"• Ghost Palace (Solo)^000000",
-					GetColor(7211)+"• Hazy Forest^000000",
-					GetColor(12331)+"• Horror Toy Factory (HM)^000000",
-					GetColor(15005)+"• Isle Of Bios^000000",
-					GetColor(11379)+"• Last Room^000000",
-					GetColor(12254)+"• Malangdo Culvert^000000",
-					GetColor(9319)+"• Morse Cave^000000",
-					GetColor(13182)+"• Nightmarish Jitterbug (HM)^000000",
-					GetColor(3135)+"• Nydhoggur's Nest^000000",
-					GetColor(4197)+"• Octopus Cave^000000",
-					GetColor(12317)+"• Old Glast Heim (HM)^000000",
-					GetColor(12059)+"• Orc's Memory^000000",
-					GetColor(7706)+"• Room of Consciousness (HM, Solo)^000000",
-					GetColor(9336)+"• Sarah and Fenrir^000000",
-					GetColor(15002)+"• Sara Memory^000000",
-					GetColor(3040)+"• Sealed Shrine^000000",
-					GetColor(5112)+"• Wolfchev's Laboratory^000000",
-					"",// "• Temple of Demon God^000000",
-					"• ^e64c00Menu Précédent.^000000") ) {
-		case 1: { // Airship Assault
+	// Liste des instances : l'ordre ci-dessous est celui du menu et peut changer
+	// librement, l'identite de chaque instance etant portee par sa constante
+	// INST_* (generee depuis instance_db.yml par tools/gen/gen_instance_constants.py).
+	// Ajouter une instance = une entree dans les trois tableaux + un case, sans
+	// jamais renumeroter quoi que ce soit.
+	setarray .@lbl$[0],
+					"Airship Assault (Solo & HM)",
+					"Bakonawa Lake",
+					"Bangungot Hospital 2F (HM)",
+					"Buwaya Cave (HM)",
+					"Central Laboratory",
+					"Charleston in Distess",
+					"Devil's Tower",
+					"Endless Cellar (HM, Custom)",
+					"Endless Tower (HM)",
+					"Faceworms Nest (Solo)",
+					"Gef. Magic Tour. (HM, Solo, Custom)",
+					"Ghost Palace (Solo)",
+					"Hazy Forest",
+					"Horror Toy Factory (HM)",
+					"Isle Of Bios",
+					"Last Room",
+					"Malangdo Culvert",
+					"Morse Cave",
+					"Nightmarish Jitterbug (HM)",
+					"Nydhoggur's Nest",
+					"Octopus Cave",
+					"Old Glast Heim (HM)",
+					"Orc's Memory",
+					"Room of Consciousness (HM, Solo)",
+					"Sarah and Fenrir",
+					"Sara Memory",
+					"Sealed Shrine",
+					"Temple of Demon God",
+					"Wolfchev's Laboratory";
+	setarray .@inst[0],
+					INST_ASSAULT_ON_THE_AIRSHIP,
+					INST_BAKONAWA_LAKE,
+					INST_BANGUNGOT_HOSPITAL_2F,
+					INST_BUWAYA_CAVE,
+					INST_CENTRAL_LABORATORY,
+					INST_CHARLESTON_IN_DISTRESS,
+					INST_DEVILS_TOWER,
+					INST_ENDLESS_CELLAR,
+					INST_ENDLESS_TOWER,
+					INST_FACEWORMS_NEST,
+					INST_GEFFEN_MAGIC_TOURNAMENT,
+					INST_GHOST_PALACE,
+					INST_MISTWOOD_MAZE,
+					INST_HORROR_TOY_FACTORY,
+					INST_ISLE_OF_BIOS,
+					INST_LAST_ROOM,
+					INST_CULVERT,
+					INST_MORSES_CAVE,
+					INST_NIGHTMARISH_JITTERBUG,
+					INST_NIDHOGGURS_NEST,
+					INST_OCTOPUS_CAVE,
+					INST_OLD_GLAST_HEIM,
+					INST_ORCS_MEMORY,
+					INST_ROOM_OF_CONSCIOUSNESS,
+					INST_FENRIR_AND_SARAH,
+					INST_SARAS_MEMORIES,
+					INST_SEALED_CATACOMB,
+					INST_TEMPLE_OF_THE_DEMON_GOD,
+					INST_WOLFCHEVS_LABORATORY;
+	// quete de cooldown utilisee pour la couleur ; 0 = cas particulier traite plus bas
+	setarray .@cd[0],
+					15050, // INST_ASSAULT_ON_THE_AIRSHIP
+					12278, // INST_BAKONAWA_LAKE
+					9223,  // INST_BANGUNGOT_HOSPITAL_2F
+					4229,  // INST_BUWAYA_CAVE
+					12347, // INST_CENTRAL_LABORATORY
+					13185, // INST_CHARLESTON_IN_DISTRESS
+					7577,  // INST_DEVILS_TOWER
+					0,     // INST_ENDLESS_CELLAR
+					60200, // INST_ENDLESS_TOWER
+					12325, // INST_FACEWORMS_NEST
+					9316,  // INST_GEFFEN_MAGIC_TOURNAMENT
+					1261,  // INST_GHOST_PALACE
+					7211,  // INST_MISTWOOD_MAZE
+					12331, // INST_HORROR_TOY_FACTORY
+					15005, // INST_ISLE_OF_BIOS
+					11379, // INST_LAST_ROOM
+					12254, // INST_CULVERT
+					9319,  // INST_MORSES_CAVE
+					13182, // INST_NIGHTMARISH_JITTERBUG
+					3135,  // INST_NIDHOGGURS_NEST
+					4197,  // INST_OCTOPUS_CAVE
+					12317, // INST_OLD_GLAST_HEIM
+					12059, // INST_ORCS_MEMORY
+					7706,  // INST_ROOM_OF_CONSCIOUSNESS
+					9336,  // INST_FENRIR_AND_SARAH
+					15002, // INST_SARAS_MEMORIES
+					3040,  // INST_SEALED_CATACOMB
+					7605,  // INST_TEMPLE_OF_THE_DEMON_GOD
+					5112;  // INST_WOLFCHEVS_LABORATORY
+
+	.@n = getarraysize(.@inst);
+	.@menu$ = "";
+	for ( .@i = 0; .@i < .@n; .@i++ ) {
+		if ( .@cd[.@i] == 0 )
+			.@col$ = ( instance_delay_cellar < gettimetick(2) ? "^000000" : "^FF0000" );
+		else
+			.@col$ = GetColor(.@cd[.@i]);
+		.@menu$ += .@col$ + "• " + .@lbl$[.@i] + "^000000:";
+	}
+	.@menu$ += "• ^e64c00Menu Précédent.^000000";
+
+	.@sel = select(.@menu$);
+	if ( .@sel > .@n )
+		goto L_warpa;
+	switch( .@inst[.@sel - 1] ) {
+		case INST_ASSAULT_ON_THE_AIRSHIP: { // Airship Assault
 			if( select( GetColor(15050)+"Acces direct^000000", "Se rendre dans le Rift" ) == 1 ) {
 				.@md_name$ = "Assault on the Airship";
 				.@questid = 15050; // Memorial Dungeon: Airship Assault
@@ -205,7 +287,7 @@ L_Instance:
 			}
 			warp_fct("dali02", 139, 82);
 		}
-		case 2: { // Bakonawa Lake
+		case INST_BAKONAWA_LAKE: { // Bakonawa Lake
 			if( select( GetColor(12278)+"Acces direct^000000", "Se rendre au lac" ) == 1 ) {
 				.@md_name$ = "Bakonawa Lake";
 				.@questid1 = 12278; // Towards Bakonawa Lake...
@@ -218,7 +300,7 @@ L_Instance:
 			}
 			warp_fct("ma_scene01", 172, 175);
 		}
-		case 3: { // Bangungot Hospital
+		case INST_BANGUNGOT_HOSPITAL_2F: { // Bangungot Hospital
 			if( select( GetColor(9223)+"Acces direct^000000", "Se rendre au 1er étage" ) == 1 ) {
 				.@md_name$ = "Bangungot Hospital 2F";
 				.@questid1 = 9223; // Will there be Peace at the Hospital?
@@ -232,7 +314,7 @@ L_Instance:
 			}
 			warp_fct("ma_dun01", 151, 8);
 		}
-		case 4:	{ // Buwaya Cave
+		case INST_BUWAYA_CAVE:	{ // Buwaya Cave
 			.@md_name$ = "Buwaya Cave";
 			.@questid = 4229; // Devil in the Cave
 			callsub Party_Check,.@md_name$;
@@ -241,7 +323,7 @@ L_Instance:
 			break;
 			// warp_fct("ma_fild02", 316, 317);
 		}
-		case 5:	{ // Central Laboratory
+		case INST_CENTRAL_LABORATORY:	{ // Central Laboratory
 			if( select( GetColor(12347)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
 				.@md_name$ = "Central Laboratory";
 				.@questid1 = 12347; // Trace of Laboratory Access
@@ -254,7 +336,7 @@ L_Instance:
 			}
 			warp_fct("verus01", 151, 150);
 		}
-		case 6:	{ // Charleston in distress
+		case INST_CHARLESTON_IN_DISTRESS:	{ // Charleston in distress
 L_Charleston:
 			if( select( GetColor(13185)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
 				.@md_name$ = "Charleston in Distress";
@@ -277,7 +359,7 @@ L_Charleston:
 			}
 			warp_fct("verus04", 77, 118);
 		}
-		case 7:	{ // Devil's Tower
+		case INST_DEVILS_TOWER:	{ // Devil's Tower
 L_DevilTower:
 			if( select( GetColor(7577)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
 				.@md_name$ = "Devil's Tower";
@@ -349,7 +431,7 @@ L_DevilTower:
 			}
 			warp_fct("dali02", 137, 115);
 		}
-		case 8:	{ // Endless Cellar
+		case INST_ENDLESS_CELLAR:	{ // Endless Cellar
 			.@md_name$ = "Endless Cellar";
 			.instance_delay = 20 * 60 * 60; // 20h
 			callsub Party_Check,.@md_name$;
@@ -378,7 +460,7 @@ L_DevilTower:
 			break;
 			// warp_fct("e_tower", 78, 80);
 		}
-		case 9:	{ // Endless Tower
+		case INST_ENDLESS_TOWER:	{ // Endless Tower
 			.@md_name$ = "Endless Tower";
 			.@questid = 60200; // Endless Tower Effect
 			callsub Party_Check,.@md_name$;
@@ -394,7 +476,7 @@ L_DevilTower:
 			break;
 			// warp_fct("e_tower", 72, 112);
 		}
-		case 10: { // Faceworm's Nest
+		case INST_FACEWORMS_NEST: { // Faceworm's Nest
 			if( select( GetColor(12325)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
 				.@md_name$ = "Faceworm's Nest";
 				.@questid = 12325; // Faceworm's Nest after-effects
@@ -405,7 +487,7 @@ L_DevilTower:
 			}
 			warp_fct("dali", 85, 64);
 		}
-		case 11: { // Geffen Magic Tournament
+		case INST_GEFFEN_MAGIC_TOURNAMENT: { // Geffen Magic Tournament
 			if( select( GetColor(9316)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
 				.@md_name$ = "Geffen Magic Tournament";
 				.@questid = 9316; // Re-exploring the crack of spaces
@@ -444,7 +526,7 @@ L_DevilTower:
 			}
 			warp_fct("dali", 94, 141);
 		}
-		case 12: { // Ghost Palace
+		case INST_GHOST_PALACE: { // Ghost Palace
 			if( select( GetColor(1261)+"Acces direct^000000", "Se rendre dans le Rift" ) == 1 ) {
 				.@md_name$ = "Ghost Palace";
 				.@questid = 1261; // Cursed Swordman
@@ -455,7 +537,7 @@ L_DevilTower:
 			}
 			warp_fct("dali02", 46, 128);
 		}
-		case 13: { // Hazy Forest / Mistwood Maze
+		case INST_MISTWOOD_MAZE: { // Hazy Forest / Mistwood Maze
 			if( select( GetColor(7211)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
 				.@md_name$ = "Mistwood Maze";
 				.@questid = 7211; // Misty Forest Labyrinth Exploration
@@ -465,7 +547,7 @@ L_DevilTower:
 			}
 			warp_fct("bif_fild01", 161, 334);
 		}
-		case 14: { // Horror Toy Factory
+		case INST_HORROR_TOY_FACTORY: { // Horror Toy Factory
 			if( select( GetColor(12331)+"Acces direct^000000", "Se rendre à Lutie" ) == 1 ) {
 				.@md_name$ = "Horror Toy Factory";
 				.@questid = 12331; // Trail of Toy Factory
@@ -476,7 +558,7 @@ L_DevilTower:
 			}
 			warp_fct("xmas", 234, 298);
 		}
-		case 15: { // Isle of Bios
+		case INST_ISLE_OF_BIOS: { // Isle of Bios
 			if( select( GetColor(15005)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
 				.@md_name$ = "Isle of Bios";
 				.@questid1 = 15005; // Memorial Dungeon: Isle of Bios
@@ -491,7 +573,7 @@ L_DevilTower:
 			}
 			warp_fct("moro_cav", 44, 66);
 		}
-		case 16: { // Last Room
+		case INST_LAST_ROOM: { // Last Room
 			if( select( GetColor(11379)+"Acces direct^000000", "Se rendre au lac" ) == 1 ) {
 				.@md_name$ = "Last room";
 				.@questid = 11379; // Final Room
@@ -503,7 +585,7 @@ L_DevilTower:
 			}
 			warp_fct("un_myst", 159, 38);
 		}
-		case 17: { // Malangdo Culvert
+		case INST_CULVERT: { // Malangdo Culvert
 			if( select( GetColor(12254)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
 				.@md_name$ = "Culvert";
 				.@questid = 12254; // Now it's cleaning
@@ -516,7 +598,7 @@ L_DevilTower:
 			warp_fct("mal_in01", 164, 21);
 			break;
 		}
-		case 18: { // Morse's Cave
+		case INST_MORSES_CAVE: { // Morse's Cave
 			if( select( GetColor(9319)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
 				.@md_name$ = "Morse's Cave";
 				.@questid1 = 9319; // Pursuing Hiding Morocc Continues
@@ -533,7 +615,7 @@ L_DevilTower:
 			}
 			warp_fct("moro_cav", 60, 66);
 		}
-		case 19: { // Nightmarish Jitterbug
+		case INST_NIGHTMARISH_JITTERBUG: { // Nightmarish Jitterbug
 L_Jitter:
 			if( select( GetColor(13182)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
 				.@md_name$ = "Nightmarish Jitterbug";
@@ -563,7 +645,7 @@ L_Jitter:
 			}
 			warp_fct("moc_para01", 27, 90);
 		}
-		case 20: { // Nydhoggur's Nest
+		case INST_NIDHOGGURS_NEST: { // Nydhoggur's Nest
 			if( select( GetColor(3135)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
 				.@md_name$ = "Nidhoggur's Nest";
 				.@questid = 3135; // Nydhoggur's Nest
@@ -574,7 +656,7 @@ L_Jitter:
 			}
 			warp_fct("nyd_dun02", 95, 193);
 		}
-		case 21: { // Octopus Cave
+		case INST_OCTOPUS_CAVE: { // Octopus Cave
 			if( select( GetColor(4197)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
 				.@md_name$ = "Octopus Cave";
 				.@questid = 4197; // Octopus
@@ -585,7 +667,7 @@ L_Jitter:
 			}
 			warp_fct("mal_dun01", 152, 230);
 		}
-		case 22: { // Old Glast Heim
+		case INST_OLD_GLAST_HEIM: { // Old Glast Heim
 			if( select( GetColor(12317)+"Acces direct^000000", "Se rendre à Glastheim" ) == 1 ) {
 				.@md_name$ = "Old Glast Heim";
 				.@questid1 = 12317; // Trace of Time Travel
@@ -606,7 +688,7 @@ L_Jitter:
 			}
 			warp_fct("glast_01", 204, 268);
 		}
-		case 23: { // Orc's Memory
+		case INST_ORCS_MEMORY: { // Orc's Memory
 			if( select( GetColor(12059)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
 				.@md_name$ = "Orc's Memory";
 				.@questid = 12059; // Orc's Memory Time Limit
@@ -616,7 +698,7 @@ L_Jitter:
 			}
 			warp_fct("gef_fild10", 240, 198);
 		}
-		case 24: { // Room of Consciousness
+		case INST_ROOM_OF_CONSCIOUSNESS: { // Room of Consciousness
 L_Bijou:
 			if( select( GetColor(7706)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
 				mes "";
@@ -645,7 +727,7 @@ L_Bijou:
 				warp_fct("prt_cas_q", 19, 83);
 			break;
 		}
-		case 25: { // Sarah and Fenrir
+		case INST_FENRIR_AND_SARAH: { // Sarah and Fenrir
 			if( select( GetColor(9336)+"Acces direct^000000", "Se rendre dans le Rift" ) == 1 ) {
 				.@md_name$ = "Fenrir and Sarah";
 				.@questid = 9336; // Go back to Professor Bernhard
@@ -693,7 +775,7 @@ L_Bijou:
 			}
 			warp_fct("dali02", 92, 141);
 		}
-		case 26: { // Sara's Memory
+		case INST_SARAS_MEMORIES: { // Sara's Memory
 			if( select( GetColor(15002)+"Acces direct^000000", "Se rendre dans le Rift" ) == 1 ) {
 				.@md_name$ = "Sara's Memories";
 				.@questid = 15002; // Memorial dungeon: Sara's Memory
@@ -703,7 +785,7 @@ L_Bijou:
 			}
 			warp_fct("dali", 133, 108);
 		}
-		case 27: { // Sealed Shrine
+		case INST_SEALED_CATACOMB: { // Sealed Shrine
 			if( select( GetColor(3040)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
 				.@md_name$ = "Sealed Catacomb";
 				.@questid = 3040; // The Curse of Baphomet
@@ -713,7 +795,17 @@ L_Bijou:
 			}
 			warp_fct("monk_test", 306, 143);
 		}
-		case 28: { // Wolfchev's Laboratory
+		case INST_TEMPLE_OF_THE_DEMON_GOD: { // Temple of Demon God
+			if( select( GetColor(7605)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
+				.@md_name$ = "Temple of the Demon God";
+				.@questid = 7605; // Guardian's Blessing (cooldown 3h)
+				callsub Party_Check,.@md_name$;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
+				break;
+			}
+			warp_fct("moro_cav", 39, 73);
+		}
+		case INST_WOLFCHEVS_LABORATORY: { // Wolfchev's Laboratory
 			if( select( GetColor(5112)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
 				.@md_name$ = "Wolfchev's Laboratory";
 				.@questid = 5112; // Laboratory Restricted Access
@@ -723,8 +815,6 @@ L_Bijou:
 			}
 			warp_fct("lhz_dun04", 148, 269);
 		}
-		// case 29: warp_fct("moro_cav", 39, 73);
-		case 30: goto L_warpa;
 	}
 	end;
 
@@ -958,10 +1048,10 @@ Process_Instance:
 			}
 			end;
 		case 0:
-		case 1:
+		case INST_ASSAULT_ON_THE_AIRSHIP:
 			// if( is_party_leader(getcharid(1)) == true )
 				// callsub Quick_Enter,getarg(0); end;
-		case 2:
+		case INST_BAKONAWA_LAKE:
 			clear;
 			mes .@npc_name$;
 			mes "^ff0000Vous devez attendre le reset de votre instance.^000000";
@@ -1512,11 +1602,11 @@ L_Rooms:
 	mes .@npc_name$;
 	mes "Sélectionnez la salle de votre choix :";
 	switch( select("• Carnage Room [ ^FF0000"+getmapusers("pvp_n_3-5")+"^000000 joueur(s) ]:• PvP Room [ ^FF0000"+getmapusers("pvp_n_4-1")+"^000000 joueur(s) ]:• Duel Room [ ^FF0000"+getmapusers("pvp_n_2-1")+"^000000 joueur(s) ]:• GvG Room [ ^FF0000"+getmapusers("pvp_n_5-1")+"^000000 joueur(s) ]:• DB Room [ ^FF0000"+getmapusers("pvp_n_1-1")+"^000000 joueur(s) ]:• BB Room [ ^FF0000"+getmapusers("pvp_n_3-1")+"^000000 joueur(s) ]:• Test Room [ ^FF0000"+getmapusers("pvp_n_5-5")+"^000000 joueur(s) ]:• ^e64c00Menu Précédent.^000000") ) {
-		case 1:	// Carnage Room
+		case INST_ASSAULT_ON_THE_AIRSHIP:	// Carnage Room
 			callsub Check_Buffs;
 			warp_fct("pvp_n_3-5");
 			break;
-		case 2:	// PvP Room
+		case INST_BAKONAWA_LAKE:	// PvP Room
 			clear;
 			mes .@npc_name$;
 			mes "N'oubliez-pas que dans cette salle, battez vous de façon loyal...";
@@ -1530,10 +1620,10 @@ L_Rooms:
 			else
 				goto L_warpa;
 			break;
-		case 3:	// Duel Room
+		case INST_BANGUNGOT_HOSPITAL_2F:	// Duel Room
 			warp_fct("pvp_n_2-1", 105, 71);
 			break;
-		case 4:	// GvG Room
+		case INST_BUWAYA_CAVE:	// GvG Room
 			clear;
 			mes .@npc_name$;
 			mes "N'oubliez-pas que dans cette salle, battez vous de façon loyal...";

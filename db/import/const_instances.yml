@@ -1,0 +1,103 @@
+###########################################################################
+# Script Constant Database - Instances
+###########################################################################
+#
+# Script Constant Settings
+#
+###########################################################################
+# - Name             Nom unique de la constante (INST_<NOM_DE_L_INSTANCE>).
+#   Value            Id de l'instance dans instance_db.yml.
+###########################################################################
+# AUTO-GENERATED par tools/gen/gen_instance_constants.py
+# NE PAS EDITER MANUELLEMENT - relancer le generateur a la place.
+#
+# Pour que ce fichier soit charge, db/const.yml doit l'importer :
+#   Footer:
+#     Imports:
+#     - Path: db/import/const.yml
+#     - Path: db/import/const_instances.yml
+###########################################################################
+
+Header:
+  Type: CONSTANT_DB
+  Version: 1
+
+Body:
+  - Name: INST_ENDLESS_TOWER
+    Value: 1
+  - Name: INST_SEALED_CATACOMB
+    Value: 2
+  - Name: INST_ORCS_MEMORY
+    Value: 3
+  - Name: INST_NIDHOGGURS_NEST
+    Value: 4
+  - Name: INST_MISTWOOD_MAZE
+    Value: 5
+  - Name: INST_CULVERT
+    Value: 6
+  - Name: INST_OCTOPUS_CAVE
+    Value: 7
+  - Name: INST_BANGUNGOT_HOSPITAL_2F
+    Value: 8
+  - Name: INST_BUWAYA_CAVE
+    Value: 9
+  - Name: INST_BAKONAWA_LAKE
+    Value: 10
+  - Name: INST_WOLFCHEVS_LABORATORY
+    Value: 11
+  - Name: INST_OLD_GLAST_HEIM
+    Value: 12
+  - Name: INST_ECLAGE_INTERIOR
+    Value: 13
+  - Name: INST_SARAS_MEMORIES
+    Value: 14
+  - Name: INST_GEFFEN_MAGIC_TOURNAMENT
+    Value: 15
+  - Name: INST_HORROR_TOY_FACTORY
+    Value: 16
+  - Name: INST_FACEWORMS_NEST
+    Value: 17
+  - Name: INST_GHOST_PALACE
+    Value: 18
+  - Name: INST_DEVILS_TOWER
+    Value: 19
+  - Name: INST_ASSAULT_ON_THE_AIRSHIP
+    Value: 20
+  - Name: INST_FENRIR_AND_SARAH
+    Value: 21
+  - Name: INST_WAVE_MODE_FOREST
+    Value: 22
+  - Name: INST_WAVE_MODE_SKY
+    Value: 23
+  - Name: INST_NIGHTMARISH_JITTERBUG
+    Value: 24
+  - Name: INST_ISLE_OF_BIOS
+    Value: 25
+  - Name: INST_MORSES_CAVE
+    Value: 26
+  - Name: INST_TEMPLE_OF_THE_DEMON_GOD
+    Value: 27
+  - Name: INST_CENTRAL_LABORATORY
+    Value: 28
+  - Name: INST_LAST_ROOM
+    Value: 29
+  - Name: INST_CHARLESTON_IN_DISTRESS
+    Value: 30
+  - Name: INST_RITUAL_OF_BLESSING
+    Value: 31
+  - Name: INST_ROOM_OF_CONSCIOUSNESS
+    Value: 32
+  - Name: INST_SKY_FORTRESS_INVASION
+    Value: 33
+  - Name: INST_HEART_HUNTER_WAR_BASE_1
+    Value: 34
+  - Name: INST_HEART_HUNTER_WAR_BASE_2
+    Value: 35
+  - Name: INST_WERNER_LABORATORY_CENTRAL_ROOM_1
+    Value: 36
+  - Name: INST_WERNER_LABORATORY_CENTRAL_ROOM_2
+    Value: 37
+  - Name: INST_ENDLESS_CELLAR
+    Value: 50
+  - Name: INST_BLOODY_BRANCH_CAVE
+    Value: 51
