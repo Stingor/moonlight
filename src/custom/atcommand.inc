@@ -215,6 +215,7 @@ ACMD_FUNC(users)
 	int32 users_allshop;
 	struct mapinfo{
 		char charid[CHAT_SIZE_MAX];
+		char mapname[MAP_NAME_LENGTH + 12]; // Real map name, "<src map>#<instance id>" for instance maps
 		int32 users;
 		int32 shops;
 	} mapinfo[MAX_MAPINDEX];
@@ -236,6 +237,15 @@ ACMD_FUNC(users)
 			continue;// invalid mapindex
 		if( sd2->state.spectator )
 			continue;// a viewpoint, not a player (see SPECTATOR_USERID in mmo.hpp)
+		if( mapinfo[sd2->mapindex].mapname[0] == '\0' ) { // Resolve the displayed name once per map
+			struct map_data* mapdata = map_getmapdata(sd2->m);
+			struct map_data* srcdata = (mapdata != nullptr && mapdata->instance_id > 0) ? map_getmapdata(mapdata->instance_src_map) : nullptr;
+
+			if( srcdata != nullptr ) // Instance maps are named "0889#000004", show the source map instead
+				safesnprintf(mapinfo[sd2->mapindex].mapname, sizeof(mapinfo[sd2->mapindex].mapname), "%s#%d", srcdata->name, mapdata->instance_id);
+			else
+				safestrncpy(mapinfo[sd2->mapindex].mapname, mapindex_id2name(sd2->mapindex), sizeof(mapinfo[sd2->mapindex].mapname));
+		}
 		if( !sd2->state.vending ) {
 			safesnprintf(buffer, sizeof(buffer), "[%s]", sd2->status.name);
 			strcat(mapinfo[sd2->mapindex].charid, buffer);
@@ -259,11 +269,11 @@ ACMD_FUNC(users)
 		if( mapinfo[i].users == 0 )
 			continue;// empty
 		if( mapinfo[i].shops > 0 && mapinfo[i].users > 0)
-			safesnprintf(buf, sizeof(buf), "%s: %d (%d shop) - %s", mapindex_id2name(i), (mapinfo[i].users - mapinfo[i].shops), mapinfo[i].shops, mapinfo[i].charid);
+			safesnprintf(buf, sizeof(buf), "%s: %d (%d shop) - %s", mapinfo[i].mapname, (mapinfo[i].users - mapinfo[i].shops), mapinfo[i].shops, mapinfo[i].charid);
 		else if( mapinfo[i].users > 0 )
-			safesnprintf(buf, sizeof(buf), "%s: %d - %s", mapindex_id2name(i), mapinfo[i].users, mapinfo[i].charid);
+			safesnprintf(buf, sizeof(buf), "%s: %d - %s", mapinfo[i].mapname, mapinfo[i].users, mapinfo[i].charid);
 		else if( mapinfo[i].shops > 0 )
-			safesnprintf(buf, sizeof(buf), "%s: %d shop", mapindex_id2name(i), mapinfo[i].shops);
+			safesnprintf(buf, sizeof(buf), "%s: %d shop", mapinfo[i].mapname, mapinfo[i].shops);
 		clif_displaymessage(sd->fd, buf);
 	}
 
