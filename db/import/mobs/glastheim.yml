@@ -923,3 +923,50 @@ Body:
     AttackMotion: 1536
     DamageMotion: 480
     Ai: 04
+  - Id: 20420
+    AegisName: WANDER_MAN_H
+    Name: Corrupted Wanderer
+    Level: 187
+    Hp: 451110
+    BaseExp: 721776
+    JobExp: 469154
+    Attack: 4114
+    Attack2: 4949
+    Defense: 39
+    MagicDefense: 25
+    Str: 176
+    Agi: 121
+    Vit: 34
+    Int: 67
+    Dex: 139
+    Luk: 77
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Wind
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 672
+    AttackMotion: 500
+    ClientAttackMotion: 672
+    DamageMotion: 192
+    Ai: 21
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Skull
+        Rate: 2425
+      - Item: Centimental_Leaf
+        Rate: 3
+      - Item: Oridecon
+        Rate: 57
+      - Item: Zelunium_Ore
+        Rate: 120
+#       RandomOptionGroup: AGW1
+      - Item: Shadowdecon_Ore
+        Rate: 120
+      - Item: Polluted_W_Man_Card
+        Rate: 1
+        StealProtected: true

@@ -9717,6 +9717,16 @@ Body:
       bonus bInt,1;
       bonus bLuk,2;
       bonus bMaxHPrate,10;
-
-
-
+  - Id: 27361
+    AegisName: Polluted_W_Man_Card
+    Name: Polluted Wanderer Card
+    Type: Card
+    Buy: 20
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bAddSize,Size_Large,30;
+      bonus2 bAddSize,Size_Medium,30;

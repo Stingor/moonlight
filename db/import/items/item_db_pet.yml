@@ -883,3 +883,11 @@ Body:
     Name: Dark Mane
     Type: Petarmor
     Buy: 20000
+  - Id: 9129
+    AegisName: Desert_Wolf_Egg
+    Name: Desert Wolf Egg
+    Type: PetEgg
+  - Id: 9131
+    AegisName: Fire_Golem_Egg
+    Name: Fire Golem Egg
+    Type: PetEgg
