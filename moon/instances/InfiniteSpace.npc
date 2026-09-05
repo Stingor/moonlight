@@ -549,8 +549,11 @@ OnMobKill:
 	.@event$ = instance_npcname(strnpcinfo(0)) + "::OnMobKill";
 	if (rand(1,100) <= 'poring_chance)
 		donpcevent instance_npcname(strnpcinfo(0)) + "::OnSummonPoring";
-	if (!mobcount('map$,.@event$)) {
-		sleep 5000;
+	.@remaining = mobcount('map$,.@event$);
+	if (.@remaining > 0)
+		mapannounce 'map$,"Remaining Monsters on the " + callfunc("F_GetNumSuffix",'floor) + " Level - " + .@remaining,bc_map,"0x00ff99";
+	else {
+		mapannounce 'map$,"All Monsters on the " + callfunc("F_GetNumSuffix",'floor) + " Level have been defeated.",bc_map,"0xffff00";
 		// Boss Stage, spawn Treasure Chest
 		if (('floor%10) == 0)
 			enablenpc instance_npcname("#w" + 'floor + "_t");
@@ -632,7 +635,6 @@ OnPoringKill:
 	if (is_party_leader()) {
 		specialeffect EF_COIN;
 		disablenpc instance_npcname(strnpcinfo(0));
-		sleep 1000;
 		if ('mode == 1)
 			.@amount = rand(3,10);	// Min/Max found in replays
 		else
