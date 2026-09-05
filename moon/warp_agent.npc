@@ -1101,7 +1101,7 @@ L_Autre:
 	clear;
 	mes .@npc_name$;
 	mes "Sélectionnez la destination de votre choix :";
-	switch( select("• Forge:• Shop armement:• Eden Group:• Flame Bassin:• Mid Camp:• Seals:• Yggdrasil:• Rebellion Base:• ^e64c00Menu Précédent.^000000") ) {
+	switch( select("• Forge:• Shop armement:• Eden Group:• Flame Bassin:• Mid Camp:• Seals:• Yggdrasil:• Rebellion Base:• Para Market:• ^e64c00Menu Précédent.^000000") ) {
 		case 1: warp_fct("gon_in", 94, 21);
 		case 2: warp_fct("gon_in", 163, 23);
 		case 3: warp_fct("moc_para01", 31, 14);
@@ -1116,6 +1116,10 @@ L_Autre:
                 mes "You don't have access to the Rebellion Base.";
                 close;
             }
+		// moonlight: ajoute en fin de liste pour ne renumeroter aucun case existant.
+		// Aller seulement : pas de warp agent sur paramk. Le retour passe par @load,
+		// que ni noteleport ni nomemo ne bloquent, et que le menu Echap propose.
+		case 9: warp_fct("paramk", 97, 17);
 		default: goto L_warpa;
 	}
 	end;
