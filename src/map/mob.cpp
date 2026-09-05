@@ -6925,6 +6925,50 @@ uint64 MobItemRatioDatabase::parseBodyNode(const ryml::NodeRef& node) {
 }
 
 /**
+ * Looks up the base monster a "C_xxx"/"E_xxx" clone/event sprite was copied from.
+ * A drop shared with that base monster is hidden from the @whodrops index so the same
+ * drop is not listed twice, while monsters that merely share the prefix but own their
+ * drops (e.g. E_COWRAIDERS1, the Elite Buffalo Bandit) stay listed.
+ * @param mob: Monster to inspect
+ * @return The base monster, or nullptr when the sprite is not a copy
+ */
+static std::shared_ptr<s_mob_db> mob_get_copy_base( const std::shared_ptr<s_mob_db>& mob ){
+	const std::string& sprite = mob->sprite;
+
+	if( sprite.length() < 3 || sprite[1] != '_' || ( sprite[0] != 'C' && sprite[0] != 'E' ) ){
+		return nullptr;
+	}
+
+	std::shared_ptr<s_mob_db> base = mobdb_search_aegisname( sprite.substr( 2 ).c_str() );
+
+	if( base == mob ){
+		return nullptr;
+	}
+
+	return base;
+}
+
+/**
+ * Tells whether a drop only duplicates the one of the monster a copy was made from.
+ * @param base: Base monster returned by mob_get_copy_base, may be nullptr
+ * @param nameid: Item being indexed
+ * @return True if the drop must be skipped from the @whodrops index
+ */
+static bool mob_is_duplicated_drop( const std::shared_ptr<s_mob_db>& base, t_itemid nameid ){
+	if( base == nullptr ){
+		return false;
+	}
+
+	for( const std::shared_ptr<s_mob_drop>& drop : base->dropitem ){
+		if( drop->nameid == nameid ){
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/**
  * Adjust drop ratio for each monster
  **/
 static void mob_drop_ratio_adjust(void){
@@ -6978,6 +7022,9 @@ static void mob_drop_ratio_adjust(void){
 			entry->rate = rate;
 			it++;
 		}
+
+		// Resolved once: the base monster this sprite is a clone/event copy of, if any.
+		std::shared_ptr<s_mob_db> copy_base = mob_get_copy_base( mob );
 
 		for( auto it = mob->dropitem.begin(); it != mob->dropitem.end(); ){
 			std::shared_ptr<s_mob_drop>& entry = *it;
@@ -7072,30 +7119,30 @@ static void mob_drop_ratio_adjust(void){
 					id->maxchance = rate; // item has bigger drop chance or sold in shops
 				}
 
-				// Skip clone (C_xxx) and event (E_xxx) sprites from the @whodrops index.
+				// Skip clone (C_xxx) and event (E_xxx) copies from the @whodrops index.
 				// Fix [Stingor]: was "&&" + sprite[2], which excluded ANY sprite starting with C or E.
-				if( mob->sprite[0] != 'C' || mob->sprite[1] != '_' ) {
-					if( mob->sprite[0] != 'E' || mob->sprite[1] != '_' ) {
-						ARR_FIND( 0, MAX_SEARCH, i, id->mob[i].id == mob_id );
-						if( i >= MAX_SEARCH ) {
-							for( k = 0; k < MAX_SEARCH; k++ ){
-								if( id->mob[k].chance <= rate ){
-									break;
-								}
-							}
-
-							if( k != MAX_SEARCH ){
-								if( id->mob[k].id != mob_id ){
-									memmove( &id->mob[k+1], &id->mob[k], (MAX_SEARCH-k-1)*sizeof(id->mob[0]) );
-								}
-
-								id->mob[k].chance = rate;
-								id->mob[k].id = mob_id;
+				// Fix [Stingor]: only skip a copy that duplicates a base monster dropping the
+				// same item, otherwise real monsters like E_COWRAIDERS1 vanish from @whodrops.
+				if( !mob_is_duplicated_drop( copy_base, entry->nameid ) ) {
+					ARR_FIND( 0, MAX_SEARCH, i, id->mob[i].id == mob_id );
+					if( i >= MAX_SEARCH ) {
+						for( k = 0; k < MAX_SEARCH; k++ ){
+							if( id->mob[k].chance <= rate ){
+								break;
 							}
 						}
-						else
-							id->mob[i].chance = rate;
+
+						if( k != MAX_SEARCH ){
+							if( id->mob[k].id != mob_id ){
+								memmove( &id->mob[k+1], &id->mob[k], (MAX_SEARCH-k-1)*sizeof(id->mob[0]) );
+							}
+
+							id->mob[k].chance = rate;
+							id->mob[k].id = mob_id;
+						}
 					}
+					else
+						id->mob[i].chance = rate;
 				}
 			}
 
