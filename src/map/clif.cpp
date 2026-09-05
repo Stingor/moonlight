@@ -6938,8 +6938,38 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 	// ni lue pour lui. Et le MachineGuid n'est pas enregistré : c'est celui du
 	// joueur, qui le déclarera lui-même en entrant, et l'inscrire ici le ferait
 	// passer pour un multi-compte de sa propre session de décor.
-	if (sd->state.spectator)
+	//
+	// ✅ CE QU'ELLE OBTIENT QUAND MÊME, et c'est tout : le droit de VOIR. Le décor
+	// montre de vrais joueurs, dont certains ont choisi leurs couleurs ; sans un
+	// drapeau à présenter, les quatre points de diffusion du style -- tous gatés sur
+	// le DESTINATAIRE -- restaient muets et l'écran de connexion affichait tout le
+	// monde en palette d'origine. `bourgeon_cosmetic` ne dit que cela : « cette
+	// session sait lire les cosmétiques d'autrui ». Rien n'est lu ni écrit en base,
+	// et aucun handler entrant ne s'ouvre.
+	if (sd->state.spectator) {
+		// Même prudence que la branche « client périmé » plus bas, sans le kick ni le
+		// warning : un client d'une autre époque n'est pas cru sur parole, il est
+		// simplement ignoré. Son joueur l'apprendra à SA connexion, sous son nom.
+		const PACKET_CZ_BOURGEON_INTEGRITY* pkt =
+			reinterpret_cast<const PACKET_CZ_BOURGEON_INTEGRITY*>(RFIFOP(fd, 0));
+		if (pkt->packetLength < static_cast<int16>(sizeof(PACKET_CZ_BOURGEON_INTEGRITY)))
+			return;
+		// ⚠ Ce handler est rejoué : l'accusé que le client attend est
+		// `clif_bourgeon_settings`, envoyé par `clif_bourgeon_grant_verified` -- que
+		// cette session n'atteint jamais. Elle renvoie donc sa poignée de main toutes
+		// les trois secondes, cinq fois, avant d'abandonner. On ne repaie pas la
+		// diffusion de zone à chaque fois.
+		if (sd->state.bourgeon_cosmetic) return;
+		sd->state.bourgeon_cosmetic = true;
+		// 🔴 Et on REJOUE la diffusion de zone, exactement pour la raison écrite sur
+		// `clif_bourgeon_style_area` : les joueurs déjà en vue ont été décrits par
+		// `clif_getareachar_unit` à l'entrée en carte, donc AVANT ce paquet, donc
+		// gatés out. Sans ce rattrapage la session ne verrait le style que de ceux
+		// qui apparaissent ou entrent dans sa vue APRÈS coup -- et un décor immobile
+		// n'en croise pas beaucoup.
+		clif_bourgeon_style_area(sd);
 		return;
+	}
 
 	if (!bourgeon_integrity_conf.loaded)
 		clif_bourgeon_integrity_reload();
@@ -9946,9 +9976,28 @@ static void bourgeon_style_apply_hair_color(
 	}
 }
 
+// Qui a droit d'apprendre les COULEURS D'AUTRUI ?
+//
+// 🔴 Deux drapeaux, et pas un seul. `has_bourgeon` dit « client Bourgeon d'un
+// joueur », et c'est la garde de tout ce qui entre comme de tout ce qui touche à
+// son personnage. Une session SPECTATEUR ne l'obtient jamais, délibérément (cf.
+// clif_parse_bourgeon_integrity) -- mais elle porte bien un client Bourgeon, et
+// ce qu'elle affiche est le décor de l'écran de connexion. Sans ce second
+// drapeau, les joueurs y apparaissaient dans leurs couleurs d'origine : le style
+// que leur propriétaire a choisi ne leur était tout simplement jamais envoyé.
+//
+// ⚠ Ne PAS élargir ce test à d'autres paquets sans se redemander ce qu'ils
+// portent : celui-ci ne dit que l'apparence publique d'un tiers, déjà visible à
+// l'écran. Les ZC qui décrivent le PERSONNAGE du destinataire (réglages, presets,
+// alootid…) restent sur `has_bourgeon` seul -- un spectateur n'a pas de
+// personnage, et rien ne doit être lu en base pour lui.
+static bool bourgeon_cosmetic_receiver(const map_session_data* sd) {
+	return sd != nullptr && (sd->state.has_bourgeon || sd->state.bourgeon_cosmetic);
+}
+
 void clif_bourgeon_style_single(map_session_data* sd, map_session_data* owner) {
 	if (sd == nullptr || owner == nullptr) return;
-	if (!sd->state.has_bourgeon) return;  // client vanilla : rien à lui dire
+	if (!bourgeon_cosmetic_receiver(sd)) return;  // client vanilla : rien à lui dire
 	std::vector<bourgeon_style_variant> list;
 	bourgeon_style_load(owner, list);
 	if (list.empty()) return;  // pas de style : rien à dire de celui-là
@@ -10003,7 +10052,7 @@ static int32 clif_bourgeon_style_area_sub(block_list* bl, va_list ap) {
 // en deux.
 void clif_bourgeon_style_area(map_session_data* sd) {
 	nullpo_retv(sd);
-	if (!sd->state.has_bourgeon) return;
+	if (!bourgeon_cosmetic_receiver(sd)) return;
 
 	std::vector<map_session_data*> vus;
 	map_foreachinallrange(clif_bourgeon_style_area_sub, sd, AREA_SIZE, BL_PC,
@@ -10070,7 +10119,7 @@ static int32 clif_bourgeon_style_spawn_sub(block_list* bl, va_list ap) {
 	const int32  len    = va_arg(ap, int32);
 
 	if (tsd->id == src_id) return 0;         // le sien part par un chemin dédié
-	if (!tsd->state.has_bourgeon) return 0;  // client vanilla : rien à lui dire
+	if (!bourgeon_cosmetic_receiver(tsd)) return 0;  // client vanilla : rien à lui dire
 	const int32 fd = tsd->fd;
 	if (!session_isActive(fd)) return 0;
 

@@ -466,6 +466,16 @@ public:
 		bool showmobinfo: 1;
 		bool block_exp: 1;   ///< @blockexp : bloque le gain d'EXP
 		bool has_bourgeon: 1; ///< client sent CZ_BOURGEON_INTEGRITY -> safe to send ZC Bourgeon packets
+		/// Session SPECTATEUR ayant prouvé qu'elle porte un client Bourgeon (elle a
+		/// envoyé CZ_BOURGEON_INTEGRITY).
+		///
+		/// 🔴🔴 Ce drapeau n'ouvre AUCUN handler entrant. La garde des vingt-trois
+		/// CZ_BOURGEON_* reste `has_bourgeon`, qu'une session spectateur n'obtient
+		/// jamais (cf. clif_parse_bourgeon_integrity, et la raison qui y est écrite :
+		/// l'identifiant spectateur voyage en clair dans chaque DLL). Il n'autorise
+		/// QUE la diffusion sortante des cosmétiques d'AUTRUI -- rien n'est lu ni
+		/// écrit en base pour cette session, et elle ne peut toujours rien demander.
+		bool bourgeon_cosmetic: 1;
 		bool discord_chat: 1; ///< player opted in to outbound chat relay to Discord
 		uint32 autolootpognon;
 		uint8 sort_inv;      ///< e_sort_mode: tri préféré pour l'inventaire
