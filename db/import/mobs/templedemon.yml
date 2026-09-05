@@ -318,7 +318,7 @@ Body:
     Modes:
       Detector: true
     Drops:
-      - Item: Despair_God_Morocc_Card
+      - Item: DespairGodMorocc_Card
         Rate: 1
         StealProtected: true
   - Id: 3098
@@ -443,3 +443,69 @@ Body:
       IgnoreMelee: true
       IgnoreMisc: true
       IgnoreRanged: true
+  - Id: 3105
+    AegisName: MM_GB_MOROCC_1
+    Name: Demon God's Apostle Aha
+    Level: 149
+    Hp: 1358758
+    Attack: 1901
+    Attack2: 145
+    Defense: 38
+    MagicDefense: 23
+    Str: 126
+    Agi: 91
+    Vit: 63
+    Int: 61
+    Dex: 114
+    Luk: 37
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Angel
+    Element: Fire
+    ElementLevel: 2
+    WalkSpeed: 110
+    AttackDelay: 576
+    AttackMotion: 480
+    ClientAttackMotion: 336
+    DamageMotion: 432
+    Ai: 04
+    Class: Boss
+    Drops:
+      - Item: Ahat_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 3106
+    AegisName: MM_GB_MOROCC_4
+    Name: Demon God's Apostle Shn
+    Level: 149
+    Hp: 1358758
+    Attack: 1235
+    Attack2: 599
+    Defense: 38
+    MagicDefense: 25
+    Str: 114
+    Agi: 88
+    Vit: 62
+    Int: 97
+    Dex: 164
+    Luk: 43
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Ghost
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 1536
+    AttackMotion: 648
+    ClientAttackMotion: 336
+    DamageMotion: 300
+    Ai: 04
+    Class: Boss
+    Drops:
+      - Item: Shnaim_Card
+        Rate: 1
+        StealProtected: true

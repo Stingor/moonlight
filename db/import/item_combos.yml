@@ -4931,8 +4931,8 @@ Body:
       bonus2 bAddEle,Ele_Dark,15; bonus2 bAddEle,Ele_Undead,15; bonus2 bMagicAddEle,Ele_Dark,15; bonus2 bMagicAddEle,Ele_Undead,15; bonus2 bSubEle,Ele_Dark,15; bonus2 bSubEle,Ele_Undead,15;
   - Combos:
       - Combo:
-          - Demon_God's_Apostle_Ahat_Card
-          - Demon_God's_Apostle_Shnaim_Card
+          - Ahat_Card
+          - Shnaim_Card
     Script: |
       bonus bMaxSPrate,5; bonus bMaxHPrate,5;
   - Combos:

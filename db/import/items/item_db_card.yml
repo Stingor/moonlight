@@ -8675,7 +8675,7 @@ Body:
       Right_Hand: true
     Script: ".@r = getrefine(); .@val = 3; if (.@r >= 9) { .@val += 2; if (.@r >= 11) { .@val += 5; } } bonus2 bMagicAtkEle,Ele_Fire,.@val;\n"
   - Id: 27321
-    AegisName: Despair_God_Morocc_Card
+    AegisName: DespairGodMorocc_Card
     Name: Despair God Morocc Card
     Type: Card
     Buy: 20
@@ -8684,7 +8684,7 @@ Body:
       Shoes: true
     Script: "bonus2 bAddClass,Class_All,10; bonus bMaxHPRate,-50; bonus2 bAddRace,RC_DemiHuman,30; bonus2 bAddRace,RC_PLAYER_HUMAN,30; bonus2 bAddRace,RC_Angel,30; autobonus3 \"{ }\",1000,5000,\"NV_FIRSTAID\",\"{ active_transform 3097,5000; }\"; /* unknown transformation rates */\n"
   - Id: 27322
-    AegisName: Demon_God's_Apostle_Ahat_Card
+    AegisName: Ahat_Card
     Name: Demon God's Apostle Ahat Card
     Type: Card
     Buy: 20
@@ -8693,7 +8693,7 @@ Body:
       Both_Accessory: true
     Script: "bonus bMaxSPrate,5;\n"
   - Id: 27323
-    AegisName: Demon_God's_Apostle_Shnaim_Card
+    AegisName: Shnaim_Card
     Name: Demon God's Apostle Shnaim Card
     Type: Card
     Buy: 20
