@@ -5152,10 +5152,13 @@ Body:
     Buy: 10
     Weight: 100
   - Id: 6832
-    AegisName: Questioned_Parts
+    AegisName: Problematical_Part
     Name: Questioned Parts
-    Buy: 10
+    Type: Etc
+    Buy: 1000
     Weight: 10
+    Flags:
+      BuyingStore: true
   - Id: 6833
     AegisName: Limited_Token_of_Ziegfried
     Name: (Limited) Token of Ziegfried
@@ -5421,7 +5424,7 @@ Body:
     Name: Piece Of Soul Snake
     Buy: 10
   - Id: 6905
-    AegisName: Broken_Magic_Stone
+    AegisName: Shattered_Rune
     Name: Broken Magic Stone
     Buy: 10
   - Id: 6906
@@ -12735,14 +12738,6 @@ Body:
     AegisName: World_Moving_Rights
     Name: World Moving Rights
     Buy: 20
-  - Id: 6832
-    AegisName: Problematical_Part
-    Name: Questioned Parts
-    Type: Etc
-    Buy: 1000
-    Weight: 10
-    Flags:
-      BuyingStore: true
   - Id: 25669
     AegisName: EP17_1_EVT02
     Name: Mysterious Component

@@ -97,6 +97,8 @@ Body:
     Value: 36
   - Name: INST_WERNER_LABORATORY_CENTRAL_ROOM_2
     Value: 37
+  - Name: INST_INFINITE_SPACE
+    Value: 38
   - Name: INST_ENDLESS_CELLAR
     Value: 50
   - Name: INST_BLOODY_BRANCH_CAVE

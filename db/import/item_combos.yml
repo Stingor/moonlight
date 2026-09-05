@@ -2969,26 +2969,26 @@ Body:
       bonus2 bResEff,Eff_Burning,10000;
   - Combos:
       - Combo:
-          - Min_Toad_Card
-          - Min_Chimera_Card
+          - IFN_Toad_Card
+          - IFN_Chimera_Card
     Script: |
       bonus2 bAddClass,Class_All,10; bonus bMatkRate,10;
   - Combos:
       - Combo:
-          - Min_Vagabond_Wolf_Card
-          - Min_Chimera_Card
+          - IFN_V_Wolf_Card
+          - IFN_Chimera_Card
     Script: |
       bonus2 bAddClass,Class_All,10; bonus bMatkRate,10;
   - Combos:
       - Combo:
-          - Min_Vocal_Card
-          - Min_Chimera_Card
+          - IFN_Vocal_Card
+          - IFN_Chimera_Card
     Script: |
       bonus2 bAddClass,Class_All,10; bonus bMatkRate,10;
   - Combos:
       - Combo:
-          - Min_Eclipse_Card
-          - Min_Chimera_Card
+          - IFN_Eclipse_Card
+          - IFN_Chimera_Card
     Script: |
       bonus2 bAddClass,Class_All,10; bonus bMatkRate,10;
   - Combos:

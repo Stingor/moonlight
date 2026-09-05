@@ -6831,7 +6831,7 @@ Body:
       Left_Hand: true
     Script: "bonus bNoRegen,2; bonus bSPDrainValue,1;\n"
   - Id: 4642
-    AegisName: Min_Toad_Card
+    AegisName: IFN_Toad_Card
     Name: Infinite Toad Card
     Type: Card
     Buy: 20
@@ -6840,7 +6840,7 @@ Body:
       Shoes: true
     Script: ".@r = getrefine(); if(.@r>6){ .@b+=2; if(.@r>8).@b+=3; } bonus bFlee2,2+.@b;\n"
   - Id: 4643
-    AegisName: Min_Vagabond_Wolf_Card
+    AegisName: IFN_V_Wolf_Card
     Name: Infinite Vagabond Wolf Card
     Type: Card
     Buy: 20
@@ -6849,7 +6849,7 @@ Body:
       Shoes: true
     Script: ".@r = getrefine(); if(.@r>6){ .@b+=10; if(.@r>8).@b+=15; } bonus bAtk,10+.@b;\n"
   - Id: 4644
-    AegisName: Min_Vocal_Card
+    AegisName: IFN_Vocal_Card
     Name: Infinite Vocal Card
     Type: Card
     Buy: 20
@@ -6858,7 +6858,7 @@ Body:
       Shoes: true
     Script: ".@r = getrefine(); if(.@r>6){ .@b+=10; if(.@r>8) .@b+=15; } bonus bMdef,5+.@b;\n"
   - Id: 4645
-    AegisName: Min_Eclipse_Card
+    AegisName: IFN_Eclipse_Card
     Name: Infinite Eclipse Card
     Type: Card
     Buy: 20
@@ -6867,7 +6867,7 @@ Body:
       Shoes: true
     Script: ".@r = getrefine(); if(.@r>6){ .@b+=300; if(.@r>8).@b+=400; } bonus bMaxHP,300+.@b;\n"
   - Id: 4646
-    AegisName: Min_Chimera_Card
+    AegisName: IFN_Chimera_Card
     Name: Infinite Chimera Card
     Type: Card
     Buy: 20
@@ -6876,7 +6876,7 @@ Body:
       Garment: true
     Script: "bonus bMaxHPrate,8; bonus bMaxSPrate,4;\n"
   - Id: 4647
-    AegisName: Min_Osiris_Card
+    AegisName: IFN_Osiris_Card
     Name: Infinite Osiris Card
     Type: Card
     Buy: 20
@@ -6885,7 +6885,7 @@ Body:
       Both_Accessory: true
     Script: "bonus bHPGainValue,300;\n"
   - Id: 4648
-    AegisName: Min_Eddga_Card
+    AegisName: IFN_Eddga_Card
     Name: Infinite Eddga Card
     Type: Card
     Buy: 20
@@ -6894,7 +6894,7 @@ Body:
       Shoes: true
     Script: "bonus4 bAutoSpellWhenHit,\"SM_PROVOKE\",10,500,1;\n"
   - Id: 4649
-    AegisName: Min_Phreeoni_Card
+    AegisName: IFN_Phreeoni_Card
     Name: Infinite Phreeoni Card
     Type: Card
     Buy: 20
@@ -6903,7 +6903,7 @@ Body:
       Right_Hand: true
     Script: "bonus bCritical,100;\n"
   - Id: 4650
-    AegisName: Min_Orc_Hero_Card
+    AegisName: IFN_OrcHero_Card
     Name: Infinite Orc Hero Card
     Type: Card
     Buy: 20
@@ -6914,7 +6914,7 @@ Body:
       Head_Top: true
     Script: "bonus bVit,3; bonus3 bAddEffWhenHit,Eff_Stun,10000,ATF_MAGIC;\n"
   - Id: 4651
-    AegisName: Min_Tao_Gunka_Card
+    AegisName: IFN_Tao_Gunka_Card
     Name: Infinite Tao Gunka Card
     Type: Card
     Buy: 20
@@ -9571,20 +9571,6 @@ Body:
     Script: |
       bonus bInt,2;
       bonus bDex,1;
-      bonus bMaxHPrate,10;
-  - Id: 300117 # Balanced
-    AegisName: Plasma_R2_Card
-    Name: Sharp Spell Card
-    Type: Card
-    Weight: 10
-    Locations:
-      Both_Accessory: true
-    Flags:
-      BuyingStore: true
-      DropEffect: CLIENT
-    Script: |
-      bonus bAgi,1;
-      bonus bDex,2;
       bonus bMaxHPrate,10;
   - Id: 300116 # Balanced
     AegisName: Plasma_R_Card

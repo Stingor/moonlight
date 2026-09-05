@@ -182,6 +182,7 @@ L_Instance:
 					"Ghost Palace (Solo)",
 					"Hazy Forest",
 					"Horror Toy Factory (HM)",
+					"Infinite Space (HM sur place)",
 					"Isle Of Bios",
 					"Last Room",
 					"Malangdo Culvert",
@@ -212,6 +213,7 @@ L_Instance:
 					INST_GHOST_PALACE,
 					INST_MISTWOOD_MAZE,
 					INST_HORROR_TOY_FACTORY,
+					INST_INFINITE_SPACE,
 					INST_ISLE_OF_BIOS,
 					INST_LAST_ROOM,
 					INST_CULVERT,
@@ -243,6 +245,7 @@ L_Instance:
 					1261,  // INST_GHOST_PALACE
 					7211,  // INST_MISTWOOD_MAZE
 					12331, // INST_HORROR_TOY_FACTORY
+					12365, // INST_INFINITE_SPACE
 					15005, // INST_ISLE_OF_BIOS
 					11379, // INST_LAST_ROOM
 					12254, // INST_CULVERT
@@ -557,6 +560,25 @@ L_DevilTower:
 				break;
 			}
 			warp_fct("xmas", 234, 298);
+		}
+		case INST_INFINITE_SPACE: { // Infinite Space
+			if( select( GetColor(12365)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
+				.@md_name$ = "Infinite Space";
+				.@questid = 12365; // Gloomy Spirit of the Underground (cooldown)
+				// 12364 Fallen Paros Lighthouse : la Reckless Explorer sur place exige
+				// isbegin_quest(12364) == 2, sinon elle rejoue son introduction et
+				// refait un setquest qui echouerait.
+				if( isbegin_quest(12364) == 0 )
+					setquest 12364;
+				if( isbegin_quest(12364) == 1 )
+					completequest 12364;
+				callsub Party_Check,.@md_name$;
+				// Pas de Hard_Mode ici : la difficulte se choisit dans l'instance,
+				// aupres de la Reckless Explorer, au premier etage.
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
+				break;
+			}
+			warp_fct("cmd_fild07", 53, 270);
 		}
 		case INST_ISLE_OF_BIOS: { // Isle of Bios
 			if( select( GetColor(15005)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {

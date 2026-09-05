@@ -54581,6 +54581,7 @@ Footer:
   - Path: db/import/mobs/gld_dun.yml
   - Path: db/import/mobs/horrortoy.yml
   - Path: db/import/mobs/ice_dun.yml
+  - Path: db/import/mobs/infinitespace.yml
   - Path: db/import/mobs/isleofbios.yml
   - Path: db/import/mobs/iz_dun.yml
   - Path: db/import/mobs/jitterbug.yml

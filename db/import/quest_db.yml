@@ -104,6 +104,11 @@ Body:
   - Id: 12347
     Title: Trace of Laboratory Access
     TimeLimit: 4h
+  - Id: 12364
+    Title: Fallen Paros Lighthouse
+  - Id: 12365
+    Title: Gloomy Spirit of the Underground
+    TimeLimit: 4h
   - Id: 13182
     Title: "Nightmarish Jitterbug: Waiting"
     TimeLimit: 4h
