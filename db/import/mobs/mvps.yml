@@ -4583,13 +4583,13 @@ Body:
         Rate: 50
       - Item: Lava_Leather_Suits
         Rate: 100
-#       # RandomOptionGroup: LAV2
+        RandomOptionGroup: MAGMA3
       - Item: Lava_Leather_Robe
         Rate: 100
-#       # RandomOptionGroup: LAV2
+        RandomOptionGroup: MAGMA3
       - Item: Lava_Leather_Armor
         Rate: 100
-#       # RandomOptionGroup: LAV2
+        RandomOptionGroup: MAGMA3
       - Item: Firm_Muspell_Card
         Rate: 1
         StealProtected: true
