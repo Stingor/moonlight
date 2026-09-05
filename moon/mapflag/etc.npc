@@ -270,3 +270,7 @@ region_8	mapflag	loadevent
 1@crd	mapflag	nomemo
 1@drdo	mapflag	nomemo
 1@soul	mapflag	nomemo
+
+// Para Market
+paramk	mapflag	nobranch
+paramk	mapflag	nomemo

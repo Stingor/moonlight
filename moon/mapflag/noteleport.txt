@@ -627,3 +627,6 @@ conch_in	mapflag	noteleport
 
 // Soul Reaper Job Change
 1@soul	mapflag	noteleport
+
+// Para Market
+paramk	mapflag	noteleport

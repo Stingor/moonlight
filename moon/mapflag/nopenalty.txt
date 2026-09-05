@@ -55,3 +55,6 @@ arug_cas05	mapflag	nopenalty
 
 // Custom GvG =============
 pvp_n_5-1	mapflag	nopenalty
+
+// Para Market
+paramk	mapflag	nopenalty
