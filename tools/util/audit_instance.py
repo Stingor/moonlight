@@ -35,7 +35,10 @@ import sys
 
 import yaml
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+# uniquement en execution directe : re-emballer sys.stdout a l'import ferme le
+# buffer de l'appelant quand son propre wrapper est collecte.
+if __name__ == '__main__':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 os.chdir(ROOT)
@@ -175,7 +178,14 @@ def parse_script(path):
     for m in re.finditer(r'\.@md_name\$\s*=\s*"([^"]+)"', code):
         names.add(m.group(1))
     npc_maps = set(re.findall(r'^([a-z0-9_@]+),\d+,\d+,\d+\tscript\t', src, re.M))
-    return mobs, items, item_names, quests, maps, names, npc_maps
+
+    # sprites de NPC : dernier champ d'une ligne script/duplicate
+    views = {}
+    for m in re.finditer(r'^[a-z0-9_@]+,\d+,\d+,\d+\t(?:script|duplicate\([^)]*\))'
+                         r'\t[^\t]+\t([A-Za-z_]\w*)', src, re.M):
+        views[m.group(1)] = views.get(m.group(1), 0) + 1
+    mercs = {int(m.group(1)) for m in re.finditer(r'mercenary_create\s+(\d+)', code)}
+    return mobs, items, item_names, quests, maps, names, npc_maps, views, mercs
 
 
 # ------------------------------------------------------------------ main --
@@ -188,7 +198,8 @@ def main():
     script = a.script.replace('\\', '/')
     base = os.path.basename(script)
 
-    mobs, items, item_names, quests, maps, names, npc_maps = parse_script(script)
+    (mobs, items, item_names, quests, maps, names, npc_maps,
+     views, mercs) = parse_script(script)
     inst_names = {a.name} if a.name else names
 
     # ------------------------------------------------ bases locales -------
@@ -404,6 +415,38 @@ def main():
                     R.ko('combo PORTABLE non porte : %s' % ' + '.join(sorted(s)), script[:80])
     else:
         R.info('aucune carte dans les drops')
+
+    # ------------------------------------------------ 9b. sprites de NPC ---
+    # npc_parseview (npc.cpp:3917) : entier, sinon script_get_constant(), sinon
+    # AegisName d'un mob CHARGE. Sinon -> warning au boot et NPC INVISIBLE.
+    R.head('SPRITES DE NPC')
+    sc_txt = open('src/map/script_constants.hpp', encoding='utf-8', errors='replace').read()
+    known = set(re.findall(r'export_constant2?\(\s*"([^"]+)"', sc_txt))
+    known |= set(re.findall(r'export_constant\(\s*(\w+)\s*\)', sc_txt))
+    # export_constant_npc(JT_X) exporte "X" : la macro retire le prefixe JT_
+    known |= {n[3:] for n in re.findall(r'export_constant_npc\(\s*(JT_\w+)\s*\)', sc_txt)}
+    known |= {e['Name'] for e in load('db/const.yml') if isinstance(e, dict) and 'Name' in e}
+    mob_names = {m['AegisName'] for m in mob_db.values()}
+    bad_views = {v: n for v, n in views.items() if v not in known and v not in mob_names}
+    for v, n in sorted(bad_views.items(), key=lambda x: -x[1]):
+        src_v = ('mob db/re Id %d' % next(i for i, m in re_mob.items() if m['AegisName'] == v)
+                 if any(m['AegisName'] == v for m in re_mob.values()) else 'INTROUVABLE')
+        R.ko('%s x%d -> NPC invisible (%s)' % (v, n, src_v))
+    R.info('%d sprite(s) distinct(s), %d non resolu(s)' % (len(views), len(bad_views)))
+
+    # ------------------------------------------------ 9c. mercenaires ------
+    # mercenary_create sort en SILENCE si la classe n'existe pas (script.cpp).
+    R.head('MERCENAIRES')
+    merc_db = {m['Id']: m['AegisName'] for m in load('db/mercenary_db.yml')}
+    re_merc = {m['Id']: m['AegisName'] for m in load_re('db/re/mercenary_db.yml')}
+    for i in sorted(mercs):
+        if i in merc_db:
+            R.ok('%d %s' % (i, merc_db[i]))
+        else:
+            R.ko('%d absent -> mercenary_create ne fait RIEN, sans message (%s)'
+                 % (i, 'db/re : %s' % re_merc[i] if i in re_merc else 'nulle part'))
+    if not mercs:
+        R.info('aucun mercenary_create')
 
     # ------------------------------------------------ 10. scripts associes -
     # Un enchanteur, un marchand ou une quete de l'episode peut vivre ailleurs

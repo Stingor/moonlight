@@ -711,3 +711,55 @@ Body:
         Rate: 2500
       - Item: Yggdrasilberry
         Rate: 2500
+  - Id: 3527
+    AegisName: POPE_MD_MERC_NORMAL
+    Name: Official Pope
+    Level: 87
+    Hp: 24103
+    Sp: 190
+    BaseExp: 38565
+    JobExp: 25067
+    Attack: 1
+    Defense: 21
+    MagicDefense: 11
+    Vit: 70
+    Int: 5
+    Dex: 50
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demihuman
+    Element: Holy
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 864
+    AttackMotion: 864
+    ClientAttackMotion: 576
+    DamageMotion: 480
+  - Id: 3528
+    AegisName: POPE_MD_MERC_CASUAL
+    Name: Casual Pope
+    Level: 87
+    Hp: 24103
+    Sp: 190
+    BaseExp: 38565
+    JobExp: 25067
+    Attack: 1
+    Defense: 21
+    MagicDefense: 11
+    Vit: 70
+    Int: 5
+    Dex: 50
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Demihuman
+    Element: Holy
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 864
+    AttackMotion: 864
+    ClientAttackMotion: 576
+    DamageMotion: 480
