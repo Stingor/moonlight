@@ -5979,6 +5979,8 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
+    Flags:
+      DropEffect: PURPLE_PILLAR
     Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4;\n"
   - Id: 1401
     AegisName: Javelin
@@ -6798,6 +6800,8 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
+    Flags:
+      DropEffect: PURPLE_PILLAR
     Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4;\n"
   - Id: 1451
     AegisName: Guisarme
@@ -9584,6 +9588,8 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
+    Flags:
+      DropEffect: PURPLE_PILLAR
     Script: "bonus bMatk,120; bonus bMatk,pow(min(getrefine(),10),2)*9/4; bonus bInt,5; bonus bUnbreakableWeapon;\n"
   - Id: 1601
     AegisName: Rod
@@ -12453,6 +12459,8 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
+    Flags:
+      DropEffect: PURPLE_PILLAR
     Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4;\n"
   - Id: 1801
     AegisName: Waghnakh
@@ -13230,6 +13238,8 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
+    Flags:
+      DropEffect: PURPLE_PILLAR
     Script: "bonus bMatk,50; bonus bAtk,pow(min(getrefine(),10),2)*9/4; bonus bMatk,pow(min(getrefine(),10),2)*9/4/2;\n"
   - Id: 1901
     AegisName: Violin
@@ -14757,6 +14767,8 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
+    Flags:
+      DropEffect: PURPLE_PILLAR
     Script: "bonus bMatk,50; bonus bAtk,pow(min(getrefine(),10),2)*9/4; bonus bMatk,pow(min(getrefine(),10),2)*9/4/2;\n"
   - Id: 1997
     AegisName: Unity_Whip
@@ -15274,6 +15286,8 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
+    Flags:
+      DropEffect: PURPLE_PILLAR
     Script: "bonus bMatk,200+pow(min(getrefine(),10),2)*9/4; bonus bInt,6; bonus bUnbreakableWeapon;\n"
   - Id: 2027
     AegisName: Staff_170
@@ -18227,6 +18241,8 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
+    Flags:
+      DropEffect: PURPLE_PILLAR
     Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4;\n"
   - Id: 13129
     AegisName: Unity_Revolver
@@ -19403,6 +19419,8 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
+    Flags:
+      DropEffect: PURPLE_PILLAR
     Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4; bonus bMatk,50+pow(min(getrefine(),10),2)*9/4/2; bonus bUnbreakableWeapon;\n"
   - Id: 13329
     AegisName: Unity_Huuma_Shuriken
@@ -20590,6 +20608,8 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
+    Flags:
+      DropEffect: PURPLE_PILLAR
     Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4;\n"
   - Id: 13456
     AegisName: Unity_Sword
@@ -21685,6 +21705,8 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
+    Flags:
+      DropEffect: PURPLE_PILLAR
     Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4; bonus bUnbreakableWeapon;\n"
   - Id: 16043
     AegisName: Meteor_Strike
@@ -22330,6 +22352,8 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
+    Flags:
+      DropEffect: PURPLE_PILLAR
     Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4;\n"
   - Id: 18122
     AegisName: Gigantic_Bow
@@ -23076,6 +23100,8 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
+    Flags:
+      DropEffect: PURPLE_PILLAR
     Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4;\n"
   - Id: 21018
     AegisName: Two_Hand_Spear_170
@@ -23577,6 +23603,8 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
+    Flags:
+      DropEffect: PURPLE_PILLAR
     Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4;\n"
   - Id: 28010
     AegisName: Katar_170
@@ -23862,6 +23890,8 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
+    Flags:
+      DropEffect: PURPLE_PILLAR
     Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4; bonus bUnbreakableWeapon;\n"
   - Id: 28110
     AegisName: Unity_Two-Handed_Axe
@@ -24356,6 +24386,8 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
+    Flags:
+      DropEffect: PURPLE_PILLAR
     Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4; bonus bMatk,pow(min(getrefine(),10),2)*9/4; bonus bUnbreakableWeapon;\n"
   - Id: 28606
     AegisName: Unity_Bible
@@ -24621,6 +24653,8 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
+    Flags:
+      DropEffect: PURPLE_PILLAR
     Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4; bonus bMatk,50+pow(min(getrefine(),10),2)*9/4/2;\n"
   - Id: 28721
     AegisName: Monokage
