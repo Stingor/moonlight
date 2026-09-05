@@ -5522,3 +5522,15 @@ Body:
       if (.@a+.@b+.@c >= 27) {
          bonus2 bMagicAtkEle,Ele_Fire,15;
       }
+  - Combos:
+      - Combo: # Sky Fortress Invasion
+          - As_Bdy_Knight_Card    # 31024
+          - As_Ragged_Golem_Card    # 31026
+    Script: |
+      bonus bAspd,1;
+  - Combos:
+      - Combo: # Sky Fortress Invasion
+          - As_Wind_Ghost_Card    # 31025
+          - As_Ragged_Golem_Card    # 31026
+    Script: |
+      bonus bVariableCastrate,-10;

@@ -5962,7 +5962,7 @@ Body:
     Refineable: true
     Script: "bonus bUnbreakableWeapon; bonus2 bAddRace,RC_PLAYER_HUMAN,40; bonus2 bAddEff,Eff_Stun,1000;\n"
   - Id: 1400
-    AegisName: Spear_of_Vicious_Mind
+    AegisName: Sinister_Spear
     Name: Spear of Vicious Mind [1]
     Type: Weapon
     SubType: 1hSpear
@@ -5979,7 +5979,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
-    Script: "bonus bAtk,pow(min(getrefine(),15),2);\n"
+    Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4;\n"
   - Id: 1401
     AegisName: Javelin
     Name: Javelin [3]
@@ -6781,7 +6781,7 @@ Body:
     Refineable: true
     Script: "bonus bAtkEle,Ele_Poison; bonus bCritical,10; skill \"TF_DOUBLE\",5; bonus bDoubleRate,25; bonus2 bAddEff,Eff_Poison,1000; bonus2 bAddEff2,Eff_Poison,300;\n"
   - Id: 1450
-    AegisName: Lance_of_Vicious_Mind
+    AegisName: Sinister_Lance
     Name: Lance of Vicious Mind [1]
     Type: Weapon
     SubType: 2hSpear
@@ -6798,7 +6798,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
-    Script: "bonus bAtk,pow(min(getrefine(),15),2);\n"
+    Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4;\n"
   - Id: 1451
     AegisName: Guisarme
     Name: Guisarme [2]
@@ -9561,7 +9561,7 @@ Body:
       NoAuction: true
     Script: "bonus bMatk,10000; bonus bAllStats,50; bonus bBaseAtk,3300; bonus bMatkRate,200; bonus2 bHPDrainRate,1000,100; bonus2 bSPDrainRate,1000,20; bonus bHealPower,200; bonus2 bAddClass,Class_All,100; skill \"WZ_STORMGUST\",10; Skill \"WZ_METEOR\",10; Skill \"WZ_VERMILION\",10; skill \"GM_SANDMAN\",1; bonus bVariableCastrate,-100; bonus bFixedCastrate,-100;\n"
   - Id: 1600
-    AegisName: Rod_of_Vicious_Mind
+    AegisName: Sinister_Rod
     Name: Rod of Vicious Mind [1]
     Type: Weapon
     SubType: Staff
@@ -9584,7 +9584,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
-    Script: "bonus bMatk,120; bonus bMatk,pow(min(getrefine(),15),2); bonus bInt,5; bonus bUnbreakableWeapon;\n"
+    Script: "bonus bMatk,120; bonus bMatk,pow(min(getrefine(),10),2)*9/4; bonus bInt,5; bonus bUnbreakableWeapon;\n"
   - Id: 1601
     AegisName: Rod
     Name: Rod [3]
@@ -12437,7 +12437,7 @@ Body:
     WeaponLevel: 1
     Script: "bonus bDex,2;\n"
   - Id: 1800
-    AegisName: Fist_of_Vicious_Mind
+    AegisName: Sinister_Fist
     Name: Fist of Vicious Mind [1]
     Type: Weapon
     SubType: Knuckle
@@ -12453,7 +12453,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
-    Script: "bonus bAtk,pow(min(getrefine(),15),2);\n"
+    Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4;\n"
   - Id: 1801
     AegisName: Waghnakh
     Name: Waghnak [3]
@@ -13214,7 +13214,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bBaseAtk,4*.@r; bonus bLongAtkRate,10; if (.@r >= 9) bonus2 bSkillAtk,\"SR_KNUCKLEARROW\",40; if (.@r >= 11) bonus bDelayrate,-7;\n"
   - Id: 1900
-    AegisName: Violin_of_Vicious_Mind
+    AegisName: Sinister_Viollin
     Name: Violin of Vicious Mind [1]
     Type: Weapon
     SubType: Musical
@@ -13230,7 +13230,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
-    Script: "bonus bMatk,50; bonus bAtk,pow(min(getrefine(),15),2); bonus bMatk,pow(min(getrefine(),15),2)/2;\n"
+    Script: "bonus bMatk,50; bonus bAtk,pow(min(getrefine(),10),2)*9/4; bonus bMatk,pow(min(getrefine(),10),2)*9/4/2;\n"
   - Id: 1901
     AegisName: Violin
     Name: Violin [3]
@@ -14741,7 +14741,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bBaseAtk,((min(150,BaseLevel)/10)*5)+(.@r<=15?pow(.@r,2):225);\n"
   - Id: 1996
-    AegisName: Wire_of_Vicious_Mind
+    AegisName: Sinister_Wire
     Name: Wire of Vicious Mind [1]
     Type: Weapon
     SubType: Whip
@@ -14757,7 +14757,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
-    Script: "bonus bMatk,50; bonus bAtk,pow(min(getrefine(),15),2); bonus bMatk,pow(min(getrefine(),15),2)/2;\n"
+    Script: "bonus bMatk,50; bonus bAtk,pow(min(getrefine(),10),2)*9/4; bonus bMatk,pow(min(getrefine(),10),2)*9/4/2;\n"
   - Id: 1997
     AegisName: Unity_Whip
     Name: Unity Whip [1]
@@ -15256,7 +15256,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bInt,5; bonus bMatk,150+((min(150,BaseLevel)/10)*5)+(.@r<=15?pow(.@r,2):225);\n"
   - Id: 2026
-    AegisName: Staff_of_Vicious_Mind
+    AegisName: Sinister_Staff
     Name: Staff of Vicious Mind [1]
     Type: Weapon
     SubType: 2hStaff
@@ -15274,9 +15274,9 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
-    Script: "bonus bMatk,200+pow(min(getrefine(),15),2); bonus bInt,6; bonus bUnbreakableWeapon;\n"
+    Script: "bonus bMatk,200+pow(min(getrefine(),10),2)*9/4; bonus bInt,6; bonus bUnbreakableWeapon;\n"
   - Id: 2027
-    AegisName: Sunflower_Kid
+    AegisName: Staff_170
     Name: Sunflower Kid [2]
     Type: Weapon
     SubType: 2hStaff
@@ -18212,7 +18212,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bBaseAtk,((min(150,BaseLevel)/10)*5)+(.@r<=15?pow(.@r,2):225);\n"
   - Id: 13128
-    AegisName: Revolver_of_Vicious_Mind
+    AegisName: Sinister_Revolver
     Name: Revolver of Vicious Mind [1]
     Type: Weapon
     SubType: Revolver
@@ -18227,7 +18227,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
-    Script: "bonus bAtk,pow(min(getrefine(),15),2);\n"
+    Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4;\n"
   - Id: 13129
     AegisName: Unity_Revolver
     Name: Unity Revolver [1]
@@ -19388,7 +19388,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bBaseAtk,((min(150,BaseLevel)/10)*5)+(.@r<=15?pow(.@r,2):225); bonus bMatk,(.@r<=15?(pow(.@r,2)/2):225);\n"
   - Id: 13328
-    AegisName: Huuma_Shuriken_of_Vicious_Mind
+    AegisName: Sinister_Huuma
     Name: Huuma Shuriken of Vicious Mind [1]
     Type: Weapon
     SubType: Huuma
@@ -19403,7 +19403,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
-    Script: "bonus bAtk,pow(min(getrefine(),15),2); bonus bMatk,50+pow(min(getrefine(),15),2)/2; bonus bUnbreakableWeapon;\n"
+    Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4; bonus bMatk,50+pow(min(getrefine(),10),2)*9/4/2; bonus bUnbreakableWeapon;\n"
   - Id: 13329
     AegisName: Unity_Huuma_Shuriken
     Name: Unity Huuma Shuriken [1]
@@ -20565,7 +20565,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bBaseAtk,((min(150,BaseLevel)/10)*5)+(.@r<=15?pow(.@r,2):225);\n"
   - Id: 13455
-    AegisName: Saber_of_Vicious_Mind
+    AegisName: Sinister_Saber
     Name: Saber of Vicious Mind [1]
     Type: Weapon
     SubType: 1hSword
@@ -20590,7 +20590,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
-    Script: "bonus bAtk,pow(min(getrefine(),15),2);\n"
+    Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4;\n"
   - Id: 13456
     AegisName: Unity_Sword
     Name: Unity Sword [1]
@@ -21660,7 +21660,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bBaseAtk,((min(150,BaseLevel)/10)*5)+(.@r<=15?pow(.@r,2):225);\n"
   - Id: 16041
-    AegisName: Mace_of_Vicious_Mind
+    AegisName: Sinister_Mace
     Name: Mace of Vicious Mind [1]
     Type: Weapon
     SubType: Mace
@@ -21685,7 +21685,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
-    Script: "bonus bAtk,pow(min(getrefine(),15),2); bonus bUnbreakableWeapon;\n"
+    Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4; bonus bUnbreakableWeapon;\n"
   - Id: 16043
     AegisName: Meteor_Strike
     Name: Meteor Strike [2]
@@ -22312,7 +22312,7 @@ Body:
     Refineable: true
     Script: "bonus2 bAddRace,RC_Demon,10; bonus2 bAddRace,RC_Undead,10; .@r = getrefine(); bonus2 bAddClass,Class_All,(.@r>=12?12:(.@r>=9?5:0));\n"
   - Id: 18121
-    AegisName: Bow_of_Vicious_Mind
+    AegisName: Sinister_Bow
     Name: Bow of Vicious Mind [1]
     Type: Weapon
     SubType: Bow
@@ -22330,7 +22330,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
-    Script: "bonus bAtk,pow(min(getrefine(),15),2);\n"
+    Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4;\n"
   - Id: 18122
     AegisName: Gigantic_Bow
     Name: Giant Bow
@@ -23059,7 +23059,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bBaseAtk,((min(150,BaseLevel)/10)*5)+(.@r<=15?pow(.@r,2):225); bonus bMatk,(.@r<=15?(pow(.@r,2)/2):225);\n"
   - Id: 21016
-    AegisName: Two_Handed_Sword_of_Vicious_Mind
+    AegisName: Sinister_Twohand_Sword
     Name: Two-Handed Sword of Vicious Mind [1]
     Type: Weapon
     SubType: 2hSword
@@ -23076,9 +23076,9 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
-    Script: "bonus bAtk,pow(min(getrefine(),15),2);\n"
+    Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4;\n"
   - Id: 21018
-    AegisName: Lindy_Hop
+    AegisName: Two_Hand_Spear_170
     Name: Lindy Hop [2]
     Type: Weapon
     SubType: 2hSword
@@ -23562,7 +23562,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bBaseAtk,((min(150,BaseLevel)/10)*5)+(.@r<=15?pow(.@r,2):225);\n"
   - Id: 28008
-    AegisName: Katar_of_Vicious_Mind
+    AegisName: Sinister_Katar
     Name: Katar of Vicious Mind [1]
     Type: Weapon
     SubType: Katar
@@ -23577,9 +23577,9 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
-    Script: "bonus bAtk,pow(min(getrefine(),15),2);\n"
+    Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4;\n"
   - Id: 28010
-    AegisName: Juliette_D._Rachel
+    AegisName: Katar_170
     Name: Juliette D. Rachel [2]
     Type: Weapon
     SubType: Katar
@@ -23842,7 +23842,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bBaseAtk,((min(150,BaseLevel)/10)*5)+(.@r<=15?pow(.@r,2):225); bonus bUnbreakableWeapon;\n"
   - Id: 28107
-    AegisName: Two_Handed_Axe_of_Vicious_Mind
+    AegisName: Sinister_Twohand_Axe
     Name: Two Handed Axe of Vicious Mind [1]
     Type: Weapon
     SubType: 2hAxe
@@ -23862,7 +23862,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
-    Script: "bonus bAtk,pow(min(getrefine(),15),2); bonus bUnbreakableWeapon;\n"
+    Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4; bonus bUnbreakableWeapon;\n"
   - Id: 28110
     AegisName: Unity_Two-Handed_Axe
     Name: Unity Two-Handed Axe [1]
@@ -24340,7 +24340,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bBaseAtk,((min(150,BaseLevel)/10)*5)+(.@r<=15?pow(.@r,2):225); bonus bMatk,(.@r<=15?(pow(.@r,2)/2):225);\n"
   - Id: 28605
-    AegisName: Book_of_Vicious_Mind
+    AegisName: Sinister_Book
     Name: Book of Vicious Mind [1]
     Type: Weapon
     SubType: Book
@@ -24356,7 +24356,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
-    Script: "bonus bAtk,pow(min(getrefine(),15),2); bonus bMatk,pow(min(getrefine(),15),2); bonus bUnbreakableWeapon;\n"
+    Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4; bonus bMatk,pow(min(getrefine(),10),2)*9/4; bonus bUnbreakableWeapon;\n"
   - Id: 28606
     AegisName: Unity_Bible
     Name: Unity Bible [1]
@@ -24588,7 +24588,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bBaseAtk,((min(150,BaseLevel)/10)*5)+(.@r<=15?pow(.@r,2):225); bonus bMatk,(.@r<=15?(pow(.@r,2)/2):225);\n"
   - Id: 28706
-    AegisName: Dagger_of_Vicious_Mind
+    AegisName: Sinister_Dagger
     Name: Dagger of Vicious Mind [1]
     Type: Weapon
     SubType: Dagger
@@ -24621,7 +24621,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 160
     Refineable: true
-    Script: "bonus bAtk,pow(min(getrefine(),15),2); bonus bMatk,50+pow(min(getrefine(),15),2)/2;\n"
+    Script: "bonus bAtk,pow(min(getrefine(),10),2)*9/4; bonus bMatk,50+pow(min(getrefine(),10),2)*9/4/2;\n"
   - Id: 28721
     AegisName: Monokage
     Name: Monokage [2]

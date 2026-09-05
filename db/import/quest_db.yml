@@ -517,3 +517,13 @@ Body:
   - Id: 7605
     Title: Guardian's Blessing
     TimeLimit: 4h
+  - Id: 9418
+    Title: Attack Sky Fortress Invading Prontera
+    Targets:
+      - Mob: AS_RAGGED_GOLEM
+        Count: 1
+  - Id: 9419
+    Title: Attack Sky Fortress Invading Prontera
+    TimeLimit: 4h
+  - Id: 9427
+    Title: Clearing the Sky Fortress for the Same Time

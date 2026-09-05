@@ -196,6 +196,7 @@ L_Instance:
 					"Sarah and Fenrir",
 					"Sara Memory",
 					"Sealed Shrine",
+					"Sky Fortress Invasion",
 					"Temple of Demon God",
 					"Wolfchev's Laboratory";
 	setarray .@inst[0],
@@ -227,6 +228,7 @@ L_Instance:
 					INST_FENRIR_AND_SARAH,
 					INST_SARAS_MEMORIES,
 					INST_SEALED_CATACOMB,
+					INST_SKY_FORTRESS_INVASION,
 					INST_TEMPLE_OF_THE_DEMON_GOD,
 					INST_WOLFCHEVS_LABORATORY;
 	// quete de cooldown utilisee pour la couleur ; 0 = cas particulier traite plus bas
@@ -259,6 +261,7 @@ L_Instance:
 					9336,  // INST_FENRIR_AND_SARAH
 					15002, // INST_SARAS_MEMORIES
 					3040,  // INST_SEALED_CATACOMB
+					9419,  // INST_SKY_FORTRESS_INVASION
 					7605,  // INST_TEMPLE_OF_THE_DEMON_GOD
 					5112;  // INST_WOLFCHEVS_LABORATORY
 
@@ -816,6 +819,16 @@ L_Bijou:
 				break;
 			}
 			warp_fct("monk_test", 306, 143);
+		}
+		case INST_SKY_FORTRESS_INVASION: { // Sky Fortress Invasion
+			if( select( GetColor(9419)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
+				.@md_name$ = "Sky Fortress Invasion";
+				.@questid = 9419; // Attack Sky Fortress Invading Prontera
+				callsub Party_Check,.@md_name$;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
+				break;
+			}
+			warp_fct("prt_q", 244, 81);
 		}
 		case INST_TEMPLE_OF_THE_DEMON_GOD: { // Temple of Demon God
 			if( select( GetColor(7605)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {

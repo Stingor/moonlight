@@ -9730,3 +9730,45 @@ Body:
     Script: |
       bonus2 bAddSize,Size_Large,30;
       bonus2 bAddSize,Size_Medium,30;
+  - Id: 31024
+    AegisName: As_Bdy_Knight_Card
+    Name: Immortal Cursed Knight Card
+    Type: Card
+    Buy: 20
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bAddClass,Class_All,10;
+      bonus5 bAutoSpell,"WZ_METEOR",5,20,BF_WEAPON,1;
+  - Id: 31025
+    AegisName: As_Wind_Ghost_Card
+    Name: Immortal Wind Ghost Card
+    Type: Card
+    Buy: 20
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatkRate,10;
+      bonus5 bAutoSpell,"MG_THUNDERSTORM",5,10,BF_MAGIC,1;
+  - Id: 31026
+    AegisName: As_Ragged_Golem_Card
+    Name: Stephane Jack Earnest Wolf Card
+    Type: Card
+    Buy: 20
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      autobonus "{ bonus bFlee,200; }",30,10000,BF_WEAPON,"{ specialeffect2 EF_TEIHIT1; }";
+      autobonus "{ bonus bSpeedRate,25; }",25,10000,BF_MAGIC,"{ specialeffect2 EF_POTION_BERSERK; }";
