@@ -82,6 +82,9 @@ arug_cas02	mapflag	nodisguise
 2@mir	mapflag	loadevent
 1@mir	mapflag	loadevent
 1@sthb	mapflag	loadevent
+1@pop1	mapflag	loadevent
+1@pop2	mapflag	loadevent
+1@pop3	mapflag	loadevent
 1@sthc	mapflag	loadevent
 1@sthd	mapflag	loadevent
 
@@ -258,6 +261,9 @@ region_8	mapflag	loadevent
 1@mir	mapflag	nomemo
 2@mir	mapflag	nomemo
 1@sthb	mapflag	nomemo
+1@pop1	mapflag	nomemo
+1@pop2	mapflag	nomemo
+1@pop3	mapflag	nomemo
 1@sthc	mapflag	nomemo
 1@sthd	mapflag	nomemo
 1@slw	mapflag	nomemo

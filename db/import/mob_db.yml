@@ -54505,6 +54505,7 @@ Footer:
   - Path: db/import/mobs/deviltower.yml
   - Path: db/import/mobs/dewata.yml
   - Path: db/import/mobs/dicaste.yml
+  - Path: db/import/mobs/edda_halfmoon.yml
   - Path: db/import/mobs/eclage.yml
   - Path: db/import/mobs/faceworm.yml
   - Path: db/import/mobs/geffentour.yml

@@ -211,3 +211,8 @@ rockmi2	mapflag	nosave	SavePoint
 
 // Soul Reaper Job Change
 1@soul	mapflag	nosave	SavePoint
+
+// Edda Half Moon In The Daylight
+1@pop1	mapflag	nosave	SavePoint
+1@pop2	mapflag	nosave	SavePoint
+1@pop3	mapflag	nosave	SavePoint

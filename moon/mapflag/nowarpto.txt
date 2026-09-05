@@ -348,3 +348,8 @@ com_d02_i	mapflag	nowarpto
 star_frst	mapflag	nowarpto
 star_in	mapflag	nowarpto
 
+
+// Edda Half Moon In The Daylight
+1@pop1	mapflag	nowarpto
+1@pop2	mapflag	nowarpto
+1@pop3	mapflag	nowarpto

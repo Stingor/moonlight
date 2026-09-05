@@ -32199,3 +32199,13 @@ Body:
          bonus bMatkRate,8;
       if (.@r>=9)
          bonus bMatkRate,4;
+  - Id: 28387
+    AegisName: Bishop_Necklace
+    Name: Bishop Necklace
+    Type: Armor
+    Buy: 20
+    Weight: 200
+    Locations:
+      Both_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 80

@@ -180,6 +180,7 @@ L_Instance:
 					"Faceworms Nest (Solo)",
 					"Gef. Magic Tour. (HM, Solo, Custom)",
 					"Ghost Palace (Solo)",
+					"Half Moon In The Daylight",
 					"Hazy Forest",
 					"Horror Toy Factory (HM)",
 					"Infinite Space (HM sur place)",
@@ -212,6 +213,7 @@ L_Instance:
 					INST_FACEWORMS_NEST,
 					INST_GEFFEN_MAGIC_TOURNAMENT,
 					INST_GHOST_PALACE,
+					INST_HALF_MOON_IN_THE_DAYLIGHT,
 					INST_MISTWOOD_MAZE,
 					INST_HORROR_TOY_FACTORY,
 					INST_INFINITE_SPACE,
@@ -245,6 +247,7 @@ L_Instance:
 					12325, // INST_FACEWORMS_NEST
 					9316,  // INST_GEFFEN_MAGIC_TOURNAMENT
 					1261,  // INST_GHOST_PALACE
+					14586, // INST_HALF_MOON_IN_THE_DAYLIGHT
 					7211,  // INST_MISTWOOD_MAZE
 					12331, // INST_HORROR_TOY_FACTORY
 					12365, // INST_INFINITE_SPACE
@@ -542,6 +545,17 @@ L_DevilTower:
 				break;
 			}
 			warp_fct("dali02", 46, 128);
+		}
+		case INST_HALF_MOON_IN_THE_DAYLIGHT: { // Edda Half Moon In The Daylight
+			// le script choisit lui-meme le mode : Hard si BaseLevel > 129
+			if( select( GetColor(14586)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
+				.@md_name$ = "Half Moon In The Daylight";
+				.@questid = 14586; // Time to Rest
+				callsub Party_Check,.@md_name$;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
+				break;
+			}
+			warp_fct("rachel", 174, 140);
 		}
 		case INST_MISTWOOD_MAZE: { // Hazy Forest / Mistwood Maze
 			if( select( GetColor(7211)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {

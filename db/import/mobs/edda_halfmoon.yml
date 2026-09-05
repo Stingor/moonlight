@@ -1,0 +1,713 @@
+Header:
+  Type: MOB_DB
+  Version: 5
+
+# Edda Half Moon In The Daylight (1@pop1 / 1@pop2 / 1@pop3)
+# 3510-3517 mode Easy (BaseLevel <= 129), 3518-3526 mode Hard.
+# Converti de db/re par tools/util/re_to_prere_mob.py
+
+Body:
+  - Id: 3510
+    AegisName: POPE_MD_E_GUARD
+    Name: Temple Guard
+    Level: 84
+    Hp: 20396
+    BaseExp: 32634
+    JobExp: 21212
+    Attack: 230
+    Attack2: 60
+    Defense: 19
+    MagicDefense: 10
+    Str: 70
+    Agi: 25
+    Vit: 50
+    Dex: 45
+    Luk: 30
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 1200
+    AttackMotion: 1200
+    ClientAttackMotion: 768
+    DamageMotion: 480
+    Ai: 04
+    Drops:
+      - Item: Black_Mask
+        Rate: 3000
+      - Item: Silver_Bracelet
+        Rate: 3000
+      - Item: Center_Potion_B
+        Rate: 100
+      - Item: White_Potion_B
+        Rate: 500
+      - Item: White_Potion
+        Rate: 800
+  - Id: 3511
+    AegisName: POPE_MD_E_BELIEVER_1
+    Name: Enraged Devotee
+    Level: 82
+    Hp: 13779
+    BaseExp: 22046
+    JobExp: 14330
+    Attack: 320
+    Attack2: 30
+    Defense: 18
+    MagicDefense: 10
+    Str: 64
+    Agi: 45
+    Vit: 40
+    Int: 15
+    Dex: 60
+    Luk: 12
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 768
+    AttackMotion: 432
+    ClientAttackMotion: 360
+    DamageMotion: 360
+    Ai: 04
+    Drops:
+      - Item: White_Mask
+        Rate: 3000
+      - Item: Bloody_Page
+        Rate: 1000
+      - Item: Ice_Heart
+        Rate: 2000
+      - Item: Center_Potion_B
+        Rate: 100
+      - Item: White_Potion_B
+        Rate: 500
+      - Item: White_Potion
+        Rate: 1000
+  - Id: 3512
+    AegisName: POPE_MD_E_BELIEVER_2
+    Name: Enraged Devotee
+    Level: 85
+    Hp: 15010
+    BaseExp: 24016
+    JobExp: 15610
+    Attack: 360
+    Attack2: 40
+    Defense: 19
+    MagicDefense: 11
+    Str: 72
+    Agi: 50
+    Vit: 35
+    Int: 10
+    Dex: 55
+    Luk: 20
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 768
+    AttackMotion: 432
+    ClientAttackMotion: 576
+    DamageMotion: 360
+    Ai: 04
+    Drops:
+      - Item: Petite_DiablOfs_Wing
+        Rate: 1000
+      - Item: White_Mask
+        Rate: 2000
+      - Item: Clattering_Skull
+        Rate: 2000
+      - Item: Center_Potion_B
+        Rate: 100
+      - Item: White_Potion_B
+        Rate: 500
+      - Item: White_Potion
+        Rate: 1000
+  - Id: 3513
+    AegisName: POPE_MD_E_DOG
+    Name: Enraged Dog
+    Level: 85
+    Hp: 18012
+    BaseExp: 28819
+    JobExp: 18732
+    Attack: 380
+    Attack2: 42
+    Defense: 20
+    MagicDefense: 10
+    Str: 80
+    Agi: 20
+    Vit: 50
+    Int: 5
+    Dex: 30
+    Luk: 10
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Brute
+    RaceGroups:
+      Edda_Arunafeltz: true
+    Element: Fire
+    ElementLevel: 2
+    WalkSpeed: 140
+    AttackDelay: 824
+    AttackMotion: 432
+    ClientAttackMotion: 336
+    DamageMotion: 360
+    Ai: 19
+    Drops:
+      - Item: Sharpened_Cuspid
+        Rate: 2000
+      - Item: Hot_Hair
+        Rate: 1000
+      - Item: Skel_Bone
+        Rate: 800
+      - Item: Center_Potion_B
+        Rate: 100
+      - Item: White_Potion_B
+        Rate: 500
+      - Item: White_Potion
+        Rate: 1000
+  - Id: 3514
+    AegisName: POPE_MD_E_BISHOP
+    Name: Enraged High Priest
+    Level: 87
+    Hp: 91591
+    BaseExp: 146546
+    JobExp: 95255
+    Attack: 350
+    Attack2: 50
+    Defense: 25
+    MagicDefense: 16
+    Str: 32
+    Agi: 48
+    Vit: 45
+    Int: 75
+    Dex: 64
+    Luk: 20
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
+    Element: Neutral
+    ElementLevel: 3
+    WalkSpeed: 180
+    AttackDelay: 1100
+    AttackMotion: 1100
+    ClientAttackMotion: 768
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Dream_Piece
+        Rate: 10000
+      - Item: Bishop_Necklace
+        Rate: 100
+      - Item: Ice_Heart
+        Rate: 1000
+      - Item: White_Potion_B
+        Rate: 500
+      - Item: White_Potion
+        Rate: 1000
+      - Item: Center_Potion_B
+        Rate: 100
+  - Id: 3515
+    AegisName: POPE_MD_E_ICICLE
+    Name: Frozen Heart
+    Level: 80
+    Hp: 744
+    BaseExp: 1190
+    JobExp: 774
+    Attack: 287
+    Attack2: 1
+    Defense: 16
+    MagicDefense: 10
+    Str: 99
+    Dex: 50
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    RaceGroups:
+      Edda_Arunafeltz: true
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 1000
+    AttackDelay: 1344
+    ClientAttackMotion: 1152
+    Ai: 10
+  - Id: 3516
+    AegisName: POPE_MD_E_LUWMIN
+    Name: Enraged Luwmin
+    Level: 90
+    Hp: 365286
+    BaseExp: 584458
+    JobExp: 379898
+    Attack: 400
+    Attack2: 60
+    Defense: 26
+    MagicDefense: 17
+    Str: 36
+    Agi: 48
+    Vit: 50
+    Int: 85
+    Dex: 64
+    Luk: 25
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
+    Element: Water
+    ElementLevel: 3
+    WalkSpeed: 180
+    AttackDelay: 861
+    AttackMotion: 660
+    ClientAttackMotion: 768
+    DamageMotion: 144
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Dream_Piece
+        Rate: 10000
+      - Item: Dandelion_Ring
+        Rate: 500
+      - Item: Frozen_Rose
+        Rate: 50
+      - Item: Ice_Heart
+        Rate: 1000
+      - Item: White_Potion_B
+        Rate: 500
+      - Item: White_Potion
+        Rate: 1000
+      - Item: Center_Potion_B
+        Rate: 100
+      - Item: Elemental_Water
+        Rate: 100
+        StealProtected: true
+  - Id: 3517
+    AegisName: POPE_MD_E_TITAN
+    Name: Ice Titan
+    Level: 65
+    Hp: 15371
+    BaseExp: 24594
+    JobExp: 15986
+    Attack: 180
+    Attack2: 50
+    Defense: 15
+    MagicDefense: 8
+    Str: 42
+    Agi: 20
+    Vit: 35
+    Dex: 25
+    Luk: 5
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 210
+    AttackDelay: 861
+    AttackMotion: 660
+    ClientAttackMotion: 600
+    DamageMotion: 144
+    Ai: 24
+  - Id: 3518
+    AegisName: POPE_MD_H_GUARD
+    Name: Temple Guard
+    Level: 130
+    Hp: 55776
+    BaseExp: 89242
+    JobExp: 58007
+    Attack: 1238
+    Attack2: 158
+    Defense: 29
+    MagicDefense: 18
+    Str: 106
+    Agi: 110
+    Vit: 61
+    Int: 53
+    Dex: 133
+    Luk: 53
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 180
+    AttackDelay: 1100
+    AttackMotion: 1100
+    ClientAttackMotion: 768
+    DamageMotion: 480
+    Ai: 04
+    Drops:
+      - Item: Black_Mask
+        Rate: 3000
+      - Item: Silver_Bracelet
+        Rate: 3000
+      - Item: Center_Potion_B
+        Rate: 100
+      - Item: White_Potion_B
+        Rate: 500
+      - Item: White_Potion
+        Rate: 1000
+  - Id: 3519
+    AegisName: POPE_MD_H_BELIEVER_1
+    Name: Enraged Devotee
+    Level: 133
+    Hp: 41554
+    BaseExp: 66486
+    JobExp: 43216
+    Attack: 1284
+    Attack2: 178
+    Defense: 30
+    MagicDefense: 18
+    Str: 110
+    Agi: 80
+    Vit: 65
+    Int: 58
+    Dex: 135
+    Luk: 63
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 768
+    AttackMotion: 432
+    ClientAttackMotion: 360
+    DamageMotion: 360
+    Ai: 04
+    Drops:
+      - Item: White_Mask
+        Rate: 3000
+      - Item: Bloody_Page
+        Rate: 1000
+      - Item: Ice_Heart
+        Rate: 2000
+      - Item: Center_Potion_B
+        Rate: 100
+      - Item: White_Potion_B
+        Rate: 500
+      - Item: White_Potion
+        Rate: 1000
+  - Id: 3520
+    AegisName: POPE_MD_H_BELIEVER_2
+    Name: Enraged Devotee
+    Level: 134
+    Hp: 43475
+    BaseExp: 69560
+    JobExp: 45214
+    Attack: 1308
+    Attack2: 210
+    Defense: 30
+    MagicDefense: 17
+    Str: 113
+    Agi: 75
+    Vit: 66
+    Int: 20
+    Dex: 80
+    Luk: 63
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 768
+    AttackMotion: 432
+    ClientAttackMotion: 576
+    DamageMotion: 360
+    Ai: 04
+    Drops:
+      - Item: Petite_DiablOfs_Wing
+        Rate: 1000
+      - Item: White_Mask
+        Rate: 2000
+      - Item: Clattering_Skull
+        Rate: 2000
+      - Item: Center_Potion_B
+        Rate: 100
+      - Item: White_Potion_B
+        Rate: 500
+      - Item: White_Potion
+        Rate: 1000
+  - Id: 3521
+    AegisName: POPE_MD_H_DOG
+    Name: Enraged Dog
+    Level: 136
+    Hp: 47174
+    BaseExp: 75478
+    JobExp: 49061
+    Attack: 1400
+    Attack2: 280
+    Defense: 32
+    MagicDefense: 18
+    Str: 140
+    Agi: 30
+    Vit: 95
+    Int: 45
+    Dex: 65
+    Luk: 20
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Brute
+    RaceGroups:
+      Edda_Arunafeltz: true
+    Element: Fire
+    ElementLevel: 2
+    WalkSpeed: 140
+    AttackDelay: 824
+    AttackMotion: 432
+    ClientAttackMotion: 336
+    DamageMotion: 360
+    Ai: 19
+    Drops:
+      - Item: Sharpened_Cuspid
+        Rate: 2000
+      - Item: Hot_Hair
+        Rate: 1000
+      - Item: Skel_Bone
+        Rate: 800
+      - Item: Center_Potion_B
+        Rate: 100
+      - Item: White_Potion_B
+        Rate: 500
+      - Item: White_Potion
+        Rate: 1000
+  - Id: 3522
+    AegisName: POPE_MD_H_BISHOP
+    Name: Enraged High Priest
+    Level: 140
+    Hp: 112589
+    BaseExp: 180142
+    JobExp: 117092
+    Attack: 740
+    Attack2: 300
+    Defense: 36
+    MagicDefense: 24
+    Str: 64
+    Agi: 73
+    Vit: 70
+    Int: 110
+    Dex: 83
+    Luk: 40
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
+    Element: Neutral
+    ElementLevel: 3
+    WalkSpeed: 180
+    AttackDelay: 1100
+    AttackMotion: 1100
+    ClientAttackMotion: 768
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Dream_Piece
+        Rate: 10000
+      - Item: Bishop_Necklace
+        Rate: 100
+      - Item: Ice_Heart
+        Rate: 1000
+      - Item: White_Potion_B
+        Rate: 500
+      - Item: White_Potion
+        Rate: 1000
+      - Item: Center_Potion_B
+        Rate: 100
+  - Id: 3523
+    AegisName: POPE_MD_H_ICICLE
+    Name: Frozen Heart
+    Level: 130
+    Hp: 25353
+    BaseExp: 40565
+    JobExp: 26367
+    Attack: 540
+    Attack2: 40
+    Defense: 26
+    MagicDefense: 16
+    Str: 120
+    Dex: 80
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    RaceGroups:
+      Edda_Arunafeltz: true
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 1000
+    AttackDelay: 1344
+    ClientAttackMotion: 1152
+    Ai: 10
+  - Id: 3524
+    AegisName: POPE_MD_H_LUWMIN
+    Name: Enraged Luwmin
+    Level: 140
+    Hp: 247696
+    BaseExp: 396314
+    JobExp: 257604
+    Attack: 840
+    Attack2: 160
+    Defense: 32
+    MagicDefense: 22
+    Str: 69
+    Agi: 81
+    Vit: 75
+    Int: 130
+    Dex: 90
+    Luk: 42
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    RaceGroups:
+      Edda_Arunafeltz: true
+    Element: Neutral
+    ElementLevel: 3
+    WalkSpeed: 180
+    AttackDelay: 861
+    AttackMotion: 660
+    ClientAttackMotion: 768
+    DamageMotion: 144
+    Ai: 21
+    Drops:
+      - Item: Dream_Piece
+        Rate: 10000
+      - Item: Dandelion_Ring
+        Rate: 100
+      - Item: Frozen_Rose
+        Rate: 50
+      - Item: Ice_Heart
+        Rate: 1000
+      - Item: White_Potion_B
+        Rate: 500
+      - Item: White_Potion
+        Rate: 1000
+      - Item: Center_Potion_B
+        Rate: 100
+      - Item: Elemental_Water
+        Rate: 100
+        StealProtected: true
+  - Id: 3525
+    AegisName: POPE_MD_H_TITAN
+    Name: Ice Titan
+    Level: 90
+    Hp: 63925
+    BaseExp: 102280
+    JobExp: 66482
+    Attack: 230
+    Attack2: 60
+    Defense: 20
+    MagicDefense: 11
+    Str: 70
+    Agi: 25
+    Vit: 50
+    Dex: 45
+    Luk: 30
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    RaceGroups:
+      Edda_Arunafeltz: true
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 861
+    AttackMotion: 660
+    ClientAttackMotion: 600
+    DamageMotion: 144
+    Ai: 24
+  - Id: 3526
+    AegisName: POPE_MD_H_KTULLANUX
+    Name: Vision of Ktullanux
+    Level: 141
+    Hp: 593676
+    BaseExp: 949882
+    JobExp: 617423
+    Attack: 1000
+    Attack2: 300
+    Defense: 38
+    MagicDefense: 22
+    Str: 45
+    Agi: 89
+    Vit: 89
+    Int: 64
+    Dex: 75
+    Luk: 30
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    RaceGroups:
+      Edda_Arunafeltz: true
+    Element: Water
+    ElementLevel: 3
+    WalkSpeed: 400
+    AttackDelay: 432
+    AttackMotion: 840
+    ClientAttackMotion: 660
+    DamageMotion: 216
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Ice_Scale
+        Rate: 4500
+      - Item: Old_Card_Album
+        Rate: 1500
+      - Item: Freeze_Dream
+        Rate: 1500
+      - Item: Old_Violet_Box
+        Rate: 2500
+      - Item: Yggdrasilberry
+        Rate: 2500

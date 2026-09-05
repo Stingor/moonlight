@@ -294,3 +294,8 @@ silk_lair	mapflag	partylock
 // Sunken Tower
 //============================================================
 1@ch_u	mapflag	partylock
+
+// Edda Half Moon In The Daylight
+1@pop1	mapflag	partylock
+1@pop2	mapflag	partylock
+1@pop3	mapflag	partylock

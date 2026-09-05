@@ -36149,3 +36149,31 @@ Body:
             Item: Rafflecino
             Rate: 10
             Amount: 10
+  - Group: FREEZE_DREAM
+    SubGroups:
+      - SubGroup: 1
+        List:
+          - Index: 0
+            Item: Dream_Piece
+            Rate: 1
+            Amount: 15
+          - Index: 1
+            Item: Dream_Piece
+            Rate: 1
+            Amount: 16
+          - Index: 2
+            Item: Dream_Piece
+            Rate: 1
+            Amount: 17
+          - Index: 3
+            Item: Dream_Piece
+            Rate: 1
+            Amount: 18
+          - Index: 4
+            Item: Dream_Piece
+            Rate: 1
+            Amount: 19
+          - Index: 5
+            Item: Dream_Piece
+            Rate: 1
+            Amount: 20

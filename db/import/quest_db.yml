@@ -527,3 +527,18 @@ Body:
     TimeLimit: 4h
   - Id: 9427
     Title: Clearing the Sky Fortress for the Same Time
+  - Id: 14585
+    Title: Investigating the Cause
+    Targets:
+      - Mob: POPE_MD_E_LUWMIN
+        Count: 1
+  - Id: 14586
+    Title: Time to Rest
+    TimeLimit: 4h
+  - Id: 14587
+    Title: Investigating the Cause
+    Targets:
+      - Mob: POPE_MD_H_KTULLANUX
+        Count: 1
+  - Id: 14594
+    Title: Ready to walk the dream

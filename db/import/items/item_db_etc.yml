@@ -12840,3 +12840,26 @@ Body:
       Override: 99
       NoDrop: true
       NoSell: true
+  - Id: 25087
+    AegisName: Old_Doll
+    Name: Old Doll
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 25088
+    AegisName: Dream_Piece
+    Name: Fragment of Dreams
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true

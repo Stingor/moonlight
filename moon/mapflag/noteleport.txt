@@ -630,3 +630,11 @@ conch_in	mapflag	noteleport
 
 // Para Market
 paramk	mapflag	noteleport
+
+// Edda Half Moon In The Daylight
+1@pop1	mapflag	noteleport
+1@pop2	mapflag	noteleport
+1@pop3	mapflag	noteleport
+1@pop1	mapflag	monster_noteleport
+1@pop2	mapflag	monster_noteleport
+1@pop3	mapflag	monster_noteleport

@@ -99,6 +99,8 @@ Body:
     Value: 37
   - Name: INST_INFINITE_SPACE
     Value: 38
+  - Name: INST_HALF_MOON_IN_THE_DAYLIGHT
+    Value: 44
   - Name: INST_ENDLESS_CELLAR
     Value: 50
   - Name: INST_BLOODY_BRANCH_CAVE
