@@ -847,9 +847,15 @@ L_Bijou:
 		case INST_TEMPLE_OF_THE_DEMON_GOD: { // Temple of Demon God
 			if( select( GetColor(7605)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
 				.@md_name$ = "Temple of the Demon God";
-				.@questid = 7605; // Guardian's Blessing (cooldown 3h)
+				.@questid1 = 7605; // Guardian's Blessing (cooldown 3h)
+				// Ahat, premier NPC de l'instance, exige checkquest(7593,HUNTING) == 1 :
+				// quete active et Morocc pas encore tue. L'acces direct court-circuite la
+				// chaine 14.3 qui la donne (Hibba Agip, moro_vol, niveau 160), on la pose ici.
+				.@questid2 = 7593; // Demon God Subjugation
+				if( checkquest(.@questid2,HUNTING) == 2 )
+					erasequest .@questid2; // deja accomplie : Ahat refuserait
 				callsub Party_Check,.@md_name$;
-				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid;
+				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid1,.@questid2;
 				break;
 			}
 			warp_fct("moro_cav", 39, 73);
