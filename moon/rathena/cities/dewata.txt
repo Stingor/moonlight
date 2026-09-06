@@ -175,7 +175,7 @@ dewata,221,237,5	script	Young Man#dew-1	536,{
 }
 
 dewata,114,243,6	script	Lazy Young Man#dew	536,1,1,{
-	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 500) {
+	if (overitems() || MaxWeight - Weight < 500) {
 		mes "[Lazy Young Man]";
 		mes "Why are you carrying so much? Isn't it heavy?";
 		close;

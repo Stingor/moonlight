@@ -101,7 +101,7 @@ dic_dun01,266,113,5	script	Curious Sapha#ep13_3_	449,{
 		mes "I might be able to use this perfume's reaction to Scarabas and make progress in research.";
 		close;
 	case 2:
-		if (checkweight(1201,1) == 0) {
+		if (overitems()) {
 			mes "[Curious Sapha]";
 			mes "You don't seem to have enough space.";
 			close;
@@ -484,11 +484,11 @@ function	script	que_dic	{
 }
 
 dic_in01,48,263,5	script	Hunting Dept. 1 Manager	449,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "You have too many kinds of items. Let's try again after you reduce the number of items.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "Cannot proceed because the weight of your items is too heavy. Let's try again after you get rid of some weight.";
 		close;
 	}
@@ -554,11 +554,11 @@ dic_in01,48,263,5	script	Hunting Dept. 1 Manager	449,{
 }
 
 dic_in01,51,266,6	script	Hunting Dept. 2 Manager	449,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "You have too many kinds of items. Let's try again after you reduce the number of items.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "Cannot proceed because the weight of your items is too heavy. Let's try again after you get rid of some weight.";
 		close;
 	}
@@ -623,11 +623,11 @@ dic_in01,51,266,6	script	Hunting Dept. 2 Manager	449,{
 }
 
 dic_in01,51,270,7	script	Supply Dept. 1 Manager	449,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "You have too many kinds of items. Let's try again after you reduce the number of items.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "Cannot proceed because the weight of your items is too heavy. Let's try again after you get rid of some weight.";
 		close;
 	}
@@ -694,11 +694,11 @@ dic_in01,51,270,7	script	Supply Dept. 1 Manager	449,{
 }
 
 dic_in01,48,273,8	script	Supply Dept. 2 Manager	449,{
-	if (!checkweight(1201,1)) {
+	if (overitems()) {
 		mes "You have too many kinds of items. Let's try again after you reduce the number of items.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "Cannot proceed because the weight of your items is too heavy. Let's try again after you get rid of some weight.";
 		close;
 	}
@@ -761,11 +761,11 @@ dic_in01,48,273,8	script	Supply Dept. 2 Manager	449,{
 }
 
 dic_in01,43,273,1	script	Transport Dept. 1 Mgr	449,{
-	if (!checkweight(1201,1)) {
+	if (overitems()) {
 		mes "You have too many kinds of items. Let's try again after you reduce the number of items.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "Cannot proceed because the weight of your items is too heavy. Let's try again after you get rid of some weight.";
 		close;
 	}
@@ -835,11 +835,11 @@ dic_in01,43,273,1	script	Transport Dept. 1 Mgr	449,{
 }
 
 dic_in01,40,270,2	script	Transport Dept. 2 Mgr	449,{
-	if (!checkweight(1201,1)) {
+	if (overitems()) {
 		mes "You have too many kinds of items. Let's try again after you reduce the number of items.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "Cannot proceed because the weight of your items is too heavy. Let's try again after you get rid of some weight.";
 		close;
 	}
@@ -904,11 +904,11 @@ dic_in01,40,270,2	script	Transport Dept. 2 Mgr	449,{
 
 
 dic_in01,40,193,1	script	Papyrus#0001	453,{
-	if (!checkweight(1201,1)) {
+	if (overitems()) {
 		mes "You have too many items in your inventory.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "Your inventory is too heavy.";
 		close;
 	}
@@ -1344,7 +1344,7 @@ OnTouch:
 
 dic_in01,294,276,5	script	Secret Adjutant#ep133_2	498,{
 	// if ((GetInventoryRemainCount 1301 3 == 2) || (GetInventoryRemainCount 1301 3 == 3)) {
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "- You can too many items to proceed with the quest. -";
 		close;
 	}
@@ -1508,7 +1508,7 @@ dic_in01,294,276,5	script	Secret Adjutant#ep133_2	498,{
 
 dic_in01,300,280,5	script	Minister Ahat#ep133_21	493,{
 	// if ((GetInventoryRemainCount 1301 3 == 2) || (GetInventoryRemainCount 1301 3 == 3)) {
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "- You can too many items to proceed with the quest. -";
 		close;
 	}
@@ -2316,7 +2316,7 @@ dic_in01,158,188,3	script	Jarute HesLanta#ep133_2	451,{
 }
 
 dicastes01,223,190,1	script	Calyon#pa8029	453,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "You have too many kinds of items. Let's try again after you reduce the number of items.";
 		close;
 	}
@@ -2489,11 +2489,11 @@ dicastes01,223,190,1	script	Calyon#pa8029	453,{
 }
 
 dicastes01,211,178,2	script	Moltuka#pa0829	453,{
-	if (!checkweight(1201,1)) {
+	if (overitems()) {
 		mes "You have too many kinds of items. Let's try again after you reduce the number of items.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "Cannot proceed because the weight of your items is too heavy. Let's try again after you get rid of some weight.";
 		close;
 	}
@@ -2713,11 +2713,11 @@ dicastes01,211,178,2	script	Moltuka#pa0829	453,{
 }
 
 dicastes01,175,217,5	script	Kalipo#pa0829	453,{
-	if (!checkweight(1201,1)) {
+	if (overitems()) {
 		mes "You have too many kinds of items. Let's try again after you reduce the number of items.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "Cannot proceed because the weight of your items is too heavy. Let's try again after you get rid of some weight.";
 		close;
 	}
@@ -2855,11 +2855,11 @@ dicastes01,175,217,5	script	Kalipo#pa0829	453,{
 }
 
 dicastes01,187,230,5	script	Laponte#pa0829	453,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "You have too many kinds of items. Let's try again after you reduce the number of items.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "Cannot proceed because the weight of your items is too heavy. Let's try again after you get rid of some weight.";
 		close;
 	}
@@ -3026,11 +3026,11 @@ dicastes01,187,230,5	script	Laponte#pa0829	453,{
 }
 
 dicastes01,208,230,3	script	Pura#pa0829	453,{
-	if (!checkweight(1201,1)) {
+	if (overitems()) {
 		mes "You have too many kinds of items. Let's try again after you reduce the number of items.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "Cannot proceed because the weight of your items is too heavy. Let's try again after you get rid of some weight.";
 		close;
 	}
@@ -3217,11 +3217,11 @@ dicastes01,208,230,3	script	Pura#pa0829	453,{
 }
 
 dicastes01,225,211,3	script	Tragis#pa0829	453,{
-	if (!checkweight(1201,1)) {
+	if (overitems()) {
 		mes "You have too many kinds of items. Let's try again after you reduce the number of items.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "Cannot proceed because the weight of your items is too heavy. Let's try again after you get rid of some weight.";
 		close;
 	}
@@ -3389,7 +3389,7 @@ dicastes01,225,211,3	script	Tragis#pa0829	453,{
 // Doha's Secret Orders
 //============================================================
 mid_campin,168,170,3	script	Inspector Doha#ep133	59,{
-	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 1000) {
+	if (overitems() || MaxWeight - Weight < 1000) {
 		mes "- You can too many items to proceed with the quest. -";
 		close;
 	}
@@ -3670,7 +3670,7 @@ mid_campin,168,170,3	script	Inspector Doha#ep133	59,{
 
 dic_in01,245,119,4	script	Shay#ep133_13	884,{
 	// if ((GetInventoryRemainCount 1301 3 == 2) || (GetInventoryRemainCount 1301 3 == 3)) {
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "- You can too many items to proceed with the quest. -";
 		close;
 	}
@@ -4788,7 +4788,7 @@ dic_fild01,231,174,5	script	BK#ep133_18	496,{
 
 -	script	ep133_crack#main	-1,{
 	// if ((GetInventoryRemainCount 1301 3 == 2) || (GetInventoryRemainCount 1301 3 == 3)) {
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "- You can too many items to proceed with the quest. -";
 		close;
 	}
@@ -5295,13 +5295,13 @@ dic_in01,165,104,0	script	Frede#13_3_in	454,{
 			close;
 		}
 		else if (ep13_3_bra == 8) {
-			if (checkweight(1201,1) == 0) {
+			if (overitems()) {
 				mes "[Frede]";
 				mes "You have too many kinds of items.";
 				mes "Please return after reducing the number of items.";
 				close;
 			}
-			if ((MaxWeight - Weight) < 1000) {
+			if (overweight()) {
 				mes "[Frede]";
 				mes "You have too many items.";
 				mes "Please return after reducing the weight of your items.";
@@ -6951,7 +6951,7 @@ dic_in01,42,264,3	script	Adventurer Clerk#ep133	453,{
 		mes "You have too many kinds of items. Let's try again after you reduce the number of items.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "Cannot proceed because the weight of your items is too heavy. Let's try again after you get rid of some weight.";
 		close;
 	}

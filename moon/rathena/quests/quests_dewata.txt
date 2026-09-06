@@ -745,7 +745,7 @@ dewata,78,192,6	script	Borobudur Temple Manager	536,{
 // Help Out the Old Man :: dewata_drink
 //============================================================
 dewata,109,262,4	script	Memo#dew_drink	534,{
-	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 5000) {
+	if (overitems() || MaxWeight - Weight < 5000) {
 		if (dew_drink) {
 			mes "[Memo]";
 			mes "Why are you carrying so much? Doesn't that hurt your back?";
@@ -1071,7 +1071,7 @@ dewata,109,262,4	script	Memo#dew_drink	534,{
 }
 
 dew_fild01,114,275,4	script	Lero#dew_drink	536,{
-	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 5000) {
+	if (overitems() || MaxWeight - Weight < 5000) {
 		mes "[Lero]";
 		mes "You're carrying too many things...";
 		close;
@@ -1209,7 +1209,7 @@ dew_fild01,114,275,4	script	Lero#dew_drink	536,{
 		mes "It takes some time, so go back to Mr. Memo and tell him the situation. Also tell him that I'm sorry for the delay.";
 		close;
 	} else if (dew_drink == 6) {
-		if (checkweight(1201,1) == 0 || MaxWeight - Weight < 15000) {
+		if (overitems() || MaxWeight - Weight < 15000) {
 			mes "[Lero]";
 			mes "You are carrying too much right now to continue.";
 			close;
@@ -1301,7 +1301,7 @@ dew_fild01,114,275,4	script	Lero#dew_drink	536,{
 				mes "Once you bring the "+.@i[0]+" pieces of oil palm nuts, Mr. Memo will exchange them with oil.";
 				close;
 			}
-			if (checkweight(1201,1) == 0 || MaxWeight - Weight < .@i[3]) {
+			if (overitems() || MaxWeight - Weight < .@i[3]) {
 				mes "[Lero]";
 				mes "You're carrying too much right now to continue.";
 				close;
@@ -1332,7 +1332,7 @@ dew_fild01,114,275,4	script	Lero#dew_drink	536,{
 }
 
 dew_fild01,259,48,4	script	Poby#dew_drink	538,{
-	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 500) {
+	if (overitems() || MaxWeight - Weight < 500) {
 		if (dew_drink > 0) {
 			mes "[Poby]";
 			mes "Why are you carrying so much?";
@@ -1498,7 +1498,7 @@ dew_fild01,259,48,4	script	Poby#dew_drink	538,{
 }
 
 -	script	::DewataPalm	-1,{
-	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 5000) {
+	if (overitems() || MaxWeight - Weight < 5000) {
 		mes "You are carrying too much.";
 		close;
 	}
@@ -1667,7 +1667,7 @@ dew_fild01,209,201,0	duplicate(DewataPalm)	Palm Tree#drink40	844
 // Traditional Weapon Quest :: dewata_weapon
 //============================================================
 dew_fild01,127,240,4	script	Gatti#weapon	813,{
-	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 10000) {
+	if (overitems() || MaxWeight - Weight < 10000) {
 		mes "- Hold it right there!! -";
 		mes "- You're carrying too many items and don't have enough inventory space to receive any rewards. -";
 		mes "- Please make more inventory space available and come back to take this challenge. -";

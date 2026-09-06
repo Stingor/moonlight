@@ -425,7 +425,7 @@ yuno_in03,178,43,0	script	CiCi#juno	121,{
 // Alchemist Brothers Quest :: yuno_ryusei
 //============================================================
 yuno_in01,103,157,3	script	Bain#juno	98,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
 		mes "- too many items with you. -";
@@ -557,7 +557,7 @@ S_DelItems:
 }
 	
 yuno_in01,100,153,7	script	Bajin	47,0,0,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
 		mes "- too many items with you. -";

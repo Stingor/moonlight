@@ -317,7 +317,7 @@ OnTimer7000:
 // Guarana Quest :: brazil_tre.sc
 //============================================================
 brasilis,187,162,5	script	Candy Maker	4_M_BRZ_MAN1,{
-	if (!checkweight(1201,1)) {
+	if (overitems()) {
 		mes "- You can't start the quest. Please reduce the weight in your inventory. -";
 		close;
 	}
@@ -1202,7 +1202,7 @@ bra_in01,142,27,5	script	Marta#bra	4_F_BRZ_INDOLD,{
 bra_in01,145,27,3	duplicate(Marta#bra)	Brasilis Boy#bra	472
 
 brasilis,270,145,5	script	Brasilis Girl#bra	4_F_BRZ_INDIAN,5,5,{
-	if (!checkweight(1201,1)) {
+	if (overitems()) {
 		mes "- wait a second!! -";
 		mes "- you have too many items -";
 		mes "- so you can't get any more items. -";
@@ -1708,7 +1708,7 @@ bra_dun02,71,200,3	script	Water lily#bra	HIDDEN_NPC,{
 		close;
 	}
 	else if (brazil_regia == 7) {
-		if (!checkweight(1201,1)) {
+		if (overitems()) {
 			mes "- wait a second!! -";
 			mes "- you have too many items -";
 			mes "- so you can't get any more items. -";

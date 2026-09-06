@@ -396,7 +396,7 @@ geffen,181,114,3	script	Aure Dupon#cm	82,{
 }
 
 geffen_in,141,140,3	script	Morgenstein#cm	121,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
 		mes "- too many items with you. -";

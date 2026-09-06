@@ -10,7 +10,7 @@
 
 // Charleston
 verus04,69,108,5	script	Mass Charleston#1	4_F_CHARLESTON01,{
-	if (!checkweight(1201,1) || (MaxWeight - Weight) < 1000) {
+	if (overitems() || overweight()) {
 		mes "^ff0000You have carried too many items, please reduce it and come back later.^000000";
 		close;
 	}
@@ -92,11 +92,11 @@ verus04,69,108,5	script	Mass Charleston#1	4_F_CHARLESTON01,{
 
 verus04,71,106,5	script	Mass Charleston#2	4_F_CHARLESTON01,{
 	disable_items;
-	if (!checkweight(1201,1)) {
+	if (overitems()) {
 		mes "You have too many types of items. Lighten your inventory first.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 10000) {
+	if (overweight()0) {
 		mes "The items in your inventory are weighing you down. Lighten your weight first.";
 		close;
 	}
@@ -783,7 +783,7 @@ verus04,71,106,5	script	Mass Charleston#2	4_F_CHARLESTON01,{
 }
 
 verus04,63,112,4	script	Mass Charleston#3	4_F_CHARLESTON01,{
-	if (!checkweight(1201,1) || (MaxWeight - Weight) < 1000) {
+	if (overitems() || overweight()) {
 		mes "^ff0000You have carried too many items, please reduce it and come back later.^000000";
 		close;
 	}
@@ -1026,7 +1026,7 @@ verus04,161,222,4	script	Grandpa picking up scrap iron	1_M_HOF,{
 
 verus04,163,219,4	script	PLUTO_09#pa0829	4_SCR_AT_ROBOTS,{
 	disable_items;
-	if (checkweight(1201,1) == 0 || (MaxWeight - Weight) < 10000) {
+	if (overitems() || overweight()0) {
 		mes "^ff0000You have carried too many items, please reduce it and come back later.^000000";
 		close;
 	}
@@ -1163,7 +1163,7 @@ verus04,163,219,4	script	PLUTO_09#pa0829	4_SCR_AT_ROBOTS,{
 
 verus04,165,217,4	script	MARS_01#pa0829	4_SCR_MT_ROBOTS,{
 	disable_items;
-	if (checkweight(1201,1) == 0 || (MaxWeight - Weight) < 10000) {
+	if (overitems() || overweight()0) {
 		mes "^ff0000You have carried too many items, please reduce it and come back later.^000000";
 		close;
 	}

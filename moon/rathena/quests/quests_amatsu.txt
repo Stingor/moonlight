@@ -21,7 +21,7 @@
 // Momotaro Event :: japan_momo_q
 //============================================================ 
 amatsu,223,236,3	script	Publisher#ama	763,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- Wait a moment!! -";
 		mes "- Currently you are carrying -";
 		mes "- too many items with you. -";

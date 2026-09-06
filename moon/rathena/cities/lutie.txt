@@ -450,7 +450,7 @@ xmas,176,236,4	script	Uncle Hairy	712,{
 }
 
 xmas,134,112,4	script	Snowman	710,{
-	if (checkweight(1201,1) == 0 ) {
+	if (overitems() ) {
 		cutin "rutie_snownow01.bmp",2;
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";

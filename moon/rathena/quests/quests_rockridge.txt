@@ -3132,11 +3132,11 @@ rockrdg1,262,90,7	script	Crouched Horse#rr	4_M_CACTUSMAN1,{
 // Collect / hunt quests
 harboro1,231,254,3	script	Exotic Merchant	1_M_MERCHANT,{
 	disable_items;
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "I'm carrying too many types of items. I should lighten my bag first.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 10000) {
+	if (overweight()0) {
 		mes "I'm overweight. I'd better lighten my bag first.";
 		close;
 	}
@@ -3231,11 +3231,11 @@ harboro1,231,254,3	script	Exotic Merchant	1_M_MERCHANT,{
 
 harboro1,357,163,3	script	Food Distributer	4_COOK,{
 	disable_items;
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "I'm carrying too many types of items. I should lighten my bag first.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 10000) {
+	if (overweight()0) {
 		mes "I'm overweight. I'd better lighten my bag first.";
 		close;
 	}
@@ -3475,11 +3475,11 @@ OnEnable:
 
 harboro1,357,155,3	script	Steel Vigilante#1	4_M_MASKMAN,{
 	disable_items;
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "I'm carrying too many types of items. I should lighten my bag first.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 10000) {
+	if (overweight()0) {
 		mes "I'm overweight. I'd better lighten my bag first.";
 		close;
 	}
@@ -3661,11 +3661,11 @@ harboro1,357,155,3	script	Steel Vigilante#1	4_M_MASKMAN,{
 
 harboro1,357,152,3	script	Steel Vigilante#2	4_M_ACROSS,{
 	disable_items;
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "I'm carrying too many types of items. I should lighten my bag first.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 10000) {
+	if (overweight()0) {
 		mes "I'm overweight. I'd better lighten my bag first.";
 		close;
 	}
@@ -3844,11 +3844,11 @@ OnEnable:
 
 harboro1,334,135,6	script	Desalination Facility Manager	4_M_YURI,{
 	disable_items;
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "I'm carrying too many types of items. I should lighten my bag first.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 10000) {
+	if (overweight()0) {
 		mes "I'm overweight. I'd better lighten my bag first.";
 		close;
 	}

@@ -29,7 +29,7 @@
 // Cautious Village & Daily Quests :: hi_malaya
 //============================================================
 malaya,266,76,3	script	Rodel the Guard#malaya	570,4,4,{
-	if (MaxWeight - Weight < 1000 || checkweight(1201,1) == 0) {
+	if (MaxWeight - Weight < 1000 || overitems()) {
 		mes "Cannot proceed with the quest. You are carrying too many items. -";
 		close;
 	}
@@ -191,7 +191,7 @@ OnInit:
 }
 
 malaya,185,358,3	script	Leader Phong in Mumbaki	580,{
-	if (MaxWeight - Weight < 1000 || checkweight(1201,1) == 0) {
+	if (MaxWeight - Weight < 1000 || overitems()) {
 		mes "- Cannot proceed with the quest. You are carrying too many items. -";
 		close;
 	}
@@ -528,7 +528,7 @@ malaya,185,358,3	script	Leader Phong in Mumbaki	580,{
 }
 
 malaya,169,350,5	script	Imelda#malaya	475,{
-	if (MaxWeight - Weight < 1000 || checkweight(1201,1) == 0) {
+	if (MaxWeight - Weight < 1000 || overitems()) {
 		mes "- Cannot proceed with the quest. You are carrying too many items. -";
 		close;
 	}
@@ -905,7 +905,7 @@ malaya,169,350,5	script	Imelda#malaya	475,{
 }
 
 malaya,181,353,5	script	Old Man Nardo#malaya	574,{
-	if (MaxWeight - Weight < 1000 || checkweight(1201,1) == 0) {
+	if (MaxWeight - Weight < 1000 || overitems()) {
 		mes "- Cannot proceed with the quest. You are carrying too many items. -";
 		close;
 	}
@@ -1459,7 +1459,7 @@ malaya,223,267,5	script	Talah#malaya	941,{
 }
 
 malaya,62,274,0	script	Sand Trap#malaya	557,{
-	if (MaxWeight - Weight < 1000 || checkweight(1201,1) == 0) {
+	if (MaxWeight - Weight < 1000 || overitems()) {
 		mes "- Cannot proceed with the quest. You are carrying too many items. -";
 		close;
 	}
@@ -1493,7 +1493,7 @@ malaya,66,277,0	duplicate(Sand Trap#malaya)	Sand Trap#malaya01	557
 malaya,70,282,0	duplicate(Sand Trap#malaya)	Sand Trap#malaya02	557
 
 ma_fild01,178,206,0	script	Black Bamboo#malaya	844,4,4,{
-	if (MaxWeight - Weight < 1000 || checkweight(1201,1) == 0) {
+	if (MaxWeight - Weight < 1000 || overitems()) {
 		mes "- Cannot proceed with the quest. You are carrying too many items. -";
 		close;
 	}
@@ -1532,7 +1532,7 @@ ma_fild01,180,273,0	duplicate(Black Bamboo#malaya)	Black Bamboo#malaya04	844,4,4
 ma_fild01,179,145,0	duplicate(Black Bamboo#malaya)	Black Bamboo#malaya05	844,4,4
 
 malaya,295,171,3	script	Collection Dealer Woeon	582,{
-	if (MaxWeight - Weight < 1000 || checkweight(1201,1) == 0) {
+	if (MaxWeight - Weight < 1000 || overitems()) {
 		mes "- Cannot proceed with the quest. You are carrying too many items. -";
 		close;
 	}
@@ -1770,7 +1770,7 @@ malaya,295,171,3	script	Collection Dealer Woeon	582,{
 }
 
 malaya,119,217,3	script	Blacksmith Pandoi	538,{
-	if (MaxWeight - Weight < 1000 || checkweight(1201,1) == 0) {
+	if (MaxWeight - Weight < 1000 || overitems()) {
 		mes "- Cannot proceed with the quest. You are carrying too many items. -";
 		close;
 	}
@@ -2117,7 +2117,7 @@ malaya,119,217,3	script	Blacksmith Pandoi	538,{
 }
 
 malaya,326,68,2	script	Pedro the Sailor	100,{
-	if (MaxWeight - Weight < 1000 || checkweight(1201,1) == 0) {
+	if (MaxWeight - Weight < 1000 || overitems()) {
 		mes "- Cannot proceed with the quest. You are carrying too many items. -";
 		close;
 	}
@@ -2725,7 +2725,7 @@ OnTouch:
 }
 
 ma_fild01,261,208,2	script	Kiko in Mumbaki	580,{
-	if (MaxWeight - Weight < 1000 || checkweight(1201,1) == 0) {
+	if (MaxWeight - Weight < 1000 || overitems()) {
 		mes "- Cannot proceed with the quest. You are carrying too many items. -";
 		close;
 	}
@@ -2836,7 +2836,7 @@ ma_fild01,261,208,2	script	Kiko in Mumbaki	580,{
 }
 
 ma_fild01,239,253,3	script	Dhong the Guard	570,{
-	if (MaxWeight - Weight < 1000 || checkweight(1201,1) == 0) {
+	if (MaxWeight - Weight < 1000 || overitems()) {
 		mes "- Cannot proceed with the quest. You are carrying too many items. -";
 		close;
 	}
@@ -2983,7 +2983,7 @@ ma_fild01,238,257,2	script	Guard Dog Vantai	972,{
 }
 
 ma_fild01,200,190,3	script	Maries#malaya	579,{
-	if (MaxWeight - Weight < 1000 || checkweight(1201,1) == 0) {
+	if (MaxWeight - Weight < 1000 || overitems()) {
 		mes "- Cannot proceed with the quest. You are carrying too many items. -";
 		close;
 	}
@@ -3343,7 +3343,7 @@ ma_fild02,241,39,5	script	Good Capre Budidai	572,{
 // Traders :: malaya_npc
 //============================================================
 ma_fild01,166,214,6	script	Old Man in Dilemma#GA	575,{
-	if (MaxWeight - Weight < 600 || checkweight(1201,1) == 0) {
+	if (MaxWeight - Weight < 600 || overitems()) {
 		mes "Cannot proceed because you have too many items in your possession.";
 		close;
 	}
@@ -3418,7 +3418,7 @@ ma_fild01,166,214,6	script	Old Man in Dilemma#GA	575,{
 }
 
 ma_fild01,238,198,4	script	Tikbalang Expert#malaya	582,{
-	if (MaxWeight - Weight < 50 || checkweight(1201,1) == 0) {
+	if (MaxWeight - Weight < 50 || overitems()) {
 		mes "Cannot proceed because you have too many items in your possession.";
 		close;
 	}
@@ -4245,7 +4245,7 @@ ma_in01,47,101,3	script	Totoy#buwaya	577,7,7,{
 		setquest 2279;
 		close;
 	} else if (malaya_buwaya == 13) {
-		if (checkweight(1201,1) == 0 || MaxWeight - Weight < 2000) {
+		if (overitems() || MaxWeight - Weight < 2000) {
 			mes "- Wait!! -";
 			mes "- You have too many items on you. -";
 			mes "- Cannot receive the item. -";
@@ -4527,7 +4527,7 @@ OnInit:
 }
 
 -	script	Unknown Trace#buwaya	-1,{
-	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 2000) {
+	if (overitems() || MaxWeight - Weight < 2000) {
 		mes "- Wait!! -";
 		mes "- You have too many items on you. -";
 		mes "- Cannot receive the item. -";
@@ -4571,7 +4571,7 @@ ma_fild02,300,98,3	duplicate(Unknown Trace#buwaya)	Unknown Trace#buwaya_6	557
 ma_fild02,100,275,3	duplicate(Unknown Trace#buwaya)	Unknown Trace#buwaya_7	557
 
 malaya,290,340,3	script	Guard Leader#buwaya	571,{
-	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 2000) {
+	if (overitems() || MaxWeight - Weight < 2000) {
 		mes "- Wait!! -";
 		mes "- You have too many items on you. -";
 		mes "- Cannot receive the item. -";
@@ -6714,7 +6714,7 @@ function	script	F_Malaya_Nurse	{
 	return;
 
 L_Weight:
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- Wait !! -";
 		mes "- You have too many items. -";
 		mes "- Cannot receive item. -";
@@ -7885,7 +7885,7 @@ malaya,53,68,4	script	Bushes#ma	844,{
 }
 
 -	script	Suspicious Wooden Stick::MalayaStick	-1,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- Wait !! -";
 		mes "- You have too many items. -";
 		mes "- Cannot receive item. -";
@@ -8384,7 +8384,7 @@ OnDisableNPC:
 }
 
 ma_fild01,179,260,2	script	Festival Helper Boy#pin	577,{
-	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 1000) {
+	if (overitems() || MaxWeight - Weight < 1000) {
 		mes "Cannot proceed because you have too many items in your possession.";
 		close;
 	}
@@ -8606,7 +8606,7 @@ ma_fild01,179,260,2	script	Festival Helper Boy#pin	577,{
 }
 
 ma_fild01,172,223,6	script	Tattooist#pin	574,{
-	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 1000) {
+	if (overitems() || MaxWeight - Weight < 1000) {
 		mes "Cannot proceed because you have too many items in your possession.";
 		close;
 	}

@@ -22,7 +22,7 @@
 // Quest NPCs :: mal_yong
 //============================================================
 mal_in01,172,28,2	script	Albo#mal	561,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "You have too many kinds of objects. Try to continue after reducing those objects.";
 		close;
 	}
@@ -137,7 +137,7 @@ L_GiveQuest:
 }
 
 mal_in01,172,26,2	script	Madeca#mal	544,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "You have too many kinds of objects. Try to continue after reducing those objects.";
 		close;
 	}

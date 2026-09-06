@@ -1,4 +1,12 @@
 //===== Moonlight-Destiny ====================================
+function	script	overitems	{
+	return (checkweight(Knife, getarg(0,1)) == 0);
+}
+
+function	script	overweight	{
+	return (MaxWeight - Weight) < getarg(0,1000);
+}
+
 function	script	mesitemcell	{
 	// Nom d'un objet précédé de son icône, cliquable : lien natif si le dialogue
 	// moderne de Bourgeon est allumé chez le joueur, sinon lien objet du client.

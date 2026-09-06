@@ -1091,7 +1091,7 @@ louyang,174,150,5	script	Jiu Chi Ling#lou	815,{
 // Doctor Quest :: dr_china
 //============================================================
 lou_in02,265,69,5	script	Doctor#lyang	814,{
-	if ((MaxWeight-Weight) < 2000 || checkweight(1201,1) == 0) {
+	if (overweight(2000) || overitems()) {
 		mes "^3355FFWait a minute! Right now, you're over weight, so you cannot receive more items. Please store some of your things in Kafra Storage and try again.^000000";
 		close;
 	}
@@ -1592,7 +1592,7 @@ lou_in02,248,166,2	script	Tool Shop Master#lou	824,{
 }
 
 lou_in02,201,166,4	script	Storage Keeper#lou	819,{
-	if ((MaxWeight-Weight) < 2000 || checkweight(1201,1) == 0) {
+	if (overweight(2000) || overitems()) {
 		mes "^3355FF * Wait a moment!! *";
 		mes "Currently you're over weight, so you cannot receive more items into your inventory. Please store some of your items into Kafra Storage and try again.^000000";
 		close;
@@ -2425,7 +2425,7 @@ lou_in02,123,39,4	script	Poison King#lou	824,{
 		// Remove outdated variable.
 		set QL_POISONKING,0;
 	}
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "^3355FF * Wait a minute! *";
 		mes "Right now, you are carrying too many items with you. Please place some of your items into Kafra Storage and try again.^000000";
 		close;
@@ -3409,7 +3409,7 @@ lou_in02,123,39,4	script	Poison King#lou	824,{
 }
 
 lou_in02,253,45,0	script	Employee#poison	822,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "^3355FF * Wait a minute! *";
 		mes "You're carrying too many items with you right now. Please put some of your things into Kafra Storage and try again.^000000";
 		close;
@@ -4098,7 +4098,7 @@ lou_in02,253,45,0	script	Employee#poison	822,{
 }
 
 lou_fild01,224,348,0	script	Lady#delivery	817,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "^3355FF * Wait a minute! *";
 		mes "Currently, you're carrying too many items. Please put some of your things into Kafra Storage and try again.^000000";
 		close;
@@ -4391,7 +4391,7 @@ lou_in01,118,167,0	script	 #lou_drink2	111,{
 }
 
 lou_in01,99,158,4	script	Lord#bailong	821,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "^3355FF * Wait a minute! *";
 		mes "Right now you're carrying too many items. Please put some of your things into Kafra Storage and try again.^000000";
 		close;

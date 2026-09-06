@@ -1186,7 +1186,7 @@ S_Rud1:
 // Aged Stranger - Whale Island
 //----------------------------------------------------------------------------
 mosk_fild01,86,104,3	script	Aged Stranger#npc	4_M_GUSLIMAN,{
-	if ((MaxWeight-Weight) < 2000) {
+	if (overweight(2000)) {
 		mes "[Aged Stranger]";
 		mes "You're carrying too many items.";
 		mes "Please come after using kafra service.";
@@ -1841,7 +1841,7 @@ S_AS_3:
 // Csar Alexsay III - Moscovia Palace
 //----------------------------------------------------------------------------
 mosk_in,131,92,3	script	Csar Alexsay III#npc	4_M_RUSKING,7,7,{
-	if ((MaxWeight-Weight) < 2000) {
+	if (overweight(2000)) {
 		mes "[Csar Alexsay III]";
 		mes "You're carrying too many items.";
 		mes "Please come after using kafra service.";
@@ -3456,7 +3456,7 @@ mosk_in,135,191,5	script	Landlord#mos	4_F_RUSWOMAN3,{
 }
 
 mosk_in,141,212,3	script	Pub Owner#mos	4_M_RUSBALD,{
-	if ((MaxWeight-Weight) < 2000) {
+	if (overweight(2000)) {
 		mes "- Please stop here!! -";
 		mes "- You're carrying too many items -";
 		mes "- Please try again -";
@@ -3610,7 +3610,7 @@ mosk_in,141,212,3	script	Pub Owner#mos	4_M_RUSBALD,{
 }
 
 mosk_in,147,202,3	script	Victor#mos	4_M_RUSMAN2,{
-	if ((MaxWeight-Weight) < 2000) {
+	if (overweight(2000)) {
 		mes "- Please stop here!! -";
 		mes "- You're carrying too many items -";
 		mes "- Please try again -";
@@ -3833,7 +3833,7 @@ OnTouch:
 // Swamp
 //----------------------------------------------------------------------------
 mosk_dun03,153,90,3	script	Bubbling Swamp#mos1	CLEAR_NPC,{
-	if ((MaxWeight-Weight) < 2000) {
+	if (overweight(2000)) {
 		mes "- Your bag is very heavy today -";
 		close;
 	}
@@ -3881,7 +3881,7 @@ mosk_dun03,153,90,3	script	Bubbling Swamp#mos1	CLEAR_NPC,{
 // Larissa - Hotcake Quests
 //----------------------------------------------------------------------------
 mosk_in,211,259,5	script	Larissa#mos_01	4_F_RUSWOMAN2,{
-	if ((MaxWeight-Weight) < 2000) {
+	if (overweight(2000)) {
 		mes "- Please stop here !! -";
 		mes "- You're carrying too many items -";
 		mes "- Please try again -";
@@ -4110,7 +4110,7 @@ moscovia,208,182,7	script	Acorn Dealer#mos	4_M_RUSMAN1,{
 //----------------------------------------------------------------------------
 mosk_fild01,113,108,3	script	Big Squirrel#mos	HIDDEN_NPC,2,2,{
 OnTouch:
-	if ((MaxWeight-Weight) < 2000) {
+	if (overweight(2000)) {
 		mes "- Please stop here!! -";
 		mes "- You're carrying too many items -";
 		mes "- Please try again -";
@@ -6227,7 +6227,7 @@ OnTouch:
 // Shafka Hat :: mos_whale_edq
 //============================================================
 moscovia,211,93,3	script	Irina#edq	4_F_RUSCHILD,{
-	if (!checkweight(1201,1)) {
+	if (overitems()) {
 		mes "Wait a moment!!";
 		mes "You have too many items.";
 		mes "You can't receive this.";
@@ -7183,7 +7183,7 @@ mosk_dun01,46,256,3	duplicate(mos_rus#main)	Maria Morebna#rus46	4_F_RUSCHILD
 // The Blacksmith (Golden Key)
 //----------------------------------------------------------------------------
 moscovia,178,127,0	script	The Blacksmith#rus06	1_M_SMITH,{
-	if ((MaxWeight-Weight) < 3500) {
+	if (overweight(3500)) {
 		mes "[The Blacksmith]";
 		mes "Why are you carrying that much?";
 		mes "Are you training for something?";
@@ -7465,7 +7465,7 @@ moscovia,178,127,0	script	The Blacksmith#rus06	1_M_SMITH,{
 // Vassili Grandpapa (Red Ring)
 //----------------------------------------------------------------------------
 moscovia,206,81,0	script	Vassili Grandpapa#rus07	4_M_05,{
-	if ((MaxWeight-Weight) < 3500) {
+	if (overweight(3500)) {
 		mes "[Vassili Grandpapa]";
 		mes "Why are you carring that much?";
 		mes "Are you training for something?";
@@ -7733,7 +7733,7 @@ moscovia,206,81,0	script	Vassili Grandpapa#rus07	4_M_05,{
 // Ryubaba (Red Ring)
 //----------------------------------------------------------------------------
 moscovia,213,216,3	script	Ryubaba#rus08	4_F_RUSWOMAN2,{
-	if ((MaxWeight-Weight) < 3500) {
+	if (overweight(3500)) {
 		mes "[Ryubaba]";
 		mes "What on earth do you have in your bag?";
 		mes "Are you training for something?";
@@ -10250,7 +10250,7 @@ mosk_dun02,65,232,0	script	Noisy Coffin#rus36	4_NFCOFFIN,{
 }
 
 treasure01,165,58,0	script	Old Treasure Box#rus37	HIDDEN_NPC,{
-	if ((MaxWeight-Weight) < 3500) {
+	if (overweight(3500)) {
 		mes "You are carrying too much!";
 		mes "Lose some weight and try again.";
 		close;
@@ -10464,7 +10464,7 @@ treasure01,27,115,0	script	Opened Treasure Chest#41	HIDDEN_NPC,{
 }
 
 amatsu,233,234,3	script	Momotoro Publisher#rus42	4_F_JPN,{
-	if ((MaxWeight-Weight) < 3500) {
+	if (overweight(3500)) {
 		mes "[Momotoro Publisher]";
 		mes "What on earth do you have in your bag?";
 		mes "Are you training for something?";
@@ -10655,15 +10655,15 @@ mosk_dun02,57,220,0	script	House Ghost Jar#rus43	HIDDEN_NPC,{
 			cutin "",255;
 			switch( .@rucard_game01 ) {
 			case 1:
-				cutin "Æ÷¸µÄ«µå",4; // Poring Card
+				cutin "ï¿½ï¿½ï¿½ï¿½Ä«ï¿½ï¿½",4; // Poring Card
 				.@win_string$ = "You are good. Can you do it next time?";
 				break;
 			case 2:
-				cutin "¿£Á©¸µÄ«µå",4; // Angeling Card
+				cutin "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä«ï¿½ï¿½",4; // Angeling Card
 				.@win_string$ = "You are pretty good at this. Ok, but can you do it again?";
 				break;
 			case 3:
-				cutin "°í½ºÆ®¸µÄ«µå",4; // Ghostring Card
+				cutin "ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½Ä«ï¿½ï¿½",4; // Ghostring Card
 				.@win_string$ = "You are pretty good at this. Ok, but can you do it again?";
 				break;
 			}

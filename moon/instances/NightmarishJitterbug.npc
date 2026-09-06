@@ -3980,7 +3980,7 @@ OnStop:
 // Exchange npc
 1@jtb,375,28,5	script	Mingmin#05	4_F_GENETIC,{
 	disable_items;
-	if (!checkweight(18122,1) || (MaxWeight - Weight) < 1000) {// custom - officially no check of the weight
+	if (!checkweight(18122,1) || overweight()) {// custom - officially no check of the weight
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
 		mes "- too many items with you. -";

@@ -39,7 +39,7 @@
 //============================================================ 
 
 // alberta,214,77,6	script	Captain Janssen	709,{
-	// if (checkweight(1201,1) == 0) {
+	// if (overitems()) {
 		// mes "^008800Wait here!!";
 		// mes "You're carrying too much stuff. Why don't you put some of it away, and then come back.^000000";
 		// close;
@@ -2095,7 +2095,7 @@ OnMyMobDead:
 }
 
 6@tower,169,127,2	script	Lost Soul#102	796,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "You're carrying too much stuff. Why don't you put some of it away, and then come back?";
 		close;
 	}

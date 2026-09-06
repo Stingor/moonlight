@@ -20,7 +20,7 @@
 //============================================================ 
 
 payon,173,238,5	script	Jade#pay	754,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "^3355FFWait a second! Right now, you're carrying too many items with you. Please come back after putting some of your things into Kafra Storage.^000000";
 		close;
 	}

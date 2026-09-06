@@ -14,7 +14,7 @@
 bat_room,124,178,5	script	Tierra Gorge Officer#01a	418,{
 	if (getbattleflag("feature.bgqueue"))
 		end;
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
 		mes "- too many items with you. -";
@@ -83,7 +83,7 @@ bat_room,124,178,5	script	Tierra Gorge Officer#01a	418,{
 bat_room,140,178,5	script	Tierra Gorge Officer#02a	418,{
 	if (getbattleflag("feature.bgqueue"))
 		end;
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
 		mes "- too many items with you. -";
@@ -220,7 +220,7 @@ bat_room,143,121,1	duplicate(Croix Knight#1)	Croix Knight#2	413
 bat_room,125,121,1	script	Tierra Gorge Officer#01b	414,{
 	if (getbattleflag("feature.bgqueue"))
 		end;
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
 		mes "- too many items with you. -";
@@ -289,7 +289,7 @@ bat_room,125,121,1	script	Tierra Gorge Officer#01b	414,{
 bat_room,140,121,1	script	Tierra Gorge Officer#02b	414,{
 	if (getbattleflag("feature.bgqueue"))
 		end;
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
 		mes "- too many items with you. -";

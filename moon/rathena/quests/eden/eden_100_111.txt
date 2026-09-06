@@ -17,7 +17,7 @@
 
 moc_para01,37,95,5	script	Gelkah#1	4_F_GELKA,{
 	cutin "gelca01",2;
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "^FF0000-Warning Message-";
 		mes "- Wait for a minute !! -";
 		mes "- You have too many items -";

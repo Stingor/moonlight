@@ -347,7 +347,7 @@ gef_tower,57,167,3	script	Amateur Collector#pa0829	1_F_01,{
 	function F_equip_menu;
 	function F_enchant;
 
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "You have too many kinds of objects. Clear your inventory.";
 		close;
 	}

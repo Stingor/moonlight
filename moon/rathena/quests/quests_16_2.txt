@@ -5656,7 +5656,7 @@ rebel_in,86,61,5	script	Lazy#16nego05	4_M_LAZY,{
 		mes "Why do you have so many things here? Your bag has to be light to carry a lot of new stuff.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "[Lazy]";
 		mes "Why do you have so many things here? Your bag has to be light to carry a lot of new stuff.";
 		close;
@@ -7588,7 +7588,7 @@ OnTouch:
 }
 
 rebel_in,162,87,5	script	Rebellion Guard leader#2	4_M_REBELLION,{
-	if (checkweight(501,1) == 0 || (MaxWeight - Weight) < 1000) {
+	if (checkweight(501,1) == 0 || overweight()) {
 		mes "- You have too many items in your inventory.";
 		mes "Please arrange your inventory and try again. -";
 		close;
@@ -7950,7 +7950,7 @@ rebel_in,212,90,5	script	Rebellion#162gmbs3	4_M_REBELLION2,{
 }
 
 rebel_in,82,68,2	script	Arinoa Yurhik#TFQ01	4_F_GUNSLINGER,{
-	if (checkweight(501,1) == 0 || (MaxWeight - Weight) < 1000) {
+	if (checkweight(501,1) == 0 || overweight()) {
 		mes "- Cannot progress, because you have too many items in your possession. -";
 		close;
 	}
@@ -11057,7 +11057,7 @@ rebel_in,90,40,5	script	Hogar#pa0829	4_M_MASKMAN,{
 		mes "Seems like you have too many belongings. Let's try it again after you remove some.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "Your belongings are too heavy. Let's try it again after you reduce the weight.";
 		close;
 	}
@@ -11483,7 +11483,7 @@ rebel_in,74,67,5	script	Strasse#rebel_in	4_M_TATIO,{
 		mes "Please make it lighter and come back.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "[Strasse]";
 		mes "You have too much in your inventory.";
 		mes "Please make it lighter and come back.";
@@ -11554,7 +11554,7 @@ rebel_in,103,37,7	duplicate(dummy_cloaked_npc)	Trainee#16nego01	4_F_GUNSLINGER3
 rebel_in,104,39,5	duplicate(dummy_cloaked_npc)	Trainee#16nego02	4_M_GUNSLINGER3
 
 rebel_in,108,36,3	script	Master#16nego02	4_F_HUWOMAN,{
-	if (checkweight(Swz_Honor_Token,3) == 0 || (MaxWeight - Weight) < 1000) {
+	if (checkweight(Swz_Honor_Token,3) == 0 || overweight()) {
 		emotion ET_OHNO;
 		mes "[Master]";
 		mes "You have too many items in your inventory. Why don't you come back after making it lighter? It looks too heavy.";
@@ -11992,7 +11992,7 @@ rebel_in,88,61,5	script	Rookie#16nego02	4_M_ROOKIE,{
 		mes "Why do you carry so many stuffs? Unless you want to give them away, make your bag lighter and come back.";
 		close;
 	}
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "[Rookie]";
 		mes "Why do you carry so many stuffs? Unless you want to give them away, make your bag lighter and come back.";
 		close;

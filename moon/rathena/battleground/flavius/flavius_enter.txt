@@ -13,7 +13,7 @@
 bat_room,133,178,5	script	Flavius Officer#01a	418,{
 	if (getbattleflag("feature.bgqueue"))
 		end;
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
 		mes "- too many items with you. -";
@@ -82,7 +82,7 @@ bat_room,133,178,5	script	Flavius Officer#01a	418,{
 bat_room,133,121,1	script	Flavius Officer#01b	414,{
 	if (getbattleflag("feature.bgqueue"))
 		end;
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
 		mes "- too many items with you. -";
@@ -215,7 +215,7 @@ bat_room,151,121,1	duplicate(Croix Knight#3)	Croix Knight#4	413
 bat_room,148,178,5	script	Flavius Officer#02a	418,{
 	if (getbattleflag("feature.bgqueue"))
 		end;
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
 		mes "- too many items with you. -";
@@ -284,7 +284,7 @@ bat_room,148,178,5	script	Flavius Officer#02a	418,{
 bat_room,148,121,1	script	Flavius Officer#02b	414,{
 	if (getbattleflag("feature.bgqueue"))
 		end;
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
 		mes "- too many items with you. -";

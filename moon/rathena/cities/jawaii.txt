@@ -737,7 +737,7 @@ OnTouch_:
 }
 
 jawaii_in,15,104,0	script	Waitress#jawaii	80,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "^3355FF * Wait a minute! *";
 		mes "You're carrying too many items with you right now. Please store some of your things into Kafra Storage and try again.^000000";
 		close;

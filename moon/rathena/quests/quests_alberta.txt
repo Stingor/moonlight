@@ -38,7 +38,7 @@
 // Doll Quest
 //============================================================
 alberta,117,135,0	script	Elin	96,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "[Elin]";
 		mes "^3355FFWait a second! Right now, you're carrying too many items with you. Please come back after putting some of your things into Kafra Storage.^000000";
 		close;

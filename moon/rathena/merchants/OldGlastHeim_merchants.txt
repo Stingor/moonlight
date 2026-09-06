@@ -341,15 +341,15 @@ S_Slot:
 	}
 	close;
 }
-/*
+
 // Temporal shoes slotted - npc enchant
 glast_01,184,283,4	script	Dark magic master#pa082	1_F_01,{
 	disable_items;
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "Your bag is too heavy. Reduce some weight and come back.";
 		close;
 	}
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "You seem to be carrying too many items. Put some items in storage and come back again.";
 		close;
 	}
@@ -523,18 +523,19 @@ glast_01,184,283,4	script	Dark magic master#pa082	1_F_01,{
 // Items exchange for card
 glast_01,216,292,5	script	Portrait collector#0002	4_M_OILMAN,{
 	disable_items;
-	if ((MaxWeight - Weight) < 1000) {
+	if (overweight()) {
 		mes "Your bag is too heavy. Reduce some weight and come back.";
 		close;
 	}
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "You seem to be carrying too many items. Put some items in storage and come back again.";
 		close;
 	}
-	.@coagulated_id = 6608;		// Coagulated_Spell
-	.@polluted_id = 6755;		// Polluted_Spell
-	.@white_card = 4608;		// White_Knightage_Card
-	.@khalitzburg_card = 4609;	// Khaliz_Knightage_Card
+
+	.@coagulated_id = Coagulated_Spell;
+	.@polluted_id = Polluted_Spell;
+	.@white_card = White_Knightage_Card;
+	.@khalitzburg_card = Khaliz_Knightage_Card;
 
 	mes "[Portrait collector]";
 	mes "I have been collecting portraits for an year already. Now it's time to show people my collection.";
@@ -598,4 +599,3 @@ glast_01,216,292,5	script	Portrait collector#0002	4_M_OILMAN,{
 	getitem .@reward_id,1;
 	close;
 }
-*/

@@ -7,7 +7,7 @@
 	mes .@n$;
 	if( getgmlevel() > 90 ) ep13_2_rhea = 100;
 	if (isequipped(2782) && ep13_2_rhea == 100) { // Ring_Of_Wise_King
-		if (!checkweight(1201,1)) {
+		if (overitems()) {
 			mes "It looks like you're carrying too many things.";
 			mes "Why not put some of your items in storage and come back?";
 			close;
@@ -77,7 +77,7 @@ spl_in01,110,326,5	duplicate(merchant_13_2)	Merchant of Splendide	439
 // Malangdo
 //============================================================
 malangdo,220,167,5	script	Coin Exchanger CX-1	564,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "You have too many kinds of objects. Let's try to continue after reducing those objects.";
 		close;
 	}
@@ -166,7 +166,7 @@ malangdo,220,167,5	script	Coin Exchanger CX-1	564,{
 }
 
 malangdo,218,165,5	script	Special Vending Machine	562,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "You have too many kinds of objects. Let's try to continue after reducing those objects.";
 		close;
 	}
@@ -235,7 +235,7 @@ L_AddItem:
 }
 
 malangdo,236,179,5	script	Dark Merchant K	554,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "It seems you have too much in your inventory. Let's try again after getting rid of some of your belongings.";
 		close;
 	}
@@ -279,7 +279,7 @@ malangdo,236,179,5	script	Dark Merchant K	554,{
 }
 
 malangdo,233,180,3	script	Dark MachineTX100	564,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "It seems you have too much in your inventory. Let's try again after getting rid of some of your belongings.";
 		close;
 	}
@@ -398,7 +398,7 @@ malangdo,233,180,3	script	Dark MachineTX100	564,{
 }
 
 malangdo,175,145,4	script	Can Agency Guard	549,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "You seem to have too many items. Give it a try after sorting out the item kinds.";
 		close;
 	}
@@ -522,7 +522,7 @@ function	script	F_mal_coin	{
 		mes "Well then, do you want to take a look at what I have now?";
 		switch(select("Yes:No")) {
 		case 1:
-			if (checkweight(1201,1) == 0) {
+			if (overitems()) {
 				mes .@npc_name$;
 				mes "It seems that there are too many items in your inventory.";
 				mes "Please make space and come back again~";

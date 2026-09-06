@@ -794,7 +794,7 @@ alde_alche,175,107,3	script	Fastidious Alchemist#am	749,{
 }
 
 alde_alche,13,15,7	script	Studying Man#am	750,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- Wait a minute! -";
 		mes "- Currently you are carrying -";
 		mes "- too many items with you. -";
@@ -1774,7 +1774,7 @@ alde_alche,101,184,4	script	Master Alchemist#am	122,{
 }
 
 alde_alche,145,19,1	script	Chief Researcher#am	57,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- Wait a minute! -";
 		mes "- Currently you are carrying -";
 		mes "- too many items with you. -";

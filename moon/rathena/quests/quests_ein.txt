@@ -595,7 +595,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 						}
 						switch(select("Give him all.:Cancel.")) {
 						case 1:
-							if (checkweight(1201,1) == 0) {
+							if (overitems()) {
 								mes "[Uwe]";
 								mes "Oh, I was going to give";
 								mes "you a little something,";
@@ -633,7 +633,7 @@ einbroch,215,180,6	script	Uwe Kleine#ein	85,{
 							mes "I know it's not very extravagant, but these will come in handy next time you're smithing. So make the best use of them, 'kay?";
 							close;
 						case 2:
-							if (checkweight(1201,1) == 0) {
+							if (overitems()) {
 								mes "[Uwe]";
 								mes "Oh, I was going to give";
 								mes "you a little something,";

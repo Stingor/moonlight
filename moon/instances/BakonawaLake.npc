@@ -20,7 +20,7 @@
 //============================================================
 ma_scene01,174,179,4	script	Taho	541,{
 	disable_items;
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "You are carrying too many items. Come back after taking off some of them.";
 		close;
 	}
@@ -462,7 +462,7 @@ OnMobSpawn:
 
 1@ma_b,62,52,4	script	Taho#Completed	541,{
 	disable_items;
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "It seems you are carrying too many different kinds of items. Please try again after reducing it.";
 		close;
 	}

@@ -4035,7 +4035,7 @@ turbo_room,67,95,5	duplicate(TurboNormalNames)	Normal Mode Records#1	857
 turbo_room,71,95,5	duplicate(TurboExpertNames)	Expert Mode Records#1	857
 
 turbo_room,93,117,5	script	Point Exchange Helper	125,{
-	if ((MaxWeight-Weight) < 2000 || checkweight(1201,1) == 0) {
+	if (overweight(2000) || overitems()) {
 		mes "^3355FFWait a second!";
 		mes "Right now, you're carrying";
 		mes "too many items with you.";
@@ -4595,7 +4595,7 @@ S_ExchangePoints:
 
 alde_gld,183,204,0	script	en_turbo	45,1,1,{
 OnTouch_:
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "^3355FFWait a second!";
 		mes "Right now, you're carrying";
 		mes "too many items with you.";

@@ -49,7 +49,7 @@
 // Stone Quest :: veins_stone
 //============================================================
 -	script	::WincingOldMan_veins	-1,{
-	if ((MaxWeight - Weight) < 2000 || checkweight(1201,1) == 0) {
+	if (overweight(2000) || overitems()) {
 		mes "- Wait a moment! -";
 		mes "- Currently you are carrying -";
 		mes "- too many items with you. -";
@@ -729,7 +729,7 @@ prontera,202,122,0	script	Kid#sch	703,{
 }
 
 prt_church,89,108,6	script	Bard#sch	741,{
-	if ((MaxWeight-Weight) < 2000 || checkweight(1201,1) == 0) {
+	if (overweight(2000) || overitems()) {
 		mes "^3355FFWait a second!";
 		mes "Right now, you're carrying";
 		mes "too many things with you.";
@@ -1440,7 +1440,7 @@ ra_in01,58,389,0	script	Guant Prisoner#sch	929,{
 
 // Escort Dancers to Schwaltzvalt Republic
 job_duncer,93,106,6	script	Dance Instructor#sch	892,{
-	if ((MaxWeight-Weight) < 2000 || checkweight(1201,1) == 0) {
+	if (overweight(2000) || overitems()) {
 		mes "^3355FFWait a second!";
 		mes "Right now, you're carrying";
 		mes "too many things with you.";
@@ -2131,7 +2131,7 @@ ein_in01,170,284,4	script	Arunafeltz Figure#sch	920,{
 }
 
 morocc,297,154,0	script	Thin-Faced Bard#sch	51,{
-	if ((MaxWeight-Weight) < 2000 || checkweight(1201,1) == 0) {
+	if (overweight(2000) || overitems()) {
 		mes "^3355FFWait a second!";
 		mes "Right now, you're carrying";
 		mes "too many things with you.";
@@ -5433,7 +5433,7 @@ ra_temin,87,118,3	script	Drawer#vol1::VeinsDrawer	111,{
 ra_temin,83,118,3	duplicate(VeinsDrawer)	Drawer#vol2	111
 
 ra_temin,85,118,3	script	Drawer#vol3	111,{
-	if ((MaxWeight-Weight) < 2000 || checkweight(1201,1) == 0) {
+	if (overweight(2000) || overitems()) {
 		mes "^3355FFWait a second!";
 		mes "Right now, you're carrying";
 		mes "too many things with you.";
@@ -5595,7 +5595,7 @@ veins,159,171,3	script	Towner#vol	945,{
 }
 
 ve_in,233,116,3	script	Drunken Man#vol	901,{
-	if ((MaxWeight-Weight) < 2000 || checkweight(1201,1) == 0) {
+	if (overweight(2000) || overitems()) {
 		mes "^3355FFWait a second!";
 		mes "Right now, you're carrying";
 		mes "too many things with you.";
@@ -6011,7 +6011,7 @@ ve_in,234,115,3	script	Drunken Lady#2	940,{
 }
 
 ve_in,277,229,3	script	Wall Closet#vol	111,{
-	if ((MaxWeight-Weight) < 2000 || checkweight(1201,1) == 0) {
+	if (overweight(2000) || overitems()) {
 		mes "^3355FFWait a second!";
 		mes "Right now, you're carrying";
 		mes "too many things with you.";
@@ -6038,7 +6038,7 @@ ve_in,277,229,3	script	Wall Closet#vol	111,{
 }
 
 ve_in,281,214,3	script	Bookshelf#vol	111,{
-	if ((MaxWeight-Weight) < 2000 || checkweight(1201,1) == 0) {
+	if (overweight(2000) || overitems()) {
 		mes "^3355FFWait a second!";
 		mes "Right now, you're carrying";
 		mes "too many things with you.";
@@ -6286,7 +6286,7 @@ que_thor,136,66,3	duplicate(VeinsGuard)	Guard#vol2	939
 que_thor,127,60,5	duplicate(VeinsGuard)	Guard#vol3	939
 
 thor_camp,250,104,3	script	Sahedi#vol	934,{
-	if ((MaxWeight-Weight) < 2000 || checkweight(1201,1) == 0) {
+	if (overweight(2000) || overitems()) {
 		mes "^3355FFWait a second!";
 		mes "Right now, you're carrying";
 		mes "too many things with you.";

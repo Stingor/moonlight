@@ -1207,7 +1207,7 @@ prt_in,248,23,0	script	Maid#sign2	111,{
 
 morocc_in,115,154,5	script	Rogue#sign	810,{
 	callfunc "F_UpdateSignVars";
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "^3355FFWait a second! Right now,";
 		mes "you have too many items in your inventory. Please come back after you've freed up more inventory space.^000000";
 		close;
@@ -3095,7 +3095,7 @@ OnTouch_:
 
 prt_maze02,25,161,0	script	#music	-1,7,7,{
 OnTouch_:
-	soundeffect "effect\\¼®¾çÀÇ ¾î½Ø½Å.wav",1;
+	soundeffect "effect\\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ø½ï¿½.wav",1;
 	end;
 }
 
@@ -9750,7 +9750,7 @@ niflheim,313,70,4	script	Pleasant-Featured Lady#s	90,{
 
 que_sign01,122,141,4	script	Witch#s	792,{
 	callfunc "F_UpdateSignVars";
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
 		mes "- too many items with you. -";
@@ -12205,7 +12205,7 @@ que_sign01,46,56,0	script	Fountain#sign	111,{
 		next;
 		switch(select("Bottle the water.:Don't bottle the water.")) {
 		case 1:
-			if (checkweight(1201,1) == 0) {
+			if (overitems()) {
 				mes "^3355FFUnfortunately, it";
 				mes "looks like you don't";
 				mes "have enough inventory";

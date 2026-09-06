@@ -101,7 +101,7 @@ L_Quest:
 }
 
 geffen,103,42,5	script	Sponiac	99,{
-	if (checkweight(1201,1) == 0 || (MaxWeight - Weight) < 3500) {
+	if (overitems() || (MaxWeight - Weight) < 3500) {
 		mes "[Sponiac]";
 		mes "Why are you carrying so many items?";
 		mes "Are you in a training course or something?";
@@ -182,7 +182,7 @@ L_Quest:
 }
 
 moc_ruins,173,55,3	script	Dieshin Man	89,{
-	if (checkweight(1201,1) == 0 || (MaxWeight - Weight) < 3500) {
+	if (overitems() || (MaxWeight - Weight) < 3500) {
 		mes "[Dieshin Man]";
 		mes "Why are you carrying so many items?";
 		mes "Are you in a training course or something?";
@@ -266,7 +266,7 @@ L_Quest:
 }
 
 pay_fild07,83,89,7	script	Zoologist	89,{
-	if (checkweight(1201,1) == 0 || (MaxWeight - Weight) < 3500) {
+	if (overitems() || (MaxWeight - Weight) < 3500) {
 		mes "[Zoologist]";
 		mes "Why are you carrying so many items?";
 		mes "Are you in a training course or something?";
@@ -331,7 +331,7 @@ pay_fild07,83,89,7	script	Zoologist	89,{
 }
 
 prt_fild03,30,254,3	script	Entomologist	83,{
-	if (checkweight(1201,1) == 0 || (MaxWeight - Weight) < 3500) {
+	if (overitems() || (MaxWeight - Weight) < 3500) {
 		mes "[Entomologist]";
 		mes "Why are you carrying so many items?";
 		mes "Are you in a training course or something?";
@@ -396,7 +396,7 @@ prt_fild03,30,254,3	script	Entomologist	83,{
 }
 
 xmas_fild01,92,57,3	script	Biologist	97,{
-	if (checkweight(1201,1) == 0 || (MaxWeight - Weight) < 3500) {
+	if (overitems() || (MaxWeight - Weight) < 3500) {
 		mes "[Biologist]";
 		mes "Why are you carrying so many items?";
 		mes "Are you in a training course or something?";
@@ -461,7 +461,7 @@ xmas_fild01,92,57,3	script	Biologist	97,{
 }
 
 payon,179,66,3	script	Dashia	931,{
-	if (checkweight(1201,1) == 0 || (MaxWeight - Weight) < 3500) {
+	if (overitems() || (MaxWeight - Weight) < 3500) {
 		mes "[Dashia]";
 		mes "Why are you carrying so many items?";
 		mes "Are you in a training course or something?";

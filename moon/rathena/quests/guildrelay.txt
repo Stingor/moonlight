@@ -1225,7 +1225,7 @@
 	set .@name$,strnpcinfo(1);
 	getmapxy(.@m$,.@x,.@x,BL_NPC);
 	set .@GID, GetCastleData(.@m$,1);
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "^3355FFWait a minute! You're";
 		mes "carrying too many items";
 		mes "right now: store some of";
@@ -1735,7 +1735,7 @@
 	set .@name$,strnpcinfo(1);
 	getmapxy(.@m$,.@x,.@x,BL_NPC);
 	set .@GID, GetCastleData(.@m$,1);
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "^3355FFWait a minute! You're";
 		mes "carrying too many items";
 		mes "right now: store some of";
@@ -2421,7 +2421,7 @@
 	set .@name$,strnpcinfo(1);
 	getmapxy(.@m$,.@x,.@x,BL_NPC);
 	set .@GID, GetCastleData(.@m$,1);
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "^3355FFWait a minute! You're";
 		mes "carrying too many items";
 		mes "right now: store some of";

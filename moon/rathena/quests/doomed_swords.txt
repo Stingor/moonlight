@@ -255,7 +255,7 @@ izlude_in,173,88,2	script	Nain#magum	102,{
 }
 
 pay_fild08,218,283,2	script	Mysterious Man#magum	89,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "[Mysterious Man]";
 		mes "Hold it.";
 		mes "You're carrying";

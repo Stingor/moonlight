@@ -1166,7 +1166,7 @@ morocc_in,175,70,7	script	Customer#bard_skill02	50,{
 // Bartender
 //============================================================ 
 morocc_in,166,76,7	script	Bartender#bard_qskill	46,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "^3355FFHold it right there!";
 		mes "You're carrying too many items and don't have enough inventory space to receive any rewards. Please make more inventory space available and come back to take this challenge.";
 		close;
@@ -1249,7 +1249,7 @@ morocc_in,166,76,7	script	Bartender#bard_qskill	46,{
 // Function
 //============================================================ 
 function	script	F_BardSkillYhelle	{
-	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 2000) {
+	if (overitems() || MaxWeight - Weight < 2000) {
 		mes "^3355FFHold it right there!";
 		mes "You're carrying too many items and don't have enough inventory space to receive any rewards. Please make more inventory space available and come back to take this challenge.";
 		close;

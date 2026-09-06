@@ -12,7 +12,7 @@
 // The Owner Of Old Ring
 //============================================================
 payon,157,54,5	script	An Old Woman#pa0829	8_F_GRANDMOTHER,{
-	if (!checkweight(1201,1)) {
+	if (overitems()) {
 		mes "You have too many kind of belongings. Let's try again after reducing the kind of items.";
 		close;
 	}
@@ -84,7 +84,7 @@ payon,157,54,5	script	An Old Woman#pa0829	8_F_GRANDMOTHER,{
 // The Memory Of Old Photo Album
 //============================================================
 payon,161,54,3	script	Exotic Merchant#pa0829	4W_M_03,{
-	if (!checkweight(1201,1)) {
+	if (overitems()) {
 		mes "You have too many types of belongings. Let's try again after reducing the types of items.";
 		close;
 	}
@@ -143,7 +143,7 @@ payon,161,54,3	script	Exotic Merchant#pa0829	4W_M_03,{
 // Dol-Seoi's Sorrow
 //============================================================
 payon,161,50,1	script	Strong Looking Man#pa829	4_M_ORIENT01,{
-	if (!checkweight(1201,1)) {
+	if (overitems()) {
 		mes "You have too many types of belongings. Let's try again after reducing the types of items.";
 		close;
 	}
@@ -204,7 +204,7 @@ payon,161,50,1	script	Strong Looking Man#pa829	4_M_ORIENT01,{
 // Keaton's Bracelet
 //============================================================
 payon,139,68,4	script	A dreary man#pa0829	4_M_NFDEADMAN,{
-	if (!checkweight(1201,1)) {
+	if (overitems()) {
 		mes "You have too many types of belongings. Let's try again after reducing the types of items.";
 		close;
 	}

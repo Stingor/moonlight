@@ -28,7 +28,7 @@
 // Utility NPCs :: cat_merchant
 //============================================================
 mal_in02,134,31,5	script	Investment Cat Helper	505,{
-	if (MaxWeight - Weight < 100 || checkweight(1201,1) == 0) {
+	if (MaxWeight - Weight < 100 || overitems()) {
 		mes "[Investment Cat Helper]";
 		mes "You have a heavy load. Maybe you're a peddler? No peddlers in this area.";
 		close;
@@ -1172,7 +1172,7 @@ mal_in02,140,94,0	script	Bob#mal	553,{
 		mes "Are you here for voluntary service?!";
 		emotion ET_HUK;
 		next;
-		if (checkweight(1201,1) == 0) {
+		if (overitems()) {
 			mes "[Bob]";
 			mes "Ummm... be lightened with your mind and body when doing voluntary service!";
 			mes "You seem to have too much stuff, so get yourself lightened~";
@@ -1237,7 +1237,7 @@ mal_in02,140,94,0	script	Bob#mal	553,{
 		}
 	} else if (ma_tomas == 15) {
 	L_Quest2:
-		if (checkweight(1201,1) == 0) {
+		if (overitems()) {
 			mes " - Notice !! -";
 			mes " - Since you have too many items - ";
 			mes " - you cannot get the item. - ";
@@ -1763,7 +1763,7 @@ mal_in01,114,169,5	script	Rican#mal	547,{
 		mes "Then would you put it in the machine in front of me?";
 		close;
 	} else if (ma_tomas == 11) {
-		if (checkweight(1201,1) == 0) {
+		if (overitems()) {
 			mes " - Notice !! -";
 			mes " - Since you have too many items - ";
 			mes " - you cannot get the item. - ";
@@ -1897,7 +1897,7 @@ mal_in01,116,168,0	script	Dry Machine#mal	563,{
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "Your inventory is too full to proceed. Come back after reducing your load.";
 		close;
 	}
@@ -2339,7 +2339,7 @@ mal_dun01,136,122,3	script	Biscuit#mal	551,{
 		mes "Right, then from her left leg...!";
 		close;
 	} else if (ma_tomas == 33) {
-		if (checkweight(1201,1) == 0) {
+		if (overitems()) {
 			mes " - Notice !! -";
 			mes " - Since you have too many items - ";
 			mes " - you cannot get the item. - ";
@@ -2423,7 +2423,7 @@ mal_dun01,136,122,3	script	Biscuit#mal	551,{
 
 mal_in02,102,94,3	script	Cleaning Staff#mal	544,2,2,{
 OnTouch:
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes " - Notice !! -";
 		mes " - Since you have too many items - ";
 		mes " - you cannot get the item. - ";
@@ -2472,7 +2472,7 @@ OnTouch:
 }
 
 malangdo,246,184,0	script	1st Rate Point	111,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes " - Notice !! -";
 		mes " - Since you have too many items - ";
 		mes " - you cannot get the item. - ";
@@ -2759,7 +2759,7 @@ malangdo,137,200,6	script	Pipielle	549,{
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "Your inventory is too full to proceed. Come back after reducing your load.";
 		close;
 	}
@@ -2887,7 +2887,7 @@ malangdo,137,200,6	script	Pipielle	549,{
 // Help the Bad Cats in Danger :: mal_bad_guys
 //============================================================
 malangdo,175,206,3	script	Gobonge#ml	561,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- Can't go next step due to having too many items. -";
 		close;
 	}
@@ -3377,7 +3377,7 @@ mal_in02,184,72,3	script	Gozangee#ml	547,{
 
 mal_in02,184,77,0	script	#ml3	-1,2,2,{
 OnTouch:
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- You have too many items. -";
 		close;
 	}
@@ -3411,7 +3411,7 @@ OnTouch:
 }
 
 malangdo,125,147,3	script	Patrol Leader#ml	545,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- Can't go next step due to having too many items. -";
 		close;
 	}
@@ -3564,7 +3564,7 @@ malangdo,3,1,3	script	Guidance for quest#ml	543,{
 // Clean the Ship :: mal_day_qook
 //============================================================
 mal_in02,76,63,7	script	Cleanyang	544,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- You have too many items so you can't continue the quest. -";
 		close;
 	}
@@ -3949,7 +3949,7 @@ mal_in02,76,63,7	script	Cleanyang	544,{
 }
 
 mal_in02,29,67,0	script	#CaptainRoom3	844,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- You have too many items so you can't continue the quest. -";
 		close;
 	}
@@ -4028,7 +4028,7 @@ mal_in02,29,67,0	script	#CaptainRoom3	844,{
 }
 
 mal_in02,183,49,0	script	#MeetingFloor4	844,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- You have too many items so you can't continue the quest. -";
 		close;
 	}
@@ -4075,7 +4075,7 @@ mal_in02,183,49,0	script	#MeetingFloor4	844,{
 }
 
 mal_in02,103,22,0	script	#MalBed5	844,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- You have too many items so you can't continue the quest. -";
 		close;
 	}
@@ -4120,7 +4120,7 @@ mal_in02,103,22,0	script	#MalBed5	844,{
 }
 
 malangdo,141,178,0	script	#Darkweed6	844,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- You have too many items so you can't continue the quest. -";
 		close;
 	}
@@ -4157,7 +4157,7 @@ malangdo,141,178,0	script	#Darkweed6	844,{
 }
 
 malangdo,133,134,0	script	Strange Pile of Sand#7	557,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- You have too many items so you can't continue the quest. -";
 		close;
 	}
@@ -4201,7 +4201,7 @@ malangdo,133,134,0	script	Strange Pile of Sand#7	557,{
 malangdo,197,237,0	duplicate(Strange Pile of Sand#7)	Strange Pile of Sand#12	557
 
 malangdo,232,131,0	script	#UnderStairs8	844,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- You have too many items so you can't continue the quest. -";
 		close;
 	}
@@ -4235,7 +4235,7 @@ malangdo,232,131,0	script	#UnderStairs8	844,{
 }
 
 mal_in01,74,20,0	script	#CornerTower9	844,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- You have too many items so you can't continue the quest. -";
 		close;
 	}
@@ -4266,7 +4266,7 @@ mal_in01,74,20,0	script	#CornerTower9	844,{
 }
 
 mal_in01,159,225,0	script	#CornerLocker10	844,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- You have too many items so you can't continue the quest. -";
 		close;
 	}
@@ -4297,7 +4297,7 @@ mal_in01,159,225,0	script	#CornerLocker10	844,{
 }
 
 mal_in01,24,72,0	script	#FootholdTower11	844,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- You have too many items so you can't continue the quest. -";
 		close;
 	}
@@ -4331,7 +4331,7 @@ mal_in01,24,72,0	script	#FootholdTower11	844,{
 // Help Chef Nyas :: mal_day_qook
 //============================================================
 mal_in02,187,58,3	script	Chef Nyas	548,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "- You have too many items so you can't continue the quest. -";
 		close;
 	}
@@ -4646,7 +4646,7 @@ mal_in02,187,58,3	script	Chef Nyas	548,{
 // Play with Baby Cats :: mal_nyadventurer
 //============================================================
 malangdo,165,223,4	script	Expert Cat#nya_01	561,{
-	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 4000) {
+	if (overitems() || MaxWeight - Weight < 4000) {
 		mes "- You have too many items to proceed in this quest. -";
 		close;
 	}
@@ -4806,7 +4806,7 @@ malangdo,165,223,4	script	Expert Cat#nya_01	561,{
 }
 
 malangdo,211,203,4	script	[Meow Team] Charo#nya_11	560,{
-	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 4000) {
+	if (overitems() || MaxWeight - Weight < 4000) {
 		mes "- You have too many items to proceed in this quest. -";
 		close;
 	}
@@ -5205,7 +5205,7 @@ malangdo,214,204,3	script	[Meow Team] Rosy#nya_09	559,{
 }
 
 malangdo,215,201,3	script	[Meow Team] Roku#nya_10	553,{
-	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 4000) {
+	if (overitems() || MaxWeight - Weight < 4000) {
 		mes "- You have too many items to proceed in this quest. -";
 		close;
 	}
@@ -6303,7 +6303,7 @@ L_ShowLights:
 // 3    - Player has already found the picture piece.
 // null - Success.
 function	script	F_Mal_Picture	{
-	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 4000) {
+	if (overitems() || MaxWeight - Weight < 4000) {
 		mes "- You have too many items to proceed in this quest. -";
 		close;
 	}
@@ -6519,7 +6519,7 @@ mal_in01,31,210,2	script	Cat Gamers Director	549,{
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "Your inventory is too full to proceed. Come back after reducing your load.";
 		close;
 	}
@@ -7313,7 +7313,7 @@ malangdo,127,111,4	script	Strange Cat#gamer	547,{
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "Your inventory is too full to proceed. Come back after reducing your load.";
 		close;
 	}
@@ -7605,7 +7605,7 @@ malangdo,161,197,4	script	Eryu#gamer	876,{
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "Your inventory is too full to proceed. Come back after reducing your load.";
 		close;
 	}
@@ -7821,7 +7821,7 @@ malangdo,230,197,4	script	Stew#gamer	555,{
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "Your inventory is too full to proceed. Come back after reducing your load.";
 		close;
 	}
@@ -8050,7 +8050,7 @@ malangdo,244,144,4	script	Ketchup#gamer	546,{
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "Your inventory is too full to proceed. Come back after reducing your load.";
 		close;
 	}
@@ -8239,7 +8239,7 @@ malangdo,181,119,7	script	Eff#gamer	560,{
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "Your inventory is too full to proceed. Come back after reducing your load.";
 		close;
 	}
@@ -8500,7 +8500,7 @@ mal_in01,91,216,4	script	Ser#gamer	544,{
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "Your inventory is too full to proceed. Come back after reducing your load.";
 		close;
 	}
@@ -8844,7 +8844,7 @@ mal_in01,86,222,4	script	Paa#gamer	544,{
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "Your inventory is too full to proceed. Come back after reducing your load.";
 		close;
 	}
@@ -9174,7 +9174,7 @@ mal_in01,91,222,4	script	Kuka#gamer	422,{
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "Your inventory is too full to proceed. Come back after reducing your load.";
 		close;
 	}
@@ -9496,7 +9496,7 @@ mal_in01,134,221,4	script	KungKung#gamer	422,{
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "Your inventory is too full to proceed. Come back after reducing your load.";
 		close;
 	}
@@ -9914,7 +9914,7 @@ mal_in01,133,214,6	script	Leader#gamer	546,{
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "Your inventory is too full to proceed. Come back after reducing your load.";
 		close;
 	}
@@ -10519,7 +10519,7 @@ malangdo,234,153,6	script	Notice Board#mal	837,{
 
 mal_in01,15,16,3	script	Fallen Angel#mal	403,{
 	disable_items;
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "You are carrying too many items, please reduce them and come back!";
 		close;
 	}

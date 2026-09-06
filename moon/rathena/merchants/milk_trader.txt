@@ -20,7 +20,7 @@
 //============================================================
 
 prontera,73,140,0	script	Milk Vendor	86,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes "^3355FFJust a minute!";
 		mes "I can't offer any of my";
 		mes "services to you because";

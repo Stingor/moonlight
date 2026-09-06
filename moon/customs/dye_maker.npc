@@ -25,7 +25,7 @@ morocc_in,146,99,3	script	Java Dullihan::dye_custom	58,{
 .multi = 1;
 //-
 
-if ((MaxWeight-Weight) < 200 || checkweight(1201,1) == 0) {
+if (overweight() || overitems()) {
 	mes "- Wait a moment! -";
 	mes "- Currently you're carrying -";
 	mes "- too many items with you. -";

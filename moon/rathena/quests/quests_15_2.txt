@@ -4408,7 +4408,7 @@ un_bk_q,56,286,4	script	Mechanician Mugeosi#EP15.2MR	4_M_REPAIR,{
 			mes "Are you ready to move heavy objects?";
 			next;
 			select("Give it to me.");
-			if ((MaxWeight - Weight) < 10000) {
+			if (overweight()0) {
 				mes "[Mechanician Mugeosi]";
 				mes "You look strong but seems you are weak. You can't lift the air cleaning unit like that.";
 				close;

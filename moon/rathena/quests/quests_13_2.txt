@@ -548,7 +548,7 @@ spl_fild01,170,74,0	duplicate(FishingHole_spl3)	School of Fish#14	844
 // Two Tribes :: ep13_2_msg
 //============================================================
 spl_in01,32,306,3	script	Splendide Guard#ep13md01	447,2,2,{
-	if (checkweight(1201,2) == 0) {
+	if (overitems(2)) {
 		mes "Wait a moment!!";
 		mes "You have too many items.";
 		mes "You can't receive this.";
@@ -1114,7 +1114,7 @@ OnTouch:
 }
 
 nyd_dun01,58,223,0	script	Petrified Sapha#ep13md03	844,{
-	if (checkweight(1201,2) == 0) {
+	if (overitems(2)) {
 		mes "Wait a moment!!";
 		mes "You have too many items.";
 		mes "You can't receive this.";
@@ -1366,7 +1366,7 @@ OnTouch:
 	}
 }
 manuk,278,177,5	script	Villager#ep13_11	454,{
-	if (checkweight(1201,2) == 0) {
+	if (overitems(2)) {
 		mes "Wait a moment!!";
 		mes "You have too many items.";
 		mes "You can't receive this.";
@@ -1464,7 +1464,7 @@ manuk,278,177,5	script	Villager#ep13_11	454,{
 }
 
 manuk,281,177,3	script	Villager#ep13_12	449,{
-	if (checkweight(1201,2) == 0) {
+	if (overitems(2)) {
 		mes "Wait a moment!!";
 		mes "You have too many items.";
 		mes "You can't receive this.";
@@ -1566,7 +1566,7 @@ manuk,281,177,3	script	Villager#ep13_12	449,{
 }
 
 man_in01,175,59,5	script	Snorren#ep13_13	454,{
-	if (checkweight(1201,2) == 0) {
+	if (overitems(2)) {
 		mes "Wait a moment!!";
 		mes "You have too many items.";
 		mes "You can't receive this.";
@@ -1898,7 +1898,7 @@ man_in01,10,125,0	warp	to_out1#ep13mdwarp02	1,1,man_in01,179,58
 man_in01,65,125,0	warp	to_out2#ep13mdwarp03	1,1,man_in01,179,58
 
 man_in01,22,126,3	script	Captured Laphine#ep13md	441,{
-	if (checkweight(1201,2) == 0) {
+	if (overitems(2)) {
 		mes "Wait a moment!!";
 		mes "You have too many items.";
 		mes "You can't receive this.";
@@ -2073,7 +2073,7 @@ man_in01,22,126,3	script	Captured Laphine#ep13md	441,{
 }
 
 man_in01,17,128,5	script	Snorren#ep13md_15	454,{
-	if (checkweight(1201,2) == 0) {
+	if (overitems(2)) {
 		mes "Wait a moment!!";
 		mes "You have too many items.";
 		mes "You can't receive this.";
@@ -2203,7 +2203,7 @@ man_in01,17,128,5	script	Snorren#ep13md_15	454,{
 }
 
 man_in01,19,126,3	script	Luik#ep13md16	450,{
-	if (checkweight(1201,2) == 0) {
+	if (overitems(2)) {
 		mes "Wait a moment!!";
 		mes "You have too many items.";
 		mes "You can't receive this.";
@@ -2380,7 +2380,7 @@ OnTouch:
 }
 
 spl_in02,236,92,5	script	Arc#ep13md_l02	447,{
-	if (checkweight(1201,2) == 0) {
+	if (overitems(2)) {
 		mes "Wait a moment!!";
 		mes "You have too many items.";
 		mes "You can't receive this.";
@@ -2565,7 +2565,7 @@ OnTouch_:
 spl_in02,236,86,0	warp	terrashome_out	1,1,splendide,285,139
 
 spl_fild01,357,44,0	script	???#ep13mdf01	844,{
-	if (checkweight(1201,2) == 0) {
+	if (overitems(2)) {
 		mes "Wait a moment!!";
 		mes "You have too many items.";
 		mes "You can't receive this.";
@@ -2614,7 +2614,7 @@ spl_fild01,357,44,0	script	???#ep13mdf01	844,{
 }
 
 spl_fild01,312,79,0	script	???#ep13mdf02	844,{
-	if (checkweight(1201,2) == 0) {
+	if (overitems(2)) {
 		mes "Wait a moment!!";
 		mes "You have too many items.";
 		mes "You can't receive this.";
@@ -2663,7 +2663,7 @@ spl_fild01,312,79,0	script	???#ep13mdf02	844,{
 }
 
 spl_fild01,329,29,0	script	???#ep13mdf03	844,{
-	if (checkweight(1201,2) == 0) {
+	if (overitems(2)) {
 		mes "Wait a moment!!";
 		mes "You have too many items.";
 		mes "You can't receive this.";
@@ -2720,7 +2720,7 @@ spl_fild01,329,29,0	script	???#ep13mdf03	844,{
 // Monster Suppression :: ep13_2_dayquest
 //============================================================
 manuk,252,116,3	script	Manuk Galtun#ep13_2day	450,{
-	if (checkweight(1201,2) == 0) {
+	if (overitems(2)) {
 		mes "Wait a moment!!";
 		mes "You have too many items.";
 		mes "You can't receive this.";
@@ -2836,7 +2836,7 @@ manuk,252,116,3	script	Manuk Galtun#ep13_2day	450,{
 // - Draco Egg Collection (NPC includes 'Wanted' quest)
 //============================================================
 man_in01,378,276,3	script	Manuk Engineer#ep13_2	453,{
-	if (checkweight(1201,2) == 0) {
+	if (overitems(2)) {
 		mes "Wait a moment!!";
 		mes "You have too many items.";
 		mes "You can't receive this.";
@@ -2943,7 +2943,7 @@ man_in01,378,276,3	script	Manuk Engineer#ep13_2	453,{
 }
 
 spl_in01,97,313,3	script	Laphine Craftsman#ep13	446,{
-	if (checkweight(1201,2) == 0) {
+	if (overitems(2)) {
 		mes "Wait a moment!!";
 		mes "You have too many items.";
 		mes "You can't receive this.";
@@ -3062,7 +3062,7 @@ spl_in01,97,313,3	script	Laphine Craftsman#ep13	446,{
 }
 
 mid_camp,146,306,3	script	Pet Breeder#ep13_eden01	982,{
-	if (checkweight(1201,2) == 0) {
+	if (overitems(2)) {
 		mes "Wait a moment!!";
 		mes "You have too many items.";
 		mes "You can't receive this.";
@@ -3292,7 +3292,7 @@ mid_camp,192,239,4	script	Wanted Sign#ep13_2ect01	857,{
 }
 
 -	script	Dragon Egg#ep13_degg_0	-1,{
-	if (checkweight(1201,2) == 0) {
+	if (overitems(2)) {
 		mes "- You're carrying too many items. -";
 		close;
 	}
@@ -3327,7 +3327,7 @@ nyd_dun01,244,157,0	duplicate(Dragon Egg#ep13_degg_0)	Dragon Egg#ep13_degg05	463
 nyd_dun01,59,185,0	duplicate(Dragon Egg#ep13_degg_0)	Dragon Egg#ep13_degg06	463
 
 nyd_dun02,68,256,0	script	Dragon Egg#ep13_degg_1	463,{
-	if (checkweight(1201,2) == 0) {
+	if (overitems(2)) {
 		mes "- You're carrying too many items. -";
 		close;
 	}
@@ -3358,7 +3358,7 @@ nyd_dun02,202,166,0	duplicate(Dragon Egg#ep13_degg_1)	Dragon Egg#ep13_degg12	463
 nyd_dun02,200,165,0	duplicate(Dragon Egg#ep13_degg_1)	Dragon Egg#ep13_degg13	463
 
 nyd_dun02,201,166,0	script	Dragon Egg#ep13_degg_2	463,{
-	if (checkweight(1201,2) == 0) {
+	if (overitems(2)) {
 		mes "- You're carrying too many items. -";
 		close;
 	}
@@ -4740,7 +4740,7 @@ man_in01,372,221,5	script	Scientist#lifeguard	449,{
 			close;
 		}
 		else if ((ep13_2_tre == 1) || (ep13_2_tre == 100)) {
-			if (checkweight(1201,1) == 0) {
+			if (overitems()) {
 				mes "It looks like you're carrying too many things.";
 				mes "Why not put some of your items in storage and come back?";
 				close;
@@ -5488,7 +5488,7 @@ OnTimer40000:
 
 spl_in01,30,324,3	script	High Laphine#grenouille	446,{
 	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
-		if (checkweight(1201,1) == 0) {
+		if (overitems()) {
 			mes "[Grenouille]";
 			mes "It looks like you're carrying too many things.";
 			mes "Why not put some of your items in storage and come back?";
@@ -5722,7 +5722,7 @@ spl_in01,30,324,3	script	High Laphine#grenouille	446,{
 
 spl_in02,139,65,3	script	Middle-Ranked Laphine#la	438,{
 	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
-		if (checkweight(1201,1) == 0) {
+		if (overitems()) {
 			mes "[Flowery]";
 			mes "It looks like you're carrying too many things.";
 			mes "Why not put some of your items in storage and come back?";
@@ -6252,7 +6252,7 @@ OnTimer60000:
 // Secret note of Bazett :: ep13_2_dailybs
 //============================================================ 
 mid_camp,283,198,5	script	Bazett Teablack#ep13bs	883,{
-	if (checkweight(1201,1) == 0) {
+	if (overitems()) {
 		mes " - Hold on!! -";
 		mes " - You are carrying too many different items - ";
 		mes " - You cannot receive the reward - ";

@@ -3043,7 +3043,7 @@ yuno_in04,107,14,5	script	Student	4_M_SAGE_A,{
 }
 
 yuno_in04,96,106,5	script	Passionate Student	4_M_SAGE_A,{
-	if ((MaxWeight-Weight) < 300 || checkweight(1201,1) == 0) {
+	if ((MaxWeight-Weight) < 300 || overitems()) {
 		mes "^3355FFWait a second!";
 		mes "Right now, you're carrying";
 		mes "too many things with you.";
@@ -4084,7 +4084,7 @@ lhz_in01,282,166,0	script	#kiz10	HIDDEN_NPC,3,3,{
 OnTouch_:
 	if (countitem(7345) > 0) {
 		if (lhz_curse == 16) {
-			if (checkweight(1201,1) == 0) {
+			if (overitems()) {
 				mes "^3355FFThere's something on";
 				mes "the floor, but you can't";
 				mes "really take a good look at";
@@ -6118,7 +6118,7 @@ lhz_in01,286,226,3	script	Secretary Slierre#li	4_F_ZONDAGIRL,{
 	else if (lhz_curse == 30) {
 		set .@li_keka,rand(1,10);
 		if (.@li_keka > 7) {
-			if (checkweight(1201,1) == 0) {
+			if (overitems()) {
 				mes "[Sueii Slierre]";
 				mes "Oh, I'd like to have";
 				mes "a word with you. Would";

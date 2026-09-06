@@ -531,7 +531,7 @@ OnTouch_:
 }
 
 1@gef,129,65,4	script	Point Merchant#gef_m	8_F_GIRL,{
-	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 2000) {
+	if (overitems() || MaxWeight - Weight < 2000) {
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
 		mes "- too many items with you. -";

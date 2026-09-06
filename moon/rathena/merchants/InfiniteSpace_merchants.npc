@@ -31,7 +31,7 @@ Purchase:
 	next;
 	switch( select( "Give me one", "I don't think so" )) {
 		case 1:
-			if (!checkweight(22980,1) || (MaxWeight - Weight) < 1000) {
+			if (!checkweight(22980,1) || overweight()) {
 				mes "You can't proceed with the conversation because you have a large quantity of items.";
 				mes "Please organize your items and try again.";
 				close;
@@ -55,7 +55,7 @@ Purchase:
 
 // Equipment Shop
 cmd_fild07,57,275,5	script	Artifact Appraiser#pa0829_01	1_F_02,{
-	if (!checkweight(1201,1) || (MaxWeight - Weight) < 1000) {
+	if (overitems() || overweight()) {
 		mes "You can't proceed with the conversation because you have a large quantity of items.";
 		mes "Please organize your items and try again.";
 		close;
@@ -115,7 +115,7 @@ cmd_fild07,57,275,5	script	Artifact Appraiser#pa0829_01	1_F_02,{
 
 // Equipment Enchanter
 cmd_fild07,60,275,3	script	Artifact Enhancer#pa0829_01	4_F_JOB_BLACKSMITH,{
-	if (!checkweight(1201,1) || (MaxWeight - Weight) < 1000) {
+	if (overitems() || overweight()) {
 		mes "You can't proceed with the conversation because you have a large quantity of items.";
 		mes "Please organize your items and try again.";
 		close;

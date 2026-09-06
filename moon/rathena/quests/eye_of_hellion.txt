@@ -26,7 +26,7 @@
 //============================================================
 
 morocc_in,116,101,3	script	Old Scholar Tyus#hellion	735,3,3,{
-	if ((MaxWeight-Weight) < 2000 || checkweight(1201,1) == 0) {
+	if (overweight(2000) || overitems()) {
 		mes "^3355FFHold it right there!";
 		mes "You're carrying too many items and don't have enough inventory space to receive any rewards. Please make more inventory space available and come back to take this challenge.";
 		close;
@@ -675,7 +675,7 @@ OnTouch_:
 }
 
 prontera,269,326,3	script	Clanux Heffron#hellion	50,{
-	if ((MaxWeight-Weight) < 2000 || checkweight(1201,1) == 0) {
+	if (overweight(2000) || overitems()) {
 		mes "^3355FFHold it right there!";
 		mes "You're carrying too many items and don't have enough inventory space to receive any rewards. Please make more inventory space available and come back to take this challenge.";
 		close;
@@ -1156,7 +1156,7 @@ OnTouch_:
 }
 
 prt_in,128,79,0	script	Unknown Machine#prt_key	111,{
-	if ((MaxWeight-Weight) < 2000 || checkweight(1201,1) == 0) {
+	if (overweight(2000) || overitems()) {
 		mes "^3355FFHold it right there!";
 		mes "You're carrying too many items and don't have enough inventory space to receive any rewards. Please make more inventory space available and come back to take this challenge.";
 		close;
@@ -1287,7 +1287,7 @@ prt_in,128,79,0	script	Unknown Machine#prt_key	111,{
 }
 
 payon,182,132,3	script	Grout'he Tuccok#hellion	48,{
-	if ((MaxWeight-Weight) < 2000 || checkweight(1201,1) == 0) {
+	if (overweight(2000) || overitems()) {
 		mes "^3355FFHold it right there!";
 		mes "You're carrying too many items and don't have enough inventory space to receive any rewards. Please make more inventory space available and come back to take this challenge.";
 		close;
@@ -1793,7 +1793,7 @@ payon,159,129,3	script	Wooden Floor#paypuzz5	111,{
 }
 
 pay_arche,142,28,0	script	Buddha Statue#paypuzz6	111,5,5,{
-	if ((MaxWeight-Weight) < 2000 || checkweight(1201,1) == 0) {
+	if (overweight(2000) || overitems()) {
 		mes "^3355FFHold it right there!";
 		mes "You're carrying too many items and don't have enough inventory space to receive any rewards. Please make more inventory space available and come back to take this challenge.";
 		close;
@@ -1892,7 +1892,7 @@ OnTouch_:
 }
 
 geffen,110,200,3	script	Sage Welshyun#hellion	754,3,3,{
-	if ((MaxWeight-Weight) < 2000 || checkweight(1201,1) == 0) {
+	if (overweight(2000) || overitems()) {
 		mes "^3355FFHold it right there!";
 		mes "You're carrying too many items and don't have enough inventory space to receive any rewards. Please make more inventory space available and come back to take this challenge.";
 		close;

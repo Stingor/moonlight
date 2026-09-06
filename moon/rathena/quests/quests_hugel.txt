@@ -3428,7 +3428,7 @@ hu_in01,317,312,0	script	Book	111,{
 
 einbech,208,124,3	script	Bomb Maker	851,{
 	if (hg_tre == 54) {
-		if ((MaxWeight-Weight) < 2000 || checkweight(1201,1) == 0) {
+		if (overweight(2000) || overitems()) {
 			mes "[Boomer]";
 			mes "Hey, you look pretty heavy, huh?";
 			mes "Do you want me to help you?";
