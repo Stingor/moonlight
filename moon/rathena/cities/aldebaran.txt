@@ -1073,7 +1073,7 @@ aldeba_in,79,161,7	script	Kafra Employee#reserve1	4_F_KAFRA3,{
 	mes "You can use ^7D0781from 100p to 3000p^000000 in here.";
 	next;
 	mes "[Kafra Employee]";
-	if (overweight(11000)) {
+	if (overweight()) {
 		mes "Um, but I don't think";
 		mes "you're able to carry";
 		mes "very much right now.";
@@ -1296,7 +1296,7 @@ aldeba_in,88,161,3	script	Kafra Employee#reserve2	4_F_KAFRA3,{
 	next;
 	if (select( "Yes, I do","Maybe in next time" ) == 1) {
 		mes "[Kafra Employee]";
-		if (overweight(11000)) {
+		if (overweight()) {
 			mes "....Oh dear... What are you carrying so many things...?";
 			mes "I don't think you can keep the received items~";
 			next;

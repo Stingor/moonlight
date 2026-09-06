@@ -4,7 +4,7 @@ function	script	overitems	{
 }
 
 function	script	overweight	{
-	return (MaxWeight - Weight) < getarg(0,1000);
+	return (MaxWeight - Weight) < getarg(0,5000);
 }
 
 function	script	mesitemcell	{

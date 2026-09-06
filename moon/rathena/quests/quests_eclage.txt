@@ -2728,7 +2728,7 @@ ecl_in04,223,230,4	duplicate(Du Lian#ep14_2in2)	Alp Ocart#ep14_2in2	4_M_BLACKMAN
 // Wanted to be Big and Beautiful
 //============================================================
 function	script	WeightBigQuest	{
-	if (overitems() || overweight(2000)) {
+	if (overitems() || overweight()) {
 		mes "- Stop Here!! -";
 		mes "- You have too many items. -";
 		mes "- You cannot carry any more items. -";
