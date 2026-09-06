@@ -1965,7 +1965,7 @@ moc_fild22b,370,370,3	script	Allied Manager#gm	100,{
 // New Surroundings :: ep13_newbs
 //============================================================ 
 mid_camp,222,283,4	script	Marian#ep13bs	727,{
-	if (overitems() || MaxWeight - Weight < 1000) {
+	if (overitems() || overweight(1000)) {
 		mes "[Marian]";
 		mes "You have too many items~";
 		mes "Drop some and come back to me.";
@@ -4984,7 +4984,7 @@ mid_camp,212,237,5	script	Camp Guard Captain#man1	852,{
 //============================================================ 
 mid_campin,376,120,0	script	Research Official#ep131	754,3,3,{
 OnTouch_:
-	if (overitems() || MaxWeight - Weight < 3500) {
+	if (overitems() || overweight(3500)) {
 		mes "[United Research Official]";
 		mes "How come you've got so much to carry?";
 		mes "Are you perhaps on training or something?";
@@ -5487,7 +5487,7 @@ OnTimer300000:
 }
 
 mid_camp,165,245,0	script	Ryosen#ep131_rhea01	748,{
-	if (overitems() || MaxWeight - Weight < 3500) {
+	if (overitems() || overweight(3500)) {
 		mes "[Ryosen]";
 		mes "How come you've got so much to carry?";
 		mes "Are you perhaps on training or something?";
@@ -6033,7 +6033,7 @@ mid_camp,165,245,0	script	Ryosen#ep131_rhea01	748,{
 }
 
 mid_camp,247,255,1	script	Hue#ep131_rhea02	868,{
-	if (overitems() || MaxWeight - Weight < 3500) {
+	if (overitems() || overweight(3500)) {
 		mes "[Hue]";
 		mes "How come you've got so much to carry?";
 		mes "Are you perhaps on training or something?";
@@ -6426,7 +6426,7 @@ mid_camp,247,255,1	script	Hue#ep131_rhea02	868,{
 }
 
 mid_camp,222,218,3	script	Hansenne#ep131_rhea03	931,{
-	if (overitems() || MaxWeight - Weight < 3500) {
+	if (overitems() || overweight(3500)) {
 		mes "[Hansenne]";
 		mes "How come you've got so much to carry?";
 		mes "Are you perhaps on training or something?";
@@ -12072,7 +12072,7 @@ que_job01,82,95,3	script	Bar Master#moc2_01	46,{
 				}
 			}
 		case 2:
-			if (MaxWeight - Weight < 2000) {
+			if (overweight(2000)) {
 				mes "[Karred]";
 				mes "Are you sure you can even hold a glass of alcohol?";
 				mes "You're carrying too many things on you already.";

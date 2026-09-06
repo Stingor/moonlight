@@ -16,7 +16,7 @@ payon,157,54,5	script	An Old Woman#pa0829	8_F_GRANDMOTHER,{
 		mes "You have too many kind of belongings. Let's try again after reducing the kind of items.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Your belongings are too heavy to continue. Let's try again after reducing the weight.";
 		close;
 	}
@@ -88,7 +88,7 @@ payon,161,54,3	script	Exotic Merchant#pa0829	4W_M_03,{
 		mes "You have too many types of belongings. Let's try again after reducing the types of items.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Your belongings are too heavy to continue. Let's try again after reducing the weight.";
 		close;
 	}
@@ -147,7 +147,7 @@ payon,161,50,1	script	Strong Looking Man#pa829	4_M_ORIENT01,{
 		mes "You have too many types of belongings. Let's try again after reducing the types of items.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Your belongings are too heavy to continue. Let's try again after reducing the weight.";
 		close;
 	}
@@ -208,7 +208,7 @@ payon,139,68,4	script	A dreary man#pa0829	4_M_NFDEADMAN,{
 		mes "You have too many types of belongings. Let's try again after reducing the types of items.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Your belongings are too heavy to continue. Let's try again after reducing the weight.";
 		close;
 	}

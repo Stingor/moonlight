@@ -31,7 +31,7 @@
 //============================================================ 
 
 -	script	Charles Orleans#cook_	-1,{
-	if (MaxWeight - Weight < 2000) {
+	if (overweight(2000)) {
 		mes "[Charles Orleans]";
 		mes "Just one second.";
 		mes "You're carrying too";
@@ -1482,7 +1482,7 @@ L_End:
 }
 
 -	script	Madeleine Chu#cook_	-1,{
-	if (MaxWeight - Weight < 2000) {
+	if (overweight(2000)) {
 		mes "[Madeleine Chu]";
 		mes "I'm sorry, but right now";
 		mes "you're carrying too many";

@@ -154,7 +154,7 @@ pay_arche,44,121,5	script	Gift Supplies Clerk	4_F_02,{
 		mes "You have too many kinds of objects. Clear your inventory.";
 		close;
 	}
-	if (MaxWeight - Weight < 10000) {
+	if (overweight(10000)) {
 		mes "Can't continue because you have too many heavy objects. Reduce your total weight by clearing your inventory.";
 		close;
 	}

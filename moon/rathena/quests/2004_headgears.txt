@@ -691,7 +691,7 @@ yuno,241,52,3	script	Old Blacksmith#hgear	813,{
 			mes "I don't care how many times you've upgraded the items you brought, but please ^4d4dff carry only items that you need to create this item.^000000 I can't mess up my artwork because of some mistake you might make.";
 			next;
 			if (select("I am ready.:Okay, let me go store my other items first.") == 1) {
-				if (MaxWeight - Weight < 2000) {
+				if (overweight(2000)) {
 					mes "[Hatbyr Mhore]";
 					mes "Ouch...!";
 					mes "Why are you carrying so many items with you? Leave all your extra baggage somewhere else and come back.";
@@ -749,7 +749,7 @@ yuno,241,52,3	script	Old Blacksmith#hgear	813,{
 			mes "I don't care how many times you've upgraded the items you brought, but please ^4d4dff carry only items that you need to create this item.^000000 I can't mess up my artwork because of some mistake you might make.";
 			next;
 			if (select("I am ready.:Okay, let me go store my other items first.") == 1) {
-				if (MaxWeight - Weight < 2000) {
+				if (overweight(2000)) {
 					mes "[Hatbyr Mhore]";
 					mes "Ouch...!";
 					mes "Why are you carrying so many items with you? Leave all your extra baggage somewhere else and come back.";
@@ -816,7 +816,7 @@ yuno,241,52,3	script	Old Blacksmith#hgear	813,{
 			mes "I don't care how many times you've upgraded the items you brought, but please ^4d4dff carry only items that you need to create this item. I can't mess up my artwork because of some mistake you might make. ^000000";
 			next;
 			if (select("I am ready.:Okay, let me go store my other items first.") == 1) {
-				if (MaxWeight - Weight < 2000) {
+				if (overweight(2000)) {
 					mes "[Hatbyr Mhore]";
 					mes "Ouch, why are you carrying";
 					mes "so many items with you?";
@@ -871,7 +871,7 @@ yuno,241,52,3	script	Old Blacksmith#hgear	813,{
 			mes "I don't care how many times you've upgraded the items you brought, but please ^4d4dff carry only items that you need to create this item.^000000 I can't mess up my artwork because of some mistake you might make.";
 			next;
 			if (select("I am ready.:Okay, let me go store my other items first.") == 1) {
-				if (MaxWeight - Weight < 2000) {
+				if (overweight(2000)) {
 					mes "[Hatbyr Mhore]";
 					mes "Ouch, why are you carrying";
 					mes "so many items with you?";

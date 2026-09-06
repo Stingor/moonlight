@@ -23,7 +23,7 @@ moc_para01,41,169,3	script	Reno#2012hat	64,{
 	//set .@features_iRO,1;
 
 	//custom translation -  all checks below
-	if (checkweight(1301,1) == 0 || MaxWeight - Weight < 800) {
+	if (checkweight(1301,1) == 0 || overweight(800)) {
 		mes "- Carrying too many items, cannot proceed. -";
 		close;
 	}

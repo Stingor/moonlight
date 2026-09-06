@@ -20,7 +20,7 @@ gon_in,99,23,3	script	Mayomayo::enchant_gon	4_CAT_3COLOR,{
 			mes "Vous avez trop de bordel dans votre sac...";
 			close;
 		}
-		if( MaxWeight - Weight < 10000 ) {
+		if( overweight(10000) ) {
 			mes "Vous êtes trop lourd"+(Sex?"":"e")+".";
 			close;
 		}

@@ -81,7 +81,7 @@ malangdo,220,167,5	script	Coin Exchanger CX-1	564,{
 		mes "You have too many kinds of objects. Let's try to continue after reducing those objects.";
 		close;
 	}
-	if (MaxWeight - Weight < 10000) {
+	if (overweight(10000)) {
 		mes "Can't continue because you have too many heavy objects. Let's try to continue after reducing the weight.";
 		close;
 	}
@@ -170,7 +170,7 @@ malangdo,218,165,5	script	Special Vending Machine	562,{
 		mes "You have too many kinds of objects. Let's try to continue after reducing those objects.";
 		close;
 	}
-	if (MaxWeight - Weight < 10000) {
+	if (overweight(10000)) {
 		mes "Can't continue because you have too many heavy objects. Let's try to continue after reducing the weight.";
 		close;
 	}
@@ -239,7 +239,7 @@ malangdo,236,179,5	script	Dark Merchant K	554,{
 		mes "It seems you have too much in your inventory. Let's try again after getting rid of some of your belongings.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Your inventory is too heavy now. Please come back after getting rid of some of your belongings.";
 		close;
 	}
@@ -283,7 +283,7 @@ malangdo,233,180,3	script	Dark MachineTX100	564,{
 		mes "It seems you have too much in your inventory. Let's try again after getting rid of some of your belongings.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Your inventory is too heavy now. Please come back after getting rid of some of your belongings.";
 		close;
 	}
@@ -402,7 +402,7 @@ malangdo,175,145,4	script	Can Agency Guard	549,{
 		mes "You seem to have too many items. Give it a try after sorting out the item kinds.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You're not likely to be able to go on due to the heavy items you've got. Give it a try after lightening the weight.";
 		close;
 	}
@@ -528,7 +528,7 @@ function	script	F_mal_coin	{
 				mes "Please make space and come back again~";
 				close;
 			}
-			if (MaxWeight - Weight < 2500) {
+			if (overweight(2500)) {
 				mes .@npc_name$;
 				mes "It seems that you're overweight.";
 				mes "Please reduce your weight and come back again~";

@@ -175,7 +175,7 @@ dewata,221,237,5	script	Young Man#dew-1	536,{
 }
 
 dewata,114,243,6	script	Lazy Young Man#dew	536,1,1,{
-	if (overitems() || MaxWeight - Weight < 500) {
+	if (overitems() || overweight(500)) {
 		mes "[Lazy Young Man]";
 		mes "Why are you carrying so much? Isn't it heavy?";
 		close;
@@ -236,7 +236,7 @@ dewata,159,81,4	script	Tourist#dew-1	881,{
 }
 
 dewata,146,109,5	script	Restauranteur#dew	886,{
-	if (checkweight(11532,1) == 0 || checkweight(11533,1) == 0 || MaxWeight - Weight < 500) {
+	if (checkweight(11532,1) == 0 || checkweight(11533,1) == 0 || overweight(500)) {
 		mes "[Restauranteur]";
 		mes "You came to taste my dish? It is always good to eat with an empty stomach.";
 		close;

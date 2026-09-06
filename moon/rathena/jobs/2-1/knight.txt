@@ -2029,7 +2029,7 @@ prt_in,87,92,4	script	Sir Gray#knt	119,{
 				mes "1 ^3355FFSteel^000000 because of the Claymore's characteristics. If you like, I can create one for you. For the honor of the Prontera Chivalry!";
 				close;
 			case 2:
-				if (MaxWeight - Weight < 1800) {
+				if (overweight(1800)) {
 					mes "[Sir Gray]";
 					mes "Oh no...";
 					mes "It seems that you are carrying too many things. You don't have enough space for a heavy Claymore in your inventory.";

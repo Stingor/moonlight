@@ -10,7 +10,7 @@
 
 rachel,177,139,3	script	Temple Item Manager#0hmoon	4_M_TRAINEE,{
 	disable_items;
-	if (MaxWeight - Weight < 1000 || checkweight(5819,1) == 0) {
+	if (overweight(1000) || checkweight(5819,1) == 0) {
 		npctalk "Reduce your weight please.", "", bc_self;
 		end;
 	}

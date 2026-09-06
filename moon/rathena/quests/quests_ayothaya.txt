@@ -2633,7 +2633,7 @@ ayothaya,153,86,5	script	Thongpool#ayo	843,{
 }
 
 ayothaya,121,240,7	script	Mr. Jun#ayo	842,1,1,{
-	if (MaxWeight - Weight < 2000 || overitems()) {
+	if (overweight(2000) || overitems()) {
 		mes "- Wait a minute! -";
 		mes "- Currently you're carrying -";
 		mes "- too many items with you. -";
@@ -2681,7 +2681,7 @@ ayothaya,121,240,7	script	Mr. Jun#ayo	842,1,1,{
 	close;
 
 OnTouch_:
-	if (MaxWeight - Weight < 2000 || overitems()) {
+	if (overweight(2000) || overitems()) {
 		mes "- Wait a minute! -";
 		mes "- Currently you're carrying -";
 		mes "- too many items with you. -";

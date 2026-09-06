@@ -7,7 +7,7 @@ mora,88,89,5	script	Keeper of Secrets#pa082	4_M_MERCAT1,{
 		mes "You have too many kinds of things with you to do that. Throw out some of them and try again.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You are carrying too much weight to do that. Reduce the weight and try again.";
 		close;
 	}
@@ -78,7 +78,7 @@ mora,96,74,5	script	Master of Relics#pa0829	4_M_MERCAT1,{
 		mes "You have too many kinds of things with you to do that. Throw out some of them and try again.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You are carrying too much weight to do that. Reduce the weight and try again.";
 		close;
 	}
@@ -226,7 +226,7 @@ mora,104,76,4	script	Guardian of Artifacts#p	4_M_MERCAT1,{
 		mes "You have too many kinds of things with you to do that. Throw out some of them and try again.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You are carrying too much weight to do that. Reduce the weight and try again.";
 		close;
 	}
@@ -297,7 +297,7 @@ mora,99,93,5	script	Artifact Crafter#pa0829	4_M_MERCAT1,{
 		mes "You have too many kinds of things with you to do that. Throw out some of them and try again.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You are carrying too much weight to do that. Reduce the weight and try again.";
 		close;
 	}
@@ -425,7 +425,7 @@ mora,152,97,5	script	Guardian of Power#pa082	515,{
 		mes "Reduce the amount of items that you have in your inventory before continuing.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You are carrying too much in your inventory.";
 		close;
 	}
@@ -494,7 +494,7 @@ mora,148,98,3	script	Artifact Researcher#new	521,{
 		mes "Reduce the amount of items that you have in your inventory before continuing.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You are carrying too much in your inventory.";
 		close;
 	}
@@ -1060,7 +1060,7 @@ mora,124,82,4	script	Artifact Collector#blan	522,{
 		mes "Reduce the amount of items that you have in your inventory before continuing.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You are carrying too much in your inventory.";
 		close;
 	}
@@ -1410,7 +1410,7 @@ mora,105,176,4	script	Master Tailor#pa0829	509,{
 		mes "You have too many kinds of things with you to do that. Throw out some of them and try again.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You are carrying too much weight to do that. Reduce the weight and try again.";
 		close;
 	}
@@ -1500,7 +1500,7 @@ mora,123,177,6	script	Pendant Crafter#pa0829	509,{
 		mes "You have too many kinds of things with you to do that. Throw out some of them and try again.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You are carrying too much weight to do that. Reduce the weight and try again.";
 		close;
 	}
@@ -1569,7 +1569,7 @@ mora,134,166,4	script	Bulberry Westhood#pa0829	509,{
 		mes "You have too many kinds of things with you to do that. Throw out some of them and try again.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You are carrying too much weight to do that. Reduce the weight and try again.";
 		close;
 	}

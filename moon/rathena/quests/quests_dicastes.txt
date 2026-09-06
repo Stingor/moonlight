@@ -106,7 +106,7 @@ dic_dun01,266,113,5	script	Curious Sapha#ep13_3_	449,{
 			mes "You don't seem to have enough space.";
 			close;
 		}
-		if (MaxWeight - Weight < 2000) {
+		if (overweight(2000)) {
 			mes "[Curious Sapha]";
 			mes "Your bags already seem too heavy.";
 			close;
@@ -2320,7 +2320,7 @@ dicastes01,223,190,1	script	Calyon#pa8029	453,{
 		mes "You have too many kinds of items. Let's try again after you reduce the number of items.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Cannot proceed because the weight of your items is too heavy. Let's try again after you get rid of some weight.";
 		close;
 	}
@@ -3389,7 +3389,7 @@ dicastes01,225,211,3	script	Tragis#pa0829	453,{
 // Doha's Secret Orders
 //============================================================
 mid_campin,168,170,3	script	Inspector Doha#ep133	59,{
-	if (overitems() || MaxWeight - Weight < 1000) {
+	if (overitems() || overweight(1000)) {
 		mes "- You can too many items to proceed with the quest. -";
 		close;
 	}

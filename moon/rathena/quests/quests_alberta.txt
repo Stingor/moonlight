@@ -62,7 +62,7 @@ alberta,117,135,0	script	Elin	96,{
 		mes "doll. They're so cute!";
 		close;
 	case 2:
-		if (MaxWeight - Weight < 1000) {
+		if (overweight(1000)) {
 			mes "[Elin]";
 			if (Sex == SEX_MALE) {
 				mes "Maybe you should put some of your stuff away first, you look like you're carrying too much, hee hee~";

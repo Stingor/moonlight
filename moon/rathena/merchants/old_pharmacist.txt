@@ -39,7 +39,7 @@ alberta_in,16,28,4	script	Pharmacist	61,{
 	next;
 	switch(select("Make Potion:Talk.:Mixing Information:Cancel")) {
 	case 1:
-		if (MaxWeight - Weight < 5000) {
+		if (overweight(5000)) {
 			mes "[Old Pharmacist]";
 			mes "Why are you carrying these so many!";
 			mes "Don't be greedy, carry only as much you need!";

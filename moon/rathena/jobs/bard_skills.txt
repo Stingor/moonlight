@@ -1177,7 +1177,7 @@ morocc_in,166,76,7	script	Bartender#bard_qskill	46,{
 	next;
 	switch(select("Tropical Sograt:Vermilion on the Beach:Nothing, thanks.")) {
 	case 1:
-		if (MaxWeight - Weight < 2000) {
+		if (overweight(2000)) {
 			mes "[Bartender]";
 			mes "You sure you can carry";
 			mes "any more stuff with you?";
@@ -1209,7 +1209,7 @@ morocc_in,166,76,7	script	Bartender#bard_qskill	46,{
 		close;
 
 	case 2:
-		if (MaxWeight - Weight < 2000) {
+		if (overweight(2000)) {
 			mes "[Bartender]";
 			mes "You sure you can carry";
 			mes "any more stuff with you?";
@@ -1249,7 +1249,7 @@ morocc_in,166,76,7	script	Bartender#bard_qskill	46,{
 // Function
 //============================================================ 
 function	script	F_BardSkillYhelle	{
-	if (overitems() || MaxWeight - Weight < 2000) {
+	if (overitems() || overweight(2000)) {
 		mes "^3355FFHold it right there!";
 		mes "You're carrying too many items and don't have enough inventory space to receive any rewards. Please make more inventory space available and come back to take this challenge.";
 		close;

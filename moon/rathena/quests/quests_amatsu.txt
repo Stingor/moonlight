@@ -792,7 +792,7 @@ OnTouch_:
 // Sushi Quest :: japan_sushi
 //============================================================ 
 ama_in01,162,17,1	script	Sushi Master#ama	765,{
-	if (MaxWeight - Weight < 5000) {
+	if (overweight(5000)) {
 		mes "[Magumagu]";
 		mes "Hey. You look really heavy.";
 		mes "Don't you have trouble walking?";

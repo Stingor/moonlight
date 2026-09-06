@@ -28,7 +28,7 @@
 // Utility NPCs :: cat_merchant
 //============================================================
 mal_in02,134,31,5	script	Investment Cat Helper	505,{
-	if (MaxWeight - Weight < 100 || overitems()) {
+	if (overweight(100) || overitems()) {
 		mes "[Investment Cat Helper]";
 		mes "You have a heavy load. Maybe you're a peddler? No peddlers in this area.";
 		close;
@@ -1178,7 +1178,7 @@ mal_in02,140,94,0	script	Bob#mal	553,{
 			mes "You seem to have too much stuff, so get yourself lightened~";
 			close;
 		}
-		if (MaxWeight - Weight < 1000) {
+		if (overweight(1000)) {
 			mes "[Bob]";
 			mes "Ummm... be lightened with your mind and body when doing voluntary service!";
 			mes "You seem to have a lot of heavy stuff, so get yourself lightened~";
@@ -1245,7 +1245,7 @@ mal_in02,140,94,0	script	Bob#mal	553,{
 			mes " - and try this again. - ";
 			close;
 		}
-		if (MaxWeight - Weight < 1000) {
+		if (overweight(1000)) {
 			mes " - Notice !! -";
 			mes " - Since your items are too heavy - ";
 			mes " - you cannot get the item. - ";
@@ -1771,7 +1771,7 @@ mal_in01,114,169,5	script	Rican#mal	547,{
 			mes " - and try this again. - ";
 			close;
 		}
-		if (MaxWeight - Weight < 1000) {
+		if (overweight(1000)) {
 			mes " - Notice !! -";
 			mes " - Since your items are too heavy - ";
 			mes " - you cannot get the item. - ";
@@ -1893,7 +1893,7 @@ mal_in01,116,168,0	script	Dry Machine#mal	563,{
 
 -	script	Suspicious Sand Pile#0	-1,{
 	if (.off) end;	// Official script uses a 1-second timer to disable sand piles. Added to prevent abuse.
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
@@ -2347,7 +2347,7 @@ mal_dun01,136,122,3	script	Biscuit#mal	551,{
 			mes " - and try this again. - ";
 			close;
 		}
-		if (MaxWeight - Weight < 1000) {
+		if (overweight(1000)) {
 			mes " - Notice !! -";
 			mes " - Since your items are too heavy - ";
 			mes " - you cannot get the item. - ";
@@ -2431,7 +2431,7 @@ OnTouch:
 		mes " - and try this again. - ";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes " - Notice !! -";
 		mes " - Since your items are too heavy - ";
 		mes " - you cannot get the item. - ";
@@ -2480,7 +2480,7 @@ malangdo,246,184,0	script	1st Rate Point	111,{
 		mes " - and try this again. - ";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes " - Notice !! -";
 		mes " - Since your items are too heavy - ";
 		mes " - you cannot get the item. - ";
@@ -2755,7 +2755,7 @@ L_Warp:
 // Malangdo Island :: mal_ppl
 //============================================================
 malangdo,137,200,6	script	Pipielle	549,{
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
@@ -4646,7 +4646,7 @@ mal_in02,187,58,3	script	Chef Nyas	548,{
 // Play with Baby Cats :: mal_nyadventurer
 //============================================================
 malangdo,165,223,4	script	Expert Cat#nya_01	561,{
-	if (overitems() || MaxWeight - Weight < 4000) {
+	if (overitems() || overweight(4000)) {
 		mes "- You have too many items to proceed in this quest. -";
 		close;
 	}
@@ -4806,7 +4806,7 @@ malangdo,165,223,4	script	Expert Cat#nya_01	561,{
 }
 
 malangdo,211,203,4	script	[Meow Team] Charo#nya_11	560,{
-	if (overitems() || MaxWeight - Weight < 4000) {
+	if (overitems() || overweight(4000)) {
 		mes "- You have too many items to proceed in this quest. -";
 		close;
 	}
@@ -5205,7 +5205,7 @@ malangdo,214,204,3	script	[Meow Team] Rosy#nya_09	559,{
 }
 
 malangdo,215,201,3	script	[Meow Team] Roku#nya_10	553,{
-	if (overitems() || MaxWeight - Weight < 4000) {
+	if (overitems() || overweight(4000)) {
 		mes "- You have too many items to proceed in this quest. -";
 		close;
 	}
@@ -6303,7 +6303,7 @@ L_ShowLights:
 // 3    - Player has already found the picture piece.
 // null - Success.
 function	script	F_Mal_Picture	{
-	if (overitems() || MaxWeight - Weight < 4000) {
+	if (overitems() || overweight(4000)) {
 		mes "- You have too many items to proceed in this quest. -";
 		close;
 	}
@@ -6515,7 +6515,7 @@ mal_in02,109,62,4	script	Picky Crew#nyaong03	545,{
 // Cat Gamers :: mal_gamer
 //============================================================
 mal_in01,31,210,2	script	Cat Gamers Director	549,{
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
@@ -7309,7 +7309,7 @@ L_CompleteQuest:
 }
 
 malangdo,127,111,4	script	Strange Cat#gamer	547,{
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
@@ -7601,7 +7601,7 @@ malangdo,127,111,4	script	Strange Cat#gamer	547,{
 }
 
 malangdo,161,197,4	script	Eryu#gamer	876,{
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
@@ -7817,7 +7817,7 @@ OnDisable:
 }
 
 malangdo,230,197,4	script	Stew#gamer	555,{
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
@@ -8046,7 +8046,7 @@ OnDisable:
 }
 
 malangdo,244,144,4	script	Ketchup#gamer	546,{
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
@@ -8235,7 +8235,7 @@ OnDisable:
 }
 
 malangdo,181,119,7	script	Eff#gamer	560,{
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
@@ -8496,7 +8496,7 @@ OnDisable:
 }
 
 mal_in01,91,216,4	script	Ser#gamer	544,{
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
@@ -8840,7 +8840,7 @@ mal_in01,91,216,4	script	Ser#gamer	544,{
 }
 
 mal_in01,86,222,4	script	Paa#gamer	544,{
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
@@ -9170,7 +9170,7 @@ mal_in01,86,222,4	script	Paa#gamer	544,{
 }
 
 mal_in01,91,222,4	script	Kuka#gamer	422,{
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
@@ -9492,7 +9492,7 @@ mal_in01,91,222,4	script	Kuka#gamer	422,{
 }
 
 mal_in01,134,221,4	script	KungKung#gamer	422,{
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
@@ -9910,7 +9910,7 @@ mal_in01,134,221,4	script	KungKung#gamer	422,{
 }
 
 mal_in01,133,214,6	script	Leader#gamer	546,{
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "Your inventory is too heavy to proceed. Come back after lightening your load.";
 		close;
 	}
@@ -10523,7 +10523,7 @@ mal_in01,15,16,3	script	Fallen Angel#mal	403,{
 		mes "You are carrying too many items, please reduce them and come back!";
 		close;
 	}
-	if (MaxWeight - Weight < 10000) {
+	if (overweight(10000)) {
 		mes "You have overweight, please reduce it and come back!";
 		close;
 	}

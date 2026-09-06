@@ -18,7 +18,7 @@
 //============================================================
 
 prontera,123,102,5	script	Merchant#pron	85,{
-	if (MaxWeight - Weight < 6301 || overitems()) {
+	if (overweight(6301) || overitems()) {
 		mes "[Merchant]";
 		mes "Haha!";
 		mes "What are you, superhuman?";
@@ -74,7 +74,7 @@ prontera,123,102,5	script	Merchant#pron	85,{
 }
 
 morocc,180,259,3	script	Merchant#morroc	85,{
-	if (MaxWeight - Weight < 6301 || overitems()) {
+	if (overweight(6301) || overitems()) {
 		mes "[Merchant]";
 		mes "Haha!";
 		mes "What are you, superhuman?";
@@ -131,7 +131,7 @@ morocc,180,259,3	script	Merchant#morroc	85,{
 }
 
 payon,200,134,5	script	Merchant#pay	85,{
-	if (MaxWeight - Weight < 6301 || overitems()) {
+	if (overweight(6301) || overitems()) {
 		mes "[Merchant]";
 		mes "Haha!";
 		mes "What are you, superhuman?";
@@ -185,7 +185,7 @@ payon,200,134,5	script	Merchant#pay	85,{
 }
 
 aldebaran,152,63,5	script	Merchant#alde	85,{
-	if (MaxWeight - Weight < 6301 || overitems()) {
+	if (overweight(6301) || overitems()) {
 		mes "[Merchant]";
 		mes "Haha!";
 		mes "What are you, superhuman?";
@@ -242,7 +242,7 @@ aldebaran,152,63,5	script	Merchant#alde	85,{
 }
 
 geffen,173,88,5	script	Merchant#geff	85,{
-	if (MaxWeight - Weight < 6301 || overitems()) {
+	if (overweight(6301) || overitems()) {
 		mes "[Merchant]";
 		mes "Haha!";
 		mes "What are you, superhuman?";

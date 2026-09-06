@@ -229,7 +229,7 @@ yuno_in01,17,30,5	script	Wagan#juno	85,{
 		next;
 		mes "[Wagan]";
 		if (Class == Job_Sage) {
-			if (MaxWeight - Weight < 300) {
+			if (overweight(300)) {
 				mes "Oh no, it seems that you are carrying too much stuff! Would you make some room?";
 				close;
 			}
@@ -238,7 +238,7 @@ yuno_in01,17,30,5	script	Wagan#juno	85,{
 			getitem 715,10; //Yellow_Gemstone
 			close;
 		}
-		if (MaxWeight - Weight < 150) {
+		if (overweight(150)) {
 			mes "Oh no, it seems that you are carrying too much! Would you make some room?";
 			close;
 		}

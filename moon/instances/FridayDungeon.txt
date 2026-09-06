@@ -351,7 +351,7 @@ gef_tower,57,167,3	script	Amateur Collector#pa0829	1_F_01,{
 		mes "You have too many kinds of objects. Clear your inventory.";
 		close;
 	}
-	if (MaxWeight - Weight < 10000) {
+	if (overweight(10000)) {
 		mes "Can't continue because you have too many heavy objects. Reduce your total weight by clearing your inventory.";
 		close;
 	}

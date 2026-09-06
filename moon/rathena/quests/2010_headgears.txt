@@ -138,7 +138,7 @@ gonryun,149,189,0	script	Yotang#Flower_Of_Fairy	50,{
 	close;
 
 L_CheckWeight:
-	if (MaxWeight - Weight < 200) {
+	if (overweight(200)) {
 		mes "[Yotang]";
 		mes "Your bag is too heavy, isn't it?";
 		mes "Come to me again";
@@ -247,7 +247,7 @@ lhz_in02,276,281,1	script	Drunken Man#Necktie	748,{
 	close;
 
 L_CheckWeight:
-	if (MaxWeight - Weight < 100) {
+	if (overweight(100)) {
 		mes "Necktie is heavier than I thought.";
 		mes "Seems like the very legendary Necktie.";
 		close;
@@ -340,7 +340,7 @@ comodo,236,164,0	script	Hat Girl#Hair_Brush	69,{
 	close;
 
 L_CheckWeight:
-	if (MaxWeight - Weight < 100) {
+	if (overweight(100)) {
 		mes "[Hat Girl]";
 		mes "You're carrying too much stuff.";
 		mes "Come again after emptying your bag.";
@@ -488,7 +488,7 @@ alberta,151,78,0	script	Bebete#Baby_Angel	96,{
 	end;
 
 L_CheckWeight:
-	if (MaxWeight - Weight < 600) {
+	if (overweight(600)) {
 		mes "[Bebete]";
 		mes "What are you carrying that much, angel?";
 		mes "I can't give you the item";
@@ -736,7 +736,7 @@ gef_fild07,108,161,4	script	Roda Frog#Frog_Cap	1012,1,1,{
 			mes "[King Froggie VII]";
 			mes "It was really lucky for me to ask you a favor.";
 			next;
-			if (MaxWeight - Weight < 500) {
+			if (overweight(500)) {
 				mes "[King Froggie VII]";
 				mes "I'd like to give you a reward, our hero. But your bag is now too heavy.";
 				close2;
@@ -1038,7 +1038,7 @@ alberta,120,206,3	script	Alonie#Solo_Play_Box	787,{
 			close;
 		}
 	} else if (hat_1_2009 == 4) {
-		if (MaxWeight - Weight < 300) {
+		if (overweight(300)) {
 			mes "[Alonie]";
 			mes "Playing outside with this heavy bag?";
 			mes "You are the real";

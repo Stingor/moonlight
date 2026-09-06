@@ -401,7 +401,7 @@ OnTouch:
 		   		mes " - and try again. - ";
 				close;
 			}
-			if (MaxWeight - Weight < 1000) {
+			if (overweight(1000)) {
 				mes " - Hang on there !! -";
 			 	mes " - You are carrying too much weight - ";
 				mes " - Please lighten your load - ";
@@ -1371,7 +1371,7 @@ mora,55,124,2	script	Jones#ep14_1_bs	495,{
 			mes "You have too many kinds of items. Please lighten your load and come back.";
 			close;
 		}
-		if (MaxWeight - Weight < 3500) {
+		if (overweight(3500)) {
 			mes "[Jones]";
 			mes "You are carrying too much weight. Please lighten your load and come back.";
 			close;
@@ -1508,7 +1508,7 @@ OnInit:
 }
 
 dic_dun01,274,114,0	script	Stacked Boxes of Goods	844,{
-	if (overitems() || MaxWeight - Weight < 1000) {
+	if (overitems() || overweight(1000)) {
 		mes "- You have too many items to do this quest. -";
 		close;
 	}
@@ -1562,7 +1562,7 @@ dic_dun01,274,114,0	script	Stacked Boxes of Goods	844,{
 }
 
 bif_fild01,335,168,3	script	Cheshire#ep14_1_xq04	497,{
-	if (overitems() || MaxWeight - Weight < 1000) {
+	if (overitems() || overweight(1000)) {
 		mes "- You have too many items to do this quest. -";
 		close;
 	}
@@ -2514,7 +2514,7 @@ OnTouch:
 // Find the Research Tools :: ep14_1_muk
 //============================================================
 mora,31,138,6	script	Raffle Researcher#ep14	522,{
-	if (overitems() || MaxWeight - Weight < 500) {
+	if (overitems() || overweight(500)) {
 		mes "^FF0000- Warning message -";
 		mes "- Hang on there!! -";
 		mes "- You have too many items -";
@@ -2836,7 +2836,7 @@ mora,31,138,6	script	Raffle Researcher#ep14	522,{
 		mes "You can collect the samples";
 		mes "from that area.";
 		next;
-		if (MaxWeight - Weight < 100 || checkweight(1092,10) == 0) {
+		if (overweight(100) || checkweight(1092,10) == 0) {
 			mes "[Raffle Researcher]";
 			mes "You are carrying too much weight.";
 			mes "I can't give you the sample tube.";
@@ -3298,7 +3298,7 @@ mora,31,138,6	script	Raffle Researcher#ep14	522,{
 		mes "But thank you anyhow. I've been researching for a while,";
 		mes "but I've never met such an excellent research assistant as you.";
 		next;
-		if (MaxWeight - Weight < 100 || checkweight(1092,1) == 0) {
+		if (overweight(100) || checkweight(1092,1) == 0) {
 			mes "[Raffle Researcher]";
 			mes "Hmm? By the way...";
 			mes "You are carrying too much weight.";
@@ -3441,7 +3441,7 @@ L_ShowReport:
 	next;
 	return;
 L_CheckWeight:
-	if (MaxWeight - Weight < 100 || checkweight(1092,1) == 0) {
+	if (overweight(100) || checkweight(1092,1) == 0) {
 		mes "[Raffle Researcher]";
 		mes "You are carrying too much weight.";
 		mes "I can't give you the sample tube.";
@@ -3452,7 +3452,7 @@ L_CheckWeight:
 }
 
 mora,114,79,0	script	Black Shadow#ep14_muk	844,{
-	if (overitems() || MaxWeight - Weight < 500) {
+	if (overitems() || overweight(500)) {
 		mes "^FF0000- Warning message -";
 		mes "- Hang on there!! -";
 		mes "- You have too many items -";
@@ -3573,7 +3573,7 @@ mora,114,79,0	script	Black Shadow#ep14_muk	844,{
 			mes "You tell me my family do okay.";
 			close;
 		} else if (checkquest(5034) > -1 && checkquest(5034) < 2) {
-			if (MaxWeight - Weight < 100 || checkweight(5792,1) == 0) {
+			if (overweight(100) || checkweight(5792,1) == 0) {
 				mes "[Fishee]";
 				mes "You have lots.";
 				mes "I give. To you.";
@@ -4368,7 +4368,7 @@ mora,133,80,6	script	Elephantine#pa0829	509,{
 		mes "You have too many kinds of things with you to do that. Throw out some of them and try again.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You are carrying too much weight to do that. Reduce the weight and try again.";
 		close;
 	}
@@ -4476,7 +4476,7 @@ mora,115,98,8	script	Hotcha#pa0829	509,{
 		mes "You have too many kinds of things with you to do that. Throw out some of them and try again.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You are carrying too much weight to do that. Reduce the weight and try again.";
 		close;
 	}
@@ -4551,7 +4551,7 @@ mora,119,103,4	script	Bow-wow#pa0829	513,{
 		mes "You have too many kinds of things with you to do that. Throw out some of them and try again.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You are carrying too much weight to do that. Reduce the weight and try again.";
 		close;
 	}
@@ -4659,7 +4659,7 @@ mora,119,118,4	script	General Goods Dealer#pa0	516,{
 		mes "You have too many kinds of things with you to do that. Throw out some of them and try again.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You are carrying too much weight to do that. Reduce the weight and try again.";
 		close;
 	}
@@ -4748,7 +4748,7 @@ mora,124,108,7	script	Woof-grrr#pa0829	514,{
 		mes "You have too many kinds of things with you to do that. Throw out some of them and try again.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You are carrying too much weight to do that. Reduce the weight and try again.";
 		close;
 	}
@@ -4856,7 +4856,7 @@ mora,127,112,4	script	Commodities Dealer#pa08	518,{
 		mes "You have too many kinds of things with you to do that. Throw out some of them and try again.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You are carrying too much weight to do that. Reduce the weight and try again.";
 		close;
 	}
@@ -4944,7 +4944,7 @@ mora,170,101,4	script	Soul Guide#pa0829	515,{
 		mes "You have too many kinds of things with you to do that. Throw out some of them and try again.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You are carrying too much weight to do that. Reduce the weight and try again.";
 		close;
 	}
@@ -5108,7 +5108,7 @@ sec_in02,29,34,5	script	Initializing Mora Sanjo	453,{
 //============================================================
 // callfunc "mora_remains",<quest ID>,<NPC name>,<Mora Coin amount>,<reward ID>,<max reward amount>;
 function	script	mora_remains	{
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You have to make space in your inventory.";
 		close;
 	}

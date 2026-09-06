@@ -26,7 +26,7 @@ mal_in01,172,28,2	script	Albo#mal	561,{
 		mes "You have too many kinds of objects. Try to continue after reducing those objects.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You have too many heavy objects. Try to continue after reducing your weight.";
 		close;
 	}
@@ -141,7 +141,7 @@ mal_in01,172,26,2	script	Madeca#mal	544,{
 		mes "You have too many kinds of objects. Try to continue after reducing those objects.";
 		close;
 	}
-	if (MaxWeight - Weight < 1000) {
+	if (overweight(1000)) {
 		mes "You have too many heavy objects. Try to continue after reducing your weight.";
 		close;
 	}
