@@ -7279,6 +7279,36 @@ Body:
           - Index: 463
             Item: EP17_2_Marc_Card
             Rate: 1
+          - Index: 464
+            Item: Ahat_Card
+            Rate: 1
+          - Index: 465
+            Item: Shnaim_Card
+            Rate: 1
+          - Index: 466
+            Item: Brinaranea_Card
+            Rate: 1
+          - Index: 467
+            Item: Muspellskoll_Card
+            Rate: 1
+          - Index: 468
+            Item: IFN_Toad_Card
+            Rate: 1
+          - Index: 469
+            Item: IFN_V_Wolf_Card
+            Rate: 1
+          - Index: 470
+            Item: IFN_Vocal_Card
+            Rate: 1
+          - Index: 471
+            Item: IFN_Eclipse_Card
+            Rate: 1
+          - Index: 472
+            Item: IFN_Chimera_Card
+            Rate: 1
+          - Index: 473
+            Item: Vocal_Card
+            Rate: 1
   - Group: CASH_FOOD
     SubGroups:
       - SubGroup: 1
@@ -15914,6 +15944,69 @@ Body:
           - Index: 187
             Item: Antonio_Card
             Rate: 80
+          - Index: 188
+            Item: Bakonawa_Card
+            Rate: 1
+          - Index: 189
+            Item: Boitata_Card
+            Rate: 1
+          - Index: 190
+            Item: Fay_Kanavian_Card
+            Rate: 1
+          - Index: 191
+            Item: Nidhogg_Shadow_Card
+            Rate: 1
+          - Index: 192
+            Item: N_Amon_Ra_Card
+            Rate: 1
+          - Index: 193
+            Item: Sarah_Card
+            Rate: 1
+          - Index: 194
+            Item: DespairGodMorocc_Card
+            Rate: 1
+          - Index: 195
+            Item: IFN_Osiris_Card
+            Rate: 1
+          - Index: 196
+            Item: IFN_Eddga_Card
+            Rate: 1
+          - Index: 197
+            Item: IFN_Phreeoni_Card
+            Rate: 1
+          - Index: 198
+            Item: IFN_OrcHero_Card
+            Rate: 1
+          - Index: 199
+            Item: IFN_Tao_Gunka_Card
+            Rate: 1
+          - Index: 200
+            Item: Ahat_Card
+            Rate: 30
+          - Index: 201
+            Item: Shnaim_Card
+            Rate: 30
+          - Index: 202
+            Item: Brinaranea_Card
+            Rate: 30
+          - Index: 203
+            Item: Muspellskoll_Card
+            Rate: 30
+          - Index: 204
+            Item: IFN_Toad_Card
+            Rate: 30
+          - Index: 205
+            Item: IFN_V_Wolf_Card
+            Rate: 30
+          - Index: 206
+            Item: IFN_Vocal_Card
+            Rate: 30
+          - Index: 207
+            Item: IFN_Eclipse_Card
+            Rate: 30
+          - Index: 208
+            Item: IFN_Chimera_Card
+            Rate: 30
   - Group: MAGICIAN_CARD_BOX
     SubGroups:
       - SubGroup: 0
