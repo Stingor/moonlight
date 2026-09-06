@@ -641,7 +641,7 @@ paramk,70,31,3	script	Nelsha#wp02	4_M_SITDOWN,{
 	mes "This is 'Strong Friends', where a range of basic weapons are available for your perusal.";
 	next;
 	setarray .@shopname$[0], "para_wp01", "para_wp02", "para_wp03", "para_wp04", "para_wp05";
-	setarray .@shopdesc$[0], "Maces, Rods and Knuckles", "One-Handed Swords and Two-Handed Sword", "Bows, Innstruments and Whips", "Daggers and Katars", "Axes and Spears";
+	setarray .@shopdesc$[0], "Maces, Rods and Knuckles", "One-Handed Swords and Two-Handed Sword", "Bows, Instruments and Whips", "Daggers and Katars", "Axes and Spears";
 	.@s = select("Maces, Rods, Knuckles:One-Handed Swords, Two-Handed Sword:Bows, Innstruments, Whips:Daggers, Katars:Axes, Spears:Cancel") - 1;
 	if (.@s == 5) {
 		mes "[Nelsha]";

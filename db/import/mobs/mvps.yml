@@ -2932,6 +2932,9 @@ Body:
         Rate: 100
       - Item: Luk_Dish08
         Rate: 500
+      - Item: Antonio_Card
+        Rate: 1
+        StealProtected: true
   - Id: 2996
     AegisName: XM_CELINE_KIMI
     Name: Celine Kimi

@@ -149,6 +149,7 @@ Body:
     AttackMotion: 500
     DamageMotion: 768
     Ai: 04
+    Class: Boss
     Modes:
       Detector: true
     Drops:
@@ -182,6 +183,7 @@ Body:
     AttackMotion: 408
     DamageMotion: 336
     Ai: 04
+    Class: Boss
     Modes:
       Detector: true
     Drops:
