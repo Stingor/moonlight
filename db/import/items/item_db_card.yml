@@ -5227,7 +5227,7 @@ Body:
     Weight: 10
     Locations:
       Armor: true
-    Script: "bonus bInt,5; if (Class == Job_High_Wizard || Class == Job_Baby_Warlock || Class == Job_Warlock || Class == Job_Warlock_T) bonus bFixedCastrate,-50;\n"
+    Script: "bonus bInt,5; if (Class == Job_High_Wizard || Class == Job_Baby_Warlock || Class == Job_Warlock || Class == Job_Warlock_T) bonus bDelayrate,-10;\n"
   - Id: 4457
     AegisName: Nahtzigger_Card
     Name: Naght Sieger Card
