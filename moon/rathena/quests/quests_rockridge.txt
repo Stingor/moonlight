@@ -3136,7 +3136,7 @@ harboro1,231,254,3	script	Exotic Merchant	1_M_MERCHANT,{
 		mes "I'm carrying too many types of items. I should lighten my bag first.";
 		close;
 	}
-	if (overweight()0) {
+	if (overweight()) {
 		mes "I'm overweight. I'd better lighten my bag first.";
 		close;
 	}
@@ -3235,7 +3235,7 @@ harboro1,357,163,3	script	Food Distributer	4_COOK,{
 		mes "I'm carrying too many types of items. I should lighten my bag first.";
 		close;
 	}
-	if (overweight()0) {
+	if (overweight()) {
 		mes "I'm overweight. I'd better lighten my bag first.";
 		close;
 	}
@@ -3479,7 +3479,7 @@ harboro1,357,155,3	script	Steel Vigilante#1	4_M_MASKMAN,{
 		mes "I'm carrying too many types of items. I should lighten my bag first.";
 		close;
 	}
-	if (overweight()0) {
+	if (overweight()) {
 		mes "I'm overweight. I'd better lighten my bag first.";
 		close;
 	}
@@ -3665,7 +3665,7 @@ harboro1,357,152,3	script	Steel Vigilante#2	4_M_ACROSS,{
 		mes "I'm carrying too many types of items. I should lighten my bag first.";
 		close;
 	}
-	if (overweight()0) {
+	if (overweight()) {
 		mes "I'm overweight. I'd better lighten my bag first.";
 		close;
 	}
@@ -3848,7 +3848,7 @@ harboro1,334,135,6	script	Desalination Facility Manager	4_M_YURI,{
 		mes "I'm carrying too many types of items. I should lighten my bag first.";
 		close;
 	}
-	if (overweight()0) {
+	if (overweight()) {
 		mes "I'm overweight. I'd better lighten my bag first.";
 		close;
 	}

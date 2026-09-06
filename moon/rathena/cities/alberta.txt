@@ -282,7 +282,7 @@ alberta,195,151,2	script	Paul	4_M_04,{
 
 alberta,190,173,4	script	Phelix	4_M_03,{
 	mes "[Phelix]";
-	if (overweight()0) {
+	if (overweight()) {
 		mes "Wait a moment!!";
 		mes "You have brought too many things!";
 		mes "You cannot accept any more items!";

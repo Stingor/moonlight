@@ -14,7 +14,7 @@ xmas,240,291,3	script	Billy The Golden Hands#1	4_F_05,{
 		mes "The kind of items you have is too various. Retry after reducing the sort of items.";
 		close;
 	}
-	if (overweight()0) {
+	if (overweight()) {
 		mes "You are overburdened, so you cannot proceed it anymore. Please try again after reduce the weight.";
 		close;
 	}
@@ -69,7 +69,7 @@ xmas,240,297,3	script	Vagrant Cain#1	4_M_06,{
 		mes "The kind of items you have is too various. Retry after reducing the sort of items.";
 		close;
 	}
-	if (overweight()0) {
+	if (overweight()) {
 		mes "You are overburdened, so you cannot proceed it anymore. Please try again after reduce the weight.";
 		close;
 	}
@@ -178,7 +178,7 @@ xmas,240,294,3	script	Black Beard Joe#pa0829	4_M_05,{
 		mes "The kind of items you have is too various. Retry after reducing the sort of items.";
 		close;
 	}
-	if (overweight()0) {
+	if (overweight()) {
 		mes "You are overburdened, so you cannot proceed it anymore. Please try again after reduce the weight.";
 		close;
 	}

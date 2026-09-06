@@ -11526,7 +11526,7 @@ Body:
       BuyingStore: true
       DropEffect: CLIENT
     Script: |
-      bonus bDef,5;
+      bonus bDef,20;
       bonus2 bSubSize,Size_Medium,25;
       bonus2 bSubSize,Size_Large,25;
   - Id: 4610

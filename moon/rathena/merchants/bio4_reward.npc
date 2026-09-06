@@ -9,7 +9,7 @@
 // Weird Old Man (Rewards)
 //============================================================
 lighthalzen,342,291,4	script	Weird old man#Bio4Reward	4_M_EINOLD,{
-	if ((MaxWeight - Weight) < 2800 || overitems()) {
+	if (overweight(2800) || overitems()) {
 		mes "^FF0000 Check up your inventory. You got too many items to carry out the quest. ^000000";
 		close;
 	}
@@ -382,7 +382,7 @@ L_Reward:
 // Sorcerer (Rewards)
 //============================================================
 lhz_cube,233,24,4	script	Sorcerer#Bio4Reward	4_M_UMDANCEKID,{
-	if ((MaxWeight - Weight) < 1200 || overitems()) {
+	if (overweight(1200) || overitems()) {
 		mes "^FF0000 Check up your inventory. You got too many items to carry out the quest. ^000000";
 		close;
 	}

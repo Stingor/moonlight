@@ -537,7 +537,7 @@ mjolnir_02,85,362,3	script	Blacksmith Miner	4_F_JOB_BLACKSMITH,{
 			mes "I sell them at that price.";
 			close;
 		}
-		if ((MaxWeight - Weight) < .@weight){
+		if (overweight(.@weight)){
 			mes "[Dwayne]";
 			mes "Errr...";
 			mes "You're carrying too many items.";

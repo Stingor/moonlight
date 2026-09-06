@@ -229,13 +229,13 @@ glast_01,212,273,4	script	Hugin's magic master#pa0829	1_F_01,{
 				close;
 			}
 		}
-		if (countitem(6608) < .@cost) {
+		if (countitem(Coagulated_Spell) < .@cost) {
 			mes "[Hugin's Magic Master]";
-			mes "Hmm, you are missing " + (.@cost - countitem(6608)) + " Coagulated Spell items. Go get more, and then we can talk about more enchants.";
+			mes "Hmm, you are missing " + (.@cost - countitem(Coagulated_Spell)) + " Coagulated Spell items. Go get more, and then we can talk about more enchants.";
 			close;
 		}
 		specialeffect2 EF_REPAIRWEAPON;
-		delitem 6608,.@cost;// Coagulated_Spell
+		delitem Coagulated_Spell,.@cost;// Coagulated_Spell
 
 		// anti-hack
 		if (callfunc("F_IsEquipIDHack", EQI_SHOES, .@equip_id) || callfunc("F_IsEquipCardHack", EQI_SHOES, .@equip_card[0], .@equip_card[1], .@equip_card[2], .@equip_card[3]) || callfunc("F_IsEquipRefineHack", EQI_SHOES, .@equip_refine))
@@ -354,8 +354,8 @@ glast_01,184,283,4	script	Dark magic master#pa082	1_F_01,{
 		close;
 	}
 	// requirements
-	.@coagulated_id = 6608;// Coagulated_Spell
-	.@polluted_id = 6755;// Polluted_Spell
+	.@coagulated_id = Coagulated_Spell;
+	.@polluted_id = Polluted_Spell;
 	.@cost_zeny = 100000;
 
 	mes "[Dark magic master]";
@@ -366,7 +366,7 @@ glast_01,184,283,4	script	Dark magic master#pa082	1_F_01,{
 		mes "You should ask Hugin's magic master all the basic things. I want deeper conversation about enchating work.";
 		next;
 		mes "[Dark magic master]";
-		mes "I need 4 items. ^0000ff" + callfunc("F_InsertComma",.@cost_zeny) + ", " + getitemname(.@polluted_id) + ", " + getitemname(.@coagulated_id) + ", Temporal Boots(Socket) Series^000000. If you don't have any of these, I cannot help you.";
+		mes "I need 4 items. ^0000ff" + callfunc("F_InsertComma",.@cost_zeny) + ", " + mesitemcell(.@polluted_id) + ", " + mesitemcell(.@coagulated_id) + ", Temporal Boots(Socket) Series^000000. If you don't have any of these, I cannot help you.";
 		next;
 		mes "[Dark magic master]";
 		mes "It's my small hobby.. To enchant Socketed Temporal Boots using polluted and coagulated spell.";
@@ -436,7 +436,7 @@ glast_01,184,283,4	script	Dark magic master#pa082	1_F_01,{
 		.@amount_poll = .@en_amount_polluted[0];
 
 		mes "[Dark magic master]";
-		mes "Want to enchant ^0000ff" + .@equip_name$ + " (Socket)^000000? For the 1st enchanting, you need ^0000ff" + .@amount_poll + " " + getitemname(.@polluted_id) + ", " + .@amount_coag + " " + getitemname(.@coagulated_id) + ", and " + callfunc("F_InsertComma",.@cost_zeny) + " zeny^000000.";
+		mes "Want to enchant ^0000ff" + .@equip_name$ + " (Socket)^000000? For the 1st enchanting, you need ^0000ff" + .@amount_poll + " " + mesitemcell(.@polluted_id) + ", " + .@amount_coag + " " + mesitemcell(.@coagulated_id) + ", and " + callfunc("F_InsertComma",.@cost_zeny) + " zeny^000000.";
 		mes "It has some risk of failing..";
 		next;
 		.@s = select( "Quit", "Fighting Spirit", "Archery", "Spell", "Vitality", "Attack Speed", "Lucky" ) - 2;
@@ -468,13 +468,13 @@ glast_01,184,283,4	script	Dark magic master#pa082	1_F_01,{
 		if (.@num == 4) {
 			.@card[2] = callfunc("F_Rand",4875,4876,4877,4878,4879,4880);// Bear's_Power, Runaway_Magic, Speed_Of_Light, Muscle_Fool, Hawkeye, Lucky_Day
 			.@string$ = "^990000 Bonus effect ^000000 upgrade.";
-			mes "Would you like a random bonus effect for the 3rd slot? You need ^0000ff" + .@amount_poll + " " + getitemname(.@polluted_id) + ", " + .@amount_coag + " " + getitemname(.@coagulated_id) + ", and " + callfunc("F_InsertComma",.@cost_zeny) + " zeny^000000. But it has high risk of failing..";
+			mes "Would you like a random bonus effect for the 3rd slot? You need ^0000ff" + .@amount_poll + " " + mesitemcell(.@polluted_id) + ", " + .@amount_coag + " " + mesitemcell(.@coagulated_id) + ", and " + callfunc("F_InsertComma",.@cost_zeny) + " zeny^000000. But it has high risk of failing..";
 		}
 		else {
 			.@level = .@num + 1;
 			.@card[3] = getd( ".@enchant_" + (.@num+1) + "[" + .@type + "]" );
 			.@string$ = "enchant number ^990000" + .@level + "^000000.";
-			mes "Enchanting ^0000ff" + .@equip_name$ + " (Socket)^000000's 4th slot as ^0000ff" + .@level + "^000000 level effect. Requires ^0000ff" + .@amount_poll + " " + getitemname(.@polluted_id) + ", " + .@amount_coag + " " + getitemname(.@coagulated_id) + ", and " + callfunc("F_InsertComma",.@cost_zeny) + " z^000000. It has some risk of failing..";
+			mes "Enchanting ^0000ff" + .@equip_name$ + " (Socket)^000000's 4th slot as ^0000ff" + .@level + "^000000 level effect. Requires ^0000ff" + .@amount_poll + " " + mesitemcell(.@polluted_id) + ", " + .@amount_coag + " " + mesitemcell(.@coagulated_id) + ", and " + callfunc("F_InsertComma",.@cost_zeny) + " z^000000. It has some risk of failing..";
 		}
 		next;
 		if (select( "Quit", "Effect Upgrade!" ) == 1) {
@@ -485,12 +485,12 @@ glast_01,184,283,4	script	Dark magic master#pa082	1_F_01,{
 	}
 	if (countitem(.@coagulated_id) < .@amount_coag) {
 		mes "[Dark magic master]";
-		mes "Hmm, you are missing " + (.@amount_coag - countitem(.@coagulated_id)) + " " + getitemname(.@coagulated_id) + " items. Go get more, and then we can talk about more enchants.";
+		mes "Hmm, you are missing " + (.@amount_coag - countitem(.@coagulated_id)) + " " + mesitemcell(.@coagulated_id) + " items. Go get more, and then we can talk about more enchants.";
 		close;
 	}
 	if (countitem(.@polluted_id) < .@amount_poll) {
 		mes "[Dark magic master]";
-		mes "Hmm, you are missing " + (.@amount_poll - countitem(.@polluted_id)) + " " + getitemname(.@polluted_id) + " items. Go get more, and then we can talk about more enchants.";
+		mes "Hmm, you are missing " + (.@amount_poll - countitem(.@polluted_id)) + " " + mesitemcell(.@polluted_id) + " items. Go get more, and then we can talk about more enchants.";
 		close;
 	}
 	if (Zeny < .@cost_zeny) {
@@ -541,7 +541,7 @@ glast_01,216,292,5	script	Portrait collector#0002	4_M_OILMAN,{
 	mes "I have been collecting portraits for an year already. Now it's time to show people my collection.";
 	next;
 	mes "[Portrait collector]";
-	mes "Hey, do you have a lot of " + getitemname(.@polluted_id) + " or " + getitemname(.@coagulated_id) + "? If so, why don't you trade a nice portrait that I have?";
+	mes "Hey, do you have a lot of " + mesitemcell(.@polluted_id) + " or " + mesitemcell(.@coagulated_id) + "? If so, why don't you trade a nice portrait that I have?";
 	next;
 	switch( select( "Cancel", "Exchange for " + getitemname(.@white_card), "Exchange for " + getitemname(.@khalitzburg_card) ) ) {
 	case 1:
@@ -560,7 +560,7 @@ glast_01,216,292,5	script	Portrait collector#0002	4_M_OILMAN,{
 		break;
 	}
 	mes "[Portrait collector]";
-	mes "What would you like in exchange for the " + getitemname(.@reward_id) + "?";
+	mes "What would you like in exchange for the " + mesitemcell(.@reward_id) + "?";
 	next;
 	if (countitem(.@coagulated_id) < .@amount_coag)
 		.@color$[0] = "^666666";

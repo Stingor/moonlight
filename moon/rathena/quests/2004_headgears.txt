@@ -1175,7 +1175,7 @@ payon_in03,8,193,4	script	Nanhyang#1	77,{
 		mes "- you put some items into Kafra Storage. -";
 		close;
 	}
-	if ((MaxWeight-Weight) < 2430) {
+	if (overweight(2430)) {
 		mes "[Nanhyang]";
 		mes "Hmmm...";
 		mes "You look like you're having trouble carrying all of your things. Why don't you place some of your extra items into the Kafra Storage?";
@@ -2076,7 +2076,7 @@ OnInit:
 //============================================================
 morocc,273,79,4	script	Educated Traveller	99,{
 	disable_items;
-	if ((MaxWeight-Weight) < 5000 || overitems()) {
+	if (overweight(5000) || overitems()) {
 		mes "- Wait a minute! -";
 		mes "- Currently you're over weight -";
 		mes "- to receive more items from this NPC. -";
