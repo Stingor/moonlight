@@ -309,6 +309,10 @@ Body:
         Rate: 25000
       - Mob: IRENE_ELDER
         Rate: 25000
+      - Mob: BAPHOMET_I
+        Rate: 50000
+      - Mob: MM_SARAH
+        Rate: 25000
   - Group: Branch_Of_Dead_Tree
     Default: SCORPION
     Summon:
