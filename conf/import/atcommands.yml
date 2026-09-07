@@ -188,3 +188,14 @@ Body:
     Help: |
       Trie le storage de guilde. Modes : defaut | type | quantite | poids | prix | nom
       Le storage doit être fermé. Le tri s'applique à la prochaine ouverture.
+  - Command: iteminfo
+    Aliases:
+      - search
+      - searchid
+      - itemsearch
+      - searchitem
+    Help: |
+      Cherche un objet par NOM (même en plusieurs mots) ou par ID, et affiche
+      son type, ses prix d'achat/revente, son poids et son taux de drop maximal.
+      Exemples : @search Pole Axe / @searchid 1364
+      Le nom trouvé est un lien : cliquez-le pour ouvrir sa description.
