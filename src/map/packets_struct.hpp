@@ -6793,6 +6793,52 @@ struct PACKET_ZC_BOURGEON_MVP_GROUP {
 	uint8  count;
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_MVP_GROUP, 0x0f32);
+// ── [Stingor] Qui est HORS du partage d'EXP, dans le groupe (ZC 0x0F35) ─────
+//
+// POURQUOI CE PAQUET EXISTE. `party_exp_share` écarte silencieusement des
+// membres du partage : un joueur inactif depuis `idle_no_share` secondes, un
+// mort, un vendeur. Écarté, il ne reçoit AUCUN appel à `pc_gainexp` — donc pas
+// d'EXP, et pas davantage la ligne de `@showexp`, qui n'est émise qu'au bout de
+// ce chemin. Rien, nulle part, ne le lui disait : le joueur constatait seulement
+// que « le partage à parts égales ne marche pas » (rapport de bug du 2026-09-07).
+//
+// 🔴 LE CLIENT NE PEUT PAS LE DÉDUIRE. `sd->idletime` n'est écrit que par les
+// handlers de paquets du map-server, et `battle_config.idletime_option` décide
+// de ce qui compte comme une activité : un client ne voit rien de ce que font
+// les autres, et ne connaît pas non plus le seuil configuré. D'où l'unique champ
+// d'en-tête, `idle_secs` — la valeur EFFECTIVE de `battle_config.idle_no_share`,
+// pour que l'interface puisse écrire « inactif depuis plus de 15 s » sans
+// recopier un 15 qui vit dans conf/import/battle_conf.txt.
+//
+// 🔴 LA CARTE N'EST PAS DEDANS, ET C'EST VOULU. `party_exp_share` compare la
+// carte de chaque membre à celle du MONSTRE : cette condition-là n'a de sens que
+// face à un kill donné, que le serveur ne peut pas anticiper. Le client, lui,
+// porte déjà la carte de chaque membre dans sa liste de groupe et la compare à
+// la sienne. Chacun dit ce qu'il sait ; personne ne devine.
+//
+// Poussé par `party_send_xy_timer`, et UNIQUEMENT quand l'état change : un
+// groupe dont tout le monde tape n'émet rien du tout.
+//
+// Layout: [type:2][len:2][idle_secs:2][count:2] puis count × BOURGEON_PARTY_SHARE_ENTRY
+enum e_bourgeon_party_share : uint8 {
+	BOURGEON_PSHARE_OK   = 0x00,  ///< reçoit bien sa part
+	BOURGEON_PSHARE_IDLE = 0x01,  ///< inactif depuis >= idle_no_share secondes
+	BOURGEON_PSHARE_DEAD = 0x02,  ///< mort
+	BOURGEON_PSHARE_BUSY = 0x04,  ///< salon de discussion, échoppe ou achat automatique
+};
+
+struct BOURGEON_PARTY_SHARE_ENTRY {
+	uint32 aid;    ///< account_id : la clé des lignes de groupe, côté client
+	uint8  flags;  ///< e_bourgeon_party_share ; 0 = ce membre reçoit sa part
+} __attribute__((packed));
+
+struct PACKET_ZC_BOURGEON_PARTY_SHARE {
+	int16  packetType;
+	int16  packetLength;
+	uint16 idle_secs;  ///< battle_config.idle_no_share ; 0 = la règle est ÉTEINTE
+	uint16 count;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_PARTY_SHARE, 0x0f35);
 
 
 // ── [Stingor] Buffs et debuffs d'une entite (CZ 0x0F2C -> ZC 0x0F2D) ────────

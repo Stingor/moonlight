@@ -1188,6 +1188,111 @@ int32 party_skill_check(map_session_data *sd, int32 party_id, uint16 skill_id, u
 	return 0;
 }
 
+
+/**
+ * [Stingor] Les raisons pour lesquelles ce membre est écarté du partage d'EXP.
+ *
+ * 🔴 C'EST LA SOURCE, ET `party_exp_share` L'APPELLE. Ce n'est pas une copie du
+ * test de partage faite pour l'affichage : c'est le test lui-même, sorti de la
+ * boucle pour que l'interface puisse le poser sans le réécrire. Une seconde
+ * lecture aurait fini par diverger de la première, et l'écran aurait alors
+ * annoncé le contraire de ce que fait le partage — exactement le genre d'écart
+ * qui se signale ensuite comme un bug d'affichage.
+ *
+ * Décomposé plutôt que rendu en booléen parce que le joueur a besoin de savoir
+ * LAQUELLE des trois le concerne : « inactif » se corrige en jouant, « en
+ * échoppe » en fermant l'échoppe, et un mort n'a rien à corriger du tout.
+ *
+ * ⚠ Le `if( battle_config.idle_no_share )` est le `&&` d'origine : à zéro, la
+ * règle entière est éteinte et rien de ce qu'elle recouvre ne compte, pas même
+ * l'échoppe. Les trois conditions internes sont celles de `pc_isidle_party`.
+ *
+ * @param sd Membre du groupe
+ * @return masque e_bourgeon_party_share ; 0 = il reçoit sa part
+ **/
+uint8 party_share_reason( map_session_data& sd ){
+	uint8 flags = BOURGEON_PSHARE_OK;
+
+	if( pc_isdead( &sd ) )
+		flags |= BOURGEON_PSHARE_DEAD;
+
+	if( battle_config.idle_no_share ){
+		if( sd.chatID || sd.state.vending || sd.state.buyingstore )
+			flags |= BOURGEON_PSHARE_BUSY;
+		if( DIFF_TICK( last_tick, sd.idletime ) >= battle_config.idle_no_share )
+			flags |= BOURGEON_PSHARE_IDLE;
+	}
+
+	return flags;
+}
+
+/**
+ * [Stingor] Diffuse aux clients Bourgeon du groupe qui est hors du partage d'EXP,
+ * et seulement quand cela CHANGE.
+ *
+ * Le silence est le cas courant : un groupe dont tout le monde tape produit le
+ * même vecteur seconde après seconde et n'émet rien. On ne paie donc que les
+ * transitions — quelqu'un qui s'immobilise, quelqu'un qui revient, une arrivée,
+ * un départ.
+ *
+ * ⚠ Quand personne n'écoute, on ressort SANS mémoriser : le vecteur retenu reste
+ * celui du dernier envoi réel, si bien que le premier client Bourgeon à rejoindre
+ * le groupe reçoit l'état au tour suivant plutôt que de rester devant une fenêtre
+ * muette jusqu'à la prochaine transition.
+ **/
+static void party_send_share_state( struct party_data& p ){
+	uint32 aid[MAX_PARTY];
+	uint8 flags[MAX_PARTY];
+	uint32 cid[MAX_PARTY];
+	int32 count = 0;
+	bool listening = false;
+
+	for( int32 i = 0; i < MAX_PARTY; i++ ){
+		map_session_data* sd = p.data[i].sd;
+
+		if( sd == nullptr )
+			continue;
+
+		aid[count] = sd->status.account_id;
+		cid[count] = sd->status.char_id;
+		flags[count] = party_share_reason( *sd );
+		count++;
+
+		if( sd->state.has_bourgeon )
+			listening = true;
+	}
+
+	if( !listening )
+		return;
+
+	// Le vecteur COMPLET fait foi, composition comprise : deux tableaux de même
+	// contenu dans le même ordre veulent dire « rien n'a bougé ».
+	bool same = true;
+	for( int32 i = 0; i < MAX_PARTY && same; i++ ){
+		const uint32 seen_cid = ( i < count ) ? cid[i] : 0;
+		const uint8 seen_flags = ( i < count ) ? flags[i] : 0;
+
+		if( p.share_seen[i].char_id != seen_cid || p.share_seen[i].flags != seen_flags )
+			same = false;
+	}
+
+	if( same )
+		return;
+
+	for( int32 i = 0; i < MAX_PARTY; i++ ){
+		p.share_seen[i].char_id = ( i < count ) ? cid[i] : 0;
+		p.share_seen[i].flags = ( i < count ) ? flags[i] : 0;
+	}
+
+	for( int32 i = 0; i < MAX_PARTY; i++ ){
+		map_session_data* sd = p.data[i].sd;
+
+		if( sd == nullptr )
+			continue;
+
+		clif_bourgeon_party_share( *sd, aid, flags, count );
+	}
+}
 TIMER_FUNC(party_send_xy_timer){
 	struct party_data* p;
 
@@ -1218,6 +1323,9 @@ TIMER_FUNC(party_send_xy_timer){
 				p->data[i].hp = sd->battle_status.hp;
 			}
 		}
+
+		// [Stingor] Et, au même rythme, qui reçoit encore sa part d'EXP.
+		party_send_share_state( *p );
 	}
 	dbi_destroy(iter);
 
@@ -1263,8 +1371,17 @@ void party_exp_share(struct party_data* p, block_list* src, t_exp base_exp, t_ex
 	nullpo_retv(p);
 
 	// count the number of players eligible for exp sharing
+	//
+	// [Stingor] Les exclusions autres que la carte sont passées à
+	// `party_share_reason` — la MÊME fonction que celle dont l'interface tire ce
+	// qu'elle affiche. Le test n'a pas changé de sens : le masque est non nul
+	// exactement quand `pc_isdead || (idle_no_share && pc_isidle_party)` l'était.
+	//
+	// La carte, elle, reste ici : elle se juge contre `src->m`, celle du monstre,
+	// donc elle n'existe pas hors d'un kill donné et n'a rien à faire dans un
+	// état qu'on diffuse à la seconde.
 	for (i = c = 0; i < MAX_PARTY; i++) {
-		if( (sd[c] = p->data[i].sd) == nullptr || sd[c]->m != src->m || pc_isdead(sd[c]) || (battle_config.idle_no_share && pc_isidle_party(sd[c])) )
+		if( (sd[c] = p->data[i].sd) == nullptr || sd[c]->m != src->m || party_share_reason( *sd[c] ) != BOURGEON_PSHARE_OK )
 			continue;
 		c++;
 	}

@@ -1705,6 +1705,11 @@ void clif_bourgeon_storage_list(map_session_data* sd, uint8 cur_id);
 // choisir un canal revient à chuchoter à « #nom », ce que clif_parse_WisMessage
 // route déjà vers le canal.
 void clif_bourgeon_channel_list(map_session_data* sd);
+// [Stingor] ZC 0x0F35 : qui, dans le groupe, est HORS du partage d'EXP.
+// Le vecteur est composé UNE fois par `party_send_xy_timer` puis servi à chaque
+// membre : il ne dépend pas du destinataire, seulement de l'état des membres.
+// No-op si !has_bourgeon — la fenêtre de groupe native n'a rien pour l'afficher.
+void clif_bourgeon_party_share(map_session_data& sd, const uint32* aid, const uint8* flags, int32 count);
 // CZ 0x0F1D : ouvrir un storage, ou basculer depuis celui qui est ouvert (ferme
 // puis rouvre — les @storagealt, eux, se contentent de fermer).
 void clif_parse_bourgeon_open_storage(int32 fd, map_session_data* sd);

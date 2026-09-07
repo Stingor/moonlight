@@ -8316,6 +8316,47 @@ void clif_parse_bourgeon_req_looks(int32 fd, map_session_data* sd) {
 	WFIFOSET(fd, len);
 }
 
+// ── Qui est HORS du partage d'EXP, dans le groupe (ZC 0x0F35) ────────────────
+//
+// Le vecteur arrive DÉJÀ COMPOSÉ (`party_send_share_state`) : il décrit l'état
+// des membres, pas la relation du destinataire à eux, donc les mêmes octets
+// partent à tout le groupe. On ne fait ici que l'écrire sur le fil.
+void clif_bourgeon_party_share( map_session_data& sd, const uint32* aid, const uint8* flags, int32 count ){
+	if( !sd.state.has_bourgeon )
+		return;
+	if( aid == nullptr || flags == nullptr )
+		return;
+
+	int32 fd;
+	if( !session_isActive( fd = sd.fd ) )
+		return;
+
+	if( count < 0 )
+		count = 0;
+	if( count > MAX_PARTY )
+		count = MAX_PARTY;
+
+	const int16 head = static_cast<int16>( sizeof( PACKET_ZC_BOURGEON_PARTY_SHARE ) );
+	const int16 entry = static_cast<int16>( sizeof( BOURGEON_PARTY_SHARE_ENTRY ) );
+	const int16 len = static_cast<int16>( head + count * entry );
+
+	WFIFOHEAD( fd, len );
+	WFIFOW( fd, 0 ) = HEADER_ZC_BOURGEON_PARTY_SHARE;
+	WFIFOW( fd, 2 ) = len;
+	// 🔴 LE SEUIL VOYAGE AVEC L'ÉTAT. Il vit dans conf/import/battle_conf.txt et
+	// n'est connu que du serveur : le client ne peut ni le deviner, ni le
+	// recopier sans mentir le jour où on le change. À zéro, la règle
+	// d'inactivité est ÉTEINTE (c'est le `&&` de party_exp_share) — le client ne
+	// doit alors rien dire de l'inactivité de qui que ce soit.
+	WFIFOW( fd, 4 ) = static_cast<uint16>( cap_value( battle_config.idle_no_share, 0, UINT16_MAX ) );
+	WFIFOW( fd, 6 ) = static_cast<uint16>( count );
+	for( int32 i = 0; i < count; i++ ){
+		const int32 off = head + i * entry;
+		WFIFOL( fd, off + 0 ) = aid[i];
+		WFIFOB( fd, off + 4 ) = flags[i];
+	}
+	WFIFOSET( fd, len );
+}
 // ── Interface moderne : ce que ce client sait afficher (CZ 0x0F24) ───────────
 //
 // Le client l'annonce dès que le serveur l'a reconnu, PUIS à chaque fois qu'un

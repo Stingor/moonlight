@@ -33,6 +33,18 @@ struct party_data {
 		unsigned snovice :1; //There's a Super Novice
 		unsigned tk : 1; //There's a taekwon
 	} state;
+	/// [Stingor] Dernier état d'éligibilité au partage d'EXP DIFFUSÉ aux clients
+	/// Bourgeon (ZC_BOURGEON_PARTY_SHARE). Indexé comme `data[]` ; char_id 0 =
+	/// emplacement vide.
+	///
+	/// 🔴 LA COMPOSITION DU GROUPE EN FAIT PARTIE, et c'est le point : comme le
+	/// char_id est mémorisé à côté du drapeau, une arrivée, un départ ou une
+	/// déconnexion changent le vecteur et déclenchent d'eux-mêmes un renvoi. Rien
+	/// à câbler dans les chemins de join/leave, donc rien à oublier d'y câbler.
+	struct {
+		uint32 char_id;
+		uint8  flags;   ///< e_bourgeon_party_share
+	} share_seen[MAX_PARTY];
 };
 
 struct party_booking_detail {
@@ -92,6 +104,17 @@ int32 party_send_message(map_session_data *sd,const char *mes, size_t len);
 int32 party_recv_message( int32 party_id, uint32 account_id, const char *mes, size_t len );
 int32 party_skill_check(map_session_data *sd, int32 party_id, uint16 skill_id, uint16 skill_lv);
 int32 party_send_xy_clear(struct party_data *p);
+/// [Stingor] Les raisons pour lesquelles ce membre est écarté du partage d'EXP.
+/// 0 = il reçoit sa part. Cf. e_bourgeon_party_share.
+///
+/// 🔴 C'EST LA SOURCE, PAS UNE COPIE : `party_exp_share` l'appelle pour décider
+/// qui il écarte, et l'interface montre exactement ce qu'elle rend. Deux lectures
+/// séparées auraient fini par diverger, et l'écran aurait alors annoncé le
+/// contraire de ce que fait le partage.
+///
+/// ⚠ La CARTE n'est pas ici : elle se juge face au monstre tué (`src->m`), pas
+/// dans l'absolu. Elle reste sur place, dans party_exp_share.
+uint8 party_share_reason( map_session_data& sd );
 void party_exp_share(struct party_data *p,block_list *src,t_exp base_exp,t_exp job_exp,int32 zeny);
 int32 party_share_loot(struct party_data* p, map_session_data* sd, struct item* item, int32 first_charid);
 int32 party_send_dot_remove(map_session_data *sd);
