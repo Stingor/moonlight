@@ -3443,8 +3443,10 @@ OnVictory:
 	npctalk "I have to go... My friends are waiting for me.";
 	sleep sleephm('hm, 5000);
 	instance_warpall instance_mapname("1@gef"),120,61, instance_id();
+	removemapflag instance_mapname("1@gef"),mf_nowarpto;
+	removemapflag instance_mapname("1@gef"),mf_nowarp;
+	removemapflag instance_mapname("1@gef"),noteleport;
 	end;
-
 }
 
 1@ge_st,108,50,4	script	#fenrirtalk	139,25,25,{
