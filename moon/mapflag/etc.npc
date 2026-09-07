@@ -280,3 +280,7 @@ region_8	mapflag	loadevent
 // Para Market
 paramk	mapflag	nobranch
 paramk	mapflag	nomemo
+
+// Infinite Space
+1@infi	mapflag	loadevent
+1@infi	mapflag	nomemo

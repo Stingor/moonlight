@@ -299,3 +299,6 @@ silk_lair	mapflag	partylock
 1@pop1	mapflag	partylock
 1@pop2	mapflag	partylock
 1@pop3	mapflag	partylock
+
+// Infinite Space
+1@infi	mapflag	partylock

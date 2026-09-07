@@ -212,3 +212,6 @@ arug_cas05	mapflag	restricted	4
 1@pop1	mapflag	restricted	6
 1@pop2	mapflag	restricted	6
 1@pop3	mapflag	restricted	6
+
+// Infinite Space
+1@infi	mapflag	restricted	6

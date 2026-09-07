@@ -638,3 +638,7 @@ paramk	mapflag	noteleport
 1@pop1	mapflag	monster_noteleport
 1@pop2	mapflag	monster_noteleport
 1@pop3	mapflag	monster_noteleport
+
+// Infinite Space
+1@infi	mapflag	noteleport
+1@infi	mapflag	monster_noteleport

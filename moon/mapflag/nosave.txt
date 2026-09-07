@@ -216,3 +216,6 @@ rockmi2	mapflag	nosave	SavePoint
 1@pop1	mapflag	nosave	SavePoint
 1@pop2	mapflag	nosave	SavePoint
 1@pop3	mapflag	nosave	SavePoint
+
+// Infinite Space
+1@infi	mapflag	nosave	SavePoint

@@ -235,6 +235,11 @@ OnTimer20000:
 	.@event2$ = instance_npcname(strnpcinfo(0)) + "::OnPoringKill";
 	killmonster 'map$,.@event2$;
 	stopnpctimer;
+	// Le Shining Poring s'est evapore : liberer la sortie si elle etait en attente
+	if ('floor_pending) {
+		'floor_pending = 0;
+		donpcevent instance_npcname(strnpcinfo(0)) + "::OnFloorClear";
+	}
 	end;
 
 OnSummon:
@@ -550,9 +555,28 @@ OnMobKill:
 	if (rand(1,100) <= 'poring_chance)
 		donpcevent instance_npcname(strnpcinfo(0)) + "::OnSummonPoring";
 	.@remaining = mobcount('map$,.@event$);
-	if (.@remaining > 0)
+	if (.@remaining > 0) {
 		mapannounce 'map$,"Remaining Monsters on the " + callfunc("F_GetNumSuffix",'floor) + " Level - " + .@remaining,bc_map,"0x00ff99";
-	else {
+		end;
+	}
+	// Etage vide : si un Shining Poring vit encore, differer l'ouverture du passage
+	if (mobcount('map$,instance_npcname(strnpcinfo(0)) + "::OnPoringKill")) {
+		'floor_pending = 1;
+		mapannounce 'map$,"A Shining Poring is still here! The passage will open once it is gone.",bc_map,"0x00ff99";
+		end;
+	}
+	donpcevent instance_npcname(strnpcinfo(0)) + "::OnFloorClear";
+	end;
+
+OnPoringKill:
+	if ('floor_pending) {
+		'floor_pending = 0;
+		donpcevent instance_npcname(strnpcinfo(0)) + "::OnFloorClear";
+	}
+	end;
+
+OnFloorClear:
+	{
 		mapannounce 'map$,"All Monsters on the " + callfunc("F_GetNumSuffix",'floor) + " Level have been defeated.",bc_map,"0xffff00";
 		// Boss Stage, spawn Treasure Chest
 		if (('floor%10) == 0)
@@ -572,7 +596,6 @@ OnMobKill:
 			'floor += 1;
 		}
 	}
-OnPoringKill:
 	end;
 }
 

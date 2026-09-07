@@ -353,3 +353,6 @@ star_in	mapflag	nowarpto
 1@pop1	mapflag	nowarpto
 1@pop2	mapflag	nowarpto
 1@pop3	mapflag	nowarpto
+
+// Infinite Space
+1@infi	mapflag	nowarpto
