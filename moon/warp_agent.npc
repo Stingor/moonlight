@@ -965,7 +965,7 @@ function WarpMenu {
 	return;
 }
 Hard_Mode:
-	if( is_party_leader(getcharid(1)) == true && (getgroupid() == 99 || getarg(0) != "^FF0000") ) {
+	if( is_party_leader(getcharid(1)) == true && (getgroupid() >= 99 || getarg(0) != "^FF0000") ) {
 		clear;
 		mes .@npc_name$;
 		mes "Cette instance est disponible avec plusieur niveau de difficulté, êtes vous prêts à tenter?";
@@ -975,7 +975,7 @@ Hard_Mode:
 	return 1;
 
 Turbo_Mode:
-	if( is_party_leader(getcharid(1)) == true && (getgroupid() == 99 || getarg(0) != "^FF0000") ) {
+	if( is_party_leader(getcharid(1)) == true && (getgroupid() >= 99 || getarg(0) != "^FF0000") ) {
 		clear;
 		mes .@npc_name$;
 		mes "Cette instance est disponible avec le mode turbo.";
@@ -1083,7 +1083,7 @@ Process_Instance:
 			mes "^ff0000Si vous mourrez ou sortez vous ne pourrez plus entrer de nouveau.^000000";
 			if( select("-:Ok:-") == 2 ) next;
 			else close;
-			callsub Create_Instance, getarg(0), getarg(1); // Création instance
+			callsub Create_Instance, getarg(0), getarg(1), getarg(2,0); // Création instance
 			if ( BaseLevel < 100 ) {
 				mes .@npc_name$;
 				mes "Vous venez être au moins niveau 100 pour entrer cette instance!";

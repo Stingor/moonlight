@@ -1399,14 +1399,15 @@ Body:
     Targets:
      - Id: 0
        Mob: E1_FELOCK
+       Count: 10
     Score: 20
   - Id: 128041
     Group: Battle
     Name: Turmoil on board
-    Targets:
-     - Id: 0
-       Mob: E1_FELOCK
-       Count: 10
+    # Targets:
+     # - Id: 0
+       # Mob: E2_FELOCK
+       # Count: 10
     Score: 20
   - Id: 128042
     Group: Battle
