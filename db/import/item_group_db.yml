@@ -22388,6 +22388,21 @@ Body:
           - Index: 94
             Item: N_Amon_Ra_Card
             Rate: 1
+          - Index: 95
+            Item: IFN_Osiris_Card
+            Rate: 1
+          - Index: 96
+            Item: IFN_Eddga_Card
+            Rate: 1
+          - Index: 97
+            Item: IFN_Phreeoni_Card
+            Rate: 1
+          - Index: 98
+            Item: IFN_OrcHero_Card
+            Rate: 1
+          - Index: 99
+            Item: IFN_Tao_Gunka_Card
+            Rate: 1
   - Group: SGRADE_POCKET
     SubGroups:
       - SubGroup: 0

@@ -7431,12 +7431,6 @@ Body:
     Locations:
       Right_Hand: true
     Script: "bonus2 bSkillAtk,\"WS_CARTTERMINATION\",20+((getrefine()>=10)*20);\n"
-  - Id: 6846
-    AegisName: Limited_Gym_Membership_Card
-    Name: (Limited)Gym Membership Card
-    Type: Card
-    Buy: 10
-    Weight: 10
   - Id: 22875
     AegisName: Sealed_Beelzebub_Card
     Name: Sealed Beelzebub Card
@@ -8884,54 +8878,6 @@ Body:
     Locations:
       Both_Accessory: true
     Script: "bonus bDelayrate,-4;\n"
-  - Id: 29148
-    AegisName: Leo_Stone
-    Name: Leo Stone
-    Type: Card
-    Buy: 10
-    Locations:
-      Shoes: true
-    Script: "bonus bStr,1;\n"
-  - Id: 29149
-    AegisName: Pisces_Stone
-    Name: Pisces Stone
-    Type: Card
-    Buy: 10
-    Locations:
-      Shoes: true
-    Script: "bonus bInt,1;\n"
-  - Id: 29150
-    AegisName: Capricorn_Stone
-    Name: Capricorn Stone
-    Type: Card
-    Buy: 10
-    Locations:
-      Shoes: true
-    Script: "bonus bAgi,1;\n"
-  - Id: 29151
-    AegisName: Aquarius_Stone
-    Name: Aquarius Stone
-    Type: Card
-    Buy: 10
-    Locations:
-      Shoes: true
-    Script: "bonus bVit,1;\n"
-  - Id: 29152
-    AegisName: Scorpio_Stone
-    Name: Scorpio Stone
-    Type: Card
-    Buy: 10
-    Locations:
-      Shoes: true
-    Script: "bonus bDex,1;\n"
-  - Id: 29153
-    AegisName: Taurus_Stone
-    Name: Taurus Stone
-    Type: Card
-    Buy: 10
-    Locations:
-      Shoes: true
-    Script: "bonus bLuk,1;\n"
   - Id: 31006
     AegisName: LoVA_Hades_Card
     Name: LoVA Hades Card
