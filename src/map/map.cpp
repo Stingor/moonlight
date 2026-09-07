@@ -55,6 +55,7 @@
 #include "pet.hpp"
 #include "quest.hpp"
 #include "storage.hpp"
+#include "card_album.hpp" // card_album_close : le verrou de l'album rendu à la déconnexion
 #include "trade.hpp"
 
 using namespace rathena;
@@ -2293,6 +2294,10 @@ int32 map_quit(map_session_data *sd) {
 		else if (sd->state.buyingstore)
 			buyingstore_close(sd);
 	}
+
+	// [Stingor] Album de cartes : rendre le verrou du compte Moonlight, sinon
+	// une déconnexion brutale le laisserait tenu par une session disparue.
+	card_album_close(sd);
 
 	if(!sd->state.active) { //Removing a player that is not active.
 		struct auth_node *node = chrif_search(sd->status.account_id);

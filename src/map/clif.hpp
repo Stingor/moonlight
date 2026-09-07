@@ -53,6 +53,7 @@ struct s_captcha_data;
 enum e_macro_detect_status : uint8;
 enum e_macro_report_status : uint8;
 enum e_hom_state2 : uint8;
+enum e_card_album_result : uint8;
 enum _sp;
 enum e_searchstore_failure : uint16;
 
@@ -1786,11 +1787,19 @@ void clif_parse_bourgeon_player_admin(int32 fd, map_session_data* sd);
 
 // ── Interface moderne : ce que le client SAIT afficher (CZ 0x0F24) ───────────
 //
-// 🔴 Un bit = une SURFACE qui rend les balises maison, pas une préférence de jeu.
+// 🔴 Un bit = une SURFACE de l'interface moderne, jamais une préférence de jeu.
 // `has_bourgeon` dit qu'on parle à un client Bourgeon ; ceci dit laquelle de ses
 // interfaces est allumée, ce que le joueur peut changer à tout moment. Miroir
 // exact de `UiCaps::Cap` côté client (Bourgeon/src/features/systems/ui_caps.h) :
 // les deux listes doivent bouger ensemble.
+//
+// À l'origine un bit répondait seulement à « si j'envoie du markup Bourgeon sur
+// cette surface, sera-t-il rendu ? ». MVP_TRACKER puis CARD_ALBUM ont élargi la
+// question à « cette surface EXISTE-t-elle chez ce joueur ? », parce que le
+// serveur doit aussi savoir à qui il peut ouvrir une fonctionnalité qui n'a pas
+// d'équivalent natif. La règle commune reste : un bit décrit ce que le CLIENT
+// sait montrer, et rien de ce que le joueur préfère (les préférences ont leur
+// propre chemin, CZ_BOURGEON_SETTING, et sont persistées ; ceci ne l'est pas).
 enum e_bourgeon_ui_cap : uint32 {
 	// Le dialogue NPC est rendu par l'overlay moderne : il connaît <MOBL>, <ITMR>,
 	// <CRAF>, <SETL>, <IMG>, <MOBS> et <MOBP>.
@@ -1800,6 +1809,11 @@ enum e_bourgeon_ui_cap : uint32 {
 	// La fenêtre du carnet de chasse MVP est ouverte : les deltas seront montrés.
 	// Le bit tombe quand le joueur la ferme, et le serveur cesse alors de diffuser.
 	BOURGEON_UI_MVP_TRACKER = 0x00000004,
+	// L'album de cartes est disponible dans cette interface. Sans ce bit, le
+	// serveur refuse les commandes d'album — un client natif n'a aucune surface
+	// pour les montrer, et un sacrifice est IRRÉVERSIBLE : mieux vaut refuser que
+	// consommer une carte dont le joueur ne verrait jamais le résultat.
+	BOURGEON_UI_CARD_ALBUM = 0x00000008,
 };
 
 void clif_parse_bourgeon_ui_caps(int32 fd, map_session_data* sd);
@@ -1817,6 +1831,26 @@ void clif_bourgeon_mvp_group(map_session_data& sd);
 void clif_bourgeon_mvp_group_all(const s_mvp_group& group);
 void clif_bourgeon_mvp_invite(map_session_data& sd);
 void clif_bourgeon_mvp_result(map_session_data& sd, uint8 result);
+
+// [Stingor] Album de cartes (CZ 0x0F34 -> ZC 0x0F33).
+//
+// Les commandes. UNLOCK sacrifie une copie pour ouvrir l'emplacement, PUT y
+// dépose, GET en retire — trois verbes distincts et JAMAIS déductibles l'un de
+// l'autre : le serveur ne doit pas décider seul qu'un dépôt sur emplacement
+// fermé « vaut » un sacrifice, qui est irréversible.
+enum e_card_album_cmd : uint8 {
+	CARD_ALBUM_CMD_REFRESH = 0, ///< renvoyer l'état complet, ne rien modifier
+	CARD_ALBUM_CMD_UNLOCK,      ///< arg = index inventaire ; sacrifie 1 copie
+	CARD_ALBUM_CMD_PUT,         ///< arg = index inventaire
+	CARD_ALBUM_CMD_GET,         ///< arg = nameid SERVEUR
+	CARD_ALBUM_CMD_CLOSE,       ///< la fenêtre se ferme : rendre le verrou (pas de réponse)
+	CARD_ALBUM_CMD_MAX,
+};
+
+// Pousse l'état COMPLET de l'album (catalogue + réserve), avec l'issue de la
+// dernière commande. Gate : has_bourgeon ET BOURGEON_UI_CARD_ALBUM.
+void clif_bourgeon_card_album(map_session_data& sd, e_card_album_result result);
+void clif_parse_bourgeon_card_album_cmd(int32 fd, map_session_data* sd);
 
 // Retire d'un texte les balises maison que ce client ne rendra pas, en gardant le
 // libellé qu'elles transportent (« <MOBL>1002:0:Poring</MOBL> » -> « Poring »).

@@ -2784,6 +2784,7 @@ void pc_reg_received(map_session_data *sd)
 	if (pc_get_group_level(sd) >= 80)
 		sd->state.block_action |= PCBLOCK_IMMUNE;
 	pc_ignorechat_load(sd); // @ignore : liste des personnages dont le chat est masqué
+	card_album_load(sd); // Album de cartes : les emplacements débloqués du compte
 	// MVP tracker : index de diffusion. Un même compte Moonlight peut avoir
 	// plusieurs comptes de jeu connectés, d'où un vecteur et non un pointeur.
 	mvp_tracker_on_login(*sd);

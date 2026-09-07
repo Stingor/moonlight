@@ -1211,6 +1211,95 @@ ACMD_FUNC(storecard)
 }
 
 /*==========================================
+ * @storealbum [Stingor]
+ * Range dans l'ALBUM toutes les cartes de l'inventaire dont l'emplacement est
+ * DEJA debloque. Pendant de @storecard, mais bien plus simple :
+ *
+ * @storecard doit ouvrir un vrai coffre premium, donc attendre le char-server
+ * (d'ou tout son mecanisme de pending_storeall et le correctif de course qui va
+ * avec). L'album, lui, ne passe jamais par le char-server : il vit en memoire
+ * dans sd->card_album et s'ecrit directement en SQL. Il n'y a donc RIEN a
+ * attendre, et pas un seul drapeau differe a armer.
+ *
+ * 🔴 AUCUN SACRIFICE AUTOMATIQUE. Une carte dont l'emplacement n'est pas ouvert
+ * est IGNOREE et signalee, jamais consommee : le sacrifice est irreversible, il
+ * ne doit sortir que d'une confirmation explicite, jamais d'un rangement en
+ * masse tape a la volee.
+ *------------------------------------------*/
+ACMD_FUNC(storealbum)
+{
+	nullpo_retr(-1, sd);
+
+	if (sd->status.user_id == 0) {
+		clif_displaymessage(fd, "Ce compte de jeu n'est rattache a aucun compte Moonlight : pas d'album.");
+		return -1;
+	}
+
+	// Memes gardes que les operations d'album : on ne deplace pas une carte
+	// pendant un echange, ni pendant qu'un coffre est ouvert.
+	if (pc_istrading(sd)) {
+		clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
+		return -1;
+	}
+	if (sd->state.storage_flag != 0) {
+		clif_displaymessage(fd, msg_txt(sd,251)); // You have already opened your guild storage. Close it first.
+		return -1;
+	}
+
+	// L'album se TIENT, comme un coffre : un seul compte de jeu du compte
+	// Moonlight a la fois. Pris ici le temps de la commande si la fenetre n'est
+	// pas ouverte, et rendu apres — la fenetre, elle, garde le sien.
+	const bool held_before = card_album_is_open(sd);
+	if (card_album_open(sd) != CARD_ALBUM_OK) {
+		clif_displaymessage(fd, "L'album de cartes est deja ouvert sur un autre de vos comptes de jeu.");
+		return -1;
+	}
+
+	int moved = 0;
+	int locked = 0;
+
+	for (int i = 0; i < MAX_INVENTORY; i++) {
+		struct item& it = sd->inventory.u.items_inventory[i];
+
+		if (it.nameid == 0 || it.amount <= 0)
+			continue;
+		if (!card_album_is_collectible(it.nameid))
+			continue;
+		// Liee ou en location : la reduire a (nameid, amount) perdrait l'attribut.
+		if (it.bound != BOUND_NONE || it.expire_time != 0)
+			continue;
+
+		if (card_album_find(sd, it.nameid) == nullptr) {
+			locked++;
+			continue;
+		}
+
+		// Lu AVANT le transfert : card_album_put appelle pc_delitem, qui vide le
+		// slot. Le tableau, lui, ne se compacte pas — iterer par index reste sur.
+		const uint16 amount = (uint16)it.amount;
+
+		if (card_album_put(sd, (int16)i, amount) == CARD_ALBUM_OK)
+			moved += amount;
+	}
+
+	if (moved > 0)
+		clif_bourgeon_card_album(*sd, CARD_ALBUM_OK);
+
+	if (!held_before)
+		card_album_close(sd);
+
+	sprintf(atcmd_output, "Album : %d carte(s) rangee(s).", moved);
+	clif_displaymessage(fd, atcmd_output);
+
+	if (locked > 0) {
+		sprintf(atcmd_output, "%d pile(s) ignoree(s) : emplacement non debloque (un sacrifice est necessaire).", locked);
+		clif_displaymessage(fd, atcmd_output);
+	}
+
+	return 0;
+}
+
+/*==========================================
  * Show Monster DB Info   v 1.0
  * originally by [Lupus]
  *------------------------------------------*/

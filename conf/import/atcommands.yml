@@ -95,6 +95,16 @@ Body:
       - storeallcards
     Help: |
       Envoie toutes vos cards dans le storagecard.
+  - Command: storealbum
+    Aliases:
+      - albumstore
+      - storeallalbum
+      - cardalbum
+    Help: |
+      Range dans l'album de cartes toutes les cards de votre inventaire dont
+      l'emplacement est DEJA debloque. Les autres sont laissees en place et
+      comptees : debloquer un emplacement coute le sacrifice d'une carte, et
+      cela ne se fait jamais automatiquement.
   - Command: autolootitem
     Aliases:
       - autolootitems

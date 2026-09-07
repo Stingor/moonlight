@@ -16,6 +16,7 @@
 
 #include "battleground.hpp"
 #include "buyingstore.hpp" // struct s_buyingstore
+#include "card_album.hpp" // struct s_card_album_entry
 #include "clif.hpp" //e_wip_block
 #include "itemdb.hpp" // MAX_ITEMGROUP
 #include "map.hpp" // RC_ALL
@@ -399,6 +400,7 @@ public:
 		uint32 gangsterparadise : 1;
 		uint32 rest : 1;
 		uint32 storage_flag : 3; //0: closed, 1: Normal Storage open, 2: guild storage open [Skotlex], 3: Premium Storage
+		uint32 card_album_open : 1; // [Stingor] cette session TIENT l'album de cartes (card_album_open/close)
 		uint32 snovice_dead_flag : 1; //Explosion spirits on death: 0 off, 1 used.
 		uint32 abra_flag : 2; // Abracadabra bugfix by Aru
 		uint32 autocast : 1; // Autospell flag [Inkfish]
@@ -590,6 +592,16 @@ public:
 		uint32 user_id;
 		char name[NAME_LENGTH];
 	} ignoreChats[MAX_IGNORECHAT_LIST];
+
+	// [Stingor] Album de cartes : les emplacements DÉBLOQUÉS de ce compte, triés
+	// par nameid. Une entrée existe dès que la carte a été sacrifiée une fois, et
+	// `amount == 0` est un état normal (emplacement ouvert, réserve vide) — ne
+	// jamais confondre « absent » et « vide ». Chargé au login par
+	// card_album_load(), écrit au fil de l'eau dans la table `card_album`, et
+	// jamais transporté par le char-server : c'est ce qui l'affranchit du plafond
+	// de 600/850 slots des storages. Clé = COMPTE MOONLIGHT (status.user_id),
+	// comme ignoreChats ci-dessus. Cf. src/map/card_album.hpp.
+	std::vector<s_card_album_entry> card_album;
 
 	int32 followtimer; // [MouseJstr]
 	int32 followtarget;

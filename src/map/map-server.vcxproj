@@ -201,6 +201,7 @@
     <ClInclude Include="battle.hpp" />
     <ClInclude Include="battleground.hpp" />
     <ClInclude Include="buyingstore.hpp" />
+    <ClInclude Include="card_album.hpp" />
     <ClInclude Include="cashshop.hpp" />
     <ClInclude Include="channel.hpp" />
     <ClInclude Include="chat.hpp" />
@@ -1498,6 +1499,7 @@
     <ClCompile Include="battle.cpp" />
     <ClCompile Include="battleground.cpp" />
     <ClCompile Include="buyingstore.cpp" />
+    <ClCompile Include="card_album.cpp" />
     <ClCompile Include="cashshop.cpp" />
     <ClCompile Include="channel.cpp" />
     <ClCompile Include="chat.cpp" />

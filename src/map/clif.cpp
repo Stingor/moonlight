@@ -31,6 +31,7 @@
 #include "atcommand.hpp"
 #include "battle.hpp"
 #include "battleground.hpp"
+#include "card_album.hpp"
 #include "cashshop.hpp"
 #include "channel.hpp"
 #include "chat.hpp"
@@ -8316,6 +8317,7 @@ void clif_parse_bourgeon_req_looks(int32 fd, map_session_data* sd) {
 	WFIFOSET(fd, len);
 }
 
+
 // ── Qui est HORS du partage d'EXP, dans le groupe (ZC 0x0F35) ────────────────
 //
 // Le vecteur arrive DÉJÀ COMPOSÉ (`party_send_share_state`) : il décrit l'état
@@ -8724,6 +8726,151 @@ void clif_parse_bourgeon_mvp_cmd(int32 fd, map_session_data* sd) {
 		// Entrer dans un groupe donne accès à ce qu'il sait déjà.
 		clif_bourgeon_mvp_snapshot(*sd);
 	}
+}
+
+// ── [Stingor] Album de cartes (CZ 0x0F34 -> ZC 0x0F33) ──────────────────────
+//
+// L'album vit hors du système de storage (cf. src/map/card_album.hpp) : le
+// serveur en est la SEULE autorité, le client n'affiche que ce qu'on lui envoie.
+
+// Le gate. `has_bourgeon` ne suffit pas : il faut que l'interface moderne
+// annonce la surface. Un sacrifice est IRRÉVERSIBLE, et un client natif n'a
+// aucune fenêtre pour montrer ce qu'il vient de coûter — refuser vaut mieux que
+// consommer une carte dans le vide.
+static bool clif_bourgeon_card_album_allowed(map_session_data& sd) {
+	return sd.state.has_bourgeon && (sd.bourgeon_ui_caps & BOURGEON_UI_CARD_ALBUM) != 0;
+}
+
+// Pousse l'état COMPLET : tout le catalogue, chaque carte portant sa réserve et
+// son bit « débloqué ». Un seul paquet, jamais paginé.
+void clif_bourgeon_card_album(map_session_data& sd, e_card_album_result result) {
+	if (!clif_bourgeon_card_album_allowed(sd)) return;
+	const int32 fd = sd.fd;
+	if (!session_isActive(fd)) return;
+
+	const std::vector<s_card_album_card>& catalog = card_album_catalog();
+
+	// packetLength est un int16 signé : 32767 octets, soit ~2900 entrées de 11. Le
+	// catalogue en compte ~912, donc la marge est de 3x. La borne n'est pas là
+	// pour aujourd'hui mais pour le jour où quelqu'un verserait un item_db
+	// renewal (5593 cartes) : tronquer en le DISANT, plutôt que déborder en
+	// silence sur un champ de longueur qui repasserait en négatif.
+	const size_t max_entries = (32767 - sizeof(PACKET_ZC_BOURGEON_CARD_ALBUM)) / sizeof(CARD_ALBUM_ENTRY);
+	size_t n = catalog.size();
+	const bool truncated = n > max_entries;
+
+	if (truncated) n = max_entries;
+
+	const size_t pkt_len = sizeof(PACKET_ZC_BOURGEON_CARD_ALBUM) + n * sizeof(CARD_ALBUM_ENTRY);
+
+	WFIFOHEAD(fd, pkt_len);
+	memset(WFIFOP(fd, 0), 0, pkt_len);
+	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_CARD_ALBUM;
+	WFIFOW(fd, 2) = static_cast<int16>(pkt_len);
+	WFIFOB(fd, 4) = static_cast<uint8>(result);
+	WFIFOW(fd, 5) = static_cast<uint16>(n);
+
+	// Catalogue et album sont TOUS DEUX triés par nameid (card_album_catalog les
+	// trie, card_album_load lit ORDER BY et card_album_unlock insère en place).
+	// On les fusionne donc en un seul passage, au lieu de chercher chaque carte
+	// dans l'album — ce qui ferait ~830 000 comparaisons par envoi.
+	size_t ai = 0;
+	size_t off = sizeof(PACKET_ZC_BOURGEON_CARD_ALBUM);
+
+	for (size_t i = 0; i < n; ++i) {
+		const s_card_album_card& card = catalog[i];
+
+		while (ai < sd.card_album.size() && sd.card_album[ai].nameid < card.nameid) ai++;
+
+		const bool unlocked = ai < sd.card_album.size() && sd.card_album[ai].nameid == card.nameid;
+
+		// 🔴 id SERVEUR, pas client_nameid(). Le client renvoie cet id tel quel
+		// dans CARD_ALBUM_CMD_GET : une seule convention des deux côtés, donc
+		// aucune reconversion à tenir juste. C'est sans perte pour l'affichage —
+		// aucune carte n'a de View (client_nameid serait l'identité) — et ça reste
+		// correct si l'une en recevait un, alors que passer par l'id client ferait
+		// alors collisionner deux cartes dans le catalogue.
+		WFIFOL(fd, off) = card.nameid;                                        off += 4;
+		WFIFOW(fd, off) = unlocked ? sd.card_album[ai].amount : 0;            off += 2;
+		WFIFOB(fd, off) = unlocked ? 1 : 0;                                   off += 1;
+		WFIFOL(fd, off) = card.equip;                                         off += 4;
+	}
+
+	WFIFOSET(fd, pkt_len);
+
+	if (truncated) {
+		ShowWarning("clif_bourgeon_card_album: catalogue tronque a %lu cartes (le paquet ne peut pas en porter plus).\n",
+			static_cast<unsigned long>(n));
+	}
+}
+
+// Handles CZ_BOURGEON_CARD_ALBUM_CMD (0x0F34).
+void clif_parse_bourgeon_card_album_cmd(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!clif_bourgeon_card_album_allowed(*sd)) return;
+
+	const int32 pkt_len = RFIFOW(fd, 2);
+
+	// [type:2][len:2][cmd:1][arg:4][amount:2] = 11 octets.
+	if (pkt_len < static_cast<int32>(sizeof(PACKET_CZ_BOURGEON_CARD_ALBUM_CMD))) return;
+
+	const uint8  cmd    = RFIFOB(fd, 4);
+	const uint32 arg    = RFIFOL(fd, 5);
+	const uint16 amount = RFIFOW(fd, 9);
+
+	// Fermeture : rendre le verrou, sans réponse — la fenêtre n'est plus là pour
+	// la lire, et un état complet pour rien ferait 10 Ko sur le fil.
+	if (cmd == CARD_ALBUM_CMD_CLOSE) {
+		card_album_close(sd);
+		return;
+	}
+
+	// 🔴 Toute autre commande TIENT l'album, ou est refusée. Un seul compte de
+	// jeu par compte Moonlight à la fois, comme un coffre : c'est la première
+	// garde contre la duplication par deux clients ouverts.
+	e_card_album_result result = card_album_open(sd);
+
+	if (result != CARD_ALBUM_OK) {
+		clif_bourgeon_card_album(*sd, result);
+		return;
+	}
+
+	// 🔴 `arg` est un index CLIENT pour UNLOCK et PUT, et l'inventaire décale de
+	// DEUX (client_index = server_index + 2). L'utiliser tel quel lit un autre
+	// objet — souvent un slot vide, d'où un refus qui semble inexplicable côté
+	// joueur. La conversion vit ici, dans la couche clif, comme toutes les autres :
+	// card_album.cpp ne parle qu'en index serveur.
+	const bool index_ok = arg >= 2 && arg < static_cast<uint32>(MAX_INVENTORY) + 2;
+	const int16 inv_index = index_ok ? static_cast<int16>(server_index(static_cast<uint16>(arg))) : -1;
+
+	switch (cmd) {
+		case CARD_ALBUM_CMD_REFRESH:
+			// Relu depuis SQL, pas renvoyé du cache : l'album est celui du compte
+			// Moonlight, et un AUTRE compte de jeu de la même personne peut y
+			// avoir rangé ou repris des cartes depuis notre login. Le cache de
+			// cette session ne le saurait pas ; la table, si.
+			card_album_load(sd);
+			break;
+		case CARD_ALBUM_CMD_UNLOCK:
+			// Toujours UNE copie : le sacrifice n'a pas de quantité, et en
+			// accepter une inviterait à en brûler plusieurs par accident.
+			result = card_album_unlock(sd, inv_index);
+			break;
+		case CARD_ALBUM_CMD_PUT:
+			result = card_album_put(sd, inv_index, amount);
+			break;
+		case CARD_ALBUM_CMD_GET:
+			result = card_album_get(sd, static_cast<t_itemid>(arg), amount);
+			break;
+		default:
+			return;
+	}
+
+	// 🔴 APRÈS les opérations, donc après les paquets natifs d'inventaire qu'elles
+	// ont émis (pc_delitem / pc_additem). Un ZC custom glissé AVANT un delitem a
+	// déjà vidé le buffer de réception du client et fabriqué un item fantôme au
+	// dépôt du storage — ne pas rejouer ce bug en « confirmant » plus tôt.
+	clif_bourgeon_card_album(*sd, result);
 }
 
 // [Stingor] Outillage NPC du menu contextuel (CZ 0x0F25).

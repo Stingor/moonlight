@@ -2118,4 +2118,9 @@ parseable_packet(HEADER_CZ_BOURGEON_PLAYER_ADMIN, sizeof(PACKET_CZ_BOURGEON_PLAY
 // presets — VARIABLE (-1), la longueur du texte final s'en déduit.
 parseable_packet(HEADER_CZ_BOURGEON_MVP_CMD, -1, clif_parse_bourgeon_mvp_cmd, 0);
 
+// [Stingor] Bourgeon : album de cartes. Un seul CZ pour rafraîchir, sacrifier,
+// déposer et retirer — VARIABLE (-1) comme les autres customs, pour qu'un champ
+// puisse s'ajouter sans déployer les deux côtés dans la même seconde.
+parseable_packet(HEADER_CZ_BOURGEON_CARD_ALBUM_CMD, -1, clif_parse_bourgeon_card_album_cmd, 0);
+
 #endif /* CLIF_PACKETDB_HPP */

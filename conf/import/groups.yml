@@ -95,6 +95,7 @@ Body:
       storagealt4: true
       storagealt5: true
       storecard: true
+      storealbum: true
       autoloot: true
       autolootitem: true
       autoloottype: true

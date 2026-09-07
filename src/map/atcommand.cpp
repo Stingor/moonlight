@@ -54,6 +54,7 @@
 #include "pet.hpp"
 #include "quest.hpp"
 #include "script.hpp"
+#include "card_album.hpp"
 #include "storage.hpp"
 #include "trade.hpp"
 #include "vending.hpp"

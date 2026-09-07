@@ -6841,6 +6841,63 @@ struct PACKET_ZC_BOURGEON_PARTY_SHARE {
 DEFINE_PACKET_HEADER(ZC_BOURGEON_PARTY_SHARE, 0x0f35);
 
 
+// ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
+//
+// L'album est un conteneur de cartes qui vit HORS du système de storage : une
+// carte n'ayant aucun état d'instance, le couple (nameid, amount) la décrit
+// entièrement, et le conteneur devient une table SQL écrite par le map-server.
+// C'est ce qui l'affranchit du plafond de 600 slots — et des 850 qui sont le
+// maximum absolu de la sérialisation char<->map. Cf. src/map/card_album.hpp.
+//
+// 🔴 La règle : la PREMIÈRE copie d'une carte est SACRIFIÉE et débloque
+// définitivement son emplacement ; les suivantes s'y empilent et restent
+// retirables. Un emplacement débloqué à réserve vide est un état NORMAL, d'où le
+// bit `flags` ci-dessous : `amount == 0` ne dit pas si l'emplacement est ouvert.
+//
+// ZC : l'état COMPLET, jamais paginé.
+// Layout: [type:2][len:2][result:1][count:2] puis count × CARD_ALBUM_ENTRY
+//
+// Le paquet porte TOUTES les cartes du jeu, pas seulement celles que le joueur
+// possède : le client n'a pas de catalogue fiable, et un seul paquet règle donc
+// à la fois le catalogue, la réserve et la vue de complétion. 912 cartes × 11
+// octets ≈ 10 Ko, loin des 32767 que peut porter un packetLength int16 (~2900
+// entrées) — mais l'émetteur borne quand même, plutôt que de déborder en
+// silence si le catalogue enflait.
+//
+// `result` porte l'issue de la DERNIÈRE commande (e_card_album_result), et vaut
+// CARD_ALBUM_OK quand l'état est poussé sans avoir été sollicité.
+struct CARD_ALBUM_ENTRY {
+	uint32 nameid;  ///< id SERVEUR, renvoyé tel quel par CARD_ALBUM_CMD_GET
+	uint16 amount;  ///< copies en réserve ; 0 est légitime sur un emplacement ouvert
+	uint8  flags;   ///< bit 0 : emplacement DÉBLOQUÉ. Sinon la carte n'est que cataloguée.
+	uint32 equip;   ///< masque d'emplacement CIBLE (ARMOR, HAND_R…) : le client n'a
+	                ///< pas d'item_db, c'est la seule façon de filtrer par slot.
+} __attribute__((packed));
+
+struct PACKET_ZC_BOURGEON_CARD_ALBUM {
+	int16  packetType;
+	int16  packetLength;
+	uint8  result;
+	uint16 count;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_CARD_ALBUM, 0x0f33);
+
+// CZ : les commandes de l'album. `arg` est un index d'inventaire pour SACRIFIER
+// et DÉPOSER, un nameid SERVEUR pour RETIRER — deux espaces d'identifiants
+// distincts qu'il ne faut jamais confondre, d'où le champ générique et le
+// commentaire plutôt que deux champs dont un serait toujours mort.
+// Layout: [type:2][len:2][cmd:1][arg:4][amount:2]
+struct PACKET_CZ_BOURGEON_CARD_ALBUM_CMD {
+	int16  packetType;
+	int16  packetLength;
+	uint8  cmd;     ///< e_card_album_cmd
+	uint32 arg;
+	uint16 amount;  ///< ignoré par REFRESH et UNLOCK (qui vaut toujours 1 copie)
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_BOURGEON_CARD_ALBUM_CMD, 0x0f34);
+
+
+
 // ── [Stingor] Buffs et debuffs d'une entite (CZ 0x0F2C -> ZC 0x0F2D) ────────
 //
 // Le client RECOIT les changements d'etat des entites en vue (ZC 0x0983, en
