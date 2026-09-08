@@ -12409,7 +12409,10 @@ Body:
   - Id: 22566
     AegisName: Frost_Crystal
     Name: Last Year's Frost
-    Buy: 20
+    Type: Usable
+    Buy: 10
+    Script: |
+      sc_start SC_CHILL,10000,0;
   - Id: 22589
     AegisName: Savage_Ora
     Name: Savage Ora Ora
