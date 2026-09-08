@@ -86,8 +86,11 @@ L_VillesCmd:
 		138, 230, 123;
 	.@n = getarraysize(.@vn$);
 	.@sel$ = "";
+	// Un cafard en vadrouille se signale a cote du nom de sa ville : l'annonce
+	// de l'event passe une fois, ce menu reste consultable (cf. F_CafardMark,
+	// moon/event/cafard.npc).
 	for (.@i = 0; .@i < .@n; .@i++)
-		.@sel$ = .@sel$ + (.@i > 0 ? ":" : "") + .@vn$[.@i];
+		.@sel$ = .@sel$ + (.@i > 0 ? ":" : "") + .@vn$[.@i] + callfunc("F_CafardMark", .@vm$[.@i]);
 	.@c = select(.@sel$ + ":• ^e64c00Menu Précédent.^000000") - 1;
 	if (.@c >= .@n) goto L_warpa;
 	if (.@c == 0)

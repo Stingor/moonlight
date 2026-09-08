@@ -45,21 +45,57 @@ OnInit:
 	
 OnStart:
 	$eventcafard = gettimetick(2);
-	.i = rand( getarraysize(.maps$) );
-	.m = rand( getarraysize(.mobs) );
-	$eventcafardmap$ = .maps$[.i];
+	// Variables LOCALES : l'event peut lacher un cafard alors qu'un autre court
+	// encore (OnMinute45 ne verifie rien). Avec .i / .m au niveau du NPC, le
+	// second lache ecrasait les references du premier.
+	.@map$ = .maps$[ rand( getarraysize(.maps$) ) ];
+	.@mob = .mobs[ rand( getarraysize(.mobs) ) ];
+	$eventcafardmap$ = .@map$;
 
-	monster .maps$[.i],0,0,"Etrange "+getmonsterinfo(.mobs[.m], MOB_NAME),.mobs[.m],1,"eventcafard::OnMobDead";
-	callfunc "announce2","Un "+getmonsterinfo(.mobs[.m], MOB_NAME)+" se balade dans "+getmapname(.maps$[.i])+". Trouvez le et tuez le pour gagner !!",bc_blue|bc_all;
+	// Quel cafard traine sur quelle carte. Variable globale TEMPORAIRE : elle a
+	// exactement la duree de vie du monstre (les deux disparaissent au reboot) et
+	// ne laisse donc rien derriere elle dans mapreg. Lue par F_CafardMark, qui
+	// affiche LE bon sprite dans le menu de l'agent de warp.
+	setd "$@cafardmob_" + .@map$, .@mob;
+
+	monster .@map$,0,0,"Etrange "+getmonsterinfo(.@mob, MOB_NAME),.@mob,1,"eventcafard::OnMobDead";
+	callfunc "announce2","Un "+getmonsterinfo(.@mob, MOB_NAME)+" se balade dans "+getmapname(.@map$)+". Trouvez le et tuez le pour gagner !!",bc_blue|bc_all;
 	end;
 
 OnMobDead:
 	.@r = rand( getarraysize(.items) );
-	logmes "Trouve le "+getmonsterinfo(.mobs[.m], MOB_NAME)+" et gagne 1pts d'event ainsi que "+.nbs[.@r]+" "+getitemname(.items[.@r]);
+	// killedrid = le monstre REELLEMENT tue. `.mobs[.m]` nommait le dernier
+	// cafard lache, pas celui-ci : des que deux cafards coexistaient, l'annonce
+	// et le log designaient la mauvaise bestiole.
+	.@name$ = getmonsterinfo(killedrid, MOB_NAME);
+	logmes "Trouve le "+.@name$+" et gagne 1pts d'event ainsi que "+.nbs[.@r]+" "+getitemname(.items[.@r]);
 	callfunc "announce2",strcharinfo(0)+" vient de chopper la bestiole "+ ( Sex ? "il":"elle" ) +" gagne 1pts d'event ainsi que "+.nbs[.@r]+" "+getitemname(.items[.@r])+"!!",bc_blue|bc_all;
 	getitem .items[.@r], .nbs[.@r];
 	#KAFRAPOINTS += 1;
 	$eventcafard = 0;
 	$eventcafardmap$ = "";
 	end;
+}
+
+/* F_CafardMark("<carte>") -> marqueur a coller derriere un nom de ville dans un
+ * menu, chaine vide si la carte est tranquille.
+ *
+ * C'est mobcount qui fait autorite, pas une liste tenue a la main : l'event
+ * lache parfois plusieurs cafards a la fois, un reboot les emporte tous, et le
+ * marqueur d'un menu doit dire ce que le joueur trouvera EN ARRIVANT. Un
+ * compteur relu a l'affichage ne peut pas se desynchroniser ; une liste, si.
+ *
+ * Le sprite inline (<MOBS>) n'existe que dans le dialogue moderne de Bourgeon.
+ * Le dialogue natif, lui, laisse passer les balises qu'il ne connait pas et les
+ * afficherait en toutes lettres, d'ou le repli en texte.
+ */
+function	script	F_CafardMark	{
+	if( mobcount(getarg(0), "eventcafard::OnMobDead") < 1 )
+		return "";
+	if( !bourgeon_ui(BOURGEON_UI_NPC_DIALOG) )
+		return " ^d2691e(cafard)^000000";
+	.@mob = getd("$@cafardmob_" + getarg(0));
+	if( !.@mob )
+		.@mob = 1051;	// @reloadscript entre-temps : cafard generique
+	return " " + mobsprite(.@mob);
 }
