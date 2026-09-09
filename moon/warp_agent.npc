@@ -27,7 +27,7 @@ L_warpa:
 	else .@save$ = "";
 
 	menu @lastwarp$, -,
-		($eventinvasion ? "Invasion" : ""), L_Invasion,
+		($eventinvasion ? "• ^ff0000Invasion^000000" : ""), L_Invasion,
 		"• ^5ca57bVilles^000000", L_Villes,
 		"• ^f28e0dDonjons^000000", L_Donjons,
 		"• ^d28efdFields^000000", L_Fields,
