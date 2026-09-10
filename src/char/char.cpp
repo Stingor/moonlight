@@ -1922,9 +1922,12 @@ enum e_char_del_response char_delete(struct char_session_data* sd, uint32 char_i
 		Sql_ShowDebug(sql_handle);
 
 	/* Achievement Data */
-	// Only this character's player-bound achievements (char_id = X) are removed.
-	// Account-bound achievements are stored with char_id = 0 and are shared with the
-	// account's other characters, so they must survive the deletion of one character.
+	// Seuls les succes PAR PERSONNAGE (char_id = X) partent. La progression
+	// PARTAGEE est rangee avec char_id = 0 — sur le compte Moonlight, ou sur le
+	// compte de jeu en repli — et appartient a tous les personnages : supprimer
+	// un personnage ne doit pas l'emporter. C'est aussi ce qui empeche
+	// « supprimer et recreer » de rendre un lot deja touche : la ligne partagee
+	// garde son `rewarded`.
 	if (SQL_ERROR == Sql_Query(sql_handle, "DELETE FROM `%s` WHERE `char_id` = '%d'", schema_config.achievement_table, char_id))
 		Sql_ShowDebug(sql_handle);
 
@@ -2876,7 +2879,7 @@ bool char_checkdb(void){
 		return false;
 	}
 	//checking achievement_table
-	if (SQL_ERROR == Sql_Query(sql_handle, "SELECT `char_id`,`account_id`,`id`,`count1`,`count2`,`count3`,`count4`,`count5`,`count6`,`count7`,`count8`,`count9`,`count10`,`completed`,`rewarded`"
+	if (SQL_ERROR == Sql_Query(sql_handle, "SELECT `char_id`,`account_id`,`user_id`,`id`,`count1`,`count2`,`count3`,`count4`,`count5`,`count6`,`count7`,`count8`,`count9`,`count10`,`completed`,`rewarded`"
 		" FROM `%s` LIMIT 1;", schema_config.achievement_table)) {
 		Sql_ShowDebug(sql_handle);
 		return false;
