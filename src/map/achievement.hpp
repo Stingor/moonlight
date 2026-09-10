@@ -41,6 +41,18 @@ enum e_achievement_group {
 	AG_ENCHANT_SUCCESS,
 	AG_SPEND_ZENY,
 	AG_TAMING,
+	/**
+	 * [Stingor] Pochettes ouvertes dans l'ALBUM DE CARTES (card_album.hpp).
+	 *
+	 * 🔴 Ce groupe ne lit PAS l'argument de achievement_update_objective : il
+	 * compte sd->card_album.size() lui-meme. C'est ce qui lui donne son
+	 * rattrapage gratuit — la boucle de login d'intif_parse_achievements
+	 * appelle chaque groupe avec zero argument, et celui-ci retrouve quand meme
+	 * le vrai total. Indispensable ici : l'album est au COMPTE MOONLIGHT alors
+	 * qu'un succes est au PERSONNAGE, donc un personnage neuf doit heriter des
+	 * paliers deja payes sans qu'on lui refasse sacrifier quoi que ce soit.
+	 */
+	AG_CARD_ALBUM,
 	AG_MAX
 };
 
@@ -63,10 +75,23 @@ enum e_achievement_info {
 	ACHIEVEINFO_MAX,
 };
 
+// Bornes des ids de titre acceptes dans `Rewards: TitleId`. Elles doublent la
+// table du client (`data/luafiles514/lua files/datainfo/titletable.lub`) : un id
+// hors plage n'aurait aucun libelle a afficher.
+//
+// 🔴 Un TitleId hors plage ne fait PAS que perdre le titre : le lecteur YAML
+// rend 0 sur ce noeud, donc le SUCCES ENTIER est jete au chargement. La panne se
+// voit en jeu comme un palier qui ne se valide jamais, et sa seule trace est un
+// avertissement dans la console du map-server au demarrage.
+//
+//   1000..1046  titres kRO (ROenglishRE)
+//   1100..1105  titres Bourgeon -- album de cartes
+//
+// Ajouter un titre maison = l'ecrire dans titletable.lub ET remonter TITLE_MAX.
 enum e_title_table : uint16 {
 	TITLE_NONE = 0,
 	TITLE_BASE = 1000,
-	TITLE_MAX = 1046,
+	TITLE_MAX = 1105,
 };
 
 struct achievement_target {

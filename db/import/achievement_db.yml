@@ -2790,3 +2790,123 @@ Body:
       Script: " specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,30000,10; "
       TitleId: 1024
     Score: 10
+
+# ── [Stingor] ALBUM DE CARTES : les paliers de collection ────────────────────
+#
+# Une pochette s'ouvre au SACRIFICE de la premiere copie d'une carte (voir
+# src/map/card_album.hpp). Ces neuf succes comptent les pochettes ouvertes, sur
+# les 905 cartes de monstre du serveur.
+#
+# 🔴 Le groupe Card_Album lit sd->card_album LUI-MEME, il n'accumule rien : le
+# compteur ne peut donc pas deriver de l'album, et la boucle de rattrapage du
+# login le remplit pour un personnage neuf. C'est ce qui rend ces succes
+# coherents avec un album qui est au COMPTE MOONLIGHT et non au personnage.
+#
+# 🔴 AUCUN `Dependents` ICI, ET C'EST VOULU. Enchainer chaque palier au precedent
+# semblait propre — les neuf ne tombent pas d'un coup — mais
+# `achievement_update_objective` parcourt la base dans l'ordre d'une table de
+# HACHAGE, et `achievement_check_dependent` exige que le prealable soit DEJA
+# COMPLETE. Un personnage neuf sur un album de 800 pochettes n'aurait donc valide
+# qu'une poignee de paliers par passage : au pire un seul par CONNEXION, neuf
+# logins pour rattraper ce qui est deja paye. Et le probleme que la chaine devait
+# resoudre n'existe plus : le LOT est verse une fois par COMPTE (table
+# card_album_reward), donc neuf paliers qui tombent ensemble sont neuf paliers
+# reellement franchis, et une seule serie de lots.
+#
+# Les deux premiers paliers ne donnent PAS de titre : un titre gagne en
+# sacrifiant une seule carte ne vaudrait plus rien pour les autres.
+# Titres 1005..1010 : ids libres (aucun succes vanilla ne les utilise), leurs
+# libelles sont poses cote client dans data\...\datainfo\titletable.lub.
+  - Id: 900001
+    Group: Card_Album
+    Name: Premier sacrifice
+    Targets:
+      - Id: 0
+        Count: 1
+    Score: 10
+  - Id: 900002
+    Group: Card_Album
+    Name: Un debut de collection
+    Targets:
+      - Id: 0
+        Count: 5
+    Rewards:
+      Item: Magic_Card_Album
+      Amount: 1
+    Score: 20
+  - Id: 900003
+    Group: Card_Album
+    Name: Chineur
+    Targets:
+      - Id: 0
+        Count: 10
+    Rewards:
+      Item: Magic_Card_Album
+      Amount: 2
+      TitleId: 1100
+    Score: 30
+  - Id: 900004
+    Group: Card_Album
+    Name: Les vingt premieres
+    Targets:
+      - Id: 0
+        Count: 20
+    Rewards:
+      Item: Magic_Card_Album
+      Amount: 3
+    Score: 40
+  - Id: 900005
+    Group: Card_Album
+    Name: Archiviste
+    Targets:
+      - Id: 0
+        Count: 50
+    Rewards:
+      Item: Magic_Card_Album
+      Amount: 5
+      TitleId: 1101
+    Score: 60
+  - Id: 900006
+    Group: Card_Album
+    Name: Cartomancien
+    Targets:
+      - Id: 0
+        Count: 100
+    Rewards:
+      Item: Magic_Card_Album
+      Amount: 8
+      TitleId: 1102
+    Score: 100
+  - Id: 900007
+    Group: Card_Album
+    Name: Conservateur
+    Targets:
+      - Id: 0
+        Count: 200
+    Rewards:
+      Item: Magic_Card_Album
+      Amount: 12
+      TitleId: 1103
+    Score: 150
+  - Id: 900008
+    Group: Card_Album
+    Name: Maitre de l'album
+    Targets:
+      - Id: 0
+        Count: 400
+    Rewards:
+      Item: Magic_Card_Album
+      Amount: 20
+      TitleId: 1104
+    Score: 250
+  - Id: 900009
+    Group: Card_Album
+    Name: Le Cardinal
+    Targets:
+      - Id: 0
+        Count: 800
+    Rewards:
+      Item: Magic_Card_Album
+      Amount: 40
+      TitleId: 1105
+    Score: 500

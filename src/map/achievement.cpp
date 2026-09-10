@@ -19,6 +19,7 @@
 #include <common/utils.hpp>
 
 #include "battle.hpp"
+#include "card_album.hpp" // paliers de collection : le lot est au COMPTE, pas au personnage
 #include "chrif.hpp"
 #include "clif.hpp"
 #include "intif.hpp"
@@ -740,6 +741,12 @@ void achievement_check_reward( const map_session_data* sd, int32 achievement_id 
 		return;
 	}
 
+	// [Stingor] Aucune garde particuliere pour les paliers de l'album ici, et ce
+	// n'est PAS un oubli : la progression partagee est rangee sur le COMPTE
+	// MOONLIGHT (src/char/int_achievement.cpp), donc `rewarded` vit sur une ligne
+	// unique pour toute la personne. « Creer un personnage, encaisser, supprimer »
+	// ne redonne rien — la requete du char-server n'affecte une ligne que si
+	// `rewarded` y est encore NULL.
 	if (!intif_achievement_reward(sd, adb.get())) {
 		clif_achievement_reward_ack(sd->fd, 0, achievement_id);
 	}
@@ -1040,6 +1047,48 @@ static bool achievement_update_objectives(map_session_data *sd, std::shared_ptr<
 			changed = true;
 			complete = true;
 			break;
+		/**
+		 * [Stingor] Pochettes ouvertes dans l'album de cartes.
+		 *
+		 * 🔴 Le compteur est ABSOLU et lu a la source (sd->card_album), pas
+		 * accumule depuis update_count comme AG_SPEND_ZENY. Deux raisons :
+		 *
+		 *  - l'album est au COMPTE MOONLIGHT, le succes au PERSONNAGE. Un
+		 *    compteur accumule par personnage divergerait de l'album des le
+		 *    second personnage, et afficherait « 12 / 50 » a quelqu'un dont
+		 *    l'album en montre 200 ;
+		 *  - la boucle de rattrapage du login (intif_parse_achievements) appelle
+		 *    chaque groupe avec ZERO argument. Un groupe qui lit son argument n'y
+		 *    verrait que des zeros ; celui-ci retrouve le vrai total, et le
+		 *    rattrapage est gratuit.
+		 *
+		 * On ne DESCEND jamais le compteur : une ligne d'album n'est jamais
+		 * supprimee, mais un album que le serveur ne peut pas lire (compte de jeu
+		 * non rattache) rendrait 0 et effacerait une progression acquise.
+		 */
+		case AG_CARD_ALBUM: {
+			if (ad->targets.empty())
+				return false;
+
+			const int32 unlocked = static_cast<int32>(sd->card_album.size());
+
+			if (unlocked <= 0)
+				return false;
+
+			for (const auto &it : ad->targets) {
+				if (current_count[it.first] < unlocked) {
+					current_count[it.first] = unlocked;
+					changed = true;
+				}
+			}
+
+			if (!changed)
+				return false;
+
+			if (achievement_target_complete(ad, current_count))
+				complete = true;
+			break;
+		}
 		/*
 		case AG_CHATTING:
 			if (ad->targets.empty())

@@ -11,6 +11,7 @@
 #include <common/showmsg.hpp>
 #include <common/sql.hpp>
 
+#include "achievement.hpp" // achievement_update_objective : les paliers de collection
 #include "clif.hpp"
 #include "itemdb.hpp"
 #include "log.hpp"
@@ -399,6 +400,11 @@ e_card_album_result card_album_unlock( map_session_data* sd, int16 inv_index ){
 	pc_delitem( sd, inv_index, 1, 0, 4, LOG_TYPE_STORAGE );
 
 	card_album_cache_set( sd, nameid, 0 );
+
+	// Les paliers de collection (1, 5, 10 … 800 pochettes). Appele APRES la mise
+	// a jour du cache : AG_CARD_ALBUM compte sd->card_album lui-meme, et ne lit
+	// aucun argument — d'ou le 0. Cf. achievement.cpp, case AG_CARD_ALBUM.
+	achievement_update_objective( sd, AG_CARD_ALBUM, 0 );
 
 	return CARD_ALBUM_OK;
 }

@@ -7477,6 +7477,7 @@
 	export_constant(AG_ENCHANT_SUCCESS);
 	export_constant(AG_SPEND_ZENY);
 	export_constant(AG_TAMING);
+	export_constant(AG_CARD_ALBUM);
 
 	/* achievement info */
 	export_constant(ACHIEVEINFO_COUNT1);

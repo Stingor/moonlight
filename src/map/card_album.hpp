@@ -123,6 +123,23 @@ e_card_album_result card_album_open( map_session_data* sd );
 void card_album_close( map_session_data* sd );
 bool card_album_is_open( map_session_data* sd );
 
+/**
+ * ── LES PALIERS DE COLLECTION ───────────────────────────────────────────────
+ *
+ * Neuf succes (900001..900009, db/import/achievement_db.yml) comptent les
+ * pochettes ouvertes : 1, 5, 10, 20, 50, 100, 200, 400, 800. Le groupe
+ * AG_CARD_ALBUM (src/map/achievement.hpp) lit sd->card_album LUI-MEME, donc la
+ * boucle de rattrapage du login les accorde a TOUT personnage du compte — c'est
+ * voulu : l'album est au compte, ses paliers doivent l'etre aussi.
+ *
+ * 🔴 Le LOT, lui, ne se touche qu'une fois : la progression de succes est rangee
+ * sur le COMPTE MOONLIGHT (src/char/int_achievement.cpp), donc `rewarded` vit
+ * sur une ligne unique pour toute la personne. « Creer un personnage, encaisser,
+ * supprimer » ne redonne rien. Une table card_album_reward a existe ici pour
+ * tenir cette garde a la main, du temps ou les succes etaient au compte de JEU ;
+ * elle a disparu avec sa raison d'etre.
+ */
+
 /// Sacrifices one copy from inventory to open the slot. Fails if the slot is
 /// already open - that case is a deposit, and the caller must say which it meant.
 e_card_album_result card_album_unlock( map_session_data* sd, int16 inv_index );
