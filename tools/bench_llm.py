@@ -468,7 +468,7 @@ def stress_language(model: str, samples: int) -> None:
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--models", default=gs.LLM_MODEL,
+    ap.add_argument("--models", default=gs._current_model() or "auto",
                     help="modèles à comparer, séparés par des virgules")
     ap.add_argument("--profiles", default="patched",
                     help="patched, legacy, ou les deux séparés par une virgule")

@@ -4,6 +4,7 @@ Chatbot service — poll chatbot_queue, call an OpenAI-compatible LLM, write res
 
 Backend configurable via groq.env : Groq (défaut) ou modèle local (LM Studio / Ollama).
 Voir le bloc « Config LLM » plus bas (LLM_URL / LLM_MODEL / LLM_API_KEY / LLM_TIMEOUT).
+LLM_MODEL vide ou « auto » = le service demande au serveur quel modèle est chargé.
 
 Install: pip install pymysql certifi   (pur Python, pas de compilation)
 Run:     python tools/groq_service.py
@@ -49,11 +50,21 @@ if os.path.exists(_env_file):
 # ── Config LLM (backend OpenAI-compatible : Groq, LM Studio, Ollama…) ─────────
 # Pour basculer sur un modèle local, renseigne dans groq.env :
 #   LLM_URL=http://192.168.1.XX:1234/v1/chat/completions   (LM Studio = 1234, Ollama = 11434)
-#   LLM_MODEL=qwen2.5-14b-instruct
+#   LLM_MODEL=                    (VIDE ou « auto » : on suit le modèle chargé)
 #   LLM_API_KEY=                  (vide en local : aucun en-tête d'auth envoyé)
 #   LLM_TIMEOUT=60                (modèle local en démarrage à froid = plus lent)
 LLM_URL     = os.environ.get("LLM_URL",   "https://api.groq.com/openai/v1/chat/completions")
-LLM_MODEL   = os.environ.get("LLM_MODEL", "llama-3.3-70b-versatile")
+# LLM_MODEL vide (ou « auto ») = on ne nomme AUCUN modèle : le service demande au
+# serveur local lequel est chargé (voir _current_model()). Changer de modèle dans
+# LM Studio suffit alors, sans retoucher groq.env ni relancer le service.
+LLM_MODEL   = os.environ.get("LLM_MODEL", "").strip()
+# Groq cloud n'a pas de « modèle chargé » : sans nom, on garde le défaut historique.
+if not LLM_MODEL and "groq.com" in LLM_URL:
+    LLM_MODEL = "llama-3.3-70b-versatile"
+# Fraîcheur du nom auto-détecté : au-delà, on redemande au serveur. 60 s = un
+# aller-retour HTTP local par minute au pire, et un changement de modèle en cours
+# de route est pris en compte sans redémarrage.
+LLM_MODEL_TTL = float(os.environ.get("LLM_MODEL_TTL", "60"))
 LLM_API_KEY = os.environ.get("LLM_API_KEY", os.environ.get("GROQ_API_KEY", ""))
 LLM_TIMEOUT = float(os.environ.get("LLM_TIMEOUT", "60"))
 
@@ -1316,6 +1327,98 @@ def _variety_hint():
     return "[INTERDIT] Ne commence pas par : " + " ; ".join(opens) + "."
 
 
+# ── Quel modèle ? ────────────────────────────────────────────────────────────
+# Tout le service passe par _current_model() plutôt que de lire LLM_MODEL : en
+# mode auto le nom n'existe qu'à l'exécution, et il peut changer sous nos pieds
+# quand on charge un autre modèle dans LM Studio.
+_MODEL_LOCK = threading.Lock()
+_model_name = ""     # dernier nom résolu (vide = jamais résolu)
+_model_at   = 0.0    # date de cette résolution (time.monotonic)
+
+
+def _model_is_auto() -> bool:
+    return not LLM_MODEL or LLM_MODEL.lower() == "auto"
+
+
+def _llm_root_url() -> str:
+    """Racine du serveur, tirée de l'URL de chat (.../v1/chat/completions)."""
+    i = LLM_URL.find("/v1/")
+    return LLM_URL[:i] if i >= 0 else LLM_URL.rsplit("/", 1)[0]
+
+
+def _get_json(url: str, timeout: float = 5.0):
+    headers = {"User-Agent": "python-requests/2.31.0"}
+    if LLM_API_KEY:
+        headers["Authorization"] = f"Bearer {LLM_API_KEY}"
+    req = urllib.request.Request(url, headers=headers, method="GET")
+    ctx = SSL_CTX if url.startswith("https://") else None
+    with urllib.request.urlopen(req, timeout=timeout, context=ctx) as resp:
+        return json.loads(resp.read().decode("utf-8"))
+
+
+def _is_chat_model(ident: str) -> bool:
+    """Écarte les modèles d'embedding : ils ne répondent pas en chat."""
+    return not any(k in ident.lower() for k in ("embed", "bge-", "e5-", "rerank"))
+
+
+def _probe_loaded_model() -> str:
+    """Demande au serveur quel modèle est CHARGÉ. Chaîne vide si on ne sait pas."""
+    root = _llm_root_url()
+    # 1. API native LM Studio : la seule qui distingue « chargé » de « présent sur
+    #    le disque ». /v1/models liste aussi les modèles seulement téléchargés —
+    #    s'y fier reviendrait à tirer au hasard dans la bibliothèque.
+    try:
+        for m in _get_json(f"{root}/api/v0/models").get("data", []):
+            if m.get("state") == "loaded" and m.get("type") in ("llm", "vlm"):
+                return m.get("id", "")
+    except Exception:
+        pass
+    # 2. Ollama : /api/ps = les modèles résidents en mémoire.
+    try:
+        for m in _get_json(f"{root}/api/ps").get("models", []):
+            nom = m.get("name") or m.get("model") or ""
+            if nom and _is_chat_model(nom):
+                return nom
+    except Exception:
+        pass
+    # 3. Repli OpenAI générique : le premier de la liste. Faute de champ d'état,
+    #    c'est une supposition — juste quand le serveur ne sert qu'un modèle.
+    try:
+        for m in _get_json(f"{root}/v1/models").get("data", []):
+            ident = m.get("id", "")
+            if ident and _is_chat_model(ident):
+                return ident
+    except Exception as e:
+        print(f"[LLM] impossible de demander le modèle chargé à {root} : {e}",
+              file=sys.stderr)
+    return ""
+
+
+def _current_model(force: bool = False) -> str:
+    """Le nom à mettre dans le payload, résolu à la volée si LLM_MODEL est vide."""
+    global _model_name, _model_at, _FORCE_NO_REASONING
+    if not _model_is_auto():
+        return LLM_MODEL
+    with _MODEL_LOCK:
+        frais = _model_name and (time.monotonic() - _model_at) < LLM_MODEL_TTL
+        if frais and not force:
+            return _model_name
+        trouve = _probe_loaded_model()
+        _model_at = time.monotonic()
+        # Serveur muet ou éteint : on garde le dernier nom connu plutôt que de
+        # vider le champ « model », ce qui ferait échouer la requête à coup sûr.
+        if not trouve:
+            return _model_name
+        if trouve != _model_name:
+            print(f"[LLM] modèle chargé : {trouve}"
+                  + (f" (remplace {_model_name})" if _model_name else ""))
+            # Autre modèle = autre famille possible. Le verrou « pas de
+            # raisonnement », posé pour le précédent, n'a plus lieu d'être.
+            _FORCE_NO_REASONING = False
+        _model_name = trouve
+        return _model_name
+
+
 def _stop_tokens() -> list:
     """Marqueurs de fin de tour, selon la famille du modèle.
 
@@ -1323,7 +1426,7 @@ def _stop_tokens() -> list:
     Mistral utilisent ChatML : servir les mauvais marqueurs, c'est n'avoir aucun
     verrou côté serveur. Plafonné à 4 entrées (limite de l'API OpenAI).
     """
-    modele = LLM_MODEL.lower()
+    modele = _current_model().lower()
     if "gemma" in modele:
         return ["<end_of_turn>", "<start_of_turn>", "<eos>", "\nuser\n"]
     # « ministral » ne contient PAS « mistral » (m-i-N-i-s-t-r-a-l) : sans cette
@@ -1334,10 +1437,10 @@ def _stop_tokens() -> list:
     return ["<|im_end|>", "<|im_start|>", "<|endoftext|>", "\nuser\n"]
 
 
-def _llm_request(messages: list, **overrides):
+def _llm_request(messages: list, _retente: bool = False, **overrides):
     """Un aller-retour HTTP. Renvoie (texte brut, finish_reason, a_raisonné)."""
     body = {
-        "model": LLM_MODEL,
+        "model": _current_model(),
         "messages": messages,
         "max_tokens": LLM_MAX_TOKENS,
         "temperature": LLM_TEMPERATURE,
@@ -1391,6 +1494,13 @@ def _llm_request(messages: list, **overrides):
             # Quota journalier (TPD/RPD) → déco RP ; sinon limite/minute → attente courte
             is_daily = bool(re.search(r"per day|TPD|RPD", body_txt, re.I))
             raise RateLimitError(retry, daily=is_daily) from e
+        # Modèle inconnu du serveur : en mode auto c'est le symptôme de celui qui
+        # a été déchargé ou remplacé dans LM Studio pendant qu'on tournait. On
+        # redemande lequel est chargé et on rejoue le coup — une seule fois.
+        if (e.code in (400, 404) and _model_is_auto() and not _retente
+                and "model" in body_txt.lower()):
+            if _current_model(force=True):
+                return _llm_request(messages, _retente=True, **overrides)
         raise RuntimeError(f"HTTP {e.code} — {body_txt}") from e
 
     choice = data["choices"][0]
@@ -1441,7 +1551,7 @@ def groq_chat(messages: list) -> str:
     if not reply and thought:
         global _FORCE_NO_REASONING
         if not _FORCE_NO_REASONING:
-            print(f"[Groq] {LLM_MODEL} raisonne en roue libre : réponse vide. "
+            print(f"[Groq] {_current_model()} raisonne en roue libre : réponse vide. "
                   f"Le raisonnement est coupé pour les appels suivants. "
                   f"Poser LLM_REASONING=none dans groq.env évite ce tir à blanc.",
                   file=sys.stderr)
@@ -3565,11 +3675,18 @@ def replace_chat_links(msg):
     return msg
 
 def main():
+    # Mode auto : on demande TOUT DE SUITE quel modèle est chargé, pour que la
+    # bannière dise le vrai nom et qu'un serveur éteint se voie au démarrage et
+    # pas au premier joueur qui parle.
+    modele = _current_model()
+    if _model_is_auto():
+        modele = modele or "AUCUN — serveur injoignable ou aucun modèle chargé"
+        modele += " (auto)"
     if LLM_API_KEY:
         k = LLM_API_KEY
-        print(f"LLM service démarré — {LLM_MODEL} @ {LLM_URL} | clé : {k[:8]}...{k[-4:]} (Ctrl+C pour arrêter)")
+        print(f"LLM service démarré — {modele} @ {LLM_URL} | clé : {k[:8]}...{k[-4:]} (Ctrl+C pour arrêter)")
     else:
-        print(f"LLM service démarré — {LLM_MODEL} @ {LLM_URL} (local, sans clé — Ctrl+C pour arrêter)")
+        print(f"LLM service démarré — {modele} @ {LLM_URL} (local, sans clé — Ctrl+C pour arrêter)")
     if DISCORD_WEBHOOK:
         print(f"Discord webhook : activé ({DISCORD_WEBHOOK[:40]}…)")
     else:
