@@ -47,10 +47,10 @@ Header:
   Version: 2
 
 Body:
-  - Id: 110000
-    Group: Eat
-    Name: At this time I live to eat
-    Score: 10
+  # - Id: 110000
+    # Group: Eat
+    # Name: At this time I live to eat
+    # Score: 10
   - Id: 110001
     Group: Chatting
     Name: A fan of this polarity
@@ -1903,38 +1903,38 @@ Body:
     Rewards:
       Script: " specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,30000,10; "
     Score: 30
-  - Id: 200011
-    Group: Job_Change
-    Name: Elite Adventurer! (1)
-    Condition: " Class >= JOB_RUNE_KNIGHT && Class <= JOB_GUILLOTINE_CROSS "
-    Rewards:
-      Item: Abrasive_Box_10
-      Script: " specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,30000,10; "
-    Score: 50
-  - Id: 200012
-    Group: Job_Change
-    Name: Transcendentaler! (1)
-    Condition: " Class >= JOB_RUNE_KNIGHT_T && Class <= JOB_GUILLOTINE_CROSS_T "
-    Rewards:
-      Item: Abrasive_Box_10
-      Script: " specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,30000,10; "
-    Score: 60
-  - Id: 200013
-    Group: Job_Change
-    Name: Elite Adventurer! (2)
-    Condition: " Class >= JOB_ROYAL_GUARD && Class <= JOB_SHADOW_CHASER "
-    Rewards:
-      Item: Abrasive_Box_10
-      Script: " specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,30000,10; "
-    Score: 50
-  - Id: 200014
-    Group: Job_Change
-    Name: Transcendentaler! (2)
-    Condition: " Class >= JOB_ROYAL_GUARD_T && Class <= JOB_SHADOW_CHASER_T "
-    Rewards:
-      Item: Abrasive_Box_10
-      Script: " specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,30000,10; "
-    Score: 60
+  # - Id: 200011
+    # Group: Job_Change
+    # Name: Elite Adventurer! (1)
+    # Condition: " Class >= JOB_RUNE_KNIGHT && Class <= JOB_GUILLOTINE_CROSS "
+    # Rewards:
+      # Item: Abrasive_Box_10
+      # Script: " specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,30000,10; "
+    # Score: 50
+  # - Id: 200012
+    # Group: Job_Change
+    # Name: Transcendentaler! (1)
+    # Condition: " Class >= JOB_RUNE_KNIGHT_T && Class <= JOB_GUILLOTINE_CROSS_T "
+    # Rewards:
+      # Item: Abrasive_Box_10
+      # Script: " specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,30000,10; "
+    # Score: 60
+  # - Id: 200013
+    # Group: Job_Change
+    # Name: Elite Adventurer! (2)
+    # Condition: " Class >= JOB_ROYAL_GUARD && Class <= JOB_SHADOW_CHASER "
+    # Rewards:
+      # Item: Abrasive_Box_10
+      # Script: " specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,30000,10; "
+    # Score: 50
+  # - Id: 200014
+    # Group: Job_Change
+    # Name: Transcendentaler! (2)
+    # Condition: " Class >= JOB_ROYAL_GUARD_T && Class <= JOB_SHADOW_CHASER_T "
+    # Rewards:
+      # Item: Abrasive_Box_10
+      # Script: " specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,30000,10; "
+    # Score: 60
   - Id: 200015
     Group: Job_Change
     Name: The way of exceptional character
