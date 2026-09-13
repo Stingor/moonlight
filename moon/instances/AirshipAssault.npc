@@ -716,6 +716,21 @@ OnExplosion2:
 	specialeffect EF_SUI_EXPLOSION,AREA, instance_npcname("Gremlin#3air2");
 	hideonnpc instance_npcname("Gremlin#3air2");
 	end;
+// [Stingor] Version turbo : enchaîne les deux salves d'OnExplosion1 côté NPC,
+// pour ne plus bloquer le script du joueur avec des sleep2.
+OnExplosionTurbo:
+	specialeffect EF_SUI_EXPLOSION;
+	sleep 500;
+	specialeffect EF_SUI_EXPLOSION,AREA, instance_npcname("Gremlin#2air2");
+	sleep 500;
+	specialeffect EF_SUI_EXPLOSION,AREA, instance_npcname("Gremlin#3air2");
+	sleep 500;
+	specialeffect EF_SUI_EXPLOSION;
+	sleep 500;
+	specialeffect EF_SUI_EXPLOSION,AREA, instance_npcname("Gremlin#2air2");
+	sleep 500;
+	specialeffect EF_SUI_EXPLOSION,AREA, instance_npcname("Gremlin#3air2");
+	end;
 }
 
 1@air2,239,57,5	duplicate(Iris#air1)	Gremlin#2air2	3176
@@ -807,8 +822,13 @@ OnExplosion2:
 		cutin "",255;
 		mes "- Pop! Pop pop!";
 	}
-	if( 'turbo ) sleep2 500;
-	donpcevent instance_npcname("Gremlin#1air2") + "::OnExplosion1";
+	// [Stingor] En mode turbo, tous les mes/next voisins sont sautés : les sleep2
+	// d'espacement laissaient alors le joueur devant un écran vide pendant 1,5 s
+	// avant la première boîte. La séquence d'explosions est déléguée au NPC Gremlin.
+	if( 'turbo )
+		donpcevent instance_npcname("Gremlin#1air2") + "::OnExplosionTurbo";
+	else
+		donpcevent instance_npcname("Gremlin#1air2") + "::OnExplosion1";
 	if( !'turbo ) {
 		next;
 		cutin "h_iris01",2;
@@ -841,8 +861,8 @@ OnExplosion2:
 		mes "You will receive a divine punishment!";
 		next;
 	}
-	if( 'turbo ) sleep2 500;
-	donpcevent instance_npcname("Gremlin#1air2") + "::OnExplosion1";
+	if( !'turbo )
+		donpcevent instance_npcname("Gremlin#1air2") + "::OnExplosion1";
 	if( !'turbo ) {
 		cutin "fenrir_b",2;
 		mes "[Fenrir]";
@@ -869,7 +889,6 @@ OnExplosion2:
 		mes "No... no!! The ship!!";
 		next;
 	}
-	if( 'turbo ) sleep2 500;
 	enablenpc instance_npcname("Loki#air2");
 	specialeffect EF_SUI_EXPLOSION,AREA, instance_npcname("Loki#air2");
 	if( !'turbo ) {
@@ -977,8 +996,11 @@ OnMyMobDead:
 		mes "Muhahahahaha";
 		next;
 	}
-	if( 'turbo ) sleep2 500;
-	donpcevent instance_npcname("Gremlin#1air2") + "::OnExplosion1";
+	// [Stingor] Idem : en turbo, OnExplosion2 ci-dessus joue déjà la séquence et masque
+	// les Gremlins. Les deux salves supplémentaires (et leurs sleep2 bloquants) ne sont
+	// utiles qu'en mode dialogue complet.
+	if( !'turbo )
+		donpcevent instance_npcname("Gremlin#1air2") + "::OnExplosion1";
 	if( !'turbo ) {
 		cutin "",255;
 		mes "- Bang! Babang! Bang!";
@@ -995,8 +1017,8 @@ OnMyMobDead:
 		mes "You're the one who did it!!!";
 		next;
 	}
-	if( 'turbo ) sleep2 500;
-	donpcevent instance_npcname("Gremlin#1air2") + "::OnExplosion1";
+	if( !'turbo )
+		donpcevent instance_npcname("Gremlin#1air2") + "::OnExplosion1";
 	if( !'turbo ) {
 		cutin "",255;
 		mes "- Bang! Babang! Bang!";
@@ -1034,8 +1056,12 @@ OnStart:
 	mobhm('hm,0,'map_air2$,247,51,"Out of control Captain",3181,1, instance_npcname("callb#air2") + "::OnMyMobDead");// E1_FELOCK
 	end;
 OnMyMobDead:
-	if (mobcount( 'map_air2$, instance_npcname("callb#air2") + "::OnMyMobDead" ) < 1)
+	if (mobcount( 'map_air2$, instance_npcname("callb#air2") + "::OnMyMobDead" ) < 1) {
 		initnpctimer;
+		// [Stingor] En turbo on avance le tick : il ne reste que 1,5 s avant
+		// l'apparition de Chaos#air2, au lieu des 6 s du mode dialogue complet.
+		if( 'turbo ) setnpctimer 4500;
+	}
 	end;
 OnTimer6000:
 	enablenpc instance_npcname("Chaos#air2");
