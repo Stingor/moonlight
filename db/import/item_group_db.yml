@@ -22403,6 +22403,9 @@ Body:
           - Index: 99
             Item: IFN_Tao_Gunka_Card
             Rate: 1
+          - Index: 100
+            Item: Giant_Octopus_Card
+            Rate: 1
   - Group: SGRADE_POCKET
     SubGroups:
       - SubGroup: 0
@@ -30768,6 +30771,9 @@ Body:
           - Index: 21
             Item: High_Weapon_Box
             Rate: 25
+          - Index: 22
+            Item: Magic_Card_Album
+            Rate: 50
   - Group: INVASION_COSTUME
     SubGroups:
       - SubGroup: 1
