@@ -4936,7 +4936,7 @@ Body:
     Name: Collected Medicinal Herbs
     Buy: 10
   - Id: 6755
-    AegisName: Contaminated_Magic
+    AegisName: Polluted_Spell
     Name: Contaminated Magic
     Buy: 20
     Weight: 10
