@@ -3704,6 +3704,25 @@ int32 mob_dead(mob_data *md, block_list *src, int32 type)
 			pc_setparam(first_sd, SP_KILLEDRID, md->mob_id);
 			npc_script_event( *first_sd, NPCE_KILLNPC );
 		}
+
+		// [Stingor] Mission MVP (Chuck Testa): a mob carrying a death label never
+		// reaches OnNPCKillEvent (else branch above), so each instance boss had to
+		// call MissionMVP itself - and most never did (Airship Assault, Faceworm
+		// Nest, Old Glast Heim...). One hook covers them all. Restricted to labelled
+		// mobs on instance maps: field MVPs are already credited by mvps.npc, and a
+		// Bloody Branch summon has no label, so it still cannot validate a mission.
+		// Runs after the label, and MissionMVP is idempotent, so bosses that already
+		// call it are not credited twice.
+		if( md->npc_event[0] && !md->state.npc_killmonster
+			&& md->db->get_bosstype() == BOSSTYPE_MVP && map[md->m].instance_id > 0 ) {
+			map_session_data* mission_sd = ( sd && battle_config.mob_npc_event_type ) ? sd : first_sd;
+
+			if( mission_sd != nullptr ) {
+				pc_setparam(mission_sd, SP_KILLEDGID, md->id);
+				pc_setparam(mission_sd, SP_KILLEDRID, md->mob_id);
+				npc_event(mission_sd, "huntmission::OnInstanceMvpDead", 0);
+			}
+		}
 	}
 
 	if(md->deletetimer != INVALID_TIMER) {

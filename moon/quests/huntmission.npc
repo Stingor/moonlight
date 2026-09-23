@@ -613,6 +613,15 @@ OnNPCKillEvent:
 	end;
 
 // ===========================================================================
+// Appelé par mob_dead() (src/map/mob.cpp) à la mort de tout MVP porté par un
+// label sur une carte d'instance : valide la mission même quand le script du
+// boss n'appelle pas MissionMVP (Airship Assault, Faceworm Nest...).
+// ===========================================================================
+OnInstanceMvpDead:
+	MissionMVP(0);
+	end;
+
+// ===========================================================================
 // Picker des mobs de mission normale via le groupe summon Branch_Of_Dead_Tree.
 // Remplace l'ancienne requete SQL sur mob_db. Remplit @hm_mob[0..Quests-1].
 // Filtre : exclut les boss et les plantes (RMF flags), exclut les ID
