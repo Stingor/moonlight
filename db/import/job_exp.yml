@@ -9661,6 +9661,16 @@ Body:
         Exp: 22979756
       - Level: 75
         Exp: 24768369
+      - Level: 76
+        Exp: 26658208
+      - Level: 77
+        Exp: 28652186
+      - Level: 78
+        Exp: 30753133
+      - Level: 79
+        Exp: 32963784
+      - Level: 80
+        Exp: 35286774
   - Jobs:
       Super_Baby: true
     MaxJobLevel: 99
