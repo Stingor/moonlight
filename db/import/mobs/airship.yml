@@ -264,3 +264,6 @@ Body:
         Rate: 1
       - Item: Elunium
         Rate: 10
+      - Item: AirShip_Raid_Card
+        Rate: 1
+        StealProtected: true
