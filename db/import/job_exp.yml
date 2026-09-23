@@ -9290,7 +9290,6 @@ Body:
       - Level: 60
         Exp: 1787369
   - Jobs:
-      Baby_Archer: true
       Baby_Thief: true
     MaxJobLevel: 52
     JobExp:
@@ -9398,6 +9397,112 @@ Body:
         Exp: 634723
       - Level: 52
         Exp: 718557
+  - Jobs:
+      Baby_Archer: true
+    MaxJobLevel: 51
+    JobExp:
+      - Level: 1
+        Exp: 30
+      - Level: 2
+        Exp: 43
+      - Level: 3
+        Exp: 58
+      - Level: 4
+        Exp: 76
+      - Level: 5
+        Exp: 116
+      - Level: 6
+        Exp: 180
+      - Level: 7
+        Exp: 220
+      - Level: 8
+        Exp: 272
+      - Level: 9
+        Exp: 336
+      - Level: 10
+        Exp: 520
+      - Level: 11
+        Exp: 604
+      - Level: 12
+        Exp: 699
+      - Level: 13
+        Exp: 802
+      - Level: 14
+        Exp: 948
+      - Level: 15
+        Exp: 1125
+      - Level: 16
+        Exp: 1668
+      - Level: 17
+        Exp: 1937
+      - Level: 18
+        Exp: 2226
+      - Level: 19
+        Exp: 3040
+      - Level: 20
+        Exp: 3988
+      - Level: 21
+        Exp: 5564
+      - Level: 22
+        Exp: 6272
+      - Level: 23
+        Exp: 7021
+      - Level: 24
+        Exp: 9114
+      - Level: 25
+        Exp: 11473
+      - Level: 26
+        Exp: 15290
+      - Level: 27
+        Exp: 16891
+      - Level: 28
+        Exp: 18570
+      - Level: 29
+        Exp: 23229
+      - Level: 30
+        Exp: 28359
+      - Level: 31
+        Exp: 36478
+      - Level: 32
+        Exp: 39716
+      - Level: 33
+        Exp: 43088
+      - Level: 34
+        Exp: 52417
+      - Level: 35
+        Exp: 62495
+      - Level: 36
+        Exp: 78160
+      - Level: 37
+        Exp: 84175
+      - Level: 38
+        Exp: 90404
+      - Level: 39
+        Exp: 107611
+      - Level: 40
+        Exp: 125915
+      - Level: 41
+        Exp: 153941
+      - Level: 42
+        Exp: 191781
+      - Level: 43
+        Exp: 204351
+      - Level: 44
+        Exp: 248352
+      - Level: 45
+        Exp: 286212
+      - Level: 46
+        Exp: 328955
+      - Level: 47
+        Exp: 377083
+      - Level: 48
+        Exp: 431132
+      - Level: 49
+        Exp: 491676
+      - Level: 50
+        Exp: 559324
+      - Level: 51
+        Exp: 634723
   - Jobs:
       Taekwon: true
       Baby_Taekwon: true

@@ -250,22 +250,26 @@ gonryun,163,122,4	script	Job Master::jobmaster	4W_F_01,{
 				close;
 			}
 			if( Class > Job_Baby && Class < Job_Baby_Knight || Class == Job_Baby_Taekwon ) {
-				if( JobLevel < 52 && Class == Job_Baby_Thief ) {
+				// Plafond de job des babies (db/import/job_exp.yml) : Thief 52 et Archer 51, soit tous leurs points dépensables.
+				if( Class == Job_Baby_Thief )
+					.@babyjobmini = 52;
+				else if( Class == Job_Baby_Archer )
+					.@babyjobmini = 51;
+				else
+					.@babyjobmini = 60;
+				if( JobLevel < .@babyjobmini ) {
 					next;
 					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 					mes "Tu n'as pas assez de Job Level.";
-					mes "Il te faut avoir 52 Level en Job";
-					close;
-				}
-				else if( JobLevel < 60 && Class != Job_Baby_Thief ) {
-					next;
-					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
-					mes "Tu n'as pas assez de Job Level.";
-					mes "Il te faut avoir 60 Level en Job";
+					mes "Il te faut avoir "+.@babyjobmini+" Level en Job";
 					close;
 				}
 
-				if( SkillPoint ) {
+				// Un Baby Archer monté au job 52 avant le plafond à 51 garde un point impossible à placer : il passe avec.
+				.@pointsbloques = 0;
+				if( Class == Job_Baby_Archer && JobLevel > .@babyjobmini )
+					.@pointsbloques = JobLevel - .@babyjobmini;
+				if( SkillPoint > .@pointsbloques ) {
 					next;
 					mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 					mes "Tu n'as pas placé tous tes point de Skill !";
