@@ -51,11 +51,49 @@ const std::vector<s_card_album_card>& card_album_catalog( void ){
 	// The other direction (for each card, scan every monster) would be ~900
 	// cards x ~2000 monsters x 10 drops. This is ~2000 x 10, once.
 	//
-	// 🔴 The TOUGHEST wins. A card dropped by both an MVP and one of its lesser
-	// clones is an MVP card: that is what the player means by the word, and the
-	// reverse rule would paint an MVP card as ordinary the day a `G_` clone
-	// inherited its drop table.
-	std::unordered_map<t_itemid, uint8> boss_of;
+	// 🔴 Only the ORIGINAL monster counts, when there is one. Event, instance
+	// and summon versions often reuse the display name AND the drop table of a
+	// base monster while being flagged Boss: E_MARC (1969, Class: Boss in
+	// db/import) drops Marc_Card like MARC (1045), and painted an ordinary card
+	// blue. The original is the one the monster sheet already names: the
+	// SMALLEST id among the monsters sharing its display name (`namesake_ref`,
+	// clif.cpp), i.e. the one Aegis numbered first.
+	//
+	// 🔴 Only an ORDINARY drop counts, not an MVP reward. A real MVP card sits in
+	// its MVP's `dropitem` table; `mvpitem` holds what an event MVP hands out.
+	// PORING_V (Pori Pori, 1502, an original: it is alone with its name) gives
+	// Poring__Card as a reward and painted Santa Poring's card MVP. Measured on
+	// this mob_db: that is the ONLY card found in any `mvpitem`.
+	//
+	// Among the originals' ordinary drops, the TOUGHEST wins: a card dropped by
+	// both an MVP and a lesser monster is an MVP card, that is what the player
+	// means by the word. When NO original drops the card that way (only
+	// variants do, or only as a reward), every dropper and both tables count,
+	// the same toughest-wins rule applying - better a boss colour than losing
+	// the card's nature altogether.
+	std::unordered_map<std::string, uint32> namesake_ref;
+
+	for( const auto& pair : mob_db ){
+		const std::shared_ptr<s_mob_db>& mob = pair.second;
+
+		if( mob == nullptr ){
+			continue;
+		}
+
+		uint32& ref = namesake_ref[mob->jname];
+
+		if( ref == 0 || mob->id < ref ){
+			ref = mob->id;
+		}
+	}
+
+	struct s_card_nature {
+		bool from_original = false; // an original monster drops it, ordinarily
+		uint8 original = BOSSTYPE_NONE; // toughest among those originals
+		uint8 any = BOSSTYPE_NONE; // toughest among every dropper
+	};
+
+	std::unordered_map<t_itemid, s_card_nature> nature_of;
 
 	for( const auto& pair : mob_db ){
 		const std::shared_ptr<s_mob_db>& mob = pair.second;
@@ -65,24 +103,24 @@ const std::vector<s_card_album_card>& card_album_catalog( void ){
 		}
 
 		const uint8 boss = static_cast<uint8>( mob->get_bosstype() );
+		const bool original = namesake_ref[mob->jname] == mob->id;
 
-		if( boss == BOSSTYPE_NONE ){
-			continue;
-		}
-
-		// Both tables: an MVP's card is in `mvpitem` when it is a reward and in
-		// `dropitem` when it is an ordinary drop. Reading only one of them would
-		// lose half the MVP cards, and which half depends on the db.
+		// Both tables feed the fallback; only `dropitem` speaks for an original.
 		for( const auto* table : { &mob->dropitem, &mob->mvpitem } ){
+			const bool reward = table == &mob->mvpitem;
+
 			for( const std::shared_ptr<s_mob_drop>& drop : *table ){
 				if( drop == nullptr || drop->nameid == 0 ){
 					continue;
 				}
 
-				uint8& slot = boss_of[drop->nameid];
+				s_card_nature& n = nature_of[drop->nameid];
 
-				if( boss > slot ){
-					slot = boss;
+				n.any = std::max( n.any, boss );
+
+				if( original && !reward ){
+					n.from_original = true;
+					n.original = std::max( n.original, boss );
 				}
 			}
 		}
@@ -104,9 +142,38 @@ const std::vector<s_card_album_card>& card_album_catalog( void ){
 		card.nameid = idata->nameid;
 		card.equip = idata->equip;
 
-		const auto boss = boss_of.find( idata->nameid );
+		const auto nature = nature_of.find( idata->nameid );
 
-		card.boss = boss != boss_of.end() ? boss->second : static_cast<uint8>( BOSSTYPE_NONE );
+		if( nature == nature_of.end() ){
+			card.boss = static_cast<uint8>( BOSSTYPE_NONE );
+		}else{
+			card.boss = nature->second.from_original ? nature->second.original : nature->second.any;
+		}
+
+		// 🔴 First of all, the card's NAMESAKE. "Obeaune Card" belongs to the
+		// original monster called "Obeaune", and when that monster drops it, its
+		// nature is the card's. This beats the rules above because a variant
+		// can escape them by its name alone: E_OBEAUNE (Class: Boss) is spelled
+		// "Obeune", so it is an original of its own and painted the card blue.
+		// Measured on this mob_db: this decides 423 cards and changes only that
+		// one. It still requires the ORIGINAL - E_MARC is also called "Marc".
+		const std::string& display = idata->ename;
+		static const std::string suffix = " Card";
+
+		if( display.size() > suffix.size() &&
+			display.compare( display.size() - suffix.size(), suffix.size(), suffix ) == 0 ){
+			const auto ref = namesake_ref.find( display.substr( 0, display.size() - suffix.size() ) );
+			const std::shared_ptr<s_mob_db> namesake = ref != namesake_ref.end() ? mob_db.find( ref->second ) : nullptr;
+
+			if( namesake != nullptr ){
+				for( const std::shared_ptr<s_mob_drop>& drop : namesake->dropitem ){
+					if( drop != nullptr && drop->nameid == idata->nameid ){
+						card.boss = static_cast<uint8>( namesake->get_bosstype() );
+						break;
+					}
+				}
+			}
+		}
 
 		cache.push_back( card );
 	}
