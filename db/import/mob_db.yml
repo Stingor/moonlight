@@ -25289,13 +25289,6 @@ Body:
     DamageMotion: 432
     Ai: 21
     Class: Boss
-    MvpDrops:
-      - Item: Old_Violet_Box
-        Rate: 5500
-      - Item: Old_Blue_Box
-        Rate: 2000
-      - Item: Old_Violet_Box
-        Rate: 5500
     Drops:
       - Item: Evil_Dragon_Head
         Rate: 10000
@@ -25416,6 +25409,8 @@ Body:
     DamageMotion: 360
     Ai: 21
     Class: Boss
+    Modes:
+      Mvp: true
     MvpDrops:
       - Item: Old_Violet_Box
         Rate: 5000
@@ -26708,6 +26703,8 @@ Body:
     DamageMotion: 360
     Ai: 21
     Class: Boss
+    Modes:
+      Mvp: true
     MvpDrops:
       - Item: Helm_Of_Sun
         Rate: 10000
