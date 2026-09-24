@@ -317,7 +317,9 @@ Body:
     AttackMotion: 510
     DamageMotion: 500
     Ai: 04
+    Class: Boss
     Modes:
+      Mvp: true
       Detector: true
     Drops:
       - Item: DespairGodMorocc_Card

@@ -565,6 +565,7 @@ Body:
     Ai: 10
     Class: Boss
     Modes:
+      Mvp: true
       CanMove: true
     Drops:
       - Item: Fenrir_Card__

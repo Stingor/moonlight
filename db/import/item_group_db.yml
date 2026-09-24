@@ -7309,6 +7309,504 @@ Body:
           - Index: 473
             Item: Vocal_Card
             Rate: 1
+          - Index: 474
+            Item: Andre_Larva_Card
+            Rate: 1
+          - Index: 475
+            Item: Soldier_Andre_Card
+            Rate: 1
+          - Index: 476
+            Item: Medusa_Card
+            Rate: 1
+          - Index: 477
+            Item: Minorous_Card
+            Rate: 1
+          - Index: 478
+            Item: Scorpion_King_Card
+            Rate: 1
+          - Index: 479
+            Item: Anubis_Card
+            Rate: 1
+          - Index: 480
+            Item: Knight_Of_Abyss_Card
+            Rate: 1
+          - Index: 481
+            Item: Goblin_Leader_Card
+            Rate: 1
+          - Index: 482
+            Item: Kobold_Leader_Card
+            Rate: 1
+          - Index: 483
+            Item: Whisper_Boss_Card
+            Rate: 1
+          - Index: 484
+            Item: Mobster_Card
+            Rate: 1
+          - Index: 485
+            Item: Bloody_Knight_Card
+            Rate: 1
+          - Index: 486
+            Item: Lata_Card
+            Rate: 1
+          - Index: 487
+            Item: Duneirre_Card
+            Rate: 1
+          - Index: 488
+            Item: Light_Up_Card1
+            Rate: 1
+          - Index: 489
+            Item: Enhanced_Skeleton_Card
+            Rate: 1
+          - Index: 490
+            Item: Light_Up_Card2
+            Rate: 1
+          - Index: 491
+            Item: Light_Up_Card3
+            Rate: 1
+          - Index: 492
+            Item: Light_Up_Card4
+            Rate: 1
+          - Index: 493
+            Item: Novice_Poring_Card
+            Rate: 1
+          - Index: 494
+            Item: Val'khiri_Card
+            Rate: 1
+          - Index: 495
+            Item: Manny_Card
+            Rate: 1
+          - Index: 496
+            Item: Sid_Card
+            Rate: 1
+          - Index: 497
+            Item: Diego_Card
+            Rate: 1
+          - Index: 498
+            Item: Scrat_Card
+            Rate: 1
+          - Index: 499
+            Item: Fenrir_Card_
+            Rate: 1
+          - Index: 500
+            Item: Randel_Card
+            Rate: 1
+          - Index: 501
+            Item: Gertie_Card
+            Rate: 1
+          - Index: 502
+            Item: Flamel_Card
+            Rate: 1
+          - Index: 503
+            Item: Chen_Card
+            Rate: 1
+          - Index: 504
+            Item: Ceila_Card
+            Rate: 1
+          - Index: 505
+            Item: Alphoccio_Card
+            Rate: 1
+          - Index: 506
+            Item: Trentini_Card
+            Rate: 1
+          - Index: 507
+            Item: Bungisngis_Card
+            Rate: 1
+          - Index: 508
+            Item: Engkanto_Card
+            Rate: 1
+          - Index: 509
+            Item: Manananggal_Card
+            Rate: 1
+          - Index: 510
+            Item: Mangkukulam_Card
+            Rate: 1
+          - Index: 511
+            Item: Tikbalang_Card
+            Rate: 1
+          - Index: 512
+            Item: Tiyanak_Card
+            Rate: 1
+          - Index: 513
+            Item: Wakwak_Card
+            Rate: 1
+          - Index: 514
+            Item: Jejeling_Card
+            Rate: 1
+          - Index: 515
+            Item: Menblatt_Card
+            Rate: 1
+          - Index: 516
+            Item: Petal_Card
+            Rate: 1
+          - Index: 517
+            Item: Cenere_Card
+            Rate: 1
+          - Index: 518
+            Item: AntiqueBook_Card
+            Rate: 1
+          - Index: 519
+            Item: LichternB_Card
+            Rate: 1
+          - Index: 520
+            Item: LichternY_Card
+            Rate: 1
+          - Index: 521
+            Item: LichternR_Card
+            Rate: 1
+          - Index: 522
+            Item: LichternG_Card
+            Rate: 1
+          - Index: 523
+            Item: Big_Bell_Card
+            Rate: 1
+          - Index: 524
+            Item: Big_Ben_Card
+            Rate: 1
+          - Index: 525
+            Item: FaithfulManager_Card
+            Rate: 1
+          - Index: 526
+            Item: Neo_Punk_Card
+            Rate: 1
+          - Index: 527
+            Item: Arc_Elder_Card
+            Rate: 1
+          - Index: 528
+            Item: Nightmare_Timer_Keeper_Card
+            Rate: 1
+          - Index: 529
+            Item: Immortal_Corps_Card
+            Rate: 1
+          - Index: 530
+            Item: Watcher_Card
+            Rate: 1
+          - Index: 531
+            Item: Taffy_Card
+            Rate: 1
+          - Index: 532
+            Item: Frozen_Wolf_Card
+            Rate: 1
+          - Index: 533
+            Item: N_Arclouse_Card
+            Rate: 1
+          - Index: 534
+            Item: Zombie_Guard_Card
+            Rate: 1
+          - Index: 535
+            Item: N_Mimic_Card
+            Rate: 1
+          - Index: 536
+            Item: N_Minorous_Card
+            Rate: 1
+          - Index: 537
+            Item: N_Mummy_Card
+            Rate: 1
+          - Index: 538
+            Item: N_Ancient_Mummy_Card
+            Rate: 1
+          - Index: 539
+            Item: N_Verit_Card
+            Rate: 1
+          - Index: 540
+            Item: Eggring_Card
+            Rate: 1
+          - Index: 541
+            Item: Scout_Basilisk_Card
+            Rate: 1
+          - Index: 542
+            Item: Charge_Basilisk_Card
+            Rate: 1
+          - Index: 543
+            Item: Leaf_Lunatic_Card
+            Rate: 1
+          - Index: 544
+            Item: Grass_Fabre_Card
+            Rate: 1
+          - Index: 545
+            Item: Wild_Hornet_Card
+            Rate: 1
+          - Index: 546
+            Item: Sweet_Roda_Frog_Card
+            Rate: 1
+          - Index: 547
+            Item: Hunter_Wolf_Card
+            Rate: 1
+          - Index: 548
+            Item: Trance_Spore_Card
+            Rate: 1
+          - Index: 549
+            Item: Fruit_Pom_Spider_Card
+            Rate: 1
+          - Index: 550
+            Item: Green_Cenere_Card
+            Rate: 1
+          - Index: 551
+            Item: Repair_Robot_Turbo_Card
+            Rate: 1
+          - Index: 552
+            Item: Exploration_Rover_Turbo_Card
+            Rate: 1
+          - Index: 553
+            Item: Scrap_Robots_Card
+            Rate: 1
+          - Index: 554
+            Item: GC109_Card
+            Rate: 1
+          - Index: 555
+            Item: DR815_Card
+            Rate: 1
+          - Index: 556
+            Item: Fire_Condor_Card
+            Rate: 1
+          - Index: 557
+            Item: Fire_Sandman_Card
+            Rate: 1
+          - Index: 558
+            Item: Fire_Frilldora_Card
+            Rate: 1
+          - Index: 559
+            Item: Fire_Golem_Card
+            Rate: 1
+          - Index: 560
+            Item: Fulbuk_Card
+            Rate: 1
+          - Index: 561
+            Item: Playing_Pere_Card
+            Rate: 1
+          - Index: 562
+            Item: Singing_Pere_Card
+            Rate: 1
+          - Index: 563
+            Item: Iara_Card
+            Rate: 1
+          - Index: 564
+            Item: Piranha_Card
+            Rate: 1
+          - Index: 565
+            Item: Curupira_Card
+            Rate: 1
+          - Index: 566
+            Item: Tucan_Card
+            Rate: 1
+          - Index: 567
+            Item: Jaguar_Card
+            Rate: 1
+          - Index: 568
+            Item: Headless_Mule_Card
+            Rate: 1
+          - Index: 569
+            Item: Wood_Goblin_Card
+            Rate: 1
+          - Index: 570
+            Item: Les_Card
+            Rate: 1
+          - Index: 571
+            Item: Uzhas_Card
+            Rate: 1
+          - Index: 572
+            Item: Vavayaga_Card
+            Rate: 1
+          - Index: 573
+            Item: Mavka_Card
+            Rate: 1
+          - Index: 574
+            Item: Faceworm_Card
+            Rate: 1
+          - Index: 575
+            Item: Faceworm_Egg_Card
+            Rate: 1
+          - Index: 576
+            Item: Faceworm_Larva_Card
+            Rate: 1
+          - Index: 577
+            Item: Payon_Soldier_Card
+            Rate: 1
+          - Index: 578
+            Item: Shotgun_Buffalo_Bandit_Card
+            Rate: 1
+          - Index: 579
+            Item: Revolver_Buffalo_Bandit_Card
+            Rate: 1
+          - Index: 580
+            Item: Scimitar_Buffalo_Bandit_Card
+            Rate: 1
+          - Index: 581
+            Item: Elite_Shotgun_Buffalo_Bandit_Card
+            Rate: 1
+          - Index: 582
+            Item: Elite_Revolver_Buffalo_Bandit_Card
+            Rate: 1
+          - Index: 583
+            Item: Elite_Scimitar_Buffalo_Bandit_Card
+            Rate: 1
+          - Index: 584
+            Item: Brown_Rat_Card
+            Rate: 1
+          - Index: 585
+            Item: Marsh_Arclouse_Card
+            Rate: 1
+          - Index: 586
+            Item: Gaster_Card
+            Rate: 1
+          - Index: 587
+            Item: Coyote_Card
+            Rate: 1
+          - Index: 588
+            Item: Airship_Raid_Card
+            Rate: 1
+          - Index: 589
+            Item: Decorated_Evil_Tree_Card
+            Rate: 1
+          - Index: 590
+            Item: Vicious_Cookie_Card
+            Rate: 1
+          - Index: 591
+            Item: Evil_Dwelling_Box_Card
+            Rate: 1
+          - Index: 592
+            Item: Creepy_Demon_Card
+            Rate: 1
+          - Index: 593
+            Item: Malicious_Baby_Ghost_Card
+            Rate: 1
+          - Index: 594
+            Item: Dancing_Marionette_Card
+            Rate: 1
+          - Index: 595
+            Item: Abandoned_Teddy_Bear_Card
+            Rate: 1
+          - Index: 596
+            Item: Dark_Priest_Card
+            Rate: 1
+          - Index: 597
+            Item: Jungle_Mandragora_Card
+            Rate: 1
+          - Index: 598
+            Item: Step_Card
+            Rate: 1
+          - Index: 599
+            Item: Rock_Step_Card
+            Rate: 1
+          - Index: 600
+            Item: Kick_Step_Card
+            Rate: 1
+          - Index: 601
+            Item: Kick_&_Kick_Card
+            Rate: 1
+          - Index: 602
+            Item: As_Wind_Ghost_Card
+            Rate: 1
+          - Index: 603
+            Item: As_Bdy_Knight_Card
+            Rate: 1
+          - Index: 604
+            Item: Gryphon_Card
+            Rate: 1
+          - Index: 605
+            Item: Dark_Illusion_Card
+            Rate: 1
+          - Index: 606
+            Item: Deviling_Card
+            Rate: 1
+          - Index: 607
+            Item: Dragon_Fly_Card
+            Rate: 1
+          - Index: 608
+            Item: Mysteltainn_Card
+            Rate: 1
+          - Index: 609
+            Item: Mutant_Dragon_Card
+            Rate: 1
+          - Index: 610
+            Item: Maya_Puple_Card
+            Rate: 1
+          - Index: 611
+            Item: Mastering_Card
+            Rate: 1
+          - Index: 612
+            Item: Vagabond_Wolf_Card
+            Rate: 1
+          - Index: 613
+            Item: Executioner_Card
+            Rate: 1
+          - Index: 614
+            Item: Tirfing_Card
+            Rate: 1
+          - Index: 615
+            Item: Eclipse_Card
+            Rate: 1
+          - Index: 616
+            Item: Toad_Card
+            Rate: 1
+          - Index: 617
+            Item: Hardrock_Mommos_Card
+            Rate: 1
+          - Index: 618
+            Item: Tendrilion_Card
+            Rate: 1
+          - Index: 619
+            Item: V_B_Trentini_Card
+            Rate: 1
+          - Index: 620
+            Item: V_B_Gertie_Card
+            Rate: 1
+          - Index: 621
+            Item: V_B_Chen_Card
+            Rate: 1
+          - Index: 622
+            Item: V_B_Celia_Card
+            Rate: 1
+          - Index: 623
+            Item: V_B_Flamel_Card
+            Rate: 1
+          - Index: 624
+            Item: V_B_Randel_Card
+            Rate: 1
+          - Index: 625
+            Item: V_B_Eremes_Card
+            Rate: 1
+          - Index: 626
+            Item: V_B_Magaleta_Card
+            Rate: 1
+          - Index: 627
+            Item: V_B_Katrinn_Card
+            Rate: 1
+          - Index: 628
+            Item: V_B_Shecil_Card
+            Rate: 1
+          - Index: 629
+            Item: V_B_Harword_Card
+            Rate: 1
+          - Index: 630
+            Item: V_B_Seyren_Card
+            Rate: 1
+          - Index: 631
+            Item: Owl_Marquees_Card
+            Rate: 1
+          - Index: 632
+            Item: Owl_Viscount_Card
+            Rate: 1
+          - Index: 633
+            Item: UndeadKnightF_Card
+            Rate: 1
+          - Index: 634
+            Item: UndeadKnightM_Card
+            Rate: 1
+          - Index: 635
+            Item: V_B_Alphoccio_Card
+            Rate: 1
+          - Index: 636
+            Item: Jitterbug_Card
+            Rate: 1
+          - Index: 637
+            Item: Irene_High_Elder_Card
+            Rate: 1
+          - Index: 638
+            Item: Dwigh_Card
+            Rate: 1
+          - Index: 639
+            Item: Fay_Kanavian_Card
+            Rate: 1
   - Group: CASH_FOOD
     SubGroups:
       - SubGroup: 1
@@ -15530,9 +16028,6 @@ Body:
           - Index: 49
             Item: Charleston3_Card
             Rate: 1
-          - Index: 50
-            Item: Poring__Card
-            Rate: 1
           - Index: 51
             Item: Arhi_Card
             Rate: 1
@@ -15760,9 +16255,6 @@ Body:
             Rate: 30
           - Index: 126
             Item: Galion_Card
-            Rate: 30
-          - Index: 127
-            Item: Gold_Scaraba_Card
             Rate: 30
           - Index: 128
             Item: Kasa_Card
@@ -16007,6 +16499,45 @@ Body:
           - Index: 208
             Item: IFN_Chimera_Card
             Rate: 30
+          - Index: 209
+            Item: White_Knightage_Card
+            Rate: 1
+          - Index: 210
+            Item: Khaliz_Knightage_Card
+            Rate: 1
+          - Index: 211
+            Item: Dark_Priest_Card
+            Rate: 80
+          - Index: 212
+            Item: Jungle_Mandragora_Card
+            Rate: 80
+          - Index: 213
+            Item: Step_Card
+            Rate: 80
+          - Index: 214
+            Item: Rock_Step_Card
+            Rate: 80
+          - Index: 215
+            Item: Kick_Step_Card
+            Rate: 80
+          - Index: 216
+            Item: Kick_&_Kick_Card
+            Rate: 80
+          - Index: 217
+            Item: Heart_Hunter_Evil_Card
+            Rate: 1
+          - Index: 218
+            Item: Cutie_Card
+            Rate: 1
+          - Index: 219
+            Item: As_Ragged_Golem_Card
+            Rate: 1
+          - Index: 220
+            Item: As_Bdy_Knight_Card
+            Rate: 80
+          - Index: 221
+            Item: As_Wind_Ghost_Card
+            Rate: 80
   - Group: MAGICIAN_CARD_BOX
     SubGroups:
       - SubGroup: 0

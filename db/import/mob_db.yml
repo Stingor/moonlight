@@ -52702,6 +52702,8 @@ Body:
     DamageMotion: 480
     Ai: 21
     Class: Boss
+    Modes:
+      Mvp: true
     Drops:
       - Item: Big_Eggring_Card
         Rate: 10

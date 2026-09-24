@@ -692,6 +692,8 @@ Body:
     DamageMotion: 432
     Ai: 21
     Class: Boss
+    Modes:
+      Mvp: true
     Drops:
       - Item: Agrade_Pocket
         Rate: 5000
@@ -741,6 +743,8 @@ Body:
     DamageMotion: 432
     Ai: 21
     Class: Boss
+    Modes:
+      Mvp: true
     Drops:
       - Item: Agrade_Pocket
         Rate: 5000
@@ -793,6 +797,8 @@ Body:
     DamageMotion: 432
     Ai: 21
     Class: Boss
+    Modes:
+      Mvp: true
     Drops:
       - Item: Agrade_Pocket
         Rate: 5000
@@ -844,6 +850,8 @@ Body:
     DamageMotion: 432
     Ai: 21
     Class: Boss
+    Modes:
+      Mvp: true
     Drops:
       - Item: Agrade_Pocket
         Rate: 7000
@@ -1053,6 +1061,8 @@ Body:
     DamageMotion: 360
     Ai: 21
     Class: Boss
+    Modes:
+      Mvp: true
     Drops:
       - Item: Bgrade_Pocket
         Rate: 1500

@@ -528,6 +528,7 @@ Body:
     WalkSpeed: 1000
     Class: Guardian
     Modes:
+      Mvp: true
       IgnoreMagic: true
       IgnoreMelee: true
       IgnoreMisc: true
@@ -764,6 +765,8 @@ Body:
     Element: Holy
     ElementLevel: 1
     Class: Boss
+    Modes:
+      Mvp: true
     Drops:
       - Item: Bakonawa_Doll
         Rate: 2000
