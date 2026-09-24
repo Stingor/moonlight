@@ -16,6 +16,7 @@
 #include "itemdb.hpp"
 #include "log.hpp"
 #include "map.hpp" // mmysql_handle
+#include "mob.hpp" // mob_db, s_mob_db::get_bosstype : la nature du monstre qui lache la carte
 #include "pc.hpp"
 
 /* ------------------------------------------------------------------------- *
@@ -45,6 +46,48 @@ const std::vector<s_card_album_card>& card_album_catalog( void ){
 
 	built = true;
 
+	// The card -> boss reverse index, in ONE pass over mob_db.
+	//
+	// The other direction (for each card, scan every monster) would be ~900
+	// cards x ~2000 monsters x 10 drops. This is ~2000 x 10, once.
+	//
+	// 🔴 The TOUGHEST wins. A card dropped by both an MVP and one of its lesser
+	// clones is an MVP card: that is what the player means by the word, and the
+	// reverse rule would paint an MVP card as ordinary the day a `G_` clone
+	// inherited its drop table.
+	std::unordered_map<t_itemid, uint8> boss_of;
+
+	for( const auto& pair : mob_db ){
+		const std::shared_ptr<s_mob_db>& mob = pair.second;
+
+		if( mob == nullptr ){
+			continue;
+		}
+
+		const uint8 boss = static_cast<uint8>( mob->get_bosstype() );
+
+		if( boss == BOSSTYPE_NONE ){
+			continue;
+		}
+
+		// Both tables: an MVP's card is in `mvpitem` when it is a reward and in
+		// `dropitem` when it is an ordinary drop. Reading only one of them would
+		// lose half the MVP cards, and which half depends on the db.
+		for( const auto* table : { &mob->dropitem, &mob->mvpitem } ){
+			for( const std::shared_ptr<s_mob_drop>& drop : *table ){
+				if( drop == nullptr || drop->nameid == 0 ){
+					continue;
+				}
+
+				uint8& slot = boss_of[drop->nameid];
+
+				if( boss > slot ){
+					slot = boss;
+				}
+			}
+		}
+	}
+
 	for( const auto& entry : item_db ){
 		const std::shared_ptr<item_data>& idata = entry.second;
 
@@ -60,6 +103,10 @@ const std::vector<s_card_album_card>& card_album_catalog( void ){
 
 		card.nameid = idata->nameid;
 		card.equip = idata->equip;
+
+		const auto boss = boss_of.find( idata->nameid );
+
+		card.boss = boss != boss_of.end() ? boss->second : static_cast<uint8>( BOSSTYPE_NONE );
 
 		cache.push_back( card );
 	}

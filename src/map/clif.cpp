@@ -8750,18 +8750,26 @@ void clif_bourgeon_card_album(map_session_data& sd, e_card_album_result result) 
 
 	const std::vector<s_card_album_card>& catalog = card_album_catalog();
 
+	// La taille d'une entrée : 12 octets pour un client qui sait lire la nature
+	// du monstre, 11 pour tous les autres. Voir BOURGEON_UI_CARD_ALBUM_BOSS.
+	static_assert( sizeof( CARD_ALBUM_ENTRY ) == 12, "CARD_ALBUM_ENTRY a change de taille : revoir la taille heritee ci-dessous" );
+	constexpr size_t CARD_ALBUM_ENTRY_LEGACY = 11;
+
+	const bool with_boss = ( sd.bourgeon_ui_caps & BOURGEON_UI_CARD_ALBUM_BOSS ) != 0;
+	const size_t entry_size = with_boss ? sizeof( CARD_ALBUM_ENTRY ) : CARD_ALBUM_ENTRY_LEGACY;
+
 	// packetLength est un int16 signé : 32767 octets, soit ~2900 entrées de 11. Le
 	// catalogue en compte ~912, donc la marge est de 3x. La borne n'est pas là
 	// pour aujourd'hui mais pour le jour où quelqu'un verserait un item_db
 	// renewal (5593 cartes) : tronquer en le DISANT, plutôt que déborder en
 	// silence sur un champ de longueur qui repasserait en négatif.
-	const size_t max_entries = (32767 - sizeof(PACKET_ZC_BOURGEON_CARD_ALBUM)) / sizeof(CARD_ALBUM_ENTRY);
+	const size_t max_entries = (32767 - sizeof(PACKET_ZC_BOURGEON_CARD_ALBUM)) / entry_size;
 	size_t n = catalog.size();
 	const bool truncated = n > max_entries;
 
 	if (truncated) n = max_entries;
 
-	const size_t pkt_len = sizeof(PACKET_ZC_BOURGEON_CARD_ALBUM) + n * sizeof(CARD_ALBUM_ENTRY);
+	const size_t pkt_len = sizeof(PACKET_ZC_BOURGEON_CARD_ALBUM) + n * entry_size;
 
 	WFIFOHEAD(fd, pkt_len);
 	memset(WFIFOP(fd, 0), 0, pkt_len);
@@ -8794,6 +8802,9 @@ void clif_bourgeon_card_album(map_session_data& sd, e_card_album_result result) 
 		WFIFOW(fd, off) = unlocked ? sd.card_album[ai].amount : 0;            off += 2;
 		WFIFOB(fd, off) = unlocked ? 1 : 0;                                   off += 1;
 		WFIFOL(fd, off) = card.equip;                                         off += 4;
+		if( with_boss ){
+			WFIFOB(fd, off) = card.boss;                                      off += 1;
+		}
 	}
 
 	WFIFOSET(fd, pkt_len);

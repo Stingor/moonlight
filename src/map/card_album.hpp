@@ -87,6 +87,11 @@ enum e_card_album_result : uint8 {
 struct s_card_album_card {
 	t_itemid nameid;
 	uint32 equip;
+	/// e_mob_bosstype of the TOUGHEST monster known to drop this card (NONE,
+	/// MINIBOSS, MVP). Same reason as `equip`: the client has no mob_db, and
+	/// "does this card come off a boss" is not in item_db either - that link
+	/// exists only in the drop tables.
+	uint8 boss;
 };
 
 /// Every card the album accepts, ascending by server nameid. Built once from

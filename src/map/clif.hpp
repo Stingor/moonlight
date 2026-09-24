@@ -1814,6 +1814,15 @@ enum e_bourgeon_ui_cap : uint32 {
 	// pour les montrer, et un sacrifice est IRRÉVERSIBLE : mieux vaut refuser que
 	// consommer une carte dont le joueur ne verrait jamais le résultat.
 	BOURGEON_UI_CARD_ALBUM = 0x00000008,
+	// Ce client sait lire l'octet de NATURE (e_mob_bosstype) ajouté en queue de
+	// CARD_ALBUM_ENTRY. Sans ce bit, le catalogue lui part dans l'ancien format.
+	//
+	// 🔴 C'est le SEUL champ du paquet qui ait jamais grandi, et il ne pouvait
+	// pas grandir en silence : une entrée est de taille fixe, donc un client
+	// d'avant qui recevrait 12 octets décalerait chaque carte d'un octet de plus
+	// que la précédente — un album entier de charabia, chez tous ceux qui n'ont
+	// pas encore patché. Le bit, lui, coûte une condition.
+	BOURGEON_UI_CARD_ALBUM_BOSS = 0x00000010,
 };
 
 void clif_parse_bourgeon_ui_caps(int32 fd, map_session_data* sd);

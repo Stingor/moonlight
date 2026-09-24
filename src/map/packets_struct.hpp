@@ -6859,8 +6859,8 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_PARTY_SHARE, 0x0f35);
 //
 // Le paquet porte TOUTES les cartes du jeu, pas seulement celles que le joueur
 // possède : le client n'a pas de catalogue fiable, et un seul paquet règle donc
-// à la fois le catalogue, la réserve et la vue de complétion. 912 cartes × 11
-// octets ≈ 10 Ko, loin des 32767 que peut porter un packetLength int16 (~2900
+// à la fois le catalogue, la réserve et la vue de complétion. 912 cartes × 12
+// octets ≈ 11 Ko, loin des 32767 que peut porter un packetLength int16 (~2700
 // entrées) — mais l'émetteur borne quand même, plutôt que de déborder en
 // silence si le catalogue enflait.
 //
@@ -6872,6 +6872,9 @@ struct CARD_ALBUM_ENTRY {
 	uint8  flags;   ///< bit 0 : emplacement DÉBLOQUÉ. Sinon la carte n'est que cataloguée.
 	uint32 equip;   ///< masque d'emplacement CIBLE (ARMOR, HAND_R…) : le client n'a
 	                ///< pas d'item_db, c'est la seule façon de filtrer par slot.
+	uint8  boss;    ///< e_mob_bosstype du monstre le plus coriace qui lâche cette
+	                ///< carte (0 aucun, 1 mini-boss, 2 MVP). Le client n'a pas
+	                ///< plus de mob_db que d'item_db.
 } __attribute__((packed));
 
 struct PACKET_ZC_BOURGEON_CARD_ALBUM {
