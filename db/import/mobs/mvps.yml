@@ -1478,6 +1478,7 @@ Body:
     AttackMotion: 648
     DamageMotion: 576
     Ai: 21
+    Class: Boss
     Modes:
       Mvp: true
     MvpDrops:
@@ -3213,6 +3214,8 @@ Body:
     DamageMotion: 672
     Ai: 21
     Class: Boss
+    Modes:
+      Mvp: true
     Drops:
       - Item: Pilebuncker_P
         Rate: 200
