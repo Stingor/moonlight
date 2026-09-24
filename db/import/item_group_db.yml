@@ -22937,6 +22937,9 @@ Body:
           - Index: 100
             Item: Giant_Octopus_Card
             Rate: 1
+          - Index: 101
+            Item: Captain_Felock_Card
+            Rate: 1
   - Group: SGRADE_POCKET
     SubGroups:
       - SubGroup: 0
