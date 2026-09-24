@@ -168,3 +168,12 @@ Body:
       .@val1 = getstatus(SC_QUEST_BUFF3, 1);
       bonus bMatk, .@val1;
       bonus bBaseAtk, .@val1;
+  # Aligne Crystalize (SO_DIAMONDDUST) sur db/re : le portage pre-re d'upstream
+  # n'interrompt ni le cast ni l'auto-attaque en cours, et autorise le recast.
+  - Status: Crystalize
+    Flags:
+      StopAttacking: true
+      StopCasting: true
+      SetStand: true
+    Fail:
+      Crystalize: true
