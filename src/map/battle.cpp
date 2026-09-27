@@ -2447,8 +2447,8 @@ static int32 battle_calc_base_weapon_attack(block_list *src, struct status_data 
 {
 	status_data* status = status_get_status_data(*src);
 	uint8 type = (wa == &status->lhw)?EQI_HAND_L:EQI_HAND_R;
-	uint16 atkmin = (type == EQI_HAND_L)?status->watk2:status->watk;
-	uint16 atkmax = atkmin;
+	uint32 atkmin = (type == EQI_HAND_L)?status->watk2:status->watk;
+	uint32 atkmax = atkmin;
 	int64 damage = atkmin;
 	bool weapon_perfection = false;
 	status_change *sc = status_get_sc(src);
@@ -2478,8 +2478,8 @@ static int32 battle_calc_base_weapon_attack(block_list *src, struct status_data 
 		float variance = 5.0f * wa->atk * wa->wlv / 100.0f;
 		float base_stat_bonus = wa->atk * base_stat / 200.0f;
 
-		atkmin = max(0, (int32)(atkmin - variance + base_stat_bonus));
-		atkmax = min(UINT16_MAX, (int32)(atkmax + variance + base_stat_bonus));
+		atkmin = (uint32)cap_value((int64)(atkmin - variance + base_stat_bonus), 0, INT32_MAX);
+		atkmax = (uint32)cap_value((int64)(atkmax + variance + base_stat_bonus), 0, INT32_MAX);
 
 		if ((sc && sc->getSCE(SC_MAXIMIZEPOWER)) || critical == true)
 			damage = atkmax;

@@ -19606,8 +19606,8 @@ BUILDIN_FUNC(setunitdata)
 				break;
 			case UMOB_DMGIMMUNE: md->ud.immune_attack = value > 0; break;
 			case UMOB_ATKRANGE: md->base_status->rhw.range = (uint16)value; calc_status = true; break;
-			case UMOB_ATKMIN: md->base_status->rhw.atk = (uint16)value; calc_status = true; break;
-			case UMOB_ATKMAX: md->base_status->rhw.atk2 = (uint16)value; calc_status = true; break;
+			case UMOB_ATKMIN: md->base_status->rhw.atk = (uint32)value; calc_status = true; break;
+			case UMOB_ATKMAX: md->base_status->rhw.atk2 = (uint32)value; calc_status = true; break;
 			case UMOB_MATKMIN: md->base_status->matk_min = (uint16)value; calc_status = true; break;
 			case UMOB_MATKMAX: md->base_status->matk_max = (uint16)value; calc_status = true; break;
 			case UMOB_DEF: md->base_status->def = (defType)value; calc_status = true; break;
@@ -19677,8 +19677,8 @@ BUILDIN_FUNC(setunitdata)
 			case UHOM_LUK: hd->base_status.luk = (uint16)value; status_calc_misc(bl, &hd->base_status, hd->homunculus.level); calc_status = true; break;
 			case UHOM_DMGIMMUNE: hd->ud.immune_attack = value > 0; break;
 			case UHOM_ATKRANGE: hd->base_status.rhw.range = (uint16)value; calc_status = true; break;
-			case UHOM_ATKMIN: hd->base_status.rhw.atk = (uint16)value; calc_status = true; break;
-			case UHOM_ATKMAX: hd->base_status.rhw.atk2 = (uint16)value; calc_status = true; break;
+			case UHOM_ATKMIN: hd->base_status.rhw.atk = (uint32)value; calc_status = true; break;
+			case UHOM_ATKMAX: hd->base_status.rhw.atk2 = (uint32)value; calc_status = true; break;
 			case UHOM_MATKMIN: hd->base_status.matk_min = (uint16)value; calc_status = true; break;
 			case UHOM_MATKMAX: hd->base_status.matk_max = (uint16)value; calc_status = true; break;
 			case UHOM_DEF: hd->base_status.def = (defType)value; calc_status = true; break;
@@ -19743,8 +19743,8 @@ BUILDIN_FUNC(setunitdata)
 			case UPET_LUK: pd->status.luk = (uint16)value; status_calc_misc(bl, &pd->status, pd->pet.level); break;
 			case UPET_DMGIMMUNE: pd->ud.immune_attack = value > 0; break;
 			case UPET_ATKRANGE: pd->status.rhw.range = (uint16)value; break;
-			case UPET_ATKMIN: pd->status.rhw.atk = (uint16)value; break;
-			case UPET_ATKMAX: pd->status.rhw.atk2 = (uint16)value; break;
+			case UPET_ATKMIN: pd->status.rhw.atk = (uint32)value; break;
+			case UPET_ATKMAX: pd->status.rhw.atk2 = (uint32)value; break;
 			case UPET_MATKMIN: pd->status.matk_min = (uint16)value; break;
 			case UPET_MATKMAX: pd->status.matk_max = (uint16)value; break;
 			case UPET_DEF: pd->status.def = (defType)value; break;
@@ -19793,8 +19793,8 @@ BUILDIN_FUNC(setunitdata)
 			case UMER_LUK: mc->base_status.luk = (uint16)value; status_calc_misc(bl, &mc->base_status, mc->db->lv); calc_status = true; break;
 			case UMER_DMGIMMUNE: mc->ud.immune_attack = value > 0; break;
 			case UMER_ATKRANGE: mc->base_status.rhw.range = (uint16)value; calc_status = true; break;
-			case UMER_ATKMIN: mc->base_status.rhw.atk = (uint16)value; calc_status = true; break;
-			case UMER_ATKMAX: mc->base_status.rhw.atk2 = (uint16)value; calc_status = true; break;
+			case UMER_ATKMIN: mc->base_status.rhw.atk = (uint32)value; calc_status = true; break;
+			case UMER_ATKMAX: mc->base_status.rhw.atk2 = (uint32)value; calc_status = true; break;
 			case UMER_MATKMIN: mc->base_status.matk_min = (uint16)value; calc_status = true; break;
 			case UMER_MATKMAX: mc->base_status.matk_max = (uint16)value; calc_status = true; break;
 			case UMER_DEF: mc->base_status.def = (defType)value; calc_status = true; break;
@@ -19863,8 +19863,8 @@ BUILDIN_FUNC(setunitdata)
 			case UELE_LUK: ed->base_status.luk = (uint16)value; status_calc_misc(bl, &ed->base_status, ed->db->lv); calc_status = true; break;
 			case UELE_DMGIMMUNE: ed->ud.immune_attack = value > 0; break;
 			case UELE_ATKRANGE: ed->base_status.rhw.range = (uint16)value; calc_status = true; break;
-			case UELE_ATKMIN: ed->base_status.rhw.atk = (uint16)value; calc_status = true; break;
-			case UELE_ATKMAX: ed->base_status.rhw.atk2 = (uint16)value; calc_status = true; break;
+			case UELE_ATKMIN: ed->base_status.rhw.atk = (uint32)value; calc_status = true; break;
+			case UELE_ATKMAX: ed->base_status.rhw.atk2 = (uint32)value; calc_status = true; break;
 			case UELE_MATKMIN: ed->base_status.matk_min = (uint16)value; calc_status = true; break;
 			case UELE_MATKMAX: ed->base_status.matk_max = (uint16)value; calc_status = true; break;
 			case UELE_DEF: ed->base_status.def = (defType)value; calc_status = true; break;
@@ -19930,8 +19930,8 @@ BUILDIN_FUNC(setunitdata)
 			case UNPC_LUK: nd->params.luk = (uint16)value; status_calc_misc(bl, &nd->status, nd->level); break;
 			case UNPC_PLUSALLSTAT: nd->stat_point = (uint32)value; break;
 			case UNPC_ATKRANGE: nd->status.rhw.range = (uint16)value; break;
-			case UNPC_ATKMIN: nd->status.rhw.atk = (uint16)value; break;
-			case UNPC_ATKMAX: nd->status.rhw.atk2 = (uint16)value; break;
+			case UNPC_ATKMIN: nd->status.rhw.atk = (uint32)value; break;
+			case UNPC_ATKMAX: nd->status.rhw.atk2 = (uint32)value; break;
 			case UNPC_MATKMIN: nd->status.matk_min = (uint16)value; break;
 			case UNPC_MATKMAX: nd->status.matk_max = (uint16)value; break;
 			case UNPC_DEF: nd->status.def = (defType)value; break;

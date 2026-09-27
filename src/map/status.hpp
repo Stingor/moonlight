@@ -3360,7 +3360,7 @@ enum e_refine_chance_type {
 * Required because players have two of these, one in status_data
 * and another for their left hand weapon. */
 struct weapon_atk {
-	uint16 atk, atk2;
+	uint32 atk, atk2;
 	uint16 range;
 	unsigned char ele;
 #ifdef RENEWAL
@@ -3383,11 +3383,10 @@ struct status_data {
 		pow, sta, wis, spl, con, crt,
 		eatk;
 	int32 batk;
-	uint16
 #ifdef RENEWAL
-		watk,
-		watk2,
+	uint32 watk, watk2;
 #endif
+	uint16
 		speed,
 		amotion, clientamotion, adelay, dmotion;
 	uint32 matk_min, matk_max;
@@ -3730,15 +3729,15 @@ int32 status_change_spread(block_list *src, block_list *bl);
 uint32 status_base_matk_min(const struct status_data* status);
 uint32 status_base_matk_max(const struct status_data* status);
 #else
-uint16 status_base_atk_min( const block_list* bl, const status_data* status, int32 level );
-uint16 status_base_atk_max( const block_list* bl, const status_data* status, int32 level );
+uint32 status_base_atk_min( const block_list* bl, const status_data* status, int32 level );
+uint32 status_base_atk_max( const block_list* bl, const status_data* status, int32 level );
 uint32 status_base_matk_min( const block_list* bl, const status_data* status, int32 level );
 uint32 status_base_matk_max( const block_list* bl, const status_data* status, int32 level );
 #endif
 uint32 status_calc_consumablematk( status_change *sc, int32 matk );
 uint32 status_calc_pseudobuff_matk( map_session_data *sd, status_change *sc, int32 matk );
 
-uint16 status_base_atk(const block_list *bl, const struct status_data *status, int32 level);
+uint32 status_base_atk(const block_list *bl, const struct status_data *status, int32 level);
 
 // Status changes accessors for StatusChange database
 uint16 status_efst_get_bl_type(enum efst_type efst);

@@ -4133,21 +4133,21 @@ void pc_bonus(map_session_data *sd,int32 type,int32 val)
 		case SP_ATK1:
 			if (sd->state.lr_flag == LR_FLAG_NONE) {
 				bonus = status->rhw.atk + val;
-				status->rhw.atk = cap_value(bonus, 0, USHRT_MAX);
+				status->rhw.atk = cap_value(bonus, 0, INT32_MAX);
 			}
 			else if (sd->state.lr_flag == LR_FLAG_WEAPON) {
 				bonus = status->lhw.atk + val;
-				status->lhw.atk =  cap_value(bonus, 0, USHRT_MAX);
+				status->lhw.atk =  cap_value(bonus, 0, INT32_MAX);
 			}
 			break;
 		case SP_ATK2:
 			if (sd->state.lr_flag == LR_FLAG_NONE) {
 				bonus = status->rhw.atk2 + val;
-				status->rhw.atk2 = cap_value(bonus, 0, USHRT_MAX);
+				status->rhw.atk2 = cap_value(bonus, 0, INT32_MAX);
 			}
 			else if (sd->state.lr_flag == LR_FLAG_WEAPON) {
 				bonus = status->lhw.atk2 + val;
-				status->lhw.atk2 =  cap_value(bonus, 0, USHRT_MAX);
+				status->lhw.atk2 =  cap_value(bonus, 0, INT32_MAX);
 			}
 			break;
 		case SP_BASE_ATK:

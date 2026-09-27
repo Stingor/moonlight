@@ -89,7 +89,7 @@ static uint16 status_calc_spl(block_list *, status_change *, int32);
 static uint16 status_calc_con(block_list *, status_change *, int32);
 static uint16 status_calc_crt(block_list *, status_change *, int32);
 static int32 status_calc_batk(block_list *, status_change *, int32);
-static uint16 status_calc_watk(block_list *,status_change *,int32);
+static uint32 status_calc_watk(block_list *,status_change *,int64);
 static int16 status_calc_hit(block_list *,status_change *,int32);
 static int16 status_calc_critical(block_list *,status_change *,int32);
 static int16 status_calc_flee(block_list *,status_change *,int32);
@@ -2423,7 +2423,7 @@ int32 status_base_amotion_pc(map_session_data* sd, struct status_data* status)
  * @param status: Object status
  * @return base attack
  */
-uint16 status_base_atk(const block_list *bl, const struct status_data *status, int32 level)
+uint32 status_base_atk(const block_list *bl, const struct status_data *status, int32 level)
 {
 	int32 flag = 0, str, dex, dstr;
 
@@ -2495,7 +2495,7 @@ uint16 status_base_atk(const block_list *bl, const struct status_data *status, i
 			break;
 	}
 
-	return cap_value(str, 0, USHRT_MAX);
+	return cap_value(str, 0, INT32_MAX);
 }
 
 #ifdef RENEWAL
@@ -2522,7 +2522,7 @@ uint32 status_base_matk_max( const status_data* status ) {
 * Calculates minimum attack variance 80% from db's ATK1 for non BL_PC
 * status->batk (base attack) will be added in battle_calc_base_damage
 */
-uint16 status_base_atk_min( const block_list* bl, const status_data* status, int32 level )
+uint32 status_base_atk_min( const block_list* bl, const status_data* status, int32 level )
 {
 	switch (bl->type) {
 		case BL_PET:
@@ -2541,7 +2541,7 @@ uint16 status_base_atk_min( const block_list* bl, const status_data* status, int
 * Calculates maximum attack variance 120% from db's ATK1 for non BL_PC
 * status->batk (base attack) will be added in battle_calc_base_damage
 */
-uint16 status_base_atk_max( const block_list* bl, const status_data* status, int32 level )
+uint32 status_base_atk_max( const block_list* bl, const status_data* status, int32 level )
 {
 	switch (bl->type) {
 		case BL_PET:
@@ -7373,12 +7373,12 @@ static int32 status_calc_batk(block_list *bl, status_change *sc, int32 batk)
  * @param bl: Object to change watk [PC]
  * @param sc: Object's status change information
  * @param watk: Initial watk
- * @return modified watk with cap_value(watk,0,USHRT_MAX)
+ * @return modified watk with cap_value(watk,0,INT32_MAX)
  */
-static uint16 status_calc_watk(block_list *bl, status_change *sc, int32 watk)
+static uint32 status_calc_watk(block_list *bl, status_change *sc, int64 watk)
 {
 	if(sc == nullptr || sc->empty())
-		return cap_value(watk,0,USHRT_MAX);
+		return (uint32)cap_value(watk,0,INT32_MAX);
 
 #ifndef RENEWAL
 	if(sc->getSCE(SC_DRUMBATTLE))
@@ -7457,7 +7457,7 @@ static uint16 status_calc_watk(block_list *bl, status_change *sc, int32 watk)
 	if (sc->getSCE(SC_GUARD_STANCE))
 		watk -= sc->getSCE(SC_GUARD_STANCE)->val3;
 
-	return (uint16)cap_value(watk,0,USHRT_MAX);
+	return (uint32)cap_value(watk,0,INT32_MAX);
 }
 
 /**
