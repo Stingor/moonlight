@@ -2656,8 +2656,6 @@ Body:
     DamageMotion: 480
     Ai: 21
     Class: Boss
-    Modes:
-      Mvp: true
     Drops:
       - Item: FaceWorm_Leg
         Rate: 10
