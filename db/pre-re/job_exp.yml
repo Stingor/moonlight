@@ -734,6 +734,8 @@ Body:
       Baby_Dancer: true
       Baby_Crusader2: true
       Soul_Linker: true
+      Baby_Gunslinger: true
+      Baby_Ninja: true
     MaxJobLevel: 50
     JobExp:
       - Level: 1
