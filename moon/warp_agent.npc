@@ -1106,10 +1106,10 @@ Process_Instance:
 			}
 			end;
 		case 0:
-		case INST_ASSAULT_ON_THE_AIRSHIP:
+		case 1:
 			// if( is_party_leader(getcharid(1)) == true )
 				// callsub Quick_Enter,getarg(0); end;
-		case INST_BAKONAWA_LAKE:
+		case 2:
 			clear;
 			mes .@npc_name$;
 			mes "^ff0000Vous devez attendre le reset de votre instance.^000000";
@@ -1664,11 +1664,11 @@ L_Rooms:
 	mes .@npc_name$;
 	mes "Sélectionnez la salle de votre choix :";
 	switch( select("• Carnage Room [ ^FF0000"+getmapusers("pvp_n_3-5")+"^000000 joueur(s) ]:• PvP Room [ ^FF0000"+getmapusers("pvp_n_4-1")+"^000000 joueur(s) ]:• Duel Room [ ^FF0000"+getmapusers("pvp_n_2-1")+"^000000 joueur(s) ]:• GvG Room [ ^FF0000"+getmapusers("pvp_n_5-1")+"^000000 joueur(s) ]:• DB Room [ ^FF0000"+getmapusers("pvp_n_1-1")+"^000000 joueur(s) ]:• BB Room [ ^FF0000"+getmapusers("pvp_n_3-1")+"^000000 joueur(s) ]:• Test Room [ ^FF0000"+getmapusers("pvp_n_5-5")+"^000000 joueur(s) ]:• ^e64c00Menu Précédent.^000000") ) {
-		case INST_ASSAULT_ON_THE_AIRSHIP:	// Carnage Room
+		case 1:	// Carnage Room
 			callsub Check_Buffs;
 			warp_fct("pvp_n_3-5");
 			break;
-		case INST_BAKONAWA_LAKE:	// PvP Room
+		case 2:	// PvP Room
 			clear;
 			mes .@npc_name$;
 			mes "N'oubliez-pas que dans cette salle, battez vous de façon loyal...";
@@ -1682,10 +1682,10 @@ L_Rooms:
 			else
 				goto L_warpa;
 			break;
-		case INST_BANGUNGOT_HOSPITAL_2F:	// Duel Room
+		case 3:	// Duel Room
 			warp_fct("pvp_n_2-1", 105, 71);
 			break;
-		case INST_BUWAYA_CAVE:	// GvG Room
+		case 4:	// GvG Room
 			clear;
 			mes .@npc_name$;
 			mes "N'oubliez-pas que dans cette salle, battez vous de façon loyal...";
