@@ -284,18 +284,32 @@ function	script	mobhm	{
 					setunitdata .@mobgid, UMOB_MODE, MD_CANMOVE|MD_AGGRESSIVE|MD_ASSIST|MD_CANATTACK|MD_CHANGECHASE|MD_ANGRY|MD_CHANGETARGETMELEE|MD_KNOCKBACKIMMUNE|MD_STATUSIMMUNE;
 				else if( .@hardmode > 1 )
 					setunitdata .@mobgid, UMOB_MODE, MD_CANMOVE|MD_AGGRESSIVE|MD_ASSIST|MD_CANATTACK|MD_CHANGECHASE|MD_ANGRY|MD_CHANGETARGETMELEE;
-				if( .@hardmode >= 15 ) {
-						setunitdata .@mobgid, UMOB_ATKMIN,  (.@data[UMOB_ATKMIN]  < 2000 *.@hardmode?2000*.@hardmode:.@data[UMOB_ATKMIN])*(.@hardmode*2)*.@hardmode/2;
-						setunitdata .@mobgid, UMOB_ATKMAX,  (.@data[UMOB_ATKMAX]  < 10000*.@hardmode?10000*.@hardmode:.@data[UMOB_ATKMAX])*(.@hardmode*2)*.@hardmode/2;
-						setunitdata .@mobgid, UMOB_MATKMIN, (.@data[UMOB_MATKMIN] < 2000 *.@hardmode?2000*.@hardmode:.@data[UMOB_MATKMIN])*(.@hardmode*2)*.@hardmode;
-						setunitdata .@mobgid, UMOB_MATKMAX, (.@data[UMOB_MATKMAX] < 10000*.@hardmode?10000*.@hardmode:.@data[UMOB_MATKMAX])*(.@hardmode*2)*.@hardmode;
-					}
-					else {
-						setunitdata .@mobgid, UMOB_ATKMIN,  (.@data[UMOB_ATKMIN]  < 1000*.@hardmode?1000*.@hardmode:.@data[UMOB_ATKMIN])*30*.@hardmode/2;
-						setunitdata .@mobgid, UMOB_ATKMAX,  (.@data[UMOB_ATKMAX]  < 5000*.@hardmode?5000*.@hardmode:.@data[UMOB_ATKMAX])*30*.@hardmode/2;
-						setunitdata .@mobgid, UMOB_MATKMIN, (.@data[UMOB_MATKMIN] < 1000*.@hardmode?1000*.@hardmode:.@data[UMOB_MATKMIN])*30*.@hardmode;
-						setunitdata .@mobgid, UMOB_MATKMAX, (.@data[UMOB_MATKMAX] < 5000*.@hardmode?5000*.@hardmode:.@data[UMOB_MATKMAX])*30*.@hardmode;
-					}
+				// --- ATK / MATK : plafond explicite --------------------------------
+				// Avant le debornage 32 bits de l'ATK (efd77f28), setunitdata castait
+				// ATKMIN/ATKMAX en uint16 : les anciennes formules (15000*hm^2 a
+				// 75000*hm^2) arrivaient au mob MODULO 65536. Elles etaient donc
+				// plafonnees de fait a 65535, et non monotones (hm 2 donnait
+				// ATKMIN 60000 > ATKMAX 37856). L'equilibrage des instances s'est fait
+				// sur ce plafond : on le garde, mais explicite et croissant.
+				// En pre-re un critique frappe a ATKMAX sans reduction de DEF
+				// (battle_calc_base_weapon_attack) : c'est ATKMAX qui doit etre borne.
+				// MATK reste caste en uint16 par setunitdata, meme plafond.
+				// Reference hm 3 : 4050 / 19800 (ancien vecu tronque : 3928 / 19640).
+				// Tuning : .@atkmul pour la pente, les deux planchers pour le niveau.
+				.@atkcap = 65535;
+				.@atkmul = .@hardmode * 3;	// hm2 = x6 ... hm20 = x60
+				.@fmin = 450;			// plancher avant multiplication (min)
+				.@fmax = 2200;			// plancher avant multiplication (max)
+				.@amin = (.@data[UMOB_ATKMIN]  < .@fmin ? .@fmin : .@data[UMOB_ATKMIN]);
+				.@amax = (.@data[UMOB_ATKMAX]  < .@fmax ? .@fmax : .@data[UMOB_ATKMAX]);
+				.@mmin = (.@data[UMOB_MATKMIN] < .@fmin ? .@fmin : .@data[UMOB_MATKMIN]);
+				.@mmax = (.@data[UMOB_MATKMAX] < .@fmax ? .@fmax : .@data[UMOB_MATKMAX]);
+				if( .@amax < .@amin ) .@amax = .@amin;	// jamais min > max
+				if( .@mmax < .@mmin ) .@mmax = .@mmin;
+				setunitdata .@mobgid, UMOB_ATKMIN,  cap_value(.@amin * .@atkmul, 0, .@atkcap);
+				setunitdata .@mobgid, UMOB_ATKMAX,  cap_value(.@amax * .@atkmul, 0, .@atkcap);
+				setunitdata .@mobgid, UMOB_MATKMIN, cap_value(.@mmin * .@atkmul, 0, .@atkcap);
+				setunitdata .@mobgid, UMOB_MATKMAX, cap_value(.@mmax * .@atkmul, 0, .@atkcap);
 				setunitdata .@mobgid, UMOB_DEF,  (.@data[UMOB_DEF]  < 5?5:.@data[UMOB_DEF])+cap_value(.@hardmode,1,15);
 				setunitdata .@mobgid, UMOB_MDEF, (.@data[UMOB_MDEF] < 5?5:.@data[UMOB_MDEF])+cap_value(.@hardmode,1,15);
 				setunitdata .@mobgid, UMOB_HIT,  (.@data[UMOB_HIT]  < 300?300:.@data[UMOB_HIT])*cap_value(.@hardmode,1,15);
