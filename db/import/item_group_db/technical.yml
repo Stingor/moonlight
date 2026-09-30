@@ -1,0 +1,1068 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2024 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Item Group Database
+###########################################################################
+#
+# Item Group Settings
+#
+###########################################################################
+# - Group                      Group name of the item.
+#   SubGroups:
+#     - SubGroup:              SubGroup number associated with the list of item. See doc/item_group.txt for more information.
+#       Algorithm:             Type of algorithm associated with SubGroup. (Default: SharedPool)
+#       List:                  List of item(s) for the SubGroup.
+#        - Index               Unique number that can be used to add the same Item with different data in the list.
+#          Item                AegisName of item that will be obtained from this item group.
+#          Rate                Probability to get the item. (Default: 0)
+#          Amount              Amount of item that will be obtained. (Default: 1)
+#          Duration            Makes the item a rental item which will expire within the given amount in minutes. Not intended for use with stackable items. (Default: 0)
+#          Announced           If player obtains this item it will be broadcasted to the server. (Default: false)
+#          UniqueId            Makes the given item(s) have a Unique ID. (Default: UniqueId from item_db)
+#          Stacked             Whether stackable items are given stacked or not. (Default: true)
+#          Named               Inscribes the item with the obtainer's name. (Default: false)
+#          Bound               Binds the obtained item. (Default: None)
+#          RandomOptionGroup   Applies random options of this group to all equipable items (Default: None)
+#          RefineMinimum       Applies at least this refine level to all equipable items (Default: 0)
+#          RefineMaximum       Applies at most this refine level to all equipable items (Default: 0)
+#          Clear               Whether the current datas should be removed. (Optional)
+#       Clear                  Remove the given SubGroup. (Optional)
+###########################################################################
+
+Header:
+  Type: ITEM_GROUP_DB
+  Version: 5
+
+Body:
+  - Group: FASTUSE
+    SubGroups:
+      - SubGroup: 1
+        List:
+          - Index: 0
+            Item: Wing_Of_Fly
+            Rate: 80
+          - Index: 1
+            Item: Old_Blue_Box
+            Rate: 50
+          - Index: 2
+            Item: Branch_Of_Dead_Tree
+            Rate: 50
+          - Index: 3
+            Item: Old_Card_Album
+            Rate: 50
+          - Index: 4
+            Item: Old_Violet_Box
+            Rate: 25
+          - Index: 5
+            Item: Gift_Box
+            Rate: 50
+          - Index: 6
+            Item: Gift_Box_1
+            Rate: 50
+          - Index: 7
+            Item: Gift_Box_2
+            Rate: 50
+          - Index: 8
+            Item: Gift_Box_3
+            Rate: 50
+          - Index: 9
+            Item: Gift_Box_4
+            Rate: 50
+          - Index: 10
+            Item: Bloody_Dead_Branch
+            Rate: 20
+          - Index: 11
+            Item: Old_Coin_Pocket
+            Rate: 20
+          - Index: 12
+            Item: High_Coin_Pocket
+            Rate: 1
+          - Index: 13
+            Item: Mid_Coin_Pocket
+            Rate: 5
+          - Index: 14
+            Item: Low_Coin_Pocket
+            Rate: 10
+          - Index: 15
+            Item: Sgrade_Pocket
+            Rate: 1
+          - Index: 16
+            Item: Agrade_Pocket
+            Rate: 5
+          - Index: 17
+            Item: Bgrade_Pocket
+            Rate: 10
+          - Index: 18
+            Item: Cgrade_Pocket
+            Rate: 15
+          - Index: 19
+            Item: Dgrade_Pocket
+            Rate: 20
+          - Index: 20
+            Item: Egrade_Pocket
+            Rate: 25
+          - Index: 21
+            Item: High_Weapon_Box
+            Rate: 25
+          - Index: 22
+            Item: Magic_Card_Album
+            Rate: 50
+          - Index: 23
+            Item: Sg_Weapon_Supply_Box
+            Rate: 25
+  - Group: SELLITEM
+    SubGroups:
+      - SubGroup: 1
+        List:
+          - Index: 0
+            Item: Green_Potion
+            Rate: 1
+          - Index: 1
+            Item: White_Slim_Potion
+            Rate: 1
+          - Index: 2
+            Item: Lucky_Candy
+            Rate: 1
+          - Index: 3
+            Item: Old_Blue_Box
+            Rate: 1
+          - Index: 4
+            Item: Yggdrasilberry
+            Rate: 1
+          - Index: 5
+            Item: Seed_Of_Yggdrasil
+            Rate: 1
+          - Index: 6
+            Item: Old_Card_Album
+            Rate: 1
+          - Index: 7
+            Item: Old_Violet_Box
+            Rate: 1
+          - Index: 8
+            Item: Gift_Box
+            Rate: 1
+          - Index: 9
+            Item: Poison_Bottle
+            Rate: 1
+          - Index: 10
+            Item: Gold
+            Rate: 1
+          - Index: 11
+            Item: Temporal_Crystal
+            Rate: 1
+          - Index: 12
+            Item: Coagulated_Spell
+            Rate: 1
+          - Index: 13
+            Item: Jitterbug's_Tooth
+            Rate: 1
+          - Index: 14
+            Item: Fire_Bottle
+            Rate: 1
+          - Index: 15
+            Item: Acid_Bottle
+            Rate: 1
+          - Index: 16
+            Item: Coating_Bottle
+            Rate: 1
+          - Index: 17
+            Item: Piece_Of_Memory_Green
+            Rate: 1
+          - Index: 18
+            Item: Piece_Of_Memory_Purple
+            Rate: 1
+          - Index: 19
+            Item: Piece_Of_Memory_Blue
+            Rate: 1
+          - Index: 20
+            Item: Piece_Of_Memory_Red
+            Rate: 1
+          - Index: 21
+            Item: Ice_Scale
+            Rate: 1
+          - Index: 22
+            Item: Water_Of_Darkness
+            Rate: 1
+          - Index: 23
+            Item: Elemental_Fire
+            Rate: 1
+          - Index: 24
+            Item: Elemental_Water
+            Rate: 1
+          - Index: 25
+            Item: Elemental_Earth
+            Rate: 1
+          - Index: 26
+            Item: Elemental_Wind
+            Rate: 1
+          - Index: 27
+            Item: Magic_Card_Album
+            Rate: 1
+  - Group: SELLSTUFF
+    SubGroups:
+      - SubGroup: 1
+        List:
+          - Index: 0
+            Item: Love_Berry
+            Rate: 1
+          - Index: 1
+            Item: Tiger_Mask
+            Rate: 1
+          - Index: 2
+            Item: Cat_Hat
+            Rate: 1
+          - Index: 3
+            Item: Sales_Signboard
+            Rate: 1
+          - Index: 4
+            Item: Takius_Blindfold
+            Rate: 1
+          - Index: 5
+            Item: Round_Eyes
+            Rate: 1
+          - Index: 6
+            Item: Sunflower_Hairpin
+            Rate: 1
+          - Index: 7
+            Item: Bird_Nest
+            Rate: 1
+          - Index: 8
+            Item: Close_Helmet
+            Rate: 1
+          - Index: 9
+            Item: Angeling_Hat
+            Rate: 1
+          - Index: 10
+            Item: Sheep_Hat
+            Rate: 1
+          - Index: 11
+            Item: Pumpkin_Hat
+            Rate: 1
+          - Index: 12
+            Item: Cyclops_Visor
+            Rate: 1
+          - Index: 13
+            Item: Alice_Doll
+            Rate: 1
+          - Index: 14
+            Item: Magic_Eyes
+            Rate: 1
+          - Index: 15
+            Item: Hibiscus
+            Rate: 1
+          - Index: 16
+            Item: Charming_Ribbon
+            Rate: 1
+          - Index: 17
+            Item: Crescent_Helm
+            Rate: 1
+          - Index: 18
+            Item: Kabuki_Mask
+            Rate: 1
+          - Index: 19
+            Item: Gambler_Hat
+            Rate: 1
+          - Index: 20
+            Item: Baseball_Cap
+            Rate: 1
+          - Index: 21
+            Item: Phrygian_Cap
+            Rate: 1
+          - Index: 22
+            Item: Silver_Tiara
+            Rate: 1
+          - Index: 23
+            Item: Headset_OST
+            Rate: 1
+          - Index: 24
+            Item: Chinese_Crown
+            Rate: 1
+          - Index: 25
+            Item: Angeling_Hairpin
+            Rate: 1
+          - Index: 26
+            Item: Gold_Tiara
+            Rate: 1
+          - Index: 27
+            Item: Helm_Of_Darkness
+            Rate: 1
+          - Index: 28
+            Item: Puppy_Hat
+            Rate: 1
+          - Index: 29
+            Item: Bird_Nest_Hat
+            Rate: 1
+          - Index: 30
+            Item: Captain_Hat
+            Rate: 1
+          - Index: 31
+            Item: Laurel_Wreath
+            Rate: 1
+          - Index: 32
+            Item: Geographer_Band
+            Rate: 1
+          - Index: 33
+            Item: Twin_Ribbon
+            Rate: 1
+          - Index: 34
+            Item: Minstrel_Hat
+            Rate: 1
+          - Index: 35
+            Item: Fallen_Leaves
+            Rate: 1
+          - Index: 36
+            Item: Ribbon_Black
+            Rate: 1
+          - Index: 37
+            Item: Ribbon_Yellow
+            Rate: 1
+          - Index: 38
+            Item: Ribbon_Green
+            Rate: 1
+          - Index: 39
+            Item: Ribbon_Pink
+            Rate: 1
+          - Index: 40
+            Item: Ribbon_Red
+            Rate: 1
+          - Index: 41
+            Item: Ribbon_Orange
+            Rate: 1
+          - Index: 42
+            Item: Ribbon_White
+            Rate: 1
+          - Index: 43
+            Item: Coppola
+            Rate: 1
+          - Index: 44
+            Item: Tongue_Mask
+            Rate: 1
+          - Index: 45
+            Item: Event_Pierrot_Nose
+            Rate: 1
+          - Index: 46
+            Item: Romantic_White_Flower
+            Rate: 1
+          - Index: 47
+            Item: Gold_Spirit_Chain
+            Rate: 1
+          - Index: 48
+            Item: Rideword_Hat
+            Rate: 1
+          - Index: 49
+            Item: Dress_Hat
+            Rate: 1
+          - Index: 50
+            Item: Satellite_Hairband
+            Rate: 1
+          - Index: 51
+            Item: Black_Bunny_Band
+            Rate: 1
+          - Index: 52
+            Item: Moonlight_Flower_Hat
+            Rate: 1
+          - Index: 53
+            Item: Mini_Propeller_
+            Rate: 1
+          - Index: 54
+            Item: Red_Deviruchi_Cap
+            Rate: 1
+          - Index: 55
+            Item: White_Deviruchi_Cap
+            Rate: 1
+          - Index: 56
+            Item: Gray_Deviruchi_Cap
+            Rate: 1
+          - Index: 57
+            Item: White_Drooping_Kitty
+            Rate: 1
+          - Index: 58
+            Item: Gray_Drooping_Kitty
+            Rate: 1
+          - Index: 59
+            Item: Pink_Drooping_Kitty
+            Rate: 1
+          - Index: 60
+            Item: Blue_Drooping_Kitty
+            Rate: 1
+          - Index: 61
+            Item: Yellow_Drooping_Kitty
+            Rate: 1
+          - Index: 62
+            Item: Gray_Fur_Hat
+            Rate: 1
+          - Index: 63
+            Item: Blue_Fur_Hat
+            Rate: 1
+          - Index: 64
+            Item: Pink_Fur_Hat
+            Rate: 1
+          - Index: 65
+            Item: Red_Wizardry_Hat
+            Rate: 1
+          - Index: 66
+            Item: White_Wizardry_Hat
+            Rate: 1
+          - Index: 67
+            Item: Gray_Wizardry_Hat
+            Rate: 1
+          - Index: 68
+            Item: Blue_Wizardry_Hat
+            Rate: 1
+          - Index: 69
+            Item: Yellow_Wizardry_Hat
+            Rate: 1
+          - Index: 70
+            Item: Lif_Doll_Hat
+            Rate: 1
+          - Index: 71
+            Item: Deviling_Hat
+            Rate: 1
+          - Index: 72
+            Item: Triple_Poring_Hat
+            Rate: 1
+          - Index: 73
+            Item: Valkyrie_Feather_Band
+            Rate: 1
+          - Index: 74
+            Item: Elephant_Hat_
+            Rate: 1
+          - Index: 75
+            Item: Flying_Angel_
+            Rate: 1
+          - Index: 76
+            Item: Tongue_Mask_
+            Rate: 1
+          - Index: 77
+            Item: Happy_Wig
+            Rate: 1
+          - Index: 78
+            Item: Shiny_Wig
+            Rate: 1
+          - Index: 79
+            Item: Marvelous_Wig
+            Rate: 1
+          - Index: 80
+            Item: Fantastic_Wig
+            Rate: 1
+          - Index: 81
+            Item: Yellow_Bandana
+            Rate: 1
+          - Index: 82
+            Item: Yellow_Ribbon
+            Rate: 1
+          - Index: 83
+            Item: Chick_Hat
+            Rate: 1
+          - Index: 84
+            Item: Vane_Hairpin
+            Rate: 1
+          - Index: 85
+            Item: Pecopeco_Hairband
+            Rate: 1
+          - Index: 86
+            Item: Vacation_Hat
+            Rate: 1
+          - Index: 87
+            Item: Red_Glasses
+            Rate: 1
+          - Index: 88
+            Item: Vanilmirth_Hat
+            Rate: 1
+          - Index: 89
+            Item: Kettle_Hat
+            Rate: 1
+          - Index: 90
+            Item: Dragon_Skull
+            Rate: 1
+          - Index: 91
+            Item: Ramen_Hat
+            Rate: 1
+          - Index: 92
+            Item: Whisper_Mask
+            Rate: 1
+          - Index: 93
+            Item: Drooping_Nine_Tail_
+            Rate: 1
+          - Index: 94
+            Item: Soulless_Wing_
+            Rate: 1
+          - Index: 95
+            Item: Ati_Atihan_Hat_
+            Rate: 1
+          - Index: 96
+            Item: Bullock_Helm
+            Rate: 1
+          - Index: 97
+            Item: Russian_Ribbon
+            Rate: 1
+          - Index: 98
+            Item: Lotus_Flower_Hat
+            Rate: 1
+          - Index: 99
+            Item: Flower_Coronet
+            Rate: 1
+          - Index: 100
+            Item: Cap_Of_Blindness
+            Rate: 1
+          - Index: 101
+            Item: Freyja_Crown
+            Rate: 1
+          - Index: 102
+            Item: Carmen_Miranda's_Hat
+            Rate: 1
+          - Index: 103
+            Item: Bulb_Hairband
+            Rate: 1
+          - Index: 104
+            Item: Large_Hibiscus
+            Rate: 1
+          - Index: 105
+            Item: Ayothaya_Hat
+            Rate: 1
+          - Index: 106
+            Item: Diadem
+            Rate: 1
+          - Index: 107
+            Item: Hockey_Mask
+            Rate: 1
+          - Index: 108
+            Item: Observer
+            Rate: 1
+          - Index: 109
+            Item: Umbrella_Hat
+            Rate: 1
+          - Index: 110
+            Item: Fisherman_Hat
+            Rate: 1
+          - Index: 111
+            Item: Poring_Party_Hat
+            Rate: 1
+          - Index: 112
+            Item: Indonesian_Bandana
+            Rate: 1
+          - Index: 113
+            Item: Scarf
+            Rate: 1
+          - Index: 114
+            Item: Little_Angel_Doll
+            Rate: 1
+          - Index: 115
+            Item: Robo_Eye
+            Rate: 1
+          - Index: 116
+            Item: Loki_Mask
+            Rate: 1
+          - Index: 117
+            Item: Radio_Antenna
+            Rate: 1
+          - Index: 118
+            Item: Deprotai_Doll_Hat
+            Rate: 1
+          - Index: 119
+            Item: Claris_Doll_Hat
+            Rate: 1
+          - Index: 120
+            Item: Sorin_Doll_Hat
+            Rate: 1
+          - Index: 121
+            Item: Tayelin_Doll_Hat
+            Rate: 1
+          - Index: 122
+            Item: Binit_Doll_Hat
+            Rate: 1
+          - Index: 123
+            Item: Debril_Doll_Hat
+            Rate: 1
+          - Index: 124
+            Item: Poporing_Cap
+            Rate: 1
+          - Index: 125
+            Item: Muslim_Hat_M
+            Rate: 1
+          - Index: 126
+            Item: Muslim_Hat_F
+            Rate: 1
+          - Index: 127
+            Item: Wings_Of_Victory
+            Rate: 1
+          - Index: 128
+            Item: Pecopeco_Wing_Ears
+            Rate: 1
+          - Index: 129
+            Item: Whikebain_Ears
+            Rate: 1
+          - Index: 130
+            Item: Gang_Scarf
+            Rate: 1
+          - Index: 131
+            Item: Ninja_Scroll
+            Rate: 1
+          - Index: 132
+            Item: Helm_Of_Abyss
+            Rate: 1
+          - Index: 133
+            Item: Dark_Snake_Lord_Hat
+            Rate: 1
+          - Index: 134
+            Item: Fried_Egg
+            Rate: 1
+          - Index: 135
+            Item: Hyegun_Hat
+            Rate: 1
+          - Index: 136
+            Item: Orchid_Hairband
+            Rate: 1
+          - Index: 137
+            Item: Hat_Of_Judge
+            Rate: 1
+          - Index: 138
+            Item: Drooping_White_Kitty
+            Rate: 1
+          - Index: 139
+            Item: Darkness_Helm
+            Rate: 1
+          - Index: 140
+            Item: L_Magestic_Goat
+            Rate: 1
+          - Index: 141
+            Item: Antique_Pipe
+            Rate: 1
+          - Index: 142
+            Item: Rabbit_Ear_Hat
+            Rate: 1
+          - Index: 143
+            Item: Balloon_Hat
+            Rate: 1
+          - Index: 144
+            Item: Fish_Head_Hat
+            Rate: 1
+          - Index: 145
+            Item: Santa_Poring_Hat
+            Rate: 1
+          - Index: 146
+            Item: Bell_Ribbon
+            Rate: 1
+          - Index: 147
+            Item: Hunting_Cap
+            Rate: 1
+          - Index: 148
+            Item: Neko_Mimi_Kafra
+            Rate: 1
+          - Index: 149
+            Item: Snake_Head
+            Rate: 1
+          - Index: 150
+            Item: Angel_Spirit
+            Rate: 1
+          - Index: 151
+            Item: Louyang_Cap
+            Rate: 1
+          - Index: 152
+            Item: Tiraya_Bonnet
+            Rate: 1
+          - Index: 153
+            Item: Jasper_Crest
+            Rate: 1
+          - Index: 154
+            Item: Scuba_Mask
+            Rate: 1
+          - Index: 155
+            Item: Fox_Hat
+            Rate: 1
+          - Index: 156
+            Item: Black_Glasses
+            Rate: 1
+          - Index: 157
+            Item: Mischievous_Fairy
+            Rate: 1
+          - Index: 158
+            Item: Fish_In_Mouth
+            Rate: 1
+          - Index: 159
+            Item: Filir_Hat
+            Rate: 1
+          - Index: 160
+            Item: Popcorn_Hat
+            Rate: 1
+          - Index: 161
+            Item: Campfire_Hat
+            Rate: 1
+          - Index: 162
+            Item: Beer_Cap
+            Rate: 1
+          - Index: 163
+            Item: Mask_Of_Ifrit
+            Rate: 1
+          - Index: 164
+            Item: Ifrit's_Ear
+            Rate: 1
+          - Index: 165
+            Item: Linguistic_Book_Cap
+            Rate: 1
+          - Index: 166
+            Item: Fanta_Orange_Can
+            Rate: 1
+          - Index: 167
+            Item: Sacred_Torch_Coronet
+            Rate: 1
+          - Index: 168
+            Item: Chicken_Hat
+            Rate: 1
+          - Index: 169
+            Item: Cola_Can
+            Rate: 1
+          - Index: 170
+            Item: Bride's_Corolla
+            Rate: 1
+          - Index: 171
+            Item: Flower_Of_Fairy
+            Rate: 1
+          - Index: 172
+            Item: Fillet_Green
+            Rate: 1
+          - Index: 173
+            Item: Fillet_Red
+            Rate: 1
+          - Index: 174
+            Item: Fillet_Blue
+            Rate: 1
+          - Index: 175
+            Item: Fillet_White
+            Rate: 1
+          - Index: 176
+            Item: Status_Of_Baby_Angel
+            Rate: 1
+          - Index: 177
+            Item: Hair_Brush
+            Rate: 1
+          - Index: 178
+            Item: Candy_Cane_In_The_Mouth
+            Rate: 1
+          - Index: 179
+            Item: Cat_Foot_Hairpin
+            Rate: 1
+          - Index: 180
+            Item: Frog_Cap
+            Rate: 1
+          - Index: 181
+            Item: Solo_Play_Box1
+            Rate: 1
+          - Index: 182
+            Item: Solo_Play_Box2
+            Rate: 1
+          - Index: 183
+            Item: Sun_Cap
+            Rate: 1
+          - Index: 184
+            Item: Spring_Rabbit_Hat
+            Rate: 1
+          - Index: 185
+            Item: Drooping_Bunny_Chusuk
+            Rate: 1
+          - Index: 186
+            Item: Spiked_Scarf
+            Rate: 1
+          - Index: 187
+            Item: Rainbow_Scarf
+            Rate: 1
+          - Index: 188
+            Item: Zaha_Doll_Hat
+            Rate: 1
+          - Index: 189
+            Item: Wind_Milestone
+            Rate: 1
+          - Index: 190
+            Item: Helm_Of_Dragoon
+            Rate: 1
+          - Index: 191
+            Item: Noble_Hat
+            Rate: 1
+          - Index: 192
+            Item: Eyes_Of_Darkness
+            Rate: 1
+          - Index: 193
+            Item: Hairband_Of_Reginleif
+            Rate: 1
+          - Index: 194
+            Item: Red_White_Hat
+            Rate: 1
+          - Index: 195
+            Item: Forceps_Hairpin
+            Rate: 1
+          - Index: 196
+            Item: Hairband_Of_Grandpeco
+            Rate: 1
+          - Index: 197
+            Item: Odin_Mask
+            Rate: 1
+          - Index: 198
+            Item: Tiger_Face
+            Rate: 1
+          - Index: 199
+            Item: Power_Of_Thor
+            Rate: 1
+          - Index: 200
+            Item: Pizza_Hat
+            Rate: 1
+          - Index: 201
+            Item: Icecream_Hat
+            Rate: 1
+          - Index: 202
+            Item: Necromencer's_Hood
+            Rate: 1
+          - Index: 203
+            Item: Rabbit_Magic_Hat
+            Rate: 1
+          - Index: 204
+            Item: Asara_Fairy_Hat
+            Rate: 1
+          - Index: 205
+            Item: Shark_Hat
+            Rate: 1
+          - Index: 206
+            Item: Sting_Hat
+            Rate: 1
+          - Index: 207
+            Item: Samambaia
+            Rate: 1
+          - Index: 208
+            Item: Aquarius_Diadem
+            Rate: 1
+          - Index: 209
+            Item: Aquarius_Crown
+            Rate: 1
+          - Index: 210
+            Item: Pisces_Diadem
+            Rate: 1
+          - Index: 211
+            Item: Pisces_Crown
+            Rate: 1
+          - Index: 212
+            Item: L_Magestic_Goat2
+            Rate: 1
+          - Index: 213
+            Item: Peacock_Feather
+            Rate: 1
+          - Index: 214
+            Item: Rabbit_Earplug
+            Rate: 1
+          - Index: 215
+            Item: King_Frog_Hat
+            Rate: 1
+          - Index: 216
+            Item: Evil's_Bone_Hat
+            Rate: 1
+          - Index: 217
+            Item: Raven_Cap
+            Rate: 1
+          - Index: 218
+            Item: B_Dragon_Hat
+            Rate: 1
+          - Index: 219
+            Item: Pirate_Dagger_J
+            Rate: 1
+          - Index: 220
+            Item: Emperor_Wreath_J
+            Rate: 1
+          - Index: 221
+            Item: Spare_Card
+            Rate: 1
+          - Index: 222
+            Item: Quati_Hat
+            Rate: 1
+          - Index: 223
+            Item: Tucan_Hat
+            Rate: 1
+          - Index: 224
+            Item: Jaguar_Hat
+            Rate: 1
+          - Index: 225
+            Item: Aries_Diadem
+            Rate: 1
+          - Index: 226
+            Item: Aries_Crown
+            Rate: 1
+          - Index: 227
+            Item: Taurus_Diadem
+            Rate: 1
+          - Index: 228
+            Item: Taurus_Crown
+            Rate: 1
+          - Index: 229
+            Item: Holy_Egg_Hat
+            Rate: 1
+          - Index: 230
+            Item: Octopus_Hat
+            Rate: 1
+          - Index: 231
+            Item: Leaf_Cat_Hat
+            Rate: 1
+          - Index: 232
+            Item: Wild_Rose_Hat
+            Rate: 1
+          - Index: 233
+            Item: Crown_Of_Deceit
+            Rate: 1
+          - Index: 234
+            Item: Bright_Fury
+            Rate: 1
+          - Index: 235
+            Item: Rabbit_Bonnet
+            Rate: 1
+          - Index: 236
+            Item: Gemini_Diadem
+            Rate: 1
+          - Index: 237
+            Item: Gemini_Crown
+            Rate: 1
+          - Index: 238
+            Item: Savage_Baby_Hat
+            Rate: 1
+          - Index: 239
+            Item: Bogy_Horn
+            Rate: 1
+          - Index: 240
+            Item: Pencil_In_Mouth
+            Rate: 1
+          - Index: 241
+            Item: Wanderer's_Sakkat
+            Rate: 1
+          - Index: 242
+            Item: Majestic_Evil_Horn
+            Rate: 1
+          - Index: 243
+            Item: Mosquito_Coil
+            Rate: 1
+          - Index: 244
+            Item: Sigrun's_Wing
+            Rate: 1
+          - Index: 245
+            Item: Donut_In_Mouth
+            Rate: 1
+          - Index: 246
+            Item: Eye_Of_Juno
+            Rate: 1
+          - Index: 247
+            Item: 4Leaf_Clover_In_Mouth
+            Rate: 1
+          - Index: 248
+            Item: Bubble_Gum_In_Mouth
+            Rate: 1
+          - Index: 249
+            Item: Ice_Wing_Ear
+            Rate: 1
+          - Index: 250
+            Item: Imp_Hat
+            Rate: 1
+          - Index: 251
+            Item: Sleepr_Hat
+            Rate: 1
+          - Index: 252
+            Item: Gryphon_Hat
+            Rate: 1
+          - Index: 253
+            Item: Filir_Wing
+            Rate: 1
+          - Index: 254
+            Item: Golden_Crown
+            Rate: 1
+          - Index: 255
+            Item: Skull_Hood
+            Rate: 1
+          - Index: 256
+            Item: Pig_Moneybox
+            Rate: 1
+          - Index: 257
+            Item: Triangle_Rune_Cap
+            Rate: 1
+          - Index: 258
+            Item: Red_Wing_Hat
+            Rate: 1
+          - Index: 259
+            Item: Noah_Hat
+            Rate: 1
+          - Index: 260
+            Item: Amistr_Cap
+            Rate: 1
+          - Index: 261
+            Item: 3D_Glasses
+            Rate: 1
+          - Index: 262
+            Item: Golden_Savage_Hat
+            Rate: 1
+          - Index: 263
+            Item: Elven_Ears_
+            Rate: 1
+          - Index: 264
+            Item: Ear_Of_Angel's_Wing_
+            Rate: 1
+          - Index: 265
+            Item: Ear_Of_Devil's_Wing_
+            Rate: 1
+          - Index: 266
+            Item: Devil_Whisper
+            Rate: 1
+          - Index: 267
+            Item: Witchs_Hat
+            Rate: 1
+          - Index: 268
+            Item: Lover_In_Mouth
+            Rate: 1
+          - Index: 269
+            Item: Mini_Glasses_
+            Rate: 1
+          - Index: 270
+            Item: Horn_Of_Ancient
+            Rate: 1
+          - Index: 271
+            Item: Cat_Ears_Beret
+            Rate: 1
+          - Index: 272
+            Item: Blush_
+            Rate: 1
+          - Index: 273
+            Item: Pair_Of_Red_Ribbon2
+            Rate: 1
+          - Index: 274
+            Item: Dark_Blindfold_
+            Rate: 1
+          - Index: 275
+            Item: Devi_Headphone
+            Rate: 1
+          - Index: 276
+            Item: Cherry_Twig_In_Mouth
+            Rate: 1
+          - Index: 277
+            Item: Chilly_Breath
+            Rate: 1
+          - Index: 278
+            Item: Majoruros_Horn
+            Rate: 1
+          - Index: 279
+            Item: Tw_Rice_Ball
+            Rate: 1
+          - Index: 280
+            Item: Black_Shiba_Inu_Hat
+            Rate: 1
+          - Index: 281
+            Item: Hat_Of_Girl
+            Rate: 1
+          - Index: 282
+            Item: Polar_Bear_Cap
+            Rate: 1
