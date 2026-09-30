@@ -2781,8 +2781,6 @@ void pc_reg_received(map_session_data *sd)
 	// Le flag est relu ici, avant le status_calc_pc() qui suivra le chargement de
 	// l'inventaire, donc pc_maxaspd() verra le bon plafond des le premier calcul.
 	sd->state.playertest = pc_readglobalreg( sd, add_str( PLAYERTEST_VAR ) ) != 0;
-	if (pc_get_group_level(sd) >= 80)
-		sd->state.block_action |= PCBLOCK_IMMUNE;
 	pc_ignorechat_load(sd); // @ignore : liste des personnages dont le chat est masqué
 	card_album_load(sd); // Album de cartes : les emplacements débloqués du compte
 	// MVP tracker : index de diffusion. Un même compte Moonlight peut avoir
