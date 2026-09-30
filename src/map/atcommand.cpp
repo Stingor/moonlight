@@ -7343,11 +7343,11 @@ ACMD_FUNC(snow)
 	nullpo_retr(-1, sd);
 	if (map_getmapflag(sd->m, MF_SNOW)) {
 		map_setmapflag(sd->m, MF_SNOW, false);
-		clif_weather(sd->m);
+		clif_weather_toggle(sd->m, EF_SNOW, false);
 		clif_displaymessage(fd, msg_txt(sd,1203)); // Snow has stopped falling.
 	} else {
 		map_setmapflag(sd->m, MF_SNOW, true);
-		clif_weather(sd->m);
+		clif_weather_toggle(sd->m, EF_SNOW, true);
 		clif_displaymessage(fd, msg_txt(sd,1204)); // It has started to snow.
 	}
 
@@ -7362,11 +7362,11 @@ ACMD_FUNC(sakura)
 	nullpo_retr(-1, sd);
 	if (map_getmapflag(sd->m, MF_SAKURA)) {
 		map_setmapflag(sd->m, MF_SAKURA, false);
-		clif_weather(sd->m);
+		clif_weather_toggle(sd->m, EF_SAKURA, false);
 		clif_displaymessage(fd, msg_txt(sd,1205)); // Cherry tree leaves no longer fall.
 	} else {
 		map_setmapflag(sd->m, MF_SAKURA, true);
-		clif_weather(sd->m);
+		clif_weather_toggle(sd->m, EF_SAKURA, true);
 		clif_displaymessage(fd, msg_txt(sd,1206)); // Cherry tree leaves have begun to fall.
 	}
 	return 0;
@@ -7380,11 +7380,11 @@ ACMD_FUNC(clouds)
 	nullpo_retr(-1, sd);
 	if (map_getmapflag(sd->m, MF_CLOUDS)) {
 		map_setmapflag(sd->m, MF_CLOUDS, false);
-		clif_weather(sd->m);
+		clif_weather_toggle(sd->m, EF_CLOUD3, false);
 		clif_displaymessage(fd, msg_txt(sd,1207)); // The clouds has disappear.
 	} else {
 		map_setmapflag(sd->m, MF_CLOUDS, true);
-		clif_weather(sd->m);
+		clif_weather_toggle(sd->m, EF_CLOUD3, true);
 		clif_displaymessage(fd, msg_txt(sd,1208)); // Clouds appear.
 	}
 
@@ -7399,11 +7399,11 @@ ACMD_FUNC(clouds2)
 	nullpo_retr(-1, sd);
 	if (map_getmapflag(sd->m, MF_CLOUDS2)) {
 		map_setmapflag(sd->m, MF_CLOUDS2, false);
-		clif_weather(sd->m);
+		clif_weather_toggle(sd->m, EF_CLOUD5, false);
 		clif_displaymessage(fd, msg_txt(sd,1209)); // The alternative clouds disappear.
 	} else {
 		map_setmapflag(sd->m, MF_CLOUDS2, true);
-		clif_weather(sd->m);
+		clif_weather_toggle(sd->m, EF_CLOUD5, true);
 		clif_displaymessage(fd, msg_txt(sd,1210)); // Alternative clouds appear.
 	}
 
@@ -7418,11 +7418,11 @@ ACMD_FUNC(fog)
 	nullpo_retr(-1, sd);
 	if (map_getmapflag(sd->m, MF_FOG)) {
 		map_setmapflag(sd->m, MF_FOG, false);
-		clif_weather(sd->m);
+		clif_weather_toggle(sd->m, EF_CLOUD4, false);
 		clif_displaymessage(fd, msg_txt(sd,1211)); // The fog has gone.
 	} else {
 		map_setmapflag(sd->m, MF_FOG, true);
-		clif_weather(sd->m);
+		clif_weather_toggle(sd->m, EF_CLOUD4, true);
 		clif_displaymessage(fd, msg_txt(sd,1212)); // Fog hangs over.
 	}
 		return 0;
@@ -7436,11 +7436,11 @@ ACMD_FUNC(leaves)
 	nullpo_retr(-1, sd);
 	if (map_getmapflag(sd->m, MF_LEAVES)) {
 		map_setmapflag(sd->m, MF_LEAVES, false);
-		clif_weather(sd->m);
+		clif_weather_toggle(sd->m, EF_MAPLE, false);
 		clif_displaymessage(fd, msg_txt(sd,1213)); // Leaves no longer fall.
 	} else {
 		map_setmapflag(sd->m, MF_LEAVES, true);
-		clif_weather(sd->m);
+		clif_weather_toggle(sd->m, EF_MAPLE, true);
 		clif_displaymessage(fd, msg_txt(sd,1214)); // Fallen leaves fall.
 	}
 
@@ -7455,11 +7455,15 @@ ACMD_FUNC(fireworks)
 	nullpo_retr(-1, sd);
 	if (map_getmapflag(sd->m, MF_FIREWORKS)) {
 		map_setmapflag(sd->m, MF_FIREWORKS, false);
-		clif_weather(sd->m);
+		clif_weather_toggle(sd->m, EF_POKJUK, false);
+		clif_weather_toggle(sd->m, EF_THROWITEM2, false);
+		clif_weather_toggle(sd->m, EF_POKJUK_SOUND, false);
 		clif_displaymessage(fd, msg_txt(sd,1215)); // Fireworks have ended.
 	} else {
 		map_setmapflag(sd->m, MF_FIREWORKS, true);
-		clif_weather(sd->m);
+		clif_weather_toggle(sd->m, EF_POKJUK, true);
+		clif_weather_toggle(sd->m, EF_THROWITEM2, true);
+		clif_weather_toggle(sd->m, EF_POKJUK_SOUND, true);
 		clif_displaymessage(fd, msg_txt(sd,1216)); // Fireworks have launched.
 	}
 
@@ -7481,7 +7485,15 @@ ACMD_FUNC(clearweather)
 	map_setmapflag(sd->m, MF_FOG, false);
 	map_setmapflag(sd->m, MF_FIREWORKS, false);
 	map_setmapflag(sd->m, MF_LEAVES, false);
-	clif_weather(sd->m);
+	clif_weather_toggle(sd->m, EF_SNOW, false);
+	clif_weather_toggle(sd->m, EF_SAKURA, false);
+	clif_weather_toggle(sd->m, EF_CLOUD3, false);
+	clif_weather_toggle(sd->m, EF_CLOUD5, false);
+	clif_weather_toggle(sd->m, EF_CLOUD4, false);
+	clif_weather_toggle(sd->m, EF_MAPLE, false);
+	clif_weather_toggle(sd->m, EF_POKJUK, false);
+	clif_weather_toggle(sd->m, EF_THROWITEM2, false);
+	clif_weather_toggle(sd->m, EF_POKJUK_SOUND, false);
 	clif_displaymessage(fd, msg_txt(sd,291)); // Weather effects will dispell on warp/refresh
 
 	return 0;

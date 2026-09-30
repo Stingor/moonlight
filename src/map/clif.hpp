@@ -1204,6 +1204,7 @@ void clif_friendslist_send( const map_session_data& sd );
 void clif_friendslist_reqack( const map_session_data* sd, const map_session_data* f_sd, int32 type);
 
 void clif_weather(int16 m); // [Valaris]
+void clif_weather_toggle(int16 m, int32 effect, bool shown);
 void clif_specialeffect(const block_list* bl, int32 type, enum send_target target); // special effects [Valaris]
 void clif_specialeffect_single(const block_list* bl, int32 type, int32 fd );
 void clif_specialeffect_remove(const block_list* bl_src, int32 effect, enum send_target e_target, block_list* bl_target );

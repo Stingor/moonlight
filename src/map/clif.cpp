@@ -1716,6 +1716,32 @@ void clif_weather(int16 m)
 }
 
 /**
+ * Shows or removes one weather effect for every player on map 'm'.
+ * Each player carries the effect on their own character (see clif_weather_check),
+ * so the removal must name that same character: a single broadcast would only
+ * reach the effect of its source.
+ * Only this effect is sent: clif_weather would resend every active weather and
+ * stack them on the clients.
+ **/
+void clif_weather_toggle(int16 m, int32 effect, bool shown)
+{
+	struct s_mapiterator* iter;
+	map_session_data *sd=nullptr;
+
+	iter = mapit_getallusers();
+	for( sd = (map_session_data*)mapit_first(iter); mapit_exists(iter); sd = (map_session_data*)mapit_next(iter) )
+	{
+		if( sd->m != m )
+			continue;
+		if( shown )
+			clif_specialeffect_single(sd, effect, sd->fd);
+		else
+			clif_specialeffect_remove(sd, effect, SELF, sd);
+	}
+	mapit_free(iter);
+}
+
+/**
  * Hide a NPC from the effects of Maya Purple card.
  * @param bl: Block data
  * @return True if NPC is disabled or false otherwise
