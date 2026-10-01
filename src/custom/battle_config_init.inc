@@ -68,4 +68,5 @@
 	{ "debugpos",							&battle_config.debugpos,						1,		0,		1,				},
 	{ "mob_race_ele_view",					&battle_config.mob_race_ele_view,				1,		0,		1,				},
 	{ "spectator_session_ttl",				&battle_config.spectator_session_ttl,			600,	0,		86400,			},
+	{ "show_item_heal",						&battle_config.show_item_heal,					0,		0,		1,				},
 

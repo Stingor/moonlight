@@ -447,6 +447,7 @@ prevent_logout: 200
 prevent_logout_trigger: 1
 show_hp_sp_drain: yes
 show_hp_sp_gain: yes
+show_item_heal: yes
 friend_auto_add: yes
 invite_request_check: yes
 bone_drop: 0

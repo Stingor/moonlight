@@ -67,3 +67,6 @@
 	int32 mob_race_ele_view;
 	// Combien de secondes une session spectateur peut vivre (0 = sans limite).
 	int32 spectator_session_ttl;
+	// Un soin d'objet s'annonce par ZC_RECOVERY (chiffre vert) au lieu d'une
+	// simple mise a jour de la vie : les compteurs de soins le voient.
+	int32 show_item_heal;

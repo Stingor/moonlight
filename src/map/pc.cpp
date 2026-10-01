@@ -11329,7 +11329,10 @@ int32 pc_itemheal(map_session_data *sd, t_itemid itemid, int32 hp, int32 sp)
 			hp = 0;
 	}
 
-	return status_heal(sd, hp, sp, 1);
+	// show_item_heal : le soin passe par clif_heal (ZC_RECOVERY), qui REMPLACE
+	// la mise a jour de la vie dans pc_heal -- jamais en plus, sans quoi le
+	// client l'ajouterait a une vie deja comptee. Berserk retire l'effet.
+	return status_heal(sd, hp, sp, battle_config.show_item_heal ? 3 : 1);
 }
 
 /*==========================================
