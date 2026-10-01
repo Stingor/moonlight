@@ -22954,17 +22954,29 @@ void clif_parse_Mail_send(int32 fd, map_session_data *sd){
 	uint16 realTitleLength = min(titleLength, MAIL_TITLE_LENGTH);
 	uint16 realTextLength = min(textLength, MAIL_BODY_LENGTH);
 
-	char title[MAIL_TITLE_LENGTH];
-	char text[MAIL_BODY_LENGTH];
-
 #if PACKETVER <= 20160330
-	safestrncpy(title, RFIFOCP(fd, 64), realTitleLength);
-	safestrncpy(text, RFIFOCP(fd, 64 + titleLength), realTextLength);
+	const uint32 textOffset = 64;
 #else
 	// 64 = <char id>.L
-	safestrncpy(title, RFIFOCP(fd, 68), realTitleLength);
-	safestrncpy(text, RFIFOCP(fd, 68 + titleLength), realTextLength);
+	const uint32 textOffset = 68;
 #endif
+
+	// Both declared lengths must fit inside the packet: the title and the body are
+	// read from the receive buffer at offsets derived from them, so an oversized
+	// length would read past what the client actually sent.
+	if( textOffset + titleLength + textLength > length ){
+		ShowWarning("clif_parse_Mail_send: char '%s' sent mail lengths beyond the packet (%u + %u > %u).\n", sd->status.name, titleLength, textLength, length - textOffset);
+		clif_Mail_send(sd, WRITE_MAIL_FAILED);
+		return;
+	}
+
+	// Zeroed: safestrncpy leaves its destination untouched for a zero length, and a
+	// declared length of zero would otherwise send uninitialized stack bytes.
+	char title[MAIL_TITLE_LENGTH] = {};
+	char text[MAIL_BODY_LENGTH] = {};
+
+	safestrncpy(title, RFIFOCP(fd, textOffset), realTitleLength);
+	safestrncpy(text, RFIFOCP(fd, textOffset + titleLength), realTextLength);
 
 	if( zeny > 0 ){
 		if( mail_setitem(sd,0,(uint32)zeny) != MAIL_ATTACH_SUCCESS ){

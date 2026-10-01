@@ -477,6 +477,14 @@ void mail_send(map_session_data *sd, const char *dest_name, const char *title, c
 	if( sd->state.trading )
 		return;
 
+	// Refused BEFORE mail_setattachment: it takes the items and the zeny out of the
+	// inventory, and nothing below would give them back. Answered, so the client
+	// does not wait for a reply that never comes.
+	if( title == nullptr || title[0] == '\0' ){
+		clif_Mail_send(sd, WRITE_MAIL_FAILED);
+		return;
+	}
+
 	if( DIFF_TICK(sd->cansendmail_tick, gettick()) > 0 ) {
 		clif_displaymessage(sd->fd,msg_txt(sd,675)); //"Cannot send mails too fast!!."
 		clif_Mail_send(sd, WRITE_MAIL_FAILED); // fail
@@ -516,10 +524,6 @@ void mail_send(map_session_data *sd, const char *dest_name, const char *title, c
 	safestrncpy(msg.dest_name, (char*)dest_name, NAME_LENGTH);
 	safestrncpy(msg.title, (char*)title, MAIL_TITLE_LENGTH);
 	msg.type = MAIL_INBOX_NORMAL;
-
-	if (msg.title[0] == '\0') {
-		return; // Message has no length and somehow client verification was skipped.
-	}
 
 	if (body_len)
 		safestrncpy(msg.body, (char*)body_msg, min(body_len + 1, MAIL_BODY_LENGTH));
