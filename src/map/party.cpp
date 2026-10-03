@@ -846,6 +846,9 @@ int32 party_member_withdraw(int32 party_id, uint32 account_id, uint32 char_id, c
 #endif
 
 		sd->status.party_id = 0;
+		// [Stingor] Devotion ne tient qu'entre membres d'un même groupe : qui le
+		// quitte, ou en est expulsé, perd ses liens dans les deux sens.
+		pc_devotion_release(*sd);
 		clif_name_area(sd); //Update name display [Skotlex]
 		//TODO: hp bars should be cleared too
 
@@ -880,6 +883,7 @@ int32 party_broken(int32 party_id)
 		if( p->data[i].sd != nullptr ) {
 			clif_party_withdraw( *p->data[i].sd, p->party.member[i].account_id, p->party.member[i].name, PARTY_MEMBER_WITHDRAW_EXPEL, SELF );
 			p->data[i].sd->status.party_id=0;
+			pc_devotion_release(*p->data[i].sd); // [Stingor] Plus de groupe, plus de Devotion.
 		}
 	}
 

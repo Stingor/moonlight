@@ -7394,6 +7394,31 @@ bool pc_steal_item(map_session_data *sd,block_list *bl, uint16 skill_lv)
  *			SETPOS_NO_MAPSERVER	Map not in this map-server, and failed to locate alternate map-server.
  *			SETPOS_AUTOTRADE	Player is in autotrade state
  *------------------------------------------*/
+/// [Stingor] Rompt les liens de Devotion d'un joueur, dans les deux sens : ceux
+/// qu'il tend comme Croisé, et celui qui le protège. Chaque rupture renvoie la
+/// liste du Croisé à la zone, et le trait s'efface chez tous ; un protégé
+/// introuvable sur ce serveur de carte est retiré de la liste quand même.
+void pc_devotion_release(map_session_data& sd)
+{
+	bool dropped_unseen = false;
+
+	for (int32 k = 0; k < MAX_DEVOTION; k++) {
+		if (sd.devotion[k] == 0)
+			continue;
+		if (map_session_data* devsd = map_id2sd(sd.devotion[k]); devsd != nullptr && devsd->sc.getSCE(SC_DEVOTION) != nullptr)
+			status_change_end(devsd, SC_DEVOTION);
+		if (sd.devotion[k] != 0) {
+			sd.devotion[k] = 0;
+			dropped_unseen = true;
+		}
+	}
+	if (dropped_unseen)
+		clif_devotion(&sd, nullptr);
+
+	if (sd.sc.getSCE(SC_DEVOTION) != nullptr)
+		status_change_end(&sd, SC_DEVOTION);
+}
+
 enum e_setpos pc_setpos(map_session_data* sd, uint16 mapindex, int32 x, int32 y, clr_type clrtype)
 {
 	nullpo_retr(SETPOS_OK,sd);
@@ -7449,6 +7474,11 @@ enum e_setpos pc_setpos(map_session_data* sd, uint16 mapindex, int32 x, int32 y,
 
 		if (sd->bg_id && mapdata && !mapdata->getMapFlag(MF_BATTLEGROUND)) // Moving to a map that isn't a Battlegrounds
 			bg_team_leave(sd, false, true);
+
+		// [Stingor] Un Croisé qui quitte la carte lâche ses protégés : sans cela,
+		// le serveur gardait la liste et retendait le trait dès qu'ils se
+		// recroisaient. (Le protégé, lui, perd déjà le statut par RemoveOnChangeMap.)
+		pc_devotion_release(*sd);
 
 		sd->state.pmap = sd->m;
 		if (sc != nullptr && !sc->empty()) { // Cancel some map related stuff.
