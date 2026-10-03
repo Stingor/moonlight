@@ -8394,6 +8394,53 @@ void clif_bourgeon_party_share( map_session_data& sd, const uint32* aid, const u
 // ⚠ Rien n'est persisté. Un joueur qui éteint le dialogue moderne en pleine
 // conversation doit être servi autrement à la ligne suivante, et sa session
 // suivante repart de zéro (le masque est réannoncé à chaque entrée en zone).
+// [Stingor] Flag Graffiti (ZC 0x0F36) : l'emblème posé au sol, à UNE session —
+// et seulement si elle a annoncé savoir le peindre. Un client qui ne connaît pas
+// l'opcode viderait son tampon de réception : ne jamais l'envoyer en aveugle.
+static void clif_bourgeon_flag_graffiti_single(const skill_unit& unit, map_session_data& sd) {
+	if (!sd.state.has_bourgeon || !(sd.bourgeon_ui_caps & BOURGEON_UI_FLAG_GRAFFITI))
+		return;
+	if (unit.group == nullptr)
+		return;
+	const int32 fd = sd.fd;
+	if (!session_isActive(fd))
+		return;
+
+	WFIFOHEAD(fd, sizeof(PACKET_ZC_BOURGEON_FLAG_GRAFFITI));
+	PACKET_ZC_BOURGEON_FLAG_GRAFFITI* p =
+		reinterpret_cast<PACKET_ZC_BOURGEON_FLAG_GRAFFITI*>(WFIFOP(fd, 0));
+	p->packetType   = HEADER_ZC_BOURGEON_FLAG_GRAFFITI;
+	p->packetLength = (int16)sizeof(PACKET_ZC_BOURGEON_FLAG_GRAFFITI);
+	p->unit_id      = unit.id;
+	p->creator_id   = unit.group->src_id;
+	p->x            = unit.x;
+	p->y            = unit.y;
+	p->guild_id     = static_cast<uint32>(unit.group->val1);
+	p->emblem_id    = static_cast<uint32>(unit.group->val2);
+	p->level        = static_cast<uint8>(unit.group->skill_lv);
+	WFIFOSET(fd, sizeof(PACKET_ZC_BOURGEON_FLAG_GRAFFITI));
+}
+
+// Aux joueurs autour (callback BL_PC) : va_arg = const skill_unit*.
+static int32 clif_bourgeon_flag_graffiti_area_sub(block_list* bl, va_list ap) {
+	map_session_data* tsd = BL_CAST(BL_PC, bl);
+	const skill_unit* unit = va_arg(ap, const skill_unit*);
+	if (tsd != nullptr && unit != nullptr)
+		clif_bourgeon_flag_graffiti_single(*unit, *tsd);
+	return 0;
+}
+
+// Les Flag Graffiti déjà en vue d'un joueur (callback BL_SKILL) : va_arg =
+// map_session_data*. Sert quand il annonce le bit APRÈS les avoir vus paraître.
+static int32 clif_bourgeon_flag_graffiti_seen_sub(block_list* bl, va_list ap) {
+	map_session_data* sd = va_arg(ap, map_session_data*);
+	const skill_unit* unit = bl->type == BL_SKILL ? reinterpret_cast<const skill_unit*>(bl) : nullptr;
+	if (sd != nullptr && unit != nullptr && unit->alive && unit->group != nullptr &&
+		unit->group->unit_id == UNT_FLAGGRAFFITI)
+		clif_bourgeon_flag_graffiti_single(*unit, *sd);
+	return 0;
+}
+
 void clif_parse_bourgeon_ui_caps(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
@@ -8405,7 +8452,12 @@ void clif_parse_bourgeon_ui_caps(int32 fd, map_session_data* sd) {
 	// plutôt que de lire au-delà du tampon annoncé.
 	if (p->packetLength < static_cast<int16>(sizeof(PACKET_CZ_BOURGEON_UI_CAPS)))
 		return;
+	const uint32 before = sd->bourgeon_ui_caps;
 	sd->bourgeon_ui_caps = p->caps;
+	// L'annonce suit l'entrée en carte : les Flag Graffiti alentour ont déjà été
+	// montrés — sans lui. Il les reçoit maintenant.
+	if (!(before & BOURGEON_UI_FLAG_GRAFFITI) && (p->caps & BOURGEON_UI_FLAG_GRAFFITI))
+		map_foreachinallrange(clif_bourgeon_flag_graffiti_seen_sub, sd, AREA_SIZE, BL_SKILL, sd);
 }
 
 // [Stingor] Carnet de chasse MVP (CZ 0x0F30, ZC 0x0F31, ZC 0x0F32).
@@ -11043,6 +11095,18 @@ void clif_getareachar_skillunit(block_list *bl, skill_unit *unit, enum send_targ
 		return;
 	}
 #endif
+
+	// [Stingor] Flag Graffiti : seul un client qui sait le peindre le reçoit, par
+	// son propre paquet. Les autres ne voient rien — aucun ne connaît ce numéro.
+	if (unit_id == UNT_FLAGGRAFFITI) {
+		map_session_data* tsd = BL_CAST(BL_PC, bl);
+		if (target == SELF && tsd != nullptr)
+			clif_bourgeon_flag_graffiti_single(*unit, *tsd);
+		else if (target != SELF)
+			map_foreachinallrange(clif_bourgeon_flag_graffiti_area_sub, bl, AREA_SIZE, BL_PC,
+				static_cast<const skill_unit*>(unit));
+		return;
+	}
 
 #if PACKETVER <= 20120702
 	header = 0x011f;

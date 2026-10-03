@@ -1444,6 +1444,7 @@
     <ClInclude Include="skills/thief/fatalshadowcrow.hpp" />
     <ClInclude Include="skills/thief/feintbomb.hpp" />
     <ClInclude Include="skills/thief/findstone.hpp" />
+    <ClInclude Include="skills/thief/flaggraffiti.hpp" />
     <ClInclude Include="skills/thief/frenzyshot.hpp" />
     <ClInclude Include="skills/thief/fromtheabyss.hpp" />
     <ClInclude Include="skills/thief/grimtooth.hpp" />
@@ -5095,6 +5096,9 @@
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="skills/thief/findstone.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="skills/thief/flaggraffiti.cpp">
       <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="skills/thief/frenzyshot.cpp">

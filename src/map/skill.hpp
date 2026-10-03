@@ -651,6 +651,7 @@ bool skill_check_cloaking(block_list *bl, struct status_change_entry *sce);
 int8 skill_isCopyable(map_session_data *sd, uint16 skill_id);
 
 int32 skill_graffitiremover(block_list *bl, va_list ap); // [Valaris]
+int32 skill_flaggraffitiremover(block_list *bl, va_list ap); // [Stingor]
 
 // Abnormal status
 bool skill_isNotOk( uint16 skill_id, map_session_data& sd );
@@ -2798,6 +2799,10 @@ enum e_skill_unit_id : uint16 {
 	UNT_SOLIDTRAP,
 	UNT_SWIFTTRAP,
 	UNT_FLAMETRAP,
+
+	// [Stingor] Flag Graffiti : l'emblème d'une guilde peint au sol. Aucun client
+	// natif ne connaît ce numéro ; il ne part que par ZC_BOURGEON_FLAG_GRAFFITI.
+	UNT_FLAGGRAFFITI = 20860,
 
 	/**
 	 * Guild Auras

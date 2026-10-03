@@ -6303,6 +6303,13 @@ std::shared_ptr<s_skill_unit_group> skill_unitsetting(block_list *src, uint16 sk
 			safestrncpy(group->valstr, "Boo!", MESSAGE_SIZE);
 	}
 
+	// [Stingor] Flag Graffiti : la guilde du lanceur et la VERSION de son emblème,
+	// prises à la pose. Un emblème changé ensuite ne repeint pas celui du sol.
+	if (skill_id == RG_FLAGGRAFFITI && sd != nullptr && sd->guild != nullptr) {
+		group->val1 = sd->guild->guild.guild_id;
+		group->val2 = sd->guild->guild.emblem_id;
+	}
+
 	// Dance skill
 	if (group->state.song_dance) {
 		if(sd) {
@@ -8497,6 +8504,12 @@ bool skill_check_condition_castbegin( map_session_data& sd, uint16 skill_id, uin
 	switch( skill_id ) {
 		case RG_GRAFFITI:
 			if (map_foreachinmap(skill_graffitiremover,sd.m,BL_SKILL,0)) { // If a previous Graffiti exists skill fails to cast.
+				clif_skill_fail( sd, skill_id );
+				return false;
+			}
+			break;
+		case RG_FLAGGRAFFITI: // [Stingor] Sans guilde, pas d'emblème à peindre.
+			if (sd.guild == nullptr) {
 				clif_skill_fail( sd, skill_id );
 				return false;
 			}
@@ -11294,6 +11307,21 @@ int32 skill_graffitiremover(block_list *bl, va_list ap)
 	}
 
 	return 0;
+}
+
+// [Stingor] Cleaner efface aussi les emblèmes de Flag Graffiti. Fonction à part :
+// skill_graffitiremover sert aussi à COMPTER les Graffiti de la carte avant d'en
+// poser un, et un emblème n'a pas à l'empêcher.
+int32 skill_flaggraffitiremover(block_list *bl, va_list ap)
+{
+	nullpo_retr(0, bl);
+
+	skill_unit* unit = bl->type == BL_SKILL ? reinterpret_cast<skill_unit*>(bl) : nullptr;
+	if (unit == nullptr || unit->group == nullptr || unit->group->unit_id != UNT_FLAGGRAFFITI)
+		return 0;
+
+	skill_delunit(unit);
+	return 1;
 }
 
 /// Greed effect

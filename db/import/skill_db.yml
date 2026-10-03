@@ -3548,6 +3548,23 @@ Body:
     Name: HT_DETECTING
     Flags:
       ShowScale: true
+  # [Stingor] Flag Graffiti : l'emblème de la guilde du lanceur, peint au sol
+  # pour trois minutes ; le niveau en règle la taille, côté client. Un Paint
+  # Brush par pose, Cleaner l'efface.
+  - Id: 221
+    Name: RG_FLAGGRAFFITI
+    Range: 1
+    Duration1: 180000
+    Requires:
+      SpCost: 10
+      ItemCost:
+        - Item: Paint_Brush
+          Amount: 1
+    Unit:
+      Id: FlagGraffiti
+      Interval: -1
+      Flag:
+        NoReiteration: true
   - Id: 222
     Name: RG_CLEANER
     Flags:

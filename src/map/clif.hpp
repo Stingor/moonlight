@@ -1824,6 +1824,9 @@ enum e_bourgeon_ui_cap : uint32 {
 	// que la précédente — un album entier de charabia, chez tous ceux qui n'ont
 	// pas encore patché. Le bit, lui, coûte une condition.
 	BOURGEON_UI_CARD_ALBUM_BOSS = 0x00000010,
+	// Ce client sait peindre un Flag Graffiti (ZC_BOURGEON_FLAG_GRAFFITI 0x0F36).
+	// Sans ce bit, l'unité ne lui est pas montrée du tout.
+	BOURGEON_UI_FLAG_GRAFFITI = 0x00000020,
 };
 
 void clif_parse_bourgeon_ui_caps(int32 fd, map_session_data* sd);

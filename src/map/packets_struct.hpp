@@ -6840,6 +6840,29 @@ struct PACKET_ZC_BOURGEON_PARTY_SHARE {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_PARTY_SHARE, 0x0f35);
 
+// [Stingor] ZC (server -> client) : un Flag Graffiti posé au sol — l'emblème de
+// la guilde du lanceur, que le client peint sur (2 × niveau + 1)² cases autour de
+// l'unité. Le retrait passe par le ZC_SKILL_DISAPPEAR ordinaire.
+//
+// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT BOURGEON_UI_FLAG_GRAFFITI : un client
+// qui ne connaît pas l'opcode vide son tampon de réception. Une session qui
+// annonce le bit après avoir vu l'unité la reçoit à ce moment-là.
+//
+// Layout: [type:2][len:2][unit_id:4][creator_id:4][x:2][y:2][guild_id:4]
+//         [emblem_id:4][level:1]
+struct PACKET_ZC_BOURGEON_FLAG_GRAFFITI {
+	int16  packetType;
+	int16  packetLength;
+	uint32 unit_id;     ///< l'identifiant de l'unité, celui du retrait
+	uint32 creator_id;  ///< le lanceur
+	int16  x;
+	int16  y;
+	uint32 guild_id;
+	uint32 emblem_id;   ///< la version de l'emblème à la pose
+	uint8  level;       ///< niveau de la compétence : la taille de l'emblème
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_FLAG_GRAFFITI, 0x0f36);
+
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
 //

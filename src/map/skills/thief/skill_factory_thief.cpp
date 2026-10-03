@@ -51,6 +51,7 @@
 #include "fatalshadowcrow.cpp"
 #include "feintbomb.cpp"
 #include "findstone.cpp"
+#include "flaggraffiti.cpp"
 #include "frenzyshot.cpp"
 #include "fromtheabyss.cpp"
 #include "grimtooth.cpp"
@@ -200,6 +201,8 @@ std::unique_ptr<const SkillImpl> SkillFactoryThief::create(const e_skill skill_i
 			return std::make_unique<SkillCloseConfine>();
 		case RG_GRAFFITI:
 			return std::make_unique<SkillScribble>();
+		case RG_FLAGGRAFFITI:
+			return std::make_unique<SkillFlagGraffiti>();
 		case RG_INTIMIDATE:
 			return std::make_unique<SkillSnatch>();
 		case RG_RAID:
