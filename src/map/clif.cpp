@@ -13006,6 +13006,8 @@ void clif_item_repair_list( map_session_data& sd, map_session_data& dstsd, uint1
 
 	for( size_t i = 0; i < MAX_INVENTORY; i++ ){
 		if( dstsd.inventory.u.items_inventory[i].nameid > 0 && dstsd.inventory.u.items_inventory[i].attribute != 0 && !itemdb_ishatched_egg( &dstsd.inventory.u.items_inventory[i] ) ){ // && skill_can_repair(sd,nameid)){
+			// [Stingor] packet_buffer is shared and never cleared: without this, the grade byte carries whatever the previous packet left
+			p->items[c] = {};
 			p->items[c].index = static_cast<decltype( p->items[0].index )>( i );
 			p->items[c].itemId = client_nameid( dstsd.inventory.u.items_inventory[i].nameid );
 			p->items[c].refine = dstsd.inventory.u.items_inventory[i].refine;
