@@ -19560,7 +19560,7 @@ BUILDIN_FUNC(setunitdata)
 			case UMOB_LEVEL: md->level = (uint16)value; clif_name_area(md); break;
 			case UMOB_HP: md->base_status->hp = (uint32)value; status_set_hp(bl, (uint32)value, 0); clif_name_area(md); break;
 			case UMOB_MAXHP: md->base_status->hp = md->base_status->max_hp = (uint32)value; status_set_maxhp(bl, (uint32)value, 0); clif_name_area(md); break;
-			case UMOB_MASTERAID: md->master_id = value; break;
+			case UMOB_MASTERAID: md->master_id = value; clif_bourgeon_unit_master_area(*md); break; // [Stingor] le nouveau maître, à qui le voit
 			case UMOB_MAPID: if (mapname) value = map_mapname2mapid(mapname); unit_warp(bl, (int16)value, 0, 0, CLR_TELEPORT); break;
 			case UMOB_X: if (!unit_walktoxy(bl, (int16)value, md->y, 2)) unit_movepos(bl, (int16)value, md->y, 0, 0); break;
 			case UMOB_Y: if (!unit_walktoxy(bl, md->x, (int16)value, 2)) unit_movepos(bl, md->x, (int16)value, 0, 0); break;

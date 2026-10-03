@@ -1855,6 +1855,9 @@ int32 clif_spawn( const block_list* bl, bool walking ){
 			if ( md->special_state.ai == AI_ABR || md->special_state.ai == AI_BIONIC )
 				clif_summon_init(*md);
 			clif_name_area(md);
+			// [Stingor] Son maître, à ceux sous les yeux de qui il apparaît.
+			if (md->master_id != 0)
+				clif_bourgeon_unit_master_area(*md);
 		}
 		break;
 	case BL_NPC:
@@ -8441,6 +8444,65 @@ static int32 clif_bourgeon_flag_graffiti_seen_sub(block_list* bl, va_list ap) {
 	return 0;
 }
 
+// [Stingor] Le maître d'un monstre (ZC 0x0F37), à UNE session — et seulement si
+// elle a annoncé savoir le lire. Les points d'apparition ne l'appellent que pour
+// un monstre à maître : l'absence du paquet vaut « pas de maître ». Toujours
+// appelé APRÈS le paquet qui montre le monstre, pour que le client connaisse déjà
+// l'acteur qu'on lui décrit.
+static void clif_bourgeon_unit_master_single(const mob_data& md, map_session_data& sd) {
+	if (!sd.state.has_bourgeon || !(sd.bourgeon_ui_caps & BOURGEON_UI_UNIT_MASTER))
+		return;
+	const int32 fd = sd.fd;
+	if (!session_isActive(fd))
+		return;
+
+	WFIFOHEAD(fd, sizeof(PACKET_ZC_BOURGEON_UNIT_MASTER));
+	PACKET_ZC_BOURGEON_UNIT_MASTER* p =
+		reinterpret_cast<PACKET_ZC_BOURGEON_UNIT_MASTER*>(WFIFOP(fd, 0));
+	p->packetType   = HEADER_ZC_BOURGEON_UNIT_MASTER;
+	p->packetLength = (int16)sizeof(PACKET_ZC_BOURGEON_UNIT_MASTER);
+	p->GID          = md.id;
+	p->master_id    = static_cast<uint32>(md.master_id);
+	WFIFOSET(fd, sizeof(PACKET_ZC_BOURGEON_UNIT_MASTER));
+}
+
+// Aux joueurs autour (callback BL_PC) : va_arg = const mob_data*.
+static int32 clif_bourgeon_unit_master_area_sub(block_list* bl, va_list ap) {
+	map_session_data* tsd = BL_CAST(BL_PC, bl);
+	const mob_data* md = va_arg(ap, const mob_data*);
+	if (tsd != nullptr && md != nullptr)
+		clif_bourgeon_unit_master_single(*md, *tsd);
+	return 0;
+}
+
+// [Stingor] À tous ceux qui voient le monstre : son apparition sous leurs yeux, ou
+// un maître qui change en cours de vie. Le paquet part même quand master_id vaut
+// 0, pour qu'un client qui le croyait invoqué l'oublie.
+void clif_bourgeon_unit_master_area(const mob_data& md) {
+	if (md.prev == nullptr)
+		return; // pas encore sur la carte : son apparition le dira
+	map_foreachinallrange(clif_bourgeon_unit_master_area_sub, &md, AREA_SIZE, BL_PC, &md);
+}
+
+// Les monstres à maître déjà en vue d'un joueur (callback BL_MOB) : va_arg =
+// map_session_data*. Sert quand il annonce le bit APRÈS les avoir vus paraître ;
+// les mêmes gardes que clif_getareachar_unit écartent ceux qu'il n'a pas vus.
+static int32 clif_bourgeon_unit_master_seen_sub(block_list* bl, va_list ap) {
+	map_session_data* sd = va_arg(ap, map_session_data*);
+	const mob_data* md = BL_CAST(BL_MOB, bl);
+	if (sd == nullptr || md == nullptr || md->master_id == 0)
+		return 0;
+	const view_data* vd = status_get_viewdata(bl);
+	if (vd == nullptr || vd->look[LOOK_BASE] == JT_INVISIBLE)
+		return 0;
+	if (battle_config.hide_cloaked_units & bl->type) {
+		if (status_change* sc = status_get_sc(bl); sc != nullptr && sc->option & (OPTION_HIDE | OPTION_CLOAK | OPTION_CHASEWALK | OPTION_INVISIBLE))
+			return 0;
+	}
+	clif_bourgeon_unit_master_single(*md, *sd);
+	return 0;
+}
+
 void clif_parse_bourgeon_ui_caps(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
@@ -8458,6 +8520,9 @@ void clif_parse_bourgeon_ui_caps(int32 fd, map_session_data* sd) {
 	// montrés — sans lui. Il les reçoit maintenant.
 	if (!(before & BOURGEON_UI_FLAG_GRAFFITI) && (p->caps & BOURGEON_UI_FLAG_GRAFFITI))
 		map_foreachinallrange(clif_bourgeon_flag_graffiti_seen_sub, sd, AREA_SIZE, BL_SKILL, sd);
+	// [Stingor] De même pour les maîtres des monstres déjà en vue.
+	if (!(before & BOURGEON_UI_UNIT_MASTER) && (p->caps & BOURGEON_UI_UNIT_MASTER))
+		map_foreachinallrange(clif_bourgeon_unit_master_seen_sub, sd, AREA_SIZE, BL_MOB, sd);
 }
 
 // [Stingor] Carnet de chasse MVP (CZ 0x0F30, ZC 0x0F31, ZC 0x0F32).
@@ -10764,6 +10829,10 @@ void clif_getareachar_unit( map_session_data* sd,block_list *bl ){
 			}
 #endif
 		clif_name_area(md);
+		// [Stingor] Son maître, à qui le découvre : arrivée sur la carte ou
+		// entrée en vue.
+		if (md->master_id != 0)
+			clif_bourgeon_unit_master_single(*md, *sd);
 		}
 		break;
 	case BL_PET:

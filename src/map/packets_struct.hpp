@@ -6863,6 +6863,25 @@ struct PACKET_ZC_BOURGEON_FLAG_GRAFFITI {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_FLAG_GRAFFITI, 0x0f36);
 
+// [Stingor] ZC (server -> client) : le maître d'un monstre — invocation d'un
+// joueur ou d'un homoncule, sbire d'un autre monstre. Il suit l'apparition du
+// monstre chaque fois que le serveur le montre à une session (apparition dans la
+// zone, entrée en vue, entrée sur la carte), et repart si le maître change ;
+// master_id = 0 : le monstre n'a plus de maître.
+//
+// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT BOURGEON_UI_UNIT_MASTER : un client
+// qui ne connaît pas l'opcode vide son tampon de réception. Une session qui
+// annonce le bit après avoir vu le monstre le reçoit à ce moment-là.
+//
+// Layout: [type:2][len:2][GID:4][master_id:4]
+struct PACKET_ZC_BOURGEON_UNIT_MASTER {
+	int16  packetType;
+	int16  packetLength;
+	uint32 GID;        ///< le monstre
+	uint32 master_id;  ///< l'identifiant de bloc de son maître, 0 sans maître
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_UNIT_MASTER, 0x0f37);
+
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
 //

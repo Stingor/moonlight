@@ -1827,9 +1827,16 @@ enum e_bourgeon_ui_cap : uint32 {
 	// Ce client sait peindre un Flag Graffiti (ZC_BOURGEON_FLAG_GRAFFITI 0x0F36).
 	// Sans ce bit, l'unité ne lui est pas montrée du tout.
 	BOURGEON_UI_FLAG_GRAFFITI = 0x00000020,
+	// [Stingor] Ce client sait lire le maître d'un monstre invoqué
+	// (ZC_BOURGEON_UNIT_MASTER 0x0F37). Sans ce bit, le paquet ne lui part pas.
+	BOURGEON_UI_UNIT_MASTER = 0x00000040,
 };
 
 void clif_parse_bourgeon_ui_caps(int32 fd, map_session_data* sd);
+// [Stingor] Le maître d'un monstre (ZC 0x0F37), aux joueurs qui le voient et
+// qui ont annoncé BOURGEON_UI_UNIT_MASTER. À rappeler quand md->master_id change
+// alors que le monstre est déjà en vue.
+void clif_bourgeon_unit_master_area(const mob_data& md);
 
 // [Stingor] MVP tracker (CZ 0x0F30, ZC 0x0F31, ZC 0x0F32).
 struct s_mvp_group;
