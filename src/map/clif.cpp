@@ -5605,6 +5605,29 @@ static const struct s_bourgeon_setting bourgeon_settings[] = {
 		},
 		nullptr, nullptr, nullptr, nullptr,
 		false, "speed" },
+
+	// [Stingor] @killer et @killable : des états de staff que rAthena range dans
+	// sd->state et oublie donc à la déconnexion. Le registre les repose au login,
+	// sous le droit de la commande (un compte rétrogradé ne les retrouve pas), et
+	// la resynchro coche les cases du volet du staff du client.
+	// Le commit ne sert qu'à l'extinction : cesser les attaques en cours.
+	{ BOURGEON_SETTING_KILLER, "gmkiller", 1, 0, 241, 292,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.killer; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.killer = v != 0; },
+		[]( map_session_data& sd, uint32 v ){
+			if( v == 0 ) unit_stop_attack( &sd );
+		},
+		nullptr, nullptr, nullptr, nullptr,
+		false, "killer" },
+
+	{ BOURGEON_SETTING_KILLABLE, "gmkillable", 1, 0, 242, 288,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.killable; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.killable = v != 0; },
+		[]( map_session_data& sd, uint32 v ){
+			if( v == 0 ) map_foreachinallrange( unit_stopattack, &sd, AREA_SIZE, BL_CHAR, sd.id );
+		},
+		nullptr, nullptr, nullptr, nullptr,
+		false, "killable" },
 };
 
 static const struct s_bourgeon_setting* bourgeon_setting_find( int16 id ){

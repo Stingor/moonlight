@@ -6141,6 +6141,12 @@ ACMD_FUNC(effect)
 ACMD_FUNC(killer)
 {
 	nullpo_retr(-1, sd);
+	// [Stingor] Persisté par bourgeon_settings[] : registre, message et resynchro
+	// du client. Refusé quand le personnage visé n'a pas lui-même la commande
+	// (#killer sur un joueur) : l'état reste alors volatil, comme dans rAthena.
+	if (bourgeon_setting_toggle(sd, BOURGEON_SETTING_KILLER))
+		return 0;
+
 	sd->state.killer = !sd->state.killer;
 
 	if(sd->state.killer)
@@ -6159,6 +6165,10 @@ ACMD_FUNC(killer)
 ACMD_FUNC(killable)
 {
 	nullpo_retr(-1, sd);
+	// [Stingor] Même chemin que @killer, juste au-dessus.
+	if (bourgeon_setting_toggle(sd, BOURGEON_SETTING_KILLABLE))
+		return 0;
+
 	sd->state.killable = !sd->state.killable;
 
 	if(sd->state.killable)

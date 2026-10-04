@@ -1590,6 +1590,8 @@ enum e_bourgeon_setting : int16 {
 	BOURGEON_SETTING_FLYWING_LAST  = 27,  // marque d'où l'on vient après une Fly Wing / Téléport
 	BOURGEON_SETTING_WALK_SPEED    = 28,  // vitesse de marche (@speed), en ms par cellule
 	BOURGEON_SETTING_AFK           = 29,  // action : le client annonce son absence (masque e_bourgeon_afk)
+	BOURGEON_SETTING_KILLER        = 30,  // @killer : attaque les joueurs hors PvP, persisté
+	BOURGEON_SETTING_KILLABLE      = 31,  // @killable : attaquable par les joueurs hors PvP, persisté
 };
 
 // Ce que le voisinage doit voir d'un joueur absent. Un MASQUE et non une
