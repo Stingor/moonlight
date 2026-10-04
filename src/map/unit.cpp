@@ -1896,6 +1896,10 @@ void unit_set_attackdelay(block_list& bl, t_tick tick, e_delay_event event)
 						// Skills used from items don't seem to give any attack or act delay
 						return;
 					}
+					// [Stingor] @nodelay : un skill ne pose pas non plus le délai de
+					// mouvement calqué sur l'ASPD. Les attaques normales le gardent.
+					if (reinterpret_cast<map_session_data*>(&bl)->state.nodelay)
+						return;
 					[[fallthrough]];
 				case DELAY_EVENT_ATTACK:
 				case DELAY_EVENT_PARRY:
@@ -1992,6 +1996,11 @@ void unit_set_attackdelay(block_list& bl, t_tick tick, e_delay_event event)
 void unit_set_castdelay(unit_data& ud, t_tick tick, int32 casttime) {
 	// Use casttime or minimum delay, whatever is longer
 	t_tick cast_delay = i64max(casttime, battle_config.min_skill_delay_limit);
+
+	// [Stingor] @nodelay : pas de plancher min_skill_delay_limit, seul le temps
+	// d'incantation compte.
+	if (ud.bl != nullptr && ud.bl->type == BL_PC && reinterpret_cast<map_session_data*>(ud.bl)->state.nodelay)
+		cast_delay = casttime;
 
 	// Only apply the cast delay, if it is longer than the act delay (set by unit_set_attackdelay)
 	ud.canact_tick = i64max(ud.canact_tick, tick + cast_delay);
@@ -2494,6 +2503,10 @@ int32 unit_skilluse_id2(block_list *src, int32 target_id, uint16 skill_id, uint1
 	casttime = skill_vfcastfix(src, casttime, skill_id, skill_lv);
 #endif
 
+	// [Stingor] @nodelay : aucune incantation, le skill part a l'instant.
+	if (src->type == BL_PC && reinterpret_cast<map_session_data*>(src)->state.nodelay)
+		casttime = 0;
+
 	// Need TK_RUN or WUGDASH handler to be done before that, see bugreport:6026
 	if(!ud->state.running){
 		// Even though this is not how official works but this will do the trick. bugreport:6829
@@ -2726,6 +2739,10 @@ int32 unit_skilluse_pos2( block_list *src, int16 skill_x, int16 skill_y, uint16 
 #else
 	casttime = skill_vfcastfix(src, casttime, skill_id, skill_lv );
 #endif
+
+	// [Stingor] @nodelay : aucune incantation, le skill part a l'instant.
+	if (src->type == BL_PC && reinterpret_cast<map_session_data*>(src)->state.nodelay)
+		casttime = 0;
 
 	ud->state.skillcastcancel = castcancel&&casttime>0?1:0;
 

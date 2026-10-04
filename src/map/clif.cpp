@@ -5637,7 +5637,8 @@ static const struct s_bourgeon_setting bourgeon_settings[] = {
 		nullptr, nullptr, nullptr, nullptr,
 		false, "playertest" },
 
-	// [Stingor] @nodelay : skill_blockpc_start et skill_delayfix le lisent.
+	// [Stingor] @nodelay : lu par skill_blockpc_start, skill_delayfix, les
+	// délais de début de skill (unit.cpp) et les portes des paquets de skill.
 	{ BOURGEON_SETTING_NODELAY, "gmnodelay", 1, 0, 0, 0,
 		[]( map_session_data& sd ) -> uint32 { return sd.state.nodelay; },
 		[]( map_session_data& sd, uint32 v ){ sd.state.nodelay = v != 0; },
@@ -19155,7 +19156,7 @@ void clif_parse_skill_toid( map_session_data* sd, uint16 skill_id, uint16 skill_
 	if( sd->ud.skilltimer != INVALID_TIMER ) {
 		if( skill_id != SA_CASTCANCEL && skill_id != SO_SPELLFIST )
 			return;
-	} else if( DIFF_TICK(tick, sd->ud.canact_tick) < 0 ) {
+	} else if( DIFF_TICK(tick, sd->ud.canact_tick) < 0 && !sd->state.nodelay ) { // [Stingor] @nodelay : aucune attente
 		if( sd->skillitem != skill_id ) {
 			// [Stingor] Skill demandée pendant l'auto-attaque : Bourgeon envoie le
 			// paquet dès le clic (le client officiel throttle jusqu'à la fin de la
@@ -19292,7 +19293,7 @@ static void clif_parse_UseSkillToPosSub( int32 fd, map_session_data& sd, uint16 
 	if( sd.ud.skilltimer != INVALID_TIMER )
 		return;
 
-	if( DIFF_TICK(tick, sd.ud.canact_tick) < 0 ) {
+	if( DIFF_TICK(tick, sd.ud.canact_tick) < 0 && !sd.state.nodelay ) { // [Stingor] @nodelay : aucune attente
 		if( sd.skillitem != skill_id ) {
 			// [Stingor] Même correctif que pour le skill sur cible (voir
 			// clif_parse_skill_toid) : une skill au sol lancée pendant l'auto-

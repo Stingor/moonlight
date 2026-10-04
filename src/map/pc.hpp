@@ -462,7 +462,7 @@ public:
 		bool showspeed: 1;
 		bool gm_fast_move;
 		bool playertest: 1;  ///< @playertest : ignore les bypass GM d'ASPD (pc_maxaspd) et de delay de skill (skill_delayfix)
-		bool nodelay: 1;     ///< @nodelay : ni cooldown (skill_blockpc_start) ni after-cast delay (skill_delayfix)
+		bool nodelay: 1;     ///< @nodelay : skills sans cooldown, sans after-cast delay, sans incantation ni attente
 		bool autolootmvp: 1;
 		bool autolootmvpreward: 1;
 		bool autolootrare: 1;

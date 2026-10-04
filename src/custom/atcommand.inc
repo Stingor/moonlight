@@ -653,8 +653,10 @@ ACMD_FUNC(playertest)
 
 /*==========================================
  * @nodelay par [Stingor]
- * Les skills du personnage ne posent plus ni cooldown (skill_blockpc_start) ni
- * after-cast delay (skill_delayfix). Le temps d'incantation, lui, reste.
+ * Les skills du personnage n'ont plus aucune limite de cadence : ni cooldown
+ * (skill_blockpc_start), ni after-cast delay (skill_delayfix), ni incantation,
+ * ni délai de début de skill (unit_set_attackdelay, min_skill_delay_limit), ni
+ * attente d'une attaque en cours aux portes des paquets de skill (clif.cpp).
  * Persiste par personnage, comme @playertest.
  *----------------------------------------------------*/
 ACMD_FUNC(nodelay)

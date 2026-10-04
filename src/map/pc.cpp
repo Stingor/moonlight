@@ -15954,9 +15954,9 @@ void pc_nodelay_changed( map_session_data& sd ){
 		skill_blockpc_clear( sd );
 		if( unit_data* ud = unit_bl2ud( &sd ); ud != nullptr )
 			ud->canact_tick = gettick();
-		clif_displaymessage( sd.fd, "@nodelay ON : cooldowns et after-cast delay des skills ignor\xe9" "s." );
+		clif_displaymessage( sd.fd, "@nodelay ON : skills sans cooldown, sans d\xe9" "lai et sans incantation." );
 	}else{
-		clif_displaymessage( sd.fd, "@nodelay OFF : cooldowns et after-cast delay r\xe9" "tablis." );
+		clif_displaymessage( sd.fd, "@nodelay OFF : cooldowns, d\xe9" "lais et incantations r\xe9" "tablis." );
 	}
 }
 // <-- [Stingor]
