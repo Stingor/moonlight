@@ -462,6 +462,7 @@ public:
 		bool showspeed: 1;
 		bool gm_fast_move;
 		bool playertest: 1;  ///< @playertest : ignore les bypass GM d'ASPD (pc_maxaspd) et de delay de skill (skill_delayfix)
+		bool nodelay: 1;     ///< @nodelay : ni cooldown (skill_blockpc_start) ni after-cast delay (skill_delayfix)
 		bool autolootmvp: 1;
 		bool autolootmvpreward: 1;
 		bool autolootrare: 1;
@@ -1335,6 +1336,10 @@ static inline bool pc_hasprogress(map_session_data *sd, enum e_wip_block progres
 
 uint16 pc_maxparameter( const map_session_data* sd, e_params param );
 int16 pc_maxaspd( const map_session_data* sd );
+// [Stingor] Conséquences visibles d'une bascule de @playertest / @nodelay, l'état
+// déjà posé : recalcul, nettoyage et messages. Jamais à la connexion.
+void pc_playertest_changed( map_session_data& sd );
+void pc_nodelay_changed( map_session_data& sd );
 
 /**
  * Ranger

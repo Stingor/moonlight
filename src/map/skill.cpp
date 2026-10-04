@@ -10583,6 +10583,10 @@ int32 skill_delayfix(block_list *bl, uint16 skill_id, uint16 skill_lv)
 	if (skill_id == SA_ABRACADABRA)
 		return 0; //Will use picked skill's delay.
 
+	// [Stingor] @nodelay : aucun after-cast delay.
+	if (bl->type == BL_PC && reinterpret_cast<map_session_data*>(bl)->state.nodelay)
+		return 0;
+
 	if (bl->type&battle_config.no_skill_delay)
 		return battle_config.min_skill_delay_limit;
 
@@ -14172,6 +14176,10 @@ TIMER_FUNC(skill_blockpc_end){
  */
 bool skill_blockpc_start(map_session_data &sd, uint16 skill_id, t_tick tick) {
 	if (!skill_db.exists(skill_id) || tick < 1)
+		return false;
+
+	// [Stingor] @nodelay : aucun cooldown ne se pose.
+	if (sd.state.nodelay)
 		return false;
 
 	if (sd.scd.size() == MAX_SKILLCOOLDOWN) {

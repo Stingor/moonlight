@@ -2776,11 +2776,10 @@ void pc_reg_received(map_session_data *sd)
 	// Réglages joueur (autoloot, tri, affichages…) : leur chargement, leur
 	// persistance et leur envoi au client Bourgeon sont décrits en un seul
 	// endroit, la table bourgeon_settings[] de clif.cpp.
+	// @playertest et @nodelay en sont : relus ici, avant le status_calc_pc() qui
+	// suivra le chargement de l'inventaire, pc_maxaspd() voit le bon plafond dès
+	// le premier calcul.
 	bourgeon_setting_load( sd );
-	// @playertest : une session de test dure plus longtemps qu'une connexion.
-	// Le flag est relu ici, avant le status_calc_pc() qui suivra le chargement de
-	// l'inventaire, donc pc_maxaspd() verra le bon plafond des le premier calcul.
-	sd->state.playertest = pc_readglobalreg( sd, add_str( PLAYERTEST_VAR ) ) != 0;
 	pc_ignorechat_load(sd); // @ignore : liste des personnages dont le chat est masqué
 	card_album_load(sd); // Album de cartes : les emplacements débloqués du compte
 	// MVP tracker : index de diffusion. Un même compte Moonlight peut avoir
@@ -15920,6 +15919,47 @@ int16 pc_maxaspd( const map_session_data* sd ) {
 			(sd->class_&MAPID_FIRSTMASK) == MAPID_SUMMONER) ? battle_config.max_summoner_aspd : 
 			battle_config.max_aspd ));
 }
+
+// [Stingor] -->
+/**
+ * @playertest vient de basculer : l'ASPD dépend de pc_maxaspd(), il faut un
+ * recalcul complet pour que le nouveau plafond s'applique et reparte au client.
+ */
+void pc_playertest_changed( map_session_data& sd ){
+	status_calc_pc( &sd, SCO_FORCE );
+	clif_updatestatus( sd, SP_ASPD );
+
+	int32 amotion = sd.battle_status.amotion;
+	int32 aspd = ( AMOTION_ZERO_ASPD - amotion * AMOTION_DIVIDER_PC ) / AMOTION_INTERVAL;
+
+	if( sd.state.playertest )
+		clif_displaymessage( sd.fd, "@playertest ON : plafonds GM d'ASPD et de delay de skill ignor\xe9" "s." );
+	else
+		clif_displaymessage( sd.fd, "@playertest OFF : plafonds GM r\xe9" "tablis." );
+
+	char buf[CHAT_SIZE_MAX];
+	safesnprintf( buf, sizeof( buf ), "ASPD %d (amotion %d ms, adelay %d ms) - delay de skill : %s",
+		aspd, amotion, sd.battle_status.adelay,
+		sd.state.playertest ? "calcul normal" : "forc\xe9 \xe0 gm_delay" );
+	clif_displaymessage( sd.fd, buf );
+}
+
+/**
+ * @nodelay vient de basculer. À l'allumage, les cooldowns en cours et l'after-cast
+ * delay déjà posé tombent aussi : sans cela, le premier skill resterait bloqué
+ * jusqu'à la fin d'un délai que le mode est censé ignorer.
+ */
+void pc_nodelay_changed( map_session_data& sd ){
+	if( sd.state.nodelay ){
+		skill_blockpc_clear( sd );
+		if( unit_data* ud = unit_bl2ud( &sd ); ud != nullptr )
+			ud->canact_tick = gettick();
+		clif_displaymessage( sd.fd, "@nodelay ON : cooldowns et after-cast delay des skills ignor\xe9" "s." );
+	}else{
+		clif_displaymessage( sd.fd, "@nodelay OFF : cooldowns et after-cast delay r\xe9" "tablis." );
+	}
+}
+// <-- [Stingor]
 
 /**
 * Calculates total item-group related bonuses for the given item

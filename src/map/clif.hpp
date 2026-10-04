@@ -1592,6 +1592,8 @@ enum e_bourgeon_setting : int16 {
 	BOURGEON_SETTING_AFK           = 29,  // action : le client annonce son absence (masque e_bourgeon_afk)
 	BOURGEON_SETTING_KILLER        = 30,  // @killer : attaque les joueurs hors PvP, persisté
 	BOURGEON_SETTING_KILLABLE      = 31,  // @killable : attaquable par les joueurs hors PvP, persisté
+	BOURGEON_SETTING_PLAYERTEST    = 32,  // @playertest : plafonds GM d'ASPD et de delay ignorés, persisté
+	BOURGEON_SETTING_NODELAY       = 33,  // @nodelay : ni cooldown ni after-cast delay, persisté
 };
 
 // Ce que le voisinage doit voir d'un joueur absent. Un MASQUE et non une

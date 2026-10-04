@@ -5628,6 +5628,22 @@ static const struct s_bourgeon_setting bourgeon_settings[] = {
 		},
 		nullptr, nullptr, nullptr, nullptr,
 		false, "killable" },
+
+	// [Stingor] @playertest : son registre existait avant la table, d'où son nom.
+	{ BOURGEON_SETTING_PLAYERTEST, PLAYERTEST_VAR, 1, 0, 0, 0,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.playertest; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.playertest = v != 0; },
+		[]( map_session_data& sd, uint32 ){ pc_playertest_changed( sd ); },
+		nullptr, nullptr, nullptr, nullptr,
+		false, "playertest" },
+
+	// [Stingor] @nodelay : skill_blockpc_start et skill_delayfix le lisent.
+	{ BOURGEON_SETTING_NODELAY, "gmnodelay", 1, 0, 0, 0,
+		[]( map_session_data& sd ) -> uint32 { return sd.state.nodelay; },
+		[]( map_session_data& sd, uint32 v ){ sd.state.nodelay = v != 0; },
+		[]( map_session_data& sd, uint32 ){ pc_nodelay_changed( sd ); },
+		nullptr, nullptr, nullptr, nullptr,
+		false, "nodelay" },
 };
 
 static const struct s_bourgeon_setting* bourgeon_setting_find( int16 id ){

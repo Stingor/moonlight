@@ -640,28 +640,32 @@ ACMD_FUNC(playertest)
 {
 	nullpo_retr(-1, sd);
 
+	// Persiste par personnage via bourgeon_settings[] : registre, recalcul,
+	// messages et resynchro du client. Refusé quand le personnage visé n'a pas
+	// lui-même la commande (#playertest) : la bascule reste alors volatile.
+	if (bourgeon_setting_toggle(sd, BOURGEON_SETTING_PLAYERTEST))
+		return 0;
+
 	sd->state.playertest = !sd->state.playertest;
-	// Persiste par personnage : le mode survit a la deconnexion, cf. pc_reg_received().
-	pc_setglobalreg(sd, add_str(PLAYERTEST_VAR), sd->state.playertest ? 1 : 0);
+	pc_playertest_changed(*sd);
+	return 0;
+}
 
-	// L'ASPD depend de pc_maxaspd() : il faut un recalcul complet pour que le
-	// nouveau plafond soit applique et repousse au client.
-	status_calc_pc(sd, SCO_FORCE);
-	clif_updatestatus(*sd, SP_ASPD);
+/*==========================================
+ * @nodelay par [Stingor]
+ * Les skills du personnage ne posent plus ni cooldown (skill_blockpc_start) ni
+ * after-cast delay (skill_delayfix). Le temps d'incantation, lui, reste.
+ * Persiste par personnage, comme @playertest.
+ *----------------------------------------------------*/
+ACMD_FUNC(nodelay)
+{
+	nullpo_retr(-1, sd);
 
-	int32 amotion = sd->battle_status.amotion;
-	int32 aspd = (AMOTION_ZERO_ASPD - amotion * AMOTION_DIVIDER_PC) / AMOTION_INTERVAL;
+	if (bourgeon_setting_toggle(sd, BOURGEON_SETTING_NODELAY))
+		return 0;
 
-	if (sd->state.playertest)
-		clif_displaymessage(fd, "@playertest ON : plafonds GM d'ASPD et de delay de skill ignor\xe9" "s.");
-	else
-		clif_displaymessage(fd, "@playertest OFF : plafonds GM r\xe9" "tablis.");
-
-	sprintf(atcmd_output, "ASPD %d (amotion %d ms, adelay %d ms) - delay de skill : %s",
-		aspd, amotion, sd->battle_status.adelay,
-		sd->state.playertest ? "calcul normal" : "forc\xe9 \xe0 gm_delay");
-	clif_displaymessage(fd, atcmd_output);
-
+	sd->state.nodelay = !sd->state.nodelay;
+	pc_nodelay_changed(*sd);
 	return 0;
 }
 
