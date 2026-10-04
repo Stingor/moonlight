@@ -270,6 +270,8 @@ Body:
       gvgoff: true
       killer: true
       killable: true
+      playertest: true
+      nodelay: true
       fakename: true
       monsterbig: true
       monstersmall: true
