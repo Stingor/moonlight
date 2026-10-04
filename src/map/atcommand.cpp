@@ -4518,6 +4518,7 @@ ACMD_FUNC(reloadbattleconf){
 	{	// Exp or Drop rates changed.
 		mob_reload(); //Needed as well so rate changes take effect.
 	}
+	clif_bourgeon_server_rules_all(); // [Stingor]
 	clif_displaymessage(fd, msg_txt(sd,255)); // Battle configuration has been reloaded.
 
 	return 0;

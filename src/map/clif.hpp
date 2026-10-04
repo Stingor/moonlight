@@ -1832,7 +1832,16 @@ enum e_bourgeon_ui_cap : uint32 {
 	// [Stingor] Ce client sait lire le maître d'un monstre invoqué
 	// (ZC_BOURGEON_UNIT_MASTER 0x0F37). Sans ce bit, le paquet ne lui part pas.
 	BOURGEON_UI_UNIT_MASTER = 0x00000040,
+	// [Stingor] Ce client sait lire les réglages du serveur dont il a besoin
+	// (ZC_BOURGEON_SERVER_RULES 0x0F38) : il les reçoit dès l'annonce du bit, et
+	// de nouveau après @reloadbattleconf.
+	BOURGEON_UI_SERVER_RULES = 0x00000080,
 };
+
+// [Stingor] Les réglages du serveur utiles au client (ZC 0x0F38), à une session
+// qui a annoncé BOURGEON_UI_SERVER_RULES, ou à toutes celles en ligne.
+void clif_bourgeon_server_rules(map_session_data& sd);
+void clif_bourgeon_server_rules_all();
 
 void clif_parse_bourgeon_ui_caps(int32 fd, map_session_data* sd);
 // [Stingor] Le maître d'un monstre (ZC 0x0F37), aux joueurs qui le voient et

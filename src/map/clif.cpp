@@ -8546,6 +8546,46 @@ void clif_parse_bourgeon_ui_caps(int32 fd, map_session_data* sd) {
 	// [Stingor] De même pour les maîtres des monstres déjà en vue.
 	if (!(before & BOURGEON_UI_UNIT_MASTER) && (p->caps & BOURGEON_UI_UNIT_MASTER))
 		map_foreachinallrange(clif_bourgeon_unit_master_seen_sub, sd, AREA_SIZE, BL_MOB, sd);
+	// [Stingor] Les réglages du serveur, dès que le client sait les lire.
+	if (!(before & BOURGEON_UI_SERVER_RULES) && (p->caps & BOURGEON_UI_SERVER_RULES))
+		clif_bourgeon_server_rules(*sd);
+}
+
+// [Stingor] ZC_BOURGEON_SERVER_RULES (0x0F38), à une session qui sait le lire.
+void clif_bourgeon_server_rules(map_session_data& sd) {
+	if (!sd.state.has_bourgeon || !(sd.bourgeon_ui_caps & BOURGEON_UI_SERVER_RULES))
+		return;
+	const int32 fd = sd.fd;
+	if (!session_isActive(fd))
+		return;
+
+	const PACKET_ZC_BOURGEON_SERVER_RULES_entry rules[] = {
+		{ BOURGEON_RULE_AREA_SIZE,           battle_config.area_size },
+		{ BOURGEON_RULE_HOM_MAX_LEVEL,       battle_config.hom_max_level },
+		{ BOURGEON_RULE_HOM_S_MAX_LEVEL,     battle_config.hom_S_max_level },
+		{ BOURGEON_RULE_HOMUNC_TELEPORT_ACD, battle_config.homunc_teleport_acd },
+	};
+	const size_t len = sizeof(PACKET_ZC_BOURGEON_SERVER_RULES) + sizeof(rules);
+
+	WFIFOHEAD(fd, len);
+	PACKET_ZC_BOURGEON_SERVER_RULES* p =
+		reinterpret_cast<PACKET_ZC_BOURGEON_SERVER_RULES*>(WFIFOP(fd, 0));
+	p->packetType   = HEADER_ZC_BOURGEON_SERVER_RULES;
+	p->packetLength = static_cast<int16>(len);
+	memcpy(p->rules, rules, sizeof(rules));
+	WFIFOSET(fd, len);
+}
+
+// [Stingor] À toutes les sessions en ligne qui savent le lire : après un
+// rechargement de la configuration de combat.
+void clif_bourgeon_server_rules_all() {
+	s_mapiterator* iter = mapit_getallusers();
+	for (map_session_data* sd = static_cast<map_session_data*>(mapit_first(iter)); mapit_exists(iter);
+	     sd = static_cast<map_session_data*>(mapit_next(iter))) {
+		if (sd != nullptr)
+			clif_bourgeon_server_rules(*sd);
+	}
+	mapit_free(iter);
 }
 
 // [Stingor] Carnet de chasse MVP (CZ 0x0F30, ZC 0x0F31, ZC 0x0F32).

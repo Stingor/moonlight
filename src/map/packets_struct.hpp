@@ -6882,6 +6882,35 @@ struct PACKET_ZC_BOURGEON_UNIT_MASTER {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_BOURGEON_UNIT_MASTER, 0x0f37);
 
+// [Stingor] ZC_BOURGEON_SERVER_RULES (0x0F38) — les réglages du serveur dont le
+// client a besoin pour ne pas les supposer : rayon de vue, niveaux maximum de
+// l'homoncule, délai d'attaque après la téléportation de l'homoncule.
+//
+// Liste de paires clé / valeur : une clé que le client ne connaît pas est
+// ignorée, si bien qu'en ajouter une ne casse aucun client.
+//
+// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT BOURGEON_UI_SERVER_RULES.
+//
+// Layout: [type:2][len:2] puis N × [key:2][value:4]
+enum e_bourgeon_server_rule : uint16 {
+	BOURGEON_RULE_AREA_SIZE           = 1, ///< battle_config.area_size (cases)
+	BOURGEON_RULE_HOM_MAX_LEVEL       = 2, ///< battle_config.hom_max_level
+	BOURGEON_RULE_HOM_S_MAX_LEVEL     = 3, ///< battle_config.hom_S_max_level
+	BOURGEON_RULE_HOMUNC_TELEPORT_ACD = 4, ///< battle_config.homunc_teleport_acd (ms)
+};
+
+struct PACKET_ZC_BOURGEON_SERVER_RULES_entry {
+	uint16 key;
+	int32  value;
+} __attribute__((packed));
+
+struct PACKET_ZC_BOURGEON_SERVER_RULES {
+	int16 packetType;
+	int16 packetLength;
+	PACKET_ZC_BOURGEON_SERVER_RULES_entry rules[];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_BOURGEON_SERVER_RULES, 0x0f38);
+
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
 //
