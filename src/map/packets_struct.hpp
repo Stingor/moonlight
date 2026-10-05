@@ -6727,7 +6727,8 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_TARGET_INFO, 0x0f2a);
 // CZ : toutes les commandes du carnet de chasse.
 // Layout: [type:2][len:2][cmd:1][a:4][b:4][text: len-13 octets, NON terminé]
 //   cmd 1  = SNAPSHOT     : demande catalogue + instantané + favoris + groupe
-//   cmd 2  = CREATE       : text = nom du groupe
+//   cmd 2  = CREATE       : text = nom du groupe (au-delà de 31 octets : tronqué,
+//                          ou refusé sous BOURGEON_UI_MVP_TRACKER_EXT)
 //   cmd 3  = DISSOLVE
 //   cmd 4  = INVITE       : text = nom de personnage
 //   cmd 5  = ACCEPT
@@ -6738,6 +6739,11 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_TARGET_INFO, 0x0f2a);
 //   cmd 10 = MANUAL       : a = slot_id, b = heure de mort UNIX (0 = maintenant)
 // `a` et `b` sont toujours présents, même inutilisés : le décodage ne dépend
 // jamais de la commande, seule leur INTERPRÉTATION en dépend.
+//
+// Suffixe facultatif, l'IDENTIFIANT DE COMMANDE :
+//   [texte : n octets, sans NUL][0x00][request_id:4]   (len = 13 + n + 5)
+// Il se reconnaît à son NUL, qu'un texte de Bourgeon ne porte jamais (copié sur
+// strlen() octets). Le résultat (ZC 0x0F32 kind 2) le rend alors en queue.
 struct PACKET_CZ_BOURGEON_MVP_CMD {
 	int16  packetType;
 	int16  packetLength;
@@ -6779,9 +6785,22 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_MVP_STATE, 0x0f31);
 //         [user_id:4][level:2][online:1][char_name:NAME_LENGTH]
 //   kind 0 GROUPE     : group_id = 0 signifie « dans aucun groupe »
 //   kind 1 INVITATION : group_id + name de l'invitant, count = 0
-//   kind 2 RÉSULTAT   : result = e_mvp_group_result, le reste est vide
+//   kind 2 RÉSULTAT   : result = e_mvp_group_result, le reste est vide. Les codes
+//                       au-delà de NOT_INVITABLE (13) ne partent que sous
+//                       BOURGEON_UI_MVP_TRACKER_EXT ; sans lui, l'ancien code.
 // Les noms de personnage ne sont PAS stockés (ils mentiraient au premier
 // renommage) : ils sont recalculés ici, comme le fait pc_ignorechat_load.
+//
+// QUEUES, après la dernière entrée. Aucune ne part à un client qui ne l'a pas
+// demandée : la structure ci-dessous ne bouge pas.
+//   kind 0 : [self_user_id:4]          sous BOURGEON_UI_MVP_TRACKER_EXT
+//   kind 1 : [origin:1]                sous BOURGEON_UI_MVP_TRACKER_EXT
+//            (e_mvp_invite_origin ; jamais sur l'invitation de la poignée de
+//            main, qui part avant l'annonce des capacités)
+//   kind 2 : [request_id:4][cmd:1]     si la commande portait un identifiant
+// Un lecteur lit par longueur et ignore l'excédent : une queue future s'ajoute
+// APRÈS celles-ci. ⚠ Aucun `kind` neuf : la DLL Bourgeon lirait comme un groupe
+// tout ce qui n'est ni 1 ni 2.
 struct PACKET_ZC_BOURGEON_MVP_GROUP {
 	int16  packetType;
 	int16  packetLength;

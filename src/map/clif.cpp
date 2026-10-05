@@ -6937,7 +6937,9 @@ static void clif_bourgeon_grant_verified(map_session_data* sd) {
 	// c'est-à-dire seulement si le joueur pensait à ouvrir le carnet — une
 	// invitation qu'il faut aller chercher n'en est pas une. C'est ICI et pas au
 	// login : avant le handshake d'intégrité, tout ZC Bourgeon est jeté.
-	clif_bourgeon_mvp_invite(*sd);
+	// ⚠ Elle part AVANT l'annonce des capacités (CZ 0x0F24) : jamais de queue
+	// d'origine sur celle-ci, quel que soit le client.
+	clif_bourgeon_mvp_invite(*sd, MVP_INVITE_FROM_HANDSHAKE);
 	// SES PROPRES couleurs de corps. Sans ce push, la recette est bien stockée
 	// mais le joueur retrouverait son apparence native à chaque connexion : la
 	// diffusion au spawn ne concerne que les AUTRES joueurs, jamais soi-même.
@@ -8630,6 +8632,15 @@ void clif_bourgeon_server_rules_all() {
 #define MVP_FAV_ENTRY_LEN      (int16)(2)
 #define MVP_GROUP_HEADER_LEN   (int16)(sizeof(PACKET_ZC_BOURGEON_MVP_GROUP))
 #define MVP_MEMBER_ENTRY_LEN   (int16)(4 + 2 + 1 + NAME_LENGTH)
+// Les QUEUES de ZC_BOURGEON_MVP_GROUP. Elles suivent la dernière entrée et ne
+// partent qu'à une session BOURGEON_UI_MVP_TRACKER_EXT (S1, S3), ou qu'en
+// réponse à une commande qui portait un identifiant (S2) : un lecteur lit par
+// longueur et ignore l'excédent, une queue future s'ajoute APRÈS celles-ci.
+#define MVP_GROUP_SELF_TRAILER_LEN    (int16)(4)      // kind 0 : [self_user_id:4]
+#define MVP_INVITE_ORIGIN_TRAILER_LEN (int16)(1)      // kind 1 : [origin:1]
+#define MVP_RESULT_TAG_TRAILER_LEN    (int16)(4 + 1)  // kind 2 : [request_id:4][cmd:1]
+// Le suffixe d'identifiant de CZ_BOURGEON_MVP_CMD : [0x00][request_id:4].
+#define MVP_CMD_REQUEST_ID_LEN        (int32)(1 + 4)
 
 /// Écrit l'en-tête commun de ZC_BOURGEON_MVP_STATE et rend l'offset du corps.
 static int32 clif_bourgeon_mvp_state_header(int32 fd, uint8 kind, int16 pkt_len, uint16 count) {
@@ -8751,18 +8762,27 @@ void clif_bourgeon_mvp_delta(const s_mvp_group& group, uint16 slot_id, const s_m
 	}
 }
 
-void clif_bourgeon_mvp_group(map_session_data& sd) {
-	if (!sd.state.has_bourgeon) return;
+/// La session peut-elle recevoir ZC_BOURGEON_MVP_GROUP ?
+static bool clif_bourgeon_mvp_group_reachable(const map_session_data& sd) {
+	return sd.state.has_bourgeon && session_isActive(sd.fd);
+}
+
+/// Écrit ZC_BOURGEON_MVP_GROUP kind 0 pour `sd`, à partir de vues déjà calculées :
+/// un groupe diffusé à tous ne coûte ainsi qu'UNE requête de noms, pas une par
+/// destinataire. `group` nul : « dans aucun groupe ».
+static void clif_bourgeon_mvp_group_send(map_session_data& sd, const s_mvp_group* group,
+	const std::vector<s_mvp_member_view>& members) {
+	if (!clif_bourgeon_mvp_group_reachable(sd)) return;
 	const int32 fd = sd.fd;
-	if (!session_isActive(fd)) return;
 
-	const s_mvp_group* group = mvp_tracker_group_of(sd);
-	std::vector<s_mvp_member_view> members;
+	// S1 — QUI EST LE DESTINATAIRE. Sans cette queue, le client devine sa propre
+	// ligne (et la propriété du groupe) au nom de son personnage parmi les
+	// membres. Un user_id dit en plus quelles lignes sont « nous » quand le même
+	// compte a plusieurs sessions. 0 : compte de jeu non rattaché.
+	const bool self_trailer = (sd.bourgeon_ui_caps & BOURGEON_UI_MVP_TRACKER_EXT) != 0;
 
-	if (group != nullptr)
-		mvp_group_member_views(*group, members);
-
-	const int16 pkt_len = (int16)(MVP_GROUP_HEADER_LEN + members.size() * MVP_MEMBER_ENTRY_LEN);
+	const int16 pkt_len = (int16)(MVP_GROUP_HEADER_LEN + members.size() * MVP_MEMBER_ENTRY_LEN +
+		(self_trailer ? MVP_GROUP_SELF_TRAILER_LEN : 0));
 	WFIFOHEAD(fd, pkt_len);
 	memset(WFIFOP(fd, 0), 0, pkt_len);
 	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_MVP_GROUP;
@@ -8787,30 +8807,86 @@ void clif_bourgeon_mvp_group(map_session_data& sd) {
 		offset += MVP_MEMBER_ENTRY_LEN;
 	}
 
+	if (self_trailer)
+		WFIFOL(fd, offset) = sd.status.user_id;
+
 	WFIFOSET(fd, pkt_len);
 }
 
-void clif_bourgeon_mvp_group_all(const s_mvp_group& group) {
-	// Copie du vecteur : clif_bourgeon_mvp_group() ne modifie pas `online`, mais
-	// la liste est aussi l'index de diffusion et un futur appelant pourrait la
-	// toucher. Le coût est celui de 24 pointeurs.
-	std::vector<map_session_data*> online = group.online;
+void clif_bourgeon_mvp_group(map_session_data& sd) {
+	// Avant la requête de noms : pas de SQL pour une session qui ne lira rien.
+	if (!clif_bourgeon_mvp_group_reachable(sd)) return;
 
-	for (map_session_data* member : online)
-		clif_bourgeon_mvp_group(*member);
+	const s_mvp_group* group = mvp_tracker_group_of(sd);
+	std::vector<s_mvp_member_view> members;
+
+	if (group != nullptr)
+		mvp_group_member_views(*group, members);
+
+	clif_bourgeon_mvp_group_send(sd, group, members);
 }
 
-void clif_bourgeon_mvp_invite(map_session_data& sd) {
+/// Envoie le groupe aux sessions de `recipients`, vues calculées une seule fois
+/// et seulement si quelqu'un peut les lire.
+static void clif_bourgeon_mvp_group_to(const s_mvp_group& group, const std::vector<map_session_data*>& recipients) {
+	if (recipients.empty()) return;
+
+	std::vector<s_mvp_member_view> members;
+	mvp_group_member_views(group, members);
+
+	for (map_session_data* member : recipients)
+		clif_bourgeon_mvp_group_send(*member, &group, members);
+}
+
+void clif_bourgeon_mvp_group_all(const s_mvp_group& group) {
+	// Une copie filtrée de `online` : l'envoi ne le modifie pas, mais la liste est
+	// aussi l'index de diffusion et un futur appelant pourrait la toucher. Le
+	// coût est celui de 24 pointeurs.
+	std::vector<map_session_data*> recipients;
+
+	for (map_session_data* member : group.online) {
+		if (clif_bourgeon_mvp_group_reachable(*member))
+			recipients.push_back(member);
+	}
+
+	clif_bourgeon_mvp_group_to(group, recipients);
+}
+
+void clif_bourgeon_mvp_presence(const s_mvp_group& group) {
+	// 🔴 RIEN PENDANT L'ARRÊT. MapServer::finalize() passe chaque joueur par
+	// map_quit() : sans cette garde, chaque déconnexion de l'arrêt coûterait une
+	// requête de noms et une trame aux membres qui partent eux aussi.
+	if (!global_core->is_running()) return;
+
+	// S4 — LA PRÉSENCE EST POUSSÉE, à qui sait la recevoir sans la demander :
+	// le panneau ouvert (MVP_TRACKER) d'un client qui lit les queues
+	// (MVP_TRACKER_EXT). Un Bourgeon n'annonce jamais le second bit : il ne
+	// reçoit rien de plus qu'avant, et redemande l'instantané comme avant.
+	std::vector<map_session_data*> recipients;
+
+	for (map_session_data* member : group.online) {
+		if (!clif_bourgeon_mvp_group_reachable(*member)) continue;
+		if (!(member->bourgeon_ui_caps & BOURGEON_UI_MVP_TRACKER_EXT)) continue;
+		if (!(member->bourgeon_ui_caps & BOURGEON_UI_MVP_TRACKER)) continue;
+		recipients.push_back(member);
+	}
+
+	clif_bourgeon_mvp_group_to(group, recipients);
+}
+
+/// Écrit une trame d'invitation (kind 1). `group_id` 0 et un nom vide disent
+/// « plus d'invitation en attente » : Bourgeon et moonclient la vident.
+static void clif_bourgeon_mvp_invite_frame(map_session_data& sd, uint32 group_id, const char* group_name,
+		e_mvp_invite_origin origin) {
 	if (!sd.state.has_bourgeon) return;
 	const int32 fd = sd.fd;
 	if (!session_isActive(fd)) return;
 
-	char group_name[MVP_GROUP_NAME_LEN] = {};
-	const uint32 group_id = mvp_group_pending_invite(sd, group_name);
+	// S3 — D'OÙ VIENT L'INVITATION. Sans cette queue, le client la déduit de
+	// l'ordre des trames, et trois cas restent ambigus.
+	const bool origin_trailer = (sd.bourgeon_ui_caps & BOURGEON_UI_MVP_TRACKER_EXT) != 0;
 
-	if (group_id == 0) return;
-
-	const int16 pkt_len = MVP_GROUP_HEADER_LEN;
+	const int16 pkt_len = (int16)(MVP_GROUP_HEADER_LEN + (origin_trailer ? MVP_INVITE_ORIGIN_TRAILER_LEN : 0));
 	WFIFOHEAD(fd, pkt_len);
 	memset(WFIFOP(fd, 0), 0, pkt_len);
 	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_MVP_GROUP;
@@ -8821,21 +8897,91 @@ void clif_bourgeon_mvp_invite(map_session_data& sd) {
 	WFIFOL(fd, 10) = 0;
 	safestrncpy((char*)WFIFOP(fd, 14), group_name, MVP_GROUP_NAME_LEN);
 	WFIFOB(fd, 14 + MVP_GROUP_NAME_LEN) = 0;
+	if (origin_trailer)
+		WFIFOB(fd, MVP_GROUP_HEADER_LEN) = (uint8)origin;
 	WFIFOSET(fd, pkt_len);
 }
 
-void clif_bourgeon_mvp_result(map_session_data& sd, uint8 result) {
+void clif_bourgeon_mvp_invite(map_session_data& sd, e_mvp_invite_origin origin) {
+	if (!sd.state.has_bourgeon) return;
+	if (!session_isActive(sd.fd)) return;
+
+	char group_name[MVP_GROUP_NAME_LEN] = {};
+	const uint32 group_id = mvp_group_pending_invite(sd, group_name);
+
+	if (group_id == 0) return;
+
+	clif_bourgeon_mvp_invite_frame(sd, group_id, group_name, origin);
+}
+
+/// map_foreachpc() callback : retire l'invitation affichée par chaque AUTRE
+/// session du compte Moonlight donné.
+static int32 clif_bourgeon_mvp_invite_withdraw_sub(map_session_data* sd, va_list ap) {
+	const uint32 user_id = va_arg(ap, uint32);
+	const map_session_data* actor = va_arg(ap, const map_session_data*);
+
+	if (sd == nullptr || sd == actor || sd->status.user_id != user_id) return 0;
+
+	static const char empty_name[MVP_GROUP_NAME_LEN] = {};
+	clif_bourgeon_mvp_invite_frame(*sd, 0, empty_name, MVP_INVITE_FROM_PUSH);
+
+	return 0;
+}
+
+/// L'invitation appartient au compte, et chacune de ses sessions l'affiche.
+/// Celle qui a répondu (acceptation ou refus) l'a déjà fermée ; les autres la
+/// garderaient, et un clic y rendrait « déjà dans un groupe » ou « aucune
+/// invitation ». À n'appeler qu'une fois la réponse écrite en base.
+static void clif_bourgeon_mvp_invite_withdraw_others(const map_session_data& actor) {
+	if (actor.status.user_id == 0) return;
+
+	map_foreachpc(clif_bourgeon_mvp_invite_withdraw_sub, actor.status.user_id, &actor);
+}
+
+/// Le code de résultat tel que `sd` peut le lire.
+///
+/// 🔴 Un code que le client ne connaît pas s'afficherait en code nu : les codes
+/// postérieurs à NOT_INVITABLE ne partent qu'à qui lit les queues. Les autres
+/// reçoivent le code qu'ils ont toujours reçu dans ce cas-là, octet pour octet.
+static uint8 clif_bourgeon_mvp_result_on_wire(const map_session_data& sd, uint8 result) {
+	if (sd.bourgeon_ui_caps & BOURGEON_UI_MVP_TRACKER_EXT)
+		return result;
+
+	switch (result) {
+	// Une saisie sans effet a toujours été, sur le fil, un succès.
+	case MVP_GROUP_ERR_OBS_KEPT:          return MVP_GROUP_OK;
+	case MVP_GROUP_ERR_UNKNOWN_SLOT:      return MVP_GROUP_ERR_NO_SUCH_USER;
+	case MVP_GROUP_ERR_TARGET_NOT_MEMBER: return MVP_GROUP_ERR_NOT_MEMBER;
+	// Jamais produit sans le bit (le nom y est tronqué) ; le refus le plus
+	// proche que ce client connaisse, s'il l'était un jour.
+	case MVP_GROUP_ERR_NAME_TOO_LONG:     return MVP_GROUP_ERR_BAD_NAME;
+	default:                              return result;
+	}
+}
+
+void clif_bourgeon_mvp_result(map_session_data& sd, uint8 result, uint8 cmd, const uint32* request_id) {
 	if (!sd.state.has_bourgeon) return;
 	const int32 fd = sd.fd;
 	if (!session_isActive(fd)) return;
 
-	const int16 pkt_len = MVP_GROUP_HEADER_LEN;
+	result = clif_bourgeon_mvp_result_on_wire(sd, result);
+
+	// S2 — QUELLE COMMANDE CE RÉSULTAT CONCLUT. Sans cette queue, le client
+	// apparie les résultats dans l'ordre d'envoi. `cmd` est l'écho de la
+	// commande, pour une vérification croisée.
+	const bool tag_trailer = request_id != nullptr;
+
+	const int16 pkt_len = (int16)(MVP_GROUP_HEADER_LEN + (tag_trailer ? MVP_RESULT_TAG_TRAILER_LEN : 0));
 	WFIFOHEAD(fd, pkt_len);
 	memset(WFIFOP(fd, 0), 0, pkt_len);
 	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_MVP_GROUP;
 	WFIFOW(fd, 2) = pkt_len;
 	WFIFOB(fd, 4) = 2;  // kind 2 = RÉSULTAT
 	WFIFOB(fd, 5) = result;
+	if (tag_trailer) {
+		WFIFOL(fd, MVP_GROUP_HEADER_LEN)     = *request_id;
+		WFIFOB(fd, MVP_GROUP_HEADER_LEN + 4) = cmd;
+	}
 	WFIFOSET(fd, pkt_len);
 }
 
@@ -8855,7 +9001,24 @@ void clif_parse_bourgeon_mvp_cmd(int32 fd, map_session_data* sd) {
 	// Le texte n'est PAS terminé par un NUL sur le fil : sa longueur se déduit de
 	// celle du paquet, comme pour les presets.
 	char text[NAME_LENGTH > MVP_GROUP_NAME_LEN ? NAME_LENGTH : MVP_GROUP_NAME_LEN] = {};
-	const int32 text_len = pkt_len - 13;
+	int32 text_len = pkt_len - 13;
+
+	// S2 — L'IDENTIFIANT DE COMMANDE, en suffixe : [texte][0x00][request_id:4].
+	// Le résultat le rendra, et le client n'aura plus à apparier dans l'ordre.
+	//
+	// 🔴 Il se reconnaît à son NUL, parce qu'un texte de Bourgeon n'en porte
+	// JAMAIS : la DLL copie sa chaîne sur strlen() octets. Sans suffixe, la
+	// commande reçoit exactement la réponse d'avant. Un client qui voudrait un
+	// jour envoyer un texte terminé par NUL devra savoir que les cinq derniers
+	// octets en seraient lus comme un identifiant.
+	bool has_request_id = false;
+	uint32 request_id = 0;
+
+	if (text_len >= MVP_CMD_REQUEST_ID_LEN && RFIFOB(fd, pkt_len - MVP_CMD_REQUEST_ID_LEN) == 0) {
+		request_id = RFIFOL(fd, pkt_len - 4);
+		has_request_id = true;
+		text_len -= MVP_CMD_REQUEST_ID_LEN;
+	}
 
 	if (text_len > 0) {
 		const int32 copy_len = text_len < (int32)sizeof(text) - 1 ? text_len : (int32)sizeof(text) - 1;
@@ -8863,8 +9026,17 @@ void clif_parse_bourgeon_mvp_cmd(int32 fd, map_session_data* sd) {
 		text[copy_len] = '\0';
 	}
 
+	// Un nom de groupe plus long que ce que `text` en garde. La longueur est
+	// celle du texte SEUL, suffixe d'identifiant ôté. Refusé à qui sait lire
+	// MVP_GROUP_ERR_NAME_TOO_LONG ; les autres gardent le nom tronqué.
+	const bool name_truncated = text_len > MVP_GROUP_NAME_LEN - 1 &&
+		(sd->bourgeon_ui_caps & BOURGEON_UI_MVP_TRACKER_EXT) != 0;
+
 	e_mvp_group_result result = MVP_GROUP_OK;
 	bool group_changed = false;
+	// L'auteur ENTRE dans un groupe : toutes les sessions de son compte y entrent
+	// avec lui (mvp_group_create, mvp_group_accept).
+	bool account_joined = false;
 
 	switch (cmd) {
 	case 1:  // SNAPSHOT : tout ce qu'il faut pour peupler la fenêtre.
@@ -8872,13 +9044,13 @@ void clif_parse_bourgeon_mvp_cmd(int32 fd, map_session_data* sd) {
 		clif_bourgeon_mvp_favorites(*sd);
 		clif_bourgeon_mvp_snapshot(*sd);
 		clif_bourgeon_mvp_group(*sd);
-		clif_bourgeon_mvp_invite(*sd);
+		clif_bourgeon_mvp_invite(*sd, MVP_INVITE_FROM_SNAPSHOT);
 		return;
 
-	case 2:  result = mvp_group_create(*sd, text);   group_changed = true; break;
+	case 2:  result = mvp_group_create(*sd, text, name_truncated); group_changed = account_joined = true; break;
 	case 3:  result = mvp_group_dissolve(*sd);       group_changed = true; break;
 	case 4:  result = mvp_group_invite(*sd, text);   break;
-	case 5:  result = mvp_group_accept(*sd);         group_changed = true; break;
+	case 5:  result = mvp_group_accept(*sd);         group_changed = account_joined = true; break;
 	case 6:  result = mvp_group_decline(*sd);        break;
 	case 7:  result = mvp_group_leave(*sd);          group_changed = true; break;
 	case 8:  result = mvp_group_kick(*sd, text);     group_changed = true; break;
@@ -8931,7 +9103,7 @@ void clif_parse_bourgeon_mvp_cmd(int32 fd, map_session_data* sd) {
 		return;
 	}
 
-	clif_bourgeon_mvp_result(*sd, (uint8)result);
+	clif_bourgeon_mvp_result(*sd, (uint8)result, cmd, has_request_id ? &request_id : nullptr);
 
 	if (result != MVP_GROUP_OK)
 		return;
@@ -8946,9 +9118,26 @@ void clif_parse_bourgeon_mvp_cmd(int32 fd, map_session_data* sd) {
 		else
 			clif_bourgeon_mvp_group(*sd);
 
-		// Entrer dans un groupe donne accès à ce qu'il sait déjà.
+		// Entrer dans un groupe donne accès à ce qu'il sait déjà. Les AUTRES
+		// sessions du compte y sont entrées aussi : elles le reçoivent si leur
+		// carnet est allumé, comme un delta ; sinon leur prochain instantané
+		// (cmd 1) le leur donnera.
 		clif_bourgeon_mvp_snapshot(*sd);
+
+		if (account_joined && group != nullptr) {
+			for (map_session_data* member : group->online) {
+				if (member == sd || member->status.user_id != sd->status.user_id) continue;
+				if (!(member->bourgeon_ui_caps & BOURGEON_UI_MVP_TRACKER)) continue;
+				clif_bourgeon_mvp_snapshot(*member);
+			}
+		}
 	}
+
+	// La réponse est en base, l'invitation effacée pour tout le compte : les
+	// autres sessions qui l'affichent encore la retirent. Après le groupe, pour
+	// qu'une session entrée avec l'auteur le reçoive avant de fermer la modale.
+	if (cmd == 5 || cmd == 6)
+		clif_bourgeon_mvp_invite_withdraw_others(*sd);
 }
 
 // ── [Stingor] Album de cartes (CZ 0x0F34 -> ZC 0x0F33) ──────────────────────

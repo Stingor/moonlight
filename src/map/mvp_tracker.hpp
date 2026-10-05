@@ -139,6 +139,26 @@ enum e_mvp_group_result : uint8 {
 	// « je le trouve mais vous n'avez pas le droit » appellent deux gestes
 	// différents du joueur - vérifier l'orthographe, ou l'ajouter en ami.
 	MVP_GROUP_ERR_NOT_INVITABLE,
+	// Une saisie (ou un lien importé) que le groupe n'a PAS retenue : il tient
+	// déjà mieux pour ce cycle, ou un cycle plus récent. Jamais vu d'un client
+	// sans BOURGEON_UI_MVP_TRACKER_EXT : clif le ramène à OK pour lui, qui ne
+	// saurait que l'afficher en code nu.
+	MVP_GROUP_ERR_OBS_KEPT,
+	// Les trois suivants nomment juste ce que l'ancien jeu de codes disait de
+	// travers. Même règle que OBS_KEPT : réservés à BOURGEON_UI_MVP_TRACKER_EXT,
+	// clif rend aux autres le code qu'ils ont toujours reçu (cf.
+	// clif_bourgeon_mvp_result_on_wire).
+	//
+	// Saisie sur un créneau que le registre ne connaît pas. Sans le bit :
+	// NO_SUCH_USER.
+	MVP_GROUP_ERR_UNKNOWN_SLOT,
+	// La cible d'une exclusion existe mais n'est pas membre du groupe. Distinct
+	// de NOT_MEMBER, qui parle de l'AUTEUR. Sans le bit : NOT_MEMBER.
+	MVP_GROUP_ERR_TARGET_NOT_MEMBER,
+	// Nom de groupe de plus de MVP_GROUP_NAME_LEN - 1 octets : refusé. Sans le
+	// bit, le nom est tronqué et le groupe créé, comme toujours ; ce code n'est
+	// alors jamais produit.
+	MVP_GROUP_ERR_NAME_TOO_LONG,
 };
 
 /// Loads every group and its members from SQL. Observations are NOT loaded:
@@ -148,11 +168,20 @@ void mvp_tracker_load_groups( void );
 s_mvp_group* mvp_tracker_group_of_user( uint32 user_id );
 s_mvp_group* mvp_tracker_group_of( const map_session_data& sd );
 
-/// Broadcast index upkeep.
+/// Broadcast index upkeep. Une connexion ou une déconnexion change la présence
+/// d'un membre : le groupe est aussitôt poussé à ceux qui savent la lire sans la
+/// demander (clif_bourgeon_mvp_presence).
 void mvp_tracker_on_login( map_session_data& sd );
 void mvp_tracker_on_logout( map_session_data& sd );
 
-e_mvp_group_result mvp_group_create( map_session_data& sd, const char* name );
+/// `name_truncated` : le texte reçu dépassait MVP_GROUP_NAME_LEN - 1 octets et
+/// `name` n'en tient que le début. true refuse (MVP_GROUP_ERR_NAME_TOO_LONG) ;
+/// false crée le groupe sous ce début. clif ne passe true qu'à une session
+/// BOURGEON_UI_MVP_TRACKER_EXT.
+///
+/// Créer ou rejoindre un groupe y inscrit TOUTES les sessions en ligne du compte
+/// Moonlight, pas seulement celle qui agit : l'appartenance est celle du compte.
+e_mvp_group_result mvp_group_create( map_session_data& sd, const char* name, bool name_truncated = false );
 e_mvp_group_result mvp_group_dissolve( map_session_data& sd );
 e_mvp_group_result mvp_group_invite( map_session_data& sd, const char* char_name );
 e_mvp_group_result mvp_group_accept( map_session_data& sd );
@@ -207,7 +236,9 @@ void mvp_tracker_on_mvp_dead( mob_data& md, map_session_data* mvp_sd, map_sessio
 /// it is exactly the fallback for the members that mob_dead() does not credit.
 ///
 /// Weaker than a kill and than a mirror, so the overwrite rule leaves those
-/// alone; stronger than a typed-in time, which it therefore replaces.
+/// alone within the same cycle; stronger than a typed-in time, which it
+/// therefore replaces. La tombe d'un cycle plus récent remplace tout. Une tombe
+/// relue sans rien de neuf ne change rien et ne diffuse rien.
 void mvp_tracker_on_tomb_read( map_session_data& sd, mob_data& md, time_t kill_time,
 	const char* killer_name );
 
@@ -216,7 +247,8 @@ void mvp_tracker_on_tomb_read( map_session_data& sd, mob_data& md, time_t kill_t
 void mvp_tracker_report_scripted( map_session_data* sd, uint16 mob_id, int16 mapid, int16 x, int16 y );
 
 /// What a player types in. The weakest source, so it never overwrites a kill or
-/// a mirror - that is the overwrite rule doing its job, not a special case.
+/// a mirror OF THE SAME CYCLE - that is the overwrite rule doing its job, not a
+/// special case. Une mort d'un cycle plus récent, elle, remplace tout.
 /// Records what a player ASSERTS: the least precise source there is, and the
 /// right one for both ways a claim reaches us -- typed into the log by hand,
 /// or imported from an `<MVPL>` chat link somebody shared.
@@ -227,6 +259,10 @@ void mvp_tracker_report_scripted( map_session_data* sd, uint16 mob_id, int16 map
 /// `shared_by` is who the claim came FROM when it was imported off a chat
 /// link -- not who typed it in. It is recorded as the observation's name, the
 /// same slot a kill fills with the killer: both answer "who says so".
+///
+/// MVP_GROUP_ERR_OBS_KEPT quand la règle d'écrasement l'écarte : le groupe tient
+/// déjà mieux, ou exactement la même chose. Rien n'est alors diffusé.
+/// MVP_GROUP_ERR_UNKNOWN_SLOT quand `slot_id` n'est pas au registre.
 e_mvp_group_result mvp_tracker_report_manual( map_session_data& sd, uint16 slot_id, int64 kill_time, int16 tomb_x = -1, int16 tomb_y = -1, const char* shared_by = nullptr );
 
 /// THE ONLY function allowed to read the draw. Two callers, not three: the two

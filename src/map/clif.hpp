@@ -1838,6 +1838,18 @@ enum e_bourgeon_ui_cap : uint32 {
 	// (ZC_BOURGEON_SERVER_RULES 0x0F38) : il les reçoit dès l'annonce du bit, et
 	// de nouveau après @reloadbattleconf.
 	BOURGEON_UI_SERVER_RULES = 0x00000080,
+	// [Stingor] Ce client sait lire les QUEUES du carnet de chasse MVP : l'identité
+	// du destinataire au bout d'un groupe, l'origine au bout d'une invitation, et
+	// la présence des membres poussée à chaque connexion ou déconnexion. Sans ce
+	// bit, ZC 0x0F32 part exactement comme avant, octet pour octet.
+	//
+	// 🔴 Une capacité de LECTURE, réservée à moonclient : la DLL ne l'annonce
+	// jamais. Elle ne doit rien recevoir de neuf sur ce paquet — un `kind` inconnu
+	// de 0x0F32 y écraserait le groupe, un code de résultat inconnu s'y
+	// afficherait en code nu —, d'où la règle : toute forme nouvelle du carnet
+	// part sous ce bit, ou derrière l'identifiant de commande que la DLL ne sait
+	// pas produire (cf. clif_parse_bourgeon_mvp_cmd).
+	BOURGEON_UI_MVP_TRACKER_EXT = 0x00000100,
 };
 
 // [Stingor] Les réglages du serveur utiles au client (ZC 0x0F38), à une session
@@ -1862,8 +1874,24 @@ void clif_bourgeon_mvp_favorites(map_session_data& sd);
 void clif_bourgeon_mvp_delta(const s_mvp_group& group, uint16 slot_id, const s_mvp_obs& obs);
 void clif_bourgeon_mvp_group(map_session_data& sd);
 void clif_bourgeon_mvp_group_all(const s_mvp_group& group);
-void clif_bourgeon_mvp_invite(map_session_data& sd);
-void clif_bourgeon_mvp_result(map_session_data& sd, uint8 result);
+// La présence des membres a changé (une connexion, une déconnexion) : le groupe
+// part aux seules sessions qui ont annoncé BOURGEON_UI_MVP_TRACKER_EXT ET
+// BOURGEON_UI_MVP_TRACKER. Rien pendant l'arrêt du serveur.
+void clif_bourgeon_mvp_presence(const s_mvp_group& group);
+
+// D'où vient une invitation : queue de ZC 0x0F32 kind 1, sous
+// BOURGEON_UI_MVP_TRACKER_EXT. ⚠ Valeurs sur le fil : on AJOUTE en fin.
+enum e_mvp_invite_origin : uint8 {
+	MVP_INVITE_FROM_UNKNOWN = 0,
+	MVP_INVITE_FROM_SNAPSHOT,   ///< réponse à une demande d'instantané (cmd 1)
+	MVP_INVITE_FROM_HANDSHAKE,  ///< reçue hors ligne, rendue à la vérification
+	MVP_INVITE_FROM_PUSH,       ///< poussée à l'instant où elle est émise
+};
+
+void clif_bourgeon_mvp_invite(map_session_data& sd, e_mvp_invite_origin origin);
+// `request_id` renseigné : la commande en portait un, et la réponse le rend avec
+// `cmd` en queue. nullptr : la trame est celle d'avant, octet pour octet.
+void clif_bourgeon_mvp_result(map_session_data& sd, uint8 result, uint8 cmd, const uint32* request_id);
 
 // [Stingor] Album de cartes (CZ 0x0F34 -> ZC 0x0F33).
 //

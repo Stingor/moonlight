@@ -250,14 +250,50 @@ void mvp_tracker_load_groups( void ){
 		static_cast<uint32>( mvp_group_table.size() ), static_cast<uint32>( mvp_member_index.size() ) );
 }
 
-void mvp_tracker_on_login( map_session_data& sd ){
+/// Inscrit la session dans l'index de diffusion de son groupe, SANS prévenir
+/// personne. Rend le groupe quand l'inscription a eu lieu, nullptr sinon.
+///
+/// La création et l'acceptation passent par ici (mvp_tracker_index_account) et
+/// non par mvp_tracker_on_login :
+/// clif_parse_bourgeon_mvp_cmd prévient déjà tout le groupe après elles, et la
+/// présence partirait en double.
+static s_mvp_group* mvp_tracker_index_session( map_session_data& sd ){
 	s_mvp_group* group = mvp_tracker_group_of( sd );
 
 	if( group == nullptr )
-		return;
+		return nullptr;
 
-	if( std::find( group->online.begin(), group->online.end(), &sd ) == group->online.end() )
-		group->online.push_back( &sd );
+	if( std::find( group->online.begin(), group->online.end(), &sd ) != group->online.end() )
+		return nullptr;
+
+	group->online.push_back( &sd );
+
+	return group;
+}
+
+/// map_foreachpc() callback : mvp_tracker_index_session() pour chaque session du
+/// compte Moonlight donné.
+static int32 mvp_tracker_index_session_sub( map_session_data* sd, va_list ap ){
+	const uint32 user_id = va_arg( ap, uint32 );
+
+	if( sd != nullptr && sd->status.user_id == user_id )
+		mvp_tracker_index_session( *sd );
+
+	return 0;
+}
+
+/// Inscrit dans l'index de son groupe CHAQUE session en ligne du compte, sans
+/// prévenir personne : l'appartenance est celle du compte, et une tête restée
+/// hors de l'index ne recevrait ni delta ni groupe jusqu'à sa reconnexion.
+static void mvp_tracker_index_account( uint32 user_id ){
+	map_foreachpc( mvp_tracker_index_session_sub, user_id );
+}
+
+void mvp_tracker_on_login( map_session_data& sd ){
+	s_mvp_group* group = mvp_tracker_index_session( sd );
+
+	if( group != nullptr )
+		clif_bourgeon_mvp_presence( *group );
 }
 
 void mvp_tracker_on_logout( map_session_data& sd ){
@@ -268,8 +304,13 @@ void mvp_tracker_on_logout( map_session_data& sd ){
 
 	auto it = std::find( group->online.begin(), group->online.end(), &sd );
 
-	if( it != group->online.end() )
-		group->online.erase( it );
+	if( it == group->online.end() )
+		return;
+
+	group->online.erase( it );
+
+	// Après l'effacement, sinon le paquet compterait encore la session qui part.
+	clif_bourgeon_mvp_presence( *group );
 }
 
 /// Drops a member from RAM and from SQL. Does NOT handle succession or the last
@@ -329,12 +370,15 @@ static void mvp_group_destroy( s_mvp_group& group ){
 		clif_bourgeon_mvp_group( *sd );
 }
 
-e_mvp_group_result mvp_group_create( map_session_data& sd, const char* name ){
+e_mvp_group_result mvp_group_create( map_session_data& sd, const char* name, bool name_truncated ){
 	if( sd.status.user_id == 0 )
 		return MVP_GROUP_ERR_NO_ACCOUNT;
 
 	if( mvp_tracker_group_of( sd ) != nullptr )
 		return MVP_GROUP_ERR_ALREADY_MEMBER;
+
+	if( name_truncated )
+		return MVP_GROUP_ERR_NAME_TOO_LONG;
 
 	if( name == nullptr || name[0] == '\0' || strlen( name ) >= MVP_GROUP_NAME_LEN )
 		return MVP_GROUP_ERR_BAD_NAME;
@@ -370,7 +414,7 @@ e_mvp_group_result mvp_group_create( map_session_data& sd, const char* name ){
 
 	mvp_group_table[group_id] = group;
 	mvp_member_index[sd.status.user_id] = group_id;
-	mvp_tracker_on_login( sd );
+	mvp_tracker_index_account( sd.status.user_id );
 
 	return MVP_GROUP_OK;
 }
@@ -445,7 +489,7 @@ static int32 mvp_invite_notify( map_session_data* sd, va_list ap ){
 	const uint32 target_id = va_arg( ap, uint32 );
 
 	if( sd != nullptr && sd->status.user_id == target_id )
-		clif_bourgeon_mvp_invite( *sd );
+		clif_bourgeon_mvp_invite( *sd, MVP_INVITE_FROM_PUSH );
 
 	return 0;
 }
@@ -574,7 +618,7 @@ e_mvp_group_result mvp_group_accept( map_session_data& sd ){
 
 	group.members.push_back( sd.status.user_id );
 	mvp_member_index[sd.status.user_id] = group_id;
-	mvp_tracker_on_login( sd );
+	mvp_tracker_index_account( sd.status.user_id );
 
 	return MVP_GROUP_OK;
 }
@@ -621,6 +665,12 @@ e_mvp_group_result mvp_group_leave( map_session_data& sd ){
 			Sql_ShowDebug( mmysql_handle );
 	}
 
+	// Ceux qui RESTENT l'apprennent ici : après la commande, clif ne prévient plus
+	// que le sortant, qui n'est plus dans le groupe. L'exclusion, elle, est
+	// annoncée par clif, puisque son auteur y est toujours ; la dissolution passe
+	// par mvp_group_destroy().
+	clif_bourgeon_mvp_group_all( *group );
+
 	return MVP_GROUP_OK;
 }
 
@@ -642,7 +692,7 @@ e_mvp_group_result mvp_group_kick( map_session_data& sd, const char* char_name )
 		return MVP_GROUP_ERR_SELF;
 
 	if( std::find( group->members.begin(), group->members.end(), target_id ) == group->members.end() )
-		return MVP_GROUP_ERR_NOT_MEMBER;
+		return MVP_GROUP_ERR_TARGET_NOT_MEMBER;
 
 	mvp_group_remove_member( *group, target_id );
 
@@ -653,24 +703,77 @@ e_mvp_group_result mvp_group_kick( map_session_data& sd, const char* char_name )
  * Attribution
  * ------------------------------------------------------------------------- */
 
+/// `next` parle-t-elle d'une mort POSTÉRIEURE au retour qu'annonçait `prev` ?
+///
+/// Un MVP ne peut pas remourir avant d'être revenu : une mort qui suit l'autre
+/// d'au moins `delay1` (la loi), ou qui suit le retour exact qu'un Convex Mirror
+/// avait payé, est forcément celle d'un cycle suivant. Une heure de mort
+/// inconnue (0) ne permet pas de conclure : même cycle.
+static bool mvp_obs_is_later_cycle( const s_mvp_obs& next, const s_mvp_obs& prev, int64 delay1_s ){
+	if( next.kill_time <= 0 || prev.kill_time <= 0 )
+		return false;
+
+	if( prev.exact_respawn > 0 )
+		return next.kill_time >= prev.exact_respawn;
+
+	return delay1_s > 0 && next.kill_time >= prev.kill_time + delay1_s;
+}
+
+/// `next` redit-elle exactement ce que dit `prev` ? Ni QUI la rapporte ni QUAND
+/// n'entrent dans la comparaison : une tombe relue par un autre membre, une
+/// heure de nouveau importée du même lien n'apprennent rien au groupe.
+static bool mvp_obs_tells_nothing_new( const s_mvp_obs& next, const s_mvp_obs& prev ){
+	return next.source == prev.source
+		&& next.kill_time == prev.kill_time
+		&& next.exact_respawn == prev.exact_respawn
+		&& next.mob_id == prev.mob_id
+		&& next.tomb_x == prev.tomb_x
+		&& next.tomb_y == prev.tomb_y
+		&& strncmp( next.killer_name, prev.killer_name, NAME_LENGTH ) == 0;
+}
+
 /**
- * The overwrite rule, in one place.
+ * The overwrite rule, in one place. Rend true si l'observation est retenue.
  *
- * An observation replaces the previous one if its source is strictly more
- * precise, or if the source is equal and it is more recent. No human arbitration,
- * no conflict to display.
+ * Le CYCLE d'abord, la précision ensuite :
+ *  - une observation d'un cycle plus récent remplace l'actuelle, QUELLE QUE SOIT
+ *    sa source : un Convex Mirror ne gèle plus le créneau, un kill n'éclipse plus
+ *    les tombes et les saisies des cycles suivants ;
+ *  - une observation d'un cycle plus ancien est écartée, même plus précise ;
+ *  - dans un même cycle, une source strictement plus précise l'emporte, ou une
+ *    source égale plus récente. No human arbitration, no conflict to display ;
+ *  - une observation qui redit l'actuelle (mvp_obs_tells_nothing_new) est
+ *    écartée : rien n'a changé, rien n'est diffusé.
+ *
+ * Le cycle se lit sur `delay1` : une saisie fausse de plus d'un `delay1` passe
+ * pour un cycle neuf. Elle est déjà crue sur parole, et la précision reprend la
+ * main au cycle suivant. Un créneau sans `delay1` ne connaît que le retour exact.
  */
-static void mvp_tracker_record( s_mvp_group& group, uint16 slot_id, const s_mvp_obs& obs ){
+static bool mvp_tracker_record( s_mvp_group& group, uint16 slot_id, const s_mvp_obs& obs ){
 	auto it = group.obs.find( slot_id );
 
 	if( it != group.obs.end() ){
 		const s_mvp_obs& current = it->second;
 
-		if( obs.source < current.source )
-			return;
+		if( mvp_obs_tells_nothing_new( obs, current ) )
+			return false;
 
-		if( obs.source == current.source && obs.reported_at <= current.reported_at )
-			return;
+		const int64 delay1_s = slot_id < mvp_slot_registry.size()
+			? static_cast<int64>( mvp_slot_registry[slot_id].delay1 / 1000 ) : 0;
+
+		const bool later   = mvp_obs_is_later_cycle( obs, current, delay1_s );
+		const bool earlier = mvp_obs_is_later_cycle( current, obs, delay1_s );
+
+		if( !later ){
+			if( earlier )
+				return false;
+
+			if( obs.source < current.source )
+				return false;
+
+			if( obs.source == current.source && obs.reported_at <= current.reported_at )
+				return false;
+		}
 	}
 
 	group.obs[slot_id] = obs;
@@ -680,6 +783,8 @@ static void mvp_tracker_record( s_mvp_group& group, uint16 slot_id, const s_mvp_
 	// they still FEED the group with their kills, which is the right behaviour and
 	// not a degraded case.
 	clif_bourgeon_mvp_delta( group, slot_id, obs );
+
+	return true;
 }
 
 /// Is this map one of the four whose MVP is spawned by an NPC timer?
@@ -1073,7 +1178,7 @@ e_mvp_group_result mvp_tracker_report_manual( map_session_data& sd, uint16 slot_
 		return MVP_GROUP_ERR_NOT_MEMBER;
 
 	if( slot_id >= mvp_slot_registry.size() )
-		return MVP_GROUP_ERR_NO_SUCH_USER;
+		return MVP_GROUP_ERR_UNKNOWN_SLOT;
 
 	int64 now = static_cast<int64>( time( nullptr ) );
 
@@ -1114,7 +1219,10 @@ e_mvp_group_result mvp_tracker_report_manual( map_session_data& sd, uint16 slot_
 	// was imported off a chat link.
 	safestrncpy( obs.killer_name, shared_by != nullptr ? shared_by : "", NAME_LENGTH );
 
-	mvp_tracker_record( *group, slot_id, obs );
+	// Écartée, elle le dit : répondre OK laisserait croire au joueur que le
+	// groupe a maintenant SON heure, alors qu'il en tient une meilleure.
+	if( !mvp_tracker_record( *group, slot_id, obs ) )
+		return MVP_GROUP_ERR_OBS_KEPT;
 
 	return MVP_GROUP_OK;
 }
