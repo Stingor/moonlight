@@ -719,13 +719,37 @@ static bool mvp_obs_is_later_cycle( const s_mvp_obs& next, const s_mvp_obs& prev
 	return delay1_s > 0 && next.kill_time >= prev.kill_time + delay1_s;
 }
 
+/// Écart, en secondes, sous lequel deux instants de retour exacts désignent le
+/// MÊME retour.
+///
+/// Un Convex Mirror recalcule le retour à chaque usage : `time()` tronque
+/// l'horloge murale à la seconde, et la division par 1000 du reste en
+/// millisecondes tronque elle aussi. Tant que le retour est à venir, chaque terme
+/// perd moins d'une seconde, donc chaque résultat tombe dans ]R - 2 ; R], R étant
+/// le vrai instant de retour : deux entiers d'un tel intervalle diffèrent d'au
+/// plus 1. Un minuteur de réapparition en retard de quelques millisecondes rend
+/// le reste négatif, que la division arrondit alors vers le haut : l'écart
+/// atteint 2.
+///
+/// Rien ne se masque : la comparaison exige aussi la même heure de mort, et deux
+/// cycles distincts ont des heures de mort distinctes.
+static constexpr int64 MVP_EXACT_RESPAWN_ROUNDING_S = 2;
+
+/// `a` et `b` désignent-ils le même instant de retour, à l'arrondi près ?
+static bool mvp_exact_respawn_matches( int64 a, int64 b ){
+	const int64 gap_s = a > b ? a - b : b - a;
+
+	return gap_s <= MVP_EXACT_RESPAWN_ROUNDING_S;
+}
+
 /// `next` redit-elle exactement ce que dit `prev` ? Ni QUI la rapporte ni QUAND
 /// n'entrent dans la comparaison : une tombe relue par un autre membre, une
-/// heure de nouveau importée du même lien n'apprennent rien au groupe.
+/// heure de nouveau importée du même lien n'apprennent rien au groupe. Un retour
+/// exact recalculé qui ne diffère que de l'arrondi n'apprend rien non plus.
 static bool mvp_obs_tells_nothing_new( const s_mvp_obs& next, const s_mvp_obs& prev ){
 	return next.source == prev.source
 		&& next.kill_time == prev.kill_time
-		&& next.exact_respawn == prev.exact_respawn
+		&& mvp_exact_respawn_matches( next.exact_respawn, prev.exact_respawn )
 		&& next.mob_id == prev.mob_id
 		&& next.tomb_x == prev.tomb_x
 		&& next.tomb_y == prev.tomb_y
