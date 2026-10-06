@@ -420,7 +420,7 @@ struct s_skill_unit_group {
 	}
 };
 
-#define MAX_SKILLUNITGROUPTICKSET 25
+#define MAX_SKILLUNITGROUPTICKSET 50
 struct skill_unit_group_tickset {
 	t_tick tick;
 	int32 id;
