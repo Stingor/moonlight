@@ -25208,9 +25208,14 @@ void clif_bg_queue_cancel_result(bool success, const char *name, map_session_dat
 
 	int32 fd = sd->fd;
 
+	// [Stingor] Le client ne referme sa fenetre "en attente" que sur le resultat
+	// 14 : une annulation reussie l'envoie, sinon le joueur se croit encore en
+	// file. Un refus reste 0, que le client ignore.
+	const uint8 cancel_closed = 14;
+
 	WFIFOHEAD(fd, packet_len(0x8d8));
 	WFIFOW(fd,0) = 0x8db;
-	WFIFOB(fd,2) = success;
+	WFIFOB(fd,2) = success ? cancel_closed : 0;
 	safestrncpy(WFIFOCP(fd,3), name, NAME_LENGTH);
 	WFIFOSET(fd, packet_len(0x8d8));
 }
