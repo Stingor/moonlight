@@ -10183,6 +10183,12 @@ BUILDIN_FUNC(autobonus)
 		script_add_autobonus(bonus_script);
 		if( other_script )
 			script_add_autobonus(other_script);
+
+		// [Stingor] TRACE TEMPORAIRE Jitterbug : nouvelle entree creee (pas un doublon ecarte)
+		if( pc_autobonus_trace( bonus_script ) ){
+			ShowInfo( "[AB-TRACE] AJOUT | %s (cid %d) | pos=0x%X combo_pos=0x%X item_idx=%d\n", sd->status.name, sd->status.char_id, pos, current_equip_combo_pos, current_equip_item_index );
+			pc_autobonus_trace_dump( *sd, "AJOUT" );
+		}
 	}
 
 	return SCRIPT_CMD_SUCCESS;

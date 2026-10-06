@@ -3719,6 +3719,29 @@ static void pc_bonus_item_drop(std::vector<s_add_drop> &drop, t_itemid nameid, u
 	drop.push_back(entry);
 }
 
+// [Stingor] TRACE TEMPORAIRE — stack du combo Playing_Pere + Singing_Pere + Jitterbug.
+// Filtre sur la signature du script de l'autobonus pour ne tracer que ce combo.
+bool pc_autobonus_trace( const char* script ){
+	return script != nullptr && strstr( script, "bAddEle,Ele_Neutral,200" ) != nullptr;
+}
+
+void pc_autobonus_trace_dump( map_session_data& sd, const char* where ){
+	int32 n = 0, active = 0;
+
+	for( const std::shared_ptr<s_autobonus>& b : sd.autobonus ){
+		if( b == nullptr || !pc_autobonus_trace( b->bonus_script ) )
+			continue;
+		n++;
+		if( b->active != INVALID_TIMER )
+			active++;
+		ShowInfo( "[AB-TRACE] %s | %s (cid %d) | entree pos=0x%X rate=%d active=%s\n", where, sd.status.name, sd.status.char_id, b->pos, b->rate, b->active != INVALID_TIMER ? "oui" : "non" );
+	}
+
+	ShowInfo( "[AB-TRACE] %s | %s (cid %d) | %d entree(s) Jitterbug, %d active(s), total autobonus=%d | addele neutre R=%d L=%d | magic_addele neutre=%d\n",
+		where, sd.status.name, sd.status.char_id, n, active, (int32)sd.autobonus.size(),
+		sd.right_weapon.addele[ELE_NEUTRAL], sd.left_weapon.addele[ELE_NEUTRAL], sd.indexed_bonus.magic_addele_script[ELE_NEUTRAL] );
+}
+
 s_autobonus::~s_autobonus(){
 	if( this->active != INVALID_TIMER ){
 		delete_timer( this->active, pc_endautobonus );
@@ -3820,6 +3843,9 @@ void pc_delautobonus(map_session_data &sd, std::vector<std::shared_ptr<s_autobon
 			}
 
 			if( ( equip_pos_idx&b->pos ) == b->pos ){
+				// [Stingor] TRACE TEMPORAIRE Jitterbug : le bonus_script (heal compris) est rejoue a chaque recalcul
+				if( pc_autobonus_trace( b->bonus_script ) )
+					ShowInfo( "[AB-TRACE] RECALC (bonus rejoue, heal inclus) | %s (cid %d) | pos=0x%X\n", sd.status.name, sd.status.char_id, b->pos );
 				script_run_autobonus(b->bonus_script, &sd, b->pos);
 			}else{
 				// Not all required items equipped anymore
@@ -3831,6 +3857,9 @@ void pc_delautobonus(map_session_data &sd, std::vector<std::shared_ptr<s_autobon
 			it++;
 			continue;
 		}
+
+		if( pc_autobonus_trace( b->bonus_script ) ) // [Stingor] TRACE TEMPORAIRE Jitterbug
+			ShowInfo( "[AB-TRACE] SUPPR (delautobonus restore=%d) | %s (cid %d) | pos=0x%X\n", restore, sd.status.name, sd.status.char_id, b->pos );
 
 		it = bonus.erase(it);
 	}
@@ -3859,8 +3888,16 @@ void pc_exeautobonus(map_session_data &sd, std::vector<std::shared_ptr<s_autobon
 			script_run_autobonus(autobonus->other_script,&sd,autobonus->pos);
 	}
 
+	// [Stingor] TRACE TEMPORAIRE Jitterbug
+	bool trace = pc_autobonus_trace( autobonus->bonus_script );
+	if( trace )
+		ShowInfo( "[AB-TRACE] PROC | %s (cid %d) | pos=0x%X deja_active=%s\n", sd.status.name, sd.status.char_id, autobonus->pos, autobonus->active != INVALID_TIMER ? "oui" : "non" );
+
 	autobonus->active = add_timer(gettick()+autobonus->duration, pc_endautobonus, sd.id, (intptr_t)bonus);
 	status_calc_pc(&sd,SCO_FORCE);
+
+	if( trace )
+		pc_autobonus_trace_dump( sd, "APRES PROC" );
 }
 
 /**
@@ -3873,14 +3910,20 @@ TIMER_FUNC(pc_endautobonus){
 	nullpo_ret(sd);
 	nullpo_ret(bonus);
 
+	bool trace = false; // [Stingor] TRACE TEMPORAIRE Jitterbug
+
 	for( std::shared_ptr<s_autobonus> autobonus : *bonus ){
 		if( autobonus->active == tid ){
 			autobonus->active = INVALID_TIMER;
+			trace = pc_autobonus_trace( autobonus->bonus_script );
 			break;
 		}
 	}
-	
+
 	status_calc_pc(sd,SCO_FORCE);
+
+	if( trace )
+		pc_autobonus_trace_dump( *sd, "FIN TIMER" );
 	return 0;
 }
 
@@ -12524,6 +12567,17 @@ static int32 pc_checkcombo(map_session_data *sd, item_data *data) {
 		entry->id = item_combo->id;
 		entry->pos = pos;
 		sd->combos.push_back(entry);
+
+		// [Stingor] TRACE TEMPORAIRE Jitterbug : le combo Pere + Pere + Jitterbug arrive sur l'equipement
+		if( util::vector_exists( item_combo->nameid, (t_itemid)27109 ) ){
+			int32 same = 0;
+			for( const auto& c : sd->combos )
+				if( c->id == item_combo->id )
+					same++;
+			ShowInfo( "[AB-TRACE] COMBO ACTIVE | %s (cid %d) | combo_id=%u pos=0x%X | exemplaires de ce combo=%d, combos totaux=%d\n",
+				sd->status.name, sd->status.char_id, item_combo->id, pos, same, (int32)sd->combos.size() );
+		}
+
 		combo_idx.clear();
 		success++;
 	}
@@ -12561,6 +12615,9 @@ static int32 pc_removecombo(map_session_data *sd, item_data *data ) {
 
 		util::vector_erase_if_exists(sd->combos, del_combo);
 		retval++;
+
+		if( util::vector_exists( item_combo->nameid, (t_itemid)27109 ) ) // [Stingor] TRACE TEMPORAIRE Jitterbug
+			ShowInfo( "[AB-TRACE] COMBO RETIRE | %s (cid %d) | combo_id=%u pos=0x%X (reverifie juste apres)\n", sd->status.name, sd->status.char_id, item_combo->id, del_combo->pos );
 
 		// Check if combo requirements still fit
 		if (pc_checkcombo(sd, data))
@@ -12905,7 +12962,7 @@ bool pc_equipitem(map_session_data *sd,int16 n,int32 req_pos,bool equipswitch)
 	return true;
 }
 
-static void pc_deleteautobonus( std::vector<std::shared_ptr<s_autobonus>>& bonus, int32 position ){
+static void pc_deleteautobonus( map_session_data* sd, std::vector<std::shared_ptr<s_autobonus>>& bonus, int32 position ){
 	std::vector<std::shared_ptr<s_autobonus>>::iterator it = bonus.begin();
 
 	while( it != bonus.end() ){
@@ -12923,6 +12980,9 @@ static void pc_deleteautobonus( std::vector<std::shared_ptr<s_autobonus>>& bonus
 			continue;
 		}
 
+		if( pc_autobonus_trace( b->bonus_script ) ) // [Stingor] TRACE TEMPORAIRE Jitterbug
+			ShowInfo( "[AB-TRACE] SUPPR (desequipement pos=0x%X) | %s (cid %d) | entree pos=0x%X active=%s\n", position, sd->status.name, sd->status.char_id, b->pos, b->active != INVALID_TIMER ? "oui" : "non" );
+
 		it = bonus.erase( it );
 	}
 }
@@ -12938,9 +12998,9 @@ static void pc_unequipitem_sub(map_session_data *sd, int32 n, int32 flag) {
 	int32 i, iflag;
 	bool status_calc = false;
 
-	pc_deleteautobonus( sd->autobonus, sd->inventory.u.items_inventory[n].equip );
-	pc_deleteautobonus( sd->autobonus2, sd->inventory.u.items_inventory[n].equip );
-	pc_deleteautobonus( sd->autobonus3, sd->inventory.u.items_inventory[n].equip );
+	pc_deleteautobonus( sd, sd->autobonus, sd->inventory.u.items_inventory[n].equip );
+	pc_deleteautobonus( sd, sd->autobonus2, sd->inventory.u.items_inventory[n].equip );
+	pc_deleteautobonus( sd, sd->autobonus3, sd->inventory.u.items_inventory[n].equip );
 
 	sd->inventory.u.items_inventory[n].equip = 0;
 	if (!(flag & 4))

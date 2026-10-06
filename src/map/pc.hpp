@@ -1621,6 +1621,9 @@ bool pc_addautobonus(std::vector<std::shared_ptr<s_autobonus>> &bonus, const cha
 void pc_exeautobonus(map_session_data &sd, std::vector<std::shared_ptr<s_autobonus>> *bonus, std::shared_ptr<s_autobonus> autobonus);
 TIMER_FUNC(pc_endautobonus);
 void pc_delautobonus(map_session_data &sd, std::vector<std::shared_ptr<s_autobonus>> &bonus, bool restore);
+// [Stingor] TRACE TEMPORAIRE — stack du combo Jitterbug
+bool pc_autobonus_trace( const char* script );
+void pc_autobonus_trace_dump( map_session_data& sd, const char* where );
 
 void pc_bonus(map_session_data *sd, int32 type, int32 val);
 void pc_bonus2(map_session_data *sd, int32 type, int32 type2, int32 val);
