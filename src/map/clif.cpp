@@ -24579,7 +24579,8 @@ void clif_quest_add ( const map_session_data* sd, const quest *qd )
 	WFIFOW(fd, 0) = cmd;
 	WFIFOL(fd, 2) = qd->quest_id;
 	WFIFOB(fd, 6) = qd->state;
-	WFIFOB(fd, 7) = static_cast<uint8>(qd->time - qi->time);
+	// [Stingor] Le debut de quete tient sur quatre octets : un seul etait ecrit.
+	WFIFOL(fd, 7) = static_cast<uint32>(qd->time - qi->time);
 	WFIFOL(fd, 11) = static_cast<uint32>(qd->time);
 	WFIFOW(fd, 15) = static_cast<uint16>(qi->objectives.size());
 
@@ -24624,7 +24625,9 @@ void clif_quest_add ( const map_session_data* sd, const quest *qd )
 	WFIFOW(fd, 2) = len;
 
 	for (int32 i = 0, offset = 4; i < qi->objectives.size(); i++, offset += 12) {
-		WFIFOL(fd, offset) = qd->quest_id * 1000 + i;
+		// [Stingor] Le client cherche la quete par son identifiant, puis
+		// l'objectif par son monstre : l'identifiant de chasse ne trouvait rien.
+		WFIFOL(fd, offset) = qd->quest_id;
 		WFIFOL(fd, offset + 4) = qi->objectives[i]->mob_id;
 		WFIFOW(fd, offset + 8) = qi->objectives[i]->count;
 		WFIFOW(fd, offset + 10) = qd->count[i];
