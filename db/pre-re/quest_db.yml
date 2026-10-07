@@ -7137,8 +7137,6 @@ Body:
   - Id: 12347
     Title: Trace of Laboratory Access
     TimeLimit: +23h
-  - Id: 12363
-    Title: ?????? ?? ??
   - Id: 12369
     Title: Secret Business Relation
   - Id: 12381
@@ -9583,10 +9581,3 @@ Body:
   - Id: 62238
     Title: Midgardian Mercenary timer
     TimeLimit: +1h
-  - Id: 1000000
-    Title: Test
-    Targets:
-    Drops:
-      - Item: Jellopy
-        Count: 50
-        Rate: 2000
