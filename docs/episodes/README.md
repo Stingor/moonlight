@@ -75,12 +75,12 @@ restés côté `re`.
 
 | Contenu | Épisode | Mobs à écrire | Lignes à décommenter |
 |---|---|---:|---:|
-| **Donjons Illusion** (8 donjons pré-installés) | 16.2 | **42** (`ILL_*`) | 49 |
+| **Donjons Illusion** (8 donjons pré-installés) | 16.2 | **40** (`ILL_*`) | 53 |
 | Rudus + OS | 17.1 | **10** (`EP17_1_*`) | 24 |
 | Village du Loup Gris + Labyrinthe d'Oz | 18 | **13** (`EP18_*`) | 16 |
 | Hall of Life | 20 | **32** (`SPIRIT_*`) | 36 |
 
-**97 entrées de mob au total.** C'est le cœur du travail restant, et le gisement le plus
+**95 entrées de mob au total.** C'est le cœur du travail restant, et le gisement le plus
 rentable est celui des donjons Illusion : cartes connues, monstres dérivés de créatures
 pré-renewal, donc rééchelonnage mécanique.
 
@@ -109,11 +109,18 @@ Elles reviennent dans chaque fiche ; elles sont posées ici une fois pour toutes
 
 `src/config/renewal.hpp` ne définit que `PRERE` : aucune option Renewal n'est activée.
 `moon/job_master.npc:23` refuse explicitement `class >= Job_Rune_Knight && class <= Job_Mechanic`.
-Le plafond reste **99 base / 70 job**, classes 2‑1/2‑2 et transcendantes.
+Les classes jouables restent les 2‑1/2‑2 et transcendantes.
 
-Conséquence : tout contenu kRO conçu pour les paliers 100 / 130 / 150 / 175 / 185 / 200
-doit être **rééchelonné**, pas seulement recopié. Cela touche les niveaux d'entrée
-d'instance, les prérequis de quête, les récompenses d'EXP et la difficulté des mobs.
+Le niveau de base, lui, **n'est pas plafonné à 99** : le vrai plafond est
+`MaxBaseLevel: 999` dans `db/import/job_exp.yml`. Le `max_lv: 99` de
+`conf/import/battle_conf.txt` ne sert qu'au clamp d'affichage côté client
+(`clif.cpp:1049`) — un `BaseLevel < 100` ou `< 160` dans un PNJ d'entrée est donc
+atteignable et n'est pas un motif de blocage.
+
+Conséquence : ce n'est pas le niveau qui empêche de reprendre un contenu kRO conçu
+pour les paliers 100 / 130 / 150 / 175 / 185 / 200, ce sont les **classes** et les
+**formules**. Le contenu doit être **rééchelonné**, pas seulement recopié : prérequis
+de quête, récompenses d'EXP et surtout difficulté des mobs (cf. contrainte 2).
 
 ### 2. Les statistiques renewal ne se transposent pas telles quelles
 

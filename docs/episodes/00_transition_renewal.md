@@ -93,10 +93,14 @@ travail.
 
 ## 4. Le seul vrai arbitrage récurrent
 
-Un serveur pré-renewal plafonné à 99/70 ne peut pas reprendre les paliers de kRO. Pour
-chaque épisode, il faut trancher :
+Un serveur pré-renewal classique, plafonné à 99/70, ne peut pas reprendre les paliers
+de kRO. Moonlight fait exception sur le niveau de base : son vrai plafond est
+`MaxBaseLevel: 999` (`db/import/job_exp.yml`), le `max_lv: 99` de
+`conf/import/battle_conf.txt` ne servant qu'à l'affichage client. Les classes et les
+formules, elles, restent pré-renewal. Pour chaque épisode, il faut donc trancher :
 
-1. **Niveau d'entrée** — un donjon kRO « 130+ » devient quoi sur une échelle 1‑99 ?
+1. **Niveau d'entrée** — un donjon kRO « 130+ » reste atteignable ; reste à décider
+   si le seuil est conservé ou ramené vers l'échelle habituelle des joueurs.
 2. **Statistiques des mobs** — recalibrer HP/ATK/DEF, ou reprendre tel quel et assumer
    un contenu « fin de jeu » très dur ?
 3. **Récompenses** — les EXP kRO sont dimensionnées pour des courbes 150/175 ; reprises

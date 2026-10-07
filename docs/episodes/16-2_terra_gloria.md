@@ -109,7 +109,7 @@ Les lignes de spawn Illusion sont présentes dans les fichiers de spawn de Moonl
 
 | Carte | Donjon | Fichier Moonlight | Lignes commentées | Mobs à ajouter au roster |
 |---|---|---|---|---|
-| `pay_d03_i` | Moonlight | `moon/rathena/dungeons/pay_dun.npc` | 11 | 6 (`ILL_NINE_TAIL`, `ILL_MUNAK`, `ILL_BON_GUN`, `ILL_SOHEE`, `ILL_ARCHER_SKELETON`, `ILL_FURY_HERO`) |
+| `pay_d03_i` | Moonlight | `moon/rathena/dungeons/pay_dun.npc` | 15 | 6 (`ILL_NINE_TAIL`, `ILL_MUNAK`, `ILL_BON_GUN`, `ILL_SOHEE`, `ILL_ARCHER_SKELETON`, `ILL_FURY_HERO`) |
 | `gef_d01_i` | Vampire | `moon/rathena/dungeons/gef_dun.npc` | 8 | 6 (`ILL_DRAINLIAR`, `ILL_ZOMBIE`, `ILL_ZOMBIE_C`, `ILL_GHOUL`, `ILL_NIGHTMARE`, `ILL_BLACK_MUSHROOM`) |
 | `ice_d03_i` | Frozen | `moon/rathena/dungeons/ice_dun.npc` | 4 | 4 (`ILL_GAZETI`, `ILL_SNOWIER`, `ILL_ICE_TITAN`, `ILL_ICEICLE`) |
 | `iz_d04_i` | Underwater F1 | `moon/rathena/dungeons/iz_dun.npc` | 5 | 5 |
@@ -118,7 +118,13 @@ Les lignes de spawn Illusion sont présentes dans les fichiers de spawn de Moonl
 | `tur_d04_i` | Turtle F2 | `moon/rathena/dungeons/tur_dun.npc` | 5 | 5 |
 | `ant_d02_i` | Twins | `moon/mobs/morocc.npc` | 9 | 9 |
 
-**Total : 49 lignes de spawn, 42 mobs `ILL_*` à verser dans `db/import/`.**
+**Total : 53 lignes de spawn, 40 mobs `ILL_*` distincts à verser dans `db/import/`**
+(recompté le 2026‑10‑07). La somme des colonnes donne 42 parce que `ILL_PERMETER` et
+`ILL_SOLIDER` peuplent les deux étages de la Tortue. Quatre des quinze lignes de
+`pay_d03_i` (plantes et `WHISPER_`) appellent des mobs vanilla déjà en base.
+
+Deux mobs Illusion sont déjà chargés, `ILL_KRAKEN` (20811) et `ILL_ABYSMAL_WITCH`
+(20843), mais aucune ligne commentée ne les appelle : ils ne réduisent pas le compte.
 
 Les deux donjons non pré-installés côté Moonlight sont **Luanda** (`com_d02_i`) et
 **Teddy Bear** (`ein_d02_i`) ; leurs cartes sont bien dans le mapcache.
@@ -155,7 +161,7 @@ par une récompense maison.
 | | |
 |---|---|
 | Intérêt | **le plus élevé du dossier** |
-| Reste à faire | 42 mobs `ILL_*` · décommenter 49 lignes · porter les PNJ d'entrée et l'enchanteur · 3 instances à brancher |
+| Reste à faire | 40 mobs `ILL_*` · décommenter 53 lignes · porter les PNJ d'entrée et l'enchanteur · 3 instances à brancher |
 
 ## Sources
 

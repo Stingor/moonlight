@@ -6,7 +6,7 @@
 | Date kRO | **partie 1 : 2012‑12‑26** · **partie 2 : 2013‑03‑19** |
 | Arc | fin de *Alfheim* / confrontation avec Morroc |
 | Niveau kRO visé | 140‑175 |
-| État Moonlight | **porté et actif**, sauf le Temple du Dieu Démon |
+| État Moonlight | **porté et actif**, Temple du Dieu Démon compris (depuis le 2026‑09‑05) |
 
 Épisode livré en deux temps, chacun petit. La partie 2 fait passer le plafond à 175/60,
 ce qui est le vrai marqueur : à partir d'ici, le contenu kRO cesse d'être transposable
@@ -50,7 +50,7 @@ sans rééchelonnage.
 Le commentaire d'en-tête de `TempleOfDemonGod.txt` le rattache explicitement à
 l'épisode 14.3.
 
-## 3. État côté Moonlight (mesuré le 2026‑08‑25)
+## 3. État côté Moonlight (mesuré le 2026‑10‑07)
 
 | Élément | Fichier Moonlight | Chargé |
 |---|---|---|
@@ -62,19 +62,28 @@ l'épisode 14.3.
 | Clans | `moon/rathena/other/clans.txt` | ✅ |
 | Banque | intégrée au serveur (`bank_zeny`) | ✅ |
 | **Bassin de Flammes** | `moon/mobs/morocc.npc` — 11 lignes de spawn sur `moro_vol` | ✅ |
+| **Temple du Dieu Démon** | `moon/instances/TempleofDemonGod.npc` — `1@eom`, id 27 | ✅ |
 
 Les huit mobs du Bassin de Flammes (Fire Bug, Fire Condor, Fire Frilldora, Fire Golem,
 Fire Pit, Fire Sandman, Sonia et **Incarnation of Morocc** en MVP) sont bien dans le
 roster pré-renewal.
 
-### Non porté
+### Temple du Dieu Démon — porté le 2026‑09‑05
 
-- **Temple du Dieu Démon** — `moon/instances/TempleofDemonGod.npc` existe **et n'est pas
-  référencé** dans `moon/scripts_moon.conf`. L'entrée `Temple of the Demon God`
-  (`1@eom`, id 27) est pourtant déjà dans `db/import/instance_db.yml` — la base
-  d'instances réellement chargée. Il ne manque donc
-  littéralement **qu'une ligne de conf** — la non-inscription est peut-être délibérée,
-  à confirmer avant de la corriger.
+Le script était présent mais non référencé. Le brancher n'a pas suffi :
+
+- **Quêtes** (`aad78faa0`) : les six quêtes 7596 et 7601‑7605 ne vivaient que dans
+  `db/re/quest_db.yml`, jamais chargé en pré-renewal — dont la 7605 qui porte le
+  cooldown de 3 h. Portées dans `db/import/`, avec les deux apôtres 3105 / 3106 que
+  le générateur de `templedemon.yml` avait oubliés.
+- **Accès direct** (`cb1239043`) : par le Warp Agent, le joueur arrivait sans la
+  quête 7593 que pose la chaîne 14.3, et Ahat refusait le passage. La quête est
+  désormais posée par `Process_Instance` à l'entrée.
+- **Boss** (`965fd53e6`) : MM_BRINARANEA (3091) et MM_MUSPELLSKOLL (3092) avaient
+  perdu leur `Class: Boss` au portage. Trois mobs (3088‑3090) ont aussi reçu leurs
+  lignes de `mob_skill_db` (`59ed6f066`).
+- **Cartes** : Ahat, Shnaim, Brinaranea, Muspellskoll et Despair God Morocc entrent
+  dans les albums 12246 / 616 (`a45521aad`).
 
 ## 4. Migration pré-renewal
 
@@ -86,7 +95,7 @@ difficulté du Bassin de Flammes, conçu côté kRO pour du 150+.
 | | |
 |---|---|
 | Intérêt | moyen — l'essentiel est déjà en place |
-| Reste à faire | **une ligne** : décider du sort du Temple du Dieu Démon |
+| Reste à faire | **rien** — seule reste la question de la difficulté du Bassin de Flammes |
 
 ## Sources
 

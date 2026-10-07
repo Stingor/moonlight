@@ -6,7 +6,7 @@
 | Date kRO | **2015‑02‑25** |
 | Arc | Terra Gloria — première partie |
 | Niveau kRO visé | 140‑175 |
-| État Moonlight | **porté en partie** |
+| État Moonlight | **porté**, hors classe Summoner (depuis le 2026‑09‑05) |
 
 Deux instances à la sortie, puis un intervalle chargé : la race **Doram** et sa ville
 **Lasagna**, la refonte de Prontera et du Groupe Eden, les **hauts faits et titres**.
@@ -63,7 +63,7 @@ Ajouts joints : jetons d'honneur, nouvel objet d'enchantement, préparatifs du b
 `npc/re/merchants/Extended_Stylist.txt`,
 `npc/re/instances/{RoomOfConsciousness,SkyFortress,RitualOfBlessing,EddaHalfMoonInTheDaylight,InfiniteSpace}.txt`.
 
-## 4. État côté Moonlight (mesuré le 2026‑08‑25)
+## 4. État côté Moonlight (mesuré le 2026‑10‑07)
 
 | Élément | Fichier Moonlight | Chargé |
 |---|---|---|
@@ -73,32 +73,43 @@ Ajouts joints : jetons d'honneur, nouvel objet d'enchantement, préparatifs du b
 | Lasagna + Nid du Basilic | `moon/customs/lasagna/{lasagna_npcs,lasa_dun,lasa_fild,warps}.txt` | ✅ |
 | Hauts faits | `moon/rathena/other/achievements.txt` + `db/import/achievement_db.yml` | ✅ |
 | Salon de coiffure | `moon/stylist.npc` | ✅ *(version maison)* |
+| **Forteresse Céleste** | `moon/instances/SkyFortress.npc` — `1@sthb`, id 33 | ✅ |
+| **EDDA Demi-lune** | `moon/instances/EddaHalfMoonInTheDaylight.npc` + `moon/rathena/merchants/enchan_edda_half_moon.npc` — `1@pop1/2/3`, id 44 | ✅ |
+| **Espace Infini** | `moon/instances/InfiniteSpace.npc` — cf. [15‑2](15-2_memory_record.md) | ✅ |
+
+### Portés depuis le premier relevé
+
+- **Forteresse Céleste** (`59ed6f066`) — onze mobs manquants (3475‑3485), deux
+  autres (3473 boss final, 3474) qui n'étaient que des gabarits ; les treize passés
+  au convertisseur pré-renewal (boss final : HP 20 M → 4,1 M). Aucun n'avait ses
+  compétences : 44 lignes de `mob_skill_db` ajoutées.
+- **EDDA Demi-lune** (`d22a214d0`) — dix-sept mobs 3510‑3526 cachés derrière des
+  variables de mode, convertis vers `db/import/mobs/edda_halfmoon.yml` (98 lignes
+  de `mob_skill`) ; cinq objets, quatre quêtes, entrée `instance_db` créée (id 44),
+  mapflags des trois cartes `1@pop1/2/3` et enchanteur du Bishop Necklace.
+  Les escortes du mode Hard ne marchaient pas faute de `mercenary_db` : vingt
+  entrées portées depuis `db/re` (`e0c0e51e9`), ce qui répare aussi dix-sept
+  parchemins de mercenaire.
+- **Espace Infini** — cf. [15‑2](15-2_memory_record.md).
 
 ### Non porté
 
-| Manque | Fichier présent ? | Ce qu'il faut faire |
-|---|---|---|
-| **Forteresse Céleste** | `moon/instances/SkyFortress.txt` — non référencé | **une ligne de conf** : l'entrée `Sky Fortress Invasion` (id 33, `1@sthb`) est déjà dans `db/import/instance_db.yml` |
-| **EDDA Demi-lune** | `moon/instances/EddaHalfMoonInTheDaylight.txt` — non référencé | entrée `instance_db` à créer (`Half Moon In The Daylight`, `1@pop1`) + ligne de conf |
-| **Espace Infini** | `moon/instances/InfiniteSpace.txt` — non référencé | cf. fiche 15.2 |
-| **Summoner / Doram** | — | hors périmètre : classe renewal |
-
-Les trois cartes d'entrée (`1@sthb`, `1@pop1`, `1@infi`) **sont** dans le mapcache ;
-rien ne bloque côté client.
+- **Summoner / Doram** — hors périmètre : classe renewal.
 
 ## 5. Migration pré-renewal
 
 Lasagna est déjà en service, mais **sans la classe Doram** : c'est une ville et un donjon
 utilisables par les classes pré-renewal, ce qui est le bon compromis. Les trois instances
-manquantes sont conçues pour du niveau 140‑175 ; leur rééchelonnage est le vrai travail,
-pas leur branchement.
+de l'épisode ont été rééchelonnées par `tools/util/re_to_prere_mob.py` au portage ; les
+niveaux d'entrée (140‑175 côté kRO) ne bloquent pas, le plafond réel étant
+`MaxBaseLevel: 999`.
 
 ## 6. Verdict
 
 | | |
 |---|---|
-| Intérêt | élevé — trois instances de groupe et un donjon complet |
-| Reste à faire | brancher **Forteresse Céleste** et **EDDA Demi-lune**, puis rééchelonner |
+| Intérêt | élevé — trois instances de groupe et un donjon complet, tous en service |
+| Reste à faire | **rien** — Summoner / Doram restent hors périmètre |
 
 ## Sources
 
