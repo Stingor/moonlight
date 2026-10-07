@@ -41,7 +41,7 @@ Mobs marquants : Charleston 3, Venom Bug, Chimera, R48‑Aggressive, Alnoldi, Pe
 `npc/re/instances/{CharlestonCrisis,SarahAndFenrir,AirshipAssault}.txt`,
 `npc/re/merchants/enchan_verus.txt`.
 
-## 4. État côté Moonlight (mesuré le 2026‑08‑25)
+## 4. État côté Moonlight (mesuré le 2026‑10‑07)
 
 **Porté et actif intégralement.**
 
@@ -52,13 +52,20 @@ Mobs marquants : Charleston 3, Venom Bug, Chimera, R48‑Aggressive, Alnoldi, Pe
 | Charleston | `moon/instances/CharlestonCrisis.npc` | ✅ |
 | Fenrir et Sarah | `moon/instances/SarahAndFenrir.npc` | ✅ |
 | Assaut sur l'aéronef | `moon/instances/AirshipAssault.npc` | ✅ |
-| Enchantement de Verus | `moon/rathena/merchants/enchan_verus.txt` | ✅ |
-| Biolab Cauchemar | `moon/customs/nightmare_biolab.npc` + `bio4_reward.npc` | ✅ *(version maison)* |
+| Enchantement de Verus | `moon/rathena/merchants/enchan_verus.npc` | ✅ |
+| Biolab Cauchemar | `moon/customs/nightmare_biolab.npc` + `moon/rathena/merchants/bio4_reward.npc` | ✅ *(version maison)* |
 | Mobs de Verus | `db/import/mob_db.yml` | ✅ |
+| Instances | `db/import/instance_db.yml` — `1@mcd` (Id 30), `1@glast` (Id 21), `1@air1` + `1@air2` (Id 20) | ✅ |
 
 > Le Biolab Cauchemar de Moonlight est une **implémentation maison**
 > (`moon/customs/nightmare_biolab.npc`), pas la conversion rAthena. C'est une divergence
 > volontaire à connaître avant toute resynchronisation avec l'amont.
+
+**Retouches depuis le premier relevé**
+
+- La carte de **Sarah** (MVP de *Fenrir et Sarah*) entre dans le Magic Card Album
+  (12246) au palier Rate 1 — elle n'était dans aucun album (`a45521aad`, 2026‑09‑06).
+- Le mode turbo de l'**Assaut sur l'aéronef** perd ses temps morts (`284b96611`).
 
 ### Non porté, et ne le sera pas
 

@@ -4,7 +4,7 @@ Index des fiches. Un fichier par épisode, de la bascule Renewal (2009) à l'ép
 (2023). Objectif : savoir, épisode par épisode, **ce que kRO a livré**, **ce que
 rAthena implémente**, et **ce que Moonlight a déjà porté ou pas**.
 
-Relevé effectué le **2026-08-25** sur les dépôts locaux
+Relevé initial le **2026-08-25**, synthèse remise à jour le **2026-10-07**, sur les dépôts locaux
 `d:\Mes documents\GitHub\rathena` et `d:\Mes documents\GitHub\moonlight`.
 
 ## Les fiches
@@ -15,10 +15,10 @@ Relevé effectué le **2026-08-25** sur les dépôts locaux
 | [13-3_el_dicastes.md](13-3_el_dicastes.md) | 13.3 — El Dicastes | 2009‑12‑23 | **porté** |
 | [14-1_bifrost.md](14-1_bifrost.md) | 14.1 — Bifrost (Mora, Dewata, Malangdo, Port Malaya) | 2010‑06‑30 | **porté** |
 | [14-2_eclage.md](14-2_eclage.md) | 14.2 — Eclage | 2011‑12‑21 | **porté** (sauf le mode Vague) |
-| [14-3_bataille_decisive.md](14-3_bataille_decisive.md) | 14.3 — Decisive Battle | 2012‑12‑26 / 2013‑03‑19 | **porté** (sauf Temple du Dieu Démon) |
+| [14-3_bataille_decisive.md](14-3_bataille_decisive.md) | 14.3 — Decisive Battle | 2012‑12‑26 / 2013‑03‑19 | **porté** (Temple du Dieu Démon compris) |
 | [15-1_phantasmagorika.md](15-1_phantasmagorika.md) | 15.1 — Phantasmagorika (Verus) | 2013‑07 | **porté** |
-| [15-2_memory_record.md](15-2_memory_record.md) | 15.2 — Memory Record | 2013‑12‑23 | **porté** (sauf Infinite Space) |
-| [16-1_banquet_des_heros.md](16-1_banquet_des_heros.md) | 16.1 — Banquet of Heroes | 2015‑02‑25 | **porté en partie** |
+| [15-2_memory_record.md](15-2_memory_record.md) | 15.2 — Memory Record | 2013‑12‑23 | **porté** (Infinite Space compris) |
+| [16-1_banquet_des_heros.md](16-1_banquet_des_heros.md) | 16.1 — Banquet of Heroes | 2015‑02‑25 | **porté** (Forteresse Céleste et EDDA comprises) |
 | [16-2_terra_gloria.md](16-2_terra_gloria.md) | 16.2 — Terra Gloria (Rock Ridge, Illusions) | 2016‑03‑09 | **porté en partie** |
 | [17-1_illusion.md](17-1_illusion.md) | 17.1 — Illusion (Cor, Rudus, OS) | 2018‑07‑18 | **matière présente, désactivée** |
 | [17-2_heritage_du_sage.md](17-2_heritage_du_sage.md) | 17.2 — Sage's Legacy (Varmundt) | 2020‑10‑30 | **spawns actifs, quêtes absentes** |
@@ -32,22 +32,31 @@ Récapitulé depuis les fiches. Les chiffres sont mesurés, pas estimés.
 
 ### Niveau 1 — une ligne de configuration
 
-Trois instances ont déjà leur entrée dans `db/import/instance_db.yml` — la base
-réellement chargée — et leur script sur le disque. Il ne manque que la ligne
-`npc:` dans `moon/scripts_moon.conf`.
+Une seule instance a encore son entrée dans `db/import/instance_db.yml` — la base
+réellement chargée — et son script sur le disque sans être branchée. Il ne manque que
+la ligne `npc:` dans `moon/scripts_moon.conf` (et le renommage en `.npc`).
 
 | Contenu | Épisode | Entrée existante | Script |
 |---|---|---|---|
 | Mode Vague — Forêt et Ciel (`1@def01`, `1@def02`) | 14.2 | ids 22 et 23 | `moon/instances/WaveMode.txt` |
-| Temple du Dieu Démon (`1@eom`) | 14.3 | id 27 | `moon/instances/TempleofDemonGod.npc` |
-| Forteresse Céleste (`1@sthb`) | 16.1 | id 33 | `moon/instances/SkyFortress.txt` |
+
+**Portés depuis le relevé du 2026‑08‑25** — ils figuraient ici ou au niveau 2 :
+
+| Contenu | Épisode | Entrée `instance_db` | Script actif | Commit |
+|---|---|---|---|---|
+| Temple du Dieu Démon (`1@eom`) | 14.3 | id 27 | `moon/instances/TempleofDemonGod.npc` | `aad78faa0`, `cb1239043`, `965fd53e6` |
+| Espace Infini (`1@infi`) | 15.2 | id 38 | `moon/instances/InfiniteSpace.npc` | `793d8d952`, `8552f26a1` |
+| Forteresse Céleste (`1@sthb`) | 16.1 | id 33 | `moon/instances/SkyFortress.npc` | `59ed6f066` |
+| EDDA — Demi-lune en plein jour (`1@pop1`) | 16.1 | id 44 | `moon/instances/EddaHalfMoonInTheDaylight.npc` | `d22a214d0` |
+
+Le branchement n'a jamais été le vrai travail : chacun de ces portages a demandé
+d'extraire des mobs, quêtes ou objets restés dans `db/re`, et de porter les mapflags
+qui ne vivaient que dans `npc/re/mapflag/`.
 
 ### Niveau 2 — brancher un script et créer son entrée `instance_db`
 
 | Contenu | Épisode | Carte |
 |---|---|---|
-| Espace Infini | 15.2 | `1@infi` |
-| EDDA — Demi-lune en plein jour | 16.1 | `1@pop1` |
 | Donjon du week-end / du vendredi | 16.2 | `1@md_pay`, `1@md_gef` |
 | Village Poring | 16.2 | `1@begi` |
 | Jardin du Crépuscule / Hey! Sweety | 17.2 | `1@bamn`, `1@bamq` |
@@ -56,9 +65,11 @@ réellement chargée — et leur script sur le disque. Il ne manque que la ligne
 | Ferme Perdue dans le Temps | 17.2 | `1@lost` |
 | Niflheim renewal (spawns) | 17.2 | `nif_dun01/02` |
 
-Soit **douze contenus de groupe** dont les scripts sont déjà sur le disque et dont les
-cartes sont déjà dans le mapcache — il ne manque que la déclaration dans
-`db/import/instance_db.yml` et la ligne de conf.
+Soit **dix contenus de groupe** dont les scripts sont déjà sur le disque et dont les
+cartes sont déjà dans le mapcache — il manque la déclaration dans
+`db/import/instance_db.yml` et la ligne de conf, mais l'expérience des quatre
+portages ci-dessus montre qu'il faut s'attendre aussi à des mobs, quêtes et mapflags
+restés côté `re`.
 
 ### Niveau 3 — ajouter des mobs puis décommenter
 
@@ -130,16 +141,16 @@ Le chargement d'une base rAthena suit la chaîne `Footer: Imports:` depuis le fi
 racine `db/<nom>.yml` (`YamlDatabase::parseImports`, `src/common/database.cpp:176`) —
 il n'y a **aucun** import implicite.
 
-Or Moonlight a mis en commentaire la ligne `- Path: db/pre-re/…` dans neuf fichiers
-racine : `mob_db`, `item_db`, `instance_db`, `item_combos`, `skill_tree`, `statpoint`,
-`job_stats`, `mob_summon`, `achievement_db`. **Tout passe par `db/import/`.**
+Or Moonlight a mis en commentaire la ligne `- Path: db/pre-re/…` dans dix fichiers
+racine : `mob_db`, `item_db`, `item_group_db`, `instance_db`, `item_combos`, `skill_tree`,
+`statpoint`, `job_stats`, `mob_summon`, `achievement_db`. **Tout passe par `db/import/`.**
 
-| Base | Ce qui est réellement chargé | Entrées |
+| Base | Ce qui est réellement chargé (mesuré le 2026‑10‑07) | Entrées |
 |---|---|---:|
-| mobs | `db/import/mob_db.yml` (1 454) + 46 fichiers de `db/import/mobs/` | **2 117** |
-| objets | `db/import/items/*.yml` (12 fichiers) | **14 325** |
-| instances | `db/import/instance_db.yml` | **39** |
-| quêtes | `db/pre-re/quest_db.yml` (3 691) + `db/import/quest_db.yml` (156) | **3 768** |
+| mobs | `db/import/mob_db.yml` (1 452) + 48 fichiers de `db/import/mobs/` | **2 208** |
+| objets | `db/import/items/*.yml` (11 fichiers) | **14 330** |
+| instances | `db/import/instance_db.yml` | **41** |
+| quêtes | `db/pre-re/quest_db.yml` (3 691) + `db/import/quest_db.yml` (178) | **3 787** |
 
 Deux conséquences pratiques :
 
