@@ -284,3 +284,5 @@ paramk	mapflag	nomemo
 // Infinite Space
 1@infi	mapflag	loadevent
 1@infi	mapflag	nomemo
+
+gonryun	mapflag	nightenabled
