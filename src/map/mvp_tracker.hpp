@@ -128,7 +128,7 @@ enum e_mvp_group_result : uint8 {
 	MVP_GROUP_ERR_NO_INVITE,
 	MVP_GROUP_ERR_TARGET_IN_GROUP,
 	MVP_GROUP_ERR_SQL,
-	// ⚠ Les valeurs partent sur le fil (champ `result` de ZC_BOURGEON_MVP_GROUP) :
+	// ⚠ Les valeurs partent sur le fil (champ `result` de ZC_MOONLIGHT_MVP_GROUP) :
 	// toute nouvelle entrée s'AJOUTE EN FIN, jamais au milieu.
 	//
 	// La cible est déjà dans CE groupe-ci - typiquement une autre tête du même

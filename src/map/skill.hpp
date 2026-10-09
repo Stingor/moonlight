@@ -2801,7 +2801,7 @@ enum e_skill_unit_id : uint16 {
 	UNT_FLAMETRAP,
 
 	// [Stingor] Flag Graffiti : l'emblème d'une guilde peint au sol. Aucun client
-	// natif ne connaît ce numéro ; il ne part que par ZC_BOURGEON_FLAG_GRAFFITI.
+	// natif ne connaît ce numéro ; il ne part que par ZC_MOONLIGHT_FLAG_GRAFFITI.
 	UNT_FLAGGRAFFITI = 20860,
 
 	/**

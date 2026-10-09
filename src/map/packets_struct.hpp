@@ -5910,23 +5910,23 @@ DEFINE_PACKET_HEADER(CZ_ADVENTURER_AGENCY_JOIN_RESULT, 0x0af8);
 // ZC (server -> client): sends the player's char_id + all settings on login.
 // Variable-length.
 // Layout: [packetType:2][packetLength:2][char_id:4][count:2][{id:2, value:2} * count]
-struct PACKET_ZC_BOURGEON_SETTINGS {
+struct PACKET_ZC_MOONLIGHT_SETTINGS {
 	int16 packetType;
 	int16 packetLength;
 	uint32 char_id;
 	int16 count;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_SETTINGS, 0x0f05);  // ex-0x0bfe
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SETTINGS, 0x0f05);  // ex-0x0bfe
 
 // CZ (client -> server): reports a single setting change. Fixed 10 bytes.
 // Layout: [packetType:2][packetLength:2][id:2][value:4]
-struct PACKET_CZ_BOURGEON_SETTING {
+struct PACKET_CZ_MOONLIGHT_SETTING {
 	int16 packetType;
 	int16 packetLength;
 	int16 id;
 	uint32 value;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_SETTING, 0x0f04);  // ex-0x0bfd
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_SETTING, 0x0f04);  // ex-0x0bfd
 
 // CZ (client -> server): the Bourgeon DLL reports a SHA-256 of its own ddraw.dll,
 // the Windows MachineGuid (for multi-account detection) and the patch level read
@@ -5936,56 +5936,71 @@ DEFINE_PACKET_HEADER(CZ_BOURGEON_SETTING, 0x0f04);  // ex-0x0bfd
 // The hash and the patch level are versioned independently: an approved DLL says
 // nothing about whether the player's GRF/loose content is current, since rpatchur
 // ships them as separate patches. Hence the extra field.
-struct PACKET_CZ_BOURGEON_INTEGRITY {
+struct PACKET_CZ_MOONLIGHT_INTEGRITY {
 	int16 packetType;
 	int16 packetLength;
 	uint8 hash[32];
 	char  machine_guid[36];  // registry MachineGuid, NOT null-terminated
 	int32 patch_index;       // rpatchur last_patch_index; -1 = never patched
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_INTEGRITY, 0x0f02);  // ex-0x0bfb
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_INTEGRITY, 0x0f02);  // ex-0x0bfb
+
+// CZ (client -> serveur) : la poignée de main du client autonome moonclient, à la
+// place de CZ_MOONLIGHT_INTEGRITY. Pas de condensé : moonclient n'a pas de
+// ddraw.dll à peser, il EST le client, et son patcheur intégré tient le contenu à
+// jour. Il dit la machine et le dernier patch de SA chaîne, qui n'est pas celle de
+// rpatchur : les deux index ne se comparent pas.
+// Layout : [packetType:2][packetLength:2][machine_guid:36][patch_index:4]
+// Longueur variable, pour qu'un champ ajouté plus tard ne casse pas le découpage.
+struct PACKET_CZ_MOONCLIENT_INTEGRITY {
+	int16 packetType;
+	int16 packetLength;
+	char  machine_guid[36];  // MachineGuid du registre, SANS zéro terminal
+	int32 patch_index;       // last_patch_index de moonclient-patch.dat ; -1 = jamais patché
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONCLIENT_INTEGRITY, 0x0f39);
 
 // ZC (server -> client): tells the Bourgeon overlay the client is outdated
 // before the server kicks it. The overlay shows a popup then the kick fires
 // ~5 seconds later. Fixed 4 bytes. Layout: [packetType:2][packetLength:2]
-struct PACKET_ZC_BOURGEON_KICK_NOTICE {
+struct PACKET_ZC_MOONLIGHT_KICK_NOTICE {
 	int16 packetType;
 	int16 packetLength;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_KICK_NOTICE, 0x0f03);  // ex-0x0bfa
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_KICK_NOTICE, 0x0f03);  // ex-0x0bfa
 
 // ZC (server -> client): relays a Discord chat message to the Bourgeon overlay.
 // Variable-length. Layout: [packetType:2][packetLength:2][msg:variable, null-terminated]
 // The overlay shows the message if the player's relay checkbox is ON, ignores it if OFF.
-struct PACKET_ZC_BOURGEON_DISCORD_MSG {
+struct PACKET_ZC_MOONLIGHT_DISCORD_MSG {
 	int16 packetType;
 	int16 packetLength;
 	char msg[1];  // variable-length, null-terminated; pre-formatted as "[Discord][name] text"
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_DISCORD_MSG, 0x0f08);  // ex-0x0c1f
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_DISCORD_MSG, 0x0f08);  // ex-0x0c1f
 
 // CZ (client -> server): preset management command. Variable-length.
 // Layout: [type:2][len:2][cmd:1][no:1][name:variable, may be empty, not null-terminated]
 // cmd: 1=LIST, 2=SAVE(no,name), 3=LOAD(no), 4=DELETE(no), 5=SET_AUTOLOAD(no, 0=disable all)
-struct PACKET_CZ_BOURGEON_PRESET_CMD {
+struct PACKET_CZ_MOONLIGHT_PRESET_CMD {
 	int16 packetType;
 	int16 packetLength;
 	uint8 cmd;
 	uint8 no;
 	char  name[1];
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_PRESET_CMD, 0x0f06);  // ex-0x0c20
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_PRESET_CMD, 0x0f06);  // ex-0x0c20
 
 // ZC (server -> client): sends the preset list. Variable-length.
 // Layout: [type:2][len:2][active_no:1][count:1]
 // Followed by count entries: [no:1][autoload:1][namelen:1][name:namelen bytes, not null-terminated]
-struct PACKET_ZC_BOURGEON_PRESET_LIST {
+struct PACKET_ZC_MOONLIGHT_PRESET_LIST {
 	int16 packetType;
 	int16 packetLength;
 	uint8 active_no;
 	uint8 count;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_PRESET_LIST, 0x0f07);  // ex-0x0c21
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_PRESET_LIST, 0x0f07);  // ex-0x0c21
 
 // ZC (server -> client): private damage notification for Bourgeon DPS meter.
 // Sent SELF-only when a skill unit (Storm Gust, Meteor Storm, LoV…) deals
@@ -5997,37 +6012,37 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_PRESET_LIST, 0x0f07);  // ex-0x0c21
 // 12 octets" (0x0C22 était fixe-12 dans le client, ce qui gelait le jeu si on
 // ajoutait un champ) NE S'APPLIQUE PLUS : ce paquet peut désormais être étendu
 // (ex. ajouter skill_id) sans désync, tant que packetLength est correct.
-struct PACKET_ZC_BOURGEON_SKILL_DMG {
+struct PACKET_ZC_MOONLIGHT_SKILL_DMG {
 	int16  packetType;
 	int16  packetLength;
 	uint32 src_aid;
 	int32  damage;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_SKILL_DMG, 0x0f09);  // ex-0x0c22
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SKILL_DMG, 0x0f09);  // ex-0x0c22
 
 // CZ (client -> server): cheat detection report. Fixed 100 bytes.
 // Layout: [packetType:2][packetLength:2][tool_name:32][detail:64]
 // Sent once per new detection; only accepted from has_bourgeon sessions.
-struct PACKET_CZ_BOURGEON_CHEAT_REPORT {
+struct PACKET_CZ_MOONLIGHT_CHEAT_REPORT {
 	int16 packetType;
 	int16 packetLength;
 	char tool_name[32];
 	char detail[64];
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_CHEAT_REPORT, 0x0f0a);  // ex-0x0c23
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_CHEAT_REPORT, 0x0f0a);  // ex-0x0c23
 
 // CZ (client -> server): request technical data for an item or a skill. Fixed 10.
 // Layout: [packetType:2][packetLength:2][id:4][is_skill:1][scope:1]
 //   scope (item only): 0 = normal drops, 1 = MVP rewards (two separate on-demand
 //   buttons client-side, so the expensive mvpitem scan runs only when asked).
-struct PACKET_CZ_BOURGEON_REQ_TECHDATA {
+struct PACKET_CZ_MOONLIGHT_REQ_TECHDATA {
 	int16  packetType;
 	int16  packetLength;
 	uint32 id;
 	uint8  is_skill;
 	uint8  scope;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_TECHDATA, 0x0f0b);
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_REQ_TECHDATA, 0x0f0b);
 
 // ZC (server -> client): technical-data response for the enriched description.
 // Variable-length. Header: [packetType:2][packetLength:2][id:4][is_skill:1][scope:1] then:
@@ -6039,34 +6054,34 @@ DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_TECHDATA, 0x0f0b);
 //     [cast_var:4][cast_fixed:4][cooldown:4][after_delay:4]  (all ms)
 // scope echoes the request so the client caches drops/MVP separately.
 // The variable payload is appended manually with WFIFO; packetLength is set last.
-struct PACKET_ZC_BOURGEON_TECHDATA {
+struct PACKET_ZC_MOONLIGHT_TECHDATA {
 	int16  packetType;
 	int16  packetLength;
 	uint32 id;
 	uint8  is_skill;
 	uint8  scope;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_TECHDATA, 0x0f0c);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_TECHDATA, 0x0f0c);
 
 // CZ (client -> server): estimate a skill's damage. Fixed 14.
 // Layout: [packetType:2][packetLength:2][skill_id:4][skill_lv:2][target_mob_id:4]
 //   skill_lv 0 = utiliser le niveau appris par le joueur (pc_checkskill).
 //   target_mob_id 0 = dummy neutre 0-def (dégâts bruts) ; sinon = vrai monstre
 //   (ses vrais def/mdef/élément/race/taille -> dégâts réels contre lui).
-struct PACKET_CZ_BOURGEON_REQ_DAMAGE {
+struct PACKET_CZ_MOONLIGHT_REQ_DAMAGE {
 	int16  packetType;
 	int16  packetLength;
 	uint32 skill_id;
 	uint16 skill_lv;
 	uint32 target_mob_id;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_DAMAGE, 0x0f0d);
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_REQ_DAMAGE, 0x0f0d);
 
 // ZC (server -> client): estimated skill damage. VARIABLE length : les champs
 // fixes ci-dessous, PUIS [namelen:1][name] (nom du monstre, vide pour dummy/soi).
 // target_mob_id renvoyé en écho (0 = neutre, 0xFFFFFFFF = soi-même, sinon mob).
 // status: 0 = ok, 1 = sort non offensif, 2 = erreur. atk_type = BF_WEAPON/MAGIC/MISC.
-struct PACKET_ZC_BOURGEON_DAMAGE {
+struct PACKET_ZC_MOONLIGHT_DAMAGE {
 	int16  packetType;
 	int16  packetLength;
 	uint32 skill_id;
@@ -6079,30 +6094,30 @@ struct PACKET_ZC_BOURGEON_DAMAGE {
 	int64  dmg_max;
 	int64  dmg_avg;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_DAMAGE, 0x0f0e);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_DAMAGE, 0x0f0e);
 
 // ZC (server -> client): prix de vente NPC des items du storage. VARIABLE.
 // Layout: [packetType:2][packetLength:2][count:2] puis count * [id:4][sell:4].
 // Envoyé juste après clif_storagelist (perso/guilde/premium) ; le viewer Bourgeon
 // calcule la valeur totale (sell * quantité) + affiche une colonne prix.
 // Dédupliqué par nameid côté serveur (le prix de vente est par-id).
-struct PACKET_ZC_BOURGEON_STORAGE_PRICES {
+struct PACKET_ZC_MOONLIGHT_STORAGE_PRICES {
 	int16 packetType;
 	int16 packetLength;
 	int16 count;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_STORAGE_PRICES, 0x0f0f);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_STORAGE_PRICES, 0x0f0f);
 
 // CZ (client -> server): sertissage rapide — demande la liste des cartes de
 // l'inventaire compatibles avec un équipement donné (menu contextuel du viewer).
 // index_equip = index d'inventaire CLIENT de l'équipement (server_index() côté serveur).
 // Fixe 6.
-struct PACKET_CZ_BOURGEON_REQ_COMPAT_CARDS {
+struct PACKET_CZ_MOONLIGHT_REQ_COMPAT_CARDS {
 	int16  packetType;
 	int16  packetLength;
 	uint16 index_equip;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_COMPAT_CARDS, 0x0f18);
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_REQ_COMPAT_CARDS, 0x0f18);
 
 // ZC (server -> client): réponse au sertissage rapide. VARIABLE.
 // Layout: [packetType:2][packetLength:2][index_equip:2][count:2] puis
@@ -6110,25 +6125,25 @@ DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_COMPAT_CARDS, 0x0f18);
 // index_equip renvoyé en écho pour que le client valide qu'il s'agit bien de la
 // requête en cours. La compatibilité est calculée par pc_can_insert_card (prédicat
 // EXACT du sertissage) -> aucun faux positif : chaque carte listée sera acceptée.
-struct PACKET_ZC_BOURGEON_COMPAT_CARDS {
+struct PACKET_ZC_MOONLIGHT_COMPAT_CARDS {
 	int16  packetType;
 	int16  packetLength;
 	uint16 index_equip;
 	int16  count;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_COMPAT_CARDS, 0x0f19);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_COMPAT_CARDS, 0x0f19);
 
 // CZ (client -> server): "je viens de sauter" (barre espace). AUCUN payload — le
 // serveur connaît l'émetteur par sa session. Fixe 4.
 // Le saut est purement ESTHÉTIQUE : le client décale le sprite en hauteur, la
 // position logique du personnage ne bouge pas (ni case, ni portée, ni collision).
 // Le serveur ne fait donc que RELAYER, sous cooldown anti-flood (cf.
-// clif_parse_bourgeon_jump) — même traitement que les emotes, pour la même raison.
-struct PACKET_CZ_BOURGEON_JUMP {
+// clif_parse_moonlight_jump) — même traitement que les emotes, pour la même raison.
+struct PACKET_CZ_MOONLIGHT_JUMP {
 	int16 packetType;
 	int16 packetLength;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_JUMP, 0x0f1a);
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_JUMP, 0x0f1a);
 
 // ZC (server -> client) AREA SANS SELF: le joueur `gid` vient de sauter, joue
 // l'animation sur son sprite. Fixe 8. Envoyé UNIQUEMENT aux sessions
@@ -6136,12 +6151,12 @@ DEFINE_PACKET_HEADER(CZ_BOURGEON_JUMP, 0x0f1a);
 // de réception (RecvBuffer_ResetAll_OnUnknownOpcode) et perdrait les paquets
 // suivants du même flush — desync réel, pas cosmétique.
 // Sans self : le sauteur s'anime déjà localement au moment de l'appui.
-struct PACKET_ZC_BOURGEON_JUMP {
+struct PACKET_ZC_MOONLIGHT_JUMP {
 	int16  packetType;
 	int16  packetLength;
 	uint32 gid;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_JUMP, 0x0f1b);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_JUMP, 0x0f1b);
 
 // ZC (server -> client) SELF: maîtrise culinaire (`COOK_MASTERY`, plage [0,1999]).
 //
@@ -6160,12 +6175,12 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_JUMP, 0x0f1b);
 //
 // Poussée au login vérifié (clif_bourgeon_grant_verified) et à chaque changement de
 // valeur (pc_setparam). Fixe 6.
-struct PACKET_ZC_BOURGEON_COOK_MASTERY {
+struct PACKET_ZC_MOONLIGHT_COOK_MASTERY {
 	int16 packetType;
 	int16 packetLength;
 	int16 mastery;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_COOK_MASTERY, 0x0f1c);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_COOK_MASTERY, 0x0f1c);
 
 // CZ (client -> server): ouvrir un storage, ou BASCULER vers un autre depuis les
 // onglets du viewer Bourgeon. Fixe 5.
@@ -6178,12 +6193,12 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_COOK_MASTERY, 0x0f1c);
 // doit faire en un clic. Les DROITS restent exactement ceux des commandes
 // (pc_can_use_command sur "storage" / "storagealtN") : un onglet ne peut rien
 // ouvrir que le joueur ne puisse déjà taper.
-struct PACKET_CZ_BOURGEON_OPEN_STORAGE {
+struct PACKET_CZ_MOONLIGHT_OPEN_STORAGE {
 	int16 packetType;
 	int16 packetLength;
 	uint8 stor_id;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_OPEN_STORAGE, 0x0f1d);
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_OPEN_STORAGE, 0x0f1d);
 
 // ZC (server -> client): storages accessibles à CE personnage + celui qui est ouvert.
 // VARIABLE : [packetType:2][packetLength:2][cur_id:1][count:1]
@@ -6192,14 +6207,14 @@ DEFINE_PACKET_HEADER(CZ_BOURGEON_OPEN_STORAGE, 0x0f1d);
 //   name   : nom du storage (inter_server.yml), NUL-paddé sur NAME_LENGTH.
 // La liste est FILTRÉE par les droits du joueur — le client dessine ce qu'il
 // reçoit, il ne connaît aucun nom ni aucun id à l'avance.
-struct PACKET_ZC_BOURGEON_STORAGE_LIST {
+struct PACKET_ZC_MOONLIGHT_STORAGE_LIST {
 	int16 packetType;
 	int16 packetLength;
 	uint8 cur_id;
 	uint8 count;
 	// suivi de count * [stor_id:1][name:NAME_LENGTH]
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_STORAGE_LIST, 0x0f1e);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_STORAGE_LIST, 0x0f1e);
 
 // CZ (client -> server): fiche détaillée d'un monstre. Fixe 9.
 // Layout: [packetType:2][packetLength:2][mob_id:4][by_view:1]
@@ -6210,17 +6225,17 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_STORAGE_LIST, 0x0f1e);
 //   by_view = 0 quand l'id vient déjà d'une source base-de-données (lien depuis
 //   la table des drops d'un item, par exemple).
 //   Cf. Bourgeon/docs/monster_info_re.md §3.1 et §7.2.
-struct PACKET_CZ_BOURGEON_REQ_MOBINFO {
+struct PACKET_CZ_MOONLIGHT_REQ_MOBINFO {
 	int16  packetType;
 	int16  packetLength;
 	uint32 mob_id;
 	uint8  by_view;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_MOBINFO, 0x0f1f);
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_REQ_MOBINFO, 0x0f1f);
 
 // ZC (server -> client): fiche détaillée d'un monstre. VARIABLE.
 //
-// C'est le pendant « monstre » de ZC_BOURGEON_TECHDATA (fiche d'item) : tout ce
+// C'est le pendant « monstre » de ZC_MOONLIGHT_TECHDATA (fiche d'item) : tout ce
 // que ZC_MONSTER_INFO (0x018C, skill Sense) NE transporte PAS — EXP, stats de
 // base, ATK/MATK, modes, vitesse, drops, cartes de spawn, skills.
 //
@@ -6291,13 +6306,13 @@ DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_MOBINFO, 0x0f1f);
 //
 // Les trois listes sont bornées (uint8 de comptage) ; le serveur tronque et le
 // client le signale. Tout est envoyé à la volée en WFIFO, packetLength en dernier.
-struct PACKET_ZC_BOURGEON_MOBINFO {
+struct PACKET_ZC_MOONLIGHT_MOBINFO {
 	int16  packetType;
 	int16  packetLength;
 	uint32 mob_id;
 	uint8  status;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_MOBINFO, 0x0f20);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_MOBINFO, 0x0f20);
 
 // ZC (server -> client): canaux de chat visibles par CE personnage.
 // VARIABLE : [packetType:2][packetLength:2][count:1]
@@ -6316,7 +6331,7 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_MOBINFO, 0x0f20);
 // dans conf/channels.conf, filtrés par groupid, et la seule façon de les lire
 // en jeu est de taper « @channel list » et d'en analyser le texte, qui est
 // localisé (msg_txt 1409/1410) donc instable. Même raison, même patron que
-// ZC_BOURGEON_STORAGE_LIST : le serveur possède la liste et ses droits, le
+// ZC_MOONLIGHT_STORAGE_LIST : le serveur possède la liste et ses droits, le
 // client dessine ce qu'il reçoit.
 //
 // La liste part au login. Elle n'a pas à être renvoyée ensuite : le nom des
@@ -6324,13 +6339,13 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_MOBINFO, 0x0f20);
 // sur toutes les cartes et pour toutes les guildes — seule leur EXISTENCE varie,
 // et pour l'alliance c'est le bit0 qui le dit, le client sachant déjà s'il est en
 // guilde.
-struct PACKET_ZC_BOURGEON_CHANNEL_LIST {
+struct PACKET_ZC_MOONLIGHT_CHANNEL_LIST {
 	int16 packetType;
 	int16 packetLength;
 	uint8 count;
 	// suivi de count * [flags:1][color:4][name:CHAN_NAME_LENGTH][alias:CHAN_NAME_LENGTH]
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_CHANNEL_LIST, 0x0f21);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_CHANNEL_LIST, 0x0f21);
 
 // CZ (client -> server): propriétés SERVEUR d'une entité du monde. Fixe 8.
 // Layout: [packetType:2][packetLength:2][gid:4]
@@ -6343,12 +6358,12 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_CHANNEL_LIST, 0x0f21);
 // connaître (fichier de script d'un NPC, id de spawn d'un mob, char_id d'un
 // autre joueur). Le gate est SERVEUR — niveau de groupe >= 80 — et pas
 // seulement l'absence de bouton côté client.
-struct PACKET_CZ_BOURGEON_REQ_ENTITY_PROPS {
+struct PACKET_CZ_MOONLIGHT_REQ_ENTITY_PROPS {
 	int16  packetType;
 	int16  packetLength;
 	uint32 gid;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_ENTITY_PROPS, 0x0f22);
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_REQ_ENTITY_PROPS, 0x0f22);
 
 // ZC (server -> client): propriétés SERVEUR d'une entité. VARIABLE.
 //
@@ -6377,7 +6392,7 @@ DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_ENTITY_PROPS, 0x0f22);
 // Les clés et les valeurs sont écrites par le SERVEUR et affichées telles
 // quelles : elles ne passent par aucun catalogue de traduction, comme les
 // messages serveur relayés par le chat.
-struct PACKET_ZC_BOURGEON_ENTITY_PROPS {
+struct PACKET_ZC_MOONLIGHT_ENTITY_PROPS {
 	int16 packetType;
 	int16 packetLength;
 	uint32 gid;
@@ -6385,7 +6400,7 @@ struct PACKET_ZC_BOURGEON_ENTITY_PROPS {
 	uint8 count;
 	// suivi de count * [key_len:1][key][val_len:1][val]
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_ENTITY_PROPS, 0x0f23);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_ENTITY_PROPS, 0x0f23);
 
 // CZ (client -> server): ce que l'interface moderne de ce client SAIT AFFICHER.
 // Layout: [packetType:2][packetLength:2][caps:4], masque `e_bourgeon_ui_cap`.
@@ -6401,12 +6416,12 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_ENTITY_PROPS, 0x0f23);
 // Déclaré VARIABLE dans clif_packetdb.hpp (longueur lue du flux, handler qui
 // vérifie ce qu'il a reçu) : un champ pourra s'ajouter sans que les deux côtés
 // aient à être déployés dans la même seconde.
-struct PACKET_CZ_BOURGEON_UI_CAPS {
+struct PACKET_CZ_MOONLIGHT_UI_CAPS {
 	int16  packetType;
 	int16  packetLength;
 	uint32 caps;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_UI_CAPS, 0x0f24);
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_UI_CAPS, 0x0f24);
 
 // CZ (client -> server): outillage NPC du menu contextuel (Bourgeon :
 // EntityContextMenu, section staff). Layout: [packetType:2][packetLength:2]
@@ -6431,13 +6446,13 @@ DEFINE_PACKET_HEADER(CZ_BOURGEON_UI_CAPS, 0x0f24);
 // Pas de ZC en retour : le compte rendu part en `clif_displaymessage`, comme
 // celui d'un atcommand, et s'affiche dans le chat sans rien de plus à écrire des
 // deux côtés.
-struct PACKET_CZ_BOURGEON_NPC_ADMIN {
+struct PACKET_CZ_MOONLIGHT_NPC_ADMIN {
 	int16  packetType;
 	int16  packetLength;
 	uint32 gid;
 	uint8  action;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_NPC_ADMIN, 0x0f25);
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_NPC_ADMIN, 0x0f25);
 
 // Miroir exact des `kNpcAdmin*` côté Bourgeon
 // (src/features/windows/entity_context_menu.cc) : les deux listes bougent
@@ -6470,14 +6485,14 @@ enum e_bourgeon_npc_admin_action : uint8 {
 // Gate SERVEUR : niveau de groupe >= 80, le même que l'inspecteur — le seuil fin
 // est celui de chaque atcommand. Pas de ZC en retour : tout revient par
 // `clif_displaymessage`.
-struct PACKET_CZ_BOURGEON_PLAYER_ADMIN {
+struct PACKET_CZ_MOONLIGHT_PLAYER_ADMIN {
 	int16  packetType;
 	int16  packetLength;
 	uint32 aid;
 	uint8  action;
 	int32  param;    // BOURGEON_PLAYER_ADMIN_EVENT_POINTS : le delta, signé
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_PLAYER_ADMIN, 0x0f2b);
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_PLAYER_ADMIN, 0x0f2b);
 
 // Miroir exact des `kPlayerAdmin*` côté Bourgeon
 // (src/features/windows/entity_context_menu.cc) : les deux listes bougent
@@ -6599,7 +6614,7 @@ enum e_bourgeon_style_flag : uint8 {
 //   palette_id      : palette de vêtement officielle 1..553, -1 = d'origine.
 //   hair_palette_id : palette de cheveux officielle 1..251, -1 = d'origine.
 //   hair_style      : coiffure 1..80, -1 = celle du personnage. 🔴 APPLIQUÉE.
-struct PACKET_CZ_BOURGEON_STYLE {
+struct PACKET_CZ_MOONLIGHT_STYLE {
 	int16 packetType;
 	int16 packetLength;
 	uint8 version;
@@ -6610,7 +6625,7 @@ struct PACKET_CZ_BOURGEON_STYLE {
 	int16 hair_style;
 	uint8 adjusts[BOURGEON_STYLE_ADJUST_BYTES];
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_STYLE, 0x0f26);
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_STYLE, 0x0f26);
 
 // Une entrée du lot ZC : 56 octets. UNE PAR VARIANTE — un joueur qui a habillé
 // son corps et sa monture en occupe deux, avec le même `gid`.
@@ -6641,13 +6656,13 @@ struct PACKET_BOURGEON_STYLE_ENTRY {
 // de joueurs d'un coup. En pratique la diffusion au spawn n'en envoie qu'un à la
 // fois (un joueur entre dans la vue d'un autre) ; le format n'impose donc rien,
 // mais il n'interdit pas non plus de grouper plus tard.
-struct PACKET_ZC_BOURGEON_STYLES {
+struct PACKET_ZC_MOONLIGHT_STYLES {
 	int16 packetType;
 	int16 packetLength;
 	int16 count;
 	// suivi de count × PACKET_BOURGEON_STYLE_ENTRY.
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_STYLES, 0x0f27);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_STYLES, 0x0f27);
 
 // ZC (server -> client): un NPC pilote la fenêtre de couleurs du joueur. Fixe 5.
 // Layout: [packetType:2][packetLength:2][mode:1]
@@ -6656,12 +6671,12 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_STYLES, 0x0f27);
 // 🔴 « Ouvrir » et « basculer » sont DEUX commandes distinctes, et c'est
 // délibéré : un styliste qui dirait « bascule » refermerait la fenêtre que le
 // joueur venait d'ouvrir lui-même par son raccourci.
-struct PACKET_ZC_BOURGEON_STYLE_OPEN {
+struct PACKET_ZC_MOONLIGHT_STYLE_OPEN {
 	int16 packetType;
 	int16 packetLength;
 	uint8 mode;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_STYLE_OPEN, 0x0f28);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_STYLE_OPEN, 0x0f28);
 
 // ── [Stingor] Fenêtre de CIBLE (CZ 0x0F29 -> ZC 0x0F2A) ──────────────────────
 //
@@ -6680,12 +6695,12 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_STYLE_OPEN, 0x0f28);
 // 🔴 GATE PVP. Sur un autre JOUEUR, HP et SP ne partent QUE s'il est du même
 // groupe ou de la même guilde (ou soi-même). Un adversaire renvoie son type et
 // rien d'autre : c'est une information de jeu, elle ne se donne pas.
-struct PACKET_CZ_BOURGEON_TARGET_INFO {
+struct PACKET_CZ_MOONLIGHT_TARGET_INFO {
 	int16  packetType;
 	int16  packetLength;
 	uint32 gid;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_TARGET_INFO, 0x0f29);
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_TARGET_INFO, 0x0f29);
 
 // ZC (server -> client): l'état de l'entité ciblée. Bloc FIXE.
 //
@@ -6695,7 +6710,7 @@ DEFINE_PACKET_HEADER(CZ_BOURGEON_TARGET_INFO, 0x0f29);
 //            « 0 PV » et « PV inconnus » ne se ressemblent pas à l'écran.
 //   type   : e_bourgeon_target_type (PC/MOB/NPC/HOM/MER/PET/ELEM), pas le masque
 //            bl_type qui ne tient pas dans un octet.
-struct PACKET_ZC_BOURGEON_TARGET_INFO {
+struct PACKET_ZC_MOONLIGHT_TARGET_INFO {
 	int16  packetType;
 	int16  packetLength;
 	uint32 gid;
@@ -6713,7 +6728,7 @@ struct PACKET_ZC_BOURGEON_TARGET_INFO {
 	uint8  size;
 	uint8  boss;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_TARGET_INFO, 0x0f2a);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_TARGET_INFO, 0x0f2a);
 // [Stingor] MVP tracker (CZ 0x0F30, ZC 0x0F31, ZC 0x0F32).
 //
 // 🔴 0x0F2B..0x0F2F étaient DÉJÀ pris (PLAYER_ADMIN, REQ_STATUS_LIST /
@@ -6721,7 +6736,7 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_TARGET_INFO, 0x0f2a);
 // encore 0x0F2B : ces cinq-là n'ont jamais été reportés côté client. La table de
 // ce fichier fait foi, pas `bourgeon_opcodes.h`.
 //
-// Trois opcodes, pas douze : même patron que CZ_BOURGEON_PRESET_CMD, qui porte
+// Trois opcodes, pas douze : même patron que CZ_MOONLIGHT_PRESET_CMD, qui porte
 // toutes les commandes de presets dans un seul paquet variable.
 //
 // CZ : toutes les commandes du carnet de chasse.
@@ -6744,7 +6759,7 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_TARGET_INFO, 0x0f2a);
 //   [texte : n octets, sans NUL][0x00][request_id:4]   (len = 13 + n + 5)
 // Il se reconnaît à son NUL, qu'un texte de Bourgeon ne porte jamais (copié sur
 // strlen() octets). Le résultat (ZC 0x0F32 kind 2) le rend alors en queue.
-struct PACKET_CZ_BOURGEON_MVP_CMD {
+struct PACKET_CZ_MOONLIGHT_MVP_CMD {
 	int16  packetType;
 	int16  packetLength;
 	uint8  cmd;
@@ -6752,7 +6767,7 @@ struct PACKET_CZ_BOURGEON_MVP_CMD {
 	uint32 b;
 	char   text[1];
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_MVP_CMD, 0x0f30);
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_MVP_CMD, 0x0f30);
 
 // ZC : le catalogue, l'instantané, un delta, les favoris. Distingués par `kind`.
 // Layout: [type:2][len:2][kind:1][server_time:8][count:2] puis count entrées
@@ -6770,14 +6785,14 @@ DEFINE_PACKET_HEADER(CZ_BOURGEON_MVP_CMD, 0x0f30);
 // déduite de delay1/delay2, jamais un point.
 // `tomb_x = -1` veut dire « position inconnue ». 0,0 est une cellule VALIDE :
 // les confondre reproduirait le bug du Convex Mirror natif.
-struct PACKET_ZC_BOURGEON_MVP_STATE {
+struct PACKET_ZC_MOONLIGHT_MVP_STATE {
 	int16  packetType;
 	int16  packetLength;
 	uint8  kind;
 	int64  server_time;
 	uint16 count;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_MVP_STATE, 0x0f31);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_MVP_STATE, 0x0f31);
 
 // ZC : le groupe, une invitation en attente, ou le refus d'une commande.
 // Layout: [type:2][len:2][kind:1][result:1][group_id:4][owner_user_id:4]
@@ -6801,7 +6816,7 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_MVP_STATE, 0x0f31);
 // Un lecteur lit par longueur et ignore l'excédent : une queue future s'ajoute
 // APRÈS celles-ci. ⚠ Aucun `kind` neuf : la DLL Bourgeon lirait comme un groupe
 // tout ce qui n'est ni 1 ni 2.
-struct PACKET_ZC_BOURGEON_MVP_GROUP {
+struct PACKET_ZC_MOONLIGHT_MVP_GROUP {
 	int16  packetType;
 	int16  packetLength;
 	uint8  kind;
@@ -6811,7 +6826,7 @@ struct PACKET_ZC_BOURGEON_MVP_GROUP {
 	char   name[32];
 	uint8  count;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_MVP_GROUP, 0x0f32);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_MVP_GROUP, 0x0f32);
 // ── [Stingor] Qui est HORS du partage d'EXP, dans le groupe (ZC 0x0F35) ─────
 //
 // POURQUOI CE PAQUET EXISTE. `party_exp_share` écarte silencieusement des
@@ -6851,13 +6866,13 @@ struct BOURGEON_PARTY_SHARE_ENTRY {
 	uint8  flags;  ///< e_bourgeon_party_share ; 0 = ce membre reçoit sa part
 } __attribute__((packed));
 
-struct PACKET_ZC_BOURGEON_PARTY_SHARE {
+struct PACKET_ZC_MOONLIGHT_PARTY_SHARE {
 	int16  packetType;
 	int16  packetLength;
 	uint16 idle_secs;  ///< battle_config.idle_no_share ; 0 = la règle est ÉTEINTE
 	uint16 count;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_PARTY_SHARE, 0x0f35);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_PARTY_SHARE, 0x0f35);
 
 // [Stingor] ZC (server -> client) : un Flag Graffiti posé au sol — l'emblème de
 // la guilde du lanceur, que le client peint sur (2 × niveau + 1)² cases autour de
@@ -6869,7 +6884,7 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_PARTY_SHARE, 0x0f35);
 //
 // Layout: [type:2][len:2][unit_id:4][creator_id:4][x:2][y:2][guild_id:4]
 //         [emblem_id:4][level:1]
-struct PACKET_ZC_BOURGEON_FLAG_GRAFFITI {
+struct PACKET_ZC_MOONLIGHT_FLAG_GRAFFITI {
 	int16  packetType;
 	int16  packetLength;
 	uint32 unit_id;     ///< l'identifiant de l'unité, celui du retrait
@@ -6880,7 +6895,7 @@ struct PACKET_ZC_BOURGEON_FLAG_GRAFFITI {
 	uint32 emblem_id;   ///< la version de l'emblème à la pose
 	uint8  level;       ///< niveau de la compétence : la taille de l'emblème
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_FLAG_GRAFFITI, 0x0f36);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_FLAG_GRAFFITI, 0x0f36);
 
 // [Stingor] ZC (server -> client) : le maître d'un monstre — invocation d'un
 // joueur ou d'un homoncule, sbire d'un autre monstre. Il suit l'apparition du
@@ -6893,15 +6908,15 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_FLAG_GRAFFITI, 0x0f36);
 // annonce le bit après avoir vu le monstre le reçoit à ce moment-là.
 //
 // Layout: [type:2][len:2][GID:4][master_id:4]
-struct PACKET_ZC_BOURGEON_UNIT_MASTER {
+struct PACKET_ZC_MOONLIGHT_UNIT_MASTER {
 	int16  packetType;
 	int16  packetLength;
 	uint32 GID;        ///< le monstre
 	uint32 master_id;  ///< l'identifiant de bloc de son maître, 0 sans maître
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_UNIT_MASTER, 0x0f37);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_UNIT_MASTER, 0x0f37);
 
-// [Stingor] ZC_BOURGEON_SERVER_RULES (0x0F38) — les réglages du serveur dont le
+// [Stingor] ZC_MOONLIGHT_SERVER_RULES (0x0F38) — les réglages du serveur dont le
 // client a besoin pour ne pas les supposer : rayon de vue, niveaux maximum de
 // l'homoncule, délai d'attaque après la téléportation de l'homoncule.
 //
@@ -6918,17 +6933,17 @@ enum e_bourgeon_server_rule : uint16 {
 	BOURGEON_RULE_HOMUNC_TELEPORT_ACD = 4, ///< battle_config.homunc_teleport_acd (ms)
 };
 
-struct PACKET_ZC_BOURGEON_SERVER_RULES_entry {
+struct PACKET_ZC_MOONLIGHT_SERVER_RULES_entry {
 	uint16 key;
 	int32  value;
 } __attribute__((packed));
 
-struct PACKET_ZC_BOURGEON_SERVER_RULES {
+struct PACKET_ZC_MOONLIGHT_SERVER_RULES {
 	int16 packetType;
 	int16 packetLength;
-	PACKET_ZC_BOURGEON_SERVER_RULES_entry rules[];
+	PACKET_ZC_MOONLIGHT_SERVER_RULES_entry rules[];
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_SERVER_RULES, 0x0f38);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SERVER_RULES, 0x0f38);
 
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
@@ -6967,27 +6982,27 @@ struct CARD_ALBUM_ENTRY {
 	                ///< plus de mob_db que d'item_db.
 } __attribute__((packed));
 
-struct PACKET_ZC_BOURGEON_CARD_ALBUM {
+struct PACKET_ZC_MOONLIGHT_CARD_ALBUM {
 	int16  packetType;
 	int16  packetLength;
 	uint8  result;
 	uint16 count;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_CARD_ALBUM, 0x0f33);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_CARD_ALBUM, 0x0f33);
 
 // CZ : les commandes de l'album. `arg` est un index d'inventaire pour SACRIFIER
 // et DÉPOSER, un nameid SERVEUR pour RETIRER — deux espaces d'identifiants
 // distincts qu'il ne faut jamais confondre, d'où le champ générique et le
 // commentaire plutôt que deux champs dont un serait toujours mort.
 // Layout: [type:2][len:2][cmd:1][arg:4][amount:2]
-struct PACKET_CZ_BOURGEON_CARD_ALBUM_CMD {
+struct PACKET_CZ_MOONLIGHT_CARD_ALBUM_CMD {
 	int16  packetType;
 	int16  packetLength;
 	uint8  cmd;     ///< e_card_album_cmd
 	uint32 arg;
 	uint16 amount;  ///< ignoré par REFRESH et UNLOCK (qui vaut toujours 1 copie)
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_CARD_ALBUM_CMD, 0x0f34);
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_CARD_ALBUM_CMD, 0x0f34);
 
 
 
@@ -7010,12 +7025,12 @@ DEFINE_PACKET_HEADER(CZ_BOURGEON_CARD_ALBUM_CMD, 0x0f34);
 //
 // Pas d'abonnement : le client REDEMANDE, comme pour la fenetre de cible. Le
 // serveur ne garde aucun etat, donc rien a nettoyer a la deconnexion.
-struct PACKET_CZ_BOURGEON_REQ_STATUS_LIST {
+struct PACKET_CZ_MOONLIGHT_REQ_STATUS_LIST {
 	int16  packetType;
 	int16  packetLength;
 	uint32 gid;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_STATUS_LIST, 0x0f2c);
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_REQ_STATUS_LIST, 0x0f2c);
 
 // Une entree de la reponse. `remain` vaut 0 pour un etat SANS echeance (duree
 // infinie) : ce n'est pas « expire », c'est « ne compte pas a rebours ».
@@ -7035,14 +7050,14 @@ struct BOURGEON_STATUS_ENTRY {
 // une difference : une liste vide veut dire « aucun buff », et c'est une
 // information — a ne pas confondre avec le silence d'une entite hors de vue,
 // que `status` distingue.
-struct PACKET_ZC_BOURGEON_STATUS_LIST {
+struct PACKET_ZC_MOONLIGHT_STATUS_LIST {
 	int16  packetType;
 	int16  packetLength;
 	uint32 gid;
 	uint8  status;
 	uint8  count;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_STATUS_LIST, 0x0f2d);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_STATUS_LIST, 0x0f2d);
 
 // Plafond d'entrees par reponse. Un joueur tres charge depasse rarement la
 // vingtaine ; au-dela on tronque plutot que de faire enfler un paquet qui part
@@ -7067,12 +7082,12 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_STATUS_LIST, 0x0f2d);
 // plus. Sans cette regle, ce paquet dirait l'apparence de n'importe qui.
 //
 // Pas d'abonnement : le client REDEMANDE, comme pour les etats.
-struct PACKET_CZ_BOURGEON_REQ_LOOKS {
+struct PACKET_CZ_MOONLIGHT_REQ_LOOKS {
 	int16 packetType;
 	int16 packetLength;
 	uint8 what;   // bit 0 = groupe · bit 1 = amis
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_LOOKS, 0x0f2e);
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_REQ_LOOKS, 0x0f2e);
 
 // Une entree : de quoi composer une tete, et rien de plus.
 //
@@ -7087,19 +7102,19 @@ struct BOURGEON_LOOK_ENTRY {
 	uint8  sex;   // 0 = femme
 } __attribute__((packed));
 
-struct PACKET_ZC_BOURGEON_LOOKS {
+struct PACKET_ZC_MOONLIGHT_LOOKS {
 	int16  packetType;
 	int16  packetLength;
 	uint16 count;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_LOOKS, 0x0f2f);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_LOOKS, 0x0f2f);
 
 // Plafond : MAX_PARTY (12) + MAX_FRIENDS (40) tient largement dessous.
 #define BOURGEON_LOOKS_MAX 64
 
 
 
-// Type d'entité tel qu'il voyage dans ZC_BOURGEON_TARGET_INFO.
+// Type d'entité tel qu'il voyage dans ZC_MOONLIGHT_TARGET_INFO.
 enum e_bourgeon_target_type : uint8 {
 	BOURGEON_TARGET_UNKNOWN = 0,
 	BOURGEON_TARGET_PC      = 1,
@@ -7128,7 +7143,7 @@ enum e_bourgeon_target_known : uint8 {
 // opcode. Phase 1 : split des 6 stats primaires (STR..LUK) + ATK/MATK issus de l'équip.
 // Bloc FIXE. Suivi en queue de : int16 cond_count, puis cond_count entrées
 // PACKET_BOURGEON_STAT_COND (bonus conditionnels vs race/élément/taille).
-struct PACKET_ZC_BOURGEON_STAT_BONUS {
+struct PACKET_ZC_MOONLIGHT_STAT_BONUS {
 	int16 packetType;
 	int16 packetLength;
 	int16 param_equip[6];  // STR,AGI,VIT,INT,DEX,LUK — apport ÉQUIPEMENT
@@ -7190,7 +7205,7 @@ struct PACKET_ZC_BOURGEON_STAT_BONUS {
 	int32 refine_atk;       // ATK issu du refine+grade de l'arme (base_status.rhw.atk2 + lhw.atk2)
 	int32 refine_def;       // DEF issue du refine des armures (bonus.refine_def)
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_STAT_BONUS, 0x0f10);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_STAT_BONUS, 0x0f10);
 
 // Une entrée conditionnelle : (code de catégorie, index élément/race/taille, valeur %).
 // Le client mappe (code, idx) -> libellé (cf. character_sheet.cc, tables de noms).
@@ -7289,12 +7304,12 @@ enum e_bourgeon_stat_item : uint16 {
 
 // CZ (client -> server): demande le SCRIPT BRUT + les COMBOS d'un item. Fixe 8.
 // Layout: [packetType:2][packetLength:2][id:4].
-struct PACKET_CZ_BOURGEON_REQ_ITEMSCRIPT {
+struct PACKET_CZ_MOONLIGHT_REQ_ITEMSCRIPT {
 	int16  packetType;
 	int16  packetLength;
 	uint32 id;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_ITEMSCRIPT, 0x0f11);
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_REQ_ITEMSCRIPT, 0x0f11);
 
 // ZC (server -> client): scripts source + combos d'un item, pour les onglets
 // « Script » et « Combos » de la description enrichie. VARIABLE.
@@ -7310,13 +7325,13 @@ DEFINE_PACKET_HEADER(CZ_BOURGEON_REQ_ITEMSCRIPT, 0x0f11);
 //       [member_count:1] puis member_count fois : [member_id:4][namelen:1][name]
 //       [script_len:2][script:script_len]
 // Les textes sont émis manuellement au WFIFO ; packetLength est écrit en dernier.
-struct PACKET_ZC_BOURGEON_ITEMSCRIPT {
+struct PACKET_ZC_MOONLIGHT_ITEMSCRIPT {
 	int16  packetType;
 	int16  packetLength;
 	uint32 id;
 	uint8  status;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_ITEMSCRIPT, 0x0f12);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_ITEMSCRIPT, 0x0f12);
 
 // CZ (client -> server): rapport de bug joueur, CONTEXTUEL. VARIABLE.
 // Layout: [packetType:2][packetLength:2][category:1][ctx_len:2][ctx:ctx_len][message: reste]
@@ -7326,24 +7341,24 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_ITEMSCRIPT, 0x0f12);
 //   message  : texte libre UTF-8 du joueur (borné VARCHAR(512) côté DB)
 // L'IDENTITÉ (compte/perso), la MAP et la POSITION sont ajoutées côté serveur
 // depuis la session — jamais lues depuis le paquet.
-struct PACKET_CZ_BOURGEON_BUG_REPORT {
+struct PACKET_CZ_MOONLIGHT_BUG_REPORT {
 	int16  packetType;
 	int16  packetLength;
 	uint8  category;
 	uint16 ctx_len;
 	// suivi de ctx[ctx_len] puis message[] jusqu'à packetLength.
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_BUG_REPORT, 0x0f13);
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_BUG_REPORT, 0x0f13);
 
 // ZC (server -> client): accusé de réception du rapport de bug. Fixe 5.
 // Layout: [packetType:2][packetLength:2][status:1]
 //   status : 0 = enregistré, 1 = rate-limité (trop rapide), 2 = erreur/vide.
-struct PACKET_ZC_BOURGEON_BUG_REPORT_ACK {
+struct PACKET_ZC_MOONLIGHT_BUG_REPORT_ACK {
 	int16 packetType;
 	int16 packetLength;
 	uint8 status;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_BUG_REPORT_ACK, 0x0f14);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_BUG_REPORT_ACK, 0x0f14);
 
 // CZ (client -> server): invoquer/basculer un compagnon (chariot / peco / faucon)
 // DEPUIS la feuille de perso, sans passer par la NPC Kafra. Fixe 7.
@@ -7363,20 +7378,20 @@ enum e_bourgeon_companion_action : uint8 {
 	BGCOMP_ON   = 1,
 	BGCOMP_DECO = 2,  // cart : changer la décoration (arg = type)
 };
-struct PACKET_CZ_BOURGEON_COMPANION {
+struct PACKET_CZ_MOONLIGHT_COMPANION {
 	int16 packetType;
 	int16 packetLength;
 	uint8 kind;
 	uint8 action;
 	uint8 arg;
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_BOURGEON_COMPANION, 0x0f15);
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_COMPANION, 0x0f15);
 
 // ZC (server -> client) SELF: état des compagnons (niveaux de skills + états actifs),
 // poussé au login vérifié et à chaque changement (pc_setcart/riding/falcon). Fixe.
 // La feuille de perso l'utilise pour AFFICHER/gater les cases sans lire côté client
 // des IDs de skills ni le bitmask option (cassé pour le cart sous NEW_CARTS).
-struct PACKET_ZC_BOURGEON_COMPANION_STATE {
+struct PACKET_ZC_MOONLIGHT_COMPANION_STATE {
 	int16 packetType;
 	int16 packetLength;
 	uint8 pushcart_lv;    // MC_PUSHCART   (0 = non appris -> pas de case cart)
@@ -7393,7 +7408,7 @@ struct PACKET_ZC_BOURGEON_COMPANION_STATE {
 	uint16 riding_id;     // KN_RIDING
 	uint16 falcon_id;     // HT_FALCON
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_COMPANION_STATE, 0x0f16);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_COMPANION_STATE, 0x0f16);
 
 // ZC (server -> client) SELF: table itemId(client) -> ordinal de hat effect
 // (e_hat_effects), poussée au login vérifié. Permet au client de PRÉVISUALISER les
@@ -7402,15 +7417,15 @@ DEFINE_PACKET_HEADER(ZC_BOURGEON_COMPANION_STATE, 0x0f16);
 // Statique (dérivée des scripts item_db au 1er envoi, mise en cache) donc identique
 // pour tous les joueurs. VARIABLE.
 // Layout: [packetType:2][packetLength:2][count:2] puis count × { itemId:4, ordinal:2 }.
-struct PACKET_ZC_BOURGEON_HATEFFECT_MAP {
+struct PACKET_ZC_MOONLIGHT_HATEFFECT_MAP {
 	int16  packetType;
 	int16  packetLength;
 	int16  count;
 	// suivi de count × { uint32 itemId; int16 ordinal; }
 } __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_BOURGEON_HATEFFECT_MAP, 0x0f17);
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_HATEFFECT_MAP, 0x0f17);
 
-// NOTE: there is no ZC_BOURGEON_MAP packet. The Bourgeon client reads the
+// NOTE: there is no ZC_MOONLIGHT_MAP packet. The Bourgeon client reads the
 // current map name from the standard 0x0091 ZC_NPCACK_MAPMOVE packet instead.
 // Historique : les anciens opcodes 0x0BFx/0x0C2x partageaient des entrées du
 // client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans

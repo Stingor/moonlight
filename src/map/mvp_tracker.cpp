@@ -255,7 +255,7 @@ void mvp_tracker_load_groups( void ){
 ///
 /// La création et l'acceptation passent par ici (mvp_tracker_index_account) et
 /// non par mvp_tracker_on_login :
-/// clif_parse_bourgeon_mvp_cmd prévient déjà tout le groupe après elles, et la
+/// clif_parse_moonlight_mvp_cmd prévient déjà tout le groupe après elles, et la
 /// présence partirait en double.
 static s_mvp_group* mvp_tracker_index_session( map_session_data& sd ){
 	s_mvp_group* group = mvp_tracker_group_of( sd );

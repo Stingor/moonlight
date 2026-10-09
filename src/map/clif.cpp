@@ -5318,7 +5318,7 @@ void clif_hide_wings( const map_session_data* sd ) // [Stingor]
 //   - contenu registre : identique à la valeur serveur, sauf encode/decode
 //
 // Les ids 23/24/25 ne sont pas des réglages mais des actions ; ils n'ont pas de
-// ligne ici et sont traités à part dans clif_parse_bourgeon_setting.
+// ligne ici et sont traités à part dans clif_parse_moonlight_setting.
 
 // Défini plus bas dans ce fichier ; le commit de SHOW_MOB_INFO en a besoin.
 static int32 clif_getareachar(block_list* bl, va_list ap);
@@ -5776,7 +5776,7 @@ void clif_bourgeon_settings(map_session_data* sd) {
 	const int16 pkt_len = static_cast<int16>(header_len + total_count * 6);
 
 	WFIFOHEAD(fd, pkt_len);
-	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_SETTINGS;
+	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_SETTINGS;
 	WFIFOW(fd, 2) = pkt_len;
 	WFIFOL(fd, 4) = sd->status.char_id;
 	WFIFOW(fd, 8) = total_count;
@@ -5795,7 +5795,7 @@ void clif_bourgeon_settings(map_session_data* sd) {
 	WFIFOSET(fd, pkt_len);
 }
 
-// Sends a mini ZC_BOURGEON_SETTINGS with just the autolootid list.
+// Sends a mini ZC_MOONLIGHT_SETTINGS with just the autolootid list.
 // Sends {ALOOT_ID, 0} first to clear the client's list, then one entry per active id.
 void clif_bourgeon_sync_alootid(map_session_data* sd) {
 	nullpo_retv(sd);
@@ -5811,7 +5811,7 @@ void clif_bourgeon_sync_alootid(map_session_data* sd) {
 	const int16 pkt_len    = static_cast<int16>(header_len + count * 6);
 
 	WFIFOHEAD(fd, pkt_len);
-	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_SETTINGS;
+	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_SETTINGS;
 	WFIFOW(fd, 2) = pkt_len;
 	WFIFOL(fd, 4) = sd->status.char_id;
 	WFIFOW(fd, 8) = count;
@@ -5849,7 +5849,7 @@ void clif_bourgeon_storage_prices(map_session_data* sd, const struct item* items
 	// [type:2][len:2][count:2] + n*[id:4][sell:4][subtype:1][equip:4][slots:2] = 6 + n*15
 	const int16 pkt_len = static_cast<int16>(6 + count * 15);
 	WFIFOHEAD(fd, pkt_len);
-	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_STORAGE_PRICES;
+	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_STORAGE_PRICES;
 	WFIFOW(fd, 2) = pkt_len;
 	WFIFOW(fd, 4) = count;
 	int32 offset = 6;
@@ -5912,7 +5912,7 @@ void clif_bourgeon_storage_list(map_session_data* sd, uint8 cur_id) {
 	// Le buffer WFIFO n'est pas vierge : on met à zéro AVANT d'écrire les noms,
 	// qui sont NUL-paddés sur NAME_LENGTH (le client lit une chaîne bornée).
 	memset(WFIFOP(fd, 0), 0, pkt_len);
-	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_STORAGE_LIST;
+	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_STORAGE_LIST;
 	WFIFOW(fd, 2) = pkt_len;
 	WFIFOB(fd, 4) = cur_id;
 	WFIFOB(fd, 5) = count;
@@ -5978,7 +5978,7 @@ void clif_bourgeon_channel_list(map_session_data* sd) {
 	// Les noms et alias sont NUL-paddés : mettre à zéro AVANT d'écrire, le tampon
 	// WFIFO n'est pas vierge (même raison que la liste des storages).
 	memset(WFIFOP(fd, 0), 0, pkt_len);
-	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_CHANNEL_LIST;
+	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_CHANNEL_LIST;
 	WFIFOW(fd, 2) = pkt_len;
 	WFIFOB(fd, 4) = count;
 	int32 offset = 5;
@@ -6011,12 +6011,12 @@ void clif_bourgeon_channel_list(map_session_data* sd) {
 
 // Ouvre le storage demandé, ou BASCULE depuis celui qui est ouvert.
 // [type:2][len:2][stor_id:1]
-void clif_parse_bourgeon_open_storage(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_open_storage(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
 
-	const PACKET_CZ_BOURGEON_OPEN_STORAGE* p =
-		reinterpret_cast<const PACKET_CZ_BOURGEON_OPEN_STORAGE*>(RFIFOP(fd, 0));
+	const PACKET_CZ_MOONLIGHT_OPEN_STORAGE* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_OPEN_STORAGE*>(RFIFOP(fd, 0));
 	const uint8 stor_id = p->stor_id;
 
 	// Id absent de inter_server.yml : liste périmée côté client, on ignore en
@@ -6114,7 +6114,7 @@ void clif_bourgeon_send_preset_list(map_session_data* sd) {
 	const int16 pkt_len = static_cast<int16>(6 + data_len);
 
 	WFIFOHEAD(fd, pkt_len);
-	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_PRESET_LIST;
+	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_PRESET_LIST;
 	WFIFOW(fd, 2) = pkt_len;
 	WFIFOB(fd, 4) = sd->state.alootid_active_preset;
 	WFIFOB(fd, 5) = (uint8)count;
@@ -6141,12 +6141,12 @@ void clif_bourgeon_stat_bonus(map_session_data* sd) {
 
 	// Buffer = bloc fixe + [cond_count:2] + N conditionnels (~133 max, 256 réservés) +
 	// [skill_count:2] + M skills (autospell+autospell2+skillatk, 128 réservés).
-	uint8 buf[sizeof(PACKET_ZC_BOURGEON_STAT_BONUS)
+	uint8 buf[sizeof(PACKET_ZC_MOONLIGHT_STAT_BONUS)
 	          + 2 + 512 * sizeof(PACKET_BOURGEON_STAT_COND)
 	          + 2 + 128 * sizeof(PACKET_BOURGEON_STAT_SKILL)
 	          + 2 + 128 * sizeof(PACKET_BOURGEON_STAT_ITEM)];
-	PACKET_ZC_BOURGEON_STAT_BONUS* p = reinterpret_cast<PACKET_ZC_BOURGEON_STAT_BONUS*>(buf);
-	p->packetType = HEADER_ZC_BOURGEON_STAT_BONUS;
+	PACKET_ZC_MOONLIGHT_STAT_BONUS* p = reinterpret_cast<PACKET_ZC_MOONLIGHT_STAT_BONUS*>(buf);
+	p->packetType = HEADER_ZC_MOONLIGHT_STAT_BONUS;
 	for (int i = 0; i < 6; ++i) {  // PARAM_STR..PARAM_LUK = 0..5
 		p->param_equip[i] = static_cast<int16>(sd->indexed_bonus.param_equip[i]);
 		p->param_bonus[i] = static_cast<int16>(sd->indexed_bonus.param_bonus[i]);
@@ -6209,7 +6209,7 @@ void clif_bourgeon_stat_bonus(map_session_data* sd) {
 	p->refine_def       = sd->bonus.refine_def;
 
 	// Bonus conditionnels : n'émettre que les entrées non nulles.
-	int off = sizeof(PACKET_ZC_BOURGEON_STAT_BONUS);
+	int off = sizeof(PACKET_ZC_MOONLIGHT_STAT_BONUS);
 	const int count_off = off;
 	off += 2;  // place réservée pour cond_count
 	int16 count = 0;
@@ -6365,8 +6365,8 @@ static void clif_bourgeon_autoload_preset(map_session_data* sd) {
 	}
 }
 
-// Handles CZ_BOURGEON_PRESET_CMD (0x0F06): preset list/save/load/delete/set-autoload.
-void clif_parse_bourgeon_preset_cmd(int32 fd, map_session_data* sd) {
+// Handles CZ_MOONLIGHT_PRESET_CMD (0x0F06): preset list/save/load/delete/set-autoload.
+void clif_parse_moonlight_preset_cmd(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
 
@@ -6511,9 +6511,9 @@ static void clif_bourgeon_set_afk( map_session_data& sd, uint8 mask ){
 
 // Handles a single setting change reported by the client (CZ 0x0F04).
 // Layout: [packetType:2][packetLength:2][id:2][value:4]
-void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_setting(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
-	// Comme les vingt-deux autres CZ_BOURGEON_* : ce canal n'est ouvert qu'à un
+	// Comme les vingt-deux autres CZ_MOONLIGHT_* : ce canal n'est ouvert qu'à un
 	// client qui s'est annoncé. Il l'était pour tout le monde — seul handler à ne
 	// pas le demander — alors qu'un réglage y change l'état SERVEUR de la session.
 	// Les valeurs sensibles restent gardées par leur commande (`perm_atcmd`), mais
@@ -6523,8 +6523,8 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 	// du joueur, jamais au démarrage, et son handshake d'intégrité part à l'entrée
 	// en jeu.
 	if (!sd->state.has_bourgeon) return;
-	const PACKET_CZ_BOURGEON_SETTING* p =
-		reinterpret_cast<const PACKET_CZ_BOURGEON_SETTING*>(RFIFOP(fd, 0));
+	const PACKET_CZ_MOONLIGHT_SETTING* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_SETTING*>(RFIFOP(fd, 0));
 
 	switch (p->id) {
 		// Trois des ids du protocole ne sont pas des réglages mais des ordres
@@ -6596,13 +6596,13 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 			const struct s_bourgeon_setting* s = bourgeon_setting_find( p->id );
 
 			if( s == nullptr ){
-				ShowWarning("clif_parse_bourgeon_setting: unknown setting id %d from %s\n",
+				ShowWarning("clif_parse_moonlight_setting: unknown setting id %d from %s\n",
 					p->id, sd->status.name);
 				break;
 			}
 
 			if( s->readonly ){
-				ShowWarning("clif_parse_bourgeon_setting: %s tried to write read-only setting id %d\n",
+				ShowWarning("clif_parse_moonlight_setting: %s tried to write read-only setting id %d\n",
 					sd->status.name, p->id);
 				break;
 			}
@@ -6636,14 +6636,14 @@ void clif_parse_bourgeon_setting(int32 fd, map_session_data* sd) {
 // not foolproof — a client controlling the machine can replay a valid hash.
 
 // In-memory map: MachineGuid -> account_id currently online with that GUID.
-// Populated on CZ_BOURGEON_INTEGRITY, cleared on map_quit via
+// Populated on CZ_MOONLIGHT_INTEGRITY, cleared on map_quit via
 // clif_bourgeon_unregister_guid. Used to detect multi-account abuse.
 static std::unordered_map<std::string, int32> s_guid_to_account;
 // Reverse map: account_id -> MachineGuid, needed for O(1) cleanup on logout.
 static std::unordered_map<int32, std::string> s_account_to_guid;
 
 // account_id -> login_id1 of the session that already PASSED the integrity check.
-// The Bourgeon client only sends CZ_BOURGEON_INTEGRITY once per process, so when
+// The Bourgeon client only sends CZ_MOONLIGHT_INTEGRITY once per process, so when
 // a player changes character (same login session, new zone connection) it never
 // re-sends it. login_id1 is stable for the whole account session but regenerated
 // on a fresh login, so a stored entry that still matches sd->login_id1 means
@@ -6661,6 +6661,12 @@ struct s_bourgeon_integrity_conf {
 	// absent) disables the content check entirely, so an un-updated conf keeps the
 	// previous behaviour.
 	int32 min_patch_index = -1;
+	// Le client autonome moonclient est-il accepté sans condensé de DLL ? Faux tant
+	// que la clé manque : une conf qui ne le nomme pas ne l'a pas autorisé.
+	bool allow_moonclient = false;
+	// Même rôle que min_patch_index, sur la chaîne de patchs de moonclient, qui est
+	// distincte de celle de rpatchur. -1 = pas de contrôle.
+	int32 moonclient_min_patch_index = -1;
 };
 static s_bourgeon_integrity_conf bourgeon_integrity_conf;
 
@@ -6671,6 +6677,8 @@ void clif_bourgeon_integrity_reload() {
 	c.hashes.clear();
 	c.exempt_ips.clear();
 	c.min_patch_index = -1;
+	c.allow_moonclient = false;
+	c.moonclient_min_patch_index = -1;
 
 	const char* path = "conf/bourgeon_integrity.conf";
 	std::ifstream f(path);
@@ -6709,23 +6717,29 @@ void clif_bourgeon_integrity_reload() {
 			if (ip != 0) c.exempt_ips.insert(ip);
 		} else if (key == "min_patch_index") {
 			c.min_patch_index = static_cast<int32>(atoi(val.c_str()));
+		} else if (key == "allow_moonclient") {
+			c.allow_moonclient = (atoi(val.c_str()) != 0);
+		} else if (key == "moonclient_min_patch_index") {
+			c.moonclient_min_patch_index = static_cast<int32>(atoi(val.c_str()));
 		}
 	}
 
 	ShowStatus("Bourgeon integrity: enforce=%s, %u approved hash(es), %u exempt IP(s), min_patch_index=%d.\n",
 		c.enforce ? "true" : "false", static_cast<uint32>(c.hashes.size()),
 		static_cast<uint32>(c.exempt_ips.size()), c.min_patch_index);
+	ShowStatus("Bourgeon integrity: moonclient %s, moonclient_min_patch_index=%d.\n",
+		c.allow_moonclient ? "allowed" : "refused", c.moonclient_min_patch_index);
 }
 
-// Fires ~5 s after clif_parse_bourgeon_integrity sends the kick-notice packet.
+// Fires ~5 s after clif_parse_moonlight_integrity sends the kick-notice packet.
 static TIMER_FUNC(clif_bourgeon_integrity_kick_timer) {
 	map_session_data* sd = map_id2sd(id);
 	if (sd == nullptr || !session_isValid(sd->fd))
 		return 0;
 	// 🔴 Le handshake est-il arrivé PENDANT les 5 s de sursis ? Ce timer est armé
 	// sur un verdict pris 5 s plus tôt ; sans ce test, un joueur dont le
-	// CZ_BOURGEON_INTEGRITY débarque en retard est reconnu par
-	// clif_parse_bourgeon_integrity (has_bourgeon posé, settings poussés) PUIS
+	// CZ_MOONLIGHT_INTEGRITY débarque en retard est reconnu par
+	// clif_parse_moonlight_integrity (has_bourgeon posé, settings poussés) PUIS
 	// déconnecté quand même. C'est le cas de loin le plus fréquent des faux kicks
 	// « sans DLL Bourgeon », et il touche les joueurs NORMAUX — la garde
 	// exempt_ips ci-dessous ne couvre que les machines de dev.
@@ -6747,7 +6761,7 @@ static TIMER_FUNC(clif_bourgeon_check_dll_timer) {
 	// Machine exemptée (dev / localhost) : elle ne doit JAMAIS déclencher le
 	// broadcast ni le kick, même si le handshake 0x0F02 traîne au-delà des 15 s.
 	// Les deux autres sites qui décident d'un kick consultent cette liste
-	// (clif_parse_bourgeon_integrity et clif_bourgeon_integrity_kick_timer) ;
+	// (clif_parse_moonlight_integrity et clif_bourgeon_integrity_kick_timer) ;
 	// celui-ci était le seul à ne pas le faire.
 	if (bourgeon_integrity_conf.exempt_ips.count(session[sd->fd]->client_addr) > 0)
 		return 0;
@@ -6842,7 +6856,7 @@ static void clif_bourgeon_register_guid(map_session_data* sd, const char* raw_gu
 
 // [Bourgeon] Construit (une seule fois, mis en cache) la table itemId(client) ->
 // ordinal de hat effect, en SCANNANT le source des scripts d'item (conservé au chargement
-// du YAML, cf. clif_parse_bourgeon_reqitemscript). Le hat effect d'un costume est déclaré
+// du YAML, cf. clif_parse_moonlight_reqitemscript). Le hat effect d'un costume est déclaré
 // par `hateffect HAT_EF_xxx,...` dans son Script/EquipScript — c'est la SEULE source de
 // vérité (le client ne mappe pas item->ordinal, juste une appartenance). Statique donc
 // identique pour tous les joueurs.
@@ -6890,7 +6904,7 @@ void clif_bourgeon_hateffect_map(map_session_data* sd) {
 	const size_t plen = 6 + n * 6;
 	const int32 fd = sd->fd;
 	WFIFOHEAD(fd, plen);
-	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_HATEFFECT_MAP;
+	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_HATEFFECT_MAP;
 	WFIFOW(fd, 2) = static_cast<int16>(plen);
 	WFIFOW(fd, 4) = static_cast<int16>(n);
 	size_t off = 6;
@@ -6960,7 +6974,7 @@ static void clif_bourgeon_grant_verified(map_session_data* sd) {
 // une déconnexion « paquet inconnu » silencieuse sans popup « mets à jour ». On lui
 // renvoie le kick-notice legacy brut (4 o) puis on kicke après 5 s (même chemin que
 // la branche outdated). À RETIRER une fois la playerbase migrée (patcher-enforced).
-void clif_parse_bourgeon_integrity_legacy(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_integrity_legacy(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	// Une session spectateur ne se contrôle pas, et ne se nomme pas dans le journal
 	// au milieu des joueurs à prévenir (même raison que l'opcode courant).
@@ -6968,7 +6982,7 @@ void clif_parse_bourgeon_integrity_legacy(int32 fd, map_session_data* sd) {
 		return;
 	ShowWarning("Bourgeon: legacy integrity opcode 0x0BFB from %s (AID %d) — pre-migration client, kicking with update notice.\n",
 		sd->status.name, sd->status.account_id);
-	// ANCIEN ZC_BOURGEON_KICK_NOTICE opcode 0x0BFA, 4 octets : ce que l'ancien overlay écoute.
+	// ANCIEN ZC_MOONLIGHT_KICK_NOTICE opcode 0x0BFA, 4 octets : ce que l'ancien overlay écoute.
 	WFIFOHEAD(fd, 4);
 	WFIFOW(fd, 0) = 0x0bfa;
 	WFIFOW(fd, 2) = 4;
@@ -6981,9 +6995,9 @@ void clif_parse_bourgeon_integrity_legacy(int32 fd, map_session_data* sd) {
 //
 // This is the handshake that identifies a Bourgeon client.  Only after this
 // packet is received do we set has_bourgeon and send ZC Bourgeon packets back,
-// so vanilla RO clients (which never send CZ_BOURGEON_INTEGRITY) are never hit
+// so vanilla RO clients (which never send CZ_MOONLIGHT_INTEGRITY) are never hit
 // by opcodes that collide with their own handlers.
-void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_integrity(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 
 	// 🔴 Une session spectateur n'est pas un joueur : elle REGARDE (invisible,
@@ -6996,7 +7010,7 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 	// 🔴🔴 ET LE DRAPEAU N'EST PAS POSÉ. Il l'était, pour la seule raison que le
 	// contrôle « sans DLL Bourgeon » serait venu la kicker quinze secondes plus
 	// tard. Mais `has_bourgeon` est la SEULE garde des vingt-trois handlers
-	// CZ_BOURGEON_*, dont ceux qui ÉCRIVENT EN BASE (presets alootid), poussent du
+	// CZ_MOONLIGHT_*, dont ceux qui ÉCRIVENT EN BASE (presets alootid), poussent du
 	// texte vers Discord (rapport de bug, dont le rate-limit par account_id ne tient
 	// pas : une session en obtient un neuf à chaque fois) et font scanner le mob_db
 	// entier (données techniques). L'accorder ici revenait à ouvrir tout cela à
@@ -7022,9 +7036,9 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 		// Même prudence que la branche « client périmé » plus bas, sans le kick ni le
 		// warning : un client d'une autre époque n'est pas cru sur parole, il est
 		// simplement ignoré. Son joueur l'apprendra à SA connexion, sous son nom.
-		const PACKET_CZ_BOURGEON_INTEGRITY* pkt =
-			reinterpret_cast<const PACKET_CZ_BOURGEON_INTEGRITY*>(RFIFOP(fd, 0));
-		if (pkt->packetLength < static_cast<int16>(sizeof(PACKET_CZ_BOURGEON_INTEGRITY)))
+		const PACKET_CZ_MOONLIGHT_INTEGRITY* pkt =
+			reinterpret_cast<const PACKET_CZ_MOONLIGHT_INTEGRITY*>(RFIFOP(fd, 0));
+		if (pkt->packetLength < static_cast<int16>(sizeof(PACKET_CZ_MOONLIGHT_INTEGRITY)))
 			return;
 		// ⚠ Ce handler est rejoué : l'accusé que le client attend est
 		// `clif_bourgeon_settings`, envoyé par `clif_bourgeon_grant_verified` -- que
@@ -7046,20 +7060,20 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 	if (!bourgeon_integrity_conf.loaded)
 		clif_bourgeon_integrity_reload();
 
-	const PACKET_CZ_BOURGEON_INTEGRITY* p =
-		reinterpret_cast<const PACKET_CZ_BOURGEON_INTEGRITY*>(RFIFOP(fd, 0));
+	const PACKET_CZ_MOONLIGHT_INTEGRITY* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_INTEGRITY*>(RFIFOP(fd, 0));
 
 	// Older Bourgeon builds send a shorter packet: 36 bytes (pre-MachineGuid) or 72
 	// (pre-patch_index). Show them the update popup and kick, so they know to patch
 	// rather than seeing a silent disconnect.
-	if (p->packetLength < static_cast<int16>(sizeof(PACKET_CZ_BOURGEON_INTEGRITY))) {
+	if (p->packetLength < static_cast<int16>(sizeof(PACKET_CZ_MOONLIGHT_INTEGRITY))) {
 		ShowWarning("Bourgeon integrity: outdated client (pkt len %d, expected %zu) from %s (AID %d) — kicking with notice.\n",
-			p->packetLength, sizeof(PACKET_CZ_BOURGEON_INTEGRITY),
+			p->packetLength, sizeof(PACKET_CZ_MOONLIGHT_INTEGRITY),
 			sd->status.name, sd->status.account_id);
-		PACKET_ZC_BOURGEON_KICK_NOTICE pkt{};
-		pkt.packetType   = HEADER_ZC_BOURGEON_KICK_NOTICE;
+		PACKET_ZC_MOONLIGHT_KICK_NOTICE pkt{};
+		pkt.packetType   = HEADER_ZC_MOONLIGHT_KICK_NOTICE;
 		pkt.packetLength = sizeof(pkt);
-		socket_send<PACKET_ZC_BOURGEON_KICK_NOTICE>(fd, pkt);
+		socket_send<PACKET_ZC_MOONLIGHT_KICK_NOTICE>(fd, pkt);
 		add_timer(gettick() + 5000, clif_bourgeon_integrity_kick_timer, sd->id, 0);
 		return;
 	}
@@ -7087,10 +7101,10 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 			bourgeon_integrity_conf.min_patch_index,
 			bourgeon_integrity_conf.enforce ? " - kicking" : " - log only (enforce off)");
 		if (bourgeon_integrity_conf.enforce) {
-			PACKET_ZC_BOURGEON_KICK_NOTICE pkt{};
-			pkt.packetType   = HEADER_ZC_BOURGEON_KICK_NOTICE;
+			PACKET_ZC_MOONLIGHT_KICK_NOTICE pkt{};
+			pkt.packetType   = HEADER_ZC_MOONLIGHT_KICK_NOTICE;
 			pkt.packetLength = sizeof(pkt);
-			socket_send<PACKET_ZC_BOURGEON_KICK_NOTICE>(fd, pkt);
+			socket_send<PACKET_ZC_MOONLIGHT_KICK_NOTICE>(fd, pkt);
 			add_timer(gettick() + 5000, clif_bourgeon_integrity_kick_timer, sd->id, 0);
 			return;
 		}
@@ -7115,10 +7129,10 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 	if (bourgeon_integrity_conf.enforce) {
 		// 1. Tell the Bourgeon overlay to show an "update your client" popup.
 		{
-			PACKET_ZC_BOURGEON_KICK_NOTICE pkt{};
-			pkt.packetType   = HEADER_ZC_BOURGEON_KICK_NOTICE;
+			PACKET_ZC_MOONLIGHT_KICK_NOTICE pkt{};
+			pkt.packetType   = HEADER_ZC_MOONLIGHT_KICK_NOTICE;
 			pkt.packetLength = sizeof(pkt);
-			socket_send<PACKET_ZC_BOURGEON_KICK_NOTICE>(fd, pkt);
+			socket_send<PACKET_ZC_MOONLIGHT_KICK_NOTICE>(fd, pkt);
 		}
 		// 2. Kick after 5 s so the player has time to read the popup.
 		add_timer(gettick() + 5000, clif_bourgeon_integrity_kick_timer, sd->id, 0);
@@ -7129,24 +7143,104 @@ void clif_parse_bourgeon_integrity(int32 fd, map_session_data* sd) {
 	}
 }
 
-// Handles CZ_BOURGEON_CHEAT_REPORT (0x0F0A): [type:2][len:2][tool_name:32][detail:64]
+// Poignée de main du client autonome moonclient (CZ 0x0F39) :
+//   [type:2][len:2][machine_guid:36][patch_index:4]
+//
+// Elle ouvre la même session que CZ_MOONLIGHT_INTEGRITY -- moonclient parle tout le
+// protocole Bourgeon -- mais SANS condensé : il n'y a pas de ddraw.dll à peser, et
+// le contenu est tenu par le patcheur intégré. Restent donc, dans l'ordre du
+// contrôle Bourgeon : le MachineGuid (détection de multi-comptes), les IP exemptées,
+// l'autorisation `allow_moonclient`, puis le dernier patch de la chaîne moonclient.
+//
+// ⚠ Comme le condensé rejoué que ce paquet remplace, il ne PROUVE rien : n'importe
+// quel programme peut l'émettre. `allow_moonclient: 0` est le moyen de le fermer.
+void clif_parse_moonclient_integrity(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+
+	// moonclient n'ouvre pas de session spectateur ; une qui s'annoncerait ainsi
+	// n'obtient rien, pour la raison écrite dans clif_parse_moonlight_integrity.
+	if (sd->state.spectator)
+		return;
+
+	if (!bourgeon_integrity_conf.loaded)
+		clif_bourgeon_integrity_reload();
+
+	const PACKET_CZ_MOONCLIENT_INTEGRITY* p =
+		reinterpret_cast<const PACKET_CZ_MOONCLIENT_INTEGRITY*>(RFIFOP(fd, 0));
+
+	// L'avis « mets à jour » que le client affiche avant d'être coupé, puis le kick
+	// cinq secondes plus tard -- même chemin que le refus Bourgeon.
+	auto refuse = [fd, sd]() {
+		PACKET_ZC_MOONLIGHT_KICK_NOTICE pkt{};
+		pkt.packetType   = HEADER_ZC_MOONLIGHT_KICK_NOTICE;
+		pkt.packetLength = sizeof(pkt);
+		socket_send<PACKET_ZC_MOONLIGHT_KICK_NOTICE>(fd, pkt);
+		add_timer(gettick() + 5000, clif_bourgeon_integrity_kick_timer, sd->id, 0);
+	};
+
+	if (p->packetLength < static_cast<int16>(sizeof(PACKET_CZ_MOONCLIENT_INTEGRITY))) {
+		ShowWarning("[moonclient] integrity: short packet (len %d, expected %zu) from %s (AID %d) - kicking.\n",
+			p->packetLength, sizeof(PACKET_CZ_MOONCLIENT_INTEGRITY),
+			sd->status.name, sd->status.account_id);
+		refuse();
+		return;
+	}
+
+	clif_bourgeon_register_guid(sd, p->machine_guid);
+
+	if (session_isValid(fd) &&
+		bourgeon_integrity_conf.exempt_ips.count(session[fd]->client_addr) > 0) {
+		ShowInfo("[moonclient] integrity: %s exempt (IP %s).\n",
+			sd->status.name, ip2str(session[fd]->client_addr, nullptr));
+		sd->state.moonclient = true;
+		clif_bourgeon_grant_verified(sd);
+		return;
+	}
+
+	if (!bourgeon_integrity_conf.allow_moonclient) {
+		ShowWarning("[moonclient] refused (allow_moonclient: 0): %s (AID %d)%s\n",
+			sd->status.name, sd->status.account_id,
+			bourgeon_integrity_conf.enforce ? " - kicking" : " - log only (enforce off)");
+		if (bourgeon_integrity_conf.enforce) {
+			refuse();
+			return;
+		}
+	}
+
+	if (bourgeon_integrity_conf.moonclient_min_patch_index >= 0 &&
+		p->patch_index < bourgeon_integrity_conf.moonclient_min_patch_index) {
+		ShowWarning("[moonclient] content outdated: %s (AID %d) patch_index=%d < required %d%s\n",
+			sd->status.name, sd->status.account_id, p->patch_index,
+			bourgeon_integrity_conf.moonclient_min_patch_index,
+			bourgeon_integrity_conf.enforce ? " - kicking" : " - log only (enforce off)");
+		if (bourgeon_integrity_conf.enforce) {
+			refuse();
+			return;
+		}
+	}
+
+	sd->state.moonclient = true;
+	clif_bourgeon_grant_verified(sd);
+}
+
+// Handles CZ_MOONLIGHT_CHEAT_REPORT (0x0F0A): [type:2][len:2][tool_name:32][detail:64]
 // The client sends this once per new detection (process scan, window scan, or injected module).
 // We log to the map-server console so the admin can see which player uses which tool.
 // [Stingor] Enriched-description tech data (CZ 0x0F0B -> ZC 0x0F0C).
 // Item: drop sources from item_data->mob[] (the index rAthena builds for
 // @whodrops), rates adjusted like @whodrops (level penalty + VIP), plus the
 // mob boss type (normal/mini-boss/MVP). Skill: cast/cooldown/delay per level.
-void clif_parse_bourgeon_reqtechdata(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_reqtechdata(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
-	const PACKET_CZ_BOURGEON_REQ_TECHDATA* p =
-		reinterpret_cast<const PACKET_CZ_BOURGEON_REQ_TECHDATA*>(RFIFOP(fd, 0));
+	const PACKET_CZ_MOONLIGHT_REQ_TECHDATA* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_REQ_TECHDATA*>(RFIFOP(fd, 0));
 	const uint32 req_id   = p->id;
 	const bool   is_skill = (p->is_skill != 0);
 	const uint8  scope    = p->scope;  // item: 0 = drops normaux, 1 = MVP rewards
 
 	WFIFOHEAD(fd, 16384);
-	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_TECHDATA;
+	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_TECHDATA;
 	WFIFOL(fd, 4) = req_id;
 	WFIFOB(fd, 8) = is_skill ? 1 : 0;
 	WFIFOB(fd, 9) = scope;
@@ -7279,12 +7373,12 @@ void clif_parse_bourgeon_reqtechdata(int32 fd, map_session_data* sd) {
 // seulement en cas d'échec on balaie mob_db à la recherche du ViewClass. Cet
 // ordre est important : un monstre déguisé emprunte l'apparence d'un AUTRE
 // monstre existant, l'inverser ferait perdre le cas normal.
-void clif_parse_bourgeon_reqmobinfo(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_reqmobinfo(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
 
-	const PACKET_CZ_BOURGEON_REQ_MOBINFO* p =
-		reinterpret_cast<const PACKET_CZ_BOURGEON_REQ_MOBINFO*>(RFIFOP(fd, 0));
+	const PACKET_CZ_MOONLIGHT_REQ_MOBINFO* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_REQ_MOBINFO*>(RFIFOP(fd, 0));
 	const uint32 req_id  = p->mob_id;
 	const bool   by_view = (p->by_view != 0);
 
@@ -7305,7 +7399,7 @@ void clif_parse_bourgeon_reqmobinfo(int32 fd, map_session_data* sd) {
 	// (mob_skill_db est plafonné à MAX_MOBSKILL = 50) ; l'enveloppe couvre le
 	// pire cas pour de bon, plutôt que de parier dessus.
 	WFIFOHEAD(fd, 32768);
-	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_MOBINFO;
+	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_MOBINFO;
 	WFIFOL(fd, 4) = req_id;                 // écho : le client apparie sa requête
 	if (mob == nullptr) {
 		WFIFOB(fd, 8) = 1;                  // status 1 = inconnu, rien ne suit
@@ -7587,15 +7681,15 @@ void clif_parse_bourgeon_reqmobinfo(int32 fd, map_session_data* sd) {
 // status 2 et RIEN d'autre — pas une réponse vide qui laisserait croire à une
 // entité introuvable.
 //
-// Sortie = liste clé/valeur (cf. PACKET_ZC_BOURGEON_ENTITY_PROPS) : une paire à
+// Sortie = liste clé/valeur (cf. PACKET_ZC_MOONLIGHT_ENTITY_PROPS) : une paire à
 // valeur vide est un titre de section. Le serveur décrit ce qu'il trouve ; le
 // client dessine, sans rien connaître des types du serveur.
-void clif_parse_bourgeon_req_entity_props(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_req_entity_props(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
 
-	const PACKET_CZ_BOURGEON_REQ_ENTITY_PROPS* p =
-		reinterpret_cast<const PACKET_CZ_BOURGEON_REQ_ENTITY_PROPS*>(RFIFOP(fd, 0));
+	const PACKET_CZ_MOONLIGHT_REQ_ENTITY_PROPS* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_REQ_ENTITY_PROPS*>(RFIFOP(fd, 0));
 	const uint32 gid = p->gid;
 
 	// 8 Ko : les paires sont bornées ci-dessous (128 max, clé 63, valeur 191),
@@ -7603,7 +7697,7 @@ void clif_parse_bourgeon_req_entity_props(int32 fd, map_session_data* sd) {
 	// delà de kMaxPayload de toute façon.
 	const int16 kMaxPayload = 7900;
 	WFIFOHEAD(fd, 8192);
-	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_ENTITY_PROPS;
+	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_ENTITY_PROPS;
 	WFIFOL(fd, 4) = gid;   // écho : le client apparie sa requête
 
 	// Staff seulement. Réponse explicite plutôt que silence : un bouton qui ne
@@ -7950,15 +8044,15 @@ void clif_parse_bourgeon_req_entity_props(int32 fd, map_session_data* sd) {
 // 🔴 HORS DE VUE = STATUT 1. « La fenêtre se ferme quand la cible sort
 // d'AREA_SIZE » se décide ICI, avec la même distance que tout le reste du
 // serveur, et pas dans une heuristique cliente qui divergerait.
-void clif_parse_bourgeon_target_info(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_target_info(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
 
-	const PACKET_CZ_BOURGEON_TARGET_INFO* req =
-		reinterpret_cast<const PACKET_CZ_BOURGEON_TARGET_INFO*>(RFIFOP(fd, 0));
+	const PACKET_CZ_MOONLIGHT_TARGET_INFO* req =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_TARGET_INFO*>(RFIFOP(fd, 0));
 
-	PACKET_ZC_BOURGEON_TARGET_INFO p = {};
-	p.packetType   = HEADER_ZC_BOURGEON_TARGET_INFO;
+	PACKET_ZC_MOONLIGHT_TARGET_INFO p = {};
+	p.packetType   = HEADER_ZC_MOONLIGHT_TARGET_INFO;
 	p.packetLength = sizeof(p);
 	p.gid          = req->gid;
 
@@ -8124,17 +8218,17 @@ static int32 bourgeon_ailment_icon(sc_type type) {
 	}
 }
 
-void clif_parse_bourgeon_req_status_list(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_req_status_list(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
 
-	const PACKET_CZ_BOURGEON_REQ_STATUS_LIST* req =
-		reinterpret_cast<const PACKET_CZ_BOURGEON_REQ_STATUS_LIST*>(RFIFOP(fd, 0));
+	const PACKET_CZ_MOONLIGHT_REQ_STATUS_LIST* req =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_REQ_STATUS_LIST*>(RFIFOP(fd, 0));
 	const uint32 gid = req->gid;
 
-	const int16 head = static_cast<int16>(sizeof(PACKET_ZC_BOURGEON_STATUS_LIST));
+	const int16 head = static_cast<int16>(sizeof(PACKET_ZC_MOONLIGHT_STATUS_LIST));
 	WFIFOHEAD(fd, head + BOURGEON_STATUS_LIST_MAX * sizeof(BOURGEON_STATUS_ENTRY));
-	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_STATUS_LIST;
+	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_STATUS_LIST;
 	WFIFOL(fd, 4) = gid;
 	WFIFOB(fd, 8) = 0;   // status
 	WFIFOB(fd, 9) = 0;   // count
@@ -8338,18 +8432,18 @@ void clif_parse_bourgeon_req_status_list(int32 fd, map_session_data* sd) {
 //
 // Un joueur HORS LIGNE n'a pas de session : il n'apparait pas dans la reponse,
 // et c'est exact — le client ne dessine sa tete que pour qui est en ligne.
-void clif_parse_bourgeon_req_looks(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_req_looks(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
 
-	const PACKET_CZ_BOURGEON_REQ_LOOKS* req =
-		reinterpret_cast<const PACKET_CZ_BOURGEON_REQ_LOOKS*>(RFIFOP(fd, 0));
+	const PACKET_CZ_MOONLIGHT_REQ_LOOKS* req =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_REQ_LOOKS*>(RFIFOP(fd, 0));
 	const uint8 what = req->what;
 
-	const int16 head = static_cast<int16>(sizeof(PACKET_ZC_BOURGEON_LOOKS));
+	const int16 head = static_cast<int16>(sizeof(PACKET_ZC_MOONLIGHT_LOOKS));
 	const int16 entry = static_cast<int16>(sizeof(BOURGEON_LOOK_ENTRY));
 	WFIFOHEAD(fd, head + BOURGEON_LOOKS_MAX * entry);
-	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_LOOKS;
+	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_LOOKS;
 
 	int32 count = 0;
 	uint32 sent[BOURGEON_LOOKS_MAX];
@@ -8409,12 +8503,12 @@ void clif_bourgeon_party_share( map_session_data& sd, const uint32* aid, const u
 	if( count > MAX_PARTY )
 		count = MAX_PARTY;
 
-	const int16 head = static_cast<int16>( sizeof( PACKET_ZC_BOURGEON_PARTY_SHARE ) );
+	const int16 head = static_cast<int16>( sizeof( PACKET_ZC_MOONLIGHT_PARTY_SHARE ) );
 	const int16 entry = static_cast<int16>( sizeof( BOURGEON_PARTY_SHARE_ENTRY ) );
 	const int16 len = static_cast<int16>( head + count * entry );
 
 	WFIFOHEAD( fd, len );
-	WFIFOW( fd, 0 ) = HEADER_ZC_BOURGEON_PARTY_SHARE;
+	WFIFOW( fd, 0 ) = HEADER_ZC_MOONLIGHT_PARTY_SHARE;
 	WFIFOW( fd, 2 ) = len;
 	// 🔴 LE SEUIL VOYAGE AVEC L'ÉTAT. Il vit dans conf/import/battle_conf.txt et
 	// n'est connu que du serveur : le client ne peut ni le deviner, ni le
@@ -8451,11 +8545,11 @@ static void clif_bourgeon_flag_graffiti_single(const skill_unit& unit, map_sessi
 	if (!session_isActive(fd))
 		return;
 
-	WFIFOHEAD(fd, sizeof(PACKET_ZC_BOURGEON_FLAG_GRAFFITI));
-	PACKET_ZC_BOURGEON_FLAG_GRAFFITI* p =
-		reinterpret_cast<PACKET_ZC_BOURGEON_FLAG_GRAFFITI*>(WFIFOP(fd, 0));
-	p->packetType   = HEADER_ZC_BOURGEON_FLAG_GRAFFITI;
-	p->packetLength = (int16)sizeof(PACKET_ZC_BOURGEON_FLAG_GRAFFITI);
+	WFIFOHEAD(fd, sizeof(PACKET_ZC_MOONLIGHT_FLAG_GRAFFITI));
+	PACKET_ZC_MOONLIGHT_FLAG_GRAFFITI* p =
+		reinterpret_cast<PACKET_ZC_MOONLIGHT_FLAG_GRAFFITI*>(WFIFOP(fd, 0));
+	p->packetType   = HEADER_ZC_MOONLIGHT_FLAG_GRAFFITI;
+	p->packetLength = (int16)sizeof(PACKET_ZC_MOONLIGHT_FLAG_GRAFFITI);
 	p->unit_id      = unit.id;
 	p->creator_id   = unit.group->src_id;
 	p->x            = unit.x;
@@ -8463,7 +8557,7 @@ static void clif_bourgeon_flag_graffiti_single(const skill_unit& unit, map_sessi
 	p->guild_id     = static_cast<uint32>(unit.group->val1);
 	p->emblem_id    = static_cast<uint32>(unit.group->val2);
 	p->level        = static_cast<uint8>(unit.group->skill_lv);
-	WFIFOSET(fd, sizeof(PACKET_ZC_BOURGEON_FLAG_GRAFFITI));
+	WFIFOSET(fd, sizeof(PACKET_ZC_MOONLIGHT_FLAG_GRAFFITI));
 }
 
 // Aux joueurs autour (callback BL_PC) : va_arg = const skill_unit*.
@@ -8498,14 +8592,14 @@ static void clif_bourgeon_unit_master_single(const mob_data& md, map_session_dat
 	if (!session_isActive(fd))
 		return;
 
-	WFIFOHEAD(fd, sizeof(PACKET_ZC_BOURGEON_UNIT_MASTER));
-	PACKET_ZC_BOURGEON_UNIT_MASTER* p =
-		reinterpret_cast<PACKET_ZC_BOURGEON_UNIT_MASTER*>(WFIFOP(fd, 0));
-	p->packetType   = HEADER_ZC_BOURGEON_UNIT_MASTER;
-	p->packetLength = (int16)sizeof(PACKET_ZC_BOURGEON_UNIT_MASTER);
+	WFIFOHEAD(fd, sizeof(PACKET_ZC_MOONLIGHT_UNIT_MASTER));
+	PACKET_ZC_MOONLIGHT_UNIT_MASTER* p =
+		reinterpret_cast<PACKET_ZC_MOONLIGHT_UNIT_MASTER*>(WFIFOP(fd, 0));
+	p->packetType   = HEADER_ZC_MOONLIGHT_UNIT_MASTER;
+	p->packetLength = (int16)sizeof(PACKET_ZC_MOONLIGHT_UNIT_MASTER);
 	p->GID          = md.id;
 	p->master_id    = static_cast<uint32>(md.master_id);
-	WFIFOSET(fd, sizeof(PACKET_ZC_BOURGEON_UNIT_MASTER));
+	WFIFOSET(fd, sizeof(PACKET_ZC_MOONLIGHT_UNIT_MASTER));
 }
 
 // Aux joueurs autour (callback BL_PC) : va_arg = const mob_data*.
@@ -8545,16 +8639,16 @@ static int32 clif_bourgeon_unit_master_seen_sub(block_list* bl, va_list ap) {
 	return 0;
 }
 
-void clif_parse_bourgeon_ui_caps(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
 
-	const PACKET_CZ_BOURGEON_UI_CAPS* p =
-		reinterpret_cast<const PACKET_CZ_BOURGEON_UI_CAPS*>(RFIFOP(fd, 0));
+	const PACKET_CZ_MOONLIGHT_UI_CAPS* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_UI_CAPS*>(RFIFOP(fd, 0));
 	// Paquet déclaré VARIABLE : un client plus ancien (ou plus récent) peut en
 	// envoyer une version plus courte. On ne lit `caps` que s'il est réellement là,
 	// plutôt que de lire au-delà du tampon annoncé.
-	if (p->packetLength < static_cast<int16>(sizeof(PACKET_CZ_BOURGEON_UI_CAPS)))
+	if (p->packetLength < static_cast<int16>(sizeof(PACKET_CZ_MOONLIGHT_UI_CAPS)))
 		return;
 	const uint32 before = sd->bourgeon_ui_caps;
 	sd->bourgeon_ui_caps = p->caps;
@@ -8570,7 +8664,7 @@ void clif_parse_bourgeon_ui_caps(int32 fd, map_session_data* sd) {
 		clif_bourgeon_server_rules(*sd);
 }
 
-// [Stingor] ZC_BOURGEON_SERVER_RULES (0x0F38), à une session qui sait le lire.
+// [Stingor] ZC_MOONLIGHT_SERVER_RULES (0x0F38), à une session qui sait le lire.
 void clif_bourgeon_server_rules(map_session_data& sd) {
 	if (!sd.state.has_bourgeon || !(sd.bourgeon_ui_caps & BOURGEON_UI_SERVER_RULES))
 		return;
@@ -8578,18 +8672,18 @@ void clif_bourgeon_server_rules(map_session_data& sd) {
 	if (!session_isActive(fd))
 		return;
 
-	const PACKET_ZC_BOURGEON_SERVER_RULES_entry rules[] = {
+	const PACKET_ZC_MOONLIGHT_SERVER_RULES_entry rules[] = {
 		{ BOURGEON_RULE_AREA_SIZE,           battle_config.area_size },
 		{ BOURGEON_RULE_HOM_MAX_LEVEL,       battle_config.hom_max_level },
 		{ BOURGEON_RULE_HOM_S_MAX_LEVEL,     battle_config.hom_S_max_level },
 		{ BOURGEON_RULE_HOMUNC_TELEPORT_ACD, battle_config.homunc_teleport_acd },
 	};
-	const size_t len = sizeof(PACKET_ZC_BOURGEON_SERVER_RULES) + sizeof(rules);
+	const size_t len = sizeof(PACKET_ZC_MOONLIGHT_SERVER_RULES) + sizeof(rules);
 
 	WFIFOHEAD(fd, len);
-	PACKET_ZC_BOURGEON_SERVER_RULES* p =
-		reinterpret_cast<PACKET_ZC_BOURGEON_SERVER_RULES*>(WFIFOP(fd, 0));
-	p->packetType   = HEADER_ZC_BOURGEON_SERVER_RULES;
+	PACKET_ZC_MOONLIGHT_SERVER_RULES* p =
+		reinterpret_cast<PACKET_ZC_MOONLIGHT_SERVER_RULES*>(WFIFOP(fd, 0));
+	p->packetType   = HEADER_ZC_MOONLIGHT_SERVER_RULES;
 	p->packetLength = static_cast<int16>(len);
 	memcpy(p->rules, rules, sizeof(rules));
 	WFIFOSET(fd, len);
@@ -8616,8 +8710,8 @@ void clif_bourgeon_server_rules_all() {
 // `server_time` voyage dans chaque paquet d'état : le client en tire un décalage
 // et n'a plus jamais besoin d'un fuseau.
 
-// Taille d'une entrée, par `kind` de ZC_BOURGEON_MVP_STATE.
-#define MVP_STATE_HEADER_LEN   (int16)(sizeof(PACKET_ZC_BOURGEON_MVP_STATE))
+// Taille d'une entrée, par `kind` de ZC_MOONLIGHT_MVP_STATE.
+#define MVP_STATE_HEADER_LEN   (int16)(sizeof(PACKET_ZC_MOONLIGHT_MVP_STATE))
 // 🔴 `map_xs`/`map_ys` sont dans le CATALOGUE et pas ailleurs, parce que le
 // client ne peut PAS les trouver seul : il ne mesure que la carte où il se
 // trouve (CWorld -> MapInfo). Sans elles, poser une tombe sur le plan d'une
@@ -8630,24 +8724,24 @@ void clif_bourgeon_server_rules_all() {
 // à personne : la colonne Source du carnet disait « tué » sans jamais dire par qui.
 #define MVP_OBS_ENTRY_LEN      (int16)(2 + 1 + 2 + 8 + 8 + 2 + 2 + 4 + 8 + NAME_LENGTH)
 #define MVP_FAV_ENTRY_LEN      (int16)(2)
-#define MVP_GROUP_HEADER_LEN   (int16)(sizeof(PACKET_ZC_BOURGEON_MVP_GROUP))
+#define MVP_GROUP_HEADER_LEN   (int16)(sizeof(PACKET_ZC_MOONLIGHT_MVP_GROUP))
 #define MVP_MEMBER_ENTRY_LEN   (int16)(4 + 2 + 1 + NAME_LENGTH)
-// Les QUEUES de ZC_BOURGEON_MVP_GROUP. Elles suivent la dernière entrée et ne
+// Les QUEUES de ZC_MOONLIGHT_MVP_GROUP. Elles suivent la dernière entrée et ne
 // partent qu'à une session BOURGEON_UI_MVP_TRACKER_EXT (S1, S3), ou qu'en
 // réponse à une commande qui portait un identifiant (S2) : un lecteur lit par
 // longueur et ignore l'excédent, une queue future s'ajoute APRÈS celles-ci.
 #define MVP_GROUP_SELF_TRAILER_LEN    (int16)(4)      // kind 0 : [self_user_id:4]
 #define MVP_INVITE_ORIGIN_TRAILER_LEN (int16)(1)      // kind 1 : [origin:1]
 #define MVP_RESULT_TAG_TRAILER_LEN    (int16)(4 + 1)  // kind 2 : [request_id:4][cmd:1]
-// Le suffixe d'identifiant de CZ_BOURGEON_MVP_CMD : [0x00][request_id:4].
+// Le suffixe d'identifiant de CZ_MOONLIGHT_MVP_CMD : [0x00][request_id:4].
 #define MVP_CMD_REQUEST_ID_LEN        (int32)(1 + 4)
 
-/// Écrit l'en-tête commun de ZC_BOURGEON_MVP_STATE et rend l'offset du corps.
+/// Écrit l'en-tête commun de ZC_MOONLIGHT_MVP_STATE et rend l'offset du corps.
 static int32 clif_bourgeon_mvp_state_header(int32 fd, uint8 kind, int16 pkt_len, uint16 count) {
 	WFIFOHEAD(fd, pkt_len);
 	// Les noms sont NUL-paddés : le tampon WFIFO n'est pas vierge.
 	memset(WFIFOP(fd, 0), 0, pkt_len);
-	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_MVP_STATE;
+	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_MVP_STATE;
 	WFIFOW(fd, 2) = pkt_len;
 	WFIFOB(fd, 4) = kind;
 	WFIFOQ(fd, 5) = (uint64)(int64)time(nullptr);
@@ -8762,12 +8856,12 @@ void clif_bourgeon_mvp_delta(const s_mvp_group& group, uint16 slot_id, const s_m
 	}
 }
 
-/// La session peut-elle recevoir ZC_BOURGEON_MVP_GROUP ?
+/// La session peut-elle recevoir ZC_MOONLIGHT_MVP_GROUP ?
 static bool clif_bourgeon_mvp_group_reachable(const map_session_data& sd) {
 	return sd.state.has_bourgeon && session_isActive(sd.fd);
 }
 
-/// Écrit ZC_BOURGEON_MVP_GROUP kind 0 pour `sd`, à partir de vues déjà calculées :
+/// Écrit ZC_MOONLIGHT_MVP_GROUP kind 0 pour `sd`, à partir de vues déjà calculées :
 /// un groupe diffusé à tous ne coûte ainsi qu'UNE requête de noms, pas une par
 /// destinataire. `group` nul : « dans aucun groupe ».
 static void clif_bourgeon_mvp_group_send(map_session_data& sd, const s_mvp_group* group,
@@ -8785,7 +8879,7 @@ static void clif_bourgeon_mvp_group_send(map_session_data& sd, const s_mvp_group
 		(self_trailer ? MVP_GROUP_SELF_TRAILER_LEN : 0));
 	WFIFOHEAD(fd, pkt_len);
 	memset(WFIFOP(fd, 0), 0, pkt_len);
-	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_MVP_GROUP;
+	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_MVP_GROUP;
 	WFIFOW(fd, 2) = pkt_len;
 	WFIFOB(fd, 4) = 0;  // kind 0 = GROUPE
 	WFIFOB(fd, 5) = 0;  // result
@@ -8889,7 +8983,7 @@ static void clif_bourgeon_mvp_invite_frame(map_session_data& sd, uint32 group_id
 	const int16 pkt_len = (int16)(MVP_GROUP_HEADER_LEN + (origin_trailer ? MVP_INVITE_ORIGIN_TRAILER_LEN : 0));
 	WFIFOHEAD(fd, pkt_len);
 	memset(WFIFOP(fd, 0), 0, pkt_len);
-	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_MVP_GROUP;
+	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_MVP_GROUP;
 	WFIFOW(fd, 2) = pkt_len;
 	WFIFOB(fd, 4) = 1;  // kind 1 = INVITATION
 	WFIFOB(fd, 5) = 0;
@@ -8974,7 +9068,7 @@ void clif_bourgeon_mvp_result(map_session_data& sd, uint8 result, uint8 cmd, con
 	const int16 pkt_len = (int16)(MVP_GROUP_HEADER_LEN + (tag_trailer ? MVP_RESULT_TAG_TRAILER_LEN : 0));
 	WFIFOHEAD(fd, pkt_len);
 	memset(WFIFOP(fd, 0), 0, pkt_len);
-	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_MVP_GROUP;
+	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_MVP_GROUP;
 	WFIFOW(fd, 2) = pkt_len;
 	WFIFOB(fd, 4) = 2;  // kind 2 = RÉSULTAT
 	WFIFOB(fd, 5) = result;
@@ -8985,8 +9079,8 @@ void clif_bourgeon_mvp_result(map_session_data& sd, uint8 result, uint8 cmd, con
 	WFIFOSET(fd, pkt_len);
 }
 
-// Handles CZ_BOURGEON_MVP_CMD (0x0F30).
-void clif_parse_bourgeon_mvp_cmd(int32 fd, map_session_data* sd) {
+// Handles CZ_MOONLIGHT_MVP_CMD (0x0F30).
+void clif_parse_moonlight_mvp_cmd(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
 
@@ -9175,17 +9269,17 @@ void clif_bourgeon_card_album(map_session_data& sd, e_card_album_result result) 
 	// pour aujourd'hui mais pour le jour où quelqu'un verserait un item_db
 	// renewal (5593 cartes) : tronquer en le DISANT, plutôt que déborder en
 	// silence sur un champ de longueur qui repasserait en négatif.
-	const size_t max_entries = (32767 - sizeof(PACKET_ZC_BOURGEON_CARD_ALBUM)) / entry_size;
+	const size_t max_entries = (32767 - sizeof(PACKET_ZC_MOONLIGHT_CARD_ALBUM)) / entry_size;
 	size_t n = catalog.size();
 	const bool truncated = n > max_entries;
 
 	if (truncated) n = max_entries;
 
-	const size_t pkt_len = sizeof(PACKET_ZC_BOURGEON_CARD_ALBUM) + n * entry_size;
+	const size_t pkt_len = sizeof(PACKET_ZC_MOONLIGHT_CARD_ALBUM) + n * entry_size;
 
 	WFIFOHEAD(fd, pkt_len);
 	memset(WFIFOP(fd, 0), 0, pkt_len);
-	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_CARD_ALBUM;
+	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_CARD_ALBUM;
 	WFIFOW(fd, 2) = static_cast<int16>(pkt_len);
 	WFIFOB(fd, 4) = static_cast<uint8>(result);
 	WFIFOW(fd, 5) = static_cast<uint16>(n);
@@ -9195,7 +9289,7 @@ void clif_bourgeon_card_album(map_session_data& sd, e_card_album_result result) 
 	// On les fusionne donc en un seul passage, au lieu de chercher chaque carte
 	// dans l'album — ce qui ferait ~830 000 comparaisons par envoi.
 	size_t ai = 0;
-	size_t off = sizeof(PACKET_ZC_BOURGEON_CARD_ALBUM);
+	size_t off = sizeof(PACKET_ZC_MOONLIGHT_CARD_ALBUM);
 
 	for (size_t i = 0; i < n; ++i) {
 		const s_card_album_card& card = catalog[i];
@@ -9227,15 +9321,15 @@ void clif_bourgeon_card_album(map_session_data& sd, e_card_album_result result) 
 	}
 }
 
-// Handles CZ_BOURGEON_CARD_ALBUM_CMD (0x0F34).
-void clif_parse_bourgeon_card_album_cmd(int32 fd, map_session_data* sd) {
+// Handles CZ_MOONLIGHT_CARD_ALBUM_CMD (0x0F34).
+void clif_parse_moonlight_card_album_cmd(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!clif_bourgeon_card_album_allowed(*sd)) return;
 
 	const int32 pkt_len = RFIFOW(fd, 2);
 
 	// [type:2][len:2][cmd:1][arg:4][amount:2] = 11 octets.
-	if (pkt_len < static_cast<int32>(sizeof(PACKET_CZ_BOURGEON_CARD_ALBUM_CMD))) return;
+	if (pkt_len < static_cast<int32>(sizeof(PACKET_CZ_MOONLIGHT_CARD_ALBUM_CMD))) return;
 
 	const uint8  cmd    = RFIFOB(fd, 4);
 	const uint32 arg    = RFIFOL(fd, 5);
@@ -9318,12 +9412,12 @@ void clif_parse_bourgeon_card_album_cmd(int32 fd, map_session_data* sd) {
 // Le compte rendu part en `clif_displaymessage` — le canal des atcommands — donc
 // aucun ZC à écrire, et le message atterrit dans le chat comme celui de la
 // commande équivalente.
-void clif_parse_bourgeon_npc_admin(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_npc_admin(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
 
-	const PACKET_CZ_BOURGEON_NPC_ADMIN* p =
-		reinterpret_cast<const PACKET_CZ_BOURGEON_NPC_ADMIN*>(RFIFOP(fd, 0));
+	const PACKET_CZ_MOONLIGHT_NPC_ADMIN* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_NPC_ADMIN*>(RFIFOP(fd, 0));
 
 	// Refus EXPLICITE : un bouton qui ne répond jamais ressemble à une panne.
 	if (pc_get_group_level(sd) < 99) {
@@ -9359,7 +9453,7 @@ void clif_parse_bourgeon_npc_admin(int32 fd, map_session_data* sd) {
 			safesnprintf(output, sizeof(output),
 				"Echec : le fichier '%s' n'a pas pu etre recharge (voir la console).", path);
 			clif_displaymessage(fd, output);
-			ShowDebug("clif_parse_bourgeon_npc_admin: NPC failed to load '" CL_WHITE "%s" CL_RESET "'.\n", path);
+			ShowDebug("clif_parse_moonlight_npc_admin: NPC failed to load '" CL_WHITE "%s" CL_RESET "'.\n", path);
 			return;
 		}
 		npc_read_event_script();
@@ -9435,12 +9529,12 @@ void clif_parse_bourgeon_npc_admin(int32 fd, map_session_data* sd) {
 // existante (`recall`, `points`) plutôt que d'inventer un seuil de plus.
 //
 // Pas de ZC : tout revient par `clif_displaymessage`, le canal des atcommands.
-void clif_parse_bourgeon_player_admin(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_player_admin(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
 
-	const PACKET_CZ_BOURGEON_PLAYER_ADMIN* p =
-		reinterpret_cast<const PACKET_CZ_BOURGEON_PLAYER_ADMIN*>(RFIFOP(fd, 0));
+	const PACKET_CZ_MOONLIGHT_PLAYER_ADMIN* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_PLAYER_ADMIN*>(RFIFOP(fd, 0));
 
 	// Refus EXPLICITE : un bouton qui ne répond jamais ressemble à une panne.
 	if (pc_get_group_level(sd) < 80) {
@@ -9683,18 +9777,18 @@ bool clif_bourgeon_strip_own_tags(const char* text, std::string& out) {
 // prédicat EXACT du sertissage (pc_can_insert_card) à chaque carte -> la liste
 // renvoyée est identique à ce que pc_insert_card accepterait (zéro faux positif).
 // index_equip reçu/renvoyé en convention CLIENT (client_index = server+2).
-void clif_parse_bourgeon_reqcompatcards(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_reqcompatcards(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
 
-	const PACKET_CZ_BOURGEON_REQ_COMPAT_CARDS* p =
-		reinterpret_cast<const PACKET_CZ_BOURGEON_REQ_COMPAT_CARDS*>(RFIFOP(fd, 0));
+	const PACKET_CZ_MOONLIGHT_REQ_COMPAT_CARDS* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_REQ_COMPAT_CARDS*>(RFIFOP(fd, 0));
 	const uint16 equip_cidx = p->index_equip;          // convention client (écho)
 	const uint16 equip_idx  = server_index(equip_cidx);
 	if (equip_idx >= MAX_INVENTORY) return;
 
 	WFIFOHEAD(fd, 8 + MAX_INVENTORY * 2);
-	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_COMPAT_CARDS;
+	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_COMPAT_CARDS;
 	WFIFOW(fd, 4) = equip_cidx;  // écho de l'équipement demandé
 	int16 count = 0;
 	int16 offset = 8;            // [type:2][len:2][equip:2][count:2]
@@ -9714,11 +9808,11 @@ void clif_parse_bourgeon_reqcompatcards(int32 fd, map_session_data* sd) {
 // Estime les dégâts BRUTS (non réduits) d'un sort via battle_calc_attack contre
 // un dummy neutre construit ENTIÈREMENT en source (0 def/mdef, Neutral/Formless/
 // Medium ; aucune entrée mob_db, aucun spawn). Échantillonné pour min/max/moy.
-void clif_parse_bourgeon_reqdamage(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_reqdamage(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
-	const PACKET_CZ_BOURGEON_REQ_DAMAGE* p =
-		reinterpret_cast<const PACKET_CZ_BOURGEON_REQ_DAMAGE*>(RFIFOP(fd, 0));
+	const PACKET_CZ_MOONLIGHT_REQ_DAMAGE* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_REQ_DAMAGE*>(RFIFOP(fd, 0));
 	const uint16 skill_id      = static_cast<uint16>(p->skill_id);
 	const uint32 target_mob_id = p->target_mob_id;  // 0 = dummy neutre
 	uint16 skill_lv = p->skill_lv;
@@ -9732,11 +9826,11 @@ void clif_parse_bourgeon_reqdamage(int32 fd, map_session_data* sd) {
 	if (skdb != nullptr && skill_lv > skdb->max) skill_lv = skdb->max;
 	if (skill_lv < 1) skill_lv = 1;
 
-	WFIFOHEAD(fd, sizeof(PACKET_ZC_BOURGEON_DAMAGE) + 32);  // + [namelen:1][name]
-	PACKET_ZC_BOURGEON_DAMAGE* r =
-		reinterpret_cast<PACKET_ZC_BOURGEON_DAMAGE*>(WFIFOP(fd, 0));
-	r->packetType   = HEADER_ZC_BOURGEON_DAMAGE;
-	r->packetLength = sizeof(PACKET_ZC_BOURGEON_DAMAGE);
+	WFIFOHEAD(fd, sizeof(PACKET_ZC_MOONLIGHT_DAMAGE) + 32);  // + [namelen:1][name]
+	PACKET_ZC_MOONLIGHT_DAMAGE* r =
+		reinterpret_cast<PACKET_ZC_MOONLIGHT_DAMAGE*>(WFIFOP(fd, 0));
+	r->packetType   = HEADER_ZC_MOONLIGHT_DAMAGE;
+	r->packetLength = sizeof(PACKET_ZC_MOONLIGHT_DAMAGE);
 	r->skill_id      = p->skill_id;
 	r->skill_lv      = skill_lv;
 	r->target_mob_id = target_mob_id;  // écho
@@ -9755,7 +9849,7 @@ void clif_parse_bourgeon_reqdamage(int32 fd, map_session_data* sd) {
 	if (skdb == nullptr || skill_get_nk(skill_id, NK_NODAMAGE) ||
 		(atk_type != BF_WEAPON && atk_type != BF_MAGIC && atk_type != BF_MISC)) {
 		r->status = 1;
-		WFIFOSET(fd, sizeof(PACKET_ZC_BOURGEON_DAMAGE));
+		WFIFOSET(fd, sizeof(PACKET_ZC_MOONLIGHT_DAMAGE));
 		return;
 	}
 
@@ -9780,7 +9874,7 @@ void clif_parse_bourgeon_reqdamage(int32 fd, map_session_data* sd) {
 			use_mob_id, "", 0, AI_NONE);
 		if (md == nullptr) {
 			r->status = 2;  // monstre/dummy introuvable (id invalide ?)
-			WFIFOSET(fd, sizeof(PACKET_ZC_BOURGEON_DAMAGE));
+			WFIFOSET(fd, sizeof(PACKET_ZC_MOONLIGHT_DAMAGE));
 			return;
 		}
 		status_set_viewdata(md, md->mob_id);   // vd
@@ -9822,7 +9916,7 @@ void clif_parse_bourgeon_reqdamage(int32 fd, map_session_data* sd) {
 	r->dmg_avg = static_cast<int64>(sum / kSamples + 0.5);
 
 	// Nom de la cible appended : [namelen:1][name] (vide pour dummy/soi-même).
-	const int16 base = sizeof(PACKET_ZC_BOURGEON_DAMAGE);
+	const int16 base = sizeof(PACKET_ZC_MOONLIGHT_DAMAGE);
 	const uint8 nl = static_cast<uint8>(
 		target_name.size() > 24 ? 24 : target_name.size());
 	WFIFOB(fd, base) = nl;
@@ -9835,15 +9929,15 @@ void clif_parse_bourgeon_reqdamage(int32 fd, map_session_data* sd) {
 // les onglets « Script » et « Combos » de la description enrichie. Le texte source
 // est conservé au chargement du YAML (item->script_src / combo->script_src ; le
 // bytecode compilé n'étant pas décompilable). Accessible à tout client Bourgeon.
-void clif_parse_bourgeon_reqitemscript(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_reqitemscript(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
-	const PACKET_CZ_BOURGEON_REQ_ITEMSCRIPT* p =
-		reinterpret_cast<const PACKET_CZ_BOURGEON_REQ_ITEMSCRIPT*>(RFIFOP(fd, 0));
+	const PACKET_CZ_MOONLIGHT_REQ_ITEMSCRIPT* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_REQ_ITEMSCRIPT*>(RFIFOP(fd, 0));
 	const t_itemid req_id = p->id;
 
 	WFIFOHEAD(fd, 32768);
-	WFIFOW(fd, 0) = HEADER_ZC_BOURGEON_ITEMSCRIPT;
+	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_ITEMSCRIPT;
 	WFIFOL(fd, 4) = req_id;
 	int16 offset = 9;  // après [type:2][len:2][id:4][status:1]
 
@@ -9910,18 +10004,18 @@ void clif_parse_bourgeon_reqitemscript(int32 fd, map_session_data* sd) {
 // Le paquet ne porte que {catégorie, JSON de contexte, message}. L'identité, la
 // map et la position sont ajoutées ICI depuis la session (jamais approuvées depuis
 // le client). Insère dans `bug_reports` (lu par le site) + relais Discord.
-void clif_parse_bourgeon_bug_report(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_bug_report(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
 
 	auto send_ack = [&](uint8 status) {
-		WFIFOHEAD(fd, sizeof(PACKET_ZC_BOURGEON_BUG_REPORT_ACK));
-		PACKET_ZC_BOURGEON_BUG_REPORT_ACK* r =
-			reinterpret_cast<PACKET_ZC_BOURGEON_BUG_REPORT_ACK*>(WFIFOP(fd, 0));
-		r->packetType = HEADER_ZC_BOURGEON_BUG_REPORT_ACK;
-		r->packetLength = sizeof(PACKET_ZC_BOURGEON_BUG_REPORT_ACK);
+		WFIFOHEAD(fd, sizeof(PACKET_ZC_MOONLIGHT_BUG_REPORT_ACK));
+		PACKET_ZC_MOONLIGHT_BUG_REPORT_ACK* r =
+			reinterpret_cast<PACKET_ZC_MOONLIGHT_BUG_REPORT_ACK*>(WFIFOP(fd, 0));
+		r->packetType = HEADER_ZC_MOONLIGHT_BUG_REPORT_ACK;
+		r->packetLength = sizeof(PACKET_ZC_MOONLIGHT_BUG_REPORT_ACK);
 		r->status = status;
-		WFIFOSET(fd, sizeof(PACKET_ZC_BOURGEON_BUG_REPORT_ACK));
+		WFIFOSET(fd, sizeof(PACKET_ZC_MOONLIGHT_BUG_REPORT_ACK));
 	};
 
 	// Rate-limit autoritatif : 1 rapport / 30 s par compte (le client throttle
@@ -9934,8 +10028,8 @@ void clif_parse_bourgeon_bug_report(int32 fd, map_session_data* sd) {
 		return;
 	}
 
-	const PACKET_CZ_BOURGEON_BUG_REPORT* p =
-		reinterpret_cast<const PACKET_CZ_BOURGEON_BUG_REPORT*>(RFIFOP(fd, 0));
+	const PACKET_CZ_MOONLIGHT_BUG_REPORT* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_BUG_REPORT*>(RFIFOP(fd, 0));
 	const uint16 pkt_len = p->packetLength;
 	// Header fixe = 7 octets : [type:2][len:2][category:1][ctx_len:2].
 	if (pkt_len < 7) { send_ack(2); return; }
@@ -10046,7 +10140,7 @@ void clif_parse_bourgeon_bug_report(int32 fd, map_session_data* sd) {
 // vitesse-là ne serait plus un signalement mais un flot dans le journal.
 static const t_tick BOURGEON_CHEAT_REPORT_INTERVAL = 60000;
 
-void clif_parse_bourgeon_cheat_report(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_cheat_report(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
 
@@ -10063,7 +10157,7 @@ void clif_parse_bourgeon_cheat_report(int32 fd, map_session_data* sd) {
 
 	sd->bourgeon_cheatreport_tick = now;
 
-	const auto* p = reinterpret_cast<const PACKET_CZ_BOURGEON_CHEAT_REPORT*>(RFIFOP(fd, 0));
+	const auto* p = reinterpret_cast<const PACKET_CZ_MOONLIGHT_CHEAT_REPORT*>(RFIFOP(fd, 0));
 
 	// Null-terminate defensively (fields may not be null-terminated by a buggy client).
 	char tool[33] = {}, detail[65] = {};
@@ -10087,8 +10181,8 @@ void clif_bourgeon_companion_state(map_session_data* sd) {
 	if (!sd->state.has_bourgeon) return;
 	if (!session_isActive(sd->fd)) return;
 
-	PACKET_ZC_BOURGEON_COMPANION_STATE p = {};
-	p.packetType   = HEADER_ZC_BOURGEON_COMPANION_STATE;
+	PACKET_ZC_MOONLIGHT_COMPANION_STATE p = {};
+	p.packetType   = HEADER_ZC_MOONLIGHT_COMPANION_STATE;
 	p.packetLength = sizeof(p);
 	p.pushcart_lv   = pc_checkskill(sd, MC_PUSHCART);
 	p.changecart_lv = pc_checkskill(sd, MC_CHANGECART);
@@ -10156,23 +10250,23 @@ void clif_bourgeon_cook_mastery(map_session_data* sd) {
 	if (!sd->state.has_bourgeon) return;
 	if (!session_isActive(sd->fd)) return;
 
-	PACKET_ZC_BOURGEON_COOK_MASTERY p = {};
-	p.packetType   = HEADER_ZC_BOURGEON_COOK_MASTERY;
+	PACKET_ZC_MOONLIGHT_COOK_MASTERY p = {};
+	p.packetType   = HEADER_ZC_MOONLIGHT_COOK_MASTERY;
 	p.packetLength = sizeof(p);
 	p.mastery      = sd->cook_mastery;
 
 	clif_send(reinterpret_cast<uint8*>(&p), sizeof(p), sd, SELF);
 }
 
-// [Stingor] Reçoit CZ_BOURGEON_COMPANION (0x0F15) : invoquer/basculer un compagnon depuis
+// [Stingor] Reçoit CZ_MOONLIGHT_COMPANION (0x0F15) : invoquer/basculer un compagnon depuis
 // la feuille de perso. On NE fait JAMAIS confiance au client — pc_setcart/riding/falcon
 // re-valident le skill requis ; la déco vérifie MC_CHANGECART + le palier de niveau de base.
 // L'état est renvoyé au client par la queue de ces setters (clif_bourgeon_companion_state).
-void clif_parse_bourgeon_companion(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_companion(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
 
-	const auto* p = reinterpret_cast<const PACKET_CZ_BOURGEON_COMPANION*>(RFIFOP(fd, 0));
+	const auto* p = reinterpret_cast<const PACKET_CZ_MOONLIGHT_COMPANION*>(RFIFOP(fd, 0));
 	const uint8 kind = p->kind, action = p->action, arg = p->arg;
 
 	switch (kind) {
@@ -10217,7 +10311,7 @@ void clif_parse_bourgeon_companion(int32 fd, map_session_data* sd) {
 	}
 }
 
-// Sends ZC_BOURGEON_DISCORD_MSG (0x0F08) to a single session.
+// Sends ZC_MOONLIGHT_DISCORD_MSG (0x0F08) to a single session.
 static int32 clif_bourgeon_discord_msg_pc(map_session_data* sd, va_list ap) {
 	const int32      mapid     = va_arg(ap, int32);
 	const uint8*     buf       = va_arg(ap, const uint8*);
@@ -10241,7 +10335,7 @@ void clif_bourgeon_discord_msg_all(const char* msg) {
 	const int32 msg_len = (int32)strnlen(msg, 243);
 	const int32 pkt_len = 4 + msg_len + 1;  // header + msg + null
 	uint8 buf[4 + 244] = {};
-	WBUFW(buf, 0) = HEADER_ZC_BOURGEON_DISCORD_MSG;
+	WBUFW(buf, 0) = HEADER_ZC_MOONLIGHT_DISCORD_MSG;
 	WBUFW(buf, 2) = (uint16)pkt_len;
 	memcpy(buf + 4, msg, msg_len);
 	map_foreachpc(clif_bourgeon_discord_msg_pc, gonryun_map, buf, pkt_len);
@@ -10249,7 +10343,7 @@ void clif_bourgeon_discord_msg_all(const char* msg) {
 
 // [Stingor] Bourgeon — saut cosmétique (CZ 0x0F1A -> ZC 0x0F1B).
 //
-// Envoie ZC_BOURGEON_JUMP à une session de la zone (callback map_foreachinallrange).
+// Envoie ZC_MOONLIGHT_JUMP à une session de la zone (callback map_foreachinallrange).
 // Filtre has_bourgeon : un client vanilla qui reçoit un opcode > 0x0C35 déclenche
 // RecvBuffer_ResetAll_OnUnknownOpcode côté client = vidage du buffer de réception,
 // donc perte des paquets suivants du même flush (desync réel — c'est exactement le
@@ -10266,15 +10360,15 @@ static int32 clif_bourgeon_jump_sub(block_list* bl, va_list ap) {
 	const int32 fd = tsd->fd;
 	if (!session_isActive(fd)) return 0;
 
-	WFIFOHEAD(fd, sizeof(PACKET_ZC_BOURGEON_JUMP));
-	PACKET_ZC_BOURGEON_JUMP* p =
-		reinterpret_cast<PACKET_ZC_BOURGEON_JUMP*>(WFIFOP(fd, 0));
+	WFIFOHEAD(fd, sizeof(PACKET_ZC_MOONLIGHT_JUMP));
+	PACKET_ZC_MOONLIGHT_JUMP* p =
+		reinterpret_cast<PACKET_ZC_MOONLIGHT_JUMP*>(WFIFOP(fd, 0));
 	// packetLength DOIT être exact : l'opcode étant > 0x0C35, il est inconnu de la
 	// table de longueurs du client, qui lit donc la taille depuis le flux (bytes 2..3).
-	p->packetType   = HEADER_ZC_BOURGEON_JUMP;
-	p->packetLength = (int16)sizeof(PACKET_ZC_BOURGEON_JUMP);
+	p->packetType   = HEADER_ZC_MOONLIGHT_JUMP;
+	p->packetLength = (int16)sizeof(PACKET_ZC_MOONLIGHT_JUMP);
 	p->gid          = gid;
-	WFIFOSET(fd, sizeof(PACKET_ZC_BOURGEON_JUMP));
+	WFIFOSET(fd, sizeof(PACKET_ZC_MOONLIGHT_JUMP));
 	return 0;
 }
 
@@ -10293,7 +10387,7 @@ static const t_tick BOURGEON_JUMP_COOLDOWN = 600;
 // tant qu'on est en l'air), mais c'est justement la garde qu'un client modifié
 // retire — donc le contrôle doit être ici. Même raisonnement que les emotes
 // (cf. emotionlasttime, clif_parse_Emotion).
-void clif_parse_bourgeon_jump(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_jump(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
 
@@ -10495,7 +10589,7 @@ static void bourgeon_style_store(
 }
 
 // Remplit une entrée de lot. `gid` = l'AID, qui est le GID de l'acteur côté
-// client (cf. clif_parse_bourgeon_jump). `v` nul = l'entrée d'EFFACEMENT.
+// client (cf. clif_parse_moonlight_jump). `v` nul = l'entrée d'EFFACEMENT.
 static void bourgeon_style_fill(PACKET_BOURGEON_STYLE_ENTRY* e,
                                   map_session_data* owner,
                                   const bourgeon_style_variant* v,
@@ -10524,7 +10618,7 @@ static void bourgeon_style_fill(PACKET_BOURGEON_STYLE_ENTRY* e,
 
 // Taille d'un paquet portant TOUTES les variantes d'un seul joueur.
 #define BOURGEON_STYLE_ONE_MAX \
-	(sizeof(PACKET_ZC_BOURGEON_STYLES) + \
+	(sizeof(PACKET_ZC_MOONLIGHT_STYLES) + \
 	 BOURGEON_STYLE_MAX_VARIANTS * sizeof(PACKET_BOURGEON_STYLE_ENTRY))
 
 // Écrit l'en-tête et les entrées d'UN propriétaire dans `buf`, et rend la
@@ -10539,16 +10633,16 @@ static int16 bourgeon_style_pack(
 		map_session_data* owner,
 		const std::vector<bourgeon_style_variant>& list, uint8* buf) {
 	const int16 n = (int16)(list.empty() ? 1 : list.size());
-	const int16 len = (int16)(sizeof(PACKET_ZC_BOURGEON_STYLES) +
+	const int16 len = (int16)(sizeof(PACKET_ZC_MOONLIGHT_STYLES) +
 	                          n * sizeof(PACKET_BOURGEON_STYLE_ENTRY));
-	PACKET_ZC_BOURGEON_STYLES* p =
-		reinterpret_cast<PACKET_ZC_BOURGEON_STYLES*>(buf);
-	p->packetType = HEADER_ZC_BOURGEON_STYLES;
+	PACKET_ZC_MOONLIGHT_STYLES* p =
+		reinterpret_cast<PACKET_ZC_MOONLIGHT_STYLES*>(buf);
+	p->packetType = HEADER_ZC_MOONLIGHT_STYLES;
 	p->packetLength = len;
 	p->count = n;
 	PACKET_BOURGEON_STYLE_ENTRY* e =
 		reinterpret_cast<PACKET_BOURGEON_STYLE_ENTRY*>(
-			buf + sizeof(PACKET_ZC_BOURGEON_STYLES));
+			buf + sizeof(PACKET_ZC_MOONLIGHT_STYLES));
 	if (list.empty()) {
 		bourgeon_style_fill(e, owner, nullptr, false);
 		return len;
@@ -10592,7 +10686,7 @@ static void bourgeon_style_apply_hair_color(
 // 🔴 Deux drapeaux, et pas un seul. `has_bourgeon` dit « client Bourgeon d'un
 // joueur », et c'est la garde de tout ce qui entre comme de tout ce qui touche à
 // son personnage. Une session SPECTATEUR ne l'obtient jamais, délibérément (cf.
-// clif_parse_bourgeon_integrity) -- mais elle porte bien un client Bourgeon, et
+// clif_parse_moonlight_integrity) -- mais elle porte bien un client Bourgeon, et
 // ce qu'elle affiche est le décor de l'écran de connexion. Sans ce second
 // drapeau, les joueurs y apparaissaient dans leurs couleurs d'origine : le style
 // que leur propriétaire a choisi ne leur était tout simplement jamais envoyé.
@@ -10679,17 +10773,17 @@ void clif_bourgeon_style_area(map_session_data* sd) {
 	// paquet, une capitale un jour de patch, non — et le dépassement se lirait
 	// comme une longueur NÉGATIVE, donc comme une déconnexion inexpliquée.
 	constexpr int kMaxEntries = 256;  // 14 336 octets, très en deçà du plafond
-	std::vector<uint8> buf(sizeof(PACKET_ZC_BOURGEON_STYLES) +
+	std::vector<uint8> buf(sizeof(PACKET_ZC_MOONLIGHT_STYLES) +
 	                       kMaxEntries * sizeof(PACKET_BOURGEON_STYLE_ENTRY));
 	int16 count = 0;
 
 	const auto vider = [&]() {
 		if (count == 0) return;
-		const int16 len = (int16)(sizeof(PACKET_ZC_BOURGEON_STYLES) +
+		const int16 len = (int16)(sizeof(PACKET_ZC_MOONLIGHT_STYLES) +
 		                          count * sizeof(PACKET_BOURGEON_STYLE_ENTRY));
-		PACKET_ZC_BOURGEON_STYLES* p =
-			reinterpret_cast<PACKET_ZC_BOURGEON_STYLES*>(buf.data());
-		p->packetType = HEADER_ZC_BOURGEON_STYLES;
+		PACKET_ZC_MOONLIGHT_STYLES* p =
+			reinterpret_cast<PACKET_ZC_MOONLIGHT_STYLES*>(buf.data());
+		p->packetType = HEADER_ZC_MOONLIGHT_STYLES;
 		p->packetLength = len;
 		p->count = count;
 		WFIFOHEAD(fd, len);
@@ -10709,7 +10803,7 @@ void clif_bourgeon_style_area(map_session_data* sd) {
 		if (count + (int16)list.size() > kMaxEntries) vider();
 		PACKET_BOURGEON_STYLE_ENTRY* e =
 			reinterpret_cast<PACKET_BOURGEON_STYLE_ENTRY*>(
-				buf.data() + sizeof(PACKET_ZC_BOURGEON_STYLES) +
+				buf.data() + sizeof(PACKET_ZC_MOONLIGHT_STYLES) +
 				count * sizeof(PACKET_BOURGEON_STYLE_ENTRY));
 		for (size_t i = 0; i < list.size(); ++i)
 			bourgeon_style_fill(e + i, owner, &list[i], i == 0);
@@ -10802,12 +10896,12 @@ void clif_bourgeon_style_spawn(map_session_data* sd) {
 // jeter le second est alors la bonne réponse, pas une gêne.
 static const t_tick BOURGEON_STYLE_COOLDOWN = 1000;
 
-void clif_parse_bourgeon_style(int32 fd, map_session_data* sd) {
+void clif_parse_moonlight_style(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
 
-	const PACKET_CZ_BOURGEON_STYLE* p =
-		reinterpret_cast<const PACKET_CZ_BOURGEON_STYLE*>(RFIFOP(fd, 0));
+	const PACKET_CZ_MOONLIGHT_STYLE* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_STYLE*>(RFIFOP(fd, 0));
 	// Version inconnue : on jette, sans rien changer de ce qui est stocké. Un
 	// client plus récent n'a pas à effacer les couleurs qu'il ne sait pas relire.
 	if (p->version != BOURGEON_STYLE_WIRE_VERSION) return;
@@ -10962,13 +11056,13 @@ void clif_bourgeon_style_open(map_session_data* sd, uint8 mode) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
 	const int32 fd = sd->fd;
-	WFIFOHEAD(fd, sizeof(PACKET_ZC_BOURGEON_STYLE_OPEN));
-	PACKET_ZC_BOURGEON_STYLE_OPEN* p =
-		reinterpret_cast<PACKET_ZC_BOURGEON_STYLE_OPEN*>(WFIFOP(fd, 0));
-	p->packetType = HEADER_ZC_BOURGEON_STYLE_OPEN;
-	p->packetLength = sizeof(PACKET_ZC_BOURGEON_STYLE_OPEN);
+	WFIFOHEAD(fd, sizeof(PACKET_ZC_MOONLIGHT_STYLE_OPEN));
+	PACKET_ZC_MOONLIGHT_STYLE_OPEN* p =
+		reinterpret_cast<PACKET_ZC_MOONLIGHT_STYLE_OPEN*>(WFIFOP(fd, 0));
+	p->packetType = HEADER_ZC_MOONLIGHT_STYLE_OPEN;
+	p->packetLength = sizeof(PACKET_ZC_MOONLIGHT_STYLE_OPEN);
 	p->mode = mode;
-	WFIFOSET(fd, sizeof(PACKET_ZC_BOURGEON_STYLE_OPEN));
+	WFIFOSET(fd, sizeof(PACKET_ZC_MOONLIGHT_STYLE_OPEN));
 }
 
 void clif_getareachar_unit( map_session_data* sd,block_list *bl ){
@@ -12116,7 +12210,7 @@ void clif_skill_damage( const block_list& src, const block_list& dst, t_tick tic
 
 	// For skill units (Storm Gust, Meteor Storm, LoV…): the original caster's
 	// Bourgeon DPS meter needs the damage attributed to them via a private
-	// ZC_BOURGEON_SKILL_DMG (0x0F09), without altering the visual
+	// ZC_MOONLIGHT_SKILL_DMG (0x0F09), without altering the visual
 	// ZC_NOTIFY_SKILL packet that uses the unit's ID.
 	//
 	// We do NOT send one packet per hit: under heavy AoE (Storm Gust/Meteor on
@@ -12142,8 +12236,8 @@ void clif_bourgeon_flush_skill_dmg() {
 	for (const auto& entry : bourgeon_skill_dmg_accum) {
 		block_list* caster_bl = map_id2bl(entry.first);
 		if (caster_bl && caster_bl->type == BL_PC && entry.second > 0) {
-			PACKET_ZC_BOURGEON_SKILL_DMG notif{};
-			notif.packetType   = HEADER_ZC_BOURGEON_SKILL_DMG;
+			PACKET_ZC_MOONLIGHT_SKILL_DMG notif{};
+			notif.packetType   = HEADER_ZC_MOONLIGHT_SKILL_DMG;
 			notif.packetLength = sizeof(notif);
 			notif.src_aid      = entry.first;
 			notif.damage       = (int32)std::min(entry.second, (int64)INT_MAX);
@@ -17363,11 +17457,11 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 	// [Stingor] On first login, schedule a check: if the player has no Bourgeon DLL
 	// after 15 s, notify them in-game and log. If this account already passed the
 	// check earlier in the SAME login session (login_id1 matches), the player is
-	// just changing character — the client won't re-send CZ_BOURGEON_INTEGRITY, so
+	// just changing character — the client won't re-send CZ_MOONLIGHT_INTEGRITY, so
 	// re-grant straight away instead of scheduling a kick.
 	//
 	// 🔴 Jamais pour une session spectateur : son handshake est ignoré (cf.
-	// clif_parse_bourgeon_integrity, qui ne lui accorde plus rien), donc le contrôle
+	// clif_parse_moonlight_integrity, qui ne lui accorde plus rien), donc le contrôle
 	// la trouverait toujours « sans DLL ». Et il n'y a personne à prévenir derrière
 	// — le client qu'elle annonce est celui d'un joueur qui n'est pas encore
 	// connecté, et qui l'apprendra sous son propre nom en entrant.
@@ -24237,7 +24331,7 @@ void clif_bossmapinfo( const map_session_data& sd, mob_data* md, e_bossmap_info 
 // n'affichait pas l'équipement mais déclenchait le NPC `#gmclicdroit`, un menu GM
 // en dialogue. Conséquence : le staff était le seul à ne PAS pouvoir regarder un
 // équipement. Ce menu vit désormais dans le client (Bourgeon : EntityContextMenu,
-// sous-menu « Outils du staff », CZ_BOURGEON_PLAYER_ADMIN) et le paquet est rendu
+// sous-menu « Outils du staff », CZ_MOONLIGHT_PLAYER_ADMIN) et le paquet est rendu
 // à son rôle. Le droit de regarder reste `view_equipment` (conf/groups.yml).
 void clif_parse_ViewPlayerEquip(int32 fd, map_session_data* sd)
 {

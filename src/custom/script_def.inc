@@ -61,7 +61,7 @@
 	BUILDIN_DEF(getrefineuid,"s?"),         // "uid"{, char_id} -> refine level, -1 si introuvable
 	BUILDIN_DEF(restartnpc,""),             // relance le NPC depuis le debut (comme goto vers un label en tete)
 	BUILDIN_DEF2(restartnpc,"gotomain",""), // alias de restartnpc
-	BUILDIN_DEF(bourgeon_discord_relay_all,"s"), // envoie ZC_BOURGEON_DISCORD_MSG à tous les joueurs de gonryun
+	BUILDIN_DEF(bourgeon_discord_relay_all,"s"), // envoie ZC_MOONLIGHT_DISCORD_MSG à tous les joueurs de gonryun
 	// [Stingor] Balises Bourgeon dans les dialogues NPC (cf. script.inc, en tête du bloc).
 	BUILDIN_DEF(bourgeon_ui,"??"),          // {mask{,account_id}} -> masque, ou 1/0 si mask donné
 	BUILDIN_DEF(mobtag,"i?"),               // mob_id{,"nom"} -> lien vers la fiche du monstre

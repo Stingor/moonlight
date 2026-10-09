@@ -34,7 +34,7 @@ struct party_data {
 		unsigned tk : 1; //There's a taekwon
 	} state;
 	/// [Stingor] Dernier état d'éligibilité au partage d'EXP DIFFUSÉ aux clients
-	/// Bourgeon (ZC_BOURGEON_PARTY_SHARE). Indexé comme `data[]` ; char_id 0 =
+	/// Bourgeon (ZC_MOONLIGHT_PARTY_SHARE). Indexé comme `data[]` ; char_id 0 =
 	/// emplacement vide.
 	///
 	/// 🔴 LA COMPOSITION DU GROUPE EN FAIT PARTIE, et c'est le point : comme le

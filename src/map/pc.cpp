@@ -2872,7 +2872,7 @@ void pc_reg_received(map_session_data *sd)
 	}
 
 	channel_autojoin(sd);
-	// clif_bourgeon_settings is deferred: called from clif_parse_bourgeon_integrity
+	// clif_bourgeon_settings is deferred: called from clif_parse_moonlight_integrity
 	// once the client identifies itself, so non-Bourgeon clients are never sent
 	// ZC packets that collide with vanilla RO handlers (HP 200%, SP 125%, etc.).
 }

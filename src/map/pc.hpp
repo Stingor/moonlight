@@ -468,13 +468,17 @@ public:
 		bool autolootrare: 1;
 		bool showmobinfo: 1;
 		bool block_exp: 1;   ///< @blockexp : bloque le gain d'EXP
-		bool has_bourgeon: 1; ///< client sent CZ_BOURGEON_INTEGRITY -> safe to send ZC Bourgeon packets
+		bool has_bourgeon: 1; ///< client sent CZ_MOONLIGHT_INTEGRITY -> safe to send ZC Bourgeon packets
+		/// Le client est moonclient (CZ_MOONCLIENT_INTEGRITY accepté), et non le client
+		/// d'origine greffé de Bourgeon. Toujours accompagné de `has_bourgeon` : moonclient
+		/// parle le même protocole, ce drapeau ne fait que le NOMMER.
+		bool moonclient: 1;
 		/// Session SPECTATEUR ayant prouvé qu'elle porte un client Bourgeon (elle a
-		/// envoyé CZ_BOURGEON_INTEGRITY).
+		/// envoyé CZ_MOONLIGHT_INTEGRITY).
 		///
 		/// 🔴🔴 Ce drapeau n'ouvre AUCUN handler entrant. La garde des vingt-trois
-		/// CZ_BOURGEON_* reste `has_bourgeon`, qu'une session spectateur n'obtient
-		/// jamais (cf. clif_parse_bourgeon_integrity, et la raison qui y est écrite :
+		/// CZ_MOONLIGHT_* reste `has_bourgeon`, qu'une session spectateur n'obtient
+		/// jamais (cf. clif_parse_moonlight_integrity, et la raison qui y est écrite :
 		/// l'identifiant spectateur voyage en clair dans chaque DLL). Il n'autorise
 		/// QUE la diffusion sortante des cosmétiques d'AUTRUI -- rien n'est lu ni
 		/// écrit en base pour cette session, et elle ne peut toujours rien demander.
@@ -636,7 +640,7 @@ public:
 	t_tick bourgeon_stylelasttime = 0;
 
 	// [Stingor] Bourgeon : ce que l'interface moderne de CE client sait afficher
-	// (CZ_BOURGEON_UI_CAPS 0x0F24, masque e_bourgeon_ui_cap). Zéro = rien, donc un
+	// (CZ_MOONLIGHT_UI_CAPS 0x0F24, masque e_bourgeon_ui_cap). Zéro = rien, donc un
 	// client vanilla, un client Bourgeon dont toutes les surfaces modernes sont
 	// éteintes, ou un client qui n'a pas encore parlé.
 	//
@@ -645,7 +649,7 @@ public:
 	// sauvegardé décrirait l'interface d'hier.
 	uint32 bourgeon_ui_caps = 0;
 
-	// [Stingor] Bourgeon : « je suis absent » (CZ_BOURGEON_SETTING id 29, masque
+	// [Stingor] Bourgeon : « je suis absent » (CZ_MOONLIGHT_SETTING id 29, masque
 	// e_bourgeon_afk). Ce que le VOISINAGE doit en voir, et rien d'autre : le
 	// sommeil qu'il porte est un opt1 de politesse, écrit dans les paquets et
 	// jamais dans `sc.opt1` — un vrai status passerait par status_check_skilluse

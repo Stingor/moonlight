@@ -54,7 +54,7 @@ struct s_card_album_entry {
 };
 
 /// Why an album operation was refused. Travels to the client in the `result`
-/// field of ZC_BOURGEON_CARD_ALBUM, which is why it is a stable uint8 enum:
+/// field of ZC_MOONLIGHT_CARD_ALBUM, which is why it is a stable uint8 enum:
 /// the client maps it to a localized message.
 enum e_card_album_result : uint8 {
 	CARD_ALBUM_OK = 0,
