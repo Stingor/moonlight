@@ -10,9 +10,19 @@
 
 bool isAuthorized(const Request &request, bool checkGuildLeader=false);
 
-// [Stingor] Lit le champ AID en entier strictement positif, sans exception :
-// un champ absent, vide, signe, suivi de caracteres ou hors de int32 est refuse.
+// [Stingor] Lit un champ du formulaire en int32, sans exception : un champ
+// absent, vide, suivi de caracteres ou hors de int32 est refuse.
+bool parseInt32Field(const Request &request, const char *field, int32 &value);
+
+// [Stingor] Lit un identifiant (strictement positif) : AID pour le compte, GID
+// pour le personnage.
 bool parseAccountId(const Request &request, int32 &account_id);
+bool parseCharId(const Request &request, int32 &char_id);
+
+// [Stingor] Vrai si le jeton est valide pour le compte ET si le personnage
+// appartient a ce compte : un jeton valide ne donne acces qu'aux personnages
+// de son propre compte.
+bool isAuthorizedForCharacter(const Request &request, int32 account_id, int32 char_id);
 
 // [Stingor] Vrai si le compte a une session de jeu active (jeton web active par
 // le login-server, qui le desactive peu apres la deconnexion) ET si la requete

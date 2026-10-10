@@ -19,17 +19,19 @@
 #include "sqllock.hpp"
 #include "web.hpp"
 
+static bool parsePositiveId(const Request &request, const char *field, int32 &id);
 
 bool isAuthorized(const Request &request, bool checkGuildLeader) {
-	if (!request.has_file("AuthToken") || !request.has_file("AID"))
+	int32 account_id = 0;
+	if (!request.has_file("AuthToken") || !parseAccountId(request, account_id))
 		return false;
 
-	if (checkGuildLeader && !request.has_file("GDID"))
+	int32 guild_id = 0;
+	if (checkGuildLeader && !parsePositiveId(request, "GDID", guild_id))
 		return false;
-	
+
 	auto token_str = request.get_file_value("AuthToken").content;
 	auto token = token_str.c_str();
-	auto account_id = std::stoi(request.get_file_value("AID").content);
 
 	SQLLock loginlock(LOGIN_SQL_LOCK);
 
@@ -63,8 +65,6 @@ bool isAuthorized(const Request &request, bool checkGuildLeader) {
 		return true;
 	}
 
-	auto guild_id = std::stoi(request.get_file_value("GDID").content);
-
 	SQLLock charlock(CHAR_SQL_LOCK);
 	charlock.lock();
 	handle = charlock.getHandle();
@@ -91,20 +91,68 @@ bool isAuthorized(const Request &request, bool checkGuildLeader) {
 	return true;
 }
 
-bool parseAccountId(const Request &request, int32 &account_id) {
-	if (!request.has_file("AID"))
+bool parseInt32Field(const Request &request, const char *field, int32 &value) {
+	if (!request.has_file(field))
 		return false;
 
-	const auto &text = request.get_file_value("AID").content;
+	const auto &text = request.get_file_value(field).content;
 	const char *first = text.data();
 	const char *last = first + text.size();
-	int32 value = 0;
-	auto [end, error] = std::from_chars(first, last, value);
+	int32 parsed = 0;
+	auto [end, error] = std::from_chars(first, last, parsed);
 
-	if (error != std::errc() || end != last || value <= 0)
+	if (error != std::errc() || end != last)
 		return false;
 
-	account_id = value;
+	value = parsed;
+	return true;
+}
+
+static bool parsePositiveId(const Request &request, const char *field, int32 &id) {
+	int32 value = 0;
+	if (!parseInt32Field(request, field, value) || value <= 0)
+		return false;
+
+	id = value;
+	return true;
+}
+
+bool parseAccountId(const Request &request, int32 &account_id) {
+	return parsePositiveId(request, "AID", account_id);
+}
+
+bool parseCharId(const Request &request, int32 &char_id) {
+	return parsePositiveId(request, "GID", char_id);
+}
+
+bool isAuthorizedForCharacter(const Request &request, int32 account_id, int32 char_id) {
+	if (!isAuthorized(request, false))
+		return false;
+
+	SQLLock charlock(CHAR_SQL_LOCK);
+	charlock.lock();
+	auto handle = charlock.getHandle();
+	SqlStmt stmt{ *handle };
+
+	if (SQL_SUCCESS != stmt.Prepare(
+			"SELECT `char_id` FROM `%s` WHERE (`char_id` = ? AND `account_id` = ?) LIMIT 1",
+			char_db_table)
+		|| SQL_SUCCESS != stmt.BindParam(0, SQLDT_INT32, &char_id, sizeof(char_id))
+		|| SQL_SUCCESS != stmt.BindParam(1, SQLDT_INT32, &account_id, sizeof(account_id))
+		|| SQL_SUCCESS != stmt.Execute()
+	) {
+		SqlStmt_ShowDebug(stmt);
+		charlock.unlock();
+		return false;
+	}
+
+	if (stmt.NumRows() <= 0) {
+		ShowWarning("Request with AID %d refused: character %d is not on this account\n", account_id, char_id);
+		charlock.unlock();
+		return false;
+	}
+
+	charlock.unlock();
 	return true;
 }
 

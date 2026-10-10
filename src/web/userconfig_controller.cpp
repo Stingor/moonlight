@@ -16,13 +16,13 @@
 #include "web.hpp"
 
 HANDLER_FUNC(userconfig_save) {
-	if (!isAuthorized(req, false)) {
+	int32 account_id = 0;
+	if (!parseAccountId(req, account_id) || !isAuthorized(req, false)) {
 		res.status = HTTP_BAD_REQUEST;
 		res.set_content("Error", "text/plain");
 		return;
 	}
-	
-	auto account_id = std::stoi(req.get_file_value("AID").content);
+
 	auto world_name = req.get_file_value("WorldName").content;
 	auto data = nlohmann::json::object();
 

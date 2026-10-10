@@ -15,15 +15,22 @@
 #include "webutils.hpp"
 #include "web.hpp"
 
+// [Stingor] Le client natif envoie AuthToken a la relecture comme a la
+// sauvegarde (avec AID, GID et WorldName) : les deux exigent un jeton valide et
+// un personnage du compte.
 HANDLER_FUNC(charconfig_save) {
-	if (!isAuthorized(req, false)) {
+	int32 account_id = 0;
+	int32 char_id = 0;
+	if (!req.has_file("WorldName")
+		|| !parseAccountId(req, account_id)
+		|| !parseCharId(req, char_id)
+		|| !isAuthorizedForCharacter(req, account_id, char_id)
+	) {
 		res.status = HTTP_BAD_REQUEST;
 		res.set_content("Error", "text/plain");
 		return;
 	}
-	
-	auto account_id = std::stoi(req.get_file_value("AID").content);
-	auto char_id = std::stoi(req.get_file_value("GID").content);
+
 	auto world_name = req.get_file_value("WorldName").content;
 	auto data = nlohmann::json::object();
 
@@ -90,21 +97,18 @@ HANDLER_FUNC(charconfig_save) {
 }
 
 HANDLER_FUNC(charconfig_load) {
-	if (!req.has_file("AID") || !req.has_file("WorldName")) {
+	int32 account_id = 0;
+	int32 char_id = 0;
+	if (!req.has_file("WorldName")
+		|| !parseAccountId(req, account_id)
+		|| !parseCharId(req, char_id)
+		|| !isAuthorizedForCharacter(req, account_id, char_id)
+	) {
 		res.status = HTTP_BAD_REQUEST;
 		res.set_content("Error", "text/plain");
 		return;
 	}
 
-	// TODO: Figure out when client sends AuthToken for this path, then add packetver check
-	// if (!isAuthorized(req)) {
-		// ShowError("Not authorized!\n");
-		// message.reply(web::http::status_codes::Forbidden);
-		// return;
-	// }
-
-	auto account_id = std::stoi(req.get_file_value("AID").content);
-	auto char_id = std::stoi(req.get_file_value("GID").content);
 	auto world_name_str = req.get_file_value("WorldName").content;
 	auto world_name = world_name_str.c_str();
 
