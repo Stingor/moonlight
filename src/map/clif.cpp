@@ -8808,6 +8808,8 @@ void clif_bourgeon_server_rules(map_session_data& sd) {
 		{ BOURGEON_RULE_HOM_MAX_LEVEL,       battle_config.hom_max_level },
 		{ BOURGEON_RULE_HOM_S_MAX_LEVEL,     battle_config.hom_S_max_level },
 		{ BOURGEON_RULE_HOMUNC_TELEPORT_ACD, battle_config.homunc_teleport_acd },
+		{ BOURGEON_RULE_VENDING_TAX,         battle_config.vending_tax },
+		{ BOURGEON_RULE_VENDING_TAX_MIN,     battle_config.vending_tax_min },
 	};
 	const size_t len = sizeof(PACKET_ZC_MOONLIGHT_SERVER_RULES) + sizeof(rules);
 

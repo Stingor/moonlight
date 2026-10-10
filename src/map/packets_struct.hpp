@@ -6924,7 +6924,8 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_UNIT_MASTER, 0x0f37);
 
 // [Stingor] ZC_MOONLIGHT_SERVER_RULES (0x0F38) — les réglages du serveur dont le
 // client a besoin pour ne pas les supposer : rayon de vue, niveaux maximum de
-// l'homoncule, délai d'attaque après la téléportation de l'homoncule.
+// l'homoncule, délai d'attaque après la téléportation de l'homoncule, taxe des
+// échoppes de vente et son seuil.
 //
 // Liste de paires clé / valeur : une clé que le client ne connaît pas est
 // ignorée, si bien qu'en ajouter une ne casse aucun client.
@@ -6937,6 +6938,8 @@ enum e_bourgeon_server_rule : uint16 {
 	BOURGEON_RULE_HOM_MAX_LEVEL       = 2, ///< battle_config.hom_max_level
 	BOURGEON_RULE_HOM_S_MAX_LEVEL     = 3, ///< battle_config.hom_S_max_level
 	BOURGEON_RULE_HOMUNC_TELEPORT_ACD = 4, ///< battle_config.homunc_teleport_acd (ms)
+	BOURGEON_RULE_VENDING_TAX         = 5, ///< battle_config.vending_tax (dix-millièmes)
+	BOURGEON_RULE_VENDING_TAX_MIN     = 6, ///< battle_config.vending_tax_min (zeny)
 };
 
 struct PACKET_ZC_MOONLIGHT_SERVER_RULES_entry {
