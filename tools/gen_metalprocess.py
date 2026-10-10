@@ -222,13 +222,13 @@ with OUT.open("w", encoding="cp949", errors="replace", newline="") as out_file:
 
 print(f"\n{len(recipes)} recettes + {len(arrow_recipes)} fleches ecrites dans {OUT}")
 
-# ── Sortie YAML : le fichier de Bourgeon ───────────────────────────────────────
+# ── Sortie YAML : le livre des recettes ────────────────────────────────────────
 # Deux fichiers, deux publics, et c'est volontaire :
 #  - MetalProcessItemList.txt sert le CLIENT NATIF (fenêtre 80). Son format est
 #    celui de Gravity : des lignes de texte, une clé par produit, rien d'autre.
 #    Les joueurs qui n'activent pas l'interface moderne en profitent — le plugin
 #    est opt-in, ce fichier reste donc utile.
-#  - bourgeon_recipes.yaml sert l'interface ImGui. Il porte ce que le premier ne
+#  - craft_recipes.yml sert l'interface ImGui. Il porte ce que le premier ne
 #    peut PAS exprimer : itemlv, compétence requise, rendements des flèches, et
 #    surtout un INDEX PAR COMPÉTENCE — sans lequel on ne peut pas énumérer les
 #    formules d'un métier (le getteur natif est une lookup par clé, la table n'est
@@ -236,7 +236,12 @@ print(f"\n{len(recipes)} recettes + {len(arrow_recipes)} fleches ecrites dans {O
 #
 # Il va dans SystemEN\, auprès d'itemInfoMerged.lua : c'est de la donnée de patch,
 # livrée aux joueurs, pas un réglage utilisateur.
-YAML_OUT = Path(sys.argv[2]) if len(sys.argv) > 2 else OUT.with_name("bourgeon_recipes.yaml")
+#
+# DEUX NOMS, UN CONTENU, tant que la DLL Bourgeon existe : moonclient lit
+# craft_recipes.yml, Bourgeon lit bourgeon_recipes.yaml. Les deux s'écrivent
+# octet pour octet identiques, côte à côte ; le second disparaîtra avec la DLL.
+YAML_OUT = Path(sys.argv[2]) if len(sys.argv) > 2 else OUT.with_name("craft_recipes.yml")
+YAML_OUT_LEGACY = YAML_OUT.with_name("bourgeon_recipes.yaml")
 
 # ── Ce que CE serveur rend réellement accessible ───────────────────────────────
 # produce_db (même celui de pre-re) contient des recettes de compétences de 3e
@@ -706,10 +711,12 @@ while start < len(sorted_ids):
         y.append(f"  {sorted_ids[start]}: {level}")
     start = end + 1
 
-with YAML_OUT.open("w", encoding="utf-8", newline="") as yaml_file:
-    yaml_file.write("\n".join(y) + "\n")
+yaml_text = "\n".join(y) + "\n"
+for yaml_path in (YAML_OUT, YAML_OUT_LEGACY):
+    with yaml_path.open("w", encoding="utf-8", newline="") as yaml_file:
+        yaml_file.write(yaml_text)
 print(f"{len(recipes)} recettes, {len(arrow_recipes)} fleches, "
-      f"{len(by_skill)} competences -> {YAML_OUT}")
+      f"{len(by_skill)} competences -> {YAML_OUT} (et {YAML_OUT_LEGACY.name})")
 if arrow_missing:
     print(f"ATTENTION {len(arrow_missing)} AegisName introuvables : "
           + ", ".join(sorted(arrow_missing)[:12]))
