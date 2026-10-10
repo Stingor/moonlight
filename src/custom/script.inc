@@ -1810,17 +1810,51 @@ BUILDIN_FUNC(restartnpc)
 	return SCRIPT_CMD_SUCCESS;
 }
 
-/* bourgeon_discord_relay_all("<msg>");
+/* bourgeon_discord_relay_all("<msg>"{, <rich_state>, "<user_id>", "<name>", "<avatar>", "<text>", <flags>});
  * Sends a pre-formatted Discord relay message (ZC_MOONLIGHT_DISCORD_MSG, 0x0F08)
  * to all players currently on the gonryun map.  The Bourgeon overlay shows it
  * if the player's Discord checkbox is ON, silently drops it otherwise.
  * Called from groq.npc's OnTimer3000 after draining the discord_relay SQL table.
+ *
+ * [Stingor] Les arguments facultatifs sont les colonnes rich_* de discord_relay :
+ * rich_state (0 aucun riche, 1 ce morceau porte le riche, 2 morceau déjà
+ * couvert), l'identifiant Discord de l'auteur EN CHAÎNE (il dépasse un entier de
+ * script), son nom, le chemin de son avatar, le message entier, et les drapeaux
+ * (1 : l'auteur est un bot). Les sessions qui annoncent BOURGEON_UI_DISCORD_RICH
+ * reçoivent ZC_MOONLIGHT_DISCORD_RICH (0x0F3C) à la place de 0x0F08. Appelée
+ * avec le seul message, elle fait exactement ce qu'elle faisait avant.
  */
 BUILDIN_FUNC(bourgeon_discord_relay_all)
 {
 	const char* msg = script_getstr(st, 2);
-	if (msg && *msg)
-		clif_bourgeon_discord_msg_all(msg);
+	if (msg && *msg) {
+		e_discord_rich_state rich_state = DISCORD_RICH_NONE;
+		if (script_hasdata(st, 3)) {
+			const int32 state = script_getnum(st, 3);
+			if (state == DISCORD_RICH_CARRIER || state == DISCORD_RICH_COVERED)
+				rich_state = static_cast<e_discord_rich_state>(state);
+		}
+
+		s_discord_rich rich;
+		if (script_hasdata(st, 4))
+			rich.user_id = strtoull(script_getstr(st, 4), nullptr, 10);
+		if (script_hasdata(st, 5))
+			rich.name = script_getstr(st, 5);
+		if (script_hasdata(st, 6))
+			rich.avatar = script_getstr(st, 6);
+		if (script_hasdata(st, 7))
+			rich.text = script_getstr(st, 7);
+		if (script_hasdata(st, 8))
+			rich.flags = static_cast<uint8>(script_getnum(st, 8));
+
+		// Un porteur sans texte riche ne couvrirait rien : ses morceaux suivants
+		// (état 2) seraient sautés pour rien. Une base incohérente relaie alors
+		// en 0x0F08 à tous.
+		if (rich_state == DISCORD_RICH_CARRIER && (rich.text == nullptr || rich.text[0] == '\0'))
+			rich_state = DISCORD_RICH_NONE;
+
+		clif_bourgeon_discord_msg_all(msg, rich_state, &rich);
+	}
 	script_pushint(st, 1);
 	return SCRIPT_CMD_SUCCESS;
 }

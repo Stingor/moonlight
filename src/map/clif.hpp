@@ -956,7 +956,9 @@ void clif_changeoption_target( const block_list* bl, const block_list* target);
 #define clif_changeoption(bl) clif_changeoption_target(bl, nullptr)	// area
 void clif_changeoption2( const block_list& bl );
 void clif_useitemack( const map_session_data* sd, int32 index, int32 amount, bool ok );	// self
-void clif_GlobalMessage( const block_list& bl, const char* message, enum send_target target );
+// [Stingor] author : le joueur qui parle, quand c'est sa parole qu'on diffuse ;
+// ZC_MOONLIGHT_CHAT_AUTHOR (0x0F3A) précède alors la ligne chez qui sait le lire.
+void clif_GlobalMessage( const block_list& bl, const char* message, enum send_target target, const map_session_data* author = nullptr );
 void clif_createchat( const map_session_data& sd, e_create_chatroom flag );
 void clif_dispchat( const chat_data& cd );
 void clif_joinchatfail( map_session_data& sd, e_refuse_enter_room result );
@@ -1133,7 +1135,7 @@ void clif_guild_memberpositionchanged( const struct mmo_guild &g,int32 idx );
 void clif_guild_emblem( const map_session_data &sd, const struct mmo_guild &g );
 void clif_guild_emblem_area( const block_list* bl );
 void clif_guild_notice( const map_session_data& sd );
-void clif_guild_message( const struct mmo_guild& g, const char* mes, size_t len, uint32 chat_speaker = 0 );
+void clif_guild_message( const struct mmo_guild& g, const char* mes, size_t len, uint32 chat_speaker = 0, const map_session_data* author = nullptr );
 void clif_guild_reqalliance( const map_session_data& sd, uint32 account_id, const char* name );
 void clif_guild_allianceack( const map_session_data& sd, uint8 flag);
 void clif_guild_delalliance( const map_session_data& sd,uint32 guild_id,uint32 flag);
@@ -1251,6 +1253,9 @@ void clif_quest_send_list( const map_session_data* sd );
 void clif_quest_send_mission( const map_session_data* sd );
 void clif_quest_add( const map_session_data* sd, const quest* qd );
 void clif_quest_delete( const map_session_data* sd, int32 quest_id );
+// [Stingor] Pourquoi la quête quitte le journal (ZC 0x0F3B), à appeler JUSTE AVANT
+// clif_quest_delete. Rien sans BOURGEON_UI_QUEST_END.
+void clif_bourgeon_quest_end( const map_session_data* sd, int32 quest_id, e_moonlight_quest_end reason, int32 next_quest_id = 0 );
 void clif_quest_update_status( const map_session_data* sd, int32 quest_id, bool active );
 void clif_quest_update_objective( const map_session_data* sd, const quest* qd );
 void clif_quest_show_event( const map_session_data* sd, const block_list* bl, e_questinfo_types effect, e_questinfo_markcolor color );
@@ -1259,7 +1264,18 @@ void clif_displayexp(const map_session_data* sd, t_exp exp, char type, bool ques
 /// [Stingor] @ignore : chat_speaker porte le user_id (compte Moonlight) de qui
 /// parle, pour les paquets de chat. Quand il est renseigné, chaque destinataire
 /// ayant mis ce compte en @ignore est sauté silencieusement. 0 = pas de filtrage.
-int32 clif_send( const void* buf, int32 len, const block_list* bl, enum send_target type, uint32 chat_speaker = 0 );
+///
+/// [Stingor] sidecar : une trame qui PRÉCÈDE `buf` chez chaque destinataire qui a
+/// annoncé le bit `cap` (e_bourgeon_ui_cap) — et chez lui seul. Elle est écrite
+/// après les filtres de clif_send (@ignore compris) : elle a exactement les
+/// destinataires de la trame qu'elle décrit. Les autres reçoivent `buf` seul,
+/// octet pour octet comme sans sidecar.
+struct clif_sidecar {
+	const void* buf;
+	int32 len;
+	uint32 cap;
+};
+int32 clif_send( const void* buf, int32 len, const block_list* bl, enum send_target type, uint32 chat_speaker = 0, const clif_sidecar* sidecar = nullptr );
 void do_init_clif(void);
 void do_final_clif(void);
 
@@ -1387,7 +1403,7 @@ void clif_monster_hp_bar( const mob_data* md, int32 fd );
 
 // Clan System
 void clif_clan_basicinfo( const map_session_data& sd );
-void clif_clan_message( const clan &clan, const char *mes, size_t len, uint32 chat_speaker = 0 );
+void clif_clan_message( const clan &clan, const char *mes, size_t len, uint32 chat_speaker = 0, const map_session_data* author = nullptr );
 void clif_clan_onlinecount( const clan& clan );
 void clif_clan_leave( const map_session_data& sd );
 
@@ -1639,8 +1655,25 @@ void clif_bourgeon_sync_alootid(map_session_data* sd);
 void clif_bourgeon_send_preset_list(map_session_data* sd);
 // [Stingor] Send equip/card stat breakdown (ZC 0x0F10) — called at end of status_calc_pc
 void clif_bourgeon_stat_bonus(map_session_data* sd);
-// [Stingor] Send Discord relay message (0x0F08) to all players on gonryun
-void clif_bourgeon_discord_msg_all(const char* msg);
+// [Stingor] Un message du relais Discord à tous les joueurs de gonryun : `msg` en
+// 0x0F08 (un morceau de 243 octets au plus), et, à qui a annoncé
+// BOURGEON_UI_DISCORD_RICH, la forme riche 0x0F3C à sa place.
+// rich_state (colonne discord_relay.rich_state) : 0 pas de riche, 0x0F08 à tous ;
+// 1 premier morceau, porteur du riche ; 2 morceau suivant, déjà couvert par le
+// riche du premier.
+enum e_discord_rich_state : uint8 {
+	DISCORD_RICH_NONE    = 0,
+	DISCORD_RICH_CARRIER = 1,
+	DISCORD_RICH_COVERED = 2,
+};
+struct s_discord_rich {
+	uint64 user_id = 0;          ///< 0 = inconnu
+	const char* name = "";       ///< UTF-8
+	const char* avatar = "";     ///< chemin relatif au CDN, vide = aucun
+	const char* text = "";       ///< UTF-8, message entier
+	uint8 flags = 0;             ///< e_moonlight_discord_rich_flag
+};
+void clif_bourgeon_discord_msg_all(const char* msg, e_discord_rich_state rich_state = DISCORD_RICH_NONE, const s_discord_rich* rich = nullptr);
 // [Stingor] (Re)load conf/bourgeon_integrity.conf — called by admin INTEGRITY command
 void clif_bourgeon_integrity_reload();
 // [Stingor] Remove a player's MachineGuid from the online GUID map (call on logout)
@@ -1850,6 +1883,25 @@ enum e_bourgeon_ui_cap : uint32 {
 	// part sous ce bit, ou derrière l'identifiant de commande que la DLL ne sait
 	// pas produire (cf. clif_parse_moonlight_mvp_cmd).
 	BOURGEON_UI_MVP_TRACKER_EXT = 0x00000100,
+	// [Stingor] Les quatre bits suivants sont des capacités de LECTURE réservées à
+	// moonclient : la DLL ne les annonce jamais, et ne reçoit donc rien de neuf.
+	//
+	// Ce client sait lire l'auteur d'une ligne de parole
+	// (ZC_MOONLIGHT_CHAT_AUTHOR 0x0F3A), qui précède 0x008D, 0x0109, 0x017F,
+	// 0x098E et 0x02C1. Sans ce bit, ces trames lui partent seules, comme avant.
+	BOURGEON_UI_CHAT_AUTHOR = 0x00000200,
+	// Ce client sait lire pourquoi une quête quitte le journal
+	// (ZC_MOONLIGHT_QUEST_END 0x0F3B), qui précède ZC_DEL_QUEST.
+	BOURGEON_UI_QUEST_END = 0x00000400,
+	// Ce client sait lire le relais Discord riche (ZC_MOONLIGHT_DISCORD_RICH
+	// 0x0F3C), qu'il reçoit à la place de 0x0F08. Une capacité de lecture, pas la
+	// case du relais : elle reste annoncée relais éteint.
+	BOURGEON_UI_DISCORD_RICH = 0x00000800,
+	// Ce client sait lire le maître d'un COMPAGNON — homoncule, mercenaire,
+	// familier, élémentaire — dans ZC_MOONLIGHT_UNIT_MASTER (0x0F37). Sans ce bit,
+	// 0x0F37 ne lui part que pour les monstres, sous BOURGEON_UI_UNIT_MASTER.
+	BOURGEON_UI_COMPANION_MASTER = 0x00001000,
+	// Prochain bit libre : 0x00002000.
 };
 
 // [Stingor] Les réglages du serveur utiles au client (ZC 0x0F38), à une session
@@ -1862,6 +1914,10 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd);
 // qui ont annoncé BOURGEON_UI_UNIT_MASTER. À rappeler quand md->master_id change
 // alors que le monstre est déjà en vue.
 void clif_bourgeon_unit_master_area(const mob_data& md);
+// [Stingor] Le maître d'un compagnon (ZC 0x0F37), aux joueurs qui le voient
+// paraître et qui ont annoncé BOURGEON_UI_COMPANION_MASTER. Sans effet pour une
+// unité qui n'est ni homoncule, ni mercenaire, ni familier, ni élémentaire.
+void clif_bourgeon_companion_master_area(const block_list& bl);
 
 // [Stingor] MVP tracker (CZ 0x0F30, ZC 0x0F31, ZC 0x0F32).
 struct s_mvp_group;

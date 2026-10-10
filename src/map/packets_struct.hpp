@@ -6907,11 +6907,17 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_FLAG_GRAFFITI, 0x0f36);
 // qui ne connaît pas l'opcode vide son tampon de réception. Une session qui
 // annonce le bit après avoir vu le monstre le reçoit à ce moment-là.
 //
+// La même trame décrit aussi le maître d'un COMPAGNON — homoncule, mercenaire,
+// familier, élémentaire —, mais seulement aux sessions qui annoncent
+// BOURGEON_UI_COMPANION_MASTER : un client qui ne sait lire que le maître des
+// monstres ne la reçoit que pour eux. master_id est alors le joueur à qui le
+// compagnon appartient, jamais 0.
+//
 // Layout: [type:2][len:2][GID:4][master_id:4]
 struct PACKET_ZC_MOONLIGHT_UNIT_MASTER {
 	int16  packetType;
 	int16  packetLength;
-	uint32 GID;        ///< le monstre
+	uint32 GID;        ///< le monstre ou le compagnon
 	uint32 master_id;  ///< l'identifiant de bloc de son maître, 0 sans maître
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_UNIT_MASTER, 0x0f37);
@@ -6944,6 +6950,108 @@ struct PACKET_ZC_MOONLIGHT_SERVER_RULES {
 	PACKET_ZC_MOONLIGHT_SERVER_RULES_entry rules[];
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SERVER_RULES, 0x0f38);
+
+// [Stingor] ZC_MOONLIGHT_CHAT_AUTHOR (0x0F3A) — l'auteur de la ligne de parole
+// qui SUIT IMMÉDIATEMENT sur cette session : 0x008D (publique, salon de chat),
+// 0x0109 (groupe), 0x017F (guilde), 0x098E (clan) ou 0x02C1 (canal). Ces trames
+// partent inchangées ; celle-ci les PRÉCÈDE, et le client l'abandonne si
+// l'opcode suivant n'est pas `next_opcode`.
+//
+// La parole d'un PNJ et les messages système d'un canal n'en ont pas : sa
+// présence dit « c'est un joueur qui parle ».
+//
+// Sous @fakename, l'en-tête porte le FAUX nom, et account_id / char_id valent 0 :
+// il ne trahit pas qui se cache derrière.
+//
+// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT BOURGEON_UI_CHAT_AUTHOR : la DLL ne
+// l'annonce jamais, et un client qui ne connaît pas l'opcode vide son tampon.
+//
+// Layout : bloc fixe de 44 octets, puis — si scope = MOONLIGHT_CHAT_CHANNEL
+// seulement — le nom du canal (sans '#', sans NUL) jusqu'à packetLength.
+enum e_moonlight_chat_scope : uint8 {
+	MOONLIGHT_CHAT_PUBLIC  = 1,
+	MOONLIGHT_CHAT_PARTY   = 2,
+	MOONLIGHT_CHAT_GUILD   = 3,
+	MOONLIGHT_CHAT_CLAN    = 4,
+	MOONLIGHT_CHAT_CHANNEL = 5,
+};
+
+/// channel_type quand la parole ne passe pas par un canal.
+#define MOONLIGHT_CHAT_NO_CHANNEL_TYPE 0xFF
+
+struct PACKET_ZC_MOONLIGHT_CHAT_AUTHOR {
+	int16  packetType;
+	int16  packetLength;      ///< 44 + longueur du nom de canal
+	uint16 next_opcode;       ///< opcode de la trame décrite
+	uint8  scope;             ///< e_moonlight_chat_scope
+	uint8  channel_type;      ///< Channel_Type si scope = CHANNEL, MOONLIGHT_CHAT_NO_CHANNEL_TYPE sinon
+	uint32 account_id;        ///< 0 sous @fakename
+	uint32 char_id;           ///< 0 sous @fakename
+	uint16 header_len;        ///< octets de tête du message formant « [alias ]Nom : », 0 si non reconnu
+	uint16 name_offset;       ///< où le nom commence dans cette tête
+	char   name[NAME_LENGTH]; ///< le nom AFFICHÉ, terminé par NUL
+	// suivi, si scope = CHANNEL, du nom du canal (packetLength - 44 octets)
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_CHAT_AUTHOR, 0x0f3a);
+
+// [Stingor] ZC_MOONLIGHT_QUEST_END (0x0F3B) — POURQUOI une quête quitte le
+// journal. Elle PRÉCÈDE le ZC_DEL_QUEST (0x02B4) ordinaire, qui part inchangé.
+// Un erasequest d'une quête déjà achevée n'en envoie pas : le client la garde
+// pour « Achevée ».
+//
+// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT BOURGEON_UI_QUEST_END.
+//
+// Layout : [type:2][len:2][quest_id:4][reason:1][next_quest_id:4]  (len = 13)
+enum e_moonlight_quest_end : uint8 {
+	MOONLIGHT_QUEST_END_COMPLETED = 1, ///< quest_update_status(Q_COMPLETE)
+	MOONLIGHT_QUEST_END_ERASED    = 2, ///< quest_delete d'une quête NON achevée
+	MOONLIGHT_QUEST_END_REPLACED  = 3, ///< quest_change : next_quest_id la remplace
+	MOONLIGHT_QUEST_END_RETIRED   = 4, ///< retirée de la base au rechargement
+};
+
+struct PACKET_ZC_MOONLIGHT_QUEST_END {
+	int16 packetType;
+	int16 packetLength;
+	int32 quest_id;
+	uint8 reason;        ///< e_moonlight_quest_end
+	int32 next_quest_id; ///< la remplaçante si REPLACED, 0 sinon
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_QUEST_END, 0x0f3b);
+
+// [Stingor] ZC_MOONLIGHT_DISCORD_RICH (0x0F3C) — un message du relais Discord,
+// ENTIER et décrit : identifiant et nom de l'auteur, avatar, texte où les
+// mentions sont résolues mais les emotes GARDÉES (<:nom:id>, <a:nom:id>).
+//
+// Il part À LA PLACE de ZC_MOONLIGHT_DISCORD_MSG (0x0F08) aux sessions qui
+// annoncent BOURGEON_UI_DISCORD_RICH : le premier morceau d'un message porte le
+// riche, les morceaux suivants ne leur partent pas. Un message sans riche leur
+// part en 0x0F08. Les autres sessions reçoivent 0x0F08 comme avant.
+//
+// Avatar : chemin RELATIF au CDN de Discord (`avatars/<uid>/<hash>.png`,
+// `embed/avatars/<n>.png`, `guilds/<gid>/users/<uid>/avatars/<hash>.png`),
+// vide s'il n'y en a pas. Le client le préfixe et le valide lui-même.
+//
+// Layout : bloc fixe de 18, puis channel | name | avatar | text, en UTF-8, sans
+// NUL, de longueurs channel_len, name_len, avatar_len, text_len.
+enum e_moonlight_discord_rich_flag : uint8 {
+	MOONLIGHT_DISCORD_RICH_BOT = 0x01, ///< l'auteur est un bot
+};
+
+/// Plafond du texte d'un 0x0F3C, en octets UTF-8.
+#define MOONLIGHT_DISCORD_RICH_TEXT_MAX 4000
+
+struct PACKET_ZC_MOONLIGHT_DISCORD_RICH {
+	int16  packetType;
+	int16  packetLength;
+	uint64 discord_user_id; ///< 0 = inconnu
+	uint8  channel_len;     ///< « gonryun »
+	uint8  name_len;        ///< nick > global_name > username
+	uint8  avatar_len;      ///< 0 = aucun avatar
+	uint8  flags;           ///< e_moonlight_discord_rich_flag
+	uint16 text_len;        ///< <= MOONLIGHT_DISCORD_RICH_TEXT_MAX
+	// suivi de channel | name | avatar | text
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_DISCORD_RICH, 0x0f3c);
 
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
@@ -7429,7 +7537,9 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_HATEFFECT_MAP, 0x0f17);
 // current map name from the standard 0x0091 ZC_NPCACK_MAPMOVE packet instead.
 // Historique : les anciens opcodes 0x0BFx/0x0C2x partageaient des entrées du
 // client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans
-// la zone sûre 0x0F00+ (2026-07-03) ; prochain libre = 0x0F0F.
+// la zone sûre 0x0F00+ (2026-07-03). Le prochain opcode libre est tenu par
+// bopcodes::kNextFree, dans src/features/systems/bourgeon_opcodes.h de Bourgeon
+// (0x0F3D à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
 
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)

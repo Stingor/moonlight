@@ -666,6 +666,7 @@ int32 quest_change(map_session_data *sd, int32 qid1, int32 qid2)
 	sd->quest_log[i].state = Q_ACTIVE;
 	sd->save_quest = true;
 
+	clif_bourgeon_quest_end(sd, qid1, MOONLIGHT_QUEST_END_REPLACED, qid2); // [Stingor]
 	clif_quest_delete(sd, qid1);
 	clif_quest_add(sd, &sd->quest_log[i]);
 	clif_quest_update_objective(sd, &sd->quest_log[i]);
@@ -693,7 +694,11 @@ int32 quest_delete(map_session_data *sd, int32 quest_id)
 		return -1;
 	}
 
-	if (sd->quest_log[i].state != Q_COMPLETE)
+	// [Stingor] Effacer une quête déjà achevée ne dit rien de neuf au client :
+	// elle reste « Achevée » dans son historique.
+	const bool was_complete = sd->quest_log[i].state == Q_COMPLETE;
+
+	if (!was_complete)
 		sd->avail_quests--;
 
 	if (i < --sd->num_quests) //Compact the array
@@ -707,6 +712,8 @@ int32 quest_delete(map_session_data *sd, int32 quest_id)
 
 	sd->save_quest = true;
 
+	if (!was_complete)
+		clif_bourgeon_quest_end(sd, quest_id, MOONLIGHT_QUEST_END_ERASED); // [Stingor]
 	clif_quest_delete(sd, quest_id);
 
 	if( save_settings&CHARSAVE_QUEST )
@@ -873,6 +880,7 @@ int32 quest_update_status(map_session_data *sd, int32 quest_id, e_quest_state st
 		memcpy(&sd->quest_log[sd->avail_quests], &tmp_quest, sizeof(struct quest));
 	}
 
+	clif_bourgeon_quest_end(sd, quest_id, MOONLIGHT_QUEST_END_COMPLETED); // [Stingor]
 	clif_quest_delete(sd, quest_id);
 
 	if (save_settings&CHARSAVE_QUEST)
@@ -947,8 +955,10 @@ static int32 quest_reload_check_sub(map_session_data *sd, va_list ap)
 		std::shared_ptr<s_quest_db> qi = quest_search(sd->quest_log[i].quest_id);
 
 		if (!qi) { //Remove no longer existing entries
-			if (sd->quest_log[i].state != Q_COMPLETE) //And inform the client if necessary
+			if (sd->quest_log[i].state != Q_COMPLETE) { //And inform the client if necessary
+				clif_bourgeon_quest_end(sd, sd->quest_log[i].quest_id, MOONLIGHT_QUEST_END_RETIRED); // [Stingor]
 				clif_quest_delete(sd, sd->quest_log[i].quest_id);
+			}
 			continue;
 		}
 

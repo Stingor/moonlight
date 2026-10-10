@@ -393,6 +393,20 @@ static bool clif_session_isValid(const map_session_data* sd) {
 	return ( sd != nullptr && session_isActive(sd->fd) );
 }
 
+// [Stingor] Écrit `buf` à une session, précédé du sidecar si elle a annoncé le
+// bit qui le gouverne. Sans sidecar, ou sans le bit : `buf` seul, comme avant.
+static void clif_send_write( const map_session_data* sd, int32 fd, const void* buf, int32 len, const clif_sidecar* sidecar ){
+	if( sidecar != nullptr && sd != nullptr && sd->state.has_bourgeon && ( sd->bourgeon_ui_caps & sidecar->cap ) ){
+		WFIFOHEAD( fd, sidecar->len );
+		memcpy( WFIFOP( fd, 0 ), sidecar->buf, sidecar->len );
+		WFIFOSET( fd, sidecar->len );
+	}
+
+	WFIFOHEAD( fd, len );
+	memcpy( WFIFOP( fd, 0 ), buf, len );
+	WFIFOSET( fd, len );
+}
+
 /*==========================================
  * sub process of clif_send
  * Called from a map_foreachinallarea (grabs all players in specific area and subjects them to this function)
@@ -424,6 +438,7 @@ static int32 clif_send_sub(block_list *bl, va_list ap)
 	type = va_arg(ap,int32);
 
 	uint32 chat_speaker = va_arg(ap,uint32); // [Stingor] @ignore
+	const clif_sidecar* sidecar = va_arg(ap,const clif_sidecar*); // [Stingor]
 
 	if (sd && sd->sc.option & OPTION_WINGS ) // [Stingor]
 		clif_show_wings(sd);
@@ -481,8 +496,7 @@ static int32 clif_send_sub(block_list *bl, va_list ap)
 		return 0;
 	}
 
-	memcpy(WFIFOP(fd,0), buf, len);
-	WFIFOSET(fd,len);
+	clif_send_write( sd, fd, buf, len, sidecar ); // [Stingor]
 
 	return 0;
 }
@@ -491,7 +505,7 @@ static int32 clif_send_sub(block_list *bl, va_list ap)
  * Packet Delegation (called on all packets that require data to be sent to more than one client)
  * functions that are sent solely to one use whose ID it posses use WFIFOSET
  *------------------------------------------*/
-int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_target type, uint32 chat_speaker)
+int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_target type, uint32 chat_speaker, const clif_sidecar* sidecar)
 {
 	int32 i;
 	const map_session_data* sd, *tsd;
@@ -511,9 +525,7 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 		iter = mapit_getallusers();
 		while( ( tsd = static_cast<const map_session_data*>(mapit_next( iter )) ) != nullptr ){
 			if( session_isActive( fd = tsd->fd ) ){
-				WFIFOHEAD( fd, len );
-				memcpy( WFIFOP( fd, 0 ), buf, len );
-				WFIFOSET( fd, len );
+				clif_send_write( tsd, fd, buf, len, sidecar ); // [Stingor]
 			}
 		}
 		mapit_free(iter);
@@ -525,9 +537,7 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 			if( bl->m == tsd->m && session_isActive( fd = tsd->fd ) ){
 				if (tsd->sc.option & OPTION_WINGS ) // [Stingor]
 					clif_show_wings(tsd);
-				WFIFOHEAD( fd, len );
-				memcpy( WFIFOP( fd, 0 ), buf, len );
-				WFIFOSET( fd, len );
+				clif_send_write( tsd, fd, buf, len, sidecar ); // [Stingor]
 			}
 		}
 		mapit_free(iter);
@@ -536,16 +546,16 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 	case AREA:
 	case AREA_WOSC:
 		if (sd && bl->prev == nullptr) //Otherwise source misses the packet.[Skotlex]
-			clif_send (buf, len, bl, SELF, chat_speaker);
+			clif_send (buf, len, bl, SELF, chat_speaker, sidecar);
 		[[fallthrough]];
 	case AREA_WOC:
 	case AREA_WOS:
 		map_foreachinallarea(clif_send_sub, bl->m, bl->x-AREA_SIZE, bl->y-AREA_SIZE, bl->x+AREA_SIZE, bl->y+AREA_SIZE,
-			BL_PC, buf, len, bl, type, chat_speaker);
+			BL_PC, buf, len, bl, type, chat_speaker, sidecar);
 		break;
 	case AREA_CHAT_WOC:
 		map_foreachinallarea(clif_send_sub, bl->m, bl->x-(AREA_SIZE-5), bl->y-(AREA_SIZE-5),
-			bl->x+(AREA_SIZE-5), bl->y+(AREA_SIZE-5), BL_PC, buf, len, bl, AREA_WOC, chat_speaker);
+			bl->x+(AREA_SIZE-5), bl->y+(AREA_SIZE-5), BL_PC, buf, len, bl, AREA_WOC, chat_speaker, sidecar);
 		break;
 
 	case CHAT:
@@ -565,9 +575,7 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 				if( chat_speaker != 0 && pc_ignorechat( cd->usersd[i], chat_speaker ) ) // [Stingor] @ignore
 					continue;
 				if( session_isActive( fd = cd->usersd[i]->fd ) ){
-					WFIFOHEAD(fd,len);
-					memcpy(WFIFOP(fd,0), buf, len);
-					WFIFOSET(fd,len);
+					clif_send_write( cd->usersd[i], fd, buf, len, sidecar ); // [Stingor]
 				}
 			}
 		}
@@ -607,9 +615,7 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 				if( chat_speaker != 0 && pc_ignorechat( sd, chat_speaker ) ) // [Stingor] @ignore
 					continue;
 
-				WFIFOHEAD(fd, len);
-				memcpy(WFIFOP(fd, 0), buf, len);
-				WFIFOSET(fd, len);
+				clif_send_write( sd, fd, buf, len, sidecar ); // [Stingor]
 			}
 			if (!enable_spy) //Skip unnecessary parsing. [Skotlex]
 				break;
@@ -617,9 +623,7 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 			iter = mapit_getallusers();
 			while( ( tsd = static_cast<const map_session_data*>(mapit_next( iter )) ) != nullptr ){
 				if( tsd->partyspy == p->party.party_id && session_isActive( fd = tsd->fd ) ){
-					WFIFOHEAD( fd, len );
-					memcpy( WFIFOP( fd, 0 ), buf, len );
-					WFIFOSET( tsd->fd, len );
+					clif_send_write( tsd, fd, buf, len, sidecar ); // [Stingor]
 				}
 			}
 			mapit_free(iter);
@@ -635,9 +639,7 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 			if( type == DUEL_WOS && bl->id == tsd->id )
 				continue;
 			if( sd->duel_group == tsd->duel_group && session_isActive( fd = tsd->fd ) ){
-				WFIFOHEAD( fd, len );
-				memcpy( WFIFOP( fd, 0 ), buf, len );
-				WFIFOSET( fd, len );
+				clif_send_write( tsd, fd, buf, len, sidecar ); // [Stingor]
 			}
 		}
 		mapit_free(iter);
@@ -649,9 +651,7 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 
 		if( clif_session_isValid(sd) ){
 			fd = sd->fd;
-			WFIFOHEAD(fd,len);
-			memcpy(WFIFOP(fd,0), buf, len);
-			WFIFOSET(fd,len);
+			clif_send_write( sd, fd, buf, len, sidecar ); // [Stingor]
 		}
 		break;
 
@@ -692,9 +692,7 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 				if( chat_speaker != 0 && pc_ignorechat( sd, chat_speaker ) ) // [Stingor] @ignore
 					continue;
 
-				WFIFOHEAD(fd,len);
-				memcpy(WFIFOP(fd,0), buf, len);
-				WFIFOSET(fd,len);
+				clif_send_write( sd, fd, buf, len, sidecar ); // [Stingor]
 			}
 		}
 		if (!enable_spy) //Skip unnecessary parsing. [Skotlex]
@@ -703,9 +701,7 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 		iter = mapit_getallusers();
 		while( ( tsd = static_cast<const map_session_data*>(mapit_next( iter )) ) != nullptr ){
 			if( tsd->guildspy == g.guild_id && session_isActive( fd = tsd->fd ) ){
-				WFIFOHEAD( fd, len );
-				memcpy( WFIFOP( fd, 0 ), buf, len );
-				WFIFOSET( fd, len );
+				clif_send_write( tsd, fd, buf, len, sidecar ); // [Stingor]
 			}
 		}
 		mapit_free(iter);
@@ -735,9 +731,7 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 					continue;
 				if( chat_speaker != 0 && pc_ignorechat( sd, chat_speaker ) ) // [Stingor] @ignore
 					continue;
-				WFIFOHEAD(fd,len);
-				memcpy(WFIFOP(fd,0), buf, len);
-				WFIFOSET(fd,len);
+				clif_send_write( sd, fd, buf, len, sidecar ); // [Stingor]
 			}
 		}
 		break;
@@ -754,9 +748,7 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 					continue;
 				}
 
-				WFIFOHEAD(fd,len);
-				memcpy(WFIFOP(fd,0), buf, len);
-				WFIFOSET(fd,len);
+				clif_send_write( sd, fd, buf, len, sidecar ); // [Stingor]
 			}
 
 			if (!enable_spy) //Skip unnecessary parsing. [Skotlex]
@@ -765,9 +757,7 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 			iter = mapit_getallusers();
 			while( ( tsd = static_cast<const map_session_data*>(mapit_next( iter )) ) != nullptr ){
 				if( tsd->clanspy == clan->id && session_isActive( fd = tsd->fd ) ){
-					WFIFOHEAD(fd, len);
-					memcpy(WFIFOP(fd, 0), buf, len);
-					WFIFOSET(fd, len);
+					clif_send_write( tsd, fd, buf, len, sidecar ); // [Stingor]
 				}
 			}
 			mapit_free(iter);
@@ -782,6 +772,71 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 	return 0;
 }
 
+// [Stingor] ZC_MOONLIGHT_CHAT_AUTHOR (0x0F3A) prêt à précéder une ligne de parole
+// (cf. clif_sidecar). `sidecar.buf` pointe dans `buf` : l'objet ne se copie pas.
+struct clif_chat_author {
+	uint8 buf[sizeof( PACKET_ZC_MOONLIGHT_CHAT_AUTHOR ) + CHAN_NAME_LENGTH];
+	clif_sidecar sidecar;
+};
+
+// [Stingor] Décrit l'auteur de `message`, la ligne telle qu'elle part dans la
+// trame `next_opcode` : « Nom : texte », ou « alias Nom : texte » sur un canal.
+// La tête n'est déclarée (header_len) que si la ligne la porte vraiment.
+//
+// Le nom AFFICHÉ est le faux nom de @fakename, ids à 0 — sauf si la ligne porte le
+// vrai nom, ce que fait channel_send : l'en-tête dit alors ce que la ligne montre.
+static void clif_chat_author_build( clif_chat_author& out, uint16 next_opcode, e_moonlight_chat_scope scope, const map_session_data& author, const char* message, const Channel* channel = nullptr ){
+	static const char separator[] = " : ";
+	const size_t separator_len = sizeof( separator ) - 1;
+
+	size_t prefix_len = 0;
+	bool prefix_ok = true;
+
+	if( channel != nullptr ){
+		const size_t alias_len = strnlen( channel->alias, CHAN_NAME_LENGTH );
+
+		prefix_ok = strncmp( message, channel->alias, alias_len ) == 0 && message[alias_len] == ' ';
+		prefix_len = alias_len + 1;
+	}
+
+	auto heads_with = [&]( const char* name ) -> bool {
+		const size_t name_len = strnlen( name, NAME_LENGTH - 1 );
+		const char* at = message + prefix_len;
+
+		return prefix_ok && name_len > 0 && strncmp( at, name, name_len ) == 0 && strncmp( at + name_len, separator, separator_len ) == 0;
+	};
+
+	const bool disguised = author.fakename[0] != '\0' && ( heads_with( author.fakename ) || !heads_with( author.status.name ) );
+	const char* shown = disguised ? author.fakename : author.status.name;
+
+	PACKET_ZC_MOONLIGHT_CHAT_AUTHOR* p = reinterpret_cast<PACKET_ZC_MOONLIGHT_CHAT_AUTHOR*>( out.buf );
+
+	*p = {};
+	p->packetType = HEADER_ZC_MOONLIGHT_CHAT_AUTHOR;
+	p->next_opcode = next_opcode;
+	p->scope = scope;
+	p->channel_type = channel != nullptr ? static_cast<uint8>( channel->type ) : MOONLIGHT_CHAT_NO_CHANNEL_TYPE;
+	p->account_id = disguised ? 0 : author.status.account_id;
+	p->char_id = disguised ? 0 : author.status.char_id;
+	safestrncpy( p->name, shown, sizeof( p->name ) );
+
+	if( heads_with( shown ) ){
+		p->header_len = static_cast<uint16>( prefix_len + strlen( p->name ) + separator_len );
+		p->name_offset = static_cast<uint16>( prefix_len );
+	}
+
+	int32 len = sizeof( *p );
+
+	if( channel != nullptr ){
+		const size_t channel_len = strnlen( channel->name, CHAN_NAME_LENGTH );
+
+		memcpy( out.buf + len, channel->name, channel_len );
+		len += static_cast<int32>( channel_len );
+	}
+
+	p->packetLength = static_cast<int16>( len );
+	out.sidecar = { out.buf, len, BOURGEON_UI_CHAT_AUTHOR };
+}
 
 /// Notifies the client, that it's connection attempt was accepted.
 /// 0073 <start time>.L <position>.3B <x size>.B <y size>.B (ZC_ACCEPT_ENTER)
@@ -1879,6 +1934,9 @@ int32 clif_spawn( const block_list* bl, bool walking ){
 		}
 		break;
 	}
+
+	// [Stingor] Le maître d'un compagnon, à ceux sous les yeux de qui il apparaît.
+	clif_bourgeon_companion_master_area( *bl );
 
 	clif_hat_effects( *bl, AREA, *bl );
 
@@ -8639,6 +8697,76 @@ static int32 clif_bourgeon_unit_master_seen_sub(block_list* bl, va_list ap) {
 	return 0;
 }
 
+// [Stingor] Le joueur à qui appartient un compagnon — homoncule, mercenaire,
+// familier, élémentaire —, 0 pour toute autre unité ou un compagnon sans maître.
+// Le maître DIRECT, pas battle_get_master : c'est lui que le client range.
+static uint32 clif_bourgeon_companion_master_id(const block_list& bl) {
+	const map_session_data* master = nullptr;
+	switch (bl.type) {
+	case BL_HOM:  master = static_cast<const homun_data&>(bl).master; break;
+	case BL_MER:  master = static_cast<const s_mercenary_data&>(bl).master; break;
+	case BL_PET:  master = static_cast<const pet_data&>(bl).master; break;
+	case BL_ELEM: master = static_cast<const s_elemental_data&>(bl).master; break;
+	default: break;
+	}
+	return master != nullptr ? static_cast<uint32>(master->id) : 0;
+}
+
+// [Stingor] Le maître d'un compagnon (ZC 0x0F37), à UNE session qui a annoncé
+// BOURGEON_UI_COMPANION_MASTER. Toujours APRÈS le paquet qui montre le compagnon.
+static void clif_bourgeon_companion_master_single(const block_list& bl, map_session_data& sd) {
+	if (!sd.state.has_bourgeon || !(sd.bourgeon_ui_caps & BOURGEON_UI_COMPANION_MASTER))
+		return;
+	const uint32 master_id = clif_bourgeon_companion_master_id(bl);
+	if (master_id == 0)
+		return;
+	const int32 fd = sd.fd;
+	if (!session_isActive(fd))
+		return;
+
+	PACKET_ZC_MOONLIGHT_UNIT_MASTER packet{};
+	packet.packetType   = HEADER_ZC_MOONLIGHT_UNIT_MASTER;
+	packet.packetLength = static_cast<int16>(sizeof(packet));
+	packet.GID          = bl.id;
+	packet.master_id    = master_id;
+
+	WFIFOHEAD(fd, sizeof(packet));
+	memcpy(WFIFOP(fd, 0), &packet, sizeof(packet));
+	WFIFOSET(fd, sizeof(packet));
+}
+
+// Aux joueurs autour (callback BL_PC) : va_arg = const block_list*.
+static int32 clif_bourgeon_companion_master_area_sub(block_list* bl, va_list ap) {
+	map_session_data* tsd = BL_CAST(BL_PC, bl);
+	const block_list* companion = va_arg(ap, const block_list*);
+	if (tsd != nullptr && companion != nullptr)
+		clif_bourgeon_companion_master_single(*companion, *tsd);
+	return 0;
+}
+
+void clif_bourgeon_companion_master_area(const block_list& bl) {
+	if (bl.prev == nullptr || clif_bourgeon_companion_master_id(bl) == 0)
+		return;
+	map_foreachinallrange(clif_bourgeon_companion_master_area_sub, &bl, AREA_SIZE, BL_PC, &bl);
+}
+
+// Les compagnons déjà en vue d'un joueur (callback BL_HOM|BL_MER|BL_PET|BL_ELEM) :
+// va_arg = map_session_data*. Mêmes gardes que clif_getareachar_unit.
+static int32 clif_bourgeon_companion_master_seen_sub(block_list* bl, va_list ap) {
+	map_session_data* sd = va_arg(ap, map_session_data*);
+	if (sd == nullptr || bl == nullptr)
+		return 0;
+	const view_data* vd = status_get_viewdata(bl);
+	if (vd == nullptr || vd->look[LOOK_BASE] == JT_INVISIBLE)
+		return 0;
+	if (battle_config.hide_cloaked_units & bl->type) {
+		if (status_change* sc = status_get_sc(bl); sc != nullptr && sc->option & (OPTION_HIDE | OPTION_CLOAK | OPTION_CHASEWALK | OPTION_INVISIBLE))
+			return 0;
+	}
+	clif_bourgeon_companion_master_single(*bl, *sd);
+	return 0;
+}
+
 void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
@@ -8662,6 +8790,9 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	// [Stingor] Les réglages du serveur, dès que le client sait les lire.
 	if (!(before & BOURGEON_UI_SERVER_RULES) && (p->caps & BOURGEON_UI_SERVER_RULES))
 		clif_bourgeon_server_rules(*sd);
+	// [Stingor] Les maîtres des compagnons déjà en vue.
+	if (!(before & BOURGEON_UI_COMPANION_MASTER) && (p->caps & BOURGEON_UI_COMPANION_MASTER))
+		map_foreachinallrange(clif_bourgeon_companion_master_seen_sub, sd, AREA_SIZE, BL_HOM | BL_MER | BL_PET | BL_ELEM, sd);
 }
 
 // [Stingor] ZC_MOONLIGHT_SERVER_RULES (0x0F38), à une session qui sait le lire.
@@ -10311,24 +10442,54 @@ void clif_parse_moonlight_companion(int32 fd, map_session_data* sd) {
 	}
 }
 
-// Sends ZC_MOONLIGHT_DISCORD_MSG (0x0F08) to a single session.
+// [Stingor] Le relais Discord à UNE session de gonryun : la forme riche 0x0F3C à
+// qui a annoncé BOURGEON_UI_DISCORD_RICH, 0x0F08 aux autres sessions Bourgeon.
+// Un morceau couvert par le riche de son premier ne part pas en riche ; il part
+// en 0x0F08 à qui ne lit pas le riche, comme avant.
 static int32 clif_bourgeon_discord_msg_pc(map_session_data* sd, va_list ap) {
-	const int32      mapid     = va_arg(ap, int32);
-	const uint8*     buf       = va_arg(ap, const uint8*);
-	const int32      pkt_len   = va_arg(ap, int32);
+	const int32                mapid      = va_arg(ap, int32);
+	const uint8*               buf        = va_arg(ap, const uint8*);
+	const int32                pkt_len    = va_arg(ap, int32);
+	const e_discord_rich_state rich_state = static_cast<e_discord_rich_state>(va_arg(ap, int32));
+	const uint8*               rich_buf   = va_arg(ap, const uint8*);
+	const int32                rich_len   = va_arg(ap, int32);
 	if (sd->m != mapid) return 0;
 	if (!sd->state.has_bourgeon) return 0;  // don't send to vanilla clients
 	const int32 fd = sd->fd;
 	if (!session_isActive(fd)) return 0;
-	WFIFOHEAD(fd, pkt_len);
-	memcpy(WFIFOP(fd, 0), buf, pkt_len);
-	WFIFOSET(fd, pkt_len);
+
+	const uint8* out = buf;
+	int32 out_len = pkt_len;
+	if (sd->bourgeon_ui_caps & BOURGEON_UI_DISCORD_RICH) {
+		if (rich_state == DISCORD_RICH_COVERED)
+			return 0;
+		if (rich_state == DISCORD_RICH_CARRIER && rich_buf != nullptr) {
+			out = rich_buf;
+			out_len = rich_len;
+		}
+	}
+
+	WFIFOHEAD(fd, out_len);
+	memcpy(WFIFOP(fd, 0), out, out_len);
+	WFIFOSET(fd, out_len);
 	return 0;
+}
+
+// [Stingor] Longueur d'une chaîne UTF-8 coupée à `max_bytes` au plus, sans
+// trancher un caractère : on recule tant que l'octet de coupe est une suite.
+static size_t clif_utf8_clamp(const char* s, size_t max_bytes) {
+	const size_t len = strnlen(s, max_bytes + 1);
+	if (len <= max_bytes)
+		return len;
+	size_t cut = max_bytes;
+	while (cut > 0 && (static_cast<uint8>(s[cut]) & 0xC0) == 0x80)
+		--cut;
+	return cut;
 }
 
 // Sends a pre-formatted Discord relay message to every player currently on gonryun.
 // msg is UTF-8 (e.g. "[Discord][username] some text") and is at most 243 bytes.
-void clif_bourgeon_discord_msg_all(const char* msg) {
+void clif_bourgeon_discord_msg_all(const char* msg, e_discord_rich_state rich_state, const s_discord_rich* rich) {
 	nullpo_retv(msg);
 	const int32 gonryun_map = map_mapname2mapid("gonryun");
 	if (gonryun_map < 0) return;
@@ -10338,7 +10499,43 @@ void clif_bourgeon_discord_msg_all(const char* msg) {
 	WBUFW(buf, 0) = HEADER_ZC_MOONLIGHT_DISCORD_MSG;
 	WBUFW(buf, 2) = (uint16)pkt_len;
 	memcpy(buf + 4, msg, msg_len);
-	map_foreachpc(clif_bourgeon_discord_msg_pc, gonryun_map, buf, pkt_len);
+
+	// [Stingor] La forme riche, quand ce morceau la porte et qu'elle a un texte.
+	// Une longueur qui ne tient pas dans son octet est coupée (nom) ou retirée
+	// (avatar : un chemin tronqué ne mène nulle part).
+	static const char channel[] = "gonryun";
+	std::vector<uint8> rich_buf;
+	if (rich_state == DISCORD_RICH_CARRIER && rich != nullptr && rich->text != nullptr && rich->text[0] != '\0') {
+		const size_t channel_len = sizeof(channel) - 1;
+		const char* name        = rich->name != nullptr ? rich->name : "";
+		const char* avatar      = rich->avatar != nullptr ? rich->avatar : "";
+		const size_t name_len    = clif_utf8_clamp(name, UINT8_MAX);
+		size_t avatar_len        = strnlen(avatar, UINT8_MAX + 1);
+		if (avatar_len > UINT8_MAX)
+			avatar_len = 0;
+		const size_t text_len    = clif_utf8_clamp(rich->text, MOONLIGHT_DISCORD_RICH_TEXT_MAX);
+
+		const size_t total = sizeof(PACKET_ZC_MOONLIGHT_DISCORD_RICH) + channel_len + name_len + avatar_len + text_len;
+		rich_buf.resize(total);
+		PACKET_ZC_MOONLIGHT_DISCORD_RICH* p = reinterpret_cast<PACKET_ZC_MOONLIGHT_DISCORD_RICH*>(rich_buf.data());
+		p->packetType      = HEADER_ZC_MOONLIGHT_DISCORD_RICH;
+		p->packetLength    = static_cast<int16>(total);
+		p->discord_user_id = rich->user_id;
+		p->channel_len     = static_cast<uint8>(channel_len);
+		p->name_len        = static_cast<uint8>(name_len);
+		p->avatar_len      = static_cast<uint8>(avatar_len);
+		p->flags           = rich->flags;
+		p->text_len        = static_cast<uint16>(text_len);
+		uint8* tail = rich_buf.data() + sizeof(PACKET_ZC_MOONLIGHT_DISCORD_RICH);
+		memcpy(tail, channel, channel_len);       tail += channel_len;
+		memcpy(tail, name, name_len);             tail += name_len;
+		memcpy(tail, avatar, avatar_len);         tail += avatar_len;
+		memcpy(tail, rich->text, text_len);
+	}
+
+	map_foreachpc(clif_bourgeon_discord_msg_pc, gonryun_map, buf, pkt_len,
+		static_cast<int32>(rich_state),
+		rich_buf.empty() ? nullptr : rich_buf.data(), static_cast<int32>(rich_buf.size()));
 }
 
 // [Stingor] Bourgeon — saut cosmétique (CZ 0x0F1A -> ZC 0x0F1B).
@@ -11206,6 +11403,9 @@ void clif_getareachar_unit( map_session_data* sd,block_list *bl ){
 		}
 		break;
 	}
+
+	// [Stingor] Le maître d'un compagnon, à qui le découvre.
+	clif_bourgeon_companion_master_single( *bl, *sd );
 
 	clif_hat_effects( *bl, SELF, *sd );
 }
@@ -12905,7 +13105,7 @@ void clif_broadcast( const block_list* bl, const char* mes, size_t len, int32 ty
  * Displays a message on a 'bl' to all it's nearby clients
  * 008d <PacketLength>.W <GID>.L <message>.?B (ZC_NOTIFY_CHAT)
  *------------------------------------------*/
-void clif_GlobalMessage( const block_list& bl, const char* message, enum send_target target ){
+void clif_GlobalMessage( const block_list& bl, const char* message, enum send_target target, const map_session_data* author ){
 	nullpo_retv(message);
 
 	int16 len = (int16)( strlen( message ) + 1 );
@@ -12927,7 +13127,16 @@ void clif_GlobalMessage( const block_list& bl, const char* message, enum send_ta
 	// l'ont mis en ignore ne reçoivent rien. Un PNJ n'est jamais filtré.
 	const map_session_data* speaker = BL_CAST( BL_PC, &bl );
 
-	clif_send( p, p->PacketLength, &bl, target, speaker != nullptr ? speaker->status.user_id : 0 );
+	// [Stingor] L'auteur de la ligne, à qui sait le lire (BOURGEON_UI_CHAT_AUTHOR).
+	clif_chat_author author_header{};
+	const clif_sidecar* sidecar = nullptr;
+
+	if( author != nullptr ){
+		clif_chat_author_build( author_header, p->PacketType, MOONLIGHT_CHAT_PUBLIC, *author, p->Message );
+		sidecar = &author_header.sidecar;
+	}
+
+	clif_send( p, p->PacketLength, &bl, target, speaker != nullptr ? speaker->status.user_id : 0, sidecar );
 }
 
 
@@ -12979,10 +13188,20 @@ void clif_channel_msg(struct Channel *channel, const char *msg, unsigned long co
 	WBUFL(buf,8) = color;
 	safestrncpy(WBUFCP(buf,12), msg, msg_len);
 
+	// [Stingor] L'auteur de la ligne, à qui sait le lire. Un message système du
+	// canal (speaker nul) n'en a pas.
+	clif_chat_author author_header{};
+	const clif_sidecar* sidecar = nullptr;
+
+	if( speaker != nullptr ){
+		clif_chat_author_build( author_header, WBUFW( buf, 0 ), MOONLIGHT_CHAT_CHANNEL, *speaker, WBUFCP( buf, 12 ), channel );
+		sidecar = &author_header.sidecar;
+	}
+
 	iter = db_iterator(channel->users);
 	for( user = (map_session_data *)dbi_first(iter); dbi_exists(iter); user = (map_session_data *)dbi_next(iter) ) {
 		// [Stingor] @ignore : speaker nul = message système du channel, non filtrable
-		clif_send(buf, len, user, SELF, speaker != nullptr ? speaker->status.user_id : 0);
+		clif_send(buf, len, user, SELF, speaker != nullptr ? speaker->status.user_id : 0, sidecar);
 	}
 	dbi_destroy(iter);
 }
@@ -14234,17 +14453,28 @@ void clif_party_message( const party_data& party, uint32 account_id, const char*
 	// sur une session ouverte ici, donc un émetteur hébergé par un autre
 	// map-server passe au travers (sans objet en mono map-server).
 	uint32 speaker = 0;
+	const map_session_data* author = nullptr; // [Stingor] même limite que @ignore
 
 	if( account_id != 0 ){
 		for( int32 i = 0; i < MAX_PARTY; i++ ){
 			if( party.party.member[i].account_id == account_id && party.data[i].sd != nullptr ){
-				speaker = party.data[i].sd->status.user_id;
+				author = party.data[i].sd;
+				speaker = author->status.user_id;
 				break;
 			}
 		}
 	}
 
-	clif_send( p, p->PacketLength, sd, PARTY, speaker );
+	// [Stingor] L'auteur de la ligne, à qui sait le lire (BOURGEON_UI_CHAT_AUTHOR).
+	clif_chat_author author_header{};
+	const clif_sidecar* sidecar = nullptr;
+
+	if( author != nullptr ){
+		clif_chat_author_build( author_header, p->PacketType, MOONLIGHT_CHAT_PARTY, *author, p->chatMsg );
+		sidecar = &author_header.sidecar;
+	}
+
+	clif_send( p, p->PacketLength, sd, PARTY, speaker, sidecar );
 }
 
 
@@ -15441,7 +15671,7 @@ static void clif_guild_expulsionlist( const map_session_data& sd ){
 
 /// Guild chat message 
 /// 017f <packet len>.W <message>.?B (ZC_GUILD_CHAT)
-void clif_guild_message( const struct mmo_guild& g, const char* mes, size_t len, uint32 chat_speaker ){
+void clif_guild_message( const struct mmo_guild& g, const char* mes, size_t len, uint32 chat_speaker, const map_session_data* author ){
 	PACKET_ZC_GUILD_CHAT *p = reinterpret_cast<PACKET_ZC_GUILD_CHAT*>( packet_buffer );
 	// -1 for null terminator
 	static const size_t max_len = CHAT_SIZE_MAX - sizeof( *p ) - 1;
@@ -15464,7 +15694,16 @@ void clif_guild_message( const struct mmo_guild& g, const char* mes, size_t len,
 	safestrncpy(p->message, mes, len+1);
 	p->packetLength += static_cast<decltype(p->packetLength)>( len + 1 );
 
-	clif_send(p, p->packetLength, sd, GUILD_NOBG, chat_speaker); // [Stingor] @ignore
+	// [Stingor] L'auteur de la ligne, à qui sait le lire (BOURGEON_UI_CHAT_AUTHOR).
+	clif_chat_author author_header{};
+	const clif_sidecar* sidecar = nullptr;
+
+	if( author != nullptr ){
+		clif_chat_author_build( author_header, p->packetType, MOONLIGHT_CHAT_GUILD, *author, p->message );
+		sidecar = &author_header.sidecar;
+	}
+
+	clif_send(p, p->packetLength, sd, GUILD_NOBG, chat_speaker, sidecar); // [Stingor] @ignore
 }
 
 /// Request for guild alliance 
@@ -17858,7 +18097,7 @@ void clif_parse_GlobalMessage(int32 fd, map_session_data* sd)
 	}
 
 	// send message to others (using the send buffer for temp. storage)
-	clif_GlobalMessage( *sd, output, sd->chatID ? CHAT_WOS : AREA_CHAT_WOC );
+	clif_GlobalMessage( *sd, output, sd->chatID ? CHAT_WOS : AREA_CHAT_WOC, sd );
 
 	// [Stingor] Outbound Discord relay - OUT always active
 	if (sd->m == map_mapname2mapid(MAP_GONRYUN)) {
@@ -24733,6 +24972,30 @@ void clif_quest_add ( const map_session_data* sd, const quest *qd )
 }
 
 
+/// [Stingor] Pourquoi une quête quitte le journal (ZC_MOONLIGHT_QUEST_END 0x0F3B),
+/// juste avant son ZC_DEL_QUEST, à une session qui a annoncé savoir le lire.
+void clif_bourgeon_quest_end( const map_session_data* sd, int32 quest_id, e_moonlight_quest_end reason, int32 next_quest_id )
+{
+	if( sd == nullptr || !sd->state.has_bourgeon || !( sd->bourgeon_ui_caps & BOURGEON_UI_QUEST_END ) )
+		return;
+	const int32 fd = sd->fd;
+	if( !session_isActive( fd ) )
+		return;
+
+	PACKET_ZC_MOONLIGHT_QUEST_END packet{};
+
+	packet.packetType = HEADER_ZC_MOONLIGHT_QUEST_END;
+	packet.packetLength = static_cast<int16>( sizeof( packet ) );
+	packet.quest_id = quest_id;
+	packet.reason = reason;
+	packet.next_quest_id = next_quest_id;
+
+	WFIFOHEAD( fd, sizeof( packet ) );
+	memcpy( WFIFOP( fd, 0 ), &packet, sizeof( packet ) );
+	WFIFOSET( fd, sizeof( packet ) );
+}
+
+
 /// Notification about a quest being removed (ZC_DEL_QUEST).
 /// 02b4 <quest id>.L
 void clif_quest_delete( const map_session_data* sd, int32 quest_id )
@@ -27298,7 +27561,7 @@ void clif_party_leaderchanged( const map_session_data* sd, int32 prev_leader_aid
 * Sends a clan message to a player
 * 098e <length>.W <name>.24B <message>.?B (ZC_NOTIFY_CLAN_CHAT)
 **/
-void clif_clan_message( const clan& clan, const char *mes, size_t len, uint32 chat_speaker ){
+void clif_clan_message( const clan& clan, const char *mes, size_t len, uint32 chat_speaker, const map_session_data* author ){
 #if PACKETVER >= 20131223
 	const map_session_data* sd = clan_getavailablesd( clan );
 
@@ -27326,7 +27589,16 @@ void clif_clan_message( const clan& clan, const char *mes, size_t len, uint32 ch
 	safestrncpy( p->Message, mes, len + 1 );
 	p->PacketLength += static_cast<decltype(p->PacketLength)>( len + 1 );
 
-	clif_send( p, p->PacketLength, sd, CLAN, chat_speaker ); // [Stingor] @ignore
+	// [Stingor] L'auteur de la ligne, à qui sait le lire (BOURGEON_UI_CHAT_AUTHOR).
+	clif_chat_author author_header{};
+	const clif_sidecar* sidecar = nullptr;
+
+	if( author != nullptr ){
+		clif_chat_author_build( author_header, p->PacketType, MOONLIGHT_CHAT_CLAN, *author, p->Message );
+		sidecar = &author_header.sidecar;
+	}
+
+	clif_send( p, p->PacketLength, sd, CLAN, chat_speaker, sidecar ); // [Stingor] @ignore
 #endif
 }
 

@@ -1487,17 +1487,21 @@ int32 guild_recv_message( int32 guild_id, uint32 account_id, const char *mes, si
 	// il n'est lisible que sur une session ouverte ici, donc un émetteur hébergé
 	// par un autre map-server passe au travers (sans objet en mono map-server).
 	uint32 speaker = 0;
+	// [Stingor] L'auteur de la ligne (ZC 0x0F3A), sous la même limite : un membre
+	// hébergé ailleurs parle sans en-tête.
+	const map_session_data* author = nullptr;
 
 	if( account_id != 0 ){
 		for( int32 i = 0; i < g->guild.max_member; i++ ){
 			if( g->guild.member[i].account_id == account_id && g->guild.member[i].sd != nullptr ){
-				speaker = g->guild.member[i].sd->status.user_id;
+				author = g->guild.member[i].sd;
+				speaker = author->status.user_id;
 				break;
 			}
 		}
 	}
 
-	clif_guild_message(g->guild,mes,len,speaker);
+	clif_guild_message(g->guild,mes,len,speaker,author);
 	return 0;
 }
 

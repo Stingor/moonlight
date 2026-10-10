@@ -2043,9 +2043,87 @@ def _ensure_discord_relay_table(conn):
                     "ADD PRIMARY KEY (`id`), "
                     "MODIFY COLUMN `id` INT UNSIGNED NOT NULL AUTO_INCREMENT"
                 )
+            # La forme riche du relais (ZC 0x0F3C), lue par groq.npc. On
+            # INTERROGE avant d'altérer, comme pour discord_outbound : un ALTER
+            # inconditionnel reconstruirait la table à chaque démarrage.
+            for col, ddl in DISCORD_RELAY_RICH_COLUMNS:
+                cur.execute(
+                    "SELECT 1 FROM information_schema.COLUMNS "
+                    "WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'discord_relay' "
+                    "AND COLUMN_NAME = %s", (col,)
+                )
+                if not cur.fetchone():
+                    cur.execute(f"ALTER TABLE `discord_relay` ADD COLUMN `{col}` {ddl}")
+                    print(f"[Discord] discord_relay.{col} ajoutee")
         conn.commit()
     except Exception as e:
         print(f"[Discord] discord_relay table ERREUR : {e}", file=sys.stderr)
+
+
+# ── Relais riche (ZC_MOONLIGHT_DISCORD_RICH 0x0F3C) ─────────────────────────
+#
+# Chaque message relayé part en morceaux de 243 octets (0x0F08) pour la DLL, et
+# ENTIER, décrit, pour moonclient. Les deux formes vivent dans les mêmes lignes
+# de discord_relay :
+#   rich_state 0 : pas de riche, le morceau part en 0x0F08 à tous ;
+#   rich_state 1 : premier morceau, il porte le riche (rich_*) ;
+#   rich_state 2 : morceau suivant, déjà couvert par le riche du premier.
+# Le serveur choisit la forme par session ; un PNJ qui ne lit pas ces colonnes
+# relaie les morceaux comme avant.
+DISCORD_RICH_NONE    = 0
+DISCORD_RICH_CARRIER = 1
+DISCORD_RICH_COVERED = 2
+
+DISCORD_RICH_FLAG_BOT = 0x01      # l'auteur est un bot
+# Plafond du texte d'un 0x0F3C, en octets UTF-8 : MOONLIGHT_DISCORD_RICH_TEXT_MAX
+# de packets_struct.hpp, à tenir d'accord. Au-delà, le message part sans riche.
+MOONLIGHT_DISCORD_RICH_TEXT_MAX = 4000
+DISCORD_RICH_FIELD_MAX = 255      # nom et avatar : une longueur d'un octet
+DISCORD_DEFAULT_AVATARS_NEW = 6   # embed/avatars/0..5, comptes sans discriminant
+DISCORD_DEFAULT_AVATARS_OLD = 5   # embed/avatars/0..4, discriminant historique
+DISCORD_SNOWFLAKE_TIME_SHIFT = 22 # les bits de date d'un identifiant Discord
+
+DISCORD_RELAY_RICH_COLUMNS = (
+    ("rich_state",   "TINYINT UNSIGNED NOT NULL DEFAULT 0"),
+    ("rich_user_id", "BIGINT UNSIGNED NOT NULL DEFAULT 0"),
+    ("rich_name",    f"VARCHAR({DISCORD_RICH_FIELD_MAX}) NOT NULL DEFAULT ''"),
+    ("rich_avatar",  f"VARCHAR({DISCORD_RICH_FIELD_MAX}) NOT NULL DEFAULT ''"),
+    ("rich_text",    "TEXT NULL"),
+    ("rich_flags",   "TINYINT UNSIGNED NOT NULL DEFAULT 0"),
+)
+
+
+def _utf8_clamp(text: str, max_bytes: int) -> str:
+    """Le plus long début de `text` qui tient en `max_bytes` octets UTF-8."""
+    raw = (text or "").encode("utf-8")
+    if len(raw) <= max_bytes:
+        return text or ""
+    return raw[:max_bytes].decode("utf-8", errors="ignore")
+
+
+def _discord_avatar_path(msg) -> str:
+    """Le chemin de l'avatar de l'auteur, RELATIF à https://cdn.discordapp.com/.
+
+    L'avatar de serveur d'abord, comme le nom (member.nick) : c'est celui que
+    les gens voient à côté du message. Puis l'avatar du compte, puis l'avatar
+    par défaut que Discord attribue à qui n'en a pas.
+    """
+    author  = (msg or {}).get("author") or {}
+    user_id = str(author.get("id") or "")
+    if not user_id.isdigit():
+        return ""
+    member_avatar = ((msg or {}).get("member") or {}).get("avatar")
+    guild_id = (msg or {}).get("guild_id") or _discord_guild_id()
+    if member_avatar and guild_id:
+        return f"guilds/{guild_id}/users/{user_id}/avatars/{member_avatar}.png"
+    if author.get("avatar"):
+        return f"avatars/{user_id}/{author['avatar']}.png"
+    discriminator = str(author.get("discriminator") or "0")
+    if discriminator.isdigit() and int(discriminator) != 0:
+        index = int(discriminator) % DISCORD_DEFAULT_AVATARS_OLD
+    else:
+        index = (int(user_id) >> DISCORD_SNOWFLAKE_TIME_SHIFT) % DISCORD_DEFAULT_AVATARS_NEW
+    return f"embed/avatars/{index}.png"
 
 
 def _ensure_chatbot_broadcast_table(conn):
@@ -2617,8 +2695,12 @@ def _guild_maps_refresh():
         _channel_map = {str(c["id"]): c.get("name", "") for c in channels if c.get("id")}
 
 
-def resolve_discord_mentions(content: str, msg=None) -> str:
-    """« <@755038659152969829> » -> « @Stingor ». Voir le bandeau ci-dessus."""
+def resolve_discord_mentions(content: str, msg=None, keep_emoji=False) -> str:
+    """« <@755038659152969829> » -> « @Stingor ». Voir le bandeau ci-dessus.
+
+    keep_emoji : les emojis custom restent sous leur forme Discord
+    (<:nom:id>, <a:nom:id>), que le relais riche sait montrer en image.
+    """
     if not content or "<" not in content:
         return content
 
@@ -2637,7 +2719,7 @@ def resolve_discord_mentions(content: str, msg=None) -> str:
     def _one(m):
         emoji, user_id, role_id, channel_id = m.groups()
         if emoji:
-            return f":{emoji}:"
+            return m.group(0) if keep_emoji else f":{emoji}:"
         if user_id:
             name = _discord_user_name(user_id, hints.get(user_id))
             return f"@{name}" if name else m.group(0)
@@ -2650,17 +2732,60 @@ def resolve_discord_mentions(content: str, msg=None) -> str:
     return _MENTION_RE.sub(_one, content)
 
 
-def _write_discord_relay(conn, author: str, content: str):
-    """Write a Discord user message to discord_relay for in-game display via ZC_BOURGEON_DISCORD_MSG."""
-    content = _mirror_rewrite(content)
+def _write_discord_relay(conn, author: str, content: str, rich=None):
+    """Write a Discord user message to discord_relay for in-game display via ZC_BOURGEON_DISCORD_MSG.
+
+    rich : la forme riche (ZC 0x0F3C) du même message, un dict
+    {user_id, name, avatar, text, flags}, portée par le premier morceau.
+    """
+    # Le texte riche et le texte simple citent les mêmes liens : un seul
+    # téléchargement par image.
+    mirrored = {}
+    def mirror(text):
+        if text not in mirrored:
+            mirrored[text] = _mirror_rewrite(text)
+        return mirrored[text]
+
+    content = mirror(content)
     lines = _chat_chunks(f"[#gonryun][{author}] ", content)
+
+    rich_row = None
+    rich_text = mirror(rich["text"]) if rich and rich.get("text") else ""
+    # Un texte riche trop long ne s'écrit pas du tout : tronqué, il perdrait sa
+    # fin chez moonclient, qui saute les morceaux couverts (rich_state 2). Le
+    # message part alors en morceaux 0x0F08 à tous (rich_state 0).
+    if len(rich_text.encode("utf-8")) > MOONLIGHT_DISCORD_RICH_TEXT_MAX:
+        rich_text = ""
+    if rich_text:
+        # Un chemin d'avatar tronqué ne mène nulle part : trop long, il saute.
+        avatar = rich.get("avatar") or ""
+        if len(avatar.encode("utf-8")) > DISCORD_RICH_FIELD_MAX:
+            avatar = ""
+        rich_row = (
+            int(rich.get("user_id") or 0),
+            _to_wire(_utf8_clamp(rich.get("name") or "", DISCORD_RICH_FIELD_MAX)),
+            avatar,
+            _to_wire(rich_text),
+            int(rich.get("flags") or 0),
+        )
     try:
         with conn.cursor() as cur:
-            for line in lines:
+            for i, line in enumerate(lines):
                 # _to_wire : sans lui, l'emoji est converti vers latin1 à la
                 # lecture de rAthena et arrive en jeu sous forme de « ? ».
-                cur.execute("INSERT INTO discord_relay (message) VALUES (%s)",
-                            (_to_wire(line),))
+                if rich_row is None:
+                    cur.execute("INSERT INTO discord_relay (message) VALUES (%s)",
+                                (_to_wire(line),))
+                elif i == 0:
+                    cur.execute(
+                        "INSERT INTO discord_relay (message, rich_state, rich_user_id, "
+                        "rich_name, rich_avatar, rich_text, rich_flags) "
+                        "VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                        (_to_wire(line), DISCORD_RICH_CARRIER) + rich_row)
+                else:
+                    cur.execute(
+                        "INSERT INTO discord_relay (message, rich_state) VALUES (%s, %s)",
+                        (_to_wire(line), DISCORD_RICH_COVERED))
         conn.commit()
     except Exception as e:
         print(f"[Discord] relay ERREUR : {e}", file=sys.stderr)
@@ -2716,8 +2841,11 @@ def _discord_poll(conn):
         # La résolution des mentions vient EN PREMIER, avant tout le reste : ce
         # `content` est ensuite le message pour tout le monde — le relais en jeu,
         # le chatlog du site, et le prompt du bot. Traduit ici, traduit partout.
-        content = replace_itemdb_links(
-            resolve_discord_mentions(msg.get("content", "").strip(), msg))
+        raw_content = msg.get("content", "").strip()
+        content = replace_itemdb_links(resolve_discord_mentions(raw_content, msg))
+        # Le texte du relais riche : mêmes mentions résolues, emojis GARDÉS.
+        rich_content = replace_itemdb_links(
+            resolve_discord_mentions(raw_content, msg, keep_emoji=True))
 
         # ── Pièces jointes ──────────────────────────────────────────────────
         # 🔴 UNE IMAGE COLLÉE N'EST PAS DANS `content`. Un Ctrl+V de capture
@@ -2738,6 +2866,7 @@ def _discord_poll(conn):
             url   = att.get("url") or ""
             if url and ctype.startswith("image/"):
                 content = (content + " " + url).strip()
+                rich_content = (rich_content + " " + url).strip()
 
         if not content:
             continue
@@ -2749,7 +2878,13 @@ def _discord_poll(conn):
             continue
 
         # Relay ALL user messages in-game via discord_relay → ZC_BOURGEON_DISCORD_MSG
-        _write_discord_relay(conn, player, content)
+        _write_discord_relay(conn, player, content, rich={
+            "user_id": msg["author"].get("id") or 0,
+            "name":    player,
+            "avatar":  _discord_avatar_path(msg),
+            "text":    rich_content,
+            "flags":   0,
+        })
 
         _log_discord_chat(conn, f"(Discord){player}", content)
         # Bot processing : seulement si le message mentionne sting ou a le préfixe ²
@@ -2762,7 +2897,13 @@ def _discord_poll(conn):
             disp = re.sub(r'^@[A-Z]+@\|?', '', response).replace('|', ' ')
             _log_discord_chat(conn, "(Discord)Sting-Bot", disp)
             # Bot response → discord_relay (Bourgeon overlay, checkbox-gated)
-            _write_discord_relay(conn, "Sting-Bot", disp)
+            _write_discord_relay(conn, "Sting-Bot", disp, rich={
+                "user_id": 0,
+                "name":    "Sting-Bot",
+                "avatar":  "",
+                "text":    disp,
+                "flags":   DISCORD_RICH_FLAG_BOT,
+            })
 
 
 def _discord_post(player: str, message: str, response: str):

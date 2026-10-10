@@ -757,7 +757,7 @@ ACMD_FUNC(playertalk)
 	}
 
 	snprintf(temp, sizeof temp ,"%s : %s", pl_sd->status.name, mes);
-	clif_GlobalMessage(*pl_sd, temp, AREA_CHAT_WOC);
+	clif_GlobalMessage(*pl_sd, temp, AREA_CHAT_WOC, pl_sd); // [Stingor] auteur de la ligne (0x0F3A)
 	clif_displaymessage(pl_sd->fd, temp);
 
     log_chat(LOG_CHAT_GLOBAL, 0, pl_sd->status.name, pl_sd->status.account_id, mapindex_id2name(pl_sd->mapindex), pl_sd->x, pl_sd->y, nullptr, mes);
@@ -837,7 +837,7 @@ ACMD_FUNC(celebrate)
 			clif_specialeffect(pl_sd,508,AREA);
 			clif_specialeffect(pl_sd,435,AREA);
 			snprintf(temp, sizeof temp ,"%s : CELEBRATE !!!", pl_sd->status.name);
-			clif_GlobalMessage(*pl_sd, temp, AREA_CHAT_WOC);
+			clif_GlobalMessage(*pl_sd, temp, AREA_CHAT_WOC, pl_sd); // [Stingor] auteur de la ligne (0x0F3A)
 			clif_displaymessage(pl_sd->fd, temp);
 		}
 	}
