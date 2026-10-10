@@ -56,8 +56,8 @@ from gen_skilldescript import (  # noqa: E402
 
 TABLE = "skill_db_site"
 
-# Dépôts frères : moonlight/ , moonlightsite/ , Moonlight-Client/
-DEFAULT_CLIENT = REPO.parent / "Moonlight-Client/data/luafiles514/luafiles/skillinfoz"
+# Dépôts frères : moonlight/ , moonlightsite/ , bourgeon-client/
+DEFAULT_CLIENT = REPO.parent / "bourgeon-client/data/luafiles514/luafiles/skillinfoz"
 DEFAULT_OUT = REPO.parent / "moonlightsite/ressources/skill_db_site.sql"
 
 SKILL_DB_PATHS = [REPO / "db/pre-re/skill_db.yml", REPO / "db/import/skill_db.yml"]
