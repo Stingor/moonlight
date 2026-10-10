@@ -88,20 +88,26 @@ HANDLER_FUNC(userconfig_save) {
 }
 
 HANDLER_FUNC(userconfig_load) {
-	if (!req.has_file("AID") || !req.has_file("WorldName")) {
+	int32 account_id = 0;
+	if (!req.has_file("WorldName") || !parseAccountId(req, account_id)) {
 		res.status = HTTP_BAD_REQUEST;
 		res.set_content("Error", "text/plain");
 		return;
 	}
 
-	// TODO: Figure out when client sends AuthToken for this path, then add packetver check
-	// if (!isAuthorized(req)) {
-		// ShowError("Not authorized!\n");
-		// message.reply(web::http::status_codes::Forbidden);
-		// return;
-	// }
+	// [Stingor] Le client natif relit sans jeton (AID et WorldName seuls) : la
+	// relecture n'est servie qu'a l'adresse IP de la session de jeu active du
+	// compte. Un jeton fourni, lui, doit etre valide, et il suffit alors comme
+	// pour la sauvegarde. Le refus a la meme forme que celui de la sauvegarde.
+	const bool authorized = req.has_file("AuthToken")
+		? isAuthorized(req, false)
+		: isFromActiveSession(req, account_id);
+	if (!authorized) {
+		res.status = HTTP_BAD_REQUEST;
+		res.set_content("Error", "text/plain");
+		return;
+	}
 
-	auto account_id = std::stoi(req.get_file_value("AID").content);
 	auto world_name_str = req.get_file_value("WorldName").content;
 	auto world_name = world_name_str.c_str();
 
