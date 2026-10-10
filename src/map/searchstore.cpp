@@ -171,7 +171,10 @@ void searchstore_query(map_session_data& sd, e_searchstore_searchtype type, uint
 		}
 	}
 
-	if( max_price < min_price )
+	// [Stingor] max_price à 0 signifie « sans plafond » (vending.cpp et
+	// buyingstore.cpp ne filtrent que si max_price != 0) : ne pas l'échanger
+	// avec le minimum, sinon le minimum saisi est perdu.
+	if( max_price != 0 && max_price < min_price )
 		std::swap(min_price, max_price);
 
 	// search

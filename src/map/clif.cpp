@@ -18101,17 +18101,21 @@ void clif_parse_GlobalMessage(int32 fd, map_session_data* sd)
 
 	// [Stingor] Outbound Discord relay - OUT always active
 	if (sd->m == map_mapname2mapid(MAP_GONRYUN)) {
+		// [Stingor] Le nom échappé et son suffixe vont dans deux tampons
+		// distincts : sprintf ne peut pas écrire dans son propre argument, et
+		// le suffixe ne tient pas dans esc_name pour un nom long.
+		static constexpr char DISCORD_ON_SUFFIX[] = " (In-Game)";
+		static constexpr char DISCORD_OFF_SUFFIX[] = " (In-Game mais Discord OFF)";
 		char esc_name[NAME_LENGTH * 2 + 1];
+		char player_label[sizeof(esc_name) + sizeof(DISCORD_OFF_SUFFIX)];
 		char esc_msg[CHAT_SIZE_MAX * 2 + 1];
-		Sql_EscapeString(mmysql_handle, esc_name, sd->status.name);
-		if( sd->state.discord_chat )
-			sprintf(esc_name,"%s (In-Game)" , esc_name);
-		else 
-			sprintf(esc_name,"%s (In-Game mais Discord OFF)" , esc_name);
-		Sql_EscapeString(mmysql_handle, esc_msg, message);
+		Sql_EscapeStringLen(mmysql_handle, esc_name, sd->status.name, strnlen(sd->status.name, NAME_LENGTH));
+		snprintf(player_label, sizeof(player_label), "%s%s", esc_name,
+			sd->state.discord_chat ? DISCORD_ON_SUFFIX : DISCORD_OFF_SUFFIX);
+		Sql_EscapeStringLen(mmysql_handle, esc_msg, message, strnlen(message, CHAT_SIZE_MAX));
 		if (Sql_Query(mmysql_handle,
 			"INSERT INTO `discord_outbound` (player, char_id, message) VALUES ('%s', %u, '%s')",
-			esc_name, sd->status.char_id, esc_msg) != SQL_SUCCESS)
+			player_label, sd->status.char_id, esc_msg) != SQL_SUCCESS)
 			Sql_ShowDebug(mmysql_handle);
 	}
 
