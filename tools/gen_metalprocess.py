@@ -24,7 +24,7 @@ import sys
 from pathlib import Path
 
 SERVER = Path(r"d:/Mes documents/GitHub/moonlight")
-CLIENT = Path(r"d:/Mes documents/GitHub/Moonlight-Client/SystemEN")
+CLIENT = Path(r"d:/Mes documents/GitHub/bourgeon-client/SystemEN")
 OUT    = Path(sys.argv[1] if len(sys.argv) > 1 else "MetalProcessItemList.txt")
 
 # ── Noms d'items : itemInfokro d'abord, itemInfomoon par-dessus (il gagne) ──────
