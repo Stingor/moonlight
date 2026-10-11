@@ -1786,6 +1786,9 @@ void clif_parse_moonlight_reqmobinfo(int32 fd, map_session_data* sd);
 // section), pas une structure : ce qu'il y a à dire dépend du type de l'entité,
 // et ajouter une propriété ne doit pas devenir une rupture de protocole.
 void clif_parse_moonlight_req_entity_props(int32 fd, map_session_data* sd);
+// CZ 0x0F3E -> ZC 0x0F3F : les @mute / @unmute qui ont visé un joueur, relus dans
+// le journal des commandes. Gate niveau de groupe >= 80, comme l'inspecteur.
+void clif_parse_moonlight_req_chat_blocks(int32 fd, map_session_data* sd);
 // CZ 0x0F29 -> ZC 0x0F2A : état de l'entité CIBLÉE, pour la fenêtre de cible de
 // Bourgeon (TargetFrame). Le client tient déjà nom / race / élément de sa plaque
 // de nom ; ce paquet apporte ce qu'aucun autre ne transporte — le **SP** d'une

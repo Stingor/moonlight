@@ -7111,6 +7111,65 @@ struct PACKET_ZC_MOONLIGHT_EQUIP_ATTRIBUTES {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_EQUIP_ATTRIBUTES, 0x0f3d);
 
+// [Stingor] Le journal des blocages de chat d'un joueur (CZ 0x0F3E -> ZC 0x0F3F),
+// pour le menu d'entité du staff.
+//
+// CZ : [packetType:2][packetLength:2][aid:4]. Fixe 8. L'AID est celui que le
+// client voit sur le joueur désigné ; le serveur en tire le personnage EN LIGNE.
+//
+// 🔴 LA CLÉ DU JOURNAL EST LE NOM DU PERSONNAGE VISÉ. `atcommandlog` range une
+// commande sous le compte, le personnage et le nom de son AUTEUR ; la cible n'y
+// paraît que dans le texte de la commande (`@mute 60 Nom`, `@unmute Nom`). La
+// réponse liste donc les commandes réussies dont le nom final désigne ce
+// personnage, à la casse près, comme `map_nick2sd` les a résolues. Un
+// personnage renommé perd ses lignes d'avant.
+//
+// 🔴 Gate SERVEUR : niveau de groupe >= 80, le même que l'inspecteur. La réponse
+// nomme le staff qui a agi.
+//
+// ZC : [packetType:2][packetLength:2][aid:4][status:1], puis une entrée de 33
+// octets par blocage, de la plus récente à la plus ancienne, au plus
+// MOONLIGHT_CHAT_BLOCKS_MAX. Seul le statut FOUND porte des entrées.
+// ⚠ Valeurs sur le fil : on AJOUTE en fin, jamais au milieu.
+enum e_moonlight_chat_blocks_status : uint8 {
+	MOONLIGHT_CHAT_BLOCKS_FOUND       = 0, ///< le journal a été lu (la liste peut être vide)
+	MOONLIGHT_CHAT_BLOCKS_MISSING     = 1, ///< aucun joueur en ligne sous cet AID
+	MOONLIGHT_CHAT_BLOCKS_DENIED      = 2, ///< le demandeur n'est pas staff
+	MOONLIGHT_CHAT_BLOCKS_LOG_OFF     = 3, ///< log_commands ou sql_logs éteint : rien n'est journalisé en SQL
+	MOONLIGHT_CHAT_BLOCKS_READ_FAILED = 4, ///< la requête a échoué (la console du serveur dit pourquoi)
+};
+
+enum e_moonlight_chat_block_kind : uint8 {
+	MOONLIGHT_CHAT_BLOCK_MUTE   = 0, ///< @mute
+	MOONLIGHT_CHAT_BLOCK_UNMUTE = 1, ///< @unmute
+};
+
+/// Le plus d'entrées qu'une réponse porte : les plus récentes.
+#define MOONLIGHT_CHAT_BLOCKS_MAX 50
+
+struct PACKET_MOONLIGHT_CHAT_BLOCK {
+	uint32 date;               ///< secondes depuis 1970, UTC
+	int32  minutes;            ///< la durée donnée à @mute ; 0 pour @unmute
+	uint8  kind;               ///< e_moonlight_chat_block_kind
+	char   author[NAME_LENGTH]; ///< le personnage du staff qui a tapé la commande
+} __attribute__((packed));
+
+struct PACKET_CZ_MOONLIGHT_REQ_CHAT_BLOCKS {
+	int16  packetType;
+	int16  packetLength;
+	uint32 aid;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_REQ_CHAT_BLOCKS, 0x0f3e);
+
+struct PACKET_ZC_MOONLIGHT_CHAT_BLOCKS {
+	int16  packetType;
+	int16  packetLength;
+	uint32 aid;     ///< écho de la demande : le client apparie par lui
+	uint8  status;  ///< e_moonlight_chat_blocks_status
+	PACKET_MOONLIGHT_CHAT_BLOCK entries[];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_CHAT_BLOCKS, 0x0f3f);
+
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
 //
@@ -7597,7 +7656,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_HATEFFECT_MAP, 0x0f17);
 // client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans
 // la zone sûre 0x0F00+ (2026-07-03). Le prochain opcode libre est tenu par
 // bopcodes::kNextFree, dans src/features/systems/bourgeon_opcodes.h de Bourgeon
-// (0x0F3E à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
+// (0x0F40 à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
 
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)

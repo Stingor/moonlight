@@ -2099,6 +2099,10 @@ parseable_packet(HEADER_CZ_MOONLIGHT_REQ_MOBINFO, sizeof(PACKET_CZ_MOONLIGHT_REQ
 // Gate niveau de groupe >= 80 DANS le handler, pas seulement côté client — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_REQ_ENTITY_PROPS, sizeof(PACKET_CZ_MOONLIGHT_REQ_ENTITY_PROPS), clif_parse_moonlight_req_entity_props, 0);
 
+// [Stingor] moonclient : le journal des blocages de chat d'un joueur, relu dans
+// atcommandlog. Gate niveau de groupe >= 80 DANS le handler — fixed
+parseable_packet(HEADER_CZ_MOONLIGHT_REQ_CHAT_BLOCKS, sizeof(PACKET_CZ_MOONLIGHT_REQ_CHAT_BLOCKS), clif_parse_moonlight_req_chat_blocks, 0);
+
 // [Stingor] Bourgeon : état de l'entité ciblée (fenêtre de cible). Le client
 // redemande tant que sa fenêtre est ouverte ; aucun état serveur — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_TARGET_INFO, sizeof(PACKET_CZ_MOONLIGHT_TARGET_INFO), clif_parse_moonlight_target_info, 0);

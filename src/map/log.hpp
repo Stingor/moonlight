@@ -4,6 +4,8 @@
 #ifndef LOG_HPP
 #define LOG_HPP
 
+#include <vector>
+
 #include <common/cbasetypes.hpp>
 #include <common/mmo.hpp>
 
@@ -87,6 +89,24 @@ void log_npc( map_session_data* sd, const char *message );
 void log_chat( e_log_chat_type type, int32 type_id, const char* src_charname, int32 src_accid, const char* map, int32 x, int32 y, const char* dst_charname, const char* message );
 void log_atcommand( map_session_data* sd, const char* message );
 void log_feeding( const map_session_data* sd, e_log_feeding_type type, t_itemid nameid );
+
+// [Stingor] Un @mute ou un @unmute relu dans le journal des commandes.
+struct s_log_chat_block {
+	uint32 date;              ///< secondes depuis 1970, UTC
+	int32 minutes;            ///< la durée donnée à @mute ; 0 pour @unmute
+	bool unmute;
+	char author[NAME_LENGTH]; ///< le personnage qui a tapé la commande
+};
+
+enum e_log_chat_blocks_read : uint8 {
+	LOG_CHAT_BLOCKS_READ_OK,
+	LOG_CHAT_BLOCKS_READ_OFF,    ///< les commandes ne sont pas journalisées en SQL
+	LOG_CHAT_BLOCKS_READ_FAILED, ///< la requête a échoué
+};
+
+// [Stingor] Les @mute / @unmute réussis qui visent le personnage `target_name`,
+// du plus récent au plus ancien, au plus `max_rows`.
+e_log_chat_blocks_read log_read_chat_blocks( const char* target_name, size_t max_rows, std::vector<s_log_chat_block>& out );
 
 /// old, but useful logs
 void log_branch( map_session_data* sd );

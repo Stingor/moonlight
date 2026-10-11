@@ -9988,6 +9988,57 @@ void clif_parse_moonlight_player_admin(int32 fd, map_session_data* sd) {
 	}
 }
 
+// [Stingor] Le journal des blocages de chat d'un joueur (CZ 0x0F3E -> ZC 0x0F3F).
+//
+// Les @mute / @unmute réussis qui l'ont visé, relus dans le journal des
+// commandes (`log_read_chat_blocks`) — ceux que le menu d'entité rejoue par
+// CZ 0x0F2B compris, puisqu'ils passent par `is_atcommand`.
+//
+// 🔴 Gate SERVEUR, niveau de groupe >= 80 comme l'inspecteur : la réponse nomme
+// le staff qui a agi. Un refus, un joueur introuvable et un journal éteint ont
+// chacun leur statut : une liste vide ne doit vouloir dire qu'« aucun blocage ».
+void clif_parse_moonlight_req_chat_blocks(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+
+	const PACKET_CZ_MOONLIGHT_REQ_CHAT_BLOCKS* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_REQ_CHAT_BLOCKS*>(RFIFOP(fd, 0));
+	const uint32 aid = p->aid;
+
+	std::vector<s_log_chat_block> blocks;
+	uint8 status = MOONLIGHT_CHAT_BLOCKS_FOUND;
+	if (pc_get_group_level(sd) < 80) {
+		status = MOONLIGHT_CHAT_BLOCKS_DENIED;
+	} else if (map_session_data* tsd = map_id2sd(aid); tsd == nullptr) {
+		status = MOONLIGHT_CHAT_BLOCKS_MISSING;
+	} else {
+		switch (log_read_chat_blocks(tsd->status.name, MOONLIGHT_CHAT_BLOCKS_MAX, blocks)) {
+		case LOG_CHAT_BLOCKS_READ_OK:     status = MOONLIGHT_CHAT_BLOCKS_FOUND;       break;
+		case LOG_CHAT_BLOCKS_READ_OFF:    status = MOONLIGHT_CHAT_BLOCKS_LOG_OFF;     break;
+		case LOG_CHAT_BLOCKS_READ_FAILED: status = MOONLIGHT_CHAT_BLOCKS_READ_FAILED; break;
+		}
+		if (status != MOONLIGHT_CHAT_BLOCKS_FOUND) blocks.clear();
+	}
+
+	const size_t length = sizeof(PACKET_ZC_MOONLIGHT_CHAT_BLOCKS) +
+	                      blocks.size() * sizeof(PACKET_MOONLIGHT_CHAT_BLOCK);
+	WFIFOHEAD(fd, length);
+	PACKET_ZC_MOONLIGHT_CHAT_BLOCKS* reply =
+		reinterpret_cast<PACKET_ZC_MOONLIGHT_CHAT_BLOCKS*>(WFIFOP(fd, 0));
+	reply->packetType = HEADER_ZC_MOONLIGHT_CHAT_BLOCKS;
+	reply->packetLength = static_cast<int16>(length);
+	reply->aid = aid;
+	reply->status = status;
+	for (size_t rank = 0; rank < blocks.size(); ++rank) {
+		PACKET_MOONLIGHT_CHAT_BLOCK& entry = reply->entries[rank];
+		entry.date = blocks[rank].date;
+		entry.minutes = blocks[rank].minutes;
+		entry.kind = blocks[rank].unmute ? MOONLIGHT_CHAT_BLOCK_UNMUTE : MOONLIGHT_CHAT_BLOCK_MUTE;
+		safestrncpy(entry.author, blocks[rank].author, sizeof(entry.author));
+	}
+	WFIFOSET(fd, length);
+}
+
 // ── Dégrader les balises maison pour qui ne les rend pas ─────────────────────
 //
 // 🔴 LE PROBLÈME QUE ÇA RÈGLE. Le dialogue NATIF du client efface les balises

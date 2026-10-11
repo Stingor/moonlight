@@ -3,7 +3,9 @@
 
 #include "log.hpp"
 
+#include <cinttypes>
 #include <cstdlib>
+#include <string>
 
 #include <common/cbasetypes.hpp>
 #include <common/nullpo.hpp>
@@ -11,6 +13,7 @@
 #include <common/sql.hpp> // SQL_INNODB
 #include <common/strlib.hpp>
 
+#include "atcommand.hpp"
 #include "battle.hpp"
 #include "homunculus.hpp"
 #include "itemdb.hpp"
@@ -372,6 +375,116 @@ void log_atcommand( map_session_data* sd, const char* message )
 		fprintf(logfp, "%s - %s[%d]: %s\n", timestring, sd->status.name, sd->status.account_id, message);
 		fclose(logfp);
 	}
+}
+
+// [Stingor] ── Relire les blocages de chat d'un personnage ────────────────────
+//
+// `atcommandlog` range chaque commande réussie sous son AUTEUR ; la cible n'y
+// est que dans le texte, en dernier argument : `@mute <minutes> <nom>`,
+// `@unmute <nom>`. Le nom est donc la seule clé possible.
+//
+// La requête trie grossièrement par LIKE (le nom entre en paramètre lié, ses
+// jokers échappés), puis chaque ligne est relue comme la commande l'a lue
+// (`ACMD_FUNC(mute)`, `ACMD_FUNC(unmute)`) : seul un nom final égal, à la casse
+// près, est gardé. Le LIKE ne sert qu'à ne pas tout rapatrier.
+
+/// Le caractère d'échappement des motifs LIKE : explicite, pour ne pas dépendre
+/// du mode NO_BACKSLASH_ESCAPES de la base.
+static const char kLikeEscape = '!';
+/// Combien de lignes candidates on relit, par ligne rendue : le LIKE laisse
+/// passer des noms plus longs qui finissent pareil.
+static const size_t kChatBlocksScanFactor = 4;
+/// Les tampons de lecture : `command` est un varchar(255), `char_name` un
+/// varchar(25), et un caractère peut peser plusieurs octets selon le jeu de
+/// caractères de la base.
+static const size_t kChatBlocksCommandBytes = 1024;
+static const size_t kChatBlocksNameBytes = 128;
+
+/// Ajoute `text` à `pattern`, ses jokers LIKE échappés.
+static void log_like_escape( std::string& pattern, const char* text ){
+	for( const char* c = text; *c != '\0'; ++c ){
+		if( *c == '%' || *c == '_' || *c == kLikeEscape )
+			pattern += kLikeEscape;
+		pattern += *c;
+	}
+}
+
+/// Relit `command` comme `is_atcommand` puis `ACMD_FUNC(mute|unmute)` : vrai
+/// quand elle bloque ou débloque `target_name`.
+static bool log_parse_chat_block( const char* command, const char* target_name, s_log_chat_block& entry ){
+	if( command[0] != atcommand_symbol )
+		return false;
+	char word[32] = "";
+	char params[256] = "";
+	if( sscanf(command + 1, "%31s %255[^\n]", word, params) < 2 )
+		return false;
+	char name[NAME_LENGTH] = "";
+	if( strcmpi(word, "mute") == 0 ){
+		int32 minutes = 0;
+		if( sscanf(params, "%11d %23[^\n]", &minutes, name) < 2 )
+			return false;
+		entry.minutes = minutes;
+		entry.unmute = false;
+	}else if( strcmpi(word, "unmute") == 0 ){
+		if( sscanf(params, "%23[^\n]", name) < 1 )
+			return false;
+		entry.minutes = 0;
+		entry.unmute = true;
+	}else{
+		return false;
+	}
+	return strcmpi(name, target_name) == 0;
+}
+
+e_log_chat_blocks_read log_read_chat_blocks( const char* target_name, size_t max_rows, std::vector<s_log_chat_block>& out ){
+	out.clear();
+	if( !log_config.commands || !log_config.sql_logs || logmysql_handle == nullptr )
+		return LOG_CHAT_BLOCKS_READ_OFF;
+
+	const char symbol[2] = { atcommand_symbol, '\0' };
+	std::string mute_pattern;
+	log_like_escape( mute_pattern, symbol );
+	mute_pattern += "mute %";
+	log_like_escape( mute_pattern, target_name );
+	std::string unmute_pattern;
+	log_like_escape( unmute_pattern, symbol );
+	unmute_pattern += "unmute %";
+	log_like_escape( unmute_pattern, target_name );
+
+	SqlStmt stmt{ *logmysql_handle };
+	// Le nom de table vient de la configuration, pas d'un joueur ; le texte du
+	// joueur n'entre que par les deux paramètres liés.
+	if( SQL_SUCCESS != stmt.Prepare("SELECT CAST(UNIX_TIMESTAMP(`atcommand_date`) AS UNSIGNED), `char_name`, `command` FROM `%s`"
+	                                " WHERE `command` LIKE ? ESCAPE '%c' OR `command` LIKE ? ESCAPE '%c'"
+	                                " ORDER BY `atcommand_id` DESC LIMIT %" PRIuPTR,
+	                                log_config.log_gm, kLikeEscape, kLikeEscape, max_rows * kChatBlocksScanFactor)
+	||  SQL_SUCCESS != stmt.BindParam(0, SQLDT_STRING, mute_pattern.data(), mute_pattern.size())
+	||  SQL_SUCCESS != stmt.BindParam(1, SQLDT_STRING, unmute_pattern.data(), unmute_pattern.size())
+	||  SQL_SUCCESS != stmt.Execute() )
+	{
+		SqlStmt_ShowDebug(stmt);
+		return LOG_CHAT_BLOCKS_READ_FAILED;
+	}
+
+	uint64 date = 0;
+	char author[kChatBlocksNameBytes];
+	char command[kChatBlocksCommandBytes];
+	if( SQL_SUCCESS != stmt.BindColumn(0, SQLDT_UINT64, &date)
+	||  SQL_SUCCESS != stmt.BindColumn(1, SQLDT_STRING, author, sizeof(author))
+	||  SQL_SUCCESS != stmt.BindColumn(2, SQLDT_STRING, command, sizeof(command)) )
+	{
+		SqlStmt_ShowDebug(stmt);
+		return LOG_CHAT_BLOCKS_READ_FAILED;
+	}
+	while( out.size() < max_rows && SQL_SUCCESS == stmt.NextRow() ){
+		s_log_chat_block entry{};
+		if( !log_parse_chat_block(command, target_name, entry) )
+			continue;
+		entry.date = static_cast<uint32>(date);
+		safestrncpy(entry.author, author, sizeof(entry.author));
+		out.push_back(entry);
+	}
+	return LOG_CHAT_BLOCKS_READ_OK;
 }
 
 /// logs messages passed to script command 'logmes'
