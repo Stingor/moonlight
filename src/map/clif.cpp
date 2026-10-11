@@ -10184,8 +10184,11 @@ void clif_parse_moonlight_bug_report(int32 fd, map_session_data* sd) {
 	// d'etre rejetee, de sorte qu'un rapport n'est jamais perdu pour un simple
 	// decalage de deploiement. C'est le bon compromis ici -- une categorie sert a
 	// TRIER, pas a decider.
+	// "navigation" (6) : guidage du navigateur ; tout est dans le contexte JSON
+	// (recherche, choix, itineraire, position). Le nom tient dans la colonne
+	// `bug_reports`.`category` (varchar 16).
 	static const char* const kCatNames[] = { "generic", "item", "skill", "npc",
-	                                         "quest", "style" };
+	                                         "quest", "style", "navigation" };
 	const int kCatCount = (int)(sizeof(kCatNames) / sizeof(kCatNames[0]));
 	const char* cat = (category < kCatCount) ? kCatNames[category] : "generic";
 	const char* mapname = map_getmapdata(sd->m)->name;

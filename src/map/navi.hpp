@@ -43,8 +43,11 @@ struct navi_link {
 // We need a bigger max path length than stock walkpath
 #define MAX_WALKPATH_NAVI 1024
 
+// path_len counts up to MAX_WALKPATH_NAVI steps: it must be wider than a byte,
+// or navi_linkdistance / navi_npcdistance would write any walk longer than 255
+// steps modulo 256.
 struct navi_walkpath_data {
-	uint8 path_len, path_pos;
+	uint16 path_len, path_pos;
 	uint8 path[MAX_WALKPATH_NAVI];
 };
 

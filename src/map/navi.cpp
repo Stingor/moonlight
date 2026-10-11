@@ -300,6 +300,18 @@ void write_header(std::ostream &os, std::string name) {
 	os << name << " = {\n";
 }
 
+// First line of the two distance tables, written even with --no-comment.
+// Format 2: path lengths are exact (16-bit path_len). A table without this
+// line comes from an older generator that kept only the low byte of each
+// length; moonclient keeps reading it, and corrects it, as long as the line is
+// missing. A Lua comment, so every other reader ignores it.
+static const char *const NAVI_DISTANCE_FORMAT_LINE = "-- navi_format: 2\n";
+
+void write_distance_header(std::ostream &os, std::string name) {
+	os << NAVI_DISTANCE_FORMAT_LINE;
+	write_header(os, name);
+}
+
 void write_footer(std::ostream &os) {
 	os << "}\n";
 }
@@ -609,7 +621,7 @@ void write_npc_distance(std::ostream &os, const npc_data * nd, const struct map_
 void write_npc_distances() {
 	auto dist_npc_file = std::ofstream(filePrefix + "./navi_npcdistance_krpri.lub");
 
-	write_header(dist_npc_file, "Navi_NpcDistance");
+	write_distance_header(dist_npc_file, "Navi_NpcDistance");
 
 	for (int32 mapid = 0; mapid < map_num; mapid++) {
 		auto m = map_getmapdata(mapid);
@@ -724,7 +736,7 @@ void write_map_distance(std::ostream &os, const struct navi_link * warp1, const 
 
 void write_map_distances() {
 	auto dist_map_file = std::ofstream(filePrefix + "./navi_linkdistance_krpri.lub");
-	write_header(dist_map_file, "Navi_Distance");
+	write_distance_header(dist_map_file, "Navi_Distance");
 
 	for (int32 mapid = 0; mapid < map_num; mapid++) {
 		const struct map_data * m = map_getmapdata(mapid);

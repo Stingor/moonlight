@@ -3130,6 +3130,7 @@ _BUG_CATEGORIES = {
     "npc":     ("💬", "PNJ",        0x2ECC71),
     "quest":   ("📜", "Quête",      0xF1C40F),
     "style":   ("🎨", "Style",      0xE91E63),
+    "navigation": ("🧭", "Navigation", 0x3498DB),
 }
 
 # Clés du contexte déjà rendues par un champ dédié : elles ne doivent pas être
