@@ -367,6 +367,7 @@ int32 potion_hp=0, potion_per_hp=0, potion_sp=0, potion_per_sp=0;
 int32 potion_target = 0;
 uint32 *generic_ui_array = nullptr;
 uint32 generic_ui_array_size = 0;
+std::vector<s_script_bonus_capture>* script_bonus_capture = nullptr;
 
 
 c_op get_com(unsigned char *script,int32 *pos);
@@ -10108,19 +10109,30 @@ BUILDIN_FUNC(bonus)
 			break;
 	}
 
+	// [Stingor] En capture (ZC 0x0F3D), la commande se relève et ne s'applique pas.
+	const auto captured = [&]( uint8 level ) -> bool {
+		if( script_bonus_capture == nullptr )
+			return false;
+		script_bonus_capture->push_back( { level, type, { val1, val2, val3, val4, val5 } } );
+		return true;
+	};
+
 	switch( script_lastdata(st)-2 ) {
 		case 0:
 		case 1:
-			pc_bonus(sd, type, val1);
+			if( !captured( 1 ) )
+				pc_bonus(sd, type, val1);
 			break;
 		case 2:
 			val2 = script_getnum(st,4);
-			pc_bonus2(sd, type, val1, val2);
+			if( !captured( 2 ) )
+				pc_bonus2(sd, type, val1, val2);
 			break;
 		case 3:
 			val2 = script_getnum(st,4);
 			val3 = script_getnum(st,5);
-			pc_bonus3(sd, type, val1, val2, val3);
+			if( !captured( 3 ) )
+				pc_bonus3(sd, type, val1, val2, val3);
 			break;
 		case 4:
 			if( type == SP_AUTOSPELL_ONSKILL && script_isstring(st, 4) )
@@ -10130,7 +10142,8 @@ BUILDIN_FUNC(bonus)
 
 			val3 = script_getnum(st,5);
 			val4 = script_getnum(st,6);
-			pc_bonus4(sd, type, val1, val2, val3, val4);
+			if( !captured( 4 ) )
+				pc_bonus4(sd, type, val1, val2, val3, val4);
 			break;
 		case 5:
 			if( type == SP_AUTOSPELL_ONSKILL && script_isstring(st, 4) )
@@ -10141,7 +10154,8 @@ BUILDIN_FUNC(bonus)
 			val3 = script_getnum(st,5);
 			val4 = script_getnum(st,6);
 			val5 = script_getnum(st,7);
-			pc_bonus5(sd, type, val1, val2, val3, val4, val5);
+			if( !captured( 5 ) )
+				pc_bonus5(sd, type, val1, val2, val3, val4, val5);
 			break;
 		default:
 			ShowDebug("buildin_bonus: unexpected number of arguments (%d)\n", (script_lastdata(st) - 1));
@@ -10161,6 +10175,10 @@ BUILDIN_FUNC(autobonus)
 
 	if( !script_rid2sd(sd) )
 		return SCRIPT_CMD_SUCCESS; // no player attached
+
+	// [Stingor] En capture (ZC 0x0F3D), rien ne s'ajoute au joueur.
+	if( script_bonus_capture != nullptr )
+		return SCRIPT_CMD_SUCCESS;
 
 	if (current_equip_combo_pos)
 		pos = current_equip_combo_pos;
@@ -10205,6 +10223,10 @@ BUILDIN_FUNC(autobonus2)
 	if( !script_rid2sd(sd) )
 		return SCRIPT_CMD_SUCCESS; // no player attached
 
+	// [Stingor] En capture (ZC 0x0F3D), rien ne s'ajoute au joueur.
+	if( script_bonus_capture != nullptr )
+		return SCRIPT_CMD_SUCCESS;
+
 	if (current_equip_combo_pos)
 		pos = current_equip_combo_pos;
 	else
@@ -10241,6 +10263,10 @@ BUILDIN_FUNC(autobonus3)
 
 	if( !script_rid2sd(sd) )
 		return SCRIPT_CMD_SUCCESS; // no player attached
+
+	// [Stingor] En capture (ZC 0x0F3D), rien ne s'ajoute au joueur.
+	if( script_bonus_capture != nullptr )
+		return SCRIPT_CMD_SUCCESS;
 
 	if (current_equip_combo_pos)
 		pos = current_equip_combo_pos;
@@ -10403,6 +10429,11 @@ BUILDIN_FUNC(plagiarizeskillreset)
 /// skill "<skill name>",<level>
 BUILDIN_FUNC(skill)
 {
+	// [Stingor] En capture (ZC 0x0F3D), le script d'un item se rejoue hors du
+	// calcul des stats : rien ne doit toucher le joueur ni ses voisins.
+	if( script_bonus_capture != nullptr )
+		return SCRIPT_CMD_SUCCESS;
+
 	int32 id;
 	int32 level;
 	int32 flag = ADDSKILL_TEMP;
@@ -12432,6 +12463,11 @@ BUILDIN_FUNC(enablenpc)
  */
 BUILDIN_FUNC(sc_start)
 {
+	// [Stingor] En capture (ZC 0x0F3D), le script d'un item se rejoue hors du
+	// calcul des stats : rien ne doit toucher le joueur ni ses voisins.
+	if( script_bonus_capture != nullptr )
+		return SCRIPT_CMD_SUCCESS;
+
 	TBL_NPC * nd = map_id2nd(st->oid);
 	block_list* bl;
 	enum sc_type type;
@@ -15711,6 +15747,11 @@ BUILDIN_FUNC(npcskilleffect)
  *------------------------------------------*/
 BUILDIN_FUNC(specialeffect)
 {
+	// [Stingor] En capture (ZC 0x0F3D), le script d'un item se rejoue hors du
+	// calcul des stats : rien ne doit toucher le joueur ni ses voisins.
+	if( script_bonus_capture != nullptr )
+		return SCRIPT_CMD_SUCCESS;
+
 	block_list *bl=map_id2bl(st->oid);
 	int32 type = script_getnum(st,2);
 	enum send_target target = script_hasdata(st,3) ? (send_target)script_getnum(st,3) : AREA;
@@ -15749,6 +15790,11 @@ BUILDIN_FUNC(specialeffect)
 
 BUILDIN_FUNC(specialeffect2)
 {
+	// [Stingor] En capture (ZC 0x0F3D), le script d'un item se rejoue hors du
+	// calcul des stats : rien ne doit toucher le joueur ni ses voisins.
+	if( script_bonus_capture != nullptr )
+		return SCRIPT_CMD_SUCCESS;
+
 	TBL_PC *sd;
 
 	if( script_nick2sd(4,sd) ){
@@ -24005,6 +24051,10 @@ BUILDIN_FUNC(bonus_script) {
 
 	if ( !script_charid2sd(7,sd) )
 		return SCRIPT_CMD_FAILURE;
+
+	// [Stingor] En capture (ZC 0x0F3D), rien ne s'ajoute au joueur.
+	if( script_bonus_capture != nullptr )
+		return SCRIPT_CMD_SUCCESS;
 
 	script_str = script_getstr(st,2);
 	dur = 1000 * abs(script_getnum(st,3));

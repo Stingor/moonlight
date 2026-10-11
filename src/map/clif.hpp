@@ -1655,6 +1655,12 @@ void clif_bourgeon_sync_alootid(map_session_data* sd);
 void clif_bourgeon_send_preset_list(map_session_data* sd);
 // [Stingor] Send equip/card stat breakdown (ZC 0x0F10) — called at end of status_calc_pc
 void clif_bourgeon_stat_bonus(map_session_data* sd);
+// [Stingor] ZC 0x0F3D : ce qu'apporte une pièce ou un ensemble qui entre ou sort de
+// l'équipement, à qui a annoncé BOURGEON_UI_EQUIP_ATTRIBUTES. Les scripts sont joués
+// en capture : rien n'est appliqué au joueur.
+bool clif_moonlight_equip_attributes_wanted(const map_session_data& sd);
+void clif_moonlight_equip_piece(map_session_data& sd, int16 index, bool equipped);
+void clif_moonlight_equip_combo(map_session_data& sd, uint32 combo_id, uint32 combo_pos, bool equipped);
 // [Stingor] Un message du relais Discord à tous les joueurs de gonryun : `msg` en
 // 0x0F08 (un morceau de 243 octets au plus), et, à qui a annoncé
 // BOURGEON_UI_DISCORD_RICH, la forme riche 0x0F3C à sa place.
@@ -1901,7 +1907,12 @@ enum e_bourgeon_ui_cap : uint32 {
 	// familier, élémentaire — dans ZC_MOONLIGHT_UNIT_MASTER (0x0F37). Sans ce bit,
 	// 0x0F37 ne lui part que pour les monstres, sous BOURGEON_UI_UNIT_MASTER.
 	BOURGEON_UI_COMPANION_MASTER = 0x00001000,
-	// Prochain bit libre : 0x00002000.
+	// Ce client sait lire ce qu'apporte une pièce ou un ensemble qui entre ou sort
+	// de l'équipement (ZC_MOONLIGHT_EQUIP_ATTRIBUTES 0x0F3D). Sans ce bit, le
+	// paquet ne lui part pas — la DLL ne l'annonce jamais : elle a reçu 0x0F10
+	// depuis toujours, mais un opcode qu'elle ne connaît pas lui viderait le flux.
+	BOURGEON_UI_EQUIP_ATTRIBUTES = 0x00002000,
+	// Prochain bit libre : 0x00004000.
 };
 
 // [Stingor] Les réglages du serveur utiles au client (ZC 0x0F38), à une session

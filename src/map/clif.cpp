@@ -6392,6 +6392,163 @@ void clif_bourgeon_stat_bonus(map_session_data* sd) {
 	clif_send(buf, off, sd, SELF);
 }
 
+// ── [Stingor] Ce qu'apporte une pièce ou un ensemble (ZC 0x0F3D) ─────────────
+//
+// Les scripts se jouent en CAPTURE : buildin_bonus relève chaque commande
+// bonus..bonus5 dans `script_bonus_capture` au lieu de l'appliquer, et autobonus*
+// et bonus_script ne font rien. Les globales que lisent les scripts
+// (current_equip_*) sont posées comme status_calc_pc les pose, puis rendues.
+
+bool clif_moonlight_equip_attributes_wanted(const map_session_data& sd) {
+	return sd.state.has_bourgeon && ( sd.bourgeon_ui_caps & BOURGEON_UI_EQUIP_ATTRIBUTES ) && session_isActive( sd.fd );
+}
+
+/// Joue un script en capture et ajoute ses commandes bonus à `into`.
+static void clif_moonlight_capture_script( map_session_data& sd, script_code* script, std::vector<s_script_bonus_capture>& into ){
+	if( script == nullptr )
+		return;
+	std::vector<s_script_bonus_capture>* previous = script_bonus_capture;
+	script_bonus_capture = &into;
+	run_script( script, 0, sd.id, 0 );
+	script_bonus_capture = previous;
+}
+
+/// L'argument STATUT d'un bonus d'effet devient un EFST, comme dans 0x0F10.
+static void clif_moonlight_status_to_icon( s_script_bonus_capture& entry ){
+	int32 position;
+
+	switch( entry.type ){
+		case SP_ADDEFF:
+		case SP_ADDEFF2:
+		case SP_ADDEFF_WHENHIT:
+		case SP_RESEFF:
+			position = 0;
+			break;
+		case SP_ADDEFF_ONSKILL:
+			position = 1;
+			break;
+		default:
+			return;
+	}
+	entry.values[position] = status_db.getIcon( static_cast<sc_type>( entry.values[position] ) );
+}
+
+/// Envoie un 0x0F3D : en-tête, puis une entrée par bonus relevé.
+static void clif_moonlight_equip_attributes_send( map_session_data& sd, bool equipped, e_moonlight_equip_attributes_kind kind, uint32 id, std::vector<s_script_bonus_capture>& bonuses ){
+	const size_t most_entries = ( INT16_MAX - sizeof( PACKET_ZC_MOONLIGHT_EQUIP_ATTRIBUTES ) ) / sizeof( PACKET_MOONLIGHT_EQUIP_BONUS );
+	const size_t count = std::min( bonuses.size(), most_entries );
+	const size_t total = sizeof( PACKET_ZC_MOONLIGHT_EQUIP_ATTRIBUTES ) + count * sizeof( PACKET_MOONLIGHT_EQUIP_BONUS );
+	std::vector<uint8> buf( total );
+
+	PACKET_ZC_MOONLIGHT_EQUIP_ATTRIBUTES* p = reinterpret_cast<PACKET_ZC_MOONLIGHT_EQUIP_ATTRIBUTES*>( buf.data() );
+	p->packetType = HEADER_ZC_MOONLIGHT_EQUIP_ATTRIBUTES;
+	p->packetLength = static_cast<int16>( total );
+	p->equipped = equipped ? 1 : 0;
+	p->kind = kind;
+	p->id = id;
+	for( size_t i = 0; i < count; i++ ){
+		clif_moonlight_status_to_icon( bonuses[i] );
+		p->bonuses[i].level = bonuses[i].level;
+		p->bonuses[i].type = static_cast<uint16>( bonuses[i].type );
+		for( size_t v = 0; v < MOONLIGHT_EQUIP_BONUS_VALUES; v++ ){
+			p->bonuses[i].values[v] = bonuses[i].values[v];
+		}
+	}
+	clif_send( buf.data(), static_cast<int32>( total ), &sd, SELF );
+}
+
+void clif_moonlight_equip_piece( map_session_data& sd, int16 index, bool equipped ){
+	if( !clif_moonlight_equip_attributes_wanted( sd ) )
+		return;
+	if( index < 0 || index >= MAX_INVENTORY || sd.inventory_data[index] == nullptr )
+		return;
+
+	item_data* data = sd.inventory_data[index];
+	item& piece = sd.inventory.u.items_inventory[index];
+	const bool allowed = pc_has_permission( &sd, PC_PERM_USE_ALL_EQUIPMENT ) || !itemdb_isNoEquip( data, sd.m );
+	std::vector<s_script_bonus_capture> bonuses;
+
+	const auto own = [&bonuses]( int32 type, int32 value ){
+		if( value != 0 )
+			bonuses.push_back( { MOONLIGHT_EQUIP_BONUS_OWN, type, { value, 0, 0, 0, 0 } } );
+	};
+
+	// L'apport propre, compté comme status_calc_pc le compte.
+	std::shared_ptr<s_refine_level_info> refine = refine_db.findCurrentLevelInfo( *data, piece );
+	if( data->type == IT_WEAPON ){
+		own( SP_ATK1, data->atk );
+		if( refine != nullptr )
+			own( SP_ATK2, refine->bonus / 100 );
+#ifdef RENEWAL
+		own( SP_MATK1, data->matk );
+#endif
+	}
+	own( SP_DEF1, data->def );
+	if( data->type == IT_ARMOR && refine != nullptr )
+		own( SP_DEF2, ( refine->bonus + 50 ) / 100 );
+
+	const int16 previous_index = current_equip_item_index;
+	const uint32 previous_combo_pos = current_equip_combo_pos;
+	const int32 previous_card = current_equip_card_id;
+	const int16 previous_opt = current_equip_opt_index;
+	current_equip_item_index = index;
+	current_equip_combo_pos = 0;
+
+	if( allowed )
+		clif_moonlight_capture_script( sd, data->script, bonuses );
+
+	if( !itemdb_isspecial( piece.card[0] ) ){
+		for( int32 slot = 0; slot < MAX_SLOTS; slot++ ){
+			if( piece.card[slot] == 0 )
+				continue;
+			std::shared_ptr<item_data> card = item_db.find( piece.card[slot] );
+			if( card == nullptr || ( !pc_has_permission( &sd, PC_PERM_USE_ALL_EQUIPMENT ) && itemdb_isNoEquip( card.get(), sd.m ) ) )
+				continue;
+			current_equip_card_id = piece.card[slot];
+			clif_moonlight_capture_script( sd, card->script, bonuses );
+		}
+	}
+	current_equip_card_id = 0;
+
+	if( allowed ){
+		for( uint8 slot = 0; slot < MAX_ITEM_RDM_OPT; slot++ ){
+			if( piece.option[slot].id == 0 )
+				continue;
+			std::shared_ptr<s_random_opt_data> option = random_option_db.find( piece.option[slot].id );
+			if( option == nullptr )
+				continue;
+			current_equip_opt_index = slot;
+			clif_moonlight_capture_script( sd, option->script, bonuses );
+		}
+	}
+
+	current_equip_item_index = previous_index;
+	current_equip_combo_pos = previous_combo_pos;
+	current_equip_card_id = previous_card;
+	current_equip_opt_index = previous_opt;
+
+	clif_moonlight_equip_attributes_send( sd, equipped, MOONLIGHT_EQUIP_ATTRIBUTES_PIECE, data->nameid, bonuses );
+}
+
+void clif_moonlight_equip_combo( map_session_data& sd, uint32 combo_id, uint32 combo_pos, bool equipped ){
+	if( !clif_moonlight_equip_attributes_wanted( sd ) )
+		return;
+	std::shared_ptr<s_item_combo> combo = itemdb_combo.find( combo_id );
+	if( combo == nullptr )
+		return;
+
+	std::vector<s_script_bonus_capture> bonuses;
+	const int16 previous_index = current_equip_item_index;
+	const uint32 previous_combo_pos = current_equip_combo_pos;
+	current_equip_item_index = -1;
+	current_equip_combo_pos = combo_pos;
+	clif_moonlight_capture_script( sd, combo->script, bonuses );
+	current_equip_item_index = previous_index;
+	current_equip_combo_pos = previous_combo_pos;
+
+	clif_moonlight_equip_attributes_send( sd, equipped, MOONLIGHT_EQUIP_ATTRIBUTES_COMBO, combo_id, bonuses );
+}
+
 // Loads the preset marked auto=1 for this character into sd->state.autolootid.
 // Called before clif_bourgeon_settings so the initial alootid sync includes it.
 static void clif_bourgeon_autoload_preset(map_session_data* sd) {

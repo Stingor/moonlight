@@ -7056,6 +7056,61 @@ struct PACKET_ZC_MOONLIGHT_DISCORD_RICH {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_DISCORD_RICH, 0x0f3c);
 
+// [Stingor] ZC_MOONLIGHT_EQUIP_ATTRIBUTES (0x0F3D) — ce qu'apporte UNE pièce, ou
+// UN ensemble, au moment où il entre ou sort de l'équipement. Le client l'écrit
+// dans la case « Attributs d'équipement » de sa discussion.
+//
+// Il part après l'accusé réussi de pose (0x0999) ou de retrait (0x099A) :
+//   - pose    : la pièce, puis chaque ensemble que la pose a formé ;
+//   - retrait : chaque ensemble que le retrait a rompu, puis la pièce.
+// Rien à la connexion : l'équipement initial ne passe pas par la pose.
+//
+// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT BOURGEON_UI_EQUIP_ATTRIBUTES : un client
+// qui ne connaît pas l'opcode viderait son tampon de réception.
+//
+// Les bonus sont ceux de la pièce SEULE : son script, ceux de ses cartes et de ses
+// options aléatoires, joués en CAPTURE (script_bonus_capture) — les commandes
+// bonus..bonus5 sont relevées au lieu d'être appliquées, l'état du joueur n'est
+// pas touché. Un ensemble : son script seul.
+//
+// Une entrée, de 23 octets :
+//   level 1..5 : une commande `bonus`..`bonus5` du script, telle qu'écrite :
+//                type = le bType (enum _sp), values[0..level-1] = ses arguments
+//                dans l'ordre (`bonus2 bAddRace,RC_Demon,10` -> {RC_Demon, 10}).
+//                Un nom de skill est déjà résolu en identifiant, et l'argument
+//                STATUT de bAddEff, bAddEff2, bAddEffWhenHit, bResEff et
+//                bAddEffOnSkill est converti en EFST (l'icône), comme dans 0x0F10.
+//   level 0    : l'apport propre de la pièce, hors script, values[0] = la valeur :
+//                SP_ATK1 = ATK de l'arme, SP_ATK2 = ATK de raffinage,
+//                SP_MATK1 = MATK de l'arme (renewal), SP_DEF1 = DEF de la pièce,
+//                SP_DEF2 = DEF de raffinage.
+// ⚠ Valeurs sur le fil : on AJOUTE en fin, jamais au milieu.
+enum e_moonlight_equip_attributes_kind : uint8 {
+	MOONLIGHT_EQUIP_ATTRIBUTES_PIECE = 0, ///< id = nameid de la pièce
+	MOONLIGHT_EQUIP_ATTRIBUTES_COMBO = 1, ///< id = identifiant de l'ensemble (item_combos)
+};
+
+/// Le niveau d'une entrée qui n'est pas une commande bonus : l'apport propre de la pièce.
+#define MOONLIGHT_EQUIP_BONUS_OWN 0
+/// Le plus d'arguments qu'une commande bonus porte (bonus5).
+#define MOONLIGHT_EQUIP_BONUS_VALUES 5
+
+struct PACKET_MOONLIGHT_EQUIP_BONUS {
+	uint8  level;   ///< 0 = apport propre, 1..5 = bonus..bonus5
+	uint16 type;    ///< enum _sp
+	int32  values[MOONLIGHT_EQUIP_BONUS_VALUES];
+} __attribute__((packed));
+
+struct PACKET_ZC_MOONLIGHT_EQUIP_ATTRIBUTES {
+	int16  packetType;
+	int16  packetLength;
+	uint8  equipped; ///< 1 = posée / ensemble formé, 0 = retirée / ensemble rompu
+	uint8  kind;     ///< e_moonlight_equip_attributes_kind
+	uint32 id;
+	PACKET_MOONLIGHT_EQUIP_BONUS bonuses[];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_EQUIP_ATTRIBUTES, 0x0f3d);
+
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
 //
@@ -7542,7 +7597,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_HATEFFECT_MAP, 0x0f17);
 // client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans
 // la zone sûre 0x0F00+ (2026-07-03). Le prochain opcode libre est tenu par
 // bopcodes::kNextFree, dans src/features/systems/bourgeon_opcodes.h de Bourgeon
-// (0x0F3D à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
+// (0x0F3E à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
 
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)

@@ -150,6 +150,16 @@ extern int32 potion_target;
 extern uint32 *generic_ui_array;
 extern uint32 generic_ui_array_size;
 
+// [Stingor] Une commande bonus..bonus5 relevee au lieu d'etre appliquee.
+struct s_script_bonus_capture {
+	uint8 level;       ///< 1 = bonus, 2 = bonus2, ... 5 = bonus5
+	int32 type;        ///< le bType (enum _sp)
+	int32 values[5];   ///< ses arguments, dans l'ordre ; un nom de skill deja resolu
+};
+// [Stingor] Non nul, les commandes bonus..bonus5 s'y ajoutent et ne touchent pas le
+// joueur (cf. clif_moonlight_equip_piece). Nul hors de cette capture.
+extern std::vector<s_script_bonus_capture>* script_bonus_capture;
+
 struct Script_Config {
 	unsigned warn_func_mismatch_argtypes : 1;
 	unsigned warn_func_mismatch_paramnum : 1;

@@ -12441,6 +12441,17 @@ void pc_cleareventtimer(map_session_data *sd)
 	}
 }
 
+/// [Stingor] Un ensemble de cet identifiant est-il dans la liste ? Comparer par
+/// identifiant et non par pointeur : pc_removecombo retire puis peut reformer le
+/// même ensemble sous un autre pointeur.
+static bool pc_has_combo_id(const std::vector<std::shared_ptr<s_combos>>& combos, uint32 combo_id) {
+	for (const auto& combo : combos) {
+		if (combo->id == combo_id)
+			return true;
+	}
+	return false;
+}
+
 /**
  * Called when an item with combo is worn
  * @param sd: Player data
@@ -12907,6 +12918,11 @@ bool pc_equipitem(map_session_data *sd,int16 n,int32 req_pos,bool equipswitch)
 	pc_checkallowskill(sd); //Check if status changes should be halted.
 	iflag = sd->npc_item_flag;
 
+	// [Stingor] Les ensembles déjà formés, pour dire ceux que cette pose formera (ZC 0x0F3D).
+	std::vector<std::shared_ptr<s_combos>> combos_before;
+	if (clif_moonlight_equip_attributes_wanted(*sd))
+		combos_before = sd->combos;
+
 	// Check for combos (MUST be before status_calc_pc)
 	if (!id->combos.empty())
 		pc_checkcombo(sd, id);
@@ -12930,6 +12946,15 @@ bool pc_equipitem(map_session_data *sd,int16 n,int32 req_pos,bool equipswitch)
 	status_calc_pc(sd,SCO_NONE);
 	if (flag) //Update skill data
 		clif_skillinfoblock(*sd);
+
+	// [Stingor] La pièce, puis les ensembles qu'elle forme (ZC 0x0F3D).
+	if (clif_moonlight_equip_attributes_wanted(*sd)) {
+		clif_moonlight_equip_piece(*sd, n, true);
+		for (const auto& combo : sd->combos) {
+			if (!pc_has_combo_id(combos_before, combo->id))
+				clif_moonlight_equip_combo(*sd, combo->id, combo->pos, true);
+		}
+	}
 
 	//OnEquip script [Skotlex]
 	if (id) {
@@ -13007,6 +13032,12 @@ static void pc_unequipitem_sub(map_session_data *sd, int32 n, int32 flag) {
 		pc_checkallowskill(sd);
 	iflag = sd->npc_item_flag;
 
+	// [Stingor] Les ensembles formés, pour dire ceux que ce retrait rompra (ZC 0x0F3D).
+	const bool tell_attributes = clif_moonlight_equip_attributes_wanted(*sd);
+	std::vector<std::shared_ptr<s_combos>> combos_before;
+	if (tell_attributes)
+		combos_before = sd->combos;
+
 	// Check for combos (MUST be before status_calc_pc)
 	if (sd->inventory_data[n]) {
 		if (!sd->inventory_data[n]->combos.empty()) {
@@ -13035,6 +13066,15 @@ static void pc_unequipitem_sub(map_session_data *sd, int32 n, int32 flag) {
 
 	if (flag & 1 || status_calc) {
 		status_calc_pc(sd, SCO_FORCE);
+	}
+
+	// [Stingor] Les ensembles rompus, puis la pièce (ZC 0x0F3D).
+	if (tell_attributes) {
+		for (const auto& combo : combos_before) {
+			if (!pc_has_combo_id(sd->combos, combo->id))
+				clif_moonlight_equip_combo(*sd, combo->id, combo->pos, false);
+		}
+		clif_moonlight_equip_piece(*sd, static_cast<int16>(n), false);
 	}
 
 	if (sd->sc.getSCE(SC_SIGNUMCRUCIS) && !battle_check_undead(sd->battle_status.race, sd->battle_status.def_ele))
