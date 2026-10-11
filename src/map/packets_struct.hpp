@@ -5971,11 +5971,11 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_KICK_NOTICE, 0x0f03);  // ex-0x0bfa
 
 // ZC (server -> client): relays a Discord chat message to the Bourgeon overlay.
 // Variable-length. Layout: [packetType:2][packetLength:2][msg:variable, null-terminated]
-// The overlay shows the message if the player's relay checkbox is ON, ignores it if OFF.
+/ Sent only to players whose relay setting is ON (moonclient keeps it ON and filters by chat tab).
 struct PACKET_ZC_MOONLIGHT_DISCORD_MSG {
 	int16 packetType;
 	int16 packetLength;
-	char msg[1];  // variable-length, null-terminated; pre-formatted as "[Discord][name] text"
+	char msg[1];  // variable-length, null-terminated; pre-formatted as "[#gonryun][author] text" by tools/groq_service.py
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_DISCORD_MSG, 0x0f08);  // ex-0x0c1f
 

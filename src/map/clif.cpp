@@ -10479,6 +10479,104 @@ void clif_parse_moonlight_bug_report(int32 fd, map_session_data* sd) {
 	send_ack(0);
 }
 
+// ── [Stingor] Le signalement d'un joueur (CZ 0x0BE2 -> ZC 0x0BE3) ───────────
+//
+// La fenêtre « Report a User » du menu d'un joueur, chez le client d'origine
+// comme chez moonclient. Le signalement s'ENREGISTRE dans `player_reports`
+// (sql-files/player_reports.sql), et nulle part ailleurs : le staff le consulte
+// dans la base.
+
+/// Un auteur ne signale la même cible qu'une fois par période.
+static const int32 REPORT_USER_PAIR_COOLDOWN_MINUTES = 30;
+/// Ce qu'un auteur peut signaler en vingt-quatre heures, toutes cibles confondues.
+static const int32 REPORT_USER_DAILY_MAX = 20;
+
+static void clif_report_user_ack(int32 fd, uint32 target_aid, const char* target_name, e_report_user_result result) {
+	PACKET_ZC_ACK_REPORT_USER p{};
+	p.packetType = HEADER_ZC_ACK_REPORT_USER;
+	p.targetAID = target_aid;
+	if (target_name != nullptr)
+		safestrncpy(p.targetName, target_name, sizeof(p.targetName));
+	p.result = result;
+	socket_send(fd, p);
+}
+
+/// Ce que l'auteur a déjà signalé : cette cible pendant la période, et toutes
+/// cibles en vingt-quatre heures. Faux quand la lecture échoue.
+static bool clif_report_user_counts(uint32 reporter_aid, uint32 target_aid, uint64& same_target, uint64& last_day) {
+	SqlStmt stmt{ *mmysql_handle };
+	if (SQL_SUCCESS != stmt.Prepare("SELECT CAST(COALESCE(SUM(`target_account_id` = ? AND `created_at` > NOW() - INTERVAL %d MINUTE), 0) AS UNSIGNED),"
+	                                " CAST(COUNT(*) AS UNSIGNED) FROM `player_reports`"
+	                                " WHERE `reporter_account_id` = ? AND `created_at` > NOW() - INTERVAL 1 DAY",
+	                                REPORT_USER_PAIR_COOLDOWN_MINUTES)
+	||  SQL_SUCCESS != stmt.BindParam(0, SQLDT_UINT32, &target_aid, sizeof(target_aid))
+	||  SQL_SUCCESS != stmt.BindParam(1, SQLDT_UINT32, &reporter_aid, sizeof(reporter_aid))
+	||  SQL_SUCCESS != stmt.Execute()
+	||  SQL_SUCCESS != stmt.BindColumn(0, SQLDT_UINT64, &same_target)
+	||  SQL_SUCCESS != stmt.BindColumn(1, SQLDT_UINT64, &last_day)
+	||  SQL_SUCCESS != stmt.NextRow()) {
+		SqlStmt_ShowDebug(stmt);
+		return false;
+	}
+	return true;
+}
+
+void clif_parse_report_user(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	const PACKET_CZ_REQ_REPORT_USER* p = reinterpret_cast<const PACKET_CZ_REQ_REPORT_USER*>(RFIFOP(fd, 0));
+
+	// L'auteur est la session, jamais le champ `AID` ; la cible, un AUTRE joueur
+	// en ligne, dont on relit le nom plutôt que de croire celui du paquet.
+	map_session_data* tsd = map_id2sd(p->targetAID);
+	if (tsd == nullptr || tsd == sd) {
+		clif_report_user_ack(fd, p->targetAID, nullptr, REPORT_USER_TARGET_NOT_FOUND);
+		return;
+	}
+
+	uint64 same_target = 0;
+	uint64 last_day = 0;
+	if (!clif_report_user_counts(sd->status.account_id, tsd->status.account_id, same_target, last_day)) {
+		clif_report_user_ack(fd, tsd->id, tsd->status.name, REPORT_USER_FAILED);
+		return;
+	}
+	if (same_target > 0) {
+		clif_report_user_ack(fd, tsd->id, tsd->status.name, REPORT_USER_COOLTIME);
+		return;
+	}
+	if (last_day >= static_cast<uint64>(REPORT_USER_DAILY_MAX)) {
+		clif_report_user_ack(fd, tsd->id, tsd->status.name, REPORT_USER_PENALTY_COUNT_MAX);
+		return;
+	}
+
+	// Le texte du joueur n'entre que par un paramètre lié, borné au champ : un
+	// client qui omet le zéro final ne fait pas lire au-delà du paquet.
+	const char* mapname = map_getmapdata(sd->m)->name;
+	int16 reason = p->reason;
+	int16 x = sd->x;
+	int16 y = sd->y;
+	SqlStmt stmt{ *mmysql_handle };
+	if (SQL_SUCCESS != stmt.Prepare("INSERT INTO `player_reports` (`reporter_account_id`, `reporter_char_id`, `reporter_name`,"
+	                                " `target_account_id`, `target_char_id`, `target_name`, `map_name`, `x`, `y`, `reason`, `message`)"
+	                                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+	||  SQL_SUCCESS != stmt.BindParam(0, SQLDT_UINT32, &sd->status.account_id, sizeof(sd->status.account_id))
+	||  SQL_SUCCESS != stmt.BindParam(1, SQLDT_UINT32, &sd->status.char_id, sizeof(sd->status.char_id))
+	||  SQL_SUCCESS != stmt.BindParam(2, SQLDT_STRING, sd->status.name, strnlen(sd->status.name, NAME_LENGTH))
+	||  SQL_SUCCESS != stmt.BindParam(3, SQLDT_UINT32, &tsd->status.account_id, sizeof(tsd->status.account_id))
+	||  SQL_SUCCESS != stmt.BindParam(4, SQLDT_UINT32, &tsd->status.char_id, sizeof(tsd->status.char_id))
+	||  SQL_SUCCESS != stmt.BindParam(5, SQLDT_STRING, tsd->status.name, strnlen(tsd->status.name, NAME_LENGTH))
+	||  SQL_SUCCESS != stmt.BindParam(6, SQLDT_STRING, (void*)mapname, strnlen(mapname, MAP_NAME_LENGTH_EXT))
+	||  SQL_SUCCESS != stmt.BindParam(7, SQLDT_INT16, &x, sizeof(x))
+	||  SQL_SUCCESS != stmt.BindParam(8, SQLDT_INT16, &y, sizeof(y))
+	||  SQL_SUCCESS != stmt.BindParam(9, SQLDT_INT16, &reason, sizeof(reason))
+	||  SQL_SUCCESS != stmt.BindParam(10, SQLDT_STRING, (void*)p->message, strnlen(p->message, sizeof(p->message)))
+	||  SQL_SUCCESS != stmt.Execute()) {
+		SqlStmt_ShowDebug(stmt);
+		clif_report_user_ack(fd, tsd->id, tsd->status.name, REPORT_USER_FAILED);
+		return;
+	}
+	clif_report_user_ack(fd, tsd->id, tsd->status.name, REPORT_USER_SUCCESS);
+}
+
 // Cadence du rapport de triche, en ms. Une par minute et par session : le
 // détecteur ne trouve pas dix fraudes par seconde, et ce qui arriverait à cette
 // vitesse-là ne serait plus un signalement mais un flot dans le journal.
@@ -10701,7 +10799,9 @@ static size_t clif_utf8_clamp(const char* s, size_t max_bytes) {
 }
 
 // Sends a pre-formatted Discord relay message to every player currently on gonryun.
-// msg is UTF-8 (e.g. "[Discord][username] some text") and is at most 243 bytes.
+// msg is UTF-8 and at most 243 bytes, as the Discord service (tools/groq_service.py)
+// writes it: "[#gonryun][author] some text" for the first chunk of a message, and
+// "  " (two spaces) followed by the rest for each following chunk.
 void clif_bourgeon_discord_msg_all(const char* msg, e_discord_rich_state rich_state, const s_discord_rich* rich) {
 	nullpo_retv(msg);
 	const int32 gonryun_map = map_mapname2mapid("gonryun");

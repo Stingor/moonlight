@@ -1696,6 +1696,9 @@ void clif_parse_moonlight_reqitemscript(int32 fd, map_session_data* sd);
 // [Stingor] In-game contextual bug report (CZ 0x0F13 -> ZC 0x0F14 ack).
 // Stores into `bug_reports` (read via the moonlight website) + Discord relay.
 void clif_parse_moonlight_bug_report(int32 fd, map_session_data* sd);
+// [Stingor] CZ 0x0BE2 -> ZC 0x0BE3 : le signalement d'un joueur, enregistré dans
+// `player_reports`, sous les limites REPORT_USER_* de clif.cpp.
+void clif_parse_report_user(int32 fd, map_session_data* sd);
 // [Stingor] Compagnons depuis la feuille de perso (CZ 0x0F15) : invoquer/basculer
 // chariot/peco/faucon soi-même (re-validation skill serveur). L'état est renvoyé
 // via clif_bourgeon_companion_state (ZC 0x0F16), aussi poussé par les setters cart/

@@ -2130,11 +2130,60 @@ struct PACKET_CZ_ALLY_CHAT{
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(CZ_ALLY_CHAT, 0xbdd);
 
+// [Stingor] Le signalement d'un joueur (CZ 0x0BE2 -> ZC 0x0BE3), la fenêtre
+// « Report a User » du menu d'un joueur. Le serveur l'ENREGISTRE dans la table
+// `player_reports` (sql-files/player_reports.sql) ; le staff l'y consulte.
+//
+// CZ : fixe 137. `AID` est celui de l'auteur tel que le client le croit : le
+// serveur prend celui de la session. `targetName` n'est que ce que le client
+// voyait : le serveur relit le nom de la cible en ligne.
+//
+// ZC : fixe 34. `result` choisit la phrase du client d'origine ; seul SUCCESS
+// la complète du nom.
+
+/// La longueur du texte libre, zéro final compris : cent caractères.
+#define REPORT_USER_MESSAGE_LENGTH 101
+
+/// Le motif, dans l'ordre des deux boutons de la fenêtre.
+enum e_report_user_reason : int16 {
+	REPORT_USER_REASON_ILLEGAL_PROGRAM = 0, ///< « Suspected use of an illegal program »
+	REPORT_USER_REASON_BUG_ABUSE       = 1, ///< « Bug and system abuse »
+};
+
+/// Le verdict. ⚠ Valeurs sur le fil, lues par le client d'origine : on AJOUTE
+/// en fin, jamais au milieu. Celles qu'il ne connaît pas, il les tait.
+enum e_report_user_result : int32 {
+	REPORT_USER_COUNT_LIMIT       = 0, ///< limite quotidienne déjà atteinte
+	REPORT_USER_SUCCESS           = 1, ///< enregistré
+	REPORT_USER_COOLTIME          = 2, ///< cette cible a déjà été signalée par cet auteur il y a peu
+	REPORT_USER_TARGET_PROTECTED  = 3, ///< la cible est sous protection
+	REPORT_USER_PENALTY_COUNT_MAX = 4, ///< le cumul quotidien de l'auteur est atteint
+	REPORT_USER_REPORTED          = 5, ///< avis à la cible (jamais envoyé ici)
+	REPORT_USER_AREA_FORBIDDEN    = 6, ///< zone où l'on ne signale pas
+	REPORT_USER_TARGET_NOT_FOUND  = 7, ///< aucun autre joueur en ligne sous cet AID
+	REPORT_USER_FAILED            = 8, ///< Moonlight : l'écriture en base a échoué
+};
+
 struct PACKET_CZ_REQ_REPORT_USER{
 	int16 packetType;
-	uint8 unknown[135];
+	uint32 AID;
+	uint32 targetAID;
+	char targetName[NAME_LENGTH];
+	int16 reason; ///< e_report_user_reason
+	char message[REPORT_USER_MESSAGE_LENGTH];
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(CZ_REQ_REPORT_USER, 0xbe2);
+
+struct PACKET_ZC_ACK_REPORT_USER{
+	int16 packetType;
+	uint32 targetAID;
+	char targetName[NAME_LENGTH];
+	int32 result; ///< e_report_user_result
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_ACK_REPORT_USER, 0xbe3);
+// Les tailles que la table du client d'origine porte pour ces deux opcodes.
+static_assert(sizeof(PACKET_CZ_REQ_REPORT_USER) == 137);
+static_assert(sizeof(PACKET_ZC_ACK_REPORT_USER) == 34);
 
 struct PACKET_CZ_QUEST_STATUS_REQ{
 	int16 packetType;

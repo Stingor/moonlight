@@ -2036,7 +2036,7 @@
 #endif
 
 #if PACKETVER_MAIN_NUM >= 20230830
-	parseable_packet( HEADER_CZ_REQ_REPORT_USER, sizeof( struct PACKET_CZ_REQ_REPORT_USER ), clif_parse_dull, 0 );
+	parseable_packet( HEADER_CZ_REQ_REPORT_USER, sizeof( struct PACKET_CZ_REQ_REPORT_USER ), clif_parse_report_user, 0 );
 #endif
 
 #if PACKETVER_MAIN_NUM >= 20240502
