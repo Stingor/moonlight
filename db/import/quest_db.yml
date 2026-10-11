@@ -273,6 +273,18 @@ Body:
   - Id: 11468
     Title: Ridsh's Old Letter
     TimeLimit: 4h
+  - Id: 11469
+    Title: Cotness's Shiny Ring
+    Targets:
+      - Mob: EP16_2_H_HUNTER_MD
+        Count: 5
+    Drops:
+      - Mob: EP16_2_H_HUNTER_MD
+        Item: Very_Shining_Ring
+        Rate: 5000
+  - Id: 11470
+    Title: Cotness's Shiny Ring
+    TimeLimit: 4h
   - Id: 12374
     Title: Heart Hunter Base occupation
   - Id: 12375
@@ -517,6 +529,12 @@ Body:
     TimeLimit: 4h
   - Id: 9427
     Title: Clearing the Sky Fortress for the Same Time
+  - Id: 14564
+    Title: I love buns, too
+  - Id: 14577
+    Title: Meal Box Delivery
+  - Id: 14578
+    Title: Delivery Complete Report
   - Id: 14585
     Title: Investigating the Cause
     Targets:

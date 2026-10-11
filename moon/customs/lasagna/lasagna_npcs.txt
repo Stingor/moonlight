@@ -7517,7 +7517,7 @@ conch_in,186,57,3	script	Sous Chef#dorcon	4_CAT_CHEF,{
 	case 2:
 		switch( checkquest(14563,PLAYTIME) ) {
 		case -1:
-			for ( .@quest_id = 14565; .@quest_id < 14567 && isbegin_quest(.@quest_id) == 0; .@quest_id++ )
+			for ( .@quest_id = 14564; .@quest_id < 14567 && isbegin_quest(.@quest_id) == 0; .@quest_id++ )
 				continue;
 			switch( .@quest_id ) {
 			case 14564:
@@ -7582,7 +7582,11 @@ conch_in,186,57,3	script	Sous Chef#dorcon	4_CAT_CHEF,{
 				setquest 14563;// Free time
 				close;
 			}
-			end;
+			// Aucune quete en cours : etat laisse par l'ancien setquest 14564 absent de la quest_db
+			mes "[Sous Chef]";
+			mes "Hmm, where were we? Never mind. Come back after the break of day, I will have something for you.";
+			setquest 14563;// Free time
+			close;
 		case 0:
 		case 1:
 			mes "[Sous Chef]";

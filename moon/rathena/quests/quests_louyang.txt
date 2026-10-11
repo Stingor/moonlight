@@ -3360,7 +3360,10 @@ lou_in02,123,39,4	script	Poison King#lou	824,{
 		mes "^3355FFYou grow dizzy, but you also feel like you're becoming more powerful and gaining experience.^000000";
 		next;
 		set ch_poison,20;
-		changequest 11082,11083;
+		if (isbegin_quest(11081) == 1)	// ancien changequest 11081,11802 : 11082 n'a jamais ete pose
+			changequest 11081,11083;
+		else
+			changequest 11082,11083;
 		if (checkre(3)) {
 			if (BaseLevel < 56) getexp 1050,0;
 			else if (BaseLevel > 55 && BaseLevel < 61) getexp 1230,0;
@@ -4465,7 +4468,7 @@ lou_in01,99,158,4	script	Lord#bailong	821,{
 			mes "[Lord Bai Long]";
 			mes "Please, take this as a token of gratitute. And please deliver this letter to Nagash and Song Zhi Du for me.";
 			set ch_poison,19;
-			changequest 11081,11802;
+			changequest 11081,11082;
 			getitem 603,1; //Old_Blue_Box
 			next;
 			mes "^3355FFYou obtained ^0000FFBai Long's letter^000000.";
