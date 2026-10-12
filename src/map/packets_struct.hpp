@@ -5971,7 +5971,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_KICK_NOTICE, 0x0f03);  // ex-0x0bfa
 
 // ZC (server -> client): relays a Discord chat message to the Bourgeon overlay.
 // Variable-length. Layout: [packetType:2][packetLength:2][msg:variable, null-terminated]
-/ Sent only to players whose relay setting is ON (moonclient keeps it ON and filters by chat tab).
+// Sent only to players whose relay setting is ON (moonclient keeps it ON and filters by chat tab).
 struct PACKET_ZC_MOONLIGHT_DISCORD_MSG {
 	int16 packetType;
 	int16 packetLength;
