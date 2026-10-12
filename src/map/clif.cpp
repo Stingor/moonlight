@@ -17761,8 +17761,14 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 				sc_start(sd, sd, SC_KNOWLEDGE, 100, lv, skill_get_time(SG_KNOWLEDGE, lv));
 		}
 
+		// Salut du familier à la connexion, dans la formule que lisent les clients :
+		// 1000 x classe + 100 x occasion + 10 x rang de faim + reste. L'occasion
+		// « connect » (10) ne tient pas dans le chiffre des centaines : le reste 3
+		// marque le salut, et l'occasion 4 (repos) est ce que lit un client qui
+		// l'ignore — une réplique « repos » de l'espèce, au lieu d'un faux Poring.
+		// [Stingor]
 		if (sd->pd && sd->pd->pet.intimate > 900)
-			clif_pet_emotion(*sd->pd, (sd->pd->pet.class_ - 100) * 100 + 50 + pet_hungry_val(sd->pd));
+			clif_pet_emotion(*sd->pd, sd->pd->pet.class_ * 1000 + 4 * 100 + pet_hungry_val(sd->pd) * 10 + 3);
 
 		if (hom_is_active(sd->hd))
 			hom_init_timers(sd->hd);
