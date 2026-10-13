@@ -4479,8 +4479,14 @@ int32 inter_config_read(const char *cfgName)
 			default_codepage = w2;
 		else
 		if(strcmpi(w1,"use_sql_db")==0) {
+#ifdef MAP_GENERATOR
+			// [Stingor] Le générateur ne touche aucune base : objets et monstres
+			// se lisent toujours dans les fichiers YAML.
+			db_use_sqldbs = 0;
+#else
 			db_use_sqldbs = config_switch(w2);
 			ShowStatus ("Using SQL dbs: %s\n",w2);
+#endif
 		} else
 		if(strcmpi(w1,"log_db_ip")==0)
 			log_db_ip = w2;
@@ -4525,6 +4531,16 @@ int32 inter_config_read(const char *cfgName)
  *---------------------------------------*/
 int32 map_sql_init(void)
 {
+#ifdef MAP_GENERATOR
+	// [Stingor] Le générateur ne touche aucune base : il n'ouvre aucune connexion,
+	// quelle que soit la configuration inter. mmysql_handle et qsmysql_handle
+	// restent nuls ; une requête qui passerait quand même rend SQL_ERROR sans rien
+	// envoyer, et chaque module lu au démarrage est gardé à part.
+	mmysql_handle = nullptr;
+	qsmysql_handle = nullptr;
+	ShowInfo("Map generator: no SQL connection is opened.\n");
+	return 0;
+#else
 	// main db connection
 	mmysql_handle = Sql_Malloc();
 	qsmysql_handle = Sql_Malloc();
@@ -4550,6 +4566,7 @@ int32 map_sql_init(void)
 			Sql_ShowDebug(qsmysql_handle);
 	}
 	return 0;
+#endif
 }
 
 int32 map_sql_close(void)
@@ -4572,6 +4589,12 @@ int32 map_sql_close(void)
 
 int32 log_sql_init(void)
 {
+#ifdef MAP_GENERATOR
+	// [Stingor] Le générateur ne touche aucune base : log_config_read y éteint
+	// déjà les journaux, et cette garde tient même si un appel y échappait.
+	logmysql_handle = nullptr;
+	return 0;
+#else
 	// log db connection
 	logmysql_handle = Sql_Malloc();
 
@@ -4590,6 +4613,7 @@ int32 log_sql_init(void)
 			Sql_ShowDebug(logmysql_handle);
 
 	return 0;
+#endif
 }
 
 void map_remove_questinfo(int32 m, npc_data *nd) {

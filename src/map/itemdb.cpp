@@ -5051,8 +5051,12 @@ static void itemdb_read(void) {
 	item_enchant_db.load();
 	item_package_db.load();
 
+#ifndef MAP_GENERATOR
+	// [Stingor] Le générateur ne touche aucune base : la roulette, lue en SQL,
+	// reste vide.
 	if (battle_config.feature_roulette)
 		itemdb_parse_roulette_db();
+#endif
 }
 
 /*==========================================

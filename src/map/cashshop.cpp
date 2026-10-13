@@ -416,12 +416,16 @@ static void cashshop_read_db( void ){
 	int32 i;
 	time_t now = time(nullptr);
 
+#ifndef MAP_GENERATOR
+	// [Stingor] Le générateur ne touche aucune base : il ne lit pas les soldes
+	// et n'efface pas celles qui ont expiré.
 	sale_read_db_sql();
 
 	// Clean outdated sales
 	if( SQL_ERROR == Sql_Query(mmysql_handle, "DELETE FROM `%s` WHERE `end` < FROM_UNIXTIME(%d)", sales_table, (uint32)now ) ){
 		Sql_ShowDebug(mmysql_handle);
 	}
+#endif
 
 	// Init next sale start, if there is any
 	for( i = 0; i < sale_items.count; i++ ){

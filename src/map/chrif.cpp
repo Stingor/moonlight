@@ -2026,8 +2026,12 @@ void do_init_chrif(void) {
 	add_timer_func_list(auth_db_cleanup, "auth_db_cleanup");
 	add_timer_func_list(spectator_logout_ack, "spectator_logout_ack");
 
+#ifndef MAP_GENERATOR
+	// [Stingor] Le générateur ne touche aucune base ni aucun serveur : il ne se
+	// connecte jamais au char-server, qui le relierait à la base du jeu.
 	// establish map-char connection if not present
 	add_timer_interval(gettick() + 1000, check_connect_char_server, 0, 0, 10 * 1000);
+#endif
 
 	// wipe stale data for timed-out client connection requests
 	add_timer_interval(gettick() + 1000, auth_db_cleanup, 0, 0, 30 * 1000);

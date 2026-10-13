@@ -787,6 +787,21 @@ int32 log_config_read( const char* cfgName )
 
 	if( --count == 0 )
 	{// report final logging state
+#ifdef MAP_GENERATOR
+		// [Stingor] Le générateur ne touche aucune base : aucun journal ne s'écrit,
+		// ni en table ni en fichier, quoi que dise la configuration.
+		log_config.sql_logs = false;
+		log_config.enable_logs = LOG_TYPE_NONE;
+		log_config.filter = 0;
+		log_config.cash = false;
+		log_config.branch = 0;
+		log_config.mvpdrop = 0;
+		log_config.zeny = 0;
+		log_config.commands = 0;
+		log_config.npc = 0;
+		log_config.chat = 0;
+		log_config.feeding = 0;
+#endif
 		const char* target = log_config.sql_logs ? "table" : "file";
 
 		if( log_config.enable_logs && log_config.filter )

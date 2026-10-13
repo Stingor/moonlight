@@ -843,6 +843,9 @@ void BarterDatabase::loadingFinished(){
 
 		strdb_put( npcname_db, nd->exname, nd );
 
+#ifndef MAP_GENERATOR
+		// [Stingor] Le générateur ne touche aucune base : le stock des trocs
+		// garde sa valeur du YAML, sans relecture ni écriture de barter_table.
 		for( const auto& itemPair : barter->items ){
 			if( itemPair.second->stockLimited ){
 				if( Sql_Query( mmysql_handle, "SELECT `amount` FROM `%s` WHERE `name` = '%s' AND `index` = '%hu'", barter_table, barter->name.c_str(), itemPair.first ) != SQL_SUCCESS ){
@@ -871,6 +874,7 @@ void BarterDatabase::loadingFinished(){
 				}
 			}
 		}
+#endif
 	}
 
 	TypesafeYamlDatabase::loadingFinished();
@@ -5001,11 +5005,15 @@ int32 npc_instancedestroy(npc_data* nd)
  * @param qty Stock
  **/
 void npc_market_tosql(const char *exname, struct npc_item_list *list) {
+#ifndef MAP_GENERATOR
+	// [Stingor] Le générateur ne touche aucune base : le stock des marchés ne
+	// s'écrit pas, et sans poignée SqlStmt n'aurait rien sur quoi se construire.
 	SqlStmt stmt{ *mmysql_handle };
 	if (SQL_ERROR == stmt.Prepare("REPLACE INTO `%s` (`name`,`nameid`,`price`,`amount`,`flag`) VALUES ('%s','%u','%d','%d','%" PRIu8 "')",
 		market_table, exname, list->nameid, list->value, list->qty, list->flag) ||
 		SQL_ERROR == stmt.Execute())
 		SqlStmt_ShowDebug(stmt);
+#endif
 }
 
 /**
@@ -5015,6 +5023,10 @@ void npc_market_tosql(const char *exname, struct npc_item_list *list) {
  * @param clear True: will removes all records related with the NPC
  **/
 void npc_market_delfromsql_(const char *exname, t_itemid nameid, bool clear) {
+#ifdef MAP_GENERATOR
+	// [Stingor] Le générateur ne touche aucune base : rien ne s'efface de market_table.
+	return;
+#else
 	SqlStmt stmt{ *mmysql_handle };
 	if (clear) {
 		if( SQL_ERROR == stmt.Prepare("DELETE FROM `%s` WHERE `name`='%s'", market_table, exname) ||
@@ -5025,6 +5037,7 @@ void npc_market_delfromsql_(const char *exname, t_itemid nameid, bool clear) {
 			SQL_ERROR == stmt.Execute())
 			SqlStmt_ShowDebug(stmt);
 	}
+#endif
 }
 
 /**
@@ -5127,6 +5140,11 @@ static void npc_market_checkall(void) {
  * Loads persistent NPC Market Data from SQL, use the records after NPCs init'd to reuse the stock values.
  **/
 static void npc_market_fromsql(void) {
+#ifdef MAP_GENERATOR
+	// [Stingor] Le générateur ne touche aucune base : les marchés gardent le
+	// stock de leur script.
+	return;
+#endif
 	uint32 count = 0;
 
 	if (SQL_ERROR == Sql_Query(mmysql_handle, "SELECT `name`,`nameid`,`price`,`amount`,`flag` FROM `%s` ORDER BY `name`", market_table)) {

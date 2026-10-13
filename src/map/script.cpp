@@ -18202,6 +18202,13 @@ BUILDIN_FUNC(setd)
 
 int32 buildin_query_sql_sub(struct script_state* st, Sql* handle)
 {
+#ifdef MAP_GENERATOR
+	// [Stingor] Le générateur ne touche aucune base : la requête ne part pas et
+	// rend zéro ligne, pour que le script continue jusqu'à ses naviregisterwarp.
+	(void)handle;
+	script_pushint(st, 0);
+	return SCRIPT_CMD_SUCCESS;
+#else
 	int32 i, j;
 	TBL_PC* sd = nullptr;
 	const char* query;
@@ -18283,6 +18290,7 @@ int32 buildin_query_sql_sub(struct script_state* st, Sql* handle)
 	Sql_FreeResult(handle);
 	script_pushint(st, i);
 	return SCRIPT_CMD_SUCCESS;
+#endif
 }
 
 BUILDIN_FUNC(query_sql) {

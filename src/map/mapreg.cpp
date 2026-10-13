@@ -27,6 +27,15 @@ struct reg_db regs;
 
 #define MAPREG_AUTOSAVE_INTERVAL (300*1000)
 
+// [Stingor] Le générateur ne touche aucune base : ses variables `$` vivent en
+// mémoire seule. Rien ne se charge au démarrage, et aucune création, mise à
+// jour ou suppression ne s'écrit en SQL.
+#ifdef MAP_GENERATOR
+static constexpr bool mapreg_persisted = false;
+#else
+static constexpr bool mapreg_persisted = true;
+#endif
+
 
 /**
  * Looks up the value of an integer variable using its uid.
@@ -84,7 +93,7 @@ bool mapreg_setreg(int64 uid, int64 val)
 			m->save = false;
 			m->is_string = false;
 
-			if (name[1] != '@' && !skip_insert) {// write new variable to database
+			if (name[1] != '@' && !skip_insert && mapreg_persisted) {// write new variable to database
 				char esc_name[32 * 2 + 1];
 				Sql_EscapeStringLen(mmysql_handle, esc_name, name, strnlen(name, 32));
 				if (SQL_ERROR == Sql_Query(mmysql_handle, "INSERT INTO `%s`(`varname`,`index`,`value`) VALUES ('%s','%" PRIu32 "','%" PRId64 "')", mapreg_table, esc_name, i, val))
@@ -100,7 +109,7 @@ bool mapreg_setreg(int64 uid, int64 val)
 		}
 		i64db_remove(regs.vars, uid);
 
-		if (name[1] != '@') {// Remove from database because it is unused.
+		if (name[1] != '@' && mapreg_persisted) {// Remove from database because it is unused.
 			char esc_name[32 * 2 + 1];
 			Sql_EscapeStringLen(mmysql_handle, esc_name, name, strnlen(name, 32));
 			if (SQL_ERROR == Sql_Query(mmysql_handle, "DELETE FROM `%s` WHERE `varname`='%s' AND `index`='%" PRIu32 "'", mapreg_table, esc_name, i))
@@ -128,7 +137,7 @@ bool mapreg_setregstr(int64 uid, const char* str)
 	if (str == nullptr || *str == 0) {
 		if (i)
 			script_array_update(&regs, uid, true);
-		if (name[1] != '@') {
+		if (name[1] != '@' && mapreg_persisted) {
 			char esc_name[32 * 2 + 1];
 			Sql_EscapeStringLen(mmysql_handle, esc_name, name, strnlen(name, 32));
 			if (SQL_ERROR == Sql_Query(mmysql_handle, "DELETE FROM `%s` WHERE `varname`='%s' AND `index`='%" PRIu32 "'", mapreg_table, esc_name, i))
@@ -160,7 +169,7 @@ bool mapreg_setregstr(int64 uid, const char* str)
 			m->save = false;
 			m->is_string = true;
 
-			if (name[1] != '@' && !skip_insert) { //put returned null, so we must insert.
+			if (name[1] != '@' && !skip_insert && mapreg_persisted) { //put returned null, so we must insert.
 				char esc_name[32 * 2 + 1];
 				char esc_str[255 * 2 + 1];
 				Sql_EscapeStringLen(mmysql_handle, esc_name, name, strnlen(name, 32));
@@ -186,6 +195,9 @@ static void script_load_mapreg(void)
 	   | varname | index | value |
 	   +-------------------------+
 	                                */
+	if (!mapreg_persisted)
+		return;
+
 	SqlStmt stmt{ *mmysql_handle };
 	char varname[32+1];
 	uint32 index;
@@ -229,7 +241,7 @@ static void script_load_mapreg(void)
  */
 static void script_save_mapreg(void)
 {
-	if (mapreg_dirty) {
+	if (mapreg_dirty && mapreg_persisted) {
 		DBIterator *iter = db_iterator(regs.vars);
 		struct mapreg_save *m;
 		for (m = static_cast<mapreg_save *>(dbi_first(iter)); dbi_exists(iter); m = static_cast<mapreg_save *>(dbi_next(iter))) {
