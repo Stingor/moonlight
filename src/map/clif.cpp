@@ -6549,6 +6549,26 @@ void clif_moonlight_equip_combo( map_session_data& sd, uint32 combo_id, uint32 c
 	clif_moonlight_equip_attributes_send( sd, equipped, MOONLIGHT_EQUIP_ATTRIBUTES_COMBO, combo_id, bonuses );
 }
 
+void clif_moonlight_equip_pet( map_session_data& sd, bool equipped ){
+	if( !clif_moonlight_equip_attributes_wanted( sd ) || sd.pd == nullptr )
+		return;
+	std::shared_ptr<s_pet_db> pet_db_ptr = sd.pd->get_pet_db();
+	if( pet_db_ptr == nullptr || pet_db_ptr->pet_bonus_script == nullptr )
+		return;
+
+	// Le script lit l'intimité par getpetinfo, donc sur sd.pd : celle du moment.
+	std::vector<s_script_bonus_capture> bonuses;
+	const int16 previous_index = current_equip_item_index;
+	const uint32 previous_combo_pos = current_equip_combo_pos;
+	current_equip_item_index = -1;
+	current_equip_combo_pos = 0;
+	clif_moonlight_capture_script( sd, pet_db_ptr->pet_bonus_script, bonuses );
+	current_equip_item_index = previous_index;
+	current_equip_combo_pos = previous_combo_pos;
+
+	clif_moonlight_equip_attributes_send( sd, equipped, MOONLIGHT_EQUIP_ATTRIBUTES_PET, sd.pd->pet.egg_id, bonuses );
+}
+
 // Loads the preset marked auto=1 for this character into sd->state.autolootid.
 // Called before clif_bourgeon_settings so the initial alootid sync includes it.
 static void clif_bourgeon_autoload_preset(map_session_data* sd) {

@@ -1661,6 +1661,9 @@ void clif_bourgeon_stat_bonus(map_session_data* sd);
 bool clif_moonlight_equip_attributes_wanted(const map_session_data& sd);
 void clif_moonlight_equip_piece(map_session_data& sd, int16 index, bool equipped);
 void clif_moonlight_equip_combo(map_session_data& sd, uint32 combo_id, uint32 combo_pos, bool equipped);
+// [Stingor] Ce que le familier sorti (sd.pd) apporte à son maître selon son intimité
+// du moment : à appeler à l'éclosion, et AVANT que le familier ne s'efface.
+void clif_moonlight_equip_pet(map_session_data& sd, bool equipped);
 // [Stingor] Un message du relais Discord à tous les joueurs de gonryun : `msg` en
 // 0x0F08 (un morceau de 243 octets au plus), et, à qui a annoncé
 // BOURGEON_UI_DISCORD_RICH, la forme riche 0x0F3C à sa place.

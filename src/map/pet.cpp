@@ -652,6 +652,9 @@ void pet_set_intimate(pet_data *pd, int32 value)
 
 	if( index >= 0 ){
 		if( pd->pet.intimate <= PET_INTIMATE_NONE ){
+			// [Stingor] L'œuf disparaît : le familier cesse d'apporter quoi que ce soit (ZC 0x0F3D).
+			if( sd->pd == pd )
+				clif_moonlight_equip_pet( *sd, false );
 			pc_delitem( sd, index, 1, 0, 0, LOG_TYPE_OTHER );
 		}else{
 			// Remove everything except the rename flag
@@ -971,6 +974,9 @@ bool pet_return_egg( map_session_data *sd, pet_data *pd ){
 	clif_inventorylist(sd);
 	clif_send_petdata( sd, *pd, CHANGESTATEPET_UPDATE_EGG );
 #endif
+	// [Stingor] Ce que le familier apportait, tant qu'il est encore là (ZC 0x0F3D).
+	if( sd->pd == pd )
+		clif_moonlight_equip_pet( *sd, false );
 	unit_free(pd,CLR_OUTSIGHT);
 
 	status_calc_pc(sd,SCO_NONE);
@@ -1119,6 +1125,8 @@ int32 pet_birth_process(map_session_data *sd, struct s_pet *pet)
 		clif_send_petdata( nullptr, *sd->pd, CHANGESTATEPET_ACCESSORY );
 		clif_send_petstatus( *sd, *sd->pd );
 		clif_pet_autofeed_status(sd,true);
+		// [Stingor] Ce que le familier éclos apporte à son maître (ZC 0x0F3D).
+		clif_moonlight_equip_pet( *sd, true );
 	}
 
 	Assert((sd->status.pet_id == 0 || sd->pd == 0) || sd->pd->master == sd);
@@ -2330,6 +2338,9 @@ void pet_evolution(map_session_data *sd, int16 pet_id) {
 		clif_pet_evolution_result(sd, e_pet_evolution_result::FAIL_NOTEXIST_CALLPET);
 		return;
 	}
+
+	// [Stingor] Ce que l'ancien familier apportait, avec l'œuf qui s'en va (ZC 0x0F3D).
+	clif_moonlight_equip_pet( *sd, false );
 
 	// Virtually delete the old egg
 	log_pick_pc(sd, LOG_TYPE_OTHER, -1, &sd->inventory.u.items_inventory[idx]);

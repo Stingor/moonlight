@@ -7065,13 +7065,21 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_DISCORD_RICH, 0x0f3c);
 //   - retrait : chaque ensemble que le retrait a rompu, puis la pièce.
 // Rien à la connexion : l'équipement initial ne passe pas par la pose.
 //
+// Le FAMILIER y dit aussi ce qu'il apporte à son maître (nature PET) :
+//   - à l'éclosion, une fois le familier apparu (équipé = 1) ;
+//   - au retour dans l'œuf, à l'évolution (l'ancien familier) et quand l'œuf
+//     disparaît faute d'intimité, avant que le familier ne s'efface (équipé = 0).
+// Rien quand l'intimité change de palier, ni à la pose de l'accessoire. Les
+// bonus sont ceux du `Script` de pet_db, joué en capture avec l'intimité du
+// moment : seule la branche que cette intimité atteint est relevée.
+//
 // 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT BOURGEON_UI_EQUIP_ATTRIBUTES : un client
 // qui ne connaît pas l'opcode viderait son tampon de réception.
 //
 // Les bonus sont ceux de la pièce SEULE : son script, ceux de ses cartes et de ses
 // options aléatoires, joués en CAPTURE (script_bonus_capture) — les commandes
 // bonus..bonus5 sont relevées au lieu d'être appliquées, l'état du joueur n'est
-// pas touché. Un ensemble : son script seul.
+// pas touché. Un ensemble : son script seul. Un familier : son `Script` seul.
 //
 // Une entrée, de 23 octets :
 //   level 1..5 : une commande `bonus`..`bonus5` du script, telle qu'écrite :
@@ -7088,6 +7096,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_DISCORD_RICH, 0x0f3c);
 enum e_moonlight_equip_attributes_kind : uint8 {
 	MOONLIGHT_EQUIP_ATTRIBUTES_PIECE = 0, ///< id = nameid de la pièce
 	MOONLIGHT_EQUIP_ATTRIBUTES_COMBO = 1, ///< id = identifiant de l'ensemble (item_combos)
+	MOONLIGHT_EQUIP_ATTRIBUTES_PET   = 2, ///< id = nameid de l'œuf du familier
 };
 
 /// Le niveau d'une entrée qui n'est pas une commande bonus : l'apport propre de la pièce.
