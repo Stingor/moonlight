@@ -479,6 +479,12 @@ void write_object_lists() {
 				continue;
 
 			if (nd->subtype == NPCTYPE_WARP) {
+				// The destination is read where the game reads it when the
+				// player steps on the portal: u.warp. Every way of creating a
+				// warp fills it (warp/warp2 lines, duplicate(), @addwarp), so a
+				// duplicated portal leads where its source does instead of to
+				// map 0 through a destination nobody set.
+				nd->navi.warp_dest = {map_mapindex2mapid(nd->u.warp.mapindex), nd->u.warp.x, nd->u.warp.y};
 				int32 target = nd->navi.warp_dest.m;
 				if (target < 0)
 					continue;

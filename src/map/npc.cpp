@@ -4146,10 +4146,6 @@ static const char* npc_parse_warp(char* w1, char* w2, char* w3, char* w4, const 
 	nd->u.warp.xs = xs;
 	nd->u.warp.ys = ys;
 
-#ifdef MAP_GENERATOR
-	nd->navi.warp_dest = {map_mapindex2mapid(i), to_x, to_y};
-#endif
-
 	npc_warp++;
 	nd->type = BL_NPC;
 	nd->subtype = NPCTYPE_WARP;
