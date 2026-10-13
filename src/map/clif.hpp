@@ -1172,6 +1172,10 @@ void clif_instance_status(int32 instance_id, uint32 limit1, uint32 limit2);
 void clif_instance_changestatus(int32 instance_id, e_instance_notify type, uint32 limit);
 void clif_parse_MemorialDungeonCommand(int32 fd, map_session_data *sd);
 void clif_instance_info( map_session_data& sd );
+// [Stingor] Le détail d'une instance (ZC 0x0F40), à chaque destinataire de ses
+// paquets qui a annoncé BOURGEON_UI_INSTANCE_INFO ; ou à la seule session `sd`.
+void clif_instance_details( int32 instance_id );
+void clif_instance_details_single( map_session_data& sd, int32 instance_id );
 
 // Custom Fonts
 void clif_font(const map_session_data* sd);
@@ -1921,7 +1925,10 @@ enum e_bourgeon_ui_cap : uint32 {
 	// paquet ne lui part pas — la DLL ne l'annonce jamais : elle a reçu 0x0F10
 	// depuis toujours, mais un opcode qu'elle ne connaît pas lui viderait le flux.
 	BOURGEON_UI_EQUIP_ATTRIBUTES = 0x00002000,
-	// Prochain bit libre : 0x00004000.
+	// Ce client sait lire le détail d'une instance — difficulté, turbo, droit de
+	// destruction (ZC_MOONLIGHT_INSTANCE_INFO 0x0F40). moonclient et la DLL l'annoncent.
+	BOURGEON_UI_INSTANCE_INFO = 0x00004000,
+	// Prochain bit libre : 0x00008000.
 };
 
 // [Stingor] Les réglages du serveur utiles au client (ZC 0x0F38), à une session

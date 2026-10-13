@@ -8970,6 +8970,18 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	// [Stingor] Les maîtres des compagnons déjà en vue.
 	if (!(before & BOURGEON_UI_COMPANION_MASTER) && (p->caps & BOURGEON_UI_COMPANION_MASTER))
 		map_foreachinallrange(clif_bourgeon_companion_master_seen_sub, sd, AREA_SIZE, BL_HOM | BL_MER | BL_PET | BL_ELEM, sd);
+	// [Stingor] L'annonce suit l'entrée en carte, et donc 0x02CB / 0x02CD : le
+	// détail de ses instances lui part maintenant.
+	if (!(before & BOURGEON_UI_INSTANCE_INFO) && (p->caps & BOURGEON_UI_INSTANCE_INFO)) {
+		if (sd->instance_id > 0)
+			clif_instance_details_single(*sd, sd->instance_id);
+		if (const party_data* pd = party_search(sd->status.party_id); pd != nullptr && pd->instance_id > 0)
+			clif_instance_details_single(*sd, pd->instance_id);
+		if (sd->guild != nullptr && sd->guild->instance_id > 0)
+			clif_instance_details_single(*sd, sd->guild->instance_id);
+		if (sd->clan != nullptr && sd->clan->instance_id > 0)
+			clif_instance_details_single(*sd, sd->clan->instance_id);
+	}
 }
 
 // [Stingor] ZC_MOONLIGHT_SERVER_RULES (0x0F38), à une session qui sait le lire.
@@ -26069,6 +26081,7 @@ void clif_instance_create( int32 instance_id, size_t num ){
 	WBUFW( buf, 63 ) = static_cast<int16>( num );
 
 	clif_send(buf,packet_len(0x2cb),sd,target);
+	clif_instance_details( instance_id );
 #endif
 }
 
@@ -26118,6 +26131,7 @@ void clif_instance_status(int32 instance_id, uint32 limit1, uint32 limit2)
 	WBUFL(buf,63) = limit1;
 	WBUFL(buf,67) = limit2;
 	clif_send(buf,packet_len(0x2cd),sd,target);
+	clif_instance_details( instance_id );
 #endif
 
 	return;
@@ -26146,6 +26160,10 @@ void clif_instance_changestatus(int32 instance_id, e_instance_notify type, uint3
 	WBUFL(buf,2) = type;
 	WBUFL(buf,6) = limit;
 	clif_send(buf,packet_len(0x2ce),sd,target);
+	// [Stingor] Une mise à jour (IN_NOTIFY) suit une entrée ou une sortie : le
+	// nombre de présents a changé. Les autres types détruisent l'instance.
+	if( type == IN_NOTIFY )
+		clif_instance_details( instance_id );
 #endif
 
 	return;
@@ -26186,6 +26204,143 @@ void clif_instance_info( map_session_data& sd ){
 
 	if( sd.clan != nullptr && sd.clan->instance_id > 0 ){
 		instance_reqinfo( &sd, sd.clan->instance_id );
+	}
+}
+
+/// [Stingor] Celui que instance_destroy_command laisserait détruire : le
+/// propriétaire d'une instance de personnage, le chef du groupe, le maître de la
+/// guilde. Personne pour un clan.
+static bool clif_instance_may_destroy( const map_session_data& sd, const s_instance_data& idata ){
+	switch( idata.mode ){
+		case IM_CHAR:
+			return sd.status.char_id == static_cast<uint32>( idata.owner_id );
+		case IM_PARTY: {
+			const party_data* pd = party_search( idata.owner_id );
+
+			if( pd == nullptr )
+				return false;
+
+			for( int32 i = 0; i < MAX_PARTY; i++ ){
+				if( pd->party.member[i].char_id == sd.status.char_id )
+					return pd->party.member[i].leader != 0;
+			}
+			return false;
+		}
+		case IM_GUILD: {
+			auto gd = guild_search( idata.owner_id );
+
+			return gd != nullptr && strcmp( sd.status.name, gd->guild.master ) == 0;
+		}
+		default:
+			return false;
+	}
+}
+
+/// [Stingor] Le nom du propriétaire, dans la page de codes du jeu ; vide s'il
+/// n'est pas en mémoire (personnage hors ligne).
+static void clif_instance_owner_name( const s_instance_data& idata, char ( &out )[NAME_LENGTH] ){
+	out[0] = '\0';
+	switch( idata.mode ){
+		case IM_CHAR:
+			if( const map_session_data* owner = map_charid2sd( idata.owner_id ); owner != nullptr )
+				safestrncpy( out, owner->status.name, NAME_LENGTH );
+			break;
+		case IM_PARTY:
+			if( const party_data* pd = party_search( idata.owner_id ); pd != nullptr )
+				safestrncpy( out, pd->party.name, NAME_LENGTH );
+			break;
+		case IM_GUILD:
+			if( auto gd = guild_search( idata.owner_id ); gd != nullptr )
+				safestrncpy( out, gd->guild.name, NAME_LENGTH );
+			break;
+		case IM_CLAN:
+			if( const clan* cd = clan_search( idata.owner_id ); cd != nullptr )
+				safestrncpy( out, cd->name, NAME_LENGTH );
+			break;
+		default:
+			break;
+	}
+}
+
+void clif_instance_details_single( map_session_data& sd, int32 instance_id ){
+	if( !sd.state.has_bourgeon || !( sd.bourgeon_ui_caps & BOURGEON_UI_INSTANCE_INFO ) || !session_isActive( sd.fd ) )
+		return;
+
+	std::shared_ptr<s_instance_data> idata = util::umap_find( instances, instance_id );
+
+	if( idata == nullptr )
+		return;
+
+	std::shared_ptr<s_instance_db> db = instance_db.find( idata->id );
+
+	if( db == nullptr )
+		return;
+
+	PACKET_ZC_MOONLIGHT_INSTANCE_INFO p{};
+
+	p.packetType = HEADER_ZC_MOONLIGHT_INSTANCE_INFO;
+	p.packetLength = static_cast<int16>( sizeof( p ) );
+	p.server_time = static_cast<uint32>( time( nullptr ) );
+	p.duration_limit = db->infinite_limit ? 0 : static_cast<uint32>( db->limit );
+	p.idle_timeout = db->infinite_timeout ? 0 : static_cast<uint32>( db->timeout );
+	if( idata->regs.vars != nullptr ){
+		p.hardmode = static_cast<int16>( i64db_i64get( idata->regs.vars, reference_uid( add_str( "'hm" ), 0 ) ) );
+		p.turbo = i64db_i64get( idata->regs.vars, reference_uid( add_str( "'turbo" ), 0 ) ) != 0;
+	}
+	p.mode = static_cast<uint8>( idata->mode );
+	p.destroyable = db->destroyable;
+	p.may_destroy = clif_instance_may_destroy( sd, *idata );
+	p.on_instance_map = map_getmapdata( sd.m )->instance_id > 0;
+
+	uint32 inside = 0;
+
+	for( const s_instance_map& it : idata->map ){
+		if( const map_data* mapdata = map_getmapdata( it.m ); mapdata != nullptr )
+			inside += static_cast<uint32>( mapdata->users );
+	}
+	p.players_inside = static_cast<uint16>( std::min<uint32>( inside, UINT16_MAX ) );
+	clif_instance_owner_name( *idata, p.owner_name );
+
+	clif_send( &p, sizeof( p ), &sd, SELF );
+}
+
+void clif_instance_details( int32 instance_id ){
+	std::shared_ptr<s_instance_data> idata = util::umap_find( instances, instance_id );
+
+	if( idata == nullptr )
+		return;
+
+	switch( idata->mode ){
+		case IM_CHAR:
+			if( map_session_data* owner = map_charid2sd( idata->owner_id ); owner != nullptr )
+				clif_instance_details_single( *owner, instance_id );
+			break;
+		case IM_PARTY:
+			if( party_data* pd = party_search( idata->owner_id ); pd != nullptr ){
+				for( int32 i = 0; i < MAX_PARTY; i++ ){
+					if( pd->data[i].sd != nullptr )
+						clif_instance_details_single( *pd->data[i].sd, instance_id );
+				}
+			}
+			break;
+		case IM_GUILD:
+			if( auto gd = guild_search( idata->owner_id ); gd != nullptr ){
+				for( int32 i = 0; i < gd->guild.max_member; i++ ){
+					if( gd->guild.member[i].sd != nullptr )
+						clif_instance_details_single( *gd->guild.member[i].sd, instance_id );
+				}
+			}
+			break;
+		case IM_CLAN:
+			if( clan* cd = clan_search( idata->owner_id ); cd != nullptr ){
+				for( int32 i = 0; i < cd->max_member; i++ ){
+					if( cd->members[i] != nullptr )
+						clif_instance_details_single( *cd->members[i], instance_id );
+				}
+			}
+			break;
+		default:
+			break;
 	}
 }
 

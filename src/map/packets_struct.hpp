@@ -7179,6 +7179,36 @@ struct PACKET_ZC_MOONLIGHT_CHAT_BLOCKS {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_CHAT_BLOCKS, 0x0f3f);
 
+// [Stingor] ZC_MOONLIGHT_INSTANCE_INFO (0x0F40) — ce que la fenêtre d'instance
+// ne lit pas dans 0x02CB / 0x02CD : la difficulté (HM) et le mode turbo choisis
+// à la création, à qui appartient l'instance, qui peut la détruire, et ses
+// durées TOTALES (de quoi dessiner une jauge).
+//
+// Il part juste APRÈS chaque 0x02CB, 0x02CD et 0x02CE de type IN_NOTIFY, et à
+// l'annonce du bit. Un exemplaire par destinataire : may_destroy et
+// on_instance_map sont les siens.
+//
+// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT BOURGEON_UI_INSTANCE_INFO.
+//
+// Les échéances de 0x02CD sont en secondes Unix de l'horloge du SERVEUR :
+// server_time permet au client de les lire sans dépendre de la sienne.
+struct PACKET_ZC_MOONLIGHT_INSTANCE_INFO {
+	int16  packetType;
+	int16  packetLength;
+	uint32 server_time;    ///< time(nullptr) à l'envoi
+	uint32 duration_limit; ///< durée de vie totale (instance_db Limit), s ; 0 = infinie
+	uint32 idle_timeout;   ///< délai de fermeture à vide (IdleTimeOut), s ; 0 = aucun
+	int16  hardmode;       ///< variable d'instance 'hm ; 1 = difficulté de base
+	uint8  turbo;          ///< variable d'instance 'turbo, 0 ou 1
+	uint8  mode;           ///< e_instance_mode : 1 personnage, 2 groupe, 3 guilde, 4 clan
+	uint8  destroyable;    ///< instance_db Destroyable
+	uint8  may_destroy;    ///< ce destinataire est celui que le serveur laisse détruire
+	uint8  on_instance_map;///< ce destinataire est sur une carte d'instance : il ne peut rien détruire
+	uint16 players_inside; ///< joueurs sur les cartes de l'instance
+	char   owner_name[NAME_LENGTH]; ///< groupe, guilde, personnage ou clan propriétaire
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_INSTANCE_INFO, 0x0f40);
+
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
 //
