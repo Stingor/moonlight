@@ -7209,6 +7209,145 @@ struct PACKET_ZC_MOONLIGHT_INSTANCE_INFO {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_INSTANCE_INFO, 0x0f40);
 
+// [Stingor] Le MARCHÉ de moonclient (CZ 0x0F41 -> ZC 0x0F42) : toutes les
+// échoppes ouvertes du serveur, de vente ou d'achat, autotrade compris, et les
+// boutiques de PNJ, sur toutes les cartes. Il remplace la recherche d'échoppes
+// du client d'origine pour qui annonce BOURGEON_UI_MARKET (market.cpp).
+//
+// 🔴 EN VILLE, OU PAR LE DROIT D'UN CATALOGUE : le demandeur doit se tenir sur
+// une carte qui porte le mapflag town (moon/mapflag/town.txt), ou avoir utilisé
+// un catalogue hors ville (searchstores) — un droit de N demandes qui tombe
+// quand il quitte sa place sur la carte. Sinon, MOONLIGHT_MARKET_NOT_IN_TOWN.
+// 🔴 LECTURE SEULE : rien ici n'ouvre une échoppe à distance ni n'achète. Le
+// joueur se rend sur place, et l'achat garde toutes ses gardes, distance comprise.
+// 🔴 Rien de neuf ne part sans BOURGEON_UI_MARKET : une demande d'une session
+// qui ne l'a pas annoncé est ignorée.
+//
+// CZ : l'en-tête, puis des identifiants d'item (vide = tous). Le CLIENT résout
+// le nom saisi en identifiants dans sa propre table : ce sont les noms que le
+// joueur lit. Au plus MOONLIGHT_MARKET_MAX_IDS.
+// `store_id` non nul demande le contenu d'UNE échoppe, ou d'un PNJ (« Voir ») :
+// les identifiants et les filtres sont alors ignorés. Pour un PNJ, `store_id`
+// est son identifiant de bloc et `owner_aid` vaut 0.
+//
+// ZC : la réponse se découpe en `part_count` trames de MOONLIGHT_MARKET_PER_PART
+// entrées au plus, numérotées par `part` depuis zéro ; `query_id` est l'écho de la
+// demande, pour qu'un client jette une trame d'une demande périmée. Un refus part
+// en une trame sans entrée. Au plus MOONLIGHT_MARKET_MAX_RESULTS entrées en tout ;
+// `truncated` dit qu'il y en avait davantage. Le statut OPEN (catalogue,
+// @shopsearch) porte dans `query` la saisie à poser.
+//
+// Le serveur filtre (sorte, items, famille, raffinement, prix, cartes,
+// options) ; le client trie et pagine. Le délai entre deux demandes est
+// battle_config.moon_market_query_delay (ms).
+//
+// ⚠ Valeurs sur le fil : on AJOUTE en fin, jamais au milieu.
+enum e_moonlight_market_kind : uint8 {
+	MOONLIGHT_MARKET_VENDING = 0, ///< échoppes de vente
+	MOONLIGHT_MARKET_BUYING  = 1, ///< boutiques d'achat
+	MOONLIGHT_MARKET_NPC     = 2, ///< boutiques de PNJ (shop_finder.cpp)
+};
+
+enum e_moonlight_market_category : uint8 {
+	MOONLIGHT_MARKET_ANY_TYPE   = 0,
+	MOONLIGHT_MARKET_USABLE     = 1, ///< IT_HEALING, IT_USABLE, IT_DELAYCONSUME, IT_CASH
+	MOONLIGHT_MARKET_WEAPON     = 2, ///< IT_WEAPON
+	MOONLIGHT_MARKET_ARMOR      = 3, ///< IT_ARMOR, IT_SHADOWGEAR
+	MOONLIGHT_MARKET_CARD       = 4, ///< IT_CARD
+	MOONLIGHT_MARKET_ETC        = 5, ///< IT_ETC
+	MOONLIGHT_MARKET_AMMO       = 6, ///< IT_AMMO
+	MOONLIGHT_MARKET_PET        = 7, ///< IT_PETEGG, IT_PETARMOR
+};
+
+enum e_moonlight_market_flag : uint8 {
+	MOONLIGHT_MARKET_WITH_CARDS   = 0x01, ///< au moins une carte sertie
+	MOONLIGHT_MARKET_WITH_OPTIONS = 0x02, ///< au moins une option aléatoire
+	/// COMPARER l'échoppe de `owner_aid` (sorte vente ou achat) : le serveur prend
+	/// pour items cherchés tous ceux qu'elle porte, à la place de la queue. Ses
+	/// propres lignes restent dans la réponse, comme référence ; le client les
+	/// reconnaît à leur `owner_aid`.
+	MOONLIGHT_MARKET_COMPARE      = 0x04,
+};
+
+enum e_moonlight_market_status : uint8 {
+	MOONLIGHT_MARKET_OK          = 0, ///< les résultats (la liste peut être vide)
+	MOONLIGHT_MARKET_OPEN        = 1, ///< le serveur ouvre la fenêtre (catalogue, @shopsearch) ; aucune entrée
+	MOONLIGHT_MARKET_NOT_IN_TOWN = 2, ///< hors ville, et sans droit de catalogue
+	MOONLIGHT_MARKET_TOO_SOON    = 3, ///< moins de moon_market_query_delay depuis la demande précédente
+	MOONLIGHT_MARKET_STORE_GONE  = 4, ///< l'échoppe ou le PNJ demandé n'est plus là
+	MOONLIGHT_MARKET_BAD_REQUEST = 5, ///< longueur fausse, trop d'identifiants, sorte inconnue
+};
+
+/// Le plus d'identifiants qu'une demande porte.
+#define MOONLIGHT_MARKET_MAX_IDS 200
+/// Le plus d'entrées qu'une réponse porte, toutes trames comprises.
+#define MOONLIGHT_MARKET_MAX_RESULTS 600
+/// Le plus d'entrées qu'une trame porte.
+#define MOONLIGHT_MARKET_PER_PART 50
+/// La place du nom d'une monnaie de points (pointshop_str).
+#define MOONLIGHT_MARKET_CURRENCY_LENGTH 32
+
+struct PACKET_MOONLIGHT_MARKET_ITEM_ID {
+	uint32 itemId;
+} __attribute__((packed));
+
+struct PACKET_CZ_MOONLIGHT_MARKET_REQ {
+	int16  packetType;
+	int16  packetLength;
+	uint16 query_id;   ///< choisi par le client, renvoyé en écho
+	uint8  kind;       ///< e_moonlight_market_kind
+	uint8  category;   ///< e_moonlight_market_category
+	uint8  refine_min;
+	uint8  refine_max; ///< bornes comprises
+	uint8  flags;      ///< e_moonlight_market_flag
+	uint32 price_min;
+	uint32 price_max;  ///< 0 = sans plafond
+	uint32 store_id;   ///< non nul : le contenu de cette échoppe, ou de ce PNJ, seul
+	uint32 owner_aid;  ///< le compte de son marchand ; 0 pour un PNJ
+	PACKET_MOONLIGHT_MARKET_ITEM_ID items[];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_MARKET_REQ, 0x0f41);
+
+struct PACKET_MOONLIGHT_MARKET_ENTRY {
+	uint32 store_id;   ///< vender_id, buyer_id, ou l'identifiant de bloc du PNJ
+	uint32 owner_aid;  ///< le compte du marchand ; 0 pour un PNJ
+	uint32 itemId;
+	uint16 amount;     ///< PNJ : le stock d'un marketshop ou d'un troc limité ; 0 = illimité
+	uint32 price;      ///< prix unitaire, dans la monnaie ; PNJ : celui que CE joueur paierait (remise de pc_modifybuyvalue si la boutique l'admet) ; troc : les zeny en plus des items
+	uint8  refine;
+	uint8  grade;
+	uint8  identified;
+	uint8  damaged;
+	uint8  autotrade;  ///< le marchand est hors ligne
+	uint32 cards[MAX_SLOTS];
+	struct ItemOptions options[MAX_ITEM_RDM_OPT];
+	char   map[MAP_NAME_LENGTH_EXT];
+	uint16 x;
+	uint16 y;
+	char   title[MESSAGE_SIZE]; ///< le titre de l'échoppe, ou le nom visible du PNJ
+	uint8  currency;   ///< e_shop_currency (shop_finder.hpp) ; 0 (zeny) pour une échoppe
+	uint32 currency_item; ///< la monnaie d'un itemshop
+	char   currency_name[MOONLIGHT_MARKET_CURRENCY_LENGTH]; ///< la variable d'un pointshop
+} __attribute__((packed));
+
+struct PACKET_ZC_MOONLIGHT_MARKET {
+	int16  packetType;
+	int16  packetLength;
+	uint16 query_id;   ///< écho de la demande ; 0 pour MOONLIGHT_MARKET_OPEN
+	uint8  status;     ///< e_moonlight_market_status
+	uint8  kind;       ///< écho de la demande
+	uint16 part;       ///< rang de cette trame, depuis 0
+	uint16 part_count; ///< trames de la réponse
+	uint16 total;      ///< entrées de la réponse entière
+	uint8  truncated;  ///< il y avait plus de MOONLIGHT_MARKET_MAX_RESULTS entrées
+	uint32 store_id;   ///< écho de la demande
+	uint32 owner_aid;  ///< écho de la demande
+	uint8  catalog_uses; ///< demandes que le droit d'un catalogue accorde encore hors ville
+	char   query[ITEM_NAME_LENGTH]; ///< OPEN : la saisie à poser — un ID, ou un nom ; vide sinon
+	PACKET_MOONLIGHT_MARKET_ENTRY entries[];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_MARKET, 0x0f42);
+
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
 //
@@ -7695,7 +7834,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_HATEFFECT_MAP, 0x0f17);
 // client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans
 // la zone sûre 0x0F00+ (2026-07-03). Le prochain opcode libre est tenu par
 // bopcodes::kNextFree, dans src/features/systems/bourgeon_opcodes.h de Bourgeon
-// (0x0F40 à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
+// (0x0F43 à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
 
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)

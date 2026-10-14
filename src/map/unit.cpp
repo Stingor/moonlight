@@ -3690,6 +3690,8 @@ int32 unit_remove_map_(block_list *bl, clr_type clrtype, const char* file, int32
 				trade_tradecancel(sd);
 
 			searchstore_close(*sd);
+			// [Stingor] Le droit d'un catalogue au Marché tombe avec la place.
+			sd->moon_market_catalog_uses = 0;
 
 			if (sd->menuskill_id != AL_TELEPORT) { //bugreport:8027
 				if (sd->state.storage_flag == 1)

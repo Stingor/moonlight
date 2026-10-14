@@ -197,6 +197,12 @@
     <ClInclude Include="mapreg.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="market.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shop_finder.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="mercenary.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -332,6 +338,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="mapreg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="market.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="shop_finder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="mercenary.cpp">

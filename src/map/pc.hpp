@@ -649,6 +649,15 @@ public:
 	// sauvegardé décrirait l'interface d'hier.
 	uint32 bourgeon_ui_caps = 0;
 
+	// [Stingor] L'instant de la dernière demande au Marché (CZ 0x0F41) : la
+	// suivante attend battle_config.moon_market_query_delay. Zéro : aucune.
+	t_tick moon_market_last_tick = 0;
+	// [Stingor] LE DROIT D'UN CATALOGUE : les demandes au Marché qu'il accorde
+	// encore HORS VILLE. Posé par searchstores, décompté à chaque demande hors
+	// ville, remis à zéro quand le joueur quitte sa place sur la carte (comme la
+	// recherche d'échoppes d'origine). Jamais persisté.
+	uint8 moon_market_catalog_uses = 0;
+
 	// [Stingor] Bourgeon : « je suis absent » (CZ_MOONLIGHT_SETTING id 29, masque
 	// e_bourgeon_afk). Ce que le VOISINAGE doit en voir, et rien d'autre : le
 	// sommeil qu'il porte est un opt1 de politesse, écrit dans les paquets et

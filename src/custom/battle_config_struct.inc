@@ -70,3 +70,6 @@
 	// Un soin d'objet s'annonce par ZC_RECOVERY (chiffre vert) au lieu d'une
 	// simple mise a jour de la vie : les compteurs de soins le voient.
 	int32 show_item_heal;
+	// Le delai minimal entre deux demandes au Marche de moonclient (CZ 0x0F41), en
+	// millisecondes. Chaque demande parcourt toutes les echoppes ouvertes.
+	int32 moon_market_query_delay;

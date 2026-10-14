@@ -2103,6 +2103,11 @@ parseable_packet(HEADER_CZ_MOONLIGHT_REQ_ENTITY_PROPS, sizeof(PACKET_CZ_MOONLIGH
 // atcommandlog. Gate niveau de groupe >= 80 DANS le handler — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_REQ_CHAT_BLOCKS, sizeof(PACKET_CZ_MOONLIGHT_REQ_CHAT_BLOCKS), clif_parse_moonlight_req_chat_blocks, 0);
 
+// [Stingor] moonclient : le Marché, toutes les échoppes ouvertes du serveur
+// (market.cpp). Gate BOURGEON_UI_MARKET et carte de ville DANS le handler —
+// VARIABLE : la queue porte les identifiants d'objet cherchés.
+parseable_packet(HEADER_CZ_MOONLIGHT_MARKET_REQ, -1, clif_parse_moonlight_market_req, 0);
+
 // [Stingor] Bourgeon : état de l'entité ciblée (fenêtre de cible). Le client
 // redemande tant que sa fenêtre est ouverte ; aucun état serveur — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_TARGET_INFO, sizeof(PACKET_CZ_MOONLIGHT_TARGET_INFO), clif_parse_moonlight_target_info, 0);

@@ -223,6 +223,7 @@
     <ClInclude Include="mail.hpp" />
     <ClInclude Include="map.hpp" />
     <ClInclude Include="mapreg.hpp" />
+    <ClInclude Include="market.hpp" />
     <ClInclude Include="mercenary.hpp" />
     <ClInclude Include="mob.hpp" />
     <ClInclude Include="mvp_tracker.hpp" />
@@ -239,6 +240,7 @@
     <ClInclude Include="script.hpp" />
     <ClInclude Include="script_constants.hpp" />
     <ClInclude Include="searchstore.hpp" />
+    <ClInclude Include="shop_finder.hpp" />
     <ClInclude Include="skill.hpp" />
     <ClInclude Include="status.hpp" />
     <ClInclude Include="storage.hpp" />
@@ -1519,6 +1521,7 @@
     <ClCompile Include="mail.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="mapreg.cpp" />
+    <ClCompile Include="market.cpp" />
     <ClCompile Include="mercenary.cpp" />
     <ClCompile Include="mob.cpp">
       <Optimization Condition="'$(Configuration)'=='Release'">Disabled</Optimization>
@@ -1535,6 +1538,7 @@
     <ClCompile Include="quest.cpp" />
     <ClCompile Include="script.cpp" />
     <ClCompile Include="searchstore.cpp" />
+    <ClCompile Include="shop_finder.cpp" />
     <ClCompile Include="skill.cpp" />
     <ClCompile Include="status.cpp" />
     <ClCompile Include="storage.cpp" />

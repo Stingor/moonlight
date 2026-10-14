@@ -50,6 +50,7 @@
 #include "itemdb.hpp"
 #include "log.hpp"
 #include "mail.hpp"
+#include "market.hpp"
 #include "map.hpp"
 #include "mapreg.hpp"
 #include "mercenary.hpp"
@@ -22877,6 +22878,13 @@ BUILDIN_FUNC(searchstores)
 	{
 		ShowError("buildin_searchstores: The amount of uses must be a number between 1 and %u.\n", UINT8_MAX);
 		return SCRIPT_CMD_FAILURE;
+	}
+
+	// [Stingor] A moonclient, le catalogue ouvre le Marche, jamais la recherche
+	// d'echoppes d'origine : hors ville, il y accorde `uses` demandes.
+	if( market_open_for_catalog(*sd, static_cast<uint8>(uses)) )
+	{
+		return SCRIPT_CMD_SUCCESS;
 	}
 
 	int32 effect = script_getnum(st,3);

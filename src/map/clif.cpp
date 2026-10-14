@@ -46,6 +46,7 @@
 #include "itemdb.hpp"
 #include "log.hpp"
 #include "mail.hpp"
+#include "market.hpp"
 #include "map.hpp"
 #include "mercenary.hpp"
 #include "mob.hpp"

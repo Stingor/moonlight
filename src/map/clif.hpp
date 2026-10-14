@@ -1928,7 +1928,11 @@ enum e_bourgeon_ui_cap : uint32 {
 	// Ce client sait lire le détail d'une instance — difficulté, turbo, droit de
 	// destruction (ZC_MOONLIGHT_INSTANCE_INFO 0x0F40). moonclient et la DLL l'annoncent.
 	BOURGEON_UI_INSTANCE_INFO = 0x00004000,
-	// Prochain bit libre : 0x00008000.
+	// Ce client a le MARCHÉ (CZ 0x0F41 -> ZC 0x0F42) : le serveur répond à ses
+	// demandes, et un catalogue (`searchstores`) lui ouvre le Marché au lieu de la
+	// recherche d'échoppes d'origine. Réservé à moonclient : la DLL ne l'annonce pas.
+	BOURGEON_UI_MARKET = 0x00008000,
+	// Prochain bit libre : 0x00010000.
 };
 
 // [Stingor] Les réglages du serveur utiles au client (ZC 0x0F38), à une session
