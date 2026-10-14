@@ -70,4 +70,5 @@
 	{ "spectator_session_ttl",				&battle_config.spectator_session_ttl,			600,	0,		86400,			},
 	{ "show_item_heal",						&battle_config.show_item_heal,					0,		0,		1,				},
 	{ "moon_market_query_delay",			&battle_config.moon_market_query_delay,			1000,	0,		60000,			},
+	{ "hidden_units_view_level",			&battle_config.hidden_units_view_level,			99,		1,		100,			},
 

@@ -73,3 +73,7 @@
 	// Le delai minimal entre deux demandes au Marche de moonclient (CZ 0x0F41), en
 	// millisecondes. Chaque demande parcourt toutes les echoppes ouvertes.
 	int32 moon_market_query_delay;
+	// Le niveau de groupe a partir duquel le serveur envoie les unites cachees
+	// (Hiding, Cloaking, Chase Walk, invisible) et leurs mouvements, malgre
+	// hide_cloaked_units et update_enemy_position. 100 = personne.
+	int32 hidden_units_view_level;

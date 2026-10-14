@@ -278,6 +278,33 @@ static uint16 map_port = 5121;
 static bool clif_ally_only = false;
 int32 map_fd;
 
+// [Stingor] Les options qui dérobent une unité au regard : Hiding, Cloaking,
+// Chase Walk et l'invisibilité de MJ.
+static constexpr uint32 CLIF_HIDDEN_UNIT_OPTIONS = OPTION_HIDE | OPTION_CLOAK | OPTION_CHASEWALK | OPTION_INVISIBLE;
+
+// [Stingor] Le staff à qui le serveur envoie quand même les unités cachées et
+// leurs mouvements : niveau de groupe au moins `hidden_units_view_level`. C'est
+// le serveur qui en décide ; un client modifié sans ce niveau ne reçoit rien de
+// plus qu'avant.
+static bool clif_sees_hidden_units( const map_session_data& sd ){
+	return pc_get_group_level( &sd ) >= battle_config.hidden_units_view_level;
+}
+
+// [Stingor] Vrai si `hide_cloaked_units` retient l'unité `bl` à l'entrée dans la
+// vue de `sd` : son type y est coché, elle est cachée, et `sd` n'est pas du staff
+// autorisé. Garde unique de clif_getareachar_unit et des rejeux qui doivent
+// écarter exactement les mêmes unités.
+static bool clif_hidden_unit_withheld( const block_list& bl, const map_session_data& sd ){
+	if( !( battle_config.hide_cloaked_units & bl.type ) ){
+		return false;
+	}
+	const status_change* sc = status_get_sc( &bl );
+	if( sc == nullptr || !( sc->option & CLIF_HIDDEN_UNIT_OPTIONS ) ){
+		return false;
+	}
+	return !clif_sees_hidden_units( sd );
+}
+
 static int32 clif_parse (int32 fd);
 
 /*==========================================
@@ -482,8 +509,10 @@ static int32 clif_send_sub(block_list *bl, va_list ap)
 	}
 
 	/* unless visible, hold it here */
+	// [Stingor] Le staff autorisé reçoit aussi les mouvements d'un ennemi caché.
 	if (!battle_config.update_enemy_position && clif_ally_only && !sd->special_state.intravision &&
-		!sd->sc.getSCE(SC_INTRAVISION) && battle_check_target(src_bl,sd,BCT_ENEMY) > 0)
+		!sd->sc.getSCE(SC_INTRAVISION) && !clif_sees_hidden_units(*sd) &&
+		battle_check_target(src_bl,sd,BCT_ENEMY) > 0)
 		return 0;
 
 	WFIFOHEAD(fd, len);
@@ -2267,7 +2296,7 @@ void clif_move( const struct unit_data& ud )
 			pc_disguise(((TBL_PC*)bl), 0);
 	}
 
-	if ((sc = status_get_sc(bl)) && sc->option & (OPTION_HIDE | OPTION_CLOAK | OPTION_INVISIBLE | OPTION_CHASEWALK))
+	if ((sc = status_get_sc(bl)) && sc->option & CLIF_HIDDEN_UNIT_OPTIONS)
 		clif_ally_only = true;
 
 	clif_set_unit_walking( *bl, nullptr, ud, AREA_WOS );
@@ -8867,10 +8896,8 @@ static int32 clif_bourgeon_unit_master_seen_sub(block_list* bl, va_list ap) {
 	const view_data* vd = status_get_viewdata(bl);
 	if (vd == nullptr || vd->look[LOOK_BASE] == JT_INVISIBLE)
 		return 0;
-	if (battle_config.hide_cloaked_units & bl->type) {
-		if (status_change* sc = status_get_sc(bl); sc != nullptr && sc->option & (OPTION_HIDE | OPTION_CLOAK | OPTION_CHASEWALK | OPTION_INVISIBLE))
-			return 0;
-	}
+	if (clif_hidden_unit_withheld(*bl, *sd))
+		return 0;
 	clif_bourgeon_unit_master_single(*md, *sd);
 	return 0;
 }
@@ -8937,10 +8964,8 @@ static int32 clif_bourgeon_companion_master_seen_sub(block_list* bl, va_list ap)
 	const view_data* vd = status_get_viewdata(bl);
 	if (vd == nullptr || vd->look[LOOK_BASE] == JT_INVISIBLE)
 		return 0;
-	if (battle_config.hide_cloaked_units & bl->type) {
-		if (status_change* sc = status_get_sc(bl); sc != nullptr && sc->option & (OPTION_HIDE | OPTION_CLOAK | OPTION_CHASEWALK | OPTION_INVISIBLE))
-			return 0;
-	}
+	if (clif_hidden_unit_withheld(*bl, *sd))
+		return 0;
 	clif_bourgeon_companion_master_single(*bl, *sd);
 	return 0;
 }
@@ -11649,10 +11674,9 @@ void clif_getareachar_unit( map_session_data* sd,block_list *bl ){
 	}
 
 	// Prevents visual bug where unit shadows appear when entering view range
-	if (battle_config.hide_cloaked_units & bl->type) {
-		if (status_change* sc = status_get_sc(bl); sc != nullptr && sc->option & (OPTION_HIDE | OPTION_CLOAK | OPTION_CHASEWALK | OPTION_INVISIBLE)) {
-			return; // Hide this unit type
-		}
+	// [Stingor] Sauf pour le staff autorisé, qui voit les unités cachées.
+	if (clif_hidden_unit_withheld(*bl, *sd)) {
+		return; // Hide this unit type
 	}
 
 	ud = unit_bl2ud(bl);
