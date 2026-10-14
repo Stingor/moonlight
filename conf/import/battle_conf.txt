@@ -146,6 +146,10 @@ client_sort_storage: yes
 update_enemy_position: no
 spawn_direction: yes
 mvp_exp_reward_message: no
+ping_timer_inverval: 30
+ping_time: 20
+show_skill_scale: yes
+hide_cloaked_units: 1
 
 //drops.conf
 item_auto_get: yes
