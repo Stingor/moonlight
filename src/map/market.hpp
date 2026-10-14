@@ -19,16 +19,9 @@ bool market_announced(const map_session_data& sd);
 // La demande d'une session qui a annoncé le Marché. Une autre est ignorée.
 void clif_parse_moonlight_market_req(int32 fd, map_session_data* sd);
 
-// OUVRE LE MARCHÉ chez le client, la saisie posée sur `query` (un ID, un nom,
-// ou rien) : MOONLIGHT_MARKET_OPEN en ville ou sous le droit d'un catalogue,
-// MOONLIGHT_MARKET_NOT_IN_TOWN sinon. À n'appeler que si `market_announced`.
+// OUVRE LE MARCHÉ chez le client (MOONLIGHT_MARKET_OPEN), la saisie posée sur
+// `query` (un ID, un nom, ou rien). Le Marché se consulte partout : aucune
+// condition de carte. À n'appeler que si `market_announced`.
 void market_open(map_session_data& sd, const char* query);
-
-// UN CATALOGUE (`searchstores`) UTILISÉ par une session qui a le Marché : hors
-// ville, il accorde `uses` demandes jusqu'à ce que le joueur quitte sa place ;
-// en ville, il n'accorde rien (le Marché y est gratuit). Puis le Marché s'ouvre.
-// Faux pour une autre session : la recherche d'échoppes d'origine s'ouvre alors
-// comme avant.
-bool market_open_for_catalog(map_session_data& sd, uint8 uses);
 
 #endif /* MAP_MARKET_HPP */

@@ -7214,10 +7214,8 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_INSTANCE_INFO, 0x0f40);
 // boutiques de PNJ, sur toutes les cartes. Il remplace la recherche d'échoppes
 // du client d'origine pour qui annonce BOURGEON_UI_MARKET (market.cpp).
 //
-// 🔴 EN VILLE, OU PAR LE DROIT D'UN CATALOGUE : le demandeur doit se tenir sur
-// une carte qui porte le mapflag town (moon/mapflag/town.txt), ou avoir utilisé
-// un catalogue hors ville (searchstores) — un droit de N demandes qui tombe
-// quand il quitte sa place sur la carte. Sinon, MOONLIGHT_MARKET_NOT_IN_TOWN.
+// 🔴 PARTOUT : aucune condition de carte ni de catalogue. Un catalogue
+// (searchstores) n'est qu'un raccourci qui ouvre le Marché, sans être consommé.
 // 🔴 LECTURE SEULE : rien ici n'ouvre une échoppe à distance ni n'achète. Le
 // joueur se rend sur place, et l'achat garde toutes ses gardes, distance comprise.
 // 🔴 Rien de neuf ne part sans BOURGEON_UI_MARKET : une demande d'une session
@@ -7272,7 +7270,7 @@ enum e_moonlight_market_flag : uint8 {
 enum e_moonlight_market_status : uint8 {
 	MOONLIGHT_MARKET_OK          = 0, ///< les résultats (la liste peut être vide)
 	MOONLIGHT_MARKET_OPEN        = 1, ///< le serveur ouvre la fenêtre (catalogue, @shopsearch) ; aucune entrée
-	MOONLIGHT_MARKET_NOT_IN_TOWN = 2, ///< hors ville, et sans droit de catalogue
+	MOONLIGHT_MARKET_NOT_IN_TOWN = 2, ///< PLUS ÉMIS (le Marché se consulte partout) ; valeur réservée
 	MOONLIGHT_MARKET_TOO_SOON    = 3, ///< moins de moon_market_query_delay depuis la demande précédente
 	MOONLIGHT_MARKET_STORE_GONE  = 4, ///< l'échoppe ou le PNJ demandé n'est plus là
 	MOONLIGHT_MARKET_BAD_REQUEST = 5, ///< longueur fausse, trop d'identifiants, sorte inconnue
@@ -7342,7 +7340,7 @@ struct PACKET_ZC_MOONLIGHT_MARKET {
 	uint8  truncated;  ///< il y avait plus de MOONLIGHT_MARKET_MAX_RESULTS entrées
 	uint32 store_id;   ///< écho de la demande
 	uint32 owner_aid;  ///< écho de la demande
-	uint8  catalog_uses; ///< demandes que le droit d'un catalogue accorde encore hors ville
+	uint8  reserved;   ///< toujours 0 ; garde la disposition des champs qui suivent
 	char   query[ITEM_NAME_LENGTH]; ///< OPEN : la saisie à poser — un ID, ou un nom ; vide sinon
 	PACKET_MOONLIGHT_MARKET_ENTRY entries[];
 } __attribute__((packed));

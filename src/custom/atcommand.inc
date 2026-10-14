@@ -2202,9 +2202,8 @@ ACMD_FUNC(ignorelist)
 // loin.
 //
 // À un client qui a le Marché (BOURGEON_UI_MARKET), la commande OUVRE LE MARCHÉ,
-// la saisie posée sur l'item demandé, aux mêmes règles d'accès que lui (en
-// ville, ou par le droit d'un catalogue). Aux autres, la réponse s'écrit dans
-// la conversation : voir le bloc déprécié ci-dessous.
+// la saisie posée sur l'item demandé, où que soit le joueur. Aux autres, la
+// réponse s'écrit dans la conversation : voir le bloc déprécié ci-dessous.
 
 // ┌── DÉPRÉCIÉ : la réponse écrite de @shopsearch ─────────────────────────────
 // │ Elle ne sert plus qu'aux clients qui n'annoncent pas BOURGEON_UI_MARKET, et

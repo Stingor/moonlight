@@ -22880,11 +22880,23 @@ BUILDIN_FUNC(searchstores)
 		return SCRIPT_CMD_FAILURE;
 	}
 
-	// [Stingor] A moonclient, le catalogue ouvre le Marche, jamais la recherche
-	// d'echoppes d'origine : hors ville, il y accorde `uses` demandes.
-	if( market_open_for_catalog(*sd, static_cast<uint8>(uses)) )
+	// [Stingor] A moonclient, le catalogue n'est qu'un raccourci vers le Marche,
+	// qui se consulte partout : il l'ouvre, et l'objet reste (NoConsume).
+	if( market_announced(*sd) )
 	{
+		market_open(*sd, "");
 		return SCRIPT_CMD_SUCCESS;
+	}
+
+	// [Stingor] Au client d'origine, la recherche d'echoppes garde son prix : le
+	// catalogue NoConsume qui l'ouvre se consomme ici, comme un Usable ordinaire.
+	if( fake_nd != nullptr && st->oid == fake_nd->id && sd->itemid != 0 &&
+	    sd->itemindex >= 0 && sd->itemindex < MAX_INVENTORY &&
+	    sd->inventory_data[sd->itemindex] != nullptr &&
+	    sd->inventory.u.items_inventory[sd->itemindex].nameid == sd->itemid &&
+	    ( sd->inventory_data[sd->itemindex]->flag.delay_consume & DELAYCONSUME_NOCONSUME ) )
+	{
+		pc_delitem( sd, sd->itemindex, 1, 0, 0, LOG_TYPE_CONSUME );
 	}
 
 	int32 effect = script_getnum(st,3);

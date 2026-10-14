@@ -319,7 +319,7 @@ void market_send_part(const map_session_data& sd, const s_market_query& query, u
 	reply->truncated = truncated ? 1 : 0;
 	reply->store_id = query.store_id;
 	reply->owner_aid = query.owner_aid;
-	reply->catalog_uses = sd.moon_market_catalog_uses;
+	reply->reserved = 0;
 	safestrncpy(reply->query, open_query, sizeof(reply->query));
 	for (size_t rank = 0; rank < count; ++rank)
 		reply->entries[rank] = entries[first + rank];
@@ -330,15 +330,6 @@ void market_send_part(const map_session_data& sd, const s_market_query& query, u
 void market_send_status(const map_session_data& sd, const s_market_query& query, uint8 status,
                         const char* open_query = "") {
 	market_send_part(sd, query, status, 0, 1, false, {}, 0, 0, open_query);
-}
-
-bool market_in_town(const map_session_data& sd) {
-	return map_getmapflag(sd.m, MF_TOWN);
-}
-
-// L'ACCÈS : en ville, ou sous le droit d'un catalogue.
-bool market_may_ask(const map_session_data& sd) {
-	return market_in_town(sd) || sd.moon_market_catalog_uses > 0;
 }
 
 // Lit la demande ; faux si elle est mal formée.
@@ -391,10 +382,6 @@ void clif_parse_moonlight_market_req(int32 fd, map_session_data* sd) {
 		market_send_status(*sd, query, MOONLIGHT_MARKET_BAD_REQUEST);
 		return;
 	}
-	if (!market_may_ask(*sd)) {
-		market_send_status(*sd, query, MOONLIGHT_MARKET_NOT_IN_TOWN);
-		return;
-	}
 	const t_tick now = gettick();
 	if (sd->moon_market_last_tick != 0 &&
 	    DIFF_TICK(now, sd->moon_market_last_tick) < battle_config.moon_market_query_delay) {
@@ -402,10 +389,6 @@ void clif_parse_moonlight_market_req(int32 fd, map_session_data* sd) {
 		return;
 	}
 	sd->moon_market_last_tick = now;
-	// HORS VILLE, CHAQUE DEMANDE COÛTE UNE DES DEMANDES DU CATALOGUE ; en ville,
-	// le Marché est gratuit.
-	if (!market_in_town(*sd))
-		sd->moon_market_catalog_uses--;
 
 	std::vector<PACKET_MOONLIGHT_MARKET_ENTRY> found;
 	const bool compare = (query.flags & MOONLIGHT_MARKET_COMPARE) != 0 && query.store_id == 0;
@@ -435,16 +418,5 @@ void clif_parse_moonlight_market_req(int32 fd, map_session_data* sd) {
 
 void market_open(map_session_data& sd, const char* query) {
 	const s_market_query none;
-	market_send_status(sd, none, market_may_ask(sd) ? MOONLIGHT_MARKET_OPEN : MOONLIGHT_MARKET_NOT_IN_TOWN,
-	                   query != nullptr ? query : "");
-}
-
-bool market_open_for_catalog(map_session_data& sd, uint8 uses) {
-	if (!market_announced(sd))
-		return false;
-	// LE DROIT NE SE CUMULE PAS : un second catalogue remet le compte à neuf.
-	if (!market_in_town(sd))
-		sd.moon_market_catalog_uses = uses;
-	market_open(sd, "");
-	return true;
+	market_send_status(sd, none, MOONLIGHT_MARKET_OPEN, query != nullptr ? query : "");
 }
