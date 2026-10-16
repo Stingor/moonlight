@@ -16,7 +16,7 @@ gonryun,160,126,5	script	Styliste::stylist_gon	2_M_DYEINGER,{
 	.@menu5$ = "";
 	.@hasskin = hasskinjob();
 	if (BaseLevel == 999 ) {
-		if (!.@hasskin && Class != JOB_SUPER_NOVICE && Class != JOB_SUPER_BABY) {
+		if (!.@hasskin && (eaclass() & EAJ_BASEMASK) != EAJ_NOVICE) { // aucune lignée novice (novice, haut novice, baby, super novice)
 			.@menu5$ = "¤ Skin 3ème classe !:¤ Skin 4ème classe !";
 			if (Class == JOB_NINJA || Class == JOB_BABY_NINJA || 
 				Class == JOB_GUNSLINGER || Class == JOB_BABY_GUNSLINGER)
