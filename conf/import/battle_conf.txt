@@ -125,6 +125,10 @@ max_cloth_color: 553
 hide_woe_damage: yes
 pet_hair_style: 100
 area_size: 18
+// [Stingor] Visible area size for a player on moonclient (cells).
+// Never below area_size, at most 128. PvP, GvG and battleground maps keep
+// area_size. Original clients receive exactly what area_size shows them.
+moonclient_area_size: 40
 max_walk_path: 18
 max_lv: 99
 aura_lv: 999
