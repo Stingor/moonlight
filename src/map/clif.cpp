@@ -1928,6 +1928,8 @@ int32 clif_spawn( const block_list* bl, bool walking ){
 			// `clif_getareachar_unit` ne dit à un joueur que ce qu'il DÉCOUVRE, jamais
 			// ce qui APPARAÎT sous ses yeux.
 			clif_bourgeon_style_spawn(sd);
+			// [Stingor] Son habit du GM, s'il le porte, pour la même raison.
+			clif_moonlight_gm_outfit_area(*sd, true);
 		}
 		break;
 	case BL_MOB:
@@ -8902,6 +8904,106 @@ static int32 clif_bourgeon_unit_master_seen_sub(block_list* bl, va_list ap) {
 	return 0;
 }
 
+// [Stingor] L'habit du GM : le niveau de groupe qui peut le porter, et la
+// variable de personnage qui retient le choix.
+static constexpr int32 MOONLIGHT_GM_OUTFIT_GROUP_LEVEL = 99;
+static const char MOONLIGHT_GM_OUTFIT_REG[] = "moonclient_gm_outfit";
+
+// [Stingor] Vrai si `sd` porte l'habit : il l'a choisi ET il est encore
+// administrateur. Un compte rétrogradé le quitte sans avoir rien à demander.
+static bool moonlight_gm_outfit_worn(const map_session_data& sd) {
+	return pc_get_group_level(&sd) >= MOONLIGHT_GM_OUTFIT_GROUP_LEVEL &&
+	       pc_readglobalreg(&sd, add_str(MOONLIGHT_GM_OUTFIT_REG)) != 0;
+}
+
+// [Stingor] L'habit de `owner` (ZC 0x0F44), à UNE session — et seulement si elle a
+// annoncé savoir le dessiner. Toujours APRÈS le paquet qui montre le joueur, pour
+// que le client connaisse déjà l'acteur qu'on lui décrit.
+static void clif_moonlight_gm_outfit_single(const map_session_data& owner, bool worn, map_session_data& sd) {
+	if (!sd.state.has_bourgeon || !(sd.bourgeon_ui_caps & BOURGEON_UI_GM_OUTFIT))
+		return;
+	const int32 fd = sd.fd;
+	if (!session_isActive(fd))
+		return;
+
+	WFIFOHEAD(fd, sizeof(PACKET_ZC_MOONLIGHT_GM_OUTFIT));
+	PACKET_ZC_MOONLIGHT_GM_OUTFIT* p =
+		reinterpret_cast<PACKET_ZC_MOONLIGHT_GM_OUTFIT*>(WFIFOP(fd, 0));
+	p->packetType   = HEADER_ZC_MOONLIGHT_GM_OUTFIT;
+	p->packetLength = (int16)sizeof(PACKET_ZC_MOONLIGHT_GM_OUTFIT);
+	p->GID          = owner.id;
+	p->worn         = worn ? 1 : 0;
+	WFIFOSET(fd, sizeof(PACKET_ZC_MOONLIGHT_GM_OUTFIT));
+}
+
+// Aux joueurs autour (callback BL_PC) : va_arg = map_session_data* du porteur,
+// puis int32 porté. Ceux à qui un porteur caché est retenu n'apprennent rien :
+// le paquet trahirait sa présence.
+static int32 clif_moonlight_gm_outfit_area_sub(block_list* bl, va_list ap) {
+	map_session_data* tsd = BL_CAST(BL_PC, bl);
+	const map_session_data* owner = va_arg(ap, const map_session_data*);
+	const int32 worn = va_arg(ap, int32);
+	if (tsd == nullptr || owner == nullptr)
+		return 0;
+	if (tsd != owner && clif_hidden_unit_withheld(*owner, *tsd))
+		return 0;
+	clif_moonlight_gm_outfit_single(*owner, worn != 0, *tsd);
+	return 0;
+}
+
+// [Stingor] L'habit de `sd` à toute la zone, lui compris. `spawning` : son
+// apparition, où rien ne part s'il ne le porte pas — l'absence vaut « habit du
+// métier ». Sinon un basculement, qui part dans les deux sens.
+//
+// 🔴 L'APPARITION A BESOIN DE SON PROPRE ENVOI, pour la raison que donne
+// `clif_bourgeon_style_spawn` : `clif_getareachar_unit` ne couvre pas un joueur
+// qui APPARAÎT sous les yeux des autres.
+void clif_moonlight_gm_outfit_area(map_session_data& sd, bool spawning) {
+	const bool worn = moonlight_gm_outfit_worn(sd);
+	if (spawning && !worn)
+		return;
+	if (sd.prev == nullptr)
+		return; // pas encore sur la carte : son apparition le dira
+	map_foreachinallrange(clif_moonlight_gm_outfit_area_sub, &sd, AREA_SIZE, BL_PC,
+	                      static_cast<const map_session_data*>(&sd), (int32)worn);
+}
+
+// Les joueurs en vue qui portent l'habit (callback BL_PC) : va_arg =
+// map_session_data* du destinataire. Sert quand il annonce le bit APRÈS les avoir
+// vus paraître ; la garde de clif_getareachar_unit écarte ceux qu'il n'a pas vus.
+static int32 clif_moonlight_gm_outfit_seen_sub(block_list* bl, va_list ap) {
+	map_session_data* sd = va_arg(ap, map_session_data*);
+	const map_session_data* owner = BL_CAST(BL_PC, bl);
+	if (sd == nullptr || owner == nullptr || !moonlight_gm_outfit_worn(*owner))
+		return 0;
+	if (owner != sd && clif_hidden_unit_withheld(*bl, *sd))
+		return 0;
+	clif_moonlight_gm_outfit_single(*owner, true, *sd);
+	return 0;
+}
+
+// [Stingor] CZ_MOONLIGHT_GM_OUTFIT (0x0F43) : l'administrateur porte, ou quitte,
+// l'habit du GM. Refusé sans un mot sous le niveau 99 : le client ne montre la
+// case qu'à lui, et un client modifié n'a rien à apprendre.
+//
+// ⚠ UN CHOIX INCHANGÉ NE REPART PAS : le client le redit à chaque poignée de
+// main, et son apparition l'a déjà diffusé.
+void clif_parse_moonlight_gm_outfit(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon)
+		return;
+	if (pc_get_group_level(sd) < MOONLIGHT_GM_OUTFIT_GROUP_LEVEL)
+		return;
+
+	const PACKET_CZ_MOONLIGHT_GM_OUTFIT* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_GM_OUTFIT*>(RFIFOP(fd, 0));
+	const int64 worn = p->worn != 0 ? 1 : 0;
+	if (pc_readglobalreg(sd, add_str(MOONLIGHT_GM_OUTFIT_REG)) == worn)
+		return;
+	pc_setglobalreg(sd, add_str(MOONLIGHT_GM_OUTFIT_REG), worn);
+	clif_moonlight_gm_outfit_area(*sd, false);
+}
+
 // [Stingor] Le joueur à qui appartient un compagnon — homoncule, mercenaire,
 // familier, élémentaire —, 0 pour toute autre unité ou un compagnon sans maître.
 // Le maître DIRECT, pas battle_get_master : c'est lui que le client range.
@@ -8990,6 +9092,9 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	// [Stingor] De même pour les maîtres des monstres déjà en vue.
 	if (!(before & BOURGEON_UI_UNIT_MASTER) && (p->caps & BOURGEON_UI_UNIT_MASTER))
 		map_foreachinallrange(clif_bourgeon_unit_master_seen_sub, sd, AREA_SIZE, BL_MOB, sd);
+	// [Stingor] De même pour l'habit du GM des joueurs déjà en vue.
+	if (!(before & BOURGEON_UI_GM_OUTFIT) && (p->caps & BOURGEON_UI_GM_OUTFIT))
+		map_foreachinallrange(clif_moonlight_gm_outfit_seen_sub, sd, AREA_SIZE, BL_PC, sd);
 	// [Stingor] Les réglages du serveur, dès que le client sait les lire.
 	if (!(before & BOURGEON_UI_SERVER_RULES) && (p->caps & BOURGEON_UI_SERVER_RULES))
 		clif_bourgeon_server_rules(*sd);
@@ -11709,6 +11814,9 @@ void clif_getareachar_unit( map_session_data* sd,block_list *bl ){
 			// la vue plus tard. No-op si l'un des deux n'est pas un client
 			// Bourgeon, ou si `tsd` n'a pas de recette.
 			clif_bourgeon_style_single(sd, tsd);
+			// [Stingor] Son habit du GM, s'il le porte : même point de diffusion.
+			if (moonlight_gm_outfit_worn(*tsd))
+				clif_moonlight_gm_outfit_single(*tsd, true, *sd);
 		}
 		break;
 	case BL_MER: // Devotion Effects

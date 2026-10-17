@@ -1932,7 +1932,10 @@ enum e_bourgeon_ui_cap : uint32 {
 	// demandes, et un catalogue (`searchstores`) lui ouvre le Marché au lieu de la
 	// recherche d'échoppes d'origine. Réservé à moonclient : la DLL ne l'annonce pas.
 	BOURGEON_UI_MARKET = 0x00008000,
-	// Prochain bit libre : 0x00010000.
+	// Ce client sait dessiner l'habit du GM d'un joueur (ZC_MOONLIGHT_GM_OUTFIT
+	// 0x0F44). Réservé à moonclient : la DLL ne l'annonce pas.
+	BOURGEON_UI_GM_OUTFIT = 0x00010000,
+	// Prochain bit libre : 0x00020000.
 };
 
 // [Stingor] Les réglages du serveur utiles au client (ZC 0x0F38), à une session
@@ -1945,6 +1948,11 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd);
 // qui ont annoncé BOURGEON_UI_UNIT_MASTER. À rappeler quand md->master_id change
 // alors que le monstre est déjà en vue.
 void clif_bourgeon_unit_master_area(const mob_data& md);
+// [Stingor] L'habit du GM (CZ 0x0F43 -> ZC 0x0F44). `clif_moonlight_gm_outfit_area`
+// dit à la zone, le joueur compris, s'il porte l'habit ; à son apparition, rien
+// ne part s'il ne le porte pas.
+void clif_parse_moonlight_gm_outfit(int32 fd, map_session_data* sd);
+void clif_moonlight_gm_outfit_area(map_session_data& sd, bool spawning);
 // [Stingor] Le maître d'un compagnon (ZC 0x0F37), aux joueurs qui le voient
 // paraître et qui ont annoncé BOURGEON_UI_COMPANION_MASTER. Sans effet pour une
 // unité qui n'est ni homoncule, ni mercenaire, ni familier, ni élémentaire.

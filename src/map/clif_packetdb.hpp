@@ -2108,6 +2108,10 @@ parseable_packet(HEADER_CZ_MOONLIGHT_REQ_CHAT_BLOCKS, sizeof(PACKET_CZ_MOONLIGHT
 // VARIABLE : la queue porte les identifiants d'objet cherchés.
 parseable_packet(HEADER_CZ_MOONLIGHT_MARKET_REQ, -1, clif_parse_moonlight_market_req, 0);
 
+// [Stingor] moonclient : l'habit du GM, porté ou quitté par un administrateur.
+// Gate niveau de groupe >= 99 DANS le handler, rediffusé à la zone — fixed
+parseable_packet(HEADER_CZ_MOONLIGHT_GM_OUTFIT, sizeof(PACKET_CZ_MOONLIGHT_GM_OUTFIT), clif_parse_moonlight_gm_outfit, 0);
+
 // [Stingor] Bourgeon : état de l'entité ciblée (fenêtre de cible). Le client
 // redemande tant que sa fenêtre est ouverte ; aucun état serveur — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_TARGET_INFO, sizeof(PACKET_CZ_MOONLIGHT_TARGET_INFO), clif_parse_moonlight_target_info, 0);

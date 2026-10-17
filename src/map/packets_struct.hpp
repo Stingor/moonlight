@@ -7346,6 +7346,39 @@ struct PACKET_ZC_MOONLIGHT_MARKET {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_MARKET, 0x0f42);
 
+// ── [Stingor] Habit du GM (CZ 0x0F43, ZC 0x0F44) ────────────────────────────
+//
+// Un administrateur (niveau de groupe 99) choisit d'apparaître sous le corps et
+// l'épée du personnage GM. Le choix est retenu dans la variable de personnage
+// `moonclient_gm_outfit`, et ne vaut que tant que le niveau tient.
+
+// CZ (client -> server): porter (1) ou quitter (0) l'habit. Fixe 5.
+// Gate niveau de groupe >= 99 DANS le handler ; refusé sans un mot sinon.
+// Layout: [type:2][len:2][worn:1]
+struct PACKET_CZ_MOONLIGHT_GM_OUTFIT {
+	int16 packetType;
+	int16 packetLength;
+	uint8 worn;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_GM_OUTFIT, 0x0f43);
+
+// ZC (server -> client): le joueur `GID` porte, ou quitte, l'habit. Fixe 9.
+//
+// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT BOURGEON_UI_GM_OUTFIT : un client qui
+// ne connaît pas l'opcode vide son tampon de réception. À l'apparition et à
+// l'entrée en vue, il ne part que pour un joueur qui le PORTE : l'absence vaut
+// « habit du métier ». Le basculement part dans les deux sens, à toute la zone,
+// le joueur compris. Une session qui annonce le bit après avoir vu les joueurs
+// reçoit alors l'habit de ceux qui le portent.
+// Layout: [type:2][len:2][GID:4][worn:1]
+struct PACKET_ZC_MOONLIGHT_GM_OUTFIT {
+	int16  packetType;
+	int16  packetLength;
+	uint32 GID;
+	uint8  worn;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_GM_OUTFIT, 0x0f44);
+
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
 //
@@ -7832,7 +7865,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_HATEFFECT_MAP, 0x0f17);
 // client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans
 // la zone sûre 0x0F00+ (2026-07-03). Le prochain opcode libre est tenu par
 // bopcodes::kNextFree, dans src/features/systems/bourgeon_opcodes.h de Bourgeon
-// (0x0F43 à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
+// (0x0F45 à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
 
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)
