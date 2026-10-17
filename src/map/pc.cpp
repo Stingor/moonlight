@@ -2363,6 +2363,19 @@ bool pc_set_hate_mob(map_session_data *sd, int32 pos, block_list *bl)
 	return true;
 }
 
+/**
+ * [Stingor] La portée de vue de ce joueur, en cases : le carré que le serveur
+ * lui fait voir, et la distance au-delà de laquelle sa cible est hors de vue.
+ * moonclient voit à moonclient_area_size, jamais moins que area_size. Un client
+ * d'origine voit à area_size, et tout le monde sur une carte PvP, GvG ou de
+ * champ de bataille, où voir plus loin serait un avantage de combat.
+ */
+int32 pc_view_range(const map_session_data& sd) {
+	if (!sd.state.moonclient || map_flag_vs(sd.m))
+		return battle_config.area_size;
+	return std::max(battle_config.area_size, battle_config.moonclient_area_size);
+}
+
 /*==========================================
  * [Stingor] @ignore : masquage complet du chat d'une personne.
  *

@@ -6934,12 +6934,14 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_UNIT_MASTER, 0x0f37);
 //
 // Layout: [type:2][len:2] puis N × [key:2][value:4]
 enum e_bourgeon_server_rule : uint16 {
-	BOURGEON_RULE_AREA_SIZE           = 1, ///< battle_config.area_size (cases)
+	BOURGEON_RULE_AREA_SIZE           = 1, ///< portée de vue du joueur, pc_view_range (cases)
 	BOURGEON_RULE_HOM_MAX_LEVEL       = 2, ///< battle_config.hom_max_level
 	BOURGEON_RULE_HOM_S_MAX_LEVEL     = 3, ///< battle_config.hom_S_max_level
 	BOURGEON_RULE_HOMUNC_TELEPORT_ACD = 4, ///< battle_config.homunc_teleport_acd (ms)
 	BOURGEON_RULE_VENDING_TAX         = 5, ///< battle_config.vending_tax (dix-millièmes)
 	BOURGEON_RULE_VENDING_TAX_MIN     = 6, ///< battle_config.vending_tax_min (zeny)
+	BOURGEON_RULE_GAME_AREA_SIZE      = 7, ///< battle_config.area_size : portée du JEU (compagnons, PNJ, échoppes)
+	BOURGEON_RULE_MAX_WALK_PATH       = 8, ///< battle_config.max_walk_path (pas)
 };
 
 struct PACKET_ZC_MOONLIGHT_SERVER_RULES_entry {

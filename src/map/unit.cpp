@@ -618,7 +618,7 @@ static TIMER_FUNC(unit_walktoxy_timer)
 	}
 
 	// Refresh view for all those we lose sight
-	map_foreachinmovearea(clif_outsight, bl, AREA_SIZE, dx, dy, sd?BL_ALL:BL_PC, bl);
+	clif_outsight_movearea(*bl, dx, dy);
 
 	x += dx;
 	y += dy;
@@ -628,7 +628,7 @@ static TIMER_FUNC(unit_walktoxy_timer)
 		return 0; // map_moveblock has altered the object beyond what we expected (moved/warped it)
 
 	ud->walktimer = CLIF_WALK_TIMER; // Arbitrary non-INVALID_TIMER value to make the clif code send walking packets
-	map_foreachinmovearea(clif_insight, bl, AREA_SIZE, -dx, -dy, sd?BL_ALL:BL_PC, bl);
+	clif_insight_movearea(*bl, -dx, -dy);
 	ud->walktimer = INVALID_TIMER;
 
 	if (bl->x == ud->to_x && bl->y == ud->to_y) {
@@ -1206,12 +1206,12 @@ bool unit_movepos(block_list *bl, int16 dst_x, int16 dst_y, int32 easy, bool che
 	dx = dst_x - bl->x;
 	dy = dst_y - bl->y;
 
-	map_foreachinmovearea(clif_outsight, bl, AREA_SIZE, dx, dy, (sd ? BL_ALL : BL_PC), bl);
+	clif_outsight_movearea(*bl, dx, dy);
 
 	map_moveblock(bl, dst_x, dst_y, gettick());
 
 	ud->walktimer = CLIF_WALK_TIMER; // Arbitrary non-INVALID_TIMER value to make the clif code send walking packets
-	map_foreachinmovearea(clif_insight, bl, AREA_SIZE, -dx, -dy, (sd ? BL_ALL : BL_PC), bl);
+	clif_insight_movearea(*bl, -dx, -dy);
 	ud->walktimer = INVALID_TIMER;
 
 	if(sd) {
@@ -1334,7 +1334,7 @@ int32 unit_blown(block_list* bl, int32 dx, int32 dy, int32 count, enum e_skill_b
 		dy = ny-bl->y;
 
 		if(dx || dy) {
-			map_foreachinmovearea(clif_outsight, bl, AREA_SIZE, dx, dy, bl->type == BL_PC ? BL_ALL : BL_PC, bl);
+			clif_outsight_movearea(*bl, dx, dy);
 
 			if(su) {
 				if (su->group && skill_get_unit_flag(su->group->skill_id, UF_KNOCKBACKGROUP))
@@ -1344,7 +1344,7 @@ int32 unit_blown(block_list* bl, int32 dx, int32 dy, int32 count, enum e_skill_b
 			} else
 				map_moveblock(bl, nx, ny, gettick());
 
-			map_foreachinmovearea(clif_insight, bl, AREA_SIZE, -dx, -dy, bl->type == BL_PC ? BL_ALL : BL_PC, bl);
+			clif_insight_movearea(*bl, -dx, -dy);
 
 			if(!(flag&BLOWN_DONT_SEND_PACKET))
 				clif_blown(bl);

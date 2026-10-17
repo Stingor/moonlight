@@ -1959,6 +1959,9 @@ void pc_macro_detector_disconnect(map_session_data &sd);
 void pc_macro_reporter_area_select(map_session_data &sd, const int16 x, const int16 y, const int8 radius);
 void pc_macro_reporter_process(map_session_data &sd, int32 reporter_account_id = -1);
 
+// [Stingor] La portée de vue de ce joueur, en cases.
+int32 pc_view_range(const map_session_data& sd);
+
 // [Stingor] @ignore : masquage complet du chat d'un personnage
 /// Codes de retour de pc_ignorechat_add()
 enum e_ignorechat_add : uint8 {

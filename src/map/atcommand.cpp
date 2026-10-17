@@ -1173,7 +1173,7 @@ ACMD_FUNC(hide)
 			sd->pvp_timer = add_timer( gettick() + 200, pc_calc_pvprank_timer, sd->id, 0 );
 		}
 		//bugreport:2266
-		map_foreachinmovearea(clif_insight, sd, AREA_SIZE, sd->x, sd->y, BL_ALL, sd);
+		clif_insight_movearea(*sd, sd->x, sd->y);
 	} else {
 		sd->sc.option |= OPTION_INVISIBLE;
 		sd->vd.look[LOOK_BASE] = JT_INVISIBLE;

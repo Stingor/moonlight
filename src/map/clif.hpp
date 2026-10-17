@@ -1001,6 +1001,12 @@ void clif_storageclose( const map_session_data& sd );
 
 int32 clif_insight(block_list *bl,va_list ap);	// map_forallinmovearea callback
 int32 clif_outsight(block_list *bl,va_list ap);	// map_forallinmovearea callback
+// [Stingor] Entrées et sorties de vue, chacun à sa portée (pc_view_range).
+void clif_outsight_movearea(block_list& mover, int16 dx, int16 dy);
+void clif_insight_movearea(block_list& mover, int16 dx, int16 dy);
+void clif_outsight_area(block_list& unit);
+void clif_insight_area(block_list& unit);
+void clif_moonclient_accepted(map_session_data& sd);
 
 void clif_class_change( const block_list& bl, int32 class_, enum send_target target = AREA, const map_session_data* sd = nullptr );
 

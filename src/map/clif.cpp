@@ -531,6 +531,15 @@ static int32 clif_send_sub(block_list *bl, va_list ap)
 	return 0;
 }
 
+// [Stingor] Le destinataire d'une diffusion de zone est-il hors de SA vue de la
+// source ? Le carré de area_size pour un client d'origine, comme toujours.
+static bool clif_out_of_view(const block_list& source, const map_session_data& viewer)
+{
+	const int32 range = pc_view_range(viewer);
+	return viewer.x < source.x - range || viewer.y < source.y - range ||
+		viewer.x > source.x + range || viewer.y > source.y + range;
+}
+
 /*==========================================
  * Packet Delegation (called on all packets that require data to be sent to more than one client)
  * functions that are sent solely to one use whose ID it posses use WFIFOSET
@@ -541,7 +550,7 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 	const map_session_data* sd, *tsd;
 	struct party_data *p = nullptr;
 	std::shared_ptr<s_battleground_data> bg;
-	int32 x0 = 0, x1 = 0, y0 = 0, y1 = 0, fd;
+	int32 fd;
 	struct s_mapiterator* iter;
 
 	if( type != ALL_CLIENT )
@@ -582,10 +591,12 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 	case AREA_WOS:
 		map_foreachinallarea(clif_send_sub, bl->m, bl->x-AREA_SIZE, bl->y-AREA_SIZE, bl->x+AREA_SIZE, bl->y+AREA_SIZE,
 			BL_PC, buf, len, bl, type, chat_speaker, sidecar);
+		map_foreachinviewring(clif_send_sub, bl, 0, buf, len, bl, type, chat_speaker, sidecar); // [Stingor]
 		break;
 	case AREA_CHAT_WOC:
 		map_foreachinallarea(clif_send_sub, bl->m, bl->x-(AREA_SIZE-5), bl->y-(AREA_SIZE-5),
 			bl->x+(AREA_SIZE-5), bl->y+(AREA_SIZE-5), BL_PC, buf, len, bl, AREA_WOC, chat_speaker, sidecar);
+		map_foreachinviewring(clif_send_sub, bl, -5, buf, len, bl, AREA_WOC, chat_speaker, sidecar); // [Stingor]
 		break;
 
 	case CHAT:
@@ -613,11 +624,6 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 
 	case PARTY_AREA:
 	case PARTY_AREA_WOS:
-		x0 = bl->x - AREA_SIZE;
-		y0 = bl->y - AREA_SIZE;
-		x1 = bl->x + AREA_SIZE;
-		y1 = bl->y + AREA_SIZE;
-		[[fallthrough]];
 	case PARTY:
 	case PARTY_WOS:
 	case PARTY_SAMEMAP:
@@ -639,7 +645,7 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 				if( type != PARTY && type != PARTY_WOS && bl->m != sd->m )
 					continue;
 
-				if( (type == PARTY_AREA || type == PARTY_AREA_WOS) && (sd->x < x0 || sd->y < y0 || sd->x > x1 || sd->y > y1) )
+				if( (type == PARTY_AREA || type == PARTY_AREA_WOS) && clif_out_of_view(*bl, *sd) )
 					continue;
 
 				if( chat_speaker != 0 && pc_ignorechat( sd, chat_speaker ) ) // [Stingor] @ignore
@@ -688,11 +694,6 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 	// New definitions for guilds [Valaris] - Cleaned up and reorganized by [Skotlex]
 	case GUILD_AREA:
 	case GUILD_AREA_WOS:
-		x0 = bl->x - AREA_SIZE;
-		y0 = bl->y - AREA_SIZE;
-		x1 = bl->x + AREA_SIZE;
-		y1 = bl->y + AREA_SIZE;
-		[[fallthrough]];
 	case GUILD_SAMEMAP:
 	case GUILD_SAMEMAP_WOS:
 	case GUILD:
@@ -716,7 +717,7 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 				if( type != GUILD && type != GUILD_NOBG && type != GUILD_WOS && sd->m != bl->m )
 					continue;
 
-				if( (type == GUILD_AREA || type == GUILD_AREA_WOS) && (sd->x < x0 || sd->y < y0 || sd->x > x1 || sd->y > y1) )
+				if( (type == GUILD_AREA || type == GUILD_AREA_WOS) && clif_out_of_view(*bl, *sd) )
 					continue;
 
 				if( chat_speaker != 0 && pc_ignorechat( sd, chat_speaker ) ) // [Stingor] @ignore
@@ -739,11 +740,6 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 	}
 	case BG_AREA:
 	case BG_AREA_WOS:
-		x0 = bl->x - AREA_SIZE;
-		y0 = bl->y - AREA_SIZE;
-		x1 = bl->x + AREA_SIZE;
-		y1 = bl->y + AREA_SIZE;
-		[[fallthrough]];
 	case BG_SAMEMAP:
 	case BG_SAMEMAP_WOS:
 	case BG:
@@ -757,7 +753,7 @@ int32 clif_send(const void* buf, int32 len, const block_list* bl, enum send_targ
 					continue;
 				if( type != BG && type != BG_WOS && sd->m != bl->m )
 					continue;
-				if( (type == BG_AREA || type == BG_AREA_WOS) && (sd->x < x0 || sd->y < y0 || sd->x > x1 || sd->y > y1) )
+				if( (type == BG_AREA || type == BG_AREA_WOS) && clif_out_of_view(*bl, *sd) )
 					continue;
 				if( chat_speaker != 0 && pc_ignorechat( sd, chat_speaker ) ) // [Stingor] @ignore
 					continue;
@@ -3819,6 +3815,7 @@ static int32 clif_hpmeter( const map_session_data* sd )
 	if (sd->state.spectator)
 		return 0;
 	map_foreachinallarea(clif_hpmeter_sub, sd->m, sd->x-AREA_SIZE, sd->y-AREA_SIZE, sd->x+AREA_SIZE, sd->y+AREA_SIZE, BL_PC, sd);
+	map_foreachinviewring(clif_hpmeter_sub, sd, 0, sd); // [Stingor]
 	return 0;
 }
 
@@ -5482,7 +5479,7 @@ static const struct s_bourgeon_setting bourgeon_settings[] = {
 			// les textures du client au milieu d'une frame D3D quand l'ordre vient
 			// de Bourgeon (plantage). Renvoyer les seuls BL_MOB met à jour les noms
 			// visibles sans recharger la map.
-			map_foreachinallrange( clif_getareachar, &sd, AREA_SIZE, BL_MOB, &sd );
+			map_foreachinallrange( clif_getareachar, &sd, pc_view_range(sd), BL_MOB, &sd );
 		} },
 
 	{ BOURGEON_SETTING_SEPARATE, "separate", 1, 0, 1862, 1863,
@@ -7459,7 +7456,7 @@ void clif_parse_moonclient_integrity(int32 fd, map_session_data* sd) {
 		bourgeon_integrity_conf.exempt_ips.count(session[fd]->client_addr) > 0) {
 		ShowInfo("[moonclient] integrity: %s exempt (IP %s).\n",
 			sd->status.name, ip2str(session[fd]->client_addr, nullptr));
-		sd->state.moonclient = true;
+		clif_moonclient_accepted(*sd);
 		clif_bourgeon_grant_verified(sd);
 		return;
 	}
@@ -7486,7 +7483,7 @@ void clif_parse_moonclient_integrity(int32 fd, map_session_data* sd) {
 		}
 	}
 
-	sd->state.moonclient = true;
+	clif_moonclient_accepted(*sd);
 	clif_bourgeon_grant_verified(sd);
 }
 
@@ -8324,7 +8321,7 @@ void clif_parse_moonlight_target_info(int32 fd, map_session_data* sd) {
 	p.gid          = req->gid;
 
 	block_list* bl = map_id2bl(req->gid);
-	if (bl == nullptr || bl->m != sd->m || !check_distance_bl(sd, bl, AREA_SIZE)) {
+	if (bl == nullptr || bl->m != sd->m || !check_distance_bl(sd, bl, pc_view_range(*sd))) {
 		p.status = 1;                        // introuvable ou hors de vue
 		clif_send(&p, sizeof(p), sd, SELF);
 		return;
@@ -8547,7 +8544,7 @@ void clif_parse_moonlight_req_status_list(int32 fd, map_session_data* sd) {
 	// La distance ne borne que ce qui ne m'appartient pas. Un allié reste lisible
 	// d'où qu'il soit — c'est le but du paquet ; un monstre, non, sinon on offre
 	// un moyen de sonder la carte sans y être.
-	if (!allied && (bl->m != sd->m || !check_distance_bl(sd, bl, AREA_SIZE))) {
+	if (!allied && (bl->m != sd->m || !check_distance_bl(sd, bl, pc_view_range(*sd)))) {
 		reply_status(1);
 		return;
 	}
@@ -8885,6 +8882,7 @@ void clif_bourgeon_unit_master_area(const mob_data& md) {
 	if (md.prev == nullptr)
 		return; // pas encore sur la carte : son apparition le dira
 	map_foreachinallrange(clif_bourgeon_unit_master_area_sub, &md, AREA_SIZE, BL_PC, &md);
+	map_foreachinviewring(clif_bourgeon_unit_master_area_sub, &md, 0, &md);
 }
 
 // Les monstres à maître déjà en vue d'un joueur (callback BL_MOB) : va_arg =
@@ -8965,6 +8963,8 @@ void clif_moonlight_gm_outfit_area(map_session_data& sd, bool spawning) {
 	if (sd.prev == nullptr)
 		return; // pas encore sur la carte : son apparition le dira
 	map_foreachinallrange(clif_moonlight_gm_outfit_area_sub, &sd, AREA_SIZE, BL_PC,
+	                      static_cast<const map_session_data*>(&sd), (int32)worn);
+	map_foreachinviewring(clif_moonlight_gm_outfit_area_sub, &sd, 0,
 	                      static_cast<const map_session_data*>(&sd), (int32)worn);
 }
 
@@ -9055,6 +9055,7 @@ void clif_bourgeon_companion_master_area(const block_list& bl) {
 	if (bl.prev == nullptr || clif_bourgeon_companion_master_id(bl) == 0)
 		return;
 	map_foreachinallrange(clif_bourgeon_companion_master_area_sub, &bl, AREA_SIZE, BL_PC, &bl);
+	map_foreachinviewring(clif_bourgeon_companion_master_area_sub, &bl, 0, &bl);
 }
 
 // Les compagnons déjà en vue d'un joueur (callback BL_HOM|BL_MER|BL_PET|BL_ELEM) :
@@ -9088,19 +9089,19 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	// L'annonce suit l'entrée en carte : les Flag Graffiti alentour ont déjà été
 	// montrés — sans lui. Il les reçoit maintenant.
 	if (!(before & BOURGEON_UI_FLAG_GRAFFITI) && (p->caps & BOURGEON_UI_FLAG_GRAFFITI))
-		map_foreachinallrange(clif_bourgeon_flag_graffiti_seen_sub, sd, AREA_SIZE, BL_SKILL, sd);
+		map_foreachinallrange(clif_bourgeon_flag_graffiti_seen_sub, sd, pc_view_range(*sd), BL_SKILL, sd);
 	// [Stingor] De même pour les maîtres des monstres déjà en vue.
 	if (!(before & BOURGEON_UI_UNIT_MASTER) && (p->caps & BOURGEON_UI_UNIT_MASTER))
-		map_foreachinallrange(clif_bourgeon_unit_master_seen_sub, sd, AREA_SIZE, BL_MOB, sd);
+		map_foreachinallrange(clif_bourgeon_unit_master_seen_sub, sd, pc_view_range(*sd), BL_MOB, sd);
 	// [Stingor] De même pour l'habit du GM des joueurs déjà en vue.
 	if (!(before & BOURGEON_UI_GM_OUTFIT) && (p->caps & BOURGEON_UI_GM_OUTFIT))
-		map_foreachinallrange(clif_moonlight_gm_outfit_seen_sub, sd, AREA_SIZE, BL_PC, sd);
+		map_foreachinallrange(clif_moonlight_gm_outfit_seen_sub, sd, pc_view_range(*sd), BL_PC, sd);
 	// [Stingor] Les réglages du serveur, dès que le client sait les lire.
 	if (!(before & BOURGEON_UI_SERVER_RULES) && (p->caps & BOURGEON_UI_SERVER_RULES))
 		clif_bourgeon_server_rules(*sd);
 	// [Stingor] Les maîtres des compagnons déjà en vue.
 	if (!(before & BOURGEON_UI_COMPANION_MASTER) && (p->caps & BOURGEON_UI_COMPANION_MASTER))
-		map_foreachinallrange(clif_bourgeon_companion_master_seen_sub, sd, AREA_SIZE, BL_HOM | BL_MER | BL_PET | BL_ELEM, sd);
+		map_foreachinallrange(clif_bourgeon_companion_master_seen_sub, sd, pc_view_range(*sd), BL_HOM | BL_MER | BL_PET | BL_ELEM, sd);
 	// [Stingor] L'annonce suit l'entrée en carte, et donc 0x02CB / 0x02CD : le
 	// détail de ses instances lui part maintenant.
 	if (!(before & BOURGEON_UI_INSTANCE_INFO) && (p->caps & BOURGEON_UI_INSTANCE_INFO)) {
@@ -9124,12 +9125,14 @@ void clif_bourgeon_server_rules(map_session_data& sd) {
 		return;
 
 	const PACKET_ZC_MOONLIGHT_SERVER_RULES_entry rules[] = {
-		{ BOURGEON_RULE_AREA_SIZE,           battle_config.area_size },
+		{ BOURGEON_RULE_AREA_SIZE,           pc_view_range(sd) },
 		{ BOURGEON_RULE_HOM_MAX_LEVEL,       battle_config.hom_max_level },
 		{ BOURGEON_RULE_HOM_S_MAX_LEVEL,     battle_config.hom_S_max_level },
 		{ BOURGEON_RULE_HOMUNC_TELEPORT_ACD, battle_config.homunc_teleport_acd },
 		{ BOURGEON_RULE_VENDING_TAX,         battle_config.vending_tax },
 		{ BOURGEON_RULE_VENDING_TAX_MIN,     battle_config.vending_tax_min },
+		{ BOURGEON_RULE_GAME_AREA_SIZE,      battle_config.area_size },
+		{ BOURGEON_RULE_MAX_WALK_PATH,       battle_config.max_walk_path },
 	};
 	const size_t len = sizeof(PACKET_ZC_MOONLIGHT_SERVER_RULES) + sizeof(rules);
 
@@ -11078,6 +11081,7 @@ void clif_parse_moonlight_jump(int32 fd, map_session_data* sd) {
 	// ActorList_FindByGID le retrouve.
 	map_foreachinallrange(clif_bourgeon_jump_sub, sd, AREA_SIZE, BL_PC,
 	                      (uint32)sd->id, fd);
+	map_foreachinviewring(clif_bourgeon_jump_sub, sd, 0, (uint32)sd->id, fd);
 }
 
 // ── [Stingor] Couleurs de corps choisies par le joueur (CZ 0x0F26 / ZC 0x0F27) ─
@@ -11433,7 +11437,7 @@ void clif_bourgeon_style_area(map_session_data* sd) {
 	if (!bourgeon_cosmetic_receiver(sd)) return;
 
 	std::vector<map_session_data*> vus;
-	map_foreachinallrange(clif_bourgeon_style_area_sub, sd, AREA_SIZE, BL_PC,
+	map_foreachinallrange(clif_bourgeon_style_area_sub, sd, pc_view_range(*sd), BL_PC,
 	                      &vus, sd);
 	if (vus.empty()) return;
 
@@ -11552,6 +11556,7 @@ void clif_bourgeon_style_spawn(map_session_data* sd) {
 
 	map_foreachinallrange(clif_bourgeon_style_spawn_sub, sd, AREA_SIZE, BL_PC,
 	                      (int32)sd->id, (const uint8*)buf, (int32)len);
+	map_foreachinviewring(clif_bourgeon_style_spawn_sub, sd, 0, (int32)sd->id, (const uint8*)buf, (int32)len);
 }
 
 // Délai minimum entre deux validations de style, en ms.
@@ -12213,8 +12218,12 @@ void clif_getareachar_skillunit(block_list *bl, skill_unit *unit, enum send_targ
 		if (target == SELF && tsd != nullptr)
 			clif_bourgeon_flag_graffiti_single(*unit, *tsd);
 		else if (target != SELF)
+		{
 			map_foreachinallrange(clif_bourgeon_flag_graffiti_area_sub, bl, AREA_SIZE, BL_PC,
 				static_cast<const skill_unit*>(unit));
+			map_foreachinviewring(clif_bourgeon_flag_graffiti_area_sub, bl, 0,
+				static_cast<const skill_unit*>(unit));
+		}
 		return;
 	}
 
@@ -12362,18 +12371,14 @@ static int32 clif_getareachar(block_list* bl,va_list ap)
 /*==========================================
  * tbl has gone out of view-size of bl
  *------------------------------------------*/
-int32 clif_outsight(block_list *bl,va_list ap)
+// [Stingor] `tsd` a perdu `bl` de vue : la moitié de clif_outsight qui
+// parle au joueur qui bouge.
+static void clif_outsight_unit(map_session_data& viewer, block_list* bl)
 {
-	block_list *tbl;
+	TBL_PC* tsd = &viewer;
+	TBL_PC* sd = BL_CAST(BL_PC, bl);
 	struct view_data *vd;
-	TBL_PC *sd, *tsd;
-	tbl=va_arg(ap,block_list*);
-	if(bl == tbl) return 0;
-	sd = BL_CAST(BL_PC, bl);
-	tsd = BL_CAST(BL_PC, tbl);
-
-	if (clif_session_isValid(tsd)) { //tsd has lost sight of the bl object.
-		nullpo_ret(bl);
+	{
 		switch(bl->type){
 		case BL_PC:
 			if(sd->vd.look[LOOK_BASE] != JT_INVISIBLE)
@@ -12406,14 +12411,38 @@ int32 clif_outsight(block_list *bl,va_list ap)
 			break;
 		}
 	}
+}
+
+// [Stingor] `sd` voit `tbl`, l'unité qui bouge, sortir de sa vue : l'autre
+// moitié de clif_outsight.
+static void clif_outsight_mover(map_session_data& viewer, block_list* tbl)
+{
+	TBL_PC* sd = &viewer;
+	struct view_data *vd;
+	if(tbl->type == BL_SKILL) //Trap knocked out of sight
+		clif_clearchar_skillunit( *((skill_unit *)tbl), *sd );
+	else if(((vd=status_get_viewdata(tbl)) && vd->look[LOOK_BASE] != JT_INVISIBLE) &&
+		!clif_npc_mayapurple( *tbl ) )
+		clif_clearunit_single( tbl->id, CLR_OUTSIGHT, *sd );
+	pc_set_costume_view(sd);
+}
+
+int32 clif_outsight(block_list *bl,va_list ap)
+{
+	block_list *tbl;
+	TBL_PC *sd, *tsd;
+	tbl=va_arg(ap,block_list*);
+	if(bl == tbl) return 0;
+	sd = BL_CAST(BL_PC, bl);
+	tsd = BL_CAST(BL_PC, tbl);
+
+	if (clif_session_isValid(tsd)) { //tsd has lost sight of the bl object.
+		nullpo_ret(bl);
+		clif_outsight_unit(*tsd, bl);
+	}
 	if (clif_session_isValid(sd)) { //sd is watching tbl go out of view.
 		nullpo_ret(tbl);
-		if(tbl->type == BL_SKILL) //Trap knocked out of sight
-			clif_clearchar_skillunit( *((skill_unit *)tbl), *sd );
-		else if(((vd=status_get_viewdata(tbl)) && vd->look[LOOK_BASE] != JT_INVISIBLE) &&
-			!clif_npc_mayapurple( *tbl ) )
-			clif_clearunit_single( tbl->id, CLR_OUTSIGHT, *sd );
-		pc_set_costume_view(sd);
+		clif_outsight_mover(*sd, tbl);
 	}
 	return 0;
 }
@@ -12421,6 +12450,31 @@ int32 clif_outsight(block_list *bl,va_list ap)
 /*==========================================
  * tbl has come into view of bl
  *------------------------------------------*/
+// [Stingor] `bl` entre dans la vue de `tsd`, le joueur qui bouge.
+static void clif_insight_unit(map_session_data& viewer, block_list* bl)
+{
+	TBL_PC* tsd = &viewer;
+	switch(bl->type){
+	case BL_ITEM:
+		clif_getareachar_item( *tsd, *reinterpret_cast<flooritem_data*>( bl ) );
+		break;
+	case BL_SKILL:
+		skill_getareachar_skillunit_visibilty_single((TBL_SKILL*)bl, tsd);
+		break;
+	default:
+		clif_getareachar_unit(tsd,bl);
+		break;
+	}
+}
+
+// [Stingor] `tbl`, l'unité qui bouge, entre dans la vue de `sd`.
+static void clif_insight_mover(map_session_data& viewer, block_list* tbl)
+{
+	TBL_PC* sd = &viewer;
+	clif_getareachar_unit(sd,tbl);
+	pc_set_costume_view(sd);
+}
+
 int32 clif_insight(block_list *bl,va_list ap)
 {
 	block_list *tbl;
@@ -12432,24 +12486,154 @@ int32 clif_insight(block_list *bl,va_list ap)
 	sd = BL_CAST(BL_PC, bl);
 	tsd = BL_CAST(BL_PC, tbl);
 
-	if (clif_session_isValid(tsd)) { //Tell tsd that bl entered into his view
-		switch(bl->type){
-		case BL_ITEM:
-			clif_getareachar_item( *tsd, *reinterpret_cast<flooritem_data*>( bl ) );
-			break;
-		case BL_SKILL:
-			skill_getareachar_skillunit_visibilty_single((TBL_SKILL*)bl, tsd);
-			break;
-		default:
-			clif_getareachar_unit(tsd,bl);
-			break;
-		}
-	}
-	if (clif_session_isValid(sd)) { //Tell sd that tbl walked into his view
-		clif_getareachar_unit(sd,tbl);
-		pc_set_costume_view(sd);
-	}
+	if (clif_session_isValid(tsd)) //Tell tsd that bl entered into his view
+		clif_insight_unit(*tsd, bl);
+	if (clif_session_isValid(sd)) //Tell sd that tbl walked into his view
+		clif_insight_mover(*sd, tbl);
 	return 0;
+}
+
+// [Stingor] LA VUE À LA PORTÉE DE CHACUN.
+//
+// Un joueur de moonclient voit à pc_view_range, plus loin que area_size, et la
+// vue n'est donc plus symétrique : il voit un joueur d'origine qui ne le voit
+// pas. Chaque moitié de clif_outsight / clif_insight se décide à la portée de
+// celui qui regarde. Le parcours ordinaire, à area_size, ne parle plus qu'aux
+// clients d'origine, exactement comme avant ; les joueurs de moonclient ont le
+// leur, sur leur propre carré.
+
+// clif_outsight, sans les joueurs de moonclient.
+static int32 clif_outsight_ordinary(block_list* bl, va_list ap)
+{
+	block_list* tbl = va_arg(ap, block_list*);
+	if (bl == tbl)
+		return 0;
+	map_session_data* sd = BL_CAST(BL_PC, bl);
+	map_session_data* tsd = BL_CAST(BL_PC, tbl);
+	if (clif_session_isValid(tsd) && !tsd->state.moonclient)
+		clif_outsight_unit(*tsd, bl);
+	if (clif_session_isValid(sd) && !sd->state.moonclient)
+		clif_outsight_mover(*sd, tbl);
+	return 0;
+}
+
+// clif_insight, sans les joueurs de moonclient.
+static int32 clif_insight_ordinary(block_list* bl, va_list ap)
+{
+	block_list* tbl = va_arg(ap, block_list*);
+	if (bl == tbl)
+		return 0;
+	map_session_data* sd = BL_CAST(BL_PC, bl);
+	map_session_data* tsd = BL_CAST(BL_PC, tbl);
+	if (clif_session_isValid(tsd) && !tsd->state.moonclient)
+		clif_insight_unit(*tsd, bl);
+	if (clif_session_isValid(sd) && !sd->state.moonclient)
+		clif_insight_mover(*sd, tbl);
+	return 0;
+}
+
+// Le joueur de moonclient qui bouge (dernier argument) perd `bl` de vue.
+static int32 clif_outsight_by_mover(block_list* bl, va_list ap)
+{
+	block_list* tbl = va_arg(ap, block_list*);
+	map_session_data* tsd = BL_CAST(BL_PC, tbl);
+	if (bl != tbl && clif_session_isValid(tsd))
+		clif_outsight_unit(*tsd, bl);
+	return 0;
+}
+
+// Le joueur de moonclient qui bouge (dernier argument) voit entrer `bl`.
+static int32 clif_insight_by_mover(block_list* bl, va_list ap)
+{
+	block_list* tbl = va_arg(ap, block_list*);
+	map_session_data* tsd = BL_CAST(BL_PC, tbl);
+	if (bl != tbl && clif_session_isValid(tsd))
+		clif_insight_unit(*tsd, bl);
+	return 0;
+}
+
+// Le joueur de moonclient `bl` perd de vue l'unité qui bouge.
+static int32 clif_outsight_by_viewer(block_list* bl, va_list ap)
+{
+	block_list* tbl = va_arg(ap, block_list*);
+	map_session_data* sd = BL_CAST(BL_PC, bl);
+	if (bl != tbl && clif_session_isValid(sd))
+		clif_outsight_mover(*sd, tbl);
+	return 0;
+}
+
+// Le joueur de moonclient `bl` voit entrer l'unité qui bouge.
+static int32 clif_insight_by_viewer(block_list* bl, va_list ap)
+{
+	block_list* tbl = va_arg(ap, block_list*);
+	map_session_data* sd = BL_CAST(BL_PC, bl);
+	if (bl != tbl && clif_session_isValid(sd))
+		clif_insight_mover(*sd, tbl);
+	return 0;
+}
+
+// Ce qui sort de la vue quand `mover` se décale de (dx, dy), avant le
+// déplacement. Même convention que map_foreachinmovearea : les unités vues
+// d'ici et qui ne le seraient plus de la case décalée.
+void clif_outsight_movearea(block_list& mover, int16 dx, int16 dy)
+{
+	const int32 type = mover.type == BL_PC ? BL_ALL : BL_PC;
+	map_foreachinmovearea(clif_outsight_ordinary, &mover, AREA_SIZE, dx, dy, type, &mover);
+	if (const map_session_data* sd = BL_CAST(BL_PC, &mover); sd != nullptr && sd->state.moonclient)
+		map_foreachinmovearea(clif_outsight_by_mover, &mover, pc_view_range(*sd), dx, dy, BL_ALL, &mover);
+	map_foreachmoonclientinmovearea(clif_outsight_by_viewer, &mover, dx, dy, &mover);
+}
+
+// Ce qui entre dans la vue, après le déplacement ; (dx, dy) est l'opposé du
+// déplacement, comme pour map_foreachinmovearea.
+void clif_insight_movearea(block_list& mover, int16 dx, int16 dy)
+{
+	const int32 type = mover.type == BL_PC ? BL_ALL : BL_PC;
+	map_foreachinmovearea(clif_insight_ordinary, &mover, AREA_SIZE, dx, dy, type, &mover);
+	if (const map_session_data* sd = BL_CAST(BL_PC, &mover); sd != nullptr && sd->state.moonclient)
+		map_foreachinmovearea(clif_insight_by_mover, &mover, pc_view_range(*sd), dx, dy, BL_ALL, &mover);
+	map_foreachmoonclientinmovearea(clif_insight_by_viewer, &mover, dx, dy, &mover);
+}
+
+// Tous les joueurs qui voient `unit` le perdent de vue : il va sauter ailleurs.
+void clif_outsight_area(block_list& unit)
+{
+	map_foreachinallrange(clif_outsight_ordinary, &unit, AREA_SIZE, BL_PC, &unit);
+	map_foreachmoonclientinview(clif_outsight_by_viewer, &unit, &unit);
+}
+
+// Tous les joueurs qui voient `unit` le voient arriver : il vient de sauter.
+void clif_insight_area(block_list& unit)
+{
+	map_foreachinallrange(clif_insight_ordinary, &unit, AREA_SIZE, BL_PC, &unit);
+	map_foreachmoonclientinview(clif_insight_by_viewer, &unit, &unit);
+}
+
+// [Stingor] clif_getareachar, pour ce qui est au-delà du carré de area_size.
+static int32 clif_getareachar_beyond_area(block_list* bl, va_list ap)
+{
+	va_list ap_copy;
+	va_copy(ap_copy, ap);
+	const map_session_data* sd = va_arg(ap, map_session_data*);
+	int32 returnCount = 0;
+	if (std::max(std::abs(bl->x - sd->x), std::abs(bl->y - sd->y)) > battle_config.area_size)
+		returnCount = clif_getareachar(bl, ap_copy);
+	va_end(ap_copy);
+	return returnCount;
+}
+
+// [Stingor] moonclient accepté : il voit désormais à sa portée. Ce qu'il voyait
+// déjà, à area_size, reste ; l'anneau au-delà lui est montré maintenant, et ses
+// règles repartent avec la portée qui est la sienne.
+void clif_moonclient_accepted(map_session_data& sd)
+{
+	sd.state.moonclient = true;
+	if (sd.prev == nullptr)
+		return; // pas encore sur la carte : son entrée l'inscrira
+	map_moonclient_viewer_join(sd);
+	const int32 range = pc_view_range(sd);
+	map_foreachinallarea(clif_getareachar_beyond_area, sd.m, sd.x - range, sd.y - range, sd.x + range, sd.y + range, BL_ALL, &sd);
+	clif_bourgeon_server_rules(sd);
 }
 
 
@@ -16786,7 +16970,7 @@ void clif_refresh(map_session_data *sd)
 	}
 	if( sd->ed )
 		clif_elemental_info(sd);
-	map_foreachinallrange(clif_getareachar,sd,AREA_SIZE,BL_ALL,sd);
+	map_foreachinallrange(clif_getareachar,sd,pc_view_range(*sd),BL_ALL,sd); // [Stingor] portée du joueur
 	clif_weather_check(sd);
 	if( sd->chatID )
 		chat_leavechat(sd,0);
@@ -17059,6 +17243,7 @@ void clif_name_area_per_player(const block_list* bl)
 	if (bl == nullptr)
 		return;
 	map_foreachinrange(clif_name_area_per_player_sub, bl, AREA_SIZE, BL_PC, bl);
+	map_foreachinviewring(clif_name_area_per_player_sub, bl, 0, bl); // [Stingor]
 }
 
 /// Taekwon Jump (TK_HIGHJUMP) effect (ZC_HIGHJUMP).
@@ -17836,7 +18021,12 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 
 	// info about nearby objects
 	// must use foreachinarea (CIRCULAR_AREA interferes with foreachinrange)
-	map_foreachinallarea(clif_getareachar, sd->m, sd->x - AREA_SIZE, sd->y - AREA_SIZE, sd->x + AREA_SIZE, sd->y + AREA_SIZE, BL_ALL, sd);
+	// [Stingor] À la portée du joueur, et un joueur de moonclient réapprend la
+	// sienne : elle dépend de la carte (pc_view_range).
+	const int32 view_range = pc_view_range(*sd);
+	map_foreachinallarea(clif_getareachar, sd->m, sd->x - view_range, sd->y - view_range, sd->x + view_range, sd->y + view_range, BL_ALL, sd);
+	if (sd->state.moonclient)
+		clif_bourgeon_server_rules(*sd);
 
 	// pet
 	if (sd->pd) {
@@ -18535,7 +18725,7 @@ void clif_parse_GetCharNameRequest(int32 fd, map_session_data *sd)
 	if( bl == nullptr )
 		return;	// Lagged clients could request names of already gone mobs/players. [Skotlex]
 
-	if( sd->m != bl->m || !check_distance_bl(sd, bl, AREA_SIZE) )
+	if( sd->m != bl->m || !check_distance_bl(sd, bl, pc_view_range(*sd)) ) // [Stingor] portée du joueur
 		return; // Block namerequests past view range
 
 	// 'see people in GM hide' cheat detection

@@ -834,6 +834,9 @@ struct map_data {
 	int32 npc_num_warp; // number of warp npc on the map
 	int32 users;
 	int32 users_pvp;
+	// [Stingor] Les joueurs de moonclient posés sur la carte : ceux qui voient plus
+	// loin que area_size, et que les parcours de blocs ordinaires ne trouvent pas.
+	std::vector<map_session_data*> moonclient_viewers;
 	int32 iwall_num; // Total of invisible walls in this map
 
 	struct point save;
@@ -1170,6 +1173,11 @@ int32 map_foreachinshootarea(int32 (*func)(block_list*, va_list), int16 m, int16
 int32 map_forcountinrange(int32 (*func)(block_list*,va_list), const block_list* center, int16 range, int32 count, int32 type, ...);
 int32 map_forcountinarea(int32 (*func)(block_list*,va_list), int16 m, int16 x0, int16 y0, int16 x1, int16 y1, int32 count, int32 type, ...);
 int32 map_foreachinmovearea(int32 (*func)(block_list*,va_list), const block_list* center, int16 range, int16 dx, int16 dy, int32 type, ...);
+// [Stingor] Les joueurs de moonclient, chacun à sa portée (pc_view_range).
+void map_moonclient_viewer_join(map_session_data& sd);
+int32 map_foreachinviewring(int32 (*func)(block_list*,va_list), const block_list* subject, int16 range_offset, ...);
+int32 map_foreachmoonclientinview(int32 (*func)(block_list*,va_list), const block_list* subject, ...);
+int32 map_foreachmoonclientinmovearea(int32 (*func)(block_list*,va_list), const block_list* subject, int16 dx, int16 dy, ...);
 int32 map_foreachincell(int32 (*func)(block_list*,va_list), int16 m, int16 x, int16 y, int32 type, ...);
 int32 map_foreachinpath(int32 (*func)(block_list*,va_list), int16 m, int16 x0, int16 y0, int16 x1, int16 y1, int16 range, int32 length, int32 type, ...);
 int32 map_foreachindir(int32 (*func)(block_list*,va_list), int16 m, int16 x0, int16 y0, int16 x1, int16 y1, int16 range, int32 length, int32 offset, int32 type, ...);

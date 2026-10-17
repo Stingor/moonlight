@@ -11880,6 +11880,7 @@ void skill_getareachar_skillunit_visibilty(skill_unit *su, enum send_target targ
 		block_list *src = battle_get_master(su);
 		map_foreachinallarea(skill_getareachar_skillunit_visibilty_sub, su->m, su->x-AREA_SIZE, su->y-AREA_SIZE,
 			su->x+AREA_SIZE, su->y+AREA_SIZE, BL_PC, su, src, status_get_party_id(src));
+		map_foreachinviewring(skill_getareachar_skillunit_visibilty_sub, su, 0, su, src, status_get_party_id(src)); // [Stingor]
 	}
 }
 
@@ -12978,7 +12979,7 @@ void skill_unit_move_unit_group(std::shared_ptr<s_skill_unit_group> group, int16
 		switch(m_flag[i]) {
 			case 0:
 			//Cell moves independently, safely move it.
-				map_foreachinmovearea(clif_outsight, unit1, AREA_SIZE, dx, dy, BL_PC, unit1);
+				clif_outsight_movearea(*unit1, dx, dy);
 				inside = skill_unit_moveblock(unit1, unit1->x+dx, unit1->y+dy, tick);
 				break;
 			case 1:
@@ -12992,7 +12993,7 @@ void skill_unit_move_unit_group(std::shared_ptr<s_skill_unit_group> group, int16
 					unit2 = &group->unit[j];
 					dx2 = unit2->x + dx - unit1->x;
 					dy2 = unit2->y + dy - unit1->y;
-					map_foreachinmovearea(clif_outsight, unit1, AREA_SIZE, dx2, dy2, BL_PC, unit1);
+					clif_outsight_movearea(*unit1, dx2, dy2);
 					inside = skill_unit_moveblock(unit1, unit2->x+dx, unit2->y+dy, tick);
 					j++; //Skip this cell as we have used it.
 					break;

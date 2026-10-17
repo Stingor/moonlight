@@ -501,6 +501,9 @@ int32 map_addblock(block_list* bl)
 	map_addblcell(bl);
 #endif
 
+	if (bl->type == BL_PC && reinterpret_cast<map_session_data*>(bl)->state.moonclient) // [Stingor]
+		map_moonclient_viewer_join(*reinterpret_cast<map_session_data*>(bl));
+
 	return 0;
 }
 
@@ -528,6 +531,10 @@ int32 map_delblock(block_list* bl)
 	struct map_data *mapdata = map_getmapdata(bl->m);
 
 	nullpo_ret(mapdata);
+
+	if (bl->type == BL_PC) // [Stingor]
+		mapdata->moonclient_viewers.erase(std::remove(mapdata->moonclient_viewers.begin(), mapdata->moonclient_viewers.end(),
+			reinterpret_cast<map_session_data*>(bl)), mapdata->moonclient_viewers.end());
 
 	pos = bl->x/BLOCK_SIZE+(bl->y/BLOCK_SIZE)*mapdata->bxs;
 
@@ -1250,6 +1257,105 @@ int32 map_foreachinmovearea(int32 (*func)(block_list*,va_list), const block_list
 	}
 
 	bl_list_count = blockcount;
+	return returnCount;
+}
+
+// [Stingor] Les joueurs de moonclient voient chacun à sa propre portée
+// (pc_view_range), plus loin que le carré de area_size que parcourent les
+// fonctions ci-dessus. Le registre de la carte les trouve sans élargir ces
+// parcours : un client d'origine reçoit exactement ce qu'il recevait.
+
+void map_moonclient_viewer_join(map_session_data& sd)
+{
+	map_data* mapdata = map_getmapdata(sd.m);
+	if (mapdata == nullptr)
+		return;
+	std::vector<map_session_data*>& viewers = mapdata->moonclient_viewers;
+	if (std::find(viewers.begin(), viewers.end(), &sd) == viewers.end())
+		viewers.push_back(&sd);
+}
+
+// L'écart de Tchebychev, la mesure des carrés de vue.
+static int32 map_view_gap(int32 x0, int32 y0, int32 x1, int32 y1)
+{
+	return std::max(std::abs(x1 - x0), std::abs(y1 - y0));
+}
+
+// Appelle `func` pour chaque joueur de moonclient de la carte de `subject` que
+// retient `admits`, sauf `subject` lui-même. Comme pour les parcours de blocs,
+// la liste est relevée avant le premier appel : `func` peut déplacer ou
+// retirer un joueur, donc modifier le registre.
+template <typename Admits>
+static int32 map_foreachmoonclient(int32 (*func)(block_list*, va_list), const block_list* subject, Admits admits, va_list ap)
+{
+	map_data* mapdata = map_getmapdata(subject->m);
+	if (mapdata == nullptr || mapdata->moonclient_viewers.empty())
+		return 0;
+
+	int32 returnCount = 0;
+	const int32 blockcount = bl_list_count;
+	for (map_session_data* sd : mapdata->moonclient_viewers) {
+		if (sd != subject && admits(*sd) && bl_list_count < BL_LIST_MAX)
+			bl_list[bl_list_count++] = sd;
+	}
+
+	FreeBlockLock freeLock;
+
+	for (int32 i = blockcount; i < bl_list_count; i++) {
+		if (bl_list[i]->prev) {
+			va_list ap_copy;
+			va_copy(ap_copy, ap);
+			returnCount += func(bl_list[i], ap_copy);
+			va_end(ap_copy);
+		}
+	}
+
+	bl_list_count = blockcount;
+	return returnCount;
+}
+
+// Ceux qui voient `subject` AU-DELÀ du carré ordinaire : area_size + offset <
+// écart ≤ portée + offset. Complète un parcours de rayon area_size + offset
+// sans jamais doubler un destinataire.
+int32 map_foreachinviewring(int32 (*func)(block_list*, va_list), const block_list* subject, int16 range_offset, ...)
+{
+	const int32 ordinary = battle_config.area_size + range_offset;
+	va_list ap;
+	va_start(ap, range_offset);
+	const int32 returnCount = map_foreachmoonclient(func, subject, [&](const map_session_data& sd) {
+		const int32 gap = map_view_gap(subject->x, subject->y, sd.x, sd.y);
+		return gap > ordinary && gap <= pc_view_range(sd) + range_offset;
+	}, ap);
+	va_end(ap);
+	return returnCount;
+}
+
+// Ceux qui voient `subject` à sa place : écart ≤ portée.
+int32 map_foreachmoonclientinview(int32 (*func)(block_list*, va_list), const block_list* subject, ...)
+{
+	va_list ap;
+	va_start(ap, subject);
+	const int32 returnCount = map_foreachmoonclient(func, subject, [&](const map_session_data& sd) {
+		return map_view_gap(subject->x, subject->y, sd.x, sd.y) <= pc_view_range(sd);
+	}, ap);
+	va_end(ap);
+	return returnCount;
+}
+
+// Ceux qui voient `subject` à sa place et ne le verraient plus décalé de
+// (dx, dy) : le pendant de map_foreachinmovearea, du côté de l'observateur.
+int32 map_foreachmoonclientinmovearea(int32 (*func)(block_list*, va_list), const block_list* subject, int16 dx, int16 dy, ...)
+{
+	if (!dx && !dy)
+		return 0;
+	va_list ap;
+	va_start(ap, dy);
+	const int32 returnCount = map_foreachmoonclient(func, subject, [&](const map_session_data& sd) {
+		const int32 range = pc_view_range(sd);
+		return map_view_gap(subject->x, subject->y, sd.x, sd.y) <= range &&
+			map_view_gap(subject->x + dx, subject->y + dy, sd.x, sd.y) > range;
+	}, ap);
+	va_end(ap);
 	return returnCount;
 }
 

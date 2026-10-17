@@ -429,6 +429,7 @@ struct Battle_Config
 
 	int32 castrate_dex_scale; // added by [MouseJstr]
 	int32 area_size; // added by [MouseJstr]
+	int32 moonclient_area_size; // [Stingor] portée de vue d'un joueur de moonclient (cases), jamais sous area_size
 
 	int32 max_def, over_def_bonus; //added by [Skotlex]
 

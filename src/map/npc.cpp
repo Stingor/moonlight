@@ -5275,9 +5275,9 @@ bool npc_movenpc(npc_data* nd, int16 x, int16 y)
 	x = cap_value(x, 0, mapdata->xs-1);
 	y = cap_value(y, 0, mapdata->ys-1);
 
-	map_foreachinallrange(clif_outsight, nd, AREA_SIZE, BL_PC, nd);
+	clif_outsight_area(*nd);
 	map_moveblock(nd, x, y, gettick());
-	map_foreachinallrange(clif_insight, nd, AREA_SIZE, BL_PC, nd);
+	clif_insight_area(*nd);
 	return true;
 }
 
