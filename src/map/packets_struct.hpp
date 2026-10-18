@@ -7381,6 +7381,101 @@ struct PACKET_ZC_MOONLIGHT_GM_OUTFIT {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_GM_OUTFIT, 0x0f44);
 
+// ── [Stingor] Les éditions de carte de moonclient (CZ 0x0F45 et 0x0F49, ZC 0x0F46
+// à 0x0F48) ───────────────────────────────────────────────────────────────────────
+//
+// Le serveur tient UN document d'édition par carte (le YAML de l'éditeur de carte
+// de moonclient), avec une révision qui croît de 1 à chaque enregistrement
+// accepté. Il ne lit pas le YAML : il range un texte compressé par zlib, et le
+// redistribue. Voir map_edits.hpp, et l'ADR 0124 de moonclient.
+//
+// 🔴 RIEN DE TOUT CELA NE PART À UNE SESSION QUI N'A PAS ANNONCÉ
+// BOURGEON_UI_MAP_EDITS : un client qui ne connaît pas l'opcode vide son tampon.
+//
+// Le document voyage en MORCEAUX du flux compressé, dans l'ordre. Chaque morceau
+// dit le total compressé, la taille du texte et son décalage ; le décalage 0
+// ouvre un transfert, le morceau qui atteint le total le ferme. La queue des
+// paquets PUT et DOC (packetLength - sizeof) porte les octets du morceau.
+
+// Un morceau envoyé par le client. 🔴 Le tampon de réception d'une session
+// (RFIFO_SIZE, socket.cpp) vaut 2 Kio et ne grandit pas : un paquet plus long ne
+// se lit jamais, et la session est fermée.
+#define MOONCLIENT_MAP_EDIT_PUT_CHUNK 1024
+// Un morceau envoyé au client. packetLength est un int16.
+#define MOONCLIENT_MAP_EDIT_DOC_CHUNK 16384
+// Les plafonds d'un document : compressé, puis en texte. 256 Kio restent loin
+// des 1 Mio d'envoi en attente au-delà desquels une session est fermée.
+#define MOONCLIENT_MAP_EDIT_MAX_ZIPPED (256 * 1024)
+#define MOONCLIENT_MAP_EDIT_MAX_TEXT (4 * 1024 * 1024)
+
+// CZ (client -> serveur) : un morceau du document qu'enregistre le staff, fondé
+// sur `base_revision`. VARIABLE : au plus MOONCLIENT_MAP_EDIT_PUT_CHUNK octets en
+// queue. Gate BOURGEON_UI_MAP_EDITS et moonclient_map_edit_level DANS le handler.
+// Layout: [type:2][len:2][map:16][base_revision:4][zipped_size:4][text_size:4]
+//         [offset:4] puis les octets du morceau
+struct PACKET_CZ_MOONCLIENT_MAP_EDIT_PUT {
+	int16  packetType;
+	int16  packetLength;
+	char   map[MAP_NAME_LENGTH_EXT];
+	uint32 base_revision;
+	uint32 zipped_size;
+	uint32 text_size;
+	uint32 offset;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONCLIENT_MAP_EDIT_PUT, 0x0f45);
+
+// ZC (serveur -> client) : le verdict d'un envoi, à son auteur. Fixe 25.
+// `revision` : la nouvelle si accepté, celle que le serveur détient si périmé.
+// Layout: [type:2][len:2][map:16][result:1][revision:4]
+struct PACKET_ZC_MOONCLIENT_MAP_EDIT_RESULT {
+	int16  packetType;
+	int16  packetLength;
+	char   map[MAP_NAME_LENGTH_EXT];
+	uint8  result;  ///< e_moonclient_map_edit_result
+	uint32 revision;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONCLIENT_MAP_EDIT_RESULT, 0x0f46);
+
+// ZC (serveur -> client) : un morceau d'un document servi. VARIABLE : au plus
+// MOONCLIENT_MAP_EDIT_DOC_CHUNK octets en queue.
+// Layout: [type:2][len:2][map:16][revision:4][zipped_size:4][text_size:4]
+//         [offset:4][author:24] puis les octets du morceau
+struct PACKET_ZC_MOONCLIENT_MAP_EDIT_DOC {
+	int16  packetType;
+	int16  packetLength;
+	char   map[MAP_NAME_LENGTH_EXT];
+	uint32 revision;
+	uint32 zipped_size;
+	uint32 text_size;
+	uint32 offset;
+	char   author[NAME_LENGTH];  ///< le personnage qui l'a enregistré
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONCLIENT_MAP_EDIT_DOC, 0x0f47);
+
+// ZC (serveur -> client) : la révision que le serveur détient pour la carte où
+// se tient le joueur — 0 : aucune —, et s'il peut publier. Toujours envoyée à
+// l'entrée sur une carte, et à l'annonce du bit. Fixe 25.
+// Layout: [type:2][len:2][map:16][revision:4][can_publish:1]
+struct PACKET_ZC_MOONCLIENT_MAP_EDIT_REVISION {
+	int16  packetType;
+	int16  packetLength;
+	char   map[MAP_NAME_LENGTH_EXT];
+	uint32 revision;
+	uint8  can_publish;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONCLIENT_MAP_EDIT_REVISION, 0x0f48);
+
+// CZ (client -> serveur) : demander le document de la carte où se tient le
+// joueur. Fixe 20. Servi au plus une fois toutes les
+// MOONCLIENT_MAP_EDIT_GET_DELAY millisecondes par session.
+// Layout: [type:2][len:2][map:16]
+struct PACKET_CZ_MOONCLIENT_MAP_EDIT_GET {
+	int16 packetType;
+	int16 packetLength;
+	char  map[MAP_NAME_LENGTH_EXT];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONCLIENT_MAP_EDIT_GET, 0x0f49);
+
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
 //
@@ -7867,7 +7962,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_HATEFFECT_MAP, 0x0f17);
 // client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans
 // la zone sûre 0x0F00+ (2026-07-03). Le prochain opcode libre est tenu par
 // bopcodes::kNextFree, dans src/features/systems/bourgeon_opcodes.h de Bourgeon
-// (0x0F45 à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
+// (0x0F4A à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
 
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)

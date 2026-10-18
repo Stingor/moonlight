@@ -46,6 +46,7 @@
 #include "itemdb.hpp"
 #include "log.hpp"
 #include "mail.hpp"
+#include "map_edits.hpp"
 #include "market.hpp"
 #include "map.hpp"
 #include "mercenary.hpp"
@@ -9099,6 +9100,9 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	// [Stingor] Les réglages du serveur, dès que le client sait les lire.
 	if (!(before & BOURGEON_UI_SERVER_RULES) && (p->caps & BOURGEON_UI_SERVER_RULES))
 		clif_bourgeon_server_rules(*sd);
+	// [Stingor] La révision de l'édition de la carte, dès que le client sait la lire.
+	if (!(before & BOURGEON_UI_MAP_EDITS) && (p->caps & BOURGEON_UI_MAP_EDITS))
+		map_edits_announce(*sd);
 	// [Stingor] Les maîtres des compagnons déjà en vue.
 	if (!(before & BOURGEON_UI_COMPANION_MASTER) && (p->caps & BOURGEON_UI_COMPANION_MASTER))
 		map_foreachinallrange(clif_bourgeon_companion_master_seen_sub, sd, pc_view_range(*sd), BL_HOM | BL_MER | BL_PET | BL_ELEM, sd);
@@ -18025,8 +18029,12 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 	// sienne : elle dépend de la carte (pc_view_range).
 	const int32 view_range = pc_view_range(*sd);
 	map_foreachinallarea(clif_getareachar, sd->m, sd->x - view_range, sd->y - view_range, sd->x + view_range, sd->y + view_range, BL_ALL, sd);
-	if (sd->state.moonclient)
+	if (sd->state.moonclient) {
 		clif_bourgeon_server_rules(*sd);
+		// [Stingor] La révision de l'édition de cette carte : le client la compare
+		// à la sienne, et demande le document si elles diffèrent.
+		map_edits_announce(*sd);
+	}
 
 	// pet
 	if (sd->pd) {

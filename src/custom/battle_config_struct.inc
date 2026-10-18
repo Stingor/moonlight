@@ -77,3 +77,7 @@
 	// (Hiding, Cloaking, Chase Walk, invisible) et leurs mouvements, malgre
 	// hide_cloaked_units et update_enemy_position. 100 = personne.
 	int32 hidden_units_view_level;
+	// Le niveau de groupe a partir duquel un joueur de moonclient publie les
+	// editions de carte (CZ 0x0F45) : le serveur les range et les diffuse.
+	// 100 = personne.
+	int32 moonclient_map_edit_level;

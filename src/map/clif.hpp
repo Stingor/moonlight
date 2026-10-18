@@ -1941,7 +1941,10 @@ enum e_bourgeon_ui_cap : uint32 {
 	// Ce client sait dessiner l'habit du GM d'un joueur (ZC_MOONLIGHT_GM_OUTFIT
 	// 0x0F44). Réservé à moonclient : la DLL ne l'annonce pas.
 	BOURGEON_UI_GM_OUTFIT = 0x00010000,
-	// Prochain bit libre : 0x00020000.
+	// Ce client sait lire les éditions de carte (ZC 0x0F46 à 0x0F48), et les
+	// envoyer (CZ 0x0F45, 0x0F49). Réservé à moonclient : la DLL ne l'annonce pas.
+	BOURGEON_UI_MAP_EDITS = 0x00020000,
+	// Prochain bit libre : 0x00040000.
 };
 
 // [Stingor] Les réglages du serveur utiles au client (ZC 0x0F38), à une session

@@ -2112,6 +2112,12 @@ parseable_packet(HEADER_CZ_MOONLIGHT_MARKET_REQ, -1, clif_parse_moonlight_market
 // Gate niveau de groupe >= 99 DANS le handler, rediffusé à la zone — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_GM_OUTFIT, sizeof(PACKET_CZ_MOONLIGHT_GM_OUTFIT), clif_parse_moonlight_gm_outfit, 0);
 
+// [Stingor] moonclient : les éditions de carte (map_edits.cpp). Gate
+// BOURGEON_UI_MAP_EDITS DANS les handlers, et moonclient_map_edit_level pour
+// l'envoi — VARIABLE : la queue de PUT porte un morceau du document compressé.
+parseable_packet(HEADER_CZ_MOONCLIENT_MAP_EDIT_PUT, -1, clif_parse_moonclient_map_edit_put, 0);
+parseable_packet(HEADER_CZ_MOONCLIENT_MAP_EDIT_GET, sizeof(PACKET_CZ_MOONCLIENT_MAP_EDIT_GET), clif_parse_moonclient_map_edit_get, 0);
+
 // [Stingor] Bourgeon : état de l'entité ciblée (fenêtre de cible). Le client
 // redemande tant que sa fenêtre est ouverte ; aucun état serveur — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_TARGET_INFO, sizeof(PACKET_CZ_MOONLIGHT_TARGET_INFO), clif_parse_moonlight_target_info, 0);

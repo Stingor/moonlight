@@ -56,6 +56,7 @@
 #include "quest.hpp"
 #include "storage.hpp"
 #include "card_album.hpp" // card_album_close : le verrou de l'album rendu à la déconnexion
+#include "map_edits.hpp" // map_edits_on_logout : le transfert entrant jeté à la déconnexion
 #include "trade.hpp"
 
 using namespace rathena;
@@ -2393,6 +2394,8 @@ int32 map_quit(map_session_data *sd) {
 	// [Stingor] MVP tracker : sortir de l'index de diffusion avant tout le reste,
 	// y compris avant le retour anticipé des sessions non actives.
 	mvp_tracker_on_logout(*sd);
+	// [Stingor] Éditions de carte : le transfert entrant de la session est jeté.
+	map_edits_on_logout(*sd);
 
 	if (sd->state.keepshop == false) { // Close vending/buyingstore
 		if (sd->state.vending)
@@ -5301,6 +5304,7 @@ void MapServer::finalize(){
 
 #ifndef MAP_GENERATOR
 	do_final_admin(); // [Stingor] custom: admin channel (src/map/admin.cpp)
+	map_edits_final();
 #endif
 	do_final_atcommand();
 	do_final_battle();
@@ -5728,6 +5732,8 @@ bool MapServer::initialize( int32 argc, char *argv[] ){
 	// Groups and members come back from SQL; observations do NOT, by design.
 	mvp_tracker_build_registry();
 	mvp_tracker_load_groups();
+	// [Stingor] Les éditions de carte de moonclient, lues une fois et gardées en mémoire.
+	map_edits_load();
 #endif
 
 #ifndef MAP_GENERATOR

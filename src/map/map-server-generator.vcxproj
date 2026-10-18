@@ -223,6 +223,7 @@
     <ClInclude Include="mail.hpp" />
     <ClInclude Include="map.hpp" />
     <ClInclude Include="mapreg.hpp" />
+    <ClInclude Include="map_edits.hpp" />
     <ClInclude Include="market.hpp" />
     <ClInclude Include="mercenary.hpp" />
     <ClInclude Include="mob.hpp" />
@@ -275,6 +276,7 @@
     <ClCompile Include="mail.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="mapreg.cpp" />
+    <ClCompile Include="map_edits.cpp" />
     <ClCompile Include="market.cpp" />
     <ClCompile Include="mercenary.cpp" />
     <ClCompile Include="mob.cpp">
