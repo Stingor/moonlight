@@ -14849,11 +14849,15 @@ void clif_parse_BankClose(int32 fd, map_session_data* sd) {
  * 09A6 <Bank_Vault>Q <Reason>W (ZC_BANKING_CHECK)
  */
 void clif_Bank_Check( map_session_data& sd ){
+	clif_bank_check_amount( sd, sd.bank_vault );
+}
+
+void clif_bank_check_amount( map_session_data& sd, int64 money ){
 #if PACKETVER >= 20130717
 	PACKET_ZC_BANKING_CHECK p = {};
 
 	p.packetType = HEADER_ZC_BANKING_CHECK;
-	p.money = sd.bank_vault;
+	p.money = money;
 	p.reason = 0;
 
 	clif_send( &p, sizeof( p ), &sd, SELF );
@@ -14912,6 +14916,9 @@ void clif_parse_BankDeposit(int32 fd, map_session_data* sd) {
 	const PACKET_CZ_REQ_BANKING_DEPOSIT* p = reinterpret_cast<PACKET_CZ_REQ_BANKING_DEPOSIT*>( RFIFOP( fd, 0 ) );
 
 	nullpo_retv(sd);
+	// [Stingor] @banktest : la demande est arrivée, avant toute garde.
+	if( sd->state.bank_test )
+		ShowInfo( "[banktest] %s : depot demande de %d\n", sd->status.name, p->zeny );
 	if( !battle_config.feature_banking ) {
 		clif_messagecolor(sd,color_table[COLOR_RED],msg_txt(sd,1496),false,SELF); //Banking is disabled
 		return;
@@ -14955,6 +14962,9 @@ void clif_parse_BankWithdraw(int32 fd, map_session_data* sd) {
 	const PACKET_CZ_REQ_BANKING_WITHDRAW* p = reinterpret_cast<PACKET_CZ_REQ_BANKING_WITHDRAW*>( RFIFOP( fd, 0 ) );
 
 	nullpo_retv(sd);
+	// [Stingor] @banktest : la demande est arrivée, avant toute garde.
+	if( sd->state.bank_test )
+		ShowInfo( "[banktest] %s : retrait demande de %d\n", sd->status.name, p->zeny );
 	if( !battle_config.feature_banking ) {
 		clif_messagecolor(sd,color_table[COLOR_RED],msg_txt(sd,1496),false,SELF); //Banking is disabled
 		return;

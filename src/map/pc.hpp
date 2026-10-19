@@ -506,6 +506,7 @@ public:
 		/// écrit en base pour cette session, et elle ne peut toujours rien demander.
 		bool bourgeon_cosmetic: 1;
 		bool discord_chat: 1; ///< player opted in to outbound chat relay to Discord
+		bool bank_test: 1;    ///< @banktest : un solde fictif a été envoyé ; les demandes de dépôt et de retrait sont journalisées. Non sauvegardé.
 		uint32 autolootpognon;
 		uint8 sort_inv;      ///< e_sort_mode: tri préféré pour l'inventaire
 		uint8 sort_cart;     ///< e_sort_mode: tri préféré pour le chariot

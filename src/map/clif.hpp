@@ -942,6 +942,8 @@ void clif_sitting ( const block_list& bl );
 void clif_standing( const block_list& bl );
 void clif_show_wings(const map_session_data* sd); // [Stingor]
 void clif_hide_wings(const map_session_data* sd); // [Stingor]
+// [Stingor] ZC_BANKING_CHECK portant `money` au lieu du solde réel (@banktest).
+void clif_bank_check_amount( map_session_data& sd, int64 money );
 void clif_sprite_change( const block_list* bl, int32 id, int32 type, int32 val, int32 val2, enum send_target target );
 void clif_changelook(block_list* bl,int32 type,int32 val);	// area
 void clif_changetraplook( const block_list* bl,int32 val ); // area
