@@ -80,7 +80,12 @@ typedef uint32 t_itemid;
 #define MAX_SLOTS 4
 #define MAX_AMOUNT 30000 ////Max amount of a single stacked item
 #define MAX_ZENY INT_MAX ///Max zeny
-#define MAX_BANK_ZENY SINT32_MAX ///Max zeny in Bank
+// [Stingor] Plafond de la banque, en int64 : 9 999 999 999 999 999 zeny, le plus
+// grand nombre à seize chiffres. Il laisse environ 9,2e18 de marge sous
+// INT64_MAX : `solde + dépôt` (un dépôt tient dans un int32) et
+// `solde - nouveau solde` ne débordent jamais. Le client le lit dans les règles
+// du serveur (ZC_MOONLIGHT_SERVER_RULES, BOURGEON_RULE_BANK_ZENY_MAX_*).
+#define MAX_BANK_ZENY INT64_C(9999999999999999) ///Max zeny in Bank
 #ifndef MAX_CASHPOINT
 	#define MAX_CASHPOINT INT_MAX
 #endif
@@ -1252,6 +1257,10 @@ struct clan{
 #if MAX_ZENY > INT_MAX
 #error MAX_ZENY is too big
 #endif
+
+// [Stingor] Un dépôt (au plus MAX_ZENY) ajouté au solde ne doit pas déborder.
+static_assert(MAX_BANK_ZENY >= MAX_ZENY && MAX_BANK_ZENY <= INT64_MAX - MAX_ZENY,
+	"MAX_BANK_ZENY : solde + dépôt doit tenir dans un int64");
 
 // This sanity check is required, because some other places(like skill.cpp) rely on this
 #if MAX_PARTY < 2

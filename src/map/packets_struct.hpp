@@ -6928,7 +6928,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_UNIT_MASTER, 0x0f37);
 // [Stingor] ZC_MOONLIGHT_SERVER_RULES (0x0F38) — les réglages du serveur dont le
 // client a besoin pour ne pas les supposer : rayon de vue, niveaux maximum de
 // l'homoncule, délai d'attaque après la téléportation de l'homoncule, taxe des
-// échoppes de vente et son seuil.
+// échoppes de vente et son seuil, plafond de la banque.
 //
 // Liste de paires clé / valeur : une clé que le client ne connaît pas est
 // ignorée, si bien qu'en ajouter une ne casse aucun client.
@@ -6945,6 +6945,13 @@ enum e_bourgeon_server_rule : uint16 {
 	BOURGEON_RULE_VENDING_TAX_MIN     = 6, ///< battle_config.vending_tax_min (zeny)
 	BOURGEON_RULE_GAME_AREA_SIZE      = 7, ///< battle_config.area_size : portée du JEU (compagnons, PNJ, échoppes)
 	BOURGEON_RULE_MAX_WALK_PATH       = 8, ///< battle_config.max_walk_path (pas)
+	// Le plafond de la banque, MAX_BANK_ZENY : un int64 qu'une valeur de quatre
+	// octets ne porte pas, d'où DEUX clés, toujours envoyées ensemble dans la
+	// même trame. Chacune porte les 32 bits de sa moitié, en motif brut (une
+	// moitié peut se lire négative en int32). Un client qui ne les connaît
+	// pas les ignore et garde son plafond.
+	BOURGEON_RULE_BANK_ZENY_MAX_LOW   = 9,  ///< MAX_BANK_ZENY, bits 0 à 31
+	BOURGEON_RULE_BANK_ZENY_MAX_HIGH  = 10, ///< MAX_BANK_ZENY, bits 32 à 63
 };
 
 struct PACKET_ZC_MOONLIGHT_SERVER_RULES_entry {

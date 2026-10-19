@@ -8863,7 +8863,7 @@ BUILDIN_FUNC(disableitemuse)
  *------------------------------------------*/
 BUILDIN_FUNC(readparam)
 {
-	int32 value;
+	int64 value; // [Stingor] int64 : BankVault depasse 2^31
 	struct script_data *data = script_getdata(st, 2);
 	TBL_PC *sd = nullptr;
 
@@ -8884,12 +8884,12 @@ BUILDIN_FUNC(readparam)
 	// If you use a parameter, return the value behind it
 	if( reference_toparam(data) ){
 		get_val_(st, data, sd);
-		value = (int32)data->u.num;
+		value = data->u.num;
 	}else{
-		value = static_cast<int32>(pc_readparam(sd,script_getnum(st, 2)));
+		value = pc_readparam(sd,script_getnum(st, 2));
 	}
 
-	script_pushint(st,value);
+	script_pushint64(st,value);
 	return SCRIPT_CMD_SUCCESS;
 }
 

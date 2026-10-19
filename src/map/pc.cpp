@@ -2731,8 +2731,11 @@ void pc_reg_received(map_session_data *sd)
 		sd->mission_count = static_cast<unsigned char>(pc_readglobalreg(sd, add_str(TKMISSIONCOUNT_VAR)));
 	}
 
-	if (battle_config.feature_banking)
-		sd->bank_vault = static_cast<int32>(pc_readreg2(sd, BANK_VAULT_VAR));
+	if (battle_config.feature_banking) {
+		// [Stingor] int64, sans troncature ; borné par le plafond de la banque.
+		const int64 bank_vault_stored = pc_readreg2(sd, BANK_VAULT_VAR);
+		sd->bank_vault = cap_value(bank_vault_stored, static_cast<int64>(0), MAX_BANK_ZENY);
+	}
 
 	if (battle_config.feature_roulette) {
 		sd->roulette_point.bronze = static_cast<int32>(pc_readreg2(sd, ROULETTE_BRONZE_VAR));
@@ -11223,13 +11226,16 @@ bool pc_setparam(map_session_data *sd,int64 type,int64 val_tmp)
 		sd->status.font = val;
 		clif_font(sd);
 		return true;
-	case SP_BANK_VAULT:
-		if (val < 0)
+	case SP_BANK_VAULT: {
+		// [Stingor] Le solde est int64 : il se lit dans val_tmp, que `val` tronque.
+		if (val_tmp < 0)
 			return false;
-		log_zeny(*sd, LOG_TYPE_BANK, sd->status.char_id, -(sd->bank_vault - cap_value(val, 0, MAX_BANK_ZENY)));
-		sd->bank_vault = cap_value(val, 0, MAX_BANK_ZENY);
+		const int64 bank_vault_new = cap_value(val_tmp, static_cast<int64>(0), MAX_BANK_ZENY);
+		log_zeny(*sd, LOG_TYPE_BANK, sd->status.char_id, bank_vault_new - sd->bank_vault);
+		sd->bank_vault = bank_vault_new;
 		pc_setreg2(sd, BANK_VAULT_VAR, sd->bank_vault);
 		return true;
+	}
 	case SP_ROULETTE_BRONZE:
 		sd->roulette_point.bronze = val;
 		pc_setreg2(sd, ROULETTE_BRONZE_VAR, sd->roulette_point.bronze);
@@ -15669,7 +15675,9 @@ enum e_BANKING_DEPOSIT_ACK pc_bank_deposit(map_session_data *sd, int32 money) {
 		return BDA_ERROR;
 	}
 
-	uint32 limit_check = money + sd->bank_vault;
+	// [Stingor] En int64 : le solde peut dépasser 2^31, et MAX_BANK_ZENY laisse
+	// sous INT64_MAX la place d'un dépôt int32.
+	const int64 limit_check = static_cast<int64>(money) + sd->bank_vault;
 	if( money <= 0 || limit_check > MAX_BANK_ZENY ) {
 		return BDA_OVERFLOW;
 	} else if ( money > sd->status.zeny ) {
@@ -15696,7 +15704,7 @@ enum e_BANKING_WITHDRAW_ACK pc_bank_withdraw(map_session_data *sd, int32 money) 
 		return BWA_UNKNOWN_ERROR;
 	}
 
-	uint32 limit_check = money + sd->status.zeny;
+	const int64 limit_check = static_cast<int64>(money) + sd->status.zeny; // [Stingor] sans débordement
 	if( money <= 0 ) {
 		return BWA_UNKNOWN_ERROR;
 	} else if ( money > sd->bank_vault ) {

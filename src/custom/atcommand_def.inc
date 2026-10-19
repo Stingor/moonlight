@@ -58,4 +58,3 @@
 	ACMD_DEF(mvpslots),
 	ACMD_DEF(mvpgroup),
 	ACMD_DEF(mvpobs),
-	ACMD_DEF(banktest),
