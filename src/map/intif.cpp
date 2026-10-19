@@ -3467,12 +3467,19 @@ static bool intif_parse_StorageReceived(int32 fd)
 		return false;
 	}
 
+	p = (struct s_storage *)RFIFOP(fd,10);
+
+	// [Stingor] La réponse attendue est arrivée, chargée ou non : les storages
+	// alternatifs s'ouvrent de nouveau. Le char-server joint toujours la
+	// structure, en échec comme en succès.
+	if (type == TABLE_STORAGE && RFIFOW(fd,2)-10 == sz_stor && p->stor_id != 0
+		&& sd->premium_storage_pending_id == p->stor_id)
+		sd->premium_storage_pending_id = 0;
+
 	if (!RFIFOB(fd, 9)) {
 		ShowError("intif_parse_StorageReceived: Failed to load! (AID: %d, type: %d)\n", account_id, type);
 		return false;
 	}
-
-	p = (struct s_storage *)RFIFOP(fd,10);
 
 	switch (type) {
 		case TABLE_INVENTORY:
@@ -3505,6 +3512,21 @@ static bool intif_parse_StorageReceived(int32 fd)
 		ShowError("intif_parse_StorageReceived: data size error %d %" PRIuPTR "\n",RFIFOW(fd,2)-10 , sz_stor);
 		stor->status = false;
 		return false;
+	}
+
+	// [Stingor] Un AUTRE storage remplace celui en mémoire : rien de ce qui y a
+	// été modifié ne se perd. Il est sauvé tel quel avant d'être écrasé — la
+	// sauvegarde copie la structure dans le tampon d'envoi, et le char-server la
+	// traite avant toute demande ultérieure — et refermé s'il était affiché.
+	if (stor->stor_id != p->stor_id) {
+		if (stor->dirty && !intif_storage_save(sd, stor)) {
+			ShowWarning("intif_parse_StorageReceived: modified storage %d could not be saved, storage %d refused (User %d:%d)\n", stor->stor_id, p->stor_id, sd->status.account_id, sd->status.char_id);
+			return false;
+		}
+		if (stor == &sd->premiumStorage && sd->state.storage_flag == 3) {
+			sd->state.storage_flag = 0;
+			clif_storageclose(*sd);
+		}
 	}
 
 	memcpy(stor, p, sz_stor); //copy the items data to correct destination
@@ -3558,7 +3580,17 @@ static bool intif_parse_StorageReceived(int32 fd)
 
 		case TABLE_STORAGE:
 			 if (stor->stor_id && (stor->state.get == 1 || stor->state.put == 1))
-				 if (sd->state.pc_loaded) storage_premiumStorage_open(sd);
+				 if (sd->state.pc_loaded) {
+					 // [Stingor] Un autre storage déjà affiché garde la main : celui-ci
+					 // reste en mémoire, et un rangement différé qui l'attendait est
+					 // abandonné plutôt que de partir à une ouverture ultérieure.
+					 if (sd->state.storage_flag == 0)
+						 storage_premiumStorage_open(sd);
+					 else {
+						 sd->state.pending_storeall = false;
+						 sd->state.pending_storeall_cards_only = false;
+					 }
+				 }
 			 else {
 #ifdef VIP_ENABLE
 				if (!pc_isvip(sd))
@@ -3591,13 +3623,20 @@ static void intif_parse_StorageSaved(int32 fd)
 					if( RFIFOB( fd, 8 ) ){
 						// ShowInfo("Storage %d has been saved (AID: %d).\n", RFIFOL(fd, 2), RFIFOB(fd, 8) );
 
-						if( sd ){
+						// [Stingor] Seulement si c'est bien CE storage alternatif qui a
+						// été sauvé : l'accusé d'un storage déjà remplacé ne blanchit
+						// pas les modifications de son successeur. Et jamais pendant
+						// qu'il est ouvert (cf. plus bas).
+						if( sd && sd->premiumStorage.stor_id == RFIFOB( fd, 8 ) && sd->state.storage_flag != 3 ){
 							stor = &sd->premiumStorage;
 						}
 					}else{
 						// ShowInfo("Storage has been saved (AID: %d).\n", RFIFOL(fd, 2));
 
-						if( sd ){
+						// [Stingor] Un storage OUVERT a pu être modifié après l'envoi
+						// de la sauvegarde que cet accusé confirme : il reste « à
+						// sauver », et sa fermeture le sauvera de nouveau.
+						if( sd && sd->state.storage_flag != 1 ){
 							stor = &sd->storage;
 						}
 					}

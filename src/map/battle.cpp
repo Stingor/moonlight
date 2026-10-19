@@ -40,6 +40,14 @@ using namespace rathena;
 struct Battle_Config battle_config;
 static struct eri *delay_damage_ers; //For battle delay damage structures.
 
+// [Stingor] Posé le temps de battle_calc_attack_simulated() : le calcul reste
+// entier, chaque effet qu'il produirait est sauté.
+static bool battle_simulating = false;
+
+bool battle_is_simulating() {
+	return battle_simulating;
+}
+
 #ifndef MAX_ENEMY_SEARCH_COUNT
 	#define MAX_ENEMY_SEARCH_COUNT 30
 #endif
@@ -1675,7 +1683,7 @@ int64 battle_calc_damage(block_list *src,block_list *bl,struct Damage *d,int64 d
 
 	if( !damage )
 		return 0;
-	if( battle_config.ksprotection && mob_ksprotected(src, bl) )
+	if( battle_config.ksprotection && !battle_simulating && mob_ksprotected(src, bl) )
 		return 0;
 
 	if( map_getcell(bl->m, bl->x, bl->y, CELL_CHKMAELSTROM) && skill_id && skill_get_type(skill_id) != BF_MISC
@@ -1980,10 +1988,10 @@ int64 battle_calc_damage(block_list *src,block_list *bl,struct Damage *d,int64 d
 			}
 		}
 
-		if ((sce = sc->getSCE(SC_BLOODLUST)) && flag & BF_WEAPON && damage > 0 && rnd_chance(sce->val3, 100))
+		if ((sce = sc->getSCE(SC_BLOODLUST)) && flag & BF_WEAPON && damage > 0 && !battle_simulating && rnd_chance(sce->val3, 100))
 			status_heal(src, damage * sce->val4 / 100, 0, 1);
 
-		if ((sce = sc->getSCE(SC_BLOODSUCKER)) && flag & BF_WEAPON && damage > 0 && rnd() % 100 < (2 * sce->val1 - 1))
+		if ((sce = sc->getSCE(SC_BLOODSUCKER)) && flag & BF_WEAPON && damage > 0 && !battle_simulating && rnd() % 100 < (2 * sce->val1 - 1))
 			status_heal(src, damage * sce->val1 / 100, 0, 3);
 
 		if (flag&BF_MAGIC && bl->type == BL_PC && sc->getSCE(SC_GVG_GIANT) && sc->getSCE(SC_GVG_GIANT)->val4)
@@ -1991,17 +1999,17 @@ int64 battle_calc_damage(block_list *src,block_list *bl,struct Damage *d,int64 d
 
 		if (sc->getSCE(SC_POISONINGWEAPON) && flag&BF_SHORT && damage > 0) {
 			damage += damage * 10 / 100;
-			if (rnd() % 100 < sc->getSCE(SC_POISONINGWEAPON)->val3)
+			if (!battle_simulating && rnd() % 100 < sc->getSCE(SC_POISONINGWEAPON)->val3)
 				sc_start4(src, bl, (sc_type)sc->getSCE(SC_POISONINGWEAPON)->val2, 100, sc->getSCE(SC_POISONINGWEAPON)->val1, 0, 1, 0, (sc->getSCE(SC_POISONINGWEAPON)->val2 == SC_VENOMBLEED ? skill_get_time2(GC_POISONINGWEAPON, 1) : skill_get_time2(GC_POISONINGWEAPON, 2)));
 		}
 
-		if( sc->getSCE(SC__DEADLYINFECT) && (flag&(BF_SHORT|BF_MAGIC)) == BF_SHORT && damage > 0 && rnd()%100 < 30 + 10 * sc->getSCE(SC__DEADLYINFECT)->val1 )
+		if( sc->getSCE(SC__DEADLYINFECT) && (flag&(BF_SHORT|BF_MAGIC)) == BF_SHORT && damage > 0 && !battle_simulating && rnd()%100 < 30 + 10 * sc->getSCE(SC__DEADLYINFECT)->val1 )
 			status_change_spread(src, bl);
 
 		if (sc->getSCE(SC_STYLE_CHANGE) && sc->getSCE(SC_STYLE_CHANGE)->val1 == MH_MD_FIGHTING) {
 			TBL_HOM *hd = BL_CAST(BL_HOM,src); //when attacking
 
-			if (hd && (rnd()%100<50) ) hom_addspiritball(hd, 10); // According to WarpPortal, this is a flat 50% chance
+			if (hd && !battle_simulating && (rnd()%100<50) ) hom_addspiritball(hd, 10); // According to WarpPortal, this is a flat 50% chance
 		}
 
 		if (flag & BF_WEAPON && (sce = sc->getSCE(SC_ADD_ATK_DAMAGE)))
@@ -2013,7 +2021,7 @@ int64 battle_calc_damage(block_list *src,block_list *bl,struct Damage *d,int64 d
 		if (sc->getSCE(SC_UNLIMITEDHUMMINGVOICE) && flag&BF_MAGIC)
 			damage += damage * sc->getSCE(SC_UNLIMITEDHUMMINGVOICE)->val3 / 100;
 
-		if (tsd && (sce = sc->getSCE(SC_SOULREAPER))) {
+		if (tsd && !battle_simulating && (sce = sc->getSCE(SC_SOULREAPER))) {
 			if (rnd()%100 < sce->val2 && tsd->soulball < MAX_SOUL_BALL) {
 				clif_specialeffect(src, 1208, AREA);
 				pc_addsoulball( *tsd, 1, 5 + 3 * pc_checkskill(tsd, SP_SOULENERGY) );
@@ -2033,7 +2041,7 @@ int64 battle_calc_damage(block_list *src,block_list *bl,struct Damage *d,int64 d
 			damage = div_;
 	}
 
-	if (sd && pc_ismadogear(sd)) {
+	if (sd && pc_ismadogear(sd) && !battle_simulating) {
 		pc_overheat(*sd, (battle_get_weapon_element(*d, *src, *bl, skill_id, skill_lv, EQI_HAND_R, false) == ELE_FIRE ? 3 : 1));
 	}
 
@@ -2059,7 +2067,7 @@ int64 battle_calc_damage(block_list *src,block_list *bl,struct Damage *d,int64 d
 			damage = i64max(damage * ed->db->damagetaken / 100, 1);
 	}
 
-	if (tsc != nullptr && !tsc->empty()) {
+	if (tsc != nullptr && !tsc->empty() && !battle_simulating) {
 		if (!battle_status_block_damage(src, bl, tsc, d, damage, skill_id, skill_lv)) // Statuses that reduce damage to 0.
 			return 0;
 	}
@@ -3116,8 +3124,10 @@ static bool is_attack_critical(struct Damage* wd, block_list *src, const block_l
 			case 0:
 				if(sc && !sc->getSCE(SC_AUTOCOUNTER))
 					break;
-				clif_specialeffect(src, EF_AUTOCOUNTER, AREA);
-				status_change_end(src, SC_AUTOCOUNTER);
+				if (!battle_simulating) {
+					clif_specialeffect(src, EF_AUTOCOUNTER, AREA);
+					status_change_end(src, SC_AUTOCOUNTER);
+				}
 				[[fallthrough]];
 			case KN_AUTOCOUNTER:
 				if(battle_config.auto_counter_type &&
@@ -4361,7 +4371,8 @@ static void battle_calc_multi_attack(struct Damage* wd, block_list *src,block_li
 					} // 12 % chance to attack 2 times.
 			}
 			wd->div_ = min(wd->div_,sd->inventory.u.items_inventory[i].amount);
-			sc->getSCE(SC_FEARBREEZE)->val4 = wd->div_-1;
+			if (!battle_simulating)
+				sc->getSCE(SC_FEARBREEZE)->val4 = wd->div_-1;
 			if (wd->div_ > 1)
 				wd->type = DMG_MULTI_HIT;
 		}
@@ -4393,7 +4404,8 @@ static void battle_calc_multi_attack(struct Damage* wd, block_list *src,block_li
 			wd->div_ = skill_get_num(GS_CHAINACTION,skill_lv);
 			wd->type = DMG_MULTI_HIT;
 
-			sc_start(src,src,SC_QD_SHOT_READY,100,target->id,skill_get_time(RL_QD_SHOT,1));
+			if (!battle_simulating)
+				sc_start(src,src,SC_QD_SHOT_READY,100,target->id,skill_get_time(RL_QD_SHOT,1));
 		}
 	}
 }
@@ -4497,8 +4509,10 @@ static int32 battle_calc_attack_skill_ratio(struct Damage* wd, block_list *src,b
 				else
 					skillratio += 30 * sce->val1;
 				// This attack has a chance to cause poison
-				sc_start2(src, target, SC_POISON, sce->val3, sce->val1, src->id, skill_get_time2(AS_POISONREACT, sce->val1), sstatus->amotion);
-				status_change_end(src, SC_POISONREACT);
+				if (!battle_simulating) {
+					sc_start2(src, target, SC_POISON, sce->val3, sce->val1, src->id, skill_get_time2(AS_POISONREACT, sce->val1), sstatus->amotion);
+					status_change_end(src, SC_POISONREACT);
+				}
 			}
 			if (sc->getSCE(SC_CRUSHSTRIKE)) {
 				if (sd) { //ATK [{Weapon Level * (Weapon Upgrade Level + 6) * 100} + (Weapon ATK) + (Weapon Weight)]%
@@ -4508,8 +4522,10 @@ static int32 battle_calc_attack_skill_ratio(struct Damage* wd, block_list *src,b
 						skillratio += -100 + sd->inventory_data[index]->weight / 10 + sd->inventory_data[index]->atk +
 							100 * sd->inventory_data[index]->weapon_level * (sd->inventory.u.items_inventory[index].refine + 6);
 				}
-				status_change_end(src,SC_CRUSHSTRIKE);
-				skill_break_equip(src,src,EQP_WEAPON,2000,BCT_SELF);
+				if (!battle_simulating) {
+					status_change_end(src,SC_CRUSHSTRIKE);
+					skill_break_equip(src,src,EQP_WEAPON,2000,BCT_SELF);
+				}
 			} else {
 				if (sc->getSCE(SC_GIANTGROWTH) && (sd->class_&MAPID_THIRDMASK) == MAPID_RUNE_KNIGHT) { // Increase damage again if Crush Strike is not active
 					if (map_flag_vs(src->m)) // Only half of the 2.5x increase on versus-type maps
@@ -5014,7 +5030,7 @@ static void battle_calc_attack_plant(struct Damage* wd, block_list *src,block_li
 	status_data* tstatus = status_get_status_data(*target);
 	bool attack_hits = is_attack_hitting(wd, src, target, skill_id, skill_lv, false);
 
-	if (skill_id != SN_SHARPSHOOTING && skill_id != RA_ARROWSTORM)
+	if (skill_id != SN_SHARPSHOOTING && skill_id != RA_ARROWSTORM && !battle_simulating)
 		status_change_end(src, SC_CAMOUFLAGE);
 
 	//Plants receive 1 damage when hit
@@ -5168,7 +5184,7 @@ block_list *battle_check_devotion(block_list *bl) {
 static void battle_calc_attack_gvg_bg(struct Damage* wd, block_list *src,block_list *target,uint16 skill_id,uint16 skill_lv)
 {
 	if( wd->damage + wd->damage2 ) { //There is a total damage value
-		if( src != target && //Don't reflect your own damage (Grand Cross)
+		if( src != target && !battle_simulating && //Don't reflect your own damage (Grand Cross)
 			(!skill_id || skill_id ||
 			(src->type == BL_SKILL && (skill_id == SG_SUN_WARM || skill_id == SG_MOON_WARM || skill_id == SG_STAR_WARM))) ) {
 				int64 damage = wd->damage + wd->damage2, rdamage = 0;
@@ -5240,7 +5256,7 @@ static void battle_calc_weapon_final_atk_modifiers(struct Damage* wd, block_list
 	int32 skill_damage = 0;
 
 	//Reject Sword bugreport:4493 by Daegaladh
-	if(wd->damage && tsc && tsc->getSCE(SC_REJECTSWORD) &&
+	if(wd->damage && tsc && !battle_simulating && tsc->getSCE(SC_REJECTSWORD) &&
 		(src->type!=BL_PC || (
 			((TBL_PC *)src)->weapontype1 == W_DAGGER ||
 			((TBL_PC *)src)->weapontype1 == W_1HSWORD ||
@@ -5260,7 +5276,7 @@ static void battle_calc_weapon_final_atk_modifiers(struct Damage* wd, block_list
 	}
 
 	// Poison React Envenom Level 5 Autocast
-	if (tsc != nullptr && wd->damage > 0) {
+	if (tsc != nullptr && wd->damage > 0 && !battle_simulating) {
 		if (status_change_entry* sce = tsc->getSCE(SC_POISONREACT); sce != nullptr && rnd_chance_official(sce->val3, 100)) {
 			if (status_check_skilluse(target, src, TF_POISON, 0))
 				skill_attack(BF_WEAPON, target, target, src, TF_POISON, 5, gettick(), 0);
@@ -5270,7 +5286,7 @@ static void battle_calc_weapon_final_atk_modifiers(struct Damage* wd, block_list
 		}
 	}
 
-	if( tsc && tsc->getSCE(SC_CRESCENTELBOW) && wd->flag&BF_SHORT && rnd()%100 < tsc->getSCE(SC_CRESCENTELBOW)->val2 ) {
+	if( tsc && !battle_simulating && tsc->getSCE(SC_CRESCENTELBOW) && wd->flag&BF_SHORT && rnd()%100 < tsc->getSCE(SC_CRESCENTELBOW)->val2 ) {
 		//ATK [{(Target HP / 100) x Skill Level} x Caster Base Level / 125] % + [Received damage x {1 + (Skill Level x 0.2)}]
 		int64 rdamage = 0;
 		int32 ratio = (int64)(status_get_hp(src) / 100) * tsc->getSCE(SC_CRESCENTELBOW)->val1 * status_get_lv(target) / 125;
@@ -5297,9 +5313,10 @@ static void battle_calc_weapon_final_atk_modifiers(struct Damage* wd, block_list
 					hp = sstatus->hp;
 			} else
 				hp = 2*hp/100; //2% hp loss per hit
-			status_zap(src, hp, 0);
+			if (!battle_simulating)
+				status_zap(src, hp, 0);
 		}
-		if (sc->getSCE(SC_VIGOR))
+		if (sc->getSCE(SC_VIGOR) && !battle_simulating)
 			status_zap(src, sc->getSCE(SC_VIGOR)->val2, 0);
 		// Only affecting non-skills
 		if (!skill_id && wd->dmg_lv > ATK_BLOCK) {
@@ -5315,7 +5332,7 @@ static void battle_calc_weapon_final_atk_modifiers(struct Damage* wd, block_list
 					ATK_ADD(wd->damage, wd->damage2, enchant_dmg);
 			}
 		}
-		if (skill_id != SN_SHARPSHOOTING && skill_id != RA_ARROWSTORM)
+		if (skill_id != SN_SHARPSHOOTING && skill_id != RA_ARROWSTORM && !battle_simulating)
 			status_change_end(src, SC_CAMOUFLAGE);
 	}
 
@@ -5408,7 +5425,7 @@ static struct Damage initialize_weapon_data(const block_list* src, const block_l
 void battle_do_reflect(int32 attack_type, struct Damage *wd, block_list* src, block_list* target, uint16 skill_id, uint16 skill_lv)
 {
 	// Don't reflect your own damage (Grand Cross)
-	if ((wd->damage + wd->damage2) && src && target && src != target && (src->type != BL_SKILL ||
+	if ((wd->damage + wd->damage2) && src && target && src != target && !battle_simulating && (src->type != BL_SKILL ||
 		(src->type == BL_SKILL && (skill_id == SG_SUN_WARM || skill_id == SG_MOON_WARM || skill_id == SG_STAR_WARM ))))
 	{
 		int64 damage = wd->damage + wd->damage2, rdamage = 0;
@@ -6756,7 +6773,8 @@ struct Damage battle_calc_misc_attack(block_list *src,block_list *target,uint16 
 			if (sd) {
 				if (md.damage > sd->status.zeny)
 					md.damage = sd->status.zeny * 2; // [Stingor]
-				pc_payzeny( sd, static_cast<int32>( cap_value(md.damage, INT_MIN, INT_MAX) / 2 ), LOG_TYPE_CONSUME );	// [Stingor]
+				if (!battle_simulating)
+					pc_payzeny( sd, static_cast<int32>( cap_value(md.damage, INT_MIN, INT_MAX) / 2 ), LOG_TYPE_CONSUME );	// [Stingor]
 			}
 			break;
 	}
@@ -6857,7 +6875,7 @@ struct Damage battle_calc_attack(int32 attack_type,block_list *bl,block_list *ta
 		if (tsc != nullptr && tsc->getSCE(SC_WEAPONBLOCKING)) {
 			status_change_entry *tsce = tsc->getSCE(SC_WEAPONBLOCKING);
 
-			if (attack_type == BF_WEAPON && rnd() % 100 < tsce->val2) {
+			if (attack_type == BF_WEAPON && !battle_simulating && rnd() % 100 < tsce->val2) {
 				clif_skill_nodamage(target, *bl, GC_WEAPONBLOCKING, tsce->val1);
 				sc_start(bl, target, SC_WEAPONBLOCK_ON, 100, bl->id, skill_get_time2(GC_WEAPONBLOCKING, tsce->val1));
 			}
@@ -6868,10 +6886,37 @@ struct Damage battle_calc_attack(int32 attack_type,block_list *bl,block_list *ta
 
 	map_session_data *sd = BL_CAST(BL_PC, bl);
 
-	if (sd && d.damage + d.damage2 > 1)
+	if (sd && d.damage + d.damage2 > 1 && !battle_simulating)
 		battle_vanish_damage(sd, target, d.flag);
 
 	return d;
+}
+
+/**
+ * [Stingor] battle_calc_attack() sans effet.
+ * Les effets du calcul côté attaquant sont sautés un à un sous battle_simulating.
+ * Ceux de la cible naissent de SES statuts : une cible posée sur une carte, ou
+ * portant un statut, est refusée, et le résultat est un coup nul.
+ */
+struct Damage battle_calc_attack_simulated(int32 attack_type, block_list* src, block_list* target, uint16 skill_id, uint16 skill_lv)
+{
+	Damage d = {};
+
+	nullpo_retr(d, src);
+	nullpo_retr(d, target);
+
+	if (src == target || target->prev != nullptr)
+		return d;
+	if (const status_change* tsc = status_get_sc(target); tsc != nullptr && !tsc->empty())
+		return d;
+
+	struct SimulationScope {
+		bool previous = battle_simulating;
+		SimulationScope() { battle_simulating = true; }
+		~SimulationScope() { battle_simulating = previous; }
+	} scope;
+
+	return battle_calc_attack(attack_type, src, target, skill_id, skill_lv, 0);
 }
 
 /*==========================================

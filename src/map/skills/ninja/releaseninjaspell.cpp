@@ -5,6 +5,7 @@
 
 #include <config/core.hpp>
 
+#include "map/battle.hpp"
 #include "map/map.hpp"
 #include "map/pc.hpp"
 #include "map/status.hpp"
@@ -18,7 +19,9 @@ void SkillReleaseNinjaSpell::calculateSkillRatio(const Damage *wd, const block_l
 	if(sd && sd->spiritcharm_type != CHARM_TYPE_NONE && sd->spiritcharm > 0) {
 		skillratio += -100 + 200 * sd->spiritcharm;
 		RE_LVL_DMOD(100);
-		pc_delspiritcharm(const_cast<map_session_data*>(sd), sd->spiritcharm, sd->spiritcharm_type);
+		// [Stingor] Une simulation de dégâts ne consomme pas les charmes.
+		if (!battle_is_simulating())
+			pc_delspiritcharm(const_cast<map_session_data*>(sd), sd->spiritcharm, sd->spiritcharm_type);
 	}
 }
 

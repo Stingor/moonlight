@@ -109,6 +109,13 @@ struct Damage {
 // Damage Calculation
 
 struct Damage battle_calc_attack(int32 attack_type,block_list *bl,block_list *target,uint16 skill_id,uint16 skill_lv,int32 flag);
+// [Stingor] Le même calcul, sans AUCUN effet : ni statut posé, consommé ou
+// retiré, ni soin, zeny, sphère, équipement, renvoi, diffusion, sur l'attaquant
+// comme sur la cible. La cible doit être une unité hors carte et sans statut.
+struct Damage battle_calc_attack_simulated(int32 attack_type, block_list* src, block_list* target, uint16 skill_id, uint16 skill_lv);
+// [Stingor] Vrai pendant battle_calc_attack_simulated() : tout code appelé par le
+// calcul qui produirait un effet le saute.
+bool battle_is_simulating();
 
 int64 battle_calc_return_damage(block_list *bl, block_list *src, int64 *, int32 flag, uint16 skill_id, bool status_reflect);
 

@@ -1760,6 +1760,14 @@ void clif_bourgeon_cook_mastery(map_session_data* sd);
 // Poussé au login vérifié et à chaque ouverture de storage — donc aussi quand le
 // storage NATIF est utilisé : le client se contente alors de le mémoriser.
 void clif_bourgeon_storage_list(map_session_data* sd, uint8 cur_id);
+// [Stingor] Vrai si un onglet peut ouvrir le storage `stor_id` maintenant, avec
+// les MÊMES refus que la commande tapée (@storage / @storagealtN) passée par
+// is_atcommand : spectateur, dialogue NPC qui coupe les commandes, mute de
+// commande (MANNER_NOCOMMAND), carte `nocommand`, commandes bloquées, droit de
+// groupe, mort, échange ou boutique en cours, storage de guilde ouvert. Faux :
+// le refus est déjà dit au joueur par le même message que la commande, ou tu
+// comme elle.
+bool clif_moonlight_storage_tab_allowed(map_session_data& sd, uint8 stor_id);
 // ZC 0x0F21 : canaux de chat atteignables par ce personnage (carte, alliance,
 // publics de channels.conf filtrés par groupe). Poussé au login vérifié — la
 // combo de la barre de chat Bourgeon les propose à côté des modes natifs, et

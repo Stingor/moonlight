@@ -1284,12 +1284,16 @@ ACMD_FUNC(storealbum)
 		// slot. Le tableau, lui, ne se compacte pas — iterer par index reste sur.
 		const uint16 amount = (uint16)it.amount;
 
-		if (card_album_put(sd, (int16)i, amount) == CARD_ALBUM_OK)
+		// [Stingor] Une seule sauvegarde de l'inventaire pour toute la boucle,
+		// juste après elle : pas une par pile.
+		if (card_album_put(sd, (int16)i, amount, false) == CARD_ALBUM_OK)
 			moved += amount;
 	}
 
-	if (moved > 0)
+	if (moved > 0) {
+		card_album_save_inventory(sd);
 		clif_bourgeon_card_album(*sd, CARD_ALBUM_OK);
+	}
 
 	if (!held_before)
 		card_album_close(sd);

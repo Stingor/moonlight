@@ -126,6 +126,11 @@ TRANSLATE_TOKEN   = os.environ.get("TRANSLATE_TOKEN",   "")
 DISCORD_WEBHOOK      = os.environ.get("DISCORD_WEBHOOK",      "")  # vide = désactivé
 DISCORD_OUTBOUND_WEBHOOK = os.environ.get("DISCORD_OUTBOUND_WEBHOOK", "")  # webhook Bourgeon pour l'outbound in-game
 DISCORD_BUGREPORT_WEBHOOK = os.environ.get("DISCORD_BUGREPORT_WEBHOOK", "")  # webhook du canal #bug-reports (vide = repli sur l'outbound)
+# [Stingor] Posé dans CHAQUE payload de webhook : le texte vient des joueurs (ou
+# d'un modèle qu'ils interrogent), et aucun « @everyone », « @here », rôle ni
+# membre ne doit en devenir une vraie mention. Les mentions restent lisibles,
+# elles ne notifient personne.
+DISCORD_NO_MENTIONS = {"parse": []}
 DISCORD_BOT_TOKEN    = os.environ.get("DISCORD_BOT_TOKEN",    "")  # token du bot pour lire le channel
 DISCORD_READ_CHANNEL = os.environ.get("DISCORD_READ_CHANNEL", "")  # ID du channel à scruter
 DISCORD_POLL_SEC     = float(os.environ.get("DISCORD_POLL_SEC", "2.0"))  # intervalle de poll (s)
@@ -2921,6 +2926,7 @@ def _discord_post(player: str, message: str, response: str):
             disp = re.sub(r'^@[A-Z]+@\|?', '', response).replace('|', ' ')
             payload = json.dumps({
                 "content": disp[:2000] or "...",
+                "allowed_mentions": DISCORD_NO_MENTIONS,
             }).encode("utf-8")
             req = urllib.request.Request(
                 DISCORD_WEBHOOK,
@@ -3302,6 +3308,9 @@ def _discord_outbound_poll(conn):
                         # le recadre dans son cercle et l'agrandit, d'où pieds coupés et
                         # rendu flou). Généré par la page UCP « Avatar » du site.
                         wp["avatar_url"] = f"https://moonlight-destiny.fr/images/CacheAvatarDiscord/{char_id}.png"
+                # Embed comme ligne brute, contexte JSON lisible ou non : aucune
+                # mention ne part, quel que soit le chemin qui a construit `wp`.
+                wp["allowed_mentions"] = DISCORD_NO_MENTIONS
                 payload = json.dumps(wp).encode("utf-8")
                 req = urllib.request.Request(
                     target_webhook,

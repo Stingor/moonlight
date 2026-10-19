@@ -12,6 +12,7 @@
 #include <common/sql.hpp>
 
 #include "achievement.hpp" // achievement_update_objective : les paliers de collection
+#include "chrif.hpp" // chrif_save : l'inventaire suit l'album en base
 #include "clif.hpp"
 #include "itemdb.hpp"
 #include "log.hpp"
@@ -444,7 +445,9 @@ static e_card_album_result card_album_check_inventory( map_session_data* sd, int
 
 	// Same guards as storage: a card must not move while its owner is trading or
 	// has a storage open, or the two containers could disagree on who holds it.
-	if( pc_istrading( sd ) || sd->state.storage_flag != 0 ){
+	// [Stingor] pc_istrading2, comme les onglets de storage : la banque et la
+	// boutique d'appel comptent aussi.
+	if( pc_istrading2( sd ) || sd->state.storage_flag != 0 ){
 		return CARD_ALBUM_BUSY;
 	}
 
@@ -477,7 +480,12 @@ static e_card_album_result card_album_check_inventory( map_session_data* sd, int
 	return CARD_ALBUM_OK;
 }
 
-e_card_album_result card_album_unlock( map_session_data* sd, int16 inv_index ){
+void card_album_save_inventory( map_session_data* sd ){
+	nullpo_retv( sd );
+	chrif_save( sd, CSAVE_INVENTORY );
+}
+
+e_card_album_result card_album_unlock( map_session_data* sd, int16 inv_index, bool save ){
 	nullpo_retr( CARD_ALBUM_FAIL, sd );
 
 	t_itemid nameid = 0;
@@ -520,10 +528,14 @@ e_card_album_result card_album_unlock( map_session_data* sd, int16 inv_index ){
 	// aucun argument — d'ou le 0. Cf. achievement.cpp, case AG_CARD_ALBUM.
 	achievement_update_objective( sd, AG_CARD_ALBUM, 0 );
 
+	if( save ){
+		card_album_save_inventory( sd );
+	}
+
 	return CARD_ALBUM_OK;
 }
 
-e_card_album_result card_album_put( map_session_data* sd, int16 inv_index, uint16 amount ){
+e_card_album_result card_album_put( map_session_data* sd, int16 inv_index, uint16 amount, bool save ){
 	nullpo_retr( CARD_ALBUM_FAIL, sd );
 
 	t_itemid nameid = 0;
@@ -581,10 +593,14 @@ e_card_album_result card_album_put( map_session_data* sd, int16 inv_index, uint1
 	pc_delitem( sd, inv_index, amount, 0, 4, LOG_TYPE_STORAGE );
 	card_album_refresh_entry( sd, nameid );
 
+	if( save ){
+		card_album_save_inventory( sd );
+	}
+
 	return CARD_ALBUM_OK;
 }
 
-e_card_album_result card_album_get( map_session_data* sd, t_itemid nameid, uint16 amount ){
+e_card_album_result card_album_get( map_session_data* sd, t_itemid nameid, uint16 amount, bool save ){
 	nullpo_retr( CARD_ALBUM_FAIL, sd );
 
 	if( sd->status.user_id == 0 ){
@@ -595,7 +611,7 @@ e_card_album_result card_album_get( map_session_data* sd, t_itemid nameid, uint1
 		return CARD_ALBUM_NOT_OPEN;
 	}
 
-	if( pc_istrading( sd ) || sd->state.storage_flag != 0 ){
+	if( pc_istrading2( sd ) || sd->state.storage_flag != 0 ){
 		return CARD_ALBUM_BUSY;
 	}
 
@@ -667,6 +683,10 @@ e_card_album_result card_album_get( map_session_data* sd, t_itemid nameid, uint1
 
 	// The row stays at zero on purpose: it is the proof the slot was paid for.
 	card_album_refresh_entry( sd, nameid );
+
+	if( save ){
+		card_album_save_inventory( sd );
+	}
 
 	return CARD_ALBUM_OK;
 }

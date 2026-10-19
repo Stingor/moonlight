@@ -104,6 +104,7 @@ bool storage_premiumStorage_load(map_session_data *sd, uint8 num, uint8 mode);
 void storage_premiumStorage_save(map_session_data *sd);
 void storage_premiumStorage_close(map_session_data *sd);
 void storage_premiumStorage_quit(map_session_data *sd);
+bool storage_premiumStorage_loading(map_session_data *sd); // [Stingor] un chargement est en vol
 void storage_premiumStorage_storeall(map_session_data *sd); // [Stingor] @storeall N
 void storage_premiumStorage_storecards(map_session_data *sd); // [Stingor] @storecard
 

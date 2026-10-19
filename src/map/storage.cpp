@@ -329,6 +329,11 @@ int32 storage_storageopen(map_session_data *sd)
 	if (sd->state.storage_flag) // guild (2)
 		return 1;
 
+	// [Stingor] Un storage alternatif est en route : il s'ouvrira à son arrivée,
+	// et deux storages ne s'affichent jamais ensemble.
+	if (storage_premiumStorage_loading(sd))
+		return 1;
+
 	if( !pc_can_give_items(sd) ) { // check is this GM level is allowed to put items to storage
 		clif_displaymessage( sd->fd, msg_txt( sd, 246 ) ); // Your GM level doesn't authorize you to perform this action.
 		return 1;
@@ -772,6 +777,8 @@ char storage_guild_storageopen(map_session_data* sd)
 		return GSTORAGE_ALREADY_OPEN; // Guild storage already open.
 	else if (sd->state.storage_flag)
 		return GSTORAGE_STORAGE_ALREADY_OPEN; // Can't open both storages at a time.
+	else if (storage_premiumStorage_loading(sd))
+		return GSTORAGE_STORAGE_ALREADY_OPEN; // [Stingor] Un storage alternatif est en route : il s'ouvrira à son arrivée.
 
 #if PACKETVER >= 20140205
 	int32 pos;
@@ -1349,6 +1356,29 @@ void storage_premiumStorage_open(map_session_data *sd) {
 	}
 }
 
+// [Stingor] Au-delà, une demande de storage alternatif restée sans réponse (perte
+// du char-server) est tenue pour perdue : l'ouverture redevient possible. Sans
+// danger, intif_parse_StorageReceived sauvant d'abord un storage modifié qu'une
+// réponse tardive remplacerait.
+static const t_tick PREMIUM_STORAGE_REQUEST_TIMEOUT = 10000;
+
+/**
+ * [Stingor] Vrai tant qu'un storage alternatif demandé au char-server n'est pas
+ * arrivé.
+ * @param sd Player
+ **/
+bool storage_premiumStorage_loading(map_session_data *sd) {
+	nullpo_retr(false, sd);
+
+	if (sd->premium_storage_pending_id == 0)
+		return false;
+	if (DIFF_TICK(gettick(), sd->premium_storage_request_tick) >= PREMIUM_STORAGE_REQUEST_TIMEOUT) {
+		sd->premium_storage_pending_id = 0;
+		return false;
+	}
+	return true;
+}
+
 /**
  * Request to open premium storage
  * @param sd Player who request
@@ -1372,9 +1402,18 @@ bool storage_premiumStorage_load(map_session_data *sd, uint8 num, uint8 mode) {
 	}
 
 	// [Stingor] -->
-	if (sd->premiumStorage.stor_id != num)
-		return intif_storage_request(sd, TABLE_STORAGE, num, mode);
-	else {
+	// Un chargement en vol interdit toute ouverture, y compris depuis la copie
+	// en mémoire : la réponse attendue la remplacera.
+	if (storage_premiumStorage_loading(sd))
+		return 0;
+
+	if (sd->premiumStorage.stor_id != num) {
+		if (!intif_storage_request(sd, TABLE_STORAGE, num, mode))
+			return 0;
+		sd->premium_storage_pending_id = num;
+		sd->premium_storage_request_tick = gettick();
+		return 1;
+	} else {
 		sd->premiumStorage.state.put = (mode&STOR_MODE_PUT) ? 1 : 0;
 		sd->premiumStorage.state.get = (mode&STOR_MODE_GET) ? 1 : 0;
 		storage_premiumStorage_open(sd);

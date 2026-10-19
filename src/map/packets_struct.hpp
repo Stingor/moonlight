@@ -6692,9 +6692,11 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_STYLE_OPEN, 0x0f28);
 // n'est gardé ici : pas de timer à nettoyer, pas de fuite à la déconnexion, et
 // une fenêtre fermée ne coûte rien.
 //
-// 🔴 GATE PVP. Sur un autre JOUEUR, HP et SP ne partent QUE s'il est du même
-// groupe ou de la même guilde (ou soi-même). Un adversaire renvoie son type et
-// rien d'autre : c'est une information de jeu, elle ne se donne pas.
+// 🔴 GATE PVP. Les PV EXACTS et le SP ne partent que pour soi, son groupe, sa
+// guilde, ses propres compagnons, et un monstre dont le jeu montre déjà les PV
+// exacts au demandeur. Pour tout le reste, les PV partent en POURCENTAGE (bit
+// 16 de `known`). Une cible cachée que le demandeur ne verrait pas en jeu
+// répond statut 1, comme une cible hors de vue.
 struct PACKET_CZ_MOONLIGHT_TARGET_INFO {
 	int16  packetType;
 	int16  packetLength;
@@ -6706,7 +6708,8 @@ DEFINE_PACKET_HEADER(CZ_MOONLIGHT_TARGET_INFO, 0x0f29);
 //
 //   status : 0 = ok, 1 = hors de portée ou inexistante (la fenêtre se ferme).
 //   known  : masque de ce qui est RENSEIGNÉ — 1 = HP, 2 = SP, 4 = niveau,
-//            8 = race/élément/taille. Un champ dont le bit est à 0 est à ignorer :
+//            8 = race/élément/taille, 16 = PV en POURCENTAGE (avec le bit 1 :
+//            hp sur 0..100 et maxhp = 100). Un champ dont le bit est à 0 est à ignorer :
 //            « 0 PV » et « PV inconnus » ne se ressemblent pas à l'écran.
 //   type   : e_bourgeon_target_type (PC/MOB/NPC/HOM/MER/PET/ELEM), pas le masque
 //            bl_type qui ne tient pas dans un octet.
@@ -7666,7 +7669,15 @@ enum e_bourgeon_target_known : uint8 {
 	BOURGEON_TARGET_KNOWN_SP    = 2,
 	BOURGEON_TARGET_KNOWN_LEVEL = 4,
 	BOURGEON_TARGET_KNOWN_KIND  = 8,   // race + élément + taille + boss
+	// [Stingor] Posé AVEC KNOWN_HP : `hp` est un pourcentage entier (0..100) et
+	// `maxhp` vaut BOURGEON_TARGET_PERCENT_SCALE. Le rapport hp/maxhp reste juste,
+	// donc une jauge se remplit sans rien changer ; seuls les CHIFFRES ne doivent
+	// pas s'afficher comme des points de vie.
+	BOURGEON_TARGET_KNOWN_HP_PERCENT = 16,
 };
+
+// [Stingor] L'échelle des PV envoyés en pourcentage (BOURGEON_TARGET_KNOWN_HP_PERCENT).
+#define BOURGEON_TARGET_PERCENT_SCALE 100
 
 
 // ZC (server -> client): apport des ÉQUIPEMENTS et des CARTES aux stats, compilé

@@ -145,14 +145,26 @@ bool card_album_is_open( map_session_data* sd );
  * elle a disparu avec sa raison d'etre.
  */
 
+/// [Stingor] Ces trois opérations écrivent l'album en SQL sur-le-champ, et
+/// l'inventaire ne part en base qu'à la sauvegarde du personnage. Chacune,
+/// quand elle réussit, demande donc AUSSITÔT la sauvegarde de l'inventaire
+/// (card_album_save_inventory) : un arrêt du serveur ne laisse plus la carte
+/// aux deux endroits (dépôt) ni nulle part (retrait). Un appelant qui en
+/// enchaîne plusieurs passe `save = false` et appelle card_album_save_inventory
+/// une fois à la fin.
+
 /// Sacrifices one copy from inventory to open the slot. Fails if the slot is
 /// already open - that case is a deposit, and the caller must say which it meant.
-e_card_album_result card_album_unlock( map_session_data* sd, int16 inv_index );
+e_card_album_result card_album_unlock( map_session_data* sd, int16 inv_index, bool save = true );
 
 /// Moves copies from inventory into an ALREADY unlocked reserve.
-e_card_album_result card_album_put( map_session_data* sd, int16 inv_index, uint16 amount );
+e_card_album_result card_album_put( map_session_data* sd, int16 inv_index, uint16 amount, bool save = true );
 
 /// Moves copies from the reserve back to inventory. The row survives at zero.
-e_card_album_result card_album_get( map_session_data* sd, t_itemid nameid, uint16 amount );
+e_card_album_result card_album_get( map_session_data* sd, t_itemid nameid, uint16 amount, bool save = true );
+
+/// [Stingor] Envoie l'inventaire au char-server pour qu'il le range en base
+/// (chrif_save, CSAVE_INVENTORY).
+void card_album_save_inventory( map_session_data* sd );
 
 #endif /* CARD_ALBUM_HPP */

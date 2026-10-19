@@ -306,6 +306,55 @@ static bool clif_hidden_unit_withheld( const block_list& bl, const map_session_d
 	return !clif_sees_hidden_units( sd );
 }
 
+// [Stingor] Règle de cadence d'une famille de demandes custom : une demande
+// toutes les `interval` ms en régime établi, avec une rafale de `burst`
+// demandes acceptées d'affilée. La rafale couvre les enchaînements du client
+// (sacrifice puis dépôt du reste, plusieurs réponses du carnet dans une même
+// image) ; l'intervalle borne ce qu'un client modifié peut exiger du serveur.
+struct s_moonlight_throttle_rule {
+	t_tick interval;
+	int32 burst;
+};
+
+// Valeurs réglées au-dessus de l'usage du client moonclient : l'absence
+// n'ajoute un signe qu'après un délai d'inactivité, les annonces d'interface
+// qui balaient la zone ne partent qu'une fois par session, ailes et
+// @showmobinfo sont des cases cochées à la main, le client ne demande jamais
+// de clif_refresh, et presets, carnet et album suivent des clics.
+static constexpr s_moonlight_throttle_rule MOONLIGHT_THROTTLE_RULES[MOONLIGHT_THROTTLE_MAX] = {
+	{ 1000, 2 },  // MOONLIGHT_THROTTLE_AFK
+	{ 1000, 3 },  // MOONLIGHT_THROTTLE_WINGS
+	{ 1000, 3 },  // MOONLIGHT_THROTTLE_MOB_INFO
+	{ 5000, 1 },  // MOONLIGHT_THROTTLE_REFRESH
+	{ 2000, 1 },  // MOONLIGHT_THROTTLE_UI_CAPS
+	{  250, 4 },  // MOONLIGHT_THROTTLE_PRESET
+	{  250, 8 },  // MOONLIGHT_THROTTLE_MVP
+	{  200, 6 },  // MOONLIGHT_THROTTLE_CARD_ALBUM
+	{ 1000, 2 },  // MOONLIGHT_THROTTLE_CARD_ALBUM_REFUSAL
+	{  500, 5 },  // MOONLIGHT_THROTTLE_EVENT_POINTS
+};
+
+// [Stingor] Vrai si la demande de la famille `family` est dans la cadence, et
+// la compte ; faux si elle arrive trop tôt, et alors rien n'est compté. Une
+// seule échéance par famille et par session (algorithme du seau percé à
+// échéance) : chaque demande acceptée repousse l'échéance d'un intervalle, et
+// une demande est refusée tant que l'échéance dépasse l'instant présent de
+// plus que la rafale permise. L'appelant ignore la demande refusée, sans
+// journal : journaliser le refus serait le flot qu'on veut couper.
+static bool clif_moonlight_throttle_pass( map_session_data& sd, e_moonlight_throttle family ){
+	const s_moonlight_throttle_rule& rule = MOONLIGHT_THROTTLE_RULES[family];
+	const t_tick now = gettick();
+	t_tick& due = sd.moonlight_throttle_due[family];
+	const t_tick start = ( due == 0 || DIFF_TICK( due, now ) < 0 ) ? now : due;
+
+	if( DIFF_TICK( start, now ) > rule.interval * ( rule.burst - 1 ) ){
+		return false;
+	}
+
+	due = start + rule.interval;
+	return true;
+}
+
 static int32 clif_parse (int32 fd);
 
 /*==========================================
@@ -5972,6 +6021,66 @@ static const char* clif_bourgeon_storage_command(uint8 stor_id, char* buf, size_
 	return buf;
 }
 
+// [Stingor] Les refus de la commande tapée, dans l'ordre où is_atcommand puis
+// la commande elle-même les opposent, avec les mêmes messages — ou le même
+// silence. Un onglet n'ouvre ainsi rien que la commande, au même instant et au
+// même endroit, n'aurait ouvert.
+bool clif_moonlight_storage_tab_allowed(map_session_data& sd, uint8 stor_id) {
+	const int32 fd = sd.fd;
+
+	// is_atcommand : un spectateur ne commande rien.
+	if (sd.state.spectator)
+		return false;
+	// is_atcommand : un dialogue NPC qui coupe les commandes les coupe toutes.
+	if (sd.npc_id && sd.state.disable_atcommand_on_npc)
+		return false;
+	// is_atcommand : mute de commande, refusé sans un mot.
+	const status_change_entry* nochat = sd.sc.getSCE(SC_NOCHAT);
+	if (nochat != nullptr && (nochat->val1 & MANNER_NOCOMMAND))
+		return false;
+	// is_atcommand : carte `nocommand` sous le niveau de groupe exigé.
+	if (pc_get_group_level(&sd) < map_getmapflag(sd.m, MF_NOCOMMAND)) {
+		clif_displaymessage(fd, msg_txt(&sd, 143)); // Commands are disabled on this map.
+		return false;
+	}
+
+	char command[32];
+	const char* name = clif_bourgeon_storage_command(stor_id, command, sizeof(command));
+
+	// is_atcommand : commandes bloquées par un script (PCBLOCK_COMMANDS).
+	if (sd.state.block_action & PCBLOCK_COMMANDS) {
+		char output[CHAT_SIZE_MAX];
+		char typed[sizeof(command) + 1];
+		safesnprintf(typed, sizeof(typed), "%c%s", atcommand_symbol, name);
+		safesnprintf(output, sizeof(output), msg_txt(&sd, 154), typed); // %s failed.
+		clif_displaymessage(fd, output);
+		return false;
+	}
+	// is_atcommand : le droit de groupe de CETTE commande (groups.yml).
+	if (!pc_can_use_command(&sd, name, COMMAND_ATCOMMAND)) {
+		clif_displaymessage(fd, msg_txt(&sd, 246)); // Your GM level doesn't authorize you to perform this action.
+		return false;
+	}
+	// is_atcommand : pas de commande une fois mort, si le groupe le dit.
+	if (pc_isdead(&sd) && pc_has_permission(&sd, PC_PERM_DISABLE_CMD_DEAD)) {
+		clif_displaymessage(fd, msg_txt(&sd, 1393)); // You can't use commands while dead
+		return false;
+	}
+	// @storage / @storagealt : échange, boutique, banque, PNJ. La macro nomme
+	// son argument `sd` sans parenthèses : elle veut un pointeur.
+	map_session_data* const self = &sd;
+	if (pc_istrading2(self)) {
+		clif_displaymessage(fd, msg_txt(&sd, 1161)); // You currently cannot open your storage.
+		return false;
+	}
+	// @storage / @storagealt : storage de guilde ouvert.
+	if (sd.state.storage_flag == 2) {
+		clif_displaymessage(fd, msg_txt(&sd, 251)); // You have already opened your guild storage. Close it first.
+		return false;
+	}
+	return true;
+}
+
 // Liste des storages accessibles + celui qui est ouvert (0xFF = aucun).
 // [type:2][len:2][cur_id:1][count:1] + n*[stor_id:1][name:NAME_LENGTH]
 void clif_bourgeon_storage_list(map_session_data* sd, uint8 cur_id) {
@@ -6107,25 +6216,19 @@ void clif_parse_moonlight_open_storage(int32 fd, map_session_data* sd) {
 		reinterpret_cast<const PACKET_CZ_MOONLIGHT_OPEN_STORAGE*>(RFIFOP(fd, 0));
 	const uint8 stor_id = p->stor_id;
 
+	// Un storage alternatif demandé n'est pas encore arrivé : aucune bascule,
+	// et rien n'est fermé. Ignoré en silence, l'onglet attendu s'ouvrira seul.
+	if (storage_premiumStorage_loading(sd))
+		return;
+
 	// Id absent de inter_server.yml : liste périmée côté client, on ignore en
 	// silence plutôt que d'afficher une erreur que le joueur ne peut pas corriger.
 	if (!storage_exists(stor_id))
 		return;
 
-	char command[32];
-	if (!pc_can_use_command(sd, clif_bourgeon_storage_command(stor_id, command, sizeof(command)),
-			COMMAND_ATCOMMAND)) {
-		clif_displaymessage(fd, msg_txt(sd, 246)); // Your GM level doesn't authorize you to perform this action.
+	// Les refus de la commande tapée, avec ses messages : déjà dits au joueur.
+	if (!clif_moonlight_storage_tab_allowed(*sd, stor_id))
 		return;
-	}
-	if (pc_istrading2(sd)) {
-		clif_displaymessage(fd, msg_txt(sd, 1161)); // You currently cannot open your storage.
-		return;
-	}
-	if (sd->state.storage_flag == 2) {
-		clif_displaymessage(fd, msg_txt(sd, 251)); // You have already opened your guild storage. Close it first.
-		return;
-	}
 
 	// Onglet déjà actif recliqué : ne RIEN faire. Les @storagealt, eux, ferment
 	// dans ce cas (toggle) — un onglet qui referme la fenêtre serait un piège.
@@ -6638,6 +6741,10 @@ void clif_parse_moonlight_preset_cmd(int32 fd, map_session_data* sd) {
 	const int pkt_len = RFIFOW(fd, 2);
 	if (pkt_len < 6) return;
 
+	// [Stingor] Chaque ordre fait jusqu'à trois requêtes SQL synchrones : borné
+	// en cadence.
+	if (!clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_PRESET)) return;
+
 	const uint8 cmd     = RFIFOB(fd, 4);
 	const uint8 no      = RFIFOB(fd, 5);
 	const int   name_len = pkt_len - 6;
@@ -6842,22 +6949,46 @@ void clif_parse_moonlight_setting(int32 fd, map_session_data* sd) {
 			}
 			break;
 		}
-		case BOURGEON_SETTING_AFK:
+		case BOURGEON_SETTING_AFK: {
 			// Absence : un ORDRE, pas un réglage. Rien à persister — on ne se
 			// reconnecte pas absent — et rien à renvoyer au client, qui vient de le
 			// décider. Les bits inconnus tombent : un client en avance sur le serveur
 			// obtient les signes que celui-ci sait donner, et pas d'état bâtard.
-			clif_bourgeon_set_afk( *sd,
-				static_cast<uint8>( p->value & ( BOURGEON_AFK_SLEEP | BOURGEON_AFK_TAG ) ) );
+			const uint8 wanted = static_cast<uint8>( p->value & ( BOURGEON_AFK_SLEEP | BOURGEON_AFK_TAG ) );
+			// [Stingor] Seul un signe AJOUTÉ est borné en cadence : un retour (signe
+			// retiré) passe toujours, sans quoi un joueur revenu juste après son
+			// annonce resterait affiché absent. Alterner ajout et retrait coûte donc
+			// au plus deux diffusions par intervalle.
+			if( ( wanted & ~sd->bourgeon_afk ) != 0 && !clif_moonlight_throttle_pass( *sd, MOONLIGHT_THROTTLE_AFK ) )
+				break;
+			clif_bourgeon_set_afk( *sd, wanted );
 			break;
+		}
 		case BOURGEON_SETTING_REFRESH:
 			// Client asks for a self clif_refresh -- e.g. to re-composite the UI and
 			// drop a stale native menu-icon "ghost" after the ImGui icon replacement
 			// is enabled. Manual @refresh is proven safe here; the old mob-info crash
 			// note was a race condition, not clif_refresh itself. value is ignored.
+			// [Stingor] Borné en cadence : clif_refresh renvoie la carte, l'inventaire
+			// et tout ce qui est en vue, et diffuse la posture assise à la zone.
+			if( !clif_moonlight_throttle_pass( *sd, MOONLIGHT_THROTTLE_REFRESH ) )
+				break;
 			clif_refresh(sd);
 			break;
 		default: {
+			// [Stingor] Ailes et @showmobinfo diffusent à la zone ou renvoient tous
+			// les monstres en vue : bornés en cadence. Un changement refusé renvoie
+			// au client l'état du serveur, pour que sa case revienne à la vérité au
+			// lieu de rester cochée sur un état qui n'a pas eu lieu.
+			const e_moonlight_throttle family = p->id == BOURGEON_SETTING_WINGS ? MOONLIGHT_THROTTLE_WINGS
+				: p->id == BOURGEON_SETTING_SHOW_MOB_INFO ? MOONLIGHT_THROTTLE_MOB_INFO
+				: MOONLIGHT_THROTTLE_MAX;
+			if( family != MOONLIGHT_THROTTLE_MAX && !clif_moonlight_throttle_pass( *sd, family ) ){
+				if( ( bourgeon_setting_get( sd, p->id ) != 0 ) != ( p->value != 0 ) )
+					clif_bourgeon_settings( sd );
+				break;
+			}
+
 			const struct s_bourgeon_setting* s = bourgeon_setting_find( p->id );
 
 			if( s == nullptr ){
@@ -7084,10 +7215,14 @@ static TIMER_FUNC(spectator_session_ttl_timer) {
 
 // Removes a player's MachineGuid from the online-GUID maps.
 // Must be called from map_quit so the slot is freed for the next session.
+// [Stingor] Le GUID n'est retiré que s'il désigne encore CE compte : un second
+// compte arrivé avec le même GUID l'a repris, et c'est à lui de le libérer.
 void clif_bourgeon_unregister_guid(int32 account_id) {
 	auto it = s_account_to_guid.find(account_id);
 	if (it == s_account_to_guid.end()) return;
-	s_guid_to_account.erase(it->second);
+	auto git = s_guid_to_account.find(it->second);
+	if (git != s_guid_to_account.end() && git->second == account_id)
+		s_guid_to_account.erase(git);
 	s_account_to_guid.erase(it);
 }
 
@@ -7112,6 +7247,16 @@ static void clif_bourgeon_register_guid(map_session_data* sd, const char* raw_gu
 	if (it != s_guid_to_account.end() && it->second != aid) {
 		ShowWarning("[Bourgeon] Multi-account detected: AID %d (%s) shares MachineGuid with AID %d already online.\n",
 			aid, sd->status.name, it->second);
+	}
+
+	// [Stingor] Un compte ne tient qu'un GUID : celui qu'il remplace quitte la
+	// table, s'il le désignait encore. Les deux tables restent ainsi bornées à
+	// une entrée par session vivante.
+	auto ait = s_account_to_guid.find(aid);
+	if (ait != s_account_to_guid.end() && ait->second != guid_str) {
+		auto old = s_guid_to_account.find(ait->second);
+		if (old != s_guid_to_account.end() && old->second == aid)
+			s_guid_to_account.erase(old);
 	}
 
 	// Update both maps (idempotent on reconnect with same account).
@@ -7185,6 +7330,10 @@ void clif_bourgeon_hateffect_map(map_session_data* sd) {
 // packet), then pushes the player's settings/presets to this (possibly new)
 // session. Used by both the integrity handler and the char-change auto-grant.
 static void clif_bourgeon_grant_verified(map_session_data* sd) {
+	// [Stingor] Une fois par session : tout ce qui suit a déjà été poussé, et le
+	// rejouer coûterait des requêtes et une diffusion de zone pour rien.
+	if (sd->state.has_bourgeon)
+		return;
 	sd->state.has_bourgeon = true;
 	s_verified_login[sd->status.account_id] = sd->login_id1;
 	clif_bourgeon_autoload_preset(sd);
@@ -7245,6 +7394,10 @@ void clif_parse_moonlight_integrity_legacy(int32 fd, map_session_data* sd) {
 	// au milieu des joueurs à prévenir (même raison que l'opcode courant).
 	if (sd->state.spectator)
 		return;
+	// [Stingor] Une poignée de main par session (cf. integrity_handshake).
+	if (sd->state.integrity_handshake)
+		return;
+	sd->state.integrity_handshake = true;
 	ShowWarning("Bourgeon: legacy integrity opcode 0x0BFB from %s (AID %d) — pre-migration client, kicking with update notice.\n",
 		sd->status.name, sd->status.account_id);
 	// ANCIEN ZC_MOONLIGHT_KICK_NOTICE opcode 0x0BFA, 4 octets : ce que l'ancien overlay écoute.
@@ -7321,6 +7474,14 @@ void clif_parse_moonlight_integrity(int32 fd, map_session_data* sd) {
 		clif_bourgeon_style_area(sd);
 		return;
 	}
+
+	// [Stingor] Une poignée de main par session, quelle qu'en soit l'issue : un
+	// verdict ne se rejoue pas (un client refusé ne se blanchit pas par une
+	// seconde tentative), et une rafale ne coûte ni requête, ni minuteur, ni
+	// ligne de journal, ni entrée de plus dans la table des GUID.
+	if (sd->state.integrity_handshake)
+		return;
+	sd->state.integrity_handshake = true;
 
 	if (!bourgeon_integrity_conf.loaded)
 		clif_bourgeon_integrity_reload();
@@ -7426,6 +7587,12 @@ void clif_parse_moonclient_integrity(int32 fd, map_session_data* sd) {
 	// n'obtient rien, pour la raison écrite dans clif_parse_moonlight_integrity.
 	if (sd->state.spectator)
 		return;
+
+	// [Stingor] Une poignée de main par session, pour la raison écrite dans
+	// clif_parse_moonlight_integrity.
+	if (sd->state.integrity_handshake)
+		return;
+	sd->state.integrity_handshake = true;
 
 	if (!bourgeon_integrity_conf.loaded)
 		clif_bourgeon_integrity_reload();
@@ -8292,23 +8459,62 @@ void clif_parse_moonlight_req_entity_props(int32 fd, map_session_data* sd) {
 // existe bel et bien (UIMonsterGage naît en mode deux barres) mais
 // UIPcGage_SetGaugeBottom n'y est jamais appelée qu'avec (0, 0).
 //
-// D'où ce couple : il apporte le SP, et des PV EXACTS là où la plaque de nom ne
-// donne qu'un pourcentage.
+// D'où ce couple : il apporte le SP, et les PV d'une cible là où rien ne les
+// donne — exacts ou en pourcentage selon ce que le jeu montre déjà (ci-dessous).
 //
 // 🔴 PAS D'ABONNEMENT, PAS DE TIMER. C'est le client qui redemande, à cadence
 // lente, tant que sa fenêtre de cible est ouverte. Le serveur ne garde donc
 // AUCUN état : rien à nettoyer à la déconnexion, au changement de map ou à la
 // fermeture de la fenêtre — trois occasions de fuite en moins.
 //
-// 🔴 GATE PVP. Sur un AUTRE JOUEUR, PV et SP ne partent que s'il est du même
-// groupe ou de la même guilde. Un adversaire reçoit son type et rien d'autre :
-// ses points de vie sont une information de jeu, elle ne se donne pas. La règle
-// suit le MAÎTRE pour un compagnon (homoncule, mercenaire, pet, elemental) —
-// sinon on lirait les PV d'un adversaire dans ceux de son homoncule.
+// 🔴 GATE PVP. Sur un AUTRE JOUEUR, SP, niveau et PV EXACTS ne partent que s'il
+// est du même groupe ou de la même guilde. Un adversaire reçoit ses PV en
+// POURCENTAGE (BOURGEON_TARGET_KNOWN_HP_PERCENT) : de quoi remplir une jauge,
+// rien de plus. La règle suit le MAÎTRE pour un compagnon (homoncule,
+// mercenaire, pet, elemental) — sinon on lirait les PV d'un adversaire dans
+// ceux de son homoncule. Un monstre suit ce que le jeu montre déjà : PV exacts
+// si la plaque les écrit (show_mob_info & 1) ou si la barre de PV native lui
+// est envoyée, pourcentage sinon.
 //
 // 🔴 HORS DE VUE = STATUT 1. « La fenêtre se ferme quand la cible sort
 // d'AREA_SIZE » se décide ICI, avec la même distance que tout le reste du
-// serveur, et pas dans une heuristique cliente qui divergerait.
+// serveur, et pas dans une heuristique cliente qui divergerait. Une cible
+// cachée que le demandeur ne verrait pas en jeu est hors de vue elle aussi.
+
+// [Stingor] Vrai si `bl` est cachée aux yeux de `sd` : Hiding, Cloaking et
+// Chase Walk se voient du staff autorisé (hidden_units_view_level) et, pour un
+// type que hide_cloaked_units ne retient pas, sous Intravision ; l'invisibilité
+// d'un MJ (@hide) ne se voit que du staff autorisé.
+static bool clif_moonlight_target_concealed(const block_list& bl, const map_session_data& sd) {
+	if (&bl == &sd || clif_sees_hidden_units(sd))
+		return false;
+	const status_change* sc = status_get_sc(&bl);
+	if (sc == nullptr || !(sc->option & CLIF_HIDDEN_UNIT_OPTIONS))
+		return false;
+	if (sc->option & OPTION_INVISIBLE)
+		return true;
+	if (battle_config.hide_cloaked_units & bl.type)
+		return true;
+	return !(sd.special_state.intravision || sd.sc.getSCE(SC_INTRAVISION) != nullptr);
+}
+
+// [Stingor] Vrai si le jeu montre déjà à `sd` les PV EXACTS du monstre `md` :
+// la plaque de nom les écrit, ou la barre de PV native (ZC_HP_INFO) lui part —
+// à qui l'a frappé, ou à tous pour une invocation qui a la sienne.
+static bool clif_moonlight_mob_hp_shown_exact(const mob_data& md, const map_session_data& sd) {
+	if (battle_config.show_mob_info & 1)
+		return true;
+	if (!battle_config.monster_hp_bars_info || map_getmapflag(md.m, MF_HIDEMOBHPBAR))
+		return false;
+	if (md.special_state.ai == AI_ABR || md.special_state.ai == AI_BIONIC)
+		return true;
+	for (const auto& entry : md.dmglog) {
+		if (entry.id == sd.status.char_id)
+			return true;
+	}
+	return false;
+}
+
 void clif_parse_moonlight_target_info(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
@@ -8322,8 +8528,9 @@ void clif_parse_moonlight_target_info(int32 fd, map_session_data* sd) {
 	p.gid          = req->gid;
 
 	block_list* bl = map_id2bl(req->gid);
-	if (bl == nullptr || bl->m != sd->m || !check_distance_bl(sd, bl, pc_view_range(*sd))) {
-		p.status = 1;                        // introuvable ou hors de vue
+	if (bl == nullptr || bl->m != sd->m || !check_distance_bl(sd, bl, pc_view_range(*sd)) ||
+		clif_moonlight_target_concealed(*bl, *sd)) {
+		p.status = 1;                        // introuvable, hors de vue ou cachée
 		clif_send(&p, sizeof(p), sd, SELF);
 		return;
 	}
@@ -8363,18 +8570,36 @@ void clif_parse_moonlight_target_info(int32 fd, map_session_data* sd) {
 	}
 
 	if (has_status) {
-		// 🔴 Les PV partent TOUJOURS, y compris ceux d'un adversaire. Le HUD de
-		// Bourgeon n'en montre qu'une JAUGE quand la cible est un joueur : ni
-		// valeurs, ni pourcentage. Sans cet envoi, cette jauge restait vide
-		// jusqu'au premier coup porté — le client ne sait RIEN des PV d'un tiers,
-		// il ne les déduit que des dégâts qu'il voit passer, et un Cloaking ou un
-		// @hide recrée l'acteur et remet ce compteur à zéro.
-		p.hp    = static_cast<uint32>(status_get_hp(bl));
-		p.maxhp = static_cast<uint32>(status_get_max_hp(bl));
+		// 🔴 Les PV partent TOUJOURS, y compris ceux d'un adversaire : sans eux, la
+		// jauge d'un tiers resterait vide jusqu'au premier coup porté — le client
+		// ne sait RIEN des PV d'un tiers, il ne les déduit que des dégâts qu'il
+		// voit passer. Mais EXACTS seulement là où le jeu les donne déjà : soi, le
+		// groupe et la guilde (`allowed`), et un monstre dont la plaque ou la barre
+		// native les montre. Ailleurs, un pourcentage : la jauge, pas le chiffre.
+		const uint32 hp    = static_cast<uint32>(status_get_hp(bl));
+		const uint32 maxhp = static_cast<uint32>(status_get_max_hp(bl));
+		const bool exact = (bl->type == BL_MOB)
+			? clif_moonlight_mob_hp_shown_exact(*BL_CAST(BL_MOB, bl), *sd)
+			: allowed;
 		// Un maximum nul, c'est « cette entité n'a pas cette jauge » : le bit reste
 		// à 0 et le client n'affiche pas une barre vide qu'il prendrait pour un
 		// réservoir épuisé.
-		if (p.maxhp > 0) p.known |= BOURGEON_TARGET_KNOWN_HP;
+		if (maxhp > 0) {
+			p.known |= BOURGEON_TARGET_KNOWN_HP;
+			if (exact) {
+				p.hp    = hp;
+				p.maxhp = maxhp;
+			} else {
+				// Arrondi par défaut, sauf qu'une cible vivante ne tombe jamais à 0 % :
+				// une jauge vide se lirait comme une mort.
+				uint32 percent = static_cast<uint32>(static_cast<uint64>(hp) * BOURGEON_TARGET_PERCENT_SCALE / maxhp);
+				if (hp > 0 && percent == 0) percent = 1;
+				if (percent > BOURGEON_TARGET_PERCENT_SCALE) percent = BOURGEON_TARGET_PERCENT_SCALE;
+				p.hp     = percent;
+				p.maxhp  = BOURGEON_TARGET_PERCENT_SCALE;
+				p.known |= BOURGEON_TARGET_KNOWN_HP_PERCENT;
+			}
+		}
 
 		// SP et niveau, eux, s'affichent EN CLAIR : ils restent réservés à la
 		// party et à la guilde. Un chiffre exact sur un adversaire est un
@@ -9085,6 +9310,17 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	// plutôt que de lire au-delà du tampon annoncé.
 	if (p->packetLength < static_cast<int16>(sizeof(PACKET_CZ_MOONLIGHT_UI_CAPS)))
 		return;
+	// [Stingor] Les bits dont l'apparition déclenche un envoi ou un balayage de
+	// zone ci-dessous. Une annonce qui en GAGNE un est bornée en cadence, et
+	// refusée en entier : la garder sans son balayage laisserait le client sans
+	// les données qu'il attend. Le client honnête ne les annonce qu'une fois par
+	// session ; retirer un bit, ou changer un bit sans balayage, passe toujours.
+	static constexpr uint32 kScanOnGain = BOURGEON_UI_FLAG_GRAFFITI | BOURGEON_UI_UNIT_MASTER |
+		BOURGEON_UI_GM_OUTFIT | BOURGEON_UI_SERVER_RULES | BOURGEON_UI_MAP_EDITS |
+		BOURGEON_UI_COMPANION_MASTER | BOURGEON_UI_INSTANCE_INFO;
+	if ((p->caps & ~sd->bourgeon_ui_caps & kScanOnGain) != 0 &&
+		!clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_UI_CAPS))
+		return;
 	const uint32 before = sd->bourgeon_ui_caps;
 	sd->bourgeon_ui_caps = p->caps;
 	// L'annonce suit l'entrée en carte : les Flag Graffiti alentour ont déjà été
@@ -9552,6 +9788,11 @@ void clif_parse_moonlight_mvp_cmd(int32 fd, map_session_data* sd) {
 	// [type:2][len:2][cmd:1][a:4][b:4] = 13 octets avant le texte.
 	if (pkt_len < 13) return;
 
+	// [Stingor] Presque chaque commande du carnet lit ou écrit en SQL synchrone :
+	// bornée en cadence. Le client attend une réponse avec un délai de patience,
+	// et la rafale couvre les commandes qu'il émet dans une même image.
+	if (!clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_MVP)) return;
+
 	const uint8  cmd = RFIFOB(fd, 4);
 	const uint32 a   = RFIFOL(fd, 5);
 	const uint32 b   = RFIFOL(fd, 9);
@@ -9806,6 +10047,20 @@ void clif_parse_moonlight_card_album_cmd(int32 fd, map_session_data* sd) {
 		return;
 	}
 
+	// [Stingor] Toute autre commande relit ou écrit l'album en SQL synchrone :
+	// bornée en cadence. La fermeture, elle, passe toujours — elle rend le verrou.
+	//
+	// Le client attend une réponse à chaque commande, sans délai de patience : une
+	// commande hors cadence reçoit donc l'état EN MÉMOIRE (aucune requête), avec
+	// CARD_ALBUM_FAIL, et sa fenêtre se débloque sur un refus générique. Cette
+	// réponse pèse ~11 Ko pour une demande de 11 octets : elle est bornée à son
+	// tour, et une rafale au-delà n'obtient plus rien.
+	if (!clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_CARD_ALBUM)) {
+		if (clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_CARD_ALBUM_REFUSAL))
+			clif_bourgeon_card_album(*sd, CARD_ALBUM_FAIL);
+		return;
+	}
+
 	// 🔴 Toute autre commande TIENT l'album, ou est refusée. Un seul compte de
 	// jeu par compte Moonlight à la fois, comme un coffre : c'est la première
 	// garde contre la duplication par deux clients ouverts.
@@ -9894,8 +10149,18 @@ void clif_parse_moonlight_npc_admin(int32 fd, map_session_data* sd) {
 		clif_displaymessage(fd, msg_txt(sd, 111));  // This NPC doesn't exist.
 		return;
 	}
+	// [Stingor] Le PNJ factice des scripts d'objets et des commandes est inscrit
+	// sous un GID comme les autres, mais il ne se touche pas : le décharger
+	// laisserait `fake_nd` pendant, et le serveur tomberait au prochain usage.
+	if (nd == fake_nd) {
+		clif_displaymessage(fd, msg_txt(sd, 111));  // This NPC doesn't exist.
+		return;
+	}
 
 	char output[CHAT_SIZE_MAX];
+	// [Stingor] Chaque action réussie s'inscrit au journal des commandes, au nom
+	// de son auteur, comme la commande @ qu'elle remplace.
+	char logline[CHAT_SIZE_MAX];
 
 	switch (p->action) {
 	case BOURGEON_NPC_ADMIN_RELOAD_FILE: {
@@ -9923,6 +10188,8 @@ void clif_parse_moonlight_npc_admin(int32 fd, map_session_data* sd) {
 		npc_read_event_script();
 		ShowStatus("NPC file '" CL_WHITE "%s" CL_RESET "' was reloaded by %s.\n",
 			path, sd->status.name);
+		safesnprintf(logline, sizeof(logline), "%creloadnpcfile %s (menu staff)", atcommand_symbol, path);
+		log_atcommand(sd, logline);
 		npc_event_doall_path(script_config.init_event_name, path);
 
 		safesnprintf(output, sizeof(output),
@@ -9932,6 +10199,13 @@ void clif_parse_moonlight_npc_admin(int32 fd, map_session_data* sd) {
 		break;
 	}
 	case BOURGEON_NPC_ADMIN_UNLOAD: {
+		// [Stingor] Un PNJ sans carte (script flottant, fonction) ne se décharge
+		// pas d'un clic : il n'a pas de plaque qu'on aurait pu viser, et le GID
+		// d'une telle entité ne peut venir que d'un paquet forgé.
+		if (nd->m < 0) {
+			clif_displaymessage(fd, msg_txt(sd, 111));  // This NPC doesn't exist.
+			return;
+		}
 		// Le nom se relève AVANT : `npc_unload` détruit `nd`, et le compte rendu
 		// doit pouvoir dire lequel a disparu.
 		char name[NPC_NAME_LENGTH];
@@ -9941,6 +10215,8 @@ void clif_parse_moonlight_npc_admin(int32 fd, map_session_data* sd) {
 		npc_unload(nd, true);
 		nd = nullptr;
 		npc_read_event_script();
+		safesnprintf(logline, sizeof(logline), "%cunloadnpc %s (menu staff)", atcommand_symbol, name);
+		log_atcommand(sd, logline);
 
 		safesnprintf(output, sizeof(output),
 			"NPC '%s' decharge (avec ses duplicates). Rechargez son fichier pour "
@@ -9960,6 +10236,9 @@ void clif_parse_moonlight_npc_admin(int32 fd, map_session_data* sd) {
 			clif_displaymessage(fd, msg_txt(sd, 1154));  // NPC is not on this map.
 			return;
 		}
+		safesnprintf(logline, sizeof(logline), "%cnpcmove %d %d %s (menu staff)",
+			atcommand_symbol, nd->x, nd->y, nd->exname);
+		log_atcommand(sd, logline);
 		safesnprintf(output, sizeof(output),
 			"NPC '%s' deplace en (%d, %d). Le deplacement n'est pas sauvegarde : "
 			"il reprendra sa place au prochain rechargement.",
@@ -10075,6 +10354,9 @@ void clif_parse_moonlight_player_admin(int32 fd, map_session_data* sd) {
 		// handler de paquet mettrait la marche en route au milieu de l'état
 		// courant de l'unité.
 		add_timer(gettick() + 50, unit_delay_walktobl_timer, tsd->id, sd->id);
+		// [Stingor] Au journal des commandes, comme `@recall` dont il emprunte le droit.
+		safesnprintf(output, sizeof(output), "%crecall-walk %s (menu staff)", atcommand_symbol, tsd->status.name);
+		log_atcommand(sd, output);
 		safesnprintf(output, sizeof(output), "%s marche vers vous.", tsd->status.name);
 		clif_displaymessage(fd, output);
 		break;
@@ -10108,6 +10390,12 @@ void clif_parse_moonlight_player_admin(int32 fd, map_session_data* sd) {
 			clif_displaymessage(fd, msg_txt(sd, 1322));  // Please enter an amount.
 			return;
 		}
+		// [Stingor] Borné en cadence : un pas de points par clic, pas un flot. Le
+		// refus est dit, pour qu'un clic sans effet ne passe pas pour une panne.
+		if (!clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_EVENT_POINTS)) {
+			clif_displaymessage(fd, "Points d'event : trop rapide, reessayez dans un instant.");
+			return;
+		}
 		// Retirer plus qu'il n'en a vide le compteur au lieu d'échouer — c'est ce
 		// que faisaient et le NPC et `@points`.
 		if (delta < 0 && -delta > tsd->kafraPoints) delta = -tsd->kafraPoints;
@@ -10128,6 +10416,11 @@ void clif_parse_moonlight_player_admin(int32 fd, map_session_data* sd) {
 		clif_displaymessage(tsd->fd, output);
 		ShowStatus("Points d'event : %s %+d a '" CL_WHITE "%s" CL_RESET "' (par %s).\n",
 			delta > 0 ? "ajout" : "retrait", delta, tsd->status.name, sd->status.name);
+		// [Stingor] Le journal de caisse ne nomme que le bénéficiaire : l'auteur
+		// s'inscrit au journal des commandes, comme `@points`.
+		safesnprintf(output, sizeof(output), "%cpoints %+d -> %s (menu staff)",
+			atcommand_symbol, delta, tsd->status.name);
+		log_atcommand(sd, output);
 		break;
 	}
 	case BOURGEON_PLAYER_ADMIN_MUTE:
@@ -10320,9 +10613,23 @@ void clif_parse_moonlight_reqcompatcards(int32 fd, map_session_data* sd) {
 	WFIFOSET(fd, offset);
 }
 
-// Estime les dégâts BRUTS (non réduits) d'un sort via battle_calc_attack contre
-// un dummy neutre construit ENTIÈREMENT en source (0 def/mdef, Neutral/Formless/
-// Medium ; aucune entrée mob_db, aucun spawn). Échantillonné pour min/max/moy.
+// Estime les dégâts d'un sort contre une cible créée pour l'occasion : le
+// mannequin neutre (0 def/mdef, dégâts bruts) ou un monstre de la mob_db, avec
+// ses vraies statistiques. Échantillonné pour min/max/moyenne.
+//
+// 🔴 UNE SIMULATION, SANS AUCUN EFFET. La cible est un monstre hors carte, sans
+// statut, détruit avant de rendre la main ; le calcul passe par
+// battle_calc_attack_simulated(), qui saute tout ce qu'un vrai coup changerait
+// chez l'attaquant. Il n'y a pas de cible « soi-même » : le joueur est sur la
+// carte, avec ses statuts et ceux de son entourage (Safety Wall, Devotion...),
+// et le frapper, même pour rire, les consommerait.
+//
+// Réponse `status` : 0 calculé, 1 sort non offensif, 2 cible refusée ou
+// introuvable, 3 demande trop rapprochée de la précédente (rien n'est calculé).
+static const t_tick MOONLIGHT_REQDAMAGE_DELAY = 200;  // ms entre deux demandes d'une session
+static const int32 MOONLIGHT_REQDAMAGE_SAMPLES = 100;  // tirages par demande
+static const int32 MOONLIGHT_REQDAMAGE_DUMMY_MOB = 3995;  // BOURGEON_DMG_DUMMY
+
 void clif_parse_moonlight_reqdamage(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
@@ -10331,15 +10638,6 @@ void clif_parse_moonlight_reqdamage(int32 fd, map_session_data* sd) {
 	const uint16 skill_id      = static_cast<uint16>(p->skill_id);
 	const uint32 target_mob_id = p->target_mob_id;  // 0 = dummy neutre
 	uint16 skill_lv = p->skill_lv;
-
-	// Niveau : 0 = niveau appris par le joueur (sinon 1). Clampé au max du sort.
-	if (skill_lv == 0) {
-		skill_lv = pc_checkskill(sd, skill_id);
-		if (skill_lv == 0) skill_lv = 1;
-	}
-	std::shared_ptr<s_skill_db> skdb = skill_db.find(skill_id);
-	if (skdb != nullptr && skill_lv > skdb->max) skill_lv = skdb->max;
-	if (skill_lv < 1) skill_lv = 1;
 
 	WFIFOHEAD(fd, sizeof(PACKET_ZC_MOONLIGHT_DAMAGE) + 32);  // + [namelen:1][name]
 	PACKET_ZC_MOONLIGHT_DAMAGE* r =
@@ -10354,12 +10652,23 @@ void clif_parse_moonlight_reqdamage(int32 fd, map_session_data* sd) {
 	r->hits     = 0;
 	r->dmg_min  = r->dmg_max = r->dmg_avg = 0;
 
+	// Cadence : une demande trop proche de la précédente reçoit une réponse vide,
+	// sans calcul ni journal, et ne repousse pas l'échéance.
+	const t_tick now = gettick();
+	if (sd->moonlight_reqdamage_tick != 0 &&
+		DIFF_TICK(now, sd->moonlight_reqdamage_tick) < MOONLIGHT_REQDAMAGE_DELAY) {
+		r->status = 3;
+		WFIFOSET(fd, sizeof(PACKET_ZC_MOONLIGHT_DAMAGE));
+		return;
+	}
+	sd->moonlight_reqdamage_tick = now;
+
+	// Sort inconnu testé AVANT pc_checkskill, qui journaliserait l'id invalide.
 	// Sort non offensif -> pas de dégâts à estimer. On teste aussi le type
 	// d'attaque : les sorts passifs / de guilde (GD_*) n'ont NI Type NI le flag
 	// NoDamage en db, donc skill_get_type() renvoie BF_NONE (0) et
-	// battle_calc_attack() hurlerait « unknown attack type! 0 » kSamples fois.
-	// (skdb nul = sort inconnu : on ne passe pas l'id aux skill_get_*, qui
-	//  logueraient « skill_get_index: Invalid skill id ».)
+	// battle_calc_attack() hurlerait « unknown attack type! 0 » à chaque tirage.
+	std::shared_ptr<s_skill_db> skdb = skill_db.find(skill_id);
 	const int32 atk_type = (skdb != nullptr) ? skill_get_type(skill_id) : 0;
 	if (skdb == nullptr || skill_get_nk(skill_id, NK_NODAMAGE) ||
 		(atk_type != BF_WEAPON && atk_type != BF_MAGIC && atk_type != BF_MISC)) {
@@ -10368,53 +10677,56 @@ void clif_parse_moonlight_reqdamage(int32 fd, map_session_data* sd) {
 		return;
 	}
 
+	// Niveau : 0 = niveau appris par le joueur (sinon 1). Clampé au max du sort.
+	if (skill_lv == 0) {
+		skill_lv = pc_checkskill(sd, skill_id);
+		if (skill_lv == 0) skill_lv = 1;
+	}
+	if (skill_lv > skdb->max) skill_lv = skdb->max;
+	if (skill_lv < 1) skill_lv = 1;
+	r->skill_lv = skill_lv;
 	r->atk_type = static_cast<uint8>(atk_type & 0xFF);
 
-	// Cible = block_list visé :
-	//  - target_mob_id == 0xFFFFFFFF -> SOI-MÊME (miroir PvP : src == target),
-	//    aucun mob créé (le joueur combat un clone de son build).
-	//  - target_mob_id == 0          -> dummy neutre BOURGEON_DMG_DUMMY (0 def).
-	//  - sinon                       -> vrai monstre (ses stats réels).
-	// Pour un mob on le CRÉE en mémoire (vd/sc/ud/db init par status_calc_mob)
-	// SANS map_addblock ni clif_spawn -> jamais visible ; unit_free nettoie.
-	const uint32 kTargetSelf = 0xFFFFFFFFu;
-	const int32  kDummyMobId = 3995;  // BOURGEON_DMG_DUMMY
-	mob_data*   md        = nullptr;  // créé seulement pour dummy/monstre
-	block_list* target_bl = sd;       // défaut = soi-même
-	std::string target_name;          // nom du monstre (vrai mob uniquement)
-	if (target_mob_id != kTargetSelf) {
-		const int32 use_mob_id = (target_mob_id != 0)
-			? static_cast<int32>(target_mob_id) : kDummyMobId;
-		md = mob_once_spawn_sub(sd, sd->m, sd->x, sd->y, "--ja--",
-			use_mob_id, "", 0, AI_NONE);
-		if (md == nullptr) {
-			r->status = 2;  // monstre/dummy introuvable (id invalide ?)
-			WFIFOSET(fd, sizeof(PACKET_ZC_MOONLIGHT_DAMAGE));
-			return;
-		}
-		status_set_viewdata(md, md->mob_id);   // vd
-		status_calc_mob(md, SCO_FIRST);        // status depuis la db (vrais stats)
-		// Dummy neutre uniquement : 0 def/mdef -> dégâts bruts non réduits.
-		if (target_mob_id == 0) {
-			md->status.def = 0;
-			md->status.def2  = 0;
-			md->status.mdef = 0;
-			md->status.mdef2 = 0;
-		} else {
-			target_name = md->name;  // vrai monstre -> on renvoie son nom
-		}
-		target_bl = md;
+	// Cible : un monstre de la mob_db chargée au démarrage, jamais un clone
+	// (entrée créée à la volée, que la libération du monstre temporaire
+	// effacerait), ni un id négatif une fois converti (tirage aléatoire).
+	//  - target_mob_id == 0 -> dummy neutre BOURGEON_DMG_DUMMY (0 def) ;
+	//  - sinon              -> ce monstre (ses stats réels).
+	// Créé en mémoire (vd/sc/ud/db init par status_calc_mob) SANS map_addblock
+	// ni clif_spawn -> jamais visible ; unit_free nettoie.
+	const int32 use_mob_id = (target_mob_id != 0)
+		? static_cast<int32>(target_mob_id) : MOONLIGHT_REQDAMAGE_DUMMY_MOB;
+	if (target_mob_id > static_cast<uint32>(INT32_MAX) || mobdb_checkid(use_mob_id) == 0) {
+		r->status = 2;
+		WFIFOSET(fd, sizeof(PACKET_ZC_MOONLIGHT_DAMAGE));
+		return;
+	}
+	mob_data* md = mob_once_spawn_sub(sd, sd->m, sd->x, sd->y, "--ja--",
+		use_mob_id, "", 0, AI_NONE);
+	if (md == nullptr) {
+		r->status = 2;
+		WFIFOSET(fd, sizeof(PACKET_ZC_MOONLIGHT_DAMAGE));
+		return;
+	}
+	status_set_viewdata(md, md->mob_id);   // vd
+	status_calc_mob(md, SCO_FIRST);        // status depuis la db (vrais stats)
+	std::string target_name;               // nom du monstre (vrai mob uniquement)
+	// Dummy neutre uniquement : 0 def/mdef -> dégâts bruts non réduits.
+	if (target_mob_id == 0) {
+		md->status.def = 0;
+		md->status.def2  = 0;
+		md->status.mdef = 0;
+		md->status.mdef2 = 0;
+	} else {
+		target_name = md->name;  // vrai monstre -> on renvoie son nom
 	}
 
 	// Le weapon ATK a une plage aléatoire -> on échantillonne pour min/max/moy.
-	// battle_calc_attack calcule sans appliquer -> sûr d'appeler en boucle.
 	int64 dmin = 0x7fffffffffffffffLL, dmax = 0;
 	double sum = 0.0;
 	int16 hits = 1;
-	const int32 kSamples = 100;
-	for (int32 i = 0; i < kSamples; i++) {
-		Damage dmg = battle_calc_attack(atk_type, sd, target_bl,
-			skill_id, skill_lv, 0);
+	for (int32 i = 0; i < MOONLIGHT_REQDAMAGE_SAMPLES; i++) {
+		Damage dmg = battle_calc_attack_simulated(atk_type, sd, md, skill_id, skill_lv);
 		int64 total = dmg.damage + dmg.damage2;  // total (déjà tous les coups)
 		if (total < 0) total = 0;
 		if (total < dmin) dmin = total;
@@ -10423,14 +10735,14 @@ void clif_parse_moonlight_reqdamage(int32 fd, map_session_data* sd) {
 		hits = dmg.div_ > 0 ? dmg.div_ : 1;
 	}
 	if (dmin > dmax) dmin = dmax;
-	if (md) unit_free(md, CLR_OUTSIGHT);  // désenregistrement + free (mob only)
+	unit_free(md, CLR_OUTSIGHT);  // désenregistrement + free
 
 	r->hits    = static_cast<uint16>(hits);
 	r->dmg_min = dmin;
 	r->dmg_max = dmax;
-	r->dmg_avg = static_cast<int64>(sum / kSamples + 0.5);
+	r->dmg_avg = static_cast<int64>(sum / MOONLIGHT_REQDAMAGE_SAMPLES + 0.5);
 
-	// Nom de la cible appended : [namelen:1][name] (vide pour dummy/soi-même).
+	// Nom de la cible appended : [namelen:1][name] (vide pour le dummy).
 	const int16 base = sizeof(PACKET_ZC_MOONLIGHT_DAMAGE);
 	const uint8 nl = static_cast<uint8>(
 		target_name.size() > 24 ? 24 : target_name.size());
@@ -10513,6 +10825,20 @@ void clif_parse_moonlight_reqitemscript(int32 fd, map_session_data* sd) {
 
 	WFIFOW(fd, 2) = offset;  // packetLength
 	WFIFOSET(fd, offset);
+}
+
+// [Stingor] Rend journalisable un texte écrit par le CLIENT : chaque octet de
+// contrôle (sous 0x20, dont \r \n \t et l'ESC des séquences ANSI, et 0x7F)
+// devient une espace. Sans cela, un saut de ligne suivi d'une fausse ligne
+// fabrique dans le journal une entrée qui accuse un autre joueur, et une
+// séquence ANSI recolore ou efface la console. Les octets >= 0x80 (texte
+// accentué) restent tels quels. Modifie `text` sur place, jusqu'au NUL.
+static void clif_moonlight_log_safe(char* text) {
+	for (char* c = text; *c != '\0'; ++c) {
+		const unsigned char byte = static_cast<unsigned char>(*c);
+		if (byte < 0x20 || byte == 0x7F)
+			*c = ' ';
+	}
 }
 
 // [Stingor] Rapport de bug in-game contextuel (CZ 0x0F13 -> ACK ZC 0x0F14).
@@ -10642,6 +10968,12 @@ void clif_parse_moonlight_bug_report(int32 fd, map_session_data* sd) {
 	char dc_msg[1400];
 	snprintf(dc_msg, sizeof(dc_msg), "ctx=%s | %s,%d,%d | %.*s ",
 		ctx_final.c_str(), mapname, sd->x, sd->y, store_msg, msg_ptr);
+	// [Stingor] Le relais est un journal lu par le staff : contexte et message
+	// viennent du client, leurs octets de contrôle n'y entrent pas. La ligne de
+	// `bug_reports`, elle, garde le texte tel qu'il a été écrit. Le message
+	// n'est pas terminé par un NUL sur le fil : %.*s l'a borné, et un NUL
+	// qu'il porterait ne fait que raccourcir la ligne.
+	clif_moonlight_log_safe(dc_msg);
 	char esc_dcmsg[sizeof(dc_msg) * 2 + 1];
 	Sql_EscapeString(mmysql_handle, esc_dcmsg, dc_msg);
 	if (Sql_Query(mmysql_handle,
@@ -10779,6 +11111,10 @@ void clif_parse_moonlight_cheat_report(int32 fd, map_session_data* sd) {
 	char tool[33] = {}, detail[65] = {};
 	strncpy(tool,   p->tool_name, 32);
 	strncpy(detail, p->detail,    64);
+	// [Stingor] Texte du client, journalisé tel quel : ni saut de ligne ni
+	// séquence ANSI ne doivent pouvoir y fabriquer une autre ligne.
+	clif_moonlight_log_safe(tool);
+	clif_moonlight_log_safe(detail);
 
 	ShowWarning("[CheatDetector] %s (AID:%d CID:%d) -- outil: %s | %s\n",
 		sd->status.name,

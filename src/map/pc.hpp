@@ -331,6 +331,24 @@ struct s_add_drop {
 	uint16 class_; ///Target Class, bitwise value of 1<<x
 };
 
+/// [Stingor] Familles de demandes custom bornées en fréquence par session.
+/// Chacune a son échéance dans map_session_data::moonlight_throttle_due et sa
+/// règle (intervalle, rafale) dans clif.cpp ; une demande hors cadence est
+/// ignorée sans journal, ou reçoit un refus quand le client attend une réponse.
+enum e_moonlight_throttle : uint8 {
+	MOONLIGHT_THROTTLE_AFK = 0,      ///< annonce d'absence qui AJOUTE un signe (diffusée à la zone)
+	MOONLIGHT_THROTTLE_WINGS,        ///< ailes (pc_setoption, diffusé à la zone)
+	MOONLIGHT_THROTTLE_MOB_INFO,     ///< @showmobinfo (renvoi de tous les monstres en vue)
+	MOONLIGHT_THROTTLE_REFRESH,      ///< clif_refresh demandé par le client
+	MOONLIGHT_THROTTLE_UI_CAPS,      ///< annonce d'interface qui déclenche des balayages de zone
+	MOONLIGHT_THROTTLE_PRESET,       ///< presets d'autoloot (SQL synchrone)
+	MOONLIGHT_THROTTLE_MVP,          ///< carnet MVP (SQL synchrone)
+	MOONLIGHT_THROTTLE_CARD_ALBUM,   ///< album de cartes (SQL synchrone)
+	MOONLIGHT_THROTTLE_CARD_ALBUM_REFUSAL, ///< état de l'album renvoyé à une commande hors cadence (~11 Ko)
+	MOONLIGHT_THROTTLE_EVENT_POINTS, ///< points d'event donnés par le menu staff
+	MOONLIGHT_THROTTLE_MAX
+};
+
 struct s_vanish_bonus {
 	int16 rate; // 1000 = 100%
 	int16 per; // 100 = 100%
@@ -473,6 +491,10 @@ public:
 		/// d'origine greffé de Bourgeon. Toujours accompagné de `has_bourgeon` : moonclient
 		/// parle le même protocole, ce drapeau ne fait que le NOMMER.
 		bool moonclient: 1;
+		/// Une poignée de main d'intégrité (0x0F02, 0x0F39 ou l'ancienne 0x0BFB) a déjà
+		/// été traitée pour cette session, quelle qu'en ait été l'issue : les
+		/// suivantes sont ignorées, sans requête, minuteur ni ligne de journal.
+		bool integrity_handshake: 1;
 		/// Session SPECTATEUR ayant prouvé qu'elle porte un client Bourgeon (elle a
 		/// envoyé CZ_MOONLIGHT_INTEGRITY).
 		///
@@ -652,6 +674,25 @@ public:
 	// [Stingor] L'instant de la dernière demande au Marché (CZ 0x0F41) : la
 	// suivante attend battle_config.moon_market_query_delay. Zéro : aucune.
 	t_tick moon_market_last_tick = 0;
+
+	// [Stingor] Storage alternatif demandé au char-server et pas encore reçu
+	// (0 : aucun). Tant qu'il est posé, aucun storage alternatif ne s'ouvre ni ne
+	// bascule, pas même depuis la copie en mémoire : la réponse en vol
+	// remplacerait le storage sur lequel le joueur viendrait de travailler.
+	// Levé à la réception (succès ou échec) ; périmé après
+	// PREMIUM_STORAGE_REQUEST_TIMEOUT si la réponse ne vient jamais.
+	uint8 premium_storage_pending_id = 0;
+	t_tick premium_storage_request_tick = 0;
+
+	// [Stingor] Dernière simulation de dégâts acceptée (CZ_MOONLIGHT_REQ_DAMAGE) :
+	// la suivante attend MOONLIGHT_REQDAMAGE_DELAY. Zéro : aucune.
+	t_tick moonlight_reqdamage_tick = 0;
+
+	// [Stingor] Cadence des demandes custom coûteuses : par famille
+	// (e_moonlight_throttle), l'instant théorique où la prochaine demande serait
+	// « à l'heure ». Lu et écrit par clif_moonlight_throttle_pass seulement.
+	// Zéro : aucune demande encore.
+	t_tick moonlight_throttle_due[MOONLIGHT_THROTTLE_MAX] = {};
 
 	// [Stingor] Bourgeon : « je suis absent » (CZ_MOONLIGHT_SETTING id 29, masque
 	// e_bourgeon_afk). Ce que le VOISINAGE doit en voir, et rien d'autre : le

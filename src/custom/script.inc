@@ -704,7 +704,7 @@ BUILDIN_FUNC(loadstorage)
 	// here: overwriting sd->premiumStorage while it is open, or modified and not saved yet, loses
 	// items. pc_istrading2() is deliberately NOT tested, it includes sd->npc_id which is always
 	// set while a script runs (script_attach_state).
-	if (sd->state.storage_flag != 0 || sd->premiumStorage.dirty) {
+	if (sd->state.storage_flag != 0 || sd->premiumStorage.dirty || storage_premiumStorage_loading(sd)) {
 		ShowWarning("buildin_loadstorage: Storage busy (flag %d, dirty %d) for char %d, storage_id '%d' not loaded.\n",
 			(int32)sd->state.storage_flag, (int32)sd->premiumStorage.dirty, sd->status.char_id, stor_id);
 		return SCRIPT_CMD_FAILURE;
@@ -712,6 +712,10 @@ BUILDIN_FUNC(loadstorage)
 
 	if (!intif_storage_request(sd, TABLE_STORAGE, (uint8)stor_id, STOR_MODE_NONE))
 		return SCRIPT_CMD_FAILURE;
+	// [Stingor] Même verrou que storage_premiumStorage_load() : aucun storage
+	// alternatif ne s'ouvre avant cette réponse.
+	sd->premium_storage_pending_id = (uint8)stor_id;
+	sd->premium_storage_request_tick = gettick();
 
 	return SCRIPT_CMD_SUCCESS;
 }
