@@ -44,8 +44,9 @@ struct s_map_edit_session {
 	uint32 text_size = 0;
 	std::vector<uint8> zipped;
 	t_tick last_chunk = 0;
-	t_tick last_get = 0;
-	bool asked = false;
+	// L'instant de la dernière demande, par document : celui de la carte et
+	// celui des lumières de modèle se demandent ensemble à l'entrée.
+	std::unordered_map<std::string, t_tick> last_gets;
 };
 
 // Par nom de carte.
@@ -67,12 +68,17 @@ const char* map_name_of(const map_session_data& sd) {
 	return mapdata != nullptr ? mapdata->name : "";
 }
 
-// Le nom du paquet, borné et terminé, s'il est celui de la carte de `sd`.
-bool names_own_map(const map_session_data& sd, const char (&wire_name)[MAP_NAME_LENGTH_EXT], std::string& name) {
+bool is_shared_document(const std::string& name) {
+	return name == MOONCLIENT_MODEL_LIGHTS_DOCUMENT;
+}
+
+// Le nom du paquet, borné et terminé, s'il est celui de la carte de `sd` ou
+// celui du document des lumières de modèle.
+bool names_own_document(const map_session_data& sd, const char (&wire_name)[MAP_NAME_LENGTH_EXT], std::string& name) {
 	char bounded[MAP_NAME_LENGTH_EXT];
 	safestrncpy(bounded, wire_name, sizeof(bounded));
 	name = bounded;
-	return !name.empty() && name == map_name_of(sd);
+	return !name.empty() && (name == map_name_of(sd) || is_shared_document(name));
 }
 
 uint32 revision_of(const std::string& map) {
@@ -131,6 +137,29 @@ int32 send_document_sub(block_list* bl, va_list ap) {
 	if (sd != nullptr && map != nullptr && document != nullptr)
 		send_document(*sd, *map, *document);
 	return 0;
+}
+
+// À tous les joueurs du serveur (map_foreachpc), mêmes arguments.
+int32 send_document_everywhere_sub(map_session_data* sd, va_list ap) {
+	const std::string* map = va_arg(ap, const std::string*);
+	const s_map_edit_document* document = va_arg(ap, const s_map_edit_document*);
+	if (sd != nullptr && map != nullptr && document != nullptr)
+		send_document(*sd, *map, *document);
+	return 0;
+}
+
+// L'annonce de la révision de `map` (ZC 0x0F48) à `sd`.
+void send_revision(map_session_data& sd, const std::string& map) {
+	const int32 fd = sd.fd;
+	PACKET_ZC_MOONCLIENT_MAP_EDIT_REVISION packet{};
+	packet.packetType   = HEADER_ZC_MOONCLIENT_MAP_EDIT_REVISION;
+	packet.packetLength = static_cast<int16>(sizeof(packet));
+	safestrncpy(packet.map, map.c_str(), sizeof(packet.map));
+	packet.revision    = revision_of(map);
+	packet.can_publish = may_publish(sd) ? 1 : 0;
+	WFIFOHEAD(fd, sizeof(packet));
+	memcpy(WFIFOP(fd, 0), &packet, sizeof(packet));
+	WFIFOSET(fd, sizeof(packet));
 }
 
 // Range le document en base, sur les deux tables d'un seul tenant.
@@ -209,7 +238,12 @@ void complete(map_session_data& sd, s_map_edit_session& state) {
 	s_map_edit_document& kept = s_documents[map];
 	kept = std::move(document);
 	send_result(sd, map, MOONCLIENT_MAP_EDIT_ACCEPTED, kept.revision);
-	map_foreachinmap(send_document_sub, sd.m, BL_PC, &map, static_cast<const s_map_edit_document*>(&kept));
+	// LE DOCUMENT DES LUMIÈRES DE MODÈLE vaut pour toutes les cartes : il va à
+	// tous les joueurs ; celui d'une carte, aux joueurs de cette carte.
+	if (is_shared_document(map))
+		map_foreachpc(send_document_everywhere_sub, &map, static_cast<const s_map_edit_document*>(&kept));
+	else
+		map_foreachinmap(send_document_sub, sd.m, BL_PC, &map, static_cast<const s_map_edit_document*>(&kept));
 }
 
 } // namespace
@@ -261,16 +295,8 @@ void map_edits_announce(map_session_data& sd) {
 	const int32 fd = sd.fd;
 	if (!announced(sd) || !session_isActive(fd))
 		return;
-	const std::string map = map_name_of(sd);
-	PACKET_ZC_MOONCLIENT_MAP_EDIT_REVISION packet{};
-	packet.packetType   = HEADER_ZC_MOONCLIENT_MAP_EDIT_REVISION;
-	packet.packetLength = static_cast<int16>(sizeof(packet));
-	safestrncpy(packet.map, map.c_str(), sizeof(packet.map));
-	packet.revision    = revision_of(map);
-	packet.can_publish = may_publish(sd) ? 1 : 0;
-	WFIFOHEAD(fd, sizeof(packet));
-	memcpy(WFIFOP(fd, 0), &packet, sizeof(packet));
-	WFIFOSET(fd, sizeof(packet));
+	send_revision(sd, map_name_of(sd));
+	send_revision(sd, MOONCLIENT_MODEL_LIGHTS_DOCUMENT);
 }
 
 // [Stingor] CZ_MOONCLIENT_MAP_EDIT_PUT (0x0F45) : un morceau du document qu'enregistre
@@ -285,7 +311,7 @@ void clif_parse_moonclient_map_edit_put(int32 fd, map_session_data* sd) {
 	if (p->packetLength < static_cast<int16>(sizeof(*p)))
 		return;
 	std::string map;
-	const bool own_map = names_own_map(*sd, p->map, map);
+	const bool own_map = names_own_document(*sd, p->map, map);
 	s_map_edit_session& state = s_sessions[sd->id];
 	const auto abandon = [&](e_moonclient_map_edit_result result) {
 		state.receiving = false;
@@ -338,8 +364,9 @@ void clif_parse_moonclient_map_edit_put(int32 fd, map_session_data* sd) {
 }
 
 // [Stingor] CZ_MOONCLIENT_MAP_EDIT_GET (0x0F49) : le document de la carte où se
-// tient le joueur. Rien pour une autre carte, une carte sans document, ou une
-// demande trop proche de la précédente.
+// tient le joueur, ou celui des lumières de modèle. Rien pour une autre carte,
+// un document absent, ou une demande trop proche de la précédente du même
+// document.
 void clif_parse_moonclient_map_edit_get(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!announced(*sd))
@@ -347,14 +374,14 @@ void clif_parse_moonclient_map_edit_get(int32 fd, map_session_data* sd) {
 	const PACKET_CZ_MOONCLIENT_MAP_EDIT_GET* p =
 		reinterpret_cast<const PACKET_CZ_MOONCLIENT_MAP_EDIT_GET*>(RFIFOP(fd, 0));
 	std::string map;
-	if (!names_own_map(*sd, p->map, map))
+	if (!names_own_document(*sd, p->map, map))
 		return;
 	s_map_edit_session& state = s_sessions[sd->id];
 	const t_tick now = gettick();
-	if (state.asked && DIFF_TICK(now, state.last_get) < MOONCLIENT_MAP_EDIT_GET_DELAY)
+	const auto asked = state.last_gets.find(map);
+	if (asked != state.last_gets.end() && DIFF_TICK(now, asked->second) < MOONCLIENT_MAP_EDIT_GET_DELAY)
 		return;
-	state.asked    = true;
-	state.last_get = now;
+	state.last_gets[map] = now;
 	const auto found = s_documents.find(map);
 	if (found == s_documents.end())
 		return;
