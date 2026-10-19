@@ -13,7 +13,7 @@
 
 class map_session_data;
 
-// La session a-t-elle annoncé le Marché (BOURGEON_UI_MARKET) ?
+// La session a-t-elle annoncé le Marché (MOONLIGHT_UI_MARKET) ?
 bool market_announced(const map_session_data& sd);
 
 // La demande d'une session qui a annoncé le Marché. Une autre est ignorée.

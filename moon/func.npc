@@ -17,9 +17,9 @@ function	script	mesitemcell	{
 	if( .@name$ == "null" ) return "item inconnu [id:" + .@itemid + "]";
 	if( .@refine > 0 ) .@name$ = "+" + .@refine + " " + .@name$;
 	// playerattached() en if imbriqué : rAthena n'a pas de court-circuit, et
-	// bourgeon_ui() termine le script s'il n'y a aucun joueur attaché.
+	// moonlight_ui() termine le script s'il n'y a aucun joueur attaché.
 	if( playerattached() ) {
-		if( bourgeon_ui(BOURGEON_UI_NPC_DIALOG) )
+		if( moonlight_ui(MOONLIGHT_UI_NPC_DIALOG) )
 			return itemtag(.@itemid, .@name$);
 	}
 	// mesitemlink() ajoute un NBSP final (feature.mesitemlink_trailing_space).
@@ -35,9 +35,9 @@ function	script	mesmoblink	{
 	if( .@name$ == "null" ) return "monstre inconnu [id:" + .@mobid + "]";
 
 	// playerattached() en if imbriqué : rAthena n'a pas de court-circuit, et
-	// bourgeon_ui() termine le script s'il n'y a aucun joueur attaché.
+	// moonlight_ui() termine le script s'il n'y a aucun joueur attaché.
 	if( playerattached() ) {
-		if( bourgeon_ui(BOURGEON_UI_NPC_DIALOG) )
+		if( moonlight_ui(MOONLIGHT_UI_NPC_DIALOG) )
 			return mobtag(.@mobid);
 	}
 	return meshyperlink(.@name$ + " [id:" + .@mobid + "]",

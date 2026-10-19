@@ -63,7 +63,7 @@
 	BUILDIN_DEF2(restartnpc,"gotomain",""), // alias de restartnpc
 	BUILDIN_DEF(bourgeon_discord_relay_all,"s??????"), // "msg"{, rich_state, "user_id", "name", "avatar", "text", flags} -> 0x0F08 / 0x0F3C aux joueurs de gonryun
 	// [Stingor] Balises Bourgeon dans les dialogues NPC (cf. script.inc, en tête du bloc).
-	BUILDIN_DEF(bourgeon_ui,"??"),          // {mask{,account_id}} -> masque, ou 1/0 si mask donné
+	BUILDIN_DEF(moonlight_ui,"??"),          // {mask{,account_id}} -> masque, ou 1/0 si mask donné
 	BUILDIN_DEF(mobtag,"i?"),               // mob_id{,"nom"} -> lien vers la fiche du monstre
 	BUILDIN_DEF(itemtag,"i?"),              // item_id{,"nom"} -> lien vers la description (objet non possédé)
 	BUILDIN_DEF(crafttag,"i?"),             // item_id{,"nom"} -> lien vers la recette (Atlas)

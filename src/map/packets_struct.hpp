@@ -6403,7 +6403,7 @@ struct PACKET_ZC_MOONLIGHT_ENTITY_PROPS {
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_ENTITY_PROPS, 0x0f23);
 
 // CZ (client -> server): ce que l'interface moderne de ce client SAIT AFFICHER.
-// Layout: [packetType:2][packetLength:2][caps:4], masque `e_bourgeon_ui_cap`.
+// Layout: [packetType:2][packetLength:2][caps:4], masque `e_moonlight_ui_cap`.
 //
 // 🔴 À quoi ça sert, et pourquoi `has_bourgeon` ne suffit pas. Le handshake
 // d'intégrité dit « c'est un client Bourgeon » ; il ne dit pas laquelle de ses
@@ -6746,7 +6746,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_TARGET_INFO, 0x0f2a);
 // Layout: [type:2][len:2][cmd:1][a:4][b:4][text: len-13 octets, NON terminé]
 //   cmd 1  = SNAPSHOT     : demande catalogue + instantané + favoris + groupe
 //   cmd 2  = CREATE       : text = nom du groupe (au-delà de 31 octets : tronqué,
-//                          ou refusé sous BOURGEON_UI_MVP_TRACKER_EXT)
+//                          ou refusé sous MOONLIGHT_UI_MVP_TRACKER_EXT)
 //   cmd 3  = DISSOLVE
 //   cmd 4  = INVITE       : text = nom de personnage
 //   cmd 5  = ACCEPT
@@ -6805,14 +6805,14 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_MVP_STATE, 0x0f31);
 //   kind 1 INVITATION : group_id + name de l'invitant, count = 0
 //   kind 2 RÉSULTAT   : result = e_mvp_group_result, le reste est vide. Les codes
 //                       au-delà de NOT_INVITABLE (13) ne partent que sous
-//                       BOURGEON_UI_MVP_TRACKER_EXT ; sans lui, l'ancien code.
+//                       MOONLIGHT_UI_MVP_TRACKER_EXT ; sans lui, l'ancien code.
 // Les noms de personnage ne sont PAS stockés (ils mentiraient au premier
 // renommage) : ils sont recalculés ici, comme le fait pc_ignorechat_load.
 //
 // QUEUES, après la dernière entrée. Aucune ne part à un client qui ne l'a pas
 // demandée : la structure ci-dessous ne bouge pas.
-//   kind 0 : [self_user_id:4]          sous BOURGEON_UI_MVP_TRACKER_EXT
-//   kind 1 : [origin:1]                sous BOURGEON_UI_MVP_TRACKER_EXT
+//   kind 0 : [self_user_id:4]          sous MOONLIGHT_UI_MVP_TRACKER_EXT
+//   kind 1 : [origin:1]                sous MOONLIGHT_UI_MVP_TRACKER_EXT
 //            (e_mvp_invite_origin ; jamais sur l'invitation de la poignée de
 //            main, qui part avant l'annonce des capacités)
 //   kind 2 : [request_id:4][cmd:1]     si la commande portait un identifiant
@@ -6881,7 +6881,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_PARTY_SHARE, 0x0f35);
 // la guilde du lanceur, que le client peint sur (2 × niveau + 1)² cases autour de
 // l'unité. Le retrait passe par le ZC_SKILL_DISAPPEAR ordinaire.
 //
-// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT BOURGEON_UI_FLAG_GRAFFITI : un client
+// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_FLAG_GRAFFITI : un client
 // qui ne connaît pas l'opcode vide son tampon de réception. Une session qui
 // annonce le bit après avoir vu l'unité la reçoit à ce moment-là.
 //
@@ -6906,13 +6906,13 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_FLAG_GRAFFITI, 0x0f36);
 // zone, entrée en vue, entrée sur la carte), et repart si le maître change ;
 // master_id = 0 : le monstre n'a plus de maître.
 //
-// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT BOURGEON_UI_UNIT_MASTER : un client
+// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_UNIT_MASTER : un client
 // qui ne connaît pas l'opcode vide son tampon de réception. Une session qui
 // annonce le bit après avoir vu le monstre le reçoit à ce moment-là.
 //
 // La même trame décrit aussi le maître d'un COMPAGNON — homoncule, mercenaire,
 // familier, élémentaire —, mais seulement aux sessions qui annoncent
-// BOURGEON_UI_COMPANION_MASTER : un client qui ne sait lire que le maître des
+// MOONLIGHT_UI_COMPANION_MASTER : un client qui ne sait lire que le maître des
 // monstres ne la reçoit que pour eux. master_id est alors le joueur à qui le
 // compagnon appartient, jamais 0.
 //
@@ -6933,7 +6933,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_UNIT_MASTER, 0x0f37);
 // Liste de paires clé / valeur : une clé que le client ne connaît pas est
 // ignorée, si bien qu'en ajouter une ne casse aucun client.
 //
-// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT BOURGEON_UI_SERVER_RULES.
+// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_SERVER_RULES.
 //
 // Layout: [type:2][len:2] puis N × [key:2][value:4]
 enum e_bourgeon_server_rule : uint16 {
@@ -6971,7 +6971,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SERVER_RULES, 0x0f38);
 // Sous @fakename, l'en-tête porte le FAUX nom, et account_id / char_id valent 0 :
 // il ne trahit pas qui se cache derrière.
 //
-// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT BOURGEON_UI_CHAT_AUTHOR : la DLL ne
+// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_CHAT_AUTHOR : la DLL ne
 // l'annonce jamais, et un client qui ne connaît pas l'opcode vide son tampon.
 //
 // Layout : bloc fixe de 44 octets, puis — si scope = MOONLIGHT_CHAT_CHANNEL
@@ -7007,7 +7007,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_CHAT_AUTHOR, 0x0f3a);
 // Un erasequest d'une quête déjà achevée n'en envoie pas : le client la garde
 // pour « Achevée ».
 //
-// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT BOURGEON_UI_QUEST_END.
+// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_QUEST_END.
 //
 // Layout : [type:2][len:2][quest_id:4][reason:1][next_quest_id:4]  (len = 13)
 enum e_moonlight_quest_end : uint8 {
@@ -7031,7 +7031,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_QUEST_END, 0x0f3b);
 // mentions sont résolues mais les emotes GARDÉES (<:nom:id>, <a:nom:id>).
 //
 // Il part À LA PLACE de ZC_MOONLIGHT_DISCORD_MSG (0x0F08) aux sessions qui
-// annoncent BOURGEON_UI_DISCORD_RICH : le premier morceau d'un message porte le
+// annoncent MOONLIGHT_UI_DISCORD_RICH : le premier morceau d'un message porte le
 // riche, les morceaux suivants ne leur partent pas. Un message sans riche leur
 // part en 0x0F08. Les autres sessions reçoivent 0x0F08 comme avant.
 //
@@ -7078,7 +7078,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_DISCORD_RICH, 0x0f3c);
 // bonus sont ceux du `Script` de pet_db, joué en capture avec l'intimité du
 // moment : seule la branche que cette intimité atteint est relevée.
 //
-// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT BOURGEON_UI_EQUIP_ATTRIBUTES : un client
+// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_EQUIP_ATTRIBUTES : un client
 // qui ne connaît pas l'opcode viderait son tampon de réception.
 //
 // Les bonus sont ceux de la pièce SEULE : son script, ceux de ses cartes et de ses
@@ -7193,7 +7193,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_CHAT_BLOCKS, 0x0f3f);
 // l'annonce du bit. Un exemplaire par destinataire : may_destroy et
 // on_instance_map sont les siens.
 //
-// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT BOURGEON_UI_INSTANCE_INFO.
+// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_INSTANCE_INFO.
 //
 // Les échéances de 0x02CD sont en secondes Unix de l'horloge du SERVEUR :
 // server_time permet au client de les lire sans dépendre de la sienne.
@@ -7217,13 +7217,13 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_INSTANCE_INFO, 0x0f40);
 // [Stingor] Le MARCHÉ de moonclient (CZ 0x0F41 -> ZC 0x0F42) : toutes les
 // échoppes ouvertes du serveur, de vente ou d'achat, autotrade compris, et les
 // boutiques de PNJ, sur toutes les cartes. Il remplace la recherche d'échoppes
-// du client d'origine pour qui annonce BOURGEON_UI_MARKET (market.cpp).
+// du client d'origine pour qui annonce MOONLIGHT_UI_MARKET (market.cpp).
 //
 // 🔴 PARTOUT : aucune condition de carte ni de catalogue. Un catalogue
 // (searchstores) n'est qu'un raccourci qui ouvre le Marché, sans être consommé.
 // 🔴 LECTURE SEULE : rien ici n'ouvre une échoppe à distance ni n'achète. Le
 // joueur se rend sur place, et l'achat garde toutes ses gardes, distance comprise.
-// 🔴 Rien de neuf ne part sans BOURGEON_UI_MARKET : une demande d'une session
+// 🔴 Rien de neuf ne part sans MOONLIGHT_UI_MARKET : une demande d'une session
 // qui ne l'a pas annoncé est ignorée.
 //
 // CZ : l'en-tête, puis des identifiants d'item (vide = tous). Le CLIENT résout
@@ -7369,7 +7369,7 @@ DEFINE_PACKET_HEADER(CZ_MOONLIGHT_GM_OUTFIT, 0x0f43);
 
 // ZC (server -> client): le joueur `GID` porte, ou quitte, l'habit. Fixe 9.
 //
-// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT BOURGEON_UI_GM_OUTFIT : un client qui
+// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_GM_OUTFIT : un client qui
 // ne connaît pas l'opcode vide son tampon de réception. À l'apparition et à
 // l'entrée en vue, il ne part que pour un joueur qui le PORTE : l'absence vaut
 // « habit du métier ». Le basculement part dans les deux sens, à toute la zone,
@@ -7393,7 +7393,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_GM_OUTFIT, 0x0f44);
 // redistribue. Voir map_edits.hpp, et l'ADR 0124 de moonclient.
 //
 // 🔴 RIEN DE TOUT CELA NE PART À UNE SESSION QUI N'A PAS ANNONCÉ
-// BOURGEON_UI_MAP_EDITS : un client qui ne connaît pas l'opcode vide son tampon.
+// MOONLIGHT_UI_MAP_EDITS : un client qui ne connaît pas l'opcode vide son tampon.
 //
 // Le document voyage en MORCEAUX du flux compressé, dans l'ordre. Chaque morceau
 // dit le total compressé, la taille du texte et son décalage ; le décalage 0
@@ -7403,7 +7403,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_GM_OUTFIT, 0x0f44);
 // Un morceau envoyé par le client. 🔴 Le client envoie les morceaux d'affilée :
 // le tampon de réception d'origine (RFIFO_SIZE, socket.cpp, 2 Kio) en coupe un
 // en deux, et socket.cpp ferme une session dont le tampon est plein. Une session
-// qui annonce BOURGEON_UI_MAP_EDITS reçoit donc MOONCLIENT_MAP_EDIT_RFIFO, et
+// qui annonce MOONLIGHT_UI_MAP_EDITS reçoit donc MOONCLIENT_MAP_EDIT_RFIFO, et
 // clif_parse attend la fin d'un paquet coupé qui tient dans le tampon.
 #define MOONCLIENT_MAP_EDIT_PUT_CHUNK 1024
 #define MOONCLIENT_MAP_EDIT_RFIFO (64 * 1024)
@@ -7416,7 +7416,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_GM_OUTFIT, 0x0f44);
 
 // CZ (client -> serveur) : un morceau du document qu'enregistre le staff, fondé
 // sur `base_revision`. VARIABLE : au plus MOONCLIENT_MAP_EDIT_PUT_CHUNK octets en
-// queue. Gate BOURGEON_UI_MAP_EDITS et moonclient_map_edit_level DANS le handler.
+// queue. Gate MOONLIGHT_UI_MAP_EDITS et moonclient_map_edit_level DANS le handler.
 // Layout: [type:2][len:2][map:16][base_revision:4][zipped_size:4][text_size:4]
 //         [offset:4] puis les octets du morceau
 struct PACKET_CZ_MOONCLIENT_MAP_EDIT_PUT {

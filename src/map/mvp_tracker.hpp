@@ -141,11 +141,11 @@ enum e_mvp_group_result : uint8 {
 	MVP_GROUP_ERR_NOT_INVITABLE,
 	// Une saisie (ou un lien importé) que le groupe n'a PAS retenue : il tient
 	// déjà mieux pour ce cycle, ou un cycle plus récent. Jamais vu d'un client
-	// sans BOURGEON_UI_MVP_TRACKER_EXT : clif le ramène à OK pour lui, qui ne
+	// sans MOONLIGHT_UI_MVP_TRACKER_EXT : clif le ramène à OK pour lui, qui ne
 	// saurait que l'afficher en code nu.
 	MVP_GROUP_ERR_OBS_KEPT,
 	// Les trois suivants nomment juste ce que l'ancien jeu de codes disait de
-	// travers. Même règle que OBS_KEPT : réservés à BOURGEON_UI_MVP_TRACKER_EXT,
+	// travers. Même règle que OBS_KEPT : réservés à MOONLIGHT_UI_MVP_TRACKER_EXT,
 	// clif rend aux autres le code qu'ils ont toujours reçu (cf.
 	// clif_bourgeon_mvp_result_on_wire).
 	//
@@ -177,7 +177,7 @@ void mvp_tracker_on_logout( map_session_data& sd );
 /// `name_truncated` : le texte reçu dépassait MVP_GROUP_NAME_LEN - 1 octets et
 /// `name` n'en tient que le début. true refuse (MVP_GROUP_ERR_NAME_TOO_LONG) ;
 /// false crée le groupe sous ce début. clif ne passe true qu'à une session
-/// BOURGEON_UI_MVP_TRACKER_EXT.
+/// MOONLIGHT_UI_MVP_TRACKER_EXT.
 ///
 /// Créer ou rejoindre un groupe y inscrit TOUTES les sessions en ligne du compte
 /// Moonlight, pas seulement celle qui agit : l'appartenance est celle du compte.

@@ -1640,13 +1640,13 @@ ACMD_FUNC(iteminfo)
 // `<NAVIL>` pour un lieu) : il suffit de les poser ici.
 //
 // 🔴 GATÉ SUR LA CAPACITÉ, pas sur `has_bourgeon`. La chatbox moderne est
-// opt-in et peut être éteinte en cours de session (cf. `e_bourgeon_ui_cap`) ;
+// opt-in et peut être éteinte en cours de session (cf. `e_moonlight_ui_cap`) ;
 // un client qui ne la rend pas lirait les chevrons en toutes lettres. La sortie
 // de ces commandes est un message SELF : personne d'autre ne la lit, donc le
 // choix se fait une fois pour toute la commande, sans version de repli à poster
 // en parallèle.
 static bool bourgeon_chat_markup(map_session_data* sd) {
-	return sd != nullptr && (sd->bourgeon_ui_caps & BOURGEON_UI_CHAT) != 0;
+	return sd != nullptr && (sd->bourgeon_ui_caps & MOONLIGHT_UI_CHAT) != 0;
 }
 
 // Le nom d'un monstre. En lien, le RANG voyage dans la balise (0 normal, 1 boss,
@@ -2205,12 +2205,12 @@ ACMD_FUNC(ignorelist)
 // ne vaut d'être connu qu'à côté du joueur qui brade à 3000z deux cases plus
 // loin.
 //
-// À un client qui a le Marché (BOURGEON_UI_MARKET), la commande OUVRE LE MARCHÉ,
+// À un client qui a le Marché (MOONLIGHT_UI_MARKET), la commande OUVRE LE MARCHÉ,
 // la saisie posée sur l'item demandé, où que soit le joueur. Aux autres, la
 // réponse s'écrit dans la conversation : voir le bloc déprécié ci-dessous.
 
 // ┌── DÉPRÉCIÉ : la réponse écrite de @shopsearch ─────────────────────────────
-// │ Elle ne sert plus qu'aux clients qui n'annoncent pas BOURGEON_UI_MARKET, et
+// │ Elle ne sert plus qu'aux clients qui n'annoncent pas MOONLIGHT_UI_MARKET, et
 // │ est destinée à disparaître avec eux. Tout ce qu'elle seule emploie tient
 // │ entre ce cadre et sa fermeture : la retirer, c'est supprimer ce bloc et
 // │ l'appel de `shopsearch_legacy_report` dans ACMD_FUNC(shopsearch).

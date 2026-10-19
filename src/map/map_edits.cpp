@@ -54,7 +54,7 @@ std::unordered_map<std::string, s_map_edit_document> s_documents;
 std::unordered_map<int32, s_map_edit_session> s_sessions;
 
 bool announced(const map_session_data& sd) {
-	return sd.state.has_bourgeon && (sd.bourgeon_ui_caps & BOURGEON_UI_MAP_EDITS) != 0;
+	return sd.state.has_bourgeon && (sd.bourgeon_ui_caps & MOONLIGHT_UI_MAP_EDITS) != 0;
 }
 
 bool may_publish(const map_session_data& sd) {

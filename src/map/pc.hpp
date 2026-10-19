@@ -662,7 +662,7 @@ public:
 	t_tick bourgeon_stylelasttime = 0;
 
 	// [Stingor] Bourgeon : ce que l'interface moderne de CE client sait afficher
-	// (CZ_MOONLIGHT_UI_CAPS 0x0F24, masque e_bourgeon_ui_cap). Zéro = rien, donc un
+	// (CZ_MOONLIGHT_UI_CAPS 0x0F24, masque e_moonlight_ui_cap). Zéro = rien, donc un
 	// client vanilla, un client Bourgeon dont toutes les surfaces modernes sont
 	// éteintes, ou un client qui n'a pas encore parlé.
 	//

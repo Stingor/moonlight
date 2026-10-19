@@ -2104,7 +2104,7 @@ parseable_packet(HEADER_CZ_MOONLIGHT_REQ_ENTITY_PROPS, sizeof(PACKET_CZ_MOONLIGH
 parseable_packet(HEADER_CZ_MOONLIGHT_REQ_CHAT_BLOCKS, sizeof(PACKET_CZ_MOONLIGHT_REQ_CHAT_BLOCKS), clif_parse_moonlight_req_chat_blocks, 0);
 
 // [Stingor] moonclient : le Marché, toutes les échoppes ouvertes du serveur
-// (market.cpp). Gate BOURGEON_UI_MARKET et carte de ville DANS le handler —
+// (market.cpp). Gate MOONLIGHT_UI_MARKET et carte de ville DANS le handler —
 // VARIABLE : la queue porte les identifiants d'objet cherchés.
 parseable_packet(HEADER_CZ_MOONLIGHT_MARKET_REQ, -1, clif_parse_moonlight_market_req, 0);
 
@@ -2113,7 +2113,7 @@ parseable_packet(HEADER_CZ_MOONLIGHT_MARKET_REQ, -1, clif_parse_moonlight_market
 parseable_packet(HEADER_CZ_MOONLIGHT_GM_OUTFIT, sizeof(PACKET_CZ_MOONLIGHT_GM_OUTFIT), clif_parse_moonlight_gm_outfit, 0);
 
 // [Stingor] moonclient : les éditions de carte (map_edits.cpp). Gate
-// BOURGEON_UI_MAP_EDITS DANS les handlers, et moonclient_map_edit_level pour
+// MOONLIGHT_UI_MAP_EDITS DANS les handlers, et moonclient_map_edit_level pour
 // l'envoi — VARIABLE : la queue de PUT porte un morceau du document compressé.
 parseable_packet(HEADER_CZ_MOONCLIENT_MAP_EDIT_PUT, -1, clif_parse_moonclient_map_edit_put, 0);
 parseable_packet(HEADER_CZ_MOONCLIENT_MAP_EDIT_GET, sizeof(PACKET_CZ_MOONCLIENT_MAP_EDIT_GET), clif_parse_moonclient_map_edit_get, 0);

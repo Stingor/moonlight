@@ -1824,7 +1824,7 @@ BUILDIN_FUNC(restartnpc)
  * rich_state (0 aucun riche, 1 ce morceau porte le riche, 2 morceau déjà
  * couvert), l'identifiant Discord de l'auteur EN CHAÎNE (il dépasse un entier de
  * script), son nom, le chemin de son avatar, le message entier, et les drapeaux
- * (1 : l'auteur est un bot). Les sessions qui annoncent BOURGEON_UI_DISCORD_RICH
+ * (1 : l'auteur est un bot). Les sessions qui annoncent MOONLIGHT_UI_DISCORD_RICH
  * reçoivent ZC_MOONLIGHT_DISCORD_RICH (0x0F3C) à la place de 0x0F08. Appelée
  * avec le seul message, elle fait exactement ce qu'elle faisait avant.
  */
@@ -1883,22 +1883,22 @@ BUILDIN_FUNC(bourgeon_discord_relay_all)
  * disparaissent (clif_bourgeon_strip_own_tags, appelé par clif_scriptmes). Un
  * script s'écrit donc UNE fois.
  *
- * `bourgeon_ui()` ne sert qu'à changer la STRUCTURE d'un dialogue — proposer un
+ * `moonlight_ui()` ne sert qu'à changer la STRUCTURE d'un dialogue — proposer un
  * écran illustré ici, une liste de texte là — pas à répéter chaque `mes`.
  */
 
-/* bourgeon_ui({<mask>{,<account_id>}})
+/* moonlight_ui({<mask>{,<account_id>}})
  * Sans argument : le masque des interfaces modernes ALLUMÉES chez ce joueur.
  * Avec un masque : 1 si TOUS ses bits sont présents, 0 sinon.
- * Constantes : BOURGEON_UI_NPC_DIALOG, BOURGEON_UI_CHAT.
+ * Constantes : MOONLIGHT_UI_NPC_DIALOG, MOONLIGHT_UI_CHAT.
  *
- *   if (bourgeon_ui(BOURGEON_UI_NPC_DIALOG)) { mes mobsprite(1039,1); }
+ *   if (moonlight_ui(MOONLIGHT_UI_NPC_DIALOG)) { mes mobsprite(1039,1); }
  *
  * 0 pour un client vanilla, pour un client Bourgeon dont tout est éteint, et
  * pour un joueur qui n'a pas encore annoncé ses capacités — les trois se valent
  * du point de vue d'un script : ne comptez pas sur les balises.
  */
-BUILDIN_FUNC(bourgeon_ui)
+BUILDIN_FUNC(moonlight_ui)
 {
 	TBL_PC *sd;
 	if (!script_accid2sd(3, sd)) {

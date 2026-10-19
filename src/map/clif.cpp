@@ -911,7 +911,7 @@ static void clif_chat_author_build( clif_chat_author& out, uint16 next_opcode, e
 	}
 
 	p->packetLength = static_cast<int16>( len );
-	out.sidecar = { out.buf, len, BOURGEON_UI_CHAT_AUTHOR };
+	out.sidecar = { out.buf, len, MOONLIGHT_UI_CHAT_AUTHOR };
 }
 
 /// Notifies the client, that it's connection attempt was accepted.
@@ -2779,7 +2779,7 @@ void clif_scriptmes( const map_session_data& sd, uint32 npcid, const char *mes )
 	// dialogue natif — on les remplace par le libellé qu'elles transportent, sinon
 	// elles s'afficheraient chevrons compris. Cf. clif_bourgeon_strip_own_tags.
 	std::string plain;
-	if( !( sd.bourgeon_ui_caps & BOURGEON_UI_NPC_DIALOG ) &&
+	if( !( sd.bourgeon_ui_caps & MOONLIGHT_UI_NPC_DIALOG ) &&
 	    clif_bourgeon_strip_own_tags( mes, plain ) )
 		mes = plain.c_str();
 
@@ -2957,7 +2957,7 @@ void clif_scriptmenu( map_session_data& sd, uint32 npcid, const char* mes ){
 	// entrée, comme il faut. Un nom de monstre à ':' casserait le menu, mais c'est
 	// une limite RO qui préexiste (cf. le parseur du dialogue côté client).
 	std::string plain;
-	if( !( sd.bourgeon_ui_caps & BOURGEON_UI_NPC_DIALOG ) &&
+	if( !( sd.bourgeon_ui_caps & MOONLIGHT_UI_NPC_DIALOG ) &&
 	    clif_bourgeon_strip_own_tags( mes, plain ) )
 		mes = plain.c_str();
 
@@ -6533,7 +6533,7 @@ void clif_bourgeon_stat_bonus(map_session_data* sd) {
 // (current_equip_*) sont posées comme status_calc_pc les pose, puis rendues.
 
 bool clif_moonlight_equip_attributes_wanted(const map_session_data& sd) {
-	return sd.state.has_bourgeon && ( sd.bourgeon_ui_caps & BOURGEON_UI_EQUIP_ATTRIBUTES ) && session_isActive( sd.fd );
+	return sd.state.has_bourgeon && ( sd.bourgeon_ui_caps & MOONLIGHT_UI_EQUIP_ATTRIBUTES ) && session_isActive( sd.fd );
 }
 
 /// Joue un script en capture et ajoute ses commandes bonus à `into`.
@@ -9018,7 +9018,7 @@ void clif_bourgeon_party_share( map_session_data& sd, const uint32* aid, const u
 //
 // Le client l'annonce dès que le serveur l'a reconnu, PUIS à chaque fois qu'un
 // réglage d'interface bascule. On ne fait que le retenir : c'est `clif_scriptmes`
-// (et les scripts, via `bourgeon_ui()`) qui s'en servent.
+// (et les scripts, via `moonlight_ui()`) qui s'en servent.
 //
 // ⚠ Rien n'est persisté. Un joueur qui éteint le dialogue moderne en pleine
 // conversation doit être servi autrement à la ligne suivante, et sa session
@@ -9027,7 +9027,7 @@ void clif_bourgeon_party_share( map_session_data& sd, const uint32* aid, const u
 // et seulement si elle a annoncé savoir le peindre. Un client qui ne connaît pas
 // l'opcode viderait son tampon de réception : ne jamais l'envoyer en aveugle.
 static void clif_bourgeon_flag_graffiti_single(const skill_unit& unit, map_session_data& sd) {
-	if (!sd.state.has_bourgeon || !(sd.bourgeon_ui_caps & BOURGEON_UI_FLAG_GRAFFITI))
+	if (!sd.state.has_bourgeon || !(sd.bourgeon_ui_caps & MOONLIGHT_UI_FLAG_GRAFFITI))
 		return;
 	if (unit.group == nullptr)
 		return;
@@ -9076,7 +9076,7 @@ static int32 clif_bourgeon_flag_graffiti_seen_sub(block_list* bl, va_list ap) {
 // appelé APRÈS le paquet qui montre le monstre, pour que le client connaisse déjà
 // l'acteur qu'on lui décrit.
 static void clif_bourgeon_unit_master_single(const mob_data& md, map_session_data& sd) {
-	if (!sd.state.has_bourgeon || !(sd.bourgeon_ui_caps & BOURGEON_UI_UNIT_MASTER))
+	if (!sd.state.has_bourgeon || !(sd.bourgeon_ui_caps & MOONLIGHT_UI_UNIT_MASTER))
 		return;
 	const int32 fd = sd.fd;
 	if (!session_isActive(fd))
@@ -9144,7 +9144,7 @@ static bool moonlight_gm_outfit_worn(const map_session_data& sd) {
 // annoncé savoir le dessiner. Toujours APRÈS le paquet qui montre le joueur, pour
 // que le client connaisse déjà l'acteur qu'on lui décrit.
 static void clif_moonlight_gm_outfit_single(const map_session_data& owner, bool worn, map_session_data& sd) {
-	if (!sd.state.has_bourgeon || !(sd.bourgeon_ui_caps & BOURGEON_UI_GM_OUTFIT))
+	if (!sd.state.has_bourgeon || !(sd.bourgeon_ui_caps & MOONLIGHT_UI_GM_OUTFIT))
 		return;
 	const int32 fd = sd.fd;
 	if (!session_isActive(fd))
@@ -9246,9 +9246,9 @@ static uint32 clif_bourgeon_companion_master_id(const block_list& bl) {
 }
 
 // [Stingor] Le maître d'un compagnon (ZC 0x0F37), à UNE session qui a annoncé
-// BOURGEON_UI_COMPANION_MASTER. Toujours APRÈS le paquet qui montre le compagnon.
+// MOONLIGHT_UI_COMPANION_MASTER. Toujours APRÈS le paquet qui montre le compagnon.
 static void clif_bourgeon_companion_master_single(const block_list& bl, map_session_data& sd) {
-	if (!sd.state.has_bourgeon || !(sd.bourgeon_ui_caps & BOURGEON_UI_COMPANION_MASTER))
+	if (!sd.state.has_bourgeon || !(sd.bourgeon_ui_caps & MOONLIGHT_UI_COMPANION_MASTER))
 		return;
 	const uint32 master_id = clif_bourgeon_companion_master_id(bl);
 	if (master_id == 0)
@@ -9315,9 +9315,9 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	// refusée en entier : la garder sans son balayage laisserait le client sans
 	// les données qu'il attend. Le client honnête ne les annonce qu'une fois par
 	// session ; retirer un bit, ou changer un bit sans balayage, passe toujours.
-	static constexpr uint32 kScanOnGain = BOURGEON_UI_FLAG_GRAFFITI | BOURGEON_UI_UNIT_MASTER |
-		BOURGEON_UI_GM_OUTFIT | BOURGEON_UI_SERVER_RULES | BOURGEON_UI_MAP_EDITS |
-		BOURGEON_UI_COMPANION_MASTER | BOURGEON_UI_INSTANCE_INFO;
+	static constexpr uint32 kScanOnGain = MOONLIGHT_UI_FLAG_GRAFFITI | MOONLIGHT_UI_UNIT_MASTER |
+		MOONLIGHT_UI_GM_OUTFIT | MOONLIGHT_UI_SERVER_RULES | MOONLIGHT_UI_MAP_EDITS |
+		MOONLIGHT_UI_COMPANION_MASTER | MOONLIGHT_UI_INSTANCE_INFO;
 	if ((p->caps & ~sd->bourgeon_ui_caps & kScanOnGain) != 0 &&
 		!clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_UI_CAPS))
 		return;
@@ -9325,26 +9325,26 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	sd->bourgeon_ui_caps = p->caps;
 	// L'annonce suit l'entrée en carte : les Flag Graffiti alentour ont déjà été
 	// montrés — sans lui. Il les reçoit maintenant.
-	if (!(before & BOURGEON_UI_FLAG_GRAFFITI) && (p->caps & BOURGEON_UI_FLAG_GRAFFITI))
+	if (!(before & MOONLIGHT_UI_FLAG_GRAFFITI) && (p->caps & MOONLIGHT_UI_FLAG_GRAFFITI))
 		map_foreachinallrange(clif_bourgeon_flag_graffiti_seen_sub, sd, pc_view_range(*sd), BL_SKILL, sd);
 	// [Stingor] De même pour les maîtres des monstres déjà en vue.
-	if (!(before & BOURGEON_UI_UNIT_MASTER) && (p->caps & BOURGEON_UI_UNIT_MASTER))
+	if (!(before & MOONLIGHT_UI_UNIT_MASTER) && (p->caps & MOONLIGHT_UI_UNIT_MASTER))
 		map_foreachinallrange(clif_bourgeon_unit_master_seen_sub, sd, pc_view_range(*sd), BL_MOB, sd);
 	// [Stingor] De même pour l'habit du GM des joueurs déjà en vue.
-	if (!(before & BOURGEON_UI_GM_OUTFIT) && (p->caps & BOURGEON_UI_GM_OUTFIT))
+	if (!(before & MOONLIGHT_UI_GM_OUTFIT) && (p->caps & MOONLIGHT_UI_GM_OUTFIT))
 		map_foreachinallrange(clif_moonlight_gm_outfit_seen_sub, sd, pc_view_range(*sd), BL_PC, sd);
 	// [Stingor] Les réglages du serveur, dès que le client sait les lire.
-	if (!(before & BOURGEON_UI_SERVER_RULES) && (p->caps & BOURGEON_UI_SERVER_RULES))
+	if (!(before & MOONLIGHT_UI_SERVER_RULES) && (p->caps & MOONLIGHT_UI_SERVER_RULES))
 		clif_bourgeon_server_rules(*sd);
 	// [Stingor] La révision de l'édition de la carte, dès que le client sait la lire.
-	if (!(before & BOURGEON_UI_MAP_EDITS) && (p->caps & BOURGEON_UI_MAP_EDITS))
+	if (!(before & MOONLIGHT_UI_MAP_EDITS) && (p->caps & MOONLIGHT_UI_MAP_EDITS))
 		map_edits_announce(*sd);
 	// [Stingor] Les maîtres des compagnons déjà en vue.
-	if (!(before & BOURGEON_UI_COMPANION_MASTER) && (p->caps & BOURGEON_UI_COMPANION_MASTER))
+	if (!(before & MOONLIGHT_UI_COMPANION_MASTER) && (p->caps & MOONLIGHT_UI_COMPANION_MASTER))
 		map_foreachinallrange(clif_bourgeon_companion_master_seen_sub, sd, pc_view_range(*sd), BL_HOM | BL_MER | BL_PET | BL_ELEM, sd);
 	// [Stingor] L'annonce suit l'entrée en carte, et donc 0x02CB / 0x02CD : le
 	// détail de ses instances lui part maintenant.
-	if (!(before & BOURGEON_UI_INSTANCE_INFO) && (p->caps & BOURGEON_UI_INSTANCE_INFO)) {
+	if (!(before & MOONLIGHT_UI_INSTANCE_INFO) && (p->caps & MOONLIGHT_UI_INSTANCE_INFO)) {
 		if (sd->instance_id > 0)
 			clif_instance_details_single(*sd, sd->instance_id);
 		if (const party_data* pd = party_search(sd->status.party_id); pd != nullptr && pd->instance_id > 0)
@@ -9356,13 +9356,13 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	}
 	// [Stingor] Les morceaux d'une édition de carte arrivent d'affilée : un tampon
 	// de réception plus grand. EN DERNIER : le réallouer invalide `p`.
-	if (p->caps & BOURGEON_UI_MAP_EDITS)
+	if (p->caps & MOONLIGHT_UI_MAP_EDITS)
 		realloc_fifo(fd, MOONCLIENT_MAP_EDIT_RFIFO, static_cast<uint32>(session[fd]->max_wdata));
 }
 
 // [Stingor] ZC_MOONLIGHT_SERVER_RULES (0x0F38), à une session qui sait le lire.
 void clif_bourgeon_server_rules(map_session_data& sd) {
-	if (!sd.state.has_bourgeon || !(sd.bourgeon_ui_caps & BOURGEON_UI_SERVER_RULES))
+	if (!sd.state.has_bourgeon || !(sd.bourgeon_ui_caps & MOONLIGHT_UI_SERVER_RULES))
 		return;
 	const int32 fd = sd.fd;
 	if (!session_isActive(fd))
@@ -9427,7 +9427,7 @@ void clif_bourgeon_server_rules_all() {
 #define MVP_GROUP_HEADER_LEN   (int16)(sizeof(PACKET_ZC_MOONLIGHT_MVP_GROUP))
 #define MVP_MEMBER_ENTRY_LEN   (int16)(4 + 2 + 1 + NAME_LENGTH)
 // Les QUEUES de ZC_MOONLIGHT_MVP_GROUP. Elles suivent la dernière entrée et ne
-// partent qu'à une session BOURGEON_UI_MVP_TRACKER_EXT (S1, S3), ou qu'en
+// partent qu'à une session MOONLIGHT_UI_MVP_TRACKER_EXT (S1, S3), ou qu'en
 // réponse à une commande qui portait un identifiant (S2) : un lecteur lit par
 // longueur et ignore l'excédent, une queue future s'ajoute APRÈS celles-ci.
 #define MVP_GROUP_SELF_TRAILER_LEN    (int16)(4)      // kind 0 : [self_user_id:4]
@@ -9546,7 +9546,7 @@ void clif_bourgeon_mvp_delta(const s_mvp_group& group, uint16 slot_id, const s_m
 		// Le bit tombe quand le joueur ferme la fenêtre : on cesse alors de lui
 		// diffuser. Il continue d'ALIMENTER le groupe par ses kills.
 		if (!member->state.has_bourgeon) continue;
-		if (!(member->bourgeon_ui_caps & BOURGEON_UI_MVP_TRACKER)) continue;
+		if (!(member->bourgeon_ui_caps & MOONLIGHT_UI_MVP_TRACKER)) continue;
 		const int32 fd = member->fd;
 		if (!session_isActive(fd)) continue;
 
@@ -9573,7 +9573,7 @@ static void clif_bourgeon_mvp_group_send(map_session_data& sd, const s_mvp_group
 	// ligne (et la propriété du groupe) au nom de son personnage parmi les
 	// membres. Un user_id dit en plus quelles lignes sont « nous » quand le même
 	// compte a plusieurs sessions. 0 : compte de jeu non rattaché.
-	const bool self_trailer = (sd.bourgeon_ui_caps & BOURGEON_UI_MVP_TRACKER_EXT) != 0;
+	const bool self_trailer = (sd.bourgeon_ui_caps & MOONLIGHT_UI_MVP_TRACKER_EXT) != 0;
 
 	const int16 pkt_len = (int16)(MVP_GROUP_HEADER_LEN + members.size() * MVP_MEMBER_ENTRY_LEN +
 		(self_trailer ? MVP_GROUP_SELF_TRAILER_LEN : 0));
@@ -9660,8 +9660,8 @@ void clif_bourgeon_mvp_presence(const s_mvp_group& group) {
 
 	for (map_session_data* member : group.online) {
 		if (!clif_bourgeon_mvp_group_reachable(*member)) continue;
-		if (!(member->bourgeon_ui_caps & BOURGEON_UI_MVP_TRACKER_EXT)) continue;
-		if (!(member->bourgeon_ui_caps & BOURGEON_UI_MVP_TRACKER)) continue;
+		if (!(member->bourgeon_ui_caps & MOONLIGHT_UI_MVP_TRACKER_EXT)) continue;
+		if (!(member->bourgeon_ui_caps & MOONLIGHT_UI_MVP_TRACKER)) continue;
 		recipients.push_back(member);
 	}
 
@@ -9678,7 +9678,7 @@ static void clif_bourgeon_mvp_invite_frame(map_session_data& sd, uint32 group_id
 
 	// S3 — D'OÙ VIENT L'INVITATION. Sans cette queue, le client la déduit de
 	// l'ordre des trames, et trois cas restent ambigus.
-	const bool origin_trailer = (sd.bourgeon_ui_caps & BOURGEON_UI_MVP_TRACKER_EXT) != 0;
+	const bool origin_trailer = (sd.bourgeon_ui_caps & MOONLIGHT_UI_MVP_TRACKER_EXT) != 0;
 
 	const int16 pkt_len = (int16)(MVP_GROUP_HEADER_LEN + (origin_trailer ? MVP_INVITE_ORIGIN_TRAILER_LEN : 0));
 	WFIFOHEAD(fd, pkt_len);
@@ -9738,7 +9738,7 @@ static void clif_bourgeon_mvp_invite_withdraw_others(const map_session_data& act
 /// postérieurs à NOT_INVITABLE ne partent qu'à qui lit les queues. Les autres
 /// reçoivent le code qu'ils ont toujours reçu dans ce cas-là, octet pour octet.
 static uint8 clif_bourgeon_mvp_result_on_wire(const map_session_data& sd, uint8 result) {
-	if (sd.bourgeon_ui_caps & BOURGEON_UI_MVP_TRACKER_EXT)
+	if (sd.bourgeon_ui_caps & MOONLIGHT_UI_MVP_TRACKER_EXT)
 		return result;
 
 	switch (result) {
@@ -9829,7 +9829,7 @@ void clif_parse_moonlight_mvp_cmd(int32 fd, map_session_data* sd) {
 	// celle du texte SEUL, suffixe d'identifiant ôté. Refusé à qui sait lire
 	// MVP_GROUP_ERR_NAME_TOO_LONG ; les autres gardent le nom tronqué.
 	const bool name_truncated = text_len > MVP_GROUP_NAME_LEN - 1 &&
-		(sd->bourgeon_ui_caps & BOURGEON_UI_MVP_TRACKER_EXT) != 0;
+		(sd->bourgeon_ui_caps & MOONLIGHT_UI_MVP_TRACKER_EXT) != 0;
 
 	e_mvp_group_result result = MVP_GROUP_OK;
 	bool group_changed = false;
@@ -9926,7 +9926,7 @@ void clif_parse_moonlight_mvp_cmd(int32 fd, map_session_data* sd) {
 		if (account_joined && group != nullptr) {
 			for (map_session_data* member : group->online) {
 				if (member == sd || member->status.user_id != sd->status.user_id) continue;
-				if (!(member->bourgeon_ui_caps & BOURGEON_UI_MVP_TRACKER)) continue;
+				if (!(member->bourgeon_ui_caps & MOONLIGHT_UI_MVP_TRACKER)) continue;
 				clif_bourgeon_mvp_snapshot(*member);
 			}
 		}
@@ -9949,7 +9949,7 @@ void clif_parse_moonlight_mvp_cmd(int32 fd, map_session_data* sd) {
 // aucune fenêtre pour montrer ce qu'il vient de coûter — refuser vaut mieux que
 // consommer une carte dans le vide.
 static bool clif_bourgeon_card_album_allowed(map_session_data& sd) {
-	return sd.state.has_bourgeon && (sd.bourgeon_ui_caps & BOURGEON_UI_CARD_ALBUM) != 0;
+	return sd.state.has_bourgeon && (sd.bourgeon_ui_caps & MOONLIGHT_UI_CARD_ALBUM) != 0;
 }
 
 // Pousse l'état COMPLET : tout le catalogue, chaque carte portant sa réserve et
@@ -9962,11 +9962,11 @@ void clif_bourgeon_card_album(map_session_data& sd, e_card_album_result result) 
 	const std::vector<s_card_album_card>& catalog = card_album_catalog();
 
 	// La taille d'une entrée : 12 octets pour un client qui sait lire la nature
-	// du monstre, 11 pour tous les autres. Voir BOURGEON_UI_CARD_ALBUM_BOSS.
+	// du monstre, 11 pour tous les autres. Voir MOONLIGHT_UI_CARD_ALBUM_BOSS.
 	static_assert( sizeof( CARD_ALBUM_ENTRY ) == 12, "CARD_ALBUM_ENTRY a change de taille : revoir la taille heritee ci-dessous" );
 	constexpr size_t CARD_ALBUM_ENTRY_LEGACY = 11;
 
-	const bool with_boss = ( sd.bourgeon_ui_caps & BOURGEON_UI_CARD_ALBUM_BOSS ) != 0;
+	const bool with_boss = ( sd.bourgeon_ui_caps & MOONLIGHT_UI_CARD_ALBUM_BOSS ) != 0;
 	const size_t entry_size = with_boss ? sizeof( CARD_ALBUM_ENTRY ) : CARD_ALBUM_ENTRY_LEGACY;
 
 	// packetLength est un int16 signé : 32767 octets, soit ~2900 entrées de 11. Le
@@ -10524,7 +10524,7 @@ void clif_parse_moonlight_req_chat_blocks(int32 fd, map_session_data* sd) {
 //   <MOBS>, <MOBP>, <IMG>    -> RIEN : un média n'a pas de repli en texte.
 //
 // ⚠ Un script qui a besoin de dire autre chose à un client sans images (« viens
-// voir l'affiche au village ») teste `bourgeon_ui()` et écrit deux versions.
+// voir l'affiche au village ») teste `moonlight_ui()` et écrit deux versions.
 // Cette fonction ne sait que retirer, elle n'invente pas de texte de remplacement.
 //
 // Une balise MAL FORMÉE (fermante absente) est laissée telle quelle : c'est une
@@ -11264,7 +11264,7 @@ void clif_parse_moonlight_companion(int32 fd, map_session_data* sd) {
 }
 
 // [Stingor] Le relais Discord à UNE session de gonryun : la forme riche 0x0F3C à
-// qui a annoncé BOURGEON_UI_DISCORD_RICH, 0x0F08 aux autres sessions Bourgeon.
+// qui a annoncé MOONLIGHT_UI_DISCORD_RICH, 0x0F08 aux autres sessions Bourgeon.
 // Un morceau couvert par le riche de son premier ne part pas en riche ; il part
 // en 0x0F08 à qui ne lit pas le riche, comme avant.
 static int32 clif_bourgeon_discord_msg_pc(map_session_data* sd, va_list ap) {
@@ -11281,7 +11281,7 @@ static int32 clif_bourgeon_discord_msg_pc(map_session_data* sd, va_list ap) {
 
 	const uint8* out = buf;
 	int32 out_len = pkt_len;
-	if (sd->bourgeon_ui_caps & BOURGEON_UI_DISCORD_RICH) {
+	if (sd->bourgeon_ui_caps & MOONLIGHT_UI_DISCORD_RICH) {
 		if (rich_state == DISCORD_RICH_COVERED)
 			return 0;
 		if (rich_state == DISCORD_RICH_CARRIER && rich_buf != nullptr) {
@@ -14133,7 +14133,7 @@ void clif_GlobalMessage( const block_list& bl, const char* message, enum send_ta
 	// l'ont mis en ignore ne reçoivent rien. Un PNJ n'est jamais filtré.
 	const map_session_data* speaker = BL_CAST( BL_PC, &bl );
 
-	// [Stingor] L'auteur de la ligne, à qui sait le lire (BOURGEON_UI_CHAT_AUTHOR).
+	// [Stingor] L'auteur de la ligne, à qui sait le lire (MOONLIGHT_UI_CHAT_AUTHOR).
 	clif_chat_author author_header{};
 	const clif_sidecar* sidecar = nullptr;
 
@@ -15471,7 +15471,7 @@ void clif_party_message( const party_data& party, uint32 account_id, const char*
 		}
 	}
 
-	// [Stingor] L'auteur de la ligne, à qui sait le lire (BOURGEON_UI_CHAT_AUTHOR).
+	// [Stingor] L'auteur de la ligne, à qui sait le lire (MOONLIGHT_UI_CHAT_AUTHOR).
 	clif_chat_author author_header{};
 	const clif_sidecar* sidecar = nullptr;
 
@@ -16700,7 +16700,7 @@ void clif_guild_message( const struct mmo_guild& g, const char* mes, size_t len,
 	safestrncpy(p->message, mes, len+1);
 	p->packetLength += static_cast<decltype(p->packetLength)>( len + 1 );
 
-	// [Stingor] L'auteur de la ligne, à qui sait le lire (BOURGEON_UI_CHAT_AUTHOR).
+	// [Stingor] L'auteur de la ligne, à qui sait le lire (MOONLIGHT_UI_CHAT_AUTHOR).
 	clif_chat_author author_header{};
 	const clif_sidecar* sidecar = nullptr;
 
@@ -26002,7 +26002,7 @@ void clif_quest_add ( const map_session_data* sd, const quest *qd )
 /// juste avant son ZC_DEL_QUEST, à une session qui a annoncé savoir le lire.
 void clif_bourgeon_quest_end( const map_session_data* sd, int32 quest_id, e_moonlight_quest_end reason, int32 next_quest_id )
 {
-	if( sd == nullptr || !sd->state.has_bourgeon || !( sd->bourgeon_ui_caps & BOURGEON_UI_QUEST_END ) )
+	if( sd == nullptr || !sd->state.has_bourgeon || !( sd->bourgeon_ui_caps & MOONLIGHT_UI_QUEST_END ) )
 		return;
 	const int32 fd = sd->fd;
 	if( !session_isActive( fd ) )
@@ -26934,7 +26934,7 @@ static void clif_instance_owner_name( const s_instance_data& idata, char ( &out 
 }
 
 void clif_instance_details_single( map_session_data& sd, int32 instance_id ){
-	if( !sd.state.has_bourgeon || !( sd.bourgeon_ui_caps & BOURGEON_UI_INSTANCE_INFO ) || !session_isActive( sd.fd ) )
+	if( !sd.state.has_bourgeon || !( sd.bourgeon_ui_caps & MOONLIGHT_UI_INSTANCE_INFO ) || !session_isActive( sd.fd ) )
 		return;
 
 	std::shared_ptr<s_instance_data> idata = util::umap_find( instances, instance_id );
@@ -28758,7 +28758,7 @@ void clif_clan_message( const clan& clan, const char *mes, size_t len, uint32 ch
 	safestrncpy( p->Message, mes, len + 1 );
 	p->PacketLength += static_cast<decltype(p->PacketLength)>( len + 1 );
 
-	// [Stingor] L'auteur de la ligne, à qui sait le lire (BOURGEON_UI_CHAT_AUTHOR).
+	// [Stingor] L'auteur de la ligne, à qui sait le lire (MOONLIGHT_UI_CHAT_AUTHOR).
 	clif_chat_author author_header{};
 	const clif_sidecar* sidecar = nullptr;
 

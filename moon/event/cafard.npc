@@ -92,7 +92,7 @@ OnMobDead:
 function	script	F_CafardMark	{
 	if( mobcount(getarg(0), "eventcafard::OnMobDead") < 1 )
 		return "";
-	if( !bourgeon_ui(BOURGEON_UI_NPC_DIALOG) )
+	if( !moonlight_ui(MOONLIGHT_UI_NPC_DIALOG) )
 		return " ^d2691e(cafard)^000000";
 	.@mob = getd("$@cafardmob_" + getarg(0));
 	if( !.@mob )
