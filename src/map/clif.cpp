@@ -9118,6 +9118,10 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 		if (sd->clan != nullptr && sd->clan->instance_id > 0)
 			clif_instance_details_single(*sd, sd->clan->instance_id);
 	}
+	// [Stingor] Les morceaux d'une édition de carte arrivent d'affilée : un tampon
+	// de réception plus grand. EN DERNIER : le réallouer invalide `p`.
+	if (p->caps & BOURGEON_UI_MAP_EDITS)
+		realloc_fifo(fd, MOONCLIENT_MAP_EDIT_RFIFO, static_cast<uint32>(session[fd]->max_wdata));
 }
 
 // [Stingor] ZC_MOONLIGHT_SERVER_RULES (0x0F38), à une session qui sait le lire.
@@ -33573,6 +33577,10 @@ static int32 clif_parse(int32 fd)
 		}
 	}
 	if ((int32)RFIFOREST(fd) < packet_len){
+		// [Stingor] Un paquet coupé par la lecture qui tient dans le tampon s'achève
+		// à la suivante. Un tampon plein reste jugé par socket.cpp.
+		if (static_cast<size_t>(packet_len) <= session[fd]->max_rdata)
+			return 0;
 		ShowWarning( "clif_parse: Received packet 0x%04x with expected packet length %d, but only %d bytes remaining, disconnecting session #%d.\n", cmd, packet_len, RFIFOREST( fd ), fd );
 #ifdef DUMP_INVALID_PACKET
 		ShowDump( RFIFOP( fd, 0 ), RFIFOREST( fd ) );

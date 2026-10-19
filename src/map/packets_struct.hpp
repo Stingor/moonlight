@@ -7397,10 +7397,13 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_GM_OUTFIT, 0x0f44);
 // ouvre un transfert, le morceau qui atteint le total le ferme. La queue des
 // paquets PUT et DOC (packetLength - sizeof) porte les octets du morceau.
 
-// Un morceau envoyé par le client. 🔴 Le tampon de réception d'une session
-// (RFIFO_SIZE, socket.cpp) vaut 2 Kio et ne grandit pas : un paquet plus long ne
-// se lit jamais, et la session est fermée.
+// Un morceau envoyé par le client. 🔴 Le client envoie les morceaux d'affilée :
+// le tampon de réception d'origine (RFIFO_SIZE, socket.cpp, 2 Kio) en coupe un
+// en deux, et socket.cpp ferme une session dont le tampon est plein. Une session
+// qui annonce BOURGEON_UI_MAP_EDITS reçoit donc MOONCLIENT_MAP_EDIT_RFIFO, et
+// clif_parse attend la fin d'un paquet coupé qui tient dans le tampon.
 #define MOONCLIENT_MAP_EDIT_PUT_CHUNK 1024
+#define MOONCLIENT_MAP_EDIT_RFIFO (64 * 1024)
 // Un morceau envoyé au client. packetLength est un int16.
 #define MOONCLIENT_MAP_EDIT_DOC_CHUNK 16384
 // Les plafonds d'un document : compressé, puis en texte. 256 Kio restent loin
