@@ -149,6 +149,9 @@ static void duel_set(const size_t did, map_session_data* sd) {
 
 	skill_unit_move(sd, gettick(), 3);
 
+	// [Stingor] Un duel cache l'élément d'attaque aux autres ; sa fin le leur rend.
+	clif_moonlight_attack_element_visibility(*sd);
+
 	sd->state.changemap = 0;
 	sd->state.warping = 0;
 }

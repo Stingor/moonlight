@@ -671,6 +671,10 @@ public:
 	// sauvegardé décrirait l'interface d'hier.
 	uint32 bourgeon_ui_caps = 0;
 
+	// [Stingor] L'élément d'attaque normale (e_element) que la zone connaît de ce
+	// joueur (ZC 0x0F4A) : un recalcul de statut ne repart que s'il en diffère.
+	uint8 moon_attack_element = ELE_NEUTRAL;
+
 	// [Stingor] L'instant de la dernière demande au Marché (CZ 0x0F41) : la
 	// suivante attend battle_config.moon_market_query_delay. Zéro : aucune.
 	t_tick moon_market_last_tick = 0;

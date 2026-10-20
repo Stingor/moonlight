@@ -13975,6 +13975,7 @@ static TIMER_FUNC(pc_spiritcharm_timer){
 		sd->spiritcharm_type = CHARM_TYPE_NONE;
 
 	clif_spiritcharm( *sd );
+	clif_moonlight_attack_element_refresh( *sd ); // [Stingor] dix charmes endossent l'arme
 
 	return 0;
 }
@@ -14021,6 +14022,7 @@ void pc_addspiritcharm(map_session_data *sd, int32 interval, int32 max, int32 ty
 	sd->spiritcharm_type = type;
 
 	clif_spiritcharm( *sd );
+	clif_moonlight_attack_element_refresh( *sd ); // [Stingor] dix charmes endossent l'arme
 }
 
 /**
@@ -14070,6 +14072,7 @@ void pc_delspiritcharm(map_session_data *sd, int32 count, int32 type)
 		sd->spiritcharm_type = CHARM_TYPE_NONE;
 
 	clif_spiritcharm( *sd );
+	clif_moonlight_attack_element_refresh( *sd ); // [Stingor] dix charmes endossent l'arme
 }
 
 #if defined(RENEWAL_DROP) || defined(RENEWAL_EXP)

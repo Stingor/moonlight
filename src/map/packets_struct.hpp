@@ -7510,6 +7510,34 @@ struct PACKET_CZ_MOONCLIENT_MAP_EDIT_GET {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(CZ_MOONCLIENT_MAP_EDIT_GET, 0x0f49);
 
+// ── [Stingor] L'élément d'attaque d'un joueur (ZC 0x0F4A) ─────────────────────
+//
+// ZC (serveur -> client) : l'élément que porte l'attaque normale du joueur `GID`,
+// main droite, dans l'ordre de priorité du calcul des dégâts : celui de l'arme
+// (endow compris), la flèche ou la munition pour une arme qui en tire, les
+// charmes d'esprit au complet, puis Enchant Arms. moonclient en tire la lueur
+// élémentaire de la flèche et le halo de l'arme. Fixe 9.
+//
+// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_ATTACK_ELEMENT : un client
+// qui ne connaît pas l'opcode vide son tampon de réception.
+// 🔴 PAS D'AVANTAGE AU COMBAT : sur une carte d'affrontement (map_flag_vs2 : PvP,
+// GvG, château, donjon de guilde, champ de bataille) et pendant un duel, le
+// paquet ne part qu'au joueur lui-même. Ceux qui le voient reçoivent `none` au
+// moment où il passe sous cette règle sans changer de carte.
+// À l'apparition et à l'entrée en vue, rien ne part pour l'élément neutre :
+// l'absence vaut « aucun ».
+// Layout: [type:2][len:2][GID:4][element:1]
+//   element : e_element, ELE_NEUTRAL (0) .. ELE_UNDEAD (9), ou
+//   MOONLIGHT_ATTACK_ELEMENT_NONE (0xFF) : aucun élément à montrer.
+static constexpr uint8 MOONLIGHT_ATTACK_ELEMENT_NONE = 0xFF;
+struct PACKET_ZC_MOONLIGHT_ATTACK_ELEMENT {
+	int16  packetType;
+	int16  packetLength;
+	uint32 GID;
+	uint8  element;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_ATTACK_ELEMENT, 0x0f4a);
+
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
 //
@@ -8004,7 +8032,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_HATEFFECT_MAP, 0x0f17);
 // client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans
 // la zone sûre 0x0F00+ (2026-07-03). Le prochain opcode libre est tenu par
 // bopcodes::kNextFree, dans src/features/systems/bourgeon_opcodes.h de Bourgeon
-// (0x0F4A à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
+// (0x0F4B à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
 
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)

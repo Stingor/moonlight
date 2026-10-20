@@ -6729,6 +6729,9 @@ void status_calc_bl_(block_list* bl, std::bitset<SCB_MAX> flag, uint8 opt)
 		if (b_status.ap != status->ap)
 			clif_updatestatus(*sd, SP_AP);
 #endif
+		// [Stingor] Arme, munition, endow, Enchant Arms : l'élément d'attaque que
+		// la zone connaît (ZC 0x0F4A), s'il a changé.
+		clif_moonlight_attack_element_refresh(*sd);
 	} else if( bl->type == BL_HOM ) {
 		TBL_HOM* hd = BL_CAST(BL_HOM, bl);
 

@@ -1954,7 +1954,10 @@ enum e_moonlight_ui_cap : uint32 {
 	// Ce client sait lire les éditions de carte (ZC 0x0F46 à 0x0F48), et les
 	// envoyer (CZ 0x0F45, 0x0F49). Réservé à moonclient : la DLL ne l'annonce pas.
 	MOONLIGHT_UI_MAP_EDITS = 0x00020000,
-	// Prochain bit libre : 0x00040000.
+	// Ce client sait lire l'élément d'attaque d'un joueur (ZC_MOONLIGHT_ATTACK_ELEMENT
+	// 0x0F4A). Réservé à moonclient : la DLL ne l'annonce pas.
+	MOONLIGHT_UI_ATTACK_ELEMENT = 0x00040000,
+	// Prochain bit libre : 0x00080000.
 };
 
 // [Stingor] Les réglages du serveur utiles au client (ZC 0x0F38), à une session
@@ -1972,6 +1975,15 @@ void clif_bourgeon_unit_master_area(const mob_data& md);
 // ne part s'il ne le porte pas.
 void clif_parse_moonlight_gm_outfit(int32 fd, map_session_data* sd);
 void clif_moonlight_gm_outfit_area(map_session_data& sd, bool spawning);
+// [Stingor] L'élément d'attaque d'un joueur (ZC 0x0F4A), voir packets_struct.hpp.
+// `_refresh` le recalcule et ne dit rien s'il n'a pas changé : à appeler après
+// tout ce qui peut le changer (recalcul de statut, charmes d'esprit).
+// `_spawn` le dit à son apparition, s'il n'est pas neutre. `_visibility` le redit
+// à la zone quand la règle de combat change sans changement de carte (duel,
+// drapeau de carte) : les autres reçoivent alors `none` s'il leur est caché.
+void clif_moonlight_attack_element_refresh(map_session_data& sd);
+void clif_moonlight_attack_element_spawn(map_session_data& sd);
+void clif_moonlight_attack_element_visibility(map_session_data& sd);
 // [Stingor] Le maître d'un compagnon (ZC 0x0F37), aux joueurs qui le voient
 // paraître et qui ont annoncé MOONLIGHT_UI_COMPANION_MASTER. Sans effet pour une
 // unité qui n'est ni homoncule, ni mercenaire, ni familier, ni élémentaire.

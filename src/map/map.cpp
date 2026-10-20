@@ -4869,6 +4869,22 @@ static int32 map_mapflag_pvp_start_sub(block_list *bl, va_list ap)
 }
 
 /**
+ * [Stingor] La carte devient, ou cesse d'être, une carte d'affrontement : la
+ * zone de chaque joueur réapprend son élément d'attaque, ou `none` s'il lui est
+ * désormais caché (ZC 0x0F4A).
+ * @param bl: Player block object
+ * @return 0
+ */
+static int32 map_mapflag_attack_element_sub(block_list *bl, va_list ap)
+{
+	map_session_data *sd = BL_CAST(BL_PC, bl);
+
+	if (sd != nullptr)
+		clif_moonlight_attack_element_visibility(*sd);
+	return 0;
+}
+
+/**
  * PvP timer handling (stopping)
  * @param bl: Player block object
  * @param ap: func* with va_list values
@@ -5003,6 +5019,9 @@ bool map_setmapflag_sub(int16 m, enum e_mapflag mapflag, bool status, union u_ma
 		ShowWarning("map_setmapflag: Invalid mapflag %d on map %s.\n", mapflag, mapdata->name);
 		return false;
 	}
+
+	// [Stingor] Vrai si la carte était d'affrontement avant ce drapeau.
+	const bool versus_before = mapdata_flag_vs2(mapdata);
 
 	switch(mapflag) {
 		case MF_NOSAVE:
@@ -5254,6 +5273,9 @@ bool map_setmapflag_sub(int16 m, enum e_mapflag mapflag, bool status, union u_ma
 			mapdata->setMapFlag(mapflag, status);
 			break;
 	}
+
+	if (mapdata_flag_vs2(mapdata) != versus_before)
+		map_foreachinmap(map_mapflag_attack_element_sub, m, BL_PC);
 
 	return true;
 }

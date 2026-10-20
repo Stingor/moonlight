@@ -1976,6 +1976,8 @@ int32 clif_spawn( const block_list* bl, bool walking ){
 			clif_bourgeon_style_spawn(sd);
 			// [Stingor] Son habit du GM, s'il le porte, pour la même raison.
 			clif_moonlight_gm_outfit_area(*sd, true);
+			// [Stingor] Son élément d'attaque, pour la même raison.
+			clif_moonlight_attack_element_spawn(*sd);
 		}
 		break;
 	case BL_MOB:
@@ -9247,6 +9249,141 @@ void clif_parse_moonlight_gm_outfit(int32 fd, map_session_data* sd) {
 	clif_moonlight_gm_outfit_area(*sd, false);
 }
 
+// [Stingor] L'élément de l'attaque normale de `sd`, main droite, dans l'ordre où
+// le calcul des dégâts l'établit : l'arme (endows compris dans rhw.ele), la
+// munition d'une arme qui en tire, les charmes d'esprit au complet, Enchant Arms.
+// Le tirage aléatoire de Goldene Ferse n'est pas un élément porté : il est omis.
+static uint8 moonlight_attack_element_of(const map_session_data& sd) {
+	const status_data* status = status_get_status_data(sd);
+	int32 element = status != nullptr ? status->rhw.ele : ELE_NEUTRAL;
+
+	const bool fires_ammo = sd.status.weapon == W_BOW ||
+		(sd.status.weapon >= W_REVOLVER && sd.status.weapon <= W_GRENADE);
+	if (fires_ammo && sd.bonus.arrow_ele != ELE_NEUTRAL)
+		element = sd.bonus.arrow_ele;
+	if (sd.spiritcharm_type != CHARM_TYPE_NONE && sd.spiritcharm >= MAX_SPIRITCHARM)
+		element = sd.spiritcharm_type;
+	if (const status_change* sc = status_get_sc(&sd); sc != nullptr && sc->hasSCE(SC_ENCHANTARMS))
+		element = sc->getSCE(SC_ENCHANTARMS)->val1;
+
+	if (element < ELE_NEUTRAL || element >= ELE_ALL)
+		element = ELE_NEUTRAL;
+	return static_cast<uint8>(element);
+}
+
+// [Stingor] Vrai si l'élément de `owner` doit rester caché à `viewer` : sur une
+// carte d'affrontement, ou pendant un duel, il trahirait ce qu'un adversaire va
+// frapper. Le joueur connaît toujours le sien.
+static bool moonlight_attack_element_withheld(const map_session_data& owner, const map_session_data& viewer) {
+	if (&owner == &viewer)
+		return false;
+	return map_flag_vs2(owner.m) || owner.duel_group > 0;
+}
+
+// [Stingor] ZC_MOONLIGHT_ATTACK_ELEMENT (0x0F4A), à UNE session qui sait le lire.
+// Toujours APRÈS le paquet qui montre le joueur.
+static void clif_moonlight_attack_element_single(const map_session_data& owner, uint8 element, map_session_data& sd) {
+	if (!sd.state.has_bourgeon || !(sd.bourgeon_ui_caps & MOONLIGHT_UI_ATTACK_ELEMENT))
+		return;
+	const int32 fd = sd.fd;
+	if (!session_isActive(fd))
+		return;
+
+	WFIFOHEAD(fd, sizeof(PACKET_ZC_MOONLIGHT_ATTACK_ELEMENT));
+	PACKET_ZC_MOONLIGHT_ATTACK_ELEMENT* p =
+		reinterpret_cast<PACKET_ZC_MOONLIGHT_ATTACK_ELEMENT*>(WFIFOP(fd, 0));
+	p->packetType   = HEADER_ZC_MOONLIGHT_ATTACK_ELEMENT;
+	p->packetLength = (int16)sizeof(PACKET_ZC_MOONLIGHT_ATTACK_ELEMENT);
+	p->GID          = owner.id;
+	p->element      = element;
+	WFIFOSET(fd, sizeof(PACKET_ZC_MOONLIGHT_ATTACK_ELEMENT));
+}
+
+// Ce que la zone apprend de l'élément d'un joueur.
+enum e_moonlight_attack_element_send : int32 {
+	// Il a changé : ceux à qui il est caché n'apprennent rien, pas même qu'il a
+	// changé.
+	MOONLIGHT_ATTACK_ELEMENT_CHANGED = 0,
+	// La règle de combat a changé sur place : ceux à qui il devient caché
+	// reçoivent `none`, les autres sa valeur.
+	MOONLIGHT_ATTACK_ELEMENT_RULE,
+};
+
+// Aux joueurs autour (callback BL_PC) : va_arg = map_session_data* du porteur,
+// puis int32 e_moonlight_attack_element_send. Ceux à qui un porteur caché est
+// retenu n'apprennent rien : le paquet trahirait sa présence.
+static int32 clif_moonlight_attack_element_area_sub(block_list* bl, va_list ap) {
+	map_session_data* tsd = BL_CAST(BL_PC, bl);
+	const map_session_data* owner = va_arg(ap, const map_session_data*);
+	const int32 send = va_arg(ap, int32);
+	if (tsd == nullptr || owner == nullptr)
+		return 0;
+	if (tsd != owner && clif_hidden_unit_withheld(*owner, *tsd))
+		return 0;
+	uint8 element = owner->moon_attack_element;
+	if (moonlight_attack_element_withheld(*owner, *tsd)) {
+		if (send != MOONLIGHT_ATTACK_ELEMENT_RULE)
+			return 0;
+		element = MOONLIGHT_ATTACK_ELEMENT_NONE;
+	}
+	clif_moonlight_attack_element_single(*owner, element, *tsd);
+	return 0;
+}
+
+static void clif_moonlight_attack_element_area(map_session_data& sd, e_moonlight_attack_element_send send) {
+	if (sd.prev == nullptr)
+		return; // pas encore sur la carte : son apparition le dira
+	map_foreachinallrange(clif_moonlight_attack_element_area_sub, &sd, AREA_SIZE, BL_PC,
+	                      static_cast<const map_session_data*>(&sd), (int32)send);
+	map_foreachinviewring(clif_moonlight_attack_element_area_sub, &sd, 0,
+	                      static_cast<const map_session_data*>(&sd), (int32)send);
+}
+
+void clif_moonlight_attack_element_refresh(map_session_data& sd) {
+	const uint8 element = moonlight_attack_element_of(sd);
+	if (element == sd.moon_attack_element)
+		return;
+	sd.moon_attack_element = element;
+	clif_moonlight_attack_element_area(sd, MOONLIGHT_ATTACK_ELEMENT_CHANGED);
+}
+
+// 🔴 L'APPARITION A BESOIN DE SON PROPRE ENVOI, pour la raison que donne
+// `clif_bourgeon_style_spawn` : `clif_getareachar_unit` ne couvre pas un joueur
+// qui APPARAÎT sous les yeux des autres. Le client efface tout élément à
+// l'entrée en carte : le neutre n'a rien à dire.
+void clif_moonlight_attack_element_spawn(map_session_data& sd) {
+	sd.moon_attack_element = moonlight_attack_element_of(sd);
+	if (sd.moon_attack_element == ELE_NEUTRAL)
+		return;
+	clif_moonlight_attack_element_area(sd, MOONLIGHT_ATTACK_ELEMENT_CHANGED);
+}
+
+void clif_moonlight_attack_element_visibility(map_session_data& sd) {
+	clif_moonlight_attack_element_area(sd, MOONLIGHT_ATTACK_ELEMENT_RULE);
+}
+
+// [Stingor] L'élément de `owner` à `sd` qui le DÉCOUVRE : entrée en vue, ou
+// annonce du bit après l'avoir vu paraître. Rien pour le neutre, rien s'il lui
+// est caché.
+static void clif_moonlight_attack_element_seen(const map_session_data& owner, map_session_data& sd) {
+	if (owner.moon_attack_element == ELE_NEUTRAL || moonlight_attack_element_withheld(owner, sd))
+		return;
+	clif_moonlight_attack_element_single(owner, owner.moon_attack_element, sd);
+}
+
+// Les joueurs en vue (callback BL_PC) : va_arg = map_session_data* du
+// destinataire. Sert quand il annonce le bit APRÈS les avoir vus paraître.
+static int32 clif_moonlight_attack_element_seen_sub(block_list* bl, va_list ap) {
+	map_session_data* sd = va_arg(ap, map_session_data*);
+	const map_session_data* owner = BL_CAST(BL_PC, bl);
+	if (sd == nullptr || owner == nullptr)
+		return 0;
+	if (owner != sd && clif_hidden_unit_withheld(*bl, *sd))
+		return 0;
+	clif_moonlight_attack_element_seen(*owner, *sd);
+	return 0;
+}
+
 // [Stingor] Le joueur à qui appartient un compagnon — homoncule, mercenaire,
 // familier, élémentaire —, 0 pour toute autre unité ou un compagnon sans maître.
 // Le maître DIRECT, pas battle_get_master : c'est lui que le client range.
@@ -9334,7 +9471,7 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	// session ; retirer un bit, ou changer un bit sans balayage, passe toujours.
 	static constexpr uint32 kScanOnGain = MOONLIGHT_UI_FLAG_GRAFFITI | MOONLIGHT_UI_UNIT_MASTER |
 		MOONLIGHT_UI_GM_OUTFIT | MOONLIGHT_UI_SERVER_RULES | MOONLIGHT_UI_MAP_EDITS |
-		MOONLIGHT_UI_COMPANION_MASTER | MOONLIGHT_UI_INSTANCE_INFO;
+		MOONLIGHT_UI_COMPANION_MASTER | MOONLIGHT_UI_INSTANCE_INFO | MOONLIGHT_UI_ATTACK_ELEMENT;
 	if ((p->caps & ~sd->bourgeon_ui_caps & kScanOnGain) != 0 &&
 		!clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_UI_CAPS))
 		return;
@@ -9350,6 +9487,9 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	// [Stingor] De même pour l'habit du GM des joueurs déjà en vue.
 	if (!(before & MOONLIGHT_UI_GM_OUTFIT) && (p->caps & MOONLIGHT_UI_GM_OUTFIT))
 		map_foreachinallrange(clif_moonlight_gm_outfit_seen_sub, sd, pc_view_range(*sd), BL_PC, sd);
+	// [Stingor] De même pour l'élément d'attaque des joueurs en vue, et le sien.
+	if (!(before & MOONLIGHT_UI_ATTACK_ELEMENT) && (p->caps & MOONLIGHT_UI_ATTACK_ELEMENT))
+		map_foreachinallrange(clif_moonlight_attack_element_seen_sub, sd, pc_view_range(*sd), BL_PC, sd);
 	// [Stingor] Les réglages du serveur, dès que le client sait les lire.
 	if (!(before & MOONLIGHT_UI_SERVER_RULES) && (p->caps & MOONLIGHT_UI_SERVER_RULES))
 		clif_bourgeon_server_rules(*sd);
@@ -12186,6 +12326,8 @@ void clif_getareachar_unit( map_session_data* sd,block_list *bl ){
 			// [Stingor] Son habit du GM, s'il le porte : même point de diffusion.
 			if (moonlight_gm_outfit_worn(*tsd))
 				clif_moonlight_gm_outfit_single(*tsd, true, *sd);
+			// [Stingor] Son élément d'attaque, s'il n'est ni neutre ni caché.
+			clif_moonlight_attack_element_seen(*tsd, *sd);
 		}
 		break;
 	case BL_MER: // Devotion Effects
