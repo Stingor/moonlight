@@ -944,6 +944,13 @@ uint64 InterServerDatabase::parseBodyNode( const ryml::NodeRef& node ){
 			return 0;
 		}
 
+		// Les tableaux de s_storage sont dimensionnés à MAX_STORAGE : au-delà,
+		// le map-server parcourrait items_storage[] après sa fin.
+		if( max > MAX_STORAGE ){
+			this->invalidWarning( node["Max"], "Max %d exceeds MAX_STORAGE, capping to %d.\n", max, MAX_STORAGE );
+			max = MAX_STORAGE;
+		}
+
 		storage_table->max_num = max;
 	}else{
 		if( !existing ){

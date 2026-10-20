@@ -5296,7 +5296,7 @@ void clif_storageitemadded( const map_session_data* sd, const item* i, int32 ind
 
 	// [Stingor] Bourgeon : pousse le prix de vente du nouvel item pour que le
 	// viewer connaisse sa valeur immédiatement (sans rouvrir le storage).
-	clif_bourgeon_storage_prices( const_cast<map_session_data*>( sd ), i, 1 );
+	clif_bourgeon_storage_prices( const_cast<map_session_data*>( sd ), i, 1, false );
 }
 
 
@@ -5966,41 +5966,58 @@ void clif_bourgeon_sync_alootid(map_session_data* sd) {
 }
 
 // ── Bourgeon storage sell-prices (ZC 0x0F0F) ────────────────────────────────
-// Envoie le prix de vente NPC (value_sell) des items du storage, dédupliqué par
-// nameid (le prix est par-id), juste après clif_storagelist. Le viewer Bourgeon
-// calcule la valeur totale (sell * quantité) + affiche une colonne prix.
+// Envoie le prix de vente NPC (value_sell) des items du storage, une entrée par
+// place occupée (doublons possibles : le client dédoublonne par nameid), juste
+// après clif_storagelist. Format complet : PACKET_ZC_MOONLIGHT_STORAGE_PRICES.
+static constexpr int32 STORAGE_PRICES_FIXED_SIZE = 6;   // [type:2][len:2][count:2]
+static constexpr int32 STORAGE_PRICES_ENTRY_SIZE = 15;  // [id:4][sell:4][subtype:1][equip:4][slots:2]
+static constexpr int32 STORAGE_PRICES_FLAGS_SIZE = 1;   // [flags:1], après les entrées
+// La longueur est un int16 pour bien des lecteurs (comme pour clif_storagelist).
+static constexpr int32 STORAGE_PRICES_ENTRIES_PER_FRAME =
+	( INT16_MAX - STORAGE_PRICES_FIXED_SIZE - STORAGE_PRICES_FLAGS_SIZE ) / STORAGE_PRICES_ENTRY_SIZE;
+
 void clif_bourgeon_storage_prices(map_session_data* sd, const struct item* items,
-                                  int32 items_length) {
+                                  int32 items_length, bool fresh_list) {
 	nullpo_retv(sd);
 	if (!sd->state.has_bourgeon) return;
 	const int32 fd = sd->fd;
 	if (!session_isActive(fd)) return;
 
-	// Métadonnées par-slot (doublons possibles) ; le client dédup via sa map id->meta.
-	// Par item : prix de vente + subtype (type d'arme/munition) + equip (masque slot),
-	// pour les sous-catégories du viewer (armes par type, armures par slot, etc.).
-	int16 count = 0;
+	int32 total = 0;
 	for (int32 i = 0; i < items_length; ++i)
-		if (items[i].nameid != 0) ++count;
+		if (items[i].nameid != 0) ++total;
 
-	// [type:2][len:2][count:2] + n*[id:4][sell:4][subtype:1][equip:4][slots:2] = 6 + n*15
-	const int16 pkt_len = static_cast<int16>(6 + count * 15);
-	WFIFOHEAD(fd, pkt_len);
-	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_STORAGE_PRICES;
-	WFIFOW(fd, 2) = pkt_len;
-	WFIFOW(fd, 4) = count;
-	int32 offset = 6;
-	for (int32 i = 0; i < items_length; ++i) {
-		if (items[i].nameid == 0) continue;
-		struct item_data* id = itemdb_search(items[i].nameid);
-		WFIFOL(fd, offset)     = items[i].nameid;
-		WFIFOL(fd, offset + 4) = id ? static_cast<uint32>(id->value_sell) : 0;
-		WFIFOB(fd, offset + 8) = id ? id->subtype : 0;                 // type d'arme/munition
-		WFIFOL(fd, offset + 9) = id ? id->equip : 0;                   // masque slot d'équip
-		WFIFOW(fd, offset + 13) = id ? id->slots : 0;                  // nb de slots de carte
-		offset += 15;
-	}
-	WFIFOSET(fd, pkt_len);
+	// Une liste neuve envoie toujours au moins une trame, même vide : c'est elle
+	// qui efface les métadonnées du storage précédent.
+	int32 item_index = 0;
+	int32 sent = 0;
+	do {
+		const int32 count = std::min( total - sent, STORAGE_PRICES_ENTRIES_PER_FRAME );
+		const int32 pkt_len = STORAGE_PRICES_FIXED_SIZE + count * STORAGE_PRICES_ENTRY_SIZE + STORAGE_PRICES_FLAGS_SIZE;
+		uint8 flags = 0;
+		if( fresh_list && sent == 0 )
+			flags |= MOONLIGHT_STORAGE_PRICES_FIRST;
+
+		WFIFOHEAD(fd, pkt_len);
+		WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_STORAGE_PRICES;
+		WFIFOW(fd, 2) = static_cast<uint16>(pkt_len);
+		WFIFOW(fd, 4) = static_cast<uint16>(count);
+		int32 offset = STORAGE_PRICES_FIXED_SIZE;
+		for (int32 written = 0; written < count; ++item_index) {
+			if (items[item_index].nameid == 0) continue;
+			struct item_data* id = itemdb_search(items[item_index].nameid);
+			WFIFOL(fd, offset)     = items[item_index].nameid;
+			WFIFOL(fd, offset + 4) = id ? static_cast<uint32>(id->value_sell) : 0;
+			WFIFOB(fd, offset + 8) = id ? id->subtype : 0;                 // type d'arme/munition
+			WFIFOL(fd, offset + 9) = id ? id->equip : 0;                   // masque slot d'équip
+			WFIFOW(fd, offset + 13) = id ? id->slots : 0;                  // nb de slots de carte
+			offset += STORAGE_PRICES_ENTRY_SIZE;
+			++written;
+		}
+		WFIFOB(fd, offset) = flags;
+		WFIFOSET(fd, pkt_len);
+		sent += count;
+	} while( sent < total );
 }
 
 // ── Bourgeon : onglets de storage (ZC 0x0F1E / CZ 0x0F1D) ────────────────────

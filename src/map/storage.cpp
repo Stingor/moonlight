@@ -343,7 +343,7 @@ int32 storage_storageopen(map_session_data *sd)
 	sort_storage_items(sd->storage.u.items_storage, ARRAYLENGTH(sd->storage.u.items_storage), (e_sort_mode)sd->state.sort_storage);
 	clif_storagelist(sd, sd->storage.u.items_storage, ARRAYLENGTH(sd->storage.u.items_storage), storage_getName(0));
 	clif_updatestorageamount(*sd, sd->storage.amount, sd->storage.max_amount);
-	clif_bourgeon_storage_prices(sd, sd->storage.u.items_storage, ARRAYLENGTH(sd->storage.u.items_storage));
+	clif_bourgeon_storage_prices(sd, sd->storage.u.items_storage, ARRAYLENGTH(sd->storage.u.items_storage), true);
 	// [Stingor] Onglets du viewer Bourgeon : quel storage est ouvert, et lesquels
 	// sont accessibles. Envoyé à CHAQUE ouverture, quelle qu'en soit l'origine
 	// (commande @storage, script NPC, onglet) — no-op si le client n'a pas la DLL.
@@ -818,7 +818,7 @@ char storage_guild_storageopen(map_session_data* sd)
 	sort_storage_items(gstor->u.items_guild, ARRAYLENGTH(gstor->u.items_guild), (e_sort_mode)sd->state.sort_gstorage);
 	clif_storagelist(sd, gstor->u.items_guild, ARRAYLENGTH(gstor->u.items_guild), "Guild Storage");
 	clif_updatestorageamount(*sd, gstor->amount, gstor->max_amount);
-	clif_bourgeon_storage_prices(sd, gstor->u.items_guild, ARRAYLENGTH(gstor->u.items_guild));
+	clif_bourgeon_storage_prices(sd, gstor->u.items_guild, ARRAYLENGTH(gstor->u.items_guild), true);
 
 	return GSTORAGE_OPEN;
 }
@@ -1333,7 +1333,7 @@ void storage_premiumStorage_open(map_session_data *sd) {
 	sort_storage_items(sd->premiumStorage.u.items_storage, ARRAYLENGTH(sd->premiumStorage.u.items_storage), (e_sort_mode)sd->state.sort_storage);
 	clif_storagelist(sd, sd->premiumStorage.u.items_storage, ARRAYLENGTH(sd->premiumStorage.u.items_storage), storage_getName(sd->premiumStorage.stor_id));
 	clif_updatestorageamount(*sd, sd->premiumStorage.amount, sd->premiumStorage.max_amount);
-	clif_bourgeon_storage_prices(sd, sd->premiumStorage.u.items_storage, ARRAYLENGTH(sd->premiumStorage.u.items_storage));
+	clif_bourgeon_storage_prices(sd, sd->premiumStorage.u.items_storage, ARRAYLENGTH(sd->premiumStorage.u.items_storage), true);
 	// [Stingor] Onglets du viewer Bourgeon (cf. storage_storageopen) : c'est ce
 	// paquet qui dit au client SUR QUEL storage il vient d'atterrir — le nom seul
 	// ne suffit pas à identifier l'onglet actif.

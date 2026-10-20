@@ -6096,11 +6096,32 @@ struct PACKET_ZC_MOONLIGHT_DAMAGE {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_DAMAGE, 0x0f0e);
 
-// ZC (server -> client): prix de vente NPC des items du storage. VARIABLE.
-// Layout: [packetType:2][packetLength:2][count:2] puis count * [id:4][sell:4].
-// Envoyé juste après clif_storagelist (perso/guilde/premium) ; le viewer Bourgeon
-// calcule la valeur totale (sell * quantité) + affiche une colonne prix.
-// Dédupliqué par nameid côté serveur (le prix de vente est par-id).
+// ZC (server -> client): métadonnées item_db des items du storage. VARIABLE.
+// Layout :
+//   [packetType:2][packetLength:2][count:2]
+//   puis count * [id:4][sell:4][subtype:1][equip:4][slots:2]   (15 octets)
+//   puis [flags:1]                                              (e_moonlight_storage_prices_flag)
+//   packetLength = 6 + count*15 + 1
+// Une entrée par place occupée : le même id peut revenir, le client dédoublonne.
+//
+// Envoyé juste après clif_storagelist (perso/guilde/premium), et pour un seul
+// objet quand un objet entre dans le storage ouvert.
+//
+// DÉCOUPAGE : packetLength reste sous INT16_MAX, soit au plus 2 183 entrées par
+// trame. Au-delà, la liste part en plusieurs trames consécutives ; seule la
+// première porte MOONLIGHT_STORAGE_PRICES_FIRST. Le client :
+//   - FIRST présent : vide sa table, puis y ajoute les entrées ;
+//   - FIRST absent  : ajoute les entrées à la table (suite d'une liste découpée,
+//                     ou objet entré dans le storage ouvert).
+// Une ouverture envoie toujours au moins une trame FIRST, vide si le storage l'est.
+//
+// COMPATIBILITÉ : [flags:1] vient APRÈS les entrées. Un lecteur antérieur qui lit
+// count entrées et ignore la fin de trame (le viewer Bourgeon, qui fusionne
+// toujours) lit ces trames sans changement.
+enum e_moonlight_storage_prices_flag : uint8 {
+	MOONLIGHT_STORAGE_PRICES_FIRST = 0x01, ///< première trame d'une liste neuve : repartir de zéro
+};
+
 struct PACKET_ZC_MOONLIGHT_STORAGE_PRICES {
 	int16 packetType;
 	int16 packetLength;

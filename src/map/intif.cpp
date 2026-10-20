@@ -3681,6 +3681,13 @@ void intif_parse_StorageInfo_recv(int32 fd) {
 		storage->max_num = ptr->max_num;
 		storage->id = ptr->id;
 
+		// Un char-server qui ne bornerait pas Max ne doit pas faire déborder
+		// items_storage[], dimensionné à MAX_STORAGE.
+		if( storage->max_num > MAX_STORAGE ){
+			ShowWarning( "intif_parse_StorageInfo_recv: storage %d (%s) Max %d exceeds MAX_STORAGE, capping to %d.\n", storage->id, storage->name, storage->max_num, MAX_STORAGE );
+			storage->max_num = MAX_STORAGE;
+		}
+
 		storage_db[storage->id] = storage;
 	}
 

@@ -1658,7 +1658,9 @@ void clif_bourgeon_settings(map_session_data* sd);
 // sans viewid ; poussée au login vérifié. Statique (scan des scripts item_db, cache).
 void clif_bourgeon_hateffect_map(map_session_data* sd);
 // [Stingor] Bourgeon storage sell-prices (ZC 0x0F0F) — call after clif_storagelist
-void clif_bourgeon_storage_prices(map_session_data* sd, const struct item* items, int32 items_length);
+// fresh_list : true pour la liste complète d'une ouverture (le client repart de
+// zéro), false pour un objet ajouté à la liste déjà envoyée.
+void clif_bourgeon_storage_prices(map_session_data* sd, const struct item* items, int32 items_length, bool fresh_list);
 // [Stingor] Re-sync autolootid list to client (clear + rebuild) — call after @alootid changes
 void clif_bourgeon_sync_alootid(map_session_data* sd);
 // [Stingor] Send preset list (ZC 0x0F07) to client — call after any preset DB change
