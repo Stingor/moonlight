@@ -6,7 +6,10 @@
 #include <algorithm>
 #include <cstdlib>
 #include <cstring>
+#include <filesystem>
+#include <fstream>
 #include <string>
+#include <system_error>
 #include <unordered_map>
 #include <vector>
 
@@ -53,6 +56,54 @@ struct s_map_edit_session {
 std::unordered_map<std::string, s_map_edit_document> s_documents;
 // Par identifiant de bloc de la session.
 std::unordered_map<int32, s_map_edit_session> s_sessions;
+// Le dossier du miroir ; vide : rien ne s'exporte.
+std::string s_mirror_folder;
+
+// Un nom de document qui ne peut pas sortir du dossier du miroir : ni
+// séparateur, ni point en tête — les noms en `.` ne sont pas publiés, et `..`
+// remonterait.
+bool is_exportable_name(const std::string& name) {
+	return !name.empty() && name[0] != '.' && name.find_first_of("/\\") == std::string::npos;
+}
+
+// RÉÉCRIT LE DOCUMENT DE `map` DANS LE MIROIR : `revision: N`, puis le texte
+// publié. Écrit à côté sous un nom en `.`, que le manifeste ne publie pas, puis
+// renommé : le miroir ne sert jamais un fichier à moitié écrit, et le nouvel
+// inode invalide le cache d'empreintes du manifeste.
+void export_document(const std::string& map, const s_map_edit_document& document) {
+	if (s_mirror_folder.empty())
+		return;
+	if (!is_exportable_name(map)) {
+		ShowWarning("map_edits: %s ne s'exporte pas dans le miroir (nom de fichier refuse).\n", map.c_str());
+		return;
+	}
+	std::vector<char> text(document.text_size);
+	unsigned long text_size = document.text_size;
+	if (document.text_size == 0
+	||  decode_zip(text.data(), &text_size, document.zipped.data(), static_cast<unsigned long>(document.zipped.size())) != 0
+	||  text_size != document.text_size) {
+		ShowWarning("map_edits: %s, revision %u, ne se decompresse pas : non exporte.\n", map.c_str(), document.revision);
+		return;
+	}
+	const std::filesystem::path folder(s_mirror_folder);
+	const std::filesystem::path target = folder / (map + ".yml");
+	const std::filesystem::path partial = folder / ("." + map + ".yml.part");
+	{
+		std::ofstream stream(partial, std::ios::binary | std::ios::trunc);
+		stream << "revision: " << document.revision << '\n';
+		stream.write(text.data(), static_cast<std::streamsize>(text.size()));
+		if (!stream) {
+			ShowWarning("map_edits: %s ne s'ecrit pas dans le miroir (%s).\n", map.c_str(), partial.string().c_str());
+			return;
+		}
+	}
+	std::error_code failure;
+	std::filesystem::rename(partial, target, failure);
+	if (failure) {
+		ShowWarning("map_edits: %s ne prend pas sa place dans le miroir (%s).\n", map.c_str(), failure.message().c_str());
+		std::filesystem::remove(partial, failure);
+	}
+}
 
 bool announced(const map_session_data& sd) {
 	return sd.state.has_bourgeon && (sd.bourgeon_ui_caps & MOONLIGHT_UI_MAP_EDITS) != 0;
@@ -237,6 +288,7 @@ void complete(map_session_data& sd, s_map_edit_session& state) {
 		document.text_size, static_cast<uint32>(document.zipped.size()));
 	s_map_edit_document& kept = s_documents[map];
 	kept = std::move(document);
+	export_document(map, kept);
 	send_result(sd, map, MOONCLIENT_MAP_EDIT_ACCEPTED, kept.revision);
 	// LE DOCUMENT DES LUMIÈRES DE MODÈLE vaut pour toutes les cartes : il va à
 	// tous les joueurs ; celui d'une carte, aux joueurs de cette carte.
@@ -280,6 +332,17 @@ void map_edits_load() {
 	}
 	Sql_FreeResult(mmysql_handle);
 	ShowStatus("map_edits: " CL_WHITE "%u" CL_RESET " document(s) d'edition de carte.\n", static_cast<uint32>(s_documents.size()));
+	// LE MIROIR SE RECONSTRUIT DEPUIS LA BASE : un dossier effacé ou en retard se
+	// remet d'aplomb à chaque démarrage.
+	if (!s_mirror_folder.empty()) {
+		for (const auto& [map, document] : s_documents)
+			export_document(map, document);
+		ShowStatus("map_edits: documents exportes dans le miroir " CL_WHITE "%s" CL_RESET ".\n", s_mirror_folder.c_str());
+	}
+}
+
+void map_edits_set_mirror(const char* folder) {
+	s_mirror_folder = folder != nullptr ? folder : "";
 }
 
 void map_edits_final() {

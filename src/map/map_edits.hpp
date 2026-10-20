@@ -44,7 +44,15 @@ enum e_moonclient_map_edit_result : uint8 {
 // Un transfert entrant sans morceau depuis ce délai est abandonné au suivant.
 #define MOONCLIENT_MAP_EDIT_TRANSFER_TIMEOUT 30000
 
-// Lit les documents en base, une fois, au démarrage du serveur de carte.
+// LE DOSSIER DU MIROIR DE MISE À JOUR (`moonclient_map_edit_mirror`, dans
+// map_athena.conf) : chaque document y est réécrit, `revision: N` en tête puis
+// le texte publié, à chaque enregistrement accepté et au démarrage. La base
+// reste la référence : le miroir n'en est qu'une copie, que le démarrage
+// reconstruit, et qui épargne aux clients le transfert d'une première entrée.
+// Vide : rien ne s'exporte.
+void map_edits_set_mirror(const char* folder);
+// Lit les documents en base, une fois, au démarrage du serveur de carte, puis
+// les exporte dans le miroir.
 void map_edits_load();
 // Oublie les documents et les transferts, à l'arrêt.
 void map_edits_final();
