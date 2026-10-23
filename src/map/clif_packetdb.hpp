@@ -2112,6 +2112,10 @@ parseable_packet(HEADER_CZ_MOONLIGHT_MARKET_REQ, -1, clif_parse_moonlight_market
 // Gate niveau de groupe >= 99 DANS le handler, rediffusé à la zone — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_GM_OUTFIT, sizeof(PACKET_CZ_MOONLIGHT_GM_OUTFIT), clif_parse_moonlight_gm_outfit, 0);
 
+// [Stingor] moonclient : un trophée de mini-jeu, qui achève son succès. Gate
+// poignée de main DANS le handler — fixed
+parseable_packet(HEADER_CZ_MOONLIGHT_MINIGAME_TROPHY, sizeof(PACKET_CZ_MOONLIGHT_MINIGAME_TROPHY), clif_parse_moonlight_minigame_trophy, 0);
+
 // [Stingor] moonclient : les éditions de carte (map_edits.cpp). Gate
 // MOONLIGHT_UI_MAP_EDITS DANS les handlers, et moonclient_map_edit_level pour
 // l'envoi — VARIABLE : la queue de PUT porte un morceau du document compressé.

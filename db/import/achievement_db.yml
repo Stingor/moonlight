@@ -2910,3 +2910,36 @@ Body:
       Amount: 40
       TitleId: 1105
     Score: 500
+
+# [Stingor] Mini-jeux de moonclient : Rojeweled et Roggle se jouent dans le
+# client seul, qui annonce chaque trophee gagne (CZ 0x0F4B,
+# clif_parse_moonlight_minigame_trophy). L'ordre des Id suit celui du catalogue
+# du client : ne pas le changer sans changer MOONLIGHT_MINIGAME_ACHIEVEMENTS.
+#
+# 🔴 NI OBJET, NI TITRE, NI POINT : c'est le client qui dit la partie, et rien ne
+# la prouve. Un succes qui rapporterait quelque chose se tricherait.
+# Groupe Adventure, sans objectif : il ne s'acheve que par le handler.
+  - Id: 910001
+    Group: Adventure
+    Name: Jusqu'au bout
+  - Id: 910002
+    Group: Adventure
+    Name: Eleveur de Porings
+  - Id: 910003
+    Group: Adventure
+    Name: Dompteur de Porings
+  - Id: 910004
+    Group: Adventure
+    Name: Reaction en chaine
+  - Id: 910005
+    Group: Adventure
+    Name: Tir groupe
+  - Id: 910006
+    Group: Adventure
+    Name: Sans bavure
+  - Id: 910007
+    Group: Adventure
+    Name: Main sure
+  - Id: 910008
+    Group: Adventure
+    Name: Pluie de gemmes

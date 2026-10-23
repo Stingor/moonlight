@@ -1975,6 +1975,8 @@ void clif_bourgeon_unit_master_area(const mob_data& md);
 // ne part s'il ne le porte pas.
 void clif_parse_moonlight_gm_outfit(int32 fd, map_session_data* sd);
 void clif_moonlight_gm_outfit_area(map_session_data& sd, bool spawning);
+// [Stingor] Un trophée de mini-jeu de moonclient (CZ 0x0F4B) achève son succès.
+void clif_parse_moonlight_minigame_trophy(int32 fd, map_session_data* sd);
 // [Stingor] L'élément d'attaque d'un joueur (ZC 0x0F4A), voir packets_struct.hpp.
 // `_refresh` le recalcule et ne dit rien s'il n'a pas changé : à appeler après
 // tout ce qui peut le changer (recalcul de statut, charmes d'esprit).

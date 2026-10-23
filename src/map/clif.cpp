@@ -9249,6 +9249,37 @@ void clif_parse_moonlight_gm_outfit(int32 fd, map_session_data* sd) {
 	clif_moonlight_gm_outfit_area(*sd, false);
 }
 
+// [Stingor] Le succès de chaque trophée de mini-jeu, dans l'ordre du catalogue de
+// moonclient (db/import/achievement_db.yml, 910001 à 910008).
+static constexpr int32 MOONLIGHT_MINIGAME_ACHIEVEMENTS[MOONLIGHT_MINIGAME_TROPHY_COUNT] = {
+	910001, 910002, 910003, 910004, 910005, 910006, 910007, 910008,
+};
+
+// [Stingor] Comme la commande de script achievementcomplete : le succès s'ajoute
+// s'il manque, puis s'achève. Un succès déjà achevé, un rang hors table ou un
+// succès absent de la base sont ignorés sans un mot.
+void clif_parse_moonlight_minigame_trophy(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon || !sd->state.pc_loaded)
+		return;
+
+	const PACKET_CZ_MOONLIGHT_MINIGAME_TROPHY* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_MINIGAME_TROPHY*>(RFIFOP(fd, 0));
+	if (p->trophy >= MOONLIGHT_MINIGAME_TROPHY_COUNT)
+		return;
+	const int32 achievement_id = MOONLIGHT_MINIGAME_ACHIEVEMENTS[p->trophy];
+	if (!achievement_db.exists(achievement_id))
+		return;
+
+	int32 i;
+	ARR_FIND(0, sd->achievement_data.count, i, sd->achievement_data.achievements[i].achievement_id == achievement_id);
+	if (i < sd->achievement_data.count && sd->achievement_data.achievements[i].completed > 0)
+		return;
+	if (i == sd->achievement_data.count)
+		achievement_add(sd, achievement_id);
+	achievement_update_achievement(sd, achievement_id, true);
+}
+
 // [Stingor] L'élément de l'attaque normale de `sd`, main droite, dans l'ordre où
 // le calcul des dégâts l'établit : l'arme (endows compris dans rhw.ele), la
 // munition d'une arme qui en tire, les charmes d'esprit au complet, Enchant Arms.

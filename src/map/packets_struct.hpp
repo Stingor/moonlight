@@ -7538,6 +7538,27 @@ struct PACKET_ZC_MOONLIGHT_ATTACK_ELEMENT {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_ATTACK_ELEMENT, 0x0f4a);
 
+// ── [Stingor] Trophées des mini-jeux de moonclient (CZ 0x0F4B) ──────────────
+//
+// CZ (client -> serveur) : un trophée gagné à Rojeweled ou à Roggle, deux
+// mini-jeux qui se jouent entièrement dans le client. Le serveur achève le succès
+// qui lui correspond (table MOONLIGHT_MINIGAME_ACHIEVEMENTS de clif.cpp). Fixe 5.
+//
+// 🔴 C'EST LE CLIENT QUI LE DIT : rien ne prouve la partie. Ces succès ne
+// rapportent donc ni objet, ni titre, ni point.
+// Le client redit tous ses trophées à chaque poignée de main vérifiée : un
+// succès déjà achevé est ignoré sans un mot.
+// Layout: [type:2][len:2][trophy:1]
+//   trophy : rang du trophée, de 0 à MOONLIGHT_MINIGAME_TROPHY_COUNT - 1, dans
+//   l'ordre du catalogue de moonclient (ro::sim::MinigameTrophy).
+static constexpr uint8 MOONLIGHT_MINIGAME_TROPHY_COUNT = 8;
+struct PACKET_CZ_MOONLIGHT_MINIGAME_TROPHY {
+	int16 packetType;
+	int16 packetLength;
+	uint8 trophy;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_MINIGAME_TROPHY, 0x0f4b);
+
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
 //
@@ -8032,7 +8053,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_HATEFFECT_MAP, 0x0f17);
 // client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans
 // la zone sûre 0x0F00+ (2026-07-03). Le prochain opcode libre est tenu par
 // bopcodes::kNextFree, dans src/features/systems/bourgeon_opcodes.h de Bourgeon
-// (0x0F4B à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
+// (0x0F4C à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
 
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)
