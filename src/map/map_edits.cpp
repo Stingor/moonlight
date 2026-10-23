@@ -8,10 +8,16 @@
 #include <cstring>
 #include <filesystem>
 #include <fstream>
+#include <set>
+#include <stdexcept>
 #include <string>
 #include <system_error>
 #include <unordered_map>
+#include <utility>
 #include <vector>
+
+#include <ryml.hpp>
+#include <ryml_std.hpp>
 
 #include <common/grfio.hpp> // decode_zip
 #include <common/nullpo.hpp>
@@ -52,8 +58,28 @@ struct s_map_edit_session {
 	std::unordered_map<std::string, t_tick> last_gets;
 };
 
+// [Stingor] Une case que la section `blocked_cells` bloque (l'ADR 0131 de
+// moonclient), dans le repère de la GAT.
+struct s_blocked_cell {
+	int16 x = 0;
+	int16 y = 0;
+	bool wall = false; ///< `wall` : ni la marche ni les tirs ; `fence` : la marche seulement
+};
+
+// Une case que le serveur a vraiment changée. On ne fait que passer un bit de
+// vrai à faux : un bit retenu valait vrai à l'origine, et c'est ce qu'on lui
+// rend. Un bit déjà faux (la GAT, ou un script, bloquait) n'est pas retenu.
+struct s_changed_cell {
+	int16 x = 0;
+	int16 y = 0;
+	bool walkable_was_set = false;
+	bool shootable_was_set = false;
+};
+
 // Par nom de carte.
 std::unordered_map<std::string, s_map_edit_document> s_documents;
+// Les cases changées par la dernière application, par nom de carte.
+std::unordered_map<std::string, std::vector<s_changed_cell>> s_changed_cells;
 // Par identifiant de bloc de la session.
 std::unordered_map<int32, s_map_edit_session> s_sessions;
 // Le dossier du miroir ; vide : rien ne s'exporte.
@@ -64,6 +90,245 @@ std::string s_mirror_folder;
 // remonterait.
 bool is_exportable_name(const std::string& name) {
 	return !name.empty() && name[0] != '.' && name.find_first_of("/\\") == std::string::npos;
+}
+
+// Le texte du document, décompressé. Faux si le flux ne donne pas exactement la
+// taille annoncée.
+bool unzip_document(const s_map_edit_document& document, std::vector<char>& text) {
+	text.assign(document.text_size, '\0');
+	unsigned long text_size = document.text_size;
+	return document.text_size != 0
+	    && decode_zip(text.data(), &text_size, document.zipped.data(), static_cast<unsigned long>(document.zipped.size())) == 0
+	    && text_size == document.text_size;
+}
+
+// [Stingor] LES CASES BLOQUÉES (l'ADR 0131 de moonclient). Le serveur ne lit du
+// document que la section `blocked_cells` :
+//
+//   blocked_cells:
+//     why: "les colonnes de la place"
+//     cells:
+//       - [150, 180, wall]
+//       - [152, 181, fence]
+//
+// Le reste du document est visuel, et c'est le client qui le valide.
+
+// Une case : sa colonne, sa rangée, sa sorte.
+constexpr size_t BLOCKED_CELL_FIELDS = 3;
+// Une coordonnée tient dans un int16 : cinq chiffres au plus.
+constexpr size_t BLOCKED_CELL_COORDINATE_DIGITS = 5;
+
+// UNE ERREUR DE RAPIDYAML LÈVE UNE EXCEPTION, que la lecture rattrape : le texte
+// vient d'un client, et un YAML malformé ne doit jamais abattre le serveur. Le
+// gestionnaire est passé au lecteur lui-même, sans dépendre de celui que
+// do_init_database pose pour tout le processus.
+void on_blocked_cells_yaml_error(const char* message, size_t length, ryml::Location, void*) {
+	throw std::runtime_error(std::string(message, length));
+}
+
+// Une coordonnée de case : des chiffres seulement, sans signe, dans un int16.
+bool read_cell_coordinate(const ryml::Tree& tree, size_t node, int16& coordinate) {
+	if (!tree.is_val(node))
+		return false;
+	const ryml::csubstr scalar = tree.val(node);
+	if (scalar.len == 0 || scalar.len > BLOCKED_CELL_COORDINATE_DIGITS)
+		return false;
+	int32 value = 0;
+	for (size_t i = 0; i < scalar.len; ++i) {
+		const char digit = scalar.str[i];
+		if (digit < '0' || digit > '9')
+			return false;
+		value = value * 10 + (digit - '0');
+	}
+	if (value > INT16_MAX)
+		return false;
+	coordinate = static_cast<int16>(value);
+	return true;
+}
+
+// La section `blocked_cells` de l'arbre. Section absente : vrai, `present` faux,
+// aucune case. Faux si elle est illisible, avec la raison dans `error`.
+bool read_blocked_cells_tree(const ryml::Tree& tree, std::vector<s_blocked_cell>& cells, bool& present, std::string& error) {
+	if (tree.empty())
+		return true;
+	size_t document = tree.root_id();
+	if (tree.is_stream(document)) {
+		const size_t documents = tree.num_children(document);
+		if (documents == 0)
+			return true;
+		if (documents > 1) {
+			error = "plusieurs documents YAML";
+			return false;
+		}
+		document = tree.first_child(document);
+	}
+	if (!tree.is_map(document))
+		return true;
+	const size_t section = tree.find_child(document, c4::to_csubstr("blocked_cells"));
+	if (section == ryml::NONE)
+		return true;
+	present = true;
+	if (!tree.is_map(section)) {
+		error = "blocked_cells n'est pas une table";
+		return false;
+	}
+	const size_t why = tree.find_child(section, c4::to_csubstr("why"));
+	const size_t list = tree.find_child(section, c4::to_csubstr("cells"));
+	if (why == ryml::NONE || list == ryml::NONE) {
+		error = "blocked_cells : why et cells sont dus";
+		return false;
+	}
+	if (tree.is_container(why) || !tree.has_val(why)) {
+		error = "blocked_cells : why n'est pas un texte";
+		return false;
+	}
+	const bool why_empty = tree.val_is_null(why) || tree.val(why).empty();
+	if (!tree.is_seq(list)) {
+		error = "blocked_cells : cells n'est pas une liste";
+		return false;
+	}
+	std::set<std::pair<int16, int16>> seen;
+	size_t rank = 0;
+	for (size_t node = tree.first_child(list); node != ryml::NONE; node = tree.next_sibling(node), ++rank) {
+		const std::string where = "blocked_cells, case " + std::to_string(rank) + " : ";
+		if (!tree.is_seq(node) || tree.num_children(node) != BLOCKED_CELL_FIELDS) {
+			error = where + "[colonne, rangee, sorte] attendu";
+			return false;
+		}
+		const size_t x_node = tree.first_child(node);
+		const size_t y_node = tree.next_sibling(x_node);
+		const size_t kind_node = tree.next_sibling(y_node);
+		s_blocked_cell cell;
+		if (!read_cell_coordinate(tree, x_node, cell.x) || !read_cell_coordinate(tree, y_node, cell.y)) {
+			error = where + "coordonnee illisible ou negative";
+			return false;
+		}
+		if (!tree.is_val(kind_node)) {
+			error = where + "sorte illisible";
+			return false;
+		}
+		const ryml::csubstr kind = tree.val(kind_node);
+		if (kind == "wall")
+			cell.wall = true;
+		else if (kind == "fence")
+			cell.wall = false;
+		else {
+			error = where + "ni wall ni fence";
+			return false;
+		}
+		if (!seen.emplace(cell.x, cell.y).second) {
+			error = where + "(" + std::to_string(cell.x) + ", " + std::to_string(cell.y) + ") revient";
+			return false;
+		}
+		cells.push_back(cell);
+	}
+	if (!cells.empty() && why_empty) {
+		error = "blocked_cells : why est vide";
+		return false;
+	}
+	return true;
+}
+
+// LIT LA SECTION `blocked_cells` DE `text`, et elle seule. Section absente :
+// vrai, `present` faux, aucune case. Faux si la section, ou le YAML entier, est
+// illisible, avec la raison dans `error` ; `cells` est alors vide.
+bool read_blocked_cells(const std::vector<char>& text, std::vector<s_blocked_cell>& cells, bool& present, std::string& error) {
+	cells.clear();
+	present = false;
+	bool readable = false;
+	try {
+		ryml::Parser parser(ryml::Callbacks(nullptr, nullptr, nullptr, on_blocked_cells_yaml_error));
+		const ryml::Tree tree = parser.parse_in_arena(c4::to_csubstr("map_edit"), ryml::csubstr(text.data(), text.size()));
+		readable = read_blocked_cells_tree(tree, cells, present, error);
+	} catch (const std::exception& failure) {
+		error = std::string("YAML illisible (") + failure.what() + ")";
+	} catch (...) {
+		error = "YAML illisible";
+	}
+	if (!readable)
+		cells.clear();
+	return readable;
+}
+
+// La carte `map`, si ce serveur de carte la tient ; sinon nullptr.
+map_data* held_map(const std::string& map) {
+	const int16 m = map_mapname2mapid(map.c_str());
+	if (m < 0)
+		return nullptr;
+	map_data* mapdata = map_getmapdata(m);
+	return mapdata != nullptr && mapdata->cell != nullptr ? mapdata : nullptr;
+}
+
+// Faux si une case sort de la carte `map`. Une carte que ce serveur ne tient
+// pas ne se juge pas : c'est le serveur qui la tient qui applique.
+bool cells_fit_map(const std::string& map, const std::vector<s_blocked_cell>& cells, std::string& error) {
+	if (cells.empty())
+		return true;
+	const map_data* mapdata = held_map(map);
+	if (mapdata == nullptr)
+		return true;
+	for (const s_blocked_cell& cell : cells) {
+		if (cell.x >= mapdata->xs || cell.y >= mapdata->ys) {
+			error = "blocked_cells : (" + std::to_string(cell.x) + ", " + std::to_string(cell.y) + ") sort de la carte ("
+			      + std::to_string(mapdata->xs) + " x " + std::to_string(mapdata->ys) + ")";
+			return false;
+		}
+	}
+	return true;
+}
+
+// Rend à leur état d'origine les cases que la dernière application a changées
+// sur `map`, et les oublie.
+void restore_blocked_cells(const std::string& map) {
+	const auto found = s_changed_cells.find(map);
+	if (found == s_changed_cells.end())
+		return;
+	const std::vector<s_changed_cell> changed = std::move(found->second);
+	s_changed_cells.erase(found);
+	const map_data* mapdata = held_map(map);
+	if (mapdata == nullptr)
+		return;
+	for (const s_changed_cell& cell : changed) {
+		if (cell.walkable_was_set)
+			map_setcell(mapdata->m, cell.x, cell.y, CELL_WALKABLE, true);
+		if (cell.shootable_was_set)
+			map_setcell(mapdata->m, cell.x, cell.y, CELL_SHOOTABLE, true);
+	}
+}
+
+// RESTAURE LES CASES DE L'APPLICATION PRÉCÉDENTE, PUIS BLOQUE `cells` sur `map` :
+// `wall` ôte la marche et les tirs, `fence` la marche seulement. On bloque, on ne
+// libère jamais. Rend le nombre de cases réellement changées ; une carte que ce
+// serveur ne tient pas n'en change aucune.
+uint32 apply_blocked_cells(const std::string& map, const std::vector<s_blocked_cell>& cells) {
+	restore_blocked_cells(map);
+	if (cells.empty())
+		return 0;
+	map_data* mapdata = held_map(map);
+	if (mapdata == nullptr)
+		return 0;
+	std::vector<s_changed_cell> changed;
+	for (const s_blocked_cell& cell : cells) {
+		if (cell.x >= mapdata->xs || cell.y >= mapdata->ys)
+			continue;
+		const mapcell& current = mapdata->cell[static_cast<int32>(cell.x) + static_cast<int32>(cell.y) * mapdata->xs];
+		s_changed_cell change;
+		change.x = cell.x;
+		change.y = cell.y;
+		change.walkable_was_set  = current.walkable != 0;
+		change.shootable_was_set = cell.wall && current.shootable != 0;
+		if (!change.walkable_was_set && !change.shootable_was_set)
+			continue;
+		if (change.walkable_was_set)
+			map_setcell(mapdata->m, cell.x, cell.y, CELL_WALKABLE, false);
+		if (change.shootable_was_set)
+			map_setcell(mapdata->m, cell.x, cell.y, CELL_SHOOTABLE, false);
+		changed.push_back(change);
+	}
+	const uint32 count = static_cast<uint32>(changed.size());
+	if (!changed.empty())
+		s_changed_cells[map] = std::move(changed);
+	return count;
 }
 
 // RÉÉCRIT LE DOCUMENT DE `map` DANS LE MIROIR : `revision: N`, puis le texte
@@ -77,11 +342,8 @@ void export_document(const std::string& map, const s_map_edit_document& document
 		ShowWarning("map_edits: %s ne s'exporte pas dans le miroir (nom de fichier refuse).\n", map.c_str());
 		return;
 	}
-	std::vector<char> text(document.text_size);
-	unsigned long text_size = document.text_size;
-	if (document.text_size == 0
-	||  decode_zip(text.data(), &text_size, document.zipped.data(), static_cast<unsigned long>(document.zipped.size())) != 0
-	||  text_size != document.text_size) {
+	std::vector<char> text;
+	if (!unzip_document(document, text)) {
 		ShowWarning("map_edits: %s, revision %u, ne se decompresse pas : non exporte.\n", map.c_str(), document.revision);
 		return;
 	}
@@ -269,6 +531,25 @@ void complete(map_session_data& sd, s_map_edit_session& state) {
 		send_result(sd, map, MOONCLIENT_MAP_EDIT_MALFORMED, revision_of(map));
 		return;
 	}
+	// [Stingor] LA SECTION `blocked_cells` SE JUGE AVANT LE RANGEMENT : illisible,
+	// hors de la carte, ou portée par le document des lumières de modèle, l'envoi
+	// entier est refusé et rien n'est rangé.
+	std::vector<s_blocked_cell> blocked_cells;
+	bool has_blocked_cells = false;
+	std::string blocked_cells_error;
+	bool blocked_cells_valid = read_blocked_cells(text, blocked_cells, has_blocked_cells, blocked_cells_error);
+	if (blocked_cells_valid && has_blocked_cells && is_shared_document(map)) {
+		blocked_cells_error = "blocked_cells n'appartient qu'au document d'une carte";
+		blocked_cells_valid = false;
+	}
+	if (blocked_cells_valid)
+		blocked_cells_valid = cells_fit_map(map, blocked_cells, blocked_cells_error);
+	if (!blocked_cells_valid) {
+		ShowWarning("map_edits: %s (compte %u) envoie pour %s une section refusee : %s.\n",
+			sd.status.name, sd.status.account_id, map.c_str(), blocked_cells_error.c_str());
+		send_result(sd, map, MOONCLIENT_MAP_EDIT_MALFORMED, revision_of(map));
+		return;
+	}
 	const uint32 current = revision_of(map);
 	if (state.base_revision != current) {
 		send_result(sd, map, MOONCLIENT_MAP_EDIT_STALE, current);
@@ -286,6 +567,12 @@ void complete(map_session_data& sd, s_map_edit_session& state) {
 	ShowInfo("map_edits: %s, revision %u, enregistree par %s (compte %u, personnage %u), %u octets de texte, %u compresses.\n",
 		map.c_str(), document.revision, sd.status.name, sd.status.account_id, sd.status.char_id,
 		document.text_size, static_cast<uint32>(document.zipped.size()));
+	// [Stingor] Rangé : les cases s'appliquent avant la diffusion.
+	if (!is_shared_document(map)) {
+		const uint32 changed = apply_blocked_cells(map, blocked_cells);
+		ShowInfo("map_edits: %s, revision %u : %u case(s) bloquee(s) declaree(s), %u changee(s) sur la carte.\n",
+			map.c_str(), document.revision, static_cast<uint32>(blocked_cells.size()), changed);
+	}
 	s_map_edit_document& kept = s_documents[map];
 	kept = std::move(document);
 	export_document(map, kept);
@@ -332,6 +619,47 @@ void map_edits_load() {
 	}
 	Sql_FreeResult(mmysql_handle);
 	ShowStatus("map_edits: " CL_WHITE "%u" CL_RESET " document(s) d'edition de carte.\n", static_cast<uint32>(s_documents.size()));
+	// [Stingor] LES CASES BLOQUÉES DE CHAQUE DOCUMENT S'APPLIQUENT : les cartes sont
+	// déjà lues. Une section illisible en base laisse sa carte sans cases bloquées.
+	{
+		std::vector<std::string> previous;
+		for (const auto& [map, changed] : s_changed_cells)
+			previous.push_back(map);
+		for (const std::string& map : previous)
+			restore_blocked_cells(map);
+	}
+	uint32 blocked_total = 0;
+	uint32 blocked_maps = 0;
+	for (const auto& [map, document] : s_documents) {
+		std::vector<char> text;
+		if (!unzip_document(document, text))
+			continue;
+		std::vector<s_blocked_cell> blocked_cells;
+		bool has_blocked_cells = false;
+		std::string blocked_cells_error;
+		if (!read_blocked_cells(text, blocked_cells, has_blocked_cells, blocked_cells_error)) {
+			ShowWarning("map_edits: %s, revision %u : section blocked_cells illisible (%s), carte sans cases bloquees.\n",
+				map.c_str(), document.revision, blocked_cells_error.c_str());
+			continue;
+		}
+		if (!has_blocked_cells)
+			continue;
+		if (is_shared_document(map)) {
+			ShowWarning("map_edits: %s porte une section blocked_cells, ignoree.\n", map.c_str());
+			continue;
+		}
+		if (!cells_fit_map(map, blocked_cells, blocked_cells_error)) {
+			ShowWarning("map_edits: %s, revision %u : %s, carte sans cases bloquees.\n",
+				map.c_str(), document.revision, blocked_cells_error.c_str());
+			continue;
+		}
+		const uint32 changed = apply_blocked_cells(map, blocked_cells);
+		if (changed > 0) {
+			blocked_total += changed;
+			++blocked_maps;
+		}
+	}
+	ShowStatus("map_edits: " CL_WHITE "%u" CL_RESET " case(s) bloquee(s) sur " CL_WHITE "%u" CL_RESET " carte(s).\n", blocked_total, blocked_maps);
 	// LE MIROIR SE RECONSTRUIT DEPUIS LA BASE : un dossier effacé ou en retard se
 	// remet d'aplomb à chaque démarrage.
 	if (!s_mirror_folder.empty()) {
@@ -347,6 +675,8 @@ void map_edits_set_mirror(const char* folder) {
 
 void map_edits_final() {
 	s_documents.clear();
+	// Les cartes s'en vont avec le serveur : rien à leur rendre.
+	s_changed_cells.clear();
 	s_sessions.clear();
 }
 

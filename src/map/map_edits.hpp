@@ -11,9 +11,15 @@
 // de la carte. À l'entrée sur une carte, il annonce la révision qu'il détient, et
 // un client qui en a une autre la demande.
 //
-// Le serveur ne lit pas le YAML. Il borne la taille, vérifie le droit, la carte
-// et la révision, refuse un texte qui porte un octet nul, et rien de plus : le
-// client valide chaque document reçu par son lecteur strict.
+// Le serveur ne lit du YAML que la section `blocked_cells` (l'ADR 0131 de
+// moonclient) : les cases qu'elle déclare, il les bloque pour de bon par
+// map_setcell — `wall` ôte la marche et les tirs, `fence` la marche seulement —
+// au démarrage et à chaque enregistrement accepté, après avoir rendu à leur état
+// d'origine celles de la révision précédente. Une section illisible, hors de la
+// carte, ou portée par le document des lumières de modèle fait refuser l'envoi.
+// Pour le reste, il borne la taille, vérifie le droit, la carte et la révision,
+// refuse un texte qui porte un octet nul, et rien de plus : le client valide
+// chaque document reçu par son lecteur strict.
 
 #ifndef MAP_MAP_EDITS_HPP
 #define MAP_MAP_EDITS_HPP
@@ -51,10 +57,11 @@ enum e_moonclient_map_edit_result : uint8 {
 // reconstruit, et qui épargne aux clients le transfert d'une première entrée.
 // Vide : rien ne s'exporte.
 void map_edits_set_mirror(const char* folder);
-// Lit les documents en base, une fois, au démarrage du serveur de carte, puis
-// les exporte dans le miroir.
+// Lit les documents en base, une fois, au démarrage du serveur de carte, après
+// la lecture des cartes ; applique leurs cases bloquées, puis les exporte dans
+// le miroir.
 void map_edits_load();
-// Oublie les documents et les transferts, à l'arrêt.
+// Oublie les documents, les transferts et les cases bloquées retenues, à l'arrêt.
 void map_edits_final();
 // Jette le transfert et l'état de la session qui part.
 void map_edits_on_logout(const map_session_data& sd);
