@@ -56,6 +56,7 @@ enum e_hom_state2 : uint8;
 enum e_card_album_result : uint8;
 enum _sp;
 enum e_searchstore_failure : uint16;
+enum e_moonlight_throttle : uint8;
 
 #define DMGVAL_IGNORE -30000
 
@@ -65,7 +66,7 @@ enum e_PacketDBVersion { // packet DB
 	// Bourgeon 0x0F00..0x0FFF (au-dessus de l'opcode max du client 0x0C35, donc
 	// zéro collision côté client ; ≤ MAX_PACKET_DB donc enregistrable côté serveur
 	// via packetdb_addpacket, qui ignore silencieusement tout cmd > MAX_PACKET_DB).
-	// Voir Bourgeon/src/plugins/bourgeon_opcodes.h (source unique) + docs/opcode_map.md.
+	// Voir Bourgeon/src/features/systems/bourgeon_opcodes.h (source unique) + docs/opcode_map.md.
 	MAX_PACKET_DB  = 0xFFF,
 #if !defined(MAX_PACKET_POS)
 	MAX_PACKET_POS = 20,
@@ -1957,7 +1958,12 @@ enum e_moonlight_ui_cap : uint32 {
 	// Ce client sait lire l'élément d'attaque d'un joueur (ZC_MOONLIGHT_ATTACK_ELEMENT
 	// 0x0F4A). Réservé à moonclient : la DLL ne l'annonce pas.
 	MOONLIGHT_UI_ATTACK_ELEMENT = 0x00040000,
-	// Prochain bit libre : 0x00080000.
+	// Ce client tient le classement mondial du mode survivors (CZ 0x0F4C, 0x0F4E,
+	// 0x0F50 -> ZC 0x0F4D, 0x0F4F, 0x0F51) : chaque annonce qui porte le bit reçoit
+	// ZC_MOONLIGHT_SURVIVORS_SERVICE 0x0F53, et le client n'émet rien du service
+	// avant. Réservé à moonclient : la DLL ne l'annonce pas.
+	MOONLIGHT_UI_SURVIVORS = 0x00080000,
+	// Prochain bit libre : 0x00100000.
 };
 
 // [Stingor] Les réglages du serveur utiles au client (ZC 0x0F38), à une session
@@ -1977,6 +1983,18 @@ void clif_parse_moonlight_gm_outfit(int32 fd, map_session_data* sd);
 void clif_moonlight_gm_outfit_area(map_session_data& sd, bool spawning);
 // [Stingor] Un trophée de mini-jeu de moonclient (CZ 0x0F4B) achève son succès.
 void clif_parse_moonlight_minigame_trophy(int32 fd, map_session_data* sd);
+// [Stingor] Le classement mondial du mode survivors (0x0F4C à 0x0F53, voir
+// packets_struct.hpp), tenu par survivors_ranking.cpp. `_service` annonce le
+// service (ZC 0x0F53) à une session qui porte MOONLIGHT_UI_SURVIVORS : à chaque
+// annonce du bit. Les trois gestionnaires n'entendent qu'une session moonclient
+// vérifiée, chargée, et qui a annoncé le bit.
+void clif_moonlight_survivors_service(map_session_data& sd);
+// [Stingor] La cadence des demandes custom (MOONLIGHT_THROTTLE_RULES de
+// clif.cpp) : vrai si la demande de `family` passe, et alors elle est comptée.
+bool clif_moonlight_throttle_pass(map_session_data& sd, e_moonlight_throttle family);
+void clif_parse_moonlight_survivors_begin(int32 fd, map_session_data* sd);
+void clif_parse_moonlight_survivors_end(int32 fd, map_session_data* sd);
+void clif_parse_moonlight_survivors_board(int32 fd, map_session_data* sd);
 // [Stingor] L'élément d'attaque d'un joueur (ZC 0x0F4A), voir packets_struct.hpp.
 // `_refresh` le recalcule et ne dit rien s'il n'a pas changé : à appeler après
 // tout ce qui peut le changer (recalcul de statut, charmes d'esprit).

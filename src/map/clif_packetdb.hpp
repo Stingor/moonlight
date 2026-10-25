@@ -2116,6 +2116,14 @@ parseable_packet(HEADER_CZ_MOONLIGHT_GM_OUTFIT, sizeof(PACKET_CZ_MOONLIGHT_GM_OU
 // poignée de main DANS le handler — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_MINIGAME_TROPHY, sizeof(PACKET_CZ_MOONLIGHT_MINIGAME_TROPHY), clif_parse_moonlight_minigame_trophy, 0);
 
+// [Stingor] moonclient : le classement mondial du mode survivors
+// (survivors_ranking.cpp). Gate poignée de main moonclient et
+// MOONLIGHT_UI_SURVIVORS DANS les handlers — fixed. 0x0F52 (JOURNAL) est
+// déclaré dans packets_struct.hpp et volontairement absent d'ici : réservé.
+parseable_packet(HEADER_CZ_MOONLIGHT_SURVIVORS_BEGIN, sizeof(PACKET_CZ_MOONLIGHT_SURVIVORS_BEGIN), clif_parse_moonlight_survivors_begin, 0);
+parseable_packet(HEADER_CZ_MOONLIGHT_SURVIVORS_END, sizeof(PACKET_CZ_MOONLIGHT_SURVIVORS_END), clif_parse_moonlight_survivors_end, 0);
+parseable_packet(HEADER_CZ_MOONLIGHT_SURVIVORS_BOARD, sizeof(PACKET_CZ_MOONLIGHT_SURVIVORS_BOARD), clif_parse_moonlight_survivors_board, 0);
+
 // [Stingor] moonclient : les éditions de carte (map_edits.cpp). Gate
 // MOONLIGHT_UI_MAP_EDITS DANS les handlers, et moonclient_map_edit_level pour
 // l'envoi — VARIABLE : la queue de PUT porte un morceau du document compressé.

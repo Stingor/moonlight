@@ -5904,7 +5904,7 @@ DEFINE_PACKET_HEADER(CZ_ADVENTURER_AGENCY_JOIN_RESULT, 0x0af8);
 // client comme flag=-1 (variable, inconnu), immunisés contre les montées de version
 // du client ET contre les collisions de longueur fixe. Côté serveur, MAX_PACKET_DB a
 // été remonté à 0xFFF (clif.hpp) pour permettre l'enregistrement des CZ.
-// !! Doit rester synchronisé avec Bourgeon/src/plugins/bourgeon_opcodes.h (client).
+// !! Doit rester synchronisé avec Bourgeon/src/features/systems/bourgeon_opcodes.h (client).
 // Carte complète : Bourgeon/docs/opcode_map.md
 //
 // ZC (server -> client): sends the player's char_id + all settings on login.
@@ -7540,24 +7540,200 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_ATTACK_ELEMENT, 0x0f4a);
 
 // ── [Stingor] Trophées des mini-jeux de moonclient (CZ 0x0F4B) ──────────────
 //
-// CZ (client -> serveur) : un trophée gagné à Rojeweled ou à Roggle, deux
-// mini-jeux qui se jouent entièrement dans le client. Le serveur achève le succès
-// qui lui correspond (table MOONLIGHT_MINIGAME_ACHIEVEMENTS de clif.cpp). Fixe 5.
+// CZ (client -> serveur) : un trophée gagné à Rojeweled, à Roggle ou au mode
+// survivors, des mini-jeux qui se jouent entièrement dans le client. Le serveur
+// achève le succès qui lui correspond (table MOONLIGHT_MINIGAME_ACHIEVEMENTS de
+// clif.cpp). Fixe 5.
 //
 // 🔴 C'EST LE CLIENT QUI LE DIT : rien ne prouve la partie. Ces succès ne
-// rapportent donc ni objet, ni titre, ni point.
+// rapportent donc ni objet ni titre ; seulement des points de succès.
 // Le client redit tous ses trophées à chaque poignée de main vérifiée : un
 // succès déjà achevé est ignoré sans un mot.
 // Layout: [type:2][len:2][trophy:1]
 //   trophy : rang du trophée, de 0 à MOONLIGHT_MINIGAME_TROPHY_COUNT - 1, dans
 //   l'ordre du catalogue de moonclient (ro::sim::MinigameTrophy).
-static constexpr uint8 MOONLIGHT_MINIGAME_TROPHY_COUNT = 8;
+//   Rojeweled et Roggle de 0 à 7, le mode survivors de 8 à 15.
+static constexpr uint8 MOONLIGHT_MINIGAME_TROPHY_COUNT = 16;
 struct PACKET_CZ_MOONLIGHT_MINIGAME_TROPHY {
 	int16 packetType;
 	int16 packetLength;
 	uint8 trophy;
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(CZ_MOONLIGHT_MINIGAME_TROPHY, 0x0f4b);
+
+// ── [Stingor] Classement mondial du mode survivors de moonclient (0x0F4C à 0x0F53)
+//
+// Le mode survivors se joue entièrement dans le client. Une partie CLASSÉE part
+// d'un jeton que le serveur délivre (BEGIN -> TICKET), et finit par ses
+// composantes (END -> RESULT) : le serveur les borne, refait le score par la
+// formule du client, et range la partie (sql-files/moonclient_survivors.sql).
+// Le tableau se demande à part (BOARD -> BOARD). Voir survivors_ranking.cpp, et
+// le cahier du lot 8 de moonclient (docs/survivors/lot-8-classement.md).
+//
+// 🔴 LA PLAGE 0x0F4C À 0x0F53 EST RÉSERVÉE D'UN COUP. 0x0F52 (JOURNAL) est
+// déclaré et inemployé : aucun gestionnaire, un client qui l'enverrait serait
+// coupé comme pour tout opcode inconnu.
+//
+// 🔴 RIEN NE PART À UN CLIENT QUI N'A PAS ANNONCÉ MOONLIGHT_UI_SURVIVORS
+// (0x80000) dans CZ_MOONLIGHT_UI_CAPS. À chaque annonce qui porte le bit, le
+// serveur répond par ZC_MOONLIGHT_SURVIVORS_SERVICE ; le client n'émet aucun CZ
+// du service avant de l'avoir reçue. Seule une session moonclient vérifiée et
+// chargée est entendue.
+//
+// Tout est petit-boutiste ; `len` compte la trame entière, en-tête compris. Les
+// heures sont des secondes UTC depuis 1970, à l'horloge du serveur.
+//
+// Valeurs des champs communs :
+//   ruleset : version des règles du client (kSurvivorsRulesetVersion).
+//   arena   : ArenaRule::arena_id du catalogue du client.
+//   class_id: ClassRule::class_id du catalogue du client (pas le job d'apparence).
+//   board   : 0 partie classée (graine tirée par le serveur), 1 défi de la
+//             semaine (graine de la semaine ISO). Toute autre valeur se refuse.
+//   rank    : 1 pour le premier ; 0 = hors tableau (aucune partie acceptée).
+//   name    : 24 octets, terminé par un zéro s'il est plus court, dans le codage
+//             des noms du serveur. Le nom du personnage figé à la soumission.
+
+// CZ : demande de jeton. Fixe 11.
+// Layout: [type:2][len:2][ruleset:2][arena:2][class:2][board:1]
+struct PACKET_CZ_MOONLIGHT_SURVIVORS_BEGIN {
+	int16  packetType;
+	int16  packetLength;
+	uint16 ruleset;
+	uint16 arena;
+	uint16 class_id;
+	uint8  board;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_SURVIVORS_BEGIN, 0x0f4c);
+
+// ZC : le jeton. Fixe 25. Un jeton par personnage, en mémoire du serveur de
+// carte ; une demande neuve remplace le précédent, un redémarrage les perd.
+// Layout: [type:2][len:2][result:1][ticket:4][seed:8][issued_at:8]
+//   result    : 0 accordé, 1 lieu refusé (ni ville ni intérieur, comme la
+//               garde du client), 2 compte non rattaché (user_id 0), 3 version
+//               de règles ou tableau inconnu, 4 trop tôt (une demande par
+//               10 s ; un flot de demandes hors cadence n'a plus de réponse).
+//               Un refus porte ticket, seed et issued_at nuls.
+//   seed      : graine 64 bits de la partie. En défi, la graine de la semaine
+//               ISO de issued_at (survivors_seed_of_week).
+//   issued_at : l'heure du jeton. Il vaut 24 h après elle.
+struct PACKET_ZC_MOONLIGHT_SURVIVORS_TICKET {
+	int16  packetType;
+	int16  packetLength;
+	uint8  result;
+	uint32 ticket;
+	uint64 seed;
+	int64  issued_at;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_TICKET, 0x0f4d);
+
+// CZ : les composantes d'une partie finie. Fixe 29.
+// Layout: [type:2][len:2][ticket:4][survived_steps:4][kill_points:4][kills:4]
+//         [boss_kills:2][level:2][outcome:1][journal_bytes:4]
+//   survived_steps : pas de 20 ms.
+//   outcome        : 1 tombé, 2 survécu, 3 victoire (SurvivorsOutcome du
+//                    client) ; 0 (en cours) et 4 (abandon) ne s'envoient pas.
+//   journal_bytes  : la taille du journal de la partie, que rien ne lit encore.
+struct PACKET_CZ_MOONLIGHT_SURVIVORS_END {
+	int16  packetType;
+	int16  packetLength;
+	uint32 ticket;
+	uint32 survived_steps;
+	uint32 kill_points;
+	uint32 kills;
+	uint16 boss_kills;
+	uint16 level;
+	uint8  outcome;
+	uint32 journal_bytes;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_SURVIVORS_END, 0x0f4e);
+
+// ZC : le verdict. Fixe 27. Le jeton d'END revient en écho : il apparie la
+// réponse. Un END qui redit le dernier jeton consommé reçoit le même RESULT.
+// Layout: [type:2][len:2][ticket:4][verdict:1][score:8][rank:2][best:8]
+//   verdict : 0 accepté, 1 accepté et record personnel, 2 jeton inconnu,
+//             consommé ou expiré, 3 invraisemblable.
+//   score   : recalculé par le serveur (0 pour un jeton inconnu).
+//   best    : le meilleur score du compte sur ce tableau, 0 s'il n'y en a pas.
+struct PACKET_ZC_MOONLIGHT_SURVIVORS_RESULT {
+	int16  packetType;
+	int16  packetLength;
+	uint32 ticket;
+	uint8  verdict;
+	uint64 score;
+	uint16 rank;
+	uint64 best;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_RESULT, 0x0f4f);
+
+// CZ : demande du tableau. Fixe 11. Une par 2 s ; en défi, le tableau de la
+// semaine en cours du serveur.
+// Layout: [type:2][len:2][ruleset:2][arena:2][class:2][board:1]
+struct PACKET_CZ_MOONLIGHT_SURVIVORS_BOARD {
+	int16  packetType;
+	int16  packetLength;
+	uint16 ruleset;
+	uint16 arena;
+	uint16 class_id;
+	uint8  board;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_SURVIVORS_BOARD, 0x0f50);
+
+// ZC : les 20 premiers et le rang du demandeur. Variable, 22 + count × 41,
+// 842 au plus. Un client déduit la taille d'une entrée de la trame,
+// (len - 22) / count, et saute ce qu'il ne connaît pas : une entrée peut
+// s'allonger EN FIN sans casser un client ancien.
+// Layout: [type:2][len:2][ruleset:2][arena:2][class:2][board:1][own_rank:2]
+//         [own_score:8][count:1] puis count × [rank:2][score:8]
+//         [survived_steps:4][level:2][verified:1][name:24]
+//   own_rank, own_score : le meilleur du demandeur ; 0 sans partie acceptée.
+//   verified            : 0 tant qu'aucune partie n'est rejouée au serveur.
+struct PACKET_ZC_MOONLIGHT_SURVIVORS_BOARD_entry {
+	uint16 rank;
+	uint64 score;
+	uint32 survived_steps;
+	uint16 level;
+	uint8  verified;
+	char   name[NAME_LENGTH];
+} __attribute__((packed));
+
+struct PACKET_ZC_MOONLIGHT_SURVIVORS_BOARD {
+	int16  packetType;
+	int16  packetLength;
+	uint16 ruleset;
+	uint16 arena;
+	uint16 class_id;
+	uint8  board;
+	uint16 own_rank;
+	uint64 own_score;
+	uint8  count;
+	PACKET_ZC_MOONLIGHT_SURVIVORS_BOARD_entry entries[];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_BOARD, 0x0f51);
+
+// CZ : un morceau du journal d'une partie, pour la vérification par rejeu.
+// RÉSERVÉ, INEMPLOYÉ : aucun gestionnaire ne le reçoit.
+// Layout: [type:2][len:2][ticket:4][offset:4] puis 1 024 octets au plus
+struct PACKET_CZ_MOONLIGHT_SURVIVORS_JOURNAL {
+	int16  packetType;
+	int16  packetLength;
+	uint32 ticket;
+	uint32 offset;
+	uint8  data[];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_SURVIVORS_JOURNAL, 0x0f52);
+
+// ZC : l'annonce du service. Fixe 16. Les versions de règles que le serveur
+// classe, bornes comprises, et son heure, qui donne au client l'écart de son
+// horloge. Redite à chaque annonce du bit MOONLIGHT_UI_SURVIVORS.
+// Layout: [type:2][len:2][ruleset_low:2][ruleset_high:2][server_utc:8]
+struct PACKET_ZC_MOONLIGHT_SURVIVORS_SERVICE {
+	int16  packetType;
+	int16  packetLength;
+	uint16 ruleset_low;
+	uint16 ruleset_high;
+	int64  server_utc;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_SERVICE, 0x0f53);
 
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
@@ -8053,7 +8229,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_HATEFFECT_MAP, 0x0f17);
 // client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans
 // la zone sûre 0x0F00+ (2026-07-03). Le prochain opcode libre est tenu par
 // bopcodes::kNextFree, dans src/features/systems/bourgeon_opcodes.h de Bourgeon
-// (0x0F4C à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
+// (0x0F54 à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
 
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)

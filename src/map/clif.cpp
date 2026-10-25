@@ -332,6 +332,10 @@ static constexpr s_moonlight_throttle_rule MOONLIGHT_THROTTLE_RULES[MOONLIGHT_TH
 	{  200, 6 },  // MOONLIGHT_THROTTLE_CARD_ALBUM
 	{ 1000, 2 },  // MOONLIGHT_THROTTLE_CARD_ALBUM_REFUSAL
 	{  500, 5 },  // MOONLIGHT_THROTTLE_EVENT_POINTS
+	{ 10000, 1 }, // MOONLIGHT_THROTTLE_SURVIVORS_TICKET : une demande de jeton par 10 s
+	{ 2000, 1 },  // MOONLIGHT_THROTTLE_SURVIVORS_BOARD : un tableau par 2 s
+	{ 1000, 2 },  // MOONLIGHT_THROTTLE_SURVIVORS_TICKET_REFUSAL
+	{ 2000, 2 },  // MOONLIGHT_THROTTLE_SURVIVORS_SERVICE : une entrée en carte en suit une autre
 };
 
 // [Stingor] Vrai si la demande de la famille `family` est dans la cadence, et
@@ -341,7 +345,7 @@ static constexpr s_moonlight_throttle_rule MOONLIGHT_THROTTLE_RULES[MOONLIGHT_TH
 // une demande est refusée tant que l'échéance dépasse l'instant présent de
 // plus que la rafale permise. L'appelant ignore la demande refusée, sans
 // journal : journaliser le refus serait le flot qu'on veut couper.
-static bool clif_moonlight_throttle_pass( map_session_data& sd, e_moonlight_throttle family ){
+bool clif_moonlight_throttle_pass( map_session_data& sd, e_moonlight_throttle family ){
 	const s_moonlight_throttle_rule& rule = MOONLIGHT_THROTTLE_RULES[family];
 	const t_tick now = gettick();
 	t_tick& due = sd.moonlight_throttle_due[family];
@@ -9250,9 +9254,11 @@ void clif_parse_moonlight_gm_outfit(int32 fd, map_session_data* sd) {
 }
 
 // [Stingor] Le succès de chaque trophée de mini-jeu, dans l'ordre du catalogue de
-// moonclient (db/import/achievement_db.yml, 910001 à 910008).
+// moonclient (db/import/achievement_db.yml) : Rojeweled et Roggle de 910001 à
+// 910008, le mode survivors de 910009 à 910016.
 static constexpr int32 MOONLIGHT_MINIGAME_ACHIEVEMENTS[MOONLIGHT_MINIGAME_TROPHY_COUNT] = {
 	910001, 910002, 910003, 910004, 910005, 910006, 910007, 910008,
+	910009, 910010, 910011, 910012, 910013, 910014, 910015, 910016,
 };
 
 // [Stingor] Comme la commande de script achievementcomplete : le succès s'ajoute
@@ -9542,6 +9548,12 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 		if (sd->clan != nullptr && sd->clan->instance_id > 0)
 			clif_instance_details_single(*sd, sd->clan->instance_id);
 	}
+	// [Stingor] Le classement survivors s'annonce à CHAQUE annonce qui porte le
+	// bit, pas seulement à son apparition : le client redit ses capacités à chaque
+	// entrée en carte, et ne tient le service pour ouvert qu'après cette réponse.
+	// Une cadence à part borne un client qui répéterait l'annonce.
+	if ((p->caps & MOONLIGHT_UI_SURVIVORS) && clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_SURVIVORS_SERVICE))
+		clif_moonlight_survivors_service(*sd);
 	// [Stingor] Les morceaux d'une édition de carte arrivent d'affilée : un tampon
 	// de réception plus grand. EN DERNIER : le réallouer invalide `p`.
 	if (p->caps & MOONLIGHT_UI_MAP_EDITS)
@@ -13171,6 +13183,8 @@ void clif_moonclient_accepted(map_session_data& sd)
 	const int32 range = pc_view_range(sd);
 	map_foreachinallarea(clif_getareachar_beyond_area, sd.m, sd.x - range, sd.y - range, sd.x + range, sd.y + range, BL_ALL, &sd);
 	clif_bourgeon_server_rules(sd);
+	// [Stingor] Le classement survivors, si le bit est venu avant l'acceptation.
+	clif_moonlight_survivors_service(sd);
 }
 
 

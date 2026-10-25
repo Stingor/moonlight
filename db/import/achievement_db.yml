@@ -2911,35 +2911,77 @@ Body:
       TitleId: 1105
     Score: 500
 
-# [Stingor] Mini-jeux de moonclient : Rojeweled et Roggle se jouent dans le
+# [Stingor] Mini-jeux de moonclient : Rojeweled, Roggle et le mode survivors se jouent dans le
 # client seul, qui annonce chaque trophee gagne (CZ 0x0F4B,
 # clif_parse_moonlight_minigame_trophy). L'ordre des Id suit celui du catalogue
 # du client : ne pas le changer sans changer MOONLIGHT_MINIGAME_ACHIEVEMENTS.
 #
-# 🔴 NI OBJET, NI TITRE, NI POINT : c'est le client qui dit la partie, et rien ne
-# la prouve. Un succes qui rapporterait quelque chose se tricherait.
+# 🔴 NI OBJET NI TITRE : c'est le client qui dit la partie, et rien ne la
+# prouve. Un succes qui rapporterait un objet se tricherait. Les points de
+# succes, eux, sont voulus : ils ne comptent qu'au palmares du compte.
 # Groupe Adventure, sans objectif : il ne s'acheve que par le handler.
   - Id: 910001
     Group: Adventure
     Name: Jusqu'au bout
+    Score: 10
   - Id: 910002
     Group: Adventure
     Name: Eleveur de Porings
+    Score: 20
   - Id: 910003
     Group: Adventure
     Name: Dompteur de Porings
+    Score: 20
   - Id: 910004
     Group: Adventure
     Name: Reaction en chaine
+    Score: 30
   - Id: 910005
     Group: Adventure
     Name: Tir groupe
+    Score: 10
   - Id: 910006
     Group: Adventure
     Name: Sans bavure
+    Score: 20
   - Id: 910007
     Group: Adventure
     Name: Main sure
+    Score: 30
   - Id: 910008
     Group: Adventure
     Name: Pluie de gemmes
+    Score: 50
+# Le mode survivors de moonclient, rangs 8 a 15 du meme catalogue : memes regles.
+  - Id: 910009
+    Group: Adventure
+    Name: Tenir bon
+    Score: 10
+  - Id: 910010
+    Group: Adventure
+    Name: Tombeur de Baphomet
+    Score: 30
+  - Id: 910011
+    Group: Adventure
+    Name: Metamorphose
+    Score: 20
+  - Id: 910012
+    Group: Adventure
+    Name: Maree repoussee
+    Score: 20
+  - Id: 910013
+    Group: Adventure
+    Name: Mage aguerri
+    Score: 30
+  - Id: 910014
+    Group: Adventure
+    Name: Premiere carte
+    Score: 10
+  - Id: 910015
+    Group: Adventure
+    Name: Pyromane
+    Score: 50
+  - Id: 910016
+    Group: Adventure
+    Name: Esprit pur
+    Score: 50

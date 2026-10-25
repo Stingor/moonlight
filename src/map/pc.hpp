@@ -346,6 +346,10 @@ enum e_moonlight_throttle : uint8 {
 	MOONLIGHT_THROTTLE_CARD_ALBUM,   ///< album de cartes (SQL synchrone)
 	MOONLIGHT_THROTTLE_CARD_ALBUM_REFUSAL, ///< état de l'album renvoyé à une commande hors cadence (~11 Ko)
 	MOONLIGHT_THROTTLE_EVENT_POINTS, ///< points d'event donnés par le menu staff
+	MOONLIGHT_THROTTLE_SURVIVORS_TICKET, ///< jeton du classement survivors
+	MOONLIGHT_THROTTLE_SURVIVORS_BOARD,  ///< tableau du classement survivors (SQL synchrone)
+	MOONLIGHT_THROTTLE_SURVIVORS_TICKET_REFUSAL, ///< refus « trop tôt » rendu à un jeton demandé hors cadence
+	MOONLIGHT_THROTTLE_SURVIVORS_SERVICE, ///< annonce du service survivors, redite à chaque annonce d'interface
 	MOONLIGHT_THROTTLE_MAX
 };
 
