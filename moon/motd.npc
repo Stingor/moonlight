@@ -38,9 +38,9 @@ OnMinute01:
 	end;
 
 OnMinute15:
-	announce "Stingor : Je fais maintenant aussi partie du staff de New Horizon : newhorizon.fr", bc_all;
-	announce "Rejoignez donc ce serveur pour y découvrir un gameplay différent et plein de nouveautés !", bc_all;
-	announce "Ou restez ici… après tout, le mien est meilleur xD", bc_all;
+	announce "Un client 100% codé pour Moonlight-Destiny est dispo.", bc_all;
+	announce "Vous y trouverez un jeu optimisé et moderne.", bc_all;
+	announce "https://moonlight-destiny.fr/index.php?page=telechargement", bc_all;
 
 OnMinute45:
 	if( rand(4) == 2 )
@@ -157,9 +157,9 @@ OnPCLoginEvent:
 	if( $bghappyhour )
 		announce "Attention!!! Battleground Happy Hours! Double de badges à gagner!", bc_self, 0xffff00;
 
-	announce "Stingor : Je fais maintenant aussi partie du staff de New Horizon : newhorizon.fr", bc_self, 0xffff00;
-	announce "Rejoignez donc ce serveur pour y découvrir un gameplay différent et plein de nouveautés !", bc_self, 0xffff00;
-	announce "Ou restez ici… après tout, le mien est meilleur xD", bc_self, 0xffff00;
+	announce "Un client 100% codé pour Moonlight-Destiny est dispo.", bc_self, 0xffff00;
+	announce "Vous y trouverez un jeu optimisé et moderne.", bc_self, 0xffff00;
+	announce "https://moonlight-destiny.fr/index.php?page=telechargement", bc_self, 0xffff00;
 
 	if( TransmogLow > 0 ) setlook 3, TransmogLow;
 	if( TransmogTop > 0 ) setlook 4, TransmogTop;
