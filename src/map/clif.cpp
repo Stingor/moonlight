@@ -7069,7 +7069,14 @@ static std::unordered_map<int32, std::string> s_account_to_guid;
 // "already verified this session, just changing character" -> don't demand the
 // packet again. A real relog gets a new login_id1 and is re-checked. Stale
 // entries are harmless (login_id1 won't match), so this map is never cleared.
-static std::unordered_map<int32, uint32> s_verified_login;
+//
+// [Stingor] Le patch déclaré à cette poignée de main voyage avec : le changement
+// de personnage ne la rejoue pas, et @client doit pourtant le connaître.
+struct s_verified_login_entry {
+	uint32 login_id1;
+	int32 client_patch_index;
+};
+static std::unordered_map<int32, s_verified_login_entry> s_verified_login;
 
 struct s_bourgeon_integrity_conf {
 	bool loaded = false;
@@ -7358,7 +7365,7 @@ static void clif_bourgeon_grant_verified(map_session_data* sd) {
 	if (sd->state.has_bourgeon)
 		return;
 	sd->state.has_bourgeon = true;
-	s_verified_login[sd->status.account_id] = sd->login_id1;
+	s_verified_login[sd->status.account_id] = { sd->login_id1, sd->client_patch_index };
 	clif_bourgeon_autoload_preset(sd);
 	clif_bourgeon_settings(sd);
 	clif_bourgeon_send_preset_list(sd);
@@ -7535,6 +7542,7 @@ void clif_parse_moonlight_integrity(int32 fd, map_session_data* sd) {
 		bourgeon_integrity_conf.exempt_ips.count(session[fd]->client_addr) > 0) {
 		ShowInfo("Bourgeon integrity: %s exempt (IP %s).\n",
 			sd->status.name, ip2str(session[fd]->client_addr, nullptr));
+		sd->client_patch_index = p->patch_index;
 		clif_bourgeon_grant_verified(sd);
 		return;
 	}
@@ -7566,6 +7574,7 @@ void clif_parse_moonlight_integrity(int32 fd, map_session_data* sd) {
 
 	// Approved build — mark client and push settings.
 	if (bourgeon_integrity_conf.hashes.count(hex) > 0) {
+		sd->client_patch_index = p->patch_index;
 		clif_bourgeon_grant_verified(sd);
 		return;
 	}
@@ -7588,6 +7597,7 @@ void clif_parse_moonlight_integrity(int32 fd, map_session_data* sd) {
 	} else {
 		// Not enforcing but still a Bourgeon client (just wrong hash) — mark and
 		// send settings so their overlay works while they update.
+		sd->client_patch_index = p->patch_index;
 		clif_bourgeon_grant_verified(sd);
 	}
 }
@@ -7647,6 +7657,7 @@ void clif_parse_moonclient_integrity(int32 fd, map_session_data* sd) {
 		bourgeon_integrity_conf.exempt_ips.count(session[fd]->client_addr) > 0) {
 		ShowInfo("[moonclient] integrity: %s exempt (IP %s).\n",
 			sd->status.name, ip2str(session[fd]->client_addr, nullptr));
+		sd->client_patch_index = p->patch_index;
 		clif_moonclient_accepted(*sd);
 		clif_bourgeon_grant_verified(sd);
 		return;
@@ -7674,6 +7685,7 @@ void clif_parse_moonclient_integrity(int32 fd, map_session_data* sd) {
 		}
 	}
 
+	sd->client_patch_index = p->patch_index;
 	clif_moonclient_accepted(*sd);
 	clif_bourgeon_grant_verified(sd);
 }
@@ -10651,6 +10663,12 @@ void clif_parse_moonlight_player_admin(int32 fd, map_session_data* sd) {
 		// `block` est l'alias de `char_block` : c'est le nom que conf/groups.yml
 		// emploie, et `checkAlias` le résout.
 		run("block");
+		break;
+	case BOURGEON_PLAYER_ADMIN_CLIENT_INFO:
+		// Le seuil est celui de `@client` dans la table des groupes : seul le
+		// groupe qui porte `all_commands` l'a. Le seuil de 80 ci-dessus ne
+		// fait qu'ouvrir le menu.
+		run("client");
 		break;
 	default:
 		clif_displaymessage(fd, "Outils joueur: action inconnue.");
@@ -18935,8 +18953,10 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 	// connecté, et qui l'apprendra sous son propre nom en entrant.
 	if (sd->state.connect_new && !sd->state.spectator) {
 		auto vit = s_verified_login.find(sd->status.account_id);
-		if (vit != s_verified_login.end() && vit->second == sd->login_id1)
+		if (vit != s_verified_login.end() && vit->second.login_id1 == sd->login_id1) {
+			sd->client_patch_index = vit->second.client_patch_index;
 			clif_bourgeon_grant_verified(sd);
+		}
 		else
 			add_timer(gettick() + 15000, clif_bourgeon_check_dll_timer, sd->id, 0);
 	}

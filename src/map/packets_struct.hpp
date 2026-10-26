@@ -6541,6 +6541,7 @@ enum e_bourgeon_player_admin_action : uint8 {
 	BOURGEON_PLAYER_ADMIN_JAIL_TOGGLE  = 5,  // @jail / @unjail selon SC_JAILED
 	BOURGEON_PLAYER_ADMIN_NUKE         = 6,  // @nuke
 	BOURGEON_PLAYER_ADMIN_BLOCK        = 7,  // @block : bannit le COMPTE
+	BOURGEON_PLAYER_ADMIN_CLIENT_INFO  = 8,  // @client : moonclient ou Bourgeon, et son patch
 };
 
 // ⚠ Pas d'action « expulser » ici, et ce n'est pas un oubli : le menu natif

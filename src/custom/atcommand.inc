@@ -2738,3 +2738,54 @@ ACMD_FUNC(mvpobs)
 
 	return 0;
 }
+
+/*==========================================
+ * @client <Joueur> par [Stingor]
+ * Dit quel client un joueur connecte emploie -- moonclient ou le client
+ * d'origine greffe de Bourgeon -- et le dernier patch de contenu qu'il a
+ * declare a sa poignee de main d'integrite.
+ *
+ * Aucun seuil ici : le droit vient de la table des groupes, ou seul le
+ * groupe qui porte `all_commands` l'obtient. Le menu contextuel du staff la
+ * rejoue (CZ 0x0F2B, BOURGEON_PLAYER_ADMIN_CLIENT_INFO) sous les memes droits.
+ *
+ * « Sans poignee de main » : aucune n'a ete ACCEPTEE pour cette session --
+ * client sans DLL, IP dispensee... ou encore dans le delai qui precede le
+ * controle.
+ *------------------------------------------*/
+ACMD_FUNC(client)
+{
+	map_session_data* pl_sd;
+
+	nullpo_retr(-1, sd);
+
+	memset(atcmd_player_name, '\0', sizeof(atcmd_player_name));
+
+	if (!message || !*message || sscanf(message, "%23[^\n]", atcmd_player_name) < 1) {
+		clif_displaymessage(fd, "Usage : @client <nom du personnage>");
+		return -1;
+	}
+
+	if ((pl_sd = map_nick2sd(atcmd_player_name, false)) == nullptr && (pl_sd = map_charid2sd(atoi(atcmd_player_name))) == nullptr) {
+		clif_displaymessage(fd, msg_txt(sd, 3)); // Character not found.
+		return -1;
+	}
+
+	if (!pl_sd->state.has_bourgeon) {
+		safesnprintf(atcmd_output, sizeof(atcmd_output), "%s : sans poignee de main", pl_sd->status.name);
+		clif_displaymessage(fd, atcmd_output);
+		return 0;
+	}
+
+	// `moonclient` ne va jamais sans `has_bourgeon` : il ne fait que nommer le
+	// client qui parle ce protocole.
+	const char* client_name = pl_sd->state.moonclient ? "moonclient" : "Bourgeon";
+
+	if (pl_sd->client_patch_index < 0)
+		safesnprintf(atcmd_output, sizeof(atcmd_output), "%s : %s, jamais patche", pl_sd->status.name, client_name);
+	else
+		safesnprintf(atcmd_output, sizeof(atcmd_output), "%s : %s, patch %d", pl_sd->status.name, client_name, pl_sd->client_patch_index);
+	clif_displaymessage(fd, atcmd_output);
+
+	return 0;
+}

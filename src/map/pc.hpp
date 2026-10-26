@@ -675,6 +675,12 @@ public:
 	// sauvegardé décrirait l'interface d'hier.
 	uint32 bourgeon_ui_caps = 0;
 
+	// [Stingor] Le dernier patch de contenu que le client a déclaré dans sa poignée
+	// de main d'intégrité ACCEPTÉE (CZ 0x0F02 pour Bourgeon, 0x0F39 pour moonclient ;
+	// chaque client compte sur sa propre chaîne de patchs). -1 : jamais patché, ou
+	// aucune poignée de main acceptée. Lu par @client.
+	int32 client_patch_index = -1;
+
 	// [Stingor] L'élément d'attaque normale (e_element) que la zone connaît de ce
 	// joueur (ZC 0x0F4A) : un recalcul de statut ne repart que s'il en diffère.
 	uint8 moon_attack_element = ELE_NEUTRAL;
