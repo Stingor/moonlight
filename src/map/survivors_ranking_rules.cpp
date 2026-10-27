@@ -174,6 +174,38 @@ constexpr uint32 RULESET_3_KILLS_PER_SECOND = 2 * 10 * SURVIVORS_STEPS_PER_SECON
 // (+100 %).
 constexpr uint32 RULESET_3_EXP_GAIN_PCT = 200;
 
+// ── LE RULESET 4 ─────────────────────────────────────────────────────────────
+// La prairie générée (midgard_plains) seule classée : prt_fild08 y reste au
+// catalogue en partie libre, hors classement, et le serveur ne la classe pas.
+// Le Magicien, quinze minutes et Baphomet, puis cinq minutes de dépassement.
+// Les bornes ne bougent pas : boss, instants, points, XP, courbe et horde sont
+// ceux du ruleset 3 ; seule la marche de Baphomet change, qu'aucune borne ne
+// lit.
+constexpr uint16 RULESET_4 = 4;
+constexpr uint16 RULESET_4_ARENAS[] = { 2 };
+constexpr uint16 RULESET_4_CLASSES[] = { 1 };
+constexpr uint32 RULESET_4_RUN_MS = 15 * MINUTE_MS;
+constexpr uint32 RULESET_4_OVERTIME_MS = 5 * MINUTE_MS;
+constexpr s_survivors_boss_bound RULESET_4_BOSSES[] = {
+	{  3 * MINUTE_MS,  2 * MINI_BOSS_KILL_FACTOR, 20, false },
+	{  5 * MINUTE_MS,  6 * MINI_BOSS_KILL_FACTOR, 30, false },
+	{  7 * MINUTE_MS,  8 * MINI_BOSS_KILL_FACTOR, 40, false },
+	{  9 * MINUTE_MS, 24 * MINI_BOSS_KILL_FACTOR, 60, false },
+	{ 15 * MINUTE_MS, 81 * BOSS_KILL_FACTOR,       0, true  },
+};
+constexpr s_survivors_exp_segment RULESET_4_EXP_CURVE[] = {
+	{  1,    5,  10 },
+	{ 20,  220,  40 },
+	{ 40, 3500, 200 },
+};
+// Evil Druid en élite, comme au ruleset 3.
+constexpr uint32 RULESET_4_COMMON_KILL_POINTS = 58 * ELITE_FACTOR;
+constexpr uint32 RULESET_4_COMMON_KILL_EXP = 22 * ELITE_FACTOR;
+constexpr uint32 RULESET_4_KILLS_PER_SECOND = 2 * 10 * SURVIVORS_STEPS_PER_SECOND;
+constexpr uint32 RULESET_4_EXP_GAIN_PCT = 200;
+
+// Triées par version croissante : la première et la dernière bornent ce que
+// ZC 0x0F53 annonce.
 constexpr s_survivors_ruleset RULESETS[] = {
 	{ RULESET_3,
 	  RULESET_3_ARENAS, std::size(RULESET_3_ARENAS),
@@ -182,6 +214,13 @@ constexpr s_survivors_ruleset RULESETS[] = {
 	  RULESET_3_BOSSES, std::size(RULESET_3_BOSSES),
 	  RULESET_3_EXP_CURVE, std::size(RULESET_3_EXP_CURVE),
 	  RULESET_3_KILLS_PER_SECOND, RULESET_3_COMMON_KILL_POINTS, RULESET_3_COMMON_KILL_EXP, RULESET_3_EXP_GAIN_PCT },
+	{ RULESET_4,
+	  RULESET_4_ARENAS, std::size(RULESET_4_ARENAS),
+	  RULESET_4_CLASSES, std::size(RULESET_4_CLASSES),
+	  RULESET_4_RUN_MS, RULESET_4_OVERTIME_MS,
+	  RULESET_4_BOSSES, std::size(RULESET_4_BOSSES),
+	  RULESET_4_EXP_CURVE, std::size(RULESET_4_EXP_CURVE),
+	  RULESET_4_KILLS_PER_SECOND, RULESET_4_COMMON_KILL_POINTS, RULESET_4_COMMON_KILL_EXP, RULESET_4_EXP_GAIN_PCT },
 };
 
 constexpr uint64 SCORE_PER_SECOND = 10;
