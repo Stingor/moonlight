@@ -67,13 +67,13 @@
 	// #define OFFICIAL_GUILD_STORAGE
 // #endif
 
-#ifndef DUMP_UNKNOWN_PACKET
-	#define DUMP_UNKNOWN_PACKET
-#endif
+// #ifndef DUMP_UNKNOWN_PACKET
+// 	#define DUMP_UNKNOWN_PACKET
+// #endif
 
-#ifndef DUMP_INVALID_PACKET
-	#define DUMP_INVALID_PACKET
-#endif
+// #ifndef DUMP_INVALID_PACKET
+// 	#define DUMP_INVALID_PACKET
+// #endif
 
 /**
  * No settings past this point
