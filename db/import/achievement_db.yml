@@ -3018,3 +3018,24 @@ Body:
     Group: Adventure
     Name: A l'aveugle
     Score: 30
+# Le mode survivors, rangs 24 a 28 : Fire Ball, Water Ball, Ice Wall et leurs evolutions.
+  - Id: 910025
+    Group: Adventure
+    Name: Souffle ardent
+    Score: 20
+  - Id: 910026
+    Group: Adventure
+    Name: Deluge
+    Score: 20
+  - Id: 910027
+    Group: Adventure
+    Name: Rempart de glace
+    Score: 20
+  - Id: 910028
+    Group: Adventure
+    Name: Roche pourpre
+    Score: 30
+  - Id: 910029
+    Group: Adventure
+    Name: Givre
+    Score: 30
