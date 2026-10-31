@@ -178,9 +178,9 @@ constexpr uint32 RULESET_3_EXP_GAIN_PCT = 200;
 // La prairie générée (midgard_plains) seule classée : prt_fild08 y reste au
 // catalogue en partie libre, hors classement, et le serveur ne la classe pas.
 // Le Magicien, quinze minutes et Baphomet, puis cinq minutes de dépassement.
-// Les bornes ne bougent pas : boss, instants, points, XP, courbe et horde sont
-// ceux du ruleset 3 ; seule la marche de Baphomet change, qu'aucune borne ne
-// lit.
+// Boss, instants, points, XP, courbe et horde sont ceux du ruleset 3 ; la
+// marche de Baphomet change, qu'aucune borne ne lit. Seule la majoration d'XP
+// bouge : les sorts du Sorcier (lot 10) apportent la carte Baphomet.
 constexpr uint16 RULESET_4 = 4;
 constexpr uint16 RULESET_4_ARENAS[] = { 2 };
 constexpr uint16 RULESET_4_CLASSES[] = { 1 };
@@ -202,7 +202,10 @@ constexpr s_survivors_exp_segment RULESET_4_EXP_CURVE[] = {
 constexpr uint32 RULESET_4_COMMON_KILL_POINTS = 58 * ELITE_FACTOR;
 constexpr uint32 RULESET_4_COMMON_KILL_EXP = 22 * ELITE_FACTOR;
 constexpr uint32 RULESET_4_KILLS_PER_SECOND = 2 * 10 * SURVIVORS_STEPS_PER_SECOND;
-constexpr uint32 RULESET_4_EXP_GAIN_PCT = 200;
+// Une partie classée part neutre, mais la carte Baphomet (+8 % d'XP par niveau,
+// cinq niveaux : kBaphometLevels de survivors_rules_mage.cpp) peut s'ajouter au
+// Battle Manual (+100 %) : le client somme les deux avant de majorer.
+constexpr uint32 RULESET_4_EXP_GAIN_PCT = 100 + 100 + 40;
 
 // Triées par version croissante : la première et la dernière bornent ce que
 // ZC 0x0F53 annonce.
