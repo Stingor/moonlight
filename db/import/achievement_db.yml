@@ -2985,3 +2985,36 @@ Body:
     Group: Adventure
     Name: Esprit pur
     Score: 50
+# Le mode survivors, rangs 16 a 23 : les sorts du Sorcier et la minimap.
+  - Id: 910017
+    Group: Adventure
+    Name: Blizzard
+    Score: 20
+  - Id: 910018
+    Group: Adventure
+    Name: Foudre de Jupiter
+    Score: 20
+  - Id: 910019
+    Group: Adventure
+    Name: Seigneur du tonnerre
+    Score: 30
+  - Id: 910020
+    Group: Adventure
+    Name: Ciel en feu
+    Score: 20
+  - Id: 910021
+    Group: Adventure
+    Name: Union
+    Score: 30
+  - Id: 910022
+    Group: Adventure
+    Name: Grand sorcier
+    Score: 50
+  - Id: 910023
+    Group: Adventure
+    Name: Hiver eternel
+    Score: 20
+  - Id: 910024
+    Group: Adventure
+    Name: A l'aveugle
+    Score: 30

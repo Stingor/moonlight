@@ -9267,10 +9267,11 @@ void clif_parse_moonlight_gm_outfit(int32 fd, map_session_data* sd) {
 
 // [Stingor] Le succès de chaque trophée de mini-jeu, dans l'ordre du catalogue de
 // moonclient (db/import/achievement_db.yml) : Rojeweled et Roggle de 910001 à
-// 910008, le mode survivors de 910009 à 910016.
+// 910008, le mode survivors de 910009 à 910024.
 static constexpr int32 MOONLIGHT_MINIGAME_ACHIEVEMENTS[MOONLIGHT_MINIGAME_TROPHY_COUNT] = {
 	910001, 910002, 910003, 910004, 910005, 910006, 910007, 910008,
 	910009, 910010, 910011, 910012, 910013, 910014, 910015, 910016,
+	910017, 910018, 910019, 910020, 910021, 910022, 910023, 910024,
 };
 
 // [Stingor] Comme la commande de script achievementcomplete : le succès s'ajoute
