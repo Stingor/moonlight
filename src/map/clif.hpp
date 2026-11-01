@@ -1981,6 +1981,9 @@ void clif_bourgeon_unit_master_area(const mob_data& md);
 // ne part s'il ne le porte pas.
 void clif_parse_moonlight_gm_outfit(int32 fd, map_session_data* sd);
 void clif_moonlight_gm_outfit_area(map_session_data& sd, bool spawning);
+// [Stingor] Le vol libre de l'administrateur (CZ 0x0F54) : son corps suit la
+// caméra de moonclient, à travers les murs.
+void clif_parse_moonlight_free_flight(int32 fd, map_session_data* sd);
 // [Stingor] Un trophée de mini-jeu de moonclient (CZ 0x0F4B) achève son succès.
 void clif_parse_moonlight_minigame_trophy(int32 fd, map_session_data* sd);
 // [Stingor] Le classement mondial du mode survivors (0x0F4C à 0x0F53, voir

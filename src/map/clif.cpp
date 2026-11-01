@@ -9265,6 +9265,35 @@ void clif_parse_moonlight_gm_outfit(int32 fd, map_session_data* sd) {
 	clif_moonlight_gm_outfit_area(*sd, false);
 }
 
+// [Stingor] CZ_MOONLIGHT_FREE_FLIGHT (0x0F54) : la caméra libre de moonclient
+// vole, et le corps de l'administrateur la suit sur la case (x, y), sans chemin
+// ni contrôle de passage — c'est tout l'objet d'un vol à travers les murs. La
+// zone se recalcule autour de la nouvelle case, et la glissade part à la zone,
+// le joueur compris.
+//
+// Refusé sans un mot hors de moonclient, sous le niveau 99, hors de la carte, mort,
+// ou assis dans une boutique : une case refusée laisse le corps où il est, et le
+// client redemande à la suivante.
+void clif_parse_moonlight_free_flight(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon || !sd->state.moonclient)
+		return;
+	if (pc_get_group_level(sd) < MOONLIGHT_GM_OUTFIT_GROUP_LEVEL)
+		return;
+	if (pc_isdead(sd) || sd->state.vending || sd->state.buyingstore)
+		return;
+
+	const PACKET_CZ_MOONLIGHT_FREE_FLIGHT* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_FREE_FLIGHT*>(RFIFOP(fd, 0));
+	const struct map_data* mapdata = map_getmapdata(sd->m);
+	if (mapdata == nullptr || p->x < 0 || p->y < 0 || p->x >= mapdata->xs || p->y >= mapdata->ys)
+		return;
+	if (p->x == sd->x && p->y == sd->y)
+		return;
+	if (unit_movepos(sd, p->x, p->y, 0, false))
+		clif_slide(*sd, sd->x, sd->y);
+}
+
 // [Stingor] Le succès de chaque trophée de mini-jeu, dans l'ordre du catalogue de
 // moonclient (db/import/achievement_db.yml) : Rojeweled et Roggle de 910001 à
 // 910008, le mode survivors de 910009 à 910029.

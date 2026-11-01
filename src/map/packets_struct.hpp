@@ -7736,6 +7736,25 @@ struct PACKET_ZC_MOONLIGHT_SURVIVORS_SERVICE {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_SERVICE, 0x0f53);
 
+// ── [Stingor] Le vol libre de l'administrateur (CZ 0x0F54) ──────────────────────
+//
+// CZ (client -> server) : la caméra de moonclient vole librement, et le corps de
+// l'administrateur la suit, posé sur la case (x, y) sous elle — murs compris.
+// Sans lui, la zone qu'envoie le serveur resterait autour du corps, et la caméra
+// n'y verrait plus ni monstre ni PNJ. Fixe 8.
+//
+// Gate poignée de main moonclient et niveau de groupe >= 99 DANS le handler ;
+// refusé sans un mot sinon. Aucune réponse propre : le déplacement part à la
+// zone en ZC_HIGHJUMP, le joueur compris.
+// Layout: [type:2][len:2][x:2][y:2]
+struct PACKET_CZ_MOONLIGHT_FREE_FLIGHT {
+	int16 packetType;
+	int16 packetLength;
+	int16 x;
+	int16 y;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_FREE_FLIGHT, 0x0f54);
+
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
 //
@@ -8230,7 +8249,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_HATEFFECT_MAP, 0x0f17);
 // client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans
 // la zone sûre 0x0F00+ (2026-07-03). Le prochain opcode libre est tenu par
 // bopcodes::kNextFree, dans src/features/systems/bourgeon_opcodes.h de Bourgeon
-// (0x0F54 à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
+// (0x0F55 à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
 
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)
