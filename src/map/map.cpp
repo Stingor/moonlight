@@ -58,6 +58,7 @@
 #include "card_album.hpp" // card_album_close : le verrou de l'album rendu à la déconnexion
 #include "map_edits.hpp" // map_edits_on_logout : le transfert entrant jeté à la déconnexion
 #include "trade.hpp"
+#include "voice_bridge.hpp"
 
 using namespace rathena;
 using namespace rathena::server_map;
@@ -2344,6 +2345,7 @@ void map_addiddb(block_list *bl)
 		TBL_PC* sd = (TBL_PC*)bl;
 		idb_put(pc_db,sd->id,sd);
 		uidb_put(charid_db,sd->status.char_id,sd);
+		voice_bridge_send_join(sd);
 	}
 	else if( bl->type == BL_MOB )
 	{
@@ -2396,6 +2398,7 @@ int32 map_quit(map_session_data *sd) {
 	mvp_tracker_on_logout(*sd);
 	// [Stingor] Éditions de carte : le transfert entrant de la session est jeté.
 	map_edits_on_logout(*sd);
+	voice_bridge_send_leave(sd);
 
 	if (sd->state.keepshop == false) { // Close vending/buyingstore
 		if (sd->state.vending)
@@ -5395,6 +5398,7 @@ void MapServer::finalize(){
 	regen_db->destroy(regen_db, nullptr);
 
 	map_sql_close();
+	voice_bridge_final();
 
 	ShowStatus("Finished.\n");
 }
@@ -5702,6 +5706,7 @@ bool MapServer::initialize( int32 argc, char *argv[] ){
 	iwall_db = strdb_alloc(DB_OPT_RELEASE_DATA,2*NAME_LENGTH+2+1); // [Zephyrus] Invisible Walls
 
 	map_sql_init();
+	voice_bridge_init();
 	if (log_config.sql_logs)
 		log_sql_init();
 

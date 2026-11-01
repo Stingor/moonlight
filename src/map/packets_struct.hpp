@@ -7755,6 +7755,26 @@ struct PACKET_CZ_MOONLIGHT_FREE_FLIGHT {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(CZ_MOONLIGHT_FREE_FLIGHT, 0x0f54);
 
+// ── [Stingor] Le service de voix (ZC 0x0F55) ───────────────────────────────────
+//
+// ZC (server -> client) : où joindre le serveur voix — l'hôte public et le port
+// client de conf/voice_athena.conf (voice_public_host, voice_port). Part à
+// l'apparition du bit MOONLIGHT_UI_VOICE, et à l'acceptation de moonclient si
+// le bit l'a précédée. Rien ne part quand voice_public_host est vide : la voix
+// est alors fermée pour ce serveur.
+//
+// Le client s'authentifie auprès du serveur voix par son account_id, son
+// char_id et son login_id1, que le map-server lui garantit par l'auth_advisory :
+// aucun secret ne transite par ce paquet. Fixe 70.
+// Layout: [type:2][len:2][port:2][host:64, NUL-terminé]
+struct PACKET_ZC_MOONLIGHT_VOICE_SERVICE {
+	int16  packetType;
+	int16  packetLength;
+	uint16 port;
+	char   host[64];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_VOICE_SERVICE, 0x0f55);
+
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
 //

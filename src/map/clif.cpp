@@ -64,6 +64,7 @@
 #include "storage.hpp"
 #include "unit.hpp"
 #include "vending.hpp"
+#include "voice_bridge.hpp"
 
 using namespace rathena;
 
@@ -9551,7 +9552,8 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	// session ; retirer un bit, ou changer un bit sans balayage, passe toujours.
 	static constexpr uint32 kScanOnGain = MOONLIGHT_UI_FLAG_GRAFFITI | MOONLIGHT_UI_UNIT_MASTER |
 		MOONLIGHT_UI_GM_OUTFIT | MOONLIGHT_UI_SERVER_RULES | MOONLIGHT_UI_MAP_EDITS |
-		MOONLIGHT_UI_COMPANION_MASTER | MOONLIGHT_UI_INSTANCE_INFO | MOONLIGHT_UI_ATTACK_ELEMENT;
+		MOONLIGHT_UI_COMPANION_MASTER | MOONLIGHT_UI_INSTANCE_INFO | MOONLIGHT_UI_ATTACK_ELEMENT |
+		MOONLIGHT_UI_VOICE;
 	if ((p->caps & ~sd->bourgeon_ui_caps & kScanOnGain) != 0 &&
 		!clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_UI_CAPS))
 		return;
@@ -9597,6 +9599,9 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	// Une cadence à part borne un client qui répéterait l'annonce.
 	if ((p->caps & MOONLIGHT_UI_SURVIVORS) && clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_SURVIVORS_SERVICE))
 		clif_moonlight_survivors_service(*sd);
+	// [Stingor] Où joindre le serveur voix, dès que le client sait lui parler.
+	if (!(before & MOONLIGHT_UI_VOICE) && (p->caps & MOONLIGHT_UI_VOICE))
+		voice_bridge_announce_service(*sd);
 	// [Stingor] Les morceaux d'une édition de carte arrivent d'affilée : un tampon
 	// de réception plus grand. EN DERNIER : le réallouer invalide `p`.
 	if (p->caps & MOONLIGHT_UI_MAP_EDITS)
@@ -13234,6 +13239,8 @@ void clif_moonclient_accepted(map_session_data& sd)
 	clif_bourgeon_server_rules(sd);
 	// [Stingor] Le classement survivors, si le bit est venu avant l'acceptation.
 	clif_moonlight_survivors_service(sd);
+	// [Stingor] De même pour le serveur voix.
+	voice_bridge_announce_service(sd);
 }
 
 
@@ -23246,6 +23253,10 @@ void clif_parse_PMIgnore(int32 fd, map_session_data* sd)
 
 		//Insert in position i
 		safestrncpy(sd->ignore[i].name, nick, NAME_LENGTH);
+
+		// Voice ignore-sync: also block this player's voice (honored only when
+		// the voice server has voice_ignore_sync enabled).
+		voice_bridge_send_block_by_name(sd->status.account_id, nick);
 	} else { // Remove name from ignore list (unblock)
 
 		// find entry
@@ -23258,6 +23269,9 @@ void clif_parse_PMIgnore(int32 fd, map_session_data* sd)
 		memmove(sd->ignore[i].name, sd->ignore[i+1].name, (MAX_IGNORE_LIST-i-1)*sizeof(sd->ignore[0].name));
 		// wipe last entry
 		memset(sd->ignore[MAX_IGNORE_LIST-1].name, 0, sizeof(sd->ignore[0].name));
+
+		// Voice ignore-sync: also remove the voice block.
+		voice_bridge_send_unblock_by_name(sd->status.account_id, nick);
 	}
 
 	clif_wisexin( *sd, type, 0 ); // success
@@ -29903,26 +29917,52 @@ void clif_hat_effects( const block_list& bl, enum send_target target, const bloc
 		return;
 	}
 
-	PACKET_ZC_EQUIPMENT_EFFECT* p = reinterpret_cast<PACKET_ZC_EQUIPMENT_EFFECT*>( packet_buffer );
+	auto send_hat_effects = [&]( enum send_target sendTarget, bool includeVoiceMic ){
+		PACKET_ZC_EQUIPMENT_EFFECT* p = reinterpret_cast<PACKET_ZC_EQUIPMENT_EFFECT*>( packet_buffer );
 
-	p->packetType = HEADER_ZC_EQUIPMENT_EFFECT;
-	p->packetLength = sizeof( *p );
-	p->aid = bl.id;
-	p->status = 1;
+		p->packetType = HEADER_ZC_EQUIPMENT_EFFECT;
+		p->packetLength = sizeof( *p );
+		p->aid = bl.id;
+		p->status = 1;
 
-	for( size_t i = 0; i < ud->hatEffects.size(); i++ ){
-		p->effects[i] = ud->hatEffects[i];
+		size_t count = 0;
+		for( int16 effect : ud->hatEffects ){
+			if( !includeVoiceMic && effect == HAT_EF_MIC ){
+				continue;
+			}
 
+			p->effects[count++] = effect;
+			p->packetLength += static_cast<decltype(p->packetLength)>( sizeof( p->effects[0] ) );
+		}
+
+		if( count > 0 ){
+			clif_send( p, p->packetLength, &tbl, sendTarget );
+		}
+	};
+
+	if( bl.id == tbl.id && target == SELF ){
+		send_hat_effects( target, false );
+	}else if( bl.id == tbl.id && target == AREA && util::vector_exists( ud->hatEffects, static_cast<int16>( HAT_EF_MIC ) ) ){
+		send_hat_effects( AREA, false );
+		PACKET_ZC_EQUIPMENT_EFFECT* p = reinterpret_cast<PACKET_ZC_EQUIPMENT_EFFECT*>( packet_buffer );
+
+		p->packetType = HEADER_ZC_EQUIPMENT_EFFECT;
+		p->packetLength = sizeof( *p );
+		p->aid = bl.id;
+		p->status = 1;
+		p->effects[0] = HAT_EF_MIC;
 		p->packetLength += static_cast<decltype(p->packetLength)>( sizeof( p->effects[0] ) );
-	}
 
-	clif_send( p, p->packetLength, &tbl, target );
+		clif_send( p, p->packetLength, &tbl, AREA_WOS );
+	}else{
+		send_hat_effects( target, true );
+	}
 #endif
 }
 
 /// Send a single hat effect to the client.
 /// 0A3B <Length>.W <AID>.L <Status>.B { <HatEffectId>.W } (ZC_EQUIPMENT_EFFECT)
-void clif_hat_effect_single( const block_list& bl, uint16 effectId, bool enable ){
+void clif_hat_effect_single_target( const block_list& bl, uint16 effectId, bool enable, enum send_target target ){
 #if PACKETVER_MAIN_NUM >= 20150507 || PACKETVER_RE_NUM >= 20150429 || defined(PACKETVER_ZERO)
 	if( map_data* mdata = map_getmapdata( bl.m ); mdata != nullptr && mdata->getMapFlag( MF_NOCOSTUME ) ){
 		return;
@@ -29937,8 +29977,12 @@ void clif_hat_effect_single( const block_list& bl, uint16 effectId, bool enable 
 	p->effects[0] = effectId;
 	p->packetLength += static_cast<decltype(p->packetLength)>( sizeof( p->effects[0] ) );
 
-	clif_send( p, p->packetLength, &bl, AREA );
+	clif_send( p, p->packetLength, &bl, target );
 #endif
+}
+
+void clif_hat_effect_single( const block_list& bl, uint16 effectId, bool enable ){
+	clif_hat_effect_single_target( bl, effectId, enable, AREA );
 }
 
 

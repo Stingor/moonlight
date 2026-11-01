@@ -238,6 +238,11 @@ endif()
 option( ENABLE_WEB_SERVER "Build web-server (default=ON)" ON )
 
 #
+# enable voice server?
+#
+option( ENABLE_VOICE_SERVER "Build voice-server (default=ON)" ON )
+
+#
 # Test for big endian
 #
 TEST_BIG_ENDIAN( BIG_ENDIAN )

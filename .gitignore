@@ -45,6 +45,7 @@ Thumbs.db
 /mapcache
 /nbproject
 /web-server
+/voice-server
 /yaml2sql
 /yamlupgrade
 
@@ -71,6 +72,7 @@ Thumbs.db
 /conf/import/map_conf.txt
 /conf/import/packet_conf.txt
 /conf/import/web_conf.txt
+/conf/import/voice_conf.txt
 /conf/import/script_conf.txt
 /conf/import/admin_conf.txt
 
@@ -103,6 +105,10 @@ Thumbs.db
 # /src/web
 /src/web/Makefile
 /src/web/obj
+
+# /src/voice
+/src/voice/Makefile
+/src/voice/obj
 
 # /src/tool/
 /src/tool/Makefile
@@ -144,6 +150,7 @@ Thumbs.db
 /runserver.bat
 /serv.bat
 /webserv.bat
+/voiceserv.bat
 /yaml2sql.bat
 /yamlupgrade.bat
 /navigenerator.bat

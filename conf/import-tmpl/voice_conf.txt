@@ -1,0 +1,5 @@
+// Local settings of the voice server, read after conf/voice_athena.conf.
+// Copy to conf/import/voice_conf.txt (make import does it) and fill in:
+//
+// voice_public_host: <address the players can reach>
+// voice_bridge_secret: <same value on the map-server side>

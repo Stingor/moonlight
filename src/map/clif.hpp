@@ -1086,6 +1086,7 @@ void clif_item_damaged( const map_session_data& sd, uint16 position );
 void clif_item_refine_list( map_session_data& sd );
 void clif_hat_effects( const block_list& bl, enum send_target target, const block_list& tbl );
 void clif_hat_effect_single( const block_list& bl, uint16 effectId, bool enable );
+void clif_hat_effect_single_target( const block_list& bl, uint16 effectId, bool enable, enum send_target target );
 
 void clif_item_skill(const map_session_data* sd,uint16 skill_id,uint16 skill_lv);
 
@@ -1963,7 +1964,10 @@ enum e_moonlight_ui_cap : uint32 {
 	// ZC_MOONLIGHT_SURVIVORS_SERVICE 0x0F53, et le client n'émet rien du service
 	// avant. Réservé à moonclient : la DLL ne l'annonce pas.
 	MOONLIGHT_UI_SURVIVORS = 0x00080000,
-	// Prochain bit libre : 0x00100000.
+	// Ce client parle au serveur voix : il reçoit ZC_MOONLIGHT_VOICE_SERVICE 0x0F55
+	// à l'apparition du bit. Réservé à moonclient : la DLL ne l'annonce pas.
+	MOONLIGHT_UI_VOICE = 0x00100000,
+	// Prochain bit libre : 0x00200000.
 };
 
 // [Stingor] Les réglages du serveur utiles au client (ZC 0x0F38), à une session
