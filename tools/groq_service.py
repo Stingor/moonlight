@@ -3237,9 +3237,21 @@ def _bug_report_payload(player: str, message: str, char_id):
     }
     payload = {"username": char_name or "Rapport de bug", "embeds": [embed]}
     if char_id:
-        payload["avatar_url"] = (
-            f"https://moonlight-destiny.fr/images/CacheAvatarDiscord/{char_id}.png")
+        payload["avatar_url"] = _char_avatar_url(char_id)
     return payload
+
+
+# Avatar Discord d'un personnage : carré de 128 pixels servi par le site
+# (moonlight-web, /sprites/discord/{char_id}.png), le personnage centré dans
+# le cercle de Discord, dans la pose que le joueur choisit sur /compte/avatar
+# (assis par défaut). Rendu pour tout personnage, à la demande : plus besoin
+# d'être passé par l'ancienne page « Avatar » du forum (images/CacheAvatarDiscord).
+DISCORD_AVATAR_URL = os.environ.get(
+    "DISCORD_AVATAR_URL", "https://site.moonlight-destiny.fr/sprites/discord/{char_id}.png")
+
+
+def _char_avatar_url(char_id):
+    return DISCORD_AVATAR_URL.format(char_id=int(char_id))
 
 
 def _discord_outbound_poll(conn):
@@ -3303,11 +3315,9 @@ def _discord_outbound_poll(conn):
                         "content":  replace_game_emotes(replace_chat_links(message[:2000])),
                     }
                     if char_id:
-                        # CacheAvatarDiscord = variante carrée 128x128 du sprite (le PNG
-                        # de CacheAvatar est rogné au plus juste et non carré : Discord
-                        # le recadre dans son cercle et l'agrandit, d'où pieds coupés et
-                        # rendu flou). Généré par la page UCP « Avatar » du site.
-                        wp["avatar_url"] = f"https://moonlight-destiny.fr/images/CacheAvatarDiscord/{char_id}.png"
+                        # Variante carrée du sprite : un PNG rogné au plus juste serait
+                        # recadré par Discord dans son cercle (pieds coupés, flou).
+                        wp["avatar_url"] = _char_avatar_url(char_id)
                 # Embed comme ligne brute, contexte JSON lisible ou non : aucune
                 # mention ne part, quel que soit le chemin qui a construit `wp`.
                 wp["allowed_mentions"] = DISCORD_NO_MENTIONS
