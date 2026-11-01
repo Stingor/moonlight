@@ -8976,6 +8976,8 @@ Body:
       Ninja: true
       Star_Gladiator: true
       Star_Gladiator2: true
+      Baby_Gunslinger: true
+      Baby_Ninja: true
     MaxJobLevel: 80
     JobExp:
       - Level: 1
