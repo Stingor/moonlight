@@ -57,6 +57,7 @@ struct login_session_data {
 	int32 fd;				///socket of client
 
 	char web_auth_token[WEB_AUTH_TOKEN_LENGTH]; /// web authentication token
+	bool password_rehash;	/// [Moonlight] le MD5 nu stocké a correspondu : à réécrire en bcrypt(md5)
 };
 
 #define MAX_SERVERS 5 //max number of mapserv that could be attach

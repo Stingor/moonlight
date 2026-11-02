@@ -9,6 +9,12 @@
 #include <string>
 #include <unordered_map>
 
+#ifndef _WIN32
+#include <crypt.h>
+#endif
+
+static bool login_bcrypt_make( const char* md5hex, char* out, size_t outlen ); // [Moonlight]
+
 #include <common/cli.hpp>
 #include <common/core.hpp>
 #include <common/malloc.hpp>
@@ -252,6 +258,9 @@ int32 login_mmo_auth_new(const char* userid, const char* pass, const char sex, c
 	acc.account_id = -1; // assigned by account db
 	safestrncpy(acc.userid, userid, sizeof(acc.userid));
 	safestrncpy(acc.pass, pass, sizeof(acc.pass));
+	// [Moonlight] Avec use_MD5_passwords, pass est le MD5 : stocké en bcrypt(md5).
+	if( login_config.use_md5_passwds && !login_bcrypt_make( pass, acc.pass, sizeof( acc.pass ) ) )
+		safestrncpy( acc.pass, pass, sizeof( acc.pass ) );
 	acc.sex = sex;
 	safestrncpy(acc.email, "a@a.com", sizeof(acc.email));
 	acc.expiration_time = ( login_config.start_limited_time != -1 ) ? time(nullptr) + login_config.start_limited_time : 0;
@@ -550,6 +559,9 @@ int32 login_mmo_auth(struct login_session_data* sd, bool isServer) {
 	safestrncpy(acc.last_ip, ip, sizeof(acc.last_ip));
 	acc.unban_time = 0;
 	acc.logincount++;
+	// [Moonlight] MD5 nu qui vient de correspondre : enveloppé en bcrypt(md5).
+	if( sd->password_rehash && !login_bcrypt_make( sd->passwd, acc.pass, sizeof( acc.pass ) ) )
+		ShowWarning( "bcrypt indisponible : mot de passe de '%s' laissé en MD5.\n", sd->userid );
 	accounts->save(accounts, &acc, true);
 
 	if( login_config.use_web_auth_token ){
@@ -570,9 +582,69 @@ int32 login_mmo_auth(struct login_session_data* sd, bool isServer) {
  * @param refpass: pass register in db
  * @return true if matching else false
  */
+// [Moonlight] Mots de passe stockés en bcrypt(md5) : user_pass = crypt(MD5 hex
+// du mot de passe, "$2y$..."). Avec use_MD5_passwords, sd.passwd est toujours ce
+// MD5 (les clients qui chiffrent eux-mêmes sont refusés) : le mot de passe des
+// joueurs ne change pas, seul son stockage. Le site écrit le même format
+// (password_hash(md5($mdp), PASSWORD_BCRYPT)), libxcrypt lit $2y$.
+static bool login_is_bcrypt( const char* hash ){
+	return hash[0] == '$' && hash[1] == '2' && strlen( hash ) == 60;
+}
+
+static bool login_bcrypt_check( const char* md5hex, const char* hash ){
+#ifndef _WIN32
+	static struct crypt_data data; // login-server mono-thread
+	const char* out = crypt_r( md5hex, hash, &data );
+
+	if( out == nullptr || out[0] == '*' || strlen( out ) != strlen( hash ) )
+		return false;
+
+	// Comparaison à temps constant.
+	unsigned char diff = 0;
+	for( size_t i = 0; hash[i] != '\0'; i++ )
+		diff |= (unsigned char)( out[i] ^ hash[i] );
+
+	return diff == 0;
+#else
+	return false;
+#endif
+}
+
+/// Écrit bcrypt(md5hex) dans out (taille >= 61). false si indisponible.
+static bool login_bcrypt_make( const char* md5hex, char* out, size_t outlen ){
+#ifndef _WIN32
+	static struct crypt_data data;
+	char setting[CRYPT_GENSALT_OUTPUT_SIZE];
+
+	if( crypt_gensalt_rn( "$2y$", 10, nullptr, 0, setting, sizeof( setting ) ) == nullptr )
+		return false;
+
+	const char* hash = crypt_r( md5hex, setting, &data );
+
+	if( hash == nullptr || !login_is_bcrypt( hash ) || strlen( hash ) >= outlen )
+		return false;
+
+	safestrncpy( out, hash, outlen );
+	return login_bcrypt_check( md5hex, out );
+#else
+	return false;
+#endif
+}
+
 bool login_check_password( struct login_session_data& sd, struct mmo_account& acc ){
+	sd.password_rehash = false;
+
 	if( sd.passwdenc == 0 ){
-		if( 0 == strcmp( sd.passwd, acc.pass ) || 0 == strcmp( sd.passwd, login_config.bypasshash ) )
+		if( login_is_bcrypt( acc.pass ) ){
+			if( login_bcrypt_check( sd.passwd, acc.pass ) )
+				return true;
+		}else if( 0 == strcmp( sd.passwd, acc.pass ) ){
+			// MD5 nu : réécrit en bcrypt(md5) après la connexion (seulement
+			// ici, jamais pour le jeton web ni pour bypasshash).
+			sd.password_rehash = login_config.use_md5_passwds;
+			return true;
+		}
+		if( 0 == strcmp( sd.passwd, login_config.bypasshash ) )
 			return true;
 		// [Moonlight] Login OTP web : le site pose LEFT(MD5(otp),16) dans
 		// web_auth_token (varchar(17)) SANS toucher user_pass. sd.passwd = MD5(otp)
