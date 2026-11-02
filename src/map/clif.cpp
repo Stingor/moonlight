@@ -13231,6 +13231,10 @@ static int32 clif_getareachar_beyond_area(block_list* bl, va_list ap)
 void clif_moonclient_accepted(map_session_data& sd)
 {
 	sd.state.moonclient = true;
+	// [Stingor] Où joindre le serveur voix, AVANT le retour qui suit : un client
+	// accepté avant d'être sur la carte — au retour de la sélection de personnage —
+	// a déjà annoncé ses capacités, et l'annonce l'avait écarté faute d'acceptation.
+	voice_bridge_announce_service(sd);
 	if (sd.prev == nullptr)
 		return; // pas encore sur la carte : son entrée l'inscrira
 	map_moonclient_viewer_join(sd);
@@ -13239,8 +13243,6 @@ void clif_moonclient_accepted(map_session_data& sd)
 	clif_bourgeon_server_rules(sd);
 	// [Stingor] Le classement survivors, si le bit est venu avant l'acceptation.
 	clif_moonlight_survivors_service(sd);
-	// [Stingor] De même pour le serveur voix.
-	voice_bridge_announce_service(sd);
 }
 
 
