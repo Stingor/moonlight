@@ -309,6 +309,12 @@ namespace {
 		return (gettick() - lp.sent_at) >= KEEPALIVE_MS;
 	}
 
+	// A character without a game client (autotrade vendor, buying store) can
+	// never open a voice session: the voice server hears nothing about it.
+	bool has_game_client(const map_session_data* sd) {
+		return !sd->state.autotrade && session_isActive(sd->fd);
+	}
+
 	void update_last_pos(map_session_data* sd, LastPos& lp) {
 		lp.x       = sd->x;
 		lp.y       = sd->y;
@@ -328,6 +334,13 @@ static void voice_bridge_send_auth_advisory_internal(map_session_data* sd);
 static int voice_bridge_ping_player(map_session_data* sd, va_list) {
 	if (!sd || sd->status.char_id <= 0)
 		return 0;
+
+	if (!has_game_client(sd)) {
+		// Just switched to autotrade: forget it once, then stay silent.
+		if (g_last_pos.count(sd->status.char_id) != 0)
+			voice_bridge_send_leave(sd);
+		return 0;
+	}
 
 	auto& lp = g_last_pos[sd->status.char_id];
 	if (should_send(sd, lp)) {
@@ -473,6 +486,7 @@ static void voice_bridge_send_auth_advisory_internal(map_session_data* sd) {
 // pre-ack vip=false); this pushes the corrected vip so the voice server confirms a
 // held VIP session immediately instead of waiting for the 5 s renewal.
 void voice_bridge_send_auth_advisory(map_session_data* sd) {
+	if (!sd || !has_game_client(sd)) return;
 	voice_bridge_send_auth_advisory_internal(sd);
 }
 
@@ -496,7 +510,7 @@ void voice_bridge_announce_service(map_session_data& sd) {
 }
 
 void voice_bridge_send_join(map_session_data* sd) {
-	if (!sd) return;
+	if (!sd || !has_game_client(sd)) return;
 	// Advisory BEFORE position so the voice server accepts subsequent WS auth
 	voice_bridge_send_auth_advisory_internal(sd);
 	voice_bridge_send_pos_common(sd);
@@ -506,7 +520,7 @@ void voice_bridge_send_join(map_session_data* sd) {
 }
 
 void voice_bridge_send_map_pos(map_session_data* sd) {
-	if (!sd) return;
+	if (!sd || !has_game_client(sd)) return;
 	voice_bridge_send_pos_common(sd);
 	update_last_pos(sd, g_last_pos[sd->status.char_id]);
 }
