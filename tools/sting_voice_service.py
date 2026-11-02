@@ -45,6 +45,7 @@ import numpy as np
 import soundfile
 import soxr
 import torch
+import TTS.tts.models.xtts as xtts_module
 from TTS.tts.configs.xtts_config import XttsConfig
 from TTS.tts.models.xtts import Xtts
 from TTS.utils.manage import ModelManager
@@ -92,10 +93,34 @@ POLL_INTERVAL_S = 0.3
 # Une réplique plus vieille ne se dit plus : la conversation est passée.
 LINE_STALE_S = 30
 LINES_PER_POLL = 5
+# XTTS ne s'arrête pas toujours en fin de phrase : il enchaîne souffles et
+# bribes, parfois des secondes durant. Une réplique saine dure de 0,6 à 1,4 fois
+# 70 ms par caractère ; au-delà du plafond, elle se refait, et la plus courte
+# des tentatives l'emporte (mesuré sur la voix clonée : ~1 génération sur 5
+# déborde, quelle que soit la température ou la ponctuation finale).
+MS_PER_CHAR = 70
+OVERRUN_RATIO = 1.6
+MAX_ATTEMPTS = 3
 
 # Sous ROCm, les convolutions MIOpen du décodeur HiFi-GAN coûtent cent fois
 # celles de PyTorch (10 s contre 0,1 s pour 7 s d'audio, RX 7900 XT).
 torch.backends.cudnn.enabled = False
+
+
+def load_sample(audio_path, sampling_rate):
+    """L'extrait de clonage, en mono [1, N] dans [-1, 1], à la fréquence voulue.
+
+    XTTS le lit par torchaudio, qui exige FFmpeg ; soundfile lit WAV, FLAC et MP3
+    sans lui.
+    """
+    audio, rate = soundfile.read(audio_path, dtype="float32", always_2d=True)
+    mono = audio.mean(axis=1)
+    if rate != sampling_rate:
+        mono = soxr.resample(mono, rate, sampling_rate)
+    return torch.from_numpy(np.clip(mono, -1.0, 1.0)).unsqueeze(0)
+
+
+xtts_module.load_audio = load_sample
 
 
 class StingVoice:
@@ -123,11 +148,18 @@ class StingVoice:
 
     def synthesize_float(self, text: str) -> np.ndarray:
         """Rend le texte en flottants 48 kHz mono."""
+        expected_samples = len(text) * MS_PER_CHAR / 1000 * XTTS_SAMPLE_RATE_HZ
+        best = None
         with self.lock, torch.inference_mode():
-            out = self.model.inference(
-                text, LANGUAGE, self.gpt_cond_latent, self.speaker_embedding
-            )
-        wav_24k = np.asarray(out["wav"], dtype=np.float32)
+            for _ in range(MAX_ATTEMPTS):
+                out = self.model.inference(
+                    text, LANGUAGE, self.gpt_cond_latent, self.speaker_embedding
+                )
+                if best is None or len(out["wav"]) < len(best):
+                    best = out["wav"]
+                if len(best) <= expected_samples * OVERRUN_RATIO:
+                    break
+        wav_24k = np.asarray(best, dtype=np.float32)
         wav_48k = soxr.resample(wav_24k, XTTS_SAMPLE_RATE_HZ, VOICE_SERVER_SAMPLE_RATE_HZ)
         return np.clip(wav_48k, -1.0, 1.0)
 
