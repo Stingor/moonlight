@@ -700,6 +700,11 @@ struct ClientSession {
 	uint32_t last_position_ms = 0;
 	int         chat_room_id = 0;
 	uint8_t     rx_channel = 0;
+	// [Stingor] Channels 0..2 this session listens to and may send on, one bit
+	// per channel. set_channel tunes a single one; set_listen (moonclient)
+	// tunes several at once, and from then on set_channel leaves it alone.
+	uint8_t     rx_mask = 1;
+	bool        listen_explicit = false;
 	bool        war_map = false;
 	bool        client_war_state_sent = false;
 	bool        client_war_map = false;
@@ -1198,11 +1203,14 @@ static bool should_forward(uint8_t channel, uint32_t gid, const ClientSession& f
 			return false;
 	}
 
-	// ch0/ch1/ch2: sender and receiver must both be tuned to the same channel.
+	// ch0/ch1/ch2: sender and receiver must both listen to the channel.
 	// Prevents a modified client from broadcasting on a channel it is not tuned to,
 	// and prevents a receiver tuned to party from hearing proximity audio.
-	if (channel <= 2 && (from.rx_channel != channel || to.rx_channel != channel))
-		return false;
+	if (channel <= 2) {
+		const uint8_t bit = static_cast<uint8_t>(1u << channel);
+		if ((from.rx_mask & bit) == 0 || (to.rx_mask & bit) == 0)
+			return false;
+	}
 
 	switch (channel) {
 	case 0: return calc_volume(from, to) > 0.0f;
@@ -3612,8 +3620,26 @@ if (type == "set_channel") {
 		return;
 	}
 	s->rx_channel = ch;
+	if (!s->listen_explicit)
+		s->rx_mask = ch <= 2 ? static_cast<uint8_t>(1u << ch) : 0;
 	send_json(ws, json{{"type", "channel_ack"}, {"channel", ch}});
 	LOG_DEBUG("set_channel char_id=%d ch=%d", s->char_id, ch);
+	return;
+}
+
+// [Stingor] moonclient listens to several channels at once: {"mask": bits}
+// over channels 0..2. Older servers ignore this type, and the client falls
+// back to its set_channel.
+if (type == "set_listen") {
+	const int mask = j.value("mask", 0);
+	if (mask < 0 || mask > 7) {
+		send_json(ws, json{{"type","error"},{"message","invalid listen mask"}});
+		return;
+	}
+	s->rx_mask = static_cast<uint8_t>(mask);
+	s->listen_explicit = true;
+	send_json(ws, json{{"type", "listen_ack"}, {"mask", mask}});
+	LOG_DEBUG("set_listen char_id=%d mask=%d", s->char_id, mask);
 	return;
 }
 
