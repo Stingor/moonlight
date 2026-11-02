@@ -311,8 +311,10 @@ namespace {
 
 	// A character without a game client (autotrade vendor, buying store) can
 	// never open a voice session: the voice server hears nothing about it.
+	// Neither does it about the login-screen spectator, whose credentials ship
+	// in every client: an advisory for it would let anyone speak under it.
 	bool has_game_client(const map_session_data* sd) {
-		return !sd->state.autotrade && session_isActive(sd->fd);
+		return !sd->state.autotrade && !sd->state.spectator && session_isActive(sd->fd);
 	}
 
 	void update_last_pos(map_session_data* sd, LastPos& lp) {
