@@ -19,6 +19,7 @@
 #include <sstream>
 #include <atomic>
 #include <functional>
+#include <memory>
 #include <chrono>
 #include <random>
 #ifdef _WIN32
@@ -66,6 +67,12 @@ struct SrvConfig {
 	int         voice_block_alert_threshold = 0;   // distinct blockers to alert GMs (0 = off)
 	bool        voice_ignore_sync = false;          // text /ex ignore also blocks voice
 	bool        login_id1_strict = true;
+	// [Stingor] Bot voices from another machine (the GPU that speaks for
+	// Sting-Bot): their own port, bot_voice only, from one address, with the
+	// bridge secret. 0 = closed; the map bridge on loopback still takes them.
+	int         voice_bot_port = 0;
+	std::string voice_bot_bind_ip = "0.0.0.0";
+	std::string voice_bot_allowed_ip;
 
 	std::string db_host = "127.0.0.1";
 	int         db_port = 3306;
@@ -208,6 +215,15 @@ static void load_voice_conf(const char* path) {
 		}
 		else if (key == "voice_client_secret") {
 			g_cfg.client_secret = val; return true;
+		}
+		else if (key == "voice_bot_port") {
+			if (!val.empty()) g_cfg.voice_bot_port = std::stoi(val); return true;
+		}
+		else if (key == "voice_bot_bind_ip") {
+			if (!val.empty()) g_cfg.voice_bot_bind_ip = val; return true;
+		}
+		else if (key == "voice_bot_allowed_ip") {
+			g_cfg.voice_bot_allowed_ip = val; return true;
 		}
 		return false;
 		});
@@ -705,6 +721,9 @@ struct ClientSession {
 	// tunes several at once, and from then on set_channel leaves it alone.
 	uint8_t     rx_mask = 1;
 	bool        listen_explicit = false;
+	// [Stingor] A bot voice (see handle_bot_voice): no connection, it only
+	// speaks. Kept out of g_by_char_id; never a target, never a speaking hat.
+	bool        bot = false;
 	bool        war_map = false;
 	bool        client_war_state_sent = false;
 	bool        client_war_map = false;
@@ -1139,6 +1158,7 @@ static void for_each_spatial_candidate(const ClientSession& from, Fn&& fn) {
 
 static bool should_forward(uint8_t channel, uint32_t gid, const ClientSession& from, const ClientSession& to) {
 	if (!to.authed) return false;
+	if (to.bot) return false;
 	if (to.deafened) return false;
 	if (from.char_id == to.char_id) return false;
 
@@ -1435,7 +1455,7 @@ static void send_map_block_alert(int blocked_char_id, const std::string& blocked
 }
 
 static void set_session_speaking_hat(ClientSession* s, bool speaking) {
-	if (!s || s->char_id <= 0)
+	if (!s || s->char_id <= 0 || s->bot)
 		return;
 
 	bool expected = !speaking;
@@ -1542,6 +1562,11 @@ void request_server_stop() {
 	}
 }
 
+static void handle_bot_voice(const json& j);
+static void expire_idle_bots(uint32_t now);
+static void start_bot_receiver();
+static void stop_bot_receiver();
+
 static void udp_position_loop() {
 	char buf[4096];
 	sockaddr_in from_addr{};
@@ -1599,6 +1624,7 @@ static void udp_position_loop() {
 
 		if (now_maint - last_maintenance >= MAINTENANCE_INTERVAL_MS) {
 			last_maintenance = now_maint;
+			expire_idle_bots(now_maint);
 
 			// Sessions whose advisory grace window expired — collected under
 				// the lock, kicked after releasing it (ws->end must run on the server loop).
@@ -1848,6 +1874,13 @@ static void udp_position_loop() {
 
 		if (!udp_secret_allowed(j)) {
 			LOG_WARNING("UDP control rejected from %s: bad bridge secret", udp_addr_to_ip(from_addr).c_str());
+			continue;
+		}
+
+		// [Stingor] Before the bridge address is learnt: a bot voice service
+		// is not the map server, and the speaking hats must not go to it.
+		if (j.value("type", "") == "bot_voice") {
+			handle_bot_voice(j);
 			continue;
 		}
 
@@ -2577,11 +2610,13 @@ static bool init_udp_receiver() {
 	g_udp_thread = std::thread(udp_position_loop);
 
 	LOG_NOTICE("UDP control receiver started on %s:%d", g_cfg.voice_api_ip.c_str(), g_cfg.voice_api_port);
+	start_bot_receiver();
 	return true;
 }
 
 static void stop_udp_receiver() {
 	g_udp_running = false;
+	stop_bot_receiver();
 	if (g_udp_thread.joinable()) {
 		g_udp_thread.join();
 	}
@@ -2941,6 +2976,178 @@ static void route_audio_packet_by_id(int char_id, uint64_t session_id,
 		flood = route_audio_packet_locked(it->second, channel, gid, seq, pcm, pcm_bytes);
 	}
 	apply_deferred_flood_ban(flood);
+}
+
+// ── Bot voices ────────────────────────────────────────────────────────────────
+// [Stingor] A local service (Sting-Bot's voice) pushes 20 ms Opus frames over
+// the map bridge, with the bridge secret. Each bot is a session without a
+// connection, indexed like a player: it is heard by proximity, listed in
+// nearby_players, and block_add silences it exactly like a player.
+// Format: {"type":"bot_voice","bot_id":1999999999,"name":"Sting-Bot",
+//          "map":"gonryun","x":159,"y":116,"seq":12,"opus":"<base64>"}
+static constexpr uint32_t BOT_IDLE_MS = 300000;      // silent this long: leaves nearby_players
+static constexpr size_t   BOT_OPUS_MAX_BYTES = 1275; // RFC 6716: largest Opus frame
+static constexpr size_t   BOT_NAME_MAX = 23;         // the audio header's name field
+static std::unordered_map<int, std::unique_ptr<ClientSession>> g_bots; // by bot_id, under g_session_mtx
+
+static bool decode_base64(const std::string& in, std::string& out) {
+	out.clear();
+	out.reserve(in.size() * 3 / 4);
+	uint32_t acc = 0;
+	int bits = 0;
+	for (char c : in) {
+		int v;
+		if (c >= 'A' && c <= 'Z') v = c - 'A';
+		else if (c >= 'a' && c <= 'z') v = c - 'a' + 26;
+		else if (c >= '0' && c <= '9') v = c - '0' + 52;
+		else if (c == '+') v = 62;
+		else if (c == '/') v = 63;
+		else if (c == '=') break;
+		else return false;
+		acc = (acc << 6) | static_cast<uint32_t>(v);
+		bits += 6;
+		if (bits >= 8) {
+			bits -= 8;
+			out.push_back(static_cast<char>((acc >> bits) & 0xFF));
+		}
+	}
+	return true;
+}
+
+static void handle_bot_voice(const json& j) {
+	const int bot_id = j.value("bot_id", 0);
+	std::string name = j.value("name", "");
+	const std::string map = j.value("map", "");
+	if (bot_id <= 0 || name.empty() || map.empty() || map.size() > 64)
+		return;
+	if (name.size() > BOT_NAME_MAX) name.resize(BOT_NAME_MAX);
+
+	std::string opus;
+	if (!decode_base64(j.value("opus", ""), opus) || opus.empty() || opus.size() > BOT_OPUS_MAX_BYTES ||
+		!validate_opus_packet(reinterpret_cast<const unsigned char*>(opus.data()), opus.size()))
+		return;
+	const uint16_t seq = static_cast<uint16_t>(j.value("seq", 0));
+
+	{
+		std::lock_guard<std::shared_mutex> lock(g_session_mtx);
+		if (g_by_char_id.count(bot_id)) {
+			LOG_WARNING("bot_voice rejected: bot_id=%d is a connected player", bot_id);
+			return;
+		}
+		std::unique_ptr<ClientSession>& bot = g_bots[bot_id];
+		if (!bot) {
+			bot = std::make_unique<ClientSession>();
+			bot->bot = true;
+			bot->account_id = bot_id;
+			bot->char_id = bot_id;
+			bot->authed = true;
+			bot->ptt = true;
+			bot->rx_mask = 0x01; // proximity only
+			LOG_INFO("bot voice up: %s (bot_id=%d)", name.c_str(), bot_id);
+		}
+		bot->char_name = name;
+		idx_set_position(bot.get(), map, j.value("x", 0), j.value("y", 0), tick_ms());
+	}
+
+	AudioRouteFlood flood;
+	{
+		std::shared_lock<std::shared_mutex> lock(g_session_mtx);
+		auto it = g_bots.find(bot_id);
+		if (it == g_bots.end()) return;
+		flood = route_audio_packet_locked(it->second.get(), 0, 0, seq, opus.data(), opus.size());
+	}
+	apply_deferred_flood_ban(flood);
+}
+
+static void expire_idle_bots(uint32_t now) {
+	std::lock_guard<std::shared_mutex> lock(g_session_mtx);
+	for (auto it = g_bots.begin(); it != g_bots.end();) {
+		ClientSession* bot = it->second.get();
+		if (now - bot->last_position_ms < BOT_IDLE_MS) { ++it; continue; }
+		LOG_INFO("bot voice idle: %s (bot_id=%d)", bot->char_name.c_str(), bot->char_id);
+		idx_remove(bot);
+		it = g_bots.erase(it);
+	}
+}
+
+// block_add / block_remove target: a connected player, or a bot voice.
+// Call under g_session_mtx (shared).
+static const ClientSession* find_block_target(int char_id) {
+	auto it = g_by_char_id.find(char_id);
+	if (it != g_by_char_id.end() && it->second && it->second->authed)
+		return it->second;
+	auto bot = g_bots.find(char_id);
+	return bot != g_bots.end() ? bot->second.get() : nullptr;
+}
+
+static SOCKET g_bot_sock = INVALID_SOCKET;
+static std::thread g_bot_thread;
+static std::atomic<bool> g_bot_running{ false };
+static constexpr int BOT_RECV_POLL_MS = 500; // how often the loop rechecks g_bot_running
+
+static void bot_udp_loop() {
+	char buf[4096];
+	while (g_bot_running) {
+		fd_set readfds;
+		FD_ZERO(&readfds);
+		FD_SET(g_bot_sock, &readfds);
+		timeval tv{ 0, BOT_RECV_POLL_MS * 1000 };
+		if (select(static_cast<int>(g_bot_sock) + 1, &readfds, nullptr, nullptr, &tv) <= 0)
+			continue;
+
+		sockaddr_in from_addr{};
+		sock_len_t from_len = sizeof(from_addr);
+		const int recv_len = recvfrom(g_bot_sock, buf, sizeof(buf) - 1, 0,
+			reinterpret_cast<sockaddr*>(&from_addr), &from_len);
+		if (recv_len <= 0) continue;
+		if (udp_addr_to_ip(from_addr) != g_cfg.voice_bot_allowed_ip) {
+			LOG_WARNING("bot voice rejected from unexpected source %s", udp_addr_to_ip(from_addr).c_str());
+			continue;
+		}
+		buf[recv_len] = '\0';
+		json j = json::parse(buf, nullptr, false);
+		if (j.is_discarded() || j.value("type", "") != "bot_voice" ||
+			j.value("bridge_secret", "") != g_cfg.voice_bridge_secret)
+			continue;
+		handle_bot_voice(j);
+	}
+}
+
+static void start_bot_receiver() {
+	if (g_cfg.voice_bot_port <= 0)
+		return;
+	// The port faces the network: without a secret and one allowed address
+	// anyone could speak as the bot.
+	if (g_cfg.voice_bridge_secret.empty() || g_cfg.voice_bot_allowed_ip.empty()) {
+		LOG_ERROR("voice_bot_port needs voice_bridge_secret and voice_bot_allowed_ip: bot port closed");
+		return;
+	}
+	g_bot_sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	sockaddr_in addr{};
+	addr.sin_family = AF_INET;
+	addr.sin_port = htons(static_cast<uint16_t>(g_cfg.voice_bot_port));
+	if (g_bot_sock == INVALID_SOCKET ||
+		inet_pton(AF_INET, g_cfg.voice_bot_bind_ip.c_str(), &addr.sin_addr) != 1 ||
+		bind(g_bot_sock, reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) == SOCKET_ERROR) {
+		LOG_ERROR("bot voice port: bind failed on %s:%d", g_cfg.voice_bot_bind_ip.c_str(), g_cfg.voice_bot_port);
+		if (g_bot_sock != INVALID_SOCKET) closesocket(g_bot_sock);
+		g_bot_sock = INVALID_SOCKET;
+		return;
+	}
+	g_bot_running = true;
+	g_bot_thread = std::thread(bot_udp_loop);
+	LOG_NOTICE("bot voice port on %s:%d, from %s only", g_cfg.voice_bot_bind_ip.c_str(),
+		g_cfg.voice_bot_port, g_cfg.voice_bot_allowed_ip.c_str());
+}
+
+static void stop_bot_receiver() {
+	g_bot_running = false;
+	if (g_bot_thread.joinable())
+		g_bot_thread.join();
+	if (g_bot_sock != INVALID_SOCKET) {
+		closesocket(g_bot_sock);
+		g_bot_sock = INVALID_SOCKET;
+	}
 }
 
 static void voice_udp_send_hello_ack(const sockaddr_in& to) {
@@ -3853,10 +4060,9 @@ if (type == "block_add") {
 	std::string target_name;
 	{
 		std::shared_lock<std::shared_mutex> rl(g_session_mtx);
-		auto it = g_by_char_id.find(target_cid);
-		if (it != g_by_char_id.end() && it->second && it->second->authed) {
-			target_aid = it->second->account_id;
-			target_name = it->second->char_name;
+		if (const ClientSession* target = find_block_target(target_cid)) {
+			target_aid = target->account_id;
+			target_name = target->char_name;
 		}
 	}
 	if (target_aid <= 0 || target_aid == s->account_id) return;
@@ -3907,9 +4113,8 @@ if (type == "block_remove") {
 	int target_aid = 0;
 	{
 		std::shared_lock<std::shared_mutex> rl(g_session_mtx);
-		auto it = g_by_char_id.find(target_cid);
-		if (it != g_by_char_id.end() && it->second && it->second->authed)
-			target_aid = it->second->account_id;
+		if (const ClientSession* target = find_block_target(target_cid))
+			target_aid = target->account_id;
 	}
 	if (target_aid <= 0) return;
 

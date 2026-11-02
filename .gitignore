@@ -118,6 +118,7 @@ Thumbs.db
 /tools/convert
 /tools/adduser
 /tools/groq.env
+/tools/sting_voice.env
 /tools/*.exe
 /tools/*.ilk
 /tools/*.pdb

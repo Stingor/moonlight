@@ -27,3 +27,16 @@ CREATE TABLE IF NOT EXISTS `chatbot_status` (
 
 INSERT INTO `chatbot_status` (`id`, `online`) VALUES (1, 1)
   ON DUPLICATE KEY UPDATE `online` = `online`;
+
+-- Répliques à dire à voix haute (tools/sting_voice_service.py) : le PNJ y
+-- dépose chaque ligne qu'il affiche, avec sa position ; le service la lit, la
+-- synthétise et l'efface. La réplique écrite part toujours, service ou non.
+CREATE TABLE IF NOT EXISTS `chatbot_voice` (
+  `id`         int(11)      NOT NULL AUTO_INCREMENT,
+  `line`       varchar(300) NOT NULL DEFAULT '',
+  `map`        varchar(16)  NOT NULL DEFAULT '',
+  `x`          smallint(6)  NOT NULL DEFAULT 0,
+  `y`          smallint(6)  NOT NULL DEFAULT 0,
+  `created_at` timestamp    NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

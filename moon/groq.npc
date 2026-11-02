@@ -78,8 +78,7 @@ L_chat:
 			.@i = 1;
 		}
 		while(.@parts$[.@i] != "") {
-			.@mes$ = strnpcinfo(0)+" : "+.@parts$[.@i];
-			npctalk .@mes$; logchat .@mes$;
+			callsub S_Speak, .@parts$[.@i];
 			.@i++;
 			sleep 200;
 			if(.@parts$[.@i] != "") sleep 1200;
@@ -94,8 +93,7 @@ S_AnnonceNote:
 		explode(.@np$, .@note$, "|");
 		.@k = 0;
 		while (.@np$[.@k] != "") {
-			.@mes$ = strnpcinfo(0)+" : "+.@np$[.@k];
-			npctalk .@mes$; logchat .@mes$;
+			callsub S_Speak, .@np$[.@k];
 			.@k++;
 			sleep 200;
 			if (.@np$[.@k] != "") sleep 1200;
@@ -123,12 +121,21 @@ S_SayEvent:
 	explode(.@ev_parts$, .@ev_resp$, "|");
 	.@ev_i = 0;
 	while (.@ev_parts$[.@ev_i] != "") {
-		.@ev_line$ = strnpcinfo(0)+" : "+.@ev_parts$[.@ev_i];
-		npctalk .@ev_line$; logchat .@ev_line$;
+		callsub S_Speak, .@ev_parts$[.@ev_i];
 		.@ev_i++;
 		sleep 200;
 		if (.@ev_parts$[.@ev_i] != "") sleep 1200;
 	}
+	return;
+
+S_Speak:
+	// Une replique : ecrite au-dessus du PNJ, et deposee pour sa voix
+	// (tools/sting_voice_service.py) avec la position du PNJ. Sans service
+	// de voix, la table se remplit sans lecteur et la replique ecrite part.
+	.@sp_mes$ = strnpcinfo(0)+" : "+getarg(0);
+	npctalk .@sp_mes$; logchat .@sp_mes$;
+	getmapxy(.@sp_map$, .@sp_x, .@sp_y, BL_NPC);
+	query_sql "INSERT INTO chatbot_voice (line, map, x, y) VALUES ('"+ escape_sql(getarg(0)) +"','"+ escape_sql(.@sp_map$) +"',"+ .@sp_x +","+ .@sp_y +")";
 	return;
 
 OnTimer3000:
