@@ -376,6 +376,9 @@ void clif_parse_moonlight_survivors_end(int32 fd, map_session_data* sd) {
 			return;
 		}
 		verdict = personal_best ? SURVIVORS_VERDICT_PERSONAL_BEST : SURVIVORS_VERDICT_ACCEPTED;
+		// La guilde apprend un record battu en partie classée (survivors_presence.cpp).
+		if (personal_best && state.key.board == SURVIVORS_BOARD_RANKED)
+			survivors_presence_ranked_best(*sd, run.survived_steps);
 	}
 	s_survivors_best best;
 	uint16 rank = 0;

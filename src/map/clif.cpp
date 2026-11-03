@@ -295,8 +295,8 @@ static bool clif_sees_hidden_units( const map_session_data& sd ){
 // [Stingor] Vrai si `hide_cloaked_units` retient l'unité `bl` à l'entrée dans la
 // vue de `sd` : son type y est coché, elle est cachée, et `sd` n'est pas du staff
 // autorisé. Garde unique de clif_getareachar_unit et des rejeux qui doivent
-// écarter exactement les mêmes unités.
-static bool clif_hidden_unit_withheld( const block_list& bl, const map_session_data& sd ){
+// écarter exactement les mêmes unités, survivors_presence.cpp compris.
+bool clif_hidden_unit_withheld( const block_list& bl, const map_session_data& sd ){
 	if( !( battle_config.hide_cloaked_units & bl.type ) ){
 		return false;
 	}
@@ -337,6 +337,8 @@ static constexpr s_moonlight_throttle_rule MOONLIGHT_THROTTLE_RULES[MOONLIGHT_TH
 	{ 2000, 1 },  // MOONLIGHT_THROTTLE_SURVIVORS_BOARD : un tableau par 2 s
 	{ 1000, 2 },  // MOONLIGHT_THROTTLE_SURVIVORS_TICKET_REFUSAL
 	{ 2000, 2 },  // MOONLIGHT_THROTTLE_SURVIVORS_SERVICE : une entrée en carte en suit une autre
+	{ 1000, 3 },  // MOONLIGHT_THROTTLE_SURVIVORS_PRESENCE : le client en envoie une par seconde au plus
+	{ 2000, 2 },  // MOONLIGHT_THROTTLE_SURVIVORS_PRESENCE_ANNOUNCE : comme l'annonce du service
 };
 
 // [Stingor] Vrai si la demande de la famille `family` est dans la cadence, et
@@ -9599,6 +9601,11 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	// Une cadence à part borne un client qui répéterait l'annonce.
 	if ((p->caps & MOONLIGHT_UI_SURVIVORS) && clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_SURVIVORS_SERVICE))
 		clif_moonlight_survivors_service(*sd);
+	// [Stingor] La présence en arène, à chaque annonce qui porte son bit, pour la
+	// même raison ; sa cadence est à part.
+	if ((p->caps & MOONLIGHT_UI_SURVIVORS_PRESENCE) &&
+		clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_SURVIVORS_PRESENCE_ANNOUNCE))
+		clif_moonlight_survivors_presence_announce(*sd);
 	// [Stingor] Où joindre le serveur voix, dès que le client sait lui parler.
 	if (!(before & MOONLIGHT_UI_VOICE) && (p->caps & MOONLIGHT_UI_VOICE))
 		voice_bridge_announce_service(*sd);
@@ -12425,6 +12432,8 @@ void clif_getareachar_unit( map_session_data* sd,block_list *bl ){
 				clif_moonlight_gm_outfit_single(*tsd, true, *sd);
 			// [Stingor] Son élément d'attaque, s'il n'est ni neutre ni caché.
 			clif_moonlight_attack_element_seen(*tsd, *sd);
+			// [Stingor] Sa présence en arène de survivors, s'il y est.
+			clif_moonlight_survivors_presence_seen(*tsd, *sd);
 		}
 		break;
 	case BL_MER: // Devotion Effects
@@ -13243,6 +13252,8 @@ void clif_moonclient_accepted(map_session_data& sd)
 	clif_bourgeon_server_rules(sd);
 	// [Stingor] Le classement survivors, si le bit est venu avant l'acceptation.
 	clif_moonlight_survivors_service(sd);
+	// [Stingor] Et la présence en arène, pour la même raison.
+	clif_moonlight_survivors_presence_announce(sd);
 }
 
 

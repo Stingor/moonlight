@@ -7496,6 +7496,9 @@ enum e_setpos pc_setpos(map_session_data* sd, uint16 mapindex, int32 x, int32 y,
 		// le serveur gardait la liste et retendait le trait dès qu'ils se
 		// recroisaient. (Le protégé, lui, perd déjà le statut par RemoveOnChangeMap.)
 		pc_devotion_release(*sd);
+		// [Stingor] Un changement de carte sort de l'arène de survivors : le client
+		// quitte la partie quand le monde réel réclame son personnage.
+		survivors_presence_leave(*sd);
 
 		sd->state.pmap = sd->m;
 		if (sc != nullptr && !sc->empty()) { // Cancel some map related stuff.

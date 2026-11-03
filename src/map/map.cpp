@@ -2399,6 +2399,8 @@ int32 map_quit(map_session_data *sd) {
 	// [Stingor] Éditions de carte : le transfert entrant de la session est jeté.
 	map_edits_on_logout(*sd);
 	voice_bridge_send_leave(sd);
+	// [Stingor] Présence en arène : il en sort pour ses amis, sa guilde, sa zone.
+	survivors_presence_leave(*sd);
 
 	if (sd->state.keepshop == false) { // Close vending/buyingstore
 		if (sd->state.vending)
@@ -5707,6 +5709,8 @@ bool MapServer::initialize( int32 argc, char *argv[] ){
 
 	map_sql_init();
 	voice_bridge_init();
+	// [Stingor] Personne n'est en arène au démarrage : la table du site se vide.
+	do_init_survivors_presence();
 	if (log_config.sql_logs)
 		log_sql_init();
 

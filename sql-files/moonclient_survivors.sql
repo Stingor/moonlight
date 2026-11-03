@@ -84,3 +84,26 @@ CREATE TABLE IF NOT EXISTS `survivors_best` (
   PRIMARY KEY (`user_id`, `ruleset`, `arena`, `class_id`, `board`, `week`),
   KEY `ranking` (`ruleset`, `arena`, `class_id`, `board`, `week`, `score`, `survived_steps`, `run_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- La presence en arene (lot 13 de moonclient, src/map/survivors_presence.cpp) :
+-- une ligne par personnage en partie, ecrite a l'entree et a chaque changement
+-- d'etat, effacee a la sortie, a la deconnexion, au changement de carte, et
+-- toute la table au demarrage du serveur de carte. Le site la lit pour sa
+-- banniere et ses fiches.
+--   `state`      : 1 en partie, 2 en pause.
+--   `flags`      : 0x01 partie classee, 0x02 defi de la semaine.
+--   `entered_at` : secondes UTC de l'entree, a l'horloge du serveur de carte.
+--
+CREATE TABLE IF NOT EXISTS `survivors_presence` (
+  `char_id`        int(11) unsigned     NOT NULL,
+  `account_id`     int(11) unsigned     NOT NULL,
+  `name`           varchar(23)          NOT NULL DEFAULT '',
+  `arena`          smallint(5) unsigned NOT NULL,
+  `class_id`       smallint(5) unsigned NOT NULL,
+  `flags`          tinyint(3) unsigned  NOT NULL DEFAULT 0,
+  `state`          tinyint(3) unsigned  NOT NULL,
+  `entered_at`     bigint(20)           NOT NULL,
+  PRIMARY KEY (`char_id`),
+  KEY `account_id` (`account_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

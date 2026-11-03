@@ -350,6 +350,8 @@ enum e_moonlight_throttle : uint8 {
 	MOONLIGHT_THROTTLE_SURVIVORS_BOARD,  ///< tableau du classement survivors (SQL synchrone)
 	MOONLIGHT_THROTTLE_SURVIVORS_TICKET_REFUSAL, ///< refus « trop tôt » rendu à un jeton demandé hors cadence
 	MOONLIGHT_THROTTLE_SURVIVORS_SERVICE, ///< annonce du service survivors, redite à chaque annonce d'interface
+	MOONLIGHT_THROTTLE_SURVIVORS_PRESENCE, ///< présence en arène (relayée à la zone, aux amis, à la guilde)
+	MOONLIGHT_THROTTLE_SURVIVORS_PRESENCE_ANNOUNCE, ///< annonce de la présence et ses redites
 	MOONLIGHT_THROTTLE_MAX
 };
 

@@ -7775,6 +7775,56 @@ struct PACKET_ZC_MOONLIGHT_VOICE_SERVICE {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_VOICE_SERVICE, 0x0f55);
 
+// ── [Stingor] La présence en arène du mode survivors (0x0F56, 0x0F57) ───────────
+//
+// Le client dit qu'il entre en partie de survivors, s'y met en pause ou en sort ;
+// le serveur relaie l'état aux sessions qui voient le personnage, à ses amis et
+// à sa guilde. Voir survivors_presence.cpp, et le cahier du lot 13 de moonclient
+// (docs/survivors/lot-13-presence.md).
+//
+// 🔴 RIEN NE PART À UN CLIENT QUI N'A PAS ANNONCÉ MOONLIGHT_UI_SURVIVORS_PRESENCE
+// (0x200000) : un ZC absent de sa table des longueurs lui ferait perdre le fil du
+// flux. À chaque annonce qui porte le bit, le serveur répond par un 0x0F57 à
+// `account_id` nul, qui lui ANNONCE le service : le client n'émet pas 0x0F56
+// avant de l'avoir reçu. Seule une session moonclient vérifiée et chargée est
+// entendue.
+//
+// Valeurs communes :
+//   state   : 0 sorti, 1 en partie, 2 en pause. Toute autre valeur se lit 0.
+//   arena   : ArenaRule::arena_id du catalogue du client.
+//   class_id: ClassRule::class_id du catalogue du client.
+
+// CZ : l'état du joueur. Fixe 10. Il part à l'entrée, à la pause, à la reprise
+// et à la sortie, une fois par seconde au plus.
+// Layout: [type:2][len:2][state:1][arena:2][class:2][flags:1]
+//   flags : 0x01 partie classée, 0x02 défi de la semaine.
+struct PACKET_CZ_MOONLIGHT_SURVIVORS_PRESENCE {
+	int16  packetType;
+	int16  packetLength;
+	uint8  state;
+	uint16 arena;
+	uint16 class_id;
+	uint8  flags;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_SURVIVORS_PRESENCE, 0x0f56);
+
+// ZC : l'état d'un joueur, ou l'annonce du service (`account_id` nul). Fixe 21.
+// Layout: [type:2][len:2][account_id:4][char_id:4][state:1][arena:2][class:2]
+//         [elapsed_s:4]
+//   elapsed_s : secondes écoulées depuis l'entrée, à l'heure de l'envoi. Une
+//               durée et non une heure : les horloges n'ont pas à s'accorder.
+struct PACKET_ZC_MOONLIGHT_SURVIVORS_PRESENCE {
+	int16  packetType;
+	int16  packetLength;
+	uint32 account_id;
+	uint32 char_id;
+	uint8  state;
+	uint16 arena;
+	uint16 class_id;
+	uint32 elapsed_s;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_PRESENCE, 0x0f57);
+
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
 //

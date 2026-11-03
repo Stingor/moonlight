@@ -1967,7 +1967,11 @@ enum e_moonlight_ui_cap : uint32 {
 	// Ce client parle au serveur voix : il reçoit ZC_MOONLIGHT_VOICE_SERVICE 0x0F55
 	// à l'apparition du bit. Réservé à moonclient : la DLL ne l'annonce pas.
 	MOONLIGHT_UI_VOICE = 0x00100000,
-	// Prochain bit libre : 0x00200000.
+	// Ce client lit la présence en arène des autres (ZC 0x0F57) : chaque annonce
+	// qui porte le bit reçoit un 0x0F57 à account_id nul, qui lui annonce le
+	// service, et le client n'émet pas CZ 0x0F56 avant. Réservé à moonclient.
+	MOONLIGHT_UI_SURVIVORS_PRESENCE = 0x00200000,
+	// Prochain bit libre : 0x00400000.
 };
 
 // [Stingor] Les réglages du serveur utiles au client (ZC 0x0F38), à une session
@@ -2002,6 +2006,25 @@ bool clif_moonlight_throttle_pass(map_session_data& sd, e_moonlight_throttle fam
 void clif_parse_moonlight_survivors_begin(int32 fd, map_session_data* sd);
 void clif_parse_moonlight_survivors_end(int32 fd, map_session_data* sd);
 void clif_parse_moonlight_survivors_board(int32 fd, map_session_data* sd);
+// [Stingor] La présence en arène du mode survivors (0x0F56, 0x0F57, voir
+// packets_struct.hpp), tenue par survivors_presence.cpp.
+//   `_announce` : à chaque annonce qui porte MOONLIGHT_UI_SURVIVORS_PRESENCE,
+//     l'annonce du service, puis la présence des joueurs en vue, des amis et de
+//     la guilde déjà en arène ;
+//   `_seen` : celle de `owner` à `viewer`, quand il entre dans sa vue ;
+//   `_leave` : `sd` sort de l'arène pour les autres — déconnexion, changement de
+//     carte — sans rien attendre du client ;
+//   `_ranked_best` : une partie classée bat le record du joueur, que la guilde
+//     apprend.
+void clif_parse_moonlight_survivors_presence(int32 fd, map_session_data* sd);
+// [Stingor] Vrai si `hide_cloaked_units` retient l'unité `bl` aux yeux de `sd`
+// (voir clif.cpp) : un relais à la zone écarte qui ne la voit pas.
+bool clif_hidden_unit_withheld(const block_list& bl, const map_session_data& sd);
+void clif_moonlight_survivors_presence_announce(map_session_data& sd);
+void clif_moonlight_survivors_presence_seen(const map_session_data& owner, map_session_data& viewer);
+void survivors_presence_leave(map_session_data& sd);
+void survivors_presence_ranked_best(map_session_data& sd, uint32 survived_steps);
+void do_init_survivors_presence();
 // [Stingor] L'élément d'attaque d'un joueur (ZC 0x0F4A), voir packets_struct.hpp.
 // `_refresh` le recalcule et ne dit rien s'il n'a pas changé : à appeler après
 // tout ce qui peut le changer (recalcul de statut, charmes d'esprit).

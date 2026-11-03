@@ -2116,6 +2116,10 @@ parseable_packet(HEADER_CZ_MOONLIGHT_GM_OUTFIT, sizeof(PACKET_CZ_MOONLIGHT_GM_OU
 // sous la caméra. Gate poignée de main et niveau de groupe >= 99 DANS le
 // handler — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_FREE_FLIGHT, sizeof(PACKET_CZ_MOONLIGHT_FREE_FLIGHT), clif_parse_moonlight_free_flight, 0);
+// [Stingor] moonclient : la présence en arène du mode survivors
+// (survivors_presence.cpp). Gate poignée de main moonclient et
+// MOONLIGHT_UI_SURVIVORS_PRESENCE DANS le handler — fixed.
+parseable_packet(HEADER_CZ_MOONLIGHT_SURVIVORS_PRESENCE, sizeof(PACKET_CZ_MOONLIGHT_SURVIVORS_PRESENCE), clif_parse_moonlight_survivors_presence, 0);
 
 // [Stingor] moonclient : un trophée de mini-jeu, qui achève son succès. Gate
 // poignée de main DANS le handler — fixed
