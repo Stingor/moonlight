@@ -15,6 +15,9 @@ Deux rôles dans le même processus :
 
 La voix vient d'un extrait WAV (STING_VOICE_SAMPLE, 10 à 20 s d'un seul
 locuteur) ou, à défaut, d'un locuteur livré avec XTTS (STING_VOICE_SPEAKER).
+Son jeu se règle par STING_VOICE_SPEED, _TEMPERATURE, _TOP_P, _TOP_K,
+_REPETITION_PENALTY et _LENGTH_PENALTY ; le rattrapage des répliques qui
+débordent, par STING_VOICE_OVERRUN_RATIO et _MAX_ATTEMPTS (voir SYNTHESIS).
 Le modèle est sous licence Coqui Public Model License : usage non commercial.
 Son premier téléchargement demande COQUI_TOS_AGREED=1.
 
@@ -99,8 +102,21 @@ LINES_PER_POLL = 5
 # des tentatives l'emporte (mesuré sur la voix clonée : ~1 génération sur 5
 # déborde, quelle que soit la température ou la ponctuation finale).
 MS_PER_CHAR = 70
-OVERRUN_RATIO = 1.6
-MAX_ATTEMPTS = 3
+OVERRUN_RATIO = float(os.environ.get("STING_VOICE_OVERRUN_RATIO", "1.6"))
+MAX_ATTEMPTS = int(os.environ.get("STING_VOICE_MAX_ATTEMPTS", "3"))
+
+# Le jeu de XTTS, aux valeurs du modèle par défaut. SPEED règle le débit (1.2
+# plus vite, 0.85 plus posé) ; TEMPERATURE, TOP_P et TOP_K la variété de
+# l'intonation, au prix de la stabilité ; REPETITION_PENALTY retient le
+# bégaiement ; LENGTH_PENALTY pousse vers des générations courtes ou longues.
+SYNTHESIS = {
+    "speed": float(os.environ.get("STING_VOICE_SPEED", "1.0")),
+    "temperature": float(os.environ.get("STING_VOICE_TEMPERATURE", "0.75")),
+    "top_p": float(os.environ.get("STING_VOICE_TOP_P", "0.85")),
+    "top_k": int(os.environ.get("STING_VOICE_TOP_K", "50")),
+    "repetition_penalty": float(os.environ.get("STING_VOICE_REPETITION_PENALTY", "10.0")),
+    "length_penalty": float(os.environ.get("STING_VOICE_LENGTH_PENALTY", "1.0")),
+}
 
 # Sous ROCm, les convolutions MIOpen du décodeur HiFi-GAN coûtent cent fois
 # celles de PyTorch (10 s contre 0,1 s pour 7 s d'audio, RX 7900 XT).
@@ -148,12 +164,14 @@ class StingVoice:
 
     def synthesize_float(self, text: str) -> np.ndarray:
         """Rend le texte en flottants 48 kHz mono."""
-        expected_samples = len(text) * MS_PER_CHAR / 1000 * XTTS_SAMPLE_RATE_HZ
+        expected_samples = (
+            len(text) * MS_PER_CHAR / 1000 / SYNTHESIS["speed"] * XTTS_SAMPLE_RATE_HZ
+        )
         best = None
         with self.lock, torch.inference_mode():
             for _ in range(MAX_ATTEMPTS):
                 out = self.model.inference(
-                    text, LANGUAGE, self.gpt_cond_latent, self.speaker_embedding
+                    text, LANGUAGE, self.gpt_cond_latent, self.speaker_embedding, **SYNTHESIS
                 )
                 if best is None or len(out["wav"]) < len(best):
                     best = out["wav"]
@@ -349,6 +367,8 @@ def main():
     started = time.perf_counter()
     voice = StingVoice()
     print(f"[voix] modèle chargé en {time.perf_counter() - started:.1f} s sur {voice.device}")
+    settings = " ".join(f"{name}={value}" for name, value in SYNTHESIS.items())
+    print(f"[voix] {settings} débordement×{OVERRUN_RATIO} tentatives={MAX_ATTEMPTS}", flush=True)
     if not args.say:
         if not args.no_speaker:
             threading.Thread(target=BotSpeaker(voice).run, daemon=True).start()
