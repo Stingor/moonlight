@@ -3055,3 +3055,15 @@ Body:
     Group: Adventure
     Name: Bille offerte
     Score: 10
+  - Id: 910034
+    Group: Adventure
+    Name: Premiere piece
+    Score: 10
+  - Id: 910035
+    Group: Adventure
+    Name: Collectionneur
+    Score: 20
+  - Id: 910036
+    Group: Adventure
+    Name: Conservateur
+    Score: 30
