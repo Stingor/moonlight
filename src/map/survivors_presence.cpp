@@ -11,7 +11,8 @@
 //
 // Ce que les autres voient sans moonclient :
 //   - une bulle de salon fermée, « En arène survivors », ouverte à l'entrée et
-//     refermée à la sortie, si le joueur n'en tient pas déjà une ;
+//     refermée à la sortie, si le joueur n'en tient pas déjà une et pourrait
+//     en ouvrir une à la main au même endroit (loin des PNJ) ;
 //   - un message de guilde quand il tient quinze minutes en partie, une fois
 //     par entrée, et quand il bat son record en partie classée.
 //
@@ -46,6 +47,7 @@
 #include "guild.hpp"
 #include "intif.hpp"
 #include "map.hpp" // mmysql_handle, map_getmapflag
+#include "npc.hpp" // npc_isnear
 #include "packets.hpp"
 #include "path.hpp"
 #include "pc.hpp"
@@ -311,8 +313,13 @@ void clif_parse_moonlight_survivors_presence(int32 fd, map_session_data* sd) {
 		presence.entered_at = gettick();
 		presence.counted_at = presence.entered_at;
 		presence.state      = state;
+		// Le salon suit les gardes d'un salon ouvert à la main : pas à moins de
+		// min_npc_vendchat_distance cases d'un PNJ, dont la bulle couvrirait le
+		// PNJ et empêcherait de lui parler, ni pour un joueur privé de salons.
 		// chat_createpcchat rend 0 dans tous les cas : le salon se juge à chatID.
-		if (sd->chatID == 0) {
+		const status_change_entry* no_chat = sd->sc.getSCE(SC_NOCHAT);
+		const bool room_barred = npc_isnear(sd) || (no_chat != nullptr && (no_chat->val1 & MANNER_NOROOM));
+		if (sd->chatID == 0 && !room_barred) {
 			chat_createpcchat(sd, SURVIVORS_PRESENCE_ROOM_TITLE, "", SURVIVORS_PRESENCE_ROOM_LIMIT, true);
 			presence.room_id = sd->chatID;
 		}
