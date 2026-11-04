@@ -205,6 +205,8 @@
     <ClInclude Include="cashshop.hpp" />
     <ClInclude Include="channel.hpp" />
     <ClInclude Include="chat.hpp" />
+    <ClInclude Include="cheat_heuristics.hpp" />
+    <ClInclude Include="cheat_watch.hpp" />
     <ClInclude Include="chrif.hpp" />
     <ClInclude Include="clan.hpp" />
     <ClInclude Include="clif.hpp" />
@@ -1509,6 +1511,8 @@
     <ClCompile Include="cashshop.cpp" />
     <ClCompile Include="channel.cpp" />
     <ClCompile Include="chat.cpp" />
+    <ClCompile Include="cheat_heuristics.cpp" />
+    <ClCompile Include="cheat_watch.cpp" />
     <ClCompile Include="chrif.cpp" />
     <ClCompile Include="clan.cpp" />
     <ClCompile Include="clif.cpp" />

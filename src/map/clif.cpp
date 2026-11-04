@@ -35,6 +35,7 @@
 #include "cashshop.hpp"
 #include "channel.hpp"
 #include "chat.hpp"
+#include "cheat_watch.hpp"
 #include "chrif.hpp"
 #include "clan.hpp"
 #include "clif.hpp"
@@ -19059,6 +19060,7 @@ void clif_parse_TickSend(int32 fd, map_session_data *sd)
 {
 	// TODO: shuffle packet
 	sd->client_tick = RFIFOL(fd,packet_db[RFIFOW(fd,0)].pos[0]);
+	cheat_watch_note_client_tick( *sd, RFIFOL(fd,packet_db[RFIFOW(fd,0)].pos[0]) );
 
 	clif_notify_time( *sd, gettick() );
 }
@@ -19816,6 +19818,13 @@ void clif_parse_ActionRequest(int32 fd, map_session_data *sd)
 
 	// TODO: shuffle packet
 	struct s_packet_db* info = &packet_db[RFIFOW(fd,0)];
+
+	// S'asseoir et se lever passent par le même paquet : seule l'attaque compte.
+	const uint8 action_type = RFIFOB(fd,info->pos[1]);
+	if( action_type == DMG_NORMAL || action_type == DMG_REPEAT ){
+		cheat_watch_note_action( *sd, CHEAT_CADENCE_ATTACK );
+	}
+
 	clif_parse_ActionRequest_sub( *sd,
 		RFIFOB(fd,info->pos[1]),
 		RFIFOL(fd,info->pos[0]),
@@ -20111,6 +20120,8 @@ void clif_parse_UseItem(int32 fd, map_session_data *sd)
 	if (battle_config.mer_idle_no_share && sd->md && battle_config.idletime_mer_option&IDLE_USEITEM)
 		sd->idletime_mer = last_tick;
 	n = RFIFOW(fd,packet_db[RFIFOW(fd,0)].pos[0])-2;
+
+	cheat_watch_note_action( *sd, CHEAT_CADENCE_ITEM );
 
 	if(n <0 || n >= MAX_INVENTORY)
 		return;
@@ -21064,6 +21075,10 @@ void clif_parse_UseSkillToId( int32 fd, map_session_data *sd ){
 	// TODO: shuffle packet
 	struct s_packet_db* info = &packet_db[RFIFOW(fd, 0)];
 
+	if( sd != nullptr ){
+		cheat_watch_note_action( *sd, CHEAT_CADENCE_SKILL );
+	}
+
 	clif_parse_skill_toid( sd, RFIFOW(fd, info->pos[1]), RFIFOW(fd, info->pos[0]), RFIFOL(fd, info->pos[2]) );
 }
 
@@ -21192,6 +21207,7 @@ void clif_parse_UseSkillToPos(int32 fd, map_session_data *sd)
 
 	// TODO: shuffle packet
 	struct s_packet_db* info = &packet_db[RFIFOW(fd,0)];
+	cheat_watch_note_action( *sd, CHEAT_CADENCE_SKILL );
 	if (pc_cant_act(sd))
 		return;
 	if (pc_issit(sd))
@@ -21221,6 +21237,7 @@ void clif_parse_UseSkillToPosMoreInfo(int32 fd, map_session_data *sd)
 
 	// TODO: shuffle packet
 	struct s_packet_db* info = &packet_db[RFIFOW(fd,0)];
+	cheat_watch_note_action( *sd, CHEAT_CADENCE_SKILL );
 	if (pc_cant_act(sd))
 		return;
 	if (pc_issit(sd))

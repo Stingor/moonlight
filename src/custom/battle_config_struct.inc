@@ -81,3 +81,18 @@
 	// editions de carte (CZ 0x0F45) : le serveur les range et les diffuse.
 	// 100 = personne.
 	int32 moonclient_map_edit_level;
+	// Les heuristiques de triche (cheat_heuristics.hpp) : elles journalisent,
+	// elles ne sanctionnent pas.
+	// La derive d'horloge signalee, en pour mille (0 = eteint), la duree d'une
+	// fenetre de mesure en ms, et le nombre de fenetres consecutives au-dela.
+	int32 cheat_clock_drift;
+	int32 cheat_clock_window;
+	int32 cheat_clock_strikes;
+	// La regularite d'actions signalee, en pour mille de variation (0 = eteint),
+	// les intervalles par lot, et les bornes en ms d'un intervalle qui compte.
+	int32 cheat_cadence_variation;
+	int32 cheat_cadence_samples;
+	int32 cheat_cadence_floor;
+	int32 cheat_cadence_ceiling;
+	// Le delai minimal entre deux lignes du meme indice, en ms.
+	int32 cheat_report_interval;

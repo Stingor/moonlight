@@ -656,3 +656,18 @@ discount_item_point_shop: 0
 disp_servervip_msg: no
 mail_delay: 1000
 hide_fav_sell: yes
+// Heuristiques de triche (src/map/cheat_heuristics.hpp). Elles ecrivent au
+// journal du map-server ([Heuristique]) et ne sanctionnent jamais.
+// Derive d'horloge du client (accelerateur de vitesse), en pour mille. 0 = eteint.
+cheat_clock_drift: 30
+cheat_clock_window: 60000
+cheat_clock_strikes: 2
+// Regularite des attaques, competences et objets (macro, bot) : variation
+// signalee en pour mille. 0 = eteint. Hors [floor, ceiling] ms, un intervalle
+// ne compte pas (repetition de touche, pause).
+cheat_cadence_variation: 30
+cheat_cadence_samples: 32
+cheat_cadence_floor: 150
+cheat_cadence_ceiling: 5000
+// Delai minimal entre deux lignes du meme indice, en ms.
+cheat_report_interval: 300000

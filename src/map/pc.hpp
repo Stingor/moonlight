@@ -17,6 +17,7 @@
 #include "battleground.hpp"
 #include "buyingstore.hpp" // struct s_buyingstore
 #include "card_album.hpp" // struct s_card_album_entry
+#include "cheat_heuristics.hpp" // s_cheat_watch
 #include "clif.hpp" //e_wip_block
 #include "itemdb.hpp" // MAX_ITEMGROUP
 #include "map.hpp" // RC_ALL
@@ -653,6 +654,10 @@ public:
 	// aussi vite qu'il envoie. Porté par la SESSION plutôt que par une table
 	// statique account_id -> tick, qui grandirait sans que rien ne la vide.
 	t_tick bourgeon_cheatreport_tick = 0;
+
+	// [Stingor] Les heuristiques de triche que le serveur tient seul (horloge du
+	// client, régularité des actions) : cheat_watch.hpp.
+	s_cheat_watch cheat_watch;
 
 	// [Stingor] Bourgeon : idem pour la validation de STYLE (CZ 0x0F26).
 	//

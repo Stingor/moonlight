@@ -260,6 +260,12 @@
     <ClInclude Include="storage.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cheat_heuristics.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cheat_watch.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="survivors_ranking_rules.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -407,6 +413,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="survivors_ranking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cheat_heuristics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cheat_watch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="survivors_ranking_rules.cpp">

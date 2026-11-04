@@ -72,4 +72,12 @@
 	{ "moon_market_query_delay",			&battle_config.moon_market_query_delay,			1000,	0,		60000,			},
 	{ "hidden_units_view_level",			&battle_config.hidden_units_view_level,			99,		1,		100,			},
 	{ "moonclient_map_edit_level",			&battle_config.moonclient_map_edit_level,		99,		1,		100,			},
+	{ "cheat_clock_drift",					&battle_config.cheat_clock_drift,				30,		0,		1000,			},
+	{ "cheat_clock_window",					&battle_config.cheat_clock_window,				60000,	10000,	600000,			},
+	{ "cheat_clock_strikes",				&battle_config.cheat_clock_strikes,				2,		1,		10,				},
+	{ "cheat_cadence_variation",			&battle_config.cheat_cadence_variation,			30,		0,		1000,			},
+	{ "cheat_cadence_samples",				&battle_config.cheat_cadence_samples,			32,		8,		256,			},
+	{ "cheat_cadence_floor",				&battle_config.cheat_cadence_floor,				150,	0,		10000,			},
+	{ "cheat_cadence_ceiling",				&battle_config.cheat_cadence_ceiling,			5000,	100,	60000,			},
+	{ "cheat_report_interval",				&battle_config.cheat_report_interval,			300000,	0,		86400000,		},
 
