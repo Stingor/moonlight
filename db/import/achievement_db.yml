@@ -3039,3 +3039,19 @@ Body:
     Group: Adventure
     Name: Givre
     Score: 30
+  - Id: 910030
+    Group: Adventure
+    Name: Arsenal
+    Score: 20
+  - Id: 910031
+    Group: Adventure
+    Name: Defi releve
+    Score: 20
+  - Id: 910032
+    Group: Adventure
+    Name: Coup d'eclat
+    Score: 30
+  - Id: 910033
+    Group: Adventure
+    Name: Bille offerte
+    Score: 10
