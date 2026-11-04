@@ -5328,6 +5328,9 @@ void MapServer::finalize(){
 	ShowStatus("Cleaned up %d maps." CL_CLL "\n", map_num);
 
 	id_db->foreach(id_db,cleanup_db_sub);
+	// [Stingor] Pont voix : à fermer une fois tous les joueurs sortis, leur « leave »
+	// part encore par ce socket (map_quit), et avant la destruction des DB plus bas.
+	voice_bridge_final();
 	chrif_char_reset_offline();
 	chrif_flush_fifo();
 
@@ -5400,7 +5403,6 @@ void MapServer::finalize(){
 	regen_db->destroy(regen_db, nullptr);
 
 	map_sql_close();
-	voice_bridge_final();
 
 	ShowStatus("Finished.\n");
 }

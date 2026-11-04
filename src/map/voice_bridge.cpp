@@ -223,12 +223,6 @@ namespace {
 			clif_hat_effect_single_target(*sd, static_cast<uint16>(effect), enable, enable ? AREA_WOS : AREA);
 	}
 
-	int voice_bridge_clear_speaking_hat(map_session_data* sd, va_list) {
-		if (sd)
-			voice_set_speaking_hat(sd->status.char_id, false);
-		return 0;
-	}
-
 	// Broadcast a one-line alert to every online GM that can receive requests.
 	int voice_alert_gm_sub(map_session_data* sd, va_list ap) {
 		const char* msg = va_arg(ap, const char*);
@@ -425,7 +419,6 @@ void voice_bridge_init() {
 }
 
 void voice_bridge_final() {
-	map_foreachpc(voice_bridge_clear_speaking_hat);
 	if (g_sock != INVALID_SOCK) {
 		close_socket(g_sock);
 		g_sock = INVALID_SOCK;
