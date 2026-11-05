@@ -1971,7 +1971,11 @@ enum e_moonlight_ui_cap : uint32 {
 	// qui porte le bit reçoit un 0x0F57 à account_id nul, qui lui annonce le
 	// service, et le client n'émet pas CZ 0x0F56 avant. Réservé à moonclient.
 	MOONLIGHT_UI_SURVIVORS_PRESENCE = 0x00200000,
-	// Prochain bit libre : 0x00400000.
+	// Ce client joue la coop du mode survivors (ZC 0x0F59, 0x0F5A, 0x0F5C, 0x0F5D) :
+	// chaque annonce qui porte le bit reçoit un 0x0F59 à l'état fermé, qui lui
+	// annonce le service, et le client n'émet pas CZ 0x0F58 avant. Réservé à moonclient.
+	MOONLIGHT_UI_SURVIVORS_COOP = 0x00400000,
+	// Prochain bit libre : 0x00800000.
 };
 
 // [Stingor] Les réglages du serveur utiles au client (ZC 0x0F38), à une session
@@ -2025,6 +2029,28 @@ void clif_moonlight_survivors_presence_seen(const map_session_data& owner, map_s
 void survivors_presence_leave(map_session_data& sd);
 void survivors_presence_ranked_best(map_session_data& sd, uint32 survived_steps);
 void do_init_survivors_presence();
+// [Stingor] La coop du mode survivors (0x0F58 à 0x0F5D, voir packets_struct.hpp),
+// tenue par survivors_coop.cpp.
+//   `_announce` : à chaque annonce qui porte MOONLIGHT_UI_SURVIVORS_COOP,
+//     l'annonce du service, puis l'état où en est le joueur ;
+//   `_caps_changed` : le bit vient d'apparaître ou de disparaître ;
+//   `_quit` : `sd` perd son client (déconnexion, @autotrade), sans rien attendre
+//     de lui, et compte déjà pour hors ligne ;
+//   `_map_left` : `sd` quitte sa carte : il sort de la partie, pas du salon ;
+//   `_member_moved` : `sd` vient d'arriver sur une carte, ou de se connecter ;
+//   `_party_left` : `char_id` n'est plus du groupe, déjà retiré de sa liste ;
+//   `_party_changed` : la liste du groupe vient d'être reçue ;
+//   `_party_broken` : le groupe se dissout, encore lisible.
+void clif_parse_moonlight_survivors_coop_lobby(int32 fd, map_session_data* sd);
+void clif_parse_moonlight_survivors_coop_frame(int32 fd, map_session_data* sd);
+void clif_moonlight_survivors_coop_announce(map_session_data& sd);
+void survivors_coop_caps_changed(map_session_data& sd);
+void survivors_coop_quit(map_session_data& sd);
+void survivors_coop_map_left(map_session_data& sd);
+void survivors_coop_member_moved(map_session_data& sd);
+void survivors_coop_party_left(int32 party_id, uint32 char_id);
+void survivors_coop_party_changed(int32 party_id);
+void survivors_coop_party_broken(int32 party_id);
 // [Stingor] L'élément d'attaque d'un joueur (ZC 0x0F4A), voir packets_struct.hpp.
 // `_refresh` le recalcule et ne dit rien s'il n'a pas changé : à appeler après
 // tout ce qui peut le changer (recalcul de statut, charmes d'esprit).

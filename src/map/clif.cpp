@@ -340,6 +340,9 @@ static constexpr s_moonlight_throttle_rule MOONLIGHT_THROTTLE_RULES[MOONLIGHT_TH
 	{ 2000, 2 },  // MOONLIGHT_THROTTLE_SURVIVORS_SERVICE : une entrée en carte en suit une autre
 	{ 1000, 3 },  // MOONLIGHT_THROTTLE_SURVIVORS_PRESENCE : le client en envoie une par seconde au plus
 	{ 2000, 2 },  // MOONLIGHT_THROTTLE_SURVIVORS_PRESENCE_ANNOUNCE : comme l'annonce du service
+	{ 1000, 4 },  // MOONLIGHT_THROTTLE_SURVIVORS_COOP_LOBBY
+	{   20, 10 }, // MOONLIGHT_THROTTLE_SURVIVORS_COOP_FRAME : un pas de simulation, et de quoi rattraper
+	{ 2000, 2 },  // MOONLIGHT_THROTTLE_SURVIVORS_COOP_ANNOUNCE : comme l'annonce du service
 };
 
 // [Stingor] Vrai si la demande de la famille `family` est dans la cadence, et
@@ -9608,6 +9611,14 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	if ((p->caps & MOONLIGHT_UI_SURVIVORS_PRESENCE) &&
 		clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_SURVIVORS_PRESENCE_ANNOUNCE))
 		clif_moonlight_survivors_presence_announce(*sd);
+	// [Stingor] La coop survivors, à chaque annonce qui porte son bit, pour la même
+	// raison ; sa cadence est à part. Le bit qui change, annonce bridée ou non,
+	// touche le salon du groupe : un membre qui le perd n'écoute plus.
+	if ((p->caps & MOONLIGHT_UI_SURVIVORS_COOP) &&
+		clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_SURVIVORS_COOP_ANNOUNCE))
+		clif_moonlight_survivors_coop_announce(*sd);
+	if ((before ^ p->caps) & MOONLIGHT_UI_SURVIVORS_COOP)
+		survivors_coop_caps_changed(*sd);
 	// [Stingor] Où joindre le serveur voix, dès que le client sait lui parler.
 	if (!(before & MOONLIGHT_UI_VOICE) && (p->caps & MOONLIGHT_UI_VOICE))
 		voice_bridge_announce_service(*sd);
@@ -13256,6 +13267,8 @@ void clif_moonclient_accepted(map_session_data& sd)
 	clif_moonlight_survivors_service(sd);
 	// [Stingor] Et la présence en arène, pour la même raison.
 	clif_moonlight_survivors_presence_announce(sd);
+	// [Stingor] Et la coop.
+	clif_moonlight_survivors_coop_announce(sd);
 }
 
 
@@ -18616,6 +18629,9 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 	if (sd->status.party_id) {
 		party_send_movemap(sd);
 		clif_party_hp(*sd); // Show hp after displacement [LuzZza]
+		// [Stingor] Son lieu ou sa présence en ligne peuvent lever ou retirer une
+		// raison de refus du salon de coop de son groupe.
+		survivors_coop_member_moved(*sd);
 	}
 
 	if (sd->bg_id) clif_bg_hp(sd); // BattleGround System
@@ -34159,6 +34175,9 @@ static int32 clif_parse(int32 fd)
 				session[fd]->session_data = nullptr;
 				sd->fd = 0;
 				ShowInfo("Character '" CL_WHITE "%s" CL_RESET "' logged off (using @autotrade).\n", sd->status.name);
+				// [Stingor] Le vendeur reste, son client non : ses alliés de coop
+				// n'attendront pas des entrées qui ne viendront plus.
+				survivors_coop_quit(*sd);
 			} else
 			if (sd->state.active) {
 				// Player logout display [Valaris]

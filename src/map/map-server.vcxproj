@@ -1550,6 +1550,7 @@
     <ClCompile Include="skill.cpp" />
     <ClCompile Include="status.cpp" />
     <ClCompile Include="storage.cpp" />
+    <ClCompile Include="survivors_coop.cpp" />
     <ClCompile Include="survivors_presence.cpp" />
     <ClCompile Include="survivors_ranking.cpp" />
     <ClCompile Include="survivors_ranking_rules.cpp" />

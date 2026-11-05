@@ -409,6 +409,9 @@
     <ClCompile Include="storage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="survivors_coop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="survivors_presence.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

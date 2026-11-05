@@ -786,6 +786,27 @@ struct ClientSession {
 	}
 	bool is_flooding() const { return flood_violations >= FLOOD_VIOLATION_THRESHOLD; }
 
+	// Token bucket for survivors co-op frames, apart from the audio one: a player
+	// who talks while playing must spend neither on the other. Only the UDP
+	// thread uses it. A frame over the limit drops silently: redundancy and the
+	// TCP relay cover it, so it never counts as a flood.
+	static constexpr float COOP_RATE_REFILL = 60.0f; // tokens per second
+	static constexpr float COOP_RATE_MAX = 100.0f;   // bucket capacity
+	float    coop_rate_tokens = COOP_RATE_MAX;
+	uint32_t coop_rate_last_tick = 0;
+
+	bool coop_rate_check() {
+		uint32_t now = tick_ms();
+		if (coop_rate_last_tick == 0) coop_rate_last_tick = now;
+		float dt = (now - coop_rate_last_tick) / 1000.0f;
+		coop_rate_last_tick = now;
+		coop_rate_tokens = std::min(COOP_RATE_MAX, coop_rate_tokens + dt * COOP_RATE_REFILL);
+		if (coop_rate_tokens < 1.0f)
+			return false;
+		coop_rate_tokens -= 1.0f;
+		return true;
+	}
+
 	// Whisper spam guard — token bucket, 5 whispers / 30 s.
 	// Stops one player from mass-calling random strangers to stalk/spam.
 	static constexpr float WHISPER_MAX = 5.0f;
@@ -2669,6 +2690,16 @@ static constexpr uint8_t  VOICE_UDP_VOICE_FWD = 3;
 static constexpr size_t   VOICE_UDP_CLIENT_HEADER = 33;
 static constexpr size_t   VOICE_UDP_FWD_PREFIX = 6;
 static constexpr uint32_t VOICE_UDP_ENDPOINT_TTL_MS = 30000;
+// [Stingor] The survivors co-op relay: the client's input frames, sent next to
+// the map server's TCP relay so a lost packet never stalls the team on a
+// retransmission. Client: [prefix][session:8][char_id:4][token:8][payload].
+// Server: [prefix][sender char_id:4][payload]. The payload is opaque here.
+static constexpr uint8_t  VOICE_UDP_COOP = 4;
+static constexpr uint8_t  VOICE_UDP_COOP_FWD = 5;
+static constexpr size_t   VOICE_UDP_COOP_CLIENT_HEADER = 26;
+static constexpr size_t   VOICE_UDP_COOP_FWD_HEADER = VOICE_UDP_FWD_PREFIX + 4;
+static constexpr size_t   VOICE_UDP_COOP_PAYLOAD_MIN = 4; // the frame's through_tick, as on the TCP relay
+static constexpr size_t   VOICE_UDP_COOP_PAYLOAD_MAX = 256;
 
 static SOCKET g_voice_udp_sock = INVALID_SOCKET;
 static std::thread g_voice_udp_thread;
@@ -3180,6 +3211,59 @@ static ClientSession* bind_or_find_udp_session(const unsigned char* p, size_t n,
 	return s;
 }
 
+// [Stingor] A survivors co-op frame goes to the sender's party, wherever each
+// member stands: no volume, no channel, no voice block, no voice license. Those
+// without a live UDP endpoint simply don't get it, and the sender never does.
+static void voice_udp_relay_coop(const unsigned char* buf, size_t n, const sockaddr_in& from) {
+	if (n < VOICE_UDP_COOP_CLIENT_HEADER + VOICE_UDP_COOP_PAYLOAD_MIN ||
+		n > VOICE_UDP_COOP_CLIENT_HEADER + VOICE_UDP_COOP_PAYLOAD_MAX)
+		return;
+
+	int      s_char_id = 0;
+	uint64_t s_sid = 0;
+	{
+		// Exclusive: bind_or_find updates the session's UDP endpoint. Same capture
+		// as the audio path: the session is re-found below, under the shared lock.
+		std::lock_guard<std::shared_mutex> lock(g_session_mtx);
+		ClientSession* s = bind_or_find_udp_session(buf, n, from);
+		if (!s) return;
+		s->udp_recv_packets++;
+		if (!s->coop_rate_check()) return;
+		s_char_id = s->char_id;
+		s_sid = s->session_id;
+	}
+
+	const size_t payload_bytes = n - VOICE_UDP_COOP_CLIENT_HEADER;
+	unsigned char out[VOICE_UDP_COOP_FWD_HEADER + VOICE_UDP_COOP_PAYLOAD_MAX];
+	write_be_u32(out, VOICE_UDP_MAGIC);
+	out[4] = VOICE_UDP_VERSION;
+	out[5] = VOICE_UDP_COOP_FWD;
+	write_be_u32(out + VOICE_UDP_FWD_PREFIX, static_cast<uint32_t>(s_char_id));
+	std::memcpy(out + VOICE_UDP_COOP_FWD_HEADER, buf + VOICE_UDP_COOP_CLIENT_HEADER, payload_bytes);
+	const int out_bytes = static_cast<int>(VOICE_UDP_COOP_FWD_HEADER + payload_bytes);
+
+	std::shared_lock<std::shared_mutex> lock(g_session_mtx);
+	auto sender = g_by_char_id.find(s_char_id);
+	if (sender == g_by_char_id.end() || !sender->second ||
+		sender->second->session_id != s_sid || !sender->second->authed ||
+		sender->second->party_id <= 0)
+		return;
+	auto party = g_by_party.find(sender->second->party_id);
+	if (party == g_by_party.end())
+		return;
+	const uint32_t now = tick_ms();
+	for (ClientSession* to : party->second) {
+		if (!to || to == sender->second || !to->authed || !to->udp_ready ||
+			to->udp_last_seen_ms == 0 ||
+			now - to->udp_last_seen_ms > VOICE_UDP_ENDPOINT_TTL_MS)
+			continue;
+		int rc = sendto(g_voice_udp_sock, reinterpret_cast<const char*>(out), out_bytes, 0,
+			reinterpret_cast<const sockaddr*>(&to->udp_addr), sizeof(to->udp_addr));
+		if (rc == out_bytes)
+			to->udp_sent_packets++;
+	}
+}
+
 static void voice_udp_loop() {
 	LOG_NOTICE("UDP voice receiver started on %s:%d", g_cfg.voice_ip.c_str(), g_cfg.voice_port);
 	while (g_voice_udp_running.load()) {
@@ -3210,6 +3294,11 @@ static void voice_udp_loop() {
 				voice_udp_send_hello_ack(from);
 				LOG_DEBUG("udp hello char_id=%d", s->char_id);
 			}
+			continue;
+		}
+
+		if (type == VOICE_UDP_COOP) {
+			voice_udp_relay_coop(buf, static_cast<size_t>(n), from);
 			continue;
 		}
 

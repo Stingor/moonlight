@@ -384,6 +384,9 @@ int32 party_recv_info(struct party* sp, uint32 char_id)
 			sd->status.party_id = 0;// was not in the party
 	}
 
+	// [Stingor] La liste a pu changer : le salon de coop du groupe se réévalue.
+	survivors_coop_party_changed(sp->party_id);
+
 	return 0;
 }
 
@@ -833,6 +836,9 @@ int32 party_member_withdraw(int32 party_id, uint32 account_id, uint32 char_id, c
 		}
 	}
 
+	// [Stingor] Il quitte la partie ou le salon de coop du groupe.
+	survivors_coop_party_left(party_id, char_id);
+
 	if( sd && sd->status.party_id == party_id ) {
 #ifdef BOUND_ITEMS
 		int32 idxlist[MAX_INVENTORY]; //or malloc to reduce consumtion
@@ -878,6 +884,9 @@ int32 party_broken(int32 party_id)
 
 	if( p->instance_id )
 		instance_destroy( p->instance_id );
+
+	// [Stingor] La coop du groupe s'arrête avec lui.
+	survivors_coop_party_broken(party_id);
 
 	for( i = 0; i < MAX_PARTY; i++ ) {
 		if( p->data[i].sd != nullptr ) {

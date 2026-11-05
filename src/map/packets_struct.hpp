@@ -7826,6 +7826,105 @@ struct PACKET_ZC_MOONLIGHT_SURVIVORS_PRESENCE {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_PRESENCE, 0x0f57);
 
+// ── [Stingor] La coop du mode survivors (0x0F58 à 0x0F5D) ───────────────────────
+//
+// Le groupe rAthena joue ensemble, de 2 à 4 : chaque client simule toute la
+// partie, le serveur tient le salon, tire la graine et relaie les entrées. Voir
+// survivors_coop.cpp, et le cahier du lot 14 de moonclient
+// (docs/survivors/lot-14-coop.md).
+//
+// 🔴 RIEN NE PART À UN CLIENT QUI N'A PAS ANNONCÉ MOONLIGHT_UI_SURVIVORS_COOP
+// (0x400000) : un ZC absent de sa table des longueurs lui ferait perdre le fil du
+// flux. À chaque annonce qui porte le bit, le serveur répond par un 0x0F59 à
+// l'état fermé, sans refus ni membre, qui lui ANNONCE le service : le client
+// n'émet pas 0x0F58 avant de l'avoir reçu. Seule une session moonclient vérifiée
+// et chargée est entendue.
+
+// CZ : le joueur et le salon de son groupe. Variable.
+// Layout: [type:2][len:2][action:1][blob...]
+//   action : 0 entrer (ouvre le salon du groupe si besoin) ;
+//            1 prêt, avec la part du joueur, au plus 512 octets, jamais
+//              interprétée par le serveur ;
+//            2 quitter le salon, ou la partie une fois lancée.
+struct PACKET_CZ_MOONLIGHT_SURVIVORS_COOP_LOBBY {
+	int16 packetType;
+	int16 packetLength;
+	uint8 action;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_SURVIVORS_COOP_LOBBY, 0x0f58);
+
+// ZC : l'état du salon, à ses membres, à chaque changement. Variable.
+// Layout: [type:2][len:2][state:1][refusals:4][count:1] puis count ×
+//         [char_id:4][ready:1][name:24]
+//   state    : 0 fermé, 1 salon ouvert, 2 en partie.
+//   refusals : bits : 0x01 groupe de plus de 4, 0x02 moins de 2 membres en ligne,
+//              0x04 un membre hors ligne, 0x08 un membre ni en ville ni en
+//              intérieur, 0x10 un membre sans le bit de capacité.
+//   count    : les joueurs du salon, ou de la partie, dans l'ordre des places.
+//              Un membre du groupe resté hors du salon n'y figure pas.
+struct PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_LOBBY_entry {
+	uint32 char_id;
+	uint8  ready;
+	char   name[NAME_LENGTH];
+} __attribute__((packed));
+struct PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_LOBBY {
+	int16  packetType;
+	int16  packetLength;
+	uint8  state;
+	uint32 refusals;
+	uint8  count;
+	PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_LOBBY_entry entries[];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_COOP_LOBBY, 0x0f59);
+
+// ZC : le départ, quand tous les membres du groupe sont prêts et qu'aucune raison
+// de refus n'est levée. Il suit le 0x0F59 à l'état 2. Variable.
+// Layout: [type:2][len:2][seed:8][input_delay_ticks:1][count:1] puis count ×
+//         [char_id:4][blob_len:2][blob], dans l'ordre des places du groupe.
+struct PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_START_entry {
+	uint32 char_id;
+	uint16 blob_len;
+} __attribute__((packed));
+struct PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_START {
+	int16  packetType;
+	int16  packetLength;
+	uint64 seed;
+	uint8  input_delay_ticks;
+	uint8  count;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_COOP_START, 0x0f5a);
+
+// CZ : les entrées du joueur, refusées hors partie. Variable.
+// Layout: [type:2][len:2][payload], de 4 à 256 octets, dont les 4 premiers sont
+// through_tick (u32), que le serveur note par joueur.
+struct PACKET_CZ_MOONLIGHT_SURVIVORS_COOP_FRAME {
+	int16 packetType;
+	int16 packetLength;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_SURVIVORS_COOP_FRAME, 0x0f5b);
+
+// ZC : les entrées d'un joueur, aux autres joueurs de la partie, dans l'ordre
+// d'arrivée. Variable.
+// Layout: [type:2][len:2][char_id:4][payload]
+struct PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_FRAME {
+	int16  packetType;
+	int16  packetLength;
+	uint32 char_id;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_COOP_FRAME, 0x0f5c);
+
+// ZC : un joueur a quitté la partie : déconnexion, changement de carte, sortie de
+// groupe, ou sa propre demande. Fixe 12.
+// Layout: [type:2][len:2][char_id:4][through_tick:4]
+//   through_tick : le dernier noté pour lui, 0 s'il n'a rien envoyé.
+struct PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_LEFT {
+	int16  packetType;
+	int16  packetLength;
+	uint32 char_id;
+	uint32 through_tick;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_COOP_LEFT, 0x0f5d);
+
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
 //

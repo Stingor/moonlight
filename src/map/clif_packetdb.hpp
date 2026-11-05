@@ -2120,6 +2120,11 @@ parseable_packet(HEADER_CZ_MOONLIGHT_FREE_FLIGHT, sizeof(PACKET_CZ_MOONLIGHT_FRE
 // (survivors_presence.cpp). Gate poignée de main moonclient et
 // MOONLIGHT_UI_SURVIVORS_PRESENCE DANS le handler — fixed.
 parseable_packet(HEADER_CZ_MOONLIGHT_SURVIVORS_PRESENCE, sizeof(PACKET_CZ_MOONLIGHT_SURVIVORS_PRESENCE), clif_parse_moonlight_survivors_presence, 0);
+// [Stingor] moonclient : la coop du mode survivors (survivors_coop.cpp). Gate
+// poignée de main moonclient et MOONLIGHT_UI_SURVIVORS_COOP DANS les handlers —
+// VARIABLE : le salon porte la part du joueur, la trame ses entrées.
+parseable_packet(HEADER_CZ_MOONLIGHT_SURVIVORS_COOP_LOBBY, -1, clif_parse_moonlight_survivors_coop_lobby, 0);
+parseable_packet(HEADER_CZ_MOONLIGHT_SURVIVORS_COOP_FRAME, -1, clif_parse_moonlight_survivors_coop_frame, 0);
 
 // [Stingor] moonclient : un trophée de mini-jeu, qui achève son succès. Gate
 // poignée de main DANS le handler — fixed

@@ -7499,6 +7499,8 @@ enum e_setpos pc_setpos(map_session_data* sd, uint16 mapindex, int32 x, int32 y,
 		// [Stingor] Un changement de carte sort de l'arène de survivors : le client
 		// quitte la partie quand le monde réel réclame son personnage.
 		survivors_presence_leave(*sd);
+		// [Stingor] Et de sa partie de coop, pour ses alliés.
+		survivors_coop_map_left(*sd);
 
 		sd->state.pmap = sd->m;
 		if (sc != nullptr && !sc->empty()) { // Cancel some map related stuff.

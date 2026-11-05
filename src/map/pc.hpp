@@ -353,6 +353,9 @@ enum e_moonlight_throttle : uint8 {
 	MOONLIGHT_THROTTLE_SURVIVORS_SERVICE, ///< annonce du service survivors, redite à chaque annonce d'interface
 	MOONLIGHT_THROTTLE_SURVIVORS_PRESENCE, ///< présence en arène (relayée à la zone, aux amis, à la guilde)
 	MOONLIGHT_THROTTLE_SURVIVORS_PRESENCE_ANNOUNCE, ///< annonce de la présence et ses redites
+	MOONLIGHT_THROTTLE_SURVIVORS_COOP_LOBBY, ///< salon de la coop survivors (redit à tout le salon)
+	MOONLIGHT_THROTTLE_SURVIVORS_COOP_FRAME, ///< trame d'entrées de la coop survivors (relayée à la partie)
+	MOONLIGHT_THROTTLE_SURVIVORS_COOP_ANNOUNCE, ///< annonce du service de coop et ses redites
 	MOONLIGHT_THROTTLE_MAX
 };
 
