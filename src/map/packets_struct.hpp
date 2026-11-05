@@ -7798,7 +7798,9 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_VOICE_SERVICE, 0x0f55);
 // CZ : l'état du joueur. Fixe 10. Il part à l'entrée, à la pause, à la reprise
 // et à la sortie, une fois par seconde au plus.
 // Layout: [type:2][len:2][state:1][arena:2][class:2][flags:1]
-//   flags : 0x01 partie classée, 0x02 défi de la semaine.
+//   flags : 0x01 partie classée, 0x02 défi de la semaine, 0x04 cachée : le joueur
+//           ne se montre pas, ou lit son bilan. Le serveur n'en dit rien à personne,
+//           mais le personnage reste protégé des demandes.
 struct PACKET_CZ_MOONLIGHT_SURVIVORS_PRESENCE {
 	int16  packetType;
 	int16  packetLength;
@@ -7859,7 +7861,8 @@ DEFINE_PACKET_HEADER(CZ_MOONLIGHT_SURVIVORS_COOP_LOBBY, 0x0f58);
 //   state    : 0 fermé, 1 salon ouvert, 2 en partie.
 //   refusals : bits : 0x01 groupe de plus de 4, 0x02 moins de 2 membres en ligne,
 //              0x04 un membre hors ligne, 0x08 un membre ni en ville ni en
-//              intérieur, 0x10 un membre sans le bit de capacité.
+//              intérieur, 0x10 un membre sans le bit de capacité, 0x20 un membre
+//              qui n'est pas au salon.
 //   count    : les joueurs du salon, ou de la partie, dans l'ordre des places.
 //              Un membre du groupe resté hors du salon n'y figure pas.
 struct PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_LOBBY_entry {
@@ -7895,8 +7898,9 @@ struct PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_START {
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_COOP_START, 0x0f5a);
 
 // CZ : les entrées du joueur, refusées hors partie. Variable.
-// Layout: [type:2][len:2][payload], de 4 à 256 octets, dont les 4 premiers sont
-// through_tick (u32), que le serveur note par joueur.
+// Layout: [type:2][len:2][payload], de 5 à 256 octets : [through_tick:4][count:1], puis
+// count entrées de 3 octets, puis éventuellement une empreinte de 12 octets. Le serveur
+// note through_tick par joueur, et refuse une trame qui n'apporte pas ses tics neufs.
 struct PACKET_CZ_MOONLIGHT_SURVIVORS_COOP_FRAME {
 	int16 packetType;
 	int16 packetLength;

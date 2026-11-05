@@ -4614,7 +4614,8 @@ int32 skill_castend_nodamage_id (block_list *src, block_list *bl, uint16 skill_i
 				if (j > 8)
 					j = 0;
 				if ((dstsd = g->guild.member[i].sd) != nullptr && sd != dstsd && !dstsd->state.autotrade && !pc_isdead(dstsd)) {
-					if (dstsd->status.disable_call)
+					// [Stingor] L'appel passe sans lui : les autres membres viennent encore.
+					if (dstsd->status.disable_call || survivors_in_arena(*dstsd))
 						continue;
 					if (map_getmapflag(dstsd->m, MF_NOWARP) && !map_flag_gvg2(dstsd->m))
 						continue;
@@ -5033,7 +5034,7 @@ TIMER_FUNC(skill_castend_id){
 				if (sd) {
 					map_session_data *p_sd = pc_get_partner(sd);
 
-					if (p_sd != nullptr && (p_sd->state.autotrade || p_sd->status.disable_call)) {
+					if (p_sd != nullptr && (p_sd->state.autotrade || p_sd->status.disable_call || survivors_in_arena(*p_sd))) { // [Stingor]
 						fail = true;
 						break;
 					} else
@@ -5045,7 +5046,7 @@ TIMER_FUNC(skill_castend_id){
 					map_session_data *f_sd = pc_get_father(sd);
 					map_session_data *m_sd = pc_get_mother(sd);
 
-					if ((f_sd != nullptr && (f_sd->state.autotrade || f_sd->status.disable_call)) || (m_sd != nullptr && (m_sd->state.autotrade || m_sd->status.disable_call))) {
+					if ((f_sd != nullptr && (f_sd->state.autotrade || f_sd->status.disable_call || survivors_in_arena(*f_sd))) || (m_sd != nullptr && (m_sd->state.autotrade || m_sd->status.disable_call || survivors_in_arena(*m_sd)))) { // [Stingor]
 						fail = true;
 						break;
 					}
@@ -5055,7 +5056,7 @@ TIMER_FUNC(skill_castend_id){
 				if (sd) {
 					map_session_data *c_sd = pc_get_child(sd);
 
-					if (c_sd != nullptr && (c_sd->state.autotrade || c_sd->status.disable_call)) {
+					if (c_sd != nullptr && (c_sd->state.autotrade || c_sd->status.disable_call || survivors_in_arena(*c_sd))) { // [Stingor]
 						fail = true;
 						break;
 					}
@@ -6597,7 +6598,8 @@ static int32 skill_unit_onplace(skill_unit *unit, block_list *bl, t_tick tick)
 
 			if(bl->type==BL_PC && !working){
 				map_session_data *sd = (map_session_data *)bl;
-				if((!sd->chatID || battle_config.chat_warpportal)
+				// [Stingor] Le portail ne perd pas de passage pour un personnage en arène survivors.
+				if((!sd->chatID || battle_config.chat_warpportal) && !survivors_in_arena(*sd)
 					&& sd->ud.to_x == unit->x && sd->ud.to_y == unit->y)
 				{
 					int32 x = sg->val2>>16;
@@ -7501,7 +7503,7 @@ int32 skill_unit_onplace_timer(skill_unit *unit, block_list *bl, t_tick tick)
 			break;
 
 		case UNT_DIMENSIONDOOR:
-			if( tsd && !map_getmapflag(bl->m, MF_NOTELEPORT) )
+			if( tsd && !map_getmapflag(bl->m, MF_NOTELEPORT) && !survivors_in_arena(*tsd) ) // [Stingor]
 				pc_randomwarp(tsd,CLR_TELEPORT);
 			else if( bl->type == BL_MOB && battle_config.mob_warp&8 )
 				unit_warp(bl,-1,-1,-1,CLR_TELEPORT);
@@ -12519,13 +12521,13 @@ static int32 skill_unit_timer_sub(DBKey key, DBData *data, va_list ap)
 				if(group->val1) {
 					sd = map_charid2sd(group->val1);
 					group->val1 = 0;
-					if (sd && !map_getmapflag(sd->m, MF_NOWARP) && pc_job_can_entermap((enum e_job)sd->status.class_, unit->m, pc_get_group_level(sd)))
+					if (sd && !map_getmapflag(sd->m, MF_NOWARP) && !survivors_in_arena(*sd) && pc_job_can_entermap((enum e_job)sd->status.class_, unit->m, pc_get_group_level(sd))) // [Stingor]
 						pc_setpos(sd,map_id2index(unit->m),unit->x,unit->y,CLR_TELEPORT);
 				}
 				if(group->val2) {
 					sd = map_charid2sd(group->val2);
 					group->val2 = 0;
-					if (sd && !map_getmapflag(sd->m, MF_NOWARP) && pc_job_can_entermap((enum e_job)sd->status.class_, unit->m, pc_get_group_level(sd)))
+					if (sd && !map_getmapflag(sd->m, MF_NOWARP) && !survivors_in_arena(*sd) && pc_job_can_entermap((enum e_job)sd->status.class_, unit->m, pc_get_group_level(sd))) // [Stingor]
 						pc_setpos(sd,map_id2index(unit->m),unit->x,unit->y,CLR_TELEPORT);
 				}
 				skill_delunit(unit);

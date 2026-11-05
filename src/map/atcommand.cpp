@@ -9752,7 +9752,8 @@ ACMD_FUNC(invite)
 		return 0;
 	}
 
-	if(target_sd->duel_group > 0 || target_sd->duel_invite > 0) {
+	// [Stingor] Personne ne tient un personnage en arène survivors.
+	if(target_sd->duel_group > 0 || target_sd->duel_invite > 0 || survivors_in_arena(*target_sd)) {
 		clif_displaymessage(fd, msg_txt(sd,353)); // "Duel: Player already in duel."
 		return 0;
 	}
@@ -9819,7 +9820,7 @@ ACMD_FUNC(duel)
 			if(target_sd != nullptr) {
 				size_t newduel;
 				if((newduel = duel_create(sd, 2)) != -1) {
-					if(target_sd->duel_group > 0 ||	target_sd->duel_invite > 0) {
+					if(target_sd->duel_group > 0 ||	target_sd->duel_invite > 0 || survivors_in_arena(*target_sd)) { // [Stingor]
 						clif_displaymessage(fd, msg_txt(sd,353)); // "Duel: Player already in duel."
 						return 0;
 					}

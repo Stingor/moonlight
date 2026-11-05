@@ -963,6 +963,12 @@ bool guild_invite( map_session_data& sd, map_session_data* tsd ){
 		return false;
 	}
 
+	// [Stingor] Personne ne tient un personnage en arène survivors.
+	if( survivors_in_arena( *tsd ) ){
+		clif_guild_inviteack( sd, 1 );
+		return false;
+	}
+
 	// Checking if there no other invitation pending
 	if( !battle_config.invite_request_check && ( tsd->party_invite > 0 || tsd->state.trading || tsd->adopt_invite ) ){
 		clif_guild_inviteack( sd, 0 );
@@ -1912,6 +1918,12 @@ int32 guild_reqalliance(map_session_data *sd,map_session_data *tsd) {
 	}
 
 	if( tsd->guild_alliance>0 ){
+		clif_guild_allianceack(*sd,1);
+		return 0;
+	}
+
+	// [Stingor] Personne ne tient un personnage en arène survivors.
+	if( survivors_in_arena( *tsd ) ){
 		clif_guild_allianceack(*sd,1);
 		return 0;
 	}

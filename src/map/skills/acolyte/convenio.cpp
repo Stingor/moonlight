@@ -44,6 +44,11 @@ void SkillConvenio::castendNoDamageId(block_list *src, block_list *target, uint1
 				continue;
 			}
 
+			// [Stingor] Ni un membre en arène survivors.
+			if( survivors_in_arena( *pl_sd ) ){
+				continue;
+			}
+
 			if (!(map_getmapflag(sd->m, MF_NOTELEPORT) || map_getmapflag(sd->m, MF_PVP) || map_getmapflag(sd->m, MF_BATTLEGROUND) || map_flag_gvg2(sd->m))) {
 				pc_setpos(pl_sd, map_id2index(sd->m), sd->x, sd->y, CLR_TELEPORT);
 				count++;

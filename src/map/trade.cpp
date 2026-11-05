@@ -53,6 +53,12 @@ void trade_traderequest(map_session_data *sd, map_session_data *target_sd)
 		return;
 	}
 
+	// [Stingor] Personne ne tient un personnage en arène survivors.
+	if (survivors_in_arena(*target_sd)) {
+		clif_traderesponse(*sd, TRADE_ACK_BUSY);
+		return;
+	}
+
 	if (!battle_config.invite_request_check) {
 		if (target_sd->guild_invite > 0 || target_sd->party_invite > 0 || target_sd->adopt_invite) {
 			clif_traderesponse(*sd, TRADE_ACK_FAILED);

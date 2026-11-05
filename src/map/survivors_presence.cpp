@@ -23,6 +23,14 @@
 // de carte font sortir de l'arène sans rien attendre du client : un client qui
 // plante en partie n'enverrait jamais sa sortie.
 //
+// LE BOUCLIER D'ARÈNE, survivors_in_arena : le personnage que personne ne tient
+// ne reçoit ni proposition ni appel d'un autre joueur, et aucun portail ne
+// l'emporte ; celui qui propose lit le refus normal du protocole. Il ne vaut
+// qu'envers les joueurs : commandes de MJ, scripts, maintenance et kick passent.
+// Il ne protège d'aucun dégât, et ne tient jamais hors d'un lieu que la partie
+// accepte. Il tombe seul si le client se tait, et dès que le joueur demande à
+// marcher : il faut alors ressortir de l'arène et y rentrer.
+//
 // 🔴 RIEN NE PART À UNE SESSION QUI N'A PAS ANNONCÉ MOONLIGHT_UI_SURVIVORS_PRESENCE,
 // et rien n'est entendu d'une session moonclient non vérifiée ou non chargée.
 
@@ -69,6 +77,10 @@ enum e_survivors_presence_state : uint8 {
 // Le temps de jeu, pauses exclues, que la guilde apprend une fois par entrée.
 constexpr t_tick SURVIVORS_PRESENCE_HOLD_MS = 15 * 60 * 1000;
 constexpr t_tick SURVIVORS_PRESENCE_MS_PER_S = 1000;
+// Le client redit sa présence toutes les 5 minutes : le bouclier d'un client
+// silencieux s'arrête après trois silences.
+constexpr t_tick SURVIVORS_SHIELD_HOLD_MS = 15 * 60 * 1000;
+constexpr uint8 SURVIVORS_PRESENCE_HIDDEN = 0x04;
 // Un salon à une place : le titre se lit, personne n'y entre.
 constexpr int32 SURVIVORS_PRESENCE_ROOM_LIMIT = 1;
 // En latin-1, comme tout texte que le client natif affiche.
@@ -89,10 +101,20 @@ struct s_survivors_presence {
 	bool hold_told = false;
 	// Le salon que la présence a ouvert, 0 sans.
 	int32 room_id = 0;
+	// Le dernier 0x0F56 entendu, d'où compte SURVIVORS_SHIELD_HOLD_MS.
+	t_tick heard_at = 0;
+	// Il a demandé à marcher depuis son entrée : plus de bouclier.
+	bool walked = false;
 };
 
 // Par char_id.
 std::unordered_map<uint32, s_survivors_presence> survivors_presences;
+// LES PARTIES CACHÉES : ni salon, ni relais, ni table du site, seulement le bouclier.
+struct s_survivors_hidden_arena {
+	t_tick heard_at = 0;
+	bool walked = false;
+};
+std::unordered_map<uint32, s_survivors_hidden_arena> survivors_hidden_arenas;
 
 // Une session moonclient vérifiée, chargée, qui a reçu l'annonce.
 bool presence_heard(const map_session_data& sd) {
@@ -240,6 +262,38 @@ bool presence_known_to(const map_session_data& owner, const map_session_data& vi
 
 } // namespace
 
+bool survivors_arena_place(int16 m) {
+	if (m < 0 || map_flag_vs(m) || map_flag_gvg2(m))
+		return false;
+	return map_getmapflag(m, MF_TOWN) || survivors_sheltered_place(map_mapid2mapname(m));
+}
+
+bool survivors_in_arena(const map_session_data& sd) {
+	if (!session_isActive(sd.fd) || !survivors_arena_place(sd.m))
+		return false;
+	if (presence_heard(sd)) {
+		const auto found = survivors_presences.find(sd.status.char_id);
+		if (found != survivors_presences.end() && !found->second.walked &&
+			DIFF_TICK(gettick(), found->second.heard_at) < SURVIVORS_SHIELD_HOLD_MS)
+			return true;
+		const auto hidden = survivors_hidden_arenas.find(sd.status.char_id);
+		if (hidden != survivors_hidden_arenas.end() && !hidden->second.walked &&
+			DIFF_TICK(gettick(), hidden->second.heard_at) < SURVIVORS_SHIELD_HOLD_MS)
+			return true;
+	}
+	return survivors_coop_shields(sd);
+}
+
+void survivors_arena_walked(const map_session_data& sd) {
+	if (!sd.state.moonclient)
+		return;
+	if (const auto found = survivors_presences.find(sd.status.char_id); found != survivors_presences.end())
+		found->second.walked = true;
+	if (const auto hidden = survivors_hidden_arenas.find(sd.status.char_id); hidden != survivors_hidden_arenas.end())
+		hidden->second.walked = true;
+	survivors_coop_walked(sd);
+}
+
 void do_init_survivors_presence() {
 	if (SQL_SUCCESS != Sql_QueryStr(mmysql_handle, "DELETE FROM `survivors_presence`"))
 		Sql_ShowDebug(mmysql_handle);
@@ -267,6 +321,7 @@ void clif_moonlight_survivors_presence_seen(const map_session_data& owner, map_s
 }
 
 void survivors_presence_leave(map_session_data& sd) {
+	survivors_hidden_arenas.erase(sd.status.char_id);
 	const auto found = survivors_presences.find(sd.status.char_id);
 	if (found == survivors_presences.end())
 		return;
@@ -302,12 +357,22 @@ void clif_parse_moonlight_survivors_presence(int32 fd, map_session_data* sd) {
 		survivors_presence_leave(*sd);
 		return;
 	}
-	// Le lieu que la garde du client accepte, comme pour un jeton du classement.
-	if (!map_getmapflag(sd->m, MF_TOWN) && !survivors_sheltered_place(map_mapid2mapname(sd->m)))
+	if (!survivors_arena_place(sd->m))
 		return;
+
+	if (p->flags & SURVIVORS_PRESENCE_HIDDEN) {
+		// Une marche déjà demandée reste : se redire ne rend pas le bouclier.
+		const auto hidden = survivors_hidden_arenas.find(sd->status.char_id);
+		const bool walked = hidden != survivors_hidden_arenas.end() && hidden->second.walked;
+		survivors_presence_leave(*sd);
+		survivors_hidden_arenas[sd->status.char_id] = s_survivors_hidden_arena{gettick(), walked};
+		return;
+	}
+	survivors_hidden_arenas.erase(sd->status.char_id);
 
 	const auto [found, entered] = survivors_presences.try_emplace(sd->status.char_id);
 	s_survivors_presence& presence = found->second;
+	presence.heard_at = gettick();
 	if (entered) {
 		presence.account_id = sd->status.account_id;
 		presence.entered_at = gettick();
@@ -325,6 +390,9 @@ void clif_parse_moonlight_survivors_presence(int32 fd, map_session_data* sd) {
 		}
 	} else {
 		presence_count(*sd, presence);
+		// Redite à l'identique, elle ne fait que repousser l'expiration du bouclier.
+		if (presence.state == state && presence.arena == p->arena && presence.class_id == p->class_id && presence.flags == p->flags)
+			return;
 		presence.state = state;
 	}
 	presence.arena    = p->arena;

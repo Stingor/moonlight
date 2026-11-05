@@ -19262,6 +19262,9 @@ void clif_parse_WalkToXY(int32 fd, map_session_data *sd)
 	if (sd->state.spectator)
 		return;
 
+	// [Stingor] Celui qui demande à marcher tient son personnage : plus de bouclier d'arène.
+	survivors_arena_walked(*sd);
+
 	if (pc_get_group_level(sd) >= 60 && sd->state.gm_fast_move) { // [Stingor]
 		RFIFOPOS(fd, packet_db[RFIFOW(fd,0)].pos[0], &x, &y, nullptr);
 		pc_setpos(sd, sd->mapindex, x, y, CLR_TELEPORT);
@@ -23623,6 +23626,12 @@ void clif_parse_FriendsListAdd(int32 fd, map_session_data *sd)
 		}
 	}
 
+	// [Stingor] Personne ne tient un personnage en arène survivors.
+	if (survivors_in_arena(*f_sd)) {
+		clif_friendslist_reqack(sd, f_sd, 1);
+		return;
+	}
+
 	f_sd->friend_req = sd->status.char_id;
 	sd->friend_req   = f_sd->status.char_id;
 
@@ -25788,6 +25797,13 @@ void clif_parse_Adopt_request(int32 fd, map_session_data *sd)
 
 	TBL_PC *tsd = map_id2sd(RFIFOL(fd,packet_db[RFIFOW(fd,0)].pos[0]));
 	TBL_PC *p_sd = map_charid2sd(sd->status.partner_id);
+
+	// [Stingor] Personne ne tient un personnage en arène survivors. Le protocole
+	// n'a pas de code de refus d'adoption : le message de refus automatique en tient lieu.
+	if( tsd != nullptr && survivors_in_arena( *tsd ) ){
+		clif_messagecolor( sd, color_table[COLOR_LIGHT_GREEN], msg_txt( sd, 392 ), false, SELF );
+		return;
+	}
 
 	// [Stingor] Diagnostic: log adopt attempts since most pc_try_adopt
 	// failure paths return silently with no client feedback.
@@ -33892,6 +33908,9 @@ void clif_partybooking_ask( map_session_data* sd, map_session_data* joining_sd )
 #endif
 }
 
+// [Stingor] Définie plus bas ; la demande la lit aussi pour un refus immédiat.
+void clif_partybooking_reply( map_session_data* sd, map_session_data* party_leader_sd, bool accepted );
+
 void clif_parse_partybooking_join( int32 fd, map_session_data* sd ){
 #if PACKETVER >= 20191204
 	// A spectator asks to join nothing (see SPECTATOR_USERID in mmo.hpp). The
@@ -33934,6 +33953,12 @@ void clif_parse_partybooking_join( int32 fd, map_session_data* sd ){
 	}
 
 	if( sd->status.base_level > requirement.maximum_level ){
+		return;
+	}
+
+	// [Stingor] Personne ne tient un chef de groupe en arène survivors.
+	if( survivors_in_arena( *tsd ) ){
+		clif_partybooking_reply( sd, tsd, false );
 		return;
 	}
 

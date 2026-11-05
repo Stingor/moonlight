@@ -5716,6 +5716,7 @@ bool MapServer::initialize( int32 argc, char *argv[] ){
 	voice_bridge_init();
 	// [Stingor] Personne n'est en arène au démarrage : la table du site se vide.
 	do_init_survivors_presence();
+	do_init_survivors_coop();
 	if (log_config.sql_logs)
 		log_sql_init();
 

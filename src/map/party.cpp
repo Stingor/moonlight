@@ -474,6 +474,12 @@ bool party_invite( map_session_data& sd, map_session_data *tsd ){
 		return false;
 	}
 
+	// [Stingor] Personne ne tient un personnage en arène survivors.
+	if( survivors_in_arena( *tsd ) ){
+		clif_party_invite_reply( sd, tsd->status.name, PARTY_REPLY_REJECTED );
+		return false;
+	}
+
 	// Already associated with a party
 	if( tsd->status.party_id > 0 || tsd->party_invite > 0 ){
 		clif_party_invite_reply( sd, tsd->status.name, PARTY_REPLY_JOIN_OTHER_PARTY );

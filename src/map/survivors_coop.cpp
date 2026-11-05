@@ -36,13 +36,13 @@
 #include <common/random.hpp>
 #include <common/socket.hpp>
 #include <common/strlib.hpp>
+#include <common/timer.hpp>
 
 #include "clif.hpp"
-#include "map.hpp" // map_getmapflag, map_mapid2mapname, map_charid2sd
+#include "map.hpp" // map_charid2sd
 #include "packets.hpp"
 #include "party.hpp"
 #include "pc.hpp"
-#include "survivors_ranking_rules.hpp"
 
 namespace {
 
@@ -73,6 +73,7 @@ enum e_survivors_coop_refusal : uint32 {
 	SURVIVORS_COOP_REFUSE_OFFLINE   = 0x04, ///< un membre hors ligne
 	SURVIVORS_COOP_REFUSE_PLACE     = 0x08, ///< un membre ni en ville ni en intérieur
 	SURVIVORS_COOP_REFUSE_NO_CLIENT = 0x10, ///< un membre sans le bit de capacité
+	SURVIVORS_COOP_REFUSE_NOT_IN_LOBBY = 0x20, ///< un membre n'est pas au salon
 };
 
 constexpr int32 SURVIVORS_COOP_MOST_MEMBERS = 4;
@@ -84,12 +85,37 @@ constexpr size_t SURVIVORS_COOP_FRAME_MIN_BYTES = sizeof(uint32);
 constexpr size_t SURVIVORS_COOP_FRAME_MAX_BYTES = 256;
 // Une entrée tapée au pas t vaut pour le pas t + ce délai.
 constexpr uint8 SURVIVORS_COOP_INPUT_DELAY_TICKS = 4;
+// Un client envoie ses trames sans arrêt, pause comprise, sauf quand toute l'équipe
+// attend un coéquipier gelé : le serveur coupe celui-ci après `stall_time` (60 s).
+// Au-delà de cette durée sans trame, le bouclier d'arène du joueur tombe.
+constexpr t_tick SURVIVORS_COOP_SHIELD_SILENCE_MS = 2 * 60 * 1000;
+// UN JOUEUR FIGÉ MAIS CONNECTÉ retient toute l'équipe : chacun s'arrête à son avance
+// maximale, faute de ses entrées. Tout le monde se tait alors, et seul le retard sur
+// les autres désigne le fautif. Il sort de la partie, et les autres reprennent avec le
+// robot. Un joueur qui n'a encore rien envoyé peut monter son arène plus longtemps.
+constexpr t_tick SURVIVORS_COOP_STALLED_MS = 15 * 1000;
+constexpr t_tick SURVIVORS_COOP_FIRST_FRAME_MS = 60 * 1000;
+constexpr uint32 SURVIVORS_COOP_STALLED_BEHIND_TICKS = 10;
+constexpr t_tick SURVIVORS_COOP_WATCH_EVERY_MS = 1000;
+// CE QUE LE SERVEUR LIT D'UNE TRAME, et rien de plus : [through_tick:4][count:1], puis
+// `count` entrées de 3 octets, puis éventuellement une empreinte de 12 octets. Le retard
+// qui désigne un joueur figé se lit de through_tick : une trame compte si elle apporte
+// des tics neufs qu'elle porte vraiment. Seule la première peut sauter, de la longueur
+// du délai d'entrée et de ce qui a pu être bridé.
+constexpr size_t SURVIVORS_COOP_FRAME_HEAD_BYTES = sizeof(uint32) + sizeof(uint8);
+constexpr size_t SURVIVORS_COOP_INPUT_BYTES = 3;
+constexpr size_t SURVIVORS_COOP_DIGEST_BYTES = 12;
+constexpr uint32 SURVIVORS_COOP_MOST_FIRST_THROUGH_TICK = 128;
 
 struct s_survivors_coop_member {
 	uint32 char_id = 0;
 	bool ready = false;
 	std::vector<uint8> blob;
 	uint32 through_tick = 0;
+	// La dernière trame entendue, ou le départ de la partie.
+	t_tick heard_at = 0;
+	// Il a demandé à marcher pendant la partie : plus de bouclier d'arène.
+	bool walked = false;
 };
 
 struct s_survivors_coop_group {
@@ -116,11 +142,8 @@ bool coop_listens(const map_session_data& sd) {
 	return sd.state.moonclient && (sd.bourgeon_ui_caps & MOONLIGHT_UI_SURVIVORS_COOP) != 0 && session_isActive(sd.fd);
 }
 
-// Le lieu que la garde du client accepte, comme pour un jeton du classement.
 bool coop_place_accepted(const map_session_data& sd) {
-	if (sd.m < 0)
-		return false;
-	return map_getmapflag(sd.m, MF_TOWN) || survivors_sheltered_place(map_mapid2mapname(sd.m));
+	return survivors_arena_place(sd.m);
 }
 
 void coop_write(const map_session_data& sd, const void* bytes, size_t length) {
@@ -279,6 +302,7 @@ void coop_start(const party_data& party, s_survivors_coop_group& group) {
 		// La part a fait son office : une partie longue n'a pas à la garder.
 		member.blob.clear();
 		member.blob.shrink_to_fit();
+		member.heard_at = gettick();
 	}
 	coop_write_members(group, bytes.data(), bytes.size());
 }
@@ -303,7 +327,12 @@ void coop_lobby_changed(int32 party_id, const map_session_data* departing, bool 
 		coop_dissolve(party_id);
 		return;
 	}
-	const uint32 refusals = coop_refusals(*party, departing);
+	uint32 refusals = coop_refusals(*party, departing);
+	for (int32 seat = 0; seat < MAX_PARTY; ++seat) {
+		const uint32 seat_char_id = party->party.member[seat].char_id;
+		if (seat_char_id != 0 && coop_member_of(group, seat_char_id) == nullptr)
+			refusals |= SURVIVORS_COOP_REFUSE_NOT_IN_LOBBY;
+	}
 	if (refusals == 0 && coop_all_ready(*party, group)) {
 		group.told_refusals = 0;
 		coop_start(*party, group);
@@ -474,6 +503,61 @@ void survivors_coop_party_broken(int32 party_id) {
 	coop_dissolve(party_id);
 }
 
+void survivors_coop_drop_stalled(t_tick now) {
+	std::vector<std::pair<int32, uint32>> stalled;
+	for (const auto& [party_id, group] : survivors_coop_groups) {
+		if (group.state != SURVIVORS_COOP_PLAYING)
+			continue;
+		uint32 furthest = 0;
+		for (const s_survivors_coop_member& member : group.members)
+			furthest = std::max(furthest, member.through_tick);
+		for (const s_survivors_coop_member& member : group.members) {
+			const t_tick silent = DIFF_TICK(now, member.heard_at);
+			const bool holds_back = member.through_tick == 0
+				? furthest != 0 && silent >= SURVIVORS_COOP_FIRST_FRAME_MS
+				: silent >= SURVIVORS_COOP_STALLED_MS && member.through_tick + SURVIVORS_COOP_STALLED_BEHIND_TICKS < furthest;
+			if (holds_back)
+				stalled.emplace_back(party_id, member.char_id);
+		}
+	}
+	for (const auto& [party_id, char_id] : stalled)
+		coop_drop(party_id, char_id, true, nullptr);
+}
+
+static TIMER_FUNC(survivors_coop_watch) {
+	survivors_coop_drop_stalled(tick);
+	return 0;
+}
+
+void do_init_survivors_coop() {
+	add_timer_func_list(survivors_coop_watch, "survivors_coop_watch");
+	add_timer_interval(gettick() + SURVIVORS_COOP_WATCH_EVERY_MS, survivors_coop_watch, 0, 0, SURVIVORS_COOP_WATCH_EVERY_MS);
+}
+
+bool survivors_coop_shields(const map_session_data& sd) {
+	const int32 party_id = coop_party_of(sd.status.char_id);
+	if (party_id == 0 || !coop_heard(sd))
+		return false;
+	const auto found = survivors_coop_groups.find(party_id);
+	if (found == survivors_coop_groups.end() || found->second.state != SURVIVORS_COOP_PLAYING)
+		return false;
+	const s_survivors_coop_member* member = coop_member_of(found->second, sd.status.char_id);
+	return member != nullptr && !member->walked && DIFF_TICK(gettick(), member->heard_at) < SURVIVORS_COOP_SHIELD_SILENCE_MS;
+}
+
+void survivors_coop_walked(const map_session_data& sd) {
+	const int32 party_id = coop_party_of(sd.status.char_id);
+	if (party_id == 0)
+		return;
+	const auto found = survivors_coop_groups.find(party_id);
+	if (found == survivors_coop_groups.end() || found->second.state != SURVIVORS_COOP_PLAYING)
+		return;
+	// Sa première trame prouve qu'il a reçu le départ : une marche d'avant s'est
+	// croisée avec lui sur le fil.
+	if (s_survivors_coop_member* member = coop_member_of(found->second, sd.status.char_id); member != nullptr && member->through_tick != 0)
+		member->walked = true;
+}
+
 // Dans l'ordre : l'écoute, la cadence, l'action.
 void clif_parse_moonlight_survivors_coop_lobby(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
@@ -526,9 +610,21 @@ void clif_parse_moonlight_survivors_coop_frame(int32 fd, map_session_data* sd) {
 	s_survivors_coop_member* sender = coop_member_of(group, char_id);
 	if (sender == nullptr || group.state != SURVIVORS_COOP_PLAYING)
 		return;
-	sender->through_tick = RFIFOL(fd, sizeof(*p));
-
 	const size_t payload_bytes = length - sizeof(*p);
+	if (payload_bytes < SURVIVORS_COOP_FRAME_HEAD_BYTES)
+		return;
+	const uint32 through_tick = RFIFOL(fd, sizeof(*p));
+	const uint32 input_count = RFIFOB(fd, sizeof(*p) + sizeof(uint32));
+	const size_t inputs_end = SURVIVORS_COOP_FRAME_HEAD_BYTES + input_count * SURVIVORS_COOP_INPUT_BYTES;
+	if (payload_bytes != inputs_end && payload_bytes != inputs_end + SURVIVORS_COOP_DIGEST_BYTES)
+		return;
+	const bool first = sender->through_tick == 0;
+	if (input_count == 0 || through_tick <= sender->through_tick ||
+		through_tick - sender->through_tick > (first ? SURVIVORS_COOP_MOST_FIRST_THROUGH_TICK : input_count))
+		return;
+	sender->through_tick = through_tick;
+	sender->heard_at = gettick();
+
 	PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_FRAME head{};
 	head.packetType   = HEADER_ZC_MOONLIGHT_SURVIVORS_COOP_FRAME;
 	head.packetLength = static_cast<int16>(sizeof(head) + payload_bytes);

@@ -2029,6 +2029,17 @@ void clif_moonlight_survivors_presence_seen(const map_session_data& owner, map_s
 void survivors_presence_leave(map_session_data& sd);
 void survivors_presence_ranked_best(map_session_data& sd, uint32 survived_steps);
 void do_init_survivors_presence();
+// [Stingor] Le bouclier d'arène (survivors_presence.cpp), lu par tout ce qu'un
+// autre joueur peut proposer ou infliger à un personnage que personne ne tient.
+//   `survivors_in_arena` : session moonclient vérifiée, en lieu accepté, en partie
+//     solo ou de coop, ni muette trop longtemps ni repartie à pied. Le salon de la
+//     coop n'y compte pas ;
+//   `survivors_arena_place` : ville ou intérieur, jamais une carte de combat ;
+//   `survivors_arena_walked` : le joueur demande à marcher, le bouclier tombe
+//     jusqu'à sa prochaine entrée en arène.
+bool survivors_in_arena(const map_session_data& sd);
+bool survivors_arena_place(int16 m);
+void survivors_arena_walked(const map_session_data& sd);
 // [Stingor] La coop du mode survivors (0x0F58 à 0x0F5D, voir packets_struct.hpp),
 // tenue par survivors_coop.cpp.
 //   `_announce` : à chaque annonce qui porte MOONLIGHT_UI_SURVIVORS_COOP,
@@ -2046,11 +2057,17 @@ void clif_parse_moonlight_survivors_coop_frame(int32 fd, map_session_data* sd);
 void clif_moonlight_survivors_coop_announce(map_session_data& sd);
 void survivors_coop_caps_changed(map_session_data& sd);
 void survivors_coop_quit(map_session_data& sd);
+//   `_drop_stalled` : sort de sa partie le joueur qui retient les autres ;
+void survivors_coop_drop_stalled(t_tick now);
+void do_init_survivors_coop();
 void survivors_coop_map_left(map_session_data& sd);
 void survivors_coop_member_moved(map_session_data& sd);
 void survivors_coop_party_left(int32 party_id, uint32 char_id);
 void survivors_coop_party_changed(int32 party_id);
 void survivors_coop_party_broken(int32 party_id);
+// La part du bouclier d'arène que tient la coop : voir survivors_in_arena.
+bool survivors_coop_shields(const map_session_data& sd);
+void survivors_coop_walked(const map_session_data& sd);
 // [Stingor] L'élément d'attaque d'un joueur (ZC 0x0F4A), voir packets_struct.hpp.
 // `_refresh` le recalcule et ne dit rien s'il n'a pas changé : à appeler après
 // tout ce qui peut le changer (recalcul de statut, charmes d'esprit).

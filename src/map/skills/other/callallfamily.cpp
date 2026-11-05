@@ -16,6 +16,12 @@ void SkillCallAllFamily::castendNoDamageId(block_list* src, block_list* target, 
 		map_session_data *p_sd = pc_get_partner(sd);
 		map_session_data *c_sd = pc_get_child(sd);
 
+		// [Stingor] Un proche en arène survivors compte pour absent : s'il est seul, le lanceur ne paie rien.
+		if (p_sd && survivors_in_arena(*p_sd))
+			p_sd = nullptr;
+		if (c_sd && survivors_in_arena(*c_sd))
+			c_sd = nullptr;
+
 		if (!p_sd && !c_sd) { // Fail if no family members are found
 			clif_skill_fail( *sd, getSkillId() );
 			flag |= SKILL_NOCONSUME_REQ;
