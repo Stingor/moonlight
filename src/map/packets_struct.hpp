@@ -7914,9 +7914,11 @@ struct PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_FRAME {
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_COOP_FRAME, 0x0f5c);
 
 // ZC : un joueur a quitté la partie : déconnexion, changement de carte, sortie de
-// groupe, ou sa propre demande. Fixe 12.
+// groupe, ou sa propre demande. Aux joueurs restants, et à lui s'il écoute encore.
+// Il suit toutes ses trames relayées : le client fixe le tic du robot sur ce qu'il en
+// a reçu. Fixe 12.
 // Layout: [type:2][len:2][char_id:4][through_tick:4]
-//   through_tick : le dernier noté pour lui, 0 s'il n'a rien envoyé.
+//   through_tick : le dernier noté pour lui, 0 s'il n'a rien envoyé. Indicatif.
 struct PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_LEFT {
 	int16  packetType;
 	int16  packetLength;

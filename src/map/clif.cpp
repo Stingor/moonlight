@@ -341,7 +341,7 @@ static constexpr s_moonlight_throttle_rule MOONLIGHT_THROTTLE_RULES[MOONLIGHT_TH
 	{ 1000, 3 },  // MOONLIGHT_THROTTLE_SURVIVORS_PRESENCE : le client en envoie une par seconde au plus
 	{ 2000, 2 },  // MOONLIGHT_THROTTLE_SURVIVORS_PRESENCE_ANNOUNCE : comme l'annonce du service
 	{ 1000, 4 },  // MOONLIGHT_THROTTLE_SURVIVORS_COOP_LOBBY
-	{   20, 10 }, // MOONLIGHT_THROTTLE_SURVIVORS_COOP_FRAME : un pas de simulation, et de quoi rattraper
+	{   20, 20 }, // MOONLIGHT_THROTTLE_SURVIVORS_COOP_FRAME : un pas de simulation, et de quoi livrer ce qu'un gel du réseau a retenu : l'avance d'un client s'arrête avant
 	{ 2000, 2 },  // MOONLIGHT_THROTTLE_SURVIVORS_COOP_ANNOUNCE : comme l'annonce du service
 };
 

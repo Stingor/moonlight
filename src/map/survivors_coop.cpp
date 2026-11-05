@@ -329,10 +329,9 @@ void coop_drop(int32 party_id, uint32 char_id, bool tell_leaver, const map_sessi
 	const uint32 through_tick = member->through_tick;
 	group.members.erase(group.members.begin() + (member - group.members.data()));
 	survivors_coop_party_of_char.erase(char_id);
-	if (tell_leaver) {
-		if (const map_session_data* leaver = map_charid2sd(static_cast<int32>(char_id)); leaver != nullptr)
-			coop_tell_closed(*leaver, 0);
-	}
+	const map_session_data* leaver = tell_leaver ? map_charid2sd(static_cast<int32>(char_id)) : nullptr;
+	if (leaver != nullptr)
+		coop_tell_closed(*leaver, 0);
 	if (group.state == SURVIVORS_COOP_PLAYING) {
 		PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_LEFT packet{};
 		packet.packetType   = HEADER_ZC_MOONLIGHT_SURVIVORS_COOP_LEFT;
@@ -340,6 +339,10 @@ void coop_drop(int32 party_id, uint32 char_id, bool tell_leaver, const map_sessi
 		packet.char_id      = char_id;
 		packet.through_tick = through_tick;
 		coop_write_members(group, &packet, sizeof(packet));
+		// Lui aussi : l'état fermé ne le lui dit pas, puisqu'il suit aussi chaque annonce
+		// du service. Sans cela, sorti par un changement de carte, il attendrait les autres.
+		if (leaver != nullptr)
+			coop_write(*leaver, &packet, sizeof(packet));
 		if (group.members.empty())
 			survivors_coop_groups.erase(found);
 		return;
