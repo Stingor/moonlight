@@ -112,13 +112,24 @@ Ces trois instances sont branchées mais pas encore validées en jeu. Leur porta
 (`db/import/mobs/memorial_dungeons.yml`), 184 lignes de skills, 10 objets, 6 quêtes et un groupe
 d'objets. Les descriptions client des nouveaux objets restent à faire.
 
-### Les donjons Illusion sont pré-installés mais commentés
+### Donjon pilote : Illusion of Moonlight
+
+Branché, pas encore validé en jeu : `moon/rathena/quests/illusion/moonlight.npc` (quêtes, entrée,
+Gemcutter), spawns décommentés dans `moon/rathena/dungeons/pay_dun.npc` et identiques à l'amont,
+troc `barter_ill_moonlight` dans `moon/barters.yml`, `nomemo` et entrée `• Illusion` du warp agent
+(`pay_d03_i,140,44`).
+
+Le Gemcutter a imposé d'activer `feature.barter` et `feature.barter_extended` dans
+`conf/import/battle_conf.txt` : ces trocs demandent plusieurs objets et un raffinage minimum.
+Sans ces deux flags, le troc n'est pas créé et le Gemcutter ne peut rien échanger.
+
+### Les autres donjons Illusion restent commentés
 
 Spawns et blocs de script sont présents dans les fichiers de Moonlight, **en commentaire**.
 
 | Carte | Donjon | Fichier Moonlight | Lignes de spawn commentées |
 |---|---|---|---:|
-| `pay_d03_i` | Moonlight | `moon/rathena/dungeons/pay_dun.npc` | 15 |
+| `pay_d03_i` | Moonlight | `moon/rathena/dungeons/pay_dun.npc` | **activé** (15) |
 | `gef_d01_i` | Vampire | `moon/rathena/dungeons/gef_dun.npc` | 8 |
 | `ice_d03_i` | Frozen | `moon/rathena/dungeons/ice_dun.npc` | 4 |
 | `iz_d04_i` | Underwater F1 | `moon/rathena/dungeons/iz_dun.npc` | 5 |
@@ -129,7 +140,10 @@ Spawns et blocs de script sont présents dans les fichiers de Moonlight, **en co
 | `ein_d02_i` | Teddy Bear | `moon/mobs/einbroch.npc` | 8 |
 | `com_d02_i` | Luanda | `moon/mobs/comodo.npc` | bloc scripté `illusion_luanda` |
 
-**Total : 61 lignes de spawn, plus le bloc de Luanda.**
+**Reste : 46 lignes de spawn, plus le bloc de Luanda.**
+
+`Crown_Of_Witch` (25897) et `IL_Kraken_Leg` (7324) manquent au troc `barter_ill_underwater` :
+à porter avec Underwater.
 
 ### Données portées (non validées en jeu)
 
@@ -204,7 +218,7 @@ Teddy Bear, Turtle, Luanda, Twins.
 | | |
 |---|---|
 | Intérêt | **le plus élevé du dossier** |
-| Reste à faire | validation en jeu · 8 donjons à activer · enchanteur · warp agent · albums · client |
+| Reste à faire | validation en jeu du pilote · 7 donjons à activer · enchanteur · albums · client |
 
 ## Sources
 

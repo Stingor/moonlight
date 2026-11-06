@@ -596,8 +596,8 @@ feature.homunculus_autofeed: on
 feature.homunculus_autofeed_rate: 30
 feature.attendance: off
 feature.privateairship: off
-feature.barter: off
-feature.barter_extended: off
+feature.barter: on
+feature.barter_extended: on
 feature.dynamicnpc_timeout: 60000
 feature.dynamicnpc_rangex: 2
 feature.dynamicnpc_rangey: 2

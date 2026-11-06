@@ -1361,6 +1361,7 @@ L_Donjons:
 		 "• Gonryun Donjon",L_gon,
 		 "• Hidden Donjon",L_hid,
 		 "• Ice Donjon",L_ice,
+		 "• Illusion",L_ill,
 		 "• Juperos",L_jup,
 		 "• Kiel Hire",L_kie,
 		 "• Lasagna Donjon",L_las,
@@ -1512,6 +1513,7 @@ L_jup: WarpMenu("juperos_01,53,243",
 				"jupe_core,150,20"); goto L_Donjons;
 L_kie: WarpMenu("kh_dun01,28,211",
 				"kh_dun02,42,197"); goto L_Donjons;
+L_ill: WarpMenu("pay_d03_i,140,44"); goto L_Donjons;
 L_las: WarpMenu("lasa_dun01,23,143",
 				"lasa_dun02,22,171",
 				"lasa_dun03,190,19"); goto L_Donjons;

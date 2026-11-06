@@ -45,3 +45,115 @@
 Header:
   Type: BARTER_DB
   Version: 2
+
+Body:
+  - Name: barter_ill_moonlight
+    Items:
+      - Index: 0
+        Item: Staff_Of_Bordeaux_IL
+        RequiredItems:
+          - Index: 0
+            Item: Staff_Of_Bordeaux
+            Refine: 9
+          - Index: 1
+            Item: IllusionStone
+            Amount: 30
+          - Index: 2
+            Item: HazyDream
+            Amount: 100
+      - Index: 1
+        Item: Moonlight_Sword_IL
+        RequiredItems:
+          - Index: 0
+            Item: Moonlight_Sword
+            Refine: 9
+          - Index: 1
+            Item: IllusionStone
+            Amount: 60
+          - Index: 2
+            Item: HazyDream
+            Amount: 100
+      - Index: 2
+        Item: Long_Mace_IL
+        RequiredItems:
+          - Index: 0
+            Item: Long_Mace
+            Refine: 9
+          - Index: 1
+            Item: IllusionStone
+            Amount: 10
+          - Index: 2
+            Item: HazyDream
+            Amount: 20
+      - Index: 3
+        Item: Spectral_Spear_IL
+        RequiredItems:
+          - Index: 0
+            Item: Spectral_Spear
+            Refine: 9
+          - Index: 1
+            Item: IllusionStone
+            Amount: 20
+          - Index: 2
+            Item: HazyDream
+            Amount: 100
+      - Index: 4
+        Item: Nurse_Cap_IL
+        RequiredItems:
+          - Index: 0
+            Item: Nurse_Cap
+            Refine: 9
+          - Index: 1
+            Item: IllusionStone
+            Amount: 10
+          - Index: 2
+            Item: Bloody_LoveLetter
+            Amount: 100
+      - Index: 5
+        Item: Apple_Of_Archer_IL
+        RequiredItems:
+          - Index: 0
+            Item: Apple_Of_Archer
+            Refine: 9
+          - Index: 1
+            Item: IllusionStone
+            Amount: 10
+          - Index: 2
+            Item: BrokenArrow
+            Amount: 100
+      - Index: 6
+        Item: Puente_Robe_IL
+        RequiredItems:
+          - Index: 0
+            Item: Puente_Robe
+            Refine: 9
+          - Index: 1
+            Item: IllusionStone
+            Amount: 10
+          - Index: 2
+            Item: HazyDream
+            Amount: 100
+      - Index: 7
+        Item: Muffler_IL
+        RequiredItems:
+          - Index: 0
+            Item: Muffler_
+            Refine: 9
+          - Index: 1
+            Item: IllusionStone
+            Amount: 10
+          - Index: 2
+            Item: HazyMooncake
+            Amount: 100
+      - Index: 8
+        Item: Shoes_IL
+        RequiredItems:
+          - Index: 0
+            Item: Shoes_
+            Refine: 9
+          - Index: 1
+            Item: IllusionStone
+            Amount: 10
+          - Index: 2
+            Item: HazyMooncake
+            Amount: 100
