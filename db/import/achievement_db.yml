@@ -3067,3 +3067,36 @@ Body:
     Group: Adventure
     Name: Conservateur
     Score: 30
+# Le mode survivors, rangs 36 a 43 : les evolues du Chevalier, puis tous a la fois.
+  - Id: 910037
+    Group: Adventure
+    Name: Brise-crane
+    Score: 20
+  - Id: 910038
+    Group: Adventure
+    Name: Lance en spirale
+    Score: 20
+  - Id: 910039
+    Group: Adventure
+    Name: Brise-genoux
+    Score: 20
+  - Id: 910040
+    Group: Adventure
+    Name: Lame d'aura
+    Score: 20
+  - Id: 910041
+    Group: Adventure
+    Name: Esprit affute
+    Score: 20
+  - Id: 910042
+    Group: Adventure
+    Name: Berserker
+    Score: 20
+  - Id: 910043
+    Group: Adventure
+    Name: Terre embrasee
+    Score: 30
+  - Id: 910044
+    Group: Adventure
+    Name: Grand chevalier
+    Score: 50

@@ -207,6 +207,37 @@ constexpr uint32 RULESET_4_KILLS_PER_SECOND = 2 * 10 * SURVIVORS_STEPS_PER_SECON
 // Battle Manual (+100 %) : le client somme les deux avant de majorer.
 constexpr uint32 RULESET_4_EXP_GAIN_PCT = 100 + 100 + 40;
 
+// ── LE RULESET 5 ─────────────────────────────────────────────────────────────
+// Deux classes classées, le Magicien (1) et le Chevalier (2), chacune avec ses
+// tableaux (la clé d'un tableau porte class_id). La prairie générée seule, quinze
+// minutes et Baphomet, puis cinq minutes de dépassement. Boss, instants, points,
+// XP, courbe, horde et majoration sont ceux du ruleset 4 : aucune de ces bornes
+// ne dépend de la classe, et la réserve de cartes du Chevalier garde Baphomet.
+constexpr uint16 RULESET_5 = 5;
+constexpr uint16 RULESET_5_ARENAS[] = { 2 };
+constexpr uint16 RULESET_5_CLASSES[] = { 1, 2 };
+constexpr uint32 RULESET_5_RUN_MS = 15 * MINUTE_MS;
+constexpr uint32 RULESET_5_OVERTIME_MS = 5 * MINUTE_MS;
+constexpr s_survivors_boss_bound RULESET_5_BOSSES[] = {
+	{  3 * MINUTE_MS,  2 * MINI_BOSS_KILL_FACTOR, 20, false },
+	{  5 * MINUTE_MS,  6 * MINI_BOSS_KILL_FACTOR, 30, false },
+	{  7 * MINUTE_MS,  8 * MINI_BOSS_KILL_FACTOR, 40, false },
+	{  9 * MINUTE_MS, 24 * MINI_BOSS_KILL_FACTOR, 60, false },
+	{ 15 * MINUTE_MS, 81 * BOSS_KILL_FACTOR,       0, true  },
+};
+constexpr s_survivors_exp_segment RULESET_5_EXP_CURVE[] = {
+	{  1,    5,  10 },
+	{ 20,  220,  40 },
+	{ 40, 3500, 200 },
+};
+// Evil Druid en élite, comme aux rulesets 3 et 4.
+constexpr uint32 RULESET_5_COMMON_KILL_POINTS = 58 * ELITE_FACTOR;
+constexpr uint32 RULESET_5_COMMON_KILL_EXP = 22 * ELITE_FACTOR;
+constexpr uint32 RULESET_5_KILLS_PER_SECOND = 2 * 10 * SURVIVORS_STEPS_PER_SECOND;
+// Battle Manual (+100 %) et carte Baphomet (+8 % par niveau, cinq niveaux), que
+// les deux classes peuvent tirer.
+constexpr uint32 RULESET_5_EXP_GAIN_PCT = 100 + 100 + 40;
+
 // Triées par version croissante : la première et la dernière bornent ce que
 // ZC 0x0F53 annonce.
 constexpr s_survivors_ruleset RULESETS[] = {
@@ -224,6 +255,13 @@ constexpr s_survivors_ruleset RULESETS[] = {
 	  RULESET_4_BOSSES, std::size(RULESET_4_BOSSES),
 	  RULESET_4_EXP_CURVE, std::size(RULESET_4_EXP_CURVE),
 	  RULESET_4_KILLS_PER_SECOND, RULESET_4_COMMON_KILL_POINTS, RULESET_4_COMMON_KILL_EXP, RULESET_4_EXP_GAIN_PCT },
+	{ RULESET_5,
+	  RULESET_5_ARENAS, std::size(RULESET_5_ARENAS),
+	  RULESET_5_CLASSES, std::size(RULESET_5_CLASSES),
+	  RULESET_5_RUN_MS, RULESET_5_OVERTIME_MS,
+	  RULESET_5_BOSSES, std::size(RULESET_5_BOSSES),
+	  RULESET_5_EXP_CURVE, std::size(RULESET_5_EXP_CURVE),
+	  RULESET_5_KILLS_PER_SECOND, RULESET_5_COMMON_KILL_POINTS, RULESET_5_COMMON_KILL_EXP, RULESET_5_EXP_GAIN_PCT },
 };
 
 constexpr uint64 SCORE_PER_SECOND = 10;
