@@ -1134,8 +1134,8 @@ pay_d03_i,160,45,3	script	Gemcutter#ilp20	4_TOWER_17,3,3,{
 		mes "That's the minimum requirement for my upgrade service to have any visible effects on your equipment.";
 		next;
 		mes "[ Gemcutter ]";
-		mes "Make sure you're ^0000FFequipped with the item that you want to improve.^000000";
-		mes "Otherwise, I can't evaluate its condition.";
+		mes "Make sure you're ^0000FFnot wearing the item that you want to improve.^000000";
+		mes "Keep it in your inventory, otherwise I can't evaluate its condition.";
 		next;
 		mes "[ Gemcutter ]";
 		mes "As you may have guessed, your equipment will transform into something new after this.";

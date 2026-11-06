@@ -716,7 +716,7 @@ ice_dun02,153,18,3	script	Illusion Stone Research	4_M_ALCHE_B,{
 	case 2:
 		mes "[Illusion Stone Researcher]";
 		mes "Make sure ^4d4dffyour equipment is refined to at least +9^000000 before bringing it to me.";
-		mes "Make sure you're ^4d4dffequipped with the item that you want to improve^000000.";
+		mes "Make sure you're ^4d4dffnot wearing the item that you want to improve^000000: keep it in your inventory.";
 		next;
 		mes "[Illusion Stone Researcher]";
 		mes "As you may have guessed, your equipment will transform into something new after this.";
