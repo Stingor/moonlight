@@ -6,7 +6,7 @@
 | Date kRO | **2016‑03‑09** |
 | Arc | Terra Gloria — les Heart Hunters |
 | Niveau kRO visé | 150‑175 |
-| État Moonlight | **porté en partie** — c'est le premier gros gisement de contenu prêt à brancher |
+| État Moonlight | **porté, à valider en jeu** — restent le `.thor` client et l'Illusion Merchant, lié à Lapine |
 
 Épisode charnière : il ouvre **Rock Ridge** et surtout la série des **donjons Illusion**,
 qui recyclent d'anciens donjons pré-renewal en versions haut niveau. C'est le contenu le
@@ -110,7 +110,7 @@ chaque base et compare les objets par Id **et** par AegisName.
 
 Ces trois instances sont branchées mais pas encore validées en jeu. Leur portage ajoute 35 mobs
 (`db/import/mobs/memorial_dungeons.yml`), 184 lignes de skills, 10 objets, 6 quêtes et un groupe
-d'objets. Les descriptions client des nouveaux objets restent à faire.
+d'objets.
 
 ### Les huit donjons Illusion sont branchés (non validés en jeu)
 
@@ -166,7 +166,9 @@ objets existants, sans effet tant que ces classes restent fermées.
 
 **Restent à décider ou à faire :**
 
-- Les descriptions client des nouveaux objets restent à faire.
+- **Client :** `itemInfokro.lua` décrit déjà les 121 nouveaux objets. `itemInfomoon.lua` surcharge les
+  11 dont le texte mentait (`Defense`, `DEF +50`, Minstrel et Wanderer). Le `.thor` reste à générer,
+  et la présence des sprites n'a pas pu être vérifiée dans les GRF.
 
 ### Économie
 
@@ -200,7 +202,7 @@ Décisions du 2026‑11‑06 :
 | | |
 |---|---|
 | Intérêt | **le plus élevé du dossier** |
-| Reste à faire | validation en jeu · client · Illusion Merchant avec le chantier Lapine |
+| Reste à faire | validation en jeu · publier la mise à jour client · Illusion Merchant avec le chantier Lapine |
 
 ## Sources
 

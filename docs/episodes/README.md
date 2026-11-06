@@ -19,7 +19,7 @@ Relevé initial le **2026-08-25**, synthèse remise à jour le **2026-10-07** (1
 | [15-1_phantasmagorika.md](15-1_phantasmagorika.md) | 15.1 — Phantasmagorika (Verus) | 2013‑07 | **porté** |
 | [15-2_memory_record.md](15-2_memory_record.md) | 15.2 — Memory Record | 2013‑12‑23 | **porté** (Infinite Space compris) |
 | [16-1_banquet_des_heros.md](16-1_banquet_des_heros.md) | 16.1 — Banquet of Heroes | 2015‑02‑25 | **porté** (Forteresse Céleste et EDDA comprises) |
-| [16-2_terra_gloria.md](16-2_terra_gloria.md) | 16.2 — Terra Gloria (Rock Ridge, Illusions) | 2016‑03‑09 | **porté en partie** |
+| [16-2_terra_gloria.md](16-2_terra_gloria.md) | 16.2 — Terra Gloria (Rock Ridge, Illusions) | 2016‑03‑09 | **porté, à valider en jeu** |
 | [17-1_illusion.md](17-1_illusion.md) | 17.1 — Illusion (Cor, Rudus, OS) | 2018‑07‑18 | **matière présente, désactivée** |
 | [17-2_heritage_du_sage.md](17-2_heritage_du_sage.md) | 17.2 — Sage's Legacy (Varmundt) | 2020‑10‑30 | **spawns actifs, quêtes absentes** |
 | [18_direction_de_la_priere.md](18_direction_de_la_priere.md) | 18 — Direction of Prayer | 2021‑02‑01 | **matière présente, désactivée** |
@@ -48,8 +48,8 @@ la ligne `npc:` dans `moon/scripts_moon.conf` (et le renommage en `.npc`).
 | Espace Infini (`1@infi`) | 15.2 | id 38 | `moon/instances/InfiniteSpace.npc` | `793d8d952`, `8552f26a1` |
 | Forteresse Céleste (`1@sthb`) | 16.1 | id 33 | `moon/instances/SkyFortress.npc` | `59ed6f066` |
 | EDDA — Demi-lune en plein jour (`1@pop1`) | 16.1 | id 44 | `moon/instances/EddaHalfMoonInTheDaylight.npc` | `d22a214d0` |
-| Donjons du week-end et du vendredi (`1@md_pay`, `1@md_gef`) | 16.2 | ids 45 et 46 | `moon/instances/WeekendDungeon.npc`, `FridayDungeon.npc` | non committé |
-| Village Poring (`1@begi`) | 16.2 | id 47 | `moon/instances/PoringVillage.npc` | non committé |
+| Donjons du week-end et du vendredi (`1@md_pay`, `1@md_gef`) | 16.2 | ids 45 et 46 | `moon/instances/WeekendDungeon.npc`, `FridayDungeon.npc` | `8aca3a646` |
+| Village Poring (`1@begi`) | 16.2 | id 47 | `moon/instances/PoringVillage.npc` | `8aca3a646` |
 
 Le branchement n'a jamais été le vrai travail : chacun de ces portages a demandé
 d'extraire des mobs, quêtes ou objets restés dans `db/re`, et de porter les mapflags
@@ -75,21 +75,17 @@ restés côté `re`.
 
 | Contenu | Épisode | Mobs à écrire | Lignes à décommenter |
 |---|---|---:|---:|
-| **Donjons Illusion** (10 cartes de 8 donjons) | 16.2 | **72 portés**, activés, non validés en jeu | activées |
 | Rudus + OS | 17.1 | **10** (`EP17_1_*`) | 24 |
 | Village du Loup Gris + Labyrinthe d'Oz | 18 | **13** (`EP18_*`) | 16 |
 | Hall of Life | 20 | **32** (`SPIRIT_*`) | 36 |
 
-**55 entrées de mob restent à écrire, hors Illusion.** C'est le cœur du travail restant, et le gisement le plus
-rentable est celui des donjons Illusion : cartes connues, monstres dérivés de créatures
-pré-renewal, donc rééchelonnage mécanique.
+**55 entrées de mob restent à écrire.** C'est le cœur du travail restant. Les donjons Illusion
+de l'épisode 16.2 ne figurent plus ici : 72 mobs portés, huit donjons activés, à valider en jeu.
 
 ### Niveau 4 — écrire la chaîne narrative
 
-`quests_17_1.txt`, `quests_17_2.txt`, `quests_18.txt`,
-`quests_illusion_dungeons.txt` (≈ 13 000 lignes), `enchan_illusion_dungeons.txt`,
-`illusion_investigation.txt`. Ce sont des portages lourds, avec les économies associées
-(Noyaux de Cor, Fragments d'Améthyste, monnaies d'enchantement Illusion) à convertir.
+`quests_17_1.txt`, `quests_17_2.txt`, `quests_18.txt`. Ce sont des portages lourds, avec les économies associées
+(Noyaux de Cor, Fragments d'Améthyste) à convertir.
 
 ### Hors périmètre
 
