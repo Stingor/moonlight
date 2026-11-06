@@ -359,3 +359,30 @@ Body:
           - Index: 101
             Item: Captain_Felock_Card
             Rate: 1
+          - Index: 102
+            Item: Ancient_Tao_Gunka_Card
+            Rate: 1
+          - Index: 103
+            Item: Ancient_W_Deffend_Card
+            Rate: 1
+          - Index: 104
+            Item: AngerMoonlight_Card
+            Rate: 1
+          - Index: 105
+            Item: AwakenKtullanux_Card
+            Rate: 1
+          - Index: 106
+            Item: ILL_Abysmal_Witch_Card
+            Rate: 1
+          - Index: 107
+            Item: ILL_Kraken_Card
+            Rate: 1
+          - Index: 108
+            Item: ILL_Maya_Card
+            Rate: 1
+          - Index: 109
+            Item: Ill_Dracula_Card
+            Rate: 1
+          - Index: 110
+            Item: OminousTurtleG_Card
+            Rate: 1

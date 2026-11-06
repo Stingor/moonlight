@@ -293,3 +293,12 @@ gonryun	mapflag	nightenabled
 
 // Illusion Dungeons
 pay_d03_i	mapflag	nomemo
+ice_d03_i	mapflag	nomemo
+gef_d01_i	mapflag	nomemo
+iz_d04_i	mapflag	nomemo
+iz_d05_i	mapflag	nomemo
+ein_d02_i	mapflag	nomemo
+tur_d03_i	mapflag	nomemo
+tur_d04_i	mapflag	nomemo
+com_d02_i	mapflag	nomemo
+ant_d02_i	mapflag	nomemo

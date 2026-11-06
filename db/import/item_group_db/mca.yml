@@ -713,3 +713,33 @@ Body:
           - Index: 221
             Item: As_Wind_Ghost_Card
             Rate: 80
+          - Index: 222
+            Item: Ancient_Tao_Gunka_Card
+            Rate: 1
+          - Index: 223
+            Item: Ancient_W_Deffend_Card
+            Rate: 1
+          - Index: 224
+            Item: AngerMoonlight_Card
+            Rate: 1
+          - Index: 225
+            Item: AwakenKtullanux_Card
+            Rate: 1
+          - Index: 226
+            Item: ILL_Abysmal_Witch_Card
+            Rate: 1
+          - Index: 227
+            Item: ILL_Kraken_Card
+            Rate: 1
+          - Index: 228
+            Item: ILL_Maya_Card
+            Rate: 1
+          - Index: 229
+            Item: Ill_Dracula_Card
+            Rate: 1
+          - Index: 230
+            Item: OminousTurtleG_Card
+            Rate: 1
+          - Index: 231
+            Item: Bomi_Card
+            Rate: 30

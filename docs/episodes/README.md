@@ -75,7 +75,7 @@ restés côté `re`.
 
 | Contenu | Épisode | Mobs à écrire | Lignes à décommenter |
 |---|---|---:|---:|
-| **Donjons Illusion** (10 cartes de 8 donjons pré-installés) | 16.2 | **70 portés**, non validés en jeu | 61 + bloc de Luanda |
+| **Donjons Illusion** (10 cartes de 8 donjons) | 16.2 | **72 portés**, activés, non validés en jeu | activées |
 | Rudus + OS | 17.1 | **10** (`EP17_1_*`) | 24 |
 | Village du Loup Gris + Labyrinthe d'Oz | 18 | **13** (`EP18_*`) | 16 |
 | Hall of Life | 20 | **32** (`SPIRIT_*`) | 36 |

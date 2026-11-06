@@ -112,52 +112,41 @@ Ces trois instances sont branchées mais pas encore validées en jeu. Leur porta
 (`db/import/mobs/memorial_dungeons.yml`), 184 lignes de skills, 10 objets, 6 quêtes et un groupe
 d'objets. Les descriptions client des nouveaux objets restent à faire.
 
-### Donjon pilote : Illusion of Moonlight
+### Les huit donjons Illusion sont branchés (non validés en jeu)
 
-Branché, pas encore validé en jeu : `moon/rathena/quests/illusion/moonlight.npc` (quêtes, entrée,
-Gemcutter), spawns décommentés dans `moon/rathena/dungeons/pay_dun.npc` et identiques à l'amont,
-troc `barter_ill_moonlight` dans `moon/barters.yml`, `nomemo` et entrée `• Illusion` du warp agent
-(`pay_d03_i,140,44`).
+| Carte | Donjon | Script | Spawns |
+|---|---|---|---|
+| `pay_d03_i` | Moonlight | `moon/rathena/quests/illusion/moonlight.npc` | `moon/rathena/dungeons/pay_dun.npc` |
+| `ice_d03_i` | Frozen | `frozen.npc` | `moon/rathena/dungeons/ice_dun.npc` |
+| `gef_d01_i` | Vampire | `vampire.npc` | `moon/rathena/dungeons/gef_dun.npc` |
+| `iz_d04_i`, `iz_d05_i` | Underwater | `underwater.npc` | `moon/rathena/dungeons/iz_dun.npc` |
+| `ein_d02_i` | Teddy Bear | `teddy_bear.npc` | `moon/mobs/einbroch.npc` |
+| `tur_d03_i`, `tur_d04_i` | Turtle | `turtle.npc` | `moon/rathena/dungeons/tur_dun.npc` |
+| `com_d02_i` | Luanda | `luanda.npc` | `moon/mobs/comodo.npc` |
+| `ant_d02_i` | Twins | `twins.npc` | `moon/mobs/morocc.npc` |
 
-Le Gemcutter a imposé d'activer `feature.barter` et `feature.barter_extended` dans
-`conf/import/battle_conf.txt` : ces trocs demandent plusieurs objets et un raffinage minimum.
-Sans ces deux flags, le troc n'est pas créé et le Gemcutter ne peut rien échanger.
+Les blocs de spawn sont repris de l'amont après comparaison ligne à ligne avec les versions
+commentées. Le warp agent mène à chaque carte par `• Illusion`, dans le menu des donjons, et
+chaque échangeur a son troc dans `moon/barters.yml`.
 
-### Les autres donjons Illusion restent commentés
+`feature.barter` et `feature.barter_extended` sont activés dans `conf/import/battle_conf.txt` :
+ces trocs demandent plusieurs objets et un raffinage minimum.
 
-Spawns et blocs de script sont présents dans les fichiers de Moonlight, **en commentaire**.
-
-| Carte | Donjon | Fichier Moonlight | Lignes de spawn commentées |
-|---|---|---|---:|
-| `pay_d03_i` | Moonlight | `moon/rathena/dungeons/pay_dun.npc` | **activé** (15) |
-| `gef_d01_i` | Vampire | `moon/rathena/dungeons/gef_dun.npc` | 8 |
-| `ice_d03_i` | Frozen | `moon/rathena/dungeons/ice_dun.npc` | 4 |
-| `iz_d04_i` | Underwater F1 | `moon/rathena/dungeons/iz_dun.npc` | 5 |
-| `iz_d05_i` | Underwater F2 | `moon/rathena/dungeons/iz_dun.npc` | 5 |
-| `tur_d03_i` | Turtle F1 | `moon/rathena/dungeons/tur_dun.npc` | 2 |
-| `tur_d04_i` | Turtle F2 | `moon/rathena/dungeons/tur_dun.npc` | 5 |
-| `ant_d02_i` | Twins | `moon/mobs/morocc.npc` | 9 |
-| `ein_d02_i` | Teddy Bear | `moon/mobs/einbroch.npc` | 8 |
-| `com_d02_i` | Luanda | `moon/mobs/comodo.npc` | bloc scripté `illusion_luanda` |
-
-**Reste : 46 lignes de spawn, plus le bloc de Luanda.**
-
-`Crown_Of_Witch` (25897) et `IL_Kraken_Leg` (7324) manquent au troc `barter_ill_underwater` :
-à porter avec Underwater.
+`ILL_KRAKEN` et `ILL_ABYSMAL_WITCH` n'étaient que des gabarits sans drop ni skill : ils sont
+remplacés par leurs valeurs converties. Les cartes Illusion ont rejoint les albums : 49 dans
+`CARDALBUM`, 10 dans `MAGICCARDALBUM`, 9 dans `MVPCARDENCHANT`.
 
 ### Données portées (non validées en jeu)
 
 | Base | Porté | Détail |
 |---|---:|---|
-| Mobs | **70** | `db/import/mobs/illusion.yml` : 66 `ILL_*` et 4 invocations `G_ILL_*`. `ILL_KRAKEN` et `ILL_ABYSMAL_WITCH` étaient déjà chargés |
-| `mob_skill_db` | **612 lignes** | `ILL_ICEICLE`, `ILL_FROZEN_KN` et `ILL_FROZEN_GC` n'en ont aucune |
-| `skill_db` | **6** | `NPC_ALL_STAT_DOWN`, `NPC_DAMAGE_HEAL`, `NPC_IMMUNE_PROPERTY`, `NPC_MOVE_COORDINATE`, `NPC_WIDESILENCE2`, `NPC_BLEEDING2` |
-| Objets ajoutés | **107** | 56 divers, 22 cartes (2 enchantements), 14 armures, 12 armes, 2 pierres de résonance, 1 soin |
+| Mobs | **72** | `db/import/mobs/illusion.yml` : 68 `ILL_*` et 4 invocations `G_ILL_*` |
+| `mob_skill_db` | **677 lignes** | `ILL_ICEICLE`, `ILL_FROZEN_KN` et `ILL_FROZEN_GC` n'en ont aucune |
+| `skill_db` | **7** | `NPC_ALL_STAT_DOWN`, `NPC_DAMAGE_HEAL`, `NPC_IMMUNE_PROPERTY`, `NPC_MOVE_COORDINATE`, `NPC_WIDESILENCE2`, `NPC_BLEEDING2`, `NPC_HELLJUDGEMENT2` |
+| Objets ajoutés | **111** | 58 divers, 24 cartes (2 enchantements), 14 armures, 12 armes, 2 pierres de résonance, 1 soin |
 | Objets renommés | **87** | même Id, nom renewal adopté, par exemple `Illusion_War_Axe` → `War_Axe_IL` |
 | Quêtes | **141** | la 3465 reste écartée : commentée en `db/re` (Labyrinth, non converti), mais posée par `illusion_investigation.txt` |
 | Combos | **24** | ceux dont tous les objets existent ; 16 sont écartés faute de partenaire chargé |
-
-Les spawns restent commentés : aucun de ces mobs n'apparaît encore en jeu.
 
 **Équipements.** Les 26 nouveaux ont été relus un par un et suivent la conversion des
 `Illusion_*` déjà présents :
@@ -179,17 +168,14 @@ objets existants, sans effet tant que ces classes restent fermées.
 
 - `ILL_Piece_A` et `ILL_Piece_B` lancent `laphine_upgrade()` : inertes tant que le système Lapine
   n'existe pas, à traiter avec `market_resonance_stone` au lot économie.
-- Les albums de cartes attendent l'ouverture des donjons, pour ne pas distribuer ces cartes avant.
 - Les descriptions client des nouveaux objets restent à faire.
 
-### PNJ, économie et mapflags
+### Reste : le lot économie
 
-- **Quêtes et accès :** `quests_illusion_dungeons.txt` (8 donjons, 303 PNJ) et
-  `illusion_investigation.txt` ne sont pas présents côté Moonlight.
-- **Enchantement :** `enchan_illusion_dungeons.txt` (10 PNJ) non plus.
-- **Warp agent :** un accès direct aux 10 cartes reste à ajouter.
-- **Mapflags :** `nomemo` manque sur les 10 cartes, et `nowarpto` sur `iz_d04_i`,
-  `iz_d05_i` et `ant_d02_i`.
+- `illusion_investigation.txt` (5 PNJ d'enquête, quêtes quotidiennes, dont la 3465 à neutraliser) ;
+- l'Illusion Enchanter de Prontera (`prontera,90,115`) ;
+- l'Illusion Merchant de Prontera (`prontera,88,113`), avec `resonance_stone_barter` et
+  `market_resonance_stone`, qui vendent les pierres `laphine_upgrade()` : inertes sans Lapine.
 
 ### Hors périmètre
 
@@ -210,15 +196,12 @@ Décisions du 2026‑11‑06 :
 | Noms d'objets | Le local est renommé vers le nom renewal, après un grep exhaustif |
 | Système Lapine | Chantier à part : le client custom n'a pas encore son interface |
 
-Ordre de portage : Moonlight comme donjon pilote, puis Frozen, Vampire, Underwater,
-Teddy Bear, Turtle, Luanda, Twins.
-
 ## 6. Verdict
 
 | | |
 |---|---|
 | Intérêt | **le plus élevé du dossier** |
-| Reste à faire | validation en jeu du pilote · 7 donjons à activer · enchanteur · albums · client |
+| Reste à faire | validation en jeu · économie (enquête, Enchanter, Merchant) · client |
 
 ## Sources
 

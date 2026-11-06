@@ -360,3 +360,8 @@ star_in	mapflag	nowarpto
 // Memorial Dungeons (Week-end, Vendredi)
 1@md_pay	mapflag	nowarpto
 1@md_gef	mapflag	nowarpto
+
+// Illusion Dungeons
+iz_d04_i	mapflag	nowarpto
+iz_d05_i	mapflag	nowarpto
+ant_d02_i	mapflag	nowarpto

@@ -10008,3 +10008,28 @@ Body:
       bonus2 bMagicAddRace,RC_Player_Doram,50;
       bonus2 bMagicAddRace,RC_Plant,50;
       bonus bUseSPrate,50;
+  - Id: 300151
+    AegisName: ILL_Kraken_Card
+    Name: Abysmal Kraken Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bLongAtkRate,25;
+      bonus bPerfectHitAddRate,5;
+  - Id: 300145
+    AegisName: ILL_Abysmal_Witch_Card
+    Name: Abysmal Witch Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Garment: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bMagicAtkEle,Ele_Fire,100;
+      bonus2 bMagicAtkEle,Ele_Dark,100;
+      bonus2 bSubEle,Ele_All,-30;

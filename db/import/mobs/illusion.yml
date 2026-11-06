@@ -4877,3 +4877,165 @@ Body:
 #    AegisName: E_HILLSRION
 #  - Id: 21865
 #    AegisName: E_BABY_LEOPARD
+  - Id: 20811
+    AegisName: ILL_KRAKEN
+    Name: Deep Sea Kraken
+    Level: 204
+    Hp: 4637971
+    BaseExp: 7420754
+    JobExp: 4823490
+#   MvpExp:
+    Attack: 10874
+    Attack2: 1889
+    Defense: 59
+    MagicDefense: 43
+    Str: 325
+    Agi: 190
+    Vit: 169
+    Int: 277
+    Dex: 200
+    Luk: 55
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Fish
+    Element: Water
+    ElementLevel: 4
+    WalkSpeed: 180
+    AttackDelay: 422
+    AttackMotion: 870
+    ClientAttackMotion: 384
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Old_Card_Album
+        Rate: 4000
+      - Item: Magic_Card_Album
+        Rate: 5000
+      - Item: Old_Violet_Box
+        Rate: 3000
+    Drops:
+      - Item: Tentacle
+        Rate: 3000
+      - Item: Mistic_Frozen
+        Rate: 500
+      - Item: Shadowdecon
+        Rate: 50
+      - Item: IL_Kraken_Leg
+        Rate: 3000
+      - Item: Morrigane's_Manteau
+        Rate: 300
+      - Item: E_Abyss1
+        Rate: 1000
+      - Item: ILL_Kraken_Card
+        Rate: 1
+        StealProtected: true
+#  - Id: 20812
+#    AegisName: MD_EVENT_HEMEL
+#  - Id: 20813
+#    AegisName: MD_EVENT_AMDARAIS
+#  - Id: 20814
+#    AegisName: G_PAYONSOLDIER
+#  - Id: 20815
+#    AegisName: G_PAYONSOLDIER2
+#  - Id: 20816
+#    AegisName: EM_DILUVIO
+#  - Id: 20817
+#    AegisName: EM_ARDOR
+#  - Id: 20818
+#    AegisName: EM_PROCELLA
+#  - Id: 20819
+#    AegisName: EM_TERREMOTUS
+#  - Id: 20820
+#    AegisName: EM_SERPENS
+#  - Id: 20821
+#    AegisName: 4JOB_VOID
+#  - Id: 20822
+#    AegisName: 4JOB_WRAITH
+#  - Id: 20823
+#    AegisName: 4JOB_KINGS_NIGHT
+#  - Id: 20824
+#    AegisName: 4JOB_AGONY_NIGHT
+#  - Id: 20825
+#    AegisName: 4JOB_DEVOTION_NIGHT
+#  - Id: 20826
+#    AegisName: 4JOB_ARMED_NIGHT
+#  - Id: 20827
+#    AegisName: 4JOB_DOOMK
+#  - Id: 20828
+#    AegisName: 4JOB_VERKHASEL
+#  - Id: 20829
+#    AegisName: 4JOB_BAPHOMET
+#  - Id: 20830
+#    AegisName: 4JOB_H_FALCON
+#  - Id: 20831
+#    AegisName: 4JOB_S_FALCON
+#  - Id: 20832
+#    AegisName: 4JOB_R_FALCON
+#  - Id: 20833
+#    AegisName: 4JOB_WORG
+  - Id: 20843
+    AegisName: ILL_ABYSMAL_WITCH
+    Name: Deep Sea Witch
+    Level: 205
+    Hp: 4612173
+    BaseExp: 7379477
+    JobExp: 4796660
+#   MvpExp:
+    Attack: 11016
+    Attack2: 1853
+    Defense: 60
+    MagicDefense: 44
+    Str: 327
+    Agi: 194
+    Vit: 173
+    Int: 325
+    Dex: 201
+    Luk: 55
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 210
+    AttackDelay: 360
+    AttackMotion: 1250
+    ClientAttackMotion: 360
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Magic_Card_Album
+        Rate: 5000
+      - Item: Old_Card_Album
+        Rate: 4000
+      - Item: Old_Violet_Box
+        Rate: 3000
+    Drops:
+      - Item: Crown_Of_Witch
+        Rate: 3000
+      - Item: Mistic_Frozen
+        Rate: 300
+      - Item: Morrigane's_Pendant
+        Rate: 50
+      - Item: Morrigane's_Belt
+        Rate: 50
+      - Item: Shadowdecon
+        Rate: 50
+      - Item: E_Abyss1
+        Rate: 1000
+      - Item: ILL_Abysmal_Witch_Card
+        Rate: 1
+        StealProtected: true
+#  - Id: 20844
+#    AegisName: PRAY_GIVER
+#  - Id: 20845
+#    AegisName: SMILE_GIVER

@@ -1513,7 +1513,16 @@ L_jup: WarpMenu("juperos_01,53,243",
 				"jupe_core,150,20"); goto L_Donjons;
 L_kie: WarpMenu("kh_dun01,28,211",
 				"kh_dun02,42,197"); goto L_Donjons;
-L_ill: WarpMenu("pay_d03_i,140,44"); goto L_Donjons;
+L_ill: WarpMenu("pay_d03_i,140,44",
+				"ice_d03_i,149,24",
+				"gef_d01_i,114,216",
+				"iz_d04_i,130,227",
+				"iz_d05_i,141,186",
+				"ein_d02_i,168,197",
+				"tur_d03_i,132,187",
+				"tur_d04_i,99,186",
+				"com_d02_i,249,243",
+				"ant_d02_i,172,185"); goto L_Donjons;
 L_las: WarpMenu("lasa_dun01,23,143",
 				"lasa_dun02,22,171",
 				"lasa_dun03,190,19"); goto L_Donjons;

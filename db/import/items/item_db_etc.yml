@@ -13318,3 +13318,17 @@ Body:
     Weight: 10
     Flags:
       BuyingStore: true
+  - Id: 25897
+    AegisName: Crown_Of_Witch
+    Name: Deep Sea Witch's Crown
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 7324
+    AegisName: IL_Kraken_Leg
+    Name: Deep Sea Kraken's Leg
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
