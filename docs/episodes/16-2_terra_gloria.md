@@ -6,7 +6,7 @@
 | Date kRO | **2016‑03‑09** |
 | Arc | Terra Gloria — les Heart Hunters |
 | Niveau kRO visé | 150‑175 |
-| État Moonlight | **porté, à valider en jeu** — reste le `.thor` client |
+| État Moonlight | **porté, à valider en jeu** |
 
 Épisode charnière : il ouvre **Rock Ridge** et surtout la série des **donjons Illusion**,
 qui recyclent d'anciens donjons pré-renewal en versions haut niveau. C'est le contenu le
@@ -166,9 +166,9 @@ objets existants, sans effet tant que ces classes restent fermées.
 
 **Restent à décider ou à faire :**
 
-- **Client :** `itemInfokro.lua` décrit déjà les 121 nouveaux objets. `itemInfomoon.lua` surcharge les
-  11 dont le texte mentait (`Defense`, `DEF +50`, Minstrel et Wanderer). Le `.thor` reste à générer,
-  et la présence des sprites n'a pas pu être vérifiée dans les GRF.
+- **Client :** `moonclient` connaît les 121 nouveaux objets. Son `item_db.yml` est à jour avec le serveur, et ses
+  faits (DEF, poids, prérequis) viennent de là. `item_info.yml` a perdu ses lignes de faits périmées
+  (`--retirer-faits`) et `DEF +5` est corrigé. La présence des sprites n'est pas vérifiée dans les GRF.
 
 ### Économie
 
@@ -204,7 +204,7 @@ Décisions du 2026‑11‑06 :
 | | |
 |---|---|
 | Intérêt | **le plus élevé du dossier** |
-| Reste à faire | validation en jeu · publier la mise à jour client |
+| Reste à faire | validation en jeu · livrer `moonclient` |
 
 ## Sources
 
