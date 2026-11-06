@@ -145,7 +145,7 @@ remplacés par leurs valeurs converties. Les cartes Illusion ont rejoint les alb
 | `skill_db` | **7** | `NPC_ALL_STAT_DOWN`, `NPC_DAMAGE_HEAL`, `NPC_IMMUNE_PROPERTY`, `NPC_MOVE_COORDINATE`, `NPC_WIDESILENCE2`, `NPC_BLEEDING2`, `NPC_HELLJUDGEMENT2` |
 | Objets ajoutés | **111** | 58 divers, 24 cartes (2 enchantements), 14 armures, 12 armes, 2 pierres de résonance, 1 soin |
 | Objets renommés | **87** | même Id, nom renewal adopté, par exemple `Illusion_War_Axe` → `War_Axe_IL` |
-| Quêtes | **141** | la 3465 reste écartée : commentée en `db/re` (Labyrinth, non converti), mais posée par `illusion_investigation.txt` |
+| Quêtes | **141** | la 3465 reste écartée : Labyrinth n'est pas converti, et son PNJ est commenté dans l'amont |
 | Combos | **24** | ceux dont tous les objets existent ; 16 sont écartés faute de partenaire chargé |
 
 **Équipements.** Les 26 nouveaux ont été relus un par un et suivent la conversion des
@@ -166,16 +166,15 @@ objets existants, sans effet tant que ces classes restent fermées.
 
 **Restent à décider ou à faire :**
 
-- `ILL_Piece_A` et `ILL_Piece_B` lancent `laphine_upgrade()` : inertes tant que le système Lapine
-  n'existe pas, à traiter avec `market_resonance_stone` au lot économie.
 - Les descriptions client des nouveaux objets restent à faire.
 
-### Reste : le lot économie
+### Économie
 
-- `illusion_investigation.txt` (5 PNJ d'enquête, quêtes quotidiennes, dont la 3465 à neutraliser) ;
-- l'Illusion Enchanter de Prontera (`prontera,90,115`) ;
-- l'Illusion Merchant de Prontera (`prontera,88,113`), avec `resonance_stone_barter` et
-  `market_resonance_stone`, qui vendent les pierres `laphine_upgrade()` : inertes sans Lapine.
+- **Enquête :** `moon/rathena/quests/illusion/investigation.npc`, repris tel quel. Terrian et sa
+  quête 3465 sont déjà en commentaire dans l'amont, faute de Labyrinth.
+- **Illusion Enchanter :** `moon/rathena/merchants/enchan_illusion.npc`, à `prontera,90,115`.
+- **Illusion Merchant : non porté.** Il vend `ILL_Piece_A` et `ILL_Piece_B` à 2 000 000 zeny, or
+  ces pierres lancent `laphine_upgrade()`, inerte sans Lapine. Il revient avec ce chantier.
 
 ### Hors périmètre
 
@@ -201,7 +200,7 @@ Décisions du 2026‑11‑06 :
 | | |
 |---|---|
 | Intérêt | **le plus élevé du dossier** |
-| Reste à faire | validation en jeu · économie (enquête, Enchanter, Merchant) · client |
+| Reste à faire | validation en jeu · client · Illusion Merchant avec le chantier Lapine |
 
 ## Sources
 
