@@ -63,7 +63,7 @@ suffixée `_i`.
 | **Village Poring** | `1@begi` | `PoringVillage.txt` |
 | **Old Glast Heim — mode débutant** | `1@gl_k2` | aucun script rAthena |
 | Usine de Jouets d'Horreur — mode débutant | `1@xm_d2` | aucun script rAthena |
-| *Rêves et Ombres*, *Talons du Roi* | — | quêtes |
+| *Rêves et Ombres*, *Talons du Roi* | — | quêtes, aucun script trouvé dans rAthena par mots-clés |
 
 ### Systèmes
 
@@ -71,14 +71,14 @@ suffixée `_i`.
 |---|---|
 | **Système Lapine** | partiel : les deux pierres d'Illusion seulement |
 | **Retrait de carte** (*card removal*) | déjà là (`moon/desloter.npc`) |
-| **Échoppe hors ligne** (*part-time stall*) | oui |
+| **Échoppe hors ligne** (*part-time stall*) | équivalent : commande `@autotrade` |
 | **Échange d'équipement** (*gear swap*) | déjà géré par le serveur |
-| Quêtes de donjon quotidiennes | oui |
-| Système familial mis à jour | oui |
-| Interface de groupe améliorée | oui |
-| Course de Hugel revue | oui |
+| Quêtes de donjon quotidiennes | portées avec les donjons Illusion et l'enquête |
+| Système familial mis à jour | système maison : `moon/adoption.npc`, `moon/marriage.npc` |
+| Interface de groupe améliorée | côté client, non évalué ici |
+| Course de Hugel revue | `moon/rathena/other/hugel_bingo.txt` chargé ; la refonte kRO n'est pas comparée |
 | Mémoire des Orcs mise à jour | déjà chargée (`moon/instances/OrcsMemory.npc`) |
-| Améliorations de la carte du monde | oui |
+| Améliorations de la carte du monde | côté client, non évalué ici |
 | Refontes de compétences 3ᵉ classe #1→#4, Rebellion #2 | non |
 | Quêtes Eden 100‑140 réorganisées | déjà chargées (`moon/rathena/quests/eden/`) |
 
@@ -177,8 +177,8 @@ objets existants, sans effet tant que ces classes restent fermées.
 - **Illusion Enchanter :** `moon/rathena/merchants/enchan_illusion.npc`, à `prontera,90,115`.
 - **Illusion Merchant :** dans le même fichier, à `prontera,88,113`. Il vend `ILL_Piece_A` et `ILL_Piece_B`
   (2 000 000 zeny ou 10 Illusion Stones). Leurs recettes sont dans `db/import/laphine_upgrade.yml` :
-  36 armes `*_IL`, options `ILL_PIECE_A` et `ILL_PIECE_B`. Les 102 autres recettes et `laphine_synthesis`
-  restent hors périmètre, leurs données étant celles de `db/re`, gear renewal compris.
+  36 armes `*_IL`, options `ILL_PIECE_A` et `ILL_PIECE_B`. Rien d'autre n'est portable aujourd'hui : les
+  déclencheurs des 102 autres recettes et des 179 de `laphine_synthesis` n'existent pas dans les objets chargés.
 
 ### Hors périmètre
 
