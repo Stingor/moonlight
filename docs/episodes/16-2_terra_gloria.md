@@ -61,26 +61,26 @@ suffixée `_i`.
 | **Donjon du week-end** | `1@md_pay` | `WeekendDungeon.txt` |
 | **Donjon du vendredi** | `1@md_gef` | `FridayDungeon.txt` |
 | **Village Poring** | `1@begi` | `PoringVillage.txt` |
-| **Old Glast Heim — mode débutant** | `1@gl_k2` | (variante d'`OldGlastHeim`) |
-| Usine de Jouets d'Horreur — mode débutant | `1@xm_d` | (variante) |
+| **Old Glast Heim — mode débutant** | `1@gl_k2` | aucun script rAthena |
+| Usine de Jouets d'Horreur — mode débutant | `1@xm_d2` | aucun script rAthena |
 | *Rêves et Ombres*, *Talons du Roi* | — | quêtes |
 
 ### Systèmes
 
 | Système | Pertinent en pré-renewal ? |
 |---|---|
-| **Système Lapine** | oui |
-| **Retrait de carte** (*card removal*) | oui |
+| **Système Lapine** | chantier à part, sans interface côté client custom |
+| **Retrait de carte** (*card removal*) | déjà là (`moon/desloter.npc`) |
 | **Échoppe hors ligne** (*part-time stall*) | oui |
-| **Échange d'équipement** (*gear swap*) | oui |
+| **Échange d'équipement** (*gear swap*) | déjà géré par le serveur |
 | Quêtes de donjon quotidiennes | oui |
 | Système familial mis à jour | oui |
 | Interface de groupe améliorée | oui |
 | Course de Hugel revue | oui |
-| Mémoire des Orcs mise à jour | oui |
+| Mémoire des Orcs mise à jour | déjà chargée (`moon/instances/OrcsMemory.npc`) |
 | Améliorations de la carte du monde | oui |
 | Refontes de compétences 3ᵉ classe #1→#4, Rebellion #2 | non |
-| Quêtes Eden 100‑140 réorganisées | à arbitrer |
+| Quêtes Eden 100‑140 réorganisées | déjà chargées (`moon/rathena/quests/eden/`) |
 
 ## 3. État côté rAthena
 
@@ -90,7 +90,10 @@ suffixée `_i`.
 `npc/re/quests/illusion_investigation.txt`,
 `npc/re/instances/{HeartHunterWarBase,WernerLaboratoryCentralRoom,WeekendDungeon,FridayDungeon,PoringVillage}.txt`.
 
-## 4. État côté Moonlight (mesuré le 2026‑08‑25)
+## 4. État côté Moonlight (mesuré le 2026‑11‑06)
+
+Relevé produit par `tools/util/port_illusion.py`, qui suit les `Footer: Imports:` de
+chaque base et compare les objets par Id **et** par AegisName.
 
 ### Déjà en service
 
@@ -101,67 +104,107 @@ suffixée `_i`.
 | Rock Ridge — mobs | `moon/mobs/rockridge.npc` (`rockrdg1/2`, `rockmi1/2`, `harboro1/2`) |
 | Heart Hunters | `moon/instances/HeartHunterWarBase.npc` |
 | Laboratoire de Werner | `moon/instances/WernerLaboratoryCentralRoom.npc` |
+| Donjon du week-end | `moon/instances/WeekendDungeon.npc` — `1@md_pay`, id 45 |
+| Donjon du vendredi | `moon/instances/FridayDungeon.npc` — `1@md_gef`, id 46 |
+| Village Poring | `moon/instances/PoringVillage.npc` — `1@begi`, id 47 |
 
-### Le gisement : les donjons Illusion sont **pré-installés mais commentés**
+Ces trois instances sont branchées mais pas encore validées en jeu. Leur portage ajoute 35 mobs
+(`db/import/mobs/memorial_dungeons.yml`), 184 lignes de skills, 10 objets, 6 quêtes et un groupe
+d'objets. Les descriptions client des nouveaux objets restent à faire.
 
-Les lignes de spawn Illusion sont présentes dans les fichiers de spawn de Moonlight,
-**mises en commentaire**. Relevé exact :
+### Les donjons Illusion sont pré-installés mais commentés
 
-| Carte | Donjon | Fichier Moonlight | Lignes commentées | Mobs à ajouter au roster |
-|---|---|---|---|---|
-| `pay_d03_i` | Moonlight | `moon/rathena/dungeons/pay_dun.npc` | 15 | 6 (`ILL_NINE_TAIL`, `ILL_MUNAK`, `ILL_BON_GUN`, `ILL_SOHEE`, `ILL_ARCHER_SKELETON`, `ILL_FURY_HERO`) |
-| `gef_d01_i` | Vampire | `moon/rathena/dungeons/gef_dun.npc` | 8 | 6 (`ILL_DRAINLIAR`, `ILL_ZOMBIE`, `ILL_ZOMBIE_C`, `ILL_GHOUL`, `ILL_NIGHTMARE`, `ILL_BLACK_MUSHROOM`) |
-| `ice_d03_i` | Frozen | `moon/rathena/dungeons/ice_dun.npc` | 4 | 4 (`ILL_GAZETI`, `ILL_SNOWIER`, `ILL_ICE_TITAN`, `ILL_ICEICLE`) |
-| `iz_d04_i` | Underwater F1 | `moon/rathena/dungeons/iz_dun.npc` | 5 | 5 |
-| `iz_d05_i` | Underwater F2 | `moon/rathena/dungeons/iz_dun.npc` | 5 | 5 |
-| `tur_d03_i` | Turtle F1 | `moon/rathena/dungeons/tur_dun.npc` | 2 | 2 |
-| `tur_d04_i` | Turtle F2 | `moon/rathena/dungeons/tur_dun.npc` | 5 | 5 |
-| `ant_d02_i` | Twins | `moon/mobs/morocc.npc` | 9 | 9 |
+Spawns et blocs de script sont présents dans les fichiers de Moonlight, **en commentaire**.
 
-**Total : 53 lignes de spawn, 40 mobs `ILL_*` distincts à verser dans `db/import/`**
-(recompté le 2026‑10‑07). La somme des colonnes donne 42 parce que `ILL_PERMETER` et
-`ILL_SOLIDER` peuplent les deux étages de la Tortue. Quatre des quinze lignes de
-`pay_d03_i` (plantes et `WHISPER_`) appellent des mobs vanilla déjà en base.
+| Carte | Donjon | Fichier Moonlight | Lignes de spawn commentées |
+|---|---|---|---:|
+| `pay_d03_i` | Moonlight | `moon/rathena/dungeons/pay_dun.npc` | 15 |
+| `gef_d01_i` | Vampire | `moon/rathena/dungeons/gef_dun.npc` | 8 |
+| `ice_d03_i` | Frozen | `moon/rathena/dungeons/ice_dun.npc` | 4 |
+| `iz_d04_i` | Underwater F1 | `moon/rathena/dungeons/iz_dun.npc` | 5 |
+| `iz_d05_i` | Underwater F2 | `moon/rathena/dungeons/iz_dun.npc` | 5 |
+| `tur_d03_i` | Turtle F1 | `moon/rathena/dungeons/tur_dun.npc` | 2 |
+| `tur_d04_i` | Turtle F2 | `moon/rathena/dungeons/tur_dun.npc` | 5 |
+| `ant_d02_i` | Twins | `moon/mobs/morocc.npc` | 9 |
+| `ein_d02_i` | Teddy Bear | `moon/mobs/einbroch.npc` | 8 |
+| `com_d02_i` | Luanda | `moon/mobs/comodo.npc` | bloc scripté `illusion_luanda` |
 
-Deux mobs Illusion sont déjà chargés, `ILL_KRAKEN` (20811) et `ILL_ABYSMAL_WITCH`
-(20843), mais aucune ligne commentée ne les appelle : ils ne réduisent pas le compte.
+**Total : 61 lignes de spawn, plus le bloc de Luanda.**
 
-Les deux donjons non pré-installés côté Moonlight sont **Luanda** (`com_d02_i`) et
-**Teddy Bear** (`ein_d02_i`) ; leurs cartes sont bien dans le mapcache.
+### Données portées (non validées en jeu)
 
-Manquent aussi les PNJ d'entrée et l'économie : `quests_illusion_dungeons.txt`,
-`enchan_illusion_dungeons.txt`, `illusion_investigation.txt` — aucun n'est présent
-côté Moonlight.
+| Base | Porté | Détail |
+|---|---:|---|
+| Mobs | **70** | `db/import/mobs/illusion.yml` : 66 `ILL_*` et 4 invocations `G_ILL_*`. `ILL_KRAKEN` et `ILL_ABYSMAL_WITCH` étaient déjà chargés |
+| `mob_skill_db` | **612 lignes** | `ILL_ICEICLE`, `ILL_FROZEN_KN` et `ILL_FROZEN_GC` n'en ont aucune |
+| `skill_db` | **6** | `NPC_ALL_STAT_DOWN`, `NPC_DAMAGE_HEAL`, `NPC_IMMUNE_PROPERTY`, `NPC_MOVE_COORDINATE`, `NPC_WIDESILENCE2`, `NPC_BLEEDING2` |
+| Objets ajoutés | **107** | 56 divers, 22 cartes (2 enchantements), 14 armures, 12 armes, 2 pierres de résonance, 1 soin |
+| Objets renommés | **87** | même Id, nom renewal adopté, par exemple `Illusion_War_Axe` → `War_Axe_IL` |
+| Quêtes | **141** | la 3465 reste écartée : commentée en `db/re` (Labyrinth, non converti), mais posée par `illusion_investigation.txt` |
+| Combos | **24** | ceux dont tous les objets existent ; 16 sont écartés faute de partenaire chargé |
 
-### Autres manques
+Les spawns restent commentés : aucun de ces mobs n'apparaît encore en jeu.
 
-| Manque | Fichier présent ? |
+**Équipements.** Les 26 nouveaux ont été relus un par un et suivent la conversion des
+`Illusion_*` déjà présents :
+
+| Point | Conversion |
 |---|---|
-| Donjon du week-end | `moon/instances/WeekendDungeon.txt` — non référencé |
-| Donjon du vendredi | `moon/instances/FridayDungeon.txt` — non référencé |
-| Village Poring | `moon/instances/PoringVillage.txt` — non référencé |
-| Old Glast Heim mode débutant | absent |
+| `Defense` | armure 12, tête 8, bouclier 8, cape 6, chaussures 6 |
+| `MagicAttack` | ignoré en pré-renewal : remplacé par `bonus bMatk,N;` en tête du script |
+| `Classes` | `All_Third` + `Fourth` retirés, sinon l'objet serait inéquipable ; `Upper` seul devient `Upper`, `Third`, `Third_Upper`, `Third_Baby` |
+| `bonus bDef,50` | ramené à 5 |
+| `bAtkRate` | `bonus2 bAddClass,Class_All,n` |
+| Nom | suffixe `[n]` selon les emplacements |
+
+Les paliers de raffinage `>= 11` restent en place, inertes avec `MAX_REFINE` à 10. Les bonus de
+compétences de 3ᵉ classe (`LG_*`, `WM_*`, `RK_*`, `AB_*`, `GC_*`) sont gardés comme sur les
+objets existants, sans effet tant que ces classes restent fermées.
+
+**Restent à décider ou à faire :**
+
+- `ILL_Piece_A` et `ILL_Piece_B` lancent `laphine_upgrade()` : inertes tant que le système Lapine
+  n'existe pas, à traiter avec `market_resonance_stone` au lot économie.
+- Les albums de cartes attendent l'ouverture des donjons, pour ne pas distribuer ces cartes avant.
+- Les descriptions client des nouveaux objets restent à faire.
+
+### PNJ, économie et mapflags
+
+- **Quêtes et accès :** `quests_illusion_dungeons.txt` (8 donjons, 303 PNJ) et
+  `illusion_investigation.txt` ne sont pas présents côté Moonlight.
+- **Enchantement :** `enchan_illusion_dungeons.txt` (10 PNJ) non plus.
+- **Warp agent :** un accès direct aux 10 cartes reste à ajouter.
+- **Mapflags :** `nomemo` manque sur les 10 cartes, et `nowarpto` sur `iz_d04_i`,
+  `iz_d05_i` et `ant_d02_i`.
+
+### Hors périmètre
+
+**Modes débutant** (`1@gl_k2`, `1@xm_d2`) : rAthena ne fournit aucun script, seulement des
+mapflags et, pour `1@gl_k2`, une entrée `instance_db`. Ils sont hors périmètre.
 
 ## 5. Migration pré-renewal
 
-Les donjons Illusion sont **le meilleur rapport contenu/effort de tout le dossier** :
+Décisions du 2026‑11‑06 :
 
-1. les cartes sont dans le mapcache ;
-2. les spawns sont déjà écrits, il suffit de les décommenter ;
-3. les mobs sont des variantes de monstres pré-renewal connus — leur rééchelonnage est
-   mécanique (on part de la version d'origine, on monte) plutôt qu'arbitraire ;
-4. ils réutilisent des donjons que les joueurs connaissent déjà.
+| Sujet | Décision |
+|---|---|
+| Accès | Quêtes d'origine conservées, **plus** un accès direct par le warp agent |
+| Découpage | Un fichier `.npc` par donjon sous `moon/rathena/quests/illusion/`, pour charger et tester un donjon à la fois |
+| Équipements | Portés et contrôlés un par un |
+| Stats des mobs | `tools/util/re_to_prere_mob.py` sans retouche : ATK inchangée et EXP dérivée des HP sont voulues |
+| Équipement Doram | `Doram_High_Cape`, `Doram_High_Shoes`, `Doram_High_Suit` retirés des drops |
+| Noms d'objets | Le local est renommé vers le nom renewal, après un grep exhaustif |
+| Système Lapine | Chantier à part : le client custom n'a pas encore son interface |
 
-Le point d'attention est l'**économie associée** : les enchantements Illusion supposent
-des monnaies et des équipements renewal. Il faut soit les convertir, soit les remplacer
-par une récompense maison.
+Ordre de portage : Moonlight comme donjon pilote, puis Frozen, Vampire, Underwater,
+Teddy Bear, Turtle, Luanda, Twins.
 
 ## 6. Verdict
 
 | | |
 |---|---|
 | Intérêt | **le plus élevé du dossier** |
-| Reste à faire | 40 mobs `ILL_*` · décommenter 53 lignes · porter les PNJ d'entrée et l'enchanteur · 3 instances à brancher |
+| Reste à faire | validation en jeu · 8 donjons à activer · enchanteur · warp agent · albums · client |
 
 ## Sources
 

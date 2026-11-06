@@ -4881,7 +4881,7 @@ Body:
     Refineable: true
     Script: "bonus bDex,2; bonus bLuk,2;\n"
   - Id: 1326
-    AegisName: Illusion_War_Axe
+    AegisName: War_Axe_IL
     Name: Illusion War Axe [2]
     Type: Weapon
     SubType: 1hAxe
@@ -13154,7 +13154,7 @@ Body:
     Refineable: true
     Script: "bonus bAspd,1; bonus bAspdRate,getrefine(); bonus2 bAddSize,Size_Medium,getrefine();\n"
   - Id: 1846
-    AegisName: Illusion_Combo_Battle_Glove
+    AegisName: Combo_Battle_Glove_IL
     Name: Illusion Combo Battle Glove [2]
     Type: Weapon
     SubType: Knuckle
@@ -15338,7 +15338,7 @@ Body:
     Refineable: true
     Script: "bonus bMatk,230; .@r = getrefine(); .@b = 40; .@c = 5; if(.@r>=5){ .@b += (.@r-5)*15+20; .@c += .@r-5; } bonus2 bMagicAddRace2,RC2_BioLab,.@b; bonus2 bSubRace2,RC2_BioLab,.@c; bonus2 bIgnoreMdefRace2Rate,RC2_BioLab,(.@r-5)*10;\n"
   - Id: 2039
-    AegisName: Illusion_Wizardry_Staff
+    AegisName: Wizardy_Staff_IL
     Name: Illusion Wizardry Staff [2]
     Type: Weapon
     SubType: 2hStaff
@@ -15386,7 +15386,7 @@ Body:
     Refineable: true
     Script: "bonus bMatk,300; .@r = getrefine; bonus bInt,7; bonus bMatkRate,.@r/2; bonus bUnbreakableWeapon; if (.@r>=9) .@val = 15; else if (.@r>=7) .@val = 5; if (.@r>=11) bonus2 bSubSize,Size_All,20; if (.@r>=13) bonus bDelayrate,-15; bonus2 bMagicAtkEle,Ele_Fire,.@val; bonus2 bMagicAtkEle,Ele_Earth,.@val; bonus2 bMagicAtkEle,Ele_Water,.@val; bonus2 bMagicAtkEle,Ele_Holy,.@val;\n"
   - Id: 2051
-    AegisName: Illusion_Survivor's_Staff
+    AegisName: Survival_Staff_IL
     Name: Illusion Survivor's Staff [2]
     Type: Weapon
     SubType: 2hStaff
@@ -19456,7 +19456,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); .@bonus = 20; if (.@r>=7) { bonus bLongAtkRate,10; } if (.@r>=9) { .@bonus += 20; } bonus2 bSkillAtk,\"KO_HUUMARANKA\",.@bonus;\n"
   - Id: 13337
-    AegisName: Illusion_Huuma_Fluttering_Snow
+    AegisName: Huuma_Flutter_Snow_IL
     Name: Illusion Huuma Fluttering Snow [2]
     Type: Weapon
     SubType: Huuma
@@ -19473,7 +19473,7 @@ Body:
     Refineable: true
     Script: "bonus bMatk,50; .@r = getrefine(); bonus bBaseAtk,(30*(.@r/3)); bonus bLongAtkRate,(3*.@r);\n"
   - Id: 13338
-    AegisName: Illusion_Wing_Shuriken
+    AegisName: Huuma_Bird_Wing_IL
     Name: Illusion Wing Shuriken [2]
     Type: Weapon
     SubType: Huuma
@@ -20753,7 +20753,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); .@hp = -1000; bonus3 bAutoSpell,\"MG_COLDBOLT\",5,100; if (.@r >= 7) { .@atk = 65; .@hp += 500; if (.@r >= 10) { bonus bAspd,1; .@atk += 45; .@hp += 500; } bonus bBaseAtk,.@atk; } if (.@hp) { bonus bMaxHP,.@hp; }\n"
   - Id: 13469
-    AegisName: Illusion_Immaterial_Sword
+    AegisName: Immaterial_Sword_IL
     Name: Illusion Immaterial Sword [2]
     Type: Weapon
     SubType: 1hSword
@@ -21807,7 +21807,7 @@ Body:
     Refineable: true
     Script: "bonus bUnbreakableWeapon; bonus2 bAddEff,Eff_Stun,(300*getrefine());\n"
   - Id: 16063
-    AegisName: Illusion_Long_Mace
+    AegisName: Long_Mace_IL
     Name: Illusion Long Mace [2]
     Type: Weapon
     SubType: Mace
@@ -21826,7 +21826,7 @@ Body:
     Refineable: true
     Script: "bonus bLongAtkDef,(10+3*(getrefine()/2));\n"
   - Id: 16065
-    AegisName: Illusion_Iron_Driver
+    AegisName: Iron_Driver_IL
     Name: Illusion Iron Driver
     Type: Weapon
     SubType: Mace
@@ -22615,7 +22615,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); .@bonus = 5*(readparam(bDex)/20); if (.@r>=7) { .@bonus += 10; } if (.@r>=9) { bonus2 bSkillAtk,\"AC_DOUBLE\",50; } bonus bLongAtkRate,.@bonus;\n"
   - Id: 18149
-    AegisName: Illusion_Ballista
+    AegisName: Balistar_IL
     Name: Illusion Ballista [2]
     Type: Weapon
     SubType: Bow
@@ -22638,7 +22638,7 @@ Body:
     Refineable: true
     Script: "bonus bLongAtkRate,getrefine();\n"
   - Id: 18174
-    AegisName: Illusion_Hunter_Bow
+    AegisName: Hunter_Bow_IL
     Name: Illusion Hunter Bow [2]
     Type: Weapon
     SubType: Bow
@@ -23159,7 +23159,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bUnbreakableWeapon; bonus bCritical,5; if (.@r >= 7) { bonus bAspdRate,7; if (.@r >= 9) { bonus bCritAtkRate,15; if (.@r >= 11) { bonus2 bAddSize,Size_Small,20; bonus2 bAddSize,Size_Medium,20; } } }\n"
   - Id: 21050
-    AegisName: Illusion_Tae_Goo_Lyeon
+    AegisName: Taegoolyeon_IL
     Name: Illusion Tae Goo Lyeon [2]
     Type: Weapon
     SubType: 2hSword
@@ -23212,7 +23212,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bLongAtkRate,.@r; bonus2 bAddClass,Class_All,5; if (.@r>=9) { bonus2 bSkillAtk,\"LK_SPIRALPIERCE\",30; bonus2 bSkillAtk,\"RK_SONICWAVE\",30; } if (.@r>=11) { bonus2 bSkillCooldown,\"RK_SONICWAVE\",-1500; }\n"
   - Id: 26007
-    AegisName: Illusion_Spectral_Spear
+    AegisName: Spectral_Spear_IL
     Name: Illusion Spectral Spear [1]
     Type: Weapon
     SubType: 2hSpear
@@ -23276,7 +23276,7 @@ Body:
     Refineable: true
     Script: "bonus bMatk,150; .@r = getrefine(); .@bonus = 10; if (.@r>=7) { .@bonus += 5; } if (.@r>=9) { .@bonus += 10; } bonus bHealPower,.@bonus;\n"
   - Id: 26109
-    AegisName: Illusion_Staff_of_Bordeaux
+    AegisName: Staff_Of_Bordeaux_IL
     Name: Illusion Staff of Bordeaux [2]
     Type: Weapon
     SubType: Staff
@@ -23640,7 +23640,7 @@ Body:
     Refineable: true
     Script: "bonus bBaseAtk,pow(getrefine(),2)*125/100;\n"
   - Id: 28022
-    AegisName: Illusion_Infiltrator
+    AegisName: Infiltrator_IL
     Name: Illusion Infiltrator [2]
     Type: Weapon
     SubType: Katar
@@ -23662,7 +23662,7 @@ Body:
     Refineable: true
     Script: "bonus2 bAddRace,RC_DemiHuman,60; bonus2 bAddRace,RC_PLAYER_HUMAN,60; bonus bDef,3; .@flee = 5; .@flee2 = 2; if (getrefine() >= 9) { .@flee += 5; .@flee2 += 2; bonus2 bAddClass,Class_All,5; } bonus bFlee,.@flee; bonus bFlee2,.@flee2;\n"
   - Id: 28023
-    AegisName: Illusion_Sharpened_Legbone_of_Ghoul
+    AegisName: Ghoul_Leg_IL
     Name: Illusion Sharpened Legbone of Ghoul [2]
     Type: Weapon
     SubType: Katar
@@ -24181,7 +24181,7 @@ Body:
     Refineable: true
     Script: "bonus bDex,2; bonus2 bAddClass,Class_All,2; bonus bLongAtkRate,(.@r/2)*5; if(.@r > 6){ bonus bAspdRate,5; } if(.@r > 8){ bonus2 bSkillAtk,\"RL_D_TAIL\",15 + (.@r > 11 ? 15 : 0); }\n"
   - Id: 28244
-    AegisName: Illusion_Gate_Keeper_DD
+    AegisName: Gate_KeeperDD_IL
     Name: Illusion Gate Keeper DD [2]
     Type: Weapon
     SubType: Shotgun
@@ -24215,7 +24215,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus2 bAddClass,Class_All,3; if (.@r >= 7) { bonus bLongAtkRate,7; if (.@r >= 9) { bonus2 bSkillAtk,\"RL_HAMMER_OF_GOD\",20; if (.@r >= 11) { bonus2 bSkillCooldown,\"RL_HAMMER_OF_GOD\",-5000; } } }\n"
   - Id: 28254
-    AegisName: Illusion_Butcher
+    AegisName: Butcher_IL
     Name: Illusion Butcher [2]
     Type: Weapon
     SubType: Gatling
@@ -24425,7 +24425,7 @@ Body:
     Refineable: true
     Script: "bonus bMatk,150; .@r = getrefine(); bonus bInt,4; .@bonus = 10; if (.@r>=7) { .@bonus += 10; } if (.@r>=9) { .@bonus += 10; } bonus2 bSkillAtk,\"MG_FIREBOLT\",.@bonus; bonus2 bSkillAtk,\"MG_COLDBOLT\",.@bonus; bonus2 bSkillAtk,\"MG_LIGHTNINGBOLT\",.@bonus;\n"
   - Id: 28612
-    AegisName: Illusion_Apocalypse
+    AegisName: Book_Of_The_Apo_IL
     Name: Illusion Apocalypse [2]
     Type: Weapon
     SubType: Book
@@ -24444,7 +24444,7 @@ Body:
     Refineable: true
     Script: ".@val = 10 + 10*(min(getrefine(),10)/3); bonus2 bAddEle,Ele_Water,.@val; bonus2 bAddEle,Ele_Earth,.@val; bonus2 bAddEle,Ele_Fire,.@val; bonus2 bAddEle,Ele_Wind,.@val; bonus2 bSubDefEle,Ele_Holy,-30;\n"
   - Id: 28626
-    AegisName: Illusion_Tablet
+    AegisName: Tablet_IL
     Name: Illusion Tablet [2]
     Type: Weapon
     SubType: Book
@@ -24674,7 +24674,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus2 bSkillAtk,\"KO_BAKURETSU\",getskilllv(\"NJ_TOBIDOUGU\"); if (.@r>=9) { bonus bLongAtkRate,5; } else if (.@r>=7) { bonus bLongAtkRate,2; }\n"
   - Id: 28725
-    AegisName: Illusion_Moonlight_Dagger
+    AegisName: Moonlight_Sword_IL
     Name: Illusion Moonlight Dagger [1]
     Type: Weapon
     SubType: Dagger
@@ -24707,7 +24707,7 @@ Body:
     Refineable: true
     Script: "bonus bMaxSPrate,10; .@val = 3; if (getrefine() >= 10) { .@val += 4; } bonus bSPDrainValue,.@val;\n"
   - Id: 28745
-    AegisName: Illusion_Counter_Dagger
+    AegisName: Counter_Dagger_IL
     Name: Illusion Counter Dagger [2]
     Type: Weapon
     SubType: Dagger
@@ -24743,7 +24743,7 @@ Body:
     Refineable: true
     Script: "bonus bMatk,150; .@r = getrefine(); .@dmg = 5; if (.@r >= 7) { .@dmg += 10; if (.@r >= 9) { bonus2 bSkillAtk,\"KO_HAPPOKUNAI\",20; if (.@r >= 11) { bonus2 bAddRace,RC_Demon,10; bonus2 bMagicAddRace,RC_Demon,10; bonus2 bAddRace,RC_Undead,10; bonus2 bMagicAddRace,RC_Undead,10; } } } bonus2 bAddEle,Ele_Undead,.@dmg; bonus2 bMagicAddEle,Ele_Undead,.@dmg; bonus2 bAddEle,Ele_Dark,.@dmg; bonus2 bMagicAddEle,Ele_Dark,.@dmg;\n"
   - Id: 28762
-    AegisName: Illusion_Bazerald
+    AegisName: Bazerald_IL
     Name: Illusion Bazerald [2]
     Type: Weapon
     SubType: Dagger
@@ -24874,7 +24874,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bMatk,170+4*.@r; bonus bMatkRate,5; if (.@r>=9) { bonus2 bMagicAtkEle,Ele_Fire,15; bonus2 bMagicAtkEle,Ele_Wind,15; bonus2 bMagicAtkEle,Ele_Water,15; bonus2 bMagicAtkEle,Ele_Earth,15; } if (.@r>=11) autobonus \"{ bonus bMatk,100; bonus2 bMagicAddSize,Size_All,30; }\",50,10000,BF_WEAPON,\"{ specialeffect2 EF_ENHANCE; }\"; /* Unknow Rates and Specialeffect */\n"
   - Id: 32005
-    AegisName: Illusion_Pole_Axe
+    AegisName: Pole_Axe_IL
     Name: Illusion Pole Axe [2]
     Type: Weapon
     SubType: 1hSpear
@@ -25031,7 +25031,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bVariableCastrate,-10; bonus bLongAtkRate,.@r; if (.@r>=9) bonus2 bSkillCooldown,\"WM_SEVERE_RAINSTORM\",-1000; if (.@r>=11) bonus2 bSkillUseSPrate,\"WM_SEVERE_RAINSTORM\",20;\n"
   - Id: 32301
-    AegisName: Illusion_Gold_Lux
+    AegisName: Gold_Lux_IL
     Name: Illusion Gold Lux [2]
     Type: Weapon
     SubType: Revolver
@@ -25646,3 +25646,419 @@ Body:
       .@r = getrefine();
       bonus bUnbreakableWeapon;
       bonus bBaseAtk,40*.@r;
+  - Id: 500030
+    AegisName: Excalibur_IL
+    Name: Illusion Excalibur [2]
+    Type: Weapon
+    SubType: 1hSword
+    Weight: 1000
+    Attack: 120
+    Range: 1
+    Slots: 2
+    Jobs:
+      Crusader: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 120
+    Refineable: true
+    Script: |
+      bonus bMatk,180;
+      .@r = getrefine();
+      bonus bDelayrate,-5;
+      bonus bMatkRate,5;
+      if (.@r>=7) {
+         bonus2 bSkillAtk,"LG_RAYOFGENESIS",15;
+         if (.@r>=9) {
+            bonus2 bMagicAtkEle,Ele_Neutral,15;
+            bonus2 bMagicAtkEle,Ele_Holy,15;
+            bonus bVariableCastrate,-10;
+            if (.@r>=11) {
+               bonus2 bSkillAtk,"LG_RAYOFGENESIS",25;
+            }
+         }
+      }
+  - Id: 510034
+    AegisName: Ancient_Dagger_IL
+    Name: Illusion Ancient Dagger [2]
+    Type: Weapon
+    SubType: Dagger
+    Weight: 600
+    Attack: 107
+    Range: 1
+    Slots: 2
+    Jobs:
+      Rogue: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 120
+    Refineable: true
+    Script: |
+      bonus bMatk,180;
+      .@r = getrefine();
+      bonus bSPrecovRate,10;
+      bonus bMaxSP,100;
+      autobonus "{ bonus bMatkRate,10; bonus bMatk,70; }",1,10000,BF_WEAPON;
+      if (.@r>=7) {
+         bonus2 bMagicAtkEle,Ele_All,15;
+         if (.@r>=9) {
+            bonus2 bMagicAddSize,Size_Medium,20;
+            bonus2 bMagicAddSize,Size_Large,20;
+            if (.@r>=11) {
+               autobonus "{ bonus2 bMagicAddRace,RC_All,15; }",1,10000,BF_MAGIC;
+            }
+         }
+      }
+  - Id: 530015
+    AegisName: Gelerdria_IL
+    Name: Illusion Gelerdria [2]
+    Type: Weapon
+    SubType: 1hSpear
+    Weight: 2000
+    Attack: 170
+    Range: 3
+    Slots: 2
+    Jobs:
+      Crusader: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 120
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bCritical,15;
+      bonus bMaxHPrate,10;
+      bonus bAspdRate,2*(.@r/3);
+      bonus bBaseAtk,20*(.@r/3);
+      if (.@r>=7) {
+         bonus bCritAtkRate,30;
+         bonus2 bSkillAtk,"LG_CANNONSPEAR",25;
+         if (.@r>=9) {
+            bonus bLongAtkRate,15;
+            bonus2 bSkillAtk,"LG_BANISHINGPOINT",25;
+            if (.@r>=11) {
+               bonus2 bSkillAtk,"LG_BANISHINGPOINT",20;
+               bonus2 bSkillAtk,"LG_CANNONSPEAR",20;
+            }
+         }
+      }
+  - Id: 550030
+    AegisName: Thorn_Staff_IL
+    Name: Illusion Thorn Staff of Darkness [2]
+    Type: Weapon
+    SubType: Staff
+    Weight: 1200
+    Attack: 60
+    Range: 1
+    Slots: 2
+    Jobs:
+      Acolyte: true
+      Mage: true
+      Monk: true
+      Priest: true
+      Sage: true
+      SoulLinker: true
+      Wizard: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 120
+    Refineable: true
+    Script: |
+      bonus bMatk,180;
+      .@r = getrefine();
+      bonus bAtkEle,Ele_Dark;
+      bonus bUnbreakableWeapon;
+      bonus bInt,3;
+      bonus bDex,3;
+      bonus2 bIgnoreMdefRaceRate,RC_All,3*.@r;
+      bonus2 bIgnoreMdefRaceRate,RC_Player_Human,-3*.@r;
+      bonus2 bIgnoreMdefRaceRate,RC_Player_Doram,-3*.@r;
+      bonus bDelayrate,-3*(.@r/2);
+      if (.@r>=7) {
+         bonus bVariableCastrate,-7;
+         bonus bMatkRate,7;
+         if (.@r>=9) {
+            bonus2 bMagicAddRace,RC_Angel,20;
+            bonus2 bMagicAddEle,Ele_Holy,20;
+            if (.@r>=11) {
+               bonus2 bMagicAtkEle,Ele_Ghost,15;
+               bonus2 bMagicAtkEle,Ele_Undead,15;
+               bonus2 bMagicAtkEle,Ele_Poison,15;
+               bonus2 bMagicAtkEle,Ele_Dark,15;
+            }
+         }
+      }
+  - Id: 550031
+    AegisName: Dea_Staff_IL
+    Name: Illusion Dea Staff [2]
+    Type: Weapon
+    SubType: Staff
+    Weight: 1000
+    Attack: 50
+    Range: 1
+    Slots: 2
+    Jobs:
+      Priest: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 120
+    Refineable: true
+    Script: |
+      bonus bMatk,190;
+      .@r = getrefine();
+      bonus bAtkEle,Ele_Holy;
+      bonus bUnbreakableWeapon;
+      bonus bVit,2;
+      bonus bInt,6;
+      autobonus "{ bonus2 bSPRegenRate,150,1000; }",1,4000,BF_MAGIC;
+      bonus2 bSkillAtk,"AB_JUDEX",20*(.@r/3);
+      if (.@r>=7) {
+         bonus2 bMagicAtkEle,Ele_Holy,15;
+         if (.@r>=9) {
+            bonus bDelayrate,-15;
+            bonus2 bSkillAtk,"AB_JUDEX",30;
+            if (.@r>=11) {
+               autobonus3 "{ bonus2 bMagicAddSize,Size_All,20; }",1000,15000,"PR_MAGNUS";
+            }
+         }
+      }
+  - Id: 570008
+    AegisName: Electronic_Guitar_IL
+    Name: Illusion Electric Guitar [2]
+    Type: Weapon
+    SubType: Musical
+    Weight: 1800
+    Attack: 170
+    Range: 1
+    Slots: 2
+    Jobs:
+      BardDancer: true
+    Gender: Male
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 120
+    Refineable: true
+    Script: |
+      bonus bMatk,180;
+      .@r = getrefine();
+      bonus bLongAtkRate,3*(.@r/2);
+      bonus bMatk,6*(.@r/2);
+      if (.@r>=7) {
+         bonus2 bMagicAtkEle,Ele_Neutral,10;
+         bonus2 bSkillUseSPrate,"WM_SEVERE_RAINSTORM",10;
+      }
+      if (.@r>=9) {
+         bonus2 bSkillAtk,"WM_SEVERE_RAINSTORM_MELEE",15;
+         bonus2 bSkillAtk,"WM_REVERBERATION",15;
+      }
+      if (.@r>=11) {
+         bonus2 bMagicAddEle,Ele_Water,10;
+         bonus2 bSkillCooldown,"WM_SEVERE_RAINSTORM",-1000;
+      }
+  - Id: 580008
+    AegisName: Electric_Eel_IL
+    Name: Illusion Electric Eel [2]
+    Type: Weapon
+    SubType: Whip
+    Weight: 1800
+    Attack: 170
+    Range: 2
+    Slots: 2
+    Jobs:
+      BardDancer: true
+    Gender: Female
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 120
+    Refineable: true
+    Script: |
+      bonus bMatk,180;
+      .@r = getrefine();
+      bonus bLongAtkRate,3*(.@r/2);
+      bonus bMatk,6*(.@r/2);
+      if (.@r>=7) {
+         bonus2 bMagicAtkEle,Ele_Neutral,10;
+         bonus2 bSkillUseSPrate,"WM_SEVERE_RAINSTORM",10;
+      }
+      if (.@r>=9) {
+         bonus2 bSkillAtk,"WM_SEVERE_RAINSTORM_MELEE",15;
+         bonus2 bSkillAtk,"WM_REVERBERATION",15;
+      }
+      if (.@r>=11) {
+         bonus2 bMagicAddEle,Ele_Water,10;
+         bonus2 bSkillCooldown,"WM_SEVERE_RAINSTORM",-1000;
+      }
+  - Id: 600011
+    AegisName: Death_Guidance_IL
+    Name: Illusion Death Guidance [2]
+    Type: Weapon
+    SubType: 2hSword
+    Weight: 2000
+    Attack: 240
+    Range: 1
+    Slots: 2
+    Jobs:
+      Crusader: true
+      Knight: true
+      Swordman: true
+    Classes:
+      Upper: true
+      Third: true
+      Third_Upper: true
+      Third_Baby: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 120
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bBaseAtk,4*.@r;
+      if (.@r>=7) {
+         bonus2 bSkillAtk,"RK_STORMBLAST",20;
+      }
+      if (.@r>=9) {
+         autobonus "{ bonus2 bHPRegenRate,getrefine()*50,1000; }",30,4000,BF_WEAPON;
+      }
+      if (.@r>=11) {
+         bonus bCritAtkRate,15;
+         bonus bCritical,15;
+      }
+  - Id: 610012
+    AegisName: KatarOfCold_Icicle_IL
+    Name: Illusion Katar of Frozen Icicle [2]
+    Type: Weapon
+    SubType: Katar
+    Weight: 1200
+    Attack: 220
+    Range: 1
+    Slots: 2
+    Jobs:
+      Assassin: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 120
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bBaseAtk,5*.@r;
+      if (.@r>=7) {
+         bonus2 bSkillAtk,"GC_CROSSIMPACT",20;
+      }
+      if (.@r>=9) {
+         bonus bAspdRate,10;
+      }
+      if (.@r>=11) {
+         bonus2 bAddRace,RC_Insect,10;
+         bonus2 bAddEle,Ele_Fire,10;
+         bonus bCritical,15;
+      }
+  - Id: 620010
+    AegisName: Doom_Slayer_IL
+    Name: Illusion Doom Slayer [2]
+    Type: Weapon
+    SubType: 2hAxe
+    Weight: 7000
+    Attack: 250
+    Range: 1
+    Slots: 2
+    Jobs:
+      Alchemist: true
+      Blacksmith: true
+      Merchant: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 120
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      if (readparam(bStr)>=100) {
+         bonus bBaseAtk,75;
+      }
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         if (.@r>=9) {
+            bonus2 bAddSize,Size_All,20;
+            bonus bLongAtkRate,15;
+            bonus bShortAtkRate,15;
+            if (.@r>=11) {
+               bonus bDelayrate,-10;
+            }
+         }
+      }
+      bonus bVariableCastrate,-5;
+  - Id: 630006
+    AegisName: Brionac_IL
+    Name: Illusion Brionac [2]
+    Type: Weapon
+    SubType: 2hSpear
+    Weight: 3000
+    Attack: 210
+    Range: 3
+    Slots: 2
+    Jobs:
+      Crusader: true
+      Knight: true
+      Swordman: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 120
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bAddClass,Class_All,10;
+      bonus2 bSkillAtk,"LG_OVERBRAND",5*(.@r/2);
+      if (.@r>=7) {
+         bonus2 bSkillAtk,"LG_OVERBRAND",20;
+      }
+      if (.@r>=9) {
+         bonus2 bAddSize,Size_Medium,15;
+         bonus2 bAddSize,Size_Large,15;
+      }
+      if (.@r>=11) {
+         bonus2 bAddRace,RC_Fish,30;
+         bonus2 bAddRace,RC_Demon,30;
+      }
+  - Id: 630007
+    AegisName: Zephyrus_IL
+    Name: Illusion Zephyrus [2]
+    Type: Weapon
+    SubType: 2hSpear
+    Weight: 3300
+    Attack: 250
+    Range: 3
+    Slots: 2
+    Jobs:
+      Crusader: true
+      Knight: true
+      Swordman: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 120
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bBaseAtk,4*.@r;
+      bonus bLongAtkRate,3*(.@r/2);
+      if (.@r>=7) {
+         bonus2 bSkillAtk,"LK_SPIRALPIERCE",20;
+      }
+      if (.@r>=9) {
+         bonus bLongAtkRate,5;
+      }
+      if (.@r>=11) {
+         bonus2 bAddSize,Size_Medium,10;
+         bonus2 bAddSize,Size_Large,10;
+         bonus bHit,10;
+      }

@@ -7584,7 +7584,7 @@ Body:
       Head_Top: true
     Script: "bonus3 bAddEff,Eff_Burning,700,ATF_WEAPON|ATF_MAGIC;\n"
   - Id: 27081
-    AegisName: Angry_Moonlight_Flower_Card
+    AegisName: AngerMoonlight_Card
     Name: Angry Moonlight Flower Card
     Type: Card
     Buy: 20
@@ -7593,7 +7593,7 @@ Body:
       Armor: true
     Script: "skill \"PA_PRESSURE\",4;\n"
   - Id: 27082
-    AegisName: Angry_Nine_Tail_Card
+    AegisName: AngerNineTail_Card
     Name: Angry Nine Tail Card
     Type: Card
     Buy: 20
@@ -7602,7 +7602,7 @@ Body:
       Armor: true
     Script: ".@val = 5; bonus bCritAtkRate,10; if (getrefine() >= 10) { .@val += 10; } bonus bCritical,.@val;\n"
   - Id: 27083
-    AegisName: Resentful_Bongun_Card
+    AegisName: BitterBonGun_Card
     Name: Resentful Bongun Card
     Type: Card
     Buy: 20
@@ -7611,7 +7611,7 @@ Body:
       Armor: true
     Script: "bonus bBaseAtk,20; bonus bMatk,20;\n"
   - Id: 27084
-    AegisName: Resentful_Sohee_Card
+    AegisName: BitterSohee_Card
     Name: Resentful Sohee Card
     Type: Card
     Buy: 20
@@ -7620,7 +7620,7 @@ Body:
       Armor: true
     Script: "bonus bMatk,10; if (getrefine() >= 10) { bonus bMatkRate,2; }\n"
   - Id: 27085
-    AegisName: Resentful_Munak_Card
+    AegisName: BitterMunak_Card
     Name: Resentful Munak Card
     Type: Card
     Buy: 20
@@ -7629,7 +7629,7 @@ Body:
       Right_Hand: true
     Script: "bonus bBaseAtk,15; bonus bMatk,15;\n"
   - Id: 27086
-    AegisName: Resentful_Soldier_Card
+    AegisName: BitterArcherSk_Card
     Name: Resentful Soldier Card
     Type: Card
     Buy: 20
@@ -7638,7 +7638,7 @@ Body:
       Right_Hand: true
     Script: "if (getiteminfo(getequipid(EQI_COMPOUND_ON),11) == W_BOW) { bonus3 bAutoSpell,\"AC_DOUBLE\",5,30; if (getrefine() >= 10) { bonus2 bWeaponDamageRate,W_BOW,20; } }\n"
   - Id: 27087
-    AegisName: Truthful_Wizard_Card
+    AegisName: WizardOfVeritas_Card
     Name: Truthful Wizard Card
     Type: Card
     Buy: 20
@@ -7647,7 +7647,7 @@ Body:
       Right_Hand: true
     Script: "bonus bMatk,25; autobonus \"{ bonus bNoCastCancel; }\",5,5000,BF_MAGIC,\"{ showscript \\\"This is the truth!\\\"; }\";\n"
   - Id: 27088
-    AegisName: Fury_Hero_Card
+    AegisName: FuryHero_Card
     Name: Fury Hero Card
     Type: Card
     Buy: 20
@@ -7658,7 +7658,7 @@ Body:
       Head_Top: true
     Script: "bonus2 bAddClass,Class_All,2; bonus5 bAutoSpell,\"SM_ENDURE\",1,5,BF_SHORT,0;\n"
   - Id: 27101
-    AegisName: Sweet_Nightmare_Card
+    AegisName: SweetNightM_Card
     Name: Sweet Nightmare Card
     Type: Card
     Buy: 20
@@ -7667,7 +7667,7 @@ Body:
       Armor: true
     Script: "bonus bMatk,20; bonus bNoCastCancel;\n"
   - Id: 27102
-    AegisName: Matt_Drainliar_Card
+    AegisName: MattDrainliar_Card
     Name: Matt Drainliar Card
     Type: Card
     Buy: 20
@@ -7678,7 +7678,7 @@ Body:
       Head_Top: true
     Script: "bonus2 bResEff,Eff_Burning,10000;\n"
   - Id: 27103
-    AegisName: Living_Dead_Card
+    AegisName: LivingDead_Card
     Name: Living Dead Card
     Type: Card
     Buy: 20
@@ -7687,7 +7687,7 @@ Body:
       Armor: true
     Script: "bonus bBaseAtk,20; bonus bUnbreakableWeapon; bonus bUnbreakableArmor;\n"
   - Id: 27104
-    AegisName: Furious_Dracula_Card
+    AegisName: Ill_Dracula_Card
     Name: Furious Dracula Card
     Type: Card
     Buy: 20
@@ -7743,7 +7743,7 @@ Body:
       Head_Top: true
     Script: "bonus2 bSubDefEle,Ele_Neutral,10; bonus bMaxHP,500;\n"
   - Id: 27110
-    AegisName: Furious_Gazeti_Card
+    AegisName: AngerGazeti_Card
     Name: Furious Gazeti Card
     Type: Card
     Buy: 20
@@ -7752,7 +7752,7 @@ Body:
       Armor: true
     Script: "bonus bLongAtkDef,20;\n"
   - Id: 27111
-    AegisName: Furious_Snowier_Card
+    AegisName: AngerSnowier_Card
     Name: Furious Snowier Card
     Type: Card
     Buy: 20
@@ -7761,7 +7761,7 @@ Body:
       Both_Accessory: true
     Script: "bonus2 bAddItemHealRate,11522,50; bonus2 bAddItemHealRate,11523,50; bonus2 bAddItemHealRate,11524,50;\n"
   - Id: 27112
-    AegisName: Furious_Ice Titan_Card
+    AegisName: AngerIceTitan_Card
     Name: Furious Ice Titan Card
     Type: Card
     Buy: 20
@@ -7770,7 +7770,7 @@ Body:
       Armor: true
     Script: "bonus bDef,(1+getrefine());\n"
   - Id: 27113
-    AegisName: Awaken_Ktullanux_Card
+    AegisName: AwakenKtullanux_Card
     Name: Awaken Ktullanux Card
     Type: Card
     Buy: 20
@@ -7779,7 +7779,7 @@ Body:
       Armor: true
     Script: "bonus2 bMagicAtkEle,Ele_Water,(20+(3*getrefine()));\n"
   - Id: 27114
-    AegisName: Ominous_Solider_Card
+    AegisName: OminousSolider_Card
     Name: Ominous Solider Card
     Type: Card
     Buy: 20
@@ -7788,7 +7788,7 @@ Body:
       Armor: true
     Script: "bonus bDef,5; bonus bMaxHPrate,(5+getrefine()); if (BaseLevel >= 160) bonus bVit,3;\n"
   - Id: 27115
-    AegisName: Ominous_Permeter_Card
+    AegisName: OminousPermeter_Card
     Name: Ominous Permeter Card
     Type: Card
     Buy: 20
@@ -7799,7 +7799,7 @@ Body:
       Head_Top: true
     Script: ".@r = getrefine(); bonus bInt,1; bonus bMaxSP,(80+10*(.@r/2)); if (.@r >= 7) { bonus bSPrecovRate,30; }\n"
   - Id: 27116
-    AegisName: Ominous_Heater_Card
+    AegisName: OminousHeater_Card
     Name: Ominous Heater Card
     Type: Card
     Buy: 20
@@ -7808,7 +7808,7 @@ Body:
       Both_Accessory: true
     Script: "bonus bCritical,3; bonus bCritAtkRate,5;\n"
   - Id: 27117
-    AegisName: Ominous_Assaulter_Card
+    AegisName: OminousAssulter_Card
     Name: Ominous Assaulter Card
     Type: Card
     Buy: 20
@@ -7817,7 +7817,7 @@ Body:
       Right_Hand: true
     Script: ".@type = getiteminfo(getequipid(EQI_COMPOUND_ON),11); if (.@type == W_WHIP || .@type == W_MUSICAL || .@type == W_BOOK || .@type == W_2HSWORD || .@type == W_2HSPEAR) { .@r = getrefine(); bonus bCritical,5; bonus bBaseAtk,(3*.@r); } bonus bCritAtkRate,(10+.@r);\n"
   - Id: 27118
-    AegisName: Ominous_Freezer_Card
+    AegisName: OminousFreezer_Card
     Name: Ominous Freezer Card
     Type: Card
     Buy: 20
@@ -7826,7 +7826,7 @@ Body:
       Shoes: true
     Script: "bonus bMaxHPrate,10; bonus bStr,2;\n"
   - Id: 27119
-    AegisName: Ominous_Turtle_General_Card
+    AegisName: OminousTurtleG_Card
     Name: Ominous Turtle General Card
     Type: Card
     Buy: 20
@@ -8403,7 +8403,7 @@ Body:
       Right_Hand: true
     Script: "bonus2 bAddEle,Ele_Dark,30; bonus2 bAddEle,Ele_Undead,30; bonus2 bMagicAddEle,Ele_Dark,30; bonus2 bMagicAddEle,Ele_Undead,30; bonus2 bAddEle,Ele_Holy,-30; bonus2 bAddEle,Ele_Fire,-30; bonus2 bMagicAddEle,Ele_Holy,-30; bonus2 bMagicAddEle,Ele_Fire,-30;\n"
   - Id: 27286
-    AegisName: Colorful_Teddy_Bear_Card
+    AegisName: Colorful_T_Bear_Card
     Name: Colorful Teddy Bear Card
     Type: Card
     Buy: 20
@@ -8412,7 +8412,7 @@ Body:
       Right_Hand: true
     Script: "bonus bMatk,5; bonus2 bMagicAddSize,Size_Large,15;\n"
   - Id: 27287
-    AegisName: Shiny_Teddy_Bear_Card
+    AegisName: Shining_T_Bear_Card
     Name: Shiny Teddy Bear Card
     Type: Card
     Buy: 20
@@ -8421,7 +8421,7 @@ Body:
       Shoes: true
     Script: "bonus bUseSPrate,10; bonus2 bMagicAtkEle,Ele_Holy,(3*getrefine());\n"
   - Id: 27288
-    AegisName: Hardworking_Pitman_Card
+    AegisName: Pitman_Worker_Card
     Name: Hardworking Pitman Card
     Type: Card
     Buy: 20
@@ -8430,7 +8430,7 @@ Body:
       Armor: true
     Script: ".@val = 10; bonus2 bAddClass,Class_All,5; if (getrefine() >= 10) { .@val += 5; } bonus bHit,.@val; if (Class == Job_Assassin_Cross) bonus2 bSkillAtk,\"ASC_BREAKER\",5;\n"
   - Id: 27289
-    AegisName: Soul_Fragment_Card
+    AegisName: Fragment_Of_Soul_Card
     Name: Soul Fragment Card
     Type: Card
     Buy: 20
@@ -8439,7 +8439,7 @@ Body:
       Right_Hand: true
     Script: "bonus bMatk,5; bonus2 bMagicAddSize,Size_Medium,15;\n"
   - Id: 27290
-    AegisName: Haunted_Obsidian_Card
+    AegisName: Sinister_Obsidian_Card
     Name: Haunted Obsidian Card
     Type: Card
     Buy: 20
@@ -8448,7 +8448,7 @@ Body:
       Garment: true
     Script: ".@agi = readparam(bAgi); .@val = .@agi/10; if (.@val) { bonus bFlee,(3*.@val); bonus bAspdRate,.@val; if (.@agi >= 120) { bonus bAspd,1; } }\n"
   - Id: 27291
-    AegisName: Ancient_Tri_Joint_Card
+    AegisName: Ancient_Trijoint_Card
     Name: Ancient Tri Joint Card
     Type: Card
     Buy: 20
@@ -8457,7 +8457,7 @@ Body:
       Right_Hand: true
     Script: "bonus bBaseAtk,30; bonus bMaxHPrate,-1;\n"
   - Id: 27292
-    AegisName: Ancient_Stalactic_Golem_Card
+    AegisName: Ancient_Sta_Golem_Card
     Name: Ancient Stalactic Golem Card
     Type: Card
     Buy: 20
@@ -8486,7 +8486,7 @@ Body:
       Head_Top: true
     Script: ".@val = 30; if (getrefine() >= 10) { .@val += 20; } bonus2 bIgnoreDefClassRate,Class_Boss,.@val;\n"
   - Id: 27295
-    AegisName: Ancient_Stone_Shooter_Card
+    AegisName: Ancient_S_Shooter_Card
     Name: Ancient Stone Shooter Card
     Type: Card
     Buy: 20
@@ -8495,7 +8495,7 @@ Body:
       Garment: true
     Script: ".@luk = readparam(bLuk); .@aspd = .@crit = .@luk/10; if (.@luk >= 120) { .@crit += 5; } bonus bAspdRate,.@aspd; bonus bCritAtkRate,.@crit;\n"
   - Id: 27296
-    AegisName: Ancient_Wootan_Shooter_Card
+    AegisName: Ancient_W_Shooter_Card
     Name: Ancient Wootan Shooter Card
     Type: Card
     Buy: 20
@@ -8504,7 +8504,7 @@ Body:
       Garment: true
     Script: ".@dex = readparam(bDex); .@val = .@dex/10; if (.@val) { bonus bAspdRate,.@val; bonus2 bWeaponDamageRate,W_BOW,.@val; if (.@dex >= 120) { bonus bBaseAtk,40; } }\n"
   - Id: 27297
-    AegisName: Ancient_Wootan_Fighter_Card
+    AegisName: Ancient_W_Fighter_Card
     Name: Ancient Wootan Fighter Card
     Type: Card
     Buy: 20
@@ -8513,7 +8513,7 @@ Body:
       Right_Hand: true
     Script: "bonus bCritical,5; bonus bCritAtkRate,10;\n"
   - Id: 27298
-    AegisName: Ancient_Wootan_Defender_Card
+    AegisName: Ancient_W_Deffend_Card
     Name: Ancient Wootan Defender Card
     Type: Card
     Buy: 20
@@ -9728,3 +9728,283 @@ Body:
     Script: |
       autobonus "{ bonus bFlee,200; }",30,10000,BF_WEAPON,"{ specialeffect2 EF_TEIHIT1; }";
       autobonus "{ bonus bSpeedRate,25; }",25,10000,BF_MAGIC,"{ specialeffect2 EF_POTION_BERSERK; }";
+  - Id: 300140
+    AegisName: ILL_Sropho_Card
+    Name: Abysmal Sropho Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      .@r = getrefine();
+      bonus2 bMagicAtkEle,Ele_Wind,3;
+      if (.@r>=9) {
+         bonus2 bMagicAtkEle,Ele_Wind,2;
+      }
+      if (.@r>=11) {
+         bonus2 bMagicAtkEle,Ele_Wind,5;
+      }
+  - Id: 300141
+    AegisName: ILL_Obeaune_Card
+    Name: Abysmal Obeaune Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,30;
+  - Id: 300142
+    AegisName: ILL_Deviace_Card
+    Name: Abysmal Deviace Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      .@r = getrefine();
+      bonus2 bAddRace,RC_Fish,5;
+      bonus2 bAddEle,Ele_Water,5;
+      if (.@r>=7) {
+         bonus2 bAddEle,Ele_Water,5;
+      }
+      if (.@r>=9) {
+         bonus2 bAddRace,RC_Fish,5;
+      }
+  - Id: 300143
+    AegisName: ILL_Marse_Card
+    Name: Abysmal Marse Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Left_Hand: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bSubEle,Ele_Earth,15;
+      bonus2 bSubRace,RC_Insect,15;
+  - Id: 300144
+    AegisName: ILL_Merman_Card
+    Name: Abysmal Merman Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bBaseAtk,4*(readparam(bStr)/15);
+  - Id: 300146
+    AegisName: ILL_Sedora_Card
+    Name: Abysmal Sedora Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bCriticalAddRace,RC_Fish,30;
+  - Id: 300147
+    AegisName: ILL_Sword_Fish_Card
+    Name: Abysmal Swordfish Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Head_Top: true
+      Head_Mid: true
+      Head_Low: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bSubEle,Ele_Water,10;
+      if (getrefine()>=9) {
+         bonus2 bMagicAddEle,Ele_Water,10;
+      }
+  - Id: 300148
+    AegisName: ILL_Strouf_Card
+    Name: Abysmal Strouf Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Armor: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,5;
+      if (getrefine()>=9) {
+         bonus2 bMagicAddEle,Ele_Water,5;
+         bonus2 bAddEle,Ele_Water,5;
+      }
+  - Id: 300149
+    AegisName: ILL_Phen_Card
+    Name: Abysmal Phen Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Garment: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bSubEle,Ele_Neutral,15;
+      bonus2 bMagicAtkEle,Ele_Wind,3*getrefine();
+  - Id: 300150
+    AegisName: ILL_King_Dramoh_Card
+    Name: Abysmal King Dramoh Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Head_Top: true
+      Head_Mid: true
+      Head_Low: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMaxHPrate,-5;
+      bonus2 bAddClass,Class_All,(getrefine()/3);
+  - Id: 300230
+    AegisName: ILL_Andre_Card
+    Name: Diligent Andre Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Left_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bSubRace,RC_Insect,20;
+      bonus bMaxHPrate,getrefine();
+  - Id: 300231
+    AegisName: ILL_Andre_soldier_Card
+    Name: Diligent Soldier Andre Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bAddSize,Size_Small,20;
+      bonus2 bAddSize,Size_Medium,20;
+      bonus bBreakArmorRate,1;
+  - Id: 300232
+    AegisName: ILL_Andre_larva_Card
+    Name: Diligent Andre Larva Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bAddRace,RC_Insect,20;
+      bonus2 bMagicAddRace,RC_Insect,20;
+  - Id: 300233
+    AegisName: ILL_Deniro_Card
+    Name: Diligent Deniro Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Left_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bSubRace,RC_Insect,20;
+      bonus bMaxHPrate,getrefine();
+  - Id: 300234
+    AegisName: ILL_Piere_Card
+    Name: Diligent Piere Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Left_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bIgnoreDefRaceRate,RC_Plant,15;
+      bonus2 bAddRace,RC_Plant,5*(getrefine()/2);
+  - Id: 300235
+    AegisName: ILL_Ant_egg_Card
+    Name: Mushy Ant Egg Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Left_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bMaxSPrate,10;
+      bonus bMaxHPrate,getrefine();
+  - Id: 300236
+    AegisName: ILL_Giearth_Card
+    Name: Intrepid Giearth Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Head_Top: true
+      Head_Mid: true
+      Head_Low: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bResEff,Eff_Confusion,10000;
+      bonus2 bResEff,Eff_Blind,10000;
+      bonus2 bAddRace,RC_Insect,4*(getrefine()/2);
+  - Id: 300237
+    AegisName: ILL_Farmiliar_Card
+    Name: Intrepid Familiar Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bIgnoreMdefRaceRate,RC_Brute,15;
+      bonus2 bMagicAddRace,RC_Brute,5*(getrefine()/2);
+  - Id: 300238
+    AegisName: ILL_Vitata_Card
+    Name: Diligent Vitata Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Head_Low: true
+      Head_Mid: true
+      Head_Top: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bMagicAtkEle,Ele_Poison,5;
+      if (getrefine()>=9) {
+        bonus2 bMagicAtkEle,Ele_Poison,5;
+        skill "AL_HEAL",5;
+      }
+  - Id: 300239
+    AegisName: ILL_Maya_Card
+    Name: Silent Maya Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Left_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bMagicAddRace,RC_Brute,50;
+      bonus2 bMagicAddRace,RC_Player_Doram,50;
+      bonus2 bMagicAddRace,RC_Plant,50;
+      bonus bUseSPrate,50;

@@ -12658,16 +12658,16 @@ Body:
     AegisName: Rock_Ridge_Coin
     Name: Rock Ridge Coin
   - Id: 25256
-    AegisName: Hazy_Dream_Fragment
+    AegisName: HazyDream
     Name: Hazy Dream Fragment
     Weight: 10
   - Id: 25257
-    AegisName: Bloody_Love_Letter
+    AegisName: Bloody_LoveLetter
     Name: Bloody Love Letter
     Buy: 780
     Weight: 10
   - Id: 25258
-    AegisName: Broken_Arrow
+    AegisName: BrokenArrow
     Name: Broken Arrow
     Buy: 550
     Weight: 10
@@ -12675,11 +12675,11 @@ Body:
     AegisName: Fragment_of_Purple_Ore
     Name: Fragment of Purple Ore
   - Id: 25271
-    AegisName: Illusion_Stone
+    AegisName: IllusionStone
     Name: Illusion Stone
     Buy: 10
   - Id: 25272
-    AegisName: Illusion_Gemstone
+    AegisName: IllusoryStone
     Name: Illusion Gemstone
     Weight: 10
   - Id: 25276
@@ -12866,3 +12866,455 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+  - Id: 25235
+    AegisName: StoneForWork
+    Name: Crafted Stone
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 25259
+    AegisName: SubjugationFlyer
+    Name: Recruitment Leaflet
+    Type: Etc
+    Buy: 778
+    Weight: 10
+  - Id: 25261
+    AegisName: Torn_Diary
+    Name: Torn Paper
+    Type: Etc
+    Buy: 900
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25262
+    AegisName: Dried_Clover
+    Name: Well-dried Clover
+    Type: Etc
+    Buy: 1200
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25263
+    AegisName: Short_Bat_Fur
+    Name: Short Bat Hair
+    Type: Etc
+    Buy: 790
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25264
+    AegisName: NightmareOfLump
+    Name: Cluster of Nightmares
+    Type: Etc
+    Buy: 822
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25265
+    AegisName: Shining_Spore
+    Name: Shining Spore
+    Type: Etc
+    Buy: 342
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25266
+    AegisName: Dried_Leaf_Of_Ygg
+    Name: Dried Yggdrasil Leaf
+    Type: Etc
+    Buy: 450
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25267
+    AegisName: SuspiciousMagicCircle
+    Name: Suspicious Pentacle
+    Type: Etc
+    Buy: 970
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25268
+    AegisName: Sticky_Blood
+    Name: Sticky Blood
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 25269
+    AegisName: Mushroom_Sap
+    Name: Mushroom Sap
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 25270
+    AegisName: Swaying_Mane
+    Name: Wavy Mane
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 25297
+    AegisName: Frozen_PieceOfRock
+    Name: Frozen Stone Fragment
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25298
+    AegisName: SpritJewel
+    Name: Spirit Jewel
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25299
+    AegisName: Snowball
+    Name: Snowball
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25300
+    AegisName: KTULLANUXsEye
+    Name: Ktullanux Eye
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25309
+    AegisName: Dry_Branch
+    Name: Dry Twig
+    Type: Etc
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 25311
+    AegisName: PieceOfBlackSpirit
+    Name: Piece of Black Horn
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25312
+    AegisName: OldDoll
+    Name: Fine Old Doll
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25313
+    AegisName: OldShell
+    Name: Old Shell
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25314
+    AegisName: ShipsLog
+    Name: Logbooks
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25315
+    AegisName: Piece_Of_Shell
+    Name: Shell Fragment
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 25316
+    AegisName: Shabby_Metal_Chip
+    Name: Old Metal Pieces
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 25615
+    AegisName: NasariansSoulstone
+    Name: Nasarin's Soul Stone
+    Type: Etc
+    Buy: 440
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25616
+    AegisName: Green_Bearopy
+    Name: Green Bear Rope
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25617
+    AegisName: Chonchon_Doll_HQ
+    Name: Fine Chonchon Doll
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25618
+    AegisName: Gothic_China_Doll
+    Name: Gothic Porcelain Doll
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25619
+    AegisName: Clay_Doll
+    Name: Clay Doll
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25633
+    AegisName: Token_Of_Wootan
+    Name: Wootan's Token
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25634
+    AegisName: Wootan_D_S_Piece
+    Name: Wootan Defender's Shield Piece
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25635
+    AegisName: Wootan_F_Fur
+    Name: Wootan Warrior's Fur
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25636
+    AegisName: Shooting_Stone
+    Name: Shooting Stone
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25637
+    AegisName: Hair_Leaf
+    Name: Leaf-like Hair
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25638
+    AegisName: Token_Of_Bigstone
+    Name: Megalithic Token
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25639
+    AegisName: Fragment_Of_Rock
+    Name: Fragment of Rock
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25640
+    AegisName: Pot_Stone
+    Name: Potted Stone
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25641
+    AegisName: Hard_Mud
+    Name: Hard Mud
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25642
+    AegisName: Weak_Worm
+    Name: Vulnerable Worm
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25892
+    AegisName: Abysmal_Clam
+    Name: Deep Sea Shell
+    Type: Etc
+    Buy: 840
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25893
+    AegisName: Deepsea_Fish_Tail
+    Name: Deep Sea Fish's Tail
+    Type: Etc
+    Buy: 840
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25894
+    AegisName: Rotten_Deepseafish
+    Name: Rotten Deep Sea Fish
+    Type: Etc
+    Buy: 840
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25895
+    AegisName: Deep_Sea_Starfish
+    Name: Deep Sea Starfish
+    Type: Etc
+    Buy: 840
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25896
+    AegisName: Deep_Sea_Crab
+    Name: Deep Sea Crab
+    Type: Etc
+    Buy: 840
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25898
+    AegisName: Siroods_Fish_Rod
+    Name: Searud's Fishing Rod
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 25899
+    AegisName: E_Abyss1
+    Name: Abyssal Essence
+    Type: Etc
+    Buy: 1200
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000504
+    AegisName: Dry_Sand
+    Name: Dry Sand
+    Type: Etc
+  - Id: 1000505
+    AegisName: Opaque_Liquid
+    Name: Opaque Liquid
+    Type: Etc
+  - Id: 1000506
+    AegisName: Shell_Of_Cognition
+    Name: Shell of Awareness
+    Type: Etc
+  - Id: 1000510
+    AegisName: IL_Twins_Feeler
+    Name: Ant Antennae
+    Type: Etc
+    Buy: 720
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000511
+    AegisName: IL_Twins_Leg
+    Name: Ant Legs
+    Type: Etc
+    Buy: 750
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000512
+    AegisName: IL_Twins_Jaw
+    Name: Ant's Jaw
+    Type: Etc
+    Buy: 900
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000513
+    AegisName: IL_Twins_Acid
+    Name: Dangerous Acid
+    Type: Etc
+    Buy: 900
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000514
+    AegisName: IL_Twins_Hat
+    Name: Gaia's Worn Hat
+    Type: Etc
+    Buy: 1000
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000515
+    AegisName: IL_Twins_Shovel
+    Name: Small Shovel
+    Type: Etc
+    Buy: 937
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000516
+    AegisName: IL_Twins_Fang
+    Name: Bat Jawbone
+    Type: Etc
+    Buy: 875
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000517
+    AegisName: IL_Twins_Fur
+    Name: Bat Fur
+    Type: Etc
+    Buy: 840
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000518
+    AegisName: IL_Twins_Crown
+    Name: Maya's Crown
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true

@@ -11284,28 +11284,28 @@ Body:
     Buy: 20000
     Script: "pet;\n"
   - Id: 23191
-    AegisName: Varetyr_Spear_Scroll_1_5
+    AegisName: Varetyr_5_Scroll
     Name: Level 5 Varetyr Spear
     Type: Delayconsume
     Buy: 10
     Weight: 10
     Script: "itemskill \"SO_VARETYR_SPEAR\",5;\n"
   - Id: 23192
-    AegisName: Diamond_Dust_Scroll_1_5
+    AegisName: DiamondDust5_Scroll
     Name: Level 5 Diamond Dust
     Type: Delayconsume
     Buy: 10
     Weight: 10
     Script: "itemskill \"SO_DIAMONDDUST\",5;\n"
   - Id: 23193
-    AegisName: Crimson_Rock_Scroll_1_5
+    AegisName: CrimsonRock_5_Scroll
     Name: Level 5 Crimson Rock
     Type: Delayconsume
     Buy: 10
     Weight: 10
     Script: "itemskill \"WL_CRIMSONROCK\",5;\n"
   - Id: 23194
-    AegisName: Sienna_Execrate_Scroll_1_5
+    AegisName: Sienna_5_Scroll
     Name: Level 5 Sienna Execrate
     Type: Delayconsume
     Buy: 10
@@ -11387,3 +11387,85 @@ Body:
       NoAuction: true
     Script: |
       warp "rachel",120,125;
+  - Id: 12858
+    AegisName: Golden_Potion_RG
+    Name: RG Golden Potion
+    Type: Usable
+    Weight: 30
+    Delay:
+      Duration: 1000
+      Status: Reuse_Limit_F
+    Script: |
+      percentheal 100,100;
+      sc_start SC_KYRIE,100000,10;
+      skilleffect "PR_KYRIE",0;
+  - Id: 23142
+    AegisName: EXPUP_Potion1
+    Name: Minor Growth Elixir
+    Type: Usable
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+      Override: 100
+    Buy: 2
+    Weight: 10
+    Script: |
+      getexp (BaseLevel < 100)?15000:1500,0;
+  - Id: 23143
+    AegisName: JEXPUP_Potion1
+    Name: Minor Job Elixir
+    Type: Usable
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+      Override: 100
+    Buy: 2
+    Weight: 10
+    Script: |
+      getexp 0,(BaseLevel < 100)?15000:1500;
+  - Id: 23144
+    AegisName: EXPUP_Potion1Box
+    Name: Minor Growth Elixir Box
+    Type: Usable
+    Buy: 2
+    Weight: 10
+    Script: |
+      getitem 23142,5;
+  - Id: 23145
+    AegisName: JEXPUP_Potion1Box
+    Name: Minor Job Elixir Box
+    Type: Usable
+    Buy: 2
+    Weight: 10
+    Script: |
+      getitem 23143,5;
+  - Id: 23302
+    AegisName: PoringsPreciousBox
+    Name: Poring Treasure Box
+    Type: Usable
+    Weight: 200
+    EquipLevelMin: 30
+    Flags:
+      Container: true
+    Script: |
+      getgroupitem(IG_PORINGSPRECIOUSBOX);
+  - Id: 100003
+    AegisName: ILL_Piece_A
+    Name: Red Phantom Resonance Stone
+    Type: DelayConsume
+    Script: |
+      laphine_upgrade();
+  - Id: 100004
+    AegisName: ILL_Piece_B
+    Name: Azure Mirage Resonance Stone
+    Type: DelayConsume
+    Script: |
+      laphine_upgrade();

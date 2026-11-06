@@ -215,3 +215,7 @@ arug_cas05	mapflag	restricted	4
 
 // Infinite Space
 1@infi	mapflag	restricted	6
+
+// Memorial Dungeons (Week-end, Vendredi)
+1@md_pay	mapflag	restricted	6
+1@md_gef	mapflag	restricted	6

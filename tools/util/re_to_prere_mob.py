@@ -2,8 +2,9 @@
 """
 re_to_prere_mob.py
 ==================
-Convertit Defense, MagicDefense, BaseExp et JobExp d'un fichier mob_db.yml
+Convertit Defense, MagicDefense, Hp, BaseExp et JobExp d'un fichier mob_db.yml
 du systeme renewal vers des valeurs compatibles pre-renewal.
+Attack et Attack2 ne sont volontairement pas modifies.
 
 Formule DEF/MDEF :
   pre_re_def  = round(Level * LV_DEF_COEFF  + Vit * VIT_COEFF)  + class_bonus_def
@@ -12,10 +13,13 @@ Formule DEF/MDEF :
   - MVP   : +DEF_MVP_BONUS   / +MDEF_MVP_BONUS
   - Resultat plafonne entre 1 et DEF_CAP / MDEF_CAP
 
-Formule EXP :
-  new_base_exp = round(BaseExp * EXP_BASE_MULT)
-  new_job_exp  = round(JobExp  * EXP_JOB_MULT)
-  (multiplicateurs configurables, par defaut 0.70 / 0.50)
+Formule HP (voir les parametres HP_* plus bas) :
+  raw    = re_hp * HP_MULT_x * (HP_LV_REF / Level) ^ HP_LV_EXP
+  new_hp = raw, avec soft cap au-dela de HP_CAP_x
+
+Formule EXP (derivee des HP finaux, l'EXP renewal d'origine n'est pas reprise) :
+  new_base_exp = round(new_hp * EXP_BASE_PER_HP)
+  new_job_exp  = round(new_base_exp * EXP_JOB_RATIO)
 
 Usage :
   python re_to_prere_mob.py <fichier.yml>            # modifie le fichier en place
@@ -23,6 +27,7 @@ Usage :
   python re_to_prere_mob.py <fichier.yml> --dry-run  # affiche les changements sans modifier
   python re_to_prere_mob.py <fichier.yml> --no-exp   # ne convertit pas les exp
   python re_to_prere_mob.py <fichier.yml> --no-def   # ne convertit pas DEF/MDEF
+  python re_to_prere_mob.py <fichier.yml> --no-hp    # ne convertit pas les HP
 """
 
 import re

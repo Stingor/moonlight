@@ -3707,3 +3707,24 @@ Body:
     Buy: 10
     Weight: 100
     Script: "bonus bMaxHPrate,1;\n"
+  - Id: 29047
+    AegisName: Fatal0
+    Name: Fatal
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bCritAtkRate,3;
+  - Id: 29208
+    AegisName: SPdrain2_Top
+    Name: SPabsorp2
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bSPDrainRate,20,1;
+  - Id: 29210
+    AegisName: HPdrain23
+    Name: HPabsorp2 3
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bHPDrainRate,20,3;

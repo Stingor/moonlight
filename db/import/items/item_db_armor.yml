@@ -23389,7 +23389,7 @@ Body:
     Refineable: true
     Script: "bonus bMdef,5; bonus bBaseAtk,10; .@r = getrefine(); if(.@r>=7){ bonus2 bSubRace,RC_DemiHuman,2; bonus2 bSubRace,RC_PLAYER_HUMAN,2; } if(.@r>=8){ bonus2 bSubRace,RC_DemiHuman,2; bonus2 bSubRace,RC_PLAYER_HUMAN,2; } if(.@r>=9){ bonus2 bSubRace,RC_DemiHuman,2; bonus2 bSubRace,RC_PLAYER_HUMAN,2; }\n"
   - Id: 15195
-    AegisName: Illusion_Puente_Robe
+    AegisName: Puente_Robe_IL
     Name: Illusion Puente Robe [1]
     Type: Armor
     Weight: 400
@@ -23413,7 +23413,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); if (.@r >= 13) { .@val = 11; } else if (.@r >= 11) { .@val = 7; } else if (.@r >= 8) { .@val = 5; } if (readparam(bStr) >= 125) { .@val += .@r; } if (.@val) { bonus2 bAddClass,Class_All,.@val; }\n"
   - Id: 15348
-    AegisName: Illusion_Goibne_Armor
+    AegisName: Goibne_Armor_IL
     Name: Illusion Goibne Armor [1]
     Type: Armor
     Weight: 3500
@@ -29009,7 +29009,7 @@ Body:
     View: 1134
     Script: ".@r = getrefine(); bonus bBaseAtk,5*(.@r/2); bonus bMatk,5*.@r/2; bonus bAspdRate,2*(.@r/3); if (.@r>=8) { bonus2 bSkillCooldown,\"SU_SVG_SPIRIT\",-4000*getskilllv(\"SU_LUNATICCARROTBEAT\"); bonus2 bSkillCooldown,\"SU_NYANGGRASS\",-8000*getskilllv(\"SU_CN_METEOR\"); bonus2 bSkillCooldown,\"SU_BUNCHOFSHRIMP\",-4000*getskilllv(\"SU_FRESHSHRIMP\"); } if (.@r>=11) bonus bDelayrate,-15;\n"
   - Id: 19209
-    AegisName: Illusion_Nurse_Cap
+    AegisName: Nurse_Cap_IL
     Name: Illusion Nurse Cap [1]
     Type: Armor
     Weight: 200
@@ -29026,7 +29026,7 @@ Body:
     View: 64
     Script: ".@r = getrefine(); bonus bInt,(1+(.@r/2)); bonus bHealPower,(3*(.@r/2));\n"
   - Id: 19210
-    AegisName: Illusion_Apple_of_Archer
+    AegisName: Apple_Of_Archer_IL
     Name: Illusion Apple of Archer [1]
     Type: Armor
     Weight: 200
@@ -29039,7 +29039,7 @@ Body:
     View: 72
     Script: "bonus bDex,(3+(getrefine()/2));\n"
   - Id: 19223
-    AegisName: Illusion_Cap
+    AegisName: Cap_IL
     Name: Illusion Cap [1]
     Type: Armor
     Weight: 400
@@ -29074,7 +29074,7 @@ Body:
     View: 1629
     Script: "bonus bAspd,1;\n"
   - Id: 19247
-    AegisName: Illusion_Fancy_Flower
+    AegisName: Fancy_Flower_IL
     Name: Illusion Fancy Flower [1]
     Type: Armor
     Weight: 100
@@ -29095,7 +29095,7 @@ Body:
     View: 1679
     Script: "bonus bCritAtkRate,5;\n"
   - Id: 19344
-    AegisName: Illusion_Hot_blooded_Headband
+    AegisName: Headband_Of_Power_IL
     Name: Illusion Hot-blooded Headband [1]
     Type: Armor
     Weight: 100
@@ -29108,7 +29108,7 @@ Body:
     View: 154
     Script: ".@r = getrefine(); bonus bStr,2; bonus bBaseAtk,(10*(.@r/2)); if (.@r >= 7) { bonus2 bAddEle,Ele_Water,10; bonus2 bAddEle,Ele_Wind,10; bonus2 bAddEle,Ele_Earth,10; bonus2 bAddEle,Ele_Neutral,10; if (.@r >= 9) { bonus2 bAddSize,Size_Small,15; bonus2 bAddSize,Size_Large,15; } }\n"
   - Id: 19366
-    AegisName: Illusion_Goibne_Helm
+    AegisName: Goibne_Helmet_IL
     Name: Illusion Goibne Helm [1]
     Type: Armor
     Weight: 1000
@@ -29162,7 +29162,7 @@ Body:
     View: 1134
     Script: ".@r = getrefine(); bonus bMatk,10*(.@r/2); bonus bAspdRate,2*(.@r/3); if (.@r>=8) bonus bMaxSP,100*getskilllv(\"TK_SPTIME\"); if (.@r>=11) autobonus3 \"{ bonus2 bSkillAtk,\\\"SP_SPA\\\",30; bonus2 bSkillAtk,\\\"SP_SWHOO\\\",30; }\",1000,10000,\"SL_SMA\";\n"
   - Id: 19428
-    AegisName: Illusion_Morpheus's_Hood
+    AegisName: Morpheus_Hood_IL
     Name: Illusion Morpheus's Hood [1]
     Type: Armor
     Weight: 200
@@ -29697,7 +29697,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); .@bonus = 20; if (.@r>=7) { .@bonus += 5; } if (.@r>=9) { .@bonus += 5; } bonus2 bSubEle,Ele_Neutral,.@bonus;\n"
   - Id: 20838
-    AegisName: Illusion_Muffler
+    AegisName: Muffler_IL
     Name: Illusion Muffler [1]
     Type: Armor
     Weight: 400
@@ -29713,7 +29713,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,(100+(100*.@r)); bonus bMaxSP,(10+(5*.@r));\n"
   - Id: 20840
-    AegisName: Illusion_Ancient_Cape
+    AegisName: Cape_Of_Ancient_Lord_IL
     Name: Illusion Ancient Cape [1]
     Type: Armor
     Weight: 600
@@ -29729,7 +29729,7 @@ Body:
     Refineable: true
     Script: ".@val = min(getrefine(),10)/2; bonus bAgi,(2+.@val);\n"
   - Id: 20847
-    AegisName: Illusion_Survivor_Manteau
+    AegisName: Clack_Of_Servival_IL
     Name: Illusion Survivor Manteau [1]
     Type: Armor
     Weight: 550
@@ -29758,7 +29758,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); if (.@r >= 8) { bonus bBaseAtk,20; if (.@r >= 11) { .@val = -3; if (.@r >= 13) { .@val += -4; } } } if (readparam(bVit) >= 125) { .@val += -10; } if (.@val) { bonus bDelayrate,.@val; }\n"
   - Id: 20923
-    AegisName: Illusion_Goibne_Spaulders
+    AegisName: Goibne_Shoulder_IL
     Name: Illusion Goibne Spaulders [1]
     Type: Armor
     Weight: 1000
@@ -29830,7 +29830,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,(300+(100*(.@r/2))); bonus bMaxHPRate,(2*(.@r/3)); if (.@r >= 7) { bonus2 bAddClass,Class_All,7; } if (.@r >= 9) { bonus bVariableCastrate,-10; }\n"
   - Id: 20948
-    AegisName: Illusion_Morpheus's_Shawl
+    AegisName: Morpheus_Shawl_IL
     Name: Illusion Morpheus's Shawl [1]
     Type: Armor
     Weight: 600
@@ -30670,7 +30670,7 @@ Body:
     Refineable: true
     Script: ".@bonus = 5; .@r = getrefine(); if (.@r >=7) { .@bonus += 5; } if (.@r >=9) { .@bonus += 5; } bonus bMaxSPrate,.@bonus; bonus bSpeedRate,25; /* fix me: unknown speed value */\n"
   - Id: 22133
-    AegisName: Illusion_Shoes
+    AegisName: Shoes_IL
     Name: Illusion Shoes [1]
     Type: Armor
     Weight: 400
@@ -30710,7 +30710,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,500; bonus bMaxSP,50; bonus bMaxHPrate,2*(.@r/3); bonus bMaxSPrate,.@r/3; if (.@r >= 9) { .@val = -300; if (.@r >= 12) { .@val -= 200; if (.@r >= 14) { bonus bDelayRate,-5; } } bonus bFixedCast,.@val; }\n"
   - Id: 22190
-    AegisName: Illusion_Boots
+    AegisName: Boots_IL
     Name: Illusion Boots [1]
     Type: Armor
     Weight: 600
@@ -30738,7 +30738,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bCritical,(5*(.@r/3)); bonus bAspdRate,.@r;\n"
   - Id: 22192
-    AegisName: Illusion_Goibne's_Greaves
+    AegisName: Goibne_Boots_IL
     Name: Illusion Goibne's Greaves [1]
     Type: Armor
     Weight: 1200
@@ -31568,7 +31568,7 @@ Body:
     EquipLevelMin: 160
     Script: "bonus bDex,4; skill \"AL_TELEPORT\",1;\n"
   - Id: 28483
-    AegisName: Royal_Guardian_Ring
+    AegisName: ProtectRingofKing
     Name: Royal Guardian Ring [1]
     Type: Armor
     Weight: 10
@@ -31618,7 +31618,7 @@ Body:
     EquipLevelMin: 100
     Script: "bonus bAllStats,1; bonus2 bAddRace,RC_All,2; bonus2 bMagicAddRace,RC_All,2; if(BaseLevel>=150) { bonus bAllStats,1; bonus2 bAddRace,RC_All,2; bonus2 bMagicAddRace,RC_All,2; }\n"
   - Id: 28508
-    AegisName: Illusion_Skull_Ring
+    AegisName: Skul_Ring_IL
     Name: Illusion Skull Ring [1]
     Type: Armor
     Weight: 100
@@ -31628,7 +31628,7 @@ Body:
     EquipLevelMin: 100
     Script: "bonus3 bAddEff,Eff_Curse,5000,ATF_SELF|ATF_TARGET|ATF_SHORT|ATF_WEAPON;\n"
   - Id: 28509
-    AegisName: Illusion_Ring
+    AegisName: Ring_IL
     Name: Illusion Ring [1]
     Type: Armor
     Weight: 200
@@ -31642,7 +31642,7 @@ Body:
     EquipLevelMin: 100
     Script: "bonus bStr,3; if (readparam(bStr) >= 100) { bonus bBaseAtk,30; }\n"
   - Id: 28510
-    AegisName: A_Vampire's_Servant
+    AegisName: Vampire's_Servant
     Name: A Vampire's Servant [1]
     Type: Armor
     Weight: 100
@@ -31851,7 +31851,7 @@ Body:
     View: 1
     Script: ".@r = getrefine(); if(BaseLevel>=150) { bonus bDef,10+.@r; }\n"
   - Id: 28922
-    AegisName: Illusion_Sacred_Mission
+    AegisName: Herald_Of_GOD_IL
     Name: Illusion Sacred Mission [1]
     Type: Armor
     Weight: 1600
@@ -32013,7 +32013,7 @@ Body:
     EquipLevelMin: 100
     Script: "bonus bMatkRate,5; bonus bVariableCastrate,-10;\n"
   - Id: 32238
-    AegisName: Illusion_Morpheus's_Ring
+    AegisName: Morpheus_Ring_IL
     Name: Illusion Morpheus's Ring [1]
     Type: Armor
     Weight: 100
@@ -32023,7 +32023,7 @@ Body:
     EquipLevelMin: 130
     Script: "bonus bInt,3; bonus bMaxSPrate,5;\n"
   - Id: 32239
-    AegisName: Illusion_Morpheus's_Bracelet
+    AegisName: Morpheus_Armlet_IL
     Name: Illusion Morpheus's Bracelet [1]
     Type: Armor
     Weight: 100
@@ -32210,3 +32210,351 @@ Body:
       Both_Accessory: true
     ArmorLevel: 1
     EquipLevelMin: 80
+  - Id: 19238
+    AegisName: PoringTownOnion
+    Name: Poring Village Leek
+    Type: Armor
+    View: 824
+    Buy: 20
+    Weight: 100
+    Locations:
+      Head_Low: true
+    ArmorLevel: 1
+    EquipLevelMin: 30
+    Script: |
+      autobonus "{ bonus bSpeedRate,25; }",50,5000,BF_NORMAL,"{ showscript \"Smokie-formation!\"; active_transform 1056,5000; /*SMOKIE*/ }";
+  - Id: 19239
+    AegisName: PoringTownCarrot
+    Name: Poring Village Carrot
+    Type: Armor
+    View: 829
+    Buy: 20
+    Weight: 100
+    Locations:
+      Head_Low: true
+    ArmorLevel: 1
+    EquipLevelMin: 30
+    Script: |
+      autobonus "{ bonus bSpeedRate,25; }",50,5000,BF_NORMAL,"{ showscript \"Lunatic-formation!\"; active_transform 1063,5000; /*LUNATIC*/ }";
+  - Id: 2935
+    AegisName: Sprint_Glove
+    Name: Sprint Gloves [1]
+    Type: Armor
+    Buy: 20
+    Weight: 100
+    Slots: 1
+    Jobs:
+      Alchemist: true
+      Assassin: true
+      BardDancer: true
+      Blacksmith: true
+      Crusader: true
+      Hunter: true
+      Knight: true
+      Monk: true
+      Priest: true
+      Rogue: true
+      Sage: true
+      Wizard: true
+    Classes:
+      Upper: true
+      Third: true
+      Third_Upper: true
+      Third_Baby: true
+    Locations:
+      Both_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 1
+    Script: |
+      bonus bVariableCastrate,-1;
+      bonus bDelayrate,-1;
+  - Id: 400053
+    AegisName: Morrigane_Helm_IL
+    Name: Illusion Morrigane's Helm [1]
+    Type: Armor
+    View: 257
+    Weight: 500
+    Defense: 8
+    Slots: 1
+    Jobs:
+      All: true
+      Novice: false
+    Locations:
+      Head_Top: true
+    ArmorLevel: 1
+    EquipLevelMin: 130
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bCritical,5;
+      bonus bStr,5;
+      if (.@r>=7) {
+         bonus bBaseAtk,50;
+      }
+      if (.@r>=9) {
+         bonus bAspdRate,10;
+      }
+  - Id: 450144
+    AegisName: Saint_Robe_IL
+    Name: Illusion Saint Robe [1]
+    Type: Armor
+    Weight: 600
+    Defense: 12
+    Slots: 1
+    Jobs:
+      Acolyte: true
+      Alchemist: true
+      Blacksmith: true
+      Merchant: true
+      Monk: true
+      Priest: true
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 120
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+      bonus bMdef,10;
+      if (.@r>=9) {
+         bonus2 bSubRace,RC_Fish,15;
+      }
+      if (.@r>=11) {
+         bonus2 bIgnoreDefRaceRate,RC_Fish,20;
+      }
+  - Id: 450145
+    AegisName: Water_Sprits_Armor_IL
+    Name: Illusion Saphien's Armor of Ocean [1]
+    Type: Armor
+    Weight: 2200
+    Defense: 12
+    Slots: 1
+    Jobs:
+      Alchemist: true
+      Blacksmith: true
+      Crusader: true
+      Knight: true
+      Merchant: true
+      Swordman: true
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 120
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHPrate,10;
+      bonus bMaxHP,125*.@r;
+      if (.@r>=7) {
+         bonus bDef,5;
+      }
+      if (.@r>=9) {
+         autobonus2 "{ bonus2 bSubEle,Ele_Water,15; }",1,5000,BF_MAGIC|BF_WEAPON;
+      }
+  - Id: 450146
+    AegisName: Chain_Mail_IL
+    Name: Illusion Chain Mail [1]
+    Type: Armor
+    Weight: 3300
+    Defense: 12
+    Slots: 1
+    Jobs:
+      Alchemist: true
+      Assassin: true
+      Blacksmith: true
+      Crusader: true
+      Knight: true
+      Merchant: true
+      Rogue: true
+      Swordman: true
+      Thief: true
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 120
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+      bonus bBaseAtk,4*.@r;
+      bonus2 bAddEle,Ele_Fire,4*(.@r/3);
+      bonus2 bAddEle,Ele_Water,4*(.@r/3);
+      if (.@r>=9) {
+         bonus2 bAddClass,Class_All,10;
+      }
+      if (.@r>=11) {
+         bonus bAspdRate,10;
+      }
+  - Id: 450182
+    AegisName: Sprint_Mail_IL
+    Name: Illusion Sprint Mail [1]
+    Type: Armor
+    Weight: 1500
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 130
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bHPrecovRate,20;
+      bonus bVit,5;
+      if (.@r>=7) {
+         bonus bHPrecovRate,20;
+         if (.@r>=9) {
+            bonus bDelayrate,-5;
+            if (.@r>=11) {
+               bonus bDelayrate,-7;
+            }
+         }
+      }
+  - Id: 460017
+    AegisName: Guard_IL
+    Name: Illusion Guard [1]
+    Type: Armor
+    Weight: 600
+    Defense: 8
+    Slots: 1
+    Locations:
+      Left_Hand: true
+    ArmorLevel: 1
+    EquipLevelMin: 120
+    Refineable: true
+    View: 1
+    Script: |
+      bonus bAspd,2;
+      bonus bPerfectHitAddRate,3*(min(getrefine(),12)/2);
+  - Id: 460018
+    AegisName: Siver_Guard_IL
+    Name: Illusion Silver Guard [1]
+    Type: Armor
+    Weight: 300
+    Defense: 8
+    Slots: 1
+    Locations:
+      Left_Hand: true
+    ArmorLevel: 1
+    EquipLevelMin: 120
+    Refineable: true
+    View: 1
+    Script: |
+      bonus bVariableCastrate,-7;
+      bonus bDelayrate,-(min(getrefine(),12)/2);
+  - Id: 470066
+    AegisName: Sprint_Shoes_IL
+    Name: Illusion Sprint Shoes [1]
+    Type: Armor
+    Weight: 700
+    Defense: 6
+    Slots: 1
+    Locations:
+      Shoes: true
+    ArmorLevel: 1
+    EquipLevelMin: 130
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bSPrecovRate,20;
+      bonus bAgi,5;
+      if (.@r>=7) {
+         bonus bSPrecovRate,20;
+         if (.@r>=9) {
+            bonus bMaxHPrate,5;
+            bonus bMaxSPrate,5;
+            if (.@r>=11) {
+               bonus2 bAddSize,Size_All,15;
+            }
+         }
+      }
+  - Id: 480054
+    AegisName: Morrigane_Manyeau_IL
+    Name: Illusion Morrigane's Manteau [1]
+    Type: Armor
+    Weight: 600
+    Defense: 6
+    Slots: 1
+    Jobs:
+      All: true
+      Novice: false
+    Locations:
+      Garment: true
+    ArmorLevel: 1
+    EquipLevelMin: 130
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bLuk,5;
+      bonus bFlee,20;
+      if (.@r>=7) {
+         bonus2 bAddRace,RC_Fish,5;
+         bonus2 bAddRace,RC_Insect,5;
+         bonus2 bAddRace,RC_Demon,5;
+         bonus2 bAddRace,RC_DemiHuman,5;
+      }
+      if (.@r>=9) {
+         bonus2 bAddRace,RC_Fish,10;
+         bonus2 bAddRace,RC_Insect,10;
+         bonus2 bAddRace,RC_Demon,10;
+         bonus2 bAddRace,RC_DemiHuman,10;
+      }
+  - Id: 490069
+    AegisName: Morrigane_Belt_IL
+    Name: Illusion Morrigane's Belt [1]
+    Type: Armor
+    Weight: 200
+    Slots: 1
+    Jobs:
+      All: true
+      Novice: false
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 130
+    Script: |
+      bonus bMaxHPrate,5;
+      bonus bStr,3;
+  - Id: 490070
+    AegisName: Morrigane_Pendant_IL
+    Name: Illusion Morrigane's Pendant [1]
+    Type: Armor
+    Weight: 200
+    Slots: 1
+    Jobs:
+      All: true
+      Novice: false
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 130
+    Script: |
+      bonus bCritical,5;
+      bonus bBaseAtk,20;
+  - Id: 490120
+    AegisName: Sprint_Ring_IL
+    Name: Illusion Sprint Ring [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 130
+    Script: |
+      bonus bVariableCastrate,-10;
+  - Id: 490121
+    AegisName: Sprint_Glove_IL
+    Name: Illusion Sprint Glove [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 130
+    Script: |
+      bonus bDelayrate,-3;

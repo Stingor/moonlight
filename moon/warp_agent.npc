@@ -181,6 +181,7 @@ L_Instance:
 					"Endless Cellar (HM, Custom)",
 					"Endless Tower (HM)",
 					"Faceworms Nest (Solo)",
+					"Friday Dungeon (vendredi)",
 					"Gef. Magic Tour. (HM, Solo, Custom)",
 					"Ghost Palace (Solo)",
 					"Half Moon In The Daylight",
@@ -196,12 +197,14 @@ L_Instance:
 					"Octopus Cave",
 					"Old Glast Heim (HM)",
 					"Orc's Memory",
+					"Poring Village (niv. 30-60)",
 					"Room of Consciousness (HM, Solo)",
 					"Sarah and Fenrir",
 					"Sara Memory",
 					"Sealed Shrine",
 					"Sky Fortress Invasion",
 					"Temple of Demon God",
+					"Weekend Dungeon (sam./dim.)",
 					"Wolfchev's Laboratory";
 	setarray .@inst[0],
 					INST_ASSAULT_ON_THE_AIRSHIP,
@@ -214,6 +217,7 @@ L_Instance:
 					INST_ENDLESS_CELLAR,
 					INST_ENDLESS_TOWER,
 					INST_FACEWORMS_NEST,
+					INST_FRIDAY_DUNGEON,
 					INST_GEFFEN_MAGIC_TOURNAMENT,
 					INST_GHOST_PALACE,
 					INST_HALF_MOON_IN_THE_DAYLIGHT,
@@ -229,12 +233,14 @@ L_Instance:
 					INST_OCTOPUS_CAVE,
 					INST_OLD_GLAST_HEIM,
 					INST_ORCS_MEMORY,
+					INST_PORING_VILLAGE,
 					INST_ROOM_OF_CONSCIOUSNESS,
 					INST_FENRIR_AND_SARAH,
 					INST_SARAS_MEMORIES,
 					INST_SEALED_CATACOMB,
 					INST_SKY_FORTRESS_INVASION,
 					INST_TEMPLE_OF_THE_DEMON_GOD,
+					INST_WEEKEND_DUNGEON,
 					INST_WOLFCHEVS_LABORATORY;
 	// quete de cooldown utilisee pour la couleur ; 0 = cas particulier traite plus bas
 	setarray .@cd[0],
@@ -248,6 +254,7 @@ L_Instance:
 					0,     // INST_ENDLESS_CELLAR
 					60200, // INST_ENDLESS_TOWER
 					12325, // INST_FACEWORMS_NEST
+					12379, // INST_FRIDAY_DUNGEON
 					9316,  // INST_GEFFEN_MAGIC_TOURNAMENT
 					1261,  // INST_GHOST_PALACE
 					14586, // INST_HALF_MOON_IN_THE_DAYLIGHT
@@ -263,12 +270,14 @@ L_Instance:
 					4197,  // INST_OCTOPUS_CAVE
 					12317, // INST_OLD_GLAST_HEIM
 					12059, // INST_ORCS_MEMORY
+					12417, // INST_PORING_VILLAGE
 					7706,  // INST_ROOM_OF_CONSCIOUSNESS
 					9336,  // INST_FENRIR_AND_SARAH
 					15002, // INST_SARAS_MEMORIES
 					3040,  // INST_SEALED_CATACOMB
 					9419,  // INST_SKY_FORTRESS_INVASION
 					7605,  // INST_TEMPLE_OF_THE_DEMON_GOD
+					12378, // INST_WEEKEND_DUNGEON
 					5112;  // INST_WOLFCHEVS_LABORATORY
 
 	.@n = getarraysize(.@inst);
@@ -846,6 +855,16 @@ L_Bijou:
 				break;
 			}
 			warp_fct("prt_q", 244, 81);
+		}
+		// Jour, niveau et contrat sont controles par le PNJ sur place : pas d'acces direct.
+		case INST_FRIDAY_DUNGEON: { // Friday Dungeon
+			warp_fct("gef_tower", 58, 169);
+		}
+		case INST_PORING_VILLAGE: { // Poring Village
+			warp_fct("prt_fild05", 147, 234);
+		}
+		case INST_WEEKEND_DUNGEON: { // Weekend Dungeon
+			warp_fct("pay_arche", 45, 123);
 		}
 		case INST_TEMPLE_OF_THE_DEMON_GOD: { // Temple of Demon God
 			if( select( GetColor(7605)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {

@@ -335,3 +335,23 @@ Body:
     AdditionalMaps:
       1@pop2: true
       1@pop3: true
+  - Id: 45
+    Name: Weekend Dungeon
+    TimeLimit: 3600
+    Enter:
+      Map: 1@md_pay
+      X: 240
+      Y: 29
+  - Id: 46
+    Name: Friday Dungeon
+    TimeLimit: 7200
+    Enter:
+      Map: 1@md_gef
+      X: 106
+      Y: 129
+  - Id: 47
+    Name: Poring Village
+    Enter:
+      Map: 1@begi
+      X: 100
+      Y: 22

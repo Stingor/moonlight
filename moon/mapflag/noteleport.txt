@@ -642,3 +642,8 @@ paramk	mapflag	noteleport
 // Infinite Space
 1@infi	mapflag	noteleport
 1@infi	mapflag	monster_noteleport
+
+// Memorial Dungeons (Week-end, Vendredi) et Village Poring
+1@md_pay	mapflag	noteleport
+1@md_gef	mapflag	noteleport
+1@begi	mapflag	monster_noteleport

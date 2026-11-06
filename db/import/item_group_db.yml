@@ -27594,6 +27594,24 @@ Body:
             Rate: 1
             Amount: 20
 
+  - Group: PORINGSPRECIOUSBOX
+    SubGroups:
+      - SubGroup: 0
+        Algorithm: All
+        List:
+          - Index: 0
+            Item: Orange_Potion_B
+            Amount: 3
+          - Index: 1
+            Item: N_Fly_Wing
+            Amount: 3
+          - Index: 2
+            Item: Candy_Striper_B
+            Amount: 5
+          - Index: 3
+            Item: Candy_B
+            Amount: 5
+
 Footer:
   Imports:
   - Path: db/import/item_group_db/invasion.yml

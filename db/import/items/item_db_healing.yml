@@ -1401,7 +1401,7 @@ Body:
     Weight: 20
     Script: "itemheal rand(45,65),0;\n"
   - Id: 11569
-    AegisName: Orange_Potion_
+    AegisName: Orange_Potion_B
     Name: Orange Potion
     Type: Healing
     Buy: 10
@@ -2994,9 +2994,19 @@ Body:
     Weight: 300
     Script: "percentheal 50,50;\n"
   - Id: 23228
-    AegisName: Hazy_Mooncake
+    AegisName: HazyMooncake
     Name: Hazy Mooncake
     Type: Healing
     Buy: 768
     Weight: 10
     Script: "/* unknown */\n"
+  - Id: 11620
+    AegisName: Bearopy
+    Name: Bear Rope
+    Type: Healing
+    Buy: 420
+    Weight: 10
+    Flags:
+      BuyingStore: true
+#   Script: |
+#     /* TODO */

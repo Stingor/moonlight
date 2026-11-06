@@ -4,7 +4,7 @@ Index des fiches. Un fichier par épisode, de la bascule Renewal (2009) à l'ép
 (2023). Objectif : savoir, épisode par épisode, **ce que kRO a livré**, **ce que
 rAthena implémente**, et **ce que Moonlight a déjà porté ou pas**.
 
-Relevé initial le **2026-08-25**, synthèse remise à jour le **2026-10-07**, sur les dépôts locaux
+Relevé initial le **2026-08-25**, synthèse remise à jour le **2026-10-07** (16.2 : **2026-11-06**), sur les dépôts locaux
 `d:\Mes documents\GitHub\rathena` et `d:\Mes documents\GitHub\moonlight`.
 
 ## Les fiches
@@ -48,6 +48,8 @@ la ligne `npc:` dans `moon/scripts_moon.conf` (et le renommage en `.npc`).
 | Espace Infini (`1@infi`) | 15.2 | id 38 | `moon/instances/InfiniteSpace.npc` | `793d8d952`, `8552f26a1` |
 | Forteresse Céleste (`1@sthb`) | 16.1 | id 33 | `moon/instances/SkyFortress.npc` | `59ed6f066` |
 | EDDA — Demi-lune en plein jour (`1@pop1`) | 16.1 | id 44 | `moon/instances/EddaHalfMoonInTheDaylight.npc` | `d22a214d0` |
+| Donjons du week-end et du vendredi (`1@md_pay`, `1@md_gef`) | 16.2 | ids 45 et 46 | `moon/instances/WeekendDungeon.npc`, `FridayDungeon.npc` | non committé |
+| Village Poring (`1@begi`) | 16.2 | id 47 | `moon/instances/PoringVillage.npc` | non committé |
 
 Le branchement n'a jamais été le vrai travail : chacun de ces portages a demandé
 d'extraire des mobs, quêtes ou objets restés dans `db/re`, et de porter les mapflags
@@ -57,15 +59,13 @@ qui ne vivaient que dans `npc/re/mapflag/`.
 
 | Contenu | Épisode | Carte |
 |---|---|---|
-| Donjon du week-end / du vendredi | 16.2 | `1@md_pay`, `1@md_gef` |
-| Village Poring | 16.2 | `1@begi` |
 | Jardin du Crépuscule / Hey! Sweety | 17.2 | `1@bamn`, `1@bamq` |
 | Jardin d'Eau (normal + difficile) | 17.2 | `1@ghg` |
 | Jardin de Fleurs Caché / Zones de Sécurité | 17.2 | `1@herbs` |
 | Ferme Perdue dans le Temps | 17.2 | `1@lost` |
 | Niflheim renewal (spawns) | 17.2 | `nif_dun01/02` |
 
-Soit **dix contenus de groupe** dont les scripts sont déjà sur le disque et dont les
+Soit **sept contenus de groupe** dont les scripts sont déjà sur le disque et dont les
 cartes sont déjà dans le mapcache — il manque la déclaration dans
 `db/import/instance_db.yml` et la ligne de conf, mais l'expérience des quatre
 portages ci-dessus montre qu'il faut s'attendre aussi à des mobs, quêtes et mapflags
@@ -75,12 +75,12 @@ restés côté `re`.
 
 | Contenu | Épisode | Mobs à écrire | Lignes à décommenter |
 |---|---|---:|---:|
-| **Donjons Illusion** (8 donjons pré-installés) | 16.2 | **40** (`ILL_*`) | 53 |
+| **Donjons Illusion** (10 cartes de 8 donjons pré-installés) | 16.2 | **70 portés**, non validés en jeu | 61 + bloc de Luanda |
 | Rudus + OS | 17.1 | **10** (`EP17_1_*`) | 24 |
 | Village du Loup Gris + Labyrinthe d'Oz | 18 | **13** (`EP18_*`) | 16 |
 | Hall of Life | 20 | **32** (`SPIRIT_*`) | 36 |
 
-**95 entrées de mob au total.** C'est le cœur du travail restant, et le gisement le plus
+**55 entrées de mob restent à écrire, hors Illusion.** C'est le cœur du travail restant, et le gisement le plus
 rentable est celui des donjons Illusion : cartes connues, monstres dérivés de créatures
 pré-renewal, donc rééchelonnage mécanique.
 

@@ -54518,10 +54518,12 @@ Footer:
   - Path: db/import/mobs/iz_dun.yml
   - Path: db/import/mobs/jitterbug.yml
   - Path: db/import/mobs/kh_dun.yml
+  - Path: db/import/mobs/illusion.yml
   - Path: db/import/mobs/lastroom.yml
   - Path: db/import/mobs/mag_dun.yml
   - Path: db/import/mobs/malangdo.yml
   - Path: db/import/mobs/malaya.yml
+  - Path: db/import/mobs/memorial_dungeons.yml
   - Path: db/import/mobs/moc_pryd_n.yml
   - Path: db/import/mobs/morocc.yml
   - Path: db/import/mobs/morsecave.yml

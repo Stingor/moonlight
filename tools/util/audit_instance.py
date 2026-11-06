@@ -148,11 +148,28 @@ def parse_script(path):
         r'\s*"([^"]*)"\s*,\s*(\d+|\.@?[A-Za-z_]\w*)\s*,')
     for m in pat.finditer(code):
         ref = m.group(2)
+        # monster ...,"--en--","AEGIS",1 : le faux couple nom/ID est traite plus bas.
+        if m.group(1).startswith('--') or re.search(r'"--[a-z]{2}--"\s*,\s*"%s"' % re.escape(m.group(1)), code):
+            continue
         ids = [int(ref)] if ref.isdigit() else sorted(var_ids.get(ref, ()))
         for i in ids:
             mobs.setdefault(i, set()).add(m.group(1))
     for m in re.finditer(r'getmonsterinfo\s*\(\s*(\d+)', code):
         mobs.setdefault(int(m.group(1)), set())
+
+    # ID portes par un tableau : setarray 'mob[0],3643,3637,3649;
+    for m in re.finditer(r"\bsetarray\s+(?:\.@?|')\w*mob\w*\[\d+\]\s*,([^;]+);", code):
+        for tok in re.findall(r'\b\d{4,5}\b', m.group(1)):
+            mobs.setdefault(int(tok), set())
+
+    # Mob appele par son AegisName : monster ...,"--en--","MD_PORING",1,...
+    aegis = set(re.findall(r'"--[a-z]{2}--"\s*,\s*"(\w+)"', code))
+    if aegis:
+        for db_path in ['db/re/mob_db.yml', 'db/import/mob_db.yml'] + glob.glob('db/import/mobs/*.yml'):
+            text = open(db_path, encoding='latin-1').read()
+            for m in re.finditer(r'- Id: (\d+)[^\n]*\s+AegisName: (\S+)', text):
+                if m.group(2) in aegis:
+                    mobs.setdefault(int(m.group(1)), set()).add(m.group(2))
 
     items = set()
     for kw in ('getitem2?', 'delitem2?', 'countitem2?', 'getitembound', 'makeitem',
