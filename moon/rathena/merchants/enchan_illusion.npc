@@ -1,9 +1,9 @@
 //===== rAthena Script =======================================
-//= Illusion Enchanter (prontera)
+//= Illusion Enchanter et Illusion Merchant (prontera)
 //===== Description: =========================================
 //= Portage de npc/re/merchants/enchan_illusion_dungeons.txt.
-//= L'Illusion Merchant n'est pas repris : ses pierres de resonance
-//= lancent laphine_upgrade(), inerte sans le systeme Lapine.
+//= Les recettes des pierres de resonance du Merchant sont dans
+//= db/import/laphine_upgrade.yml.
 //============================================================
 
 // illusion enhancing - enhance the illusion gears
@@ -554,5 +554,42 @@ S_Enchant:
 OnTouch:
 	if (isbegin_quest(12415) == 0)
 		npctalk "Illusion Enchanter: Come talk to me if you're interested in the Illusion equipment!", "", bc_self;
+	end;
+}
+
+//============================================================
+//= Illusion Merchant
+//============================================================
+-	marketshop	market_resonance_stone	-1,100003:2000000:99999,100004:2000000:99999
+prontera,88,113,5	script	Illusion Merchant#0829	HIDDEN_NPC,{
+	mes "[Illusion Merchant]";
+	mes "I'm selling two random optional weapon grant scrolls that I made myself. You can choose the payment method you like.";
+	next;
+	switch( select( "Purchase with Zeny.", "Purchase with Illusion Stones" )) {
+		case 1:
+			mes "[Illusion Merchant]";
+			mes "I hope you like it.";
+			close2;
+			callshop "market_resonance_stone";
+			end;
+		case 2:
+			mes "[Illusion Merchant]";
+			mes "I hope you like it.";
+			close2;
+			callshop "resonance_stone_barter";
+			end;
+	}
+OnInit:
+	.@npc_id = getnpcid(0);
+	setunitdata .@npc_id,UNPC_CLASS, JOB_MAGE_HIGH;
+	setunitdata .@npc_id,UNPC_SEX,SEX_FEMALE;
+	setunitdata .@npc_id,UNPC_HEADTOP,142;
+	setunitdata .@npc_id,UNPC_HEADMIDDLE,92;
+	setunitdata .@npc_id,UNPC_HAIRSTYLE,2;
+	setunitdata .@npc_id,UNPC_HAIRCOLOR,2;
+
+	// Restock
+	npcshopupdate "market_resonance_stone",100003,2000000,99999;
+	npcshopupdate "market_resonance_stone",100004,2000000,99999;
 	end;
 }

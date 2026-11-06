@@ -38,3 +38,83 @@
 Header:
   Type: LAPHINE_UPGRADE_DB
   Version: 1
+
+Body:
+  - Item: ILL_Piece_A
+    RandomOptionGroup: ILL_PIECE_A
+    TargetItems:
+      - Item: Bazerald_IL
+      - Item: Butcher_IL
+      - Item: Gold_Lux_IL
+      - Item: Infiltrator_IL
+      - Item: War_Axe_IL
+      - Item: Immaterial_Sword_IL
+      - Item: Iron_Driver_IL
+      - Item: Pole_Axe_IL
+      - Item: Book_Of_The_Apo_IL
+      - Item: Balistar_IL
+      - Item: Huuma_Bird_Wing_IL
+      - Item: Wizardy_Staff_IL
+      - Item: Long_Mace_IL
+      - Item: Huuma_Flutter_Snow_IL
+      - Item: Combo_Battle_Glove_IL
+      - Item: Spectral_Spear_IL
+      - Item: Staff_Of_Bordeaux_IL
+      - Item: Moonlight_Sword_IL
+      - Item: Hunter_Bow_IL
+      - Item: Tablet_IL
+      - Item: Gate_KeeperDD_IL
+      - Item: Counter_Dagger_IL
+      - Item: Survival_Staff_IL
+      - Item: Taegoolyeon_IL
+      - Item: Death_Guidance_IL
+      - Item: KatarOfCold_Icicle_IL
+      - Item: Brionac_IL
+      - Item: Zephyrus_IL
+      - Item: Electronic_Guitar_IL
+      - Item: Electric_Eel_IL
+      - Item: Doom_Slayer_IL
+      - Item: Excalibur_IL
+      - Item: Ancient_Dagger_IL
+      - Item: Gelerdria_IL
+      - Item: Thorn_Staff_IL
+      - Item: Dea_Staff_IL
+  - Item: ILL_Piece_B
+    RandomOptionGroup: ILL_PIECE_B
+    TargetItems:
+      - Item: Bazerald_IL
+      - Item: Butcher_IL
+      - Item: Gold_Lux_IL
+      - Item: Infiltrator_IL
+      - Item: War_Axe_IL
+      - Item: Immaterial_Sword_IL
+      - Item: Iron_Driver_IL
+      - Item: Pole_Axe_IL
+      - Item: Book_Of_The_Apo_IL
+      - Item: Balistar_IL
+      - Item: Huuma_Bird_Wing_IL
+      - Item: Wizardy_Staff_IL
+      - Item: Long_Mace_IL
+      - Item: Huuma_Flutter_Snow_IL
+      - Item: Combo_Battle_Glove_IL
+      - Item: Spectral_Spear_IL
+      - Item: Staff_Of_Bordeaux_IL
+      - Item: Moonlight_Sword_IL
+      - Item: Hunter_Bow_IL
+      - Item: Tablet_IL
+      - Item: Gate_KeeperDD_IL
+      - Item: Counter_Dagger_IL
+      - Item: Survival_Staff_IL
+      - Item: Taegoolyeon_IL
+      - Item: Death_Guidance_IL
+      - Item: KatarOfCold_Icicle_IL
+      - Item: Brionac_IL
+      - Item: Zephyrus_IL
+      - Item: Electronic_Guitar_IL
+      - Item: Electric_Eel_IL
+      - Item: Doom_Slayer_IL
+      - Item: Excalibur_IL
+      - Item: Ancient_Dagger_IL
+      - Item: Gelerdria_IL
+      - Item: Thorn_Staff_IL
+      - Item: Dea_Staff_IL

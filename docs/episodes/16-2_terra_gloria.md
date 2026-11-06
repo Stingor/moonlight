@@ -6,7 +6,7 @@
 | Date kRO | **2016‑03‑09** |
 | Arc | Terra Gloria — les Heart Hunters |
 | Niveau kRO visé | 150‑175 |
-| État Moonlight | **porté, à valider en jeu** — restent le `.thor` client et l'Illusion Merchant, lié à Lapine |
+| État Moonlight | **porté, à valider en jeu** — reste le `.thor` client |
 
 Épisode charnière : il ouvre **Rock Ridge** et surtout la série des **donjons Illusion**,
 qui recyclent d'anciens donjons pré-renewal en versions haut niveau. C'est le contenu le
@@ -69,7 +69,7 @@ suffixée `_i`.
 
 | Système | Pertinent en pré-renewal ? |
 |---|---|
-| **Système Lapine** | chantier à part, sans interface côté client custom |
+| **Système Lapine** | partiel : les deux pierres d'Illusion seulement |
 | **Retrait de carte** (*card removal*) | déjà là (`moon/desloter.npc`) |
 | **Échoppe hors ligne** (*part-time stall*) | oui |
 | **Échange d'équipement** (*gear swap*) | déjà géré par le serveur |
@@ -175,8 +175,10 @@ objets existants, sans effet tant que ces classes restent fermées.
 - **Enquête :** `moon/rathena/quests/illusion/investigation.npc`, repris tel quel. Terrian et sa
   quête 3465 sont déjà en commentaire dans l'amont, faute de Labyrinth.
 - **Illusion Enchanter :** `moon/rathena/merchants/enchan_illusion.npc`, à `prontera,90,115`.
-- **Illusion Merchant : non porté.** Il vend `ILL_Piece_A` et `ILL_Piece_B` à 2 000 000 zeny, or
-  ces pierres lancent `laphine_upgrade()`, inerte sans Lapine. Il revient avec ce chantier.
+- **Illusion Merchant :** dans le même fichier, à `prontera,88,113`. Il vend `ILL_Piece_A` et `ILL_Piece_B`
+  (2 000 000 zeny ou 10 Illusion Stones). Leurs recettes sont dans `db/import/laphine_upgrade.yml` :
+  36 armes `*_IL`, options `ILL_PIECE_A` et `ILL_PIECE_B`. Les 102 autres recettes et `laphine_synthesis`
+  restent hors périmètre, leurs données étant celles de `db/re`, gear renewal compris.
 
 ### Hors périmètre
 
@@ -195,14 +197,14 @@ Décisions du 2026‑11‑06 :
 | Stats des mobs | `tools/util/re_to_prere_mob.py` sans retouche : ATK inchangée et EXP dérivée des HP sont voulues |
 | Équipement Doram | `Doram_High_Cape`, `Doram_High_Shoes`, `Doram_High_Suit` retirés des drops |
 | Noms d'objets | Le local est renommé vers le nom renewal, après un grep exhaustif |
-| Système Lapine | Chantier à part : le client custom n'a pas encore son interface |
+| Système Lapine | Réduit aux deux pierres d'Illusion, le client custom ayant désormais son interface |
 
 ## 6. Verdict
 
 | | |
 |---|---|
 | Intérêt | **le plus élevé du dossier** |
-| Reste à faire | validation en jeu · publier la mise à jour client · Illusion Merchant avec le chantier Lapine |
+| Reste à faire | validation en jeu · publier la mise à jour client |
 
 ## Sources
 
