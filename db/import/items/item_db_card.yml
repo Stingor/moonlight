@@ -5455,7 +5455,7 @@ Body:
       Head_Low: true
       Head_Mid: true
       Head_Top: true
-    Script: "bonus bDelayRate,((getrefine()>14)?-20:-15);\n"
+    Script: "bonus bDelayRate,((getallrefine() >= 30)?-20:-15);\n"
   - Id: 4481
     AegisName: Sealed_Ktullanux_Card
     Name: Sealed Ktullanux Card
@@ -5464,7 +5464,7 @@ Body:
     Weight: 10
     Locations:
       Armor: true
-    Script: "bonus2 bAddEle,Ele_Fire,((getrefine()>14)?35:25); bonus5 bAutoSpellWhenHit,\"WZ_FROSTNOVA\",10,10,BF_WEAPON|BF_MAGIC,0;\n"
+    Script: "bonus2 bAddEle,Ele_Fire,((getallrefine() >= 30)?35:25); bonus5 bAutoSpellWhenHit,\"WZ_FROSTNOVA\",10,10,BF_WEAPON|BF_MAGIC,0;\n"
   - Id: 4482
     AegisName: Sealed_B_Ygnizem_Card
     Name: Sealed General Egnigem Cenia Card
@@ -5473,7 +5473,7 @@ Body:
     Weight: 10
     Locations:
       Shoes: true
-    Script: ".@rate = ((getrefine()>14)?7:5); bonus bMaxHPrate,.@rate; bonus bMaxSPrate,.@rate; bonus2 bHPRegenRate,50,10000; bonus2 bSPRegenRate,10,10000;\n"
+    Script: ".@rate = ((getallrefine() >= 30)?7:5); bonus bMaxHPrate,.@rate; bonus bMaxSPrate,.@rate; bonus2 bHPRegenRate,50,10000; bonus2 bSPRegenRate,10,10000;\n"
   - Id: 4483
     AegisName: Sealed_Dracula_Card
     Name: Sealed Dracula Card
@@ -5482,7 +5482,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "bonus2 bSPDrainRate,((getrefine()>14)?70:50),5;\n"
+    Script: "bonus2 bSPDrainRate,((getallrefine() >= 30)?70:50),5;\n"
   - Id: 4484
     AegisName: Sealed_Mistress_Card
     Name: Sealed Mistress Card
@@ -5493,7 +5493,7 @@ Body:
       Head_Low: true
       Head_Mid: true
       Head_Top: true
-    Script: "bonus bNoGemStone; bonus bUseSPrate,((getrefine()>14)?35:50);\n"
+    Script: "bonus bNoGemStone; bonus bUseSPrate,((getallrefine() >= 30)?35:50);\n"
   - Id: 4485
     AegisName: Sealed_Gloom_Card
     Name: Sealed Gloom Under Night Card
@@ -5502,7 +5502,7 @@ Body:
     Weight: 10
     Locations:
       Armor: true
-    Script: ".@rate = ((getrefine()>14)?30:20); bonus2 bAddEle,Ele_Holy,.@rate; bonus2 bAddEle,Ele_Dark,.@rate; bonus2 bAddRace,RC_Angel,.@rate; bonus2 bAddRace,RC_Demon,.@rate;\n"
+    Script: ".@rate = ((getallrefine() >= 30)?30:20); bonus2 bAddEle,Ele_Holy,.@rate; bonus2 bAddEle,Ele_Dark,.@rate; bonus2 bAddRace,RC_Angel,.@rate; bonus2 bAddRace,RC_Demon,.@rate;\n"
   - Id: 4486
     AegisName: Sealed_Berz_Card
     Name: Sealed Berzebub Card
@@ -5549,7 +5549,7 @@ Body:
     Weight: 10
     Locations:
       Shoes: true
-    Script: "skill \"AL_INCAGI\",((getrefine()>14)?5:1);\n"
+    Script: "skill \"AL_INCAGI\",((getallrefine() >= 30)?5:1);\n"
   - Id: 4491
     AegisName: Sealed_B_Shecil_Card
     Name: Sealed Sniper Card
@@ -5558,7 +5558,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "bonus bHPrecovRate,-100; bonus2 bHPDrainRate,50,((getrefine()>14)?15:10);\n"
+    Script: "bonus bHPrecovRate,-100; bonus2 bHPDrainRate,50,((getallrefine() >= 30)?15:10);\n"
   - Id: 4492
     AegisName: Sealed_Orc_Hero_Card
     Name: Sealed Orc Hero Card
@@ -5569,7 +5569,7 @@ Body:
       Head_Low: true
       Head_Mid: true
       Head_Top: true
-    Script: "bonus bVit,3; bonus2 bResEff,Eff_Stun,((getrefine()>14)?6000:4000);\n"
+    Script: "bonus bVit,3; bonus2 bResEff,Eff_Stun,((getallrefine() >= 30)?6000:4000);\n"
   - Id: 4493
     AegisName: Sealed_Tao_Card
     Name: Sealed Tao Gunka Card
@@ -5578,7 +5578,7 @@ Body:
     Weight: 10
     Locations:
       Armor: true
-    Script: "bonus bMaxHPrate,((getrefine()>14)?75:50); bonus bDefRate,-50; bonus bMdefRate,-50;\n"
+    Script: "bonus bMaxHPrate,((getallrefine() >= 30)?75:50); bonus bDefRate,-50; bonus bMdefRate,-50;\n"
   - Id: 4494
     AegisName: Sealed_TurtleG_Card
     Name: Sealed Turtle General Card
@@ -5587,7 +5587,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: ".@rate = ((getrefine()>14)?15:10); bonus2 bAddClass,Class_All,.@rate; bonus3 bAutoSpell,\"SM_MAGNUM\",10,15;\n"
+    Script: ".@rate = ((getallrefine() >= 30)?15:10); bonus2 bAddClass,Class_All,.@rate; bonus3 bAutoSpell,\"SM_MAGNUM\",10,15;\n"
   - Id: 4495
     AegisName: Sealed_Amon_Ra_Card
     Name: Sealed Amon Ra Card
@@ -5596,7 +5596,7 @@ Body:
     Weight: 10
     Locations:
       Shoes: true
-    Script: "bonus bAllStats,1; bonus3 bAutoSpellWhenHit,\"PR_KYRIE\",((getrefine()>14)?8:5),(15+35*(readparam(bInt)>=99));\n"
+    Script: "bonus bAllStats,1; bonus3 bAutoSpellWhenHit,\"PR_KYRIE\",((getallrefine() >= 30)?8:5),(15+35*(readparam(bInt)>=99));\n"
   - Id: 4496
     AegisName: Sealed_Drake_Card
     Name: Sealed Drake Card
@@ -5605,7 +5605,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: ".@rate = (getrefine()>=15?75:50); bonus2 bAddSize,Size_All,.@rate; bonus2 bMagicAddSize,Size_All,.@rate;\n"
+    Script: ".@rate = (getallrefine() >= 30?75:50); bonus2 bAddSize,Size_All,.@rate; bonus2 bMagicAddSize,Size_All,.@rate;\n"
   - Id: 4497
     AegisName: Sealed_Knight_WS_Card
     Name: Sealed Stormy Knight Card
@@ -5614,7 +5614,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "bonus3 bAutoSpell,\"WZ_STORMGUST\",1,10; bonus2 bAddEff,Eff_Freeze,((getrefine()>14)?1500:1000);\n"
+    Script: "bonus3 bAutoSpell,\"WZ_STORMGUST\",1,10; bonus2 bAddEff,Eff_Freeze,((getallrefine() >= 30)?1500:1000);\n"
   - Id: 4498
     AegisName: Sealed_Lady_Tanee_Card
     Name: Sealed Lady Tanee Card
@@ -5623,7 +5623,7 @@ Body:
     Weight: 10
     Locations:
       Shoes: true
-    Script: ".@r = getrefine(); bonus bMaxHPrate,((.@r>14)?-50:-60); bonus bMaxSPrate,50; bonus2 bAddMonsterDropItem,513,100; bonus2 bAddItemHealRate,513,((.@r>14)?80:50);\n"
+    Script: ".@r = getrefine(); bonus bMaxHPrate,((getallrefine() >= 30)?-50:-60); bonus bMaxSPrate,50; bonus2 bAddMonsterDropItem,513,100; bonus2 bAddItemHealRate,513,((getallrefine() >= 30)?80:50);\n"
   - Id: 4499
     AegisName: Sealed_Samurai_Card
     Name: Sealed Samurai Spector Card
@@ -5632,7 +5632,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "bonus bIgnoreDefClass,Class_Normal; bonus bHPrecovRate,-100; if (getrefine()>14) bonus2 bHPLossRate,777,8000; else bonus2 bHPLossRate,888,5000;\n"
+    Script: "bonus bIgnoreDefClass,Class_Normal; bonus bHPrecovRate,-100; if (getallrefine() >= 30) bonus2 bHPLossRate,777,8000; else bonus2 bHPLossRate,888,5000;\n"
     UnEquipScript: "if((Hp<=999) && !getmapflag(strcharinfo(3),mf_pvp) && !getmapflag(strcharinfo(3),mf_pvp_noparty) && !getmapflag(strcharinfo(3),mf_pvp_noguild)) { heal(1-Hp),0; } else { heal -999,0; }\n"
   - Id: 4500
     AegisName: Sealed_Orc_Load_Card
@@ -5642,7 +5642,7 @@ Body:
     Weight: 10
     Locations:
       Armor: true
-    Script: "bonus bShortWeaponDamageReturn,((getrefine()>14)?25:15);\n"
+    Script: "bonus bShortWeaponDamageReturn,((getallrefine() >= 30)?25:15);\n"
   - Id: 4501
     AegisName: Sealed_B_Magaleta_Card
     Name: Sealed High Priest Card
@@ -5651,7 +5651,7 @@ Body:
     Weight: 10
     Locations:
       Armor: true
-    Script: "bonus5 bAutoSpellWhenHit,\"HP_ASSUMPTIO\",1,((getrefine()>14)?35:25),BF_WEAPON|BF_MAGIC,0;\n"
+    Script: "bonus5 bAutoSpellWhenHit,\"HP_ASSUMPTIO\",1,((getallrefine() >= 30)?35:25),BF_WEAPON|BF_MAGIC,0;\n"
   - Id: 4502
     AegisName: Sealed_B_Harword_Card
     Name: Sealed MasterSmith Card
@@ -5660,7 +5660,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: ".@r = getrefine(); bonus bBreakWeaponRate,(.@r>14?800:500); bonus bBreakArmorRate,(.@r>14?600:500);\n"
+    Script: ".@r = getrefine(); bonus bBreakWeaponRate,(getallrefine() >= 30?800:500); bonus bBreakArmorRate,(getallrefine() >= 30?600:500);\n"
   - Id: 4503
     AegisName: Sealed_Apocalips_H_Card
     Name: Sealed Vesper Card
@@ -5671,7 +5671,7 @@ Body:
       Head_Low: true
       Head_Mid: true
       Head_Top: true
-    Script: "bonus bDex,2; bonus2 bIgnoreMdefClassRate,Class_Boss,((getrefine()>14)?25:15);\n"
+    Script: "bonus bDex,2; bonus2 bIgnoreMdefClassRate,Class_Boss,((getallrefine() >= 30)?25:15);\n"
   - Id: 4504
     AegisName: Sealed_Eddga_Card
     Name: Sealed Eddga Card
@@ -5680,7 +5680,7 @@ Body:
     Weight: 10
     Locations:
       Shoes: true
-    Script: "bonus bMaxHPrate,((getrefine()>14)?-35:-50); bonus bNoWalkDelay;\n"
+    Script: "bonus bMaxHPrate,((getallrefine() >= 30)?-35:-50); bonus bNoWalkDelay;\n"
   - Id: 4505
     AegisName: Scaraba_Card
     Name: Scaraba Card
@@ -5738,7 +5738,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "bonus3 bAutoSpell,\"WM_LULLABY_DEEPSLEEP\",1,30;\n"
+    Script: "bonus3 bAutoSpell,\"BD_LULLABY\",1,30;\n"
   - Id: 4511
     AegisName: Little_Fatum_Card
     Name: Little Fatum Card
@@ -5978,7 +5978,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "bonus2 bAddClass,Class_All,(getrefine()>=15?8:5); bonus5 bAutoSpell,\"SA_DISPELL\",1,1,BF_NORMAL,1; bonus bUnbreakableWeapon;\n"
+    Script: "bonus2 bAddClass,Class_All,(getallrefine() >= 30?8:5); bonus5 bAutoSpell,\"SA_DISPELL\",1,1,BF_NORMAL,1; bonus bUnbreakableWeapon;\n"
   - Id: 4536
     AegisName: Sealed_Atroce_Card
     Name: Sealed Atroce Card
@@ -5987,7 +5987,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: ".@r = getrefine(); bonus bBaseAtk,((.@r>14)?25:15); autobonus \"{ bonus bAspdRate,((\"+.@r+\">14)?75:50); }\",5,10000,0,\"{ specialeffect2 EF_POTION_BERSERK; }\";\n"
+    Script: ".@r = getrefine(); bonus bBaseAtk,((getallrefine() >= 30)?25:15); autobonus \"{ bonus bAspdRate,((\"+.@r+\">14)?75:50); }\",5,10000,0,\"{ specialeffect2 EF_POTION_BERSERK; }\";\n"
   - Id: 4537
     AegisName: Sealed_Phreeoni_Card
     Name: Sealed Phreeoni Card
@@ -5996,7 +5996,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "bonus bHit,((getrefine()>14)?75:50);\n"
+    Script: "bonus bHit,((getallrefine() >= 30)?75:50);\n"
   - Id: 4538
     AegisName: Sealed_Bacsojin_Card
     Name: Sealed White Lady Card
@@ -6007,7 +6007,7 @@ Body:
       Head_Low: true
       Head_Mid: true
       Head_Top: true
-    Script: ".@r = getrefine(); bonus bHealPower,(.@r>14?25:15); bonus bUseSPrate,(.@r>14?20:30);\n"
+    Script: ".@r = getrefine(); bonus bHealPower,(getallrefine() >= 30?25:15); bonus bUseSPrate,(getallrefine() >= 30?20:30);\n"
   - Id: 4539
     AegisName: Sealed_F_Bishop_Card
     Name: Sealed Fallen Bishop Hibram Card
@@ -6016,7 +6016,7 @@ Body:
     Weight: 10
     Locations:
       Shoes: true
-    Script: ".@r = getrefine(); bonus bMatkRate,((.@r>14)?8:5); bonus bMaxSPrate,-50; .@rate = ((.@r>14)?33:25); bonus2 bMagicAddRace,RC_Angel,.@rate; bonus2 bMagicAddRace,RC_DemiHuman,.@rate; bonus2 bMagicAddRace,RC_PLAYER_HUMAN,.@rate;\n"
+    Script: ".@r = getrefine(); bonus bMatkRate,((getallrefine() >= 30)?8:5); bonus bMaxSPrate,-50; .@rate = ((getallrefine() >= 30)?33:25); bonus2 bMagicAddRace,RC_Angel,.@rate; bonus2 bMagicAddRace,RC_DemiHuman,.@rate; bonus2 bMagicAddRace,RC_PLAYER_HUMAN,.@rate;\n"
   - Id: 4540
     AegisName: SLD_Lord_Of_Death_Card
     Name: Sealed Lord of The Dead Card
@@ -6025,7 +6025,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: ".@rate = ((getrefine()>14)?350:250); bonus3 bAddEff,Eff_Stun,.@rate,ATF_SHORT; bonus3 bAddEff,Eff_Curse,.@rate,ATF_SHORT; bonus3 bAddEff,Eff_Silence,.@rate,ATF_SHORT; bonus3 bAddEff,Eff_Poison,.@rate,ATF_SHORT; bonus3 bAddEff,Eff_Bleeding,.@rate,ATF_SHORT; bonus2 bComaClass,Class_Normal,10;\n"
+    Script: ".@rate = ((getallrefine() >= 30)?350:250); bonus3 bAddEff,Eff_Stun,.@rate,ATF_SHORT; bonus3 bAddEff,Eff_Curse,.@rate,ATF_SHORT; bonus3 bAddEff,Eff_Silence,.@rate,ATF_SHORT; bonus3 bAddEff,Eff_Poison,.@rate,ATF_SHORT; bonus3 bAddEff,Eff_Bleeding,.@rate,ATF_SHORT; bonus2 bComaClass,Class_Normal,10;\n"
   - Id: 4541
     AegisName: SLD_B_Katrinn_Card
     Name: Sealed High Wizard Card
@@ -6036,8 +6036,8 @@ Body:
       Head_Low: true
       Head_Mid: true
       Head_Top: true
-    Script: "bonus2 bIgnoreMdefClassRate,Class_Normal,100; .@rate = ((getrefine()>14)?120:150); bonus bVariableCastrate,.@rate; bonus bSPrecovRate,-.@rate;\n"
-    UnEquipScript: "heal 0,((getrefine()>14)?-2000:-3000);\n"
+    Script: "bonus2 bIgnoreMdefClassRate,Class_Normal,100; .@rate = ((getallrefine() >= 30)?120:150); bonus bVariableCastrate,.@rate; bonus bSPrecovRate,-.@rate;\n"
+    UnEquipScript: "heal 0,((getallrefine() >= 30)?-2000:-3000);\n"
   - Id: 4542
     AegisName: SLD_Detale_Card
     Name: Sealed Detale Card
@@ -6046,7 +6046,7 @@ Body:
     Weight: 10
     Locations:
       Armor: true
-    Script: "bonus2 bResEff,Eff_Freeze,(getrefine()>=15?6000:4000); bonus5 bAutoSpell,\"SA_LANDPROTECTOR\",1,1,BF_MAGIC,1; bonus bMdef,-20;\n"
+    Script: "bonus2 bResEff,Eff_Freeze,(getallrefine() >= 30?6000:4000); bonus5 bAutoSpell,\"SA_LANDPROTECTOR\",1,1,BF_MAGIC,1; bonus bMdef,-20;\n"
   - Id: 4543
     AegisName: SLD_Garm_Card
     Name: Sealed Hatii Card
@@ -6055,7 +6055,7 @@ Body:
     Weight: 10
     Locations:
       Armor: true
-    Script: "bonus2 bAddEffWhenHit,Eff_Freeze,((getrefine()>14)?4000:2500);\n"
+    Script: "bonus2 bAddEffWhenHit,Eff_Freeze,((getallrefine() >= 30)?4000:2500);\n"
   - Id: 4544
     AegisName: SLD_Dark_Snake_Card
     Name: Sealed Evil Snake Lord Card
@@ -6066,7 +6066,7 @@ Body:
       Head_Low: true
       Head_Mid: true
       Head_Top: true
-    Script: "bonus bInt,3; .@i = (getrefine()>14?7500:5000); bonus2 bResEff,Eff_Blind,.@i; bonus2 bResEff,Eff_Curse,.@i;\n"
+    Script: "bonus bInt,3; .@i = (getallrefine() >= 30?7500:5000); bonus2 bResEff,Eff_Blind,.@i; bonus2 bResEff,Eff_Curse,.@i;\n"
   - Id: 4545
     AegisName: Novice_Poring_Card
     Name: Novice Poring Card
@@ -6123,7 +6123,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "if(getiteminfo(getequipid(EQI_HAND_R),11)==W_BOW) { bonus2 bSkillAtk,\"RA_ARROWSTORM\",50; bonus bCriticalLong,25+10*(getequiprefinerycnt(EQI_HAND_R)/4); bonus bHit,5; bonus3 bAutoSpell,\"HT_PHANTASMIC\",1,100; }\n"
+    Script: "if(getiteminfo(getequipid(EQI_HAND_R),11)==W_BOW) { bonus2 bSkillAtk,\"AC_SHOWER\",50; bonus bCriticalLong,25+10*(getequiprefinerycnt(EQI_HAND_R)/4); bonus bHit,5; bonus3 bAutoSpell,\"HT_PHANTASMIC\",1,100; }\n"
   - Id: 4552
     AegisName: Manny_Card
     Name: Manny Card
@@ -8538,7 +8538,7 @@ Body:
     Weight: 10
     Locations:
       Both_Accessory: true
-    Script: "bonus5 bAutoSpell,\"WL_HELLINFERNO\",3,1,ATF_SHORT|ATF_WEAPON,1; /* fix me: unknown rate */\n"
+    Script: "bonus5 bAutoSpell,\"WZ_FIREPILLAR\",3,1,ATF_SHORT|ATF_WEAPON,1; /* fix me: unknown rate */\n"
   - Id: 27306
     AegisName: Bellare_Card
     Name: Bellare Card
@@ -8547,7 +8547,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "if (getiteminfo(getequipid(EQI_COMPOUND_ON),11) == W_REVOLVER) { .@r = getrefine(); bonus bHit,20; bonus bLongAtkRate,(5+.@r); if (.@r >= 10) { bonus2 bSkillAtk,\"RL_FIREDANCE\",15; } }\n"
+    Script: "if (getiteminfo(getequipid(EQI_COMPOUND_ON),11) == W_REVOLVER) { .@r = getrefine(); bonus bHit,20; bonus bLongAtkRate,(5+.@r); if (.@r >= 10) { bonus2 bSkillAtk,\"GS_RAPIDSHOWER\",15; } }\n"
   - Id: 27307
     AegisName: Greater_Bellare_Card
     Name: Greater Bellare Card
@@ -8556,7 +8556,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "if (getiteminfo(getequipid(EQI_COMPOUND_ON),11) == W_GATLING) { .@r = getrefine(); bonus bHit,20; bonus bLongAtkRate,(5+.@r); if (.@r >= 10) { bonus2 bSkillAtk,\"RL_R_TRIP\",15; } }\n"
+    Script: "if (getiteminfo(getequipid(EQI_COMPOUND_ON),11) == W_GATLING) { .@r = getrefine(); bonus bHit,20; bonus bLongAtkRate,(5+.@r); if (.@r >= 10) { bonus2 bSkillAtk,\"GS_FULLBUSTER\",15; } }\n"
   - Id: 27308
     AegisName: Sanare_Card
     Name: Sanare Card
@@ -8565,7 +8565,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: ".@r = getrefine(); .@val = 2; if (.@r >= 9) { .@val += 3; } if (.@r >= 11) { .@val += 5; } bonus bHealPower,.@val;\n"
+    Script: ".@r = getrefine(); .@val = 2; if (.@r >= 9) { .@val += 3; } if (getallrefine() >= 22) { .@val += 5; } bonus bHealPower,.@val;\n"
   - Id: 27309
     AegisName: Greater_Sanare_Card
     Name: Greater Sanare Card
@@ -8677,7 +8677,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: ".@r = getrefine(); .@val = 3; if (.@r >= 9) { .@val += 2; if (.@r >= 11) { .@val += 5; } } bonus2 bMagicAtkEle,Ele_Fire,.@val;\n"
+    Script: ".@r = getrefine(); .@val = 3; if (.@r >= 9) { .@val += 2; if (getallrefine() >= 22) { .@val += 5; } } bonus2 bMagicAtkEle,Ele_Fire,.@val;\n"
   - Id: 27321
     AegisName: DespairGodMorocc_Card
     Name: Despair God Morocc Card
@@ -8940,7 +8940,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "bonus2 bSkillAtk,\"RK_DRAGONBREATH\",5; bonus2 bSkillAtk,\"RK_DRAGONBREATH_WATER\",5; if(getrefine()>=7) { bonus bDelayrate,-1; }\n"
+    Script: "bonus2 bSkillAtk,\"KN_BOWLINGBASH\",5; if(getrefine()>=7) { bonus bDelayrate,-1; }\n"
   - Id: 31013
     AegisName: LoVA_Realization_Bahamut_Card
     Name: LoVA Realization Bahamut Card
@@ -8949,7 +8949,7 @@ Body:
     Weight: 10
     Locations:
       Right_Hand: true
-    Script: "bonus2 bSkillAtk,\"RK_DRAGONBREATH\",15; bonus2 bSkillAtk,\"RK_DRAGONBREATH_WATER\",15; if(getrefine()>=7) { bonus bDelayrate,-3; }\n"
+    Script: "bonus2 bSkillAtk,\"KN_BOWLINGBASH\",15; if(getrefine()>=7) { bonus bDelayrate,-3; }\n"
   - Id: 31014
     AegisName: LoVA_Ragnarok_Card
     Name: LoVA Ragnarok Card

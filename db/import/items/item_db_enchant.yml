@@ -711,7 +711,7 @@ Body:
     SubType: Enchant
     Buy: 20
     Weight: 10
-    Script: "bonus2 bSkillCooldown,\"AB_HIGHNESSHEAL\",-3000;\n"
+    Script: "\n"
   - Id: 4804
     AegisName: Coluceo_Heal30
     Name: Catholic1Lv.
@@ -719,7 +719,7 @@ Body:
     SubType: Enchant
     Buy: 20
     Weight: 10
-    Script: "bonus2 bSkillUseSP,\"AB_CHEAL\",30;\n"
+    Script: "bonus2 bSkillUseSP,\"AL_HEAL\",30;\n"
   - Id: 4805
     AegisName: Heal_Amount2
     Name: Archbishop1Lv
@@ -3275,7 +3275,7 @@ Body:
     Name: Recovery Drop
     Type: Card
     SubType: Enchant
-    Script: "setarray .@skills$, \"AL_HEAL\", \"PR_SANCTUARY\", \"AM_POTIONPITCHER\", \"AB_HIGHNESSHEAL\", \"AB_CHEAL\"; for( .@i = 0; .@i < getarraysize(.@skills$); .@i++ ){ bonus2 bSkillHeal,.@skills$[.@i],2; bonus2 bSkillHeal2,.@skills$[.@i],2; } /* TODO: Depending on some recovery items HP recovery amount + 2% */\n"
+    Script: "setarray .@skills$, \"AL_HEAL\", \"PR_SANCTUARY\", \"AM_POTIONPITCHER\"; for( .@i = 0; .@i < getarraysize(.@skills$); .@i++ ){ bonus2 bSkillHeal,.@skills$[.@i],2; bonus2 bSkillHeal2,.@skills$[.@i],2; } /* TODO: Depending on some recovery items HP recovery amount + 2% */\n"
   - Id: 4957
     AegisName: Famitsus_Power
     Name: Famitsu's Power
@@ -3347,13 +3347,13 @@ Body:
     Name: Virgo
     Type: Card
     SubType: Enchant
-    Script: "setarray .@skills$, \"AL_HEAL\", \"PR_SANCTUARY\", \"AM_POTIONPITCHER\", \"AB_HIGHNESSHEAL\", \"AB_CHEAL\"; for( .@i = 0; .@i < getarraysize(.@skills$); .@i++ ){ bonus2 bSkillHeal,.@skills$[.@i],1; }\n"
+    Script: "setarray .@skills$, \"AL_HEAL\", \"PR_SANCTUARY\", \"AM_POTIONPITCHER\"; for( .@i = 0; .@i < getarraysize(.@skills$); .@i++ ){ bonus2 bSkillHeal,.@skills$[.@i],1; }\n"
   - Id: 4969
     AegisName: Libra
     Name: Libra
     Type: Card
     SubType: Enchant
-    Script: "setarray .@skills$, \"AL_HEAL\", \"PR_SANCTUARY\", \"AM_POTIONPITCHER\", \"AB_HIGHNESSHEAL\", \"AB_CHEAL\"; for( .@i = 0; .@i < getarraysize(.@skills$); .@i++ ){ bonus2 bSkillHeal2,.@skills$[.@i],1; } /* TODO: Depending on some recovery items HP recovery amount + 1% */\n"
+    Script: "setarray .@skills$, \"AL_HEAL\", \"PR_SANCTUARY\", \"AM_POTIONPITCHER\"; for( .@i = 0; .@i < getarraysize(.@skills$); .@i++ ){ bonus2 bSkillHeal2,.@skills$[.@i],1; } /* TODO: Depending on some recovery items HP recovery amount + 1% */\n"
   - Id: 4970
     AegisName: Fire_Property_Reactor
     Name: Fire Property Reactor
