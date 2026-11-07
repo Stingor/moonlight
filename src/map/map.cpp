@@ -5398,6 +5398,7 @@ void MapServer::finalize(){
 
 	id_db->destroy(id_db, nullptr);
 	pc_db->destroy(pc_db, nullptr);
+	pc_db = nullptr; // [Stingor] handle_crash() teste ce pointeur : la mémoire d'une DB détruite est remise à zéro, l'appeler saute en 0x0.
 	mobid_db->destroy(mobid_db, nullptr);
 	bossid_db->destroy(bossid_db, nullptr);
 	nick_db->destroy(nick_db, nick_db_final);
@@ -5429,6 +5430,9 @@ void MapServer::handle_crash(){
 		return;
 	}
 	run = 1;
+	// [Stingor] Crash avant l'init de pc_db ou après sa destruction (socket_final) : il n'y a aucun personnage à sauver.
+	if (pc_db == nullptr)
+		return;
 	if (!chrif_isconnected())
 	{
 		if (pc_db->size(pc_db))
