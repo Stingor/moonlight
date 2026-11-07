@@ -53,6 +53,11 @@ from TTS.tts.configs.xtts_config import XttsConfig
 from TTS.tts.models.xtts import Xtts
 from TTS.utils.manage import ModelManager
 
+# Redirigée, la sortie de Windows est en cp1252 : un caractère qu'il n'a pas
+# (une flèche, un emoji d'une réplique) lèverait une exception à l'affichage.
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 TOOLS_DIR = os.path.dirname(os.path.abspath(__file__))
 VOICE_CONF_PATHS = [
     os.path.join(TOOLS_DIR, "..", "conf", "voice_athena.conf"),
@@ -228,8 +233,6 @@ class BotSpeaker:
     """Dit au voice-server, trame par trame, les répliques du PNJ."""
 
     def __init__(self, voice: StingVoice):
-        import pymysql
-
         self.voice = voice
         # Sur la même machine, le pont du map-server ; ailleurs, le port des
         # bots (voice_bot_port), que l'environnement désigne.
@@ -241,7 +244,14 @@ class BotSpeaker:
         self.secret = os.environ.get("STING_VOICE_BRIDGE_SECRET", conf.get("voice_bridge_secret", ""))
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.seq = 0
-        self.db = pymysql.connect(
+        # Ouverte à la première lecture : une base injoignable au démarrage se
+        # réessaie comme une base perdue en route, sans arrêter le service.
+        self.db = None
+
+    def connect_db(self):
+        import pymysql
+
+        return pymysql.connect(
             host=os.environ.get("DB_HOST", "localhost"),
             user=os.environ.get("DB_USER", "ragnarok"),
             password=os.environ.get("DB_PASSWORD", ""),
@@ -251,6 +261,8 @@ class BotSpeaker:
         )
 
     def take_lines(self) -> list[tuple]:
+        if self.db is None:
+            self.db = self.connect_db()
         self.db.ping(reconnect=True)
         with self.db.cursor() as cur:
             cur.execute(
