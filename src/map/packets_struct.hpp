@@ -7847,7 +7847,10 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_PRESENCE, 0x0f57);
 //   action : 0 entrer (ouvre le salon du groupe si besoin) ;
 //            1 prêt, avec la part du joueur, au plus 512 octets, jamais
 //              interprétée par le serveur ;
-//            2 quitter le salon, ou la partie une fois lancée.
+//            2 quitter le salon, ou la partie une fois lancée ;
+//            3 le choix du joueur : [class_id:2][first_skill_id:2], relayé aux
+//              membres sans être interprété. Un choix qui change annule « prêt »,
+//              puisque la part déposée ne le dit plus.
 struct PACKET_CZ_MOONLIGHT_SURVIVORS_COOP_LOBBY {
 	int16 packetType;
 	int16 packetLength;
@@ -7857,7 +7860,7 @@ DEFINE_PACKET_HEADER(CZ_MOONLIGHT_SURVIVORS_COOP_LOBBY, 0x0f58);
 
 // ZC : l'état du salon, à ses membres, à chaque changement. Variable.
 // Layout: [type:2][len:2][state:1][refusals:4][count:1] puis count ×
-//         [char_id:4][ready:1][name:24]
+//         [char_id:4][ready:1][name:24][class_id:2][first_skill_id:2]
 //   state    : 0 fermé, 1 salon ouvert, 2 en partie.
 //   refusals : bits : 0x01 groupe de plus de 4, 0x02 moins de 2 membres en ligne,
 //              0x04 un membre hors ligne, 0x08 un membre ni en ville ni en
@@ -7869,6 +7872,8 @@ struct PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_LOBBY_entry {
 	uint32 char_id;
 	uint8  ready;
 	char   name[NAME_LENGTH];
+	uint16 class_id;        // 0 : pas encore de choix
+	uint16 first_skill_id;
 } __attribute__((packed));
 struct PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_LOBBY {
 	int16  packetType;

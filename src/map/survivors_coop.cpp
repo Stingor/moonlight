@@ -49,7 +49,7 @@ namespace {
 // Les tailles du contrat, que le client épingle à l'octet.
 static_assert(sizeof(PACKET_CZ_MOONLIGHT_SURVIVORS_COOP_LOBBY) == 5);
 static_assert(sizeof(PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_LOBBY) == 10);
-static_assert(sizeof(PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_LOBBY_entry) == 29);
+static_assert(sizeof(PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_LOBBY_entry) == 33);
 static_assert(sizeof(PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_START) == 14);
 static_assert(sizeof(PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_START_entry) == 6);
 static_assert(sizeof(PACKET_CZ_MOONLIGHT_SURVIVORS_COOP_FRAME) == 4);
@@ -61,6 +61,7 @@ enum e_survivors_coop_action : uint8 {
 	SURVIVORS_COOP_ENTER = 0,
 	SURVIVORS_COOP_READY = 1,
 	SURVIVORS_COOP_LEAVE = 2,
+	SURVIVORS_COOP_CHOICE = 3,
 };
 enum e_survivors_coop_state : uint8 {
 	SURVIVORS_COOP_CLOSED  = 0,
@@ -104,12 +105,15 @@ constexpr t_tick SURVIVORS_COOP_WATCH_EVERY_MS = 1000;
 // du délai d'entrée et de ce qui a pu être bridé.
 constexpr size_t SURVIVORS_COOP_FRAME_HEAD_BYTES = sizeof(uint32) + sizeof(uint8);
 constexpr size_t SURVIVORS_COOP_INPUT_BYTES = 3;
+constexpr size_t SURVIVORS_COOP_CHOICE_BYTES = 2 * sizeof(uint16);
 constexpr size_t SURVIVORS_COOP_DIGEST_BYTES = 12;
 constexpr uint32 SURVIVORS_COOP_MOST_FIRST_THROUGH_TICK = 128;
 
 struct s_survivors_coop_member {
 	uint32 char_id = 0;
 	bool ready = false;
+	uint16 class_id = 0;
+	uint16 first_skill_id = 0;
 	std::vector<uint8> blob;
 	uint32 through_tick = 0;
 	// La dernière trame entendue, ou le départ de la partie.
@@ -235,6 +239,8 @@ std::vector<uint8> coop_lobby_packet(uint8 state, uint32 refusals, const s_survi
 			entry.char_id = member.char_id;
 			entry.ready   = member.ready ? 1 : 0;
 			safestrncpy(entry.name, tsd->status.name, sizeof(entry.name));
+			entry.class_id       = member.class_id;
+			entry.first_skill_id = member.first_skill_id;
 			entries.push_back(entry);
 		}
 	}
@@ -445,6 +451,24 @@ void coop_ready(map_session_data& sd, const uint8* blob, size_t blob_bytes) {
 	coop_lobby_changed(party_id, nullptr, true);
 }
 
+// Le choix change : la part déposée ne le dit plus, le joueur n'est plus prêt.
+void coop_choose(const map_session_data& sd, uint16 class_id, uint16 first_skill_id) {
+	const int32 party_id = coop_party_of(sd.status.char_id);
+	if (party_id == 0)
+		return;
+	s_survivors_coop_group& group = survivors_coop_groups[party_id];
+	s_survivors_coop_member* member = coop_member_of(group, sd.status.char_id);
+	if (member == nullptr || group.state != SURVIVORS_COOP_LOBBY)
+		return;
+	if (member->class_id == class_id && member->first_skill_id == first_skill_id)
+		return;
+	member->class_id       = class_id;
+	member->first_skill_id = first_skill_id;
+	member->ready          = false;
+	member->blob.clear();
+	coop_lobby_changed(party_id, nullptr, true);
+}
+
 } // namespace
 
 void clif_moonlight_survivors_coop_announce(map_session_data& sd) {
@@ -585,6 +609,10 @@ void clif_parse_moonlight_survivors_coop_lobby(int32 fd, map_session_data* sd) {
 				coop_drop(party_id, sd->status.char_id, true, nullptr);
 			else
 				coop_tell_closed(*sd, 0);
+			break;
+		case SURVIVORS_COOP_CHOICE:
+			if (length == sizeof(*p) + SURVIVORS_COOP_CHOICE_BYTES)
+				coop_choose(*sd, RFIFOW(fd, sizeof(*p)), RFIFOW(fd, sizeof(*p) + sizeof(uint16)));
 			break;
 		default:
 			break;
