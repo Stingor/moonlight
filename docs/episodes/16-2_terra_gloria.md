@@ -106,7 +106,7 @@ chaque base et compare les objets par Id **et** par AegisName.
 | Laboratoire de Werner | `moon/instances/WernerLaboratoryCentralRoom.npc` |
 | Donjon du week-end | `moon/instances/WeekendDungeon.npc` — `1@md_pay`, id 45 |
 | Donjon du vendredi | `moon/instances/FridayDungeon.npc` — `1@md_gef`, id 46 |
-| Village Poring | `moon/instances/PoringVillage.npc` — `1@begi`, id 47 |
+| Village Poring | `moon/instances/PoringVillage.npc` — `1@begi`, id 47, niveau 30 et plus : le plafond de 60 est retiré |
 
 Ces trois instances sont branchées mais pas encore validées en jeu. Leur portage ajoute 35 mobs
 (`db/import/mobs/memorial_dungeons.yml`), 184 lignes de skills, 10 objets, 6 quêtes et un groupe

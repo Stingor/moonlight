@@ -142,14 +142,6 @@ prt_fild05,145,235,5	script	Emily#0	4_GEFFEN_03,4,4,{
 		mes "Wow~ You look like a novice. I do want to adventure with you someday when you grow up!";
 		close;
 	}
-	if (BaseLevel > 60) {
-		mes "[Emily]";
-		mes "Oh, now you are stronger than me. How did you grow so fast?";
-		next;
-		mes "[Emily]";
-		mes "I should find another adventurer who is similar with my level. It's been nice knowing you.";
-		close;
-	}
 	if (isbegin_quest(12416) == 0) {
 		mes "[Emily]";
 		mes "My name is Emily. I was waiting for someone who will go on adventures with me!";
@@ -267,12 +259,12 @@ prt_fild05,145,235,5	script	Emily#0	4_GEFFEN_03,4,4,{
 	end;
 
 OnTouch:
-	if (isbegin_quest(12416) == 0 && BaseLevel >= 30 && BaseLevel <= 60)
+	if (isbegin_quest(12416) == 0 && BaseLevel >= 30)
 		npctalk "Emily: Hey, there! May I talk to you for a minute?";
 	end;
 
 OnInit:
-	questinfo( QTYPE_JUMPING_PORING, QMARK_YELLOW , "isbegin_quest(12416) == 0 && BaseLevel >= 30 && BaseLevel <= 60" );
+	questinfo( QTYPE_JUMPING_PORING, QMARK_YELLOW , "isbegin_quest(12416) == 0 && BaseLevel >= 30" );
 	end;
 }
 
