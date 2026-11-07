@@ -16364,7 +16364,7 @@ BUILDIN_FUNC(npctalk)
 
 	if (nd != nullptr) {
 		send_target target = AREA;
-		char message[CHAT_SIZE_MAX];
+		char message[NPC_TALK_MAX_BYTES + 1];
 
 		if (script_hasdata(st, 4)) {
 			switch(script_getnum(st, 4)) {
@@ -16377,12 +16377,12 @@ BUILDIN_FUNC(npctalk)
 		}
 		safesnprintf(message, sizeof(message), "%s", str);
 		if (target != SELF)
-			clif_messagecolor(nd, color, message, true, target);
+			clif_npc_talk(nd, color, message, true, target, nullptr);
 		else {
 			TBL_PC *sd = map_id2sd(st->rid);
 			if (sd == nullptr)
 				return SCRIPT_CMD_FAILURE;
-			clif_messagecolor_target(nd, color, message, true, target, sd);
+			clif_npc_talk(nd, color, message, true, target, sd);
 		}
 	}
 	return SCRIPT_CMD_SUCCESS;

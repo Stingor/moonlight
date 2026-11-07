@@ -1759,33 +1759,42 @@ def _eval_math(text: str):
     return (expr_raw, result_str)
 
 
-def _split_response(text: str, max_len: int = 220) -> str:
-    """Découpe une réponse longue en morceaux séparés par | (max 3 morceaux).
-    Si le modèle a déjà utilisé | comme séparateurs, on respecte son découpage."""
-    text = text.strip()
-    if '|' in text:
-        # Le modèle a segmenté lui-même : on respecte son découpage, mais on
-        # jette les segments vides (« a || b » -> un npctalk muet) et on plafonne
-        # à 3 pour qu'une réponse partie en boucle ne spamme pas le chat ville.
-        segs = [s.strip() for s in text.split('|') if s.strip()]
-        return '|'.join(segs[:3])
-    if len(text) <= max_len:
-        return text
+# Un npctalk loge 1024 octets, « Sting-Bot : » compris (NPC_TALK_MAX_BYTES du
+# map-server, qui coupe le reste sans rien dire). En OCTETS UTF-8 : une lettre
+# accentuée en compte deux. Le map-server redécoupe pour les clients qui ne lisent
+# pas plus de 243 octets.
+NPC_SEGMENT_MAX_BYTES = 1000
+
+
+def _fit_segment(segment: str, max_bytes: int) -> list:
+    """Coupe un segment trop long, en fin de phrase si possible, sans rien perdre."""
     parts = []
-    remaining = text
-    while len(remaining) > max_len and len(parts) < 2:
-        cut = max_len
-        # Cherche une coupure propre : fin de phrase, virgule, espace
+    remaining = segment
+    while len(remaining.encode("utf-8")) > max_bytes:
+        # Le plus long début qui tient ; une lettre à cheval sur la limite tombe.
+        head = remaining.encode("utf-8")[:max_bytes].decode("utf-8", errors="ignore")
+        cut = len(head)
         for sep in ('. ', '! ', '? ', ', ', ' '):
-            pos = remaining.rfind(sep, max_len // 2, max_len)
+            pos = head.rfind(sep, len(head) // 2)
             if pos > 0:
                 cut = pos + len(sep)
                 break
         parts.append(remaining[:cut].rstrip())
         remaining = remaining[cut:].lstrip()
     if remaining:
-        parts.append(remaining)  # pas de troncature sur le dernier segment
-    return '|'.join(parts)
+        parts.append(remaining)
+    return parts
+
+
+def _split_response(text: str, max_bytes: int = NPC_SEGMENT_MAX_BYTES) -> str:
+    """Découpe une réponse en morceaux séparés par |, chacun logeant dans un npctalk.
+    Si le modèle a déjà utilisé | comme séparateurs, on part de son découpage."""
+    # On jette les segments vides (« a || b » -> un npctalk muet) et on plafonne à
+    # 3 segments du modèle pour qu'une réponse partie en boucle ne spamme pas le
+    # chat ville. Couper un segment trop long n'y compte pas : LLM_MAX_TOKENS borne
+    # déjà la réponse, et ce serait perdre la fin d'une phrase.
+    segs = [s.strip() for s in text.strip().split('|') if s.strip()]
+    return '|'.join(part for seg in segs[:3] for part in _fit_segment(seg, max_bytes))
 
 
 # Les prompts d'event sont des didascalies « (ÉVÈNEMENT — …) », et le modèle imite

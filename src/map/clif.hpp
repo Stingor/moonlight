@@ -1224,6 +1224,11 @@ void clif_specialeffect_single(const block_list* bl, int32 type, int32 fd );
 void clif_specialeffect_remove(const block_list* bl_src, int32 effect, enum send_target e_target, block_list* bl_target );
 void clif_messagecolor_target(const block_list* bl, unsigned long color, const char *msg, bool rgb2bgr, enum send_target type, const map_session_data* sd);
 #define clif_messagecolor(bl, color, msg, rgb2bgr, type) clif_messagecolor_target(bl, color, msg, rgb2bgr, type, nullptr) // Mob/Npc color talk [SnakeDrak]
+// [Stingor] La parole d'un PNJ, sans le plafond de CHAT_SIZE_MAX. Trop longue pour
+// lui, elle part entière à qui annonce MOONLIGHT_UI_LONG_NPC_TALK, et en plusieurs
+// lignes coupées aux espaces aux autres. Le texte s'arrête à NPC_TALK_MAX_BYTES.
+inline constexpr size_t NPC_TALK_MAX_BYTES = 1024;
+void clif_npc_talk(const block_list* bl, unsigned long color, const char* msg, bool rgb2bgr, enum send_target type, const map_session_data* sd);
 void clif_specialeffect_value( const block_list* bl, int32 effect_id, int32 num, send_target target );
 
 void clif_GM_kickack( const map_session_data* sd, int32 id );
@@ -1282,10 +1287,14 @@ void clif_displayexp(const map_session_data* sd, t_exp exp, char type, bool ques
 /// après les filtres de clif_send (@ignore compris) : elle a exactement les
 /// destinataires de la trame qu'elle décrit. Les autres reçoivent `buf` seul,
 /// octet pour octet comme sans sidecar.
+///
+/// replaces_buf : la trame PREND LA PLACE de `buf` chez ces destinataires, qui ne
+/// reçoivent plus `buf`. Sans trame (len 0), ils ne reçoivent rien.
 struct clif_sidecar {
 	const void* buf;
 	int32 len;
 	uint32 cap;
+	bool replaces_buf = false;
 };
 int32 clif_send( const void* buf, int32 len, const block_list* bl, enum send_target type, uint32 chat_speaker = 0, const clif_sidecar* sidecar = nullptr );
 void do_init_clif(void);
@@ -1975,7 +1984,10 @@ enum e_moonlight_ui_cap : uint32 {
 	// chaque annonce qui porte le bit reçoit un 0x0F59 à l'état fermé, qui lui
 	// annonce le service, et le client n'émet pas CZ 0x0F58 avant. Réservé à moonclient.
 	MOONLIGHT_UI_SURVIVORS_COOP = 0x00400000,
-	// Prochain bit libre : 0x00800000.
+	// Ce client lit une parole de PNJ (ZC 0x02C1) au-delà du tampon de chat : le
+	// serveur la lui envoie entière (clif_npc_talk). Réservé à moonclient.
+	MOONLIGHT_UI_LONG_NPC_TALK = 0x00800000,
+	// Prochain bit libre : 0x01000000.
 };
 
 // [Stingor] Les réglages du serveur utiles au client (ZC 0x0F38), à une session

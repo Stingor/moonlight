@@ -84,6 +84,9 @@ OPUS_FRAME_MS = 20
 LANGUAGE = "fr"
 # Au-delà, le texte vient d'ailleurs que de chatbot_queue.response (500).
 MAX_TEXT_CHARS = 600
+# XTTS tronque l'audio au-delà de 273 caractères en français : une réplique plus
+# longue se dit en plusieurs passes.
+SPEECH_CHUNK_MAX_CHARS = 250
 # Les deux premiers paquets d'un flux Ogg Opus sont ses en-têtes.
 OGG_OPUS_HEADER_PACKETS = 2
 
@@ -214,6 +217,25 @@ def opus_frames(wav_48k: np.ndarray) -> list[bytes]:
     return packets[OGG_OPUS_HEADER_PACKETS:]
 
 
+def speech_chunks(line: str) -> list[str]:
+    """Coupe une réplique en passes que XTTS dit sans les tronquer, en fin de phrase si possible."""
+    chunks = []
+    remaining = line.strip()
+    while len(remaining) > SPEECH_CHUNK_MAX_CHARS:
+        head = remaining[:SPEECH_CHUNK_MAX_CHARS]
+        cut = len(head)
+        for sep in (". ", "! ", "? ", ", ", " "):
+            pos = head.rfind(sep, len(head) // 2)
+            if pos > 0:
+                cut = pos + len(sep)
+                break
+        chunks.append(remaining[:cut].rstrip())
+        remaining = remaining[cut:].lstrip()
+    if remaining:
+        chunks.append(remaining)
+    return chunks
+
+
 def read_voice_conf() -> dict:
     """Les clés du voice-server, l'import après le fichier de base."""
     conf = {}
@@ -319,7 +341,8 @@ class BotSpeaker:
                 if not line or not map_name or age_s > LINE_STALE_S:
                     continue
                 try:
-                    self.say(line[:MAX_TEXT_CHARS], map_name, int(x), int(y))
+                    for chunk in speech_chunks(line):
+                        self.say(chunk, map_name, int(x), int(y))
                 except Exception as exc:
                     print(f"[voix] réplique perdue : {exc}", flush=True)
             if not rows:

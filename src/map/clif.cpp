@@ -483,12 +483,18 @@ static bool clif_session_isValid(const map_session_data* sd) {
 }
 
 // [Stingor] Écrit `buf` à une session, précédé du sidecar si elle a annoncé le
-// bit qui le gouverne. Sans sidecar, ou sans le bit : `buf` seul, comme avant.
+// bit qui le gouverne, ou remplacé par lui s'il le demande. Sans sidecar, ou sans
+// le bit : `buf` seul, comme avant.
 static void clif_send_write( const map_session_data* sd, int32 fd, const void* buf, int32 len, const clif_sidecar* sidecar ){
 	if( sidecar != nullptr && sd != nullptr && sd->state.has_bourgeon && ( sd->bourgeon_ui_caps & sidecar->cap ) ){
-		WFIFOHEAD( fd, sidecar->len );
-		memcpy( WFIFOP( fd, 0 ), sidecar->buf, sidecar->len );
-		WFIFOSET( fd, sidecar->len );
+		if( sidecar->len > 0 ){
+			WFIFOHEAD( fd, sidecar->len );
+			memcpy( WFIFOP( fd, 0 ), sidecar->buf, sidecar->len );
+			WFIFOSET( fd, sidecar->len );
+		}
+		if( sidecar->replaces_buf ){
+			return;
+		}
 	}
 
 	WFIFOHEAD( fd, len );
@@ -17527,6 +17533,71 @@ void clif_messagecolor_target(const block_list* bl, unsigned long color, const c
 	memcpy(WBUFCP(buf,12), msg, msg_len);
 
 	clif_send(buf, WBUFW(buf,2), (sd == nullptr ? bl : &(*sd)), type);
+}
+
+// [Stingor] Écrit une trame 0x02C1 dans `buf`, et rend sa longueur.
+static uint16 clif_npc_talk_frame(uint8* buf, const block_list* bl, unsigned long color, const char* text, size_t text_len) {
+	static constexpr size_t HEADER_BYTES = 12;
+	const uint16 frame_len = static_cast<uint16>(HEADER_BYTES + text_len + 1);
+
+	WBUFW(buf,0) = 0x2C1;
+	WBUFW(buf,2) = frame_len;
+	WBUFL(buf,4) = bl->id;
+	WBUFL(buf,8) = color;
+	memcpy(WBUFCP(buf,HEADER_BYTES), text, text_len);
+	WBUFB(buf,HEADER_BYTES + text_len) = 0;
+	return frame_len;
+}
+
+void clif_npc_talk(const block_list* bl, unsigned long color, const char* msg, bool rgb2bgr, enum send_target type, const map_session_data* sd) {
+	// La place d'un texte dans le tampon de chat : en-tête et zéro final déduits.
+	static constexpr size_t LINE_MAX_BYTES = CHAT_SIZE_MAX - 12 - 1;
+
+	nullpo_retv(bl);
+
+	size_t left = strnlen(msg, NPC_TALK_MAX_BYTES);
+	if (left <= LINE_MAX_BYTES) {
+		clif_messagecolor_target(bl, color, msg, rgb2bgr, type, sd);
+		return;
+	}
+
+	if (rgb2bgr)
+		color = (color & 0x0000FF) << 16 | (color & 0x00FF00) | (color & 0xFF0000) >> 16; // RGB to BGR
+
+	uint8 whole_buf[12 + NPC_TALK_MAX_BYTES + 1];
+	const uint16 whole_len = clif_npc_talk_frame(whole_buf, bl, color, msg, left);
+	// Chez qui annonce le bit, la ligne entière remplace le premier morceau, et
+	// les morceaux suivants ne partent pas.
+	const clif_sidecar whole = { whole_buf, whole_len, MOONLIGHT_UI_LONG_NPC_TALK, true };
+	const clif_sidecar nothing = { nullptr, 0, MOONLIGHT_UI_LONG_NPC_TALK, true };
+	const clif_sidecar* sidecar = &whole;
+
+	const block_list* target = (sd == nullptr ? bl : sd);
+	const char* rest = msg;
+	while (left > 0) {
+		size_t piece = left;
+		if (left > LINE_MAX_BYTES) {
+			piece = LINE_MAX_BYTES;
+			for (size_t i = LINE_MAX_BYTES; i > 0; --i) {
+				if (rest[i] == ' ') {
+					piece = i;
+					break;
+				}
+			}
+		}
+
+		uint8 buf[CHAT_SIZE_MAX];
+		const uint16 frame_len = clif_npc_talk_frame(buf, bl, color, rest, piece);
+		clif_send(buf, frame_len, target, type, 0, sidecar);
+		sidecar = &nothing;
+
+		rest += piece;
+		left -= piece;
+		while (left > 0 && *rest == ' ') {
+			++rest;
+			--left;
+		}
+	}
 }
 
 /**

@@ -33,10 +33,12 @@ INSERT INTO `chatbot_status` (`id`, `online`) VALUES (1, 1)
 -- synthétise et l'efface. La réplique écrite part toujours, service ou non.
 CREATE TABLE IF NOT EXISTS `chatbot_voice` (
   `id`         int(11)      NOT NULL AUTO_INCREMENT,
-  `line`       varchar(300) NOT NULL DEFAULT '',
+  `line`       text         NOT NULL,
   `map`        varchar(16)  NOT NULL DEFAULT '',
   `x`          smallint(6)  NOT NULL DEFAULT 0,
   `y`          smallint(6)  NOT NULL DEFAULT 0,
   `created_at` timestamp    NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- Une table créée quand la colonne valait varchar(300).
+ALTER TABLE `chatbot_voice` MODIFY `line` text NOT NULL;
