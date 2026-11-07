@@ -31864,7 +31864,7 @@ Body:
     EquipLevelMin: 120
     Refineable: true
     View: 4
-    Script: "bonus bVit,3; bonus bInt,2; bonus bMdef,3; bonus bUnbreakableShield; bonus2 bSkillAtk,\"LG_EARTHDRIVE\",(7*getrefine());\n"
+    Script: "bonus bVit,3; bonus bInt,2; bonus bMdef,3; bonus bUnbreakableShield; bonus2 bSkillAtk,\"CR_SHIELDBOOMERANG\",(7*getrefine());\n"
   - Id: 28941
     AegisName: Excelion_Shield
     Name: Excelion Shield
@@ -32321,7 +32321,7 @@ Body:
       if (.@r>=9) {
          bonus2 bSubRace,RC_Fish,15;
       }
-      if (.@r>=11) {
+      if (getallrefine() >= 22) {
          bonus2 bIgnoreDefRaceRate,RC_Fish,20;
       }
   - Id: 450145
@@ -32385,7 +32385,7 @@ Body:
       if (.@r>=9) {
          bonus2 bAddClass,Class_All,10;
       }
-      if (.@r>=11) {
+      if (getallrefine() >= 22) {
          bonus bAspdRate,10;
       }
   - Id: 450182
@@ -32408,7 +32408,7 @@ Body:
          bonus bHPrecovRate,20;
          if (.@r>=9) {
             bonus bDelayrate,-5;
-            if (.@r>=11) {
+            if (getallrefine() >= 22) {
                bonus bDelayrate,-7;
             }
          }
@@ -32466,7 +32466,7 @@ Body:
          if (.@r>=9) {
             bonus bMaxHPrate,5;
             bonus bMaxSPrate,5;
-            if (.@r>=11) {
+            if (getallrefine() >= 22) {
                bonus2 bAddSize,Size_All,15;
             }
          }

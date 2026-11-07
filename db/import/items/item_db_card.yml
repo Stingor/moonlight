@@ -9743,7 +9743,7 @@ Body:
       if (.@r>=9) {
          bonus2 bMagicAtkEle,Ele_Wind,2;
       }
-      if (.@r>=11) {
+      if (getallrefine() >= 22) {
          bonus2 bMagicAtkEle,Ele_Wind,5;
       }
   - Id: 300141

@@ -160,9 +160,10 @@ remplacés par leurs valeurs converties. Les cartes Illusion ont rejoint les alb
 | `bAtkRate` | `bonus2 bAddClass,Class_All,n` |
 | Nom | suffixe `[n]` selon les emplacements |
 
-Les paliers de raffinage `>= 11` restent en place, inertes avec `MAX_REFINE` à 10. Les bonus de
-compétences de 3ᵉ classe (`LG_*`, `WM_*`, `RK_*`, `AB_*`, `GC_*`) sont gardés comme sur les
-objets existants, sans effet tant que ces classes restent fermées.
+Les paliers au-dessus de `MAX_REFINE` passent par `getallrefine()` : `.@r >= 11` devient `>= 22`,
+et une somme `>= 22` sur deux pièces devient `>= 44`. Les compétences de classes fermées sont
+remplacées par leur équivalent jouable (`LG_RAYOFGENESIS` par `CR_GRANDCROSS`, etc.), les bonus de
+`bSkillCooldown` sans équivalent par `bDelayrate`. Les valeurs de bonus ne changent pas.
 
 **Restent à décider ou à faire :**
 
