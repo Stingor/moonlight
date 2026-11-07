@@ -7078,10 +7078,13 @@ static std::unordered_map<int32, std::string> s_account_to_guid;
 // entries are harmless (login_id1 won't match), so this map is never cleared.
 //
 // [Stingor] Le patch déclaré à cette poignée de main voyage avec : le changement
-// de personnage ne la rejoue pas, et @client doit pourtant le connaître.
+// de personnage ne la rejoue pas, et @client doit pourtant le connaître. De même
+// pour `moonclient` : sans lui, un moonclient revenu de la sélection n'aurait
+// plus ni portée de vue, ni voix, ni classement, ni coop.
 struct s_verified_login_entry {
 	uint32 login_id1;
 	int32 client_patch_index;
+	bool moonclient;
 };
 static std::unordered_map<int32, s_verified_login_entry> s_verified_login;
 
@@ -7372,7 +7375,7 @@ static void clif_bourgeon_grant_verified(map_session_data* sd) {
 	if (sd->state.has_bourgeon)
 		return;
 	sd->state.has_bourgeon = true;
-	s_verified_login[sd->status.account_id] = { sd->login_id1, sd->client_patch_index };
+	s_verified_login[sd->status.account_id] = { sd->login_id1, sd->client_patch_index, sd->state.moonclient };
 	clif_bourgeon_autoload_preset(sd);
 	clif_bourgeon_settings(sd);
 	clif_bourgeon_send_preset_list(sd);
@@ -19026,6 +19029,8 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 		auto vit = s_verified_login.find(sd->status.account_id);
 		if (vit != s_verified_login.end() && vit->second.login_id1 == sd->login_id1) {
 			sd->client_patch_index = vit->second.client_patch_index;
+			if (vit->second.moonclient)
+				clif_moonclient_accepted(*sd);
 			clif_bourgeon_grant_verified(sd);
 		}
 		else
