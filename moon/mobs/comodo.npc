@@ -178,6 +178,7 @@ OnMob20274: callsub( S_Mob, 20274, 4 );	// ILL_STONE_SHOOTER
 OnMob20275: callsub( S_Mob, 20275, 4 );	// ILL_WOOTAN_SHOOTER
 OnMob20276: callsub( S_Mob, 20276, 4 );	// ILL_WOOTAN_FIGHTER
 S_Mob:
+	callfunc "F_HuntMissionKill";
 	.@group = getarg(1);
 	if (.@group != .group)
 		end;
@@ -206,6 +207,7 @@ S_Boss:
 	end;
 
 OnBossDeath:
+	callfunc "MissionMVP", 1;
 	killmonster "com_d02_i", "illusion_luanda::OnBossDeath";
 	.boss_spawn = false;
 	.cooldown = true;

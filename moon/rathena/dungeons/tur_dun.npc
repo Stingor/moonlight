@@ -70,6 +70,7 @@ tur_d04_i	monster	Ominous Heater	3803,36,5000,0,"illusion_turtle_boss::OnEvent"
 -	script	illusion_turtle_boss	-1,{
 	end;
 OnEvent:
+	callfunc "F_HuntMissionKill";
 	if (playerattached() == 0 || .boss_spawn || .cooldown)
 		end;
 	if (.mob_count[killedrid] >= 2500)
@@ -88,6 +89,7 @@ OnEvent:
 	monster "tur_d04_i",.@data[UMOB_X],.@data[UMOB_Y],"Ominous Turtle General",3804,1, "illusion_turtle_boss::OnBoss";
 	end;
 OnBoss:
+	callfunc "MissionMVP", 1;
 	killmonster "tur_d04_i", "illusion_turtle_boss::OnBoss";
 	.boss_spawn = false;
 	.cooldown = true;

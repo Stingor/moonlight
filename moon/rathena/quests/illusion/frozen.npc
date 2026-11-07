@@ -54,6 +54,7 @@ OnTimer3000:
 		monster "ice_d03_i",149,112,"Awakened Ktullanux",3796,1, "bosseff#frozen::OnBossDead";	// ILL_KTULLANUX
 	end;
 OnBossDead:
+	callfunc "MissionMVP", 1;
 	mapannounce "ice_d03_i", "Ktullanux: I'll... be... back...", bc_map;
 	end;
 }

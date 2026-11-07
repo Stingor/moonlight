@@ -1215,7 +1215,7 @@ iz_d05_i,138,186,5	script	Kena#Kena	4_M_02,{
 	}
 	if (BaseLevel < 180)
 		end;
-	if (ill_underwater < 5)
+	if (ill_underwater < 5 && ##ill_open_iz_d05_i == 0)
 		end;
 	if ((checkquest(3418,PLAYTIME) == 0 || checkquest(3418,PLAYTIME) == 1) && (checkquest(3420,PLAYTIME) == 0 || checkquest(3420,PLAYTIME) == 1)) {
 		mes "[Kena]";

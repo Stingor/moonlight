@@ -566,50 +566,7 @@ function Chk {
 }
 
 OnNPCKillEvent:
-	if( !getcharid(1) ) {
-		if( !#Mission_Count || !Mission0 )
-			end;
-
-		for( .@i = 0; .@i < .Quests; .@i++ ) {
-			if( getmonsterinfo(killedrid, MOB_NAME) == getmonsterinfo(getd("Mission" + .@i), MOB_NAME) ) {
-				if( getd("Mission" + .@i + "_") < #Mission_Count ) {
-					dispbottom "[Mission de chasse] Tué " + (set(getd("Mission" + .@i + "_"),getd("Mission" + .@i + "_") + 1)) +
-					           " de " + #Mission_Count + " " + getmonsterinfo(killedrid, MOB_NAME) + ".";
-					end;
-				}
-			}
-		}
-	}
-	else {
-		.@mob = killedrid;
-		getmapxy(.@map1$,.@x1,.@y1);
-		getpartymember getcharid(1),1;
-		getpartymember getcharid(1),2;
-		for( .@i = 0; .@i < $@partymembercount; .@i++ ) {
-			if( isloggedin($@partymemberaid[.@i], $@partymembercid[.@i]) ) {
-				.@Mission_Count = getvar(#Mission_Count, $@partymembercid[.@i]);
-				.@Mission0 = getvar(Mission0, $@partymembercid[.@i]);
-				.@HP = readparam(HP, $@partymembercid[.@i]);
-
-				if( .@Mission_Count && .@Mission0 && .@HP > 0 ) {
-					getmapxy(.@map2$,.@x2,.@y2,BL_PC,rid2name($@partymemberaid[.@i]));
-					if( .@map1$ == .@map2$ ) {
-						for( .@j = 0; .@j < .Quests; .@j++ ) {
-							.@my_mob_id = getvar( getd("Mission"+.@j),$@partymembercid[.@i] );
-							.@my_count = getvar( getd("Mission"+.@j+"_"), $@partymembercid[.@i] );
-							if( getmonsterinfo(.@mob, MOB_NAME) == getmonsterinfo(.@my_mob_id, MOB_NAME) ) {
-								if( .@my_count < .@Mission_Count ) {
-									setd "Mission"+.@j+"_", (.@my_count+1), $@partymembercid[.@i];
-									dispbottom "[Mission de chasse] Tué " + (.@my_count+1) + " de " + .@Mission_Count + " " + getmonsterinfo(.@mob, MOB_NAME) + ".", 0x777777, $@partymembercid[.@i];
-									break;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+	callfunc "F_HuntMissionKill";
 	end;
 
 // ===========================================================================

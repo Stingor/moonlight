@@ -2837,6 +2837,7 @@ OnMobDead:
 gef_d01_i,1,1,5	script	ill_vampire_spawn_dracula	-1,{
 	end;
 OnMobDead:
+	callfunc "MissionMVP", 1;
 	killmonster "gef_d01_i", "ill_vampire_spawn_bomi::OnMobDead";
 	killmonster "gef_d01_i", "ill_vampire_spawn_dracula::OnMobDead";
 	mapannounce "gef_d01_i", "Angry Dracula: It's about time for Bomi to wake up. Humans, don't forget your promise!", bc_map, 0x00ff00;

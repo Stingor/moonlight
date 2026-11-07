@@ -200,6 +200,7 @@ ein_d02_i	monster	Spirit Dwelling Obsidian	 20263,15
 -	script	ein_d02_i_boss	-1,{
 	end;
 OnMobDead:
+	callfunc "F_HuntMissionKill";
 	if (playerattached()) {
 		if (.count < 2500)
 			.count++;
