@@ -118,3 +118,235 @@ Body:
       - Item: Gelerdria_IL
       - Item: Thorn_Staff_IL
       - Item: Dea_Staff_IL
+  - Item: Moonlight_Box_IL
+    ResultRefineMinimum: 7
+    ResultRefineMaximum: 10
+    MinimumRefine: 4
+    MaximumRefine: 9
+    CardsAllowed: true
+    TargetItems:
+      - Item: Spectral_Spear_IL
+      - Item: Moonlight_Sword_IL
+      - Item: Long_Mace_IL
+      - Item: Staff_Of_Bordeaux_IL
+      - Item: Muffler_IL
+      - Item: Shoes_IL
+      - Item: Nurse_Cap_IL
+      - Item: Puente_Robe_IL
+      - Item: Apple_Of_Archer_IL
+  - Item: S_Moonlight_Box_IL
+    ResultRefineMinimum: 9
+    ResultRefineMaximum: 10
+    MinimumRefine: 4
+    MaximumRefine: 9
+    CardsAllowed: true
+    TargetItems:
+      - Item: Spectral_Spear_IL
+      - Item: Moonlight_Sword_IL
+      - Item: Long_Mace_IL
+      - Item: Staff_Of_Bordeaux_IL
+      - Item: Muffler_IL
+      - Item: Shoes_IL
+      - Item: Nurse_Cap_IL
+      - Item: Puente_Robe_IL
+      - Item: Apple_Of_Archer_IL
+  - Item: Vampire_Box_IL
+    ResultRefineMinimum: 7
+    ResultRefineMaximum: 10
+    MinimumRefine: 4
+    MaximumRefine: 9
+    CardsAllowed: true
+    TargetItems:
+      - Item: Wizardy_Staff_IL
+      - Item: Infiltrator_IL
+      - Item: Balistar_IL
+      - Item: Book_Of_The_Apo_IL
+      - Item: Ghoul_Leg_IL
+      - Item: Cape_Of_Ancient_Lord_IL
+  - Item: S_Vampire_Box_IL
+    ResultRefineMinimum: 9
+    ResultRefineMaximum: 10
+    MinimumRefine: 4
+    MaximumRefine: 9
+    CardsAllowed: true
+    TargetItems:
+      - Item: Wizardy_Staff_IL
+      - Item: Infiltrator_IL
+      - Item: Balistar_IL
+      - Item: Book_Of_The_Apo_IL
+      - Item: Ghoul_Leg_IL
+      - Item: Cape_Of_Ancient_Lord_IL
+  - Item: Frozen_Box_IL
+    ResultRefineMinimum: 7
+    ResultRefineMaximum: 10
+    MinimumRefine: 4
+    MaximumRefine: 9
+    CardsAllowed: true
+    TargetItems:
+      - Item: Huuma_Flutter_Snow_IL
+      - Item: Combo_Battle_Glove_IL
+      - Item: Cap_IL
+      - Item: Clack_Of_Servival_IL
+      - Item: Herald_Of_GOD_IL
+  - Item: S_Frozen_Box_IL
+    ResultRefineMinimum: 9
+    ResultRefineMaximum: 10
+    MinimumRefine: 4
+    MaximumRefine: 9
+    CardsAllowed: true
+    TargetItems:
+      - Item: Huuma_Flutter_Snow_IL
+      - Item: Combo_Battle_Glove_IL
+      - Item: Cap_IL
+      - Item: Clack_Of_Servival_IL
+      - Item: Herald_Of_GOD_IL
+  - Item: Turtle_Is_Box_IL
+    ResultRefineMinimum: 7
+    ResultRefineMaximum: 10
+    MinimumRefine: 4
+    MaximumRefine: 9
+    CardsAllowed: true
+    TargetItems:
+      - Item: Huuma_Bird_Wing_IL
+      - Item: War_Axe_IL
+      - Item: Immaterial_Sword_IL
+      - Item: Iron_Driver_IL
+      - Item: Pole_Axe_IL
+      - Item: Fancy_Flower_IL
+  - Item: S_Turtle_Is_Box_IL
+    ResultRefineMinimum: 9
+    ResultRefineMaximum: 10
+    MinimumRefine: 4
+    MaximumRefine: 9
+    CardsAllowed: true
+    TargetItems:
+      - Item: Huuma_Bird_Wing_IL
+      - Item: War_Axe_IL
+      - Item: Immaterial_Sword_IL
+      - Item: Iron_Driver_IL
+      - Item: Pole_Axe_IL
+      - Item: Fancy_Flower_IL
+  - Item: Teddy_Bear_Box_IL
+    ResultRefineMinimum: 7
+    ResultRefineMaximum: 10
+    MinimumRefine: 4
+    MaximumRefine: 9
+    CardsAllowed: true
+    TargetItems:
+      - Item: Survival_Staff_IL
+      - Item: Gate_KeeperDD_IL
+      - Item: Counter_Dagger_IL
+      - Item: Headband_Of_Power_IL
+      - Item: Boots_IL
+  - Item: S_Teddy_Bear_Box_IL
+    ResultRefineMinimum: 9
+    ResultRefineMaximum: 10
+    MinimumRefine: 4
+    MaximumRefine: 9
+    CardsAllowed: true
+    TargetItems:
+      - Item: Survival_Staff_IL
+      - Item: Gate_KeeperDD_IL
+      - Item: Counter_Dagger_IL
+      - Item: Headband_Of_Power_IL
+      - Item: Boots_IL
+  - Item: Luanda_Box_IL
+    ResultRefineMinimum: 7
+    ResultRefineMaximum: 10
+    MinimumRefine: 4
+    MaximumRefine: 9
+    CardsAllowed: true
+    TargetItems:
+      - Item: Hunter_Bow_IL
+      - Item: Tablet_IL
+      - Item: Goibne_Armor_IL
+      - Item: Goibne_Helmet_IL
+      - Item: Goibne_Shoulder_IL
+      - Item: Goibne_Boots_IL
+  - Item: S_Luanda_Box_IL
+    ResultRefineMinimum: 9
+    ResultRefineMaximum: 10
+    MinimumRefine: 4
+    MaximumRefine: 9
+    CardsAllowed: true
+    TargetItems:
+      - Item: Hunter_Bow_IL
+      - Item: Tablet_IL
+      - Item: Goibne_Armor_IL
+      - Item: Goibne_Helmet_IL
+      - Item: Goibne_Shoulder_IL
+      - Item: Goibne_Boots_IL
+  - Item: Underwater_Box_IL
+    ResultRefineMinimum: 7
+    ResultRefineMaximum: 10
+    MinimumRefine: 4
+    MaximumRefine: 9
+    CardsAllowed: true
+    TargetItems:
+      - Item: Death_Guidance_IL
+      - Item: KatarOfCold_Icicle_IL
+      - Item: Brionac_IL
+      - Item: Zephyrus_IL
+      - Item: Electronic_Guitar_IL
+      - Item: Electric_Eel_IL
+      - Item: Saint_Robe_IL
+      - Item: Water_Sprits_Armor_IL
+      - Item: Chain_Mail_IL
+      - Item: Morrigane_Helm_IL
+      - Item: Morrigane_Manyeau_IL
+  - Item: S_Underwater_Box_IL
+    ResultRefineMinimum: 9
+    ResultRefineMaximum: 10
+    MinimumRefine: 4
+    MaximumRefine: 9
+    CardsAllowed: true
+    TargetItems:
+      - Item: Death_Guidance_IL
+      - Item: KatarOfCold_Icicle_IL
+      - Item: Brionac_IL
+      - Item: Zephyrus_IL
+      - Item: Electronic_Guitar_IL
+      - Item: Electric_Eel_IL
+      - Item: Saint_Robe_IL
+      - Item: Water_Sprits_Armor_IL
+      - Item: Chain_Mail_IL
+      - Item: Morrigane_Helm_IL
+      - Item: Morrigane_Manyeau_IL
+  - Item: Twins_Box_IL
+    ResultRefineMinimum: 7
+    ResultRefineMaximum: 10
+    MinimumRefine: 4
+    MaximumRefine: 9
+    CardsAllowed: true
+    TargetItems:
+      - Item: Guard_IL
+      - Item: Siver_Guard_IL
+      - Item: Siver_Guard_IL
+      - Item: Sprint_Shoes_IL
+      - Item: Doom_Slayer_IL
+      - Item: Excalibur_IL
+      - Item: Ancient_Dagger_IL
+      - Item: Gelerdria_IL
+      - Item: Thorn_Staff_IL
+      - Item: Dea_Staff_IL
+      - Item: Sprint_Mail_IL
+  - Item: S_Twins_Box_IL
+    ResultRefineMinimum: 9
+    ResultRefineMaximum: 10
+    MinimumRefine: 4
+    MaximumRefine: 9
+    CardsAllowed: true
+    TargetItems:
+      - Item: Guard_IL
+      - Item: Siver_Guard_IL
+      - Item: Sprint_Shoes_IL
+      - Item: Doom_Slayer_IL
+      - Item: Excalibur_IL
+      - Item: Ancient_Dagger_IL
+      - Item: Gelerdria_IL
+      - Item: Thorn_Staff_IL
+      - Item: Dea_Staff_IL
+      - Item: Sprint_Mail_IL
+#  - Item: EXP_Overclocker
+#    TargetItems:
+#      - Item: EXP_Processor_
