@@ -1614,6 +1614,15 @@ void socket_init(void)
 	// should hold enough buffer (it is a vacuum so to speak) as it is never flushed. [Skotlex]
 	create_session(0, null_recv, null_send, null_parse); //FIXME this is causing leak
 
+	// [Stingor] WFIFOHEAD ne grandit jamais le fd 0 et WFIFOSET l'ignore : chaque paquet
+	// écrit pour une session sans client (autotrade, dummy) repart du début de ce tampon.
+	// Il doit donc contenir le plus grand paquet possible (longueur sur 16 bits). À 16 Ko,
+	// un paquet plus long écrasait l'en-tête mémoire du bloc voisin, et le serveur
+	// plantait à l'arrêt en libérant ce voisin.
+	aFree( session[0]->wdata );
+	CREATE( session[0]->wdata, unsigned char, UINT16_MAX + 1 );
+	session[0]->max_wdata = UINT16_MAX + 1;
+
 #ifndef MINICORE
 	// Delete old connection history every 5 minutes
 	memset(connect_history, 0, sizeof(connect_history));
