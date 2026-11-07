@@ -118,6 +118,8 @@ alberta,211,28,5	script	Knight Aylvar#illtur	4_M_YOUNGKNIGHT,{
 		npctalk "Aylvar : Ugh, it's the same wind like before. " + .@player_name$ + ", are you ok?", "", bc_self;
 		mes " - ^424242EAylvar's voice is getting smaller and I felt dizzy. It's starting to smell like wet clay....^000000 - ";
 		ill_turtle = 1;
+		##ill_open_tur_d03_i = 1; // Ouvre la carte au warp agent, pour tout le compte Moonlight
+		##ill_open_tur_d04_i = 1;
 		setquest 16096;	// To the unknown tortoise island
 		close2;
 		getitem 25315,1;	// Piece_Of_Shell

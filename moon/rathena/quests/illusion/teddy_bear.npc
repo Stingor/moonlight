@@ -253,6 +253,7 @@ ein_dun01,189,85,7	script	Teddy Bear#IBT1	4_NASARIAN,{
 		mes "I just... I guess what is inside is boring for me now.";
 		mes "Because I've lost interest?!";
 		ill_teddy = 3;
+		##ill_open_ein_d02_i = 1; // Ouvre la carte au warp agent, pour tout le compte Moonlight
 		erasequest 11557;
 		setquest 11558;
 		close;

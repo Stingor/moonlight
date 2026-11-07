@@ -966,6 +966,14 @@ function IllusionMenu {
 	.@staff = (getgroupid() >= 99);
 
 	for (.@i = 0; .@i < .@n; .@i++) {
+		// Deblocage au compte Moonlight : les quetes posent ##ill_open_<carte> au seuil de
+		// leur chaine. Le menu la pose aussi, pour les personnages arrives a ce seuil avant
+		// ce systeme. Le niveau reste par personnage.
+		.@k$ = "##ill_open_" + .@mname$[.@i];
+		if (.@need[.@i] > 0 && .@prog[.@i] >= .@need[.@i] && !getd(.@k$))
+			setd .@k$, 1;
+		.@open[.@i] = (.@prog[.@i] >= .@need[.@i] || getd(.@k$));
+
 		deletearray .@mobids[0], getarraysize(.@mobids);
 		deletearray .@mobnums[0], getarraysize(.@mobnums);
 		.@mobtotal = 0;
@@ -985,7 +993,7 @@ function IllusionMenu {
 	for (.@i = 0; .@i < .@n; .@i++) {
 		if (.@i > 0) .@sel$ += ":";
 		.@label$ = getmapname(.@mname$[.@i]) + " (" + .@mname$[.@i] + ")";
-		if (.@staff || (BaseLevel >= .@minlv[.@i] && .@prog[.@i] >= .@need[.@i])) {
+		if (.@staff || (BaseLevel >= .@minlv[.@i] && .@open[.@i])) {
 			if (.@avglv[.@i] > 0)
 				.@label$ += " ~LV" + .@avglv[.@i];
 			.@sel$ += "• " + .@label$;
@@ -999,7 +1007,7 @@ function IllusionMenu {
 	.@c = select(.@sel$ + ":• ^e64c00Menu Précédent^000000") - 1;
 	if (.@c >= .@n)
 		return;
-	if (.@staff || (BaseLevel >= .@minlv[.@c] && .@prog[.@c] >= .@need[.@c]))
+	if (.@staff || (BaseLevel >= .@minlv[.@c] && .@open[.@c]))
 		warp_fct(.@mname$[.@c], .@mxcoord[.@c], .@mycoord[.@c]);
 
 	clear;

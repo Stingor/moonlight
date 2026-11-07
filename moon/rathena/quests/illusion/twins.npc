@@ -424,6 +424,7 @@ anthell02,177,190,3	script	Mirko#1F	4_M_SAGE_A,{
 		mes "Adventurer friend, save Briashen.";
 		mes "Please.";
 		ill_anthell = 3;
+		##ill_open_ant_d02_i = 1; // Ouvre la carte au warp agent, pour tout le compte Moonlight
 		erasequest 8720;
 		setquest 8721;
 		next;

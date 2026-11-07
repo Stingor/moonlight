@@ -28,7 +28,7 @@ static std::vector<s_mvp_slot> mvp_slot_registry;
 static std::map<std::pair<uint16, int16>, uint16> mvp_slot_index;
 
 /**
- * The four scripted slots.
+ * The scripted slots.
  *
  * Nothing in the spawn data describes them: they are NPC timers, so they are the
  * only constants this file copies. Each one is `OnTimer7200000` followed by
@@ -46,6 +46,16 @@ static std::map<std::pair<uint16, int16>, uint16> mvp_slot_index;
  * map alone is unambiguous because none of these four maps carries a
  * `boss_monster` line (the first three are explicitly excluded in
  * moon/mobs/mvps.npc, thana_boss does not appear there at all).
+ *
+ * The Illusion maps (episode 16.2) follow, and their delay is NOT a respawn: the
+ * boss comes back when players have killed enough on the map, or wake it. delay1
+ * is the script's cooldown after the death, so the earliest possible return:
+ *   moon/mobs/comodo.npc, moon/mobs/morocc.npc, moon/rathena/dungeons/iz_dun.npc,
+ *   moon/rathena/dungeons/tur_dun.npc   OnTimer7200000 after the death
+ *   moon/rathena/dungeons/pay_dun.npc   no cooldown
+ *   moon/rathena/quests/illusion/vampire.npc  no cooldown, the quest wakes Bomi
+ *   moon/rathena/quests/illusion/frozen.npc   one day from the SUMMON, not the death:
+ *     the orbs answer again at some point within 24h of the kill, hence delay2.
  */
 static const struct {
 	const char* map_name;
@@ -57,10 +67,18 @@ static const struct {
 	{ "lhz_dun04", 7260000, 540000, MVP_SLOT_SCRIPT_TIMER },
 	{ "niflheim",  7260000, 540000, MVP_SLOT_SCRIPT_INVASION },
 	{ "thana_boss", 7260000, 540000, MVP_SLOT_SUMMON_LOCK },
+	{ "pay_d03_i", 0, 0, MVP_SLOT_SCRIPT_KILLCOUNT },
+	{ "ice_d03_i", 0, 86400000, MVP_SLOT_SCRIPT_KILLCOUNT },
+	{ "gef_d01_i", 0, 0, MVP_SLOT_SCRIPT_KILLCOUNT },
+	{ "iz_d04_i", 7200000, 0, MVP_SLOT_SCRIPT_KILLCOUNT },
+	{ "iz_d05_i", 7200000, 0, MVP_SLOT_SCRIPT_KILLCOUNT },
+	{ "tur_d04_i", 7200000, 0, MVP_SLOT_SCRIPT_KILLCOUNT },
+	{ "com_d02_i", 7200000, 0, MVP_SLOT_SCRIPT_KILLCOUNT },
+	{ "ant_d02_i", 7200000, 0, MVP_SLOT_SCRIPT_KILLCOUNT },
 };
 
 /// Maps carrying a scripted slot, resolved at boot. Kept apart from the index so
-/// that mob_dead() can rule out the common case with one linear scan of four
+/// that mob_dead() can rule out the common case with one linear scan of a dozen
 /// int16 instead of a hash lookup per monster death.
 static std::vector<int16> mvp_scripted_maps;
 
@@ -811,7 +829,7 @@ static bool mvp_tracker_record( s_mvp_group& group, uint16 slot_id, const s_mvp_
 	return true;
 }
 
-/// Is this map one of the four whose MVP is spawned by an NPC timer?
+/// Is this map one of those whose MVP is spawned by a script?
 static bool mvp_tracker_map_is_scripted( int16 mapid ){
 	return std::find( mvp_scripted_maps.begin(), mvp_scripted_maps.end(), mapid ) != mvp_scripted_maps.end();
 }
@@ -877,7 +895,7 @@ void mvp_tracker_on_mvp_dead( mob_data& md, map_session_data* mvp_sd, map_sessio
 /// Should mob_dead() bother calling the tracker for this corpse?
 ///
 /// Cheap on purpose: this runs on EVERY monster death. A `boss_monster` is
-/// settled by its spawn flag; on the four scripted maps the MVP is a plain
+/// settled by its spawn flag; on the scripted maps the MVP is a plain
 /// `monster`, so it is told from the level-99 decoys spawned alongside it by its
 /// boss type - B_SEYREN carries MvpExp, G_SEYREN does not.
 bool mvp_tracker_is_tracked( const mob_data& md ){

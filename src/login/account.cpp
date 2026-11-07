@@ -726,12 +726,92 @@ static bool mmo_auth_tosql(AccountDB_SQL* db, const struct mmo_account* acc, boo
 	return result;
 }
 
+/**
+ * [Moonlight] Proprietaire d'une variable ## : le COMPTE MOONLIGHT du compte de jeu.
+ *
+ * Deux formes de ligne, exclusives, comme pour les succes partages :
+ *
+ *   par COMPTE MOONLIGHT (account_id = 0, user_id = U)   <- le defaut
+ *   par compte de jeu    (account_id = A, user_id = 0)   <- repli sans rattachement
+ *
+ * account_id et user_id sont deux NUMEROTATIONS DIFFERENTES : une seule colonne
+ * ferait partager leurs variables a deux inconnus le jour ou elles se croisent.
+ * Le repli evite aussi de reunir tous les comptes non rattaches sur user_id = 0.
+ *
+ * Les paquets 0x2726 gardent l'account_id de jeu : c'est lui qui route la reponse
+ * vers la bonne session. Seule la cle de rangement change.
+ */
+struct s_global_accreg_owner {
+	uint32 account_id;
+	uint32 user_id;
+};
+
+/**
+ * @param owner: proprietaire resolu ; toujours renseigne, en repli sur le compte de jeu
+ * @return false si la resolution a echoue (SQL en panne, compte inconnu) : un appelant
+ *         qui ecrit doit renoncer plutot que ranger sous une mauvaise cle.
+ */
+static bool mmo_global_accreg_owner(AccountDB_SQL* db, uint32 account_id, s_global_accreg_owner& owner) {
+	Sql* sql_handle = db->accounts;
+	bool found = false;
+	char* data = nullptr;
+
+	owner.account_id = account_id;
+	owner.user_id = 0;
+
+	if( SQL_ERROR == Sql_Query(sql_handle, "SELECT COALESCE(`user_id`,0) FROM `%s` WHERE `account_id`='%" PRIu32 "' LIMIT 1", db->account_db, account_id) ) {
+		Sql_ShowDebug(sql_handle);
+		return false;
+	}
+	if( SQL_SUCCESS == Sql_NextRow(sql_handle) ) {
+		found = true;
+		Sql_GetData(sql_handle, 0, &data, nullptr);
+		uint32 user_id = (data != nullptr ? (uint32)strtoul(data, nullptr, 10) : 0);
+		if( user_id > 0 ) {
+			owner.account_id = 0;
+			owner.user_id = user_id;
+		}
+	}
+	Sql_FreeResult(sql_handle);
+
+	return found;
+}
+
+/**
+ * [Moonlight] Rapatrie sur le compte Moonlight les lignes restees sur le compte de jeu :
+ * celles d'avant la migration, ou d'un compte rattache depuis. Rien n'est perdu : sur
+ * collision, le plus grand nombre l'emporte, et la chaine deja partagee est conservee.
+ */
+static void mmo_global_accreg_adopt(AccountDB_SQL* db, uint32 account_id, uint32 user_id) {
+	Sql* sql_handle = db->accounts;
+	const char* tables[] = { db->global_acc_reg_num_table, db->global_acc_reg_str_table };
+
+	for( size_t i = 0; i < 2; i++ ) {
+		if( SQL_ERROR == Sql_Query(sql_handle, "UPDATE IGNORE `%s` SET `account_id`='0', `user_id`='%" PRIu32 "' WHERE `account_id`='%" PRIu32 "' AND `user_id`='0'", tables[i], user_id, account_id) ) {
+			Sql_ShowDebug(sql_handle);
+			continue;
+		}
+		if( i == 0 && SQL_ERROR == Sql_Query(sql_handle, "UPDATE `%s` AS `d` JOIN `%s` AS `s` ON `s`.`account_id`='%" PRIu32 "' AND `s`.`user_id`='0' AND `s`.`key`=`d`.`key` AND `s`.`index`=`d`.`index` SET `d`.`value`=GREATEST(`d`.`value`,`s`.`value`) WHERE `d`.`account_id`='0' AND `d`.`user_id`='%" PRIu32 "'", tables[i], tables[i], account_id, user_id) ) {
+			Sql_ShowDebug(sql_handle);
+			continue;
+		}
+		if( SQL_ERROR == Sql_Query(sql_handle, "DELETE FROM `%s` WHERE `account_id`='%" PRIu32 "' AND `user_id`='0'", tables[i], account_id) )
+			Sql_ShowDebug(sql_handle);
+	}
+}
+
 void mmo_save_global_accreg(AccountDB* self, int32 fd, uint32 account_id, uint32 char_id) {
 	Sql* sql_handle = ((AccountDB_SQL*)self)->accounts;
 	AccountDB_SQL* db = (AccountDB_SQL*)self;
 	uint16 count = RFIFOW(fd, 12);
+	s_global_accreg_owner owner;
 
 	if (count) {
+		if( !mmo_global_accreg_owner(db, account_id, owner) ) {
+			ShowError("mmo_save_global_accreg: account %" PRIu32 " unresolved, %hu variable(s) not saved\n", account_id, count);
+			return;
+		}
+
 		int32 cursor = 14, i;
 		char key[32], sval[254], esc_key[32*2+1], esc_sval[254*2+1];
 
@@ -747,12 +827,12 @@ void mmo_save_global_accreg(AccountDB* self, int32 fd, uint32 account_id, uint32
 			switch (RFIFOB(fd, cursor++)) {
 				// int32
 				case 0:
-					if( SQL_ERROR == Sql_Query(sql_handle, "REPLACE INTO `%s` (`account_id`,`key`,`index`,`value`) VALUES ('%" PRIu32 "','%s','%" PRIu32 "','%" PRId64 "')", db->global_acc_reg_num_table, account_id, esc_key, index, RFIFOQ(fd, cursor)) )
+					if( SQL_ERROR == Sql_Query(sql_handle, "REPLACE INTO `%s` (`account_id`,`user_id`,`key`,`index`,`value`) VALUES ('%" PRIu32 "','%" PRIu32 "','%s','%" PRIu32 "','%" PRId64 "')", db->global_acc_reg_num_table, owner.account_id, owner.user_id, esc_key, index, RFIFOQ(fd, cursor)) )
 						Sql_ShowDebug(sql_handle);
 					cursor += 8;
 					break;
 				case 1:
-					if( SQL_ERROR == Sql_Query(sql_handle, "DELETE FROM `%s` WHERE `account_id` = '%" PRIu32 "' AND `key` = '%s' AND `index` = '%" PRIu32 "' LIMIT 1", db->global_acc_reg_num_table, account_id, esc_key, index) )
+					if( SQL_ERROR == Sql_Query(sql_handle, "DELETE FROM `%s` WHERE `account_id` = '%" PRIu32 "' AND `user_id` = '%" PRIu32 "' AND `key` = '%s' AND `index` = '%" PRIu32 "' LIMIT 1", db->global_acc_reg_num_table, owner.account_id, owner.user_id, esc_key, index) )
 						Sql_ShowDebug(sql_handle);
 					break;
 				// str
@@ -760,11 +840,11 @@ void mmo_save_global_accreg(AccountDB* self, int32 fd, uint32 account_id, uint32
 					safestrncpy(sval, RFIFOCP(fd, cursor + 1), RFIFOB(fd, cursor));
 					cursor += RFIFOB(fd, cursor) + 1;
 					Sql_EscapeString(sql_handle, esc_sval, sval);
-					if( SQL_ERROR == Sql_Query(sql_handle, "REPLACE INTO `%s` (`account_id`,`key`,`index`,`value`) VALUES ('%" PRIu32 "','%s','%" PRIu32 "','%s')", db->global_acc_reg_str_table, account_id, esc_key, index, esc_sval) )
+					if( SQL_ERROR == Sql_Query(sql_handle, "REPLACE INTO `%s` (`account_id`,`user_id`,`key`,`index`,`value`) VALUES ('%" PRIu32 "','%" PRIu32 "','%s','%" PRIu32 "','%s')", db->global_acc_reg_str_table, owner.account_id, owner.user_id, esc_key, index, esc_sval) )
 						Sql_ShowDebug(sql_handle);
 					break;
 				case 3:
-					if( SQL_ERROR == Sql_Query(sql_handle, "DELETE FROM `%s` WHERE `account_id` = '%" PRIu32 "' AND `key` = '%s' AND `index` = '%" PRIu32 "' LIMIT 1", db->global_acc_reg_str_table, account_id, esc_key, index) )
+					if( SQL_ERROR == Sql_Query(sql_handle, "DELETE FROM `%s` WHERE `account_id` = '%" PRIu32 "' AND `user_id` = '%" PRIu32 "' AND `key` = '%s' AND `index` = '%" PRIu32 "' LIMIT 1", db->global_acc_reg_str_table, owner.account_id, owner.user_id, esc_key, index) )
 						Sql_ShowDebug(sql_handle);
 					break;
 				default:
@@ -781,8 +861,14 @@ void mmo_send_global_accreg(AccountDB* self, int32 fd, uint32 account_id, uint32
 	char* data;
 	int16 plen = 0;
 	size_t len;
+	s_global_accreg_owner owner;
 
-	if( SQL_ERROR == Sql_Query(sql_handle, "SELECT `key`, `index`, `value` FROM `%s` WHERE `account_id`='%" PRIu32 "'", db->global_acc_reg_str_table, account_id) )
+	// En cas d'echec, lecture seule sous le compte de jeu : le repli ne peut rien abimer.
+	mmo_global_accreg_owner(db, account_id, owner);
+	if( owner.user_id > 0 )
+		mmo_global_accreg_adopt(db, account_id, owner.user_id);
+
+	if( SQL_ERROR == Sql_Query(sql_handle, "SELECT `key`, `index`, `value` FROM `%s` WHERE `account_id`='%" PRIu32 "' AND `user_id`='%" PRIu32 "'", db->global_acc_reg_str_table, owner.account_id, owner.user_id) )
 		Sql_ShowDebug(sql_handle);
 
 	WFIFOHEAD(fd, 60000 + 300);
@@ -849,7 +935,7 @@ void mmo_send_global_accreg(AccountDB* self, int32 fd, uint32 account_id, uint32
 
 	Sql_FreeResult(sql_handle);
 
-	if( SQL_ERROR == Sql_Query(sql_handle, "SELECT `key`, `index`, `value` FROM `%s` WHERE `account_id`='%" PRIu32 "'", db->global_acc_reg_num_table, account_id) )
+	if( SQL_ERROR == Sql_Query(sql_handle, "SELECT `key`, `index`, `value` FROM `%s` WHERE `account_id`='%" PRIu32 "' AND `user_id`='%" PRIu32 "'", db->global_acc_reg_num_table, owner.account_id, owner.user_id) )
 		Sql_ShowDebug(sql_handle);
 
 	WFIFOHEAD(fd, 60000 + 300);

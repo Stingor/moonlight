@@ -621,6 +621,8 @@ izlude,132,54,4	script(CLOAKED)	Jerrymon#jerry2	1_M_01,{
 		mes "Wow! It spins round and round~~!!";
 		close2;
 		ill_underwater = 5;
+		##ill_open_iz_d04_i = 1; // Ouvre la carte au warp agent, pour tout le compte Moonlight
+		##ill_open_iz_d05_i = 1;
 		erasequest 3409;
 		specialeffect EF_CASTSPIN2, AREA;
 		warp "iz_d04_i",130,227;
@@ -664,8 +666,19 @@ iz_d04_i,127,228,4	script	Jerrymon#jerry3	1_M_01,{
 		mes "Please clean up your items and try again.";
 		close;
 	}
-	if (ill_underwater < 5)
+	if (ill_underwater < 5) {
+		// Ouvert par un autre personnage du compte : il faut pouvoir repartir a pied.
+		if (##ill_open_iz_d04_i == 0)
+			end;
+		mes "[Jerrymon]";
+		mes "Do you want to go back to Izlude?";
+		next;
+		if (select( "Yes", "Not now" ) == 2)
+			close;
+		close2;
+		warp "izlude",128,54;
 		end;
+	}
 	if (ill_underwater == 5) {
 		switch( checkquest(3411,HUNTING) ) {
 		case -1:

@@ -50,6 +50,7 @@ enum e_mvp_slot_kind : uint8 {
 	MVP_SLOT_SCRIPT_TIMER,    ///< Bio Lab: NPC timer, the mob_id is drawn every cycle
 	MVP_SLOT_SCRIPT_INVASION, ///< Lord of Death: NPC timer, the position is drawn
 	MVP_SLOT_SUMMON_LOCK,     ///< Thanatos: not a respawn, an availability lock
+	MVP_SLOT_SCRIPT_KILLCOUNT, ///< Illusion: called by kills on the map, the delay is only a lower bound
 };
 
 struct s_mvp_slot {

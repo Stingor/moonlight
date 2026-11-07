@@ -672,6 +672,7 @@ gef_dun01,132,223,5	script	Grimm#ilgf	4_M_MINISTER,{
 			erasequest 14655;// I'm Ready
 			setquest 14656;// Finding Father Grimm's Colleagues
 			ill_vampire = 5;
+			##ill_open_gef_d01_i = 1; // Ouvre la carte au warp agent, pour tout le compte Moonlight
 		}
 		close2;
 		warp "gef_d01_i",114,216;

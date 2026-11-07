@@ -638,6 +638,7 @@ pay_dun03,140,46,0	script	Shimmering Portal#ill_moon_in	4_ENERGY_BLUE,{
 		mes "[ Young Scholar ]";
 		mes "Then... should I touch this?";
 		illusion_moonlight = 6;
+		##ill_open_pay_d03_i = 1; // Ouvre la carte au warp agent, pour tout le compte Moonlight
 		completequest 7780;
 		setquest 7781;
 		close2;
