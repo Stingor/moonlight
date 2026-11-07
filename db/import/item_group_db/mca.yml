@@ -743,3 +743,6 @@ Body:
           - Index: 231
             Item: Bomi_Card
             Rate: 30
+          - Index: 232
+            Item: Lich_Lord_Card
+            Rate: 1

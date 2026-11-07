@@ -307,6 +307,24 @@ Body:
         Rate: 25000
       - Mob: BAPHOMET_I
         Rate: 50000
+      - Mob: ILL_MOONLIGHT
+        Rate: 25000
+      - Mob: ILL_DRACULA
+        Rate: 25000
+      - Mob: ILL_KTULLANUX
+        Rate: 25000
+      - Mob: ILL_TURTLE_GENERAL
+        Rate: 25000
+      - Mob: ILL_TAO_GUNKA
+        Rate: 25000
+      - Mob: ILL_WOOTAN_DEFENDER
+        Rate: 25000
+      - Mob: ILL_MAYA
+        Rate: 25000
+      - Mob: ILL_KRAKEN
+        Rate: 25000
+      - Mob: ILL_ABYSMAL_WITCH
+        Rate: 25000
   - Group: Branch_Of_Dead_Tree
     Default: SCORPION
     Summon:
@@ -1329,6 +1347,114 @@ Body:
       - Mob: KAHO_H
         Rate: 32000
       - Mob: LAVA_GOLEM_H
+        Rate: 32000
+      - Mob: ILL_DRAINLIAR
+        Rate: 32000
+      - Mob: ILL_ZOMBIE_C
+        Rate: 32000
+      - Mob: ILL_ZOMBIE
+        Rate: 32000
+      - Mob: ILL_GHOUL
+        Rate: 32000
+      - Mob: ILL_NIGHTMARE
+        Rate: 32000
+      - Mob: ILL_BOMI
+        Rate: 32000
+      - Mob: ILL_NINE_TAIL
+        Rate: 32000
+      - Mob: ILL_MUNAK
+        Rate: 32000
+      - Mob: ILL_BON_GUN
+        Rate: 32000
+      - Mob: ILL_SOHEE
+        Rate: 32000
+      - Mob: ILL_ARCHER_SKELETON
+        Rate: 32000
+      - Mob: ILL_HIGHWIZARD
+        Rate: 32000
+      - Mob: ILL_FURY_HERO
+        Rate: 32000
+      - Mob: ILL_GAZETI
+        Rate: 32000
+      - Mob: ILL_SNOWIER
+        Rate: 32000
+      - Mob: ILL_ICE_TITAN
+        Rate: 32000
+      - Mob: ILL_ASSULTER
+        Rate: 32000
+      - Mob: ILL_PERMETER
+        Rate: 32000
+      - Mob: ILL_FREEZER
+        Rate: 32000
+      - Mob: ILL_SOLIDER
+        Rate: 32000
+      - Mob: ILL_HEATER
+        Rate: 32000
+      - Mob: ILL_TEDDY_BEAR_R
+        Rate: 32000
+      - Mob: ILL_TEDDY_BEAR_Y
+        Rate: 32000
+      - Mob: ILL_TEDDY_BEAR_G
+        Rate: 32000
+      - Mob: ILL_TEDDY_BEAR_W
+        Rate: 32000
+      - Mob: ILL_TEDDY_BEAR_B
+        Rate: 32000
+      - Mob: ILL_TEDDY_BEAR_S
+        Rate: 32000
+      - Mob: ILL_PITMAN
+        Rate: 32000
+      - Mob: ILL_MINERAL
+        Rate: 32000
+      - Mob: ILL_OBSIDIAN
+        Rate: 32000
+      - Mob: ILL_TRI_JOINT
+        Rate: 32000
+      - Mob: ILL_STALACTIC_GOLEM
+        Rate: 32000
+      - Mob: ILL_MEGALITH
+        Rate: 32000
+      - Mob: ILL_STONE_SHOOTER
+        Rate: 32000
+      - Mob: ILL_WOOTAN_SHOOTER
+        Rate: 32000
+      - Mob: ILL_WOOTAN_FIGHTER
+        Rate: 32000
+      - Mob: ILL_SROPHO
+        Rate: 32000
+      - Mob: ILL_OBEAUNE
+        Rate: 32000
+      - Mob: ILL_DEVIACE
+        Rate: 32000
+      - Mob: ILL_MARSE
+        Rate: 32000
+      - Mob: ILL_MERMAN
+        Rate: 32000
+      - Mob: ILL_SEDORA
+        Rate: 32000
+      - Mob: ILL_SWORD_FISH
+        Rate: 32000
+      - Mob: ILL_STROUF
+        Rate: 32000
+      - Mob: ILL_PHEN
+        Rate: 32000
+      - Mob: ILL_KING_DRAMOH
+        Rate: 32000
+      - Mob: ILL_ANDRE
+        Rate: 32000
+      - Mob: ILL_SOLDIER_ANDR
+        Rate: 32000
+      - Mob: ILL_ANDRE_LARVA
+        Rate: 32000
+      - Mob: ILL_DENIRO
+        Rate: 32000
+      - Mob: ILL_PIERE
+        Rate: 32000
+      - Mob: ILL_GIEARTH
+        Rate: 32000
+      - Mob: ILL_FARMILIAR
+        Rate: 32000
+      - Mob: ILL_VITATA
         Rate: 32000
   - Group: Classchange
     Default: BAPHOMET

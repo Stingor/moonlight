@@ -386,3 +386,6 @@ Body:
           - Index: 110
             Item: OminousTurtleG_Card
             Rate: 1
+          - Index: 111
+            Item: Lich_Lord_Card
+            Rate: 1
