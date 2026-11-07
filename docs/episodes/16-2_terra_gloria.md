@@ -191,7 +191,7 @@ Décisions du 2026‑11‑06 :
 
 | Sujet | Décision |
 |---|---|
-| Accès | Quêtes d'origine conservées, **plus** un accès direct par le warp agent |
+| Accès | Quêtes d'origine conservées ; le warp agent ouvre une carte selon le niveau et l'avancement, sinon il mène au PNJ de départ |
 | Découpage | Un fichier `.npc` par donjon sous `moon/rathena/quests/illusion/`, pour charger et tester un donjon à la fois |
 | Équipements | Portés et contrôlés un par un |
 | Stats des mobs | `tools/util/re_to_prere_mob.py` sans retouche : ATK inchangée et EXP dérivée des HP sont voulues |

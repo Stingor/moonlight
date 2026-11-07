@@ -6,6 +6,7 @@ gonryun,165,129,3	script	Warp Agent::warp_agent	4_F_01,{
 	function GetColor;
 	function GetMobs;
 	function WarpMenu;
+	function IllusionMenu;
 	.@npc_name$ = "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 L_WarpaCmd:
 	mes .@npc_name$;
@@ -945,6 +946,79 @@ function GetMobs {
 
 // ARG0..N = map names ; builds a menu with getmapname, calls warp_fct on selection
 // Returns without warping when "Menu Précédent" is chosen.
+// Donjons Illusion : une carte s'ouvre avec le niveau et l'avancement de sa
+// quete. Sinon, le warp agent oriente vers le PNJ qui demarre la chaine : un
+// acces direct laisserait le joueur devant des PNJ muets (Kena et ses pareils).
+// Seuils : la valeur a partir de laquelle l'entree normale laisse passer.
+function IllusionMenu {
+	setarray .@mname$[0], "pay_d03_i", "ice_d03_i", "gef_d01_i", "iz_d04_i", "iz_d05_i", "ein_d02_i", "tur_d03_i", "tur_d04_i", "com_d02_i", "ant_d02_i";
+	setarray .@mxcoord[0], 140, 149, 114, 130, 141, 168, 132, 99, 249, 172;
+	setarray .@mycoord[0], 44, 24, 216, 227, 186, 197, 187, 186, 243, 185;
+	setarray .@minlv[0], 100, 120, 130, 140, 180, 150, 150, 150, 160, 160;
+	setarray .@prog[0], illusion_moonlight, 1, ill_vampire, ill_underwater, ill_underwater, ill_teddy, ill_turtle, ill_turtle, 1, ill_anthell;
+	setarray .@need[0], 6, 0, 5, 5, 5, 3, 1, 1, 0, 3;
+	// PNJ de depart de chaque chaine, et une case praticable a cote de lui.
+	setarray .@qnpc$[0], "Elder Sanyul", "", "Grimm", "Jerrymon", "Jerrymon", "Coughing young man", "Knight Aylvar", "Knight Aylvar", "", "Yolanda";
+	setarray .@qmap$[0], "payon", "", "gef_dun01", "prt_elib", "prt_elib", "einbroch", "alberta", "alberta", "", "anthell02";
+	setarray .@qx[0], 164, 0, 132, 57, 57, 149, 211, 211, 0, 172;
+	setarray .@qy[0], 227, 0, 221, 16, 16, 240, 26, 26, 0, 187;
+	.@n = getarraysize(.@mname$);
+	.@staff = (getgroupid() >= 99);
+
+	for (.@i = 0; .@i < .@n; .@i++) {
+		deletearray .@mobids[0], getarraysize(.@mobids);
+		deletearray .@mobnums[0], getarraysize(.@mobnums);
+		.@mobtotal = 0;
+		getmapspawns(.@mname$[.@i]);
+		.@avglv[.@i] = 0;
+		if (.@mobtotal > 0) {
+			.@lvsum = 0;
+			for (.@j = 0; .@j < getarraysize(.@mobids); .@j++)
+				.@lvsum += getmonsterinfo(.@mobids[.@j], MOB_LV) * .@mobnums[.@j];
+			.@avglv[.@i] = .@lvsum / .@mobtotal;
+		}
+	}
+
+	.@sel$ = "";
+	@mesnpctotal = 0;
+	if (WarpaDetail) clear;
+	for (.@i = 0; .@i < .@n; .@i++) {
+		if (.@i > 0) .@sel$ += ":";
+		.@label$ = getmapname(.@mname$[.@i]) + " (" + .@mname$[.@i] + ")";
+		if (.@staff || (BaseLevel >= .@minlv[.@i] && .@prog[.@i] >= .@need[.@i])) {
+			if (.@avglv[.@i] > 0)
+				.@label$ += " ~LV" + .@avglv[.@i];
+			.@sel$ += "• " + .@label$;
+		} else if (BaseLevel < .@minlv[.@i])
+			.@sel$ += "^999999• " + .@label$ + " [niv. " + .@minlv[.@i] + "]^000000";
+		else
+			.@sel$ += "^FF0000• " + .@label$ + " [quête]^000000";
+		if (WarpaDetail) GetMobs(.@mname$[.@i]);
+	}
+	if (WarpaDetail) setdialogsize(500,10+cap_value(25*.@mesnpccount,150,600));
+	.@c = select(.@sel$ + ":• ^e64c00Menu Précédent^000000") - 1;
+	if (.@c >= .@n)
+		return;
+	if (.@staff || (BaseLevel >= .@minlv[.@c] && .@prog[.@c] >= .@need[.@c]))
+		warp_fct(.@mname$[.@c], .@mxcoord[.@c], .@mycoord[.@c]);
+
+	clear;
+	mes "[ ^1F81D4" + strnpcinfo(0) + "^000000 ]";
+	if (BaseLevel < .@minlv[.@c]) {
+		mes getmapname(.@mname$[.@c]) + " demande le niveau " + .@minlv[.@c] + ".";
+		next;
+		return;
+	}
+	if (.@prog[.@c] > 0) {
+		mes "Ta quête pour " + getmapname(.@mname$[.@c]) + " est en cours : suis ton journal de quêtes pour l'ouvrir.";
+	} else {
+		mes "Pour ouvrir " + getmapname(.@mname$[.@c]) + ", commence la quête auprès de ^4d4dff" + .@qnpc$[.@c] + "^000000.";
+	}
+	next;
+	if (select("Se rendre auprès de " + .@qnpc$[.@c] + ":• ^e64c00Menu Précédent^000000") == 1)
+		warp_fct(.@qmap$[.@c], .@qx[.@c], .@qy[.@c]);
+	return;
+}
 function WarpMenu {
 	.@n = getargcount();
 
@@ -1513,16 +1587,7 @@ L_jup: WarpMenu("juperos_01,53,243",
 				"jupe_core,150,20"); goto L_Donjons;
 L_kie: WarpMenu("kh_dun01,28,211",
 				"kh_dun02,42,197"); goto L_Donjons;
-L_ill: WarpMenu("pay_d03_i,140,44",
-				"ice_d03_i,149,24",
-				"gef_d01_i,114,216",
-				"iz_d04_i,130,227",
-				"iz_d05_i,141,186",
-				"ein_d02_i,168,197",
-				"tur_d03_i,132,187",
-				"tur_d04_i,99,186",
-				"com_d02_i,249,243",
-				"ant_d02_i,172,185"); goto L_Donjons;
+L_ill: IllusionMenu(); goto L_Donjons;
 L_las: WarpMenu("lasa_dun01,23,143",
 				"lasa_dun02,22,171",
 				"lasa_dun03,190,19"); goto L_Donjons;
