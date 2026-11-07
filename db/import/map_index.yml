@@ -52,3 +52,9 @@ Body:
 #  - Map: my_custom_map
 #    Id: 2000
 #    Name: "My Custom Map"
+  - Map: iz_d04_i
+    Name: "Deep Sea Cave"
+  - Map: iz_d05_i
+    Name: "Deep Sea Cave"
+  - Map: ant_d02_i
+    Name: "Garden of Awareness"
