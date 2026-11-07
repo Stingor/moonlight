@@ -16,7 +16,7 @@ gonryun,160,126,5	script	Styliste::stylist_gon	2_M_DYEINGER,{
 	.@menu5$ = "";
 	.@hasskin = hasskinjob();
 	if (BaseLevel == 999 ) {
-		if (!.@hasskin && (eaclass() & EAJ_BASEMASK) != EAJ_NOVICE) { // aucune lignée novice (novice, haut novice, baby, super novice)
+		if (!.@hasskin && getskinjob(3) > 0 && (eaclass() & EAJ_BASEMASK) != EAJ_NOVICE) { // aucune lignée novice (novice, haut novice, baby, super novice), ni classe sans sprite de 3ème classe
 			.@menu5$ = "¤ Skin 3ème classe !:¤ Skin 4ème classe !";
 			// La 4ème classe n'est proposée qu'aux classes de la table getskinjob(4) : ni baby, ni classe non transcendée.
 			if (getskinjob(4) < 1 || Class == JOB_NINJA || Class == JOB_BABY_NINJA || 
