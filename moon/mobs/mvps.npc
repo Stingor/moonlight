@@ -84,7 +84,9 @@ OnInit:
 						MOB_GIOIA,8,MOB_RANDGRIS,8,MOB_IFRIT,10,MOB_BEELZEBUB_,10,
 						MOB_CHIMERA_THEONE,10,MOB_MOROCC_,10,MOB_ENTWEIHEN,25,MOB_NAGHT_SIEGER,35,MOB_THANATOS,10,MOB_S_NYDHOG,15,
 						// Illusion (16.2) : Dracula, Moonlight, Ktullanux, Turtle General, Tao Gunka, Wootan Defender, Maya, Kraken, Abysmal Witch
-						3757,8,3758,8,3796,8,3804,8,20273,8,20277,8,21395,8,20811,8,20843,8;
+						3757,8,3758,8,3796,8,3804,8,20273,8,20277,8,21395,8,20811,8,20843,8,
+						// Illusion of Labyrinth : Chaos Baphomet
+						20520,8;
 	end;
 }
 

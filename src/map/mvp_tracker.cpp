@@ -75,6 +75,7 @@ static const struct {
 	{ "tur_d04_i", 7200000, 0, MVP_SLOT_SCRIPT_KILLCOUNT },
 	{ "com_d02_i", 7200000, 0, MVP_SLOT_SCRIPT_KILLCOUNT },
 	{ "ant_d02_i", 7200000, 0, MVP_SLOT_SCRIPT_KILLCOUNT },
+	{ "prt_mz03_i", 7200000, 0, MVP_SLOT_SCRIPT_KILLCOUNT },
 };
 
 /// Maps carrying a scripted slot, resolved at boot. Kept apart from the index so

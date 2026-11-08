@@ -347,6 +347,32 @@ Body:
       - Item: Thorn_Staff_IL
       - Item: Dea_Staff_IL
       - Item: Sprint_Mail_IL
+  - Item: Labyrinth_Box_IL
+    ResultRefineMinimum: 7
+    ResultRefineMaximum: 10
+    MinimumRefine: 4
+    MaximumRefine: 9
+    CardsAllowed: true
+    TargetItems:
+      - Item: Taegoolyeon_IL
+      - Item: Butcher_IL
+      - Item: Gold_Lux_IL
+      - Item: Bazerald_IL
+      - Item: Morpheus_Hood_IL
+      - Item: Morpheus_Shawl_IL
+  - Item: S_Teddy_Labyrinth_IL
+    ResultRefineMinimum: 9
+    ResultRefineMaximum: 10
+    MinimumRefine: 4
+    MaximumRefine: 9
+    CardsAllowed: true
+    TargetItems:
+      - Item: Taegoolyeon_IL
+      - Item: Butcher_IL
+      - Item: Gold_Lux_IL
+      - Item: Bazerald_IL
+      - Item: Morpheus_Hood_IL
+      - Item: Morpheus_Shawl_IL
 #  - Item: EXP_Overclocker
 #    TargetItems:
 #      - Item: EXP_Processor_

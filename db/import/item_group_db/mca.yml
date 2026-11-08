@@ -746,3 +746,6 @@ Body:
           - Index: 232
             Item: Lich_Lord_Card
             Rate: 1
+          - Index: 233
+            Item: Chaos_Baphomet_Card
+            Rate: 1

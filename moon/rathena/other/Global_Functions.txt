@@ -830,3 +830,47 @@ function	script	F_22507	{// ShabbyOldScroll
 	end;
 }
 
+// Return a value according to the quests states.
+// -1 : One of the quest has a different state
+//  0 : All the quests are not started
+//  1 : All the quests are started
+//  2 : All the quests are completed
+function	script	F_queststatus	{
+	.@type = getarg(0);
+
+	.@status = checkquest(getarg(1),.@type);
+	switch( .@status ) {
+	case -1:
+		.@status = 0;
+		break;
+	case 0:
+	case 1:
+		.@status = 1;
+		break;
+	case 2:
+		.@status = 2;
+		break;
+	}
+
+	.@size = getargcount();
+
+	for ( .@i = 2; .@i < .@size; ++.@i ) {
+		.@next_status = checkquest(getarg(.@i),.@type);
+		switch( .@next_status ) {
+		case -1:
+			.@next_status = 0;
+			break;
+		case 0:
+		case 1:
+			.@next_status = 1;
+			break;
+		case 2:
+			.@next_status = 2;
+			break;
+		}
+
+		if (.@next_status != .@status)
+			return -1;
+	}
+	return .@status;
+}

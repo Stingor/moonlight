@@ -40,19 +40,22 @@ suffixée `_i`.
 | 2016‑12‑27 | **Illusion of Moonlight** | `pay_d03_i` | Donjon de Payon F3 | 100+ |
 | 2017‑01‑25 | **Illusion of Vampire** | `gef_d01_i` | Donjon de Geffen F1 | 130+ |
 | 2017‑02‑21 | **Illusion of Frozen** | `ice_d03_i` | Donjon de Glace F3 | 110+ |
-| 2017‑04‑18 | **Illusion of Abyss** | *(non converti)* | Lac de l'Abysse | 150+ |
+| 2017‑04‑18 | **Illusion of Abyss Turtle Island** (*Illusion of Turtle* chez rAthena) | `tur_d03_i`, `tur_d04_i` | Île de la Tortue | 150+ |
 | 2018‑03‑09 | **Illusion of Teddy Bear** | `ein_d02_i` | Mine d'Einbech F2 | 150+ |
 | 2018‑05‑04 | **Illusion of Luanda** | `com_d02_i` | Donjon de la Plage | 160+ |
-| — | **Illusion of Turtle** | `tur_d03_i`, `tur_d04_i` | Île de la Tortue | — |
 | — | **Illusion of Twins** | `ant_d02_i` | Fourmilière F2 | — |
 | — | **Illusion of Underwater** | `iz_d04_i`, `iz_d05_i` | Byalan F4/F5 | 140+ |
-| — | **Illusion of Labyrinth** | `prt_mz03_i` *(non converti)* | Forêt Labyrinthe | 170+ |
 
-> rAthena a converti **huit** des dix : Moonlight, Vampire, Frozen, Turtle, Luanda,
-> Underwater, Twins, Teddy Bear. Abyss et Labyrinth n'ont que les objets et l'enchanteur.
+> rAthena a converti les **huit** : Moonlight, Vampire, Frozen, Turtle, Luanda,
+> Underwater, Twins, Teddy Bear. Le neuvième de la série, *Illusion of Labyrinth*
+> (`prt_mz03_i`), relève de l'intervalle de [17.1](17-1_illusion.md), où il est décrit ;
+> il est porté depuis le 2026‑11‑08.
 >
-> iRO Wiki n'en recense que neuf, sans *Illusion of Turtle* ; celui-ci existe pourtant
-> bien dans rAthena (`tur_d03_i`, `tur_d04_i`) et côté Moonlight en spawns commentés.
+> *Illusion of Abyss* et *Illusion of Turtle* sont un seul donjon : le titre kRO est
+> *Illusion of Abyss Turtle Island*, et rAthena a fermé son issue
+> [#6458](https://github.com/rathena/rathena/issues/6458) (« Episode 16.2 : Illusion of
+> Abyss Turtle Island ») avec Illusion of Turtle. C'est aussi pourquoi iRO Wiki en compte
+> neuf sans nommer Turtle.
 
 ### Instances de l'intervalle
 
@@ -181,7 +184,7 @@ remplacés par leurs valeurs converties. Les cartes Illusion ont rejoint les alb
 | `skill_db` | **7** | `NPC_ALL_STAT_DOWN`, `NPC_DAMAGE_HEAL`, `NPC_IMMUNE_PROPERTY`, `NPC_MOVE_COORDINATE`, `NPC_WIDESILENCE2`, `NPC_BLEEDING2`, `NPC_HELLJUDGEMENT2` |
 | Objets ajoutés | **111** | 58 divers, 24 cartes (2 enchantements), 14 armures, 12 armes, 2 pierres de résonance, 1 soin |
 | Objets renommés | **87** | même Id, nom renewal adopté, par exemple `Illusion_War_Axe` → `War_Axe_IL` |
-| Quêtes | **141** | la 3465 reste écartée : Labyrinth n'est pas converti, et son PNJ est commenté dans l'amont |
+| Quêtes | **141** | la 3465 (Labyrinth) est arrivée avec le portage de [17.1](17-1_illusion.md) |
 | Combos | **24** | ceux dont tous les objets existent ; 16 sont écartés faute de partenaire chargé |
 
 **Équipements.** Les 26 nouveaux ont été relus un par un et suivent la conversion des
@@ -214,20 +217,20 @@ remplacées par leur équivalent jouable (`LG_RAYOFGENESIS` par `CR_GRANDCROSS`,
 - **Client :** `moonclient` connaît les 121 nouveaux objets. Son `item_db.yml` est à jour avec le serveur, et ses
   faits (DEF, poids, prérequis) viennent de là. `item_info.yml` a perdu ses lignes de faits périmées
   (`--retirer-faits`) et `DEF +5` est corrigé. La présence des sprites n'est pas vérifiée dans les GRF.
-- **Les 8 autres cartes de `db/re/map_drops.yml`** ne relèvent pas de 16.2. Elles iront avec
-  leur épisode :
+- **Les autres cartes de `db/re/map_drops.yml`** ne relèvent pas de 16.2. `1@xm_d` (Usine de
+  Jouets d'Horreur, [14.2](14-2_eclage.md)) est portée le 2026‑11‑08, avec la robe `Celine_Dress`
+  et ses trois combos. Les sept restantes iront avec leur épisode :
 
   | Cartes | Épisode |
   |---|---|
   | `amicitia1`, `amicitia2`, `sp_rudus4`, `nif_dun01`, `nif_dun02` | [17.2](17-2_heritage_du_sage.md) |
   | `1@advs` | [18](18_direction_de_la_priere.md) |
   | `for_dun01` | [20](20_the_undying.md) |
-  | `1@xm_d` | [14.2](14-2_eclage.md) |
 
 ### Économie
 
 - **Enquête :** `moon/rathena/quests/illusion/investigation.npc`, repris tel quel. Terrian et sa
-  quête 3465 sont déjà en commentaire dans l'amont, faute de Labyrinth.
+  quête 3465 y sont actifs depuis le portage de Labyrinth ([17.1](17-1_illusion.md)).
 - **Illusion Enchanter :** `moon/rathena/merchants/enchan_illusion.npc`, à `prontera,90,115`.
 - **Illusion Merchant :** dans le même fichier, à `prontera,88,113`. Il vend `ILL_Piece_A` et `ILL_Piece_B`
   (2 000 000 zeny ou 10 Illusion Stones). Leurs recettes sont dans `db/import/laphine_upgrade.yml` :

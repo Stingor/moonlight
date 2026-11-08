@@ -325,6 +325,8 @@ Body:
         Rate: 25000
       - Mob: ILL_ABYSMAL_WITCH
         Rate: 25000
+      - Mob: ILL_BAPHOMET
+        Rate: 25000
   - Group: Branch_Of_Dead_Tree
     Default: SCORPION
     Summon:
@@ -1455,6 +1457,30 @@ Body:
       - Mob: ILL_FARMILIAR
         Rate: 32000
       - Mob: ILL_VITATA
+        Rate: 32000
+      - Mob: ILL_ANDREA
+        Rate: 32000
+      - Mob: ILL_ANES
+        Rate: 32000
+      - Mob: ILL_SILVANO
+        Rate: 32000
+      - Mob: ILL_CECILIA
+        Rate: 32000
+      - Mob: ILL_BAPHOMET_J
+        Rate: 32000
+      - Mob: ILL_SIDE_WINDER
+        Rate: 32000
+      - Mob: ILL_HUNTER_FLY
+        Rate: 32000
+      - Mob: ILL_MANTIS
+        Rate: 32000
+      - Mob: ILL_GHOSTRING
+        Rate: 32000
+      - Mob: ILL_KILLER_MANTIS
+        Rate: 32000
+      - Mob: ILL_POPORING
+        Rate: 32000
+      - Mob: ILL_STEM_WORM
         Rate: 32000
   - Group: Classchange
     Default: BAPHOMET

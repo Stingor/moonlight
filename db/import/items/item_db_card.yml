@@ -8789,7 +8789,7 @@ Body:
       Both_Accessory: true
     Script: "bonus bAspdRate,5;\n"
   - Id: 27334
-    AegisName: Chaotic_Baphomet_Card
+    AegisName: Chaos_Baphomet_Card
     Name: Chaotic Baphomet Card
     Type: Card
     Buy: 20
@@ -8798,7 +8798,7 @@ Body:
       Armor: true
     Script: "bonus2 bAddClass,Class_All,25; bonus2 bSubRace,RC_Demon,-5;\n"
   - Id: 27335
-    AegisName: Chaotic_Baphomet_Junior_Card
+    AegisName: Chaos_Ba_Jr_Card
     Name: Chaotic Baphomet Junior Card
     Type: Card
     Buy: 20
@@ -8807,7 +8807,7 @@ Body:
       Shoes: true
     Script: "bonus bCritical,readparam(bAgi)/15;\n"
   - Id: 27336
-    AegisName: Chaotic_Sidewinder_Card
+    AegisName: Chaos_S_Winder_Card
     Name: Chaotic Sidewinder Card
     Type: Card
     Buy: 20
@@ -8816,7 +8816,7 @@ Body:
       Left_Hand: true
     Script: "bonus2 bSubDefEle,Ele_Poison,15; bonus2 bSubRace,RC_Brute,15;\n"
   - Id: 27337
-    AegisName: Chaotic_Hunter_Fly_Card
+    AegisName: Chaos_H_Fly_Card
     Name: Chaotic Hunter Fly Card
     Type: Card
     Buy: 20
@@ -8825,7 +8825,7 @@ Body:
       Left_Hand: true
     Script: "bonus2 bSubDefEle,Ele_Wind,15; bonus2 bSubRace,RC_Insect,15;\n"
   - Id: 27338
-    AegisName: Chaotic_Mantis_Card
+    AegisName: Chaos_Mantis_Card
     Name: Chaotic Mantis Card
     Type: Card
     Buy: 20
@@ -8834,7 +8834,7 @@ Body:
       Both_Accessory: true
     Script: "bonus bStr,3;\n"
   - Id: 27339
-    AegisName: Chaotic_Ghostring_Card
+    AegisName: Chaos_Goring_Card
     Name: Chaotic Ghostring Card
     Type: Card
     Buy: 20
@@ -8843,7 +8843,7 @@ Body:
       Right_Hand: true
     Script: "bonus bBaseAtk,20; bonus2 bAddSize,Size_Small,25; bonus2 bAddSize,Size_Large,25;\n"
   - Id: 27340
-    AegisName: Chaotic_Killer_Mantis_Card
+    AegisName: Chaos_K_Mantis_Card
     Name: Chaotic Killer Mantis Card
     Type: Card
     Buy: 20
@@ -8852,7 +8852,7 @@ Body:
       Both_Accessory: true
     Script: "bonus bCritAtkRate,3;\n"
   - Id: 27341
-    AegisName: Chaotic_Poporing_Card
+    AegisName: Chaos_Poporing_Card
     Name: Chaotic Poporing Card
     Type: Card
     Buy: 20
@@ -8861,7 +8861,7 @@ Body:
       Left_Hand: true
     Script: "bonus2 bSubDefEle,Ele_Water,15; bonus2 bSubRace,RC_Fish,15;\n"
   - Id: 27342
-    AegisName: Chaotic_Stem_Worm_Card
+    AegisName: Chaos_Stem_W_Card
     Name: Chaotic Stem Worm Card
     Type: Card
     Buy: 20
@@ -8870,7 +8870,7 @@ Body:
       Garment: true
     Script: "bonus bHit,10; bonus2 bSubDefEle,Ele_Earth,20; bonus2 bSubDefEle,Ele_Neutral,10;\n"
   - Id: 27343
-    AegisName: Chaotic_Acolyte_Card
+    AegisName: Chaos_Acolyte_Card
     Name: Chaotic Acolyte Card
     Type: Card
     Buy: 20

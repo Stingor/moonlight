@@ -13327,3 +13327,102 @@ Body:
     Weight: 10
     Flags:
       BuyingStore: true
+  - Id: 25772
+    AegisName: Delicious_Juice
+    Name: Delicious Juice
+    Type: Etc
+    Buy: 892
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25773
+    AegisName: Snake_Deadly_Poison
+    Name: Snake's Venom
+    Type: Etc
+    Buy: 952
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25774
+    AegisName: Mantis_Flower
+    Name: Mantis Flower
+    Type: Etc
+    Buy: 884
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25775
+    AegisName: Soft_Scarf
+    Name: Fluffy Cloth Piece
+    Type: Etc
+    Buy: 1062
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25776
+    AegisName: Purple_Solid_Shell
+    Name: Very Solid Purple Shell
+    Type: Etc
+    Buy: 1139
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25777
+    AegisName: Suspicious_Sap
+    Name: Mysterious Sap
+    Type: Etc
+    Buy: 986
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25778
+    AegisName: Brilliant_Jelly
+    Name: Autumn Light Jelly Piece
+    Type: Etc
+    Buy: 969
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25779
+    AegisName: Short_Rope
+    Name: Short Binding Rope
+    Type: Etc
+    Buy: 1156
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25780
+    AegisName: Essence_Of_Demon
+    Name: Demonic Essece
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25781
+    AegisName: Little_Lovely_Candle
+    Name: Pretty Little Candle
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25782
+    AegisName: Medicinal_Stuff
+    Name: Medicinal Bag
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25783
+    AegisName: Cold_Holy_Water
+    Name: Cold Holy Water
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25784
+    AegisName: Small_Flashlight
+    Name: Small Flashlight
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true

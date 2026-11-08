@@ -951,17 +951,17 @@ function GetMobs {
 // acces direct laisserait le joueur devant des PNJ muets (Kena et ses pareils).
 // Seuils : la valeur a partir de laquelle l'entree normale laisse passer.
 function IllusionMenu {
-	setarray .@mname$[0], "pay_d03_i", "ice_d03_i", "gef_d01_i", "iz_d04_i", "iz_d05_i", "ein_d02_i", "tur_d03_i", "tur_d04_i", "com_d02_i", "ant_d02_i";
-	setarray .@mxcoord[0], 140, 149, 114, 130, 141, 168, 132, 99, 249, 172;
-	setarray .@mycoord[0], 44, 24, 216, 227, 186, 197, 187, 186, 243, 185;
-	setarray .@minlv[0], 100, 120, 130, 140, 180, 150, 150, 150, 160, 160;
-	setarray .@prog[0], illusion_moonlight, 1, ill_vampire, ill_underwater, ill_underwater, ill_teddy, ill_turtle, ill_turtle, 1, ill_anthell;
-	setarray .@need[0], 6, 0, 5, 5, 5, 3, 1, 1, 0, 3;
+	setarray .@mname$[0], "pay_d03_i", "ice_d03_i", "gef_d01_i", "iz_d04_i", "iz_d05_i", "ein_d02_i", "tur_d03_i", "tur_d04_i", "com_d02_i", "ant_d02_i", "prt_mz03_i";
+	setarray .@mxcoord[0], 140, 149, 114, 130, 141, 168, 132, 99, 249, 172, 99;
+	setarray .@mycoord[0], 44, 24, 216, 227, 186, 197, 187, 186, 243, 185, 26;
+	setarray .@minlv[0], 100, 120, 130, 140, 180, 150, 150, 150, 160, 160, 170;
+	setarray .@prog[0], illusion_moonlight, 1, ill_vampire, ill_underwater, ill_underwater, ill_teddy, ill_turtle, ill_turtle, 1, ill_anthell, ill_laby;
+	setarray .@need[0], 6, 0, 5, 5, 5, 3, 1, 1, 0, 3, 2;
 	// PNJ de depart de chaque chaine, et une case praticable a cote de lui.
-	setarray .@qnpc$[0], "Elder Sanyul", "", "Grimm", "Jerrymon", "Jerrymon", "Coughing young man", "Knight Aylvar", "Knight Aylvar", "", "Yolanda";
-	setarray .@qmap$[0], "payon", "", "gef_dun01", "prt_elib", "prt_elib", "einbroch", "alberta", "alberta", "", "anthell02";
-	setarray .@qx[0], 164, 0, 132, 57, 57, 149, 211, 211, 0, 172;
-	setarray .@qy[0], 227, 0, 221, 16, 16, 240, 26, 26, 0, 187;
+	setarray .@qnpc$[0], "Elder Sanyul", "", "Grimm", "Jerrymon", "Jerrymon", "Coughing young man", "Knight Aylvar", "Knight Aylvar", "", "Yolanda", "Irene";
+	setarray .@qmap$[0], "payon", "", "gef_dun01", "prt_elib", "prt_elib", "einbroch", "alberta", "alberta", "", "anthell02", "prt_maze01";
+	setarray .@qx[0], 164, 0, 132, 57, 57, 149, 211, 211, 0, 172, 99;
+	setarray .@qy[0], 227, 0, 221, 16, 16, 240, 26, 26, 0, 187, 29;
 	.@n = getarraysize(.@mname$);
 	.@staff = (getgroupid() >= 99);
 

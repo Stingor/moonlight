@@ -329,6 +329,9 @@ ice_d03_i	mapflag	nowarpto
 tur_d03_i	mapflag	nowarpto
 tur_d04_i	mapflag	nowarpto
 
+// Illusion of Labyrinth
+prt_mz03_i	mapflag	nowarpto
+
 // Volcanic island Korodo
 1@crd	mapflag	nowarpto
 

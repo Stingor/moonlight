@@ -4104,3 +4104,15 @@ Body:
     SplashArea: 14
     Duration2: 18000
     Status: Curse
+  - Id: 752
+    Name: NPC_GRADUAL_GRAVITY
+    Description: Increased Gravity
+    MaxLevel: 3
+    TargetType: Attack
+    DamageFlags:
+      NoDamage: true
+    Flags:
+      IsNpc: true
+    Range: 9
+    Duration1: 3000
+    Status: GRADUAL_GRAVITY

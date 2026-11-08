@@ -86,6 +86,41 @@ Conversion livrée par la PR [#6643 « Episode 17.1 — Illusion »](https://git
 | Occupation d'OS | `moon/instances/OsOccupation.txt` | non référencé |
 | Mémorial de Cor | `moon/instances/CorOperation.txt` | non référencé |
 | Quêtes 17.1 | — | **absent** |
+| **Illusion of Labyrinth** | `moon/rathena/quests/illusion/labyrinth.npc` | branché le 2026‑11‑08, non validé en jeu |
+
+### Illusion of Labyrinth (porté le 2026‑11‑08)
+
+rAthena ne l'a pas fusionné : il vient de la PR
+[#8506 « Initial release of Illusion of Labyrinth »](https://github.com/rathena/rathena/pull/8506),
+ouverte et approuvée deux fois. Ses 12 fichiers sont appliqués à `db/re/` et `npc/re/` (tête
+`be8d3e56f`), puis portés comme les donjons de [16.2](16-2_terra_gloria.md) :
+
+| Élément | Moonlight |
+|---|---|
+| Quête (Irene, Esmeralda, Andrea, Anes, Silvano, Cecilia ; `ill_laby`) | `moon/rathena/quests/illusion/labyrinth.npc`, entrée par la *Twisted Crack* de `prt_maze01`, niveau 170 |
+| Enquête : Terrian, quête 3465 | `investigation.npc`, version de la PR (Terrian déplacé dans `prt_mz03_i`) |
+| Échangeuse Esmeralda, troc `barter_ill_labyrinth` | `enchan_illusion.npc`, `moon/barters.yml` |
+| Warps (58), spawns, apparition du MVP | `moon/rathena/dungeons/prt_maze.npc` |
+| 14 mobs, 155 lignes de skills, `NPC_GRADUAL_GRAVITY` | `db/import/mobs/illusion.yml`, `mob_skill_db.txt`, `skill_db.yml` |
+| 13 matériaux, 2 coffrets Lapine, 24 quêtes | `item_db_etc.yml`, `item_db_usable.yml`, `laphine_upgrade.yml`, `quest_db.yml` |
+| `F_queststatus` | ajoutée à `moon/rathena/other/Global_Functions.txt` (absente du pré-renewal) |
+| Drops de carte | `db/import/map_drops.yml`, à l'échelle de 16.2 |
+
+Décisions et écarts :
+
+- **MVP.** Chaos Baphomet (`ILL_BAPHOMET`) apparaît quand les quatre sous-boss, qui
+  reviennent toutes les heures, sont morts ; 2 h de repos après sa mort. La PR oublie son
+  `Modes: Mvp` alors qu'il a des `MvpDrops` : il est ajouté. Il entre au carnet (case
+  `prt_mz03_i` dans `mvp_tracker.cpp`, recompilation du map-server), à 8 points dans `$mvps`,
+  et ses labels valident les missions de chasse.
+- **Cartes.** Les dix cartes `Chaotic_*` locales prennent leur nom renewal (`Chaos_*`, même Id),
+  combos compris ; leurs scripts locaux ne changent pas.
+- **Accès.** Le warp agent ouvre `prt_mz03_i` dès `ill_laby >= 2`, débloqué au compte Moonlight
+  par `##ill_open_prt_mz03_i`, sinon il mène à Irene.
+- **Branches et albums.** Chaos Baphomet en Bloody Branch, les 12 autres mobs en Dead Branch
+  (l'invocation `G_ILL_BAPHOMET_J` exclue). 9 cartes en `CARDALBUM`, celle du MVP en
+  `MAGICCARDALBUM` et `MVPCARDENCHANT`.
+- **Mapflags.** `nomemo` et `nowarpto`, comme les autres cartes Illusion.
 
 ### Les mobs manquants — la liste complète
 
