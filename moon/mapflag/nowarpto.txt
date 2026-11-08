@@ -368,3 +368,11 @@ star_in	mapflag	nowarpto
 iz_d04_i	mapflag	nowarpto
 iz_d05_i	mapflag	nowarpto
 ant_d02_i	mapflag	nowarpto
+
+// Episode 17.1
+1@rgsr	mapflag	nowarpto
+1@os_a	mapflag	nowarpto
+1@os_b	mapflag	nowarpto
+1@cor	mapflag	nowarpto
+rgsr_in	mapflag	nowarpto
+pub_cat	mapflag	nowarpto

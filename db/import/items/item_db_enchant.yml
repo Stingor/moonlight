@@ -3728,3 +3728,17 @@ Body:
     SubType: Enchant
     Script: |
       bonus2 bHPDrainRate,20,3;
+  - Id: 29228
+    AegisName: Steal
+    Name: Steal
+    Type: Card
+    SubType: Enchant
+    Script: |
+      skill "TF_STEAL",1;
+  - Id: 29229
+    AegisName: Teleport
+    Name: Teleport
+    Type: Card
+    SubType: Enchant
+    Script: |
+      skill "AL_TELEPORT",1;

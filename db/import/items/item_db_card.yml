@@ -8670,7 +8670,7 @@ Body:
       Armor: true
     Script: "bonus2 bAddEle,Ele_Poison,40;\n"
   - Id: 27320
-    AegisName: E_EA1L_card
+    AegisName: E_EA1L_Card
     Name: E-EA1L card
     Type: Card
     Buy: 20

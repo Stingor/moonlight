@@ -303,3 +303,11 @@ tur_d04_i	mapflag	nomemo
 com_d02_i	mapflag	nomemo
 ant_d02_i	mapflag	nomemo
 prt_mz03_i	mapflag	nomemo
+
+// Episode 17.1
+1@rgsr	mapflag	nomemo
+1@os_a	mapflag	nomemo
+1@os_b	mapflag	nomemo
+1@cor	mapflag	nomemo
+rgsr_in	mapflag	nomemo
+pub_cat	mapflag	nomemo

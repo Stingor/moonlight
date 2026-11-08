@@ -99,6 +99,16 @@ Body:
     Value: 37
   - Name: INST_INFINITE_SPACE
     Value: 38
+  - Name: INST_REGENSCHIRM
+    Value: 39
+  - Name: INST_SEALED_OS
+    Value: 40
+  - Name: INST_OS_OCCUPATION
+    Value: 41
+  - Name: INST_N2ND_OS_SEARCH
+    Value: 42
+  - Name: INST_COR_MEMORIAL
+    Value: 43
   - Name: INST_HALF_MOON_IN_THE_DAYLIGHT
     Value: 44
   - Name: INST_WEEKEND_DUNGEON

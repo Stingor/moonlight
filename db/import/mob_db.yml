@@ -53341,39 +53341,6 @@ Body:
     Class: Boss
     Modes:
       Mvp: true
-  - Id: 20343
-    AegisName: MD_E_13EN0
-    Name: Venemum
-    Level: 118
-    Hp: 2684000
-    Sp: 10000
-    BaseExp: 400000
-    JobExp: 100000
-    Attack: 15000
-    Attack2: 40000
-    Defense: 35
-    MagicDefense: 53
-    Str: 598
-    Agi: 165
-    Vit: 149
-    Int: 172
-    Dex: 857
-    Luk: 173
-    AttackRange: 1
-    SkillRange: 10
-    ChaseRange: 12
-    Size: Medium
-    Race: Fish
-    Element: Water
-    ElementLevel: 4
-    WalkSpeed: 175
-    AttackDelay: 1024
-    AttackMotion: 624
-    DamageMotion: 336
-    Ai: 21
-    Class: Boss
-    Modes:
-      Mvp: true
   - Id: 20500
     AegisName: MVP_STING
     Name: Sting-Bot
@@ -54368,6 +54335,7 @@ Footer:
   - Path: db/import/mobs/splendide.yml
   - Path: db/import/mobs/slabw01.yml
   - Path: db/import/mobs/ein_dun.yml
+  - Path: db/import/mobs/ep17_1_instances.yml
   - Path: db/import/mobs/sp_rudus.yml
   - Path: db/import/mobs/templedemon.yml
   - Path: db/import/mobs/thanatos.yml

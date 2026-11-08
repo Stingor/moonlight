@@ -647,3 +647,15 @@ paramk	mapflag	noteleport
 1@md_pay	mapflag	noteleport
 1@md_gef	mapflag	noteleport
 1@begi	mapflag	monster_noteleport
+
+// Episode 17.1
+1@rgsr	mapflag	noteleport
+1@os_a	mapflag	noteleport
+1@os_b	mapflag	noteleport
+1@cor	mapflag	noteleport
+rgsr_in	mapflag	noteleport
+pub_cat	mapflag	noteleport
+1@rgsr	mapflag	monster_noteleport
+1@os_a	mapflag	monster_noteleport
+1@os_b	mapflag	monster_noteleport
+1@cor	mapflag	monster_noteleport

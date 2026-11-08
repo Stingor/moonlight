@@ -219,3 +219,9 @@ arug_cas05	mapflag	restricted	4
 // Memorial Dungeons (Week-end, Vendredi)
 1@md_pay	mapflag	restricted	6
 1@md_gef	mapflag	restricted	6
+
+// Episode 17.1
+1@rgsr	mapflag	restricted	6
+1@os_a	mapflag	restricted	6
+1@os_b	mapflag	restricted	6
+1@cor	mapflag	restricted	6
