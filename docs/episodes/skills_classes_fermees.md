@@ -238,10 +238,10 @@ Table validée et appliquée le 2026-11-07. Les comptes d'objets et de combos so
 | `SP_SPA` | `SL_STIN` | 1 | 3 | Racing_Cap_SL |
 | `SP_SWHOO` | `SL_STUN` | 1 | 3 | Racing_Cap_SL |
 
-## Ajouts du 2026‑11‑08 (portage de 17.1), à valider
+## Ajouts du 2026‑11‑08 (portage de 17.1), validés
 
 Trois compétences des combos Grace manquaient à la table. Remplacées par analogie avec
-les lignes existantes :
+les lignes existantes, validées par l'utilisateur le 2026‑11‑08 :
 
 | Compétence | Remplacement | Analogie |
 |---|---|---|

@@ -92,7 +92,7 @@ Conversion livrée par la PR [#6643 « Episode 17.1 — Illusion »](https://git
 
 Écarts : le stuff Doram (Grace Carrot et Picky Robe, ElectricFox OS, boutique Summoner) ; le
 paquet de forge `Bs_Making_S` ; le **système Reform** (`rgsr_in.txt`, mécanique renewal de 2022).
-Trois compétences ont été ajoutées à la table des classes fermées, à valider
+Trois compétences ont été ajoutées à la table des classes fermées, validées le 2026‑11‑08
 ([skills_classes_fermees.md](skills_classes_fermees.md)).
 
 Relevé du 2026‑11‑08 avant portage :
@@ -231,7 +231,8 @@ tant qu'il faudrait l'écrire.
 |---|---|
 | Intérêt | élevé — trois zones de chasse et cinq instances fournies par rAthena |
 | Fait | Illusion of Labyrinth, Magma F3, Einbech F3, A, B1, B2 (2026‑11‑08, non validés en jeu) |
-| Reste à faire | validation en jeu · décisions : système Reform, ajouts à la table des compétences, mapflags et seuils de Magma/Einbech F3 |
+| Reste à faire | validation en jeu · décision : système Reform |
+| Décidé | Magma F3 et Einbech F3 restent sans mapflags `nomemo`/`nowarpto`, accès libre ; les quêtes de Lily (175) et de Sally (180) gardent le seuil de l'amont ; les trois ajouts à la table des compétences sont validés (2026‑11‑08) |
 
 ## Sources
 
