@@ -90,7 +90,7 @@ suffixée `_i`.
 `npc/re/quests/illusion_investigation.txt`,
 `npc/re/instances/{HeartHunterWarBase,WernerLaboratoryCentralRoom,WeekendDungeon,FridayDungeon,PoringVillage}.txt`.
 
-## 4. État côté Moonlight (mesuré le 2026‑11‑06)
+## 4. État côté Moonlight (mesuré le 2026‑11‑06, complété le 2026‑11‑08)
 
 Relevé produit par `tools/util/port_illusion.py`, qui suit les `Footer: Imports:` de
 chaque base et compare les objets par Id **et** par AegisName.
@@ -132,6 +132,42 @@ chaque échangeur a son troc dans `moon/barters.yml`.
 `feature.barter` et `feature.barter_extended` sont activés dans `conf/import/battle_conf.txt` :
 ces trocs demandent plusieurs objets et un raffinage minimum.
 
+**Accès par le warp agent.** `IllusionMenu` (`moon/warp_agent.npc`) ouvre une carte quand le
+personnage a le niveau requis et que l'avancement de sa quête atteint le seuil de l'entrée
+normale. Sinon, il mène au PNJ qui démarre la chaîne. L'avancement est débloqué **pour tout le
+compte Moonlight** : au seuil, chaque quête pose `##ill_open_<carte>`, et le menu pose le drapeau
+pour les personnages déjà arrivés au seuil avant ce système. Le niveau, lui, reste par
+personnage. Kena (Underwater) laisse passer dès que `##ill_open_iz_d05_i` est posé.
+
+Les variables `##` suivent désormais le compte Moonlight (`login.user_id`) et non plus le compte
+de jeu (`src/login/account.cpp`). Elles ne servent qu'aux drapeaux : elles sont lues à la
+connexion, et la dernière écriture l'emporte. Une migration est nécessaire avant le démarrage du
+login-server recompilé : `tools/sql/global_acc_reg_user_bound.sql`. La fusion de comptes de
+moonlight-web regroupe aussi ces variables (`AccountMerge.php`, grants dans
+`deploy/server/merge.sql`).
+
+**Carnet MVP et missions de chasse.** Les MVP Illusion sont invoqués par script et meurent sur
+un label. Ils n'atteignent donc jamais `OnNPCKillEvent`, et le registre du carnet ne les voyait
+pas. Huit cases `MVP_SLOT_SCRIPT_KILLCOUNT` les ajoutent dans `src/map/mvp_tracker.cpp`, et le
+client connaît ce type (`kScriptKillCount = 4`). Chaque label de mort appelle
+`F_HuntMissionKill` (`moon/func.npc`) pour les mobs, ou `MissionMVP` pour les MVP : les missions
+de chasse se terminent ainsi sur les cartes de 16.2. Les 9 MVP Illusion rapportent 8 points
+dans `$mvps`.
+
+**Drops de carte.** `db/import/map_drops.yml` reprend les 10 cartes Illusion de l'amont et ajoute
+16 coffrets d'équipement dans `item_db_usable.yml`. Les coffrets `S_` passent par Lapine
+(`laphine_upgrade.yml`) : un équipement du donjon raffiné de +4 à +9 en ressort à +9 ou +10. Les `item_rate_*` du serveur ne s'appliquent pas
+aux map_drops : les taux ont donc été remis à l'échelle à la main, sur 100 000.
+
+| Drop (mobs normaux) | kRO | Moonlight |
+|---|---:|---:|
+| Illusion Stone | 0,01 % | 2 % |
+| Équipements | 0,005 à 0,025 % | 0,5 à 2,5 % |
+| Coffret | 0,005 % | 0,5 % |
+| Coffret `S_` | 0,15 % | 5 % |
+
+Les autres drops, surtout ceux des MVP, gardent leur taux d'origine.
+
 `ILL_KRAKEN` et `ILL_ABYSMAL_WITCH` n'étaient que des gabarits sans drop ni skill : ils sont
 remplacés par leurs valeurs converties. Les cartes Illusion ont rejoint les albums : 49 dans
 `CARDALBUM`, 10 dans `MAGICCARDALBUM`, 9 dans `MVPCARDENCHANT`.
@@ -165,11 +201,28 @@ et une somme `>= 22` sur deux pièces devient `>= 44`. Les compétences de class
 remplacées par leur équivalent jouable (`LG_RAYOFGENESIS` par `CR_GRANDCROSS`, etc.), les bonus de
 `bSkillCooldown` sans équivalent par `bDelayrate`. Les valeurs de bonus ne changent pas.
 
+**Stockage.** `NoStorage` est retiré des matériaux de troc `Sticky_Blood`, `Mushroom_Sap`,
+`Swaying_Mane`, `Dry_Branch` et `Shabby_Metal_Chip`, à la suite d'un signalement de joueur.
+
 **Restent à décider ou à faire :**
 
+- **Déploiement**, dans l'ordre :
+  1. Sauvegarder les tables `global_acc_reg_*`.
+  2. Arrêter le login-server et lancer `tools/sql/global_acc_reg_user_bound.sql`.
+  3. Recompiler le login-server et le map-server, puis redémarrer.
+  4. Lancer `deploy/server/merge.sql` et déployer moonlight-web.
 - **Client :** `moonclient` connaît les 121 nouveaux objets. Son `item_db.yml` est à jour avec le serveur, et ses
   faits (DEF, poids, prérequis) viennent de là. `item_info.yml` a perdu ses lignes de faits périmées
   (`--retirer-faits`) et `DEF +5` est corrigé. La présence des sprites n'est pas vérifiée dans les GRF.
+- **Les 8 autres cartes de `db/re/map_drops.yml`** ne relèvent pas de 16.2. Elles iront avec
+  leur épisode :
+
+  | Cartes | Épisode |
+  |---|---|
+  | `amicitia1`, `amicitia2`, `sp_rudus4`, `nif_dun01`, `nif_dun02` | [17.2](17-2_heritage_du_sage.md) |
+  | `1@advs` | [18](18_direction_de_la_priere.md) |
+  | `for_dun01` | [20](20_the_undying.md) |
+  | `1@xm_d` | [14.2](14-2_eclage.md) |
 
 ### Économie
 
@@ -205,7 +258,7 @@ Décisions du 2026‑11‑06 :
 | | |
 |---|---|
 | Intérêt | **le plus élevé du dossier** |
-| Reste à faire | validation en jeu · livrer `moonclient` |
+| Reste à faire | déploiement (migration SQL, recompilation) · validation en jeu · livrer `moonclient` |
 
 ## Sources
 
