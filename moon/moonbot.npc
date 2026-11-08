@@ -731,6 +731,17 @@ S_GmShowVars:
 	return;
 
 
+OnStingSay:
+	// @stingsay <texte> : Sting-Bot dit le texte, ecrit et a voix haute.
+	if (.@atcmd_numparameters < 1) {
+		message strcharinfo(0), "Usage : @stingsay <texte>";
+		end;
+	}
+	.@say$ = implode(.@atcmd_parameters$, " ");
+	callsub S_Speak, .@say$;
+	message strcharinfo(0), "Sting-Bot : replique deposee pour la voix.";
+	end;
+
 OnInit:
 	.ox = 159;
 	.oy = 116;
@@ -803,6 +814,7 @@ OnInit:
 	if ($sting_persist_pvpcdtick > 0) { .pvpcdtick = $sting_persist_pvpcdtick; }
 	if ($sting_persist_tripcd > 0)    { .tripcd    = $sting_persist_tripcd; }
 	if ($sting_persist_mockcd > 0)    { .mockcd    = $sting_persist_mockcd; }
+	bindatcmd "stingsay", strnpcinfo(3)+"::OnStingSay", 99, 99;
 	activatepset 2;
 	initnpctimer;
 	npcsit;
