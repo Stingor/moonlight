@@ -113,6 +113,27 @@ BUILDIN_FUNC(getmapspawns)
 			return SCRIPT_CMD_SUCCESS;
 		}
 		std::vector<map_spawn_info> spawns = map_get_spawns(m);
+		// [Stingor] Une map sans spawn permanent peut être peuplée entièrement par
+		// script (`monster`, ex. com_d02_i et son cycle Tao Gunka / Wootan) : on
+		// rend alors les monstres vivants présents dessus, sans les esclaves.
+		int16 mapid = (spawns.empty() ? map_mapname2mapid(mapname) : -1);
+		if (mapid >= 0) {
+			map_foreachinmap([](block_list* bl, va_list ap) -> int32 {
+				std::vector<map_spawn_info>* live = va_arg(ap, std::vector<map_spawn_info>*);
+				mob_data* md = reinterpret_cast<mob_data*>(bl);
+				if (md->master_id != 0 || status_isdead(*bl))
+					return 0;
+				auto it = std::find_if(live->begin(), live->end(),
+					[md](const map_spawn_info& s) { return s.mob_id == md->mob_id; });
+				if (it == live->end())
+					live->push_back({ static_cast<uint16>(md->mob_id), 1 });
+				else
+					it->qty++;
+				return 1;
+			}, mapid, BL_MOB, &spawns);
+			std::sort(spawns.begin(), spawns.end(),
+				[](const map_spawn_info& a, const map_spawn_info& b) { return a.qty > b.qty; });
+		}
 		for (const auto& spawn : spawns) {
 			setd_sub_num( st, nullptr, ".@mobids", i, spawn.mob_id, nullptr );
 			setd_sub_num( st, nullptr, ".@mobnums", i, spawn.qty, nullptr );
