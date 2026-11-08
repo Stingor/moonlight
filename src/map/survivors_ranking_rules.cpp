@@ -208,14 +208,15 @@ constexpr uint32 RULESET_4_KILLS_PER_SECOND = 2 * 10 * SURVIVORS_STEPS_PER_SECON
 constexpr uint32 RULESET_4_EXP_GAIN_PCT = 100 + 100 + 40;
 
 // ── LE RULESET 5 ─────────────────────────────────────────────────────────────
-// Deux classes classées, le Magicien (1) et le Chevalier (2), chacune avec ses
-// tableaux (la clé d'un tableau porte class_id). La prairie générée seule, quinze
-// minutes et Baphomet, puis cinq minutes de dépassement. Boss, instants, points,
-// XP, courbe, horde et majoration sont ceux du ruleset 4 : aucune de ces bornes
-// ne dépend de la classe, et la réserve de cartes du Chevalier garde Baphomet.
+// Trois classes classées, le Magicien (1), le Chevalier (2) et le Voleur (3), chacune
+// avec ses tableaux (la clé d'un tableau porte class_id). La prairie générée seule,
+// quinze minutes et Baphomet, puis cinq minutes de dépassement. Boss, instants,
+// points, XP, courbe, horde et majoration sont ceux du ruleset 4 : aucune de ces
+// bornes ne dépend de la classe, et les réserves de cartes du Chevalier et du Voleur
+// gardent Baphomet.
 constexpr uint16 RULESET_5 = 5;
 constexpr uint16 RULESET_5_ARENAS[] = { 2 };
-constexpr uint16 RULESET_5_CLASSES[] = { 1, 2 };
+constexpr uint16 RULESET_5_CLASSES[] = { 1, 2, 3 };
 constexpr uint32 RULESET_5_RUN_MS = 15 * MINUTE_MS;
 constexpr uint32 RULESET_5_OVERTIME_MS = 5 * MINUTE_MS;
 constexpr s_survivors_boss_bound RULESET_5_BOSSES[] = {
@@ -235,7 +236,7 @@ constexpr uint32 RULESET_5_COMMON_KILL_POINTS = 58 * ELITE_FACTOR;
 constexpr uint32 RULESET_5_COMMON_KILL_EXP = 22 * ELITE_FACTOR;
 constexpr uint32 RULESET_5_KILLS_PER_SECOND = 2 * 10 * SURVIVORS_STEPS_PER_SECOND;
 // Battle Manual (+100 %) et carte Baphomet (+8 % par niveau, cinq niveaux), que
-// les deux classes peuvent tirer.
+// les trois classes peuvent tirer.
 constexpr uint32 RULESET_5_EXP_GAIN_PCT = 100 + 100 + 40;
 
 // Triées par version croissante : la première et la dernière bornent ce que

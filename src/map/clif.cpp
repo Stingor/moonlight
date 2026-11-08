@@ -9313,15 +9313,18 @@ void clif_parse_moonlight_free_flight(int32 fd, map_session_data* sd) {
 // [Stingor] Le succès de chaque trophée de mini-jeu, dans l'ordre du catalogue de
 // moonclient (db/import/achievement_db.yml) : Rojeweled et Roggle de 910001 à
 // 910008, le mode survivors de 910009 à 910029, Roggle de 910030 à 910036, puis
-// le Chevalier du mode survivors de 910037 à 910044.
+// le Chevalier du mode survivors de 910037 à 910044, son Voleur de 910045 à 910052.
 static constexpr int32 MOONLIGHT_MINIGAME_ACHIEVEMENTS[MOONLIGHT_MINIGAME_TROPHY_COUNT] = {
 	910001, 910002, 910003, 910004, 910005, 910006, 910007, 910008,
 	910009, 910010, 910011, 910012, 910013, 910014, 910015, 910016,
 	910017, 910018, 910019, 910020, 910021, 910022, 910023, 910024,
 	910025, 910026, 910027, 910028, 910029, 910030, 910031, 910032,
 	910033, 910034, 910035, 910036, 910037, 910038, 910039, 910040,
-	910041, 910042, 910043, 910044,
+	910041, 910042, 910043, 910044, 910045, 910046, 910047, 910048,
+	910049, 910050, 910051, 910052,
 };
+static_assert(MOONLIGHT_MINIGAME_ACHIEVEMENTS[MOONLIGHT_MINIGAME_TROPHY_COUNT - 1] != 0,
+	"chaque rang de trophée a son succès : un compte relevé sans son entrée laisserait un zéro");
 
 // [Stingor] Comme la commande de script achievementcomplete : le succès s'ajoute
 // s'il manque, puis s'achève. Un succès déjà achevé, un rang hors table ou un

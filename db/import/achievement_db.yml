@@ -3100,3 +3100,36 @@ Body:
     Group: Adventure
     Name: Grand chevalier
     Score: 50
+# Le mode survivors, rangs 44 a 51 : les evolues du Voleur, puis tous a la fois.
+  - Id: 910045
+    Group: Adventure
+    Name: Lame sonique
+    Score: 20
+  - Id: 910046
+    Group: Adventure
+    Name: Briseur d'ames
+    Score: 20
+  - Id: 910047
+    Group: Adventure
+    Name: Eclats de venin
+    Score: 20
+  - Id: 910048
+    Group: Adventure
+    Name: Venin mortel
+    Score: 20
+  - Id: 910049
+    Group: Adventure
+    Name: Insaisissable
+    Score: 20
+  - Id: 910050
+    Group: Adventure
+    Name: Couteau empoisonne
+    Score: 20
+  - Id: 910051
+    Group: Adventure
+    Name: Assaut meteore
+    Score: 30
+  - Id: 910052
+    Group: Adventure
+    Name: Grand voleur
+    Score: 50
