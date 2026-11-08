@@ -11346,7 +11346,7 @@ Body:
     Name: "[Sale] Shining Defense Scroll"
     Type: Usable
     Weight: 10
-    Script: "bonus_script \"{ bonus bDef,500; bonus bMdef,200; }\",600; /* fix me: unknown flag and specialeffect */\n"
+    Script: "bonus_script \"{ bonus bDef,50; bonus bMdef,20; }\",600; /* fix me: unknown flag and specialeffect */\n"
   - Id: 23340
     AegisName: S_Megaphone
     Name: "[Sale] Megaphone"
