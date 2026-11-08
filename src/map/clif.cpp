@@ -7091,6 +7091,8 @@ struct s_verified_login_entry {
 	uint32 login_id1;
 	int32 client_patch_index;
 	bool moonclient;
+	char client_commit[16 + 1];
+	bool client_tree_modified;
 };
 static std::unordered_map<int32, s_verified_login_entry> s_verified_login;
 
@@ -7381,7 +7383,9 @@ static void clif_bourgeon_grant_verified(map_session_data* sd) {
 	if (sd->state.has_bourgeon)
 		return;
 	sd->state.has_bourgeon = true;
-	s_verified_login[sd->status.account_id] = { sd->login_id1, sd->client_patch_index, sd->state.moonclient };
+	s_verified_login_entry& entry = s_verified_login[sd->status.account_id];
+	entry = { sd->login_id1, sd->client_patch_index, sd->state.moonclient, {}, sd->client_tree_modified };
+	safestrncpy(entry.client_commit, sd->client_commit, sizeof(entry.client_commit));
 	clif_bourgeon_autoload_preset(sd);
 	clif_bourgeon_settings(sd);
 	clif_bourgeon_send_preset_list(sd);
@@ -7659,15 +7663,24 @@ void clif_parse_moonclient_integrity(int32 fd, map_session_data* sd) {
 		add_timer(gettick() + 5000, clif_bourgeon_integrity_kick_timer, sd->id, 0);
 	};
 
-	if (p->packetLength < static_cast<int16>(sizeof(PACKET_CZ_MOONCLIENT_INTEGRITY))) {
+	// La révision est venue après les autres champs : le minimum s'arrête avant
+	// elle, pour qu'un moonclient antérieur passe encore.
+	constexpr size_t moonclient_integrity_min_len = offsetof(PACKET_CZ_MOONCLIENT_INTEGRITY, commit);
+	if (p->packetLength < static_cast<int16>(moonclient_integrity_min_len)) {
 		ShowWarning("[moonclient] integrity: short packet (len %d, expected %zu) from %s (AID %d) - kicking.\n",
-			p->packetLength, sizeof(PACKET_CZ_MOONCLIENT_INTEGRITY),
+			p->packetLength, moonclient_integrity_min_len,
 			sd->status.name, sd->status.account_id);
 		refuse();
 		return;
 	}
 
 	clif_bourgeon_register_guid(sd, p->machine_guid);
+
+	// Le champ du paquet n'a pas de zéro terminal quand la révision le remplit.
+	if (p->packetLength >= static_cast<int16>(sizeof(PACKET_CZ_MOONCLIENT_INTEGRITY))) {
+		safestrncpy(sd->client_commit, p->commit, std::min(sizeof(sd->client_commit), sizeof(p->commit) + 1));
+		sd->client_tree_modified = p->tree_modified != 0;
+	}
 
 	if (session_isValid(fd) &&
 		bourgeon_integrity_conf.exempt_ips.count(session[fd]->client_addr) > 0) {
@@ -19105,6 +19118,8 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 		auto vit = s_verified_login.find(sd->status.account_id);
 		if (vit != s_verified_login.end() && vit->second.login_id1 == sd->login_id1) {
 			sd->client_patch_index = vit->second.client_patch_index;
+			safestrncpy(sd->client_commit, vit->second.client_commit, sizeof(sd->client_commit));
+			sd->client_tree_modified = vit->second.client_tree_modified;
 			if (vit->second.moonclient)
 				clif_moonclient_accepted(*sd);
 			clif_bourgeon_grant_verified(sd);

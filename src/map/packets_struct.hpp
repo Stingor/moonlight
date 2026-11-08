@@ -5951,12 +5951,17 @@ DEFINE_PACKET_HEADER(CZ_MOONLIGHT_INTEGRITY, 0x0f02);  // ex-0x0bfb
 // jour. Il dit la machine et le dernier patch de SA chaîne, qui n'est pas celle de
 // rpatchur : les deux index ne se comparent pas.
 // Layout : [packetType:2][packetLength:2][machine_guid:36][patch_index:4]
+//          [commit:16][tree_modified:1]
 // Longueur variable, pour qu'un champ ajouté plus tard ne casse pas le découpage.
+// Un moonclient antérieur à la révision s'arrête à `patch_index` : le serveur
+// l'accepte encore, sans révision.
 struct PACKET_CZ_MOONCLIENT_INTEGRITY {
 	int16 packetType;
 	int16 packetLength;
 	char  machine_guid[36];  // MachineGuid du registre, SANS zéro terminal
 	int32 patch_index;       // last_patch_index de moonclient-patch.dat ; -1 = jamais patché
+	char  commit[16];        // révision git abrégée du binaire, complétée de zéros
+	uint8 tree_modified;     // 1 : bâti sur un arbre portant des retouches non validées
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(CZ_MOONCLIENT_INTEGRITY, 0x0f39);
 

@@ -690,6 +690,11 @@ public:
 	// chaque client compte sur sa propre chaîne de patchs). -1 : jamais patché, ou
 	// aucune poignée de main acceptée. Lu par @client.
 	int32 client_patch_index = -1;
+	// [Stingor] La révision que moonclient a déclarée à cette même poignée de main,
+	// et si son arbre portait des retouches. Vide : client d'origine, ou moonclient
+	// trop ancien pour la dire. Lu par @client.
+	char client_commit[16 + 1] = {};
+	bool client_tree_modified = false;
 
 	// [Stingor] L'élément d'attaque normale (e_element) que la zone connaît de ce
 	// joueur (ZC 0x0F4A) : un recalcul de statut ne repart que s'il en diffère.

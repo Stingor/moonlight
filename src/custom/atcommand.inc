@@ -2743,7 +2743,8 @@ ACMD_FUNC(mvpobs)
  * @client <Joueur> par [Stingor]
  * Dit quel client un joueur connecte emploie -- moonclient ou le client
  * d'origine greffe de Bourgeon -- et le dernier patch de contenu qu'il a
- * declare a sa poignee de main d'integrite.
+ * declare a sa poignee de main d'integrite. Pour moonclient, aussi la revision
+ * git de son binaire, et si elle a ete batie sur un arbre modifie.
  *
  * Aucun seuil ici : le droit vient de la table des groupes, ou seul le
  * groupe qui porte `all_commands` l'obtient. Le menu contextuel du staff la
@@ -2781,10 +2782,21 @@ ACMD_FUNC(client)
 	// client qui parle ce protocole.
 	const char* client_name = pl_sd->state.moonclient ? "moonclient" : "Bourgeon";
 
+	char patch[32];
 	if (pl_sd->client_patch_index < 0)
-		safesnprintf(atcmd_output, sizeof(atcmd_output), "%s : %s, jamais patche", pl_sd->status.name, client_name);
+		safestrncpy(patch, "jamais patche", sizeof(patch));
 	else
-		safesnprintf(atcmd_output, sizeof(atcmd_output), "%s : %s, patch %d", pl_sd->status.name, client_name, pl_sd->client_patch_index);
+		safesnprintf(patch, sizeof(patch), "patch %d", pl_sd->client_patch_index);
+
+	// La revision : seul moonclient la declare, et un moonclient ancien la tait.
+	char revision[64] = "";
+	if (pl_sd->client_commit[0] != '\0')
+		safesnprintf(revision, sizeof(revision), ", revision %s%s", pl_sd->client_commit,
+			pl_sd->client_tree_modified ? " (arbre modifie)" : "");
+	else if (pl_sd->state.moonclient)
+		safestrncpy(revision, ", revision non declaree", sizeof(revision));
+
+	safesnprintf(atcmd_output, sizeof(atcmd_output), "%s : %s, %s%s", pl_sd->status.name, client_name, patch, revision);
 	clif_displaymessage(fd, atcmd_output);
 
 	return 0;
