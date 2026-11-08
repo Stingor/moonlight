@@ -88,7 +88,7 @@ navigation), et les huit scripts d'instance cités plus haut.
 | Mémoire de Sarah | `moon/instances/SaraMemory.npc` | ✅ |
 | Tour du Diable | `moon/instances/DevilTower.npc` | ✅ |
 | Tournoi de Geffen | `moon/instances/GeffenMagicTournament.npc` | ✅ |
-| Usine de Jouets d'Horreur | `moon/instances/HorrorToyFactory.npc` + marchands | ✅ |
+| Usine de Jouets d'Horreur | `moon/instances/HorrorToyFactory.npc` + marchands ; drops de carte (`db/import/map_drops.yml`, 2026‑11‑08) | ✅ |
 | Glast Heim Cauchemar | `moon/rathena/dungeons/glastheim.npc` (`gl_chyard_`, `gl_cas02_`) | ✅ |
 | Monstres Champions | `moon/mobs/championmobs.npc` | ✅ |
 | Navigation | `moon/rathena/guides/navigation.txt` | ✅ |

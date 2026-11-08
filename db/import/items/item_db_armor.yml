@@ -31999,7 +31999,7 @@ Body:
     EquipLevelMin: 150
     Script: "bonus bLongAtkRate,7;\n"
   - Id: 32237
-    AegisName: Celine's_Brooch
+    AegisName: Celine_Brooch_K
     Name: Celine's Brooch [1]
     Type: Armor
     Weight: 500
@@ -32387,6 +32387,33 @@ Body:
       }
       if (getallrefine() >= 22) {
          bonus bAspdRate,10;
+      }
+  - Id: 450179
+    AegisName: Celine_Dress
+    Name: Celine's Dress [1]
+    Type: Armor
+    Weight: 500
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 130
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMatk,50;
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         if (.@r>=9) {
+            bonus2 bMagicAtkEle,Ele_All,10;
+            if (getallrefine() >= 22) {
+               bonus bDelayrate,-10;
+               if (getallrefine() >= 24) {
+                  bonus bDelayrate,-5;
+               }
+            }
+         }
       }
   - Id: 450182
     AegisName: Sprint_Mail_IL

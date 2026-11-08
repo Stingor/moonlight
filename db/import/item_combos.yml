@@ -2287,7 +2287,7 @@ Body:
   - Combos:
       - Combo:
           - Evilspirit_Gloves
-          - Celine's_Brooch
+          - Celine_Brooch_K
     Script: |
       bonus bBaseAtk,50; bonus bMatk,50; bonus bAspd,1;
   - Combos:
@@ -4017,7 +4017,7 @@ Body:
   - Combos:
       - Combo:
           - Celines_Ribbon
-          - Celine's_Brooch
+          - Celine_Brooch_K
     Script: |
       .@r = getequiprefinerycnt(EQI_HEAD_TOP); bonus bFixedCast,-300; if (.@r > 0) { bonus bMatk,(10*.@r); if (.@r >= 7) { bonus2 bMagicAddRace,RC_DemiHuman,10; bonus2 bMagicAddRace,RC_Player_Human,10; bonus2 bMagicAddRace,RC_Demon,10; if (.@r >= 9) { bonus2 bMagicAtkEle,Ele_Water,10; bonus2 bMagicAtkEle,Ele_Wind,10; bonus2 bMagicAtkEle,Ele_Earth,10; bonus2 bMagicAtkEle,Ele_Fire,10; bonus2 bMagicAtkEle,Ele_Neutral,10; if (getallrefine() >= 22) { bonus2 bMagicAddClass,Class_Boss,20; } } } }
   - Combos:
@@ -5863,4 +5863,49 @@ Body:
       }
       if (getallrefine() >= 44) {
          autobonus3 "{ bonus5 bAutoSpell,\"WZ_EARTHSPIKE\",1,10,BF_MAGIC,1; }",100,30000,"WZ_HEAVENDRIVE";
+      }
+  - Combos:
+      - Combo:
+          - Celine_Dress
+          - Evilspirit_Gloves
+    Script: |
+      bonus2 bMagicAddSize,Size_All,15;
+      bonus bPerfectHitAddRate,10;
+      bonus bMatkRate,10;
+      autobonus "{ bonus2 bMagicAddRace,RC_All,15; bonus2 bMagicAddRace,RC_Player_Human,-15; bonus2 bMagicAddRace,RC_Player_Doram,-15; }",1,10000,BF_WEAPON;
+  - Combos:
+      - Combo:
+          - Celine_Dress
+          - Celines_Ribbon
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_ARMOR)+getequiprefinerycnt(EQI_HEAD_TOP);
+      bonus2 bMagicAtkEle,Ele_Ghost,.@sum;
+      bonus2 bMagicAtkEle,Ele_Poison,.@sum;
+      bonus2 bMagicAtkEle,Ele_Holy,.@sum;
+      bonus2 bMagicAtkEle,Ele_Dark,.@sum;
+      if (.@sum >= 19) {
+         bonus bMatkRate,15;
+         if (getallrefine() >= 46) {
+            bonus2 bMagicAddEle,Ele_All,20;
+         }
+      }
+  - Combos:
+      - Combo:
+          - Celine_Dress
+          - Celine_Brooch_K
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_ARMOR);
+      bonus bMatk,(10*.@sum);
+      if (.@sum >= 9) {
+         bonus bVariableCastrate,-5;
+         if (getallrefine() >= 22) {
+            bonus2 bMagicAtkEle,Ele_Neutral,10;
+            bonus2 bMagicAtkEle,Ele_Fire,10;
+            bonus2 bMagicAtkEle,Ele_Earth,10;
+            bonus2 bMagicAtkEle,Ele_Water,10;
+            bonus2 bMagicAtkEle,Ele_Wind,10;
+            if (getallrefine() >= 26) {
+               bonus bUnbreakableArmor;
+            }
+         }
       }
