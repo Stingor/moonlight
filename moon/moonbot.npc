@@ -761,7 +761,7 @@ OnTimer3000:
 	// [Stingor] Les colonnes rich_* portent la forme riche (ZC 0x0F3C) du message :
 	// le serveur la donne a qui sait la lire, 0x0F08 aux autres. L'identifiant
 	// Discord est lu en CHAINE : il depasse un entier de script.
-	// Elles sont posees par groq_service.py au demarrage : le service doit avoir
+	// Elles sont posees par moonbot_service.py au demarrage : le service doit avoir
 	// tourne une fois avant que ce script ne soit recharge.
 	query_sql "SELECT id, message, rich_state, CAST(rich_user_id AS CHAR), rich_name, rich_avatar, COALESCE(rich_text, ''), rich_flags FROM discord_relay WHERE sent=0 ORDER BY id LIMIT 5", .@drids, .@drmsgs$, .@drstates, .@druids$, .@drnames$, .@dravatars$, .@drtexts$, .@drflags;
 	.@drn = getarraysize(.@drids);

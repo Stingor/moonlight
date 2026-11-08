@@ -5975,7 +5975,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_KICK_NOTICE, 0x0f03);  // ex-0x0bfa
 struct PACKET_ZC_MOONLIGHT_DISCORD_MSG {
 	int16 packetType;
 	int16 packetLength;
-	char msg[1];  // variable-length, null-terminated; pre-formatted as "[#gonryun][author] text" by tools/groq_service.py
+	char msg[1];  // variable-length, null-terminated; pre-formatted as "[#gonryun][author] text" by tools/moonbot_service.py
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_DISCORD_MSG, 0x0f08);  // ex-0x0c1f
 

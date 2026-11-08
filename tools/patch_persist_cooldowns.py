@@ -11,7 +11,7 @@ Encodage : latin-1.
 """
 import os, sys
 
-PATH = r"D:\Mes documents\GitHub\moonlight\moon\groq.npc"
+PATH = r"D:\Mes documents\GitHub\moonlight\moon\moonbot.npc"
 
 with open(PATH, encoding="latin-1") as f:
     src = f.read()

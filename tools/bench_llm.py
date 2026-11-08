@@ -2,9 +2,9 @@
 """
 Banc d'essai des modèles du chatbot — compare des LLM sur le VRAI pipeline du bot.
 
-Le script importe groq_service et appelle son groq_chat() : ce qu'il mesure est
+Le script importe moonbot_service et appelle son moonbot_chat() : ce qu'il mesure est
 donc exactement ce que verront les joueurs, seconds tirages compris. Aucune
-connexion à la base n'est ouverte (groq_chat ne parle qu'au backend LLM).
+connexion à la base n'est ouverte (moonbot_chat ne parle qu'au backend LLM).
 
 Deux profils comparables :
   patched  — pipeline actuel : sampling assaini + rappel de variété + seconds
@@ -32,7 +32,7 @@ import unicodedata
 import urllib.request
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import groq_service as gs   # noqa: E402  (le sys.path doit être posé avant)
+import moonbot_service as gs   # noqa: E402  (le sys.path doit être posé avant)
 
 
 # ── Scénario ─────────────────────────────────────────────────────────────────
@@ -194,7 +194,7 @@ def run_conversation(model: str, profile: str, turns: int) -> dict:
                     reply = gs._split_response(reply)
                 else:
                     raw = None
-                    reply = gs.groq_chat(
+                    reply = gs.moonbot_chat(
                         [{"role": "system", "content": gs.SYSTEM_PROMPT}] + hist)
             except Exception as e:                      # backend KO, modèle absent…
                 print("    !! %s : %s" % (type(e).__name__, e), file=sys.stderr)

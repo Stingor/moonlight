@@ -2,12 +2,12 @@
 """
 Chatbot service — poll chatbot_queue, call an OpenAI-compatible LLM, write response back.
 
-Backend configurable via groq.env : Groq (défaut) ou modèle local (LM Studio / Ollama).
+Sting-Bot (MoonBot) : backend LLM LOCAL (LM Studio / Ollama), configuré via moonbot.env.
 Voir le bloc « Config LLM » plus bas (LLM_URL / LLM_MODEL / LLM_API_KEY / LLM_TIMEOUT).
 LLM_MODEL vide ou « auto » = le service demande au serveur quel modèle est chargé.
 
 Install: pip install pymysql certifi   (pur Python, pas de compilation)
-Run:     python tools/groq_service.py
+Run:     python tools/moonbot_service.py
 """
 
 import os
@@ -37,8 +37,8 @@ _real_print = _builtins.print
 def print(*args, **kwargs):
     _real_print(time.strftime("[%Y-%m-%d %H:%M:%S]"), *args, **kwargs)
 
-# ── Chargement automatique de groq.env ────────────────────────────────────────
-_env_file = os.path.join(os.path.dirname(__file__), "groq.env")
+# ── Chargement automatique de moonbot.env ─────────────────────────────────────
+_env_file = os.path.join(os.path.dirname(__file__), "moonbot.env")
 if os.path.exists(_env_file):
     with open(_env_file, encoding="utf-8") as _f:
         for _line in _f:
@@ -47,25 +47,22 @@ if os.path.exists(_env_file):
                 _k, _v = _line.split("=", 1)
                 os.environ[_k.strip()] = _v.strip()
 
-# ── Config LLM (backend OpenAI-compatible : Groq, LM Studio, Ollama…) ─────────
-# Pour basculer sur un modèle local, renseigne dans groq.env :
+# ── Config LLM (serveur local OpenAI-compatible : LM Studio, Ollama…) ─────────
+# À renseigner dans moonbot.env :
 #   LLM_URL=http://192.168.1.XX:1234/v1/chat/completions   (LM Studio = 1234, Ollama = 11434)
 #   LLM_MODEL=                    (VIDE ou « auto » : on suit le modèle chargé)
 #   LLM_API_KEY=                  (vide en local : aucun en-tête d'auth envoyé)
 #   LLM_TIMEOUT=60                (modèle local en démarrage à froid = plus lent)
-LLM_URL     = os.environ.get("LLM_URL",   "https://api.groq.com/openai/v1/chat/completions")
+LLM_URL     = os.environ.get("LLM_URL",   "http://localhost:1234/v1/chat/completions")
 # LLM_MODEL vide (ou « auto ») = on ne nomme AUCUN modèle : le service demande au
 # serveur local lequel est chargé (voir _current_model()). Changer de modèle dans
-# LM Studio suffit alors, sans retoucher groq.env ni relancer le service.
+# LM Studio suffit alors, sans retoucher moonbot.env ni relancer le service.
 LLM_MODEL   = os.environ.get("LLM_MODEL", "").strip()
-# Groq cloud n'a pas de « modèle chargé » : sans nom, on garde le défaut historique.
-if not LLM_MODEL and "groq.com" in LLM_URL:
-    LLM_MODEL = "llama-3.3-70b-versatile"
 # Fraîcheur du nom auto-détecté : au-delà, on redemande au serveur. 60 s = un
 # aller-retour HTTP local par minute au pire, et un changement de modèle en cours
 # de route est pris en compte sans redémarrage.
 LLM_MODEL_TTL = float(os.environ.get("LLM_MODEL_TTL", "60"))
-LLM_API_KEY = os.environ.get("LLM_API_KEY", os.environ.get("GROQ_API_KEY", ""))
+LLM_API_KEY = os.environ.get("LLM_API_KEY", "")
 LLM_TIMEOUT = float(os.environ.get("LLM_TIMEOUT", "60"))
 
 # ── Sampling ─────────────────────────────────────────────────────────────────
@@ -80,7 +77,7 @@ LLM_TIMEOUT = float(os.environ.get("LLM_TIMEOUT", "60"))
 #    ATTENTION cependant : le symptôme lui-même n'a jamais été reproduit
 #    (tools/bench_llm.py --stress-lang : 0 dérapage sur 36 générations, pénalités
 #    poussées jusqu'à 1.0). Cette baisse est donc une précaution, pas un correctif
-#    démontré. Le vrai filet est le second tirage dans groq_chat().
+#    démontré. Le vrai filet est le second tirage dans moonbot_chat().
 LLM_TEMPERATURE       = float(os.environ.get("LLM_TEMPERATURE",       "0.85"))
 LLM_TOP_P             = float(os.environ.get("LLM_TOP_P",             "0.9"))
 LLM_TOP_K             = int(os.environ.get("LLM_TOP_K",               "40"))
@@ -106,10 +103,6 @@ LLM_MAX_TOKENS        = int(os.environ.get("LLM_MAX_TOKENS",          "180"))
 # 400 tokens d'abord, et ces 400 tokens passeraient sous le plafond ci-dessus.
 # Vide = paramètre non transmis (les modèles sans raisonnement l'ignoreraient).
 LLM_REASONING         = os.environ.get("LLM_REASONING", "").strip()
-# top_k / min_p / repeat_penalty sont des samplers llama.cpp : LM Studio et Ollama
-# les acceptent (vérifié : ils sont bien HONORÉS, pas juste tolérés), l'API Groq
-# cloud non — elle rejetterait la requête. On adapte le payload au backend.
-LLM_IS_LOCAL = "groq.com" not in LLM_URL
 
 DB_CONFIG = {
     "host":        os.environ.get("DB_HOST",     "localhost"),
@@ -262,25 +255,6 @@ ECHO_OPENING   = int(os.environ.get("ECHO_OPENING", "6"))
 SSL_CTX   = ssl.create_default_context(cafile=certifi.where())
 histories    = {}  # player -> [{"role": ..., "content": ...}]
 last_item    = {}  # player -> (item_id, item_name, item_aegis)  dernier item discuté
-_offline_until = 0.0  # timestamp epoch : bot "déco" RP (quota journalier TPD)
-_pause_until   = 0.0  # timestamp epoch : pause courte silencieuse (limite/minute TPM)
-
-# Répliques de déco/reco (RP quand les tokens sont épuisés)
-_GOODBYE = "Bon j'ai la flemme là, je vais faire autre chose. À plus tard, essayez de pas crever sans moi."
-_HELLO   = "Me revoilà, vous m'avez manqué bande de tocards ?"
-_AFK     = "Bon j'afk deux minutes, bougez pas les bras cassés.|*Sting part chier*"
-
-class RateLimitError(Exception):
-    """Levée quand l'API Groq renvoie 429 (quota épuisé).
-    daily=True → quota journalier (TPD/RPD) : déco RP longue.
-    daily=False → limite par minute (TPM/RPM) : attente courte silencieuse.
-    """
-    def __init__(self, retry_after: float, daily: bool = False):
-        self.retry_after = retry_after
-        self.daily = daily
-        super().__init__(f"rate limit ({'jour' if daily else 'minute'}), retry in {retry_after:.0f}s")
-
-
 def _set_bot_status(cursor, online: int, resume_epoch: float = 0.0, note: str = ""):
     """Met à jour chatbot_status (table de contrôle online/offline pour le NPC)."""
     try:
@@ -291,7 +265,7 @@ def _set_bot_status(cursor, online: int, resume_epoch: float = 0.0, note: str = 
             (online, int(resume_epoch), note, online, int(resume_epoch), note)
         )
     except Exception as e:
-        print(f"[Groq] set_bot_status ignoré : {e}", file=sys.stderr)
+        print(f"[MoonBot] set_bot_status ignoré : {e}", file=sys.stderr)
 
 # ── Index noms (chargé au démarrage depuis SQL) ───────────────────────────────
 _MOB_NAMES  = {}   # name_lower -> (id, name_english, name_aegis, is_mvp)
@@ -351,16 +325,16 @@ def load_names(conn):
 
     nb_m = len(set(v[0] for v in _MOB_NAMES.values()))
     nb_i = len(set(v[0] for v in _ITEM_NAMES.values()))
-    print(f"[Groq] Index chargé : {nb_m} mobs, {nb_i} items")
+    print(f"[MoonBot] Index chargé : {nb_m} mobs, {nb_i} items")
     # Vérification accès mob_spawn
     try:
         with conn.cursor() as cur2:
             cur2.execute(f"SELECT COUNT(*) AS cnt FROM `{DB_RATHENA}`.mob_spawn")
             nb_s = cur2.fetchone()["cnt"]
-        print(f"[Groq] mob_spawn accessible : {nb_s} entrées")
+        print(f"[MoonBot] mob_spawn accessible : {nb_s} entrées")
     except Exception as e:
-        print(f"[Groq] ERREUR mob_spawn inaccessible : {e}", file=sys.stderr)
-        print(f"[Groq] Lance sur MySQL : GRANT SELECT ON {DB_RATHENA}.mob_spawn TO '{os.environ.get('DB_USER','groq')}'@'%'; FLUSH PRIVILEGES;", file=sys.stderr)
+        print(f"[MoonBot] ERREUR mob_spawn inaccessible : {e}", file=sys.stderr)
+        print(f"[MoonBot] Lance sur MySQL : GRANT SELECT ON {DB_RATHENA}.mob_spawn TO '{DB_CONFIG['user']}'@'%'; FLUSH PRIVILEGES;", file=sys.stderr)
 
     # Noms AFFICHÉS des cartes — la même table que le site (`getmapname()` dans
     # includes/functions_moonlight.php). Elle sert aux liens de navigation
@@ -377,9 +351,9 @@ def load_names(conn):
                 key = (r["map"] or "").strip().lower()
                 if key:
                     _MAP_NAMES[key] = (r["name"] or "").strip() or key
-        print(f"[Groq] maplist : {len(_MAP_NAMES)} cartes nommées")
+        print(f"[MoonBot] maplist : {len(_MAP_NAMES)} cartes nommées")
     except Exception as e:
-        print(f"[Groq] maplist inaccessible ({e}) — les liens de lieu garderont le nom interne", file=sys.stderr)
+        print(f"[MoonBot] maplist inaccessible ({e}) — les liens de lieu garderont le nom interne", file=sys.stderr)
 
 # ── Rates du serveur — calqués sur le site PHP ───────────────────────────────
 _DROP_CFG = {
@@ -559,7 +533,7 @@ def _translate_script(script: str) -> str:
                 if result and "aucun script" not in result:
                     return result
         except Exception as e:
-            print(f"[Groq] translate_script PHP indispo ({e}), fallback Python", file=sys.stderr)
+            print(f"[MoonBot] translate_script PHP indispo ({e}), fallback Python", file=sys.stderr)
     # Fallback Python — couvre les cas les plus courants
     _BONUS_MAP = {
         "bNoGemStone": "plus besoin de gemstone pour les skills",
@@ -871,7 +845,7 @@ def _get_player_info(player: str, conn=None, player_ctx: str = "") -> str:
             f"{zeny_fmt} zeny{weight_part}{nearby_str}{admin_note}"
         )
     except Exception as e:
-        print(f"[Groq] player_info ignoré : {e}", file=sys.stderr)
+        print(f"[MoonBot] player_info ignoré : {e}", file=sys.stderr)
         return ""
 
 
@@ -897,7 +871,7 @@ def find_context(message: str, conn, player: str = "") -> str:
                            "\n".join(f"- {m}" for m in top))
                 return "[DONNÉES SERVEUR - utilise UNIQUEMENT ces infos]\n" + "\n".join(ctx)
         except Exception as e:
-            print(f"[Groq] Erreur top_zeny: {e}", file=sys.stderr)
+            print(f"[MoonBot] Erreur top_zeny: {e}", file=sys.stderr)
 
     # ── Recherche d'un mob ────────────────────────────────────────────────────
     mob_match = None
@@ -1074,7 +1048,7 @@ def _strip_reasoning(text: str) -> str:
 
     Un bloc ouvert et jamais refermé signifie que max_tokens a coupé en plein
     monologue : il n'y a pas de réponse derrière. On rend "" plutôt qu'un fragment
-    de réflexion, et groq_chat refait un tirage.
+    de réflexion, et moonbot_chat refait un tirage.
     """
     text = _THINK_RE.sub("", text)
     if _THINK_OPEN_RE.search(text):
@@ -1141,7 +1115,7 @@ _RECENT_REPLIES = collections.deque(maxlen=ECHO_MEMORY)  # tous joueurs confondu
 # Armé dès qu'un modèle s'est révélé « à raisonnement » en rendant un content vide.
 # Sans ça, chaque message coûterait DEUX appels : un pour rien, un pour la relance.
 # Un seul aller-retour perdu suffit donc à l'apprendre, et LLM_REASONING=none dans
-# groq.env évite même celui-là.
+# moonbot.env évite même celui-là.
 _FORCE_NO_REASONING = False
 
 
@@ -1306,7 +1280,7 @@ def _with_directive(messages: list, directive: str) -> list:
 def _variety_hint():
     """Consigne rappelant les amorces déjà servies, ou None s'il n'y en a pas.
 
-    Préventif, contrairement au second tirage de groq_chat() : ~40 tokens de
+    Préventif, contrairement au second tirage de moonbot_chat() : ~40 tokens de
     prompt coûtent bien moins cher qu'un aller-retour complet (~1,5 s).
 
     RÉDIGÉE COURT ET SÈCHE, VOLONTAIREMENT. La première version était une phrase
@@ -1455,11 +1429,11 @@ def _llm_request(messages: list, _retente: bool = False, **overrides):
         # Premier verrou anti-fuite de template : le serveur coupe dès qu'un de
         # ces marqueurs sort.
         "stop": _stop_tokens(),
+        # Samplers llama.cpp : LM Studio et Ollama les honorent (vérifié).
+        "top_k": LLM_TOP_K,
+        "min_p": LLM_MIN_P,
+        "repeat_penalty": LLM_REPEAT_PENALTY,
     }
-    if LLM_IS_LOCAL:   # samplers llama.cpp : inconnus de l'API Groq cloud
-        body["top_k"] = LLM_TOP_K
-        body["min_p"] = LLM_MIN_P
-        body["repeat_penalty"] = LLM_REPEAT_PENALTY
     if LLM_REASONING:
         body["reasoning_effort"] = LLM_REASONING
     elif _FORCE_NO_REASONING:
@@ -1475,30 +1449,13 @@ def _llm_request(messages: list, _retente: bool = False, **overrides):
         headers["Authorization"] = f"Bearer {LLM_API_KEY}"
 
     req = urllib.request.Request(LLM_URL, data=payload, headers=headers, method="POST")
-    # SSL uniquement pour https (Groq) ; en LAN http on passe context=None
+    # SSL uniquement pour https ; en LAN http on passe context=None
     ctx = SSL_CTX if LLM_URL.startswith("https://") else None
     try:
         with urllib.request.urlopen(req, timeout=LLM_TIMEOUT, context=ctx) as resp:
             data = json.loads(resp.read().decode("utf-8"))
-            _log_rate_headers(resp.headers)
     except urllib.error.HTTPError as e:
         body_txt = e.read().decode("utf-8", errors="replace")
-        if e.code == 429:
-            _log_rate_headers(e.headers)
-            # Priorité : header retry-after (sec) > reset-tokens header > body "try again in"
-            retry = None
-            ra = e.headers.get("retry-after")
-            if ra:
-                try: retry = float(ra)
-                except ValueError: pass
-            if retry is None:
-                retry = _parse_groq_duration(e.headers.get("x-ratelimit-reset-tokens"))
-            if retry is None:
-                m = re.search(r"try again in (?:(\d+)m)?([\d.]+)s", body_txt)
-                retry = (int(m.group(1) or 0) * 60 + float(m.group(2))) if m else 60.0
-            # Quota journalier (TPD/RPD) → déco RP ; sinon limite/minute → attente courte
-            is_daily = bool(re.search(r"per day|TPD|RPD", body_txt, re.I))
-            raise RateLimitError(retry, daily=is_daily) from e
         # Modèle inconnu du serveur : en mode auto c'est le symptôme de celui qui
         # a été déchargé ou remplacé dans LM Studio pendant qu'on tournait. On
         # redemande lequel est chargé et on rejoue le coup — une seule fois.
@@ -1513,16 +1470,16 @@ def _llm_request(messages: list, _retente: bool = False, **overrides):
     # Modèles à raisonnement : LM Studio range le monologue dans un champ SÉPARÉ,
     # pas dans un bloc <think> du texte. Qwen3.5-9B y engloutit 1 500 caractères et
     # rend un `content` VIDE — le NPC resterait muet. On remonte l'info pour que
-    # groq_chat puisse relancer en coupant le raisonnement.
+    # moonbot_chat puisse relancer en coupant le raisonnement.
     return (msg.get("content") or "").strip(), choice.get("finish_reason"), \
         bool(msg.get("reasoning_content") or msg.get("reasoning"))
 
 
-def groq_chat(messages: list) -> str:
+def moonbot_chat(messages: list) -> str:
     # Diag : prompt réellement transmis au modèle (dernier tour 'user') — c'est ce qui
     # distingue un prompt d'event FR d'un tag brut "[EVENT_xxx]" qui aurait fui.
     _usr = next((m["content"] for m in reversed(messages) if m.get("role") == "user"), "")
-    # print(f"[Groq]   -> LLM ({len(messages)} msg) user[:200]={_usr[:200]!r}", file=sys.stderr)
+    # print(f"[MoonBot]   -> LLM ({len(messages)} msg) user[:200]={_usr[:200]!r}", file=sys.stderr)
 
     # Rappel préventif des amorces déjà servies. En queue de liste pour laisser
     # intact le préfixe system+historique, que LM Studio garde en cache (mesuré :
@@ -1534,7 +1491,7 @@ def groq_chat(messages: list) -> str:
     # `stop` de la requête le rate. On coupe ici, avant tout découpage en segments.
     reply = _strip_stage_directions(_squash_gibberish(_strip_template_leak(_strip_reasoning(raw))))
     if reply != raw:
-        print(f"[Groq] réponse assainie (fuite de template / charabia) : {raw[:200]!r}",
+        print(f"[MoonBot] réponse assainie (fuite de template / charabia) : {raw[:200]!r}",
               file=sys.stderr)
 
     # Récitation des consignes : on COUPE, sans second tirage. Le joueur a déjà
@@ -1556,9 +1513,9 @@ def groq_chat(messages: list) -> str:
     if not reply and thought:
         global _FORCE_NO_REASONING
         if not _FORCE_NO_REASONING:
-            print(f"[Groq] {_current_model()} raisonne en roue libre : réponse vide. "
+            print(f"[MoonBot] {_current_model()} raisonne en roue libre : réponse vide. "
                   f"Le raisonnement est coupé pour les appels suivants. "
-                  f"Poser LLM_REASONING=none dans groq.env évite ce tir à blanc.",
+                  f"Poser LLM_REASONING=none dans moonbot.env évite ce tir à blanc.",
                   file=sys.stderr)
             _FORCE_NO_REASONING = True
         retry_raw, retry_finish, _ = _llm_request(messages, reasoning_effort="none")
@@ -1574,7 +1531,7 @@ def groq_chat(messages: list) -> str:
         # reproduit en banc (0 cas sur 36 générations, pénalités poussées à 1.0),
         # il est donc rare et dépend du contexte. Quand il se produira en prod,
         # on veut le message déclencheur, pas seulement la sortie.
-        print(f"[Groq] tirage perdu (langue / réponse vide) — relance."
+        print(f"[MoonBot] tirage perdu (langue / réponse vide) — relance."
               f"\n       user  : {_usr[-300:]!r}"
               f"\n       sortie: {raw[:300]!r}", file=sys.stderr)
         retry_raw, retry_finish, _ = _llm_request(
@@ -1587,7 +1544,7 @@ def groq_chat(messages: list) -> str:
     # Radotage : la consigne préventive n'a pas suffi, on redemande explicitement.
     echo = _looks_like_echo(reply)
     if echo:
-        print(f"[Groq] radotage détecté, nouveau tirage : {reply[:100]!r}", file=sys.stderr)
+        print(f"[MoonBot] radotage détecté, nouveau tirage : {reply[:100]!r}", file=sys.stderr)
         nudge = _with_directive(messages, (
             "[VARIÉTÉ] Tu viens tout juste de sortir ceci : « %s ». Recommence : "
             "même personnage, même mordant, mais une autre vanne, un autre angle, "
@@ -1597,7 +1554,7 @@ def groq_chat(messages: list) -> str:
         if retry_txt and not _NONLATIN_RE.search(retry_raw) and not _looks_like_echo(retry_txt):
             reply, finish = retry_txt, retry_finish
 
-    # print(f"[Groq]   <- LLM brut[:200]={reply[:200]!r} finish={finish!r}", file=sys.stderr)
+    # print(f"[MoonBot]   <- LLM brut[:200]={reply[:200]!r} finish={finish!r}", file=sys.stderr)
     # Si la réponse a été coupée par max_tokens, on rogne le fragment final incomplet
     if finish == "length":
         reply = _trim_truncated(reply)
@@ -1620,44 +1577,9 @@ def _trim_truncated(text: str) -> str:
     return (text[:sp].rstrip() + "…") if sp >= 30 else text
 
 
-def _parse_groq_duration(s):
-    """Parse une durée Groq type '2m59.56s', '7.66s', '1h2m3s' → secondes (float) ou None."""
-    if not s:
-        return None
-    total, found = 0.0, False
-    for val, unit in re.findall(r"([\d.]+)\s*(h|m|s|ms)", s):
-        found = True
-        v = float(val)
-        total += v * {"h": 3600, "m": 60, "s": 1, "ms": 0.001}[unit]
-    return total if found else None
-
-
-_last_rate_info      = {"display": ""}   # partagé avec process_pending
 _discord_last_msg_id = ""               # curseur : dernier message Discord traité
 _discord_last_poll   = 0.0             # timestamp du dernier poll Discord
 _discord_outbound_last_post = 0.0      # timestamp du dernier webhook outbound
-
-
-def _log_rate_headers(headers):
-    """Affiche le quota et met à jour _last_rate_info pour la fenêtre NPC."""
-    rem_t  = headers.get("x-ratelimit-remaining-tokens")
-    lim_t  = headers.get("x-ratelimit-limit-tokens")
-    rem_r  = headers.get("x-ratelimit-remaining-requests")
-    rst_t  = headers.get("x-ratelimit-reset-tokens")   # ex: "5h23m12.5s"
-    if rem_t is not None or rst_t is not None:
-        print(f"[Groq] quota: tokens={rem_t}/{lim_t}, req={rem_r}, reset dans {rst_t}",
-              file=sys.stderr)
-        # Construit la chaîne affichée dans la fenêtre NPC
-        pct = ""
-        try:
-            if rem_t and lim_t:
-                pct = f" ({int(rem_t)*100//int(lim_t)}%)"
-        except Exception:
-            pass
-        rst_str = rst_t or "?"
-        _last_rate_info["display"] = (
-            f"Tokens : {rem_t or '?'}/{lim_t or '100000'}{pct} | Reset : {rst_str}"
-        )
 
 
 _EMOJI_RE = re.compile(
@@ -1891,7 +1813,7 @@ def _get_player_memory(player: str, conn, is_auto: bool = False) -> str:
             return ""
         return f"[MÉMOIRE] c'est sa {count}e interaction depuis le {date_str}"
     except Exception as e:
-        print(f"[Groq] player_memory ignoré : {e}", file=sys.stderr)
+        print(f"[MoonBot] player_memory ignoré : {e}", file=sys.stderr)
         return ""
 
 
@@ -1901,7 +1823,7 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
         histories[player] = []
 
     message = message.lstrip("²").strip()
-    print(f"[Groq] === requête player={player!r} message[:80]={message[:80]!r}", file=sys.stderr)
+    print(f"[MoonBot] === requête player={player!r} message[:80]={message[:80]!r}", file=sys.stderr)
 
     # Événements scriptés du NPC (trip, PvP, MVP) : génération one-shot, HORS historique
     # de conversation (un event ne doit pas polluer la mémoire du chat joueur).
@@ -1909,13 +1831,13 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
         m = re.match(r"\[(EVENT_[A-Z_]+)\]\s*(.*)", message)
         ev = _event_prompt(m.group(1), player, m.group(2).strip()) if m else None
         if ev:
-            print(f"[Groq] EVENT {m.group(1)} | player={player!r} rest={m.group(2)!r}", file=sys.stderr)
-            return _strip_skill_tokens(_strip_emoji(groq_chat([{"role": "system", "content": SYSTEM_PROMPT},
+            print(f"[MoonBot] EVENT {m.group(1)} | player={player!r} rest={m.group(2)!r}", file=sys.stderr)
+            return _strip_skill_tokens(_strip_emoji(moonbot_chat([{"role": "system", "content": SYSTEM_PROMPT},
                                                                 {"role": "user", "content": ev}])))
         # Tag d'event non reconnu (ou regex KO) : surtout NE PAS retomber dans le chemin chat
         # normal, sinon le modèle reçoit le tag brut "[EVENT_XXX]" et le récite tel quel
         # ("Trip go ? ..."). Retour vide -> le NPC affiche sa réplique hardcodée (getarg(1)).
-        print(f"[Groq] EVENT non géré, fallback hardcodé : {message!r}", file=sys.stderr)
+        print(f"[MoonBot] EVENT non géré, fallback hardcodé : {message!r}", file=sys.stderr)
         return ""
 
     # Événement auto : joueur arrivé à proximité avec peu de HP
@@ -1932,7 +1854,7 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
     player_info = _get_player_info(player, conn, player_ctx)
     mem_info = _get_player_memory(player, conn, is_auto)
     ctx = find_context(message, conn, player)
-    print(f"[Groq] {'CTX' if ctx else 'CTX vide'} | joueur={'OK' if player_info else 'VIDE'} | {player}: {message[:50]!r}", file=sys.stderr)
+    print(f"[MoonBot] {'CTX' if ctx else 'CTX vide'} | joueur={'OK' if player_info else 'VIDE'} | {player}: {message[:50]!r}", file=sys.stderr)
     if ctx:
         print(f"       ctx: {ctx[:120]!r}", file=sys.stderr)
     if player_info:
@@ -1961,7 +1883,7 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
     if math_res:
         expr, res = math_res
         parts.insert(0, f"[CALCUL: {expr} = {res} — résultat, tu peux l'énoncer si tu veux ou envoyer chier le joueur et lui dire d'utiliser une calculatrice.]")
-        print(f"[Groq] MATH détecté : {expr!r} = {res}", file=sys.stderr)
+        print(f"[MoonBot] MATH détecté : {expr!r} = {res}", file=sys.stderr)
 
     full_message = ("\n".join(parts) + "\n" + message).strip() if parts else message
 
@@ -1970,7 +1892,7 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
         histories[player] = histories[player][-HISTORY_MAX:]
 
     messages = [{"role": "system", "content": SYSTEM_PROMPT}] + histories[player]
-    reply = _strip_emoji(groq_chat(messages)).lstrip('²').strip()
+    reply = _strip_emoji(moonbot_chat(messages)).lstrip('²').strip()
     # Action décidée par le modèle : [[HEAL]] / [[RES]] -> vrai sort côté NPC.
     # On retire le token du texte affiché et on préfixe un segment d'action "@ACT@|..."
     # que le NPC parse (pas de migration SQL). Désactivé pour l'event auto low-HP.
@@ -2057,7 +1979,7 @@ def _ensure_discord_relay_table(conn):
                     "ADD PRIMARY KEY (`id`), "
                     "MODIFY COLUMN `id` INT UNSIGNED NOT NULL AUTO_INCREMENT"
                 )
-            # La forme riche du relais (ZC 0x0F3C), lue par groq.npc. On
+            # La forme riche du relais (ZC 0x0F3C), lue par moonbot.npc. On
             # INTERROGE avant d'altérer, comme pour discord_outbound : un ALTER
             # inconditionnel reconstruirait la table à chaque démarrage.
             for col, ddl in DISCORD_RELAY_RICH_COLUMNS:
@@ -2301,7 +2223,7 @@ def _klipy_media_url(url: str) -> str:
         return ""
     slug = m.group(1)
     if not KLIPY_API_KEY:
-        print(f"[Miroir] klipy '{slug}' : KLIPY_API_KEY absente de groq.env",
+        print(f"[Miroir] klipy '{slug}' : KLIPY_API_KEY absente de moonbot.env",
               file=sys.stderr)
         return ""
     api = f"https://api.klipy.com/api/v1/{KLIPY_API_KEY}/gifs/{slug}"
@@ -3351,26 +3273,7 @@ def _discord_outbound_poll(conn):
         print(f"[Discord] outbound poll ERREUR : {e}", file=sys.stderr)
 
 def process_pending(conn):
-    global _offline_until, _pause_until
     with conn.cursor() as cursor:
-        # ── Reprise après déco journalière ──
-        if _offline_until and time.time() >= _offline_until:
-            _offline_until = 0.0
-            _set_bot_status(cursor, 1, 0, "")
-            conn.commit()
-            print("[Groq] Tokens dispo — bot de nouveau online", file=sys.stderr)
-
-        # ── Reprise après AFK (limite/minute) ──
-        if _pause_until and time.time() >= _pause_until:
-            _pause_until = 0.0
-            _set_bot_status(cursor, 1, 0, "")
-            conn.commit()
-            print("[Groq] Limite/minute passée — bot de retour", file=sys.stderr)
-
-        # ── Encore en pause AFK : on attend sans traiter ──
-        if _pause_until and time.time() < _pause_until:
-            return
-
         cursor.execute(
             "SELECT id, reqid, player, message, player_ctx, created_at FROM chatbot_queue "
             "WHERE status='pending' ORDER BY created_at LIMIT 5"
@@ -3378,15 +3281,6 @@ def process_pending(conn):
         rows = cursor.fetchall()
 
         for row in rows:
-            # Si offline (quota épuisé), on ne traite pas : on vide la requête
-            if _offline_until and time.time() < _offline_until:
-                cursor.execute(
-                    "UPDATE chatbot_queue SET response='', status='done' WHERE id=%s",
-                    (row["id"],)
-                )
-                conn.commit()
-                continue
-
             cursor.execute(
                 "UPDATE chatbot_queue SET status='processing' WHERE id=%s",
                 (row["id"],)
@@ -3407,48 +3301,16 @@ def process_pending(conn):
                         _age = f" [lat {(datetime.datetime.now() - row['created_at']).total_seconds():.1f}s]"
                     except Exception:
                         pass
-                print(f"[Groq] {row['player']}: {row['message'][:60]!r}{_age}")
+                print(f"[MoonBot] {row['player']}: {row['message'][:60]!r}{_age}")
                 print(f"       -> {response!r}")
                 _discord_post(row["player"], row["message"], response)
-                # Met à jour info_display dans chatbot_status
-                if _last_rate_info["display"]:
-                    try:
-                        cursor.execute(
-                            "UPDATE chatbot_status SET info_display=%s WHERE id=1",
-                            (_last_rate_info["display"],)
-                        )
-                    except Exception:
-                        pass
-            except RateLimitError as rl:
-                if rl.daily:
-                    # Quota JOURNALIER → bot "se déconnecte" (RP)
-                    # L'annonce d'au revoir est faite par le NPC (OnTimer + note),
-                    # on renvoie une réponse VIDE au joueur pour éviter le doublon.
-                    _offline_until = time.time() + rl.retry_after + 5
-                    _set_bot_status(cursor, 0, _offline_until, _GOODBYE)
-                    cursor.execute(
-                        "UPDATE chatbot_queue SET response='lol', status='done' WHERE id=%s",
-                        (row["id"],)
-                    )
-                    print(f"[Groq] QUOTA JOURNALIER ÉPUISÉ — déco {rl.retry_after/60:.1f}min", file=sys.stderr)
-                else:
-                    # Limite par minute → AFK : Sting s'absente, arrête de bouger, revient après
-                    _pause_until = time.time() + rl.retry_after + 1
-                    _set_bot_status(cursor, 2, _pause_until, _AFK)
-                    cursor.execute(
-                        "UPDATE chatbot_queue SET response='lol', status='done' WHERE id=%s",
-                        (row["id"],)
-                    )
-                    print(f"[Groq] limite/minute — AFK {rl.retry_after:.0f}s", file=sys.stderr)
-                    conn.commit()
-                    break  # on arrête le batch jusqu'à la fin de l'AFK
             except Exception as exc:
                 import traceback
                 cursor.execute(
                     "UPDATE chatbot_queue SET status='error' WHERE id=%s",
                     (row["id"],)
                 )
-                print(f"[Groq] ERREUR pour {row['player']}: {exc}", file=sys.stderr)
+                print(f"[MoonBot] ERREUR pour {row['player']}: {exc}", file=sys.stderr)
                 traceback.print_exc(file=sys.stderr)
 
             conn.commit()
@@ -3860,7 +3722,7 @@ def main():
     if DISCORD_WEBHOOK:
         print(f"Discord webhook : activé ({DISCORD_WEBHOOK[:40]}…)")
     else:
-        print("Discord webhook : DÉSACTIVÉ (DISCORD_WEBHOOK absent de groq.env)")
+        print("Discord webhook : DÉSACTIVÉ (DISCORD_WEBHOOK absent de moonbot.env)")
     if DISCORD_BOT_TOKEN and DISCORD_READ_CHANNEL:
         print(f"Discord poll    : activé (channel {DISCORD_READ_CHANNEL}, toutes les {DISCORD_POLL_SEC}s)")
     else:
@@ -3879,7 +3741,7 @@ def main():
     if DISCORD_BUGREPORT_WEBHOOK:
         print(f"Discord bug-rep : canal dédié activé ({DISCORD_BUGREPORT_WEBHOOK[:40]}…)")
     else:
-        print("Discord bug-rep : repli sur l'outbound général (DISCORD_BUGREPORT_WEBHOOK absent de groq.env)")
+        print("Discord bug-rep : repli sur l'outbound général (DISCORD_BUGREPORT_WEBHOOK absent de moonbot.env)")
     conn = None
     names_loaded = False
     while True:
@@ -3891,7 +3753,7 @@ def main():
                     load_names(conn)
                     names_loaded = True
                 except Exception as e:
-                    print(f"[Groq] Index non chargé (pas grave) : {e}", file=sys.stderr)
+                    print(f"[MoonBot] Index non chargé (pas grave) : {e}", file=sys.stderr)
                     names_loaded = True  # ne pas retenter en boucle
                 _ensure_discord_relay_table(conn)
                 _ensure_chatbot_broadcast_table(conn)
@@ -3904,7 +3766,7 @@ def main():
             _discord_poll(conn)
             _discord_outbound_poll(conn)
         except pymysql.Error as exc:
-            print(f"[Groq] Erreur DB: {exc}", file=sys.stderr)
+            print(f"[MoonBot] Erreur DB: {exc}", file=sys.stderr)
             conn = None
             time.sleep(2)
             continue
@@ -3915,4 +3777,4 @@ if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        print("\nGroq service arrêté.")
+        print("\nMoonBot service arrêté.")

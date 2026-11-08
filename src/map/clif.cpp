@@ -11247,7 +11247,7 @@ void clif_parse_moonlight_bug_report(int32 fd, map_session_data* sd) {
 	char esc_dcname[sizeof(dc_name) * 2 + 1];
 	Sql_EscapeString(mmysql_handle, esc_dcname, dc_name);
 	// 🔴 Ce tampon doit tenir dans `discord_outbound`.`message`, elargi a 2000
-	// (cf. _ensure_discord_outbound_table dans tools/groq_service.py).
+	// (cf. _ensure_discord_outbound_table dans tools/moonbot_service.py).
 	//
 	// MySQL tourne en STRICT_TRANS_TABLES : un depassement REFUSE l'insertion, il
 	// ne tronque pas. La colonne valait 500 alors qu'on assemble ici le contexte
@@ -11600,7 +11600,7 @@ static size_t clif_utf8_clamp(const char* s, size_t max_bytes) {
 }
 
 // Sends a pre-formatted Discord relay message to every player currently on gonryun.
-// msg is UTF-8 and at most 243 bytes, as the Discord service (tools/groq_service.py)
+// msg is UTF-8 and at most 243 bytes, as the Discord service (tools/moonbot_service.py)
 // writes it: "[#gonryun][author] some text" for the first chunk of a message, and
 // "  " (two spaces) followed by the rest for each following chunk.
 void clif_bourgeon_discord_msg_all(const char* msg, e_discord_rich_state rich_state, const s_discord_rich* rich) {

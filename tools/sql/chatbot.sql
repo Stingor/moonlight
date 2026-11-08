@@ -1,4 +1,4 @@
--- Tables de support pour le chatbot Sting (service Groq)
+-- Tables de support pour le chatbot Sting (service MoonBot)
 -- À exécuter dans la base utilisée par rAthena (query_sql) + le service Python.
 
 -- File d'attente des requêtes/réponses

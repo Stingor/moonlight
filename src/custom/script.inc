@@ -1818,7 +1818,7 @@ BUILDIN_FUNC(restartnpc)
  * Sends a pre-formatted Discord relay message (ZC_MOONLIGHT_DISCORD_MSG, 0x0F08)
  * to all players currently on the gonryun map.  The Bourgeon overlay shows it
  * if the player's Discord checkbox is ON, silently drops it otherwise.
- * Called from groq.npc's OnTimer3000 after draining the discord_relay SQL table.
+ * Called from moonbot.npc's OnTimer3000 after draining the discord_relay SQL table.
  *
  * [Stingor] Les arguments facultatifs sont les colonnes rich_* de discord_relay :
  * rich_state (0 aucun riche, 1 ce morceau porte le riche, 2 morceau déjà

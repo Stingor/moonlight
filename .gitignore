@@ -117,6 +117,7 @@ Thumbs.db
 # /tools/
 /tools/convert
 /tools/adduser
+/tools/moonbot.env
 /tools/groq.env
 /tools/sting_voice.env
 /tools/*.exe

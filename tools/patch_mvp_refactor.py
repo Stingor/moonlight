@@ -5,16 +5,16 @@ Refactor MVP event : supprime la requete mob_spawn SQL, utilise getmvprespawn() 
 Changements :
   1. mvps.npc   : remplace query_sql mob_spawn par sentinelle respawn_at=0
                   + exclut lhz_dun03 / lhz_dun04 / niflheim (spawn script, hors cache)
-  2. groq.npc   : ajoute le bloc MVP event dans OnTimer3000
+  2. moonbot.npc   : ajoute le bloc MVP event dans OnTimer3000
                   (resolution cache -> depart -> retour / timeout)
-  3. groq.npc   : corrige S_GmReset (killmonster NPC fantome -> enablenpc)
+  3. moonbot.npc   : corrige S_GmReset (killmonster NPC fantome -> enablenpc)
 
 Encodage : latin-1.
 """
 import os, sys
 
 MVPS = r"D:\Mes documents\GitHub\moonlight\moon\mobs\mvps.npc"
-GROQ = r"D:\Mes documents\GitHub\moonlight\moon\groq.npc"
+MOONBOT = r"D:\Mes documents\GitHub\moonlight\moon\moonbot.npc"
 
 # =============================================================================
 # 1. mvps.npc — remplacer le bloc query_sql mob_spawn
@@ -72,9 +72,9 @@ os.replace(TMP, MVPS)
 print("   mvps.npc ecrit en latin-1")
 
 # =============================================================================
-# 2 & 3. groq.npc — bloc MVP dans OnTimer3000 + correction S_GmReset
+# 2 & 3. moonbot.npc — bloc MVP dans OnTimer3000 + correction S_GmReset
 # =============================================================================
-with open(GROQ, encoding="latin-1") as f:
+with open(MOONBOT, encoding="latin-1") as f:
     gr = f.read()
 
 # --- 2. Bloc MVP event dans OnTimer3000 (avant // --- Scan HP) ---------------
@@ -188,13 +188,13 @@ if bad > 0:
 try:
     enc_gr = gr.encode("latin-1")
 except UnicodeEncodeError as e:
-    print(f"ERREUR encodage groq.npc: {e}", file=sys.stderr)
+    print(f"ERREUR encodage moonbot.npc: {e}", file=sys.stderr)
     for i, c in enumerate(gr):
         if ord(c) > 255:
             print("  pos %d: U+%04X ctx=%r" % (i, ord(c), gr[max(0,i-30):i+30]), file=sys.stderr)
     sys.exit(1)
 
-TMP = GROQ + ".tmp"
+TMP = MOONBOT + ".tmp"
 with open(TMP, "wb") as f: f.write(enc_gr)
-os.replace(TMP, GROQ)
-print("groq.npc ecrit en latin-1 :", GROQ)
+os.replace(TMP, MOONBOT)
+print("moonbot.npc ecrit en latin-1 :", MOONBOT)

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Ajoute un menu debug GM au NPC Sting-Bot (moon/groq.npc).
+Ajoute un menu debug GM au NPC Sting-Bot (moon/moonbot.npc).
 Changements :
   1. Corps click : check GM -> callsub S_GmMenu avant close
   2. OnTimer3000 : restructure trigger PvP pour supporter $sting_dbg_forcepvp
@@ -11,7 +11,7 @@ Encodage : latin-1.
 """
 import sys
 
-PATH = r"D:\Mes documents\GitHub\moonlight\moon\groq.npc"
+PATH = r"D:\Mes documents\GitHub\moonlight\moon\moonbot.npc"
 
 with open(PATH, encoding="latin-1") as f:
     src = f.read()

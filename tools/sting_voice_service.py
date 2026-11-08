@@ -21,11 +21,11 @@ débordent, par STING_VOICE_OVERRUN_RATIO et _MAX_ATTEMPTS (voir SYNTHESIS).
 Le modèle est sous licence Coqui Public Model License : usage non commercial.
 Son premier téléchargement demande COQUI_TOS_AGREED=1.
 
-La base vient de groq.env (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) ; l'adresse
+La base vient de moonbot.env (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) ; l'adresse
 et le secret du pont, de conf/voice_athena.conf. Pour un voice-server sur une
 autre machine : STING_VOICE_BRIDGE_HOST, STING_VOICE_BRIDGE_PORT (son
 voice_bot_port) et STING_VOICE_BRIDGE_SECRET, dans l'environnement ou dans
-tools/sting_voice.env (même forme que groq.env, et prioritaire sur lui).
+tools/sting_voice.env (même forme que moonbot.env, et prioritaire sur lui).
 
 Install: environnement Python 3.12 à part, PyTorch ROCm (ou CUDA) puis
          pip install coqui-tts soundfile soxr pymysql
@@ -64,9 +64,9 @@ VOICE_CONF_PATHS = [
     os.path.join(TOOLS_DIR, "..", "conf", "import", "voice_conf.txt"),
 ]
 
-# L'environnement l'emporte sur sting_voice.env, qui l'emporte sur groq.env :
+# L'environnement l'emporte sur sting_voice.env, qui l'emporte sur moonbot.env :
 # la voix peut viser une autre base et un autre voice-server que le bot.
-for _env_name in ("sting_voice.env", "groq.env"):
+for _env_name in ("sting_voice.env", "moonbot.env"):
     _env_file = os.path.join(TOOLS_DIR, _env_name)
     if not os.path.exists(_env_file):
         continue

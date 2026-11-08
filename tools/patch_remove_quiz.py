@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Supprime entièrement le système de quiz spontané de moon/groq.npc :
+Supprime entièrement le système de quiz spontané de moon/moonbot.npc :
   1. Label L_quiz (et tout son corps)
   2. Bloc quiz dans OnTimer3000 (timeout + trigger)
   3. .quiz_active = 0 dans le départ PvP
@@ -11,7 +11,7 @@ Encodage : latin-1.
 """
 import sys
 
-PATH = r"D:\Mes documents\GitHub\moonlight\moon\groq.npc"
+PATH = r"D:\Mes documents\GitHub\moonlight\moon\moonbot.npc"
 
 with open(PATH, encoding="latin-1") as f:
     src = f.read()

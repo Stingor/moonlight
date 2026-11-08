@@ -5646,10 +5646,10 @@ ACMD_FUNC(hidenpc)
 
 /**
  * Normalize a NPC script path argument for @loadnpc / @reloadnpcfile so the
- * user can pass a bare name (e.g. "groq") instead of the full "moon/groq.npc":
+ * user can pass a bare name (e.g. "moonbot") instead of the full "moon/moonbot.npc":
  *  - converts Windows-style backslashes to forward slashes;
  *  - prepends the "moon/" script directory unless the path already starts with
- *    it (so "moon/groq.npc" is left untouched);
+ *    it (so "moon/moonbot.npc" is left untouched);
  *  - appends the default ".npc" extension when the filename has none.
  */
 static void atcommand_normalize_npc_path(const char* input, char* out, size_t outsize)
