@@ -6,7 +6,7 @@
 | Date kRO | **2018‑07‑18** |
 | Arc | suite de Terra Gloria — l'organisation Illusion |
 | Niveau kRO visé | 175‑185 |
-| État Moonlight | **matière présente, entièrement désactivée** |
+| État Moonlight | **Labyrinth porté ; le reste présent mais désactivé** |
 
 Le joueur enquête dans le donjon de **Rudus**, reprend le laboratoire **Regenschirm**,
 traverse **OS** et atteint la cité de **Cor**. C'est le dernier épisode dont rAthena
@@ -39,18 +39,25 @@ Mobs : Sanare, Plaga, Dolor, Venenum, Twin Caput — chacun en deux variantes.
 
 ### Donjons
 
-- **Abyss Glast Heim**
-- **Donjon de Magma F3** (`mag_dun03`)
-- **Illusion of Labyrinth** (`prt_mz03_i`)
-- **Passé d'Odin** (*Odin's Past*)
-- **Donjon d'Einbech F3** (`ein_dun03`)
-- **Lac de l'Abysse F4** (`abyss_04`)
+| Contenu | Carte | Côté rAthena | Côté Moonlight |
+|---|---|---|---|
+| **Illusion of Labyrinth** | `prt_mz03_i` | PR #8506, non fusionnée | ✅ porté le 2026‑11‑08 |
+| **Donjon de Magma F3** | `mag_dun03` | spawns | ✅ chargé (`mag_dun.npc`) |
+| **Donjon d'Einbech F3** | `ein_dun03` | spawns | ✅ chargé (`moon/mobs/einbroch.npc`) |
+| **Lac de l'Abysse F4** | `abyss_04` | mapflags seulement, aucun spawn | — |
+| **Abyss Glast Heim** | — | rien | — |
+| **Passé d'Odin** (*Odin's Past*) | — | rien | — |
 
 ### Instances
 
-- **EDDA — Chute de Glast Heim** (`1@gl_prq`, modes normal et avancé)
-- **EDDA — Laboratoire de bio-recherche** (`1@jorlab`, *Bagot Laboratory*)
-- **Glast Heim : mode défi** (`1@gl_he`)
+| Instance | Carte | Côté rAthena |
+|---|---|---|
+| **EDDA — Chute de Glast Heim** (normal et avancé) | `1@gl_prq` | entrées `instance_db` 51 et 52, **aucun script** |
+| **EDDA — Laboratoire de bio-recherche** (*Bagot Laboratory*) | `1@jorlab` | entrée `instance_db` 74, **aucun script** |
+| **Glast Heim : mode défi** | `1@gl_he` | entrée `instance_db` 49, **aucun script** (absent d'`OldGlastHeim.txt`) |
+
+Toutes ces cartes sont dans le mapcache. Attention à l'Id 51 : chez Moonlight, c'est déjà la
+*Bloody Branch Cave*.
 
 ### Systèmes et classes
 
@@ -73,20 +80,42 @@ Conversion livrée par la PR [#6643 « Episode 17.1 — Illusion »](https://git
 `npc/re/mobs/special_border_area.txt`,
 `npc/re/instances/{Regenschirm,SealedOs,OsOccupation,CorOperation}.txt`.
 
-## 4. État côté Moonlight (mesuré le 2026‑08‑25)
+## 4. État côté Moonlight (mesuré le 2026‑11‑08)
 
-**Tout est là, rien n'est branché.** C'est le cas le plus net du dossier.
+**Hors Labyrinth, rien n'est branché** : les scripts sont dans le dépôt, aucun n'est déclaré
+dans `moon/scripts_moon.conf`.
 
 | Élément | Fichier Moonlight | État |
 |---|---|---|
-| Spawns de Rudus | `moon/rathena/dungeons/sp_rudus.npc` — 24 lignes, `sp_rudus`→`sp_rudus4` | **commenté** (`scripts_moon.conf:789`) |
-| Spawns de Cor | `moon/rathena/dungeons/ba_dun.npc` — 1 ligne `sp_cor` | ✅ chargé |
+| Spawns de Rudus | `moon/rathena/dungeons/sp_rudus.npc`, `sp_rudus`→`sp_rudus4` | **commenté** (`scripts_moon.conf:810`) |
+| Spawns d'OS | — | **absent** ; l'amont tient en 12 lignes (`npc/re/mobs/special_border_area.txt`) |
+| Spawns de Cor | `moon/rathena/dungeons/ba_dun.npc`, 1 ligne `sp_cor` | ✅ chargé |
 | Regenschirm | `moon/instances/Regenschirm.txt` | non référencé |
 | OS scellée | `moon/instances/SealedOs.txt` | non référencé |
 | Occupation d'OS | `moon/instances/OsOccupation.txt` | non référencé |
 | Mémorial de Cor | `moon/instances/CorOperation.txt` | non référencé |
-| Quêtes 17.1 | — | **absent** |
+| Entrées d'instance (Id 39 à 43) | `db/import/instance_db.yml` | **absentes** ; les Id sont libres |
+| Quêtes 17.1 | `npc/re/quests/quests_17_1.txt`, 8 962 lignes | **non porté** ; 69 quêtes sur 88 absentes, toutes en `db/re` |
+| Enchanteur, échanges | `npc/re/merchants/enchan_illusion_17_1.txt` (618 lignes), `rgsr_in.txt` (451), `barters/quests_17_1.yml` (1 300) | **non porté** |
 | **Illusion of Labyrinth** | `moon/rathena/quests/illusion/labyrinth.npc` | branché le 2026‑11‑08, non validé en jeu |
+
+### Les objets attendus
+
+Les scripts amont (quêtes, instances, enchanteur, échanges) et les drops des mobs citent
+**157 objets** : 87 sont chargés, dont 37 sous un autre nom (à renommer vers le nom renewal),
+et **70 manquent** :
+
+| Type | Absents |
+|---|---:|
+| Armures `Grace_*` | **42** |
+| Coffrets (`DelayConsume`) | 20 |
+| Matériaux | 3 |
+| Cartes | 2 |
+| Consommables | 2 |
+| Cash | 1 |
+
+Les `Grace_*` sont le gros morceau : leurs bonus portent sur des compétences de 3ᵉ classe,
+donc chacun passe par la table des classes fermées (`skills_classes_fermees.md`).
 
 ### Illusion of Labyrinth (porté le 2026‑11‑08)
 
@@ -124,7 +153,8 @@ Décisions et écarts :
 
 ### Les mobs manquants — la liste complète
 
-Onze identifiants, dix mobs distincts :
+Treize mobs `EP17_1_*` en `db/re` ; `BELLARE1`, `BELLARE2` et `R4885_BESTIA` sont déjà
+chargés. Restent dix identifiants, toujours absents le 2026‑11‑08 :
 
 | Id | AegisName | Cartes |
 |---|---|---|
@@ -139,40 +169,57 @@ Onze identifiants, dix mobs distincts :
 | 20365 | `EP17_1_TWIN_CAPUT1` | `sp_rudus*` |
 | 20366 | `EP17_1_TWIN_CAPUT2` | `sp_rudus*` |
 
-Ce sont **les seuls mobs manquants de tout le périmètre 13.3 → 17.2** : le contrôle
-d'écart entre les spawns renewal de rAthena et le roster de Moonlight (2 117 entrées) ne
-signale rien d'autre, hormis `sp_os`.
+Au 2026‑08‑25, c'étaient **les seuls mobs manquants de tout le périmètre 13.3 → 17.2** : le
+contrôle d'écart entre les spawns renewal de rAthena et le roster de Moonlight (2 117 entrées)
+ne signalait rien d'autre, hormis `sp_os`. Ce contrôle ne couvre pas les mobs posés par les
+scripts d'instance.
 
 Note : `sp_os` n'a **aucun** fichier de spawn côté Moonlight ; il faudra reprendre
 `npc/re/mobs/special_border_area.txt` de rAthena.
 
 Toutes les cartes concernées (`sp_cor`, `sp_os`, `sp_rudus`→`sp_rudus4`, `1@rgsr`,
-`1@os_a`, `1@os_b`, `1@cor`) **sont** dans le mapcache.
+`1@os_a`, `1@os_b`, `1@cor`) **sont** dans le mapcache (vérifié le 2026‑11‑08).
 
 ## 5. Migration pré-renewal
 
-Le chemin est court et entièrement balisé :
+Mêmes règles que pour 16.2 (checklist de portage, `tools/util/port_illusion.py` comme modèle
+d'inventaire). Deux niveaux possibles.
 
-1. verser les **10 mobs `EP17_1_*`** dans `db/import/mobs/` (un fichier `sp_rudus.yml`),
-   avec des statistiques rééchelonnées pour du niveau 90‑99 ;
-2. décommenter `scripts_moon.conf:789` ;
-3. ajouter les **cinq entrées d'instance** à `db/import/instance_db.yml` — c'est
-   cette base qui est chargée, `db/pre-re/instance_db.yml` étant débranché ;
-4. renommer les quatre `.txt` d'instance en `.npc` et les référencer ;
-5. porter `quests_17_1.txt` — c'est le plus gros morceau : la chaîne de quêtes est le
-   fil narratif, et elle suppose l'épisode 16.2 achevé côté joueur ;
-6. traiter l'économie : Noyaux de Cor, Composants Mystérieux, enchantements associés.
+**A. Zones de chasse seules** — court :
 
-L'obstacle réel est le point 5 : Moonlight n'a pas non plus porté 17.2 ni 18, donc la
-chaîne narrative s'arrête à 16.2. Ouvrir 17.1 sans sa chaîne revient à ouvrir des cartes
-de chasse — ce qui reste une option défendable et bien moins coûteuse.
+1. verser les **10 mobs `EP17_1_*`** dans `db/import/mobs/` (un fichier `sp_rudus.yml`), par
+   `tools/util/re_to_prere_mob.py` **sans retouche** : l'ATK inchangée et l'EXP dérivée des HP
+   sont voulues (le rééchelonnement pour du niveau 90‑99 proposé ici le 2026‑08‑25 est
+   abandonné) ; leurs lignes de `mob_skill_db` ;
+2. décommenter `scripts_moon.conf:810` et reprendre les 12 lignes de spawn de `sp_os` ;
+3. drops de carte (`db/re/map_drops.yml` : `sp_rudus4` relève de 17.2), branches Dead et
+   Bloody, albums de cartes, mapflags, warp agent.
+
+**B. Portage complet** — de l'ordre de 16.2 :
+
+4. les **cinq entrées d'instance** (Id 39 à 43) dans `db/import/instance_db.yml`, les quatre
+   `.txt` d'instance renommés en `.npc` et référencés, avec leurs mapflags (§10b) ;
+5. `quests_17_1.txt` et ses **69 quêtes** : c'est le fil narratif, il suppose 16.2 achevé côté
+   joueur ;
+6. l'économie : enchanteur, `rgsr_in.txt`, échanges, coffrets ;
+7. les **70 objets** absents, dont les **42 `Grace_*`** à convertir un par un (paliers au-dessus
+   de +10, compétences de classes fermées), et les 37 renommages ;
+8. carnet MVP, missions de chasse, client (toutes les tables, fiches `item_info`).
+
+17.2 et 18 ne sont pas portés : la chaîne narrative s'arrête après 17.1. Le niveau A reste une
+option défendable et bien moins coûteuse.
+
+Le contenu de l'intervalle (Chute de Glast Heim, Laboratoire Bagot, mode défi, Lac de
+l'Abysse F4, Passé d'Odin, Abyss Glast Heim) n'a aucun script dans rAthena : hors périmètre
+tant qu'il faudrait l'écrire.
 
 ## 6. Verdict
 
 | | |
 |---|---|
-| Intérêt | élevé — trois zones de chasse et cinq instances, toutes prêtes |
-| Reste à faire | 10 mobs · 1 ligne de conf · 5 entrées dans `db/import/instance_db.yml` · 4 scripts à brancher · (optionnel) la chaîne de quêtes |
+| Intérêt | élevé — trois zones de chasse et cinq instances fournies par rAthena |
+| Fait | Illusion of Labyrinth (2026‑11‑08, non validé en jeu) |
+| Reste à faire | **A :** 10 mobs · 1 ligne de conf · 12 lignes de spawn `sp_os` · branchements. **B :** 5 entrées d'instance · 4 scripts · 69 quêtes · 70 objets dont 42 `Grace_*` · l'économie |
 
 ## Sources
 
