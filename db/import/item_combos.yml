@@ -215,7 +215,7 @@ Body:
           - Judgement_Slasher
           - Repent_Slasher
     Script: |
-      .@a = getequiprefinerycnt(EQI_HAND_L); .@b = getequiprefinerycnt(EQI_HAND_R); if (.@a+getallrefine() >= 32) { bonus2 bSkillAtk,"AS_SONICBLOW",20; } if (.@a+getallrefine() >= 36) bonus2 bAddClass,Class_All,12; if (.@a+getallrefine() >= 40) .@val = 20; bonus2 bSkillAtk,"ASC_BREAKER",40+.@val; bonus2 bSkillAtk,"ASC_METEORASSAULT",40+.@val; bonus bBaseAtk,8*((.@a+.@b)/2);
+      .@a = getequiprefinerycnt(EQI_HAND_L); .@b = getequiprefinerycnt(EQI_HAND_R); if (.@a+.@b >= 16) { bonus2 bSkillAtk,"AS_SONICBLOW",20; } if (.@a+.@b >= 18) bonus2 bAddClass,Class_All,12; if (.@a+.@b >= 20) .@val = 20; bonus2 bSkillAtk,"ASC_BREAKER",40+.@val; bonus2 bSkillAtk,"ASC_METEORASSAULT",40+.@val; bonus bBaseAtk,8*((.@a+.@b)/2);
   - Combos:
       - Combo:
           - Eremes_Memory
@@ -5451,7 +5451,7 @@ Body:
       if (.@a >= 7 && .@b >= 7 && .@c >= 7) {
          bonus2 bAddClass,Class_All,3;
       }
-      if (.@a+.@b+getallrefine() >= 54) {
+      if (.@a+.@b+.@c >= 27) {
          bonus bDelayrate,-20;
       }
   - Combos:
@@ -5467,7 +5467,7 @@ Body:
       if (.@a >= 7 && .@b >= 7 && .@c >= 7) {
          bonus2 bAddClass,Class_All,3;
       }
-      if (.@a+.@b+getallrefine() >= 54) {
+      if (.@a+.@b+.@c >= 27) {
          bonus bCritAtkRate,20;
       }
   - Combos:
@@ -5483,7 +5483,7 @@ Body:
       if (.@a >= 7 && .@b >= 7 && .@c >= 7) {
          bonus bMatkRate,6;
       }
-      if (.@a+.@b+getallrefine() >= 54) {
+      if (.@a+.@b+.@c >= 27) {
          bonus2 bMagicAtkEle,Ele_Fire,15;
       }
   - Combos:
