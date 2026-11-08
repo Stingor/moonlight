@@ -13171,7 +13171,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus2 bSkillAtk,\"MO_CHAINCOMBO\",(10+5*(.@r/2)); bonus2 bSkillAtk,\"MO_TRIPLEATTACK\",(10+5*(.@r/2)); bonus2 bSkillAtk,\"MO_COMBOFINISH\",(5*(.@r/3));\n"
   - Id: 1862
-    AegisName: Burning_Knuckle-OS
+    AegisName: Burning_Knuckle_OS
     Name: Burning Knuckle-OS [2]
     Type: Weapon
     SubType: Knuckle
@@ -20778,7 +20778,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bSPDrainValue,-1; bonus bUnbreakableWeapon; if (getallrefine() >= 24) { .@val = 20; } bonus2 bSPVanishRate,(80+(20*.@r)),(30+.@val);\n"
   - Id: 13493
-    AegisName: Cannon_Rapier-OS
+    AegisName: Cannon_Rapier_OS
     Name: Cannon Rapier-OS [2]
     Type: Weapon
     SubType: 1hSword
@@ -21843,7 +21843,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bAspd,(.@r/2); bonus2 bAddRace,RC_Undead,(3*.@r);\n"
   - Id: 16088
-    AegisName: Sapphire_Mace-OS
+    AegisName: Saphir_Hall_OS
     Name: Sapphire Mace-OS [2]
     Type: Weapon
     SubType: Mace
@@ -21860,8 +21860,8 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bUnbreakableWeapon; bonus2 bAddClass,Class_All,3; if (.@r >= 7) { bonus bVariableCastrate,-7; if (.@r >= 9) { bonus2 bSkillAtk,\"AM_ACIDTERROR\",20; if (getallrefine() >= 22) { bonus bLongAtkRate,15; } } }\n"
   - Id: 16089
-    AegisName: Ultio-OS
-    Name: Ultio-OS [2]
+    AegisName: Ultio_Spes_OS
+    Name: Ultio_Spes_OS [2]
     Type: Weapon
     SubType: Mace
     Weight: 1200
@@ -22655,7 +22655,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bCritical,.@r; if (.@r >= 7) { bonus bAspdRate,10; if (.@r >= 9) { bonus bCritAtkRate,15; if (getallrefine() >= 22) { bonus2 bAddRace,RC_Insect,30; bonus2 bAddRace,RC_Brute,30; } } }\n"
   - Id: 18178
-    AegisName: Virtual_Bow-OS
+    AegisName: Virtual_Bow_OS
     Name: Virtual Bow-OS [2]
     Type: Weapon
     SubType: Bow
@@ -22672,8 +22672,8 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus2 bAddClass,Class_All,3; if (.@r >= 7) { bonus bLongAtkRate,7; if (.@r >= 9) { .@dmg = 30; if (getallrefine() >= 22) { .@dmg += 20; } bonus2 bSkillAtk,\"AC_SHOWER\",.@dmg; } }\n"
   - Id: 18179
-    AegisName: MH-P89-OS
-    Name: MH-P89-OS [2]
+    AegisName: MH_P89_OS
+    Name: MH_P89_OS [2]
     Type: Weapon
     SubType: Bow
     Weight: 1200
@@ -22689,8 +22689,8 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus2 bAddClass,Class_All,3; if (.@r >= 7) { bonus bLongAtkRate,7; if (.@r >= 9) { bonus bDelayrate,-10; if (getallrefine() >= 22) { bonus2 bSkillAtk,\"CG_ARROWVULCAN\",15; } } }\n"
   - Id: 18180
-    AegisName: AC-B44-OS
-    Name: AC-B44-OS [2]
+    AegisName: AC_B44_OS
+    Name: AC_B44_OS [2]
     Type: Weapon
     SubType: Bow
     Weight: 600
@@ -23140,7 +23140,7 @@ Body:
     Refineable: true
     Script: ".@bStr = readparam(bStr); .@r = getrefine(); bonus bBaseAtk,(min(120,.@bStr)); if (.@bStr > 119) bonus bBaseAtk,160; else if (.@bStr > 107) bonus bBaseAtk,80; else if (.@bStr > 94) bonus bBaseAtk,40; if (.@r > 6) bonus bUnbreakableWeapon; bonus4 bAutoSpell,\"NPC_WIDECURSE\",4,100,0; if (.@r > 8) bonus4 bAutoSpellOnSkill,\"LK_BERSERK\",\"BS_OVERTHRUST\",5,100;\n"
   - Id: 21047
-    AegisName: Beam_Claymor-OS
+    AegisName: Beam_Claymore_OS
     Name: Beam Claymor-OS [2]
     Type: Weapon
     SubType: 2hSword
@@ -23324,7 +23324,7 @@ Body:
     Refineable: true
     Script: "bonus bMatk,140; bonus bInt,2; bonus bFlee,2*getrefine(); if(getrefine()>= 10) { bonus bFlee2,10; }\n"
   - Id: 26151
-    AegisName: Rutilus_Stick-OS
+    AegisName: Rutilus_Stick_OS
     Name: Rutilus Stick-OS [2]
     Type: Weapon
     SubType: Staff
@@ -23684,8 +23684,8 @@ Body:
     Refineable: true
     Script: "autobonus \"{ bonus bDefEle,Ele_Undead; sc_start SC_ENDURE,6000,1; }\",40,6000,BF_WEAPON|BF_SHORT,\"{ active_transform 1036,6000; }\";\n"
   - Id: 28038
-    AegisName: Meuchler-OS
-    Name: Meuchler-OS [2]
+    AegisName: Meuchler_OS
+    Name: Meuchler_OS [2]
     Type: Weapon
     SubType: Katar
     Weight: 1300
@@ -23932,8 +23932,8 @@ Body:
     Refineable: true
     Script: "bonus bUnbreakableWeapon; autobonus \"{ bonus bCritical,20; }\",5,7000,BF_SHORT,\"{ specialeffect2 EF_ENCHANCE; }\"; .@r = getrefine(); if (.@r>=9) { bonus bCritAtkRate,15; } else if (.@r>=7) { bonus bCritAtkRate,5; }\n"
   - Id: 28136
-    AegisName: Blasti-OS
-    Name: Blasti-OS [2]
+    AegisName: Blasti_OS
+    Name: Blasti_OS [2]
     Type: Weapon
     SubType: 2hAxe
     Weight: 4500
@@ -24198,8 +24198,8 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bDex,1; bonus bSplashRange,1; .@val = 5*(.@r/2); if (.@r >= 7) { bonus bAspdRate,15; if (.@r >= 9) { .@val += 5; if (getallrefine() >= 22) { bonus5 bAutoSpell,\"GS_SPREADATTACK\",max(6,getskilllv(\"GS_SPREADATTACK\")),50,BF_LONG|BF_WEAPON,1; } } } bonus bLongAtkRate,.@val;\n"
   - Id: 28253
-    AegisName: HR-S55-OS
-    Name: HR-S55-OS [2]
+    AegisName: HR_S55_OS
+    Name: HR_S55_OS [2]
     Type: Weapon
     SubType: Rifle
     Weight: 1000
@@ -24463,7 +24463,7 @@ Body:
     Refineable: true
     Script: ".@val = 10 + 10*(min(getrefine(),10)/3); bonus2 bAddEle,Ele_Dark,.@val; bonus2 bAddEle,Ele_Undead,.@val; bonus2 bAddEle,Ele_Poison,.@val; bonus2 bAddEle,Ele_Ghost,.@val; bonus2 bSubDefEle,Ele_Dark,-30;\n"
   - Id: 28629
-    AegisName: Circuit_Board-OS
+    AegisName: Circuit_Board_OS
     Name: Circuit Board-OS [2]
     Type: Weapon
     SubType: Book
@@ -24726,8 +24726,8 @@ Body:
     EquipLevelMin: 120
     Script: ".@r = getrefine(); bonus bCritical,90; bonus bCritAtkRate,(3*(.@r/2)); if (.@r >= 7) { bonus2 bAddClass,Class_All,5; if (.@r >= 9) { bonus2 bAddSize,Size_All,20; if (getallrefine() >= 22) { bonus2 bAddEle,Ele_All,20; } } }\n"
   - Id: 28755
-    AegisName: Kuroiro-OS
-    Name: Kuroiro-OS [2]
+    AegisName: Kuroiro_OS
+    Name: Kuroiro_OS [2]
     Type: Weapon
     SubType: Dagger
     Weight: 900
@@ -24927,7 +24927,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bUnbreakableWeapon; bonus2 bIgnoreDefRaceRate,RC_All,5*.@r; bonus2 bAddRace,RC_PLAYER_HUMAN,80 + (.@r > 8 ? 20 : 0) + (.@r > 7 ? 35 : 0); if(.@r > 9){ bonus bMaxHPrate,15; bonus bMaxSPrate,15; }\n"
   - Id: 32019
-    AegisName: Boost_Lance-OS
+    AegisName: Boost_Lance_OS
     Name: Boost Lance-OS [2]
     Type: Weapon
     SubType: 1hSpear

@@ -27690,6 +27690,195 @@ Body:
           - Index: 5
             Item: Ein_DYNITE
             Rate: 5
+  - Group: EP17_1_SPC01
+    SubGroups:
+      - SubGroup: 6
+        Algorithm: Random
+        List:
+          - Index: 0
+            Item: Cannon_Rapier_OS
+            Rate: 10
+          - Index: 1
+            Item: Beam_Claymore_OS
+            Rate: 10
+          - Index: 2
+            Item: Rutilus_Stick_OS
+            Rate: 10
+          - Index: 3
+            Item: Circuit_Board_OS
+            Rate: 10
+          - Index: 4
+            Item: Blasti_OS
+            Rate: 10
+          - Index: 5
+            Item: Saphir_Hall_OS
+            Rate: 10
+          - Index: 6
+            Item: Virtual_Bow_OS
+            Rate: 10
+          - Index: 7
+            Item: MH_P89_OS
+            Rate: 10
+          - Index: 8
+            Item: Meuchler_OS
+            Rate: 10
+          - Index: 9
+            Item: Burning_Knuckle_OS
+            Rate: 10
+          - Index: 10
+            Item: HR_S55_OS
+            Rate: 10
+          - Index: 11
+            Item: Kuroiro_OS
+            Rate: 10
+          - Index: 12
+            Item: AC_B44_OS
+            Rate: 10
+          - Index: 13
+            Item: Boost_Lance_OS
+            Rate: 10
+          - Index: 14
+            Item: Ultio_Spes_OS
+            Rate: 10
+  - Group: EP17_1_SPC02
+    SubGroups:
+      - SubGroup: 1
+        List:
+          - Index: 0
+            Item: EP17_1_SPC05
+            Rate: 750
+          - Index: 1
+            Item: EP17_1_SPC06
+            Rate: 200
+          - Index: 2
+            Item: EP17_1_SPC07
+            Rate: 50
+  - Group: EP17_1_SPC03
+    SubGroups:
+      - SubGroup: 1
+        List:
+          - Index: 0
+            Item: EP17_1_SPC08
+            Rate: 750
+          - Index: 1
+            Item: EP17_1_SPC09
+            Rate: 200
+          - Index: 2
+            Item: EP17_1_SPC10
+            Rate: 50
+  - Group: EP17_1_SPC04
+    SubGroups:
+      - SubGroup: 6
+        Algorithm: Random
+        List:
+          - Index: 0
+            Item: EP17_1_EVT38
+            Rate: 1
+          - Index: 1
+            Item: EP17_1_EVT36
+            Rate: 1
+          - Index: 2
+            Item: EP17_1_EVT37
+            Rate: 1
+          - Index: 3
+            Item: EP17_1_EVT35
+            Rate: 1
+          - Index: 4
+            Item: EP17_1_EVT34
+            Rate: 1
+          - Index: 5
+            Item: EP17_1_EVT33
+            Rate: 1
+          - Index: 6
+            Item: EP17_1_EVT19
+            Rate: 100
+          - Index: 7
+            Item: EP17_1_EVT32
+            Rate: 10
+          - Index: 8
+            Item: EP17_1_EVT31
+            Rate: 10
+          - Index: 9
+            Item: EP17_1_EVT30
+            Rate: 10
+          - Index: 10
+            Item: EP17_1_EVT29
+            Rate: 10
+          - Index: 11
+            Item: EP17_1_EVT28
+            Rate: 10
+          - Index: 12
+            Item: EP17_1_EVT27
+            Rate: 10
+          - Index: 13
+            Item: EP17_1_EVT26
+            Rate: 10
+          - Index: 14
+            Item: EP17_1_EVT25
+            Rate: 100
+          - Index: 15
+            Item: EP17_1_EVT24
+            Rate: 100
+          - Index: 16
+            Item: EP17_1_EVT23
+            Rate: 100
+          - Index: 17
+            Item: EP17_1_EVT22
+            Rate: 100
+          - Index: 18
+            Item: EP17_1_EVT21
+            Rate: 100
+          - Index: 19
+            Item: EP17_1_EVT20
+            Rate: 100
+          - Index: 20
+            Item: EP17_1_EVT18
+            Rate: 100
+          - Index: 21
+            Item: EP17_1_EVT17
+            Rate: 100
+          - Index: 22
+            Item: EP17_1_EVT16
+            Rate: 300
+          - Index: 23
+            Item: EP17_1_EVT15
+            Rate: 300
+          - Index: 24
+            Item: EP17_1_EVT14
+            Rate: 300
+          - Index: 25
+            Item: EP17_1_EVT13
+            Rate: 300
+          - Index: 26
+            Item: EP17_1_EVT12
+            Rate: 300
+          - Index: 27
+            Item: EP17_1_EVT11
+            Rate: 300
+          - Index: 28
+            Item: EP17_1_EVT10
+            Rate: 904
+          - Index: 29
+            Item: EP17_1_EVT09
+            Rate: 904
+          - Index: 30
+            Item: EP17_1_EVT08
+            Rate: 904
+          - Index: 31
+            Item: EP17_1_EVT07
+            Rate: 904
+          - Index: 32
+            Item: EP17_1_EVT03
+            Rate: 900
+          - Index: 33
+            Item: EP17_1_EVT04
+            Rate: 900
+          - Index: 34
+            Item: EP17_1_EVT06
+            Rate: 904
+          - Index: 35
+            Item: EP17_1_EVT05
+            Rate: 904
 
 Footer:
   Imports:

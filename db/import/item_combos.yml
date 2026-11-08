@@ -6264,3 +6264,561 @@ Body:
       bonus bFixedCast,-300;
       bonus bDelayrate,-7;
       bonus2 bWeaponSubSize,Size_All,3;
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Assasin_Suit
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bAspd,1;
+      bonus2 bAddClass,Class_All,2;
+      bonus bCritAtkRate,5;
+      if (.@r >= 27) {
+      bonus bAspd,1;
+      bonus2 bAddClass,Class_All,3;
+      bonus bCritAtkRate,5;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Snovice_Suit
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bMaxHPrate,5;
+      bonus2 bAddClass,Class_All,2;
+      bonus bCritAtkRate,5;
+      if (.@r >= 27) {
+      bonus bMaxHPrate,5;
+      bonus2 bAddClass,Class_All,3;
+      bonus bCritAtkRate,5;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Breath_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bMaxHPrate,10;
+      bonus bDelayrate,-5;
+      bonus2 bSkillAtk,"KN_BOWLINGBASH",15;
+      if (.@r >= 27) {
+      bonus bMaxHPrate,10;
+      bonus bDelayrate,-5;
+      bonus2 bSkillAtk,"KN_BOWLINGBASH",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Knight_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bAspd,1;
+      bonus bCritAtkRate,5;
+      bonus2 bSkillAtk,"KN_BOWLINGBASH",15;
+      if (.@r >= 27) {
+      bonus bAspd,1;
+      bonus bCritAtkRate,5;
+      bonus2 bSkillAtk,"KN_BOWLINGBASH",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Spear_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bAspd,1;
+      bonus bLongAtkRate,5;
+      bonus2 bSkillAtk,"PA_SHIELDCHAIN",15;
+      if (.@r >= 27) {
+      bonus bAspd,1;
+      bonus bLongAtkRate,5;
+      bonus2 bSkillAtk,"PA_SHIELDCHAIN",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Sharp_Suit
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bDelayrate,-10;
+      bonus bCritAtkRate,5;
+      bonus2 bSkillAtk,"SN_SHARPSHOOTING",15;
+      if (.@r >= 27) {
+      bonus bDelayrate,-10;
+      bonus bCritAtkRate,5;
+      bonus2 bSkillAtk,"SN_SHARPSHOOTING",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Aim_Suit
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bDelayrate,-10;
+      bonus2 bAddClass,Class_All,2;
+      bonus2 bSkillAtk,"SN_SHARPSHOOTING",15;
+      if (.@r >= 27) {
+      bonus bDelayrate,-10;
+      bonus2 bAddClass,Class_All,3;
+      bonus2 bSkillAtk,"SN_SHARPSHOOTING",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Severe_Suit
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bLongAtkRate,5;
+      bonus2 bAddClass,Class_All,2;
+      bonus2 bSkillAtk,"CG_ARROWVULCAN",15;
+      if (.@r >= 27) {
+      bonus bLongAtkRate,5;
+      bonus2 bAddClass,Class_All,3;
+      bonus2 bSkillAtk,"CG_ARROWVULCAN",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Duple_Robe
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bAspd,1;
+      bonus2 bAddClass,Class_All,2;
+      bonus2 bAddRace,RC_Undead,15;
+      bonus2 bMagicAddRace,RC_Undead,15;
+      if (.@r >= 27) {
+      bonus bAspd,1;
+      bonus2 bAddClass,Class_All,3;
+      bonus2 bAddRace,RC_Undead,15;
+      bonus2 bMagicAddRace,RC_Undead,15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Knuckle_Suit
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bDelayrate,-10;
+      bonus2 bAddClass,Class_All,2;
+      bonus2 bSkillAtk,"MO_FINGEROFFENSIVE",15;
+      if (.@r >= 27) {
+      bonus bDelayrate,-10;
+      bonus2 bAddClass,Class_All,3;
+      bonus2 bSkillAtk,"MO_FINGEROFFENSIVE",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Tiger_Suit
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bMaxHPrate,5;
+      bonus2 bAddClass,Class_All,2;
+      bonus2 bSkillAtk,"MO_EXTREMITYFIST",15;
+      if (.@r >= 27) {
+      bonus bMaxHPrate,5;
+      bonus2 bAddClass,Class_All,3;
+      bonus2 bSkillAtk,"MO_EXTREMITYFIST",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Tonado_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bAspd,1;
+      bonus bDelayrate,-10;
+      bonus2 bSkillAtk,"MC_MAMMONITE",15;
+      if (.@r >= 27) {
+      bonus bAspd,1;
+      bonus bDelayrate,-10;
+      bonus2 bSkillAtk,"MC_MAMMONITE",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Vulcan_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bAspd,1;
+      bonus bLongAtkRate,5;
+      bonus2 bSkillAtk,"WS_CARTTERMINATION",15;
+      if (.@r >= 27) {
+      bonus bAspd,1;
+      bonus bLongAtkRate,5;
+      bonus2 bSkillAtk,"WS_CARTTERMINATION",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Kart_Suit
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bVariableCastrate,-5;
+      bonus2 bAddClass,Class_All,2;
+      bonus2 bSkillAtk,"AM_ACIDTERROR",15;
+      if (.@r >= 27) {
+      bonus bVariableCastrate,-5;
+      bonus2 bAddClass,Class_All,3;
+      bonus2 bSkillAtk,"AM_ACIDTERROR",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Kart_Suit2
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bAspd,1;
+      bonus2 bAddClass,Class_All,2;
+      bonus2 bSkillAtk,"WS_CARTTERMINATION",15;
+      if (.@r >= 27) {
+      bonus bAspd,1;
+      bonus2 bAddClass,Class_All,3;
+      bonus2 bSkillAtk,"WS_CARTTERMINATION",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Rolling_Suit
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bDelayrate,-10;
+      bonus2 bAddClass,Class_All,2;
+      bonus2 bSkillAtk,"AS_GRIMTOOTH",15;
+      if (.@r >= 27) {
+      bonus bDelayrate,-10;
+      bonus2 bAddClass,Class_All,3;
+      bonus2 bSkillAtk,"AS_GRIMTOOTH",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Fatal_Suit
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bDelayrate,-10;
+      bonus2 bAddClass,Class_All,2;
+      bonus2 bSkillAtk,"RG_BACKSTAP",15;
+      if (.@r >= 27) {
+      bonus bDelayrate,-10;
+      bonus2 bAddClass,Class_All,3;
+      bonus2 bSkillAtk,"RG_BACKSTAP",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Trip_Suit
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bLongAtkRate,5;
+      bonus2 bAddClass,Class_All,2;
+      bonus2 bSkillAtk,"GS_FULLBUSTER",15;
+      if (.@r >= 27) {
+      bonus bLongAtkRate,5;
+      bonus2 bAddClass,Class_All,3;
+      bonus2 bSkillAtk,"GS_FULLBUSTER",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Firerain_Suit
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bAspd,1;
+      bonus2 bAddClass,Class_All,2;
+      bonus2 bSkillAtk,"GS_SPREADATTACK",15;
+      if (.@r >= 27) {
+      bonus bAspd,1;
+      bonus2 bAddClass,Class_All,3;
+      bonus2 bSkillAtk,"GS_SPREADATTACK",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Sun_Suit
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bAspd,1;
+      bonus2 bAddClass,Class_All,2;
+      bonus2 bSkillAtk,"TK_STORMKICK",15;
+      if (.@r >= 27) {
+      bonus bAspd,1;
+      bonus2 bAddClass,Class_All,3;
+      bonus2 bSkillAtk,"TK_STORMKICK",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Moon_Suit
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus2 bAddClass,Class_All,5;
+      bonus2 bAddClass,Class_All,2;
+      bonus2 bSkillAtk,"TK_TURNKICK",15;
+      if (.@r >= 27) {
+      bonus2 bAddClass,Class_All,5;
+      bonus2 bAddClass,Class_All,3;
+      bonus2 bSkillAtk,"TK_TURNKICK",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Attack_Boots
+          - Grace_Attack_Manteau
+          - Grace_Attack_Ring
+          - Grace_Kunai_Suit
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bLongAtkRate,5;
+      bonus2 bAddClass,Class_All,2;
+      bonus2 bSkillAtk,"NJ_KUNAI",15;
+      if (.@r >= 27) {
+      bonus bLongAtkRate,5;
+      bonus2 bAddClass,Class_All,3;
+      bonus2 bSkillAtk,"NJ_KUNAI",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Magic_Boots
+          - Grace_Magic_Manteau
+          - Grace_Magic_Ring
+          - Grace_Genesis_Armor
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bMatk,25;
+      bonus bDelayrate,-10;
+      bonus2 bSkillAtk,"CR_GRANDCROSS",15;
+      if (.@r >= 27) {
+      bonus bMatk,25;
+      bonus bDelayrate,-10;
+      bonus2 bSkillAtk,"CR_GRANDCROSS",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Magic_Boots
+          - Grace_Magic_Manteau
+          - Grace_Magic_Ring
+          - Grace_Reverb_Suit
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bVariableCastrate,-5;
+      bonus bMatkRate,2;
+      bonus2 bSkillAtk,"BA_MUSICALSTRIKE",15;
+      if (.@r >= 27) {
+      bonus bVariableCastrate,-5;
+      bonus bMatkRate,3;
+      bonus2 bSkillAtk,"BA_MUSICALSTRIKE",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Magic_Boots
+          - Grace_Magic_Manteau
+          - Grace_Magic_Ring
+          - Grace_Adora_Robe
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bVariableCastrate,-5;
+      bonus bMatkRate,2;
+      bonus2 bSkillAtk,"PR_MAGNUS",15;
+      if (.@r >= 27) {
+      bonus bVariableCastrate,-5;
+      bonus bMatkRate,3;
+      bonus2 bSkillAtk,"PR_MAGNUS",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Magic_Boots
+          - Grace_Magic_Manteau
+          - Grace_Magic_Ring
+          - Grace_Stalker_Suit
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bAspd,1;
+      bonus bMatkRate,2;
+      bonus2 bSkillAtk,"WZ_METEOR",30;
+      if (.@r >= 27) {
+      bonus bAspd,1;
+      bonus bMatkRate,3;
+      bonus2 bSkillAtk,"WZ_METEOR",30;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Magic_Boots
+          - Grace_Magic_Manteau
+          - Grace_Magic_Ring
+          - Grace_Crimson_Robe
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bVariableCastrate,-5;
+      bonus bMatkRate,2;
+      bonus2 bSkillAtk,"WZ_METEOR",15;
+      if (.@r >= 27) {
+      bonus bVariableCastrate,-5;
+      bonus bMatkRate,3;
+      bonus2 bSkillAtk,"WZ_METEOR",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Magic_Boots
+          - Grace_Magic_Manteau
+          - Grace_Magic_Ring
+          - Grace_Frost_Robe
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bVariableCastrate,-5;
+      bonus bMatkRate,2;
+      bonus2 bSkillAtk,"WZ_FROSTNOVA",15;
+      if (.@r >= 27) {
+      bonus bVariableCastrate,-5;
+      bonus bMatkRate,3;
+      bonus2 bSkillAtk,"WZ_FROSTNOVA",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Magic_Boots
+          - Grace_Magic_Manteau
+          - Grace_Magic_Ring
+          - Grace_Psychic_Robe
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bVariableCastrate,-5;
+      bonus bMatkRate,2;
+      bonus2 bSkillAtk,"PF_SOULBURN",15;
+      if (.@r >= 27) {
+      bonus bVariableCastrate,-5;
+      bonus bMatkRate,3;
+      bonus2 bSkillAtk,"PF_SOULBURN",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Magic_Boots
+          - Grace_Magic_Manteau
+          - Grace_Magic_Ring
+          - Grace_Dust_Robe
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bVariableCastrate,-5;
+      bonus bMatkRate,2;
+      bonus2 bSkillAtk,"MG_COLDBOLT",15;
+      if (.@r >= 27) {
+      bonus bVariableCastrate,-5;
+      bonus bMatkRate,3;
+      bonus2 bSkillAtk,"MG_COLDBOLT",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Magic_Boots
+          - Grace_Magic_Manteau
+          - Grace_Magic_Ring
+          - Grace_Ninja_Suit
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bVariableCastrate,-5;
+      bonus bMatkRate,2;
+      bonus2 bSkillAtk,"NJ_KOUENKA",15;
+      bonus2 bSkillAtk,"NJ_HUUJIN",15;
+      bonus2 bSkillAtk,"NJ_HYOUSENSOU",15;
+      if (.@r >= 27) {
+      bonus bVariableCastrate,-5;
+      bonus bMatkRate,3;
+      bonus2 bSkillAtk,"NJ_KOUENKA",15;
+      bonus2 bSkillAtk,"NJ_HUUJIN",15;
+      bonus2 bSkillAtk,"NJ_HYOUSENSOU",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Magic_Boots
+          - Grace_Magic_Manteau
+          - Grace_Magic_Ring
+          - Grace_Swhoo_Robe
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bVariableCastrate,-5;
+      bonus bMatkRate,2;
+      bonus2 bSkillAtk,"SL_STUN",15;
+      if (.@r >= 27) {
+      bonus bVariableCastrate,-5;
+      bonus bMatkRate,3;
+      bonus2 bSkillAtk,"SL_STUN",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Magic_Boots
+          - Grace_Magic_Manteau
+          - Grace_Magic_Ring
+          - Grace_Explosion_Robe
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bVariableCastrate,-5;
+      bonus bMatkRate,2;
+      bonus2 bSkillAtk,"SP_CURSEEXPLOSION",15;
+      if (.@r >= 27) {
+      bonus bVariableCastrate,-5;
+      bonus bMatkRate,3;
+      bonus2 bSkillAtk,"SP_CURSEEXPLOSION",15;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Grace_Magic_Boots
+          - Grace_Magic_Manteau
+          - Grace_Magic_Ring
+          - Grace_Snovice_Robe
+    Script: |
+      .@r = getequiprefinerycnt(EQI_SHOES)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_ARMOR);
+      bonus bMaxHPrate,5;
+      bonus bMatkRate,2;
+      bonus5 bAutoSpell,"PF_SOULBURN",1,70,BF_SHORT,1;
+      if (.@r >= 27) {
+      bonus bMaxHPrate,5;
+      bonus bMatkRate,3;
+      bonus2 bSkillAtk,"PF_SOULBURN",10;
+      }
+  - Combos:
+      - Combo: # Episode 17.1
+          - Bow_Of_Storm
+          - Grace_Severe_Suit
+    Script: |
+      if (getskilllv("BA_MUSICALLESSON") == 10 || getskilllv("DC_DANCINGLESSON") == 10) {
+      bonus bDelayrate,-25;
+      }

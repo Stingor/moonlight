@@ -6,7 +6,7 @@
 | Date kRO | **2018‑07‑18** |
 | Arc | suite de Terra Gloria — l'organisation Illusion |
 | Niveau kRO visé | 175‑185 |
-| État Moonlight | **Labyrinth porté ; le reste présent mais désactivé** |
+| État Moonlight | **porté (A, B1, B2), à valider en jeu** |
 
 Le joueur enquête dans le donjon de **Rudus**, reprend le laboratoire **Regenschirm**,
 traverse **OS** et atteint la cité de **Cor**. C'est le dernier épisode dont rAthena
@@ -82,8 +82,20 @@ Conversion livrée par la PR [#6643 « Episode 17.1 — Illusion »](https://git
 
 ## 4. État côté Moonlight (mesuré le 2026‑11‑08)
 
-**Hors Labyrinth, rien n'est branché** : les scripts sont dans le dépôt, aucun n'est déclaré
-dans `moon/scripts_moon.conf`.
+**Porté le 2026‑11‑08, non validé en jeu.** Le relevé d'avant portage suit, pour mémoire.
+
+| Lot | Contenu | Fichiers |
+|---|---|---|
+| **A** | Rudus 1 à 3 et OS en zones de chasse : 10 mobs `EP17_1_*` et `G_TWIN_CAPUT2`, 91 lignes de skills ; Bellare 1/2 et R48-85-Bestia (gabarits) remplacés ; 7 cartes renommées ; Rudus 4 (17.2) commenté ; warp agent « Rudus / OS » | `db/import/mobs/sp_rudus.yml`, `moon/rathena/dungeons/sp_rudus.npc`, `sp_os.npc` |
+| **B1** | Chaîne de quêtes et 4 instances : 14 mobs `MD_*` (dont le gabarit `MD_E_13EN0`), 69 quêtes, `instance_db` 39 à 43, mapflags ; on entre par la chaîne, pas par le warp agent | `moon/rathena/quests/quests_17_1.npc`, `moon/instances/{Regenschirm,SealedOs,OsOccupation,CorOperation}.npc`, `db/import/mobs/ep17_1_instances.yml` |
+| **B2** | Marchands et enchanteurs de Cor : 40 armures Grace, 26 orbes, 11 coffrets Lapine, groupes `EP17_1_SPC01`→`04`, 18 boutiques de troc ; l'opérateur Grace aiguille sur la **classe 2** (Chevalier → boutique Rune Knight, etc.) ; 51 objets renommés (armes OS, modules) | `moon/rathena/merchants/enchan_illusion_17_1.npc`, `moon/barters.yml` |
+
+Écarts : le stuff Doram (Grace Carrot et Picky Robe, ElectricFox OS, boutique Summoner) ; le
+paquet de forge `Bs_Making_S` ; le **système Reform** (`rgsr_in.txt`, mécanique renewal de 2022).
+Trois compétences ont été ajoutées à la table des classes fermées, à valider
+([skills_classes_fermees.md](skills_classes_fermees.md)).
+
+Relevé du 2026‑11‑08 avant portage :
 
 | Élément | Fichier Moonlight | État |
 |---|---|---|
@@ -218,8 +230,8 @@ tant qu'il faudrait l'écrire.
 | | |
 |---|---|
 | Intérêt | élevé — trois zones de chasse et cinq instances fournies par rAthena |
-| Fait | Illusion of Labyrinth (2026‑11‑08, non validé en jeu) |
-| Reste à faire | **A :** 10 mobs · 1 ligne de conf · 12 lignes de spawn `sp_os` · branchements. **B :** 5 entrées d'instance · 4 scripts · 69 quêtes · 70 objets dont 42 `Grace_*` · l'économie |
+| Fait | Illusion of Labyrinth, Magma F3, Einbech F3, A, B1, B2 (2026‑11‑08, non validés en jeu) |
+| Reste à faire | validation en jeu · décisions : système Reform, ajouts à la table des compétences, mapflags et seuils de Magma/Einbech F3 |
 
 ## Sources
 

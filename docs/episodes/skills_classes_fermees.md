@@ -238,6 +238,19 @@ Table validée et appliquée le 2026-11-07. Les comptes d'objets et de combos so
 | `SP_SPA` | `SL_STIN` | 1 | 3 | Racing_Cap_SL |
 | `SP_SWHOO` | `SL_STUN` | 1 | 3 | Racing_Cap_SL |
 
+## Ajouts du 2026‑11‑08 (portage de 17.1), à valider
+
+Trois compétences des combos Grace manquaient à la table. Remplacées par analogie avec
+les lignes existantes :
+
+| Compétence | Remplacement | Analogie |
+|---|---|---|
+| `AB_DUPLELIGHT_MAGIC` | `bonus2 bMagicAddRace,RC_Undead,N` | `AB_DUPLELIGHT` devient un bonus de race Mort-vivant, ici en magique |
+| `SR_TIGERCANNON` | `MO_EXTREMITYFIST` | comme `SR_GATEOFHELL` et `SR_RAMPAGEBLASTER` |
+| `WM_GLOOMYDAY` (condition niveau 5) | `BA_MUSICALLESSON` ou `DC_DANCINGLESSON` niveau 10 | comme `WM_LESSON` → `BA_MUSICALLESSON` |
+
+`WM_SEVERE_RAINSTORM_MELEE` suit `WM_SEVERE_RAINSTORM` (`CG_ARROWVULCAN`).
+
 ## Objets touchés par la règle des doublons
 
 `GodOfWinds_Fan`, `Astro_Circle`, `Emerald_Earring`, `Chilly_Spell_Book`, `Recovery_Light`, `Staff_of_Miracle`, `Red_Ether_Bag`, `Engine_Pilebuncker`, `Volar`, `Vernan`, `Master_Soul_Rifle`, `Jack_The_Knife`.

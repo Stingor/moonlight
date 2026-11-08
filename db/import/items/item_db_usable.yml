@@ -11656,3 +11656,125 @@ Body:
       NoAuction: true
     Script: |
       warp "sp_cor",152,158;
+  - Id: 23776
+    AegisName: EP17_1_SPC05
+    Name: Weapon Modifier (Physical)
+    Type: DelayConsume
+    Weight: 50
+    Script: |
+      laphine_upgrade();
+  - Id: 23777
+    AegisName: EP17_1_SPC06
+    Name: Advanced Weapon Modifier (Physical)
+    Type: DelayConsume
+    Weight: 50
+    Script: |
+      laphine_upgrade();
+  - Id: 23778
+    AegisName: EP17_1_SPC07
+    Name: Super Weapon Modifier (Physical)
+    Type: DelayConsume
+    Weight: 50
+    Script: |
+      laphine_upgrade();
+  - Id: 23779
+    AegisName: EP17_1_SPC08
+    Name: Weapon Modifier (Magic)
+    Type: DelayConsume
+    Weight: 50
+    Script: |
+      laphine_upgrade();
+  - Id: 23780
+    AegisName: EP17_1_SPC09
+    Name: Advanced Weapon Modifier (Magic)
+    Type: DelayConsume
+    Weight: 50
+    Script: |
+      laphine_upgrade();
+  - Id: 23781
+    AegisName: EP17_1_SPC10
+    Name: Super Weapon Modifier (Magic)
+    Type: DelayConsume
+    Weight: 50
+    Script: |
+      laphine_upgrade();
+  - Id: 100130
+    AegisName: Grace_Rifine_Ticket
+    Name: Grace Refine Ticket
+    Type: DelayConsume
+    Buy: 20
+    EquipLevelMin: 150
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      laphine_upgrade();
+  - Id: 100133
+    AegisName: Grace_Convert1
+    Name: Grace Physical Modification Permit (Garment)
+    Type: DelayConsume
+    Buy: 20
+    EquipLevelMin: 150
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      laphine_upgrade();
+  - Id: 100134
+    AegisName: Grace_Convert2
+    Name: Grace Magical Modification Permit (Garment)
+    Type: DelayConsume
+    Buy: 20
+    EquipLevelMin: 150
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      laphine_upgrade();
+  - Id: 100137
+    AegisName: Grace_Convert3
+    Name: Grace Physical Modification Permit (Armor)
+    Type: DelayConsume
+    Buy: 20
+    EquipLevelMin: 150
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      laphine_upgrade();
+  - Id: 100138
+    AegisName: Grace_Convert4
+    Name: Grace Magical Modification Permit (Armor)
+    Type: DelayConsume
+    Buy: 20
+    EquipLevelMin: 150
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      laphine_upgrade();

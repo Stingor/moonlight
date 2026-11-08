@@ -420,6 +420,240 @@ Body:
       - Item: Ein_1HLUTE
       - Item: Ein_1HSWORD
       - Item: Ein_1HGUN
+  - Item: Grace_Rifine_Ticket
+    ResultRefine: 9
+    CardsAllowed: true
+    TargetItems:
+      - Item: Grace_Breath_Armor
+      - Item: Grace_Knight_Armor
+      - Item: Grace_Spear_Armor
+      - Item: Grace_Genesis_Armor
+      - Item: Grace_Sharp_Suit
+      - Item: Grace_Aim_Suit
+      - Item: Grace_Severe_Suit
+      - Item: Grace_Reverb_Suit
+      - Item: Grace_Adora_Robe
+      - Item: Grace_Duple_Robe
+      - Item: Grace_Tonado_Armor
+      - Item: Grace_Vulcan_Armor
+      - Item: Grace_Kart_Suit
+      - Item: Grace_Kart_Suit2
+      - Item: Grace_Rolling_Suit
+      - Item: Grace_Assasin_Suit
+      - Item: Grace_Fatal_Suit
+      - Item: Grace_Stalker_Suit
+      - Item: Grace_Trip_Suit
+      - Item: Grace_Firerain_Suit
+      - Item: Grace_Crimson_Robe
+      - Item: Grace_Frost_Robe
+      - Item: Grace_Psychic_Robe
+      - Item: Grace_Dust_Robe
+      - Item: Grace_Sun_Suit
+      - Item: Grace_Moon_Suit
+      - Item: Grace_Ninja_Suit
+      - Item: Grace_Kunai_Suit
+      - Item: Grace_Swhoo_Robe
+      - Item: Grace_Explosion_Robe
+      - Item: Grace_Knuckle_Suit
+      - Item: Grace_Tiger_Suit
+      - Item: Grace_Snovice_Suit
+      - Item: Grace_Snovice_Robe
+      - Item: Grace_Attack_Boots
+      - Item: Grace_Magic_Boots
+      - Item: Grace_Attack_Manteau
+      - Item: Grace_Magic_Manteau
+  - Item: Grace_Convert1
+    RandomOptionGroup: GRACE_CONVERT1
+    TargetItems:
+      - Item: Grace_Attack_Manteau
+      - Item: Grace_Magic_Manteau
+  - Item: Grace_Convert2
+    RandomOptionGroup: GRACE_CONVERT2
+    TargetItems:
+      - Item: Grace_Attack_Manteau
+      - Item: Grace_Magic_Manteau
+  - Item: Grace_Convert3
+    RandomOptionGroup: GRACE_CONVERT3
+    TargetItems:
+      - Item: Grace_Breath_Armor
+      - Item: Grace_Knight_Armor
+      - Item: Grace_Spear_Armor
+      - Item: Grace_Genesis_Armor
+      - Item: Grace_Sharp_Suit
+      - Item: Grace_Aim_Suit
+      - Item: Grace_Severe_Suit
+      - Item: Grace_Reverb_Suit
+      - Item: Grace_Adora_Robe
+      - Item: Grace_Duple_Robe
+      - Item: Grace_Tonado_Armor
+      - Item: Grace_Vulcan_Armor
+      - Item: Grace_Kart_Suit
+      - Item: Grace_Kart_Suit2
+      - Item: Grace_Rolling_Suit
+      - Item: Grace_Assasin_Suit
+      - Item: Grace_Fatal_Suit
+      - Item: Grace_Stalker_Suit
+      - Item: Grace_Trip_Suit
+      - Item: Grace_Firerain_Suit
+      - Item: Grace_Crimson_Robe
+      - Item: Grace_Frost_Robe
+      - Item: Grace_Psychic_Robe
+      - Item: Grace_Dust_Robe
+      - Item: Grace_Sun_Suit
+      - Item: Grace_Moon_Suit
+      - Item: Grace_Ninja_Suit
+      - Item: Grace_Kunai_Suit
+      - Item: Grace_Swhoo_Robe
+      - Item: Grace_Explosion_Robe
+      - Item: Grace_Knuckle_Suit
+      - Item: Grace_Tiger_Suit
+      - Item: Grace_Snovice_Suit
+      - Item: Grace_Snovice_Robe
+  - Item: Grace_Convert4
+    RandomOptionGroup: GRACE_CONVERT4
+    TargetItems:
+      - Item: Grace_Breath_Armor
+      - Item: Grace_Knight_Armor
+      - Item: Grace_Spear_Armor
+      - Item: Grace_Genesis_Armor
+      - Item: Grace_Sharp_Suit
+      - Item: Grace_Aim_Suit
+      - Item: Grace_Severe_Suit
+      - Item: Grace_Reverb_Suit
+      - Item: Grace_Adora_Robe
+      - Item: Grace_Duple_Robe
+      - Item: Grace_Tonado_Armor
+      - Item: Grace_Vulcan_Armor
+      - Item: Grace_Kart_Suit
+      - Item: Grace_Kart_Suit2
+      - Item: Grace_Rolling_Suit
+      - Item: Grace_Assasin_Suit
+      - Item: Grace_Fatal_Suit
+      - Item: Grace_Stalker_Suit
+      - Item: Grace_Trip_Suit
+      - Item: Grace_Firerain_Suit
+      - Item: Grace_Crimson_Robe
+      - Item: Grace_Frost_Robe
+      - Item: Grace_Psychic_Robe
+      - Item: Grace_Dust_Robe
+      - Item: Grace_Sun_Suit
+      - Item: Grace_Moon_Suit
+      - Item: Grace_Ninja_Suit
+      - Item: Grace_Kunai_Suit
+      - Item: Grace_Swhoo_Robe
+      - Item: Grace_Explosion_Robe
+      - Item: Grace_Knuckle_Suit
+      - Item: Grace_Tiger_Suit
+      - Item: Grace_Snovice_Suit
+      - Item: Grace_Snovice_Robe
+  - Item: EP17_1_SPC05
+    RandomOptionGroup: EP17_1_SPC05
+    TargetItems:
+      - Item: Cannon_Rapier_OS
+      - Item: Beam_Claymore_OS
+      - Item: Rutilus_Stick_OS
+      - Item: Circuit_Board_OS
+      - Item: Blasti_OS
+      - Item: Saphir_Hall_OS
+      - Item: Virtual_Bow_OS
+      - Item: MH_P89_OS
+      - Item: Meuchler_OS
+      - Item: Burning_Knuckle_OS
+      - Item: HR_S55_OS
+      - Item: Kuroiro_OS
+      - Item: AC_B44_OS
+      - Item: Boost_Lance_OS
+      - Item: Ultio_Spes_OS
+  - Item: EP17_1_SPC06
+    RandomOptionGroup: EP17_1_SPC06
+    TargetItems:
+      - Item: Cannon_Rapier_OS
+      - Item: Beam_Claymore_OS
+      - Item: Rutilus_Stick_OS
+      - Item: Circuit_Board_OS
+      - Item: Blasti_OS
+      - Item: Saphir_Hall_OS
+      - Item: Virtual_Bow_OS
+      - Item: MH_P89_OS
+      - Item: Meuchler_OS
+      - Item: Burning_Knuckle_OS
+      - Item: HR_S55_OS
+      - Item: Kuroiro_OS
+      - Item: AC_B44_OS
+      - Item: Boost_Lance_OS
+      - Item: Ultio_Spes_OS
+  - Item: EP17_1_SPC07
+    RandomOptionGroup: EP17_1_SPC07
+    TargetItems:
+      - Item: Cannon_Rapier_OS
+      - Item: Beam_Claymore_OS
+      - Item: Rutilus_Stick_OS
+      - Item: Circuit_Board_OS
+      - Item: Blasti_OS
+      - Item: Saphir_Hall_OS
+      - Item: Virtual_Bow_OS
+      - Item: MH_P89_OS
+      - Item: Meuchler_OS
+      - Item: Burning_Knuckle_OS
+      - Item: HR_S55_OS
+      - Item: Kuroiro_OS
+      - Item: AC_B44_OS
+      - Item: Boost_Lance_OS
+      - Item: Ultio_Spes_OS
+  - Item: EP17_1_SPC08
+    RandomOptionGroup: EP17_1_SPC08
+    TargetItems:
+      - Item: Cannon_Rapier_OS
+      - Item: Beam_Claymore_OS
+      - Item: Rutilus_Stick_OS
+      - Item: Circuit_Board_OS
+      - Item: Blasti_OS
+      - Item: Saphir_Hall_OS
+      - Item: Virtual_Bow_OS
+      - Item: MH_P89_OS
+      - Item: Meuchler_OS
+      - Item: Burning_Knuckle_OS
+      - Item: HR_S55_OS
+      - Item: Kuroiro_OS
+      - Item: AC_B44_OS
+      - Item: Boost_Lance_OS
+      - Item: Ultio_Spes_OS
+  - Item: EP17_1_SPC09
+    RandomOptionGroup: EP17_1_SPC09
+    TargetItems:
+      - Item: Cannon_Rapier_OS
+      - Item: Beam_Claymore_OS
+      - Item: Rutilus_Stick_OS
+      - Item: Circuit_Board_OS
+      - Item: Blasti_OS
+      - Item: Saphir_Hall_OS
+      - Item: Virtual_Bow_OS
+      - Item: MH_P89_OS
+      - Item: Meuchler_OS
+      - Item: Burning_Knuckle_OS
+      - Item: HR_S55_OS
+      - Item: Kuroiro_OS
+      - Item: AC_B44_OS
+      - Item: Boost_Lance_OS
+      - Item: Ultio_Spes_OS
+  - Item: EP17_1_SPC10
+    RandomOptionGroup: EP17_1_SPC10
+    TargetItems:
+      - Item: Cannon_Rapier_OS
+      - Item: Beam_Claymore_OS
+      - Item: Rutilus_Stick_OS
+      - Item: Circuit_Board_OS
+      - Item: Blasti_OS
+      - Item: Saphir_Hall_OS
+      - Item: Virtual_Bow_OS
+      - Item: MH_P89_OS
+      - Item: Meuchler_OS
+      - Item: Burning_Knuckle_OS
+      - Item: HR_S55_OS
+      - Item: Kuroiro_OS
+      - Item: AC_B44_OS
+      - Item: Boost_Lance_OS
+      - Item: Ultio_Spes_OS
 #  - Item: EXP_Overclocker
 #    TargetItems:
 #      - Item: EXP_Processor_
