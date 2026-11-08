@@ -11595,3 +11595,10 @@ Body:
     Weight: 10
     Script: |
       laphine_upgrade();
+  - Id: 23815
+    AegisName: Magma_Essence
+    Name: Lava Essence
+    Type: DelayConsume
+    Weight: 50
+    Script: |
+      laphine_upgrade();

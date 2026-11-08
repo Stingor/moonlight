@@ -1068,3 +1068,17 @@ Body:
           - Index: 2
             Item: Mantis_Flower
             Amount: 150
+  - Name: barter_refine_3
+    Items:
+      - Index: 0
+        Item: Shadowdecon
+        RequiredItems:
+          - Index: 0
+            Item: Shadowdecon_Ore
+            Amount: 20
+      - Index: 1
+        Item: Zelunium
+        RequiredItems:
+          - Index: 0
+            Item: Zelunium_Ore
+            Amount: 20

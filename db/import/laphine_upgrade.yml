@@ -373,6 +373,13 @@ Body:
       - Item: Bazerald_IL
       - Item: Morpheus_Hood_IL
       - Item: Morpheus_Shawl_IL
+  - Item: Magma_Essence
+    RandomOptionGroup: MAGMA_ESSENCE
+    RequiredRandomOptions: 2
+    TargetItems:
+      - Item: Lava_Leather_Armor
+      - Item: Lava_Leather_Suits
+      - Item: Lava_Leather_Robe
 #  - Item: EXP_Overclocker
 #    TargetItems:
 #      - Item: EXP_Processor_

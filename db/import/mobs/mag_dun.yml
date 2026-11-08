@@ -51,8 +51,8 @@ Body:
       - Item: Lava_Leather_Shoes
         Rate: 50
         RandomOptionGroup: MAGMA3
-      # - Item: Magma_Essence
-        # Rate: 5
+      - Item: Magma_Essence
+        Rate: 5
       - Item: Firm_Blazzer_Card
         Rate: 1
         StealProtected: true
@@ -101,8 +101,8 @@ Body:
       - Item: Lava_Leather_Manteau
         Rate: 50
         RandomOptionGroup: MAGMA3
-      # - Item: Magma_Essence
-        # Rate: 5
+      - Item: Magma_Essence
+        Rate: 5
       - Item: Zelunium_Ore
         Rate: 80
       - Item: Firm_Nightmare_T_Card
@@ -152,8 +152,8 @@ Body:
       - Item: Lava_Leather_Robe
         Rate: 50
         RandomOptionGroup: MAGMA3
-      # - Item: Magma_Essence
-        # Rate: 5
+      - Item: Magma_Essence
+        Rate: 5
       - Item: Zelunium_Ore
         Rate: 80
       - Item: Firm_Deleter2_Card
@@ -203,8 +203,8 @@ Body:
       - Item: Lava_Leather_Armor
         Rate: 50
         RandomOptionGroup: MAGMA3
-      # - Item: Magma_Essence
-        # Rate: 5
+      - Item: Magma_Essence
+        Rate: 5
       - Item: Zelunium_Ore
         Rate: 80
       - Item: Firm_Deleter1_Card
@@ -254,8 +254,8 @@ Body:
       - Item: Lava_Leather_Sandle
         Rate: 50
         RandomOptionGroup: MAGMA3
-      # - Item: Magma_Essence
-        # Rate: 5
+      - Item: Magma_Essence
+        Rate: 5
       - Item: Zelunium_Ore
         Rate: 80
       - Item: Firm_Explosion_Card
@@ -302,8 +302,8 @@ Body:
         Rate: 1500
       - Item: Fire_Scroll_1_3
         Rate: 50
-      # - Item: Magma_Essence
-        # Rate: 5
+      - Item: Magma_Essence
+        Rate: 5
       - Item: Shadowdecon_Ore
         Rate: 80
       - Item: Lava_Leather_Hode
@@ -357,8 +357,8 @@ Body:
       - Item: Lava_Leather_Boots
         Rate: 50
         RandomOptionGroup: MAGMA3
-      # - Item: Magma_Essence
-        # Rate: 5
+      - Item: Magma_Essence
+        Rate: 5
       - Item: Zelunium_Ore
         Rate: 80
       - Item: Firm_Lava_G_Card

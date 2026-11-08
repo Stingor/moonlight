@@ -5487,6 +5487,24 @@ Body:
          bonus2 bMagicAtkEle,Ele_Fire,15;
       }
   - Combos:
+      - Combo: # Magma F3
+          - Lava_Leather_Hode    # 20937
+          - Lava_Leather_Sandle    # 22201
+    Script: |
+      bonus bVariableCastrate,-5;
+  - Combos:
+      - Combo: # Magma F3
+          - Lava_Leather_Muffler    # 20936
+          - Lava_Leather_Shoes    # 22200
+    Script: |
+      bonus bCritAtkRate,5;
+  - Combos:
+      - Combo: # Magma F3
+          - Firm_Kaho_Card    # 27347
+          - Fire_Frilldora_Card    # 27028
+    Script: |
+      bonus2 bMagicAddEle,Ele_Earth,8;
+  - Combos:
       - Combo: # Sky Fortress Invasion
           - As_Bdy_Knight_Card    # 31024
           - As_Ragged_Golem_Card    # 31026

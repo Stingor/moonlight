@@ -4116,3 +4116,29 @@ Body:
     Range: 9
     Duration1: 3000
     Status: GRADUAL_GRAVITY
+  - Id: 761
+    Name: NPC_WIDECURSE2
+    Description: Wide Curse
+    MaxLevel: 5
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+      Splash: true
+    Flags:
+      IsNpc: true
+      ShowScale: true
+    Hit: Single
+    HitCount: 1
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 5
+      - Level: 3
+        Area: 8
+      - Level: 4
+        Area: 11
+      - Level: 5
+        Area: 14
+    Duration2: 18000
+    Status: Curse
