@@ -54469,6 +54469,7 @@ Footer:
   - Path: db/import/mobs/skyfortress.yml
   - Path: db/import/mobs/splendide.yml
   - Path: db/import/mobs/slabw01.yml
+  - Path: db/import/mobs/ein_dun.yml
   - Path: db/import/mobs/templedemon.yml
   - Path: db/import/mobs/thanatos.yml
   - Path: db/import/mobs/thor.yml

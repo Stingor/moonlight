@@ -42,8 +42,8 @@ Mobs : Sanare, Plaga, Dolor, Venenum, Twin Caput — chacun en deux variantes.
 | Contenu | Carte | Côté rAthena | Côté Moonlight |
 |---|---|---|---|
 | **Illusion of Labyrinth** | `prt_mz03_i` | PR #8506, non fusionnée | ✅ porté le 2026‑11‑08 |
-| **Donjon de Magma F3** | `mag_dun03` | spawns | ✅ chargé (`mag_dun.npc`) |
-| **Donjon d'Einbech F3** | `ein_dun03` | spawns | ✅ chargé (`moon/mobs/einbroch.npc`) |
+| **Donjon de Magma F3** | `mag_dun03` | spawns, quêtes de Lily Blanc, échange des minerais | ✅ implanté en avril, complété le 2026‑11‑08 |
+| **Donjon d'Einbech F3** | `ein_dun03` | spawns, quêtes de Sally, Elmen et son troc | ✅ porté le 2026‑11‑08 (spawns jusque-là commentés) |
 | **Lac de l'Abysse F4** | `abyss_04` | mapflags seulement, aucun spawn | — |
 | **Abyss Glast Heim** | — | rien | — |
 | **Passé d'Odin** (*Odin's Past*) | — | rien | — |

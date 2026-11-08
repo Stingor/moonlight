@@ -27611,6 +27611,85 @@ Body:
           - Index: 3
             Item: Candy_B
             Amount: 5
+  - Group: EIN_1HITEMBOX
+    SubGroups:
+      - SubGroup: 6
+        Algorithm: Random
+        List:
+          - Index: 0
+            Item: Ein_1HKNUCK
+            Rate: 555
+          - Index: 1
+            Item: Ein_1HHAMMER
+            Rate: 555
+          - Index: 2
+            Item: Ein_1HWAND
+            Rate: 555
+          - Index: 3
+            Item: Ein_1HWHIP
+            Rate: 555
+          - Index: 4
+            Item: Ein_1HBOOK
+            Rate: 555
+          - Index: 5
+            Item: Ein_1HDAGGER
+            Rate: 555
+          - Index: 6
+            Item: Ein_1HMAGGER
+            Rate: 555
+          - Index: 7
+            Item: Ein_1HSPEAR
+            Rate: 555
+          - Index: 8
+            Item: Ein_1HLUTE
+            Rate: 555
+          - Index: 9
+            Item: Ein_1HSWORD
+            Rate: 555
+          - Index: 10
+            Item: Ein_BHSTAFF
+            Rate: 555
+          - Index: 11
+            Item: Ein_BHHuuma
+            Rate: 555
+          - Index: 12
+            Item: Ein_BHKATAR
+            Rate: 555
+          - Index: 13
+            Item: Ein_BHAXE
+            Rate: 555
+          - Index: 14
+            Item: Ein_BHBOW
+            Rate: 555
+          - Index: 16
+            Item: Ein_1HGUN
+            Rate: 555
+          - Index: 17
+            Item: Ein_BHSWORD
+            Rate: 555
+  - Group: EIN_UNDIUM
+    SubGroups:
+      - SubGroup: 6
+        Algorithm: Random
+        List:
+          - Index: 0
+            Item: Ein_REDIUM
+            Rate: 1999
+          - Index: 1
+            Item: Ein_RINDIUM
+            Rate: 1999
+          - Index: 2
+            Item: Ein_ODIUM
+            Rate: 1999
+          - Index: 3
+            Item: Ein_PURDIUM
+            Rate: 1999
+          - Index: 4
+            Item: Ein_WHIDIUM
+            Rate: 1999
+          - Index: 5
+            Item: Ein_DYNITE
+            Rate: 5
 
 Footer:
   Imports:

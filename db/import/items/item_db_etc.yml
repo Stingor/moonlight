@@ -13426,3 +13426,60 @@ Body:
     Weight: 10
     Flags:
       BuyingStore: true
+  - Id: 25809
+    AegisName: Ein_REDIUM
+    Name: Redium
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 25810
+    AegisName: Ein_RINDIUM
+    Name: Rindium
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 25811
+    AegisName: Ein_ODIUM
+    Name: Odium
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 25812
+    AegisName: Ein_PURDIUM
+    Name: Purdium
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 25813
+    AegisName: Ein_WHIDIUM
+    Name: Whidium
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 25814
+    AegisName: Ein_DYNITE
+    Name: Dynite
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 25815
+    AegisName: Ein_SOLIDDUST
+    Name: Hardened Dust
+    Type: Etc
+  - Id: 25816
+    AegisName: Ein_RUSTHELM
+    Name: Broken Trap
+    Type: Etc
+    Weight: 10
+  - Id: 25817
+    AegisName: Ein_EYEROCK
+    Name: Bizarre Stone Carvings
+    Type: Etc
+    Weight: 50

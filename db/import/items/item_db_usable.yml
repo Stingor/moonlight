@@ -11602,3 +11602,43 @@ Body:
     Weight: 50
     Script: |
       laphine_upgrade();
+  - Id: 9514
+    AegisName: Ein_Ddbox
+    Name: Physical Modification Permit
+    Type: DelayConsume
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      laphine_upgrade();
+  - Id: 9517
+    AegisName: Ein_UNDIUM
+    Name: Untouched Gemstone
+    Type: Usable
+    Weight: 10
+    Flags:
+      Container: true
+      DropEffect: CLIENT
+    Script: |
+      getgroupitem(IG_EIN_UNDIUM);
+  - Id: 9529
+    AegisName: Ein_Ddbox2
+    Name: Magical Modification Permit
+    Type: DelayConsume
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      laphine_upgrade();

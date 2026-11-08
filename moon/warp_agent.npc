@@ -1527,7 +1527,8 @@ L_dic: WarpMenu("dic_dun01,366,45",
 				"dic_dun02,102,142",
 				"dic_dun03,101,144"); goto L_Donjons;
 L_ein: WarpMenu("ein_dun01,22,18",
-				"ein_dun02,292,290"); goto L_Donjons;
+				"ein_dun02,292,290",
+				"ein_dun03,268,279"); goto L_Donjons;
 L_gef: WarpMenu("gef_dun00,104,98",
 				"gef_dun01,115,236",
 				"gef_dun02,106,132",

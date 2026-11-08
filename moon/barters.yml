@@ -1082,3 +1082,41 @@ Body:
           - Index: 0
             Item: Zelunium_Ore
             Amount: 20
+  - Name: barter_ein_dun03
+    Items:
+      - Index: 0
+        Item: Ein_SAFETY_PENDR
+        RequiredItems:
+          - Index: 0
+            Item: Ein_DYNITE
+            Amount: 75
+      - Index: 1
+        Item: Ein_SAFETY_PENDL
+        RequiredItems:
+          - Index: 0
+            Item: Ein_DYNITE
+            Amount: 75
+      - Index: 2
+        Item: Ein_SAFETY_EPAULR
+        RequiredItems:
+          - Index: 0
+            Item: Ein_DYNITE
+            Amount: 75
+      - Index: 3
+        Item: Ein_SAFETY_EPAULL
+        RequiredItems:
+          - Index: 0
+            Item: Ein_DYNITE
+            Amount: 75
+      - Index: 4
+        Item: Ein_Ddbox2
+        RequiredItems:
+          - Index: 0
+            Item: Ein_DYNITE
+            Amount: 30
+      - Index: 5
+        Item: Ein_Ddbox
+        RequiredItems:
+          - Index: 0
+            Item: Ein_DYNITE
+            Amount: 30

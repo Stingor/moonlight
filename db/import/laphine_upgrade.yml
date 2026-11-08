@@ -380,6 +380,46 @@ Body:
       - Item: Lava_Leather_Armor
       - Item: Lava_Leather_Suits
       - Item: Lava_Leather_Robe
+  - Item: Ein_Ddbox
+    RandomOptionGroup: EIN_DDBOX
+    TargetItems:
+      - Item: Ein_BHSWORD
+      - Item: Ein_BHSTAFF
+      - Item: Ein_BHHuuma
+      - Item: Ein_BHKATAR
+      - Item: Ein_BHAXE
+      - Item: Ein_BHBOW
+      - Item: Ein_1HKNUCK
+      - Item: Ein_1HHAMMER
+      - Item: Ein_1HWAND
+      - Item: Ein_1HWHIP
+      - Item: Ein_1HBOOK
+      - Item: Ein_1HDAGGER
+      - Item: Ein_1HMAGGER
+      - Item: Ein_1HSPEAR
+      - Item: Ein_1HLUTE
+      - Item: Ein_1HSWORD
+      - Item: Ein_1HGUN
+  - Item: Ein_Ddbox2
+    RandomOptionGroup: EIN_DDBOX2
+    TargetItems:
+      - Item: Ein_BHSWORD
+      - Item: Ein_BHSTAFF
+      - Item: Ein_BHHuuma
+      - Item: Ein_BHKATAR
+      - Item: Ein_BHAXE
+      - Item: Ein_BHBOW
+      - Item: Ein_1HKNUCK
+      - Item: Ein_1HHAMMER
+      - Item: Ein_1HWAND
+      - Item: Ein_1HWHIP
+      - Item: Ein_1HBOOK
+      - Item: Ein_1HDAGGER
+      - Item: Ein_1HMAGGER
+      - Item: Ein_1HSPEAR
+      - Item: Ein_1HLUTE
+      - Item: Ein_1HSWORD
+      - Item: Ein_1HGUN
 #  - Item: EXP_Overclocker
 #    TargetItems:
 #      - Item: EXP_Processor_

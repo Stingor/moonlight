@@ -26062,3 +26062,553 @@ Body:
          bonus2 bAddSize,Size_Large,10;
          bonus bHit,10;
       }
+  - Id: 1867
+    AegisName: Ein_1HKNUCK
+    Name: Safety Knuckle [2]
+    Type: Weapon
+    SubType: Knuckle
+    Weight: 1800
+    Attack: 210
+    Range: 1
+    Slots: 2
+    Jobs:
+      Monk: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bAddClass,Class_All,10;
+      bonus2 bSkillAtk,"MO_FINGEROFFENSIVE",10;
+      if (.@r>=7) {
+         bonus bAspdRate,15;
+         bonus bBaseAtk,40;
+         if (.@r>=9) {
+            bonus2 bSkillAtk,"MO_FINGEROFFENSIVE",15;
+            autobonus "{ bonus2 bAddSize,Size_All,15; }",10,10000,BF_WEAPON;
+            if (getallrefine() >= 22) {
+               bonus bDelayrate,-20;
+            }
+         }
+      }
+  - Id: 2058
+    AegisName: Ein_BHSTAFF
+    Name: Detecting Staff [2]
+    Type: Weapon
+    SubType: 2hStaff
+    Weight: 2000
+    Attack: 180
+    Range: 1
+    Slots: 2
+    Jobs:
+      Wizard: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      bonus bMatk,330;
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      bonus bMatkRate,10;
+      if (.@r >= 7) {
+         bonus bMatk,60;
+         bonus bVariableCastrate,-10;
+      }
+      if (.@r >= 9) {
+         bonus2 bMagicAtkEle,Ele_Fire,15;
+         autobonus "{ bonus2 bMagicAddSize,Size_All,20; }",10,10000,BF_MAGIC;
+      }
+      if (getallrefine() >= 22) {
+         bonus bDelayrate,-20;
+      }
+  - Id: 13346
+    AegisName: Ein_BHHuuma
+    Name: Grinder Huuma Shuriken [2]
+    Type: Weapon
+    SubType: Huuma
+    Weight: 1800
+    Attack: 280
+    Range: 1
+    Slots: 2
+    Jobs:
+      Ninja: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bAddClass,Class_All,15;
+      bonus bUnbreakableWeapon;
+      bonus2 bSkillAtk,"NJ_HUUMA",15;
+      if (.@r>=7) {
+         bonus bVariableCastrate,-15;
+         bonus bBaseAtk,60;
+      }
+      if (.@r>=9) {
+         bonus2 bSkillAtk,"NJ_HUUMA",20;
+         autobonus "{ bonus2 bAddSize,Size_All,20; }",1,10000,BF_WEAPON;
+      }
+      if (getallrefine() >= 22) {
+         bonus bDelayrate,-20;
+         bonus bDelayrate,-5;
+      }
+  - Id: 16099
+    AegisName: Ein_1HHAMMER
+    Name: Rubber Hammer [2]
+    Type: Weapon
+    SubType: Mace
+    Weight: 1900
+    Attack: 160
+    Range: 1
+    Slots: 2
+    Jobs:
+      Priest: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      bonus bMatk,180;
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      bonus bMatkRate,7;
+      bonus bHealPower,15;
+      bonus2 bSkillAtk,"PR_MAGNUS",10;
+      if (.@r>=7) {
+         bonus2 bMagicAtkEle,Ele_Holy,7;
+         bonus bVariableCastrate,-10;
+      }
+      if (.@r>=9) {
+         bonus2 bSkillAtk,"PR_MAGNUS",15;
+         autobonus "{ bonus2 bMagicAddSize,Size_All,15; }",1,5000,BF_MAGIC;
+      }
+      if (getallrefine() >= 22) {
+         bonus bDelayrate,-20;
+      }
+  - Id: 18190
+    AegisName: Ein_BHBOW
+    Name: Bolt Shooter [2]
+    Type: Weapon
+    SubType: Bow
+    Weight: 1700
+    Attack: 210
+    Range: 5
+    Slots: 2
+    Jobs:
+      Hunter: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bAddClass,Class_All,10;
+      bonus2 bSkillAtk,"SN_SHARPSHOOTING",10;
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         bonus bBaseAtk,60;
+      }
+      if (.@r>=9) {
+         bonus2 bSkillAtk,"SN_SHARPSHOOTING",15;
+         autobonus "{ bonus2 bAddSize,Size_All,20; }",1,10000,BF_WEAPON;
+      }
+      if (getallrefine() >= 22) {
+         bonus bDelayrate,-20;
+      }
+  - Id: 21054
+    AegisName: Ein_BHSWORD
+    Name: Claw Sword [2]
+    Type: Weapon
+    SubType: 2hSword
+    Weight: 3500
+    Attack: 300
+    Range: 1
+    Slots: 2
+    Jobs:
+      Knight: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bCritical,5;
+      bonus2 bAddClass,Class_All,15;
+      if (.@r>=7) {
+         bonus bCritAtkRate,25;
+         bonus bAspdRate,10;
+         if (.@r>=9) {
+            autobonus "{ bonus2 bAddSize,Size_All,20; }",1,5000,BF_WEAPON;
+            if (getallrefine() >= 22) {
+               bonus bDelayrate,-20;
+               bonus bCritical,7;
+            }
+         }
+      }
+  - Id: 26162
+    AegisName: Ein_1HWAND
+    Name: Welding Wand [2]
+    Type: Weapon
+    SubType: Staff
+    Weight: 1200
+    Attack: 160
+    Range: 1
+    Slots: 2
+    Jobs:
+      Mage: true
+      Sage: true
+      SoulLinker: true
+      Wizard: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      bonus bMatk,200;
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      bonus2 bMagicAtkEle,Ele_Neutral,7;
+      bonus2 bMagicAtkEle,Ele_Fire,7;
+      bonus2 bMagicAtkEle,Ele_Water,7;
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         bonus bMatk,40;
+      }
+      if (.@r>=9) {
+         bonus2 bMagicAtkEle,Ele_Neutral,8;
+         bonus2 bMagicAtkEle,Ele_Fire,8;
+         bonus2 bMagicAtkEle,Ele_Water,8;
+         autobonus "{ bonus2 bMagicAddSize,Size_All,15; }",1,10000,BF_MAGIC;
+      }
+      if (getallrefine() >= 22) {
+         bonus bDelayrate,-20;
+      }
+  - Id: 26215
+    AegisName: Ein_1HWHIP
+    Name: Safety Whip [2]
+    Type: Weapon
+    SubType: Whip
+    Weight: 1400
+    Attack: 200
+    Range: 2
+    Slots: 2
+    Jobs:
+      BardDancer: true
+    Gender: Female
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bLongAtkRate,10;
+      bonus2 bSkillAtk,"CG_ARROWVULCAN",10;
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         bonus bBaseAtk,40;
+      }
+      if (.@r>=9) {
+         bonus2 bSkillAtk,"CG_ARROWVULCAN",15;
+         autobonus "{ bonus2 bAddSize,Size_All,15; }",1,10000,BF_WEAPON;
+      }
+      if (getallrefine() >= 22) {
+         bonus bDelayrate,-20;
+         bonus bDelayrate,-10;
+      }
+  - Id: 28045
+    AegisName: Ein_BHKATAR
+    Name: Bolt Crusher [2]
+    Type: Weapon
+    SubType: Katar
+    Weight: 2000
+    Attack: 300
+    Range: 1
+    Slots: 2
+    Jobs:
+      Assassin: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bAddClass,Class_All,10;
+      bonus2 bSkillAtk,"AS_GRIMTOOTH",10;
+      if (.@r>=7) {
+         bonus bAspdRate,10;
+         bonus bBaseAtk,60;
+      }
+      if (.@r>=9) {
+         bonus2 bSkillAtk,"AS_GRIMTOOTH",15;
+         autobonus "{ bonus2 bAddSize,Size_All,20; }",1,10000,BF_WEAPON;
+      }
+      if (getallrefine() >= 22) {
+         bonus bDelayrate,-20;
+      }
+  - Id: 28140
+    AegisName: Ein_BHAXE
+    Name: Saw Axe [2]
+    Type: Weapon
+    SubType: 2hAxe
+    Weight: 5000
+    Attack: 350
+    Range: 1
+    Slots: 2
+    Jobs:
+      Blacksmith: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bAddClass,Class_All,10;
+      bonus bUnbreakableWeapon;
+      bonus2 bSkillAtk,"WS_CARTTERMINATION",10;
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         bonus bBaseAtk,60;
+      }
+      if (.@r>=9) {
+         bonus bLongAtkRate,10;
+         autobonus "{ bonus2 bAddSize,Size_All,15; }",1,5000,BF_WEAPON;
+      }
+      if (getallrefine() >= 22) {
+         bonus bDelayrate,-20;
+      }
+  - Id: 28635
+    AegisName: Ein_1HBOOK
+    Name: Safety Manual [2]
+    Type: Weapon
+    SubType: Book
+    Weight: 700
+    Attack: 200
+    Range: 1
+    Slots: 2
+    Jobs:
+      StarGladiator: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bCritical,3;
+      bonus2 bAddClass,Class_All,10;
+      if (.@r>=7) {
+         bonus bAspdRate,10;
+         bonus bBaseAtk,40;
+      }
+      if (.@r>=9) {
+         autobonus "{ bonus2 bAddSize,Size_All,15; }",1,10000,BF_WEAPON;
+         bonus bCritAtkRate,15;
+      }
+      if (getallrefine() >= 22) {
+         bonus bCritAtkRate,15;
+         bonus bDelayrate,-20;
+      }
+  - Id: 28771
+    AegisName: Ein_1HDAGGER
+    Name: Metal Detector Mk47 [2]
+    Type: Weapon
+    SubType: Dagger
+    Weight: 1000
+    Attack: 200
+    Range: 1
+    Slots: 2
+    Jobs:
+      Assassin: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bAddClass,Class_All,10;
+      bonus2 bSkillAtk,"AS_SONICBLOW",10;
+      if (.@r>=7) {
+         bonus bAspdRate,10;
+         bonus bBaseAtk,40;
+      }
+      if (.@r>=9) {
+         bonus2 bSkillAtk,"AS_SONICBLOW",15;
+         autobonus "{ bonus2 bAddSize,Size_All,15; }",1,10000,BF_WEAPON;
+      }
+      if (getallrefine() >= 22) {
+         bonus bDelayrate,-20;
+      }
+  - Id: 28772
+    AegisName: Ein_1HMAGGER
+    Name: Jewel Detector Mk47 [2]
+    Type: Weapon
+    SubType: Dagger
+    Weight: 1000
+    Attack: 190
+    Range: 1
+    Slots: 2
+    Jobs:
+      Rogue: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      bonus bMatk,180;
+      .@r = getrefine();
+      bonus bMatkRate,10;
+      bonus2 bMagicAtkEle,Ele_Neutral,7;
+      bonus2 bMagicAtkEle,Ele_Fire,7;
+      if (.@r>=7) {
+         bonus bAspdRate,10;
+         bonus bMatk,40;
+      }
+      if (.@r>=9) {
+         bonus2 bMagicAtkEle,Ele_Neutral,8;
+         bonus2 bMagicAtkEle,Ele_Fire,8;
+         autobonus "{ bonus2 bMagicAddSize,Size_All,15; }",1,10000,BF_WEAPON;
+      }
+      if (getallrefine() >= 22) {
+         bonus bDelayrate,-20;
+      }
+  - Id: 32026
+    AegisName: Ein_1HSPEAR
+    Name: Blocking Spear [2]
+    Type: Weapon
+    SubType: 1hSpear
+    Weight: 3000
+    Attack: 210
+    Range: 3
+    Slots: 2
+    Jobs:
+      Crusader: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bAddClass,Class_All,10;
+      bonus2 bSkillAtk,"CR_HOLYCROSS",10;
+      if (.@r>=7) {
+         bonus bAspdRate,10;
+         bonus bBaseAtk,40;
+      }
+      if (.@r>=9) {
+         bonus2 bSkillAtk,"CR_HOLYCROSS",15;
+         autobonus "{ bonus2 bAddSize,Size_All,15; }",1,10000,BF_WEAPON;
+      }
+      if (getallrefine() >= 22) {
+         bonus bDelayrate,-20;
+      }
+  - Id: 32110
+    AegisName: Ein_1HLUTE
+    Name: Safety Lute [2]
+    Type: Weapon
+    SubType: Musical
+    Weight: 1400
+    Attack: 200
+    Range: 1
+    Slots: 2
+    Jobs:
+      BardDancer: true
+    Gender: Male
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bLongAtkRate,10;
+      bonus2 bSkillAtk,"CG_ARROWVULCAN",10;
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         bonus bBaseAtk,40;
+      }
+      if (.@r>=9) {
+         bonus2 bSkillAtk,"CG_ARROWVULCAN",15;
+         autobonus "{ bonus2 bAddSize,Size_All,15; }",1,10000,BF_WEAPON;
+      }
+      if (getallrefine() >= 22) {
+         bonus bDelayrate,-20;
+         bonus bDelayrate,-10;
+      }
+  - Id: 32303
+    AegisName: Ein_1HGUN
+    Name: Bolt Revolver [2]
+    Type: Weapon
+    SubType: Revolver
+    Weight: 1800
+    Attack: 200
+    Range: 7
+    Slots: 2
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bLongAtkRate,15;
+      bonus2 bSkillAtk,"GS_RAPIDSHOWER",15;
+      if (.@r>=7) {
+         bonus bAspdRate,10;
+         bonus bBaseAtk,60;
+      }
+      if (.@r>=9) {
+         bonus2 bSkillAtk,"GS_RAPIDSHOWER",20;
+         autobonus "{ bonus2 bAddSize,Size_All,20; }",1,10000,BF_WEAPON;
+      }
+      if (getallrefine() >= 22) {
+         bonus bDelayrate,-20;
+      }
+  - Id: 32352
+    AegisName: Ein_1HSWORD
+    Name: Safety Saber [2]
+    Type: Weapon
+    SubType: 1hSword
+    Weight: 2500
+    Attack: 200
+    Range: 1
+    Slots: 2
+    Jobs:
+      Alchemist: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bAddClass,Class_All,10;
+      bonus2 bSkillAtk,"AM_ACIDTERROR",10;
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         bonus bBaseAtk,40;
+         if (.@r>=9) {
+            bonus bLongAtkRate,7;
+            bonus2 bSkillAtk,"AM_ACIDTERROR",15;
+            if (getallrefine() >= 22) {
+               bonus bDelayrate,-20;
+            }
+         }
+      }

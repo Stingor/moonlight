@@ -392,3 +392,6 @@ Body:
           - Index: 112
             Item: Chaos_Baphomet_Card
             Rate: 1
+          - Index: 113
+            Item: Jungoliant_Card
+            Rate: 1

@@ -5927,3 +5927,340 @@ Body:
             }
          }
       }
+  - Combos:
+      - Combo: # Einbech F3
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULR
+    Script: |
+      bonus bAspdRate,15;
+      bonus bMaxHPrate,10;
+  - Combos:
+      - Combo: # Einbech F3
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULL
+    Script: |
+      bonus bVariableCastrate,-15;
+      bonus bMaxHPrate,10;
+  - Combos:
+      - Combo: # Einbech F3
+          - Poisonous_Card
+          - Anacondaq_Card
+    Script: |
+      bonus2 bAddEle,Ele_Poison,15;
+  - Combos:
+      - Combo: # Einbech F3
+          - Toxious_Card
+          - Noxious_Card
+    Script: |
+      bonus bLongAtkDef,10;
+      bonus bMaxHPrate,5;
+  - Combos:
+      - Combo: # Einbech F3
+          - Porcellio_W_Card
+          - Porcellio_Card
+    Script: |
+      bonus bBaseAtk,10;
+      bonus bBaseAtk,getequiprefinerycnt(EQI_SHOES);
+  - Combos:
+      - Combo: # Einbech F3
+          - Neo_Mineral_Card
+          - Mineral_Card
+    Script: |
+      bonus bDef,2;
+      bonus bDef,(3*getequiprefinerycnt(EQI_GARMENT))/10;
+  - Combos:
+      - Combo: # Einbech F3
+          - Abyss_Man_Card
+          - Pitman_Card
+    Script: |
+      bonus2 bSkillAtk,"WZ_EARTHSPIKE",getequiprefinerycnt(EQI_SHOES);
+      bonus2 bSkillAtk,"WZ_EARTHSPIKE",10;
+  - Combos:
+      - Combo: # Einbech F3
+          - Jeweliant_Card
+          - Ungoliant_Card
+    Script: |
+      bonus2 bMagicAtkEle,Ele_Neutral,30;
+  - Combos:
+      - Combo: # Einbech F3
+          - Ein_1HKNUCK
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HKNUCK
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HKNUCK
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HKNUCK
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_BHSTAFF
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_BHSTAFF
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_BHSTAFF
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_BHSTAFF
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_BHHuuma
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_BHHuuma
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_BHHuuma
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_BHHuuma
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HHAMMER
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HHAMMER
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HHAMMER
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HHAMMER
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_BHBOW
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_BHBOW
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_BHBOW
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_BHBOW
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_BHSWORD
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_BHSWORD
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_BHSWORD
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_BHSWORD
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HWAND
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HWAND
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HWAND
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HWAND
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HWHIP
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HWHIP
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HWHIP
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HWHIP
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_BHKATAR
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_BHKATAR
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_BHKATAR
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_BHKATAR
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_BHAXE
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_BHAXE
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_BHAXE
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_BHAXE
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HBOOK
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HBOOK
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HBOOK
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HBOOK
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HDAGGER
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HDAGGER
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HDAGGER
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HDAGGER
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HMAGGER
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HMAGGER
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HMAGGER
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HMAGGER
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HSPEAR
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HSPEAR
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HSPEAR
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HSPEAR
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HLUTE
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HLUTE
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HLUTE
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HLUTE
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HSWORD
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HSWORD
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HSWORD
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HSWORD
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HGUN
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HGUN
+          - Ein_SAFETY_PENDR
+          - Ein_SAFETY_EPAULL
+      - Combo: # Einbech F3
+          - Ein_1HGUN
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULR
+      - Combo: # Einbech F3
+          - Ein_1HGUN
+          - Ein_SAFETY_PENDL
+          - Ein_SAFETY_EPAULL
+    Script: |
+      bonus bFixedCast,-300;
+      bonus bDelayrate,-7;
+      bonus2 bWeaponSubSize,Size_All,3;

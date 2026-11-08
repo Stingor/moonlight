@@ -2144,3 +2144,21 @@ Body:
           - Index: 697
             Item: Chaos_Stem_W_Card
             Rate: 1
+          - Index: 698
+            Item: Poisonous_Card
+            Rate: 1
+          - Index: 699
+            Item: Toxious_Card
+            Rate: 1
+          - Index: 700
+            Item: Porcellio_W_Card
+            Rate: 1
+          - Index: 701
+            Item: Neo_Mineral_Card
+            Rate: 1
+          - Index: 702
+            Item: Abyss_Man_Card
+            Rate: 1
+          - Index: 703
+            Item: Jeweliant_Card
+            Rate: 1

@@ -85,6 +85,8 @@ Body:
         Rate: 100000
       - Mob: MUSPELLSKOLL_H
         Rate: 100000
+      - Mob: JUNGOLIANT
+        Rate: 25000
       - Mob: EP16_2_VENOM_KIMERA
         Rate: 100000
       - Mob: RWC_BOSS2011
@@ -1349,6 +1351,24 @@ Body:
       - Mob: KAHO_H
         Rate: 32000
       - Mob: LAVA_GOLEM_H
+        Rate: 32000
+      - Mob: POISONOUS
+        Rate: 32000
+      - Mob: TOXIOUS
+        Rate: 32000
+      - Mob: MINERAL_G
+        Rate: 32000
+      - Mob: MINERAL_R
+        Rate: 32000
+      - Mob: MINERAL_W
+        Rate: 32000
+      - Mob: MINERAL_P
+        Rate: 32000
+      - Mob: JEWELIANT
+        Rate: 32000
+      - Mob: PORCELLIO_W
+        Rate: 32000
+      - Mob: ABYSSMAN
         Rate: 32000
       - Mob: ILL_DRAINLIAR
         Rate: 32000

@@ -10033,3 +10033,92 @@ Body:
       bonus2 bMagicAtkEle,Ele_Fire,100;
       bonus2 bMagicAtkEle,Ele_Dark,100;
       bonus2 bSubEle,Ele_All,-30;
+  - Id: 300001
+    AegisName: Poisonous_Card
+    Name: Poisonous Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bAddEle,Ele_Poison,25;
+  - Id: 300002
+    AegisName: Toxious_Card
+    Name: Toxious Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Armor: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bLongAtkDef,5;
+      bonus bMaxHPrate,10;
+  - Id: 300003
+    AegisName: Porcellio_W_Card
+    Name: White Porcellio Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bBaseAtk,20;
+  - Id: 300004
+    AegisName: Neo_Mineral_Card
+    Name: Neo Mineral Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Garment: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bDef,3;
+  - Id: 300005
+    AegisName: Abyss_Man_Card
+    Name: Abyssman Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bMaxHPrate,10;
+      bonus2 bSkillAtk,"WZ_EARTHSPIKE",10;
+  - Id: 300006
+    AegisName: Jeweliant_Card
+    Name: Jewelry Ant Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Left_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus5 bAutoSpell,"PF_SOULBURN",1,100,BF_SHORT,1;
+  - Id: 300007
+    AegisName: Jungoliant_Card
+    Name: Jeweled Ungoliant Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Armor: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bAddEle,Ele_Fire,40;
+      bonus2 bAddEle,Ele_Water,40;
+      bonus2 bAddRace,RC_Formless,40;
+      bonus2 bAddRace,RC_Plant,40;
