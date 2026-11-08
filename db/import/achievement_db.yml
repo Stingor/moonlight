@@ -3133,3 +3133,35 @@ Body:
     Group: Adventure
     Name: Grand voleur
     Score: 50
+  - Id: 910053
+    Group: Adventure
+    Name: Tir de chasse
+    Score: 20
+  - Id: 910054
+    Group: Adventure
+    Name: Tireur d'elite
+    Score: 20
+  - Id: 910055
+    Group: Adventure
+    Name: Assaut du faucon
+    Score: 20
+  - Id: 910056
+    Group: Adventure
+    Name: Oeil de lynx
+    Score: 20
+  - Id: 910057
+    Group: Adventure
+    Name: Piege Claymore
+    Score: 20
+  - Id: 910058
+    Group: Adventure
+    Name: Mine de vent
+    Score: 20
+  - Id: 910059
+    Group: Adventure
+    Name: Fleche fantome
+    Score: 30
+  - Id: 910060
+    Group: Adventure
+    Name: Grand archer
+    Score: 50

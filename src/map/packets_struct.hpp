@@ -7554,8 +7554,9 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_ATTACK_ELEMENT, 0x0f4a);
 //   trophy : rang du trophée, de 0 à MOONLIGHT_MINIGAME_TROPHY_COUNT - 1, dans
 //   l'ordre du catalogue de moonclient (ro::sim::MinigameTrophy).
 //   Rojeweled et Roggle de 0 à 7, le mode survivors de 8 à 28, Roggle de 29
-//   à 35, le Chevalier du mode survivors de 36 à 43, son Voleur de 44 à 51.
-static constexpr uint8 MOONLIGHT_MINIGAME_TROPHY_COUNT = 52;
+//   à 35, le Chevalier du mode survivors de 36 à 43, son Voleur de 44 à 51,
+//   son Archer de 52 à 59.
+static constexpr uint8 MOONLIGHT_MINIGAME_TROPHY_COUNT = 60;
 struct PACKET_CZ_MOONLIGHT_MINIGAME_TROPHY {
 	int16 packetType;
 	int16 packetLength;
