@@ -87,6 +87,8 @@ Body:
         Rate: 100000
       - Mob: JUNGOLIANT
         Rate: 25000
+      - Mob: EP17_1_R4885_BESTIA
+        Rate: 25000
       - Mob: EP16_2_VENOM_KIMERA
         Rate: 100000
       - Mob: RWC_BOSS2011
@@ -1369,6 +1371,30 @@ Body:
       - Mob: PORCELLIO_W
         Rate: 32000
       - Mob: ABYSSMAN
+        Rate: 32000
+      - Mob: EP17_1_BELLARE1
+        Rate: 32000
+      - Mob: EP17_1_BELLARE2
+        Rate: 32000
+      - Mob: EP17_1_SANARE1
+        Rate: 32000
+      - Mob: EP17_1_SANARE2
+        Rate: 32000
+      - Mob: EP17_1_PLAGA1
+        Rate: 32000
+      - Mob: EP17_1_PLAGA2
+        Rate: 32000
+      - Mob: EP17_1_DOLOR1
+        Rate: 32000
+      - Mob: EP17_1_DOLOR2
+        Rate: 32000
+      - Mob: EP17_1_VENENUM1
+        Rate: 32000
+      - Mob: EP17_1_VENENUM2
+        Rate: 32000
+      - Mob: EP17_1_TWIN_CAPUT1
+        Rate: 32000
+      - Mob: EP17_1_TWIN_CAPUT2
         Rate: 32000
       - Mob: ILL_DRAINLIAR
         Rate: 32000

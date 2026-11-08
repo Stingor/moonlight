@@ -1,0 +1,13 @@
+//===== rAthena Script =======================================
+//= Special Border Area OS (sp_os)
+//===== Description: =========================================
+//= Portage de npc/re/mobs/special_border_area.txt et de
+//= npc/re/warps/other/special_border_area.txt.
+//============================================================
+
+sp_cor,162,41,0	warp	sp_cor_to_sp_os	1,1,sp_os,260,357
+sp_os,188,30,0	warp	sp_os_exit	1,1,ein_fild03,284,267
+
+sp_os,0,0	monster	Heart Hunter Bellare	20355,112,5000
+sp_os,0,0	monster	Heart Hunter Sanare	20357,108,5000
+sp_os,0,0	monster	Venenum	20363,5,5000

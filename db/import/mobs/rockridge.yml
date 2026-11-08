@@ -33,7 +33,7 @@ Body:
     DamageMotion: 550
     Ai: 04
     Drops:
-      - Item: Crude_Ammo
+      - Item: CrudeAmmo
         Rate: 2500
       - Item: Brigan
         Rate: 1000

@@ -8549,7 +8549,7 @@ Body:
       Right_Hand: true
     Script: "if (getiteminfo(getequipid(EQI_COMPOUND_ON),11) == W_REVOLVER) { .@r = getrefine(); bonus bHit,20; bonus bLongAtkRate,(5+.@r); if (.@r >= 10) { bonus2 bSkillAtk,\"GS_RAPIDSHOWER\",15; } }\n"
   - Id: 27307
-    AegisName: Greater_Bellare_Card
+    AegisName: High_Bellare_Card
     Name: Greater Bellare Card
     Type: Card
     Buy: 20
@@ -8567,7 +8567,7 @@ Body:
       Right_Hand: true
     Script: ".@r = getrefine(); .@val = 2; if (.@r >= 9) { .@val += 3; } if (getallrefine() >= 22) { .@val += 5; } bonus bHealPower,.@val;\n"
   - Id: 27309
-    AegisName: Greater_Sanare_Card
+    AegisName: High_Sanare_Card
     Name: Greater Sanare Card
     Type: Card
     Buy: 20
@@ -8607,7 +8607,7 @@ Body:
       Both_Accessory: true
     Script: "bonus2 bAddRace,RC_Demon,5;\n"
   - Id: 27313
-    AegisName: Mutant_Dolor_Card
+    AegisName: Mt_Dolor_Card
     Name: Mutant Dolor Card
     Type: Card
     Buy: 20
@@ -8625,7 +8625,7 @@ Body:
       Garment: true
     Script: "bonus2 bAddRace,RC_Brute,15;\n"
   - Id: 27315
-    AegisName: Mutant_Venenum_Card
+    AegisName: Mt_Venenum_Card
     Name: Mutant Venenum Card
     Type: Card
     Buy: 20
@@ -8634,7 +8634,7 @@ Body:
       Garment: true
     Script: "bonus2 bMagicAddRace,RC_Brute,15;\n"
   - Id: 27316
-    AegisName: Twin_Caput_Card
+    AegisName: Caput_Card
     Name: Twin Caput Card
     Type: Card
     Buy: 20
@@ -8643,7 +8643,7 @@ Body:
       Armor: true
     Script: "bonus bDef,5; bonus2 bSubDefEle,Ele_Poison,10;\n"
   - Id: 27317
-    AegisName: Mutant_Twin_Caput_Card
+    AegisName: Mt_Caput_Card
     Name: Mutant Twin Caput Card
     Type: Card
     Buy: 20
@@ -8661,7 +8661,7 @@ Body:
       Shoes: true
     Script: "bonus bCritAtkRate,20; bonus2 bSubRace,RC_All,-10;\n"
   - Id: 27319
-    AegisName: R48_85_BESTIA_Card
+    AegisName: R48_85_Bestia_Card
     Name: R48-85-BESTIA Card
     Type: Card
     Buy: 20

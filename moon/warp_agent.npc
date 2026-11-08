@@ -1457,6 +1457,7 @@ L_Donjons:
 		 "• Payon Donjon",L_pay,
 		 "• Pyramids",L_pyr,
 		 "• Rock Ridge",L_rck,
+		 "• Rudus / OS",L_rud,
 		 "• Sanctuary",L_san,
 		 "• Sphinx",L_sph,
 		 "• Sunken Ship",L_snk,
@@ -1631,6 +1632,10 @@ L_pyr: WarpMenu("moc_pryd01,192,9",
 				"moc_prydn2,192,8"); goto L_Donjons;
 L_rck: WarpMenu("rockmi1",
 				"harboro2"); goto L_Donjons;
+L_rud: WarpMenu("sp_rudus,185,258",
+				"sp_rudus2,185,258",
+				"sp_rudus3,366,207",
+				"sp_os,260,357"); goto L_Donjons;
 L_san: WarpMenu("ra_san01,140,130",
 				"ra_san02,213,269",
 				"ra_san03,123,278",
