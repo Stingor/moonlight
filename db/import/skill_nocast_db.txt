@@ -290,7 +290,6 @@
 371,2048	//CH_TIGERFIST#Glacier Fist#
 372,2048	//CH_CHAINCRUSH#Chain Crush Combo#
 375,2048	//PF_SOULBURN#Soul Siphon#
-378,2048	//ASC_EDP#Deadly Poison Enchantment#
 379,2048	//ASC_BREAKER#Soul Destroyer#
 381,2048	//SN_FALCONASSAULT#Falcon Assault#
 382,2048	//SN_SHARPSHOOTING#Focused Arrow Strike#
