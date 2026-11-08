@@ -25,6 +25,8 @@ gonryun,159,116,4	script	Sting-Bot::sting_IA	MVP_STING,{
 
 L_chat:
 	if(.online != 1) end;
+	.veille_chat = gettimetick(2);       // parler a Sting compte comme une activite
+	if (.veille) callsub S_Veille, 0;   // on lui parle : il se reveille
 	if(.trip != 0) end;
 	if(gettimetick(2) - .cooldown < 5) end;
 	.cooldown = gettimetick(2);
@@ -138,7 +140,66 @@ S_Speak:
 	query_sql "INSERT INTO chatbot_voice (line, map, x, y) VALUES ('"+ escape_sql(getarg(0)) +"','"+ escape_sql(.@sp_map$) +"',"+ .@sp_x +","+ .@sp_y +")";
 	return;
 
+S_JoueursActifs:
+	// 0 = aucun client connecte (personne, ou seulement des autotrades),
+	// 1 = des joueurs connectes mais tous inactifs depuis plus de .veille_idle s,
+	// 2 = au moins un joueur actif.
+	// checkidle suit idletime_option (conf/import/battle_conf.txt : marche,
+	// competences, objets, attaque). Le chat seul n'en fait pas partie, d'ou le
+	// reveil direct dans L_chat quand on parle a Sting, et ce chat le tient
+	// eveille .veille_idle s comme n'importe quelle action.
+	if (gettimetick(2) - .veille_chat < .veille_idle) return 2;
+	.@n = getunits(BL_PC, .@ja_ids);
+	if (.@n > getarraysize(.@ja_ids)) .@n = getarraysize(.@ja_ids);
+	.@etat = 0;
+	for (.@i = 0; .@i < .@n; .@i++) {
+		if (attachrid(.@ja_ids[.@i]) == 0) continue;
+		if ((checkvending() & 2) == 0) {
+			.@etat = 1;
+			if (checkidle() < .veille_idle * 1000) .@etat = 2;
+		}
+		detachrid;
+		if (.@etat == 2) break;
+	}
+	return .@etat;
+
+S_Veille:
+	// getarg(0) = niveau voulu : 0 eveille, 1 endormi (joueurs inactifs presents),
+	// 2 endormi (aucun client : le relais Discord s'arrete aussi).
+	.@nv = getarg(0);
+	if (.@nv == .veille) return;
+	// Ce qui s'est accumule sans lecteur est ecarte, plutot que deverse d'un
+	// coup sur le premier joueur revenu.
+	if (.veille == 2) query_sql "UPDATE discord_relay SET sent=1 WHERE sent=0";
+	if (.@nv == 0) {
+		query_sql "UPDATE chatbot_broadcast SET sent=1 WHERE sent=0";
+		.tick = 0;
+		debugmes "Sting-Bot : reveil (joueur actif)";
+	} else {
+		if (.veille == 0) { npcstop; npcsit; }
+		if (.@nv == 2) debugmes "Sting-Bot : veille (aucun client connecte)";
+		else           debugmes "Sting-Bot : veille (joueurs tous inactifs)";
+	}
+	.veille = .@nv;
+	return;
+
 OnTimer3000:
+	// --- Veille : aucun joueur actif sur le serveur -> tick minimal ---
+	// Toutes les .veille_check s on regarde qui est la (S_JoueursActifs).
+	// Personne d'actif -> Sting s'endort : plus de requete SQL, d'event ni de
+	// balade, le tick se reduit a ce test. Jamais pendant un event en cours
+	// (trip, PvP, MVP, PvP force par un GM) : il doit aller a son terme.
+	if (.trip != 0 || .pvpevent != 0 || $sting_mvp_ev_active != 0 || $sting_dbg_forcepvp == 1) {
+		if (.veille) callsub S_Veille, 0;
+	} else if (gettimetick(2) - .veille_tick >= .veille_check) {
+		.veille_tick = gettimetick(2);
+		.@etat = callsub(S_JoueursActifs);   // 0 personne, 1 tous inactifs, 2 actif
+		.@nv = 0;
+		if (.@etat < 2) .@nv = 2 - .@etat;
+		callsub S_Veille, .@nv;
+	}
+	if (.veille) { initnpctimer; end; }
+
 	// --- Relay Discord -> in-game : bot responses via npctalk (chatbot_broadcast) ---
 	query_sql "SELECT id, message FROM chatbot_broadcast WHERE sent=0 ORDER BY id LIMIT 3", .@bids, .@bmsgs$;
 	.@bn = getarraysize(.@bids);
@@ -441,6 +502,11 @@ OnTimer3000:
 	initnpctimer;
 	end;
 
+OnPCLoginEvent:
+	// Un joueur arrive : le test de veille passe au tick suivant (3 s max).
+	if (.veille) .veille_tick = 0;
+	end;
+
 OnPCLoadMapEvent:
 	// Sting se plaint si le joueur qui arrive a tue un MVP recemment (10min)
 	if (.online != 1) end;
@@ -483,6 +549,7 @@ S_GmMenu:
 	mes "^FF0000[DEBUG GM]^000000 " + strnpcinfo(0);
 	mes "";
 	mes "^888888.online=^000000" + .online + "^888888  .trip=^000000" + .trip + "^888888  .pvpevent=^000000" + .pvpevent;
+	mes "^888888.veille=^000000" + .veille + "^888888  (test toutes les " + .veille_check + "s, inactif apres " + .veille_idle + "s)^000000";
 	mes "^888888$mvp_ev_active=^000000" + $sting_mvp_ev_active + "^888888  mob="+$sting_mvp_ev_mob_id+"  map="+$sting_mvp_ev_map$+"^000000";
 	mes "";
 	.@ch = select(
@@ -629,6 +696,8 @@ S_GmReset:
 	.pvpevent = 0;
 	.trip     = 0;
 	.online   = 1;
+	.veille   = 0;
+	.veille_tick = 0;
 	// Re-enable et repositionner le NPC
 	enablenpc strnpcinfo(3);
 	npcstop;
@@ -673,6 +742,11 @@ OnInit:
 	.mockcd = 0;     // cooldown des moqueries HP basées sur le scan
 	.mvp_cd = 14400; // 4h de cooldown entre les plaintes de Sting après un kill de MVP (si le killer est le même joueur)
 	.online = 1;     // 0 = hors ligne (cache), 1 = en ligne (actif), 2 = AFK (immobile)
+	.veille = 0;        // 0 = eveille, 1 = veille (joueurs inactifs), 2 = veille (aucun client)
+	.veille_tick = 0;   // date du dernier test de veille
+	.veille_chat = 0;   // date du dernier message adresse a Sting
+	.veille_check = 30; // intervalle entre deux tests de veille (s)
+	.veille_idle = 900; // au-dela de 15 min sans action, un joueur ne compte plus comme actif (s)
 	.trip = 0;       // 0 = pas de trip, 1 = parti, 2 = parti depuis un moment (disablenpc)
 	.tripcd = 0;     // timestamp du dernier départ en donjon (pour le cooldown)
 	.trip_cooldown  = 7200;    // cooldown en secondes entre deux trips donjon (défaut 2h)
@@ -758,6 +832,9 @@ OnStingDead:
 	end;
 
 OnTimer3000:
+	// Sting-Bot en veille sans aucun client connecte : personne pour lire, on ne
+	// sonde pas la table. Les messages en attente sont ecartes au reveil.
+	if (getvariableofnpc(.veille, "sting_IA") == 2) { initnpctimer; end; }
 	// [Stingor] Les colonnes rich_* portent la forme riche (ZC 0x0F3C) du message :
 	// le serveur la donne a qui sait la lire, 0x0F08 aux autres. L'identifiant
 	// Discord est lu en CHAINE : il depasse un entier de script.
