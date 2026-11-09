@@ -237,6 +237,8 @@ gl_cas02_	mapflag	nowarpto
 // Heroes' Trail - Part 3 ========
 1@glast	mapflag	nowarpto
 1@gl_prq	mapflag	nowarpto
+1@gol1	mapflag	nowarpto
+1@gol2	mapflag	nowarpto
 1@air1	mapflag	nowarpto
 1@air2	mapflag	nowarpto
 

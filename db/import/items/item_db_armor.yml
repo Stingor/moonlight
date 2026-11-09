@@ -34168,3 +34168,14 @@ Body:
       if (.@r>=7) {
          bonus bAspdRate,10;
       }
+  - Id: 19439
+    AegisName: Subject_Aura
+    Name: Vicious Mind Aura
+    Type: Armor
+    Weight: 100
+    Defense: 1
+    Locations:
+      Head_Low: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    View: 1267

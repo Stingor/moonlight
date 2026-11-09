@@ -27980,6 +27980,73 @@ Body:
             Item: Soft_Feather
             Rate: 3000
             Amount: 5
+  - Group: BIO_DOCU_BOX
+    SubGroups:
+      - SubGroup: 6
+        Algorithm: Random
+        List:
+          - Index: 0
+            Item: Bio_Test_Fragment
+            Rate: 250
+            Amount: 3
+          - Index: 1
+            Item: Bio_Test_Fragment
+            Rate: 100
+            Amount: 4
+          - Index: 2
+            Item: Bio_Test_Fragment
+            Rate: 100
+            Amount: 5
+          - Index: 3
+            Item: Bio_Reseearch_Docu
+            Rate: 250
+            Amount: 3
+          - Index: 4
+            Item: Bio_Reseearch_Docu
+            Rate: 100
+            Amount: 4
+          - Index: 5
+            Item: Bio_Reseearch_Docu
+            Rate: 100
+            Amount: 5
+          - Index: 6
+            Item: Magic_Card_Album
+            Rate: 50
+          - Index: 7
+            Item: Old_Card_Album
+            Rate: 50
+  - Group: BIO_REACTANT_BOX
+    SubGroups:
+      - SubGroup: 6
+        Algorithm: Random
+        List:
+          - Index: 0
+            Item: Swordman_Soul
+            Rate: 120
+          - Index: 1
+            Item: Merchant_Soul
+            Rate: 120
+          - Index: 2
+            Item: Thief_Soul
+            Rate: 120
+          - Index: 3
+            Item: Mage_Soul
+            Rate: 120
+          - Index: 4
+            Item: Acolyte_Soul
+            Rate: 120
+          - Index: 5
+            Item: Archer_Soul
+            Rate: 120
+          - Index: 6
+            Item: Pieces_Of_Sentiment
+            Rate: 120
+          - Index: 7
+            Item: Particles_Of_Energy
+            Rate: 100
+          - Index: 8
+            Item: Cursed_Fragment
+            Rate: 60
 
 Footer:
   Imports:

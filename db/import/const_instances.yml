@@ -129,3 +129,5 @@ Body:
     Value: 54
   - Name: INST_OLD_GLAST_HEIM_HARD
     Value: 55
+  - Name: INST_JOURNEY_OF_EXPEDITION
+    Value: 56

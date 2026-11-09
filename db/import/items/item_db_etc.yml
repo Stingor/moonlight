@@ -13597,3 +13597,15 @@ Body:
     AegisName: GH_Cursed_Gemstone
     Name: Curse Eroded Gemstone
     Type: Etc
+  - Id: 25786
+    AegisName: Bio_Reseearch_Docu
+    Name: Somatology Research Document
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 25787
+    AegisName: Bio_Test_Fragment
+    Name: Somatology Experimental Fragment
+    Type: Etc
+    Flags:
+      BuyingStore: true

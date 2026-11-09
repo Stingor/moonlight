@@ -159,6 +159,8 @@ que_avan01	mapflag	nosave	SavePoint
 // Heroes' Trail - Part 3 ========
 1@glast	mapflag	nosave	SavePoint
 1@gl_prq	mapflag	nosave	SavePoint
+1@gol1	mapflag	nosave	SavePoint
+1@gol2	mapflag	nosave	SavePoint
 1@air1	mapflag	nosave	SavePoint
 1@air2	mapflag	nosave	SavePoint
 

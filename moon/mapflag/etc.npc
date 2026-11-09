@@ -250,6 +250,8 @@ region_8	mapflag	loadevent
 1@tnm3	mapflag	nomemo
 1@glast	mapflag	nomemo
 1@gl_prq	mapflag	nomemo
+1@gol1	mapflag	nomemo
+1@gol2	mapflag	nomemo
 1@air1	mapflag	nomemo
 1@air2	mapflag	nomemo
 1@dth1	mapflag	nomemo

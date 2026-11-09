@@ -1,0 +1,52 @@
+//===== Moonlight ============================================
+//= Fonctions et PNJ factices de hayakawakaki/rathena-script-collection
+//= (Function.c, crazyarashi / hayakawakaki, GPL-3.0),
+//= https://github.com/hayakawakaki/rathena-script-collection
+//= Seulement ce qu'utilise moon/instances/EddaSomatology.npc.
+//= Charge tot : les appels sans callfunc exigent la fonction declaree.
+//============================================================
+
+function	script	instance_hide	{
+	if(getarg(1))
+		hideonnpc instance_npcname(getarg(0));
+	else
+		hideoffnpc instance_npcname(getarg(0));
+	return;
+}
+
+function	script	instance_enable	{
+	if(getarg(1))
+		enablenpc instance_npcname(getarg(0));
+	else
+		disablenpc instance_npcname(getarg(0));
+	return;
+}
+
+function	script	instance_event	{
+	if(getarg(2))
+		doevent instance_npcname(getarg(0)) + "::" + getarg(1);
+	else
+		donpcevent instance_npcname(getarg(0)) + "::" + getarg(1);
+	return;
+}
+
+function	script	get_instance_var	{
+	return getd("'" + getarg(0));
+}
+
+function	script	set_instance_var	{
+	setd("'" + getarg(0),getarg(1));
+	return;
+}
+
+-	script	dummynpc2	-1,{
+	end;
+}
+
+-	script	instancedummynpc	-1,{
+	end;
+
+OnInstanceInit:
+	instance_enable(strnpcinfo(0),false);
+	end;
+}

@@ -522,6 +522,10 @@ dali02	mapflag	noteleport
 1@glast	mapflag	monster_noteleport
 1@gl_prq	mapflag	noteleport
 1@gl_prq	mapflag	monster_noteleport
+1@gol1	mapflag	noteleport
+1@gol1	mapflag	monster_noteleport
+1@gol2	mapflag	noteleport
+1@gol2	mapflag	monster_noteleport
 1@air1	mapflag	monster_noteleport
 1@air2	mapflag	monster_noteleport
 

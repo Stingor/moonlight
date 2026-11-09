@@ -419,3 +419,11 @@ Body:
       Y: 20
     AdditionalMaps:
       2@gl_k2: true
+  - Id: 56
+    Name: Journey of Expedition
+    Enter:
+      Map: 1@gol1
+      X: 198
+      Y: 35
+    AdditionalMaps:
+      1@gol2: true

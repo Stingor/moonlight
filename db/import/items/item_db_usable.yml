@@ -11846,3 +11846,21 @@ Body:
       NoAuction: true
     Script: |
       getgroupitem(IG_ODIN_ITEMBOX);
+  - Id: 23993
+    AegisName: Bio_Docu_Box
+    Name: Bio Lab Material Box
+    Type: Usable
+    Weight: 10
+    Flags:
+      Container: true
+    Script: |
+      getgroupitem(IG_BIO_DOCU_BOX);
+  - Id: 23994
+    AegisName: Bio_Reactant_Box
+    Name: Bio Reactor Box
+    Type: Usable
+    Weight: 10
+    Flags:
+      Container: true
+    Script: |
+      getgroupitem(IG_BIO_REACTANT_BOX);
