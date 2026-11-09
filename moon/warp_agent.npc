@@ -1562,7 +1562,8 @@ L_gla:
 				"gl_dun02,224,274"); goto L_gla;
 			case 3:
 	   WarpMenu("gl_chyard_,147,15",
-				"gl_cas02_,104,25"); goto L_gla;
+				"gl_cas02_,104,25",
+				"gl_cas01_,200,26"); goto L_gla;
 			default: goto L_Donjons;
 		}
 	else
@@ -1583,7 +1584,8 @@ L_gla:
 				"gl_dun01,133,271",
 				"gl_dun02,224,274",
 				"gl_chyard_,147,15",
-				"gl_cas02_,104,25"); goto L_Donjons;
+				"gl_cas02_,104,25",
+				"gl_cas01_,200,26"); goto L_Donjons;
 L_gon: WarpMenu("gon_dun01,153,48",
 				"gon_dun02,17,114",
 				"gon_dun03,68,9"); goto L_Donjons;

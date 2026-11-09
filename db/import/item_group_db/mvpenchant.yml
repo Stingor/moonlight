@@ -407,3 +407,9 @@ Body:
           - Index: 117
             Item: Ingrid_Card
             Rate: 1
+          - Index: 118
+            Item: Polluted_Spi_Q_Card
+            Rate: 1
+          - Index: 119
+            Item: Polluted_Dark_L_Card
+            Rate: 1

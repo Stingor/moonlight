@@ -2231,3 +2231,27 @@ Body:
           - Index: 726
             Item: Holy_Skogul_Card
             Rate: 1
+          - Index: 727
+            Item: Polluted_Raydric_Card
+            Rate: 1
+          - Index: 728
+            Item: Polluted_Ray_A_Card
+            Rate: 1
+          - Index: 729
+            Item: Frozen_Gargoyle_Card
+            Rate: 1
+          - Index: 730
+            Item: Polluted_Sting_Card
+            Rate: 1
+          - Index: 731
+            Item: Prison_Breaker_Card
+            Rate: 1
+          - Index: 732
+            Item: Ice_Ghost_Card
+            Rate: 1
+          - Index: 733
+            Item: Flame_Ghost_Card
+            Rate: 1
+          - Index: 734
+            Item: Polluted_W_Man_Card
+            Rate: 1

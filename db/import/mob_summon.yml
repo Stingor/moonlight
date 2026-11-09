@@ -93,6 +93,10 @@ Body:
         Rate: 25000
       - Mob: INGRID
         Rate: 25000
+      - Mob: BRINARANEA_H
+        Rate: 25000
+      - Mob: DARK_LORD_H
+        Rate: 25000
       - Mob: EP17_1_R4885_BESTIA
         Rate: 25000
       - Mob: EP16_2_VENOM_KIMERA
@@ -1401,6 +1405,22 @@ Body:
       - Mob: PLASMA_ARCH
         Rate: 32000
       - Mob: PLASMA_SPT
+        Rate: 32000
+      - Mob: RAYDRIC_H
+        Rate: 32000
+      - Mob: RAYDRIC_ARCHER_H
+        Rate: 32000
+      - Mob: GARGOYLE_H
+        Rate: 32000
+      - Mob: STING_H
+        Rate: 32000
+      - Mob: RAGGED_ZOMBIE_H
+        Rate: 32000
+      - Mob: ICE_GHOST_H
+        Rate: 32000
+      - Mob: FLAME_GHOST_H
+        Rate: 32000
+      - Mob: WANDER_MAN_H
         Rate: 32000
       - Mob: EP17_1_BELLARE1
         Rate: 32000

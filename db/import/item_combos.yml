@@ -7124,3 +7124,30 @@ Body:
     Script: |
       bonus2 bAddSize,Size_All,12;
       bonus bCritical,10;
+  - Combos:
+      - Combo: # Abyss Glast Heim
+          - Polluted_Raydric_Card
+          - Daydric_Card
+    Script: |
+      bonus2 bAddClass,Class_All,5;
+      bonus2 bSubEle,Ele_Neutral,10;
+  - Combos:
+      - Combo: # Abyss Glast Heim
+          - Polluted_Sting_Card
+          - Sting_Card
+    Script: |
+      bonus bDef,15;
+      bonus bMdef,20;
+  - Combos:
+      - Combo: # Abyss Glast Heim
+          - Ice_Ghost_Card
+          - Curupira_Card
+    Script: |
+      bonus2 bMagicAddEle,Ele_Water,8;
+  - Combos:
+      - Combo: # Abyss Glast Heim
+          - Polluted_Dark_L_Card
+          - Dark_Lord_Card
+    Script: |
+      bonus2 bMagicAtkEle,Ele_Fire,15;
+      bonus2 bSkillAtk,"WZ_METEOR",15;

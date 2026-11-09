@@ -10340,3 +10340,123 @@ Body:
       bonus2 bHPLossRate,1000,4000;
     UnEquipScript: |
       heal -10000,0;
+  - Id: 27354
+    AegisName: Polluted_Raydric_Card
+    Name: Polluted Raydric Card
+    Type: Card
+    Buy: 20
+    Weight: 10
+    Locations:
+      Armor: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bAddClass,Class_All,5;
+  - Id: 27355
+    AegisName: Polluted_Ray_A_Card
+    Name: Polluted Raydric Archer Card
+    Type: Card
+    Buy: 20
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bLongAtkRate,10;
+  - Id: 27356
+    AegisName: Frozen_Gargoyle_Card
+    Name: Frozen Gargoyle Card
+    Type: Card
+    Buy: 20
+    Weight: 10
+    Locations:
+      Left_Hand: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bSubSize,Size_Medium,25;
+      bonus2 bSubSize,Size_Large,25;
+      bonus2 bSubSize,Size_Small,-5;
+      bonus bDef,2;
+  - Id: 27357
+    AegisName: Polluted_Sting_Card
+    Name: Polluted Sting Card
+    Type: Card
+    Buy: 20
+    Weight: 10
+    Locations:
+      Armor: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bDef,(100+25*(getrefine()/3))/10;
+  - Id: 27358
+    AegisName: Prison_Breaker_Card
+    Name: Prison Breaker Card
+    Type: Card
+    Buy: 20
+    Weight: 10
+    Locations:
+      Garment: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bSubEle,Ele_Wind,30;
+      bonus2 bSubEle,Ele_Poison,30;
+      bonus2 bSubEle,Ele_Dark,30;
+      bonus2 bSubEle,Ele_Earth,30;
+      bonus2 bSubEle,Ele_Undead,30;
+      bonus2 bSubEle,Ele_Holy,-100;
+      bonus2 bSubEle,Ele_Ghost,-100;
+      bonus2 bSubEle,Ele_Fire,-100;
+  - Id: 27359
+    AegisName: Ice_Ghost_Card
+    Name: Ice Ghost Card
+    Type: Card
+    Buy: 20
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bMagicAddEle,Ele_Water,15;
+  - Id: 27360
+    AegisName: Flame_Ghost_Card
+    Name: Flame Ghost Card
+    Type: Card
+    Buy: 20
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bMagicAddEle,Ele_Fire,15;
+  - Id: 27362
+    AegisName: Polluted_Spi_Q_Card
+    Name: Polluted Queen Spider Card
+    Type: Card
+    Buy: 20
+    Weight: 10
+    Locations:
+      Garment: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bSubEle,Ele_All,-30;
+      bonus2 bMagicAtkEle,Ele_Earth,100;
+      bonus2 bMagicAtkEle,Ele_Water,100;
+  - Id: 27363
+    AegisName: Polluted_Dark_L_Card
+    Name: Polluted Dark Lord Card
+    Type: Card
+    Buy: 20
+    Weight: 10
+    Locations:
+      Right_Accessory: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bAspd,1;

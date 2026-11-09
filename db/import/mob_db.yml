@@ -54051,6 +54051,7 @@ Footer:
   - Path: db/import/mobs/slabw01.yml
   - Path: db/import/mobs/abyss_04.yml
   - Path: db/import/mobs/odin_past.yml
+  - Path: db/import/mobs/glastheim_abyss.yml
   - Path: db/import/mobs/ein_dun.yml
   - Path: db/import/mobs/ep17_1_instances.yml
   - Path: db/import/mobs/sp_rudus.yml

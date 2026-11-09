@@ -26613,3 +26613,165 @@ Body:
             }
          }
       }
+  - Id: 21039
+    AegisName: T_Sword_Of_Kingdom
+    Name: Royal Knight's Broadsword [2]
+    Type: Weapon
+    SubType: 2hSword
+    Buy: 50000
+    Weight: 4000
+    Attack: 280
+    Range: 1
+    Slots: 2
+    Jobs:
+      Crusader: true
+      Knight: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 175
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      .@r = getrefine();
+      bonus bBaseAtk,20*(.@r/2);
+      if (.@r>=7)
+         bonus bCritAtkRate,10;
+      if (.@r>=9)
+         bonus bUnbreakableWeapon;
+  - Id: 26016
+    AegisName: T_Lance_Of_Kingdom
+    Name: Royal Knight's Lance [2]
+    Type: Weapon
+    SubType: 2hSpear
+    Buy: 50000
+    Weight: 1000
+    Attack: 205
+    Range: 3
+    Slots: 2
+    Jobs:
+      Crusader: true
+      Knight: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 175
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      .@r = getrefine();
+      bonus bLongAtkRate,3*(.@r/2);
+      if (.@r>=7)
+         bonus2 bAddClass,Class_All,5;
+      if (.@r>=9)
+         bonus2 bAddRace,RC_All,15;
+  - Id: 26138
+    AegisName: Wand_Of_Flame
+    Name: Hellfire Staff [2]
+    Type: Weapon
+    SubType: 2hStaff
+    Buy: 50000
+    Weight: 800
+    Attack: 110
+    Range: 1
+    Slots: 2
+    Jobs:
+      Acolyte: true
+      Mage: true
+      Monk: true
+      Priest: true
+      Sage: true
+      SoulLinker: true
+      Wizard: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 175
+    Refineable: true
+    Script: |
+      bonus bMatk,180;
+      .@r = getrefine();
+      bonus bInt,5;
+      bonus bMatk,15*(.@r/2);
+      bonus bUnbreakableWeapon;
+      if (.@r>=9)
+         .@val = 15;
+      else if (.@r>=7)
+         .@val = 5;
+      bonus2 bMagicAtkEle,Ele_Fire,.@val;
+      bonus2 bMagicAtkEle,Ele_Earth,.@val;
+  - Id: 26139
+    AegisName: Wand_Of_Ice
+    Name: Icicle Staff [2]
+    Type: Weapon
+    SubType: 2hStaff
+    Buy: 50000
+    Weight: 800
+    Attack: 110
+    Range: 1
+    Slots: 2
+    Jobs:
+      Acolyte: true
+      Mage: true
+      Monk: true
+      Priest: true
+      Sage: true
+      SoulLinker: true
+      Wizard: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 175
+    Refineable: true
+    Script: |
+      bonus bMatk,180;
+      .@r = getrefine();
+      bonus bInt,5;
+      bonus bMatk,15*(.@r/2);
+      bonus bUnbreakableWeapon;
+      if (.@r>=9)
+         .@val = 15;
+      else if (.@r>=7)
+         .@val = 5;
+      bonus2 bMagicAtkEle,Ele_Water,.@val;
+      bonus2 bMagicAtkEle,Ele_Holy,.@val;
+  - Id: 28619
+    AegisName: Prisoner_Dairy
+    Name: Prisoner's Diary [2]
+    Type: Weapon
+    SubType: Book
+    Buy: 50000
+    Weight: 800
+    Attack: 210
+    Range: 1
+    Slots: 2
+    Jobs:
+      Priest: true
+      Sage: true
+      StarGladiator: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 175
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHPrate,5;
+      bonus bMaxSPrate,5;
+      bonus bBaseAtk,20*(.@r/2);
+      if (.@r>=9)
+         .@val = 25;
+      else if (.@r>=7)
+         .@val = 10;
+      if (getallrefine() >= 22) {
+         bonus2 bAddEle,Ele_Dark,15;
+         bonus2 bMagicAddEle,Ele_Dark,15;
+         bonus2 bAddEle,Ele_Undead,15;
+         bonus2 bMagicAddEle,Ele_Undead,15;
+      }
+      bonus2 bAddRace,RC_Demon,.@val;
+      bonus2 bAddRace,RC_Undead,.@val;
+      bonus2 bMagicAddRace,RC_Demon,.@val;
+      bonus2 bMagicAddRace,RC_Undead,.@val;
