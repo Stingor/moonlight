@@ -202,8 +202,10 @@ ein_d02_i	monster	Spirit Dwelling Obsidian	 20263,15
 OnMobDead:
 	callfunc "F_HuntMissionKill";
 	if (playerattached()) {
-		if (.count < 2500)
+		if (.count < 2500) {
 			.count++;
+			callfunc "F_IllusionPalier", "ein_d02_i", .count, 2500, 20260, .cooldown;
+		}
 		if (!.boss_spawn && !.cooldown && .count == 2500) {
 			.boss_spawn = true;
 			.count = 0;

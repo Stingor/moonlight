@@ -183,8 +183,10 @@ S_Mob:
 	if (.@group != .group)
 		end;
 	if (playerattached()) {
-		if (.count < 1500)
+		if (.count < 1500) {
 			.count++;
+			callfunc "F_IllusionPalier", "com_d02_i", .count, 1500, 20273 + .swap, .cooldown;
+		}
 		if (.count == 1500 && !.boss_spawn && !.cooldown) {
 			getunitdata( killedgid, .@data );
 			callsub( S_Boss, (20273 + .swap), .@data[UMOB_X], .@data[UMOB_Y] );

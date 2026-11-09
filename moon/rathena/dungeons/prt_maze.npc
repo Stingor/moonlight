@@ -477,6 +477,9 @@ OnMobDead:
 	if (.boss_spawn || .cooldown || .count[killedrid] == 1)
 		end;
 	.count[killedrid] = 1;
+	.@n = .count[20521] + .count[20522] + .count[20523] + .count[20524];
+	if (.@n < 4)
+		mapannounce "prt_mz03_i", "[Illusion] Gardiens du Chaos vaincus : " + .@n + " / 4.", bc_map, 0x70DBDB;
 
 	if (.count[20521] == 1 && .count[20522] == 1 && .count[20523] == 1 && .count[20524] == 1) {
 		.boss_spawn = true;

@@ -76,6 +76,8 @@ OnEvent:
 	if (.mob_count[killedrid] >= 2500)
 		end;
 	.mob_count[killedrid]++;
+	.@sum = .mob_count[3799] + .mob_count[3800] + .mob_count[3801] + .mob_count[3802] + .mob_count[3803];
+	callfunc "F_IllusionPalier", "tur_d04_i", .@sum, 12500, 3804, 0;
 	if (.mob_count[3799] < 2500 || .mob_count[3800] < 2500 || .mob_count[3801] < 2500 || .mob_count[3802] < 2500 || .mob_count[3803] < 2500)
 		end;
 	.boss_spawn = true;

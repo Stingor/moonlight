@@ -1,0 +1,131 @@
+//===== Moonlight Script =====================================
+//= Suivi des boss Illusion
+//===== Description: =========================================
+//= @illusion : progression des conditions d'apparition des MVP
+//= Illusion, boss en vie, repos restant.
+//= F_IllusionPalier : annonce sur la map a 50 / 75 / 90 % du seuil.
+//= Les compteurs vivent dans les scripts de chaque donjon (variables
+//= d'NPC, partagees par toute la map) : ce fichier ne fait que les lire.
+//= Le repos se lit sur le timer de l'NPC (OnTimer7200000 = 2 h).
+//============================================================
+
+// F_IllusionPalier "<map>", <compte>, <seuil>, <id du boss>, <en repos>;
+// A appeler seulement quand le compte vient d'augmenter de 1.
+function	script	F_IllusionPalier	{
+	.@n = getarg(1);
+	.@total = getarg(2);
+	if (.@n == .@total) {
+		if (getarg(4))
+			mapannounce getarg(0), "[Illusion] Seuil atteint : " + getmonsterinfo(getarg(3), MOB_NAME) + " apparaîtra au premier monstre vaincu après la fin de son repos.", bc_map, 0x70DBDB;
+		return;
+	}
+	setarray .@pct, 50, 75, 90;
+	for (.@i = 0; .@i < 3; ++.@i) {
+		if (.@n == .@total * .@pct[.@i] / 100) {
+			mapannounce getarg(0), "[Illusion] " + getmonsterinfo(getarg(3), MOB_NAME) + " : " + .@n + " / " + .@total + " monstres vaincus (" + .@pct[.@i] + " %).", bc_map, 0x70DBDB;
+			return;
+		}
+	}
+	return;
+}
+
+-	script	illusion_tracker	-1,{
+	end;
+
+OnInit:
+	bindatcmd("illusion", strnpcinfo(0) + "::OnCommand", 0, 99);
+	end;
+
+OnCommand:
+	mes "[Boss des Illusions]";
+	mes "Compteurs communs à tous les joueurs de la map.";
+	callsub S_Std, "iz_d04_i_boss", "iz_d04_i", 20811, 1500, "Underwater 1";
+	callsub S_Std, "iz_d05_i_boss", "iz_d05_i", 20843, 1500, "Underwater 2";
+	callsub S_Std, "illusion_luanda", "com_d02_i", 20273 + getvariableofnpc(.swap, "illusion_luanda"), 1500, "Luanda";
+	callsub S_Std, "ein_d02_i_boss", "ein_d02_i", 20260, 2500, "Teddy Bear";
+	callsub S_Std, "ant_d02_i_boss", "ant_d02_i", 21395, 3000, "Anthell";
+	callsub S_Turtle;
+	callsub S_Moonlight;
+	callsub S_Maze;
+	close;
+
+// <map>, <libelle>, <id du boss> : titre, en vert si le joueur y est
+S_Head:
+	mes " ";
+	mes (strcharinfo(3) == getarg(0) ? "^00AA00> " : "^0055FF") + getarg(1) + " - " + getmonsterinfo(getarg(2), MOB_NAME) + "^000000";
+	return;
+
+S_Alive:
+	mes "  ^FF0000Le boss est en vie !^000000";
+	return;
+
+// <npc> : repos restant, "" hors repos
+S_Rest:
+	if (!getvariableofnpc(.cooldown, getarg(0)))
+		return "";
+	.@min = (7200000 - getnpctimer(0, getarg(0))) / 60000 + 1;
+	return " ^0000FF(repos : " + (.@min / 60) + " h " + (.@min % 60) + " min)^000000";
+
+// <npc>, <map>, <id du boss>, <seuil>, <libelle>
+S_Std:
+	callsub S_Head, getarg(1), getarg(4), getarg(2);
+	if (getvariableofnpc(.boss_spawn, getarg(0))) {
+		callsub S_Alive;
+		return;
+	}
+	.@n = getvariableofnpc(.count, getarg(0));
+	mes "  " + .@n + " / " + getarg(3) + " (" + (.@n * 100 / getarg(3)) + " %)" + callsub(S_Rest, getarg(0));
+	return;
+
+S_Turtle:
+	callsub S_Head, "tur_d04_i", "Turtle", 3804;
+	if (getvariableofnpc(.boss_spawn, "illusion_turtle_boss")) {
+		callsub S_Alive;
+		return;
+	}
+	if (getvariableofnpc(.cooldown, "illusion_turtle_boss")) {
+		mes "  Comptage suspendu" + callsub(S_Rest, "illusion_turtle_boss");
+		return;
+	}
+	mes "  Chaque espèce doit atteindre 2500 :";
+	for (.@id = 3799; .@id <= 3803; ++.@id)
+		mes "   " + getmonsterinfo(.@id, MOB_NAME) + " : " + getvariableofnpc(.mob_count[.@id], "illusion_turtle_boss") + " / 2500";
+	return;
+
+S_Moonlight:
+	callsub S_Head, "pay_d03_i", "Moonlight", 3758;
+	.@n = getvariableofnpc(.kill_count, "illusion_mob#moonlight");
+	if (getvariableofnpc(.mvp_spawn, "illusion_mob#moonlight"))
+		callsub S_Alive;
+	else if (.@n > 1000)
+		mes "  Seuil dépassé : 10 % de chance à chaque monstre vaincu.";
+	else
+		mes "  " + .@n + " / 1000 (" + (.@n / 10) + " %), puis 10 % de chance par monstre";
+	callsub S_Head, "pay_d03_i", "Moonlight", 3764;
+	if (getvariableofnpc(.spawn, "ill_moonlight_wizard"))
+		callsub S_Alive;
+	else
+		mes "  " + getvariableofnpc(.kill_count, "ill_moonlight_wizard") + " / 10 " + getmonsterinfo(3765, MOB_NAME);
+	return;
+
+S_Maze:
+	callsub S_Head, "prt_mz03_i", "Labyrinth", 20520;
+	if (getvariableofnpc(.boss_spawn, "prt_mz03_i_boss")) {
+		callsub S_Alive;
+		return;
+	}
+	if (getvariableofnpc(.cooldown, "prt_mz03_i_boss")) {
+		mes "  Gardiens sans effet" + callsub(S_Rest, "prt_mz03_i_boss");
+		return;
+	}
+	for (.@id = 20521; .@id <= 20524; ++.@id) {
+		if (getvariableofnpc(.count[.@id], "prt_mz03_i_boss"))
+			.@done++;
+		else
+			.@left$ = .@left$ + (.@left$ == "" ? "" : ", ") + getmonsterinfo(.@id, MOB_NAME);
+	}
+	mes "  Gardiens vaincus : " + .@done + " / 4";
+	if (.@left$ != "")
+		mes "  Restants : " + .@left$;
+	return;
+}

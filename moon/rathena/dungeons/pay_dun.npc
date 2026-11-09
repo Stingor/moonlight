@@ -190,6 +190,10 @@ OnKill:
 	if (.mvp_spawn == 1)
 		end;
 	.kill_count += 1;
+	if (.kill_count == 1001)
+		mapannounce "pay_d03_i", "[Illusion] Seuil atteint : Angry Moonlight Flower peut désormais apparaître à chaque monstre vaincu.", bc_map, 0x70DBDB;
+	else if (.kill_count < 1000)
+		callfunc "F_IllusionPalier", "pay_d03_i", .kill_count, 1000, 3758, 0;
 	if (.kill_count > 1000) {
 		if (rand(100) < 10) // !todo Confirm chance
 			donpcevent strnpcinfo(0)+"::OnBossSpawn";
