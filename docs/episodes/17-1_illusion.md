@@ -69,7 +69,7 @@ Toutes ces cartes sont dans le mapcache. Attention à l'Id 51 : chez Moonlight, 
 | Refonte des compétences des classes étendues #1 | non |
 | Améliorations du système de cuisine | oui |
 | Équipement de montée exclusif 16.1/16.2/17.1 | à convertir |
-| **Potions Sirop** (soins améliorés) | oui |
+| **Potions Sirop** (soins améliorés) | oui — ✅ porté le 2026‑11‑09 : 4 Sirops (11621‑11624) en `db/import/items/item_db_healing.yml`, Advanced Potion Merchant de la PR [#5360](https://github.com/rathena/rathena/pull/5360) dans 10 villes (`moon/rathena/merchants/shops.txt`) ; leur usage d'ingrédient (potions Concentrées, `GN_S_PHARMACY`) reste fermé avec le Généticien |
 
 ## 3. État côté rAthena
 

@@ -455,3 +455,17 @@ moc_ruins,115,123,5	shop	Chef Assistant#moc	86,12849:-1,581:-1,7482:-1,580:-1;57
 geffen,196,111,3	shop	Chef Assistant#gef	85,12849:-1,581:-1,7482:-1,580:-1;577:-1,7457:-1;7454:-1,7455:-1;7453:-1;7456:-1;7452:-1;579:-1;12125:-1;12126:-1,12127:-1
 alberta,167,135,5	shop	Chef Assistant#alb	712,12849:-1,581:-1,7482:-1,580:-1;577:-1,7457:-1;7454:-1,7455:-1;7453:-1;7456:-1;7452:-1;579:-1;12125:-1;12126:-1,12127:-1
 payon,206,119,5	shop	Chef Assistant#pay	89,12849:-1,581:-1,7482:-1,580:-1;577:-1,7457:-1;7454:-1,7455:-1;7453:-1;7456:-1;7452:-1;579:-1;12125:-1;12126:-1,12127:-1
+
+//=======================================================
+// Advanced Potion Merchant (Sirops, épisode 17.1)
+//=======================================================
+alberta_in,176,97,5	shop	Advanced Potion Merchant#alb	4_F_ALCHE_A,11621:-1,11622:-1,11623:-1,11624:-1
+aldeba_in,99,56,5	shop	Advanced Potion Merchant#alde	4_F_ALCHE_A,11621:-1,11622:-1,11623:-1,11624:-1
+geffen_in,78,169,3	shop	Advanced Potion Merchant#gef	1_F_03,11621:-1,11622:-1,11623:-1,11624:-1
+izlude_in,59,113,5	shop	Advanced Potion Merchant#iz	4_F_ALCHE_A,11621:-1,11622:-1,11623:-1,11624:-1
+morocc,149,245,7	shop	Advanced Potion Merchant#moc1	4_F_ALCHE_A,11621:-1,11622:-1,11623:-1,11624:-1
+morocc,170,84,1	shop	Advanced Potion Merchant#moc2	4_F_ALCHE_A,11621:-1,11622:-1,11623:-1,11624:-1
+payon,157,96,3	shop	Advanced Potion Merchant#pay	4_F_ALCHE_A,11621:-1,11622:-1,11623:-1,11624:-1
+payon_in01,12,53,5	shop	Advanced Potion Merchant#pay2	4_F_ALCHE_A,11621:-1,11622:-1,11623:-1,11624:-1
+payon_in02,85,38,3	shop	Advanced Potion Merchant#pay3	4_F_ALCHE_A,11621:-1,11622:-1,11623:-1,11624:-1
+prt_in,129,68,3	shop	Advanced Potion Merchant#prt	4_F_ALCHE_A,11621:-1,11622:-1,11623:-1,11624:-1
