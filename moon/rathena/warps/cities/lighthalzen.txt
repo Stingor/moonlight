@@ -88,4 +88,4 @@ lhz_in03,134,14,0	warp	lhz_house3_2-1	1,1,lhz_in03,125,90
 lhz_in03,120,90,0	warp	lhz_house3_2-2	1,1,lhz_in03,130,14
 
 // Rekenber Research Institute
-// rgsr_in,127,32,0	warp	rekenber_to_lhz	1,1,lighthalzen,53,275
+rgsr_in,127,32,0	warp	rekenber_to_lhz	1,1,lighthalzen,53,275
