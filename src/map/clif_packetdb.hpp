@@ -2085,7 +2085,7 @@ parseable_packet(HEADER_CZ_MOONLIGHT_REQ_COMPAT_CARDS, sizeof(PACKET_CZ_MOONLIGH
 parseable_packet(HEADER_CZ_MOONLIGHT_JUMP, sizeof(PACKET_CZ_MOONLIGHT_JUMP), clif_parse_moonlight_jump, 0);
 
 // [Stingor] Bourgeon : le STYLE du joueur — couleurs de corps, palette de cheveux
-// et coiffure (fixed 52, rediffusé à la zone ; la coiffure part en pc_changelook)
+// et coiffure (fixed 56, rediffusé à la zone ; la coiffure part en pc_changelook)
 parseable_packet(HEADER_CZ_MOONLIGHT_STYLE, sizeof(PACKET_CZ_MOONLIGHT_STYLE), clif_parse_moonlight_style, 0);
 
 // [Stingor] Bourgeon : onglets de storage — ouvrir/basculer vers un storage (fixed)

@@ -11721,6 +11721,9 @@ void pc_equiplookall(map_session_data *sd)
  *------------------------------------------*/
 void pc_changelook(map_session_data *sd,int32 type,int32 val) {
 	nullpo_retv(sd);
+	// [Stingor] La coupe ou la couleur de cheveux a changé : la recette de style
+	// rangée doit suivre (clif_bourgeon_style_follow_look, après le paquet natif).
+	bool hair_changed = false;
 
 	switch(type) {
 	case LOOK_HAIR:	//Use the battle_config limits! [Skotlex]
@@ -11728,6 +11731,7 @@ void pc_changelook(map_session_data *sd,int32 type,int32 val) {
 
 		if (sd->status.hair != val) {
 			sd->status.hair = val;
+			hair_changed = true;
 			if (sd->status.guild_id) //Update Guild Window. [Skotlex]
 				intif_guild_change_memberinfo(sd->status.guild_id, sd->status.account_id, sd->status.char_id,
 				GMI_HAIR, &sd->status.hair, sizeof(sd->status.hair));
@@ -11753,6 +11757,7 @@ void pc_changelook(map_session_data *sd,int32 type,int32 val) {
 
 		if (sd->status.hair_color != val) {
 			sd->status.hair_color = val;
+			hair_changed = true;
 			if (sd->status.guild_id) //Update Guild Window. [Skotlex]
 				intif_guild_change_memberinfo(sd->status.guild_id, sd->status.account_id, sd->status.char_id,
 				GMI_HAIR_COLOR, &sd->status.hair_color, sizeof(sd->status.hair_color));
@@ -11781,6 +11786,10 @@ void pc_changelook(map_session_data *sd,int32 type,int32 val) {
 		break;
 	}
 	clif_changelook(sd, type, val);
+	// [Stingor] Après le ZC_SPRITE_CHANGE : l'apparence native précède toujours le
+	// lot de style.
+	if (hair_changed)
+		clif_bourgeon_style_follow_look(sd);
 }
 
 /*==========================================

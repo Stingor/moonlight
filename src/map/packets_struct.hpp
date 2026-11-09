@@ -6627,10 +6627,12 @@ enum e_bourgeon_style_flag : uint8 {
 	BOURGEON_STYLE_CLEAR = 0x01,
 	// CZ seulement : efface TOUTES les variantes du personnage.
 	BOURGEON_STYLE_CLEAR_ALL = 0x02,
-	// ZC seulement : cette variante est celle du REPLI, appliquée par le client
-	// aux corps qui n'ont pas la leur. 🔴 C'est le serveur qui la désigne — s'il
-	// laissait chaque client la deviner, deux clients pourraient en choisir des
+	// ZC : cette variante est celle du REPLI, appliquée par le client aux corps
+	// qui n'ont pas la leur. 🔴 C'est le serveur qui la désigne — s'il laissait
+	// chaque client la deviner, deux clients pourraient en choisir des
 	// différentes selon l'ordre d'arrivée des paquets.
+	// CZ : le joueur demande que CE corps devienne son style principal, donc le
+	// repli ; le serveur range sa variante en tête.
 	BOURGEON_STYLE_DEFAULT = 0x04,
 };
 
@@ -6641,6 +6643,8 @@ enum e_bourgeon_style_flag : uint8 {
 //   palette_id      : palette de vêtement officielle 1..553, -1 = d'origine.
 //   hair_palette_id : palette de cheveux officielle 1..251, -1 = d'origine.
 //   hair_style      : coiffure 1..80, -1 = celle du personnage. 🔴 APPLIQUÉE.
+//   Les bornes sont celles de battle_conf (min/max_cloth_color, min/max_hair_color,
+//   min/max_hair_style) : une trame qui en sort est jetée.
 struct PACKET_CZ_MOONLIGHT_STYLE {
 	int16 packetType;
 	int16 packetLength;

@@ -1758,6 +1758,10 @@ void clif_bourgeon_style_area(map_session_data* sd);
 // nouveau venu découvre — donc sans ceci personne ne voit jamais arriver le
 // style d'un joueur, pas même après qu'il se soit reconnecté.
 void clif_bourgeon_style_spawn(map_session_data* sd);
+// [Stingor] La coupe ou la couleur du personnage a changé hors de l'éditeur
+// (styliste, commande, script) : les variantes rangées qui en fixaient une autre
+// la suivent, et la zone l'apprend. Appelé par `pc_changelook`.
+void clif_bourgeon_style_follow_look(map_session_data* sd);
 // [Stingor] Un NPC pilote la fenêtre de couleurs (ZC 0x0F28) : 0 ferme, 1 ouvre,
 // 2 bascule. Exposé aux scripts par `bourgeon_style_open`.
 void clif_bourgeon_style_open(map_session_data* sd, uint8 mode);

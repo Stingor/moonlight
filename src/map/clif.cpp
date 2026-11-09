@@ -11743,15 +11743,6 @@ void clif_parse_moonlight_jump(int32 fd, map_session_data* sd) {
 // l'algorithme de rampes, qui divergerait de celle des clients — et deux joueurs
 // ne se verraient plus pareil.
 
-// Nom de la variable de PERSONNAGE qui porte le style. Le `$` final est ce qui
-// en fait une variable de chaîne côté rAthena (et côté char-server, ce qui la
-// range dans `char_reg_str` plutôt que `char_reg_num`).
-//
-// ⚠ Renommée de `palette_recipe$` le 2026-08-12, avec le reste du protocole.
-// C'est la CLÉ des données enregistrées : les anciennes lignes de `char_reg_str`
-// ne sont plus lues et les personnages concernés repartent sans style. Décidé en
-// connaissance de cause — seul le serveur de test avait des données. 🔴 Un
-// renommage ultérieur, lui, exigerait une migration SQL.
 // Les variables de PERSONNAGE qui portent le style : UNE PAR CORPS habillé. Le
 // `$` final est ce qui en fait des variables de chaîne côté rAthena (et côté
 // char-server, ce qui les range dans `char_reg_str` plutôt que `char_reg_num`).
@@ -11774,6 +11765,20 @@ static const char* const BOURGEON_STYLE_VARS[BOURGEON_STYLE_MAX_VARIANTS] = {
 	"bourgeon_style3$",
 	"bourgeon_style4$",
 };
+
+// [Stingor] L'identifiant de chaîne de la variable d'un emplacement, calculé une
+// seule fois : `add_str` cherche le nom dans la table des chaînes du script, que
+// `script_reload` ne vide pas.
+static int64 bourgeon_style_var(int32 slot) {
+	static int32 ids[BOURGEON_STYLE_MAX_VARIANTS];
+	static bool prets = false;
+	if (!prets) {
+		for (int32 i = 0; i < BOURGEON_STYLE_MAX_VARIANTS; ++i)
+			ids[i] = add_str(BOURGEON_STYLE_VARS[i]);
+		prets = true;
+	}
+	return ids[slot];
+}
 
 // La recette d'UN corps. `body_key` est opaque ici : c'est le condensé, calculé
 // par le client, du chemin de sprite du corps concerné. Le serveur ne sait pas le
@@ -11888,7 +11893,7 @@ static void bourgeon_style_load(map_session_data* sd,
 	// variables ne sont pas chargées. On ne l'appelle jamais sans ce garde.
 	if (sd == nullptr || !sd->vars_ok) return;
 	for (int i = 0; i < BOURGEON_STYLE_MAX_VARIANTS; ++i) {
-		const char* hex = pc_readregistry_str(sd, add_str(BOURGEON_STYLE_VARS[i]));
+		const char* hex = pc_readregistry_str(sd, bourgeon_style_var(i));
 		if (hex == nullptr || hex[0] == '\0') continue;  // emplacement libre
 		bourgeon_style_variant v;
 		if (!bourgeon_style_from_hex(hex, &v)) continue;  // version périmée : jetée
@@ -11903,16 +11908,26 @@ static void bourgeon_style_load(map_session_data* sd,
 
 // Réécrit les emplacements depuis la liste, COMPACTÉE : la première variante
 // occupe toujours [0], et c'est ce qui en fait le repli.
+//
+// Seul un emplacement dont la valeur CHANGE est réécrit : chaque variable est
+// une ligne de `char_reg_str`, et toute variable marquée repart au char-server.
+// 🔴 La sauvegarde part AUSSITÔT, sans attendre l'autosave : un style validé ne
+// doit pas disparaître si le map-server tombe dans les minutes qui suivent.
 static void bourgeon_style_store(
 		map_session_data* sd,
 		const std::vector<bourgeon_style_variant>& list) {
 	if (sd == nullptr || !sd->vars_ok) return;
 	char hex[BOURGEON_STYLE_ADJUST_BYTES * 2 + 48];
-	for (int i = 0; i < BOURGEON_STYLE_MAX_VARIANTS; ++i) {
-		if (i < (int)list.size()) bourgeon_style_to_hex(list[i], hex);
-		else                      hex[0] = '\0';  // emplacement libéré
-		pc_setregistry_str(sd, add_str(BOURGEON_STYLE_VARS[i]), hex);
+	bool ecrit = false;
+	for (int32 i = 0; i < BOURGEON_STYLE_MAX_VARIANTS; ++i) {
+		if (i < (int32)list.size()) bourgeon_style_to_hex(list[i], hex);
+		else                        hex[0] = '\0';  // emplacement libéré
+		const char* avant = pc_readregistry_str(sd, bourgeon_style_var(i));
+		if (strcmp(avant != nullptr ? avant : "", hex) == 0) continue;  // inchangé
+		pc_setregistry_str(sd, bourgeon_style_var(i), hex);
+		ecrit = true;
 	}
+	if (ecrit) intif_saveregistry(sd);
 }
 
 // Remplit une entrée de lot. `gid` = l'AID, qui est le GID de l'acteur côté
@@ -11979,33 +11994,35 @@ static int16 bourgeon_style_pack(
 	return len;
 }
 
-// La couleur de cheveux de la recette, posée sur le PERSONNAGE.
+// [Stingor] La coupe et la couleur RANGÉES suivent celles que porte le
+// PERSONNAGE.
 //
-// 🔴 SANS ÇA, LA FENÊTRE DE GUILDE NE RATTRAPE JAMAIS UN STYLE DÉJÀ POSÉ. La
-// liste de guilde ne transporte pas la recette : elle renvoie le `hair_color`
-// copié à l'inscription du membre. Le handler du paquet aligne bien les deux
-// quand une recette ARRIVE — mais un style enregistré de longue date n'envoie
-// plus rien, et deux gardes (mêmes octets, cooldown d'une seconde) court-
-// circuitent même une re-validation. Aucune reconnexion ne pouvait donc
-// corriger l'affichage.
+// 🔴 LE DERNIER CHOIX GAGNE, d'où qu'il vienne : l'éditeur, le styliste (PNJ ou
+// interface native payante), une commande. Le serveur n'applique au personnage
+// qu'une coupe et qu'une couleur (`pc_changelook`), que voient tous les clients
+// et la fenêtre de guilde. Une variante qui en fixerait une autre mentirait, et
+// la réimposer déferait un passage PAYÉ chez le styliste.
 //
-// ⚠ LA RECETTE FAIT FOI. Un passage chez le styliste NPC après avoir posé un
-// style sera donc défait à la connexion suivante : c'est le prix de l'alignement,
-// et c'est cohérent — l'éditeur est l'outil de style du serveur, le NPC ne
-// connaît pas les recettes. Changer de couleur se fait dans l'éditeur.
+// ⚠ Une seule coupe et une seule couleur pour TOUTES les variantes : la recette
+// est rangée par corps (un joueur en habille jusqu'à quatre), mais les cheveux
+// sont ceux du personnage. Une variante qui en fixe (≥ 1) prend ceux qu'il
+// porte ; une variante à -1 (« ceux du personnage ») n'a rien à suivre.
 //
-// ⚠ La première variante qui porte une couleur décide : la recette est PAR
-// CORPS (un joueur en habille jusqu'à quatre), alors que la couleur de cheveux
-// est unique pour le personnage. Il n'y a pas de « bonne » variante à choisir.
-static void bourgeon_style_apply_hair_color(
-		map_session_data* sd, const std::vector<bourgeon_style_variant>& list) {
-	if (sd == nullptr) return;
-	for (const bourgeon_style_variant& v : list) {
-		if (v.hair_id < 1) continue;
-		if (sd->status.hair_color != v.hair_id)
-			pc_changelook(sd, LOOK_HAIR_COLOR, v.hair_id);
-		return;
+// Rend vrai si une variante a changé.
+static bool bourgeon_style_follow_state(const map_session_data& sd,
+                                         std::vector<bourgeon_style_variant>& list) {
+	bool change = false;
+	for (bourgeon_style_variant& v : list) {
+		if (v.hair_style >= 1 && v.hair_style != sd.status.hair) {
+			v.hair_style = (int16)sd.status.hair;
+			change = true;
+		}
+		if (v.hair_id >= 1 && v.hair_id != sd.status.hair_color) {
+			v.hair_id = (int16)sd.status.hair_color;
+			change = true;
+		}
 	}
+	return change;
 }
 
 // Qui a droit d'apprendre les COULEURS D'AUTRUI ?
@@ -12034,10 +12051,12 @@ void clif_bourgeon_style_single(map_session_data* sd, map_session_data* owner) {
 	bourgeon_style_load(owner, list);
 	if (list.empty()) return;  // pas de style : rien à dire de celui-là
 
-	// Le joueur reçoit SON propre style : c'est le moment d'aligner la couleur
-	// officielle du personnage dessus. Pas quand on lui décrit un AUTRE joueur —
-	// on repeindrait ses cheveux avec ceux du voisin.
-	if (sd == owner) bourgeon_style_apply_hair_color(owner, list);
+	// Le joueur reçoit SON propre style : c'est le moment de ranger ses variantes
+	// sur la coupe et la couleur qu'il porte, au cas où un changement leur aurait
+	// échappé (ses variables n'étaient pas chargées). Pas quand on lui décrit un
+	// AUTRE joueur : seul le propriétaire fait foi pour ce qui est rangé chez lui.
+	if (sd == owner && bourgeon_style_follow_state(*owner, list))
+		bourgeon_style_store(owner, list);
 
 	const int32 fd = sd->fd;
 	uint8 buf[BOURGEON_STYLE_ONE_MAX];
@@ -12055,6 +12074,9 @@ static int32 clif_bourgeon_style_area_sub(block_list* bl, va_list ap) {
 		va_arg(ap, std::vector<map_session_data*>*);
 	map_session_data* self = va_arg(ap, map_session_data*);
 	if (owner == self) return 0;  // le sien part par un chemin dedie
+	// Un joueur caché n'est pas trahi par ses couleurs : la même garde que
+	// `clif_getareachar_unit`, qui ne montre pas non plus l'unité elle-même.
+	if (clif_hidden_unit_withheld(*bl, *self)) return 0;
 	out->push_back(owner);
 	return 1;
 }
@@ -12139,19 +12161,24 @@ void clif_bourgeon_style_area(map_session_data* sd) {
 	vider();
 }
 
-// Envoie un paquet de style DÉJÀ FORMATÉ à un joueur de la zone (callback
-// map_foreachinallrange). Pré-formaté justement pour ne pas relire la recette de
-// l'émetteur une fois par spectateur : elle est la même pour tous.
-static int32 clif_bourgeon_style_spawn_sub(block_list* bl, va_list ap) {
+// Envoie un lot de style DÉJÀ FORMATÉ à un joueur à portée de son propriétaire
+// (callback map_foreachinallrange et map_foreachinviewring). Pré-formaté
+// justement pour ne pas relire la recette une fois par spectateur : elle est la
+// même pour tous. va_arg : le propriétaire, le lot, sa longueur, puis 1 si le
+// propriétaire le reçoit aussi.
+static int32 clif_bourgeon_style_send_sub(block_list* bl, va_list ap) {
 	map_session_data* tsd = BL_CAST(BL_PC, bl);
-	if (tsd == nullptr) return 0;
-
-	const int32  src_id = va_arg(ap, int32);
-	const uint8* buf    = va_arg(ap, const uint8*);
-	const int32  len    = va_arg(ap, int32);
-
-	if (tsd->id == src_id) return 0;         // le sien part par un chemin dédié
-	if (!bourgeon_cosmetic_receiver(tsd)) return 0;  // client vanilla : rien à lui dire
+	const map_session_data* owner = va_arg(ap, const map_session_data*);
+	const uint8* buf = va_arg(ap, const uint8*);
+	const int32 len = va_arg(ap, int32);
+	const int32 avec_soi = va_arg(ap, int32);
+	if (tsd == nullptr || owner == nullptr) return 0;
+	if (tsd == owner && avec_soi == 0) return 0;  // le sien part par un chemin dédié
+	// 🔴 DESTINATAIRE PAR DESTINATAIRE, jamais `clif_send(AREA)` : un client sans
+	// DLL ne connaît pas cet opcode, et un opcode inconnu lui vide le flux.
+	if (!bourgeon_cosmetic_receiver(tsd)) return 0;
+	// Un joueur caché n'est pas trahi par ses couleurs.
+	if (tsd != owner && clif_hidden_unit_withheld(*owner, *tsd)) return 0;
 	const int32 fd = tsd->fd;
 	if (!session_isActive(fd)) return 0;
 
@@ -12159,6 +12186,18 @@ static int32 clif_bourgeon_style_spawn_sub(block_list* bl, va_list ap) {
 	memcpy(WFIFOP(fd, 0), buf, len);
 	WFIFOSET(fd, len);
 	return 1;
+}
+
+// Le lot de `owner` à tous les joueurs à portée qui savent le lire, et à `owner`
+// lui-même si `avec_soi` : c'est alors son accusé de réception.
+static void clif_bourgeon_style_send_area(map_session_data* owner, const uint8* buf,
+                                          int16 len, bool avec_soi) {
+	map_foreachinallrange(clif_bourgeon_style_send_sub, owner, AREA_SIZE, BL_PC,
+	                      static_cast<const map_session_data*>(owner), buf, (int32)len,
+	                      (int32)avec_soi);
+	map_foreachinviewring(clif_bourgeon_style_send_sub, owner, 0,
+	                      static_cast<const map_session_data*>(owner), buf, (int32)len,
+	                      (int32)avec_soi);
 }
 
 // Le style de `sd` part vers tous les joueurs à portée, à son APPARITION.
@@ -12203,10 +12242,7 @@ void clif_bourgeon_style_spawn(map_session_data* sd) {
 	// eux qui ne doivent pas recevoir un opcode qu'ils ne connaissent pas.
 	uint8 buf[BOURGEON_STYLE_ONE_MAX];
 	const int16 len = bourgeon_style_pack(sd, list, buf);
-
-	map_foreachinallrange(clif_bourgeon_style_spawn_sub, sd, AREA_SIZE, BL_PC,
-	                      (int32)sd->id, (const uint8*)buf, (int32)len);
-	map_foreachinviewring(clif_bourgeon_style_spawn_sub, sd, 0, (int32)sd->id, (const uint8*)buf, (int32)len);
+	clif_bourgeon_style_send_area(sd, buf, len, /*avec_soi=*/false);
 }
 
 // Délai minimum entre deux validations de style, en ms.
@@ -12223,6 +12259,25 @@ void clif_bourgeon_style_spawn(map_session_data* sd) {
 // style deux fois dans la même seconde autrement que par un double-clic — et
 // jeter le second est alors la bonne réponse, pas une gêne.
 static const t_tick BOURGEON_STYLE_COOLDOWN = 1000;
+
+// [Stingor] Vrai pendant que le gestionnaire de 0x0F26 applique lui-même la coupe
+// et la couleur : il range ensuite la liste complète, et
+// `clif_bourgeon_style_follow_look` n'a pas à la ranger une seconde fois.
+static bool bourgeon_style_applying = false;
+
+// [Stingor] Un numéro officiel de la recette (vêtement, cheveux, coupe). Une
+// valeur ≤ 0 veut dire « celui du personnage » et se range -1. Au-delà, elle doit
+// tenir dans les bornes du serveur : sinon toute la zone chargerait une palette ou
+// une tête qui n'existe pas. Rend faux hors des bornes.
+static bool bourgeon_style_number(int16 val, int32 min, int32 max, int16& out) {
+	if (val < 1) {
+		out = -1;
+		return true;
+	}
+	if (val < min || val > max) return false;
+	out = val;
+	return true;
+}
 
 void clif_parse_moonlight_style(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
@@ -12244,6 +12299,21 @@ void clif_parse_moonlight_style(int32 fd, map_session_data* sd) {
 	// qu'aucun client ne choisirait jamais, tout en occupant un des quatre
 	// emplacements du personnage. Seul « tout effacer » s'en passe.
 	if (!tout_effacer && p->body_key == 0) return;
+	const bool habiller = !tout_effacer && !effacer_ce_corps;
+	// Sur la CZ, 0x04 demande que CE corps devienne le style principal, donc le
+	// repli : sa variante passe en tête.
+	const bool principal = habiller && (p->flags & BOURGEON_STYLE_DEFAULT) != 0;
+
+	// Les trois numéros, bornés par battle_conf. Une trame hors bornes est jetée :
+	// l'éditeur ne propose que des numéros qui existent.
+	int16 palette = -1;
+	int16 cheveux = -1;
+	int16 coupe = -1;
+	if (habiller &&
+	    (!bourgeon_style_number(p->palette_id, MIN_CLOTH_COLOR, MAX_CLOTH_COLOR, palette) ||
+	     !bourgeon_style_number(p->hair_palette_id, MIN_HAIR_COLOR, MAX_HAIR_COLOR, cheveux) ||
+	     !bourgeon_style_number(p->hair_style, MIN_HAIR_STYLE, MAX_HAIR_STYLE, coupe)))
+		return;
 
 	std::vector<bourgeon_style_variant> list;
 	bourgeon_style_load(sd, list);
@@ -12267,16 +12337,23 @@ void clif_parse_moonlight_style(int32 fd, map_session_data* sd) {
 	if (tout_effacer) {
 		if (list.empty()) return;  // déjà sans style : rien à faire
 	} else {
-		const bourgeon_style_variant* actuelle = nullptr;
-		for (const bourgeon_style_variant& v : list)
-			if (v.body_key == p->body_key) { actuelle = &v; break; }
+		size_t rang = list.size();
+		for (size_t i = 0; i < list.size(); ++i)
+			if (list[i].body_key == p->body_key) { rang = i; break; }
+		const bourgeon_style_variant* actuelle = rang < list.size() ? &list[rang] : nullptr;
 		if (effacer_ce_corps) {
 			if (actuelle == nullptr) return;  // ce corps n'a rien à effacer
 		} else {
-			if (actuelle != nullptr && actuelle->palette_id == p->palette_id &&
-			    actuelle->hair_id == p->hair_palette_id &&
-			    actuelle->hair_style == p->hair_style &&
-			    memcmp(actuelle->adjusts, p->adjusts, sizeof(actuelle->adjusts)) == 0)
+			// ⚠ L'identité se juge aussi sur l'ÉTAT du personnage : si la coupe ou la
+			// couleur portées ne sont plus celles de la recette, la renvoyer doit les
+			// réappliquer. Et demander le style principal pour un corps qui ne l'est
+			// pas encore n'est pas un renvoi.
+			if (actuelle != nullptr && actuelle->palette_id == palette &&
+			    actuelle->hair_id == cheveux && actuelle->hair_style == coupe &&
+			    memcmp(actuelle->adjusts, p->adjusts, sizeof(actuelle->adjusts)) == 0 &&
+			    (coupe < 1 || coupe == sd->status.hair) &&
+			    (cheveux < 1 || cheveux == sd->status.hair_color) &&
+			    !(principal && rang != 0))
 				return;  // les mêmes octets, pour le même corps : rien à faire
 		}
 	}
@@ -12285,8 +12362,8 @@ void clif_parse_moonlight_style(int32 fd, map_session_data* sd) {
 	//
 	// Jeté SILENCIEUSEMENT, comme pour le saut : un message d'erreur serait une
 	// seconde amplification. Le joueur honnête ne le rencontre pas ; s'il le
-	// rencontrait, sa propre vue serait déjà juste (le client applique en local)
-	// et il lui suffirait de revalider.
+	// rencontrait, l'écho de la zone ne viendrait pas, et il lui suffirait de
+	// revalider.
 	const t_tick tick = gettick();
 	if (sd->bourgeon_stylelasttime != 0 &&
 	    DIFF_TICK(tick, sd->bourgeon_stylelasttime) < BOURGEON_STYLE_COOLDOWN)
@@ -12307,9 +12384,9 @@ void clif_parse_moonlight_style(int32 fd, map_session_data* sd) {
 	// ⚠ Un EFFACEMENT ne la défait pas : « supprimer son style » retire les
 	// palettes, il n'annule pas un passage chez le styliste. Pour changer de
 	// coupe, il faut en choisir une autre.
-	if (!tout_effacer && !effacer_ce_corps && p->hair_style >= 1 &&
-	    sd->status.hair != p->hair_style)
-		pc_changelook(sd, LOOK_HAIR, p->hair_style);
+	bourgeon_style_applying = true;
+	if (habiller && coupe >= 1 && sd->status.hair != coupe)
+		pc_changelook(sd, LOOK_HAIR, coupe);
 
 	// La COULEUR suit le MÊME chemin, et pour les mêmes raisons : ce n'est pas
 	// une couleur composée mais un id de palette OFFICIEL (1..251), celui du
@@ -12325,9 +12402,9 @@ void clif_parse_moonlight_style(int32 fd, map_session_data* sd) {
 	// ⚠ Les bornes viennent de `conf/import/battle_conf.txt` (1..251), PAS du
 	// `conf/battle/client.conf` de base, qui plafonne à 8 : `pc_changelook`
 	// borne sur min/max_hair_color, et ce plafond-là raboterait la couleur.
-	if (!tout_effacer && !effacer_ce_corps && p->hair_palette_id >= 1 &&
-	    sd->status.hair_color != p->hair_palette_id)
-		pc_changelook(sd, LOOK_HAIR_COLOR, p->hair_palette_id);
+	if (habiller && cheveux >= 1 && sd->status.hair_color != cheveux)
+		pc_changelook(sd, LOOK_HAIR_COLOR, cheveux);
+	bourgeon_style_applying = false;
 
 	// ── La liste des corps habillés ──────────────────────────────────────────
 	if (tout_effacer) {
@@ -12341,9 +12418,9 @@ void clif_parse_moonlight_style(int32 fd, map_session_data* sd) {
 	} else {
 		bourgeon_style_variant v;
 		v.body_key = p->body_key;
-		v.palette_id = p->palette_id;
-		v.hair_id = p->hair_palette_id;
-		v.hair_style = p->hair_style;
+		v.palette_id = palette;
+		v.hair_id = cheveux;
+		v.hair_style = coupe;
 		memcpy(v.adjusts, p->adjusts, sizeof(v.adjusts));
 
 		bool remplace = false;
@@ -12365,17 +12442,43 @@ void clif_parse_moonlight_style(int32 fd, map_session_data* sd) {
 			}
 			list.push_back(v);
 		}
+		// Le style principal passe en tête, les autres gardent leur ordre.
+		if (principal) {
+			for (size_t i = 1; i < list.size(); ++i) {
+				if (list[i].body_key != v.body_key) continue;
+				std::rotate(list.begin(), list.begin() + i, list.begin() + i + 1);
+				break;
+			}
+		}
 	}
+	// Une coupe et une couleur pour le personnage : les autres variantes qui en
+	// fixaient prennent celles qu'on vient d'appliquer.
+	bourgeon_style_follow_state(*sd, list);
 
 	bourgeon_style_store(sd, list);
 
 	// Diffusion à la zone, avec TOUTES les variantes : le client remplace en bloc
-	// ce qu'il sait de ce GID. AREA inclut l'émetteur ; son client ignore sa
-	// propre entrée tant que sa fenêtre est ouverte (il a déjà posé la recette
-	// localement, et la reposer ferait sauter en arrière un réglage en cours).
+	// ce qu'il sait de ce GID. L'émetteur la reçoit aussi : c'est son accusé de
+	// réception.
 	uint8 buf[BOURGEON_STYLE_ONE_MAX];
 	const int16 len = bourgeon_style_pack(sd, list, buf);
-	clif_send(buf, len, sd, AREA);
+	clif_bourgeon_style_send_area(sd, buf, len, /*avec_soi=*/true);
+}
+
+// [Stingor] La coupe ou la couleur du personnage vient de changer HORS de
+// l'éditeur (styliste, commande, script) : les variantes qui en fixaient une
+// autre la suivent, et la zone l'apprend. Appelé par `pc_changelook` APRÈS le
+// ZC_SPRITE_CHANGE natif : partout, l'apparence native précède le lot.
+void clif_bourgeon_style_follow_look(map_session_data* sd) {
+	if (sd == nullptr || bourgeon_style_applying || !sd->vars_ok) return;
+	std::vector<bourgeon_style_variant> list;
+	bourgeon_style_load(sd, list);
+	if (!bourgeon_style_follow_state(*sd, list)) return;
+	bourgeon_style_store(sd, list);
+	if (sd->prev == nullptr) return;  // pas encore sur la carte : son apparition le dira
+	uint8 buf[BOURGEON_STYLE_ONE_MAX];
+	const int16 len = bourgeon_style_pack(sd, list, buf);
+	clif_bourgeon_style_send_area(sd, buf, len, /*avec_soi=*/true);
 }
 
 // [Stingor] Un NPC ouvre, ferme ou bascule la fenêtre de couleurs (ZC 0x0F28).
