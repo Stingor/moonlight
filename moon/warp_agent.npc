@@ -1478,7 +1478,8 @@ L_ami: WarpMenu("amicitia1,253,244",
 				"amicitia2,145,278"); goto L_Donjons;
 L_aby: WarpMenu("abyss_01,262,270",
 				"abyss_02,270,270",
-				"abyss_03,116,27"); goto L_Donjons;
+				"abyss_03,116,27",
+				"abyss_04,169,161"); goto L_Donjons;
 L_ama: WarpMenu("ama_dun01,227,10",
 				"ama_dun02,32,43",
 				"ama_dun03,119,15"); goto L_Donjons;

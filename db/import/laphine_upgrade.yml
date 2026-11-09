@@ -654,6 +654,32 @@ Body:
       - Item: AC_B44_OS
       - Item: Boost_Lance_OS
       - Item: Ultio_Spes_OS
+  - Item: Abyss_Ddbox
+    RandomOptionGroup: ABYSS_DDBOX
+    TargetItems:
+      - Item: DragonA_Red
+      - Item: DragonA_Green
+      - Item: DragonA_Gold
+      - Item: DragonA_Purple
+      - Item: DragonA_Blue
+      - Item: DragonA_Silver
+  - Item: Abyss_Ddbox2
+    RandomOptionGroup: ABYSS_DDBOX2
+    TargetItems:
+      - Item: DragonA_Red
+      - Item: DragonA_Green
+      - Item: DragonA_Gold
+      - Item: DragonA_Purple
+      - Item: DragonA_Blue
+      - Item: DragonA_Silver
+  - Item: Abyss_Ddbox3
+    RandomOptionGroup: ABYSS_DDBOX3
+    TargetItems:
+      - Item: Drag_Manteau
+  - Item: Abyss_Ddbox4
+    RandomOptionGroup: ABYSS_DDBOX4
+    TargetItems:
+      - Item: Dragon_Boots
 #  - Item: EXP_Overclocker
 #    TargetItems:
 #      - Item: EXP_Processor_

@@ -2198,3 +2198,21 @@ Body:
           - Index: 715
             Item: Mt_Caput_Card
             Rate: 1
+          - Index: 716
+            Item: Ferus_P_Card
+            Rate: 1
+          - Index: 717
+            Item: Treasure_Mimic_Card
+            Rate: 1
+          - Index: 718
+            Item: Acidus_B_Card
+            Rate: 1
+          - Index: 719
+            Item: Acidus_S_Card
+            Rate: 1
+          - Index: 720
+            Item: Bone_Ferus_Card
+            Rate: 1
+          - Index: 721
+            Item: Bone_Acidus_Card
+            Rate: 1

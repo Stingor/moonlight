@@ -44,7 +44,7 @@ Mobs : Sanare, Plaga, Dolor, Venenum, Twin Caput — chacun en deux variantes.
 | **Illusion of Labyrinth** | `prt_mz03_i` | PR #8506, non fusionnée | ✅ porté le 2026‑11‑08 |
 | **Donjon de Magma F3** | `mag_dun03` | spawns, quêtes de Lily Blanc, échange des minerais | ✅ implanté en avril, complété le 2026‑11‑08 |
 | **Donjon d'Einbech F3** | `ein_dun03` | spawns, quêtes de Sally, Elmen et son troc | ✅ porté le 2026‑11‑08 (spawns jusque-là commentés) |
-| **Lac de l'Abysse F4** | `abyss_04` | mapflags seulement, aucun spawn | — |
+| **Lac de l'Abysse F4** | `abyss_04` | PR [#7601](https://github.com/rathena/rathena/pull/7601), non fusionnée et inachevée | ✅ porté le 2026‑11‑08 : 9 mobs (gabarits de Bone Ferus, Bone Acidus et Bone Detardeurus remplacés), 7 cartes, équipement dragon (DEF ÷10), 4 Dragon's Power (Lapine), quêtes de Marigold ; **Bluehead et Redhead écrits pour Moonlight** d'après iRO Wiki (`moon/rathena/merchants/abyss_04.npc`) |
 | **Abyss Glast Heim** | — | rien | — |
 | **Passé d'Odin** (*Odin's Past*) | — | rien | — |
 
@@ -231,8 +231,8 @@ tant qu'il faudrait l'écrire.
 |---|---|
 | Intérêt | élevé — trois zones de chasse et cinq instances fournies par rAthena |
 | Fait | Illusion of Labyrinth, Magma F3, Einbech F3, A, B1, B2 (2026‑11‑08, non validés en jeu) |
-| Reste à faire | validation en jeu · décision : système Reform |
-| Décidé | Magma F3 et Einbech F3 restent sans mapflags `nomemo`/`nowarpto`, accès libre ; les quêtes de Lily (175) et de Sally (180) gardent le seuil de l'amont ; les trois ajouts à la table des compétences sont validés (2026‑11‑08) |
+| Reste à faire | validation en jeu |
+| Décidé | Magma F3 et Einbech F3 restent sans mapflags `nomemo`/`nowarpto`, accès libre ; les quêtes de Lily (175) et de Sally (180) gardent le seuil de l'amont ; les trois ajouts à la table des compétences sont validés ; le **système Reform** (`rgsr_in.txt`, `item_reform.yml`) est écarté : mécanique de 2021‑2022, fenêtre client absente de `moonclient`, objets `_AD` renewal (2026‑11‑08) |
 
 ## Sources
 

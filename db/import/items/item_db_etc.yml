@@ -13512,3 +13512,67 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+  - Id: 25759
+    AegisName: Dragenergy_Green
+    Name: Green Dragon Orb
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 25760
+    AegisName: Dragenergy_Blue
+    Name: Blue Dragon Orb
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 25761
+    AegisName: Dragenergy_Red
+    Name: Red Dragon Orb
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 25762
+    AegisName: Dragenergy_Gold
+    Name: Gold Dragon Orb
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 25763
+    AegisName: Dragenergy_Purple
+    Name: Purple Dragon Orb
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 25764
+    AegisName: Dragenergy_Silver
+    Name: Silver Dragon Orb
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 25765
+    AegisName: Drabone_L
+    Name: Large Dragon Bone
+    Type: Etc
+    Weight: 200
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 25766
+    AegisName: Drabone_S
+    Name: Small Dragon Bone
+    Type: Etc
+    Weight: 100
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT

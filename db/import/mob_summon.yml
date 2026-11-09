@@ -87,6 +87,8 @@ Body:
         Rate: 100000
       - Mob: JUNGOLIANT
         Rate: 25000
+      - Mob: BONE_DETALE
+        Rate: 25000
       - Mob: EP17_1_R4885_BESTIA
         Rate: 25000
       - Mob: EP16_2_VENOM_KIMERA
@@ -1371,6 +1373,18 @@ Body:
       - Mob: PORCELLIO_W
         Rate: 32000
       - Mob: ABYSSMAN
+        Rate: 32000
+      - Mob: FERUS_P
+        Rate: 32000
+      - Mob: TREASURE_MIMIC
+        Rate: 32000
+      - Mob: ACIDUS_B
+        Rate: 32000
+      - Mob: ACIDUS_S
+        Rate: 32000
+      - Mob: BONE_FERUS
+        Rate: 32000
+      - Mob: BONE_ACIDUS
         Rate: 32000
       - Mob: EP17_1_BELLARE1
         Rate: 32000

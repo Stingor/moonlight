@@ -27879,6 +27879,66 @@ Body:
           - Index: 35
             Item: EP17_1_EVT05
             Rate: 904
+  - Group: ABYSS_ITEMBOX
+    SubGroups:
+      - SubGroup: 6
+        Algorithm: Random
+        List:
+          - Index: 0
+            Item: Drabone_L
+            Rate: 70
+          - Index: 1
+            Item: Drabone_S
+            Rate: 200
+          - Index: 2
+            Item: Dragenergy_Green
+            Rate: 770
+            Amount: 3
+          - Index: 3
+            Item: Dragenergy_Blue
+            Rate: 770
+            Amount: 3
+          - Index: 4
+            Item: Dragenergy_Red
+            Rate: 770
+            Amount: 3
+          - Index: 5
+            Item: Dragenergy_Gold
+            Rate: 770
+            Amount: 3
+          - Index: 6
+            Item: Dragenergy_Purple
+            Rate: 770
+            Amount: 3
+          - Index: 7
+            Item: Dragenergy_Silver
+            Rate: 770
+            Amount: 3
+          - Index: 8
+            Item: Abyss_Ddbox
+            Rate: 50
+          - Index: 9
+            Item: Dragon's_Skin
+            Rate: 1230
+            Amount: 10
+          - Index: 10
+            Item: Dragon_Canine
+            Rate: 1230
+            Amount: 10
+          - Index: 11
+            Item: Dragon_Scale
+            Rate: 1230
+            Amount: 10
+          - Index: 12
+            Item: Dragon_Train
+            Rate: 1230
+            Amount: 10
+          - Index: 13
+            Item: Abyss_Ddbox3
+            Rate: 70
+          - Index: 14
+            Item: Abyss_Ddbox4
+            Rate: 70
 
 Footer:
   Imports:
