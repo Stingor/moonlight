@@ -89,6 +89,10 @@ Body:
         Rate: 25000
       - Mob: BONE_DETALE
         Rate: 25000
+      - Mob: REGINLEIF
+        Rate: 25000
+      - Mob: INGRID
+        Rate: 25000
       - Mob: EP17_1_R4885_BESTIA
         Rate: 25000
       - Mob: EP16_2_VENOM_KIMERA
@@ -1385,6 +1389,18 @@ Body:
       - Mob: BONE_FERUS
         Rate: 32000
       - Mob: BONE_ACIDUS
+        Rate: 32000
+      - Mob: ANGELGOLT
+        Rate: 32000
+      - Mob: ANGELGOLT2
+        Rate: 32000
+      - Mob: HOLY_FRUS
+        Rate: 32000
+      - Mob: HOLY_SKOGUL
+        Rate: 32000
+      - Mob: PLASMA_ARCH
+        Rate: 32000
+      - Mob: PLASMA_SPT
         Rate: 32000
       - Mob: EP17_1_BELLARE1
         Rate: 32000

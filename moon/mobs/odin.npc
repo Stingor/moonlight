@@ -54,3 +54,43 @@ odin_tem03	monster	Frus	1753,4,5000
 odin_tem03	monster	Valkyrie	1765,2,5400000,1800000
 odin_tem03	monster	Blue Plant	1079,15,1800000,900000
 odin_tem03	monster	Shining Plant	1083,15,1800000,900000
+
+//==================================================
+// odin_past - Ancient Odin Shrine (rAthena PR #6486)
+//==================================================
+// Ancient Odin Temple - 3F
+odin_tem03,276,236,0	script	odinpast#odin	WARPNPC,1,1,{
+	end;
+
+OnTouch:
+	if (BaseLevel < 180) {
+		message strcharinfo(0), strcharinfo(0) + " What is it? This light is...";
+		end;
+	}
+	mes "It's a warm light.";
+	mes "Beyond the shining light, there's something...";
+	mes "that I know.";
+	next;
+	switch ( select( "I'm going to the place where the light leads me.", "Avoid the place." )) {
+		case 1:
+			close2;
+			warp "odin_past",291,230;
+			end;
+		case 2:
+			mes "You are avoiding it.";
+			close;
+		}
+	}
+
+odin_past,291,235,0	warp	thirdfloor#odin	1,1,odin_tem03,276,232
+
+odin_past	monster	Angelgolt	20604,40,5000
+odin_past	monster	Angelgolt	20605,60,5000
+odin_past	monster	Holy Frus	20606,45,5000
+odin_past	monster	Holy Skogul	20607,45,5000
+odin_past	monster	Arch Plasma	20608,5,5000
+odin_past	monster	Spectral Plasma	20609,5,5000
+odin_past	boss_monster	Valkyrie Reginleif	20610,1,28800000,600000,1
+odin_past	boss_monster	Valkyrie Ingrid	20611,1,28800000,600000,1
+odin_past	monster	Blue Plant	1079,5,1800000,900000
+odin_past	monster	Shining Plant	1083,2,1800000,900000

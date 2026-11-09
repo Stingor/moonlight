@@ -46,7 +46,7 @@ Mobs : Sanare, Plaga, Dolor, Venenum, Twin Caput — chacun en deux variantes.
 | **Donjon d'Einbech F3** | `ein_dun03` | spawns, quêtes de Sally, Elmen et son troc | ✅ porté le 2026‑11‑08 (spawns jusque-là commentés) |
 | **Lac de l'Abysse F4** | `abyss_04` | PR [#7601](https://github.com/rathena/rathena/pull/7601), non fusionnée et inachevée | ✅ porté le 2026‑11‑08 : 9 mobs (gabarits de Bone Ferus, Bone Acidus et Bone Detardeurus remplacés), 7 cartes, équipement dragon (DEF ÷10), 4 Dragon's Power (Lapine), quêtes de Marigold ; **Bluehead et Redhead écrits pour Moonlight** d'après iRO Wiki (`moon/rathena/merchants/abyss_04.npc`) |
 | **Abyss Glast Heim** | — | rien | — |
-| **Passé d'Odin** (*Odin's Past*) | — | rien | — |
+| **Passé d'Odin** (*Odin's Past*) | `odin_past` | PR [#6486](https://github.com/rathena/rathena/pull/6486), fermée sans fusion | ✅ porté le 2026‑11‑09 : 10 mobs (gabarits de Holy Frus, Holy Skogul, des Plasmas, de Reginleif et Ingrid remplacés), 7 cartes, Soutanes et équipement Clergy (DEF ÷10), Odin Relic (groupe officiel `ODIN_ITEMBOX`, pas l'`ODIN_RELIC` de la PR), porte de lumière d'`odin_tem03` (niveau 180), enchanteuse Susan Grey (`moon/rathena/merchants/odin_enchanter.npc`) |
 
 ### Instances
 
@@ -221,9 +221,9 @@ d'inventaire). Deux niveaux possibles.
 17.2 et 18 ne sont pas portés : la chaîne narrative s'arrête après 17.1. Le niveau A reste une
 option défendable et bien moins coûteuse.
 
-Le contenu de l'intervalle (Chute de Glast Heim, Laboratoire Bagot, mode défi, Lac de
-l'Abysse F4, Passé d'Odin, Abyss Glast Heim) n'a aucun script dans rAthena : hors périmètre
-tant qu'il faudrait l'écrire.
+Le contenu de l'intervalle (Chute de Glast Heim, Laboratoire Bagot, mode défi,
+Abyss Glast Heim) n'a aucun script dans rAthena : hors périmètre tant qu'il faudrait l'écrire.
+Le Lac de l'Abysse F4 et le Passé d'Odin, venus de PR non fusionnées, sont portés.
 
 ## 6. Verdict
 

@@ -401,3 +401,9 @@ Body:
           - Index: 115
             Item: Bone_Detale_Card
             Rate: 1
+          - Index: 116
+            Item: Reginleif_Card
+            Rate: 1
+          - Index: 117
+            Item: Ingrid_Card
+            Rate: 1

@@ -1615,7 +1615,8 @@ L_mos: WarpMenu("mosk_dun01,205,52",
 				"mosk_dun03,34,136"); goto L_Donjons;
 L_odn: WarpMenu("odin_tem01,97,146",
 				"odin_tem02,26,181",
-				"odin_tem03,120,54"); goto L_Donjons;
+				"odin_tem03,120,54",
+				"odin_past,291,230"); goto L_Donjons;
 L_orc: WarpMenu("orcsdun01,32,169",
 				"orcsdun02,21,185"); goto L_Donjons;
 L_pay: WarpMenu("pay_dun00,22,180",

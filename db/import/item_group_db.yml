@@ -27939,6 +27939,47 @@ Body:
           - Index: 14
             Item: Abyss_Ddbox4
             Rate: 70
+  - Group: ODIN_ITEMBOX
+    SubGroups:
+      - SubGroup: 6
+        Algorithm: Random
+        List:
+          - Index: 0
+            Item: CassockA_STR
+            Rate: 600
+          - Index: 1
+            Item: CassockA_AGI
+            Rate: 600
+          - Index: 2
+            Item: CassockA_VIT
+            Rate: 600
+          - Index: 3
+            Item: CassockA_DEX
+            Rate: 600
+          - Index: 4
+            Item: CassockA_INT
+            Rate: 600
+          - Index: 5
+            Item: CassockA_LUK
+            Rate: 600
+          - Index: 6
+            Item: Cassock_Boots
+            Rate: 400
+          - Index: 7
+            Item: Cassock_Manteau
+            Rate: 400
+          - Index: 8
+            Item: Angel_Dream
+            Rate: 600
+            Amount: 3
+          - Index: 9
+            Item: Rune_Of_Darkness
+            Rate: 2000
+            Amount: 2
+          - Index: 10
+            Item: Soft_Feather
+            Rate: 3000
+            Amount: 5
 
 Footer:
   Imports:

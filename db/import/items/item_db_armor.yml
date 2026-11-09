@@ -33986,3 +33986,185 @@ Body:
       if (getallrefine() >= 22) {
          bonus2 bSubRace,RC_Dragon,3;
       }
+  - Id: 15397
+    AegisName: CassockA_STR
+    Name: STR Soutane [1]
+    Type: Armor
+    Weight: 800
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+      bonus bAspdRate,10;
+      bonus2 bAddClass,Class_All,3*(.@r/2);
+      bonus bStr,5*(.@r/3);
+      bonus2 bAddRace,RC_Angel,8*(.@r/4);
+      bonus2 bAddRace,RC_Demon,8*(.@r/4);
+  - Id: 15398
+    AegisName: CassockA_AGI
+    Name: AGI Soutane [1]
+    Type: Armor
+    Weight: 800
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+      bonus bAspdRate,10;
+      bonus bLongAtkRate,3*(.@r/2);
+      bonus bAgi,5*(.@r/3);
+      bonus2 bAddRace,RC_Angel,8*(.@r/4);
+      bonus2 bAddRace,RC_Demon,8*(.@r/4);
+  - Id: 15399
+    AegisName: CassockA_VIT
+    Name: VIT Soutane [1]
+    Type: Armor
+    Weight: 800
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHPrate,15;
+      bonus bMaxSPrate,5;
+      bonus bAspdRate,7;
+      bonus bVariableCastrate,-7;
+      bonus bMaxHPrate,2*(.@r/2);
+      bonus bVit,5*(.@r/3);
+      bonus2 bAddRace,RC_Angel,10*(.@r/4);
+      bonus2 bMagicAddRace,RC_Angel,10*(.@r/4);
+      bonus2 bAddRace,RC_Demon,10*(.@r/4);
+      bonus2 bMagicAddRace,RC_Demon,10*(.@r/4);
+  - Id: 15400
+    AegisName: CassockA_DEX
+    Name: DEX Soutane [1]
+    Type: Armor
+    Weight: 800
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+      bonus bAspdRate,10;
+      bonus bVariableCastrate,-10;
+      bonus bMatkRate,(.@r/2);
+      bonus2 bAddClass,Class_All,(.@r/2);
+      bonus bDex,5*(.@r/3);
+      bonus2 bAddRace,RC_Angel,6*(.@r/4);
+      bonus2 bMagicAddRace,RC_Angel,6*(.@r/4);
+      bonus2 bAddRace,RC_Demon,6*(.@r/4);
+      bonus2 bMagicAddRace,RC_Demon,6*(.@r/4);
+  - Id: 15401
+    AegisName: CassockA_INT
+    Name: INT Soutane [1]
+    Type: Armor
+    Weight: 800
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHPrate,5;
+      bonus bMaxSPrate,15;
+      bonus bVariableCastrate,-10;
+      bonus bMatkRate,3*(.@r/2);
+      bonus bInt,5*(.@r/3);
+      bonus2 bMagicAddRace,RC_Angel,8*(.@r/4);
+      bonus2 bMagicAddRace,RC_Demon,8*(.@r/4);
+  - Id: 15402
+    AegisName: CassockA_LUK
+    Name: LUK Soutane [1]
+    Type: Armor
+    Weight: 800
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+      bonus bAspdRate,10;
+      bonus bCritAtkRate,4*(.@r/2);
+      bonus bCritical,3*(.@r/2);
+      bonus bLuk,5*(.@r/3);
+      bonus2 bAddRace,RC_Angel,8*(.@r/4);
+      bonus2 bAddRace,RC_Demon,8*(.@r/4);
+  - Id: 20947
+    AegisName: Cassock_Manteau
+    Name: Clergy's Manteau [1]
+    Type: Armor
+    Weight: 450
+    Defense: 6
+    Slots: 1
+    Locations:
+      Garment: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxSPrate,5;
+      bonus bMdef,10;
+      bonus bVariableCastrate,-10;
+      bonus2 bMagicAddRace,RC_Angel,(.@r/2);
+      bonus2 bMagicAddRace,RC_Demon,(.@r/2);
+      bonus2 bSubRace,RC_Angel,(.@r/3);
+      bonus2 bSubRace,RC_Demon,(.@r/3);
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+      }
+  - Id: 22209
+    AegisName: Cassock_Boots
+    Name: Clergy's Boots [1]
+    Type: Armor
+    Weight: 400
+    Defense: 6
+    Slots: 1
+    Locations:
+      Shoes: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHPrate,5;
+      bonus bDef,3;
+      bonus bAspdRate,10;
+      bonus2 bAddRace,RC_Angel,(.@r/2);
+      bonus2 bAddRace,RC_Demon,(.@r/2);
+      bonus2 bSubRace,RC_Angel,(.@r/3);
+      bonus2 bSubRace,RC_Demon,(.@r/3);
+      if (.@r>=7) {
+         bonus bAspdRate,10;
+      }

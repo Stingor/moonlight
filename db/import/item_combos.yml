@@ -6958,3 +6958,169 @@ Body:
       bonus2 bAddRace,RC_Dragon,5;
       bonus2 bAddRace,RC_Brute,5;
       bonus2 bAddRace,RC_Player_Doram,5;
+  - Combos:
+      - Combo: # Odin Past
+          - CassockA_STR
+          - Cassock_Manteau
+          - Cassock_Boots
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_ARMOR)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_SHOES);
+      bonus bMdef,15;
+      bonus bDef,3;
+      bonus bStr,8;
+      bonus2 bSubRace,RC_Angel,15;
+      bonus2 bSubRace,RC_Demon,15;
+      if (.@sum >= 27) {
+      bonus2 bAddClass,Class_All,10;
+      bonus bDelayrate,-20;
+      bonus bFixedCastrate,-20;
+      }
+  - Combos:
+      - Combo: # Odin Past
+          - CassockA_AGI
+          - Cassock_Manteau
+          - Cassock_Boots
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_ARMOR)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_SHOES);
+      bonus bMdef,15;
+      bonus bDef,3;
+      bonus bAgi,8;
+      bonus2 bSubRace,RC_Angel,15;
+      bonus2 bSubRace,RC_Demon,15;
+      if (.@sum >= 27) {
+      bonus bLongAtkRate,10;
+      bonus bDelayrate,-20;
+      bonus bFixedCastrate,-20;
+      }
+  - Combos:
+      - Combo: # Odin Past
+          - CassockA_VIT
+          - Cassock_Manteau
+          - Cassock_Boots
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_ARMOR)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_SHOES);
+      bonus bMdef,20;
+      bonus bDef,5;
+      bonus bVit,8;
+      bonus2 bSubRace,RC_Angel,20;
+      bonus2 bSubRace,RC_Demon,20;
+      if (.@sum >= 27) {
+      bonus bMatkRate,4;
+      bonus2 bAddClass,Class_All,4;
+      bonus bDelayrate,-20;
+      bonus bFixedCastrate,-20;
+      }
+  - Combos:
+      - Combo: # Odin Past
+          - CassockA_DEX
+          - Cassock_Manteau
+          - Cassock_Boots
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_ARMOR)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_SHOES);
+      bonus bMdef,15;
+      bonus bDef,3;
+      bonus bDex,8;
+      bonus2 bSubRace,RC_Angel,15;
+      bonus2 bSubRace,RC_Demon,15;
+      if (.@sum >= 27) {
+      bonus bMatkRate,7;
+      bonus2 bAddClass,Class_All,7;
+      bonus bDelayrate,-20;
+      bonus bFixedCastrate,-20;
+      }
+  - Combos:
+      - Combo: # Odin Past
+          - CassockA_INT
+          - Cassock_Manteau
+          - Cassock_Boots
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_ARMOR)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_SHOES);
+      bonus bMdef,15;
+      bonus bDef,3;
+      bonus bInt,8;
+      bonus2 bSubRace,RC_Angel,15;
+      bonus2 bSubRace,RC_Demon,15;
+      if (.@sum >= 27) {
+      bonus bMatkRate,10;
+      bonus bDelayrate,-20;
+      bonus bFixedCastrate,-20;
+      }
+  - Combos:
+      - Combo: # Odin Past
+          - CassockA_LUK
+          - Cassock_Manteau
+          - Cassock_Boots
+    Script: |
+      .@sum = getequiprefinerycnt(EQI_ARMOR)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_SHOES);
+      bonus bMdef,15;
+      bonus bDef,3;
+      bonus bLuk,8;
+      bonus2 bSubRace,RC_Angel,15;
+      bonus2 bSubRace,RC_Demon,15;
+      if (.@sum >= 27) {
+      bonus2 bAddClass,Class_All,10;
+      bonus bDelayrate,-20;
+      bonus bFixedCastrate,-20;
+      }
+  - Combos:
+      - Combo: # Odin Past
+          - Angelgolt_Card
+          - Skeggiold_Card
+    Script: |
+      .@r = getequiprefinerycnt(EQI_HAND_R);
+      bonus2 bMagicAddRace,RC_Demon,3*(.@r/2);
+  - Combos:
+      - Combo: # Odin Past
+          - Reginleif_Card
+          - Randgris_Card
+    Script: |
+      bonus2 bAddClass,Class_All,10;
+      bonus bMaxHPrate,5;
+  - Combos:
+      - Combo: # Odin Past
+          - Ingrid_Card
+          - Randgris_Card
+    Script: |
+      bonus2 bAddClass,Class_All,5;
+      bonus bMaxHPrate,10;
+  - Combos:
+      - Combo: # Odin Past
+          - Cassock_Str
+          - CassockA_STR
+    Script: |
+      bonus2 bAddRace,RC_All,12;
+      bonus2 bAddClass,Class_All,5;
+  - Combos:
+      - Combo: # Odin Past
+          - Cassock_Agi
+          - CassockA_AGI
+    Script: |
+      bonus bPerfectHitAddRate,5;
+      bonus bAspd,1;
+  - Combos:
+      - Combo: # Odin Past
+          - Cassock_Vit
+          - CassockA_VIT
+    Script: |
+      bonus bDelayrate,-5;
+      bonus bMaxHPrate,5;
+  - Combos:
+      - Combo: # Odin Past
+          - Cassock_Dex
+          - CassockA_DEX
+    Script: |
+      bonus bFixedCast,-300;
+  - Combos:
+      - Combo: # Odin Past
+          - Cassock_Int
+          - CassockA_INT
+    Script: |
+      bonus2 bMagicAtkEle,Ele_All,12;
+      bonus bVariableCastrate,-10;
+  - Combos:
+      - Combo: # Odin Past
+          - Cassock_Luk
+          - CassockA_LUK
+    Script: |
+      bonus2 bAddSize,Size_All,12;
+      bonus bCritical,10;

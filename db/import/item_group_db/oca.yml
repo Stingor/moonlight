@@ -2216,3 +2216,18 @@ Body:
           - Index: 721
             Item: Bone_Acidus_Card
             Rate: 1
+          - Index: 722
+            Item: Angelgolt_Card
+            Rate: 1
+          - Index: 723
+            Item: Plasma_Spt_Card
+            Rate: 1
+          - Index: 724
+            Item: Plasma_Arch_Card
+            Rate: 1
+          - Index: 725
+            Item: Holy_Frus_Card
+            Rate: 1
+          - Index: 726
+            Item: Holy_Skogul_Card
+            Rate: 1

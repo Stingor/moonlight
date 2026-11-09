@@ -4037,3 +4037,87 @@ Body:
          autobonus "{ bonus bLuk,50; }",8,4000,BF_NORMAL;
          autobonus "{ bonus bLuk,50; }",8,4000,BF_MAGIC;
       }
+  - Id: 29026
+    AegisName: Def20
+    Name: DEF+20
+    Type: Card
+    SubType: Enchant
+    Buy: 10
+    Script: |
+      bonus bDef,20;
+  - Id: 29238
+    AegisName: Evasion10
+    Name: Flee+10
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bFlee,10;
+  - Id: 29241
+    AegisName: Critical10
+    Name: Cri+10
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bCritical,10;
+  - Id: 310076
+    AegisName: Cassock_Str
+    Name: STR Blessing
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bStr,10;
+      bonus bMdef,3;
+      bonus bDef,2;
+      bonus2 bAddClass,Class_All,10;
+  - Id: 310077
+    AegisName: Cassock_Agi
+    Name: AGI Blessing
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bAgi,10;
+      bonus bMdef,3;
+      bonus bDef,2;
+      bonus bLongAtkRate,10;
+  - Id: 310078
+    AegisName: Cassock_Vit
+    Name: VIT Blessing
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bVit,10;
+      bonus bMdef,3;
+      bonus bDef,2;
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+  - Id: 310079
+    AegisName: Cassock_Dex
+    Name: DEX Blessing
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bDex,10;
+      bonus bMdef,3;
+      bonus bDef,2;
+      bonus bAspdRate,10;
+      bonus bVariableCastrate,-10;
+  - Id: 310080
+    AegisName: Cassock_Int
+    Name: INT Blessing
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bInt,10;
+      bonus bMdef,3;
+      bonus bDef,2;
+      bonus bMatkRate,10;
+  - Id: 310081
+    AegisName: Cassock_Luk
+    Name: LUK Blessing
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bLuk,10;
+      bonus bMdef,3;
+      bonus bDef,2;
+      bonus bCritAtkRate,15;

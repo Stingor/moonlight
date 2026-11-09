@@ -13576,3 +13576,16 @@ Body:
     Flags:
       BuyingStore: true
       DropEffect: CLIENT
+  - Id: 25767
+    AegisName: Angel_Dream
+    Name: Angel's Dream
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 25768
+    AegisName: Shard_Blue
+    Name: Valkyrie Ingrid's Armor Fragment
+    Type: Etc
+    Weight: 30
