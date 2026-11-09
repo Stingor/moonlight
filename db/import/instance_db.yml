@@ -390,3 +390,24 @@ Body:
       Map: 1@cor
       X: 176
       Y: 169
+  - Id: 52
+    Name: Glastheim Fall
+    TimeLimit: 7200
+    Enter:
+      Map: 1@gl_prq
+      X: 299
+      Y: 18
+  - Id: 53
+    Name: Glastheim Purification
+    TimeLimit: 7200
+    Enter:
+      Map: 1@gl_prq
+      X: 79
+      Y: 22
+  - Id: 54
+    Name: Glastheim Purification Hard
+    TimeLimit: 7200
+    Enter:
+      Map: 1@gl_prq
+      X: 79
+      Y: 22

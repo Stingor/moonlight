@@ -121,3 +121,9 @@ Body:
     Value: 50
   - Name: INST_BLOODY_BRANCH_CAVE
     Value: 51
+  - Name: INST_GLASTHEIM_FALL
+    Value: 52
+  - Name: INST_GLASTHEIM_PURIFICATION
+    Value: 53
+  - Name: INST_GLASTHEIM_PURIFICATION_HARD
+    Value: 54

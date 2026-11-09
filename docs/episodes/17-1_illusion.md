@@ -52,12 +52,23 @@ Mobs : Sanare, Plaga, Dolor, Venenum, Twin Caput — chacun en deux variantes.
 
 | Instance | Carte | Côté rAthena |
 |---|---|---|
-| **EDDA — Chute de Glast Heim** (normal et avancé) | `1@gl_prq` | entrées `instance_db` 51 et 52, **aucun script** |
-| **EDDA — Laboratoire de bio-recherche** (*Bagot Laboratory*) | `1@jorlab` | entrée `instance_db` 74, **aucun script** |
-| **Glast Heim : mode défi** | `1@gl_he` | entrée `instance_db` 49, **aucun script** (absent d'`OldGlastHeim.txt`) |
+| **EDDA — Chute de Glast Heim** (normal et avancé) | `1@gl_prq` | entrées `instance_db` 51 et 52, **aucun script** ; script hors rAthena (voir ci-dessous) |
+| **EDDA — Laboratoire de bio-recherche** (*Bagot Laboratory*) | `1@jorlab` | entrée `instance_db` 74, **aucun script** ; script hors rAthena (`Episode 19/Bagot_Laboratory.c`) |
+| **Glast Heim : mode défi** | `1@gl_he` | entrée `instance_db` 49, **aucun script** (absent d'`OldGlastHeim.txt`) ; script hors rAthena (`Old Glast Heim - Hard/`) |
 
 Toutes ces cartes sont dans le mapcache. Attention à l'Id 51 : chez Moonlight, c'est déjà la
 *Bloody Branch Cave*.
+
+Les trois scripts existent hors rAthena, dans le dépôt
+[hayakawakaki/rathena-script-collection](https://github.com/hayakawakaki/rathena-script-collection)
+(GPL-3.0, à créditer). **La Chute de Glast Heim est portée le 2026‑11‑09** depuis la réécriture
+d'EnemyArea (branche de la PR [#9478](https://github.com/rathena/rathena/pull/9478)) :
+Oscar et ses trois machines à `glast_01` (`moon/rathena/merchants/edda_glastheim_oscar.npc`),
+scénario solo et Purification normale / difficile (niveau 180) en instances 52 à 54
+(`moon/instances/EddaFallOfGlastheim.npc`), 9 mobs (stats du dépôt, `db/re` n'a que des
+gabarits), 16 objets (cristaux, enchantements d'élément d'armure et enchantements GH), 6 combos,
+mapflags calqués sur Old Glast Heim. Le cooldown de la version 1.0 a été rétabli : la 2.0
+l'effaçait sans condition.
 
 ### Systèmes et classes
 
@@ -221,9 +232,9 @@ d'inventaire). Deux niveaux possibles.
 17.2 et 18 ne sont pas portés : la chaîne narrative s'arrête après 17.1. Le niveau A reste une
 option défendable et bien moins coûteuse.
 
-Le contenu de l'intervalle (Chute de Glast Heim, Laboratoire Bagot, mode défi) n'a aucun
-script dans rAthena : hors périmètre tant qu'il faudrait l'écrire. Le Lac de l'Abysse F4 et le
-Passé d'Odin, venus de PR non fusionnées, sont portés, comme Abyss Glast Heim (PR #7474).
+Le Laboratoire Bagot et le mode défi n'ont aucun script dans rAthena, mais en ont un dans le
+dépôt hayakawakaki. Le Lac de l'Abysse F4 et le Passé d'Odin, venus de PR non fusionnées,
+sont portés, comme Abyss Glast Heim (PR #7474) et la Chute de Glast Heim (dépôt hayakawakaki).
 
 ## 6. Verdict
 

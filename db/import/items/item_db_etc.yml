@@ -13589,3 +13589,11 @@ Body:
     Name: Valkyrie Ingrid's Armor Fragment
     Type: Etc
     Weight: 30
+  - Id: 25739
+    AegisName: GH_Cursed_Crystal
+    Name: Curse Eroded Crystal
+    Type: Etc
+  - Id: 25740
+    AegisName: GH_Cursed_Gemstone
+    Name: Curse Eroded Gemstone
+    Type: Etc

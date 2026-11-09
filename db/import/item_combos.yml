@@ -7151,3 +7151,39 @@ Body:
     Script: |
       bonus2 bMagicAtkEle,Ele_Fire,15;
       bonus2 bSkillAtk,"WZ_METEOR",15;
+  - Combos:
+      - Combo: # EDDA Glast Heim
+          - Gh_md_dex
+          - Hawkeye
+    Script: |
+      bonus2 bAddClass,Class_All,10;
+  - Combos:
+      - Combo: # EDDA Glast Heim
+          - Gh_md_vit
+          - Muscle_Fool
+    Script: |
+      bonus bDelayrate,-10;
+  - Combos:
+      - Combo: # EDDA Glast Heim
+          - Gh_md_int
+          - Runaway_Magic
+    Script: |
+      bonus2 bMagicAtkEle,Ele_All,15;
+  - Combos:
+      - Combo: # EDDA Glast Heim
+          - Gh_md_agi
+          - Speed_Of_Light
+    Script: |
+      bonus bCritAtkRate,30;
+  - Combos:
+      - Combo: # EDDA Glast Heim
+          - Gh_md_str
+          - Bears_Power
+    Script: |
+      bonus2 bAddSize,Size_All,25;
+  - Combos:
+      - Combo: # EDDA Glast Heim
+          - Gh_md_luk
+          - Lucky_Day
+    Script: |
+      bonus bAspd,2;
