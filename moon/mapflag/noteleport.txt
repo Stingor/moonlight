@@ -611,6 +611,8 @@ conch_in	mapflag	noteleport
 // Chicken Mode Nightmare Glastheim
 1@gl_k2	mapflag	noteleport
 2@gl_k2	mapflag	noteleport
+1@gl_k2	mapflag	monster_noteleport
+2@gl_k2	mapflag	monster_noteleport
 
 // Chicken Mode Horror Toy Factory
 1@xm_d2	mapflag	noteleport

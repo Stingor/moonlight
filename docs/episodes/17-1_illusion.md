@@ -53,13 +53,14 @@ Mobs : Sanare, Plaga, Dolor, Venenum, Twin Caput — chacun en deux variantes.
 | Instance | Carte | Côté rAthena |
 |---|---|---|
 | **EDDA — Chute de Glast Heim** (normal et avancé) | `1@gl_prq` | entrées `instance_db` 51 et 52, **aucun script** ; script hors rAthena (voir ci-dessous) |
-| **EDDA — Laboratoire de bio-recherche** (*Bagot Laboratory*) | `1@jorlab` | entrée `instance_db` 74, **aucun script** ; script hors rAthena (`Episode 19/Bagot_Laboratory.c`) |
-| **Glast Heim : mode défi** | `1@gl_he` | entrée `instance_db` 49, **aucun script** (absent d'`OldGlastHeim.txt`) ; script hors rAthena (`Old Glast Heim - Hard/`) |
+| **EDDA — Laboratoire de bio-recherche** | ? | **aucun script** ni chez rAthena ni chez hayakawakaki (annoncé dans son README, absent du dépôt). L'entrée `instance_db` 74 *Bagot Laboratory* (`1@jorlab`) est une instance de l'épisode 19 (Juncea), pas l'EDDA |
+| **Glast Heim : mode défi** | `1@gl_he` | entrée `instance_db` 49, **aucun script** (absent d'`OldGlastHeim.txt` ; le « Old Glast Heim - Hard » de hayakawakaki est le mode difficile officiel sur `1@gl_k2`, pas le mode défi) |
+| **Old Glast Heim Hard** (mode difficile officiel) | `1@gl_k2` | aucun script ; v1.7 chez hayakawakaki — ✅ porté le 2026‑11‑09 à côté de l'OGH Moonlight (`1@gl_k` et son HM maison, inchangé) : Another Hugin à `glast_01` (niveau 160, OGH normal terminé), instance 55 (`moon/instances/OldGlastHeimHard.npc`), 14 mobs `MG_*_H` (`db/import/mobs/ogh_hard.yml`), quêtes 12336-12337 ; faille du trésor corrigée (12335 au lieu de 12322) ; l'enchanteur des Temporal Boots existait déjà |
 
 Toutes ces cartes sont dans le mapcache. Attention à l'Id 51 : chez Moonlight, c'est déjà la
 *Bloody Branch Cave*.
 
-Les trois scripts existent hors rAthena, dans le dépôt
+Seule la Chute de Glast Heim a un script hors rAthena, dans le dépôt
 [hayakawakaki/rathena-script-collection](https://github.com/hayakawakaki/rathena-script-collection)
 (GPL-3.0, à créditer). **La Chute de Glast Heim est portée le 2026‑11‑09** depuis la réécriture
 d'EnemyArea (branche de la PR [#9478](https://github.com/rathena/rathena/pull/9478)) :
@@ -232,8 +233,8 @@ d'inventaire). Deux niveaux possibles.
 17.2 et 18 ne sont pas portés : la chaîne narrative s'arrête après 17.1. Le niveau A reste une
 option défendable et bien moins coûteuse.
 
-Le Laboratoire Bagot et le mode défi n'ont aucun script dans rAthena, mais en ont un dans le
-dépôt hayakawakaki. Le Lac de l'Abysse F4 et le Passé d'Odin, venus de PR non fusionnées,
+Le Laboratoire EDDA et le mode défi n'ont de script nulle part : hors périmètre tant qu'il
+faudrait l'écrire. Le Lac de l'Abysse F4 et le Passé d'Odin, venus de PR non fusionnées,
 sont portés, comme Abyss Glast Heim (PR #7474) et la Chute de Glast Heim (dépôt hayakawakaki).
 
 ## 6. Verdict

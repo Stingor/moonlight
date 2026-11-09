@@ -127,3 +127,5 @@ Body:
     Value: 53
   - Name: INST_GLASTHEIM_PURIFICATION_HARD
     Value: 54
+  - Name: INST_OLD_GLAST_HEIM_HARD
+    Value: 55

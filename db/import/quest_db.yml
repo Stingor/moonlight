@@ -1583,3 +1583,13 @@ Body:
     Targets:
       - Mob: MD_GH_KING_SCHMIDT_H
         Count: 1
+  - Id: 12336
+    Title: Corrupted Soul Hunt
+    Targets:
+      - Mob: MG_CORRUPTION_ROOT_H
+        Count: 1
+  - Id: 12337
+    Title: Amdarais Soul Hunt
+    Targets:
+      - Mob: MG_AMDARAIS_H
+        Count: 1

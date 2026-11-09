@@ -54,6 +54,8 @@ arug_cas02	mapflag	nodisguise
 1@lhz	mapflag	loadevent
 1@gl_k	mapflag	loadevent
 2@gl_k	mapflag	loadevent
+1@gl_k2	mapflag	loadevent
+2@gl_k2	mapflag	loadevent
 1@ecl	mapflag	loadevent
 1@sara	mapflag	loadevent
 1@gef	mapflag	loadevent
