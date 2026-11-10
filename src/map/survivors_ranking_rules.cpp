@@ -239,6 +239,34 @@ constexpr uint32 RULESET_5_KILLS_PER_SECOND = 2 * 10 * SURVIVORS_STEPS_PER_SECON
 // les trois classes peuvent tirer.
 constexpr uint32 RULESET_5_EXP_GAIN_PCT = 100 + 100 + 40;
 
+// ── LE RULESET 6 ─────────────────────────────────────────────────────────────
+// Toute classe frappe aussi de son arme, et trois cartes nouvelles ne touchent
+// que ce coup. Les quatre mêmes classes classées, le Marchand restant en partie
+// libre. Aucune borne ne lit les dégâts : boss, instants, points, XP, courbe,
+// horde et majoration sont ceux du ruleset 5, et aucune des cartes nouvelles ne
+// majore l'XP.
+constexpr uint16 RULESET_6 = 6;
+constexpr uint16 RULESET_6_ARENAS[] = { 2 };
+constexpr uint16 RULESET_6_CLASSES[] = { 1, 2, 3, 4 };
+constexpr uint32 RULESET_6_RUN_MS = 15 * MINUTE_MS;
+constexpr uint32 RULESET_6_OVERTIME_MS = 5 * MINUTE_MS;
+constexpr s_survivors_boss_bound RULESET_6_BOSSES[] = {
+	{  3 * MINUTE_MS,  2 * MINI_BOSS_KILL_FACTOR, 20, false },
+	{  5 * MINUTE_MS,  6 * MINI_BOSS_KILL_FACTOR, 30, false },
+	{  7 * MINUTE_MS,  8 * MINI_BOSS_KILL_FACTOR, 40, false },
+	{  9 * MINUTE_MS, 24 * MINI_BOSS_KILL_FACTOR, 60, false },
+	{ 15 * MINUTE_MS, 81 * BOSS_KILL_FACTOR,       0, true  },
+};
+constexpr s_survivors_exp_segment RULESET_6_EXP_CURVE[] = {
+	{  1,    5,  10 },
+	{ 20,  220,  40 },
+	{ 40, 3500, 200 },
+};
+constexpr uint32 RULESET_6_COMMON_KILL_POINTS = 58 * ELITE_FACTOR;
+constexpr uint32 RULESET_6_COMMON_KILL_EXP = 22 * ELITE_FACTOR;
+constexpr uint32 RULESET_6_KILLS_PER_SECOND = 2 * 10 * SURVIVORS_STEPS_PER_SECOND;
+constexpr uint32 RULESET_6_EXP_GAIN_PCT = 100 + 100 + 40;
+
 // Triées par version croissante : la première et la dernière bornent ce que
 // ZC 0x0F53 annonce.
 constexpr s_survivors_ruleset RULESETS[] = {
@@ -263,6 +291,13 @@ constexpr s_survivors_ruleset RULESETS[] = {
 	  RULESET_5_BOSSES, std::size(RULESET_5_BOSSES),
 	  RULESET_5_EXP_CURVE, std::size(RULESET_5_EXP_CURVE),
 	  RULESET_5_KILLS_PER_SECOND, RULESET_5_COMMON_KILL_POINTS, RULESET_5_COMMON_KILL_EXP, RULESET_5_EXP_GAIN_PCT },
+	{ RULESET_6,
+	  RULESET_6_ARENAS, std::size(RULESET_6_ARENAS),
+	  RULESET_6_CLASSES, std::size(RULESET_6_CLASSES),
+	  RULESET_6_RUN_MS, RULESET_6_OVERTIME_MS,
+	  RULESET_6_BOSSES, std::size(RULESET_6_BOSSES),
+	  RULESET_6_EXP_CURVE, std::size(RULESET_6_EXP_CURVE),
+	  RULESET_6_KILLS_PER_SECOND, RULESET_6_COMMON_KILL_POINTS, RULESET_6_COMMON_KILL_EXP, RULESET_6_EXP_GAIN_PCT },
 };
 
 constexpr uint64 SCORE_PER_SECOND = 10;
