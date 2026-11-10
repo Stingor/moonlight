@@ -44,7 +44,10 @@ constexpr t_tick BYTES_WINDOW_MS = 60000;
 // Les profils de détection, et les rangs qu'ils emploient.
 constexpr uint8 PROFILE_RAMPS = 1;
 constexpr uint8 PROFILE_HUE_CLASSES = 2;
+constexpr uint8 PROFILE_BODY_MORE = 3;
 constexpr int32 RAMP_RANKS = 8;
+// La suite du corps : les rampes 9 à 12.
+constexpr int32 BODY_MORE_RANKS = 4;
 // Une coupe dans le mot haut d'une clé de tête, une couleur dans le mot bas.
 constexpr uint32 HEAD_KEY_SHIFT = 16;
 constexpr uint32 HEAD_KEY_LOW = 0xFFFF;
@@ -153,6 +156,8 @@ int32 ranks_for(uint8 layer, uint8 profile) {
 		return profile == PROFILE_RAMPS ? RAMP_RANKS : 0;
 	if (layer == MOONCLIENT_STYLE_LAYER_SKIN)
 		return profile == PROFILE_RAMPS ? 1 : 0;
+	if (layer == MOONCLIENT_STYLE_LAYER_BODY_MORE)
+		return profile == PROFILE_BODY_MORE ? BODY_MORE_RANKS : 0;
 	if (profile == PROFILE_RAMPS)
 		return RAMP_RANKS;
 	if (profile == PROFILE_HUE_CLASSES)
@@ -160,9 +165,15 @@ int32 ranks_for(uint8 layer, uint8 profile) {
 	return 0;
 }
 
-// Le calque que peint une entrée du CZ (1, 2, 3 ou 4), ou zéro.
+// Un calque qui appartient au PERSONNAGE, et se range avec lui : la tête, la
+// peau, la suite du corps.
+bool character_layer(uint8 layer) {
+	return layer == MOONCLIENT_STYLE_LAYER_HEAD || layer == MOONCLIENT_STYLE_LAYER_SKIN || layer == MOONCLIENT_STYLE_LAYER_BODY_MORE;
+}
+
+// Le calque que peint une entrée du CZ (1 à 5), ou zéro.
 uint8 painted_layer(uint8 wire_layer) {
-	if (wire_layer == MOONCLIENT_STYLE_LAYER_HEAD || wire_layer == MOONCLIENT_STYLE_LAYER_SKIN)
+	if (character_layer(wire_layer))
 		return wire_layer;
 	const std::optional<s_slot> slot = slot_of(wire_layer);
 	return slot ? slot->layer : 0;
@@ -185,7 +196,7 @@ e_moonclient_style_result check_entry(const uint8* p, size_t available, bool sto
 	if (clear && e.mask != 0)
 		return MOONCLIENT_STYLE_MALFORMED;
 	const uint8 layer = painted_layer(e.layer);
-	if (layer == 0 || (stored && e.layer != MOONCLIENT_STYLE_LAYER_HEAD && e.layer != MOONCLIENT_STYLE_LAYER_SKIN))
+	if (layer == 0 || (stored && !character_layer(e.layer)))
 		return MOONCLIENT_STYLE_KEY;
 	const int32 ranks = ranks_for(layer, e.profile);
 	if (ranks == 0 || (e.mask >> ranks) != 0)
@@ -416,7 +427,10 @@ bytes compose_block(map_session_data& owner) {
 	const uint32 head_key = (static_cast<uint32>(owner.status.hair) << HEAD_KEY_SHIFT) | (static_cast<uint32>(owner.status.hair_color) & HEAD_KEY_LOW);
 	for (const bytes& e : state.character) {
 		const s_entry_view v = view_of(e.data());
-		const bool shown = (v.layer == MOONCLIENT_STYLE_LAYER_HEAD && v.key == head_key) || v.layer == MOONCLIENT_STYLE_LAYER_SKIN;
+		// ⚠ TOUTES LES SUITES DU CORPS : leur clé est un condensé que seul le
+		// client sait rattacher au corps qu'il charge.
+		const bool shown = (v.layer == MOONCLIENT_STYLE_LAYER_HEAD && v.key == head_key) || v.layer == MOONCLIENT_STYLE_LAYER_SKIN
+			|| v.layer == MOONCLIENT_STYLE_LAYER_BODY_MORE;
 		if (!shown)
 			continue;
 		block.insert(block.end(), e.begin(), e.end());
@@ -713,7 +727,7 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		// Un calque, une entrée : la même tête, la peau ou le même emplacement deux fois.
 		for (const s_request_entry& other : entries) {
 			const bool same_target = other.view.layer == view.layer
-				&& (view.layer != MOONCLIENT_STYLE_LAYER_HEAD || other.view.key == view.key);
+				&& ((view.layer != MOONCLIENT_STYLE_LAYER_HEAD && view.layer != MOONCLIENT_STYLE_LAYER_BODY_MORE) || other.view.key == view.key);
 			if (same_target)
 				return MOONCLIENT_STYLE_KEY;
 		}
@@ -786,6 +800,13 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		bytes entry(e.p, e.p + e.view.size);
 		entry[7] = 0;
 		character.push_back(std::move(entry));
+		// Une suite par corps habillé : au-delà des variantes de la v7, la plus
+		// ancienne part, comme le corps qu'elle prolongeait.
+		if (e.view.layer == MOONCLIENT_STYLE_LAYER_BODY_MORE) {
+			const auto is_more = [](const bytes& b) { return view_of(b.data()).layer == MOONCLIENT_STYLE_LAYER_BODY_MORE; };
+			if (std::count_if(character.begin(), character.end(), is_more) > BOURGEON_STYLE_MAX_VARIANTS)
+				character.erase(std::find_if(character.begin(), character.end(), is_more));
+		}
 		// Au plafond, la plus ancienne teinture de cheveux qui dort part ; jamais
 		// celle qu'on porte, ni la peau.
 		while (character.size() > MOONCLIENT_STYLE_LAYERS_MAX) {
@@ -866,6 +887,27 @@ void clif_parse_moonclient_style_layers(int32 fd, map_session_data* sd) {
 		send_area(*sd, compose_block(*sd), true);
 }
 
+size_t style_layers_check_shown_entry(const uint8* p, size_t available) {
+	if (available < MOONCLIENT_STYLE_LAYER_ENTRY_HEAD)
+		return 0;
+	const s_entry_view e = view_of(p);
+	// Le personnage : la forme rangée, que check_entry sait juger.
+	if (character_layer(e.layer))
+		return check_entry(p, available, true) == MOONCLIENT_STYLE_ACCEPTED ? e.size : 0;
+	if (e.layer != MOONCLIENT_STYLE_LAYER_HEADGEAR && e.layer != MOONCLIENT_STYLE_LAYER_GARMENT)
+		return 0;
+	// Un objet, sous l'apparence affichée : la forme d'une teinture d'exemplaire.
+	const int32 ranks = ranks_for(e.layer, e.profile);
+	const int32 adjusts = popcount16(e.mask);
+	if (e.flags != 0 || e.key == 0 || ranks == 0 || (e.mask >> ranks) != 0
+		|| e.size != MOONCLIENT_STYLE_LAYER_ENTRY_HEAD + adjusts * MOONCLIENT_STYLE_LAYER_ADJUST_BYTES || e.size > available)
+		return 0;
+	for (int32 i = 0; i < adjusts; ++i)
+		if (p[MOONCLIENT_STYLE_LAYER_ENTRY_HEAD + i * MOONCLIENT_STYLE_LAYER_ADJUST_BYTES + 4] > 1)
+			return 0;
+	return e.size;
+}
+
 // ── Staff ───────────────────────────────────────────────────────────────────
 
 std::vector<std::string> style_layers_describe(map_session_data& sd) {
@@ -880,6 +922,8 @@ std::vector<std::string> style_layers_describe(map_session_data& sd) {
 		const s_entry_view v = view_of(e.data());
 		if (v.layer == MOONCLIENT_STYLE_LAYER_SKIN)
 			safesnprintf(line, sizeof(line), "peau : %d reglage(s)", popcount16(v.mask));
+		else if (v.layer == MOONCLIENT_STYLE_LAYER_BODY_MORE)
+			safesnprintf(line, sizeof(line), "suite du corps %08X : %d reglage(s)", v.key, popcount16(v.mask));
 		else
 			safesnprintf(line, sizeof(line), "cheveux, coupe %u couleur %u : %d reglage(s)", v.key >> HEAD_KEY_SHIFT, v.key & HEAD_KEY_LOW, popcount16(v.mask));
 		lines.emplace_back(line);

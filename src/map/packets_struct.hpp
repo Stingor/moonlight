@@ -6997,6 +6997,9 @@ enum e_bourgeon_server_rule : uint16 {
 	BOURGEON_RULE_CLOTH_COLOR_MAX          = 19, ///< MAX_CLOTH_COLOR
 	BOURGEON_RULE_STYLE_LAYERS_BYTES_MINUTE = 20, ///< octets de CZ 0x0F5E reçus par minute, au plus
 	BOURGEON_RULE_STYLE_ATELIER_CELLS      = 21, ///< distance au styliste, en cases, pour teindre un objet
+	// Les tenues (CZ 0x0F61) : 🔴 moonclient n'en envoie pas avant de l'avoir lue.
+	BOURGEON_RULE_STYLE_OUTFIT_CADENCE_MS  = 22, ///< écart minimal entre deux CZ 0x0F61 (ms)
+	BOURGEON_RULE_STYLE_WARDROBE_SLOTS     = 23, ///< rangements de la garde-robe d'un compte
 };
 
 struct PACKET_ZC_MOONLIGHT_SERVER_RULES_entry {
@@ -7977,16 +7980,18 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_COOP_LEFT, 0x0f5d);
 //   puis, pour chaque bit posé du masque (rang 0 à 12, dans l'ordre) :
 //       [teinte:int16][saturation:int8][luminosité:int8][absolu:uint8]
 //   taille   : 10 + 5 × réglages, de 10 à 75 octets.
-//   calque   : ZC : 1 tête, 2 coiffe, 3 cape, 4 peau.
-//              CZ : 1 tête, 4 peau, ou l'EMPLACEMENT d'équipement de l'émetteur,
+//   calque   : ZC : 1 tête, 2 coiffe, 3 cape, 4 peau, 5 suite du corps.
+//              CZ : 1 tête, 4 peau, 5 suite du corps, ou l'EMPLACEMENT d'équipement de l'émetteur,
 //              10 à 13 (coiffe haute, du milieu, basse, cape), 14 à 17 (leurs
 //              costumes). Jamais un identifiant global : le serveur trouve l'objet
 //              dans l'équipement de la session émettrice, et nulle part ailleurs.
-//   clé      : tête = coupe << 16 | couleur ; peau = 0 ;
+//   clé      : tête = coupe << 16 | couleur ; peau = 0 ; suite = clé du corps ;
 //              ZC : l'apparence ou la robe AFFICHÉE ;
 //              CZ : l'identifiant d'objet ATTENDU à cet emplacement.
-//   profil   : 1 = rampes (rangs 0 à 7), 2 = classes de teinte (rangs 0 à 12).
-//              La tête et la peau sont au profil 1, la peau au seul rang 0.
+//   profil   : 1 = rampes (rangs 0 à 7), 2 = classes de teinte (rangs 0 à 12),
+//              3 = suite du corps (rangs 0 à 3, les rampes 9 à 12).
+//              La tête et la peau sont au profil 1, la peau au seul rang 0 ;
+//              la suite au profil 3 seulement.
 //   drapeaux : 0x01 = effacer cette teinture (CZ ; le masque est alors nul).
 #define MOONCLIENT_STYLE_LAYER_ENTRY_HEAD 10
 #define MOONCLIENT_STYLE_LAYER_ADJUST_BYTES 5
@@ -8004,6 +8009,11 @@ enum e_moonclient_style_layer : uint8 {
 	MOONCLIENT_STYLE_LAYER_HEADGEAR = 2,
 	MOONCLIENT_STYLE_LAYER_GARMENT  = 3,
 	MOONCLIENT_STYLE_LAYER_SKIN     = 4,
+	// La SUITE DU CORPS : les rampes 9 à 12, que la v7 ne porte pas. Clé = la clé
+	// du corps de la v7 (opaque ici), profil 3, rangs 0 à 3. Rangée avec le
+	// personnage, une par corps au plus BOURGEON_STYLE_MAX_VARIANTS, et diffusée
+	// toute : le serveur ne sait pas quel corps le client charge.
+	MOONCLIENT_STYLE_LAYER_BODY_MORE = 5,
 	// CZ seulement : les emplacements d'équipement de l'émetteur.
 	MOONCLIENT_STYLE_SLOT_FIRST     = 10,
 	MOONCLIENT_STYLE_SLOT_LAST      = 17,
@@ -8081,6 +8091,89 @@ struct PACKET_ZC_MOONCLIENT_STYLE_VERDICT {
 	uint32 detail;
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONCLIENT_STYLE_VERDICT, 0x0f60);
+
+// ── [Stingor] Les tenues de moonclient : code court et garde-robe (0x0F61, 0x0F62)
+//
+// Une TENUE est le corps et les calques d'un joueur, d'un seul tenant. Elle se
+// partage par un CODE COURT que le serveur attribue (huit caractères), et se
+// range dans la GARDE-ROBE du compte, que tous ses personnages relisent. Voir
+// style_outfits.cpp, et dans moonclient docs/couleurs-du-personnage/.
+//
+// 🔴 UNE TENUE N'ÉCRIT RIEN SUR UN PERSONNAGE. Elle n'est qu'une proposition que
+// l'éditeur du client montre ; le joueur la valide ensuite par 0x0F26 et 0x0F5E,
+// avec toutes leurs gardes (atelier du styliste compris pour un objet).
+//
+// 🔴 RIEN D'UN AUTRE JOUEUR NE SE MODIFIE : un code publié est immuable, et la
+// garde-robe se désigne par l'account_id de la session émettrice, jamais par un
+// identifiant lu du client.
+//
+// UNE TENUE (opaque pour le reste du serveur, jugée sur sa structure) :
+//   [version:1][corps:1][repli:4]
+//   puis corps × [clé:4][palette:2][palette_cheveux:2][coupe:2][réglages:40]
+//   puis [nombre:1] et nombre × entrée de calque, à la forme du ZC 0x0F5F
+//   (calques 1 à 5, clé affichée, aucun drapeau).
+//   repli : la clé du corps principal, 0 ou l'une des clés données.
+#define MOONCLIENT_OUTFIT_VERSION 1
+#define MOONCLIENT_OUTFIT_HEAD 6
+#define MOONCLIENT_OUTFIT_BODY_BYTES (10 + BOURGEON_STYLE_ADJUST_BYTES)
+#define MOONCLIENT_OUTFIT_ENTRIES_MAX 12
+#define MOONCLIENT_OUTFIT_BYTES_MAX 1024
+// Un code : huit caractères pris dans un alphabet sans ambiguïté (ni 0/O, ni 1/I/L).
+#define MOONCLIENT_OUTFIT_CODE_LENGTH 8
+// Le nom d'un rangement de garde-robe, en octets UTF-8.
+#define MOONCLIENT_OUTFIT_NAME_MAX 24
+// Les rangements de la garde-robe d'un compte, numérotés 0 à N-1.
+#define MOONCLIENT_WARDROBE_SLOTS 16
+
+enum e_moonclient_outfit_action : uint8 {
+	MOONCLIENT_OUTFIT_PUBLISH        = 1, ///< la tenue jointe reçoit un code
+	MOONCLIENT_OUTFIT_FETCH          = 2, ///< la tenue de ce code
+	MOONCLIENT_OUTFIT_WARDROBE_LIST  = 3, ///< toute la garde-robe du compte
+	MOONCLIENT_OUTFIT_WARDROBE_STORE = 4, ///< range la tenue jointe sous ce rangement et ce nom
+	MOONCLIENT_OUTFIT_WARDROBE_CLEAR = 5, ///< vide ce rangement
+};
+
+// Le résultat : ceux de e_moonclient_style_result (0 accepté, 2 trop tôt,
+// 3 structure, 4 plafond, 8 état interdit, 9 indisponible), plus :
+#define MOONCLIENT_OUTFIT_UNKNOWN_CODE 10 ///< aucun code ne s'écrit ainsi
+#define MOONCLIENT_OUTFIT_EMPTY_SLOT 11   ///< ce rangement est déjà vide
+
+// CZ : une demande de tenue. Variable, au plus
+// sizeof(PACKET_CZ_MOONCLIENT_OUTFIT) + MOONCLIENT_OUTFIT_NAME_MAX + MOONCLIENT_OUTFIT_BYTES_MAX.
+// Layout: [type:2][len:2][action:1][rangement:1][code:8][nom_len:1] puis le nom,
+//         puis la tenue (PUBLISH, WARDROBE_STORE).
+//   rangement : WARDROBE_STORE et WARDROBE_CLEAR seulement ; nul ailleurs.
+//   code      : FETCH seulement ; nul ailleurs.
+//   nom       : WARDROBE_STORE seulement ; vide ailleurs. Aucun octet de contrôle.
+// 🔴 Tout champ inutile à l'action doit être nul : une demande qui en porte est
+// refusée, plutôt que lue d'une façon qu'un client plus récent ne voulait pas.
+struct PACKET_CZ_MOONCLIENT_OUTFIT {
+	int16 packetType;
+	int16 packetLength;
+	uint8 action;
+	uint8 slot;
+	char code[MOONCLIENT_OUTFIT_CODE_LENGTH];
+	uint8 name_length;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONCLIENT_OUTFIT, 0x0f61);
+
+// ZC : la réponse, à la seule session qui a demandé. Variable.
+// Layout: [type:2][len:2][action:1][résultat:1][attente_ms:2][rangement:1][code:8]
+//         puis la charge :
+//   PUBLISH       : rien ; `code` est celui de la tenue (le même pour la même tenue).
+//   FETCH         : la tenue du code.
+//   WARDROBE_LIST : [nombre:1] puis nombre × [rangement:1][nom_len:1][nom]
+//                   [tenue_len:2][tenue]. Suit aussi chaque STORE et CLEAR acceptés.
+struct PACKET_ZC_MOONCLIENT_OUTFIT {
+	int16 packetType;
+	int16 packetLength;
+	uint8 action;
+	uint8 result;
+	uint16 wait_ms;
+	uint8 slot;
+	char code[MOONCLIENT_OUTFIT_CODE_LENGTH];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONCLIENT_OUTFIT, 0x0f62);
 
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────

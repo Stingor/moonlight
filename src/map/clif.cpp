@@ -49,6 +49,7 @@
 #include "mail.hpp"
 #include "map_edits.hpp"
 #include "style_layers.hpp"
+#include "style_outfits.hpp"
 #include "market.hpp"
 #include "map.hpp"
 #include "mercenary.hpp"
@@ -9697,6 +9698,8 @@ void clif_bourgeon_server_rules(map_session_data& sd) {
 		{ BOURGEON_RULE_CLOTH_COLOR_MAX,           MAX_CLOTH_COLOR },
 		{ BOURGEON_RULE_STYLE_LAYERS_BYTES_MINUTE, MOONCLIENT_STYLE_LAYERS_BYTES_PER_MINUTE },
 		{ BOURGEON_RULE_STYLE_ATELIER_CELLS,       MOONCLIENT_STYLE_ATELIER_CELLS },
+		{ BOURGEON_RULE_STYLE_OUTFIT_CADENCE_MS,   MOONCLIENT_OUTFIT_CADENCE_MS },
+		{ BOURGEON_RULE_STYLE_WARDROBE_SLOTS,      MOONCLIENT_WARDROBE_SLOTS },
 	};
 	const size_t len = sizeof(PACKET_ZC_MOONLIGHT_SERVER_RULES) + sizeof(rules);
 

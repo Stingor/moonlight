@@ -96,4 +96,9 @@ bool style_layers_staff_clear_item(uint64 unique_id, const map_session_data& sta
 
 void clif_parse_moonclient_style_layers(int32 fd, map_session_data* sd);
 
+// Une entrée de calque à la forme du ZC 0x0F5F (calques 1 à 5, clé affichée,
+// aucun drapeau), telle qu'une tenue la range : sa taille, ou zéro si elle est
+// mal formée.
+size_t style_layers_check_shown_entry(const uint8* p, size_t available);
+
 #endif /* MAP_STYLE_LAYERS_HPP */
