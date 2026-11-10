@@ -17,8 +17,8 @@
 // 🔴 PERSONNE NE TEINT L'OBJET D'UN AUTRE. Le CZ désigne un EMPLACEMENT
 // d'équipement de l'émetteur, jamais un `unique_id` (il se devine) : l'objet se
 // trouve par `sd->equip_index`, doit y être porté au moment du traitement, de
-// l'identifiant attendu, et le styliste doit avoir ouvert un atelier à
-// quelques cases (D19). Une teinture d'objet ne s'applique à l'affichage qu'à
+// l'identifiant attendu. Avec `moonclient_style_atelier`, le styliste doit
+// en plus avoir ouvert un atelier à quelques cases. Une teinture d'objet ne s'applique à l'affichage qu'à
 // l'objet qui porte à la fois son `unique_id` ET son identifiant.
 
 #ifndef MAP_STYLE_LAYERS_HPP

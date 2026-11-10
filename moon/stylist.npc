@@ -190,6 +190,13 @@ L_mainmenu:
 			bourgeon_style_open;
 			close;
 		}
+		// [Stingor] Sans `moonclient_style_atelier`, une teinture d'objet se
+		// valide de partout, sur l'objet porté : l'éditeur s'ouvre et le
+		// dialogue se ferme.
+		if (!getbattleflag("moonclient_style_atelier")) {
+			bourgeon_style_open;
+			close;
+		}
 		// [Stingor] moonclient : l'atelier du styliste (D19). Une teinture de
 		// coiffe ou de cape ne se valide que pendant qu'il est ouvert, près de
 		// ce PNJ. Il se ferme quand le joueur a terminé ; s'il s'en va, le

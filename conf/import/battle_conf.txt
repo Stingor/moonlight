@@ -129,6 +129,10 @@ area_size: 18
 // Never below area_size, at most 128. PvP, GvG and battleground maps keep
 // area_size. Original clients receive exactly what area_size shows them.
 moonclient_area_size: 40
+// [Stingor] Must a moonclient item dye (headgear, garment) be validated at the
+// stylist's workshop? no: anywhere, on the item the player wears. yes: only
+// while the stylist has opened the workshop, a few cells from him.
+moonclient_style_atelier: no
 max_walk_path: 18
 max_lv: 99
 aura_lv: 999

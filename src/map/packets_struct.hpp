@@ -6996,7 +6996,7 @@ enum e_bourgeon_server_rule : uint16 {
 	BOURGEON_RULE_CLOTH_COLOR_MIN          = 18, ///< MIN_CLOTH_COLOR
 	BOURGEON_RULE_CLOTH_COLOR_MAX          = 19, ///< MAX_CLOTH_COLOR
 	BOURGEON_RULE_STYLE_LAYERS_BYTES_MINUTE = 20, ///< octets de CZ 0x0F5E reçus par minute, au plus
-	BOURGEON_RULE_STYLE_ATELIER_CELLS      = 21, ///< distance au styliste, en cases, pour teindre un objet
+	BOURGEON_RULE_STYLE_ATELIER_CELLS      = 21, ///< distance au styliste, en cases, pour teindre un objet ; 0 : atelier non exigé
 	// Les tenues (CZ 0x0F61) : 🔴 moonclient n'en envoie pas avant de l'avoir lue.
 	BOURGEON_RULE_STYLE_OUTFIT_CADENCE_MS  = 22, ///< écart minimal entre deux CZ 0x0F61 (ms)
 	BOURGEON_RULE_STYLE_WARDROBE_SLOTS     = 23, ///< rangements de la garde-robe d'un compte

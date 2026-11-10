@@ -756,8 +756,9 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		const std::optional<s_slot> slot = slot_of(e.view.layer);
 		if (!slot)
 			continue;
-		// D19 : une teinture d'objet ne se valide qu'auprès du styliste.
-		if (!atelier_open(sd, state))
+		// Auprès du styliste seulement, si l'option l'exige. Sans elle, les gardes
+		// qui suivent suffisent : l'objet est celui que l'émetteur porte.
+		if (battle_config.moonclient_style_atelier && !atelier_open(sd, state))
 			return MOONCLIENT_STYLE_NO_ATELIER;
 		// 🔴 L'OBJET SE TROUVE DANS L'ÉQUIPEMENT DE LA SESSION ÉMETTRICE, et nulle
 		// part ailleurs : jamais d'identifiant global lu du client.
