@@ -16,14 +16,16 @@ gonryun,163,122,4	script	Job Master::jobmaster	4W_F_01,{
 	if( BaseLevel == 999 )
 		.@allskill$ = "Débloquer Allskills";
 
-	if(    Class > Job_Crusader2 && Class < Job_Novice_High
-		|| Class > Job_Thief_High && Class < Job_Baby
-		|| Class > Job_Baby_Thief && Class < Job_Taekwon
-		|| Class > Job_Baby_Taekwon
-		|| class >= Job_Rune_Knight && class <= Job_Mechanic )
-		.@job$ = "";
-	else
+	// Liste blanche calquée sur les branches du case 1 : toute autre classe
+	// (Baby Ninja, Baby Gunslinger, Star Gladiator...) n'y trouverait que « plus rien pour toi ».
+	if(    Class >= Job_Novice && Class < Job_Wedding
+		|| Class == Job_Taekwon
+		|| Class >= Job_Novice_High && Class < Job_Lord_Knight
+		|| Class >= Job_Baby && Class < Job_Baby_Knight
+		|| Class == Job_Baby_Taekwon )
 		.@job$ = "Changer de Job";
+	else
+		.@job$ = "";
 
 	mes "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 	mes "Bonjour,";
