@@ -7,7 +7,7 @@
 | Carte | `1@gl_he` (« Contaminated Dimension », déjà dans le mapcache et le client) ; le wiki iRO cite `4@ghc0`, absent ici |
 | Côté rAthena | `instance_db` 49, gabarits de mobs commentés (`MD_C_*`, 20572‑20585), objets et cartes présents, **aucun script** |
 | Côté Moonlight | rien — ce document précède l'écriture du script |
-| État | décisions prises le 2026‑11‑09 (section 8) ; **lot C1 fait le 2026‑11‑09** (section 9) ; C2 et C3 à écrire |
+| État | décisions prises le 2026‑11‑09 (section 8) ; **lot C1 fait le 2026‑11‑09** (section 9), **C2 écrit le 2026‑11‑10** (section 10, non testé en jeu) ; C3 à écrire |
 
 Le script n'existe nulle part : ni chez rAthena, ni chez hayakawakaki, ni chez AsurielRO. Ce
 qui suit est une **reconstitution**. Les sections 1 à 5 relèvent ce que les sources disent ;
@@ -229,3 +229,36 @@ classe.
   client (`quests.yml`).
 - **Achievement 129021** : objectif de 100 victoires, côté serveur et client ; le script C2 le
   fera avancer par `achievementupdate`.
+
+## 10. Lot C2 (script écrit le 2026‑11‑10, non testé en jeu)
+
+`moon/instances/OldGlastHeimChallenge.npc`, chargé après `OldGlastHeimHard.npc`. Le générateur
+le charge sans erreur ni avertissement.
+
+**Géométrie de `1@gl_he`**, relevée dans `db/import/map_cache.dat` (grille des cases praticables et parcours en largeur) : le hall d'entrée (1 218 cases, arrivée à 150,28) ne communique qu'avec le
+couloir central (x 145‑154, y 70‑162) ; les ailes ouest (14 334 cases) et est (13 609 cases)
+sont **closes**, sans lien entre elles ni avec le hall — d'où l'arrivée par téléportation,
+comme le « groupe réparti » de l'officiel ; la tour nord (x 151‑164, y 258‑284) est close aussi.
+
+| Étape | Mise en œuvre |
+|---|---|
+| Entrée | Oscar à `glast_01` 143,288 : niveau 170, quête 12339 (Old Glast Heim Advanced fini), cooldown 12494, création par le chef de groupe |
+| Niveau | Oscar dans le hall (150,40) : le chef choisit entre 1 et le niveau que ses victoires (`OGHCM_CLEARS`) débloquent |
+| Ailes | groupe mélangé puis réparti en alternance (ouest 83,93 ; est 213,92) ; 50 monstres par aile (les 6 types, à parts égales), mis à l'échelle par `F_OGHCM_Scale` |
+| Aile nettoyée | moins de 5 restants (wiki) : portail vers le hall (135,110 et 165,110) et vague de racines |
+| Racines | 1 à 4 selon le niveau, dans le hall, 30 s ; non détruites, elles tuent les joueurs dans un carré 15×15 puis disparaissent (un PNJ par aile, pour que deux vagues ne s'écrasent pas) |
+| Couloir | mur invisible en bas (y 70) levé quand les deux ailes sont nettoyées ; Oscar au bout nord (150,158) envoie tout le groupe dans la tour |
+| Boss | Oscar (157,260) invoque le Fantôme de Himmelmez selon la table du wiki, sinon d'Amdarais, PV et dégâts × multiplicateur |
+| Combat | toutes les 2 s : régénération (4 600 × niveau, l'officiel ramené à l'échelle), **dégâts à 1** (modes `Ignore*`) tant qu'un membre est mort ou absent, mutants à 70/50/30 % de PV, grille de 9 épines toutes les 30 s sous 90 % (survivantes au bout de 5 s : Grand Darkness du boss), disparition après 5 minutes sans survivant (Oscar le réinvoque) |
+| Coffre | quantités de l'annonce officielle par niveau, posées au sol autour du coffre |
+| Récompense | Oscar (154,262), une fois par personnage : Sealed Circlet entre `1 + 2(N−1)/9` et `N` (+1 pour Himmelmez), +1 sans racine explosée, +1 sans disparition du boss, +1 Temporal Spell au niveau 8 et plus ; `OGHCM_CLEARS` +1 et achievement 129021 +1 |
+
+**Différences avec l'officiel, à confirmer par les vidéos :**
+- la salle du boss est la tour nord ; l'annonce montre un pentagramme dans une salle qui
+  pourrait être plus grande ;
+- l'officiel ouvre un portail « vers l'autre aile » ; ici les deux ailes mènent au hall ;
+- les répliques d'Oscar sont écrites pour Moonlight ;
+- Oscar se transformerait en Acidus doré pour se déplacer (vu en vidéo par l'utilisateur) : à
+  ajouter quand on saura à quel moment ;
+- non repris (lot C5) : téléportations aléatoires, soin différé, Max Pain, Grim Reaper,
+  Gradual Gravity, Circle Arena, sortie d'arène (la tour est close).

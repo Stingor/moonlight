@@ -1,0 +1,579 @@
+//===== Moonlight ============================================
+//= Old Glast Heim : mode defi (Contaminated Dimension, 1@gl_he)
+//===== Description: =========================================
+//= Reconstitution Moonlight : aucun script officiel ni
+//= communautaire n'existe. Deroule d'apres l'annonce officielle
+//= (renewal.playragnarok.com, news 355, 2023-12-05) et le wiki
+//= iRO ; monstres d'apres Divine Pride. Conception et decisions :
+//= docs/episodes/ogh_mode_defi.md.
+//=
+//= Entree : Oscar a glast_01 143,288, niveau 170, Old Glast Heim
+//= Advanced fini (quete 12339). Cooldown : quete 12494 (23 h).
+//= Niveau de contamination 1 a 10, debloque par le nombre de
+//= victoires du personnage (OGHCM_CLEARS), comme l'officiel.
+//= Le niveau multiplie PV et degats des monstres (x1 a x3,33) ;
+//= il remplace le mode HM pour cette instance.
+//============================================================
+
+//------------------------------------------------------------
+// Fonctions partagees
+//------------------------------------------------------------
+// Multiplicateur du niveau de contamination, en centiemes.
+function	script	F_OGHCM_Mult	{
+	setarray .@m[1],100,125,150,175,200,225,250,275,300,333;
+	return .@m[cap_value(getarg(0),1,10)];
+}
+
+// Victoires requises pour chaque niveau.
+function	script	F_OGHCM_Need	{
+	setarray .@n[1],0,5,11,18,26,35,45,60,80,100;
+	return .@n[cap_value(getarg(0),1,10)];
+}
+
+// Niveau maximal debloque par un nombre de victoires.
+function	script	F_OGHCM_MaxLevel	{
+	.@lv = 1;
+	for( .@i = 2; .@i <= 10; .@i++ ) {
+		if( getarg(0) >= callfunc("F_OGHCM_Need",.@i) )
+			.@lv = .@i;
+	}
+	return .@lv;
+}
+
+// Met un monstre a l'echelle du niveau : PV, ATK, MATK x mult/100.
+// getarg(0) : GID ; getarg(1) : multiplicateur en centiemes.
+function	script	F_OGHCM_Scale	{
+	.@gid = getarg(0);
+	.@mul = getarg(1);
+	if( .@mul <= 100 || !unitexists(.@gid) )
+		return;
+	getunitdata .@gid, .@d;
+	.@hp = (.@d[UMOB_MAXHP] / 100) * .@mul;
+	setunitdata .@gid, UMOB_MAXHP, .@hp;
+	setunitdata .@gid, UMOB_HP, .@hp;
+	setunitdata .@gid, UMOB_ATKMIN, .@d[UMOB_ATKMIN] * .@mul / 100;
+	setunitdata .@gid, UMOB_ATKMAX, .@d[UMOB_ATKMAX] * .@mul / 100;
+	setunitdata .@gid, UMOB_MATKMIN, min(65535, .@d[UMOB_MATKMIN] * .@mul / 100);
+	setunitdata .@gid, UMOB_MATKMAX, min(65535, .@d[UMOB_MATKMAX] * .@mul / 100);
+	return;
+}
+
+//------------------------------------------------------------
+// Entree : Oscar a Glast Heim
+//------------------------------------------------------------
+glast_01,143,288,5	script	Oscar#oghcm	4_ED_OSCAR,{
+	.@md_name$ = "Old Glast Heim Challenge Mode";
+	mes "[Oscar]";
+	mes "A contaminated dimension has opened here, a twisted copy of the time zone of Himmelmez's attack.";
+	mes "Varmundt and Heinrich do not exist there. And it keeps growing.";
+	next;
+	if( BaseLevel < 170 ) {
+		mes "[Oscar]";
+		mes "This place is too dangerous. Come back when you reach ^0000FFlevel 170^000000.";
+		close;
+	}
+	if( isbegin_quest(12339) != 2 ) {
+		mes "[Oscar]";
+		mes "You should first prove yourself in ^0000FFOld Glast Heim Advanced^000000, with the other Hugin.";
+		close;
+	}
+	switch( checkquest(12494,PLAYTIME) ) {
+	case -1:
+		break;
+	case 0:
+	case 1:
+		mes "[Oscar]";
+		mes "Your body still carries the contamination of the last challenge. Rest a while.";
+		close;
+	case 2:
+		erasequest 12494;
+		break;
+	}
+	.@clears = OGHCM_CLEARS;
+	.@max = callfunc("F_OGHCM_MaxLevel",.@clears);
+	mes "[Oscar]";
+	mes "Challenges cleared: ^0000FF" + .@clears + "^000000.";
+	mes "Highest contamination level you can face: ^0000FF" + .@max + "^000000.";
+	next;
+	.@party_id = getcharid(1);
+	if( !.@party_id ) {
+		mes "[Oscar]";
+		mes "Form a party first, even alone.";
+		close;
+	}
+	switch( select( (is_party_leader() && !instance_id(IM_PARTY)) ? "Open the contaminated dimension." : "",
+			instance_id(IM_PARTY) ? "Enter the contaminated dimension." : "",
+			"Not now." ) ) {
+	case 1:
+		switch( instance_create(.@md_name$) ) {
+		case -3:
+			mes "[Oscar]";
+			mes "Your party is already inside another dimension.";
+			close;
+		case -4:
+		case -2:
+		case -1:
+			mes "[Oscar]";
+			mes "The dimension refuses to open.";
+			close;
+		}
+		mes "[Oscar]";
+		mes "The dimension is open. Talk to me again to enter.";
+		close;
+	case 2:
+		switch( instance_enter(.@md_name$) ) {
+		case IE_OTHER:
+		case IE_NOINSTANCE:
+		case IE_NOMEMBER:
+			mes "[Oscar]";
+			mes "I cannot send you there.";
+			close;
+		case IE_OK:
+			mapannounce "glast_01", strcharinfo(0) + " of the party " + getpartyname(.@party_id) + " enters the " + .@md_name$ + ".", bc_map, "0x00FF99";
+			setquest 12494;
+			end;
+		}
+		end;
+	}
+	close;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "BaseLevel >= 170 && isbegin_quest(12339) == 2 && checkquest(12494,PLAYTIME) == -1" );
+	end;
+}
+
+//------------------------------------------------------------
+// Controle de l'instance
+//------------------------------------------------------------
+1@gl_he,1,1,0	script	#oghcm_ctrl	HIDDEN_WARP_NPC,{
+	end;
+
+OnInstanceInit:
+	'map$ = instance_mapname("1@gl_he");
+	'state = 0;
+	'level = 1;
+	'mult = 100;
+	'opened_w = 0;
+	'opened_e = 0;
+	'root_fail = 0;
+	'resets = 0;
+	'boss_gid = 0;
+	'chest = 0;
+	disablenpc instance_npcname("Oscar#oghcm_hall");
+	disablenpc instance_npcname("Oscar#oghcm_boss");
+	disablenpc instance_npcname("Treasure#oghcm");
+	disablenpc instance_npcname("Oscar#oghcm_end");
+	disablenpc instance_npcname("#oghcm_exit_w");
+	disablenpc instance_npcname("#oghcm_exit_e");
+	// Le couloir central reste ferme tant que les deux ailes ne sont pas nettoyees.
+	setwall 'map$,146,70,8,6,0,instance_npcname("#oghcm_ctrl") + "_wall";
+	end;
+
+// Repartit le groupe au hasard entre l'aile ouest et l'aile est.
+OnSplit:
+	.@n = getmapunits(BL_PC,'map$,.@pc);
+	for( .@i = .@n - 1; .@i > 0; .@i-- ) {
+		.@j = rand(.@i + 1);
+		.@t = .@pc[.@i]; .@pc[.@i] = .@pc[.@j]; .@pc[.@j] = .@t;
+	}
+	for( .@i = 0; .@i < .@n; .@i++ ) {
+		if( .@i % 2 == 0 )
+			unitwarp .@pc[.@i], 'map$, 83, 93;
+		else
+			unitwarp .@pc[.@i], 'map$, 213, 92;
+	}
+	donpcevent instance_npcname("#oghcm_wing") + "::OnSpawn";
+	end;
+}
+
+//------------------------------------------------------------
+// Oscar a l'entree : choix du niveau de contamination
+//------------------------------------------------------------
+1@gl_he,150,40,4	script	Oscar#oghcm_in	4_ED_OSCAR,{
+	if( 'state > 0 ) {
+		mes "[Oscar]";
+		mes "Clean up both wings. The central passage will open once they are purified.";
+		close;
+	}
+	if( !is_party_leader() ) {
+		mes "[Oscar]";
+		mes "Your party leader decides how deep we go.";
+		close;
+	}
+	.@max = callfunc("F_OGHCM_MaxLevel",OGHCM_CLEARS);
+	mes "[Oscar]";
+	mes "This is the list of contamination depths I can open. The higher the level, the stronger the monsters, and the richer the reward.";
+	next;
+	for( .@i = 1; .@i <= 10; .@i++ )
+		.@menu$ += ( .@i <= .@max ? "Contamination Level " + .@i : "" ) + ":";
+	.@lv = select(.@menu$ + "Cancel");
+	if( .@lv > 10 )
+		close;
+	if( 'state > 0 )
+		close;
+	'level = .@lv;
+	'mult = callfunc("F_OGHCM_Mult",.@lv);
+	'state = 1;
+	mes "[Oscar]";
+	mes "Contamination level ^FF0000" + .@lv + "^000000. Monsters are ^FF0000x" + ('mult / 100) + "." + ('mult % 100) + "^000000 stronger.";
+	mes "The dimension will split you. Purify both the west and the east wings.";
+	close2;
+	instance_announce 0, "Oscar : Contamination level " + .@lv + ". Purify both wings of the castle!", bc_map, "0xFF66FF";
+	donpcevent instance_npcname("#oghcm_ctrl") + "::OnSplit";
+	end;
+}
+
+//------------------------------------------------------------
+// Les deux ailes : 50 monstres chacune
+//------------------------------------------------------------
+1@gl_he,1,1,0	script	#oghcm_wing	HIDDEN_WARP_NPC,{
+	end;
+
+OnSpawn:
+	setarray .@pool, 20574, 20576, 20577, 20578, 20579, 20580;
+	.@label_w$ = instance_npcname(strnpcinfo(0)) + "::OnWestDead";
+	.@label_e$ = instance_npcname(strnpcinfo(0)) + "::OnEastDead";
+	for( .@i = 0; .@i < 50; .@i++ ) {
+		.@mob = .@pool[.@i % 6];
+		areamonster 'map$, 15, 75, 140, 163, "--ja--", .@mob, 1, .@label_w$;
+		callfunc "F_OGHCM_Scale", $@mobid[0], 'mult;
+		areamonster 'map$, 160, 75, 288, 163, "--ja--", .@mob, 1, .@label_e$;
+		callfunc "F_OGHCM_Scale", $@mobid[0], 'mult;
+	}
+	end;
+
+OnWestDead:
+	if( 'opened_w == 0 && mobcount('map$, instance_npcname(strnpcinfo(0)) + "::OnWestDead") < 5 ) {
+		'opened_w = 1;
+		instance_announce 0, "Oscar : The west wing is purified! A portal opens towards the entrance hall.", bc_map, "0xFF66FF";
+		enablenpc instance_npcname("#oghcm_exit_w");
+		donpcevent instance_npcname("#oghcm_root_w") + "::OnSpawn";
+		donpcevent instance_npcname(strnpcinfo(0)) + "::OnCheckBoth";
+	}
+	end;
+
+OnEastDead:
+	if( 'opened_e == 0 && mobcount('map$, instance_npcname(strnpcinfo(0)) + "::OnEastDead") < 5 ) {
+		'opened_e = 1;
+		instance_announce 0, "Oscar : The east wing is purified! A portal opens towards the entrance hall.", bc_map, "0xFF66FF";
+		enablenpc instance_npcname("#oghcm_exit_e");
+		donpcevent instance_npcname("#oghcm_root_e") + "::OnSpawn";
+		donpcevent instance_npcname(strnpcinfo(0)) + "::OnCheckBoth";
+	}
+	end;
+
+OnCheckBoth:
+	if( 'opened_w && 'opened_e && 'state == 1 ) {
+		'state = 2;
+		killmonster 'map$, instance_npcname(strnpcinfo(0)) + "::OnWestDead";
+		killmonster 'map$, instance_npcname(strnpcinfo(0)) + "::OnEastDead";
+		delwall instance_npcname("#oghcm_ctrl") + "_wall";
+		enablenpc instance_npcname("Oscar#oghcm_hall");
+		instance_announce 0, "Oscar : The central passage is open. Meet me at its north end.", bc_map, "0xFF66FF";
+	}
+	end;
+}
+
+// Les ailes sont closes : un portail s'ouvre dans chacune une fois nettoyee.
+1@gl_he,135,110,0	script	#oghcm_exit_w	WARPNPC,1,1,{
+	end;
+OnTouch:
+	warp 'map$, 150, 45;
+	end;
+}
+1@gl_he,165,110,0	duplicate(#oghcm_exit_w)	#oghcm_exit_e	WARPNPC,1,1
+
+//------------------------------------------------------------
+// Prime Corruption Root : 30 secondes pour la detruire
+//------------------------------------------------------------
+// Un PNJ par aile : deux vagues peuvent courir en meme temps, chacune garde ses racines.
+1@gl_he,1,1,0	script	#oghcm_root_w	HIDDEN_WARP_NPC,{
+	end;
+
+OnSpawn:
+	// Nombre de racines selon le niveau (wiki iRO).
+	if( 'level >= 8 )
+		.@n = rand(1,4);
+	else if( 'level >= 6 )
+		.@n = rand(1,3);
+	else if( 'level >= 4 )
+		.@n = rand(1,2);
+	else
+		.@n = 1;
+	.@label$ = instance_npcname(strnpcinfo(0)) + "::OnRootDead";
+	for( .@i = 0; .@i < .@n; .@i++ ) {
+		areamonster 'map$, 138, 40, 162, 62, "--ja--", 20575, 1, .@label$;
+		.@root[.@i] = $@mobid[0];
+		callfunc "F_OGHCM_Scale", .@root[.@i], 'mult;
+	}
+	instance_announce 0, "Oscar : Prime Corruption Root appeared near the entrance! Destroy it within 30 seconds!", bc_map, "0xFF3333";
+	sleep 30000;
+	.@boom = 0;
+	for( .@i = 0; .@i < .@n; .@i++ ) {
+		if( !unitexists(.@root[.@i]) )
+			continue;
+		getunitdata .@root[.@i], .@d;
+		.@x = .@d[UMOB_X];
+		.@y = .@d[UMOB_Y];
+		.@c = getareaunits(BL_PC, 'map$, .@x - 7, .@y - 7, .@x + 7, .@y + 7, .@pc);
+		for( .@j = 0; .@j < .@c; .@j++ )
+			unitkill .@pc[.@j];
+		unitkill .@root[.@i];
+		.@boom = 1;
+	}
+	if( .@boom ) {
+		'root_fail = 1;
+		instance_announce 0, "Oscar : The root exploded... I had to destroy it myself.", bc_map, "0xFF3333";
+	}
+	end;
+
+OnRootDead:
+	end;
+}
+1@gl_he,1,1,0	duplicate(#oghcm_root_w)	#oghcm_root_e	HIDDEN_WARP_NPC
+
+//------------------------------------------------------------
+// Oscar au bout du couloir : vers la salle du boss
+//------------------------------------------------------------
+1@gl_he,150,158,4	script	Oscar#oghcm_hall	4_ED_OSCAR,{
+	if( !is_party_leader() ) {
+		mes "[Oscar]";
+		mes "Bring your party leader. I will open the way for everyone at once.";
+		close;
+	}
+	mes "[Oscar]";
+	mes "The source of the contamination is above us. Is your whole party ready?";
+	next;
+	if( select("We are ready.:Wait a moment.") == 2 )
+		close;
+	close2;
+	.@n = getmapunits(BL_PC, 'map$, .@pc);
+	for( .@i = 0; .@i < .@n; .@i++ )
+		unitwarp .@pc[.@i], 'map$, 157, 262;
+	disablenpc instance_npcname(strnpcinfo(0));
+	enablenpc instance_npcname("Oscar#oghcm_boss");
+	end;
+}
+
+//------------------------------------------------------------
+// La salle du boss (tour nord, close)
+//------------------------------------------------------------
+1@gl_he,157,260,4	script	Oscar#oghcm_boss	4_ED_OSCAR,{
+	if( 'boss_gid && unitexists('boss_gid) ) {
+		mes "[Oscar]";
+		mes "Focus on the phantom!";
+		close;
+	}
+	if( !is_party_leader() ) {
+		mes "[Oscar]";
+		mes "When your party leader gives the signal, I will gather the dimensional energy.";
+		close;
+	}
+	mes "[Oscar]";
+	mes "Is everyone here? Anyone who arrives late will not be able to help.";
+	next;
+	if( select("We're all here.:Not yet.") == 2 )
+		close;
+	close2;
+	donpcevent instance_npcname("#oghcm_boss") + "::OnSummon";
+	end;
+}
+
+1@gl_he,1,1,0	script	#oghcm_boss	HIDDEN_WARP_NPC,{
+	end;
+
+OnSummon:
+	// Fantome de Himmelmez selon la chance du niveau (wiki iRO), sinon d'Amdarais.
+	setarray .@chance[1], 459, 472, 495, 532, 588, 676, 820, 1087, 1724, 5000;
+	if( rand(10000) < .@chance['level] ) {
+		.@mob = 20572;
+		'boss_name$ = "Phantom of Himmelmez";
+	} else {
+		.@mob = 20573;
+		'boss_name$ = "Phantom of Amdarais";
+	}
+	'boss_class = .@mob;
+	'members = getmapunits(BL_PC, 'map$);
+	'slave70 = 0;
+	'slave50 = 0;
+	'slave30 = 0;
+	'thorn_next = 0;
+	monster 'map$, 157, 275, 'boss_name$, .@mob, 1, instance_npcname(strnpcinfo(0)) + "::OnBossDead";
+	'boss_gid = $@mobid[0];
+	callfunc "F_OGHCM_Scale", 'boss_gid, 'mult;
+	getunitdata 'boss_gid, .@b;
+	'boss_mode = .@b[UMOB_MODE];
+	instance_announce 0, "Oscar : " + 'boss_name$ + " appears! Stay together, the phantom feeds on absent souls.", bc_map, "0xFF3333";
+	.@wipe = 0;
+	while( unitexists('boss_gid) ) {
+		sleep 2000;
+		if( !unitexists('boss_gid) )
+			break;
+		getunitdata 'boss_gid, .@d;
+		.@hp = .@d[UMOB_HP];
+		.@max = .@d[UMOB_MAXHP];
+		// Regeneration : 300 000 x niveau toutes les 2 s en renewal, ramene a l'echelle (1/65).
+		setunitdata 'boss_gid, UMOB_HP, min(.@max, .@hp + 4600 * 'level);
+		// Membres vivants : un mort ou un absent ramene les degats a 1.
+		.@n = getmapunits(BL_PC, 'map$, .@pc);
+		.@alive = 0;
+		for( .@i = 0; .@i < .@n; .@i++ ) {
+			if( !isdead(.@pc[.@i]) )
+				.@alive++;
+		}
+		if( .@alive < 'members )
+			setunitdata 'boss_gid, UMOB_MODE, 'boss_mode|MD_IGNOREMELEE|MD_IGNOREMAGIC|MD_IGNORERANGED|MD_IGNOREMISC;
+		else
+			setunitdata 'boss_gid, UMOB_MODE, 'boss_mode;
+		// Groupe entierement hors de combat pendant 5 minutes : le fantome repart.
+		if( .@alive == 0 ) {
+			.@wipe += 2;
+			if( .@wipe >= 300 ) {
+				unitkill 'boss_gid;
+				'boss_gid = 0;
+				'resets++;
+				killmonster 'map$, instance_npcname(strnpcinfo(0)) + "::OnSlaveDead";
+				killmonster 'map$, instance_npcname(strnpcinfo(0)) + "::OnThornDead";
+				instance_announce 0, "Oscar : The phantom vanished... Talk to me to summon it again.", bc_map, "0xFF3333";
+				end;
+			}
+		} else
+			.@wipe = 0;
+		.@rate = .@hp * 100 / .@max;
+		// Mutants invoques a 70, 50 et 30 % de PV.
+		if( .@rate < 70 && !'slave70 ) {
+			'slave70 = 1;
+			callsub S_Slave, 20584;
+		}
+		if( .@rate < 50 && !'slave50 ) {
+			'slave50 = 1;
+			callsub S_Slave, 20583;
+		}
+		if( .@rate < 30 && !'slave30 ) {
+			'slave30 = 1;
+			callsub S_Slave, 20585;
+		}
+		// Grille d'epines sous 90 % de PV, toutes les 30 s.
+		if( .@rate < 90 && gettimetick(2) >= 'thorn_next ) {
+			'thorn_next = gettimetick(2) + 30;
+			callsub S_Thorns;
+		}
+	}
+	end;
+
+S_Slave:
+	.@label$ = instance_npcname(strnpcinfo(0)) + "::OnSlaveDead";
+	for( .@k = 0; .@k < 2; .@k++ ) {
+		areamonster 'map$, 152, 266, 163, 282, "--ja--", getarg(0), 1, .@label$;
+		callfunc "F_OGHCM_Scale", $@mobid[0], 'mult;
+	}
+	instance_announce 0, "Oscar : The phantom calls mutated knights!", bc_map, "0xFF66FF";
+	return;
+
+// Les epines tiennent 5 secondes ; s'il en reste, le fantome libere les tenebres.
+S_Thorns:
+	.@label$ = instance_npcname(strnpcinfo(0)) + "::OnThornDead";
+	for( .@x = 152; .@x <= 163; .@x += 4 ) {
+		for( .@y = 264; .@y <= 282; .@y += 6 )
+			monster 'map$, .@x, .@y, "--ja--", 20581, 1, .@label$;
+	}
+	instance_announce 0, "Oscar : Thorns! Destroy them before they bloom!", bc_map, "0xFF3333";
+	sleep 5000;
+	.@left = mobcount('map$, .@label$);
+	killmonster 'map$, .@label$;
+	if( .@left > 0 && unitexists('boss_gid) )
+		unitskilluseid 'boss_gid, "NPC_GRANDDARKNESS", 10, 'boss_gid;
+	return;
+
+OnSlaveDead:
+OnThornDead:
+	end;
+
+OnBossDead:
+	'boss_gid = 0;
+	'state = 3;
+	killmonster 'map$, instance_npcname(strnpcinfo(0)) + "::OnSlaveDead";
+	killmonster 'map$, instance_npcname(strnpcinfo(0)) + "::OnThornDead";
+	disablenpc instance_npcname("Oscar#oghcm_boss");
+	enablenpc instance_npcname("Treasure#oghcm");
+	enablenpc instance_npcname("Oscar#oghcm_end");
+	instance_announce 0, "Oscar : The phantom is gone. Open the chest, then come to me.", bc_map, "0xFF66FF";
+	end;
+}
+
+//------------------------------------------------------------
+// Le coffre : butin du niveau (annonce officielle)
+//------------------------------------------------------------
+1@gl_he,157,270,0	script	Treasure#oghcm	4_TREASURE_BOX,{
+	if( 'chest )
+		end;
+	'chest = 1;
+	.@l = 'level;
+	setarray .@frag_min[1], 1, 1, 1, 1, 2, 2, 3, 3, 4, 4;
+	setarray .@frag_max[1], 15, 20, 25, 30, 30, 30, 30, 30, 30, 30;
+	setarray .@circ_min[1], 1, 1, 2, 2, 3, 3, 4, 4, 5, 5;
+	setarray .@circ_max[1], 5, 6, 7, 8, 9, 10, 10, 10, 10, 10;
+	setarray .@gem_min[1], 0, 0, 1, 1, 1, 1, 2, 2, 2, 2;
+	setarray .@gem_max[1], 0, 0, 3, 4, 4, 5, 5, 6, 6, 7;
+	setarray .@spell_min[1], 0, 0, 0, 0, 1, 3, 5, 8, 11, 14;
+	setarray .@spell_max[1], 0, 0, 0, 0, 3, 7, 11, 16, 22, 28;
+	callsub S_Drop, 25867, rand(.@frag_min[.@l], .@frag_max[.@l]);
+	callsub S_Drop, 25864, rand(.@circ_min[.@l], .@circ_max[.@l]);
+	if( .@gem_max[.@l] > 0 )
+		callsub S_Drop, 25865, rand(.@gem_min[.@l], .@gem_max[.@l]);
+	if( .@spell_max[.@l] > 0 )
+		callsub S_Drop, 25866, rand(.@spell_min[.@l], .@spell_max[.@l]);
+	specialeffect EF_COIN;
+	disablenpc instance_npcname(strnpcinfo(0));
+	end;
+
+S_Drop:
+	for( .@k = 0; .@k < getarg(1); .@k++ )
+		makeitem getarg(0), 1, 'map$, 157 + rand(-3,3), 270 + rand(-3,3);
+	return;
+}
+
+//------------------------------------------------------------
+// Oscar apres le combat : Sealed Temporal Circlet et sortie
+//------------------------------------------------------------
+1@gl_he,154,262,4	script	Oscar#oghcm_end	4_ED_OSCAR,{
+	.@cid = getcharid(0);
+	if( getd("'rewarded_" + .@cid) ) {
+		mes "[Oscar]";
+		mes "Thank you again. Shall I send you back?";
+		next;
+		if( select("Back to Glast Heim.:Stay a little.") == 1 ) {
+			close2;
+			warp "glast_01", 143, 286;
+			end;
+		}
+		close;
+	}
+	setd "'rewarded_" + .@cid, 1;
+	.@l = 'level;
+	// Sealed Temporal Circlet selon le niveau et le fantome, plus les bonus de performance.
+	.@min = 1 + (.@l - 1) * 2 / 9;
+	.@max = .@l;
+	if( 'boss_class == 20572 ) {
+		.@min++;
+		.@max++;
+	}
+	.@n = rand(.@min, .@max);
+	if( !'root_fail )
+		.@n++;
+	if( !'resets )
+		.@n++;
+	getitem 25864, .@n;
+	if( .@l >= 8 )
+		getitem 25866, 1;
+	OGHCM_CLEARS++;
+	achievementupdate(129021, ACHIEVEINFO_COUNT1, achievementinfo(129021, ACHIEVEINFO_COUNT1) + 1);
+	mes "[Oscar]";
+	mes "You purified contamination level ^0000FF" + .@l + "^000000. Take these ^0000FF" + .@n + " Sealed Temporal Circlet^000000.";
+	if( !'root_fail )
+		mes "No root was allowed to explode: well done.";
+	if( !'resets )
+		mes "And you never let the phantom escape.";
+	mes "Challenges cleared: ^0000FF" + OGHCM_CLEARS + "^000000.";
+	close;
+}
