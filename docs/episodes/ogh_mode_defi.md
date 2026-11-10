@@ -238,28 +238,36 @@ le charge sans erreur ni avertissement.
 **Géométrie de `1@gl_he`**, relevée dans `db/import/map_cache.dat` (grille des cases praticables et parcours en largeur) : le hall d'entrée (1 218 cases, arrivée à 150,28) ne communique qu'avec le
 couloir central (x 145‑154, y 70‑162) ; les ailes ouest (14 334 cases) et est (13 609 cases)
 sont **closes**, sans lien entre elles ni avec le hall — d'où l'arrivée par téléportation,
-comme le « groupe réparti » de l'officiel ; la tour nord (x 151‑164, y 258‑284) est close aussi.
+comme le « groupe réparti » de l'officiel. La moitié nord (x 30‑277, y 166‑294, pentagramme
+compris) est une seule région, séparée du couloir : on y entre par le warp d'Oscar (vérifié le
+2026‑11‑10).
 
 | Étape | Mise en œuvre |
 |---|---|
 | Entrée | Oscar à `glast_01` 143,288 : niveau 170, quête 12339 (Old Glast Heim Advanced fini), cooldown 12494, création par le chef de groupe |
 | Niveau | Oscar dans le hall (150,40) : le chef choisit entre 1 et le niveau que ses victoires (`OGHCM_CLEARS`) débloquent |
-| Ailes | groupe mélangé puis réparti en alternance (ouest 83,93 ; est 213,92) ; 50 monstres par aile (les 6 types, à parts égales), mis à l'échelle par `F_OGHCM_Scale` |
-| Aile nettoyée | moins de 5 restants (wiki) : portail vers le hall (135,110 et 165,110) et vague de racines |
-| Racines | 1 à 4 selon le niveau, dans le hall, 30 s ; non détruites, elles tuent les joueurs dans un carré 15×15 puis disparaissent (un PNJ par aile, pour que deux vagues ne s'écrasent pas) |
-| Couloir | mur invisible en bas (y 70) levé quand les deux ailes sont nettoyées ; Oscar au bout nord (150,158) envoie tout le groupe dans la tour |
-| Boss | Oscar (157,260) invoque le Fantôme de Himmelmez selon la table du wiki, sinon d'Amdarais, PV et dégâts × multiplicateur |
+| Ailes | l'une après l'autre (vidéo) : tout le groupe part à l'ouest (131,82, relevé sur vidéo), l'est s'atteint par le portail de l'ouest (arrivée 169,102, vidéo) ; 50 monstres par aile (les 6 types, à parts égales), mis à l'échelle par `F_OGHCM_Scale` |
+| Aile nettoyée | moins de 5 restants (wiki) : portail (ouest 131,105, vidéo, vers l'aile est ; est 167,122, vers le centre) et vague de racines |
+| Compteur | bulle `showscript` au-dessus de chaque joueur, à chaque mort : « ouest <- Unpurified Illusions -> est », « [Purification Complete] » pour une aile terminée (l'officiel l'annonce toutes les ~10 s : écart voulu) |
+| Racines | 1 à 4 selon le niveau, dans l'aile qui vient d'être nettoyée (près du portail), 30 s ; non détruites, elles tuent les joueurs dans un carré 15×15 puis disparaissent (un PNJ par aile, pour que deux vagues ne s'écrasent pas) |
+| Couloir | mur invisible en bas (y 70) levé quand les deux ailes sont nettoyées, annonces « The cleanup of the left and right sections is over. » puis « Move to the central area! » (vidéo) |
+| Centre | Oscar (150,158), dialogue de la vidéo : « Warp » lance une barre de 10 s sur lui (« This will take only a minute. »), puis un warp 149,162 → 150,170 ; Oscar devient Acidus doré (1713), dit « Please follow me », prend le warp et marche jusqu'à 157,230, où il reprend sa forme |
+| Boss | Oscar (157,230), dialogue de la vidéo ; « Let's go! » lance une barre de 10 s (« The contamination is level N… »), puis le Fantôme de Himmelmez (table du wiki) ou d'Amdarais apparaît au centre du pentagramme (157,240, déduit), PV et dégâts × multiplicateur |
 | Combat | toutes les 2 s : régénération (4 600 × niveau, l'officiel ramené à l'échelle), **dégâts à 1** (modes `Ignore*`) tant qu'un membre est mort ou absent, mutants à 70/50/30 % de PV, grille de 9 épines toutes les 30 s sous 90 % (survivantes au bout de 5 s : Grand Darkness du boss), disparition après 5 minutes sans survivant (Oscar le réinvoque) |
-| Coffre | quantités de l'annonce officielle par niveau, posées au sol autour du coffre |
-| Récompense | Oscar (154,262), une fois par personnage : Sealed Circlet entre `1 + 2(N−1)/9` et `N` (+1 pour Himmelmez), +1 sans racine explosée, +1 sans disparition du boss, +1 Temporal Spell au niveau 8 et plus ; `OGHCM_CLEARS` +1 et achievement 129021 +1 |
+| Coffre | à la mort du boss, un coffre apparaît au centre du pentagramme (vidéo) ; l'ouvrir pose au sol, autour, les quantités de l'annonce officielle par niveau ; Oscar annonce en chat que le nombre varie selon la contamination (vidéo) |
+| Récompense | Oscar (157,246, vidéo), une fois par personnage : Sealed Circlet entre `1 + 2(N−1)/9` et `N` (+1 pour Himmelmez), +1 sans racine explosée, +1 sans disparition du boss, +1 Temporal Spell au niveau 8 et plus ; `OGHCM_CLEARS` +1 et achievement 129021 +1 |
 
 **Différences avec l'officiel, à confirmer par les vidéos :**
-- la salle du boss est la tour nord ; l'annonce montre un pentagramme dans une salle qui
-  pourrait être plus grande ;
-- l'officiel ouvre un portail « vers l'autre aile » ; ici les deux ailes mènent au hall ;
-- les répliques d'Oscar sont écrites pour Moonlight ;
-- Oscar se transformerait en Acidus doré pour se déplacer (vu en vidéo par l'utilisateur) : à
-  ajouter quand on saura à quel moment ;
+- le centre du pentagramme (157,240) est déduit des captures ;
+- pendant la barre, les spectres d'Amdarais (`EF_C_AMDARAIS_EFFECT`, 1419, relevé dans l'exe
+  client décompilé du 2026‑02‑19) tournent au centre du pentagramme, portés par le PNJ
+  `#oghcm_phantom` ; le fantôme lui-même apparaît d'un coup à la fin de la barre, sans le
+  fondu de l'officiel ;
+- la destination du portail de l'aile est (167,122) reste le hall d'entrée (150,45), à confirmer ;
+- Oscar ne répond qu'à 5 cases ou moins (`F_OGHCM_Near`) : l'`area_size` de moonclient permettrait
+  de lui parler depuis une aile close ;
+- les répliques d'Oscar sont écrites pour Moonlight, sauf celles de l'entrée de l'instance et l'annonce
+  de départ, reprises de la vidéo ;
 - non repris (lot C5) : téléportations aléatoires, soin différé, Max Pain, Grim Reaper,
   Gradual Gravity, Circle Arena, sortie d'arène (la tour est close).
 
