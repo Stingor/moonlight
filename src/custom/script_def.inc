@@ -71,4 +71,4 @@
 	BUILDIN_DEF(imgtag,"s??"),              // "source"{,largeur,hauteur} -> image (ressource client ou http)
 	BUILDIN_DEF(settingtag,"ss"),           // "clé","libellé" -> lien vers un réglage Bourgeon
 	BUILDIN_DEF(moonclient_style_atelier,"?"), // {secondes} 0=fermer -> atelier du styliste (teintures d'objets)
-	BUILDIN_DEF(bourgeon_style_open,"?"), // {mode} 0=fermer 1=ouvrir 2=basculer -> fenetre de style Bourgeon
+	BUILDIN_DEF(bourgeon_style_open,"??"), // {mode{,onglet}} 0=fermer 1=ouvrir 2=basculer ; onglet moonclient 1..7 -> fenetre de style

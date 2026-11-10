@@ -195,7 +195,8 @@ L_mainmenu:
 		// ce PNJ. Il se ferme quand le joueur a terminé ; s'il s'en va, le
 		// serveur le refuse à distance, et le délai le referme.
 		moonclient_style_atelier;
-		bourgeon_style_open;
+		// Sur l'onglet de la coiffe haute : c'est un objet qu'on vient teindre ici.
+		bourgeon_style_open 1, 4;
 		mes "L'atelier est ouvert : tu peux teindre tes coiffes et ta cape équipées, et valider tant que nous parlons.";
 		mes "Reste près de moi : à plus de quelques pas, l'atelier refuse les teintures d'objets.";
 		select("¤ J'ai terminé");

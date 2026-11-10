@@ -2097,9 +2097,14 @@ BUILDIN_FUNC(settingtag)
 	return SCRIPT_CMD_SUCCESS;
 }
 
-/* bourgeon_style_open {<mode>}
+/* bourgeon_style_open {<mode>{,<onglet>}}
  * Ouvre, ferme ou bascule la fenêtre de style du client Bourgeon.
  *   mode : 0 = fermer, 1 = ouvrir (défaut), 2 = basculer.
+ *   onglet (moonclient) : l'onglet sur lequel ouvrir — 1 corps, 2 peau,
+ *   3 cheveux, 4 coiffe haute, 5 du milieu, 6 basse, 7 cape ; 0 garde celui
+ *   du joueur. Il voyage dans le quartet haut du mode, et SEULEMENT vers une
+ *   session qui a annoncé MOONLIGHT_UI_STYLE_LAYERS : Bourgeon lit tout mode
+ *   au-delà de 2 comme « basculer ».
  *
  * 🔴 Un styliste dit OUVRIR, pas BASCULER : basculer refermerait la fenêtre que
  * le joueur venait d'ouvrir lui-même par son raccourci. Les deux existent quand
@@ -2142,7 +2147,13 @@ BUILDIN_FUNC(bourgeon_style_open)
 	int32 mode = script_hasdata(st,2) ? script_getnum(st,2) : 1;
 	if( mode < 0 || mode > 2 )
 		mode = 1;
+	constexpr int32 tab_most = 7;
+	constexpr int32 tab_shift = 4;
+	const int32 tab = script_hasdata(st,3) ? script_getnum(st,3) : 0;
+	if( tab > 0 && tab <= tab_most && (sd->bourgeon_ui_caps & MOONLIGHT_UI_STYLE_LAYERS) != 0 )
+		mode |= tab << tab_shift;
 
 	clif_bourgeon_style_open(sd, (uint8)mode);
+
 	return SCRIPT_CMD_SUCCESS;
 }
