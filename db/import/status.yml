@@ -177,3 +177,54 @@ Body:
       SetStand: true
     Fail:
       Crystalize: true
+  # Statuts Glastheim (OGH, OGH Hard, Poring Village, Cor Operation) : absents
+  # de db/pre-re, sc_start echouait sur "Invalid status change". Copie de db/re.
+  - Status: Glastheim_Atk
+    Icon: EFST_GLASTHEIM_ATK
+    Flags:
+      NoSave: true
+    Script: |
+      .@val1 = getstatus(SC_GLASTHEIM_ATK, 1);
+      bonus2 bAddRace2,RC2_OGH_ATK_DEF, .@val1;
+      bonus2 bMagicAddRace2,RC2_OGH_ATK_DEF, .@val1;
+      bonus2 bIgnoreDefRaceRate,RC_Undead, .@val1;
+      bonus2 bIgnoreDefRaceRate,RC_Demon, .@val1;
+  - Status: Glastheim_Def
+    Icon: EFST_GLASTHEIM_DEF
+    Flags:
+      NoSave: true
+    Script: |
+      bonus2 bSubRace2,RC2_OGH_ATK_DEF, getstatus(SC_GLASTHEIM_DEF, 1);
+  - Status: Glastheim_Heal
+    Icon: EFST_GLASTHEIM_HEAL
+    Flags:
+      NoSave: true
+    Script: |
+      bonus bHealPower, getstatus(SC_GLASTHEIM_HEAL, 1);
+      bonus bHealPower2, getstatus(SC_GLASTHEIM_HEAL, 2);
+  - Status: Glastheim_Hidden
+    Icon: EFST_GLASTHEIM_HIDDEN
+    Flags:
+      NoSave: true
+    Script: |
+      bonus2 bSubRace2,RC2_OGH_HIDDEN, getstatus(SC_GLASTHEIM_HIDDEN, 1);
+  - Status: Glastheim_State
+    Icon: EFST_GLASTHEIM_STATE
+    Flags:
+      NoSave: true
+    Script: |
+      bonus bAllStats, getstatus(SC_GLASTHEIM_STATE, 1);
+  - Status: Glastheim_Itemdef
+    Icon: EFST_GLASTHEIM_ITEMDEF
+    Flags:
+      NoSave: true
+    Script: |
+      bonus bDef, getstatus(SC_GLASTHEIM_ITEMDEF, 1);
+      bonus bMdef, getstatus(SC_GLASTHEIM_ITEMDEF, 2);
+  - Status: Glastheim_Hpsp
+    Icon: EFST_GLASTHEIM_HPSP
+    Flags:
+      NoSave: true
+    Script: |
+      bonus bMaxHP, getstatus(SC_GLASTHEIM_HPSP, 1);
+      bonus bMaxSP, getstatus(SC_GLASTHEIM_HPSP, 2);
