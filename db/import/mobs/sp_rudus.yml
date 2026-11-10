@@ -597,7 +597,6 @@ Body:
     AttackMotion: 144
     ClientAttackMotion: 528
     DamageMotion: 288
-    DamageTaken: 10
     Ai: 21
     Class: Boss
     Modes:

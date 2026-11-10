@@ -451,7 +451,6 @@ Body:
     AttackMotion: 576
     ClientAttackMotion: 240
     DamageMotion: 420
-    DamageTaken: 10
     Ai: 21
     Class: Boss
     Modes:
@@ -585,8 +584,6 @@ Body:
       - Item: Abyss_Man_Card
         Rate: 1
         StealProtected: true
-#    DamageTaken: 10
-#    DamageTaken: 10
   - Id: 20560
     AegisName: G_MINERAL_G
     Name: Green Mineral

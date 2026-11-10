@@ -355,7 +355,6 @@ Body:
     AttackDelay: 188
     AttackMotion: 173
     DamageMotion: 480
-    DamageTaken: 10
     Ai: 21
     Class: Boss
     Modes:
@@ -395,7 +394,6 @@ Body:
     AttackDelay: 576
     AttackMotion: 576
     DamageMotion: 480
-    DamageTaken: 10
     Ai: 21
     Class: Boss
     Modes:
