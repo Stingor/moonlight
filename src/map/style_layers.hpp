@@ -37,7 +37,9 @@ struct npc_data;
 #define MOONCLIENT_STYLE_LAYERS_CADENCE_MS 1000
 // Les octets de CZ 0x0F5E qu'une session envoie par minute, au plus. Toute trame
 // reçue compte, refusée ou non : c'est le coût de la lire qu'elle borne.
-#define MOONCLIENT_STYLE_LAYERS_BYTES_PER_MINUTE 16384
+// Seize trames pleines du profil mixte (4 Kio chacune) : de quoi régler à la main,
+// pas de quoi faire lire au serveur un flux sans fin.
+#define MOONCLIENT_STYLE_LAYERS_BYTES_PER_MINUTE 65536
 // Les teintures de tête et de peau qu'un personnage range, au plus. Une
 // teinture de cheveux se range sous sa coupe et sa couleur, et dort tant qu'on
 // ne les porte pas.

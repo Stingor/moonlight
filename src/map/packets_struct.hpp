@@ -7000,6 +7000,9 @@ enum e_bourgeon_server_rule : uint16 {
 	// Les tenues (CZ 0x0F61) : 🔴 moonclient n'en envoie pas avant de l'avoir lue.
 	BOURGEON_RULE_STYLE_OUTFIT_CADENCE_MS  = 22, ///< écart minimal entre deux CZ 0x0F61 (ms)
 	BOURGEON_RULE_STYLE_WARDROBE_SLOTS     = 23, ///< rangements de la garde-robe d'un compte
+	// Le profil mixte des calques : 🔴 moonclient n'envoie ni reste ni retouche
+	// avant de l'avoir lue.
+	BOURGEON_RULE_STYLE_LAYER_RETOUCHES    = 24, ///< MOONCLIENT_STYLE_LAYER_RETOUCHES_MAX
 };
 
 struct PACKET_ZC_MOONLIGHT_SERVER_RULES_entry {
@@ -7979,7 +7982,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_COOP_LEFT, 0x0f5d);
 //   [taille:1][calque:1][clé:4][profil:1][drapeaux:1][masque:2]
 //   puis, pour chaque bit posé du masque (rang 0 à 12, dans l'ordre) :
 //       [teinte:int16][saturation:int8][luminosité:int8][absolu:uint8]
-//   taille   : 10 + 5 × réglages, de 10 à 75 octets.
+//   taille   : 10 + 5 × réglages, de 10 à 75 octets, plus la queue (ci-dessous).
 //   calque   : ZC : 1 tête, 2 coiffe, 3 cape, 4 peau, 5 suite du corps.
 //              CZ : 1 tête, 4 peau, 5 suite du corps, ou l'EMPLACEMENT d'équipement de l'émetteur,
 //              10 à 13 (coiffe haute, du milieu, basse, cape), 14 à 17 (leurs
@@ -7992,13 +7995,32 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_COOP_LEFT, 0x0f5d);
 //              3 = suite du corps (rangs 0 à 3, les rampes 9 à 12).
 //              La tête et la peau sont au profil 1, la peau au seul rang 0 ;
 //              la suite au profil 3 seulement.
-//   drapeaux : 0x01 = effacer cette teinture (CZ ; le masque est alors nul).
+//   drapeaux : 0x01 = effacer cette teinture (CZ ; le masque est alors nul, et
+//              aucune queue ne suit) ; 0x02 = la queue du profil mixte suit.
+//
+// LA QUEUE DU PROFIL MIXTE (2026-11-10), derrière les réglages :
+//   [masque_reste:2] puis 5 octets par classe de teinte réglée (rangs 0 à 12),
+//   [nombre:1] puis nombre × [index:1][rouge:1][vert:1][bleu:1]
+//   Le reste ne vaut qu'aux profils 1 (tête, coiffe, cape) et 3 (suite du corps) ;
+//   les retouches partout sauf la peau, d'index strictement croissants, jamais à
+//   l'index 0 ni en magenta pur, au plus MOONCLIENT_STYLE_LAYER_RETOUCHES_MAX. Une
+//   queue vide ne s'envoie pas : un même style s'écrit toujours de la même façon.
+//   Un lecteur plus ancien l'enjambe par la taille.
+//   taille = 10 + 5 × réglages, puis 3 + 5 × classes + 4 × retouches : 246 au plus.
 #define MOONCLIENT_STYLE_LAYER_ENTRY_HEAD 10
 #define MOONCLIENT_STYLE_LAYER_ADJUST_BYTES 5
 #define MOONCLIENT_STYLE_LAYER_ADJUSTS_MAX 13
-#define MOONCLIENT_STYLE_LAYER_ENTRY_MAX (MOONCLIENT_STYLE_LAYER_ENTRY_HEAD + MOONCLIENT_STYLE_LAYER_ADJUSTS_MAX * MOONCLIENT_STYLE_LAYER_ADJUST_BYTES)
-// Le plus gros CZ accepté.
-#define MOONCLIENT_STYLE_LAYERS_CZ_MAX 2048
+#define MOONCLIENT_STYLE_LAYER_RAMP_RANKS 8
+#define MOONCLIENT_STYLE_LAYER_TAIL_HEAD 3
+#define MOONCLIENT_STYLE_LAYER_RETOUCH_BYTES 4
+// Les retouches d'une entrée, au plus : ce que l'octet de taille permet.
+#define MOONCLIENT_STYLE_LAYER_RETOUCHES_MAX 32
+#define MOONCLIENT_STYLE_LAYER_ENTRY_MAX (MOONCLIENT_STYLE_LAYER_ENTRY_HEAD \
+	+ (MOONCLIENT_STYLE_LAYER_RAMP_RANKS + MOONCLIENT_STYLE_LAYER_ADJUSTS_MAX) * MOONCLIENT_STYLE_LAYER_ADJUST_BYTES \
+	+ MOONCLIENT_STYLE_LAYER_TAIL_HEAD + MOONCLIENT_STYLE_LAYER_RETOUCHES_MAX * MOONCLIENT_STYLE_LAYER_RETOUCH_BYTES)
+// Le plus gros CZ accepté : la tête, la peau, quatre suites du corps et les huit
+// emplacements, chacun à sa plus grosse entrée.
+#define MOONCLIENT_STYLE_LAYERS_CZ_MAX 4096
 // La charge brute d'un ZC, au plus : un joueur n'est jamais coupé entre deux trames.
 #define MOONCLIENT_STYLE_LAYERS_RAW_MAX 16384
 // Au-delà, la charge d'un ZC se compresse (zlib).
@@ -8021,6 +8043,8 @@ enum e_moonclient_style_layer : uint8 {
 
 // Une entrée du CZ : retire cette teinture.
 #define MOONCLIENT_STYLE_LAYER_FLAG_CLEAR 0x01
+// Une entrée, dans les deux sens : la queue du profil mixte suit les réglages.
+#define MOONCLIENT_STYLE_LAYER_FLAG_TAIL 0x02
 // CZ : retire d'abord les teintures du PERSONNAGE (tête et peau). Celles des objets
 // leur appartiennent, et ne se retirent qu'une à une.
 #define MOONCLIENT_STYLE_LAYERS_CLEAR_CHARACTER 0x01

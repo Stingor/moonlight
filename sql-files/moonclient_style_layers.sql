@@ -8,6 +8,11 @@
 --
 -- Une entree : [taille:1][calque:1][cle:4][profil:1][drapeaux:1][masque:2] puis
 -- 5 octets par reglage non neutre. `version` dit la disposition du BLOB.
+-- Depuis le profil mixte (2026-11-10), une entree peut porter une queue (drapeau
+-- 0x02) : reste et retouches, 246 octets par entree au plus. Le BLOB (64 Kio)
+-- garde une ligne pleine de personnage (16 entrees, moins de 4 Kio) : aucune
+-- mise a jour de colonne n'est necessaire, et les lignes d'avant se relisent
+-- telles quelles.
 --
 
 --

@@ -48,6 +48,9 @@ constexpr uint8 PROFILE_BODY_MORE = 3;
 constexpr int32 RAMP_RANKS = 8;
 // La suite du corps : les rampes 9 à 12.
 constexpr int32 BODY_MORE_RANKS = 4;
+// Le magenta pur, interdit à une retouche : certains lecteurs le prennent pour
+// un transparent.
+constexpr uint8 CHANNEL_FULL = 0xFF;
 // Une coupe dans le mot haut d'une clé de tête, une couleur dans le mot bas.
 constexpr uint32 HEAD_KEY_SHIFT = 16;
 constexpr uint32 HEAD_KEY_LOW = 0xFFFF;
@@ -60,6 +63,8 @@ constexpr int32 SHOWN_ITEMS_MAX = 4;
 constexpr size_t BLOCK_HEAD = 5;
 // L'en-tête d'un ZC.
 constexpr size_t ZC_HEAD = sizeof(PACKET_ZC_MOONCLIENT_STYLE_LAYERS);
+// Une entrée tient sa taille sur un octet, queue du profil mixte comprise.
+static_assert(MOONCLIENT_STYLE_LAYER_ENTRY_MAX <= UINT8_MAX, "une entrée doit tenir sa taille sur un octet");
 
 // Ce qu'une session tient en mémoire.
 struct s_style_layer_state {
@@ -171,6 +176,57 @@ bool character_layer(uint8 layer) {
 	return layer == MOONCLIENT_STYLE_LAYER_HEAD || layer == MOONCLIENT_STYLE_LAYER_SKIN || layer == MOONCLIENT_STYLE_LAYER_BODY_MORE;
 }
 
+// Le reste du profil mixte se règle sur les pièces palettisées : tête, coiffe et
+// cape aux rampes, suite du corps au profil 3.
+bool takes_rest(uint8 layer, uint8 profile) {
+	if (layer == MOONCLIENT_STYLE_LAYER_BODY_MORE)
+		return profile == PROFILE_BODY_MORE;
+	return layer != MOONCLIENT_STYLE_LAYER_SKIN && profile == PROFILE_RAMPS;
+}
+
+// Une entrée porte-t-elle quelque chose à ranger : un réglage, ou une queue ?
+bool has_content(const s_entry_view& e) {
+	return (e.flags & MOONCLIENT_STYLE_LAYER_FLAG_CLEAR) == 0 && (e.mask != 0 || (e.flags & MOONCLIENT_STYLE_LAYER_FLAG_TAIL) != 0);
+}
+
+// Les octets `absolu` de `count` réglages à partir de `p` : 0 ou 1.
+bool absolutes_valid(const uint8* p, int32 count) {
+	for (int32 i = 0; i < count; ++i)
+		if (p[i * MOONCLIENT_STYLE_LAYER_ADJUST_BYTES + 4] > 1)
+			return false;
+	return true;
+}
+
+// 🔴 LA QUEUE DU PROFIL MIXTE, de `at` à `size` exclu : le masque du reste dans
+// les treize classes et permis à ce calque, des retouches au plus
+// MOONCLIENT_STYLE_LAYER_RETOUCHES_MAX, d'index strictement croissants, ni à 0 ni
+// en magenta pur, et une longueur exacte. Une queue vide est refusée : elle ne
+// part pas sans contenu.
+e_moonclient_style_result check_tail(const uint8* p, size_t at, size_t size, uint8 layer, uint8 profile) {
+	if (layer == MOONCLIENT_STYLE_LAYER_SKIN || at + MOONCLIENT_STYLE_LAYER_TAIL_HEAD > size)
+		return MOONCLIENT_STYLE_MALFORMED;
+	const uint16 rest_mask = static_cast<uint16>(p[at] | (p[at + 1] << 8));
+	at += 2;
+	if ((rest_mask >> MOONCLIENT_STYLE_LAYER_ADJUSTS_MAX) != 0 || (rest_mask != 0 && !takes_rest(layer, profile)))
+		return MOONCLIENT_STYLE_MALFORMED;
+	const int32 rest = popcount16(rest_mask);
+	if (at + static_cast<size_t>(rest) * MOONCLIENT_STYLE_LAYER_ADJUST_BYTES + 1 > size || !absolutes_valid(p + at, rest))
+		return MOONCLIENT_STYLE_MALFORMED;
+	at += static_cast<size_t>(rest) * MOONCLIENT_STYLE_LAYER_ADJUST_BYTES;
+	const uint8 count = p[at++];
+	if (count > MOONCLIENT_STYLE_LAYER_RETOUCHES_MAX)
+		return MOONCLIENT_STYLE_CAP;
+	if (at + static_cast<size_t>(count) * MOONCLIENT_STYLE_LAYER_RETOUCH_BYTES != size || (rest_mask == 0 && count == 0))
+		return MOONCLIENT_STYLE_MALFORMED;
+	for (uint8 i = 0; i < count; ++i, at += MOONCLIENT_STYLE_LAYER_RETOUCH_BYTES) {
+		const uint8 index = p[at];
+		const bool magenta = p[at + 1] == CHANNEL_FULL && p[at + 2] == 0 && p[at + 3] == CHANNEL_FULL;
+		if (index == 0 || magenta || (i > 0 && p[at - MOONCLIENT_STYLE_LAYER_RETOUCH_BYTES] >= index))
+			return MOONCLIENT_STYLE_MALFORMED;
+	}
+	return MOONCLIENT_STYLE_ACCEPTED;
+}
+
 // Le calque que peint une entrée du CZ (1 à 5), ou zéro.
 uint8 painted_layer(uint8 wire_layer) {
 	if (character_layer(wire_layer))
@@ -179,32 +235,54 @@ uint8 painted_layer(uint8 wire_layer) {
 	return slot ? slot->layer : 0;
 }
 
+// La forme d'une entrée qu'on juge : celle d'un CZ, celle du personnage rangée en
+// base (calques du personnage, aucun drapeau d'effacement), celle d'un objet
+// rangée en base ou dans une tenue (coiffe ou cape sous son numéro de calque).
+enum class e_entry_form : uint8 { request, character, item };
+
 // 🔴 LA STRUCTURE D'UNE ENTRÉE, et rien d'autre : la longueur exacte, le profil
 // connu, le masque dans les rangs du profil, `absolu` à 0 ou 1, les drapeaux
-// connus. `stored` : une entrée relue en base, qui ne porte que les calques du
-// personnage et aucun drapeau.
-e_moonclient_style_result check_entry(const uint8* p, size_t available, bool stored) {
+// connus, et la queue du profil mixte si elle s'annonce.
+e_moonclient_style_result check_entry(const uint8* p, size_t available, e_entry_form form) {
 	if (available < MOONCLIENT_STYLE_LAYER_ENTRY_HEAD)
 		return MOONCLIENT_STYLE_MALFORMED;
 	const s_entry_view e = view_of(p);
 	const int32 adjusts = popcount16(e.mask);
-	if (e.size != MOONCLIENT_STYLE_LAYER_ENTRY_HEAD + adjusts * MOONCLIENT_STYLE_LAYER_ADJUST_BYTES || e.size > available)
+	const size_t pieces_end = MOONCLIENT_STYLE_LAYER_ENTRY_HEAD + static_cast<size_t>(adjusts) * MOONCLIENT_STYLE_LAYER_ADJUST_BYTES;
+	if (e.size < pieces_end || e.size > available)
 		return MOONCLIENT_STYLE_MALFORMED;
-	if ((e.flags & ~MOONCLIENT_STYLE_LAYER_FLAG_CLEAR) != 0 || (stored && e.flags != 0))
-		return MOONCLIENT_STYLE_MALFORMED;
+	const uint8 known_flags = MOONCLIENT_STYLE_LAYER_FLAG_CLEAR | MOONCLIENT_STYLE_LAYER_FLAG_TAIL;
 	const bool clear = (e.flags & MOONCLIENT_STYLE_LAYER_FLAG_CLEAR) != 0;
-	if (clear && e.mask != 0)
+	const bool tail = (e.flags & MOONCLIENT_STYLE_LAYER_FLAG_TAIL) != 0;
+	if ((e.flags & ~known_flags) != 0 || (form != e_entry_form::request && clear))
 		return MOONCLIENT_STYLE_MALFORMED;
-	const uint8 layer = painted_layer(e.layer);
-	if (layer == 0 || (stored && !character_layer(e.layer)))
+	if (clear && (e.mask != 0 || tail))
+		return MOONCLIENT_STYLE_MALFORMED;
+	uint8 layer = 0;
+	switch (form) {
+		case e_entry_form::request:
+			layer = painted_layer(e.layer);
+			break;
+		case e_entry_form::character:
+			layer = character_layer(e.layer) ? e.layer : 0;
+			break;
+		case e_entry_form::item:
+			layer = (e.layer == MOONCLIENT_STYLE_LAYER_HEADGEAR || e.layer == MOONCLIENT_STYLE_LAYER_GARMENT) ? e.layer : 0;
+			break;
+	}
+	if (layer == 0)
 		return MOONCLIENT_STYLE_KEY;
 	const int32 ranks = ranks_for(layer, e.profile);
 	if (ranks == 0 || (e.mask >> ranks) != 0)
 		return MOONCLIENT_STYLE_MALFORMED;
-	for (int32 i = 0; i < adjusts; ++i) {
-		const uint8 absolute = p[MOONCLIENT_STYLE_LAYER_ENTRY_HEAD + i * MOONCLIENT_STYLE_LAYER_ADJUST_BYTES + 4];
-		if (absolute > 1)
-			return MOONCLIENT_STYLE_MALFORMED;
+	if (!absolutes_valid(p + MOONCLIENT_STYLE_LAYER_ENTRY_HEAD, adjusts))
+		return MOONCLIENT_STYLE_MALFORMED;
+	if (tail) {
+		const e_moonclient_style_result checked = check_tail(p, pieces_end, e.size, layer, e.profile);
+		if (checked != MOONCLIENT_STYLE_ACCEPTED)
+			return checked;
+	} else if (e.size != pieces_end) {
+		return MOONCLIENT_STYLE_MALFORMED;
 	}
 	// La clé, dans ses bornes.
 	if (e.layer == MOONCLIENT_STYLE_LAYER_SKIN) {
@@ -226,7 +304,7 @@ std::optional<std::vector<bytes>> parse_stored(const uint8* p, size_t length) {
 	std::vector<bytes> entries;
 	size_t at = 0;
 	while (at < length) {
-		if (check_entry(p + at, length - at, true) != MOONCLIENT_STYLE_ACCEPTED)
+		if (check_entry(p + at, length - at, e_entry_form::character) != MOONCLIENT_STYLE_ACCEPTED)
 			return std::nullopt;
 		const size_t size = p[at];
 		entries.emplace_back(p + at, p + at + size);
@@ -303,11 +381,9 @@ const std::optional<s_item_dye>& item_dye(uint64 unique_id) {
 			Sql_GetData(mmysql_handle, 2, &data, &length);
 			if (version == STORED_VERSION && data != nullptr && length >= MOONCLIENT_STYLE_LAYER_ENTRY_HEAD && length <= MOONCLIENT_STYLE_LAYER_ENTRY_MAX) {
 				const uint8* p = reinterpret_cast<const uint8*>(data);
-				const s_entry_view e = view_of(p);
-				// Une entrée rangée est celle d'un objet : coiffe ou cape, sans drapeau.
-				if (e.size == length && e.flags == 0 && (e.layer == MOONCLIENT_STYLE_LAYER_HEADGEAR || e.layer == MOONCLIENT_STYLE_LAYER_GARMENT)
-					&& ranks_for(e.layer, e.profile) != 0 && (e.mask >> ranks_for(e.layer, e.profile)) == 0
-					&& e.size == MOONCLIENT_STYLE_LAYER_ENTRY_HEAD + popcount16(e.mask) * MOONCLIENT_STYLE_LAYER_ADJUST_BYTES)
+				// 🔴 CE QUI SORT DE LA BASE SE REJUGE : une entrée d'objet, coiffe ou
+				// cape, sans effacement, de la longueur exacte.
+				if (view_of(p).size == length && check_entry(p, length, e_entry_form::item) == MOONCLIENT_STYLE_ACCEPTED)
 					dye = s_item_dye{ nameid, bytes(p, p + length) };
 			}
 			if (!dye)
@@ -720,7 +796,7 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 	std::vector<s_request_entry> entries;
 	size_t at = sizeof(PACKET_CZ_MOONCLIENT_STYLE_LAYERS);
 	for (int32 i = 0; i < head->count; ++i) {
-		const e_moonclient_style_result checked = check_entry(frame + at, length - at, false);
+		const e_moonclient_style_result checked = check_entry(frame + at, length - at, e_entry_form::request);
 		if (checked != MOONCLIENT_STYLE_ACCEPTED)
 			return checked;
 		const s_entry_view view = view_of(frame + at);
@@ -773,10 +849,11 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 			if (other.idx == idx)
 				return MOONCLIENT_STYLE_KEY;
 		s_item_change change{ idx, it.unique_id, it.nameid, std::nullopt };
-		if ((e.view.flags & MOONCLIENT_STYLE_LAYER_FLAG_CLEAR) == 0 && e.view.mask != 0) {
+		if (has_content(e.view)) {
 			bytes entry(e.p, e.p + e.view.size);
 			entry[1] = slot->layer;
-			entry[7] = 0;
+			// Seul le drapeau de queue se range : il dit comment relire l'entrée.
+			entry[7] = e.view.flags & MOONCLIENT_STYLE_LAYER_FLAG_TAIL;
 			change.entry = std::move(entry);
 		}
 		items.push_back(std::move(change));
@@ -796,10 +873,10 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 				break;
 			}
 		}
-		if ((e.view.flags & MOONCLIENT_STYLE_LAYER_FLAG_CLEAR) != 0 || e.view.mask == 0)
+		if (!has_content(e.view))
 			continue;
 		bytes entry(e.p, e.p + e.view.size);
-		entry[7] = 0;
+		entry[7] = e.view.flags & MOONCLIENT_STYLE_LAYER_FLAG_TAIL;
 		character.push_back(std::move(entry));
 		// Une suite par corps habillé : au-delà des variantes de la v7, la plus
 		// ancienne part, comme le corps qu'elle prolongeait.
@@ -892,21 +969,10 @@ size_t style_layers_check_shown_entry(const uint8* p, size_t available) {
 	if (available < MOONCLIENT_STYLE_LAYER_ENTRY_HEAD)
 		return 0;
 	const s_entry_view e = view_of(p);
-	// Le personnage : la forme rangée, que check_entry sait juger.
-	if (character_layer(e.layer))
-		return check_entry(p, available, true) == MOONCLIENT_STYLE_ACCEPTED ? e.size : 0;
-	if (e.layer != MOONCLIENT_STYLE_LAYER_HEADGEAR && e.layer != MOONCLIENT_STYLE_LAYER_GARMENT)
-		return 0;
-	// Un objet, sous l'apparence affichée : la forme d'une teinture d'exemplaire.
-	const int32 ranks = ranks_for(e.layer, e.profile);
-	const int32 adjusts = popcount16(e.mask);
-	if (e.flags != 0 || e.key == 0 || ranks == 0 || (e.mask >> ranks) != 0
-		|| e.size != MOONCLIENT_STYLE_LAYER_ENTRY_HEAD + adjusts * MOONCLIENT_STYLE_LAYER_ADJUST_BYTES || e.size > available)
-		return 0;
-	for (int32 i = 0; i < adjusts; ++i)
-		if (p[MOONCLIENT_STYLE_LAYER_ENTRY_HEAD + i * MOONCLIENT_STYLE_LAYER_ADJUST_BYTES + 4] > 1)
-			return 0;
-	return e.size;
+	// Le personnage : la forme rangée ; un objet, sous l'apparence affichée : la
+	// forme d'une teinture d'exemplaire. Toutes deux avec leur queue éventuelle.
+	const e_entry_form form = character_layer(e.layer) ? e_entry_form::character : e_entry_form::item;
+	return check_entry(p, available, form) == MOONCLIENT_STYLE_ACCEPTED ? e.size : 0;
 }
 
 // ── Staff ───────────────────────────────────────────────────────────────────

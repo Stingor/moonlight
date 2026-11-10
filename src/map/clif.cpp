@@ -9701,6 +9701,8 @@ void clif_bourgeon_server_rules(map_session_data& sd) {
 		{ BOURGEON_RULE_STYLE_ATELIER_CELLS,       battle_config.moonclient_style_atelier ? MOONCLIENT_STYLE_ATELIER_CELLS : 0 },
 		{ BOURGEON_RULE_STYLE_OUTFIT_CADENCE_MS,   MOONCLIENT_OUTFIT_CADENCE_MS },
 		{ BOURGEON_RULE_STYLE_WARDROBE_SLOTS,      MOONCLIENT_WARDROBE_SLOTS },
+		// La preuve que le serveur accepte le reste et les retouches d'une entrée.
+		{ BOURGEON_RULE_STYLE_LAYER_RETOUCHES,     MOONCLIENT_STYLE_LAYER_RETOUCHES_MAX },
 	};
 	const size_t len = sizeof(PACKET_ZC_MOONLIGHT_SERVER_RULES) + sizeof(rules);
 
