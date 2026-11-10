@@ -251,6 +251,17 @@ les lignes existantes, validées par l'utilisateur le 2026‑11‑08 :
 
 `WM_SEVERE_RAINSTORM_MELEE` suit `WM_SEVERE_RAINSTORM` (`CG_ARROWVULCAN`).
 
+## Ajouts du 2026‑11‑10 (Circlet of Time du mode défi), à valider
+
+Cinq compétences des Circlet of Time manquaient à la table :
+
+| Compétence | Remplacement | Analogie |
+|---|---|---|
+| `WL_CHAINLIGHTNING_ATK` | `WZ_VERMILION` | variante d'attaque de `WL_CHAINLIGHTNING`, même ligne |
+| `SJ_FALLINGSTAR_ATK`, `SJ_FALLINGSTAR_ATK2` | `TK_COUNTER` (une seule ligne) | variantes de `SJ_FALLINGSTAR` ; règle des doublons |
+| `SC_FEINTBOMB` | `RG_RAID` | comme `SC_ENERVATION` et `SC_GROOMY` (**nouveau**) |
+| `SP_CURSEEXPLOSION` | `SL_SMA` | comme `SP_SOULREAPER` ; le Circlet porte déjà `SL_STUN` (**nouveau**) |
+
 ## Objets touchés par la règle des doublons
 
 `GodOfWinds_Fan`, `Astro_Circle`, `Emerald_Earring`, `Chilly_Spell_Book`, `Recovery_Light`, `Staff_of_Miracle`, `Red_Ether_Bag`, `Engine_Pilebuncker`, `Volar`, `Vernan`, `Master_Soul_Rifle`, `Jack_The_Knife`.

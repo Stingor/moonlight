@@ -7,7 +7,7 @@
 | Carte | `1@gl_he` (« Contaminated Dimension », déjà dans le mapcache et le client) ; le wiki iRO cite `4@ghc0`, absent ici |
 | Côté rAthena | `instance_db` 49, gabarits de mobs commentés (`MD_C_*`, 20572‑20585), objets et cartes présents, **aucun script** |
 | Côté Moonlight | rien — ce document précède l'écriture du script |
-| État | décisions prises le 2026‑11‑09 (section 8) ; **lot C1 fait le 2026‑11‑09** (section 9), **C2 écrit le 2026‑11‑10** (section 10, non testé en jeu) ; C3 à écrire |
+| État | décisions prises le 2026‑11‑09 (section 8) ; **lot C1 fait le 2026‑11‑09** (section 9), **C2 et C3 écrits le 2026‑11‑10** (sections 10 et 11, non testés en jeu) |
 
 Le script n'existe nulle part : ni chez rAthena, ni chez hayakawakaki, ni chez AsurielRO. Ce
 qui suit est une **reconstitution**. Les sections 1 à 5 relèvent ce que les sources disent ;
@@ -262,3 +262,22 @@ comme le « groupe réparti » de l'officiel ; la tour nord (x 151‑164, y 258�
   ajouter quand on saura à quel moment ;
 - non repris (lot C5) : téléportations aléatoires, soin différé, Max Pain, Grim Reaper,
   Gradual Gravity, Circle Arena, sortie d'arène (la tour est close).
+
+## 11. Lot C3 (écrit le 2026‑11‑10, non testé en jeu)
+
+- **HUGINN2001** (`moon/rathena/merchants/oghcm_huginn.npc`), distributeur à `glast_01`
+  146,289, à côté d'Oscar :
+  - 5 Sealed Temporal Circlet → un Circlet of Time au choix parmi les 18 ;
+  - démontage d'un Sealed Circlet, par lots : 1 à 4 tirages (61,1 / 37,3 / 1,5 / 0,1 %),
+    chacun donnant 4 à 16 Temporal Fragment, 1 à 4 Temporal Gemstone ou 1 à 4 Temporal
+    Spell, selon les taux relevés par ROGGH ;
+  - cartes Mutated Khalitzburg et Mutated White Knight à 50 Temporal Spell (annonce
+    officielle).
+- **18 Circlet of Time** (19474‑19491) dans `item_db_armor.yml` : bloc `Classes` retiré, DEF 8
+  (coiffe), palier +11 en `getallrefine() >= 22`, `bAtkRate` en `bAddClass`, compétences de
+  3ᵉ classe remplacées par la table (`docs/episodes/skills_classes_fermees.md`, avec cinq
+  ajouts du 2026‑11‑10 à valider). Rebellion va au Gunslinger, Kagerou et Oboro au Ninja,
+  Super Novice aux Novice et Super Novice ; pas de Circlet pour l'Invocateur (19492).
+- **Fiches client** des 18 Circlet alignées sur les scripts serveur : noms de compétences,
+  « Refine Total Stuff +22 », délai de compétence du Ranger en « After Skill Delay 5 % »,
+  lignes fusionnées par la règle des doublons (Mechanic, Wanderer, Rebellion).
