@@ -862,8 +862,9 @@ lighthalzen,56,270,3	script	Republic Guard#171_light	4_M_EIN_SOLDIER,{
 		mes "The entrance is secured by Oscar who is standing up ahead the front gate.";
 		mes "Me and the Rebellions will stay outside. Aas will be inside.";
 		mes "Good luck!";
+		close;
 	}
-	close;
+	end;
 
 OnInit:
 	questinfo(QTYPE_QUEST,QMARK_YELLOW,"isbegin_quest(7861) == 1");
