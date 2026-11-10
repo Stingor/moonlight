@@ -184,7 +184,22 @@ L_mainmenu:
 	mes .@npc_name$;
 	mes "Vous avez la possibilité de changer votre apparence en utilisant l'UI de Moonlight.";
 	if (select("¤ Continuer avec le npc", "¤ Ouvrir l'UI") == 2) {
+		// [Stingor] Un client qui ne lit pas les teintures de calques garde la
+		// fenêtre seule, comme avant.
+		if (!moonlight_ui(MOONLIGHT_UI_STYLE_LAYERS)) {
+			bourgeon_style_open;
+			close;
+		}
+		// [Stingor] moonclient : l'atelier du styliste (D19). Une teinture de
+		// coiffe ou de cape ne se valide que pendant qu'il est ouvert, près de
+		// ce PNJ. Il se ferme quand le joueur a terminé ; s'il s'en va, le
+		// serveur le refuse à distance, et le délai le referme.
+		moonclient_style_atelier;
 		bourgeon_style_open;
+		mes "L'atelier est ouvert : tu peux teindre tes coiffes et ta cape équipées, et valider tant que nous parlons.";
+		mes "Reste près de moi : à plus de quelques pas, l'atelier refuse les teintures d'objets.";
+		select("¤ J'ai terminé");
+		moonclient_style_atelier 0;
 		close;
 	}
 	next;

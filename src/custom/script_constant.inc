@@ -6,6 +6,8 @@
 	// qui rend les balises maison (cf. e_moonlight_ui_cap, clif.hpp).
 	export_constant(MOONLIGHT_UI_NPC_DIALOG);
 	export_constant(MOONLIGHT_UI_CHAT);
+	// L'atelier du styliste ne s'annonce qu'à un client qui lit les teintures de calques.
+	export_constant(MOONLIGHT_UI_STYLE_LAYERS);
 
 	export_constant(MOB_ISMVP);
 	export_constant(MOB_ISBOSS);
