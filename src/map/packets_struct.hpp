@@ -6983,6 +6983,20 @@ enum e_bourgeon_server_rule : uint16 {
 	// pas les ignore et garde son plafond.
 	BOURGEON_RULE_BANK_ZENY_MAX_LOW   = 9,  ///< MAX_BANK_ZENY, bits 0 à 31
 	BOURGEON_RULE_BANK_ZENY_MAX_HIGH  = 10, ///< MAX_BANK_ZENY, bits 32 à 63
+	// Les couleurs du personnage (CZ 0x0F26 et 0x0F5E). 🔴 La cadence des calques
+	// est la PREUVE que le serveur sait les recevoir : moonclient n'envoie pas de
+	// 0x0F5E avant de l'avoir lue.
+	BOURGEON_RULE_STYLE_LAYERS_CADENCE_MS  = 11, ///< écart minimal entre deux CZ 0x0F5E (ms)
+	BOURGEON_RULE_STYLE_BODY_VARIANTS_MAX  = 12, ///< BOURGEON_STYLE_MAX_VARIANTS
+	BOURGEON_RULE_STYLE_LAYERS_MAX         = 13, ///< teintures de tête et de peau rangées par personnage
+	BOURGEON_RULE_HAIR_STYLE_MIN           = 14, ///< MIN_HAIR_STYLE
+	BOURGEON_RULE_HAIR_STYLE_MAX           = 15, ///< MAX_HAIR_STYLE
+	BOURGEON_RULE_HAIR_COLOR_MIN           = 16, ///< MIN_HAIR_COLOR
+	BOURGEON_RULE_HAIR_COLOR_MAX           = 17, ///< MAX_HAIR_COLOR
+	BOURGEON_RULE_CLOTH_COLOR_MIN          = 18, ///< MIN_CLOTH_COLOR
+	BOURGEON_RULE_CLOTH_COLOR_MAX          = 19, ///< MAX_CLOTH_COLOR
+	BOURGEON_RULE_STYLE_LAYERS_BYTES_MINUTE = 20, ///< octets de CZ 0x0F5E reçus par minute, au plus
+	BOURGEON_RULE_STYLE_ATELIER_CELLS      = 21, ///< distance au styliste, en cases, pour teindre un objet
 };
 
 struct PACKET_ZC_MOONLIGHT_SERVER_RULES_entry {
@@ -7945,6 +7959,128 @@ struct PACKET_ZC_MOONLIGHT_SURVIVORS_COOP_LEFT {
 	uint32 through_tick;
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_COOP_LEFT, 0x0f5d);
+
+// ── [Stingor] Les teintures de calques de moonclient (0x0F5E à 0x0F60) ──────────
+//
+// À côté de la recette v7 du corps (0x0F26 à 0x0F28, intacte), un joueur teint sa
+// tête, sa peau, ses coiffes et sa cape. Voir style_layers.cpp, et dans moonclient
+// docs/couleurs-du-personnage/conception.md et l'ADR 0146.
+//
+// 🔴 RIEN NE PART À UN CLIENT QUI N'A PAS ANNONCÉ MOONLIGHT_UI_STYLE_LAYERS : un ZC
+// absent de sa table des longueurs lui ferait perdre le fil du flux.
+//
+// 🔴 LE SERVEUR NE LIT JAMAIS UNE COULEUR. Il juge la structure de chaque entrée,
+// la range et la rediffuse.
+//
+// UNE ENTRÉE, commune au CZ et au ZC :
+//   [taille:1][calque:1][clé:4][profil:1][drapeaux:1][masque:2]
+//   puis, pour chaque bit posé du masque (rang 0 à 12, dans l'ordre) :
+//       [teinte:int16][saturation:int8][luminosité:int8][absolu:uint8]
+//   taille   : 10 + 5 × réglages, de 10 à 75 octets.
+//   calque   : ZC : 1 tête, 2 coiffe, 3 cape, 4 peau.
+//              CZ : 1 tête, 4 peau, ou l'EMPLACEMENT d'équipement de l'émetteur,
+//              10 à 13 (coiffe haute, du milieu, basse, cape), 14 à 17 (leurs
+//              costumes). Jamais un identifiant global : le serveur trouve l'objet
+//              dans l'équipement de la session émettrice, et nulle part ailleurs.
+//   clé      : tête = coupe << 16 | couleur ; peau = 0 ;
+//              ZC : l'apparence ou la robe AFFICHÉE ;
+//              CZ : l'identifiant d'objet ATTENDU à cet emplacement.
+//   profil   : 1 = rampes (rangs 0 à 7), 2 = classes de teinte (rangs 0 à 12).
+//              La tête et la peau sont au profil 1, la peau au seul rang 0.
+//   drapeaux : 0x01 = effacer cette teinture (CZ ; le masque est alors nul).
+#define MOONCLIENT_STYLE_LAYER_ENTRY_HEAD 10
+#define MOONCLIENT_STYLE_LAYER_ADJUST_BYTES 5
+#define MOONCLIENT_STYLE_LAYER_ADJUSTS_MAX 13
+#define MOONCLIENT_STYLE_LAYER_ENTRY_MAX (MOONCLIENT_STYLE_LAYER_ENTRY_HEAD + MOONCLIENT_STYLE_LAYER_ADJUSTS_MAX * MOONCLIENT_STYLE_LAYER_ADJUST_BYTES)
+// Le plus gros CZ accepté.
+#define MOONCLIENT_STYLE_LAYERS_CZ_MAX 2048
+// La charge brute d'un ZC, au plus : un joueur n'est jamais coupé entre deux trames.
+#define MOONCLIENT_STYLE_LAYERS_RAW_MAX 16384
+// Au-delà, la charge d'un ZC se compresse (zlib).
+#define MOONCLIENT_STYLE_LAYERS_ZIP_ABOVE 1024
+
+enum e_moonclient_style_layer : uint8 {
+	MOONCLIENT_STYLE_LAYER_HEAD     = 1,
+	MOONCLIENT_STYLE_LAYER_HEADGEAR = 2,
+	MOONCLIENT_STYLE_LAYER_GARMENT  = 3,
+	MOONCLIENT_STYLE_LAYER_SKIN     = 4,
+	// CZ seulement : les emplacements d'équipement de l'émetteur.
+	MOONCLIENT_STYLE_SLOT_FIRST     = 10,
+	MOONCLIENT_STYLE_SLOT_LAST      = 17,
+};
+
+// Une entrée du CZ : retire cette teinture.
+#define MOONCLIENT_STYLE_LAYER_FLAG_CLEAR 0x01
+// CZ : retire d'abord les teintures du PERSONNAGE (tête et peau). Celles des objets
+// leur appartiennent, et ne se retirent qu'une à une.
+#define MOONCLIENT_STYLE_LAYERS_CLEAR_CHARACTER 0x01
+// ZC : la charge est compressée par zlib.
+#define MOONCLIENT_STYLE_LAYERS_ZIPPED 0x01
+
+// CZ : le joueur valide ses teintures de calques, en UNE trame. Variable, au plus
+// MOONCLIENT_STYLE_LAYERS_CZ_MAX octets.
+// Layout: [type:2][len:2][drapeaux:1][nombre:1] puis nombre × entrée.
+// 🔴 Tout ou rien : une entrée refusée fait refuser la trame, et le verdict le dit.
+struct PACKET_CZ_MOONCLIENT_STYLE_LAYERS {
+	int16 packetType;
+	int16 packetLength;
+	uint8 flags;
+	uint8 count;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONCLIENT_STYLE_LAYERS, 0x0f5e);
+
+// ZC : les teintures que les joueurs AFFICHENT. Variable.
+// Layout: [type:2][len:2][drapeaux:1][taille_brute:2] puis la charge.
+//   charge : suite de blocs [gid:4][nombre:1][entrées...]. Un bloc REDÉFINIT
+//            toutes les teintures de calques de son gid ; un bloc vide les efface.
+//   Au-delà de MOONCLIENT_STYLE_LAYERS_ZIP_ABOVE octets, la charge est compressée
+//   et `taille_brute` dit ce qu'elle donne, à l'octet près.
+// 🔴 Rien que ce qui est AFFICHÉ : jamais la teinture d'un objet rangé.
+struct PACKET_ZC_MOONCLIENT_STYLE_LAYERS {
+	int16 packetType;
+	int16 packetLength;
+	uint8 flags;
+	uint16 raw_size;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONCLIENT_STYLE_LAYERS, 0x0f5f);
+
+enum e_moonclient_style_subject : uint8 {
+	MOONCLIENT_STYLE_SUBJECT_BODY    = 0, ///< la recette v7 (CZ 0x0F26)
+	MOONCLIENT_STYLE_SUBJECT_LAYERS  = 1, ///< les teintures de calques (CZ 0x0F5E)
+	MOONCLIENT_STYLE_SUBJECT_ATELIER = 2, ///< l'atelier du styliste s'ouvre ou se ferme
+};
+
+enum e_moonclient_style_result : uint8 {
+	MOONCLIENT_STYLE_ACCEPTED    = 0,
+	MOONCLIENT_STYLE_SAME        = 1, ///< renvoi identique : rien à faire
+	MOONCLIENT_STYLE_TOO_SOON    = 2, ///< `wait_ms` dit quand revenir
+	MOONCLIENT_STYLE_MALFORMED   = 3, ///< version, profil, longueurs, drapeaux
+	MOONCLIENT_STYLE_CAP         = 4, ///< trop d'entrées ou trop d'octets
+	MOONCLIENT_STYLE_KEY         = 5, ///< calque inconnu, clé nulle ou hors bornes, doublon
+	MOONCLIENT_STYLE_NO_ATELIER  = 6, ///< une teinture d'objet hors de l'atelier du styliste
+	MOONCLIENT_STYLE_NOT_WORN    = 7, ///< l'objet n'est pas porté à cet emplacement
+	MOONCLIENT_STYLE_BUSY        = 8, ///< mort, échange, boutique, storage, dialogue
+	MOONCLIENT_STYLE_UNAVAILABLE = 9, ///< le serveur ne peut ni lire ni écrire
+};
+
+// L'atelier, sous MOONCLIENT_STYLE_SUBJECT_ATELIER : fermé ou ouvert.
+#define MOONCLIENT_STYLE_ATELIER_CLOSED 0
+#define MOONCLIENT_STYLE_ATELIER_OPEN 1
+
+// ZC : le verdict d'une validation, ou l'état de l'atelier. Fixe 12.
+// Layout: [type:2][len:2][objet:1][résultat:1][attente_ms:2][détail:4]
+//   détail : corps = la clé du corps évincé (0 si aucun) ; calques = 0 ;
+//            atelier = le délai qui lui reste, en millisecondes.
+// À la seule session qui a envoyé la demande, et qui a le bit.
+struct PACKET_ZC_MOONCLIENT_STYLE_VERDICT {
+	int16 packetType;
+	int16 packetLength;
+	uint8 subject;
+	uint8 result;
+	uint16 wait_ms;
+	uint32 detail;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONCLIENT_STYLE_VERDICT, 0x0f60);
 
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────

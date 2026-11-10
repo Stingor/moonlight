@@ -59,3 +59,4 @@
 	ACMD_DEF(mvpgroup),
 	ACMD_DEF(mvpobs),
 	ACMD_DEF(client),
+	ACMD_DEF(moonstyle),

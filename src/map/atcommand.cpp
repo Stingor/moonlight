@@ -61,6 +61,7 @@
 #include "trade.hpp"
 #include "vending.hpp"
 #include "voice_bridge.hpp"
+#include "style_layers.hpp" // [Stingor] @moonstyle
 
 using namespace rathena;
 

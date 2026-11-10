@@ -48,6 +48,7 @@
 #include "log.hpp"
 #include "mail.hpp"
 #include "map_edits.hpp"
+#include "style_layers.hpp"
 #include "market.hpp"
 #include "map.hpp"
 #include "mercenary.hpp"
@@ -1991,6 +1992,8 @@ int32 clif_spawn( const block_list* bl, bool walking ){
 			// `clif_getareachar_unit` ne dit à un joueur que ce qu'il DÉCOUVRE, jamais
 			// ce qui APPARAÎT sous ses yeux.
 			clif_bourgeon_style_spawn(sd);
+			// [Stingor] Ses teintures de calques, pour la même raison.
+			style_layers_spawn(*sd);
 			// [Stingor] Son habit du GM, s'il le porte, pour la même raison.
 			clif_moonlight_gm_outfit_area(*sd, true);
 			// [Stingor] Son élément d'attaque, pour la même raison.
@@ -9589,7 +9592,7 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	static constexpr uint32 kScanOnGain = MOONLIGHT_UI_FLAG_GRAFFITI | MOONLIGHT_UI_UNIT_MASTER |
 		MOONLIGHT_UI_GM_OUTFIT | MOONLIGHT_UI_SERVER_RULES | MOONLIGHT_UI_MAP_EDITS |
 		MOONLIGHT_UI_COMPANION_MASTER | MOONLIGHT_UI_INSTANCE_INFO | MOONLIGHT_UI_ATTACK_ELEMENT |
-		MOONLIGHT_UI_VOICE;
+		MOONLIGHT_UI_VOICE | MOONLIGHT_UI_STYLE_LAYERS;
 	if ((p->caps & ~sd->bourgeon_ui_caps & kScanOnGain) != 0 &&
 		!clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_UI_CAPS))
 		return;
@@ -9651,6 +9654,10 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	// [Stingor] Où joindre le serveur voix, dès que le client sait lui parler.
 	if (!(before & MOONLIGHT_UI_VOICE) && (p->caps & MOONLIGHT_UI_VOICE))
 		voice_bridge_announce_service(*sd);
+	// [Stingor] Les teintures de calques : la sienne, celles des joueurs en vue, et
+	// l'atelier s'il est ouvert. Le bit s'annonce à chaque entrée en carte.
+	if (!(before & MOONLIGHT_UI_STYLE_LAYERS) && (p->caps & MOONLIGHT_UI_STYLE_LAYERS))
+		style_layers_handshake(*sd);
 	// [Stingor] Les morceaux d'une édition de carte arrivent d'affilée : un tampon
 	// de réception plus grand. EN DERNIER : le réallouer invalide `p`.
 	if (p->caps & MOONLIGHT_UI_MAP_EDITS)
@@ -9677,6 +9684,19 @@ void clif_bourgeon_server_rules(map_session_data& sd) {
 		// Le plafond de la banque, int64 coupé en deux moitiés de 32 bits.
 		{ BOURGEON_RULE_BANK_ZENY_MAX_LOW,   static_cast<int32>(static_cast<uint32>(static_cast<uint64>(MAX_BANK_ZENY) & 0xFFFFFFFFu)) },
 		{ BOURGEON_RULE_BANK_ZENY_MAX_HIGH,  static_cast<int32>(static_cast<uint32>(static_cast<uint64>(MAX_BANK_ZENY) >> 32)) },
+		// Les couleurs du personnage : la cadence des calques prouve que le serveur
+		// sait les recevoir.
+		{ BOURGEON_RULE_STYLE_LAYERS_CADENCE_MS,   MOONCLIENT_STYLE_LAYERS_CADENCE_MS },
+		{ BOURGEON_RULE_STYLE_BODY_VARIANTS_MAX,   BOURGEON_STYLE_MAX_VARIANTS },
+		{ BOURGEON_RULE_STYLE_LAYERS_MAX,          MOONCLIENT_STYLE_LAYERS_MAX },
+		{ BOURGEON_RULE_HAIR_STYLE_MIN,            MIN_HAIR_STYLE },
+		{ BOURGEON_RULE_HAIR_STYLE_MAX,            MAX_HAIR_STYLE },
+		{ BOURGEON_RULE_HAIR_COLOR_MIN,            MIN_HAIR_COLOR },
+		{ BOURGEON_RULE_HAIR_COLOR_MAX,            MAX_HAIR_COLOR },
+		{ BOURGEON_RULE_CLOTH_COLOR_MIN,           MIN_CLOTH_COLOR },
+		{ BOURGEON_RULE_CLOTH_COLOR_MAX,           MAX_CLOTH_COLOR },
+		{ BOURGEON_RULE_STYLE_LAYERS_BYTES_MINUTE, MOONCLIENT_STYLE_LAYERS_BYTES_PER_MINUTE },
+		{ BOURGEON_RULE_STYLE_ATELIER_CELLS,       MOONCLIENT_STYLE_ATELIER_CELLS },
 	};
 	const size_t len = sizeof(PACKET_ZC_MOONLIGHT_SERVER_RULES) + sizeof(rules);
 
@@ -12279,26 +12299,28 @@ static bool bourgeon_style_number(int16 val, int32 min, int32 max, int16& out) {
 	return true;
 }
 
-void clif_parse_moonlight_style(int32 fd, map_session_data* sd) {
-	nullpo_retv(sd);
-	if (!sd->state.has_bourgeon) return;
+// [Stingor] Le traitement d'un CZ 0x0F26 : ce qu'il en advient, que le verdict
+// (ZC 0x0F60) rend aux sessions qui ont le bit des calques. `evicted` : le corps
+// évincé au plafond ; `wait_ms` : quand revenir, s'il est trop tôt.
+static e_moonclient_style_result bourgeon_style_apply(int32 fd, map_session_data* sd,
+                                                      uint32& evicted, uint16& wait_ms) {
 
 	const PACKET_CZ_MOONLIGHT_STYLE* p =
 		reinterpret_cast<const PACKET_CZ_MOONLIGHT_STYLE*>(RFIFOP(fd, 0));
 	// Version inconnue : on jette, sans rien changer de ce qui est stocké. Un
 	// client plus récent n'a pas à effacer les couleurs qu'il ne sait pas relire.
-	if (p->version != BOURGEON_STYLE_WIRE_VERSION) return;
+	if (p->version != BOURGEON_STYLE_WIRE_VERSION) return MOONCLIENT_STYLE_MALFORMED;
 	// Sans variables chargées, on ne peut ni lire ni écrire : on renonce
 	// silencieusement plutôt que de risquer la déconnexion — le joueur pourra
 	// re-partager, et l'aperçu local, lui, marche déjà.
-	if (!sd->vars_ok) return;
+	if (!sd->vars_ok) return MOONCLIENT_STYLE_UNAVAILABLE;
 
 	const bool tout_effacer = (p->flags & BOURGEON_STYLE_CLEAR_ALL) != 0;
 	const bool effacer_ce_corps = (p->flags & BOURGEON_STYLE_CLEAR) != 0;
 	// 🔴 Une clé nulle ne désigne aucun corps : la ranger donnerait une variante
 	// qu'aucun client ne choisirait jamais, tout en occupant un des quatre
 	// emplacements du personnage. Seul « tout effacer » s'en passe.
-	if (!tout_effacer && p->body_key == 0) return;
+	if (!tout_effacer && p->body_key == 0) return MOONCLIENT_STYLE_KEY;
 	const bool habiller = !tout_effacer && !effacer_ce_corps;
 	// Sur la CZ, 0x04 demande que CE corps devienne le style principal, donc le
 	// repli : sa variante passe en tête.
@@ -12313,7 +12335,7 @@ void clif_parse_moonlight_style(int32 fd, map_session_data* sd) {
 	    (!bourgeon_style_number(p->palette_id, MIN_CLOTH_COLOR, MAX_CLOTH_COLOR, palette) ||
 	     !bourgeon_style_number(p->hair_palette_id, MIN_HAIR_COLOR, MAX_HAIR_COLOR, cheveux) ||
 	     !bourgeon_style_number(p->hair_style, MIN_HAIR_STYLE, MAX_HAIR_STYLE, coupe)))
-		return;
+		return MOONCLIENT_STYLE_KEY;
 
 	std::vector<bourgeon_style_variant> list;
 	bourgeon_style_load(sd, list);
@@ -12335,14 +12357,14 @@ void clif_parse_moonlight_style(int32 fd, map_session_data* sd) {
 	// corps différents portent forcément des octets différents, et confondre les
 	// deux ferait refuser à un joueur d'habiller sa monture comme son corps.
 	if (tout_effacer) {
-		if (list.empty()) return;  // déjà sans style : rien à faire
+		if (list.empty()) return MOONCLIENT_STYLE_SAME;  // déjà sans style : rien à faire
 	} else {
 		size_t rang = list.size();
 		for (size_t i = 0; i < list.size(); ++i)
 			if (list[i].body_key == p->body_key) { rang = i; break; }
 		const bourgeon_style_variant* actuelle = rang < list.size() ? &list[rang] : nullptr;
 		if (effacer_ce_corps) {
-			if (actuelle == nullptr) return;  // ce corps n'a rien à effacer
+			if (actuelle == nullptr) return MOONCLIENT_STYLE_SAME;  // ce corps n'a rien à effacer
 		} else {
 			// ⚠ L'identité se juge aussi sur l'ÉTAT du personnage : si la coupe ou la
 			// couleur portées ne sont plus celles de la recette, la renvoyer doit les
@@ -12354,7 +12376,7 @@ void clif_parse_moonlight_style(int32 fd, map_session_data* sd) {
 			    (coupe < 1 || coupe == sd->status.hair) &&
 			    (cheveux < 1 || cheveux == sd->status.hair_color) &&
 			    !(principal && rang != 0))
-				return;  // les mêmes octets, pour le même corps : rien à faire
+				return MOONCLIENT_STYLE_SAME;  // les mêmes octets, pour le même corps : rien à faire
 		}
 	}
 
@@ -12366,8 +12388,10 @@ void clif_parse_moonlight_style(int32 fd, map_session_data* sd) {
 	// revalider.
 	const t_tick tick = gettick();
 	if (sd->bourgeon_stylelasttime != 0 &&
-	    DIFF_TICK(tick, sd->bourgeon_stylelasttime) < BOURGEON_STYLE_COOLDOWN)
-		return;
+	    DIFF_TICK(tick, sd->bourgeon_stylelasttime) < BOURGEON_STYLE_COOLDOWN) {
+		wait_ms = static_cast<uint16>(BOURGEON_STYLE_COOLDOWN - DIFF_TICK(tick, sd->bourgeon_stylelasttime));
+		return MOONCLIENT_STYLE_TOO_SOON;
+	}
 	sd->bourgeon_stylelasttime = tick;
 
 	// ── COIFFURE et COULEUR : les deux seules entrées que le serveur INTERPRÈTE ─
@@ -12438,6 +12462,7 @@ void clif_parse_moonlight_style(int32 fd, map_session_data* sd) {
 			// pas personnalisés, et le perdre les déshabillerait tous d'un coup.
 			while ((int)list.size() >= BOURGEON_STYLE_MAX_VARIANTS) {
 				if (list.size() <= 1) { list.clear(); break; }
+				evicted = list[1].body_key;
 				list.erase(list.begin() + 1);
 			}
 			list.push_back(v);
@@ -12463,6 +12488,18 @@ void clif_parse_moonlight_style(int32 fd, map_session_data* sd) {
 	uint8 buf[BOURGEON_STYLE_ONE_MAX];
 	const int16 len = bourgeon_style_pack(sd, list, buf);
 	clif_bourgeon_style_send_area(sd, buf, len, /*avec_soi=*/true);
+	return MOONCLIENT_STYLE_ACCEPTED;
+}
+
+void clif_parse_moonlight_style(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+	uint32 evicted = 0;
+	uint16 wait_ms = 0;
+	const e_moonclient_style_result result = bourgeon_style_apply(fd, sd, evicted, wait_ms);
+	// 🔴 LE VERDICT NE PART QU'À UNE SESSION QUI A LE BIT DES CALQUES : les autres
+	// clients de la v7 ne connaissent pas l'opcode, et n'en reçoivent rien.
+	style_layers_verdict(*sd, MOONCLIENT_STYLE_SUBJECT_BODY, result, wait_ms, evicted);
 }
 
 // [Stingor] La coupe ou la couleur du personnage vient de changer HORS de
@@ -12572,6 +12609,8 @@ void clif_getareachar_unit( map_session_data* sd,block_list *bl ){
 			// la vue plus tard. No-op si l'un des deux n'est pas un client
 			// Bourgeon, ou si `tsd` n'a pas de recette.
 			clif_bourgeon_style_single(sd, tsd);
+			// [Stingor] Ses teintures de calques : même point de diffusion.
+			style_layers_single(*sd, *tsd);
 			// [Stingor] Son habit du GM, s'il le porte : même point de diffusion.
 			if (moonlight_gm_outfit_worn(*tsd))
 				clif_moonlight_gm_outfit_single(*tsd, true, *sd);

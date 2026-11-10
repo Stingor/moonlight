@@ -2754,6 +2754,66 @@ ACMD_FUNC(mvpobs)
  * client sans DLL, IP dispensee... ou encore dans le delai qui precede le
  * controle.
  *------------------------------------------*/
+/// [Stingor] LES TEINTURES DE CALQUES de moonclient (style_layers.hpp) :
+///   @moonstyle <joueur>                    ce qu'il a rangé et affiche
+///   @moonstyle <joueur> effacer            retire sa tête et sa peau
+///   @moonstyle objet <unique_id>           la teinture d'un exemplaire
+///   @moonstyle objet <unique_id> effacer   la retire (journalisée)
+ACMD_FUNC(moonstyle)
+{
+	nullpo_retr(-1, sd);
+
+	const char* usage = "Usage : @moonstyle <joueur> [effacer] | @moonstyle objet <unique_id> [effacer]";
+	if (!message || !*message) {
+		clif_displaymessage(fd, usage);
+		return -1;
+	}
+
+	char first[NAME_LENGTH] = "";
+	char second[NAME_LENGTH] = "";
+	char third[NAME_LENGTH] = "";
+	const int32 words = sscanf(message, "%23s %23s %23s", first, second, third);
+
+	if (words >= 2 && strcmpi(first, "objet") == 0) {
+		char* end = nullptr;
+		const uint64 unique_id = strtoull(second, &end, 10);
+		if (unique_id == 0 || end == second || *end != '\0') {
+			clif_displaymessage(fd, usage);
+			return -1;
+		}
+		if (words >= 3 && strcmpi(third, "effacer") == 0) {
+			clif_displaymessage(fd, style_layers_staff_clear_item(unique_id, *sd) ? "Teinture retiree." : "Aucune teinture retiree.");
+			return 0;
+		}
+		const std::string line = style_layers_describe_item(unique_id);
+		clif_displaymessage(fd, line.empty() ? "Cet exemplaire n'a pas de teinture." : line.c_str());
+		return 0;
+	}
+
+	// Le nom d'un personnage peut porter des espaces : tout jusqu'au dernier mot
+	// « effacer », s'il y est.
+	safestrncpy(atcmd_player_name, message, sizeof(atcmd_player_name));
+	bool clear = false;
+	if (char* last = strrchr(atcmd_player_name, ' '); last != nullptr && strcmpi(last + 1, "effacer") == 0) {
+		*last = '\0';
+		clear = true;
+	}
+	map_session_data* pl_sd = map_nick2sd(atcmd_player_name, false);
+	if (pl_sd == nullptr)
+		pl_sd = map_charid2sd(atoi(atcmd_player_name));
+	if (pl_sd == nullptr) {
+		clif_displaymessage(fd, msg_txt(sd, 3)); // Character not found.
+		return -1;
+	}
+	if (clear) {
+		clif_displaymessage(fd, style_layers_staff_clear_character(*pl_sd, *sd) ? "Teintures de tete et de peau retirees." : "La base a refuse l'effacement.");
+		return 0;
+	}
+	for (const std::string& line : style_layers_describe(*pl_sd))
+		clif_displaymessage(fd, line.c_str());
+	return 0;
+}
+
 ACMD_FUNC(client)
 {
 	map_session_data* pl_sd;

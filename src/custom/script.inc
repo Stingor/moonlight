@@ -2108,6 +2108,30 @@ BUILDIN_FUNC(settingtag)
  * Sans effet sur un client vanilla, qui n'a pas cette fenêtre : le script n'a
  * donc rien à tester avant d'appeler.
  */
+// [Stingor] L'ATELIER DU STYLISTE (moonclient) : le PNJ qui exécute ce script
+// ouvre pour le joueur attaché, pendant `secondes` (MOONCLIENT_STYLE_ATELIER_DEFAULT_S
+// sans valeur, 0 ferme), la validation des teintures d'objets. Le serveur la
+// lie à ce PNJ : même carte, à quelques cases, dans le délai. Voir style_layers.hpp.
+BUILDIN_FUNC(moonclient_style_atelier)
+{
+	map_session_data *sd;
+
+	if( !script_rid2sd(sd) )
+		return SCRIPT_CMD_SUCCESS;
+
+	const npc_data* nd = map_id2nd(st->oid);
+	if( nd == nullptr ){
+		ShowError("buildin_moonclient_style_atelier: le script n'est pas porte par un PNJ.\n");
+		return SCRIPT_CMD_FAILURE;
+	}
+	int32 seconds = script_hasdata(st,2) ? script_getnum(st,2) : MOONCLIENT_STYLE_ATELIER_DEFAULT_S;
+	if( seconds < 0 )
+		seconds = 0;
+
+	style_layers_atelier(*sd, *nd, static_cast<uint32>(seconds));
+	return SCRIPT_CMD_SUCCESS;
+}
+
 BUILDIN_FUNC(bourgeon_style_open)
 {
 	map_session_data *sd;

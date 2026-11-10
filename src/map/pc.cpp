@@ -65,6 +65,7 @@
 #include "unit.hpp" // unit_stop_attack(), unit_stop_walking()
 #include "vending.hpp" // struct s_vending
 #include "voice_bridge.hpp"
+#include "style_layers.hpp" // [Stingor] style_layers_look_changed
 
 using namespace rathena;
 
@@ -11790,6 +11791,14 @@ void pc_changelook(map_session_data *sd,int32 type,int32 val) {
 	// lot de style.
 	if (hair_changed)
 		clif_bourgeon_style_follow_look(sd);
+	// [Stingor] Une autre tête ou un autre objet affiché : ses teintures de
+	// calques suivent.
+	switch (type) {
+		case LOOK_HAIR: case LOOK_HAIR_COLOR: case LOOK_HEAD_BOTTOM:
+		case LOOK_HEAD_TOP: case LOOK_HEAD_MID: case LOOK_ROBE:
+			style_layers_look_changed(*sd);
+			break;
+	}
 }
 
 /*==========================================
@@ -16343,6 +16352,9 @@ void pc_set_costume_view(map_session_data *sd) {
 		clif_changelook(sd, LOOK_HEAD_TOP, sd->status.head_top);
 	if (robe != sd->status.robe)
 		clif_changelook(sd, LOOK_ROBE, sd->status.robe);
+	// [Stingor] Ce qu'il affiche a changé : ses teintures de calques suivent,
+	// après le paquet natif d'apparence.
+	style_layers_look_changed(*sd);
 }
 
 std::shared_ptr<s_attendance_period> pc_attendance_period(){

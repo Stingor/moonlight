@@ -1991,7 +1991,11 @@ enum e_moonlight_ui_cap : uint32 {
 	// Ce client lit une parole de PNJ (ZC 0x02C1) au-delà du tampon de chat : le
 	// serveur la lui envoie entière (clif_npc_talk). Réservé à moonclient.
 	MOONLIGHT_UI_LONG_NPC_TALK = 0x00800000,
-	// Prochain bit libre : 0x01000000.
+	// Ce client lit les teintures de calques (ZC 0x0F5F) et les verdicts (ZC
+	// 0x0F60), et envoie CZ 0x0F5E. Le corps v7 et son verdict n'en dépendent pas.
+	// Réservé à moonclient. Voir style_layers.hpp.
+	MOONLIGHT_UI_STYLE_LAYERS = 0x01000000,
+	// Prochain bit libre : 0x02000000.
 };
 
 // [Stingor] Les réglages du serveur utiles au client (ZC 0x0F38), à une session

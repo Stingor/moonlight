@@ -57,6 +57,7 @@
 #include "storage.hpp"
 #include "card_album.hpp" // card_album_close : le verrou de l'album rendu à la déconnexion
 #include "map_edits.hpp" // map_edits_on_logout : le transfert entrant jeté à la déconnexion
+#include "style_layers.hpp" // style_layers_on_logout : teintures, atelier et cadence oubliés
 #include "trade.hpp"
 #include "voice_bridge.hpp"
 
@@ -2398,6 +2399,7 @@ int32 map_quit(map_session_data *sd) {
 	mvp_tracker_on_logout(*sd);
 	// [Stingor] Éditions de carte : le transfert entrant de la session est jeté.
 	map_edits_on_logout(*sd);
+	style_layers_on_logout(*sd); // [Stingor]
 	voice_bridge_send_leave(sd);
 	// [Stingor] Présence en arène : il en sort pour ses amis, sa guilde, sa zone.
 	survivors_presence_leave(*sd);
@@ -5340,6 +5342,7 @@ void MapServer::finalize(){
 #ifndef MAP_GENERATOR
 	do_final_admin(); // [Stingor] custom: admin channel (src/map/admin.cpp)
 	map_edits_final();
+	style_layers_final(); // [Stingor]
 #endif
 	do_final_atcommand();
 	do_final_battle();

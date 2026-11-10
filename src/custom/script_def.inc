@@ -70,4 +70,5 @@
 	BUILDIN_DEF(mobsprite,"i?"),            // mob_id{,portrait} -> sprite inline, ou portrait de page
 	BUILDIN_DEF(imgtag,"s??"),              // "source"{,largeur,hauteur} -> image (ressource client ou http)
 	BUILDIN_DEF(settingtag,"ss"),           // "clé","libellé" -> lien vers un réglage Bourgeon
+	BUILDIN_DEF(moonclient_style_atelier,"?"), // {secondes} 0=fermer -> atelier du styliste (teintures d'objets)
 	BUILDIN_DEF(bourgeon_style_open,"?"), // {mode} 0=fermer 1=ouvrir 2=basculer -> fenetre de style Bourgeon

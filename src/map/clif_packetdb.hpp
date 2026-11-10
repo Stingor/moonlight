@@ -2144,6 +2144,11 @@ parseable_packet(HEADER_CZ_MOONLIGHT_SURVIVORS_BOARD, sizeof(PACKET_CZ_MOONLIGHT
 parseable_packet(HEADER_CZ_MOONCLIENT_MAP_EDIT_PUT, -1, clif_parse_moonclient_map_edit_put, 0);
 parseable_packet(HEADER_CZ_MOONCLIENT_MAP_EDIT_GET, sizeof(PACKET_CZ_MOONCLIENT_MAP_EDIT_GET), clif_parse_moonclient_map_edit_get, 0);
 
+// [Stingor] moonclient : les teintures de calques (style_layers.cpp). Gate
+// MOONLIGHT_UI_STYLE_LAYERS DANS le handler — VARIABLE, au plus
+// MOONCLIENT_STYLE_LAYERS_CZ_MAX octets.
+parseable_packet(HEADER_CZ_MOONCLIENT_STYLE_LAYERS, -1, clif_parse_moonclient_style_layers, 0);
+
 // [Stingor] Bourgeon : état de l'entité ciblée (fenêtre de cible). Le client
 // redemande tant que sa fenêtre est ouverte ; aucun état serveur — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_TARGET_INFO, sizeof(PACKET_CZ_MOONLIGHT_TARGET_INFO), clif_parse_moonlight_target_info, 0);

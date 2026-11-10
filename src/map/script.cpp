@@ -64,6 +64,7 @@
 #include "quest.hpp"
 #include "storage.hpp"
 #include "voice_bridge.hpp"
+#include "style_layers.hpp" // [Stingor] moonclient_style_atelier
 
 using namespace rathena;
 
