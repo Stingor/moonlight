@@ -1760,7 +1760,10 @@ Body:
     Score: 50
   - Id: 129021
     Group: Battle
-    Name: Glastheim Challenge Mode # Complete 100 times?
+    Name: Glastheim Challenge Mode
+    Targets:
+     - Id: 0
+       Count: 100
     Rewards:
       TitleId: 1045
     Score: 10

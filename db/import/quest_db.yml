@@ -1620,3 +1620,6 @@ Body:
     Title: Edda Somatology - Exploration Mode
   - Id: 16400
     Title: Edda Somatology - Combat Mode
+  - Id: 12494
+    Title: Aftermath of the challenge
+    TimeLimit: +23h

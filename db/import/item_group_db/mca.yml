@@ -770,3 +770,12 @@ Body:
           - Index: 240
             Item: Polluted_Dark_L_Card
             Rate: 1
+          - Index: 241
+            Item: C_CorruptionRoot_Card
+            Rate: 30
+          - Index: 242
+            Item: C_Himel_Card
+            Rate: 1
+          - Index: 243
+            Item: C_Amdarais_Card
+            Rate: 1

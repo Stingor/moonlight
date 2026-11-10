@@ -617,6 +617,8 @@ conch_in	mapflag	noteleport
 2@gl_k2	mapflag	noteleport
 1@gl_k2	mapflag	monster_noteleport
 2@gl_k2	mapflag	monster_noteleport
+1@gl_he	mapflag	noteleport
+1@gl_he	mapflag	monster_noteleport
 
 // Chicken Mode Horror Toy Factory
 1@xm_d2	mapflag	noteleport

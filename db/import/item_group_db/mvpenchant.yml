@@ -413,3 +413,9 @@ Body:
           - Index: 119
             Item: Polluted_Dark_L_Card
             Rate: 1
+          - Index: 120
+            Item: C_Himel_Card
+            Rate: 1
+          - Index: 121
+            Item: C_Amdarais_Card
+            Rate: 1

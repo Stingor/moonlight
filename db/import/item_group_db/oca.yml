@@ -2258,3 +2258,18 @@ Body:
           - Index: 735
             Item: M_Morocc_Card
             Rate: 1
+          - Index: 736
+            Item: C_White_Knight_Card
+            Rate: 1
+          - Index: 737
+            Item: C_Khaliz_Knight_Card
+            Rate: 1
+          - Index: 738
+            Item: C_Raydric_Card
+            Rate: 1
+          - Index: 739
+            Item: C_Raydric_Archer_Card
+            Rate: 1
+          - Index: 740
+            Item: C_Cursed_Butler
+            Rate: 1

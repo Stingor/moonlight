@@ -13609,3 +13609,30 @@ Body:
     Type: Etc
     Flags:
       BuyingStore: true
+  - Id: 25864
+    AegisName: S_Circlet_Of_Time
+    Name: Sealed Temporal Circlet
+    Type: Etc
+    Weight: 100
+    Flags:
+      BuyingStore: true
+  - Id: 25865
+    AegisName: Jewel_Of_Time_Ore
+    Name: Temporal Gemstone
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25866
+    AegisName: Spell_Of_Time
+    Name: Temporal Spell
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 25867
+    AegisName: Fragment_Of_Time
+    Name: Temporal Fragment
+    Type: Etc
+    Flags:
+      BuyingStore: true
