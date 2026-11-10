@@ -7,7 +7,7 @@
 //= iRO ; monstres d'apres Divine Pride. Conception et decisions :
 //= docs/episodes/ogh_mode_defi.md.
 //=
-//= Entree : Oscar a glast_01 143,288, niveau 170, Old Glast Heim
+//= Entree : Oscar a ggpro 18,30 (provisoire, tests ; cible glast_01 143,288), niveau 170, Old Glast Heim
 //= Advanced fini (quete 12339). Cooldown : quete 12494 (23 h).
 //= Niveau de contamination 1 a 10, debloque par le nombre de
 //= victoires du personnage (OGHCM_CLEARS), comme l'officiel.
@@ -61,23 +61,36 @@ function	script	F_OGHCM_Scale	{
 //------------------------------------------------------------
 // Entree : Oscar a Glast Heim
 //------------------------------------------------------------
-glast_01,143,288,5	script	Oscar#oghcm	4_ED_OSCAR,{
+ggpro,18,30,4	script	Oscar#oghcm	4_ED_OSCAR,{
 	.@md_name$ = "Old Glast Heim Challenge Mode";
 	mes "[Oscar]";
 	mes "A contaminated dimension has opened here, a twisted copy of the time zone of Himmelmez's attack.";
 	mes "Varmundt and Heinrich do not exist there. And it keeps growing.";
 	next;
-	if( BaseLevel < 170 ) {
+	// Phase de test : reserve au staff (groupe 99), qui saute niveau, quete
+	// Advanced et cooldown. Retirer ce verrou a l'ouverture publique.
+	.@staff = (getgroupid() >= 99);
+	if( !.@staff ) {
+		mes "[Oscar]";
+		mes "The rift is still unstable. I cannot let anyone through yet.";
+		close;
+	}
+	if( .@staff ) {
+		mes "[Oscar]";
+		mes "^FF0000[Staff]^000000 Level, Advanced and cooldown checks skipped.";
+		next;
+	}
+	if( !.@staff && BaseLevel < 170 ) {
 		mes "[Oscar]";
 		mes "This place is too dangerous. Come back when you reach ^0000FFlevel 170^000000.";
 		close;
 	}
-	if( isbegin_quest(12339) != 2 ) {
+	if( !.@staff && isbegin_quest(12339) != 2 ) {
 		mes "[Oscar]";
 		mes "You should first prove yourself in ^0000FFOld Glast Heim Advanced^000000, with the other Hugin.";
 		close;
 	}
-	switch( checkquest(12494,PLAYTIME) ) {
+	switch( (.@staff ? -1 : checkquest(12494,PLAYTIME)) ) {
 	case -1:
 		break;
 	case 0:
@@ -91,6 +104,8 @@ glast_01,143,288,5	script	Oscar#oghcm	4_ED_OSCAR,{
 	}
 	.@clears = OGHCM_CLEARS;
 	.@max = callfunc("F_OGHCM_MaxLevel",.@clears);
+	if( .@staff )
+		.@max = 10;
 	mes "[Oscar]";
 	mes "Challenges cleared: ^0000FF" + .@clears + "^000000.";
 	mes "Highest contamination level you can face: ^0000FF" + .@max + "^000000.";
@@ -129,8 +144,9 @@ glast_01,143,288,5	script	Oscar#oghcm	4_ED_OSCAR,{
 			mes "I cannot send you there.";
 			close;
 		case IE_OK:
-			mapannounce "glast_01", strcharinfo(0) + " of the party " + getpartyname(.@party_id) + " enters the " + .@md_name$ + ".", bc_map, "0x00FF99";
-			setquest 12494;
+			mapannounce "ggpro", strcharinfo(0) + " of the party " + getpartyname(.@party_id) + " enters the " + .@md_name$ + ".", bc_map, "0x00FF99";
+			if( !.@staff )
+				setquest 12494;
 			end;
 		}
 		end;
@@ -138,7 +154,7 @@ glast_01,143,288,5	script	Oscar#oghcm	4_ED_OSCAR,{
 	close;
 
 OnInit:
-	questinfo( QTYPE_QUEST, QMARK_YELLOW, "BaseLevel >= 170 && isbegin_quest(12339) == 2 && checkquest(12494,PLAYTIME) == -1" );
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "getgroupid() >= 99" );
 	end;
 }
 
@@ -201,6 +217,8 @@ OnSplit:
 		close;
 	}
 	.@max = callfunc("F_OGHCM_MaxLevel",OGHCM_CLEARS);
+	if( getgroupid() >= 99 )
+		.@max = 10;
 	mes "[Oscar]";
 	mes "This is the list of contamination depths I can open. The higher the level, the stronger the monsters, and the richer the reward.";
 	next;
@@ -544,7 +562,7 @@ S_Drop:
 		next;
 		if( select("Back to Glast Heim.:Stay a little.") == 1 ) {
 			close2;
-			warp "glast_01", 143, 286;
+			warp "ggpro", 18, 28;
 			end;
 		}
 		close;
