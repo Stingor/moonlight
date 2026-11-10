@@ -276,7 +276,7 @@ comme le « groupe réparti » de l'officiel ; la tour nord (x 151‑164, y 258�
 - **18 Circlet of Time** (19474‑19491) dans `item_db_armor.yml` : bloc `Classes` retiré, DEF 8
   (coiffe), palier +11 en `getallrefine() >= 22`, `bAtkRate` en `bAddClass`, compétences de
   3ᵉ classe remplacées par la table (`docs/episodes/skills_classes_fermees.md`, avec cinq
-  ajouts du 2026‑11‑10 à valider). Rebellion va au Gunslinger, Kagerou et Oboro au Ninja,
+  ajouts du 2026‑11‑10, validés). Rebellion va au Gunslinger, Kagerou et Oboro au Ninja,
   Super Novice aux Novice et Super Novice ; pas de Circlet pour l'Invocateur (19492).
 - **Fiches client** des 18 Circlet alignées sur les scripts serveur : noms de compétences,
   « Refine Total Stuff +22 », délai de compétence du Ranger en « After Skill Delay 5 % »,

@@ -251,9 +251,9 @@ les lignes existantes, validées par l'utilisateur le 2026‑11‑08 :
 
 `WM_SEVERE_RAINSTORM_MELEE` suit `WM_SEVERE_RAINSTORM` (`CG_ARROWVULCAN`).
 
-## Ajouts du 2026‑11‑10 (Circlet of Time du mode défi), à valider
+## Ajouts du 2026‑11‑10 (Circlet of Time du mode défi), validés
 
-Cinq compétences des Circlet of Time manquaient à la table :
+Cinq compétences des Circlet of Time manquaient à la table. Validées par l'utilisateur le 2026‑11‑10 :
 
 | Compétence | Remplacement | Analogie |
 |---|---|---|
