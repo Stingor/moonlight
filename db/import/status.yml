@@ -228,3 +228,215 @@ Body:
     Script: |
       bonus bMaxHP, getstatus(SC_GLASTHEIM_HPSP, 1);
       bonus bMaxSP, getstatus(SC_GLASTHEIM_HPSP, 2);
+  - Status: 2011rwc_Scroll
+    Icon: EFST_2011RWC_SCROLL
+    Flags:
+      NoClearbuff: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+    Script: |
+      .@level = max(3, getskilllv("AC_CONCENTRATION"));
+      bonus bBaseAtk,30;
+      bonus bMatk,30;
+      bonus bAspdRate,5;
+      bonus bVariableCastrate,-5;
+      bonus bMaxHPrate,-10;
+      bonus bMaxSPrate,-10;
+      bonus3 bAutoSpell,"AC_CONCENTRATION",.@level,10;   /* TODO: unknown rate */
+  - Status: All_Stat_Down
+    Icon: EFST_ALL_STAT_DOWN
+    DurationLookup: NPC_ALL_STAT_DOWN
+    CalcFlags:
+      Str: true
+      Agi: true
+      Vit: true
+      Int: true
+      Dex: true
+      Luk: true
+    Flags:
+      NoDispell: true
+      NoClearance: true
+  - Status: Chill
+    Icon: EFST_CHILL
+    EndOnStart:
+      Burnt: true
+  - Status: Crifood
+    Icon: EFST_FOOD_CRITICALSUCCESSVALUE
+    Flags:
+      NoClearbuff: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+    Script: |
+      bonus bCritical, getstatus(SC_CRIFOOD, 1);
+  - Status: Damage_Heal
+    Icon: EFST_DAMAGE_HEAL
+    DurationLookup: NPC_DAMAGE_HEAL
+    Flags:
+      NoDispell: true
+  - Status: Gradual_Gravity
+    Icon: EFST_GRADUAL_GRAVITY
+    DurationLookup: NPC_GRADUAL_GRAVITY
+    Flags:
+      BlEffect: true
+      DisplayPc: true
+      NoDispell: true
+      NoClearance: true
+  - Status: Jp_Event04
+    Icon: EFST_JP_EVENT04
+    Flags:
+      NoRemoveOnDead: true
+      NoClearbuff: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+      SendVal1: true
+    Script: |
+      bonus2 bExpAddRace,RC_Fish, getstatus(SC_JP_EVENT04, 1);
+  - Status: Mtf_Aspd
+    Icon: EFST_MTF_ASPD
+    Flags:
+      NoRemoveOnDead: true
+      NoClearbuff: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+      NoForcedEnd: true
+    Script: |
+      bonus bAspd, getstatus(SC_MTF_ASPD, 1);
+      bonus bHit, getstatus(SC_MTF_ASPD, 2);
+  - Status: Mtf_Aspd2
+    Icon: EFST_MTF_ASPD2
+    CalcFlags:
+      Aspd: true
+      Hit: true
+    Flags:
+      NoRemoveOnDead: true
+      NoClearbuff: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+      NoForcedEnd: true
+    Script: |
+      bonus bAspd, getstatus(SC_MTF_ASPD2, 1);
+      bonus bHit, getstatus(SC_MTF_ASPD2, 2);
+  - Status: Mtf_Cridamage
+    Icon: EFST_MTF_CRIDAMAGE
+    Flags:
+      NoRemoveOnDead: true
+      NoClearbuff: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+      NoForcedEnd: true
+    Script: |
+      bonus bCritAtkRate, getstatus(SC_MTF_CRIDAMAGE, 1);
+  - Status: Mtf_Hitflee
+    Icon: EFST_MTF_HITFLEE
+    Flags:
+      NoRemoveOnDead: true
+      NoClearbuff: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+      NoForcedEnd: true
+    Script: |
+      .@val1 = getstatus(SC_MTF_HITFLEE, 1);
+      .@val2 = getstatus(SC_MTF_HITFLEE, 2);
+      bonus bHit, .@val1;
+      bonus bCritical, .@val1;
+      bonus bFlee, .@val2;
+  - Status: Mtf_Matk
+    Icon: EFST_MTF_MATK
+    Flags:
+      NoRemoveOnDead: true
+      NoClearbuff: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+      NoForcedEnd: true
+    Script: |
+      bonus bMatk, getstatus(SC_MTF_MATK, 1);
+  - Status: Mtf_Matk2
+    Icon: EFST_MTF_MATK2
+    Flags:
+      NoRemoveOnDead: true
+      NoClearbuff: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+      NoForcedEnd: true
+    Script: |
+      bonus bMatk, getstatus(SC_MTF_MATK2, 1);
+  - Status: Mtf_Mhp
+    Icon: EFST_MTF_MHP
+    Flags:
+      NoRemoveOnDead: true
+      NoClearbuff: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+      NoForcedEnd: true
+    Script: |
+      bonus bMaxHPrate, getstatus(SC_MTF_MHP, 1);
+  - Status: Mtf_Mleatked
+    Icon: EFST_MTF_MLEATKED
+    Flags:
+      NoRemoveOnDead: true
+      NoClearbuff: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+      NoForcedEnd: true
+    Script: |
+      .@val1 = getstatus(SC_MTF_MLEATKED, 1);
+      .@val2 = getstatus(SC_MTF_MLEATKED, 2);
+      .@val3 = getstatus(SC_MTF_MLEATKED, 3);
+      bonus4 bAutoSpellWhenHit,"SM_ENDURE",.@val1,.@val2,0;
+      bonus2 bSubEle,Ele_Neutral, .@val3;
+  - Status: Mtf_Msp
+    Icon: EFST_MTF_MSP
+    Flags:
+      NoRemoveOnDead: true
+      NoClearbuff: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+      NoForcedEnd: true
+    Script: |
+      bonus bMaxSPrate, getstatus(SC_MTF_MSP, 1);
+  - Status: Mtf_Pumpkin
+    Icon: EFST_MTF_PUMPKIN
+    Flags:
+      NoRemoveOnDead: true
+      NoClearbuff: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+      NoForcedEnd: true
+    Script: |
+      bonus2 bAddItemHealRate,535,2000;
+      bonus2 bAddItemHealRate,11605, getstatus(SC_MTF_PUMPKIN, 1);
+  - Status: Mtf_Rangeatk
+    Icon: EFST_MTF_RANGEATK
+    Flags:
+      NoRemoveOnDead: true
+      NoClearbuff: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+      NoForcedEnd: true
+    Script: |
+      bonus bLongAtkRate, getstatus(SC_MTF_RANGEATK, 1);
+  - Status: Mtf_Rangeatk2
+    Icon: EFST_MTF_RANGEATK2
+    Flags:
+      NoRemoveOnDead: true
+      NoClearbuff: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+      NoForcedEnd: true
+    Script: |
+      bonus bLongAtkRate, getstatus(SC_MTF_RANGEATK2, 1);
