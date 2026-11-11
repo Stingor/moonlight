@@ -984,6 +984,10 @@ void clif_parse_moonclient_style_layers(int32 fd, map_session_data* sd) {
 		send_area(*sd, compose_block(*sd), true);
 }
 
+bool style_layers_readable(map_session_data& owner) {
+	return !loaded_state(owner).load_failed;
+}
+
 std::vector<uint8> style_layers_shown_entries(map_session_data& owner) {
 	const bytes block = compose_block(owner);
 	// Le bloc sans son gid : le nombre, puis les entrées.

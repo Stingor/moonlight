@@ -517,6 +517,36 @@ struct PACKET_HC_ACCEPT_ENTER2{
 } __attribute__((packed));
 DEFINE_PACKET_HEADER( HC_ACCEPT_ENTER2, 0x82d );
 
+// [Stingor] The character select of moonclient: the whole style recipe of every
+// character of the account (v7 bodies, layer dyes, dyes of the items it SHOWS),
+// taken from the snapshot the map-server stores at logout
+// (`moonclient_style_shown`). See char/char_style_shown.cpp, and in moonclient
+// docs/couleurs-du-personnage/conception.md (lot L14), ADR 0147.
+//
+// Only the characters of the session's account (`found_char`), never an id read
+// from the client. moonclient sends the request only after the map-server rule
+// 28 proved this server serves it: an unknown packet closes the session.
+#include "moonclient_style_shown.hpp"
+
+// CH: the client asks for the recipes of its account. Fixed 6.
+struct PACKET_CH_MOONCLIENT_CHAR_STYLES{
+	int16 packetType;
+	uint32 caps;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER( CH_MOONCLIENT_CHAR_STYLES, 0xf65 );
+
+// HC: the recipes. Variable.
+// Layout: [type:2][len:2][flags:1][raw_size:2] then the payload:
+//   blocks [char_id:4] then the snapshot of that character. A character without
+//   a block shows nothing. A block is never split between two frames.
+struct PACKET_HC_MOONCLIENT_CHAR_STYLES{
+	int16 packetType;
+	int16 packetLength;
+	uint8 flags;
+	uint16 raw_size;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER( HC_MOONCLIENT_CHAR_STYLES, 0xf66 );
+
 struct PACKET_HC_NOTIFY_ACCESSIBLE_MAPNAME_sub{
 	int32 status;
 	char map[MAP_NAME_LENGTH_EXT];

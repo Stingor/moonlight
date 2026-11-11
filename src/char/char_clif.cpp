@@ -25,6 +25,7 @@
 #include "char.hpp"
 #include "char_logif.hpp"
 #include "char_mapif.hpp"
+#include "char_style_shown.hpp"
 #include "inter.hpp"
 
 using namespace rathena;
@@ -1656,6 +1657,8 @@ public:
 		this->add( HEADER_CH_AVAILABLE_SECOND_PASSWD, true, sizeof( PACKET_CH_AVAILABLE_SECOND_PASSWD ), chclif_parse_reqpincode_window );
 		this->add( HEADER_CH_EDIT_SECOND_PASSWD, true, sizeof( PACKET_CH_EDIT_SECOND_PASSWD ), chclif_parse_pincode_change );
 		this->add( HEADER_CH_MAKE_SECOND_PASSWD, true, sizeof( PACKET_CH_MAKE_SECOND_PASSWD ), chclif_parse_pincode_setnew );
+		// [Stingor] moonclient : les recettes de la tablée (char_style_shown.cpp).
+		this->add( HEADER_CH_MOONCLIENT_CHAR_STYLES, true, sizeof( PACKET_CH_MOONCLIENT_CHAR_STYLES ), chclif_parse_moonclient_char_styles );
 #endif
 	}
 } char_packet_db;

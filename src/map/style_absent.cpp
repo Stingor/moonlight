@@ -12,14 +12,16 @@
 #include <vector>
 
 #include <common/grfio.hpp> // encode_zip
+#include <common/moonclient_style_shown.hpp>
 #include <common/nullpo.hpp>
 #include <common/socket.hpp>
+#include <common/sql.hpp>
 #include <common/timer.hpp>
 
 #include "battle.hpp"
 #include "clif.hpp"
 #include "guild.hpp"
-#include "map.hpp" // map_charid2sd
+#include "map.hpp" // map_charid2sd, mmysql_handle
 #include "packets.hpp"
 #include "party.hpp"
 #include "pc.hpp"
@@ -154,7 +156,41 @@ uint16 wait_of(t_tick until, t_tick now) {
 	return static_cast<uint16>(std::min<t_tick>(UINT16_MAX, std::max<t_tick>(0, DIFF_TICK(until, now))));
 }
 
+// L'instantané de la tablée a la forme que le serveur de personnages rejuge.
+static_assert(MOONCLIENT_CHAR_STYLES_BODY_BYTES == MOONCLIENT_STYLE_ABSENT_BODY_BYTES, "un corps de l'instantané ne vaut plus une entrée du 0x0F27 sans gid");
+static_assert(MOONCLIENT_CHAR_STYLES_BODIES_MAX == BOURGEON_STYLE_MAX_VARIANTS, "l'instantané ne compte plus les corps de la v7");
+static_assert(MOONCLIENT_CHAR_STYLES_ENTRY_HEAD == MOONCLIENT_STYLE_LAYER_ENTRY_HEAD, "l'en-tête d'une entrée a changé");
+static_assert(MOONCLIENT_CHAR_STYLES_ENTRY_MAX == MOONCLIENT_STYLE_LAYER_ENTRY_MAX, "la plus grosse entrée a changé");
+static_assert(MOONCLIENT_CHAR_STYLES_ENTRIES_MAX == SHOWN_ENTRIES_MAX, "les entrées affichées ne se comptent plus ainsi");
+
 } // namespace
+
+void style_shown_save(map_session_data& sd) {
+	// ⚠ RIEN PLUTÔT QU'UN INSTANTANÉ APPAUVRI : sans variables chargées, la v7 se
+	// lirait vide ; sans teintures lisibles, les calques aussi.
+	if (!sd.vars_ok || sd.state.spectator || sd.status.char_id == 0 || !style_layers_readable(sd))
+		return;
+	bytes shown;
+	clif_bourgeon_style_bodies(sd, shown);
+	const bytes entries = style_layers_shown_entries(sd);
+	shown.insert(shown.end(), entries.begin(), entries.end());
+	uint32 char_id = sd.status.char_id;
+	// Rien à montrer : pas de ligne.
+	if (shown.size() == 2 && shown[0] == 0 && shown[1] == 0) {
+		if (SQL_SUCCESS != Sql_Query(mmysql_handle, "DELETE FROM `moonclient_style_shown` WHERE `char_id` = '%u'", char_id))
+			Sql_ShowDebug(mmysql_handle);
+		return;
+	}
+	SqlStmt stmt{ *mmysql_handle };
+	uint8 version = MOONCLIENT_CHAR_STYLES_STORED_VERSION;
+	if (SQL_SUCCESS != stmt.Prepare("REPLACE INTO `moonclient_style_shown` (`char_id`, `version`, `data`, `updated_at`) VALUES (?, ?, ?, NOW())")
+	||  SQL_SUCCESS != stmt.BindParam(0, SQLDT_UINT32, &char_id, sizeof(char_id))
+	||  SQL_SUCCESS != stmt.BindParam(1, SQLDT_UINT8, &version, sizeof(version))
+	||  SQL_SUCCESS != stmt.BindParam(2, SQLDT_BLOB, shown.data(), shown.size())
+	||  SQL_SUCCESS != stmt.Execute()) {
+		SqlStmt_ShowDebug(stmt);
+	}
+}
 
 void style_absent_on_logout(const map_session_data& sd) {
 	s_states.erase(sd.status.char_id);

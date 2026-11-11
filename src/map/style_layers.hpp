@@ -108,5 +108,8 @@ size_t style_layers_check_shown_entry(const uint8* p, size_t available);
 // Ce que `owner` affiche, tel qu'un bloc du ZC 0x0F5F le porte sans son gid :
 // [nombre:1] puis ses entrées. Pour les styles hors de vue.
 std::vector<uint8> style_layers_shown_entries(map_session_data& owner);
+// Les teintures du personnage de `owner` se lisent-elles en base ? Faux si la
+// lecture a échoué : ce qu'il affiche serait alors appauvri.
+bool style_layers_readable(map_session_data& owner);
 
 #endif /* MAP_STYLE_LAYERS_HPP */

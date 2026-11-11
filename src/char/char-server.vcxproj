@@ -188,6 +188,7 @@
   <ItemGroup>
     <ClInclude Include="char.hpp" />
     <ClInclude Include="char_clif.hpp" />
+    <ClInclude Include="char_style_shown.hpp" />
     <ClInclude Include="char_cnslif.hpp" />
     <ClInclude Include="char_logif.hpp" />
     <ClInclude Include="char_mapif.hpp" />
@@ -208,6 +209,7 @@
   <ItemGroup>
     <ClCompile Include="char.cpp" />
     <ClCompile Include="char_clif.cpp" />
+    <ClCompile Include="char_style_shown.cpp" />
     <ClCompile Include="char_cnslif.cpp" />
     <ClCompile Include="char_logif.cpp" />
     <ClCompile Include="char_mapif.cpp" />

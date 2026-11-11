@@ -304,6 +304,8 @@ struct char_session_data {
 	/// nothing else (see char_spectator_charselect_timeout). Disarmed the moment
 	/// the client is sent to the map-server.
 	int32 spectator_charselect_timer;
+	/// [Stingor] When the next CH 0x0F65 of moonclient may be served (char_style_shown.cpp).
+	t_tick moonclient_styles_next;
 	uint8 flag; // &1 - Retrieving guild bound items
 };
 

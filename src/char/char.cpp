@@ -1893,6 +1893,9 @@ enum e_char_del_response char_delete(struct char_session_data* sd, uint32 char_i
 	// personnage. Celles des objets les suivent : elles restent.
 	if( SQL_ERROR == Sql_Query(sql_handle, "DELETE FROM `moonclient_style_layers` WHERE `char_id`='%d'", char_id) )
 		Sql_ShowDebug(sql_handle);
+	// [Stingor] Et l'instantané de ce qu'il montrait, pour la tablée.
+	if( SQL_ERROR == Sql_Query(sql_handle, "DELETE FROM `moonclient_style_shown` WHERE `char_id`='%d'", char_id) )
+		Sql_ShowDebug(sql_handle);
 
 	/* delete character registry */
 	if( SQL_ERROR == Sql_Query(sql_handle, "DELETE FROM `%s` WHERE `char_id`='%d'", schema_config.char_reg_str_table, char_id) )

@@ -30,6 +30,12 @@ class map_session_data;
 // minute tiennent dessous.
 #define MOONCLIENT_STYLE_ABSENT_BYTES_PER_MINUTE 8192
 
+// RANGE CE QUE `sd` MONTRE, pour la tablée de la sélection : ses variantes v7 et
+// le bloc du 0x0F5F, sous son char_id (`moonclient_style_shown`, que le serveur
+// de personnages lit). À sa déconnexion, AVANT que ses teintures ne soient
+// oubliées. Rien n'est écrit si elles ne se lisent pas.
+void style_shown_save(map_session_data& sd);
+
 // Jette la cadence de la session qui part.
 void style_absent_on_logout(const map_session_data& sd);
 

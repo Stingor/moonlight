@@ -7010,6 +7010,9 @@ enum e_bourgeon_server_rule : uint16 {
 	// l'avoir lue.
 	BOURGEON_RULE_STYLE_ABSENT_CADENCE_MS  = 26, ///< écart minimal entre deux CZ 0x0F63 (ms)
 	BOURGEON_RULE_STYLE_ABSENT_IDS_MAX     = 27, ///< MOONCLIENT_STYLE_ABSENT_IDS_MAX
+	// La tablée (CH 0x0F65 au serveur de PERSONNAGES) : 🔴 moonclient ne la
+	// demande pas avant de l'avoir lue, puisqu'un paquet inconnu y coupe la liaison.
+	BOURGEON_RULE_STYLE_CHAR_SELECT        = 28, ///< 1 : le serveur de personnages sert 0x0F65
 };
 
 struct PACKET_ZC_MOONLIGHT_SERVER_RULES_entry {

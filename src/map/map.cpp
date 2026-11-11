@@ -2401,6 +2401,7 @@ int32 map_quit(map_session_data *sd) {
 	mvp_tracker_on_logout(*sd);
 	// [Stingor] Éditions de carte : le transfert entrant de la session est jeté.
 	map_edits_on_logout(*sd);
+	style_shown_save(*sd); // [Stingor] avant que ses teintures ne soient oubliées
 	style_layers_on_logout(*sd); // [Stingor]
 	style_outfits_on_logout(*sd); // [Stingor]
 	style_absent_on_logout(*sd); // [Stingor]

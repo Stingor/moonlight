@@ -9709,6 +9709,8 @@ void clif_bourgeon_server_rules(map_session_data& sd) {
 		// La preuve que le serveur sert les styles hors de vue.
 		{ BOURGEON_RULE_STYLE_ABSENT_CADENCE_MS,   MOONCLIENT_STYLE_ABSENT_CADENCE_MS },
 		{ BOURGEON_RULE_STYLE_ABSENT_IDS_MAX,      MOONCLIENT_STYLE_ABSENT_IDS_MAX },
+		// La preuve que le serveur de personnages sert les recettes de la tablée.
+		{ BOURGEON_RULE_STYLE_CHAR_SELECT,         1 },
 	};
 	const size_t len = sizeof(PACKET_ZC_MOONLIGHT_SERVER_RULES) + sizeof(rules);
 

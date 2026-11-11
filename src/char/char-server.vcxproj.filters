@@ -14,6 +14,9 @@
     <ClInclude Include="char.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="char_style_shown.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="char_clif.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -68,6 +71,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="char.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="char_style_shown.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="char_clif.cpp">
