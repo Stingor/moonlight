@@ -1213,6 +1213,9 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 	for (const s_request_entry& e : entries) {
 		if (e.view.layer != MOONCLIENT_STYLE_LAYER_COMPANION)
 			continue;
+		// Auprès du styliste seulement, si l'option l'exige : comme un item (D23).
+		if (battle_config.moonclient_style_atelier && !atelier_open(sd, state))
+			return MOONCLIENT_STYLE_NO_ATELIER;
 		// 🔴 LE COMPAGNON SE LIT DANS LA SESSION ÉMETTRICE, jamais par un
 		// identifiant du client : la clé n'est que la classe attendue.
 		block_list* bl = active_companion(sd, e.view.key);
