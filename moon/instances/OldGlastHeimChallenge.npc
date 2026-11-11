@@ -606,9 +606,10 @@ OnHallWarp:
 }
 
 // Porteur de l'effet des spectres, au centre du pentagramme.
-// Silhouette d'Amdarais, presque transparente (EF_CLOAKING, 120 : l'alpha
-// du porteur tombe a 50/255, sans duree), visible des l'arrivee d'Oscar
-// jusqu'a l'apparition.
+// Silhouette d'Amdarais, presque transparente (effet 744 : l'alpha du
+// porteur tombe a 50/255, couleurs gardees, sans fin ; 120 fait de meme mais
+// s'eteint au bout de 4 s), visible des l'arrivee d'Oscar jusqu'a
+// l'apparition.
 // L'effet des spectres boucle de lui-meme : il ne se joue QU'UNE FOIS par
 // apparition, chaque relance s'empilerait sur la precedente.
 1@gl_he,157,240,0	script	#oghcm_phantom	HIDDEN_NPC,{
@@ -621,7 +622,7 @@ OnShow:
 	.@me$ = instance_npcname("#oghcm_phantom");
 	setnpcdisplay .@me$, 20573;
 	enablenpc .@me$;
-	specialeffect 120, AREA, .@me$;
+	specialeffect 744, AREA, .@me$;
 	specialeffect 1419, AREA, .@me$;
 	end;
 
