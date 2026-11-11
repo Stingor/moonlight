@@ -16281,8 +16281,8 @@ Body:
             MaxValue: 25
             Chance: 10000
           - Option: VAR_ITEMDEFPOWER
-            MinValue: 20
-            MaxValue: 50
+            MinValue: 3
+            MaxValue: 8
             Chance: 10000
           - Option: VAR_MDEFPOWER
             MinValue: 2
@@ -16462,8 +16462,8 @@ Body:
             MaxValue: 30
             Chance: 10000
           - Option: VAR_ITEMDEFPOWER
-            MinValue: 25
-            MaxValue: 55
+            MinValue: 3
+            MaxValue: 8
             Chance: 10000
           - Option: VAR_MDEFPOWER
             MinValue: 3
@@ -16635,8 +16635,8 @@ Body:
             MaxValue: 18
             Chance: 10000
           - Option: VAR_ITEMDEFPOWER
-            MinValue: 12
-            MaxValue: 55
+            MinValue: 3
+            MaxValue: 8
             Chance: 10000
           - Option: VAR_MDEFPOWER
             MinValue: 3
@@ -16844,8 +16844,8 @@ Body:
             MaxValue: 18
             Chance: 10000
           - Option: VAR_ITEMDEFPOWER
-            MinValue: 12
-            MaxValue: 55
+            MinValue: 3
+            MaxValue: 8
             Chance: 10000
           - Option: VAR_MDEFPOWER
             MinValue: 3

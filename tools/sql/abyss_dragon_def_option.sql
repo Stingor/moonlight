@@ -1,0 +1,112 @@
+-- Moonlight : ramene l option DEF (VAR_ITEMDEFPOWER, id 20) des pieces Dragon d Abyss Lake
+-- deja tirees a l ancienne plage renewal vers la nouvelle plage 3-8 (item_randomopt_group.yml).
+-- Conversion proportionnelle (l ordre entre joueurs est garde). Idempotent : seules les valeurs > 8 bougent.
+-- A lancer serveur arrete, apres sauvegarde de la base.
+
+START TRANSACTION;
+
+-- Dragon Plates (ABYSS_DDBOX 20-50 / DDBOX2 25-55)
+UPDATE `inventory` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `inventory` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `inventory` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `inventory` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `inventory` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id4` = 20 AND `option_val4` > 8;
+UPDATE `cart_inventory` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `cart_inventory` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `cart_inventory` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `cart_inventory` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `cart_inventory` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id4` = 20 AND `option_val4` > 8;
+UPDATE `storage` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `storage` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `storage` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `storage` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `storage` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id4` = 20 AND `option_val4` > 8;
+UPDATE `guild_storage` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `guild_storage` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `guild_storage` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `guild_storage` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `guild_storage` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id4` = 20 AND `option_val4` > 8;
+UPDATE `storagealt1` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `storagealt1` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `storagealt1` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `storagealt1` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `storagealt1` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id4` = 20 AND `option_val4` > 8;
+UPDATE `storagealt2` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `storagealt2` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `storagealt2` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `storagealt2` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `storagealt2` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id4` = 20 AND `option_val4` > 8;
+UPDATE `storagealt3` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `storagealt3` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `storagealt3` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `storagealt3` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `storagealt3` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id4` = 20 AND `option_val4` > 8;
+UPDATE `storagealt4` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `storagealt4` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `storagealt4` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `storagealt4` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `storagealt4` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id4` = 20 AND `option_val4` > 8;
+UPDATE `storagecard` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `storagecard` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `storagecard` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `storagecard` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `storagecard` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id4` = 20 AND `option_val4` > 8;
+UPDATE `mail_attachments` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `mail_attachments` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `mail_attachments` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `mail_attachments` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `mail_attachments` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 20) * 5 / 35))) WHERE `nameid` IN (15391,15392,15393,15394,15395,15396) AND `option_id4` = 20 AND `option_val4` > 8;
+
+-- Dragon Scale Hood / Boots (ABYSS_DDBOX3/4 12-55)
+UPDATE `inventory` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `inventory` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `inventory` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `inventory` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `inventory` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id4` = 20 AND `option_val4` > 8;
+UPDATE `cart_inventory` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `cart_inventory` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `cart_inventory` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `cart_inventory` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `cart_inventory` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id4` = 20 AND `option_val4` > 8;
+UPDATE `storage` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `storage` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `storage` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `storage` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `storage` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id4` = 20 AND `option_val4` > 8;
+UPDATE `guild_storage` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `guild_storage` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `guild_storage` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `guild_storage` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `guild_storage` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id4` = 20 AND `option_val4` > 8;
+UPDATE `storagealt1` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `storagealt1` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `storagealt1` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `storagealt1` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `storagealt1` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id4` = 20 AND `option_val4` > 8;
+UPDATE `storagealt2` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `storagealt2` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `storagealt2` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `storagealt2` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `storagealt2` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id4` = 20 AND `option_val4` > 8;
+UPDATE `storagealt3` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `storagealt3` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `storagealt3` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `storagealt3` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `storagealt3` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id4` = 20 AND `option_val4` > 8;
+UPDATE `storagealt4` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `storagealt4` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `storagealt4` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `storagealt4` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `storagealt4` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id4` = 20 AND `option_val4` > 8;
+UPDATE `storagecard` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `storagecard` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `storagecard` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `storagecard` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `storagecard` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id4` = 20 AND `option_val4` > 8;
+UPDATE `mail_attachments` SET `option_val0` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val0` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id0` = 20 AND `option_val0` > 8;
+UPDATE `mail_attachments` SET `option_val1` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val1` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id1` = 20 AND `option_val1` > 8;
+UPDATE `mail_attachments` SET `option_val2` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val2` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id2` = 20 AND `option_val2` > 8;
+UPDATE `mail_attachments` SET `option_val3` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val3` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id3` = 20 AND `option_val3` > 8;
+UPDATE `mail_attachments` SET `option_val4` = LEAST(8, GREATEST(3, 3 + ROUND((`option_val4` - 12) * 5 / 43))) WHERE `nameid` IN (20946,22208) AND `option_id4` = 20 AND `option_val4` > 8;
+
+COMMIT;
