@@ -785,3 +785,15 @@ Body:
           - Index: 245
             Item: R001_Bestia_Card
             Rate: 1
+          - Index: 246
+            Item: Upd_Salamander_Card
+            Rate: 1
+          - Index: 247
+            Item: Upd_Byorgue_Card
+            Rate: 1
+          - Index: 248
+            Item: Enhanced_Amdarais_Card
+            Rate: 1
+          - Index: 249
+            Item: Shining_T_Bear_Card
+            Rate: 1
