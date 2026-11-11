@@ -2105,9 +2105,6 @@ Body:
           - Index: 684
             Item: Pitman_Worker_Card
             Rate: 1
-          - Index: 685
-            Item: Shining_T_Bear_Card
-            Rate: 1
           - Index: 686
             Item: Sinister_Obsidian_Card
             Rate: 1
@@ -2311,4 +2308,16 @@ Body:
             Rate: 1
           - Index: 753
             Item: Plagarion_Card
+            Rate: 1
+          - Index: 754
+            Item: Enhanced_Soldier_Skeleton_Card
+            Rate: 1
+          - Index: 755
+            Item: Enhanced_Archer_Skeleton_Card
+            Rate: 1
+          - Index: 756
+            Item: Evil_Shadow_Card
+            Rate: 1
+          - Index: 757
+            Item: Corrupt_Life_Card
             Rate: 1
