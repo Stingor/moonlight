@@ -7281,7 +7281,9 @@ void clif_bourgeon_unregister_guid(int32 account_id) {
 
 // Registers or updates the GUID for this account. Logs a warning when the same
 // GUID is already online under a different account (multi-account detection).
-static void clif_bourgeon_register_guid(map_session_data* sd, const char* raw_guid) {
+// [Stingor] `client_tag` nomme le client qui a envoyé la poignée de main
+// (« Bourgeon » ou « moonclient ») : l'avertissement dit lequel l'a portée.
+static void clif_bourgeon_register_guid(map_session_data* sd, const char* raw_guid, const char* client_tag) {
 	// raw_guid is 36 chars, NOT null-terminated — copy safely.
 	char guid[37];
 	std::memcpy(guid, raw_guid, 36);
@@ -7298,8 +7300,8 @@ static void clif_bourgeon_register_guid(map_session_data* sd, const char* raw_gu
 
 	auto it = s_guid_to_account.find(guid_str);
 	if (it != s_guid_to_account.end() && it->second != aid) {
-		ShowWarning("[Bourgeon] Multi-account detected: AID %d (%s) shares MachineGuid with AID %d already online.\n",
-			aid, sd->status.name, it->second);
+		ShowWarning("[%s] Multi-account detected: AID %d (%s) shares MachineGuid with AID %d already online.\n",
+			client_tag, aid, sd->status.name, it->second);
 	}
 
 	// [Stingor] Un compte ne tient qu'un GUID : celui qu'il remplace quitte la
@@ -7560,7 +7562,7 @@ void clif_parse_moonlight_integrity(int32 fd, map_session_data* sd) {
 	}
 
 	// Always register the GUID regardless of hash result.
-	clif_bourgeon_register_guid(sd, p->machine_guid);
+	clif_bourgeon_register_guid(sd, p->machine_guid, "Bourgeon");
 
 	// Exempt IPs (developer/admin machines) bypass the hash check entirely.
 	if (session_isValid(fd) &&
@@ -7688,7 +7690,7 @@ void clif_parse_moonclient_integrity(int32 fd, map_session_data* sd) {
 		return;
 	}
 
-	clif_bourgeon_register_guid(sd, p->machine_guid);
+	clif_bourgeon_register_guid(sd, p->machine_guid, "moonclient");
 
 	// Le champ du paquet n'a pas de zéro terminal quand la révision le remplit.
 	if (p->packetLength >= static_cast<int16>(sizeof(PACKET_CZ_MOONCLIENT_INTEGRITY))) {
