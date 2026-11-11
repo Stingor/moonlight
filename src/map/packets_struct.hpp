@@ -7004,8 +7004,8 @@ enum e_bourgeon_server_rule : uint16 {
 	// avant de l'avoir lue.
 	BOURGEON_RULE_STYLE_LAYER_RETOUCHES    = 24, ///< MOONCLIENT_STYLE_LAYER_RETOUCHES_MAX
 	// Le dernier numéro de calque accepté : 🔴 moonclient n'envoie pas de peau du
-	// corps (calque 6) avant de l'avoir lue.
-	BOURGEON_RULE_STYLE_LAYER_LAST         = 25, ///< MOONCLIENT_STYLE_LAYER_BODY_SKIN
+	// corps (calque 6) ni de compagnon (calque 7) avant de l'avoir lue.
+	BOURGEON_RULE_STYLE_LAYER_LAST         = 25, ///< MOONCLIENT_STYLE_LAYER_COMPANION
 	// Les styles hors de vue (CZ 0x0F63) : 🔴 moonclient n'en demande pas avant de
 	// l'avoir lue.
 	BOURGEON_RULE_STYLE_ABSENT_CADENCE_MS  = 26, ///< écart minimal entre deux CZ 0x0F63 (ms)
@@ -8053,6 +8053,11 @@ enum e_moonclient_style_layer : uint8 {
 	// BOURGEON_STYLE_MAX_VARIANTS, et diffusée toute. Un corps sans la sienne prend
 	// la peau du visage : c'est le client qui choisit.
 	MOONCLIENT_STYLE_LAYER_BODY_SKIN = 6,
+	// Le CORPS D'UN COMPAGNON (homoncule, familier) : clé = sa CLASSE, profils 1 ou
+	// 2 comme une coiffe. Dans le CZ, il vise le compagnon ACTIF de l'émetteur, que
+	// le serveur lit dans la session (un homoncule pour une classe d'homoncule, le
+	// familier sinon) ; dans le ZC, il voyage dans le bloc du gid du compagnon.
+	MOONCLIENT_STYLE_LAYER_COMPANION = 7,
 	// CZ seulement : les emplacements d'équipement de l'émetteur.
 	MOONCLIENT_STYLE_SLOT_FIRST     = 10,
 	MOONCLIENT_STYLE_SLOT_LAST      = 17,

@@ -25,12 +25,15 @@
 
 #include "battle.hpp"
 #include "clif.hpp"
+#include "homunculus.hpp" // homun_data, hom_is_active, homdb_checkid
 #include "itemdb.hpp"
 #include "map.hpp" // mmysql_handle, map_id2nd, map_foreachinallrange
 #include "npc.hpp"
 #include "packets.hpp"
 #include "path.hpp" // distance_xy
 #include "pc.hpp"
+#include "pet.hpp" // pet_data
+#include "status.hpp" // status_get_viewdata
 
 namespace {
 
@@ -54,9 +57,12 @@ constexpr uint8 CHANNEL_FULL = 0xFF;
 // Une coupe dans le mot haut d'une clé de tête, une couleur dans le mot bas.
 constexpr uint32 HEAD_KEY_SHIFT = 16;
 constexpr uint32 HEAD_KEY_LOW = 0xFFFF;
+// Les compagnons qu'un joueur peut teindre d'un coup : son homoncule et son
+// familier.
+constexpr int32 COMPANION_KINDS = 2;
 // Un CZ ne décrit pas plus que ce qu'un personnage range, plus ses huit
-// emplacements.
-constexpr int32 REQUEST_ENTRIES_MAX = MOONCLIENT_STYLE_LAYERS_MAX + (MOONCLIENT_STYLE_SLOT_LAST - MOONCLIENT_STYLE_SLOT_FIRST + 1);
+// emplacements et ses deux compagnons.
+constexpr int32 REQUEST_ENTRIES_MAX = MOONCLIENT_STYLE_LAYERS_MAX + (MOONCLIENT_STYLE_SLOT_LAST - MOONCLIENT_STYLE_SLOT_FIRST + 1) + COMPANION_KINDS;
 // Le plus d'exemplaires qu'un joueur affiche : trois coiffes et une cape.
 constexpr int32 SHOWN_ITEMS_MAX = 4;
 // Les octets d'en-tête d'un bloc : gid, nombre.
@@ -99,6 +105,36 @@ std::unordered_map<uint32, s_style_layer_state> s_states; // par char_id
 // Le cache des teintures d'exemplaires, par `unique_id`. Une absence se garde
 // aussi : elle épargne une requête à chaque apparition.
 std::unordered_map<uint64, std::optional<s_item_dye>> s_item_dyes;
+
+// ── Les compagnons ──────────────────────────────────────────────────────────
+//
+// Une teinture de compagnon appartient au compagnon, par son identifiant DURABLE
+// (`hom_id`, `pet_id`), et à la classe pour laquelle elle a été faite : sous une
+// autre classe (une évolution), elle dort et ne sort pas.
+
+// Le genre, tel que la table le range.
+enum class e_companion_kind : uint8 { homunculus = 1, pet = 2 };
+
+struct s_companion_dye {
+	uint32 class_ = 0;
+	bytes entry;
+};
+
+// Le compagnon d'une unité sur la carte : qui il est, et à qui.
+struct s_companion {
+	e_companion_kind kind;
+	uint32 companion_id;
+	uint32 class_;
+	map_session_data* master;
+};
+
+uint64 companion_key(e_companion_kind kind, uint32 companion_id) {
+	return (static_cast<uint64>(kind) << 32) | companion_id;
+}
+
+// Le cache des teintures de compagnons, par genre et identifiant ; une absence
+// se garde aussi.
+std::unordered_map<uint64, std::optional<s_companion_dye>> s_companion_dyes;
 
 // Un emplacement du CZ : où le chercher, et ce qu'il peint.
 struct s_slot {
@@ -237,9 +273,9 @@ e_moonclient_style_result check_tail(const uint8* p, size_t at, size_t size, uin
 	return MOONCLIENT_STYLE_ACCEPTED;
 }
 
-// Le calque que peint une entrée du CZ (1 à 6), ou zéro.
+// Le calque que peint une entrée du CZ (1 à 7), ou zéro.
 uint8 painted_layer(uint8 wire_layer) {
-	if (character_layer(wire_layer))
+	if (character_layer(wire_layer) || wire_layer == MOONCLIENT_STYLE_LAYER_COMPANION)
 		return wire_layer;
 	const std::optional<s_slot> slot = slot_of(wire_layer);
 	return slot ? slot->layer : 0;
@@ -247,8 +283,9 @@ uint8 painted_layer(uint8 wire_layer) {
 
 // La forme d'une entrée qu'on juge : celle d'un CZ, celle du personnage rangée en
 // base (calques du personnage, aucun drapeau d'effacement), celle d'un objet
-// rangée en base ou dans une tenue (coiffe ou cape sous son numéro de calque).
-enum class e_entry_form : uint8 { request, character, item };
+// rangée en base ou dans une tenue (coiffe ou cape sous son numéro de calque),
+// celle d'un compagnon rangée en base (calque 7 sous sa classe).
+enum class e_entry_form : uint8 { request, character, item, companion };
 
 // 🔴 LA STRUCTURE D'UNE ENTRÉE, et rien d'autre : la longueur exacte, le profil
 // connu, le masque dans les rangs du profil, `absolu` à 0 ou 1, les drapeaux
@@ -278,6 +315,9 @@ e_moonclient_style_result check_entry(const uint8* p, size_t available, e_entry_
 			break;
 		case e_entry_form::item:
 			layer = (e.layer == MOONCLIENT_STYLE_LAYER_HEADGEAR || e.layer == MOONCLIENT_STYLE_LAYER_GARMENT) ? e.layer : 0;
+			break;
+		case e_entry_form::companion:
+			layer = e.layer == MOONCLIENT_STYLE_LAYER_COMPANION ? e.layer : 0;
 			break;
 	}
 	if (layer == 0)
@@ -490,6 +530,137 @@ bool store_item(uint64 unique_id, t_itemid nameid, const bytes* entry, const byt
 	return true;
 }
 
+// La teinture d'un compagnon, du cache ou de la base.
+const std::optional<s_companion_dye>& companion_dye(e_companion_kind kind, uint32 companion_id) {
+	const uint64 key = companion_key(kind, companion_id);
+	auto found = s_companion_dyes.find(key);
+	if (found != s_companion_dyes.end())
+		return found->second;
+	std::optional<s_companion_dye> dye;
+	bool readable = true;
+	if (SQL_SUCCESS != Sql_Query(mmysql_handle, "SELECT `class`, `version`, `data` FROM `moonclient_companion_dyes` WHERE `kind` = '%u' AND `companion_id` = '%u'",
+		static_cast<uint32>(kind), companion_id)) {
+		Sql_ShowDebug(mmysql_handle);
+		readable = false;
+	} else {
+		if (Sql_NextRow(mmysql_handle) == SQL_SUCCESS) {
+			char* data = nullptr;
+			size_t length = 0;
+			Sql_GetData(mmysql_handle, 0, &data, nullptr);
+			const uint32 class_ = data != nullptr ? static_cast<uint32>(strtoul(data, nullptr, 10)) : 0;
+			Sql_GetData(mmysql_handle, 1, &data, nullptr);
+			const uint32 version = data != nullptr ? static_cast<uint32>(strtoul(data, nullptr, 10)) : 0;
+			Sql_GetData(mmysql_handle, 2, &data, &length);
+			if (version == STORED_VERSION && data != nullptr && length >= MOONCLIENT_STYLE_LAYER_ENTRY_HEAD && length <= MOONCLIENT_STYLE_LAYER_ENTRY_MAX) {
+				const uint8* p = reinterpret_cast<const uint8*>(data);
+				// 🔴 CE QUI SORT DE LA BASE SE REJUGE, et sa clé doit être sa classe.
+				if (view_of(p).size == length && view_of(p).key == class_ && check_entry(p, length, e_entry_form::companion) == MOONCLIENT_STYLE_ACCEPTED)
+					dye = s_companion_dye{ class_, bytes(p, p + length) };
+			}
+			if (!dye)
+				ShowWarning("style_layers: la teinture du compagnon %u/%u est illisible : ignoree.\n", static_cast<uint32>(kind), companion_id);
+		}
+		Sql_FreeResult(mmysql_handle);
+	}
+	if (!readable) {
+		static const std::optional<s_companion_dye> none;
+		return none;
+	}
+	return s_companion_dyes[key] = std::move(dye);
+}
+
+// Une teinture de compagnon écrite ou retirée, et son journal.
+bool store_companion(e_companion_kind kind, uint32 companion_id, uint32 class_, const bytes* entry, const bytes* before,
+	uint32 account_id, uint32 author_char_id, const char* source) {
+	uint8 kind_number = static_cast<uint8>(kind);
+	uint32 id = companion_id;
+	uint32 cls = class_;
+	{
+		SqlStmt stmt{ *mmysql_handle };
+		uint8 version = STORED_VERSION;
+		uint32 author = author_char_id;
+		bool ok;
+		if (entry != nullptr) {
+			ok = SQL_SUCCESS == stmt.Prepare("REPLACE INTO `moonclient_companion_dyes` (`kind`, `companion_id`, `class`, `version`, `data`, `char_id`, `updated_at`) VALUES (?, ?, ?, ?, ?, ?, NOW())")
+			  && SQL_SUCCESS == stmt.BindParam(0, SQLDT_UINT8, &kind_number, sizeof(kind_number))
+			  && SQL_SUCCESS == stmt.BindParam(1, SQLDT_UINT32, &id, sizeof(id))
+			  && SQL_SUCCESS == stmt.BindParam(2, SQLDT_UINT32, &cls, sizeof(cls))
+			  && SQL_SUCCESS == stmt.BindParam(3, SQLDT_UINT8, &version, sizeof(version))
+			  && SQL_SUCCESS == stmt.BindParam(4, SQLDT_BLOB, const_cast<uint8*>(entry->data()), entry->size())
+			  && SQL_SUCCESS == stmt.BindParam(5, SQLDT_UINT32, &author, sizeof(author))
+			  && SQL_SUCCESS == stmt.Execute();
+		} else {
+			ok = SQL_SUCCESS == stmt.Prepare("DELETE FROM `moonclient_companion_dyes` WHERE `kind` = ? AND `companion_id` = ?")
+			  && SQL_SUCCESS == stmt.BindParam(0, SQLDT_UINT8, &kind_number, sizeof(kind_number))
+			  && SQL_SUCCESS == stmt.BindParam(1, SQLDT_UINT32, &id, sizeof(id))
+			  && SQL_SUCCESS == stmt.Execute();
+		}
+		if (!ok) {
+			SqlStmt_ShowDebug(stmt);
+			return false;
+		}
+	}
+	// 🔴 LE JOURNAL : qui a teint quel compagnon, avant et après.
+	SqlStmt log{ *mmysql_handle };
+	uint32 account = account_id;
+	uint32 author = author_char_id;
+	static uint8 no_byte = 0;
+	bytes empty;
+	const bytes& was = before != nullptr ? *before : empty;
+	const bytes& now = entry != nullptr ? *entry : empty;
+	uint8* was_at = was.empty() ? &no_byte : const_cast<uint8*>(was.data());
+	uint8* now_at = now.empty() ? &no_byte : const_cast<uint8*>(now.data());
+	if (SQL_SUCCESS != log.Prepare("INSERT INTO `moonclient_companion_dye_log` (`logged_at`, `account_id`, `char_id`, `kind`, `companion_id`, `class`, `source`, `before_data`, `after_data`) VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, ?)")
+	||  SQL_SUCCESS != log.BindParam(0, SQLDT_UINT32, &account, sizeof(account))
+	||  SQL_SUCCESS != log.BindParam(1, SQLDT_UINT32, &author, sizeof(author))
+	||  SQL_SUCCESS != log.BindParam(2, SQLDT_UINT8, &kind_number, sizeof(kind_number))
+	||  SQL_SUCCESS != log.BindParam(3, SQLDT_UINT32, &id, sizeof(id))
+	||  SQL_SUCCESS != log.BindParam(4, SQLDT_UINT32, &cls, sizeof(cls))
+	||  SQL_SUCCESS != log.BindParam(5, SQLDT_STRING, const_cast<char*>(source), strlen(source))
+	||  SQL_SUCCESS != log.BindParam(6, SQLDT_BLOB, was_at, was.size())
+	||  SQL_SUCCESS != log.BindParam(7, SQLDT_BLOB, now_at, now.size())
+	||  SQL_SUCCESS != log.Execute())
+		SqlStmt_ShowDebug(log);
+	ShowInfo("style_layers: compagnon %u/%u (classe %u) %s par le personnage %u (%s).\n", static_cast<uint32>(kind), companion_id, class_,
+		entry != nullptr ? "teint" : "deteint", author_char_id, source);
+	return true;
+}
+
+// Le compagnon qu'est une unité, ou rien : un homoncule ou un familier SUR LA
+// CARTE, qui a un maître joueur. Un homoncule au repos ou mort, un familier
+// rentré dans son œuf, ne sont pas des compagnons qu'on montre.
+std::optional<s_companion> companion_of(block_list& bl) {
+	if (bl.prev == nullptr)
+		return std::nullopt;
+	if (bl.type == BL_HOM) {
+		homun_data& hd = static_cast<homun_data&>(bl);
+		if (!hom_is_active(&hd) || hd.master == nullptr || hd.homunculus.hom_id <= 0)
+			return std::nullopt;
+		return s_companion{ e_companion_kind::homunculus, static_cast<uint32>(hd.homunculus.hom_id), static_cast<uint32>(hd.homunculus.class_), hd.master };
+	}
+	if (bl.type == BL_PET) {
+		pet_data& pd = static_cast<pet_data&>(bl);
+		if (pd.pet.incubate != 0 || pd.master == nullptr || pd.pet.pet_id <= 0)
+			return std::nullopt;
+		return s_companion{ e_companion_kind::pet, static_cast<uint32>(pd.pet.pet_id), static_cast<uint32>(pd.pet.class_), pd.master };
+	}
+	return std::nullopt;
+}
+
+// 🔴 LE COMPAGNON ACTIF DE LA SESSION, de la classe attendue : le seul que le CZ
+// puisse viser. Il est lu dans `sd`, jamais désigné par le client : homoncule
+// pour une classe d'homoncule, familier sinon. Il doit être sur la carte du
+// maître, et le maître doit être `sd`.
+block_list* active_companion(map_session_data& sd, uint32 expected_class) {
+	block_list* bl = homdb_checkid(static_cast<int32>(expected_class)) ? static_cast<block_list*>(sd.hd) : static_cast<block_list*>(sd.pd);
+	if (bl == nullptr || bl->m != sd.m)
+		return nullptr;
+	const std::optional<s_companion> c = companion_of(*bl);
+	if (!c || c->master != &sd || c->class_ != expected_class)
+		return nullptr;
+	return bl;
+}
+
 // ── Ce qui s'affiche ────────────────────────────────────────────────────────
 
 // L'exemplaire qu'un joueur AFFICHE à un emplacement, ou -1. Le costume l'emporte,
@@ -559,6 +730,36 @@ bytes compose_block(map_session_data& owner) {
 	return block;
 }
 
+// Le bloc d'un compagnon : sa teinture sous son gid, si elle a été faite pour sa
+// classe d'aujourd'hui ; un bloc vide sinon. Rien si l'unité n'est pas un
+// compagnon qu'on montre.
+std::optional<bytes> compose_companion_block(block_list& bl) {
+	const std::optional<s_companion> c = companion_of(bl);
+	if (!c)
+		return std::nullopt;
+	bytes block(BLOCK_HEAD, 0);
+	write_u32(block.data(), static_cast<uint32>(bl.id));
+	const std::optional<s_companion_dye>& dye = companion_dye(c->kind, c->companion_id);
+	// 🔴 UNE TEINTURE QUI DORT NE SORT PAS : faite pour une autre classe, elle
+	// peindrait les rampes d'un autre sprite.
+	if (dye && dye->class_ == c->class_) {
+		block.insert(block.end(), dye->entry.begin(), dye->entry.end());
+		block[4] = 1;
+	}
+	return block;
+}
+
+// Le compagnon se montre-t-il à `viewer` ? Ni lui ni son maître ne doivent lui
+// être cachés, et il ne porte pas l'apparence invisible.
+bool companion_seen_by(block_list& bl, const map_session_data& master, const map_session_data& viewer) {
+	const view_data* vd = status_get_viewdata(&bl);
+	if (vd == nullptr || vd->look[LOOK_BASE] == JT_INVISIBLE)
+		return false;
+	if (clif_hidden_unit_withheld(bl, viewer))
+		return false;
+	return &viewer == &master || !clif_hidden_unit_withheld(master, viewer);
+}
+
 // Une trame de ZC autour d'une charge, compressée au-delà du seuil.
 bytes frame_of(const bytes& raw) {
 	bytes body = raw;
@@ -623,6 +824,46 @@ void send_area(map_session_data& owner, const bytes& block, bool with_self) {
 	s_style_layer_state& state = state_of(owner);
 	state.last_block = block;
 	state.broadcast = true;
+}
+
+// Le bloc d'un compagnon, à un joueur en vue (callback BL_PC). va_arg : le
+// compagnon, son maître, la trame.
+int32 send_companion_sub(block_list* bl, va_list ap) {
+	map_session_data* tsd = BL_CAST(BL_PC, bl);
+	block_list* companion = va_arg(ap, block_list*);
+	const map_session_data* master = va_arg(ap, const map_session_data*);
+	const bytes* frame = va_arg(ap, const bytes*);
+	if (tsd == nullptr || companion == nullptr || master == nullptr)
+		return 0;
+	// 🔴 DESTINATAIRE PAR DESTINATAIRE, et rien de ce qu'il ne voit pas.
+	if (!layers_viewer(*tsd) || !companion_seen_by(*companion, *master, *tsd))
+		return 0;
+	send_frame(*tsd, *frame);
+	return 1;
+}
+
+// Le bloc d'un compagnon, à la zone, son maître compris. `even_empty` : un bloc
+// vide part aussi, pour effacer une teinture retirée.
+void send_companion_area(block_list& bl, bool even_empty) {
+	const std::optional<s_companion> c = companion_of(bl);
+	const std::optional<bytes> block = compose_companion_block(bl);
+	if (!c || !block || (!even_empty && (*block)[4] == 0))
+		return;
+	const bytes frame = frame_of(*block);
+	map_foreachinallrange(send_companion_sub, &bl, AREA_SIZE, BL_PC, &bl, static_cast<const map_session_data*>(c->master), &frame);
+	map_foreachinviewring(send_companion_sub, &bl, 0, &bl, static_cast<const map_session_data*>(c->master), &frame);
+}
+
+// Les compagnons en vue de `self` (callback BL_HOM|BL_PET) : va_arg = la liste à
+// remplir, `self`.
+int32 collect_companion_sub(block_list* bl, va_list ap) {
+	std::vector<block_list*>* out = va_arg(ap, std::vector<block_list*>*);
+	const map_session_data* self = va_arg(ap, const map_session_data*);
+	const std::optional<s_companion> c = companion_of(*bl);
+	if (!c || !companion_seen_by(*bl, *c->master, *self))
+		return 0;
+	out->push_back(bl);
+	return 1;
 }
 
 // Le joueur en vue de `self` a-t-il un bloc à lui envoyer ? Rassemble ceux qui
@@ -754,6 +995,19 @@ void send_seen(map_session_data& sd) {
 		}
 		raw.insert(raw.end(), block.begin(), block.end());
 	}
+	// Puis les compagnons en vue, chacun sous son gid.
+	std::vector<block_list*> companions;
+	map_foreachinallrange(collect_companion_sub, &sd, pc_view_range(sd), BL_HOM | BL_PET, &companions, static_cast<const map_session_data*>(&sd));
+	for (block_list* companion : companions) {
+		const std::optional<bytes> block = compose_companion_block(*companion);
+		if (!block || (*block)[4] == 0)
+			continue;
+		if (raw.size() + block->size() > MOONCLIENT_STYLE_LAYERS_RAW_MAX) {
+			send_frame(sd, frame_of(raw));
+			raw.clear();
+		}
+		raw.insert(raw.end(), block->begin(), block->end());
+	}
 	if (!raw.empty())
 		send_frame(sd, frame_of(raw));
 }
@@ -778,6 +1032,35 @@ void style_layers_single(map_session_data& sd, map_session_data& owner) {
 	if (block[4] == 0)
 		return;
 	send_frame(sd, frame_of(block));
+}
+
+void style_layers_companion_spawn(const block_list& bl) {
+	if (bl.type != BL_HOM && bl.type != BL_PET)
+		return;
+	// L'apparition se dit sur une unité constante ; la lecture de sa vue et de son
+	// état ne la modifie pas.
+	send_companion_area(const_cast<block_list&>(bl), false);
+}
+
+void style_layers_companion_single(map_session_data& sd, block_list& bl) {
+	if ((bl.type != BL_HOM && bl.type != BL_PET) || !layers_viewer(sd))
+		return;
+	const std::optional<s_companion> c = companion_of(bl);
+	if (!c || !companion_seen_by(bl, *c->master, sd))
+		return;
+	const std::optional<bytes> block = compose_companion_block(bl);
+	if (!block || (*block)[4] == 0)
+		return;
+	send_frame(sd, frame_of(*block));
+}
+
+void style_layers_forget_companion(uint8 kind, int32 companion_id) {
+	if (companion_id <= 0)
+		return;
+	const uint64 key = companion_key(static_cast<e_companion_kind>(kind), static_cast<uint32>(companion_id));
+	if (SQL_SUCCESS != Sql_Query(mmysql_handle, "DELETE FROM `moonclient_companion_dyes` WHERE `kind` = '%u' AND `companion_id` = '%d'", static_cast<uint32>(kind), companion_id))
+		Sql_ShowDebug(mmysql_handle);
+	s_companion_dyes.erase(key);
 }
 
 void style_layers_look_changed(map_session_data& owner) {
@@ -813,14 +1096,26 @@ void style_layers_on_logout(const map_session_data& sd) {
 void style_layers_final() {
 	s_states.clear();
 	s_item_dyes.clear();
+	s_companion_dyes.clear();
 }
 
 // ── Le CZ ───────────────────────────────────────────────────────────────────
 
 namespace {
 
+// Une teinture de compagnon à écrire : qui, pour quelle classe, et l'unité à
+// rediffuser.
+struct s_companion_change {
+	e_companion_kind kind;
+	uint32 companion_id;
+	uint32 class_;
+	int32 unit_id;
+	std::optional<bytes> entry; // rien : retirer
+};
+
 // Le jugement complet d'une trame. Rend le résultat ; n'écrit rien qu'accepté.
-e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame, size_t length, uint16& wait_ms) {
+// `changed_units` reçoit les compagnons dont la teinture a changé.
+e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame, size_t length, uint16& wait_ms, std::vector<int32>& changed_units) {
 	s_style_layer_state& state = state_of(sd);
 	const t_tick now = gettick();
 
@@ -856,8 +1151,8 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		// Un calque, une entrée : la même tête, la peau du visage, le même corps ou
 		// le même emplacement deux fois.
 		for (const s_request_entry& other : entries) {
-			const bool same_target = other.view.layer == view.layer
-				&& ((view.layer != MOONCLIENT_STYLE_LAYER_HEAD && !body_layer(view.layer)) || other.view.key == view.key);
+			const bool keyed = view.layer == MOONCLIENT_STYLE_LAYER_HEAD || body_layer(view.layer) || view.layer == MOONCLIENT_STYLE_LAYER_COMPANION;
+			const bool same_target = other.view.layer == view.layer && (!keyed || other.view.key == view.key);
 			if (same_target)
 				return MOONCLIENT_STYLE_KEY;
 		}
@@ -882,6 +1177,7 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		std::optional<bytes> entry; // rien : retirer
 	};
 	std::vector<s_item_change> items;
+	std::vector<s_companion_change> companions;
 	for (const s_request_entry& e : entries) {
 		const std::optional<s_slot> slot = slot_of(e.view.layer);
 		if (!slot)
@@ -913,11 +1209,33 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		items.push_back(std::move(change));
 	}
 
+	// ── Les compagnons : celui de la session, là, de la classe attendue ────
+	for (const s_request_entry& e : entries) {
+		if (e.view.layer != MOONCLIENT_STYLE_LAYER_COMPANION)
+			continue;
+		// 🔴 LE COMPAGNON SE LIT DANS LA SESSION ÉMETTRICE, jamais par un
+		// identifiant du client : la clé n'est que la classe attendue.
+		block_list* bl = active_companion(sd, e.view.key);
+		const std::optional<s_companion> c = bl != nullptr ? companion_of(*bl) : std::nullopt;
+		if (!c)
+			return MOONCLIENT_STYLE_NOT_WORN;
+		for (const s_companion_change& other : companions)
+			if (other.kind == c->kind)
+				return MOONCLIENT_STYLE_KEY;
+		s_companion_change change{ c->kind, c->companion_id, c->class_, bl->id, std::nullopt };
+		if (has_content(e.view)) {
+			bytes entry(e.p, e.p + e.view.size);
+			entry[7] = e.view.flags & MOONCLIENT_STYLE_LAYER_FLAG_TAIL;
+			change.entry = std::move(entry);
+		}
+		companions.push_back(std::move(change));
+	}
+
 	// ── Les teintures du personnage ────────────────────────────────────────
 	std::vector<bytes> character = clear_character ? std::vector<bytes>{} : loaded.character;
 	const uint32 worn_head = (static_cast<uint32>(sd.status.hair) << HEAD_KEY_SHIFT) | (static_cast<uint32>(sd.status.hair_color) & HEAD_KEY_LOW);
 	for (const s_request_entry& e : entries) {
-		if (slot_of(e.view.layer))
+		if (slot_of(e.view.layer) || e.view.layer == MOONCLIENT_STYLE_LAYER_COMPANION)
 			continue;
 		// La place qu'elle prend : la même tête, ou la peau.
 		for (size_t i = 0; i < character.size(); ++i) {
@@ -962,6 +1280,14 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		if (change.entry ? !(had && now_dye->entry == *change.entry) : had)
 			same = false;
 	}
+	for (const s_companion_change& change : companions) {
+		const std::optional<s_companion_dye>& now_dye = companion_dye(change.kind, change.companion_id);
+		const bool had = now_dye.has_value() && now_dye->class_ == change.class_;
+		// Une teinture qui dort sous une autre classe compte comme absente : en
+		// retirer une qu'on ne voit pas ne fait rien.
+		if (change.entry ? !(had && now_dye->entry == *change.entry) : had)
+			same = false;
+	}
 	if (same)
 		return MOONCLIENT_STYLE_SAME;
 
@@ -979,6 +1305,11 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		const std::optional<s_item_dye>& before = item_dye(change.unique_id);
 		befores.push_back(before ? std::optional<bytes>(before->entry) : std::nullopt);
 	}
+	std::vector<std::optional<bytes>> companion_befores;
+	for (const s_companion_change& change : companions) {
+		const std::optional<s_companion_dye>& before = companion_dye(change.kind, change.companion_id);
+		companion_befores.push_back(before ? std::optional<bytes>(before->entry) : std::nullopt);
+	}
 	if (SQL_SUCCESS != Sql_QueryStr(mmysql_handle, "START TRANSACTION")) {
 		Sql_ShowDebug(mmysql_handle);
 		return MOONCLIENT_STYLE_UNAVAILABLE;
@@ -988,6 +1319,11 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		const s_item_change& change = items[i];
 		written = store_item(change.unique_id, change.nameid, change.entry ? &*change.entry : nullptr,
 			befores[i] ? &*befores[i] : nullptr, sd.status.account_id, sd.status.char_id, "joueur");
+	}
+	for (size_t i = 0; written && i < companions.size(); ++i) {
+		const s_companion_change& change = companions[i];
+		written = store_companion(change.kind, change.companion_id, change.class_, change.entry ? &*change.entry : nullptr,
+			companion_befores[i] ? &*companion_befores[i] : nullptr, sd.status.account_id, sd.status.char_id, "joueur");
 	}
 	if (SQL_SUCCESS != Sql_QueryStr(mmysql_handle, written ? "COMMIT" : "ROLLBACK")) {
 		Sql_ShowDebug(mmysql_handle);
@@ -1002,6 +1338,14 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		else
 			s_item_dyes[change.unique_id] = std::nullopt;
 	}
+	for (s_companion_change& change : companions) {
+		const uint64 key = companion_key(change.kind, change.companion_id);
+		if (change.entry)
+			s_companion_dyes[key] = s_companion_dye{ change.class_, std::move(*change.entry) };
+		else
+			s_companion_dyes[key] = std::nullopt;
+		changed_units.push_back(change.unit_id);
+	}
 	return MOONCLIENT_STYLE_ACCEPTED;
 }
 
@@ -1013,11 +1357,16 @@ void clif_parse_moonclient_style_layers(int32 fd, map_session_data* sd) {
 		return;
 	const size_t length = RFIFOW(fd, 2);
 	uint16 wait_ms = 0;
-	const e_moonclient_style_result result = apply_request(*sd, RFIFOP(fd, 0), length, wait_ms);
+	std::vector<int32> changed_units;
+	const e_moonclient_style_result result = apply_request(*sd, RFIFOP(fd, 0), length, wait_ms, changed_units);
 	style_layers_verdict(*sd, MOONCLIENT_STYLE_SUBJECT_LAYERS, result, wait_ms, 0);
 	// L'émetteur reçoit son bloc avec la zone : c'est son écho.
 	if (result == MOONCLIENT_STYLE_ACCEPTED && sd->prev != nullptr)
 		send_area(*sd, compose_block(*sd), true);
+	// Et chaque compagnon teint ou déteint, le sien compris : un bloc vide efface.
+	for (const int32 unit_id : changed_units)
+		if (block_list* bl = map_id2bl(unit_id); bl != nullptr)
+			send_companion_area(*bl, true);
 }
 
 bool style_layers_readable(map_session_data& owner) {
@@ -1075,6 +1424,20 @@ std::vector<std::string> style_layers_describe(map_session_data& sd) {
 			continue;
 		safesnprintf(line, sizeof(line), "emplacement %u : objet %u, exemplaire %" PRIu64 "%s, %d reglage(s)", slot, it.nameid, it.unique_id,
 			dye->nameid == it.nameid ? "" : " (AUTRE OBJET : ignoree)", popcount16(view_of(dye->entry.data()).mask));
+		lines.emplace_back(line);
+	}
+	for (block_list* bl : { static_cast<block_list*>(sd.hd), static_cast<block_list*>(sd.pd) }) {
+		if (bl == nullptr)
+			continue;
+		const std::optional<s_companion> c = companion_of(*bl);
+		if (!c)
+			continue;
+		const std::optional<s_companion_dye>& dye = companion_dye(c->kind, c->companion_id);
+		if (!dye)
+			continue;
+		safesnprintf(line, sizeof(line), "%s %u (classe %u) : teinture de la classe %u%s, %d reglage(s)",
+			c->kind == e_companion_kind::homunculus ? "homoncule" : "familier", c->companion_id, c->class_, dye->class_,
+			dye->class_ == c->class_ ? "" : " (EN SOMMEIL)", popcount16(view_of(dye->entry.data()).mask));
 		lines.emplace_back(line);
 	}
 	if (lines.empty())

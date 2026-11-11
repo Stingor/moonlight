@@ -1896,6 +1896,13 @@ enum e_char_del_response char_delete(struct char_session_data* sd, uint32 char_i
 	// [Stingor] Et l'instantané de ce qu'il montrait, pour la tablée.
 	if( SQL_ERROR == Sql_Query(sql_handle, "DELETE FROM `moonclient_style_shown` WHERE `char_id`='%d'", char_id) )
 		Sql_ShowDebug(sql_handle);
+	// [Stingor] Les teintures de ses compagnons partent avec eux : son homoncule,
+	// et les familiers que les suppressions ci-dessus viennent de retirer (genre 1 :
+	// homoncule, 2 : familier ; voir sql-files/moonclient_companion_dyes.sql).
+	if( hom_id && SQL_ERROR == Sql_Query(sql_handle, "DELETE FROM `moonclient_companion_dyes` WHERE `kind` = 1 AND `companion_id` = '%d'", hom_id) )
+		Sql_ShowDebug(sql_handle);
+	if( SQL_ERROR == Sql_Query(sql_handle, "DELETE d FROM `moonclient_companion_dyes` d WHERE d.`kind` = 2 AND NOT EXISTS (SELECT 1 FROM `%s` p WHERE p.`pet_id` = d.`companion_id`)", schema_config.pet_db) )
+		Sql_ShowDebug(sql_handle);
 
 	/* delete character registry */
 	if( SQL_ERROR == Sql_Query(sql_handle, "DELETE FROM `%s` WHERE `char_id`='%d'", schema_config.char_reg_str_table, char_id) )

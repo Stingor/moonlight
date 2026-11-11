@@ -32,6 +32,7 @@
 #include "quest.hpp"
 #include "status.hpp"
 #include "storage.hpp"
+#include "style_layers.hpp" // [Stingor] style_layers_forget_companion
 
 /// Received packet Lengths from inter-server
 static const int32 packet_len_table[] = {
@@ -165,6 +166,8 @@ int32 intif_save_petdata( uint32 account_id, const s_pet* p )
  */
 int32 intif_delete_petdata(int32 pet_id)
 {
+	// [Stingor] La teinture du familier part avec lui.
+	style_layers_forget_companion(MOONCLIENT_COMPANION_KIND_PET, pet_id);
 	if (CheckForCharServer())
 		return 0;
 	WFIFOHEAD(inter_fd,6);
@@ -1263,6 +1266,8 @@ int32 intif_homunculus_requestsave( uint32 account_id, const s_homunculus* sh )
  */
 int32 intif_homunculus_requestdelete(int32 homun_id)
 {
+	// [Stingor] La teinture de l'homoncule part avec lui.
+	style_layers_forget_companion(MOONCLIENT_COMPANION_KIND_HOMUNCULUS, homun_id);
 	if (CheckForCharServer())
 		return 0;
 	WFIFOHEAD(inter_fd, 6);

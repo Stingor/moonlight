@@ -2039,6 +2039,8 @@ int32 clif_spawn( const block_list* bl, bool walking ){
 
 	// [Stingor] Le maître d'un compagnon, à ceux sous les yeux de qui il apparaît.
 	clif_bourgeon_companion_master_area( *bl );
+	// [Stingor] Sa teinture, pour la même raison.
+	style_layers_companion_spawn( *bl );
 
 	clif_hat_effects( *bl, AREA, *bl );
 
@@ -9731,7 +9733,7 @@ void clif_bourgeon_server_rules(map_session_data& sd) {
 		// La preuve que le serveur accepte le reste et les retouches d'une entrée.
 		{ BOURGEON_RULE_STYLE_LAYER_RETOUCHES,     MOONCLIENT_STYLE_LAYER_RETOUCHES_MAX },
 		// La preuve que le serveur range la peau du corps.
-		{ BOURGEON_RULE_STYLE_LAYER_LAST,          MOONCLIENT_STYLE_LAYER_BODY_SKIN },
+		{ BOURGEON_RULE_STYLE_LAYER_LAST,          MOONCLIENT_STYLE_LAYER_COMPANION },
 		// La preuve que le serveur sert les styles hors de vue.
 		{ BOURGEON_RULE_STYLE_ABSENT_CADENCE_MS,   MOONCLIENT_STYLE_ABSENT_CADENCE_MS },
 		{ BOURGEON_RULE_STYLE_ABSENT_IDS_MAX,      MOONCLIENT_STYLE_ABSENT_IDS_MAX },
@@ -12740,6 +12742,8 @@ void clif_getareachar_unit( map_session_data* sd,block_list *bl ){
 
 	// [Stingor] Le maître d'un compagnon, à qui le découvre.
 	clif_bourgeon_companion_master_single( *bl, *sd );
+	// [Stingor] Sa teinture, à qui le découvre.
+	style_layers_companion_single( *sd, *bl );
 
 	clif_hat_effects( *bl, SELF, *sd );
 }

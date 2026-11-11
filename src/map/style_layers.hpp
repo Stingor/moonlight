@@ -31,6 +31,7 @@
 #include <common/cbasetypes.hpp>
 
 class map_session_data;
+struct block_list;
 struct npc_data;
 
 // L'écart minimal entre deux CZ 0x0F5E d'une session, en millisecondes. Il ne se
@@ -69,6 +70,21 @@ void style_layers_spectator_join(map_session_data& sd);
 void style_layers_spawn(map_session_data& owner);
 // Le bloc de `owner`, à `sd` seul : `owner` entre dans la vue de `sd`.
 void style_layers_single(map_session_data& sd, map_session_data& owner);
+// LES COMPAGNONS (calque 7) : la teinture d'un homoncule ou d'un familier sur la
+// carte, sous le gid de l'unité, à qui le voit. Elle appartient au compagnon
+// (`hom_id`, `pet_id`) et ne sort que sous la classe pour laquelle elle a été
+// faite. Rien d'un homoncule au repos ou d'un familier dans son œuf.
+//
+// Le compagnon `bl` apparaît : sa teinture, aux joueurs en vue qui savent la lire.
+void style_layers_companion_spawn(const block_list& bl);
+// Le compagnon `bl` entre dans la vue de `sd`.
+void style_layers_companion_single(map_session_data& sd, block_list& bl);
+// Les genres de compagnons, tels que `moonclient_companion_dyes` les range.
+#define MOONCLIENT_COMPANION_KIND_HOMUNCULUS 1
+#define MOONCLIENT_COMPANION_KIND_PET 2
+// Le compagnon est supprimé : sa teinture part avec lui.
+void style_layers_forget_companion(uint8 kind, int32 companion_id);
+
 // Ce que `owner` affiche a peut-être changé (équipement, coupe, couleur) : son
 // bloc repart à la zone, lui compris, s'il diffère du dernier diffusé. Appelé
 // APRÈS le paquet natif d'apparence.
