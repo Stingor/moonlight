@@ -338,14 +338,16 @@ OnSplit:
 	end;
 
 // Les deux ailes purifiees : il ne reste pas a l'entree, il rejoint le
-// passage central en Acidus dore et s'efface pres de la grille, ou
-// l'Oscar du centre attend deja.
+// passage central en Acidus dore. Arrive devant la grille, il reprend sa
+// forme : l'Oscar du centre parait a sa place exacte, et il n'y a jamais
+// deux Oscar a la fois.
 OnLeave:
 	.@o$ = instance_npcname("Oscar#oghcm_in");
 	setnpcdisplay .@o$, 1713;	// Acidus dore
 	npctalk "Please follow me", .@o$;
-	callfunc "F_OGHCM_Walk", .@o$, 148, 155;
+	callfunc "F_OGHCM_Walk", .@o$, 150, 158;
 	disablenpc .@o$;
+	enablenpc instance_npcname("Oscar#oghcm_hall");
 	end;
 }
 
@@ -398,7 +400,7 @@ OnCheckBoth:
 		killmonster 'map$, instance_npcname(strnpcinfo(0)) + "::OnWestDead";
 		killmonster 'map$, instance_npcname(strnpcinfo(0)) + "::OnEastDead";
 		delwall instance_npcname("#oghcm_ctrl") + "_wall";
-		enablenpc instance_npcname("Oscar#oghcm_hall");
+		// L'Oscar du centre ne parait qu'a l'arrivee de celui de l'entree.
 		donpcevent instance_npcname("Oscar#oghcm_in") + "::OnLeave";
 		// Annonce officielle (video) ; l'aile est se fait toujours en second.
 		instance_announce 0, "Oscar: The cleanup of the left and right sections is over.", bc_map, "0xFFFF00";
