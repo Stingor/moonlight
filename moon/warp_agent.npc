@@ -183,11 +183,14 @@ L_Instance:
 					"Endless Cellar (HM, Custom)",
 					"Endless Tower (HM)",
 					"Faceworms Nest (Solo)",
+					"Farm Lost in Time",
 					"Friday Dungeon (vendredi)",
 					"Gef. Magic Tour. (HM, Solo, Custom)",
 					"Ghost Palace (Solo)",
 					"Half Moon In The Daylight",
 					"Hazy Forest",
+					"Hey! Sweety",
+					"Hidden Flower Garden",
 					"Horror Toy Factory (HM)",
 					"Infinite Space (HM sur place)",
 					"Isle Of Bios",
@@ -206,6 +209,8 @@ L_Instance:
 					"Sealed Shrine",
 					"Sky Fortress Invasion",
 					"Temple of Demon God",
+					"Twilight Garden",
+					"Water Garden",
 					"Weekend Dungeon (sam./dim.)",
 					"Wolfchev's Laboratory";
 	setarray .@inst[0],
@@ -219,11 +224,14 @@ L_Instance:
 					INST_ENDLESS_CELLAR,
 					INST_ENDLESS_TOWER,
 					INST_FACEWORMS_NEST,
+					INST_FARM_LOST_IN_TIME,
 					INST_FRIDAY_DUNGEON,
 					INST_GEFFEN_MAGIC_TOURNAMENT,
 					INST_GHOST_PALACE,
 					INST_HALF_MOON_IN_THE_DAYLIGHT,
 					INST_MISTWOOD_MAZE,
+					INST_HEY_SWEETY,
+					INST_HIDDEN_FLOWER_GARDEN,
 					INST_HORROR_TOY_FACTORY,
 					INST_INFINITE_SPACE,
 					INST_ISLE_OF_BIOS,
@@ -242,6 +250,8 @@ L_Instance:
 					INST_SEALED_CATACOMB,
 					INST_SKY_FORTRESS_INVASION,
 					INST_TEMPLE_OF_THE_DEMON_GOD,
+					INST_TWILIGHT_GARDEN,
+					INST_WATER_GARDEN,
 					INST_WEEKEND_DUNGEON,
 					INST_WOLFCHEVS_LABORATORY;
 	// quete de cooldown utilisee pour la couleur ; 0 = cas particulier traite plus bas
@@ -256,11 +266,14 @@ L_Instance:
 					0,     // INST_ENDLESS_CELLAR
 					60200, // INST_ENDLESS_TOWER
 					12325, // INST_FACEWORMS_NEST
+					8587,  // INST_FARM_LOST_IN_TIME
 					12379, // INST_FRIDAY_DUNGEON
 					9316,  // INST_GEFFEN_MAGIC_TOURNAMENT
 					1261,  // INST_GHOST_PALACE
 					14586, // INST_HALF_MOON_IN_THE_DAYLIGHT
 					7211,  // INST_MISTWOOD_MAZE
+					18025, // INST_HEY_SWEETY
+					12498, // INST_HIDDEN_FLOWER_GARDEN
 					12331, // INST_HORROR_TOY_FACTORY
 					12365, // INST_INFINITE_SPACE
 					15005, // INST_ISLE_OF_BIOS
@@ -279,6 +292,8 @@ L_Instance:
 					3040,  // INST_SEALED_CATACOMB
 					9419,  // INST_SKY_FORTRESS_INVASION
 					7605,  // INST_TEMPLE_OF_THE_DEMON_GOD
+					18017, // INST_TWILIGHT_GARDEN (quete de chasse, toujours libre)
+					16439, // INST_WATER_GARDEN
 					12378, // INST_WEEKEND_DUNGEON
 					5112;  // INST_WOLFCHEVS_LABORATORY
 
@@ -297,6 +312,24 @@ L_Instance:
 	if ( .@sel > .@n )
 		goto L_warpa;
 	switch( .@inst[.@sel - 1] ) {
+		// EPISODE 17.2 : chaque instance s'ouvre par la chaine de quetes, et son PNJ d'entree
+		// pose lui-meme ses quetes (modes, recompenses, cooldown). Le warp agent envoie donc
+		// pres de lui, sans rien sauter.
+		case INST_FARM_LOST_IN_TIME: { // Ferme Perdue : Luina
+			warp_fct("ba_maison", 311, 204);
+		}
+		case INST_HEY_SWEETY: { // Hey! Sweety! : Manager Beta Almond
+			warp_fct("ba_in01", 28, 253);
+		}
+		case INST_HIDDEN_FLOWER_GARDEN: { // Jardin de Fleurs Cache et Zones de Securite : l'assistant du perimetre
+			warp_fct("ba_maison", 120, 318);
+		}
+		case INST_TWILIGHT_GARDEN: { // Jardin du Crepuscule : Est
+			warp_fct("ba_in01", 51, 155);
+		}
+		case INST_WATER_GARDEN: { // Jardin d'Eau, normal et difficile : Harad
+			warp_fct("ba_maison", 238, 46);
+		}
 		case INST_ASSAULT_ON_THE_AIRSHIP: { // Airship Assault
 			if( select( GetColor(15050)+"Acces direct^000000", "Se rendre dans le Rift" ) == 1 ) {
 				.@md_name$ = "Assault on the Airship";
