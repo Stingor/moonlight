@@ -648,3 +648,309 @@ Body:
     ClientAttackMotion: 384
     DamageMotion: 420
     Ai: 24
+  # Rudus 4F (episode 17.2), meme conversion.
+  - Id: 20929
+    AegisName: GIANT_CAPUT
+    Name: Giant Caput
+    Level: 213
+    Hp: 528063
+    BaseExp: 844901
+    JobExp: 549186
+    Attack: 6930
+    Attack2: 1719
+    Defense: 48
+    MagicDefense: 30
+    Resistance: 221
+    MagicResistance: 130
+    Str: 85
+    Agi: 81
+    Vit: 115
+    Int: 99
+    Dex: 102
+    Luk: 95
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 924
+    AttackMotion: 1848
+    ClientAttackMotion: 1176
+    DamageMotion: 480
+    Ai: 04
+    Drops:
+      - Item: Tooth_Of_
+        Rate: 1600
+      - Item: Tendon
+        Rate: 2000
+      - Item: Slicky_Fluid
+        Rate: 1680
+      - Item: Piece_Of_Darkness
+        Rate: 2000
+      - Item: Shadowdecon_Ore
+        Rate: 150
+      - Item: Zelunium_Ore
+        Rate: 150
+      - Item: Shadowdecon
+        Rate: 12
+      - Item: Giant_Caput_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 20930
+    AegisName: DOLORIAN
+    Name: Dolorian
+    Level: 214
+    Hp: 525823
+    BaseExp: 841317
+    JobExp: 546856
+    Attack: 6853
+    Attack2: 2449
+    Defense: 46
+    MagicDefense: 29
+    Resistance: 98
+    MagicResistance: 143
+    Str: 59
+    Agi: 63
+    Vit: 66
+    Int: 90
+    Dex: 79
+    Luk: 90
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Poison
+    ElementLevel: 3
+    WalkSpeed: 125
+    AttackDelay: 674
+    AttackMotion: 1248
+    ClientAttackMotion: 672
+    DamageMotion: 480
+    Ai: 04
+    Drops:
+      - Item: Weird_Tentacle
+        Rate: 1840
+      - Item: Sticky_Poison
+        Rate: 2000
+      - Item: Tendon
+        Rate: 2000
+      - Item: Shadowdecon_Ore
+        Rate: 150
+      - Item: Zelunium_Ore
+        Rate: 150
+      - Item: Zelunium
+        Rate: 12
+      - Item: Shadowdecon
+        Rate: 12
+      - Item: Dolorian_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 20932
+    AegisName: DEADRE
+    Name: Deadre
+    Level: 214
+    Hp: 527870
+    BaseExp: 844592
+    JobExp: 548985
+    Attack: 10627
+    Attack2: 1697
+    Defense: 47
+    MagicDefense: 28
+    Resistance: 165
+    MagicResistance: 78
+    Str: 103
+    Agi: 86
+    Vit: 82
+    Int: 66
+    Dex: 89
+    Luk: 86
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 576
+    AttackMotion: 1152
+    ClientAttackMotion: 672
+    DamageMotion: 720
+    Ai: 04
+    Drops:
+      - Item: Heart_Hunter_Seal
+        Rate: 1500
+      - Item: Shadowdecon_Ore
+        Rate: 150
+      - Item: Zelunium_Ore
+        Rate: 150
+      - Item: Long_Hair
+        Rate: 1500
+      - Item: Zelunium
+        Rate: 12
+      - Item: Shadowdecon
+        Rate: 12
+      - Item: Evil_Minded_Ruby
+        Rate: 1680
+      - Item: Deadre_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 20933
+    AegisName: VENEDI
+    Name: Venedi
+    Level: 213
+    Hp: 526177
+    BaseExp: 841883
+    JobExp: 547224
+    Attack: 7652
+    Attack2: 1888
+    Defense: 46
+    MagicDefense: 29
+    Resistance: 144
+    MagicResistance: 109
+    Str: 80
+    Agi: 65
+    Vit: 76
+    Int: 80
+    Dex: 77
+    Luk: 76
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Brute
+    Element: Poison
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 768
+    AttackMotion: 1536
+    ClientAttackMotion: 960
+    DamageMotion: 960
+    Ai: 04
+    Drops:
+      - Item: Sticky_Poison
+        Rate: 2400
+      - Item: Sticky_Mucus
+        Rate: 2400
+      - Item: Shadowdecon_Ore
+        Rate: 150
+      - Item: Zelunium_Ore
+        Rate: 150
+      - Item: Shadowdecon
+        Rate: 12
+      - Item: Zelunium
+        Rate: 12
+      - Item: Congealed_Poison
+        Rate: 1600
+      - Item: Venedi_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 20931
+    AegisName: PLAGARION
+    Name: Plagarion
+    Level: 215
+    Hp: 529868
+    BaseExp: 847789
+    JobExp: 551063
+    Attack: 7490
+    Attack2: 1803
+    Defense: 48
+    MagicDefense: 30
+    Resistance: 212
+    MagicResistance: 125
+    Str: 79
+    Agi: 76
+    Vit: 107
+    Int: 93
+    Dex: 95
+    Luk: 88
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Dragon
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 1332
+    AttackMotion: 2664
+    ClientAttackMotion: 936
+    DamageMotion: 480
+    Ai: 04
+    Drops:
+      - Item: Dragon's_Skin
+        Rate: 2000
+      - Item: Reptile_Stone
+        Rate: 1600
+      - Item: Dragon_Train
+        Rate: 2000
+      - Item: Shadowdecon_Ore
+        Rate: 150
+      - Item: Zelunium_Ore
+        Rate: 150
+      - Item: Zelunium
+        Rate: 12
+      - Item: Shadowdecon
+        Rate: 12
+      - Item: Plagarion_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 20934
+    AegisName: R001_BESTIA
+    Name: R001-Bestia
+    Level: 215
+    Hp: 5105110
+    BaseExp: 8168176
+    JobExp: 5309314
+#   MvpExp:
+    Attack: 12871
+    Attack2: 2187
+    Defense: 66
+    MagicDefense: 44
+    Resistance: 278
+    MagicResistance: 367
+    Str: 347
+    Agi: 124
+    Vit: 259
+    Int: 341
+    Dex: 167
+    Luk: 110
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Brute
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 672
+    AttackMotion: 1344
+    ClientAttackMotion: 1056
+    DamageMotion: 768
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Shadowdecon
+        Rate: 4000
+      - Item: Yggdrasilberry
+        Rate: 4000
+      - Item: Zelunium
+        Rate: 4000
+    Drops:
+      - Item: Piece_Of_Bone_Armor
+        Rate: 4000
+      - Item: Old_Violet_Box
+        Rate: 4000
+      - Item: Shadowdecon
+        Rate: 4000
+      - Item: Zelunium
+        Rate: 4000
+      - Item: R001_Bestia_Card
+        Rate: 1
+        StealProtected: true

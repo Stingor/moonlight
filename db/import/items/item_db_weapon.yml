@@ -26775,3 +26775,354 @@ Body:
       bonus2 bAddRace,RC_Undead,.@val;
       bonus2 bMagicAddRace,RC_Demon,.@val;
       bonus2 bMagicAddRace,RC_Undead,.@val;
+  - Id: 500018
+    AegisName: Fourth_1h_Sword
+    Name: Relapse Blade [2]
+    Type: Weapon
+    SubType: 1hSword
+    Weight: 1850
+    Attack: 200
+    Range: 1
+    Slots: 2
+    Jobs:
+      Alchemist: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bSkillAtk,"AM_ACIDTERROR",5*(.@r/2);
+      bonus2 bAddClass,Class_All,3*(.@r/4);
+  - Id: 510026
+    AegisName: Fourth_1h_Dagger
+    Name: Relapse Dagger [2]
+    Type: Weapon
+    SubType: Dagger
+    Weight: 1400
+    Attack: 180
+    Range: 1
+    Slots: 2
+    Jobs:
+      Rogue: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      bonus bMatk,215;
+      .@r = getrefine();
+      bonus2 bSkillAtk,"RG_RAID",5*(.@r/2);
+      bonus2 bMagicAtkEle,Ele_All,2*(.@r/4);
+  - Id: 510055
+    AegisName: Fourth_1h_Nindo2
+    Name: Relapse Edge [2]
+    Type: Weapon
+    SubType: Dagger
+    Weight: 1200
+    Attack: 180
+    Range: 1
+    Slots: 2
+    Jobs:
+      Ninja: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bSkillAtk,"NJ_KASUMIKIRI",4*(.@r/2);
+      bonus bShortAtkRate,2*(.@r/4);
+  - Id: 540043
+    AegisName: Fourth_1h_Manual
+    Name: Relapse Book [2]
+    Type: Weapon
+    SubType: Book
+    Weight: 1300
+    Attack: 190
+    Range: 1
+    Slots: 2
+    Jobs:
+      StarGladiator: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      bonus bShortAtkRate,3*(.@r/4);
+      bonus2 bSkillAtk,"TK_STORMKICK",5*(.@r/2);
+  - Id: 560011
+    AegisName: Fourth_1h_Knuckle
+    Name: Scrap Fist [2]
+    Type: Weapon
+    SubType: Knuckle
+    Weight: 1300
+    Attack: 210
+    Range: 1
+    Slots: 2
+    Jobs:
+      Monk: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bSkillAtk,"MO_INVESTIGATE",5*(.@r/2);
+      bonus2 bSkillAtk,"MO_FINGEROFFENSIVE",5*(.@r/2);
+      bonus bShortAtkRate,2*(.@r/4);
+  - Id: 570012
+    AegisName: Fourth_Bh_Lute
+    Name: Scrap Lute [2]
+    Type: Weapon
+    SubType: Musical
+    Weight: 1250
+    Attack: 205
+    Range: 1
+    Slots: 2
+    Jobs:
+      BardDancer: true
+    Gender: Male
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bSkillAtk,"BA_MUSICALSTRIKE",5*(.@r/2);
+      bonus bLongAtkRate,2*(.@r/4);
+  - Id: 580012
+    AegisName: Fourth_1h_Whip
+    Name: Scrap Whip [2]
+    Type: Weapon
+    SubType: Whip
+    Weight: 1250
+    Attack: 205
+    Range: 2
+    Slots: 2
+    Jobs:
+      BardDancer: true
+    Gender: Female
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bSkillAtk,"DC_THROWARROW",5*(.@r/2);
+      bonus bLongAtkRate,2*(.@r/4);
+  - Id: 590015
+    AegisName: Fourth_1h_Mace
+    Name: Relapse Cross [2]
+    Type: Weapon
+    SubType: Mace
+    Weight: 1300
+    Attack: 190
+    Range: 1
+    Slots: 2
+    Jobs:
+      Priest: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      bonus bMatk,210;
+      bonus bUnbreakableWeapon;
+      .@r = getrefine();
+      bonus2 bSkillAtk,"PR_MAGNUS",5*(.@r/2);
+      bonus bHealPower,5*(.@r/2);
+      bonus2 bMagicAtkEle,Ele_All,2*(.@r/4);
+  - Id: 610015
+    AegisName: Fourth_Bh_Katar
+    Name: Relapse Katar [2]
+    Type: Weapon
+    SubType: Katar
+    Weight: 1800
+    Attack: 260
+    Range: 1
+    Slots: 2
+    Jobs:
+      Assassin: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bSkillAtk,"ASC_METEORASSAULT",5*(.@r/2);
+      bonus bShortAtkRate,2*(.@r/4);
+  - Id: 620005
+    AegisName: Fourth_Bh_Axe
+    Name: Relapse Axe [2]
+    Type: Weapon
+    SubType: 2hAxe
+    Weight: 3000
+    Attack: 280
+    Range: 1
+    Slots: 2
+    Jobs:
+      Blacksmith: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      bonus2 bSkillAtk,"MC_CARTREVOLUTION",5*(.@r/2);
+      bonus bShortAtkRate,2*(.@r/4);
+  - Id: 650020
+    AegisName: Fourth_Bh_Fuuma
+    Name: Scrap Slasher [2]
+    Type: Weapon
+    SubType: Huuma
+    Weight: 2200
+    Attack: 340
+    Range: 1
+    Slots: 2
+    Jobs:
+      Ninja: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      bonus2 bSkillAtk,"NJ_HUUMA",5*(.@r/2);
+      bonus bLongAtkRate,3*(.@r/4);
+  - Id: 700021
+    AegisName: Fourth_Bh_Bow
+    Name: Scrap Bow [2]
+    Type: Weapon
+    SubType: Bow
+    Weight: 1700
+    Attack: 210
+    Range: 5
+    Slots: 2
+    Jobs:
+      Hunter: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bSkillAtk,"AC_SHOWER",5*(.@r/2);
+      bonus bLongAtkRate,2*(.@r/4);
+  - Id: 800010
+    AegisName: Fourth_Revolver
+    Name: Scrap Pistol [2]
+    Type: Weapon
+    SubType: Revolver
+    Weight: 1300
+    Attack: 230
+    Range: 7
+    Slots: 2
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bSkillAtk,"GS_TRACKING",6*(.@r/2);
+      bonus bLongAtkRate,3*(.@r/4);
+  - Id: 810006
+    AegisName: Fourth_Rifle
+    Name: Scrap Piercer [2]
+    Type: Weapon
+    SubType: Rifle
+    Weight: 1600
+    Attack: 280
+    Range: 9
+    Slots: 2
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bSkillAtk,"GS_PIERCINGSHOT",6*(.@r/2);
+      bonus bLongAtkRate,3*(.@r/4);
+  - Id: 820005
+    AegisName: Fourth_Shotgun
+    Name: Scrap Shatter [2]
+    Type: Weapon
+    SubType: Shotgun
+    Weight: 2000
+    Attack: 310
+    Range: 9
+    Slots: 2
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bSplashRange,1;
+      bonus bLongAtkRate,3*(getrefine()/4);
+      bonus2 bSkillAtk,"GS_SPREADATTACK",6*(.@r/2);
+  - Id: 830009
+    AegisName: Fourth_Gatling
+    Name: Scrap Splatter [2]
+    Type: Weapon
+    SubType: Gatling
+    Weight: 2400
+    Attack: 270
+    Range: 9
+    Slots: 2
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bSkillAtk,"GS_RAPIDSHOWER",6*(.@r/2);
+      bonus bLongAtkRate,3*(.@r/4);
+  - Id: 840005
+    AegisName: Fourth_Grenade
+    Name: Scrap Bomber [2]
+    Type: Weapon
+    SubType: Grenade
+    Weight: 3200
+    Attack: 350
+    Range: 9
+    Slots: 2
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 200
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bSkillAtk,"GS_GROUNDDRIFT",6*(.@r/2);
+      bonus bLongAtkRate,3*(.@r/4);

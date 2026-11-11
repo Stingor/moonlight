@@ -1627,3 +1627,105 @@ Body:
   - Id: 12494
     Title: Aftermath of the challenge
     TimeLimit: +23h
+  - Id: 8639
+    Title: Great banquet hall in the depths of the underworld
+  - Id: 8640
+    Title: Both the dead and the living are in high spirits
+  - Id: 8641
+    Title: He looks cute
+    Targets:
+      - Mob: GHOST_CUBE
+        Count: 15
+      - Mob: LUDE_GAL
+        Count: 15
+  - Id: 8642
+    Title: He looks cute - Standby
+    TimeLimit: 4h
+  - Id: 8644
+    Title: That's not an instrument
+    Targets:
+      - Mob: BRUTAL_MURDERER
+        Count: 10
+      - Mob: GAN_CEANN
+        Count: 10
+  - Id: 8645
+    Title: That's not an instrument - Standby
+    TimeLimit: 4h
+  - Id: 8647
+    Title: Playing the piano
+  - Id: 8648
+    Title: Playing the piano - Standby
+    TimeLimit: 4h
+  - Id: 8649
+    Title: It was a great performance
+  - Id: 8650
+    Title: Guys with messy hair
+    Targets:
+      - Mob: DISGUISER
+        Count: 15
+      - Mob: BLUEMOON_LOLI_RURI
+        Count: 15
+  - Id: 8651
+    Title: Guys with messy hair - Standby
+    TimeLimit: 4h
+  - Id: 8652
+    Title: Guys with messy hair
+    Targets:
+      - Mob: DISGUISER
+        Count: 15
+      - Mob: BLUEMOON_LOLI_RURI
+        Count: 15
+  - Id: 8653
+    Title: The ones with dolls
+    Targets:
+      - Mob: GROTE
+        Count: 10
+      - Mob: PIERROTZOIST
+        Count: 10
+  - Id: 8654
+    Title: The ones with dolls - Standby
+    TimeLimit: 4h
+  - Id: 8655
+    Title: The ones with dolls
+  - Id: 8656
+    Title: Wake them up
+  - Id: 8657
+    Title: Wake them up - Standby
+    TimeLimit: 4h
+  - Id: 8658
+    Title: Sorry for being sleepy (1)
+  - Id: 8659
+    Title: Sorry for being sleepy (2)
+  - Id: 16521
+    Title: 4th floor of Rudus, an organic field for waste specimens
+  - Id: 16522
+    Title: 4th floor of Rudus, an organic field for waste specimens
+  - Id: 16523
+    Title: Abyssal Solitude - Standby
+    TimeLimit: 4h
+  - Id: 16524
+    Title: Abyssal Solitude
+    Targets:
+      - Mob: DEADRE
+        Count: 10
+      - Mob: DOLORIAN
+        Count: 10
+      - Mob: PLAGARION
+        Count: 10
+  - Id: 16525
+    Title: Transformation and Evolution - Standby
+    TimeLimit: 4h
+  - Id: 16526
+    Title: Transformation and Evolution
+    Targets:
+      - Mob: GIANT_CAPUT
+        Count: 15
+      - Mob: VENEDI
+        Count: 15
+  - Id: 16527
+    Title: Data backup - Waiting
+    TimeLimit: 4h
+  - Id: 16528
+    Title: Data Backup
+  - Id: 16540
+    Title: Data Backup

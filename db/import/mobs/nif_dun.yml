@@ -1,0 +1,712 @@
+# Episode 17.2 : Niflheim renewal (nif_dun01, nif_dun02), converti par
+# tools/util/re_to_prere_mob.py depuis db/re/mob_db.yml, sans DamageTaken.
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 20935
+    AegisName: GAN_CEANN
+    Name: Gan Ceann
+    Level: 215
+    Hp: 525625
+    BaseExp: 841000
+    JobExp: 546650
+    Attack: 10250
+    Attack2: 1757
+    Defense: 48
+    MagicDefense: 29
+    Resistance: 190
+    MagicResistance: 89
+    Str: 130
+    Agi: 109
+    Vit: 103
+    Int: 83
+    Dex: 112
+    Luk: 109
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 155
+    AttackDelay: 238
+    AttackMotion: 576
+    ClientAttackMotion: 384
+    DamageMotion: 360
+    Ai: 04
+    Drops:
+      - Item: Broken_Armor_Piece
+        Rate: 2040
+      - Item: Evil_Minded_Ruby
+        Rate: 1575
+      - Item: Shadowdecon_Ore
+        Rate: 150
+      - Item: Zelunium_Ore
+        Rate: 150
+      - Item: Shadowdecon
+        Rate: 12
+      - Item: Zelunium
+        Rate: 12
+      - Item: Gan_Ceann_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 20937
+    AegisName: BRUTAL_MURDERER
+    Name: Brutal Murderer
+    Level: 214
+    Hp: 532359
+    BaseExp: 851774
+    JobExp: 553653
+    Attack: 6917
+    Attack2: 1620
+    Defense: 48
+    MagicDefense: 29
+    Resistance: 201
+    MagicResistance: 119
+    Str: 73
+    Agi: 70
+    Vit: 100
+    Int: 86
+    Dex: 88
+    Luk: 82
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demihuman
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 175
+    AttackDelay: 336
+    AttackMotion: 672
+    ClientAttackMotion: 480
+    DamageMotion: 288
+    Ai: 04
+    Drops:
+      - Item: Heavy_Chain
+        Rate: 1725
+      - Item: Rusty_Cleaver
+        Rate: 1360
+      - Item: Mr_Scream
+        Rate: 20
+      - Item: Shadowdecon_Ore
+        Rate: 150
+      - Item: Zelunium_Ore
+        Rate: 150
+      - Item: Shadowdecon
+        Rate: 12
+      - Item: Zelunium
+        Rate: 12
+      - Item: Brutal_Murderer_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 20938
+    AegisName: GHOST_CUBE
+    Name: Ghost Cube
+    Level: 213
+    Hp: 529075
+    BaseExp: 846520
+    JobExp: 550238
+    Attack: 6705
+    Attack2: 1690
+    Defense: 47
+    MagicDefense: 29
+    Resistance: 149
+    MagicResistance: 113
+    Str: 85
+    Agi: 69
+    Vit: 81
+    Int: 85
+    Dex: 82
+    Luk: 81
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Undead
+    Element: Undead
+    ElementLevel: 1
+    WalkSpeed: 130
+    AttackDelay: 624
+    AttackMotion: 1248
+    ClientAttackMotion: 672
+    DamageMotion: 576
+    Ai: 04
+    Drops:
+      - Item: Piece_Of_Black_Cloth
+        Rate: 2040
+      - Item: Evil_Black_Bid
+        Rate: 1575
+      - Item: Black_Powder
+        Rate: 250
+      - Item: Shadowdecon_Ore
+        Rate: 150
+      - Item: Zelunium_Ore
+        Rate: 150
+      - Item: Shadowdecon
+        Rate: 12
+      - Item: Zelunium
+        Rate: 12
+      - Item: Ghost_Cube_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 20939
+    AegisName: LUDE_GAL
+    Name: Lude Gal
+    Level: 213
+    Hp: 529399
+    BaseExp: 847038
+    JobExp: 550575
+    Attack: 9101
+    Attack2: 1448
+    Defense: 47
+    MagicDefense: 28
+    Resistance: 163
+    MagicResistance: 76
+    Str: 102
+    Agi: 85
+    Vit: 81
+    Int: 65
+    Dex: 87
+    Luk: 85
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Undead
+    Element: Undead
+    ElementLevel: 2
+    WalkSpeed: 130
+    AttackDelay: 480
+    AttackMotion: 960
+    ClientAttackMotion: 288
+    DamageMotion: 480
+    Ai: 04
+    Drops:
+      - Item: Pumpkin_Bucket
+        Rate: 2125
+      - Item: Ectoplasmic_Stone
+        Rate: 1800
+      - Item: Transparent_Cloth
+        Rate: 500
+      - Item: Shadowdecon_Ore
+        Rate: 150
+      - Item: Zelunium_Ore
+        Rate: 150
+      - Item: Shadowdecon
+        Rate: 12
+      - Item: Zelunium
+        Rate: 12
+      - Item: Lude_Gal_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 20936
+    AegisName: DISGUISER
+    Name: Disguiser
+    Level: 254
+    Hp: 587305
+    BaseExp: 939688
+    JobExp: 610797
+    Attack: 13744
+    Attack2: 3282
+    Defense: 57
+    MagicDefense: 36
+    Resistance: 209
+    MagicResistance: 170
+    Str: 175
+    Agi: 260
+    Vit: 114
+    Int: 147
+    Dex: 187
+    Luk: 180
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Undead
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 384
+    AttackMotion: 768
+    ClientAttackMotion: 480
+    DamageMotion: 384
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Red_Scarf
+        Rate: 2500
+      - Item: Tangled_Chain
+        Rate: 1800
+      - Item: Heavy_Chain
+        Rate: 2300
+      - Item: Shadowdecon_Ore
+        Rate: 150
+      - Item: Zelunium_Ore
+        Rate: 150
+      - Item: Zelunium
+        Rate: 25
+      - Item: Shadowdecon
+        Rate: 25
+      - Item: Disguiser_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 20941
+    AegisName: GROTE
+    Name: Grote
+    Level: 253
+    Hp: 601461
+    BaseExp: 962338
+    JobExp: 625520
+    Attack: 10230
+    Attack2: 2896
+    Defense: 60
+    MagicDefense: 37
+    Resistance: 476
+    MagicResistance: 282
+    Str: 144
+    Agi: 139
+    Vit: 196
+    Int: 169
+    Dex: 174
+    Luk: 161
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 180
+    AttackDelay: 792
+    AttackMotion: 1584
+    ClientAttackMotion: 1152
+    DamageMotion: 576
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Hanging_Doll
+        Rate: 1000
+      - Item: Rotten_Rope
+        Rate: 2500
+      - Item: Tree_Knot
+        Rate: 2000
+      - Item: Branch_Of_Dead_Tree
+        Rate: 5
+      - Item: Whittling
+        Rate: 2200
+      - Item: Shadowdecon
+        Rate: 25
+      - Item: Zelunium
+        Rate: 25
+      - Item: Grote_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 20942
+    AegisName: PIERROTZOIST
+    Name: Pierrotzoist
+    Level: 255
+    Hp: 578587
+    BaseExp: 925739
+    JobExp: 601730
+    Attack: 11253
+    Attack2: 5182
+    Defense: 58
+    MagicDefense: 39
+    Resistance: 243
+    MagicResistance: 379
+    Str: 133
+    Agi: 144
+    Vit: 150
+    Int: 202
+    Dex: 180
+    Luk: 202
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demon
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 155
+    AttackDelay: 768
+    AttackMotion: 1536
+    ClientAttackMotion: 768
+    DamageMotion: 480
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Broken_Needle
+        Rate: 2400
+      - Item: Needle_Pouch
+        Rate: 2000
+      - Item: Stuffed_Doll
+        Rate: 40
+      - Item: Small_Sewing_Box
+        Rate: 2100
+      - Item: Shadowdecon_Ore
+        Rate: 150
+      - Item: Zelunium_Ore
+        Rate: 150
+      - Item: Zelunium
+        Rate: 25
+      - Item: Pierrotzoist_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 20940
+    AegisName: BLUEMOON_LOLI_RURI
+    Name: Blue Moon Loli Ruri
+    Level: 255
+    Hp: 596605
+    BaseExp: 954568
+    JobExp: 620469
+    Attack: 14716
+    Attack2: 2795
+    Defense: 60
+    MagicDefense: 36
+    Resistance: 405
+    MagicResistance: 191
+    Str: 220
+    Agi: 185
+    Vit: 175
+    Int: 141
+    Dex: 190
+    Luk: 184
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Demon
+    Element: Water
+    ElementLevel: 3
+    WalkSpeed: 125
+    AttackDelay: 510
+    AttackMotion: 1020
+    ClientAttackMotion: 720
+    DamageMotion: 576
+    Ai: 04
+    Modes:
+      Detector: true
+    Drops:
+      - Item: Black_Kitty_Doll
+        Rate: 500
+      - Item: Striped_Socks
+        Rate: 2400
+      - Item: Bat_Cage
+        Rate: 2000
+      - Item: Blue_Moon_Stone
+        Rate: 2300
+      - Item: Shadowdecon_Ore
+        Rate: 150
+      - Item: Zelunium_Ore
+        Rate: 150
+      - Item: Shadowdecon
+        Rate: 25
+      - Item: Bluemoon_Loli_Ruri_Card
+        Rate: 1
+        StealProtected: true
+  - Id: 20943
+    AegisName: DEATH_WITCH
+    Name: Death Witch
+    Level: 255
+    Hp: 7442803
+    BaseExp: 11908485
+    JobExp: 7740515
+#   MvpExp:
+    Attack: 14658
+    Attack2: 2687
+    Defense: 72
+    MagicDefense: 44
+    Resistance: 273
+    MagicResistance: 539
+    Str: 424
+    Agi: 236
+    Vit: 214
+    Int: 423
+    Dex: 241
+    Luk: 174
+    AttackRange: 3
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Demihuman
+    Element: Dark
+    ElementLevel: 2
+    WalkSpeed: 150
+    AttackDelay: 517
+    AttackMotion: 1134
+    ClientAttackMotion: 864
+    DamageMotion: 480
+    Ai: 21
+    Class: Boss
+    Modes:
+      Mvp: true
+    MvpDrops:
+      - Item: Shadowdecon
+        Rate: 4000
+      - Item: Zelunium
+        Rate: 4000
+      - Item: Old_Violet_Box
+        Rate: 4000
+    Drops:
+      - Item: Ectoplasm
+        Rate: 200
+      - Item: Yggdrasilberry
+        Rate: 1500
+      - Item: Seed_Of_Yggdrasil
+        Rate: 1500
+      - Item: Leaf_Of_Yggdrasil
+        Rate: 1500
+      - Item: Shadowdecon
+        Rate: 1000
+      - Item: Zelunium
+        Rate: 1000
+      - Item: Death_Witch_Card
+        Rate: 1
+        StealProtected: true
+#  - Id: 20944
+#    AegisName: JP_E_MONSTER_151
+#  - Id: 20945
+#    AegisName: JP_E_MONSTER_152
+#  - Id: 20946
+#    AegisName: JP_E_MONSTER_153
+#  - Id: 20947
+#    AegisName: JP_E_MONSTER_154
+#  - Id: 20948
+#    AegisName: JP_E_MONSTER_155
+#  - Id: 20949
+#    AegisName: JP_E_MONSTER_156
+#  - Id: 20950
+#    AegisName: JP_E_MONSTER_157
+#  - Id: 20951
+#    AegisName: JP_E_MONSTER_158
+#  - Id: 20952
+#    AegisName: JP_E_MONSTER_159
+#  - Id: 20953
+#    AegisName: JP_E_MONSTER_160
+#  - Id: 20954
+#    AegisName: JP_E_MONSTER_161
+#  - Id: 20955
+#    AegisName: JP_E_MONSTER_162
+#  - Id: 20956
+#    AegisName: JP_E_MONSTER_163
+#  - Id: 20957
+#    AegisName: JP_E_MONSTER_164
+#  - Id: 20958
+#    AegisName: JP_E_MONSTER_165
+#  - Id: 20959
+#    AegisName: JP_E_MONSTER_166
+#  - Id: 20960
+#    AegisName: JP_E_MONSTER_167
+#  - Id: 20961
+#    AegisName: JP_E_MONSTER_168
+#  - Id: 20962
+#    AegisName: JP_E_MONSTER_169
+#  - Id: 20963
+#    AegisName: JP_E_MONSTER_170
+#  - Id: 20964
+#    AegisName: JP_E_MONSTER_171
+#  - Id: 20965
+#    AegisName: JP_E_MONSTER_172
+#  - Id: 20966
+#    AegisName: JP_E_MONSTER_173
+#  - Id: 20967
+#    AegisName: JP_E_MONSTER_174
+#  - Id: 20968
+#    AegisName: JP_E_MONSTER_175
+#  - Id: 20969
+#    AegisName: JP_E_MONSTER_176
+#  - Id: 20970
+#    AegisName: JP_E_MONSTER_177
+#  - Id: 20971
+#    AegisName: JP_E_MONSTER_178
+#  - Id: 20972
+#    AegisName: JP_E_MONSTER_179
+#  - Id: 20973
+#    AegisName: JP_E_MONSTER_180
+#  - Id: 20974
+#    AegisName: JP_E_MONSTER_181
+#  - Id: 20975
+#    AegisName: JP_E_MONSTER_182
+#  - Id: 20976
+#    AegisName: JP_E_MONSTER_183
+#  - Id: 20977
+#    AegisName: JP_E_MONSTER_184
+#  - Id: 20978
+#    AegisName: JP_E_MONSTER_185
+#  - Id: 20979
+#    AegisName: JP_E_MONSTER_186
+#  - Id: 20980
+#    AegisName: JP_E_MONSTER_187
+#  - Id: 20981
+#    AegisName: JP_E_MONSTER_188
+#  - Id: 20982
+#    AegisName: JP_E_MONSTER_189
+#  - Id: 20983
+#    AegisName: JP_E_MONSTER_190
+#  - Id: 20984
+#    AegisName: JP_E_MONSTER_191
+#  - Id: 20985
+#    AegisName: JP_E_MONSTER_192
+#  - Id: 20986
+#    AegisName: JP_E_MONSTER_193
+#  - Id: 20987
+#    AegisName: JP_E_MONSTER_194
+#  - Id: 20988
+#    AegisName: JP_E_MONSTER_195
+#  - Id: 20989
+#    AegisName: JP_E_MONSTER_196
+#  - Id: 20990
+#    AegisName: JP_E_MONSTER_197
+#  - Id: 20991
+#    AegisName: JP_E_MONSTER_198
+#  - Id: 20992
+#    AegisName: JP_E_MONSTER_199
+#  - Id: 20993
+#    AegisName: JP_E_MONSTER_200
+#  - Id: 20994
+#    AegisName: MD_BETELGEUSE
+#  - Id: 20995
+#    AegisName: MD_G_DEADSOUL
+#  - Id: 20996
+#    AegisName: MD_NAGHT_SIEGER
+#  - Id: 20997
+#    AegisName: MD_G_ENTWEIHEN_M
+#  - Id: 20998
+#    AegisName: MD_T_JAKK
+#  - Id: 20999
+#    AegisName: MD_T_STONE_SHOOTER
+#  - Id: 21000
+#    AegisName: MD_T_GRIZZLY
+#  - Id: 21001
+#    AegisName: MD_T_STALACTIC_GOLEM
+#  - Id: 21002
+#    AegisName: MD_T_CHIMERA
+#  - Id: 21003
+#    AegisName: MD_T_KARAKASA
+#  - Id: 21004
+#    AegisName: MD_T_RIDEWORD
+#  - Id: 21005
+#    AegisName: MD_T_PARASITE
+#  - Id: 21006
+#    AegisName: MD_T_WRAITH
+#  - Id: 21007
+#    AegisName: MD_T_PETIT_
+#  - Id: 21008
+#    AegisName: MD_T_WIND_GHOST
+#  - Id: 21009
+#    AegisName: MD_T_CLOCK
+#  - Id: 21010
+#    AegisName: MD_T_RAYDRIC_ARCHER
+#  - Id: 21011
+#    AegisName: MD_T_INCREASE_SOIL
+#  - Id: 21012
+#    AegisName: MD_T_PENOMENA
+#  - Id: 21013
+#    AegisName: MD_T_PETIT
+#  - Id: 21014
+#    AegisName: MD_T_ALARM
+#  - Id: 21015
+#    AegisName: MD_T_ZOMBIE_PRISONER
+#  - Id: 21016
+#    AegisName: MD_T_MARIONETTE
+#  - Id: 21017
+#    AegisName: MD_T_PERMETER
+#  - Id: 21018
+#    AegisName: MD_T_SKEL_PRISONER
+#  - Id: 21019
+#    AegisName: MD_T_OWL_DUKE
+#  - Id: 21020
+#    AegisName: MD_T_DEVIRUCHI
+#  - Id: 21021
+#    AegisName: MD_T_BLOOD_BUTTERFLY
+#  - Id: 21022
+#    AegisName: MD_T_STAPO
+#  - Id: 21023
+#    AegisName: MD_T_EVIL_CLOUD_HERMIT
+#  - Id: 21024
+#    AegisName: MD_T_THE_PAPER
+#  - Id: 21025
+#    AegisName: MD_T_TENGU
+#  - Id: 21026
+#    AegisName: MD_T_ALICE
+#  - Id: 21027
+#    AegisName: MD_T_ANACONDAQ
+#  - Id: 21028
+#    AegisName: MD_T_GARGOYLE
+#  - Id: 21029
+#    AegisName: MD_T_CARAT
+#  - Id: 21030
+#    AegisName: MD_T_STING
+#  - Id: 21031
+#    AegisName: MD_T_GRYPHON
+#  - Id: 21032
+#    AegisName: MD_T_GIBBET
+#  - Id: 21033
+#    AegisName: MD_T_NIGHTMARE_TERROR
+#  - Id: 21034
+#    AegisName: MD_T_ANOLIAN
+#  - Id: 21035
+#    AegisName: MD_T_BLOODY_MURDERER
+#  - Id: 21036
+#    AegisName: MD_T_ALIOT
+#  - Id: 21037
+#    AegisName: MD_T_VENATU
+#  - Id: 21038
+#    AegisName: MD_T_DEATHWORD
+#  - Id: 21039
+#    AegisName: MD_T_PLASMA_B
+#  - Id: 21040
+#    AegisName: MD_T_DIMIK
+#  - Id: 21041
+#    AegisName: MD_T_MINI_DEMON
+#  - Id: 21042
+#    AegisName: MD_T_LEIB_OLMAI
+#  - Id: 21043
+#    AegisName: MD_T_WANDER_MAN
+#  - Id: 21044
+#    AegisName: MD_T_RETRIBUTION
+#  - Id: 21045
+#    AegisName: MD_T_FLAME_SKULL
+#  - Id: 21046
+#    AegisName: MD_T_KNIGHT_OF_ABYSS
+#  - Id: 21047
+#    AegisName: MD_T_BANSHEE
+#  - Id: 21048
+#    AegisName: G_CHIMERA_LAVA
+#  - Id: 21049
+#    AegisName: G_CHIMERA_FULGOR
+#  - Id: 21050
+#    AegisName: G_CHIMERA_NAPEO
+#  - Id: 21051
+#    AegisName: G_CHIMERA_GALENSIS
+#  - Id: 21052
+#    AegisName: G_DISGUISER
+#  - Id: 21053
+#    AegisName: G_BLUEMOON_LOLI_RURI
+#  - Id: 21054
+#    AegisName: G_GROTE
+#  - Id: 21055
+#    AegisName: G_PIERROTZOIST
+#  - Id: 21056
+#    AegisName: G_GIANT_CAPUT
+#  - Id: 21057
+#    AegisName: G_DOLORIAN
+#  - Id: 21058
+#    AegisName: G_PLAGARION
+#  - Id: 21059
+#    AegisName: G_DEADRE
+#  - Id: 21060
+#    AegisName: G_VENEDI
+#  - Id: 21061
+#    AegisName: MD_AIRBOAT_BOSS2
+#  - Id: 21062
+#    AegisName: MD_AIRBOAT_BOSS3
+#  - Id: 21063
+#    AegisName: MD_AIRBOAT_BOSS4

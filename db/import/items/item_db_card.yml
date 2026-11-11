@@ -10556,3 +10556,258 @@ Body:
       DropEffect: CLIENT
     Script: |
       bonus bHPrecovRate,50;  /* note: 30% from the description */
+  - Id: 300240
+    AegisName: Gan_Ceann_Card
+    Name: Gan Ceann Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bBaseAtk,15;
+      bonus2 bAddSize,Size_Large,15;
+      if (BaseLevel>=200) {
+         bonus2 bAddSize,Size_Large,25;
+      }
+  - Id: 300241
+    AegisName: Brutal_Murderer_Card
+    Name: Brutal Murderer Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bBaseAtk,15;
+      bonus2 bAddSize,Size_Medium,15;
+      if (BaseLevel>=200) {
+         bonus2 bAddSize,Size_Medium,25;
+      }
+  - Id: 300242
+    AegisName: Ghost_Cube_Card
+    Name: Ghost Cube Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      if (BaseJob == JOB_NOVICE) {
+         bonus2 bAddClass,Class_All,10;
+         bonus bMaxHP,1500;
+      }
+  - Id: 300243
+    AegisName: Lude_Gal_Card
+    Name: Lude Gal Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      if (BaseJob == JOB_NOVICE) {
+         bonus bMatkRate,10;
+         bonus bMaxSP,500;
+      }
+  - Id: 300244
+    AegisName: Disguiser_Card
+    Name: Disguiser Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Head_Top: true
+      Head_Mid: true
+      Head_Low: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      .@r = getrefine();
+      bonus bVariableCastrate,5-.@r;
+      if (.@r>=9) {
+         bonus bLongAtkRate,1;
+         if (getallrefine() >= 22) {
+            bonus bLongAtkRate,2;
+         }
+      }
+  - Id: 300245
+    AegisName: Bluemoon_Loli_Ruri_Card
+    Name: Blue Moon Loli Ruri Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Head_Top: true
+      Head_Mid: true
+      Head_Low: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      .@r = getrefine();
+      bonus bVariableCastrate,5-.@r;
+      if (.@r>=9) {
+         bonus bHealPower,3;
+         if (getallrefine() >= 22) {
+            bonus bHealPower,5;
+         }
+      }
+  - Id: 300246
+    AegisName: Grote_Card
+    Name: Grote Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Head_Top: true
+      Head_Mid: true
+      Head_Low: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      .@r = getrefine();
+      bonus bVariableCastrate,5-.@r;
+      if (.@r>=9) {
+         bonus2 bMagicSubSize,Size_Small,1;
+         bonus bMdef,8;
+         if (getallrefine() >= 22) {
+            bonus2 bMagicSubSize,Size_Small,2;
+         }
+      }
+  - Id: 300247
+    AegisName: Pierrotzoist_Card
+    Name: Pierrotzoist Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Head_Top: true
+      Head_Mid: true
+      Head_Low: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      .@r = getrefine();
+      bonus bVariableCastrate,5-.@r;
+      if (.@r>=9) {
+         bonus2 bMagicAtkEle,Ele_Ghost,1;
+         if (getallrefine() >= 22) {
+            bonus2 bMagicAtkEle,Ele_Ghost,2;
+         }
+      }
+  - Id: 300248
+    AegisName: Death_Witch_Card
+    Name: Death Witch Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bUseSPrate,50;
+      bonus bMatkRate,10;
+      bonus2 bMagicAddRace,RC_Demon,50;
+      bonus2 bMagicAddRace,RC_Formless,50;
+  - Id: 300249
+    AegisName: Giant_Caput_Card
+    Name: Giant Caput Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bAddRace,RC_Formless,5;
+      if (BaseLevel>=200) {
+         bonus2 bAddRace,RC_Formless,15;
+      }
+  - Id: 300250
+    AegisName: Dolorian_Card
+    Name: Dolorian Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bAddRace,RC_Demon,5;
+      if (BaseLevel>=200) {
+         bonus2 bAddRace,RC_Demon,15;
+      }
+  - Id: 300251
+    AegisName: Plagarion_Card
+    Name: Plagarion Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Head_Top: true
+      Head_Mid: true
+      Head_Low: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,15;
+      bonus2 bMagicAtkEle,Ele_Neutral,7;
+      bonus bUseSPrate,5;
+  - Id: 300252
+    AegisName: Deadre_Card
+    Name: Deadre Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Head_Top: true
+      Head_Mid: true
+      Head_Low: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,15;
+      bonus2 bMagicAtkEle,Ele_Holy,7;
+      bonus bUseSPrate,5;
+  - Id: 300253
+    AegisName: Venedi_Card
+    Name: Venedi Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Head_Top: true
+      Head_Mid: true
+      Head_Low: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,15;
+      bonus2 bMagicAtkEle,Ele_Poison,7;
+      bonus bUseSPrate,5;
+  - Id: 300281
+    AegisName: R001_Bestia_Card
+    Name: R001-Bestia Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bUseSPrate,50;
+      bonus bMatkRate,10;
+      bonus2 bMagicAddRace,RC_Fish,50;
+      bonus2 bMagicAddRace,RC_Insect,50;

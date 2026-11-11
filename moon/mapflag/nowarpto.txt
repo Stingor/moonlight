@@ -380,3 +380,7 @@ ant_d02_i	mapflag	nowarpto
 1@cor	mapflag	nowarpto
 rgsr_in	mapflag	nowarpto
 pub_cat	mapflag	nowarpto
+
+// Niflheim renewal (episode 17.2), d'apres npc/re/mapflag/
+nif_dun01	mapflag	nowarpto
+nif_dun02	mapflag	nowarpto

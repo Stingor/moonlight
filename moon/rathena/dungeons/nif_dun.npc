@@ -8,7 +8,11 @@
 niflheim,149,124,0	script	nifla_nifdun01a	WARPNPC,1,1,{
 	end;
 OnTouch:
-	if (isbegin_quest(8640) == 0) {
+	// Deblocage au compte Moonlight : la quete 8640 pose ##dun_open_nif_dun01 ;
+	// les autres personnages du compte passent des le niveau 200.
+	if (isbegin_quest(8640) > 0 && ##dun_open_nif_dun01 == 0)
+		##dun_open_nif_dun01 = 1;
+	if (isbegin_quest(8640) == 0 && (##dun_open_nif_dun01 == 0 || BaseLevel < 200)) {
 		npctalk "Angry Gatekeeper: How are you adventurer? Go in? Do you want to go in? Kick!", "Angry Gatekeeper#lv200", bc_self;
 		npctalk "Funny Gatekeeper's Friend: Awesome!", "Funny Gatekeeper's Friend#lv20", bc_self;
 		end;

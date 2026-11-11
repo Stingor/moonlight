@@ -86,7 +86,9 @@ OnInit:
 						// Illusion (16.2) : Dracula, Moonlight, Ktullanux, Turtle General, Tao Gunka, Wootan Defender, Maya, Kraken, Abysmal Witch
 						3757,8,3758,8,3796,8,3804,8,20273,8,20277,8,21395,8,20811,8,20843,8,
 						// Illusion of Labyrinth : Chaos Baphomet
-						20520,8;
+						20520,8,
+						// Episode 17.2 : R001-Bestia (Rudus 4F), Death Witch (Niflheim F2)
+						20934,6,20943,8;
 	end;
 }
 

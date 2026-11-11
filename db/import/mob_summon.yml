@@ -341,6 +341,10 @@ Body:
         Rate: 25000
       - Mob: ILL_BAPHOMET
         Rate: 25000
+      - Mob: DEATH_WITCH
+        Rate: 25000
+      - Mob: R001_BESTIA
+        Rate: 25000
   - Group: Branch_Of_Dead_Tree
     Default: SCORPION
     Summon:
@@ -1577,6 +1581,32 @@ Body:
       - Mob: ILL_POPORING
         Rate: 32000
       - Mob: ILL_STEM_WORM
+        Rate: 32000
+      - Mob: GAN_CEANN
+        Rate: 32000
+      - Mob: BRUTAL_MURDERER
+        Rate: 32000
+      - Mob: GHOST_CUBE
+        Rate: 32000
+      - Mob: LUDE_GAL
+        Rate: 32000
+      - Mob: DISGUISER
+        Rate: 32000
+      - Mob: GROTE
+        Rate: 32000
+      - Mob: PIERROTZOIST
+        Rate: 32000
+      - Mob: BLUEMOON_LOLI_RURI
+        Rate: 32000
+      - Mob: GIANT_CAPUT
+        Rate: 32000
+      - Mob: DOLORIAN
+        Rate: 32000
+      - Mob: DEADRE
+        Rate: 32000
+      - Mob: VENEDI
+        Rate: 32000
+      - Mob: PLAGARION
         Rate: 32000
   - Group: Classchange
     Default: BAPHOMET

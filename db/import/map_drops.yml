@@ -1343,3 +1343,437 @@ Body:
           - Index: 2
             Item: Labyrinth_Box_IL
             Rate: 500
+  # Episode 17.2 : Rudus 4F et Niflheim renewal (db/re/map_drops.yml). Mobs normaux a
+  # l'echelle du 2026-11-07 (Fourth_* 1 a 2,5 %, Etel 2 %), MVP inchanges, Relapse Plant ecartee.
+  - Map: sp_rudus4
+    SpecificDrops:
+      - Monster: GIANT_CAPUT
+        Drops:
+          - Index: 0
+            Item: Etel_Dust
+            Rate: 2000
+          - Index: 1
+            Item: Fourth_Grenade
+            Rate: 1000
+          - Index: 2
+            Item: Fourth_Bh_Bow
+            Rate: 1000
+          - Index: 3
+            Item: Fourth_1h_Knuckle
+            Rate: 1000
+          - Index: 4
+            Item: Fourth_Bh_Lute
+            Rate: 1000
+          - Index: 5
+            Item: Fourth_Rifle
+            Rate: 1000
+          - Index: 6
+            Item: Fourth_Revolver
+            Rate: 1000
+          - Index: 7
+            Item: Fourth_Shotgun
+            Rate: 1000
+          - Index: 8
+            Item: Fourth_Bh_Fuuma
+            Rate: 1000
+          - Index: 9
+            Item: Fourth_Gatling
+            Rate: 1000
+          - Index: 10
+            Item: Fourth_1h_Whip
+            Rate: 1000
+      - Monster: DOLORIAN
+        Drops:
+          - Index: 0
+            Item: Etel_Dust
+            Rate: 2000
+          - Index: 1
+            Item: Fourth_Grenade
+            Rate: 1000
+          - Index: 2
+            Item: Fourth_Bh_Bow
+            Rate: 1000
+          - Index: 3
+            Item: Fourth_1h_Knuckle
+            Rate: 1000
+          - Index: 4
+            Item: Fourth_Bh_Lute
+            Rate: 1000
+          - Index: 5
+            Item: Fourth_Rifle
+            Rate: 1000
+          - Index: 6
+            Item: Fourth_Revolver
+            Rate: 1000
+          - Index: 7
+            Item: Fourth_Shotgun
+            Rate: 1000
+          - Index: 8
+            Item: Fourth_Bh_Fuuma
+            Rate: 1000
+          - Index: 9
+            Item: Fourth_Gatling
+            Rate: 1000
+          - Index: 10
+            Item: Fourth_1h_Whip
+            Rate: 1000
+      - Monster: PLAGARION
+        Drops:
+          - Index: 0
+            Item: Etel_Dust
+            Rate: 2000
+          - Index: 1
+            Item: Fourth_Grenade
+            Rate: 1000
+          - Index: 2
+            Item: Fourth_Bh_Bow
+            Rate: 1000
+          - Index: 3
+            Item: Fourth_1h_Knuckle
+            Rate: 1000
+          - Index: 4
+            Item: Fourth_Bh_Lute
+            Rate: 1000
+          - Index: 5
+            Item: Fourth_Rifle
+            Rate: 1000
+          - Index: 6
+            Item: Fourth_Revolver
+            Rate: 1000
+          - Index: 7
+            Item: Fourth_Shotgun
+            Rate: 1000
+          - Index: 8
+            Item: Fourth_Bh_Fuuma
+            Rate: 1000
+          - Index: 9
+            Item: Fourth_Gatling
+            Rate: 1000
+          - Index: 10
+            Item: Fourth_1h_Whip
+            Rate: 1000
+      - Monster: DEADRE
+        Drops:
+          - Index: 0
+            Item: Etel_Dust
+            Rate: 2000
+          - Index: 1
+            Item: Fourth_Grenade
+            Rate: 1000
+          - Index: 2
+            Item: Fourth_Bh_Bow
+            Rate: 1000
+          - Index: 3
+            Item: Fourth_1h_Knuckle
+            Rate: 1000
+          - Index: 4
+            Item: Fourth_Bh_Lute
+            Rate: 1000
+          - Index: 5
+            Item: Fourth_Rifle
+            Rate: 1000
+          - Index: 6
+            Item: Fourth_Revolver
+            Rate: 1000
+          - Index: 7
+            Item: Fourth_Shotgun
+            Rate: 1000
+          - Index: 8
+            Item: Fourth_Bh_Fuuma
+            Rate: 1000
+          - Index: 9
+            Item: Fourth_Gatling
+            Rate: 1000
+          - Index: 10
+            Item: Fourth_1h_Whip
+            Rate: 1000
+      - Monster: VENEDI
+        Drops:
+          - Index: 0
+            Item: Etel_Dust
+            Rate: 2000
+          - Index: 1
+            Item: Fourth_Grenade
+            Rate: 1000
+          - Index: 2
+            Item: Fourth_Bh_Bow
+            Rate: 1000
+          - Index: 3
+            Item: Fourth_1h_Knuckle
+            Rate: 1000
+          - Index: 4
+            Item: Fourth_Bh_Lute
+            Rate: 1000
+          - Index: 5
+            Item: Fourth_Rifle
+            Rate: 1000
+          - Index: 6
+            Item: Fourth_Revolver
+            Rate: 1000
+          - Index: 7
+            Item: Fourth_Shotgun
+            Rate: 1000
+          - Index: 8
+            Item: Fourth_Bh_Fuuma
+            Rate: 1000
+          - Index: 9
+            Item: Fourth_Gatling
+            Rate: 1000
+          - Index: 10
+            Item: Fourth_1h_Whip
+            Rate: 1000
+      - Monster: R001_BESTIA
+        Drops:
+          - Index: 0
+            Item: Etel_Dust
+            Rate: 25000
+          - Index: 1
+            Item: Etel_Stone
+            Rate: 5000
+          - Index: 2
+            Item: Fourth_Grenade
+            Rate: 750
+          - Index: 3
+            Item: Fourth_Bh_Bow
+            Rate: 750
+          - Index: 4
+            Item: Fourth_1h_Knuckle
+            Rate: 750
+          - Index: 5
+            Item: Fourth_Bh_Lute
+            Rate: 750
+          - Index: 6
+            Item: Fourth_Rifle
+            Rate: 750
+          - Index: 7
+            Item: Fourth_Revolver
+            Rate: 750
+          - Index: 8
+            Item: Fourth_Shotgun
+            Rate: 750
+          - Index: 9
+            Item: Fourth_Bh_Fuuma
+            Rate: 750
+          - Index: 10
+            Item: Fourth_Gatling
+            Rate: 750
+          - Index: 11
+            Item: Fourth_1h_Whip
+            Rate: 750
+  - Map: nif_dun01
+    SpecificDrops:
+      - Monster: GAN_CEANN
+        Drops:
+          - Index: 0
+            Item: Etel_Dust
+            Rate: 2000
+          - Index: 1
+            Item: Fourth_Bh_Axe
+            Rate: 2500
+          - Index: 2
+            Item: Fourth_1h_Sword
+            Rate: 2500
+          - Index: 3
+            Item: Fourth_1h_Mace
+            Rate: 2500
+          - Index: 4
+            Item: Fourth_1h_Dagger
+            Rate: 2500
+          - Index: 5
+            Item: Fourth_Bh_Katar
+            Rate: 2500
+      - Monster: BRUTAL_MURDERER
+        Drops:
+          - Index: 0
+            Item: Etel_Dust
+            Rate: 2000
+          - Index: 1
+            Item: Fourth_Bh_Axe
+            Rate: 2500
+          - Index: 2
+            Item: Fourth_1h_Sword
+            Rate: 2500
+          - Index: 3
+            Item: Fourth_1h_Mace
+            Rate: 2500
+          - Index: 4
+            Item: Fourth_1h_Dagger
+            Rate: 2500
+          - Index: 5
+            Item: Fourth_Bh_Katar
+            Rate: 2500
+      - Monster: GHOST_CUBE
+        Drops:
+          - Index: 0
+            Item: Etel_Dust
+            Rate: 2000
+          - Index: 1
+            Item: Fourth_Bh_Axe
+            Rate: 2500
+          - Index: 2
+            Item: Fourth_1h_Sword
+            Rate: 2500
+          - Index: 3
+            Item: Fourth_1h_Mace
+            Rate: 2500
+          - Index: 4
+            Item: Fourth_1h_Dagger
+            Rate: 2500
+          - Index: 5
+            Item: Fourth_Bh_Katar
+            Rate: 2500
+      - Monster: LUDE_GAL
+        Drops:
+          - Index: 0
+            Item: Etel_Dust
+            Rate: 2000
+          - Index: 1
+            Item: Fourth_Bh_Axe
+            Rate: 2500
+          - Index: 2
+            Item: Fourth_1h_Sword
+            Rate: 2500
+          - Index: 3
+            Item: Fourth_1h_Mace
+            Rate: 2500
+          - Index: 4
+            Item: Fourth_1h_Dagger
+            Rate: 2500
+          - Index: 5
+            Item: Fourth_Bh_Katar
+            Rate: 2500
+  - Map: nif_dun02
+    SpecificDrops:
+      - Monster: DISGUISER
+        Drops:
+          - Index: 0
+            Item: Etel_Dust
+            Rate: 2000
+          - Index: 1
+            Item: Fourth_Bh_Axe
+            Rate: 1000
+          - Index: 2
+            Item: Fourth_1h_Sword
+            Rate: 1000
+          - Index: 3
+            Item: Fourth_1h_Manual
+            Rate: 1000
+          - Index: 4
+            Item: Fourth_1h_Mace
+            Rate: 1000
+          - Index: 5
+            Item: Fourth_1h_Dagger
+            Rate: 1000
+          - Index: 6
+            Item: Fourth_1h_Nindo2
+            Rate: 1000
+          - Index: 7
+            Item: Fourth_Bh_Katar
+            Rate: 1000
+      - Monster: BLUEMOON_LOLI_RURI
+        Drops:
+          - Index: 0
+            Item: Etel_Dust
+            Rate: 2000
+          - Index: 1
+            Item: Fourth_Bh_Axe
+            Rate: 1000
+          - Index: 2
+            Item: Fourth_1h_Sword
+            Rate: 1000
+          - Index: 3
+            Item: Fourth_1h_Manual
+            Rate: 1000
+          - Index: 4
+            Item: Fourth_1h_Mace
+            Rate: 1000
+          - Index: 5
+            Item: Fourth_1h_Dagger
+            Rate: 1000
+          - Index: 6
+            Item: Fourth_1h_Nindo2
+            Rate: 1000
+          - Index: 7
+            Item: Fourth_Bh_Katar
+            Rate: 1000
+      - Monster: GROTE
+        Drops:
+          - Index: 0
+            Item: Etel_Dust
+            Rate: 2000
+          - Index: 1
+            Item: Fourth_Bh_Axe
+            Rate: 1000
+          - Index: 2
+            Item: Fourth_1h_Sword
+            Rate: 1000
+          - Index: 3
+            Item: Fourth_1h_Manual
+            Rate: 1000
+          - Index: 4
+            Item: Fourth_1h_Mace
+            Rate: 1000
+          - Index: 5
+            Item: Fourth_1h_Dagger
+            Rate: 1000
+          - Index: 6
+            Item: Fourth_1h_Nindo2
+            Rate: 1000
+          - Index: 7
+            Item: Fourth_Bh_Katar
+            Rate: 1000
+      - Monster: PIERROTZOIST
+        Drops:
+          - Index: 0
+            Item: Etel_Dust
+            Rate: 2000
+          - Index: 1
+            Item: Fourth_Bh_Axe
+            Rate: 1000
+          - Index: 2
+            Item: Fourth_1h_Sword
+            Rate: 1000
+          - Index: 3
+            Item: Fourth_1h_Manual
+            Rate: 1000
+          - Index: 4
+            Item: Fourth_1h_Mace
+            Rate: 1000
+          - Index: 5
+            Item: Fourth_1h_Dagger
+            Rate: 1000
+          - Index: 6
+            Item: Fourth_1h_Nindo2
+            Rate: 1000
+          - Index: 7
+            Item: Fourth_Bh_Katar
+            Rate: 1000
+      - Monster: DEATH_WITCH
+        Drops:
+          - Index: 0
+            Item: Etel_Dust
+            Rate: 25000
+          - Index: 1
+            Item: Etel_Stone
+            Rate: 5000
+          - Index: 2
+            Item: Fourth_Bh_Axe
+            Rate: 750
+          - Index: 3
+            Item: Fourth_1h_Sword
+            Rate: 750
+          - Index: 4
+            Item: Fourth_1h_Manual
+            Rate: 750
+          - Index: 5
+            Item: Fourth_1h_Mace
+            Rate: 750
+          - Index: 6
+            Item: Fourth_1h_Dagger
+            Rate: 750
+          - Index: 7
+            Item: Fourth_1h_Nindo2
+            Rate: 750
+          - Index: 8
+            Item: Fourth_Bh_Katar
+            Rate: 750

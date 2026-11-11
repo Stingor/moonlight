@@ -10,7 +10,8 @@ sp_rudus,180,258,0	warp	rudus1_to_rudus2	1,1,sp_rudus2,185,258
 sp_rudus2,180,258,0	warp	rudus2_to_rudus1	1,1,sp_rudus,185,258
 sp_rudus2,359,206,0	warp	rudus2_to_rudus3	1,1,sp_rudus3,366,207
 sp_rudus3,371,207,0	warp	rudus3_to_rudus2	1,1,sp_rudus2,355,206
-// Rudus 4 releve de 17.2 : ses mobs ne sont pas portes.
+// Rudus 4 (episode 17.2) : on y entre par Pion, a Rudus 3 (quete 16521,
+// moon/rathena/quests/dungeons_200.npc), comme l'officiel.
 sp_rudus4,380,156,0	warp2	#b_hw1	2,2,sp_rudus3,375,45
 
 
@@ -41,9 +42,9 @@ sp_rudus3	monster	Mutant Twin Caput	20366,65,5000
 //==================================================
 // 
 //==================================================
-// sp_rudus4	monster	Giant Caput	GIANT_CAPUT,75
-// sp_rudus4	monster	Dolorian	DOLORIAN,75
-// sp_rudus4	monster	Deadre	DEADRE,75
-// sp_rudus4	monster	Venedi	VENEDI,75
-// sp_rudus4	monster	Plagarion	PLAGARION,75
-// sp_rudus4	boss_monster	R001-Bestia	R001_BESTIA,1,21600000,600000,0
+sp_rudus4	monster	Giant Caput	GIANT_CAPUT,75
+sp_rudus4	monster	Dolorian	DOLORIAN,75
+sp_rudus4	monster	Deadre	DEADRE,75
+sp_rudus4	monster	Venedi	VENEDI,75
+sp_rudus4	monster	Plagarion	PLAGARION,75
+sp_rudus4	boss_monster	R001-Bestia	R001_BESTIA,1,21600000,600000,0

@@ -419,3 +419,9 @@ Body:
           - Index: 121
             Item: C_Amdarais_Card
             Rate: 1
+          - Index: 122
+            Item: Death_Witch_Card
+            Rate: 1
+          - Index: 123
+            Item: R001_Bestia_Card
+            Rate: 1

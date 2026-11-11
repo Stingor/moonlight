@@ -13636,3 +13636,85 @@ Body:
     Type: Etc
     Flags:
       BuyingStore: true
+  - Id: 1001078
+    AegisName: Blue_Moon_Stone
+    Name: Fragments of the Blue Moon
+    Type: Etc
+    Buy: 1720
+    Weight: 10
+  - Id: 1001074
+    AegisName: Heavy_Chain
+    Name: Heavy Chain
+    Type: Etc
+    Buy: 1480
+    Weight: 10
+  - Id: 1001075
+    AegisName: Evil_Minded_Ruby
+    Name: Evil Minded Ruby
+    Type: Etc
+    Buy: 1500
+    Weight: 10
+  - Id: 1001072
+    AegisName: Evil_Black_Bid
+    Name: Evil Orb
+    Type: Etc
+    Buy: 1480
+    Weight: 10
+  - Id: 1001077
+    AegisName: Whittling
+    Name: Wood Block
+    Type: Etc
+    Buy: 1600
+    Weight: 10
+  - Id: 1001073
+    AegisName: Ectoplasmic_Stone
+    Name: Ectoplasmic Stone
+    Type: Etc
+    Buy: 1460
+    Weight: 10
+  - Id: 1001076
+    AegisName: Small_Sewing_Box
+    Name: Small Sewing Kit
+    Type: Etc
+    Buy: 1640
+    Weight: 10
+  - Id: 1001079
+    AegisName: Weird_Tentacle
+    Name: Monstrous Tentacles
+    Type: Etc
+    Buy: 1520
+    Weight: 10
+  - Id: 1001081
+    AegisName: Slicky_Fluid
+    Name: Slimy Fluid
+    Type: Etc
+    Buy: 1560
+    Weight: 10
+  - Id: 1001082
+    AegisName: Reptile_Stone
+    Name: Monster's Stone
+    Type: Etc
+    Buy: 1720
+    Weight: 10
+  - Id: 1001080
+    AegisName: Congealed_Poison
+    Name: Congealed Poison
+    Type: Etc
+    Buy: 1600
+    Weight: 10
+  - Id: 1000322
+    AegisName: Etel_Dust
+    Name: Etel Dust
+    Type: Etc
+    Weight: 1
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1000323
+    AegisName: Etel_Stone
+    Name: Etel Stone
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT

@@ -54059,6 +54059,7 @@ Footer:
   - Path: db/import/mobs/ein_dun.yml
   - Path: db/import/mobs/ep17_1_instances.yml
   - Path: db/import/mobs/sp_rudus.yml
+  - Path: db/import/mobs/nif_dun.yml
   - Path: db/import/mobs/templedemon.yml
   - Path: db/import/mobs/thanatos.yml
   - Path: db/import/mobs/thor.yml

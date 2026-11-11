@@ -317,3 +317,7 @@ prt_mz03_i	mapflag	nomemo
 1@cor	mapflag	nomemo
 rgsr_in	mapflag	nomemo
 pub_cat	mapflag	nomemo
+
+// Niflheim renewal (episode 17.2), d'apres npc/re/mapflag/
+nif_dun01	mapflag	nomemo
+nif_dun02	mapflag	nomemo

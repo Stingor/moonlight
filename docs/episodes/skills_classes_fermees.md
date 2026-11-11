@@ -262,6 +262,38 @@ Cinq compétences des Circlet of Time manquaient à la table. Validées par l'ut
 | `SC_FEINTBOMB` | `RG_RAID` | comme `SC_ENERVATION` et `SC_GROOMY` (**nouveau**) |
 | `SP_CURSEEXPLOSION` | `SL_SMA` | comme `SP_SOULREAPER` ; le Circlet porte déjà `SL_STUN` (**nouveau**) |
 
+## Ajouts du 2026‑11‑11 (4ᵉ classes, armes Fourth_* de 17.2), validés
+
+Les 18 armes Fourth_* de Rudus 4F et de Niflheim renewal (drops de carte) portent des
+compétences de 4ᵉ classe. Elles suivent les règles du stuff de 3ᵉ classe : bloc `Classes`
+retiré, classe de base dans `Jobs` (Kagerou et Oboro vont au Ninja, Rebellion au Gunslinger),
+`WeaponLevel` 5 ramené à 4, ATK gardée comme pour les armes 170, `MagicAttack` en `bMatk`,
+`bAtkRate` en `bAddClass`. Validées par l'utilisateur le 2026‑11‑11 :
+
+| Compétence | Remplacement | Classe | Arme |
+|---|---|---|---|
+| `BO_ACIDIFIED_ZONE_WIND`, `BO_ACIDIFIED_ZONE_FIRE` | `AM_ACIDTERROR` (une seule ligne) | Alchimiste | Fourth_1h_Sword |
+| `ABC_ABYSS_SQUARE` | `RG_RAID` | Rogue | Fourth_1h_Dagger |
+| `SKE_NOON_BLAST` | `TK_STORMKICK` | Star Gladiator | Fourth_1h_Manual |
+| `IQ_SECOND_FAITH` | `MO_INVESTIGATE` | Moine | Fourth_1h_Knuckle |
+| `IQ_SECOND_JUDGEMENT` | `MO_FINGEROFFENSIVE` | Moine | Fourth_1h_Knuckle |
+| `TR_ROSEBLOSSOM`, `TR_ROSEBLOSSOM_ATK` (luth) | `BA_MUSICALSTRIKE` (une seule ligne) | Barde | Fourth_Bh_Lute |
+| `TR_ROSEBLOSSOM`, `TR_ROSEBLOSSOM_ATK` (fouet) | `DC_THROWARROW` (une seule ligne) | Danseuse | Fourth_1h_Whip |
+| `CD_FRAMEN` | `PR_MAGNUS` | Prêtre | Fourth_1h_Mace |
+| `SHC_IMPACT_CRATER` | `ASC_METEORASSAULT` | Assassin | Fourth_Bh_Katar |
+| `MT_AXE_STOMP` | `MC_CARTREVOLUTION` | Forgeron | Fourth_Bh_Axe |
+| `WH_GALESTORM` | `AC_SHOWER` | Chasseur | Fourth_Bh_Bow |
+| `SS_KAGENOMAI` | `NJ_KASUMIKIRI` | Ninja | Fourth_1h_Nindo2 |
+| `SS_FUUMASHOUAKU` | `NJ_HUUMA` | Ninja | Fourth_Bh_Fuuma |
+| `NW_ONLY_ONE_BULLET` | `GS_TRACKING` | Gunslinger | Fourth_Revolver |
+| `NW_SPIRAL_SHOOTING` | `GS_PIERCINGSHOT` | Gunslinger | Fourth_Rifle |
+| `NW_THE_VIGILANTE_AT_NIGHT` | `GS_SPREADATTACK` | Gunslinger | Fourth_Shotgun |
+| `NW_MAGAZINE_FOR_ONE` | `GS_RAPIDSHOWER` | Gunslinger | Fourth_Gatling |
+| `NW_WILD_FIRE` | `GS_GROUNDDRIFT` | Gunslinger | Fourth_Grenade |
+| `SH_HYUN_ROKS_BREEZE`, `SH_HOWLING_OF_CHUL_HO` | objet écarté (Doram) | — | Fourth_1h_Plant |
+
+`Fourth_Shotgun` lisait `.@r` sans jamais le poser dans l'amont : il est posé par `getrefine()`.
+
 ## Objets touchés par la règle des doublons
 
 `GodOfWinds_Fan`, `Astro_Circle`, `Emerald_Earring`, `Chilly_Spell_Book`, `Recovery_Light`, `Staff_of_Miracle`, `Red_Ether_Bag`, `Engine_Pilebuncker`, `Volar`, `Vernan`, `Master_Soul_Rifle`, `Jack_The_Knife`.
