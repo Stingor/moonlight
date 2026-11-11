@@ -1743,6 +1743,9 @@ void clif_parse_moonlight_style(int32 fd, map_session_data* sd);
 // Envoie à `sd` la recette de `owner`, si `owner` en a une et si `sd` est un
 // client Bourgeon. Appelé quand `owner` entre dans la vue de `sd`.
 void clif_bourgeon_style_single(map_session_data* sd, map_session_data* owner);
+// [Stingor] Les variantes v7 de `owner`, à la suite de `out` : [corps:1] puis
+// corps × l'entrée du lot 0x0F27 sans son gid. Pour les styles hors de vue.
+void clif_bourgeon_style_bodies(map_session_data& owner, std::vector<uint8>& out);
 // Pousse d'un coup le style de TOUS les joueurs déjà en vue de `sd`.
 //
 // 🔴 À appeler quand `sd` vient d'être reconnu comme client Bourgeon. La

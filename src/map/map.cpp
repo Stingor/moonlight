@@ -59,6 +59,7 @@
 #include "map_edits.hpp" // map_edits_on_logout : le transfert entrant jeté à la déconnexion
 #include "style_layers.hpp" // style_layers_on_logout : teintures, atelier et cadence oubliés
 #include "style_outfits.hpp" // style_outfits_on_logout : la cadence des tenues oubliée
+#include "style_absent.hpp" // style_absent_on_logout : la cadence des styles hors de vue oubliée
 #include "trade.hpp"
 #include "voice_bridge.hpp"
 
@@ -2402,6 +2403,7 @@ int32 map_quit(map_session_data *sd) {
 	map_edits_on_logout(*sd);
 	style_layers_on_logout(*sd); // [Stingor]
 	style_outfits_on_logout(*sd); // [Stingor]
+	style_absent_on_logout(*sd); // [Stingor]
 	voice_bridge_send_leave(sd);
 	// [Stingor] Présence en arène : il en sort pour ses amis, sa guilde, sa zone.
 	survivors_presence_leave(*sd);

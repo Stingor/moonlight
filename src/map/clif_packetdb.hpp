@@ -2154,6 +2154,11 @@ parseable_packet(HEADER_CZ_MOONCLIENT_STYLE_LAYERS, -1, clif_parse_moonclient_st
 // DANS le handler — VARIABLE : la queue porte un nom et une tenue plafonnés.
 parseable_packet(HEADER_CZ_MOONCLIENT_OUTFIT, -1, clif_parse_moonclient_outfit, 0);
 
+// [Stingor] moonclient : les styles hors de vue de la guilde, du groupe et des
+// amis (style_absent.cpp, CZ 0x0F63 / ZC 0x0F64). Gate MOONLIGHT_UI_STYLE_LAYERS
+// DANS le handler -- VARIABLE, exactement 5 + 4 x nombre.
+parseable_packet(HEADER_CZ_MOONCLIENT_STYLE_ABSENT, -1, clif_parse_moonclient_style_absent, 0);
+
 // [Stingor] Bourgeon : état de l'entité ciblée (fenêtre de cible). Le client
 // redemande tant que sa fenêtre est ouverte ; aucun état serveur — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_TARGET_INFO, sizeof(PACKET_CZ_MOONLIGHT_TARGET_INFO), clif_parse_moonlight_target_info, 0);

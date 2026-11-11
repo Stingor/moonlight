@@ -50,6 +50,7 @@
 #include "map_edits.hpp"
 #include "style_layers.hpp"
 #include "style_outfits.hpp"
+#include "style_absent.hpp"
 #include "market.hpp"
 #include "map.hpp"
 #include "mercenary.hpp"
@@ -9705,6 +9706,9 @@ void clif_bourgeon_server_rules(map_session_data& sd) {
 		{ BOURGEON_RULE_STYLE_LAYER_RETOUCHES,     MOONCLIENT_STYLE_LAYER_RETOUCHES_MAX },
 		// La preuve que le serveur range la peau du corps.
 		{ BOURGEON_RULE_STYLE_LAYER_LAST,          MOONCLIENT_STYLE_LAYER_BODY_SKIN },
+		// La preuve que le serveur sert les styles hors de vue.
+		{ BOURGEON_RULE_STYLE_ABSENT_CADENCE_MS,   MOONCLIENT_STYLE_ABSENT_CADENCE_MS },
+		{ BOURGEON_RULE_STYLE_ABSENT_IDS_MAX,      MOONCLIENT_STYLE_ABSENT_IDS_MAX },
 	};
 	const size_t len = sizeof(PACKET_ZC_MOONLIGHT_SERVER_RULES) + sizeof(rules);
 
@@ -12070,6 +12074,21 @@ static bool bourgeon_style_follow_state(const map_session_data& sd,
 // personnage, et rien ne doit être lu en base pour lui.
 static bool bourgeon_cosmetic_receiver(const map_session_data* sd) {
 	return sd != nullptr && (sd->state.has_bourgeon || sd->state.bourgeon_cosmetic);
+}
+
+// [Stingor] Les variantes v7 de `owner`, pour les styles hors de vue
+// (style_absent.cpp) : [corps:1] puis corps × une entrée du lot 0x0F27 sans son
+// gid. Le repli en tête, comme dans un lot.
+void clif_bourgeon_style_bodies(map_session_data& owner, std::vector<uint8>& out) {
+	std::vector<bourgeon_style_variant> list;
+	bourgeon_style_load(&owner, list);
+	out.push_back(static_cast<uint8>(list.size()));
+	for (size_t i = 0; i < list.size(); ++i) {
+		PACKET_BOURGEON_STYLE_ENTRY e{};
+		bourgeon_style_fill(&e, &owner, &list[i], i == 0);
+		const uint8* p = reinterpret_cast<const uint8*>(&e) + sizeof(e.gid);
+		out.insert(out.end(), p, p + MOONCLIENT_STYLE_ABSENT_BODY_BYTES);
+	}
 }
 
 void clif_bourgeon_style_single(map_session_data* sd, map_session_data* owner) {

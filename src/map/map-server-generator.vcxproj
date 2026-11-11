@@ -228,6 +228,7 @@
     <ClInclude Include="map_edits.hpp" />
     <ClInclude Include="style_layers.hpp" />
     <ClInclude Include="style_outfits.hpp" />
+    <ClInclude Include="style_absent.hpp" />
     <ClInclude Include="market.hpp" />
     <ClInclude Include="mercenary.hpp" />
     <ClInclude Include="mob.hpp" />
@@ -286,6 +287,7 @@
     <ClCompile Include="map_edits.cpp" />
     <ClCompile Include="style_layers.cpp" />
     <ClCompile Include="style_outfits.cpp" />
+    <ClCompile Include="style_absent.cpp" />
     <ClCompile Include="market.cpp" />
     <ClCompile Include="mercenary.cpp" />
     <ClCompile Include="mob.cpp">

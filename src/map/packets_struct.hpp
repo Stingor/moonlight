@@ -7006,6 +7006,10 @@ enum e_bourgeon_server_rule : uint16 {
 	// Le dernier numéro de calque accepté : 🔴 moonclient n'envoie pas de peau du
 	// corps (calque 6) avant de l'avoir lue.
 	BOURGEON_RULE_STYLE_LAYER_LAST         = 25, ///< MOONCLIENT_STYLE_LAYER_BODY_SKIN
+	// Les styles hors de vue (CZ 0x0F63) : 🔴 moonclient n'en demande pas avant de
+	// l'avoir lue.
+	BOURGEON_RULE_STYLE_ABSENT_CADENCE_MS  = 26, ///< écart minimal entre deux CZ 0x0F63 (ms)
+	BOURGEON_RULE_STYLE_ABSENT_IDS_MAX     = 27, ///< MOONCLIENT_STYLE_ABSENT_IDS_MAX
 };
 
 struct PACKET_ZC_MOONLIGHT_SERVER_RULES_entry {
@@ -8208,6 +8212,64 @@ struct PACKET_ZC_MOONCLIENT_OUTFIT {
 	char code[MOONCLIENT_OUTFIT_CODE_LENGTH];
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONCLIENT_OUTFIT, 0x0f62);
+
+// ── [Stingor] Les styles hors de vue de moonclient (0x0F63, 0x0F64) ────────────
+//
+// La guilde, le groupe et la liste d'amis dessinent la tête d'un membre connecté
+// mais absent de la carte : le client demande ses styles par char_id, et le
+// serveur rend le même contenu qu'à un joueur en vue (v7 du 0x0F27, bloc du
+// 0x0F5F), plus l'apparence de la tête. Voir style_absent.cpp, et dans moonclient
+// docs/couleurs-du-personnage/conception.md (lot L13) et l'ADR 0147.
+//
+// 🔴 LE SERVEUR CHOISIT QUI : il relit la guilde, le groupe et les amis de la
+// session, et rend l'état 0 à tout autre char_id, comme à un membre hors ligne ou
+// caché. Les deux voyagent sous MOONLIGHT_UI_STYLE_LAYERS.
+#define MOONCLIENT_STYLE_ABSENT_IDS_MAX 16
+// L'apparence d'un bloc à l'état 1 : métier, sexe, coupe, couleur.
+#define MOONCLIENT_STYLE_ABSENT_LOOK_BYTES 7
+// Un corps de la v7 dans un bloc : l'entrée du 0x0F27 sans son gid.
+#define MOONCLIENT_STYLE_ABSENT_BODY_BYTES (sizeof(PACKET_BOURGEON_STYLE_ENTRY) - 4)
+
+enum e_moonclient_style_absent_state : uint8 {
+	// Rien à montrer : hors ligne, hors des listes de la session, ou caché.
+	MOONCLIENT_STYLE_ABSENT_NOTHING = 0,
+	// L'apparence, la v7 et les calques suivent.
+	MOONCLIENT_STYLE_ABSENT_SHOWN   = 1,
+};
+
+// CZ : les styles de ces personnages. Variable, exactement 5 + 4 × count.
+// Layout: [type:2][len:2][count:1] puis count × [char_id:4]
+//   count : de 1 à MOONCLIENT_STYLE_ABSENT_IDS_MAX, ni zéro ni doublon.
+struct PACKET_CZ_MOONCLIENT_STYLE_ABSENT {
+	int16 packetType;
+	int16 packetLength;
+	uint8 count;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONCLIENT_STYLE_ABSENT, 0x0f63);
+
+// ZC : la réponse, à la seule session qui a demandé. Variable.
+// Layout: [type:2][len:2][résultat:1][attente_ms:2][drapeaux:1][taille_brute:2]
+//         puis la charge.
+//   résultat : ceux de e_moonclient_style_result (0 servi, 2 trop tôt, 3 structure,
+//              4 plafond d'octets) ; hors du 0, la charge est vide.
+//   drapeaux : MOONCLIENT_STYLE_LAYERS_ZIPPED, au-delà de MOONCLIENT_STYLE_LAYERS_ZIP_ABOVE.
+//   charge   : un bloc par char_id demandé, dans l'ordre de la demande, jamais
+//              coupé entre deux trames de MOONCLIENT_STYLE_LAYERS_RAW_MAX au plus :
+//     [char_id:4][état:1]
+//     état 1 : [métier:2][sexe:1][coupe:2][couleur:2]
+//              [corps:1] puis corps × [version:1][drapeaux:1][clé:4][palette:2]
+//                                      [palette_cheveux:2][coupe:2][réglages:40]
+//              [nombre:1] puis nombre × entrée de calque, à la forme du ZC 0x0F5F.
+// 🔴 Rien que ce qu'un joueur en vue recevrait : jamais la teinture d'un objet rangé.
+struct PACKET_ZC_MOONCLIENT_STYLE_ABSENT {
+	int16 packetType;
+	int16 packetLength;
+	uint8 result;
+	uint16 wait_ms;
+	uint8 flags;
+	uint16 raw_size;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONCLIENT_STYLE_ABSENT, 0x0f64);
 
 
 // ── [Stingor] Album de cartes (ZC 0x0F33, CZ 0x0F34) ────────────────────────
