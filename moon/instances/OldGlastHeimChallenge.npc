@@ -203,9 +203,15 @@ OnInstanceInit:
 // Les ailes se font l'une apres l'autre (video) : tout le groupe part a
 // l'ouest (131,82), le portail de l'ouest mene a l'est (169,102, video).
 OnSplit:
+	// warp et non unitwarp : la carte porte noteleport, et unitwarp refuse
+	// alors de deplacer un joueur, sans le dire.
 	.@n = getmapunits(BL_PC,'map$,.@pc);
-	for( .@i = 0; .@i < .@n; .@i++ )
-		unitwarp .@pc[.@i], 'map$, 131, 82;
+	for( .@i = 0; .@i < .@n; .@i++ ) {
+		if( attachrid(.@pc[.@i]) ) {
+			warp 'map$, 131, 82;
+			detachrid;
+		}
+	}
 	donpcevent instance_npcname("#oghcm_wing") + "::OnSpawn";
 	end;
 }
