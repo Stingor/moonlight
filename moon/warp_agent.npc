@@ -7,6 +7,7 @@ gonryun,165,129,3	script	Warp Agent::warp_agent	4_F_01,{
 	function GetMobs;
 	function WarpMenu;
 	function IllusionMenu;
+	function QuestDunMenu;
 	.@npc_name$ = "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
 L_WarpaCmd:
 	mes .@npc_name$;
@@ -1031,6 +1032,99 @@ function IllusionMenu {
 		warp_fct(.@qmap$[.@c], .@qx[.@c], .@qy[.@c]);
 	return;
 }
+
+// LES DONJONS DE NIVEAU 200 (Rudus 4F, Niflheim renewal), sur le principe du menu Illusion :
+// chaque carte s'ouvre par sa quete d'acces, au compte Moonlight (##dun_open_<carte>), et le
+// niveau reste par personnage. Une carte fermee renvoie vers le PNJ qui ouvre la quete.
+// getarg(0) : 0 = Rudus / OS, 1 = Niflheim donjon.
+function QuestDunMenu {
+	.@set = getarg(0);
+	if (.@set == 0) {
+		setarray .@mname$[0], "sp_rudus", "sp_rudus2", "sp_rudus3", "sp_rudus4", "sp_os";
+		setarray .@mxcoord[0], 185, 185, 366, 370, 260;
+		setarray .@mycoord[0], 258, 258, 207, 156, 357;
+		setarray .@minlv[0], 0, 0, 0, 200, 0;
+		// Quete d'acces de Rudus 4F (16521), finie : le compte s'ouvre aussi.
+		if (isbegin_quest(16521) == 2 && !##dun_open_sp_rudus4)
+			##dun_open_sp_rudus4 = 1;
+		setarray .@open[0], 1, 1, 1, ##dun_open_sp_rudus4, 1;
+		setarray .@prog[0], 0, 0, 0, (isbegin_quest(16521) == 1), 0;
+		setarray .@qnpc$[0], "", "", "", "Yulma", "";
+		setarray .@qmap$[0], "", "", "", "pub_cat", "";
+		setarray .@qx[0], 0, 0, 0, 94, 0;
+		setarray .@qy[0], 0, 0, 0, 41, 0;
+	} else {
+		setarray .@mname$[0], "nif_dun01", "nif_dun02";
+		setarray .@mxcoord[0], 145, 149;
+		setarray .@mycoord[0], 85, 23;
+		setarray .@minlv[0], 200, 240;
+		// Quete d'acces de Niflheim (8640, donnee par Milla) : le compte s'ouvre aussi.
+		if (isbegin_quest(8640) > 0 && !##dun_open_nif_dun01)
+			##dun_open_nif_dun01 = 1;
+		setarray .@open[0], ##dun_open_nif_dun01, ##dun_open_nif_dun01;
+		setarray .@prog[0], (isbegin_quest(8639) == 1), (isbegin_quest(8639) == 1);
+		setarray .@qnpc$[0], "Old scholar", "Old scholar";
+		setarray .@qmap$[0], "moc_para01", "moc_para01";
+		setarray .@qx[0], 14, 14;
+		setarray .@qy[0], 21, 21;
+	}
+	.@n = getarraysize(.@mname$);
+	.@staff = (getgroupid() >= 99);
+
+	for (.@i = 0; .@i < .@n; .@i++) {
+		deletearray .@mobids[0], getarraysize(.@mobids);
+		deletearray .@mobnums[0], getarraysize(.@mobnums);
+		.@mobtotal = 0;
+		getmapspawns(.@mname$[.@i]);
+		.@avglv[.@i] = 0;
+		if (.@mobtotal > 0) {
+			.@lvsum = 0;
+			for (.@j = 0; .@j < getarraysize(.@mobids); .@j++)
+				.@lvsum += getmonsterinfo(.@mobids[.@j], MOB_LV) * .@mobnums[.@j];
+			.@avglv[.@i] = .@lvsum / .@mobtotal;
+		}
+	}
+
+	.@sel$ = "";
+	@mesnpctotal = 0;
+	if (WarpaDetail) clear;
+	for (.@i = 0; .@i < .@n; .@i++) {
+		if (.@i > 0) .@sel$ += ":";
+		.@label$ = getmapname(.@mname$[.@i]) + " (" + .@mname$[.@i] + ")";
+		if (.@staff || (BaseLevel >= .@minlv[.@i] && .@open[.@i])) {
+			if (.@avglv[.@i] > 0)
+				.@label$ += " ~LV" + .@avglv[.@i];
+			.@sel$ += "• " + .@label$;
+		} else if (BaseLevel < .@minlv[.@i])
+			.@sel$ += "^999999• " + .@label$ + " [niv. " + .@minlv[.@i] + "]^000000";
+		else
+			.@sel$ += "^FF0000• " + .@label$ + " [quête]^000000";
+		if (WarpaDetail) GetMobs(.@mname$[.@i]);
+	}
+	if (WarpaDetail) setdialogsize(500,10+cap_value(25*.@mesnpccount,150,600));
+	.@c = select(.@sel$ + ":• ^e64c00Menu Précédent^000000") - 1;
+	if (.@c >= .@n)
+		return;
+	if (.@staff || (BaseLevel >= .@minlv[.@c] && .@open[.@c]))
+		warp_fct(.@mname$[.@c], .@mxcoord[.@c], .@mycoord[.@c]);
+
+	clear;
+	mes "[ ^1F81D4" + strnpcinfo(0) + "^000000 ]";
+	if (BaseLevel < .@minlv[.@c]) {
+		mes getmapname(.@mname$[.@c]) + " demande le niveau " + .@minlv[.@c] + ".";
+		next;
+		return;
+	}
+	if (.@prog[.@c] > 0) {
+		mes "Ta quête pour " + getmapname(.@mname$[.@c]) + " est en cours : suis ton journal de quêtes pour l'ouvrir.";
+	} else {
+		mes "Pour ouvrir " + getmapname(.@mname$[.@c]) + ", commence la quête auprès de ^4d4dff" + .@qnpc$[.@c] + "^000000.";
+	}
+	next;
+	if (select("Se rendre auprès de " + .@qnpc$[.@c] + ":• ^e64c00Menu Précédent^000000") == 1)
+		warp_fct(.@qmap$[.@c], .@qx[.@c], .@qy[.@c]);
+	return;
+}
 function WarpMenu {
 	.@n = getargcount();
 
@@ -1456,6 +1550,7 @@ L_Donjons:
 		 "• Malaya",L_mly,
 		 "• Malangdo",L_mln,
 		 "• Moskovia Donjon",L_mos,
+		 "• Niflheim Donjon",L_nfd,
 		 "• Odin Temple",L_odn,
 		 "• Orc Donjon",L_orc,
 		 "• Payon Donjon",L_pay,
@@ -1640,10 +1735,8 @@ L_pyr: WarpMenu("moc_pryd01,192,9",
 				"moc_prydn2,192,8"); goto L_Donjons;
 L_rck: WarpMenu("rockmi1",
 				"harboro2"); goto L_Donjons;
-L_rud: WarpMenu("sp_rudus,185,258",
-				"sp_rudus2,185,258",
-				"sp_rudus3,366,207",
-				"sp_os,260,357"); goto L_Donjons;
+L_rud: QuestDunMenu(0); goto L_Donjons;
+L_nfd: QuestDunMenu(1); goto L_Donjons;
 L_san: WarpMenu("ra_san01,140,130",
 				"ra_san02,213,269",
 				"ra_san03,123,278",

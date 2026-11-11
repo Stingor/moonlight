@@ -62,3 +62,9 @@ Body:
     Name: "Einbech Mine F3"
   - Map: prt_elib
     Name: "Prontera East Library"
+  - Map: sp_rudus4
+    Name: "Rudus, Experiment Waste Disposal F4"
+  - Map: nif_dun01
+    Name: "Dead Man's Banquet Hall"
+  - Map: nif_dun02
+    Name: "Collapsed Opera House"
