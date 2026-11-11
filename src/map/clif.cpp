@@ -7641,10 +7641,19 @@ void clif_parse_moonlight_integrity(int32 fd, map_session_data* sd) {
 void clif_parse_moonclient_integrity(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 
-	// moonclient n'ouvre pas de session spectateur ; une qui s'annoncerait ainsi
-	// n'obtient rien, pour la raison écrite dans clif_parse_moonlight_integrity.
-	if (sd->state.spectator)
+	// [Stingor] LE DÉCOR DU LOGIN DE MOONCLIENT, une session spectateur. Elle
+	// obtient ce qu'obtient celle de Bourgeon dans clif_parse_moonlight_integrity,
+	// et rien de plus : le droit de VOIR les cosmétiques d'autrui. Ni vérification,
+	// ni lecture en base, ni MachineGuid enregistré (le décor n'en envoie pas : ce
+	// n'est pas le joueur). La diffusion de zone se rejoue, pour les joueurs déjà
+	// décrits avant ce paquet. Voir l'ADR 0147 de moonclient, lot L15.
+	if (sd->state.spectator) {
+		if (sd->state.bourgeon_cosmetic)
+			return;
+		sd->state.bourgeon_cosmetic = true;
+		clif_bourgeon_style_area(sd);
 		return;
+	}
 
 	// [Stingor] Une poignée de main par session, pour la raison écrite dans
 	// clif_parse_moonlight_integrity.
@@ -9577,10 +9586,25 @@ static int32 clif_bourgeon_companion_master_seen_sub(block_list* bl, va_list ap)
 
 void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
-	if (!sd->state.has_bourgeon) return;
-
 	const PACKET_CZ_MOONLIGHT_UI_CAPS* p =
 		reinterpret_cast<const PACKET_CZ_MOONLIGHT_UI_CAPS*>(RFIFOP(fd, 0));
+	// [Stingor] LE SPECTATEUR QUI A LE DROIT DE VOIR (bourgeon_cosmetic) n'annonce
+	// qu'une chose : il sait lire les teintures de calques. Tout autre bit est
+	// effacé — il n'ouvre aucun handler, et aucune donnée de personnage ne part
+	// vers lui. Il reçoit alors les blocs des joueurs en vue.
+	if (sd->state.spectator && sd->state.bourgeon_cosmetic) {
+		if (p->packetLength < static_cast<int16>(sizeof(PACKET_CZ_MOONLIGHT_UI_CAPS)))
+			return;
+		const uint32 kept = p->caps & MOONLIGHT_UI_STYLE_LAYERS;
+		if ((kept & ~sd->bourgeon_ui_caps) != 0 && !clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_UI_CAPS))
+			return;
+		const bool gained = (kept & ~sd->bourgeon_ui_caps) != 0;
+		sd->bourgeon_ui_caps = kept;
+		if (gained)
+			style_layers_spectator_join(*sd);
+		return;
+	}
+	if (!sd->state.has_bourgeon) return;
 	// Paquet déclaré VARIABLE : un client plus ancien (ou plus récent) peut en
 	// envoyer une version plus courte. On ne lit `caps` que s'il est réellement là,
 	// plutôt que de lire au-delà du tampon annoncé.

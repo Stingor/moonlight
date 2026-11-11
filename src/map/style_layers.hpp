@@ -61,6 +61,9 @@ bool style_layers_receiver(const map_session_data& sd);
 // Le bloc de `sd`, à `sd` et aux joueurs en vue qui savent le lire, puis ceux de
 // tous les joueurs en vue, à `sd` : à la poignée de main et au gain du bit.
 void style_layers_handshake(map_session_data& sd);
+// Les blocs des joueurs en vue, au SPECTATEUR qui vient d'annoncer le bit des
+// calques. Le sien ne se compose jamais : un spectateur ne se montre pas.
+void style_layers_spectator_join(map_session_data& sd);
 // Le bloc de `owner`, aux joueurs en vue qui savent le lire, `owner` exclu : à
 // son apparition (connexion, warp).
 void style_layers_spawn(map_session_data& owner);

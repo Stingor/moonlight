@@ -582,6 +582,9 @@ bytes frame_of(const bytes& raw) {
 	return frame;
 }
 
+// Qui reçoit la diffusion : voir sa définition.
+bool layers_viewer(const map_session_data& sd);
+
 void send_frame(const map_session_data& sd, const bytes& frame) {
 	const int32 fd = sd.fd;
 	if (!session_isActive(fd))
@@ -605,7 +608,7 @@ int32 send_area_sub(block_list* bl, va_list ap) {
 		return 0;
 	// 🔴 DESTINATAIRE PAR DESTINATAIRE, jamais clif_send(AREA) : un client qui
 	// n'a pas le bit ne connaît pas l'opcode.
-	if (!style_layers_receiver(*tsd))
+	if (!layers_viewer(*tsd))
 		return 0;
 	if (tsd != owner && clif_hidden_unit_withheld(*owner, *tsd))
 		return 0;
@@ -621,6 +624,10 @@ void send_area(map_session_data& owner, const bytes& block, bool with_self) {
 	state.last_block = block;
 	state.broadcast = true;
 }
+
+// Le joueur en vue de `self` a-t-il un bloc à lui envoyer ? Rassemble ceux qui
+// ne lui sont pas cachés, en trames de MOONCLIENT_STYLE_LAYERS_RAW_MAX au plus.
+void send_seen(map_session_data& sd);
 
 // Rassemble les joueurs en vue de `self` qui ne lui sont pas cachés.
 int32 collect_sub(block_list* bl, va_list ap) {
@@ -671,6 +678,18 @@ struct s_request_entry {
 
 } // namespace
 
+namespace {
+
+// 🔴 QUI REÇOIT LA DIFFUSION : un joueur vérifié qui a le bit, ou le spectateur
+// qui a le droit de VOIR et l'a annoncé. Ce n'est pas `style_layers_receiver`,
+// qui garde aussi les CZ : un spectateur n'émet rien.
+bool layers_viewer(const map_session_data& sd) {
+	const bool viewer = sd.state.has_bourgeon || (sd.state.spectator && sd.state.bourgeon_cosmetic);
+	return viewer && (sd.bourgeon_ui_caps & MOONLIGHT_UI_STYLE_LAYERS) != 0;
+}
+
+} // namespace
+
 bool style_layers_receiver(const map_session_data& sd) {
 	return sd.state.has_bourgeon && (sd.bourgeon_ui_caps & MOONLIGHT_UI_STYLE_LAYERS) != 0;
 }
@@ -708,6 +727,18 @@ void style_layers_handshake(map_session_data& sd) {
 	const bytes own = compose_block(sd);
 	send_area(sd, own, true);
 
+	send_seen(sd);
+}
+
+void style_layers_spectator_join(map_session_data& sd) {
+	if (!sd.state.spectator || !layers_viewer(sd))
+		return;
+	send_seen(sd);
+}
+
+namespace {
+
+void send_seen(map_session_data& sd) {
 	// Ceux des autres, à lui, par trames de MOONCLIENT_STYLE_LAYERS_RAW_MAX au plus.
 	std::vector<map_session_data*> seen;
 	map_foreachinallrange(collect_sub, &sd, pc_view_range(sd), BL_PC, &seen, static_cast<const map_session_data*>(&sd));
@@ -727,7 +758,12 @@ void style_layers_handshake(map_session_data& sd) {
 		send_frame(sd, frame_of(raw));
 }
 
+} // namespace
+
 void style_layers_spawn(map_session_data& owner) {
+	// Un spectateur ne se montre pas : rien de lui ne se compose ni ne se lit.
+	if (owner.state.spectator)
+		return;
 	const bytes block = compose_block(owner);
 	// Rien à dire, et rien n'a été dit : personne n'a de teinture à oublier.
 	if (block[4] == 0 && !state_of(owner).broadcast)
@@ -736,7 +772,7 @@ void style_layers_spawn(map_session_data& owner) {
 }
 
 void style_layers_single(map_session_data& sd, map_session_data& owner) {
-	if (!style_layers_receiver(sd) || &sd == &owner)
+	if (!layers_viewer(sd) || &sd == &owner || owner.state.spectator)
 		return;
 	const bytes block = compose_block(owner);
 	if (block[4] == 0)
@@ -745,7 +781,7 @@ void style_layers_single(map_session_data& sd, map_session_data& owner) {
 }
 
 void style_layers_look_changed(map_session_data& owner) {
-	if (owner.prev == nullptr)
+	if (owner.prev == nullptr || owner.state.spectator)
 		return; // pas encore sur la carte : son apparition le dira
 	const bytes block = compose_block(owner);
 	const s_style_layer_state& state = state_of(owner);
