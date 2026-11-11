@@ -12,7 +12,7 @@
 //= Voir docs/episodes/ogh_mode_defi.md.
 //============================================================
 
-ggpro,21,30,4	script	HUGINN2001#oghcm	2_VENDING_MACHINE1,{
+glast_01,146,289,4	script	HUGINN2001#oghcm	2_VENDING_MACHINE1,{
 	mes "[HUGINN2001]";
 	mes "Bzzt... Hugin's dimensional exchange unit, model 2001.";
 	mes "I process the materials of the contaminated dimension.";

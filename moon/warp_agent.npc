@@ -720,7 +720,11 @@ L_Jitter:
 			warp_fct("mal_dun01", 152, 230);
 		}
 		case INST_OLD_GLAST_HEIM: { // Old Glast Heim
-			if( select( GetColor(12317)+"Acces direct^000000", "Se rendre à Glastheim" ) == 1 ) {
+			.@ogh = select( GetColor(12317)+"Acces direct^000000", "Se rendre à Glastheim", "Mode Défi (près d'Oscar)" );
+			// Le Mode Défi : Oscar attend à glast_01 143,288.
+			if( .@ogh == 3 )
+				warp_fct("glast_01", 143, 286);
+			if( .@ogh == 1 ) {
 				.@md_name$ = "Old Glast Heim";
 				.@questid1 = 12317; // Trace of Time Travel
 				.@questid2 = 12318; // Corrupted Soul Hunt

@@ -7,7 +7,7 @@
 //= iRO ; monstres d'apres Divine Pride. Conception et decisions :
 //= docs/episodes/ogh_mode_defi.md.
 //=
-//= Entree : Oscar a ggpro 18,30 (provisoire, tests ; cible glast_01 143,288), niveau 170, Old Glast Heim
+//= Entree : Oscar a glast_01 143,288, niveau 170, Old Glast Heim
 //= Advanced fini (quete 12339). Cooldown : quete 12494 (23 h).
 //= Niveau de contamination 1 a 10, debloque par le nombre de
 //= victoires du personnage (OGHCM_CLEARS), comme l'officiel.
@@ -126,21 +126,16 @@ function	script	F_OGHCM_Scale	{
 //------------------------------------------------------------
 // Entree : Oscar a Glast Heim
 //------------------------------------------------------------
-ggpro,18,30,4	script	Oscar#oghcm	4_ED_OSCAR,{
+glast_01,143,288,5	script	Oscar#oghcm	4_ED_OSCAR,{
 	cutin "oscar01",2;
 	.@md_name$ = "Old Glast Heim Challenge Mode";
 	mes "[Oscar]";
 	mes "A contaminated dimension has opened here, a twisted copy of the time zone of Himmelmez's attack.";
 	mes "Varmundt and Heinrich do not exist there. And it keeps growing.";
 	next;
-	// Phase de test : reserve au staff (groupe 99), qui saute niveau, quete
-	// Advanced et cooldown. Retirer ce verrou a l'ouverture publique.
+	// Le staff (groupe 99) saute niveau, quete Advanced et cooldown, et a
+	// les 10 niveaux de contamination : pour verifier l'instance en jeu.
 	.@staff = (getgroupid() >= 99);
-	if( !.@staff ) {
-		mes "[Oscar]";
-		mes "The rift is still unstable. I cannot let anyone through yet.";
-		close3;
-	}
 	if( .@staff ) {
 		mes "[Oscar]";
 		mes "^FF0000[Staff]^000000 Level, Advanced and cooldown checks skipped.";
@@ -216,7 +211,7 @@ ggpro,18,30,4	script	Oscar#oghcm	4_ED_OSCAR,{
 			close3;
 		case IE_OK:
 			cutin "",255;
-			mapannounce "ggpro", strcharinfo(0) + " of the party " + getpartyname(.@party_id) + " enters the " + .@md_name$ + ".", bc_map, "0x00FF99";
+			mapannounce "glast_01", strcharinfo(0) + " of the party " + getpartyname(.@party_id) + " enters the " + .@md_name$ + ".", bc_map, "0x00FF99";
 			if( !.@staff )
 				setquest 12494;
 			end;
@@ -226,7 +221,7 @@ ggpro,18,30,4	script	Oscar#oghcm	4_ED_OSCAR,{
 	close3;
 
 OnInit:
-	questinfo( QTYPE_QUEST, QMARK_YELLOW, "getgroupid() >= 99" );
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "BaseLevel >= 170 && isbegin_quest(12339) == 2 && checkquest(12494,PLAYTIME) == -1" );
 	end;
 }
 
@@ -849,7 +844,7 @@ S_Drop:
 		if( select("Back to Glast Heim.:Stay a little.") == 1 ) {
 			close2;
 			cutin "",255;
-			warp "ggpro", 18, 28;
+			warp "glast_01", 143, 286;
 			end;
 		}
 		close3;
