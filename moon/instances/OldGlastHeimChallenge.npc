@@ -615,12 +615,24 @@ OnHallWarp:
 1@gl_he,157,240,0	script	#oghcm_phantom	HIDDEN_NPC,{
 	end;
 
+// Le fantome se tire au sort ICI, des que la silhouette parait : elle montre
+// celui qui va surgir, et OnSummon le fait apparaitre. Une nouvelle silhouette
+// (apres un OnHide) est un nouveau tirage.
 OnShow:
 	if( 'phantom_on )
 		end;
 	'phantom_on = 1;
+	// Fantome de Himmelmez selon la chance du niveau (wiki iRO), sinon d'Amdarais.
+	setarray .@chance[1], 459, 472, 495, 532, 588, 676, 820, 1087, 1724, 5000;
+	if( rand(10000) < .@chance['level] ) {
+		'boss_class = 20572;
+		'boss_name$ = "Phantom of Himmelmez";
+	} else {
+		'boss_class = 20573;
+		'boss_name$ = "Phantom of Amdarais";
+	}
 	.@me$ = instance_npcname("#oghcm_phantom");
-	setnpcdisplay .@me$, 20573;
+	setnpcdisplay .@me$, 'boss_class;
 	enablenpc .@me$;
 	specialeffect 744, AREA, .@me$;
 	specialeffect 1419, AREA, .@me$;
@@ -647,16 +659,8 @@ OnSummon:
 	progressbar_npc "0x33FF33", 10, .@o$;
 	donpcevent .@fx$ + "::OnHide";
 	'summoning = 0;
-	// Fantome de Himmelmez selon la chance du niveau (wiki iRO), sinon d'Amdarais.
-	setarray .@chance[1], 459, 472, 495, 532, 588, 676, 820, 1087, 1724, 5000;
-	if( rand(10000) < .@chance['level] ) {
-		.@mob = 20572;
-		'boss_name$ = "Phantom of Himmelmez";
-	} else {
-		.@mob = 20573;
-		'boss_name$ = "Phantom of Amdarais";
-	}
-	'boss_class = .@mob;
+	// Le fantome tire par la silhouette (OnShow).
+	.@mob = 'boss_class;
 	'members = getmapunits(BL_PC, 'map$);
 	'slave70 = 0;
 	'slave50 = 0;
