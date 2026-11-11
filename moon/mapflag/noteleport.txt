@@ -669,3 +669,16 @@ pub_cat	mapflag	noteleport
 1@os_a	mapflag	monster_noteleport
 1@os_b	mapflag	monster_noteleport
 1@cor	mapflag	monster_noteleport
+
+// Episode 17.2 : instances et manoir de Varmundt, d'apres npc/re/mapflag/ (nobranch ecarte, inverse ici)
+1@bamn	mapflag	noteleport
+1@bamq	mapflag	noteleport
+1@ghg	mapflag	noteleport
+1@herbs	mapflag	noteleport
+1@lost	mapflag	noteleport
+ba_in01	mapflag	noteleport
+1@bamn	mapflag	monster_noteleport
+1@bamq	mapflag	monster_noteleport
+1@ghg	mapflag	monster_noteleport
+1@herbs	mapflag	monster_noteleport
+1@lost	mapflag	monster_noteleport

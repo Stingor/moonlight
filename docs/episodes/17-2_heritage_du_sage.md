@@ -6,7 +6,7 @@
 | Date kRO | **2020‑10‑30** |
 | Arc | l'héritage de Varmundt |
 | Niveau kRO visé | 185‑200 |
-| État Moonlight | **spawns du manoir actifs ; lot A (Niflheim renewal, Rudus 4F) porté le 2026‑11‑11, à valider en jeu ; quêtes, instances et économie du manoir absentes** |
+| État Moonlight | **lots A, B2 et B1 portés le 2026‑11‑11 (Niflheim renewal, Rudus 4F, chaîne de quêtes, quatre instances), à valider en jeu ; économie du manoir (B3) absente** |
 
 Le plus gros apport de cartes depuis l'épisode 14.1 : tout le manoir de Varmundt et ses
 dépendances, soit une douzaine de cartes. C'est aussi l'épisode qui introduit les
@@ -83,11 +83,11 @@ précède est porté depuis le 2026‑11‑08.
 | Laboratoire Amicitia | `moon/rathena/dungeons/amicitia.npc` — `amicitia1`, `amicitia2` | ✅ chargé |
 | Mobs correspondants | `db/import/mobs/ba_dun.yml`, `db/import/mobs/amicitia.yml` | ✅ |
 | Niflheim renewal | `moon/rathena/dungeons/nif_dun.npc` — `nif_dun01`, `nif_dun02` | ✅ chargé le 2026‑11‑11 (lot A) |
-| Jardin du Crépuscule / Hey! Sweety | `moon/instances/TwilightGarden.txt` | non référencé |
-| Jardin d'Eau | `moon/instances/WaterGarden.txt` | non référencé |
-| Jardin de Fleurs Caché | `moon/instances/HiddenGarden.txt` | non référencé |
-| Ferme Perdue dans le Temps | `moon/instances/LostFarm.txt` | non référencé |
-| Quêtes 17.2 | — | **absent** (`quests_17_2.txt`, 126 quêtes sur 139 absentes) |
+| Jardin du Crépuscule / Hey! Sweety | `moon/instances/TwilightGarden.npc` | ✅ chargé le 2026‑11‑11 (lot B1) |
+| Jardin d'Eau | `moon/instances/WaterGarden.npc` | ✅ chargé le 2026‑11‑11 (lot B1) |
+| Jardin de Fleurs Caché | `moon/instances/HiddenGarden.npc` | ✅ chargé le 2026‑11‑11 (lot B1) |
+| Ferme Perdue dans le Temps | `moon/instances/LostFarm.npc` | ✅ chargé le 2026‑11‑11 (lot B1) |
+| Quêtes 17.2 | `moon/rathena/quests/quests_17_2.npc` | ✅ chargé le 2026‑11‑11 (lot B2) |
 | Rudus 4F | `moon/rathena/dungeons/sp_rudus.npc` | ✅ chargé le 2026‑11‑11 (lot A) |
 | Quêtes d'accès et journalières de Rudus 4F et Niflheim | `moon/rathena/quests/dungeons_200.npc` | ✅ chargé le 2026‑11‑11 (lot A) ; la partie Amicitia de l'amont n'est pas reprise |
 
@@ -127,13 +127,32 @@ script ni chez rAthena ni ailleurs.
 | Branches et albums | 13 mobs en Dead Branch, Death Witch et R001-Bestia en Bloody Branch, 13 cartes à l'album, 2 cartes MVP en `mca` et `mvpenchant` ; points MVP : R001-Bestia 6, Death Witch 8 | `db/import/mob_summon.yml`, `db/import/item_group_db/`, `moon/mobs/mvps.npc` |
 | Client | tables serveur régénérées, 28 quêtes au journal, fiches des armes et cartes alignées (noms de compétences, « Refine Total Stuff +22 ») | `moonclient/dist/data/yaml_files/` |
 
+## 5c. Lots B2 et B1 (portés le 2026‑11‑11, non validés en jeu)
+
+La chaîne et les instances vont ensemble : deux instances sont créées depuis la chaîne, les deux
+autres vérifient ses variables (`ep17_2_main`, `ep172_watergarden`) et ses quêtes. La chaîne
+démarre à la fin de celle du 17.1 (`ep17_2_main` 1 et 2, déjà porté) ; les warps du manoir
+(`ba_dun.npc`) suivaient déjà `ep17_2_main`, qu'aucun script ne faisait avancer au-delà de 2.
+
+| Partie | Contenu | Fichiers |
+|---|---|---|
+| Chaîne | copie de l'amont, 10 609 lignes | `moon/rathena/quests/quests_17_2.npc` |
+| Instances | Jardin du Crépuscule, Hey! Sweety!, Jardin d'Eau (normal et difficile), Jardin de Fleurs Caché, Zones de Sécurité 1 et 2, Ferme Perdue : `instance_db` 58 à 65 (53 à 60 chez rAthena), constantes `INST_*` régénérées ; scripts identiques à l'amont, en `.npc`. On y entre par la chaîne, pas par le warp agent | `moon/instances/{TwilightGarden,WaterGarden,HiddenGarden,LostFarm}.npc`, `db/import/instance_db.yml` |
+| Mobs | 38 mobs d'instance (`MD_*`, `G_*`, `EP17_2_BETA_BASIC`, et `MD_GRAN_PAPILIA`, cible de la quête 16433), `re_to_prere_mob.py` sans retouche, `DamageTaken` retiré ; MVP de 2,2 M (Sweety) à 12,8 M (Red Pepper difficile, 1 Md en renewal) ; 193 lignes de skills, `NPC_RAINOFMETEOR` (769) ajouté au skill_db | `db/import/mobs/ep17_2_instances.yml` |
+| Objets | 48 : 21 cartes, matériaux et objets de quête, 4 boissons, 2 mousses de bain (statuts `Bath_foam_a` à `_c` repris de `db/re`), 4 coiffes | `db/import/items/` |
+| Conversions | paliers au-delà de +10 en `getallrefine()` (Senior Special Alnoldi, Senior Papila Cae), `bAtkRate` en `bAddClass`, compétences fermées par la table (Sweety : Rapid Shower ; Senior Broken Gardener : Counter Kick, Turn Kick ; Autumn Headband : Arrow Shower ; Black Ribbon : Spiral Pierce, Bowling Bash, délai en `bDelayrate`), DEF 10 des coiffes ramenée à 8 | |
+| Écarts | baton Doram `Ep172_1h_Foxtail` (retiré des drops) ; **Epic Module Box** : son groupe tire les modules Automatic du lot B3, le tirage à 5 % du Jardin de Fleurs Caché donne 5 pierres d'Igni en attendant | |
+| Quêtes | 126 quêtes (chaîne et instances) | `db/import/quest_db.yml` |
+| Mapflags | les cinq cartes d'instance (`nomemo`, `noteleport`, `monster_noteleport`, `nowarpto`, `restricted 6`) et `ba_in01` (`nomemo`, `noteleport`, `nowarpto`) ; `nobranch` écarté (inversé ici) | `moon/mapflag/` |
+| Client | 126 quêtes au journal, tables régénérées, fiches des objets convertis alignées | `moonclient/dist/data/yaml_files/` |
+
 ## 6. Verdict
 
 | | |
 |---|---|
 | Intérêt | élevé — le terrain est déjà ouvert, il manque ce qui le rend jouable |
-| Fait | lot A : Niflheim renewal et Rudus 4F (2026‑11‑11, non validé en jeu) |
-| Reste à faire | **B1** : 4 instances (7 entrées `instance_db` à partir de 58, 29 mobs, scripts renommés en `.npc`, mapflags) · **B2** : `quests_17_2.txt` (126 quêtes et ses objets) · **B3** : l'économie du manoir (Lisa et l'équipement Automatic, modules, échanges) · la partie Amicitia de `quests_dungeons_200.txt` · hors périmètre : les 5 instances de l'intervalle, sans script nulle part |
+| Fait | lot A : Niflheim renewal et Rudus 4F ; lots B2 et B1 : la chaîne de quêtes et les quatre instances (2026‑11‑11, non validés en jeu) |
+| Reste à faire | **B3** : l'économie du manoir (Lisa et l'équipement Automatic, modules, échanges, et l'Epic Module Box du Jardin de Fleurs Caché) · la partie Amicitia de `quests_dungeons_200.txt` · hors périmètre : les 5 instances de l'intervalle, sans script nulle part |
 
 ## Sources
 

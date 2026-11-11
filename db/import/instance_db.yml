@@ -434,3 +434,56 @@ Body:
       Map: 1@gl_he
       X: 150
       Y: 28
+  # Episode 17.2 (db/re/instance_db.yml, Id 53 a 60 chez rAthena)
+  - Id: 58
+    Name: Twilight Garden
+    Enter:
+      Map: 1@bamn
+      X: 100
+      Y: 320
+    AdditionalMaps:
+      1@bamq: true
+  - Id: 59
+    Name: Hey! Sweety
+    Enter:
+      Map: 1@bamq
+      X: 16
+      Y: 39
+    AdditionalMaps:
+      1@bamn: true
+  - Id: 60
+    Name: Farm Lost in Time
+    Enter:
+      Map: 1@lost
+      X: 161
+      Y: 42
+  - Id: 61
+    Name: Water Garden
+    Enter:
+      Map: 1@ghg
+      X: 64
+      Y: 69
+  - Id: 62
+    Name: Water Garden Hard
+    Enter:
+      Map: 1@ghg
+      X: 64
+      Y: 69
+  - Id: 63
+    Name: Hidden Flower Garden
+    Enter:
+      Map: 1@herbs
+      X: 51
+      Y: 273
+  - Id: 64
+    Name: Security Area 1
+    Enter:
+      Map: 1@herbs
+      X: 45
+      Y: 208
+  - Id: 65
+    Name: Security Area 2
+    Enter:
+      Map: 1@herbs
+      X: 59
+      Y: 214

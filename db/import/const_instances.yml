@@ -133,3 +133,19 @@ Body:
     Value: 56
   - Name: INST_OLD_GLAST_HEIM_CHALLENGE_MODE
     Value: 57
+  - Name: INST_TWILIGHT_GARDEN
+    Value: 58
+  - Name: INST_HEY_SWEETY
+    Value: 59
+  - Name: INST_FARM_LOST_IN_TIME
+    Value: 60
+  - Name: INST_WATER_GARDEN
+    Value: 61
+  - Name: INST_WATER_GARDEN_HARD
+    Value: 62
+  - Name: INST_HIDDEN_FLOWER_GARDEN
+    Value: 63
+  - Name: INST_SECURITY_AREA_1
+    Value: 64
+  - Name: INST_SECURITY_AREA_2
+    Value: 65

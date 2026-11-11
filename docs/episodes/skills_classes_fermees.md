@@ -294,6 +294,12 @@ retiré, classe de base dans `Jobs` (Kagerou et Oboro vont au Ninja, Rebellion a
 
 `Fourth_Shotgun` lisait `.@r` sans jamais le poser dans l'amont : il est posé par `getrefine()`.
 
+Instances du 17.2 (même jour), une compétence nouvelle **à valider** :
+
+| Compétence | Remplacement | Analogie | Objet |
+|---|---|---|---|
+| `RK_WINDCUTTER` | `KN_BOWLINGBASH` | comme `RK_IGNITIONBREAK` et `RK_STORMBLAST` ; son délai de 1,8 s devient `bDelayrate,-9` | Black_Ribbon_ |
+
 ## Objets touchés par la règle des doublons
 
 `GodOfWinds_Fan`, `Astro_Circle`, `Emerald_Earring`, `Chilly_Spell_Book`, `Recovery_Light`, `Staff_of_Miracle`, `Red_Ether_Bag`, `Engine_Pilebuncker`, `Volar`, `Vernan`, `Master_Soul_Rifle`, `Jack_The_Knife`.

@@ -11864,3 +11864,33 @@ Body:
       Container: true
     Script: |
       getgroupitem(IG_BIO_REACTANT_BOX);
+  - Id: 100147
+    AegisName: Bath_Foam_A
+    Name: Bath Foam A
+    Type: Usable
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoStorage: true
+      NoCart: true
+      NoMail: true
+      NoAuction: true
+      NoGuildStorage: true
+    Script: |
+      sc_start SC_BATH_FOAM_A,900000,5;
+  - Id: 100149
+    AegisName: Bath_Foam_C
+    Name: Bath Foam C
+    Type: Usable
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoStorage: true
+      NoCart: true
+      NoMail: true
+      NoAuction: true
+      NoGuildStorage: true
+    Script: |
+      sc_start SC_BATH_FOAM_C,900000,15;

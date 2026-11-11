@@ -13718,3 +13718,203 @@ Body:
     Flags:
       BuyingStore: true
       DropEffect: CLIENT
+  - Id: 1000101
+    AegisName: AUTODOLL_PARTS
+    Name: Autodoll Parts
+    Type: Etc
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000232
+    AegisName: Autodoll_Communicator
+    Name: Communication Chip of Automatic Doll
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000103
+    AegisName: BarMealTicket
+    Name: Barmil Ticket
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000231
+    AegisName: Broken_AutoDoll_Parts
+    Name: Parts of Broken Automatic Doll
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000226
+    AegisName: Broken_Dollcore
+    Name: Core of a Broken Doll
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000092
+    AegisName: ELYUMINA_RADAR
+    Name: Elyumina Radar
+    Type: Etc
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000102
+    AegisName: EMERGENCY_KEY
+    Name: Emergency Key
+    Type: Etc
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000100
+    AegisName: FREEZING_TRAP
+    Name: Freezing Trap
+    Type: Etc
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000099
+    AegisName: GARDENERS_COOKIE
+    Name: Gardener's Cookie
+    Type: Etc
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000104
+    AegisName: Magical_Igni_Stone
+    Name: Magical Soapstone
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000095
+    AegisName: PITAYA_TAIL_B
+    Name: Blue Pitaya Tail
+    Type: Etc
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000098
+    AegisName: PITAYA_TAIL_BOSS
+    Name: Boss Pitaya Tail
+    Type: Etc
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000096
+    AegisName: PITAYA_TAIL_G
+    Name: Green Pitaya Tail
+    Type: Etc
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000097
+    AegisName: PITAYA_TAIL_P
+    Name: Purple Pitaya Tail
+    Type: Etc
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000093
+    AegisName: PITAYA_TAIL_R
+    Name: Red Pitaya Tail
+    Type: Etc
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000094
+    AegisName: PITAYA_TAIL_Y
+    Name: Yellow Pitaya Tail
+    Type: Etc
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true

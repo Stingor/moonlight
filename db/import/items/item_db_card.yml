@@ -10811,3 +10811,349 @@ Body:
       bonus bMatkRate,10;
       bonus2 bMagicAddRace,RC_Fish,50;
       bonus2 bMagicAddRace,RC_Insect,50;
+  - Id: 300085
+    AegisName: Alnoldi_Ex_Card
+    Name: Special Alnoldi Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bStr,2;
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+      bonus bBaseAtk,getskilllv("TK_POWER")*7;
+  - Id: 300086
+    AegisName: Alnoldi_Ex_H_Card
+    Name: Senior Special Alnoldi Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      .@r = getrefine();
+      if (getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_VIEW) == W_2HSWORD) {
+         bonus bShortAtkRate,10;
+      }
+      bonus bShortAtkRate,.@r;
+      if (getallrefine() >= 22) {
+         bonus bUnbreakableWeapon;
+      }
+  - Id: 300097
+    AegisName: Aries_Card
+    Name: Aries Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bAgi,2;
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+      bonus2 bSkillAtk,"TF_POISON",25;
+  - Id: 300098
+    AegisName: Aries_H_Card
+    Name: Senior Aries Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Garment: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,5;
+      bonus2 bSkillAtk,"NJ_KOUENKA",10;
+      bonus2 bSkillAtk,"NJ_HYOUSENSOU",10;
+      bonus2 bSkillAtk,"NJ_HUUJIN",10;
+      if (getrefine()>=7) {
+         bonus bVariableCastrate,-5;
+      }
+  - Id: 300081
+    AegisName: Assistant_Card
+    Name: Research Assistant Bot Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bInt,2;
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+      bonus2 bSkillAtk,"MG_FIREBALL",25;
+  - Id: 300082
+    AegisName: Assistant_H_Card
+    Name: Senior Assistant Bot Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      if (getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_VIEW) == W_1HSPEAR || getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_VIEW) == W_2HSPEAR) {
+         bonus bLongAtkRate,10;
+      }
+      bonus bLongAtkRate,2*(getrefine()/2);
+  - Id: 300088
+    AegisName: B_Scissore_Ng_H_Card
+    Name: Senior Broken Gardener Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      .@r = getrefine();
+      if (getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_VIEW) == W_BOOK) {
+         bonus2 bAddClass,Class_All,5;
+         bonus bHit,20;
+      }
+      bonus bShortAtkRate,.@r;
+      if (.@r>=10) {
+         bonus2 bSkillAtk,"TK_COUNTER",15;
+         bonus2 bSkillAtk,"TK_TURNKICK",15;
+      }
+  - Id: 300083
+    AegisName: Dry_Rafflesia_Card
+    Name: Dry Rafflesia Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bAgi,2;
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+      bonus2 bSkillAtk,"NJ_KUNAI",15;
+      bonus2 bSkillAtk,"NJ_HYOUSENSOU",15;
+  - Id: 300084
+    AegisName: Dry_Rafflesia_H_Card
+    Name: Senior Dry Rafflesia Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Garment: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bSubEle,Ele_Holy,30;
+      bonus bFlee,5;
+  - Id: 300095
+    AegisName: Papila_Cae_Card
+    Name: Papila Cae Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bDex,2;
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+      bonus2 bSkillAtk,"AC_SHOWER",25;
+  - Id: 300096
+    AegisName: Papila_Cae_H_Card
+    Name: Senior Papila Cae Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      .@r = getrefine();
+      if (getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_VIEW) == W_MUSICAL || getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_VIEW) == W_WHIP) {
+         bonus bMatk,20;
+      }
+      if (.@r>=10) {
+         bonus bVariableCastrate,-10;
+         bonus bMatk,20;
+      }
+      if (getallrefine() >= 26) {
+         bonus bMatk,20;
+      }
+  - Id: 300091
+    AegisName: Papila_Card
+    Name: Papila Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bDex,2;
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+      bonus2 bSkillAtk,"GS_SPREADATTACK",10;
+      bonus2 bSkillAtk,"GS_DESPERADO",10;
+      bonus2 bSkillAtk,"GS_FULLBUSTER",10;
+  - Id: 300092
+    AegisName: Papila_H_Card
+    Name: Senior Papila Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bLuk,2;
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+      bonus2 bSkillAtk,"MC_CARTREVOLUTION",50;
+  - Id: 300093
+    AegisName: Papila_Ruba_Card
+    Name: Papila Ruba Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bInt,2;
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+      bonus2 bSkillAtk,"AL_HOLYLIGHT",50;
+  - Id: 300094
+    AegisName: Papila_Ruba_H_Card
+    Name: Senior Papila Ruba Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      if (getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_VIEW) == W_2HSWORD) {
+         bonus bCritAtkRate,20;
+      }
+      bonus bCritAtkRate,2*(getrefine()/2);
+  - Id: 300079
+    AegisName: Redpepper_Card
+    Name: Red Pepper Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Armor: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bMagicAddRace,RC_Fish,30;
+      bonus2 bMagicAddRace,RC_Formless,30;
+      bonus2 bMagicAddEle,Ele_Holy,30;
+      bonus2 bMagicAddEle,Ele_Water,30;
+  - Id: 300080
+    AegisName: Redpepper_H_Card
+    Name: Senior Red Pepper Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Armor: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bMagicAddRace,RC_Fish,50;
+      bonus2 bMagicAddRace,RC_Formless,50;
+      bonus2 bMagicAddEle,Ele_Holy,50;
+      bonus2 bMagicAddEle,Ele_Water,50;
+  - Id: 300099
+    AegisName: Silva_Papilia_Card
+    Name: Silva Papilia Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Left_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bSubClass,Class_Normal,20;
+      bonus bHealPower2,15;
+  - Id: 300078
+    AegisName: Sweety_Card
+    Name: Sweety Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bSkillAtk,"GS_RAPIDSHOWER",60;
+      bonus2 bSkillUseSPrate,"GS_RAPIDSHOWER",-25;
+  - Id: 300089
+    AegisName: Verporta_Card
+    Name: Verporta Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bStr,2;
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+      bonus2 bSkillAtk,"SM_MAGNUM",25;
+  - Id: 300090
+    AegisName: Verporte_H_Card
+    Name: Verporte Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bMagicAtkEle,Ele_Earth,10;
+      bonus bUseSPrate,5;
+      if (getrefine()>=9) {
+         bonus2 bMagicAtkEle,Ele_Earth,10;
+      }
+  - Id: 300100
+    AegisName: Gran_Papilia_Card
+    Name: Gran Papilia Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Left_Hand: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bSubClass,Class_Boss,25;
+      bonus bHealPower2,30;

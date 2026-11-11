@@ -321,3 +321,11 @@ pub_cat	mapflag	nomemo
 // Niflheim renewal (episode 17.2), d'apres npc/re/mapflag/
 nif_dun01	mapflag	nomemo
 nif_dun02	mapflag	nomemo
+
+// Episode 17.2 : instances et manoir de Varmundt, d'apres npc/re/mapflag/ (nobranch ecarte, inverse ici)
+1@bamn	mapflag	nomemo
+1@bamq	mapflag	nomemo
+1@ghg	mapflag	nomemo
+1@herbs	mapflag	nomemo
+1@lost	mapflag	nomemo
+ba_in01	mapflag	nomemo

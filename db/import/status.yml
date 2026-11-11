@@ -601,3 +601,36 @@ Body:
       IMMUNE_PROPERTY_SAINT: true
       IMMUNE_PROPERTY_DARKNESS: true
       IMMUNE_PROPERTY_TELEKINESIS: true
+  - Status: Bath_foam_a
+    Icon: EFST_BATH_FOAM_A
+    Flags:
+      NoBanishingBuster: true
+      NoClearance: true
+      NoClearbuff: true
+      NoDispell: true
+    Script: |
+      .@val1 = getstatus(SC_BATH_FOAM_A, 1);
+      bonus2 bAddRace2, RC2_EP172BATH, .@val1;
+      bonus2 bMagicAddRace2, RC2_EP172BATH, .@val1;
+  - Status: Bath_foam_b
+    Icon: EFST_BATH_FOAM_B
+    Flags:
+      NoBanishingBuster: true
+      NoClearance: true
+      NoClearbuff: true
+      NoDispell: true
+    Script: |
+      .@val1 = getstatus(SC_BATH_FOAM_B, 1);
+      bonus2 bAddRace2, RC2_EP172BATH, .@val1;
+      bonus2 bMagicAddRace2, RC2_EP172BATH, .@val1;
+  - Status: Bath_foam_c
+    Icon: EFST_BATH_FOAM_C
+    Flags:
+      NoBanishingBuster: true
+      NoClearance: true
+      NoClearbuff: true
+      NoDispell: true
+    Script: |
+      .@val1 = getstatus(SC_BATH_FOAM_C, 1);
+      bonus2 bAddRace2, RC2_EP172BATH, .@val1;
+      bonus2 bMagicAddRace2, RC2_EP172BATH, .@val1;

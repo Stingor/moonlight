@@ -229,3 +229,10 @@ arug_cas05	mapflag	restricted	4
 1@os_a	mapflag	restricted	6
 1@os_b	mapflag	restricted	6
 1@cor	mapflag	restricted	6
+
+// Episode 17.2 : instances et manoir de Varmundt, d'apres npc/re/mapflag/ (nobranch ecarte, inverse ici)
+1@bamn	mapflag	restricted	6
+1@bamq	mapflag	restricted	6
+1@ghg	mapflag	restricted	6
+1@herbs	mapflag	restricted	6
+1@lost	mapflag	restricted	6

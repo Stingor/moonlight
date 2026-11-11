@@ -3054,3 +3054,60 @@ Body:
       Duration: 10000
     Script: |
       itemheal 0,180;
+  - Id: 11635
+    AegisName: 2401_ev_RedLin
+    Name: Red Inverse Scale
+    Type: Healing
+    Weight: 10
+    Flags:
+      BuyingStore: true
+#   Script: |
+#     /* TODO */
+  - Id: 11634
+    AegisName: 2401_ev_Yugwa
+    Name: New Year Yugwa
+    Type: Healing
+    Weight: 1
+    EquipLevelMin: 60
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      itemheal 0,140; /* average value */
+  - Id: 11637
+    AegisName: 24_S_Ev_Berry_Soda
+    Name: Berry Soda
+    Type: Healing
+    Weight: 1
+    EquipLevelMin: 90
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      itemheal 0,180; /* average value */
+  - Id: 11636
+    AegisName: 24_S_Ev_Lime_Soda
+    Name: Lime Soda
+    Type: Healing
+    Weight: 1
+    EquipLevelMin: 90
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      itemheal 1800,0; /* average value */
