@@ -459,14 +459,20 @@ bool store_item(uint64 unique_id, t_itemid nameid, const bytes* entry, const byt
 	bytes empty;
 	const bytes& was = before != nullptr ? *before : empty;
 	const bytes& now = entry != nullptr ? *entry : empty;
+	// 🔴 UN BLOB VIDE A BESOIN D'UNE ADRESSE : MySQL lit un tampon nul comme NULL,
+	// que les colonnes refusent. La première teinture n'a pas d'« avant », un
+	// retrait n'a pas d'« après » : ils s'écrivent vides, pas NULL.
+	static uint8 no_byte = 0;
+	uint8* was_at = was.empty() ? &no_byte : const_cast<uint8*>(was.data());
+	uint8* now_at = now.empty() ? &no_byte : const_cast<uint8*>(now.data());
 	if (SQL_SUCCESS != log.Prepare("INSERT INTO `moonclient_item_dye_log` (`logged_at`, `account_id`, `char_id`, `unique_id`, `nameid`, `source`, `before_data`, `after_data`) VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?)")
 	||  SQL_SUCCESS != log.BindParam(0, SQLDT_UINT32, &account, sizeof(account))
 	||  SQL_SUCCESS != log.BindParam(1, SQLDT_UINT32, &author, sizeof(author))
 	||  SQL_SUCCESS != log.BindParam(2, SQLDT_UINT64, &uid, sizeof(uid))
 	||  SQL_SUCCESS != log.BindParam(3, SQLDT_UINT32, &item, sizeof(item))
 	||  SQL_SUCCESS != log.BindParam(4, SQLDT_STRING, const_cast<char*>(source), strlen(source))
-	||  SQL_SUCCESS != log.BindParam(5, SQLDT_BLOB, const_cast<uint8*>(was.data()), was.size())
-	||  SQL_SUCCESS != log.BindParam(6, SQLDT_BLOB, const_cast<uint8*>(now.data()), now.size())
+	||  SQL_SUCCESS != log.BindParam(5, SQLDT_BLOB, was_at, was.size())
+	||  SQL_SUCCESS != log.BindParam(6, SQLDT_BLOB, now_at, now.size())
 	||  SQL_SUCCESS != log.Execute())
 		SqlStmt_ShowDebug(log);
 	ShowInfo("style_layers: exemplaire %" PRIu64 " (objet %u) %s par le personnage %u (%s).\n", unique_id, nameid, entry != nullptr ? "teint" : "deteint", author_char_id, source);
