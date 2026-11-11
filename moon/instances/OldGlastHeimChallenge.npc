@@ -638,6 +638,18 @@ OnShow:
 	specialeffect 1419, AREA, .@me$;
 	end;
 
+// Pendant la barre d'Oscar, le corps alterne entre le rouge et sa couleur
+// (EF_DOUBLECASTBODY, 521). L'effet ne vit que 2 s environ : il se relance
+// tant que la barre court, depuis cet evenement, car progressbar_npc
+// bloque OnSummon.
+OnPulse:
+	.@me$ = instance_npcname("#oghcm_phantom");
+	while( 'phantom_on && 'summoning ) {
+		specialeffect 521, AREA, .@me$;
+		sleep 1900;
+	}
+	end;
+
 OnHide:
 	'phantom_on = 0;
 	disablenpc instance_npcname("#oghcm_phantom");
@@ -655,6 +667,17 @@ OnSummon:
 	.@o$ = instance_npcname("Oscar#oghcm_boss");
 	.@fx$ = instance_npcname("#oghcm_phantom");
 	donpcevent .@fx$ + "::OnShow";
+	// Le cercle d'incantation sous le fantome, le temps de la barre (video) :
+	// EF_MAP_MAGICZONE3 (687), et l'aura de particules EF_GREEN99_3 (678),
+	// deux instances vu leur nombre. Sans fin tous deux, ils s'effacent avec
+	// la silhouette (OnHide).
+	specialeffect 687, AREA, .@fx$;
+	specialeffect 678, AREA, .@fx$;
+	specialeffect 678, AREA, .@fx$;
+	donpcevent .@fx$ + "::OnPulse";
+	// Le son de la barre (video) : aucun effet ne le porte dans le client,
+	// c'est le script qui le joue a toute la carte.
+	soundeffectall "md_oscar.wav", 0, 'map$;
 	showscript "The contamination is level " + 'level + ". Environment is getting dangerous. Proceed with caution.", getnpcid(0, .@o$);
 	progressbar_npc "0x33FF33", 10, .@o$;
 	donpcevent .@fx$ + "::OnHide";
