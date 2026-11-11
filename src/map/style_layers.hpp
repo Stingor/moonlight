@@ -10,7 +10,8 @@
 // juge la structure, range, et diffuse ce que chaque joueur AFFICHE.
 //
 // Deux rangements (sql-files/moonclient_style_layers.sql) :
-// - la tête et la peau appartiennent au PERSONNAGE, une ligne par char_id ;
+// - la tête, les deux peaux et la suite du corps appartiennent au PERSONNAGE,
+//   une ligne par char_id ;
 // - une coiffe ou une cape teinte appartient à l'EXEMPLAIRE de l'objet, une
 //   ligne par `unique_id`, avec l'identifiant d'objet qu'elle teint.
 //
@@ -40,10 +41,11 @@ struct npc_data;
 // Seize trames pleines du profil mixte (4 Kio chacune) : de quoi régler à la main,
 // pas de quoi faire lire au serveur un flux sans fin.
 #define MOONCLIENT_STYLE_LAYERS_BYTES_PER_MINUTE 65536
-// Les teintures de tête et de peau qu'un personnage range, au plus. Une
-// teinture de cheveux se range sous sa coupe et sa couleur, et dort tant qu'on
-// ne les porte pas.
-#define MOONCLIENT_STYLE_LAYERS_MAX 16
+// Les teintures qu'un personnage range, au plus : têtes, peau du visage, suite
+// et peau de chaque corps. Une teinture de cheveux se range sous sa coupe et sa
+// couleur, et dort tant qu'on ne les porte pas. Les suites et les peaux des
+// corps en prennent huit au plus : il en reste au moins onze aux têtes.
+#define MOONCLIENT_STYLE_LAYERS_MAX 20
 // La distance au styliste, en cases, pour qu'une teinture d'objet soit acceptée.
 #define MOONCLIENT_STYLE_ATELIER_CELLS 5
 // La durée d'un atelier que le script ouvre sans la dire, en secondes.

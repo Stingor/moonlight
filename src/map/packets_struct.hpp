@@ -6988,7 +6988,7 @@ enum e_bourgeon_server_rule : uint16 {
 	// 0x0F5E avant de l'avoir lue.
 	BOURGEON_RULE_STYLE_LAYERS_CADENCE_MS  = 11, ///< écart minimal entre deux CZ 0x0F5E (ms)
 	BOURGEON_RULE_STYLE_BODY_VARIANTS_MAX  = 12, ///< BOURGEON_STYLE_MAX_VARIANTS
-	BOURGEON_RULE_STYLE_LAYERS_MAX         = 13, ///< teintures de tête et de peau rangées par personnage
+	BOURGEON_RULE_STYLE_LAYERS_MAX         = 13, ///< teintures du personnage rangées (têtes, peaux, suites)
 	BOURGEON_RULE_HAIR_STYLE_MIN           = 14, ///< MIN_HAIR_STYLE
 	BOURGEON_RULE_HAIR_STYLE_MAX           = 15, ///< MAX_HAIR_STYLE
 	BOURGEON_RULE_HAIR_COLOR_MIN           = 16, ///< MIN_HAIR_COLOR
@@ -7003,6 +7003,9 @@ enum e_bourgeon_server_rule : uint16 {
 	// Le profil mixte des calques : 🔴 moonclient n'envoie ni reste ni retouche
 	// avant de l'avoir lue.
 	BOURGEON_RULE_STYLE_LAYER_RETOUCHES    = 24, ///< MOONCLIENT_STYLE_LAYER_RETOUCHES_MAX
+	// Le dernier numéro de calque accepté : 🔴 moonclient n'envoie pas de peau du
+	// corps (calque 6) avant de l'avoir lue.
+	BOURGEON_RULE_STYLE_LAYER_LAST         = 25, ///< MOONCLIENT_STYLE_LAYER_BODY_SKIN
 };
 
 struct PACKET_ZC_MOONLIGHT_SERVER_RULES_entry {
@@ -8018,8 +8021,9 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_COOP_LEFT, 0x0f5d);
 #define MOONCLIENT_STYLE_LAYER_ENTRY_MAX (MOONCLIENT_STYLE_LAYER_ENTRY_HEAD \
 	+ (MOONCLIENT_STYLE_LAYER_RAMP_RANKS + MOONCLIENT_STYLE_LAYER_ADJUSTS_MAX) * MOONCLIENT_STYLE_LAYER_ADJUST_BYTES \
 	+ MOONCLIENT_STYLE_LAYER_TAIL_HEAD + MOONCLIENT_STYLE_LAYER_RETOUCHES_MAX * MOONCLIENT_STYLE_LAYER_RETOUCH_BYTES)
-// Le plus gros CZ accepté : la tête, la peau, quatre suites du corps et les huit
-// emplacements, chacun à sa plus grosse entrée.
+// Le plus gros CZ accepté : la tête, la peau du visage, quatre suites du corps et
+// les huit emplacements, chacun à sa plus grosse entrée, plus la peau (15 octets)
+// de quatre corps.
 #define MOONCLIENT_STYLE_LAYERS_CZ_MAX 4096
 // La charge brute d'un ZC, au plus : un joueur n'est jamais coupé entre deux trames.
 #define MOONCLIENT_STYLE_LAYERS_RAW_MAX 16384
@@ -8030,12 +8034,18 @@ enum e_moonclient_style_layer : uint8 {
 	MOONCLIENT_STYLE_LAYER_HEAD     = 1,
 	MOONCLIENT_STYLE_LAYER_HEADGEAR = 2,
 	MOONCLIENT_STYLE_LAYER_GARMENT  = 3,
+	// La PEAU DU VISAGE : clé 0, profil 1, un seul réglage.
 	MOONCLIENT_STYLE_LAYER_SKIN     = 4,
 	// La SUITE DU CORPS : les rampes 9 à 12, que la v7 ne porte pas. Clé = la clé
 	// du corps de la v7 (opaque ici), profil 3, rangs 0 à 3. Rangée avec le
 	// personnage, une par corps au plus BOURGEON_STYLE_MAX_VARIANTS, et diffusée
 	// toute : le serveur ne sait pas quel corps le client charge.
 	MOONCLIENT_STYLE_LAYER_BODY_MORE = 5,
+	// La PEAU D'UN CORPS : clé = la clé du corps de la v7 (opaque ici), profil 1,
+	// un seul réglage. Rangée avec le personnage, une par corps au plus
+	// BOURGEON_STYLE_MAX_VARIANTS, et diffusée toute. Un corps sans la sienne prend
+	// la peau du visage : c'est le client qui choisit.
+	MOONCLIENT_STYLE_LAYER_BODY_SKIN = 6,
 	// CZ seulement : les emplacements d'équipement de l'émetteur.
 	MOONCLIENT_STYLE_SLOT_FIRST     = 10,
 	MOONCLIENT_STYLE_SLOT_LAST      = 17,

@@ -9703,6 +9703,8 @@ void clif_bourgeon_server_rules(map_session_data& sd) {
 		{ BOURGEON_RULE_STYLE_WARDROBE_SLOTS,      MOONCLIENT_WARDROBE_SLOTS },
 		// La preuve que le serveur accepte le reste et les retouches d'une entrée.
 		{ BOURGEON_RULE_STYLE_LAYER_RETOUCHES,     MOONCLIENT_STYLE_LAYER_RETOUCHES_MAX },
+		// La preuve que le serveur range la peau du corps.
+		{ BOURGEON_RULE_STYLE_LAYER_LAST,          MOONCLIENT_STYLE_LAYER_BODY_SKIN },
 	};
 	const size_t len = sizeof(PACKET_ZC_MOONLIGHT_SERVER_RULES) + sizeof(rules);
 
