@@ -6,7 +6,7 @@
 | Date kRO | **2018‑07‑18** |
 | Arc | suite de Terra Gloria — l'organisation Illusion |
 | Niveau kRO visé | 175‑185 |
-| État Moonlight | **porté (A, B1, B2), à valider en jeu** |
+| État Moonlight | **porté (A, B1, B2), contenu de l'intervalle et mode défi d'OGH compris ; à valider en jeu** (2026‑11‑11) |
 
 Le joueur enquête dans le donjon de **Rudus**, reprend le laboratoire **Regenschirm**,
 traverse **OS** et atteint la cité de **Cor**. C'est le dernier épisode dont rAthena
@@ -54,7 +54,7 @@ Mobs : Sanare, Plaga, Dolor, Venenum, Twin Caput — chacun en deux variantes.
 |---|---|---|
 | **EDDA — Chute de Glast Heim** (normal et avancé) | `1@gl_prq` | entrées `instance_db` 51 et 52, **aucun script** ; script hors rAthena (voir ci-dessous) |
 | **EDDA — Laboratoire biologique** (*Somatology*) | `1@gol1`, `1@gol2` | aucun script chez rAthena (issue #6466). Script v1.4 de crazyarashi/hayakawakaki, retiré du dépôt par son auteur (commit `9f5f4e4`) et récupéré au commit parent — ✅ porté le 2026‑11‑09 : Nina et Sierra à Juno (niveau 170), modes Exploration et Combat, enchanteuse Ravian ; instance 56 (`moon/instances/EddaSomatology.npc`), 8 mobs (`db/import/mobs/edda_somatology.yml`), 2 matériaux, 13 quêtes ; fonctions requises dans `moon/rathena/other/hayakawakaki_functions.npc` ; les 39 armes et 13 enchantements Memory existaient déjà ; récompense du mode Exploration corrigée. L'entrée 74 *Bagot Laboratory* (`1@jorlab`) est de l'épisode 19, sans rapport |
-| **Glast Heim : mode défi** | `1@gl_he` | entrée `instance_db` 49, **aucun script** (absent d'`OldGlastHeim.txt` ; le « Old Glast Heim - Hard » de hayakawakaki est le mode difficile officiel sur `1@gl_k2`, pas le mode défi) |
+| **Glast Heim : mode défi** | `1@gl_he` | entrée `instance_db` 49, **aucun script** (absent d'`OldGlastHeim.txt` ; le « Old Glast Heim - Hard » de hayakawakaki est le mode difficile officiel sur `1@gl_k2`, pas le mode défi) — ✅ **écrit pour Moonlight** du 2026‑11‑09 au 2026‑11‑11, d'après l'annonce officielle, le wiki iRO et des vidéos : instance 57 (`moon/instances/OldGlastHeimChallenge.npc`), 14 mobs `MD_C_*` (`db/import/mobs/ogh_challenge.yml`), HUGINN2001 et 18 Circlet of Time ; ouvert aux joueurs le 2026‑11‑11, Oscar à `glast_01` 143,288 et accès par le warp agent (Instance > Old Glast Heim). Fiche : [ogh_mode_defi.md](ogh_mode_defi.md) |
 | **Old Glast Heim Hard** (mode difficile officiel) | `1@gl_k2` | aucun script ; v1.7 chez hayakawakaki — ✅ porté le 2026‑11‑09 à côté de l'OGH Moonlight (`1@gl_k` et son HM maison, inchangé) : Another Hugin à `glast_01` (niveau 160, OGH normal terminé), instance 55 (`moon/instances/OldGlastHeimHard.npc`), 14 mobs `MG_*_H` (`db/import/mobs/ogh_hard.yml`), quêtes 12336-12337 ; faille du trésor corrigée (12335 au lieu de 12322) ; l'enchanteur des Temporal Boots existait déjà |
 
 Toutes ces cartes sont dans le mapcache. Attention à l'Id 51 : chez Moonlight, c'est déjà la
@@ -233,8 +233,9 @@ d'inventaire). Deux niveaux possibles.
 17.2 et 18 ne sont pas portés : la chaîne narrative s'arrête après 17.1. Le niveau A reste une
 option défendable et bien moins coûteuse.
 
-Seul le mode défi (`1@gl_he`) n'a de script nulle part : hors périmètre tant qu'il faudrait
-l'écrire. Le Lac de l'Abysse F4 et le Passé d'Odin, venus de PR non fusionnées, sont portés,
+Le mode défi (`1@gl_he`), qui n'a de script nulle part, a été écrit pour Moonlight
+([ogh_mode_defi.md](ogh_mode_defi.md)) ; les enchantements d'OSC0005 (lot C4) et les mécaniques
+avancées du boss (lot C5) restent à faire. Le Lac de l'Abysse F4 et le Passé d'Odin, venus de PR non fusionnées, sont portés,
 comme Abyss Glast Heim (PR #7474), et la Chute de Glast Heim, le Laboratoire EDDA et
 OGH Hard (dépôt hayakawakaki).
 
@@ -243,8 +244,9 @@ OGH Hard (dépôt hayakawakaki).
 | | |
 |---|---|
 | Intérêt | élevé — trois zones de chasse et cinq instances fournies par rAthena |
-| Fait | Illusion of Labyrinth, Magma F3, Einbech F3, A, B1, B2 (2026‑11‑08, non validés en jeu) |
-| Reste à faire | validation en jeu |
+| Fait | Illusion of Labyrinth, Magma F3, Einbech F3, A, B1, B2 (2026‑11‑08) ; Sirops, Lac de l'Abysse F4, Passé d'Odin, Abyss Glast Heim, Chute de Glast Heim, Laboratoire EDDA, OGH Hard (2026‑11‑09) ; mode défi d'OGH, lots C1 à C3 (2026‑11‑09 au 2026‑11‑11, ouvert aux joueurs le 2026‑11‑11). Rien n'est encore validé en jeu, sauf le mode défi, testé par le staff sur `ggpro` |
+| Reste à faire | validation en jeu ; mode défi : lots C4 (OSC0005 et enchantements) et C5 (mécaniques avancées du boss) |
+| Épisode | **clos** côté portage le 2026‑11‑11 |
 | Décidé | Magma F3 et Einbech F3 restent sans mapflags `nomemo`/`nowarpto`, accès libre ; les quêtes de Lily (175) et de Sally (180) gardent le seuil de l'amont ; les trois ajouts à la table des compétences sont validés ; le **système Reform** (`rgsr_in.txt`, `item_reform.yml`) est écarté : mécanique de 2021‑2022, fenêtre client absente de `moonclient`, objets `_AD` renewal (2026‑11‑08) |
 
 ## Sources

@@ -6,8 +6,8 @@
 | Sortie | kRO puis serveurs Gravity occidentaux, annonce du **2023‑12‑05** |
 | Carte | `1@gl_he` (« Contaminated Dimension », déjà dans le mapcache et le client) ; le wiki iRO cite `4@ghc0`, absent ici |
 | Côté rAthena | `instance_db` 49, gabarits de mobs commentés (`MD_C_*`, 20572‑20585), objets et cartes présents, **aucun script** |
-| Côté Moonlight | rien — ce document précède l'écriture du script |
-| État | décisions prises le 2026‑11‑09 (section 8) ; **lot C1 fait le 2026‑11‑09** (section 9), **C2 et C3 écrits le 2026‑11‑10** (sections 10 et 11, non testés en jeu) |
+| Côté Moonlight | écrit pour Moonlight (`moon/instances/OldGlastHeimChallenge.npc`, instance 57), **ouvert aux joueurs le 2026‑11‑11** |
+| État | décisions prises le 2026‑11‑09 (section 8) ; **lot C1 fait le 2026‑11‑09** (section 9), **C2 et C3 écrits le 2026‑11‑10** (sections 10 et 11), réglés sur vidéo et testés par le staff sur `ggpro` du 2026‑11‑10 au 2026‑11‑11, **ouverts le 2026‑11‑11** (section 12) ; C4 et C5 à faire |
 
 Le script n'existe nulle part : ni chez rAthena, ni chez hayakawakaki, ni chez AsurielRO. Ce
 qui suit est une **reconstitution**. Les sections 1 à 5 relèvent ce que les sources disent ;
@@ -244,30 +244,36 @@ compris) est une seule région, séparée du couloir : on y entre par le warp d'
 
 | Étape | Mise en œuvre |
 |---|---|
-| Entrée | Oscar à `glast_01` 143,288 : niveau 170, quête 12339 (Old Glast Heim Advanced fini), cooldown 12494, création par le chef de groupe |
+| Entrée | Oscar à `glast_01` 143,288 : niveau 170, quête 12339 (Old Glast Heim Advanced fini), cooldown 12494, création par le chef de groupe, qui choisit ensuite d'entrer tout de suite ou d'attendre son groupe ; le staff (groupe 99) saute ces conditions et a les 10 niveaux |
 | Niveau | Oscar dans le hall (150,40) : le chef choisit entre 1 et le niveau que ses victoires (`OGHCM_CLEARS`) débloquent |
 | Ailes | l'une après l'autre (vidéo) : tout le groupe part à l'ouest (131,82, relevé sur vidéo), l'est s'atteint par le portail de l'ouest (arrivée 169,102, vidéo) ; 50 monstres par aile (les 6 types, à parts égales), mis à l'échelle par `F_OGHCM_Scale` |
 | Aile nettoyée | moins de 5 restants (wiki) : portail (ouest 131,105, vidéo, vers l'aile est ; est 167,122, vers le centre) et vague de racines |
 | Compteur | bulle `showscript` au-dessus de chaque joueur, à chaque mort : « ouest <- Unpurified Illusions -> est », « [Purification Complete] » pour une aile terminée (l'officiel l'annonce toutes les ~10 s : écart voulu) |
 | Racines | 1 à 4 selon le niveau, dans l'aile qui vient d'être nettoyée (près du portail), 30 s ; non détruites, elles tuent les joueurs dans un carré 15×15 puis disparaissent (un PNJ par aile, pour que deux vagues ne s'écrasent pas) |
 | Couloir | mur invisible en bas (y 70) levé quand les deux ailes sont nettoyées, annonces « The cleanup of the left and right sections is over. » puis « Move to the central area! » (vidéo) |
+| Vers le centre | les deux ailes nettoyées, l'Oscar du hall devient Acidus doré, dit « Please follow me » et marche jusqu'à la grille ; l'Oscar du centre ne paraît qu'à son arrivée, sur sa case : il n'y a jamais deux Oscar à la fois |
 | Centre | Oscar (150,158), dialogue de la vidéo : « Warp » lance une barre de 10 s sur lui (« This will take only a minute. »), puis un warp 149,162 → 150,170 ; Oscar devient Acidus doré (1713), dit « Please follow me », prend le warp et marche jusqu'à 157,230, où il reprend sa forme |
-| Boss | Oscar (157,230), dialogue de la vidéo ; « Let's go! » lance une barre de 10 s (« The contamination is level N… »), puis le Fantôme de Himmelmez (table du wiki) ou d'Amdarais apparaît au centre du pentagramme (157,240, déduit), PV et dégâts × multiplicateur |
+| Silhouette | dès qu'Oscar atteint 157,230, le fantôme est tiré au sort (Himmelmez selon la table du wiki, sinon Amdarais) et sa silhouette paraît au centre du pentagramme (157,240, déduit) : son sprite, presque transparent (effet 744), entouré des spectres d'Amdarais (`EF_C_AMDARAIS_EFFECT`, 1419) |
+| Boss | Oscar (157,230), dialogue de la vidéo ; « Let's go! » lance une barre de 10 s (« The contamination is level N… ») avec, sous la silhouette, le cercle `EF_MAP_MAGICZONE3` (687), l'aura `EF_GREEN99_3` (678, deux instances), le corps qui alterne rouge et couleur (`EF_DOUBLECASTBODY`, 521) et le son `md_oscar.wav` ; à la fin, la silhouette s'efface et le fantôme tiré apparaît à sa place, PV et dégâts × multiplicateur |
 | Combat | toutes les 2 s : régénération (4 600 × niveau, l'officiel ramené à l'échelle), **dégâts à 1** (modes `Ignore*`) tant qu'un membre est mort ou absent, mutants à 70/50/30 % de PV, grille de 9 épines toutes les 30 s sous 90 % (survivantes au bout de 5 s : Grand Darkness du boss), disparition après 5 minutes sans survivant (Oscar le réinvoque) |
 | Coffre | à la mort du boss, un coffre apparaît au centre du pentagramme (vidéo) ; l'ouvrir pose au sol, autour, les quantités de l'annonce officielle par niveau ; Oscar annonce en chat que le nombre varie selon la contamination (vidéo) |
 | Récompense | Oscar (157,246, vidéo), une fois par personnage : Sealed Circlet entre `1 + 2(N−1)/9` et `N` (+1 pour Himmelmez), +1 sans racine explosée, +1 sans disparition du boss, +1 Temporal Spell au niveau 8 et plus ; `OGHCM_CLEARS` +1 et achievement 129021 +1 |
 
 **Différences avec l'officiel, à confirmer par les vidéos :**
 - le centre du pentagramme (157,240) est déduit des captures ;
-- pendant la barre, les spectres d'Amdarais (`EF_C_AMDARAIS_EFFECT`, 1419, relevé dans l'exe
-  client décompilé du 2026‑02‑19) tournent au centre du pentagramme, portés par le PNJ
-  `#oghcm_phantom` ; le fantôme lui-même apparaît d'un coup à la fin de la barre, sans le
-  fondu de l'officiel ;
+- la silhouette garde la même transparence jusqu'à l'apparition : l'officiel la rend de plus en
+  plus visible pendant la barre, et aucun effet trouvé ne remonte l'alpha. 120 et 744 posent
+  l'alpha à 50/255 en gardant les couleurs (120 s'éteint au bout de 4 s, 744 jamais), 809 fait
+  une ombre noire ; tous relevés dans les tables de moonclient et l'exe décompilé du 2026‑02‑19 ;
+- Himmelmez a les spectres d'Amdarais : l'exe ne connaît pas d'effet qui lui soit propre ;
+- `md_oscar.wav` n'est porté par aucun effet du client : c'est le script qui le joue ;
+- les huit Dark Cross en carré autour des fantômes, vus en vidéo, ne correspondent à aucune
+  compétence NPC de rAthena ni du client : non repris ;
 - la destination du portail de l'aile est (167,122) reste le hall d'entrée (150,45), à confirmer ;
 - Oscar ne répond qu'à 5 cases ou moins (`F_OGHCM_Near`) : l'`area_size` de moonclient permettrait
   de lui parler depuis une aile close ;
-- les répliques d'Oscar sont écrites pour Moonlight, sauf celles de l'entrée de l'instance et l'annonce
-  de départ, reprises de la vidéo ;
+- les répliques d'Oscar dans l'instance (hall, centre, pentagramme, fin) et ses annonces sont
+  reprises des vidéos ; celles d'Oscar à `glast_01` sont écrites pour Moonlight ;
 - non repris (lot C5) : téléportations aléatoires, soin différé, Max Pain, Grim Reaper,
   Gradual Gravity, Circle Arena, sortie d'arène (la tour est close).
 
@@ -289,3 +295,28 @@ compris) est une seule région, séparée du couloir : on y entre par le warp d'
 - **Fiches client** des 18 Circlet alignées sur les scripts serveur : noms de compétences,
   « Refine Total Stuff +22 », délai de compétence du Ranger en « After Skill Delay 5 % »,
   lignes fusionnées par la règle des doublons (Mechanic, Wanderer, Rebellion).
+
+## 12. Réglages en jeu et ouverture (2026‑11‑10 au 2026‑11‑11)
+
+Testé par le staff sur `ggpro`, Oscar et HUGINN2001 y étant déplacés le temps des essais,
+puis rendus à `glast_01` (143,288 et 146,289, retour de fin d'instance à 143,286) à
+l'ouverture du 2026‑11‑11. Ce que les essais ont corrigé :
+
+- **Téléportations** : `unitwarp` refuse en silence de déplacer un joueur sur une carte
+  `noteleport` ; les joueurs partent par `warp`, sous `attachrid`.
+- **Marche des PNJ** : `npcwalkto` refuse en silence un chemin de plus de 32 cases
+  (`MAX_WALKPATH`) ; `F_OGHCM_Walk` fait marcher Oscar par étapes de 12 cases au plus, en
+  décalant une étape bloquée sur une case voisine, et le pose sur sa case s'il reste coincé.
+- **Effets en boucle** : 1419, 687 et 678 ne s'éteignent pas d'eux-mêmes et s'empilent si on
+  les relance ; ils se jouent une fois par apparition et partent avec leur porteur. 521 ne
+  vit que 2 s : il se relance toutes les 1,9 s depuis un événement à part, car
+  `progressbar_npc` bloque le script qui l'appelle.
+- **Amdarais** lançait Vampire Gift à chaque tour (taux 100 %, sans délai) au lieu de frapper :
+  10 % toutes les 30 s sous 70 % de PV ; Dark Strike en poursuite passe de 50 % par seconde à
+  20 % toutes les 5 s. Le mob n'existe pas en amont : pas de valeur officielle à reprendre.
+- **Client** : moonclient affiche désormais les effets annoncés par le serveur qui ont une
+  recette de sprite (1419 était invisible), le texte de `showscript` en bulle à part, empilée
+  au-dessus de la parole et du nom de sort, et les murs posés par `setwall`.
+
+**Accès** : le warp agent, menu Instance > Old Glast Heim, propose « Mode Défi (près
+d'Oscar) », qui envoie à `glast_01` 143,286.
