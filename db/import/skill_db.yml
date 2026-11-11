@@ -4002,6 +4002,137 @@ Body:
     Flags:
       ShowScale: true
 # <<< bourgeon:showscale
+  - Id: 737
+    Name: NPC_RAYOFGENESIS
+    Description: NPC Ray of Genesis
+    MaxLevel: 10
+    Type: Magic
+    TargetType: Self
+    DamageFlags:
+      Splash: true
+    Flags:
+      IsNpc: true
+      ShowScale: true
+    Range: 1
+    Hit: Multi_Hit
+    HitCount: -7
+    Element: Holy
+    SplashArea:
+      - Level: 1
+        Area: 5
+      - Level: 2
+        Area: 5
+      - Level: 3
+        Area: 8
+      - Level: 4
+        Area: 8
+      - Level: 5
+        Area: 11
+      - Level: 6
+        Area: 11
+      - Level: 7
+        Area: 13
+      - Level: 8
+        Area: 13
+      - Level: 9
+        Area: 13
+      - Level: 10
+        Area: 13
+    Duration1: 10000
+  - Id: 722
+    Name: NPC_WIDESUCK
+    Description: Wide Suck
+    MaxLevel: 1
+    Type: Misc
+    TargetType: Ground
+    DamageFlags:
+      Splash: true
+      IgnoreFlee: true
+    Flags:
+      IsNpc: true
+    Range: 1
+    Hit: Single
+    HitCount: 1
+    SplashArea: 13
+    Duration1: 3000
+  - Id: 723
+    Name: NPC_STORMGUST2
+    Description: Storm Gust 2
+    MaxLevel: 3
+    Type: Magic
+    TargetType: Ground
+    Flags:
+      IsNpc: true
+      ShowScale: true
+    Range: 9
+    Hit: Single
+    HitCount: 1
+    Element: Water
+    Duration1: 4500
+    Duration2: 27000
+    Unit:
+      Id: Dummyskill
+      Layout: 5
+      Range: 1
+      Interval: 450
+      Target: Enemy
+      Flag:
+        NoOverlap: true
+        PathCheck: true
+    Status: Freeze
+  - Id: 729
+    Name: NPC_CHEAL
+    Description: NPC Coluceo Heal
+    MaxLevel: 5
+    Type: Magic
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+      Splash: true
+    Flags:
+      IsNpc: true
+      ShowScale: true
+    Hit: Single
+    HitCount: 1
+    Element: Holy
+    SplashArea:
+      - Level: 1
+        Area: 3
+      - Level: 2
+        Area: 5
+      - Level: 3
+        Area: 7
+      - Level: 4
+        Area: 9
+      - Level: 5
+        Area: 11
+  - Id: 733
+    Name: NPC_MAGMA_ERUPTION
+    Description: NPC Magma Eruption
+    MaxLevel: 5
+    Type: Weapon
+    TargetType: Ground
+    DamageFlags:
+      Splash: true
+    Flags:
+      IsNpc: true
+      ShowScale: true
+    Range: 1
+    Hit: Single
+    HitCount: 1
+    Element: Fire
+    SplashArea: 3
+    ActiveInstance: 3
+    Duration1: 2500
+    Unit:
+      Id: Magma_Eruption
+      Range: 3
+      Interval: 500
+      Target: Enemy
+      Flag:
+        NoOverlap: true
+        PathCheck: true
+    Status: Stun
   - Id: 751
     Name: NPC_ALL_STAT_DOWN
     Description: Decrease All Stats
