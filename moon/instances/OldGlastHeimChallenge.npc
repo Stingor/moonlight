@@ -49,6 +49,62 @@ function	script	F_OGHCM_Near	{
 	return ( .@pm$ == .@nm$ && distance(.@px, .@py, .@nx, .@ny) <= getarg(0) );
 }
 
+// Fait marcher un PNJ jusqu'a une case, par etapes de 12 cases au plus :
+// npcwalkto refuse en silence un chemin de plus de 32 cases (MAX_WALKPATH).
+// Une etape sur une case bloquee se decale sur une voisine praticable.
+// Bloque trop longtemps, le PNJ est pose sur la case. getarg(0) : nom
+// complet du PNJ ; getarg(1), getarg(2) : la case.
+function	script	F_OGHCM_Walk	{
+	.@n$ = getarg(0);
+	.@tx = getarg(1);
+	.@ty = getarg(2);
+	.@lx = -1;
+	.@ly = -1;
+	.@stuck = 0;
+	.@still = 0;
+	for( .@t = 0; .@t < 240; .@t++ ) {
+		getmapxy(.@m$, .@x, .@y, BL_NPC, .@n$);
+		if( .@x == .@tx && .@y == .@ty )
+			return 1;
+		if( .@x == .@lx && .@y == .@ly ) {
+			.@still++;
+			.@stuck++;
+		} else
+			.@still = 0;
+		if( .@stuck >= 12 )
+			break;
+		// une nouvelle etape au depart, a l'arrivee de la precedente, ou a l'arret
+		if( .@t == 0 || (.@x == .@wx && .@y == .@wy) || .@still >= 2 ) {
+			.@d = distance(.@x, .@y, .@tx, .@ty);
+			if( .@d <= 12 ) {
+				.@wx = .@tx;
+				.@wy = .@ty;
+			} else {
+				.@wx = .@x + (.@tx - .@x) * 12 / .@d;
+				.@wy = .@y + (.@ty - .@y) * 12 / .@d;
+				for( .@r = 1; .@r <= 3 && !checkcell(.@m$, .@wx, .@wy, cell_chkpass); .@r++ ) {
+					for( .@k = 0; .@k < 8; .@k++ ) {
+						setarray .@ox[0], 0, .@r, .@r, .@r, 0, -.@r, -.@r, -.@r;
+						setarray .@oy[0], .@r, .@r, 0, -.@r, -.@r, -.@r, 0, .@r;
+						if( checkcell(.@m$, .@wx + .@ox[.@k], .@wy + .@oy[.@k], cell_chkpass) ) {
+							.@wx += .@ox[.@k];
+							.@wy += .@oy[.@k];
+							break;
+						}
+					}
+				}
+			}
+			npcwalkto .@wx, .@wy, .@n$;
+			.@still = 0;
+		}
+		.@lx = .@x;
+		.@ly = .@y;
+		sleep 500;
+	}
+	movenpc .@n$, .@tx, .@ty;
+	return 0;
+}
+
 // Met un monstre a l'echelle du niveau : PV, ATK, MATK x mult/100.
 // getarg(0) : GID ; getarg(1) : multiplicateur en centiemes.
 function	script	F_OGHCM_Scale	{
@@ -191,6 +247,7 @@ OnInstanceInit:
 	'resets = 0;
 	'boss_gid = 0;
 	'hall_busy = 0;
+	'phantom_on = 0;
 	'chest = 0;
 	'summoning = 0;
 	disablenpc instance_npcname("Oscar#oghcm_hall");
@@ -279,6 +336,17 @@ OnSplit:
 	instance_announce 0, "Oscar: In order to eliminate the dimensional corruption, the space on the left and right must be purified first.", bc_map, "0xFFFF00";
 	donpcevent instance_npcname("#oghcm_ctrl") + "::OnSplit";
 	end;
+
+// Les deux ailes purifiees : il ne reste pas a l'entree, il rejoint le
+// passage central en Acidus dore et s'efface pres de la grille, ou
+// l'Oscar du centre attend deja.
+OnLeave:
+	.@o$ = instance_npcname("Oscar#oghcm_in");
+	setnpcdisplay .@o$, 1713;	// Acidus dore
+	npctalk "Please follow me", .@o$;
+	callfunc "F_OGHCM_Walk", .@o$, 148, 155;
+	disablenpc .@o$;
+	end;
 }
 
 //------------------------------------------------------------
@@ -331,6 +399,7 @@ OnCheckBoth:
 		killmonster 'map$, instance_npcname(strnpcinfo(0)) + "::OnEastDead";
 		delwall instance_npcname("#oghcm_ctrl") + "_wall";
 		enablenpc instance_npcname("Oscar#oghcm_hall");
+		donpcevent instance_npcname("Oscar#oghcm_in") + "::OnLeave";
 		// Annonce officielle (video) ; l'aile est se fait toujours en second.
 		instance_announce 0, "Oscar: The cleanup of the left and right sections is over.", bc_map, "0xFFFF00";
 		sleep 3000;
@@ -486,17 +555,12 @@ OnHallWarp:
 	npcwalkto 149, 162, .@o$;
 	sleep 1500;
 	movenpc .@o$, 150, 170;
-	npcwalkto 157, 230, .@o$;
-	// attendre l'arrivee (40 s au plus)
-	for( .@i = 0; .@i < 80; .@i++ ) {
-		getmapxy(.@m$, .@x, .@y, BL_NPC, .@o$);
-		if( .@x == 157 && .@y == 230 )
-			break;
-		sleep 500;
-	}
+	callfunc "F_OGHCM_Walk", .@o$, 157, 230;
 	setnpcdisplay .@o$, 4_ED_OSCAR;
 	disablenpc .@o$;
 	enablenpc instance_npcname("Oscar#oghcm_boss");
+	// La silhouette d'Amdarais et ses spectres sont deja la quand il arrive.
+	donpcevent instance_npcname("#oghcm_phantom") + "::OnShow";
 	end;
 }
 
@@ -542,7 +606,26 @@ OnHallWarp:
 }
 
 // Porteur de l'effet des spectres, au centre du pentagramme.
+// Silhouette d'Amdarais (son sprite, opaque : la transparence officielle
+// reste a trouver), visible des l'arrivee d'Oscar jusqu'a l'apparition.
+// L'effet des spectres boucle de lui-meme : il ne se joue QU'UNE FOIS par
+// apparition, chaque relance s'empilerait sur la precedente.
 1@gl_he,157,240,0	script	#oghcm_phantom	HIDDEN_NPC,{
+	end;
+
+OnShow:
+	if( 'phantom_on )
+		end;
+	'phantom_on = 1;
+	.@me$ = instance_npcname("#oghcm_phantom");
+	setnpcdisplay .@me$, 20573;
+	enablenpc .@me$;
+	specialeffect 1419, AREA, .@me$;
+	end;
+
+OnHide:
+	'phantom_on = 0;
+	disablenpc instance_npcname("#oghcm_phantom");
 	end;
 }
 
@@ -556,11 +639,10 @@ OnSummon:
 	// s'efface quand le PNJ est desactive.
 	.@o$ = instance_npcname("Oscar#oghcm_boss");
 	.@fx$ = instance_npcname("#oghcm_phantom");
-	enablenpc .@fx$;
-	specialeffect 1419, AREA, .@fx$;
+	donpcevent .@fx$ + "::OnShow";
 	showscript "The contamination is level " + 'level + ". Environment is getting dangerous. Proceed with caution.", getnpcid(0, .@o$);
 	progressbar_npc "0x33FF33", 10, .@o$;
-	disablenpc .@fx$;
+	donpcevent .@fx$ + "::OnHide";
 	'summoning = 0;
 	// Fantome de Himmelmez selon la chance du niveau (wiki iRO), sinon d'Amdarais.
 	setarray .@chance[1], 459, 472, 495, 532, 588, 676, 820, 1087, 1724, 5000;
