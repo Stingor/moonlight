@@ -89,7 +89,7 @@ précède est porté depuis le 2026‑11‑08.
 | Ferme Perdue dans le Temps | `moon/instances/LostFarm.npc` | ✅ chargé le 2026‑11‑11 (lot B1) |
 | Quêtes 17.2 | `moon/rathena/quests/quests_17_2.npc` | ✅ chargé le 2026‑11‑11 (lot B2) |
 | Rudus 4F | `moon/rathena/dungeons/sp_rudus.npc` | ✅ chargé le 2026‑11‑11 (lot A) |
-| Quêtes d'accès et journalières de Rudus 4F et Niflheim | `moon/rathena/quests/dungeons_200.npc` | ✅ chargé le 2026‑11‑11 (lot A) ; la partie Amicitia de l'amont n'est pas reprise |
+| Quêtes d'accès et journalières de Rudus 4F, Niflheim et Amicitia | `moon/rathena/quests/dungeons_200.npc` | ✅ chargé le 2026‑11‑11 (lot A), Amicitia le 2026‑11‑12 (lot A2) |
 
 Le contrôle d'écart mob ne signale **aucun manque** sur `ba_*` ni sur `amicitia` : le
 roster est complet pour ces cartes.
@@ -127,6 +127,20 @@ script ni chez rAthena ni ailleurs.
 | Branches et albums | 13 mobs en Dead Branch, Death Witch et R001-Bestia en Bloody Branch, 13 cartes à l'album, 2 cartes MVP en `mca` et `mvpenchant` ; points MVP : R001-Bestia 6, Death Witch 8 | `db/import/mob_summon.yml`, `db/import/item_group_db/`, `moon/mobs/mvps.npc` |
 | Client | tables serveur régénérées, 28 quêtes au journal, fiches des armes et cartes alignées (noms de compétences, « Refine Total Stuff +22 ») | `moonclient/dist/data/yaml_files/` |
 
+## 5b bis. Lot A2 : Amicitia (2026‑11‑12, non validé en jeu)
+
+Amicitia est une implantation manuelle de Moonlight (avril 2026) : spawns montés à 80 et 90
+par étage (55 et 65 chez l'amont), PV et EXP rééquilibrés le 2026‑04‑20, The One dans
+`moon/mobs/mvps.npc` (10 points), cartes déjà dans les albums, mobs déjà dans les branches.
+Rien de cela n'est retouché.
+
+| Ajout | Contenu |
+|---|---|
+| Quêtes | la partie Amicitia de `quests_dungeons_200.txt` : Lana (`ein_fild08`, accès rapide, niveau 215), Ansuriya et Gerbena (`pub_cat`, journalières à 215 et 230), les traces de Werner à Amicitia F1 ; 12 quêtes |
+| Drops de carte | `db/re/map_drops.yml` d'`amicitia1` et `amicitia2` à l'échelle de Rudus 4F et Niflheim ; The One (MVP) inchangé |
+| Armes | les 8 dernières armes Fourth_* (Fortified Book, Edge, Dagger, Rod, Spear, Wand, Staff, Claymore), mêmes règles que le lot A, table du 2026‑11‑12 |
+| Choix | le warp vers Amicitia F2 reste libre : l'amont le ferme sous le niveau 230 |
+
 ## 5c. Lots B2 et B1 (portés le 2026‑11‑11, non validés en jeu)
 
 La chaîne et les instances vont ensemble : deux instances sont créées depuis la chaîne, les deux
@@ -151,8 +165,8 @@ démarre à la fin de celle du 17.1 (`ep17_2_main` 1 et 2, déjà porté) ; les 
 | | |
 |---|---|
 | Intérêt | élevé — le terrain est déjà ouvert, il manque ce qui le rend jouable |
-| Fait | lot A : Niflheim renewal et Rudus 4F ; lots B2 et B1 : la chaîne de quêtes et les quatre instances (2026‑11‑11, non validés en jeu) |
-| Reste à faire | **B3** : l'économie du manoir (Lisa et l'équipement Automatic, modules, échanges, et l'Epic Module Box du Jardin de Fleurs Caché) · la partie Amicitia de `quests_dungeons_200.txt` · hors périmètre : les 5 instances de l'intervalle, sans script nulle part |
+| Fait | lot A : Niflheim renewal et Rudus 4F ; lots B2 et B1 : la chaîne de quêtes et les quatre instances (2026‑11‑11) ; lot A2 : Amicitia (2026‑11‑12) ; rien n'est validé en jeu |
+| Reste à faire | **B3** : l'économie du manoir (Lisa et l'équipement Automatic, modules, échanges, et l'Epic Module Box du Jardin de Fleurs Caché) · hors périmètre : les 5 instances de l'intervalle, sans script nulle part |
 
 ## Sources
 

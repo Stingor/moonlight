@@ -294,11 +294,26 @@ retiré, classe de base dans `Jobs` (Kagerou et Oboro vont au Ninja, Rebellion a
 
 `Fourth_Shotgun` lisait `.@r` sans jamais le poser dans l'amont : il est posé par `getrefine()`.
 
-Instances du 17.2 (même jour), une compétence nouvelle **à valider** :
+Instances du 17.2 (même jour), validée le 2026‑11‑12 :
 
 | Compétence | Remplacement | Analogie | Objet |
 |---|---|---|---|
 | `RK_WINDCUTTER` | `KN_BOWLINGBASH` | comme `RK_IGNITIONBREAK` et `RK_STORMBLAST` ; son délai de 1,8 s devient `bDelayrate,-9` | Black_Ribbon_ |
+
+Les 8 armes Fourth_* d'Amicitia (drops de carte), validées le 2026‑11‑12 :
+
+| Compétence | Remplacement | Classe | Arme |
+|---|---|---|---|
+| `EM_CONFLAGRATION` | `MG_FIREBALL` | Sage | Fourth_1h_Book |
+| `HN_DOUBLEBOWLINGBASH` | `SM_BASH` | Super Novice | Fourth_1h_Edge |
+| `HN_METEOR_STORM_BUSTER` | `MG_FIREBALL` | Super Novice | Fourth_1h_Rod |
+| `HN_JUPITEL_THUNDER_STORM` | `MG_LIGHTNINGBOLT` | Super Novice | Fourth_1h_Rod |
+| `SS_SEKIENHOU` | `NJ_KOUENKA` | Ninja | Fourth_1h_Nindo |
+| `SS_REIKETSUHOU` | `NJ_HYOUSENSOU` | Ninja | Fourth_1h_Nindo |
+| `IG_SHIELD_SHOOTING` | `CR_SHIELDBOOMERANG` | Croisé | Fourth_1h_Spear |
+| `SOA_TALISMAN_OF_FOUR_BEARING_GOD` | `SL_SMA` | Soul Linker | Fourth_1h_Wand |
+| `AG_FROZEN_SLASH` | `WZ_FROSTNOVA` (comme `WL_JACKFROST`) | Sorcier | Fourth_Bh_Staff |
+| `DK_STORMSLASH` | `KN_BOWLINGBASH` (comme `RK_STORMBLAST`) | Chevalier | Fourth_Bh_Sword |
 
 ## Objets touchés par la règle des doublons
 
