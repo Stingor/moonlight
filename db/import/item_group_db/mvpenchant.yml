@@ -425,3 +425,18 @@ Body:
           - Index: 123
             Item: R001_Bestia_Card
             Rate: 1
+          - Index: 124
+            Item: Gran_Papilia_Card
+            Rate: 1
+          - Index: 125
+            Item: Redpepper_Card
+            Rate: 1
+          - Index: 126
+            Item: Redpepper_H_Card
+            Rate: 1
+          - Index: 127
+            Item: Silva_Papilia_Card
+            Rate: 1
+          - Index: 128
+            Item: Sweety_Card
+            Rate: 1

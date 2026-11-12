@@ -2321,3 +2321,54 @@ Body:
           - Index: 757
             Item: Corrupt_Life_Card
             Rate: 1
+          - Index: 758
+            Item: Alnoldi_Ex_Card
+            Rate: 1
+          - Index: 759
+            Item: Alnoldi_Ex_H_Card
+            Rate: 1
+          - Index: 760
+            Item: Aries_Card
+            Rate: 1
+          - Index: 761
+            Item: Aries_H_Card
+            Rate: 1
+          - Index: 762
+            Item: Assistant_Card
+            Rate: 1
+          - Index: 763
+            Item: Assistant_H_Card
+            Rate: 1
+          - Index: 764
+            Item: B_Scissore_Ng_H_Card
+            Rate: 1
+          - Index: 765
+            Item: Dry_Rafflesia_Card
+            Rate: 1
+          - Index: 766
+            Item: Dry_Rafflesia_H_Card
+            Rate: 1
+          - Index: 767
+            Item: Papila_Cae_Card
+            Rate: 1
+          - Index: 768
+            Item: Papila_Cae_H_Card
+            Rate: 1
+          - Index: 769
+            Item: Papila_Card
+            Rate: 1
+          - Index: 770
+            Item: Papila_H_Card
+            Rate: 1
+          - Index: 771
+            Item: Papila_Ruba_Card
+            Rate: 1
+          - Index: 772
+            Item: Papila_Ruba_H_Card
+            Rate: 1
+          - Index: 773
+            Item: Verporta_Card
+            Rate: 1
+          - Index: 774
+            Item: Verporte_H_Card
+            Rate: 1

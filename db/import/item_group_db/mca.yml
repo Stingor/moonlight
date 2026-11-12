@@ -797,3 +797,18 @@ Body:
           - Index: 249
             Item: Shining_T_Bear_Card
             Rate: 1
+          - Index: 250
+            Item: Gran_Papilia_Card
+            Rate: 1
+          - Index: 251
+            Item: Redpepper_Card
+            Rate: 1
+          - Index: 252
+            Item: Redpepper_H_Card
+            Rate: 1
+          - Index: 253
+            Item: Silva_Papilia_Card
+            Rate: 1
+          - Index: 254
+            Item: Sweety_Card
+            Rate: 1
