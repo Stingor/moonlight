@@ -858,7 +858,11 @@ S_Drop:
 		.@min++;
 		.@max++;
 	}
-	.@n = rand(.@min, .@max);
+	// rand() refuse min == max (niveau 1) : tirage seulement s'il y a un ecart.
+	if( .@max > .@min )
+		.@n = rand(.@min, .@max);
+	else
+		.@n = .@min;
 	if( !'root_fail )
 		.@n++;
 	if( !'resets )
