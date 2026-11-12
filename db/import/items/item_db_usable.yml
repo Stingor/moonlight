@@ -11894,3 +11894,98 @@ Body:
       NoGuildStorage: true
     Script: |
       sc_start SC_BATH_FOAM_C,900000,15;
+  - Id: 100161
+    AegisName: Epic_M_Box
+    Name: Epic Module Box
+    Type: Usable
+    Flags:
+      Container: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoStorage: true
+      NoCart: true
+      NoSell: true
+      NoMail: true
+      NoAuction: true
+      NoGuildStorage: true
+    Script: |
+      getgroupitem(IG_EPIC_MODULE_MIX);
+  - Id: 100164
+    AegisName: Auto_Imp_Melee_1
+    Name: Normal Automatic Improvement Device (Physical)
+    Type: DelayConsume
+    Script: |
+      laphine_upgrade();
+  - Id: 100165
+    AegisName: Auto_Imp_Melee_2
+    Name: Advanced Automatic Improvement Device (Physical)
+    Type: DelayConsume
+    Script: |
+      laphine_upgrade();
+  - Id: 100166
+    AegisName: Auto_Imp_Melee_3
+    Name: Premium Automatic Improvement Device (Physical)
+    Type: DelayConsume
+    Script: |
+      laphine_upgrade();
+  - Id: 100167
+    AegisName: Auto_Imp_Magic_1
+    Name: Normal Automatic Improvement Device (Magical)
+    Type: DelayConsume
+    Script: |
+      laphine_upgrade();
+  - Id: 100168
+    AegisName: Auto_Imp_Magic_2
+    Name: Advanced Automatic Improvement Device (Magical)
+    Type: DelayConsume
+    Script: |
+      laphine_upgrade();
+  - Id: 100169
+    AegisName: Auto_Imp_Magic_3
+    Name: Premium Automatic Improvement Device (Magical)
+    Type: DelayConsume
+    Script: |
+      laphine_upgrade();
+  - Id: 100251
+    AegisName: Illu_Enhance_Cube
+    Name: Illusion Reinforcement Cube
+    Type: DelayConsume
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      laphine_upgrade();
+  - Id: 100252
+    AegisName: Auto_Enhance_Cube
+    Name: Automatic Reinforcement Cube
+    Type: DelayConsume
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      laphine_upgrade();
+  - Id: 100902
+    AegisName: Teleport_Ep17_02
+    Name: Varmundt Mansion Teleport Wing
+    Type: Usable
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      warp "ba_in01",87,389;

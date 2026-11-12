@@ -23429,7 +23429,7 @@ Body:
     Refineable: true
     Script: "bonus bMaxHPrate,10; .@r = getrefine(); if (.@r >= 9) { bonus bDef,15; } else if (.@r >= 7) { bonus bDef,5; }\n"
   - Id: 15376
-    AegisName: Illusion_Armor_A-type
+    AegisName: Illusion_Armor_A
     Name: Illusion Armor A-type [1]
     Type: Armor
     Weight: 1000
@@ -23441,7 +23441,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bBaseAtk,(100+10*(.@r/2)); if (.@r >= 7) { bonus bAspdRate,10; }\n"
   - Id: 15377
-    AegisName: Illusion_Armor_B-type
+    AegisName: Illusion_Armor_B
     Name: Illusion Armor B-type [1]
     Type: Armor
     Weight: 1000
@@ -29774,7 +29774,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine();  bonus bMdef,2; bonus bVit,1; if (.@r >= 7) { .@val = 5; if (.@r >= 9) { .@val += 10; } } if (.@val) { bonus2 bAddEle,Ele_Water,.@val; bonus2 bAddEle,Ele_Wind,.@val; bonus2 bAddEle,Ele_Earth,.@val; bonus2 bAddEle,Ele_Fire,.@val; }\n"
   - Id: 20933
-    AegisName: Illusion_Engine_wing_A-type
+    AegisName: Illusion_Engine_A
     Name: Illusion Engine wing A-type [1]
     Type: Armor
     Weight: 900
@@ -29786,7 +29786,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHP,1000+(100*(.@r/2)); if (.@r >= 7) { bonus bAspdRate,5; }\n"
   - Id: 20934
-    AegisName: Illusion_Engine_wing_B-type
+    AegisName: Illusion_Engine_B
     Name: Illusion Engine wing B-type [1]
     Type: Armor
     Weight: 900
@@ -30754,7 +30754,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxHPrate,5; bonus bMaxSPrate,5; if (.@r >= 7) { bonus bVariableCastrate,-5; if (.@r >= 9) { bonus bLongAtkRate,10; } }\n"
   - Id: 22196
-    AegisName: Illusion_Leg_A-type
+    AegisName: Illusion_Leg_A
     Name: Illusion Leg A-type [1]
     Type: Armor
     Weight: 500
@@ -30766,7 +30766,7 @@ Body:
     Refineable: true
     Script: ".@r = getrefine(); bonus bMaxSP,200+(20*(.@r/2)); if (.@r >= 7) { bonus bLongAtkRate,5; }\n"
   - Id: 22197
-    AegisName: Illusion_Leg_B-type
+    AegisName: Illusion_Leg_B
     Name: Illusion Leg B-type [1]
     Type: Armor
     Weight: 500
@@ -31893,7 +31893,7 @@ Body:
     View: 3000
     Script: "bonus bAllStats,10; bonus bMaxHPrate,5; bonus bMaxSPrate,5; bonus2 bAddClass,Class_All,10; bonus bMatkRate,10; bonus2 bSubRace,RC_All,10; bonus bDelayrate2,-5; bonus bAspd2,1; bonus bNoWalkDelay; bonus bSpeedAddRate,20;\n"
   - Id: 32207
-    AegisName: Illusion_Booster_R
+    AegisName: Illusion_B_R
     Name: Illusion Booster R [1]
     Type: Armor
     Weight: 100
@@ -31903,7 +31903,7 @@ Body:
     EquipLevelMin: 130
     Script: "bonus2 bAddClass,Class_All,5;\n"
   - Id: 32208
-    AegisName: Illusion_Booster_L
+    AegisName: Illusion_B_L
     Name: Illusion Booster L [1]
     Type: Armor
     Weight: 100
@@ -31913,7 +31913,7 @@ Body:
     EquipLevelMin: 130
     Script: "bonus2 bAddClass,Class_All,5;\n"
   - Id: 32209
-    AegisName: Illusion_Battle_chip_R
+    AegisName: Illusion_BC_R
     Name: Illusion Battle chip R [1]
     Type: Armor
     Weight: 100
@@ -31923,7 +31923,7 @@ Body:
     EquipLevelMin: 130
     Script: "bonus bMatkRate,5;\n"
   - Id: 32210
-    AegisName: Illusion_Battle_chip_L
+    AegisName: Illusion_BC_L
     Name: Illusion Battle chip L [1]
     Type: Armor
     Weight: 100
@@ -34820,3 +34820,168 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+  - Id: 450127
+    AegisName: Auto_Armor_A
+    Name: Automatic Armor Type A [1]
+    Type: Armor
+    Weight: 1000
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 160
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bBaseAtk,125;
+      bonus bBaseAtk,10*(.@r/2);
+      if (.@r>=7) {
+         bonus bAspdRate,15;
+      }
+  - Id: 450128
+    AegisName: Auto_Armor_B
+    Name: Automatic Armor Type B [1]
+    Type: Armor
+    Weight: 1000
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 160
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMatk,125+(10*(.@r/2));
+      if (.@r>=7) {
+         bonus bVariableCastrate,-15;
+      }
+  - Id: 470022
+    AegisName: Auto_Leg_A
+    Name: Automatic Leg Type A [1]
+    Type: Armor
+    Weight: 500
+    Defense: 6
+    Slots: 1
+    Locations:
+      Shoes: true
+    ArmorLevel: 1
+    EquipLevelMin: 160
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxSP,250;
+      bonus bMaxSP,20*(.@r/2);
+      if (.@r>=7) {
+         bonus bLongAtkRate,7;
+      }
+  - Id: 470023
+    AegisName: Auto_Leg_B
+    Name: Automatic Leg Type B [1]
+    Type: Armor
+    Weight: 500
+    Defense: 6
+    Slots: 1
+    Locations:
+      Shoes: true
+    ArmorLevel: 1
+    EquipLevelMin: 160
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxSP,250;
+      bonus bMaxSP,20*(.@r/2);
+      if (.@r>=7) {
+         bonus2 bMagicAtkEle,Ele_All,7;
+      }
+  - Id: 480020
+    AegisName: Auto_Engine_A
+    Name: Automatic Engine Wing Type A [1]
+    Type: Armor
+    Weight: 900
+    Defense: 6
+    Slots: 1
+    Locations:
+      Garment: true
+    ArmorLevel: 1
+    EquipLevelMin: 160
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,1500;
+      bonus bMaxHP,100*(.@r/2);
+      if (.@r>=7) {
+         bonus bAspdRate,7;
+      }
+  - Id: 480021
+    AegisName: Auto_Engine_B
+    Name: Automatic Engine Wing Type B [1]
+    Type: Armor
+    Weight: 900
+    Defense: 6
+    Slots: 1
+    Locations:
+      Garment: true
+    ArmorLevel: 1
+    EquipLevelMin: 160
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,1500;
+      bonus bMaxHP,100*(.@r/2);
+      if (.@r>=7) {
+         bonus bVariableCastrate,-7;
+      }
+  - Id: 490024
+    AegisName: Auto_B_R
+    Name: Automatic Booster R [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 160
+    Script: |
+      bonus2 bAddClass,Class_All,5;
+      bonus bMaxHPrate,5;
+  - Id: 490025
+    AegisName: Auto_B_L
+    Name: Automatic Booster L [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 160
+    Script: |
+      bonus2 bAddClass,Class_All,5;
+      bonus bMaxSPrate,5;
+  - Id: 490026
+    AegisName: Auto_BC_R
+    Name: Automatic Battle Chip R [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 160
+    Script: |
+      bonus bMatkRate,5;
+      bonus bMaxHPrate,5;
+  - Id: 490027
+    AegisName: Auto_BC_L
+    Name: Automatic Battle Chip L [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 160
+    Script: |
+      bonus bMatkRate,5;
+      bonus bMaxSPrate,5;

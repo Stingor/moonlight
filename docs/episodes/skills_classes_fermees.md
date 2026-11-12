@@ -315,6 +315,24 @@ Les 8 armes Fourth_* d'Amicitia (drops de carte), validées le 2026‑11‑12 :
 | `AG_FROZEN_SLASH` | `WZ_FROSTNOVA` (comme `WL_JACKFROST`) | Sorcier | Fourth_Bh_Staff |
 | `DK_STORMSLASH` | `KN_BOWLINGBASH` (comme `RK_STORMBLAST`) | Chevalier | Fourth_Bh_Sword |
 
+Les orbes Automatic du manoir de Varmundt (lot B3 du 17.2), validées le 2026‑11‑12 :
+
+| Compétence | Remplacement | Analogie |
+|---|---|---|
+| `AB_DUPLELIGHT_MELEE` | `bonus2 bAddRace,RC_Undead,N` | comme `AB_DUPLELIGHT` ; `AB_DUPLELIGHT_MAGIC` en `bMagicAddRace` |
+| `GN_CRAZYWEED_ATK` | `AM_DEMONSTRATION` | comme `GN_CRAZYWEED` |
+| `NC_FLAMELAUNCHER` | `MC_MAMMONITE` | |
+| `NC_COLDSLOWER` | `MC_CARTREVOLUTION` | |
+| `SJ_NEWMOONKICK` | `TK_TURNKICK` | comme `SJ_FULLMOONKICK` |
+| `SJ_FLASHKICK` | `TK_JUMPKICK` | |
+| `SO_WARMER` (délai) | `bDelayrate` | règle `bSkillCooldown` |
+| `WM_GREAT_ECHO` | `BA_MUSICALSTRIKE` | comme `WM_METALICSOUND` |
+| `WM_SEVERE_RAINSTORM_MELEE` | `CG_ARROWVULCAN` | comme `WM_SEVERE_RAINSTORM` |
+| `SU_*` | orbes et modules écartés | classe Doram absente |
+
+Les délais des orbes s'additionnent par palier : chacun est converti (1 s = 5 %), et leur somme
+est plafonnée à -25 %.
+
 ## Objets touchés par la règle des doublons
 
 `GodOfWinds_Fan`, `Astro_Circle`, `Emerald_Earring`, `Chilly_Spell_Book`, `Recovery_Light`, `Staff_of_Miracle`, `Red_Ether_Bag`, `Engine_Pilebuncker`, `Volar`, `Vernan`, `Master_Soul_Rifle`, `Jack_The_Knife`.

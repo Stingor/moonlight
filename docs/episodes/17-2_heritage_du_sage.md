@@ -6,7 +6,7 @@
 | Date kRO | **2020‑10‑30** |
 | Arc | l'héritage de Varmundt |
 | Niveau kRO visé | 185‑200 |
-| État Moonlight | **lots A, B2 et B1 portés le 2026‑11‑11 (Niflheim renewal, Rudus 4F, chaîne de quêtes, quatre instances), à valider en jeu ; économie du manoir (B3) absente** |
+| État Moonlight | **porté (lots A, A2, B1, B2, B3), du 2026‑11‑11 au 2026‑11‑12, à valider en jeu** |
 
 Le plus gros apport de cartes depuis l'épisode 14.1 : tout le manoir de Varmundt et ses
 dépendances, soit une douzaine de cartes. C'est aussi l'épisode qui introduit les
@@ -160,13 +160,41 @@ démarre à la fin de celle du 17.1 (`ep17_2_main` 1 et 2, déjà porté) ; les 
 | Mapflags | les cinq cartes d'instance (`nomemo`, `noteleport`, `monster_noteleport`, `nowarpto`, `restricted 6`) et `ba_in01` (`nomemo`, `noteleport`, `nowarpto`) ; `nobranch` écarté (inversé ici) | `moon/mapflag/` |
 | Client | 126 quêtes au journal, tables régénérées, fiches des objets convertis alignées | `moonclient/dist/data/yaml_files/` |
 
+## 5d. Lot B3 : l'économie du manoir (2026‑11‑12, non validé en jeu)
+
+`moon/rathena/merchants/enchan_sage_legacy_17_2.npc`, copie de l'amont, dans `ba_in01` :
+
+| PNJ | Rôle | Ce qui est porté |
+|---|---|---|
+| Lisa | pose un module dans l'équipement Automatic : l'enchantement correspondant (orbe) prend un emplacement de carte | 95 modules (`item_db_etc`) et 95 orbes (`item_db_enchant`) ; les 3 orbes Doram et leurs modules sont écartés, et retirés des listes de Lisa |
+| Yeoncheong | échange l'équipement Illusion du 16.2 contre l'équipement Automatic | 10 pièces Automatic ; les 10 pièces Illusion locales prennent leur nom renewal (même Id) pour que l'échange les trouve |
+| Yecheon | vend les modules et les dispositifs d'amélioration contre des Barmil Tickets | dispositifs `Auto_Imp_*` (options aléatoires `AUTO_IMP_*` sur les armes du manoir, recettes Lapine), boîte de modules Epic (groupe `EPIC_MODULE_MIX`, `db/import/item_group_db/ep17_2.yml`) |
+| Cube Lane | vend les cubes d'amélioration (Illusion et Automatic, raffinage à +7, recettes Lapine) | 2 cubes |
+| Spiera | échange les pierres d'Igni contre les modules Epic | troc `barter_EP17_2_EP` |
+| Child Manager | familiers Little Manager et Cloud Cotton, accessoires | 2 familiers (`pet_db`, mobs `EP17_2_CHILD_ADMIN1` et `2`), 2 accessoires, Cloud Cotton |
+| Marchand de papillons | aile vers le manoir (à partir de l'étape 8 de la chaîne) | `Teleport_Ep17_02` |
+
+Conversions, validées le 2026‑11‑12 :
+- **orbes** : paliers `.@r>=11` en `getallrefine() >= 22`, `bAtkRate` en `bAddClass`, compétences
+  fermées par la table (dix ajouts, [skills_classes_fermees.md](skills_classes_fermees.md)), règle
+  des doublons, délais en `bDelayrate` cumulés par palier et plafonnés à -25 % ; **orbe de DEF à
+  3 / 1 / 1 et de MDEF à 3 / 1 / 1**, comme l'orbe Grace du 17.1 (150 / 75 / 75 et 15 / 7 / 7 en
+  renewal) ;
+- **équipement Automatic** : DEF 12 pour l'armure, 6 pour la cape et les chaussures,
+  `bAtkRate` en `bAddClass` ;
+- l'Epic Module Box revient dans le Jardin de Fleurs Caché (5 pierres d'Igni l'avaient remplacée) ;
+- Lisa a pour sprite le mob `G_ASSISTANT`, ajouté à `ep17_2_instances.yml` ;
+- côté client, les fiches des orbes nomment les compétences de remplacement, et leurs délais
+  s'affichent en « After Skill Delay ».
+
 ## 6. Verdict
 
 | | |
 |---|---|
 | Intérêt | élevé — le terrain est déjà ouvert, il manque ce qui le rend jouable |
-| Fait | lot A : Niflheim renewal et Rudus 4F ; lots B2 et B1 : la chaîne de quêtes et les quatre instances (2026‑11‑11) ; lot A2 : Amicitia (2026‑11‑12) ; rien n'est validé en jeu |
-| Reste à faire | **B3** : l'économie du manoir (Lisa et l'équipement Automatic, modules, échanges, et l'Epic Module Box du Jardin de Fleurs Caché) · hors périmètre : les 5 instances de l'intervalle, sans script nulle part |
+| Fait | lot A : Niflheim renewal et Rudus 4F ; lots B2 et B1 : la chaîne de quêtes et les quatre instances (2026‑11‑11) ; lot A2 : Amicitia et lot B3 : l'économie du manoir (2026‑11‑12) ; les cartes des instances sont dans les albums ; rien n'est validé en jeu |
+| Épisode | **clos** côté portage le 2026‑11‑12 |
+| Reste à faire | validation en jeu · hors périmètre : les 5 instances de l'intervalle, sans script nulle part |
 
 ## Sources
 

@@ -28055,3 +28055,4 @@ Footer:
   - Path: db/import/item_group_db/mca.yml
   - Path: db/import/item_group_db/mvpenchant.yml
   - Path: db/import/item_group_db/technical.yml
+  - Path: db/import/item_group_db/ep17_2.yml

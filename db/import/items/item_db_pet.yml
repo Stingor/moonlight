@@ -664,12 +664,12 @@ Body:
     Type: Petegg
     Buy: 20
   - Id: 9123
-    AegisName: Ep_17_2_C_Admin1_Egg
+    AegisName: Ep17_2_C_Admin1_Egg
     Name: Child Admin Beta Egg
     Type: Petegg
     Buy: 20
   - Id: 9124
-    AegisName: Ep_17_2_C_Admin2_Egg
+    AegisName: Ep17_2_C_Admin2_Egg
     Name: Child Admin Alpha Egg
     Type: Petegg
     Buy: 20
@@ -891,3 +891,11 @@ Body:
     AegisName: Fire_Golem_Egg
     Name: Fire Golem Egg
     Type: PetEgg
+  - Id: 10043
+    AegisName: Ep_17_2_C_Admin1_Acc
+    Name: Little Headdress Beta
+    Type: PetArmor
+  - Id: 10044
+    AegisName: Ep_17_2_C_Admin2_Acc
+    Name: Little Headdress Alpha
+    Type: PetArmor

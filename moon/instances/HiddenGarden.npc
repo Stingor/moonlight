@@ -2084,7 +2084,7 @@ OnTouch:	// unknown effect
 			if (rand(1,100) < 95)
 				getitem 1000104,rand(1,5);
 			else
-				getitem 1000104,5;	// amont : getitem 100161,1 (Epic Module Box), dont les modules Automatic viendront avec le lot B3 du 17.2
+				getitem 100161,1;
 		}
 		end;
 	}

@@ -2181,3 +2181,79 @@ Body:
       else if (.@i >= PET_INTIMATE_AWKWARD || .@i >= PET_INTIMATE_SHY) {
          bonus bMaxHP,200;
       }
+  - Mob: EP17_2_CHILD_ADMIN1
+    EggItem: Ep17_2_C_Admin1_Egg
+    EquipItem: Ep_17_2_C_Admin1_Acc
+    FoodItem: Cloud_Cotton
+    Fullness: 2
+    IntimacyFed: 20
+    CaptureRate: 1000
+    Script: >
+      .@i = getpetinfo(PETINFO_INTIMATE);
+
+      if (.@i >= PET_INTIMATE_LOYAL) {
+        bonus2 bAddRace2,RC2_EP172BETA,10;
+      } else if (.@i >= PET_INTIMATE_CORDIAL) {
+        bonus2 bAddRace2,RC2_EP172BETA,6;
+      } else if (.@i >= PET_INTIMATE_NEUTRAL) {
+        bonus2 bAddRace2,RC2_EP172BETA,3;
+      }
+    Evolution:
+      - Target: EP17_2_CHILD_ADMIN2
+        ItemRequirements:
+          - Item: BarMealTicket
+            Amount: 500
+          - Item: Broken_Steel_Piece
+            Amount: 50
+          - Item: Mystery_Piece
+            Amount: 10
+  - Mob: EP17_2_CHILD_ADMIN2
+    EggItem: Ep17_2_C_Admin2_Egg
+    EquipItem: Ep_17_2_C_Admin2_Acc
+    FoodItem: Pet_Food
+    Fullness: 2
+    IntimacyFed: 20
+    CaptureRate: 1000
+    AllowAutoFeed: true
+    Script: >
+      .@i = getpetinfo(PETINFO_INTIMATE);
+
+      if (.@i >= PET_INTIMATE_LOYAL) {
+        bonus2 bAddRace2,RC2_EP172ALPHA,15;
+      } else if (.@i >= PET_INTIMATE_CORDIAL) {
+        bonus2 bAddRace2,RC2_EP172ALPHA,8;
+      } else if (.@i >= PET_INTIMATE_NEUTRAL) {
+        bonus2 bAddRace2,RC2_EP172ALPHA,4;
+      }
+#  - Mob: BLUE_UNICORN
+#    EggItem: Blue_Unicorn_Egg
+#    FoodItem: Blue_Herb
+#    Fullness: 2   # unknown
+#    HungryDelay: 120   # unknown
+#    IntimacyFed: 15   # unknown
+#    CaptureRate: 0   # unknown
+#    SpecialPerformance: false   # unknown
+#  - Mob: SCATLETON
+#    EggItem: Scatletoncarrier
+#    EquipItem: Red_Chorker_Bell
+#    FoodItem: Delicious_Fish
+#    Fullness: 2   # unknown
+#    HungryDelay: 120   # unknown
+#    IntimacyFed: 15   # unknown
+#    CaptureRate: 0   # unknown
+#    SpecialPerformance: false   # unknown
+#    Script: >
+#      if (getpetinfo(PETINFO_INTIMATE) >= PET_INTIMATE_LOYAL) {
+#         bonus bMatk,10;
+#         bonus bBaseAtk,10;
+#      }
+#
+#    Evolution:
+#      - Target: SKELION
+#        ItemRequirements:
+#          - Item: Memory_Of_Gyol
+#            Amount: 2
+#          - Item: Yummy_Meat
+#            Amount: 100
+#          - Item: Cookies_Bat
+#            Amount: 100

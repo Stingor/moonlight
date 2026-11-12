@@ -3814,50 +3814,50 @@ Body:
       bonus bVit,5; bonus bMaxSPrate,5; bonus bDef,5; bonus bMdef,15; bonus2 bSubEle,Ele_Water,10; bonus2 bSubEle,Ele_Earth,10; bonus2 bSubEle,Ele_Fire,10; bonus2 bSubEle,Ele_Wind,10; .@hp = 15; .@r[0] = getequiprefinerycnt(EQI_ARMOR); .@r[1] = getequiprefinerycnt(EQI_HEAD_TOP); .@r[2] = getequiprefinerycnt(EQI_GARMENT); .@r[3] = getequiprefinerycnt(EQI_SHOES); .@sum = .@r[0]+.@r[1]+.@r[2]+.@r[3]; if (.@r[0] >= 7 && .@r[1] >= 7 && .@r[2] >= 7 && .@r[3] >= 7) { .@hp += 10; } bonus bMaxHPrate,.@hp; if (.@sum >= 36) { bonus bFixedCast,-700; if (.@sum >= 40) { bonus bDelayrate,-20; } }
   - Combos:
       - Combo:
-          - Illusion_Armor_A-type
-          - Illusion_Engine_wing_A-type
+          - Illusion_Armor_A
+          - Illusion_Engine_A
     Script: |
       bonus bBaseAtk,50;
   - Combos:
       - Combo:
-          - Illusion_Armor_A-type
-          - Illusion_Engine_wing_B-type
+          - Illusion_Armor_A
+          - Illusion_Engine_B
     Script: |
       bonus bDelayrate,-10;
   - Combos:
       - Combo:
-          - Illusion_Armor_A-type
-          - Illusion_Leg_A-type
+          - Illusion_Armor_A
+          - Illusion_Leg_A
     Script: |
       bonus2 bAddClass,Class_All,5;
   - Combos:
       - Combo:
-          - Illusion_Armor_A-type
-          - Illusion_Leg_B-type
+          - Illusion_Armor_A
+          - Illusion_Leg_B
     Script: |
       bonus bMaxSPRate,5;
   - Combos:
       - Combo:
-          - Illusion_Armor_B-type
-          - Illusion_Engine_wing_A-type
+          - Illusion_Armor_B
+          - Illusion_Engine_A
     Script: |
       bonus bAspdRate,10;
   - Combos:
       - Combo:
-          - Illusion_Armor_B-type
-          - Illusion_Engine_wing_B-type
+          - Illusion_Armor_B
+          - Illusion_Engine_B
     Script: |
       bonus bMatk,50;
   - Combos:
       - Combo:
-          - Illusion_Armor_B-type
-          - Illusion_Leg_A-type
+          - Illusion_Armor_B
+          - Illusion_Leg_A
     Script: |
       bonus bAspdRate,5;
   - Combos:
       - Combo:
-          - Illusion_Armor_B-type
-          - Illusion_Leg_B-type
+          - Illusion_Armor_B
+          - Illusion_Leg_B
     Script: |
       bonus bMatkRate,5;
   - Combos:
@@ -4488,26 +4488,26 @@ Body:
       .@weapon = getequiprefinerycnt(EQI_HAND_R); .@eq = getequiprefinerycnt(EQI_GARMENT); .@val = 10; if (.@weapon >= 7 && .@eq >= 7) { bonus bCritAtkRate,15; } if ((.@weapon + .@eq) >= 18) { .@val += 15; if (getallrefine() >= 44) { skill "TF_DOUBLE",4; bonus bDoubleRate,20; } } bonus bAspdRate,.@val;
   - Combos:
       - Combo:
-          - Illusion_Engine_wing_A-type
-          - Illusion_Leg_A-type
+          - Illusion_Engine_A
+          - Illusion_Leg_A
     Script: |
       bonus bCritAtkRate,10;
   - Combos:
       - Combo:
-          - Illusion_Engine_wing_A-type
-          - Illusion_Leg_B-type
+          - Illusion_Engine_A
+          - Illusion_Leg_B
     Script: |
       bonus bVariableCastrate,-10;
   - Combos:
       - Combo:
-          - Illusion_Engine_wing_B-type
-          - Illusion_Leg_A-type
+          - Illusion_Engine_B
+          - Illusion_Leg_A
     Script: |
       bonus bLongAtkRate,10;
   - Combos:
       - Combo:
-          - Illusion_Engine_wing_B-type
-          - Illusion_Leg_B-type
+          - Illusion_Engine_B
+          - Illusion_Leg_B
     Script: |
       bonus2 bMagicAtkEle,Ele_All,10;
   - Combos:
