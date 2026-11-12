@@ -15,7 +15,6 @@
 //============================================================
 
 glast_01,179,283,5	script	Another Hugin#ogh_hard	4_M_SAGE_C,{
-	next;
 	if(BaseLevel < 160){
 		mes "[ Another Hugin ]";
 		mes "Why don't you come back after becoming stronger?";
@@ -27,9 +26,8 @@ glast_01,179,283,5	script	Another Hugin#ogh_hard	4_M_SAGE_C,{
 		mes "...";
 		next;
 		mes "^0000CDThis man looks exactly like Hugin. But he doesn't seem to be any interest in you.^000000";
-		end;
+		close;
 	}
-	next;
 	.@cooldown = 12334;
 	.@root_hunt = 12336;
 	.@md_name$ = "Old Glast Heim Hard";
@@ -79,11 +77,11 @@ glast_01,179,283,5	script	Another Hugin#ogh_hard	4_M_SAGE_C,{
 					mes "Party Name: " + getpartyname( getcharid(1) );
 					mes "Party Leader: " + strcharinfo(0);
 					mes "^0000ff" + .@md_name$ + "^000000 - time gap generation failed.";
-					end;
+					close;
 			}
 			mes "[ Another Hugin ]";
 			mes "After the time gap opens, take a quick breath and talk to me again.";
-			end;
+			close;
 			
 		case 2:
 			switch(instance_enter(.@md_name$)){
