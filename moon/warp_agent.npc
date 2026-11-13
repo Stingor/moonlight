@@ -987,11 +987,14 @@ function GetMobs {
 
 // Plage de niveau des monstres des cartes recues (tableaux .wm_*$, "carte" ou
 // "carte,x,y"), pour les menus Donjons et Fields. Les MVP en sont exclus : un
-// boss unique ecraserait la plage d'un donjon entier. Lue a chaque affichage,
+// boss unique ecraserait la plage d'un donjon entier. Les objets aussi : quatre
+// modes Ignore* = 1 degat par coup (plantes, champignons, cristaux, Emperium),
+// sans quoi Louyang et ses pareils commenceraient au niveau 1. Lue a chaque affichage,
 // elle suit les spawns charges et les cartes peuplees par script. Sans code
 // couleur : buildin_menu tronque au-dela de 2047 octets, et le menu Donjons
 // (49 entrees) y passerait.
 function LvRange {
+	.@obj = MD_IGNOREMELEE|MD_IGNOREMAGIC|MD_IGNORERANGED|MD_IGNOREMISC;
 	.@min = 0;
 	.@max = 0;
 	for (.@a = 0; .@a < getargcount(); .@a++) {
@@ -1005,7 +1008,10 @@ function LvRange {
 			getmapspawns(.@tmp$[0]);
 			for (.@j = 0; .@j < getarraysize(.@mobids); .@j++) {
 				.@id = .@mobids[.@j];
-				if (getmonsterinfo(.@id, MOB_MODE) & MD_MVP || getmonsterinfo(.@id, MOB_MVPEXP) > 0)
+				.@mode = getmonsterinfo(.@id, MOB_MODE);
+				if (.@mode & MD_MVP || getmonsterinfo(.@id, MOB_MVPEXP) > 0)
+					continue;
+				if ((.@mode & .@obj) == .@obj)
 					continue;
 				.@lv = getmonsterinfo(.@id, MOB_LV);
 				if (.@lv <= 0)
