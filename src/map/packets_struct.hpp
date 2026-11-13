@@ -8058,6 +8058,12 @@ enum e_moonclient_style_layer : uint8 {
 	// le serveur lit dans la session (un homoncule pour une classe d'homoncule, le
 	// familier sinon) ; dans le ZC, il voyage dans le bloc du gid du compagnon.
 	MOONCLIENT_STYLE_LAYER_COMPANION = 7,
+	// Un EFFET DE CHAPEAU affiche : cle = son numero (`e_hat_effects`), profil 4,
+	// un seul reglage, ni reste ni retouche ; l'octet de l'absolu y dit
+	// "assombrir". Dans le CZ, il vise l'effet que l'emetteur AFFICHE, et le
+	// serveur cherche lui-meme l'objet porte qui le pose ; la teinture appartient
+	// a cet exemplaire. Dans le ZC, il voyage dans le bloc du porteur.
+	MOONCLIENT_STYLE_LAYER_HAT_EFFECT = 8,
 	// CZ seulement : les emplacements d'équipement de l'émetteur.
 	MOONCLIENT_STYLE_SLOT_FIRST     = 10,
 	MOONCLIENT_STYLE_SLOT_LAST      = 17,

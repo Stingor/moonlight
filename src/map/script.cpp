@@ -24993,6 +24993,10 @@ BUILDIN_FUNC(hateffect){
 
 	if( map_session_data* sd = BL_CAST( BL_PC, bl ); sd == nullptr || !sd->state.connect_new ){
 		clif_hat_effect_single( *bl, effectID, enable );
+		// [Stingor] Un effet de chapeau qui paraît ou s'en va : la teinture de
+		// l'exemplaire qui le pose suit, après le paquet natif.
+		if( sd != nullptr )
+			style_layers_look_changed( *sd );
 	}
 
 #endif

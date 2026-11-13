@@ -47,6 +47,8 @@ struct npc_data;
 // couleur, et dort tant qu'on ne les porte pas. Les suites et les peaux des
 // corps en prennent huit au plus : il en reste au moins onze aux têtes.
 #define MOONCLIENT_STYLE_LAYERS_MAX 20
+// Le plus d'effets de chapeau qu'un CZ teint d'un coup.
+#define MOONCLIENT_STYLE_HAT_EFFECTS_MAX 8
 // La distance au styliste, en cases, pour qu'une teinture d'objet soit acceptée.
 #define MOONCLIENT_STYLE_ATELIER_CELLS 5
 // La durée d'un atelier que le script ouvre sans la dire, en secondes.

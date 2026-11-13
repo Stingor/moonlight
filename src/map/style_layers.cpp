@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <cinttypes>
 #include <cstring>
+#include <map>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -33,6 +34,7 @@
 #include "path.hpp" // distance_xy
 #include "pc.hpp"
 #include "pet.hpp" // pet_data
+#include "script.hpp" // e_hat_effects, script_get_constant
 #include "status.hpp" // status_get_viewdata
 
 namespace {
@@ -48,6 +50,12 @@ constexpr t_tick BYTES_WINDOW_MS = 60000;
 constexpr uint8 PROFILE_RAMPS = 1;
 constexpr uint8 PROFILE_HUE_CLASSES = 2;
 constexpr uint8 PROFILE_BODY_MORE = 3;
+// Un effet de chapeau : un seul réglage, au rang 0.
+constexpr uint8 PROFILE_EFFECT = 4;
+// Les bornes d'un réglage d'effet de chapeau : la teinte en degrés relatifs, la
+// saturation et la clarté en pour-cent relatifs.
+constexpr int32 EFFECT_HUE_MOST = 180;
+constexpr int32 EFFECT_PERCENT_MOST = 100;
 constexpr int32 RAMP_RANKS = 8;
 // La suite du corps : les rampes 9 à 12.
 constexpr int32 BODY_MORE_RANKS = 4;
@@ -61,8 +69,9 @@ constexpr uint32 HEAD_KEY_LOW = 0xFFFF;
 // familier.
 constexpr int32 COMPANION_KINDS = 2;
 // Un CZ ne décrit pas plus que ce qu'un personnage range, plus ses huit
-// emplacements et ses deux compagnons.
-constexpr int32 REQUEST_ENTRIES_MAX = MOONCLIENT_STYLE_LAYERS_MAX + (MOONCLIENT_STYLE_SLOT_LAST - MOONCLIENT_STYLE_SLOT_FIRST + 1) + COMPANION_KINDS;
+// emplacements, ses deux compagnons et ses effets de chapeau.
+constexpr int32 REQUEST_ENTRIES_MAX = MOONCLIENT_STYLE_LAYERS_MAX + (MOONCLIENT_STYLE_SLOT_LAST - MOONCLIENT_STYLE_SLOT_FIRST + 1) + COMPANION_KINDS
+	+ MOONCLIENT_STYLE_HAT_EFFECTS_MAX;
 // Le plus d'exemplaires qu'un joueur affiche : trois coiffes et une cape.
 constexpr int32 SHOWN_ITEMS_MAX = 4;
 // Les octets d'en-tête d'un bloc : gid, nombre.
@@ -105,6 +114,11 @@ std::unordered_map<uint32, s_style_layer_state> s_states; // par char_id
 // Le cache des teintures d'exemplaires, par `unique_id`. Une absence se garde
 // aussi : elle épargne une requête à chaque apparition.
 std::unordered_map<uint64, std::optional<s_item_dye>> s_item_dyes;
+
+// La teinture d'un effet de chapeau, par exemplaire et numéro d'effet : l'objet
+// qu'elle teint, et son entrée. Une absence se garde aussi.
+using item_effect_key = std::pair<uint64, uint16>;
+std::map<item_effect_key, std::optional<s_item_dye>> s_item_effect_dyes;
 
 // ── Les compagnons ──────────────────────────────────────────────────────────
 //
@@ -209,6 +223,8 @@ int32 ranks_for(uint8 layer, uint8 profile) {
 		return profile == PROFILE_RAMPS ? 1 : 0;
 	if (layer == MOONCLIENT_STYLE_LAYER_BODY_MORE)
 		return profile == PROFILE_BODY_MORE ? BODY_MORE_RANKS : 0;
+	if (layer == MOONCLIENT_STYLE_LAYER_HAT_EFFECT)
+		return profile == PROFILE_EFFECT ? 1 : 0;
 	if (profile == PROFILE_RAMPS)
 		return RAMP_RANKS;
 	if (profile == PROFILE_HUE_CLASSES)
@@ -227,7 +243,7 @@ bool character_layer(uint8 layer) {
 bool takes_rest(uint8 layer, uint8 profile) {
 	if (layer == MOONCLIENT_STYLE_LAYER_BODY_MORE)
 		return profile == PROFILE_BODY_MORE;
-	return !skin_layer(layer) && profile == PROFILE_RAMPS;
+	return !skin_layer(layer) && layer != MOONCLIENT_STYLE_LAYER_HAT_EFFECT && profile == PROFILE_RAMPS;
 }
 
 // Une entrée porte-t-elle quelque chose à ranger : un réglage, ou une queue ?
@@ -249,7 +265,8 @@ bool absolutes_valid(const uint8* p, int32 count) {
 // en magenta pur, et une longueur exacte. Une queue vide est refusée : elle ne
 // part pas sans contenu.
 e_moonclient_style_result check_tail(const uint8* p, size_t at, size_t size, uint8 layer, uint8 profile) {
-	if (skin_layer(layer) || at + MOONCLIENT_STYLE_LAYER_TAIL_HEAD > size)
+	// Une peau et un effet de chapeau n'ont qu'un réglage : jamais de queue.
+	if (skin_layer(layer) || layer == MOONCLIENT_STYLE_LAYER_HAT_EFFECT || at + MOONCLIENT_STYLE_LAYER_TAIL_HEAD > size)
 		return MOONCLIENT_STYLE_MALFORMED;
 	const uint16 rest_mask = static_cast<uint16>(p[at] | (p[at + 1] << 8));
 	at += 2;
@@ -275,7 +292,7 @@ e_moonclient_style_result check_tail(const uint8* p, size_t at, size_t size, uin
 
 // Le calque que peint une entrée du CZ (1 à 7), ou zéro.
 uint8 painted_layer(uint8 wire_layer) {
-	if (character_layer(wire_layer) || wire_layer == MOONCLIENT_STYLE_LAYER_COMPANION)
+	if (character_layer(wire_layer) || wire_layer == MOONCLIENT_STYLE_LAYER_COMPANION || wire_layer == MOONCLIENT_STYLE_LAYER_HAT_EFFECT)
 		return wire_layer;
 	const std::optional<s_slot> slot = slot_of(wire_layer);
 	return slot ? slot->layer : 0;
@@ -284,8 +301,9 @@ uint8 painted_layer(uint8 wire_layer) {
 // La forme d'une entrée qu'on juge : celle d'un CZ, celle du personnage rangée en
 // base (calques du personnage, aucun drapeau d'effacement), celle d'un objet
 // rangée en base ou dans une tenue (coiffe ou cape sous son numéro de calque),
-// celle d'un compagnon rangée en base (calque 7 sous sa classe).
-enum class e_entry_form : uint8 { request, character, item, companion };
+// celle d'un compagnon rangée en base (calque 7 sous sa classe), celle d'un
+// effet de chapeau rangée en base (calque 8 sous son numéro).
+enum class e_entry_form : uint8 { request, character, item, companion, hat_effect };
 
 // 🔴 LA STRUCTURE D'UNE ENTRÉE, et rien d'autre : la longueur exacte, le profil
 // connu, le masque dans les rangs du profil, `absolu` à 0 ou 1, les drapeaux
@@ -319,6 +337,9 @@ e_moonclient_style_result check_entry(const uint8* p, size_t available, e_entry_
 		case e_entry_form::companion:
 			layer = e.layer == MOONCLIENT_STYLE_LAYER_COMPANION ? e.layer : 0;
 			break;
+		case e_entry_form::hat_effect:
+			layer = e.layer == MOONCLIENT_STYLE_LAYER_HAT_EFFECT ? e.layer : 0;
+			break;
 	}
 	if (layer == 0)
 		return MOONCLIENT_STYLE_KEY;
@@ -336,7 +357,22 @@ e_moonclient_style_result check_entry(const uint8* p, size_t available, e_entry_
 	}
 	// La clé, dans ses bornes. La peau du visage sous zéro ; la peau d'un corps,
 	// comme sa suite, sous une clé non nulle.
-	if (e.layer == MOONCLIENT_STYLE_LAYER_SKIN) {
+	if (e.layer == MOONCLIENT_STYLE_LAYER_HAT_EFFECT) {
+		// 🔴 UN NUMÉRO D'EFFET QUI EXISTE, et jamais le micro de la voix : il n'est
+		// pas une parure, et aucun objet ne le pose.
+		if (e.key <= static_cast<uint32>(HAT_EF_MIN) || e.key >= static_cast<uint32>(HAT_EF_MAX) || e.key == static_cast<uint32>(HAT_EF_MIC))
+			return MOONCLIENT_STYLE_KEY;
+		// Le réglage, dans ses bornes : teinte, saturation, clarté.
+		if (e.mask != 0) {
+			const uint8* adjust = p + MOONCLIENT_STYLE_LAYER_ENTRY_HEAD;
+			const int32 hue = static_cast<int16>(adjust[0] | (adjust[1] << 8));
+			const int32 saturation = static_cast<int8>(adjust[2]);
+			const int32 value = static_cast<int8>(adjust[3]);
+			if (hue < -EFFECT_HUE_MOST || hue > EFFECT_HUE_MOST || saturation < -EFFECT_PERCENT_MOST || saturation > EFFECT_PERCENT_MOST
+				|| value < -EFFECT_PERCENT_MOST || value > EFFECT_PERCENT_MOST)
+				return MOONCLIENT_STYLE_MALFORMED;
+		}
+	} else if (e.layer == MOONCLIENT_STYLE_LAYER_SKIN) {
 		if (e.key != 0)
 			return MOONCLIENT_STYLE_KEY;
 	} else if (e.layer == MOONCLIENT_STYLE_LAYER_HEAD) {
@@ -661,6 +697,187 @@ block_list* active_companion(map_session_data& sd, uint32 expected_class) {
 	return bl;
 }
 
+// ── Les effets de chapeau ───────────────────────────────────────────────────
+//
+// Une teinture d'effet de chapeau appartient à l'EXEMPLAIRE de l'objet qui pose
+// l'effet, par son `unique_id`, et au numéro de l'effet : un objet dont le script
+// en pose deux en a deux. Le serveur sait quel objet pose quel effet : les
+// scripts de `item_db` le nomment.
+
+// Les effets de chapeau que le script de chaque objet nomme, par identifiant
+// d'objet, lus une fois.
+const std::unordered_map<t_itemid, std::vector<int16>>& hat_effects_of_items() {
+	static std::unordered_map<t_itemid, std::vector<int16>> s_map;
+	static bool built = false;
+	if (built)
+		return s_map;
+	built = true;
+	const auto is_ident = [](char c) {
+		return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_';
+	};
+	for (const auto& entry : item_db) {
+		const std::shared_ptr<item_data>& idata = entry.second;
+		if (idata == nullptr)
+			continue;
+		for (const std::string* src : { &idata->script_src, &idata->equip_script_src }) {
+			for (size_t at = src->find("HAT_EF_"); at != std::string::npos; at = src->find("HAT_EF_", at + 1)) {
+				size_t end = at;
+				while (end < src->size() && is_ident((*src)[end]))
+					++end;
+				int64 value = 0;
+				if (!script_get_constant(src->substr(at, end - at).c_str(), &value) || value <= HAT_EF_MIN || value >= HAT_EF_MAX)
+					continue;
+				std::vector<int16>& effects = s_map[idata->nameid];
+				if (std::find(effects.begin(), effects.end(), static_cast<int16>(value)) == effects.end())
+					effects.push_back(static_cast<int16>(value));
+			}
+		}
+	}
+	return s_map;
+}
+
+// L'effet se montre-t-il chez ce joueur : posé sur lui, hors d'une carte sans
+// costume (où aucun effet de chapeau ne se diffuse), et jamais le micro.
+bool hat_effect_shown(const map_session_data& sd, uint16 number) {
+	if (number == HAT_EF_MIC || map_getmapflag(sd.m, MF_NOCOSTUME))
+		return false;
+	const std::vector<int16>& worn = sd.ud.hatEffects;
+	return std::find(worn.begin(), worn.end(), static_cast<int16>(number)) != worn.end();
+}
+
+// 🔴 L'EXEMPLAIRE QUI POSE CET EFFET, parmi ce que `sd` PORTE, et nulle part
+// ailleurs : le premier, dans l'ordre des emplacements, qui a un `unique_id` et
+// dont le script nomme l'effet. -1 sinon : un effet posé par un script de PNJ
+// ou par une commande n'appartient à aucun objet.
+int16 hat_effect_item(const map_session_data& sd, uint16 number) {
+	const std::unordered_map<t_itemid, std::vector<int16>>& of_items = hat_effects_of_items();
+	for (int32 eqi = 0; eqi < EQI_MAX; ++eqi) {
+		const int16 idx = sd.equip_index[eqi];
+		if (idx < 0 || idx >= MAX_INVENTORY || sd.inventory_data[idx] == nullptr)
+			continue;
+		const item& it = sd.inventory.u.items_inventory[idx];
+		if (it.unique_id == 0)
+			continue;
+		const auto found = of_items.find(it.nameid);
+		if (found != of_items.end() && std::find(found->second.begin(), found->second.end(), static_cast<int16>(number)) != found->second.end())
+			return idx;
+	}
+	return -1;
+}
+
+// La teinture d'un effet de chapeau d'un exemplaire, du cache ou de la base.
+const std::optional<s_item_dye>& item_effect_dye(uint64 unique_id, uint16 number) {
+	const item_effect_key key{ unique_id, number };
+	auto found = s_item_effect_dyes.find(key);
+	if (found != s_item_effect_dyes.end())
+		return found->second;
+	std::optional<s_item_dye> dye;
+	bool readable = true;
+	if (SQL_SUCCESS != Sql_Query(mmysql_handle, "SELECT `nameid`, `version`, `data` FROM `moonclient_item_effect_dyes` WHERE `unique_id` = '%" PRIu64 "' AND `hat_effect` = '%u'",
+		unique_id, static_cast<uint32>(number))) {
+		Sql_ShowDebug(mmysql_handle);
+		readable = false;
+	} else {
+		if (Sql_NextRow(mmysql_handle) == SQL_SUCCESS) {
+			char* data = nullptr;
+			size_t length = 0;
+			Sql_GetData(mmysql_handle, 0, &data, nullptr);
+			const t_itemid nameid = data != nullptr ? static_cast<t_itemid>(strtoul(data, nullptr, 10)) : 0;
+			Sql_GetData(mmysql_handle, 1, &data, nullptr);
+			const uint32 version = data != nullptr ? static_cast<uint32>(strtoul(data, nullptr, 10)) : 0;
+			Sql_GetData(mmysql_handle, 2, &data, &length);
+			if (version == STORED_VERSION && data != nullptr && length >= MOONCLIENT_STYLE_LAYER_ENTRY_HEAD && length <= MOONCLIENT_STYLE_LAYER_ENTRY_MAX) {
+				const uint8* p = reinterpret_cast<const uint8*>(data);
+				// 🔴 CE QUI SORT DE LA BASE SE REJUGE, et sa clé doit être son numéro.
+				if (view_of(p).size == length && view_of(p).key == number && check_entry(p, length, e_entry_form::hat_effect) == MOONCLIENT_STYLE_ACCEPTED)
+					dye = s_item_dye{ nameid, bytes(p, p + length) };
+			}
+			if (!dye)
+				ShowWarning("style_layers: la teinture de l'effet %u de l'exemplaire %" PRIu64 " est illisible : ignoree.\n", static_cast<uint32>(number), unique_id);
+		}
+		Sql_FreeResult(mmysql_handle);
+	}
+	if (!readable) {
+		static const std::optional<s_item_dye> none;
+		return none;
+	}
+	return s_item_effect_dyes[key] = std::move(dye);
+}
+
+// Une teinture d'effet de chapeau écrite ou retirée, et son journal.
+bool store_item_effect(uint64 unique_id, uint16 number, t_itemid nameid, const bytes* entry, const bytes* before,
+	uint32 account_id, uint32 author_char_id, const char* source) {
+	uint64 uid = unique_id;
+	uint16 effect = number;
+	uint32 item = nameid;
+	{
+		SqlStmt stmt{ *mmysql_handle };
+		uint8 version = STORED_VERSION;
+		uint32 author = author_char_id;
+		bool ok;
+		if (entry != nullptr) {
+			ok = SQL_SUCCESS == stmt.Prepare("REPLACE INTO `moonclient_item_effect_dyes` (`unique_id`, `hat_effect`, `nameid`, `version`, `data`, `char_id`, `updated_at`) VALUES (?, ?, ?, ?, ?, ?, NOW())")
+			  && SQL_SUCCESS == stmt.BindParam(0, SQLDT_UINT64, &uid, sizeof(uid))
+			  && SQL_SUCCESS == stmt.BindParam(1, SQLDT_UINT16, &effect, sizeof(effect))
+			  && SQL_SUCCESS == stmt.BindParam(2, SQLDT_UINT32, &item, sizeof(item))
+			  && SQL_SUCCESS == stmt.BindParam(3, SQLDT_UINT8, &version, sizeof(version))
+			  && SQL_SUCCESS == stmt.BindParam(4, SQLDT_BLOB, const_cast<uint8*>(entry->data()), entry->size())
+			  && SQL_SUCCESS == stmt.BindParam(5, SQLDT_UINT32, &author, sizeof(author))
+			  && SQL_SUCCESS == stmt.Execute();
+		} else {
+			ok = SQL_SUCCESS == stmt.Prepare("DELETE FROM `moonclient_item_effect_dyes` WHERE `unique_id` = ? AND `hat_effect` = ?")
+			  && SQL_SUCCESS == stmt.BindParam(0, SQLDT_UINT64, &uid, sizeof(uid))
+			  && SQL_SUCCESS == stmt.BindParam(1, SQLDT_UINT16, &effect, sizeof(effect))
+			  && SQL_SUCCESS == stmt.Execute();
+		}
+		if (!ok) {
+			SqlStmt_ShowDebug(stmt);
+			return false;
+		}
+	}
+	// 🔴 LE JOURNAL : qui a teint quel effet de quel exemplaire, avant et après.
+	SqlStmt log{ *mmysql_handle };
+	uint32 account = account_id;
+	uint32 author = author_char_id;
+	static uint8 no_byte = 0;
+	bytes empty;
+	const bytes& was = before != nullptr ? *before : empty;
+	const bytes& now = entry != nullptr ? *entry : empty;
+	uint8* was_at = was.empty() ? &no_byte : const_cast<uint8*>(was.data());
+	uint8* now_at = now.empty() ? &no_byte : const_cast<uint8*>(now.data());
+	if (SQL_SUCCESS != log.Prepare("INSERT INTO `moonclient_item_effect_dye_log` (`logged_at`, `account_id`, `char_id`, `unique_id`, `hat_effect`, `nameid`, `source`, `before_data`, `after_data`) VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, ?)")
+	||  SQL_SUCCESS != log.BindParam(0, SQLDT_UINT32, &account, sizeof(account))
+	||  SQL_SUCCESS != log.BindParam(1, SQLDT_UINT32, &author, sizeof(author))
+	||  SQL_SUCCESS != log.BindParam(2, SQLDT_UINT64, &uid, sizeof(uid))
+	||  SQL_SUCCESS != log.BindParam(3, SQLDT_UINT16, &effect, sizeof(effect))
+	||  SQL_SUCCESS != log.BindParam(4, SQLDT_UINT32, &item, sizeof(item))
+	||  SQL_SUCCESS != log.BindParam(5, SQLDT_STRING, const_cast<char*>(source), strlen(source))
+	||  SQL_SUCCESS != log.BindParam(6, SQLDT_BLOB, was_at, was.size())
+	||  SQL_SUCCESS != log.BindParam(7, SQLDT_BLOB, now_at, now.size())
+	||  SQL_SUCCESS != log.Execute())
+		SqlStmt_ShowDebug(log);
+	ShowInfo("style_layers: effet %u de l'exemplaire %" PRIu64 " (objet %u) %s par le personnage %u (%s).\n", static_cast<uint32>(number), unique_id, nameid,
+		entry != nullptr ? "teint" : "deteint", author_char_id, source);
+	return true;
+}
+
+// Les numéros d'effet teints d'un exemplaire, lus en base.
+std::vector<uint16> item_effect_numbers(uint64 unique_id) {
+	std::vector<uint16> numbers;
+	if (SQL_SUCCESS != Sql_Query(mmysql_handle, "SELECT `hat_effect` FROM `moonclient_item_effect_dyes` WHERE `unique_id` = '%" PRIu64 "'", unique_id)) {
+		Sql_ShowDebug(mmysql_handle);
+		return numbers;
+	}
+	while (Sql_NextRow(mmysql_handle) == SQL_SUCCESS) {
+		char* data = nullptr;
+		Sql_GetData(mmysql_handle, 0, &data, nullptr);
+		if (data != nullptr)
+			numbers.push_back(static_cast<uint16>(strtoul(data, nullptr, 10)));
+	}
+	Sql_FreeResult(mmysql_handle);
+	return numbers;
+}
+
 // ── Ce qui s'affiche ────────────────────────────────────────────────────────
 
 // L'exemplaire qu'un joueur AFFICHE à un emplacement, ou -1. Le costume l'emporte,
@@ -724,6 +941,22 @@ bytes compose_block(map_session_data& owner) {
 		// La teinture voyage sous l'apparence AFFICHÉE.
 		write_u32(e.data() + 2, static_cast<uint32>(s.view));
 		block.insert(block.end(), e.begin(), e.end());
+		++count;
+	}
+	// LES EFFETS DE CHAPEAU AFFICHÉS : la teinture de l'exemplaire qui pose chacun.
+	// 🔴 L'IDENTITÉ SE RECOUPE comme pour une coiffe, et rien d'un objet rangé ne sort.
+	for (const int16 effect : owner.ud.hatEffects) {
+		const uint16 number = static_cast<uint16>(effect);
+		if (!hat_effect_shown(owner, number))
+			continue;
+		const int16 idx = hat_effect_item(owner, number);
+		if (idx < 0)
+			continue;
+		const item& it = owner.inventory.u.items_inventory[idx];
+		const std::optional<s_item_dye>& dye = item_effect_dye(it.unique_id, number);
+		if (!dye || dye->nameid != it.nameid)
+			continue;
+		block.insert(block.end(), dye->entry.begin(), dye->entry.end());
 		++count;
 	}
 	block[4] = count;
@@ -1151,7 +1384,8 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		// Un calque, une entrée : la même tête, la peau du visage, le même corps ou
 		// le même emplacement deux fois.
 		for (const s_request_entry& other : entries) {
-			const bool keyed = view.layer == MOONCLIENT_STYLE_LAYER_HEAD || body_layer(view.layer) || view.layer == MOONCLIENT_STYLE_LAYER_COMPANION;
+			const bool keyed = view.layer == MOONCLIENT_STYLE_LAYER_HEAD || body_layer(view.layer) || view.layer == MOONCLIENT_STYLE_LAYER_COMPANION
+				|| view.layer == MOONCLIENT_STYLE_LAYER_HAT_EFFECT;
 			const bool same_target = other.view.layer == view.layer && (!keyed || other.view.key == view.key);
 			if (same_target)
 				return MOONCLIENT_STYLE_KEY;
@@ -1234,11 +1468,45 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		companions.push_back(std::move(change));
 	}
 
+	// ── Les effets de chapeau : affichés par la session, posés par ce qu'elle porte
+	struct s_effect_change {
+		uint64 unique_id;
+		t_itemid nameid;
+		uint16 number;
+		std::optional<bytes> entry; // rien : retirer
+	};
+	std::vector<s_effect_change> effects;
+	for (const s_request_entry& e : entries) {
+		if (e.view.layer != MOONCLIENT_STYLE_LAYER_HAT_EFFECT)
+			continue;
+		if (effects.size() >= MOONCLIENT_STYLE_HAT_EFFECTS_MAX)
+			return MOONCLIENT_STYLE_CAP;
+		// Auprès du styliste seulement, si l'option l'exige : comme la coiffe (D28).
+		if (battle_config.moonclient_style_atelier && !atelier_open(sd, state))
+			return MOONCLIENT_STYLE_NO_ATELIER;
+		// 🔴 L'EFFET SE LIT DANS LA SESSION ÉMETTRICE : affiché par elle, et posé par
+		// un exemplaire qu'elle PORTE. Le CZ ne désigne ni objet ni exemplaire.
+		const uint16 number = static_cast<uint16>(e.view.key);
+		if (!hat_effect_shown(sd, number))
+			return MOONCLIENT_STYLE_NOT_WORN;
+		const int16 idx = hat_effect_item(sd, number);
+		if (idx < 0)
+			return MOONCLIENT_STYLE_NOT_WORN;
+		const item& it = sd.inventory.u.items_inventory[idx];
+		s_effect_change change{ it.unique_id, it.nameid, number, std::nullopt };
+		if (has_content(e.view)) {
+			bytes entry(e.p, e.p + e.view.size);
+			entry[7] = 0;
+			change.entry = std::move(entry);
+		}
+		effects.push_back(std::move(change));
+	}
+
 	// ── Les teintures du personnage ────────────────────────────────────────
 	std::vector<bytes> character = clear_character ? std::vector<bytes>{} : loaded.character;
 	const uint32 worn_head = (static_cast<uint32>(sd.status.hair) << HEAD_KEY_SHIFT) | (static_cast<uint32>(sd.status.hair_color) & HEAD_KEY_LOW);
 	for (const s_request_entry& e : entries) {
-		if (slot_of(e.view.layer) || e.view.layer == MOONCLIENT_STYLE_LAYER_COMPANION)
+		if (slot_of(e.view.layer) || e.view.layer == MOONCLIENT_STYLE_LAYER_COMPANION || e.view.layer == MOONCLIENT_STYLE_LAYER_HAT_EFFECT)
 			continue;
 		// La place qu'elle prend : la même tête, ou la peau.
 		for (size_t i = 0; i < character.size(); ++i) {
@@ -1291,6 +1559,12 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		if (change.entry ? !(had && now_dye->entry == *change.entry) : had)
 			same = false;
 	}
+	for (const s_effect_change& change : effects) {
+		const std::optional<s_item_dye>& now_dye = item_effect_dye(change.unique_id, change.number);
+		const bool had = now_dye.has_value() && now_dye->nameid == change.nameid;
+		if (change.entry ? !(had && now_dye->entry == *change.entry) : had)
+			same = false;
+	}
 	if (same)
 		return MOONCLIENT_STYLE_SAME;
 
@@ -1313,6 +1587,11 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		const std::optional<s_companion_dye>& before = companion_dye(change.kind, change.companion_id);
 		companion_befores.push_back(before ? std::optional<bytes>(before->entry) : std::nullopt);
 	}
+	std::vector<std::optional<bytes>> effect_befores;
+	for (const s_effect_change& change : effects) {
+		const std::optional<s_item_dye>& before = item_effect_dye(change.unique_id, change.number);
+		effect_befores.push_back(before ? std::optional<bytes>(before->entry) : std::nullopt);
+	}
 	if (SQL_SUCCESS != Sql_QueryStr(mmysql_handle, "START TRANSACTION")) {
 		Sql_ShowDebug(mmysql_handle);
 		return MOONCLIENT_STYLE_UNAVAILABLE;
@@ -1327,6 +1606,11 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		const s_companion_change& change = companions[i];
 		written = store_companion(change.kind, change.companion_id, change.class_, change.entry ? &*change.entry : nullptr,
 			companion_befores[i] ? &*companion_befores[i] : nullptr, sd.status.account_id, sd.status.char_id, "joueur");
+	}
+	for (size_t i = 0; written && i < effects.size(); ++i) {
+		const s_effect_change& change = effects[i];
+		written = store_item_effect(change.unique_id, change.number, change.nameid, change.entry ? &*change.entry : nullptr,
+			effect_befores[i] ? &*effect_befores[i] : nullptr, sd.status.account_id, sd.status.char_id, "joueur");
 	}
 	if (SQL_SUCCESS != Sql_QueryStr(mmysql_handle, written ? "COMMIT" : "ROLLBACK")) {
 		Sql_ShowDebug(mmysql_handle);
@@ -1348,6 +1632,13 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		else
 			s_companion_dyes[key] = std::nullopt;
 		changed_units.push_back(change.unit_id);
+	}
+	for (s_effect_change& change : effects) {
+		const item_effect_key key{ change.unique_id, change.number };
+		if (change.entry)
+			s_item_effect_dyes[key] = s_item_dye{ change.nameid, std::move(*change.entry) };
+		else
+			s_item_effect_dyes[key] = std::nullopt;
 	}
 	return MOONCLIENT_STYLE_ACCEPTED;
 }
@@ -1388,7 +1679,8 @@ size_t style_layers_check_shown_entry(const uint8* p, size_t available) {
 	const s_entry_view e = view_of(p);
 	// Le personnage : la forme rangée ; un objet, sous l'apparence affichée : la
 	// forme d'une teinture d'exemplaire. Toutes deux avec leur queue éventuelle.
-	const e_entry_form form = character_layer(e.layer) ? e_entry_form::character : e_entry_form::item;
+	const e_entry_form form = character_layer(e.layer) ? e_entry_form::character
+		: e.layer == MOONCLIENT_STYLE_LAYER_HAT_EFFECT ? e_entry_form::hat_effect : e_entry_form::item;
 	return check_entry(p, available, form) == MOONCLIENT_STYLE_ACCEPTED ? e.size : 0;
 }
 
@@ -1429,6 +1721,19 @@ std::vector<std::string> style_layers_describe(map_session_data& sd) {
 			dye->nameid == it.nameid ? "" : " (AUTRE OBJET : ignoree)", popcount16(view_of(dye->entry.data()).mask));
 		lines.emplace_back(line);
 	}
+	for (const int16 effect : sd.ud.hatEffects) {
+		const uint16 number = static_cast<uint16>(effect);
+		const int16 idx = hat_effect_item(sd, number);
+		if (idx < 0)
+			continue;
+		const item& it = sd.inventory.u.items_inventory[idx];
+		const std::optional<s_item_dye>& dye = item_effect_dye(it.unique_id, number);
+		if (!dye)
+			continue;
+		safesnprintf(line, sizeof(line), "effet de chapeau %u : objet %u, exemplaire %" PRIu64 "%s", static_cast<uint32>(number), it.nameid, it.unique_id,
+			dye->nameid == it.nameid ? "" : " (AUTRE OBJET : ignoree)");
+		lines.emplace_back(line);
+	}
 	for (block_list* bl : { static_cast<block_list*>(sd.hd), static_cast<block_list*>(sd.pd) }) {
 		if (bl == nullptr)
 			continue;
@@ -1460,18 +1765,34 @@ bool style_layers_staff_clear_character(map_session_data& sd, const map_session_
 
 std::string style_layers_describe_item(uint64 unique_id) {
 	const std::optional<s_item_dye>& dye = item_dye(unique_id);
-	if (!dye)
+	const std::vector<uint16> effects = item_effect_numbers(unique_id);
+	if (!dye && effects.empty())
 		return std::string();
 	char line[CHAT_SIZE_MAX];
-	safesnprintf(line, sizeof(line), "exemplaire %" PRIu64 " : objet %u, %d reglage(s), profil %u", unique_id, dye->nameid,
-		popcount16(view_of(dye->entry.data()).mask), view_of(dye->entry.data()).profile);
+	if (dye)
+		safesnprintf(line, sizeof(line), "exemplaire %" PRIu64 " : objet %u, %d reglage(s), profil %u, %u effet(s) de chapeau teint(s)", unique_id, dye->nameid,
+			popcount16(view_of(dye->entry.data()).mask), view_of(dye->entry.data()).profile, static_cast<uint32>(effects.size()));
+	else
+		safesnprintf(line, sizeof(line), "exemplaire %" PRIu64 " : %u effet(s) de chapeau teint(s)", unique_id, static_cast<uint32>(effects.size()));
 	return line;
 }
 
 bool style_layers_staff_clear_item(uint64 unique_id, const map_session_data& staff) {
+	bool cleared = false;
+	// Les effets de chapeau de l'exemplaire partent avec lui.
+	for (const uint16 number : item_effect_numbers(unique_id)) {
+		const std::optional<s_item_dye>& effect = item_effect_dye(unique_id, number);
+		if (!effect)
+			continue;
+		const s_item_dye before = *effect;
+		if (!store_item_effect(unique_id, number, before.nameid, nullptr, &before.entry, staff.status.account_id, staff.status.char_id, "staff"))
+			return false;
+		s_item_effect_dyes[item_effect_key{ unique_id, number }] = std::nullopt;
+		cleared = true;
+	}
 	const std::optional<s_item_dye>& dye = item_dye(unique_id);
 	if (!dye)
-		return false;
+		return cleared;
 	const s_item_dye before = *dye;
 	if (!store_item(unique_id, before.nameid, nullptr, &before.entry, staff.status.account_id, staff.status.char_id, "staff"))
 		return false;
