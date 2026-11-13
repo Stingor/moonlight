@@ -95,7 +95,8 @@ moro_cav,41,73,4	script	Guardian Nidhogg#epeom01	4_F_NYDHOG,{
 		mes "[Nidhogg]";
 		mes "I will give you approval for the quest, and you can report to the commander.";
 		mes "Thank you!";
-		setquest 7597;
+		if (isbegin_quest(7597) == 0)
+			setquest 7597;
 		erasequest 7593;
 		for ( .@quest = 7601; .@quest < 7605; .@quest++ ) {
 			if (isbegin_quest(.@quest))
@@ -182,7 +183,8 @@ moro_cav,45,75,0	script	Yggdrasil Lookalike#eom_gate	CLEAR_NPC,{
 		mes "[Nidhogg]";
 		mes "I will give you approval for the quest, and you can report to the commander.";
 		mes "Thank you!";
-		setquest 7597;
+		if (isbegin_quest(7597) == 0)
+			setquest 7597;
 		erasequest 7593;
 		for ( .@quest = 7601; .@quest < 7605; .@quest++ ) {
 			if (isbegin_quest(.@quest))
