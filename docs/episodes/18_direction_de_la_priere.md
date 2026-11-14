@@ -6,7 +6,7 @@
 | Date kRO | **2021‑02‑01** (annonce `seq=259` ; certaines sources donnent le 3 février) |
 | Arc | Arunafeltz — les Enfants Gris |
 | Niveau kRO visé | 170+ (200+ pour le mode avancé) |
-| État Moonlight | **lots A, B et B1 portés le 2026‑11‑14 (terrain, chaîne, réputation, instances), à valider en jeu ; économie (B3) absente** |
+| État Moonlight | **porté (lots A, B, B1, B3) le 2026‑11‑14, à valider en jeu ; la réforme reste à faire** |
 
 Retour en Arunafeltz. Le scénario porte sur la tension entre missionnaires de Freyja et
 natifs, et se conclut sur une fausse déesse fabriquée par magie d'illusion. Dernier
@@ -160,13 +160,29 @@ scripts d'instance lisent `ep18_main`.
 | Mapflags | village (`town`, `nopenalty`, `reset`, `nomemo`, `nowarpto`, `restricted 7`, et `noattackskill`, `noduel` comme Rachel), cinq cartes d'instance, `que_thr` ; `nobranch` écarté | `moon/mapflag/` |
 | Nettoyage | les PNJ bouche-trous `Est#ep181_est01` et `Rookie#ep181_rk01` de `quests_17_2.npc` (9ddef7a79) sont retirés : `quests_18.npc` les définit | |
 
+## 5d. Lot B3 : l'économie (2026‑11‑14, non validé en jeu)
+
+| Partie | Contenu |
+|---|---|
+| Loup Gris | 10 pièces `Gray_W_*` (DEF 12 pour l'armure, 6 pour la cape et les chaussures, `bAtkRate` en `bAddClass`), le troc contre des Fragments d'Améthyste (`barter_ep18_1` à `3`, appelés par la chaîne) et les tickets +7 et +9 (recettes Lapine) ; les variantes `_JP` ne sont pas reprises |
+| Villa de la Tromperie | **74 armes** : 37 Adulter Fides (mode normal) et 37 Vivatus Fides (mode avancé, qui les fait tomber directement), règles habituelles : `Classes` retiré, Rebellion au Gunslinger, Kagerou et Oboro au Ninja, `MagicAttack` en `bMatk`, paliers +11 et +12 en `getallrefine() >= 22` et `>= 24`, `bAtkRate` en `bAddClass`, délais en `bDelayrate` plafonnés à -25 %, compétences fermées par la table (`SO_POISON_BUSTER` → `WZ_HEAVENDRIVE`) ; les 4 armes Doram sont écartées |
+| Pontifex | Courage, Wisdom, Belief, Tenacity : options aléatoires sur les armes Fides (recettes Lapine, groupes `PONTIFEX_*` déjà en local) |
+| Drops de carte | `1@advs` : MVP inchangés (armes Fides à 1,5 %, Pontifex Belief et Tenacity) ; Fragments d'Améthyste des mobs normaux à 2 % |
+
+**Réforme : écartée de ce lot, chantier à part.** Le serveur la gère (paquets d'ouverture, de
+résultat et de fermeture, `item_reform.yml` à importer), mais moonclient n'a pas la fenêtre. Sans
+elle, ne sont pas repris : les matériaux de réforme (Purificatory Holy O et W, Sanctuary Sudarium),
+le Blue Prints Scroll (armes `Conse_F_*`) et le coffret de Demi Freyja, que rien ne distribue.
+
 ## 6. Verdict
 
 | | |
 |---|---|
 | Intérêt | élevé — un village complet, un MVP, six instances |
 | Fait | lot A : le terrain ; lots B et B1 : la chaîne, la réputation, les instances et l'accès (2026‑11‑14, non validés en jeu) |
-| Reste à faire | **B3** : l'équipement du Loup Gris et ses trocs, les armes Adulter Fides et `Pontifex_Courage` · hors périmètre : la Forêt Profonde (Spirit Handler), l'enchanteur Emmett (sans script) |
+| Fait | lot B3 : l'économie (2026‑11‑14) |
+| Reste à faire | validation en jeu · **la réforme** (fenêtre moonclient, recettes, matériaux, Blue Prints) · hors périmètre : la Forêt Profonde (Spirit Handler), l'enchanteur Emmett (sans script) |
+| Épisode | **clos** côté portage le 2026‑11‑14, hors réforme |
 
 ## Sources
 

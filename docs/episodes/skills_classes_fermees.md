@@ -333,6 +333,12 @@ Les orbes Automatic du manoir de Varmundt (lot B3 du 17.2), validées le 2026‑
 Les délais des orbes s'additionnent par palier : chacun est converti (1 s = 5 %), et leur somme
 est plafonnée à -25 %.
 
+Armes Adulter et Vivatus Fides (lot B3 du 18), validée le 2026‑11‑14 :
+
+| Compétence | Remplacement | Analogie |
+|---|---|---|
+| `SO_POISON_BUSTER` | `WZ_HEAVENDRIVE` | le Sage peut la lancer, comme `SO_EARTHGRAVE` → `WZ_EARTHSPIKE` |
+
 ## Objets touchés par la règle des doublons
 
 `GodOfWinds_Fan`, `Astro_Circle`, `Emerald_Earring`, `Chilly_Spell_Book`, `Recovery_Light`, `Staff_of_Miracle`, `Red_Ether_Bag`, `Engine_Pilebuncker`, `Volar`, `Vernan`, `Master_Soul_Rifle`, `Jack_The_Knife`.
