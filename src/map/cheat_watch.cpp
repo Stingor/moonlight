@@ -31,6 +31,11 @@ bool cheat_watch_may_report(t_tick& reported_tick, t_tick now) {
 	return true;
 }
 
+void cheat_watch_count(uint16& reports) {
+	if (reports < UINT16_MAX)
+		++reports;
+}
+
 }  // namespace
 
 void cheat_watch_note_client_tick(map_session_data& sd, uint32 client_tick) {
@@ -43,6 +48,7 @@ void cheat_watch_note_client_tick(map_session_data& sd, uint32 client_tick) {
 	const auto verdict = clock_drift_note(sd.cheat_watch.clock, params, now, client_tick);
 	if (!verdict || !cheat_watch_may_report(sd.cheat_watch.clock_reported_tick, now))
 		return;
+	cheat_watch_count(sd.cheat_watch.clock_reports);
 
 	const int32 drift = verdict->drift_permille;
 	ShowWarning("[Heuristique] %s (AID:%d CID:%d) -- horloge du client %s de %d.%d %% sur %u s\n",
@@ -66,6 +72,7 @@ void cheat_watch_note_action(map_session_data& sd, e_cheat_cadence_kind kind) {
 	const auto verdict = cadence_note(sd.cheat_watch.cadence[kind], params, now);
 	if (!verdict || !cheat_watch_may_report(sd.cheat_watch.cadence_reported_tick[kind], now))
 		return;
+	cheat_watch_count(sd.cheat_watch.cadence_reports);
 
 	ShowWarning("[Heuristique] %s (AID:%d CID:%d) -- %u %s a %u ms d'intervalle, variation %u.%u %%\n",
 		sd.status.name, sd.status.account_id, sd.status.char_id,

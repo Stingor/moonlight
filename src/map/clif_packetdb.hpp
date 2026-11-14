@@ -2103,6 +2103,10 @@ parseable_packet(HEADER_CZ_MOONLIGHT_REQ_ENTITY_PROPS, sizeof(PACKET_CZ_MOONLIGH
 // atcommandlog. Gate niveau de groupe >= 80 DANS le handler — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_REQ_CHAT_BLOCKS, sizeof(PACKET_CZ_MOONLIGHT_REQ_CHAT_BLOCKS), clif_parse_moonlight_req_chat_blocks, 0);
 
+// [Stingor] moonclient : les joueurs en ligne, pour la fenêtre du staff. Gate
+// niveau de groupe >= 80 DANS le handler — fixed
+parseable_packet(HEADER_CZ_MOONLIGHT_REQ_STAFF_ROSTER, sizeof(PACKET_CZ_MOONLIGHT_REQ_STAFF_ROSTER), clif_parse_moonlight_req_staff_roster, 0);
+
 // [Stingor] moonclient : le Marché, toutes les échoppes ouvertes du serveur
 // (market.cpp). Gate MOONLIGHT_UI_MARKET et carte de ville DANS le handler —
 // VARIABLE : la queue porte les identifiants d'objet cherchés.

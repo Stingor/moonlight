@@ -12563,6 +12563,7 @@ bool is_atcommand(const int32 fd, map_session_data* sd, const char* message, int
 			sprintf(atcmd_msg, "%s", command);
 	}
 
+	pc_note_activity(*sd, MOON_ACTIVITY_COMMAND);
 	if (battle_config.idletime_option&IDLE_ATCOMMAND)
 		sd->idletime = last_tick;
 	if (battle_config.hom_idle_no_share && sd->hd && battle_config.idletime_hom_option&IDLE_ATCOMMAND)

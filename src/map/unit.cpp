@@ -3377,6 +3377,8 @@ static int32 unit_attack_timer_sub(block_list* src, int32 tid, t_tick tick)
 	}
 
 	if (ud->state.attack_continue && !status_isdead(*src)) {
+		if (src->type == BL_PC)
+			pc_note_activity(*((TBL_PC*)src), MOON_ACTIVITY_FIGHT);
 		if (src->type == BL_PC && battle_config.idletime_option&IDLE_ATTACK)
 			((TBL_PC*)src)->idletime = last_tick;
 

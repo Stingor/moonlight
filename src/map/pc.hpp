@@ -356,7 +356,22 @@ enum e_moonlight_throttle : uint8 {
 	MOONLIGHT_THROTTLE_SURVIVORS_COOP_LOBBY, ///< salon de la coop survivors (redit à tout le salon)
 	MOONLIGHT_THROTTLE_SURVIVORS_COOP_FRAME, ///< trame d'entrées de la coop survivors (relayée à la partie)
 	MOONLIGHT_THROTTLE_SURVIVORS_COOP_ANNOUNCE, ///< annonce du service de coop et ses redites
+	MOONLIGHT_THROTTLE_STAFF_ROSTER, ///< joueurs en ligne du staff (parcourt toutes les sessions)
 	MOONLIGHT_THROTTLE_MAX
+};
+
+/// [Stingor] Les genres d'action que la fenêtre « Joueurs en ligne » du staff
+/// distingue (ZC 0x0F68). Chacun garde l'instant de sa dernière occurrence dans
+/// map_session_data::moon_activity_time, noté par pc_note_activity.
+enum e_moon_activity : uint8 {
+	MOON_ACTIVITY_WALK = 0,
+	MOON_ACTIVITY_FIGHT,   ///< attaque ou compétence
+	MOON_ACTIVITY_ITEM,    ///< item employé, équipé, retiré ou jeté
+	MOON_ACTIVITY_TALK,    ///< parole, tous canaux confondus
+	MOON_ACTIVITY_GESTURE, ///< emote, s'asseoir, se lever
+	MOON_ACTIVITY_NPC,     ///< réponse à un dialogue de PNJ
+	MOON_ACTIVITY_COMMAND, ///< commande @
+	MOON_ACTIVITY_MAX
 };
 
 struct s_vanish_bonus {
@@ -735,6 +750,19 @@ public:
 	// l'inactivité — le serveur n'a aucun moyen de distinguer un joueur parti
 	// d'un joueur qui lit son inventaire.
 	uint8 bourgeon_afk = 0;
+
+	// [Stingor] Ce que la fenêtre « Joueurs en ligne » du staff lit de cette
+	// session (ZC 0x0F68). État de SESSION, jamais persisté.
+	//
+	// moon_login_time est l'instant où la session de COMPTE a commencé : un
+	// changement de personnage le garde. moon_arrival_time est celui où CE
+	// personnage est arrivé. moon_activity_time porte la dernière action de
+	// chaque genre, zéro tant qu'il n'y en a pas eu.
+	time_t moon_login_time = 0;
+	time_t moon_arrival_time = 0;
+	time_t moon_activity_time[MOON_ACTIVITY_MAX] = {};
+	// Les rapports du détecteur du client acceptés depuis l'arrivée (CZ 0x0F0A).
+	uint16 moon_cheat_client_reports = 0;
 
 	int16 skillitem,skillitemlv;
 	bool skillitem_keep_requirement;
@@ -1602,6 +1630,9 @@ void pc_set_reg_load(bool val);
 int32 pc_class2idx(int32 class_);
 int32 pc_get_group_level( const map_session_data* sd );
 int32 pc_get_group_id( const map_session_data* sd );
+// [Stingor] Note une action du joueur, quel que soit `idletime_option` : ce
+// réglage décide de ce qui rompt l'inactivité, pas de ce que le staff peut lire.
+void pc_note_activity( map_session_data& sd, e_moon_activity kind );
 bool pc_can_sell_item( const map_session_data* sd, const item* item, enum npc_subtype shoptype );
 bool pc_can_give_items( const map_session_data* sd );
 bool pc_can_give_bounded_items( const map_session_data* sd );

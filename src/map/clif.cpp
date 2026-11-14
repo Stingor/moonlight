@@ -346,6 +346,7 @@ static constexpr s_moonlight_throttle_rule MOONLIGHT_THROTTLE_RULES[MOONLIGHT_TH
 	{ 1000, 4 },  // MOONLIGHT_THROTTLE_SURVIVORS_COOP_LOBBY
 	{   20, 20 }, // MOONLIGHT_THROTTLE_SURVIVORS_COOP_FRAME : un pas de simulation, et de quoi livrer ce qu'un gel du réseau a retenu : l'avance d'un client s'arrête avant
 	{ 2000, 2 },  // MOONLIGHT_THROTTLE_SURVIVORS_COOP_ANNOUNCE : comme l'annonce du service
+	{ 2000, 2 },  // MOONLIGHT_THROTTLE_STAFF_ROSTER : la fenêtre redemande toutes les dix secondes, et « Actualiser » est un clic
 };
 
 // [Stingor] Vrai si la demande de la famille `family` est dans la cadence, et
@@ -7094,12 +7095,17 @@ static std::unordered_map<int32, std::string> s_account_to_guid;
 // de personnage ne la rejoue pas, et @client doit pourtant le connaître. De même
 // pour `moonclient` : sans lui, un moonclient revenu de la sélection n'aurait
 // plus ni portée de vue, ni voix, ni classement, ni coop.
+//
+// [Stingor] Le MachineGuid aussi : map_quit le retire de la table des GUID, et
+// sans lui le personnage suivant de la même session ne compterait plus parmi
+// les comptes de sa machine. Vide : aucun GUID déclaré.
 struct s_verified_login_entry {
 	uint32 login_id1;
 	int32 client_patch_index;
 	bool moonclient;
 	char client_commit[16 + 1];
 	bool client_tree_modified;
+	std::string machine_guid;
 };
 static std::unordered_map<int32, s_verified_login_entry> s_verified_login;
 
@@ -7395,6 +7401,8 @@ static void clif_bourgeon_grant_verified(map_session_data* sd) {
 	s_verified_login_entry& entry = s_verified_login[sd->status.account_id];
 	entry = { sd->login_id1, sd->client_patch_index, sd->state.moonclient, {}, sd->client_tree_modified };
 	safestrncpy(entry.client_commit, sd->client_commit, sizeof(entry.client_commit));
+	if (auto guid = s_account_to_guid.find(sd->status.account_id); guid != s_account_to_guid.end())
+		entry.machine_guid = guid->second;
 	clif_bourgeon_autoload_preset(sd);
 	clif_bourgeon_settings(sd);
 	clif_bourgeon_send_preset_list(sd);
@@ -10879,6 +10887,175 @@ void clif_parse_moonlight_req_chat_blocks(int32 fd, map_session_data* sd) {
 	WFIFOSET(fd, length);
 }
 
+// [Stingor] Les joueurs en ligne, pour la fenêtre du staff (CZ 0x0F67 -> ZC 0x0F68).
+// La disposition et les gardes sont décrites sur les structures du paquet.
+
+// Les secondes écoulées depuis un instant de la session ; zéro s'il n'est pas posé.
+static uint32 clif_moonlight_staff_roster_elapsed(time_t moment) {
+	return (moment != 0 && last_tick > moment) ? static_cast<uint32>(last_tick - moment) : 0;
+}
+
+// L'âge de la dernière action d'un genre, ou NEVER tant qu'il n'y en a pas eu.
+static uint32 clif_moonlight_staff_roster_age(time_t moment) {
+	return moment == 0 ? MOONLIGHT_STAFF_ROSTER_NEVER : clif_moonlight_staff_roster_elapsed(moment);
+}
+
+// Ce qu'une session montre au staff. Les deux numéros de groupe restent à
+// zéro : ils se posent une fois la liste entière connue.
+static PACKET_MOONLIGHT_STAFF_ROSTER_ENTRY clif_moonlight_staff_roster_entry(map_session_data& pl) {
+	PACKET_MOONLIGHT_STAFF_ROSTER_ENTRY entry = {};
+
+	entry.account_id = pl.status.account_id;
+	entry.char_id = pl.status.char_id;
+	safestrncpy(entry.name, pl.status.name, sizeof(entry.name));
+	if (pl.guild != nullptr)
+		safestrncpy(entry.guild, pl.guild->guild.name, sizeof(entry.guild));
+	if (const party_data* party = party_search(pl.status.party_id); party != nullptr)
+		safestrncpy(entry.party, party->party.name, sizeof(entry.party));
+
+	// Une carte d'instance porte un nom fabriqué : le staff lit celui de sa source.
+	const map_data* mapdata = map_getmapdata(pl.m);
+	const map_data* source = (mapdata != nullptr && mapdata->instance_id > 0) ? map_getmapdata(mapdata->instance_src_map) : nullptr;
+	if (source != nullptr) {
+		safestrncpy(entry.map, source->name, sizeof(entry.map));
+		entry.instance_id = static_cast<uint16>(std::min<int32>(mapdata->instance_id, UINT16_MAX));
+	} else {
+		safestrncpy(entry.map, mapindex_id2name(pl.mapindex), sizeof(entry.map));
+	}
+	entry.x = pl.x;
+	entry.y = pl.y;
+	entry.job = static_cast<uint16>(pl.status.class_);
+	entry.base_level = static_cast<uint16>(pl.status.base_level);
+	entry.job_level = static_cast<uint16>(pl.status.job_level);
+	entry.group_level = static_cast<uint8>(cap_value(pc_get_group_level(&pl), 0, UINT8_MAX));
+
+	uint32 state = 0;
+	if (pl.state.vending) state |= MOONLIGHT_STAFF_ROSTER_VENDING;
+	if (pl.state.buyingstore) state |= MOONLIGHT_STAFF_ROSTER_BUYING;
+	if (pl.state.autotrade) state |= MOONLIGHT_STAFF_ROSTER_AUTOTRADE;
+	if (pl.chatID != 0) state |= MOONLIGHT_STAFF_ROSTER_CHATROOM;
+	if (pl.state.trading) state |= MOONLIGHT_STAFF_ROSTER_TRADING;
+	if (pc_isdead(&pl)) state |= MOONLIGHT_STAFF_ROSTER_DEAD;
+	if (pc_issit(&pl)) state |= MOONLIGHT_STAFF_ROSTER_SITTING;
+	if (pc_isinvisible(&pl)) state |= MOONLIGHT_STAFF_ROSTER_HIDDEN;
+	if (pl.bourgeon_afk != 0) state |= MOONLIGHT_STAFF_ROSTER_AFK;
+	if (pl.sc.getSCE(SC_JAILED) != nullptr) state |= MOONLIGHT_STAFF_ROSTER_JAILED;
+	if (pl.npc_id != 0) state |= MOONLIGHT_STAFF_ROSTER_NPC;
+	if (pl.state.storage_flag != 0) state |= MOONLIGHT_STAFF_ROSTER_STORAGE;
+	entry.state = state;
+
+	// L'inactivité part de l'arrivée du personnage : avant sa première action,
+	// il est inactif depuis qu'il est là.
+	time_t last_action = pl.moon_arrival_time;
+	for (const time_t moment : pl.moon_activity_time)
+		last_action = std::max(last_action, moment);
+	entry.online_s = clif_moonlight_staff_roster_elapsed(pl.moon_login_time);
+	entry.character_s = clif_moonlight_staff_roster_elapsed(pl.moon_arrival_time);
+	entry.idle_s = clif_moonlight_staff_roster_elapsed(last_action);
+	entry.walk_age_s = clif_moonlight_staff_roster_age(pl.moon_activity_time[MOON_ACTIVITY_WALK]);
+	entry.fight_age_s = clif_moonlight_staff_roster_age(pl.moon_activity_time[MOON_ACTIVITY_FIGHT]);
+	entry.item_age_s = clif_moonlight_staff_roster_age(pl.moon_activity_time[MOON_ACTIVITY_ITEM]);
+	entry.talk_age_s = clif_moonlight_staff_roster_age(pl.moon_activity_time[MOON_ACTIVITY_TALK]);
+	entry.gesture_age_s = clif_moonlight_staff_roster_age(pl.moon_activity_time[MOON_ACTIVITY_GESTURE]);
+	entry.npc_age_s = clif_moonlight_staff_roster_age(pl.moon_activity_time[MOON_ACTIVITY_NPC]);
+	entry.command_age_s = clif_moonlight_staff_roster_age(pl.moon_activity_time[MOON_ACTIVITY_COMMAND]);
+
+	if (pl.state.has_bourgeon)
+		entry.client = pl.state.moonclient ? MOONLIGHT_STAFF_ROSTER_CLIENT_MOONCLIENT : MOONLIGHT_STAFF_ROSTER_CLIENT_BOURGEON;
+	if (pl.client_tree_modified)
+		entry.client_flags |= MOONLIGHT_STAFF_ROSTER_TREE_MODIFIED;
+	entry.patch_index = pl.client_patch_index;
+	memcpy(entry.commit, pl.client_commit, strnlen(pl.client_commit, sizeof(entry.commit)));
+
+	entry.cheat_clock = pl.cheat_watch.clock_reports;
+	entry.cheat_cadence = pl.cheat_watch.cadence_reports;
+	entry.cheat_client = pl.moon_cheat_client_reports;
+	entry.mute_minutes = pl.status.manner < 0 ? -pl.status.manner : 0;
+	return entry;
+}
+
+// Les sessions que `viewer` a le droit de voir, et leurs groupes.
+static void clif_moonlight_staff_roster_collect(map_session_data& viewer, std::vector<PACKET_MOONLIGHT_STAFF_ROSTER_ENTRY>& entries) {
+	const int32 viewer_level = pc_get_group_level(&viewer);
+	const size_t entries_max = static_cast<size_t>(MOONLIGHT_STAFF_ROSTER_PAGE_ENTRIES) * MOONLIGHT_STAFF_ROSTER_PAGES_MAX;
+	// La machine et le compte Moonlight de chaque entrée, au même rang qu'elle.
+	std::vector<std::string> machines;
+	std::vector<uint32> users;
+
+	s_mapiterator* iter = mapit_getallusers();
+	for (map_session_data* pl = (TBL_PC*)mapit_first(iter); mapit_exists(iter); pl = (TBL_PC*)mapit_next(iter)) {
+		if (pl->state.spectator)
+			continue;
+		if ((pc_has_permission(pl, PC_PERM_HIDE_SESSION) || pc_isinvisible(pl)) && pc_get_group_level(pl) > viewer_level)
+			continue;
+		if (entries.size() >= entries_max)
+			break;
+		entries.push_back(clif_moonlight_staff_roster_entry(*pl));
+		const auto guid = s_account_to_guid.find(pl->status.account_id);
+		machines.push_back(guid != s_account_to_guid.end() ? guid->second : std::string());
+		users.push_back(pl->status.user_id);
+	}
+	mapit_free(iter);
+
+	// Un numéro, compté depuis un, par clé que deux entrées au moins partagent.
+	const auto number_groups = [](const auto& keys, const auto& blank, const auto& assign) {
+		using Key = std::decay_t<decltype(blank)>;
+		std::unordered_map<Key, size_t> members;
+		for (const Key& key : keys)
+			if (key != blank)
+				++members[key];
+		std::unordered_map<Key, uint16> numbers;
+		for (size_t rank = 0; rank < keys.size(); ++rank) {
+			const Key& key = keys[rank];
+			if (key == blank || members[key] < 2)
+				continue;
+			const auto slot = numbers.try_emplace(key, static_cast<uint16>(numbers.size() + 1)).first;
+			assign(rank, slot->second);
+		}
+	};
+	number_groups(machines, std::string(), [&entries](size_t rank, uint16 number) { entries[rank].machine_group = number; });
+	number_groups(users, static_cast<uint32>(0), [&entries](size_t rank, uint16 number) { entries[rank].account_group = number; });
+}
+
+void clif_parse_moonlight_req_staff_roster(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.has_bourgeon) return;
+	if (!clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_STAFF_ROSTER)) return;
+
+	const PACKET_CZ_MOONLIGHT_REQ_STAFF_ROSTER* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_REQ_STAFF_ROSTER*>(RFIFOP(fd, 0));
+	const uint16 request_id = p->request_id;
+
+	std::vector<PACKET_MOONLIGHT_STAFF_ROSTER_ENTRY> entries;
+	uint8 status = MOONLIGHT_STAFF_ROSTER_SERVED;
+	if (pc_get_group_level(sd) < 80)
+		status = MOONLIGHT_STAFF_ROSTER_DENIED;
+	else
+		clif_moonlight_staff_roster_collect(*sd, entries);
+
+	// Une réponse vide tient quand même en une trame : c'est elle qui porte le statut.
+	const size_t page_entries = MOONLIGHT_STAFF_ROSTER_PAGE_ENTRIES;
+	const size_t pages = std::max<size_t>(1, (entries.size() + page_entries - 1) / page_entries);
+	for (size_t page = 0; page < pages; ++page) {
+		const size_t first = page * page_entries;
+		const size_t count = std::min(page_entries, entries.size() - first);
+		const size_t length = sizeof(PACKET_ZC_MOONLIGHT_STAFF_ROSTER) +
+		                      count * sizeof(PACKET_MOONLIGHT_STAFF_ROSTER_ENTRY);
+		WFIFOHEAD(fd, length);
+		PACKET_ZC_MOONLIGHT_STAFF_ROSTER* reply =
+			reinterpret_cast<PACKET_ZC_MOONLIGHT_STAFF_ROSTER*>(WFIFOP(fd, 0));
+		reply->packetType = HEADER_ZC_MOONLIGHT_STAFF_ROSTER;
+		reply->packetLength = static_cast<int16>(length);
+		reply->request_id = request_id;
+		reply->status = status;
+		reply->page = static_cast<uint8>(page);
+		reply->pages = static_cast<uint8>(pages);
+		if (count > 0)
+			memcpy(reply->entries, &entries[first], count * sizeof(PACKET_MOONLIGHT_STAFF_ROSTER_ENTRY));
+		WFIFOSET(fd, length);
+	}
+}
+
 // ── Dégrader les balises maison pour qui ne les rend pas ─────────────────────
 //
 // 🔴 LE PROBLÈME QUE ÇA RÈGLE. Le dialogue NATIF du client efface les balises
@@ -11477,6 +11654,8 @@ void clif_parse_moonlight_cheat_report(int32 fd, map_session_data* sd) {
 		return;
 
 	sd->bourgeon_cheatreport_tick = now;
+	if (sd->moon_cheat_client_reports < UINT16_MAX)
+		++sd->moon_cheat_client_reports;
 
 	const auto* p = reinterpret_cast<const PACKET_CZ_MOONLIGHT_CHEAT_REPORT*>(RFIFOP(fd, 0));
 
@@ -18670,6 +18849,7 @@ static bool clif_process_message(map_session_data* sd, bool whisperFormat, char*
 		sd->cantalk_tick = gettick() + battle_config.min_chat_delay;
 	}
 
+	pc_note_activity(*sd, MOON_ACTIVITY_TALK);
 	if (battle_config.idletime_option&IDLE_CHAT)
 		sd->idletime = last_tick;
 	if (battle_config.hom_idle_no_share && sd->hd && battle_config.idletime_hom_option&IDLE_CHAT)
@@ -19334,6 +19514,13 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 			sd->client_tree_modified = vit->second.client_tree_modified;
 			if (vit->second.moonclient)
 				clif_moonclient_accepted(*sd);
+			// [Stingor] Le MachineGuid de la session de compte, AVANT l'octroi qui
+			// le relit : le client ne rejoue pas sa poignée de main ici.
+			if (!vit->second.machine_guid.empty()) {
+				char raw_guid[36] = {};
+				memcpy(raw_guid, vit->second.machine_guid.data(), std::min(sizeof(raw_guid), vit->second.machine_guid.size()));
+				clif_bourgeon_register_guid(sd, raw_guid, vit->second.moonclient ? "moonclient" : "Bourgeon");
+			}
 			clif_bourgeon_grant_verified(sd);
 		}
 		else
@@ -19530,6 +19717,7 @@ void clif_parse_progressbar(int32 fd, map_session_data * sd){
 	sd->progressbar.timeout = 0;
 	sd->state.workinprogress = WIP_DISABLE_NONE;
 
+	pc_note_activity( *sd, MOON_ACTIVITY_NPC );
 	if( battle_config.idletime_option&IDLE_NPC_PROGRESS ){
 		sd->idletime = last_tick;
 	}
@@ -19615,6 +19803,7 @@ void clif_parse_WalkToXY(int32 fd, map_session_data *sd)
 	pc_delinvincibletimer(sd);
 
 	//Set last idle time... [Skotlex]
+	pc_note_activity(*sd, MOON_ACTIVITY_WALK);
 	if (battle_config.idletime_option&IDLE_WALK)
 		sd->idletime = last_tick;
 	if (battle_config.hom_idle_no_share && sd->hd && battle_config.idletime_hom_option&IDLE_WALK)
@@ -19898,6 +20087,7 @@ void clif_parse_Emotion(int32 fd, map_session_data *sd){
 		}
 		sd->emotionlasttime = time(nullptr);
 
+		pc_note_activity(*sd, MOON_ACTIVITY_GESTURE);
 		if (battle_config.idletime_option&IDLE_EMOTION)
 			sd->idletime = last_tick;
 		if (battle_config.hom_idle_no_share && sd->hd && battle_config.idletime_hom_option&IDLE_EMOTION)
@@ -20045,6 +20235,7 @@ void clif_parse_ActionRequest_sub( map_session_data& sd, uint8 action_type, int3
 		}
 
 		pc_delinvincibletimer(&sd);
+		pc_note_activity(sd, MOON_ACTIVITY_FIGHT);
 		if (battle_config.idletime_option&IDLE_ATTACK)
 			sd.idletime = last_tick;
 		if (battle_config.hom_idle_no_share && sd.hd && battle_config.idletime_hom_option&IDLE_ATTACK)
@@ -20079,6 +20270,7 @@ void clif_parse_ActionRequest_sub( map_session_data& sd, uint8 action_type, int3
 			break;
 		}
 
+		pc_note_activity(sd, MOON_ACTIVITY_GESTURE);
 		if (battle_config.idletime_option&IDLE_SIT)
 			sd.idletime = last_tick;
 		if (battle_config.hom_idle_no_share && sd.hd && battle_config.idletime_hom_option&IDLE_SIT)
@@ -20106,6 +20298,7 @@ void clif_parse_ActionRequest_sub( map_session_data& sd, uint8 action_type, int3
 		}
 
 		if (pc_setstand(&sd, false)) {
+			pc_note_activity(sd, MOON_ACTIVITY_GESTURE);
 			if (battle_config.idletime_option&IDLE_SIT)
 				sd.idletime = last_tick;
 			if (battle_config.hom_idle_no_share && sd.hd && battle_config.idletime_hom_option&IDLE_SIT)
@@ -20408,6 +20601,7 @@ void clif_parse_DropItem(int32 fd, map_session_data *sd){
 		if (!pc_dropitem(sd, item_index, item_amount))
 			break;
 
+		pc_note_activity(*sd, MOON_ACTIVITY_ITEM);
 		if (battle_config.idletime_option&IDLE_DROPITEM)
 			sd->idletime = last_tick;
 		if (battle_config.hom_idle_no_share && sd->hd && battle_config.idletime_hom_option&IDLE_DROPITEM)
@@ -20442,6 +20636,7 @@ void clif_parse_UseItem(int32 fd, map_session_data *sd)
 	}
 
 	//Whether the item is used or not is irrelevant, the char ain't idle. [Skotlex]
+	pc_note_activity(*sd, MOON_ACTIVITY_ITEM);
 	if (battle_config.idletime_option&IDLE_USEITEM)
 		sd->idletime = last_tick;
 	if (battle_config.hom_idle_no_share && sd->hd && battle_config.idletime_hom_option&IDLE_USEITEM)
@@ -20497,6 +20692,7 @@ void clif_parse_EquipItem( int32 fd, map_session_data* sd ){
 		return;
 	}
 
+	pc_note_activity(*sd, MOON_ACTIVITY_ITEM);
 	if (battle_config.idletime_option&IDLE_USEITEM)
 		sd->idletime = last_tick;
 	if (battle_config.hom_idle_no_share && sd->hd && battle_config.idletime_hom_option&IDLE_USEITEM)
@@ -20534,6 +20730,7 @@ void clif_parse_UnequipItem(int32 fd,map_session_data *sd)
 
 	index = RFIFOW(fd,packet_db[RFIFOW(fd,0)].pos[0])-2;
 
+	pc_note_activity(*sd, MOON_ACTIVITY_ITEM);
 	if (battle_config.idletime_option&IDLE_USEITEM)
 		sd->idletime = last_tick;
 	if (battle_config.hom_idle_no_share && sd->hd && battle_config.idletime_hom_option&IDLE_USEITEM)
@@ -21286,6 +21483,7 @@ void clif_parse_skill_toid( map_session_data* sd, uint16 skill_id, uint16 skill_
 
 	// Whether skill fails or not is irrelevant, the char ain't idle. [Skotlex]
 	// This is done here, because homunculi and mercenaries can be triggered by AI and not by the player itself
+	pc_note_activity(*sd, MOON_ACTIVITY_FIGHT);
 	if (battle_config.idletime_option&IDLE_USESKILLTOID)
 		sd->idletime = last_tick;
 	if (battle_config.hom_idle_no_share && sd->hd && battle_config.idletime_hom_option&IDLE_USESKILLTOID)
@@ -21443,6 +21641,7 @@ static void clif_parse_UseSkillToPosSub( int32 fd, map_session_data& sd, uint16 
 	}
 
 	//Whether skill fails or not is irrelevant, the char ain't idle. [Skotlex]
+	pc_note_activity(sd, MOON_ACTIVITY_FIGHT);
 	if (battle_config.idletime_option&IDLE_USESKILLTOPOS)
 		sd.idletime = last_tick;
 	if (battle_config.hom_idle_no_share && sd.hd && battle_config.idletime_hom_option&IDLE_USESKILLTOPOS)
@@ -21768,6 +21967,7 @@ void clif_parse_NpcSelectMenu(int32 fd,map_session_data *sd){
 
 	sd->npc_menu = select;
 
+	pc_note_activity( *sd, MOON_ACTIVITY_NPC );
 	if( battle_config.idletime_option&IDLE_NPC_MENU ){
 		sd->idletime = last_tick;
 	}
@@ -21780,6 +21980,7 @@ void clif_parse_NpcSelectMenu(int32 fd,map_session_data *sd){
 /// 00b9 <npc id>.L
 void clif_parse_NpcNextClicked(int32 fd,map_session_data *sd)
 {
+	pc_note_activity( *sd, MOON_ACTIVITY_NPC );
 	if( battle_config.idletime_option&IDLE_NPC_NEXT ){
 		sd->idletime = last_tick;
 	}
@@ -21799,6 +22000,7 @@ void clif_parse_NpcAmountInput(int32 fd,map_session_data *sd){
 
 	sd->npc_amount = p->value;
 
+	pc_note_activity( *sd, MOON_ACTIVITY_NPC );
 	if( battle_config.idletime_option&IDLE_NPC_INPUT ){
 		sd->idletime = last_tick;
 	}
@@ -21826,6 +22028,7 @@ void clif_parse_NpcStringInput(int32 fd, map_session_data* sd){
 
 	safestrncpy( sd->npc_str, p->value, std::min<size_t>( message_len, CHATBOX_SIZE ) );
 
+	pc_note_activity( *sd, MOON_ACTIVITY_NPC );
 	if( battle_config.idletime_option&IDLE_NPC_INPUT ){
 		sd->idletime = last_tick;
 	}
@@ -21845,6 +22048,7 @@ void clif_parse_NpcCloseClicked(int32 fd,map_session_data *sd)
 	if (!sd->npc_id) //Avoid parsing anything when the script was done with. [Skotlex]
 		return;
 
+	pc_note_activity( *sd, MOON_ACTIVITY_NPC );
 	if( battle_config.idletime_option&IDLE_NPC_CLOSE ){
 		sd->idletime = last_tick;
 	}

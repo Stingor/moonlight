@@ -122,6 +122,10 @@ struct s_cheat_watch {
 	t_tick clock_reported_tick = 0;
 	s_cadence_state cadence[CHEAT_CADENCE_KIND_COUNT];
 	t_tick cadence_reported_tick[CHEAT_CADENCE_KIND_COUNT] = {};
+	// Les signalements écrits au journal depuis l'arrivée de la session, que la
+	// fenêtre « Joueurs en ligne » du staff montre (ZC 0x0F68). Ils plafonnent.
+	uint16 clock_reports = 0;
+	uint16 cadence_reports = 0;
 };
 
 #endif /* MAP_CHEAT_HEURISTICS_HPP */

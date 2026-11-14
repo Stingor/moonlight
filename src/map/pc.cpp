@@ -770,6 +770,29 @@ int32 pc_get_group_level( const map_session_data* sd ) {
 	return sd->group->level;
 }
 
+void pc_note_activity( map_session_data& sd, e_moon_activity kind ) {
+	if( kind < MOON_ACTIVITY_MAX )
+		sd.moon_activity_time[kind] = last_tick;
+}
+
+// [Stingor] L'instant où la session de COMPTE a commencé. Un changement de
+// personnage garde le même login_id1, donc le même instant ; une connexion
+// neuve en tire un autre et repart de maintenant. Une entrée par compte vu
+// depuis le démarrage : une entrée périmée ne coûte rien, son login_id1 ne
+// correspond plus.
+static time_t pc_moon_login_time( uint32 account_id, uint32 login_id1 ) {
+	struct s_login_start {
+		uint32 login_id1;
+		time_t start;
+	};
+	static std::map<uint32, s_login_start> starts;
+
+	s_login_start& entry = starts[account_id];
+	if( entry.start == 0 || entry.login_id1 != login_id1 )
+		entry = { login_id1, last_tick };
+	return entry.start;
+}
+
 /**
  * Remove a player from queue after timeout
  * @param tid: Timer ID
@@ -2164,6 +2187,8 @@ bool pc_authok(map_session_data *sd, uint32 login_id2, time_t expiration_time, i
 	sd->idletime = last_tick;
 
 	// [Stingor] -->
+	sd->moon_arrival_time = last_tick;
+	sd->moon_login_time = pc_moon_login_time( sd->status.account_id, sd->login_id1 );
 	sd->hom_teleport_tick = tick;
 	sd->aoe_teleport_tick = tick;
 	sd->refresh_tick = tick;

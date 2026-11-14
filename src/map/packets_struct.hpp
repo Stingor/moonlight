@@ -7252,6 +7252,121 @@ struct PACKET_ZC_MOONLIGHT_CHAT_BLOCKS {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_CHAT_BLOCKS, 0x0f3f);
 
+// [Stingor] Les joueurs en ligne, pour la fenêtre du staff de moonclient
+// (CZ 0x0F67 -> ZC 0x0F68) : ce que disent @users, @who et @client, d'un coup,
+// avec ce que la session retient de son activité.
+//
+// CZ : [packetType:2][packetLength:2][request_id:2]. Fixe 6. `request_id` est
+// choisi par le client et lui revient en écho : il apparie les trames d'une
+// même réponse.
+//
+// 🔴 Gate SERVEUR : niveau de groupe >= 80, le même que l'inspecteur. En dessous,
+// la réponse porte DENIED et aucune entrée. Une demande hors cadence
+// (MOONLIGHT_THROTTLE_STAFF_ROSTER) est ignorée, sans réponse.
+//
+// 🔴 Une session cachée (invisible, ou d'un groupe à session cachée) d'un niveau
+// SUPÉRIEUR à celui du demandeur n'est pas listée : la règle de @who.
+//
+// 🔴 Ni le MachineGuid ni le compte Moonlight ne voyagent. Seul part un numéro
+// de groupe, le même pour les entrées de la réponse qui partagent l'un ou
+// l'autre, et zéro pour une entrée seule de son espèce.
+//
+// ZC : [packetType:2][packetLength:2][request_id:2][status:1][page:1][pages:1],
+// puis une entrée de 185 octets par joueur. Une réponse tient en `pages` trames
+// envoyées à la suite, de MOONLIGHT_STAFF_ROSTER_PAGE_ENTRIES entrées au plus.
+// ⚠ Valeurs sur le fil : on AJOUTE en fin, jamais au milieu.
+enum e_moonlight_staff_roster_status : uint8 {
+	MOONLIGHT_STAFF_ROSTER_SERVED = 0, ///< la liste suit (elle peut être vide)
+	MOONLIGHT_STAFF_ROSTER_DENIED = 1, ///< le demandeur n'est pas staff
+};
+
+enum e_moonlight_staff_roster_state : uint32 {
+	MOONLIGHT_STAFF_ROSTER_VENDING   = 0x0001, ///< échoppe ouverte
+	MOONLIGHT_STAFF_ROSTER_BUYING    = 0x0002, ///< échoppe d'achat ouverte
+	MOONLIGHT_STAFF_ROSTER_AUTOTRADE = 0x0004, ///< hors ligne : l'échoppe tient sans client
+	MOONLIGHT_STAFF_ROSTER_CHATROOM  = 0x0008, ///< dans un salon de discussion
+	MOONLIGHT_STAFF_ROSTER_TRADING   = 0x0010, ///< échange en cours
+	MOONLIGHT_STAFF_ROSTER_DEAD      = 0x0020,
+	MOONLIGHT_STAFF_ROSTER_SITTING   = 0x0040,
+	MOONLIGHT_STAFF_ROSTER_HIDDEN    = 0x0080, ///< invisible, ou session cachée par son groupe
+	MOONLIGHT_STAFF_ROSTER_AFK       = 0x0100, ///< absence déclarée par son client
+	MOONLIGHT_STAFF_ROSTER_JAILED    = 0x0200,
+	MOONLIGHT_STAFF_ROSTER_NPC       = 0x0400, ///< dialogue de PNJ ouvert
+	MOONLIGHT_STAFF_ROSTER_STORAGE   = 0x0800, ///< un storage ouvert
+};
+
+enum e_moonlight_staff_roster_client : uint8 {
+	MOONLIGHT_STAFF_ROSTER_CLIENT_NONE       = 0, ///< aucune poignée de main acceptée
+	MOONLIGHT_STAFF_ROSTER_CLIENT_BOURGEON   = 1,
+	MOONLIGHT_STAFF_ROSTER_CLIENT_MOONCLIENT = 2,
+};
+
+/// Bit de `client_flags` : la révision déclarée portait des retouches.
+#define MOONLIGHT_STAFF_ROSTER_TREE_MODIFIED 0x01
+/// L'âge d'une action qui n'a pas eu lieu depuis l'arrivée du personnage.
+#define MOONLIGHT_STAFF_ROSTER_NEVER 0xFFFFFFFFu
+/// Le plus d'entrées qu'une trame porte.
+#define MOONLIGHT_STAFF_ROSTER_PAGE_ENTRIES 64
+/// Le plus de trames qu'une réponse compte : `pages` tient sur un octet.
+#define MOONLIGHT_STAFF_ROSTER_PAGES_MAX 255
+
+struct PACKET_MOONLIGHT_STAFF_ROSTER_ENTRY {
+	uint32 account_id;
+	uint32 char_id;
+	char   name[NAME_LENGTH];
+	char   guild[NAME_LENGTH];   ///< vide : sans guilde
+	char   party[NAME_LENGTH];   ///< vide : sans groupe
+	char   map[MAP_NAME_LENGTH]; ///< la carte SOURCE quand c'est une instance
+	uint16 instance_id;          ///< 0 : pas une instance
+	int16  x;
+	int16  y;
+	uint16 job;
+	uint16 base_level;
+	uint16 job_level;
+	uint8  group_level;
+	uint32 state;                ///< e_moonlight_staff_roster_state
+	uint32 online_s;             ///< depuis le début de la session de COMPTE
+	uint32 character_s;          ///< depuis l'arrivée de ce personnage
+	uint32 idle_s;               ///< depuis sa dernière action, tous genres confondus
+	// L'âge de la dernière action de chaque genre (e_moon_activity), ou
+	// MOONLIGHT_STAFF_ROSTER_NEVER.
+	uint32 walk_age_s;
+	uint32 fight_age_s;
+	uint32 item_age_s;
+	uint32 talk_age_s;
+	uint32 gesture_age_s;
+	uint32 npc_age_s;
+	uint32 command_age_s;
+	uint8  client;               ///< e_moonlight_staff_roster_client
+	uint8  client_flags;         ///< MOONLIGHT_STAFF_ROSTER_TREE_MODIFIED
+	int32  patch_index;          ///< -1 : jamais patché, ou sans poignée de main
+	char   commit[16];           ///< la révision de moonclient, SANS zéro terminal quand elle remplit le champ
+	uint16 machine_group;        ///< 0 : seul connu de sa machine
+	uint16 account_group;        ///< 0 : seul de son compte Moonlight
+	uint16 cheat_clock;          ///< signalements de dérive d'horloge depuis l'arrivée
+	uint16 cheat_cadence;        ///< signalements de cadence trop régulière
+	uint16 cheat_client;         ///< rapports du détecteur de son client
+	int32  mute_minutes;         ///< minutes de silence restantes ; 0 : aucune
+} __attribute__((packed));
+
+struct PACKET_CZ_MOONLIGHT_REQ_STAFF_ROSTER {
+	int16  packetType;
+	int16  packetLength;
+	uint16 request_id;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_REQ_STAFF_ROSTER, 0x0f67);
+
+struct PACKET_ZC_MOONLIGHT_STAFF_ROSTER {
+	int16  packetType;
+	int16  packetLength;
+	uint16 request_id; ///< écho de la demande
+	uint8  status;     ///< e_moonlight_staff_roster_status
+	uint8  page;       ///< rang de cette trame, depuis zéro
+	uint8  pages;      ///< trames de la réponse entière : au moins une
+	PACKET_MOONLIGHT_STAFF_ROSTER_ENTRY entries[];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_STAFF_ROSTER, 0x0f68);
+
 // [Stingor] ZC_MOONLIGHT_INSTANCE_INFO (0x0F40) — ce que la fenêtre d'instance
 // ne lit pas dans 0x02CB / 0x02CD : la difficulté (HM) et le mode turbo choisis
 // à la création, à qui appartient l'instance, qui peut la détruire, et ses
@@ -8779,7 +8894,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_HATEFFECT_MAP, 0x0f17);
 // client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans
 // la zone sûre 0x0F00+ (2026-07-03). Le prochain opcode libre est tenu par
 // bopcodes::kNextFree, dans src/features/systems/bourgeon_opcodes.h de Bourgeon
-// (0x0F55 à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
+// (0x0F69 à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
 
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)

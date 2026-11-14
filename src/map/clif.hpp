@@ -1833,6 +1833,9 @@ void clif_parse_moonlight_req_entity_props(int32 fd, map_session_data* sd);
 // CZ 0x0F3E -> ZC 0x0F3F : les @mute / @unmute qui ont visé un joueur, relus dans
 // le journal des commandes. Gate niveau de groupe >= 80, comme l'inspecteur.
 void clif_parse_moonlight_req_chat_blocks(int32 fd, map_session_data* sd);
+// CZ 0x0F67 -> ZC 0x0F68 : les joueurs en ligne, pour la fenêtre du staff de
+// moonclient. Gate niveau de groupe >= 80, comme l'inspecteur.
+void clif_parse_moonlight_req_staff_roster(int32 fd, map_session_data* sd);
 // CZ 0x0F29 -> ZC 0x0F2A : état de l'entité CIBLÉE, pour la fenêtre de cible de
 // Bourgeon (TargetFrame). Le client tient déjà nom / race / élément de sa plaque
 // de nom ; ce paquet apporte ce qu'aucun autre ne transporte — le **SP** d'une
