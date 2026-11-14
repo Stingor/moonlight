@@ -1362,6 +1362,26 @@ Body:
   - Id: 5861
     Title: "[Waiting] Take care of the morning"
     TimeLimit: 4h
+  - Id: 5862
+    Title: Morning's Menu Selection
+  - Id: 5863
+    Title: Morning's Menu Selection
+  - Id: 5864
+    Title: Morning's Menu Selection
+  - Id: 5865
+    Title: Morning's Menu Selection
+  - Id: 5866
+    Title: Morning's Menu Selection
+  - Id: 5867
+    Title: Morning's Menu Selection
+  - Id: 5868
+    Title: Morning's Menu Selection
+  - Id: 5869
+    Title: Morning's Menu Selection
+  - Id: 5870
+    Title: Morning's Menu Selection
+  - Id: 5871
+    Title: Morning's Menu Selection
   - Id: 7850
     Title: Cat on Bullet
   - Id: 7851
@@ -1512,6 +1532,16 @@ Body:
   - Id: 17025
     Title: Finding Patrick
   - Id: 17026
+    Title: Finding Patrick
+  - Id: 17027
+    Title: Finding Patrick
+  - Id: 17028
+    Title: Finding Patrick
+  - Id: 17029
+    Title: Finding Patrick
+  - Id: 17030
+    Title: Finding Patrick
+  - Id: 17031
     Title: Finding Patrick
   - Id: 17032
     Title: Finding Patrick
