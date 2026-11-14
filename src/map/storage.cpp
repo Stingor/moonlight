@@ -1374,6 +1374,10 @@ bool storage_premiumStorage_loading(map_session_data *sd) {
 		return false;
 	if (DIFF_TICK(gettick(), sd->premium_storage_request_tick) >= PREMIUM_STORAGE_REQUEST_TIMEOUT) {
 		sd->premium_storage_pending_id = 0;
+		// [Stingor] La réponse est tenue pour perdue : le rangement qui l'attendait
+		// aussi, sinon il partirait à la prochaine ouverture manuelle.
+		sd->state.pending_storeall = false;
+		sd->state.pending_storeall_cards_only = false;
 		return false;
 	}
 	return true;

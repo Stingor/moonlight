@@ -3483,6 +3483,13 @@ static bool intif_parse_StorageReceived(int32 fd)
 
 	if (!RFIFOB(fd, 9)) {
 		ShowError("intif_parse_StorageReceived: Failed to load! (AID: %d, type: %d)\n", account_id, type);
+		// [Stingor] Aucun storage_premiumStorage_open() ne suivra : un @storeall N /
+		// @storecard en attente est abandonné, sinon il resterait armé et partirait
+		// à la prochaine ouverture manuelle d'un storage alternatif.
+		if (type == TABLE_STORAGE && RFIFOW(fd,2)-10 == sz_stor && p->stor_id != 0) {
+			sd->state.pending_storeall = false;
+			sd->state.pending_storeall_cards_only = false;
+		}
 		return false;
 	}
 

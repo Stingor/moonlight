@@ -102,7 +102,9 @@ ACMD_FUNC(storeall)
 	}
 
 	if (num > 0) { // [Stingor] Storage alternatif
-		if (sd->state.pending_storeall) {
+		// [Stingor] Un drapeau arme sans chargement en vol est un reste (reponse jamais
+		// arrivee ou sans ouverture) : il ne bloque plus la commande, qui le rearme.
+		if (sd->state.pending_storeall && storage_premiumStorage_loading(sd)) {
 			clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
 			return -1;
 		}
@@ -1198,7 +1200,7 @@ ACMD_FUNC(storecard)
 		return -1;
 	}
 
-	if (sd->state.pending_storeall) {
+	if (sd->state.pending_storeall && storage_premiumStorage_loading(sd)) { // [Stingor] cf. @storeall N
 		clif_displaymessage(fd, msg_txt(sd,1161)); // You currently cannot open your storage.
 		return -1;
 	}
