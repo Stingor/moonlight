@@ -1775,7 +1775,7 @@ L_tha:
 		}
 	}
 	else {
-		switch( select("• Niveau 1 (tha_t01):• Niveau 2 (tha_t02):• Niveau 3 (tha_t03):• Niveau 4 (tha_t04):• Niveau 5 (tha_t05):• Niveau 6 (tha_t06):• Niveau 7 (tha_t07):• Niveau 8 (tha_t08):• Niveau 9 (tha_t09):• Niveau 10 (tha_t10):• Niveau 11 (tha_t11):• Niveau 12 (tha_t12):Niveau Boss (thana_boss)") ) {
+		switch( select("• Niveau 1 (tha_t01):• Niveau 2 (tha_t02):• Niveau 3 (tha_t03):• Niveau 4 (tha_t04):• Niveau 5 (tha_t05):• Niveau 6 (tha_t06):• Niveau 7 (tha_t07):• Niveau 8 (tha_t08):• Niveau 9 (tha_t09):• Niveau 10 (tha_t10):• Niveau 11 (tha_t11):• Niveau 12 (tha_t12):Niveau Boss (thana_boss):• ^e64c00Menu Précédent^000000") ) {
 			case 1: warp_fct("tha_t01", 150, 70);
 			case 2: warp_fct("tha_t02", 150, 130);
 			case 3: warp_fct("tha_t03", 220, 161);
@@ -1819,6 +1819,7 @@ L_tha:
 					}
 				}
 				warp_fct("thana_boss", 142, 222);
+			default: goto L_Donjons;
 		}
 	}
 end;
