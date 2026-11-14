@@ -13,6 +13,7 @@
 #include <cmath>
 #include <csetjmp>
 #include <cstdlib> // atoi, strtol, strtoll, exit
+#include <unordered_set>
 
 #ifdef PCRE_SUPPORT
 #include <pcre.h> // preg_match
@@ -21223,6 +21224,101 @@ BUILDIN_FUNC(questinfo_refresh)
 }
 
 /**
+ * [Stingor] Garde-fou des commandes qui ECRIVENT dans le journal de quetes.
+ *
+ * Un script renewal porte sans synchroniser db/import/quest_db.yml appelle
+ * setquest sur un ID que la base pre-re ne connait pas. quest_add refuse, mais
+ * d'origine le script continue : il retire les objets, donne la recompense,
+ * pose ses variables... et le joueur se retrouve dans un etat que la suite de
+ * la quete ne sait plus lire. On arrete donc le script LA, avant l'instruction
+ * suivante, on previent le joueur et on ouvre un bug_report (+ relais Discord).
+ *
+ * Un seul rapport par couple (NPC, quete) et par demarrage du map-server : le
+ * premier joueur suffit a signaler le trou, les suivants ne font que se faire
+ * arreter. tools/util/audit_quest_ids.py voit les memes trous a froid.
+ *
+ * @param must_own : vrai pour completequest / erasequest. Un ID retire de la
+ *                   base mais encore present dans le journal du joueur reste
+ *                   alors autorise (c'est justement le cas du nettoyage).
+ * @return vrai si le script a ete arrete ; le builtin doit alors rendre la main.
+ */
+static bool script_quest_db_guard(struct script_state* st, map_session_data* sd, int32 quest_id, const char* cmd, bool must_own)
+{
+	if (quest_search(quest_id) != nullptr)
+		return false;
+	if (must_own && quest_check(sd, quest_id, HAVEQUEST) >= 0)
+		return false;
+
+	npc_data* nd = map_id2nd(st->oid);
+	const char* npc_name = nd ? nd->exname : "?";
+	const char* npc_path = (nd && nd->path) ? nd->path : "?";
+	const char* npc_map = (nd && nd->m >= 0) ? map_mapid2mapname(nd->m) : "";
+	const int32 npc_x = nd ? nd->x : 0;
+	const int32 npc_y = nd ? nd->y : 0;
+
+	ShowError("%s: quest %d absente de la quest_db, script arrete (NPC %s, %s).\n", cmd, quest_id, npc_name, npc_path);
+	script_reportsrc(st);
+	script_reportfunc(st);
+
+	// Le joueur : message en rouge dans le chat, fenetre de dialogue fermee.
+	char msg[CHAT_SIZE_MAX];
+	safesnprintf(msg, sizeof(msg),
+		"[Bug] Cette qu\xeate est incompl\xe8te sur le serveur (qu\xeate %d). "
+		"Le dialogue a \xe9t\xe9 interrompu, rien n'a \xe9t\xe9 perdu. "
+		"Le staff a \xe9t\xe9 pr\xe9venu automatiquement.", quest_id);
+	clif_messagecolor(sd, color_table[COLOR_RED], msg, false, SELF);
+
+	st->state = END;
+	st->mes_active = 0;
+	if (map_session_data* rsd = map_id2sd(st->rid); rsd != nullptr) {
+		if (rsd->state.callshop == 0)
+			clif_scriptclose(*rsd, st->oid);
+		else
+			rsd->state.callshop = 0;
+	}
+
+	static std::unordered_set<std::string> s_reported;
+	std::string key = std::string(npc_name) + "#" + std::to_string(quest_id) + "#" + cmd;
+	if (!s_reported.insert(key).second)
+		return true;
+
+	char ctx[512];
+	safesnprintf(ctx, sizeof(ctx),
+		"{\"auto\":true,\"cmd\":\"%s\",\"quest_id\":%d,\"npc_script\":\"%s\",\"npc_map\":\"%s\",\"npc_pos\":\"%d,%d\",\"npc_file\":\"%s\"}",
+		cmd, quest_id, npc_name, npc_map, npc_x, npc_y, npc_path);
+	char text[256];
+	safesnprintf(text, sizeof(text), "[auto] %s %d : quete absente de la quest_db (pre-re + import).", cmd, quest_id);
+	const char* mapname = map_getmapdata(sd->m)->name;
+
+	char esc_name[NAME_LENGTH * 2 + 1], esc_ctx[sizeof(ctx) * 2 + 1], esc_text[sizeof(text) * 2 + 1], esc_map[MAP_NAME_LENGTH_EXT * 2 + 1];
+	Sql_EscapeStringLen(mmysql_handle, esc_name, sd->status.name, strnlen(sd->status.name, NAME_LENGTH));
+	Sql_EscapeString(mmysql_handle, esc_ctx, ctx);
+	Sql_EscapeString(mmysql_handle, esc_text, text);
+	Sql_EscapeStringLen(mmysql_handle, esc_map, mapname, strnlen(mapname, MAP_NAME_LENGTH_EXT));
+
+	if (Sql_Query(mmysql_handle,
+		"INSERT INTO `bug_reports` "
+		"(`account_id`,`char_id`,`char_name`,`category`,`context`,`message`,`map_name`,`x`,`y`) "
+		"VALUES (%u, %u, '%s', 'quest', '%s', '%s', '%s', %d, %d)",
+		sd->status.account_id, sd->status.char_id, esc_name, esc_ctx, esc_text, esc_map, sd->x, sd->y) != SQL_SUCCESS)
+		Sql_ShowDebug(mmysql_handle);
+
+	char dc_name[NAME_LENGTH + 32];
+	safesnprintf(dc_name, sizeof(dc_name), "[BUG quest auto] %s", sd->status.name);
+	char dc_msg[900];
+	safesnprintf(dc_msg, sizeof(dc_msg), "ctx=%s | %s,%d,%d | %s", ctx, mapname, sd->x, sd->y, text);
+	char esc_dcname[sizeof(dc_name) * 2 + 1], esc_dcmsg[sizeof(dc_msg) * 2 + 1];
+	Sql_EscapeString(mmysql_handle, esc_dcname, dc_name);
+	Sql_EscapeString(mmysql_handle, esc_dcmsg, dc_msg);
+	if (Sql_Query(mmysql_handle,
+		"INSERT INTO `discord_outbound` (player, char_id, message) VALUES ('%s', %u, '%s')",
+		esc_dcname, sd->status.char_id, esc_dcmsg) != SQL_SUCCESS)
+		Sql_ShowDebug(mmysql_handle);
+
+	return true;
+}
+
+/**
  * setquest <ID>{,<char_id>};
  **/
 BUILDIN_FUNC(setquest)
@@ -21234,6 +21330,9 @@ BUILDIN_FUNC(setquest)
 
 	if (!script_charid2sd(3,sd))
 		return SCRIPT_CMD_FAILURE;
+
+	if (script_quest_db_guard(st, sd, quest_id, "setquest", false))
+		return SCRIPT_CMD_SUCCESS;
 
 	if( quest_add(sd, quest_id)  == -1 ){
 		script_reportsrc(st);
@@ -21255,6 +21354,9 @@ BUILDIN_FUNC(erasequest)
 	if (!script_charid2sd(3,sd))
 		return SCRIPT_CMD_FAILURE;
 
+	if (script_quest_db_guard(st, sd, script_getnum(st, 2), "erasequest", true))
+		return SCRIPT_CMD_SUCCESS;
+
 	if( quest_delete(sd, script_getnum(st, 2))  == -1 ){
 		script_reportsrc(st);
 		script_reportfunc(st);
@@ -21274,6 +21376,9 @@ BUILDIN_FUNC(completequest)
 	if (!script_charid2sd(3,sd))
 		return SCRIPT_CMD_FAILURE;
 
+	if (script_quest_db_guard(st, sd, script_getnum(st, 2), "completequest", true))
+		return SCRIPT_CMD_SUCCESS;
+
 	quest_update_status(sd, script_getnum(st, 2), Q_COMPLETE);
 	//20120410 or 20090218
 	pc_show_questinfo(sd);
@@ -21289,6 +21394,9 @@ BUILDIN_FUNC(changequest)
 	
 	if (!script_charid2sd(4,sd))
 		return SCRIPT_CMD_FAILURE;
+
+	if (script_quest_db_guard(st, sd, script_getnum(st, 3), "changequest", false))
+		return SCRIPT_CMD_SUCCESS;
 
 	if( quest_change(sd, script_getnum(st, 2),script_getnum(st, 3)) == -1 ){
 		script_reportsrc(st);
