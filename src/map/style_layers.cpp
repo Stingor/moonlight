@@ -36,6 +36,7 @@
 #include "pet.hpp" // pet_data
 #include "script.hpp" // e_hat_effects, script_get_constant
 #include "status.hpp" // status_get_viewdata
+#include "style_absent.hpp" // style_shown_save
 
 namespace {
 
@@ -1657,6 +1658,10 @@ void clif_parse_moonclient_style_layers(int32 fd, map_session_data* sd) {
 	// L'émetteur reçoit son bloc avec la zone : c'est son écho.
 	if (result == MOONCLIENT_STYLE_ACCEPTED && sd->prev != nullptr)
 		send_area(*sd, compose_block(*sd), true);
+	// [Stingor] L'instantané de la tablée suit la validation : voir
+	// `style_shown_save`.
+	if (result == MOONCLIENT_STYLE_ACCEPTED)
+		style_shown_save(*sd);
 	// Et chaque compagnon teint ou déteint, le sien compris : un bloc vide efface.
 	for (const int32 unit_id : changed_units)
 		if (block_list* bl = map_id2bl(unit_id); bl != nullptr)

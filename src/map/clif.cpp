@@ -7431,6 +7431,11 @@ static void clif_bourgeon_grant_verified(map_session_data* sd) {
 	// mais le joueur retrouverait son apparence native à chaque connexion : la
 	// diffusion au spawn ne concerne que les AUTRES joueurs, jamais soi-même.
 	clif_bourgeon_style_single(sd, sd);
+	// [Stingor] 🔴 SON INSTANTANÉ POUR LA TABLÉE, dès l'entrée : écrit à la seule
+	// déconnexion, il manquait au personnage joué depuis l'installation de la
+	// table sans s'être déconnecté proprement. Ici, l'inventaire est chargé, donc
+	// les teintures des items affichés aussi.
+	style_shown_save(*sd);
 	// 🔴 Et celles des AUTRES, déjà en vue. Symétrique de la ligne au-dessus, et
 	// oubliée jusqu'ici : la diffusion au spawn (`clif_getareachar_unit`) est
 	// gatée sur `has_bourgeon` du DESTINATAIRE, qu'on vient tout juste de poser.
@@ -11989,7 +11994,13 @@ static void bourgeon_style_store(
 		pc_setregistry_str(sd, bourgeon_style_var(i), hex);
 		ecrit = true;
 	}
-	if (ecrit) intif_saveregistry(sd);
+	if (ecrit) {
+		intif_saveregistry(sd);
+		// [Stingor] 🔴 L'INSTANTANÉ DE LA TABLÉE SUIT AUSSITÔT : écrit à la seule
+		// déconnexion, il manquait au personnage qui ne s'était pas encore
+		// déconnecté proprement, et la sélection le montrait sans ses couleurs.
+		style_shown_save(*sd);
+	}
 }
 
 // Remplit une entrée de lot. `gid` = l'AID, qui est le GID de l'acteur côté
