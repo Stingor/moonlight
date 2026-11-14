@@ -169,10 +169,26 @@ scripts d'instance lisent `ep18_main`.
 | Pontifex | Courage, Wisdom, Belief, Tenacity : options aléatoires sur les armes Fides (recettes Lapine, groupes `PONTIFEX_*` déjà en local) |
 | Drops de carte | `1@advs` : MVP inchangés (armes Fides à 1,5 %, Pontifex Belief et Tenacity) ; Fragments d'Améthyste des mobs normaux à 2 % |
 
-**Réforme : écartée de ce lot, chantier à part.** Le serveur la gère (paquets d'ouverture, de
-résultat et de fermeture, `item_reform.yml` à importer), mais moonclient n'a pas la fenêtre. Sans
-elle, ne sont pas repris : les matériaux de réforme (Purificatory Holy O et W, Sanctuary Sudarium),
-le Blue Prints Scroll (armes `Conse_F_*`) et le coffret de Demi Freyja, que rien ne distribue.
+**Réforme : écartée de ce lot, portée au lot B4 (§5e).** Restent écartés le Blue Prints Scroll
+(plans `Conse_F_*`) et le coffret de Demi Freyja, que rien ne distribue.
+
+## 5e. Lot B4 : la réforme Adulter → Vivatus (2026‑11‑14, non validé en jeu)
+
+Bamdat (`wolfvill` 170,131, `quests_18.npc`, étape 38 de la chaîne) ouvre la fenêtre par
+`item_reform("Consecrate_Weapon_1")` (rituel de base) ou `"Consecrate_Weapon_2"` (avancé).
+
+| Partie | Contenu | Fichiers |
+|---|---|---|
+| Serveur | rien à recompiler : PACKETVER 20250716 ouvre les paquets 0x0B8F à 0x0B92, `item_reform` existe en script, et `db/item_reform.yml` lit `db/import/item_reform.yml` sans condition de mode (seul `db/re` est en `Mode: Renewal`) | |
+| Déclencheurs | `Consecrate_Weapon_1` (100648) et `_2` (100649), `DelayConsume` + `item_reform()` comme l'amont ; non distribués, ils servent de clé de recette | `db/import/items/item_db_usable.yml` |
+| Matériaux | `Purificatory_Holy_O` (1000501), `Purificatory_Holy_W` (1000502), `Sanctuary_Sudarium` (1000503) | `db/import/items/item_db_etc.yml` |
+| Drops de carte | `1@advs`, mode avancé : les trois matériaux à 50 % sur Schulang et Demi Freyja (MVP, taux amont) et à **2 %** sur Sanare et Heart Hunter (monnaie de carte ; 1,5 % en renewal) | `db/import/map_drops.yml` |
+| Recettes | 2 × 37 : Adulter Fides **+9** au moins → Vivatus Fides, cartes et options gardées. Base : 50 O + 50 W + 50 Sudarium + 200 Fragments d'Améthyste, raffinement -5 (+9 → +4). Avancé : 200 + 200 + 200 + 400, raffinement -1. **Écart Moonlight : sans les plans `Conse_F_*`** (10 ou 30 en amont), le Blue Prints Scroll n'étant pas porté ; armes Doram absentes | `db/import/item_reform.yml` |
+| Client | fenêtre de réforme (liste des pièces admises, pièce et résultat, matériaux possédés / requis, confirmation), table `item_reform.yml` générée par `scripts/yaml_tables/item_reform.py` | moonclient |
+
+⚠ Le serveur refuse **sans répondre** une demande invalide (`clif_parse_item_reform_start`) : le
+client juge tout avant l'envoi, y compris la règle « seule la première pile d'un matériau compte »
+(`pc_search_inventory`).
 
 ## 6. Verdict
 
@@ -181,8 +197,9 @@ le Blue Prints Scroll (armes `Conse_F_*`) et le coffret de Demi Freyja, que rien
 | Intérêt | élevé — un village complet, un MVP, six instances |
 | Fait | lot A : le terrain ; lots B et B1 : la chaîne, la réputation, les instances et l'accès (2026‑11‑14, non validés en jeu) |
 | Fait | lot B3 : l'économie (2026‑11‑14) |
-| Reste à faire | validation en jeu · **la réforme** (fenêtre moonclient, recettes, matériaux, Blue Prints) · hors périmètre : la Forêt Profonde (Spirit Handler), l'enchanteur Emmett (sans script) |
-| Épisode | **clos** côté portage le 2026‑11‑14, hors réforme |
+| Fait | lot B4 : la réforme Adulter → Vivatus, serveur et fenêtre moonclient (2026‑11‑14) |
+| Reste à faire | validation en jeu · Blue Prints Scroll (plans `Conse_F_*`) et coffret de Demi Freyja · hors périmètre : la Forêt Profonde (Spirit Handler), l'enchanteur Emmett (sans script) |
+| Épisode | **clos** côté portage le 2026‑11‑14 |
 
 ## Sources
 

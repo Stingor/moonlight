@@ -2222,6 +2222,15 @@ Body:
           - Index: 20
             Item: Vivatus_F_Violin
             Rate: 750
+          - Index: 21
+            Item: Purificatory_Holy_O
+            Rate: 50000
+          - Index: 22
+            Item: Purificatory_Holy_W
+            Rate: 50000
+          - Index: 23
+            Item: Sanctuary_Sudarium
+            Rate: 50000
       - Monster: EP18_MD_DEMI_FREYJA_L
         Drops:
           - Index: 0
@@ -2281,6 +2290,15 @@ Body:
           - Index: 18
             Item: Vivatus_F_Wand
             Rate: 750
+          - Index: 19
+            Item: Purificatory_Holy_O
+            Rate: 50000
+          - Index: 20
+            Item: Purificatory_Holy_W
+            Rate: 50000
+          - Index: 21
+            Item: Sanctuary_Sudarium
+            Rate: 50000
       - Monster: EP18_MD_SANARE_L
         Drops:
           - Index: 0
@@ -2289,6 +2307,15 @@ Body:
           - Index: 1
             Item: Pontifex_Tenacity
             Rate: 500
+          - Index: 2
+            Item: Purificatory_Holy_O
+            Rate: 2000
+          - Index: 3
+            Item: Purificatory_Holy_W
+            Rate: 2000
+          - Index: 4
+            Item: Sanctuary_Sudarium
+            Rate: 2000
       - Monster: EP18_MD_HEARTHUNTER_L
         Drops:
           - Index: 0
@@ -2297,3 +2324,12 @@ Body:
           - Index: 1
             Item: Pontifex_Belief
             Rate: 500
+          - Index: 2
+            Item: Purificatory_Holy_O
+            Rate: 2000
+          - Index: 3
+            Item: Purificatory_Holy_W
+            Rate: 2000
+          - Index: 4
+            Item: Sanctuary_Sudarium
+            Rate: 2000

@@ -12057,3 +12057,15 @@ Body:
       BuyingStore: true
     Script: |
       laphine_upgrade();
+  - Id: 100648
+    AegisName: Consecrate_Weapon_1
+    Name: Purification Ritual
+    Type: DelayConsume
+    Script: |
+      item_reform();
+  - Id: 100649
+    AegisName: Consecrate_Weapon_2
+    Name: Advanced Purification Ritual
+    Type: DelayConsume
+    Script: |
+      item_reform();

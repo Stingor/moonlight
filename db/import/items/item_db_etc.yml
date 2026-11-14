@@ -14519,3 +14519,21 @@ Body:
     Weight: 10
     Flags:
       BuyingStore: true
+  - Id: 1000501
+    AegisName: Purificatory_Holy_O
+    Name: Holy Oil of Purification
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000502
+    AegisName: Purificatory_Holy_W
+    Name: Holy Water of Purification
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000503
+    AegisName: Sanctuary_Sudarium
+    Name: Sabbatical Handkerchief
+    Type: Etc
+    Flags:
+      BuyingStore: true
