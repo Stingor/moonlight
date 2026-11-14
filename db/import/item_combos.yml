@@ -3797,7 +3797,7 @@ Body:
           - YSF01_Manteau
           - YSF01_Greave
     Script: |
-      if ((getequiprefinerycnt(EQI_ARMOR)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_SHOES)) >= 39) { autobonus "{ bonus bIgnoreDefClass,Class_Normal; bonus bIgnoreDefClass,Class_Boss; }",50,5000; }
+      if ((getequiprefinerycnt(EQI_ARMOR)+getequiprefinerycnt(EQI_GARMENT)+getequiprefinerycnt(EQI_SHOES)) >= 30) { autobonus "{ bonus bIgnoreDefClass,Class_Normal; bonus bIgnoreDefClass,Class_Boss; }",50,5000; }
   - Combos:
       - Combo:
           - YSF01_Plate
@@ -3865,7 +3865,7 @@ Body:
           - King_Schmidt_Suit
           - King_Schmidt_Manteau
     Script: |
-      .@r = getequiprefinerycnt(EQI_ARMOR) + getequiprefinerycnt(EQI_GARMENT); bonus bMaxHPrate,5; bonus bMaxSPrate,5; if(.@r > 21){ bonus bDelayrate,-15; }
+      .@r = getequiprefinerycnt(EQI_ARMOR) + getequiprefinerycnt(EQI_GARMENT); bonus bMaxHPrate,5; bonus bMaxSPrate,5; if(.@r >= 16){ bonus bDelayrate,-15; }
   - Combos:
       - Combo:
           - Iron_Driver_IL
@@ -6834,7 +6834,7 @@ Body:
       bonus bDef,5;
       bonus bBaseAtk,15*(readparam(bStr)/15);
       autobonus2 "{ bonus2 bAddClass,Class_All,10; if (readparam(bStr) >= 120) { bonus2 bAddClass,Class_All,15; } }",1+(readparam(bStr) >= 120),10000,BF_MAGIC|BF_WEAPON;
-      if (.@sum >= 33) {
+      if (.@sum >= 24) {
       bonus bAspdRate,20;
       bonus bDelayrate,-25;
       }
@@ -6850,7 +6850,7 @@ Body:
       bonus bDef,5;
       bonus bAspdRate,4*(readparam(bAgi)/15);
       autobonus2 "{ bonus bLongAtkRate,10; if (readparam(bAgi) >= 120) { bonus bLongAtkRate,10; } }",1+(readparam(bAgi) >= 120),10000,BF_MAGIC|BF_WEAPON;
-      if (.@sum >= 33) {
+      if (.@sum >= 24) {
       bonus bAspdRate,20;
       bonus bDelayrate,-25;
       }
@@ -6867,7 +6867,7 @@ Body:
       bonus2 bSubSize,Size_Medium,(readparam(bVit)/30);
       bonus2 bSubSize,Size_Large,(readparam(bVit)/30);
       autobonus2 "{ bonus2 bSubSize,Size_All,7; if (readparam(bVit) >= 120) { bonus2 bSubSize,Size_All,5; } }",1+(readparam(bVit) >= 120),10000,BF_MAGIC|BF_WEAPON;
-      if (.@sum >= 33) {
+      if (.@sum >= 24) {
       bonus bAspdRate,20;
       bonus bDelayrate,-25;
       }
@@ -6885,7 +6885,7 @@ Body:
       bonus bAspdRate,3*(readparam(bDex)/15);
       bonus bVariableCastrate,-3*(readparam(bDex)/15);
       autobonus2 "{ bonus bFlee2,10; bonus bFlee,50; if (readparam(bDex) >= 120) { bonus bFlee2,5; bonus bFlee,30; } }",1+(readparam(bDex) >= 120),10000,BF_MAGIC|BF_WEAPON;
-      if (.@sum >= 33) {
+      if (.@sum >= 24) {
       bonus bAspdRate,15;
       bonus bVariableCastrate,-15;
       bonus bDelayrate,-25;
@@ -6903,7 +6903,7 @@ Body:
       bonus bHealPower,15;
       bonus bVariableCastrate,-4*(readparam(bInt)/15);
       autobonus2 "{ bonus2 bMagicAtkEle,Ele_All,20; bonus bHealPower,40; if (readparam(bInt) >= 120) { bonus2 bMagicAtkEle,Ele_All,10; } }",1+(readparam(bInt) >= 120),10000,BF_MAGIC|BF_WEAPON;
-      if (.@sum >= 33) {
+      if (.@sum >= 24) {
       bonus bVariableCastrate,-20;
       bonus bDelayrate,-25;
       }
@@ -6920,7 +6920,7 @@ Body:
       bonus bCritAtkRate,3*(readparam(bLuk)/15);
       bonus bCritical,2*(readparam(bLuk)/15);
       autobonus2 "{ bonus bCritAtkRate,10; bonus2 bAddClass,Class_All,7; if (readparam(bLuk) >= 120) { bonus bCritAtkRate,10; bonus2 bAddClass,Class_All,7; } }",1+(readparam(bLuk) >= 120),10000,BF_MAGIC|BF_WEAPON;
-      if (.@sum >= 33) {
+      if (.@sum >= 24) {
       bonus bAspdRate,20;
       bonus bDelayrate,-25;
       }
