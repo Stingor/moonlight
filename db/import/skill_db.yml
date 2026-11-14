@@ -4402,3 +4402,27 @@ Body:
       Target: Enemy
       Flag:
         PathCheck: true
+  - Id: 771
+    Name: NPC_RELIEVE_ON
+    Description: NPC_RELIEVE_ON
+    MaxLevel: 1
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+    Flags:
+      IsNpc: true
+    HitCount: 1
+    Duration1: -1
+    Status: Relieve_on
+  - Id: 772
+    Name: NPC_RELIEVE_OFF
+    Description: NPC_RELIEVE_OFF
+    MaxLevel: 1
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+    Flags:
+      IsNpc: true
+    HitCount: 1
+    Duration1: 60000
+    Status: Relieve_off

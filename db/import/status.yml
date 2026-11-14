@@ -634,3 +634,22 @@ Body:
       .@val1 = getstatus(SC_BATH_FOAM_C, 1);
       bonus2 bAddRace2, RC2_EP172BATH, .@val1;
       bonus2 bMagicAddRace2, RC2_EP172BATH, .@val1;
+  - Status: Relieve_On
+    Icon: EFST_RELIEVE_DAMAGE
+    DurationLookup: NPC_RELIEVE_ON
+    Flags:
+      BlEffect: true
+      DisplayPc: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+    EndOnStart:
+      Relieve_off: true
+  - Status: Relieve_Off
+    DurationLookup: NPC_RELIEVE_OFF
+    Flags:
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true
+    EndOnStart:
+      Relieve_on: true
