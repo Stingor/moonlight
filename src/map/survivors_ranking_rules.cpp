@@ -267,6 +267,12 @@ constexpr uint32 RULESET_6_COMMON_KILL_EXP = 22 * ELITE_FACTOR;
 constexpr uint32 RULESET_6_KILLS_PER_SECOND = 2 * 10 * SURVIVORS_STEPS_PER_SECOND;
 constexpr uint32 RULESET_6_EXP_GAIN_PCT = 100 + 100 + 40;
 
+// ── LE RULESET 7 ─────────────────────────────────────────────────────────────
+// Une partie part de l'auto-attaque seule ; les bolts du Sorcier frappent une
+// cible, plus fort par niveau, et sa baguette tire droit. Aucune borne ne lit
+// les dégâts ni le premier skill : il reprend toutes celles du ruleset 6.
+constexpr uint16 RULESET_7 = 7;
+
 // Triées par version croissante : la première et la dernière bornent ce que
 // ZC 0x0F53 annonce.
 constexpr s_survivors_ruleset RULESETS[] = {
@@ -292,6 +298,13 @@ constexpr s_survivors_ruleset RULESETS[] = {
 	  RULESET_5_EXP_CURVE, std::size(RULESET_5_EXP_CURVE),
 	  RULESET_5_KILLS_PER_SECOND, RULESET_5_COMMON_KILL_POINTS, RULESET_5_COMMON_KILL_EXP, RULESET_5_EXP_GAIN_PCT },
 	{ RULESET_6,
+	  RULESET_6_ARENAS, std::size(RULESET_6_ARENAS),
+	  RULESET_6_CLASSES, std::size(RULESET_6_CLASSES),
+	  RULESET_6_RUN_MS, RULESET_6_OVERTIME_MS,
+	  RULESET_6_BOSSES, std::size(RULESET_6_BOSSES),
+	  RULESET_6_EXP_CURVE, std::size(RULESET_6_EXP_CURVE),
+	  RULESET_6_KILLS_PER_SECOND, RULESET_6_COMMON_KILL_POINTS, RULESET_6_COMMON_KILL_EXP, RULESET_6_EXP_GAIN_PCT },
+	{ RULESET_7,
 	  RULESET_6_ARENAS, std::size(RULESET_6_ARENAS),
 	  RULESET_6_CLASSES, std::size(RULESET_6_CLASSES),
 	  RULESET_6_RUN_MS, RULESET_6_OVERTIME_MS,
