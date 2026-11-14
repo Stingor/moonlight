@@ -3510,6 +3510,18 @@ def replace_outf(msg):
 
     return OUTF_PATTERN.sub(repl, msg)
 
+# ── Liens de CALQUE (balise de moonclient) ──────────────────────────────────
+# Format : `<LAYC>etiquette:code</LAYC>`, les couleurs d'un calque teint -- un
+# chapeau, une cape -- sous le nom de l'objet. Le client interdit ':' et '<'
+# dans l'etiquette : le PREMIER ':' separe. Le code est jete, comme la recette
+# d'un style : hors du jeu, il ne veut rien dire.
+LAYC_PATTERN = re.compile(r"<LAYC>([^<>:]*):([^<>]*?)</LAYC>")
+
+def replace_layc(msg):
+    """Les couleurs d'un calque en texte lisible : le nom de l'objet seul."""
+    return LAYC_PATTERN.sub(
+        lambda m: f" [Personnalisation : {m.group(1).strip() or '?'}] ", msg)
+
 # ── Liens de NAVIGATION (balises du client) ─────────────────────────────────
 # Format : `<NAVIL><carte><4 car. base 62></NAVIL>` (cf. chat_window.cc). Le
 # corps ne porte AUCUN séparateur : les QUATRE derniers caractères sont les
@@ -3719,6 +3731,7 @@ def replace_chat_links(msg):
     msg = replace_mobl(msg)
     msg = replace_styl(msg)
     msg = replace_outf(msg)
+    msg = replace_layc(msg)
     msg = replace_navil(msg)
     msg = replace_navs(msg)
     msg = replace_itmr(msg)
