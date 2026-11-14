@@ -3489,6 +3489,27 @@ def replace_styl(msg):
     return STYL_PATTERN.sub(lambda m: f" [Style : {m.group(1).strip() or '?'}] ",
                             msg)
 
+# ── Liens de TENUE (balise de moonclient) ───────────────────────────────────
+# Format : `<OUTF>etiquette:CODE</OUTF>`, le code court qu'un serveur a donne a
+# une tenue de la garde-robe, et l'etiquette « pseudo (rangement) ». Le client
+# y remplace ':' et '<', mais c'est le DERNIER ':' qui separe : le code n'en
+# porte jamais.
+OUTF_PATTERN = re.compile(r"<OUTF>([^<>]*):([0-9A-Za-z\- ]{8,10})</OUTF>")
+
+def replace_outf(msg):
+    """Une tenue en texte lisible : son etiquette et son code court.
+
+    Le code reste parce qu'il SERT hors du jeu : huit signes, qu'on tape tels
+    quels dans le champ « Code court » de l'editeur pour essayer la tenue.
+    """
+    def repl(match):
+        label = match.group(1).strip()
+        code = re.sub(r"[\s\-]", "", match.group(2)).upper()
+        shown = f"{code[:4]}-{code[4:]}" if len(code) == 8 else code
+        return f" [Tenue : {label or '?'} — {shown}] "
+
+    return OUTF_PATTERN.sub(repl, msg)
+
 # ── Liens de NAVIGATION (balises du client) ─────────────────────────────────
 # Format : `<NAVIL><carte><4 car. base 62></NAVIL>` (cf. chat_window.cc). Le
 # corps ne porte AUCUN séparateur : les QUATRE derniers caractères sont les
@@ -3697,6 +3718,7 @@ def replace_chat_links(msg):
     msg = replace_iteml(msg)
     msg = replace_mobl(msg)
     msg = replace_styl(msg)
+    msg = replace_outf(msg)
     msg = replace_navil(msg)
     msg = replace_navs(msg)
     msg = replace_itmr(msg)
