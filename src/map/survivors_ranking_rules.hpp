@@ -84,24 +84,31 @@ struct s_survivors_exp_segment {
 	uint32 per_level;
 };
 
+// CE QUE LE SERVEUR CLASSE D'UNE ARÈNE, et les bornes qu'il impose à une partie
+// qui s'y joue : ses boss programmés, et ses tués ordinaires au plus fort. Le
+// client les tire de son catalogue (ro::sim::RankingBoundsOf).
+struct s_survivors_arena_bound {
+	uint16 arena_id;
+	const s_survivors_boss_bound* bosses; ///< triés par at_ms
+	size_t boss_count;
+	uint32 most_common_kill_points; ///< les points d'un tué ordinaire au plus, élite comprise
+	uint32 most_common_kill_exp;    ///< l'XP d'un tué ordinaire au plus, élite comprise
+};
+
 // CE QUE LE SERVEUR CLASSE D'UNE VERSION DE RÈGLES, et les bornes qu'il impose à
 // une partie : tirées du catalogue de cette version côté client.
 struct s_survivors_ruleset {
 	uint16 ruleset;
-	const uint16* arena_ids;
+	const s_survivors_arena_bound* arenas;
 	size_t arena_count;
 	const uint16* class_ids;
 	size_t class_count;
 	uint32 run_ms;      ///< la durée de la partie
 	uint32 overtime_ms; ///< au-delà de run_ms, tant que le boss final vit
-	const s_survivors_boss_bound* bosses; ///< triés par at_ms
-	size_t boss_count;
 	const s_survivors_exp_segment* exp_curve; ///< triée, la première au niveau 1
 	size_t exp_segment_count;
-	uint32 most_kills_per_second;   ///< les tués au plus, par seconde survécue entamée
-	uint32 most_common_kill_points; ///< les points d'un tué ordinaire au plus, élite comprise
-	uint32 most_common_kill_exp;    ///< l'XP d'un tué ordinaire au plus, élite comprise
-	uint32 most_exp_gain_pct;       ///< la majoration d'XP au plus, en % (100 : aucune)
+	uint32 most_kills_per_second; ///< les tués au plus, par seconde survécue entamée
+	uint32 most_exp_gain_pct;     ///< la majoration d'XP au plus, en % (100 : aucune)
 };
 
 // Les versions classées, bornes comprises : celles que ZC 0x0F53 annonce.
@@ -117,7 +124,8 @@ bool survivors_board_known(const s_survivors_ruleset& rules, uint16 arena_id, ui
 static constexpr uint32 SURVIVORS_STEPS_SLACK = SURVIVORS_STEPS_PER_SECOND;
 static constexpr int64 SURVIVORS_DURATION_SLACK_S = 5;
 
-// VRAI SI LA PARTIE EST VRAISEMBLABLE sous `rules`, `elapsed_s` secondes après
+// VRAI SI LA PARTIE EST VRAISEMBLABLE sous `rules`, sur l'arène `arena_id` — une
+// arène que la version ne classe pas ne l'est jamais —, `elapsed_s` secondes après
 // l'heure de son jeton : une issue portable ; survived_steps au plus la partie
 // et son dépassement, marge comprise ; survived_steps / 50 au plus elapsed_s +
 // 5 ; au plus most_kills_per_second tués par seconde entamée, et au moins
@@ -127,7 +135,7 @@ static constexpr int64 SURVIVORS_DURATION_SLACK_S = 5;
 // tués, majorée au plus ; une
 // survie qui a tenu run_ms ; une victoire dont le boss final a paru et compte
 // parmi les boss tués.
-bool survivors_plausible(const s_survivors_ruleset& rules, const s_survivors_components& run, int64 elapsed_s);
+bool survivors_plausible(const s_survivors_ruleset& rules, uint16 arena_id, const s_survivors_components& run, int64 elapsed_s);
 
 // VRAI SI UNE PARTIE CLASSÉE PEUT PARTIR DE LA CARTE `map_name`, au-delà de
 // MF_TOWN : une carte qui a une fiche de ville chez moonclient, ou qu'il tient

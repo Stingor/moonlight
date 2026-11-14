@@ -141,7 +141,6 @@ s_survivors_iso_week iso_week_of_day(int64 days_since_epoch) {
 // La première arène complète (prt_fild08), le Magicien, quinze minutes et
 // Baphomet, puis cinq minutes de dépassement tant qu'il vit.
 constexpr uint16 RULESET_3 = 3;
-constexpr uint16 RULESET_3_ARENAS[] = { 1 };
 constexpr uint16 RULESET_3_CLASSES[] = { 1 };
 constexpr uint32 MINUTE_MS = 60000;
 constexpr uint32 RULESET_3_RUN_MS = 15 * MINUTE_MS;
@@ -173,6 +172,10 @@ constexpr uint32 RULESET_3_KILLS_PER_SECOND = 2 * 10 * SURVIVORS_STEPS_PER_SECON
 // Une partie classée part neutre : aucune majoration d'XP que le Battle Manual
 // (+100 %).
 constexpr uint32 RULESET_3_EXP_GAIN_PCT = 200;
+constexpr s_survivors_arena_bound RULESET_3_ARENAS[] = {
+	{ 1, RULESET_3_BOSSES, std::size(RULESET_3_BOSSES),
+	  RULESET_3_COMMON_KILL_POINTS, RULESET_3_COMMON_KILL_EXP },
+};
 
 // ── LE RULESET 4 ─────────────────────────────────────────────────────────────
 // La prairie générée (midgard_plains) seule classée : prt_fild08 y reste au
@@ -182,7 +185,6 @@ constexpr uint32 RULESET_3_EXP_GAIN_PCT = 200;
 // marche de Baphomet change, qu'aucune borne ne lit. Seule la majoration d'XP
 // bouge : les sorts du Sorcier (lot 10) apportent la carte Baphomet.
 constexpr uint16 RULESET_4 = 4;
-constexpr uint16 RULESET_4_ARENAS[] = { 2 };
 constexpr uint16 RULESET_4_CLASSES[] = { 1 };
 constexpr uint32 RULESET_4_RUN_MS = 15 * MINUTE_MS;
 constexpr uint32 RULESET_4_OVERTIME_MS = 5 * MINUTE_MS;
@@ -206,6 +208,10 @@ constexpr uint32 RULESET_4_KILLS_PER_SECOND = 2 * 10 * SURVIVORS_STEPS_PER_SECON
 // cinq niveaux : kBaphometLevels de survivors_rules_mage.cpp) peut s'ajouter au
 // Battle Manual (+100 %) : le client somme les deux avant de majorer.
 constexpr uint32 RULESET_4_EXP_GAIN_PCT = 100 + 100 + 40;
+constexpr s_survivors_arena_bound RULESET_4_ARENAS[] = {
+	{ 2, RULESET_4_BOSSES, std::size(RULESET_4_BOSSES),
+	  RULESET_4_COMMON_KILL_POINTS, RULESET_4_COMMON_KILL_EXP },
+};
 
 // ── LE RULESET 5 ─────────────────────────────────────────────────────────────
 // Quatre classes classées, le Magicien (1), le Chevalier (2), le Voleur (3) et
@@ -215,7 +221,6 @@ constexpr uint32 RULESET_4_EXP_GAIN_PCT = 100 + 100 + 40;
 // ruleset 4 : aucune de ces bornes ne dépend de la classe, et les réserves de cartes
 // du Chevalier, du Voleur et de l'Archer gardent Baphomet, seule carte d'XP.
 constexpr uint16 RULESET_5 = 5;
-constexpr uint16 RULESET_5_ARENAS[] = { 2 };
 constexpr uint16 RULESET_5_CLASSES[] = { 1, 2, 3, 4 };
 constexpr uint32 RULESET_5_RUN_MS = 15 * MINUTE_MS;
 constexpr uint32 RULESET_5_OVERTIME_MS = 5 * MINUTE_MS;
@@ -238,6 +243,10 @@ constexpr uint32 RULESET_5_KILLS_PER_SECOND = 2 * 10 * SURVIVORS_STEPS_PER_SECON
 // Battle Manual (+100 %) et carte Baphomet (+8 % par niveau, cinq niveaux), que
 // les trois classes peuvent tirer.
 constexpr uint32 RULESET_5_EXP_GAIN_PCT = 100 + 100 + 40;
+constexpr s_survivors_arena_bound RULESET_5_ARENAS[] = {
+	{ 2, RULESET_5_BOSSES, std::size(RULESET_5_BOSSES),
+	  RULESET_5_COMMON_KILL_POINTS, RULESET_5_COMMON_KILL_EXP },
+};
 
 // ── LE RULESET 6 ─────────────────────────────────────────────────────────────
 // Toute classe frappe aussi de son arme, et trois cartes nouvelles ne touchent
@@ -246,7 +255,6 @@ constexpr uint32 RULESET_5_EXP_GAIN_PCT = 100 + 100 + 40;
 // horde et majoration sont ceux du ruleset 5, et aucune des cartes nouvelles ne
 // majore l'XP.
 constexpr uint16 RULESET_6 = 6;
-constexpr uint16 RULESET_6_ARENAS[] = { 2 };
 constexpr uint16 RULESET_6_CLASSES[] = { 1, 2, 3, 4 };
 constexpr uint32 RULESET_6_RUN_MS = 15 * MINUTE_MS;
 constexpr uint32 RULESET_6_OVERTIME_MS = 5 * MINUTE_MS;
@@ -266,12 +274,61 @@ constexpr uint32 RULESET_6_COMMON_KILL_POINTS = 58 * ELITE_FACTOR;
 constexpr uint32 RULESET_6_COMMON_KILL_EXP = 22 * ELITE_FACTOR;
 constexpr uint32 RULESET_6_KILLS_PER_SECOND = 2 * 10 * SURVIVORS_STEPS_PER_SECOND;
 constexpr uint32 RULESET_6_EXP_GAIN_PCT = 100 + 100 + 40;
+constexpr s_survivors_arena_bound RULESET_6_ARENAS[] = {
+	{ 2, RULESET_6_BOSSES, std::size(RULESET_6_BOSSES),
+	  RULESET_6_COMMON_KILL_POINTS, RULESET_6_COMMON_KILL_EXP },
+};
 
 // ── LE RULESET 7 ─────────────────────────────────────────────────────────────
 // Une partie part de l'auto-attaque seule ; les bolts du Sorcier frappent une
 // cible, plus fort par niveau, et sa baguette tire droit. Aucune borne ne lit
 // les dégâts ni le premier skill : il reprend toutes celles du ruleset 6.
 constexpr uint16 RULESET_7 = 7;
+
+// ── LE RULESET 8 ─────────────────────────────────────────────────────────────
+// Chaque arène est classée : la prairie (2), le désert de Morroc (3), les neiges
+// de Lutie (4) et le laboratoire de Lighthalzen (5), chacune avec ses boss et ses
+// tués ordinaires, que le client tire de son catalogue (ro::sim::RankingBoundsOf,
+// épinglé par survivors_ranked_test.cpp). Le laboratoire tire ses boss à la
+// graine : ses bornes gardent, rang par rang, le plus tôt paru et le plus riche
+// des tirages. L'Alchemist (5) entre au classement : aucune borne ne dépend de la
+// classe, et sa réserve n'a pas d'autre carte d'XP que Baphomet. Durée,
+// dépassement, courbe, horde et majoration sont ceux du ruleset 6.
+constexpr uint16 RULESET_8 = 8;
+constexpr uint16 RULESET_8_CLASSES[] = { 1, 2, 3, 4, 5 };
+constexpr s_survivors_boss_bound RULESET_8_DESERT_BOSSES[] = {
+	{  3 * MINUTE_MS,  2 * MINI_BOSS_KILL_FACTOR, 20, false },
+	{  5 * MINUTE_MS, 69 * MINI_BOSS_KILL_FACTOR, 30, false },
+	{  7 * MINUTE_MS, 81 * MINI_BOSS_KILL_FACTOR, 40, false },
+	{  9 * MINUTE_MS, 24 * MINI_BOSS_KILL_FACTOR, 60, false },
+	{ 15 * MINUTE_MS, 93 * BOSS_KILL_FACTOR,       0, true  },
+};
+constexpr s_survivors_boss_bound RULESET_8_SNOW_BOSSES[] = {
+	{  3 * MINUTE_MS, 42 * MINI_BOSS_KILL_FACTOR, 25, false },
+	{  5 * MINUTE_MS, 38 * MINI_BOSS_KILL_FACTOR, 30, false },
+	{  7 * MINUTE_MS, 77 * MINI_BOSS_KILL_FACTOR, 40, false },
+	{  9 * MINUTE_MS, 72 * MINI_BOSS_KILL_FACTOR, 55, false },
+	{ 11 * MINUTE_MS, 10 * MINI_BOSS_KILL_FACTOR, 40, false },
+	{ 15 * MINUTE_MS, 73 * BOSS_KILL_FACTOR,       0, true  },
+};
+constexpr s_survivors_boss_bound RULESET_8_LAB_BOSSES[] = {
+	{  3 * MINUTE_MS, 72 * MINI_BOSS_KILL_FACTOR, 25, false },
+	{  5 * MINUTE_MS, 79 * MINI_BOSS_KILL_FACTOR, 30, false },
+	{  7 * MINUTE_MS, 99 * MINI_BOSS_KILL_FACTOR, 40, false },
+	{  9 * MINUTE_MS, 99 * MINI_BOSS_KILL_FACTOR, 50, false },
+	{ 11 * MINUTE_MS, 99 * MINI_BOSS_KILL_FACTOR, 40, false },
+	{ 15 * MINUTE_MS, 99 * BOSS_KILL_FACTOR,       0, true  },
+};
+constexpr s_survivors_arena_bound RULESET_8_ARENAS[] = {
+	{ 2, RULESET_6_BOSSES, std::size(RULESET_6_BOSSES),
+	  RULESET_6_COMMON_KILL_POINTS, RULESET_6_COMMON_KILL_EXP },
+	{ 3, RULESET_8_DESERT_BOSSES, std::size(RULESET_8_DESERT_BOSSES),
+	  61 * ELITE_FACTOR, 20 * ELITE_FACTOR },
+	{ 4, RULESET_8_SNOW_BOSSES, std::size(RULESET_8_SNOW_BOSSES),
+	  61 * ELITE_FACTOR, 18 * ELITE_FACTOR },
+	{ 5, RULESET_8_LAB_BOSSES, std::size(RULESET_8_LAB_BOSSES),
+	  92 * ELITE_FACTOR, 18 * ELITE_FACTOR },
+};
 
 // Triées par version croissante : la première et la dernière bornent ce que
 // ZC 0x0F53 annonce.
@@ -280,37 +337,38 @@ constexpr s_survivors_ruleset RULESETS[] = {
 	  RULESET_3_ARENAS, std::size(RULESET_3_ARENAS),
 	  RULESET_3_CLASSES, std::size(RULESET_3_CLASSES),
 	  RULESET_3_RUN_MS, RULESET_3_OVERTIME_MS,
-	  RULESET_3_BOSSES, std::size(RULESET_3_BOSSES),
 	  RULESET_3_EXP_CURVE, std::size(RULESET_3_EXP_CURVE),
-	  RULESET_3_KILLS_PER_SECOND, RULESET_3_COMMON_KILL_POINTS, RULESET_3_COMMON_KILL_EXP, RULESET_3_EXP_GAIN_PCT },
+	  RULESET_3_KILLS_PER_SECOND, RULESET_3_EXP_GAIN_PCT },
 	{ RULESET_4,
 	  RULESET_4_ARENAS, std::size(RULESET_4_ARENAS),
 	  RULESET_4_CLASSES, std::size(RULESET_4_CLASSES),
 	  RULESET_4_RUN_MS, RULESET_4_OVERTIME_MS,
-	  RULESET_4_BOSSES, std::size(RULESET_4_BOSSES),
 	  RULESET_4_EXP_CURVE, std::size(RULESET_4_EXP_CURVE),
-	  RULESET_4_KILLS_PER_SECOND, RULESET_4_COMMON_KILL_POINTS, RULESET_4_COMMON_KILL_EXP, RULESET_4_EXP_GAIN_PCT },
+	  RULESET_4_KILLS_PER_SECOND, RULESET_4_EXP_GAIN_PCT },
 	{ RULESET_5,
 	  RULESET_5_ARENAS, std::size(RULESET_5_ARENAS),
 	  RULESET_5_CLASSES, std::size(RULESET_5_CLASSES),
 	  RULESET_5_RUN_MS, RULESET_5_OVERTIME_MS,
-	  RULESET_5_BOSSES, std::size(RULESET_5_BOSSES),
 	  RULESET_5_EXP_CURVE, std::size(RULESET_5_EXP_CURVE),
-	  RULESET_5_KILLS_PER_SECOND, RULESET_5_COMMON_KILL_POINTS, RULESET_5_COMMON_KILL_EXP, RULESET_5_EXP_GAIN_PCT },
+	  RULESET_5_KILLS_PER_SECOND, RULESET_5_EXP_GAIN_PCT },
 	{ RULESET_6,
 	  RULESET_6_ARENAS, std::size(RULESET_6_ARENAS),
 	  RULESET_6_CLASSES, std::size(RULESET_6_CLASSES),
 	  RULESET_6_RUN_MS, RULESET_6_OVERTIME_MS,
-	  RULESET_6_BOSSES, std::size(RULESET_6_BOSSES),
 	  RULESET_6_EXP_CURVE, std::size(RULESET_6_EXP_CURVE),
-	  RULESET_6_KILLS_PER_SECOND, RULESET_6_COMMON_KILL_POINTS, RULESET_6_COMMON_KILL_EXP, RULESET_6_EXP_GAIN_PCT },
+	  RULESET_6_KILLS_PER_SECOND, RULESET_6_EXP_GAIN_PCT },
 	{ RULESET_7,
 	  RULESET_6_ARENAS, std::size(RULESET_6_ARENAS),
 	  RULESET_6_CLASSES, std::size(RULESET_6_CLASSES),
 	  RULESET_6_RUN_MS, RULESET_6_OVERTIME_MS,
-	  RULESET_6_BOSSES, std::size(RULESET_6_BOSSES),
 	  RULESET_6_EXP_CURVE, std::size(RULESET_6_EXP_CURVE),
-	  RULESET_6_KILLS_PER_SECOND, RULESET_6_COMMON_KILL_POINTS, RULESET_6_COMMON_KILL_EXP, RULESET_6_EXP_GAIN_PCT },
+	  RULESET_6_KILLS_PER_SECOND, RULESET_6_EXP_GAIN_PCT },
+	{ RULESET_8,
+	  RULESET_8_ARENAS, std::size(RULESET_8_ARENAS),
+	  RULESET_8_CLASSES, std::size(RULESET_8_CLASSES),
+	  RULESET_6_RUN_MS, RULESET_6_OVERTIME_MS,
+	  RULESET_6_EXP_CURVE, std::size(RULESET_6_EXP_CURVE),
+	  RULESET_6_KILLS_PER_SECOND, RULESET_6_EXP_GAIN_PCT },
 };
 
 constexpr uint64 SCORE_PER_SECOND = 10;
@@ -325,6 +383,16 @@ bool contains(const uint16* ids, size_t count, uint16 id) {
 			return true;
 	}
 	return false;
+}
+
+// Les bornes de l'arène `arena_id` sous `rules`, ou nullptr si la version ne la
+// classe pas.
+const s_survivors_arena_bound* find_arena(const s_survivors_ruleset& rules, uint16 arena_id) {
+	for (size_t i = 0; i < rules.arena_count; ++i) {
+		if (rules.arenas[i].arena_id == arena_id)
+			return &rules.arenas[i];
+	}
+	return nullptr;
 }
 
 // L'XP qui mène du niveau `level` au suivant ; 0 : aucun niveau de plus.
@@ -400,11 +468,14 @@ const s_survivors_ruleset* survivors_find_ruleset(uint16 ruleset) {
 
 bool survivors_board_known(const s_survivors_ruleset& rules, uint16 arena_id, uint16 class_id, uint8 board) {
 	return (board == SURVIVORS_BOARD_RANKED || board == SURVIVORS_BOARD_CHALLENGE)
-		&& contains(rules.arena_ids, rules.arena_count, arena_id)
+		&& find_arena(rules, arena_id) != nullptr
 		&& contains(rules.class_ids, rules.class_count, class_id);
 }
 
-bool survivors_plausible(const s_survivors_ruleset& rules, const s_survivors_components& run, int64 elapsed_s) {
+bool survivors_plausible(const s_survivors_ruleset& rules, uint16 arena_id, const s_survivors_components& run, int64 elapsed_s) {
+	const s_survivors_arena_bound* arena = find_arena(rules, arena_id);
+	if (arena == nullptr)
+		return false;
 	if (run.outcome < SURVIVORS_OUTCOME_FELL || run.outcome > SURVIVORS_OUTCOME_VICTORY)
 		return false;
 	const uint64 longest_steps = (uint64{ rules.run_ms } + rules.overtime_ms) / SURVIVORS_MS_PER_STEP;
@@ -422,8 +493,8 @@ bool survivors_plausible(const s_survivors_ruleset& rules, const s_survivors_com
 	std::vector<uint32> met_points;
 	std::vector<uint32> met_exp;
 	bool final_met = false;
-	for (size_t i = 0; i < rules.boss_count; ++i) {
-		const s_survivors_boss_bound& boss = rules.bosses[i];
+	for (size_t i = 0; i < arena->boss_count; ++i) {
+		const s_survivors_boss_bound& boss = arena->bosses[i];
 		if (boss.at_ms > survived_ms)
 			break;
 		met_points.push_back(boss.kill_points);
@@ -437,9 +508,9 @@ bool survivors_plausible(const s_survivors_ruleset& rules, const s_survivors_com
 	const uint64 boss_points = std::accumulate(met_points.begin(), met_points.begin() + run.boss_kills, uint64{ 0 });
 	const uint64 boss_exp = std::accumulate(met_exp.begin(), met_exp.begin() + run.boss_kills, uint64{ 0 });
 	const uint64 common_kills = run.kills - run.boss_kills;
-	if (run.kill_points > common_kills * rules.most_common_kill_points + boss_points)
+	if (run.kill_points > common_kills * arena->most_common_kill_points + boss_points)
 		return false;
-	const uint64 most_exp = (common_kills * rules.most_common_kill_exp + boss_exp) * rules.most_exp_gain_pct / WHOLE_PCT;
+	const uint64 most_exp = (common_kills * arena->most_common_kill_exp + boss_exp) * rules.most_exp_gain_pct / WHOLE_PCT;
 	if (run.level > level_reachable(rules, most_exp))
 		return false;
 

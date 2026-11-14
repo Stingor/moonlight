@@ -363,7 +363,7 @@ void clif_parse_moonlight_survivors_end(int32 fd, map_session_data* sd) {
 	run.outcome        = p->outcome;
 	const uint64 score = survivors_score(run);
 	const s_survivors_ruleset* rules = survivors_find_ruleset(state.key.ruleset);
-	const bool plausible = rules != nullptr && survivors_plausible(*rules, run, now - state.issued_at);
+	const bool plausible = rules != nullptr && survivors_plausible(*rules, state.key.arena, run, now - state.issued_at);
 
 	e_survivors_verdict verdict = SURVIVORS_VERDICT_IMPLAUSIBLE;
 	if (plausible) {

@@ -2974,7 +2974,7 @@ Body:
     Score: 20
   - Id: 910013
     Group: Adventure
-    Name: Mage aguerri
+    Name: Wizard aguerri
     Score: 30
   - Id: 910014
     Group: Adventure
@@ -3011,7 +3011,7 @@ Body:
     Score: 30
   - Id: 910022
     Group: Adventure
-    Name: Grand sorcier
+    Name: Grand Wizard
     Score: 50
   - Id: 910023
     Group: Adventure
@@ -3101,7 +3101,7 @@ Body:
     Score: 30
   - Id: 910044
     Group: Adventure
-    Name: Grand chevalier
+    Name: Grand Knight
     Score: 50
 # Le mode survivors, rangs 44 a 51 : les evolues du Voleur, puis tous a la fois.
   - Id: 910045
@@ -3134,7 +3134,7 @@ Body:
     Score: 30
   - Id: 910052
     Group: Adventure
-    Name: Grand voleur
+    Name: Grand Assassin
     Score: 50
   - Id: 910053
     Group: Adventure
@@ -3166,5 +3166,49 @@ Body:
     Score: 30
   - Id: 910060
     Group: Adventure
-    Name: Grand archer
+    Name: Grand Hunter
+    Score: 50
+  - Id: 910061
+    Group: Adventure
+    Name: Demonstration acide
+    Score: 20
+  - Id: 910062
+    Group: Adventure
+    Name: Lancer de fioles
+    Score: 20
+  - Id: 910063
+    Group: Adventure
+    Name: Blindage chimique
+    Score: 20
+  - Id: 910064
+    Group: Adventure
+    Name: Main verte
+    Score: 20
+  - Id: 910065
+    Group: Adventure
+    Name: Artillerie roulante
+    Score: 20
+  - Id: 910066
+    Group: Adventure
+    Name: Tourbillon de fer
+    Score: 20
+  - Id: 910067
+    Group: Adventure
+    Name: Dernier recours
+    Score: 20
+  - Id: 910068
+    Group: Adventure
+    Name: Explosion organique
+    Score: 20
+  - Id: 910069
+    Group: Adventure
+    Name: Changement d'esprit
+    Score: 20
+  - Id: 910070
+    Group: Adventure
+    Name: Soif de sang
+    Score: 20
+  - Id: 910071
+    Group: Adventure
+    Name: Grand Alchemist
     Score: 50
