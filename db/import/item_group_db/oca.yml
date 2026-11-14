@@ -2372,3 +2372,39 @@ Body:
           - Index: 774
             Item: Verporte_H_Card
             Rate: 1
+          - Index: 775
+            Item: EP18_Ashhopper_Card
+            Rate: 1
+          - Index: 776
+            Item: EP18_Ashring_Card
+            Rate: 1
+          - Index: 777
+            Item: EP18_Grey_Wolf_Card
+            Rate: 1
+          - Index: 778
+            Item: EP18_Tumble_Ring_Card
+            Rate: 1
+          - Index: 779
+            Item: EP18_Firewind_Kite_Card
+            Rate: 1
+          - Index: 780
+            Item: EP18_Phantom_Wolf_Card
+            Rate: 1
+          - Index: 781
+            Item: EP18_Rakehand_Card
+            Rate: 1
+          - Index: 782
+            Item: EP18_Ash_Toad_Card
+            Rate: 1
+          - Index: 783
+            Item: EP18_Spark_Card
+            Rate: 1
+          - Index: 784
+            Item: EP18_Volcaring_Card
+            Rate: 1
+          - Index: 785
+            Item: EP18_Lava_Toad_Card
+            Rate: 1
+          - Index: 786
+            Item: EP18_Hot_Molar_Card
+            Rate: 1

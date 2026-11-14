@@ -6,7 +6,7 @@
 | Date kRO | **2021‑02‑01** (annonce `seq=259` ; certaines sources donnent le 3 février) |
 | Arc | Arunafeltz — les Enfants Gris |
 | Niveau kRO visé | 170+ (200+ pour le mode avancé) |
-| État Moonlight | **matière présente, entièrement désactivée** |
+| État Moonlight | **lot A porté le 2026‑11‑14 (terrain, sans accès en attendant la chaîne) ; chaîne, instances et économie absentes** |
 
 Retour en Arunafeltz. Le scénario porte sur la tension entre missionnaires de Freyja et
 natifs, et se conclut sur une fausse déesse fabriquée par magie d'illusion. Dernier
@@ -121,12 +121,33 @@ Le contenu de terrain (un village, deux champs, un donjon à deux étages, un MV
 autonome : il peut être ouvert **sans** la chaîne de quêtes, contrairement aux instances
 qui en dépendent pour leur déverrouillage.
 
+## 5b. Relevé du 2026‑11‑13 et lot A (2026‑11‑14)
+
+Relevé avant portage : 38 mobs absents (15 de terrain, 23 d'instance et de quête), 41 objets
+(15 cartes, 11 pièces `Gray_W_*`, 3 tickets ou coffrets, 2 coiffes, 11 Etc), 171 quêtes sur 172,
+7 entrées `instance_db` (67 à 73 chez rAthena). La réputation (`db/re/reputation.yml`, Grey Wolf
+Village) n'est pas chargée en pré-renewal (`Mode: Renewal`) mais le C++ et moonclient la gèrent :
+il suffira de recopier l'entrée. L'enchanteur Emmett n'a de script nulle part.
+
+**Le terrain n'a aucun warp dans le monde** : on entre au village et au labyrinthe par les PNJ de
+la chaîne, ou en sortant de certaines instances.
+
+| Partie | Contenu | Fichiers |
+|---|---|---|
+| Mobs | 6 de la Forêt du Loup Gris et 7 du Labyrinthe d'Oz (niveau 177 à 212), `re_to_prere_mob.py` sans retouche, `DamageTaken` retiré ; Burning Fang 4,8 M de PV ; 80 lignes de skills | `db/import/mobs/ep18_fields.yml` |
+| Cartes | 13 cartes ; Ashring : palier `.@r>=14` en `getallrefine() >= 28` ; Rakehand : `bDef,50` en 5 | `db/import/items/item_db_card.yml` |
+| Spawns | `gw_fild.npc` et `oz_dun.npc` décommentés ; aucun drop de carte chez l'amont | `moon/scripts_moon.conf` |
+| Mapflags | `nomemo` et `nowarpto` sur `oz_dun01` et `oz_dun02` ; ceux du village viendront avec la chaîne | `moon/mapflag/` |
+| Branches, albums | 12 mobs en Dead Branch, Burning Fang en Bloody Branch, cartes à l'album, carte MVP en `mca` et `mvpenchant` ; Burning Fang à 6 points MVP | |
+| Accès | **aucune entrée au warp agent** tant que la chaîne n'est pas portée (choix du 2026‑11‑14) | |
+
 ## 6. Verdict
 
 | | |
 |---|---|
 | Intérêt | élevé — un village complet, un MVP, six instances |
-| Reste à faire | 13 mobs · 2 lignes de conf · 6 entrées dans `db/import/instance_db.yml` · 5 scripts · arbitrage réputation |
+| Fait | lot A : le terrain (2026‑11‑14, non validé en jeu, sans accès) |
+| Reste à faire | **B** : la chaîne `quests_18.txt` (171 quêtes) et la réputation, puis l'accès au warp agent · **B1** : 6 instances et leurs 23 mobs · **B3** : l'équipement du Loup Gris et ses trocs · hors périmètre : la Forêt Profonde (Spirit Handler), l'enchanteur Emmett (sans script) |
 
 ## Sources
 

@@ -329,3 +329,7 @@ nif_dun02	mapflag	nomemo
 1@herbs	mapflag	nomemo
 1@lost	mapflag	nomemo
 ba_in01	mapflag	nomemo
+
+// Episode 18 : Labyrinthe d'Oz, d'apres npc/re/mapflag/
+oz_dun01	mapflag	nomemo
+oz_dun02	mapflag	nomemo

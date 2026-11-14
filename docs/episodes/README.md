@@ -22,7 +22,7 @@ Relevé initial le **2026-08-25**, synthèse remise à jour le **2026-10-07** (1
 | [16-2_terra_gloria.md](16-2_terra_gloria.md) | 16.2 — Terra Gloria (Rock Ridge, Illusions) | 2016‑03‑09 | **porté, à valider en jeu** |
 | [17-1_illusion.md](17-1_illusion.md) | 17.1 — Illusion (Cor, Rudus, OS) | 2018‑07‑18 | **porté, à valider en jeu** (contenu de l'intervalle et mode défi d'OGH compris) |
 | [17-2_heritage_du_sage.md](17-2_heritage_du_sage.md) | 17.2 — Sage's Legacy (Varmundt) | 2020‑10‑30 | **porté, à valider en jeu** (Niflheim renewal, Rudus 4F, Amicitia, chaîne de quêtes, quatre instances, économie du manoir) |
-| [18_direction_de_la_priere.md](18_direction_de_la_priere.md) | 18 — Direction of Prayer | 2021‑02‑01 | **matière présente, désactivée** |
+| [18_direction_de_la_priere.md](18_direction_de_la_priere.md) | 18 — Direction of Prayer | 2021‑02‑01 | **lot A porté** (terrain, sans accès) ; chaîne, instances et économie absentes |
 | [19_issgard.md](19_issgard.md) | 19 — Issgard, Land of Snow Flowers | 2022‑01‑19 | **rien** (rAthena non plus) |
 | [20_the_undying.md](20_the_undying.md) | 20 — The Undying | 2023‑03‑02 | **rien** (rAthena non plus) |
 
@@ -75,12 +75,11 @@ restés côté `re`.
 
 | Contenu | Épisode | Mobs à écrire | Lignes à décommenter |
 |---|---|---:|---:|
-| Village du Loup Gris + Labyrinthe d'Oz | 18 | **13** (`EP18_*`) | 16 |
 | Hall of Life | 20 | **32** (`SPIRIT_*`) | 36 |
 
-**45 entrées de mob restent à écrire.** C'est le cœur du travail restant. Les donjons Illusion
+**32 entrées de mob restent à écrire.** C'est le cœur du travail restant. Les donjons Illusion
 de l'épisode 16.2 ne figurent plus ici : 72 mobs portés, huit donjons activés, à valider en jeu.
-Rudus et OS (17.1) non plus : portés le 2026‑11‑08.
+Rudus et OS (17.1) non plus : portés le 2026‑11‑08 ; ni le terrain du 18 (Loup Gris, Oz) : porté le 2026‑11‑14.
 
 ### Niveau 4 — écrire la chaîne narrative
 

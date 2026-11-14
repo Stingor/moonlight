@@ -440,3 +440,6 @@ Body:
           - Index: 128
             Item: Sweety_Card
             Rate: 1
+          - Index: 129
+            Item: EP18_Burning_Fang_Card
+            Rate: 1

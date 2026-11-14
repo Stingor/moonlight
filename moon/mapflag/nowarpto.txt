@@ -392,3 +392,7 @@ nif_dun02	mapflag	nowarpto
 1@herbs	mapflag	nowarpto
 1@lost	mapflag	nowarpto
 ba_in01	mapflag	nowarpto
+
+// Episode 18 : Labyrinthe d'Oz, d'apres npc/re/mapflag/
+oz_dun01	mapflag	nowarpto
+oz_dun02	mapflag	nowarpto

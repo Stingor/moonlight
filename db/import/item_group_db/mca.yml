@@ -812,3 +812,6 @@ Body:
           - Index: 254
             Item: Sweety_Card
             Rate: 1
+          - Index: 255
+            Item: EP18_Burning_Fang_Card
+            Rate: 1
