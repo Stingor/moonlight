@@ -207,12 +207,14 @@ L_Instance:
 					"Orc's Memory",
 					"Poring Village (niv. 30+)",
 					"Room of Consciousness (HM, Solo)",
+					"Sanctuary Purification",
 					"Sarah and Fenrir",
 					"Sara Memory",
 					"Sealed Shrine",
 					"Sky Fortress Invasion",
 					"Temple of Demon God",
 					"Twilight Garden",
+					"Villa of Deception",
 					"Water Garden",
 					"Weekend Dungeon (sam./dim.)",
 					"Wolfchev's Laboratory";
@@ -248,12 +250,14 @@ L_Instance:
 					INST_ORCS_MEMORY,
 					INST_PORING_VILLAGE,
 					INST_ROOM_OF_CONSCIOUSNESS,
+					INST_SANCTUARY_PURIFICATION,
 					INST_FENRIR_AND_SARAH,
 					INST_SARAS_MEMORIES,
 					INST_SEALED_CATACOMB,
 					INST_SKY_FORTRESS_INVASION,
 					INST_TEMPLE_OF_THE_DEMON_GOD,
 					INST_TWILIGHT_GARDEN,
+					INST_VILLA_OF_DECEPTION,
 					INST_WATER_GARDEN,
 					INST_WEEKEND_DUNGEON,
 					INST_WOLFCHEVS_LABORATORY;
@@ -290,12 +294,14 @@ L_Instance:
 					12059, // INST_ORCS_MEMORY
 					12417, // INST_PORING_VILLAGE
 					7706,  // INST_ROOM_OF_CONSCIOUSNESS
+					17527, // INST_SANCTUARY_PURIFICATION
 					9336,  // INST_FENRIR_AND_SARAH
 					15002, // INST_SARAS_MEMORIES
 					3040,  // INST_SEALED_CATACOMB
 					9419,  // INST_SKY_FORTRESS_INVASION
 					7605,  // INST_TEMPLE_OF_THE_DEMON_GOD
 					18017, // INST_TWILIGHT_GARDEN (quete de chasse, toujours libre)
+					12522, // INST_VILLA_OF_DECEPTION
 					16439, // INST_WATER_GARDEN
 					12378, // INST_WEEKEND_DUNGEON
 					5112;  // INST_WOLFCHEVS_LABORATORY
@@ -332,6 +338,14 @@ L_Instance:
 		}
 		case INST_WATER_GARDEN: { // Jardin d'Eau, normal et difficile : Harad
 			warp_fct("ba_maison", 238, 46);
+		}
+		// EPISODE 18 : les deux instances rejouables, ouvertes par la chaine. Leur PNJ d'entree
+		// (cache tant que la chaine n'en est pas la) pose lui-meme ses quetes.
+		case INST_SANCTUARY_PURIFICATION: { // Purification du Sanctuaire : le pretre de Rachel
+			warp_fct("rachel", 167, 242);
+		}
+		case INST_VILLA_OF_DECEPTION: { // Villa de la Tromperie, normale et avancee : Aira, au village
+			warp_fct("wolfvill", 79, 257);
 		}
 		case INST_ASSAULT_ON_THE_AIRSHIP: { // Airship Assault
 			if( select( GetColor(15050)+"Acces direct^000000", "Se rendre dans le Rift" ) == 1 ) {
@@ -1118,7 +1132,7 @@ function IllusionMenu {
 // LES DONJONS DE NIVEAU 200 (Rudus 4F, Niflheim renewal), sur le principe du menu Illusion :
 // chaque carte s'ouvre par sa quete d'acces, au compte Moonlight (##dun_open_<carte>), et le
 // niveau reste par personnage. Une carte fermee renvoie vers le PNJ qui ouvre la quete.
-// getarg(0) : 0 = Rudus / OS, 1 = Niflheim donjon.
+// getarg(0) : 0 = Rudus / OS, 1 = Niflheim donjon, 2 = Loup Gris / Oz (episode 18).
 function QuestDunMenu {
 	.@set = getarg(0);
 	if (.@set == 0) {
@@ -1135,6 +1149,24 @@ function QuestDunMenu {
 		setarray .@qmap$[0], "", "", "", "pub_cat", "";
 		setarray .@qx[0], 0, 0, 0, 94, 0;
 		setarray .@qy[0], 0, 0, 0, 41, 0;
+	} else if (.@set == 2) {
+		copyarray .@mname$[0], .wm_gwo$[0], getarraysize(.wm_gwo$); // ordre : OnInit
+		setarray .@mxcoord[0], 270, 25, 122, 27, 142;
+		setarray .@mycoord[0], 26, 101, 385, 188, 279;
+		setarray .@minlv[0], 170, 170, 170, 170, 170;
+		// Chaine de l'episode 18 : l'etape 31 ouvre les cordes de la foret et d'Oz, l'etape 35
+		// le village. Un personnage qui les a passees ouvre le compte aussi.
+		if (ep18_main >= 31 && !##dun_open_oz_dun01)
+			##dun_open_oz_dun01 = 1;
+		if (ep18_main >= 35 && !##dun_open_wolfvill)
+			##dun_open_wolfvill = 1;
+		setarray .@open[0], ##dun_open_wolfvill, ##dun_open_oz_dun01, ##dun_open_oz_dun01, ##dun_open_oz_dun01, ##dun_open_oz_dun01;
+		.@p = (ep18_main > 0);
+		setarray .@prog[0], .@p, .@p, .@p, .@p, .@p;
+		setarray .@qnpc$[0], "Est", "Est", "Est", "Est", "Est";
+		setarray .@qmap$[0], "ba_in01", "ba_in01", "ba_in01", "ba_in01", "ba_in01";
+		setarray .@qx[0], 22, 22, 22, 22, 22;
+		setarray .@qy[0], 260, 260, 260, 260, 260;
 	} else {
 		copyarray .@mname$[0], .wm_nfd$[0], getarraysize(.wm_nfd$); // ordre : OnInit
 		setarray .@mxcoord[0], 145, 149;
@@ -1614,6 +1646,7 @@ L_Donjons:
 		 "• Gefenia" + LvRange(.wm_gia$),L_gia,
 		 "• Glast Heim" + LvRange(.wm_gla1$, .wm_gla2$, .wm_gla3$),L_gla,
 		 "• Gonryun Donjon" + LvRange(.wm_gon$),L_gon,
+		 "• Grey Wolf / Oz" + LvRange(.wm_gwo$),L_gwo,
 		 "• Hidden Donjon" + LvRange(.wm_hid$),L_hid,
 		 "• Ice Donjon" + LvRange(.wm_ice$),L_ice,
 		 "• Illusion" + LvRange(.wm_ill$),L_ill,
@@ -1696,6 +1729,7 @@ L_pyr: WarpMenu(.wm_pyr$); goto L_Donjons;
 L_rck: WarpMenu(.wm_rck$); goto L_Donjons;
 L_rud: QuestDunMenu(0); goto L_Donjons;
 L_nfd: QuestDunMenu(1); goto L_Donjons;
+L_gwo: QuestDunMenu(2); goto L_Donjons;
 L_san: WarpMenu(.wm_san$); goto L_Donjons;
 L_sph: WarpMenu(.wm_sph$); goto L_Donjons;
 L_snk: WarpMenu(.wm_snk$); goto L_Donjons;
@@ -2005,6 +2039,7 @@ OnInit:
 		"prt_mz03_i";
 	setarray .wm_rud$[0], "sp_rudus", "sp_rudus2", "sp_rudus3", "sp_rudus4", "sp_os";
 	setarray .wm_nfd$[0], "nif_dun01", "nif_dun02";
+	setarray .wm_gwo$[0], "wolfvill", "gw_fild01", "gw_fild02", "oz_dun01", "oz_dun02";
 
 	// [navi] destinations du Warp Agent ---------------------------------------
 	// naviregisterwarp ne fait rien hors map-server-generator : ce bloc est

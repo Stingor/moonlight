@@ -11337,3 +11337,29 @@ Body:
     Script: |
       bonus2 bSubEle,Ele_All,-15;
       bonus bShortAtkRate,20;
+  - Id: 300228
+    AegisName: EP18_Demi_Freyja_Card
+    Name: Twisted God Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Armor: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bMagicAddRace,RC_Demon,75;
+      bonus2 bSubRace,RC_Demon,-25;
+  - Id: 300227
+    AegisName: EP18_Schulang_Card
+    Name: Schulang Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Armor: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bMagicAddRace,RC_Angel,75;
+      bonus2 bSubRace,RC_Angel,-25;

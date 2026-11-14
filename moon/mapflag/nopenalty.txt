@@ -58,3 +58,6 @@ pvp_n_5-1	mapflag	nopenalty
 
 // Para Market
 paramk	mapflag	nopenalty
+
+// Episode 18 : village du Loup Gris, instances et que_thr (npc/re/mapflag/, nobranch ecarte)
+wolfvill	mapflag	nopenalty

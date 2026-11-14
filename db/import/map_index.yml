@@ -68,3 +68,13 @@ Body:
     Name: "Dead Man's Banquet Hall"
   - Map: nif_dun02
     Name: "Collapsed Opera House"
+  - Map: wolfvill
+    Name: "Gray Wolf Village"
+  - Map: gw_fild01
+    Name: "Gray Wolf Forest F1"
+  - Map: gw_fild02
+    Name: "Gray Wolf Forest F2"
+  - Map: oz_dun01
+    Name: "Oz's Labyrinth F1"
+  - Map: oz_dun02
+    Name: "Oz's Labyrinth F2"

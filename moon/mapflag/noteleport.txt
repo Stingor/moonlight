@@ -682,3 +682,16 @@ ba_in01	mapflag	noteleport
 1@ghg	mapflag	monster_noteleport
 1@herbs	mapflag	monster_noteleport
 1@lost	mapflag	monster_noteleport
+
+// Episode 18 : village du Loup Gris, instances et que_thr (npc/re/mapflag/, nobranch ecarte)
+1@nyr	mapflag	noteleport
+1@adv	mapflag	noteleport
+1@advs	mapflag	noteleport
+1@oz	mapflag	noteleport
+1@tcamp	mapflag	noteleport
+que_thr	mapflag	noteleport
+1@nyr	mapflag	monster_noteleport
+1@adv	mapflag	monster_noteleport
+1@advs	mapflag	monster_noteleport
+1@oz	mapflag	monster_noteleport
+1@tcamp	mapflag	monster_noteleport

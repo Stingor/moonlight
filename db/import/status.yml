@@ -653,3 +653,10 @@ Body:
       NoClearance: true
     EndOnStart:
       Relieve_on: true
+  - Status: Deadly_Defeasance
+    Icon: EFST_DEADLY_DEFEASANCE
+    CalcFlags:
+      All: true
+    Flags:
+      BlEffect: true
+      DisplayPc: true

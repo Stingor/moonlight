@@ -236,3 +236,11 @@ arug_cas05	mapflag	restricted	4
 1@ghg	mapflag	restricted	6
 1@herbs	mapflag	restricted	6
 1@lost	mapflag	restricted	6
+
+// Episode 18 : village du Loup Gris, instances et que_thr (npc/re/mapflag/, nobranch ecarte)
+1@nyr	mapflag	restricted	6
+1@adv	mapflag	restricted	6
+1@advs	mapflag	restricted	6
+1@oz	mapflag	restricted	6
+1@tcamp	mapflag	restricted	6
+wolfvill	mapflag	restricted	7

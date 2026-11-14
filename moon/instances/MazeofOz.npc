@@ -533,6 +533,7 @@ OnTimer2000:
 		erasequest 11719;
 		setquest 11720;
 		ep18_main = 31;
+		##dun_open_oz_dun01 = 1;	// ouvre la foret et Oz au compte Moonlight
 	}
 	cloakonnpcself( .@miriam7$ );
 	cloakonnpcself( .@imril7$ );

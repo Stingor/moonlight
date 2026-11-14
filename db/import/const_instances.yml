@@ -149,3 +149,17 @@ Body:
     Value: 64
   - Name: INST_SECURITY_AREA_2
     Value: 65
+  - Name: INST_OZ_LABYRINTH
+    Value: 66
+  - Name: INST_THOR_MILITARY_BASE
+    Value: 67
+  - Name: INST_WOLVES_GATHERING_PLACE
+    Value: 68
+  - Name: INST_SANCTUARY_PURIFICATION
+    Value: 69
+  - Name: INST_HIGH_PRIESTS_VILLA
+    Value: 70
+  - Name: INST_VILLA_OF_DECEPTION
+    Value: 71
+  - Name: INST_VILLA_OF_DECEPTION_ADVANCED
+    Value: 72

@@ -48,3 +48,6 @@ umbala	mapflag	town
 veins	mapflag	town
 xmas	mapflag	town
 yuno	mapflag	town
+
+// Episode 18 : village du Loup Gris, instances et que_thr (npc/re/mapflag/, nobranch ecarte)
+wolfvill	mapflag	town

@@ -4346,10 +4346,6 @@ OnInit:
 
 ba_in01,22,262,5	duplicate(dummy_cloaked_npc)	Est#ep172_est02	4_F_ESTLOVELOY
 ba_in01,24,262,7	duplicate(dummy_cloaked_npc)	Rookie#ep172_rk03	4_M_ROOKIE
-// Est et Rookie de l'épisode 18 (quests_18 non porté) : Smart Elly#ep172_ely01 les décloake.
-// À retirer au portage de l'épisode 18, qui les définit.
-ba_in01,22,262,6	duplicate(dummy_cloaked_npc)	Est#ep181_est01	4_F_ESTLOVELOY
-ba_in01,24,262,7	duplicate(dummy_cloaked_npc)	Rookie#ep181_rk01	4_M_ROOKIE
 
 ba_maison,33,220,0	script	#ep172_main_evt02	HIDDEN_WARP_NPC,3,3,{
 	end;

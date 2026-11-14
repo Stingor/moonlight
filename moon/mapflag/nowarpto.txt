@@ -396,3 +396,12 @@ ba_in01	mapflag	nowarpto
 // Episode 18 : Labyrinthe d'Oz, d'apres npc/re/mapflag/
 oz_dun01	mapflag	nowarpto
 oz_dun02	mapflag	nowarpto
+
+// Episode 18 : village du Loup Gris, instances et que_thr (npc/re/mapflag/, nobranch ecarte)
+1@nyr	mapflag	nowarpto
+1@adv	mapflag	nowarpto
+1@advs	mapflag	nowarpto
+1@oz	mapflag	nowarpto
+1@tcamp	mapflag	nowarpto
+wolfvill	mapflag	nowarpto
+que_thr	mapflag	nowarpto

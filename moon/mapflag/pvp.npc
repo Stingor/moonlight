@@ -112,3 +112,6 @@ que_bingo	mapflag	noduel
 que_ng	mapflag	noduel
 ve_in	mapflag	noduel
 ve_in02	mapflag	noduel
+
+// Episode 18 : village du Loup Gris, instances et que_thr (npc/re/mapflag/, nobranch ecarte)
+wolfvill	mapflag	noduel

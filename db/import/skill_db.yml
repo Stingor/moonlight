@@ -4426,3 +4426,142 @@ Body:
     HitCount: 1
     Duration1: 60000
     Status: Relieve_off
+  - Id: 762
+    Name: NPC_WIDECONFUSE2
+    Description: Wide Confusion
+    MaxLevel: 5
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+      Splash: true
+    Flags:
+      IsNpc: true
+      ShowScale: true
+    Hit: Single
+    HitCount: 1
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 5
+      - Level: 3
+        Area: 8
+      - Level: 4
+        Area: 11
+      - Level: 5
+        Area: 14
+    Duration2: 18000
+    Status: Confusion
+  - Id: 779
+    Name: NPC_DEADLYCURSE2
+    Description: Deadly Curse 2
+    MaxLevel: 5
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+      Splash: true
+    Flags:
+      IgnoreGtb: true
+      IsNpc: true
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 3
+      - Level: 3
+        Area: 4
+      - Level: 4
+        Area: 5
+      - Level: 5
+        Area: 6
+    Duration2: 30000
+    Status: Deadly_Defeasance
+  - Id: 780
+    Name: NPC_CANE_OF_EVIL_EYE
+    Description: Cane of evil eye
+    MaxLevel: 10
+    Type: Misc
+    TargetType: Ground
+    DamageFlags:
+      IgnoreFlee: true
+    Flags:
+      IsNpc: true
+    Hit: Single
+    Range: 11  # unknown
+    HitCount:
+      - Level: 1
+        Count: 1
+      - Level: 2
+        Count: 2
+      - Level: 3
+        Count: 3
+      - Level: 4
+        Count: 4
+      - Level: 5
+        Count: 5
+      - Level: 6
+        Count: 6
+      - Level: 7
+        Count: 7
+      - Level: 8
+        Count: 8
+      - Level: 9
+        Count: 9
+      - Level: 10
+        Count: 10
+    CastTime: 500
+    Duration1:
+      - Level: 1
+        Time: 1000
+      - Level: 2
+        Time: 2000
+      - Level: 3
+        Time: 3000
+      - Level: 4
+        Time: 4000
+      - Level: 5
+        Time: 5000
+      - Level: 6
+        Time: 6000
+      - Level: 7
+        Time: 7000
+      - Level: 8
+        Time: 8000
+      - Level: 9
+        Time: 9000
+      - Level: 10
+        Time: 10000
+    Unit:
+      Id: Cane_of_evil_eye
+      Interval: 3000
+      Target: Enemy
+      Flag:
+        NoReiteration: true
+        NoOverlap: true
+  - Id: 759
+    Name: NPC_WIDESTONE2
+    Description: Wide Petrify
+    MaxLevel: 5
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+      Splash: true
+    Flags:
+      IsNpc: true
+      ShowScale: true
+    Hit: Single
+    HitCount: 1
+    SplashArea:
+      - Level: 1
+        Area: 2
+      - Level: 2
+        Area: 5
+      - Level: 3
+        Area: 8
+      - Level: 4
+        Area: 11
+      - Level: 5
+        Area: 14
+    Duration1: 100
+    Duration2: 17000
+    Status: StoneWait

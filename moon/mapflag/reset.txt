@@ -51,3 +51,6 @@ umbala	mapflag	reset
 veins	mapflag	reset
 xmas	mapflag	reset
 yuno	mapflag	reset
+
+// Episode 18 : village du Loup Gris, instances et que_thr (npc/re/mapflag/, nobranch ecarte)
+wolfvill	mapflag	reset

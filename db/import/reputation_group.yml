@@ -31,3 +31,9 @@
 Header:
   Type: REPUTATION_GROUP_DB
   Version: 1
+Body:
+  - Id: 2
+    ScriptName: Arunafelts
+    Name: Arunafeltz
+    ReputeList:
+      - 3

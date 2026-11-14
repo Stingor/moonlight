@@ -6,7 +6,7 @@
 | Date kRO | **2021‑02‑01** (annonce `seq=259` ; certaines sources donnent le 3 février) |
 | Arc | Arunafeltz — les Enfants Gris |
 | Niveau kRO visé | 170+ (200+ pour le mode avancé) |
-| État Moonlight | **lot A porté le 2026‑11‑14 (terrain, sans accès en attendant la chaîne) ; chaîne, instances et économie absentes** |
+| État Moonlight | **lots A, B et B1 portés le 2026‑11‑14 (terrain, chaîne, réputation, instances), à valider en jeu ; économie (B3) absente** |
 
 Retour en Arunafeltz. Le scénario porte sur la tension entre missionnaires de Freyja et
 natifs, et se conclut sur une fausse déesse fabriquée par magie d'illusion. Dernier
@@ -141,13 +141,32 @@ la chaîne, ou en sortant de certaines instances.
 | Branches, albums | 12 mobs en Dead Branch, Burning Fang en Bloody Branch, cartes à l'album, carte MVP en `mca` et `mvpenchant` ; Burning Fang à 6 points MVP | |
 | Accès | **aucune entrée au warp agent** tant que la chaîne n'est pas portée (choix du 2026‑11‑14) | |
 
+## 5c. Lots B et B1 : la chaîne, la réputation et les instances (2026‑11‑14, non validés en jeu)
+
+La chaîne et les instances vont ensemble : la chaîne prend la suite de celle du 17.2
+(`ep18_main` 1, posé à la fin du 17.2), entre elle-même dans la Villa du Grand Prêtre, et les cinq
+scripts d'instance lisent `ep18_main`.
+
+| Partie | Contenu | Fichiers |
+|---|---|---|
+| Chaîne | copie de l'amont, 13 109 lignes ; elle commence au manoir de Varmundt (Est, `ba_in01`) | `moon/rathena/quests/quests_18.npc` |
+| Instances | Rassemblement des Loups, Purification du Sanctuaire, Labyrinthe d'Oz, Base militaire de Thor, Villa du Grand Prêtre, Villa de la Tromperie (normale et avancée) : `instance_db` 66 à 72 (67 à 73 chez rAthena), constantes régénérées, scripts de l'amont en `.npc` ; la Forêt Profonde (Spirit Handler) reste écartée | `moon/instances/{Wolves,MazeofOz,ThorGunsuBase,VillaofHighPriest,VillaofDeception}.npc` |
+| Mobs | 25 mobs de la chaîne et des instances (gardes, Heart Hunters, villageois armés, Schulang et Demi Freyja en trois versions, Grey Goat, Grey Baby Wolf), `re_to_prere_mob.py` sans retouche, `DamageTaken` retiré ; les boss de la Villa de la Tromperie à 2 Md de PV renewal deviennent 21,6 M ; 149 lignes de skills ; `NPC_WIDESTONE2`, `NPC_WIDECONFUSE2`, `NPC_DEADLYCURSE2` et `NPC_CANE_OF_EVIL_EYE` ajoutés au skill_db, statut `Deadly_Defeasance` repris de `db/re` (sans son `DurationLookup` de 4ᵉ classe) | `db/import/mobs/ep18_instances.yml` |
+| Objets | 14 : 2 cartes (Schulang, Demi Freyja), 2 coiffes, 10 objets de quête dont les Fragments d'Améthyste de l'épisode ; `Pontifex_Courage` (options des armes Adulter Fides) attend le lot B3 et sort des drops | `db/import/items/` |
+| Quêtes | 170 ; aucune collision avec un Id pre-re de contenu différent | `db/import/quest_db.yml` |
+| Réputation | Grey Wolf Village (Id 3, `RepPointsWolf`, -5000 à 5000) et le groupe Arunafeltz, importés : `db/re/reputation.yml` n'est pas lu en pre-renewal | `db/import/reputation.yml`, `reputation_group.yml` |
+| Accès au compte | les cordes de la gorge (`ra_fild10`), d'Oz et de la forêt s'ouvrent à l'étape 31 et posent `##dun_open_oz_dun01` ; le campeur vers le village s'ouvre à l'étape 35 et pose `##dun_open_wolfvill` ; les autres personnages du compte passent dès le niveau 170 | |
+| Warp agent | Donjons > **Grey Wolf / Oz** (village, forêt F1 et F2, Oz F1 et F2), verrou de quête au compte et niveau 170, sur le principe des donjons Illusion ; Instance > **Sanctuary Purification** et **Villa of Deception**, les deux instances rejouables, vers leur PNJ d'entrée | `moon/warp_agent.npc`, `db/import/map_index.yml` |
+| Mapflags | village (`town`, `nopenalty`, `reset`, `nomemo`, `nowarpto`, `restricted 7`, et `noattackskill`, `noduel` comme Rachel), cinq cartes d'instance, `que_thr` ; `nobranch` écarté | `moon/mapflag/` |
+| Nettoyage | les PNJ bouche-trous `Est#ep181_est01` et `Rookie#ep181_rk01` de `quests_17_2.npc` (9ddef7a79) sont retirés : `quests_18.npc` les définit | |
+
 ## 6. Verdict
 
 | | |
 |---|---|
 | Intérêt | élevé — un village complet, un MVP, six instances |
-| Fait | lot A : le terrain (2026‑11‑14, non validé en jeu, sans accès) |
-| Reste à faire | **B** : la chaîne `quests_18.txt` (171 quêtes) et la réputation, puis l'accès au warp agent · **B1** : 6 instances et leurs 23 mobs · **B3** : l'équipement du Loup Gris et ses trocs · hors périmètre : la Forêt Profonde (Spirit Handler), l'enchanteur Emmett (sans script) |
+| Fait | lot A : le terrain ; lots B et B1 : la chaîne, la réputation, les instances et l'accès (2026‑11‑14, non validés en jeu) |
+| Reste à faire | **B3** : l'équipement du Loup Gris et ses trocs, les armes Adulter Fides et `Pontifex_Courage` · hors périmètre : la Forêt Profonde (Spirit Handler), l'enchanteur Emmett (sans script) |
 
 ## Sources
 

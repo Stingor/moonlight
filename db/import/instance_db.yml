@@ -487,3 +487,50 @@ Body:
       Map: 1@herbs
       X: 59
       Y: 214
+  # Episode 18 (db/re/instance_db.yml, Id 67 a 73 chez rAthena)
+  - Id: 66
+    Name: Oz Labyrinth
+    Enter:
+      Map: 1@oz
+      X: 284
+      Y: 167
+  - Id: 67
+    Name: Thor Military Base
+    Enter:
+      Map: 1@tcamp
+      X: 103
+      Y: 237
+  - Id: 68
+    Name: Wolves Gathering Place
+    Enter:
+      Map: 1@nyr
+      X: 194
+      Y: 30
+    AdditionalMaps:
+      2@nyr: true
+  - Id: 69
+    Name: Sanctuary Purification
+    Enter:
+      Map: 1@nyr
+      X: 194
+      Y: 30
+    AdditionalMaps:
+      2@nyr: true
+  - Id: 70
+    Name: High Priest's Villa
+    Enter:
+      Map: 1@adv
+      X: 123
+      Y: 17
+  - Id: 71
+    Name: Villa of Deception
+    Enter:
+      Map: 1@advs
+      X: 111
+      Y: 19
+  - Id: 72
+    Name: Villa of Deception Advanced
+    Enter:
+      Map: 1@advs
+      X: 111
+      Y: 19

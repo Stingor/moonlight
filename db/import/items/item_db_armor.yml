@@ -34985,3 +34985,62 @@ Body:
     Script: |
       bonus bMatkRate,5;
       bonus bMaxSPrate,5;
+  - Id: 5940
+    AegisName: Boitata_Hat_J
+    Name: Boitata Hat
+    Type: Armor
+    Weight: 300
+    Defense: 5
+    Slots: 1
+    Locations:
+      Head_Top: true
+    ArmorLevel: 1
+    EquipLevelMin: 20
+    Refineable: true
+    View: 1150
+    Script: |
+      .@r = getrefine();
+      bonus bMdef,5;
+      bonus bHPGainValue,100;
+      bonus2 bSPGainRace,RC_Brute,5;
+      if (.@r >= 5) {
+         bonus2 bSubRace,RC_Brute,5;
+         if (.@r >= 7)
+            bonus2 bSubRace,RC_Brute,5;
+      }
+  - Id: 5938
+    AegisName: Octopus_Hat_J
+    Name: Octopus Hat
+    Type: Armor
+    Buy: 20
+    Weight: 880
+    Defense: 8
+    Slots: 1
+    Locations:
+      Head_Top: true
+    ArmorLevel: 1
+    EquipLevelMin: 60
+    Refineable: true
+    View: 538
+    Script: |
+      bonus bMdef,8;
+      bonus bUnbreakableHelm,1;
+      bonus2 bAddItemHealRate,579,50;
+      bonus2 bAddItemHealRate,544,125;
+      bonus2 bAddItemHealRate,551,125;
+      .@r = getrefine();
+      if (.@r>=5) {
+         bonus2 bAddItemHealRate,579,50;
+         bonus2 bAddItemHealRate,544,125;
+         bonus2 bAddItemHealRate,551,125;
+      }
+      if (.@r>=6) {
+         bonus2 bAddItemHealRate,579,50;
+         bonus2 bAddItemHealRate,544,125;
+         bonus2 bAddItemHealRate,551,125;
+      }
+      if (.@r>=7) {
+         bonus2 bAddItemHealRate,579,50;
+         bonus2 bAddItemHealRate,544,125;
+         bonus2 bAddItemHealRate,551,125;
+      }

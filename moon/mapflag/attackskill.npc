@@ -116,3 +116,6 @@ que_bingo	mapflag	noattackskill
 que_ng	mapflag	noattackskill
 ve_in	mapflag	noattackskill
 ve_in02	mapflag	noattackskill
+
+// Episode 18 : village du Loup Gris, instances et que_thr (npc/re/mapflag/, nobranch ecarte)
+wolfvill	mapflag	noattackskill
