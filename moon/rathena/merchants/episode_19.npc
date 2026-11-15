@@ -1,0 +1,40 @@
+//===== Moonlight Script =====================================
+//= Episode 19 : le coffre d'Hoyoyo (stockage contre 500 zeny)
+//===== Description: =========================================
+//= Repris de episode_19.txt de la PR rAthena #8527 [Atemo]. Forr
+//= (Dim Glacier) et le four d'incineration attendent l'episode 20.
+//============================================================
+
+icas_in,169,70,3	script	Card#ep19	4_POINT_BLUE,{
+	.@total_storage = 1;	// by default rAthena just open the basic storage (but 3 on kRO)
+
+	cutin "ep19_iwin02.png",2;
+	mes "[Hoyoyo]";
+	mes "Are you going to use the closet?";
+	mes "Hyo, hy, hyo, put in a coin from the continent.";
+	mes "Hey... Would you like to put 500zeny in it?";
+	next;
+	cutin "",255;
+	for ( .@i = 0; .@i < .@total_storage; .@i++ )
+		.@menu$ += "Storage " + (.@i+1) + ":";
+	.@menu$ += "Stop.";
+	.@s = select( .@menu$ ) - 2;
+
+	if (.@s == (.@total_storage - 1)) {
+		mes "I decided to use it next time.";
+		close;
+	}
+
+	if (Zeny < 500) {
+		mes "Looks like you have to put 500 zeny to use the closet.";
+		close3;
+	}
+	mes "When a coin was inserted, the cabinet opened with a rattling sound.";
+	close2;
+	Zeny -= 500;
+	if (.@s == -1)	// basic storage
+		openstorage;
+	else	// "premium" storage starting from index 0
+		openstorage2 .@s, STOR_MODE_GET|STOR_MODE_PUT;	// note: opened before close button
+	end;
+}

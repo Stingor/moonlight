@@ -30343,3 +30343,480 @@ Body:
             }
          }
       }
+  - Id: 500049
+    AegisName: Glacier_Sword
+    Name: Glacier Sword
+    Type: Weapon
+    SubType: 1hSword
+    Weight: 1600
+    Attack: 220
+    Range: 1
+    Jobs:
+      Alchemist: true
+      Blacksmith: true
+      Crusader: true
+      Knight: true
+      Merchant: true
+      Swordman: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,210;
+  - Id: 500050
+    AegisName: Glacier_B_Sword
+    Name: Glacier Basic Sword
+    Type: Weapon
+    SubType: 1hSword
+    Weight: 1400
+    Attack: 220
+    Range: 1
+    Jobs:
+      Novice: true
+      SuperNovice: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,210;
+  - Id: 510061
+    AegisName: Glacier_R_Knife
+    Name: Glacier Rogue Knife
+    Type: Weapon
+    SubType: Dagger
+    Weight: 1400
+    Attack: 210
+    Range: 1
+    Jobs:
+      Rogue: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,210;
+  - Id: 510062
+    AegisName: Glacier_B_Knife
+    Name: Glacier Basic Knife
+    Type: Weapon
+    SubType: Dagger
+    Weight: 1200
+    Attack: 210
+    Range: 1
+    Jobs:
+      Novice: true
+      SuperNovice: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,210;
+  - Id: 520017
+    AegisName: Glacier_Axe
+    Name: Glacier Axe
+    Type: Weapon
+    SubType: 1hAxe
+    Weight: 5000
+    Attack: 240
+    Range: 1
+    Jobs:
+      Alchemist: true
+      Blacksmith: true
+      Crusader: true
+      Knight: true
+      Merchant: true
+      Swordman: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,210;
+      bonus bUnbreakableWeapon;
+  - Id: 530025
+    AegisName: Glacier_Spear
+    Name: Glacier Spear
+    Type: Weapon
+    SubType: 1hSpear
+    Weight: 2100
+    Attack: 220
+    Range: 3
+    Jobs:
+      Crusader: true
+      Knight: true
+      Swordman: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,210;
+  - Id: 540049
+    AegisName: Glacier_Book
+    Name: Glacier Book
+    Type: Weapon
+    SubType: Book
+    Weight: 1200
+    Attack: 210
+    Range: 1
+    Jobs:
+      Priest: true
+      Sage: true
+      StarGladiator: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,210;
+      bonus bUnbreakableWeapon;
+  - Id: 550069
+    AegisName: Glacier_Wand
+    Name: Glacier Wand
+    Type: Weapon
+    SubType: Staff
+    Weight: 1300
+    Attack: 150
+    Range: 1
+    Jobs:
+      Novice: true
+      Mage: true
+      Acolyte: true
+      Priest: true
+      Wizard: true
+      Monk: true
+      Sage: true
+      SuperNovice: true
+      SoulLinker: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,230;
+      bonus bUnbreakableWeapon;
+  - Id: 560032
+    AegisName: Glacier_Knuckle
+    Name: Glacier Knuckle
+    Type: Weapon
+    SubType: Knuckle
+    Weight: 1500
+    Attack: 240
+    Range: 1
+    Jobs:
+      Monk: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,220;
+  - Id: 570029
+    AegisName: Glacier_Violin
+    Name: Glacier Violin
+    Type: Weapon
+    SubType: Musical
+    Weight: 1500
+    Attack: 210
+    Range: 1
+    Jobs:
+      BardDancer: true
+    Gender: Male
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,210;
+  - Id: 580030
+    AegisName: Glacier_Whip
+    Name: Glacier Whip
+    Type: Weapon
+    SubType: Whip
+    Weight: 1500
+    Attack: 210
+    Range: 2
+    Jobs:
+      BardDancer: true
+    Gender: Female
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,210;
+  - Id: 590038
+    AegisName: Glacier_Mace
+    Name: Glacier Mace
+    Type: Weapon
+    SubType: Mace
+    Weight: 1800
+    Attack: 210
+    Range: 1
+    Jobs:
+      Acolyte: true
+      Alchemist: true
+      Blacksmith: true
+      Crusader: true
+      Knight: true
+      Merchant: true
+      Monk: true
+      Priest: true
+      Swordman: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,210;
+      bonus bUnbreakableWeapon;
+  - Id: 590039
+    AegisName: Glacier_M_Mace
+    Name: Glacier Mechanic Mace
+    Type: Weapon
+    SubType: Mace
+    Weight: 4000
+    Attack: 400
+    Range: 1
+    Jobs:
+      Blacksmith: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,160;
+      bonus bUnbreakableWeapon;
+  - Id: 600027
+    AegisName: Glacier_T_Sword
+    Name: Glacier Two-Handed Sword
+    Type: Weapon
+    SubType: 2hSword
+    Weight: 4000
+    Attack: 300
+    Range: 1
+    Jobs:
+      Knight: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,270;
+  - Id: 610037
+    AegisName: Glacier_Katar
+    Name: Glacier Katar
+    Type: Weapon
+    SubType: Katar
+    Weight: 1200
+    Attack: 240
+    Range: 1
+    Jobs:
+      Assassin: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,220;
+  - Id: 620017
+    AegisName: Glacier_T_Axe
+    Name: Glacier Two-Handed Axe
+    Type: Weapon
+    SubType: 2hAxe
+    Weight: 7000
+    Attack: 350
+    Range: 1
+    Jobs:
+      Blacksmith: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,180;
+      bonus bUnbreakableWeapon;
+  - Id: 630018
+    AegisName: Glacier_Lance
+    Name: Glacier Lance
+    Type: Weapon
+    SubType: 2hSpear
+    Weight: 4500
+    Attack: 300
+    Range: 3
+    Jobs:
+      Knight: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,270;
+  - Id: 640033
+    AegisName: Glacier_Staff
+    Name: Glacier Staff
+    Type: Weapon
+    SubType: 2hStaff
+    Weight: 2400
+    Attack: 150
+    Range: 1
+    Jobs:
+      Acolyte: true
+      Mage: true
+      Monk: true
+      Priest: true
+      Sage: true
+      SoulLinker: true
+      Wizard: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,290;
+      bonus bUnbreakableWeapon;
+  - Id: 650025
+    AegisName: Glacier_Humma
+    Name: Glacier Huuma
+    Type: Weapon
+    SubType: Huuma
+    Weight: 3000
+    Attack: 400
+    Range: 1
+    Jobs:
+      Ninja: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,370;
+      bonus bUnbreakableWeapon;
+  - Id: 700052
+    AegisName: Glacier_Bow
+    Name: Glacier Bow
+    Type: Weapon
+    SubType: Bow
+    Weight: 1500
+    Attack: 240
+    Range: 5
+    Jobs:
+      Archer: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,220;
+  - Id: 800014
+    AegisName: Glacier_Revolver
+    Name: Glacier Revolver
+    Type: Weapon
+    SubType: Revolver
+    Weight: 2200
+    Attack: 230
+    Range: 7
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,230;
+  - Id: 810010
+    AegisName: Glacier_Rifle
+    Name: Glacier Rifle
+    Type: Weapon
+    SubType: Rifle
+    Weight: 2600
+    Attack: 280
+    Range: 9
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,230;
+  - Id: 820008
+    AegisName: Glacier_Shotgun
+    Name: Glacier Shotgun
+    Type: Weapon
+    SubType: Shotgun
+    Weight: 2600
+    Attack: 300
+    Range: 9
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,200;
+      bonus bSplashRange,1;
+  - Id: 830013
+    AegisName: Glacier_Gatling
+    Name: Glacier Gatling
+    Type: Weapon
+    SubType: Gatling
+    Weight: 3500
+    Attack: 350
+    Range: 9
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,200;
+  - Id: 840009
+    AegisName: Glacier_Launcher
+    Name: Glacier Launcher
+    Type: Weapon
+    SubType: Grenade
+    Weight: 3000
+    Attack: 300
+    Range: 9
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 210
+    Refineable: true
+    Script: |
+      bonus bMatk,200;

@@ -12105,3 +12105,45 @@ Body:
     Script: |
       specialeffect2 EF_CLOAKING;
       transform 21530,1200000;
+  - Id: 101187
+    AegisName: Snow_F_Refine
+    Name: Snow Flower Armor +9 Refinement Cube
+    Type: DelayConsume
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      laphine_upgrade();
+  - Id: 101188
+    AegisName: Glacier_W_Refine
+    Name: Glacier Weapon +9 Refinement Cube
+    Type: DelayConsume
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      laphine_upgrade();
+  - Id: 100900
+    AegisName: Teleport_Ep19_01
+    Name: Ice Castle Transport Wing
+    Type: Usable
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      warp "icas_in",175,63;

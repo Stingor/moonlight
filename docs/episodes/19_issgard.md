@@ -6,7 +6,7 @@
 | Date kRO | **2022‑01‑19** |
 | Arc | poursuite de Bagot — le culte de Jörmungandr |
 | Niveau kRO visé | **200+** |
-| État Moonlight | **mobs, terrain et chaîne de quêtes portés** (2026‑11‑15, non validés en jeu) ; économie, instances et compétences à faire |
+| État Moonlight | **mobs, terrain, chaîne de quêtes et économie portés** (2026‑11‑15, non validés en jeu) ; instances, enchantements et compétences à faire |
 
 Premier épisode que l'amont n'a pas fusionné. Une conversion complète attend pourtant
 dans la PR rAthena [#8527](https://github.com/rathena/rathena/pull/8527), jamais fusionnée :
@@ -166,9 +166,25 @@ chaîne) :
 Le warp agent pose aussi ces drapeaux à qui a passé ces étapes, et envoie les autres au villageois
 loup gris de `wolfvill` (début de la chaîne, `ep18_main` 57), ou à Lehar pour la Fosse.
 
-Mis de côté pour le lot économie : Hoyoyo et Maram (marchands du château), les boutiques
-`ep19_basic_supply`, `ep19_glacier_melee` et `ep19_glacier_range`, les autres barters, et la
-synthèse Laphine de Vellgunde (`Ice_F_Stone_Box2`), qui ne marchera qu'avec eux.
+### Économie (portée le 2026‑11‑15, non validée en jeu)
+
+| Élément | Détail |
+|---|---|
+| Armes Glacier | 25 dans `item_db_weapon.yml` : WeaponLevel 4, `MagicAttack` en `bonus bMatk`, `Classes` retiré, Rebellion → Gunslinger, KagerouOboro → Ninja. **Glacier_Foxtail** (Doram) écartée, et retirée de la boutique |
+| Snowflower | 10 pièces dans `item_db_armor.yml` : DEF 12 (armure, robe) et 6 (capes, chaussures), ArmorLevel 1, `[1]`, `bAtkRate` en `bAddClass`. Les traits (`bPAtk`, `bSMatk`, `bPow`, `bSpl`) restent, comme à l'épisode 18. Les versions `_JP` ne sont pas portées |
+| Consommables | cubes +9 Snowflower et Glacier (`laphine_upgrade`, 6 et 25 cibles), aile de transport du château, Ice Gangu séché. Les deux ailes de mouche de la boutique existaient sous d'autres noms (`N_Fly_Wing_`, `Compressed_Wing_Of_Fly`) |
+| Marchands | Hoyoyo (pierres de fleur de neige, réputation) et Maram (fournitures, Snowflower, armes Glacier à 150 000 z) dans `quests_19.npc` ; quatre barters dans `moon/barters.yml` |
+| Coffre | `moon/rathena/merchants/episode_19.npc` : le stockage d'Hoyoyo contre 500 z |
+
+Reste à faire :
+
+- **l'enchantement Snowflower** : `item_enchant` consomme les ~90 pierres magiques de glace
+  (`Ice_F_Stone_*`, simples `Etc` sans script), avec leurs cartes d'enchantement, et la boîte
+  Laphine de Vellgunde (`Ice_F_Stone_Box2`) qui les donne ;
+- **le Dim Glacier** (26 armes `D_Glacier_*`, grade, enchantement 47, Forr, le four
+  d'incinération, groupe `D_GW_EXTRACTOR`, `barter_ep19_new_content`) : aucun mob de
+  l'épisode ne les fait tomber, ils relèvent de l'épisode 20 ;
+- côté client, les tables d'objets.
 
 **Côté client** : les 211 quêtes sont dans `quests.yml` de moonclient (2026‑11‑15), prises de
 `OngoingQuests.lub` (ROenglishRE, Renewal) et insérées sans redumper le fichier ; 18145 à 18147
@@ -181,8 +197,8 @@ marquées `cooldown`. Les nouveaux objets attendent encore la régénération de
    comme pour le mode défi d'OGH.
 2. **Spawns et terrain** : faits (Divine Pride et la PR, voir §4).
 3. **Cartes EP19** (24) et **armes Glacier** (27) : conversion une par une, comme Illusion.
-4. **Quêtes** : faites (voir §4). **Économie** : les marchands du château, les barters, les
-   boutiques Glacier et Laphine. **Instances** : les quatre de la PR, `unitisforcewalk` compris.
+4. **Quêtes** et **économie** : faites (voir §4). **Enchantement Snowflower** et **Dim Glacier** :
+   à faire. **Instances** : les quatre de la PR, `unitisforcewalk` compris.
    **Client** : les tables d'objets (les titres de quête sont faits).
 5. **C++** de la PR, après `git diff upstream/master` sur chaque fichier.
 6. **Bataille de simulation** : aucune source.
@@ -196,7 +212,7 @@ Le prérequis narratif, l'épisode 18, est porté et déployé en production le 
 | Intérêt | **réévalué à la hausse** : la PR #8527 fournit l'essentiel du contenu |
 | Ce qui est acquis | les cartes, les entrées d'instance, les objets amont, les grades, les 40 mobs, les spawns, les warps, le warp agent, la chaîne de quêtes |
 | Manque | les compétences des mobs, la Bataille de simulation |
-| Recommandation | l'économie et les instances ; les compétences en lot séparé |
+| Recommandation | les instances, puis l'enchantement Snowflower ; les compétences en lot séparé |
 
 ## Sources
 

@@ -17116,8 +17116,149 @@ OnInit:
 }
 
 // Exchange npc - Snow Flower Magic Stone
-// [Stingor] Hoyoyo#ep19trader, Maram#ep19trader et les boutiques ep19_basic_supply,
-// ep19_glacier_melee, ep19_glacier_range : lot economie (barters, armes Glacier).
+icas_in,175,63,3	script	Hoyoyo#ep19trader	4_EP19_IWIN,{
+	if (ep19_main < 11) {
+		cutin "ep19_iwin02.png",2;
+		mes "[Hoyoyo]";
+		mes "You are the adventurer who came to the ice castle this time.";
+		mes "This body's original name is Hoyoyo Hoyoyo Hoyoyo (Royal Signature Bergamot).";
+		next;
+		select( "Hoyo? Hoyo?" );
+		mes "[Hoyoyo]";
+		mes "Yeah. It sounds like a ho-yo-yo to the human ear even if you come up with a cool name.";
+		mes "Call me Hoyoyo comfortably.";
+		close3;
+	}
+	cutin "ep19_iwin02.png",2;
+	mes "[Hoyoyo]";
+	mes "I'm researching Jormungand's magic with Vellgunde.";
+	mes "There are times when Vellgunde needs raw manastone, and if you need an adventurer, I'll take care of it.";
+	next;
+	switch( select( "Exchange of various fairy tale gemstones", "exchange snowflake petals", "Is your original name Hoyoyoya?" ) ) {
+	case 1:
+		mes "[Hoyoyo]";
+		mes "I'll exchange the Snowflake Manastone for a Snowflake Manastone, and the Snowflake Manastone for a Shining Snowflake Manastone.";
+		mes "Where are you going to use it? Will Vellgunde make something good with it?";
+		close2;
+		cutin "",255;
+		callshop( "barter_ep19_snow_stone" );
+		end;
+	case 2:
+		if (get_reputation_points(4) < 1000) {
+			mes "[Hoyoyo]";
+			mes "Huh? Do you want to do something with the flower petals?";
+			mes "Vellgunde has been doing a lot of research lately.";
+			next;
+			mes "[Hoyoyo]";
+			mes "Wouldn't it be nice if you put a little more effort into the ice castle?";
+			mes "Hoyoyoyoyo~ Hoyoyoyoyoyo~";
+			close3;
+		}
+		mes "[Hoyoyo]";
+		mes "Come here, human friend~";
+		mes "What do you need?";
+		close2;
+		cutin "",255;
+		if (get_reputation_points(4) == 1000)
+			callshop( "barter_ep19_repu_1" );
+		else
+			callshop( "barter_ep19_repu_2" );
+		end;
+	case 3:
+		mes "[Hoyoyo]";
+		mes "This body's original name is Hoyoyo Hoyoyo Hoyoyo (Royal Signature Bergamot).";
+		next;
+		select( "Hoyo? Hoyo?" );
+		mes "[Hoyoyo]";
+		mes "Yeah. It sounds like a ho-yo-yo to human ears even if it's a cool name.";
+		mes "Call me Hoyoyo comfortably.";
+		close3;
+	}
+}
+
+-	shop	ep19_basic_supply	-1,611:-1,602:-1,601:-1,23280:-1,23288:-1,645:-1,656:-1,657:-1,501:-1,502:-1,503:-1,504:-1,506:-1,610:-1,713:-1,717:-1,1771:-1
+-	shop	ep19_glacier_melee	-1,600027:150000,630018:150000,500049:150000,500050:150000,530025:150000,620017:150000,520017:150000,590038:150000,590039:150000,510061:150000,510062:150000,700052:150000,560032:150000,540049:150000,610037:150000,570029:150000,580030:150000
+// [Stingor] Glacier_Foxtail (550070, Doram) retire : arme non portee.
+-	shop	ep19_glacier_range	-1,550069:150000,640033:150000,650025:150000,800014:150000,810010:150000,820008:150000,830013:150000,840009:150000
+
+icas_in,180,61,5	script	Maram#ep19trader	4_EP18_MARAM,{
+	if (ep19_main < 11) {
+		cutin "ep18_maram_01.png",2;
+		mes "[Maram]";
+		mes "I have one thing to do here.";
+		mes "It is to airlift your supplies.";
+		mes "Aren't continental things supposed to be comfortable?";
+		close3;
+	}
+	cutin "ep18_maram_01.png",2;
+	mes "[Maram]";
+	mes "Do you need anything?";
+	mes "We airlifted things that adventurers usually use.";
+	next;
+	switch( select( "Look at tools and miscellaneous goods", "Look at armor", "Look at weapons", "Dispose of your belongings", "What's going on?" ) ) {
+	case 1:
+		mes "[Maram]";
+		mes "We have prepared a sufficient quantity, so check it out as much as you need.";
+		close2;
+		cutin "",255;
+		callshop( "ep19_basic_supply", 1 );
+		end;
+	case 2:
+		mes "[Maram]";
+		mes "These are armors made by Vellgunde.";
+		mes "It was made with the magic of the fairy tale, so I'm exchanging it for the petals of the fairy tale.";
+		close2;
+		cutin "",255;
+		callshop( "barter_ep19_snow_armor" );
+		end;
+	case 3:
+		mes "[Maram]";
+		mes "These are weapons that I airlifted from basic materials and completed by Vellgunde.";
+		mes "I'll probably get a small amount of Zeny for basic ingredients.";
+		next;
+		switch( select( "Look at melee weapons and bows.", "Look at shurikens, guns, and staffs." ) ) {
+		case 1:
+			mes "[Maram]";
+			mes "Weapons are very good.";
+			close2;
+			cutin "",255;
+			callshop( "ep19_glacier_melee", 1 );
+			end;
+		case 2:
+			mes "[Maram]";
+			mes "Weapons are very good.";
+			close2;
+			cutin "",255;
+			callshop( "ep19_glacier_range", 1 );
+			end;
+		}
+		end;
+	case 4:
+		mes "[Maram]";
+		mes "If there are any unnecessary items, I will buy them for you.";
+		close2;
+		cutin "",255;
+		callshop( "ep19_basic_supply", 2 );
+		end;
+	case 5:
+		mes "[Maram]";
+		mes "I've been thinking about what I can do here...";
+		mes "Probably I've only been involved in logistics procurement.";
+		next;
+		mes "[Maram]";
+		mes "This is a place where existing supplies are scarce, so we decided to regularly and unofficially deliver supplies in consultation with Ginger.";
+		next;
+		cutin "ep18_maram_02.png",2;
+		mes "[Maram]";
+		mes "Vellgunde also helped and opened a shop.";
+		mes "Probably because there is a distribution channel, I am receiving the basic Zeny.";
+		next;
+		cutin "ep18_maram_01.png",2;
+		mes "[Maram]";
+		mes "Don't worry and do what you want, we'll always make sure you don't run out of supplies!";
+		close3;
+	}
+}
 
 icas_in,142,201,3	script	Torre#ep19iwin05	EP19_NPC_IWIN,{
 	cutin "ep19_iwin03.png",2;

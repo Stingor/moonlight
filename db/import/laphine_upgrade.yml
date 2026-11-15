@@ -1653,3 +1653,45 @@ Body:
       - Item: Vivatus_F_Revolver
       - Item: Vivatus_F_C_Humma
       - Item: Vivatus_F_Humma
+  # Episode 19 : les cubes +9 des Snowflower et des armes Glacier (Glacier_Foxtail, Doram, non porte)
+  - Item: Snow_F_Refine
+    ResultRefine: 9
+    MaximumRefine: 8
+    CardsAllowed: true
+    TargetItems:
+      - Item: Snowflower_Armor
+      - Item: Snowflower_Robe
+      - Item: Snowflower_Manteau
+      - Item: Snowflower_Muffler
+      - Item: Snowflower_Boots
+      - Item: Snowflower_Shoes
+  - Item: Glacier_W_Refine
+    ResultRefine: 9
+    MaximumRefine: 8
+    CardsAllowed: true
+    TargetItems:
+      - Item: Glacier_Launcher
+      - Item: Glacier_Gatling
+      - Item: Glacier_Shotgun
+      - Item: Glacier_Rifle
+      - Item: Glacier_Revolver
+      - Item: Glacier_Humma
+      - Item: Glacier_Whip
+      - Item: Glacier_Violin
+      - Item: Glacier_Wand
+      - Item: Glacier_Staff
+      - Item: Glacier_Katar
+      - Item: Glacier_Book
+      - Item: Glacier_Knuckle
+      - Item: Glacier_Bow
+      - Item: Glacier_B_Knife
+      - Item: Glacier_R_Knife
+      - Item: Glacier_Mace
+      - Item: Glacier_M_Mace
+      - Item: Glacier_Axe
+      - Item: Glacier_T_Axe
+      - Item: Glacier_Spear
+      - Item: Glacier_Lance
+      - Item: Glacier_B_Sword
+      - Item: Glacier_Sword
+      - Item: Glacier_T_Sword

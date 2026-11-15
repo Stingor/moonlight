@@ -3111,3 +3111,12 @@ Body:
       NoAuction: true
     Script: |
       itemheal 1800,0; /* average value */
+  - Id: 1100006
+    AegisName: Ep19_Dry_Icegangu
+    Name: Dried Ice Gangu
+    Type: Healing
+    Buy: 10
+    Weight: 5
+    EquipLevelMin: 200
+    Script: |
+      itemheal 1925,0;
