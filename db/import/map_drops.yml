@@ -2231,6 +2231,9 @@ Body:
           - Index: 23
             Item: Sanctuary_Sudarium
             Rate: 50000
+          - Index: 24
+            Item: Blue_Prints_Scroll
+            Rate: 50000
       - Monster: EP18_MD_DEMI_FREYJA_L
         Drops:
           - Index: 0
@@ -2299,6 +2302,12 @@ Body:
           - Index: 21
             Item: Sanctuary_Sudarium
             Rate: 50000
+          - Index: 22
+            Item: Blue_Prints_Scroll
+            Rate: 50000
+          - Index: 23
+            Item: Demi_Freyja_Antiquity
+            Rate: 1000
       - Monster: EP18_MD_SANARE_L
         Drops:
           - Index: 0
@@ -2316,6 +2325,9 @@ Body:
           - Index: 4
             Item: Sanctuary_Sudarium
             Rate: 2000
+          - Index: 5
+            Item: Blue_Prints_Scroll
+            Rate: 67
       - Monster: EP18_MD_HEARTHUNTER_L
         Drops:
           - Index: 0
@@ -2333,3 +2345,6 @@ Body:
           - Index: 4
             Item: Sanctuary_Sudarium
             Rate: 2000
+          - Index: 5
+            Item: Blue_Prints_Scroll
+            Rate: 67

@@ -14582,3 +14582,233 @@ Body:
     Weight: 10
     Flags:
       BuyingStore: true
+  - Id: 1000496
+    AegisName: Conse_F_A_Bow
+    Name: Fides Aiming Bow Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000479
+    AegisName: Conse_F_Axe
+    Name: Fides Axe Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000495
+    AegisName: Conse_F_Ballista
+    Name: Fides Ballista Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000491
+    AegisName: Conse_F_Bible
+    Name: Fides Bible Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000486
+    AegisName: Conse_F_C_Bow
+    Name: Fides Crossbow Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000686
+    AegisName: Conse_F_C_Humma
+    Name: Fides Cross-Shaped Huuma Shuriken Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000498
+    AegisName: Conse_F_C_Rope
+    Name: Fides Chain Rope Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000483
+    AegisName: Conse_F_Cakram
+    Name: Fides Chakram Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000494
+    AegisName: Conse_F_Claw
+    Name: Fides Claw Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000695
+    AegisName: Conse_F_D_Wand
+    Name: Fides Dark Wand Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000485
+    AegisName: Conse_F_Dagger
+    Name: Fides Dagger Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000478
+    AegisName: Conse_F_G_Spear
+    Name: Fides Guardian Spear Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000477
+    AegisName: Conse_F_G_Sword
+    Name: Fides Guardian Sword Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000690
+    AegisName: Conse_F_Gatling
+    Name: Fides Gatling Gun Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000482
+    AegisName: Conse_F_Hall
+    Name: Fides Hall Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000499
+    AegisName: Conse_F_Harp
+    Name: Fides Harp Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000685
+    AegisName: Conse_F_Humma
+    Name: Fides Huuma Shuriken Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000484
+    AegisName: Conse_F_Katar
+    Name: Fides Katar Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000493
+    AegisName: Conse_F_Knuckle
+    Name: Fides Knuckle Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000476
+    AegisName: Conse_F_Lance
+    Name: Fides Lance Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000481
+    AegisName: Conse_F_Lapier
+    Name: Fides Rapier Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000691
+    AegisName: Conse_F_Launcher
+    Name: Fides Launcher Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000489
+    AegisName: Conse_F_M_Book
+    Name: Fides Magic Book Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000480
+    AegisName: Conse_F_Mace
+    Name: Fides Mace Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000692
+    AegisName: Conse_F_Moon_B
+    Name: Fides Moon Book Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000490
+    AegisName: Conse_F_P_Book
+    Name: Fides Poison Book Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000687
+    AegisName: Conse_F_Revolver
+    Name: Fides Revolver Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000500
+    AegisName: Conse_F_Ribbon
+    Name: Fides Ribbon Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000689
+    AegisName: Conse_F_Rifle
+    Name: Fides Rifle Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000488
+    AegisName: Conse_F_Rod
+    Name: Fides Rod Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000694
+    AegisName: Conse_F_S_Stick
+    Name: Fides Soul Stick Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000688
+    AegisName: Conse_F_Shotgun
+    Name: Fides Shotgun Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000693
+    AegisName: Conse_F_Star_B
+    Name: Fides Stardust Book Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000487
+    AegisName: Conse_F_T_Staff
+    Name: Fides Two-Handed Staff Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000475
+    AegisName: Conse_F_T_Sword
+    Name: Fides Two-Handed Sword Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000497
+    AegisName: Conse_F_Violin
+    Name: Fides Violin Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000492
+    AegisName: Conse_F_Wand
+    Name: Fides Wand Blueprint
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1001478
+    AegisName: Cubic_Dia
+    Name: Pure Diamond
+    Type: Etc
+    Buy: 200000
+    Weight: 300
+    Flags:
+      DropEffect: CLIENT

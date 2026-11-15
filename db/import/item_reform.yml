@@ -52,6 +52,8 @@ Body:
       - BaseItem: Adulter_F_T_Sword
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_T_Sword
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -65,6 +67,8 @@ Body:
       - BaseItem: Adulter_F_Lance
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Lance
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -78,6 +82,8 @@ Body:
       - BaseItem: Adulter_F_G_Sword
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_G_Sword
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -91,6 +97,8 @@ Body:
       - BaseItem: Adulter_F_G_Spear
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_G_Spear
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -104,6 +112,8 @@ Body:
       - BaseItem: Adulter_F_Axe
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Axe
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -117,6 +127,8 @@ Body:
       - BaseItem: Adulter_F_Mace
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Mace
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -130,6 +142,8 @@ Body:
       - BaseItem: Adulter_F_Lapier
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Lapier
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -143,6 +157,8 @@ Body:
       - BaseItem: Adulter_F_Hall
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Hall
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -156,6 +172,8 @@ Body:
       - BaseItem: Adulter_F_Cakram
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Cakram
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -169,6 +187,8 @@ Body:
       - BaseItem: Adulter_F_Katar
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Katar
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -182,6 +202,8 @@ Body:
       - BaseItem: Adulter_F_Dagger
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Dagger
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -195,6 +217,8 @@ Body:
       - BaseItem: Adulter_F_C_Bow
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_C_Bow
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -208,6 +232,8 @@ Body:
       - BaseItem: Adulter_F_T_Staff
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_T_Staff
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -221,6 +247,8 @@ Body:
       - BaseItem: Adulter_F_Rod
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Rod
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -234,6 +262,8 @@ Body:
       - BaseItem: Adulter_F_M_Book
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_M_Book
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -247,6 +277,8 @@ Body:
       - BaseItem: Adulter_F_P_Book
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_P_Book
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -260,6 +292,8 @@ Body:
       - BaseItem: Adulter_F_Bible
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Bible
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -273,6 +307,8 @@ Body:
       - BaseItem: Adulter_F_Wand
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Wand
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -286,6 +322,8 @@ Body:
       - BaseItem: Adulter_F_Knuckle
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Knuckle
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -299,6 +337,8 @@ Body:
       - BaseItem: Adulter_F_Claw
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Claw
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -312,6 +352,8 @@ Body:
       - BaseItem: Adulter_F_Ballista
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Ballista
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -325,6 +367,8 @@ Body:
       - BaseItem: Adulter_F_A_Bow
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_A_Bow
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -338,6 +382,8 @@ Body:
       - BaseItem: Adulter_F_Violin
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Violin
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -351,6 +397,8 @@ Body:
       - BaseItem: Adulter_F_C_Rope
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_C_Rope
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -364,6 +412,8 @@ Body:
       - BaseItem: Adulter_F_Harp
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Harp
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -377,6 +427,8 @@ Body:
       - BaseItem: Adulter_F_Ribbon
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Ribbon
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -390,6 +442,8 @@ Body:
       - BaseItem: Adulter_F_Humma
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Humma
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -403,6 +457,8 @@ Body:
       - BaseItem: Adulter_F_C_Humma
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_C_Humma
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -416,6 +472,8 @@ Body:
       - BaseItem: Adulter_F_Revolver
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Revolver
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -429,6 +487,8 @@ Body:
       - BaseItem: Adulter_F_Rifle
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Rifle
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -442,6 +502,8 @@ Body:
       - BaseItem: Adulter_F_Gatling
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Gatling
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -455,6 +517,8 @@ Body:
       - BaseItem: Adulter_F_Launcher
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Launcher
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -468,6 +532,8 @@ Body:
       - BaseItem: Adulter_F_Moon_B
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Moon_B
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -481,6 +547,8 @@ Body:
       - BaseItem: Adulter_F_Star_B
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Star_B
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -494,6 +562,8 @@ Body:
       - BaseItem: Adulter_F_S_Stick
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_S_Stick
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -507,6 +577,8 @@ Body:
       - BaseItem: Adulter_F_D_Wand
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_D_Wand
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -520,6 +592,8 @@ Body:
       - BaseItem: Adulter_F_Shotgun
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Shotgun
+            Amount: 10
           - Material: Purificatory_Holy_O
             Amount: 50
           - Material: Purificatory_Holy_W
@@ -538,6 +612,8 @@ Body:
       - BaseItem: Adulter_F_T_Sword
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_T_Sword
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -551,6 +627,8 @@ Body:
       - BaseItem: Adulter_F_Lance
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Lance
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -564,6 +642,8 @@ Body:
       - BaseItem: Adulter_F_G_Sword
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_G_Sword
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -577,6 +657,8 @@ Body:
       - BaseItem: Adulter_F_G_Spear
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_G_Spear
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -590,6 +672,8 @@ Body:
       - BaseItem: Adulter_F_Axe
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Axe
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -603,6 +687,8 @@ Body:
       - BaseItem: Adulter_F_Mace
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Mace
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -616,6 +702,8 @@ Body:
       - BaseItem: Adulter_F_Lapier
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Lapier
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -629,6 +717,8 @@ Body:
       - BaseItem: Adulter_F_Hall
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Hall
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -642,6 +732,8 @@ Body:
       - BaseItem: Adulter_F_Cakram
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Cakram
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -655,6 +747,8 @@ Body:
       - BaseItem: Adulter_F_Katar
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Katar
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -668,6 +762,8 @@ Body:
       - BaseItem: Adulter_F_Dagger
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Dagger
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -681,6 +777,8 @@ Body:
       - BaseItem: Adulter_F_C_Bow
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_C_Bow
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -694,6 +792,8 @@ Body:
       - BaseItem: Adulter_F_T_Staff
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_T_Staff
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -707,6 +807,8 @@ Body:
       - BaseItem: Adulter_F_Rod
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Rod
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -720,6 +822,8 @@ Body:
       - BaseItem: Adulter_F_M_Book
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_M_Book
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -733,6 +837,8 @@ Body:
       - BaseItem: Adulter_F_P_Book
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_P_Book
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -746,6 +852,8 @@ Body:
       - BaseItem: Adulter_F_Bible
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Bible
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -759,6 +867,8 @@ Body:
       - BaseItem: Adulter_F_Wand
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Wand
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -772,6 +882,8 @@ Body:
       - BaseItem: Adulter_F_Knuckle
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Knuckle
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -785,6 +897,8 @@ Body:
       - BaseItem: Adulter_F_Claw
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Claw
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -798,6 +912,8 @@ Body:
       - BaseItem: Adulter_F_Ballista
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Ballista
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -811,6 +927,8 @@ Body:
       - BaseItem: Adulter_F_A_Bow
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_A_Bow
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -824,6 +942,8 @@ Body:
       - BaseItem: Adulter_F_Violin
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Violin
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -837,6 +957,8 @@ Body:
       - BaseItem: Adulter_F_C_Rope
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_C_Rope
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -850,6 +972,8 @@ Body:
       - BaseItem: Adulter_F_Harp
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Harp
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -863,6 +987,8 @@ Body:
       - BaseItem: Adulter_F_Ribbon
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Ribbon
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -876,6 +1002,8 @@ Body:
       - BaseItem: Adulter_F_Humma
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Humma
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -889,6 +1017,8 @@ Body:
       - BaseItem: Adulter_F_C_Humma
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_C_Humma
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -902,6 +1032,8 @@ Body:
       - BaseItem: Adulter_F_Revolver
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Revolver
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -915,6 +1047,8 @@ Body:
       - BaseItem: Adulter_F_Rifle
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Rifle
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -928,6 +1062,8 @@ Body:
       - BaseItem: Adulter_F_Gatling
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Gatling
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -941,6 +1077,8 @@ Body:
       - BaseItem: Adulter_F_Launcher
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Launcher
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -954,6 +1092,8 @@ Body:
       - BaseItem: Adulter_F_Moon_B
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Moon_B
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -967,6 +1107,8 @@ Body:
       - BaseItem: Adulter_F_Star_B
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Star_B
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -980,6 +1122,8 @@ Body:
       - BaseItem: Adulter_F_S_Stick
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_S_Stick
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -993,6 +1137,8 @@ Body:
       - BaseItem: Adulter_F_D_Wand
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_D_Wand
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W
@@ -1006,6 +1152,8 @@ Body:
       - BaseItem: Adulter_F_Shotgun
         MinimumRefine: 9
         Materials:
+          - Material: Conse_F_Shotgun
+            Amount: 30
           - Material: Purificatory_Holy_O
             Amount: 200
           - Material: Purificatory_Holy_W

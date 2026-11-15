@@ -169,8 +169,8 @@ scripts d'instance lisent `ep18_main`.
 | Pontifex | Courage, Wisdom, Belief, Tenacity : options aléatoires sur les armes Fides (recettes Lapine, groupes `PONTIFEX_*` déjà en local) |
 | Drops de carte | `1@advs` : MVP inchangés (armes Fides à 1,5 %, Pontifex Belief et Tenacity) ; Fragments d'Améthyste des mobs normaux à 2 % |
 
-**Réforme : écartée de ce lot, portée au lot B4 (§5e).** Restent écartés le Blue Prints Scroll
-(plans `Conse_F_*`) et le coffret de Demi Freyja, que rien ne distribue.
+**Réforme : écartée de ce lot, portée au lot B4 (§5e).** Le Blue Prints Scroll (plans
+`Conse_F_*`) et le coffret de Demi Freyja suivent au lot B5 (§5f).
 
 ## 5e. Lot B4 : la réforme Adulter → Vivatus (2026‑11‑14, non validé en jeu)
 
@@ -183,12 +183,22 @@ Bamdat (`wolfvill` 170,131, `quests_18.npc`, étape 38 de la chaîne) ouvre la f
 | Déclencheurs | `Consecrate_Weapon_1` (100648) et `_2` (100649), `DelayConsume` + `item_reform()` comme l'amont ; non distribués, ils servent de clé de recette | `db/import/items/item_db_usable.yml` |
 | Matériaux | `Purificatory_Holy_O` (1000501), `Purificatory_Holy_W` (1000502), `Sanctuary_Sudarium` (1000503) | `db/import/items/item_db_etc.yml` |
 | Drops de carte | `1@advs`, mode avancé : les trois matériaux à 50 % sur Schulang et Demi Freyja (MVP, taux amont) et à **2 %** sur Sanare et Heart Hunter (monnaie de carte ; 1,5 % en renewal) | `db/import/map_drops.yml` |
-| Recettes | 2 × 37 : Adulter Fides **+9** au moins → Vivatus Fides, cartes et options gardées. Base : 50 O + 50 W + 50 Sudarium + 200 Fragments d'Améthyste, raffinement -5 (+9 → +4). Avancé : 200 + 200 + 200 + 400, raffinement -1. **Écart Moonlight : sans les plans `Conse_F_*`** (10 ou 30 en amont), le Blue Prints Scroll n'étant pas porté ; armes Doram absentes | `db/import/item_reform.yml` |
+| Recettes | 2 × 37 : Adulter Fides **+9** au moins → Vivatus Fides, cartes et options gardées. Base : 50 O + 50 W + 50 Sudarium + 200 Fragments d'Améthyste, raffinement -5 (+9 → +4). Avancé : 200 + 200 + 200 + 400, raffinement -1. Les plans `Conse_F_*` (10 ou 30, comme l'amont) y sont depuis le lot B5 ; armes Doram absentes | `db/import/item_reform.yml` |
 | Client | fenêtre de réforme (liste des pièces admises, pièce et résultat, matériaux possédés / requis, confirmation), table `item_reform.yml` générée par `scripts/yaml_tables/item_reform.py` | moonclient |
 
 ⚠ Le serveur refuse **sans répondre** une demande invalide (`clif_parse_item_reform_start`) : le
 client juge tout avant l'envoi, y compris la règle « seule la première pile d'un matériau compte »
 (`pc_search_inventory`).
+
+## 5f. Lot B5 : les plans et le coffret de Demi Freyja (2026‑11‑15, non validé en jeu)
+
+| Partie | Contenu | Fichiers |
+|---|---|---|
+| Plans | 37 `Conse_F_*` (les deux plans Doram écartés), ajoutés en tête des 74 recettes : **10** au rituel de base, **30** à l'avancé, comme l'amont | `db/import/items/item_db_etc.yml`, `db/import/item_reform.yml` |
+| Blue Prints Scroll | `Blue_Prints_Scroll` (100655, *Cleansing Blueprint Bundle*) : quatre plans au hasard (`IG_BLUE_PRINTS_SCROLL`) | `item_db_usable.yml`, `db/import/item_group_db/ep18.yml` |
+| Coffret | `Demi_Freyja_Antiquity` (102562) : Pure Diamond (`Cubic_Dia`, 8 à 12, revendu 100 000 z), armes Fides, pièces `Gray_W_*`, Fragments d'Améthyste. **Écart Moonlight : raffinements +11 et +12 ramenés à +10**, armes Doram écartées | idem |
+| Drops `1@advs` avancé | Blue Prints Scroll à 50 % sur Schulang et Demi Freyja (amont), **0,67 %** sur Sanare et Heart Hunter (0,5 % en amont, même relèvement que les matériaux). **Coffret à 10 % sur Demi Freyja : choix Moonlight**, l'amont ne le distribuant nulle part (coffret de boutique en kRO) | `db/import/map_drops.yml` |
+| Client | `item_reform.yml` de moonclient régénéré : les plans comptent parmi les matériaux | moonclient |
 
 ## 6. Verdict
 
@@ -198,7 +208,8 @@ client juge tout avant l'envoi, y compris la règle « seule la première pile d
 | Fait | lot A : le terrain ; lots B et B1 : la chaîne, la réputation, les instances et l'accès (2026‑11‑14, non validés en jeu) |
 | Fait | lot B3 : l'économie (2026‑11‑14) |
 | Fait | lot B4 : la réforme Adulter → Vivatus, serveur et fenêtre moonclient (2026‑11‑14) |
-| Reste à faire | validation en jeu · Blue Prints Scroll (plans `Conse_F_*`) et coffret de Demi Freyja · hors périmètre : la Forêt Profonde (Spirit Handler), l'enchanteur Emmett (sans script) |
+| Fait | lot B5 : Blue Prints Scroll, plans `Conse_F_*` et coffret de Demi Freyja (2026‑11‑15) |
+| Reste à faire | validation en jeu · hors périmètre : la Forêt Profonde (Spirit Handler), l'enchanteur Emmett (sans script) |
 | Épisode | **clos** côté portage le 2026‑11‑14 |
 
 ## Sources

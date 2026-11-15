@@ -12069,3 +12069,23 @@ Body:
     Type: DelayConsume
     Script: |
       item_reform();
+  - Id: 100655
+    AegisName: Blue_Prints_Scroll
+    Name: Cleansing Blueprint Bundle
+    Type: Usable
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      Container: true
+    Script: |
+      getgroupitem(IG_BLUE_PRINTS_SCROLL);
+  - Id: 102562
+    AegisName: Demi_Freyja_Antiquity
+    Name: Antiquity Villa (Twisted God)
+    Type: Usable
+    Weight: 200
+    Flags:
+      Container: true
+      DropEffect: CLIENT
+    Script: |
+      getgroupitem(IG_DEMI_FREYJA_ANTIQUITY,true);
