@@ -31889,7 +31889,7 @@ Body:
       Head_Mid: true
       Head_Top: true
     Refineable: true
-    View: 3000
+    View: 20002
     Script: "bonus bAllStats,10; bonus bMaxHPrate,5; bonus bMaxSPrate,5; bonus2 bAddClass,Class_All,10; bonus bMatkRate,10; bonus2 bSubRace,RC_All,10; bonus bDelayrate2,-5; bonus bAspd2,1; bonus bNoWalkDelay; bonus bSpeedAddRate,20;\n"
   - Id: 32207
     AegisName: Illusion_B_R
