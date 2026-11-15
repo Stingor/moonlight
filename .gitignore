@@ -188,3 +188,6 @@ moon/temp.npc
 conf/bourgeon_integrity.conf
 TODO.txt
 /Release
+
+# Cache des API externes (Divine Pride : ne pas republier leur base)
+/tools/util/cache/
