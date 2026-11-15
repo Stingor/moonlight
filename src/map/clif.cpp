@@ -10972,6 +10972,7 @@ static PACKET_MOONLIGHT_STAFF_ROSTER_ENTRY clif_moonlight_staff_roster_entry(map
 	entry.cheat_cadence = pl.cheat_watch.cadence_reports;
 	entry.cheat_client = pl.moon_cheat_client_reports;
 	entry.mute_minutes = pl.status.manner < 0 ? -pl.status.manner : 0;
+	entry.moonlight_id = pl.status.user_id;
 	return entry;
 }
 

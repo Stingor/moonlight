@@ -7267,12 +7267,13 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_CHAT_BLOCKS, 0x0f3f);
 // 🔴 Une session cachée (invisible, ou d'un groupe à session cachée) d'un niveau
 // SUPÉRIEUR à celui du demandeur n'est pas listée : la règle de @who.
 //
-// 🔴 Ni le MachineGuid ni le compte Moonlight ne voyagent. Seul part un numéro
-// de groupe, le même pour les entrées de la réponse qui partagent l'un ou
-// l'autre, et zéro pour une entrée seule de son espèce.
+// 🔴 Le MachineGuid ne voyage pas. Seul part un numéro de groupe, le même pour
+// les entrées de la réponse qui partagent une machine, ou un compte Moonlight,
+// et zéro pour une entrée seule de son espèce. Le numéro du compte Moonlight
+// (login.user_id) part en clair : le staff le cite pour retrouver le compte.
 //
 // ZC : [packetType:2][packetLength:2][request_id:2][status:1][page:1][pages:1],
-// puis une entrée de 185 octets par joueur. Une réponse tient en `pages` trames
+// puis une entrée de 189 octets par joueur. Une réponse tient en `pages` trames
 // envoyées à la suite, de MOONLIGHT_STAFF_ROSTER_PAGE_ENTRIES entrées au plus.
 // ⚠ Valeurs sur le fil : on AJOUTE en fin, jamais au milieu.
 enum e_moonlight_staff_roster_status : uint8 {
@@ -7347,6 +7348,7 @@ struct PACKET_MOONLIGHT_STAFF_ROSTER_ENTRY {
 	uint16 cheat_cadence;        ///< signalements de cadence trop régulière
 	uint16 cheat_client;         ///< rapports du détecteur de son client
 	int32  mute_minutes;         ///< minutes de silence restantes ; 0 : aucune
+	uint32 moonlight_id;         ///< le compte Moonlight (login.user_id) ; 0 : compte de jeu non rattaché
 } __attribute__((packed));
 
 struct PACKET_CZ_MOONLIGHT_REQ_STAFF_ROSTER {
