@@ -62,40 +62,48 @@ Ce que rAthena possède quand même :
   `Bagot Laboratory`) — des coquilles, sans script derrière ;
 - les **objets** de l'épisode (commit `Episode 19 items (kRO 2022-01-19 patch)`, PR #6563,
   février 2022) ;
-- les **constantes** (`Episode 19 constants`, janvier 2022).
+- les **constantes** (`Episode 19 constants`, janvier 2022) ;
+- **40 mobs `EP19_*`** dans `db/re/mob_db.yml` (Id 21513 et suivants), mais **commentés** :
+  un Id et un AegisName, ni stats ni drops, et aucune ligne dans `mob_skill_db.txt`.
 
-Autrement dit : le catalogue existe, le contenu jouable non.
+Autrement dit : le catalogue existe, le contenu jouable non. Revérifié le 2026‑11‑15 sur
+`upstream/master` du 2026‑11‑10.
 
 ## 4. État côté Moonlight
 
-**Rien.** Aucun fichier, aucune référence.
+**Aucun contenu.** Ni script dans `moon/`, ni mob, objet ou drop dans `db/import/`.
 
 En revanche — et c'est le fait notable — **les cartes sont là** :
-`icecastle`, `icas_in`, `jor_tail`, `jor_back1/2/3`, `jor_nest`, `jor_dun02`, `jor_dun03`,
-`jor_ab01`, `jor_ab02`, `1@jorchs` sont toutes présentes dans
-`db/import/map_cache.dat`. Le client de Moonlight sait afficher Issgard.
+`icecastle`, `icas_in`, `icas_in2`, `jor_tail`, `jor_back1` à `jor_back5`, `jor_nest`,
+`jor_dun01` à `jor_dun03`, `jor_ab01`, `jor_ab02`, `jor_que` et les quatre cartes d'instance
+`1@iwp`, `1@whl`, `1@jorlab`, `1@jorchs` sont toutes présentes dans
+`db/import/map_cache.dat` et déclarées dans `conf/maps_athena.conf`. Le client de Moonlight
+sait afficher Issgard.
+
+Le **système de grades**, apparu en kRO à la même période, est déjà porté (commit
+`20cf36893`, armes seulement).
 
 ## 5. Migration pré-renewal
 
 Ce n'est plus une migration, c'est un **développement**. Il faudrait :
 
-1. créer le roster de mobs d'Issgard depuis zéro (aucune donnée `mob_db` amont utilisable
-   telle quelle, et rien de rééchelonné) ;
+1. créer le roster de mobs d'Issgard depuis zéro : les 40 entrées amont n'ont que leur nom,
+   il faut écrire stats, drops et compétences ;
 2. écrire les spawns ;
 3. écrire cinq scripts d'instance ;
 4. écrire la chaîne de quêtes, qui repose entièrement sur le déguisement Rgan — donc
    sur une mécanique de transformation à implémenter ;
 5. tout cela pour du contenu conçu au niveau 200+, à ramener à 99.
 
-Le prérequis narratif est l'épisode 18, lui-même non porté.
+Le prérequis narratif, l'épisode 18, est porté (lots A à B5, 2026‑11, non validé en jeu).
 
 ## 6. Verdict
 
 | | |
 |---|---|
 | Intérêt | **faible à court terme** — coût d'écriture disproportionné |
-| Ce qui est acquis | les cartes ; c'est tout |
-| Recommandation | ne pas ouvrir ce chantier tant que 16.2 → 18 ne sont pas soldés |
+| Ce qui est acquis | les cartes, les entrées d'instance, les objets amont, les grades |
+| Recommandation | ne pas ouvrir ce chantier tant que 16.2 n'est pas soldé et que le 18 n'est pas validé en jeu |
 
 ## Sources
 
