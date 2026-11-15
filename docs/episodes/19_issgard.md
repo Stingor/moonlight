@@ -95,7 +95,7 @@ Ce n'est plus une migration, c'est un **développement**. Il faudrait :
    sur une mécanique de transformation à implémenter ;
 5. tout cela pour du contenu conçu au niveau 200+, à ramener à 99.
 
-Le prérequis narratif, l'épisode 18, est porté (lots A à B5, 2026‑11, non validé en jeu).
+Le prérequis narratif, l'épisode 18, est porté (lots A à B5) et déployé en production le 2026‑11‑15.
 
 ## 6. Verdict
 
@@ -103,7 +103,7 @@ Le prérequis narratif, l'épisode 18, est porté (lots A à B5, 2026‑11, non 
 |---|---|
 | Intérêt | **faible à court terme** — coût d'écriture disproportionné |
 | Ce qui est acquis | les cartes, les entrées d'instance, les objets amont, les grades |
-| Recommandation | ne pas ouvrir ce chantier tant que 16.2 n'est pas soldé et que le 18 n'est pas validé en jeu |
+| Recommandation | les prérequis sont levés : 16.2 à 18 sont en production (2026‑11‑15). Reste à décider si le coût d'écriture en vaut la peine |
 
 ## Sources
 

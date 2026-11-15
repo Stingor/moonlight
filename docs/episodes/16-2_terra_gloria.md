@@ -6,7 +6,7 @@
 | Date kRO | **2016‑03‑09** |
 | Arc | Terra Gloria — les Heart Hunters |
 | Niveau kRO visé | 150‑175 |
-| État Moonlight | **porté, à valider en jeu** |
+| État Moonlight | **déployé en production**, bons retours des joueurs (2026‑11‑15) |
 
 Épisode charnière : il ouvre **Rock Ridge** et surtout la série des **donjons Illusion**,
 qui recyclent d'anciens donjons pré-renewal en versions haut niveau. C'est le contenu le
@@ -93,7 +93,9 @@ suffixée `_i`.
 `npc/re/quests/illusion_investigation.txt`,
 `npc/re/instances/{HeartHunterWarBase,WernerLaboratoryCentralRoom,WeekendDungeon,FridayDungeon,PoringVillage}.txt`.
 
-## 4. État côté Moonlight (mesuré le 2026‑11‑06, complété le 2026‑11‑08)
+## 4. État côté Moonlight (mesuré le 2026‑11‑06, complété le 2026‑11‑15)
+
+Inventaire relancé le 2026‑11‑15 : aucun mob, skill, objet ou quête manquant.
 
 Relevé produit par `tools/util/port_illusion.py`, qui suit les `Footer: Imports:` de
 chaque base et compare les objets par Id **et** par AegisName.
@@ -111,11 +113,11 @@ chaque base et compare les objets par Id **et** par AegisName.
 | Donjon du vendredi | `moon/instances/FridayDungeon.npc` — `1@md_gef`, id 46 |
 | Village Poring | `moon/instances/PoringVillage.npc` — `1@begi`, id 47, niveau 30 et plus : le plafond de 60 est retiré |
 
-Ces trois instances sont branchées mais pas encore validées en jeu. Leur portage ajoute 35 mobs
+Ces trois instances sont en service. Leur portage ajoute 35 mobs
 (`db/import/mobs/memorial_dungeons.yml`), 184 lignes de skills, 10 objets, 6 quêtes et un groupe
 d'objets.
 
-### Les huit donjons Illusion sont branchés (non validés en jeu)
+### Les huit donjons Illusion sont en service
 
 | Carte | Donjon | Script | Spawns |
 |---|---|---|---|
@@ -157,6 +159,13 @@ client connaît ce type (`kScriptKillCount = 4`). Chaque label de mort appelle
 de chasse se terminent ainsi sur les cartes de 16.2. Les 9 MVP Illusion rapportent 8 points
 dans `$mvps`.
 
+**Suivi des MVP à compteur** (2026‑11‑09, suggestion de joueur). Ces MVP apparaissent après un
+nombre de kills partagé par la carte. La commande `@illusion` (`moon/illusion_tracker.npc`) donne,
+pour chacun, la progression, le boss en vie ou le repos restant, lu sur le timer du PNJ.
+`F_IllusionPalier` annonce sur la carte les paliers de 50, 75 et 90 % du seuil, et le seuil atteint
+pendant le repos. Moonlight Flower est annoncée au-delà de 1 000 kills, et Labyrinth compte ses
+gardiens sur 4.
+
 **Drops de carte.** `db/import/map_drops.yml` reprend les 10 cartes Illusion de l'amont et ajoute
 16 coffrets d'équipement dans `item_db_usable.yml`. Les coffrets `S_` passent par Lapine
 (`laphine_upgrade.yml`) : un équipement du donjon raffiné de +4 à +9 en ressort à +9 ou +10. Les `item_rate_*` du serveur ne s'appliquent pas
@@ -175,7 +184,7 @@ Les autres drops, surtout ceux des MVP, gardent leur taux d'origine.
 remplacés par leurs valeurs converties. Les cartes Illusion ont rejoint les albums : 49 dans
 `CARDALBUM`, 10 dans `MAGICCARDALBUM`, 9 dans `MVPCARDENCHANT`.
 
-### Données portées (non validées en jeu)
+### Données portées
 
 | Base | Porté | Détail |
 |---|---:|---|
@@ -184,7 +193,7 @@ remplacés par leurs valeurs converties. Les cartes Illusion ont rejoint les alb
 | `skill_db` | **7** | `NPC_ALL_STAT_DOWN`, `NPC_DAMAGE_HEAL`, `NPC_IMMUNE_PROPERTY`, `NPC_MOVE_COORDINATE`, `NPC_WIDESILENCE2`, `NPC_BLEEDING2`, `NPC_HELLJUDGEMENT2` |
 | Objets ajoutés | **111** | 58 divers, 24 cartes (2 enchantements), 14 armures, 12 armes, 2 pierres de résonance, 1 soin |
 | Objets renommés | **87** | même Id, nom renewal adopté, par exemple `Illusion_War_Axe` → `War_Axe_IL` |
-| Quêtes | **141** | la 3465 (Labyrinth) est arrivée avec le portage de [17.1](17-1_illusion.md) |
+| Quêtes | **141** | la 3465 (Labyrinth) est arrivée avec le portage de [17.1](17-1_illusion.md) ; 16101 à 16117 (tortue) copiées depuis `db/re` le 2026‑11‑12 |
 | Combos | **24** | ceux dont tous les objets existent ; 16 sont écartés faute de partenaire chargé |
 
 **Équipements.** Les 26 nouveaux ont été relus un par un et suivent la conversion des
@@ -204,19 +213,20 @@ et une somme `>= 22` sur deux pièces devient `>= 44`. Les compétences de class
 remplacées par leur équivalent jouable (`LG_RAYOFGENESIS` par `CR_GRANDCROSS`, etc.), les bonus de
 `bSkillCooldown` sans équivalent par `bDelayrate`. Les valeurs de bonus ne changent pas.
 
+**Quêtes de la tortue.** Les Id 16101 à 16117 existent aussi en pré-renewal, avec un autre
+contenu, sans objectifs de chasse ni délais : les quêtes se validaient seules. Leurs entrées de
+`db/re` sont copiées dans `db/import/quest_db.yml`. Les délais relatifs (`+1d`, `+23h`…) passent
+au reset de 4 h du serveur.
+
 **Stockage.** `NoStorage` est retiré des matériaux de troc `Sticky_Blood`, `Mushroom_Sap`,
 `Swaying_Mane`, `Dry_Branch` et `Shabby_Metal_Chip`, à la suite d'un signalement de joueur.
 
-**Restent à décider ou à faire :**
+**Déploiement (fait, 2026‑11‑15).** La migration `tools/sql/global_acc_reg_user_bound.sql`, la
+recompilation du login-server et du map-server, `deploy/server/merge.sql` et moonlight-web sont en
+production. `moonclient`, qui connaît les 121 nouveaux objets, est livré aux joueurs. Les retours
+des joueurs sont bons.
 
-- **Déploiement**, dans l'ordre :
-  1. Sauvegarder les tables `global_acc_reg_*`.
-  2. Arrêter le login-server et lancer `tools/sql/global_acc_reg_user_bound.sql`.
-  3. Recompiler le login-server et le map-server, puis redémarrer.
-  4. Lancer `deploy/server/merge.sql` et déployer moonlight-web.
-- **Client :** `moonclient` connaît les 121 nouveaux objets. Son `item_db.yml` est à jour avec le serveur, et ses
-  faits (DEF, poids, prérequis) viennent de là. `item_info.yml` a perdu ses lignes de faits périmées
-  (`--retirer-faits`) et `DEF +5` est corrigé. La présence des sprites n'est pas vérifiée dans les GRF.
+**Reste :**
 - **Les autres cartes de `db/re/map_drops.yml`** ne relèvent pas de 16.2. `1@xm_d` (Usine de
   Jouets d'Horreur, [14.2](14-2_eclage.md)) est portée le 2026‑11‑08, avec la robe `Celine_Dress`
   et ses trois combos. Les sept restantes iront avec leur épisode :
@@ -261,7 +271,7 @@ Décisions du 2026‑11‑06 :
 | | |
 |---|---|
 | Intérêt | **le plus élevé du dossier** |
-| Reste à faire | déploiement (migration SQL, recompilation) · validation en jeu · livrer `moonclient` |
+| État | **soldé** : déployé en production avec `moonclient`, bons retours des joueurs (2026‑11‑15) |
 
 ## Sources
 

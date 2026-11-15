@@ -6,7 +6,7 @@
 | Date kRO | **2021‑02‑01** (annonce `seq=259` ; certaines sources donnent le 3 février) |
 | Arc | Arunafeltz — les Enfants Gris |
 | Niveau kRO visé | 170+ (200+ pour le mode avancé) |
-| État Moonlight | **porté (lots A, B, B1, B3) le 2026‑11‑14, à valider en jeu ; la réforme reste à faire** |
+| État Moonlight | **porté (lots A à B5) du 2026‑11‑14 au 2026‑11‑15, déployé en production le 2026‑11‑15** |
 
 Retour en Arunafeltz. Le scénario porte sur la tension entre missionnaires de Freyja et
 natifs, et se conclut sur une fausse déesse fabriquée par magie d'illusion. Dernier
@@ -141,7 +141,7 @@ la chaîne, ou en sortant de certaines instances.
 | Branches, albums | 12 mobs en Dead Branch, Burning Fang en Bloody Branch, cartes à l'album, carte MVP en `mca` et `mvpenchant` ; Burning Fang à 6 points MVP | |
 | Accès | **aucune entrée au warp agent** tant que la chaîne n'est pas portée (choix du 2026‑11‑14) | |
 
-## 5c. Lots B et B1 : la chaîne, la réputation et les instances (2026‑11‑14, non validés en jeu)
+## 5c. Lots B et B1 : la chaîne, la réputation et les instances (2026‑11‑14)
 
 La chaîne et les instances vont ensemble : la chaîne prend la suite de celle du 17.2
 (`ep18_main` 1, posé à la fin du 17.2), entre elle-même dans la Villa du Grand Prêtre, et les cinq
@@ -160,7 +160,7 @@ scripts d'instance lisent `ep18_main`.
 | Mapflags | village (`town`, `nopenalty`, `reset`, `nomemo`, `nowarpto`, `restricted 7`, et `noattackskill`, `noduel` comme Rachel), cinq cartes d'instance, `que_thr` ; `nobranch` écarté | `moon/mapflag/` |
 | Nettoyage | les PNJ bouche-trous `Est#ep181_est01` et `Rookie#ep181_rk01` de `quests_17_2.npc` (9ddef7a79) sont retirés : `quests_18.npc` les définit | |
 
-## 5d. Lot B3 : l'économie (2026‑11‑14, non validé en jeu)
+## 5d. Lot B3 : l'économie (2026‑11‑14)
 
 | Partie | Contenu |
 |---|---|
@@ -172,7 +172,7 @@ scripts d'instance lisent `ep18_main`.
 **Réforme : écartée de ce lot, portée au lot B4 (§5e).** Le Blue Prints Scroll (plans
 `Conse_F_*`) et le coffret de Demi Freyja suivent au lot B5 (§5f).
 
-## 5e. Lot B4 : la réforme Adulter → Vivatus (2026‑11‑14, non validé en jeu)
+## 5e. Lot B4 : la réforme Adulter → Vivatus (2026‑11‑14)
 
 Bamdat (`wolfvill` 170,131, `quests_18.npc`, étape 38 de la chaîne) ouvre la fenêtre par
 `item_reform("Consecrate_Weapon_1")` (rituel de base) ou `"Consecrate_Weapon_2"` (avancé).
@@ -190,7 +190,7 @@ Bamdat (`wolfvill` 170,131, `quests_18.npc`, étape 38 de la chaîne) ouvre la f
 client juge tout avant l'envoi, y compris la règle « seule la première pile d'un matériau compte »
 (`pc_search_inventory`).
 
-## 5f. Lot B5 : les plans et le coffret de Demi Freyja (2026‑11‑15, non validé en jeu)
+## 5f. Lot B5 : les plans et le coffret de Demi Freyja (2026‑11‑15)
 
 | Partie | Contenu | Fichiers |
 |---|---|---|
@@ -205,11 +205,11 @@ client juge tout avant l'envoi, y compris la règle « seule la première pile d
 | | |
 |---|---|
 | Intérêt | élevé — un village complet, un MVP, six instances |
-| Fait | lot A : le terrain ; lots B et B1 : la chaîne, la réputation, les instances et l'accès (2026‑11‑14, non validés en jeu) |
+| Fait | lot A : le terrain ; lots B et B1 : la chaîne, la réputation, les instances et l'accès (2026‑11‑14) |
 | Fait | lot B3 : l'économie (2026‑11‑14) |
 | Fait | lot B4 : la réforme Adulter → Vivatus, serveur et fenêtre moonclient (2026‑11‑14) |
 | Fait | lot B5 : Blue Prints Scroll, plans `Conse_F_*` et coffret de Demi Freyja (2026‑11‑15) |
-| Reste à faire | validation en jeu · hors périmètre : la Forêt Profonde (Spirit Handler), l'enchanteur Emmett (sans script) |
+| Reste à faire | hors périmètre : la Forêt Profonde (Spirit Handler), l'enchanteur Emmett (sans script) |
 | Épisode | **clos** côté portage le 2026‑11‑14 |
 
 ## Sources

@@ -4,7 +4,7 @@ Index des fiches. Un fichier par épisode, de la bascule Renewal (2009) à l'ép
 (2023). Objectif : savoir, épisode par épisode, **ce que kRO a livré**, **ce que
 rAthena implémente**, et **ce que Moonlight a déjà porté ou pas**.
 
-Relevé initial le **2026-08-25**, synthèse remise à jour le **2026-10-07** (16.2 : **2026-11-06** ; 17.1 : **2026-11-11**), sur les dépôts locaux
+Relevé initial le **2026-08-25**, synthèse remise à jour le **2026-10-07** (16.2 : **2026-11-06** ; 17.1 : **2026-11-11** ; 16.2 à 18 en production le **2026-11-15**), sur les dépôts locaux
 `d:\Mes documents\GitHub\rathena` et `d:\Mes documents\GitHub\moonlight`.
 
 ## Les fiches
@@ -19,10 +19,10 @@ Relevé initial le **2026-08-25**, synthèse remise à jour le **2026-10-07** (1
 | [15-1_phantasmagorika.md](15-1_phantasmagorika.md) | 15.1 — Phantasmagorika (Verus) | 2013‑07 | **porté** |
 | [15-2_memory_record.md](15-2_memory_record.md) | 15.2 — Memory Record | 2013‑12‑23 | **porté** (Infinite Space compris) |
 | [16-1_banquet_des_heros.md](16-1_banquet_des_heros.md) | 16.1 — Banquet of Heroes | 2015‑02‑25 | **porté** (Forteresse Céleste et EDDA comprises) |
-| [16-2_terra_gloria.md](16-2_terra_gloria.md) | 16.2 — Terra Gloria (Rock Ridge, Illusions) | 2016‑03‑09 | **porté, à valider en jeu** |
-| [17-1_illusion.md](17-1_illusion.md) | 17.1 — Illusion (Cor, Rudus, OS) | 2018‑07‑18 | **porté, à valider en jeu** (contenu de l'intervalle et mode défi d'OGH compris) |
-| [17-2_heritage_du_sage.md](17-2_heritage_du_sage.md) | 17.2 — Sage's Legacy (Varmundt) | 2020‑10‑30 | **porté, à valider en jeu** (Niflheim renewal, Rudus 4F, Amicitia, chaîne de quêtes, quatre instances, économie du manoir) |
-| [18_direction_de_la_priere.md](18_direction_de_la_priere.md) | 18 — Direction of Prayer | 2021‑02‑01 | **porté, à valider en jeu** (terrain, chaîne, réputation, instances, économie, réforme Adulter → Vivatus) |
+| [16-2_terra_gloria.md](16-2_terra_gloria.md) | 16.2 — Terra Gloria (Rock Ridge, Illusions) | 2016‑03‑09 | **en production** |
+| [17-1_illusion.md](17-1_illusion.md) | 17.1 — Illusion (Cor, Rudus, OS) | 2018‑07‑18 | **en production** (contenu de l'intervalle et mode défi d'OGH compris) |
+| [17-2_heritage_du_sage.md](17-2_heritage_du_sage.md) | 17.2 — Sage's Legacy (Varmundt) | 2020‑10‑30 | **en production** (Niflheim renewal, Rudus 4F, Amicitia, chaîne de quêtes, quatre instances, économie du manoir) |
+| [18_direction_de_la_priere.md](18_direction_de_la_priere.md) | 18 — Direction of Prayer | 2021‑02‑01 | **en production** (terrain, chaîne, réputation, instances, économie, réforme Adulter → Vivatus) |
 | [19_issgard.md](19_issgard.md) | 19 — Issgard, Land of Snow Flowers | 2022‑01‑19 | **rien** (rAthena non plus) |
 | [20_the_undying.md](20_the_undying.md) | 20 — The Undying | 2023‑03‑02 | **rien** (rAthena non plus) |
 
@@ -78,7 +78,7 @@ restés côté `re`.
 | Hall of Life | 20 | **32** (`SPIRIT_*`) | 36 |
 
 **32 entrées de mob restent à écrire.** C'est le cœur du travail restant. Les donjons Illusion
-de l'épisode 16.2 ne figurent plus ici : 72 mobs portés, huit donjons activés, à valider en jeu.
+de l'épisode 16.2 ne figurent plus ici : 72 mobs portés, huit donjons activés, en production depuis le 2026‑11‑15.
 Rudus et OS (17.1) non plus : portés le 2026‑11‑08 ; ni le terrain du 18 (Loup Gris, Oz) : porté le 2026‑11‑14.
 
 ### Niveau 4 — écrire la chaîne narrative

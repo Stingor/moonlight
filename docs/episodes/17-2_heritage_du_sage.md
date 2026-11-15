@@ -6,7 +6,7 @@
 | Date kRO | **2020‑10‑30** |
 | Arc | l'héritage de Varmundt |
 | Niveau kRO visé | 185‑200 |
-| État Moonlight | **porté (lots A, A2, B1, B2, B3), du 2026‑11‑11 au 2026‑11‑12, à valider en jeu** |
+| État Moonlight | **porté (lots A, A2, B1, B2, B3), du 2026‑11‑11 au 2026‑11‑12, déployé en production le 2026‑11‑15** |
 
 Le plus gros apport de cartes depuis l'épisode 14.1 : tout le manoir de Varmundt et ses
 dépendances, soit une douzaine de cartes. C'est aussi l'épisode qui introduit les
@@ -109,7 +109,7 @@ est attachée. Deux façons de refermer l'écart :
 
 Dans les deux cas, le rééchelonnage 185‑200 → 90‑99 est le vrai travail.
 
-## 5b. Lot A (porté le 2026‑11‑11, non validé en jeu)
+## 5b. Lot A (porté le 2026‑11‑11)
 
 Relevé du 2026‑11‑11 avant portage (`tools/util/port_illusion.py`, pointé sur les scripts du
 17.2) : 4 instances (7 entrées `instance_db`, amont 53 à 60, nos Id 53 à 57 déjà pris),
@@ -127,7 +127,7 @@ script ni chez rAthena ni ailleurs.
 | Branches et albums | 13 mobs en Dead Branch, Death Witch et R001-Bestia en Bloody Branch, 13 cartes à l'album, 2 cartes MVP en `mca` et `mvpenchant` ; points MVP : R001-Bestia 6, Death Witch 8 | `db/import/mob_summon.yml`, `db/import/item_group_db/`, `moon/mobs/mvps.npc` |
 | Client | tables serveur régénérées, 28 quêtes au journal, fiches des armes et cartes alignées (noms de compétences, « Refine Total Stuff +22 ») | `moonclient/dist/data/yaml_files/` |
 
-## 5b bis. Lot A2 : Amicitia (2026‑11‑12, non validé en jeu)
+## 5b bis. Lot A2 : Amicitia (2026‑11‑12)
 
 Amicitia est une implantation manuelle de Moonlight (avril 2026) : spawns montés à 80 et 90
 par étage (55 et 65 chez l'amont), PV et EXP rééquilibrés le 2026‑04‑20, The One dans
@@ -141,7 +141,7 @@ Rien de cela n'est retouché.
 | Armes | les 8 dernières armes Fourth_* (Fortified Book, Edge, Dagger, Rod, Spear, Wand, Staff, Claymore), mêmes règles que le lot A, table du 2026‑11‑12 |
 | Choix | le warp vers Amicitia F2 reste libre : l'amont le ferme sous le niveau 230 |
 
-## 5c. Lots B2 et B1 (portés le 2026‑11‑11, non validés en jeu)
+## 5c. Lots B2 et B1 (portés le 2026‑11‑11)
 
 La chaîne et les instances vont ensemble : deux instances sont créées depuis la chaîne, les deux
 autres vérifient ses variables (`ep17_2_main`, `ep172_watergarden`) et ses quêtes. La chaîne
@@ -160,7 +160,7 @@ démarre à la fin de celle du 17.1 (`ep17_2_main` 1 et 2, déjà porté) ; les 
 | Mapflags | les cinq cartes d'instance (`nomemo`, `noteleport`, `monster_noteleport`, `nowarpto`, `restricted 6`) et `ba_in01` (`nomemo`, `noteleport`, `nowarpto`) ; `nobranch` écarté (inversé ici) | `moon/mapflag/` |
 | Client | 126 quêtes au journal, tables régénérées, fiches des objets convertis alignées | `moonclient/dist/data/yaml_files/` |
 
-## 5d. Lot B3 : l'économie du manoir (2026‑11‑12, non validé en jeu)
+## 5d. Lot B3 : l'économie du manoir (2026‑11‑12)
 
 `moon/rathena/merchants/enchan_sage_legacy_17_2.npc`, copie de l'amont, dans `ba_in01` :
 
@@ -192,9 +192,9 @@ Conversions, validées le 2026‑11‑12 :
 | | |
 |---|---|
 | Intérêt | élevé — le terrain est déjà ouvert, il manque ce qui le rend jouable |
-| Fait | lot A : Niflheim renewal et Rudus 4F ; lots B2 et B1 : la chaîne de quêtes et les quatre instances (2026‑11‑11) ; lot A2 : Amicitia et lot B3 : l'économie du manoir (2026‑11‑12) ; les cartes des instances sont dans les albums ; rien n'est validé en jeu |
+| Fait | lot A : Niflheim renewal et Rudus 4F ; lots B2 et B1 : la chaîne de quêtes et les quatre instances (2026‑11‑11) ; lot A2 : Amicitia et lot B3 : l'économie du manoir (2026‑11‑12) ; les cartes des instances sont dans les albums  ; déployé en production le 2026‑11‑15 |
 | Épisode | **clos** côté portage le 2026‑11‑12 |
-| Reste à faire | validation en jeu · hors périmètre : les 5 instances de l'intervalle, sans script nulle part |
+| Reste à faire | hors périmètre : les 5 instances de l'intervalle, sans script nulle part |
 
 ## Sources
 

@@ -6,7 +6,7 @@
 | Date kRO | **2018‑07‑18** |
 | Arc | suite de Terra Gloria — l'organisation Illusion |
 | Niveau kRO visé | 175‑185 |
-| État Moonlight | **porté (A, B1, B2), contenu de l'intervalle et mode défi d'OGH compris ; à valider en jeu** (2026‑11‑11) |
+| État Moonlight | **porté (A, B1, B2), contenu de l'intervalle et mode défi d'OGH compris ; déployé en production le 2026‑11‑15** |
 
 Le joueur enquête dans le donjon de **Rudus**, reprend le laboratoire **Regenschirm**,
 traverse **OS** et atteint la cité de **Cor**. C'est le dernier épisode dont rAthena
@@ -94,7 +94,7 @@ Conversion livrée par la PR [#6643 « Episode 17.1 — Illusion »](https://git
 
 ## 4. État côté Moonlight (mesuré le 2026‑11‑08)
 
-**Porté le 2026‑11‑08, non validé en jeu.** Le relevé d'avant portage suit, pour mémoire.
+**Porté le 2026‑11‑08, déployé en production le 2026‑11‑15.** Le relevé d'avant portage suit, pour mémoire.
 
 | Lot | Contenu | Fichiers |
 |---|---|---|
@@ -121,7 +121,7 @@ Relevé du 2026‑11‑08 avant portage :
 | Entrées d'instance (Id 39 à 43) | `db/import/instance_db.yml` | **absentes** ; les Id sont libres |
 | Quêtes 17.1 | `npc/re/quests/quests_17_1.txt`, 8 962 lignes | **non porté** ; 69 quêtes sur 88 absentes, toutes en `db/re` |
 | Enchanteur, échanges | `npc/re/merchants/enchan_illusion_17_1.txt` (618 lignes), `rgsr_in.txt` (451), `barters/quests_17_1.yml` (1 300) | **non porté** |
-| **Illusion of Labyrinth** | `moon/rathena/quests/illusion/labyrinth.npc` | branché le 2026‑11‑08, non validé en jeu |
+| **Illusion of Labyrinth** | `moon/rathena/quests/illusion/labyrinth.npc` | branché le 2026‑11‑08, déployé en production le 2026‑11‑15 |
 
 ### Les objets attendus
 
@@ -244,8 +244,8 @@ OGH Hard (dépôt hayakawakaki).
 | | |
 |---|---|
 | Intérêt | élevé — trois zones de chasse et cinq instances fournies par rAthena |
-| Fait | Illusion of Labyrinth, Magma F3, Einbech F3, A, B1, B2 (2026‑11‑08) ; Sirops, Lac de l'Abysse F4, Passé d'Odin, Abyss Glast Heim, Chute de Glast Heim, Laboratoire EDDA, OGH Hard (2026‑11‑09) ; mode défi d'OGH, lots C1 à C3 (2026‑11‑09 au 2026‑11‑11, ouvert aux joueurs le 2026‑11‑11). Rien n'est encore validé en jeu, sauf le mode défi, testé par le staff sur `ggpro` |
-| Reste à faire | validation en jeu ; mode défi : lots C4 (OSC0005 et enchantements) et C5 (mécaniques avancées du boss) |
+| Fait | Illusion of Labyrinth, Magma F3, Einbech F3, A, B1, B2 (2026‑11‑08) ; Sirops, Lac de l'Abysse F4, Passé d'Odin, Abyss Glast Heim, Chute de Glast Heim, Laboratoire EDDA, OGH Hard (2026‑11‑09) ; mode défi d'OGH, lots C1 à C3 (2026‑11‑09 au 2026‑11‑11, ouvert aux joueurs le 2026‑11‑11). Le mode défi a été testé par le staff sur `ggpro` ; tout est déployé en production le 2026‑11‑15 |
+| Reste à faire | mode défi : lots C4 (OSC0005 et enchantements) et C5 (mécaniques avancées du boss) |
 | Épisode | **clos** côté portage le 2026‑11‑11 |
 | Décidé | Magma F3 et Einbech F3 restent sans mapflags `nomemo`/`nowarpto`, accès libre ; les quêtes de Lily (175) et de Sally (180) gardent le seuil de l'amont ; les trois ajouts à la table des compétences sont validés ; le **système Reform** (`rgsr_in.txt`, `item_reform.yml`) est écarté : mécanique de 2021‑2022, fenêtre client absente de `moonclient`, objets `_AD` renewal (2026‑11‑08) |
 
