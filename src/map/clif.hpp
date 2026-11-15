@@ -2001,7 +2001,11 @@ enum e_moonlight_ui_cap : uint32 {
 	// 0x0F60), et envoie CZ 0x0F5E. Le corps v7 et son verdict n'en dépendent pas.
 	// Réservé à moonclient. Voir style_layers.hpp.
 	MOONLIGHT_UI_STYLE_LAYERS = 0x01000000,
-	// Prochain bit libre : 0x02000000.
+	// Ce client lit le nom entier d'un monstre (ZC 0x0F69), qu'il reçoit à la
+	// place de 0x0A30 ou 0x0ADF quand ce nom dépasse NAME_LENGTH - 1 octets.
+	// Réservé à moonclient : la DLL ne l'annonce pas.
+	MOONLIGHT_UI_LONG_MOB_NAME = 0x02000000,
+	// Prochain bit libre : 0x04000000.
 };
 
 // [Stingor] Les réglages du serveur utiles au client (ZC 0x0F38), à une session

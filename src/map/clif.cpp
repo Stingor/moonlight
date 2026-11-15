@@ -18129,6 +18129,44 @@ void clif_refresh(map_session_data *sd)
 }
 
 
+/// [Stingor] Envoie la carte de nom `frame` d'un monstre. Quand son nom ne tient
+/// pas dans le champ d'origine, qui annonce MOONLIGHT_UI_LONG_MOB_NAME reçoit à la
+/// place ZC 0x0F69 : la même carte, et le nom entier.
+static void clif_mob_name_send( const mob_data& md, const void* frame, int32 frame_len, const block_list* src, send_target target,
+	e_moonlight_long_name_form form, const char* party_name, const char* guild_name, const char* position_name, const char* title ){
+	const size_t name_len = strnlen( md.name, sizeof( md.name ) );
+
+	if( name_len < NAME_LENGTH ){
+		clif_send( frame, frame_len, src, target );
+		return;
+	}
+
+	uint8 buf[sizeof( PACKET_ZC_MOONLIGHT_LONG_NAME ) + MOB_NAME_LENGTH] = {};
+	PACKET_ZC_MOONLIGHT_LONG_NAME* p = reinterpret_cast<PACKET_ZC_MOONLIGHT_LONG_NAME*>( buf );
+
+	p->packetType = HEADER_ZC_MOONLIGHT_LONG_NAME;
+	p->packetLength = static_cast<int16>( sizeof( PACKET_ZC_MOONLIGHT_LONG_NAME ) + name_len );
+	p->gid = md.id;
+	p->form = form;
+	p->title_id = 0;
+	if( party_name != nullptr ){
+		safestrncpy( p->party_name, party_name, NAME_LENGTH );
+	}
+	if( guild_name != nullptr ){
+		safestrncpy( p->guild_name, guild_name, NAME_LENGTH );
+	}
+	if( position_name != nullptr ){
+		safestrncpy( p->position_name, position_name, NAME_LENGTH );
+	}
+	if( title != nullptr ){
+		safestrncpy( p->title, title, NAME_LENGTH );
+	}
+	memcpy( p->name, md.name, name_len );
+
+	const clif_sidecar whole = { buf, p->packetLength, MOONLIGHT_UI_LONG_MOB_NAME, true };
+	clif_send( frame, frame_len, src, target, 0, &whole );
+}
+
 /// Updates the object's (bl) name on client.
 /// Used to update when a char leaves a party/guild. [Skotlex]
 /// Needed because when you send a 0x95 packet, the client will not remove the cached party/guild info that is not sent.
@@ -18257,7 +18295,7 @@ void clif_name( const block_list* src, const block_list* bl, send_target target 
 				safestrncpy( packet.guild_name, md->guardian_data->guild_name, NAME_LENGTH );
 				safestrncpy( packet.position_name, md->guardian_data->castle->castle_name, NAME_LENGTH );
 
-				clif_send(&packet, sizeof(packet), src, target);
+				clif_mob_name_send( *md, &packet, sizeof( packet ), src, target, MOONLIGHT_LONG_NAME_REQNAMEALL, packet.party_name, packet.guild_name, packet.position_name, nullptr );
 			}else if( battle_config.show_mob_info ){
 				PACKET_ZC_ACK_REQNAMEALL packet = { 0 };
 				const unit_data *ud = nullptr;
@@ -18319,7 +18357,7 @@ void clif_name( const block_list* src, const block_list* bl, send_target target 
 					if (ele_ptr) safestrncpy( packet.position_name, ele_ptr, NAME_LENGTH );
 				}
 
-				clif_send(&packet, sizeof(packet), src, target);
+				clif_mob_name_send( *md, &packet, sizeof( packet ), src, target, MOONLIGHT_LONG_NAME_REQNAMEALL, packet.party_name, packet.guild_name, packet.position_name, nullptr );
 			} else {
 				PACKET_ZC_ACK_REQNAMEALL_NPC packet = { 0 };
 
@@ -18334,9 +18372,11 @@ void clif_name( const block_list* src, const block_list* bl, send_target target 
 					memcpy(packet.title, ud->title, NAME_LENGTH);
 					packet.groupId = ud->group_id;
 				}
-#endif
 
-				clif_send(&packet, sizeof(packet), src, target);
+				clif_mob_name_send( *md, &packet, sizeof( packet ), src, target, MOONLIGHT_LONG_NAME_NPC, nullptr, nullptr, nullptr, packet.title );
+#else
+				clif_mob_name_send( *md, &packet, sizeof( packet ), src, target, MOONLIGHT_LONG_NAME_NPC, nullptr, nullptr, nullptr, nullptr );
+#endif
 			}
 		}
 			break;

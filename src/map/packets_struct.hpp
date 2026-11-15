@@ -7367,6 +7367,35 @@ struct PACKET_ZC_MOONLIGHT_STAFF_ROSTER {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_STAFF_ROSTER, 0x0f68);
 
+// [Stingor] Le nom ENTIER d'un monstre (ZC 0x0F69), À LA PLACE de ZC 0x0A30 ou
+// 0x0ADF chez qui annonce MOONLIGHT_UI_LONG_MOB_NAME, quand ce nom ne tient pas
+// dans leur champ de NAME_LENGTH octets. Les autres reçoivent la trame
+// d'origine, nom tronqué, octet pour octet comme avant. Un nom qui tient part
+// dans la trame d'origine, chez tout le monde.
+//
+// VARIABLE : [packetType:2][packetLength:2][gid:4][form:1][title_id:4]
+// [party_name:24][guild_name:24][position_name:24][title:24], puis le nom, sans
+// zéro final : packetLength - 109 octets, au plus MOB_NAME_LENGTH - 1.
+// ⚠ Valeurs sur le fil : on AJOUTE en fin, jamais au milieu.
+enum e_moonlight_long_name_form : uint8 {
+	MOONLIGHT_LONG_NAME_REQNAMEALL = 0, ///< la carte de 0x0A30 : party_name, guild_name, position_name, title_id
+	MOONLIGHT_LONG_NAME_NPC        = 1, ///< la carte de 0x0ADF : title seul
+};
+
+struct PACKET_ZC_MOONLIGHT_LONG_NAME {
+	int16  packetType;
+	int16  packetLength;
+	uint32 gid;
+	uint8  form;     ///< e_moonlight_long_name_form
+	int32  title_id;
+	char   party_name[NAME_LENGTH];
+	char   guild_name[NAME_LENGTH];
+	char   position_name[NAME_LENGTH];
+	char   title[NAME_LENGTH];
+	char   name[];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_LONG_NAME, 0x0f69);
+
 // [Stingor] ZC_MOONLIGHT_INSTANCE_INFO (0x0F40) — ce que la fenêtre d'instance
 // ne lit pas dans 0x02CB / 0x02CD : la difficulté (HM) et le mode turbo choisis
 // à la création, à qui appartient l'instance, qui peut la détruire, et ses
@@ -8894,7 +8923,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_HATEFFECT_MAP, 0x0f17);
 // client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans
 // la zone sûre 0x0F00+ (2026-07-03). Le prochain opcode libre est tenu par
 // bopcodes::kNextFree, dans src/features/systems/bourgeon_opcodes.h de Bourgeon
-// (0x0F69 à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
+// (0x0F6A à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
 
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)

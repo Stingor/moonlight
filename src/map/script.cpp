@@ -20084,7 +20084,7 @@ BUILDIN_FUNC(setunitname)
 				ShowWarning("buildin_setunitname: Error in finding object BL_MOB!\n");
 				return SCRIPT_CMD_FAILURE;
 			}
-			safestrncpy(md->name, script_getstr(st, 3), NAME_LENGTH);
+			safestrncpy(md->name, script_getstr(st, 3), sizeof(md->name));
 			break;
 		case BL_HOM:
 			if (!hd) {

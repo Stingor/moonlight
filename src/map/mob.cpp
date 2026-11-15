@@ -479,7 +479,7 @@ mob_data* mob_spawn_dataset(struct spawn_data *data)
 	md->db = mob_db.find(md->mob_id);
 	if (data->level > 0)
 		md->level = data->level;
-	memcpy(md->name, data->name, NAME_LENGTH);
+	safestrncpy(md->name, data->name, sizeof(md->name));
 	if (data->state.ai)
 		md->special_state.ai = data->state.ai;
 	if (data->state.size)
@@ -1161,7 +1161,7 @@ int32 mob_spawn (mob_data *md)
 		md->mob_id = md->spawn->id;
 		status_set_viewdata(md, md->mob_id);
 		md->db = mob_db.find(md->mob_id);
-		memcpy(md->name,md->spawn->name,NAME_LENGTH);
+		safestrncpy(md->name, md->spawn->name, sizeof(md->name));
 	}
 
 	if (md->spawn) { //Respawn data
@@ -3985,9 +3985,9 @@ int32 mob_class_change (mob_data *md, int32 mob_id)
 	md->mob_id = mob_id;
 	md->db = mob_db.find(mob_id);
 	if (battle_config.override_mob_names==1)
-		memcpy(md->name,md->db->name.c_str(),NAME_LENGTH);
+		safestrncpy(md->name, md->db->name.c_str(), sizeof(md->name));
 	else
-		memcpy(md->name,md->db->jname.c_str(),NAME_LENGTH);
+		safestrncpy(md->name, md->db->jname.c_str(), sizeof(md->name));
 
 	status_change_end(md,SC_KEEPING); // End before calling status_calc_mob().
 	status_change_end(md,SC_BARRIER);
@@ -5169,11 +5169,13 @@ uint64 MobDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		if (!this->asString(node, "Name", name))
 			return 0;
 
-		if (name.size() > NAME_LENGTH) {
-			this->invalidWarning(node["Name"], "Name \"%s\" exceeds maximum of %d characters, capping...\n", name.c_str(), NAME_LENGTH - 1);
+		// [Stingor] Plafond MOB_NAME_LENGTH, sans le bourrage de zéros d'origine :
+		// toute copie de ce nom passe par c_str() et une borne (safestrncpy).
+		if (name.size() > MOB_NAME_LENGTH - 1) {
+			this->invalidWarning(node["Name"], "Name \"%s\" exceeds maximum of %d characters, capping...\n", name.c_str(), MOB_NAME_LENGTH - 1);
+			name.resize(MOB_NAME_LENGTH - 1);
 		}
 
-		name.resize(NAME_LENGTH);
 		mob->name = name;
 	}
 
@@ -5183,11 +5185,13 @@ uint64 MobDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		if (!this->asString(node, "JapaneseName", name))
 			return 0;
 
-		if (name.size() > NAME_LENGTH) {
-			this->invalidWarning(node["JapaneseName"], "JapaneseName \"%s\" exceeds maximum of %d characters, capping...\n", name.c_str(), NAME_LENGTH - 1);
+		// [Stingor] Plafond MOB_NAME_LENGTH, sans le bourrage de zéros d'origine :
+		// toute copie de ce nom passe par c_str() et une borne (safestrncpy).
+		if (name.size() > MOB_NAME_LENGTH - 1) {
+			this->invalidWarning(node["JapaneseName"], "JapaneseName \"%s\" exceeds maximum of %d characters, capping...\n", name.c_str(), MOB_NAME_LENGTH - 1);
+			name.resize(MOB_NAME_LENGTH - 1);
 		}
 
-		name.resize(NAME_LENGTH);
 		mob->jname = name;
 	} else if (!exists) {
 		mob->jname = mob->name;

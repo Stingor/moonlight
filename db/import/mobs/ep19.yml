@@ -57,7 +57,7 @@ Body:
     AttackDelay: 384
     AttackMotion: 768
     DamageMotion: 576
-    Ai: 4
+    Ai: 04
     Drops:
       - Item: Fluorescent_Liquid
         Rate: 5000
@@ -93,7 +93,7 @@ Body:
     AttackDelay: 288
     AttackMotion: 864
     DamageMotion: 576
-    Ai: 4
+    Ai: 04
     Drops:
       - Item: Scales_Shell
         Rate: 5000
@@ -129,7 +129,7 @@ Body:
     AttackDelay: 624
     AttackMotion: 1248
     DamageMotion: 480
-    Ai: 4
+    Ai: 04
     Drops:
       - Item: Germinating_Sprout
         Rate: 4000
@@ -165,7 +165,7 @@ Body:
     AttackDelay: 576
     AttackMotion: 1152
     DamageMotion: 576
-    Ai: 4
+    Ai: 04
     Drops:
       - Item: Ice_Heart
         Rate: 4000
@@ -201,7 +201,7 @@ Body:
     AttackDelay: 288
     AttackMotion: 576
     DamageMotion: 576
-    Ai: 1
+    Ai: 01
     Drops:
       - Item: Coral_Reef
         Rate: 5000
@@ -237,7 +237,7 @@ Body:
     AttackDelay: 288
     AttackMotion: 576
     DamageMotion: 180
-    Ai: 2
+    Ai: 02
     Modes:
       Detector: true
     Drops:
@@ -275,7 +275,7 @@ Body:
     AttackDelay: 600
     AttackMotion: 1200
     DamageMotion: 648
-    Ai: 4
+    Ai: 04
     Drops:
       - Item: Ep19_Rgan_Core_F
         Rate: 1875
@@ -309,7 +309,7 @@ Body:
     AttackDelay: 600
     AttackMotion: 1200
     DamageMotion: 864
-    Ai: 4
+    Ai: 04
     Drops:
       - Item: Ep19_Rgan_Core_F
         Rate: 1500
@@ -345,7 +345,7 @@ Body:
     AttackDelay: 288
     AttackMotion: 864
     DamageMotion: 576
-    Ai: 4
+    Ai: 04
     Drops:
       - Item: Ep19_Rgan_Core_F
         Rate: 1500
@@ -381,7 +381,7 @@ Body:
     AttackDelay: 336
     AttackMotion: 1008
     DamageMotion: 576
-    Ai: 4
+    Ai: 04
     Drops:
       - Item: Ep19_Rgan_Core_F
         Rate: 1125
@@ -417,7 +417,7 @@ Body:
     AttackDelay: 384
     AttackMotion: 768
     DamageMotion: 576
-    Ai: 4
+    Ai: 04
   - Id: 21531
     AegisName: EP19_MD_AQUILA
     Name: Aquila
@@ -574,7 +574,7 @@ Body:
     AttackDelay: 504
     AttackMotion: 1008
     DamageMotion: 576
-    Ai: 4
+    Ai: 04
   - Id: 21535
     AegisName: EP19_MD_RGAN_D
     Name: Entangled Intermediate Rgan
@@ -601,7 +601,7 @@ Body:
     AttackDelay: 316
     AttackMotion: 792
     DamageMotion: 576
-    Ai: 4
+    Ai: 04
   - Id: 21536
     AegisName: EP19_MD_HEARTHUNTER_AT
     Name: Heart Hunter AT
@@ -628,7 +628,7 @@ Body:
     AttackDelay: 324
     AttackMotion: 1080
     DamageMotion: 576
-    Ai: 4
+    Ai: 04
   - Id: 21537
     AegisName: EP19_LIMACINA_BOSS
     Name: Ultra Limacina
@@ -709,7 +709,7 @@ Body:
     AttackDelay: 475
     AttackMotion: 792
     DamageMotion: 576
-    Ai: 4
+    Ai: 04
     Drops:
       - Item: Rotten_Bandage
         Rate: 2800
@@ -747,7 +747,7 @@ Body:
     AttackDelay: 388
     AttackMotion: 648
     DamageMotion: 576
-    Ai: 4
+    Ai: 04
     Drops:
       - Item: Rotten_Bandage
         Rate: 2800
@@ -785,7 +785,7 @@ Body:
     AttackDelay: 576
     AttackMotion: 576
     DamageMotion: 478
-    Ai: 4
+    Ai: 04
     Drops:
       - Item: EP19_CaCalapy
         Rate: 1850
@@ -821,7 +821,7 @@ Body:
     AttackDelay: 288
     AttackMotion: 864
     DamageMotion: 480
-    Ai: 4
+    Ai: 04
     Drops:
       - Item: EP19_Unknown_Cell
         Rate: 1850
@@ -857,7 +857,7 @@ Body:
     AttackDelay: 345
     AttackMotion: 864
     DamageMotion: 576
-    Ai: 4
+    Ai: 04
     Modes:
       Detector: true
     Drops:
@@ -897,7 +897,7 @@ Body:
     AttackDelay: 302
     AttackMotion: 1008
     DamageMotion: 576
-    Ai: 4
+    Ai: 04
     Modes:
       Detector: true
     Drops:
@@ -935,7 +935,7 @@ Body:
     AttackDelay: 352
     AttackMotion: 1056
     DamageMotion: 576
-    Ai: 4
+    Ai: 04
     Drops:
       - Item: EP19_Thin_Nipper
         Rate: 2437
@@ -973,7 +973,7 @@ Body:
     AttackDelay: 576
     AttackMotion: 576
     DamageMotion: 478
-    Ai: 4
+    Ai: 04
     Drops:
       - Item: EP19_Thin_Nipper
         Rate: 2437
@@ -1039,7 +1039,7 @@ Body:
     AttackDelay: 302
     AttackMotion: 1008
     DamageMotion: 576
-    Ai: 4
+    Ai: 04
   - Id: 21599
     AegisName: EP19_HEARTHUNTER_AT
     Name: Heart Hunter AT
@@ -1068,7 +1068,7 @@ Body:
     AttackDelay: 324
     AttackMotion: 1080
     DamageMotion: 576
-    Ai: 4
+    Ai: 04
     Drops:
       - Item: Heart_Hunter_Seal
         Rate: 2625
@@ -1108,7 +1108,7 @@ Body:
     AttackDelay: 504
     AttackMotion: 1008
     DamageMotion: 576
-    Ai: 4
+    Ai: 04
     Drops:
       - Item: Ep19_Rgan_Core_F
         Rate: 750
@@ -1144,7 +1144,7 @@ Body:
     AttackDelay: 316
     AttackMotion: 792
     DamageMotion: 576
-    Ai: 4
+    Ai: 04
     Drops:
       - Item: Ep19_Rgan_Core_F
         Rate: 750

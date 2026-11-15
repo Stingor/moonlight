@@ -375,7 +375,7 @@ struct mob_data : public block_list {
 	struct status_data status, *base_status; //Second one is in case of leveling up mobs, or tiny/large mobs.
 	status_change sc;
 	std::shared_ptr<s_mob_db> db;	//For quick data access (saves doing mob_db(md->mob_id) all the time) [Skotlex]
-	char name[NAME_LENGTH];
+	char name[MOB_NAME_LENGTH]; // [Stingor] nom long, cf. MOB_NAME_LENGTH
 	struct s_specialState {
 		uint32 size : 2; //Small/Big monsters.
 		enum mob_ai ai; //Special ai for summoned monsters.

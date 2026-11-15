@@ -469,6 +469,12 @@ struct block_list {
 
 // Mob List Held in memory for Dynamic Mobs [Wizputer]
 // Expanded to specify all mob-related spawn data by [Skotlex]
+// [Stingor] Le nom d'un monstre, zéro final compris : plus long que NAME_LENGTH,
+// qui reste celui des personnages, des guildes et des tables SQL. Un client qui
+// annonce MOONLIGHT_UI_LONG_MOB_NAME le reçoit entier (ZC 0x0F69) ; les autres
+// en reçoivent les NAME_LENGTH - 1 premiers octets, comme avant.
+#define MOB_NAME_LENGTH 48
+
 struct spawn_data {
 	int16 id; //ID, used because a mob can change it's class
 	uint16 m, x, y;	//Spawn information (map, point, spawn-area around point)
@@ -483,7 +489,7 @@ struct spawn_data {
 		uint32 dynamic : 1; //Whether this data is indexed by a map's dynamic mob list
 		uint32 boss : 1; //0: Non-boss monster | 1: Boss monster
 	} state;
-	char name[NAME_LENGTH], eventname[EVENT_NAME_LENGTH]; //Name/event
+	char name[MOB_NAME_LENGTH], eventname[EVENT_NAME_LENGTH]; //Name/event [Stingor] nom de mob long
 	char filepath[256];
 };
 
