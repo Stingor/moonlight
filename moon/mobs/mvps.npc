@@ -90,7 +90,9 @@ OnInit:
 						// Episode 17.2 : R001-Bestia (Rudus 4F), Death Witch (Niflheim F2)
 						20934,6,20943,8,
 						// Episode 18 : Burning Fang (Labyrinthe d'Oz F2)
-						21301,6;
+						21301,6,
+						// Episode 19 : Ultra Limacina (Frozen Scale Glacier)
+						21537,6;
 	end;
 }
 
@@ -167,6 +169,8 @@ mag_dun03	boss_monster	Rigid Muspellskoll		MUSPELLSKOLL_H,1,3600000,600000,"clas
 amicitia2	boss_monster	The One					CHIMERA_THEONE,1,21600000,600000,"classement::OnMvpDead"
 ba_lost		boss_monster	Boss Pitaya				EP17_2_PITAYA_BOSS,1,7200000,600000,"classement::OnMvpDead"
 lasa_dun01	boss_monster	Big Eggring				DR_BIG_EGGRING,1,3600000,1800000,"classement::OnMvpDead"
+// Episode 19 : 6 h, le delai de Divine Pride (kROM)
+jor_back3	boss_monster	Ultra Limacina			EP19_LIMACINA_BOSS,1,21600000,600000,"classement::OnMvpDead"
 
 // PAR SCRIPT  1h40 - 2h10
 lhz_dun03,0,0,0	script	mvp_lhz_dun03	-1,{

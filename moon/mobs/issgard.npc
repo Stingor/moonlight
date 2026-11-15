@@ -1,0 +1,77 @@
+//===== Moonlight Script =====================================
+//= Episode 19 : Issgard, monstres des fields et des donjons
+//===== Description: =========================================
+//= Densites et delais de Divine Pride (kROM). jor_back4 a 6 sont
+//= des cartes de l'episode 20, sans warp pour l'instant.
+//= Ultra Limacina (jor_back3) est dans mvps.npc, les spawns de
+//= jor_que suivront les quetes.
+//============================================================
+
+// jor_tail
+jor_tail,0,0,0,0	monster	Ice Gangu	EP19_ICE_GANGU,90,5000
+jor_tail,0,0,0,0	monster	Shining Seaweed	EP19_SHINING_SEAWEED,80,5000
+// jor_back1
+jor_back1,0,0,0,0	monster	Ice Straw	EP19_ICE_STRAW,80,5000
+jor_back1,0,0,0,0	monster	Ice Gangu	EP19_ICE_GANGU,60,5000
+jor_back1,0,0,0,0	monster	Shining Seaweed	EP19_SHINING_SEAWEED,60,5000
+// jor_back2
+jor_back2,0,0,0,0	monster	Limacina	EP19_LIMACINA,70,5000
+jor_back2,0,0,0,0	monster	Unfrost Flower	EP19_UNFROST_FLOWER,70,5000
+jor_back2,0,0,0,0	monster	Ice Straw	EP19_ICE_STRAW,35,5000
+jor_back2,0,0,0,0	monster	Ice Gangu	EP19_ICE_GANGU,25,5000
+// jor_back3
+jor_back3,0,0,0,0	monster	Calmaring	EP19_CALMARING,70,5000
+jor_back3,0,0,0,0	monster	Limacina	EP19_LIMACINA,70,5000
+jor_back3,0,0,0,0	monster	Primitive Rgan	EP19_RGAN_A,30,5000
+jor_back3,0,0,0,0	monster	Ice Gangu	EP19_ICE_GANGU,20,5000
+jor_back3,0,0,0,0	monster	Lowest Rgan	EP19_RGAN_B,15,5000
+// jor_back4
+jor_back4,0,0,0,0	monster	Calmaring	EP19_CALMARING,10,5000
+jor_back4,0,0,0,0	monster	Ice Straw	EP19_ICE_STRAW,10,5000
+// jor_back5
+jor_back5,0,0,0,0	monster	Shining Seaweed	EP19_SHINING_SEAWEED,10,5000
+// jor_back6
+jor_back6,0,0,0,0	monster	Shining Seaweed	EP19_SHINING_SEAWEED,10,5000
+// jor_dun01
+jor_dun01,0,0,0,0	monster	Primitive Rgan	EP19_RGAN_A,110,5000
+jor_dun01,0,0,0,0	monster	Lowest Rgan	EP19_RGAN_B,60,5000
+jor_dun01,0,0,0,0	monster	Junior Rgan	EP19_RGAN_C,20,5000
+jor_dun01,0,0,0,0	monster	Heart Hunter AT	EP19_HEARTHUNTER_AT,10,5000
+// jor_dun02
+jor_dun02,0,0,0,0	monster	Lowest Rgan	EP19_RGAN_B,90,5000
+jor_dun02,0,0,0,0	monster	Junior Rgan	EP19_RGAN_C,80,5000
+jor_dun02,0,0,0,0	monster	Intermediate Rgan	EP19_RGAN_D,20,5000
+jor_dun02,0,0,0,0	monster	Heart Hunter AT	EP19_HEARTHUNTER_AT,10,5000
+// jor_ab01
+jor_ab01,0,0,0,0	monster	Cave Calmaring	EP19_CAVE_CALMARING,70,5000
+jor_ab01,0,0,0,0	monster	Discarded Primitive Rgan	EP19_WASTED_RGAN_A,70,5000
+jor_ab01,0,0,0,0	monster	Cave Flower	EP19_CAVE_FLOWER,60,5000
+jor_ab01,0,0,0,0	monster	Hallucigenia Baby	EP19_HALLUCIGENIA_BABY,60,5000
+jor_ab01,0,0,0,0	monster	Renovated Superior Rgan	EP19_RE_RGAN_E,10,5000
+// jor_ab02
+jor_ab02,0,0,0,0	monster	Hallucigenia	EP19_HALLUCIGENIA,70,5000
+jor_ab02,0,0,0,0	monster	Discarded Intermediate Rgan	EP19_WASTED_RGAN_C,70,5000
+jor_ab02,0,0,0,0	monster	Two Eyes Dollocaris	EP19_DOLLOCARIS,60,5000
+jor_ab02,0,0,0,0	monster	One Eye Dollocaris	EP19_ONE_EYE_DOLLOCARIS,60,5000
+jor_ab02,0,0,0,0	monster	Entangled Intermediate Rgan	EP19_ET_RGAN_D,10,5000
+
+// Warps (PR rAthena #8527)
+jor_tail,219,294,0	warp2	#to_jor_back1_3	1,1,jor_back1,222,22
+jor_back1,222,19,0	warp2	#to_tail_3	1,1,jor_tail,219,291
+jor_tail,98,287,0	warp2	#to_jor_back1_1	1,1,jor_back1,98,13
+jor_back1,98,10,0	warp2	#to_tail_1	1,1,jor_tail,98,284
+jor_back1,131,10,0	warp2	#to_tail_2	1,1,jor_tail,139,280
+jor_tail,134,281,0	warp2	#to_jor_back1_2	1,1,jor_back1,131,13
+jor_back1,385,229,0	warp2	#to_icecastle	1,1,icecastle,20,123
+icecastle,17,123,0	warp2	#to_jor_back1_A	1,1,jor_back1,380,229
+jor_back1,214,390,0	warp2	#to_jor_back2_A	1,1,jor_back2,229,17
+jor_back2,229,12,0	warp2	#to_jor_back1_B	1,1,jor_back1,214,387
+jor_back2,9,248,0	warp2	#to_jor_back3_A	1,1,jor_back3,364,245
+jor_back3,368,245,0	warp2	#to_jor_back2_B	1,1,jor_back2,13,248
+jor_back3,63,326,0	warp2	#to_jor_dun01_A	1,1,jor_dun01,113,10
+jor_dun01,113,7,0	warp2	#to_jor_back3_B	1,1,jor_back3,65,321
+jor_dun02,286,87,0	warp2	#to_jor_dun01_B	1,1,jor_dun01,12,238
+jor_dun02,18,31,0	warp2	#to_jor_nest	1,1,jor_nest,278,18
+jor_ab01,113,7,0	warp2	#to_jor_back2_C	1,1,jor_back2,261,313
+jor_nest,282,18,0	warp2	#jor_nest_to_jor_dun02	1,1,jor_dun02,21,32
+jor_dun03,58,48,0	warp2	#hw_ep19re3_	2,2,jor_nest,62,255

@@ -78,3 +78,35 @@ Body:
     Name: "Oz's Labyrinth F1"
   - Map: oz_dun02
     Name: "Oz's Labyrinth F2"
+  - Map: icecastle
+    Name: "Issgard Ice Castle"
+  - Map: icas_in
+    Name: "Inside the Ice Castle"
+  - Map: jor_tail
+    Name: "Frozen Tail"
+  - Map: jor_back1
+    Name: "Frozen Scale Hill"
+  - Map: jor_back2
+    Name: "Frozen Scale Plains"
+  - Map: jor_back3
+    Name: "Frozen Scale Glacier"
+  - Map: jor_back4
+    Name: "Frozen Scale Beach"
+  - Map: jor_back5
+    Name: "Ancient Ice Canyon East"
+  - Map: jor_back6
+    Name: "Ancient Ice Canyon West"
+  - Map: jor_nest
+    Name: "Snake's Nest"
+  - Map: jor_dun01
+    Name: "Snake God's Warmth F1"
+  - Map: jor_dun02
+    Name: "Snake God's Warmth F2"
+  - Map: jor_dun03
+    Name: "Inside the Snake's Nest"
+  - Map: jor_ab01
+    Name: "Abandoned Pit F1"
+  - Map: jor_ab02
+    Name: "Abandoned Pit F2"
+  - Map: jor_que
+    Name: "Abandoned Snake God's Warmth"

@@ -6,7 +6,7 @@
 | Date kRO | **2022‑01‑19** |
 | Arc | poursuite de Bagot — le culte de Jörmungandr |
 | Niveau kRO visé | **200+** |
-| État Moonlight | **mobs importés** (2026‑11‑15, non validé en jeu) ; le reste à faire |
+| État Moonlight | **mobs et terrain portés** (2026‑11‑15, non validés en jeu) ; quêtes, instances et compétences à faire |
 
 Premier épisode que l'amont n'a pas fusionné. Une conversion complète attend pourtant
 dans la PR rAthena [#8527](https://github.com/rathena/rathena/pull/8527), jamais fusionnée :
@@ -92,7 +92,8 @@ toutes les 1,5 s, arrêt net sur 429, cache hors git) et `tools/util/divinepride
 
 **Spawns : les deux sources divergent.** Divine Pride donne plus de mobs (par exemple 70/70/60/60/10
 sur `jor_ab01` contre 65/65/35/35/10), des spawns sur `jor_tail` et `jor_back4` à `jor_back6`
-absents de la PR, et 6 h de respawn pour Ultra Limacina contre 2 h. À arbitrer.
+absents de la PR, et 6 h de respawn pour Ultra Limacina contre 2 h. **Divine Pride retenu**
+le 2026‑11‑15.
 
 ## 4. État côté Moonlight
 
@@ -121,11 +122,35 @@ ou des cartes ; les grades Iwin sont traduits : Trainee, Private, Private First 
 Captain (le PNJ `Captain#iws` de la PR porte le sprite `_SR`). iRO nomme tous les faux Iwin de
 l'épisode 20 « Fake Iwin Soldier ».
 
+### Terrain (porté le 2026‑11‑15, non validé en jeu)
+
+| Élément | Détail |
+|---|---|
+| Spawns | `moon/mobs/issgard.npc` : 36 lignes de Divine Pride sur `jor_tail`, `jor_back1` à `jor_back6`, `jor_dun01`, `jor_dun02`, `jor_ab01`, `jor_ab02` |
+| MVP | Ultra Limacina sur `jor_back3` dans `moon/mobs/mvps.npc`, 6 h de respawn, 6 points de classement |
+| Warps de ville | `moon/rathena/warps/cities/icecastle.npc` (PR) : maisons, caserne et salles du château ; la maison 1 reste fermée tant que `ep19_side_saint` < 18 |
+| Warps de field et de donjon | fin de `moon/mobs/issgard.npc` (PR), sans le doublon `#to_jor_back2_D` |
+| Warp agent | Issgard en ville (`icecastle`, 27,123), en field (`jor_tail`, `jor_back1` à 6) et en donjon (`jor_dun01`, `jor_dun02`, `jor_ab01`, `jor_ab02`), avec leur navigation |
+| Noms de carte | 16 noms dans `db/import/map_index.yml`, repris de `map_names.yml` de moonclient |
+| Mapflags | **aucun** : ni l'amont ni la PR n'en posent sur ces cartes |
+
+Ce qui attend les quêtes :
+
+- les passages `jor_dun01` → `jor_dun02`, `jor_back2` → `jor_ab01` et `jor_ab01` → `jor_ab02`
+  sont des scripts de `quests_19.txt`, gardés par `ep19_main` et `ep19_side_sea`. D'ici là, seul
+  le warp agent y mène. Avec les quêtes, le menu des donjons devra suivre leur avancement, comme
+  celui d'Illusion ;
+- l'entrée d'Issgard (l'aéronef de Ginger depuis le manoir de Varmundt, Hellock) ;
+- les spawns de `jor_que`, carte de la quête des Juncea.
+
+`jor_back4` à `jor_back6` sont des cartes de l'épisode 20 : Divine Pride y place des mobs de
+l'épisode 19, aucun warp n'y mène encore, le warp agent si.
+
 ## 5. Migration pré-renewal
 
 1. **Compétences des mobs** : aucune source. Les écrire à la main, ou les relever sur vidéo
    comme pour le mode défi d'OGH.
-2. **Spawns** : choisir entre la PR et Divine Pride.
+2. **Spawns et terrain** : faits (Divine Pride et la PR, voir §4).
 3. **Cartes EP19** (24) et **armes Glacier** (27) : conversion une par une, comme Illusion.
 4. **Quêtes et instances** depuis la PR : 45 objets cités absents, les Id **18119 à 18121**
    déjà pris en pré-renewal (Gusli, Shafka) à copier dans `db/import`, le YAML de leur
@@ -140,9 +165,9 @@ Le prérequis narratif, l'épisode 18, est porté et déployé en production le 
 | | |
 |---|---|
 | Intérêt | **réévalué à la hausse** : la PR #8527 fournit l'essentiel du contenu |
-| Ce qui est acquis | les cartes, les entrées d'instance, les objets amont, les grades, les 40 mobs |
+| Ce qui est acquis | les cartes, les entrées d'instance, les objets amont, les grades, les 40 mobs, les spawns, les warps, le warp agent |
 | Manque | les compétences des mobs, la Bataille de simulation |
-| Recommandation | arbitrer les spawns, puis porter terrain et quêtes depuis la PR ; les compétences en lot séparé |
+| Recommandation | porter les quêtes depuis la PR, puis les instances ; les compétences en lot séparé |
 
 ## Sources
 
