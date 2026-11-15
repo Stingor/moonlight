@@ -11425,7 +11425,7 @@ icas_in,185,63,3	script	Vellgunde#ep19vell02	4_EP19_VELLGUNDE,{
 				close3;
 			}
 			delitem 1000608,35;	// Ep19_Snow_Flower
-			getgroupitem(IG_ICE_F_STONE_BOX2);
+			getgroupitem(IG_ICE_F_STONE_BOX);
 			mes "[Vellgunde]";
 			mes "Now, here are the results of the Manastone.";
 			mes "Are you as good as you need to be?";

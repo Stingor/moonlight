@@ -6,7 +6,7 @@
 | Date kRO | **2022‑01‑19** |
 | Arc | poursuite de Bagot — le culte de Jörmungandr |
 | Niveau kRO visé | **200+** |
-| État Moonlight | **mobs, terrain, chaîne de quêtes, économie et instances portés** (2026‑11‑15, non validés en jeu) ; enchantements et compétences à faire |
+| État Moonlight | **mobs, terrain, chaîne de quêtes, économie, instances et enchantement Snowflower portés** (2026‑11‑15, non validés en jeu) ; enchantement Glacier et compétences à faire |
 
 Premier épisode que l'amont n'a pas fusionné. Une conversion complète attend pourtant
 dans la PR rAthena [#8527](https://github.com/rathena/rathena/pull/8527), jamais fusionnée :
@@ -207,11 +207,30 @@ prix des armes Glacier. Ce n'est pas un boot (pas de base, pas de joueurs), mais
 y passe. Les tables serveur de moonclient (objets, monstres, groupes, recettes, Lapine, propriétés,
 navigation) sont régénérées.
 
+### Enchantement Snowflower (porté le 2026‑11‑15, non validé en jeu)
+
+| Élément | Détail |
+|---|---|
+| Groupes | `item_enchant` 26 à 30 de `db/re` dans `db/import/item_enchant.yml` : trois cases (3, 2, 1), **choix sûrs seulement**, une pierre par orbe, ni zeny ni tirage |
+| Orbes | 97 `Ice_F_Orb_*` dans `item_db_enchant.yml` ; les trois orbes Doram (`Skill_49` à `51`) écartés et retirés des groupes |
+| Pierres | 97 `Ice_F_Stone_*` (`Etc`) dans `item_db_etc.yml` |
+| Obtention | Vellgunde : 35 fleurs de neige contre un tirage du groupe `ICE_F_STONE_BOX`, ou trois pierres contre une par la synthèse Laphine `Ice_F_Stone_Box2` (bloc commenté de `db/re`, rendu actif). Le groupe reprend le contenu et les taux de l'amont, pierres Doram retirées. Le PNJ et la synthèse de la PR appelaient `ICE_F_STONE_BOX2`, qui n'a pas de constante `IG_` dans le C++ : ils appellent `ICE_F_STONE_BOX`, sans recompilation |
+| Conversions | paliers +11 en `getallrefine() >= 22` ; `bAtkRate` en `bAddClass` ; orbe de DEF 250/75/100/100 en **5/1/2/2** et de MDEF 25/7/10/10 en **5/1/2/2** (÷50 et ÷5, comme l'orbe Automatic à 3/1/1) ; traits gardés ; compétences fermées par la table, doublons fusionnés ; recharges en `bDelayrate` (1 s = 5 %, cumul plafonné à -25 %) |
+| Compétences de 4ᵉ classe | ajoutées au palier +11 de chaque orbe de compétence. Les lignes déjà validées de la table s'appliquent (`DK_STORMSLASH`, `IG_SHIELD_SHOOTING`, `MT_AXE_STOMP`, `NW_*`, `SS_SEKIENHOU`…) ; **les 57 autres sont retirées**, le même palier renforçant déjà la compétence jouable de l'orbe |
+| Retiré aussi | la recharge de `WL_TELEKINESIS_INTENSE` (-30 s, orbe `Skill_21`) : en `bDelayrate` elle vaudrait -25 % sur tout |
+
+Conversions validées par l'utilisateur le 2026‑11‑15, inscrites dans
+`skills_classes_fermees.md` : `LG_HESPERUSLIT` → `CR_GRANDCROSS`, `GN_HELLS_PLANT` →
+`AM_DEMONSTRATION`, `SO_CLOUD_KILL` → `WZ_HEAVENDRIVE` (fusionnée avec `SO_POISON_BUSTER`), retrait
+des 4ᵉ classes non tabulées, DEF et MDEF à 5/1/2/2.
+
+**Client** : les fiches des 97 orbes et des 97 pierres (`item_info.yml` de moonclient) sont
+réécrites d'après les scripts convertis ; la fenêtre d'enchantement prend d'office le choix sûr
+quand une case n'offre pas de tirage.
+
 Reste à faire :
 
-- **l'enchantement Snowflower** : `item_enchant` consomme les ~90 pierres magiques de glace
-  (`Ice_F_Stone_*`, simples `Etc` sans script), avec leurs cartes d'enchantement, et la boîte
-  Laphine de Vellgunde (`Ice_F_Stone_Box2`) qui les donne ;
+- **l'enchantement des armes Glacier** (`item_enchant` 31, que Vellgunde appelle aussi) ;
 - **le Dim Glacier** (26 armes `D_Glacier_*`, grade, enchantement 47, Forr, le four
   d'incinération, groupe `D_GW_EXTRACTOR`, `barter_ep19_new_content`) : aucun mob de
   l'épisode ne les fait tomber, ils relèvent de l'épisode 20 ;

@@ -339,6 +339,19 @@ Armes Adulter et Vivatus Fides (lot B3 du 18), validée le 2026‑11‑14 :
 |---|---|---|
 | `SO_POISON_BUSTER` | `WZ_HEAVENDRIVE` | le Sage peut la lancer, comme `SO_EARTHGRAVE` → `WZ_EARTHSPIKE` |
 
+Orbes de glace Snowflower (épisode 19), validées le 2026‑11‑15 :
+
+| Compétence | Remplacement | Analogie |
+|---|---|---|
+| `LG_HESPERUSLIT` | `CR_GRANDCROSS` | attaque sacrée de zone, comme `LG_RAYOFGENESIS` |
+| `GN_HELLS_PLANT` | `AM_DEMONSTRATION` | plante au sol, comme `GN_CRAZYWEED` |
+| `SO_CLOUD_KILL` | `WZ_HEAVENDRIVE` | zone au sol, comme `SO_POISON_BUSTER` (une seule ligne) |
+| 4ᵉ classe absente de la table, au palier +11 d'un orbe | **retirée** | le même palier renforce déjà la compétence jouable de l'orbe ; les lignes de 4ᵉ classe déjà tabulées s'appliquent |
+| recharge de `WL_TELEKINESIS_INTENSE` (-30 s) | **retirée** | en `bDelayrate`, elle donnerait -25 % sur tout |
+
+Orbes de DEF et de MDEF à paliers renewal : DEF ÷50 et MDEF ÷5, au moins 1 (Snowflower 5/1/2/2,
+Automatic 3/1/1).
+
 ## Objets touchés par la règle des doublons
 
 `GodOfWinds_Fan`, `Astro_Circle`, `Emerald_Earring`, `Chilly_Spell_Book`, `Recovery_Light`, `Staff_of_Miracle`, `Red_Ether_Bag`, `Engine_Pilebuncker`, `Volar`, `Vernan`, `Master_Soul_Rifle`, `Jack_The_Knife`.
