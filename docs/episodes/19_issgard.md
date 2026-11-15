@@ -173,7 +173,9 @@ loup gris de `wolfvill` (début de la chaîne, `ep18_main` 57), ou à Lehar pour
 | Armes Glacier | 25 dans `item_db_weapon.yml` : WeaponLevel 4, `MagicAttack` en `bonus bMatk`, `Classes` retiré, Rebellion → Gunslinger, KagerouOboro → Ninja. **Glacier_Foxtail** (Doram) écartée, et retirée de la boutique |
 | Snowflower | 10 pièces dans `item_db_armor.yml` : DEF 12 (armure, robe) et 6 (capes, chaussures), ArmorLevel 1, `[1]`, `bAtkRate` en `bAddClass`. Les traits (`bPAtk`, `bSMatk`, `bPow`, `bSpl`) restent, comme à l'épisode 18. Les versions `_JP` ne sont pas portées |
 | Consommables | cubes +9 Snowflower et Glacier (`laphine_upgrade`, 6 et 25 cibles), aile de transport du château, Ice Gangu séché. Les deux ailes de mouche de la boutique existaient sous d'autres noms (`N_Fly_Wing_`, `Compressed_Wing_Of_Fly`) |
-| Marchands | Hoyoyo (pierres de fleur de neige, réputation) et Maram (fournitures, Snowflower, armes Glacier à 150 000 z) dans `quests_19.npc` ; quatre barters dans `moon/barters.yml` |
+| Marchands | Hoyoyo (pierres de fleur de neige, réputation) et Maram (fournitures, Snowflower, armes Glacier) dans `quests_19.npc` ; quatre barters dans `moon/barters.yml` |
+| Prix des armes | **200 000 z** et non 150 000 : la formule de prix de Moonlight (`itemdb.cpp`, armes de niveau 4) les revend 80 000 + 100 par ATK, jusqu'à 148 800 z avec Surcharge, au-dessus des 112 500 z d'un achat avec Remise. Un `Buy:` dans l'objet n'y change rien, la formule l'écrase |
+| Combos | les 12 combos Snowflower de `db/re`, `bAtkRate` en `bAddClass` ; ceux des `_JP`, d'`Ice_Pendant` et des pièces Glacier non portées attendent |
 | Coffre | `moon/rathena/merchants/episode_19.npc` : le stockage d'Hoyoyo contre 500 z |
 
 ### Instances (portées le 2026‑11‑15, non validées en jeu)
@@ -199,6 +201,12 @@ La Bataille de simulation, qu'on croyait absente, est dans `BaggotLaboratory.txt
 | Mapflags | jeu standard de l'épisode 18 sur les quatre cartes : `nomemo`, `noteleport`, `monster_noteleport`, `nowarpto`, `partylock`, `restricted 6` (sans `nobranch`) |
 | Warp agent | Instance > Iwin Patrol, Airship Destruction, Simulation Battle, qui envoient près de leur PNJ d'entrée |
 
+**Contrôle de chargement** (2026‑11‑15) : `map-server-generator --generate-navi` sur une conf
+factice charge toutes les bases et les 21 679 PNJ, **0 erreur, 0 avertissement** après correction du
+prix des armes Glacier. Ce n'est pas un boot (pas de base, pas de joueurs), mais tout le parsing
+y passe. Les tables serveur de moonclient (objets, monstres, groupes, recettes, Lapine, propriétés,
+navigation) sont régénérées.
+
 Reste à faire :
 
 - **l'enchantement Snowflower** : `item_enchant` consomme les ~90 pierres magiques de glace
@@ -207,7 +215,7 @@ Reste à faire :
 - **le Dim Glacier** (26 armes `D_Glacier_*`, grade, enchantement 47, Forr, le four
   d'incinération, groupe `D_GW_EXTRACTOR`, `barter_ep19_new_content`) : aucun mob de
   l'épisode ne les fait tomber, ils relèvent de l'épisode 20 ;
-- côté client, les tables d'objets.
+- les combos Gray Wolf de l'épisode 18, oubliés au même titre (mêmes entrées de `db/re`).
 
 **Côté client** : les 211 quêtes sont dans `quests.yml` de moonclient (2026‑11‑15), prises de
 `OngoingQuests.lub` (ROenglishRE, Renewal) et insérées sans redumper le fichier ; 18145 à 18147
