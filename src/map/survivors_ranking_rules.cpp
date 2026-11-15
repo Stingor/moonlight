@@ -330,6 +330,11 @@ constexpr s_survivors_arena_bound RULESET_8_ARENAS[] = {
 	  92 * ELITE_FACTOR, 18 * ELITE_FACTOR },
 };
 
+// ── LE RULESET 9 ─────────────────────────────────────────────────────────────
+// La baguette du Wizard tire deux fois plus vite, à la même portée. Aucune borne
+// ne lit la vitesse d'un tir : il reprend toutes celles du ruleset 8.
+constexpr uint16 RULESET_9 = 9;
+
 // Triées par version croissante : la première et la dernière bornent ce que
 // ZC 0x0F53 annonce.
 constexpr s_survivors_ruleset RULESETS[] = {
@@ -364,6 +369,12 @@ constexpr s_survivors_ruleset RULESETS[] = {
 	  RULESET_6_EXP_CURVE, std::size(RULESET_6_EXP_CURVE),
 	  RULESET_6_KILLS_PER_SECOND, RULESET_6_EXP_GAIN_PCT },
 	{ RULESET_8,
+	  RULESET_8_ARENAS, std::size(RULESET_8_ARENAS),
+	  RULESET_8_CLASSES, std::size(RULESET_8_CLASSES),
+	  RULESET_6_RUN_MS, RULESET_6_OVERTIME_MS,
+	  RULESET_6_EXP_CURVE, std::size(RULESET_6_EXP_CURVE),
+	  RULESET_6_KILLS_PER_SECOND, RULESET_6_EXP_GAIN_PCT },
+	{ RULESET_9,
 	  RULESET_8_ARENAS, std::size(RULESET_8_ARENAS),
 	  RULESET_8_CLASSES, std::size(RULESET_8_CLASSES),
 	  RULESET_6_RUN_MS, RULESET_6_OVERTIME_MS,
