@@ -384,17 +384,10 @@ OnStart:
 
 OnTimer3000:
 	stopnpctimer;
+	// Moonlight : faisable en solo, l'ame liberee le reste (plus de fenetre de 3 s)
 	if ('sw[0] != 1 || 'sw[1] != 1) {
 		'sw_timer = 0;
-		if ('sw[0] == 1)
-			enablenpc instance_npcname("#sw_1");
-		if ('sw[1] == 1)
-			enablenpc instance_npcname("#sw_2");
-		'sw[0] = 0;
-		'sw[1] = 0;
-		npctalk "Ah... my half soul beyond this hallway is still unfulfilled...", instance_npcname("#sw_1");
-		npctalk "Ah... my half soul beyond this hallway is still unfulfilled...", instance_npcname("#sw_2");
-		mapannounce 'map_advs$, "You must free both souls on the left and right of the hallway at the same time.", bc_map, 0xAAAAFF;
+		mapannounce 'map_advs$, "One soul has been freed. Free its other half on the opposite side of the hallway.", bc_map, 0xAAAAFF;
 		end;
 	}
 	if ('advs_step != 0)
