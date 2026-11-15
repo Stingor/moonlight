@@ -12089,3 +12089,19 @@ Body:
       DropEffect: CLIENT
     Script: |
       getgroupitem(IG_DEMI_FREYJA_ANTIQUITY,true);
+  - Id: 101162
+    AegisName: Ep19_Rgan_Scroll
+    Name: Rgan Transformation Scroll
+    Type: Usable
+    Buy: 20
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      specialeffect2 EF_CLOAKING;
+      transform 21530,1200000;

@@ -59,7 +59,7 @@ L_VillesCmd:
 		"^ff0000• Gonryun^000000", "• Alberta",     "• Aldebaran",   "• Amatsu",
 		"• Ayothaya",              "• Brasilis",     "• Comodo",      "• Dewata",
 		"• Dicastes",              "• Eclage",       "• Einbech",     "• Einbroch",
-		"• Geffen",                "• Hugel",        "• Issgard",     "• Izlude",      "• Jawaii",
+		"• Geffen",                "• Hugel",        "• Izlude",      "• Jawaii",
 		"• Lasagna",               "• Lighthalzen",  "• Louyang",     "• Lutie",
 		"• Malangdo",              "• Malaya",       "• Manuk",       "• Mora",
 		"• Morocc",                "• Moscovia",     "• Niflheim",    "• Payon",
@@ -69,7 +69,7 @@ L_VillesCmd:
 		"gonryun",    "alberta",    "aldebaran", "amatsu",
 		"ayothaya",   "brasilis",   "comodo",    "dewata",
 		"dicastes01", "eclage",     "einbech",   "einbroch",
-		"geffen",     "hugel",      "icecastle",  "izlude",    "jawaii",
+		"geffen",     "hugel",      "izlude",    "jawaii",
 		"lasagna",    "lighthalzen","louyang",   "xmas",
 		"malangdo",   "malaya",     "manuk",     "mora",
 		"morocc",     "moscovia",   "niflheim",  "payon",
@@ -77,13 +77,13 @@ L_VillesCmd:
 		"umbala",     "veins",      "yuno";
 	setarray .@vx[0],
 		156,  50, 140, 200, 207, 195, 166, 200,
-		197, 167, 170,  65, 120,  96,  27, 128, 135,
+		197, 167, 170,  65, 120,  96, 128, 135,
 		193, 158, 218, 148, 167, 144, 286, 136,
 		158, 224, 194, 177, 155, 128, 283, 200,
 		122, 196, 153;
 	setarray .@vy[0],
 		120, 240, 117, 110, 192, 215, 161, 174,
-		223, 194, 125, 200,  68, 145, 123, 111, 202,
+		223, 194, 125, 200,  68, 145, 111, 202,
 		182,  92, 115, 131, 136, 240, 230,  91,
 		 93, 192, 186, 104, 182, 111, 212, 149,
 		138, 230, 123;
@@ -1167,6 +1167,39 @@ function QuestDunMenu {
 		setarray .@qmap$[0], "ba_in01", "ba_in01", "ba_in01", "ba_in01", "ba_in01";
 		setarray .@qx[0], 22, 22, 22, 22, 22;
 		setarray .@qy[0], 260, 260, 260, 260, 260;
+	} else if (.@set == 3) {
+		copyarray .@mname$[0], .wm_jor$[0], getarraysize(.wm_jor$); // ordre : OnInit
+		setarray .@mxcoord[0], 27, 219, 222, 229, 364, 0, 0, 0, 113, 282, 113, 281;
+		setarray .@mycoord[0], 123, 53, 22, 17, 245, 0, 0, 0, 10, 87, 10, 87;
+		setarray .@minlv[0], 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200;
+		// Chaine de l'episode 19 : l'etape 7 (l'arrivee par l'aeronef) ouvre Issgard, la quete de
+		// la mer gelee la Fosse abandonnee (ep19_side_sea 11 pour F1, au-dela de 15 pour F2). Un
+		// personnage qui les a passees ouvre le compte aussi.
+		if (ep19_main >= 7 && !##dun_open_issgard)
+			##dun_open_issgard = 1;
+		if (ep19_side_sea >= 11 && !##dun_open_jor_ab01)
+			##dun_open_jor_ab01 = 1;
+		if (ep19_side_sea > 15 && !##dun_open_jor_ab02)
+			##dun_open_jor_ab02 = 1;
+		.@o = ##dun_open_issgard;
+		setarray .@open[0], .@o, .@o, .@o, .@o, .@o, .@o, .@o, .@o, .@o, .@o, ##dun_open_jor_ab01, ##dun_open_jor_ab02;
+		.@p = (ep19_main > 0);
+		.@s = (ep19_side_sea > 0);
+		setarray .@prog[0], .@p, .@p, .@p, .@p, .@p, .@p, .@p, .@p, .@p, .@p, .@s, .@s;
+		// La chaine commence au village des loups gris (ep18_main 57) ; la quete de la mer, dans
+		// la chambre de Lehar, au chateau : seulement pour qui a deja Issgard ouvert.
+		for (.@i = 0; .@i < 12; .@i++) {
+			.@qnpc$[.@i] = "Grey Wolf Villager";
+			.@qmap$[.@i] = "wolfvill";
+			.@qx[.@i] = 221;
+			.@qy[.@i] = 81;
+		}
+		if (.@o) {
+			setarray .@qnpc$[10], "Lehar", "Lehar";
+			setarray .@qmap$[10], "icas_in", "icas_in";
+			setarray .@qx[10], 35, 35;
+			setarray .@qy[10], 115, 115;
+		}
 	} else {
 		copyarray .@mname$[0], .wm_nfd$[0], getarraysize(.wm_nfd$); // ordre : OnInit
 		setarray .@mxcoord[0], 145, 149;
@@ -1501,7 +1534,6 @@ L_Fields:
 		 "• El Dicastes (dic_fild)" + LvRange(.wm_fld_dic$),       L_fld_dic,
 		 "• Geffen (gef_fild)" + LvRange(.wm_fld_gef$),            L_fld_gef,
 		 "• Hugel (hu_fild)" + LvRange(.wm_fld_hug$),              L_fld_hug,
-		 "• Issgard (jor_tail, jor_back)" + LvRange(.wm_fld_jor$), L_fld_jor,
 		 "• Kiwawa (Rockridge - rockrdg)" + LvRange(.wm_fld_roc$), L_fld_roc,
 		 "• Kunlun (Gonryun - gon_fild)" + LvRange(.wm_fld_gon$),  L_fld_gon,
 		 "• Lasagna (lasa_fild)" + LvRange(.wm_fld_las$),          L_fld_las,
@@ -1539,7 +1571,6 @@ L_fld_gef: WarpMenu(.wm_fld_gef$); goto L_Fields;
 L_fld_roc: WarpMenu(.wm_fld_roc$); goto L_Fields;
 L_fld_gon: WarpMenu(.wm_fld_gon$); goto L_Fields;
 L_fld_hug: WarpMenu(.wm_fld_hug$); goto L_Fields;
-L_fld_jor: WarpMenu(.wm_fld_jor$); goto L_Fields;
 L_fld_las: WarpMenu(.wm_fld_las$); goto L_Fields;
 L_fld_lhz: WarpMenu(.wm_fld_lhz$); goto L_Fields;
 L_fld_lou: WarpMenu(.wm_fld_lou$); goto L_Fields;
@@ -1652,7 +1683,7 @@ L_Donjons:
 		 "• Hidden Donjon" + LvRange(.wm_hid$),L_hid,
 		 "• Ice Donjon" + LvRange(.wm_ice$),L_ice,
 		 "• Illusion" + LvRange(.wm_ill$),L_ill,
-		 "• Issgard (Snake God's Warmth, Abandoned Pit)" + LvRange(.wm_jor$),L_jor,
+		 "• Issgard" + LvRange(.wm_jor$),L_jor,
 		 "• Juperos" + LvRange(.wm_jup$),L_jup,
 		 "• Kiel Hire" + LvRange(.wm_kie$),L_kie,
 		 "• Lasagna Donjon" + LvRange(.wm_las$),L_las,
@@ -1719,7 +1750,7 @@ L_ice: WarpMenu(.wm_ice$); goto L_Donjons;
 L_jup: WarpMenu(.wm_jup$); goto L_Donjons;
 L_kie: WarpMenu(.wm_kie$); goto L_Donjons;
 L_ill: IllusionMenu(); goto L_Donjons;
-L_jor: WarpMenu(.wm_jor$); goto L_Donjons;
+L_jor: QuestDunMenu(3); goto L_Donjons;
 L_las: WarpMenu(.wm_las$); goto L_Donjons;
 L_lou: WarpMenu(.wm_lou$); goto L_Donjons;
 L_mag: WarpMenu(.wm_mag$); goto L_Donjons;
@@ -1930,10 +1961,6 @@ OnInit:
 		"gef_fild10", "gef_fild11", "gef_fild12", "gef_fild13", "gef_fild14";
 	setarray .wm_fld_roc$[0], "rockrdg1", "rockrdg2";
 	setarray .wm_fld_gon$[0], "gon_fild01";
-	// Episode 19 : jor_back4 a 6 n'ont pas encore de warp (episode 20), le menu y mene.
-	setarray .wm_fld_jor$[0],
-		"jor_tail,219,53", "jor_back1,222,22", "jor_back2,229,17", "jor_back3,364,245",
-		"jor_back4", "jor_back5", "jor_back6";
 	setarray .wm_fld_hug$[0],
 		"hu_fild01", "hu_fild02", "hu_fild03", "hu_fild04", "hu_fild05",
 		"hu_fild06", "hu_fild07";
@@ -2042,7 +2069,11 @@ OnInit:
 	setarray .wm_moc2$[0],
 		"moc_fild11", "moc_fild12", "moc_fild13", "moc_fild14", "moc_fild15",
 		"moc_fild16", "moc_fild17", "moc_fild18", "moc_fild19", "moc_fild20";
-	setarray .wm_jor$[0], "jor_dun01,113,10", "jor_dun02", "jor_ab01,113,10", "jor_ab02";
+	// Episode 19 : ordre lu par QuestDunMenu(3). jor_back4 a 6 sont des cartes de l'episode 20,
+	// sans warp pour l'instant : seul ce menu y mene.
+	setarray .wm_jor$[0],
+		"icecastle", "jor_tail", "jor_back1", "jor_back2", "jor_back3", "jor_back4", "jor_back5",
+		"jor_back6", "jor_dun01", "jor_dun02", "jor_ab01", "jor_ab02";
 	setarray .wm_ill$[0],
 		"pay_d03_i", "ice_d03_i", "gef_d01_i", "iz_d04_i", "iz_d05_i",
 		"ein_d02_i", "tur_d03_i", "tur_d04_i", "com_d02_i", "ant_d02_i",

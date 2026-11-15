@@ -2834,3 +2834,14 @@ Body:
           - Index: 1
             Item: Amber
             Amount: 1
+  # Episode 19 : le parchemin de deguisement Rgan de la chaine (PR rAthena #8527). Les autres
+  # barters de l'episode attendent le lot economie.
+  - Name: barter_Ep19_Rgan_Scroll
+    Items:
+      - Index: 0
+        Item: Ep19_Rgan_Scroll
+        Zeny: 2000
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Rgan_Core_F
+            Amount: 2

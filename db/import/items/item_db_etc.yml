@@ -14979,3 +14979,131 @@ Body:
     Flags:
       BuyingStore: true
       DropEffect: CLIENT
+  - Id: 1000842
+    AegisName: Ep19_HS_FEELER
+    Name: High-sensitivity Feeler
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000846
+    AegisName: Ep19_Ice_Cookie
+    Name: Ice Cookie
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000708
+    AegisName: Ep19_Ice_Meat
+    Name: Frozen Meat
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000604
+    AegisName: Ep19_Juncea_Tube
+    Name: Juncea Test Tube
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000845
+    AegisName: Ep19_Ledger
+    Name: Ledger
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000607
+    AegisName: Ep19_Letter
+    Name: Guardian Invitation
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000706
+    AegisName: Ep19_Purified_Core
+    Name: Purified Magic Core
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000605
+    AegisName: Ep19_Red_Tube
+    Name: Red Liquid Test Tube
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000705
+    AegisName: Ep19_Rgan_Core
+    Name: Rgan's Magic Core
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000606
+    AegisName: Ep19_Rgans_Egg_Shell
+    Name: Greater Rgan Eggshell
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1000608
+    AegisName: Ep19_Snow_Flower
+    Name: Snow Flower
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT

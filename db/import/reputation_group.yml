@@ -37,3 +37,8 @@ Body:
     Name: Arunafeltz
     ReputeList:
       - 3
+  - Id: 3
+    ScriptName: Isgard
+    Name: Isgard
+    ReputeList:
+      - 4

@@ -33,3 +33,6 @@ Header:
   Version: 1
 
 Body:
+  # Episode 19 : la reputation d'Isgard (db/import/reputation.yml)
+  - Name: REPUTATION_EP19
+    Value: 4

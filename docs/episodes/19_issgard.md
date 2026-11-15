@@ -6,7 +6,7 @@
 | Date kRO | **2022‑01‑19** |
 | Arc | poursuite de Bagot — le culte de Jörmungandr |
 | Niveau kRO visé | **200+** |
-| État Moonlight | **mobs et terrain portés** (2026‑11‑15, non validés en jeu) ; quêtes, instances et compétences à faire |
+| État Moonlight | **mobs, terrain et chaîne de quêtes portés** (2026‑11‑15, non validés en jeu) ; économie, instances et compétences à faire |
 
 Premier épisode que l'amont n'a pas fusionné. Une conversion complète attend pourtant
 dans la PR rAthena [#8527](https://github.com/rathena/rathena/pull/8527), jamais fusionnée :
@@ -130,21 +130,48 @@ l'épisode 20 « Fake Iwin Soldier ».
 | MVP | Ultra Limacina sur `jor_back3` dans `moon/mobs/mvps.npc`, 6 h de respawn, 6 points de classement |
 | Warps de ville | `moon/rathena/warps/cities/icecastle.npc` (PR) : maisons, caserne et salles du château ; la maison 1 reste fermée tant que `ep19_side_saint` < 18 |
 | Warps de field et de donjon | fin de `moon/mobs/issgard.npc` (PR), sans le doublon `#to_jor_back2_D` |
-| Warp agent | Issgard en ville (`icecastle`, 27,123), en field (`jor_tail`, `jor_back1` à 6) et en donjon (`jor_dun01`, `jor_dun02`, `jor_ab01`, `jor_ab02`), avec leur navigation |
+| Warp agent | Donjons > Issgard, sous verrou de quête au compte (voir la chaîne ci-dessous), et la navigation de ses douze cartes |
 | Noms de carte | 16 noms dans `db/import/map_index.yml`, repris de `map_names.yml` de moonclient |
 | Mapflags | **aucun** : ni l'amont ni la PR n'en posent sur ces cartes |
 
-Ce qui attend les quêtes :
-
-- les passages `jor_dun01` → `jor_dun02`, `jor_back2` → `jor_ab01` et `jor_ab01` → `jor_ab02`
-  sont des scripts de `quests_19.txt`, gardés par `ep19_main` et `ep19_side_sea`. D'ici là, seul
-  le warp agent y mène. Avec les quêtes, le menu des donjons devra suivre leur avancement, comme
-  celui d'Illusion ;
-- l'entrée d'Issgard (l'aéronef de Ginger depuis le manoir de Varmundt, Hellock) ;
-- les spawns de `jor_que`, carte de la quête des Juncea.
+Les passages `jor_dun01` → `jor_dun02`, `jor_back2` → `jor_ab01` et `jor_ab01` → `jor_ab02`
+sont des scripts de la chaîne (ci-dessous). Les spawns de `jor_que`, carte de la quête des
+Juncea, restent à faire.
 
 `jor_back4` à `jor_back6` sont des cartes de l'épisode 20 : Divine Pride y place des mobs de
 l'épisode 19, aucun warp n'y mène encore, le warp agent si.
+
+### Chaîne de quêtes (portée le 2026‑11‑15, non validée en jeu)
+
+| Élément | Détail |
+|---|---|
+| Script | `moon/rathena/quests/quests_19.npc`, copie de `quests_19.txt` de la PR (17 000 lignes, 500 PNJ) |
+| Quêtes | 211 dans `db/import/quest_db.yml` : 208 nouvelles, et les 18119 à 18121 de la PR renumérotées **18145 à 18147** (script compris), Moscovia gardant Gusli et Shafka. 7894, 7898 et 12490 : la PR n'en change que le titre, la version locale reste |
+| YAML de la PR | les titres à deux-points nus (« Standby: … ») mis entre guillemets |
+| Objets | 11 objets de quête Ep19 (`db/re`) ; `Ep19_Rgan_Scroll` dans la version de la PR (`transform 21530`), **sans** `SC_MTP_W_POTION_100`, que la PR n'ajoute qu'à l'enum ; `Brown_Rat_Tail` existait déjà sous ce nom |
+| Barter | `barter_Ep19_Rgan_Scroll` dans `moon/barters.yml` |
+| Réputation | Isgard (Id 4, groupe 3) et `REPUTATION_EP19` dans `db/import` |
+| Fonction | `F_queststatus_between` dans `Global_Functions.txt` |
+| Texte | ponctuation cp949 convertie en cp1252 (`·`, espace, `*`) : moonclient lit le cp1252 |
+
+**Déblocage au compte Moonlight**, comme l'épisode 18, dès le niveau 200 (celui du début de la
+chaîne) :
+
+| Drapeau | Posé par | Ouvre |
+|---|---|---|
+| `##dun_open_issgard` | l'étape 7, l'arrivée par l'aéronef | l'aéronef de Ginger (manoir de Varmundt), et au warp agent le château, les fields et les donjons du serpent |
+| `##dun_open_jor_ab01` | `ep19_side_sea` 11 | le passage de `jor_back2` vers la Fosse F1 |
+| `##dun_open_jor_ab02` | `ep19_side_sea` au-delà de 15 | le passage vers la Fosse F2 |
+
+Le warp agent pose aussi ces drapeaux à qui a passé ces étapes, et envoie les autres au villageois
+loup gris de `wolfvill` (début de la chaîne, `ep18_main` 57), ou à Lehar pour la Fosse.
+
+Mis de côté pour le lot économie : Hoyoyo et Maram (marchands du château), les boutiques
+`ep19_basic_supply`, `ep19_glacier_melee` et `ep19_glacier_range`, les autres barters, et la
+synthèse Laphine de Vellgunde (`Ice_F_Stone_Box2`), qui ne marchera qu'avec eux.
+
+**Côté client** : `quests.yml` de moonclient n'a aucune quête de l'épisode 19, le journal
+n'affichera pas leurs titres. Les nouveaux objets attendent aussi la régénération des tables.
 
 ## 5. Migration pré-renewal
 
@@ -152,9 +179,9 @@ l'épisode 19, aucun warp n'y mène encore, le warp agent si.
    comme pour le mode défi d'OGH.
 2. **Spawns et terrain** : faits (Divine Pride et la PR, voir §4).
 3. **Cartes EP19** (24) et **armes Glacier** (27) : conversion une par une, comme Illusion.
-4. **Quêtes et instances** depuis la PR : 45 objets cités absents, les Id **18119 à 18121**
-   déjà pris en pré-renewal (Gusli, Shafka) à copier dans `db/import`, le YAML de leur
-   `quest_db` à corriger.
+4. **Quêtes** : faites (voir §4). **Économie** : les marchands du château, les barters, les
+   boutiques Glacier et Laphine. **Instances** : les quatre de la PR, `unitisforcewalk` compris.
+   **Client** : les titres des quêtes dans `quests.yml`, les tables d'objets.
 5. **C++** de la PR, après `git diff upstream/master` sur chaque fichier.
 6. **Bataille de simulation** : aucune source.
 
@@ -165,9 +192,9 @@ Le prérequis narratif, l'épisode 18, est porté et déployé en production le 
 | | |
 |---|---|
 | Intérêt | **réévalué à la hausse** : la PR #8527 fournit l'essentiel du contenu |
-| Ce qui est acquis | les cartes, les entrées d'instance, les objets amont, les grades, les 40 mobs, les spawns, les warps, le warp agent |
+| Ce qui est acquis | les cartes, les entrées d'instance, les objets amont, les grades, les 40 mobs, les spawns, les warps, le warp agent, la chaîne de quêtes |
 | Manque | les compétences des mobs, la Bataille de simulation |
-| Recommandation | porter les quêtes depuis la PR, puis les instances ; les compétences en lot séparé |
+| Recommandation | les titres de quête côté client, puis l'économie et les instances ; les compétences en lot séparé |
 
 ## Sources
 
