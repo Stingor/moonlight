@@ -233,4 +233,4 @@ abyss_04	monster	Black Acidus	20614,35
 abyss_04	monster	Silver Acidus	20615,35
 abyss_04	monster	Bone Ferus	20616,50
 abyss_04	monster	Bone Acidus	20617,50
-abyss_04	boss_monster	Bone Detardeurus	20618,1,10800000,600000,0
+abyss_04	boss_monster	Bone Detardeurus	20618,1,10800000,600000,"classement::OnMvpDead"

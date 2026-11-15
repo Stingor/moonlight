@@ -183,7 +183,7 @@ ein_dun03	monster	Abyssman	20603,20
 ein_dun03	monster	White Porcellio	20602,22
 ein_dun03	monster	Jeweliant	20598,20
 ein_dun03	monster	Jewel	20600,3
-ein_dun03	boss_monster	Jungoliant	20601,1,7200000,600000,0
+ein_dun03	boss_monster	Jungoliant	20601,1,7200000,600000,"classement::OnMvpDead"
 
 //==================================================
 // Illusion of Teddy Bear
