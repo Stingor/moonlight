@@ -486,3 +486,2396 @@ Body:
           - Item: Ice_F_Orb_Spell
             Materials:
               - Material: Ice_F_Stone_Spell
+  # Episode 19 : armes Glacier (Vellgunde), orbes de 4e classe et Doram retires.
+  - Id: 31
+    TargetItems:
+      Glacier_T_Sword: true
+      Glacier_Lance: true
+      Glacier_Sword: true
+      Glacier_B_Sword: true
+      Glacier_Spear: true
+      Glacier_T_Axe: true
+      Glacier_Axe: true
+      Glacier_Mace: true
+      Glacier_M_Mace: true
+      Glacier_R_Knife: true
+      Glacier_B_Knife: true
+      Glacier_Bow: true
+      Glacier_Knuckle: true
+      Glacier_Book: true
+      Glacier_Katar: true
+      Glacier_Wand: true
+      Glacier_Staff: true
+      Glacier_Violin: true
+      Glacier_Whip: true
+      Glacier_Humma: true
+      Glacier_Revolver: true
+      Glacier_Rifle: true
+      Glacier_Shotgun: true
+      Glacier_Gatling: true
+      Glacier_Launcher: true
+    Order:
+      - Slot: 3
+      - Slot: 2
+      - Slot: 1
+      - Slot: 0
+    Slots:
+      - Slot: 3
+        PerfectEnchants:
+          - Item: Glacier_F_Orb_150
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 50
+          - Item: Glacier_F_Orb_151
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 50
+          - Item: Glacier_F_Orb_152
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 50
+      - Slot: 2
+        PerfectEnchants:
+          - Item: Glacier_F_Orb_153
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+          - Item: Glacier_F_Orb_154
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+          - Item: Glacier_F_Orb_155
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+          - Item: Glacier_F_Orb_156
+            Materials:
+              - Material: Snow_F_Stone2
+                Amount: 20
+              - Material: Snow_F_Stone3
+                Amount: 10
+          - Item: Glacier_F_Orb_157
+            Materials:
+              - Material: Snow_F_Stone2
+                Amount: 20
+              - Material: Snow_F_Stone3
+                Amount: 10
+          - Item: Glacier_F_Orb_158
+            Materials:
+              - Material: Snow_F_Stone2
+                Amount: 20
+              - Material: Snow_F_Stone3
+                Amount: 10
+          - Item: Glacier_F_Orb_159
+            Materials:
+              - Material: Snow_F_Stone2
+                Amount: 20
+              - Material: Snow_F_Stone3
+                Amount: 10
+          - Item: Glacier_F_Orb_160
+            Materials:
+              - Material: Snow_F_Stone2
+                Amount: 20
+              - Material: Snow_F_Stone3
+                Amount: 10
+          - Item: Glacier_F_Orb_161
+            Materials:
+              - Material: Snow_F_Stone2
+                Amount: 20
+              - Material: Snow_F_Stone3
+                Amount: 10
+      - Slot: 1
+        PerfectEnchants:
+          - Item: Glacier_F_Orb_1
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Dragon_Scale
+                Amount: 100
+              - Material: Dragon_Canine
+                Amount: 100
+              - Material: Dragon_Train
+                Amount: 100
+          - Item: Glacier_F_Orb_2
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Blade_Of_Pinwheel
+                Amount: 300
+          - Item: Glacier_F_Orb_3
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Burning_Heart
+                Amount: 100
+              - Material: Burning_Horse_Shoe
+                Amount: 100
+              - Material: Cold_Magma
+                Amount: 100
+          - Item: Glacier_F_Orb_4
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Broken_Needle
+                Amount: 150
+              - Material: Needle_Of_Alarm
+                Amount: 150
+          - Item: Glacier_F_Orb_5
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Sharp_Scale
+                Amount: 150
+              - Material: Sharp_Leaf
+                Amount: 150
+          - Item: Glacier_F_Orb_6
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: OldShell
+                Amount: 300
+          - Item: Glacier_F_Orb_7
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Shining_Scales
+                Amount: 300
+          - Item: Glacier_F_Orb_8
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Fragment_Of_Crystal
+                Amount: 300
+          - Item: Glacier_F_Orb_9
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Dark_Crystal_Fragment
+                Amount: 300
+          - Item: Glacier_F_Orb_10
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Golden_Feather
+                Amount: 150
+              - Material: Soft_Feather
+                Amount: 150
+          - Item: Glacier_F_Orb_11
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Sturdy_Iron_Piece
+                Amount: 300
+          - Item: Glacier_F_Orb_12
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Dullahan_Armor
+                Amount: 300
+          - Item: Glacier_F_Orb_13
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Mystery_Iron_Bit
+                Amount: 300
+          - Item: Glacier_F_Orb_14
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Old_Steel_Plate
+                Amount: 300
+          - Item: Glacier_F_Orb_15
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Broken_Armor_Piece
+                Amount: 300
+          - Item: Glacier_F_Orb_16
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Grit
+                Amount: 300
+          - Item: Glacier_F_Orb_17
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Broken_Steel_Piece
+                Amount: 300
+          - Item: Glacier_F_Orb_18
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Mystery_Piece
+                Amount: 300
+          - Item: Glacier_F_Orb_19
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Solid_Peeling
+                Amount: 150
+              - Material: Sharp_Feeler
+                Amount: 150
+          - Item: Glacier_F_Orb_20
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Purple_Solid_Shell
+                Amount: 150
+              - Material: Hard_Peach
+                Amount: 150
+          - Item: Glacier_F_Orb_21
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Poison_Spore
+                Amount: 300
+          - Item: Glacier_F_Orb_22
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Root_Of_Maneater
+                Amount: 150
+              - Material: Browny_Root
+                Amount: 150
+          - Item: Glacier_F_Orb_23
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Sharp_Scale
+                Amount: 300
+          - Item: Glacier_F_Orb_24
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Sharpened_Cuspid
+                Amount: 300
+          - Item: Glacier_F_Orb_25
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Battered_Kettle
+                Amount: 300
+          - Item: Glacier_F_Orb_26
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Reptile_Tongue
+                Amount: 100
+              - Material: Posionous_Canine
+                Amount: 100
+              - Material: Ogre_Tooth
+                Amount: 100
+          - Item: Glacier_F_Orb_27
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Sticky_Poison
+                Amount: 150
+              - Material: Poison_Powder
+                Amount: 150
+          - Item: Glacier_F_Orb_28
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Pointed_Scale
+                Amount: 150
+              - Material: Snake_Deadly_Poison
+                Amount: 150
+          - Item: Glacier_F_Orb_29
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Resin
+                Amount: 150
+              - Material: Sticky_Webfoot
+                Amount: 150
+          - Item: Glacier_F_Orb_30
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Scale_Of_Snakes
+                Amount: 150
+              - Material: Powder_Of_Butterfly
+                Amount: 150
+          - Item: Glacier_F_Orb_31
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Heart_Of_Mermaid
+                Amount: 100
+              - Material: Immortal_Heart
+                Amount: 100
+              - Material: Stone_Heart
+                Amount: 100
+          - Item: Glacier_F_Orb_32
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Angel_Magic_Power
+                Amount: 150
+              - Material: Elder_Pixie's_Beard
+                Amount: 150
+          - Item: Glacier_F_Orb_33
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Old_Magic_Circle
+                Amount: 150
+          - Item: Glacier_F_Orb_34
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: NasariansSoulstone
+                Amount: 300
+          - Item: Glacier_F_Orb_35
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Ice_Piece
+                Amount: 150
+              - Material: Ice_Heart
+                Amount: 150
+          - Item: Glacier_F_Orb_36
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Sparkling_Dust
+                Amount: 150
+              - Material: Dokkaebi_Horn
+                Amount: 150
+          - Item: Glacier_F_Orb_37
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Grit
+                Amount: 150
+              - Material: Starsand_Of_Witch
+                Amount: 150
+          - Item: Glacier_F_Orb_38
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Sparkling_Dust
+                Amount: 150
+              - Material: Dokkaebi_Horn
+                Amount: 150
+          - Item: Glacier_F_Orb_39
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Transparent_Cloth
+                Amount: 100
+              - Material: Piece_Of_Black_Cloth
+                Amount: 100
+              - Material: Soft_Scarf
+                Amount: 100
+          - Item: Glacier_F_Orb_40
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Feather
+                Amount: 150
+              - Material: Angel_Dream
+                Amount: 150
+          - Item: Glacier_F_Orb_41
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Cloud_Piece
+                Amount: 300
+          - Item: Glacier_F_Orb_42
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Tiger_Skin_Panties
+                Amount: 100
+              - Material: Golden_Hair
+                Amount: 100
+              - Material: Horn_Of_Hilsrion
+                Amount: 100
+          - Item: Glacier_F_Orb_43
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Wild_Boar's_Mane
+                Amount: 300
+          - Item: Glacier_F_Orb_44
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Tooth_Of_Ancient_Fish
+                Amount: 300
+          - Item: Glacier_F_Orb_45
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Round_Shell
+                Amount: 300
+          - Item: Glacier_F_Orb_46
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Short_Daenggie
+                Amount: 300
+          - Item: Glacier_F_Orb_47
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Nail_Of_Mole
+                Amount: 150
+              - Material: Moustache_Of_Mole
+                Amount: 150
+          - Item: Glacier_F_Orb_48
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Porcupine_Spike
+                Amount: 150
+              - Material: Tooth_Of_
+                Amount: 150
+          - Item: Glacier_F_Orb_49
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Claw_Of_Desert_Wolf
+                Amount: 300
+          - Item: Glacier_F_Orb_50
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Colorful_Shell
+                Amount: 300
+          - Item: Glacier_F_Orb_51
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Lantern
+                Amount: 300
+          - Item: Glacier_F_Orb_52
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Brilliant_Jelly
+                Amount: 300
+          - Item: Glacier_F_Orb_53
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Wing_Of_Red_Bat
+                Amount: 300
+          - Item: Glacier_F_Orb_54
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Starsand_Of_Witch
+                Amount: 300
+          - Item: Glacier_F_Orb_55
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Golden_Feather
+                Amount: 150
+              - Material: Golden_Hair
+                Amount: 150
+          - Item: Glacier_F_Orb_56
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Dark_Crystal_Fragment
+                Amount: 100
+              - Material: Rune_Of_Darkness
+                Amount: 100
+              - Material: Piece_Of_Darkness
+                Amount: 100
+          - Item: Glacier_F_Orb_57
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Black_Bear's_Skin
+                Amount: 150
+              - Material: Piece_Of_Black_Cloth
+                Amount: 150
+          - Item: Glacier_F_Orb_58
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Skel_Bone
+                Amount: 150
+              - Material: Mementos
+                Amount: 150
+          - Item: Glacier_F_Orb_59
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Burning_Horse_Shoe
+                Amount: 150
+              - Material: Worn_Revolver
+                Amount: 150
+          - Item: Glacier_F_Orb_60
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: CrudeAmmo
+                Amount: 300
+          - Item: Glacier_F_Orb_61
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Brown_Muffler
+                Amount: 300
+          - Item: Glacier_F_Orb_62
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Broken_Shotgun
+                Amount: 300
+          - Item: Glacier_F_Orb_63
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Bandits_Scarf
+                Amount: 300
+          - Item: Glacier_F_Orb_64
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Broken_Shuriken
+                Amount: 300
+          - Item: Glacier_F_Orb_65
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: SpritJewel
+                Amount: 300
+          - Item: Glacier_F_Orb_66
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Snowball
+                Amount: 300
+          - Item: Glacier_F_Orb_67
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Armlet_Of_Prisoner
+                Amount: 300
+          - Item: Glacier_F_Orb_68
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Rust_Suriken
+                Amount: 300
+          - Item: Glacier_F_Orb_74
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Jejellopy
+                Amount: 150
+              - Material: Large_Jellopy
+                Amount: 150
+          - Item: Glacier_F_Orb_75
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Poison_Powder
+                Amount: 300
+          - Item: Glacier_F_Orb_76
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Mud_Lump
+                Amount: 150
+              - Material: Hard_Mud
+                Amount: 150
+          - Item: Glacier_F_Orb_77
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Mud_Lump
+                Amount: 150
+              - Material: Hard_Mud
+                Amount: 150
+          - Item: Glacier_F_Orb_78
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Bee_Sting
+                Amount: 150
+              - Material: Cactus_Needle
+                Amount: 150
+          - Item: Glacier_F_Orb_79
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Pumpkin_Head
+                Amount: 150
+              - Material: Live_Coal
+                Amount: 150
+          - Item: Glacier_F_Orb_80
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 25
+              - Material: Snow_F_Stone3
+                Amount: 25
+              - Material: Snowball
+                Amount: 150
+              - Material: Ice_Piece
+                Amount: 150
+          - Item: Glacier_F_Orb_156
+            Materials:
+              - Material: Snow_F_Stone2
+                Amount: 20
+              - Material: Snow_F_Stone3
+                Amount: 10
+          - Item: Glacier_F_Orb_157
+            Materials:
+              - Material: Snow_F_Stone2
+                Amount: 20
+              - Material: Snow_F_Stone3
+                Amount: 10
+          - Item: Glacier_F_Orb_158
+            Materials:
+              - Material: Snow_F_Stone2
+                Amount: 20
+              - Material: Snow_F_Stone3
+                Amount: 10
+          - Item: Glacier_F_Orb_159
+            Materials:
+              - Material: Snow_F_Stone2
+                Amount: 20
+              - Material: Snow_F_Stone3
+                Amount: 10
+          - Item: Glacier_F_Orb_160
+            Materials:
+              - Material: Snow_F_Stone2
+                Amount: 20
+              - Material: Snow_F_Stone3
+                Amount: 10
+          - Item: Glacier_F_Orb_161
+            Materials:
+              - Material: Snow_F_Stone2
+                Amount: 20
+              - Material: Snow_F_Stone3
+                Amount: 10
+      - Slot: 0
+        PerfectEnchants:
+          - Item: Glacier_F_Orb_84
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_86
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_88
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_89
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_92
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_96
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_99
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_104
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_108
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_111
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_112
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_116
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_121
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_129
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_130
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_132
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_133
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_134
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_135
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_136
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_137
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_143
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_147
+            Materials:
+              - Material: Snow_F_Stone1
+                Amount: 25
+              - Material: Snow_F_Stone2
+                Amount: 35
+              - Material: Snow_F_Stone3
+                Amount: 50
+          - Item: Glacier_F_Orb_156
+            Materials:
+              - Material: Snow_F_Stone2
+                Amount: 20
+              - Material: Snow_F_Stone3
+                Amount: 10
+          - Item: Glacier_F_Orb_157
+            Materials:
+              - Material: Snow_F_Stone2
+                Amount: 20
+              - Material: Snow_F_Stone3
+                Amount: 10
+          - Item: Glacier_F_Orb_158
+            Materials:
+              - Material: Snow_F_Stone2
+                Amount: 20
+              - Material: Snow_F_Stone3
+                Amount: 10
+          - Item: Glacier_F_Orb_159
+            Materials:
+              - Material: Snow_F_Stone2
+                Amount: 20
+              - Material: Snow_F_Stone3
+                Amount: 10
+          - Item: Glacier_F_Orb_160
+            Materials:
+              - Material: Snow_F_Stone2
+                Amount: 20
+              - Material: Snow_F_Stone3
+                Amount: 10
+          - Item: Glacier_F_Orb_161
+            Materials:
+              - Material: Snow_F_Stone2
+                Amount: 20
+              - Material: Snow_F_Stone3
+                Amount: 10
+  # Episode 18 : equipement Gray Wolf, orbes Doram retires.
+  - Id: 1
+    TargetItems:
+      Gray_W_Suits: true
+      Gray_W_Robe: true
+    MinimumRefine: 7
+    Reset:
+      Chance: 100000
+      Price: 100000
+      Materials:
+        - Material: Ep18_Amethyst_Fragment
+          Amount: 25
+    Order:
+      - Slot: 3
+      - Slot: 2
+      - Slot: 1
+    Slots:
+      - Slot: 3
+        Price: 100000
+        Materials:
+          - Material: Ep18_Amethyst_Fragment
+            Amount: 15
+        Enchants:
+          - Enchantgrade: 0
+            Items:
+              - Item: Wolf_Orb_Str_1
+                Chance: 9900
+              - Item: Wolf_Orb_Dex_1
+                Chance: 9900
+              - Item: Wolf_Orb_Agi_1
+                Chance: 9900
+              - Item: Wolf_Orb_Int_1
+                Chance: 9900
+              - Item: Wolf_Orb_Vit_1
+                Chance: 9900
+              - Item: Wolf_Orb_luk_1
+                Chance: 9900
+              - Item: Wolf_Orb_Str_2
+                Chance: 2500
+              - Item: Wolf_Orb_Dex_2
+                Chance: 2500
+              - Item: Wolf_Orb_Agi_2
+                Chance: 2500
+              - Item: Wolf_Orb_Int_2
+                Chance: 2500
+              - Item: Wolf_Orb_Vit_2
+                Chance: 2500
+              - Item: Wolf_Orb_luk_2
+                Chance: 2500
+              - Item: Wolf_Orb_Def_1
+                Chance: 9900
+              - Item: Wolf_Orb_Def_2
+                Chance: 2500
+              - Item: Wolf_Orb_Mdef_1
+                Chance: 9900
+              - Item: Wolf_Orb_Mdef_2
+                Chance: 2499
+              - Item: Wolf_Orb_Ran_1
+                Chance: 234
+              - Item: Wolf_Orb_War_1
+                Chance: 234
+              - Item: Wolf_Orb_Mag_1
+                Chance: 234
+              - Item: Wolf_Orb_Ran_2
+                Chance: 33
+              - Item: Wolf_Orb_War_2
+                Chance: 33
+              - Item: Wolf_Orb_Mag_2
+                Chance: 33
+      - Slot: 2
+        Price: 150000
+        Materials:
+          - Material: Ep18_Amethyst_Fragment
+            Amount: 25
+        Enchants:
+          - Enchantgrade: 0
+            Items:
+              - Item: Wolf_Orb_Str_1
+                Chance: 10001
+              - Item: Wolf_Orb_Dex_1
+                Chance: 10001
+              - Item: Wolf_Orb_Agi_1
+                Chance: 10001
+              - Item: Wolf_Orb_Int_1
+                Chance: 10001
+              - Item: Wolf_Orb_Vit_1
+                Chance: 10001
+              - Item: Wolf_Orb_luk_1
+                Chance: 10001
+              - Item: Wolf_Orb_Str_2
+                Chance: 2000
+              - Item: Wolf_Orb_Dex_2
+                Chance: 2000
+              - Item: Wolf_Orb_Agi_2
+                Chance: 2000
+              - Item: Wolf_Orb_Int_2
+                Chance: 2000
+              - Item: Wolf_Orb_Vit_2
+                Chance: 2000
+              - Item: Wolf_Orb_luk_2
+                Chance: 2000
+              - Item: Wolf_Orb_Str_3
+                Chance: 400
+              - Item: Wolf_Orb_Dex_3
+                Chance: 400
+              - Item: Wolf_Orb_Agi_3
+                Chance: 400
+              - Item: Wolf_Orb_Int_3
+                Chance: 400
+              - Item: Wolf_Orb_Vit_3
+                Chance: 400
+              - Item: Wolf_Orb_luk_3
+                Chance: 400
+              - Item: Wolf_Orb_Def_1
+                Chance: 10001
+              - Item: Wolf_Orb_Def_2
+                Chance: 2001
+              - Item: Wolf_Orb_Def_3
+                Chance: 400
+              - Item: Wolf_Orb_Mdef_1
+                Chance: 10001
+              - Item: Wolf_Orb_Mdef_2
+                Chance: 2001
+              - Item: Wolf_Orb_Mdef_3
+                Chance: 400
+              - Item: Wolf_Orb_Ran_1
+                Chance: 200
+              - Item: Wolf_Orb_War_1
+                Chance: 200
+              - Item: Wolf_Orb_Mag_1
+                Chance: 200
+              - Item: Wolf_Orb_Ran_2
+                Chance: 50
+              - Item: Wolf_Orb_War_2
+                Chance: 50
+              - Item: Wolf_Orb_Mag_2
+                Chance: 50
+              - Item: Wolf_Orb_Ran_3
+                Chance: 10
+              - Item: Wolf_Orb_War_3
+                Chance: 10
+              - Item: Wolf_Orb_Mag_3
+                Chance: 10
+              - Item: Wolf_Orb_S_Delay
+                Chance: 10
+      - Slot: 1
+        Price: 200000
+        Materials:
+          - Material: Ep18_Amethyst_Fragment
+            Amount: 50
+        Enchants:
+          - Enchantgrade: 0
+            Items:
+              - Item: Wolf_Orb_R_Reject_1
+                Chance: 1848
+              - Item: Wolf_Orb_R_Reject_2
+                Chance: 500
+              - Item: Wolf_Orb_R_Reject_3
+                Chance: 100
+              - Item: Wolf_Orb_Force
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_1
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_2
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_3
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_4
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_5
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_6
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_7
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_8
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_9
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_10
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_11
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_12
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_13
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_14
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_15
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_16
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_17
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_18
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_19
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_20
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_21
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_22
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_23
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_24
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_25
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_26
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_27
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_28
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_29
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_30
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_31
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_32
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_33
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_34
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_35
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_36
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_37
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_38
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_39
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_40
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_41
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_42
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_43
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_44
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_45
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_46
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_47
+                Chance: 1876
+              - Item: Wolf_Orb_Skill_48
+                Chance: 1876
+        PerfectEnchants:
+          - Item: Wolf_Orb_R_Reject_3
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Force
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_1
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_2
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_3
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_4
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_5
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_6
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_7
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_8
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_9
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_10
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_11
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_12
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_13
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_14
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_15
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_16
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_17
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_18
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_19
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_20
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_21
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_22
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_23
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_24
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_25
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_26
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_27
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_28
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_29
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_30
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_31
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_32
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_33
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_34
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_35
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_36
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_37
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_38
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_39
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_40
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_41
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_42
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_43
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_44
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_45
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_46
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_47
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Skill_48
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+  - Id: 2
+    TargetItems:
+      Gray_W_Manteau: true
+      Gray_W_Muffler: true
+    MinimumRefine: 7
+    Reset:
+      Chance: 100000
+      Price: 100000
+      Materials:
+        - Material: Ep18_Amethyst_Fragment
+          Amount: 25
+    Order:
+      - Slot: 3
+      - Slot: 2
+      - Slot: 1
+    Slots:
+      - Slot: 3
+        Price: 100000
+        Materials:
+          - Material: Ep18_Amethyst_Fragment
+            Amount: 15
+        Enchants:
+          - Enchantgrade: 0
+            Items:
+              - Item: Wolf_Orb_Str_1
+                Chance: 13666
+              - Item: Wolf_Orb_Dex_1
+                Chance: 13667
+              - Item: Wolf_Orb_Agi_1
+                Chance: 13667
+              - Item: Wolf_Orb_Int_1
+                Chance: 13666
+              - Item: Wolf_Orb_Vit_1
+                Chance: 13667
+              - Item: Wolf_Orb_luk_1
+                Chance: 13667
+              - Item: Wolf_Orb_Str_2
+                Chance: 2500
+              - Item: Wolf_Orb_Dex_2
+                Chance: 2500
+              - Item: Wolf_Orb_Agi_2
+                Chance: 2500
+              - Item: Wolf_Orb_Int_2
+                Chance: 2500
+              - Item: Wolf_Orb_Vit_2
+                Chance: 2500
+              - Item: Wolf_Orb_luk_2
+                Chance: 2500
+              - Item: Wolf_Orb_Str_3
+                Chance: 500
+              - Item: Wolf_Orb_Dex_3
+                Chance: 500
+              - Item: Wolf_Orb_Agi_3
+                Chance: 500
+              - Item: Wolf_Orb_Int_3
+                Chance: 500
+              - Item: Wolf_Orb_Vit_3
+                Chance: 500
+              - Item: Wolf_Orb_luk_3
+                Chance: 500
+      - Slot: 2
+        Price: 150000
+        Materials:
+          - Material: Ep18_Amethyst_Fragment
+            Amount: 25
+        Enchants:
+          - Enchantgrade: 0
+            Items:
+              - Item: Wolf_Orb_Speed_1
+                Chance: 20000
+              - Item: Wolf_Orb_Caster_1
+                Chance: 20000
+              - Item: Wolf_Orb_Critical_1
+                Chance: 20000
+              - Item: Wolf_Orb_Guide_1
+                Chance: 20000
+              - Item: Wolf_Orb_Speed_2
+                Chance: 4500
+              - Item: Wolf_Orb_Caster_2
+                Chance: 4500
+              - Item: Wolf_Orb_Critical_2
+                Chance: 4500
+              - Item: Wolf_Orb_Guide_2
+                Chance: 4500
+              - Item: Wolf_Orb_Speed_3
+                Chance: 500
+              - Item: Wolf_Orb_Caster_3
+                Chance: 500
+              - Item: Wolf_Orb_Critical_3
+                Chance: 500
+              - Item: Wolf_Orb_Guide_3
+                Chance: 500
+      - Slot: 1
+        Price: 200000
+        Materials:
+          - Material: Ep18_Amethyst_Fragment
+            Amount: 50
+        Enchants:
+          - Enchantgrade: 0
+            Items:
+              - Item: Wolf_Orb_Above_1
+                Chance: 30033
+              - Item: Wolf_Orb_Above_2
+                Chance: 3000
+              - Item: Wolf_Orb_Above_3
+                Chance: 300
+              - Item: Wolf_Orb_P_Full_1
+                Chance: 30034
+              - Item: Wolf_Orb_P_Full_2
+                Chance: 3000
+              - Item: Wolf_Orb_P_Full_3
+                Chance: 300
+              - Item: Wolf_Orb_M_Counter_1
+                Chance: 30033
+              - Item: Wolf_Orb_M_Counter_2
+                Chance: 3000
+              - Item: Wolf_Orb_M_Counter_3
+                Chance: 300
+        PerfectEnchants:
+          - Item: Wolf_Orb_Above_3
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_P_Full_3
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_M_Counter_3
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+  - Id: 3
+    TargetItems:
+      Gray_W_Boots: true
+      Gray_W_Shoes: true
+    MinimumRefine: 7
+    Reset:
+      Chance: 100000
+      Price: 100000
+      Materials:
+        - Material: Ep18_Amethyst_Fragment
+          Amount: 25
+    Order:
+      - Slot: 3
+      - Slot: 2
+      - Slot: 1
+    Slots:
+      - Slot: 3
+        Price: 100000
+        Materials:
+          - Material: Ep18_Amethyst_Fragment
+            Amount: 15
+        Enchants:
+          - Enchantgrade: 0
+            Items:
+              - Item: Wolf_Orb_Hp_1
+                Chance: 21500
+              - Item: Wolf_Orb_Sp_1
+                Chance: 21500
+              - Item: Wolf_Orb_Heal_1
+                Chance: 21500
+              - Item: Wolf_Orb_Robust_1
+                Chance: 21500
+              - Item: Wolf_Orb_Hp_2
+                Chance: 3000
+              - Item: Wolf_Orb_Sp_2
+                Chance: 3000
+              - Item: Wolf_Orb_Heal_2
+                Chance: 3000
+              - Item: Wolf_Orb_Robust_2
+                Chance: 3000
+              - Item: Wolf_Orb_Hp_3
+                Chance: 500
+              - Item: Wolf_Orb_Sp_3
+                Chance: 500
+              - Item: Wolf_Orb_Heal_3
+                Chance: 500
+              - Item: Wolf_Orb_Robust_3
+                Chance: 500
+      - Slot: 2
+        Price: 150000
+        Materials:
+          - Material: Ep18_Amethyst_Fragment
+            Amount: 25
+        Enchants:
+          - Enchantgrade: 0
+            Items:
+              - Item: Wolf_Orb_F_Cast_1
+                Chance: 30033
+              - Item: Wolf_Orb_F_Cast_2
+                Chance: 3000
+              - Item: Wolf_Orb_F_Cast_3
+                Chance: 300
+              - Item: Wolf_Orb_M_F_1
+                Chance: 30034
+              - Item: Wolf_Orb_M_F_2
+                Chance: 3000
+              - Item: Wolf_Orb_M_F_3
+                Chance: 300
+              - Item: Wolf_Orb_P_F_1
+                Chance: 30033
+              - Item: Wolf_Orb_P_F_2
+                Chance: 3000
+              - Item: Wolf_Orb_P_F_3
+                Chance: 300
+      - Slot: 1
+        Price: 200000
+        Materials:
+          - Material: Ep18_Amethyst_Fragment
+            Amount: 50
+        Enchants:
+          - Enchantgrade: 0
+            Items:
+              - Item: Wolf_Orb_Un_Vit
+                Chance: 16667
+              - Item: Wolf_Orb_Sp_Int
+                Chance: 16667
+              - Item: Wolf_Orb_Fi_Dex
+                Chance: 16667
+              - Item: Wolf_Orb_Ov_Str
+                Chance: 16667
+              - Item: Wolf_Orb_Fa_Agi
+                Chance: 16666
+              - Item: Wolf_Orb_Lu_Luk
+                Chance: 16666
+        PerfectEnchants:
+          - Item: Wolf_Orb_Un_Vit
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Sp_Int
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Fi_Dex
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Ov_Str
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Fa_Agi
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Lu_Luk
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+  - Id: 4
+    TargetItems:
+      Gray_W_Pendant: true
+      Gray_W_Earing: true
+    Reset:
+      Chance: 100000
+      Price: 100000
+      Materials:
+        - Material: Ep18_Amethyst_Fragment
+          Amount: 25
+    Order:
+      - Slot: 3
+      - Slot: 2
+      - Slot: 1
+    Slots:
+      - Slot: 3
+        Price: 100000
+        Materials:
+          - Material: Ep18_Amethyst_Fragment
+            Amount: 15
+        Enchants:
+          - Enchantgrade: 0
+            Items:
+              - Item: Wolf_Orb_Str_1
+                Chance: 13617
+              - Item: Wolf_Orb_Dex_1
+                Chance: 13617
+              - Item: Wolf_Orb_Agi_1
+                Chance: 13617
+              - Item: Wolf_Orb_Int_1
+                Chance: 13617
+              - Item: Wolf_Orb_Vit_1
+                Chance: 13616
+              - Item: Wolf_Orb_luk_1
+                Chance: 13616
+              - Item: Wolf_Orb_Str_2
+                Chance: 2550
+              - Item: Wolf_Orb_Dex_2
+                Chance: 2550
+              - Item: Wolf_Orb_Agi_2
+                Chance: 2550
+              - Item: Wolf_Orb_Int_2
+                Chance: 2550
+              - Item: Wolf_Orb_Vit_2
+                Chance: 2550
+              - Item: Wolf_Orb_luk_2
+                Chance: 2550
+              - Item: Wolf_Orb_Str_3
+                Chance: 500
+              - Item: Wolf_Orb_Dex_3
+                Chance: 500
+              - Item: Wolf_Orb_Agi_3
+                Chance: 500
+              - Item: Wolf_Orb_Int_3
+                Chance: 500
+              - Item: Wolf_Orb_Vit_3
+                Chance: 500
+              - Item: Wolf_Orb_luk_3
+                Chance: 500
+      - Slot: 2
+        Price: 150000
+        Materials:
+          - Material: Ep18_Amethyst_Fragment
+            Amount: 25
+        Enchants:
+          - Enchantgrade: 0
+            Items:
+              - Item: Wolf_Orb_HealHP_1
+                Chance: 13800
+              - Item: Wolf_Orb_HealHP_2
+                Chance: 2007
+              - Item: Wolf_Orb_HealHP_3
+                Chance: 400
+              - Item: Wolf_Orb_HealHP_4
+                Chance: 50
+              - Item: Wolf_Orb_HealSP_1
+                Chance: 13800
+              - Item: Wolf_Orb_HealSP_2
+                Chance: 2007
+              - Item: Wolf_Orb_HealSP_3
+                Chance: 400
+              - Item: Wolf_Orb_HealSP_4
+                Chance: 50
+              - Item: Wolf_Orb_E_Archer_1
+                Chance: 13800
+              - Item: Wolf_Orb_E_Archer_2
+                Chance: 2007
+              - Item: Wolf_Orb_E_Archer_3
+                Chance: 400
+              - Item: Wolf_Orb_E_Archer_4
+                Chance: 50
+              - Item: Wolf_Orb_Fatal_1
+                Chance: 13800
+              - Item: Wolf_Orb_Fatal_2
+                Chance: 2007
+              - Item: Wolf_Orb_Fatal_3
+                Chance: 400
+              - Item: Wolf_Orb_Fatal_4
+                Chance: 50
+              - Item: Wolf_Orb_F_Spirit_1
+                Chance: 13800
+              - Item: Wolf_Orb_F_Spirit_2
+                Chance: 2007
+              - Item: Wolf_Orb_F_Spirit_3
+                Chance: 400
+              - Item: Wolf_Orb_F_Spirit_4
+                Chance: 50
+              - Item: Wolf_Orb_Spell_1
+                Chance: 13800
+              - Item: Wolf_Orb_Spell_2
+                Chance: 2007
+              - Item: Wolf_Orb_Spell_3
+                Chance: 400
+              - Item: Wolf_Orb_Spell_4
+                Chance: 50
+              - Item: Wolf_Orb_A_Delay_2
+                Chance: 2008
+              - Item: Wolf_Orb_A_Delay_3
+                Chance: 400
+              - Item: Wolf_Orb_A_Delay_4
+                Chance: 50
+      - Slot: 1
+        Price: 200000
+        Materials:
+          - Material: Ep18_Amethyst_Fragment
+            Amount: 50
+        Enchants:
+          - Enchantgrade: 0
+            Items:
+              - Item: Wolf_Orb_Life
+                Chance: 3600
+              - Item: Wolf_Orb_M_Heal
+                Chance: 3600
+              - Item: Wolf_Orb_A_Force
+                Chance: 3600
+              - Item: Wolf_Orb_E_Archer_1
+                Chance: 19200
+              - Item: Wolf_Orb_Fatal_1
+                Chance: 19200
+              - Item: Wolf_Orb_F_Spirit_1
+                Chance: 19200
+              - Item: Wolf_Orb_Spell_1
+                Chance: 19200
+              - Item: Wolf_Orb_A_Delay_2
+                Chance: 2000
+              - Item: Wolf_Orb_E_Archer_2
+                Chance: 2000
+              - Item: Wolf_Orb_Fatal_2
+                Chance: 2000
+              - Item: Wolf_Orb_F_Spirit_2
+                Chance: 2000
+              - Item: Wolf_Orb_Spell_2
+                Chance: 2000
+              - Item: Wolf_Orb_A_Delay_3
+                Chance: 400
+              - Item: Wolf_Orb_E_Archer_3
+                Chance: 400
+              - Item: Wolf_Orb_Fatal_3
+                Chance: 400
+              - Item: Wolf_Orb_F_Spirit_3
+                Chance: 400
+              - Item: Wolf_Orb_Spell_3
+                Chance: 400
+              - Item: Wolf_Orb_A_Delay_4
+                Chance: 80
+              - Item: Wolf_Orb_E_Archer_4
+                Chance: 80
+              - Item: Wolf_Orb_Fatal_4
+                Chance: 80
+              - Item: Wolf_Orb_F_Spirit_4
+                Chance: 80
+              - Item: Wolf_Orb_Spell_4
+                Chance: 80
+        PerfectEnchants:
+          - Item: Wolf_Orb_Life
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_M_Heal
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_A_Force
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_E_Archer_4
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Fatal_4
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_F_Spirit_4
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Spell_4
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_A_Delay_4
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+  - Id: 5
+    TargetItems:
+      Gray_W_Ring: true
+      Gray_W_Necklace: true
+    Reset:
+      Chance: 100000
+      Price: 100000
+      Materials:
+        - Material: Ep18_Amethyst_Fragment
+          Amount: 25
+    Order:
+      - Slot: 3
+      - Slot: 2
+      - Slot: 1
+    Slots:
+      - Slot: 3
+        Price: 100000
+        Materials:
+          - Material: Ep18_Amethyst_Fragment
+            Amount: 15
+        Enchants:
+          - Enchantgrade: 0
+            Items:
+              - Item: Wolf_Orb_Str_1
+                Chance: 13617
+              - Item: Wolf_Orb_Dex_1
+                Chance: 13617
+              - Item: Wolf_Orb_Agi_1
+                Chance: 13617
+              - Item: Wolf_Orb_Int_1
+                Chance: 13617
+              - Item: Wolf_Orb_Vit_1
+                Chance: 13616
+              - Item: Wolf_Orb_luk_1
+                Chance: 13616
+              - Item: Wolf_Orb_Str_2
+                Chance: 2550
+              - Item: Wolf_Orb_Dex_2
+                Chance: 2550
+              - Item: Wolf_Orb_Agi_2
+                Chance: 2550
+              - Item: Wolf_Orb_Int_2
+                Chance: 2550
+              - Item: Wolf_Orb_Vit_2
+                Chance: 2550
+              - Item: Wolf_Orb_luk_2
+                Chance: 2550
+              - Item: Wolf_Orb_Str_3
+                Chance: 500
+              - Item: Wolf_Orb_Dex_3
+                Chance: 500
+              - Item: Wolf_Orb_Agi_3
+                Chance: 500
+              - Item: Wolf_Orb_Int_3
+                Chance: 500
+              - Item: Wolf_Orb_Vit_3
+                Chance: 500
+              - Item: Wolf_Orb_luk_3
+                Chance: 500
+      - Slot: 2
+        Price: 150000
+        Materials:
+          - Material: Ep18_Amethyst_Fragment
+            Amount: 25
+        Enchants:
+          - Enchantgrade: 0
+            Items:
+              - Item: Wolf_Orb_HealHP_1
+                Chance: 13800
+              - Item: Wolf_Orb_HealHP_2
+                Chance: 2007
+              - Item: Wolf_Orb_HealHP_3
+                Chance: 400
+              - Item: Wolf_Orb_HealHP_4
+                Chance: 50
+              - Item: Wolf_Orb_HealSP_1
+                Chance: 13800
+              - Item: Wolf_Orb_HealSP_2
+                Chance: 2007
+              - Item: Wolf_Orb_HealSP_3
+                Chance: 400
+              - Item: Wolf_Orb_HealSP_4
+                Chance: 50
+              - Item: Wolf_Orb_E_Archer_1
+                Chance: 13800
+              - Item: Wolf_Orb_E_Archer_2
+                Chance: 2007
+              - Item: Wolf_Orb_E_Archer_3
+                Chance: 400
+              - Item: Wolf_Orb_E_Archer_4
+                Chance: 50
+              - Item: Wolf_Orb_Fatal_1
+                Chance: 13800
+              - Item: Wolf_Orb_Fatal_2
+                Chance: 2007
+              - Item: Wolf_Orb_Fatal_3
+                Chance: 400
+              - Item: Wolf_Orb_Fatal_4
+                Chance: 50
+              - Item: Wolf_Orb_F_Spirit_1
+                Chance: 13800
+              - Item: Wolf_Orb_F_Spirit_2
+                Chance: 2007
+              - Item: Wolf_Orb_F_Spirit_3
+                Chance: 400
+              - Item: Wolf_Orb_F_Spirit_4
+                Chance: 50
+              - Item: Wolf_Orb_Spell_1
+                Chance: 13800
+              - Item: Wolf_Orb_Spell_2
+                Chance: 2007
+              - Item: Wolf_Orb_Spell_3
+                Chance: 400
+              - Item: Wolf_Orb_Spell_4
+                Chance: 50
+              - Item: Wolf_Orb_A_Delay_2
+                Chance: 2008
+              - Item: Wolf_Orb_A_Delay_3
+                Chance: 400
+              - Item: Wolf_Orb_A_Delay_4
+                Chance: 50
+      - Slot: 1
+        Price: 200000
+        Materials:
+          - Material: Ep18_Amethyst_Fragment
+            Amount: 50
+        Enchants:
+          - Enchantgrade: 0
+            Items:
+              - Item: Wolf_Orb_Soul
+                Chance: 3600
+              - Item: Wolf_Orb_M_Soul
+                Chance: 3600
+              - Item: Wolf_Orb_A_Force
+                Chance: 3600
+              - Item: Wolf_Orb_E_Archer_1
+                Chance: 19200
+              - Item: Wolf_Orb_Fatal_1
+                Chance: 19200
+              - Item: Wolf_Orb_F_Spirit_1
+                Chance: 19200
+              - Item: Wolf_Orb_Spell_1
+                Chance: 19200
+              - Item: Wolf_Orb_A_Delay_2
+                Chance: 2000
+              - Item: Wolf_Orb_E_Archer_2
+                Chance: 2000
+              - Item: Wolf_Orb_Fatal_2
+                Chance: 2000
+              - Item: Wolf_Orb_F_Spirit_2
+                Chance: 2000
+              - Item: Wolf_Orb_Spell_2
+                Chance: 2000
+              - Item: Wolf_Orb_A_Delay_3
+                Chance: 400
+              - Item: Wolf_Orb_E_Archer_3
+                Chance: 400
+              - Item: Wolf_Orb_Fatal_3
+                Chance: 400
+              - Item: Wolf_Orb_F_Spirit_3
+                Chance: 400
+              - Item: Wolf_Orb_Spell_3
+                Chance: 400
+              - Item: Wolf_Orb_A_Delay_4
+                Chance: 80
+              - Item: Wolf_Orb_E_Archer_4
+                Chance: 80
+              - Item: Wolf_Orb_Fatal_4
+                Chance: 80
+              - Item: Wolf_Orb_F_Spirit_4
+                Chance: 80
+              - Item: Wolf_Orb_Spell_4
+                Chance: 80
+        PerfectEnchants:
+          - Item: Wolf_Orb_Soul
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_M_Soul
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_A_Force
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_E_Archer_4
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Fatal_4
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_F_Spirit_4
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_Spell_4
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500
+          - Item: Wolf_Orb_A_Delay_4
+            Price: 10000000
+            Materials:
+              - Material: Ep18_Amethyst_Fragment
+                Amount: 2500

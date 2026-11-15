@@ -349,6 +349,14 @@ Orbes de glace Snowflower (épisode 19), validées le 2026‑11‑15 :
 | 4ᵉ classe absente de la table, au palier +11 d'un orbe | **retirée** | le même palier renforce déjà la compétence jouable de l'orbe ; les lignes de 4ᵉ classe déjà tabulées s'appliquent |
 | recharge de `WL_TELEKINESIS_INTENSE` (-30 s) | **retirée** | en `bDelayrate`, elle donnerait -25 % sur tout |
 
+Orbes Glacier (épisode 19) et Gray Wolf (épisode 18), validées le 2026‑11‑15 :
+
+| Compétence | Remplacement | Analogie |
+|---|---|---|
+| `RA_WUGSTRIKE` | `HT_BLITZBEAT` | attaque de l'animal du Ranger, comme le faucon |
+| `SO_PSYCHIC_WAVE` en autosort | `HW_NAPALMVULCAN` | Soul Burn (`PF_SOULBURN`) ne frappe pas ; le bonus de dégâts du même orbe suit |
+| recharge qui atteint seule -25 % (8 s et plus : `RL_HAMMER_OF_GOD`) | **retirée** | comme `WL_TELEKINESIS_INTENSE` |
+
 Orbes de DEF et de MDEF à paliers renewal : DEF ÷50 et MDEF ÷5, au moins 1 (Snowflower 5/1/2/2,
 Automatic 3/1/1).
 

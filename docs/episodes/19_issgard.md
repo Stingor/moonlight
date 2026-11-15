@@ -6,7 +6,7 @@
 | Date kRO | **2022‑01‑19** |
 | Arc | poursuite de Bagot — le culte de Jörmungandr |
 | Niveau kRO visé | **200+** |
-| État Moonlight | **mobs, terrain, chaîne de quêtes, économie, instances et enchantement Snowflower portés** (2026‑11‑15, non validés en jeu) ; enchantement Glacier et compétences à faire |
+| État Moonlight | **mobs, terrain, chaîne de quêtes, économie, instances, enchantements Snowflower et Glacier portés** (2026‑11‑15, non validés en jeu) ; compétences des mobs à faire |
 
 Premier épisode que l'amont n'a pas fusionné. Une conversion complète attend pourtant
 dans la PR rAthena [#8527](https://github.com/rathena/rathena/pull/8527), jamais fusionnée :
@@ -228,13 +228,27 @@ des 4ᵉ classes non tabulées, DEF et MDEF à 5/1/2/2.
 réécrites d'après les scripts convertis ; la fenêtre d'enchantement prend d'office le choix sûr
 quand une case n'offre pas de tirage.
 
+### Enchantement des armes Glacier (porté le 2026‑11‑15, non validé en jeu)
+
+| Élément | Détail |
+|---|---|
+| Groupe | `item_enchant` 31 de `db/re` : quatre cases (3, 2, 1, 0), choix sûrs seulement, fleurs de neige `Snow_F_Stone1` à `3` et butins de mobs. `Glacier_Foxtail` (Doram) retiré des cibles |
+| Orbes | **110** `Glacier_F_Orb_*` sur 191. **81 écartés** : les orbes de compétence d'une 4ᵉ classe non tabulée (la plupart de la case 0) et les orbes Doram, vides une fois ces lignes retirées |
+| Matières | les quatre butins des Cowraiders s'appellent chez Moonlight `Worn_Revolver`, `Broken_Shotgun`, `Bandits_Scarf`, `Brown_Muffler` (Rockridge) : renommés dans le groupe. Toutes les matières tombent d'un mob local |
+| Conversions | celles de Snowflower, `.@r` étant ici le raffinement de l'arme (comme les armes Fides de l'épisode 18) ; `bNoMadoFuel` retiré ; `bSkillUseSPrate` et les autosorts passent par la table |
+| Nouveau (validé le 2026‑11‑15) | `RA_WUGSTRIKE` → `HT_BLITZBEAT` (Wolf Orb) ; l'autosort de `SO_PSYCHIC_WAVE` (orbe 30) en **`HW_NAPALMVULCAN`**, son bonus de dégâts suivant, Soul Burn ne frappant pas ; une recharge qui atteint seule le plafond de -25 % est **retirée** comme celle de Telekinesis (`RL_HAMMER_OF_GOD` -8 s, orbe 60) |
+| Combos | aucun portable : les combos Glacier portent sur les armures `Glacier_*` et les casques `Glacier_Helm_*`, qui viennent du coffret `F_ICESLUG_ANTIQUIY`, non porté ; ceux d'`Ice_Pendant` et des `_JP` attendent aussi leurs objets |
+
+**Client** : fiches `item_info.yml` des orbes Glacier et Gray Wolf réécrites d'après le texte natif
+(compétences remplacées ou retirées, palier +22, délais, DEF/MDEF) ; table d'enchantement régénérée.
+
 Reste à faire :
 
-- **l'enchantement des armes Glacier** (`item_enchant` 31, que Vellgunde appelle aussi) ;
 - **le Dim Glacier** (26 armes `D_Glacier_*`, grade, enchantement 47, Forr, le four
   d'incinération, groupe `D_GW_EXTRACTOR`, `barter_ep19_new_content`) : aucun mob de
   l'épisode ne les fait tomber, ils relèvent de l'épisode 20 ;
-- les combos Gray Wolf de l'épisode 18, oubliés au même titre (mêmes entrées de `db/re`).
+- les compétences des 40 mobs de l'épisode (aucune source) ;
+- le coffret `F_ICESLUG_ANTIQUIY` et ses armures `Glacier_*`, dont dépendent les combos Glacier.
 
 **Côté client** : les 211 quêtes sont dans `quests.yml` de moonclient (2026‑11‑15), prises de
 `OngoingQuests.lub` (ROenglishRE, Renewal) et insérées sans redumper le fichier ; 18145 à 18147

@@ -200,6 +200,16 @@ client juge tout avant l'envoi, y compris la règle « seule la première pile d
 | Drops `1@advs` avancé | Blue Prints Scroll à 50 % sur Schulang et Demi Freyja (amont), **0,67 %** sur Sanare et Heart Hunter (0,5 % en amont, même relèvement que les matériaux). **Coffret à 10 % sur Demi Freyja : choix Moonlight**, l'amont ne le distribuant nulle part (coffret de boutique en kRO) | `db/import/map_drops.yml` |
 | Client | `item_reform.yml` de moonclient régénéré : les plans comptent parmi les matériaux | moonclient |
 
+## 5g. Lot B6 : l'enchantement Gray Wolf et ses combos (2026‑11‑15, non validé en jeu)
+
+| Partie | Contenu | Fichiers |
+|---|---|---|
+| Groupes | `item_enchant` 1 à 5 de `db/re` (Emmet, `quests_18.npc`, les appelait déjà) : cases 3 et 2 en tirage, case 1 en tirage ou choix sûr, Fragments d'Améthyste et zeny, raffinement +7 minimum sur les armures | `db/import/item_enchant.yml` |
+| Orbes | 166 `Wolf_Orb_*` ; les trois orbes Doram (`Skill_49` à `51`) écartés et retirés des groupes | `db/import/items/item_db_enchant.yml` |
+| Conversions | règles de l'enchantement Snowflower (épisode 19) : paliers +11 en `getallrefine() >= 22`, `bAtkRate` en `bAddClass`, DEF 150/75/75/75 en 3/1/1/1 et MDEF 20/7/7/10 en 4/1/1/2, compétences fermées par la table, recharges en `bDelayrate` ; `bFixedCast` gardé (le fork l'applique en pre-re) | |
+| Combos | les 12 combos `Gray_W_*` de `db/re`, `bAtkRate` en `bAddClass`. Ceux avec `Wild_Beast`, `Adventure_Clover` et les `_JP` attendent ces objets | `db/import/item_combos.yml` |
+| Client | fiches `item_info.yml` des orbes réécrites d'après les règles ; table d'enchantement régénérée | moonclient |
+
 ## 6. Verdict
 
 | | |
@@ -209,7 +219,8 @@ client juge tout avant l'envoi, y compris la règle « seule la première pile d
 | Fait | lot B3 : l'économie (2026‑11‑14) |
 | Fait | lot B4 : la réforme Adulter → Vivatus, serveur et fenêtre moonclient (2026‑11‑14) |
 | Fait | lot B5 : Blue Prints Scroll, plans `Conse_F_*` et coffret de Demi Freyja (2026‑11‑15) |
-| Reste à faire | hors périmètre : la Forêt Profonde (Spirit Handler), l'enchanteur Emmett (sans script) |
+| Fait | lot B6 : l'enchantement Gray Wolf (Emmet) et les 12 combos Gray Wolf (2026‑11‑15) |
+| Reste à faire | hors périmètre : la Forêt Profonde (Spirit Handler) |
 | Épisode | **clos** côté portage le 2026‑11‑14 |
 
 ## Sources
