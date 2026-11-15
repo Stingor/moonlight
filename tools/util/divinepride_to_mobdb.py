@@ -71,7 +71,7 @@ NAMES = {
     "EP19_NPC_IWIN_SY": "Iwin Private",           # 이병
     "EP19_NPC_IWIN_SB": "Iwin Private First Class",  # 일병
     "EP19_NPC_IWIN_SG": "Iwin Corporal",          # 상병
-    "EP19_NPC_IWIN_SR": "Iwin Sergeant",          # 조병, sommet de l'échelle
+    "EP19_NPC_IWIN_SR": "Iwin Captain",           # 조병 ; « Captain#iws » dans la PR rAthena #8527
     "EP19_NPC_LEHAR": "Lehar",                    # costume C_Lehar_Mini
     "EP19_RGAN_E": "Superior Rgan",               # 상급 르간, comme 21600
     "EP19_MD_JUNCEA": "Monster Juncea",

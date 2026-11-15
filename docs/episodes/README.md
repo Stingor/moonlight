@@ -23,7 +23,7 @@ Relevé initial le **2026-08-25**, synthèse remise à jour le **2026-10-07** (1
 | [17-1_illusion.md](17-1_illusion.md) | 17.1 — Illusion (Cor, Rudus, OS) | 2018‑07‑18 | **en production** (contenu de l'intervalle et mode défi d'OGH compris) |
 | [17-2_heritage_du_sage.md](17-2_heritage_du_sage.md) | 17.2 — Sage's Legacy (Varmundt) | 2020‑10‑30 | **en production** (Niflheim renewal, Rudus 4F, Amicitia, chaîne de quêtes, quatre instances, économie du manoir) |
 | [18_direction_de_la_priere.md](18_direction_de_la_priere.md) | 18 — Direction of Prayer | 2021‑02‑01 | **en production** (terrain, chaîne, réputation, instances, économie, réforme Adulter → Vivatus) |
-| [19_issgard.md](19_issgard.md) | 19 — Issgard, Land of Snow Flowers | 2022‑01‑19 | **rien** (rAthena non plus) |
+| [19_issgard.md](19_issgard.md) | 19 — Issgard, Land of Snow Flowers | 2022‑01‑19 | **mobs importés** (PR rAthena #8527 non fusionnée : quêtes et instances à porter) |
 | [20_the_undying.md](20_the_undying.md) | 20 — The Undying | 2023‑03‑02 | **rien** (rAthena non plus) |
 
 ## Synthèse : ce qui reste à migrer, par coût croissant

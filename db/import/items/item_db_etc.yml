@@ -14812,3 +14812,170 @@ Body:
     Weight: 300
     Flags:
       DropEffect: CLIENT
+  - Id: 1000707
+    AegisName: Ep19_Rgan_Core_F
+    Name: Low-quality Rgan Magic Core
+    Type: Etc
+    Buy: 525
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000811
+    AegisName: Snow_F_Ore
+    Name: Snow Flower Ore
+    Type: Etc
+    Weight: 1
+    Flags:
+      BuyingStore: true
+  - Id: 1000812
+    AegisName: Snow_F_Stone1
+    Name: Snowflower Gem
+    Weight: 1
+    Flags:
+      BuyingStore: true
+  - Id: 1000813
+    AegisName: Snow_F_Stone2
+    Name: Shining Snowflower Gem
+    Weight: 1
+    Flags:
+      BuyingStore: true
+  - Id: 1000814
+    AegisName: Snow_F_Stone3
+    Name: Brilliant Snow Flower Manastone
+    Type: Etc
+    Weight: 1
+    Flags:
+      BuyingStore: true
+  - Id: 1000822
+    AegisName: EP19_Shell_Of_Rgan
+    Name: Rgan Shell
+    Type: Etc
+    Buy: 920
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000823
+    AegisName: EP19_Unknown_Cell
+    Name: Monstrous Cell
+    Type: Etc
+    Buy: 960
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000824
+    AegisName: EP19_Calapy
+    Name: Calapy
+    Type: Etc
+    Buy: 800
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000825
+    AegisName: EP19_CaCalapy
+    Name: Cacalapy
+    Type: Etc
+    Buy: 1000
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000826
+    AegisName: EP19_Prickle_Shell
+    Name: Prickly Shell
+    Type: Etc
+    Buy: 880
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000827
+    AegisName: EP19_Thin_Nipper
+    Name: Thin Nipper
+    Type: Etc
+    Buy: 840
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000828
+    AegisName: EP19_Transparency_Shell
+    Name: Transparent Shell
+    Type: Etc
+    Buy: 920
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000829
+    AegisName: EP19_Bell_Flower
+    Name: Bait Bellflower
+    Type: Etc
+    Buy: 1080
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000830
+    AegisName: EP19_Thin_Shell
+    Name: Thin Tough Shell
+    Type: Etc
+    Buy: 920
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000831
+    AegisName: EP19_Shiny_Seaweed
+    Name: Shiny Seaweed Stem
+    Type: Etc
+    Buy: 880
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000832
+    AegisName: EP19_Frozen_Shell
+    Name: Frozen Insect Shell
+    Type: Etc
+    Buy: 900
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000833
+    AegisName: EP19_Luminant
+    Name: Mysterious Luminant
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000834
+    AegisName: EP19_Sharp_Bone
+    Name: Sharp Bone Fragment
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001029
+    AegisName: EP19_D_P_Ore
+    Name: Encroached Magical Ore
+    Type: Etc
+    Weight: 30
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001030
+    AegisName: EP19_N_P_Ore
+    Name: Neutralized Magical Ore
+    Type: Etc
+    Weight: 30
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001031
+    AegisName: EP19_D_P_Crystal
+    Name: Encroached Magical Crystal
+    Type: Etc
+    Weight: 50
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001032
+    AegisName: EP19_N_P_Crystal
+    Name: Neutralized Magical Crystal
+    Type: Etc
+    Weight: 50
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
