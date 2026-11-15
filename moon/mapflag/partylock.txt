@@ -302,3 +302,9 @@ silk_lair	mapflag	partylock
 
 // Infinite Space
 1@infi	mapflag	partylock
+
+// Episode 19 : instances de la PR rAthena #8527 (jeu standard de l'episode 18, sans nobranch)
+1@iwp	mapflag	partylock
+1@whl	mapflag	partylock
+1@jorlab	mapflag	partylock
+1@jorchs	mapflag	partylock

@@ -1,0 +1,49 @@
+# Episode 19, instances : mobs d'autres episodes que les scripts de la PR rAthena #8527 font apparaitre.
+# Copies de db/re, converties par tools/util/re_to_prere_mob.py, sans DamageTaken.
+# MD_BETA_SCISSORE_NG : Airship Destruction (episode 17.2) ; sa carte n'est pas portee.
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 20631
+    AegisName: MD_BETA_SCISSORE_NG
+    Name: Broken Gardener Beta
+    Level: 135
+    Hp: 74470
+    BaseExp: 119152
+    JobExp: 77449
+    Attack: 1232
+    Attack2: 576
+    Defense: 30
+    MagicDefense: 19
+    Str: 73
+    Agi: 93
+    Vit: 67
+    Int: 64
+    Dex: 73
+    Luk: 90
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Fire
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 960
+    AttackMotion: 960
+    ClientAttackMotion: 768
+    DamageMotion: 480
+    Ai: 04
+    Drops:
+      - Item: Scissores_Sword
+        Rate: 5
+      - Item: Screw
+        Rate: 50
+      - Item: Problematical_Part
+        Rate: 10
+      - Item: Iron
+        Rate: 500
+      - Item: Steel
+        Rate: 150

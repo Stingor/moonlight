@@ -342,3 +342,9 @@ oz_dun02	mapflag	nomemo
 1@tcamp	mapflag	nomemo
 wolfvill	mapflag	nomemo
 que_thr	mapflag	nomemo
+
+// Episode 19 : instances de la PR rAthena #8527 (jeu standard de l'episode 18, sans nobranch)
+1@iwp	mapflag	nomemo
+1@whl	mapflag	nomemo
+1@jorlab	mapflag	nomemo
+1@jorchs	mapflag	nomemo

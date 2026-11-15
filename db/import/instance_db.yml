@@ -534,3 +534,34 @@ Body:
       Map: 1@advs
       X: 111
       Y: 19
+  # Episode 19 : PR rAthena #8527
+  - Id: 74
+    Name: Bagot Laboratory
+    Enter:
+      Map: 1@jorlab
+      X: 57
+      Y: 45
+  - Id: 75
+    Name: Confused Snake's Nest
+    Enter:
+      Map: 1@jorchs
+      X: 272
+      Y: 20
+  - Id: 76
+    Name: Iwin Patrol
+    Enter:
+      Map: 1@iwp
+      X: 380
+      Y: 229
+  - Id: 77
+    Name: Airship Destruction
+    Enter:
+      Map: 1@whl
+      X: 32
+      Y: 53
+  - Id: 78
+    Name: Simulation Battle
+    Enter:
+      Map: 1@jorlab
+      X: 57
+      Y: 45

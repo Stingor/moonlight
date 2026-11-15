@@ -244,3 +244,9 @@ arug_cas05	mapflag	restricted	4
 1@oz	mapflag	restricted	6
 1@tcamp	mapflag	restricted	6
 wolfvill	mapflag	restricted	7
+
+// Episode 19 : instances de la PR rAthena #8527 (jeu standard de l'episode 18, sans nobranch)
+1@iwp	mapflag	restricted	6
+1@whl	mapflag	restricted	6
+1@jorlab	mapflag	restricted	6
+1@jorchs	mapflag	restricted	6

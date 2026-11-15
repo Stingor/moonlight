@@ -177,6 +177,7 @@ L_Instance:
 	// jamais renumeroter quoi que ce soit.
 	setarray .@lbl$[0],
 					"Airship Assault (Solo & HM)",
+					"Airship Destruction",
 					"Bakonawa Lake",
 					"Bangungot Hospital 2F (HM)",
 					"Buwaya Cave (HM)",
@@ -197,6 +198,7 @@ L_Instance:
 					"Horror Toy Factory (HM)",
 					"Infinite Space (HM sur place)",
 					"Isle Of Bios",
+					"Iwin Patrol",
 					"Last Room",
 					"Malangdo Culvert",
 					"Morse Cave",
@@ -211,6 +213,7 @@ L_Instance:
 					"Sarah and Fenrir",
 					"Sara Memory",
 					"Sealed Shrine",
+					"Simulation Battle",
 					"Sky Fortress Invasion",
 					"Temple of Demon God",
 					"Twilight Garden",
@@ -220,6 +223,7 @@ L_Instance:
 					"Wolfchev's Laboratory";
 	setarray .@inst[0],
 					INST_ASSAULT_ON_THE_AIRSHIP,
+					INST_AIRSHIP_DESTRUCTION,
 					INST_BAKONAWA_LAKE,
 					INST_BANGUNGOT_HOSPITAL_2F,
 					INST_BUWAYA_CAVE,
@@ -240,6 +244,7 @@ L_Instance:
 					INST_HORROR_TOY_FACTORY,
 					INST_INFINITE_SPACE,
 					INST_ISLE_OF_BIOS,
+					INST_IWIN_PATROL,
 					INST_LAST_ROOM,
 					INST_CULVERT,
 					INST_MORSES_CAVE,
@@ -254,6 +259,7 @@ L_Instance:
 					INST_FENRIR_AND_SARAH,
 					INST_SARAS_MEMORIES,
 					INST_SEALED_CATACOMB,
+					INST_SIMULATION_BATTLE,
 					INST_SKY_FORTRESS_INVASION,
 					INST_TEMPLE_OF_THE_DEMON_GOD,
 					INST_TWILIGHT_GARDEN,
@@ -264,6 +270,7 @@ L_Instance:
 	// quete de cooldown utilisee pour la couleur ; 0 = cas particulier traite plus bas
 	setarray .@cd[0],
 					15050, // INST_ASSAULT_ON_THE_AIRSHIP
+					12560, // INST_AIRSHIP_DESTRUCTION
 					12278, // INST_BAKONAWA_LAKE
 					9223,  // INST_BANGUNGOT_HOSPITAL_2F
 					4229,  // INST_BUWAYA_CAVE
@@ -284,6 +291,7 @@ L_Instance:
 					12331, // INST_HORROR_TOY_FACTORY
 					12365, // INST_INFINITE_SPACE
 					15005, // INST_ISLE_OF_BIOS
+					5973,  // INST_IWIN_PATROL
 					11379, // INST_LAST_ROOM
 					12254, // INST_CULVERT
 					9319,  // INST_MORSES_CAVE
@@ -298,6 +306,7 @@ L_Instance:
 					9336,  // INST_FENRIR_AND_SARAH
 					15002, // INST_SARAS_MEMORIES
 					3040,  // INST_SEALED_CATACOMB
+					16663, // INST_SIMULATION_BATTLE
 					9419,  // INST_SKY_FORTRESS_INVASION
 					7605,  // INST_TEMPLE_OF_THE_DEMON_GOD
 					18017, // INST_TWILIGHT_GARDEN (quete de chasse, toujours libre)
@@ -346,6 +355,18 @@ L_Instance:
 		}
 		case INST_VILLA_OF_DECEPTION: { // Villa de la Tromperie, normale et avancee : Aira, au village
 			warp_fct("wolfvill", 79, 257);
+		}
+		// EPISODE 19 : les trois instances rejouables, ouvertes par la chaine. Leur PNJ d'entree
+		// pose lui-meme ses quetes et son delai ; le Laboratoire de Bagot et le Nid du Serpent
+		// Confus ne se jouent que dans la chaine.
+		case INST_IWIN_PATROL: { // Patrouille Iwin : le capitaine, a l'entree du chateau (ep19_main 10)
+			warp_fct("icecastle", 20, 123);
+		}
+		case INST_AIRSHIP_DESTRUCTION: { // Destruction de l'aeronef : la corde du Nid du Serpent (ep19_main 33)
+			warp_fct("jor_nest", 24, 248);
+		}
+		case INST_SIMULATION_BATTLE: { // Bataille de simulation : Arolong, au Nid du Serpent (ep19_main 100)
+			warp_fct("jor_nest", 63, 257);
 		}
 		case INST_ASSAULT_ON_THE_AIRSHIP: { // Airship Assault
 			if( select( GetColor(15050)+"Acces direct^000000", "Se rendre dans le Rift" ) == 1 ) {

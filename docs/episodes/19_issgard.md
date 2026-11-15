@@ -6,7 +6,7 @@
 | Date kRO | **2022‑01‑19** |
 | Arc | poursuite de Bagot — le culte de Jörmungandr |
 | Niveau kRO visé | **200+** |
-| État Moonlight | **mobs, terrain, chaîne de quêtes et économie portés** (2026‑11‑15, non validés en jeu) ; instances, enchantements et compétences à faire |
+| État Moonlight | **mobs, terrain, chaîne de quêtes, économie et instances portés** (2026‑11‑15, non validés en jeu) ; enchantements et compétences à faire |
 
 Premier épisode que l'amont n'a pas fusionné. Une conversion complète attend pourtant
 dans la PR rAthena [#8527](https://github.com/rathena/rathena/pull/8527), jamais fusionnée :
@@ -66,7 +66,7 @@ Walkthrough Conversion*, Atemo, ouverte depuis le 2024‑07‑30, mise à jour l
 | Contenu | Détail |
 |---|---|
 | Quêtes | `quests_19.txt` (17 351 lignes, 766 PNJ), 214 quêtes nouvelles |
-| Instances | Destruction de l'aéronef, Laboratoire de Bagot, Nid du Serpent Confus, Patrouille Iwin. **La Bataille de simulation (`1@jorlab`) manque** |
+| Instances | Destruction de l'aéronef, Laboratoire de Bagot, Nid du Serpent Confus, Patrouille Iwin. la Bataille de simulation (`1@jorlab`) est dans le script du laboratoire |
 | Terrain | spawns `jor_back`, `jor_dun`, `jor_ab` ; warps `icecastle`, `jor_fild`, `jor_dun` |
 | Économie | `episode_19.txt`, barters, groupe `D_GW_EXTRACTOR`, Lapine |
 | `mob_db` | les 40 mobs avec vitesses, IA, modes et classe ; PNJ et pierres de stockage en coquilles, trois mobs à stats nulles |
@@ -176,6 +176,29 @@ loup gris de `wolfvill` (début de la chaîne, `ep18_main` 57), ou à Lehar pour
 | Marchands | Hoyoyo (pierres de fleur de neige, réputation) et Maram (fournitures, Snowflower, armes Glacier à 150 000 z) dans `quests_19.npc` ; quatre barters dans `moon/barters.yml` |
 | Coffre | `moon/rathena/merchants/episode_19.npc` : le stockage d'Hoyoyo contre 500 z |
 
+### Instances (portées le 2026‑11‑15, non validées en jeu)
+
+| Instance | Carte | Entrée | Délai | Au warp agent |
+|---|---|---|---|---|
+| Iwin Patrol (76) | `1@iwp` | le capitaine, `icecastle` (`ep19_main` 10) | 5973 | oui |
+| Airship Destruction (77) | `1@whl` | la corde, `jor_nest` (`ep19_main` 33) | 12560 | oui |
+| Simulation Battle (78) | `1@jorlab` | Arolong, `jor_nest` (`ep19_main` 100) | 16663 | oui |
+| Bagot Laboratory (74) | `1@jorlab` | Juncea, `jor_dun03` (chaîne, étape 58) | — | non |
+| Confused Snake's Nest (75) | `1@jorchs` | Lehar, `jor_que` (chaîne) | — | non |
+
+La Bataille de simulation, qu'on croyait absente, est dans `BaggotLaboratory.txt` de la PR.
+
+| Élément | Détail |
+|---|---|
+| Scripts | `moon/instances/IwinPatrol.npc`, `AirshipDestruction.npc`, `BaggotLaboratory.npc`, `ConfusedSnakesNest.npc`, copies de la PR (ASCII) |
+| `instance_db` | 74 à 78, de `db/re` ; constantes `INST_*` régénérées |
+| C++ | `unitisforcewalk` dans `script.cpp` (boss d'Airship Destruction) ; les autres ajouts de la PR (mapflags `nolootnormalmob`, `no_npc_selfdestruction_on_all`, `SC_MTP_W_POTION_100`, `IG_D_GW_EXTRACTOR`, correctif `SCB_RANGE`) ne servent à aucun script porté |
+| Compétence | `DE_BERSERKAIZER` (578), effet visuel seul, dans `db/import/skill_db.yml` |
+| Mob | `MD_BETA_SCISSORE_NG` (20631, épisode 17.2) dans `db/import/mobs/ep19_instances.yml`, ses 4 compétences de `db/re`, sans sa carte |
+| Coffres | `Aquila_Antiquity` et `Aquila_Antiquity2`, et leurs groupes dans `item_group_db/ep19.yml` : Dim Glacier et extraits écartés, raffinements au-delà de 10 ramenés à 10 ; `Black_Dia` ajouté |
+| Mapflags | jeu standard de l'épisode 18 sur les quatre cartes : `nomemo`, `noteleport`, `monster_noteleport`, `nowarpto`, `partylock`, `restricted 6` (sans `nobranch`) |
+| Warp agent | Instance > Iwin Patrol, Airship Destruction, Simulation Battle, qui envoient près de leur PNJ d'entrée |
+
 Reste à faire :
 
 - **l'enchantement Snowflower** : `item_enchant` consomme les ~90 pierres magiques de glace
@@ -197,11 +220,11 @@ marquées `cooldown`. Les nouveaux objets attendent encore la régénération de
    comme pour le mode défi d'OGH.
 2. **Spawns et terrain** : faits (Divine Pride et la PR, voir §4).
 3. **Cartes EP19** (24) et **armes Glacier** (27) : conversion une par une, comme Illusion.
-4. **Quêtes** et **économie** : faites (voir §4). **Enchantement Snowflower** et **Dim Glacier** :
-   à faire. **Instances** : les quatre de la PR, `unitisforcewalk` compris.
+4. **Quêtes**, **économie** et **instances** : faites (voir §4). **Enchantement Snowflower** et
+   **Dim Glacier** : à faire.
    **Client** : les tables d'objets (les titres de quête sont faits).
 5. **C++** de la PR, après `git diff upstream/master` sur chaque fichier.
-6. **Bataille de simulation** : aucune source.
+6. **Bataille de simulation** : faite, elle est dans `BaggotLaboratory.txt` de la PR.
 
 Le prérequis narratif, l'épisode 18, est porté et déployé en production le 2026‑11‑15.
 
@@ -211,8 +234,8 @@ Le prérequis narratif, l'épisode 18, est porté et déployé en production le 
 |---|---|
 | Intérêt | **réévalué à la hausse** : la PR #8527 fournit l'essentiel du contenu |
 | Ce qui est acquis | les cartes, les entrées d'instance, les objets amont, les grades, les 40 mobs, les spawns, les warps, le warp agent, la chaîne de quêtes |
-| Manque | les compétences des mobs, la Bataille de simulation |
-| Recommandation | les instances, puis l'enchantement Snowflower ; les compétences en lot séparé |
+| Manque | les compétences des mobs, l'enchantement Snowflower, le Dim Glacier |
+| Recommandation | le test au boot et en jeu, puis l'enchantement Snowflower ; les compétences en lot séparé |
 
 ## Sources
 

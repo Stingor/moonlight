@@ -12147,3 +12147,23 @@ Body:
       NoAuction: true
     Script: |
       warp "icas_in",175,63;
+  - Id: 102564
+    AegisName: Aquila_Antiquity
+    Name: Antiquity Issgard (Aquila)
+    Type: Usable
+    Weight: 200
+    Flags:
+      Container: true
+      DropEffect: CLIENT
+    Script: |
+      getgroupitem(IG_AQUILA_ANTIQUITY,true);
+  - Id: 102565
+    AegisName: Aquila_Antiquity2
+    Name: Antiquity Issgard (Aquila (First Class))
+    Type: Usable
+    Weight: 200
+    Flags:
+      Container: true
+      DropEffect: CLIENT
+    Script: |
+      getgroupitem(IG_AQUILA_ANTIQUITY2,true);

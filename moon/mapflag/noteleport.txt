@@ -695,3 +695,13 @@ que_thr	mapflag	noteleport
 1@advs	mapflag	monster_noteleport
 1@oz	mapflag	monster_noteleport
 1@tcamp	mapflag	monster_noteleport
+
+// Episode 19 : instances de la PR rAthena #8527 (jeu standard de l'episode 18, sans nobranch)
+1@iwp	mapflag	noteleport
+1@whl	mapflag	noteleport
+1@jorlab	mapflag	noteleport
+1@jorchs	mapflag	noteleport
+1@iwp	mapflag	monster_noteleport
+1@whl	mapflag	monster_noteleport
+1@jorlab	mapflag	monster_noteleport
+1@jorchs	mapflag	monster_noteleport

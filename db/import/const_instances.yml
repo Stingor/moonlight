@@ -163,3 +163,13 @@ Body:
     Value: 71
   - Name: INST_VILLA_OF_DECEPTION_ADVANCED
     Value: 72
+  - Name: INST_BAGOT_LABORATORY
+    Value: 74
+  - Name: INST_CONFUSED_SNAKES_NEST
+    Value: 75
+  - Name: INST_IWIN_PATROL
+    Value: 76
+  - Name: INST_AIRSHIP_DESTRUCTION
+    Value: 77
+  - Name: INST_SIMULATION_BATTLE
+    Value: 78

@@ -28277,6 +28277,31 @@ BUILDIN_FUNC(mesemotion){
 #endif
 }
 
+/// [Stingor] Episode 19 (PR rAthena #8527) : vrai quand l'unite, sommee de marcher par
+/// unitwalk/unitwalkto, s'est arretee en route. L'instance Airship Destruction s'en sert
+/// pour debloquer son boss.
+/// unitisforcewalk <GID>;
+BUILDIN_FUNC(unitisforcewalk)
+{
+	block_list *bl = nullptr;
+	bool force_walk = false;
+
+	if (script_getnum(st, 2))
+		bl = map_id2bl(script_getnum(st,2));
+	else
+		bl = map_id2bl(st->rid);
+
+	if (bl != nullptr) {
+		unit_data *ud = unit_bl2ud(bl);
+
+		if (ud != nullptr)
+			force_walk = (ud->walktimer == INVALID_TIMER && ud->state.force_walk);
+	}
+	script_pushint(st, force_walk);
+
+	return SCRIPT_CMD_SUCCESS;
+}
+
 #include <custom/script.inc>
 
 /**
@@ -29123,6 +29148,8 @@ struct script_function buildin_func[] = {
 
 	BUILDIN_DEF(voicegrant,"i"),
 	BUILDIN_DEF(voicerevoke,"?"),
+
+	BUILDIN_DEF(unitisforcewalk, "i"), // [Stingor] episode 19
 
 #include <custom/script_def.inc>
 

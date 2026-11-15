@@ -15107,3 +15107,11 @@ Body:
     Flags:
       BuyingStore: true
       DropEffect: CLIENT
+  - Id: 1001479
+    AegisName: Black_Dia
+    Name: Black Diamond
+    Type: Etc
+    Buy: 400000
+    Weight: 300
+    Flags:
+      DropEffect: CLIENT

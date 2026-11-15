@@ -4565,3 +4565,13 @@ Body:
     Duration1: 100
     Duration2: 17000
     Status: StoneWait
+  # Episode 19 (PR rAthena #8527) : n'affiche qu'un effet, lance par le boss d'Airship Destruction.
+  - Id: 578
+    Name: DE_BERSERKAIZER
+    Description: Berserkaizer
+    MaxLevel: 1
+    TargetType: Self
+    DamageFlags:
+      NoDamage: true
+    HitCount: 1
+    Duration1: -1
