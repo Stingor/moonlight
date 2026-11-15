@@ -170,8 +170,10 @@ Mis de côté pour le lot économie : Hoyoyo et Maram (marchands du château), l
 `ep19_basic_supply`, `ep19_glacier_melee` et `ep19_glacier_range`, les autres barters, et la
 synthèse Laphine de Vellgunde (`Ice_F_Stone_Box2`), qui ne marchera qu'avec eux.
 
-**Côté client** : `quests.yml` de moonclient n'a aucune quête de l'épisode 19, le journal
-n'affichera pas leurs titres. Les nouveaux objets attendent aussi la régénération des tables.
+**Côté client** : les 211 quêtes sont dans `quests.yml` de moonclient (2026‑11‑15), prises de
+`OngoingQuests.lub` (ROenglishRE, Renewal) et insérées sans redumper le fichier ; 18145 à 18147
+y portent le texte de 18119 à 18121 de la table native. 19 quêtes d'attente de l'épisode y sont
+marquées `cooldown`. Les nouveaux objets attendent encore la régénération des tables.
 
 ## 5. Migration pré-renewal
 
@@ -181,7 +183,7 @@ n'affichera pas leurs titres. Les nouveaux objets attendent aussi la régénéra
 3. **Cartes EP19** (24) et **armes Glacier** (27) : conversion une par une, comme Illusion.
 4. **Quêtes** : faites (voir §4). **Économie** : les marchands du château, les barters, les
    boutiques Glacier et Laphine. **Instances** : les quatre de la PR, `unitisforcewalk` compris.
-   **Client** : les titres des quêtes dans `quests.yml`, les tables d'objets.
+   **Client** : les tables d'objets (les titres de quête sont faits).
 5. **C++** de la PR, après `git diff upstream/master` sur chaque fichier.
 6. **Bataille de simulation** : aucune source.
 
@@ -194,7 +196,7 @@ Le prérequis narratif, l'épisode 18, est porté et déployé en production le 
 | Intérêt | **réévalué à la hausse** : la PR #8527 fournit l'essentiel du contenu |
 | Ce qui est acquis | les cartes, les entrées d'instance, les objets amont, les grades, les 40 mobs, les spawns, les warps, le warp agent, la chaîne de quêtes |
 | Manque | les compétences des mobs, la Bataille de simulation |
-| Recommandation | les titres de quête côté client, puis l'économie et les instances ; les compétences en lot séparé |
+| Recommandation | l'économie et les instances ; les compétences en lot séparé |
 
 ## Sources
 
