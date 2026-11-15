@@ -54,4 +54,393 @@ Header:
   Type: ENCHANTGRADE_DB
   Version: 3
 
-
+# PRÉ-RENEWAL (moonlight) : seules les armes prennent un grade, tous niveaux.
+# Échelle décalée pour tenir dans +10 : D dès +7, C dès +8, B dès +9, A dès +10.
+# Chances, bonus et coûts du renewal repris palier par palier.
+Body:
+  - Type: Weapon
+    Levels:
+      - Level: 1
+        Grades:
+          - Grade: None
+            Chances:
+              - Refine: 7
+                Chance: 1000
+              - Refine: 8
+                Chance: 2000
+              - Refine: 9
+                Chance: 7000
+              - Refine: 10
+                Chance: 7000
+            Bonus: 10
+            Catalyst:
+                Item: Blessed_Etel_Dust
+                AmountPerStep: 1
+                MaximumSteps: 10
+                ChanceIncrease: 100
+            Options:
+              - Option: 0
+                Item: Etel_Skyblue_Jewel
+                Amount: 1
+                Zeny: 175000
+                BreakingRate: 10000
+              - Option: 1
+                Item: Etel_Skyblue_Jewel
+                Amount: 5
+                Zeny: 875000
+          - Grade: D
+            Chances:
+              - Refine: 8
+                Chance: 2000
+              - Refine: 9
+                Chance: 6000
+              - Refine: 10
+                Chance: 6000
+            Bonus: 30
+            Catalyst:
+                Item: Blessed_Etel_Dust
+                AmountPerStep: 3
+                MaximumSteps: 10
+                ChanceIncrease: 100
+            Options:
+              - Option: 0
+                Item: Etel_Topaz
+                Amount: 1
+                Zeny: 175000
+                BreakingRate: 10000
+              - Option: 1
+                Item: Etel_Topaz
+                Amount: 5
+                Zeny: 875000
+          - Grade: C
+            Chances:
+              - Refine: 9
+                Chance: 5000
+              - Refine: 10
+                Chance: 5000
+            Bonus: 50
+            AnnounceFail: true
+            Catalyst:
+                Item: Blessed_Etel_Dust
+                AmountPerStep: 5
+                MaximumSteps: 10
+                ChanceIncrease: 100
+            Options:
+              - Option: 0
+                Item: Etel_Violet_Jewel
+                Amount: 1
+                Zeny: 175000
+                BreakingRate: 10000
+              - Option: 1
+                Item: Etel_Violet_Jewel
+                Amount: 5
+                Zeny: 875000
+          - Grade: B
+            Chances:
+              - Refine: 10
+                Chance: 4000
+            Bonus: 100
+            AnnounceFail: true
+            Catalyst:
+                Item: Blessed_Etel_Dust
+                AmountPerStep: 7
+                MaximumSteps: 10
+                ChanceIncrease: 100
+            Options:
+              - Option: 0
+                Item: Etel_Amber
+                Amount: 2
+                Zeny: 175000
+                BreakingRate: 10000
+              - Option: 1
+                Item: Etel_Amber
+                Amount: 10
+                Zeny: 875000
+      - Level: 2
+        Grades:
+          - Grade: None
+            Chances:
+              - Refine: 7
+                Chance: 1000
+              - Refine: 8
+                Chance: 2000
+              - Refine: 9
+                Chance: 7000
+              - Refine: 10
+                Chance: 7000
+            Bonus: 10
+            Catalyst:
+                Item: Blessed_Etel_Dust
+                AmountPerStep: 1
+                MaximumSteps: 10
+                ChanceIncrease: 100
+            Options:
+              - Option: 0
+                Item: Etel_Skyblue_Jewel
+                Amount: 1
+                Zeny: 175000
+                BreakingRate: 10000
+              - Option: 1
+                Item: Etel_Skyblue_Jewel
+                Amount: 5
+                Zeny: 875000
+          - Grade: D
+            Chances:
+              - Refine: 8
+                Chance: 2000
+              - Refine: 9
+                Chance: 6000
+              - Refine: 10
+                Chance: 6000
+            Bonus: 30
+            Catalyst:
+                Item: Blessed_Etel_Dust
+                AmountPerStep: 3
+                MaximumSteps: 10
+                ChanceIncrease: 100
+            Options:
+              - Option: 0
+                Item: Etel_Topaz
+                Amount: 1
+                Zeny: 175000
+                BreakingRate: 10000
+              - Option: 1
+                Item: Etel_Topaz
+                Amount: 5
+                Zeny: 875000
+          - Grade: C
+            Chances:
+              - Refine: 9
+                Chance: 5000
+              - Refine: 10
+                Chance: 5000
+            Bonus: 50
+            AnnounceFail: true
+            Catalyst:
+                Item: Blessed_Etel_Dust
+                AmountPerStep: 5
+                MaximumSteps: 10
+                ChanceIncrease: 100
+            Options:
+              - Option: 0
+                Item: Etel_Violet_Jewel
+                Amount: 1
+                Zeny: 175000
+                BreakingRate: 10000
+              - Option: 1
+                Item: Etel_Violet_Jewel
+                Amount: 5
+                Zeny: 875000
+          - Grade: B
+            Chances:
+              - Refine: 10
+                Chance: 4000
+            Bonus: 100
+            AnnounceFail: true
+            Catalyst:
+                Item: Blessed_Etel_Dust
+                AmountPerStep: 7
+                MaximumSteps: 10
+                ChanceIncrease: 100
+            Options:
+              - Option: 0
+                Item: Etel_Amber
+                Amount: 2
+                Zeny: 175000
+                BreakingRate: 10000
+              - Option: 1
+                Item: Etel_Amber
+                Amount: 10
+                Zeny: 875000
+      - Level: 3
+        Grades:
+          - Grade: None
+            Chances:
+              - Refine: 7
+                Chance: 1000
+              - Refine: 8
+                Chance: 2000
+              - Refine: 9
+                Chance: 7000
+              - Refine: 10
+                Chance: 7000
+            Bonus: 10
+            Catalyst:
+                Item: Blessed_Etel_Dust
+                AmountPerStep: 1
+                MaximumSteps: 10
+                ChanceIncrease: 100
+            Options:
+              - Option: 0
+                Item: Etel_Skyblue_Jewel
+                Amount: 1
+                Zeny: 175000
+                BreakingRate: 10000
+              - Option: 1
+                Item: Etel_Skyblue_Jewel
+                Amount: 5
+                Zeny: 875000
+          - Grade: D
+            Chances:
+              - Refine: 8
+                Chance: 2000
+              - Refine: 9
+                Chance: 6000
+              - Refine: 10
+                Chance: 6000
+            Bonus: 30
+            Catalyst:
+                Item: Blessed_Etel_Dust
+                AmountPerStep: 3
+                MaximumSteps: 10
+                ChanceIncrease: 100
+            Options:
+              - Option: 0
+                Item: Etel_Topaz
+                Amount: 1
+                Zeny: 175000
+                BreakingRate: 10000
+              - Option: 1
+                Item: Etel_Topaz
+                Amount: 5
+                Zeny: 875000
+          - Grade: C
+            Chances:
+              - Refine: 9
+                Chance: 5000
+              - Refine: 10
+                Chance: 5000
+            Bonus: 50
+            AnnounceFail: true
+            Catalyst:
+                Item: Blessed_Etel_Dust
+                AmountPerStep: 5
+                MaximumSteps: 10
+                ChanceIncrease: 100
+            Options:
+              - Option: 0
+                Item: Etel_Violet_Jewel
+                Amount: 1
+                Zeny: 175000
+                BreakingRate: 10000
+              - Option: 1
+                Item: Etel_Violet_Jewel
+                Amount: 5
+                Zeny: 875000
+          - Grade: B
+            Chances:
+              - Refine: 10
+                Chance: 4000
+            Bonus: 100
+            AnnounceFail: true
+            Catalyst:
+                Item: Blessed_Etel_Dust
+                AmountPerStep: 7
+                MaximumSteps: 10
+                ChanceIncrease: 100
+            Options:
+              - Option: 0
+                Item: Etel_Amber
+                Amount: 2
+                Zeny: 175000
+                BreakingRate: 10000
+              - Option: 1
+                Item: Etel_Amber
+                Amount: 10
+                Zeny: 875000
+      - Level: 4
+        Grades:
+          - Grade: None
+            Chances:
+              - Refine: 7
+                Chance: 1000
+              - Refine: 8
+                Chance: 2000
+              - Refine: 9
+                Chance: 7000
+              - Refine: 10
+                Chance: 7000
+            Bonus: 10
+            Catalyst:
+                Item: Blessed_Etel_Dust
+                AmountPerStep: 1
+                MaximumSteps: 10
+                ChanceIncrease: 100
+            Options:
+              - Option: 0
+                Item: Etel_Skyblue_Jewel
+                Amount: 1
+                Zeny: 175000
+                BreakingRate: 10000
+              - Option: 1
+                Item: Etel_Skyblue_Jewel
+                Amount: 5
+                Zeny: 875000
+          - Grade: D
+            Chances:
+              - Refine: 8
+                Chance: 2000
+              - Refine: 9
+                Chance: 6000
+              - Refine: 10
+                Chance: 6000
+            Bonus: 30
+            Catalyst:
+                Item: Blessed_Etel_Dust
+                AmountPerStep: 3
+                MaximumSteps: 10
+                ChanceIncrease: 100
+            Options:
+              - Option: 0
+                Item: Etel_Topaz
+                Amount: 1
+                Zeny: 175000
+                BreakingRate: 10000
+              - Option: 1
+                Item: Etel_Topaz
+                Amount: 5
+                Zeny: 875000
+          - Grade: C
+            Chances:
+              - Refine: 9
+                Chance: 5000
+              - Refine: 10
+                Chance: 5000
+            Bonus: 50
+            AnnounceFail: true
+            Catalyst:
+                Item: Blessed_Etel_Dust
+                AmountPerStep: 5
+                MaximumSteps: 10
+                ChanceIncrease: 100
+            Options:
+              - Option: 0
+                Item: Etel_Violet_Jewel
+                Amount: 1
+                Zeny: 175000
+                BreakingRate: 10000
+              - Option: 1
+                Item: Etel_Violet_Jewel
+                Amount: 5
+                Zeny: 875000
+          - Grade: B
+            Chances:
+              - Refine: 10
+                Chance: 4000
+            Bonus: 100
+            AnnounceFail: true
+            Catalyst:
+                Item: Blessed_Etel_Dust
+                AmountPerStep: 7
+                MaximumSteps: 10
+                ChanceIncrease: 100
+            Options:
+              - Option: 0
+                Item: Etel_Amber
+                Amount: 2
+                Zeny: 175000
+                BreakingRate: 10000
+              - Option: 1
+                Item: Etel_Amber
+                Amount: 10
+                Zeny: 875000

@@ -14537,3 +14537,48 @@ Body:
     Type: Etc
     Flags:
       BuyingStore: true
+  - Id: 1000321
+    AegisName: Amber
+    Name: Amber
+    Type: Etc
+    Buy: 45000
+    Weight: 100
+  - Id: 1000325
+    AegisName: Etel_Skyblue_Jewel
+    Name: Etel Aquamarine
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1000326
+    AegisName: Etel_Topaz
+    Name: Etel Topaz
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1000327
+    AegisName: Etel_Violet_Jewel
+    Name: Etel Amethyst
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1000328
+    AegisName: Etel_Amber
+    Name: Etel Amber
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1000337
+    AegisName: Blessed_Etel_Dust
+    Name: Blessed Etel Dust
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true

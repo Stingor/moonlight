@@ -3942,13 +3942,12 @@ int32 status_calc_pc_sub(map_session_data* sd, uint8 opt)
 			sd->inventory.u.items_inventory[index].refine = MAX_REFINE;
 
 		std::shared_ptr<s_refine_level_info> info = refine_db.findCurrentLevelInfo( *sd->inventory_data[index], sd->inventory.u.items_inventory[index] );
-#ifdef RENEWAL
+		// Moonlight: grades are ported to pre-renewal (weapons only, see db/import/enchantgrade.yml).
 		std::shared_ptr<s_enchantgradelevel> enchantgrade_info = nullptr;
 
 		if( sd->inventory.u.items_inventory[index].enchantgrade > 0 ){
 			enchantgrade_info = enchantgrade_db.findCurrentLevelInfo( *sd->inventory_data[index], sd->inventory.u.items_inventory[index] );
 		}
-#endif
 
 		if (sd->inventory_data[index]->type == IT_WEAPON) {
 			int32 wlv = sd->inventory_data[index]->weapon_level;
@@ -3969,11 +3968,12 @@ int32 status_calc_pc_sub(map_session_data* sd, uint8 opt)
 			if( info != nullptr ){
 				wa->atk2 += info->bonus / 100;
 
-#ifdef RENEWAL
+				// Moonlight: the grade raises the refine ATK in pre-renewal too.
 				if( enchantgrade_info != nullptr ){
 					wa->atk2 += ( ( ( info->bonus / 100 ) * enchantgrade_info->bonus ) / 100 );
 				}
 
+#ifdef RENEWAL
 				if( wlv == 5 ){
 					base_status->patk += sd->inventory.u.items_inventory[index].refine * 2;
 					base_status->smatk += sd->inventory.u.items_inventory[index].refine * 2;

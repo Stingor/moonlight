@@ -1,0 +1,57 @@
+//===== Moonlight-Destiny ====================================
+//= Grades d'armes : l'amélioration D, C, B, A et l'échange des objets Etel.
+//= Échelle pré-renewal (db/import/enchantgrade.yml) : D dès +7, C dès +8,
+//= B dès +9, A dès +10 ; le grade augmente l'ATK de raffinage.
+//============================================================
+
+gon_in,93,20,4	script	Sratos::grade_gon	4_JP_GARM_H,{
+	.@npc_name$ = "[ ^1F81D4" + strnpcinfo(1) + "^000000 ]";
+	mes .@npc_name$;
+	mes "Bonjour ! Envie de tenter un miracle aujourd'hui ?";
+	next;
+	switch( select( "Améliorer le grade d'une arme", "Échanger des objets Etel", "Qu'est-ce qu'un grade ?" ) ) {
+	case 1:
+		mes .@npc_name$;
+		mes "Transférer la magie d'un joyau n'a rien de simple.";
+		mes "Elle peut exploser sur place... et l'arme avec.";
+		next;
+		if( select( "Je tente quand même !", "Je vais réfléchir." ) == 2 ) {
+			mes .@npc_name$;
+			mes "Revenez quand vous aurez le courage.";
+			close;
+		}
+		close2;
+		enchantgradeui();
+		end;
+	case 2:
+		mes .@npc_name$;
+		mes "De la Poussière d'Etel, un joyau de base et quelques zenys,";
+		mes "et je vous les change en joyaux d'Etel.";
+		close2;
+		callshop "EnchantGradeExchange";
+		end;
+	case 3:
+		mes .@npc_name$;
+		mes "Le grade se gagne pas à pas : D, puis C, B et enfin A.";
+		mes "Il ne prend que sur une arme assez raffinée :";
+		mes "^0000FF+7^000000 pour D, ^0000FF+8^000000 pour C,";
+		mes "^0000FF+9^000000 pour B, ^0000FF+10^000000 pour A.";
+		mes "Attention : une réussite ramène l'arme à ^FF0000+0^000000,";
+		mes "il faudra la raffiner de nouveau pour le grade suivant.";
+		next;
+		mes .@npc_name$;
+		mes "Chaque grade renforce l'ATK que donne le raffinage :";
+		mes "+10 % en D, +30 % en C, +50 % en B, +100 % en A.";
+		next;
+		mes .@npc_name$;
+		mes "Avec un seul joyau, un échec détruit l'arme.";
+		mes "Avec la mise forte, cinq fois plus chère, elle ne risque rien.";
+		mes "La Poussière d'Etel bénie ajoute 1 % de chance par dose, jusqu'à 10.";
+		close;
+	}
+	end;
+
+OnInit:
+	setunittitle getnpcid(0), "<Grades d'armes>";
+	end;
+}

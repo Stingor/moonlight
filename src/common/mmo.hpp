@@ -141,7 +141,8 @@ enum e_enchantgrade : uint16{
 #else
 	#define MAX_WEAPON_LEVEL 4
 	#define MAX_ARMOR_LEVEL 1
-	#define MAX_ENCHANTGRADE ENCHANTGRADE_NONE
+	// Moonlight: weapon grades are ported to pre-renewal (db/import/enchantgrade.yml).
+	#define MAX_ENCHANTGRADE ENCHANTGRADE_A
 #endif
 
 // for produce

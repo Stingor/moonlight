@@ -591,7 +591,12 @@ uint64 ItemDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		item->flag.gradable = gradable;
 	} else {
 		if (!exists)
+#ifdef RENEWAL
 			item->flag.gradable = false;
+#else
+			// Moonlight: every weapon takes a grade in pre-renewal, unless "Gradable: false".
+			item->flag.gradable = item->type == IT_WEAPON;
+#endif
 	}
 
 	if (this->nodeExists(node, "View")) {
