@@ -263,3 +263,8 @@ wolfvill	mapflag	restricted	7
 6@thts	mapflag	restricted	6
 7@thts	mapflag	restricted	6
 8@thts	mapflag	restricted	6
+
+// Tour des Constellations (hayakawakaki) : jeu standard des instances 18/19
+1@ch_t	mapflag	restricted	6
+2@ch_t	mapflag	restricted	6
+3@ch_t	mapflag	restricted	6

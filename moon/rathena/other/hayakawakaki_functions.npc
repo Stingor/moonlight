@@ -93,6 +93,14 @@ function	script	instance_disable	{
 	return;
 }
 
+-	script	dummynpc	-1,{
+	end;
+
+OnInit:
+	cloakonnpc;
+end;
+}
+
 -	script	dummynpc2	-1,{
 	end;
 }

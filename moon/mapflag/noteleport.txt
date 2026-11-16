@@ -727,3 +727,11 @@ que_thr	mapflag	noteleport
 6@thts	mapflag	monster_noteleport
 7@thts	mapflag	monster_noteleport
 8@thts	mapflag	monster_noteleport
+
+// Tour des Constellations (hayakawakaki) : jeu standard des instances 18/19
+1@ch_t	mapflag	noteleport
+2@ch_t	mapflag	noteleport
+3@ch_t	mapflag	noteleport
+1@ch_t	mapflag	monster_noteleport
+2@ch_t	mapflag	monster_noteleport
+3@ch_t	mapflag	monster_noteleport

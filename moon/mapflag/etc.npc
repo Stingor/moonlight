@@ -361,3 +361,8 @@ que_thr	mapflag	nomemo
 6@thts	mapflag	nomemo
 7@thts	mapflag	nomemo
 8@thts	mapflag	nomemo
+
+// Tour des Constellations (hayakawakaki) : jeu standard des instances 18/19
+1@ch_t	mapflag	nomemo
+2@ch_t	mapflag	nomemo
+3@ch_t	mapflag	nomemo

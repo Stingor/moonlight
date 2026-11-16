@@ -53690,3 +53690,4 @@ Footer:
   - Path: db/import/mobs/werner.yml
   - Path: db/import/mobs/remorse.yml
   - Path: db/import/mobs/thanatos_tower.yml
+  - Path: db/import/mobs/constellation_tower.yml

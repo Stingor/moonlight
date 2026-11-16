@@ -660,3 +660,13 @@ Body:
     Flags:
       BlEffect: true
       DisplayPc: true
+  # Killing_Aura, copie de db/re (Tour des Constellations, NPC_KILLING_AURA).
+  - Status: Killing_Aura
+    Icon: EFST_KILLING_AURA
+    DurationLookup: NPC_KILLING_AURA
+    Flags:
+      BlEffect: true
+      DisplayPc: true
+      NoDispell: true
+      NoBanishingBuster: true
+      NoClearance: true

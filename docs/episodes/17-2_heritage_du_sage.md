@@ -224,14 +224,33 @@ journalières de Solice. Sans elles, un accessoire aurait coûté une centaine d
 | Objets | `db/import/items/` | 60 enchantements `Tha_*`, 24 accessoires Sin/Shine, `Sin_Fragment`/`Fate_Fragment`, 10 éclats |
 | Échanges | `moon/barters.yml` | `mot_shop_0` (5 éclats → 1 fragment), `_1` et `_2` (50 fragments → 1 accessoire) |
 
+### Lot C3 : la Tour des Constellations (`1@ch_t` à `3@ch_t`, instance 81)
+
+Portée validée le 2026‑11‑16 : l'instance et ses deux échanges ; les poussières de météorite
+par stat (Pow à Wis), qui sortent en officiel des coffres de Betelgeuse en difficulté haute
+(guide Hazy Forest, sans quantités), sont données à la récompense ; l'enchantement des
+armures Star (groupes 7 à 13, commentés dans `db/re`, machine OSC0008) est **reporté** : ses
+matériaux (fragments de stat, extraits de météore, Frontier Extract, Unknown Meteorite
+Fragment) n'ont de source nulle part.
+
+| Élément | Fichier | Détail |
+|---|---|---|
+| Script | `moon/instances/ConstellationTower.npc` | Captain Janssen à Alberta (niveau 240, 10 000 z vers `e_tower`), Oscar à `e_tower`, 75 étages tirés au sort, Naght Sieger ou Betelgeuse ; échanges OSC0007 à Alberta |
+| Adaptations | | `ctower_init` retiré : il désactivait Captain Janssen, la Tower Protection Stone et le Huge Vortex de la Tour Sans Fin, gardée ; `Huge Vortex#ctower` retiré (celui de la Tour Sans Fin occupe `e_tower` 30,30) ; renfort de PV de Betelgeuse ramené à l'échelle pré-re (+5 001 679 par cran au lieu de 300 M, plafond 33 344 528 au lieu de 2 Md, même facteur que sa conversion) ; poussières de stat : 1 de chaque, +1 par tranche de 100 points, à partir de 200 points de difficulté |
+| Fonctions | `hayakawakaki_functions.npc` | `dummynpc` (Leticia) |
+| Mobs | `db/import/mobs/constellation_tower.yml` | 90 mobs (boss, 49 mobs d'étage `MD_T_*`, 34 MVP d'étage), convertis, EXP par la formule ; `NPC_KILLING_AURA` et son statut copiés de `db/re` |
+| Instance | `instance_db.yml`, `const_instances.yml` | 81, `INST_CONSTELLATION_TOWER` ; warp agent vers Alberta |
+| Objets | `db/import/items/` | poussière et fragment de météorite, âmes de Betelgeuse et de Naght Sieger, 6 poussières de stat, 3 armures Vague, 6 armures Star, 7 Signets ; traits convertis (règle de `README.md`) |
+| Échanges | `moon/barters.yml` | `ctower_basic` (armures Vague, Signet), `ctower_advanced` (armures Star, Signets de stat) |
+
 ## 6. Verdict
 
 | | |
 |---|---|
 | Intérêt | élevé — le terrain est déjà ouvert, il manque ce qui le rend jouable |
-| Fait | lot A : Niflheim renewal et Rudus 4F ; lots B2 et B1 : la chaîne de quêtes et les quatre instances (2026‑11‑11) ; lot A2 : Amicitia et lot B3 : l'économie du manoir (2026‑11‑12) ; les cartes des instances sont dans les albums  ; déployé en production le 2026‑11‑15 ; lots C1 et C2 : le Tombeau du Remords et la Tour de Thanatos (2026‑11‑16) |
+| Fait | lot A : Niflheim renewal et Rudus 4F ; lots B2 et B1 : la chaîne de quêtes et les quatre instances (2026‑11‑11) ; lot A2 : Amicitia et lot B3 : l'économie du manoir (2026‑11‑12) ; les cartes des instances sont dans les albums  ; déployé en production le 2026‑11‑15 ; lots C1 à C3 : le Tombeau du Remords, la Tour de Thanatos et la Tour des Constellations (2026‑11‑16) |
 | Épisode | **clos** côté portage le 2026‑11‑12 |
-| Reste à faire | instances de l'intervalle (§5e) : la Tour des Constellations (lot C3) ; le Crash d'aéronef (lot C4, script reconstruit du fork mikkotandoc/PRO-rathena, à confronter au guide Hazy Forest) ; l'Arène Nocturne de Geffen, sans script connu |
+| Reste à faire | instances de l'intervalle (§5e) : l'enchantement des armures Star de la Tour des Constellations (matériaux sans source) ; le Crash d'aéronef (lot C4, script reconstruit du fork mikkotandoc/PRO-rathena, à confronter au guide Hazy Forest) ; l'Arène Nocturne de Geffen, sans script connu |
 
 ## Sources
 

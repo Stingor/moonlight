@@ -15630,3 +15630,72 @@ Body:
     Flags:
       BuyingStore: true
       DropEffect: CLIENT
+  # Tour des Constellations (hayakawakaki/rathena-script-collection (Constellation Tower/, crazyarashi, GPL-3.0)).
+  - Id: 1000372
+    AegisName: Meteorite_Dust
+    Name: Meteorite Powder
+    Type: Etc
+    Weight: 1
+    Flags:
+      BuyingStore: true
+  - Id: 1000373
+    AegisName: Meteorite_Fragment
+    Name: Meteorite Fragment
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1000397
+    AegisName: Betelgeuse_Soul
+    Name: Beteleuse Soul
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000396
+    AegisName: Naght_Sieger_Soul
+    Name: Naght Sieger Soul
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000398
+    AegisName: Pow_Meteorite_Dust
+    Name: Power Meteorite Powder
+    Type: Etc
+    Weight: 1
+    Flags:
+      BuyingStore: true
+  - Id: 1000399
+    AegisName: Sta_Meteorite_Dust
+    Name: Stamina Meteorite Powder
+    Type: Etc
+    Weight: 1
+    Flags:
+      BuyingStore: true
+  - Id: 1000400
+    AegisName: Con_Meteorite_Dust
+    Name: Agile Meteorite Powder
+    Type: Etc
+    Weight: 1
+    Flags:
+      BuyingStore: true
+  - Id: 1000401
+    AegisName: Crt_Meteorite_Dust
+    Name: Lucky Meteorite Powder
+    Type: Etc
+    Weight: 1
+    Flags:
+      BuyingStore: true
+  - Id: 1000402
+    AegisName: Spl_Meteorite_Dust
+    Name: Meteorite Powder of Spell
+    Type: Etc
+    Weight: 1
+    Flags:
+      BuyingStore: true
+  - Id: 1000403
+    AegisName: Wis_Meteorite_Dust
+    Name: Meteorite Powder of Wisdom
+    Type: Etc
+    Weight: 1
+    Flags:
+      BuyingStore: true

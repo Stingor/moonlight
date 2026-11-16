@@ -35938,3 +35938,511 @@ Body:
     Script: |
       bonus bVariableCastrate,-7;
       bonus2 bAddClass,Class_All,10;
+  # Tour des Constellations (hayakawakaki/rathena-script-collection (Constellation Tower/, crazyarashi, GPL-3.0)).
+  - Id: 450168
+    AegisName: Vague_Star_Armor
+    Name: Faint Star's Armor [1]
+    Type: Armor
+    Weight: 2500
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 240
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bBaseAtk,125+15*(.@r/2);
+      if (.@r>=9) {
+         bonus bMaxHPrate,7;
+         if (getallrefine() >= 22) {
+            bonus bShortAtkRate,10;
+         }
+      }
+  - Id: 450167
+    AegisName: Vague_Star_Suit
+    Name: Faint Star's Suit [1]
+    Type: Armor
+    Weight: 1500
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 240
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMatk,75+10*(.@r/2);
+      bonus bBaseAtk,75+10*(.@r/2);
+      if (.@r>=9) {
+         bonus bAspdRate,7;
+         if (getallrefine() >= 22) {
+            bonus bLongAtkRate,10;
+         }
+      }
+  - Id: 450166
+    AegisName: Vague_Star_Robe
+    Name: Faint Star's Robe [1]
+    Type: Armor
+    Weight: 500
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 240
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMatk,125+(15*(.@r/2));
+      if (.@r>=9) {
+         bonus bVariableCastrate,-10;
+         if (getallrefine() >= 22) {
+            bonus2 bMagicAtkEle,Ele_All,10;
+         }
+      }
+  - Id: 450169
+    AegisName: Star_Armor_Of_Pow
+    Name: Nebula Armor of Power [1]
+    Type: Armor
+    Weight: 2500
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 240
+    Refineable: true
+    Gradable: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bStr,1;
+      bonus bBaseAtk,125+15*(.@r/2);
+      if (.@r>=9) {
+         bonus2 bAddClass,Class_All,5;
+         if (getallrefine() >= 22) {
+            bonus bShortAtkRate,20;
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus2 bAddClass,Class_All,(.@r/2);
+         bonus bBaseAtk,2*(.@r/2);
+         bonus bShortAtkRate,(.@r/3);
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus2 bAddClass,Class_All,(.@r/2);
+            bonus bBaseAtk,3*(.@r/2);
+            bonus bShortAtkRate,(.@r/3);
+            if (.@g >= ENCHANTGRADE_B) {
+               bonus2 bAddClass,Class_All,2*(.@r/2);
+               bonus bShortAtkRate,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/4);
+               if (.@g >= ENCHANTGRADE_A) {
+                  bonus2 bAddClass,Class_All,3*(.@r/2);
+                  bonus bShortAtkRate,2*(.@r/3);
+                  bonus2 bAddClass,Class_All,2*(.@r/4);
+               }
+            }
+         }
+      }
+  - Id: 450170
+    AegisName: Star_Armor_Of_Sta
+    Name: Nebula Armor of Stamina [1]
+    Type: Armor
+    Weight: 2500
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 240
+    Refineable: true
+    Gradable: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bVit,1;
+      bonus bMaxHPrate,10;
+      bonus bDef,15*(.@r/2);
+      if (.@r>=9) {
+         bonus bHealPower2,10;
+         if (getallrefine() >= 22) {
+            bonus bMaxHPrate,15;
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus bDef,5*(.@r/2);
+         bonus bHealPower2,2*(.@r/2);
+         bonus bNearAtkDef,80*((.@r/4))/(((.@r/4))+400); bonus bLongAtkDef,80*((.@r/4))/(((.@r/4))+400);
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bDef,7*(.@r/2);
+            bonus bHealPower2,3*(.@r/2);
+            bonus bNearAtkDef,80*(2*(.@r/4))/((2*(.@r/4))+400); bonus bLongAtkDef,80*(2*(.@r/4))/((2*(.@r/4))+400);
+            if (.@g >= ENCHANTGRADE_B) {
+               bonus bMaxHPrate,(.@r/3);
+               bonus bNearAtkDef,80*(3*(.@r/4))/((3*(.@r/4))+400); bonus bLongAtkDef,80*(3*(.@r/4))/((3*(.@r/4))+400);
+               if (.@g >= ENCHANTGRADE_A) {
+                  bonus bMaxHPrate,2*(.@r/3);
+                  bonus bNearAtkDef,80*(4*(.@r/4))/((4*(.@r/4))+400); bonus bLongAtkDef,80*(4*(.@r/4))/((4*(.@r/4))+400);
+               }
+            }
+         }
+      }
+  - Id: 450171
+    AegisName: Star_Suit_Of_Con
+    Name: Nebula Suit of Concentration [1]
+    Type: Armor
+    Weight: 1500
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 240
+    Refineable: true
+    Gradable: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bDex,1;
+      bonus bBaseAtk,125+15*(.@r/2);
+      if (.@r>=9) {
+         bonus bAspdRate,10;
+         if (getallrefine() >= 22) {
+            bonus bLongAtkRate,20;
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus bAspdRate,(.@r/2);
+         bonus2 bAddClass,Class_All,(.@r/2);
+         bonus bBaseAtk,2*(.@r/2);
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bAspdRate,(.@r/2);
+            bonus2 bAddClass,Class_All,2*(.@r/2);
+            bonus bBaseAtk,3*(.@r/2);
+            if (.@g >= ENCHANTGRADE_B) {
+               bonus bAspdRate,2*(.@r/2);
+               bonus bLongAtkRate,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/4);
+               if (.@g >= ENCHANTGRADE_A) {
+                  bonus bAspdRate,2*(.@r/2);
+                  bonus bLongAtkRate,2*(.@r/3);
+                  bonus2 bAddClass,Class_All,2*(.@r/4);
+               }
+            }
+         }
+      }
+  - Id: 450172
+    AegisName: Star_Suit_Of_Crt
+    Name: Nebula Suit of Creative [1]
+    Type: Armor
+    Weight: 1500
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 240
+    Refineable: true
+    Gradable: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bLuk,1;
+      bonus bBaseAtk,100+10*(.@r/2);
+      if (.@r>=9) {
+         bonus bCritical,5;
+         if (getallrefine() >= 22) {
+            bonus bCritAtkRate,20;
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus bBaseAtk,(.@r/2);
+         bonus bCritAtkRate,2*(.@r/3);
+         bonus bCritical,(.@r/3);
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bBaseAtk,2*(.@r/2);
+            bonus bCritAtkRate,3*(.@r/3);
+            bonus bCritical,2*(.@r/3);
+            if (.@g >= ENCHANTGRADE_B) {
+               bonus bCritAtkRate,5*(.@r/3);
+               bonus bCritAtkRate,(.@r/4);
+               bonus2 bAddClass,Class_All,(.@r/4);
+               if (.@g >= ENCHANTGRADE_A) {
+                  bonus bCritAtkRate,7*(.@r/3);
+                  bonus bCritAtkRate,(.@r/4);
+                  bonus2 bAddClass,Class_All,2*(.@r/4);
+               }
+            }
+         }
+      }
+  - Id: 450173
+    AegisName: Star_Robe_Of_Spl
+    Name: Nebula Robe of Spell [1]
+    Type: Armor
+    Weight: 500
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 240
+    Refineable: true
+    Gradable: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bInt,1;
+      bonus bMatk,125+(15*(.@r/2));
+      if (.@r>=9) {
+         bonus bMatkRate,5;
+         if (getallrefine() >= 22) {
+            bonus2 bMagicAtkEle,Ele_All,15;
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus bMatkRate,(.@r/2);
+         bonus bMatk,2*(.@r/2);
+         bonus2 bMagicAtkEle,Ele_All,3*(.@r/3);
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bMatkRate,(.@r/2);
+            bonus bMatk,3*(.@r/2);
+            bonus2 bMagicAtkEle,Ele_All,3*(.@r/3);
+            if (.@g >= ENCHANTGRADE_B) {
+               bonus bMatkRate,2*(.@r/2);
+               bonus2 bMagicAtkEle,Ele_All,5*(.@r/3);
+               bonus2 bMagicAddClass,Class_All,(.@r/4);
+               if (.@g >= ENCHANTGRADE_A) {
+                  bonus bMatkRate,3*(.@r/2);
+                  bonus2 bMagicAtkEle,Ele_All,5*(.@r/3);
+                  bonus2 bMagicAddClass,Class_All,2*(.@r/4);
+               }
+            }
+         }
+      }
+  - Id: 450174
+    AegisName: Star_Robe_Of_Wis
+    Name: Nebula Robe of Wisdom [1]
+    Type: Armor
+    Weight: 500
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 240
+    Refineable: true
+    Gradable: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bMatk,125;
+      bonus bInt,1;
+      bonus bMaxSPrate,2*(.@r/2);
+      bonus bHealPower,(.@r/2);
+      if (.@r>=9) {
+         bonus bSPrecovRate,30;
+         if (getallrefine() >= 22) {
+            bonus bVariableCastrate,-10;
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus bSPrecovRate,2*(.@r/2);
+         bonus bHealPower,(.@r/2);
+         bonus bMagicAtkDef,80*((.@r/3))/(((.@r/3))+400);
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bSPrecovRate,3*(.@r/2);
+            bonus bHealPower,2*(.@r/2);
+            bonus bMagicAtkDef,80*(2*(.@r/3))/((2*(.@r/3))+400);
+            if (.@g >= ENCHANTGRADE_B) {
+               bonus bMaxSPrate,(.@r/2);
+               bonus bMagicAtkDef,80*(2*(.@r/3))/((2*(.@r/3))+400);
+               bonus bHealPower,2*(.@r/4);
+               if (.@g >= ENCHANTGRADE_A) {
+                  bonus bMaxSPrate,2*(.@r/2);
+                  bonus bMagicAtkDef,80*(3*(.@r/3))/((3*(.@r/3))+400);
+                  bonus bHealPower,3*(.@r/4);
+               }
+            }
+         }
+      }
+  - Id: 490131
+    AegisName: Signet_Of_Star
+    Name: Signet of Star [1]
+    Type: Armor
+    Weight: 500
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 240
+  - Id: 490132
+    AegisName: Signet_Of_Pow_Star
+    Name: Power Signet of Star [1]
+    Type: Armor
+    Weight: 500
+    Defense: 10
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 240
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus2 bAddClass,Class_All,3;
+      bonus2 bAddClass,Class_All,7;
+  - Id: 490133
+    AegisName: Signet_Of_Sta_Star
+    Name: Stamina Signet of Star [1]
+    Type: Armor
+    Weight: 500
+    Defense: 10
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 240
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bMaxHPrate,7;
+      bonus bNearAtkDef,1; bonus bLongAtkDef,1;
+  - Id: 490134
+    AegisName: Signet_Of_Con_Star
+    Name: Concentration Signet of Star [1]
+    Type: Armor
+    Weight: 500
+    Defense: 10
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 240
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bAspdRate,7;
+      bonus bCritical,3;
+  - Id: 490135
+    AegisName: Signet_Of_Crt_Star
+    Name: Creative Signet of Star [1]
+    Type: Armor
+    Weight: 500
+    Defense: 10
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 240
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bCritAtkRate,7;
+      bonus2 bAddClass,Class_All,2;
+  - Id: 490136
+    AegisName: Signet_Of_Spl_Star
+    Name: Spell Signet of Star [1]
+    Type: Armor
+    Weight: 500
+    Defense: 10
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 240
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus2 bMagicAtkEle,Ele_All,7;
+      bonus2 bMagicAddClass,Class_All,2;
+  - Id: 490137
+    AegisName: Signet_Of_Wis_Star
+    Name: Wisdom Signet of Star [1]
+    Type: Armor
+    Weight: 500
+    Defense: 10
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 240
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bVariableCastrate,-7;
+      bonus bHealPower,2;

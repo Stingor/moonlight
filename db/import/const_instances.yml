@@ -177,3 +177,5 @@ Body:
     Value: 79
   - Name: INST_THANATOS_TOWER
     Value: 80
+  - Name: INST_CONSTELLATION_TOWER
+    Value: 81

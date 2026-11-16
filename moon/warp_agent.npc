@@ -181,6 +181,7 @@ L_Instance:
 					"Bakonawa Lake",
 					"Bangungot Hospital 2F (HM)",
 					"Buwaya Cave (HM)",
+					"Constellation Tower",
 					"Central Laboratory",
 					"Charleston in Distess",
 					"Devil's Tower",
@@ -229,6 +230,7 @@ L_Instance:
 					INST_BAKONAWA_LAKE,
 					INST_BANGUNGOT_HOSPITAL_2F,
 					INST_BUWAYA_CAVE,
+					INST_CONSTELLATION_TOWER,
 					INST_CENTRAL_LABORATORY,
 					INST_CHARLESTON_IN_DISTRESS,
 					INST_DEVILS_TOWER,
@@ -278,6 +280,7 @@ L_Instance:
 					12278, // INST_BAKONAWA_LAKE
 					9223,  // INST_BANGUNGOT_HOSPITAL_2F
 					4229,  // INST_BUWAYA_CAVE
+					12514, // INST_CONSTELLATION_TOWER
 					12347, // INST_CENTRAL_LABORATORY
 					13185, // INST_CHARLESTON_IN_DISTRESS
 					7577,  // INST_DEVILS_TOWER
@@ -948,6 +951,9 @@ L_Bijou:
 		}
 		case INST_WEEKEND_DUNGEON: { // Weekend Dungeon
 			warp_fct("pay_arche", 45, 123);
+		}
+		case INST_CONSTELLATION_TOWER: { // Tour des Constellations : Captain Janssen, a Alberta
+			warp_fct("alberta", 212, 76);
 		}
 		case INST_THANATOS_TOWER: { // Tour de Thanatos : Lumin, a thana_step
 			warp_fct("thana_step", 154, 364);
