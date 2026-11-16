@@ -11591,3 +11591,454 @@ Body:
     SubType: Enchant
     Script: |
       bonus2 bMagicAtkEle,Ele_All,10;
+  # Tour de Thanatos (hayakawakaki/rathena-script-collection (Thanatos Tower/, crazyarashi, GPL-3.0)).
+  - Id: 310197
+    AegisName: Tha_Anger_1
+    Name: Anger Lv1
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddClass,Class_All,1;
+  - Id: 310198
+    AegisName: Tha_Anger_2
+    Name: Anger Lv2
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddClass,Class_All,3;
+  - Id: 310199
+    AegisName: Tha_Anger_3
+    Name: Anger Lv3
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddClass,Class_All,5;
+  - Id: 310200
+    AegisName: Tha_Anger_4
+    Name: Anger Lv4
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddClass,Class_All,7;
+  - Id: 310201
+    AegisName: Tha_Anger_5
+    Name: Anger Lv5
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddClass,Class_All,10;
+  - Id: 310202
+    AegisName: Tha_Horror_1
+    Name: Horror Lv1
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMatkRate,1;
+  - Id: 310203
+    AegisName: Tha_Horror_2
+    Name: Horror Lv2
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMatkRate,3;
+  - Id: 310204
+    AegisName: Tha_Horror_3
+    Name: Horror Lv3
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMatkRate,5;
+  - Id: 310205
+    AegisName: Tha_Horror_4
+    Name: Horror Lv4
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMatkRate,7;
+  - Id: 310206
+    AegisName: Tha_Horror_5
+    Name: Horror Lv5
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMatkRate,10;
+  - Id: 310207
+    AegisName: Tha_Resent_1
+    Name: Resentment Lv1
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bCritAtkRate,1;
+  - Id: 310208
+    AegisName: Tha_Resent_2
+    Name: Resentment Lv2
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bCritAtkRate,3;
+  - Id: 310209
+    AegisName: Tha_Resent_3
+    Name: Resentment Lv3
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bCritAtkRate,5;
+  - Id: 310210
+    AegisName: Tha_Resent_4
+    Name: Resentment Lv4
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bCritAtkRate,7;
+  - Id: 310211
+    AegisName: Tha_Resent_5
+    Name: Resentment Lv5
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bCritAtkRate,10;
+  - Id: 310212
+    AegisName: Tha_Regret_1
+    Name: Regret Lv1
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMaxHPrate,1;
+      bonus bMaxSPrate,1;
+  - Id: 310213
+    AegisName: Tha_Regret_2
+    Name: Regret Lv2
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMaxHPrate,3;
+      bonus bMaxSPrate,3;
+  - Id: 310214
+    AegisName: Tha_Regret_3
+    Name: Regret Lv3
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMaxHPrate,5;
+      bonus bMaxSPrate,5;
+  - Id: 310215
+    AegisName: Tha_Regret_4
+    Name: Regret Lv4
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMaxHPrate,7;
+      bonus bMaxSPrate,7;
+  - Id: 310216
+    AegisName: Tha_Regret_5
+    Name: Regret Lv5
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+  - Id: 310217
+    AegisName: Tha_Empatize_1
+    Name: Empathy Lv1
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddClass,Class_All,1;
+  - Id: 310218
+    AegisName: Tha_Empatize_2
+    Name: Empathy Lv2
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddClass,Class_All,3;
+  - Id: 310219
+    AegisName: Tha_Empatize_3
+    Name: Empathy Lv3
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddClass,Class_All,5;
+  - Id: 310220
+    AegisName: Tha_Empatize_4
+    Name: Empathy Lv4
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddClass,Class_All,7;
+  - Id: 310221
+    AegisName: Tha_Empatize_5
+    Name: Empathy Lv5
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddClass,Class_All,10;
+  - Id: 310222
+    AegisName: Tha_Happy_1
+    Name: Happiness Lv1
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMatkRate,1;
+  - Id: 310223
+    AegisName: Tha_Happy_2
+    Name: Happiness Lv2
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMatkRate,3;
+  - Id: 310224
+    AegisName: Tha_Happy_3
+    Name: Happiness Lv3
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMatkRate,5;
+  - Id: 310225
+    AegisName: Tha_Happy_4
+    Name: Happiness Lv4
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMatkRate,7;
+  - Id: 310226
+    AegisName: Tha_Happy_5
+    Name: Happiness Lv5
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMatkRate,10;
+  - Id: 310227
+    AegisName: Tha_Comfort_1
+    Name: Shelter Lv1
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bCritAtkRate,1;
+  - Id: 310228
+    AegisName: Tha_Comfort_2
+    Name: Shelter Lv2
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bCritAtkRate,3;
+  - Id: 310229
+    AegisName: Tha_Comfort_3
+    Name: Shelter Lv3
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bCritAtkRate,5;
+  - Id: 310230
+    AegisName: Tha_Comfort_4
+    Name: Shelter Lv4
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bCritAtkRate,7;
+  - Id: 310231
+    AegisName: Tha_Comfort_5
+    Name: Shelter Lv5
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bCritAtkRate,10;
+  - Id: 310232
+    AegisName: Tha_Console_1
+    Name: Solace Lv1
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMaxHPrate,1;
+      bonus bMaxSPrate,1;
+  - Id: 310233
+    AegisName: Tha_Console_2
+    Name: Solace Lv2
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMaxHPrate,3;
+      bonus bMaxSPrate,3;
+  - Id: 310234
+    AegisName: Tha_Console_3
+    Name: Solace Lv3
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMaxHPrate,5;
+      bonus bMaxSPrate,5;
+  - Id: 310235
+    AegisName: Tha_Console_4
+    Name: Solace Lv4
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMaxHPrate,7;
+      bonus bMaxSPrate,7;
+  - Id: 310236
+    AegisName: Tha_Console_5
+    Name: Solace Lv5
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+  - Id: 310237
+    AegisName: Tha_Wrath_1
+    Name: Inverse Scale Lv1
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddRace,RC_Angel,10;
+      bonus2 bAddRace,RC_Dragon,10;
+  - Id: 310238
+    AegisName: Tha_Wrath_2
+    Name: Inverse Scale Lv2
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddRace,RC_Angel,15;
+      bonus2 bAddRace,RC_Dragon,15;
+  - Id: 310239
+    AegisName: Tha_Wrath_3
+    Name: Inverse Scale Lv3
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddRace,RC_Angel,20;
+      bonus2 bAddRace,RC_Dragon,20;
+  - Id: 310240
+    AegisName: Tha_Wrath_4
+    Name: Inverse Scale Lv4
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddRace,RC_Angel,25;
+      bonus2 bAddRace,RC_Dragon,25;
+  - Id: 310241
+    AegisName: Tha_Wrath_5
+    Name: Inverse Scale Lv5
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddRace,RC_Angel,35;
+      bonus2 bAddRace,RC_Dragon,35;
+  - Id: 310242
+    AegisName: Tha_Majesty_1
+    Name: Dragon Scale Lv1
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bMagicAddRace,RC_Angel,10;
+      bonus2 bMagicAddRace,RC_Dragon,10;
+  - Id: 310243
+    AegisName: Tha_Majesty_2
+    Name: Dragon Scale Lv2
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bMagicAddRace,RC_Angel,15;
+      bonus2 bMagicAddRace,RC_Dragon,15;
+  - Id: 310244
+    AegisName: Tha_Majesty_3
+    Name: Dragon Scale Lv3
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bMagicAddRace,RC_Angel,20;
+      bonus2 bMagicAddRace,RC_Dragon,20;
+  - Id: 310245
+    AegisName: Tha_Majesty_4
+    Name: Dragon Scale Lv4
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bMagicAddRace,RC_Angel,25;
+      bonus2 bMagicAddRace,RC_Dragon,25;
+  - Id: 310246
+    AegisName: Tha_Majesty_5
+    Name: Dragon Scale Lv5
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bMagicAddRace,RC_Angel,35;
+      bonus2 bMagicAddRace,RC_Dragon,35;
+  - Id: 310247
+    AegisName: Tha_demigod_1
+    Name: Divine Evil Lv1
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddRace,RC_Angel,10;
+      bonus2 bAddRace,RC_Demon,10;
+  - Id: 310248
+    AegisName: Tha_demigod_2
+    Name: Divine Evil Lv2
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddRace,RC_Angel,15;
+      bonus2 bAddRace,RC_Demon,15;
+  - Id: 310249
+    AegisName: Tha_demigod_3
+    Name: Divine Evil Lv3
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddRace,RC_Angel,20;
+      bonus2 bAddRace,RC_Demon,20;
+  - Id: 310250
+    AegisName: Tha_demigod_4
+    Name: Divine Evil Lv4
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddRace,RC_Angel,25;
+      bonus2 bAddRace,RC_Demon,25;
+  - Id: 310251
+    AegisName: Tha_demigod_5
+    Name: Divine Evil Lv5
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bAddRace,RC_Angel,35;
+      bonus2 bAddRace,RC_Demon,35;
+  - Id: 310252
+    AegisName: Tha_Antigod_1
+    Name: Destructive Evil Lv1
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bMagicAddRace,RC_Angel,10;
+      bonus2 bMagicAddRace,RC_Demon,10;
+  - Id: 310253
+    AegisName: Tha_Antigod_2
+    Name: Destructive Evil Lv2
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bMagicAddRace,RC_Angel,15;
+      bonus2 bMagicAddRace,RC_Demon,15;
+  - Id: 310254
+    AegisName: Tha_Antigod_3
+    Name: Destructive Evil Lv3
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bMagicAddRace,RC_Angel,20;
+      bonus2 bMagicAddRace,RC_Demon,20;
+  - Id: 310255
+    AegisName: Tha_Antigod_4
+    Name: Destructive Evil Lv4
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bMagicAddRace,RC_Angel,25;
+      bonus2 bMagicAddRace,RC_Demon,25;
+  - Id: 310256
+    AegisName: Tha_Antigod_5
+    Name: Destructive Evil Lv5
+    Type: Card
+    SubType: Enchant
+    Script: |
+      bonus2 bMagicAddRace,RC_Angel,35;
+      bonus2 bMagicAddRace,RC_Demon,35;

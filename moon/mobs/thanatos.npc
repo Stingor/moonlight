@@ -138,42 +138,42 @@ tha_t08	monster	Odium of Thanatos	1704,4,5000
 //==================================================
 // tha_t09 - Thanatos Tower - Upper Level
 //==================================================
-tha_t09	monster	Lady Solace	1703,20,5000
-tha_t09	monster	Dame of Sentinel	1700,10,5000
-tha_t09	monster	Baroness of Retribution	1702,10,5000
-tha_t09	monster	Mistress of Shelter	1701,10,5000
-tha_t09	monster	Plasma	1694,10,5000
-tha_t09	monster	Dolor of Thanatos	1712,6,5000
-tha_t09	monster	Dolor of Thanatos	1707,2,5000
+// Refonte kRO (Tour de Thanatos, 2026-11-16) : anciens spawns remplaces.
+tha_t09	monster	Void Mimic	20779,5,5000
+tha_t09	monster	Book of Death	20780,5,5000
+tha_t09	monster	Eldest	20781,5,5000
+tha_t09	monster	Crow Duke	20782,10,5000
+tha_t09	monster	Crow Baron	20783,15,5000
 
 //==================================================
 // tha_t10 - Thanatos Tower - Upper Level
 //==================================================
-tha_t10	monster	Baroness of Retribution	1702,25,5000
-tha_t10	monster	Dame of Sentinel	1700,10,5000
-tha_t10	monster	Mistress of Shelter	1701,10,5000
-tha_t10	monster	Lady Solace	1703,10,5000
-tha_t10	monster	Plasma	1697,10,5000
-tha_t10	monster	Maero of Thanatos	1711,3,5000
-tha_t10	monster	Maero of Thanatos	1706,2,5000
+// Refonte kRO (Tour de Thanatos, 2026-11-16) : anciens spawns remplaces.
+tha_t10	monster	Void Mimic	20779,15,5000
+tha_t10	monster	Book of Death	20780,15,5000
+tha_t10	monster	Eldest	20781,13,5000
+tha_t10	monster	Empathizer	20773,5,5000
+tha_t10	monster	Happy Giver	20774,5,5000
 
 //==================================================
 // tha_t11 - Thanatos Tower - Upper Level
 //==================================================
-tha_t11	monster	Mistress of Shelter	1701,25,5000
-tha_t11	monster	Dame of Sentinel	1700,10,5000
-tha_t11	monster	Baroness of Retribution	1702,10,5000
-tha_t11	monster	Lady Solace	1703,10,5000
-tha_t11	monster	Plasma	1695,10,5000
-tha_t11	monster	Despero of Thanatos	1710,6,5000
-tha_t11	monster	Despero of Thanatos	1705,2,5000
+// Refonte kRO (Tour de Thanatos, 2026-11-16) : anciens spawns remplaces.
+tha_t11	monster	Void Mimic	20779,3,5000
+tha_t11	monster	Book of Death	20780,3,5000
+tha_t11	monster	Empathizer	20773,14,5000
+tha_t11	monster	Happy Giver	20774,14,5000
+tha_t11	monster	Pray Giver	20844,15,5000
+tha_t11	monster	Smile Giver	20845,15,5000
+tha_t11	monster	Resentful of Thanatos	20777,2,5000
+tha_t11	monster	Horror of Thanatos	20776,2,5000
 
 //==================================================
 // tha_t12 - Thanatos Tower - Upper Level
 //==================================================
-tha_t12	monster	Dame of Sentinel	1700,16,5000
-tha_t12	monster	Baroness of Retribution	1702,10,5000
-tha_t12	monster	Mistress of Shelter	1701,10,5000
-tha_t12	monster	Lady Solace	1703,10,5000
-tha_t12	monster	Plasma	1693,10,5000
-tha_t12	monster	Odium of Thanatos	1709,6,5000
+// Refonte kRO (Tour de Thanatos, 2026-11-16) : anciens spawns remplaces.
+tha_t12	monster	Book of Death	20780,3,5000
+tha_t12	monster	Anger of Thanatos	20775,13,5000
+tha_t12	monster	Horror of Thanatos	20776,15,5000
+tha_t12	monster	Resentful of Thanatos	20777,14,5000
+tha_t12	monster	Regret of Thanatos	20778,15,5000

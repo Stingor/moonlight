@@ -35617,3 +35617,324 @@ Body:
             }
          }
       }
+  # Tour de Thanatos (hayakawakaki/rathena-script-collection (Thanatos Tower/, crazyarashi, GPL-3.0)).
+  - Id: 490044
+    AegisName: Sin_Ring_R
+    Name: Sinful Ruby Ring [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bAspdRate,7;
+      bonus2 bAddClass,Class_All,10;
+  - Id: 490045
+    AegisName: Sin_Necklace_R
+    Name: Sinful Ruby Necklace [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bVariableCastrate,-7;
+      bonus2 bAddClass,Class_All,10;
+  - Id: 490046
+    AegisName: Sin_Ring_E
+    Name: Sinful Emerald Ring [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bAspdRate,7;
+      bonus2 bAddClass,Class_All,10;
+  - Id: 490047
+    AegisName: Sin_Necklace_E
+    Name: Sinful Emerald Necklace [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bVariableCastrate,-7;
+      bonus2 bAddClass,Class_All,10;
+  - Id: 490048
+    AegisName: Sin_Ring_T
+    Name: Sinful Topaz Ring [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bAspdRate,7;
+      bonus bMatkRate,7;
+      bonus2 bAddClass,Class_All,7;
+  - Id: 490049
+    AegisName: Sin_Necklace_T
+    Name: Sinful Topaz Necklace [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bVariableCastrate,-7;
+      bonus bMatkRate,7;
+      bonus2 bAddClass,Class_All,7;
+  - Id: 490050
+    AegisName: Sin_Ring_A
+    Name: Sinful Amethyst Ring [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bAspdRate,7;
+      bonus bMatkRate,7;
+      bonus2 bAddClass,Class_All,7;
+  - Id: 490051
+    AegisName: Sin_Necklace_A
+    Name: Sinful Amethyst Necklace [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bVariableCastrate,-7;
+      bonus bMatkRate,7;
+      bonus2 bAddClass,Class_All,7;
+  - Id: 490052
+    AegisName: Sin_Ring_S
+    Name: Sinful Sapphire Ring [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bAspdRate,7;
+      bonus bMatkRate,10;
+  - Id: 490053
+    AegisName: Sin_Necklace_S
+    Name: Sinful Sapphire Necklace [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bVariableCastrate,-7;
+      bonus bMatkRate,10;
+  - Id: 490054
+    AegisName: Sin_Ring_O
+    Name: Sinful Opal Ring [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bAspdRate,7;
+      bonus2 bAddClass,Class_All,10;
+  - Id: 490055
+    AegisName: Sin_Necklace_O
+    Name: Sinful Opal Necklace [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bVariableCastrate,-7;
+      bonus2 bAddClass,Class_All,10;
+  - Id: 490056
+    AegisName: Shine_Ring_R
+    Name: Brilliant Light Ruby Ring [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bAspdRate,7;
+      bonus2 bAddClass,Class_All,10;
+  - Id: 490057
+    AegisName: Shine_Necklace_R
+    Name: Brilliant Light Ruby Necklace [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bVariableCastrate,-7;
+      bonus2 bAddClass,Class_All,10;
+  - Id: 490058
+    AegisName: Shine_Ring_A
+    Name: Brilliant Light Amethyst Ring [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bAspdRate,7;
+      bonus bMatkRate,7;
+      bonus2 bAddClass,Class_All,7;
+  - Id: 490059
+    AegisName: Shine_Necklace_A
+    Name: Brilliant Light Amethyst Necklace [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bVariableCastrate,-7;
+      bonus bMatkRate,7;
+      bonus2 bAddClass,Class_All,7;
+  - Id: 490060
+    AegisName: Shine_Ring_E
+    Name: Brilliant Light Emerald Ring [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bAspdRate,7;
+      bonus bMatkRate,7;
+      bonus2 bAddClass,Class_All,7;
+  - Id: 490061
+    AegisName: Shine_Necklace_E
+    Name: Brilliant Light Emerald Necklace [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bVariableCastrate,-7;
+      bonus bMatkRate,7;
+      bonus2 bAddClass,Class_All,7;
+  - Id: 490062
+    AegisName: Shine_Ring_Z
+    Name: Brilliant Light Zircon Ring [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bAspdRate,7;
+      bonus2 bAddClass,Class_All,10;
+  - Id: 490063
+    AegisName: Shine_Necklace_Z
+    Name: Brilliant Light Zircon Necklace [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bVariableCastrate,-7;
+      bonus2 bAddClass,Class_All,10;
+  - Id: 490064
+    AegisName: Shine_Ring_S
+    Name: Brilliant Light Sapphire Ring [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bAspdRate,7;
+      bonus bMatkRate,10;
+  - Id: 490065
+    AegisName: Shine_Necklace_S
+    Name: Brilliant Light Sapphire Necklace [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bVariableCastrate,-7;
+      bonus bMatkRate,10;
+  - Id: 490066
+    AegisName: Shine_Ring_AQ
+    Name: Brilliant Light Aquamarine Ring [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Right_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bAspdRate,7;
+      bonus2 bAddClass,Class_All,10;
+  - Id: 490067
+    AegisName: Shine_Necklace_AQ
+    Name: Brilliant Light Aquamarine Necklace [1]
+    Type: Armor
+    Weight: 100
+    Slots: 1
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 170
+    Script: |
+      bonus bVariableCastrate,-7;
+      bonus2 bAddClass,Class_All,10;

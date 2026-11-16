@@ -216,6 +216,7 @@ L_Instance:
 					"Simulation Battle",
 					"Sky Fortress Invasion",
 					"Temple of Demon God",
+					"Thanatos Tower",
 					"Tomb of Remorse",
 					"Twilight Garden",
 					"Villa of Deception",
@@ -263,6 +264,7 @@ L_Instance:
 					INST_SIMULATION_BATTLE,
 					INST_SKY_FORTRESS_INVASION,
 					INST_TEMPLE_OF_THE_DEMON_GOD,
+					INST_THANATOS_TOWER,
 					INST_TOMB_OF_REMORSE,
 					INST_TWILIGHT_GARDEN,
 					INST_VILLA_OF_DECEPTION,
@@ -311,6 +313,7 @@ L_Instance:
 					16663, // INST_SIMULATION_BATTLE
 					9419,  // INST_SKY_FORTRESS_INVASION
 					7605,  // INST_TEMPLE_OF_THE_DEMON_GOD
+					18028, // INST_THANATOS_TOWER
 					16464, // INST_TOMB_OF_REMORSE
 					18017, // INST_TWILIGHT_GARDEN (quete de chasse, toujours libre)
 					12522, // INST_VILLA_OF_DECEPTION
@@ -945,6 +948,9 @@ L_Bijou:
 		}
 		case INST_WEEKEND_DUNGEON: { // Weekend Dungeon
 			warp_fct("pay_arche", 45, 123);
+		}
+		case INST_THANATOS_TOWER: { // Tour de Thanatos : Lumin, a thana_step
+			warp_fct("thana_step", 154, 364);
 		}
 		case INST_TOMB_OF_REMORSE: { // Tombeau du Remords : la Princesse, a Dali02 (chaine 16461-16463)
 			warp_fct("dali02", 76, 114);

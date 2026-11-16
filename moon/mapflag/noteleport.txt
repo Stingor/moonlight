@@ -709,3 +709,21 @@ que_thr	mapflag	noteleport
 // Tombeau du Remords (hayakawakaki) : jeu standard des instances 18/19
 1@spa2	mapflag	noteleport
 1@spa2	mapflag	monster_noteleport
+
+// Tour de Thanatos (hayakawakaki) : jeu standard des instances 18/19
+1@thts	mapflag	noteleport
+2@thts	mapflag	noteleport
+3@thts	mapflag	noteleport
+4@thts	mapflag	noteleport
+5@thts	mapflag	noteleport
+6@thts	mapflag	noteleport
+7@thts	mapflag	noteleport
+8@thts	mapflag	noteleport
+1@thts	mapflag	monster_noteleport
+2@thts	mapflag	monster_noteleport
+3@thts	mapflag	monster_noteleport
+4@thts	mapflag	monster_noteleport
+5@thts	mapflag	monster_noteleport
+6@thts	mapflag	monster_noteleport
+7@thts	mapflag	monster_noteleport
+8@thts	mapflag	monster_noteleport

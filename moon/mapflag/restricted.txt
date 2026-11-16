@@ -253,3 +253,13 @@ wolfvill	mapflag	restricted	7
 
 // Tombeau du Remords (hayakawakaki) : jeu standard des instances 18/19
 1@spa2	mapflag	restricted	6
+
+// Tour de Thanatos (hayakawakaki) : jeu standard des instances 18/19
+1@thts	mapflag	restricted	6
+2@thts	mapflag	restricted	6
+3@thts	mapflag	restricted	6
+4@thts	mapflag	restricted	6
+5@thts	mapflag	restricted	6
+6@thts	mapflag	restricted	6
+7@thts	mapflag	restricted	6
+8@thts	mapflag	restricted	6

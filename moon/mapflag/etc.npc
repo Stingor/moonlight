@@ -351,3 +351,13 @@ que_thr	mapflag	nomemo
 
 // Tombeau du Remords (hayakawakaki) : jeu standard des instances 18/19
 1@spa2	mapflag	nomemo
+
+// Tour de Thanatos (hayakawakaki) : jeu standard des instances 18/19
+1@thts	mapflag	nomemo
+2@thts	mapflag	nomemo
+3@thts	mapflag	nomemo
+4@thts	mapflag	nomemo
+5@thts	mapflag	nomemo
+6@thts	mapflag	nomemo
+7@thts	mapflag	nomemo
+8@thts	mapflag	nomemo

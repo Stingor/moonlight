@@ -175,3 +175,5 @@ Body:
     Value: 78
   - Name: INST_TOMB_OF_REMORSE
     Value: 79
+  - Name: INST_THANATOS_TOWER
+    Value: 80

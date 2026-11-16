@@ -15545,3 +15545,88 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+  # Tour de Thanatos (hayakawakaki/rathena-script-collection (Thanatos Tower/, crazyarashi, GPL-3.0)).
+  - Id: 1000257
+    AegisName: Sin_Fragment
+    Name: Piece of Sin
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1000263
+    AegisName: Fate_Fragment
+    Name: Fragment of Good Will
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1000243
+    AegisName: Sin_Shard_A
+    Name: Fragment of Anger
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1000244
+    AegisName: Sin_Shard_B
+    Name: Fragment of Fear
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1000245
+    AegisName: Sin_Shard_C
+    Name: Fragment of Resentment
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1000255
+    AegisName: Sin_Shard_D
+    Name: Fragment of Regret
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1000256
+    AegisName: Sin_Shard_E
+    Name: Fragment of Sorrow
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1000258
+    AegisName: Fate_Shard_A
+    Name: Fragment of Empathy
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1000259
+    AegisName: Fate_Shard_B
+    Name: Fragment of Happiness
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1000260
+    AegisName: Fate_Shard_C
+    Name: Fragment of Rest
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1000261
+    AegisName: Fate_Shard_D
+    Name: Fragment of Comfort
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1000262
+    AegisName: Fate_Shard_E
+    Name: Fragment of Blessing
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT

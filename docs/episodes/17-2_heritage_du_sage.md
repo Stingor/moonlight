@@ -208,14 +208,30 @@ Portage dans cet ordre, du plus petit au plus gros, auteur crédité en en-tête
 | Échange | `moon/barters.yml` | `remorse_weapon` : 700 Minneas l'arme, doublon de Catapulta du dépôt retiré |
 | Mapflags | `moon/mapflag/` | jeu standard des instances 18/19 |
 
+### Lot C2 : la Tour de Thanatos (`1@thts` à `8@thts`, instance 80)
+
+Portée validée le 2026‑11‑16 : l'instance **et la refonte kRO des étages 9 à 12**, dont les
+mobs font tomber les éclats Fate/Sin (monnaie des accessoires) et servent de cibles aux
+journalières de Solice. Sans elles, un accessoire aurait coûté une centaine de runs.
+
+| Élément | Fichier | Détail |
+|---|---|---|
+| Script | `moon/instances/ThanatosTower.npc` | Lumin à `thana_step` (niveau 180, journalière 18026‑18028), l'instance ; Solice (journalières 17415‑17425), Jei, Mini Robe (échanges), Tamilla (enchantements Sin/Shine) à `tha_t01` |
+| Adaptations | | `mot_init` retiré : il désactivait les PNJ du MVP classique (`moon/quests/thana_quest.npc`), gardé ; la quête 17408 (contrat, sans source) ne bloque plus Solice ni Jei ; boutiques de Mini Robe corrigées (`mot_shop_1`, `mot_shop_2` au lieu de `_2` et `_3` inexistante) |
+| Étages | `moon/mobs/thanatos.npc` | spawns de `tha_t09` à `tha_t12` remplacés par ceux de la refonte (lignes commentées de `npc/re/mobs/dungeons/tha_t.txt`) ; `tha_t07`/`08` et les champions inchangés |
+| Mobs | `db/import/mobs/thanatos_tower.yml` | 30 mobs du dépôt, convertis ; les 12 coquilles 20773‑20785 de `db/import/mob_db.yml` (sans drop ni spawn) retirées ; 20845 renommé `SMILE_GIVER` (le dépôt le double en `MD_SOLACE`) ; cartes `aegis_3002xx` (inconnues) retirées ; EXP des mobs d'instance par la formule du convertisseur |
+| Instance | `instance_db.yml`, `const_instances.yml` | 80, `INST_THANATOS_TOWER` ; warp agent vers `thana_step` |
+| Objets | `db/import/items/` | 60 enchantements `Tha_*`, 24 accessoires Sin/Shine, `Sin_Fragment`/`Fate_Fragment`, 10 éclats |
+| Échanges | `moon/barters.yml` | `mot_shop_0` (5 éclats → 1 fragment), `_1` et `_2` (50 fragments → 1 accessoire) |
+
 ## 6. Verdict
 
 | | |
 |---|---|
 | Intérêt | élevé — le terrain est déjà ouvert, il manque ce qui le rend jouable |
-| Fait | lot A : Niflheim renewal et Rudus 4F ; lots B2 et B1 : la chaîne de quêtes et les quatre instances (2026‑11‑11) ; lot A2 : Amicitia et lot B3 : l'économie du manoir (2026‑11‑12) ; les cartes des instances sont dans les albums  ; déployé en production le 2026‑11‑15 ; lot C1 : le Tombeau du Remords (2026‑11‑16) |
+| Fait | lot A : Niflheim renewal et Rudus 4F ; lots B2 et B1 : la chaîne de quêtes et les quatre instances (2026‑11‑11) ; lot A2 : Amicitia et lot B3 : l'économie du manoir (2026‑11‑12) ; les cartes des instances sont dans les albums  ; déployé en production le 2026‑11‑15 ; lots C1 et C2 : le Tombeau du Remords et la Tour de Thanatos (2026‑11‑16) |
 | Épisode | **clos** côté portage le 2026‑11‑12 |
-| Reste à faire | instances de l'intervalle (§5e) : la Tour de Thanatos (lot C2) et la Tour des Constellations (lot C3) ; l'Arène Nocturne de Geffen et le Crash d'aéronef, sans script connu |
+| Reste à faire | instances de l'intervalle (§5e) : la Tour des Constellations (lot C3) ; le Crash d'aéronef (lot C4, script reconstruit du fork mikkotandoc/PRO-rathena, à confronter au guide Hazy Forest) ; l'Arène Nocturne de Geffen, sans script connu |
 
 ## Sources
 
