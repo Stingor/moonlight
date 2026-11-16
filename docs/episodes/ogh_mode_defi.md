@@ -7,7 +7,7 @@
 | Carte | `1@gl_he` (« Contaminated Dimension », déjà dans le mapcache et le client) ; le wiki iRO cite `4@ghc0`, absent ici |
 | Côté rAthena | `instance_db` 49, gabarits de mobs commentés (`MD_C_*`, 20572‑20585), objets et cartes présents, **aucun script** |
 | Côté Moonlight | écrit pour Moonlight (`moon/instances/OldGlastHeimChallenge.npc`, instance 57), **ouvert aux joueurs le 2026‑11‑11** |
-| État | décisions prises le 2026‑11‑09 (section 8) ; **lot C1 fait le 2026‑11‑09** (section 9), **C2 et C3 écrits le 2026‑11‑10** (sections 10 et 11), réglés sur vidéo et testés par le staff sur `ggpro` du 2026‑11‑10 au 2026‑11‑11, **ouverts le 2026‑11‑11** (section 12) ; C4 et C5 à faire |
+| État | décisions prises le 2026‑11‑09 (section 8) ; **lot C1 fait le 2026‑11‑09** (section 9), **C2 et C3 écrits le 2026‑11‑10** (sections 10 et 11), réglés sur vidéo et testés par le staff sur `ggpro` du 2026‑11‑10 au 2026‑11‑11, **ouverts le 2026‑11‑11** (section 12) ; **C5 écrit le 2026‑11‑16** (section 13, non testé en jeu) ; C4 à faire |
 
 Le script n'existe nulle part : ni chez rAthena, ni chez hayakawakaki, ni chez AsurielRO. Ce
 qui suit est une **reconstitution**. Les sections 1 à 5 relèvent ce que les sources disent ;
@@ -320,3 +320,26 @@ l'ouverture du 2026‑11‑11. Ce que les essais ont corrigé :
 
 **Accès** : le warp agent, menu Instance > Old Glast Heim, propose « Mode Défi (près
 d'Oscar) », qui envoie à `glast_01` 143,286.
+
+## 13. Lot C5 : mécaniques avancées du fantôme (2026‑11‑16, non testé en jeu)
+
+Écrites dans la boucle de 2 s du fantôme (`#oghcm_boss`), d'après ROGGH et la comparaison
+avec la version de `mikkotandoc/PRO-rathena` (`OldGlastHeim_Challenge.txt`), dont seules les
+idées vérifiables sont reprises :
+
+| Mécanique | Niveaux | Mise en œuvre |
+|---|---|---|
+| Arène | tous | à plus de 12 cases du centre du pentagramme (157,240), annonce et 30 s pour l'y ramener ; sinon le fantôme est reposé au centre, PV pleins, mutants et épines retirés, et le combat compte comme une reprise (le +1 Circlet « sans disparition » est perdu) |
+| Immunité d'élément | tous | toutes les 45 s, 30 s d'immunité à un élément tiré au sort parmi 8 (statuts `Immune_Property_*`, déjà dans `db/import/status.yml`), annoncée |
+| Max Pain | 3+ | sous 70 % de PV puis toutes les 30 s, `NPC_MAXPAIN` de niveau min(niveau, 10) : pendant 10 s, chaque coup reçu est renvoyé à niveau × 10 % (`battle.cpp`), annoncé |
+| Gradual Gravity | 9+ | toutes les 40 s sur un joueur vivant tiré au sort, `NPC_GRADUAL_GRAVITY` niveau 1 (contamination 9) ou 2 (10) : 10 % ou 20 % des PV max par seconde pendant 3 s (`status.cpp`), annoncé |
+
+**Non repris** : Grim Reaper et Circle Arena (aucune description fiable ; la version
+PRO-rathena les invente : un compteur sans effet visible, un point tiré au hasard invisible
+pour les joueurs), les téléportations aléatoires et le soin différé de 60 %.
+
+**Corrigé au passage (bug du lot C2)** : le fantôme qui repart après 5 minutes de wipe était
+retiré par `unitkill`, qui déclenche son label de mort `OnBossDead` — coffre et récompense
+comme une victoire. Il passe désormais par `killmonster` sur ce label, qui le retire sans
+l'événement (`state.npc_killmonster`, `mob.cpp`). La remise à zéro de l'arène fait de même et
+le repose : `unitwarp` refuse en silence de déplacer un mob sur une carte `monster_noteleport`.
