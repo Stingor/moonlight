@@ -2879,3 +2879,267 @@ Body:
             Materials:
               - Material: Ep18_Amethyst_Fragment
                 Amount: 2500
+  # Episode 17.1, Reform de rgsr_in : enchantement des armes OS-AD (Torus), ElectricFox_AD retire (Doram).
+  - Id: 33
+    TargetItems:
+      Beam_Claymore_AD: true
+      Meuchler_AD: true
+      Blasti_AD: true
+      Virtual_Bow_AD: true
+      MH_P89_AD: true
+      AC_B44_AD: true
+      HR_S55_AD: true
+      Burning_Knuckle_AD: true
+      Cannon_Rapier_AD: true
+      Saphir_Hall_AD: true
+      Ultio_Spes_AD: true
+      Rutilus_Stick_AD: true
+      Circuit_Board_AD: true
+      Kuroiro_AD: true
+      Boost_Lance_AD: true
+    Reset:
+      Chance: 100000
+      Price: 500000
+    Order:
+      - Slot: 3
+      - Slot: 2
+    Slots:
+      - Slot: 3
+        PerfectEnchants:
+          - Item: Sharp1
+            Price: 100000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 20
+          - Item: Hit_Plus1
+            Price: 100000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 20
+          - Item: Attack_Delay_1
+            Price: 100000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 20
+          - Item: Caster1
+            Price: 100000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 20
+        Upgrades:
+          - Enchant: Sharp1
+            Upgrade: Sharp2
+            Price: 200000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 40
+          - Enchant: Hit_Plus1
+            Upgrade: Hit_Plus2
+            Price: 200000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 40
+          - Enchant: Attack_Delay_1
+            Upgrade: Attack_Delay_2
+            Price: 200000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 40
+          - Enchant: Caster1
+            Upgrade: Caster2
+            Price: 200000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 40
+          - Enchant: Sharp2
+            Upgrade: Sharp3
+            Price: 300000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 60
+          - Enchant: Hit_Plus2
+            Upgrade: Hit_Plus3
+            Price: 300000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 60
+          - Enchant: Attack_Delay_2
+            Upgrade: Attack_Delay_3
+            Price: 300000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 60
+          - Enchant: Caster2
+            Upgrade: Caster3
+            Price: 300000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 60
+          - Enchant: Sharp3
+            Upgrade: Sharp4
+            Price: 400000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 80
+          - Enchant: Hit_Plus3
+            Upgrade: Hit_Plus4
+            Price: 400000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 80
+          - Enchant: Attack_Delay_3
+            Upgrade: Attack_Delay_4
+            Price: 400000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 80
+          - Enchant: Caster3
+            Upgrade: Caster4
+            Price: 400000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 80
+          - Enchant: Sharp4
+            Upgrade: Sharp5
+            Price: 500000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 100
+          - Enchant: Hit_Plus4
+            Upgrade: Hit_Plus5
+            Price: 500000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 100
+          - Enchant: Attack_Delay_4
+            Upgrade: Attack_Delay_5
+            Price: 500000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 100
+          - Enchant: Caster4
+            Upgrade: Caster5
+            Price: 500000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 100
+      - Slot: 2
+        PerfectEnchants:
+          - Item: Expert_Archer1
+            Price: 100000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 20
+              - Material: EP17_1_EVT39
+                Amount: 5
+          - Item: Expert_Fighter1
+            Price: 100000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 20
+              - Material: EP17_1_EVT39
+                Amount: 5
+          - Item: Expert_Magician1
+            Price: 100000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 20
+              - Material: EP17_1_EVT39
+                Amount: 5
+        Upgrades:
+          - Enchant: Expert_Archer1
+            Upgrade: Expert_Archer2
+            Price: 200000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 40
+              - Material: EP17_1_EVT39
+                Amount: 10
+          - Enchant: Expert_Fighter1
+            Upgrade: Expert_Fighter2
+            Price: 200000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 40
+              - Material: EP17_1_EVT39
+                Amount: 10
+          - Enchant: Expert_Magician1
+            Upgrade: Expert_Magician2
+            Price: 200000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 40
+              - Material: EP17_1_EVT39
+                Amount: 10
+          - Enchant: Expert_Archer2
+            Upgrade: Expert_Archer3
+            Price: 300000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 60
+              - Material: EP17_1_EVT39
+                Amount: 15
+          - Enchant: Expert_Fighter2
+            Upgrade: Expert_Fighter3
+            Price: 300000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 60
+              - Material: EP17_1_EVT39
+                Amount: 15
+          - Enchant: Expert_Magician2
+            Upgrade: Expert_Magician3
+            Price: 300000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 60
+              - Material: EP17_1_EVT39
+                Amount: 15
+          - Enchant: Expert_Archer3
+            Upgrade: Expert_Archer4
+            Price: 400000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 80
+              - Material: EP17_1_EVT39
+                Amount: 20
+          - Enchant: Expert_Fighter3
+            Upgrade: Expert_Fighter4
+            Price: 400000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 80
+              - Material: EP17_1_EVT39
+                Amount: 20
+          - Enchant: Expert_Magician3
+            Upgrade: Expert_Magician4
+            Price: 400000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 80
+              - Material: EP17_1_EVT39
+                Amount: 20
+          - Enchant: Expert_Archer4
+            Upgrade: Expert_Archer5
+            Price: 500000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 100
+              - Material: EP17_1_EVT39
+                Amount: 25
+          - Enchant: Expert_Fighter4
+            Upgrade: Expert_Fighter5
+            Price: 500000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 100
+              - Material: EP17_1_EVT39
+                Amount: 25
+          - Enchant: Expert_Magician4
+            Upgrade: Expert_Magician5
+            Price: 500000
+            Materials:
+              - Material: EP17_1_EVT02
+                Amount: 100
+              - Material: EP17_1_EVT39
+                Amount: 25

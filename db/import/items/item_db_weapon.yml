@@ -30820,3 +30820,1074 @@ Body:
     Refineable: true
     Script: |
       bonus bMatk,200;
+  # Episode 17.1, Reform de rgsr_in.
+  - Id: 500024
+    AegisName: Thanos_Sword_AD
+    Name: Thanos Sword-AD [2]
+    Type: Weapon
+    SubType: 1hSword
+    Weight: 1000
+    Attack: 190
+    Range: 1
+    Slots: 2
+    Jobs:
+      Alchemist: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 190
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      autobonus "{ bonus2 bHPRegenRate,2500,1000; }",1,4000,BF_WEAPON;
+      bonus bBaseAtk,10*(.@r/2);
+      bonus bLongAtkRate,4*(.@r/3);
+      if (.@r>=7) {
+         bonus bVariableCastrate,-15;
+         bonus2 bAddClass,Class_All,5;
+         if (.@r>=9) {
+            bonus bAspdRate,10;
+            bonus2 bSkillAtk,"AM_ACIDTERROR",15;
+            if (getallrefine() >= 22) {
+               bonus2 bAddSize,Size_All,15;
+               bonus2 bSkillAtk,"AM_ACIDTERROR",15;
+            }
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus2 bAddClass,Class_All,2;
+         bonus2 bSkillAtk,"AM_ACIDTERROR",10;
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,3;
+            if (.@g >= ENCHANTGRADE_B) {
+               bonus2 bSkillAtk,"AM_ACIDTERROR",10;
+            }
+         }
+      }
+  - Id: 600016
+    AegisName: Thanos_TSword_AD
+    Name: Thanatos Great Sword-AD [2]
+    Type: Weapon
+    SubType: 2hSword
+    Weight: 2500
+    Attack: 240
+    Range: 1
+    Slots: 2
+    Jobs:
+      Knight: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 190
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      autobonus "{ bonus2 bHPRegenRate,2500,1000; }",1,4000,BF_WEAPON;
+      bonus bBaseAtk,10*(.@r/2);
+      bonus2 bSkillAtk,"KN_BOWLINGBASH",10*(.@r/3);
+      if (.@r>=7) {
+         bonus bAspdRate,10;
+         bonus2 bSkillAtk,"KN_BOWLINGBASH",20;
+         if (.@r>=9) {
+            bonus2 bAddClass,Class_All,5;
+            if (getallrefine() >= 22) {
+               bonus2 bAddSize,Size_All,15;
+               bonus bShortAtkRate,15;
+            }
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus2 bAddClass,Class_All,2;
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,3;
+         }
+      }
+  - Id: 590020
+    AegisName: Thanos_Hammer_AD
+    Name: Thanos Hammer-AD [2]
+    Type: Weapon
+    SubType: Mace
+    Weight: 1000
+    Attack: 200
+    Range: 1
+    Slots: 2
+    Jobs:
+      Priest: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 190
+    Refineable: true
+    Gradable: true
+    Script: |
+      bonus bMatk,190;
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      autobonus "{ bonus2 bHPRegenRate,2500,1000; }",1,4000,BF_WEAPON;
+      bonus bMatk,10*(.@r/2);
+      bonus bBaseAtk,10*(.@r/2);
+      bonus2 bAddRace,RC_Undead,18*(.@r/3);
+      bonus2 bMagicAddRace,RC_Undead,18*(.@r/3);
+      if (.@r>=7) {
+         bonus2 bMagicAtkEle,Ele_Holy,15;
+         bonus bAspdRate,10;
+         if (.@r>=9) {
+            bonus bMatkRate,5;
+            bonus2 bAddClass,Class_All,5;
+            bonus2 bAddRace,RC_Undead,30;
+            bonus2 bMagicAddRace,RC_Undead,30;
+            if (getallrefine() >= 22) {
+               bonus2 bAddSize,Size_All,15;
+               bonus2 bMagicAddSize,Size_All,15;
+               bonus bShortAtkRate,15;
+            }
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus2 bAddClass,Class_All,3;
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bLongAtkRate,15;
+            bonus bPAtk,1;
+         }
+      }
+  - Id: 510030
+    AegisName: Thanos_Dagger_AD
+    Name: Thanos Dagger-AD [2]
+    Type: Weapon
+    SubType: Dagger
+    Weight: 1400
+    Attack: 150
+    Range: 1
+    Slots: 2
+    Jobs:
+      Rogue: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 190
+    Refineable: true
+    Gradable: true
+    Script: |
+      bonus bMatk,160;
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      autobonus "{ bonus2 bHPRegenRate,1000,1000; bonus2 bSPRegenRate,100,1000; }",10,4000,BF_MAGIC;
+      bonus bMatk,10*(.@r/2);
+      bonus2 bMagicAtkEle,Ele_Neutral,4*(.@r/3);
+      bonus2 bMagicAtkEle,Ele_Fire,4*(.@r/3);
+      if (.@r>=7) {
+         bonus2 bMagicAtkEle,Ele_Neutral,10;
+         bonus2 bMagicAtkEle,Ele_Fire,10;
+         bonus bMatkRate,5;
+         if (.@r>=9) {
+            bonus5 bAutoSpell,"HW_NAPALMVULCAN",4,100,BF_SHORT|BF_WEAPON,1;
+            bonus5 bAutoSpell,"WZ_METEOR",4,100,BF_SHORT|BF_WEAPON,1;
+            if (getallrefine() >= 22) {
+               bonus2 bMagicAddSize,Size_All,15;
+               bonus2 bMagicAtkEle,Ele_Neutral,15;
+               bonus2 bMagicAtkEle,Ele_Fire,15;
+            }
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus bMatkRate,2;
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bSMatk,1;
+            bonus bMatkRate,3;
+         }
+      }
+  - Id: 640017
+    AegisName: Thanos_Rod_AD
+    Name: Thanatos Two-handed Staff-AD [2]
+    Type: Weapon
+    SubType: 2hStaff
+    Weight: 1400
+    Attack: 150
+    Range: 1
+    Slots: 2
+    Jobs:
+      Wizard: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 190
+    Refineable: true
+    Gradable: true
+    Script: |
+      bonus bMatk,300;
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      autobonus "{ bonus2 bHPRegenRate,1000,1000; bonus2 bSPRegenRate,100,1000; }",10,4000,BF_MAGIC;
+      bonus bMatk,10*(.@r/2);
+      bonus2 bSkillAtk,"WZ_METEOR",10*(.@r/3);
+      if (.@r>=7) {
+         bonus2 bMagicAtkEle,Ele_Earth,15;
+         bonus2 bMagicAtkEle,Ele_Fire,15;
+         bonus bDelayrate,-10;
+         if (.@r>=9) {
+            bonus2 bSkillAtk,"WZ_HEAVENDRIVE",40;
+            bonus2 bSkillAtk,"WZ_METEOR",15;
+            if (getallrefine() >= 22) {
+               bonus2 bMagicAddSize,Size_All,15;
+               bonus2 bSubEle,Ele_All,15;
+            }
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus bMatkRate,2;
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bSMatk,1;
+            bonus bMatkRate,3;
+         }
+      }
+  - Id: 580016
+    AegisName: Thanos_Whip_AD
+    Name: Thanatos Whip-AD [2]
+    Type: Weapon
+    SubType: Whip
+    Weight: 1000
+    Attack: 220
+    Range: 2
+    Slots: 2
+    Jobs:
+      BardDancer: true
+    Gender: Female
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 190
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      autobonus "{ bonus2 bHPRegenRate,2500,1000; }",1,4000,BF_WEAPON;
+      bonus bBaseAtk,10*(.@r/2);
+      bonus2 bSkillAtk,"CG_ARROWVULCAN",10*(.@r/3);
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         bonus2 bSkillAtk,"CG_ARROWVULCAN",15;
+         if (.@r>=9) {
+            bonus bDelayrate,-10;
+            bonus bDelayrate,-10;
+            if (getallrefine() >= 22) {
+               bonus2 bAddSize,Size_All,15;
+               bonus bLongAtkRate,15;
+            }
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus2 bAddClass,Class_All,2;
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,3;
+         }
+      }
+  - Id: 570016
+    AegisName: Thanos_Violin_AD
+    Name: Thanos Violin-AD [2]
+    Type: Weapon
+    SubType: Musical
+    Weight: 1000
+    Attack: 220
+    Range: 1
+    Slots: 2
+    Jobs:
+      BardDancer: true
+    Gender: Male
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 190
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      autobonus "{ bonus2 bHPRegenRate,2500,1000; }",1,4000,BF_WEAPON;
+      bonus bBaseAtk,10*(.@r/2);
+      bonus2 bSkillAtk,"CG_ARROWVULCAN",10*(.@r/3);
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         bonus2 bSkillAtk,"CG_ARROWVULCAN",15;
+         if (.@r>=9) {
+            bonus bDelayrate,-10;
+            bonus bDelayrate,-10;
+            if (getallrefine() >= 22) {
+               bonus2 bAddSize,Size_All,15;
+               bonus bLongAtkRate,15;
+            }
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus2 bAddClass,Class_All,2;
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,3;
+         }
+      }
+  - Id: 550023
+    AegisName: Thanos_Staff_AD
+    Name: Thanos Staff-AD [2]
+    Type: Weapon
+    SubType: Staff
+    Weight: 1400
+    Attack: 100
+    Range: 1
+    Slots: 2
+    Jobs:
+      Sage: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 190
+    Refineable: true
+    Gradable: true
+    Script: |
+      bonus bMatk,180;
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      autobonus "{ bonus2 bHPRegenRate,1000,1000; bonus2 bSPRegenRate,100,1000; }",10,4000,BF_MAGIC;
+      bonus bMatk,10*(.@r/2);
+      bonus2 bSkillAtk,"MG_THUNDERSTORM",10*(.@r/3);
+      if (.@r>=7) {
+         bonus2 bMagicAtkEle,Ele_Wind,15;
+         bonus2 bSkillAtk,"MG_THUNDERSTORM",15;
+         if (.@r>=9) {
+            bonus bDelayrate,-12;
+            bonus bVariableCastrate,-10;
+            if (getallrefine() >= 22) {
+               bonus2 bMagicAddSize,Size_All,15;
+               bonus bDelayrate,-5;
+            }
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus bMatkRate,2;
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bSMatk,1;
+            bonus bMatkRate,3;
+         }
+      }
+  - Id: 530012
+    AegisName: Thanos_Spear_AD
+    Name: Thanos Spear-AD [2]
+    Type: Weapon
+    SubType: 1hSpear
+    Weight: 1800
+    Attack: 190
+    Range: 3
+    Slots: 2
+    Jobs:
+      Crusader: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 190
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      autobonus "{ bonus2 bHPRegenRate,2500,1000; }",1,4000,BF_WEAPON;
+      bonus bBaseAtk,10*(.@r/2);
+      bonus2 bSkillAtk,"CR_GRANDCROSS",10*(.@r/3);
+      if (.@r>=7) {
+         bonus bDelayrate,-10;
+         bonus2 bSkillAtk,"CR_GRANDCROSS",15;
+         if (.@r>=9) {
+            bonus bVariableCastrate,-10;
+            bonus2 bSkillAtk,"KN_BRANDISHSPEAR",25;
+            if (getallrefine() >= 22) {
+               bonus2 bAddSize,Size_All,15;
+               bonus bShortAtkRate,15;
+            }
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus2 bAddClass,Class_All,2;
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,3;
+         }
+      }
+  - Id: 610019
+    AegisName: Thanos_Katar_AD
+    Name: Thanatos Katar-AD [2]
+    Type: Weapon
+    SubType: Katar
+    Weight: 2000
+    Attack: 250
+    Range: 1
+    Slots: 2
+    Jobs:
+      Assassin: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 190
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      autobonus "{ bonus2 bHPRegenRate,2500,1000; }",1,4000,BF_WEAPON;
+      bonus bBaseAtk,10*(.@r/2);
+      bonus2 bSkillAtk,"AS_SONICBLOW",7*(.@r/3);
+      if (.@r>=7) {
+         bonus bDelayrate,-10;
+         bonus2 bSkillAtk,"AS_SONICBLOW",15;
+         if (.@r>=9) {
+            bonus2 bAddClass,Class_All,5;
+            bonus2 bSkillAtk,"AS_GRIMTOOTH",25;
+            if (getallrefine() >= 22) {
+               bonus2 bAddSize,Size_All,15;
+               bonus bShortAtkRate,15;
+            }
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus2 bAddClass,Class_All,3;
+         bonus2 bSkillAtk,"ASC_METEORASSAULT",10;
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bDelayrate,-5;
+            bonus bPAtk,1;
+            if (.@g >= ENCHANTGRADE_B) {
+               bonus2 bSkillAtk,"ASC_METEORASSAULT",10;
+            }
+         }
+      }
+  - Id: 620009
+    AegisName: Thanos_Axe_AD
+    Name: Thanatos Axe-AD [2]
+    Type: Weapon
+    SubType: 2hAxe
+    Weight: 6000
+    Attack: 320
+    Range: 1
+    Slots: 2
+    Jobs:
+      Blacksmith: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 190
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      autobonus "{ bonus2 bHPRegenRate,2500,1000; }",1,4000,BF_WEAPON;
+      bonus bBaseAtk,10*(.@r/2);
+      bonus2 bSkillAtk,"MC_MAMMONITE",7*(.@r/3);
+      if (.@r>=7) {
+         bonus bDelayrate,-10;
+         bonus bDelayrate,-5;
+         if (.@r>=9) {
+            bonus2 bSkillAtk,"MC_CARTREVOLUTION",45;
+            bonus2 bSkillAtk,"MC_MAMMONITE",15;
+            if (getallrefine() >= 22) {
+               bonus2 bAddSize,Size_All,15;
+               bonus bShortAtkRate,15;
+            }
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus2 bAddClass,Class_All,2;
+         bonus2 bSkillAtk,"MC_CARTREVOLUTION",10;
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,3;
+            if (.@g >= ENCHANTGRADE_B) {
+               bonus2 bSkillAtk,"MC_CARTREVOLUTION",10;
+            }
+         }
+      }
+  - Id: 700029
+    AegisName: Thanos_Bow_AD
+    Name: Thanatos Bow-AD [2]
+    Type: Weapon
+    SubType: Bow
+    Weight: 2000
+    Attack: 230
+    Range: 5
+    Slots: 2
+    Jobs:
+      Hunter: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 190
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      autobonus "{ bonus2 bHPRegenRate,2500,1000; }",1,4000,BF_WEAPON;
+      bonus bBaseAtk,10*(.@r/2);
+      bonus2 bSkillAtk,"SN_SHARPSHOOTING",5*(.@r/3);
+      if (.@r>=7) {
+         bonus bCritAtkRate,15;
+         bonus2 bSkillAtk,"SN_SHARPSHOOTING",10;
+         if (.@r>=9) {
+            bonus bVariableCastrate,-10;
+            bonus bCritical,15;
+            if (getallrefine() >= 22) {
+               bonus2 bAddSize,Size_All,15;
+               bonus bLongAtkRate,15;
+            }
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus2 bAddClass,Class_All,3;
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bDelayrate,-5;
+            bonus bPAtk,1;
+         }
+      }
+  - Id: 560017
+    AegisName: Thanos_Knuckle_AD
+    Name: Thanos Knuckle-AD [2]
+    Type: Weapon
+    SubType: Knuckle
+    Weight: 1200
+    Attack: 200
+    Range: 1
+    Slots: 2
+    Jobs:
+      Monk: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 190
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      autobonus "{ bonus2 bHPRegenRate,2500,1000; }",1,4000,BF_WEAPON;
+      bonus bBaseAtk,10*(.@r/2);
+      bonus2 bSkillAtk,"MO_EXTREMITYFIST",5*(.@r/3);
+      if (.@r>=7) {
+         bonus bMaxHPrate,5;
+         bonus bDelayrate,-5;
+         if (.@r>=9) {
+            bonus2 bSkillAtk,"MO_CHAINCOMBO",25;
+            bonus2 bSkillAtk,"MO_EXTREMITYFIST",15;
+            if (getallrefine() >= 22) {
+               bonus2 bAddSize,Size_All,15;
+               bonus bShortAtkRate,15;
+            }
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus2 bAddClass,Class_All,2;
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,3;
+         }
+      }
+  - Id: 600028
+    AegisName: Beam_Claymore_AD
+    Name: Beam Claymore-OSAD [2]
+    Type: Weapon
+    SubType: 2hSword
+    Weight: 1800
+    Attack: 250
+    Range: 1
+    Slots: 2
+    Jobs:
+      Crusader: true
+      Knight: true
+      Swordman: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      bonus bCritical,10;
+      if (.@r>=7) {
+         bonus bAspdRate,10;
+         if (.@r>=9) {
+            bonus bCritAtkRate,20;
+            bonus2 bSkillAtk,"KN_BOWLINGBASH",25;
+            if (getallrefine() >= 22) {
+               bonus2 bAddSize,Size_Small,25;
+               bonus2 bMagicAddSize,Size_Small,25;
+               bonus2 bAddSize,Size_Medium,25;
+               bonus2 bMagicAddSize,Size_Medium,25;
+            }
+         }
+      }
+  - Id: 610039
+    AegisName: Meuchler_AD
+    Name: Meuchler-OSAD [2]
+    Type: Weapon
+    SubType: Katar
+    Weight: 1300
+    Attack: 190
+    Range: 1
+    Slots: 2
+    Jobs:
+      Assassin: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bAddClass,Class_All,5;
+      if (.@r>=7) {
+         bonus bLongAtkRate,10;
+         bonus bAspdRate,7;
+         if (.@r>=9) {
+            bonus bDelayrate,-15;
+            bonus2 bSkillAtk,"ASC_METEORASSAULT",45;
+            if (getallrefine() >= 22) {
+               bonus2 bAddSize,Size_Small,20;
+               bonus2 bAddSize,Size_Medium,20;
+            }
+         }
+      }
+  - Id: 620018
+    AegisName: Blasti_AD
+    Name: Blasti-OSAD [2]
+    Type: Weapon
+    SubType: 2hAxe
+    Weight: 4500
+    Attack: 400
+    Range: 1
+    Slots: 2
+    Jobs:
+      Blacksmith: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      bonus2 bSubSize,Size_Medium,15;
+      bonus2 bSubSize,Size_Large,15;
+      if (.@r>=7) {
+         bonus2 bSubSize,Size_Medium,15;
+         bonus2 bSubSize,Size_Large,15;
+         bonus2 bAddClass,Class_All,5;
+         if (.@r>=9) {
+            bonus bLongAtkRate,15;
+            bonus2 bSkillAtk,"WS_CARTTERMINATION",25;
+            if (getallrefine() >= 22) {
+               bonus bDelayrate,-15;
+            }
+         }
+      }
+  - Id: 700054
+    AegisName: Virtual_Bow_AD
+    Name: Virtual Bow-OSAD [2]
+    Type: Weapon
+    SubType: Bow
+    Weight: 1200
+    Attack: 200
+    Range: 5
+    Slots: 2
+    Jobs:
+      Hunter: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bAddClass,Class_All,5;
+      if (.@r>=7) {
+         bonus bLongAtkRate,7;
+         bonus bCritical,8;
+         if (.@r>=9) {
+            bonus2 bSkillAtk,"SN_SHARPSHOOTING",20;
+            bonus2 bSkillAtk,"AC_SHOWER",40;
+            if (getallrefine() >= 22) {
+               bonus bCritical,7;
+               bonus2 bSkillAtk,"AC_SHOWER",30;
+            }
+         }
+      }
+  - Id: 700055
+    AegisName: MH_P89_AD
+    Name: MH-P89-OSAD [2]
+    Type: Weapon
+    SubType: Bow
+    Weight: 1200
+    Attack: 170
+    Range: 5
+    Slots: 2
+    Jobs:
+      BardDancer: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bAddClass,Class_All,5;
+      if (.@r>=7) {
+         bonus bLongAtkRate,10;
+         if (.@r>=9) {
+            bonus bDelayrate,-10;
+            if (getallrefine() >= 22) {
+               bonus2 bSkillAtk,"CG_ARROWVULCAN",40;
+            }
+         }
+      }
+  - Id: 700056
+    AegisName: AC_B44_AD
+    Name: AC-B44-OSAD [2]
+    Type: Weapon
+    SubType: Bow
+    Weight: 600
+    Attack: 190
+    Range: 5
+    Slots: 2
+    Jobs:
+      Rogue: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMatk,135;
+      bonus bLongAtkRate,7;
+      if (.@r>=7) {
+         bonus bAspdRate,10;
+         if (.@r>=9) {
+            bonus2 bSkillAtk,"AC_DOUBLE",25;
+            if (getallrefine() >= 22) {
+               bonus2 bSkillAtk,"AC_DOUBLE",20;
+            }
+         }
+      }
+  - Id: 810013
+    AegisName: HR_S55_AD
+    Name: HR-55-OSAD [2]
+    Type: Weapon
+    SubType: Rifle
+    Weight: 1000
+    Attack: 250
+    Range: 9
+    Slots: 2
+    Jobs:
+      Gunslinger: true
+      Rebellion: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bAddClass,Class_All,5;
+      if (.@r>=7) {
+         bonus bLongAtkRate,10;
+         if (.@r>=9) {
+            bonus2 bSkillAtk,"GS_DUST",30;
+            if (getallrefine() >= 22) {
+               bonus2 bSkillAtk,"GS_DUST",20;
+            }
+         }
+      }
+  - Id: 560034
+    AegisName: Burning_Knuckle_AD
+    Name: Burning Knuckle-OSAD [2]
+    Type: Weapon
+    SubType: Knuckle
+    Weight: 900
+    Attack: 175
+    Range: 1
+    Slots: 2
+    Jobs:
+      Monk: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bAddClass,Class_All,5;
+      if (.@r>=7) {
+         bonus bDelayrate,-5;
+         if (.@r>=9) {
+            bonus2 bSkillAtk,"MO_EXTREMITYFIST",30;
+            if (getallrefine() >= 22) {
+               bonus2 bAddSize,Size_Medium,20;
+               bonus2 bAddSize,Size_Large,20;
+               bonus2 bSkillAtk,"MO_EXTREMITYFIST",45;
+            }
+         }
+      }
+  - Id: 500051
+    AegisName: Cannon_Rapier_AD
+    Name: Cannon Rapier-OSAD [2]
+    Type: Weapon
+    SubType: 1hSword
+    Weight: 800
+    Attack: 160
+    Range: 1
+    Slots: 2
+    Jobs:
+      Novice: true
+      Swordman: true
+      Merchant: true
+      Thief: true
+      Knight: true
+      Blacksmith: true
+      Assassin: true
+      Crusader: true
+      Rogue: true
+      Alchemist: true
+      SuperNovice: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      bonus bMatk,150;
+      .@r = getrefine();
+      bonus3 bAutoSpell,"MG_FIREBOLT",min(.@r,10),80;
+      bonus3 bAutoSpell,"MG_FIREBALL",min(.@r,10),80;
+      if (.@r>=7) {
+         bonus bAspdRate,10;
+         if (.@r>=9) {
+            bonus2 bSkillAtk,"MG_FIREBOLT",60;
+            bonus2 bSkillAtk,"MG_FIREBALL",60;
+            if (getallrefine() >= 22) {
+               bonus3 bAutoSpell,"WZ_FIREPILLAR",4,40;
+            }
+         }
+      }
+  - Id: 590043
+    AegisName: Saphir_Hall_AD
+    Name: Saphir Mace-OSAD [2]
+    Type: Weapon
+    SubType: Mace
+    Weight: 800
+    Attack: 185
+    Range: 1
+    Slots: 2
+    Jobs:
+      Alchemist: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      bonus2 bAddClass,Class_All,5;
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         if (.@r>=9) {
+            bonus2 bSkillAtk,"AM_ACIDTERROR",25;
+            if (getallrefine() >= 22) {
+               bonus bLongAtkRate,15;
+               bonus2 bSkillAtk,"AM_ACIDTERROR",20;
+            }
+         }
+      }
+  - Id: 590044
+    AegisName: Ultio_Spes_AD
+    Name: Ultio-OSAD [2]
+    Type: Weapon
+    SubType: Mace
+    Weight: 1200
+    Attack: 150
+    Range: 1
+    Slots: 2
+    Jobs:
+      Priest: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      bonus bMatk,170;
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      bonus bMatkRate,5;
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         if (.@r>=9) {
+            bonus2 bSkillAtk,"AL_HOLYLIGHT",25;
+            bonus2 bSkillAtk,"PR_MAGNUS",30;
+            if (getallrefine() >= 22) {
+               bonus2 bMagicAtkEle,Ele_Holy,15;
+               bonus bDelayrate,-15;
+            }
+         }
+      }
+  - Id: 550075
+    AegisName: Rutilus_Stick_AD
+    Name: Rutilus Stick-OSAD [2]
+    Type: Weapon
+    SubType: Staff
+    Weight: 900
+    Attack: 80
+    Range: 1
+    Slots: 2
+    Jobs:
+      Acolyte: true
+      Mage: true
+      Monk: true
+      Novice: true
+      SuperNovice: true
+      Priest: true
+      Sage: true
+      SoulLinker: true
+      Wizard: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      bonus bMatk,175;
+      .@r = getrefine();
+      bonus bUnbreakableWeapon;
+      bonus2 bMagicAddEle,Ele_Neutral,10;
+      bonus2 bMagicAddEle,Ele_Earth,10;
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         if (.@r>=9) {
+            bonus2 bMagicAtkEle,Ele_Fire,30;
+            bonus2 bMagicAtkEle,Ele_Neutral,30;
+            if (getallrefine() >= 22) {
+               bonus bDelayrate,-15;
+            }
+         }
+      }
+  - Id: 540051
+    AegisName: Circuit_Board_AD
+    Name: Circuit Board-OSAD [2]
+    Type: Weapon
+    SubType: Book
+    Weight: 1200
+    Attack: 180
+    Range: 1
+    Slots: 2
+    Jobs:
+      Priest: true
+      Sage: true
+      StarGladiator: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus2 bAddClass,Class_All,5;
+      if (.@r>=7) {
+         bonus bAspdRate,10;
+         if (.@r>=9) {
+            bonus2 bAddSize,Size_Small,30;
+            bonus2 bMagicAddSize,Size_Small,30;
+            bonus2 bAddSize,Size_Medium,30;
+            bonus2 bMagicAddSize,Size_Medium,30;
+            if (getallrefine() >= 22) {
+               bonus bCritAtkRate,20;
+               bonus bShortAtkRate,10;
+            }
+         }
+      }
+  - Id: 510066
+    AegisName: Kuroiro_AD
+    Name: Kuroiro-OSAD [2]
+    Type: Weapon
+    SubType: Dagger
+    Weight: 900
+    Attack: 150
+    Range: 1
+    Slots: 2
+    Jobs:
+      KagerouOboro: true
+      Ninja: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      bonus bMatk,150;
+      .@r = getrefine();
+      bonus2 bMagicAddEle,Ele_Undead,7;
+      bonus2 bAddEle,Ele_Undead,7;
+      bonus2 bMagicAddEle,Ele_Dark,7;
+      bonus2 bAddEle,Ele_Dark,7;
+      if (.@r>=7) {
+         bonus2 bAddEle,Ele_Undead,13;
+         bonus2 bMagicAddEle,Ele_Undead,13;
+         bonus2 bAddEle,Ele_Dark,13;
+         bonus2 bMagicAddEle,Ele_Dark,13;
+         if (.@r>=9) {
+            bonus2 bSkillAtk,"NJ_KUNAI",35;
+            bonus2 bSkillAtk,"NJ_KOUENKA",20;
+            bonus2 bSkillAtk,"NJ_HYOUSENSOU",20;
+            bonus2 bSkillAtk,"NJ_HUUJIN",20;
+            if (getallrefine() >= 22) {
+               bonus2 bAddRace,RC_Undead,15;
+               bonus2 bMagicAddRace,RC_Undead,15;
+               bonus2 bAddRace,RC_Demon,15;
+               bonus2 bMagicAddRace,RC_Demon,15;
+            }
+         }
+      }
+  - Id: 530031
+    AegisName: Boost_Lance_AD
+    Name: Boost Lance-OSAD [2]
+    Type: Weapon
+    SubType: 1hSpear
+    Weight: 1000
+    Attack: 190
+    Range: 3
+    Slots: 2
+    Jobs:
+      Crusader: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 170
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bAspdRate,5;
+      if (.@r>=7) {
+         bonus bAspdRate,10;
+         if (.@r>=9) {
+            bonus2 bSkillAtk,"PA_SHIELDCHAIN",20;
+            bonus2 bSkillAtk,"CR_HOLYCROSS",20;
+            if (getallrefine() >= 22) {
+               bonus2 bSkillAtk,"CR_HOLYCROSS",25;
+            }
+         }
+      }

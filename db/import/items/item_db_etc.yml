@@ -15504,3 +15504,32 @@ Body:
     AegisName: Ice_F_Stone_M_Soul
     Name: Ice Magic Stone (Magic Soul)
     Type: Etc
+  # Episode 17.1, Reform de rgsr_in.
+  - Id: 1000430
+    AegisName: Weapon_Stone_1
+    Name: Weapon Upgrade Stone(Lower)
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1000431
+    AegisName: Weapon_Stone_2
+    Name: Weapon Upgrade Stone(Intermediate)
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1000434
+    AegisName: Armor_Stone_1
+    Name: Armor Upgrade Stone(Lower)
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1000435
+    AegisName: Armor_Stone_2
+    Name: Armor Upgrade Stone(Intermediate)
+    Type: Etc
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT

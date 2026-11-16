@@ -35386,3 +35386,199 @@ Body:
     Script: |
       bonus bMatkRate,7;
       bonus bMaxSPrate,7;
+  # Episode 17.1, Reform de rgsr_in.
+  - Id: 400156
+    AegisName: Imp_Hat_LT
+    Name: Imp Hat-LT [1]
+    Type: Armor
+    Weight: 400
+    Defense: 1
+    Slots: 1
+    Locations:
+      Head_Top: true
+    ArmorLevel: 1
+    EquipLevelMin: 150
+    Refineable: true
+    Gradable: true
+    View: 589
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      if (BaseLevel>=210) {
+         bonus bPAtk,2;
+         bonus bSMatk,2;
+      }
+      if (.@r>=7) {
+         bonus2 bMagicAtkEle,Ele_Fire,10;
+         bonus bShortAtkRate,10;
+         if (.@r>=9) {
+            bonus2 bAddClass,Class_All,5;
+            bonus bMatkRate,5;
+            if (getallrefine() >= 22) {
+               bonus2 bMagicAddEle,Ele_Earth,20;
+               bonus2 bAddEle,Ele_Earth,20;
+            }
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus2 bMagicAtkEle,Ele_Fire,5;
+         bonus bShortAtkRate,5;
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bPAtk,2;
+            bonus bSMatk,2;
+            if (.@g >= ENCHANTGRADE_B) {
+               if (getallrefine() >= 24) {
+                  bonus bFixedCast,-500;
+               }
+            }
+         }
+      }
+      autobonus "{ bonus bAtkEle,Ele_Fire; }",1,60000,BF_WEAPON;
+      autobonus "{ bonus2 bMagicAtkEle,Ele_Fire,20; }",1,60000,BF_MAGIC;
+  - Id: 400153
+    AegisName: Whikebain_Ears_K_LT
+    Name: Wickebine's Black Cat Ears-LT [1]
+    Type: Armor
+    Weight: 200
+    Slots: 1
+    Locations:
+      Head_Top: true
+    ArmorLevel: 1
+    EquipLevelMin: 150
+    Refineable: true
+    Gradable: true
+    View: 368
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bFlee,20;
+      bonus2 bMagicAtkEle,Ele_All,15;
+      bonus bCritAtkRate,15;
+      if (BaseLevel>=210) {
+         bonus bPAtk,2;
+         bonus bSMatk,2;
+      }
+      if (.@r>=7) {
+         bonus bCritAtkRate,10;
+         bonus2 bMagicAtkEle,Ele_All,10;
+         if (.@r>=9) {
+            bonus2 bAddClass,Class_All,5;
+            bonus bMatkRate,5;
+            if (getallrefine() >= 22) {
+               bonus bDelayrate,-5;
+            }
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         if (getallrefine() >= 22) {
+            bonus bDelayrate,-5;
+         }
+      }
+      if (.@g >= ENCHANTGRADE_C) {
+         bonus bPAtk,2;
+         bonus bSMatk,2;
+         if (.@g >= ENCHANTGRADE_B) {
+            if (getallrefine() >= 24) {
+               bonus bFixedCast,-500;
+            }
+         }
+      }
+      autobonus "{ bonus bCritical,30; }",1,10000,BF_WEAPON;
+      autobonus "{ bonus2 bIgnoreMdefRaceRate,RC_All,100; bonus2 bIgnoreMdefRaceRate,RC_Player_Human,-100; bonus2 bIgnoreMdefRaceRate,RC_Player_Doram,-100; }",1,10000,BF_MAGIC;
+  - Id: 400245
+    AegisName: King_Tiger_Doll_Hat_LT
+    Name: Tiger King Doll Hat-LT [1]
+    Type: Armor
+    Weight: 400
+    Defense: 6
+    Slots: 1
+    Locations:
+      Head_Top: true
+    ArmorLevel: 1
+    EquipLevelMin: 150
+    Refineable: true
+    Gradable: true
+    View: 495
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bStr,2;
+      bonus bDex,2;
+      bonus bPow,2;
+      bonus bCon,2;
+      bonus bAspdRate,10;
+      bonus2 bAddRace,RC_Brute,10;
+      bonus2 bAddRace,RC_Player_Doram,10;
+      autobonus "{ .@r = getrefine(); bonus bBaseAtk,35*.@r; if (.@r>=10) { bonus bPAtk,20; } }",1,7000,BF_WEAPON;
+      if (.@r>=7) {
+         bonus bShortAtkRate,15;
+         if (.@r>=9) {
+            bonus2 bAddClass,Class_All,10;
+            if (getallrefine() >= 22) {
+               bonus bShortAtkRate,10;
+            }
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus2 bAddClass,Class_All,5;
+         bonus bPow,3;
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bFixedCast,-500;
+            bonus bSta,2;
+            if (.@g >= ENCHANTGRADE_B) {
+               bonus bPAtk,2;
+               bonus bRes,20;
+               if (.@g >= ENCHANTGRADE_A) {
+                  bonus bPAtk,7;
+               }
+            }
+         }
+      }
+  - Id: 400246
+    AegisName: Baksojin_Hat_LT
+    Name: Bacsojin Hat-LT [1]
+    Type: Armor
+    Weight: 400
+    Defense: 6
+    Slots: 1
+    Locations:
+      Head_Top: true
+    ArmorLevel: 1
+    EquipLevelMin: 150
+    Refineable: true
+    Gradable: true
+    View: 461
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bInt,2;
+      bonus bDex,2;
+      bonus bSpl,2;
+      bonus bCon,2;
+      bonus bVariableCastrate,-10;
+      bonus2 bMagicAddRace,RC_Undead,10;
+      autobonus "{ .@r = getrefine(); bonus bMatk,35*.@r; if (.@r>=10) { bonus bSMatk,20; } }",1,7000,BF_MAGIC;
+      if (.@r>=7) {
+         bonus2 bMagicAtkEle,Ele_All,15;
+         if (.@r>=9) {
+            bonus bMatkRate,10;
+            if (getallrefine() >= 22) {
+               bonus2 bMagicAtkEle,Ele_All,10;
+            }
+         }
+      }
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus bMatkRate,5;
+         bonus bSpl,3;
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus bFixedCast,-500;
+            bonus bWis,2;
+            if (.@g >= ENCHANTGRADE_B) {
+               bonus bSMatk,3;
+               bonus bMRes,20;
+               if (.@g >= ENCHANTGRADE_A) {
+                  bonus bSMatk,7;
+               }
+            }
+         }
+      }

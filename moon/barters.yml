@@ -2983,3 +2983,36 @@ Body:
           - Index: 0
             Item: Ep19_Snow_Flower
             Amount: 100
+  # Episode 17.1, Reform de rgsr_in : minerais (boites cash kRO) et pierres d'accessoire ecartes.
+  - Name: barter_rgsr_in_2
+    Items:
+      - Index: 0
+        Item: Weapon_Stone_2
+        Zeny: 10000
+        RequiredItems:
+          - Index: 0
+            Item: Weapon_Stone_1
+            Amount: 3
+      - Index: 1
+        Item: Armor_Stone_2
+        Zeny: 10000
+        RequiredItems:
+          - Index: 0
+            Item: Armor_Stone_1
+            Amount: 3
+  - Name: barter_rgsr_in_3
+    Items:
+      - Index: 0
+        Item: Weapon_Stone_1
+        Zeny: 20000
+        RequiredItems:
+          - Index: 0
+            Item: Shadowdecon
+            Amount: 1
+      - Index: 1
+        Item: Armor_Stone_1
+        Zeny: 20000
+        RequiredItems:
+          - Index: 0
+            Item: Shadowdecon
+            Amount: 1

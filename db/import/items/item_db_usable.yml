@@ -12183,3 +12183,34 @@ Body:
       NoAuction: true
     Script: |
       laphine_synthesis();
+  # Episode 17.1, Reform de rgsr_in.
+  - Id: 100591
+    AegisName: Thanos_W_Reform_1
+    Name: Thanos Weapon Reform Cube (Lower)
+    Type: DelayConsume
+    Script: |
+      item_reform();
+  - Id: 100592
+    AegisName: Thanos_W_Reform_2
+    Name: Thanos Weapon Reform Cube (Middle)
+    Type: DelayConsume
+    Script: |
+      item_reform();
+  - Id: 101355
+    AegisName: OS_Weapon_Reform
+    Name: OS Weapon Modification Box
+    Type: DelayConsume
+    Script: |
+      item_reform();
+  - Id: 100694
+    AegisName: C_Armor_Reform_1
+    Name: Armor Modification Box (Lower)
+    Type: DelayConsume
+    Script: |
+      item_reform();
+  - Id: 100695
+    AegisName: C_Armor_Reform_2
+    Name: Armor Modification Box (Middle)
+    Type: DelayConsume
+    Script: |
+      item_reform();

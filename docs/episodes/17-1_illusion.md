@@ -102,8 +102,32 @@ Conversion livrée par la PR [#6643 « Episode 17.1 — Illusion »](https://git
 | **B1** | Chaîne de quêtes et 4 instances : 14 mobs `MD_*` (dont le gabarit `MD_E_13EN0`), 69 quêtes, `instance_db` 39 à 43, mapflags ; on entre par la chaîne, pas par le warp agent | `moon/rathena/quests/quests_17_1.npc`, `moon/instances/{Regenschirm,SealedOs,OsOccupation,CorOperation}.npc`, `db/import/mobs/ep17_1_instances.yml` |
 | **B2** | Marchands et enchanteurs de Cor : 40 armures Grace, 26 orbes, 11 coffrets Lapine, groupes `EP17_1_SPC01`→`04`, 18 boutiques de troc ; l'opérateur Grace aiguille sur la **classe 2** (Chevalier → boutique Rune Knight, etc.) ; 51 objets renommés (armes OS, modules) | `moon/rathena/merchants/enchan_illusion_17_1.npc`, `moon/barters.yml` |
 
+| **B3** | Reform de `rgsr_in` (2026‑11‑16, voir ci-dessous) : 5 cubes et boîtes, 28 armes `-AD`, 4 chapeaux `-LT`, 4 pierres, l'enchantement 33 (Torus) et ses 21 orbes absents, 2 boutiques de troc | `moon/rathena/merchants/rgsr_in.npc`, `db/import/item_reform.yml`, `db/import/item_enchant.yml`, `moon/barters.yml` |
+
 Écarts : le stuff Doram (Grace Carrot et Picky Robe, ElectricFox OS, boutique Summoner) ; le
-paquet de forge `Bs_Making_S` ; le **système Reform** (`rgsr_in.txt`, mécanique renewal de 2022).
+paquet de forge `Bs_Making_S`.
+
+### La Reform de `rgsr_in` (lot B3, 2026‑11‑16)
+
+D'abord écartée le 2026‑11‑08 (pas de fenêtre client), elle est portée depuis que moonclient
+a sa fenêtre de réforme (épisode 18). La portée, validée le 2026‑11‑16, est celle des pièces que
+le serveur connaît :
+
+| PNJ | Réformes | Portée |
+|---|---|---|
+| Frasa (armes) | `Thanos_W_Reform_1`/`_2` : 13 armes Thanos +9 → `-AD`, raffinage -5 ou -1 | complète |
+| Frasa (armes) | `OS_Weapon_Reform` : armes OS +7 → `-OSAD`, raffinage gardé, options effacées (`Group_0`) | 15 sur 16 : ElectricFox (Doram) écarté |
+| Stack (équipement spécial) | `C_Armor_Reform_1`/`_2` : 4 chapeaux (Imp, Whikebain, King Tiger, Zaha → Bacsojin) | 4 recettes sur 23 : les 19 autres bases n'existent pas ici |
+| Stack | `C_Armor_Reform_3`, `C_Weapon_Reform_1` à `_3` | **écartées** : aucune base présente (armes `Up_*`, casques Thanos, diadèmes…) |
+| Torus | enchantement 33 des armes `-OSAD` : Sharp, Hit, Attack Delay, Caster, Expert | complète, ElectricFox_AD retiré |
+| Grid (minerais) | `barter_rgsr_in_2` (3 pierres → 1 du palier suivant) et `_3` (1 Shadowdecon + 20 000 z → 1 pierre inférieure), armes et armures | les minerais (`barter_rgsr_in_1`) et les pierres d'accessoire sont **écartés** : ils ne sortent que de boîtes cash kRO |
+
+Le Gray Shard des recettes Thanos est le `Shard_of_Gray` (6672) de Moonlight, que les 12 mobs
+du Palais Fantôme font déjà tomber aux taux amont. Les pièces converties suivent §3b de la
+feuille de route : niveau d'arme 5 → 4, d'armure 2 → 1, `MagicAttack` en `bMatk`, classes
+retirées, `.@r >= 11` → `getallrefine() >= 22`, compétences de 4ᵉ classe retirées, autres par la
+table ; `SO_PSYCHIC_WAVE` hors autosort suit la ligne de la table (`PF_SOULBURN`). Les grades
+restent (`Gradable`).
 Trois compétences ont été ajoutées à la table des classes fermées, validées le 2026‑11‑08
 ([skills_classes_fermees.md](skills_classes_fermees.md)).
 
@@ -244,10 +268,10 @@ OGH Hard (dépôt hayakawakaki).
 | | |
 |---|---|
 | Intérêt | élevé — trois zones de chasse et cinq instances fournies par rAthena |
-| Fait | Illusion of Labyrinth, Magma F3, Einbech F3, A, B1, B2 (2026‑11‑08) ; Sirops, Lac de l'Abysse F4, Passé d'Odin, Abyss Glast Heim, Chute de Glast Heim, Laboratoire EDDA, OGH Hard (2026‑11‑09) ; mode défi d'OGH, lots C1 à C3 (2026‑11‑09 au 2026‑11‑11, ouvert aux joueurs le 2026‑11‑11). Le mode défi a été testé par le staff sur `ggpro` ; tout est déployé en production le 2026‑11‑15 |
+| Fait | Illusion of Labyrinth, Magma F3, Einbech F3, A, B1, B2 (2026‑11‑08) ; Reform de `rgsr_in`, B3 (2026‑11‑16) ; Sirops, Lac de l'Abysse F4, Passé d'Odin, Abyss Glast Heim, Chute de Glast Heim, Laboratoire EDDA, OGH Hard (2026‑11‑09) ; mode défi d'OGH, lots C1 à C3 (2026‑11‑09 au 2026‑11‑11, ouvert aux joueurs le 2026‑11‑11). Le mode défi a été testé par le staff sur `ggpro` ; tout est déployé en production le 2026‑11‑15 |
 | Reste à faire | mode défi : lots C4 (OSC0005 et enchantements) et C5 (mécaniques avancées du boss) |
 | Épisode | **clos** côté portage le 2026‑11‑11 |
-| Décidé | Magma F3 et Einbech F3 restent sans mapflags `nomemo`/`nowarpto`, accès libre ; les quêtes de Lily (175) et de Sally (180) gardent le seuil de l'amont ; les trois ajouts à la table des compétences sont validés ; le **système Reform** (`rgsr_in.txt`, `item_reform.yml`) est écarté : mécanique de 2021‑2022, fenêtre client absente de `moonclient`, objets `_AD` renewal (2026‑11‑08) |
+| Décidé | Magma F3 et Einbech F3 restent sans mapflags `nomemo`/`nowarpto`, accès libre ; les quêtes de Lily (175) et de Sally (180) gardent le seuil de l'amont ; les trois ajouts à la table des compétences sont validés ; le **système Reform** (`rgsr_in.txt`, `item_reform.yml`), écarté le 2026‑11‑08 faute de fenêtre client, est porté le 2026‑11‑16 sur les pièces présentes (lot B3) |
 
 ## Sources
 
