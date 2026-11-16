@@ -259,7 +259,7 @@ documente ses suppositions.
 | Mobs | `db/import/mobs/airship_crash.yml` | 10 mobs du dépôt, convertis (boss 800 M → 11 M PV) ; **ni EXP ni drop ni compétence**, choix du dépôt (l'EXP passe par les missions, les taux officiels ne sont pas publiés) |
 | Instance | `instance_db.yml`, `const_instances.yml` | 82, `INST_AIRSHIP_CRASH`, 40 min ; warp agent vers `dali02` |
 | Quêtes | `db/import/quest_db.yml` | 5908 à 5915 du dépôt |
-| Objets | `db/import/items/` | pierres (`MD_Airboat_Tokken`), 6 bottes inconnues (paliers +11/+13 en `getallrefine() >= 22/26`), perles Ymir, élixir, coffret d'EXP, livre de cartes et ses 7 cartes, coffre, diamant brun |
+| Objets | `db/import/items/` | pierres (`MD_Airboat_Tokken`), 6 bottes inconnues (paliers +11/+13 en `getallrefine() >= 22/26` ; proc de stat ramené de 175 à 75 à la demande de l'utilisateur), perles Ymir, élixir, coffret d'EXP, livre de cartes et ses 7 cartes, coffre, diamant brun |
 | Groupes | `db/import/item_group_db/airship_crash.yml` | coffre, livre, coffret (contenu de `db/re`) ; raffinements des bottes au-delà de 10 ramenés à 10 |
 | Laphine | `laphine_upgrade.yml`, `item_randomopt_group.yml` | perles Ymir sur les bottes, groupe d'options 9300 du dépôt |
 

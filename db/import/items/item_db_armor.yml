@@ -36468,7 +36468,7 @@ Body:
       if (.@r>=9) {
          bonus bAspdRate,7;
          if (getallrefine() >= 22) {
-            autobonus "{ .@g = getenchantgrade(); if (.@g >= ENCHANTGRADE_D) { .@val = 25; if (.@g >= ENCHANTGRADE_C) { .@val += 25; } } bonus bStr,175+.@val; }",1,10000,BF_WEAPON;
+            autobonus "{ .@g = getenchantgrade(); if (.@g >= ENCHANTGRADE_D) { .@val = 25; if (.@g >= ENCHANTGRADE_C) { .@val += 25; } } bonus bStr,75+.@val; }",1,10000,BF_WEAPON;
             if (getallrefine() >= 26) {
                bonus bShortAtkRate,7;
             }
@@ -36495,7 +36495,7 @@ Body:
       if (.@r>=9) {
          bonus bAspdRate,7;
          if (getallrefine() >= 22) {
-            autobonus "{ .@g = getenchantgrade(); if (.@g >= ENCHANTGRADE_D) { .@val = 25; if (.@g >= ENCHANTGRADE_C) { .@val += 25; } } bonus bDex,175+.@val; }",1,10000,BF_WEAPON|BF_MAGIC;
+            autobonus "{ .@g = getenchantgrade(); if (.@g >= ENCHANTGRADE_D) { .@val = 25; if (.@g >= ENCHANTGRADE_C) { .@val += 25; } } bonus bDex,75+.@val; }",1,10000,BF_WEAPON|BF_MAGIC;
             if (getallrefine() >= 26) {
                bonus bFixedCast,-500;
             }
@@ -36524,7 +36524,7 @@ Body:
          bonus bAspdRate,5;
          bonus bVariableCastrate,-5;
          if (getallrefine() >= 22) {
-            autobonus "{ .@g = getenchantgrade(); if (.@g >= ENCHANTGRADE_D) { .@val = 25; if (.@g >= ENCHANTGRADE_C) { .@val += 25; } } bonus bVit,175+.@val; }",1,10000,BF_WEAPON|BF_MAGIC;
+            autobonus "{ .@g = getenchantgrade(); if (.@g >= ENCHANTGRADE_D) { .@val = 25; if (.@g >= ENCHANTGRADE_C) { .@val += 25; } } bonus bVit,75+.@val; }",1,10000,BF_WEAPON|BF_MAGIC;
             if (getallrefine() >= 26) {
                bonus bDelayrate,-5;
             }
@@ -36552,7 +36552,7 @@ Body:
       if (.@r>=9) {
          bonus bVariableCastrate,-7;
          if (getallrefine() >= 22) {
-            autobonus "{ .@g = getenchantgrade(); if (.@g >= ENCHANTGRADE_D) { .@val = 25; if (.@g >= ENCHANTGRADE_C) { .@val += 25; } } bonus bInt,175+.@val; }",1,10000,BF_MAGIC;
+            autobonus "{ .@g = getenchantgrade(); if (.@g >= ENCHANTGRADE_D) { .@val = 25; if (.@g >= ENCHANTGRADE_C) { .@val += 25; } } bonus bInt,75+.@val; }",1,10000,BF_MAGIC;
             if (getallrefine() >= 26) {
                bonus2 bMagicAtkEle,Ele_All,7;
             }
@@ -36579,7 +36579,7 @@ Body:
       if (.@r>=9) {
          bonus bAspdRate,7;
          if (getallrefine() >= 22) {
-            autobonus "{ .@g = getenchantgrade(); if (.@g >= ENCHANTGRADE_D) { .@val = 25; if (.@g >= ENCHANTGRADE_C) { .@val += 25; } } bonus bAgi,175+.@val; }",1,10000,BF_WEAPON;
+            autobonus "{ .@g = getenchantgrade(); if (.@g >= ENCHANTGRADE_D) { .@val = 25; if (.@g >= ENCHANTGRADE_C) { .@val += 25; } } bonus bAgi,75+.@val; }",1,10000,BF_WEAPON;
             if (getallrefine() >= 26) {
                bonus bLongAtkRate,4;
                bonus bShortAtkRate,4;
@@ -36607,7 +36607,7 @@ Body:
       if (.@r>=9) {
          bonus bAspdRate,7;
          if (getallrefine() >= 22) {
-            autobonus "{ .@g = getenchantgrade(); if (.@g >= ENCHANTGRADE_D) { .@val = 25; if (.@g >= ENCHANTGRADE_C) { .@val += 25; } } bonus bLuk,175+.@val; }",1,10000,BF_WEAPON;
+            autobonus "{ .@g = getenchantgrade(); if (.@g >= ENCHANTGRADE_D) { .@val = 25; if (.@g >= ENCHANTGRADE_C) { .@val += 25; } } bonus bLuk,75+.@val; }",1,10000,BF_WEAPON;
             if (getallrefine() >= 26) {
                bonus bCritAtkRate,7;
                bonus bCritical,7;

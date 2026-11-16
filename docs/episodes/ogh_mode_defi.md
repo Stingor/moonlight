@@ -7,7 +7,7 @@
 | Carte | `1@gl_he` (« Contaminated Dimension », déjà dans le mapcache et le client) ; le wiki iRO cite `4@ghc0`, absent ici |
 | Côté rAthena | `instance_db` 49, gabarits de mobs commentés (`MD_C_*`, 20572‑20585), objets et cartes présents, **aucun script** |
 | Côté Moonlight | écrit pour Moonlight (`moon/instances/OldGlastHeimChallenge.npc`, instance 57), **ouvert aux joueurs le 2026‑11‑11** |
-| État | décisions prises le 2026‑11‑09 (section 8) ; **lot C1 fait le 2026‑11‑09** (section 9), **C2 et C3 écrits le 2026‑11‑10** (sections 10 et 11), réglés sur vidéo et testés par le staff sur `ggpro` du 2026‑11‑10 au 2026‑11‑11, **ouverts le 2026‑11‑11** (section 12) ; **C5 écrit le 2026‑11‑16** (section 13, non testé en jeu) ; C4 à faire |
+| État | décisions prises le 2026‑11‑09 (section 8) ; **lot C1 fait le 2026‑11‑09** (section 9), **C2 et C3 écrits le 2026‑11‑10** (sections 10 et 11), réglés sur vidéo et testés par le staff sur `ggpro` du 2026‑11‑10 au 2026‑11‑11, **ouverts le 2026‑11‑11** (section 12) ; **C5 et C4 écrits le 2026‑11‑16** (sections 13 et 14, non testés en jeu) |
 
 Le script n'existe nulle part : ni chez rAthena, ni chez hayakawakaki, ni chez AsurielRO. Ce
 qui suit est une **reconstitution**. Les sections 1 à 5 relèvent ce que les sources disent ;
@@ -343,3 +343,32 @@ retiré par `unitkill`, qui déclenche son label de mort `OnBossDead` — coffre
 comme une victoire. Il passe désormais par `killmonster` sur ce label, qui le retire sans
 l'événement (`state.npc_killmonster`, `mob.cpp`). La remise à zéro de l'arène fait de même et
 le repose : `unitwarp` refuse en silence de déplacer un mob sur une carte `monster_noteleport`.
+
+## 14. Lot C4 : OSC0005 et l'enchantement des Circlet of Time (2026‑11‑16, non testé en jeu)
+
+`moon/rathena/merchants/oghcm_osc0005.npc`, à `glast_01` 137,291 (position kRO), à côté
+d'Oscar et de HUGINN2001. Les taux viennent de Hazy Forest (`instances:ogh_cm`, « Temporal
+Circlet Enchantment », relevés par les joueurs sur un grand échantillon), les coûts et l'ordre
+des cases de l'annonce officielle.
+
+| Groupe | Case | Coût | Tirage |
+|---|---|---|---|
+| 34 | 4ᵉ | 10 Temporal Fragment | INT, STR, VIT, LUK +1 (13 %), +2 (7 %), +3 (4 %), +4 (1 %) |
+| 34 | 3ᵉ | 20 Temporal Fragment | mêmes stats (11,01 / 6,88 / 3,85 / 1,10 %) et Temporal Jewel STR à LUK Lv1 (1,10 %), Lv2 (0,22 %), Lv3 (0,02 %) |
+| 35 | 3ᵉ, spécial | 2 Temporal Gemstone | Temporal Jewel seuls : Lv1 8,85 %, Lv2 4,87 %, Lv3 2,95 % |
+| 34 | 2ᵉ | 2 Temporal Spell | Sharp, Expert Archer, ASPD, Spell 1 à 4 (2,06 / 1,03 / 0,52 / 0,26 %) ; Unyielding, Mettle, Magic Essence, Acute, Master Archer, Adamantine, Affection Lv1 (12,37 % chacun) |
+| 34 | montée | 4, 6, 8, 10, 12, 16, 20, 28, 40 Temporal Spell | les sept familles, Lv1 → Lv10 |
+| 34 | remise à zéro | 500 000 z | 70 % |
+
+**Objets** : 18 Temporal Jewel (`Time_Jewely_*`) et Unyielding Lv1‑10 (`Tenacity1`‑`10`) portés
+de `db/re` ; les six autres familles existaient déjà sous leurs anciens noms kRO, aux mêmes Id
+(`Ambition*Lv` = Mettle, `Tab*Lv` = Magic Essence, `Expect*Lv` = Acute, `ArchLine*Lv` = Master
+Archer, `Steel*Lv` = Adamantine, `Mercy*Lv` = Affection).
+
+**Écarts imposés par le serveur** (`item_enchant`) :
+- une case n'a qu'un tirage : la 3ᵉ case spéciale est un second groupe (35), que la machine
+  propose à part ; il ne vérifie pas que la 4ᵉ case est prise ;
+- la montée de niveau réussit toujours : l'officiel échoue parfois (−1 niveau au‑delà du Lv1,
+  sans destruction), le serveur n'a ni taux ni recul pour une montée ;
+- un échec de remise à zéro ne détruit pas la coiffe (l'officiel la détruit) ;
+- pas de remise au Nyangvine Fruit (2 fruits, 100 %) : un groupe n'a qu'une remise.

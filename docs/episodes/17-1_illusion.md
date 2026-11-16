@@ -258,8 +258,8 @@ d'inventaire). Deux niveaux possibles.
 option défendable et bien moins coûteuse.
 
 Le mode défi (`1@gl_he`), qui n'a de script nulle part, a été écrit pour Moonlight
-([ogh_mode_defi.md](ogh_mode_defi.md)) ; les enchantements d'OSC0005 (lot C4) restent à faire ; les mécaniques
-avancées du boss (lot C5) sont écrites le 2026‑11‑16. Le Lac de l'Abysse F4 et le Passé d'Odin, venus de PR non fusionnées, sont portés,
+([ogh_mode_defi.md](ogh_mode_defi.md)) ; les enchantements d'OSC0005 (lot C4) et les mécaniques
+avancées du boss (lot C5) sont écrits le 2026‑11‑16. Le Lac de l'Abysse F4 et le Passé d'Odin, venus de PR non fusionnées, sont portés,
 comme Abyss Glast Heim (PR #7474), et la Chute de Glast Heim, le Laboratoire EDDA et
 OGH Hard (dépôt hayakawakaki).
 
@@ -269,7 +269,7 @@ OGH Hard (dépôt hayakawakaki).
 |---|---|
 | Intérêt | élevé — trois zones de chasse et cinq instances fournies par rAthena |
 | Fait | Illusion of Labyrinth, Magma F3, Einbech F3, A, B1, B2 (2026‑11‑08) ; Reform de `rgsr_in`, B3 (2026‑11‑16) ; Sirops, Lac de l'Abysse F4, Passé d'Odin, Abyss Glast Heim, Chute de Glast Heim, Laboratoire EDDA, OGH Hard (2026‑11‑09) ; mode défi d'OGH, lots C1 à C3 (2026‑11‑09 au 2026‑11‑11, ouvert aux joueurs le 2026‑11‑11). Le mode défi a été testé par le staff sur `ggpro` ; tout est déployé en production le 2026‑11‑15 |
-| Reste à faire | mode défi : lot C4 (OSC0005 et enchantements) ; lot C5 (mécaniques avancées du boss) écrit le 2026‑11‑16, à tester en jeu |
+| Reste à faire | mode défi : lots C4 (OSC0005) et C5 (mécaniques du boss), écrits le 2026‑11‑16, à tester en jeu |
 | Épisode | **clos** côté portage le 2026‑11‑11 |
 | Décidé | Magma F3 et Einbech F3 restent sans mapflags `nomemo`/`nowarpto`, accès libre ; les quêtes de Lily (175) et de Sally (180) gardent le seuil de l'amont ; les trois ajouts à la table des compétences sont validés ; le **système Reform** (`rgsr_in.txt`, `item_reform.yml`), écarté le 2026‑11‑08 faute de fenêtre client, est porté le 2026‑11‑16 sur les pièces présentes (lot B3) |
 

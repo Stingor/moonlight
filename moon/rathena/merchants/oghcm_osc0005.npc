@@ -1,0 +1,49 @@
+//===== Moonlight ============================================
+//= Old Glast Heim : mode defi - OSC0005, a cote d'Oscar (lot C4).
+//===== Description: =========================================
+//= Machine d'enchantement des Circlet of Time (item_enchant 34 et 35),
+//= d'apres l'annonce officielle (renewal.playragnarok.com, news 355)
+//= et les taux de hazyforest.com/instances:ogh_cm :
+//=  - 4e case : 10 Temporal Fragment, INT/STR/VIT/LUK +1 a +4 ;
+//=  - 3e case : 20 Temporal Fragment (stats et Temporal Jewel), ou
+//=    2 Temporal Gemstone (Temporal Jewel seuls, groupe 35) ;
+//=  - 2e case : 2 Temporal Spell, Sharp, Expert Archer, ASPD, Spell 1-4
+//=    ou Unyielding, Mettle, Magic Essence, Acute, Master Archer,
+//=    Adamantine, Affection Lv1, ces sept montant jusqu'au niveau 10
+//=    (4 a 40 Temporal Spell) ;
+//=  - remise a zero : 500 000 z, 70 %.
+//= Ecarts : montee de niveau toujours reussie, echec de remise sans
+//= destruction, pas de remise au Nyangvine Fruit (limites du serveur).
+//= Voir docs/episodes/ogh_mode_defi.md, section 14.
+//============================================================
+
+glast_01,137,291,4	script	OSC0005#oghcm	2_SLOT_MACHINE,{
+	mes "[OSC0005]";
+	mes "Bzzt... Temporal enchantment unit, model 0005.";
+	mes "I imbue a ^0000FFCirclet of Time^000000 with the power of the contaminated dimension.";
+	mes "Take the circlet off and keep it in your bag.";
+	next;
+	switch( select("Enchant (Temporal Fragment / Temporal Spell):Special 3rd slot (2 Temporal Gemstone):How does it work?:Cancel") ) {
+	case 1:
+		close2;
+		item_enchant(34);
+		end;
+	case 2:
+		mes "[OSC0005]";
+		mes "The special method only draws a ^0000FFTemporal Jewel^000000 in the 3rd slot.";
+		mes "Enchant the 4th slot first.";
+		close2;
+		item_enchant(35);
+		end;
+	case 3:
+		mes "[OSC0005]";
+		mes "4th slot: 10 Temporal Fragment, a stat bonus.";
+		mes "3rd slot: 20 Temporal Fragment, a stat bonus or a Temporal Jewel; or 2 Temporal Gemstone, a Temporal Jewel only.";
+		mes "2nd slot: 2 Temporal Spell. Unyielding, Mettle, Magic Essence, Acute, Master Archer, Adamantine and Affection can be raised up to level 10 with Temporal Spell.";
+		mes "Reset: 500,000 zeny, 70% success.";
+		close;
+	case 4:
+		close;
+	}
+	end;
+}
