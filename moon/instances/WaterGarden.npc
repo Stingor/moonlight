@@ -483,7 +483,7 @@ OnStart:
 			monster 'map_ghg$,.@xy[.@r],.@xy[.@r+1],"Papilla",20676,1, .@event$;
 		'gid_area_2[.@i] = $@mobid[0];
 		deletearray .@xy[.@r],2;
-		.@size -= 2;
+		.@size--;	// moonlight: .@size compte des paires x,y
 	}
 	initnpctimer;
 	end;

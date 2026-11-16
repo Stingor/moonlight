@@ -2065,8 +2065,8 @@ OnBossDead:
 	.@item_id = .@item_id_list[ rand( getarraysize(.@item_id_list) ) ];
 	.@refine = rand(1,6);
 	.@bonus1 = .@bonus_list1[ rand( getarraysize(.@bonus_list1) ) ];
-	.@bonus2 = .@bonus_list1[ rand( getarraysize(.@bonus_list2) ) ];
-	.@bonus3 = .@bonus_list1[ rand( getarraysize(.@bonus_list3) ) ];
+	.@bonus2 = .@bonus_list2[ rand( getarraysize(.@bonus_list2) ) ];	// moonlight: piochait dans bonus_list1
+	.@bonus3 = .@bonus_list3[ rand( getarraysize(.@bonus_list3) ) ];	// moonlight: piochait dans bonus_list1
 
 	makeitem2 .@item_id,1, 'map_tnm3$, (69 + rand(-5,5)), (70 + rand(-5,5)), 1, .@refine,0, 0,.@bonus1,.@bonus2,.@bonus3;
 	end;

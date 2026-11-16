@@ -81,11 +81,15 @@ wolfvill,79,260,4	script(CLOAKED)	Aira#con	4_M_BRZ_JACI,{
 			close;
 		case IE_OK:
 			mapannounce "wolfvill", "" + strcharinfo(0) + " of the party, " + getpartyname( getcharid(1) ) + ", is entering " + .@enter_to$ + ".",bc_map,"0x00ff99",FW_NORMAL,12;
-			if (.@enter_to$ == .@md_name_normal$)
-				setquest 12520;
-			else
+			// the reward quest may still be there from a run whose box was never opened
+			if (.@enter_to$ == .@md_name_normal$) {
+				if (isbegin_quest(12520) == 0)
+					setquest 12520;
+			}
+			else if (isbegin_quest(12521) == 0)
 				setquest 12521;
-			setquest 12522;
+			if (isbegin_quest(12522) == 0)
+				setquest 12522;
 			// warp "1@advs",111,19;
 			end;
 		}
@@ -566,7 +570,11 @@ OnEvent:
 	.@size = 'size_reaper;
 
 	for ( .@i = 0; .@i < 'total_reaper; ++.@i ) {
-		.@r = rand(.@size);
+		// rand(1) is an error (script ended): the last free cell is taken directly
+		if (.@size > 1)
+			.@r = rand(.@size);
+		else
+			.@r = 0;
 		
 		monster 'map_advs$,.@x[.@r],.@y[.@r],"--en--",20846,1, .@label$;	// MD_HIDDEN_GROUND01
 		deletearray .@x[.@r],1;
@@ -850,7 +858,7 @@ OnMove:
 
 OnStop:
 	'circle_move = 0;	// double check just because
-	unitstopwalk getnpcid(0);
+	unitstopwalk getnpcid(0), USW_FORCE_STOP;	// no warning when the circle is not walking
 	end;
 }
 1@advs,124,337,5	duplicate(#b_tr1)	#b_tr2	MD_HIDDEN_GROUND02,2,2

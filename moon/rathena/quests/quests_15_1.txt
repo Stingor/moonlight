@@ -2285,7 +2285,11 @@ function checkstatusquest;
 		mes "You should rest and regroup in the meantime.";
 		close;
 	}
-	.@r = rand(.@size_undone);
+	// moonlight: rand(1) arretait le script quand il ne restait qu'une histoire
+	if (.@size_undone > 1)
+		.@r = rand(.@size_undone);
+	else
+		.@r = 0;
 	setquest .@quest_undone[.@r];
 	mes "Listen to my story.";
 	next;

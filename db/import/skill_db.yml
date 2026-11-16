@@ -4133,6 +4133,20 @@ Body:
         NoOverlap: true
         PathCheck: true
     Status: Stun
+  - Id: 734
+    Name: NPC_MAGMA_ERUPTION_DOTDAMAGE
+    Description: NPC Magma Eruption Dot Damage
+    MaxLevel: 5
+    Type: Misc
+    TargetType: Attack
+    DamageFlags:
+      IgnoreFlee: true
+      IgnoreDefCard: true
+    Flags:
+      IsNpc: true
+    Range: 1
+    Hit: Single
+    HitCount: 1
   - Id: 751
     Name: NPC_ALL_STAT_DOWN
     Description: Decrease All Stats

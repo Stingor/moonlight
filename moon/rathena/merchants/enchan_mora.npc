@@ -64,7 +64,12 @@ mora,88,89,5	script	Keeper of Secrets#pa082	4_M_MERCAT1,{
 			setarray .@items[0],1657,16013; //Wand_Of_Affection,Mace_Of_Judgement
 			break;
 		}
-		set .@item, .@items[rand(getarraysize(.@items))];
+		// moonlight: Shield n'a qu'un objet, et rand(1) arretait le script (achat impossible)
+		.@items_size = getarraysize(.@items);
+		if (.@items_size > 1)
+			set .@item, .@items[rand(.@items_size)];
+		else
+			set .@item, .@items[0];
 		delitem 6380,10; //Mora_Coin
 		getitem .@item,1;
 		mes "[Artifice]";
