@@ -1,0 +1,24 @@
+# Tombeau du Remords : coffrets d'armes Poenitentia (contenu de db/re).
+Header:
+  Type: ITEM_GROUP_DB
+  Version: 5
+
+Body:
+  - Group: POENETENTIA_BOX1
+    SubGroups:
+      - SubGroup: 0
+        Algorithm: All
+        List:
+          - Index: 0
+            Item: Poenitentia_Gladius
+          - Index: 1
+            Item: Poenetentia_Aegis
+  - Group: POENETENTIA_BOX2
+    SubGroups:
+      - SubGroup: 0
+        Algorithm: All
+        List:
+          - Index: 0
+            Item: Poenitentia_Hasta
+          - Index: 1
+            Item: Poenetentia_Aegis

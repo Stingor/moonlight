@@ -2,7 +2,7 @@
 //= Fonctions et PNJ factices de hayakawakaki/rathena-script-collection
 //= (Function.c, crazyarashi / hayakawakaki, GPL-3.0),
 //= https://github.com/hayakawakaki/rathena-script-collection
-//= Seulement ce qu'utilise moon/instances/EddaSomatology.npc.
+//= Seulement ce qu'utilisent les instances portees de ce depot.
 //= Charge tot : les appels sans callfunc exigent la fonction declaree.
 //============================================================
 
@@ -36,6 +36,60 @@ function	script	get_instance_var	{
 
 function	script	set_instance_var	{
 	setd("'" + getarg(0),getarg(1));
+	return;
+}
+
+// Ajouts pour le Tombeau du Remords (2026-11-16) : instance_warning et cloaknpc de
+// Function.c, instance_disable de Thanatos Tower/db/Function.c.
+
+function	script	instance_warning	{
+	.@type = (getargcount() < 1 ? 0 : getarg(0));
+	.@md_name$ = (getargcount() == 2 ? getarg(1,"") : "");
+	switch(.@type){
+		case 0: 
+			mes "^FF0000Please note that, any abnormal monster handling inside the instance such as taming is not considered normal and may hinder the instance progress.^000000"; 
+			break;
+			
+		case 1:
+			mes "^4D4DFFThis place is a memorial dungeon.";
+			mes "Please form a party and try again.^000000";
+			mes "To create a party with the following command ^4D4DFF'/organize PARTY NAME'.^000000";
+			end;
+			
+		case 2:
+			dispbottom "The reservation of the instance '" + .@md_name$ + "' has failed due to an active instance.";
+			break;
+			
+		case 3:
+			mes "^FF0000In beginners mode, the player transform into a monster. Please not that existing transformation effect will disappear after entering and proceeding.^000000"; 
+			break;
+			
+		case 4:
+			mes "^4D4DFFThis place is a memorial dungeon.";
+			mes "You have to be a party leader to create a memorial dungeon.^000000";
+			end;
+	}
+	return;
+}
+
+function	script	cloaknpc	{
+	if(getargcount() > 2){
+		if(getarg(1))
+			cloakonnpc getarg(0),getarg(2);
+		else
+			cloakoffnpc getarg(0),getarg(2);
+	} else {
+		if(getarg(1))
+			cloakonnpc getarg(0);
+		else
+			cloakoffnpc getarg(0);
+	}
+	return;
+}
+
+function	script	instance_disable	{
+	hideoffnpc instance_npcname(getarg(0));
+	disablenpc instance_npcname(getarg(0));
 	return;
 }
 

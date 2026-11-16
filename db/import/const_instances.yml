@@ -173,3 +173,5 @@ Body:
     Value: 77
   - Name: INST_SIMULATION_BATTLE
     Value: 78
+  - Name: INST_TOMB_OF_REMORSE
+    Value: 79

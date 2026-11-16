@@ -705,3 +705,7 @@ que_thr	mapflag	noteleport
 1@whl	mapflag	monster_noteleport
 1@jorlab	mapflag	monster_noteleport
 1@jorchs	mapflag	monster_noteleport
+
+// Tombeau du Remords (hayakawakaki) : jeu standard des instances 18/19
+1@spa2	mapflag	noteleport
+1@spa2	mapflag	monster_noteleport

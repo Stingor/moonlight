@@ -54069,3 +54069,4 @@ Footer:
   - Path: db/import/mobs/thanatos.yml
   - Path: db/import/mobs/thor.yml
   - Path: db/import/mobs/werner.yml
+  - Path: db/import/mobs/remorse.yml

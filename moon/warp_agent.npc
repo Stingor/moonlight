@@ -216,6 +216,7 @@ L_Instance:
 					"Simulation Battle",
 					"Sky Fortress Invasion",
 					"Temple of Demon God",
+					"Tomb of Remorse",
 					"Twilight Garden",
 					"Villa of Deception",
 					"Water Garden",
@@ -262,6 +263,7 @@ L_Instance:
 					INST_SIMULATION_BATTLE,
 					INST_SKY_FORTRESS_INVASION,
 					INST_TEMPLE_OF_THE_DEMON_GOD,
+					INST_TOMB_OF_REMORSE,
 					INST_TWILIGHT_GARDEN,
 					INST_VILLA_OF_DECEPTION,
 					INST_WATER_GARDEN,
@@ -309,6 +311,7 @@ L_Instance:
 					16663, // INST_SIMULATION_BATTLE
 					9419,  // INST_SKY_FORTRESS_INVASION
 					7605,  // INST_TEMPLE_OF_THE_DEMON_GOD
+					16464, // INST_TOMB_OF_REMORSE
 					18017, // INST_TWILIGHT_GARDEN (quete de chasse, toujours libre)
 					12522, // INST_VILLA_OF_DECEPTION
 					16439, // INST_WATER_GARDEN
@@ -942,6 +945,9 @@ L_Bijou:
 		}
 		case INST_WEEKEND_DUNGEON: { // Weekend Dungeon
 			warp_fct("pay_arche", 45, 123);
+		}
+		case INST_TOMB_OF_REMORSE: { // Tombeau du Remords : la Princesse, a Dali02 (chaine 16461-16463)
+			warp_fct("dali02", 76, 114);
 		}
 		case INST_TEMPLE_OF_THE_DEMON_GOD: { // Temple of Demon God
 			if( select( GetColor(7605)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {

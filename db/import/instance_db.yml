@@ -565,3 +565,10 @@ Body:
       Map: 1@jorlab
       X: 57
       Y: 45
+  - Id: 79
+    Name: Tomb of Remorse
+    TimeLimit: 3600
+    Enter:
+      Map: 1@spa2
+      X: 52
+      Y: 198

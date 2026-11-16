@@ -250,3 +250,6 @@ wolfvill	mapflag	restricted	7
 1@whl	mapflag	restricted	6
 1@jorlab	mapflag	restricted	6
 1@jorchs	mapflag	restricted	6
+
+// Tombeau du Remords (hayakawakaki) : jeu standard des instances 18/19
+1@spa2	mapflag	restricted	6

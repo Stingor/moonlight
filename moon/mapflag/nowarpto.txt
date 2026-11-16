@@ -411,3 +411,6 @@ que_thr	mapflag	nowarpto
 1@whl	mapflag	nowarpto
 1@jorlab	mapflag	nowarpto
 1@jorchs	mapflag	nowarpto
+
+// Tombeau du Remords (hayakawakaki) : jeu standard des instances 18/19
+1@spa2	mapflag	nowarpto

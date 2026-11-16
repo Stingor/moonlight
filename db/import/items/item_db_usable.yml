@@ -12214,3 +12214,34 @@ Body:
     Type: DelayConsume
     Script: |
       item_reform();
+  # Tombeau du Remords (hayakawakaki/rathena-script-collection (Remorse/, crazyarashi, GPL-3.0)).
+  - Id: 100477
+    AegisName: Poenetentia_Box1
+    Name: Poenitentia Gladius Set Box
+    Type: Usable
+    Flags:
+      Container: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      getgroupitem(IG_POENETENTIA_BOX1);
+  - Id: 100478
+    AegisName: Poenetentia_Box2
+    Name: Poenitentia Asta Set Box
+    Type: Usable
+    Flags:
+      Container: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      getgroupitem(IG_POENETENTIA_BOX2);

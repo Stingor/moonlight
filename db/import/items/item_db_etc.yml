@@ -15533,3 +15533,15 @@ Body:
     Flags:
       BuyingStore: true
       DropEffect: CLIENT
+  # Tombeau du Remords (hayakawakaki/rathena-script-collection (Remorse/, crazyarashi, GPL-3.0)).
+  - Id: 1000367
+    AegisName: Mine_As
+    Name: Minneas
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true

@@ -187,14 +187,35 @@ Conversions, validées le 2026‑11‑12 :
 - côté client, les fiches des orbes nomment les compétences de remplacement, et leurs délais
   s'affichent en « After Skill Delay ».
 
+## 5e. Lots C : les instances de l'intervalle (2026‑11‑16)
+
+Trois des cinq ont un script dans `hayakawakaki/rathena-script-collection` (crazyarashi,
+GPL-3.0) : le **Tombeau du Remords**, la **Tour de Thanatos** (« Memory of Thanatos ») et la
+**Tour des Constellations**. L'Arène Nocturne de Geffen et le Crash d'aéronef n'y sont pas.
+Portage dans cet ordre, du plus petit au plus gros, auteur crédité en en-tête.
+
+### Lot C1 : le Tombeau du Remords (`1@spa2`, instance 79)
+
+| Élément | Fichier | Détail |
+|---|---|---|
+| Script | `moon/instances/TombOfRemorse.npc` | entrée par la Princesse Tiara à Dali (niveau 220, chaîne 16461‑16463), Marquis à `dali02` ; échange de joyaux `Sakray_*` retiré (leur recette Laphine est commentée en amont) |
+| Fonctions | `moon/rathena/other/hayakawakaki_functions.npc` | `instance_warning`, `cloaknpc` (`Function.c`), `instance_disable` (`Thanatos Tower/db/Function.c`) |
+| Instance | `db/import/instance_db.yml`, `const_instances.yml` | 79, `INST_TOMB_OF_REMORSE` ; warp agent vers `dali02` |
+| Mobs | `db/import/mobs/remorse.yml` | 9 mobs `MD_*` et `HIDDEN_MOB8`, par `re_to_prere_mob.py` ; le dépôt n'a pas d'EXP, ajoutée par la formule du convertisseur (`Hp × 1,6`, job × 0,65) ; drops `Sakray_*` et carte de Sakray (inconnue) retirés |
+| Compétences | `db/import/mob_skill_db.txt`, `db/import/skill_db.yml` | `NPC_WIDESTUN2` copiée de `db/re` ; `NPC_LOCKON_LASER`, sans entrée nulle part, retirée |
+| Quêtes | `db/import/quest_db.yml` | 16461 à 16482 |
+| Objets | `db/import/items/` | Minneas, 25 armes Poenitentia (23 à l'échange, Gladius et Hasta en coffret avec le bouclier Aegis), 2 coffrets (`db/import/item_group_db/remorse.yml`) ; règles §3b |
+| Échange | `moon/barters.yml` | `remorse_weapon` : 700 Minneas l'arme, doublon de Catapulta du dépôt retiré |
+| Mapflags | `moon/mapflag/` | jeu standard des instances 18/19 |
+
 ## 6. Verdict
 
 | | |
 |---|---|
 | Intérêt | élevé — le terrain est déjà ouvert, il manque ce qui le rend jouable |
-| Fait | lot A : Niflheim renewal et Rudus 4F ; lots B2 et B1 : la chaîne de quêtes et les quatre instances (2026‑11‑11) ; lot A2 : Amicitia et lot B3 : l'économie du manoir (2026‑11‑12) ; les cartes des instances sont dans les albums  ; déployé en production le 2026‑11‑15 |
+| Fait | lot A : Niflheim renewal et Rudus 4F ; lots B2 et B1 : la chaîne de quêtes et les quatre instances (2026‑11‑11) ; lot A2 : Amicitia et lot B3 : l'économie du manoir (2026‑11‑12) ; les cartes des instances sont dans les albums  ; déployé en production le 2026‑11‑15 ; lot C1 : le Tombeau du Remords (2026‑11‑16) |
 | Épisode | **clos** côté portage le 2026‑11‑12 |
-| Reste à faire | hors périmètre : les 5 instances de l'intervalle, sans script nulle part |
+| Reste à faire | instances de l'intervalle (§5e) : la Tour de Thanatos (lot C2) et la Tour des Constellations (lot C3) ; l'Arène Nocturne de Geffen et le Crash d'aéronef, sans script connu |
 
 ## Sources
 

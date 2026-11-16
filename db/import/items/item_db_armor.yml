@@ -35582,3 +35582,38 @@ Body:
             }
          }
       }
+  # Tombeau du Remords (hayakawakaki/rathena-script-collection (Remorse/, crazyarashi, GPL-3.0)).
+  - Id: 460013
+    AegisName: Poenetentia_Aegis
+    Name: Poenitentia Aegis [1]
+    Type: Armor
+    Weight: 1500
+    Defense: 8
+    Slots: 1
+    Jobs:
+      Crusader: true
+    Locations:
+      Left_Hand: true
+    ArmorLevel: 1
+    EquipLevelMin: 230
+    Refineable: true
+    Gradable: true
+    View: 2
+    Script: |
+      .@g = getenchantgrade();
+      .@r = getrefine();
+      bonus bMaxHPrate,5;
+      bonus bMaxSPrate,5;
+      bonus bMdef,10*(.@r/3);
+      bonus bDef,50*(.@r/3);
+      if (.@g >= ENCHANTGRADE_D) {
+         bonus2 bSkillAtk,"CR_SHIELDBOOMERANG",5;
+         if (.@g >= ENCHANTGRADE_C) {
+            bonus2 bSkillAtk,"CR_SHIELDBOOMERANG",8;
+            if (.@g >= ENCHANTGRADE_B) {
+               bonus bPow,1;
+               bonus bSpl,1;
+               bonus2 bSkillAtk,"CR_SHIELDBOOMERANG",15;
+            }
+         }
+      }

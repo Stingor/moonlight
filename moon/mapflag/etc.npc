@@ -348,3 +348,6 @@ que_thr	mapflag	nomemo
 1@whl	mapflag	nomemo
 1@jorlab	mapflag	nomemo
 1@jorchs	mapflag	nomemo
+
+// Tombeau du Remords (hayakawakaki) : jeu standard des instances 18/19
+1@spa2	mapflag	nomemo
