@@ -11474,3 +11474,199 @@ Body:
          bonus bShortAtkRate,10+(getrefine()/2);
          bonus bAspd,1;
       }
+  # Arene Nocturne de Geffen (patnawa/rathena_pn (npc/custom/instances/GeffenNightArena.txt, PN Development Team, GPL-3.0-or-later)).
+  - Id: 300177
+    AegisName: MD_Geffen_Archi_Card
+    Name: Arena Arhi Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bAddSize,Size_All,5;
+      bonus2 bMagicAddSize,Size_All,5;
+      bonus bMaxHP,1000;
+      bonus bFlee,35;
+  - Id: 300178
+    AegisName: MD_Geffen_Dio_Card
+    Name: Arena Dio Anemos Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bMagicAtkEle,Ele_Neutral,10;
+      bonus2 bMagicAtkEle,Ele_Earth,10;
+  - Id: 300179
+    AegisName: MD_Geffen_Thief_Card
+    Name: Arena Shoplifter Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bMagicAtkEle,Ele_Holy,10;
+      bonus2 bMagicAtkEle,Ele_Fire,10;
+  - Id: 300180
+    AegisName: MD_Geffen_Gang_Card
+    Name: Arena Gangster Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bAspdRate,10;
+      bonus bCritAtkRate,7;
+  - Id: 300181
+    AegisName: MD_Geffen_Thug_Card
+    Name: Arena Bully Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bAspdRate,7;
+      bonus bCritAtkRate,10;
+  - Id: 300182
+    AegisName: MD_Geffen_Monk_Card
+    Name: Arena Faymont Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMaxSPrate,20;
+      bonus5 bAutoSpellWhenHit,"CH_SOULCOLLECT",1,1,BF_WEAPON,0;
+  - Id: 300183
+    AegisName: MD_Geffen_Ordre_Card
+    Name: Arena Ordre Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bMagicAtkEle,Ele_Wind,10;
+      bonus2 bMagicAtkEle,Ele_Water,10;
+  - Id: 300184
+    AegisName: MD_Geffen_Blut_Card
+    Name: Arena Blut Hase Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bAddClass,Class_All,5;
+      bonus bLongAtkRate,7;
+  - Id: 300185
+    AegisName: MD_Geffen_Akuma_Card
+    Name: Arena Kuro Akuma Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bVariableCastrate,-10;
+      bonus2 bSkillAtk,"NJ_KOUENKA",15;
+      bonus2 bSkillAtk,"NJ_HYOUSENSOU",15;
+      bonus2 bSkillAtk,"NJ_HUUJIN",15;
+      bonus bLongAtkRate,8;
+  - Id: 300186
+    AegisName: MD_Geffen_Hyper_Card
+    Name: Arena Ifodes Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bAspdRate,7;
+      bonus bShortAtkRate,7;
+  - Id: 300187
+    AegisName: MD_Geffen_Odorico_Card
+    Name: Arena Odoric Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bAspdRate,7;
+      bonus bLongAtkRate,7;
+  - Id: 300188
+    AegisName: MD_Geffen_Reche_Card
+    Name: Arena Licheniyes Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bMagicAtkEle,Ele_Holy,10;
+      bonus bHealPower,20;
+  - Id: 300189
+    AegisName: MD_Geffen_Jew_Card
+    Name: Arena Ju Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Right_Hand: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      .@val = 15;
+      if (getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_VIEW) == W_BOOK) {
+         .@val += 20;
+      }
+      if (getallrefine() >= 28) {
+         .@val += 30;
+      }
+      bonus2 bSkillAtk,"MG_LIGHTNINGBOLT",.@val;
+      bonus2 bSkillAtk,"MG_FIREBOLT",.@val;
+      bonus2 bSkillAtk,"MG_COLDBOLT",.@val;
+  - Id: 300190
+    AegisName: MD_Geffen_Fei_Card
+    Name: Arena Fay Kanavian Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bMagicAtkEle,Ele_Neutral,10;
+      bonus2 bMagicAtkEle,Ele_Earth,10;
+      autobonus "{ bonus bDef,10; }",1,5000,BF_WEAPON,"{ active_transform 1040,5000; /*GOLEM*/ }";
+  - Id: 300191
+    AegisName: MD_Geffen_Dy_Card
+    Name: Arena Dwigh Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Both_Accessory: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus2 bMagicAtkEle,Ele_Neutral,20;
+      bonus2 bMagicAtkEle,Ele_Undead,20;
+      bonus2 bMagicAtkEle,Ele_Dark,20;

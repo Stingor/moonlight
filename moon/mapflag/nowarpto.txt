@@ -433,3 +433,6 @@ que_thr	mapflag	nowarpto
 // Crash d'aeronef (patnawa) : jeu standard des instances 18/19
 1@mjo1	mapflag	nowarpto
 1@mjo2	mapflag	nowarpto
+
+// Arene Nocturne de Geffen (patnawa) : jeu standard des instances 18/19
+1@ge_sn	mapflag	nowarpto

@@ -741,3 +741,7 @@ que_thr	mapflag	noteleport
 1@mjo2	mapflag	noteleport
 1@mjo1	mapflag	monster_noteleport
 1@mjo2	mapflag	monster_noteleport
+
+// Arene Nocturne de Geffen (patnawa) : jeu standard des instances 18/19
+1@ge_sn	mapflag	noteleport
+1@ge_sn	mapflag	monster_noteleport

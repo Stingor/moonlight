@@ -3608,3 +3608,6 @@ Body:
           MD_AIRBOAT_MOS: true
   - Id: 5915
     Title: Compensation for Helping the Wounded
+  # Arene Nocturne de Geffen (patnawa/rathena_pn (npc/custom/instances/GeffenNightArena.txt, PN Development Team, GPL-3.0-or-later)).
+  - Id: 69990
+    Title: Geffen Night Arena Access

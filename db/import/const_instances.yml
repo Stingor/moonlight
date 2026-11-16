@@ -181,3 +181,5 @@ Body:
     Value: 81
   - Name: INST_AIRSHIP_CRASH
     Value: 82
+  - Name: INST_GEFFEN_NIGHT_ARENA
+    Value: 83

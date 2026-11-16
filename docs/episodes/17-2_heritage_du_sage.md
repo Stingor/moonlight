@@ -192,7 +192,7 @@ Conversions, validées le 2026‑11‑12 :
 Trois des cinq ont un script dans `hayakawakaki/rathena-script-collection` (crazyarashi,
 GPL-3.0) : le **Tombeau du Remords**, la **Tour de Thanatos** (« Memory of Thanatos ») et la
 **Tour des Constellations**. L'Arène Nocturne de Geffen et le Crash d'aéronef n'y sont pas ;
-le second vient d'ailleurs (lot C4).
+tous deux viennent de `patnawa/rathena_pn` (lots C4 et C6).
 Portage dans cet ordre, du plus petit au plus gros, auteur crédité en en-tête.
 
 ### Lot C1 : le Tombeau du Remords (`1@spa2`, instance 79)
@@ -266,14 +266,32 @@ documente ses suppositions.
 | Groupes | `db/import/item_group_db/airship_crash.yml` | coffre, livre, coffret (contenu de `db/re`) ; raffinements des bottes au-delà de 10 ramenés à 10 |
 | Laphine | `laphine_upgrade.yml`, `item_randomopt_group.yml` | perles Ymir sur les bottes, groupe d'options 9300 du dépôt |
 
+### Lot C6 : l'Arène Nocturne de Geffen (`1@ge_sn`, instance 83)
+
+Script de `patnawa/rathena_pn` (`npc/custom/instances/GeffenNightArena.txt`, GPL-3.0-or-later),
+le seul trouvé, de la même main que le Crash d'aéronef : réécriture « clean-room » qui reprend
+les tables publiées et documente ses replis (poids des adversaires, chance d'intrus 10 %, dégâts
+des explosions du périmètre).
+
+| Élément | Fichier | Détail |
+|---|---|---|
+| Script | `moon/instances/GeffenNightArena.npc` | repris tel quel : l'homme louche à `geffen_in` (niveau 210), la porte et le quartier-maître à `dali02` ; 10 manches de 60 s, adversaires tirés au sort (Kanabian ou Alphonse en intrus), Fenrir en 10ᵉ ; encaisser après chaque victoire, tout perdre sur une défaite ; adversaire invulnérable si un membre du départ est mort ou absent |
+| PV des manches | `.RoundHp` du script | valeurs publiées (4,8 M à 1,42 Md) passées par le convertisseur au niveau 210 : 753 287 à 6 405 337 |
+| Mobs | `db/import/mobs/geffen_night_arena.yml` | 17 mobs du dépôt, convertis, sans EXP (la récompense est en monnaie) ; drops résolus par Id vers nos noms (`Archi_Card` = `Arhi_Card`…) |
+| Compétences | `db/import/mob_skill_db.txt` | 53 lignes, du manifeste YAML du dépôt (lignes du Tournoi rAthena) remis au format TXT |
+| Instance | `instance_db.yml`, `const_instances.yml` | 83, `INST_GEFFEN_NIGHT_ARENA` ; warp agent vers `geffen_in` |
+| Quête | `db/import/quest_db.yml` | 69990 (accès) |
+| Objets | `db/import/items/` | 3 monnaies, 4 catalyseurs Laphine, 10 pièces (armures, capes, boucliers, anneaux), 15 cartes ; l'Arena Ju Card a un palier `getrefine() >= 14`, devenu `getallrefine() >= 28` (règle 2N) |
+| Laphine | `laphine_upgrade.yml`, `item_randomopt_group.yml` | catalyseurs sur les pièces, groupes d'options 9201 à 9204 du dépôt |
+
 ## 6. Verdict
 
 | | |
 |---|---|
 | Intérêt | élevé — le terrain est déjà ouvert, il manque ce qui le rend jouable |
-| Fait | lot A : Niflheim renewal et Rudus 4F ; lots B2 et B1 : la chaîne de quêtes et les quatre instances (2026‑11‑11) ; lot A2 : Amicitia et lot B3 : l'économie du manoir (2026‑11‑12) ; les cartes des instances sont dans les albums  ; déployé en production le 2026‑11‑15 ; lots C1 à C4 : le Tombeau du Remords, la Tour de Thanatos, la Tour des Constellations et le Crash d'aéronef (2026‑11‑16) |
+| Fait | lot A : Niflheim renewal et Rudus 4F ; lots B2 et B1 : la chaîne de quêtes et les quatre instances (2026‑11‑11) ; lot A2 : Amicitia et lot B3 : l'économie du manoir (2026‑11‑12) ; les cartes des instances sont dans les albums  ; déployé en production le 2026‑11‑15 ; lots C1 à C4 : le Tombeau du Remords, la Tour de Thanatos, la Tour des Constellations et le Crash d'aéronef ; lot C6 : l'Arène Nocturne de Geffen (2026‑11‑16) |
 | Épisode | **clos** côté portage le 2026‑11‑12 |
-| Reste à faire | instances de l'intervalle (§5e) : l'Arène Nocturne de Geffen, sans script connu |
+| Reste à faire | rien côté instances de l'intervalle : les cinq sont portées (§5e) ; tests en jeu à faire |
 
 ## Sources
 

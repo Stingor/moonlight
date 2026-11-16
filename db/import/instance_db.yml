@@ -606,3 +606,10 @@ Body:
       Y: 379
     AdditionalMaps:
       1@mjo2: true
+  - Id: 83
+    Name: Geffen Night Arena
+    TimeLimit: 3600
+    Enter:
+      Map: 1@ge_sn
+      X: 89
+      Y: 48

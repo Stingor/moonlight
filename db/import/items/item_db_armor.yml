@@ -36615,3 +36615,242 @@ Body:
             }
          }
       }
+  # Arene Nocturne de Geffen (patnawa/rathena_pn (npc/custom/instances/GeffenNightArena.txt, PN Development Team, GPL-3.0-or-later)).
+  - Id: 450149
+    AegisName: MD_Geffen_Suits
+    Name: Anti Conjurer Suit [1]
+    Type: Armor
+    Weight: 900
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 230
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bHealPower2,10;
+      bonus bUseSPrate,-10;
+      bonus bMaxHPrate,3;
+      bonus bStr,3;
+      bonus bAgi,3;
+      bonus bBaseAtk,10*.@r;
+      bonus bAspdRate,2*(.@r/2);
+      if (.@r>=9) {
+         bonus bLongAtkRate,10;
+         bonus bShortAtkRate,10;
+         if (getallrefine() >= 22) {
+            bonus bAspdRate,7;
+            if (getallrefine() >= 26) {
+               bonus bBaseAtk,60;
+            }
+         }
+      }
+  - Id: 450150
+    AegisName: MD_Geffen_Robe
+    Name: Magic Protector Robe [1]
+    Type: Armor
+    Weight: 800
+    Defense: 12
+    Slots: 1
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    EquipLevelMin: 230
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bHealPower2,10;
+      bonus bUseSPrate,-10;
+      bonus bMaxHPrate,3;
+      bonus bInt,3;
+      bonus bDex,3;
+      bonus bMatk,10*.@r;
+      bonus bVariableCastrate,-2*(.@r/2);
+      if (.@r>=9) {
+         bonus2 bMagicAtkEle,Ele_All,10;
+         if (getallrefine() >= 22) {
+            bonus bVariableCastrate,-7;
+            if (getallrefine() >= 26) {
+               bonus bMatk,60;
+            }
+         }
+      }
+  - Id: 480065
+    AegisName: MD_Geffen_Hood
+    Name: Magic Barrier Manteau [1]
+    Type: Armor
+    Weight: 700
+    Defense: 6
+    Slots: 1
+    Locations:
+      Garment: true
+    ArmorLevel: 1
+    EquipLevelMin: 230
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,1500;
+      bonus bMaxHPrate,(.@r/2);
+      bonus bAspdRate,2*(.@r/3);
+      if (.@r>=9) {
+         bonus bShortAtkRate,5;
+         if (getallrefine() >= 22) {
+            bonus bShortAtkRate,7;
+         }
+      }
+  - Id: 480066
+    AegisName: MD_Geffen_Hood2
+    Name: Magic Barrier Muffler [1]
+    Type: Armor
+    Weight: 650
+    Defense: 6
+    Slots: 1
+    Locations:
+      Garment: true
+    ArmorLevel: 1
+    EquipLevelMin: 230
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,1500;
+      bonus bMaxHPrate,(.@r/2);
+      bonus bVariableCastrate,-2*(.@r/3);
+      if (.@r>=9) {
+         bonus bMatkRate,7;
+         bonus bHealPower,15;
+         if (getallrefine() >= 22) {
+            bonus2 bMagicAtkEle,Ele_All,7;
+         }
+      }
+  - Id: 480067
+    AegisName: MD_Geffen_Hood3
+    Name: Ravage Magic Manteau [1]
+    Type: Armor
+    Weight: 650
+    Defense: 6
+    Slots: 1
+    Locations:
+      Garment: true
+    ArmorLevel: 1
+    EquipLevelMin: 230
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,1200;
+      bonus bMaxHPrate,(.@r/2);
+      bonus bAspdRate,2*(.@r/3);
+      if (.@r>=9) {
+         bonus bLongAtkRate,5;
+         if (getallrefine() >= 22) {
+            bonus bLongAtkRate,7;
+         }
+      }
+  - Id: 480068
+    AegisName: MD_Geffen_Hood4
+    Name: Ravage Magic Muffler [1]
+    Type: Armor
+    Weight: 800
+    Defense: 6
+    Slots: 1
+    Locations:
+      Garment: true
+    ArmorLevel: 1
+    EquipLevelMin: 230
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMaxHP,2000;
+      bonus bMaxHPrate,(.@r/2);
+      bonus bAspdRate,(.@r/3);
+      bonus bVariableCastrate,-(.@r/3);
+      if (.@r>=9) {
+         bonus2 bAddSize,Size_All,3;
+         bonus2 bMagicAddSize,Size_All,3;
+         if (getallrefine() >= 22) {
+            autobonus "{ bonus2 bHPRegenRate,350,1000; bonus2 bSPRegenRate,20,1000; }",1,10000,BF_WEAPON|BF_MAGIC;
+         }
+      }
+  - Id: 460005
+    AegisName: MD_Geffen_Shield
+    Name: Magic Absorber [1]
+    Type: Armor
+    Weight: 500
+    Defense: 8
+    Slots: 1
+    Locations:
+      Left_Hand: true
+    ArmorLevel: 1
+    EquipLevelMin: 230
+    Refineable: true
+    View: 1
+    Script: |
+      .@r = getrefine();
+      bonus2 bMagicAtkEle,Ele_All,3;
+      bonus bMdef,3;
+      if (.@r>=7) {
+         bonus bMatk,25;
+         if (.@r>=9) {
+            bonus bVariableCastrate,-5;
+            if (getallrefine() >= 24) {
+               bonus2 bMagicAtkEle,Ele_All,7;
+            }
+         }
+      }
+  - Id: 460006
+    AegisName: MD_Geffen_Shield2
+    Name: Encyclopedia Complete Edition [1]
+    Type: Armor
+    Weight: 1500
+    Defense: 8
+    Slots: 1
+    Locations:
+      Left_Hand: true
+    ArmorLevel: 1
+    EquipLevelMin: 230
+    Refineable: true
+    View: 1
+    Script: |
+      .@r = getrefine();
+      bonus2 bAddClass,Class_All,3;
+      bonus bMdef,2;
+      if (.@r>=7) {
+         bonus bCritical,3;
+         bonus bBaseAtk,25;
+         if (.@r>=9) {
+            bonus bAspdRate,5;
+            if (getallrefine() >= 24) {
+               bonus bCritAtkRate,10;
+               bonus2 bAddClass,Class_All,7;
+            }
+         }
+      }
+  - Id: 490077
+    AegisName: MD_Geffen_Ring
+    Name: Force Condenser [1]
+    Type: Armor
+    Weight: 100
+    Defense: 15
+    Slots: 1
+    Locations:
+      Both_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 230
+    Script: |
+      bonus bMaxHPrate,5;
+      bonus2 bAddClass,Class_All,8;
+  - Id: 490078
+    AegisName: MD_Geffen_Ring2
+    Name: Mental Condenser [1]
+    Type: Armor
+    Weight: 100
+    Defense: 15
+    Slots: 1
+    Locations:
+      Both_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 230
+    Script: |
+      bonus bMaxHPrate,5;
+      bonus bMatkRate,8;

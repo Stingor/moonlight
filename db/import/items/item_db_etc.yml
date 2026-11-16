@@ -15822,3 +15822,28 @@ Body:
     Weight: 10
     Flags:
       BuyingStore: true
+  # Arene Nocturne de Geffen (patnawa/rathena_pn (npc/custom/instances/GeffenNightArena.txt, PN Development Team, GPL-3.0-or-later)).
+  - Id: 1000316
+    AegisName: MD_Geffen_Coin
+    Name: Geffen Arena Coin
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000317
+    AegisName: MD_Geffen_Cert
+    Name: Geffen Arena Certificate
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1000366
+    AegisName: MD_Geffen_Win
+    Name: Geffen Arena Championship
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true

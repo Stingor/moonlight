@@ -191,6 +191,7 @@ L_Instance:
 					"Faceworms Nest (Solo)",
 					"Farm Lost in Time",
 					"Friday Dungeon (vendredi)",
+					"Geffen Night Arena",
 					"Gef. Magic Tour. (HM, Solo, Custom)",
 					"Ghost Palace (Solo)",
 					"Half Moon In The Daylight",
@@ -241,6 +242,7 @@ L_Instance:
 					INST_FACEWORMS_NEST,
 					INST_FARM_LOST_IN_TIME,
 					INST_FRIDAY_DUNGEON,
+					INST_GEFFEN_NIGHT_ARENA,
 					INST_GEFFEN_MAGIC_TOURNAMENT,
 					INST_GHOST_PALACE,
 					INST_HALF_MOON_IN_THE_DAYLIGHT,
@@ -292,6 +294,7 @@ L_Instance:
 					12325, // INST_FACEWORMS_NEST
 					8587,  // INST_FARM_LOST_IN_TIME
 					12379, // INST_FRIDAY_DUNGEON
+					69990, // INST_GEFFEN_NIGHT_ARENA (acces)
 					9316,  // INST_GEFFEN_MAGIC_TOURNAMENT
 					1261,  // INST_GHOST_PALACE
 					14586, // INST_HALF_MOON_IN_THE_DAYLIGHT
@@ -954,6 +957,9 @@ L_Bijou:
 		}
 		case INST_WEEKEND_DUNGEON: { // Weekend Dungeon
 			warp_fct("pay_arche", 45, 123);
+		}
+		case INST_GEFFEN_NIGHT_ARENA: { // Arene Nocturne de Geffen : l'homme louche, a geffen_in
+			warp_fct("geffen_in", 82, 60);
 		}
 		case INST_AIRSHIP_CRASH: { // Crash d'aeronef : Dr. Strong, a dali02
 			warp_fct("dali02", 137, 84);

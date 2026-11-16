@@ -12299,3 +12299,64 @@ Body:
       DropEffect: CLIENT
     Script: |
       getgroupitem(IG_AIRBOAT_ANTIQUITY,true);
+  # Arene Nocturne de Geffen (patnawa/rathena_pn (npc/custom/instances/GeffenNightArena.txt, PN Development Team, GPL-3.0-or-later)).
+  - Id: 100365
+    AegisName: MD_Geffen_Rarmor
+    Name: MD Geffen Refine Armor
+    Type: DelayConsume
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      laphine_upgrade();
+  - Id: 100366
+    AegisName: MD_Geffen_Rhood
+    Name: MD Geffen Refine Hood
+    Type: DelayConsume
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      laphine_upgrade();
+  - Id: 100367
+    AegisName: MD_Geffen_Racc
+    Name: MD Geffen Refine Accessory
+    Type: DelayConsume
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      laphine_upgrade();
+  - Id: 100368
+    AegisName: MD_Geffen_Rsheild
+    Name: MD Geffen Refine Shield
+    Type: DelayConsume
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      laphine_upgrade();
