@@ -15715,3 +15715,110 @@ Body:
     Weight: 300
     Flags:
       DropEffect: CLIENT
+  # Tour des Constellations : fragments de meteorite par stat (db/re).
+  - Id: 1000442
+    AegisName: Pow_Meteorite_Fragment
+    Name: Power Meteorite Fragment
+    Type: Etc
+    Weight: 1
+    Flags:
+      BuyingStore: true
+  - Id: 1000443
+    AegisName: Sta_Meteorite_Fragment
+    Name: Stamina Meteorite Fragment
+    Type: Etc
+    Weight: 1
+    Flags:
+      BuyingStore: true
+  - Id: 1000444
+    AegisName: Con_Meteorite_Fragment
+    Name: Agile Meteorite Fragment
+    Type: Etc
+    Weight: 1
+    Flags:
+      BuyingStore: true
+  - Id: 1000445
+    AegisName: Crt_Meteorite_Fragment
+    Name: Lucky Meteorite Fragment
+    Type: Etc
+    Weight: 1
+    Flags:
+      BuyingStore: true
+  - Id: 1000446
+    AegisName: Spl_Meteorite_Fragment
+    Name: Meteorite Fragment of Spell
+    Type: Etc
+    Weight: 1
+    Flags:
+      BuyingStore: true
+  - Id: 1000447
+    AegisName: Wis_Meteorite_Fragment
+    Name: Meteorite Fragment of Wisdom
+    Type: Etc
+    Weight: 1
+    Flags:
+      BuyingStore: true
+  # Tour des Constellations : materiaux des choix surs des Signets (db/re).
+  - Id: 1001599
+    AegisName: Unknown_Meteorite_F
+    Name: Unknown Meteorite Fragment
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1002137
+    AegisName: Pow_Meteor_Extract
+    Name: Power Meteorite Extract
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1002138
+    AegisName: Wis_Meteor_Extract
+    Name: Spirit Meteorite Extract
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1002139
+    AegisName: Spl_Meteor_Extract
+    Name: Wisdom Meteorite Extract
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1002140
+    AegisName: Sta_Meteor_Extract
+    Name: Stamina Meteorite Extract
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1002141
+    AegisName: Con_Meteor_Extract
+    Name: Agility Meteorite Extract
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1002142
+    AegisName: Crt_Meteor_Extract
+    Name: Luck Meteorite Extract
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1002143
+    AegisName: Frontier_Extract_BL
+    Name: Azure Light Boundary Magic Extract
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1002144
+    AegisName: Frontier_Extract_YL
+    Name: Sunset Light Boundary Magic Extract
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true

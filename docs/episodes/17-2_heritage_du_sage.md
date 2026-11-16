@@ -227,22 +227,25 @@ journalières de Solice. Sans elles, un accessoire aurait coûté une centaine d
 
 ### Lot C3 : la Tour des Constellations (`1@ch_t` à `3@ch_t`, instance 81)
 
-Portée validée le 2026‑11‑16 : l'instance et ses deux échanges ; les poussières de météorite
-par stat (Pow à Wis), qui sortent en officiel des coffres de Betelgeuse en difficulté haute
-(guide Hazy Forest, sans quantités), sont données à la récompense ; l'enchantement des
-armures Star (groupes 7 à 13, commentés dans `db/re`, machine OSC0008) est **reporté** : ses
-matériaux (fragments de stat, extraits de météore, Frontier Extract, Unknown Meteorite
-Fragment) n'ont de source nulle part.
+Portée validée le 2026‑11‑16 : l'instance, ses deux échanges et l'enchantement des armures
+Star et des Signets (OSC0008). Les poussières et les fragments de météorite par stat sortent
+des **coffres d'étoile** du script, qui apparaissent après Betelgeuse selon la difficulté
+(`#ctower_treasure_1` à `_13`, posés par `makeitem`) — conforme au guide officiel thRO (« treasure
+reward ») et à Divine Pride (« obtenu à la Tour des Constellations »). Un premier relevé, limité
+aux `getitem`, les avait manqués : un ajout de poussières à la récompense, fait puis retiré le
+même jour, faisait doublon.
 
 | Élément | Fichier | Détail |
 |---|---|---|
 | Script | `moon/instances/ConstellationTower.npc` | Captain Janssen à Alberta (niveau 240, 10 000 z vers `e_tower`), Oscar à `e_tower`, 75 étages tirés au sort, Naght Sieger ou Betelgeuse ; échanges OSC0007 à Alberta |
-| Adaptations | | `ctower_init` retiré : il désactivait Captain Janssen, la Tower Protection Stone et le Huge Vortex de la Tour Sans Fin, gardée ; `Huge Vortex#ctower` retiré (celui de la Tour Sans Fin occupe `e_tower` 30,30) ; renfort de PV de Betelgeuse ramené à l'échelle pré-re (+5 001 679 par cran au lieu de 300 M, plafond 33 344 528 au lieu de 2 Md, même facteur que sa conversion) ; poussières de stat : 1 de chaque, +1 par tranche de 100 points, à partir de 200 points de difficulté |
+| Adaptations | | `ctower_init` retiré : il désactivait Captain Janssen, la Tower Protection Stone et le Huge Vortex de la Tour Sans Fin, gardée ; `Huge Vortex#ctower` retiré (celui de la Tour Sans Fin occupe `e_tower` 30,30) ; renfort de PV de Betelgeuse ramené à l'échelle pré-re (+5 001 679 par cran au lieu de 300 M, plafond 33 344 528 au lieu de 2 Md, même facteur que sa conversion) ; OSC0008 rebranché |
 | Fonctions | `hayakawakaki_functions.npc` | `dummynpc` (Leticia) |
 | Mobs | `db/import/mobs/constellation_tower.yml` | 90 mobs (boss, 49 mobs d'étage `MD_T_*`, 34 MVP d'étage), convertis, EXP par la formule ; `NPC_KILLING_AURA` et son statut copiés de `db/re` |
 | Instance | `instance_db.yml`, `const_instances.yml` | 81, `INST_CONSTELLATION_TOWER` ; warp agent vers Alberta |
 | Objets | `db/import/items/` | poussière et fragment de météorite, âmes de Betelgeuse et de Naght Sieger, 6 poussières de stat, 3 armures Vague, 6 armures Star, 7 Signets ; traits convertis (règle de `README.md`) |
 | Échanges | `moon/barters.yml` | `ctower_basic` (armures Vague, Signet), `ctower_advanced` (armures Star, Signets de stat) |
+| Enchantement | `db/import/item_enchant.yml` 7 à 13 | groupes de `db/re` (commentés « Skipped » en amont ; le parseur du fork lit tous leurs champs) : armures Star, 4ᵉ case 5 poussières + 50 000 z, 3ᵉ case 5 poussières de la stat + 100 000 z, 2ᵉ case 5 fragments de la stat + 1 000 000 z, remise 10 poussières + 1 000 000 z à 80 % ; Signets, 4ᵉ et 3ᵉ cases contre des fragments, plus 18 choix sûrs (4ᵉ case : 4 Meteor Extract + 2 Frontier Extract, 3ᵉ case : 8 + 6, 2ᵉ case : 20 Unknown Meteorite Fragment + 40 fragments de stat, 5 à 7,5 M z). Les armures Star n'ont pas de choix sûr. 75 orbes et les 6 fragments de stat portés, traits convertis |
+| Matériaux des choix sûrs | `ConstellationTower.npc`, récompense de Betelgeuse | Unknown Meteorite Fragment, 6 Meteor Extract, Frontier Extract BL/YL : sans source officielle (MuhRO donne l'Unknown en récompense de Betelgeuse et dans les coffres, sans quantité ; aucune source pour les extraits). Donnés par Betelgeuse (règle du 2026‑11‑16) : 1 Unknown par tranche de 100 points de difficulté ; à partir de 400 points, 2 Meteor Extract et 1 Frontier Extract tirés au sort, doublés à 700 |
 
 ### Lot C4 : le Crash d'aéronef (`1@mjo1`, `1@mjo2`, instance 82)
 
@@ -270,7 +273,7 @@ documente ses suppositions.
 | Intérêt | élevé — le terrain est déjà ouvert, il manque ce qui le rend jouable |
 | Fait | lot A : Niflheim renewal et Rudus 4F ; lots B2 et B1 : la chaîne de quêtes et les quatre instances (2026‑11‑11) ; lot A2 : Amicitia et lot B3 : l'économie du manoir (2026‑11‑12) ; les cartes des instances sont dans les albums  ; déployé en production le 2026‑11‑15 ; lots C1 à C4 : le Tombeau du Remords, la Tour de Thanatos, la Tour des Constellations et le Crash d'aéronef (2026‑11‑16) |
 | Épisode | **clos** côté portage le 2026‑11‑12 |
-| Reste à faire | instances de l'intervalle (§5e) : l'enchantement des armures Star de la Tour des Constellations (matériaux sans source) ; l'Arène Nocturne de Geffen, sans script connu |
+| Reste à faire | instances de l'intervalle (§5e) : l'Arène Nocturne de Geffen, sans script connu |
 
 ## Sources
 

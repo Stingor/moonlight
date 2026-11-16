@@ -3723,3 +3723,4535 @@ Body:
                 Chance: 4870
               - Item: Time_Jewely_Luk_3
                 Chance: 2950
+  # Tour des Constellations : armures Star et Signets (groupes de db/re, choix surs retires,
+  # leurs materiaux n'ayant pas de source).
+  - Id: 7
+    TargetItems:
+      Star_Armor_Of_Pow: true
+    MinimumRefine: 9
+    Reset:
+      Chance: 80000
+      Price: 1000000
+      Materials:
+      - Material: Meteorite_Dust
+        Amount: 10
+    Order:
+    - Slot: 3
+    - Slot: 2
+    - Slot: 1
+    Slots:
+    - Slot: 3
+      Price: 50000
+      Materials:
+      - Material: Meteorite_Dust
+        Amount: 5
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 1
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 2
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 3
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 4
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+    - Slot: 2
+      Price: 100000
+      Materials:
+      - Material: Pow_Meteorite_Dust
+        Amount: 5
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 1
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 2
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 3
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 4
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+    - Slot: 1
+      Price: 1000000
+      Materials:
+      - Material: Pow_Meteorite_Fragment
+        Amount: 5
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 900
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 1
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 900
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 2
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 900
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 3
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 900
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 4
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 900
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+  - Id: 8
+    TargetItems:
+      Star_Armor_Of_Sta: true
+    MinimumRefine: 9
+    Reset:
+      Chance: 80000
+      Price: 1000000
+      Materials:
+      - Material: Meteorite_Dust
+        Amount: 10
+    Order:
+    - Slot: 3
+    - Slot: 2
+    - Slot: 1
+    Slots:
+    - Slot: 3
+      Price: 50000
+      Materials:
+      - Material: Meteorite_Dust
+        Amount: 5
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 1
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 2
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 3
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 4
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+    - Slot: 2
+      Price: 100000
+      Materials:
+      - Material: Sta_Meteorite_Dust
+        Amount: 5
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 1
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 2
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 3
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 4
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+    - Slot: 1
+      Price: 1000000
+      Materials:
+      - Material: Sta_Meteorite_Fragment
+        Amount: 5
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 900
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 1
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 900
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 2
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 900
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 3
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 900
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 4
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 900
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+  - Id: 9
+    TargetItems:
+      Star_Suit_Of_Con: true
+    MinimumRefine: 9
+    Reset:
+      Chance: 80000
+      Price: 1000000
+      Materials:
+      - Material: Meteorite_Dust
+        Amount: 10
+    Order:
+    - Slot: 3
+    - Slot: 2
+    - Slot: 1
+    Slots:
+    - Slot: 3
+      Price: 50000
+      Materials:
+      - Material: Meteorite_Dust
+        Amount: 5
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 1
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 2
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 3
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 4
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+    - Slot: 2
+      Price: 100000
+      Materials:
+      - Material: Con_Meteorite_Dust
+        Amount: 5
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 1
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 2
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 3
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 4
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+    - Slot: 1
+      Price: 1000000
+      Materials:
+      - Material: Con_Meteorite_Fragment
+        Amount: 5
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 900
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 1
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 900
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 2
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 900
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 3
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 900
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 4
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 900
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+  - Id: 10
+    TargetItems:
+      Star_Suit_Of_Crt: true
+    MinimumRefine: 9
+    Reset:
+      Chance: 80000
+      Price: 1000000
+      Materials:
+      - Material: Meteorite_Dust
+        Amount: 10
+    Order:
+    - Slot: 3
+    - Slot: 2
+    - Slot: 1
+    Slots:
+    - Slot: 3
+      Price: 50000
+      Materials:
+      - Material: Meteorite_Dust
+        Amount: 5
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 1
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 2
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 3
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 4
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+    - Slot: 2
+      Price: 100000
+      Materials:
+      - Material: Crt_Meteorite_Dust
+        Amount: 5
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 1
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 2
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 3
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 4
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+    - Slot: 1
+      Price: 1000000
+      Materials:
+      - Material: Crt_Meteorite_Fragment
+        Amount: 5
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 900
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 1
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 900
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 2
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 900
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 3
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 900
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 4
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 900
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+  - Id: 11
+    TargetItems:
+      Star_Robe_Of_Spl: true
+    MinimumRefine: 9
+    Reset:
+      Chance: 80000
+      Price: 1000000
+      Materials:
+      - Material: Meteorite_Dust
+        Amount: 10
+    Order:
+    - Slot: 3
+    - Slot: 2
+    - Slot: 1
+    Slots:
+    - Slot: 3
+      Price: 50000
+      Materials:
+      - Material: Meteorite_Dust
+        Amount: 5
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 1
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 2
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 3
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 4
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+    - Slot: 2
+      Price: 100000
+      Materials:
+      - Material: Spl_Meteorite_Dust
+        Amount: 5
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 1
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 2
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 3
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 4
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+    - Slot: 1
+      Price: 1000000
+      Materials:
+      - Material: Spl_Meteorite_Fragment
+        Amount: 5
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 900
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 1
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 900
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 2
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 900
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 3
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 900
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+      - Enchantgrade: 4
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 900
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 300
+  - Id: 12
+    TargetItems:
+      Star_Robe_Of_Wis: true
+    MinimumRefine: 9
+    Reset:
+      Chance: 80000
+      Price: 1000000
+      Materials:
+      - Material: Meteorite_Dust
+        Amount: 10
+    Order:
+    - Slot: 3
+    - Slot: 2
+    - Slot: 1
+    Slots:
+    - Slot: 3
+      Price: 50000
+      Materials:
+      - Material: Meteorite_Dust
+        Amount: 5
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 1
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 2
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 3
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+      - Enchantgrade: 4
+        Items:
+        - Item: Strength3
+          Chance: 15000
+        - Item: Inteligence3
+          Chance: 15000
+        - Item: Agility3
+          Chance: 15000
+        - Item: Vitality3
+          Chance: 15000
+        - Item: Dexterity2
+          Chance: 15000
+        - Item: Strength4
+          Chance: 4500
+        - Item: Inteligence4
+          Chance: 4500
+        - Item: Agility4
+          Chance: 4500
+        - Item: Vitality4
+          Chance: 4500
+        - Item: Dexterity3
+          Chance: 4500
+        - Item: Inteligence5
+          Chance: 500
+        - Item: Agility5
+          Chance: 500
+        - Item: Strength5
+          Chance: 500
+        - Item: Vitality5
+          Chance: 500
+        - Item: Dexterity4
+          Chance: 500
+    - Slot: 2
+      Price: 100000
+      Materials:
+      - Material: Wis_Meteorite_Dust
+        Amount: 5
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 1
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 2
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 3
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+      - Enchantgrade: 4
+        Items:
+        - Item: Nebula_Of_FS1
+          Chance: 14000
+        - Item: Nebula_Of_EA1
+          Chance: 14000
+        - Item: Nebula_Of_SH1
+          Chance: 14000
+        - Item: Nebula_Of_SP1
+          Chance: 14000
+        - Item: Nebula_Of_HL1
+          Chance: 14000
+        - Item: Nebula_Of_HP1
+          Chance: 14000
+        - Item: Nebula_Of_FS2
+          Chance: 2400
+        - Item: Nebula_Of_EA2
+          Chance: 2400
+        - Item: Nebula_Of_SH2
+          Chance: 2400
+        - Item: Nebula_Of_SP2
+          Chance: 2400
+        - Item: Nebula_Of_HL2
+          Chance: 2400
+        - Item: Nebula_Of_HP2
+          Chance: 2400
+        - Item: Nebula_Of_FS3
+          Chance: 300
+        - Item: Nebula_Of_EA3
+          Chance: 300
+        - Item: Nebula_Of_SH3
+          Chance: 200
+        - Item: Nebula_Of_SP3
+          Chance: 200
+        - Item: Nebula_Of_HL3
+          Chance: 300
+        - Item: Nebula_Of_HP3
+          Chance: 300
+    - Slot: 1
+      Price: 1000000
+      Materials:
+      - Material: Wis_Meteorite_Fragment
+        Amount: 5
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 900
+      - Enchantgrade: 1
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 900
+      - Enchantgrade: 2
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 900
+      - Enchantgrade: 3
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 900
+      - Enchantgrade: 4
+        Items:
+        - Item: Star_Cluster_Of_Pow1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Sta1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Con1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Crt1
+          Chance: 7600
+        - Item: Star_Cluster_Of_Spl1
+          Chance: 7700
+        - Item: Star_Cluster_Of_Wis1
+          Chance: 42000
+        - Item: Star_Cluster_Of_Pow2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Sta2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Con2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Crt2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Spl2
+          Chance: 2000
+        - Item: Star_Cluster_Of_Wis2
+          Chance: 7200
+        - Item: Star_Cluster_Of_Pow3
+          Chance: 300
+        - Item: Star_Cluster_Of_Sta3
+          Chance: 300
+        - Item: Star_Cluster_Of_Con3
+          Chance: 300
+        - Item: Star_Cluster_Of_Crt3
+          Chance: 300
+        - Item: Star_Cluster_Of_Spl3
+          Chance: 300
+        - Item: Star_Cluster_Of_Wis3
+          Chance: 900
+  - Id: 13
+    TargetItems:
+      Signet_Of_Pow_Star: true
+      Signet_Of_Sta_Star: true
+      Signet_Of_Con_Star: true
+      Signet_Of_Crt_Star: true
+      Signet_Of_Spl_Star: true
+      Signet_Of_Wis_Star: true
+    Reset:
+      Chance: 80000
+      Price: 500000
+      Materials:
+      - Material: Meteorite_Dust
+        Amount: 30
+    Order:
+    - Slot: 3
+    - Slot: 2
+    - Slot: 1
+    Slots:
+    - Slot: 3
+      Price: 300000
+      Materials:
+      - Material: Meteorite_Fragment
+        Amount: 5
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Spell3
+          Chance: 10000
+        - Item: Expert_Archer3
+          Chance: 10050
+        - Item: Fighting_Spirit3
+          Chance: 10050
+        - Item: Sharp3
+          Chance: 10050
+        - Item: Spell4
+          Chance: 1750
+        - Item: Expert_Archer4
+          Chance: 1750
+        - Item: Fighting_Spirit4
+          Chance: 1750
+        - Item: Sharp4
+          Chance: 1750
+        - Item: Star_Of_Mettle1
+          Chance: 4000
+        - Item: Star_Of_MasterArcher1
+          Chance: 4000
+        - Item: Star_Of_Sharp1
+          Chance: 4000
+        - Item: Star_Of_Spell1
+          Chance: 4000
+        - Item: Star_Of_Speed1
+          Chance: 4000
+        - Item: Star_Of_Vital1
+          Chance: 4000
+        - Item: Star_Of_Spirit1
+          Chance: 4000
+        - Item: Star_Of_Mettle2
+          Chance: 2000
+        - Item: Star_Of_MasterArcher2
+          Chance: 2000
+        - Item: Star_Of_Sharp2
+          Chance: 2000
+        - Item: Star_Of_Spell2
+          Chance: 2000
+        - Item: Star_Of_Speed2
+          Chance: 2000
+        - Item: Star_Of_Vital2
+          Chance: 2000
+        - Item: Star_Of_Spirit2
+          Chance: 2000
+        - Item: Star_Of_Mettle3
+          Chance: 1250
+        - Item: Star_Of_MasterArcher3
+          Chance: 1250
+        - Item: Star_Of_Sharp3
+          Chance: 1250
+        - Item: Star_Of_Spell3
+          Chance: 1250
+        - Item: Star_Of_Speed3
+          Chance: 1250
+        - Item: Star_Of_Vital3
+          Chance: 1250
+        - Item: Star_Of_Spirit3
+          Chance: 1250
+        - Item: Star_Of_Mettle4
+          Chance: 250
+        - Item: Star_Of_MasterArcher4
+          Chance: 250
+        - Item: Star_Of_Sharp4
+          Chance: 250
+        - Item: Star_Of_Spell4
+          Chance: 250
+        - Item: Star_Of_Speed4
+          Chance: 250
+        - Item: Star_Of_Vital4
+          Chance: 250
+        - Item: Star_Of_Spirit4
+          Chance: 250
+        - Item: Star_Of_Mettle5
+          Chance: 50
+        - Item: Star_Of_MasterArcher5
+          Chance: 50
+        - Item: Star_Of_Sharp5
+          Chance: 50
+        - Item: Star_Of_Spell5
+          Chance: 50
+        - Item: Star_Of_Speed5
+          Chance: 50
+        - Item: Star_Of_Vital5
+          Chance: 50
+        - Item: Star_Of_Spirit5
+          Chance: 50
+      - Enchantgrade: 1
+        Items:
+        - Item: Spell3
+          Chance: 10000
+        - Item: Expert_Archer3
+          Chance: 10050
+        - Item: Fighting_Spirit3
+          Chance: 10050
+        - Item: Sharp3
+          Chance: 10050
+        - Item: Spell4
+          Chance: 1750
+        - Item: Expert_Archer4
+          Chance: 1750
+        - Item: Fighting_Spirit4
+          Chance: 1750
+        - Item: Sharp4
+          Chance: 1750
+        - Item: Star_Of_Mettle1
+          Chance: 4000
+        - Item: Star_Of_MasterArcher1
+          Chance: 4000
+        - Item: Star_Of_Sharp1
+          Chance: 4000
+        - Item: Star_Of_Spell1
+          Chance: 4000
+        - Item: Star_Of_Speed1
+          Chance: 4000
+        - Item: Star_Of_Vital1
+          Chance: 4000
+        - Item: Star_Of_Spirit1
+          Chance: 4000
+        - Item: Star_Of_Mettle2
+          Chance: 2000
+        - Item: Star_Of_MasterArcher2
+          Chance: 2000
+        - Item: Star_Of_Sharp2
+          Chance: 2000
+        - Item: Star_Of_Spell2
+          Chance: 2000
+        - Item: Star_Of_Speed2
+          Chance: 2000
+        - Item: Star_Of_Vital2
+          Chance: 2000
+        - Item: Star_Of_Spirit2
+          Chance: 2000
+        - Item: Star_Of_Mettle3
+          Chance: 1250
+        - Item: Star_Of_MasterArcher3
+          Chance: 1250
+        - Item: Star_Of_Sharp3
+          Chance: 1250
+        - Item: Star_Of_Spell3
+          Chance: 1250
+        - Item: Star_Of_Speed3
+          Chance: 1250
+        - Item: Star_Of_Vital3
+          Chance: 1250
+        - Item: Star_Of_Spirit3
+          Chance: 1250
+        - Item: Star_Of_Mettle4
+          Chance: 250
+        - Item: Star_Of_MasterArcher4
+          Chance: 250
+        - Item: Star_Of_Sharp4
+          Chance: 250
+        - Item: Star_Of_Spell4
+          Chance: 250
+        - Item: Star_Of_Speed4
+          Chance: 250
+        - Item: Star_Of_Vital4
+          Chance: 250
+        - Item: Star_Of_Spirit4
+          Chance: 250
+        - Item: Star_Of_Mettle5
+          Chance: 50
+        - Item: Star_Of_MasterArcher5
+          Chance: 50
+        - Item: Star_Of_Sharp5
+          Chance: 50
+        - Item: Star_Of_Spell5
+          Chance: 50
+        - Item: Star_Of_Speed5
+          Chance: 50
+        - Item: Star_Of_Vital5
+          Chance: 50
+        - Item: Star_Of_Spirit5
+          Chance: 50
+      - Enchantgrade: 2
+        Items:
+        - Item: Spell3
+          Chance: 10000
+        - Item: Expert_Archer3
+          Chance: 10050
+        - Item: Fighting_Spirit3
+          Chance: 10050
+        - Item: Sharp3
+          Chance: 10050
+        - Item: Spell4
+          Chance: 1750
+        - Item: Expert_Archer4
+          Chance: 1750
+        - Item: Fighting_Spirit4
+          Chance: 1750
+        - Item: Sharp4
+          Chance: 1750
+        - Item: Star_Of_Mettle1
+          Chance: 4000
+        - Item: Star_Of_MasterArcher1
+          Chance: 4000
+        - Item: Star_Of_Sharp1
+          Chance: 4000
+        - Item: Star_Of_Spell1
+          Chance: 4000
+        - Item: Star_Of_Speed1
+          Chance: 4000
+        - Item: Star_Of_Vital1
+          Chance: 4000
+        - Item: Star_Of_Spirit1
+          Chance: 4000
+        - Item: Star_Of_Mettle2
+          Chance: 2000
+        - Item: Star_Of_MasterArcher2
+          Chance: 2000
+        - Item: Star_Of_Sharp2
+          Chance: 2000
+        - Item: Star_Of_Spell2
+          Chance: 2000
+        - Item: Star_Of_Speed2
+          Chance: 2000
+        - Item: Star_Of_Vital2
+          Chance: 2000
+        - Item: Star_Of_Spirit2
+          Chance: 2000
+        - Item: Star_Of_Mettle3
+          Chance: 1250
+        - Item: Star_Of_MasterArcher3
+          Chance: 1250
+        - Item: Star_Of_Sharp3
+          Chance: 1250
+        - Item: Star_Of_Spell3
+          Chance: 1250
+        - Item: Star_Of_Speed3
+          Chance: 1250
+        - Item: Star_Of_Vital3
+          Chance: 1250
+        - Item: Star_Of_Spirit3
+          Chance: 1250
+        - Item: Star_Of_Mettle4
+          Chance: 250
+        - Item: Star_Of_MasterArcher4
+          Chance: 250
+        - Item: Star_Of_Sharp4
+          Chance: 250
+        - Item: Star_Of_Spell4
+          Chance: 250
+        - Item: Star_Of_Speed4
+          Chance: 250
+        - Item: Star_Of_Vital4
+          Chance: 250
+        - Item: Star_Of_Spirit4
+          Chance: 250
+        - Item: Star_Of_Mettle5
+          Chance: 50
+        - Item: Star_Of_MasterArcher5
+          Chance: 50
+        - Item: Star_Of_Sharp5
+          Chance: 50
+        - Item: Star_Of_Spell5
+          Chance: 50
+        - Item: Star_Of_Speed5
+          Chance: 50
+        - Item: Star_Of_Vital5
+          Chance: 50
+        - Item: Star_Of_Spirit5
+          Chance: 50
+      - Enchantgrade: 3
+        Items:
+        - Item: Spell3
+          Chance: 10000
+        - Item: Expert_Archer3
+          Chance: 10050
+        - Item: Fighting_Spirit3
+          Chance: 10050
+        - Item: Sharp3
+          Chance: 10050
+        - Item: Spell4
+          Chance: 1750
+        - Item: Expert_Archer4
+          Chance: 1750
+        - Item: Fighting_Spirit4
+          Chance: 1750
+        - Item: Sharp4
+          Chance: 1750
+        - Item: Star_Of_Mettle1
+          Chance: 4000
+        - Item: Star_Of_MasterArcher1
+          Chance: 4000
+        - Item: Star_Of_Sharp1
+          Chance: 4000
+        - Item: Star_Of_Spell1
+          Chance: 4000
+        - Item: Star_Of_Speed1
+          Chance: 4000
+        - Item: Star_Of_Vital1
+          Chance: 4000
+        - Item: Star_Of_Spirit1
+          Chance: 4000
+        - Item: Star_Of_Mettle2
+          Chance: 2000
+        - Item: Star_Of_MasterArcher2
+          Chance: 2000
+        - Item: Star_Of_Sharp2
+          Chance: 2000
+        - Item: Star_Of_Spell2
+          Chance: 2000
+        - Item: Star_Of_Speed2
+          Chance: 2000
+        - Item: Star_Of_Vital2
+          Chance: 2000
+        - Item: Star_Of_Spirit2
+          Chance: 2000
+        - Item: Star_Of_Mettle3
+          Chance: 1250
+        - Item: Star_Of_MasterArcher3
+          Chance: 1250
+        - Item: Star_Of_Sharp3
+          Chance: 1250
+        - Item: Star_Of_Spell3
+          Chance: 1250
+        - Item: Star_Of_Speed3
+          Chance: 1250
+        - Item: Star_Of_Vital3
+          Chance: 1250
+        - Item: Star_Of_Spirit3
+          Chance: 1250
+        - Item: Star_Of_Mettle4
+          Chance: 250
+        - Item: Star_Of_MasterArcher4
+          Chance: 250
+        - Item: Star_Of_Sharp4
+          Chance: 250
+        - Item: Star_Of_Spell4
+          Chance: 250
+        - Item: Star_Of_Speed4
+          Chance: 250
+        - Item: Star_Of_Vital4
+          Chance: 250
+        - Item: Star_Of_Spirit4
+          Chance: 250
+        - Item: Star_Of_Mettle5
+          Chance: 50
+        - Item: Star_Of_MasterArcher5
+          Chance: 50
+        - Item: Star_Of_Sharp5
+          Chance: 50
+        - Item: Star_Of_Spell5
+          Chance: 50
+        - Item: Star_Of_Speed5
+          Chance: 50
+        - Item: Star_Of_Vital5
+          Chance: 50
+        - Item: Star_Of_Spirit5
+          Chance: 50
+      - Enchantgrade: 4
+        Items:
+        - Item: Spell3
+          Chance: 10000
+        - Item: Expert_Archer3
+          Chance: 10050
+        - Item: Fighting_Spirit3
+          Chance: 10050
+        - Item: Sharp3
+          Chance: 10050
+        - Item: Spell4
+          Chance: 1750
+        - Item: Expert_Archer4
+          Chance: 1750
+        - Item: Fighting_Spirit4
+          Chance: 1750
+        - Item: Sharp4
+          Chance: 1750
+        - Item: Star_Of_Mettle1
+          Chance: 4000
+        - Item: Star_Of_MasterArcher1
+          Chance: 4000
+        - Item: Star_Of_Sharp1
+          Chance: 4000
+        - Item: Star_Of_Spell1
+          Chance: 4000
+        - Item: Star_Of_Speed1
+          Chance: 4000
+        - Item: Star_Of_Vital1
+          Chance: 4000
+        - Item: Star_Of_Spirit1
+          Chance: 4000
+        - Item: Star_Of_Mettle2
+          Chance: 2000
+        - Item: Star_Of_MasterArcher2
+          Chance: 2000
+        - Item: Star_Of_Sharp2
+          Chance: 2000
+        - Item: Star_Of_Spell2
+          Chance: 2000
+        - Item: Star_Of_Speed2
+          Chance: 2000
+        - Item: Star_Of_Vital2
+          Chance: 2000
+        - Item: Star_Of_Spirit2
+          Chance: 2000
+        - Item: Star_Of_Mettle3
+          Chance: 1250
+        - Item: Star_Of_MasterArcher3
+          Chance: 1250
+        - Item: Star_Of_Sharp3
+          Chance: 1250
+        - Item: Star_Of_Spell3
+          Chance: 1250
+        - Item: Star_Of_Speed3
+          Chance: 1250
+        - Item: Star_Of_Vital3
+          Chance: 1250
+        - Item: Star_Of_Spirit3
+          Chance: 1250
+        - Item: Star_Of_Mettle4
+          Chance: 250
+        - Item: Star_Of_MasterArcher4
+          Chance: 250
+        - Item: Star_Of_Sharp4
+          Chance: 250
+        - Item: Star_Of_Spell4
+          Chance: 250
+        - Item: Star_Of_Speed4
+          Chance: 250
+        - Item: Star_Of_Vital4
+          Chance: 250
+        - Item: Star_Of_Spirit4
+          Chance: 250
+        - Item: Star_Of_Mettle5
+          Chance: 50
+        - Item: Star_Of_MasterArcher5
+          Chance: 50
+        - Item: Star_Of_Sharp5
+          Chance: 50
+        - Item: Star_Of_Spell5
+          Chance: 50
+        - Item: Star_Of_Speed5
+          Chance: 50
+        - Item: Star_Of_Vital5
+          Chance: 50
+        - Item: Star_Of_Spirit5
+          Chance: 50
+      PerfectEnchants:
+      - Item: Star_Of_Mettle1
+        Price: 5000000
+        Materials:
+        - Material: Pow_Meteor_Extract
+          Amount: 3
+        - Material: Sta_Meteor_Extract
+        - Material: Frontier_Extract_BL
+        - Material: Frontier_Extract_YL
+      - Item: Star_Of_MasterArcher1
+        Price: 5000000
+        Materials:
+        - Material: Con_Meteor_Extract
+          Amount: 3
+        - Material: Wis_Meteor_Extract
+        - Material: Frontier_Extract_BL
+        - Material: Frontier_Extract_YL
+      - Item: Star_Of_Sharp1
+        Price: 5000000
+        Materials:
+        - Material: Crt_Meteor_Extract
+          Amount: 3
+        - Material: Con_Meteor_Extract
+        - Material: Frontier_Extract_BL
+        - Material: Frontier_Extract_YL
+      - Item: Star_Of_Spell1
+        Price: 5000000
+        Materials:
+        - Material: Spl_Meteor_Extract
+          Amount: 3
+        - Material: Pow_Meteor_Extract
+        - Material: Frontier_Extract_BL
+        - Material: Frontier_Extract_YL
+      - Item: Star_Of_Speed1
+        Price: 5000000
+        Materials:
+        - Material: Con_Meteor_Extract
+          Amount: 3
+        - Material: Crt_Meteor_Extract
+        - Material: Frontier_Extract_BL
+        - Material: Frontier_Extract_YL
+      - Item: Star_Of_Vital1
+        Price: 5000000
+        Materials:
+        - Material: Sta_Meteor_Extract
+          Amount: 3
+        - Material: Spl_Meteor_Extract
+        - Material: Frontier_Extract_BL
+        - Material: Frontier_Extract_YL
+      - Item: Star_Of_Spirit1
+        Price: 5000000
+        Materials:
+        - Material: Wis_Meteor_Extract
+          Amount: 3
+        - Material: Sta_Meteor_Extract
+        - Material: Frontier_Extract_BL
+        - Material: Frontier_Extract_YL
+    - Slot: 2
+      Price: 500000
+      Materials:
+      - Material: Meteorite_Fragment
+        Amount: 10
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Spell3
+          Chance: 10000
+        - Item: Expert_Archer3
+          Chance: 10050
+        - Item: Fighting_Spirit3
+          Chance: 10050
+        - Item: Sharp3
+          Chance: 10050
+        - Item: Spell4
+          Chance: 1750
+        - Item: Expert_Archer4
+          Chance: 1750
+        - Item: Fighting_Spirit4
+          Chance: 1750
+        - Item: Sharp4
+          Chance: 1750
+        - Item: Star_Of_Mettle1
+          Chance: 4000
+        - Item: Star_Of_MasterArcher1
+          Chance: 4000
+        - Item: Star_Of_Sharp1
+          Chance: 4000
+        - Item: Star_Of_Spell1
+          Chance: 4000
+        - Item: Star_Of_Speed1
+          Chance: 4000
+        - Item: Star_Of_Vital1
+          Chance: 4000
+        - Item: Star_Of_Spirit1
+          Chance: 4000
+        - Item: Star_Of_Mettle2
+          Chance: 2000
+        - Item: Star_Of_MasterArcher2
+          Chance: 2000
+        - Item: Star_Of_Sharp2
+          Chance: 2000
+        - Item: Star_Of_Spell2
+          Chance: 2000
+        - Item: Star_Of_Speed2
+          Chance: 2000
+        - Item: Star_Of_Vital2
+          Chance: 2000
+        - Item: Star_Of_Spirit2
+          Chance: 2000
+        - Item: Star_Of_Mettle3
+          Chance: 1250
+        - Item: Star_Of_MasterArcher3
+          Chance: 1250
+        - Item: Star_Of_Sharp3
+          Chance: 1250
+        - Item: Star_Of_Spell3
+          Chance: 1250
+        - Item: Star_Of_Speed3
+          Chance: 1250
+        - Item: Star_Of_Vital3
+          Chance: 1250
+        - Item: Star_Of_Spirit3
+          Chance: 1250
+        - Item: Star_Of_Mettle4
+          Chance: 250
+        - Item: Star_Of_MasterArcher4
+          Chance: 250
+        - Item: Star_Of_Sharp4
+          Chance: 250
+        - Item: Star_Of_Spell4
+          Chance: 250
+        - Item: Star_Of_Speed4
+          Chance: 250
+        - Item: Star_Of_Vital4
+          Chance: 250
+        - Item: Star_Of_Spirit4
+          Chance: 250
+        - Item: Star_Of_Mettle5
+          Chance: 50
+        - Item: Star_Of_MasterArcher5
+          Chance: 50
+        - Item: Star_Of_Sharp5
+          Chance: 50
+        - Item: Star_Of_Spell5
+          Chance: 50
+        - Item: Star_Of_Speed5
+          Chance: 50
+        - Item: Star_Of_Vital5
+          Chance: 50
+        - Item: Star_Of_Spirit5
+          Chance: 50
+      - Enchantgrade: 1
+        Items:
+        - Item: Spell3
+          Chance: 10000
+        - Item: Expert_Archer3
+          Chance: 10050
+        - Item: Fighting_Spirit3
+          Chance: 10050
+        - Item: Sharp3
+          Chance: 10050
+        - Item: Spell4
+          Chance: 1750
+        - Item: Expert_Archer4
+          Chance: 1750
+        - Item: Fighting_Spirit4
+          Chance: 1750
+        - Item: Sharp4
+          Chance: 1750
+        - Item: Star_Of_Mettle1
+          Chance: 4000
+        - Item: Star_Of_MasterArcher1
+          Chance: 4000
+        - Item: Star_Of_Sharp1
+          Chance: 4000
+        - Item: Star_Of_Spell1
+          Chance: 4000
+        - Item: Star_Of_Speed1
+          Chance: 4000
+        - Item: Star_Of_Vital1
+          Chance: 4000
+        - Item: Star_Of_Spirit1
+          Chance: 4000
+        - Item: Star_Of_Mettle2
+          Chance: 2000
+        - Item: Star_Of_MasterArcher2
+          Chance: 2000
+        - Item: Star_Of_Sharp2
+          Chance: 2000
+        - Item: Star_Of_Spell2
+          Chance: 2000
+        - Item: Star_Of_Speed2
+          Chance: 2000
+        - Item: Star_Of_Vital2
+          Chance: 2000
+        - Item: Star_Of_Spirit2
+          Chance: 2000
+        - Item: Star_Of_Mettle3
+          Chance: 1250
+        - Item: Star_Of_MasterArcher3
+          Chance: 1250
+        - Item: Star_Of_Sharp3
+          Chance: 1250
+        - Item: Star_Of_Spell3
+          Chance: 1250
+        - Item: Star_Of_Speed3
+          Chance: 1250
+        - Item: Star_Of_Vital3
+          Chance: 1250
+        - Item: Star_Of_Spirit3
+          Chance: 1250
+        - Item: Star_Of_Mettle4
+          Chance: 250
+        - Item: Star_Of_MasterArcher4
+          Chance: 250
+        - Item: Star_Of_Sharp4
+          Chance: 250
+        - Item: Star_Of_Spell4
+          Chance: 250
+        - Item: Star_Of_Speed4
+          Chance: 250
+        - Item: Star_Of_Vital4
+          Chance: 250
+        - Item: Star_Of_Spirit4
+          Chance: 250
+        - Item: Star_Of_Mettle5
+          Chance: 50
+        - Item: Star_Of_MasterArcher5
+          Chance: 50
+        - Item: Star_Of_Sharp5
+          Chance: 50
+        - Item: Star_Of_Spell5
+          Chance: 50
+        - Item: Star_Of_Speed5
+          Chance: 50
+        - Item: Star_Of_Vital5
+          Chance: 50
+        - Item: Star_Of_Spirit5
+          Chance: 50
+      - Enchantgrade: 2
+        Items:
+        - Item: Spell3
+          Chance: 10000
+        - Item: Expert_Archer3
+          Chance: 10050
+        - Item: Fighting_Spirit3
+          Chance: 10050
+        - Item: Sharp3
+          Chance: 10050
+        - Item: Spell4
+          Chance: 1750
+        - Item: Expert_Archer4
+          Chance: 1750
+        - Item: Fighting_Spirit4
+          Chance: 1750
+        - Item: Sharp4
+          Chance: 1750
+        - Item: Star_Of_Mettle1
+          Chance: 4000
+        - Item: Star_Of_MasterArcher1
+          Chance: 4000
+        - Item: Star_Of_Sharp1
+          Chance: 4000
+        - Item: Star_Of_Spell1
+          Chance: 4000
+        - Item: Star_Of_Speed1
+          Chance: 4000
+        - Item: Star_Of_Vital1
+          Chance: 4000
+        - Item: Star_Of_Spirit1
+          Chance: 4000
+        - Item: Star_Of_Mettle2
+          Chance: 2000
+        - Item: Star_Of_MasterArcher2
+          Chance: 2000
+        - Item: Star_Of_Sharp2
+          Chance: 2000
+        - Item: Star_Of_Spell2
+          Chance: 2000
+        - Item: Star_Of_Speed2
+          Chance: 2000
+        - Item: Star_Of_Vital2
+          Chance: 2000
+        - Item: Star_Of_Spirit2
+          Chance: 2000
+        - Item: Star_Of_Mettle3
+          Chance: 1250
+        - Item: Star_Of_MasterArcher3
+          Chance: 1250
+        - Item: Star_Of_Sharp3
+          Chance: 1250
+        - Item: Star_Of_Spell3
+          Chance: 1250
+        - Item: Star_Of_Speed3
+          Chance: 1250
+        - Item: Star_Of_Vital3
+          Chance: 1250
+        - Item: Star_Of_Spirit3
+          Chance: 1250
+        - Item: Star_Of_Mettle4
+          Chance: 250
+        - Item: Star_Of_MasterArcher4
+          Chance: 250
+        - Item: Star_Of_Sharp4
+          Chance: 250
+        - Item: Star_Of_Spell4
+          Chance: 250
+        - Item: Star_Of_Speed4
+          Chance: 250
+        - Item: Star_Of_Vital4
+          Chance: 250
+        - Item: Star_Of_Spirit4
+          Chance: 250
+        - Item: Star_Of_Mettle5
+          Chance: 50
+        - Item: Star_Of_MasterArcher5
+          Chance: 50
+        - Item: Star_Of_Sharp5
+          Chance: 50
+        - Item: Star_Of_Spell5
+          Chance: 50
+        - Item: Star_Of_Speed5
+          Chance: 50
+        - Item: Star_Of_Vital5
+          Chance: 50
+        - Item: Star_Of_Spirit5
+          Chance: 50
+      - Enchantgrade: 3
+        Items:
+        - Item: Spell3
+          Chance: 10000
+        - Item: Expert_Archer3
+          Chance: 10050
+        - Item: Fighting_Spirit3
+          Chance: 10050
+        - Item: Sharp3
+          Chance: 10050
+        - Item: Spell4
+          Chance: 1750
+        - Item: Expert_Archer4
+          Chance: 1750
+        - Item: Fighting_Spirit4
+          Chance: 1750
+        - Item: Sharp4
+          Chance: 1750
+        - Item: Star_Of_Mettle1
+          Chance: 4000
+        - Item: Star_Of_MasterArcher1
+          Chance: 4000
+        - Item: Star_Of_Sharp1
+          Chance: 4000
+        - Item: Star_Of_Spell1
+          Chance: 4000
+        - Item: Star_Of_Speed1
+          Chance: 4000
+        - Item: Star_Of_Vital1
+          Chance: 4000
+        - Item: Star_Of_Spirit1
+          Chance: 4000
+        - Item: Star_Of_Mettle2
+          Chance: 2000
+        - Item: Star_Of_MasterArcher2
+          Chance: 2000
+        - Item: Star_Of_Sharp2
+          Chance: 2000
+        - Item: Star_Of_Spell2
+          Chance: 2000
+        - Item: Star_Of_Speed2
+          Chance: 2000
+        - Item: Star_Of_Vital2
+          Chance: 2000
+        - Item: Star_Of_Spirit2
+          Chance: 2000
+        - Item: Star_Of_Mettle3
+          Chance: 1250
+        - Item: Star_Of_MasterArcher3
+          Chance: 1250
+        - Item: Star_Of_Sharp3
+          Chance: 1250
+        - Item: Star_Of_Spell3
+          Chance: 1250
+        - Item: Star_Of_Speed3
+          Chance: 1250
+        - Item: Star_Of_Vital3
+          Chance: 1250
+        - Item: Star_Of_Spirit3
+          Chance: 1250
+        - Item: Star_Of_Mettle4
+          Chance: 250
+        - Item: Star_Of_MasterArcher4
+          Chance: 250
+        - Item: Star_Of_Sharp4
+          Chance: 250
+        - Item: Star_Of_Spell4
+          Chance: 250
+        - Item: Star_Of_Speed4
+          Chance: 250
+        - Item: Star_Of_Vital4
+          Chance: 250
+        - Item: Star_Of_Spirit4
+          Chance: 250
+        - Item: Star_Of_Mettle5
+          Chance: 50
+        - Item: Star_Of_MasterArcher5
+          Chance: 50
+        - Item: Star_Of_Sharp5
+          Chance: 50
+        - Item: Star_Of_Spell5
+          Chance: 50
+        - Item: Star_Of_Speed5
+          Chance: 50
+        - Item: Star_Of_Vital5
+          Chance: 50
+        - Item: Star_Of_Spirit5
+          Chance: 50
+      - Enchantgrade: 4
+        Items:
+        - Item: Spell3
+          Chance: 10000
+        - Item: Expert_Archer3
+          Chance: 10050
+        - Item: Fighting_Spirit3
+          Chance: 10050
+        - Item: Sharp3
+          Chance: 10050
+        - Item: Spell4
+          Chance: 1750
+        - Item: Expert_Archer4
+          Chance: 1750
+        - Item: Fighting_Spirit4
+          Chance: 1750
+        - Item: Sharp4
+          Chance: 1750
+        - Item: Star_Of_Mettle1
+          Chance: 4000
+        - Item: Star_Of_MasterArcher1
+          Chance: 4000
+        - Item: Star_Of_Sharp1
+          Chance: 4000
+        - Item: Star_Of_Spell1
+          Chance: 4000
+        - Item: Star_Of_Speed1
+          Chance: 4000
+        - Item: Star_Of_Vital1
+          Chance: 4000
+        - Item: Star_Of_Spirit1
+          Chance: 4000
+        - Item: Star_Of_Mettle2
+          Chance: 2000
+        - Item: Star_Of_MasterArcher2
+          Chance: 2000
+        - Item: Star_Of_Sharp2
+          Chance: 2000
+        - Item: Star_Of_Spell2
+          Chance: 2000
+        - Item: Star_Of_Speed2
+          Chance: 2000
+        - Item: Star_Of_Vital2
+          Chance: 2000
+        - Item: Star_Of_Spirit2
+          Chance: 2000
+        - Item: Star_Of_Mettle3
+          Chance: 1250
+        - Item: Star_Of_MasterArcher3
+          Chance: 1250
+        - Item: Star_Of_Sharp3
+          Chance: 1250
+        - Item: Star_Of_Spell3
+          Chance: 1250
+        - Item: Star_Of_Speed3
+          Chance: 1250
+        - Item: Star_Of_Vital3
+          Chance: 1250
+        - Item: Star_Of_Spirit3
+          Chance: 1250
+        - Item: Star_Of_Mettle4
+          Chance: 250
+        - Item: Star_Of_MasterArcher4
+          Chance: 250
+        - Item: Star_Of_Sharp4
+          Chance: 250
+        - Item: Star_Of_Spell4
+          Chance: 250
+        - Item: Star_Of_Speed4
+          Chance: 250
+        - Item: Star_Of_Vital4
+          Chance: 250
+        - Item: Star_Of_Spirit4
+          Chance: 250
+        - Item: Star_Of_Mettle5
+          Chance: 50
+        - Item: Star_Of_MasterArcher5
+          Chance: 50
+        - Item: Star_Of_Sharp5
+          Chance: 50
+        - Item: Star_Of_Spell5
+          Chance: 50
+        - Item: Star_Of_Speed5
+          Chance: 50
+        - Item: Star_Of_Vital5
+          Chance: 50
+        - Item: Star_Of_Spirit5
+          Chance: 50
+      PerfectEnchants:
+      - Item: Star_Of_Mettle1
+        Price: 7500000
+        Materials:
+        - Material: Pow_Meteor_Extract
+          Amount: 5
+        - Material: Sta_Meteor_Extract
+          Amount: 3
+        - Material: Frontier_Extract_BL
+          Amount: 3
+        - Material: Frontier_Extract_YL
+          Amount: 3
+      - Item: Star_Of_MasterArcher1
+        Price: 7500000
+        Materials:
+        - Material: Con_Meteor_Extract
+          Amount: 5
+        - Material: Wis_Meteor_Extract
+          Amount: 3
+        - Material: Frontier_Extract_BL
+          Amount: 3
+        - Material: Frontier_Extract_YL
+          Amount: 3
+      - Item: Star_Of_Sharp1
+        Price: 7500000
+        Materials:
+        - Material: Crt_Meteor_Extract
+          Amount: 5
+        - Material: Con_Meteor_Extract
+          Amount: 3
+        - Material: Frontier_Extract_BL
+          Amount: 3
+        - Material: Frontier_Extract_YL
+          Amount: 3
+      - Item: Star_Of_Spell1
+        Price: 7500000
+        Materials:
+        - Material: Spl_Meteor_Extract
+          Amount: 5
+        - Material: Pow_Meteor_Extract
+          Amount: 3
+        - Material: Frontier_Extract_BL
+          Amount: 3
+        - Material: Frontier_Extract_YL
+          Amount: 3
+      - Item: Star_Of_Speed1
+        Price: 7500000
+        Materials:
+        - Material: Con_Meteor_Extract
+          Amount: 5
+        - Material: Crt_Meteor_Extract
+          Amount: 3
+        - Material: Frontier_Extract_BL
+          Amount: 3
+        - Material: Frontier_Extract_YL
+          Amount: 3
+      - Item: Star_Of_Vital1
+        Price: 7500000
+        Materials:
+        - Material: Sta_Meteor_Extract
+          Amount: 5
+        - Material: Spl_Meteor_Extract
+          Amount: 3
+        - Material: Frontier_Extract_BL
+          Amount: 3
+        - Material: Frontier_Extract_YL
+          Amount: 3
+      - Item: Star_Of_Spirit1
+        Price: 7500000
+        Materials:
+        - Material: Wis_Meteor_Extract
+          Amount: 5
+        - Material: Sta_Meteor_Extract
+          Amount: 3
+        - Material: Frontier_Extract_BL
+          Amount: 3
+        - Material: Frontier_Extract_YL
+          Amount: 3
+    - Slot: 1
+      PerfectEnchants:
+      - Item: Star_Cluster_Of_Str1
+        Price: 5000000
+        Materials:
+        - Material: Unknown_Meteorite_F
+          Amount: 20
+        - Material: Pow_Meteorite_Fragment
+          Amount: 15
+        - Material: Wis_Meteorite_Fragment
+          Amount: 15
+        - Material: Con_Meteorite_Fragment
+          Amount: 10
+      - Item: Star_Cluster_Of_Luk1
+        Price: 5000000
+        Materials:
+        - Material: Unknown_Meteorite_F
+          Amount: 20
+        - Material: Crt_Meteorite_Fragment
+          Amount: 15
+        - Material: Spl_Meteorite_Fragment
+          Amount: 15
+        - Material: Pow_Meteorite_Fragment
+          Amount: 10
+      - Item: Star_Cluster_Of_Int1
+        Price: 5000000
+        Materials:
+        - Material: Unknown_Meteorite_F
+          Amount: 20
+        - Material: Spl_Meteorite_Fragment
+          Amount: 15
+        - Material: Sta_Meteorite_Fragment
+          Amount: 15
+        - Material: Con_Meteorite_Fragment
+          Amount: 10
+      - Item: Star_Cluster_Of_Res1
+        Price: 5000000
+        Materials:
+        - Material: Unknown_Meteorite_F
+          Amount: 20
+        - Material: Sta_Meteorite_Fragment
+          Amount: 15
+        - Material: Crt_Meteorite_Fragment
+          Amount: 15
+        - Material: Wis_Meteorite_Fragment
+          Amount: 10

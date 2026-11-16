@@ -1,16 +1,18 @@
 //===== Moonlight ============================================
 //= Tour des Constellations (1@ch_t a 3@ch_t) : Captain Janssen a
 //= Alberta (niveau 240), Oscar a e_tower, 75 etages tires au sort,
-//= Naght Sieger ou Betelgeuse ; echanges OSC0007 a Alberta.
+//= Naght Sieger ou Betelgeuse ; echanges OSC0007 et enchantement
+//= OSC0008 a Alberta.
 //=
 //= Auteur : crazyarashi / hayakawakaki, constellation_tower.c version 1.6,
 //=   https://github.com/hayakawakaki/rathena-script-collection
 //=   (Constellation Tower/, GPL-3.0).
 //= Adapte pour Moonlight (2026-11-16) : instance 81 ; ctower_init et
-//=   Huge Vortex#ctower retires (la Tour Sans Fin reste) ; enchantement
-//=   OSC0008 reporte ; renfort de PV de Betelgeuse a l'echelle pre-renewal
-//=   (5001679 par cran, plafond 33344528) ; poussieres de meteorite par
-//=   stat a la recompense a partir de 200 points de difficulte.
+//=   Huge Vortex#ctower retires (la Tour Sans Fin reste) ; renfort de PV
+//=   de Betelgeuse a l'echelle pre-renewal (5001679 par cran, plafond
+//=   33344528) ; OSC0008 sur les groupes 7 a 13 de db/re ; les materiaux
+//=   des choix surs des Signets (Meteor Extract, Frontier Extract, Unknown
+//=   Meteorite Fragment, sans source officielle) donnes par Betelgeuse.
 //============================================================
 
 //===== rAthena script ===========================================|
@@ -87,7 +89,18 @@ alberta,203,76,5	script	#ctower_vending	HIDDEN_WARP_NPC,6,6,{
 OnTouch:
 	if ( isbegin_quest(12515) < 2 ) end;
 	cloaknpc("OSC0007#ctower", false);
+	cloaknpc("OSC0008#ctower", false);
 end;
+}
+
+alberta,203,76,5	script(CLOAKED)	OSC0008#ctower	2_SLOT_MACHINE,{
+	mes "^0000CD- Thanks to your continous support, we were able to open a new branch of vending machines in Alberta. Please do use it a lot! -^000000";
+	next;
+	.@s = select("Cancel:Nebula of Power:Nebula of Stamina:Nebula of Concentration:Nebula of Creative:Nebula of Spell:Nebula of Wisdom:Signet of Star") - 1;
+	if ( .@s == 0 ) end;
+	.@id = 6 + .@s;
+	item_enchant(.@id);
+	end;
 }
 
 alberta,206,76,5	script(CLOAKED)	OSC0007#ctower	2_DROP_MACHINE,{
@@ -1316,11 +1329,17 @@ end;
 			getitem 1000397, .@amount3;
 			getitem 1000373, .@amount2;
 			getitem 1000372, .@amount;
-			// Moonlight : poussieres de meteorite par stat (Pow a Wis), selon la difficulte
-			if ( .@total >= 200 ) {
-				.@dust = 1 + (.@total - 200) / 100;
-				for ( .@i = 1000398; .@i <= 1000403; .@i++ )
-					getitem .@i, .@dust;
+			// Moonlight : materiaux des choix surs des Signets (aucune source officielle connue).
+			// Unknown Meteorite Fragment : 1 par tranche de 100 points ; a partir de 400 points,
+			// 2 Meteor Extract et 1 Frontier Extract tires au sort, doubles a 700 points.
+			if ( .@total >= 100 )
+				getitem 1001599, .@total / 100;
+			if ( .@total >= 400 ) {
+				.@n = ( .@total >= 700 ? 2 : 1 );
+				for ( .@k = 0; .@k < 2 * .@n; ++.@k )
+					getitem 1002137 + rand(6), 1;
+				for ( .@k = 0; .@k < .@n; ++.@k )
+					getitem 1002143 + rand(2), 1;
 			}
 		} else {
 			cutin "betelgeuse05.png",2;
