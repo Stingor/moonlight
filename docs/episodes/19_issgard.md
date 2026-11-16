@@ -171,7 +171,7 @@ loup gris de `wolfvill` (début de la chaîne, `ep18_main` 57), ou à Lehar pour
 | Élément | Détail |
 |---|---|
 | Armes Glacier | 25 dans `item_db_weapon.yml` : WeaponLevel 4, `MagicAttack` en `bonus bMatk`, `Classes` retiré, Rebellion → Gunslinger, KagerouOboro → Ninja. **Glacier_Foxtail** (Doram) écartée, et retirée de la boutique |
-| Snowflower | 10 pièces dans `item_db_armor.yml` : DEF 12 (armure, robe) et 6 (capes, chaussures), ArmorLevel 1, `[1]`, `bAtkRate` en `bAddClass`. Les traits (`bPAtk`, `bSMatk`, `bPow`, `bSpl`) restent, comme à l'épisode 18. Les versions `_JP` ne sont pas portées |
+| Snowflower | 10 pièces dans `item_db_armor.yml` : DEF 12 (armure, robe) et 6 (capes, chaussures), ArmorLevel 1, `[1]`, `bAtkRate` en `bAddClass`. Les traits (`bPAtk`, `bSMatk`, `bPow`, `bSpl`), d'abord gardés comme à l'épisode 18, sont convertis depuis le 2026‑11‑16 (règle dans `README.md`). Les versions `_JP` ne sont pas portées |
 | Consommables | cubes +9 Snowflower et Glacier (`laphine_upgrade`, 6 et 25 cibles), aile de transport du château, Ice Gangu séché. Les deux ailes de mouche de la boutique existaient sous d'autres noms (`N_Fly_Wing_`, `Compressed_Wing_Of_Fly`) |
 | Marchands | Hoyoyo (pierres de fleur de neige, réputation) et Maram (fournitures, Snowflower, armes Glacier) dans `quests_19.npc` ; quatre barters dans `moon/barters.yml` |
 | Prix des armes | **200 000 z** et non 150 000 : la formule de prix de Moonlight (`itemdb.cpp`, armes de niveau 4) les revend 80 000 + 100 par ATK, jusqu'à 148 800 z avec Surcharge, au-dessus des 112 500 z d'un achat avec Remise. Un `Buy:` dans l'objet n'y change rien, la formule l'écrase |
@@ -215,7 +215,7 @@ navigation) sont régénérées.
 | Orbes | 97 `Ice_F_Orb_*` dans `item_db_enchant.yml` ; les trois orbes Doram (`Skill_49` à `51`) écartés et retirés des groupes |
 | Pierres | 97 `Ice_F_Stone_*` (`Etc`) dans `item_db_etc.yml` |
 | Obtention | Vellgunde : 35 fleurs de neige contre un tirage du groupe `ICE_F_STONE_BOX`, ou trois pierres contre une par la synthèse Laphine `Ice_F_Stone_Box2` (bloc commenté de `db/re`, rendu actif). Le groupe reprend le contenu et les taux de l'amont, pierres Doram retirées. Le PNJ et la synthèse de la PR appelaient `ICE_F_STONE_BOX2`, qui n'a pas de constante `IG_` dans le C++ : ils appellent `ICE_F_STONE_BOX`, sans recompilation |
-| Conversions | paliers +11 en `getallrefine() >= 22` ; `bAtkRate` en `bAddClass` ; orbe de DEF 250/75/100/100 en **5/1/2/2** et de MDEF 25/7/10/10 en **5/1/2/2** (÷50 et ÷5, comme l'orbe Automatic à 3/1/1) ; traits gardés ; compétences fermées par la table, doublons fusionnés ; recharges en `bDelayrate` (1 s = 5 %, cumul plafonné à -25 %) |
+| Conversions | paliers +11 en `getallrefine() >= 22` ; `bAtkRate` en `bAddClass` ; orbe de DEF 250/75/100/100 en **5/1/2/2** et de MDEF 25/7/10/10 en **5/1/2/2** (÷50 et ÷5, comme l'orbe Automatic à 3/1/1) ; traits convertis depuis le 2026‑11‑16 (`README.md`) ; compétences fermées par la table, doublons fusionnés ; recharges en `bDelayrate` (1 s = 5 %, cumul plafonné à -25 %) |
 | Compétences de 4ᵉ classe | ajoutées au palier +11 de chaque orbe de compétence. Les lignes déjà validées de la table s'appliquent (`DK_STORMSLASH`, `IG_SHIELD_SHOOTING`, `MT_AXE_STOMP`, `NW_*`, `SS_SEKIENHOU`…) ; **les 57 autres sont retirées**, le même palier renforçant déjà la compétence jouable de l'orbe |
 | Retiré aussi | la recharge de `WL_TELEKINESIS_INTENSE` (-30 s, orbe `Skill_21`) : en `bDelayrate` elle vaudrait -25 % sur tout |
 

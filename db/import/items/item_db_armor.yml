@@ -35221,7 +35221,7 @@ Body:
       if (.@r>=7) {
         bonus bAspdRate,15;
         if (.@r>=9) {
-          bonus bPAtk,2;
+          bonus2 bAddClass,Class_All,2;
         }
       }
   - Id: 450207
@@ -35242,7 +35242,7 @@ Body:
       if (.@r>=7) {
         bonus bVariableCastrate,-15;
         if (.@r>=9) {
-          bonus bSMatk,2;
+          bonus2 bMagicAddClass,Class_All,2;
         }
       }
   - Id: 470115
@@ -35265,7 +35265,7 @@ Body:
         bonus bShortAtkRate,7;
         bonus bLongAtkRate,7;
         if (.@r>=9) {
-          bonus bPAtk,2;
+          bonus2 bAddClass,Class_All,2;
         }
       }
   - Id: 470116
@@ -35287,7 +35287,7 @@ Body:
       if (.@r>=7) {
         bonus2 bMagicAtkEle,Ele_All,7;
         if (.@r>=9) {
-          bonus bSMatk,2;
+          bonus2 bMagicAddClass,Class_All,2;
         }
       }
   - Id: 480159
@@ -35309,7 +35309,7 @@ Body:
       if (.@r>=7) {
         bonus bAspdRate,7;
         if (.@r>=9) {
-          bonus bPow,3;
+          bonus bStr,3;
         }
       }
   - Id: 480160
@@ -35331,7 +35331,7 @@ Body:
       if (.@r>=7) {
         bonus bVariableCastrate,-7;
         if (.@r>=9) {
-          bonus bSpl,3;
+          bonus bInt,3;
         }
       }
   - Id: 490176
@@ -35405,8 +35405,8 @@ Body:
       .@g = getenchantgrade();
       .@r = getrefine();
       if (BaseLevel>=210) {
-         bonus bPAtk,2;
-         bonus bSMatk,2;
+         bonus2 bAddClass,Class_All,2;
+         bonus2 bMagicAddClass,Class_All,2;
       }
       if (.@r>=7) {
          bonus2 bMagicAtkEle,Ele_Fire,10;
@@ -35424,8 +35424,8 @@ Body:
          bonus2 bMagicAtkEle,Ele_Fire,5;
          bonus bShortAtkRate,5;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,2;
-            bonus bSMatk,2;
+            bonus2 bAddClass,Class_All,2;
+            bonus2 bMagicAddClass,Class_All,2;
             if (.@g >= ENCHANTGRADE_B) {
                if (getallrefine() >= 24) {
                   bonus bFixedCast,-500;
@@ -35455,8 +35455,8 @@ Body:
       bonus2 bMagicAtkEle,Ele_All,15;
       bonus bCritAtkRate,15;
       if (BaseLevel>=210) {
-         bonus bPAtk,2;
-         bonus bSMatk,2;
+         bonus2 bAddClass,Class_All,2;
+         bonus2 bMagicAddClass,Class_All,2;
       }
       if (.@r>=7) {
          bonus bCritAtkRate,10;
@@ -35475,8 +35475,8 @@ Body:
          }
       }
       if (.@g >= ENCHANTGRADE_C) {
-         bonus bPAtk,2;
-         bonus bSMatk,2;
+         bonus2 bAddClass,Class_All,2;
+         bonus2 bMagicAddClass,Class_All,2;
          if (.@g >= ENCHANTGRADE_B) {
             if (getallrefine() >= 24) {
                bonus bFixedCast,-500;
@@ -35504,12 +35504,12 @@ Body:
       .@r = getrefine();
       bonus bStr,2;
       bonus bDex,2;
-      bonus bPow,2;
-      bonus bCon,2;
+      bonus bStr,2;
+      bonus bDex,2;
       bonus bAspdRate,10;
       bonus2 bAddRace,RC_Brute,10;
       bonus2 bAddRace,RC_Player_Doram,10;
-      autobonus "{ .@r = getrefine(); bonus bBaseAtk,35*.@r; if (.@r>=10) { bonus bPAtk,20; } }",1,7000,BF_WEAPON;
+      autobonus "{ .@r = getrefine(); bonus bBaseAtk,35*.@r; if (.@r>=10) { bonus2 bAddClass,Class_All,20; } }",1,7000,BF_WEAPON;
       if (.@r>=7) {
          bonus bShortAtkRate,15;
          if (.@r>=9) {
@@ -35521,15 +35521,15 @@ Body:
       }
       if (.@g >= ENCHANTGRADE_D) {
          bonus2 bAddClass,Class_All,5;
-         bonus bPow,3;
+         bonus bStr,3;
          if (.@g >= ENCHANTGRADE_C) {
             bonus bFixedCast,-500;
-            bonus bSta,2;
+            bonus bVit,2;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bPAtk,2;
-               bonus bRes,20;
+               bonus2 bAddClass,Class_All,2;
+               bonus bNearAtkDef,4; bonus bLongAtkDef,4;
                if (.@g >= ENCHANTGRADE_A) {
-                  bonus bPAtk,7;
+                  bonus2 bAddClass,Class_All,7;
                }
             }
          }
@@ -35553,11 +35553,11 @@ Body:
       .@r = getrefine();
       bonus bInt,2;
       bonus bDex,2;
-      bonus bSpl,2;
-      bonus bCon,2;
+      bonus bInt,2;
+      bonus bDex,2;
       bonus bVariableCastrate,-10;
       bonus2 bMagicAddRace,RC_Undead,10;
-      autobonus "{ .@r = getrefine(); bonus bMatk,35*.@r; if (.@r>=10) { bonus bSMatk,20; } }",1,7000,BF_MAGIC;
+      autobonus "{ .@r = getrefine(); bonus bMatk,35*.@r; if (.@r>=10) { bonus2 bMagicAddClass,Class_All,20; } }",1,7000,BF_MAGIC;
       if (.@r>=7) {
          bonus2 bMagicAtkEle,Ele_All,15;
          if (.@r>=9) {
@@ -35569,15 +35569,15 @@ Body:
       }
       if (.@g >= ENCHANTGRADE_D) {
          bonus bMatkRate,5;
-         bonus bSpl,3;
+         bonus bInt,3;
          if (.@g >= ENCHANTGRADE_C) {
             bonus bFixedCast,-500;
-            bonus bWis,2;
+            bonus bInt,2;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bSMatk,3;
-               bonus bMRes,20;
+               bonus2 bMagicAddClass,Class_All,3;
+               bonus bMagicAtkDef,4;
                if (.@g >= ENCHANTGRADE_A) {
-                  bonus bSMatk,7;
+                  bonus2 bMagicAddClass,Class_All,7;
                }
             }
          }
@@ -35611,8 +35611,8 @@ Body:
          if (.@g >= ENCHANTGRADE_C) {
             bonus2 bSkillAtk,"CR_SHIELDBOOMERANG",8;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bPow,1;
-               bonus bSpl,1;
+               bonus bStr,1;
+               bonus bInt,1;
                bonus2 bSkillAtk,"CR_SHIELDBOOMERANG",15;
             }
          }

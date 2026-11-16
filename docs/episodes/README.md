@@ -138,6 +138,23 @@ Ampleur du fossé **chez rAthena amont** (`db/pre-re` vs `db/re`) :
 **Ces chiffres ne décrivent pas Moonlight** : `db/pre-re/` y est débranché — voir
 l'encadré ci-dessous.
 
+**Traits des 4ᵉ classes** (règle du 2026‑11‑16, appliquée à tout le contenu porté) : en
+pré-re, POW, P.ATK, RES… se chargent sans erreur mais ne font rien (`battle.cpp` et
+`status.cpp` ne les lisent que sous `#ifdef RENEWAL`). Ils sont convertis dans les scripts
+et dans les fiches client :
+
+| Trait | Devient |
+|---|---|
+| `bPow`, `bSta`, `bSpl`, `bWis`, `bCon`, `bCrt` | `bStr`, `bVit`, `bInt`, `bInt`, `bDex`, `bLuk`, même valeur ; `bAllTraitStats` → `bAllStats` |
+| `bPAtk n` | `bonus2 bAddClass,Class_All,n` (1 P.ATK = +1 % de dégâts) |
+| `bSMatk n` | `bonus2 bMagicAddClass,Class_All,n` |
+| `bRes n` | `bNearAtkDef` et `bLongAtkDef` de round(80n/(n+400)), au moins 1 (formule de RES) |
+| `bMRes n` | `bMagicAtkDef`, même formule |
+| `bCRate n`, `bHPlus n` | `bCritAtkRate n`, `bHealPower n` |
+
+Les fiches disent « Physical damage +n% », « Physical damage taken -n% »… La règle
+précédente (épisodes 18 et 19 : « les traits restent ») est abandonnée.
+
 ### 2 bis. Où vivent réellement les données de Moonlight
 
 Le chargement d'une base rAthena suit la chaîne `Footer: Imports:` depuis le fichier

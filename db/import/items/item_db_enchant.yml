@@ -5539,17 +5539,17 @@ Body:
     SubType: Enchant
     Script: |
       bonus bDef,5;
-      bonus bRes,50;
+      bonus bNearAtkDef,9; bonus bLongAtkDef,9;
       .@r = getrefine();
       if (.@r >= 7) {
         bonus bDef,1;
-        bonus bRes,10;
+        bonus bNearAtkDef,2; bonus bLongAtkDef,2;
         if (.@r >= 9) {
           bonus bDef,2;
-          bonus bRes,10;
+          bonus bNearAtkDef,2; bonus bLongAtkDef,2;
           if (getallrefine() >= 22) {
             bonus bDef,2;
-            bonus bRes,10;
+            bonus bNearAtkDef,2; bonus bLongAtkDef,2;
           }
         }
       }
@@ -5560,17 +5560,17 @@ Body:
     SubType: Enchant
     Script: |
       bonus bMdef,5;
-      bonus bMRes,25;
+      bonus bMagicAtkDef,5;
       .@r = getrefine();
       if (.@r >= 7) {
         bonus bMdef,1;
-        bonus bMRes,5;
+        bonus bMagicAtkDef,1;
         if (.@r >= 9) {
           bonus bMdef,2;
-          bonus bMRes,5;
+          bonus bMagicAtkDef,1;
           if (getallrefine() >= 22) {
             bonus bMdef,2;
-            bonus bMRes,5;
+            bonus bMagicAtkDef,1;
           }
         }
       }
@@ -6740,7 +6740,7 @@ Body:
         if (.@r >= 9) {
           bonus bStr,1;
           if (getallrefine() >= 22) {
-            bonus bPow,1;
+            bonus bStr,1;
             bonus bShortAtkRate,3;
           }
         }
@@ -6758,7 +6758,7 @@ Body:
         if (.@r >= 9) {
           bonus bDex,1;
           if (getallrefine() >= 22) {
-            bonus bCon,1;
+            bonus bDex,1;
             bonus bLongAtkRate,3;
           }
         }
@@ -6776,7 +6776,7 @@ Body:
         if (.@r >= 9) {
           bonus bAgi,1;
           if (getallrefine() >= 22) {
-            bonus bWis,1;
+            bonus bInt,1;
             bonus bPerfectHitAddRate,3;
           }
         }
@@ -6794,7 +6794,7 @@ Body:
         if (.@r >= 9) {
           bonus bInt,1;
           if (getallrefine() >= 22) {
-            bonus bSpl,1;
+            bonus bInt,1;
             bonus2 bMagicAtkEle,Ele_All,3;
           }
         }
@@ -6812,7 +6812,7 @@ Body:
         if (.@r >= 9) {
           bonus bVit,1;
           if (getallrefine() >= 22) {
-            bonus bSta,1;
+            bonus bVit,1;
             bonus bDelayrate,-3;
           }
         }
@@ -6830,7 +6830,7 @@ Body:
         if (.@r >= 9) {
           bonus bLuk,1;
           if (getallrefine() >= 22) {
-            bonus bCrt,1;
+            bonus bLuk,1;
             bonus bCritAtkRate,3;
           }
         }
@@ -7230,7 +7230,7 @@ Body:
       if (.@r>=9) {
         bonus2 bAddClass,Class_All,10;
         if (getallrefine() >= 22 ) {
-          bonus bPAtk,5;
+          bonus2 bAddClass,Class_All,5;
           .@i = getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_VIEW);
           if (.@i == W_2HSWORD || .@i == W_2HSPEAR || .@i == W_2HSTAFF || .@i == W_2HAXE || .@i == W_KATAR || .@i == W_BOW || .@i == W_HUUMA || .@i == W_REVOLVER || .@i == W_RIFLE || .@i == W_GATLING || .@i == W_SHOTGUN || .@i == W_GRENADE) {
             bonus bLongAtkRate,10;
@@ -7250,7 +7250,7 @@ Body:
       if (.@r>=9) {
         bonus bMatkRate,10;
         if (getallrefine() >= 22 ) {
-          bonus bSMatk,5;
+          bonus2 bMagicAddClass,Class_All,5;
           .@i = getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_VIEW);
           if (.@i == W_2HSWORD || .@i == W_2HSPEAR || .@i == W_2HSTAFF || .@i == W_2HAXE || .@i == W_KATAR || .@i == W_BOW || .@i == W_HUUMA || .@i == W_REVOLVER || .@i == W_RIFLE || .@i == W_GATLING || .@i == W_SHOTGUN || .@i == W_GRENADE) {
             bonus2 bMagicAtkEle,Ele_All,10;
@@ -7269,7 +7269,7 @@ Body:
       if (.@r>=9) {
         bonus bCritAtkRate,10;
         if (getallrefine() >= 22 ) {
-          bonus bCRate,5;
+          bonus bCritAtkRate,5;
           .@i = getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_VIEW);
           if (.@i == W_2HSWORD || .@i == W_2HSPEAR || .@i == W_2HSTAFF || .@i == W_2HAXE || .@i == W_KATAR || .@i == W_BOW || .@i == W_HUUMA || .@i == W_REVOLVER || .@i == W_RIFLE || .@i == W_GATLING || .@i == W_SHOTGUN || .@i == W_GRENADE) {
             bonus bCritAtkRate,10;

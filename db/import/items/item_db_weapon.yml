@@ -28566,8 +28566,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -28615,8 +28615,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -28664,8 +28664,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -28719,8 +28719,8 @@ Body:
             bonus bMatkRate,7;
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -28767,8 +28767,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -28816,8 +28816,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -28865,8 +28865,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -28913,8 +28913,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -28961,8 +28961,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -29011,8 +29011,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus bMatkRate,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bSMatk,(.@r/3);
-               bonus bSpl,(.@r/3);
+               bonus2 bMagicAddClass,Class_All,(.@r/3);
+               bonus bInt,(.@r/3);
             }
          }
       }
@@ -29059,8 +29059,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -29107,8 +29107,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -29157,8 +29157,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus bMatkRate,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bSMatk,(.@r/3);
-               bonus bSpl,(.@r/3);
+               bonus2 bMagicAddClass,Class_All,(.@r/3);
+               bonus bInt,(.@r/3);
             }
          }
       }
@@ -29205,8 +29205,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bCon,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bDex,(.@r/3);
             }
          }
       }
@@ -29254,8 +29254,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -29304,8 +29304,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus bMatkRate,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bSMatk,(.@r/3);
-               bonus bSpl,(.@r/3);
+               bonus2 bMagicAddClass,Class_All,(.@r/3);
+               bonus bInt,(.@r/3);
             }
          }
       }
@@ -29353,8 +29353,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -29401,8 +29401,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -29449,8 +29449,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -29497,8 +29497,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -29545,8 +29545,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -29593,8 +29593,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bCon,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bDex,(.@r/3);
             }
          }
       }
@@ -29642,8 +29642,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus bMatkRate,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bSMatk,(.@r/3);
-               bonus bSpl,(.@r/3);
+               bonus2 bMagicAddClass,Class_All,(.@r/3);
+               bonus bInt,(.@r/3);
             }
          }
       }
@@ -29691,8 +29691,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -29739,8 +29739,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -29788,8 +29788,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus bMatkRate,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bSMatk,(.@r/3);
-               bonus bSpl,(.@r/3);
+               bonus2 bMagicAddClass,Class_All,(.@r/3);
+               bonus bInt,(.@r/3);
             }
          }
       }
@@ -29839,8 +29839,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bCon,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bDex,(.@r/3);
             }
          }
       }
@@ -29889,8 +29889,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus bMatkRate,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bSMatk,(.@r/3);
-               bonus bSpl,(.@r/3);
+               bonus2 bMagicAddClass,Class_All,(.@r/3);
+               bonus bInt,(.@r/3);
             }
          }
       }
@@ -29938,8 +29938,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bCon,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bDex,(.@r/3);
             }
          }
       }
@@ -29988,8 +29988,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus bMatkRate,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bSMatk,(.@r/3);
-               bonus bSpl,(.@r/3);
+               bonus2 bMagicAddClass,Class_All,(.@r/3);
+               bonus bInt,(.@r/3);
             }
          }
       }
@@ -30044,8 +30044,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus bMatkRate,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bSMatk,(.@r/3);
-               bonus bSpl,(.@r/3);
+               bonus2 bMagicAddClass,Class_All,(.@r/3);
+               bonus bInt,(.@r/3);
             }
          }
       }
@@ -30093,8 +30093,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bCon,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bDex,(.@r/3);
             }
          }
       }
@@ -30141,8 +30141,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -30191,8 +30191,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus bMatkRate,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bSMatk,(.@r/3);
-               bonus bSpl,(.@r/3);
+               bonus2 bMagicAddClass,Class_All,(.@r/3);
+               bonus bInt,(.@r/3);
             }
          }
       }
@@ -30239,8 +30239,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -30288,8 +30288,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus2 bAddClass,Class_All,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bPAtk,(.@r/3);
-               bonus bPow,(.@r/3);
+               bonus2 bAddClass,Class_All,(.@r/3);
+               bonus bStr,(.@r/3);
             }
          }
       }
@@ -30338,8 +30338,8 @@ Body:
          if (.@g >= ENCHANTGRADE_B) {
             bonus bMatkRate,7;
             if (.@g >= ENCHANTGRADE_A) {
-               bonus bSMatk,(.@r/3);
-               bonus bSpl,(.@r/3);
+               bonus2 bMagicAddClass,Class_All,(.@r/3);
+               bonus bInt,(.@r/3);
             }
          }
       }
@@ -30860,7 +30860,7 @@ Body:
          bonus2 bAddClass,Class_All,2;
          bonus2 bSkillAtk,"AM_ACIDTERROR",10;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             bonus2 bAddClass,Class_All,3;
             if (.@g >= ENCHANTGRADE_B) {
                bonus2 bSkillAtk,"AM_ACIDTERROR",10;
@@ -30904,7 +30904,7 @@ Body:
       if (.@g >= ENCHANTGRADE_D) {
          bonus2 bAddClass,Class_All,2;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             bonus2 bAddClass,Class_All,3;
          }
       }
@@ -30954,7 +30954,7 @@ Body:
          bonus2 bAddClass,Class_All,3;
          if (.@g >= ENCHANTGRADE_C) {
             bonus bLongAtkRate,15;
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
          }
       }
   - Id: 510030
@@ -30999,7 +30999,7 @@ Body:
       if (.@g >= ENCHANTGRADE_D) {
          bonus bMatkRate,2;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bSMatk,1;
+            bonus2 bMagicAddClass,Class_All,1;
             bonus bMatkRate,3;
          }
       }
@@ -31044,7 +31044,7 @@ Body:
       if (.@g >= ENCHANTGRADE_D) {
          bonus bMatkRate,2;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bSMatk,1;
+            bonus2 bMagicAddClass,Class_All,1;
             bonus bMatkRate,3;
          }
       }
@@ -31087,7 +31087,7 @@ Body:
       if (.@g >= ENCHANTGRADE_D) {
          bonus2 bAddClass,Class_All,2;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             bonus2 bAddClass,Class_All,3;
          }
       }
@@ -31130,7 +31130,7 @@ Body:
       if (.@g >= ENCHANTGRADE_D) {
          bonus2 bAddClass,Class_All,2;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             bonus2 bAddClass,Class_All,3;
          }
       }
@@ -31174,7 +31174,7 @@ Body:
       if (.@g >= ENCHANTGRADE_D) {
          bonus bMatkRate,2;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bSMatk,1;
+            bonus2 bMagicAddClass,Class_All,1;
             bonus bMatkRate,3;
          }
       }
@@ -31216,7 +31216,7 @@ Body:
       if (.@g >= ENCHANTGRADE_D) {
          bonus2 bAddClass,Class_All,2;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             bonus2 bAddClass,Class_All,3;
          }
       }
@@ -31260,7 +31260,7 @@ Body:
          bonus2 bSkillAtk,"ASC_METEORASSAULT",10;
          if (.@g >= ENCHANTGRADE_C) {
             bonus bDelayrate,-5;
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             if (.@g >= ENCHANTGRADE_B) {
                bonus2 bSkillAtk,"ASC_METEORASSAULT",10;
             }
@@ -31306,7 +31306,7 @@ Body:
          bonus2 bAddClass,Class_All,2;
          bonus2 bSkillAtk,"MC_CARTREVOLUTION",10;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             bonus2 bAddClass,Class_All,3;
             if (.@g >= ENCHANTGRADE_B) {
                bonus2 bSkillAtk,"MC_CARTREVOLUTION",10;
@@ -31352,7 +31352,7 @@ Body:
          bonus2 bAddClass,Class_All,3;
          if (.@g >= ENCHANTGRADE_C) {
             bonus bDelayrate,-5;
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
          }
       }
   - Id: 560017
@@ -31393,7 +31393,7 @@ Body:
       if (.@g >= ENCHANTGRADE_D) {
          bonus2 bAddClass,Class_All,2;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             bonus2 bAddClass,Class_All,3;
          }
       }
@@ -31926,10 +31926,10 @@ Body:
       if (.@g >= ENCHANTGRADE_D) {
          bonus2 bSkillAtk,"KN_BOWLINGBASH",5;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             bonus2 bSkillAtk,"KN_BOWLINGBASH",8;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bPow,2;
+               bonus bStr,2;
                bonus2 bSkillAtk,"KN_BOWLINGBASH",12;
             }
          }
@@ -31967,9 +31967,9 @@ Body:
       }
       if (.@g >= ENCHANTGRADE_D) {
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bPow,2;
+               bonus bStr,2;
             }
          }
       }
@@ -32009,10 +32009,10 @@ Body:
       if (.@g >= ENCHANTGRADE_D) {
          bonus2 bSkillAtk,"MC_CARTREVOLUTION",5;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             bonus2 bSkillAtk,"MC_CARTREVOLUTION",8;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bPow,2;
+               bonus bStr,2;
                bonus2 bSkillAtk,"MC_CARTREVOLUTION",12;
             }
          }
@@ -32055,7 +32055,7 @@ Body:
          if (.@g >= ENCHANTGRADE_C) {
             bonus bLongAtkRate,3;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bPAtk,1;
+               bonus2 bAddClass,Class_All,1;
                bonus2 bSkillAtk,"WS_CARTTERMINATION",10;
             }
          }
@@ -32095,9 +32095,9 @@ Body:
       if (.@g >= ENCHANTGRADE_D) {
          bonus2 bSkillAtk,"AM_ACIDTERROR",5;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bPow,2;
+               bonus bStr,2;
                bonus2 bSkillAtk,"AM_ACIDTERROR",10;
             }
          }
@@ -32136,9 +32136,9 @@ Body:
       if (.@g >= ENCHANTGRADE_D) {
          bonus2 bSkillAtk,"AM_ACIDTERROR",5;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bPow,2;
+               bonus bStr,2;
                bonus2 bSkillAtk,"AM_ACIDTERROR",10;
             }
          }
@@ -32183,10 +32183,10 @@ Body:
       if (.@g >= ENCHANTGRADE_D) {
          bonus2 bSkillAtk,"WZ_FROSTNOVA",5;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bSMatk,1;
+            bonus2 bMagicAddClass,Class_All,1;
             bonus2 bSkillAtk,"WZ_FROSTNOVA",8;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bSpl,2;
+               bonus bInt,2;
                bonus2 bSkillAtk,"WZ_FROSTNOVA",12;
             }
          }
@@ -32229,9 +32229,9 @@ Body:
       }
       if (.@g >= ENCHANTGRADE_D) {
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bSMatk,1;
+            bonus2 bMagicAddClass,Class_All,1;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bSpl,2;
+               bonus bInt,2;
             }
          }
       }
@@ -32275,10 +32275,10 @@ Body:
       if (.@g >= ENCHANTGRADE_D) {
          bonus2 bSkillAtk,"MG_FIREBALL",5;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bSMatk,1;
+            bonus2 bMagicAddClass,Class_All,1;
             bonus2 bSkillAtk,"MG_FIREBALL",8;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bSpl,1;
+               bonus bInt,1;
                bonus2 bSkillAtk,"MG_FIREBALL",12;
             }
          }
@@ -32321,9 +32321,9 @@ Body:
       }
       if (.@g >= ENCHANTGRADE_D) {
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bSMatk,1;
+            bonus2 bMagicAddClass,Class_All,1;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bSpl,1;
+               bonus bInt,1;
             }
          }
       }
@@ -32365,9 +32365,9 @@ Body:
       }
       if (.@g >= ENCHANTGRADE_D) {
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bSMatk,1;
+            bonus2 bMagicAddClass,Class_All,1;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bSpl,1;
+               bonus bInt,1;
             }
          }
       }
@@ -32409,10 +32409,10 @@ Body:
       if (.@g >= ENCHANTGRADE_D) {
          bonus2 bSkillAtk,"PR_MAGNUS",5;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bSMatk,1;
+            bonus2 bMagicAddClass,Class_All,1;
             bonus2 bSkillAtk,"PR_MAGNUS",8;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bSpl,1;
+               bonus bInt,1;
                bonus2 bSkillAtk,"PR_MAGNUS",12;
             }
          }
@@ -32452,10 +32452,10 @@ Body:
       if (.@g >= ENCHANTGRADE_D) {
          bonus2 bSkillAtk,"MO_INVESTIGATE",5;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             bonus2 bSkillAtk,"MO_INVESTIGATE",8;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bPow,1;
+               bonus bStr,1;
                bonus2 bSkillAtk,"MO_INVESTIGATE",12;
             }
          }
@@ -32493,9 +32493,9 @@ Body:
       }
       if (.@g >= ENCHANTGRADE_D) {
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bPow,1;
+               bonus bStr,1;
             }
          }
       }
@@ -32534,10 +32534,10 @@ Body:
       if (.@g >= ENCHANTGRADE_D) {
          bonus2 bSkillAtk,"ASC_METEORASSAULT",5;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             bonus2 bSkillAtk,"ASC_METEORASSAULT",8;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bPow,1;
+               bonus bStr,1;
                bonus2 bSkillAtk,"ASC_METEORASSAULT",12;
             }
          }
@@ -32575,9 +32575,9 @@ Body:
       }
       if (.@g >= ENCHANTGRADE_D) {
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bPow,1;
+               bonus bStr,1;
             }
          }
       }
@@ -32614,9 +32614,9 @@ Body:
       }
       if (.@g >= ENCHANTGRADE_D) {
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bCon,1;
+               bonus bDex,1;
             }
          }
       }
@@ -32653,9 +32653,9 @@ Body:
       }
       if (.@g >= ENCHANTGRADE_D) {
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bPow,1;
+               bonus bStr,1;
             }
          }
       }
@@ -32692,9 +32692,9 @@ Body:
       }
       if (.@g >= ENCHANTGRADE_D) {
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bCon,1;
+               bonus bDex,1;
             }
          }
       }
@@ -32732,10 +32732,10 @@ Body:
       if (.@g >= ENCHANTGRADE_D) {
          bonus2 bSkillAtk,"AC_SHOWER",5;
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             bonus2 bSkillAtk,"AC_SHOWER",8;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bCon,1;
+               bonus bDex,1;
                bonus2 bSkillAtk,"AC_SHOWER",12;
             }
          }
@@ -32775,9 +32775,9 @@ Body:
       }
       if (.@g >= ENCHANTGRADE_D) {
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bSMatk,1;
+            bonus2 bMagicAddClass,Class_All,1;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bSpl,1;
+               bonus bInt,1;
             }
          }
       }
@@ -32816,9 +32816,9 @@ Body:
       }
       if (.@g >= ENCHANTGRADE_D) {
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bSMatk,1;
+            bonus2 bMagicAddClass,Class_All,1;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bSpl,1;
+               bonus bInt,1;
             }
          }
       }
@@ -32855,9 +32855,9 @@ Body:
       }
       if (.@g >= ENCHANTGRADE_D) {
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bCon,1;
+               bonus bDex,1;
             }
          }
       }
@@ -32895,9 +32895,9 @@ Body:
       }
       if (.@g >= ENCHANTGRADE_D) {
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bSMatk,1;
+            bonus2 bMagicAddClass,Class_All,1;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bSpl,1;
+               bonus bInt,1;
             }
          }
       }
@@ -32934,9 +32934,9 @@ Body:
       }
       if (.@g >= ENCHANTGRADE_D) {
          if (.@g >= ENCHANTGRADE_C) {
-            bonus bPAtk,1;
+            bonus2 bAddClass,Class_All,1;
             if (.@g >= ENCHANTGRADE_B) {
-               bonus bPow,1;
+               bonus bStr,1;
             }
          }
       }
