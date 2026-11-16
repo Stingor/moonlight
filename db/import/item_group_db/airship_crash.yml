@@ -1,0 +1,263 @@
+# Crash d'aeronef : coffres et livres (contenu de db/re), raffinements au-dela de 10 ramenes a 10.
+Header:
+  Type: ITEM_GROUP_DB
+  Version: 5
+
+Body:
+  - Group: AIRBOAT_ANTIQUITY
+    SubGroups:
+      - SubGroup: 6
+        Algorithm: Random
+        List:
+          - Index: 0
+            Item: Brown_Dia
+            Amount: 5
+            Rate: 1000
+          - Index: 1
+            Item: Brown_Dia
+            Amount: 6
+            Rate: 1000
+          - Index: 2
+            Item: Brown_Dia
+            Amount: 7
+            Rate: 1000
+          - Index: 3
+            Item: Brown_Dia
+            Amount: 8
+            Rate: 1000
+          - Index: 4
+            Item: MD_Airboat_Boots
+            Rate: 120
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 5
+            Item: MD_Airboat_Boots2
+            Rate: 120
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 6
+            Item: MD_Airboat_Boots3
+            Rate: 120
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 7
+            Item: MD_Airboat_Boots4
+            Rate: 120
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 8
+            Item: MD_Airboat_Boots5
+            Rate: 120
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 9
+            Item: MD_Airboat_Boots6
+            Rate: 120
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 10
+            Item: MD_Airboat_Boots
+            Rate: 105
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 11
+            Item: MD_Airboat_Boots2
+            Rate: 105
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 12
+            Item: MD_Airboat_Boots3
+            Rate: 105
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 13
+            Item: MD_Airboat_Boots4
+            Rate: 105
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 14
+            Item: MD_Airboat_Boots5
+            Rate: 105
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 15
+            Item: MD_Airboat_Boots6
+            Rate: 105
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 16
+            Item: MD_Airboat_Boots
+            Rate: 65
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 17
+            Item: MD_Airboat_Boots2
+            Rate: 65
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 18
+            Item: MD_Airboat_Boots3
+            Rate: 65
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 19
+            Item: MD_Airboat_Boots4
+            Rate: 65
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 20
+            Item: MD_Airboat_Boots5
+            Rate: 65
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 21
+            Item: MD_Airboat_Boots6
+            Rate: 65
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 22
+            Item: MD_Airboat_Boots
+            Rate: 40
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 23
+            Item: MD_Airboat_Boots2
+            Rate: 40
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 24
+            Item: MD_Airboat_Boots3
+            Rate: 40
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 25
+            Item: MD_Airboat_Boots4
+            Rate: 40
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 26
+            Item: MD_Airboat_Boots5
+            Rate: 40
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 27
+            Item: MD_Airboat_Boots6
+            Rate: 40
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 28
+            Item: MD_Airboat_Boots
+            Rate: 5
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 29
+            Item: MD_Airboat_Boots2
+            Rate: 5
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 30
+            Item: MD_Airboat_Boots3
+            Rate: 5
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 31
+            Item: MD_Airboat_Boots4
+            Rate: 5
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 32
+            Item: MD_Airboat_Boots5
+            Rate: 5
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 33
+            Item: MD_Airboat_Boots6
+            Rate: 5
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 34
+            Item: MD_Airboat_Tokken
+            Amount: 41
+            Rate: 310
+          - Index: 35
+            Item: MD_Airboat_Tokken
+            Amount: 42
+            Rate: 310
+          - Index: 36
+            Item: MD_Airboat_Tokken
+            Amount: 43
+            Rate: 310
+          - Index: 37
+            Item: MD_Airboat_Tokken
+            Amount: 44
+            Rate: 310
+          - Index: 38
+            Item: MD_Airboat_Tokken
+            Amount: 45
+            Rate: 310
+          - Index: 39
+            Item: MD_Airboat_Tokken
+            Amount: 46
+            Rate: 310
+          - Index: 40
+            Item: MD_Airboat_Tokken
+            Amount: 47
+            Rate: 310
+          - Index: 41
+            Item: MD_Airboat_Tokken
+            Amount: 48
+            Rate: 310
+          - Index: 42
+            Item: MD_Airboat_Tokken
+            Amount: 49
+            Rate: 310
+          - Index: 43
+            Item: MD_Airboat_Tokken
+            Amount: 50
+            Rate: 300
+          - Index: 44
+            Item: MD_Airboat_Reward
+            Rate: 300
+          - Index: 45
+            Item: MD_Airboat_Reward
+            Amount: 2
+            Rate: 300
+          - Index: 46
+            Item: MD_Airboat_Reward
+            Amount: 3
+            Rate: 300
+  - Group: MD_AIRBOAT_REWARD
+    SubGroups:
+      - SubGroup: 6
+        Algorithm: Random
+        List:
+          - Index: 0
+            Item: MD_Airboat_Card
+            Rate: 3485
+          - Index: 1
+            Item: MD_Airboat_Card2
+            Rate: 1000
+          - Index: 2
+            Item: MD_Airboat_Card3
+            Rate: 1000
+          - Index: 3
+            Item: MD_Airboat_Card4
+            Rate: 1000
+          - Index: 4
+            Item: MD_Airboat_Card5
+            Rate: 3485
+          - Index: 5
+            Item: MD_Airboat_Card6
+            Rate: 15
+          - Index: 6
+            Item: MD_Airboat_Card7
+            Rate: 15
+  - Group: MD_AIRBOAT_EXPBOX
+    SubGroups:
+      - SubGroup: 6
+        Algorithm: Random
+        List:
+          - Index: 0
+            Item: MD_Airboat_Bexp
+            Amount: 10
+            Rate: 10000

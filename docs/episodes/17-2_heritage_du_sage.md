@@ -191,7 +191,8 @@ Conversions, validées le 2026‑11‑12 :
 
 Trois des cinq ont un script dans `hayakawakaki/rathena-script-collection` (crazyarashi,
 GPL-3.0) : le **Tombeau du Remords**, la **Tour de Thanatos** (« Memory of Thanatos ») et la
-**Tour des Constellations**. L'Arène Nocturne de Geffen et le Crash d'aéronef n'y sont pas.
+**Tour des Constellations**. L'Arène Nocturne de Geffen et le Crash d'aéronef n'y sont pas ;
+le second vient d'ailleurs (lot C4).
 Portage dans cet ordre, du plus petit au plus gros, auteur crédité en en-tête.
 
 ### Lot C1 : le Tombeau du Remords (`1@spa2`, instance 79)
@@ -243,14 +244,33 @@ Fragment) n'ont de source nulle part.
 | Objets | `db/import/items/` | poussière et fragment de météorite, âmes de Betelgeuse et de Naght Sieger, 6 poussières de stat, 3 armures Vague, 6 armures Star, 7 Signets ; traits convertis (règle de `README.md`) |
 | Échanges | `moon/barters.yml` | `ctower_basic` (armures Vague, Signet), `ctower_advanced` (armures Star, Signets de stat) |
 
+### Lot C4 : le Crash d'aéronef (`1@mjo1`, `1@mjo2`, instance 82)
+
+Aucun script officiel. Trois candidats : `mikkotandoc/PRO-rathena` (`npc/re/instances/AirshipCrash.txt`,
+version de lancement 2020 d'après le guide Hazy Forest, mobs posés au hasard), deux scripts payants
+(Ko-fi) et **`patnawa/rathena_pn`** (`npc/custom/instances/AirshipCrash.txt`, GPL-3.0-or-later,
+septembre 2026), retenu le 2026‑11‑16 : réécriture « clean-room » de la révision kRO 2024, qui
+cite ses sources (annonces gnjoy, `OngoingQuests.lub`, `tipbox.lub`, `LapineUpgradeBox.lub`) et
+documente ses suppositions.
+
+| Élément | Fichier | Détail |
+|---|---|---|
+| Script | `moon/instances/AirshipCrash.npc` | repris tel quel : Dr. Strong à `dali02` (niveau 200, une entrée tous les 3 jours, reset à 4 h, 40 min), Capitaine Ferlock et trois blessés, Prof. Taeguto et ses missions de chasse communes (50/100/150 mobs → 10/20/30 M d'EXP de base), autel du boss (forme gratuite, ou forme payante à 7 pierres tirée parmi 4), coffre Airboat Antiquity au tueur ; Rusbald échange aux coûts du client |
+| Mobs | `db/import/mobs/airship_crash.yml` | 10 mobs du dépôt, convertis (boss 800 M → 11 M PV) ; **ni EXP ni drop ni compétence**, choix du dépôt (l'EXP passe par les missions, les taux officiels ne sont pas publiés) |
+| Instance | `instance_db.yml`, `const_instances.yml` | 82, `INST_AIRSHIP_CRASH`, 40 min ; warp agent vers `dali02` |
+| Quêtes | `db/import/quest_db.yml` | 5908 à 5915 du dépôt |
+| Objets | `db/import/items/` | pierres (`MD_Airboat_Tokken`), 6 bottes inconnues (paliers +11/+13 en `getallrefine() >= 22/26`), perles Ymir, élixir, coffret d'EXP, livre de cartes et ses 7 cartes, coffre, diamant brun |
+| Groupes | `db/import/item_group_db/airship_crash.yml` | coffre, livre, coffret (contenu de `db/re`) ; raffinements des bottes au-delà de 10 ramenés à 10 |
+| Laphine | `laphine_upgrade.yml`, `item_randomopt_group.yml` | perles Ymir sur les bottes, groupe d'options 9300 du dépôt |
+
 ## 6. Verdict
 
 | | |
 |---|---|
 | Intérêt | élevé — le terrain est déjà ouvert, il manque ce qui le rend jouable |
-| Fait | lot A : Niflheim renewal et Rudus 4F ; lots B2 et B1 : la chaîne de quêtes et les quatre instances (2026‑11‑11) ; lot A2 : Amicitia et lot B3 : l'économie du manoir (2026‑11‑12) ; les cartes des instances sont dans les albums  ; déployé en production le 2026‑11‑15 ; lots C1 à C3 : le Tombeau du Remords, la Tour de Thanatos et la Tour des Constellations (2026‑11‑16) |
+| Fait | lot A : Niflheim renewal et Rudus 4F ; lots B2 et B1 : la chaîne de quêtes et les quatre instances (2026‑11‑11) ; lot A2 : Amicitia et lot B3 : l'économie du manoir (2026‑11‑12) ; les cartes des instances sont dans les albums  ; déployé en production le 2026‑11‑15 ; lots C1 à C4 : le Tombeau du Remords, la Tour de Thanatos, la Tour des Constellations et le Crash d'aéronef (2026‑11‑16) |
 | Épisode | **clos** côté portage le 2026‑11‑12 |
-| Reste à faire | instances de l'intervalle (§5e) : l'enchantement des armures Star de la Tour des Constellations (matériaux sans source) ; le Crash d'aéronef (lot C4, script reconstruit du fork mikkotandoc/PRO-rathena, à confronter au guide Hazy Forest) ; l'Arène Nocturne de Geffen, sans script connu |
+| Reste à faire | instances de l'intervalle (§5e) : l'enchantement des armures Star de la Tour des Constellations (matériaux sans source) ; l'Arène Nocturne de Geffen, sans script connu |
 
 ## Sources
 

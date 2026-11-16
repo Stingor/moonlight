@@ -597,3 +597,12 @@ Body:
     AdditionalMaps:
       2@ch_t: true
       3@ch_t: true
+  - Id: 82
+    Name: Airship Crash
+    TimeLimit: 2400
+    Enter:
+      Map: 1@mjo1
+      X: 219
+      Y: 379
+    AdditionalMaps:
+      1@mjo2: true

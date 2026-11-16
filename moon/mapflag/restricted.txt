@@ -268,3 +268,7 @@ wolfvill	mapflag	restricted	7
 1@ch_t	mapflag	restricted	6
 2@ch_t	mapflag	restricted	6
 3@ch_t	mapflag	restricted	6
+
+// Crash d'aeronef (patnawa) : jeu standard des instances 18/19
+1@mjo1	mapflag	restricted	6
+1@mjo2	mapflag	restricted	6

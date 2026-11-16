@@ -36446,3 +36446,172 @@ Body:
     Script: |
       bonus bVariableCastrate,-7;
       bonus bHealPower,2;
+  # Crash d'aeronef (patnawa/rathena_pn (npc/custom/instances/AirshipCrash.txt, PN Development Team, GPL-3.0-or-later)).
+  - Id: 470071
+    AegisName: MD_Airboat_Boots
+    Name: Unknown Strength Boots [1]
+    Type: Armor
+    Weight: 700
+    Defense: 6
+    Slots: 1
+    Locations:
+      Shoes: true
+    ArmorLevel: 1
+    EquipLevelMin: 230
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@r = getrefine();
+      bonus bBaseAtk,15*(.@r/2);
+      bonus bMaxHP,120*(.@r/3);
+      bonus bMaxSP,8*(.@r/3);
+      if (.@r>=9) {
+         bonus bAspdRate,7;
+         if (getallrefine() >= 22) {
+            autobonus "{ .@g = getenchantgrade(); if (.@g >= ENCHANTGRADE_D) { .@val = 25; if (.@g >= ENCHANTGRADE_C) { .@val += 25; } } bonus bStr,175+.@val; }",1,10000,BF_WEAPON;
+            if (getallrefine() >= 26) {
+               bonus bShortAtkRate,7;
+            }
+         }
+      }
+  - Id: 470072
+    AegisName: MD_Airboat_Boots2
+    Name: Unknown Dexterity Boots [1]
+    Type: Armor
+    Weight: 700
+    Defense: 6
+    Slots: 1
+    Locations:
+      Shoes: true
+    ArmorLevel: 1
+    EquipLevelMin: 230
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@r = getrefine();
+      bonus bBaseAtk,15*(.@r/2);
+      bonus bMaxHP,110*(.@r/3);
+      bonus bMaxSP,10*(.@r/3);
+      if (.@r>=9) {
+         bonus bAspdRate,7;
+         if (getallrefine() >= 22) {
+            autobonus "{ .@g = getenchantgrade(); if (.@g >= ENCHANTGRADE_D) { .@val = 25; if (.@g >= ENCHANTGRADE_C) { .@val += 25; } } bonus bDex,175+.@val; }",1,10000,BF_WEAPON|BF_MAGIC;
+            if (getallrefine() >= 26) {
+               bonus bFixedCast,-500;
+            }
+         }
+      }
+  - Id: 470073
+    AegisName: MD_Airboat_Boots3
+    Name: Unknown Vitality Boots [1]
+    Type: Armor
+    Weight: 750
+    Defense: 6
+    Slots: 1
+    Locations:
+      Shoes: true
+    ArmorLevel: 1
+    EquipLevelMin: 230
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMatk,10*(.@r/2);
+      bonus bBaseAtk,10*(.@r/2);
+      bonus bMaxHP,150*(.@r/3);
+      bonus bMaxSP,15*(.@r/3);
+      if (.@r>=9) {
+         bonus bAspdRate,5;
+         bonus bVariableCastrate,-5;
+         if (getallrefine() >= 22) {
+            autobonus "{ .@g = getenchantgrade(); if (.@g >= ENCHANTGRADE_D) { .@val = 25; if (.@g >= ENCHANTGRADE_C) { .@val += 25; } } bonus bVit,175+.@val; }",1,10000,BF_WEAPON|BF_MAGIC;
+            if (getallrefine() >= 26) {
+               bonus bDelayrate,-5;
+            }
+         }
+      }
+  - Id: 470074
+    AegisName: MD_Airboat_Boots4
+    Name: Unknown Intelligence Boots [1]
+    Type: Armor
+    Weight: 650
+    Defense: 6
+    Slots: 1
+    Locations:
+      Shoes: true
+    ArmorLevel: 1
+    EquipLevelMin: 230
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@r = getrefine();
+      bonus bMatk,15*(.@r/2);
+      bonus bHealPower,2*(.@r/2);
+      bonus bMaxHP,80*(.@r/3);
+      bonus bMaxSP,20*(.@r/3);
+      if (.@r>=9) {
+         bonus bVariableCastrate,-7;
+         if (getallrefine() >= 22) {
+            autobonus "{ .@g = getenchantgrade(); if (.@g >= ENCHANTGRADE_D) { .@val = 25; if (.@g >= ENCHANTGRADE_C) { .@val += 25; } } bonus bInt,175+.@val; }",1,10000,BF_MAGIC;
+            if (getallrefine() >= 26) {
+               bonus2 bMagicAtkEle,Ele_All,7;
+            }
+         }
+      }
+  - Id: 470076
+    AegisName: MD_Airboat_Boots5
+    Name: Unknown Agility Boots [1]
+    Type: Armor
+    Weight: 700
+    Defense: 6
+    Slots: 1
+    Locations:
+      Shoes: true
+    ArmorLevel: 1
+    EquipLevelMin: 230
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@r = getrefine();
+      bonus bBaseAtk,15*(.@r/2);
+      bonus bMaxHP,120*(.@r/3);
+      bonus bMaxSP,8*(.@r/3);
+      if (.@r>=9) {
+         bonus bAspdRate,7;
+         if (getallrefine() >= 22) {
+            autobonus "{ .@g = getenchantgrade(); if (.@g >= ENCHANTGRADE_D) { .@val = 25; if (.@g >= ENCHANTGRADE_C) { .@val += 25; } } bonus bAgi,175+.@val; }",1,10000,BF_WEAPON;
+            if (getallrefine() >= 26) {
+               bonus bLongAtkRate,4;
+               bonus bShortAtkRate,4;
+            }
+         }
+      }
+  - Id: 470077
+    AegisName: MD_Airboat_Boots6
+    Name: Unknown Luck Boots [1]
+    Type: Armor
+    Weight: 720
+    Defense: 6
+    Slots: 1
+    Locations:
+      Shoes: true
+    ArmorLevel: 1
+    EquipLevelMin: 230
+    Refineable: true
+    Gradable: true
+    Script: |
+      .@r = getrefine();
+      bonus bBaseAtk,15*(.@r/2);
+      bonus bMaxHP,100*(.@r/3);
+      bonus bMaxSP,8*(.@r/3);
+      if (.@r>=9) {
+         bonus bAspdRate,7;
+         if (getallrefine() >= 22) {
+            autobonus "{ .@g = getenchantgrade(); if (.@g >= ENCHANTGRADE_D) { .@val = 25; if (.@g >= ENCHANTGRADE_C) { .@val += 25; } } bonus bLuk,175+.@val; }",1,10000,BF_WEAPON;
+            if (getallrefine() >= 26) {
+               bonus bCritAtkRate,7;
+               bonus bCritical,7;
+               bonus2 bAddClass,Class_All,7;
+            }
+         }
+      }

@@ -12245,3 +12245,57 @@ Body:
       NoAuction: true
     Script: |
       getgroupitem(IG_POENETENTIA_BOX2);
+  # Crash d'aeronef (patnawa/rathena_pn (npc/custom/instances/AirshipCrash.txt, PN Development Team, GPL-3.0-or-later)).
+  - Id: 100476
+    AegisName: MD_Airboat_Random
+    Name: Ymir Beads
+    Type: DelayConsume
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      laphine_upgrade();
+  - Id: 100460
+    AegisName: MD_Airboat_Bexp
+    Name: Purified Growth Elixier
+    Type: Usable
+    EquipLevelMin: 200
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 100475
+    AegisName: MD_Airboat_Expbox
+    Name: Purple Special Storage Device
+    Type: Usable
+    Flags:
+      Container: true
+    Script: |
+      getgroupitem(IG_MD_AIRBOAT_EXPBOX);
+  - Id: 100462
+    AegisName: MD_Airboat_Reward
+    Name: Contaminated Card Book
+    Type: Usable
+    Weight: 15
+    Flags:
+      Container: true
+    Script: |
+      getgroupitem(IG_MD_AIRBOAT_REWARD);
+  - Id: 102573
+    AegisName: Airboat_Antiquity
+    Name: Antiquity Crash Site (Unidentified Creature)
+    Type: Usable
+    Weight: 200
+    Flags:
+      Container: true
+      DropEffect: CLIENT
+    Script: |
+      getgroupitem(IG_AIRBOAT_ANTIQUITY,true);

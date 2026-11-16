@@ -15699,3 +15699,19 @@ Body:
     Weight: 1
     Flags:
       BuyingStore: true
+  # Crash d'aeronef (patnawa/rathena_pn (npc/custom/instances/AirshipCrash.txt, PN Development Team, GPL-3.0-or-later)).
+  - Id: 1000363
+    AegisName: MD_Airboat_Tokken
+    Name: Ymir Fragment
+    Type: Etc
+    Weight: 1
+    Flags:
+      BuyingStore: true
+  - Id: 1001480
+    AegisName: Brown_Dia
+    Name: Golden Diamond
+    Type: Etc
+    Buy: 600000
+    Weight: 300
+    Flags:
+      DropEffect: CLIENT

@@ -366,3 +366,7 @@ que_thr	mapflag	nomemo
 1@ch_t	mapflag	nomemo
 2@ch_t	mapflag	nomemo
 3@ch_t	mapflag	nomemo
+
+// Crash d'aeronef (patnawa) : jeu standard des instances 18/19
+1@mjo1	mapflag	nomemo
+1@mjo2	mapflag	nomemo

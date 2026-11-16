@@ -177,6 +177,7 @@ L_Instance:
 	// jamais renumeroter quoi que ce soit.
 	setarray .@lbl$[0],
 					"Airship Assault (Solo & HM)",
+					"Airship Crash",
 					"Airship Destruction",
 					"Bakonawa Lake",
 					"Bangungot Hospital 2F (HM)",
@@ -226,6 +227,7 @@ L_Instance:
 					"Wolfchev's Laboratory";
 	setarray .@inst[0],
 					INST_ASSAULT_ON_THE_AIRSHIP,
+					INST_AIRSHIP_CRASH,
 					INST_AIRSHIP_DESTRUCTION,
 					INST_BAKONAWA_LAKE,
 					INST_BANGUNGOT_HOSPITAL_2F,
@@ -276,6 +278,7 @@ L_Instance:
 	// quete de cooldown utilisee pour la couleur ; 0 = cas particulier traite plus bas
 	setarray .@cd[0],
 					15050, // INST_ASSAULT_ON_THE_AIRSHIP
+					5909,  // INST_AIRSHIP_CRASH
 					12560, // INST_AIRSHIP_DESTRUCTION
 					12278, // INST_BAKONAWA_LAKE
 					9223,  // INST_BANGUNGOT_HOSPITAL_2F
@@ -951,6 +954,9 @@ L_Bijou:
 		}
 		case INST_WEEKEND_DUNGEON: { // Weekend Dungeon
 			warp_fct("pay_arche", 45, 123);
+		}
+		case INST_AIRSHIP_CRASH: { // Crash d'aeronef : Dr. Strong, a dali02
+			warp_fct("dali02", 137, 84);
 		}
 		case INST_CONSTELLATION_TOWER: { // Tour des Constellations : Captain Janssen, a Alberta
 			warp_fct("alberta", 212, 76);

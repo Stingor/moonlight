@@ -1695,3 +1695,16 @@ Body:
       - Item: Glacier_B_Sword
       - Item: Glacier_Sword
       - Item: Glacier_T_Sword
+  # Crash d'aeronef : perles Ymir sur les bottes inconnues (patnawa/rathena_pn (npc/custom/instances/AirshipCrash.txt, PN Development Team, GPL-3.0-or-later), d'apres LapineUpgradeBox.lub).
+  - Item: MD_Airboat_Random
+    RandomOptionGroup: AIRSHIP_CRASH_YMIR_BEADS
+    MinimumRefine: 0
+    MaximumRefine: 10
+    RequiredRandomOptions: 0
+    TargetItems:
+      - Item: MD_Airboat_Boots
+      - Item: MD_Airboat_Boots2
+      - Item: MD_Airboat_Boots3
+      - Item: MD_Airboat_Boots4
+      - Item: MD_Airboat_Boots5
+      - Item: MD_Airboat_Boots6

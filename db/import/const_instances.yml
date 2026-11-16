@@ -179,3 +179,5 @@ Body:
     Value: 80
   - Name: INST_CONSTELLATION_TOWER
     Value: 81
+  - Name: INST_AIRSHIP_CRASH
+    Value: 82
