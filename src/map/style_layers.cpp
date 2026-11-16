@@ -69,10 +69,25 @@ constexpr uint32 HEAD_KEY_LOW = 0xFFFF;
 // Les compagnons qu'un joueur peut teindre d'un coup : son homoncule et son
 // familier.
 constexpr int32 COMPANION_KINDS = 2;
+// L'oiseau et le chariot, qu'un CZ teint d'un coup.
+constexpr int32 ACCESSORY_KINDS = 2;
+// Les clés de l'oiseau et du chariot (voir packets_struct.hpp).
+constexpr uint32 FALCON_KEY_HAWK = 1;
+constexpr uint32 FALCON_KEY_SNIPER = 2;
+constexpr uint32 FALCON_KEY_OWL = 3;
+constexpr uint32 FALCON_KEY_WINDHAWK = 4;
+constexpr uint32 FALCON_KEY_GANGSI = 5;
+constexpr uint32 FALCON_KEY_DEATH_KNIGHT = 6;
+constexpr uint32 FALCON_KEY_DARK_COLLECTOR = 7;
+constexpr uint32 CART_KEY_TYPE_LAST = 13;
+constexpr uint32 CART_KEY_SUPER_NOVICE = 14;
+// La tenue alternative du ranger, qu'un style de corps peut porter.
+constexpr int32 RANGER_ALTERNATE_OUTFIT = 4337;
 // Un CZ ne décrit pas plus que ce qu'un personnage range, plus ses huit
-// emplacements, ses deux compagnons et ses effets de chapeau.
+// emplacements, ses deux compagnons, son oiseau, son chariot et ses effets de
+// chapeau.
 constexpr int32 REQUEST_ENTRIES_MAX = MOONCLIENT_STYLE_LAYERS_MAX + (MOONCLIENT_STYLE_SLOT_LAST - MOONCLIENT_STYLE_SLOT_FIRST + 1) + COMPANION_KINDS
-	+ MOONCLIENT_STYLE_HAT_EFFECTS_MAX;
+	+ ACCESSORY_KINDS + MOONCLIENT_STYLE_HAT_EFFECTS_MAX;
 // Le plus d'exemplaires qu'un joueur affiche : trois coiffes et une cape.
 constexpr int32 SHOWN_ITEMS_MAX = 4;
 // Les octets d'en-tête d'un bloc : gid, nombre.
@@ -233,10 +248,16 @@ int32 ranks_for(uint8 layer, uint8 profile) {
 	return 0;
 }
 
+// L'oiseau et le chariot : rangés avec le personnage, sous le numéro de leur image.
+bool accessory_layer(uint8 layer) {
+	return layer == MOONCLIENT_STYLE_LAYER_FALCON || layer == MOONCLIENT_STYLE_LAYER_CART;
+}
+
 // Un calque qui appartient au PERSONNAGE, et se range avec lui : la tête, les
-// deux peaux, la suite du corps.
+// deux peaux, la suite du corps, l'oiseau et le chariot.
 bool character_layer(uint8 layer) {
-	return layer == MOONCLIENT_STYLE_LAYER_HEAD || skin_layer(layer) || layer == MOONCLIENT_STYLE_LAYER_BODY_MORE;
+	return layer == MOONCLIENT_STYLE_LAYER_HEAD || skin_layer(layer) || layer == MOONCLIENT_STYLE_LAYER_BODY_MORE
+		|| accessory_layer(layer);
 }
 
 // Le reste du profil mixte se règle sur les pièces palettisées : tête, coiffe et
@@ -373,6 +394,12 @@ e_moonclient_style_result check_entry(const uint8* p, size_t available, e_entry_
 				|| value < -EFFECT_PERCENT_MOST || value > EFFECT_PERCENT_MOST)
 				return MOONCLIENT_STYLE_MALFORMED;
 		}
+	} else if (e.layer == MOONCLIENT_STYLE_LAYER_FALCON) {
+		if (e.key < FALCON_KEY_HAWK || e.key > FALCON_KEY_DARK_COLLECTOR)
+			return MOONCLIENT_STYLE_KEY;
+	} else if (e.layer == MOONCLIENT_STYLE_LAYER_CART) {
+		if (e.key == 0 || e.key > CART_KEY_SUPER_NOVICE)
+			return MOONCLIENT_STYLE_KEY;
 	} else if (e.layer == MOONCLIENT_STYLE_LAYER_SKIN) {
 		if (e.key != 0)
 			return MOONCLIENT_STYLE_KEY;
@@ -881,6 +908,53 @@ std::vector<uint16> item_effect_numbers(uint64 unique_id) {
 
 // ── Ce qui s'affiche ────────────────────────────────────────────────────────
 
+// LA CLÉ DE L'OISEAU que `sd` montre, d'après le style de corps qu'il annonce,
+// ou zéro sans faucon sorti. Les mêmes oiseaux que chez le client : le tireur
+// d'élite a son faucon, le ranger sa chouette, le Wind Hawk son épervier, et
+// trois métiers portent un monstre.
+uint32 shown_falcon_key(const map_session_data& sd) {
+	if (!pc_isfalcon(&sd))
+		return 0;
+	switch (sd.vd.look[LOOK_BODY2]) {
+		case JOB_SNIPER: return FALCON_KEY_SNIPER;
+		case JOB_GANGSI: return FALCON_KEY_GANGSI;
+		case JOB_DEATH_KNIGHT: return FALCON_KEY_DEATH_KNIGHT;
+		case JOB_DARK_COLLECTOR: return FALCON_KEY_DARK_COLLECTOR;
+		case JOB_RANGER: case JOB_RANGER_T: case JOB_BABY_RANGER: case RANGER_ALTERNATE_OUTFIT:
+			return FALCON_KEY_OWL;
+		case JOB_WINDHAWK: case JOB_WINDHAWK2: return FALCON_KEY_WINDHAWK;
+		default: return FALCON_KEY_HAWK;
+	}
+}
+
+// Le type de chariot que `sd` pousse, ou zéro.
+uint32 pushed_cart_type(map_session_data& sd) {
+#ifdef NEW_CARTS
+	const status_change_entry* sce = sd.sc.getSCE(SC_PUSH_CART);
+	return sce != nullptr && sce->val1 > 0 ? static_cast<uint32>(sce->val1) : 0;
+#else
+	return 0;
+#endif
+}
+
+// LE CHARIOT DE CETTE CLÉ EST-IL CELUI QUE `sd` POUSSE ? Son type ; et, pour un
+// super novice, aussi son chariot à lui. ⚠ LES DEUX POUR LE SUPER NOVICE : sous
+// un costume, le client lui montre le chariot ordinaire du type, et c'est lui qui
+// choisit l'image.
+bool cart_key_shown(map_session_data& sd, uint32 key) {
+	const uint32 type = pushed_cart_type(sd);
+	if (type == 0)
+		return false;
+	return key == type || (key == CART_KEY_SUPER_NOVICE && (sd.class_ & MAPID_SECONDMASK) == MAPID_SUPER_NOVICE);
+}
+
+// L'oiseau ou le chariot de cette entrée est-il celui que `sd` montre ?
+bool accessory_shown(map_session_data& sd, uint8 layer, uint32 key) {
+	if (layer == MOONCLIENT_STYLE_LAYER_FALCON)
+		return key != 0 && key == shown_falcon_key(sd);
+	return layer == MOONCLIENT_STYLE_LAYER_CART && cart_key_shown(sd, key);
+}
+
 // L'exemplaire qu'un joueur AFFICHE à un emplacement, ou -1. Le costume l'emporte,
 // sauf sur une carte sans costume ou s'il masque les siens ; et l'objet doit
 // porter l'apparence montrée, qu'un script peut avoir remplacée.
@@ -911,8 +985,9 @@ bytes compose_block(map_session_data& owner) {
 		const s_entry_view v = view_of(e.data());
 		// ⚠ TOUTES LES SUITES ET TOUTES LES PEAUX DES CORPS : leur clé est un
 		// condensé que seul le client sait rattacher au corps qu'il charge.
+		// 🔴 L'OISEAU ET LE CHARIOT PORTÉS SEULEMENT : une teinture qui dort ne sort pas.
 		const bool shown = (v.layer == MOONCLIENT_STYLE_LAYER_HEAD && v.key == head_key) || v.layer == MOONCLIENT_STYLE_LAYER_SKIN
-			|| body_layer(v.layer);
+			|| body_layer(v.layer) || (accessory_layer(v.layer) && accessory_shown(owner, v.layer, v.key));
 		if (!shown)
 			continue;
 		block.insert(block.end(), e.begin(), e.end());
@@ -1386,7 +1461,7 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		// le même emplacement deux fois.
 		for (const s_request_entry& other : entries) {
 			const bool keyed = view.layer == MOONCLIENT_STYLE_LAYER_HEAD || body_layer(view.layer) || view.layer == MOONCLIENT_STYLE_LAYER_COMPANION
-				|| view.layer == MOONCLIENT_STYLE_LAYER_HAT_EFFECT;
+				|| view.layer == MOONCLIENT_STYLE_LAYER_HAT_EFFECT || accessory_layer(view.layer);
 			const bool same_target = other.view.layer == view.layer && (!keyed || other.view.key == view.key);
 			if (same_target)
 				return MOONCLIENT_STYLE_KEY;
@@ -1503,6 +1578,19 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		effects.push_back(std::move(change));
 	}
 
+	// ── L'oiseau et le chariot : ceux que la session porte, là, maintenant ──
+	for (const s_request_entry& e : entries) {
+		if (!accessory_layer(e.view.layer))
+			continue;
+		// Auprès du styliste seulement, si l'option l'exige : comme un compagnon.
+		if (battle_config.moonclient_style_atelier && !atelier_open(sd, state))
+			return MOONCLIENT_STYLE_NO_ATELIER;
+		// 🔴 LA CLÉ N'EST QUE L'IMAGE ATTENDUE : l'oiseau sorti et le chariot poussé
+		// se lisent dans la session émettrice.
+		if (!accessory_shown(sd, e.view.layer, e.view.key))
+			return MOONCLIENT_STYLE_NOT_WORN;
+	}
+
 	// ── Les teintures du personnage ────────────────────────────────────────
 	std::vector<bytes> character = clear_character ? std::vector<bytes>{} : loaded.character;
 	const uint32 worn_head = (static_cast<uint32>(sd.status.hair) << HEAD_KEY_SHIFT) | (static_cast<uint32>(sd.status.hair_color) & HEAD_KEY_LOW);
@@ -1531,8 +1619,13 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 				character.erase(std::find_if(character.begin(), character.end(), same_layer));
 		}
 		// Au plafond, la plus ancienne teinture de cheveux qui dort part ; jamais
-		// celle qu'on porte, ni la peau.
-		while (character.size() > MOONCLIENT_STYLE_LAYERS_MAX) {
+		// celle qu'on porte, ni la peau. L'oiseau et le chariot n'y comptent pas :
+		// leurs clés les bornent, une teinture par image.
+		const auto counted = [&character]() {
+			return static_cast<size_t>(std::count_if(character.begin(), character.end(),
+				[](const bytes& b) { return !accessory_layer(view_of(b.data()).layer); }));
+		};
+		while (counted() > MOONCLIENT_STYLE_LAYERS_MAX) {
 			auto sleeping = std::find_if(character.begin(), character.end(), [worn_head](const bytes& b) {
 				const s_entry_view v = view_of(b.data());
 				return v.layer == MOONCLIENT_STYLE_LAYER_HEAD && v.key != worn_head;
@@ -1707,6 +1800,10 @@ std::vector<std::string> style_layers_describe(map_session_data& sd) {
 			safesnprintf(line, sizeof(line), "peau du corps %08X : %d reglage(s)", v.key, popcount16(v.mask));
 		else if (v.layer == MOONCLIENT_STYLE_LAYER_BODY_MORE)
 			safesnprintf(line, sizeof(line), "suite du corps %08X : %d reglage(s)", v.key, popcount16(v.mask));
+		else if (v.layer == MOONCLIENT_STYLE_LAYER_FALCON)
+			safesnprintf(line, sizeof(line), "oiseau %u%s : %d reglage(s)", v.key, accessory_shown(sd, v.layer, v.key) ? " (porte)" : "", popcount16(v.mask));
+		else if (v.layer == MOONCLIENT_STYLE_LAYER_CART)
+			safesnprintf(line, sizeof(line), "chariot %u%s : %d reglage(s)", v.key, accessory_shown(sd, v.layer, v.key) ? " (pousse)" : "", popcount16(v.mask));
 		else
 			safesnprintf(line, sizeof(line), "cheveux, coupe %u couleur %u : %d reglage(s)", v.key >> HEAD_KEY_SHIFT, v.key & HEAD_KEY_LOW, popcount16(v.mask));
 		lines.emplace_back(line);

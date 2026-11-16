@@ -11638,6 +11638,8 @@ bool pc_jobchange(map_session_data *sd,int32 job, char upper)
 #endif
 	clif_changelook( sd, LOOK_CLOTHES_COLOR, sd->vd.look[LOOK_CLOTHES_COLOR] );
 	clif_changelook( sd, LOOK_BODY2, sd->vd.look[LOOK_BODY2] );
+	// [Stingor] Un autre métier peut porter un autre oiseau : sa teinture suit.
+	style_layers_look_changed(*sd);
 	
 	//Update skill tree.
 	pc_calc_skilltree(sd);
@@ -11821,6 +11823,7 @@ void pc_changelook(map_session_data *sd,int32 type,int32 val) {
 	switch (type) {
 		case LOOK_HAIR: case LOOK_HAIR_COLOR: case LOOK_HEAD_BOTTOM:
 		case LOOK_HEAD_TOP: case LOOK_HEAD_MID: case LOOK_ROBE:
+		case LOOK_BODY2: // l'oiseau suit le style de corps
 			style_layers_look_changed(*sd);
 			break;
 	}
@@ -11970,6 +11973,7 @@ bool pc_setcart(map_session_data *sd,int32 type) {
 #endif
 
 	clif_bourgeon_companion_state(sd);  // [Stingor] resync feuille de perso (no-op si !has_bourgeon)
+	style_layers_look_changed(*sd);     // [Stingor] la teinture du chariot poussé suit
 	return true;
 }
 
@@ -11985,6 +11989,7 @@ void pc_setfalcon(map_session_data* sd, int32 flag)
 		pc_setoption(sd,sd->sc.option&~OPTION_FALCON); // remove falcon
 	}
 	clif_bourgeon_companion_state(sd);  // [Stingor] resync feuille de perso (no-op si !has_bourgeon)
+	style_layers_look_changed(*sd);     // [Stingor] la teinture de l'oiseau sorti suit
 }
 
 /*==========================================

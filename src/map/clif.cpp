@@ -9747,7 +9747,7 @@ void clif_bourgeon_server_rules(map_session_data& sd) {
 		// La preuve que le serveur accepte le reste et les retouches d'une entrée.
 		{ BOURGEON_RULE_STYLE_LAYER_RETOUCHES,     MOONCLIENT_STYLE_LAYER_RETOUCHES_MAX },
 		// La preuve que le serveur range la peau du corps.
-		{ BOURGEON_RULE_STYLE_LAYER_LAST,          MOONCLIENT_STYLE_LAYER_HAT_EFFECT },
+		{ BOURGEON_RULE_STYLE_LAYER_LAST,          MOONCLIENT_STYLE_LAYER_CART },
 		// La preuve que le serveur sert les styles hors de vue.
 		{ BOURGEON_RULE_STYLE_ABSENT_CADENCE_MS,   MOONCLIENT_STYLE_ABSENT_CADENCE_MS },
 		{ BOURGEON_RULE_STYLE_ABSENT_IDS_MAX,      MOONCLIENT_STYLE_ABSENT_IDS_MAX },

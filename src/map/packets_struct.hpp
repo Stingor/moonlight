@@ -7004,8 +7004,9 @@ enum e_bourgeon_server_rule : uint16 {
 	// avant de l'avoir lue.
 	BOURGEON_RULE_STYLE_LAYER_RETOUCHES    = 24, ///< MOONCLIENT_STYLE_LAYER_RETOUCHES_MAX
 	// Le dernier numéro de calque accepté : 🔴 moonclient n'envoie pas de peau du
-	// corps (calque 6) ni de compagnon (calque 7) avant de l'avoir lue.
-	BOURGEON_RULE_STYLE_LAYER_LAST         = 25, ///< MOONCLIENT_STYLE_LAYER_COMPANION
+	// corps (calque 6), de compagnon (calque 7) ni d'oiseau ou de chariot (18, 19)
+	// avant de l'avoir lue.
+	BOURGEON_RULE_STYLE_LAYER_LAST         = 25, ///< MOONCLIENT_STYLE_LAYER_CART
 	// Les styles hors de vue (CZ 0x0F63) : 🔴 moonclient n'en demande pas avant de
 	// l'avoir lue.
 	BOURGEON_RULE_STYLE_ABSENT_CADENCE_MS  = 26, ///< écart minimal entre deux CZ 0x0F63 (ms)
@@ -8177,7 +8178,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_COOP_LEFT, 0x0f5d);
 // Le plus gros CZ accepté : la tête, la peau du visage, quatre suites du corps et
 // les huit emplacements, chacun à sa plus grosse entrée, plus la peau (15 octets)
 // de quatre corps.
-#define MOONCLIENT_STYLE_LAYERS_CZ_MAX 4096
+#define MOONCLIENT_STYLE_LAYERS_CZ_MAX 5120
 // La charge brute d'un ZC, au plus : un joueur n'est jamais coupé entre deux trames.
 #define MOONCLIENT_STYLE_LAYERS_RAW_MAX 16384
 // Au-delà, la charge d'un ZC se compresse (zlib).
@@ -8213,6 +8214,15 @@ enum e_moonclient_style_layer : uint8 {
 	// CZ seulement : les emplacements d'équipement de l'émetteur.
 	MOONCLIENT_STYLE_SLOT_FIRST     = 10,
 	MOONCLIENT_STYLE_SLOT_LAST      = 17,
+	// L'OISEAU et le CHARIOT du joueur : clé = le numéro du fichier d'image, profils
+	// 1 ou 2 comme une coiffe. Rangés avec le personnage, une teinture par image ;
+	// dans le CZ, ils visent l'oiseau sorti et le chariot poussé de l'émetteur ;
+	// dans le ZC, ils voyagent dans son bloc, celle du sprite porté seulement.
+	// Oiseau : 1 faucon (bébé compris), 2 tireur d'élite, 3 chouette du ranger,
+	// 4 épervier du Wind Hawk, 5 Gangsi, 6 Death Knight, 7 Dark Collector.
+	// Chariot : le type (1 à 13), 14 celui du super novice.
+	MOONCLIENT_STYLE_LAYER_FALCON   = 18,
+	MOONCLIENT_STYLE_LAYER_CART     = 19,
 };
 
 // Une entrée du CZ : retire cette teinture.
