@@ -87,10 +87,32 @@ issu. Aucune PR amont pour le 20 au 2026‑11‑17. Le même dépôt a aussi l'�
 |---|---|
 | Cartes | les 17 sont dans le map_cache, instances comprises (`1@slug`, `1@20cn1/2`, `1@twsd`, `1@twig`, `1@twas`, `1@twbs`) |
 | Épisode 19 | porté (`moon/rathena/quests/quests_19.npc`, `ep19_main`, Horr) : c'est le prérequis |
-| Mobs EP20 | **aucun** dans `db/import` |
+| Mobs EP20 | **lot A fait** (2026‑11‑17) : voir ci-dessous |
 | Quêtes, instances, spawns | **rien** |
 | C++ | ni `specialeffect3` ni `UMOB_BODYSIZE` |
 | Hall of Life | `moon/rathena/dungeons/for_dun.npc` toujours **commenté** (`scripts_moon.conf:836`), 32 mobs `SPIRIT_*` à écrire |
+
+### Lot A — mobs et compétences (porté le 2026‑11‑17, non validé en jeu)
+
+| Élément | Détail |
+|---|---|
+| Fichier | `db/import/mobs/ep20.yml` (40 mobs, Id 21965 à 22007 et 23060), dans le Footer de `db/import/mob_db.yml` |
+| Base | brHades : stats, vitesses, IA, modes, classe, drops |
+| Conversion | `re_to_prere_mob.py` sans retouche, ATK inchangée ; `Resistance`, `MagicResistance` et `DamageTaken` retirés |
+| Ordres de grandeur | mob normal ≈ 510 000 à 590 000 PV et 820 000 à 940 000 EXP ; MVP 4,5 à 6,3 M PV ; Lasgand d'instance 21,6 M |
+| Compléments Divine Pride | EXP de Snowstorm Angel (21996) et du Chef Nettoyeur (21980), DEF de Snowstorm Angel, drops des quatre MVP et des deux pierres de Lasgand (22004, 22005), `BaseExp` de Jormungand Guardian-Y absente de brHades |
+| Drops écartés | les 20 cartes EP20 (bonus renewal à convertir, comme au 19), les 8 armes Dim Glacier, `Bs_Making_S` (absent chez nous) |
+| Matériaux | 26 objets `Ep20_*` / `EP20_*` (1001226 à 1001251) dans `db/import/items/item_db_etc.yml` : entrée `db/re`, prix de brHades, nom anglais du client (« Irwin » corrigé en Iwin, grades alignés sur le 19) |
+| Compétences | 163 lignes de brHades en fin de `db/import/mob_skill_db.txt` (+ 2 commentées de la source) |
+| `skill_db` | `NPC_LEASH` (747) et `NPC_WIDELEASH` (748) copiés de `db/re` (Fallen Angel Slug) : implémentés en C++ (`skills/npc/leash.cpp`, `wideleash.cpp`), absents du pré-re |
+| Audits | `audit_mob_skills.py` et `audit_status.py` : 0 problème |
+| Sprites | `EP20_NPC_NYAR`, `EP20_NPC_LASGAND` : sprites de PNJ |
+
+**Reporté aux lots suivants.** Immortal retouche Lasgand par `setunitdata` : DEF 527 et 700,
+RES, MATK. En pré-renewal, une DEF au-dessus de 100 rend le boss quasi invulnérable, à adapter
+au lot F. `NPC_SEEDTRAP`, `NPC_RAINOFMETEOR` et `NPC_GROUNDDRIVE` y sont lancés par script.
+Les branches (Dead / Bloody) n'ont rien reçu : la liste est à valider, et l'épisode 19 n'y est
+pas non plus.
 
 ## 4. Plan de portage
 

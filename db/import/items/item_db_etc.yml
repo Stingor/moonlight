@@ -15847,3 +15847,211 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+  # Episode 20 : materiaux des mobs (db/re, prix de brHades, noms du client)
+  - Id: 1001226
+    AegisName: Ep20_Rgan_Core_F
+    Name: Rgan's Advanced Magic Core
+    Type: Etc
+    Buy: 2600
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001227
+    AegisName: Ep20_Coral_Bangle
+    Name: Coral Bracelet
+    Type: Etc
+    Buy: 3200
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001228
+    AegisName: Ep20_Shell_Hairpin
+    Name: Seashell Hairpin
+    Type: Etc
+    Buy: 3200
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001229
+    AegisName: Ep20_Seaweed_Belt
+    Name: Seaweed Belt
+    Type: Etc
+    Buy: 3200
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001230
+    AegisName: Ep20_Cataphract_Piece
+    Name: Scale Armor Fragment
+    Type: Etc
+    Buy: 3200
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001231
+    AegisName: Ep20_Fluor_Cell_Sour
+    Name: Soft Fluorescent Cells(Sour)
+    Type: Etc
+    Buy: 4000
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001232
+    AegisName: Ep20_Fluor_Cell_Salty
+    Name: Soft Fluorescent Cells(Salty)
+    Type: Etc
+    Buy: 3200
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001233
+    AegisName: Ep20_Fluor_Cell_Sweet
+    Name: Soft Fluorescent Cells(Sweet)
+    Type: Etc
+    Buy: 3400
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001234
+    AegisName: Ep20_Ice_Bearskin
+    Name: Bear Skin
+    Type: Etc
+    Buy: 3800
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001235
+    AegisName: Ep20_Unknown_Canine
+    Name: Monster's Tooth
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001236
+    AegisName: Ep20_Twinkling_Snow
+    Name: Sparkling Snowflakes
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001237
+    AegisName: Ep20_Angels_Tail
+    Name: Angel's Tail
+    Type: Etc
+    Buy: 15000
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001238
+    AegisName: Ep20_Mystic_Spl_Colt
+    Name: Mysterious Magic Mass
+    Type: Etc
+    Buy: 3400
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001239
+    AegisName: Ep20_Broken_Trident
+    Name: Broken Trident
+    Type: Etc
+    Buy: 2600
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001240
+    AegisName: Ep20_Iwin_Private_C
+    Name: Iwin Private Hat
+    Type: Etc
+    Buy: 1260
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001241
+    AegisName: Ep20_Iwin_Priva_Co_C
+    Name: Iwin Private First Class Hat
+    Type: Etc
+    Buy: 1350
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001242
+    AegisName: Ep20_Iwin_Corporal_C
+    Name: Iwin Corporal Hat
+    Type: Etc
+    Buy: 1440
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001243
+    AegisName: Ep20_Iwin_Sergeant_C
+    Name: Iwin Sergeant Hat
+    Type: Etc
+    Buy: 3400
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001244
+    AegisName: Ep20_Huge_Feather_G
+    Name: Large Gray Feather
+    Type: Etc
+    Buy: 2800
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001245
+    AegisName: Ep20_Huge_Feather_W
+    Name: Large White Feather
+    Type: Etc
+    Buy: 3800
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001246
+    AegisName: Ep20_Copo_Head_F
+    Name: Copo's Feathers
+    Type: Etc
+    Buy: 1170
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001247
+    AegisName: Ep20_Copo_Egg_Shell
+    Name: Copo's Eggshell Fragment
+    Type: Etc
+    Buy: 2100
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001248
+    AegisName: EP20_D_P_Ore
+    Name: Source Stone of Pure Magic
+    Type: Etc
+    Buy: 1000
+    Weight: 30
+    Flags:
+      BuyingStore: true
+      DropEffect: client
+  - Id: 1001249
+    AegisName: EP20_D_P_Crystal
+    Name: Crystal of Pure Magic
+    Type: Etc
+    Weight: 50
+    Flags:
+      BuyingStore: true
+      DropEffect: client
+  - Id: 1001250
+    AegisName: EP20_D_P_Extract
+    Name: Pure Magic Extract
+    Type: Etc
+    Weight: 30
+    Flags:
+      BuyingStore: true
+      DropEffect: client
+  - Id: 1001251
+    AegisName: EP20_D_Scale
+    Name: Snake God's Scales
+    Type: Etc
+    Weight: 50
+    Flags:
+      BuyingStore: true
+      DropEffect: client
