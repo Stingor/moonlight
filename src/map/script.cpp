@@ -15809,6 +15809,27 @@ BUILDIN_FUNC(specialeffect2)
 	return SCRIPT_CMD_SUCCESS;
 }
 
+/// [Stingor] specialeffect3 <effet>,<cible d'envoi>,<id d'unite> : effet sur n'importe quelle unite
+/// (episode 20, brHades c2196f9be).
+BUILDIN_FUNC(specialeffect3)
+{
+	int32 type = script_getnum(st, 2);
+	enum send_target target = script_hasdata(st, 3) ? (send_target)script_getnum(st, 3) : AREA;
+	block_list* bl;
+
+	if( !script_rid2bl(4, bl) )
+		return SCRIPT_CMD_SUCCESS;
+
+	if( type <= EF_NONE || type >= EF_MAX ){
+		ShowError( "buildin_specialeffect3: unsupported effect id %d.\n", type );
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	clif_specialeffect(bl, type, target);
+
+	return SCRIPT_CMD_SUCCESS;
+}
+
 BUILDIN_FUNC(removespecialeffect)
 {
 	const char* command = script_getfuncname(st);
@@ -19324,6 +19345,7 @@ BUILDIN_FUNC(getunitdata)
 			getunitdata_sub(UMOB_RES, md->status.res);
 			getunitdata_sub(UMOB_MRES, md->status.mres);
 			getunitdata_sub(UMOB_DAMAGETAKEN, md->damagetaken);
+			getunitdata_sub(UMOB_BODYSIZE, md->ud.body_size);
 			} break;
 
 		case BL_HOM: {
@@ -19552,6 +19574,7 @@ BUILDIN_FUNC(getunitdata)
 			getunitdata_sub(UNPC_BODY2, nd->vd.look[LOOK_BODY2]);
 			getunitdata_sub(UNPC_DEADSIT, nd->vd.dead_sit);
 			getunitdata_sub(UNPC_GROUP_ID, nd->ud.group_id);
+			getunitdata_sub(UNPC_BODYSIZE, nd->ud.body_size);
 			} break;
 
 		default:
@@ -19700,6 +19723,7 @@ BUILDIN_FUNC(setunitdata)
 			case UMOB_RES: md->base_status->res = (int16)value; calc_status = true; break;
 			case UMOB_MRES: md->base_status->mres = (int16)value; calc_status = true; break;
 			case UMOB_DAMAGETAKEN: md->damagetaken = (uint16)value; break;
+			case UMOB_BODYSIZE: md->ud.body_size = (uint8)cap_value(value, 0, UINT8_MAX); clif_body_size(bl, md->ud.body_size); break; // [Stingor] 100 = taille normale
 			default:
 				ShowError("buildin_setunitdata: Unknown data identifier %d for BL_MOB.\n", type);
 				return SCRIPT_CMD_FAILURE;
@@ -20018,6 +20042,7 @@ BUILDIN_FUNC(setunitdata)
 			case UNPC_BODY2: clif_changelook(bl, LOOK_BODY2, (uint16)value); break;
 			case UNPC_DEADSIT: nd->vd.dead_sit = (uint16)value; unit_refresh(bl); break;
 			case UNPC_GROUP_ID: nd->ud.group_id = value; unit_refresh(bl); break;
+			case UNPC_BODYSIZE: nd->ud.body_size = (uint8)cap_value(value, 0, UINT8_MAX); clif_body_size(bl, nd->ud.body_size); break; // [Stingor]
 			default:
 				ShowError("buildin_setunitdata: Unknown data identifier %d for BL_NPC.\n", type);
 				return SCRIPT_CMD_FAILURE;
@@ -28699,6 +28724,7 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(npcskilleffect,"viii"), // npc skill effect [Valaris]
 	BUILDIN_DEF(specialeffect,"i??"), // npc skill effect [Valaris]
 	BUILDIN_DEF(specialeffect2,"i??"), // skill effect on players[Valaris]
+	BUILDIN_DEF(specialeffect3,"iii"), // [Stingor] skill effect on any unit (episode 20)
 	BUILDIN_DEF(removespecialeffect,"i??"),
 	BUILDIN_DEF2(removespecialeffect,"removespecialeffect2","i??"),
 	BUILDIN_DEF(nude,"?"), // nude command [Valaris]

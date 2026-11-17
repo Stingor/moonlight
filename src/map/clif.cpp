@@ -1961,6 +1961,10 @@ int32 clif_spawn( const block_list* bl, bool walking ){
 
 	clif_refresh_clothcolor( *bl, AREA_WOS );
 
+	// [Stingor] Taille du corps posee par setunitdata (UMOB_BODYSIZE, UNPC_BODYSIZE).
+	if( const unit_data* bud = unit_bl2ud( bl ); bud != nullptr && bud->body_size )
+		clif_body_size( bl, bud->body_size );
+
 	switch (bl->type)
 	{
 	case BL_PC:
@@ -2377,6 +2381,10 @@ void clif_move( const struct unit_data& ud )
 	clif_set_unit_walking( *bl, nullptr, ud, AREA_WOS );
 
 	clif_refresh_clothcolor( *bl, AREA_WOS );
+
+	// [Stingor] Taille du corps, pour ceux qui decouvrent l'unite en marche.
+	if( ud.body_size )
+		clif_body_size( bl, ud.body_size );
 
 	switch (bl->type) {
 	case BL_PC:
@@ -12854,6 +12862,10 @@ void clif_getareachar_unit( map_session_data* sd,block_list *bl ){
 
 	clif_refresh_clothcolor( *bl, SELF, sd );
 
+	// [Stingor] Taille du corps, au seul joueur qui decouvre l'unite (brHades l'envoyait a toute la zone).
+	if( ud != nullptr && ud->body_size )
+		clif_body_size( bl, ud->body_size, sd );
+
 	switch (bl->type)
 	{
 	case BL_PC:
@@ -14549,6 +14561,22 @@ void clif_cooking_list( map_session_data& sd, int32 trigger, uint16 skill_id, in
 /// @param val1
 /// @param val2
 /// @param val3
+void clif_status_change_sub(const block_list* bl, int32 id, int32 type, int32 flag, t_tick tick, int32 val1, int32 val2, int32 val3, enum send_target target_type);
+
+/// [Stingor] Taille du corps d'une unite (episode 20, brHades c2196f9be) : statut client 1421,
+/// val1 = taille en pourcentage (100 = normale). Sans `to`, a la zone ; avec `to`, a ce joueur seul.
+void clif_body_size( const block_list* bl, int32 size, map_session_data* to ){
+	if( bl == nullptr )
+		return;
+
+	if( to != nullptr ){
+		clif_status_change_sub( to, bl->id, 1421, 1, 9999, size, 0, 0, SELF );
+		return;
+	}
+
+	clif_status_change_sub( bl, bl->id, 1421, 1, 9999, size, 0, 0, bl->type == BL_PC ? AREA : AREA_WOS );
+}
+
 void clif_status_change_sub(const block_list* bl, int32 id, int32 type, int32 flag, t_tick tick, int32 val1, int32 val2, int32 val3, enum send_target target_type)
 {
 	unsigned char buf[32];

@@ -57,6 +57,7 @@ struct unit_data {
 	bool immune_attack; ///< Whether the unit is immune to attacks
 	uint8 dir;
 	unsigned char target_count;
+	uint8 body_size; ///< [Stingor] Taille du corps (UMOB_BODYSIZE / UNPC_BODYSIZE), 0 = non posee, 100 = normale
 	struct s_udState {
 		unsigned change_walk_target : 1 ;
 		unsigned skillcastcancel : 1 ;

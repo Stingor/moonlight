@@ -4074,6 +4074,8 @@
 	export_constant(UMOB_RES);
 	export_constant(UMOB_MRES);
 	export_constant(UMOB_DAMAGETAKEN);
+	export_constant(UMOB_BODYSIZE);
+	export_constant(UMOB_MATK);
 
 	/* unit control - homunculus */
 	export_constant(UHOM_SIZE);
@@ -4287,6 +4289,7 @@
 	export_constant(UNPC_BODY2);
 	export_constant(UNPC_DEADSIT);
 	export_constant(UNPC_GROUP_ID);
+	export_constant(UNPC_BODYSIZE);
 
 	export_constant(NAV_NONE);
 	export_constant(NAV_AIRSHIP_ONLY);

@@ -2178,4 +2178,7 @@ void clif_parse_moonlight_card_album_cmd(int32 fd, map_session_data* sd);
 // coûte alors qu'un `strchr`.
 bool clif_bourgeon_strip_own_tags(const char* text, std::string& out);
 
+// [Stingor] Taille du corps d'une unite (episode 20, brHades) : statut client 1421.
+void clif_body_size( const block_list* bl, int32 size, map_session_data* to = nullptr );
+
 #endif /* CLIF_HPP */

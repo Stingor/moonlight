@@ -515,6 +515,8 @@ enum unitdata_mobtypes {
 	UMOB_RES,
 	UMOB_MRES,
 	UMOB_DAMAGETAKEN,
+	UMOB_BODYSIZE, // [Stingor] episode 20
+	UMOB_MATK, // [Stingor] episode 20, renewal seulement
 };
 
 enum unitdata_homuntypes {
@@ -733,6 +735,7 @@ enum unitdata_npctypes {
 	UNPC_BODY2,
 	UNPC_DEADSIT,
 	UNPC_GROUP_ID,
+	UNPC_BODYSIZE, // [Stingor] episode 20
 };
 
 enum navigation_service {
