@@ -62,9 +62,14 @@ function	script	GNA_Exchange	{
 		mes "Your inventory cannot hold the result.";
 		return 0;
 	}
+	// No short-circuit in rAthena: countitem(0) would abort the script.
+	.@base_missing = 0;
+	if (.@base) {
+		if (countitem(.@base) < .@base_count) .@base_missing = 1;
+	}
 	if (Zeny < .@zeny || countitem(1000316) < .@coin
 		|| countitem(1000317) < .@cert || countitem(1000366) < .@champ
-		|| (.@base && countitem(.@base) < .@base_count)) {
+		|| .@base_missing) {
 		mes "You do not have all required materials.";
 		return 0;
 	}

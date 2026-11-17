@@ -260,9 +260,12 @@ function	script	F_AirshipCrashExchange	{
 		mes "You need "+.@stones+" Magical Stones.";
 		return 0;
 	}
-	if (.@extra && countitem(.@extra) < .@extra_amount) {
-		mes "You also need "+.@extra_amount+" "+getitemname(.@extra)+".";
-		return 0;
+	// No short-circuit in rAthena: countitem(0) would abort the script.
+	if (.@extra) {
+		if (countitem(.@extra) < .@extra_amount) {
+			mes "You also need "+.@extra_amount+" "+getitemname(.@extra)+".";
+			return 0;
+		}
 	}
 	if (Zeny < .@zeny) {
 		mes "You also need "+.@zeny+" Zeny.";
