@@ -1110,10 +1110,10 @@ function IllusionMenu {
 	setarray .@prog[0], illusion_moonlight, 1, ill_vampire, ill_underwater, ill_underwater, ill_teddy, ill_turtle, ill_turtle, 1, ill_anthell, ill_laby;
 	setarray .@need[0], 6, 0, 5, 5, 5, 3, 1, 1, 0, 3, 2;
 	// PNJ de depart de chaque chaine, et une case praticable a cote de lui.
-	setarray .@qnpc$[0], "Elder Sanyul", "", "Grimm", "Jerrymon", "Jerrymon", "Coughing young man", "Knight Aylvar", "Knight Aylvar", "", "Yolanda", "Irene";
-	setarray .@qmap$[0], "payon", "", "gef_dun01", "prt_elib", "prt_elib", "einbroch", "alberta", "alberta", "", "anthell02", "prt_maze01";
-	setarray .@qx[0], 164, 0, 132, 57, 57, 149, 211, 211, 0, 172, 99;
-	setarray .@qy[0], 227, 0, 221, 16, 16, 240, 26, 26, 0, 187, 29;
+	setarray .@qnpc$[0], "Elder Sanyul", "", "Grimm", "Gein", "Gein", "Coughing young man", "Knight Aylvar", "Knight Aylvar", "", "Yolanda", "Irene";
+	setarray .@qmap$[0], "payon", "", "gef_dun01", "izlude", "izlude", "einbroch", "alberta", "alberta", "", "anthell02", "prt_maze01";
+	setarray .@qx[0], 164, 0, 132, 130, 130, 149, 211, 211, 0, 172, 99;
+	setarray .@qy[0], 227, 0, 221, 48, 48, 240, 26, 26, 0, 187, 29;
 	.@n = getarraysize(.@mname$);
 	.@staff = (getgroupid() >= 99);
 
