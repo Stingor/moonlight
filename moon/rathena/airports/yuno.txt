@@ -90,7 +90,7 @@ y_airport,145,63,5	script	Domestic Boarding	91,{
 	mes "Airship's boarding area.";
 	next;
 	if (select("Yes:No") == 1) {
-		warp "yuno",59,244;
+		warp "airplane",244,58; // ex-quai yuno,59,244
 		end;
 	}
 	mes "[Boarding Staff]";
@@ -110,7 +110,7 @@ y_airport,140,63,5	script	International Boarding	91,{
 	mes "you to the boarding area.";
 	next;
 	if (select("Yes:No") == 1) {
-		warp "yuno",47,244;
+		warp "airplane_01",244,58; // ex-quai yuno,47,244
 		end;
 	}
 	mes "[Boarding Staff]";
@@ -122,40 +122,6 @@ y_airport,140,63,5	script	International Boarding	91,{
 	close;
 }
 
-yuno,14,262,5	script	Airship Staff#yuno01	91,{
-	mes "[Airship Staff]";
-	mes "Welcome to Juno Airport.";
-	mes "Please use this door to";
-	mes "board the Airship that will";
-	mes "be flying all the way to Izlude";
-	mes "in the Rune-Midgarts Kingdom,";
-	mes "and to Rachel in the Arunafeltz";
-	mes "Republic.";
-	next;
-	mes "[Airship Staff]";
-	mes "Otherwise, if Juno is";
-	mes "your intended destination,";
-	mes "please head down the stairs";
-	mes "and ask the Arrival Staff to lead";
-	mes "you to the main terminal. Thank";
-	mes "you, and enjoy your travels.";
-	close;
-}
+// Moonlight 2026-11-17 : quai supprime des .gat du client (data-2025-07-16), PNJ du quai retire : Airship Staff#yuno01
 
-yuno,88,263,3	script	Airship Staff#yuno02	91,{
-	mes "[Airship Staff]";
-	mes "Welcome to Juno Airport.";
-	mes "Please use this door to";
-	mes "board the Airship which stops";
-	mes "over Einbroch, Lighthalzen and";
-	mes "Hugel in the Schwaltzvalt Republic.";
-	next;
-	mes "[Airship Staff]";
-	mes "Otherwise, if Juno is";
-	mes "your intended destination,";
-	mes "please head down the stairs";
-	mes "and ask the Arrival Staff to lead";
-	mes "you to the main terminal. Thank";
-	mes "you, and enjoy your travels.";
-	close;
-}
+// Moonlight 2026-11-17 : quai supprime des .gat du client (data-2025-07-16), PNJ du quai retire : Airship Staff#yuno02

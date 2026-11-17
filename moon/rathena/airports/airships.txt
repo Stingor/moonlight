@@ -34,9 +34,9 @@ OnUnhide:
 
 OnTouch_:
 	switch ($@airplanelocation) {
-	case 0: warp "yuno",92,260; end;
-	case 1: warp "einbroch",92,278; end;
-	case 2: warp "lighthalzen",302,75; end;
+	case 0: warp "y_airport",143,54; end; // quai yuno,92,260 absent du client
+	case 1: warp "airport",138,51; end; // quai einbroch,92,278 absent du client
+	case 2: warp "lhz_airport",143,53; end; // quai lighthalzen,302,75 absent du client
 	case 3: warp "hugel",181,146; end;
 	}
 }
@@ -664,7 +664,7 @@ OnTouch_:
 		else
 			warp "izlude",200,56;
 		end;
-	case 2: warp "yuno",12,261; end;
+	case 2: warp "y_airport",143,54; end; // quai yuno,12,261 absent du client
 	}
 
 OnInit:

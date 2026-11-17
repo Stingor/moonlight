@@ -169,14 +169,22 @@ appliquée est la première `.gat` trouvée dans l'ordre des archives du client
     (150,120) et le portail `prt08` de Prontera, dont la zone 5×5 touche encore le sol.
 - Le serveur charge les 1 301 cartes sans erreur ni avertissement.
 
-**`yuno`, `einbroch` et `lighthalzen` gardent l'ancienne grille.** Leur version 2025
-(`data-2025-07-16.grf`) condamne les aéroports : la zone ouest de Juno et tout l'est de
-Lighthalzen. Le décor de Lighthalzen y est pourtant le même que dans `data.grf`, seule la
-collision change. Juno a aussi un nouveau décor (`.rsw` 0x207). Les aligner casserait 19
-coordonnées : quais, portails et destinations des dirigeables (`moon/rathena/airports/*`,
-`warps/other/airplane.txt`). Pour un client qui monte `data-2025-07-16.grf`, ces trois
-villes restent désaccordées : ce client refuse d'y marcher vers les aéroports. **À trancher
-côté client** : remettre les anciennes `.gat` de ces trois villes dans `moonlight.grf`.
+**`yuno`, `einbroch` et `lighthalzen` alignés à leur tour (2026‑11‑17), sans les quais.**
+Leur version 2025 (`data-2025-07-16.grf`) condamne les aéroports : la zone ouest de Juno,
+le quai d'Einbroch et tout l'est de Lighthalzen. Le décor de Lighthalzen y est pourtant le
+même que dans `data.grf`, seule la collision change. Juno a aussi un nouveau décor (`.rsw`
+0x207). Le client à jour est obligatoire, donc la grille du serveur suit la sienne, et le
+passage par les quais disparaît :
+
+| Ville | Embarquement | Débarquement |
+|---|---|---|
+| Juno | les agents *Domestic* / *International Boarding* de `y_airport` font monter directement dans `airplane` / `airplane_01` (244,58) | `y_airport` 143,54 (salle d'arrivée) |
+| Einbroch | le portail `ein_ap02a` (`airport` 142,61) mène dans `airplane` 224,64 | `airport` 138,51 |
+| Lighthalzen | le portail `lairp4` (`lhz_airport` 142,60) mène dans `airplane` 224,58 | `lhz_airport` 143,53 |
+
+Huit portails de quai sont commentés dans `warps/other/airplane.txt`, et trois PNJ de quai
+sont retirés (Airship Staff `yuno01`, `yuno02` et `ein01`). Les 548 coordonnées des scripts
+chargés sur ces trois cartes tombent toutes sur le sol.
 
 Les 205 cartes du serveur absentes des GRF du client (copies d'instances, `pvp_y_*`…)
 passent par la `resnametable` et n'ont pas été touchées.
@@ -186,7 +194,7 @@ passent par la `resnametable` et n'ont pas été touchées.
 | | |
 |---|---|
 | Intérêt | très élevé — trois villes, six instances, le système de costumes |
-| Reste à faire | rien de PvE ; WoE 1 renouvelé laissé tel quel ; grilles alignées sur le client (35 cartes) ; Juno, Einbroch et Lighthalzen à régler côté client (aéroports) |
+| Reste à faire | rien de PvE ; WoE 1 renouvelé laissé tel quel ; grilles alignées sur le client (38 cartes, aéroports de Juno, Einbroch et Lighthalzen sans quai) ; trajets en dirigeable à tester en jeu |
 
 ## Sources
 
