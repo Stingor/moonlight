@@ -99,8 +99,13 @@ navigation), et les huit scripts d'instance cités plus haut.
   `moon/scripts_moon.conf`. Les deux entrées d'instance existent déjà
   (`Wave Mode - Forest` id 22 et `Wave Mode - Sky` id 23 dans
   `db/import/instance_db.yml`), et les cartes `1@def01`/`1@def02` sont dans le
-  mapcache : **il ne manque littéralement qu'une ligne de configuration**.
-  C'est le seul manque PvE de l'épisode.
+  mapcache, et l'IA `AI_WAVEMODE` existe dans le C++. Mais **45 des 81 mobs** appelés
+  par le script n'existent que dans `db/re` : les mobs de vague 2569 à 2602 et les mobs
+  d'instance 3075 à 3086 (`WA_TREASURE`, `WA_MERCENARY`…). Les référencer seuls ferait
+  échouer les invocations (vérifié le 2026‑11‑17).
+  **Écarté par choix** : mini-jeu de défense sans récompense scriptée (EXP des mobs et
+  coffres du Ciel), désactivé sur kRO. À reprendre seulement pour un événement, avec
+  une récompense maison selon la vague atteinte.
 - **Académie Criatura / nouvelle Izlude** — `moon/rathena/jobs/novice/academy.txt` est
   **commenté** (`scripts_moon.conf:115`). Choix assumé : Moonlight garde son propre
   parcours de départ.
@@ -112,7 +117,7 @@ navigation), et les huit scripts d'instance cités plus haut.
 | | |
 |---|---|
 | Intérêt | très élevé — Old Glast Heim et l'Usine de Jouets sont du contenu de groupe durable |
-| Reste à faire | **une ligne** : référencer `WaveMode` dans `scripts_moon.conf` |
+| Reste à faire | rien : le Mode Vague est écarté par choix (45 mobs à porter, sans récompense) |
 
 ## Sources
 
