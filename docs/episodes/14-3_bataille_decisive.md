@@ -61,7 +61,7 @@ l'épisode 14.3.
 | Tour de l'Horloge Cauchemar | `moon/rathena/dungeons/c_tower.npc`, `db/import/mobs/c_tower_n.yml` | ✅ |
 | Clans | `moon/rathena/other/clans.txt` | ✅ |
 | Banque | intégrée au serveur (`bank_zeny`) | ✅ |
-| **Bassin de Flammes** | `moon/mobs/morocc.npc` — 11 lignes de spawn sur `moro_vol` | ✅ |
+| **Bassin de Flammes** | `moon/mobs/morocc.npc` — 11 lignes de spawn sur `moro_vol` (Incarnations réduites à 20) | ✅ |
 | **Temple du Dieu Démon** | `moon/instances/TempleofDemonGod.npc` — `1@eom`, id 27 | ✅ |
 
 Les huit mobs du Bassin de Flammes (Fire Bug, Fire Condor, Fire Frilldora, Fire Golem,
@@ -87,15 +87,22 @@ Le script était présent mais non référencé. Le brancher n'a pas suffi :
 
 ## 4. Migration pré-renewal
 
-Rien de structurel : l'épisode est absorbé. La seule question ouverte est le niveau de
-difficulté du Bassin de Flammes, conçu côté kRO pour du 150+.
+Rien de structurel : l'épisode est absorbé.
+
+**Difficulté du Bassin de Flammes (2026‑11‑17).** Les mobs de feu (niveau 141 à 148,
+37 000 à 50 000 PV, environ 60 000 d'EXP) sont dans la norme des zones 140‑150 du serveur
+(Eclage, Devil Tower) et restent tels quels. Le point dur venait des **Incarnations de
+Morocc** (1918‑1921) : classe Boss, ATK pre-re de 3 000 à 8 600, soit environ six fois les
+autres mobs de la carte, et 60 exemplaires sans délai de réapparition. Elles passent à
+**4 × 5 = 20** sur `moro_vol`. Leurs stats ne bougent pas, car la Dimensional Gorge
+(`moc_fild22`) utilise les mêmes mobs.
 
 ## 5. Verdict
 
 | | |
 |---|---|
 | Intérêt | moyen — l'essentiel est déjà en place |
-| Reste à faire | **rien** — seule reste la question de la difficulté du Bassin de Flammes |
+| Reste à faire | **rien** — Bassin de Flammes ajusté (Incarnations de Morocc 60 → 20), à vérifier en jeu |
 
 ## Sources
 
