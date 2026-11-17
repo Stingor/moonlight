@@ -347,6 +347,13 @@ Body:
         Rate: 25000
       - Mob: EP18_BURNING_FANG
         Rate: 25000
+      # Episodes 19 et 20 : MVP de terrain (2026-11-17)
+      - Mob: EP19_LIMACINA_BOSS
+        Rate: 25000
+      - Mob: EP20_SNOW_ANGEL
+        Rate: 25000
+      - Mob: EP20_BOSS_CLANER
+        Rate: 25000
   - Group: Branch_Of_Dead_Tree
     Default: SCORPION
     Summon:
@@ -1633,6 +1640,93 @@ Body:
       - Mob: EP18_LAVA_TOAD
         Rate: 32000
       - Mob: EP18_HOT_MOLAR
+        Rate: 32000
+      # Episodes 19 et 20 : mobs de terrain (2026-11-17)
+      - Mob: EP19_LIMACINA
+        Rate: 32000
+      - Mob: EP19_UNFROST_FLOWER
+        Rate: 32000
+      - Mob: EP19_CALMARING
+        Rate: 32000
+      - Mob: EP19_ICE_STRAW
+        Rate: 32000
+      - Mob: EP19_SHINING_SEAWEED
+        Rate: 32000
+      - Mob: EP19_ICE_GANGU
+        Rate: 32000
+      - Mob: EP19_RGAN_A
+        Rate: 32000
+      - Mob: EP19_RGAN_B
+        Rate: 32000
+      - Mob: EP19_RGAN_C
+        Rate: 32000
+      - Mob: EP19_RGAN_D
+        Rate: 32000
+      - Mob: EP19_WASTED_RGAN_A
+        Rate: 32000
+      - Mob: EP19_WASTED_RGAN_C
+        Rate: 32000
+      - Mob: EP19_CAVE_CALMARING
+        Rate: 32000
+      - Mob: EP19_CAVE_FLOWER
+        Rate: 32000
+      - Mob: EP19_HALLUCIGENIA
+        Rate: 32000
+      - Mob: EP19_HALLUCIGENIA_BABY
+        Rate: 32000
+      - Mob: EP19_ONE_EYE_DOLLOCARIS
+        Rate: 32000
+      - Mob: EP19_DOLLOCARIS
+        Rate: 32000
+      - Mob: EP19_HEARTHUNTER_AT
+        Rate: 32000
+      - Mob: EP19_RE_RGAN_E
+        Rate: 32000
+      - Mob: EP19_ET_RGAN_D
+        Rate: 32000
+      - Mob: EP20_COPO
+        Rate: 32000
+      - Mob: EP20_ICEWIND1
+        Rate: 32000
+      - Mob: EP20_ICEWIND2
+        Rate: 32000
+      - Mob: EP20_EGGCOPO
+        Rate: 32000
+      - Mob: EP20_RABBIT_ICESLUG
+        Rate: 32000
+      - Mob: EP20_MELIBE_ICESLUG
+        Rate: 32000
+      - Mob: EP20_ICEBEAR
+        Rate: 32000
+      - Mob: EP20_JORMUNGUARD1
+        Rate: 32000
+      - Mob: EP20_JORMUNGUARD2
+        Rate: 32000
+      - Mob: EP20_FAKE_IWIN_SN
+        Rate: 32000
+      - Mob: EP20_FAKE_IWIN_SY
+        Rate: 32000
+      - Mob: EP20_FAKE_IWIN_SB
+        Rate: 32000
+      - Mob: EP20_FAKE_IWIN_SG
+        Rate: 32000
+      - Mob: EP20_FAKE_IWIN_SR
+        Rate: 32000
+      - Mob: EP20_ANGEL_ICESLUG
+        Rate: 32000
+      - Mob: EP20_RGAN_WARLOCK
+        Rate: 32000
+      - Mob: EP20_RGAN_HEALER
+        Rate: 32000
+      - Mob: EP20_JORGAN_WARLOCK
+        Rate: 32000
+      - Mob: EP20_JORGAN_HEALER
+        Rate: 32000
+      - Mob: EP20_JORGAN_GUARDIAN
+        Rate: 32000
+      - Mob: EP20_JORGAN_CLEANER
+        Rate: 32000
+      - Mob: EP20_ARMOERDCOPO
         Rate: 32000
   - Group: Classchange
     Default: BAPHOMET
