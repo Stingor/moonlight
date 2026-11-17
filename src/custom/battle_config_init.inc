@@ -80,4 +80,5 @@
 	{ "cheat_cadence_floor",				&battle_config.cheat_cadence_floor,				150,	0,		10000,			},
 	{ "cheat_cadence_ceiling",				&battle_config.cheat_cadence_ceiling,			5000,	100,	60000,			},
 	{ "cheat_report_interval",				&battle_config.cheat_report_interval,			300000,	0,		86400000,		},
+	{ "cheat_fair_play_interval",			&battle_config.cheat_fair_play_interval,		300000,	0,		86400000,		},
 

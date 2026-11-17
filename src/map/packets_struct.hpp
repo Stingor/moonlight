@@ -7399,6 +7399,24 @@ struct PACKET_ZC_MOONLIGHT_LONG_NAME {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_LONG_NAME, 0x0f69);
 
+// [Stingor] Le rappel de FAIR-PLAY en guerre de guilde (ZC 0x0F6A).
+//
+// ZC (serveur -> client) : la garde du client a signalé un outil de confort
+// pendant cette session (CZ 0x0F0A), et le joueur se trouve sur un château
+// pendant une guerre de guilde ouverte. Le client ouvre une fenêtre modale qui
+// rappelle la règle et nomme l'outil. Voir cheat_watch.hpp pour la cadence.
+//
+// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_FAIR_PLAY : un client
+// qui ne connaît pas l'opcode vide son tampon de réception.
+// Layout: [packetType:2][packetLength:2][tool_name:32]
+//   tool_name : le nom d'outil du dernier CZ 0x0F0A, terminé par un zéro.
+struct PACKET_ZC_MOONLIGHT_FAIR_PLAY {
+	int16 packetType;
+	int16 packetLength;
+	char  tool_name[sizeof(PACKET_CZ_MOONLIGHT_CHEAT_REPORT::tool_name)];
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_FAIR_PLAY, 0x0f6a);
+
 // [Stingor] ZC_MOONLIGHT_INSTANCE_INFO (0x0F40) — ce que la fenêtre d'instance
 // ne lit pas dans 0x02CB / 0x02CD : la difficulté (HM) et le mode turbo choisis
 // à la création, à qui appartient l'instance, qui peut la détruire, et ses
@@ -8935,7 +8953,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_HATEFFECT_MAP, 0x0f17);
 // client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans
 // la zone sûre 0x0F00+ (2026-07-03). Le prochain opcode libre est tenu par
 // bopcodes::kNextFree, dans src/features/systems/bourgeon_opcodes.h de Bourgeon
-// (0x0F6A à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
+// (0x0F6B à ce jour) : c'est là qu'un numéro se réserve, avant de servir ici.
 
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)

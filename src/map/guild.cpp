@@ -21,6 +21,7 @@
 
 #include "battle.hpp"
 #include "channel.hpp"
+#include "cheat_watch.hpp"
 #include "clif.hpp"
 #include "instance.hpp"
 #include "intif.hpp"
@@ -2572,6 +2573,7 @@ bool guild_agit_start(void){
 	voice_bridge_send_guild_war_state(is_agit_start());
 
 	npc_event_runall( script_config.agit_start_event_name );
+	cheat_watch_fair_play_war_started();
 
 	return true;
 }
@@ -2604,6 +2606,7 @@ bool guild_agit2_start(void){
 	voice_bridge_send_guild_war_state(is_agit_start());
 
 	npc_event_runall( script_config.agit_start2_event_name );
+	cheat_watch_fair_play_war_started();
 
 	return true;
 }
@@ -2636,6 +2639,7 @@ bool guild_agit3_start(void){
 	voice_bridge_send_guild_war_state(is_agit_start());
 
 	npc_event_runall( script_config.agit_start3_event_name );
+	cheat_watch_fair_play_war_started();
 
 	return true;
 }

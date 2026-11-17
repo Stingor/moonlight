@@ -126,6 +126,13 @@ struct s_cheat_watch {
 	// fenêtre « Joueurs en ligne » du staff montre (ZC 0x0F68). Ils plafonnent.
 	uint16 clock_reports = 0;
 	uint16 cadence_reports = 0;
+	// Le dernier outil que la garde du client a signalé (CZ 0x0F0A), vide tant
+	// qu'il n'y en a pas eu. Il rappelle le fair-play en guerre de guilde.
+	char client_tool[33] = {};
+	// Le dernier rappel de fair-play envoyé, et la guerre de guilde pendant
+	// laquelle il est parti (cheat_watch.cpp les numérote ; 0 = aucune).
+	t_tick fair_play_tick = 0;
+	uint32 fair_play_war = 0;
 };
 
 #endif /* MAP_CHEAT_HEURISTICS_HPP */

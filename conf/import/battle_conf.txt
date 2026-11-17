@@ -675,3 +675,9 @@ cheat_cadence_floor: 150
 cheat_cadence_ceiling: 5000
 // Delai minimal entre deux lignes du meme indice, en ms.
 cheat_report_interval: 300000
+// Rappel de fair-play en guerre de guilde (ZC 0x0F6A, moonclient) : une fenetre
+// que recoit, sur un chateau pendant la WoE, un joueur dont le client a signale
+// un outil. Delai minimal entre deux rappels tant que l'outil est signale, en ms.
+// Un outil signale plus tot dans la session ne relance le rappel qu'une fois
+// par guerre. 0 = aucun rappel.
+cheat_fair_play_interval: 300000

@@ -2005,8 +2005,15 @@ enum e_moonlight_ui_cap : uint32 {
 	// place de 0x0A30 ou 0x0ADF quand ce nom dépasse NAME_LENGTH - 1 octets.
 	// Réservé à moonclient : la DLL ne l'annonce pas.
 	MOONLIGHT_UI_LONG_MOB_NAME = 0x02000000,
-	// Prochain bit libre : 0x04000000.
+	// Ce client ouvre le rappel de fair-play en guerre de guilde (ZC 0x0F6A).
+	// Réservé à moonclient : la DLL ne l'annonce pas.
+	MOONLIGHT_UI_FAIR_PLAY = 0x04000000,
+	// Prochain bit libre : 0x08000000.
 };
+
+// [Stingor] Le rappel de fair-play en guerre de guilde (ZC 0x0F6A), à une
+// session qui annonce MOONLIGHT_UI_FAIR_PLAY. Faux si elle ne sait pas le lire.
+bool clif_moonlight_fair_play(map_session_data& sd, const char* tool_name);
 
 // [Stingor] Les réglages du serveur utiles au client (ZC 0x0F38), à une session
 // qui a annoncé MOONLIGHT_UI_SERVER_RULES, ou à toutes celles en ligne.

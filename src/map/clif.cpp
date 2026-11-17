@@ -9448,6 +9448,21 @@ static void clif_moonlight_attack_element_single(const map_session_data& owner, 
 	WFIFOSET(fd, sizeof(PACKET_ZC_MOONLIGHT_ATTACK_ELEMENT));
 }
 
+bool clif_moonlight_fair_play(map_session_data& sd, const char* tool_name) {
+	if (!sd.state.has_bourgeon || !(sd.bourgeon_ui_caps & MOONLIGHT_UI_FAIR_PLAY))
+		return false;
+	const int32 fd = sd.fd;
+	if (!session_isActive(fd))
+		return false;
+
+	PACKET_ZC_MOONLIGHT_FAIR_PLAY p = {};
+	p.packetType   = HEADER_ZC_MOONLIGHT_FAIR_PLAY;
+	p.packetLength = (int16)sizeof(p);
+	safestrncpy(p.tool_name, tool_name, sizeof(p.tool_name));
+	clif_send(&p, sizeof(p), &sd, SELF);
+	return true;
+}
+
 // Ce que la zone apprend de l'élément d'un joueur.
 enum e_moonlight_attack_element_send : int32 {
 	// Il a changé : ceux à qui il est caché n'apprennent rien, pas même qu'il a
@@ -11675,6 +11690,7 @@ void clif_parse_moonlight_cheat_report(int32 fd, map_session_data* sd) {
 		sd->status.account_id,
 		sd->status.char_id,
 		tool, detail);
+	cheat_watch_note_client_tool(*sd, tool);
 }
 
 // [Stingor] Pousse l'état des compagnons (ZC 0x0F16, SELF) : niveaux de skills requis
@@ -19592,6 +19608,10 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 	// and have no unit to apply the change to.
 	if (sd->state.spectator)
 		clif_changeoption_target(sd, sd);
+
+	// [Stingor] Sur un château pendant une guerre de guilde : le rappel de
+	// fair-play, si la garde du client a signalé un outil (cheat_watch.hpp).
+	cheat_watch_fair_play_on_arrival(*sd);
 }
 
 

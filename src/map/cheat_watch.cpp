@@ -5,15 +5,62 @@
 
 #include "cheat_watch.hpp"
 
+#include <cstdarg>
 #include <cstdlib>
 
 #include <common/showmsg.hpp>
+#include <common/strlib.hpp>
 #include <common/timer.hpp>
 
 #include "battle.hpp"
+#include "clif.hpp"
+#include "map.hpp"
 #include "pc.hpp"
 
 namespace {
+
+// Le numéro de la guerre de guilde en cours, ou de la dernière : il avance à
+// chaque ouverture. Zéro avant la première, que s_cheat_watch::fair_play_war
+// tient pour « aucun rappel encore ».
+uint32 fair_play_war = 0;
+
+// Un château pendant la guerre qui le concerne : FE et SE pour les châteaux
+// classiques, TE pour les siens. Les cartes GvG permanentes n'en sont pas.
+bool fair_play_applies(int16 m) {
+	const map_data* mapdata = map_getmapdata(m);
+	if (mapdata == nullptr)
+		return false;
+	return ((agit_flag || agit2_flag) && mapdata->getMapFlag(MF_GVG_CASTLE)) ||
+		(agit3_flag && mapdata->getMapFlag(MF_GVG_TE_CASTLE));
+}
+
+// `fresh` : un rapport vient d'arriver. Sinon, le rappel d'un outil signalé
+// plus tôt, une fois par guerre.
+void fair_play_remind(map_session_data& sd, bool fresh) {
+	const t_tick interval_ms = static_cast<t_tick>(battle_config.cheat_fair_play_interval);
+	s_cheat_watch& watch = sd.cheat_watch;
+	if (interval_ms == 0 || watch.client_tool[0] == '\0' || !fair_play_applies(sd.m))
+		return;
+
+	const t_tick now = gettick();
+	if (watch.fair_play_war == fair_play_war) {
+		if (!fresh || (watch.fair_play_tick != 0 && DIFF_TICK(now, watch.fair_play_tick) < interval_ms))
+			return;
+	}
+	if (!clif_moonlight_fair_play(sd, watch.client_tool))
+		return;
+	watch.fair_play_tick = now;
+	watch.fair_play_war = fair_play_war;
+
+	ShowInfo("[CheatDetector] %s (AID:%d CID:%d) -- rappel de fair-play en guerre de guilde (%s)\n",
+		sd.status.name, sd.status.account_id, sd.status.char_id, watch.client_tool);
+}
+
+int32 fair_play_remind_sub(map_session_data* sd, va_list /*args*/) {
+	if (sd != nullptr)
+		fair_play_remind(*sd, false);
+	return 0;
+}
 
 const char* const CADENCE_KIND_NAMES[CHEAT_CADENCE_KIND_COUNT] = {
 	"attaques",
@@ -78,4 +125,20 @@ void cheat_watch_note_action(map_session_data& sd, e_cheat_cadence_kind kind) {
 		sd.status.name, sd.status.account_id, sd.status.char_id,
 		verdict->samples, CADENCE_KIND_NAMES[kind], verdict->mean_ms,
 		verdict->variation_permille / 10, verdict->variation_permille % 10);
+}
+
+void cheat_watch_note_client_tool(map_session_data& sd, const char* tool) {
+	if (tool == nullptr || tool[0] == '\0')
+		return;
+	safestrncpy(sd.cheat_watch.client_tool, tool, sizeof(sd.cheat_watch.client_tool));
+	fair_play_remind(sd, true);
+}
+
+void cheat_watch_fair_play_on_arrival(map_session_data& sd) {
+	fair_play_remind(sd, false);
+}
+
+void cheat_watch_fair_play_war_started() {
+	++fair_play_war;
+	map_foreachpc(&fair_play_remind_sub);
 }

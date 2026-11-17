@@ -96,3 +96,6 @@
 	int32 cheat_cadence_ceiling;
 	// Le delai minimal entre deux lignes du meme indice, en ms.
 	int32 cheat_report_interval;
+	// Le delai minimal entre deux rappels de fair-play en guerre de guilde, en
+	// ms, tant que la garde du client signale un outil. 0 = aucun rappel.
+	int32 cheat_fair_play_interval;
