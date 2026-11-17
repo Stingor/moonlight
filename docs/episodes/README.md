@@ -24,7 +24,7 @@ Relevé initial le **2026-08-25**, synthèse remise à jour le **2026-10-07** (1
 | [17-2_heritage_du_sage.md](17-2_heritage_du_sage.md) | 17.2 — Sage's Legacy (Varmundt) | 2020‑10‑30 | **en production** (Niflheim renewal, Rudus 4F, Amicitia, chaîne de quêtes, quatre instances, économie du manoir) |
 | [18_direction_de_la_priere.md](18_direction_de_la_priere.md) | 18 — Direction of Prayer | 2021‑02‑01 | **en production** (terrain, chaîne, réputation, instances, économie, réforme Adulter → Vivatus) |
 | [19_issgard.md](19_issgard.md) | 19 — Issgard, Land of Snow Flowers | 2022‑01‑19 | **porté** (mobs et leurs compétences, terrain, quêtes, économie, instances, enchantements Snowflower et Glacier, coffret d'Ultra Limacina) ; tests en jeu à faire |
-| [20_the_undying.md](20_the_undying.md) | 20 — The Undying | 2023‑03‑02 | **rien** (rAthena non plus) |
+| [20_the_undying.md](20_the_undying.md) | 20 — The Undying | 2023‑03‑02 | **à porter** : conversion complète chez brHades (Capuche), plan en sept lots ; Hall of Life toujours commenté |
 
 ## Synthèse : ce qui reste à migrer, par coût croissant
 
@@ -89,9 +89,12 @@ avec l'économie de Cor.
 
 ### Hors périmètre
 
-Épisodes **19** et **20** : rAthena ne les convertit pas — pas de spawns, pas de scripts
-d'instance, seulement des objets et des entrées `instance_db` vides. Migrer signifierait
-écrire. Seul le **Hall of Life** de l'épisode 20 est à portée (niveau 3 ci-dessus).
+Aucun épisode n'est plus hors périmètre depuis le 2026‑11‑17. L'épisode **19** est porté depuis la PR
+[rathena/rathena#8527](https://github.com/rathena/rathena/pull/8527). L'épisode **20** a
+une conversion complète du même auteur (Capuche) dans le dépôt
+[glitzhXEC/brHades](https://github.com/glitzhXEC/brHades/commit/c2196f9be) ; son plan de
+portage est dans [20_the_undying.md](20_the_undying.md). Le **Hall of Life** reste au
+niveau 3 ci-dessus.
 
 Classes **3ᵉ et 4ᵉ**, **Doram/Summoner**, **Kagerou/Oboro**, **Rebellion**,
 **Homunculus S**, plafonds 150 → 260 : structurellement incompatibles avec un build
