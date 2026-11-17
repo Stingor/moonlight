@@ -164,7 +164,9 @@ OnInstanceInit:
 		'advs_difficult = 1;
 		'sanare_id = 21377;	// EP18_MD_SANARE_L
 		'hunter_id = 21378;	// EP18_MD_HEARTHUNTER_L
-		'monster_relieve = 10;	// need check but the damages are very low compared to normal mode
+		// Moonlight : 9 comme l'officiel (10 = -99 %). Les PV des mobs sont deja ramenes
+		// a l'echelle pre-re (~500k) : -99 % equivalait a 50M PV par mob de salle.
+		'monster_relieve = 9;
 
 		// Total of monster to kill in step 1, 2, 3
 		'total_monster_step_1 = 80;
@@ -306,15 +308,14 @@ OnStart:
 	end;
 	
 OnMobDead:
-	if ('mob_to_respawn > 0)
-		'mob_to_respawn--;
 	initnpctimer;
 	sleep 2000;
+	// Moonlight : le compteur baisse a chaque reapparition, pas a chaque mort.
+	// Avant : 2 pop par mort pour 1 decompte, soit ~init + 2 x reste a tuer
+	// (110 mobs au lieu de 70 en salle 2 Advanced). Desormais 1 mort = 1 remplacant.
 	if ('advs_step == 0 && 'mob_to_respawn > 0) {
-		if ('mob_to_respawn > 0)
-			callsub( S_Spawn );
-		if ('mob_to_respawn > 1)
-			callsub( S_Spawn );
+		'mob_to_respawn--;
+		callsub( S_Spawn );
 	}
 	end;
 OnTimer2000:
@@ -484,15 +485,14 @@ OnStart:
 		callsub( S_Spawn );
 	end;
 OnMobDead:
-	if ('mob_to_respawn > 0)
-		'mob_to_respawn--;
 	initnpctimer;
 	sleep 2000;
+	// Moonlight : le compteur baisse a chaque reapparition, pas a chaque mort.
+	// Avant : 2 pop par mort pour 1 decompte, soit ~init + 2 x reste a tuer
+	// (110 mobs au lieu de 70 en salle 2 Advanced). Desormais 1 mort = 1 remplacant.
 	if ('advs_step == 1 && 'mob_to_respawn > 0) {
-		if ('mob_to_respawn > 0)
-			callsub( S_Spawn );
-		if ('mob_to_respawn > 1)
-			callsub( S_Spawn );
+		'mob_to_respawn--;
+		callsub( S_Spawn );
 	}
 	end;
 OnTimer2000:
@@ -600,15 +600,14 @@ OnEvent:
 		callsub( S_Spawn );
 	end;
 OnMobDead:
-	if ('mob_to_respawn > 0)
-		'mob_to_respawn--;
 	initnpctimer;
 	sleep 2000;
+	// Moonlight : le compteur baisse a chaque reapparition, pas a chaque mort.
+	// Avant : 2 pop par mort pour 1 decompte, soit ~init + 2 x reste a tuer
+	// (110 mobs au lieu de 70 en salle 2 Advanced). Desormais 1 mort = 1 remplacant.
 	if ('advs_step == 2 && 'mob_to_respawn > 0) {
-		if ('mob_to_respawn > 0)
-			callsub( S_Spawn );
-		if ('mob_to_respawn > 1)
-			callsub( S_Spawn );
+		'mob_to_respawn--;
+		callsub( S_Spawn );
 	}
 	end;
 OnTimer2000:
