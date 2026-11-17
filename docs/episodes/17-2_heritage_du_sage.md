@@ -291,7 +291,7 @@ des explosions du périmètre).
 | Intérêt | élevé — le terrain est déjà ouvert, il manque ce qui le rend jouable |
 | Fait | lot A : Niflheim renewal et Rudus 4F ; lots B2 et B1 : la chaîne de quêtes et les quatre instances (2026‑11‑11) ; lot A2 : Amicitia et lot B3 : l'économie du manoir (2026‑11‑12) ; les cartes des instances sont dans les albums  ; déployé en production le 2026‑11‑15 ; lots C1 à C4 : le Tombeau du Remords, la Tour de Thanatos, la Tour des Constellations et le Crash d'aéronef ; lot C6 : l'Arène Nocturne de Geffen (2026‑11‑16) |
 | Épisode | **clos** côté portage le 2026‑11‑12 |
-| Reste à faire | rien côté instances de l'intervalle : les cinq sont portées (§5e) ; tests en jeu à faire |
+| Reste à faire | rien : les cinq instances de l'intervalle (§5e) et l'enchantement Star sont validés en jeu le 2026‑11‑17 |
 
 ## Sources
 

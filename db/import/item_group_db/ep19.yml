@@ -1220,3 +1220,139 @@ Body:
           - Index: 96
             Item: Ice_F_Stone_A_Force
             Rate: 50
+  # Episode 19 : le coffret d'Ultra Limacina (db/re), drop Moonlight a 1 % (2026-11-17).
+  # Objets absents ecartes : EP19_Gla_Extract, EP19_S_F_1_Extract, EP19_S_F_2_Extract, EP19_S_F_3_Extract, EP20_D_P_Crystal, EP20_D_P_Extract, EP20_D_P_Ore, Ep20_Cat_Whiskers.
+  - Group: F_ICESLUG_ANTIQUIY
+    SubGroups:
+      - SubGroup: 6
+        Algorithm: Random
+        List:
+          - Index: 0
+            Item: Brown_Dia
+            Rate: 1000
+            Amount: 3
+          - Index: 1
+            Item: Brown_Dia
+            Rate: 1000
+            Amount: 4
+          - Index: 2
+            Item: Brown_Dia
+            Rate: 1000
+            Amount: 5
+          - Index: 3
+            Item: Glacier_Armor
+            Rate: 100
+            RefineMinimum: 7
+            RefineMaximum: 7
+          - Index: 4
+            Item: Glacier_Robe
+            Rate: 100
+            RefineMinimum: 7
+            RefineMaximum: 7
+          - Index: 5
+            Item: Glacier_Boots
+            Rate: 100
+            RefineMinimum: 7
+            RefineMaximum: 7
+          - Index: 6
+            Item: Glacier_Shoes
+            Rate: 100
+            RefineMinimum: 7
+            RefineMaximum: 7
+          - Index: 7
+            Item: Glacier_Manteau
+            Rate: 100
+            RefineMinimum: 7
+            RefineMaximum: 7
+          - Index: 8
+            Item: Glacier_Muffler
+            Rate: 100
+            RefineMinimum: 7
+            RefineMaximum: 7
+          - Index: 9
+            Item: Glacier_Armor
+            Rate: 80
+            RefineMinimum: 8
+            RefineMaximum: 8
+          - Index: 10
+            Item: Glacier_Robe
+            Rate: 80
+            RefineMinimum: 8
+            RefineMaximum: 8
+          - Index: 11
+            Item: Glacier_Boots
+            Rate: 80
+            RefineMinimum: 8
+            RefineMaximum: 8
+          - Index: 12
+            Item: Glacier_Shoes
+            Rate: 80
+            RefineMinimum: 8
+            RefineMaximum: 8
+          - Index: 13
+            Item: Glacier_Manteau
+            Rate: 80
+            RefineMinimum: 8
+            RefineMaximum: 8
+          - Index: 14
+            Item: Glacier_Muffler
+            Rate: 80
+            RefineMinimum: 8
+            RefineMaximum: 8
+          - Index: 15
+            Item: Glacier_Armor
+            Rate: 50
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 16
+            Item: Glacier_Robe
+            Rate: 50
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 17
+            Item: Glacier_Boots
+            Rate: 50
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 18
+            Item: Glacier_Shoes
+            Rate: 50
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 19
+            Item: Glacier_Manteau
+            Rate: 50
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 20
+            Item: Glacier_Muffler
+            Rate: 50
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 21
+            Item: Glacier_Guard
+            Rate: 100
+            RefineMinimum: 7
+            RefineMaximum: 7
+          - Index: 22
+            Item: Glacier_Guard
+            Rate: 80
+            RefineMinimum: 8
+            RefineMaximum: 8
+          - Index: 23
+            Item: Glacier_Guard
+            Rate: 50
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 24
+            Item: Glacier_Pendant
+            Rate: 95
+          - Index: 25
+            Item: Glacier_Ring
+            Rate: 95
+          - Index: 26
+            Item: Glacier_Earring
+            Rate: 95
+          - Index: 27
+            Item: Glacier_Necklace
+            Rate: 95

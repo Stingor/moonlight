@@ -669,6 +669,8 @@ Body:
       - Item: Snow_F_Stone3
         Rate: 2000
     Drops:
+      - Item: F_Iceslug_Antiquiy
+        Rate: 100
       - Item: EP19_Unknown_Cell
         Rate: 4000
       - Item: EP19_Luminant

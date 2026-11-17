@@ -12360,3 +12360,13 @@ Body:
       NoAuction: true
     Script: |
       laphine_upgrade();
+  - Id: 102566
+    AegisName: F_Iceslug_Antiquiy
+    Name: Antiquity Issgard (Fallen Angel Slug)
+    Type: Usable
+    Weight: 200
+    Flags:
+      Container: true
+      DropEffect: CLIENT
+    Script: |
+      getgroupitem(IG_F_ICESLUG_ANTIQUIY,true);

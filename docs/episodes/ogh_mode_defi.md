@@ -7,7 +7,7 @@
 | Carte | `1@gl_he` (« Contaminated Dimension », déjà dans le mapcache et le client) ; le wiki iRO cite `4@ghc0`, absent ici |
 | Côté rAthena | `instance_db` 49, gabarits de mobs commentés (`MD_C_*`, 20572‑20585), objets et cartes présents, **aucun script** |
 | Côté Moonlight | écrit pour Moonlight (`moon/instances/OldGlastHeimChallenge.npc`, instance 57), **ouvert aux joueurs le 2026‑11‑11** |
-| État | décisions prises le 2026‑11‑09 (section 8) ; **lot C1 fait le 2026‑11‑09** (section 9), **C2 et C3 écrits le 2026‑11‑10** (sections 10 et 11), réglés sur vidéo et testés par le staff sur `ggpro` du 2026‑11‑10 au 2026‑11‑11, **ouverts le 2026‑11‑11** (section 12) ; **C5 et C4 écrits le 2026‑11‑16** (sections 13 et 14, non testés en jeu) |
+| État | décisions prises le 2026‑11‑09 (section 8) ; **lot C1 fait le 2026‑11‑09** (section 9), **C2 et C3 écrits le 2026‑11‑10** (sections 10 et 11), réglés sur vidéo et testés par le staff sur `ggpro` du 2026‑11‑10 au 2026‑11‑11, **ouverts le 2026‑11‑11** (section 12) ; **C5 et C4 écrits le 2026‑11‑16** (sections 13 et 14), validés en jeu le 2026‑11‑17 |
 
 Le script n'existe nulle part : ni chez rAthena, ni chez hayakawakaki, ni chez AsurielRO. Ce
 qui suit est une **reconstitution**. Les sections 1 à 5 relèvent ce que les sources disent ;

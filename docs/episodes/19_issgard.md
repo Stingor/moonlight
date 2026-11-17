@@ -238,7 +238,7 @@ quand une case n'offre pas de tirage.
 | Matières | les quatre butins des Cowraiders s'appellent chez Moonlight `Worn_Revolver`, `Broken_Shotgun`, `Bandits_Scarf`, `Brown_Muffler` (Rockridge) : renommés dans le groupe. Toutes les matières tombent d'un mob local |
 | Conversions | celles de Snowflower, `.@r` étant ici le raffinement de l'arme (comme les armes Fides de l'épisode 18) ; `bNoMadoFuel` retiré ; `bSkillUseSPrate` et les autosorts passent par la table |
 | Nouveau (validé le 2026‑11‑15) | `RA_WUGSTRIKE` → `HT_BLITZBEAT` (Wolf Orb) ; l'autosort de `SO_PSYCHIC_WAVE` (orbe 30) en **`HW_NAPALMVULCAN`**, son bonus de dégâts suivant, Soul Burn ne frappant pas ; une recharge qui atteint seule le plafond de -25 % est **retirée** comme celle de Telekinesis (`RL_HAMMER_OF_GOD` -8 s, orbe 60) |
-| Combos | aucun portable : les combos Glacier portent sur les armures `Glacier_*` et les casques `Glacier_Helm_*`, qui viennent du coffret `F_ICESLUG_ANTIQUIY`, non porté ; ceux d'`Ice_Pendant` et des `_JP` attendent aussi leurs objets |
+| Combos | les 14 combos des pièces `Glacier_*` sont portés avec le coffret d'Ultra Limacina (§4) ; ceux des casques `Glacier_Helm_*`, d'`Entwined_*`, d'`Ice_Pendant` et des `_JP` attendent leurs objets |
 
 **Client** : fiches `item_info.yml` des orbes Glacier et Gray Wolf réécrites d'après le texte natif
 (compétences remplacées ou retirées, palier +22, délais, DEF/MDEF) ; table d'enchantement régénérée.
@@ -257,12 +257,33 @@ en a un : `Episode 19/db/mob_skill_db.txt`, 225 lignes pour 30 mobs.
 
 Les 10 autres mobs de l'épisode (PNJ, pierres de stockage, mobs de quête) n'ont pas de ligne dans la source.
 
+### Coffret d'Ultra Limacina et pièces Glacier (portés le 2026‑11‑17, non validés en jeu)
+
+Le coffret `F_Iceslug_Antiquiy` (102566) n'a **aucune source officielle connue** :
+- Divine Pride (kROM) l'a ajouté le 2023‑09‑22 sans en relever aucune (« No sources recorded »),
+  et ses drops d'Ultra Limacina ne le contiennent pas ;
+- ni `db/re`, ni la PR #8527, ni hayakawakaki ne le donnent.
+
+Son nom kRO, 이스가르드의 유물(타락한 천사 달팽이) (« relique d'Issgard, escargot ange déchu »),
+et sa description (« le butin de l'escargot ange déchu ») le rattachent à **Ultra Limacina**
+(21537), MVP de `jor_back3`. Les reliques d'Aquila suivent le même schéma : elles tombent du
+boss de l'Opération de sabotage du dirigeable. **Décision Moonlight du 2026‑11‑17 :
+drop à 1 %** sur Ultra Limacina.
+
+| Élément | Fichier | Détail |
+|---|---|---|
+| Drop | `db/import/mobs/ep19.yml` | `F_Iceslug_Antiquiy`, `Rate: 100` (1 %), en drop normal d'Ultra Limacina |
+| Coffret | `db/import/items/item_db_usable.yml` | 102566, de `db/re`, `getgroupitem(IG_F_ICESLUG_ANTIQUIY)` (constante déjà dans le C++) |
+| Groupe | `db/import/item_group_db/ep19.yml` | `F_ICESLUG_ANTIQUIY` : 30 des 63 lignes. Les matériaux absents (`EP19_*_Extract`, `EP20_*`, `Ep20_Cat_Whiskers`, Dim Glacier et épisode 20) sont écartés, comme pour `AQUILA_ANTIQUITY`. Il reste les diamants bruns (3 × 1000) et les pièces Glacier (1 240), soit 29 % de pièces par coffret, raffinées de +7 à +9 |
+| Pièces | `db/import/items/item_db_armor.yml` | 11 : armure, robe, manteau, cache-col, souliers, bottes, bouclier (`Glacier_Guard`), anneau, pendentif, boucle d'oreille, collier. ArmorLevel 1 ; DEF 12 (armure, robe), 6 (cape, chaussures, bouclier) ; `bAtkRate` en `bAddClass` ; traits convertis (`README.md`) ; DEF/MDEF des scripts ÷50 et ÷5 (règle de l'orbe), le bonus par tranche de raffinage, qui ne valait plus qu'un point, est retiré. **Grade retiré** (`Gradable` et paliers D/C) : `enchantgrade.yml` local ne couvre que les armes |
+| Combos | `db/import/item_combos.yml` | 14 combos Glacier de `db/re`, mêmes conversions ; les 2 avec `Entwined_*` (non porté) et ceux des casques `Glacier_Helm_*` attendent |
+| Client | moonclient | tables régénérées ; fiches natives des 11 pièces alignées (grade retiré, traits et DEF convertis) |
+
 Reste à faire :
 
 - **le Dim Glacier** (26 armes `D_Glacier_*`, grade, enchantement 47, Forr, le four
   d'incinération, groupe `D_GW_EXTRACTOR`, `barter_ep19_new_content`) : aucun mob de
-  l'épisode ne les fait tomber, ils relèvent de l'épisode 20 ;
-- le coffret `F_ICESLUG_ANTIQUIY` et ses armures `Glacier_*`, dont dépendent les combos Glacier.
+  l'épisode ne les fait tomber, ils relèvent de l'épisode 20.
 
 **Côté client** : les 211 quêtes sont dans `quests.yml` de moonclient (2026‑11‑15), prises de
 `OngoingQuests.lub` (ROenglishRE, Renewal) et insérées sans redumper le fichier ; 18145 à 18147
@@ -288,7 +309,7 @@ Le prérequis narratif, l'épisode 18, est porté et déployé en production le 
 |---|---|
 | Intérêt | **réévalué à la hausse** : la PR #8527 fournit l'essentiel du contenu |
 | Ce qui est acquis | les cartes, les entrées d'instance, les objets amont, les grades, les 40 mobs, les spawns, les warps, le warp agent, la chaîne de quêtes |
-| Manque | le coffret `F_ICESLUG_ANTIQUIY` (armures `Glacier_*` et leurs combos), sans source de drop ; le Dim Glacier relève de l'épisode 20 |
+| Manque | rien de l'épisode : le Dim Glacier relève de l'épisode 20 ; le coffret d'Ultra Limacina, sans source officielle, tombe à 1 % (choix Moonlight) |
 | Recommandation | les tests en jeu (quêtes, instances, compétences des mobs) |
 
 ## Sources
