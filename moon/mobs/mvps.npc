@@ -92,7 +92,9 @@ OnInit:
 						// Episode 18 : Burning Fang (Labyrinthe d'Oz F2)
 						21301,6,
 						// Episode 19 : Ultra Limacina (Frozen Scale Glacier)
-						21537,6;
+						21537,6,
+						// Episode 20 : Snowstorm Angel (Frozen Scale Beach), Chef Nettoyeur (Deep Root Cave)
+						21996,6,21980,8;
 	end;
 }
 
@@ -171,6 +173,9 @@ ba_lost		boss_monster	Boss Pitaya				EP17_2_PITAYA_BOSS,1,7200000,600000,"classe
 lasa_dun01	boss_monster	Big Eggring				DR_BIG_EGGRING,1,3600000,1800000,"classement::OnMvpDead"
 // Episode 19 : 6 h, le delai de Divine Pride (kROM)
 jor_back3	boss_monster	Ultra Limacina			EP19_LIMACINA_BOSS,1,21600000,600000,"classement::OnMvpDead"
+// Episode 20 : 6 h, le delai de Divine Pride (kROM)
+jor_back4	boss_monster	Snowstorm Angel			EP20_SNOW_ANGEL,1,21600000,600000,"classement::OnMvpDead"
+jor_root3	boss_monster	Jormund Chief Cleaner	EP20_BOSS_CLANER,1,21600000,600000,"classement::OnMvpDead"
 
 // PAR SCRIPT  1h40 - 2h10
 lhz_dun03,0,0,0	script	mvp_lhz_dun03	-1,{

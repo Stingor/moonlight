@@ -132,3 +132,9 @@ te_aldecas5	mapflag	nowarp
 
 // Infinite Space
 1@infi	mapflag	nowarp
+
+// Episode 20 (brHades)
+jor_safty1	mapflag	nowarp
+jor_safty2	mapflag	nowarp
+icas_in2	mapflag	nowarp
+jor_sanct	mapflag	nowarp

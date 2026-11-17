@@ -436,3 +436,9 @@ que_thr	mapflag	nowarpto
 
 // Arene Nocturne de Geffen (patnawa) : jeu standard des instances 18/19
 1@ge_sn	mapflag	nowarpto
+
+// Episode 20 (brHades)
+jor_safty1	mapflag	nowarpto
+jor_safty2	mapflag	nowarpto
+icas_in2	mapflag	nowarpto
+jor_sanct	mapflag	nowarpto

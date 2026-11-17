@@ -110,3 +110,23 @@ Body:
     Name: "Abandoned Pit F2"
   - Map: jor_que
     Name: "Abandoned Snake God's Warmth"
+  - Map: jor_twice
+    Name: "Drift Ice Zone"
+  - Map: jor_twig
+    Name: "Issgard Sanctuary Twig's Nest"
+  - Map: jor_maze
+    Name: "Snake Labyrinth"
+  - Map: jor_root1
+    Name: "Snake God's Root F1"
+  - Map: jor_root2
+    Name: "Snake God's Root F2"
+  - Map: jor_root3
+    Name: "Deep Root Cave"
+  - Map: jor_sanct
+    Name: "Sacred Root"
+  - Map: jor_safty1
+    Name: "Safe Place"
+  - Map: jor_safty2
+    Name: "Safe Place"
+  - Map: icas_in2
+    Name: "Inside the Ice Castle"

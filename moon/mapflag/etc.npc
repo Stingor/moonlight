@@ -373,3 +373,17 @@ que_thr	mapflag	nomemo
 
 // Arene Nocturne de Geffen (patnawa) : jeu standard des instances 18/19
 1@ge_sn	mapflag	nomemo
+
+// Episode 20 (brHades) : cartes de terrain
+jor_maze	mapflag	nomemo
+jor_root1	mapflag	nomemo
+jor_root2	mapflag	nomemo
+jor_root3	mapflag	nomemo
+jor_twice	mapflag	nomemo
+jor_safty1	mapflag	nomemo
+jor_safty2	mapflag	nomemo
+icas_in2	mapflag	nomemo
+jor_sanct	mapflag	nomemo
+jor_safty1	mapflag	noicewall
+jor_safty2	mapflag	noicewall
+icas_in2	mapflag	noicewall

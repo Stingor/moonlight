@@ -357,6 +357,15 @@ yuno_fild08	mapflag	privateairship_source
 yuno_fild09	mapflag	privateairship_source
 yuno_fild11	mapflag	privateairship_source
 yuno_fild12	mapflag	privateairship_source
+// Episodes 19 et 20 (brHades)
+icecastle	mapflag	privateairship_source
+jor_tail	mapflag	privateairship_source
+jor_back1	mapflag	privateairship_source
+jor_back2	mapflag	privateairship_source
+jor_back3	mapflag	privateairship_source
+jor_back4	mapflag	privateairship_source
+jor_back5	mapflag	privateairship_source
+jor_back6	mapflag	privateairship_source
 
 //============================================================
 // Available Destinations
@@ -708,3 +717,12 @@ yuno_fild08	mapflag	privateairship_destination
 yuno_fild09	mapflag	privateairship_destination
 yuno_fild11	mapflag	privateairship_destination
 yuno_fild12	mapflag	privateairship_destination
+// Episodes 19 et 20 (brHades)
+icecastle	mapflag	privateairship_destination
+jor_tail	mapflag	privateairship_destination
+jor_back1	mapflag	privateairship_destination
+jor_back2	mapflag	privateairship_destination
+jor_back3	mapflag	privateairship_destination
+jor_back4	mapflag	privateairship_destination
+jor_back5	mapflag	privateairship_destination
+jor_back6	mapflag	privateairship_destination

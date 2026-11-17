@@ -2,7 +2,7 @@
 //= Episode 19 : Issgard, monstres des fields et des donjons
 //===== Description: =========================================
 //= Densites et delais de Divine Pride (kROM). jor_back4 a 6 sont
-//= des cartes de l'episode 20, sans warp pour l'instant.
+//= dans ep20.npc (episode 20).
 //= Ultra Limacina (jor_back3) est dans mvps.npc, les spawns de
 //= jor_que suivront les quetes.
 //============================================================
@@ -25,13 +25,6 @@ jor_back3,0,0,0,0	monster	Limacina	EP19_LIMACINA,70,5000
 jor_back3,0,0,0,0	monster	Primitive Rgan	EP19_RGAN_A,30,5000
 jor_back3,0,0,0,0	monster	Ice Gangu	EP19_ICE_GANGU,20,5000
 jor_back3,0,0,0,0	monster	Lowest Rgan	EP19_RGAN_B,15,5000
-// jor_back4
-jor_back4,0,0,0,0	monster	Calmaring	EP19_CALMARING,10,5000
-jor_back4,0,0,0,0	monster	Ice Straw	EP19_ICE_STRAW,10,5000
-// jor_back5
-jor_back5,0,0,0,0	monster	Shining Seaweed	EP19_SHINING_SEAWEED,10,5000
-// jor_back6
-jor_back6,0,0,0,0	monster	Shining Seaweed	EP19_SHINING_SEAWEED,10,5000
 // jor_dun01
 jor_dun01,0,0,0,0	monster	Primitive Rgan	EP19_RGAN_A,110,5000
 jor_dun01,0,0,0,0	monster	Lowest Rgan	EP19_RGAN_B,60,5000

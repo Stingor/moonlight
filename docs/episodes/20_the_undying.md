@@ -88,8 +88,9 @@ issu. Aucune PR amont pour le 20 au 2026‑11‑17. Le même dépôt a aussi l'�
 | Cartes | les 17 sont dans le map_cache, instances comprises (`1@slug`, `1@20cn1/2`, `1@twsd`, `1@twig`, `1@twas`, `1@twbs`) |
 | Épisode 19 | porté (`moon/rathena/quests/quests_19.npc`, `ep19_main`, Horr) : c'est le prérequis |
 | Mobs EP20 | **lot A fait** (2026‑11‑17) : voir ci-dessous |
-| Quêtes, instances, spawns | **rien** |
-| C++ | ni `specialeffect3` ni `UMOB_BODYSIZE` |
+| Spawns, portails, mapflags | **lot C fait** (2026‑11‑17) : voir ci-dessous |
+| Quêtes, instances | **rien** |
+| C++ | **lot B fait** (2026‑11‑17) : voir ci-dessous |
 | Hall of Life | `moon/rathena/dungeons/for_dun.npc` toujours **commenté** (`scripts_moon.conf:836`), 32 mobs `SPIRIT_*` à écrire |
 
 ### Lot A — mobs et compétences (porté le 2026‑11‑17, non validé en jeu)
@@ -111,8 +112,49 @@ issu. Aucune PR amont pour le 20 au 2026‑11‑17. Le même dépôt a aussi l'�
 **Reporté aux lots suivants.** Immortal retouche Lasgand par `setunitdata` : DEF 527 et 700,
 RES, MATK. En pré-renewal, une DEF au-dessus de 100 rend le boss quasi invulnérable, à adapter
 au lot F. `NPC_SEEDTRAP`, `NPC_RAINOFMETEOR` et `NPC_GROUNDDRIVE` y sont lancés par script.
-Les branches (Dead / Bloody) n'ont rien reçu : la liste est à valider, et l'épisode 19 n'y est
-pas non plus.
+### Branches (2026‑11‑17, épisodes 19 et 20)
+
+Liste validée par l'utilisateur, dans `db/import/mob_summon.yml` :
+
+| Branche | Ajouts | Taux |
+|---|---|---|
+| `Branch_Of_Dead_Tree` | 21 mobs de terrain du 19 (ceux que pose `moon/mobs/issgard.npc`) et 22 du 20 | 32000 |
+| `Bloody_Dead_Branch` | Ultra Limacina (19), Snowstorm Angel et Chef Nettoyeur (20) | 25000 |
+
+Écartés : copies d'instance `MD_*`, invocations `G_*`, PNJ, pierres de stockage, Rgan E (forme
+de transformation, jamais posé), Ice Egg (immobile), boss d'instance.
+
+### Lot B — C++ (porté le 2026‑11‑17, non validé en jeu)
+
+Rien de tout cela n'existe en amont (`upstream/master` du 2026‑11‑15) : pas de conflit sémantique.
+
+| Élément | Fichier | Détail |
+|---|---|---|
+| `specialeffect3 <effet>,<cible>,<unité>` | `script.cpp` | effet visuel sur n'importe quelle unité |
+| `UMOB_BODYSIZE`, `UNPC_BODYSIZE` | `script.hpp`, `script_constants.hpp`, `script.cpp` | `setunitdata` et `getunitdata` ; 100 = taille normale |
+| `unit_data::body_size` | `unit.hpp` | 0 = non posée |
+| `clif_body_size` | `clif.cpp`, `clif.hpp` | statut client 1421, renvoyé à l'apparition, au déplacement et à la découverte de l'unité. Écart à brHades : la découverte n'envoie qu'au joueur concerné, pas à toute la zone |
+| `UMOB_MATK` | `script.hpp`, `script_constants.hpp` | constante seule, pour que les scripts se chargent ; sans effet en pré-renewal (le code de brHades est sous `#ifdef RENEWAL`). Les appels d'Immortal sont à réécrire au lot F |
+| Écarté | `status.cpp` | retouches de calcul d'ATK et de MATK propres au renewal |
+
+Compilé en Release sous Windows sans erreur ; les bibliothèques du dépôt sont en Release (le
+Debug échoue à l'édition de liens). Pas encore compilé sur pc-serv.
+
+### Lot C — terrain (porté le 2026‑11‑17, non validé en jeu)
+
+| Élément | Détail |
+|---|---|
+| Spawns | `moon/mobs/ep20.npc` : 42 lignes de brHades sur `jor_back4` à `jor_back6`, `jor_maze`, `jor_root1` à `jor_root3`, `jor_twice`, `jor_twig` ; délai de 5 s comme au 19. Les 4 lignes de l'épisode 19 sur `jor_back4` à `jor_back6` quittent `issgard.npc` (mêmes densités) |
+| MVP | `moon/mobs/mvps.npc` : Snowstorm Angel sur `jor_back4` et le Chef Nettoyeur sur `jor_root3`, 6 h (Divine Pride ; brHades disait 2 h, « custom »), 6 et 8 points de classement |
+| Portails | fin de `moon/mobs/ep20.npc`, tels que brHades : `jor_back3` ↔ `jor_back4` ↔ `jor_back5` ↔ `jor_back6` ↔ `jor_root3`, `jor_root1` → `jor_nest`, racines, sanctuaire, 24 portails du labyrinthe, zones sûres. Verrous de chaîne : `jor_maze` → `jor_twice` (`ep20_main` 34), la chambre 5 du château (`icas_in2`, 61), le chat blanc vers `jor_twig` (34) |
+| Contrôle | 112 coordonnées (positions, destinations, `warp` de script) toutes sur une cellule marchable |
+| Mapflags | `nomemo` sur le labyrinthe, les racines, `jor_twice`, le sanctuaire et les zones sûres ; `noteleport`, `noicewall` sur les zones sûres et `icas_in2` ; `nowarp`, `nowarpto` sur ces trois-là et le sanctuaire ; `privateairship_source` et `_destination` sur Issgard, `jor_tail`, `jor_back1` à `jor_back6` |
+| Écartés | `nobranch` (inversé sur ce fork) ; `restricted 7` de `jor_sanct` (le bit 2048 sert ici au marqueur `noattackskill`) ; mapflags des cartes d'instance, au lot F |
+| Noms de carte | 10 noms dans `db/import/map_index.yml`, repris de `map_names.yml` de moonclient |
+| Noms de mob | `EP20_SNOW_ANGEL` « Snowstorm Angel », `EP20_BOSS_CLANER` « Jormund Chief Cleaner » (iRO), au lieu des noms tronqués de brHades |
+
+`jor_root1` n'a pas d'entrée depuis `jor_nest` : elle passe par la chaîne (lot E). Le warp
+agent ne propose pas encore les cartes du 20 : il les ouvrira avec la chaîne.
 
 ## 4. Plan de portage
 

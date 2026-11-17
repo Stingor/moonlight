@@ -541,7 +541,7 @@ Body:
       Mvp: true
   - Id: 21980
     AegisName: EP20_BOSS_CLANER
-    Name: Sanctuary Cleaning
+    Name: Jormund Chief Cleaner
     Level: 250
     Hp: 6349247
     BaseExp: 10158795
@@ -1150,7 +1150,7 @@ Body:
     Ai: 01
   - Id: 21996
     AegisName: EP20_SNOW_ANGEL
-    Name: Blizzard Angel
+    Name: Snowstorm Angel
     Level: 235
     Hp: 5509807
     BaseExp: 8815691

@@ -745,3 +745,8 @@ que_thr	mapflag	noteleport
 // Arene Nocturne de Geffen (patnawa) : jeu standard des instances 18/19
 1@ge_sn	mapflag	noteleport
 1@ge_sn	mapflag	monster_noteleport
+
+// Episode 20 (brHades) : zones sures
+jor_safty1	mapflag	noteleport
+jor_safty2	mapflag	noteleport
+icas_in2	mapflag	noteleport
