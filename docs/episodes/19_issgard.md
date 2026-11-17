@@ -6,11 +6,12 @@
 | Date kRO | **2022‑01‑19** |
 | Arc | poursuite de Bagot — le culte de Jörmungandr |
 | Niveau kRO visé | **200+** |
-| État Moonlight | **mobs, terrain, chaîne de quêtes, économie, instances, enchantements Snowflower et Glacier portés** (2026‑11‑15, non validés en jeu) ; compétences des mobs à faire |
+| État Moonlight | **mobs, terrain, chaîne de quêtes, économie, instances, enchantements Snowflower et Glacier portés** (2026‑11‑15, non validés en jeu) ; compétences des mobs portées (2026‑11‑17) |
 
 Premier épisode que l'amont n'a pas fusionné. Une conversion complète attend pourtant
 dans la PR rAthena [#8527](https://github.com/rathena/rathena/pull/8527), jamais fusionnée :
-le chantier redevient un **portage**, sauf pour les compétences des mobs.
+le chantier redevient un **portage**. Les compétences des mobs, absentes de la PR, viennent
+de hayakawakaki.
 
 ## 1. Contenu principal (19 janvier 2022)
 
@@ -242,28 +243,40 @@ quand une case n'offre pas de tirage.
 **Client** : fiches `item_info.yml` des orbes Glacier et Gray Wolf réécrites d'après le texte natif
 (compétences remplacées ou retirées, palier +22, délais, DEF/MDEF) ; table d'enchantement régénérée.
 
+### Compétences des mobs (portées le 2026‑11‑17, non validées en jeu)
+
+La PR et Divine Pride n'en publient pas, mais le dépôt
+[hayakawakaki/rathena-script-collection](https://github.com/hayakawakaki/rathena-script-collection)
+en a un : `Episode 19/db/mob_skill_db.txt`, 225 lignes pour 30 mobs.
+
+| Élément | Fichier | Détail |
+|---|---|---|
+| Compétences | `db/import/mob_skill_db.txt` | 223 lignes en fin de fichier, nom de colonne remplacé par l'`AegisName` local ; les deux lignes `NPC_EARTHQUAKE` de la Juncea de simulation (17 colonnes, `ConditionValue` vide) complétées à 19 |
+| Mob | `db/import/mobs/ep19.yml` | **21589 `G_EP19_LIMACINA`**, la Limacina qu'invoque Ultra Limacina (21537), absente chez nous comme dans `db/re` : stats de la Limacina 21520, PV de la PR (9 055 500) passés par le convertisseur (517 785), sans EXP ni drops |
+| Audit | `tools/util/audit_mob_skills.py` | 0 problème : aucune coquille pré-re sans `Type`, aucun statut démarré en dur absent du pré-re |
+
+Les 10 autres mobs de l'épisode (PNJ, pierres de stockage, mobs de quête) n'ont pas de ligne dans la source.
+
 Reste à faire :
 
 - **le Dim Glacier** (26 armes `D_Glacier_*`, grade, enchantement 47, Forr, le four
   d'incinération, groupe `D_GW_EXTRACTOR`, `barter_ep19_new_content`) : aucun mob de
   l'épisode ne les fait tomber, ils relèvent de l'épisode 20 ;
-- les compétences des 40 mobs de l'épisode (aucune source) ;
 - le coffret `F_ICESLUG_ANTIQUIY` et ses armures `Glacier_*`, dont dépendent les combos Glacier.
 
 **Côté client** : les 211 quêtes sont dans `quests.yml` de moonclient (2026‑11‑15), prises de
 `OngoingQuests.lub` (ROenglishRE, Renewal) et insérées sans redumper le fichier ; 18145 à 18147
 y portent le texte de 18119 à 18121 de la table native. 19 quêtes d'attente de l'épisode y sont
-marquées `cooldown`. Les nouveaux objets attendent encore la régénération des tables.
+marquées `cooldown`. Les tables d'objets et de monstres sont régénérées.
 
 ## 5. Migration pré-renewal
 
-1. **Compétences des mobs** : aucune source. Les écrire à la main, ou les relever sur vidéo
-   comme pour le mode défi d'OGH.
+1. **Compétences des mobs** : faites, de hayakawakaki (voir §4).
 2. **Spawns et terrain** : faits (Divine Pride et la PR, voir §4).
 3. **Cartes EP19** (24) et **armes Glacier** (27) : conversion une par une, comme Illusion.
-4. **Quêtes**, **économie** et **instances** : faites (voir §4). **Enchantement Snowflower** et
-   **Dim Glacier** : à faire.
-   **Client** : les tables d'objets (les titres de quête sont faits).
+4. **Quêtes**, **économie** et **instances** : faites (voir §4). **Enchantements Snowflower** et
+   **Glacier** : faits. **Dim Glacier** : épisode 20.
+   **Client** : tables régénérées.
 5. **C++** de la PR, après `git diff upstream/master` sur chaque fichier.
 6. **Bataille de simulation** : faite, elle est dans `BaggotLaboratory.txt` de la PR.
 
@@ -275,13 +288,14 @@ Le prérequis narratif, l'épisode 18, est porté et déployé en production le 
 |---|---|
 | Intérêt | **réévalué à la hausse** : la PR #8527 fournit l'essentiel du contenu |
 | Ce qui est acquis | les cartes, les entrées d'instance, les objets amont, les grades, les 40 mobs, les spawns, les warps, le warp agent, la chaîne de quêtes |
-| Manque | les compétences des mobs, l'enchantement Snowflower, le Dim Glacier |
-| Recommandation | le test au boot et en jeu, puis l'enchantement Snowflower ; les compétences en lot séparé |
+| Manque | le coffret `F_ICESLUG_ANTIQUIY` (armures `Glacier_*` et leurs combos), sans source de drop ; le Dim Glacier relève de l'épisode 20 |
+| Recommandation | les tests en jeu (quêtes, instances, compétences des mobs) |
 
 ## Sources
 
 - [PR rAthena #8527 — Episode 19 walkthrough conversion](https://github.com/rathena/rathena/pull/8527)
 - [Divine Pride](https://www.divine-pride.net) — API des monstres, serveur kROM
+- [hayakawakaki/rathena-script-collection](https://github.com/hayakawakaki/rathena-script-collection) — `Episode 19/db/mob_skill_db.txt`
 - [Episode XIX — Ragnarok Online Encyclopedia](https://ragnarok-online-encyclopedia.fandom.com/wiki/Episode_XIX)
 - [Episode 19: Issgard, Land of Snow Flowers — Hazy Forest](https://hazyforest.com/episodes:19_issgard_land_of_snow_flower)
 - [Issgard Land of Snow Flowers — iRO Wiki](https://irowiki.org/wiki/Issgard_Land_of_Snow_Flowers)
