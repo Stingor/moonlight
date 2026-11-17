@@ -324,9 +324,12 @@ dali02,137,86,4	script	Dr. Strong#acr	4_M_FAIRYANG,{
 	}
 	.@returning = (.@iid > 0 && AirshipCrash_ActiveInstance == .@iid
 		&& AirshipCrash_ActiveUntil > gettimetick(2));
-	if (.@iid > 0 && getinstancevar('started,.@iid) && !.@returning) {
-		mes "That expedition has already begun. Only its registered starting members may return.";
-		close;
+	// No short-circuit in rAthena: never call getinstancevar with iid 0.
+	if (.@iid > 0 && !.@returning) {
+		if (getinstancevar('started,.@iid)) {
+			mes "That expedition has already begun. Only its registered starting members may return.";
+			close;
+		}
 	}
 	if (!.@returning && AirshipCrash_Next > gettimetick(2)) {
 		.@left = AirshipCrash_Next-gettimetick(2);
