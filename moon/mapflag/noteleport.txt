@@ -750,3 +750,19 @@ que_thr	mapflag	noteleport
 jor_safty1	mapflag	noteleport
 jor_safty2	mapflag	noteleport
 icas_in2	mapflag	noteleport
+
+// Episode 20 : instances de brHades (sans nobranch, inverse sur Moonlight)
+1@slug	mapflag	noteleport
+1@slug	mapflag	monster_noteleport
+1@20cn1	mapflag	noteleport
+1@20cn1	mapflag	monster_noteleport
+1@20cn2	mapflag	noteleport
+1@20cn2	mapflag	monster_noteleport
+1@twig	mapflag	noteleport
+1@twig	mapflag	monster_noteleport
+1@twas	mapflag	noteleport
+1@twas	mapflag	monster_noteleport
+1@twbs	mapflag	noteleport
+1@twbs	mapflag	monster_noteleport
+1@twsd	mapflag	noteleport
+1@twsd	mapflag	monster_noteleport

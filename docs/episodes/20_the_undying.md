@@ -6,7 +6,7 @@
 | Date kRO | **2023‑03‑02** |
 | Arc | fin de la traque de Bagot — le labyrinthe du serpent |
 | Niveau kRO visé | **215+** |
-| État Moonlight | **mobs, C++, terrain, objets et quêtes portés** depuis brHades (Capuche) (2026‑11‑18, non validés en jeu) ; instances à faire |
+| État Moonlight | **mobs, C++, terrain, objets, quêtes et instances portés** depuis brHades (Capuche) (2026‑11‑18, non validés en jeu) ; tables client, Dim Glacier et cartes à faire |
 
 Suite directe d'Issgard : on descend dans le canyon de glace ancien, on démasque les
 infiltrés (les faux soldats Iwin), on cherche l'entrée du repaire du serpent avant qu'un
@@ -91,7 +91,7 @@ issu. Aucune PR amont pour le 20 au 2026‑11‑17. Le même dépôt a aussi l'�
 | Spawns, portails, mapflags | **lot C fait** (2026‑11‑17) : voir ci-dessous |
 | Objets, réputation, barters | **lot D fait** (2026‑11‑17), sauf le Dim Glacier et les cartes (D2) |
 | Quêtes | **lot E fait** (2026‑11‑18) : voir ci-dessous |
-| Instances | **rien** |
+| Instances | **lot F fait** (2026‑11‑18) : voir ci-dessous |
 | C++ | **lot B fait** (2026‑11‑17) : voir ci-dessous |
 | Hall of Life | `moon/rathena/dungeons/for_dun.npc` toujours **commenté** (`scripts_moon.conf:836`), 32 mobs `SPIRIT_*` à écrire |
 
@@ -206,6 +206,34 @@ les drapeaux à qui a passé ces étapes, et renvoie les autres à Horuru.
 
 **Contrôle de chargement** (2026‑11‑18) : `map-server-generator --generate-navi`, 1 305 quêtes
 dans l'import (+159), 22 390 PNJ (+436), aucune erreur nouvelle.
+
+### Lot F — instances (porté le 2026‑11‑18, non validé en jeu)
+
+| Instance | Id | Carte | Entrée | Délai | Au warp agent |
+|---|---|---|---|---|---|
+| Sticky Sea | 84 | `1@slug` | Cocopo, `jor_back4` (`ep20_sidequest_1` 18, rejouable à 20) | 11950 | oui |
+| Canyon Exploration | 85 | `1@20cn1`, `1@20cn2` | Lehar, `icecastle` (`ep20_main` 9) | — | non |
+| Drift Ice Zone | 86 | `1@twsd` | le mur branlant, `jor_maze` (`ep20_main` 32) | — | non |
+| Nest of Twigs | 87 | `1@twig` | Lehar, `jor_twice` (`ep20_main` 42) | — | non |
+| Separated Sanctuary | 88 | `1@twas` | Aurelie, `jor_twig` (`ep20_main` 60) | — | non |
+| Immortal / Immortal (Hard) | 89, 90 | `1@twbs` | les Branches de l'Arbre-Monde, `jor_twig` (`ep20_main` 100, niveau 215) | 12588, 12589 | oui |
+
+brHades les numérote 300 à 306 ; chez nous, les Id libres suivants (84 à 90). Les noms ne
+changent pas, les scripts les citent. Constantes `INST_*` régénérées.
+
+| Élément | Détail |
+|---|---|
+| Scripts | `moon/instances/StickySea.npc`, `CanyonExploration.npc`, `DriftIceZone.npc`, `NestOfTwigs.npc`, `SeparateSanctuary.npc`, `Immortal.npc` : copies de brHades, latin-1, ponctuation cp949 en cp1252 |
+| Lasgand (Immortal) | brHades retouche ses stats par `setunitdata` : `UMOB_MATK`, que le pre-re n'a pas (le `setunitdata` échouerait et couperait le script d'apparition), DEF 527/700 et MDEF 286/400, qui en pre-re annuleraient tout dégât physique, `UMOB_RES` et `UMOB_MRES` (traits renewal). **Facile** : les stats de `re_to_prere_mob.py` (DEF 65, MDEF 44, MATK naturelle 3 296–6 156, l'ordre des 4 000 de brHades). **Difficile** : DEF 77 (plafond du convertisseur) et MATK ×1,75 (5 768–10 773), le rapport 7 000/4 000 de brHades. **Vision** : MATK ×7,5 (24 720–46 170), le rapport 30 000/4 000 |
+| Mapflags | ceux de brHades **sans `nobranch`** (inversé sur Moonlight) : `nomemo`, `nosave`, `nowarp`, `nowarpto`, `noteleport`, `monster_noteleport`, `noicewall`, `partylock`, `restricted 6` sur les sept cartes, `nomobloot` sur `1@twig` |
+| `map_drops` | Fallen Angel (`1@slug`), Lasgand et ses deux coffres (`1@twbs`) : minerais, cristaux et extrait EP19/EP20, `Ep20_Angels_Tail`, `C_Serpent_Shadow`. Retirés : `EP19_S_F_1_Extract` et `EP19_Gla_Extract` (déjà écartés des coffres du 19) et les six `D_Glacier_*` (D2) |
+| `NPC_SEEDTRAP` | non implémentée chez brHades non plus : le piège de la Vision ne fait rien |
+| Warp agent | Instance > Immortal et Sticky Sea, qui envoient près de leur PNJ d'entrée ; les quatre autres ne se jouent que dans la chaîne |
+
+**Contrôle de chargement** (2026‑11‑18) : 87 instances, 22 536 PNJ, **0 erreur, 0
+avertissement**. Le premier passage signalait `specialeffect3` inconnu : `map-server-generator.exe`
+datait du 15/11, avant le lot B. Recompilé en Release, il charge tout. `audit_instance.py` ne
+relève rien d'autre que l'absence voulue des quatre instances de la chaîne au warp agent.
 
 ## 4. Plan de portage
 

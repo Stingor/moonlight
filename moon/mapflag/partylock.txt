@@ -308,3 +308,12 @@ silk_lair	mapflag	partylock
 1@whl	mapflag	partylock
 1@jorlab	mapflag	partylock
 1@jorchs	mapflag	partylock
+
+// Episode 20 : instances de brHades (sans nobranch, inverse sur Moonlight)
+1@slug	mapflag	partylock
+1@20cn1	mapflag	partylock
+1@20cn2	mapflag	partylock
+1@twig	mapflag	partylock
+1@twas	mapflag	partylock
+1@twbs	mapflag	partylock
+1@twsd	mapflag	partylock

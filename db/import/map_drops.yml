@@ -2348,3 +2348,146 @@ Body:
           - Index: 5
             Item: Blue_Prints_Scroll
             Rate: 67
+  # Episode 20 (brHades c2196f9be) : 1@slug et 1@twbs. Retires : EP19_S_F_1_Extract et
+  # EP19_Gla_Extract (ecartes comme au 19), les six D_Glacier_* (Dim Glacier, lot D2).
+  - Map: 1@slug
+    SpecificDrops:
+      - Monster: MD_EP20_FALLENANGEL
+        Drops:
+          - Index: 0
+            Item: EP20_D_P_Crystal
+            Rate: 10000
+          - Index: 1
+            Item: EP19_N_P_Ore
+            Rate: 50000
+          - Index: 2
+            Item: EP19_D_P_Crystal
+            Rate: 50000
+          - Index: 3
+            Item: EP19_N_P_Crystal
+            Rate: 10000
+          - Index: 4
+            Item: Ep20_Angels_Tail
+            Rate: 10000
+          - Index: 5
+            Item: EP19_D_P_Ore
+            Rate: 10000
+          - Index: 6
+            Item: EP19_D_P_Ore
+            Rate: 10000
+          - Index: 7
+            Item: EP20_D_P_Extract
+            Rate: 5000
+          - Index: 8
+            Item: EP20_D_P_Ore
+            Rate: 90000
+          - Index: 9
+            Item: EP20_D_P_Ore
+            Rate: 90000
+          - Index: 10
+            Item: EP20_D_P_Crystal
+            Rate: 10000
+  - Map: 1@twbs
+    SpecificDrops:
+      - Monster: MD_EP20_BOSS_LASGAND
+        Drops:
+          - Index: 0
+            Item: EP20_D_P_Crystal
+            Rate: 10000
+          - Index: 1
+            Item: EP19_N_P_Ore
+            Rate: 50000
+          - Index: 2
+            Item: EP19_D_P_Crystal
+            Rate: 50000
+          - Index: 3
+            Item: EP19_N_P_Crystal
+            Rate: 10000
+          - Index: 4
+            Item: Ep20_Angels_Tail
+            Rate: 10000
+          - Index: 5
+            Item: EP19_D_P_Ore
+            Rate: 10000
+          - Index: 6
+            Item: EP19_D_P_Ore
+            Rate: 10000
+          - Index: 7
+            Item: EP20_D_P_Extract
+            Rate: 5000
+          - Index: 8
+            Item: EP20_D_P_Ore
+            Rate: 90000
+          - Index: 9
+            Item: EP20_D_P_Ore
+            Rate: 90000
+      - Monster: EP20_MD_BOX1
+        Drops:
+          - Index: 0
+            Item: EP20_D_P_Crystal
+            Rate: 10000
+          - Index: 1
+            Item: EP19_N_P_Ore
+            Rate: 50000
+          - Index: 2
+            Item: EP19_D_P_Crystal
+            Rate: 50000
+          - Index: 3
+            Item: EP19_N_P_Crystal
+            Rate: 10000
+          - Index: 4
+            Item: Ep20_Angels_Tail
+            Rate: 10000
+          - Index: 5
+            Item: EP19_D_P_Ore
+            Rate: 10000
+          - Index: 6
+            Item: EP19_D_P_Ore
+            Rate: 10000
+          - Index: 7
+            Item: EP20_D_P_Extract
+            Rate: 5000
+          - Index: 8
+            Item: EP20_D_P_Ore
+            Rate: 90000
+          - Index: 9
+            Item: EP20_D_P_Ore
+            Rate: 90000
+          - Index: 10
+            Item: C_Serpent_Shadow
+            Rate: 10
+      - Monster: EP20_MD_BOX2
+        Drops:
+          - Index: 0
+            Item: EP20_D_P_Crystal
+            Rate: 10000
+          - Index: 1
+            Item: EP19_N_P_Ore
+            Rate: 50000
+          - Index: 2
+            Item: EP19_D_P_Crystal
+            Rate: 50000
+          - Index: 3
+            Item: EP19_N_P_Crystal
+            Rate: 10000
+          - Index: 4
+            Item: Ep20_Angels_Tail
+            Rate: 10000
+          - Index: 5
+            Item: EP19_D_P_Ore
+            Rate: 10000
+          - Index: 6
+            Item: EP19_D_P_Ore
+            Rate: 10000
+          - Index: 7
+            Item: EP20_D_P_Extract
+            Rate: 5000
+          - Index: 8
+            Item: EP20_D_P_Ore
+            Rate: 90000
+          - Index: 9
+            Item: EP20_D_P_Ore
+            Rate: 90000
+          - Index: 10
+            Item: C_Serpent_Shadow
+            Rate: 10

@@ -387,3 +387,20 @@ jor_sanct	mapflag	nomemo
 jor_safty1	mapflag	noicewall
 jor_safty2	mapflag	noicewall
 icas_in2	mapflag	noicewall
+
+// Episode 20 : instances de brHades (sans nobranch, inverse sur Moonlight)
+1@slug	mapflag	nomemo
+1@slug	mapflag	noicewall
+1@20cn1	mapflag	nomemo
+1@20cn1	mapflag	noicewall
+1@20cn2	mapflag	nomemo
+1@20cn2	mapflag	noicewall
+1@twig	mapflag	nomemo
+1@twig	mapflag	noicewall
+1@twig	mapflag	nomobloot
+1@twas	mapflag	nomemo
+1@twas	mapflag	noicewall
+1@twbs	mapflag	nomemo
+1@twbs	mapflag	noicewall
+1@twsd	mapflag	nomemo
+1@twsd	mapflag	noicewall

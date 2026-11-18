@@ -442,3 +442,12 @@ jor_safty1	mapflag	nowarpto
 jor_safty2	mapflag	nowarpto
 icas_in2	mapflag	nowarpto
 jor_sanct	mapflag	nowarpto
+
+// Episode 20 : instances de brHades (sans nobranch, inverse sur Moonlight)
+1@slug	mapflag	nowarpto
+1@20cn1	mapflag	nowarpto
+1@20cn2	mapflag	nowarpto
+1@twig	mapflag	nowarpto
+1@twas	mapflag	nowarpto
+1@twbs	mapflag	nowarpto
+1@twsd	mapflag	nowarpto

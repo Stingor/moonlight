@@ -223,3 +223,12 @@ rockmi2	mapflag	nosave	SavePoint
 
 // Infinite Space
 1@infi	mapflag	nosave	SavePoint
+
+// Episode 20 : instances de brHades (sans nobranch, inverse sur Moonlight)
+1@slug	mapflag	nosave	SavePoint
+1@20cn1	mapflag	nosave	SavePoint
+1@20cn2	mapflag	nosave	SavePoint
+1@twig	mapflag	nosave	SavePoint
+1@twas	mapflag	nosave	SavePoint
+1@twbs	mapflag	nosave	SavePoint
+1@twsd	mapflag	nosave	SavePoint

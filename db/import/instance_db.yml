@@ -613,3 +613,53 @@ Body:
       Map: 1@ge_sn
       X: 89
       Y: 48
+  # Episode 20 : The Undying, brHades (c2196f9be, Capuche), Id 300 a 306 la-bas.
+  - Id: 84
+    Name: Sticky Sea
+    TimeLimit: 1800
+    Enter:
+      Map: 1@slug
+      X: 44
+      Y: 56
+  - Id: 85
+    Name: Canyon Exploration
+    Enter:
+      Map: 1@20cn1
+      X: 94
+      Y: 79
+    AdditionalMaps:
+      1@20cn2: true
+  - Id: 86
+    Name: Drift Ice Zone
+    Enter:
+      Map: 1@twsd
+      X: 318
+      Y: 76
+  - Id: 87
+    Name: Nest of Twigs
+    TimeLimit: 1200
+    Enter:
+      Map: 1@twig
+      X: 209
+      Y: 176
+  - Id: 88
+    Name: Separated Sanctuary
+    TimeLimit: 1800
+    Enter:
+      Map: 1@twas
+      X: 96
+      Y: 66
+  - Id: 89
+    Name: Immortal
+    TimeLimit: 1800
+    Enter:
+      Map: 1@twbs
+      X: 86
+      Y: 68
+  - Id: 90
+    Name: "Immortal (Hard)"
+    TimeLimit: 1800
+    Enter:
+      Map: 1@twbs
+      X: 101
+      Y: 68

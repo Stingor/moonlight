@@ -183,3 +183,17 @@ Body:
     Value: 82
   - Name: INST_GEFFEN_NIGHT_ARENA
     Value: 83
+  - Name: INST_STICKY_SEA
+    Value: 84
+  - Name: INST_CANYON_EXPLORATION
+    Value: 85
+  - Name: INST_DRIFT_ICE_ZONE
+    Value: 86
+  - Name: INST_NEST_OF_TWIGS
+    Value: 87
+  - Name: INST_SEPARATED_SANCTUARY
+    Value: 88
+  - Name: INST_IMMORTAL
+    Value: 89
+  - Name: INST_IMMORTAL_HARD
+    Value: 90

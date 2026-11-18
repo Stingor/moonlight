@@ -199,6 +199,7 @@ L_Instance:
 					"Hey! Sweety",
 					"Hidden Flower Garden",
 					"Horror Toy Factory (HM)",
+					"Immortal",
 					"Infinite Space (HM sur place)",
 					"Isle Of Bios",
 					"Iwin Patrol",
@@ -218,6 +219,7 @@ L_Instance:
 					"Sealed Shrine",
 					"Simulation Battle",
 					"Sky Fortress Invasion",
+					"Sticky Sea",
 					"Temple of Demon God",
 					"Thanatos Tower",
 					"Tomb of Remorse",
@@ -250,6 +252,7 @@ L_Instance:
 					INST_HEY_SWEETY,
 					INST_HIDDEN_FLOWER_GARDEN,
 					INST_HORROR_TOY_FACTORY,
+					INST_IMMORTAL,
 					INST_INFINITE_SPACE,
 					INST_ISLE_OF_BIOS,
 					INST_IWIN_PATROL,
@@ -269,6 +272,7 @@ L_Instance:
 					INST_SEALED_CATACOMB,
 					INST_SIMULATION_BATTLE,
 					INST_SKY_FORTRESS_INVASION,
+					INST_STICKY_SEA,
 					INST_TEMPLE_OF_THE_DEMON_GOD,
 					INST_THANATOS_TOWER,
 					INST_TOMB_OF_REMORSE,
@@ -302,6 +306,7 @@ L_Instance:
 					18025, // INST_HEY_SWEETY
 					12498, // INST_HIDDEN_FLOWER_GARDEN
 					12331, // INST_HORROR_TOY_FACTORY
+					12588, // INST_IMMORTAL (normal ; le difficile a 12589)
 					12365, // INST_INFINITE_SPACE
 					15005, // INST_ISLE_OF_BIOS
 					5973,  // INST_IWIN_PATROL
@@ -321,6 +326,7 @@ L_Instance:
 					3040,  // INST_SEALED_CATACOMB
 					16663, // INST_SIMULATION_BATTLE
 					9419,  // INST_SKY_FORTRESS_INVASION
+					11950, // INST_STICKY_SEA
 					7605,  // INST_TEMPLE_OF_THE_DEMON_GOD
 					18028, // INST_THANATOS_TOWER
 					16464, // INST_TOMB_OF_REMORSE
@@ -382,6 +388,15 @@ L_Instance:
 		}
 		case INST_SIMULATION_BATTLE: { // Bataille de simulation : Arolong, au Nid du Serpent (ep19_main 100)
 			warp_fct("jor_nest", 63, 257);
+		}
+		// EPISODE 20 : les deux instances rejouables. Leur PNJ d'entree pose lui-meme ses quetes
+		// et son delai ; Canyon, Drift Ice Zone, Nest of Twigs et Separated Sanctuary ne se jouent
+		// que dans la chaine.
+		case INST_STICKY_SEA: { // Mer Gluante : Cocopo, jor_back4 (ep20_sidequest_1 18, rejouable a 20)
+			warp_fct("jor_back4", 101, 262);
+		}
+		case INST_IMMORTAL: { // Immortel, normal et difficile : les Branches de l'Arbre-Monde (ep20_main 100)
+			warp_fct("jor_twig", 114, 144);
 		}
 		case INST_ASSAULT_ON_THE_AIRSHIP: { // Airship Assault
 			if( select( GetColor(15050)+"Acces direct^000000", "Se rendre dans le Rift" ) == 1 ) {
