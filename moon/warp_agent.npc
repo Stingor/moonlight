@@ -65,7 +65,7 @@ L_VillesCmd:
 		"• Morocc",                "• Moscovia",     "• Niflheim",    "• Payon",
 		"• Prontera",              "• Rachel",       "• Rock Ridge",  "• Splendide",
 		"• Umbala",                "• Veins",        "• Juno",
-		"• Gray Wolf Village";
+		"• Gray Wolf Village", "• Issgard";
 	setarray .@vm$[0],
 		"gonryun",    "alberta",    "aldebaran", "amatsu",
 		"ayothaya",   "brasilis",   "comodo",    "dewata",
@@ -76,50 +76,71 @@ L_VillesCmd:
 		"morocc",     "moscovia",   "niflheim",  "payon",
 		"prontera",   "rachel",     "harboro1",  "splendide",
 		"umbala",     "veins",      "yuno",
-		"wolfvill";
+		"wolfvill", "icecastle";
 	setarray .@vx[0],
 		156,  50, 140, 200, 207, 195, 166, 200,
 		197, 167, 170,  65, 120,  96, 128, 135,
 		193, 158, 218, 148, 167, 144, 286, 136,
 		158, 224, 194, 177, 155, 128, 283, 200,
-		122, 196, 153, 152;
+		122, 196, 153, 152, 27;
 	setarray .@vy[0],
 		120, 240, 117, 110, 192, 215, 161, 174,
 		223, 194, 125, 200,  68, 145, 111, 202,
 		182,  92, 115, 131, 136, 240, 230,  91,
 		 93, 192, 186, 104, 182, 111, 212, 149,
-		138, 230, 123, 113;
+		138, 230, 123, 113, 123;
 	.@n = getarraysize(.@vn$);
 	.@sel$ = "";
 	// Un cafard en vadrouille se signale a cote du nom de sa ville : l'annonce
 	// de l'event passe une fois, ce menu reste consultable (cf. F_CafardMark,
 	// moon/event/cafard.npc).
-	// Gray Wolf Village s'ouvre par la chaine de l'episode 18 (etape 35) et
-	// demande le niveau 170, comme dans le menu des donjons de quete : fermee,
-	// elle se montre en rouge et renvoie vers Est, qui ouvre la chaine.
+	// Les villes ouvertes par une chaine d'episode demandent, comme dans le menu
+	// des donjons de quete, l'etape qui y mene et un niveau. Fermees, elles se
+	// montrent en rouge et renvoient vers le PNJ qui ouvre la chaine, si sa
+	// carte est elle-meme ouverte. Le staff passe outre.
+	//   Gray Wolf Village : episode 18, etape 35, niveau 170, Est.
+	//   Issgard : episode 19, etape 7 (l'arrivee par l'aeronef), niveau 200,
+	//   le villageois du Loup Gris qui ouvre la chaine.
 	if (ep18_main >= 35 && !##dun_open_wolfvill)
 		##dun_open_wolfvill = 1;
-	.@wolf_open = (getgroupid() >= 99 || (BaseLevel >= 170 && ##dun_open_wolfvill));
+	if (ep19_main >= 7 && !##dun_open_issgard)
+		##dun_open_issgard = 1;
+	setarray .@lock_map$[0], "wolfvill", "icecastle";
+	setarray .@lock_name$[0], "Gray Wolf Village", "Issgard";
+	setarray .@lock_lv[0], 170, 200;
+	setarray .@lock_open[0], ##dun_open_wolfvill, ##dun_open_issgard;
+	setarray .@lock_ep[0], 18, 19;
+	setarray .@lock_npc$[0], "Est", "Grey Wolf Villager";
+	setarray .@lock_npc_map$[0], "ba_in01", "wolfvill";
+	setarray .@lock_npc_x[0], 22, 221;
+	setarray .@lock_npc_y[0], 260, 81;
+	for (.@k = 0; .@k < getarraysize(.@lock_map$); .@k++)
+		.@lock_shut[.@k] = (getgroupid() < 99 && (BaseLevel < .@lock_lv[.@k] || !.@lock_open[.@k]));
 	for (.@i = 0; .@i < .@n; .@i++) {
 		.@label$ = .@vn$[.@i];
-		if (.@vm$[.@i] == "wolfvill" && !.@wolf_open)
-			.@label$ = "^FF0000" + .@label$ + (BaseLevel < 170 ? " [niv. 170]" : " [quête]") + "^000000";
+		.@k = inarray(.@lock_map$[0], .@vm$[.@i]);
+		if (.@k >= 0 && .@lock_shut[.@k])
+			.@label$ = "^FF0000" + .@label$ + (BaseLevel < .@lock_lv[.@k] ? " [niv. " + .@lock_lv[.@k] + "]" : " [quête]") + "^000000";
 		.@sel$ = .@sel$ + (.@i > 0 ? ":" : "") + .@label$ + callfunc("F_CafardMark", .@vm$[.@i]);
 	}
 	.@c = select(.@sel$ + ":• ^e64c00Menu Précédent.^000000") - 1;
 	if (.@c >= .@n) goto L_warpa;
-	if (.@vm$[.@c] == "wolfvill" && !.@wolf_open) {
+	.@k = inarray(.@lock_map$[0], .@vm$[.@c]);
+	if (.@k >= 0 && .@lock_shut[.@k]) {
 		clear;
 		mes .@npc_name$;
-		if (BaseLevel < 170) {
-			mes "Gray Wolf Village demande le niveau 170.";
+		if (BaseLevel < .@lock_lv[.@k]) {
+			mes .@lock_name$[.@k] + " demande le niveau " + .@lock_lv[.@k] + ".";
 			next;
 			goto L_warpa;
 		}
-		mes "Pour ouvrir Gray Wolf Village, poursuis la quête de l'épisode 18 auprès de ^4d4dffEst^000000.";
+		mes "Pour ouvrir " + .@lock_name$[.@k] + ", poursuis la quête de l'épisode " + .@lock_ep[.@k] + " auprès de ^4d4dff" + .@lock_npc$[.@k] + "^000000.";
 		next;
-		if (select("Se rendre auprès de Est:• ^e64c00Menu Précédent^000000") == 1)
-			warp_fct("ba_in01", 22, 260);
+		.@j = inarray(.@lock_map$[0], .@lock_npc_map$[.@k]);
+		if (.@j >= 0 && .@lock_shut[.@j])
+			goto L_warpa;
+		if (select("Se rendre auprès de " + .@lock_npc$[.@k] + ":• ^e64c00Menu Précédent^000000") == 1)
+			warp_fct(.@lock_npc_map$[.@k], .@lock_npc_x[.@k], .@lock_npc_y[.@k]);
 		goto L_warpa;
 	}
 	if (.@c == 0)
@@ -2698,3 +2719,4 @@ mora,137,93,6	duplicate(warp_agent)	Warp Agent::warpa_mora	4_F_01
 lasagna,195,192,6	duplicate(warp_agent)	Warp Agent::warpa_lasa	4_F_01
 ggpro,28,35,6	duplicate(warp_agent)	Warp Agent::warpa_ggpro	4_F_01
 wolfvill,156,116,3	duplicate(warp_agent)	Warp Agent::warpa_wolfvill	4_F_01
+icecastle,30,121,1	duplicate(warp_agent)	Warp Agent::warpa_icecastle	4_F_01
