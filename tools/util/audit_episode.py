@@ -53,6 +53,11 @@ EXCEPTIONS = {
         "izlude_a": "canal d'Izlude", "izlude_b": "canal d'Izlude",
         "izlude_c": "canal d'Izlude", "izlude_d": "canal d'Izlude",
     },
+    # fichiers de mobs dont les drops de carte amont absents sont voulus (controle 4)
+    "drop_carte": {
+        "mob_db.yml": "mobs equilibres a la main (champions C1_..C5_, copies d'evenement ou"
+                      " de quete E_/Q_, boss retouches comme IMMORTAL_CO_CMDER) : ils restent sans carte",
+    },
 }
 
 
@@ -186,6 +191,10 @@ def main():
     for f in glob.glob(p("db", "re", "item_db_*.yml")):
         for it in yload(f).get("Body") or []:
             re_items[it["AegisName"]] = it
+    # item_db_card.yml garde souvent l'ancien AegisName (V_Magaleta_Card pour Archbishop_Card) :
+    # un nom amont se traduit par son Id, jamais par comparaison de chaines
+    imp_by_id = {it["Id"]: n for n, it in items.items()}
+    alias = lambda n: imp_by_id.get(re_items[n]["Id"], n) if n in re_items else n
     is_card = lambda n: (items.get(n) or re_items.get(n) or {}).get("Type") == "Card" and \
         (items.get(n) or re_items.get(n) or {}).get("SubType") != "Enchant"
     mobs, mob_file = {}, {}
@@ -203,18 +212,19 @@ def main():
             continue
         have = {d["Item"] for d in (m.get("Drops") or []) + (m.get("MvpDrops") or [])}
         for d in rm.get("Drops") or []:
-            if not is_card(d["Item"]) or d["Item"] in have:
+            it = alias(d["Item"])
+            if not is_card(it) or it in have:
                 continue
-            if d["Item"] not in items:
-                unported[mob_file[name]].add(d["Item"])
-            elif mob_file[name] == "mob_db.yml":
-                # db/import/mob_db.yml : equilibrage a la main, un ecart avec db/re y est voulu
-                manual.append(f"{name}:{d['Item']}")
+            if it not in items:
+                unported[mob_file[name]].add(it)
+            elif mob_file[name] in EXCEPTIONS["drop_carte"]:
+                manual.append(f"{name}:{it}")
             else:
-                ko["4. drops de carte"].append(f"{name} ({mob_file[name]}) : {d['Item']}, carte portee, drop absent")
+                ko["4. drops de carte"].append(f"{name} ({mob_file[name]}) : {it}, carte portee, drop absent")
     if manual:
-        print(f"(info) {len(manual)} drops de carte amont absents des mobs de db/import/mob_db.yml"
-              " (equilibrage a la main) : " + ", ".join(manual))
+        why = "; ".join(f"{k} : {v}" for k, v in EXCEPTIONS["drop_carte"].items())
+        print(f"(info) {len(manual)} drops de carte amont absents, exception voulue ({why}) : "
+              + ", ".join(manual))
     for f, cs in sorted(unported.items()):
         print(f"(info) {f} : {len(cs)} carte(s) amont jamais portee(s) : {', '.join(sorted(cs))}")
 
@@ -275,7 +285,7 @@ def main():
     miss_cb = defaultdict(int)
     for c in yload(p("db", "re", "item_combos.yml")).get("Body") or []:
         for cb in c.get("Combos") or []:
-            combo = cb["Combo"]
+            combo = [alias(x) for x in cb["Combo"]]
             if all(x in items for x in combo) and tuple(sorted(combo)) not in have_cb:
                 miss_cb[" + ".join(combo)] += 1
     for k in sorted(miss_cb):

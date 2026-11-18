@@ -48,6 +48,9 @@ Body:
       - Item: Singing_Pere_Card
         Rate: 1
         StealProtected: true
+      - Item: Playing_Pere_Card
+        Rate: 1
+        StealProtected: true
   - Id: 3070
     AegisName: PERE2
     Name: Ferre
@@ -91,6 +94,9 @@ Body:
       - Item: Mistic_Frozen
         Rate: 25
       - Item: Playing_Pere_Card
+        Rate: 1
+        StealProtected: true
+      - Item: Singing_Pere_Card
         Rate: 1
         StealProtected: true
   - Id: 3071
@@ -138,6 +144,9 @@ Body:
       - Item: Playing_Pere_Card
         Rate: 1
         StealProtected: true
+      - Item: Singing_Pere_Card
+        Rate: 1
+        StealProtected: true
   - Id: 3072
     AegisName: PERE4
     Name: Ferre
@@ -181,6 +190,9 @@ Body:
       - Item: Mistic_Frozen
         Rate: 25
       - Item: Singing_Pere_Card
+        Rate: 1
+        StealProtected: true
+      - Item: Playing_Pere_Card
         Rate: 1
         StealProtected: true
   - Id: 3108

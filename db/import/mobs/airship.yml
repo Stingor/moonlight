@@ -49,6 +49,9 @@ Body:
       - Item: Rotar_Zairo_Card
         Rate: 1
         StealProtected: true
+      - Item: Airship_Raid_Card
+        Rate: 1
+        StealProtected: true
   - Id: 3176
     AegisName: E1_GREMLIN
     Name: Gremlin
@@ -92,6 +95,9 @@ Body:
       - Item: Old_Blue_Box
         Rate: 1
       - Item: Gremlin_Card
+        Rate: 1
+        StealProtected: true
+      - Item: Airship_Raid_Card
         Rate: 1
         StealProtected: true
   - Id: 3177
@@ -141,6 +147,9 @@ Body:
       - Item: Beholder_Card
         Rate: 1
         StealProtected: true
+      - Item: Airship_Raid_Card
+        Rate: 1
+        StealProtected: true
   - Id: 3178
     AegisName: E1_ACIDUS
     Name: Acidus
@@ -179,6 +188,9 @@ Body:
         Rate: 500
       - Item: Dragonball_Yellow
         Rate: 200
+      - Item: Airship_Raid_Card
+        Rate: 1
+        StealProtected: true
   - Id: 3179
     AegisName: E1_ACIDUS_
     Name: Acidus
@@ -221,6 +233,9 @@ Body:
       - Item: Dragonball_Blue
         Rate: 200
       - Item: Acidus_Card
+        Rate: 1
+        StealProtected: true
+      - Item: Airship_Raid_Card
         Rate: 1
         StealProtected: true
   - Id: 3180
@@ -266,4 +281,7 @@ Body:
         Rate: 10
       - Item: AirShip_Raid_Card
         Rate: 1
+      - Item: Airship_Raid_Card
+        Rate: 1
+        StealProtected: true
         StealProtected: true

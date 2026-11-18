@@ -2711,6 +2711,9 @@ Body:
       - Item: Broken_Horn
         Rate: 5000
         StealProtected: true
+      - Item: Faceworm_Queen_Card
+        Rate: 1
+        StealProtected: true
   - Id: 2533
     AegisName: FACEWORM_QUEEN_G
     Name: Green Faceworm Queen
@@ -2757,6 +2760,9 @@ Body:
         Rate: 100
       - Item: Great_Nature
         Rate: 5000
+      - Item: Faceworm_Queen_Card
+        Rate: 1
+        StealProtected: true
   - Id: 2534
     AegisName: FACEWORM_QUEEN_B
     Name: Blue Faceworm Queen
@@ -2803,6 +2809,9 @@ Body:
         Rate: 100
       - Item: Mistic_Frozen
         Rate: 5000
+      - Item: Faceworm_Queen_Card
+        Rate: 1
+        StealProtected: true
   - Id: 2535
     AegisName: FACEWORM_QUEEN_Y
     Name: Yellow Faceworm Queen
@@ -2849,6 +2858,9 @@ Body:
         Rate: 100
       - Item: Rough_Wind
         Rate: 5000
+      - Item: Faceworm_Queen_Card
+        Rate: 1
+        StealProtected: true
   - Id: 2942
     AegisName: MM_EVIL_FANATICS
     Name: Evil Fanatics
@@ -3072,6 +3084,9 @@ Body:
         Rate: 5000
       - Item: Fruit_Of_Mastela
         Rate: 200
+      - Item: Morocc's_Minion_Card
+        Rate: 1
+        StealProtected: true
   - Id: 3073
     AegisName: GRAND_PERE
     Name: Awakened Ferre

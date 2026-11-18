@@ -49,6 +49,9 @@ Body:
         Rate: 20
       - Item: Fruit_Of_Mastela
         Rate: 20
+      - Item: Corrupt_Life_Card
+        Rate: 1
+        StealProtected: true
   - Id: 3011
     AegisName: EP14_3_DEATH_A_MOB2
     Name: Corrupt Baby Desert Wol
@@ -95,6 +98,9 @@ Body:
         Rate: 20
       - Item: Fruit_Of_Mastela
         Rate: 20
+      - Item: Corrupt_Life_Card
+        Rate: 1
+        StealProtected: true
   - Id: 3012
     AegisName: EP14_3_DEATH_A_MOB3
     Name: Corrupt Familiar
@@ -141,6 +147,9 @@ Body:
         Rate: 20
       - Item: Fruit_Of_Mastela
         Rate: 20
+      - Item: Corrupt_Life_Card
+        Rate: 1
+        StealProtected: true
   - Id: 3013
     AegisName: EP14_3_DEATH_B_MOB1
     Name: Corrupt Orc Warrior
@@ -187,6 +196,9 @@ Body:
         Rate: 20
       - Item: Fruit_Of_Mastela
         Rate: 20
+      - Item: Corrupt_Life_Card
+        Rate: 1
+        StealProtected: true
   - Id: 3014
     AegisName: EP14_3_DEATH_B_MOB2
     Name: Corrupt Desert Wolf
@@ -233,6 +245,9 @@ Body:
         Rate: 20
       - Item: Fruit_Of_Mastela
         Rate: 20
+      - Item: Corrupt_Life_Card
+        Rate: 1
+        StealProtected: true
   - Id: 3015
     AegisName: EP14_3_DEATH_B_MOB3
     Name: Corrupt Phen
@@ -279,6 +294,9 @@ Body:
         Rate: 20
       - Item: Fruit_Of_Mastela
         Rate: 20
+      - Item: Corrupt_Life_Card
+        Rate: 1
+        StealProtected: true
   - Id: 3016
     AegisName: EP14_3_DEATH_C_MOB1
     Name: Corrupt Orc Zombie
@@ -374,6 +392,9 @@ Body:
         Rate: 20
       - Item: Fruit_Of_Mastela
         Rate: 20
+      - Item: Corrupt_Life_Card
+        Rate: 1
+        StealProtected: true
   - Id: 3018
     AegisName: EP14_3_DEATH_C_MOB3
     Name: Corrupt Megalodon
@@ -420,6 +441,9 @@ Body:
         Rate: 20
       - Item: Fruit_Of_Mastela
         Rate: 20
+      - Item: Corrupt_Life_Card
+        Rate: 1
+        StealProtected: true
   - Id: 3029
     AegisName: GRIM_REAPER_ANKOU
     Name: Reaper Yanku
