@@ -10854,9 +10854,11 @@ Body:
         - Material: EP20_D_Scale
           Amount: 2
         - Material: EP19_D_P_Stone
-  # EP20, Hall of Life : enchantements Moonlight 117 a 124 (absents de rAthena), sur le modele
-  # des armures Glacier 89-94. Impairs = Manteaux, pairs = Signets (Circle of Life), orbes Ice_C_Orb,
-  # gemme et colere de l'element de la saison (printemps Terre, ete Feu, automne Vent, hiver Eau).
+  # EP20, Hall of Life : enchantements 117 a 124 et 142 d'apres db/re (que rAthena commente : kRO fait
+  # monter les pierres au hasard). Montees a coup sur, couts MuhRO pour le printemps, interpoles ailleurs ;
+  # etapes au hasard : cout / chance. Impairs = Capuches (montees jusqu'au niveau 15), pairs = capes
+  # Circulation of Life (jusqu'au 20, feuilles et fleurs), 142 = Signets (grade 0 seul, montees 1 a 5
+  # Moonlight). Energies : printemps Vent+Terre, ete Feu+Terre, automne Vent+Eau, hiver Eau+Feu.
   - Id: 117
     TargetItems:
       Season_Hood_Spring: true
@@ -10867,94 +10869,451 @@ Body:
     Slots:
     - Slot: 3
       PerfectEnchants:
-      - Item: Ice_C_Orb_Str
-        Price: 1000000
+      - Item: Physical_Seed_1
         Materials:
-        - Material: Green_Land_Crystal
-          Amount: 30
-        - Material: Contored_Ter_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Def
-        Price: 1000000
+        - Material: Spring_Material_1
+          Amount: 10
+        - Material: Spring_Material_2
+          Amount: 10
+        - Material: Spring_Material_3
+          Amount: 10
+        - Material: Energy_Of_Spring
+          Amount: 60
+      Upgrades:
+      - Enchant: Physical_Seed_1
+        Upgrade: Physical_Seed_2
         Materials:
-        - Material: Green_Land_Crystal
-          Amount: 30
-        - Material: Contored_Ter_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Mdef
-        Price: 1000000
+        - Material: Energy_Of_Spring
+          Amount: 1
+        - Material: Energy_Of_Wind
+          Amount: 10
+        - Material: Energy_Of_Ground
+          Amount: 10
+      - Enchant: Physical_Seed_2
+        Upgrade: Physical_Seed_3
         Materials:
-        - Material: Green_Land_Crystal
-          Amount: 30
-        - Material: Contored_Ter_Wrath
+        - Material: Energy_Of_Spring
+          Amount: 2
+        - Material: Energy_Of_Wind
+          Amount: 12
+        - Material: Energy_Of_Ground
+          Amount: 12
+      - Enchant: Physical_Seed_3
+        Upgrade: Physical_Seed_4
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 3
+        - Material: Energy_Of_Wind
+          Amount: 14
+        - Material: Energy_Of_Ground
+          Amount: 14
+      - Enchant: Physical_Seed_4
+        Upgrade: Physical_Seed_5
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 4
+        - Material: Energy_Of_Wind
+          Amount: 16
+        - Material: Energy_Of_Ground
+          Amount: 16
+      - Enchant: Physical_Seed_5
+        Upgrade: Physical_Seed_6
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 5
+        - Material: Energy_Of_Wind
+          Amount: 18
+        - Material: Energy_Of_Ground
+          Amount: 18
+      - Enchant: Physical_Seed_6
+        Upgrade: Physical_Seed_7
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 6
+        - Material: Energy_Of_Wind
           Amount: 20
+        - Material: Energy_Of_Ground
+          Amount: 20
+      - Enchant: Physical_Seed_7
+        Upgrade: Physical_Seed_8
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 7
+        - Material: Energy_Of_Wind
+          Amount: 22
+        - Material: Energy_Of_Ground
+          Amount: 22
+      - Enchant: Physical_Seed_8
+        Upgrade: Physical_Seed_9
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 8
+        - Material: Energy_Of_Wind
+          Amount: 24
+        - Material: Energy_Of_Ground
+          Amount: 24
+      - Enchant: Physical_Seed_9
+        Upgrade: Physical_Seed_10
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 9
+        - Material: Energy_Of_Wind
+          Amount: 26
+        - Material: Energy_Of_Ground
+          Amount: 26
     - Slot: 2
       PerfectEnchants:
-      - Item: Ice_C_Orb_War
-        Price: 2000000
+      - Item: Physical_Fruit_1
         Materials:
-        - Material: Green_Land_Crystal
-          Amount: 50
-        - Material: Contored_Ter_Wrath
-          Amount: 40
-        - Material: Coagulated_Spell
-          Amount: 10
-      - Item: Ice_C_Orb_Speed
-        Price: 2000000
+        - Material: Spring_Material_1
+          Amount: 15
+        - Material: Spring_Material_2
+          Amount: 15
+        - Material: Spring_Material_3
+          Amount: 15
+        - Material: Energy_Of_Spring
+          Amount: 90
+      Upgrades:
+      - Enchant: Physical_Fruit_1
+        Upgrade: Physical_Fruit_2
         Materials:
-        - Material: Green_Land_Crystal
-          Amount: 50
-        - Material: Contored_Ter_Wrath
-          Amount: 40
-        - Material: Coagulated_Spell
-          Amount: 10
-      - Item: Ice_C_Orb_Guide
-        Price: 2000000
+        - Material: Energy_Of_Spring
+          Amount: 2
+        - Material: Energy_Of_Wind
+          Amount: 12
+        - Material: Energy_Of_Ground
+          Amount: 12
+      - Enchant: Physical_Fruit_2
+        Upgrade: Physical_Fruit_3
         Materials:
-        - Material: Green_Land_Crystal
-          Amount: 50
-        - Material: Contored_Ter_Wrath
+        - Material: Energy_Of_Spring
+          Amount: 3
+        - Material: Energy_Of_Wind
+          Amount: 13
+        - Material: Energy_Of_Ground
+          Amount: 13
+      - Enchant: Physical_Fruit_3
+        Upgrade: Physical_Fruit_4
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 5
+        - Material: Energy_Of_Wind
+          Amount: 15
+        - Material: Energy_Of_Ground
+          Amount: 15
+      - Enchant: Physical_Fruit_4
+        Upgrade: Physical_Fruit_5
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 8
+        - Material: Energy_Of_Wind
+          Amount: 18
+        - Material: Energy_Of_Ground
+          Amount: 18
+      - Enchant: Physical_Fruit_5
+        Upgrade: Physical_Fruit_6
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 12
+        - Material: Energy_Of_Wind
+          Amount: 22
+        - Material: Energy_Of_Ground
+          Amount: 22
+        - Material: Grace_Of_Spirit
+          Amount: 2
+      - Enchant: Physical_Fruit_6
+        Upgrade: Physical_Fruit_7
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 17
+        - Material: Energy_Of_Wind
+          Amount: 27
+        - Material: Energy_Of_Ground
+          Amount: 27
+        - Material: Grace_Of_Spirit
+          Amount: 4
+      - Enchant: Physical_Fruit_7
+        Upgrade: Physical_Fruit_8
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 23
+        - Material: Energy_Of_Wind
+          Amount: 33
+        - Material: Energy_Of_Ground
+          Amount: 33
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Physical_Fruit_8
+        Upgrade: Physical_Fruit_9
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 30
+        - Material: Energy_Of_Wind
           Amount: 40
-        - Material: Coagulated_Spell
+        - Material: Energy_Of_Ground
+          Amount: 40
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Physical_Fruit_9
+        Upgrade: Physical_Fruit_10
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 38
+        - Material: Energy_Of_Wind
+          Amount: 48
+        - Material: Energy_Of_Ground
+          Amount: 48
+        - Material: Grace_Of_Spirit
           Amount: 10
+      - Enchant: Physical_Fruit_10
+        Upgrade: Physical_Fruit_11
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 24
+        - Material: Energy_Of_Wind
+          Amount: 30
+        - Material: Energy_Of_Ground
+          Amount: 30
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Physical_Fruit_11
+        Upgrade: Physical_Fruit_12
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 28
+        - Material: Energy_Of_Wind
+          Amount: 35
+        - Material: Energy_Of_Ground
+          Amount: 35
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Physical_Fruit_12
+        Upgrade: Physical_Fruit_13
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 32
+        - Material: Energy_Of_Wind
+          Amount: 42
+        - Material: Energy_Of_Ground
+          Amount: 42
+        - Material: Grace_Of_Spirit
+          Amount: 10
+      - Enchant: Physical_Fruit_13
+        Upgrade: Physical_Fruit_14
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 38
+        - Material: Energy_Of_Wind
+          Amount: 49
+        - Material: Energy_Of_Ground
+          Amount: 49
+        - Material: Grace_Of_Spirit
+          Amount: 12
+      - Enchant: Physical_Fruit_14
+        Upgrade: Physical_Fruit_15
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 44
+        - Material: Energy_Of_Wind
+          Amount: 57
+        - Material: Energy_Of_Ground
+          Amount: 57
+        - Material: Grace_Of_Spirit
+          Amount: 14
     - Slot: 1
       PerfectEnchants:
-      - Item: Ice_C_Orb_War2
-        Price: 3000000
+      - Item: Life_of_Spring_1
         Materials:
-        - Material: Green_Land_Crystal
-          Amount: 70
-        - Material: Contored_Ter_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
-          Amount: 10
-      - Item: Ice_C_Orb_P_Full
-        Price: 3000000
+        - Material: Spring_Material_1
+          Amount: 25
+        - Material: Spring_Material_2
+          Amount: 25
+        - Material: Spring_Material_3
+          Amount: 25
+        - Material: Energy_Of_Spring
+          Amount: 140
+      Upgrades:
+      - Enchant: Life_of_Spring_1
+        Upgrade: Life_of_Spring_2
         Materials:
-        - Material: Green_Land_Crystal
-          Amount: 70
-        - Material: Contored_Ter_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
-          Amount: 10
-      - Item: Ice_C_Orb_Above
-        Price: 3000000
+        - Material: Energy_Of_Spring
+          Amount: 4
+        - Material: Energy_Of_Wind
+          Amount: 14
+        - Material: Energy_Of_Ground
+          Amount: 14
+      - Enchant: Life_of_Spring_2
+        Upgrade: Life_of_Spring_3
         Materials:
-        - Material: Green_Land_Crystal
-          Amount: 70
-        - Material: Contored_Ter_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
+        - Material: Energy_Of_Spring
+          Amount: 5
+        - Material: Energy_Of_Wind
+          Amount: 16
+        - Material: Energy_Of_Ground
+          Amount: 16
+      - Enchant: Life_of_Spring_3
+        Upgrade: Life_of_Spring_4
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 7
+        - Material: Energy_Of_Wind
+          Amount: 19
+        - Material: Energy_Of_Ground
+          Amount: 19
+      - Enchant: Life_of_Spring_4
+        Upgrade: Life_of_Spring_5
+        Materials:
+        - Material: Energy_Of_Spring
           Amount: 10
+        - Material: Energy_Of_Wind
+          Amount: 23
+        - Material: Energy_Of_Ground
+          Amount: 23
+        - Material: Grace_Of_Spirit
+          Amount: 5
+      - Enchant: Life_of_Spring_5
+        Upgrade: Life_of_Spring_6
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 14
+        - Material: Energy_Of_Wind
+          Amount: 28
+        - Material: Energy_Of_Ground
+          Amount: 28
+        - Material: Grace_Of_Spirit
+          Amount: 7
+      - Enchant: Life_of_Spring_6
+        Upgrade: Life_of_Spring_7
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 19
+        - Material: Energy_Of_Wind
+          Amount: 34
+        - Material: Energy_Of_Ground
+          Amount: 34
+        - Material: Grace_Of_Spirit
+          Amount: 9
+      - Enchant: Life_of_Spring_7
+        Upgrade: Life_of_Spring_8
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 25
+        - Material: Energy_Of_Wind
+          Amount: 41
+        - Material: Energy_Of_Ground
+          Amount: 41
+        - Material: Grace_Of_Spirit
+          Amount: 11
+        - Material: Spring_Material_1
+          Amount: 1
+        - Material: Spring_Material_2
+          Amount: 1
+        - Material: Spring_Material_3
+          Amount: 1
+      - Enchant: Life_of_Spring_8
+        Upgrade: Life_of_Spring_9
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 32
+        - Material: Energy_Of_Wind
+          Amount: 49
+        - Material: Energy_Of_Ground
+          Amount: 49
+        - Material: Grace_Of_Spirit
+          Amount: 13
+        - Material: Spring_Material_1
+          Amount: 3
+        - Material: Spring_Material_2
+          Amount: 3
+        - Material: Spring_Material_3
+          Amount: 3
+      - Enchant: Life_of_Spring_9
+        Upgrade: Life_of_Spring_10
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 40
+        - Material: Energy_Of_Wind
+          Amount: 58
+        - Material: Energy_Of_Ground
+          Amount: 58
+        - Material: Grace_Of_Spirit
+          Amount: 15
+        - Material: Spring_Material_1
+          Amount: 5
+        - Material: Spring_Material_2
+          Amount: 5
+        - Material: Spring_Material_3
+          Amount: 5
+      - Enchant: Life_of_Spring_10
+        Upgrade: Life_of_Spring_11
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 40
+        - Material: Energy_Of_Wind
+          Amount: 60
+        - Material: Energy_Of_Ground
+          Amount: 60
+        - Material: Grace_Of_Spirit
+          Amount: 14
+      - Enchant: Life_of_Spring_11
+        Upgrade: Life_of_Spring_12
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 43
+        - Material: Energy_Of_Wind
+          Amount: 65
+        - Material: Energy_Of_Ground
+          Amount: 65
+        - Material: Grace_Of_Spirit
+          Amount: 15
+      - Enchant: Life_of_Spring_12
+        Upgrade: Life_of_Spring_13
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 47
+        - Material: Energy_Of_Wind
+          Amount: 70
+        - Material: Energy_Of_Ground
+          Amount: 70
+        - Material: Grace_Of_Spirit
+          Amount: 16
+      - Enchant: Life_of_Spring_13
+        Upgrade: Life_of_Spring_14
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 50
+        - Material: Energy_Of_Wind
+          Amount: 75
+        - Material: Energy_Of_Ground
+          Amount: 75
+        - Material: Grace_Of_Spirit
+          Amount: 17
+        - Material: Spring_Material_1
+          Amount: 4
+        - Material: Spring_Material_2
+          Amount: 4
+        - Material: Spring_Material_3
+          Amount: 4
+      - Enchant: Life_of_Spring_14
+        Upgrade: Life_of_Spring_15
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 55
+        - Material: Energy_Of_Wind
+          Amount: 82
+        - Material: Energy_Of_Ground
+          Amount: 82
+        - Material: Grace_Of_Spirit
+          Amount: 19
+        - Material: Spring_Material_1
+          Amount: 4
+        - Material: Spring_Material_2
+          Amount: 4
+        - Material: Spring_Material_3
+          Amount: 4
   - Id: 118
     TargetItems:
-      Signet_Of_Spring: true
+      Circul_Of_Life_Spring: true
     Order:
     - Slot: 3
     - Slot: 2
@@ -10962,78 +11321,688 @@ Body:
     Slots:
     - Slot: 3
       PerfectEnchants:
-      - Item: Ice_C_Orb_Str
-        Price: 1000000
+      - Item: Physical_Seed_1
         Materials:
-        - Material: Green_Land_Crystal
-          Amount: 30
-        - Material: Contored_Ter_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Agi
-        Price: 1000000
+        - Material: Spring_Material_1
+          Amount: 10
+        - Material: Spring_Material_2
+          Amount: 10
+        - Material: Spring_Material_3
+          Amount: 10
+        - Material: Energy_Of_Spring
+          Amount: 60
+      Upgrades:
+      - Enchant: Physical_Seed_1
+        Upgrade: Physical_Seed_2
         Materials:
-        - Material: Green_Land_Crystal
-          Amount: 30
-        - Material: Contored_Ter_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Vit
-        Price: 1000000
+        - Material: Energy_Of_Spring
+          Amount: 1
+        - Material: Energy_Of_Wind
+          Amount: 10
+        - Material: Energy_Of_Ground
+          Amount: 10
+      - Enchant: Physical_Seed_2
+        Upgrade: Physical_Seed_3
         Materials:
-        - Material: Green_Land_Crystal
-          Amount: 30
-        - Material: Contored_Ter_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Spd
-        Price: 1000000
+        - Material: Energy_Of_Spring
+          Amount: 2
+        - Material: Energy_Of_Wind
+          Amount: 12
+        - Material: Energy_Of_Ground
+          Amount: 12
+      - Enchant: Physical_Seed_3
+        Upgrade: Physical_Seed_4
         Materials:
-        - Material: Green_Land_Crystal
-          Amount: 30
-        - Material: Contored_Ter_Wrath
+        - Material: Energy_Of_Spring
+          Amount: 3
+        - Material: Energy_Of_Wind
+          Amount: 14
+        - Material: Energy_Of_Ground
+          Amount: 14
+      - Enchant: Physical_Seed_4
+        Upgrade: Physical_Seed_5
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 4
+        - Material: Energy_Of_Wind
+          Amount: 16
+        - Material: Energy_Of_Ground
+          Amount: 16
+      - Enchant: Physical_Seed_5
+        Upgrade: Physical_Seed_6
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 5
+        - Material: Energy_Of_Wind
+          Amount: 18
+        - Material: Energy_Of_Ground
+          Amount: 18
+      - Enchant: Physical_Seed_6
+        Upgrade: Physical_Seed_7
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 6
+        - Material: Energy_Of_Wind
           Amount: 20
+        - Material: Energy_Of_Ground
+          Amount: 20
+      - Enchant: Physical_Seed_7
+        Upgrade: Physical_Seed_8
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 7
+        - Material: Energy_Of_Wind
+          Amount: 22
+        - Material: Energy_Of_Ground
+          Amount: 22
+      - Enchant: Physical_Seed_8
+        Upgrade: Physical_Seed_9
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 8
+        - Material: Energy_Of_Wind
+          Amount: 24
+        - Material: Energy_Of_Ground
+          Amount: 24
+      - Enchant: Physical_Seed_9
+        Upgrade: Physical_Seed_10
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 9
+        - Material: Energy_Of_Wind
+          Amount: 26
+        - Material: Energy_Of_Ground
+          Amount: 26
+      - Enchant: Physical_Seed_10
+        Upgrade: Physical_Leaf_1
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 12
+        - Material: Energy_Of_Wind
+          Amount: 30
+        - Material: Energy_Of_Ground
+          Amount: 30
+        - Material: Spring_Material_1
+          Amount: 3
+        - Material: Spring_Material_2
+          Amount: 3
+        - Material: Spring_Material_3
+          Amount: 3
+      - Enchant: Physical_Leaf_1
+        Upgrade: Physical_Leaf_2
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 14
+        - Material: Energy_Of_Wind
+          Amount: 35
+        - Material: Energy_Of_Ground
+          Amount: 35
+        - Material: Grace_Of_Spirit
+          Amount: 2
+      - Enchant: Physical_Leaf_2
+        Upgrade: Physical_Leaf_3
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 16
+        - Material: Energy_Of_Wind
+          Amount: 40
+        - Material: Energy_Of_Ground
+          Amount: 40
+        - Material: Grace_Of_Spirit
+          Amount: 4
+      - Enchant: Physical_Leaf_3
+        Upgrade: Physical_Leaf_4
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 18
+        - Material: Energy_Of_Wind
+          Amount: 45
+        - Material: Energy_Of_Ground
+          Amount: 45
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Physical_Leaf_4
+        Upgrade: Physical_Leaf_5
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 20
+        - Material: Energy_Of_Wind
+          Amount: 50
+        - Material: Energy_Of_Ground
+          Amount: 50
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Physical_Leaf_5
+        Upgrade: Physical_Flower_1
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 25
+        - Material: Circul_Of_Life
+          Amount: 10
+        - Material: Spring_Material_1
+          Amount: 3
+        - Material: Spring_Material_2
+          Amount: 3
+        - Material: Spring_Material_3
+          Amount: 3
+      - Enchant: Physical_Flower_1
+        Upgrade: Physical_Flower_2
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 30
+        - Material: Circul_Of_Life
+          Amount: 12
+      - Enchant: Physical_Flower_2
+        Upgrade: Physical_Flower_3
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 35
+        - Material: Circul_Of_Life
+          Amount: 14
+        - Material: Fruit_Of_Birth
+          Amount: 3
+        - Material: Fruit_Of_Extinction
+          Amount: 3
+      - Enchant: Physical_Flower_3
+        Upgrade: Physical_Flower_4
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 40
+        - Material: Circul_Of_Life
+          Amount: 16
+        - Material: Fruit_Of_Birth
+          Amount: 6
+        - Material: Fruit_Of_Extinction
+          Amount: 6
+        - Material: Truth_Of_Life
+          Amount: 3
+      - Enchant: Physical_Flower_4
+        Upgrade: Physical_Flower_5
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 45
+        - Material: Circul_Of_Life
+          Amount: 18
+        - Material: Fruit_Of_Birth
+          Amount: 9
+        - Material: Fruit_Of_Extinction
+          Amount: 9
+        - Material: Truth_Of_Life
+          Amount: 5
+        - Material: Light_Of_Life
+          Amount: 3
     - Slot: 2
       PerfectEnchants:
-      - Item: Ice_C_Orb_F_Spirit
-        Price: 2000000
+      - Item: Physical_Fruit_1
         Materials:
-        - Material: Green_Land_Crystal
-          Amount: 50
-        - Material: Contored_Ter_Wrath
-          Amount: 40
-        - Material: Coagulated_Spell
-          Amount: 10
-      - Item: Ice_C_Orb_Fatal
-        Price: 2000000
+        - Material: Spring_Material_1
+          Amount: 15
+        - Material: Spring_Material_2
+          Amount: 15
+        - Material: Spring_Material_3
+          Amount: 15
+        - Material: Energy_Of_Spring
+          Amount: 90
+      Upgrades:
+      - Enchant: Physical_Fruit_1
+        Upgrade: Physical_Fruit_2
         Materials:
-        - Material: Green_Land_Crystal
-          Amount: 50
-        - Material: Contored_Ter_Wrath
+        - Material: Energy_Of_Spring
+          Amount: 2
+        - Material: Energy_Of_Wind
+          Amount: 12
+        - Material: Energy_Of_Ground
+          Amount: 12
+      - Enchant: Physical_Fruit_2
+        Upgrade: Physical_Fruit_3
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 3
+        - Material: Energy_Of_Wind
+          Amount: 13
+        - Material: Energy_Of_Ground
+          Amount: 13
+      - Enchant: Physical_Fruit_3
+        Upgrade: Physical_Fruit_4
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 5
+        - Material: Energy_Of_Wind
+          Amount: 15
+        - Material: Energy_Of_Ground
+          Amount: 15
+      - Enchant: Physical_Fruit_4
+        Upgrade: Physical_Fruit_5
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 8
+        - Material: Energy_Of_Wind
+          Amount: 18
+        - Material: Energy_Of_Ground
+          Amount: 18
+      - Enchant: Physical_Fruit_5
+        Upgrade: Physical_Fruit_6
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 12
+        - Material: Energy_Of_Wind
+          Amount: 22
+        - Material: Energy_Of_Ground
+          Amount: 22
+        - Material: Grace_Of_Spirit
+          Amount: 2
+      - Enchant: Physical_Fruit_6
+        Upgrade: Physical_Fruit_7
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 17
+        - Material: Energy_Of_Wind
+          Amount: 27
+        - Material: Energy_Of_Ground
+          Amount: 27
+        - Material: Grace_Of_Spirit
+          Amount: 4
+      - Enchant: Physical_Fruit_7
+        Upgrade: Physical_Fruit_8
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 23
+        - Material: Energy_Of_Wind
+          Amount: 33
+        - Material: Energy_Of_Ground
+          Amount: 33
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Physical_Fruit_8
+        Upgrade: Physical_Fruit_9
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 30
+        - Material: Energy_Of_Wind
           Amount: 40
-        - Material: Coagulated_Spell
+        - Material: Energy_Of_Ground
+          Amount: 40
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Physical_Fruit_9
+        Upgrade: Physical_Fruit_10
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 38
+        - Material: Energy_Of_Wind
+          Amount: 48
+        - Material: Energy_Of_Ground
+          Amount: 48
+        - Material: Grace_Of_Spirit
           Amount: 10
+      - Enchant: Physical_Fruit_10
+        Upgrade: Physical_Fruit_11
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 24
+        - Material: Energy_Of_Wind
+          Amount: 30
+        - Material: Energy_Of_Ground
+          Amount: 30
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Physical_Fruit_11
+        Upgrade: Physical_Fruit_12
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 28
+        - Material: Energy_Of_Wind
+          Amount: 35
+        - Material: Energy_Of_Ground
+          Amount: 35
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Physical_Fruit_12
+        Upgrade: Physical_Fruit_13
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 32
+        - Material: Energy_Of_Wind
+          Amount: 42
+        - Material: Energy_Of_Ground
+          Amount: 42
+        - Material: Grace_Of_Spirit
+          Amount: 10
+      - Enchant: Physical_Fruit_13
+        Upgrade: Physical_Fruit_14
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 38
+        - Material: Energy_Of_Wind
+          Amount: 49
+        - Material: Energy_Of_Ground
+          Amount: 49
+        - Material: Grace_Of_Spirit
+          Amount: 12
+      - Enchant: Physical_Fruit_14
+        Upgrade: Physical_Fruit_15
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 44
+        - Material: Energy_Of_Wind
+          Amount: 57
+        - Material: Energy_Of_Ground
+          Amount: 57
+        - Material: Grace_Of_Spirit
+          Amount: 14
+      - Enchant: Physical_Fruit_15
+        Upgrade: Physical_Fruit_16
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 50
+        - Material: Circul_Of_Life
+          Amount: 25
+      - Enchant: Physical_Fruit_16
+        Upgrade: Physical_Fruit_17
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 55
+        - Material: Circul_Of_Life
+          Amount: 28
+        - Material: Fruit_Of_Birth
+          Amount: 19
+        - Material: Fruit_Of_Extinction
+          Amount: 19
+      - Enchant: Physical_Fruit_17
+        Upgrade: Physical_Fruit_18
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 60
+        - Material: Circul_Of_Life
+          Amount: 30
+        - Material: Fruit_Of_Birth
+          Amount: 20
+        - Material: Fruit_Of_Extinction
+          Amount: 20
+        - Material: Truth_Of_Life
+          Amount: 10
+      - Enchant: Physical_Fruit_18
+        Upgrade: Physical_Fruit_19
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 67
+        - Material: Circul_Of_Life
+          Amount: 34
+        - Material: Fruit_Of_Birth
+          Amount: 23
+        - Material: Fruit_Of_Extinction
+          Amount: 23
+        - Material: Truth_Of_Life
+          Amount: 12
+        - Material: Light_Of_Life
+          Amount: 7
+      - Enchant: Physical_Fruit_19
+        Upgrade: Physical_Fruit_20
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 75
+        - Material: Circul_Of_Life
+          Amount: 38
+        - Material: Fruit_Of_Birth
+          Amount: 25
+        - Material: Fruit_Of_Extinction
+          Amount: 25
+        - Material: Truth_Of_Life
+          Amount: 13
+        - Material: Light_Of_Life
+          Amount: 8
     - Slot: 1
       PerfectEnchants:
-      - Item: Ice_C_Orb_P_P
-        Price: 3000000
+      - Item: Life_of_Spring_1
         Materials:
-        - Material: Green_Land_Crystal
-          Amount: 70
-        - Material: Contored_Ter_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
-          Amount: 10
-      - Item: Ice_C_Orb_A_Force
-        Price: 3000000
+        - Material: Spring_Material_1
+          Amount: 25
+        - Material: Spring_Material_2
+          Amount: 25
+        - Material: Spring_Material_3
+          Amount: 25
+        - Material: Energy_Of_Spring
+          Amount: 140
+      Upgrades:
+      - Enchant: Life_of_Spring_1
+        Upgrade: Life_of_Spring_2
         Materials:
-        - Material: Green_Land_Crystal
-          Amount: 70
-        - Material: Contored_Ter_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
+        - Material: Energy_Of_Spring
+          Amount: 4
+        - Material: Energy_Of_Wind
+          Amount: 14
+        - Material: Energy_Of_Ground
+          Amount: 14
+      - Enchant: Life_of_Spring_2
+        Upgrade: Life_of_Spring_3
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 5
+        - Material: Energy_Of_Wind
+          Amount: 16
+        - Material: Energy_Of_Ground
+          Amount: 16
+      - Enchant: Life_of_Spring_3
+        Upgrade: Life_of_Spring_4
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 7
+        - Material: Energy_Of_Wind
+          Amount: 19
+        - Material: Energy_Of_Ground
+          Amount: 19
+      - Enchant: Life_of_Spring_4
+        Upgrade: Life_of_Spring_5
+        Materials:
+        - Material: Energy_Of_Spring
           Amount: 10
+        - Material: Energy_Of_Wind
+          Amount: 23
+        - Material: Energy_Of_Ground
+          Amount: 23
+        - Material: Grace_Of_Spirit
+          Amount: 5
+      - Enchant: Life_of_Spring_5
+        Upgrade: Life_of_Spring_6
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 14
+        - Material: Energy_Of_Wind
+          Amount: 28
+        - Material: Energy_Of_Ground
+          Amount: 28
+        - Material: Grace_Of_Spirit
+          Amount: 7
+      - Enchant: Life_of_Spring_6
+        Upgrade: Life_of_Spring_7
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 19
+        - Material: Energy_Of_Wind
+          Amount: 34
+        - Material: Energy_Of_Ground
+          Amount: 34
+        - Material: Grace_Of_Spirit
+          Amount: 9
+      - Enchant: Life_of_Spring_7
+        Upgrade: Life_of_Spring_8
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 25
+        - Material: Energy_Of_Wind
+          Amount: 41
+        - Material: Energy_Of_Ground
+          Amount: 41
+        - Material: Grace_Of_Spirit
+          Amount: 11
+        - Material: Spring_Material_1
+          Amount: 1
+        - Material: Spring_Material_2
+          Amount: 1
+        - Material: Spring_Material_3
+          Amount: 1
+      - Enchant: Life_of_Spring_8
+        Upgrade: Life_of_Spring_9
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 32
+        - Material: Energy_Of_Wind
+          Amount: 49
+        - Material: Energy_Of_Ground
+          Amount: 49
+        - Material: Grace_Of_Spirit
+          Amount: 13
+        - Material: Spring_Material_1
+          Amount: 3
+        - Material: Spring_Material_2
+          Amount: 3
+        - Material: Spring_Material_3
+          Amount: 3
+      - Enchant: Life_of_Spring_9
+        Upgrade: Life_of_Spring_10
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 40
+        - Material: Energy_Of_Wind
+          Amount: 58
+        - Material: Energy_Of_Ground
+          Amount: 58
+        - Material: Grace_Of_Spirit
+          Amount: 15
+        - Material: Spring_Material_1
+          Amount: 5
+        - Material: Spring_Material_2
+          Amount: 5
+        - Material: Spring_Material_3
+          Amount: 5
+      - Enchant: Life_of_Spring_10
+        Upgrade: Life_of_Spring_11
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 40
+        - Material: Energy_Of_Wind
+          Amount: 60
+        - Material: Energy_Of_Ground
+          Amount: 60
+        - Material: Grace_Of_Spirit
+          Amount: 14
+      - Enchant: Life_of_Spring_11
+        Upgrade: Life_of_Spring_12
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 43
+        - Material: Energy_Of_Wind
+          Amount: 65
+        - Material: Energy_Of_Ground
+          Amount: 65
+        - Material: Grace_Of_Spirit
+          Amount: 15
+      - Enchant: Life_of_Spring_12
+        Upgrade: Life_of_Spring_13
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 47
+        - Material: Energy_Of_Wind
+          Amount: 70
+        - Material: Energy_Of_Ground
+          Amount: 70
+        - Material: Grace_Of_Spirit
+          Amount: 16
+      - Enchant: Life_of_Spring_13
+        Upgrade: Life_of_Spring_14
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 50
+        - Material: Energy_Of_Wind
+          Amount: 75
+        - Material: Energy_Of_Ground
+          Amount: 75
+        - Material: Grace_Of_Spirit
+          Amount: 17
+        - Material: Spring_Material_1
+          Amount: 4
+        - Material: Spring_Material_2
+          Amount: 4
+        - Material: Spring_Material_3
+          Amount: 4
+      - Enchant: Life_of_Spring_14
+        Upgrade: Life_of_Spring_15
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 55
+        - Material: Energy_Of_Wind
+          Amount: 82
+        - Material: Energy_Of_Ground
+          Amount: 82
+        - Material: Grace_Of_Spirit
+          Amount: 19
+        - Material: Spring_Material_1
+          Amount: 4
+        - Material: Spring_Material_2
+          Amount: 4
+        - Material: Spring_Material_3
+          Amount: 4
+      - Enchant: Life_of_Spring_15
+        Upgrade: Life_of_Spring_16
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 60
+        - Material: Circul_Of_Life
+          Amount: 50
+      - Enchant: Life_of_Spring_16
+        Upgrade: Life_of_Spring_17
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 67
+        - Material: Circul_Of_Life
+          Amount: 56
+        - Material: Fruit_Of_Birth
+          Amount: 34
+        - Material: Fruit_Of_Extinction
+          Amount: 34
+      - Enchant: Life_of_Spring_17
+        Upgrade: Life_of_Spring_18
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 75
+        - Material: Circul_Of_Life
+          Amount: 63
+        - Material: Fruit_Of_Birth
+          Amount: 38
+        - Material: Fruit_Of_Extinction
+          Amount: 38
+        - Material: Truth_Of_Life
+          Amount: 25
+      - Enchant: Life_of_Spring_18
+        Upgrade: Life_of_Spring_19
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 86
+        - Material: Circul_Of_Life
+          Amount: 72
+        - Material: Fruit_Of_Birth
+          Amount: 43
+        - Material: Fruit_Of_Extinction
+          Amount: 43
+        - Material: Truth_Of_Life
+          Amount: 29
+        - Material: Light_Of_Life
+          Amount: 15
+      - Enchant: Life_of_Spring_19
+        Upgrade: Life_of_Spring_20
+        Materials:
+        - Material: Energy_Of_Spring
+          Amount: 100
+        - Material: Circul_Of_Life
+          Amount: 84
+        - Material: Fruit_Of_Birth
+          Amount: 50
+        - Material: Fruit_Of_Extinction
+          Amount: 50
+        - Material: Truth_Of_Life
+          Amount: 34
+        - Material: Light_Of_Life
+          Amount: 17
   - Id: 119
     TargetItems:
       Season_Hood_Summer: true
@@ -11044,94 +12013,451 @@ Body:
     Slots:
     - Slot: 3
       PerfectEnchants:
-      - Item: Ice_C_Orb_Dex
-        Price: 1000000
+      - Item: Physical_Seed_1
         Materials:
-        - Material: Blue_Flame_Heart_Gem
-          Amount: 30
-        - Material: Contored_Agn_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Def
-        Price: 1000000
+        - Material: Summer_Material_1
+          Amount: 10
+        - Material: Summer_Material_2
+          Amount: 10
+        - Material: Summer_Material_3
+          Amount: 10
+        - Material: Energy_Of_Summer
+          Amount: 60
+      Upgrades:
+      - Enchant: Physical_Seed_1
+        Upgrade: Physical_Seed_2
         Materials:
-        - Material: Blue_Flame_Heart_Gem
-          Amount: 30
-        - Material: Contored_Agn_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Mdef
-        Price: 1000000
+        - Material: Energy_Of_Summer
+          Amount: 1
+        - Material: Energy_Of_Flame
+          Amount: 10
+        - Material: Energy_Of_Ground
+          Amount: 10
+      - Enchant: Physical_Seed_2
+        Upgrade: Physical_Seed_3
         Materials:
-        - Material: Blue_Flame_Heart_Gem
-          Amount: 30
-        - Material: Contored_Agn_Wrath
+        - Material: Energy_Of_Summer
+          Amount: 2
+        - Material: Energy_Of_Flame
+          Amount: 12
+        - Material: Energy_Of_Ground
+          Amount: 12
+      - Enchant: Physical_Seed_3
+        Upgrade: Physical_Seed_4
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 3
+        - Material: Energy_Of_Flame
+          Amount: 14
+        - Material: Energy_Of_Ground
+          Amount: 14
+      - Enchant: Physical_Seed_4
+        Upgrade: Physical_Seed_5
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 4
+        - Material: Energy_Of_Flame
+          Amount: 16
+        - Material: Energy_Of_Ground
+          Amount: 16
+      - Enchant: Physical_Seed_5
+        Upgrade: Physical_Seed_6
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 5
+        - Material: Energy_Of_Flame
+          Amount: 18
+        - Material: Energy_Of_Ground
+          Amount: 18
+      - Enchant: Physical_Seed_6
+        Upgrade: Physical_Seed_7
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 6
+        - Material: Energy_Of_Flame
           Amount: 20
+        - Material: Energy_Of_Ground
+          Amount: 20
+      - Enchant: Physical_Seed_7
+        Upgrade: Physical_Seed_8
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 7
+        - Material: Energy_Of_Flame
+          Amount: 22
+        - Material: Energy_Of_Ground
+          Amount: 22
+      - Enchant: Physical_Seed_8
+        Upgrade: Physical_Seed_9
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 8
+        - Material: Energy_Of_Flame
+          Amount: 24
+        - Material: Energy_Of_Ground
+          Amount: 24
+      - Enchant: Physical_Seed_9
+        Upgrade: Physical_Seed_10
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 9
+        - Material: Energy_Of_Flame
+          Amount: 26
+        - Material: Energy_Of_Ground
+          Amount: 26
     - Slot: 2
       PerfectEnchants:
-      - Item: Ice_C_Orb_Ran
-        Price: 2000000
+      - Item: Physical_Fruit_1
         Materials:
-        - Material: Blue_Flame_Heart_Gem
-          Amount: 50
-        - Material: Contored_Agn_Wrath
-          Amount: 40
-        - Material: Coagulated_Spell
-          Amount: 10
-      - Item: Ice_C_Orb_Speed
-        Price: 2000000
+        - Material: Summer_Material_1
+          Amount: 15
+        - Material: Summer_Material_2
+          Amount: 15
+        - Material: Summer_Material_3
+          Amount: 15
+        - Material: Energy_Of_Summer
+          Amount: 90
+      Upgrades:
+      - Enchant: Physical_Fruit_1
+        Upgrade: Physical_Fruit_2
         Materials:
-        - Material: Blue_Flame_Heart_Gem
-          Amount: 50
-        - Material: Contored_Agn_Wrath
-          Amount: 40
-        - Material: Coagulated_Spell
-          Amount: 10
-      - Item: Ice_C_Orb_Guide
-        Price: 2000000
+        - Material: Energy_Of_Summer
+          Amount: 2
+        - Material: Energy_Of_Flame
+          Amount: 12
+        - Material: Energy_Of_Ground
+          Amount: 12
+      - Enchant: Physical_Fruit_2
+        Upgrade: Physical_Fruit_3
         Materials:
-        - Material: Blue_Flame_Heart_Gem
-          Amount: 50
-        - Material: Contored_Agn_Wrath
+        - Material: Energy_Of_Summer
+          Amount: 3
+        - Material: Energy_Of_Flame
+          Amount: 13
+        - Material: Energy_Of_Ground
+          Amount: 13
+      - Enchant: Physical_Fruit_3
+        Upgrade: Physical_Fruit_4
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 5
+        - Material: Energy_Of_Flame
+          Amount: 15
+        - Material: Energy_Of_Ground
+          Amount: 15
+      - Enchant: Physical_Fruit_4
+        Upgrade: Physical_Fruit_5
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 8
+        - Material: Energy_Of_Flame
+          Amount: 18
+        - Material: Energy_Of_Ground
+          Amount: 18
+      - Enchant: Physical_Fruit_5
+        Upgrade: Physical_Fruit_6
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 12
+        - Material: Energy_Of_Flame
+          Amount: 22
+        - Material: Energy_Of_Ground
+          Amount: 22
+        - Material: Grace_Of_Spirit
+          Amount: 2
+      - Enchant: Physical_Fruit_6
+        Upgrade: Physical_Fruit_7
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 17
+        - Material: Energy_Of_Flame
+          Amount: 27
+        - Material: Energy_Of_Ground
+          Amount: 27
+        - Material: Grace_Of_Spirit
+          Amount: 4
+      - Enchant: Physical_Fruit_7
+        Upgrade: Physical_Fruit_8
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 23
+        - Material: Energy_Of_Flame
+          Amount: 33
+        - Material: Energy_Of_Ground
+          Amount: 33
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Physical_Fruit_8
+        Upgrade: Physical_Fruit_9
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 30
+        - Material: Energy_Of_Flame
           Amount: 40
-        - Material: Coagulated_Spell
+        - Material: Energy_Of_Ground
+          Amount: 40
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Physical_Fruit_9
+        Upgrade: Physical_Fruit_10
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 38
+        - Material: Energy_Of_Flame
+          Amount: 48
+        - Material: Energy_Of_Ground
+          Amount: 48
+        - Material: Grace_Of_Spirit
           Amount: 10
+      - Enchant: Physical_Fruit_10
+        Upgrade: Physical_Fruit_11
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 24
+        - Material: Energy_Of_Flame
+          Amount: 30
+        - Material: Energy_Of_Ground
+          Amount: 30
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Physical_Fruit_11
+        Upgrade: Physical_Fruit_12
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 28
+        - Material: Energy_Of_Flame
+          Amount: 35
+        - Material: Energy_Of_Ground
+          Amount: 35
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Physical_Fruit_12
+        Upgrade: Physical_Fruit_13
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 32
+        - Material: Energy_Of_Flame
+          Amount: 42
+        - Material: Energy_Of_Ground
+          Amount: 42
+        - Material: Grace_Of_Spirit
+          Amount: 10
+      - Enchant: Physical_Fruit_13
+        Upgrade: Physical_Fruit_14
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 38
+        - Material: Energy_Of_Flame
+          Amount: 49
+        - Material: Energy_Of_Ground
+          Amount: 49
+        - Material: Grace_Of_Spirit
+          Amount: 12
+      - Enchant: Physical_Fruit_14
+        Upgrade: Physical_Fruit_15
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 44
+        - Material: Energy_Of_Flame
+          Amount: 57
+        - Material: Energy_Of_Ground
+          Amount: 57
+        - Material: Grace_Of_Spirit
+          Amount: 14
     - Slot: 1
       PerfectEnchants:
-      - Item: Ice_C_Orb_Ran2
-        Price: 3000000
+      - Item: Life_of_Summer_1
         Materials:
-        - Material: Blue_Flame_Heart_Gem
-          Amount: 70
-        - Material: Contored_Agn_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
-          Amount: 10
-      - Item: Ice_C_Orb_P_Full
-        Price: 3000000
+        - Material: Summer_Material_1
+          Amount: 25
+        - Material: Summer_Material_2
+          Amount: 25
+        - Material: Summer_Material_3
+          Amount: 25
+        - Material: Energy_Of_Summer
+          Amount: 140
+      Upgrades:
+      - Enchant: Life_of_Summer_1
+        Upgrade: Life_of_Summer_2
         Materials:
-        - Material: Blue_Flame_Heart_Gem
-          Amount: 70
-        - Material: Contored_Agn_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
-          Amount: 10
-      - Item: Ice_C_Orb_Above
-        Price: 3000000
+        - Material: Energy_Of_Summer
+          Amount: 4
+        - Material: Energy_Of_Flame
+          Amount: 14
+        - Material: Energy_Of_Ground
+          Amount: 14
+      - Enchant: Life_of_Summer_2
+        Upgrade: Life_of_Summer_3
         Materials:
-        - Material: Blue_Flame_Heart_Gem
-          Amount: 70
-        - Material: Contored_Agn_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
+        - Material: Energy_Of_Summer
+          Amount: 5
+        - Material: Energy_Of_Flame
+          Amount: 16
+        - Material: Energy_Of_Ground
+          Amount: 16
+      - Enchant: Life_of_Summer_3
+        Upgrade: Life_of_Summer_4
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 7
+        - Material: Energy_Of_Flame
+          Amount: 19
+        - Material: Energy_Of_Ground
+          Amount: 19
+      - Enchant: Life_of_Summer_4
+        Upgrade: Life_of_Summer_5
+        Materials:
+        - Material: Energy_Of_Summer
           Amount: 10
+        - Material: Energy_Of_Flame
+          Amount: 23
+        - Material: Energy_Of_Ground
+          Amount: 23
+        - Material: Grace_Of_Spirit
+          Amount: 5
+      - Enchant: Life_of_Summer_5
+        Upgrade: Life_of_Summer_6
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 14
+        - Material: Energy_Of_Flame
+          Amount: 28
+        - Material: Energy_Of_Ground
+          Amount: 28
+        - Material: Grace_Of_Spirit
+          Amount: 7
+      - Enchant: Life_of_Summer_6
+        Upgrade: Life_of_Summer_7
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 19
+        - Material: Energy_Of_Flame
+          Amount: 34
+        - Material: Energy_Of_Ground
+          Amount: 34
+        - Material: Grace_Of_Spirit
+          Amount: 9
+      - Enchant: Life_of_Summer_7
+        Upgrade: Life_of_Summer_8
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 25
+        - Material: Energy_Of_Flame
+          Amount: 41
+        - Material: Energy_Of_Ground
+          Amount: 41
+        - Material: Grace_Of_Spirit
+          Amount: 11
+        - Material: Summer_Material_1
+          Amount: 1
+        - Material: Summer_Material_2
+          Amount: 1
+        - Material: Summer_Material_3
+          Amount: 1
+      - Enchant: Life_of_Summer_8
+        Upgrade: Life_of_Summer_9
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 32
+        - Material: Energy_Of_Flame
+          Amount: 49
+        - Material: Energy_Of_Ground
+          Amount: 49
+        - Material: Grace_Of_Spirit
+          Amount: 13
+        - Material: Summer_Material_1
+          Amount: 3
+        - Material: Summer_Material_2
+          Amount: 3
+        - Material: Summer_Material_3
+          Amount: 3
+      - Enchant: Life_of_Summer_9
+        Upgrade: Life_of_Summer_10
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 40
+        - Material: Energy_Of_Flame
+          Amount: 58
+        - Material: Energy_Of_Ground
+          Amount: 58
+        - Material: Grace_Of_Spirit
+          Amount: 15
+        - Material: Summer_Material_1
+          Amount: 5
+        - Material: Summer_Material_2
+          Amount: 5
+        - Material: Summer_Material_3
+          Amount: 5
+      - Enchant: Life_of_Summer_10
+        Upgrade: Life_of_Summer_11
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 40
+        - Material: Energy_Of_Flame
+          Amount: 60
+        - Material: Energy_Of_Ground
+          Amount: 60
+        - Material: Grace_Of_Spirit
+          Amount: 14
+      - Enchant: Life_of_Summer_11
+        Upgrade: Life_of_Summer_12
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 43
+        - Material: Energy_Of_Flame
+          Amount: 65
+        - Material: Energy_Of_Ground
+          Amount: 65
+        - Material: Grace_Of_Spirit
+          Amount: 15
+      - Enchant: Life_of_Summer_12
+        Upgrade: Life_of_Summer_13
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 47
+        - Material: Energy_Of_Flame
+          Amount: 70
+        - Material: Energy_Of_Ground
+          Amount: 70
+        - Material: Grace_Of_Spirit
+          Amount: 16
+      - Enchant: Life_of_Summer_13
+        Upgrade: Life_of_Summer_14
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 50
+        - Material: Energy_Of_Flame
+          Amount: 75
+        - Material: Energy_Of_Ground
+          Amount: 75
+        - Material: Grace_Of_Spirit
+          Amount: 17
+        - Material: Summer_Material_1
+          Amount: 4
+        - Material: Summer_Material_2
+          Amount: 4
+        - Material: Summer_Material_3
+          Amount: 4
+      - Enchant: Life_of_Summer_14
+        Upgrade: Life_of_Summer_15
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 55
+        - Material: Energy_Of_Flame
+          Amount: 82
+        - Material: Energy_Of_Ground
+          Amount: 82
+        - Material: Grace_Of_Spirit
+          Amount: 19
+        - Material: Summer_Material_1
+          Amount: 4
+        - Material: Summer_Material_2
+          Amount: 4
+        - Material: Summer_Material_3
+          Amount: 4
   - Id: 120
     TargetItems:
-      Signet_Of_Summer: true
+      Circul_Of_Life_Summer: true
     Order:
     - Slot: 3
     - Slot: 2
@@ -11139,78 +12465,688 @@ Body:
     Slots:
     - Slot: 3
       PerfectEnchants:
-      - Item: Ice_C_Orb_Dex
-        Price: 1000000
+      - Item: Physical_Seed_1
         Materials:
-        - Material: Blue_Flame_Heart_Gem
-          Amount: 30
-        - Material: Contored_Agn_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Agi
-        Price: 1000000
+        - Material: Summer_Material_1
+          Amount: 10
+        - Material: Summer_Material_2
+          Amount: 10
+        - Material: Summer_Material_3
+          Amount: 10
+        - Material: Energy_Of_Summer
+          Amount: 60
+      Upgrades:
+      - Enchant: Physical_Seed_1
+        Upgrade: Physical_Seed_2
         Materials:
-        - Material: Blue_Flame_Heart_Gem
-          Amount: 30
-        - Material: Contored_Agn_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Vit
-        Price: 1000000
+        - Material: Energy_Of_Summer
+          Amount: 1
+        - Material: Energy_Of_Flame
+          Amount: 10
+        - Material: Energy_Of_Ground
+          Amount: 10
+      - Enchant: Physical_Seed_2
+        Upgrade: Physical_Seed_3
         Materials:
-        - Material: Blue_Flame_Heart_Gem
-          Amount: 30
-        - Material: Contored_Agn_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Spd
-        Price: 1000000
+        - Material: Energy_Of_Summer
+          Amount: 2
+        - Material: Energy_Of_Flame
+          Amount: 12
+        - Material: Energy_Of_Ground
+          Amount: 12
+      - Enchant: Physical_Seed_3
+        Upgrade: Physical_Seed_4
         Materials:
-        - Material: Blue_Flame_Heart_Gem
-          Amount: 30
-        - Material: Contored_Agn_Wrath
+        - Material: Energy_Of_Summer
+          Amount: 3
+        - Material: Energy_Of_Flame
+          Amount: 14
+        - Material: Energy_Of_Ground
+          Amount: 14
+      - Enchant: Physical_Seed_4
+        Upgrade: Physical_Seed_5
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 4
+        - Material: Energy_Of_Flame
+          Amount: 16
+        - Material: Energy_Of_Ground
+          Amount: 16
+      - Enchant: Physical_Seed_5
+        Upgrade: Physical_Seed_6
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 5
+        - Material: Energy_Of_Flame
+          Amount: 18
+        - Material: Energy_Of_Ground
+          Amount: 18
+      - Enchant: Physical_Seed_6
+        Upgrade: Physical_Seed_7
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 6
+        - Material: Energy_Of_Flame
           Amount: 20
+        - Material: Energy_Of_Ground
+          Amount: 20
+      - Enchant: Physical_Seed_7
+        Upgrade: Physical_Seed_8
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 7
+        - Material: Energy_Of_Flame
+          Amount: 22
+        - Material: Energy_Of_Ground
+          Amount: 22
+      - Enchant: Physical_Seed_8
+        Upgrade: Physical_Seed_9
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 8
+        - Material: Energy_Of_Flame
+          Amount: 24
+        - Material: Energy_Of_Ground
+          Amount: 24
+      - Enchant: Physical_Seed_9
+        Upgrade: Physical_Seed_10
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 9
+        - Material: Energy_Of_Flame
+          Amount: 26
+        - Material: Energy_Of_Ground
+          Amount: 26
+      - Enchant: Physical_Seed_10
+        Upgrade: Physical_Leaf_1
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 12
+        - Material: Energy_Of_Flame
+          Amount: 30
+        - Material: Energy_Of_Ground
+          Amount: 30
+        - Material: Summer_Material_1
+          Amount: 3
+        - Material: Summer_Material_2
+          Amount: 3
+        - Material: Summer_Material_3
+          Amount: 3
+      - Enchant: Physical_Leaf_1
+        Upgrade: Physical_Leaf_2
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 14
+        - Material: Energy_Of_Flame
+          Amount: 35
+        - Material: Energy_Of_Ground
+          Amount: 35
+        - Material: Grace_Of_Spirit
+          Amount: 2
+      - Enchant: Physical_Leaf_2
+        Upgrade: Physical_Leaf_3
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 16
+        - Material: Energy_Of_Flame
+          Amount: 40
+        - Material: Energy_Of_Ground
+          Amount: 40
+        - Material: Grace_Of_Spirit
+          Amount: 4
+      - Enchant: Physical_Leaf_3
+        Upgrade: Physical_Leaf_4
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 18
+        - Material: Energy_Of_Flame
+          Amount: 45
+        - Material: Energy_Of_Ground
+          Amount: 45
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Physical_Leaf_4
+        Upgrade: Physical_Leaf_5
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 20
+        - Material: Energy_Of_Flame
+          Amount: 50
+        - Material: Energy_Of_Ground
+          Amount: 50
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Physical_Leaf_5
+        Upgrade: Physical_Flower_1
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 25
+        - Material: Circul_Of_Life
+          Amount: 10
+        - Material: Summer_Material_1
+          Amount: 3
+        - Material: Summer_Material_2
+          Amount: 3
+        - Material: Summer_Material_3
+          Amount: 3
+      - Enchant: Physical_Flower_1
+        Upgrade: Physical_Flower_2
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 30
+        - Material: Circul_Of_Life
+          Amount: 12
+      - Enchant: Physical_Flower_2
+        Upgrade: Physical_Flower_3
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 35
+        - Material: Circul_Of_Life
+          Amount: 14
+        - Material: Fruit_Of_Birth
+          Amount: 3
+        - Material: Fruit_Of_Extinction
+          Amount: 3
+      - Enchant: Physical_Flower_3
+        Upgrade: Physical_Flower_4
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 40
+        - Material: Circul_Of_Life
+          Amount: 16
+        - Material: Fruit_Of_Birth
+          Amount: 6
+        - Material: Fruit_Of_Extinction
+          Amount: 6
+        - Material: Truth_Of_Life
+          Amount: 3
+      - Enchant: Physical_Flower_4
+        Upgrade: Physical_Flower_5
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 45
+        - Material: Circul_Of_Life
+          Amount: 18
+        - Material: Fruit_Of_Birth
+          Amount: 9
+        - Material: Fruit_Of_Extinction
+          Amount: 9
+        - Material: Truth_Of_Life
+          Amount: 5
+        - Material: Light_Of_Life
+          Amount: 3
     - Slot: 2
       PerfectEnchants:
-      - Item: Ice_C_Orb_E_Archer
-        Price: 2000000
+      - Item: Physical_Fruit_1
         Materials:
-        - Material: Blue_Flame_Heart_Gem
-          Amount: 50
-        - Material: Contored_Agn_Wrath
-          Amount: 40
-        - Material: Coagulated_Spell
-          Amount: 10
-      - Item: Ice_C_Orb_Fatal
-        Price: 2000000
+        - Material: Summer_Material_1
+          Amount: 15
+        - Material: Summer_Material_2
+          Amount: 15
+        - Material: Summer_Material_3
+          Amount: 15
+        - Material: Energy_Of_Summer
+          Amount: 90
+      Upgrades:
+      - Enchant: Physical_Fruit_1
+        Upgrade: Physical_Fruit_2
         Materials:
-        - Material: Blue_Flame_Heart_Gem
-          Amount: 50
-        - Material: Contored_Agn_Wrath
+        - Material: Energy_Of_Summer
+          Amount: 2
+        - Material: Energy_Of_Flame
+          Amount: 12
+        - Material: Energy_Of_Ground
+          Amount: 12
+      - Enchant: Physical_Fruit_2
+        Upgrade: Physical_Fruit_3
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 3
+        - Material: Energy_Of_Flame
+          Amount: 13
+        - Material: Energy_Of_Ground
+          Amount: 13
+      - Enchant: Physical_Fruit_3
+        Upgrade: Physical_Fruit_4
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 5
+        - Material: Energy_Of_Flame
+          Amount: 15
+        - Material: Energy_Of_Ground
+          Amount: 15
+      - Enchant: Physical_Fruit_4
+        Upgrade: Physical_Fruit_5
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 8
+        - Material: Energy_Of_Flame
+          Amount: 18
+        - Material: Energy_Of_Ground
+          Amount: 18
+      - Enchant: Physical_Fruit_5
+        Upgrade: Physical_Fruit_6
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 12
+        - Material: Energy_Of_Flame
+          Amount: 22
+        - Material: Energy_Of_Ground
+          Amount: 22
+        - Material: Grace_Of_Spirit
+          Amount: 2
+      - Enchant: Physical_Fruit_6
+        Upgrade: Physical_Fruit_7
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 17
+        - Material: Energy_Of_Flame
+          Amount: 27
+        - Material: Energy_Of_Ground
+          Amount: 27
+        - Material: Grace_Of_Spirit
+          Amount: 4
+      - Enchant: Physical_Fruit_7
+        Upgrade: Physical_Fruit_8
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 23
+        - Material: Energy_Of_Flame
+          Amount: 33
+        - Material: Energy_Of_Ground
+          Amount: 33
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Physical_Fruit_8
+        Upgrade: Physical_Fruit_9
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 30
+        - Material: Energy_Of_Flame
           Amount: 40
-        - Material: Coagulated_Spell
+        - Material: Energy_Of_Ground
+          Amount: 40
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Physical_Fruit_9
+        Upgrade: Physical_Fruit_10
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 38
+        - Material: Energy_Of_Flame
+          Amount: 48
+        - Material: Energy_Of_Ground
+          Amount: 48
+        - Material: Grace_Of_Spirit
           Amount: 10
+      - Enchant: Physical_Fruit_10
+        Upgrade: Physical_Fruit_11
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 24
+        - Material: Energy_Of_Flame
+          Amount: 30
+        - Material: Energy_Of_Ground
+          Amount: 30
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Physical_Fruit_11
+        Upgrade: Physical_Fruit_12
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 28
+        - Material: Energy_Of_Flame
+          Amount: 35
+        - Material: Energy_Of_Ground
+          Amount: 35
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Physical_Fruit_12
+        Upgrade: Physical_Fruit_13
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 32
+        - Material: Energy_Of_Flame
+          Amount: 42
+        - Material: Energy_Of_Ground
+          Amount: 42
+        - Material: Grace_Of_Spirit
+          Amount: 10
+      - Enchant: Physical_Fruit_13
+        Upgrade: Physical_Fruit_14
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 38
+        - Material: Energy_Of_Flame
+          Amount: 49
+        - Material: Energy_Of_Ground
+          Amount: 49
+        - Material: Grace_Of_Spirit
+          Amount: 12
+      - Enchant: Physical_Fruit_14
+        Upgrade: Physical_Fruit_15
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 44
+        - Material: Energy_Of_Flame
+          Amount: 57
+        - Material: Energy_Of_Ground
+          Amount: 57
+        - Material: Grace_Of_Spirit
+          Amount: 14
+      - Enchant: Physical_Fruit_15
+        Upgrade: Physical_Fruit_16
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 50
+        - Material: Circul_Of_Life
+          Amount: 25
+      - Enchant: Physical_Fruit_16
+        Upgrade: Physical_Fruit_17
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 55
+        - Material: Circul_Of_Life
+          Amount: 28
+        - Material: Fruit_Of_Birth
+          Amount: 19
+        - Material: Fruit_Of_Extinction
+          Amount: 19
+      - Enchant: Physical_Fruit_17
+        Upgrade: Physical_Fruit_18
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 60
+        - Material: Circul_Of_Life
+          Amount: 30
+        - Material: Fruit_Of_Birth
+          Amount: 20
+        - Material: Fruit_Of_Extinction
+          Amount: 20
+        - Material: Truth_Of_Life
+          Amount: 10
+      - Enchant: Physical_Fruit_18
+        Upgrade: Physical_Fruit_19
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 67
+        - Material: Circul_Of_Life
+          Amount: 34
+        - Material: Fruit_Of_Birth
+          Amount: 23
+        - Material: Fruit_Of_Extinction
+          Amount: 23
+        - Material: Truth_Of_Life
+          Amount: 12
+        - Material: Light_Of_Life
+          Amount: 7
+      - Enchant: Physical_Fruit_19
+        Upgrade: Physical_Fruit_20
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 75
+        - Material: Circul_Of_Life
+          Amount: 38
+        - Material: Fruit_Of_Birth
+          Amount: 25
+        - Material: Fruit_Of_Extinction
+          Amount: 25
+        - Material: Truth_Of_Life
+          Amount: 13
+        - Material: Light_Of_Life
+          Amount: 8
     - Slot: 1
       PerfectEnchants:
-      - Item: Ice_C_Orb_P_P
-        Price: 3000000
+      - Item: Life_of_Summer_1
         Materials:
-        - Material: Blue_Flame_Heart_Gem
-          Amount: 70
-        - Material: Contored_Agn_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
-          Amount: 10
-      - Item: Ice_C_Orb_A_Force
-        Price: 3000000
+        - Material: Summer_Material_1
+          Amount: 25
+        - Material: Summer_Material_2
+          Amount: 25
+        - Material: Summer_Material_3
+          Amount: 25
+        - Material: Energy_Of_Summer
+          Amount: 140
+      Upgrades:
+      - Enchant: Life_of_Summer_1
+        Upgrade: Life_of_Summer_2
         Materials:
-        - Material: Blue_Flame_Heart_Gem
-          Amount: 70
-        - Material: Contored_Agn_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
+        - Material: Energy_Of_Summer
+          Amount: 4
+        - Material: Energy_Of_Flame
+          Amount: 14
+        - Material: Energy_Of_Ground
+          Amount: 14
+      - Enchant: Life_of_Summer_2
+        Upgrade: Life_of_Summer_3
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 5
+        - Material: Energy_Of_Flame
+          Amount: 16
+        - Material: Energy_Of_Ground
+          Amount: 16
+      - Enchant: Life_of_Summer_3
+        Upgrade: Life_of_Summer_4
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 7
+        - Material: Energy_Of_Flame
+          Amount: 19
+        - Material: Energy_Of_Ground
+          Amount: 19
+      - Enchant: Life_of_Summer_4
+        Upgrade: Life_of_Summer_5
+        Materials:
+        - Material: Energy_Of_Summer
           Amount: 10
+        - Material: Energy_Of_Flame
+          Amount: 23
+        - Material: Energy_Of_Ground
+          Amount: 23
+        - Material: Grace_Of_Spirit
+          Amount: 5
+      - Enchant: Life_of_Summer_5
+        Upgrade: Life_of_Summer_6
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 14
+        - Material: Energy_Of_Flame
+          Amount: 28
+        - Material: Energy_Of_Ground
+          Amount: 28
+        - Material: Grace_Of_Spirit
+          Amount: 7
+      - Enchant: Life_of_Summer_6
+        Upgrade: Life_of_Summer_7
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 19
+        - Material: Energy_Of_Flame
+          Amount: 34
+        - Material: Energy_Of_Ground
+          Amount: 34
+        - Material: Grace_Of_Spirit
+          Amount: 9
+      - Enchant: Life_of_Summer_7
+        Upgrade: Life_of_Summer_8
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 25
+        - Material: Energy_Of_Flame
+          Amount: 41
+        - Material: Energy_Of_Ground
+          Amount: 41
+        - Material: Grace_Of_Spirit
+          Amount: 11
+        - Material: Summer_Material_1
+          Amount: 1
+        - Material: Summer_Material_2
+          Amount: 1
+        - Material: Summer_Material_3
+          Amount: 1
+      - Enchant: Life_of_Summer_8
+        Upgrade: Life_of_Summer_9
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 32
+        - Material: Energy_Of_Flame
+          Amount: 49
+        - Material: Energy_Of_Ground
+          Amount: 49
+        - Material: Grace_Of_Spirit
+          Amount: 13
+        - Material: Summer_Material_1
+          Amount: 3
+        - Material: Summer_Material_2
+          Amount: 3
+        - Material: Summer_Material_3
+          Amount: 3
+      - Enchant: Life_of_Summer_9
+        Upgrade: Life_of_Summer_10
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 40
+        - Material: Energy_Of_Flame
+          Amount: 58
+        - Material: Energy_Of_Ground
+          Amount: 58
+        - Material: Grace_Of_Spirit
+          Amount: 15
+        - Material: Summer_Material_1
+          Amount: 5
+        - Material: Summer_Material_2
+          Amount: 5
+        - Material: Summer_Material_3
+          Amount: 5
+      - Enchant: Life_of_Summer_10
+        Upgrade: Life_of_Summer_11
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 40
+        - Material: Energy_Of_Flame
+          Amount: 60
+        - Material: Energy_Of_Ground
+          Amount: 60
+        - Material: Grace_Of_Spirit
+          Amount: 14
+      - Enchant: Life_of_Summer_11
+        Upgrade: Life_of_Summer_12
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 43
+        - Material: Energy_Of_Flame
+          Amount: 65
+        - Material: Energy_Of_Ground
+          Amount: 65
+        - Material: Grace_Of_Spirit
+          Amount: 15
+      - Enchant: Life_of_Summer_12
+        Upgrade: Life_of_Summer_13
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 47
+        - Material: Energy_Of_Flame
+          Amount: 70
+        - Material: Energy_Of_Ground
+          Amount: 70
+        - Material: Grace_Of_Spirit
+          Amount: 16
+      - Enchant: Life_of_Summer_13
+        Upgrade: Life_of_Summer_14
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 50
+        - Material: Energy_Of_Flame
+          Amount: 75
+        - Material: Energy_Of_Ground
+          Amount: 75
+        - Material: Grace_Of_Spirit
+          Amount: 17
+        - Material: Summer_Material_1
+          Amount: 4
+        - Material: Summer_Material_2
+          Amount: 4
+        - Material: Summer_Material_3
+          Amount: 4
+      - Enchant: Life_of_Summer_14
+        Upgrade: Life_of_Summer_15
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 55
+        - Material: Energy_Of_Flame
+          Amount: 82
+        - Material: Energy_Of_Ground
+          Amount: 82
+        - Material: Grace_Of_Spirit
+          Amount: 19
+        - Material: Summer_Material_1
+          Amount: 4
+        - Material: Summer_Material_2
+          Amount: 4
+        - Material: Summer_Material_3
+          Amount: 4
+      - Enchant: Life_of_Summer_15
+        Upgrade: Life_of_Summer_16
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 60
+        - Material: Circul_Of_Life
+          Amount: 50
+      - Enchant: Life_of_Summer_16
+        Upgrade: Life_of_Summer_17
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 67
+        - Material: Circul_Of_Life
+          Amount: 56
+        - Material: Fruit_Of_Birth
+          Amount: 34
+        - Material: Fruit_Of_Extinction
+          Amount: 34
+      - Enchant: Life_of_Summer_17
+        Upgrade: Life_of_Summer_18
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 75
+        - Material: Circul_Of_Life
+          Amount: 63
+        - Material: Fruit_Of_Birth
+          Amount: 38
+        - Material: Fruit_Of_Extinction
+          Amount: 38
+        - Material: Truth_Of_Life
+          Amount: 25
+      - Enchant: Life_of_Summer_18
+        Upgrade: Life_of_Summer_19
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 86
+        - Material: Circul_Of_Life
+          Amount: 72
+        - Material: Fruit_Of_Birth
+          Amount: 43
+        - Material: Fruit_Of_Extinction
+          Amount: 43
+        - Material: Truth_Of_Life
+          Amount: 29
+        - Material: Light_Of_Life
+          Amount: 15
+      - Enchant: Life_of_Summer_19
+        Upgrade: Life_of_Summer_20
+        Materials:
+        - Material: Energy_Of_Summer
+          Amount: 100
+        - Material: Circul_Of_Life
+          Amount: 84
+        - Material: Fruit_Of_Birth
+          Amount: 50
+        - Material: Fruit_Of_Extinction
+          Amount: 50
+        - Material: Truth_Of_Life
+          Amount: 34
+        - Material: Light_Of_Life
+          Amount: 17
   - Id: 121
     TargetItems:
       Season_Hood_Autumn: true
@@ -11221,94 +13157,451 @@ Body:
     Slots:
     - Slot: 3
       PerfectEnchants:
-      - Item: Ice_C_Orb_Int
-        Price: 1000000
+      - Item: Magical_Seed_1
         Materials:
-        - Material: Storm_Wind_Leaf_Gem
-          Amount: 30
-        - Material: Contored_Ven_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Def
-        Price: 1000000
+        - Material: Autumn_Material_1
+          Amount: 10
+        - Material: Autumn_Material_2
+          Amount: 10
+        - Material: Autumn_Material_3
+          Amount: 10
+        - Material: Energy_Of_Autumn
+          Amount: 60
+      Upgrades:
+      - Enchant: Magical_Seed_1
+        Upgrade: Magical_Seed_2
         Materials:
-        - Material: Storm_Wind_Leaf_Gem
-          Amount: 30
-        - Material: Contored_Ven_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Mdef
-        Price: 1000000
+        - Material: Energy_Of_Autumn
+          Amount: 1
+        - Material: Energy_Of_Wind
+          Amount: 10
+        - Material: Energy_Of_Water
+          Amount: 10
+      - Enchant: Magical_Seed_2
+        Upgrade: Magical_Seed_3
         Materials:
-        - Material: Storm_Wind_Leaf_Gem
-          Amount: 30
-        - Material: Contored_Ven_Wrath
+        - Material: Energy_Of_Autumn
+          Amount: 2
+        - Material: Energy_Of_Wind
+          Amount: 12
+        - Material: Energy_Of_Water
+          Amount: 12
+      - Enchant: Magical_Seed_3
+        Upgrade: Magical_Seed_4
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 3
+        - Material: Energy_Of_Wind
+          Amount: 14
+        - Material: Energy_Of_Water
+          Amount: 14
+      - Enchant: Magical_Seed_4
+        Upgrade: Magical_Seed_5
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 4
+        - Material: Energy_Of_Wind
+          Amount: 16
+        - Material: Energy_Of_Water
+          Amount: 16
+      - Enchant: Magical_Seed_5
+        Upgrade: Magical_Seed_6
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 5
+        - Material: Energy_Of_Wind
+          Amount: 18
+        - Material: Energy_Of_Water
+          Amount: 18
+      - Enchant: Magical_Seed_6
+        Upgrade: Magical_Seed_7
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 6
+        - Material: Energy_Of_Wind
           Amount: 20
+        - Material: Energy_Of_Water
+          Amount: 20
+      - Enchant: Magical_Seed_7
+        Upgrade: Magical_Seed_8
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 7
+        - Material: Energy_Of_Wind
+          Amount: 22
+        - Material: Energy_Of_Water
+          Amount: 22
+      - Enchant: Magical_Seed_8
+        Upgrade: Magical_Seed_9
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 8
+        - Material: Energy_Of_Wind
+          Amount: 24
+        - Material: Energy_Of_Water
+          Amount: 24
+      - Enchant: Magical_Seed_9
+        Upgrade: Magical_Seed_10
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 9
+        - Material: Energy_Of_Wind
+          Amount: 26
+        - Material: Energy_Of_Water
+          Amount: 26
     - Slot: 2
       PerfectEnchants:
-      - Item: Ice_C_Orb_Mag
-        Price: 2000000
+      - Item: Magical_Fruit_1
         Materials:
-        - Material: Storm_Wind_Leaf_Gem
-          Amount: 50
-        - Material: Contored_Ven_Wrath
-          Amount: 40
-        - Material: Coagulated_Spell
-          Amount: 10
-      - Item: Ice_C_Orb_Caster
-        Price: 2000000
+        - Material: Autumn_Material_1
+          Amount: 15
+        - Material: Autumn_Material_2
+          Amount: 15
+        - Material: Autumn_Material_3
+          Amount: 15
+        - Material: Energy_Of_Autumn
+          Amount: 90
+      Upgrades:
+      - Enchant: Magical_Fruit_1
+        Upgrade: Magical_Fruit_2
         Materials:
-        - Material: Storm_Wind_Leaf_Gem
-          Amount: 50
-        - Material: Contored_Ven_Wrath
-          Amount: 40
-        - Material: Coagulated_Spell
-          Amount: 10
-      - Item: Ice_C_Orb_S_Delay
-        Price: 2000000
+        - Material: Energy_Of_Autumn
+          Amount: 2
+        - Material: Energy_Of_Wind
+          Amount: 12
+        - Material: Energy_Of_Water
+          Amount: 12
+      - Enchant: Magical_Fruit_2
+        Upgrade: Magical_Fruit_3
         Materials:
-        - Material: Storm_Wind_Leaf_Gem
-          Amount: 50
-        - Material: Contored_Ven_Wrath
+        - Material: Energy_Of_Autumn
+          Amount: 3
+        - Material: Energy_Of_Wind
+          Amount: 13
+        - Material: Energy_Of_Water
+          Amount: 13
+      - Enchant: Magical_Fruit_3
+        Upgrade: Magical_Fruit_4
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 5
+        - Material: Energy_Of_Wind
+          Amount: 15
+        - Material: Energy_Of_Water
+          Amount: 15
+      - Enchant: Magical_Fruit_4
+        Upgrade: Magical_Fruit_5
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 8
+        - Material: Energy_Of_Wind
+          Amount: 18
+        - Material: Energy_Of_Water
+          Amount: 18
+      - Enchant: Magical_Fruit_5
+        Upgrade: Magical_Fruit_6
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 12
+        - Material: Energy_Of_Wind
+          Amount: 22
+        - Material: Energy_Of_Water
+          Amount: 22
+        - Material: Grace_Of_Spirit
+          Amount: 2
+      - Enchant: Magical_Fruit_6
+        Upgrade: Magical_Fruit_7
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 17
+        - Material: Energy_Of_Wind
+          Amount: 27
+        - Material: Energy_Of_Water
+          Amount: 27
+        - Material: Grace_Of_Spirit
+          Amount: 4
+      - Enchant: Magical_Fruit_7
+        Upgrade: Magical_Fruit_8
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 23
+        - Material: Energy_Of_Wind
+          Amount: 33
+        - Material: Energy_Of_Water
+          Amount: 33
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Magical_Fruit_8
+        Upgrade: Magical_Fruit_9
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 30
+        - Material: Energy_Of_Wind
           Amount: 40
-        - Material: Coagulated_Spell
+        - Material: Energy_Of_Water
+          Amount: 40
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Magical_Fruit_9
+        Upgrade: Magical_Fruit_10
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 38
+        - Material: Energy_Of_Wind
+          Amount: 48
+        - Material: Energy_Of_Water
+          Amount: 48
+        - Material: Grace_Of_Spirit
           Amount: 10
+      - Enchant: Magical_Fruit_10
+        Upgrade: Magical_Fruit_11
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 24
+        - Material: Energy_Of_Wind
+          Amount: 30
+        - Material: Energy_Of_Water
+          Amount: 30
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Magical_Fruit_11
+        Upgrade: Magical_Fruit_12
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 28
+        - Material: Energy_Of_Wind
+          Amount: 35
+        - Material: Energy_Of_Water
+          Amount: 35
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Magical_Fruit_12
+        Upgrade: Magical_Fruit_13
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 32
+        - Material: Energy_Of_Wind
+          Amount: 42
+        - Material: Energy_Of_Water
+          Amount: 42
+        - Material: Grace_Of_Spirit
+          Amount: 10
+      - Enchant: Magical_Fruit_13
+        Upgrade: Magical_Fruit_14
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 38
+        - Material: Energy_Of_Wind
+          Amount: 49
+        - Material: Energy_Of_Water
+          Amount: 49
+        - Material: Grace_Of_Spirit
+          Amount: 12
+      - Enchant: Magical_Fruit_14
+        Upgrade: Magical_Fruit_15
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 44
+        - Material: Energy_Of_Wind
+          Amount: 57
+        - Material: Energy_Of_Water
+          Amount: 57
+        - Material: Grace_Of_Spirit
+          Amount: 14
     - Slot: 1
       PerfectEnchants:
-      - Item: Ice_C_Orb_Mag2
-        Price: 3000000
+      - Item: Life_of_Autumn_1
         Materials:
-        - Material: Storm_Wind_Leaf_Gem
-          Amount: 70
-        - Material: Contored_Ven_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
-          Amount: 10
-      - Item: Ice_C_Orb_P_Full
-        Price: 3000000
+        - Material: Autumn_Material_1
+          Amount: 25
+        - Material: Autumn_Material_2
+          Amount: 25
+        - Material: Autumn_Material_3
+          Amount: 25
+        - Material: Energy_Of_Autumn
+          Amount: 140
+      Upgrades:
+      - Enchant: Life_of_Autumn_1
+        Upgrade: Life_of_Autumn_2
         Materials:
-        - Material: Storm_Wind_Leaf_Gem
-          Amount: 70
-        - Material: Contored_Ven_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
-          Amount: 10
-      - Item: Ice_C_Orb_Above
-        Price: 3000000
+        - Material: Energy_Of_Autumn
+          Amount: 4
+        - Material: Energy_Of_Wind
+          Amount: 14
+        - Material: Energy_Of_Water
+          Amount: 14
+      - Enchant: Life_of_Autumn_2
+        Upgrade: Life_of_Autumn_3
         Materials:
-        - Material: Storm_Wind_Leaf_Gem
-          Amount: 70
-        - Material: Contored_Ven_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
+        - Material: Energy_Of_Autumn
+          Amount: 5
+        - Material: Energy_Of_Wind
+          Amount: 16
+        - Material: Energy_Of_Water
+          Amount: 16
+      - Enchant: Life_of_Autumn_3
+        Upgrade: Life_of_Autumn_4
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 7
+        - Material: Energy_Of_Wind
+          Amount: 19
+        - Material: Energy_Of_Water
+          Amount: 19
+      - Enchant: Life_of_Autumn_4
+        Upgrade: Life_of_Autumn_5
+        Materials:
+        - Material: Energy_Of_Autumn
           Amount: 10
+        - Material: Energy_Of_Wind
+          Amount: 23
+        - Material: Energy_Of_Water
+          Amount: 23
+        - Material: Grace_Of_Spirit
+          Amount: 5
+      - Enchant: Life_of_Autumn_5
+        Upgrade: Life_of_Autumn_6
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 14
+        - Material: Energy_Of_Wind
+          Amount: 28
+        - Material: Energy_Of_Water
+          Amount: 28
+        - Material: Grace_Of_Spirit
+          Amount: 7
+      - Enchant: Life_of_Autumn_6
+        Upgrade: Life_of_Autumn_7
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 19
+        - Material: Energy_Of_Wind
+          Amount: 34
+        - Material: Energy_Of_Water
+          Amount: 34
+        - Material: Grace_Of_Spirit
+          Amount: 9
+      - Enchant: Life_of_Autumn_7
+        Upgrade: Life_of_Autumn_8
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 25
+        - Material: Energy_Of_Wind
+          Amount: 41
+        - Material: Energy_Of_Water
+          Amount: 41
+        - Material: Grace_Of_Spirit
+          Amount: 11
+        - Material: Autumn_Material_1
+          Amount: 1
+        - Material: Autumn_Material_2
+          Amount: 1
+        - Material: Autumn_Material_3
+          Amount: 1
+      - Enchant: Life_of_Autumn_8
+        Upgrade: Life_of_Autumn_9
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 32
+        - Material: Energy_Of_Wind
+          Amount: 49
+        - Material: Energy_Of_Water
+          Amount: 49
+        - Material: Grace_Of_Spirit
+          Amount: 13
+        - Material: Autumn_Material_1
+          Amount: 3
+        - Material: Autumn_Material_2
+          Amount: 3
+        - Material: Autumn_Material_3
+          Amount: 3
+      - Enchant: Life_of_Autumn_9
+        Upgrade: Life_of_Autumn_10
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 40
+        - Material: Energy_Of_Wind
+          Amount: 58
+        - Material: Energy_Of_Water
+          Amount: 58
+        - Material: Grace_Of_Spirit
+          Amount: 15
+        - Material: Autumn_Material_1
+          Amount: 5
+        - Material: Autumn_Material_2
+          Amount: 5
+        - Material: Autumn_Material_3
+          Amount: 5
+      - Enchant: Life_of_Autumn_10
+        Upgrade: Life_of_Autumn_11
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 40
+        - Material: Energy_Of_Wind
+          Amount: 60
+        - Material: Energy_Of_Water
+          Amount: 60
+        - Material: Grace_Of_Spirit
+          Amount: 14
+      - Enchant: Life_of_Autumn_11
+        Upgrade: Life_of_Autumn_12
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 43
+        - Material: Energy_Of_Wind
+          Amount: 65
+        - Material: Energy_Of_Water
+          Amount: 65
+        - Material: Grace_Of_Spirit
+          Amount: 15
+      - Enchant: Life_of_Autumn_12
+        Upgrade: Life_of_Autumn_13
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 47
+        - Material: Energy_Of_Wind
+          Amount: 70
+        - Material: Energy_Of_Water
+          Amount: 70
+        - Material: Grace_Of_Spirit
+          Amount: 16
+      - Enchant: Life_of_Autumn_13
+        Upgrade: Life_of_Autumn_14
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 50
+        - Material: Energy_Of_Wind
+          Amount: 75
+        - Material: Energy_Of_Water
+          Amount: 75
+        - Material: Grace_Of_Spirit
+          Amount: 17
+        - Material: Autumn_Material_1
+          Amount: 4
+        - Material: Autumn_Material_2
+          Amount: 4
+        - Material: Autumn_Material_3
+          Amount: 4
+      - Enchant: Life_of_Autumn_14
+        Upgrade: Life_of_Autumn_15
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 55
+        - Material: Energy_Of_Wind
+          Amount: 82
+        - Material: Energy_Of_Water
+          Amount: 82
+        - Material: Grace_Of_Spirit
+          Amount: 19
+        - Material: Autumn_Material_1
+          Amount: 4
+        - Material: Autumn_Material_2
+          Amount: 4
+        - Material: Autumn_Material_3
+          Amount: 4
   - Id: 122
     TargetItems:
-      Signet_Of_Autumn: true
+      Circul_Of_Life_Autumn: true
     Order:
     - Slot: 3
     - Slot: 2
@@ -11316,69 +13609,688 @@ Body:
     Slots:
     - Slot: 3
       PerfectEnchants:
-      - Item: Ice_C_Orb_Int
-        Price: 1000000
+      - Item: Magical_Seed_1
         Materials:
-        - Material: Storm_Wind_Leaf_Gem
-          Amount: 30
-        - Material: Contored_Ven_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Dex
-        Price: 1000000
+        - Material: Autumn_Material_1
+          Amount: 10
+        - Material: Autumn_Material_2
+          Amount: 10
+        - Material: Autumn_Material_3
+          Amount: 10
+        - Material: Energy_Of_Autumn
+          Amount: 60
+      Upgrades:
+      - Enchant: Magical_Seed_1
+        Upgrade: Magical_Seed_2
         Materials:
-        - Material: Storm_Wind_Leaf_Gem
-          Amount: 30
-        - Material: Contored_Ven_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Vit
-        Price: 1000000
+        - Material: Energy_Of_Autumn
+          Amount: 1
+        - Material: Energy_Of_Wind
+          Amount: 10
+        - Material: Energy_Of_Water
+          Amount: 10
+      - Enchant: Magical_Seed_2
+        Upgrade: Magical_Seed_3
         Materials:
-        - Material: Storm_Wind_Leaf_Gem
-          Amount: 30
-        - Material: Contored_Ven_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Spd
-        Price: 1000000
+        - Material: Energy_Of_Autumn
+          Amount: 2
+        - Material: Energy_Of_Wind
+          Amount: 12
+        - Material: Energy_Of_Water
+          Amount: 12
+      - Enchant: Magical_Seed_3
+        Upgrade: Magical_Seed_4
         Materials:
-        - Material: Storm_Wind_Leaf_Gem
-          Amount: 30
-        - Material: Contored_Ven_Wrath
+        - Material: Energy_Of_Autumn
+          Amount: 3
+        - Material: Energy_Of_Wind
+          Amount: 14
+        - Material: Energy_Of_Water
+          Amount: 14
+      - Enchant: Magical_Seed_4
+        Upgrade: Magical_Seed_5
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 4
+        - Material: Energy_Of_Wind
+          Amount: 16
+        - Material: Energy_Of_Water
+          Amount: 16
+      - Enchant: Magical_Seed_5
+        Upgrade: Magical_Seed_6
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 5
+        - Material: Energy_Of_Wind
+          Amount: 18
+        - Material: Energy_Of_Water
+          Amount: 18
+      - Enchant: Magical_Seed_6
+        Upgrade: Magical_Seed_7
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 6
+        - Material: Energy_Of_Wind
           Amount: 20
+        - Material: Energy_Of_Water
+          Amount: 20
+      - Enchant: Magical_Seed_7
+        Upgrade: Magical_Seed_8
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 7
+        - Material: Energy_Of_Wind
+          Amount: 22
+        - Material: Energy_Of_Water
+          Amount: 22
+      - Enchant: Magical_Seed_8
+        Upgrade: Magical_Seed_9
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 8
+        - Material: Energy_Of_Wind
+          Amount: 24
+        - Material: Energy_Of_Water
+          Amount: 24
+      - Enchant: Magical_Seed_9
+        Upgrade: Magical_Seed_10
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 9
+        - Material: Energy_Of_Wind
+          Amount: 26
+        - Material: Energy_Of_Water
+          Amount: 26
+      - Enchant: Magical_Seed_10
+        Upgrade: Magical_Leaf_1
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 12
+        - Material: Energy_Of_Wind
+          Amount: 30
+        - Material: Energy_Of_Water
+          Amount: 30
+        - Material: Autumn_Material_1
+          Amount: 3
+        - Material: Autumn_Material_2
+          Amount: 3
+        - Material: Autumn_Material_3
+          Amount: 3
+      - Enchant: Magical_Leaf_1
+        Upgrade: Magical_Leaf_2
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 14
+        - Material: Energy_Of_Wind
+          Amount: 35
+        - Material: Energy_Of_Water
+          Amount: 35
+        - Material: Grace_Of_Spirit
+          Amount: 2
+      - Enchant: Magical_Leaf_2
+        Upgrade: Magical_Leaf_3
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 16
+        - Material: Energy_Of_Wind
+          Amount: 40
+        - Material: Energy_Of_Water
+          Amount: 40
+        - Material: Grace_Of_Spirit
+          Amount: 4
+      - Enchant: Magical_Leaf_3
+        Upgrade: Magical_Leaf_4
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 18
+        - Material: Energy_Of_Wind
+          Amount: 45
+        - Material: Energy_Of_Water
+          Amount: 45
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Magical_Leaf_4
+        Upgrade: Magical_Leaf_5
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 20
+        - Material: Energy_Of_Wind
+          Amount: 50
+        - Material: Energy_Of_Water
+          Amount: 50
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Magical_Leaf_5
+        Upgrade: Magical_Flower_1
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 25
+        - Material: Circul_Of_Life
+          Amount: 10
+        - Material: Autumn_Material_1
+          Amount: 3
+        - Material: Autumn_Material_2
+          Amount: 3
+        - Material: Autumn_Material_3
+          Amount: 3
+      - Enchant: Magical_Flower_1
+        Upgrade: Magical_Flower_2
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 30
+        - Material: Circul_Of_Life
+          Amount: 12
+      - Enchant: Magical_Flower_2
+        Upgrade: Magical_Flower_3
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 35
+        - Material: Circul_Of_Life
+          Amount: 14
+        - Material: Fruit_Of_Birth
+          Amount: 3
+        - Material: Fruit_Of_Extinction
+          Amount: 3
+      - Enchant: Magical_Flower_3
+        Upgrade: Magical_Flower_4
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 40
+        - Material: Circul_Of_Life
+          Amount: 16
+        - Material: Fruit_Of_Birth
+          Amount: 6
+        - Material: Fruit_Of_Extinction
+          Amount: 6
+        - Material: Truth_Of_Life
+          Amount: 3
+      - Enchant: Magical_Flower_4
+        Upgrade: Magical_Flower_5
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 45
+        - Material: Circul_Of_Life
+          Amount: 18
+        - Material: Fruit_Of_Birth
+          Amount: 9
+        - Material: Fruit_Of_Extinction
+          Amount: 9
+        - Material: Truth_Of_Life
+          Amount: 5
+        - Material: Light_Of_Life
+          Amount: 3
     - Slot: 2
       PerfectEnchants:
-      - Item: Ice_C_Orb_Spell
-        Price: 2000000
+      - Item: Magical_Fruit_1
         Materials:
-        - Material: Storm_Wind_Leaf_Gem
-          Amount: 50
-        - Material: Contored_Ven_Wrath
+        - Material: Autumn_Material_1
+          Amount: 15
+        - Material: Autumn_Material_2
+          Amount: 15
+        - Material: Autumn_Material_3
+          Amount: 15
+        - Material: Energy_Of_Autumn
+          Amount: 90
+      Upgrades:
+      - Enchant: Magical_Fruit_1
+        Upgrade: Magical_Fruit_2
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 2
+        - Material: Energy_Of_Wind
+          Amount: 12
+        - Material: Energy_Of_Water
+          Amount: 12
+      - Enchant: Magical_Fruit_2
+        Upgrade: Magical_Fruit_3
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 3
+        - Material: Energy_Of_Wind
+          Amount: 13
+        - Material: Energy_Of_Water
+          Amount: 13
+      - Enchant: Magical_Fruit_3
+        Upgrade: Magical_Fruit_4
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 5
+        - Material: Energy_Of_Wind
+          Amount: 15
+        - Material: Energy_Of_Water
+          Amount: 15
+      - Enchant: Magical_Fruit_4
+        Upgrade: Magical_Fruit_5
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 8
+        - Material: Energy_Of_Wind
+          Amount: 18
+        - Material: Energy_Of_Water
+          Amount: 18
+      - Enchant: Magical_Fruit_5
+        Upgrade: Magical_Fruit_6
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 12
+        - Material: Energy_Of_Wind
+          Amount: 22
+        - Material: Energy_Of_Water
+          Amount: 22
+        - Material: Grace_Of_Spirit
+          Amount: 2
+      - Enchant: Magical_Fruit_6
+        Upgrade: Magical_Fruit_7
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 17
+        - Material: Energy_Of_Wind
+          Amount: 27
+        - Material: Energy_Of_Water
+          Amount: 27
+        - Material: Grace_Of_Spirit
+          Amount: 4
+      - Enchant: Magical_Fruit_7
+        Upgrade: Magical_Fruit_8
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 23
+        - Material: Energy_Of_Wind
+          Amount: 33
+        - Material: Energy_Of_Water
+          Amount: 33
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Magical_Fruit_8
+        Upgrade: Magical_Fruit_9
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 30
+        - Material: Energy_Of_Wind
           Amount: 40
-        - Material: Coagulated_Spell
+        - Material: Energy_Of_Water
+          Amount: 40
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Magical_Fruit_9
+        Upgrade: Magical_Fruit_10
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 38
+        - Material: Energy_Of_Wind
+          Amount: 48
+        - Material: Energy_Of_Water
+          Amount: 48
+        - Material: Grace_Of_Spirit
           Amount: 10
+      - Enchant: Magical_Fruit_10
+        Upgrade: Magical_Fruit_11
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 24
+        - Material: Energy_Of_Wind
+          Amount: 30
+        - Material: Energy_Of_Water
+          Amount: 30
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Magical_Fruit_11
+        Upgrade: Magical_Fruit_12
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 28
+        - Material: Energy_Of_Wind
+          Amount: 35
+        - Material: Energy_Of_Water
+          Amount: 35
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Magical_Fruit_12
+        Upgrade: Magical_Fruit_13
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 32
+        - Material: Energy_Of_Wind
+          Amount: 42
+        - Material: Energy_Of_Water
+          Amount: 42
+        - Material: Grace_Of_Spirit
+          Amount: 10
+      - Enchant: Magical_Fruit_13
+        Upgrade: Magical_Fruit_14
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 38
+        - Material: Energy_Of_Wind
+          Amount: 49
+        - Material: Energy_Of_Water
+          Amount: 49
+        - Material: Grace_Of_Spirit
+          Amount: 12
+      - Enchant: Magical_Fruit_14
+        Upgrade: Magical_Fruit_15
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 44
+        - Material: Energy_Of_Wind
+          Amount: 57
+        - Material: Energy_Of_Water
+          Amount: 57
+        - Material: Grace_Of_Spirit
+          Amount: 14
+      - Enchant: Magical_Fruit_15
+        Upgrade: Magical_Fruit_16
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 50
+        - Material: Circul_Of_Life
+          Amount: 25
+      - Enchant: Magical_Fruit_16
+        Upgrade: Magical_Fruit_17
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 55
+        - Material: Circul_Of_Life
+          Amount: 28
+        - Material: Fruit_Of_Birth
+          Amount: 19
+        - Material: Fruit_Of_Extinction
+          Amount: 19
+      - Enchant: Magical_Fruit_17
+        Upgrade: Magical_Fruit_18
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 60
+        - Material: Circul_Of_Life
+          Amount: 30
+        - Material: Fruit_Of_Birth
+          Amount: 20
+        - Material: Fruit_Of_Extinction
+          Amount: 20
+        - Material: Truth_Of_Life
+          Amount: 10
+      - Enchant: Magical_Fruit_18
+        Upgrade: Magical_Fruit_19
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 67
+        - Material: Circul_Of_Life
+          Amount: 34
+        - Material: Fruit_Of_Birth
+          Amount: 23
+        - Material: Fruit_Of_Extinction
+          Amount: 23
+        - Material: Truth_Of_Life
+          Amount: 12
+        - Material: Light_Of_Life
+          Amount: 7
+      - Enchant: Magical_Fruit_19
+        Upgrade: Magical_Fruit_20
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 75
+        - Material: Circul_Of_Life
+          Amount: 38
+        - Material: Fruit_Of_Birth
+          Amount: 25
+        - Material: Fruit_Of_Extinction
+          Amount: 25
+        - Material: Truth_Of_Life
+          Amount: 13
+        - Material: Light_Of_Life
+          Amount: 8
     - Slot: 1
       PerfectEnchants:
-      - Item: Ice_C_Orb_M_P
-        Price: 3000000
+      - Item: Life_of_Autumn_1
         Materials:
-        - Material: Storm_Wind_Leaf_Gem
-          Amount: 70
-        - Material: Contored_Ven_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
-          Amount: 10
-      - Item: Ice_C_Orb_A_Force
-        Price: 3000000
+        - Material: Autumn_Material_1
+          Amount: 25
+        - Material: Autumn_Material_2
+          Amount: 25
+        - Material: Autumn_Material_3
+          Amount: 25
+        - Material: Energy_Of_Autumn
+          Amount: 140
+      Upgrades:
+      - Enchant: Life_of_Autumn_1
+        Upgrade: Life_of_Autumn_2
         Materials:
-        - Material: Storm_Wind_Leaf_Gem
-          Amount: 70
-        - Material: Contored_Ven_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
+        - Material: Energy_Of_Autumn
+          Amount: 4
+        - Material: Energy_Of_Wind
+          Amount: 14
+        - Material: Energy_Of_Water
+          Amount: 14
+      - Enchant: Life_of_Autumn_2
+        Upgrade: Life_of_Autumn_3
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 5
+        - Material: Energy_Of_Wind
+          Amount: 16
+        - Material: Energy_Of_Water
+          Amount: 16
+      - Enchant: Life_of_Autumn_3
+        Upgrade: Life_of_Autumn_4
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 7
+        - Material: Energy_Of_Wind
+          Amount: 19
+        - Material: Energy_Of_Water
+          Amount: 19
+      - Enchant: Life_of_Autumn_4
+        Upgrade: Life_of_Autumn_5
+        Materials:
+        - Material: Energy_Of_Autumn
           Amount: 10
+        - Material: Energy_Of_Wind
+          Amount: 23
+        - Material: Energy_Of_Water
+          Amount: 23
+        - Material: Grace_Of_Spirit
+          Amount: 5
+      - Enchant: Life_of_Autumn_5
+        Upgrade: Life_of_Autumn_6
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 14
+        - Material: Energy_Of_Wind
+          Amount: 28
+        - Material: Energy_Of_Water
+          Amount: 28
+        - Material: Grace_Of_Spirit
+          Amount: 7
+      - Enchant: Life_of_Autumn_6
+        Upgrade: Life_of_Autumn_7
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 19
+        - Material: Energy_Of_Wind
+          Amount: 34
+        - Material: Energy_Of_Water
+          Amount: 34
+        - Material: Grace_Of_Spirit
+          Amount: 9
+      - Enchant: Life_of_Autumn_7
+        Upgrade: Life_of_Autumn_8
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 25
+        - Material: Energy_Of_Wind
+          Amount: 41
+        - Material: Energy_Of_Water
+          Amount: 41
+        - Material: Grace_Of_Spirit
+          Amount: 11
+        - Material: Autumn_Material_1
+          Amount: 1
+        - Material: Autumn_Material_2
+          Amount: 1
+        - Material: Autumn_Material_3
+          Amount: 1
+      - Enchant: Life_of_Autumn_8
+        Upgrade: Life_of_Autumn_9
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 32
+        - Material: Energy_Of_Wind
+          Amount: 49
+        - Material: Energy_Of_Water
+          Amount: 49
+        - Material: Grace_Of_Spirit
+          Amount: 13
+        - Material: Autumn_Material_1
+          Amount: 3
+        - Material: Autumn_Material_2
+          Amount: 3
+        - Material: Autumn_Material_3
+          Amount: 3
+      - Enchant: Life_of_Autumn_9
+        Upgrade: Life_of_Autumn_10
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 40
+        - Material: Energy_Of_Wind
+          Amount: 58
+        - Material: Energy_Of_Water
+          Amount: 58
+        - Material: Grace_Of_Spirit
+          Amount: 15
+        - Material: Autumn_Material_1
+          Amount: 5
+        - Material: Autumn_Material_2
+          Amount: 5
+        - Material: Autumn_Material_3
+          Amount: 5
+      - Enchant: Life_of_Autumn_10
+        Upgrade: Life_of_Autumn_11
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 40
+        - Material: Energy_Of_Wind
+          Amount: 60
+        - Material: Energy_Of_Water
+          Amount: 60
+        - Material: Grace_Of_Spirit
+          Amount: 14
+      - Enchant: Life_of_Autumn_11
+        Upgrade: Life_of_Autumn_12
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 43
+        - Material: Energy_Of_Wind
+          Amount: 65
+        - Material: Energy_Of_Water
+          Amount: 65
+        - Material: Grace_Of_Spirit
+          Amount: 15
+      - Enchant: Life_of_Autumn_12
+        Upgrade: Life_of_Autumn_13
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 47
+        - Material: Energy_Of_Wind
+          Amount: 70
+        - Material: Energy_Of_Water
+          Amount: 70
+        - Material: Grace_Of_Spirit
+          Amount: 16
+      - Enchant: Life_of_Autumn_13
+        Upgrade: Life_of_Autumn_14
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 50
+        - Material: Energy_Of_Wind
+          Amount: 75
+        - Material: Energy_Of_Water
+          Amount: 75
+        - Material: Grace_Of_Spirit
+          Amount: 17
+        - Material: Autumn_Material_1
+          Amount: 4
+        - Material: Autumn_Material_2
+          Amount: 4
+        - Material: Autumn_Material_3
+          Amount: 4
+      - Enchant: Life_of_Autumn_14
+        Upgrade: Life_of_Autumn_15
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 55
+        - Material: Energy_Of_Wind
+          Amount: 82
+        - Material: Energy_Of_Water
+          Amount: 82
+        - Material: Grace_Of_Spirit
+          Amount: 19
+        - Material: Autumn_Material_1
+          Amount: 4
+        - Material: Autumn_Material_2
+          Amount: 4
+        - Material: Autumn_Material_3
+          Amount: 4
+      - Enchant: Life_of_Autumn_15
+        Upgrade: Life_of_Autumn_16
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 60
+        - Material: Circul_Of_Life
+          Amount: 50
+      - Enchant: Life_of_Autumn_16
+        Upgrade: Life_of_Autumn_17
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 67
+        - Material: Circul_Of_Life
+          Amount: 56
+        - Material: Fruit_Of_Birth
+          Amount: 34
+        - Material: Fruit_Of_Extinction
+          Amount: 34
+      - Enchant: Life_of_Autumn_17
+        Upgrade: Life_of_Autumn_18
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 75
+        - Material: Circul_Of_Life
+          Amount: 63
+        - Material: Fruit_Of_Birth
+          Amount: 38
+        - Material: Fruit_Of_Extinction
+          Amount: 38
+        - Material: Truth_Of_Life
+          Amount: 25
+      - Enchant: Life_of_Autumn_18
+        Upgrade: Life_of_Autumn_19
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 86
+        - Material: Circul_Of_Life
+          Amount: 72
+        - Material: Fruit_Of_Birth
+          Amount: 43
+        - Material: Fruit_Of_Extinction
+          Amount: 43
+        - Material: Truth_Of_Life
+          Amount: 29
+        - Material: Light_Of_Life
+          Amount: 15
+      - Enchant: Life_of_Autumn_19
+        Upgrade: Life_of_Autumn_20
+        Materials:
+        - Material: Energy_Of_Autumn
+          Amount: 100
+        - Material: Circul_Of_Life
+          Amount: 84
+        - Material: Fruit_Of_Birth
+          Amount: 50
+        - Material: Fruit_Of_Extinction
+          Amount: 50
+        - Material: Truth_Of_Life
+          Amount: 34
+        - Material: Light_Of_Life
+          Amount: 17
   - Id: 123
     TargetItems:
       Season_Hood_Winter: true
@@ -11389,94 +14301,451 @@ Body:
     Slots:
     - Slot: 3
       PerfectEnchants:
-      - Item: Ice_C_Orb_Luk
-        Price: 1000000
+      - Item: Physical_Seed_1
         Materials:
-        - Material: Ice_Water_Drop_Gem
-          Amount: 30
-        - Material: Contored_Aqu_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Def
-        Price: 1000000
+        - Material: Winter_Material_1
+          Amount: 10
+        - Material: Winter_Material_2
+          Amount: 10
+        - Material: Winter_Material_3
+          Amount: 10
+        - Material: Energy_Of_Winter
+          Amount: 60
+      Upgrades:
+      - Enchant: Physical_Seed_1
+        Upgrade: Physical_Seed_2
         Materials:
-        - Material: Ice_Water_Drop_Gem
-          Amount: 30
-        - Material: Contored_Aqu_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Mdef
-        Price: 1000000
+        - Material: Energy_Of_Winter
+          Amount: 1
+        - Material: Energy_Of_Water
+          Amount: 10
+        - Material: Energy_Of_Flame
+          Amount: 10
+      - Enchant: Physical_Seed_2
+        Upgrade: Physical_Seed_3
         Materials:
-        - Material: Ice_Water_Drop_Gem
-          Amount: 30
-        - Material: Contored_Aqu_Wrath
+        - Material: Energy_Of_Winter
+          Amount: 2
+        - Material: Energy_Of_Water
+          Amount: 12
+        - Material: Energy_Of_Flame
+          Amount: 12
+      - Enchant: Physical_Seed_3
+        Upgrade: Physical_Seed_4
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 3
+        - Material: Energy_Of_Water
+          Amount: 14
+        - Material: Energy_Of_Flame
+          Amount: 14
+      - Enchant: Physical_Seed_4
+        Upgrade: Physical_Seed_5
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 4
+        - Material: Energy_Of_Water
+          Amount: 16
+        - Material: Energy_Of_Flame
+          Amount: 16
+      - Enchant: Physical_Seed_5
+        Upgrade: Physical_Seed_6
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 5
+        - Material: Energy_Of_Water
+          Amount: 18
+        - Material: Energy_Of_Flame
+          Amount: 18
+      - Enchant: Physical_Seed_6
+        Upgrade: Physical_Seed_7
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 6
+        - Material: Energy_Of_Water
           Amount: 20
+        - Material: Energy_Of_Flame
+          Amount: 20
+      - Enchant: Physical_Seed_7
+        Upgrade: Physical_Seed_8
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 7
+        - Material: Energy_Of_Water
+          Amount: 22
+        - Material: Energy_Of_Flame
+          Amount: 22
+      - Enchant: Physical_Seed_8
+        Upgrade: Physical_Seed_9
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 8
+        - Material: Energy_Of_Water
+          Amount: 24
+        - Material: Energy_Of_Flame
+          Amount: 24
+      - Enchant: Physical_Seed_9
+        Upgrade: Physical_Seed_10
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 9
+        - Material: Energy_Of_Water
+          Amount: 26
+        - Material: Energy_Of_Flame
+          Amount: 26
     - Slot: 2
       PerfectEnchants:
-      - Item: Ice_C_Orb_War
-        Price: 2000000
+      - Item: Physical_Fruit_1
         Materials:
-        - Material: Ice_Water_Drop_Gem
-          Amount: 50
-        - Material: Contored_Aqu_Wrath
-          Amount: 40
-        - Material: Coagulated_Spell
-          Amount: 10
-      - Item: Ice_C_Orb_Speed
-        Price: 2000000
+        - Material: Winter_Material_1
+          Amount: 15
+        - Material: Winter_Material_2
+          Amount: 15
+        - Material: Winter_Material_3
+          Amount: 15
+        - Material: Energy_Of_Winter
+          Amount: 90
+      Upgrades:
+      - Enchant: Physical_Fruit_1
+        Upgrade: Physical_Fruit_2
         Materials:
-        - Material: Ice_Water_Drop_Gem
-          Amount: 50
-        - Material: Contored_Aqu_Wrath
-          Amount: 40
-        - Material: Coagulated_Spell
-          Amount: 10
-      - Item: Ice_C_Orb_Fatal
-        Price: 2000000
+        - Material: Energy_Of_Winter
+          Amount: 2
+        - Material: Energy_Of_Water
+          Amount: 12
+        - Material: Energy_Of_Flame
+          Amount: 12
+      - Enchant: Physical_Fruit_2
+        Upgrade: Physical_Fruit_3
         Materials:
-        - Material: Ice_Water_Drop_Gem
-          Amount: 50
-        - Material: Contored_Aqu_Wrath
+        - Material: Energy_Of_Winter
+          Amount: 3
+        - Material: Energy_Of_Water
+          Amount: 13
+        - Material: Energy_Of_Flame
+          Amount: 13
+      - Enchant: Physical_Fruit_3
+        Upgrade: Physical_Fruit_4
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 5
+        - Material: Energy_Of_Water
+          Amount: 15
+        - Material: Energy_Of_Flame
+          Amount: 15
+      - Enchant: Physical_Fruit_4
+        Upgrade: Physical_Fruit_5
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 8
+        - Material: Energy_Of_Water
+          Amount: 18
+        - Material: Energy_Of_Flame
+          Amount: 18
+      - Enchant: Physical_Fruit_5
+        Upgrade: Physical_Fruit_6
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 12
+        - Material: Energy_Of_Water
+          Amount: 22
+        - Material: Energy_Of_Flame
+          Amount: 22
+        - Material: Grace_Of_Spirit
+          Amount: 2
+      - Enchant: Physical_Fruit_6
+        Upgrade: Physical_Fruit_7
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 17
+        - Material: Energy_Of_Water
+          Amount: 27
+        - Material: Energy_Of_Flame
+          Amount: 27
+        - Material: Grace_Of_Spirit
+          Amount: 4
+      - Enchant: Physical_Fruit_7
+        Upgrade: Physical_Fruit_8
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 23
+        - Material: Energy_Of_Water
+          Amount: 33
+        - Material: Energy_Of_Flame
+          Amount: 33
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Physical_Fruit_8
+        Upgrade: Physical_Fruit_9
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 30
+        - Material: Energy_Of_Water
           Amount: 40
-        - Material: Coagulated_Spell
+        - Material: Energy_Of_Flame
+          Amount: 40
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Physical_Fruit_9
+        Upgrade: Physical_Fruit_10
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 38
+        - Material: Energy_Of_Water
+          Amount: 48
+        - Material: Energy_Of_Flame
+          Amount: 48
+        - Material: Grace_Of_Spirit
           Amount: 10
+      - Enchant: Physical_Fruit_10
+        Upgrade: Physical_Fruit_11
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 24
+        - Material: Energy_Of_Water
+          Amount: 30
+        - Material: Energy_Of_Flame
+          Amount: 30
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Physical_Fruit_11
+        Upgrade: Physical_Fruit_12
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 28
+        - Material: Energy_Of_Water
+          Amount: 35
+        - Material: Energy_Of_Flame
+          Amount: 35
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Physical_Fruit_12
+        Upgrade: Physical_Fruit_13
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 32
+        - Material: Energy_Of_Water
+          Amount: 42
+        - Material: Energy_Of_Flame
+          Amount: 42
+        - Material: Grace_Of_Spirit
+          Amount: 10
+      - Enchant: Physical_Fruit_13
+        Upgrade: Physical_Fruit_14
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 38
+        - Material: Energy_Of_Water
+          Amount: 49
+        - Material: Energy_Of_Flame
+          Amount: 49
+        - Material: Grace_Of_Spirit
+          Amount: 12
+      - Enchant: Physical_Fruit_14
+        Upgrade: Physical_Fruit_15
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 44
+        - Material: Energy_Of_Water
+          Amount: 57
+        - Material: Energy_Of_Flame
+          Amount: 57
+        - Material: Grace_Of_Spirit
+          Amount: 14
     - Slot: 1
       PerfectEnchants:
-      - Item: Ice_C_Orb_War2
-        Price: 3000000
+      - Item: Life_of_Winter_1
         Materials:
-        - Material: Ice_Water_Drop_Gem
-          Amount: 70
-        - Material: Contored_Aqu_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
-          Amount: 10
-      - Item: Ice_C_Orb_P_Full
-        Price: 3000000
+        - Material: Winter_Material_1
+          Amount: 25
+        - Material: Winter_Material_2
+          Amount: 25
+        - Material: Winter_Material_3
+          Amount: 25
+        - Material: Energy_Of_Winter
+          Amount: 140
+      Upgrades:
+      - Enchant: Life_of_Winter_1
+        Upgrade: Life_of_Winter_2
         Materials:
-        - Material: Ice_Water_Drop_Gem
-          Amount: 70
-        - Material: Contored_Aqu_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
-          Amount: 10
-      - Item: Ice_C_Orb_Above
-        Price: 3000000
+        - Material: Energy_Of_Winter
+          Amount: 4
+        - Material: Energy_Of_Water
+          Amount: 14
+        - Material: Energy_Of_Flame
+          Amount: 14
+      - Enchant: Life_of_Winter_2
+        Upgrade: Life_of_Winter_3
         Materials:
-        - Material: Ice_Water_Drop_Gem
-          Amount: 70
-        - Material: Contored_Aqu_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
+        - Material: Energy_Of_Winter
+          Amount: 5
+        - Material: Energy_Of_Water
+          Amount: 16
+        - Material: Energy_Of_Flame
+          Amount: 16
+      - Enchant: Life_of_Winter_3
+        Upgrade: Life_of_Winter_4
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 7
+        - Material: Energy_Of_Water
+          Amount: 19
+        - Material: Energy_Of_Flame
+          Amount: 19
+      - Enchant: Life_of_Winter_4
+        Upgrade: Life_of_Winter_5
+        Materials:
+        - Material: Energy_Of_Winter
           Amount: 10
+        - Material: Energy_Of_Water
+          Amount: 23
+        - Material: Energy_Of_Flame
+          Amount: 23
+        - Material: Grace_Of_Spirit
+          Amount: 5
+      - Enchant: Life_of_Winter_5
+        Upgrade: Life_of_Winter_6
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 14
+        - Material: Energy_Of_Water
+          Amount: 28
+        - Material: Energy_Of_Flame
+          Amount: 28
+        - Material: Grace_Of_Spirit
+          Amount: 7
+      - Enchant: Life_of_Winter_6
+        Upgrade: Life_of_Winter_7
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 19
+        - Material: Energy_Of_Water
+          Amount: 34
+        - Material: Energy_Of_Flame
+          Amount: 34
+        - Material: Grace_Of_Spirit
+          Amount: 9
+      - Enchant: Life_of_Winter_7
+        Upgrade: Life_of_Winter_8
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 25
+        - Material: Energy_Of_Water
+          Amount: 41
+        - Material: Energy_Of_Flame
+          Amount: 41
+        - Material: Grace_Of_Spirit
+          Amount: 11
+        - Material: Winter_Material_1
+          Amount: 1
+        - Material: Winter_Material_2
+          Amount: 1
+        - Material: Winter_Material_3
+          Amount: 1
+      - Enchant: Life_of_Winter_8
+        Upgrade: Life_of_Winter_9
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 32
+        - Material: Energy_Of_Water
+          Amount: 49
+        - Material: Energy_Of_Flame
+          Amount: 49
+        - Material: Grace_Of_Spirit
+          Amount: 13
+        - Material: Winter_Material_1
+          Amount: 3
+        - Material: Winter_Material_2
+          Amount: 3
+        - Material: Winter_Material_3
+          Amount: 3
+      - Enchant: Life_of_Winter_9
+        Upgrade: Life_of_Winter_10
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 40
+        - Material: Energy_Of_Water
+          Amount: 58
+        - Material: Energy_Of_Flame
+          Amount: 58
+        - Material: Grace_Of_Spirit
+          Amount: 15
+        - Material: Winter_Material_1
+          Amount: 5
+        - Material: Winter_Material_2
+          Amount: 5
+        - Material: Winter_Material_3
+          Amount: 5
+      - Enchant: Life_of_Winter_10
+        Upgrade: Life_of_Winter_11
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 40
+        - Material: Energy_Of_Water
+          Amount: 60
+        - Material: Energy_Of_Flame
+          Amount: 60
+        - Material: Grace_Of_Spirit
+          Amount: 14
+      - Enchant: Life_of_Winter_11
+        Upgrade: Life_of_Winter_12
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 43
+        - Material: Energy_Of_Water
+          Amount: 65
+        - Material: Energy_Of_Flame
+          Amount: 65
+        - Material: Grace_Of_Spirit
+          Amount: 15
+      - Enchant: Life_of_Winter_12
+        Upgrade: Life_of_Winter_13
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 47
+        - Material: Energy_Of_Water
+          Amount: 70
+        - Material: Energy_Of_Flame
+          Amount: 70
+        - Material: Grace_Of_Spirit
+          Amount: 16
+      - Enchant: Life_of_Winter_13
+        Upgrade: Life_of_Winter_14
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 50
+        - Material: Energy_Of_Water
+          Amount: 75
+        - Material: Energy_Of_Flame
+          Amount: 75
+        - Material: Grace_Of_Spirit
+          Amount: 17
+        - Material: Winter_Material_1
+          Amount: 4
+        - Material: Winter_Material_2
+          Amount: 4
+        - Material: Winter_Material_3
+          Amount: 4
+      - Enchant: Life_of_Winter_14
+        Upgrade: Life_of_Winter_15
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 55
+        - Material: Energy_Of_Water
+          Amount: 82
+        - Material: Energy_Of_Flame
+          Amount: 82
+        - Material: Grace_Of_Spirit
+          Amount: 19
+        - Material: Winter_Material_1
+          Amount: 4
+        - Material: Winter_Material_2
+          Amount: 4
+        - Material: Winter_Material_3
+          Amount: 4
   - Id: 124
     TargetItems:
-      Signet_Of_Winter: true
+      Circul_Of_Life_Winter: true
     Order:
     - Slot: 3
     - Slot: 2
@@ -11484,75 +14753,965 @@ Body:
     Slots:
     - Slot: 3
       PerfectEnchants:
-      - Item: Ice_C_Orb_Luk
-        Price: 1000000
+      - Item: Physical_Seed_1
         Materials:
-        - Material: Ice_Water_Drop_Gem
-          Amount: 30
-        - Material: Contored_Aqu_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Agi
-        Price: 1000000
+        - Material: Winter_Material_1
+          Amount: 10
+        - Material: Winter_Material_2
+          Amount: 10
+        - Material: Winter_Material_3
+          Amount: 10
+        - Material: Energy_Of_Winter
+          Amount: 60
+      Upgrades:
+      - Enchant: Physical_Seed_1
+        Upgrade: Physical_Seed_2
         Materials:
-        - Material: Ice_Water_Drop_Gem
-          Amount: 30
-        - Material: Contored_Aqu_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Str
-        Price: 1000000
+        - Material: Energy_Of_Winter
+          Amount: 1
+        - Material: Energy_Of_Water
+          Amount: 10
+        - Material: Energy_Of_Flame
+          Amount: 10
+      - Enchant: Physical_Seed_2
+        Upgrade: Physical_Seed_3
         Materials:
-        - Material: Ice_Water_Drop_Gem
-          Amount: 30
-        - Material: Contored_Aqu_Wrath
-          Amount: 20
-      - Item: Ice_C_Orb_Spd
-        Price: 1000000
+        - Material: Energy_Of_Winter
+          Amount: 2
+        - Material: Energy_Of_Water
+          Amount: 12
+        - Material: Energy_Of_Flame
+          Amount: 12
+      - Enchant: Physical_Seed_3
+        Upgrade: Physical_Seed_4
         Materials:
-        - Material: Ice_Water_Drop_Gem
-          Amount: 30
-        - Material: Contored_Aqu_Wrath
+        - Material: Energy_Of_Winter
+          Amount: 3
+        - Material: Energy_Of_Water
+          Amount: 14
+        - Material: Energy_Of_Flame
+          Amount: 14
+      - Enchant: Physical_Seed_4
+        Upgrade: Physical_Seed_5
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 4
+        - Material: Energy_Of_Water
+          Amount: 16
+        - Material: Energy_Of_Flame
+          Amount: 16
+      - Enchant: Physical_Seed_5
+        Upgrade: Physical_Seed_6
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 5
+        - Material: Energy_Of_Water
+          Amount: 18
+        - Material: Energy_Of_Flame
+          Amount: 18
+      - Enchant: Physical_Seed_6
+        Upgrade: Physical_Seed_7
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 6
+        - Material: Energy_Of_Water
           Amount: 20
+        - Material: Energy_Of_Flame
+          Amount: 20
+      - Enchant: Physical_Seed_7
+        Upgrade: Physical_Seed_8
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 7
+        - Material: Energy_Of_Water
+          Amount: 22
+        - Material: Energy_Of_Flame
+          Amount: 22
+      - Enchant: Physical_Seed_8
+        Upgrade: Physical_Seed_9
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 8
+        - Material: Energy_Of_Water
+          Amount: 24
+        - Material: Energy_Of_Flame
+          Amount: 24
+      - Enchant: Physical_Seed_9
+        Upgrade: Physical_Seed_10
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 9
+        - Material: Energy_Of_Water
+          Amount: 26
+        - Material: Energy_Of_Flame
+          Amount: 26
+      - Enchant: Physical_Seed_10
+        Upgrade: Physical_Leaf_1
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 12
+        - Material: Energy_Of_Water
+          Amount: 30
+        - Material: Energy_Of_Flame
+          Amount: 30
+        - Material: Winter_Material_1
+          Amount: 3
+        - Material: Winter_Material_2
+          Amount: 3
+        - Material: Winter_Material_3
+          Amount: 3
+      - Enchant: Physical_Leaf_1
+        Upgrade: Physical_Leaf_2
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 14
+        - Material: Energy_Of_Water
+          Amount: 35
+        - Material: Energy_Of_Flame
+          Amount: 35
+        - Material: Grace_Of_Spirit
+          Amount: 2
+      - Enchant: Physical_Leaf_2
+        Upgrade: Physical_Leaf_3
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 16
+        - Material: Energy_Of_Water
+          Amount: 40
+        - Material: Energy_Of_Flame
+          Amount: 40
+        - Material: Grace_Of_Spirit
+          Amount: 4
+      - Enchant: Physical_Leaf_3
+        Upgrade: Physical_Leaf_4
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 18
+        - Material: Energy_Of_Water
+          Amount: 45
+        - Material: Energy_Of_Flame
+          Amount: 45
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Physical_Leaf_4
+        Upgrade: Physical_Leaf_5
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 20
+        - Material: Energy_Of_Water
+          Amount: 50
+        - Material: Energy_Of_Flame
+          Amount: 50
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Physical_Leaf_5
+        Upgrade: Physical_Flower_1
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 25
+        - Material: Circul_Of_Life
+          Amount: 10
+        - Material: Winter_Material_1
+          Amount: 3
+        - Material: Winter_Material_2
+          Amount: 3
+        - Material: Winter_Material_3
+          Amount: 3
+      - Enchant: Physical_Flower_1
+        Upgrade: Physical_Flower_2
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 30
+        - Material: Circul_Of_Life
+          Amount: 12
+      - Enchant: Physical_Flower_2
+        Upgrade: Physical_Flower_3
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 35
+        - Material: Circul_Of_Life
+          Amount: 14
+        - Material: Fruit_Of_Birth
+          Amount: 3
+        - Material: Fruit_Of_Extinction
+          Amount: 3
+      - Enchant: Physical_Flower_3
+        Upgrade: Physical_Flower_4
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 40
+        - Material: Circul_Of_Life
+          Amount: 16
+        - Material: Fruit_Of_Birth
+          Amount: 6
+        - Material: Fruit_Of_Extinction
+          Amount: 6
+        - Material: Truth_Of_Life
+          Amount: 3
+      - Enchant: Physical_Flower_4
+        Upgrade: Physical_Flower_5
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 45
+        - Material: Circul_Of_Life
+          Amount: 18
+        - Material: Fruit_Of_Birth
+          Amount: 9
+        - Material: Fruit_Of_Extinction
+          Amount: 9
+        - Material: Truth_Of_Life
+          Amount: 5
+        - Material: Light_Of_Life
+          Amount: 3
     - Slot: 2
       PerfectEnchants:
-      - Item: Ice_C_Orb_Fatal
-        Price: 2000000
+      - Item: Physical_Fruit_1
         Materials:
-        - Material: Ice_Water_Drop_Gem
-          Amount: 50
-        - Material: Contored_Aqu_Wrath
-          Amount: 40
-        - Material: Coagulated_Spell
-          Amount: 10
-      - Item: Ice_C_Orb_F_Spirit
-        Price: 2000000
+        - Material: Winter_Material_1
+          Amount: 15
+        - Material: Winter_Material_2
+          Amount: 15
+        - Material: Winter_Material_3
+          Amount: 15
+        - Material: Energy_Of_Winter
+          Amount: 90
+      Upgrades:
+      - Enchant: Physical_Fruit_1
+        Upgrade: Physical_Fruit_2
         Materials:
-        - Material: Ice_Water_Drop_Gem
-          Amount: 50
-        - Material: Contored_Aqu_Wrath
+        - Material: Energy_Of_Winter
+          Amount: 2
+        - Material: Energy_Of_Water
+          Amount: 12
+        - Material: Energy_Of_Flame
+          Amount: 12
+      - Enchant: Physical_Fruit_2
+        Upgrade: Physical_Fruit_3
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 3
+        - Material: Energy_Of_Water
+          Amount: 13
+        - Material: Energy_Of_Flame
+          Amount: 13
+      - Enchant: Physical_Fruit_3
+        Upgrade: Physical_Fruit_4
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 5
+        - Material: Energy_Of_Water
+          Amount: 15
+        - Material: Energy_Of_Flame
+          Amount: 15
+      - Enchant: Physical_Fruit_4
+        Upgrade: Physical_Fruit_5
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 8
+        - Material: Energy_Of_Water
+          Amount: 18
+        - Material: Energy_Of_Flame
+          Amount: 18
+      - Enchant: Physical_Fruit_5
+        Upgrade: Physical_Fruit_6
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 12
+        - Material: Energy_Of_Water
+          Amount: 22
+        - Material: Energy_Of_Flame
+          Amount: 22
+        - Material: Grace_Of_Spirit
+          Amount: 2
+      - Enchant: Physical_Fruit_6
+        Upgrade: Physical_Fruit_7
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 17
+        - Material: Energy_Of_Water
+          Amount: 27
+        - Material: Energy_Of_Flame
+          Amount: 27
+        - Material: Grace_Of_Spirit
+          Amount: 4
+      - Enchant: Physical_Fruit_7
+        Upgrade: Physical_Fruit_8
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 23
+        - Material: Energy_Of_Water
+          Amount: 33
+        - Material: Energy_Of_Flame
+          Amount: 33
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Physical_Fruit_8
+        Upgrade: Physical_Fruit_9
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 30
+        - Material: Energy_Of_Water
           Amount: 40
-        - Material: Coagulated_Spell
+        - Material: Energy_Of_Flame
+          Amount: 40
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Physical_Fruit_9
+        Upgrade: Physical_Fruit_10
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 38
+        - Material: Energy_Of_Water
+          Amount: 48
+        - Material: Energy_Of_Flame
+          Amount: 48
+        - Material: Grace_Of_Spirit
           Amount: 10
+      - Enchant: Physical_Fruit_10
+        Upgrade: Physical_Fruit_11
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 24
+        - Material: Energy_Of_Water
+          Amount: 30
+        - Material: Energy_Of_Flame
+          Amount: 30
+        - Material: Grace_Of_Spirit
+          Amount: 6
+      - Enchant: Physical_Fruit_11
+        Upgrade: Physical_Fruit_12
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 28
+        - Material: Energy_Of_Water
+          Amount: 35
+        - Material: Energy_Of_Flame
+          Amount: 35
+        - Material: Grace_Of_Spirit
+          Amount: 8
+      - Enchant: Physical_Fruit_12
+        Upgrade: Physical_Fruit_13
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 32
+        - Material: Energy_Of_Water
+          Amount: 42
+        - Material: Energy_Of_Flame
+          Amount: 42
+        - Material: Grace_Of_Spirit
+          Amount: 10
+      - Enchant: Physical_Fruit_13
+        Upgrade: Physical_Fruit_14
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 38
+        - Material: Energy_Of_Water
+          Amount: 49
+        - Material: Energy_Of_Flame
+          Amount: 49
+        - Material: Grace_Of_Spirit
+          Amount: 12
+      - Enchant: Physical_Fruit_14
+        Upgrade: Physical_Fruit_15
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 44
+        - Material: Energy_Of_Water
+          Amount: 57
+        - Material: Energy_Of_Flame
+          Amount: 57
+        - Material: Grace_Of_Spirit
+          Amount: 14
+      - Enchant: Physical_Fruit_15
+        Upgrade: Physical_Fruit_16
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 50
+        - Material: Circul_Of_Life
+          Amount: 25
+      - Enchant: Physical_Fruit_16
+        Upgrade: Physical_Fruit_17
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 55
+        - Material: Circul_Of_Life
+          Amount: 28
+        - Material: Fruit_Of_Birth
+          Amount: 19
+        - Material: Fruit_Of_Extinction
+          Amount: 19
+      - Enchant: Physical_Fruit_17
+        Upgrade: Physical_Fruit_18
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 60
+        - Material: Circul_Of_Life
+          Amount: 30
+        - Material: Fruit_Of_Birth
+          Amount: 20
+        - Material: Fruit_Of_Extinction
+          Amount: 20
+        - Material: Truth_Of_Life
+          Amount: 10
+      - Enchant: Physical_Fruit_18
+        Upgrade: Physical_Fruit_19
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 67
+        - Material: Circul_Of_Life
+          Amount: 34
+        - Material: Fruit_Of_Birth
+          Amount: 23
+        - Material: Fruit_Of_Extinction
+          Amount: 23
+        - Material: Truth_Of_Life
+          Amount: 12
+        - Material: Light_Of_Life
+          Amount: 7
+      - Enchant: Physical_Fruit_19
+        Upgrade: Physical_Fruit_20
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 75
+        - Material: Circul_Of_Life
+          Amount: 38
+        - Material: Fruit_Of_Birth
+          Amount: 25
+        - Material: Fruit_Of_Extinction
+          Amount: 25
+        - Material: Truth_Of_Life
+          Amount: 13
+        - Material: Light_Of_Life
+          Amount: 8
     - Slot: 1
       PerfectEnchants:
-      - Item: Ice_C_Orb_P_P
-        Price: 3000000
+      - Item: Life_of_Winter_1
         Materials:
-        - Material: Ice_Water_Drop_Gem
-          Amount: 70
-        - Material: Contored_Aqu_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
-          Amount: 10
-      - Item: Ice_C_Orb_A_Force
-        Price: 3000000
+        - Material: Winter_Material_1
+          Amount: 25
+        - Material: Winter_Material_2
+          Amount: 25
+        - Material: Winter_Material_3
+          Amount: 25
+        - Material: Energy_Of_Winter
+          Amount: 140
+      Upgrades:
+      - Enchant: Life_of_Winter_1
+        Upgrade: Life_of_Winter_2
         Materials:
-        - Material: Ice_Water_Drop_Gem
-          Amount: 70
-        - Material: Contored_Aqu_Wrath
-          Amount: 60
-        - Material: Coagulated_Spell
-          Amount: 20
-        - Material: Contored_Spi_Wrath
+        - Material: Energy_Of_Winter
+          Amount: 4
+        - Material: Energy_Of_Water
+          Amount: 14
+        - Material: Energy_Of_Flame
+          Amount: 14
+      - Enchant: Life_of_Winter_2
+        Upgrade: Life_of_Winter_3
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 5
+        - Material: Energy_Of_Water
+          Amount: 16
+        - Material: Energy_Of_Flame
+          Amount: 16
+      - Enchant: Life_of_Winter_3
+        Upgrade: Life_of_Winter_4
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 7
+        - Material: Energy_Of_Water
+          Amount: 19
+        - Material: Energy_Of_Flame
+          Amount: 19
+      - Enchant: Life_of_Winter_4
+        Upgrade: Life_of_Winter_5
+        Materials:
+        - Material: Energy_Of_Winter
           Amount: 10
+        - Material: Energy_Of_Water
+          Amount: 23
+        - Material: Energy_Of_Flame
+          Amount: 23
+        - Material: Grace_Of_Spirit
+          Amount: 5
+      - Enchant: Life_of_Winter_5
+        Upgrade: Life_of_Winter_6
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 14
+        - Material: Energy_Of_Water
+          Amount: 28
+        - Material: Energy_Of_Flame
+          Amount: 28
+        - Material: Grace_Of_Spirit
+          Amount: 7
+      - Enchant: Life_of_Winter_6
+        Upgrade: Life_of_Winter_7
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 19
+        - Material: Energy_Of_Water
+          Amount: 34
+        - Material: Energy_Of_Flame
+          Amount: 34
+        - Material: Grace_Of_Spirit
+          Amount: 9
+      - Enchant: Life_of_Winter_7
+        Upgrade: Life_of_Winter_8
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 25
+        - Material: Energy_Of_Water
+          Amount: 41
+        - Material: Energy_Of_Flame
+          Amount: 41
+        - Material: Grace_Of_Spirit
+          Amount: 11
+        - Material: Winter_Material_1
+          Amount: 1
+        - Material: Winter_Material_2
+          Amount: 1
+        - Material: Winter_Material_3
+          Amount: 1
+      - Enchant: Life_of_Winter_8
+        Upgrade: Life_of_Winter_9
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 32
+        - Material: Energy_Of_Water
+          Amount: 49
+        - Material: Energy_Of_Flame
+          Amount: 49
+        - Material: Grace_Of_Spirit
+          Amount: 13
+        - Material: Winter_Material_1
+          Amount: 3
+        - Material: Winter_Material_2
+          Amount: 3
+        - Material: Winter_Material_3
+          Amount: 3
+      - Enchant: Life_of_Winter_9
+        Upgrade: Life_of_Winter_10
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 40
+        - Material: Energy_Of_Water
+          Amount: 58
+        - Material: Energy_Of_Flame
+          Amount: 58
+        - Material: Grace_Of_Spirit
+          Amount: 15
+        - Material: Winter_Material_1
+          Amount: 5
+        - Material: Winter_Material_2
+          Amount: 5
+        - Material: Winter_Material_3
+          Amount: 5
+      - Enchant: Life_of_Winter_10
+        Upgrade: Life_of_Winter_11
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 40
+        - Material: Energy_Of_Water
+          Amount: 60
+        - Material: Energy_Of_Flame
+          Amount: 60
+        - Material: Grace_Of_Spirit
+          Amount: 14
+      - Enchant: Life_of_Winter_11
+        Upgrade: Life_of_Winter_12
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 43
+        - Material: Energy_Of_Water
+          Amount: 65
+        - Material: Energy_Of_Flame
+          Amount: 65
+        - Material: Grace_Of_Spirit
+          Amount: 15
+      - Enchant: Life_of_Winter_12
+        Upgrade: Life_of_Winter_13
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 47
+        - Material: Energy_Of_Water
+          Amount: 70
+        - Material: Energy_Of_Flame
+          Amount: 70
+        - Material: Grace_Of_Spirit
+          Amount: 16
+      - Enchant: Life_of_Winter_13
+        Upgrade: Life_of_Winter_14
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 50
+        - Material: Energy_Of_Water
+          Amount: 75
+        - Material: Energy_Of_Flame
+          Amount: 75
+        - Material: Grace_Of_Spirit
+          Amount: 17
+        - Material: Winter_Material_1
+          Amount: 4
+        - Material: Winter_Material_2
+          Amount: 4
+        - Material: Winter_Material_3
+          Amount: 4
+      - Enchant: Life_of_Winter_14
+        Upgrade: Life_of_Winter_15
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 55
+        - Material: Energy_Of_Water
+          Amount: 82
+        - Material: Energy_Of_Flame
+          Amount: 82
+        - Material: Grace_Of_Spirit
+          Amount: 19
+        - Material: Winter_Material_1
+          Amount: 4
+        - Material: Winter_Material_2
+          Amount: 4
+        - Material: Winter_Material_3
+          Amount: 4
+      - Enchant: Life_of_Winter_15
+        Upgrade: Life_of_Winter_16
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 60
+        - Material: Circul_Of_Life
+          Amount: 50
+      - Enchant: Life_of_Winter_16
+        Upgrade: Life_of_Winter_17
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 67
+        - Material: Circul_Of_Life
+          Amount: 56
+        - Material: Fruit_Of_Birth
+          Amount: 34
+        - Material: Fruit_Of_Extinction
+          Amount: 34
+      - Enchant: Life_of_Winter_17
+        Upgrade: Life_of_Winter_18
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 75
+        - Material: Circul_Of_Life
+          Amount: 63
+        - Material: Fruit_Of_Birth
+          Amount: 38
+        - Material: Fruit_Of_Extinction
+          Amount: 38
+        - Material: Truth_Of_Life
+          Amount: 25
+      - Enchant: Life_of_Winter_18
+        Upgrade: Life_of_Winter_19
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 86
+        - Material: Circul_Of_Life
+          Amount: 72
+        - Material: Fruit_Of_Birth
+          Amount: 43
+        - Material: Fruit_Of_Extinction
+          Amount: 43
+        - Material: Truth_Of_Life
+          Amount: 29
+        - Material: Light_Of_Life
+          Amount: 15
+      - Enchant: Life_of_Winter_19
+        Upgrade: Life_of_Winter_20
+        Materials:
+        - Material: Energy_Of_Winter
+          Amount: 100
+        - Material: Circul_Of_Life
+          Amount: 84
+        - Material: Fruit_Of_Birth
+          Amount: 50
+        - Material: Fruit_Of_Extinction
+          Amount: 50
+        - Material: Truth_Of_Life
+          Amount: 34
+        - Material: Light_Of_Life
+          Amount: 17
+  - Id: 142
+    TargetItems:
+      Signet_Of_Spring: true
+      Signet_Of_Summer: true
+      Signet_Of_Autumn: true
+      Signet_Of_Winter: true
+    Reset:
+      Chance: 80000
+      Price: 500000
+      Materials:
+      - Material: Energy_Of_Elemental
+        Amount: 20
+      - Material: Circul_Of_Life
+        Amount: 10
+    Order:
+    - Slot: 3
+    - Slot: 2
+    Slots:
+    - Slot: 3
+      PerfectEnchants:
+      - Item: Token_Of_Life
+        Price: 500000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 15
+        - Material: Fruit_Of_Birth
+          Amount: 5
+        - Material: Fruit_Of_Extinction
+          Amount: 5
+        - Material: Energy_Of_Spring
+          Amount: 10
+        - Material: Energy_Of_Summer
+          Amount: 10
+        - Material: Energy_Of_Autumn
+          Amount: 10
+        - Material: Energy_Of_Winter
+          Amount: 10
+        - Material: Grace_Of_Spirit
+          Amount: 30
+    - Slot: 2
+      Price: 1000000
+      Materials:
+      - Material: Circul_Of_Life
+        Amount: 10
+      Enchants:
+      - Enchantgrade: 0
+        Items:
+        - Item: Spell3
+          Chance: 11750
+        - Item: Expert_Archer3
+          Chance: 11750
+        - Item: Hit_Plus3
+          Chance: 11750
+        - Item: Sharp3
+          Chance: 11750
+        - Item: Spell4
+          Chance: 3500
+        - Item: Expert_Archer4
+          Chance: 3500
+        - Item: Hit_Plus4
+          Chance: 3500
+        - Item: Sharp4
+          Chance: 3500
+        - Item: Signet_Of_Pow1
+          Chance: 6000
+        - Item: Signet_Of_Con1
+          Chance: 6000
+        - Item: Signet_Of_Sta1
+          Chance: 6000
+        - Item: Signet_Of_Spl1
+          Chance: 6000
+        - Item: Signet_Of_Crt1
+          Chance: 6000
+        - Item: Signet_Of_Wis1
+          Chance: 6000
+        - Item: Signet_Of_Pow2
+          Chance: 500
+        - Item: Signet_Of_Con2
+          Chance: 500
+        - Item: Signet_Of_Sta2
+          Chance: 500
+        - Item: Signet_Of_Spl2
+          Chance: 500
+        - Item: Signet_Of_Crt2
+          Chance: 500
+        - Item: Signet_Of_Wis2
+          Chance: 500
+      Upgrades:
+      - Enchant: Signet_Of_Pow1
+        Upgrade: Signet_Of_Pow2
+        Price: 500000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 10
+        - Material: Energy_Of_Elemental
+          Amount: 10
+      - Enchant: Signet_Of_Pow2
+        Upgrade: Signet_Of_Pow3
+        Price: 1000000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 15
+        - Material: Energy_Of_Elemental
+          Amount: 15
+      - Enchant: Signet_Of_Pow3
+        Upgrade: Signet_Of_Pow4
+        Price: 1500000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 20
+        - Material: Energy_Of_Elemental
+          Amount: 20
+      - Enchant: Signet_Of_Pow4
+        Upgrade: Signet_Of_Pow5
+        Price: 2000000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 30
+        - Material: Energy_Of_Elemental
+          Amount: 30
+      - Enchant: Signet_Of_Sta1
+        Upgrade: Signet_Of_Sta2
+        Price: 500000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 10
+        - Material: Energy_Of_Elemental
+          Amount: 10
+      - Enchant: Signet_Of_Sta2
+        Upgrade: Signet_Of_Sta3
+        Price: 1000000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 15
+        - Material: Energy_Of_Elemental
+          Amount: 15
+      - Enchant: Signet_Of_Sta3
+        Upgrade: Signet_Of_Sta4
+        Price: 1500000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 20
+        - Material: Energy_Of_Elemental
+          Amount: 20
+      - Enchant: Signet_Of_Sta4
+        Upgrade: Signet_Of_Sta5
+        Price: 2000000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 30
+        - Material: Energy_Of_Elemental
+          Amount: 30
+      - Enchant: Signet_Of_Wis1
+        Upgrade: Signet_Of_Wis2
+        Price: 500000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 10
+        - Material: Energy_Of_Elemental
+          Amount: 10
+      - Enchant: Signet_Of_Wis2
+        Upgrade: Signet_Of_Wis3
+        Price: 1000000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 15
+        - Material: Energy_Of_Elemental
+          Amount: 15
+      - Enchant: Signet_Of_Wis3
+        Upgrade: Signet_Of_Wis4
+        Price: 1500000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 20
+        - Material: Energy_Of_Elemental
+          Amount: 20
+      - Enchant: Signet_Of_Wis4
+        Upgrade: Signet_Of_Wis5
+        Price: 2000000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 30
+        - Material: Energy_Of_Elemental
+          Amount: 30
+      - Enchant: Signet_Of_Spl1
+        Upgrade: Signet_Of_Spl2
+        Price: 500000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 10
+        - Material: Energy_Of_Elemental
+          Amount: 10
+      - Enchant: Signet_Of_Spl2
+        Upgrade: Signet_Of_Spl3
+        Price: 1000000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 15
+        - Material: Energy_Of_Elemental
+          Amount: 15
+      - Enchant: Signet_Of_Spl3
+        Upgrade: Signet_Of_Spl4
+        Price: 1500000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 20
+        - Material: Energy_Of_Elemental
+          Amount: 20
+      - Enchant: Signet_Of_Spl4
+        Upgrade: Signet_Of_Spl5
+        Price: 2000000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 30
+        - Material: Energy_Of_Elemental
+          Amount: 30
+      - Enchant: Signet_Of_Con1
+        Upgrade: Signet_Of_Con2
+        Price: 500000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 10
+        - Material: Energy_Of_Elemental
+          Amount: 10
+      - Enchant: Signet_Of_Con2
+        Upgrade: Signet_Of_Con3
+        Price: 1000000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 15
+        - Material: Energy_Of_Elemental
+          Amount: 15
+      - Enchant: Signet_Of_Con3
+        Upgrade: Signet_Of_Con4
+        Price: 1500000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 20
+        - Material: Energy_Of_Elemental
+          Amount: 20
+      - Enchant: Signet_Of_Con4
+        Upgrade: Signet_Of_Con5
+        Price: 2000000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 30
+        - Material: Energy_Of_Elemental
+          Amount: 30
+      - Enchant: Signet_Of_Crt1
+        Upgrade: Signet_Of_Crt2
+        Price: 500000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 10
+        - Material: Energy_Of_Elemental
+          Amount: 10
+      - Enchant: Signet_Of_Crt2
+        Upgrade: Signet_Of_Crt3
+        Price: 1000000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 15
+        - Material: Energy_Of_Elemental
+          Amount: 15
+      - Enchant: Signet_Of_Crt3
+        Upgrade: Signet_Of_Crt4
+        Price: 1500000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 20
+        - Material: Energy_Of_Elemental
+          Amount: 20
+      - Enchant: Signet_Of_Crt4
+        Upgrade: Signet_Of_Crt5
+        Price: 2000000
+        Materials:
+        - Material: Circul_Of_Life
+          Amount: 30
+        - Material: Energy_Of_Elemental
+          Amount: 30

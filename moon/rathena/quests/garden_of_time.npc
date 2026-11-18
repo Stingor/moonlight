@@ -1542,9 +1542,7 @@ t_garden,138,114,2	script(CLOAKED)	Subspace vending machine#4	HEROS_IN_ORB_4,{
 	npctalk "We put great effort into enchanting circulating equipment. Is there a menu you would like?", "", bc_self;
 	switch( select( "Circle of Life Accessories", "Circle of Life-Spring", "Circle of Life-Summer", "Circle of Life-Autumn", "Circle of Life-Winter" ) ) {
 	case 1:
-		mes "[Subspace vending machine]";
-		mes "This enchantment is not available yet.";	// [Stingor] item_enchant(142) absent de rAthena
-		close;
+		item_enchant(142);
 		break;
 	case 2:
 		item_enchant(118);	// [Stingor] enchantement Moonlight

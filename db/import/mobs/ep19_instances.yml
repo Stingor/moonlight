@@ -47,3 +47,6 @@ Body:
         Rate: 500
       - Item: Steel
         Rate: 150
+      - Item: Beta_Scissore_Ng_Card
+        Rate: 1
+        StealProtected: true

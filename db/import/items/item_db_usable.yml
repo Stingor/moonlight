@@ -12488,3 +12488,19 @@ Body:
          specialeffect2 EF_FREEZING;
          showscript "It doesn't seem to have any effect here.", playerattached(), SELF;
       }
+  # Hall of Life : parchemin de reforme des Capuches des saisons.
+  - Id: 102514
+    AegisName: Season_H_Upgrade
+    Name: Granting the truth of the Circulation of life
+    Type: DelayConsume
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      item_reform();

@@ -37481,3 +37481,151 @@ Body:
     Script: |
       bonus bCritAtkRate,10;
       bonus bVariableCastrate,-10;
+  # Hall of Life : capes Circulation of Life (reforme des Capuches des saisons). DEF 8, ArmorLevel 1, grade retire, traits et +11 convertis.
+  - Id: 480349
+    AegisName: Circul_Of_Life_Spring
+    Name: 'Circulation of Life: Spring [1]'
+    Type: Armor
+    Weight: 700
+    Defense: 8
+    Slots: 1
+    Locations:
+      Garment: true
+    ArmorLevel: 1
+    EquipLevelMin: 250
+    Refineable: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      .@r = getrefine();
+      bonus bCritical,-20;
+      bonus bStr,4;
+      bonus bDex,4;
+      bonus bBaseAtk,10*(.@r/2);
+      bonus bShortAtkRate,2*(.@r/3);
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         if (.@r>=9) {
+            bonus bAspdRate,10;
+            if (getallrefine() >= 22) {
+               bonus bDelayrate,-10;
+               bonus2 bAddClass,Class_All,7;
+            }
+         }
+      }
+  - Id: 480350
+    AegisName: Circul_Of_Life_Summer
+    Name: 'Circulation of Life: Summer [1]'
+    Type: Armor
+    Weight: 700
+    Defense: 8
+    Slots: 1
+    Locations:
+      Garment: true
+    ArmorLevel: 1
+    EquipLevelMin: 250
+    Refineable: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      .@r = getrefine();
+      bonus bCritical,-20;
+      bonus bStr,4;
+      bonus bDex,4;
+      bonus bBaseAtk,10*(.@r/2);
+      bonus bLongAtkRate,2*(.@r/3);
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         if (.@r>=9) {
+            bonus bAspdRate,10;
+            if (getallrefine() >= 22) {
+               bonus bDelayrate,-10;
+               bonus2 bAddClass,Class_All,7;
+            }
+         }
+      }
+  - Id: 480351
+    AegisName: Circul_Of_Life_Autumn
+    Name: 'Circulation of Life: Autumn [1]'
+    Type: Armor
+    Weight: 700
+    Defense: 8
+    Slots: 1
+    Locations:
+      Garment: true
+    ArmorLevel: 1
+    EquipLevelMin: 250
+    Refineable: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      .@r = getrefine();
+      bonus bInt,4;
+      bonus bDex,4;
+      bonus bUseSPrate,15;
+      bonus bMatk,10*(.@r/2);
+      bonus2 bMagicAtkEle,Ele_All,2*(.@r/3);
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         if (.@r>=9) {
+            bonus bAspdRate,5;
+            bonus bVariableCastrate,-5;
+            if (getallrefine() >= 22) {
+               bonus bDelayrate,-10;
+               bonus2 bMagicAddClass,Class_All,7;
+            }
+         }
+      }
+  - Id: 480352
+    AegisName: Circul_Of_Life_Winter
+    Name: 'Circulation of Life: Winter [1]'
+    Type: Armor
+    Weight: 700
+    Defense: 8
+    Slots: 1
+    Locations:
+      Garment: true
+    ArmorLevel: 1
+    EquipLevelMin: 250
+    Refineable: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      .@r = getrefine();
+      bonus bCritical,4+(.@r/2);
+      bonus bStr,2;
+      bonus bDex,2;
+      bonus bBaseAtk,5*(.@r/2);
+      bonus bCritAtkRate,(.@r/3);
+      bonus bLuk,(.@r/3);
+      if (.@r>=7) {
+         bonus bVariableCastrate,-5;
+         bonus bCritAtkRate,3;
+         if (.@r>=9) {
+            bonus bAspdRate,10;
+            if (getallrefine() >= 22) {
+               bonus bDelayrate,-10;
+               bonus2 bAddClass,Class_All,7;
+            }
+         }
+      }

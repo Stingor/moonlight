@@ -12452,3 +12452,20 @@ Body:
       if (getequipid(EQI_GARMENT) == 480283 || getequipid(EQI_GARMENT) == 480284) {
          bonus2 bAddClass,Class_Boss,10;
       }
+  # Carte oubliee de l'episode 17.2 : Broken Gardener Beta (MD_BETA_SCISSORE_NG, instances de l'episode 19).
+  - Id: 300087
+    AegisName: Beta_Scissore_Ng_Card
+    Name: Broken Gardener Beta Card
+    Type: Card
+    Weight: 10
+    Locations:
+      Shoes: true
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+    Script: |
+      bonus bLuk,2;
+      bonus bMaxHPrate,10;
+      bonus bMaxSPrate,10;
+      bonus2 bSkillAtk,"SU_SV_STEMSPEAR",10;
+      bonus2 bSkillAtk,"SU_SCAROFTAROU",10;

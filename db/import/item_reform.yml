@@ -2063,3 +2063,66 @@ Body:
         Amount: 10
       ResultItem: D_Glacier_Shoes
       ChangeRefine: 1
+  # Hall of Life : les Capuches des saisons deviennent les capes Circulation of Life (garden_of_time.npc, distributeur des equipements).
+  - Item: Season_H_Upgrade
+    BaseItems:
+    - BaseItem: Season_Hood_Spring
+      Materials:
+      - Material: Circul_Of_Life
+        Amount: 30
+      - Material: Fruit_Of_Birth
+        Amount: 15
+      - Material: Fruit_Of_Extinction
+        Amount: 15
+      - Material: Pow_Meteorite_Fragment
+        Amount: 50
+      - Material: Sta_Meteorite_Fragment
+        Amount: 50
+      - Material: Wis_Meteorite_Fragment
+        Amount: 50
+      ResultItem: Circul_Of_Life_Spring
+    - BaseItem: Season_Hood_Summer
+      Materials:
+      - Material: Circul_Of_Life
+        Amount: 30
+      - Material: Fruit_Of_Birth
+        Amount: 15
+      - Material: Fruit_Of_Extinction
+        Amount: 15
+      - Material: Con_Meteorite_Fragment
+        Amount: 50
+      - Material: Spl_Meteorite_Fragment
+        Amount: 50
+      - Material: Sta_Meteorite_Fragment
+        Amount: 50
+      ResultItem: Circul_Of_Life_Summer
+    - BaseItem: Season_Hood_Autumn
+      Materials:
+      - Material: Circul_Of_Life
+        Amount: 30
+      - Material: Fruit_Of_Birth
+        Amount: 15
+      - Material: Fruit_Of_Extinction
+        Amount: 15
+      - Material: Spl_Meteorite_Fragment
+        Amount: 50
+      - Material: Crt_Meteorite_Fragment
+        Amount: 50
+      - Material: Wis_Meteorite_Fragment
+        Amount: 50
+      ResultItem: Circul_Of_Life_Autumn
+    - BaseItem: Season_Hood_Winter
+      Materials:
+      - Material: Circul_Of_Life
+        Amount: 30
+      - Material: Fruit_Of_Birth
+        Amount: 15
+      - Material: Fruit_Of_Extinction
+        Amount: 15
+      - Material: Crt_Meteorite_Fragment
+        Amount: 50
+      - Material: Con_Meteorite_Fragment
+        Amount: 50
+      - Material: Pow_Meteorite_Fragment
+        Amount: 50
+      ResultItem: Circul_Of_Life_Winter

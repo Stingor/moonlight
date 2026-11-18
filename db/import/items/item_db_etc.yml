@@ -16436,3 +16436,25 @@ Body:
     Weight: 10
     Flags:
       BuyingStore: true
+  # Hall of Life : Circulation, Verite et Lumiere de la vie, lachees par les esprits (choix Moonlight, rAthena n'a pas le donjon-instance).
+  - Id: 1001456
+    AegisName: Circul_Of_Life
+    Name: Circulation of Life
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001459
+    AegisName: Truth_Of_Life
+    Name: Truth of Life
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001460
+    AegisName: Light_Of_Life
+    Name: Light of Life
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
