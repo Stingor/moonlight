@@ -626,6 +626,9 @@ Body:
         Rate: 2500
       - Item: EP20_D_P_Crystal
         Rate: 1000
+      - Item: Rgan_Chief_Clean_Card
+        Rate: 1
+        StealProtected: true
     MvpDrops:
       - Item: Magic_Card_Album
         Rate: 4000
@@ -1275,6 +1278,9 @@ Body:
         Rate: 2500
       - Item: EP20_D_P_Crystal
         Rate: 1000
+      - Item: Snow_Angel_Card
+        Rate: 1
+        StealProtected: true
     MvpDrops:
       - Item: Old_Card_Album
         Rate: 4000

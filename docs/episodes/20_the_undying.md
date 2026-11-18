@@ -333,15 +333,17 @@ accès par la barrière dimensionnelle de `xmas_fild01` (niveau 250). Source : `
 | Raccordement | `map_drops.yml`, `noteleport.txt`, `map_index.yml` | `map_drops` de `for_dun01` (pierres Etel), `noteleport` sur les deux zones, noms des trois cartes, `naviregisterwarp` sur la barrière, les entrées et les sondes de retour |
 | Écartés | | les combos Signet + « Circle of Life » (objets absents de rAthena) et Signet + bottes Dimension (épisode 21), les coffres d'événement `T_GARDEN_EV_*` |
 
-Branches (§12), **essai à blanc, non écrit** : les 32 `SPIRIT_*` de terrain pour
-`Branch_Of_Dead_Tree` ; les 16 des vagues scriptées écartées.
+Branches (§12), écrites le 2026‑11‑18 : les 32 `SPIRIT_*` de terrain dans
+`Branch_Of_Dead_Tree` (Rate 32000) ; les 16 des vagues scriptées écartés.
 
 ## 6. Verdict
 
 | | |
 |---|---|
 | Intérêt | **élevé** — la suite directe d'Issgard, complète, du même auteur que la conversion du 19 |
-| Reste à faire | tout : lots A à G, puis le Hall of Life |
+| Porté | lots A à G, sous-lots D2a à D2c, Hall of Life (2026‑11‑17 et 18) ; chargement sans erreur ni avertissement, 74 cutin présentes dans les GRF |
+| Choix Moonlight | `Aquila_Card`, `Snow_Angel_Card`, `Rgan_Chief_Clean_Card` n'ont aucun drop amont (ni db/re, ni brHades) : 0,01 % protégé du vol sur Aquila (`EP19_MD_AQUILA`, Crash d'aéronef), le Chef Nettoyeur (`jor_root3`) et Snowstorm Angel (`jor_back4`), et rangées aux albums magique et MVP (2026‑11‑18) |
+| Reste à faire | validation en jeu (rien n'est testé) ; enchantement 142 (« Circle of Life », objets absents de rAthena) |
 
 ## Sources
 

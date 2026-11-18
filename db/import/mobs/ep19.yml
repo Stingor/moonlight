@@ -496,6 +496,9 @@ Body:
         Rate: 5000
       - Item: Snow_F_Ore
         Rate: 3000
+      - Item: Aquila_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21532
     AegisName: EP19_MD_JUNCEA
     Name: Monster Juncea
