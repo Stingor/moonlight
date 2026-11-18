@@ -24,7 +24,7 @@ Relevé initial le **2026-08-25**, synthèse remise à jour le **2026-10-07** (1
 | [17-2_heritage_du_sage.md](17-2_heritage_du_sage.md) | 17.2 — Sage's Legacy (Varmundt) | 2020‑10‑30 | **en production** (Niflheim renewal, Rudus 4F, Amicitia, chaîne de quêtes, quatre instances, économie du manoir) |
 | [18_direction_de_la_priere.md](18_direction_de_la_priere.md) | 18 — Direction of Prayer | 2021‑02‑01 | **en production** (terrain, chaîne, réputation, instances, économie, réforme Adulter → Vivatus) |
 | [19_issgard.md](19_issgard.md) | 19 — Issgard, Land of Snow Flowers | 2022‑01‑19 | **porté** (mobs et leurs compétences, terrain, quêtes, économie, instances, enchantements Snowflower et Glacier, coffret d'Ultra Limacina) ; tests en jeu à faire |
-| [20_the_undying.md](20_the_undying.md) | 20 — The Undying | 2023‑03‑02 | **en cours** depuis brHades (Capuche) : mobs, C++, terrain, objets, quêtes, instances et tables client portés (lots A à G et D2, non validés en jeu) ; Hall of Life toujours commenté |
+| [20_the_undying.md](20_the_undying.md) | 20 — The Undying | 2023‑03‑02 | **en cours** depuis brHades (Capuche) : mobs, C++, terrain, objets, quêtes, instances et tables client portés (lots A à G, D2 et Hall of Life, non validés en jeu) |
 
 ## Synthèse : ce qui reste à migrer, par coût croissant
 
@@ -93,8 +93,8 @@ Aucun épisode n'est plus hors périmètre depuis le 2026‑11‑17. L'épisode 
 [rathena/rathena#8527](https://github.com/rathena/rathena/pull/8527). L'épisode **20** a
 une conversion complète du même auteur (Capuche) dans le dépôt
 [glitzhXEC/brHades](https://github.com/glitzhXEC/brHades/commit/c2196f9be) ; son plan de
-portage est dans [20_the_undying.md](20_the_undying.md). Le **Hall of Life** reste au
-niveau 3 ci-dessus.
+portage est dans [20_the_undying.md](20_the_undying.md), **Hall of Life** compris (porté le
+2026‑11‑18 avec le Jardin du Temps).
 
 Classes **3ᵉ et 4ᵉ**, **Doram/Summoner**, **Kagerou/Oboro**, **Rebellion**,
 **Homunculus S**, plafonds 150 → 260 : structurellement incompatibles avec un build

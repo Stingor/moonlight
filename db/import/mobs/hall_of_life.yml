@@ -1,0 +1,3512 @@
+# Hall of Life (for_dun01, for_dun02) : episode 20 (kRO 2023-07-10, rathena/rathena#8214).
+# 48 SPIRIT_* de db/re, convertis par tools/util/re_to_prere_mob.py, sans DamageTaken.
+# 22208-22215 et 22232-22239 : vagues de contamination dimensionnelle de for_dun.npc.
+# HEROS_IN_ORB_1..4 / HEROS_OUT_ORB : sprites des distributeurs et de l'orbe du Jardin, jamais apparus.
+Header:
+  Type: MOB_DB
+  Version: 5
+
+Body:
+  - Id: 22192
+    AegisName: SPIRIT_G_LAND_S
+#   Name: Little Blue Earth Spirit
+    Name: L Blue Earth Spirit
+    Level: 262
+    Hp: 536651
+    BaseExp: 858642
+    JobExp: 558117
+    Attack: 21217
+    Attack2: 5745
+    Defense: 64
+    MagicDefense: 41
+    Resistance: 935
+    MagicResistance: 1269
+    Str: 300
+    Agi: 250
+    Vit: 238
+    Int: 237
+    Dex: 265
+    Luk: 278
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Wind
+    ElementLevel: 2
+    WalkSpeed: 130
+    AttackDelay: 224
+    AttackMotion: 672
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Drops:
+      - Item: Stone_Piece
+        Rate: 3500
+      - Item: Stone_Heart
+        Rate: 2500
+      - Item: Green_Land_Crystal
+        Rate: 1500
+      - Item: Contored_Ter_Wrath
+        Rate: 250
+      - Item: Wind_Of_Verdure
+        Rate: 250
+      - Item: Great_Nature
+        Rate: 100
+  - Id: 22193
+    AegisName: SPIRIT_G_LAND_M
+    Name: Blue Earth Spirit
+    Level: 263
+    Hp: 2007561
+    BaseExp: 3212098
+    JobExp: 2087864
+    Attack: 21541
+    Attack2: 5855
+    Defense: 70
+    MagicDefense: 44
+    Resistance: 951
+    MagicResistance: 1287
+    Str: 306
+    Agi: 254
+    Vit: 243
+    Int: 242
+    Dex: 269
+    Luk: 284
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Wind
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 256
+    AttackMotion: 768
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Fragment_Of_Crystal
+        Rate: 3500
+      - Item: Stone_Heart
+        Rate: 2500
+      - Item: Green_Land_Crystal
+        Rate: 1750
+      - Item: Contored_Ter_Wrath
+        Rate: 250
+      - Item: Wind_Of_Verdure
+        Rate: 250
+      - Item: Great_Nature
+        Rate: 100
+  - Id: 22194
+    AegisName: SPIRIT_G_LAND_L
+#   Name: Giant Blue Earth Spirit
+    Name: G Blue Earth Spirit
+    Level: 264
+    Hp: 2008484
+    BaseExp: 3213574
+    JobExp: 2088823
+    Attack: 21869
+    Attack2: 5967
+    Defense: 70
+    MagicDefense: 44
+    Resistance: 968
+    MagicResistance: 1305
+    Str: 312
+    Agi: 258
+    Vit: 248
+    Int: 247
+    Dex: 273
+    Luk: 289
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Wind
+    ElementLevel: 4
+    WalkSpeed: 200
+    AttackDelay: 288
+    AttackMotion: 864
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Fragment_Of_Crystal
+        Rate: 3500
+      - Item: Mud_Lump
+        Rate: 2500
+      - Item: Green_Land_Crystal
+        Rate: 2000
+      - Item: Contored_Ter_Wrath
+        Rate: 250
+      - Item: Wind_Of_Verdure
+        Rate: 250
+      - Item: Great_Nature
+        Rate: 100
+  - Id: 22195
+    AegisName: SPIRIT_G_LAND_SL
+#   Name: Mutant Blue Earth Spirit
+    Name: M Blue Earth Spirit
+    Level: 264
+    Hp: 2042431
+    BaseExp: 3267890
+    JobExp: 2124128
+    Attack: 23987
+    Attack2: 6774
+    Defense: 72
+    MagicDefense: 44
+    Resistance: 1378
+    MagicResistance: 1812
+    Str: 359
+    Agi: 290
+    Vit: 285
+    Int: 384
+    Dex: 312
+    Luk: 331
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Wind
+    ElementLevel: 4
+    WalkSpeed: 200
+    AttackDelay: 288
+    AttackMotion: 864
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Stone_Piece
+        Rate: 3500
+      - Item: Mud_Lump
+        Rate: 2500
+      - Item: Green_Land_Crystal
+        Rate: 2250
+      - Item: Contored_Ter_Wrath
+        Rate: 250
+      - Item: Wind_Of_Verdure
+        Rate: 250
+      - Item: Great_Nature
+        Rate: 100
+  - Id: 22196
+    AegisName: SPIRIT_B_FLAME_S
+#   Name: Little Blue Flame Spirit
+    Name: L Blue Flame Spirit
+    Level: 262
+    Hp: 542847
+    BaseExp: 868555
+    JobExp: 564561
+    Attack: 18372
+    Attack2: 4789
+    Defense: 63
+    MagicDefense: 40
+    Resistance: 830
+    MagicResistance: 1160
+    Str: 259
+    Agi: 216
+    Vit: 205
+    Int: 205
+    Dex: 229
+    Luk: 242
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 448
+    AttackMotion: 1344
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Drops:
+      - Item: Ice_Heart
+        Rate: 3500
+      - Item: Burning_Heart
+        Rate: 2500
+      - Item: Blue_Flame_Heart_Gem
+        Rate: 1500
+      - Item: Contored_Agn_Wrath
+        Rate: 250
+      - Item: Crystal_Blue
+        Rate: 250
+      - Item: Flame_Heart
+        Rate: 100
+  - Id: 22197
+    AegisName: SPIRIT_B_FLAME_M
+    Name: Blue Flame Spirit
+    Level: 263
+    Hp: 2013804
+    BaseExp: 3222086
+    JobExp: 2094356
+    Attack: 16549
+    Attack2: 4129
+    Defense: 66
+    MagicDefense: 41
+    Resistance: 682
+    MagicResistance: 1034
+    Str: 211
+    Agi: 175
+    Vit: 163
+    Int: 167
+    Dex: 239
+    Luk: 199
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Water
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 320
+    AttackMotion: 960
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Ice_Piece
+        Rate: 3500
+      - Item: Burning_Heart
+        Rate: 2500
+      - Item: Blue_Flame_Heart_Gem
+        Rate: 1750
+      - Item: Contored_Agn_Wrath
+        Rate: 250
+      - Item: Crystal_Blue
+        Rate: 250
+      - Item: Flame_Heart
+        Rate: 100
+  - Id: 22198
+    AegisName: SPIRIT_B_FLAME_L
+#   Name: Giant Blue Flame Spirit
+    Name: G Blue Flame Spirit
+    Level: 264
+    Hp: 2015566
+    BaseExp: 3224906
+    JobExp: 2096189
+    Attack: 16777
+    Attack2: 4205
+    Defense: 66
+    MagicDefense: 42
+    Resistance: 693
+    MagicResistance: 1047
+    Str: 216
+    Agi: 178
+    Vit: 166
+    Int: 171
+    Dex: 243
+    Luk: 203
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Water
+    ElementLevel: 4
+    WalkSpeed: 200
+    AttackDelay: 224
+    AttackMotion: 672
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Ice_Heart
+        Rate: 3500
+      - Item: Burning_Heart
+        Rate: 2500
+      - Item: Blue_Flame_Heart_Gem
+        Rate: 2000
+      - Item: Contored_Agn_Wrath
+        Rate: 250
+      - Item: Crystal_Blue
+        Rate: 250
+      - Item: Flame_Heart
+        Rate: 100
+  - Id: 22199
+    AegisName: SPIRIT_B_FLAME_SL
+    Name: Blue Flame Mutant Spirit
+    Level: 264
+    Hp: 2047045
+    BaseExp: 3275272
+    JobExp: 2128927
+    Attack: 20696
+    Attack2: 5657
+    Defense: 70
+    MagicDefense: 44
+    Resistance: 1170
+    MagicResistance: 1646
+    Str: 310
+    Agi: 254
+    Vit: 239
+    Int: 245
+    Dex: 288
+    Luk: 290
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Water
+    ElementLevel: 4
+    WalkSpeed: 200
+    AttackDelay: 224
+    AttackMotion: 672
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Ice_Heart
+        Rate: 3500
+      - Item: Burning_Heart
+        Rate: 2500
+      - Item: Blue_Flame_Heart_Gem
+        Rate: 2250
+      - Item: Contored_Agn_Wrath
+        Rate: 250
+      - Item: Crystal_Blue
+        Rate: 250
+      - Item: Flame_Heart
+        Rate: 100
+  - Id: 22200
+    AegisName: SPIRIT_S_WIND_S
+#   Name: Little Strong Wind Spirit
+    Name: L Strong Wind Spirit
+    Level: 262
+    Hp: 536650
+    BaseExp: 858640
+    JobExp: 558116
+    Attack: 20599
+    Attack2: 5684
+    Defense: 64
+    MagicDefense: 42
+    Resistance: 891
+    MagicResistance: 1336
+    Str: 300
+    Agi: 238
+    Vit: 238
+    Int: 262
+    Dex: 252
+    Luk: 278
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Wind
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 288
+    AttackMotion: 864
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Drops:
+      - Item: Sharp_Leaf
+        Rate: 3500
+      - Item: Great_Leaf
+        Rate: 2500
+      - Item: Storm_Wind_Leaf_Gem
+        Rate: 1500
+      - Item: Contored_Ven_Wrath
+        Rate: 250
+      - Item: Wind_Of_Verdure
+        Rate: 250
+      - Item: Rough_Wind
+        Rate: 100
+  - Id: 22201
+    AegisName: SPIRIT_S_WIND_M
+    Name: Strong Wind Spirit
+    Level: 263
+    Hp: 2007558
+    BaseExp: 3212093
+    JobExp: 2087860
+    Attack: 20913
+    Attack2: 5792
+    Defense: 70
+    MagicDefense: 44
+    Resistance: 906
+    MagicResistance: 1355
+    Str: 305
+    Agi: 242
+    Vit: 241
+    Int: 244
+    Dex: 256
+    Luk: 284
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Wind
+    ElementLevel: 3
+    WalkSpeed: 130
+    AttackDelay: 256
+    AttackMotion: 768
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Sharp_Leaf
+        Rate: 3500
+      - Item: Great_Leaf
+        Rate: 2500
+      - Item: Storm_Wind_Leaf_Gem
+        Rate: 1750
+      - Item: Contored_Ven_Wrath
+        Rate: 250
+      - Item: Wind_Of_Verdure
+        Rate: 250
+      - Item: Rough_Wind
+        Rate: 100
+  - Id: 22202
+    AegisName: SPIRIT_S_WIND_L
+#   Name: Giant Strong Wind Spirit
+    Name: G Strong Wind Spirit
+    Level: 264
+    Hp: 2008481
+    BaseExp: 3213570
+    JobExp: 2088820
+    Attack: 21232
+    Attack2: 6152
+    Defense: 70
+    MagicDefense: 44
+    Resistance: 922
+    MagicResistance: 1374
+    Str: 312
+    Agi: 245
+    Vit: 248
+    Int: 260
+    Dex: 260
+    Luk: 289
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Wind
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 256
+    AttackMotion: 768
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Sharp_Leaf
+        Rate: 3500
+      - Item: Soft_Leaf
+        Rate: 2500
+      - Item: Storm_Wind_Leaf_Gem
+        Rate: 2000
+      - Item: Contored_Ven_Wrath
+        Rate: 250
+      - Item: Wind_Of_Verdure
+        Rate: 250
+      - Item: Rough_Wind
+        Rate: 100
+  - Id: 22203
+    AegisName: SPIRIT_S_WIND_SL
+#   Name: Mutant Strong Wind Spirit
+    Name: M Strong Wind Spirit
+    Level: 264
+    Hp: 2042354
+    BaseExp: 3267766
+    JobExp: 2124048
+    Attack: 23289
+    Attack2: 6984
+    Defense: 72
+    MagicDefense: 44
+    Resistance: 1312
+    MagicResistance: 1907
+    Str: 342
+    Agi: 276
+    Vit: 285
+    Int: 299
+    Dex: 306
+    Luk: 331
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Wind
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 256
+    AttackMotion: 768
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Sharp_Leaf
+        Rate: 3500
+      - Item: Soft_Leaf
+        Rate: 2500
+      - Item: Storm_Wind_Leaf_Gem
+        Rate: 2250
+      - Item: Contored_Ven_Wrath
+        Rate: 250
+      - Item: Wind_Of_Verdure
+        Rate: 250
+      - Item: Rough_Wind
+        Rate: 100
+  - Id: 22204
+    AegisName: SPIRIT_I_WATER_S
+#   Name: Little Cold Water Spirit
+    Name: L Cold Water Spirit
+    Level: 262
+    Hp: 543458
+    BaseExp: 869533
+    JobExp: 565196
+    Attack: 16323
+    Attack2: 4055
+    Defense: 60
+    MagicDefense: 38
+    Resistance: 671
+    MagicResistance: 1021
+    Str: 207
+    Agi: 173
+    Vit: 159
+    Int: 164
+    Dex: 235
+    Luk: 195
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Water
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 320
+    AttackMotion: 960
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Drops:
+      - Item: Ice_Piece
+        Rate: 3500
+      - Item: Ice_Heart
+        Rate: 2500
+      - Item: Ice_Water_Drop_Gem
+        Rate: 1500
+      - Item: Contored_Aqu_Wrath
+        Rate: 250
+      - Item: Crystal_Blue
+        Rate: 250
+      - Item: Mistic_Frozen
+        Rate: 100
+  - Id: 22205
+    AegisName: SPIRIT_I_WATER_M
+    Name: Cold Water Spirit
+    Level: 263
+    Hp: 2013767
+    BaseExp: 3222027
+    JobExp: 2094318
+    Attack: 18642
+    Attack2: 4879
+    Defense: 68
+    MagicDefense: 43
+    Resistance: 844
+    MagicResistance: 1175
+    Str: 264
+    Agi: 219
+    Vit: 210
+    Int: 209
+    Dex: 232
+    Luk: 246
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Water
+    ElementLevel: 3
+    WalkSpeed: 180
+    AttackDelay: 448
+    AttackMotion: 1344
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Ice_Piece
+        Rate: 3500
+      - Item: Ice_Heart
+        Rate: 2500
+      - Item: Ice_Water_Drop_Gem
+        Rate: 1750
+      - Item: Contored_Aqu_Wrath
+        Rate: 250
+      - Item: Crystal_Blue
+        Rate: 250
+      - Item: Mistic_Frozen
+        Rate: 100
+  - Id: 22206
+    AegisName: SPIRIT_I_WATER_L
+#   Name: Giant Cold Water Spirit
+    Name: G Cold Water Spirit
+    Level: 264
+    Hp: 2014809
+    BaseExp: 3223694
+    JobExp: 2095401
+    Attack: 18916
+    Attack2: 4971
+    Defense: 68
+    MagicDefense: 43
+    Resistance: 858
+    MagicResistance: 1191
+    Str: 270
+    Agi: 222
+    Vit: 214
+    Int: 213
+    Dex: 236
+    Luk: 251
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Water
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 512
+    AttackMotion: 1536
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Ice_Piece
+        Rate: 3500
+      - Item: Ice_Heart
+        Rate: 2500
+      - Item: Ice_Water_Drop_Gem
+        Rate: 2000
+      - Item: Contored_Aqu_Wrath
+        Rate: 250
+      - Item: Crystal_Blue
+        Rate: 250
+      - Item: Mistic_Frozen
+        Rate: 100
+  - Id: 22207
+    AegisName: SPIRIT_I_WATER_SL
+#   Name: Mutant Cold Water Spirit
+    Name: M Cold Water Spirit
+    Level: 264
+    Hp: 2047453
+    BaseExp: 3275925
+    JobExp: 2129351
+    Attack: 20676
+    Attack2: 5643
+    Defense: 70
+    MagicDefense: 44
+    Resistance: 1219
+    MagicResistance: 1646
+    Str: 310
+    Agi: 254
+    Vit: 246
+    Int: 245
+    Dex: 280
+    Luk: 290
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Water
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 512
+    AttackMotion: 1536
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Ice_Piece
+        Rate: 3500
+      - Item: Ice_Heart
+        Rate: 2500
+      - Item: Ice_Water_Drop_Gem
+        Rate: 2250
+      - Item: Contored_Aqu_Wrath
+        Rate: 250
+      - Item: Crystal_Blue
+        Rate: 250
+      - Item: Mistic_Frozen
+        Rate: 100
+  - Id: 22208
+    AegisName: SPIRIT_C_LAND_S
+#   Name: Little Polluted Earth Spirit
+    Name: L Polluted Earth Spirit
+    Level: 263
+    Hp: 2012583
+    BaseExp: 3220133
+    JobExp: 2093086
+    Attack: 21998
+    Attack2: 5905
+    Defense: 69
+    MagicDefense: 44
+    Resistance: 1033
+    MagicResistance: 1412
+    Str: 291
+    Agi: 231
+    Vit: 231
+    Int: 230
+    Dex: 255
+    Luk: 274
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 130
+    AttackDelay: 224
+    AttackMotion: 672
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Stone_Piece
+        Rate: 3500
+      - Item: Stone_Heart
+        Rate: 2500
+      - Item: Contored_Spi_Wrath
+        Rate: 750
+      - Item: Contored_Ter_Wrath
+        Rate: 750
+      - Item: Firm_Land_Crystal
+        Rate: 1500
+      - Item: Green_Land_Crystal
+        Rate: 1500
+      - Item: Great_Nature
+        Rate: 500
+  - Id: 22209
+    AegisName: SPIRIT_C_LAND_M
+    Name: Polluted Earth Spirit
+    Level: 264
+    Hp: 2015262
+    BaseExp: 3224419
+    JobExp: 2095872
+    Attack: 22328
+    Attack2: 6017
+    Defense: 70
+    MagicDefense: 44
+    Resistance: 1051
+    MagicResistance: 1432
+    Str: 296
+    Agi: 234
+    Vit: 235
+    Int: 235
+    Dex: 259
+    Luk: 280
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 256
+    AttackMotion: 768
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Stone_Piece
+        Rate: 3500
+      - Item: Stone_Heart
+        Rate: 2500
+      - Item: Contored_Spi_Wrath
+        Rate: 750
+      - Item: Contored_Ter_Wrath
+        Rate: 750
+      - Item: Firm_Land_Crystal
+        Rate: 1750
+      - Item: Green_Land_Crystal
+        Rate: 1750
+      - Item: Great_Nature
+        Rate: 500
+  - Id: 22210
+    AegisName: SPIRIT_C_LAND_L
+#   Name: Giant Polluted Earth Spirit
+    Name: G Polluted Earth Spirit
+    Level: 265
+    Hp: 2016329
+    BaseExp: 3226126
+    JobExp: 2096982
+    Attack: 22663
+    Attack2: 6130
+    Defense: 70
+    MagicDefense: 44
+    Resistance: 1069
+    MagicResistance: 1452
+    Str: 302
+    Agi: 238
+    Vit: 240
+    Int: 239
+    Dex: 262
+    Luk: 285
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 4
+    WalkSpeed: 200
+    AttackDelay: 288
+    AttackMotion: 864
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Stone_Piece
+        Rate: 3500
+      - Item: Stone_Heart
+        Rate: 2500
+      - Item: Contored_Spi_Wrath
+        Rate: 750
+      - Item: Contored_Ter_Wrath
+        Rate: 750
+      - Item: Firm_Land_Crystal
+        Rate: 2000
+      - Item: Green_Land_Crystal
+        Rate: 2000
+      - Item: Great_Nature
+        Rate: 500
+  - Id: 22211
+    AegisName: SPIRIT_C_LAND_SL
+#   Name: Mutant Polluted Earth Spirit
+    Name: M Polluted Earth Spirit
+    Level: 265
+    Hp: 2067972
+    BaseExp: 3308755
+    JobExp: 2150691
+    Attack: 25970
+    Attack2: 7418
+    Defense: 73
+    MagicDefense: 44
+    Resistance: 1580
+    MagicResistance: 2063
+    Str: 374
+    Agi: 285
+    Vit: 297
+    Int: 296
+    Dex: 359
+    Luk: 331
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 4
+    WalkSpeed: 200
+    AttackDelay: 288
+    AttackMotion: 864
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Stone_Piece
+        Rate: 3500
+      - Item: Stone_Heart
+        Rate: 2500
+      - Item: Contored_Spi_Wrath
+        Rate: 750
+      - Item: Contored_Ter_Wrath
+        Rate: 750
+      - Item: Firm_Land_Crystal
+        Rate: 2250
+      - Item: Green_Land_Crystal
+        Rate: 2250
+      - Item: Great_Nature
+        Rate: 500
+  - Id: 22212
+    AegisName: SPIRIT_C_FLAME_S
+#   Name: Little Tainted Flame Spirit
+    Name: L Tainted Flame Spirit
+    Level: 263
+    Hp: 2012402
+    BaseExp: 3219843
+    JobExp: 2092898
+    Attack: 20366
+    Attack2: 5842
+    Defense: 69
+    MagicDefense: 44
+    Resistance: 984
+    MagicResistance: 1486
+    Str: 277
+    Agi: 220
+    Vit: 231
+    Int: 242
+    Dex: 243
+    Luk: 274
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 448
+    AttackMotion: 1344
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Burning_Heart
+        Rate: 3500
+      - Item: Live_Coal
+        Rate: 2500
+      - Item: Contored_Spi_Wrath
+        Rate: 750
+      - Item: Contored_Agn_Wrath
+        Rate: 750
+      - Item: Red_Flame_Heart_Gem
+        Rate: 1500
+      - Item: Blue_Flame_Heart_Gem
+        Rate: 1500
+      - Item: Flame_Heart
+        Rate: 500
+  - Id: 22213
+    AegisName: SPIRIT_C_FLAME_M
+    Name: Tainted Flame Spirit
+    Level: 264
+    Hp: 2015053
+    BaseExp: 3224085
+    JobExp: 2095655
+    Attack: 20672
+    Attack2: 5952
+    Defense: 70
+    MagicDefense: 44
+    Resistance: 1001
+    MagicResistance: 1507
+    Str: 282
+    Agi: 223
+    Vit: 235
+    Int: 247
+    Dex: 246
+    Luk: 280
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 320
+    AttackMotion: 960
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Burning_Heart
+        Rate: 3500
+      - Item: Live_Coal
+        Rate: 2500
+      - Item: Contored_Spi_Wrath
+        Rate: 750
+      - Item: Contored_Agn_Wrath
+        Rate: 750
+      - Item: Red_Flame_Heart_Gem
+        Rate: 1750
+      - Item: Blue_Flame_Heart_Gem
+        Rate: 1750
+      - Item: Flame_Heart
+        Rate: 500
+  - Id: 22214
+    AegisName: SPIRIT_C_FLAME_L
+#   Name: Giant Tainted Flame Spirit
+    Name: G Tainted Flame Spirit
+    Level: 265
+    Hp: 2015382
+    BaseExp: 3224611
+    JobExp: 2095997
+    Attack: 21003
+    Attack2: 6079
+    Defense: 70
+    MagicDefense: 44
+    Resistance: 1027
+    MagicResistance: 1452
+    Str: 302
+    Agi: 238
+    Vit: 233
+    Int: 239
+    Dex: 270
+    Luk: 285
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 4
+    WalkSpeed: 200
+    AttackDelay: 224
+    AttackMotion: 672
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Burning_Heart
+        Rate: 3500
+      - Item: Live_Coal
+        Rate: 2500
+      - Item: Contored_Spi_Wrath
+        Rate: 750
+      - Item: Contored_Agn_Wrath
+        Rate: 750
+      - Item: Red_Flame_Heart_Gem
+        Rate: 2000
+      - Item: Blue_Flame_Heart_Gem
+        Rate: 2000
+      - Item: Flame_Heart
+        Rate: 500
+  - Id: 22215
+    AegisName: SPIRIT_C_FLAME_SL
+#   Name: Mutant Tainted Flame Spirit
+    Name: M Tainted Flame Spirit
+    Level: 265
+    Hp: 2065604
+    BaseExp: 3304966
+    JobExp: 2148228
+    Attack: 25999
+    Attack2: 7438
+    Defense: 72
+    MagicDefense: 44
+    Resistance: 1516
+    MagicResistance: 2172
+    Str: 357
+    Agi: 285
+    Vit: 288
+    Int: 296
+    Dex: 369
+    Luk: 331
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 4
+    WalkSpeed: 200
+    AttackDelay: 224
+    AttackMotion: 672
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Burning_Heart
+        Rate: 3500
+      - Item: Live_Coal
+        Rate: 2500
+      - Item: Contored_Spi_Wrath
+        Rate: 750
+      - Item: Contored_Agn_Wrath
+        Rate: 750
+      - Item: Red_Flame_Heart_Gem
+        Rate: 2250
+      - Item: Blue_Flame_Heart_Gem
+        Rate: 2250
+      - Item: Flame_Heart
+        Rate: 500
+  - Id: 22216
+    AegisName: SPIRIT_H_WATER_S
+#   Name: Little Hot Water Spirit
+    Name: L Hot Water Spirit
+    Level: 262
+    Hp: 535858
+    BaseExp: 857373
+    JobExp: 557292
+    Attack: 19590
+    Attack2: 4940
+    Defense: 61
+    MagicDefense: 38
+    Resistance: 698
+    MagicResistance: 1050
+    Str: 218
+    Agi: 182
+    Vit: 168
+    Int: 173
+    Dex: 248
+    Luk: 205
+    AttackRange: 7
+    SkillRange: 12
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Fire
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 320
+    AttackMotion: 960
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Drops:
+      - Item: Burning_Heart
+        Rate: 3500
+      - Item: Ice_Piece
+        Rate: 2500
+      - Item: Hot_Water_Drop_Gem
+        Rate: 1500
+      - Item: Contored_Aqu_Wrath
+        Rate: 250
+      - Item: Boody_Red
+        Rate: 250
+      - Item: Mistic_Frozen
+        Rate: 100
+  - Id: 22217
+    AegisName: SPIRIT_H_WATER_M
+    Name: Hot Water Spirit
+    Level: 263
+    Hp: 2007372
+    BaseExp: 3211795
+    JobExp: 2087667
+    Attack: 22435
+    Attack2: 5952
+    Defense: 69
+    MagicDefense: 43
+    Resistance: 880
+    MagicResistance: 1213
+    Str: 278
+    Agi: 231
+    Vit: 221
+    Int: 220
+    Dex: 244
+    Luk: 259
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 180
+    AttackDelay: 448
+    AttackMotion: 1344
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Burning_Heart
+        Rate: 3500
+      - Item: Ice_Piece
+        Rate: 2500
+      - Item: Hot_Water_Drop_Gem
+        Rate: 1750
+      - Item: Contored_Aqu_Wrath
+        Rate: 250
+      - Item: Boody_Red
+        Rate: 250
+      - Item: Mistic_Frozen
+        Rate: 100
+  - Id: 22218
+    AegisName: SPIRIT_H_WATER_L
+#   Name: Giant Hot Water Spirit
+    Name: G Hot Water Spirit
+    Level: 264
+    Hp: 2008322
+    BaseExp: 3213315
+    JobExp: 2088655
+    Attack: 20143
+    Attack2: 5124
+    Defense: 67
+    MagicDefense: 42
+    Resistance: 721
+    MagicResistance: 1077
+    Str: 227
+    Agi: 187
+    Vit: 175
+    Int: 180
+    Dex: 255
+    Luk: 213
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Fire
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 512
+    AttackMotion: 1536
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Live_Coal
+        Rate: 3500
+      - Item: Ice_Heart
+        Rate: 2500
+      - Item: Hot_Water_Drop_Gem
+        Rate: 2000
+      - Item: Contored_Aqu_Wrath
+        Rate: 250
+      - Item: Boody_Red
+        Rate: 250
+      - Item: Mistic_Frozen
+        Rate: 100
+  - Id: 22219
+    AegisName: SPIRIT_H_WATER_SL
+#   Name: Mutant Hot Water Spirit
+    Name: M Hot Water Spirit
+    Level: 264
+    Hp: 2041037
+    BaseExp: 3265659
+    JobExp: 2122678
+    Attack: 24944
+    Attack2: 6902
+    Defense: 70
+    MagicDefense: 44
+    Resistance: 1221
+    MagicResistance: 1701
+    Str: 326
+    Agi: 266
+    Vit: 251
+    Int: 258
+    Dex: 302
+    Luk: 304
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Fire
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 512
+    AttackMotion: 1536
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Live_Coal
+        Rate: 3500
+      - Item: Ice_Heart
+        Rate: 2500
+      - Item: Hot_Water_Drop_Gem
+        Rate: 2250
+      - Item: Contored_Aqu_Wrath
+        Rate: 250
+      - Item: Boody_Red
+        Rate: 250
+      - Item: Mistic_Frozen
+        Rate: 100
+  - Id: 22220
+    AegisName: SPIRIT_D_WIND_S
+#   Name: Little Dry Wind Spirit
+    Name: L Dry Wind Spirit
+    Level: 262
+    Hp: 540252
+    BaseExp: 864403
+    JobExp: 561862
+    Attack: 19393
+    Attack2: 5055
+    Defense: 63
+    MagicDefense: 40
+    Resistance: 830
+    MagicResistance: 1160
+    Str: 259
+    Agi: 216
+    Vit: 205
+    Int: 205
+    Dex: 229
+    Luk: 242
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 288
+    AttackMotion: 864
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Drops:
+      - Item: Great_Leaf
+        Rate: 3500
+      - Item: Withered_Flower
+        Rate: 2500
+      - Item: Dry_Wind_Leaf_Gem
+        Rate: 1500
+      - Item: Contored_Ven_Wrath
+        Rate: 250
+      - Item: Yellow_Live
+        Rate: 250
+      - Item: Rough_Wind
+        Rate: 100
+  - Id: 22221
+    AegisName: SPIRIT_D_WIND_M
+    Name: Dry Wind Spirit
+    Level: 263
+    Hp: 2012309
+    BaseExp: 3219694
+    JobExp: 2092801
+    Attack: 19678
+    Attack2: 5150
+    Defense: 68
+    MagicDefense: 43
+    Resistance: 844
+    MagicResistance: 1175
+    Str: 264
+    Agi: 219
+    Vit: 210
+    Int: 209
+    Dex: 232
+    Luk: 246
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Earth
+    ElementLevel: 3
+    WalkSpeed: 130
+    AttackDelay: 256
+    AttackMotion: 768
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Great_Leaf
+        Rate: 3500
+      - Item: Withered_Flower
+        Rate: 2500
+      - Item: Dry_Wind_Leaf_Gem
+        Rate: 1750
+      - Item: Contored_Ven_Wrath
+        Rate: 250
+      - Item: Yellow_Live
+        Rate: 250
+      - Item: Rough_Wind
+        Rate: 100
+  - Id: 22222
+    AegisName: SPIRIT_D_WIND_L
+#   Name: Giant Dry Wind Spirit
+    Name: G Dry Wind Spirit
+    Level: 264
+    Hp: 2013320
+    BaseExp: 3221312
+    JobExp: 2093853
+    Attack: 19967
+    Attack2: 5247
+    Defense: 68
+    MagicDefense: 43
+    Resistance: 858
+    MagicResistance: 1191
+    Str: 270
+    Agi: 222
+    Vit: 214
+    Int: 213
+    Dex: 236
+    Luk: 251
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Earth
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 256
+    AttackMotion: 768
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Sharp_Leaf
+        Rate: 3500
+      - Item: Withered_Flower
+        Rate: 2500
+      - Item: Dry_Wind_Leaf_Gem
+        Rate: 2000
+      - Item: Contored_Ven_Wrath
+        Rate: 250
+      - Item: Yellow_Live
+        Rate: 250
+      - Item: Rough_Wind
+        Rate: 100
+  - Id: 22223
+    AegisName: SPIRIT_D_WIND_SL
+#   Name: Mutant Dry Wind Spirit
+    Name: M Dry Wind Spirit
+    Level: 264
+    Hp: 2049134
+    BaseExp: 3278614
+    JobExp: 2131099
+    Attack: 21824
+    Attack2: 5957
+    Defense: 70
+    MagicDefense: 44
+    Resistance: 1219
+    MagicResistance: 1646
+    Str: 310
+    Agi: 254
+    Vit: 246
+    Int: 245
+    Dex: 280
+    Luk: 290
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Earth
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 256
+    AttackMotion: 768
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Sharp_Leaf
+        Rate: 3500
+      - Item: Withered_Flower
+        Rate: 2500
+      - Item: Dry_Wind_Leaf_Gem
+        Rate: 2250
+      - Item: Contored_Ven_Wrath
+        Rate: 250
+      - Item: Yellow_Live
+        Rate: 250
+      - Item: Rough_Wind
+        Rate: 100
+  - Id: 22224
+    AegisName: SPIRIT_R_FLAME_S
+#   Name: Little Red Flame Spirit
+    Name: L Red Flame Spirit
+    Level: 262
+    Hp: 535863
+    BaseExp: 857381
+    JobExp: 557298
+    Attack: 22106
+    Attack2: 5841
+    Defense: 63
+    MagicDefense: 40
+    Resistance: 865
+    MagicResistance: 1196
+    Str: 273
+    Agi: 227
+    Vit: 216
+    Int: 216
+    Dex: 241
+    Luk: 254
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Fire
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 448
+    AttackMotion: 1344
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Drops:
+      - Item: Live_Coal
+        Rate: 3500
+      - Item: Burning_Heart
+        Rate: 2500
+      - Item: Red_Flame_Heart_Gem
+        Rate: 1500
+      - Item: Contored_Agn_Wrath
+        Rate: 250
+      - Item: Boody_Red
+        Rate: 250
+      - Item: Flame_Heart
+        Rate: 100
+  - Id: 22225
+    AegisName: SPIRIT_R_FLAME_M
+    Name: Red Flame Spirit
+    Level: 263
+    Hp: 2007467
+    BaseExp: 3211947
+    JobExp: 2087766
+    Attack: 22435
+    Attack2: 5952
+    Defense: 69
+    MagicDefense: 43
+    Resistance: 880
+    MagicResistance: 1213
+    Str: 278
+    Agi: 231
+    Vit: 221
+    Int: 220
+    Dex: 244
+    Luk: 259
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Fire
+    ElementLevel: 3
+    WalkSpeed: 120
+    AttackDelay: 320
+    AttackMotion: 960
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Live_Coal
+        Rate: 3500
+      - Item: Burning_Heart
+        Rate: 2500
+      - Item: Red_Flame_Heart_Gem
+        Rate: 1750
+      - Item: Contored_Agn_Wrath
+        Rate: 250
+      - Item: Boody_Red
+        Rate: 250
+      - Item: Flame_Heart
+        Rate: 100
+  - Id: 22226
+    AegisName: SPIRIT_R_FLAME_L
+#   Name: Giant Red Flame Spirit
+    Name: G Red Flame Spirit
+    Level: 264
+    Hp: 2008236
+    BaseExp: 3213178
+    JobExp: 2088566
+    Attack: 20091
+    Attack2: 5105
+    Defense: 66
+    MagicDefense: 42
+    Resistance: 718
+    MagicResistance: 1074
+    Str: 226
+    Agi: 187
+    Vit: 174
+    Int: 179
+    Dex: 255
+    Luk: 212
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Fire
+    ElementLevel: 4
+    WalkSpeed: 200
+    AttackDelay: 224
+    AttackMotion: 672
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Burning_Heart
+        Rate: 3500
+      - Item: Hot_Hair
+        Rate: 2500
+      - Item: Red_Flame_Heart_Gem
+        Rate: 2000
+      - Item: Contored_Agn_Wrath
+        Rate: 250
+      - Item: Boody_Red
+        Rate: 250
+      - Item: Flame_Heart
+        Rate: 100
+  - Id: 22227
+    AegisName: SPIRIT_R_FLAME_SL
+#   Name: Mutant Red Flame Spirit
+    Name: M Red Flame Spirit
+    Level: 264
+    Hp: 2042019
+    BaseExp: 3267230
+    JobExp: 2123700
+    Attack: 24870
+    Attack2: 6875
+    Defense: 70
+    MagicDefense: 44
+    Resistance: 1216
+    MagicResistance: 1696
+    Str: 325
+    Agi: 266
+    Vit: 250
+    Int: 257
+    Dex: 302
+    Luk: 302
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Fire
+    ElementLevel: 4
+    WalkSpeed: 200
+    AttackDelay: 224
+    AttackMotion: 672
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Burning_Heart
+        Rate: 3500
+      - Item: Hot_Hair
+        Rate: 2500
+      - Item: Red_Flame_Heart_Gem
+        Rate: 2250
+      - Item: Contored_Agn_Wrath
+        Rate: 250
+      - Item: Boody_Red
+        Rate: 250
+      - Item: Flame_Heart
+        Rate: 100
+  - Id: 22228
+    AegisName: SPIRIT_F_LAND_S
+#   Name: Little Solid Earth Spirit
+    Name: L Solid Earth Spirit
+    Level: 262
+    Hp: 540799
+    BaseExp: 865278
+    JobExp: 562431
+    Attack: 19393
+    Attack2: 5055
+    Defense: 63
+    MagicDefense: 41
+    Resistance: 830
+    MagicResistance: 1160
+    Str: 247
+    Agi: 216
+    Vit: 216
+    Int: 227
+    Dex: 229
+    Luk: 242
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Earth
+    ElementLevel: 2
+    WalkSpeed: 130
+    AttackDelay: 224
+    AttackMotion: 672
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Drops:
+      - Item: Stone_Heart
+        Rate: 3500
+      - Item: Sand_Lump
+        Rate: 2500
+      - Item: Firm_Land_Crystal
+        Rate: 1500
+      - Item: Contored_Ter_Wrath
+        Rate: 250
+      - Item: Yellow_Live
+        Rate: 250
+      - Item: Great_Nature
+        Rate: 100
+  - Id: 22229
+    AegisName: SPIRIT_F_LAND_M
+    Name: Solid Earth Spirit
+    Level: 263
+    Hp: 2012310
+    BaseExp: 3219696
+    JobExp: 2092802
+    Attack: 19678
+    Attack2: 5150
+    Defense: 68
+    MagicDefense: 43
+    Resistance: 844
+    MagicResistance: 1175
+    Str: 252
+    Agi: 219
+    Vit: 210
+    Int: 220
+    Dex: 232
+    Luk: 246
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Earth
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 256
+    AttackMotion: 768
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Stone_Heart
+        Rate: 3500
+      - Item: Sand_Lump
+        Rate: 2500
+      - Item: Firm_Land_Crystal
+        Rate: 1750
+      - Item: Contored_Ter_Wrath
+        Rate: 250
+      - Item: Yellow_Live
+        Rate: 250
+      - Item: Great_Nature
+        Rate: 100
+  - Id: 22230
+    AegisName: SPIRIT_F_LAND_L
+#   Name: Giant Solid Earth Spirit
+    Name: G Solid Earth Spirit
+    Level: 264
+    Hp: 2013324
+    BaseExp: 3221318
+    JobExp: 2093857
+    Attack: 19967
+    Attack2: 5247
+    Defense: 69
+    MagicDefense: 44
+    Resistance: 858
+    MagicResistance: 1191
+    Str: 270
+    Agi: 222
+    Vit: 225
+    Int: 236
+    Dex: 236
+    Luk: 251
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Earth
+    ElementLevel: 4
+    WalkSpeed: 200
+    AttackDelay: 288
+    AttackMotion: 864
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Stone_Heart
+        Rate: 3500
+      - Item: Mud_Lump
+        Rate: 2500
+      - Item: Firm_Land_Crystal
+        Rate: 2000
+      - Item: Contored_Ter_Wrath
+        Rate: 250
+      - Item: Yellow_Live
+        Rate: 250
+      - Item: Great_Nature
+        Rate: 100
+  - Id: 22231
+    AegisName: SPIRIT_F_LAND_SL
+#   Name: Mutant Solid Earth Spirit
+    Name: M Solid Earth Spirit
+    Level: 264
+    Hp: 2050659
+    BaseExp: 3281054
+    JobExp: 2132685
+    Attack: 21824
+    Attack2: 5957
+    Defense: 71
+    MagicDefense: 44
+    Resistance: 1219
+    MagicResistance: 1646
+    Str: 310
+    Agi: 254
+    Vit: 258
+    Int: 271
+    Dex: 280
+    Luk: 290
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Earth
+    ElementLevel: 4
+    WalkSpeed: 200
+    AttackDelay: 288
+    AttackMotion: 864
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Stone_Heart
+        Rate: 3500
+      - Item: Mud_Lump
+        Rate: 2500
+      - Item: Firm_Land_Crystal
+        Rate: 2250
+      - Item: Contored_Ter_Wrath
+        Rate: 250
+      - Item: Yellow_Live
+        Rate: 250
+      - Item: Great_Nature
+        Rate: 100
+  - Id: 22232
+    AegisName: SPIRIT_C_WATER_S
+#   Name: Little Polluted Water Spirit
+    Name: L Polluted Water Spirit
+    Level: 263
+    Hp: 2013429
+    BaseExp: 3221486
+    JobExp: 2093966
+    Attack: 22020
+    Attack2: 5920
+    Defense: 69
+    MagicDefense: 44
+    Resistance: 993
+    MagicResistance: 1412
+    Str: 291
+    Agi: 231
+    Vit: 224
+    Int: 230
+    Dex: 262
+    Luk: 274
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 200
+    AttackDelay: 320
+    AttackMotion: 960
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Ice_Heart
+        Rate: 3500
+      - Item: Ice_Piece
+        Rate: 2500
+      - Item: Contored_Spi_Wrath
+        Rate: 750
+      - Item: Contored_Aqu_Wrath
+        Rate: 750
+      - Item: Hot_Water_Drop_Gem
+        Rate: 1500
+      - Item: Ice_Water_Drop_Gem
+        Rate: 1500
+      - Item: Mistic_Frozen
+        Rate: 500
+  - Id: 22233
+    AegisName: SPIRIT_C_WATER_M
+    Name: Polluted Water Spirit
+    Level: 264
+    Hp: 2015201
+    BaseExp: 3224322
+    JobExp: 2095809
+    Attack: 22328
+    Attack2: 6017
+    Defense: 70
+    MagicDefense: 44
+    Resistance: 1051
+    MagicResistance: 1432
+    Str: 296
+    Agi: 234
+    Vit: 235
+    Int: 235
+    Dex: 259
+    Luk: 280
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 3
+    WalkSpeed: 180
+    AttackDelay: 448
+    AttackMotion: 1344
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Ice_Heart
+        Rate: 3500
+      - Item: Ice_Piece
+        Rate: 2500
+      - Item: Contored_Spi_Wrath
+        Rate: 750
+      - Item: Contored_Aqu_Wrath
+        Rate: 750
+      - Item: Hot_Water_Drop_Gem
+        Rate: 1750
+      - Item: Ice_Water_Drop_Gem
+        Rate: 1750
+      - Item: Mistic_Frozen
+        Rate: 500
+  - Id: 22234
+    AegisName: SPIRIT_C_WATER_L
+#   Name: Giant Polluted Water Spirit
+    Name: G Polluted Water Spirit
+    Level: 265
+    Hp: 2015722
+    BaseExp: 3225155
+    JobExp: 2096351
+    Attack: 22686
+    Attack2: 6145
+    Defense: 70
+    MagicDefense: 44
+    Resistance: 1027
+    MagicResistance: 1452
+    Str: 302
+    Agi: 238
+    Vit: 233
+    Int: 239
+    Dex: 270
+    Luk: 285
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 512
+    AttackMotion: 1536
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Ice_Heart
+        Rate: 3500
+      - Item: Fluorescent_Liquid
+        Rate: 2500
+      - Item: Contored_Spi_Wrath
+        Rate: 750
+      - Item: Contored_Aqu_Wrath
+        Rate: 750
+      - Item: Hot_Water_Drop_Gem
+        Rate: 2000
+      - Item: Ice_Water_Drop_Gem
+        Rate: 2000
+      - Item: Mistic_Frozen
+        Rate: 500
+  - Id: 22235
+    AegisName: SPIRIT_C_WATER_SL
+#   Name: Mutant Polluted Water Spirit
+    Name: M Polluted Water Spirit
+    Level: 265
+    Hp: 2065555
+    BaseExp: 3304888
+    JobExp: 2148177
+    Attack: 25999
+    Attack2: 7438
+    Defense: 72
+    MagicDefense: 44
+    Resistance: 1516
+    MagicResistance: 2063
+    Str: 374
+    Agi: 285
+    Vit: 288
+    Int: 296
+    Dex: 369
+    Luk: 331
+    AttackRange: 7
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 512
+    AttackMotion: 1536
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Ice_Heart
+        Rate: 3500
+      - Item: Fluorescent_Liquid
+        Rate: 2500
+      - Item: Contored_Spi_Wrath
+        Rate: 750
+      - Item: Contored_Aqu_Wrath
+        Rate: 750
+      - Item: Hot_Water_Drop_Gem
+        Rate: 2250
+      - Item: Ice_Water_Drop_Gem
+        Rate: 2250
+      - Item: Mistic_Frozen
+        Rate: 500
+  - Id: 22236
+    AegisName: SPIRIT_C_WIND_S
+#   Name: Little Tainted Wind Spirit
+    Name: L Tainted Wind Spirit
+    Level: 263
+    Hp: 2012462
+    BaseExp: 3219939
+    JobExp: 2092960
+    Attack: 21998
+    Attack2: 5905
+    Defense: 69
+    MagicDefense: 44
+    Resistance: 1033
+    MagicResistance: 1412
+    Str: 291
+    Agi: 231
+    Vit: 231
+    Int: 230
+    Dex: 255
+    Luk: 274
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 2
+    WalkSpeed: 100
+    AttackDelay: 288
+    AttackMotion: 864
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Sharp_Leaf
+        Rate: 3500
+      - Item: Soft_Leaf
+        Rate: 2500
+      - Item: Contored_Spi_Wrath
+        Rate: 750
+      - Item: Contored_Ven_Wrath
+        Rate: 750
+      - Item: Dry_Wind_Leaf_Gem
+        Rate: 1500
+      - Item: Storm_Wind_Leaf_Gem
+        Rate: 1500
+      - Item: Rough_Wind
+        Rate: 500
+  - Id: 22237
+    AegisName: SPIRIT_C_WIND_M
+    Name: Tainted Wind Spirit
+    Level: 264
+    Hp: 2014749
+    BaseExp: 3223598
+    JobExp: 2095339
+    Attack: 22328
+    Attack2: 6017
+    Defense: 70
+    MagicDefense: 44
+    Resistance: 1051
+    MagicResistance: 1432
+    Str: 296
+    Agi: 234
+    Vit: 247
+    Int: 235
+    Dex: 259
+    Luk: 280
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Medium
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 3
+    WalkSpeed: 130
+    AttackDelay: 256
+    AttackMotion: 768
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Sharp_Leaf
+        Rate: 3500
+      - Item: Soft_Leaf
+        Rate: 2500
+      - Item: Contored_Spi_Wrath
+        Rate: 750
+      - Item: Contored_Ven_Wrath
+        Rate: 750
+      - Item: Dry_Wind_Leaf_Gem
+        Rate: 1750
+      - Item: Storm_Wind_Leaf_Gem
+        Rate: 1750
+      - Item: Rough_Wind
+        Rate: 500
+  - Id: 22238
+    AegisName: SPIRIT_C_WIND_L
+#   Name: Giant Tainted Wind Spirit
+    Name: G Tainted Wind Spirit
+    Level: 265
+    Hp: 2016260
+    BaseExp: 3226016
+    JobExp: 2096910
+    Attack: 22663
+    Attack2: 6130
+    Defense: 71
+    MagicDefense: 44
+    Resistance: 1069
+    MagicResistance: 1452
+    Str: 302
+    Agi: 238
+    Vit: 252
+    Int: 265
+    Dex: 262
+    Luk: 285
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 256
+    AttackMotion: 768
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Sharp_Leaf
+        Rate: 3500
+      - Item: Great_Leaf
+        Rate: 2500
+      - Item: Contored_Spi_Wrath
+        Rate: 750
+      - Item: Contored_Ven_Wrath
+        Rate: 750
+      - Item: Dry_Wind_Leaf_Gem
+        Rate: 2000
+      - Item: Storm_Wind_Leaf_Gem
+        Rate: 2000
+      - Item: Rough_Wind
+        Rate: 500
+  - Id: 22239
+    AegisName: SPIRIT_C_WIND_SL
+#   Name: Mutant Tainted Wind Spirit
+    Name: M Tainted Wind Spirit
+    Level: 265
+    Hp: 2067843
+    BaseExp: 3308549
+    JobExp: 2150557
+    Attack: 25970
+    Attack2: 7418
+    Defense: 73
+    MagicDefense: 44
+    Resistance: 1580
+    MagicResistance: 2063
+    Str: 374
+    Agi: 285
+    Vit: 297
+    Int: 296
+    Dex: 359
+    Luk: 331
+    AttackRange: 2
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Large
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 4
+    WalkSpeed: 150
+    AttackDelay: 256
+    AttackMotion: 768
+    DamageMotion: 1000    # (unknown)
+    Ai: 21
+    Class: Boss
+    Drops:
+      - Item: Sharp_Leaf
+        Rate: 3500
+      - Item: Great_Leaf
+        Rate: 2500
+      - Item: Contored_Spi_Wrath
+        Rate: 750
+      - Item: Contored_Ven_Wrath
+        Rate: 750
+      - Item: Dry_Wind_Leaf_Gem
+        Rate: 2250
+      - Item: Storm_Wind_Leaf_Gem
+        Rate: 2250
+      - Item: Rough_Wind
+        Rate: 500
+#  - Id: 22240
+#    AegisName: VR_SONIC_WALK
+#  - Id: 22241
+#    AegisName: VR_SONIC_SPIN
+#  - Id: 22242
+#    AegisName: VR_TALES
+#  - Id: 22243
+#    AegisName: VR_MD_METALSONIC
+#  - Id: 22244
+#    AegisName: VR_MD_KNUCKLES
+#  - Id: 22245
+#    AegisName: VR_MD_DREGG1
+#  - Id: 22246
+#    AegisName: VR_MD_DREGG2
+#  - Id: 22247
+#    AegisName: VR_MD_MEGALITH_SONIC
+#  - Id: 22248
+#    AegisName: VR_MD_SPORE_SONIC
+#  - Id: 22249
+#    AegisName: VR_MD_SAVAGE_SONIC
+#  - Id: 22250
+#    AegisName: VR_MD_ANGELING_SONIC
+#  - Id: 22251
+#    AegisName: VR_MD_HEATER_SONIC
+#  - Id: 22252
+#    AegisName: BIO_DUNEYRR
+#  - Id: 22253
+#    AegisName: BIO_NAGA
+#  - Id: 22254
+#    AegisName: BIO_ANCIENT_TREE
+#  - Id: 22255
+#    AegisName: BIO_DOLLOCARIS
+#  - Id: 22256
+#    AegisName: BIO_ICE_GARGOYLE
+#  - Id: 22257
+#    AegisName: BIO_FLAME_GHOST
+#  - Id: 22258
+#    AegisName: BIO_ACIDUS_
+#  - Id: 22259
+#    AegisName: BIO_MOROCC_1
+#  - Id: 22260
+#    AegisName: BIO_SALAMANDER
+#  - Id: 22261
+#    AegisName: BIO_MOSKILLO
+#  - Id: 22262
+#    AegisName: 2311_EV_BLACK_BEAR
+#  - Id: 22263
+#    AegisName: 2311_EV_GOLD_PIG
+#  - Id: 22297
+#    AegisName: 2401_EV_DRAGORING
+#  - Id: 22298
+#    AegisName: 2401_EV_IMOOGI
+#  - Id: 22299
+#    AegisName: VR_CHAO
+#  - Id: 22300
+#    AegisName: EP21_NPC_SERPENT
+#  - Id: 22301
+#    AegisName: EP21_NPC_TRIS
+#  - Id: 22302
+#    AegisName: EP21_NPC_TAN
+#  - Id: 22303
+#    AegisName: EP21_NPC_NADOYO
+#  - Id: 22304
+#    AegisName: EP21_NPC_REINHARDT
+#  - Id: 22305
+#    AegisName: EP21_NPC_WILHELM
+#  - Id: 22306
+#    AegisName: EP21_NPC_MARISTELLA
+#  - Id: 22307
+#    AegisName: EP21_NPC_YOHAN
+#  - Id: 22308
+#    AegisName: EP21_NPC_RICHARD
+#  - Id: 22309
+#    AegisName: EP21_NPC_EIBA
+#  - Id: 22310
+#    AegisName: EP21_NPC_GUNTER
+#  - Id: 22311
+#    AegisName: EP21_NPC_IVAN
+#  - Id: 22312
+#    AegisName: EP21_NPC_GALAXIA
+#  - Id: 22313
+#    AegisName: EP21_SEAWIND
+#  - Id: 22314
+#    AegisName: EP21_SCALLEG
+#  - Id: 22315
+#    AegisName: EP21_VELELLING
+#  - Id: 22316
+#    AegisName: EP21_LETTERSTER
+#  - Id: 22317
+#    AegisName: EP21_ROCKSTRIKER
+#  - Id: 22318
+#    AegisName: EP21_ICESEAHORSE
+#  - Id: 22319
+#    AegisName: EP21_SKIPSKIPPER
+#  - Id: 22320
+#    AegisName: EP21_CLIOLIMA
+#  - Id: 22321
+#    AegisName: EP21_YORKER_A
+#  - Id: 22322
+#    AegisName: EP21_YORKER_B
+#  - Id: 22323
+#    AegisName: EP21_YOSTER_A
+#  - Id: 22324
+#    AegisName: EP21_YOSTER_B
+#  - Id: 22325
+#    AegisName: EP21_YOSTER_C
+#  - Id: 22326
+#    AegisName: EP21_YOSTER_D
+#  - Id: 22327
+#    AegisName: EP21_YOSTER_E
+#  - Id: 22328
+#    AegisName: DESERT_WOLF_RAC
+#  - Id: 22329
+#    AegisName: ANOPHELES_RAC_MO
+#  - Id: 22330
+#    AegisName: GREMLIN_RAC
+#  - Id: 22331
+#    AegisName: BEHOLDER_RAC
+#  - Id: 22332
+#    AegisName: MQ_KIND_OF_BEETLE
+#  - Id: 22333
+#    AegisName: MQ_FRILLDORA
+#  - Id: 22334
+#    AegisName: MQ_SAND_MAN
+#  - Id: 22335
+#    AegisName: MQ_SAKRAY
+#  - Id: 22336
+#    AegisName: MQ_CRAB
+#  - Id: 22337
+#    AegisName: MQ_SHELLFISH
+#  - Id: 22338
+#    AegisName: MQ_GALAPAGO
+#  - Id: 22339
+#    AegisName: MQ_FUR_SEAL
+#  - Id: 22340
+#    AegisName: MQ_SEE_OTTER
+#  - Id: 22341
+#    AegisName: MQ_PIERE
+#  - Id: 22342
+#    AegisName: MQ_ANDRE
+#  - Id: 22343
+#    AegisName: MQ_DENIRO
+#  - Id: 22344
+#    AegisName: MQ_GOLEM
+#  - Id: 22345
+#    AegisName: MQ_DUSTINESS
+#  - Id: 22346
+#    AegisName: MQ_MANTIS
+#  - Id: 22347
+#    AegisName: MQ_GEOGRAPHER
+#  - Id: 22348
+#    AegisName: MQ_SCORPION_KING
+#  - Id: 22349
+#    AegisName: MQ_KIND_OF_BEETLE1
+#  - Id: 22350
+#    AegisName: MQ_KIND_OF_BEETLE2
+#  - Id: 22351
+#    AegisName: MQ_KIND_OF_BEETLE3
+#  - Id: 22352
+#    AegisName: MQ_KIND_OF_BEETLE4
+#  - Id: 22353
+#    AegisName: EP21_YORMI_A
+#  - Id: 22354
+#    AegisName: EP21_YORMI_B
+#  - Id: 22355
+#    AegisName: EP21_YORDOS_A
+#  - Id: 22356
+#    AegisName: EP21_YORDOS_B
+#  - Id: 22357
+#    AegisName: EP21_YORDOS_C
+#  - Id: 22358
+#    AegisName: EP21_YOSCOPUS_A
+#  - Id: 22359
+#    AegisName: EP21_YOSCOPUS_B
+#  - Id: 22360
+#    AegisName: EP21_YORTUS_A
+#  - Id: 22361
+#    AegisName: EP21_YORTUS_B
+#  - Id: 22362
+#    AegisName: EP21_ICEHORN
+#  - Id: 22363
+#    AegisName: EP21_B_YORTUS_A
+#  - Id: 22364
+#    AegisName: EP21_B_YORTUS_B
+#  - Id: 22365
+#    AegisName: G_EP21_ICESEAHORSE
+#  - Id: 22366
+#    AegisName: G_EP21_YORDOS_A
+#  - Id: 22367
+#    AegisName: G_EP21_YORDOS_B
+#  - Id: 22368
+#    AegisName: G_EP21_YORDOS_C
+#  - Id: 22369
+#    AegisName: EP21_MD_SAILOR
+#  - Id: 22370
+#    AegisName: EP21_MD_CAPTAIN
+#  - Id: 22371
+#    AegisName: EP21_YOR_TAN
+#  - Id: 22372
+#    AegisName: EP21_MD_CAPTAIN_B
+#  - Id: 22373
+#    AegisName: EP21_YOR_TAN_B
+#  - Id: 22374
+#    AegisName: EP21_MD_BOX1
+#  - Id: 22378
+#    AegisName: MD_Airboat_Boss5
+#  - Id: 22379
+#    AegisName: EV_NPC_VACATION_POPE
+#  - Id: 22380
+#    AegisName: E_WATER_M_RING
+#  - Id: 22381
+#    AegisName: CLB_SS_FC
+#  - Id: 22382
+#    AegisName: CLB_SS_TZ
+#  - Id: 22383
+#    AegisName: VIOLEN
+#  - Id: 22384
+#    AegisName: CP_VIOLEN
+#  - Id: 22385
+#    AegisName: SPIDING
+#  - Id: 22386
+#    AegisName: CP_SPIDING
+#  - Id: 22387
+#    AegisName: GARLING
+#  - Id: 22388
+#    AegisName: CP_GARLING
+#  - Id: 22389
+#    AegisName: JACKONETTE
+#  - Id: 22390
+#    AegisName: CP_JACKONETTE
+#  - Id: 22391
+#    AegisName: LIAMETTE
+#  - Id: 22392
+#    AegisName: CP_LIAMETTE
+#  - Id: 22393
+#    AegisName: G_LIAMETTE
+#  - Id: 22394
+#    AegisName: NIGHTMARE_PIAMETTE
+#  - Id: 22395
+#    AegisName: MEDJED
+#  - Id: 22396
+#    AegisName: CP_MEDJED
+#  - Id: 22397
+#    AegisName: MEDJAY
+#  - Id: 22398
+#    AegisName: CP_MEDJAY
+#  - Id: 22399
+#    AegisName: OPHOIS
+#  - Id: 22400
+#    AegisName: CP_OPHOIS
+#  - Id: 22401
+#    AegisName: HEKA
+#  - Id: 22402
+#    AegisName: CP_HEKA
+#  - Id: 22403
+#    AegisName: G_OPHOIS
+#  - Id: 22404
+#    AegisName: GUIDE_OF_DEAD
+#  - Id: 22405
+#    AegisName: MISTRESS3
+#  - Id: 22406
+#    AegisName: GIANT_HONET2
+#  - Id: 22408
+#    AegisName: E_SMART_ANDRE
+#  - Id: 22409
+#    AegisName: E_RE_PINE
+#  - Id: 22410
+#    AegisName: EP21_YOR_TAN_H
+#  - Id: 22411
+#    AegisName: EP21_MD_BOX2
+#  - Id: 22412
+#    AegisName: EP21_YORTUS_A_H
+#  - Id: 22413
+#    AegisName: EP21_YORTUS_B_H
+#  - Id: 22414
+#    AegisName: EP21_YORDOS_C_H
+#  - Id: 22415
+#    AegisName: EP21_YORDOS_B_H
+#  - Id: 22416
+#    AegisName: EP21_YORDOS_A_H
+#  - Id: 22417
+#    AegisName: EP21_YORMI_A_H
+#  - Id: 22418
+#    AegisName: EP21_YORMI_B_H
+#  - Id: 22419
+#    AegisName: EP21_YOSCOPUS_A_H
+#  - Id: 22420
+#    AegisName: EP21_YOSCOPUS_B_H
+#  - Id: 22421
+#    AegisName: EP21_B_YORTUS_A_H
+#  - Id: 22422
+#    AegisName: EP21_B_YORTUS_B_H
+#  - Id: 22423
+#    AegisName: 2501_EV_MATJALAL
+#  - Id: 22424
+#    AegisName: 2501_EV_ACARI
+#  - Id: 22425
+#    AegisName: E_LEADER_SHEEP
+#  - Id: 22426
+#    AegisName: E_WINTER_SAVAGE
+#  - Id: 22427
+#    AegisName: MANDURING
+#  - Id: 22429
+#    AegisName: KINGMANDURING
+#  - Id: 22430
+#    AegisName: E_WINTER_KEEPER
+#  - Id: 22431
+#    AegisName: TATSI
+#  - Id: 22432
+#    AegisName: G_TATSI
+#  - Id: 22433
+#    AegisName: CP_TATSI
+#  - Id: 22434
+#    AegisName: GUERRERO
+#  - Id: 22435
+#    AegisName: HANOM
+#  - Id: 22436
+#    AegisName: SIRENA
+#  - Id: 22437
+#    AegisName: DIOSA
+#  - Id: 22438
+#    AegisName: PESKA
+#  - Id: 22439
+#    AegisName: CP_GUERRERO
+#  - Id: 22440
+#    AegisName: CP_HANOM
+#  - Id: 22441
+#    AegisName: CP_SIRENA
+#  - Id: 22442
+#    AegisName: CP_DIOSA
+#  - Id: 22443
+#    AegisName: CH1_YGGRING
+#  - Id: 22444
+#    AegisName: CH1_LEAFEING
+#  - Id: 22445
+#    AegisName: CH1_CHARCOARING
+#  - Id: 22446
+#    AegisName: CH1_VULRING
+#  - Id: 22447
+#    AegisName: CH1_FIRELOOP
+#  - Id: 22448
+#    AegisName: CH1_FIRAFFLESIA
+#  - Id: 22449
+#    AegisName: CH1_VOLIMPET
+#  - Id: 22450
+#    AegisName: CH1_FIRE_FLOWER
+#  - Id: 22451
+#    AegisName: CH1_PEEPING
+#  - Id: 22452
+#    AegisName: CH1_SILK_FROG
+#  - Id: 22453
+#    AegisName: CH1_SILK_SNAIL
+#  - Id: 22454
+#    AegisName: CH1_EX_ROBOT
+#  - Id: 22455
+#    AegisName: CH1_REPAIR_ROBOT
+#  - Id: 22456
+#    AegisName: CH1_DIMIC_1
+#  - Id: 22457
+#    AegisName: CH1_DIMIC_2
+#  - Id: 22458
+#    AegisName: CH1_DIMIC_3
+#  - Id: 22459
+#    AegisName: CH1_DIMIC_4
+#  - Id: 22460
+#    AegisName: CH1_IMMORTAL_CORPS1
+#  - Id: 22461
+#    AegisName: CH1_IMMORTAL_CORPS2
+#  - Id: 22462
+#    AegisName: CH1_IMMORTAL_CORPS3
+#  - Id: 22463
+#    AegisName: CH1_NYAISE
+#  - Id: 22464
+#    AegisName: CH1_SHADOW_JAILER
+#  - Id: 22465
+#    AegisName: CH1_TULIP
+#  - Id: 22466
+#    AegisName: CH1_CALENDULA
+#  - Id: 22467
+#    AegisName: CH1_SCABIOSA
+#  - Id: 22468
+#    AegisName: CH1_LOBELIA
+#  - Id: 22469
+#    AegisName: CH1_MYOSOTIS
+#  - Id: 22470
+#    AegisName: CH1_ANEMONE
+#  - Id: 22471
+#    AegisName: CH1_SKOGL
+#  - Id: 22472
+#    AegisName: CH1_FRUS
+#  - Id: 22473
+#    AegisName: CH1_LISTENER
+#  - Id: 22474
+#    AegisName: CH1_IMMORTAL_OFFICER1
+#  - Id: 22475
+#    AegisName: CH1_IMMORTAL_OFFICER2
+#  - Id: 22476
+#    AegisName: CH1_TOXIT
+#  - Id: 22477
+#    AegisName: CP_CH1_TOXIT
+#  - Id: 22478
+#    AegisName: CH1_LUNARINA
+#  - Id: 22479
+#    AegisName: CP_CH1_LUNARINA
+#  - Id: 22480
+#    AegisName: CH1_BLOODY_SLASHER
+#  - Id: 22481
+#    AegisName: CP_CH1_BLOODY_SLASHER
+#  - Id: 22482
+#    AegisName: CH1_SHADIEST
+#  - Id: 22483
+#    AegisName: CP_CH1_SHADIEST
+#  - Id: 22484
+#    AegisName: CH1_SUCCUBUS
+#  - Id: 22485
+#    AegisName: CP_CH1_SUCCUBUS
+#  - Id: 22486
+#    AegisName: CH1_INCCUBUS
+#  - Id: 22487
+#    AegisName: CP_CH1_INCCUBUS
+#  - Id: 22488
+#    AegisName: CH1_ABYSS_KNIGHT
+#  - Id: 22489
+#    AegisName: CP_CH1_ABYSS_KNIGHT
+#  - Id: 22490
+#    AegisName: G_CH1_FIRELOOP
+#  - Id: 22491
+#    AegisName: G_CH1_VOLIMPET
+#  - Id: 22492
+#    AegisName: G_CH1_MYOSOTIS
+#  - Id: 22493
+#    AegisName: G_CH1_ANEMONE
+#  - Id: 22494
+#    AegisName: CH1_BULGASARI
+#  - Id: 22495
+#    AegisName: CH1_GLUTTO
+#  - Id: 22496
+#    AegisName: CH1_MD_HEMEL_N
+#  - Id: 22497
+#    AegisName: CH1_MD_HEMEL
+#  - Id: 22498
+#    AegisName: CH1_MD_AMDARAIS
+#  - Id: 22499
+#    AegisName: CH1_MD_VESSEL
+#  - Id: 22504
+#    AegisName: C_TOWER_MANAGER2
+#  - Id: 22505
+#    AegisName: ANGELGOLT3
+#  - Id: 22506
+#    AegisName: TIMEHOLDER3
+#  - Id: 22507
+#    AegisName: CH1_RK
+#  - Id: 22508
+#    AegisName: CH1_MC_M
+#  - Id: 22509
+#    AegisName: CH1_SC
+#  - Id: 22510
+#    AegisName: CH1_RA
+#  - Id: 22511
+#    AegisName: CH1_SO
+#  - Id: 22512
+#    AegisName: CH1_AB
+#  - Id: 22513
+#    AegisName: CH1_MI_D
+#  - Id: 22514
+#    AegisName: CH1_GC_D
+#  - Id: 22515
+#    AegisName: G_M_EL_N
+#  - Id: 22516
+#    AegisName: CH1_RG
+#  - Id: 22517
+#    AegisName: CH1_MC
+#  - Id: 22518
+#    AegisName: CH1_GN
+#  - Id: 22519
+#    AegisName: CH1_GC
+#  - Id: 22520
+#    AegisName: CH1_MI
+#  - Id: 22521
+#    AegisName: CH1_SR
+#  - Id: 22522
+#    AegisName: CH1_WL
+#  - Id: 22523
+#    AegisName: CH1_WA
+#  - Id: 22524
+#    AegisName: G_M_HO_FG
+#  - Id: 22525
+#    AegisName: CH1_RK_1
+#  - Id: 22526
+#    AegisName: CH1_MC_M_1
+#  - Id: 22527
+#    AegisName: CH1_SC_1
+#  - Id: 22528
+#    AegisName: CH1_RA_1
+#  - Id: 22529
+#    AegisName: CH1_SO_1
+#  - Id: 22530
+#    AegisName: CH1_AB_1
+#  - Id: 22531
+#    AegisName: CH1_MI_D_1
+#  - Id: 22532
+#    AegisName: CH1_GC_D_1
+#  - Id: 22533
+#    AegisName: G_M_EL_N2
+#  - Id: 22534
+#    AegisName: ROS_GOLDPORING
+#  - Id: 22535
+#    AegisName: ROS_KING_PORING
+#  - Id: 22536
+#    AegisName: ROS_RUNEKNIGHT
+#  - Id: 22537
+#    AegisName: ROS_RANGER
+#  - Id: 22538
+#    AegisName: ROS_WARLOCK
+#  - Id: 22539
+#    AegisName: ROS_ARCHBISHOP
+#  - Id: 22540
+#    AegisName: LITTLE_BOOK_PINATA
+#  - Id: 22541
+#    AegisName: GIANT_BOOK_PINATA
+#  - Id: 22542
+#    AegisName: CH1_RG_1
+#  - Id: 22543
+#    AegisName: CH1_MC_1
+#  - Id: 22544
+#    AegisName: CH1_GN_1
+#  - Id: 22545
+#    AegisName: CH1_GC_1
+#  - Id: 22546
+#    AegisName: CH1_MI_1
+#  - Id: 22547
+#    AegisName: CH1_SR_1
+#  - Id: 22548
+#    AegisName: CH1_WL_1
+#  - Id: 22549
+#    AegisName: CH1_WA_1
+#  - Id: 22550
+#    AegisName: G_M_HO_LE
+  - Id: 21866
+    AegisName: HEROS_IN_ORB_1
+    Name: Spring Jewel
+    Level: 250
+    Hp: 300
+    Attack: 1
+    Attack2: 1
+    AttackRange: 1
+    SkillRange: 0
+    ChaseRange: 0
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 300
+    AttackDelay: 1000
+    AttackMotion: 1000
+    #DamageMotion: -1
+    #Ai:
+    Class: Battlefield
+    Modes:
+      FixedItemDrop: true
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+      KnockBackImmune: true
+      TeleportBlock: true
+  - Id: 21867
+    AegisName: HEROS_IN_ORB_2
+    Name: Summer Jewel
+    Level: 250
+    Hp: 300
+    Attack: 1
+    Attack2: 1
+    AttackRange: 1
+    SkillRange: 0
+    ChaseRange: 0
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 300
+    AttackDelay: 1000
+    AttackMotion: 1000
+    #DamageMotion: -1
+    #Ai:
+    Class: Battlefield
+    Modes:
+      FixedItemDrop: true
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+      KnockBackImmune: true
+  - Id: 21868
+    AegisName: HEROS_IN_ORB_3
+    Name: Autumn Jewel
+    Level: 250
+    Hp: 300
+    Attack: 1
+    Attack2: 1
+    AttackRange: 1
+    SkillRange: 0
+    ChaseRange: 0
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 300
+    AttackDelay: 1000
+    AttackMotion: 1000
+    #DamageMotion: -1
+    #Ai:
+    Class: Battlefield
+    Modes:
+      FixedItemDrop: true
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+      KnockBackImmune: true
+  - Id: 21869
+    AegisName: HEROS_IN_ORB_4
+    Name: Winter Jewel
+    Level: 250
+    Hp: 300
+    Attack: 1
+    Attack2: 1
+    AttackRange: 1
+    SkillRange: 0
+    ChaseRange: 0
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 300
+    AttackDelay: 1000
+    AttackMotion: 1000
+    #DamageMotion: -1
+    #Ai:
+    Class: Battlefield
+    Modes:
+      FixedItemDrop: true
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+      KnockBackImmune: true
+#  - Id: 21870
+#    AegisName: VR_MD_DEVIL
+#  - Id: 21871
+#    AegisName: SEASON_MOB_161
+#  - Id: 21872
+#    AegisName: SEASON_MOB_162
+#  - Id: 21873
+#    AegisName: SEASON_MOB_163
+#  - Id: 21874
+#    AegisName: SEASON_MOB_164
+#  - Id: 21875
+#    AegisName: SEASON_MOB_165
+#  - Id: 21876
+#    AegisName: SEASON_MOB_166
+#  - Id: 21877
+#    AegisName: SEASON_MOB_167
+#  - Id: 21878
+#    AegisName: SEASON_MOB_168
+#  - Id: 21879
+#    AegisName: SEASON_MOB_169
+#  - Id: 21880
+#    AegisName: SEASON_MOB_170
+#  - Id: 21881
+#    AegisName: SEASON_MOB_171
+#  - Id: 21882
+#    AegisName: SEASON_MOB_172
+#  - Id: 21883
+#    AegisName: SEASON_MOB_173
+#  - Id: 21884
+#    AegisName: SEASON_MOB_174
+#  - Id: 21885
+#    AegisName: SEASON_MOB_175
+#  - Id: 21886
+#    AegisName: SEASON_MOB_176
+  - Id: 21887
+    AegisName: HEROS_OUT_ORB
+    Name: Jewel
+    Level: 250
+    Hp: 300
+    Attack: 1
+    Attack2: 1
+    AttackRange: 1
+    SkillRange: 0
+    ChaseRange: 0
+    Size: Small
+    Race: Formless
+    Element: Neutral
+    ElementLevel: 1
+    WalkSpeed: 300
+    AttackDelay: 1000
+    AttackMotion: 1000
+    #DamageMotion: -1
+    #Ai:
+    Class: Battlefield
+    Modes:
+      FixedItemDrop: true
+      IgnoreMagic: true
+      IgnoreMelee: true
+      IgnoreMisc: true
+      IgnoreRanged: true
+      KnockBackImmune: true
+#  - Id: 21888
+#    AegisName: G_DEVILING
+#  - Id: 21889
+#    AegisName: HEROS_WOLF
+#  - Id: 21890
+#    AegisName: HEROS_GINSENG
+#  - Id: 21891
+#    AegisName: HEROS_CANNON_R
+#  - Id: 21892
+#    AegisName: HEROS_CANNON_Y
+#  - Id: 21893
+#    AegisName: HEROS_CANNON_G
+#  - Id: 21894
+#    AegisName: HEROS_CANNON_B
+#  - Id: 21895
+#    AegisName: HEROS_R_PLANT
+#  - Id: 21896
+#    AegisName: HEROS_Y_PLANT
+#  - Id: 21897
+#    AegisName: HEROS_B_PLANT
+#  - Id: 21898
+#    AegisName: HEROS_W_PLANT
+#  - Id: 21899
+#    AegisName: HEROS_R_FERUS
+#  - Id: 21900
+#    AegisName: HEROS_G_FERUS
+#  - Id: 21901
+#    AegisName: HEROS_P_FERUS
+#  - Id: 21902
+#    AegisName: HEROS_WATCHER
+#  - Id: 21903
+#    AegisName: HEROS_KEEPER
+#  - Id: 21904
+#    AegisName: HEROS_F_PEGASUS
+#  - Id: 21905
+#    AegisName: G_HEROS_R_FERUS
+#  - Id: 21906
+#    AegisName: G_HEROS_G_FERUS
+#  - Id: 21907
+#    AegisName: G_HEROS_P_FERUS
+#  - Id: 21908
+#    AegisName: VR_WILD_ROSE
+#  - Id: 21909
+#    AegisName: E_SOHEE
+#  - Id: 21910
+#    AegisName: VR_MD_LZ
+#  - Id: 21911
+#    AegisName: 2210_EV_SPIDING
+#  - Id: 21912
+#    AegisName: MD_SEWER_THIEF_BUG
+#  - Id: 21913
+#    AegisName: MD_SEWER_CHONCHON
+#  - Id: 21914
+#    AegisName: MD_SEWER_AMBERNITE
+#  - Id: 21915
+#    AegisName: MD_SEWER_BEETLE
+#  - Id: 21916
+#    AegisName: MD_SEWER_ARCLOUSE
+#  - Id: 21917
+#    AegisName: MD_SEWER_ARGIOPE
+#  - Id: 21918
+#    AegisName: MD_SEWER_CAVE_FLOWER
+#  - Id: 21919
+#    AegisName: LARVA_VIOLET
+#  - Id: 21920
+#    AegisName: ECO_RUDO
+#  - Id: 21921
+#    AegisName: ECO_ARCHANGELING
+#  - Id: 21922
+#    AegisName: ECO_FAKE_ANGEL
+#  - Id: 21923
+#    AegisName: ECO_PLASMA_P
+#  - Id: 21924
+#    AegisName: ECO_SOLACE
+#  - Id: 21925
+#    AegisName: ECO_ANOPHELES
+#  - Id: 21926
+#    AegisName: ECO_GRYPHON
+#  - Id: 21927
+#    AegisName: ECO_RANDGRIS
+#  - Id: 21928
+#    AegisName: ECO_COMODO
+#  - Id: 21929
+#    AegisName: ECO_POISON_TOAD
+#  - Id: 21930
+#    AegisName: ECO_SIDE_WINDER
+#  - Id: 21931
+#    AegisName: ECO_CRAMP
+#  - Id: 21932
+#    AegisName: ECO_KUKRE
+#  - Id: 21933
+#    AegisName: ECO_NEPENTHES
+#  - Id: 21934
+#    AegisName: ECO_ANGRA_MANTIS
+#  - Id: 21935
+#    AegisName: ECO_VENOM_KIMERA
+#  - Id: 21936
+#    AegisName: ECO_NIGHTMARE
+#  - Id: 21937
+#    AegisName: ECO_WHISPER
+#  - Id: 21938
+#    AegisName: ECO_MARIONETTE
+#  - Id: 21939
+#    AegisName: ECO_NOXIOUS
+#  - Id: 21940
+#    AegisName: ECO_THE_PAPER
+#  - Id: 21941
+#    AegisName: ECO_GAJOMART
+#  - Id: 21942
+#    AegisName: ECO_ODIUM
+#  - Id: 21943
+#    AegisName: ECO_GLOOMUNDERNIGHT
+#  - Id: 21944
+#    AegisName: E_PORING_2023
+#  - Id: 21945
+#    AegisName: E_LUNATIC_2023
+#  - Id: 21946
+#    AegisName: BURNING_KNIGHT
+#  - Id: 21947
+#    AegisName: DEDSERA
+#  - Id: 21948
+#    AegisName: HARDROCK_TITAN
+#  - Id: 21949
+#    AegisName: DEADWEEN
+#  - Id: 21950
+#    AegisName: GAIA_POL
+#  - Id: 21951
+#    AegisName: PUNCH_BUG
+#  - Id: 21952
+#    AegisName: AFERDE
+#  - Id: 21953
+#    AegisName: DISPOL
+#  - Id: 21954
+#    AegisName: TIMBERS
+#  - Id: 21955
+#    AegisName: RENIRE
+#  - Id: 21956
+#    AegisName: G_BURNING_KNIGHT
+#  - Id: 21957
+#    AegisName: G_TIMBERS
+#  - Id: 21958
+#    AegisName: SEASON_MOB_177
+#  - Id: 21959
+#    AegisName: SEASON_MOB_178
+#  - Id: 21960
+#    AegisName: SEASON_MOB_179
+#  - Id: 21961
+#    AegisName: SEASON_MOB_180
+#  - Id: 21962
+#    AegisName: SEASON_MOB_181
+#  - Id: 21963
+#    AegisName: SEASON_MOB_182
+#  - Id: 21964
+#    AegisName: 2301_EV_RICE_FLOUR
+#  - Id: 21965
+#    AegisName: EP20_COPO
+#  - Id: 21966
+#    AegisName: EP20_ICEWIND1
+#  - Id: 21967
+#    AegisName: EP20_ICEWIND2
+#  - Id: 21968
+#    AegisName: EP20_EGGCOPO
+#  - Id: 21969
+#    AegisName: EP20_RABBIT_ICESLUG
+#  - Id: 21970
+#    AegisName: EP20_MELIBE_ICESLUG
+#  - Id: 21971
+#    AegisName: EP20_ICEBEAR
+#  - Id: 21972
+#    AegisName: EP20_JORMUNGUARD1
+#  - Id: 21973
+#    AegisName: EP20_JORMUNGUARD2
+#  - Id: 21974
+#    AegisName: EP20_FAKE_IWIN_SN
+#  - Id: 21975
+#    AegisName: EP20_FAKE_IWIN_SY
+#  - Id: 21976
+#    AegisName: EP20_FAKE_IWIN_SB
+#  - Id: 21977
+#    AegisName: EP20_FAKE_IWIN_SG
+#  - Id: 21978
+#    AegisName: EP20_FAKE_IWIN_SR
+#  - Id: 21979
+#    AegisName: EP20_DEMIGOD_LASGAND
+#  - Id: 21980
+#    AegisName: EP20_BOSS_CLANER
+#  - Id: 21981
+#    AegisName: MD_EP20_BOSS_LASGAND
+#  - Id: 21982
+#    AegisName: MD_EP20_FALLENANGEL
+#  - Id: 21983
+#    AegisName: EP20_ANGEL_ICESLUG
+#  - Id: 21984
+#    AegisName: EP20_ICEEGG
+#  - Id: 21985
+#    AegisName: EP20_RGAN_WARLOCK
+#  - Id: 21986
+#    AegisName: EP20_RGAN_HEALER
+#  - Id: 21987
+#    AegisName: EP20_JORGAN_WARLOCK
+#  - Id: 21988
+#    AegisName: EP20_JORGAN_HEALER
+#  - Id: 21989
+#    AegisName: EP20_JORGAN_GUARDIAN
+#  - Id: 21990
+#    AegisName: EP20_JORGAN_CLEANER
+#  - Id: 21991
+#    AegisName: MD_EP20_JOR_G_P
+#  - Id: 21992
+#    AegisName: MD_EP20_JOR_G_Y
+#  - Id: 21993
+#    AegisName: MD_EP20_JOR_WARLOCK
+#  - Id: 21994
+#    AegisName: EP20_MD_HEARTHUNTER1
+#  - Id: 21995
+#    AegisName: EP20_NPC_COCOPO
+#  - Id: 21996
+#    AegisName: EP20_SNOW_ANGEL
+#  - Id: 21997
+#    AegisName: G_EP20_JORMUNGUARD1
+#  - Id: 21998
+#    AegisName: G_EP20_JORMUNGUARD2
+#  - Id: 21999
+#    AegisName: G_EP20_JORGAN_CLEANER
+#  - Id: 22000
+#    AegisName: G_EP20_ANGEL_ICESLUG
+#  - Id: 22001
+#    AegisName: G_EP20_RGAN_WARLOCK
+#  - Id: 22002
+#    AegisName: G_EP20_JORGAN_HEALER
+#  - Id: 22003
+#    AegisName: G_EP20_JORGAN_GUARDIAN
+#  - Id: 22004
+#    AegisName: EP20_MD_BOX1
+#  - Id: 22005
+#    AegisName: EP20_MD_BOX2
+#  - Id: 22006
+#    AegisName: EP20_NPC_NYAR
+#  - Id: 22007
+#    AegisName: EP20_NPC_LASGAND
+#  - Id: 22008
+#    AegisName: AB_YEMOB_001
+#  - Id: 22009
+#    AegisName: AB_YEMOB_002
+#  - Id: 22010
+#    AegisName: AB_YEMOB_003
+#  - Id: 22011
+#    AegisName: AB_YEMOB_004
+#  - Id: 22012
+#    AegisName: AB_YEMOB_005
+#  - Id: 22013
+#    AegisName: AB_YEMOB_006
+#  - Id: 22014
+#    AegisName: AB_YEMOB_007
+#  - Id: 22015
+#    AegisName: AB_YEMOB_008
+#  - Id: 22016
+#    AegisName: AB_YEMOB_009
+#  - Id: 22017
+#    AegisName: AB_YEMOB_010
+#  - Id: 22018
+#    AegisName: AB_YEMOB_011
+#  - Id: 22019
+#    AegisName: AB_YEMOB_012
+#  - Id: 22020
+#    AegisName: AB_YEMOB_013
+#  - Id: 22021
+#    AegisName: AB_YEMOB_014
+#  - Id: 22022
+#    AegisName: AB_YEMOB_015
+#  - Id: 22023
+#    AegisName: AB_YEMOB_016
+#  - Id: 22024
+#    AegisName: AB_YEMOB_017
+#  - Id: 22025
+#    AegisName: AB_YEMOB_018
+#  - Id: 22026
+#    AegisName: AB_YEMOB_019
+#  - Id: 22027
+#    AegisName: AB_YEMOB_020
+#  - Id: 22028
+#    AegisName: AB_YEMOB_021
+#  - Id: 22029
+#    AegisName: AB_YEMOB_022
+#  - Id: 22030
+#    AegisName: AB_YEMOB_023
+#  - Id: 22031
+#    AegisName: AB_YEMOB_024
+#  - Id: 22032
+#    AegisName: AB_YEMOB_025
+#  - Id: 22033
+#    AegisName: AB_YEMOB_026
+#  - Id: 22034
+#    AegisName: AB_YEMOB_027
+#  - Id: 22035
+#    AegisName: AB_YEMOB_028
+#  - Id: 22036
+#    AegisName: AB_YEMOB_029
+#  - Id: 22037
+#    AegisName: AB_YEMOB_030
+#  - Id: 22038
+#    AegisName: AB_YEMOB_031
+#  - Id: 22039
+#    AegisName: AB_YEMOB_032
+#  - Id: 22040
+#    AegisName: AB_YEMOB_033
+#  - Id: 22041
+#    AegisName: AB_YEMOB_034
+#  - Id: 22042
+#    AegisName: AB_YEMOB_035
+#  - Id: 22043
+#    AegisName: AB_YEMOB_036
+#  - Id: 22044
+#    AegisName: AB_YEMOB_037
+#  - Id: 22045
+#    AegisName: AB_YEMOB_038
+#  - Id: 22046
+#    AegisName: AB_YEMOB_039
+#  - Id: 22047
+#    AegisName: AB_YEMOB_040
+#  - Id: 22048
+#    AegisName: AB_YEMOB_041
+#  - Id: 22049
+#    AegisName: AB_YEMOB_042
+#  - Id: 22050
+#    AegisName: AB_YEMOB_043
+#  - Id: 22051
+#    AegisName: AB_YEMOB_044
+#  - Id: 22052
+#    AegisName: AB_YEMOB_045
+#  - Id: 22053
+#    AegisName: AB_YEMOB_046
+#  - Id: 22054
+#    AegisName: AB_YEMOB_047
+#  - Id: 22055
+#    AegisName: AB_YEMOB_048
+#  - Id: 22056
+#    AegisName: AB_YEMOB_049
+#  - Id: 22057
+#    AegisName: AB_YEMOB_050
+#  - Id: 22058
+#    AegisName: AB_YEMOB_051
+#  - Id: 22059
+#    AegisName: AB_YEMOB_052
+#  - Id: 22060
+#    AegisName: AB_YEMOB_053
+#  - Id: 22061
+#    AegisName: AB_YEMOB_054
+#  - Id: 22062
+#    AegisName: AB_YEMOB_055
+#  - Id: 22063
+#    AegisName: AB_YEMOB_056
+#  - Id: 22064
+#    AegisName: AB_YEMOB_057
+#  - Id: 22065
+#    AegisName: AB_YEMOB_058
+#  - Id: 22066
+#    AegisName: AB_YEMOB_059
+#  - Id: 22067
+#    AegisName: AB_YEMOB_060
+#  - Id: 22068
+#    AegisName: AB_YEMOB_061
+#  - Id: 22069
+#    AegisName: AB_YEMOB_062
+#  - Id: 22070
+#    AegisName: AB_YEMOB_063
+#  - Id: 22071
+#    AegisName: AB_YEMOB_064
+#  - Id: 22072
+#    AegisName: AB_YEMOB_065
+#  - Id: 22073
+#    AegisName: AB_YEMOB_066
+#  - Id: 22074
+#    AegisName: AB_YEMOB_067
+#  - Id: 22075
+#    AegisName: AB_YEMOB_068
+#  - Id: 22076
+#    AegisName: AB_YEMOB_069
+#  - Id: 22077
+#    AegisName: AB_YEMOB_070
+#  - Id: 22078
+#    AegisName: AB_YEMOB_071
+#  - Id: 22079
+#    AegisName: AB_YEMOB_072
+#  - Id: 22080
+#    AegisName: AB_YEMOB_073
+#  - Id: 22081
+#    AegisName: AB_YEMOB_074
+#  - Id: 22082
+#    AegisName: AB_YEMOB_075
+#  - Id: 22083
+#    AegisName: AB_YEMOB_076
+#  - Id: 22084
+#    AegisName: AB_YEMOB_077
+#  - Id: 22085
+#    AegisName: AB_YEMOB_078
+#  - Id: 22086
+#    AegisName: AB_YEMOB_079
+#  - Id: 22087
+#    AegisName: AB_YEMOB_080
+#  - Id: 22088
+#    AegisName: AB_YEMOB_081
+#  - Id: 22089
+#    AegisName: AB_YEMOB_082
+#  - Id: 22090
+#    AegisName: AB_YEMOB_083
+#  - Id: 22091
+#    AegisName: AB_YEMOB_084
+#  - Id: 22092
+#    AegisName: AB_YEMOB_085
+#  - Id: 22093
+#    AegisName: AB_YEMOB_086
+#  - Id: 22094
+#    AegisName: AB_YEMOB_087
+#  - Id: 22095
+#    AegisName: AB_YEMOB_088
+#  - Id: 22096
+#    AegisName: AB_YEMOB_089
+#  - Id: 22097
+#    AegisName: AB_YEMOB_090
+#  - Id: 22098
+#    AegisName: AB_YEMOB_091
+#  - Id: 22099
+#    AegisName: AB_YEMOB_092
+#  - Id: 22100
+#    AegisName: AB_YEMOB_093
+#  - Id: 22101
+#    AegisName: AB_YEMOB_094
+#  - Id: 22102
+#    AegisName: AB_YEMOB_095
+#  - Id: 22103
+#    AegisName: AB_YEMOB_096
+#  - Id: 22104
+#    AegisName: AB_YEMOB_097
+#  - Id: 22105
+#    AegisName: AB_YEMOB_098
+#  - Id: 22106
+#    AegisName: AB_YEMOB_099
+#  - Id: 22107
+#    AegisName: AB_YEMOB_100
+#  - Id: 22108
+#    AegisName: AB_YEMOB_101
+#  - Id: 22109
+#    AegisName: AB_YEMOB_102
+#  - Id: 22110
+#    AegisName: AB_YEMOB_103
+#  - Id: 22111
+#    AegisName: AB_YEMOB_104
+#  - Id: 22112
+#    AegisName: AB_YEMOB_105
+#  - Id: 22113
+#    AegisName: AB_YEMOB_106
+#  - Id: 22114
+#    AegisName: AB_YEMOB_107
+#  - Id: 22115
+#    AegisName: AB_YEMOB_108
+#  - Id: 22116
+#    AegisName: AB_YEMOB_109
+#  - Id: 22117
+#    AegisName: AB_YEMOB_110
+#  - Id: 22118
+#    AegisName: AB_YEMOB_111
+#  - Id: 22119
+#    AegisName: AB_YEMOB_112
+#  - Id: 22120
+#    AegisName: AB_YEMOB_113
+#  - Id: 22121
+#    AegisName: AB_YEMOB_114
+#  - Id: 22122
+#    AegisName: AB_YEMOB_115
+#  - Id: 22123
+#    AegisName: AB_YEMOB_116
+#  - Id: 22124
+#    AegisName: AB_YEMOB_117
+#  - Id: 22125
+#    AegisName: AB_YEMOB_118
+#  - Id: 22126
+#    AegisName: AB_YEMOB_119
+#  - Id: 22127
+#    AegisName: AB_YEMOB_120
+#  - Id: 22128
+#    AegisName: AB_YEMOB_121
+#  - Id: 22129
+#    AegisName: AB_YEMOB_122
+#  - Id: 22130
+#    AegisName: AB_YEMOB_123
+#  - Id: 22131
+#    AegisName: AB_YEMOB_124
+#  - Id: 22132
+#    AegisName: AB_YEMOB_125
+#  - Id: 22133
+#    AegisName: AB_YEMOB_126
+#  - Id: 22134
+#    AegisName: AB_YEMOB_127
+#  - Id: 22135
+#    AegisName: AB_YEMOB_128
+#  - Id: 22136
+#    AegisName: AB_YEMOB_129
+#  - Id: 22137
+#    AegisName: AB_YEMOB_130
+#  - Id: 22138
+#    AegisName: AB_YEMOB_131
+#  - Id: 22139
+#    AegisName: AB_YEMOB_132
+#  - Id: 22140
+#    AegisName: BIO_ANOLIAN
+#  - Id: 22141
+#    AegisName: BIO_SKEL_ARCHER
+#  - Id: 22142
+#    AegisName: BIO_DRAGON_TAIL
+#  - Id: 22143
+#    AegisName: BIO_LAVA_TOAD
+#  - Id: 22144
+#    AegisName: BIO_LITTLE_FATUM
+#  - Id: 22145
+#    AegisName: BIO_STING
+#  - Id: 22146
+#    AegisName: BIO_EMPATHIZER
+#  - Id: 22147
+#    AegisName: BIO_FIRE_FRILLDORA
+#  - Id: 22148
+#    AegisName: BIO_HOLY_FRUS
+#  - Id: 22149
+#    AegisName: BIO_HOLY_SKOGUL
+#  - Id: 22150
+#    AegisName: BIO_KAPHA
+#  - Id: 22151
+#    AegisName: BIO_SKEL_SOLDIER
+#  - Id: 22152
+#    AegisName: BIO_PINGUICULA_D
+#  - Id: 22153
+#    AegisName: BIO_POM_SPIDER
+#  - Id: 22154
+#    AegisName: BIO_PRAY_GIVER
+#  - Id: 22155
+#    AegisName: BIO_WOOD_GOBLIN
+#  - Id: 22156
+#    AegisName: VR_MD_LAKE
+#  - Id: 22157
+#    AegisName: VR_MD_DESSERT
+#  - Id: 22158
+#    AegisName: VR_MD_SNOW
+#  - Id: 22159
+#    AegisName: VR_MD_OCEAN
+#  - Id: 22160
+#    AegisName: VR_MD_FOREST
+#  - Id: 22161
+#    AegisName: VR_MD_TILBY
+#  - Id: 22162
+#    AegisName: VR_MD_POPE
+#  - Id: 22163
+#    AegisName: VR_MD_TILBY2
+#  - Id: 22164
+#    AegisName: VR_MD_RAINBOW
+#  - Id: 22166
+#    AegisName: HEADSTONE1
+#  - Id: 22167
+#    AegisName: HEADSTONE2
+#  - Id: 22168
+#    AegisName: HEADSTONE3
+#  - Id: 22169
+#    AegisName: HEADSTONE4
+#  - Id: 22170
+#    AegisName: HEADSTONE0
+#  - Id: 22171
+#    AegisName: MD_COMMON_BOSS
+#  - Id: 22172
+#    AegisName: E_MANANANGGAL
+#  - Id: 22173
+#    AegisName: E_WAKWAK
+#  - Id: 22174
+#    AegisName: MD_PRI_RIGEL
+#  - Id: 22175
+#    AegisName: MD_PRI_RIGEL_AC
+#  - Id: 22176
+#    AegisName: MD_PRI_RIGEL_ACS

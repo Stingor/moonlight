@@ -6,7 +6,7 @@
 | Date kRO | **2023‑03‑02** |
 | Arc | fin de la traque de Bagot — le labyrinthe du serpent |
 | Niveau kRO visé | **215+** |
-| État Moonlight | **mobs, C++, terrain, objets, quêtes et instances portés** depuis brHades (Capuche) (2026‑11‑18, non validés en jeu) ; tables client, Dim Glacier (D2a), cartes EP19/EP20 (D2b) et familiers Icewind (D2c) faits |
+| État Moonlight | **mobs, C++, terrain, objets, quêtes et instances portés** depuis brHades (Capuche) (2026‑11‑18, non validés en jeu) ; tables client, Dim Glacier (D2a), cartes EP19/EP20 (D2b) et familiers Icewind (D2c) faits ; Hall of Life porté |
 
 Suite directe d'Issgard : on descend dans le canyon de glace ancien, on démasque les
 infiltrés (les faux soldats Iwin), on cherche l'entrée du repaire du serpent avant qu'un
@@ -316,11 +316,24 @@ lot se valide au boot du serveur avant le suivant.
 | **F — Instances** | 7 entrées `instance_db`, 6 scripts | Id libres côté Moonlight ; Warp Agent (enum généré depuis `instance_db.yml`) ; hard mode |
 | **G — Client** | tables moonclient (quêtes, réputation, objets) | fait le 2026‑11‑18 ; cutins à vérifier dans les GRF |
 
-## 5. Hall of Life
+## 5. Hall of Life (porté le 2026‑11‑18, non validé en jeu)
 
-Toujours à part : le donjon d'élémentaires est copié et commenté, il manque ses 32 mobs
-`SPIRIT_*` (huit familles, quatre tailles). Indépendant de la chaîne narrative, il peut
-passer avant ou après les lots ci-dessus.
+Le donjon (`for_dun01`, `for_dun02`) et le **Jardin du Temps** (`t_garden`), qui y donne
+accès par la barrière dimensionnelle de `xmas_fild01` (niveau 250). Source : `npc/re`
+(Atemo), `db/re`.
+
+| Élément | Fichier | Détail |
+|---|---|---|
+| Mobs | `db/import/mobs/hall_of_life.yml` | les 48 `SPIRIT_*` (32 de terrain, 16 des vagues de contamination de `for_dun.npc`), `re_to_prere_mob.py` ; aucune compétence amont. `HEROS_IN_ORB_1` à `_4` et `HEROS_OUT_ORB` : sprites des distributeurs et de l'orbe |
+| Objets | `db/import/items/` | 53 : 39 matériaux (gemmes et colères des esprits, énergies, matériaux de saison, fruits), 4 Capuches des saisons (DEF 7, grade retiré, traits et +11 convertis), 4 Signets (sans DEF, comme les anneaux Glacier), Protection et Barrière Constellation, cristaux de retour, parchemins |
+| Quêtes | `db/import/quest_db.yml` | 36 (12592 à 12602, 12618, 12620 à 12643), journal du client compris, 5 d'attente |
+| Scripts | `moon/rathena/quests/garden_of_time.npc`, `moon/rathena/dungeons/for_dun.npc` | le Jardin activé, le donjon décommenté. Les distributeurs #3 et #4 n'appellent que les enchantements 117 à 124 et 142, **absents de rAthena** : ils le disent au lieu d'échouer |
+| Échanges | `moon/barters.yml` | `barter_t_garden_1` à `_5` (énergies, Signets, Capuches, clés) |
+| Raccordement | `map_drops.yml`, `noteleport.txt`, `map_index.yml` | `map_drops` de `for_dun01` (pierres Etel), `noteleport` sur les deux zones, noms des trois cartes, `naviregisterwarp` sur la barrière, les entrées et les sondes de retour |
+| Écartés | | les combos Signet + « Circle of Life » (objets absents de rAthena) et Signet + bottes Dimension (épisode 21), les coffres d'événement `T_GARDEN_EV_*` |
+
+Branches (§12), **essai à blanc, non écrit** : les 32 `SPIRIT_*` de terrain pour
+`Branch_Of_Dead_Tree` ; les 16 des vagues scriptées écartées.
 
 ## 6. Verdict
 

@@ -132,3 +132,9 @@ Body:
     Name: "Inside the Ice Castle"
   - Map: ba_in01
     Name: "Varmundt Mansion"
+  - Map: t_garden
+    Name: "Garden of Time"
+  - Map: for_dun01
+    Name: "Garden of Time - Forgotten Time Zone 1"
+  - Map: for_dun02
+    Name: "Garden of Time - Forgotten Time Zone 2"

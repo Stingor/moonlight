@@ -37265,3 +37265,219 @@ Body:
             }
          }
       }
+  # Hall of Life (episode 20) : Signets et Capuches des saisons, Protection Constellation. Cape DEF 7, accessoires sans DEF, ArmorLevel 1, grade retire, traits convertis.
+  - Id: 420231
+    AegisName: MD_Hol_Protection
+    Name: Constellation's Protection
+    Type: Armor
+    Locations:
+      Head_Low: true
+    ArmorLevel: 1
+    EquipLevelMin: 250
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 480345
+    AegisName: Season_Hood_Spring
+    Name: 'Manteau of Mystical Beast: Spring [1]'
+    Type: Armor
+    Weight: 700
+    Defense: 7
+    Slots: 1
+    Locations:
+      Garment: true
+    ArmorLevel: 1
+    EquipLevelMin: 250
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bCritical,-20;
+      bonus bStr,2;
+      bonus bDex,2;
+      bonus bBaseAtk,5*(.@r/2);
+      bonus bShortAtkRate,2*(.@r/3);
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         if (.@r>=9) {
+            bonus bAspdRate,10;
+            if (getallrefine() >= 22) {
+               bonus bDelayrate,-10;
+               bonus2 bAddClass,Class_All,2;
+            }
+         }
+      }
+  - Id: 480346
+    AegisName: Season_Hood_Summer
+    Name: 'Manteau of Mystical Beast: Summer [1]'
+    Type: Armor
+    Weight: 700
+    Defense: 7
+    Slots: 1
+    Locations:
+      Garment: true
+    ArmorLevel: 1
+    EquipLevelMin: 250
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bCritical,-20;
+      bonus bStr,2;
+      bonus bDex,2;
+      bonus bBaseAtk,5*(.@r/2);
+      bonus bLongAtkRate,2*(.@r/3);
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         if (.@r>=9) {
+            bonus bAspdRate,10;
+            if (getallrefine() >= 22) {
+               bonus bDelayrate,-10;
+               bonus2 bAddClass,Class_All,2;
+            }
+         }
+      }
+  - Id: 480347
+    AegisName: Season_Hood_Autumn
+    Name: 'Manteau of Mystical Beast: Autumn [1]'
+    Type: Armor
+    Weight: 700
+    Defense: 7
+    Slots: 1
+    Locations:
+      Garment: true
+    ArmorLevel: 1
+    EquipLevelMin: 250
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bInt,2;
+      bonus bDex,2;
+      bonus bUseSPrate,15;
+      bonus bMatk,5*(.@r/2);
+      bonus2 bMagicAtkEle,Ele_All,2*(.@r/3);
+      if (.@r>=7) {
+         bonus bVariableCastrate,-10;
+         if (.@r>=9) {
+            bonus bAspdRate,5;
+            bonus bVariableCastrate,-5;
+            if (getallrefine() >= 22) {
+               bonus bDelayrate,-10;
+               bonus2 bMagicAddClass,Class_All,2;
+            }
+         }
+      }
+  - Id: 480348
+    AegisName: Season_Hood_Winter
+    Name: 'Manteau of Mystical Beast: Winter [1]'
+    Type: Armor
+    Weight: 700
+    Defense: 7
+    Slots: 1
+    Locations:
+      Garment: true
+    ArmorLevel: 1
+    EquipLevelMin: 250
+    Refineable: true
+    Script: |
+      .@r = getrefine();
+      bonus bCritical,4;
+      bonus bStr,1;
+      bonus bDex,1;
+      bonus bBaseAtk,4*(.@r/2);
+      bonus bCritAtkRate,(.@r/3);
+      bonus bLuk,(.@r/3);
+      if (.@r>=7) {
+         bonus bVariableCastrate,-5;
+         bonus bCritAtkRate,3;
+         if (.@r>=9) {
+            bonus bAspdRate,10;
+            if (getallrefine() >= 22) {
+               bonus bDelayrate,-10;
+               bonus2 bAddClass,Class_All,2;
+            }
+         }
+      }
+  - Id: 490483
+    AegisName: Signet_Of_Spring
+    Name: 'Signet of Circulation: Spring [1]'
+    Type: Armor
+    Weight: 500
+    Slots: 1
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 250
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bShortAtkRate,10;
+      bonus bVariableCastrate,-10;
+  - Id: 490484
+    AegisName: Signet_Of_Summer
+    Name: 'Signet of Circulation: Summer [1]'
+    Type: Armor
+    Weight: 500
+    Slots: 1
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 250
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bLongAtkRate,10;
+      bonus bVariableCastrate,-10;
+  - Id: 490485
+    AegisName: Signet_Of_Autumn
+    Name: 'Signet of Circulation: Autumn [1]'
+    Type: Armor
+    Weight: 500
+    Slots: 1
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 250
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus2 bMagicAtkEle,Ele_All,10;
+      bonus bVariableCastrate,-10;
+  - Id: 490486
+    AegisName: Signet_Of_Winter
+    Name: 'Signet of Circulation: Winter [1]'
+    Type: Armor
+    Weight: 500
+    Slots: 1
+    Locations:
+      Left_Accessory: true
+    ArmorLevel: 1
+    EquipLevelMin: 250
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bCritAtkRate,10;
+      bonus bVariableCastrate,-10;

@@ -16140,3 +16140,299 @@ Body:
     Flags:
       BuyingStore: true
       DropEffect: CLIENT
+  # Hall of Life (episode 20) : gemmes et coleres des esprits, energies, materiaux de saison.
+  - Id: 1001414
+    AegisName: MD_Hol_Fragment
+    Name: Dimensional Crystal Fragment
+    Type: Etc
+    Weight: 1
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001415
+    AegisName: MD_Hol_Key
+    Name: Hall of Life Key
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001424
+    AegisName: Hot_Water_Drop_Gem
+    Name: Hot Water Droplet Gem
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001425
+    AegisName: Ice_Water_Drop_Gem
+    Name: Cold Water Droplet Gem
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001426
+    AegisName: Dry_Wind_Leaf_Gem
+    Name: Dry Wind Leaf Gem
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001427
+    AegisName: Storm_Wind_Leaf_Gem
+    Name: Strong Wind Leaf Gem
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001428
+    AegisName: Red_Flame_Heart_Gem
+    Name: Red Flame Heart Gem
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001429
+    AegisName: Blue_Flame_Heart_Gem
+    Name: Blue Flame Heart Gem
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001430
+    AegisName: Firm_Land_Crystal
+    Name: Firm Land Crystal
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001431
+    AegisName: Green_Land_Crystal
+    Name: Green Land Crystal
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001432
+    AegisName: Contored_Spi_Wrath
+    Name: Wrath of Polluted Spirit
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001433
+    AegisName: Contored_Agn_Wrath
+    Name: Wrath of Polluted Agni
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001434
+    AegisName: Contored_Aqu_Wrath
+    Name: Wrath of Polluted Aqua
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001435
+    AegisName: Contored_Ven_Wrath
+    Name: Wrath of Polluted Ventus
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001436
+    AegisName: Contored_Ter_Wrath
+    Name: Wrath of Polluted Tera
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001440
+    AegisName: Energy_Of_Spring
+    Name: Energy of Spring
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001441
+    AegisName: Energy_Of_Summer
+    Name: Energy of Summer
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001442
+    AegisName: Energy_Of_Autumn
+    Name: Energy of Autumn
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001443
+    AegisName: Energy_Of_Winter
+    Name: Energy of Winter
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001444
+    AegisName: Spring_Material_1
+    Name: Mane Hair of Floral Pegasus
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001445
+    AegisName: Spring_Material_2
+    Name: Emblem of Floral Pegasus
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001446
+    AegisName: Spring_Material_3
+    Name: Wing Feather of Floral Pegasus
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001447
+    AegisName: Summer_Material_1
+    Name: Tail of Coral Marine
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001448
+    AegisName: Summer_Material_2
+    Name: Coral of Coral Marine
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001449
+    AegisName: Summer_Material_3
+    Name: Fin of Coral Marine
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001450
+    AegisName: Autumn_Material_1
+    Name: Leaf of Maple Tree
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001451
+    AegisName: Autumn_Material_2
+    Name: Branch of Maple Tree
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001452
+    AegisName: Autumn_Material_3
+    Name: Bark Piece of Maple Tree
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001453
+    AegisName: Winter_Material_1
+    Name: Coat of Monarch Penguin
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001454
+    AegisName: Winter_Material_2
+    Name: Ice Crystal of Monarch Penguin
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001455
+    AegisName: Winter_Material_3
+    Name: Emblem of Monarch Penguin
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001457
+    AegisName: Fruit_Of_Birth
+    Name: Fruit of Birth
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001458
+    AegisName: Fruit_Of_Extinction
+    Name: Fruit of Extinction
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001461
+    AegisName: Energy_Of_Flame
+    Name: Energy of Fire
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001462
+    AegisName: Energy_Of_Water
+    Name: Energy of Water
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001463
+    AegisName: Energy_Of_Wind
+    Name: Energy of Wind
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001464
+    AegisName: Energy_Of_Ground
+    Name: Energy of Earth
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001465
+    AegisName: Grace_Of_Spirit
+    Name: Grace of Spirit
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true
+  - Id: 1001600
+    AegisName: Energy_Of_Elemental
+    Name: Energy of Elemental
+    Type: Etc
+    Weight: 10
+    Flags:
+      BuyingStore: true

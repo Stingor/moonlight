@@ -14690,3 +14690,9 @@ Body:
       bonus2 bAddRace,RC_All,10;
       bonus2 bAddRace,RC_Player_Human,-10;
       bonus2 bAddRace,RC_Player_Doram,-10;
+  # Hall of Life (episode 20) : Barriere Constellation, donnee par la quete.
+  - Id: 312453
+    AegisName: MD_Hol_Barrier_1
+    Name: Constellation's Barrier (1)
+    Type: Card
+    SubType: Enchant
