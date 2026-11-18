@@ -16,7 +16,8 @@ Controles (sortie 1 s'il reste un KO) :
   6. map_drops : carte de db/re/map_drops.yml jouee chez nous (spawn ou instance) mais absente
      de db/import/map_drops.yml ;
   7. journal : quete du serveur, citee par un script charge, sans entree dans quests.yml du
-     client (le journal l'affiche sous « Quete N »).
+     client (le journal l'affiche sous « Quete N ») ;
+  8. combos : combo de db/re/item_combos.yml dont tous les objets sont charges, absent de l'import.
 
 Reste manuel : les images cutin des scripts portes (le client n'en publie pas la liste).
 
@@ -265,6 +266,20 @@ def main():
             by_file[sorted(used[q])[0]].append(q)
     for f, qs in sorted(by_file.items()):
         ko["7. journal de quetes"].append(f"{f} : {len(qs)} quete(s) sans texte au client ({qs[0]}..{qs[-1]})")
+
+    # ---- 8. combos amont dont tous les objets sont charges
+    have_cb = set()
+    for c in yload(p("db", "import", "item_combos.yml")).get("Body") or []:
+        for cb in c.get("Combos") or []:
+            have_cb.add(tuple(sorted(cb["Combo"])))
+    miss_cb = defaultdict(int)
+    for c in yload(p("db", "re", "item_combos.yml")).get("Body") or []:
+        for cb in c.get("Combos") or []:
+            combo = cb["Combo"]
+            if all(x in items for x in combo) and tuple(sorted(combo)) not in have_cb:
+                miss_cb[" + ".join(combo)] += 1
+    for k in sorted(miss_cb):
+        ko["8. combos"].append(f"{k} : objets charges, combo amont absent de db/import/item_combos.yml")
 
     total = 0
     for k in sorted(ko):

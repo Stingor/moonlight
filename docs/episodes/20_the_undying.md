@@ -6,7 +6,7 @@
 | Date kRO | **2023‑03‑02** |
 | Arc | fin de la traque de Bagot — le labyrinthe du serpent |
 | Niveau kRO visé | **215+** |
-| État Moonlight | **mobs, C++, terrain, objets, quêtes et instances portés** depuis brHades (Capuche) (2026‑11‑18, non validés en jeu) ; tables client, Dim Glacier (D2a) et cartes EP19/EP20 (D2b) faits ; familiers Icewind (D2c) à faire |
+| État Moonlight | **mobs, C++, terrain, objets, quêtes et instances portés** depuis brHades (Capuche) (2026‑11‑18, non validés en jeu) ; tables client, Dim Glacier (D2a), cartes EP19/EP20 (D2b) et familiers Icewind (D2c) faits |
 
 Suite directe d'Issgard : on descend dans le canyon de glace ancien, on démasque les
 infiltrés (les faux soldats Iwin), on cherche l'entrée du repaire du serpent avant qu'un
@@ -172,8 +172,7 @@ Debug échoue à l'édition de liens). Pas encore compilé sur pc-serv.
 | Contrôle | | toutes les références (barters, Laphine, familier) pointent vers un objet ou un mob chargé ; chargement sans erreur |
 
 **Reporté (sous-lot D2) : le Dim Glacier et les cartes.** Le Dim Glacier est porté au sous-lot
-D2a (plus bas). Les 44 cartes EP19 et EP20 sont portées au sous-lot D2b. Restent les deux familiers Icewind
-qui en dépendent (D2c). Les `map_drops` de
+D2a (plus bas). Les 44 cartes EP19 et EP20 sont portées au sous-lot D2b, les deux familiers Icewind au D2c. Les `map_drops` de
 brHades ne couvrent que les cartes d'instance : ils iront au lot F.
 
 ### Lot E — quêtes (porté le 2026‑11‑18, non validé en jeu)
@@ -254,6 +253,16 @@ les lots A à F (procédure du §11 de la feuille de route).
 chercher dans les GRF du client ; 52 autres quêtes du serveur inconnues du journal
 (Crash d'aéronef, Tombeau du Remords, Tour de Thanatos, Tour des Constellations, Arène
 Nocturne de Geffen), hors de l'épisode 20.
+
+### Sous-lot D2c — familiers Icewind (porté le 2026‑11‑18, non validé en jeu)
+
+| Élément | Fichier | Détail |
+|---|---|---|
+| Familiers | `pet_db.yml` | Gray Icewind (`EP20_ICEWIND1`) et Icewind (`EP20_ICEWIND2`), de brHades : `bAtkRate` en `bAddClass`, POW en STR, SPL en INT ; non apprivoisables (`CaptureRate: 0`), ils ne s'obtiennent que par évolution |
+| Évolution du Copo | idem | vers l'un ou l'autre : 200 grandes plumes (grises ou blanches), 150 coquilles d'œuf, 150 têtes de Copo et la carte Icewind correspondante |
+| Œufs | `item_db_pet.yml` | `Grey_Icewind_Egg` (9146), `Icewind_Egg` (9147) |
+| Combos des cartes | `item_combos.yml` | 15 combos des cartes EP19/EP20, oubliés au D2b (Copo + Icewind, Rgan, Hallucigenia…) ; `bAtkRate` converti. Écartés : les deux de `Lore_Seeker`, absent |
+| Client | moonclient | `pets.yml` (évolutions), fiches des trois œufs alignées (celle du Copo avait gardé « ATK +n% » au lot D) |
 
 ### Sous-lot D2b — cartes EP19 et EP20 (porté le 2026‑11‑18, non validé en jeu)
 

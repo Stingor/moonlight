@@ -2257,8 +2257,8 @@ Body:
 #            Amount: 100
 #          - Item: Cookies_Bat
 #            Amount: 100
-  # Episode 20 : le Copo (brHades), bAtkRate en bAddClass. Evolutions vers les Icewind ecartees :
-  # elles exigent Grey_Icewind_Card et Icewind_Card (cartes EP20 non portees).
+  # Episode 20 : le Copo et ses deux evolutions Icewind (brHades), bAtkRate en bAddClass,
+  # POW en STR, SPL en INT. Evolutions remises au sous-lot D2c (cartes Icewind portees).
   - Mob: EP20_COPO
     TameItem: Ep20_Fatty_Icegangu
     EggItem: Copo_Egg
@@ -2277,4 +2277,75 @@ Body:
       if (.@intimate == PET_INTIMATE_LOYAL) {
          bonus bMatkRate,2;
          bonus2 bAddClass,Class_All,2;
+      }
+    Evolution:
+      - Target: EP20_ICEWIND1
+        ItemRequirements:
+          - Item: Ep20_Huge_Feather_G
+            Amount: 200
+          - Item: Ep20_Copo_Egg_Shell
+            Amount: 150
+          - Item: Ep20_Copo_Head_F
+            Amount: 150
+          - Item: Grey_Icewind_Card
+            Amount: 1
+      - Target: EP20_ICEWIND2
+        ItemRequirements:
+          - Item: Ep20_Huge_Feather_W
+            Amount: 200
+          - Item: Ep20_Copo_Egg_Shell
+            Amount: 150
+          - Item: Ep20_Copo_Head_F
+            Amount: 150
+          - Item: Icewind_Card
+            Amount: 1
+  - Mob: EP20_ICEWIND1
+    EggItem: Grey_Icewind_Egg
+    FoodItem: Pet_Food
+    Fullness: 2
+    HungryDelay: 120
+    IntimacyFed: 15
+    CaptureRate: 0
+    SpecialPerformance: false
+    AllowAutoFeed: true
+    Script: >
+      .@intimate = getpetinfo(PETINFO_INTIMATE);
+      if (.@intimate == PET_INTIMATE_AWKWARD || .@intimate == PET_INTIMATE_SHY) {
+         bonus2 bAddClass,Class_All,1;
+      }
+      if (.@intimate == PET_INTIMATE_NEUTRAL) {
+         bonus2 bAddClass,Class_All,2;
+      }
+      if (.@intimate == PET_INTIMATE_CORDIAL) {
+         bonus2 bAddClass,Class_All,2;
+         bonus bStr,1;
+      }
+      if (.@intimate == PET_INTIMATE_LOYAL) {
+         bonus2 bAddClass,Class_All,3;
+         bonus bStr,2;
+      }
+  - Mob: EP20_ICEWIND2
+    EggItem: Icewind_Egg
+    FoodItem: Pet_Food
+    Fullness: 2
+    HungryDelay: 120
+    IntimacyFed: 15
+    CaptureRate: 0
+    SpecialPerformance: false
+    AllowAutoFeed: true
+    Script: >
+      .@intimate = getpetinfo(PETINFO_INTIMATE);
+      if (.@intimate == PET_INTIMATE_AWKWARD || .@intimate == PET_INTIMATE_SHY) {
+         bonus bMatkRate,1;
+      }
+      if (.@intimate == PET_INTIMATE_NEUTRAL) {
+         bonus bMatkRate,2;
+      }
+      if (.@intimate == PET_INTIMATE_CORDIAL) {
+         bonus bMatkRate,2;
+         bonus bInt,1;
+      }
+      if (.@intimate == PET_INTIMATE_LOYAL) {
+         bonus bMatkRate,3;
+         bonus bInt,2;
       }
