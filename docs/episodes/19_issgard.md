@@ -116,7 +116,7 @@ période, est porté (commit `20cf36893`, armes seulement).
 | Pierres de stockage | `Ai: 06` (immobile, n'attaque pas, comme `TREASURE_BOX*`), `Class: Boss`, 1 PV |
 | Ordres de grandeur | mob normal ≈ 500 000 à 600 000 PV ; MVP 4,6 à 8,3 M ; ATK 4 700 à 16 300 |
 | Matériaux | 22 objets EP19 ajoutés à `db/import/items/item_db_etc.yml` |
-| Drops de carte | **écartés** : les 24 cartes EP19 ont des bonus renewal (`bPAtk`, `bSMatk`, `bRes`, paliers +11/+12, `getequiparmorlv()`) à convertir |
+| Drops de carte | les 24 cartes EP19, d'abord écartées (bonus renewal), sont portées le 2026‑11‑18 (sous-lot D2b de [20_the_undying.md](20_the_undying.md)) ; `Aquila_Card` reste sans drop |
 
 **Noms.** Seize mobs n'ont pas de nom anglais (kROM seulement). Onze se déduisent des mobs frères
 ou des cartes ; les grades Iwin sont traduits : Trainee, Private, Private First Class, Corporal,

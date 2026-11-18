@@ -2,7 +2,7 @@
 # par Divine Pride (kROM) : stats a 0, drops absents, pierres de stockage, noms anglais.
 # Convertis par tools/util/re_to_prere_mob.py, sans DamageTaken. EP19_NPC_* : simples
 # sprites de PNJ, sans stats. Aucune competence publiee (ni PR, ni Divine Pride).
-# Drops de carte ecartes tant que les cartes EP19 ne sont pas portees.
+# Drops de carte de la PR, remis au sous-lot D2b de l'episode 20.
 Header:
   Type: MOB_DB
   Version: 5
@@ -65,6 +65,9 @@ Body:
         Rate: 2500
       - Item: Ice_Piece
         Rate: 1500
+      - Item: Limacina_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21521
     AegisName: EP19_UNFROST_FLOWER
     Name: Unfrost Flower
@@ -101,6 +104,9 @@ Body:
         Rate: 2700
       - Item: Round_Shell
         Rate: 2500
+      - Item: Unfrost_Flower_card
+        Rate: 1
+        StealProtected: true
   - Id: 21522
     AegisName: EP19_CALMARING
     Name: Calmaring
@@ -137,6 +143,9 @@ Body:
         Rate: 2700
       - Item: Sticky_Poison
         Rate: 5000
+      - Item: Calmaring_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21523
     AegisName: EP19_ICE_STRAW
     Name: Ice Straw
@@ -173,6 +182,9 @@ Body:
         Rate: 4000
       - Item: EP19_Thin_Shell
         Rate: 2700
+      - Item: Ice_Straw_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21524
     AegisName: EP19_SHINING_SEAWEED
     Name: Shining Seaweed
@@ -209,6 +221,9 @@ Body:
         Rate: 2500
       - Item: Stone_Piece
         Rate: 4000
+      - Item: Shining_Seaweed_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21525
     AegisName: EP19_ICE_GANGU
     Name: Ice Gangu
@@ -247,6 +262,9 @@ Body:
         Rate: 4000
       - Item: EP19_Frozen_Shell
         Rate: 2500
+      - Item: Ice_Gangu_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21526
     AegisName: EP19_RGAN_A
     Name: Primitive Rgan
@@ -281,6 +299,9 @@ Body:
         Rate: 1875
       - Item: EP19_Shell_Of_Rgan
         Rate: 1125
+      - Item: Primitive_Rgan_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21527
     AegisName: EP19_RGAN_B
     Name: Lowest Rgan
@@ -317,6 +338,9 @@ Body:
         Rate: 1500
       - Item: EP19_Unknown_Cell
         Rate: 1500
+      - Item: Lowest_Rgan_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21528
     AegisName: EP19_RGAN_C
     Name: Junior Rgan
@@ -353,6 +377,9 @@ Body:
         Rate: 1687
       - Item: EP19_Unknown_Cell
         Rate: 1500
+      - Item: Junior_Rgan_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21529
     AegisName: EP19_RGAN_D
     Name: Intermediate Rgan
@@ -389,6 +416,9 @@ Body:
         Rate: 1875
       - Item: EP19_Unknown_Cell
         Rate: 1500
+      - Item: Middle_G_Rgan_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21530
     AegisName: EP19_RGAN_E
     Name: Superior Rgan
@@ -548,6 +578,9 @@ Body:
         Rate: 3500
       - Item: Snow_F_Ore
         Rate: 1500
+      - Item: Simulation_Juncea_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21534
     AegisName: EP19_MD_RGAN_E
     Name: Renovated Superior Rgan
@@ -683,6 +716,9 @@ Body:
         Rate: 3000
       - Item: Snow_F_Stone1
         Rate: 5000
+      - Item: Ultra_Limacina_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21538
     AegisName: EP19_WASTED_RGAN_A
     Name: Discarded Primitive Rgan
@@ -721,6 +757,9 @@ Body:
         Rate: 1500
       - Item: Ep19_Rgan_Core_F
         Rate: 1450
+      - Item: Discarded_P_R_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21539
     AegisName: EP19_WASTED_RGAN_C
     Name: Discarded Intermediate Rgan
@@ -759,6 +798,9 @@ Body:
         Rate: 1500
       - Item: Ep19_Rgan_Core_F
         Rate: 1450
+      - Item: Discarded_L_R_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21540
     AegisName: EP19_CAVE_CALMARING
     Name: Cave Calmaring
@@ -795,6 +837,9 @@ Body:
         Rate: 2800
       - Item: Sticky_Poison
         Rate: 3000
+      - Item: Cave_Calmaring_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21541
     AegisName: EP19_CAVE_FLOWER
     Name: Cave Flower
@@ -831,6 +876,9 @@ Body:
         Rate: 1550
       - Item: Solid_Shell
         Rate: 2800
+      - Item: Cave_Un_Flower_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21542
     AegisName: EP19_HALLUCIGENIA
     Name: Hallucigenia
@@ -871,6 +919,9 @@ Body:
         Rate: 650
       - Item: Sticky_Poison
         Rate: 2250
+      - Item: Hallucigenia_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21543
     AegisName: EP19_HALLUCIGENIA_BABY
     Name: Hallucigenia Baby
@@ -909,6 +960,9 @@ Body:
         Rate: 650
       - Item: Sticky_Poison
         Rate: 2500
+      - Item: B_Hallucigenia_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21544
     AegisName: EP19_ONE_EYE_DOLLOCARIS
     Name: One Eye Dollocaris
@@ -947,6 +1001,9 @@ Body:
         Rate: 750
       - Item: Nipper
         Rate: 2250
+      - Item: One_E_Dollocaris_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21545
     AegisName: EP19_DOLLOCARIS
     Name: Two Eyes Dollocaris
@@ -985,6 +1042,9 @@ Body:
         Rate: 2750
       - Item: Solid_Shell
         Rate: 1000
+      - Item: Eyes_Dollocaris_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21588
     AegisName: EP19_MD_AQUILA_B
     Name: Aquila
@@ -1110,6 +1170,9 @@ Body:
         Rate: 3750
       - Item: Vroken_Sword
         Rate: 2250
+      - Item: Heart_Hunter_AT_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21600
     AegisName: EP19_RE_RGAN_E
     Name: Renovated Superior Rgan
@@ -1146,6 +1209,9 @@ Body:
         Rate: 2625
       - Item: EP19_Unknown_Cell
         Rate: 1250
+      - Item: R_Superior_Rgan_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21601
     AegisName: EP19_ET_RGAN_D
     Name: Entangled Intermediate Rgan
@@ -1182,6 +1248,9 @@ Body:
         Rate: 2625
       - Item: EP19_Unknown_Cell
         Rate: 1500
+      - Item: E_Inter_Rgan_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21853
     AegisName: EP19_MD_BOX1
     Name: Suspicious Storage Stone

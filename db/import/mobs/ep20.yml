@@ -1,7 +1,6 @@
 # Episode 20 : The Undying. Base : glitzhXEC/brHades c2196f9be (conversion de Capuche),
 # convertie par tools/util/re_to_prere_mob.py, sans Resistance, MagicResistance ni DamageTaken.
-# Drops ecartes comme au 19 : les 20 cartes EP20 (bonus renewal a convertir). Armes Dim
-# Glacier remises au sous-lot D2a. EP20_NPC_NYAR / EP20_NPC_LASGAND : sprites de PNJ. MD_EP20_BOSS_LASGAND :
+# Cartes EP20 (sous-lot D2b) et armes Dim Glacier (D2a) remises. EP20_NPC_NYAR / EP20_NPC_LASGAND : sprites de PNJ. MD_EP20_BOSS_LASGAND :
 # Immortal retouche ses stats par setunitdata (lot F).
 Header:
   Type: MOB_DB
@@ -42,6 +41,9 @@ Body:
         Rate: 1922
       - Item: Ep20_Copo_Head_F
         Rate: 961
+      - Item: Copo_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21966
     AegisName: EP20_ICEWIND1
     Name: Ashen Icewind
@@ -78,6 +80,9 @@ Body:
         Rate: 1470
       - Item: Bill_Of_Birds
         Rate: 2205
+      - Item: Grey_Icewind_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21967
     AegisName: EP20_ICEWIND2
     Name: Icewind
@@ -114,6 +119,9 @@ Body:
         Rate: 3125
       - Item: Bill_Of_Birds
         Rate: 2343
+      - Item: Icewind_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21968
     AegisName: EP20_EGGCOPO
     Name: Cool Kopo
@@ -184,6 +192,9 @@ Body:
         Rate: 520
       - Item: EP19_Unknown_Cell
         Rate: 260
+      - Item: Rabbit_Iceslug_card
+        Rate: 1
+        StealProtected: true
   - Id: 21970
     AegisName: EP20_MELIBE_ICESLUG
     Name: Melibe Snail
@@ -226,6 +237,9 @@ Body:
         Rate: 100
       - Item: D_Glacier_Knuckle
         Rate: 100
+      - Item: Melibe_Iceslug_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21971
     AegisName: EP20_ICEBEAR
     Name: Bear
@@ -264,6 +278,9 @@ Body:
         Rate: 3121
       - Item: Animal's_Skin
         Rate: 1986
+      - Item: Icebear_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21972
     AegisName: EP20_JORMUNGUARD1
     Name: Jormungand Guardian-P
@@ -306,6 +323,9 @@ Body:
         Rate: 693
       - Item: D_Glacier_Wand
         Rate: 100
+      - Item: Jormun_Guardian_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21973
     AegisName: EP20_JORMUNGUARD2
     Name: Jormungand Guardian-Y
@@ -348,6 +368,9 @@ Body:
         Rate: 480
       - Item: Transparent_Cloth
         Rate: 480
+      - Item: Jormun_Guardian_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21974
     AegisName: EP20_FAKE_IWIN_SN
     Name: Suspicious Irwin Recruit
@@ -411,6 +434,10 @@ Body:
     AttackMotion: 864
     DamageMotion: 864
     Ai: 01
+    Drops:
+      - Item: Fake_Iwin_S_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21976
     AegisName: EP20_FAKE_IWIN_SB
     Name: Suspicious Private Iwin
@@ -443,6 +470,9 @@ Body:
     Drops:
       - Item: Ep20_Iwin_Priva_Co_C
         Rate: 1388
+      - Item: Fake_Iwin_S_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21977
     AegisName: EP20_FAKE_IWIN_SG
     Name: Corporal Iwin Suspicious
@@ -479,6 +509,9 @@ Body:
         Rate: 1041
       - Item: Round_Feather
         Rate: 2082
+      - Item: Fake_Iwin_S_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21978
     AegisName: EP20_FAKE_IWIN_SR
     Name: Suspicious Iwin Mania
@@ -513,6 +546,9 @@ Body:
         Rate: 2081
       - Item: Ep20_Broken_Trident
         Rate: 1387
+      - Item: Fake_Iwin_S_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21979
     AegisName: EP20_DEMIGOD_LASGAND
     Name: Ultimate Lasgand
@@ -642,6 +678,9 @@ Body:
         Rate: 5
       - Item: C_Serpent_Shadow
         Rate: 3
+      - Item: Demigod_Lasgand_Card
+        Rate: 1
+        StealProtected: true
     MvpDrops:
       - Item: Magic_Card_Album
         Rate: 4000
@@ -693,6 +732,9 @@ Body:
         Rate: 2000
       - Item: EP20_D_P_Extract
         Rate: 500
+      - Item: F_Angel_Iceslug_Card
+        Rate: 1
+        StealProtected: true
     MvpDrops:
       - Item: Magic_Card_Album
         Rate: 4000
@@ -738,6 +780,9 @@ Body:
         Rate: 1690
       - Item: Slicky_Fluid
         Rate: 1478
+      - Item: Angel_Iceslug_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21984
     AegisName: EP20_ICEEGG
     Name: Icewind Egg
@@ -771,6 +816,9 @@ Body:
         Rate: 4166
       - Item: Ep20_Copo_Egg_Shell
         Rate: 8332
+      - Item: Icewind_Egg_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21985
     AegisName: EP20_RGAN_WARLOCK
     Name: Great Rgan Shaman
@@ -809,6 +857,9 @@ Body:
         Rate: 1898
       - Item: EP19_Unknown_Cell
         Rate: 271
+      - Item: S_Rgan_Warlock_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21986
     AegisName: EP20_RGAN_HEALER
     Name: Greater Rgan Healer
@@ -851,6 +902,9 @@ Body:
         Rate: 100
       - Item: D_Glacier_B_Knife
         Rate: 100
+      - Item: S_Rgan_Healer_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21987
     AegisName: EP20_JORGAN_WARLOCK
     Name: Jormungand Church Shaman
@@ -895,6 +949,9 @@ Body:
         Rate: 177
       - Item: D_Glacier_Whip
         Rate: 100
+      - Item: E_Rgan_Warlock_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21988
     AegisName: EP20_JORGAN_HEALER
     Name: Jormungand Church Bishop
@@ -935,6 +992,9 @@ Body:
         Rate: 60
       - Item: D_Glacier_Spear
         Rate: 100
+      - Item: E_Rgan_Healer_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21989
     AegisName: EP20_JORGAN_GUARDIAN
     Name: Guardian of Shrine
@@ -979,6 +1039,9 @@ Body:
         Rate: 27
       - Item: D_Glacier_Axe
         Rate: 100
+      - Item: E_Rgan_Guardian_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21990
     AegisName: EP20_JORGAN_CLEANER
     Name: Jormungand Sanctuary
@@ -1019,6 +1082,9 @@ Body:
         Rate: 260
       - Item: D_Glacier_Katar
         Rate: 100
+      - Item: E_Rgan_Cleaner_Card
+        Rate: 1
+        StealProtected: true
   - Id: 21991
     AegisName: MD_EP20_JOR_G_P
     Name: Jormungand Guardian

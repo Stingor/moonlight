@@ -443,3 +443,15 @@ Body:
           - Index: 129
             Item: EP18_Burning_Fang_Card
             Rate: 1
+          - Index: 130
+            Item: Demigod_Lasgand_Card
+            Rate: 1
+          - Index: 131
+            Item: F_Angel_Iceslug_Card
+            Rate: 1
+          - Index: 132
+            Item: Simulation_Juncea_Card
+            Rate: 1
+          - Index: 133
+            Item: Ultra_Limacina_Card
+            Rate: 1

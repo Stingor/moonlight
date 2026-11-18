@@ -6,7 +6,7 @@
 | Date kRO | **2023‑03‑02** |
 | Arc | fin de la traque de Bagot — le labyrinthe du serpent |
 | Niveau kRO visé | **215+** |
-| État Moonlight | **mobs, C++, terrain, objets, quêtes et instances portés** depuis brHades (Capuche) (2026‑11‑18, non validés en jeu) ; tables client et Dim Glacier faits (D2a) ; cartes EP19/EP20 (D2b) et familiers Icewind (D2c) à faire |
+| État Moonlight | **mobs, C++, terrain, objets, quêtes et instances portés** depuis brHades (Capuche) (2026‑11‑18, non validés en jeu) ; tables client, Dim Glacier (D2a) et cartes EP19/EP20 (D2b) faits ; familiers Icewind (D2c) à faire |
 
 Suite directe d'Issgard : on descend dans le canyon de glace ancien, on démasque les
 infiltrés (les faux soldats Iwin), on cherche l'entrée du repaire du serpent avant qu'un
@@ -172,8 +172,8 @@ Debug échoue à l'édition de liens). Pas encore compilé sur pc-serv.
 | Contrôle | | toutes les références (barters, Laphine, familier) pointent vers un objet ou un mob chargé ; chargement sans erreur |
 
 **Reporté (sous-lot D2) : le Dim Glacier et les cartes.** Le Dim Glacier est porté au sous-lot
-D2a (plus bas). Restent les 44 cartes EP19 et EP20 (bonus renewal à convertir, D2b), puis les
-deux familiers Icewind qui en dépendent (D2c). Les `map_drops` de
+D2a (plus bas). Les 44 cartes EP19 et EP20 sont portées au sous-lot D2b. Restent les deux familiers Icewind
+qui en dépendent (D2c). Les `map_drops` de
 brHades ne couvrent que les cartes d'instance : ils iront au lot F.
 
 ### Lot E — quêtes (porté le 2026‑11‑18, non validé en jeu)
@@ -254,6 +254,20 @@ les lots A à F (procédure du §11 de la feuille de route).
 chercher dans les GRF du client ; 52 autres quêtes du serveur inconnues du journal
 (Crash d'aéronef, Tombeau du Remords, Tour de Thanatos, Tour des Constellations, Arène
 Nocturne de Geffen), hors de l'épisode 20.
+
+### Sous-lot D2b — cartes EP19 et EP20 (porté le 2026‑11‑18, non validé en jeu)
+
+| Élément | Fichier | Détail |
+|---|---|---|
+| Cartes | `item_db_card.yml` | 44 : 24 de l'épisode 19 (300359 à 300382) et 20 de l'épisode 20 (300455 à 300474). Règles habituelles : traits, `bAtkRate` en `bAddClass`, `readparam(bSpl)` en `readparam(bInt)`, paliers `>= 11` / `>= 12` et `< 12` en `getallrefine() >= 22` / `>= 24` et `< 24` (règle 2N, somme du raffinage porté), niveau d'arme 5 → 4, DEF ÷50 |
+| Niveau d'armure 2 | idem | refusé en pre-re : traduit par « la pièce qui porte la carte est un Dim Glacier » (armure/robe, cape/cache-col, bottes/souliers, `getequipid`). Sur casque (Icewind's Egg) et bouclier (Modified Senior Rgan), sans Dim Glacier, le bloc est retiré |
+| Jormungandr Sanctuary Guardian | idem | DEF par raffinage retirée (règle Glacier), RES par raffinage convertie : de 0 à -8 % de dégâts physiques à +10 |
+| Drops | `mobs/ep19.yml`, `mobs/ep20.yml` | 45 drops (0,01 %, protégés du vol) : 23 de la PR #8527, 22 de brHades. **Sans source** : `Aquila_Card`, `Snow_Angel_Card`, `Rgan_Chief_Clean_Card` |
+| Client | `item_info.yml` | 30 fiches alignées (traits, paliers en « Refine Total Stuff », « When compounded on a Dim Glacier piece », niveau d'arme 4) |
+
+Albums (feuille de route §12, validés le 2026‑11‑18) : 37 cartes à l'album commun
+(`CARDALBUM`, `Rate: 1`), 4 cartes de boss (Lasgand, ange déchu, Juncea, Ultra Limacina) à
+l'album magique et à l'enchanteur MVP (`Rate: 1`).
 
 ### Sous-lot D2a — Dim Glacier (porté le 2026‑11‑18, non validé en jeu)
 
