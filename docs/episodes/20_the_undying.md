@@ -235,6 +235,27 @@ avertissement**. Le premier passage signalait `specialeffect3` inconnu : `map-se
 datait du 15/11, avant le lot B. Recompilé en Release, il charge tout. `audit_instance.py` ne
 relève rien d'autre que l'absence voulue des quatre instances de la chaîne au warp agent.
 
+### Lot G — client (porté le 2026‑11‑18, non validé en jeu)
+
+Tables de `G:\GitHub\moonclient\dist\data\yaml_files`, régénérées depuis le serveur après
+les lots A à F (procédure du §11 de la feuille de route).
+
+| Table | Changement |
+|---|---|
+| `reputation.yml` | faction 5 White Cat Alliance, rangée dans le groupe Isgard avec la faction 4 |
+| `quests.yml` | les 159 quêtes du bloc « Episode 20 » de `quest_db`, prises de `SystemEN\OngoingQuests.lub` (ROenglishRE, Renewal) et insérées à leur place sans redumper le fichier ; 18 quêtes d'attente marquées `cooldown: true` (`quest_cooldowns.py` restreint à l'épisode) |
+| `item_db`, `item_properties`, `item_groups`, `map_drops` | les objets EP20, leurs poids, la Glacier Armor +9 Refinement Cube et les drops de `1@slug` / `1@twbs` |
+| `mob_db`, `mob_db_context`, `monster_list` | les 40 mobs du lot A |
+| `pets.yml` | Copo (21965, œuf 9145, Chubby Ice Gangu 102202) |
+| `laphine.yml` | Glacier Armor +9 Refinement Cube (102227), sept armures cibles |
+| `item_info.yml` | 0 objet sans fiche ; 34 faits serveur (type, poids) retirés de 33 fiches EP20 |
+| `navigation.yml` | relue depuis la génération du contrôle du lot F (cartes, PNJ et spawns de l'épisode) |
+
+`warp_agents.yml` ne change pas. Restent ouverts : les 15 `cutin "ep20_*"` des scripts, à
+chercher dans les GRF du client ; 52 autres quêtes du serveur inconnues du journal
+(Crash d'aéronef, Tombeau du Remords, Tour de Thanatos, Tour des Constellations, Arène
+Nocturne de Geffen), hors de l'épisode 20.
+
 ## 4. Plan de portage
 
 Mêmes règles que pour le 19 (checklist de portage de contenu renewal → pre-re). Chaque
@@ -248,7 +269,7 @@ lot se valide au boot du serveur avant le suivant.
 | **D — Objets et économie** | objets EP20 de `db/re` vers `db/import`, `map_drops`, barters, Laphine, réputation White cat alliance | constante `REPU_EP20` au boot ; table `reputation` de moonclient ; prix de boutique ≥ 1,65 × revente |
 | **E — Quêtes** | 159 entrées `quest_db` ; `quests_20_main`, `_daily`, `_side_quests`, `_misc` | remplacement du PNJ Horr de `quests_19.npc` ; 586 `cutin` (images à vérifier côté client) ; latin-1 |
 | **F — Instances** | 7 entrées `instance_db`, 6 scripts | Id libres côté Moonlight ; Warp Agent (enum généré depuis `instance_db.yml`) ; hard mode |
-| **G — Client** | tables moonclient (quêtes, réputation, objets) | — |
+| **G — Client** | tables moonclient (quêtes, réputation, objets) | fait le 2026‑11‑18 ; cutins à vérifier dans les GRF |
 
 ## 5. Hall of Life
 

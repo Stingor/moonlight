@@ -24,7 +24,7 @@ Relevé initial le **2026-08-25**, synthèse remise à jour le **2026-10-07** (1
 | [17-2_heritage_du_sage.md](17-2_heritage_du_sage.md) | 17.2 — Sage's Legacy (Varmundt) | 2020‑10‑30 | **en production** (Niflheim renewal, Rudus 4F, Amicitia, chaîne de quêtes, quatre instances, économie du manoir) |
 | [18_direction_de_la_priere.md](18_direction_de_la_priere.md) | 18 — Direction of Prayer | 2021‑02‑01 | **en production** (terrain, chaîne, réputation, instances, économie, réforme Adulter → Vivatus) |
 | [19_issgard.md](19_issgard.md) | 19 — Issgard, Land of Snow Flowers | 2022‑01‑19 | **porté** (mobs et leurs compétences, terrain, quêtes, économie, instances, enchantements Snowflower et Glacier, coffret d'Ultra Limacina) ; tests en jeu à faire |
-| [20_the_undying.md](20_the_undying.md) | 20 — The Undying | 2023‑03‑02 | **en cours** depuis brHades (Capuche) : mobs, C++, terrain, objets, quêtes et instances portés (lots A à F, non validés en jeu) ; tables client, Dim Glacier et cartes à faire ; Hall of Life toujours commenté |
+| [20_the_undying.md](20_the_undying.md) | 20 — The Undying | 2023‑03‑02 | **en cours** depuis brHades (Capuche) : mobs, C++, terrain, objets, quêtes, instances et tables client portés (lots A à G, non validés en jeu) ; Dim Glacier et cartes à faire ; Hall of Life toujours commenté |
 
 ## Synthèse : ce qui reste à migrer, par coût croissant
 
