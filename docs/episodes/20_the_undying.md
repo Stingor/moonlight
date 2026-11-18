@@ -6,7 +6,7 @@
 | Date kRO | **2023‑03‑02** |
 | Arc | fin de la traque de Bagot — le labyrinthe du serpent |
 | Niveau kRO visé | **215+** |
-| État Moonlight | **à porter** : une conversion complète existe (brHades, par Capuche) ; rien n'est chargé |
+| État Moonlight | **mobs, C++, terrain, objets et quêtes portés** depuis brHades (Capuche) (2026‑11‑18, non validés en jeu) ; instances à faire |
 
 Suite directe d'Issgard : on descend dans le canyon de glace ancien, on démasque les
 infiltrés (les faux soldats Iwin), on cherche l'entrée du repaire du serpent avant qu'un
@@ -90,7 +90,8 @@ issu. Aucune PR amont pour le 20 au 2026‑11‑17. Le même dépôt a aussi l'�
 | Mobs EP20 | **lot A fait** (2026‑11‑17) : voir ci-dessous |
 | Spawns, portails, mapflags | **lot C fait** (2026‑11‑17) : voir ci-dessous |
 | Objets, réputation, barters | **lot D fait** (2026‑11‑17), sauf le Dim Glacier et les cartes (D2) |
-| Quêtes, instances | **rien** |
+| Quêtes | **lot E fait** (2026‑11‑18) : voir ci-dessous |
+| Instances | **rien** |
 | C++ | **lot B fait** (2026‑11‑17) : voir ci-dessous |
 | Hall of Life | `moon/rathena/dungeons/for_dun.npc` toujours **commenté** (`scripts_moon.conf:836`), 32 mobs `SPIRIT_*` à écrire |
 
@@ -154,8 +155,8 @@ Debug échoue à l'édition de liens). Pas encore compilé sur pc-serv.
 | Noms de carte | 10 noms dans `db/import/map_index.yml`, repris de `map_names.yml` de moonclient |
 | Noms de mob | `EP20_SNOW_ANGEL` « Snowstorm Angel », `EP20_BOSS_CLANER` « Jormund Chief Cleaner » (iRO), au lieu des noms tronqués de brHades |
 
-`jor_root1` n'a pas d'entrée depuis `jor_nest` : elle passe par la chaîne (lot E). Le warp
-agent ne propose pas encore les cartes du 20 : il les ouvrira avec la chaîne.
+`jor_root1` n'a pas d'entrée depuis `jor_nest` : elle passe par la chaîne (lot E, porte
+`#20ms01`), comme la zone de glace dérivante (`jor_twice`, transport de Cororo).
 
 ### Lot D — objets et économie (porté le 2026‑11‑17, non validé en jeu)
 
@@ -175,6 +176,36 @@ agent ne propose pas encore les cartes du 20 : il les ouvrira avec la chaîne.
 `EP20_DGA_Refine` et `barter_ep19_new_content`. Il y a aussi les 44 cartes EP19 et EP20 (bonus
 renewal à convertir), puis les deux familiers Icewind qui en dépendent. Les `map_drops` de
 brHades ne couvrent que les cartes d'instance : ils iront au lot F.
+
+### Lot E — quêtes (porté le 2026‑11‑18, non validé en jeu)
+
+| Élément | Fichier | Détail |
+|---|---|---|
+| Quêtes | `db/import/quest_db.yml` | les **159** de brHades (Id 8839 à 23118), aucune collision avec l'import ni `db/pre-re` ; trois titres à deux-points nus mis entre guillemets (« Standby: … », bug déjà vu dans la PR du 19) ; objectifs et drops pointent vers des mobs et objets chargés |
+| Scripts | `moon/rathena/quests/quests_20_main.npc`, `_daily`, `_side_quests`, `_misc` | copies de brHades (7 700, 4 900, 1 700 et 570 lignes ; 345 PNJ), latin-1, chargés après `quests_19.npc` |
+| Texte | | ponctuation cp949 convertie en cp1252 (`●` → `•`, `…`, `―` → `—`, `※` → `*`, émoticônes `(≥▽≤)` → `(>v<)`), ligne coréenne d'en-tête retirée |
+| Horuru | `quests_20_main.npc`, `quests_19.npc` | brHades remplace le PNJ de la quotidienne du 19 (`icecastle,27,126`) par une version qui garde la quotidienne et ouvre la chaîne du 20, et décharge l'ancien par `unloadnpc("ep19_if19msdq")`. Nos PNJ n'ont pas ce nom unique : `#e19ms00` et `Horuru#if19msdq` sont **commentés** dans `quests_19.npc`, `ep20_temporary_cleaning` retiré. « Horr » devient **Horuru** partout, le nom de notre 19 |
+| Noms de PNJ du 19 | | brHades vise les PNJ du 19 par des noms uniques `ep19_<carte>_<x>_<y>` que notre 19 n'a pas : les cinq cités (Toralung, Horyara, Zoryara, Lazy, Juncea) renvoient à nos noms |
+| Réputation | | la quotidienne de Horuru créditait la réputation **3** (Village des Loups Gris), bug de brHades : remise sur `REPUTATION_EP19` (Isgard), comme notre 19. Le reste de l'épisode crédite `REPU_EP20` |
+| Fonctions | `moon/rathena/other/Global_Functions.txt` | `F_ep20_checkTransform` (renvoie au nid qui n'est pas déguisé en Rgan) ; `queststatus_between` appelé `F_queststatus_between`, notre nom |
+| Bugs de brHades | | `Lehar#20ms41` sans son nom unique `ep20_jor_safty2_310_43` (trois `npctalk` le visent) ; une espace finale dans un nom de PNJ visé par `npctalk` |
+| Boutiques | | les quatre barters du lot D, ouverts par les PNJ de l'Alliance (`callshop`) |
+| Images | | 66 `cutin`, dont 13 nouvelles `ep20_*` (Cocopo, Lasgand, Nyar) : à confirmer côté client ; les autres servent déjà aux épisodes 18 et 19 |
+
+**Déblocage au compte Moonlight**, comme les épisodes 18 et 19, dès le niveau 215 (celui du
+début de la chaîne) :
+
+| Drapeau | Posé par | Ouvre |
+|---|---|---|
+| `##dun_open_jor_root` | `ep20_main` 16 | la porte des racines (`jor_nest` → `jor_root1`), et au warp agent `jor_root1`, `jor_root2`, `jor_sanct`, `jor_maze` |
+| `##dun_open_jor_twice` | `ep20_main` au-delà de 40 | le transport de Cororo (`icecastle` → `jor_twice`), et `jor_twice` au warp agent |
+
+Le warp agent (Donjons > Issgard) gagne six cartes au niveau 215 : les cinq ci-dessus et
+`jor_root3`, ouverte avec Issgard puisque les portails de `jor_back6` y mènent. Il pose aussi
+les drapeaux à qui a passé ces étapes, et renvoie les autres à Horuru.
+
+**Contrôle de chargement** (2026‑11‑18) : `map-server-generator --generate-navi`, 1 305 quêtes
+dans l'import (+159), 22 390 PNJ (+436), aucune erreur nouvelle.
 
 ## 4. Plan de portage
 

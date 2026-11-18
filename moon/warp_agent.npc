@@ -1220,9 +1220,9 @@ function QuestDunMenu {
 		setarray .@qy[0], 260, 260, 260, 260, 260;
 	} else if (.@set == 3) {
 		copyarray .@mname$[0], .wm_jor$[0], getarraysize(.wm_jor$); // ordre : OnInit
-		setarray .@mxcoord[0], 27, 219, 222, 229, 364, 0, 0, 0, 113, 282, 113, 281;
-		setarray .@mycoord[0], 123, 53, 22, 17, 245, 0, 0, 0, 10, 87, 10, 87;
-		setarray .@minlv[0], 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200;
+		setarray .@mxcoord[0], 27, 219, 222, 229, 364, 0, 0, 0, 113, 282, 113, 281, 32, 25, 367, 150, 206, 235;
+		setarray .@mycoord[0], 123, 53, 22, 17, 245, 0, 0, 0, 10, 87, 10, 87, 17, 17, 129, 47, 16, 107;
+		setarray .@minlv[0], 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 215, 215, 215, 215, 215, 215;
 		// Chaine de l'episode 19 : l'etape 7 (l'arrivee par l'aeronef) ouvre Issgard, la quete de
 		// la mer gelee la Fosse abandonnee (ep19_side_sea 11 pour F1, au-dela de 15 pour F2). Un
 		// personnage qui les a passees ouvre le compte aussi.
@@ -1232,14 +1232,24 @@ function QuestDunMenu {
 			##dun_open_jor_ab01 = 1;
 		if (ep19_side_sea > 15 && !##dun_open_jor_ab02)
 			##dun_open_jor_ab02 = 1;
+		// Episode 20 : ep20_main 16 ouvre les racines du serpent (porte de jor_nest), au-dela de 40
+		// le transport de Cororo vers la zone de glace derivante. jor_root3 tient aux portails de
+		// jor_back6 : Issgard ouvert suffit.
+		if (ep20_main >= 16 && !##dun_open_jor_root)
+			##dun_open_jor_root = 1;
+		if (ep20_main > 40 && !##dun_open_jor_twice)
+			##dun_open_jor_twice = 1;
 		.@o = ##dun_open_issgard;
-		setarray .@open[0], .@o, .@o, .@o, .@o, .@o, .@o, .@o, .@o, .@o, .@o, ##dun_open_jor_ab01, ##dun_open_jor_ab02;
+		.@r = ##dun_open_jor_root;
+		setarray .@open[0], .@o, .@o, .@o, .@o, .@o, .@o, .@o, .@o, .@o, .@o, ##dun_open_jor_ab01, ##dun_open_jor_ab02,
+			.@r, .@r, .@o, .@r, .@r, ##dun_open_jor_twice;
 		.@p = (ep19_main > 0);
 		.@s = (ep19_side_sea > 0);
-		setarray .@prog[0], .@p, .@p, .@p, .@p, .@p, .@p, .@p, .@p, .@p, .@p, .@s, .@s;
+		.@e = (ep20_main > 0);
+		setarray .@prog[0], .@p, .@p, .@p, .@p, .@p, .@p, .@p, .@p, .@p, .@p, .@s, .@s, .@e, .@e, .@p, .@e, .@e, .@e;
 		// La chaine commence au village des loups gris (ep18_main 57) ; la quete de la mer, dans
 		// la chambre de Lehar, au chateau : seulement pour qui a deja Issgard ouvert.
-		for (.@i = 0; .@i < 12; .@i++) {
+		for (.@i = 0; .@i < 18; .@i++) {
 			.@qnpc$[.@i] = "Grey Wolf Villager";
 			.@qmap$[.@i] = "wolfvill";
 			.@qx[.@i] = 221;
@@ -1250,6 +1260,14 @@ function QuestDunMenu {
 			setarray .@qmap$[10], "icas_in", "icas_in";
 			setarray .@qx[10], 35, 35;
 			setarray .@qy[10], 115, 115;
+			// La chaine de l'episode 20 commence aupres de Horuru, a l'ouest du chateau.
+			for (.@i = 12; .@i < 18; .@i++) {
+				if (.@i == 14) continue;
+				.@qnpc$[.@i] = "Horuru";
+				.@qmap$[.@i] = "icecastle";
+				.@qx[.@i] = 30;
+				.@qy[.@i] = 126;
+			}
 		}
 	} else {
 		copyarray .@mname$[0], .wm_nfd$[0], getarraysize(.wm_nfd$); // ordre : OnInit
@@ -2121,10 +2139,12 @@ OnInit:
 		"moc_fild11", "moc_fild12", "moc_fild13", "moc_fild14", "moc_fild15",
 		"moc_fild16", "moc_fild17", "moc_fild18", "moc_fild19", "moc_fild20";
 	// Episode 19 : ordre lu par QuestDunMenu(3). jor_back4 a 6 sont des cartes de l'episode 20,
-	// reliees a jor_back3 par les portails de moon/mobs/ep20.npc.
+	// reliees a jor_back3 par les portails de moon/mobs/ep20.npc. Les six dernieres sont celles
+	// de la chaine de l'episode 20 (moon/rathena/quests/quests_20_main.npc).
 	setarray .wm_jor$[0],
 		"icecastle", "jor_tail", "jor_back1", "jor_back2", "jor_back3", "jor_back4", "jor_back5",
-		"jor_back6", "jor_dun01", "jor_dun02", "jor_ab01", "jor_ab02";
+		"jor_back6", "jor_dun01", "jor_dun02", "jor_ab01", "jor_ab02",
+		"jor_root1", "jor_root2", "jor_root3", "jor_sanct", "jor_maze", "jor_twice";
 	setarray .wm_ill$[0],
 		"pay_d03_i", "ice_d03_i", "gef_d01_i", "iz_d04_i", "iz_d05_i",
 		"ein_d02_i", "tur_d03_i", "tur_d04_i", "com_d02_i", "ant_d02_i",
@@ -2552,11 +2572,12 @@ OnInit:
 		0;
 	// Episode 19 : Issgard (ville, fields, donjons), ajoute a la main.
 	setarray .@navm$[422],
-		"icecastle", "jor_tail", "jor_back1", "jor_back2", "jor_back3", "jor_back4", "jor_back5", "jor_back6", "jor_dun01", "jor_dun02", "jor_ab01", "jor_ab02";
+		"icecastle", "jor_tail", "jor_back1", "jor_back2", "jor_back3", "jor_back4", "jor_back5", "jor_back6", "jor_dun01", "jor_dun02", "jor_ab01", "jor_ab02",
+		"jor_root1", "jor_root2", "jor_root3", "jor_sanct", "jor_maze", "jor_twice";
 	setarray .@navx[422],
-		27, 219, 222, 229, 364, 0, 0, 0, 113, 0, 113, 0;
+		27, 219, 222, 229, 364, 0, 0, 0, 113, 0, 113, 0, 32, 25, 367, 150, 206, 235;
 	setarray .@navy[422],
-		123, 53, 22, 17, 245, 0, 0, 0, 10, 0, 10, 0;
+		123, 53, 22, 17, 245, 0, 0, 0, 10, 0, 10, 0, 17, 17, 129, 47, 16, 107;
 	for (.@i = 0; .@i < getarraysize(.@navm$); .@i++) {
 		// Un agent ne se declare pas une arete vers sa propre carte.
 		if (strnpcinfo(4) == .@navm$[.@i]) continue;
