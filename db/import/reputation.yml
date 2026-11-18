@@ -43,3 +43,9 @@ Body:
     Variable: RepPointsIsgard
     Minimum: -3000
     Maximum: 3000
+  # Episode 20 : l'Alliance du Chat Blanc (brHades la mettait a la place d'Isgard, Id 4)
+  - Id: 5
+    Name: White Cat Alliance
+    Variable: RepPointsWhiteCatAlliance
+    Minimum: -3000
+    Maximum: 3000

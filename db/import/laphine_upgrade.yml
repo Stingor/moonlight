@@ -1735,3 +1735,16 @@ Body:
     TargetItems:
       - Item: MD_Geffen_Shield
       - Item: MD_Geffen_Shield2
+  # Episode 20 : le cube +9 des armures Glacier (brHades), vendu par l'Alliance du Chat Blanc
+  - Item: Glacier_Armor_9Refine
+    ResultRefine: 9
+    MaximumRefine: 8
+    CardsAllowed: false
+    TargetItems:
+      - Item: Glacier_Armor
+      - Item: Glacier_Robe
+      - Item: Glacier_Manteau
+      - Item: Glacier_Muffler
+      - Item: Glacier_Boots
+      - Item: Glacier_Shoes
+      - Item: Glacier_Guard

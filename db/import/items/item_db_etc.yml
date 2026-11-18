@@ -16055,3 +16055,47 @@ Body:
     Flags:
       BuyingStore: true
       DropEffect: client
+  # Episode 20 : objets de quete et monnaie de l'Alliance du Chat Blanc (db/re, noms du client)
+  - Id: 1001154
+    AegisName: Ep20_Jor_Berry
+    Name: Snake Strawberry
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1001217
+    AegisName: Ep20_Cat_Whiskers
+    Name: Divine Cat Whiskers
+    Type: Etc
+    Flags:
+      BuyingStore: true
+  - Id: 1001218
+    AegisName: Ep20_Jor_Device
+    Name: Power Recovery Device
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+  - Id: 1001254
+    AegisName: Ep20_Ymir_Heart
+    Name: Corrupted Heart Fragment of Ymir
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true

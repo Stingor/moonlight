@@ -899,3 +899,8 @@ Body:
     AegisName: Ep_17_2_C_Admin2_Acc
     Name: Little Headdress Alpha
     Type: PetArmor
+  # Episode 20 : oeuf du Copo (db/re)
+  - Id: 9145
+    AegisName: Copo_Egg
+    Name: Copo Egg
+    Type: PetEgg

@@ -12370,3 +12370,32 @@ Body:
       DropEffect: CLIENT
     Script: |
       getgroupitem(IG_F_ICESLUG_ANTIQUIY,true);
+  # Episode 20 : objet d'apprivoisement du Copo, cube +9 des armures Glacier (db/re)
+  - Id: 102202
+    AegisName: Ep20_Fatty_Icegangu
+    Name: Chubby Ice Gangu
+    Type: Usable
+    Weight: 50
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      pet;
+  - Id: 102227
+    AegisName: Glacier_Armor_9Refine
+    Name: Glacier Armor +9 Refinement Cube
+    Type: DelayConsume
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      laphine_upgrade();

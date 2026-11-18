@@ -89,6 +89,7 @@ issu. Aucune PR amont pour le 20 au 2026‑11‑17. Le même dépôt a aussi l'�
 | Épisode 19 | porté (`moon/rathena/quests/quests_19.npc`, `ep19_main`, Horr) : c'est le prérequis |
 | Mobs EP20 | **lot A fait** (2026‑11‑17) : voir ci-dessous |
 | Spawns, portails, mapflags | **lot C fait** (2026‑11‑17) : voir ci-dessous |
+| Objets, réputation, barters | **lot D fait** (2026‑11‑17), sauf le Dim Glacier et les cartes (D2) |
 | Quêtes, instances | **rien** |
 | C++ | **lot B fait** (2026‑11‑17) : voir ci-dessous |
 | Hall of Life | `moon/rathena/dungeons/for_dun.npc` toujours **commenté** (`scripts_moon.conf:836`), 32 mobs `SPIRIT_*` à écrire |
@@ -155,6 +156,25 @@ Debug échoue à l'édition de liens). Pas encore compilé sur pc-serv.
 
 `jor_root1` n'a pas d'entrée depuis `jor_nest` : elle passe par la chaîne (lot E). Le warp
 agent ne propose pas encore les cartes du 20 : il les ouvrira avec la chaîne.
+
+### Lot D — objets et économie (porté le 2026‑11‑17, non validé en jeu)
+
+| Élément | Fichier | Détail |
+|---|---|---|
+| Réputation | `db/import/reputation.yml`, `reputation_group.yml`, `const.yml` | **White Cat Alliance, Id 5**, `RepPointsWhiteCatAlliance`, -3000 à 3000, dans le groupe Isgard. brHades la mettait à l'Id 4 **à la place d'Isgard** : chez nous la 4 reste Isgard (épisode 19). `REPU_EP20` vaut 5 (constante : redémarrage complet) |
+| Objets de quête | `item_db_etc.yml` | `Ep20_Jor_Berry`, `Ep20_Cat_Whiskers` (monnaie de l'Alliance), `Ep20_Jor_Device`, `Ep20_Ymir_Heart` ; entrées `db/re`, noms du client |
+| Consommables | `item_db_usable.yml` | `Ep20_Fatty_Icegangu` (apprivoise le Copo, `pet;`), `Glacier_Armor_9Refine` (cube +9 des armures Glacier) |
+| Costumes | `item_db_costumes.yml` | `C_Armored_Copo`, `C_Egg_Copo` |
+| Familier | `pet_db.yml`, `item_db_pet.yml` | le Copo (œuf `Copo_Egg`), `bAtkRate` en `bAddClass`. Évolutions vers les deux Icewind **écartées** : elles exigent les cartes Icewind, non portées |
+| Laphine | `laphine_upgrade.yml` | `Glacier_Armor_9Refine` : +9 sur les 7 armures Glacier, raffinement 8 au plus, sans carte |
+| Barters | `moon/barters.yml` | `barter_ep20_shop_1_A`, `_1_B` (costumes, cube +9), `barter_ep20_glacier_eq` (11 pièces Glacier contre 100 moustaches), `barter_ep20_shop_2` (pierres et extraits de magie pure) ; `EP20_DGA_Refine` (Dim Glacier) retiré. Les PNJ qui les ouvrent arrivent avec les quêtes (lot E) |
+| Contrôle | | toutes les références (barters, Laphine, familier) pointent vers un objet ou un mob chargé ; chargement sans erreur |
+
+**Reporté (sous-lot D2) : le Dim Glacier et les cartes.** Le Dim Glacier compte 26 armes et
+6 armures `D_Glacier_*`, le grade, l'enchantement 47, Forr, le four d'incinération,
+`EP20_DGA_Refine` et `barter_ep19_new_content`. Il y a aussi les 44 cartes EP19 et EP20 (bonus
+renewal à convertir), puis les deux familiers Icewind qui en dépendent. Les `map_drops` de
+brHades ne couvrent que les cartes d'instance : ils iront au lot F.
 
 ## 4. Plan de portage
 

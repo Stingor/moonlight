@@ -36,3 +36,6 @@ Body:
   # Episode 19 : la reputation d'Isgard (db/import/reputation.yml)
   - Name: REPUTATION_EP19
     Value: 4
+  # Episode 20 : l'Alliance du Chat Blanc (reputation 5), nom de brHades
+  - Name: REPU_EP20
+    Value: 5

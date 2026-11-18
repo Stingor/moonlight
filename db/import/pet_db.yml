@@ -2257,3 +2257,24 @@ Body:
 #            Amount: 100
 #          - Item: Cookies_Bat
 #            Amount: 100
+  # Episode 20 : le Copo (brHades), bAtkRate en bAddClass. Evolutions vers les Icewind ecartees :
+  # elles exigent Grey_Icewind_Card et Icewind_Card (cartes EP20 non portees).
+  - Mob: EP20_COPO
+    TameItem: Ep20_Fatty_Icegangu
+    EggItem: Copo_Egg
+    FoodItem: Pet_Food
+    Fullness: 2
+    HungryDelay: 120
+    IntimacyFed: 15
+    CaptureRate: 10000
+    SpecialPerformance: false
+    Script: >
+      .@intimate = getpetinfo(PETINFO_INTIMATE);
+      if (.@intimate == PET_INTIMATE_CORDIAL) {
+         bonus bMatkRate,1;
+         bonus2 bAddClass,Class_All,1;
+      }
+      if (.@intimate == PET_INTIMATE_LOYAL) {
+         bonus bMatkRate,2;
+         bonus2 bAddClass,Class_All,2;
+      }
