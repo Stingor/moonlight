@@ -11511,6 +11511,8 @@ mid_camp,199,311,7	script	Mr. Kidd#ep13_dan01	884,{
 	end;
 
 OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("mid_camp_to_que_dan01", "que_dan01", 32, 27, 204);
 	set $@moc_mao_gate1,0; //Global Variable
 	end;
 }
@@ -11991,6 +11993,10 @@ OnTouch_:
 		warp "que_job01",9,94;
 		end;
 	}
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("morocc_to_que_job01", "que_job01", 9, 94);
+	end;
 }
 
 que_job01,6,94,0	warp	morocc#01	2,2,morocc,45,103

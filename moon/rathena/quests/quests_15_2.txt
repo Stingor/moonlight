@@ -1330,6 +1330,10 @@ un_bunker,388,86,3	script	Alph#Entrance2	4_M_BLACKMAN,{
 	close2;
 	warp "un_myst",11,206;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("un_bunker_to_un_myst", "un_myst", 11, 206, 204);
+	end;
 }
 
 un_myst,27,208,5	script	Verity#Myst	4_F_BERRYTEA,{
@@ -1708,6 +1712,10 @@ un_myst,209,42,3	script	Tamarin#Lastroom Entrance	4_M_TAMARIN,{
 	else
 		warp "un_bunker",98,91;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("un_myst_to_un_bunker", "un_bunker", 98, 91, 204);
+	end;
 }
 
 verus01,123,181,3	script	Verity#Warper	4_F_BERRYTEA,{
@@ -1753,6 +1761,10 @@ verus01,123,181,3	script	Verity#Warper	4_F_BERRYTEA,{
 	mes "Hm...";
 	cutin "EP15_2_brt_1.bmp",2;
 	close3;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("verus01_to_un_bunker", "un_bunker", 98, 91, 204);
+	end;
 }
 
 
@@ -5502,6 +5514,10 @@ un_bunker,103,95,4	script	Mysterious Device#EP15.2MR1	2_BOARD2,{
 	}
 	mes "This device's use cannot be figured out.";
 	close;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("", "un_bk_q", 98, 143, 204);
+	end;
 }
 un_bunker,102,161,4	duplicate(Mysterious Device#EP15.2MR1)	Mysterious Device#EP15.2MR2	2_BOARD2
 un_bunker,51,272,4	duplicate(Mysterious Device#EP15.2MR1)	Mysterious Device#EP15.2MR3	2_BOARD2

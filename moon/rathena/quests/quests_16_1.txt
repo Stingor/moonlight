@@ -908,6 +908,8 @@ prt_cas_q,28,28,3	script	Court Mage Nillem#ep16_wiz01	4_M_JOB_WIZARD,{
 	}
 	end;
 OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("nillem_to_prt_lib", "prt_lib", 89, 44, 204);
 	cloakonnpc "Court Mage Nillem#ep16_wiz01";
 	cloakonnpc "Kafra Employee#ep16_s01";
 	cloakonnpc "Giant Beast Manager#ep16_s02";
@@ -1897,6 +1899,10 @@ prt_lib,56,61,4	script	Guardian Knight#ep16_roomguard	4_M_CRU,{
 		warp "prt_pri00",60,127;
 	}
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("prt_lib_to_prt_pri00", "prt_pri00", 60, 127, 204);
+	end;
 }
 
 prt_lib,88,80,0	script	#ep16_lib_evt01	HIDDEN_WARP_NPC,1,1,{
@@ -2362,6 +2368,8 @@ prt_lib,94,82,3	script	Dimension Warper MkII#ep16_lib	PORTAL,{
 	warp "prt_lib_q",89,43;
 	end;
 OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("prt_lib_to_prt_lib_q", "prt_lib_q", 89, 43, 204);
 	cloakonnpc "Dimension Warper MkII#ep16_lib";
 	end;
 }
@@ -14574,6 +14582,10 @@ prt_q,157,334,3	script	Nillem#ep16_pprt01	4_M_JOB_WIZARD,{
 	close2;
 	warp "prt_lib",89,43;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("prt_q_to_prt_lib", "prt_lib", 89, 43, 204);
+	end;
 }
 
 prt_q,159,328,6	script	Medic#EP162PS18	4_F_ACOLYTE,{
@@ -16915,6 +16927,10 @@ OnTouch:
 		close;
 	}
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("pri00_to_prt_prison", "prt_prison", 160, 290, 204);
+	end;
 }
 
 prt_pri00,58,128,4	script	Overwatcher Terketh#ep16	4_M_JOB_HUNTER,{
@@ -16956,6 +16972,10 @@ prt_pri00,58,128,4	script	Overwatcher Terketh#ep16	4_M_JOB_HUNTER,{
 	sleep2 2000;
 	setpcblock PCBLOCK_NPC, false;
 	warp "prt_lib",9,28;
+	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("pri00_to_prt_lib", "prt_lib", 9, 28, 204);
 	end;
 }
 

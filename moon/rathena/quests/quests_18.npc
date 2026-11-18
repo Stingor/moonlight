@@ -4431,6 +4431,10 @@ thor_v01,169,169,3	script	Maram#Armybase-Secret passage	4_EP18_MARAM,{
 		end;
 	}
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("thor_v01_to_que_thr", "que_thr", 181, 53, 204);
+	end;
 }
 
 // Main Quest: Step 47. (entrance npc is a part of the instance Thor Gunsu Base)

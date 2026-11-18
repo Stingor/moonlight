@@ -12,6 +12,10 @@ OnTouch:
 	}
 	warp "prt_q",155,354;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("lib_q_to_prt_q", "prt_q", 155, 354);
+	end;
 }
 
 prt_cas,152,163,0	script	way_to_qroom_L_qroom_L_to_way	WARPNPC,1,1,{
@@ -84,6 +88,10 @@ OnTouch_:
 		warp "prt_lib",60,61;
 	}
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("lib_to_prt_pri00", "prt_pri00", 60, 127);
+	end;
 }
 
 prt_cas,188,258,0	script	prt_cas_to_prt_pri00	WARPNPC,1,1,{
@@ -98,6 +106,10 @@ OnTouch_:
 		setpcblock PCBLOCK_NPC, false;
 		warp "prt_cas",182,258;
 	}
+	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("prt_cas_to_prt_pri00", "prt_pri00", 54, 134);
 	end;
 }
 prt_pri00,54,139,0	warp	prt_pri_to_prt_cas	1,1,prt_cas,182,258

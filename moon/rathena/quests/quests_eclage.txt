@@ -2212,6 +2212,10 @@ OnTouch:
 	}
 	warp "ecl_in04",180,226;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("eclage_to_yube", "ecl_in04", 180, 226);
+	end;
 }
 
 ecl_in04,182,224,4	script	Yube#ep14_2in	4_M_FAIRYKID5,{
@@ -6989,6 +6993,10 @@ eclage,156,56,3	script	Residence entrance#e_prt	CLEAR_NPC,{
 		warp "ecl_in04",77,107;
 	}
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("eclage_to_residence", "ecl_in04", 77, 107, 204);
+	end;
 }
 
 ecl_in04,81,102,3	script	Residence exit#ecl_port2	CLEAR_NPC,{
@@ -6999,6 +7007,10 @@ ecl_in04,81,102,3	script	Residence exit#ecl_port2	CLEAR_NPC,{
 		}
 		warp "eclage",156,53;
 	}
+	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("residence_to_eclage", "eclage", 156, 53, 204);
 	end;
 }
 
@@ -10415,6 +10427,10 @@ eclage,155,91,4	script	#pa0829Hiel's Door10	2_BOARD2,3,3,{
 		end;
 	}
 	close;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("eclage_to_hiel", "ecl_in04", 107, 213, 204);
+	end;
 }
 
 ecl_in04,108,215,4	script	Supreme Elec rope#pa0829	HIDDEN_NPC,{
@@ -10425,6 +10441,10 @@ ecl_in04,108,215,4	script	Supreme Elec rope#pa0829	HIDDEN_NPC,{
 		end;
 	}
 	close;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("hiel_to_eclage", "eclage", 152, 91, 204);
+	end;
 }
 
 sec_in02,85,187,4	script	#pa0829Reactor11	4_M_FAIRYKID,3,3,{
@@ -16810,6 +16830,10 @@ OnTimer400000:
 	if ($111204_avantlabo == 1)
 		$111204_avantlabo = 0;
 	stopnpctimer;
+	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("eclage_to_avant_lab", "que_avan01", 26, 26, 204);
 	end;
 }
 

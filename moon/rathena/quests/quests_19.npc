@@ -1123,6 +1123,8 @@ ba_in01,30,264,4	script	Navigator Ginger#ep19gg01	4_EP17_TABLET,{
 	end;
 
 OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("ginger_to_airif", "air_if", 53, 71, 204);
 	questinfo( QTYPE_QUEST2, QMARK_NONE, "isbegin_quest(18123) == 1" );
 	end;
 }
@@ -1208,6 +1210,9 @@ air_if,46,71,4	script	Navigator Ginger#ep19gg03	4_EP17_TABLET,{
 	end;
 
 OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("airif_to_ba_in01", "ba_in01", 30, 262, 204);
+	naviregisterwarp("airif_to_tail", "jor_tail", 219, 53, 204);
 	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "isbegin_quest(18123) == 1" );
 	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "isbegin_quest(18124) == 1" );
 	end;
@@ -1525,6 +1530,10 @@ OnTouch:
 		cloakoffnpcself( "Lehar#ep19lehar04" );
 		end;
 	}
+	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("ginger_tail_to_airif", "air_if", 53, 71, 204);
 	end;
 }
 
