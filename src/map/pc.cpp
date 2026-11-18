@@ -11855,7 +11855,6 @@ void pc_setoption(map_session_data *sd,int32 type, int32 subtype)
 
 #ifndef NEW_CARTS
 	if( type&OPTION_CART && !( p_type&OPTION_CART ) ) { //Cart On
-		if( sd->state.sort_cart ) sort_storage_items(sd->cart.u.items_cart, ARRAYLENGTH(sd->cart.u.items_cart), (e_sort_mode)sd->state.sort_cart);
 		clif_cartlist(sd);
 		clif_updatestatus(*sd, SP_CARTINFO);
 		if(pc_checkskill(sd, MC_PUSHCART) < 10)
@@ -11953,7 +11952,6 @@ bool pc_setcart(map_session_data *sd,int32 type) {
 			break;
 		default:/* everything else is an allowed ID so we can move on */
 			if( !sd->sc.getSCE(SC_PUSH_CART) ) { /* first time, so fill cart data */
-				if( sd->state.sort_cart ) sort_storage_items(sd->cart.u.items_cart, ARRAYLENGTH(sd->cart.u.items_cart), (e_sort_mode)sd->state.sort_cart);
 				clif_cartlist(sd);
 				status_calc_cart_weight(sd, (e_status_calc_weight_opt)(CALCWT_ITEM|CALCWT_MAXBONUS|CALCWT_CARTSTATE));
 			}

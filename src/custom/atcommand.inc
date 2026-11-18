@@ -1984,67 +1984,6 @@ ACMD_FUNC(flywinglast)
 	return 0;
 }
 
-// ── @tri_inventaire / @tri_cart / @tri_storage / @tri_gstorage ───────────────
-
-static e_sort_mode atcmd_parse_sort_mode(const char* msg)
-{
-	if( !msg || !*msg ) return (e_sort_mode)255;
-	if( strncmpi(msg, "defaut",   6) == 0 ) return SORT_NAMEID;
-	if( strncmpi(msg, "type",     4) == 0 ) return SORT_TYPE;
-	if( strncmpi(msg, "quantite", 8) == 0 ) return SORT_AMOUNT;
-	if( strncmpi(msg, "poids",    5) == 0 ) return SORT_WEIGHT;
-	if( strncmpi(msg, "prix",     4) == 0 ) return SORT_PRICE;
-	if( strncmpi(msg, "nom",      3) == 0 ) return SORT_NAME;
-	if( strncmpi(msg, "aucun",    5) == 0 ) return SORT_NONE;
-	return (e_sort_mode)255; // invalide
-}
-
-static void atcmd_show_sort_usage(const int32 fd, map_session_data* sd, const char* cmd)
-{
-	char buf[160];
-	snprintf(buf, sizeof(buf), "Usage : @%s <defaut|type|quantite|poids|prix|nom|aucun>", cmd);
-	clif_displaymessage(fd, buf);
-}
-
-
-ACMD_FUNC(tri_inventaire)
-{
-	nullpo_retr(-1, sd);
-	e_sort_mode mode = atcmd_parse_sort_mode(message);
-	if( mode == (e_sort_mode)255 ) { atcmd_show_sort_usage(fd, sd, "tri_inventaire"); return -1; }
-	bourgeon_setting_set(sd, BOURGEON_SETTING_TRI_INV, (uint32)mode, BSET_SRC_SERVER);
-	return 0;
-}
-
-ACMD_FUNC(tri_cart)
-{
-	nullpo_retr(-1, sd);
-	e_sort_mode mode = atcmd_parse_sort_mode(message);
-	if( mode == (e_sort_mode)255 ) { atcmd_show_sort_usage(fd, sd, "tri_cart"); return -1; }
-	bourgeon_setting_set(sd, BOURGEON_SETTING_TRI_CART, (uint32)mode, BSET_SRC_SERVER);
-	return 0;
-}
-
-ACMD_FUNC(tri_storage)
-{
-	nullpo_retr(-1, sd);
-	if( sd->state.storage_flag ) { clif_displaymessage(fd, "Fermez d'abord votre coffre."); return -1; }
-	e_sort_mode mode = atcmd_parse_sort_mode(message);
-	if( mode == (e_sort_mode)255 ) { atcmd_show_sort_usage(fd, sd, "tri_storage"); return -1; }
-	bourgeon_setting_set(sd, BOURGEON_SETTING_TRI_STORAGE, (uint32)mode, BSET_SRC_SERVER);
-	return 0;
-}
-
-ACMD_FUNC(tri_gstorage)
-{
-	nullpo_retr(-1, sd);
-	if( sd->state.storage_flag ) { clif_displaymessage(fd, "Fermez d'abord votre coffre."); return -1; }
-	e_sort_mode mode = atcmd_parse_sort_mode(message);
-	if( mode == (e_sort_mode)255 ) { atcmd_show_sort_usage(fd, sd, "tri_gstorage"); return -1; }
-	bourgeon_setting_set(sd, BOURGEON_SETTING_TRI_GSTORAGE, (uint32)mode, BSET_SRC_SERVER);
-	return 0;
-}
-
 /*==========================================
  * [Stingor] @ignore <nom> : masque TOUT le chat d'une personne
  *

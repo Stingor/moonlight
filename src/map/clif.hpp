@@ -1616,10 +1616,9 @@ enum e_bourgeon_setting : int16 {
 	BOURGEON_SETTING_WINGS         = 16,
 	BOURGEON_SETTING_ALOOT_MVP     = 17,
 	BOURGEON_SETTING_ALOOT_MVPRWD  = 18,
-	BOURGEON_SETTING_TRI_INV       = 19,
-	BOURGEON_SETTING_TRI_CART      = 20,
-	BOURGEON_SETTING_TRI_STORAGE   = 21,
-	BOURGEON_SETTING_TRI_GSTORAGE  = 22,
+	// 19 à 22 : les anciens tris du sac, de la charrette et des coffres. Le tri
+	// est l'affaire du client ; ces numéros restent réservés pour qu'un client
+	// ancien qui les envoie encore ne touche pas un réglage nouveau.
 	BOURGEON_SETTING_ALOOT_ID      = 23,  // action : ajoute un itemId à la liste autolootid (0 = tout effacer)
 	BOURGEON_SETTING_ALOOT_ID_REM  = 24,  // action : retire un itemId de la liste
 	BOURGEON_SETTING_REFRESH       = 25,  // action : le client réclame un clif_refresh sur lui-même ; valeur ignorée

@@ -3619,7 +3619,7 @@ void clif_cartlist( map_session_data *sd ){
 	int32 normal = 0;
 	int32 equip = 0;
 
-	sort_storage_items( sd->cart.u.items_cart, ARRAYLENGTH( sd->cart.u.items_cart ), (e_sort_mode)sd->state.sort_cart );
+	storage_sortitem( sd->cart.u.items_cart, ARRAYLENGTH( sd->cart.u.items_cart ) );
 
 	for( int32 i = 0; i < MAX_CART; i++ ){
 		if( sd->cart.u.items_cart[i].nameid == 0 ){
@@ -5495,27 +5495,6 @@ void clif_hide_wings( const map_session_data* sd ) // [Stingor]
 // Défini plus bas dans ce fichier ; le commit de SHOW_MOB_INFO en a besoin.
 static int32 clif_getareachar(block_list* bl, va_list ap);
 
-// Libellé d'un mode de tri, partagé par les quatre réglages TRI_*.
-static const char* bset_sort_name( uint32 mode ){
-	switch( mode ){
-		case SORT_NAMEID: return "d\xe9" "faut (ID)";
-		case SORT_TYPE:   return "type";
-		case SORT_AMOUNT: return "quantit\xe9";
-		case SORT_WEIGHT: return "poids";
-		case SORT_PRICE:  return "prix";
-		case SORT_NAME:   return "nom (A-Z)";
-		case SORT_NONE:   return "aucun";
-		default:          return "?";
-	}
-}
-
-static void bset_sort_msg( map_session_data& sd, uint32 v, const char* what, bool applied_now ){
-	char buf[128];
-	safesnprintf( buf, sizeof( buf ), "Tri %s : %s.%s", what, bset_sort_name( v ),
-		applied_now ? "" : " (appliqu\xe9 \xe0 l'ouverture)" );
-	clif_displaymessage( sd.fd, buf );
-}
-
 struct s_bourgeon_setting {
 	int16 id = -1;                    ///< identifiant sur le fil (e_bourgeon_setting)
 	const char* reg = nullptr;        ///< registre de persistance ; nullptr = réglage volatil
@@ -5702,39 +5681,6 @@ static const struct s_bourgeon_setting bourgeon_settings[] = {
 		nullptr, nullptr, nullptr,
 		[]( uint32 v ) -> int64 { return v != 0 ? 0 : 1; },
 		[]( int64 v ) -> uint32 { return v != 0 ? 0 : 1; } },
-
-	{ BOURGEON_SETTING_TRI_INV, "TRI_INV", SORT_NONE, 0, 0, 0,
-		[]( map_session_data& sd ) -> uint32 { return sd.state.sort_inv; },
-		[]( map_session_data& sd, uint32 v ){ sd.state.sort_inv = (uint8)v; },
-		[]( map_session_data& sd, uint32 v ){
-			if( v != SORT_NONE ){
-				sort_inventory_items( &sd, (e_sort_mode)v );
-				clif_inventorylist( &sd );
-			}
-			bset_sort_msg( sd, v, "de l'inventaire", true );
-		} },
-
-	{ BOURGEON_SETTING_TRI_CART, "TRI_CART", SORT_NONE, 0, 0, 0,
-		[]( map_session_data& sd ) -> uint32 { return sd.state.sort_cart; },
-		[]( map_session_data& sd, uint32 v ){ sd.state.sort_cart = (uint8)v; },
-		[]( map_session_data& sd, uint32 v ){
-			bool now = v != SORT_NONE && pc_iscarton( &sd );
-			if( now ){
-				sort_storage_items( sd.cart.u.items_cart, ARRAYLENGTH( sd.cart.u.items_cart ), (e_sort_mode)v );
-				clif_cartlist( &sd );
-			}
-			bset_sort_msg( sd, v, "du chariot", now || v == SORT_NONE );
-		} },
-
-	{ BOURGEON_SETTING_TRI_STORAGE, "TRI_STOR", SORT_NONE, 0, 0, 0,
-		[]( map_session_data& sd ) -> uint32 { return sd.state.sort_storage; },
-		[]( map_session_data& sd, uint32 v ){ sd.state.sort_storage = (uint8)v; },
-		[]( map_session_data& sd, uint32 v ){ bset_sort_msg( sd, v, "du coffre", v == SORT_NONE ); } },
-
-	{ BOURGEON_SETTING_TRI_GSTORAGE, "TRI_GSTOR", SORT_NONE, 0, 0, 0,
-		[]( map_session_data& sd ) -> uint32 { return sd.state.sort_gstorage; },
-		[]( map_session_data& sd, uint32 v ){ sd.state.sort_gstorage = (uint8)v; },
-		[]( map_session_data& sd, uint32 v ){ bset_sort_msg( sd, v, "du coffre de guilde", v == SORT_NONE ); } },
 
 	// Niveau de groupe du compte : le client réserve au staff (>0) les fonctions
 	// de confiance (p.ex. affichage permanent des noms). Jamais accepté en entrée.
@@ -18064,7 +18010,7 @@ void clif_npc_talk(const block_list* bl, unsigned long color, const char* msg, b
 void clif_refresh_storagewindow(map_session_data *sd) {
 	// Notify the client that the storage is open
 	if( sd->state.storage_flag == 1 ) {
-		sort_storage_items(sd->storage.u.items_storage, ARRAYLENGTH(sd->storage.u.items_storage), (e_sort_mode)sd->state.sort_storage);
+		storage_sortitem(sd->storage.u.items_storage, ARRAYLENGTH(sd->storage.u.items_storage));
 		clif_storagelist(sd, sd->storage.u.items_storage, ARRAYLENGTH(sd->storage.u.items_storage), storage_getName(0));
 		clif_updatestorageamount(*sd, sd->storage.amount, sd->storage.max_amount);
 	}
@@ -18076,14 +18022,14 @@ void clif_refresh_storagewindow(map_session_data *sd) {
 		if( !gstor ) // Shouldn't happen. The information should already be at the map-server
 			intif_request_guild_storage(sd->status.account_id, sd->status.guild_id);
 		else {
-			sort_storage_items(gstor->u.items_guild, ARRAYLENGTH(gstor->u.items_guild), (e_sort_mode)sd->state.sort_gstorage);
+			storage_sortitem(gstor->u.items_guild, ARRAYLENGTH(gstor->u.items_guild));
 			clif_storagelist(sd, gstor->u.items_guild, ARRAYLENGTH(gstor->u.items_guild), "Guild Storage");
 			clif_updatestorageamount(*sd, gstor->amount, gstor->max_amount);
 		}
 	}
 	// Notify the client that the premium storage is open
 	if (sd->state.storage_flag == 3) {
-		sort_storage_items(sd->premiumStorage.u.items_storage, ARRAYLENGTH(sd->premiumStorage.u.items_storage), (e_sort_mode)sd->state.sort_storage);
+		storage_sortitem(sd->premiumStorage.u.items_storage, ARRAYLENGTH(sd->premiumStorage.u.items_storage));
 		clif_storagelist(sd, sd->premiumStorage.u.items_storage, ARRAYLENGTH(sd->premiumStorage.u.items_storage), storage_getName(sd->premiumStorage.stor_id));
 		clif_updatestorageamount(*sd, sd->premiumStorage.amount, sd->premiumStorage.max_amount);
 	}
