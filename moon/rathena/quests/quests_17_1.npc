@@ -8954,6 +8954,10 @@ OnTouch:
 	}
 	warp "rgsr_in",127,38;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("lhz_to_rekenber", "rgsr_in", 127, 38);
+	end;
 }
 
 sp_os,260,363,0	script	sp_os_to_sp_cor	WARPNPC,1,1,{

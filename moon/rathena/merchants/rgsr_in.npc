@@ -33,6 +33,11 @@ itemmall,14,50,3	script	Equipment Reform PR Agent#it01	4_F_ZONDAGIRL,{
 		mes "If you're interested later, come back!";
 		close;
 	}
+	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("reform_to_rgsrin", "rgsr_in", 125, 170, 204);
+	end;
 }
 lighthalzen,99,156,3	duplicate(Equipment Reform PR Agent#it01)	Equipment Reform PR Agent#lh01	4_F_ZONDAGIRL
 
@@ -382,6 +387,10 @@ rgsr_in,122,160,5	script	Exit Guard#rg01	4_M_LGTGUARD,{
 	close2;
 	warp "lighthalzen",101,156;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("rgsrin_to_lighthalzen", "lighthalzen", 101, 156, 204);
+	end;
 }
 
 rgsr_in,129,160,3	script	Exit Guard#rg02	4_M_LGTGUARD,{
@@ -398,5 +407,9 @@ rgsr_in,129,160,3	script	Exit Guard#rg02	4_M_LGTGUARD,{
 	mes "Let me guide you on the way back.";
 	close2;
 	warp "itemmall",16,47;
+	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("rgsrin_to_itemmall", "itemmall", 16, 47, 204);
 	end;
 }
