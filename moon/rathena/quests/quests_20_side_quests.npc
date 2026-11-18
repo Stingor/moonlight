@@ -1237,6 +1237,8 @@ icecastle,46,164,5	script	Iwin Soldier#20ms60	EP19_NPC_IWIN_SY,{
 	end;
 
 OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("iwin_to_icasin2", "icas_in2", 33, 114, 204);
 	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "ep20_main >= 24 && ep20_sidequest_2 == 0" );
 	end;
 }

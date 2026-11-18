@@ -130,3 +130,5 @@ Body:
     Name: "Safe Place"
   - Map: icas_in2
     Name: "Inside the Ice Castle"
+  - Map: ba_in01
+    Name: "Varmundt Mansion"

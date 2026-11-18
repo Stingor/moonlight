@@ -87,6 +87,8 @@ OnTouch:
 	warp "jor_safty2",199,369;
 	end;
 OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("safty2-2in", "jor_safty2", 199, 369);
 	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "isbegin_quest(8846) == 1 && isbegin_quest(8849) == 0" );
 	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "isbegin_quest(8853) == 1 && isbegin_quest(8849) == 0" );
 	end;
@@ -99,6 +101,8 @@ OnTouch:
 	warp "jor_safty2",297,368;
 	end;
 OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("safty2-3in", "jor_safty2", 297, 368);
 	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "isbegin_quest(8846) == 1 && isbegin_quest(8850) == 0" );
 	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "isbegin_quest(8853) == 1 && isbegin_quest(8850) == 0" );
 	end;
@@ -111,6 +115,8 @@ OnTouch:
 	warp "jor_safty2",310,245;
 	end;
 OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("safty2-6in", "jor_safty2", 310, 245);
 	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "isbegin_quest(8849) == 1 && isbegin_quest(8851) == 0" );
 	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "isbegin_quest(8853) == 1 && isbegin_quest(8851) == 0" );
 	end;
@@ -185,6 +191,10 @@ OnTouch:
 	}
 	warp "icas_in2",248,112;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("enter_icasin2_room5", "icas_in2", 248, 112);
+	end;
 }
 icas_in2,250,109,0	warp2	out_icasin2_room5	1,1,icecastle,160,203
 
@@ -201,6 +211,10 @@ jor_twice,43,331,5	script	White cat#nyar_warp	EP20_NPC_NYAR,{
 		end;
 	}
 	warp "jor_twig",212,114;
+	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("nyar_to_twig", "jor_twig", 212, 114, 204);
 	end;
 }
 jor_twig,212,109,0	warp2	out_twig	1,1,jor_twice,47,327

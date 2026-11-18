@@ -2637,6 +2637,12 @@ OnInit:
 		258, 258, 207, 156, 357,
 		85, 23,
 		44, 24, 216, 227, 186, 197, 187, 186, 243, 185, 26;
+	// Destinations warp_fct du menu des instances, aux cases de leur PNJ d'entree :
+	// Confused Snakes Nest et Immortal (episodes 19/20), Est (ba_in01), Geffen Magic
+	// Tournament (gef_tower, geffen_in), Payon (pay_arche), Prontera (prt_q), Thanatos.
+	setarray .@navm$[463], "jor_nest", "jor_twig", "ba_in01", "gef_tower", "geffen_in", "pay_arche", "prt_q", "thana_step";
+	setarray .@navx[463], 24, 114, 28, 58, 82, 45, 244, 154;
+	setarray .@navy[463], 248, 144, 253, 169, 60, 123, 81, 364;
 	for (.@i = 0; .@i < getarraysize(.@navm$); .@i++) {
 		// Un agent ne se declare pas une arete vers sa propre carte.
 		if (strnpcinfo(4) == .@navm$[.@i]) continue;

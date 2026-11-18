@@ -5041,6 +5041,8 @@ L_Transport:
 	end;
 
 OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("dive_to_safty1", "jor_safty1", 198, 152, 204);
 	questinfo( QTYPE_QUEST, QMARK_YELLOW, "isbegin_quest(23100) == 1" );
 	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "checkquest(23101,HUNTING) == 2 && countitem(1000832) >= 3" );
 	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "checkquest(23102,HUNTING) == 2 && countitem(1000831) >= 3" );

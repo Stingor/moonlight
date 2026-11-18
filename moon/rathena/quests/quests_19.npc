@@ -5337,6 +5337,8 @@ OnTouch:
 	end;
 
 OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("nest_to_dun03", "jor_dun03", 58, 52);
 	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "ep19_main == 34 && isbegin_quest(16637) == 1" );
 	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "isbegin_quest(16659) == 1" );
 	end;
@@ -7394,6 +7396,10 @@ OnTouch:
 		end;
 	}
 	warp "jor_dun02",282,87;
+	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("dun01_to_que", "jor_que", 282, 87);
 	end;
 }
 
