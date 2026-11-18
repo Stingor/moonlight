@@ -383,6 +383,10 @@ Body:
     DamageMotion: 360
     Ai: 21
     Class: Boss
+    Drops:
+      - Item: Bangungot_Card
+        Rate: 1
+        StealProtected: true
   - Id: 2318
     AegisName: BANGUNGOT_2
     Name: Bangungot
@@ -418,6 +422,10 @@ Body:
       IgnoreMisc: true
       IgnoreRanged: true
       KnockBackImmune: true
+    Drops:
+      - Item: Bangungot_Card
+        Rate: 1
+        StealProtected: true
   - Id: 2320
     AegisName: BAKONAWA_1
     Name: Bakonawa
@@ -445,6 +453,10 @@ Body:
     DamageMotion: 432
     Ai: 10
     Class: Boss
+    Drops:
+      - Item: Bakonawa_Card
+        Rate: 1
+        StealProtected: true
   - Id: 2321
     AegisName: BAKONAWA_2
     Name: Bakonawa
@@ -472,6 +484,10 @@ Body:
     DamageMotion: 432
     Ai: 10
     Class: Boss
+    Drops:
+      - Item: Bakonawa_Card
+        Rate: 1
+        StealProtected: true
   - Id: 2322
     AegisName: BAKONAWA_3
     Name: Bakonawa
@@ -501,6 +517,10 @@ Body:
     DamageMotion: 432
     Ai: 10
     Class: Boss
+    Drops:
+      - Item: Bakonawa_Card
+        Rate: 1
+        StealProtected: true
   - Id: 2327
     AegisName: BANGUNGOT_3
     Name: Bangungot

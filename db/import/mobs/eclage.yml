@@ -255,7 +255,7 @@ Body:
         Rate: 40
       - Item: Yggdrasil_Dust
         Rate: 10
-      - Item: LichternG_Card
+      - Item: LichternY_Card
         Rate: 1
         StealProtected: true
   - Id: 2369
@@ -341,7 +341,7 @@ Body:
         Rate: 40
       - Item: Slapping_Herb
         Rate: 10
-      - Item: LichternY_Card
+      - Item: LichternG_Card
         Rate: 1
         StealProtected: true
   - Id: 2371

@@ -580,6 +580,8 @@ Body:
         Rate: 100
       - Item: Fenrir_Card__
         Rate: 100
+      - Item: Fenrir_Card_
+        Rate: 500
       - Item: Fenrir_Card
         Rate: 10
         StealProtected: true
