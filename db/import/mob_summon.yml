@@ -1728,6 +1728,70 @@ Body:
         Rate: 32000
       - Mob: EP20_ARMOERDCOPO
         Rate: 32000
+      - Mob: SPIRIT_G_LAND_S
+        Rate: 32000
+      - Mob: SPIRIT_G_LAND_M
+        Rate: 32000
+      - Mob: SPIRIT_G_LAND_L
+        Rate: 32000
+      - Mob: SPIRIT_G_LAND_SL
+        Rate: 32000
+      - Mob: SPIRIT_B_FLAME_S
+        Rate: 32000
+      - Mob: SPIRIT_B_FLAME_M
+        Rate: 32000
+      - Mob: SPIRIT_B_FLAME_L
+        Rate: 32000
+      - Mob: SPIRIT_B_FLAME_SL
+        Rate: 32000
+      - Mob: SPIRIT_S_WIND_S
+        Rate: 32000
+      - Mob: SPIRIT_S_WIND_M
+        Rate: 32000
+      - Mob: SPIRIT_S_WIND_L
+        Rate: 32000
+      - Mob: SPIRIT_S_WIND_SL
+        Rate: 32000
+      - Mob: SPIRIT_I_WATER_S
+        Rate: 32000
+      - Mob: SPIRIT_I_WATER_M
+        Rate: 32000
+      - Mob: SPIRIT_I_WATER_L
+        Rate: 32000
+      - Mob: SPIRIT_I_WATER_SL
+        Rate: 32000
+      - Mob: SPIRIT_H_WATER_S
+        Rate: 32000
+      - Mob: SPIRIT_H_WATER_M
+        Rate: 32000
+      - Mob: SPIRIT_H_WATER_L
+        Rate: 32000
+      - Mob: SPIRIT_H_WATER_SL
+        Rate: 32000
+      - Mob: SPIRIT_D_WIND_S
+        Rate: 32000
+      - Mob: SPIRIT_D_WIND_M
+        Rate: 32000
+      - Mob: SPIRIT_D_WIND_L
+        Rate: 32000
+      - Mob: SPIRIT_D_WIND_SL
+        Rate: 32000
+      - Mob: SPIRIT_R_FLAME_S
+        Rate: 32000
+      - Mob: SPIRIT_R_FLAME_M
+        Rate: 32000
+      - Mob: SPIRIT_R_FLAME_L
+        Rate: 32000
+      - Mob: SPIRIT_R_FLAME_SL
+        Rate: 32000
+      - Mob: SPIRIT_F_LAND_S
+        Rate: 32000
+      - Mob: SPIRIT_F_LAND_M
+        Rate: 32000
+      - Mob: SPIRIT_F_LAND_L
+        Rate: 32000
+      - Mob: SPIRIT_F_LAND_SL
+        Rate: 32000
   - Group: Classchange
     Default: BAPHOMET
     Summon:
