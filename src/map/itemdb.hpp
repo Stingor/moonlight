@@ -3260,6 +3260,9 @@ enum e_random_item_group {
 
 	IG_INVASION_COSTUME,
 
+	// Moonlight : PR rAthena #8527 (four d'incineration de Forr, episode 19/20)
+	IG_D_GW_EXTRACTOR,
+
 	IG_MAX
 };
 

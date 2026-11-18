@@ -6,7 +6,7 @@
 | Date kRO | **2023‑03‑02** |
 | Arc | fin de la traque de Bagot — le labyrinthe du serpent |
 | Niveau kRO visé | **215+** |
-| État Moonlight | **mobs, C++, terrain, objets, quêtes et instances portés** depuis brHades (Capuche) (2026‑11‑18, non validés en jeu) ; tables client, Dim Glacier et cartes à faire |
+| État Moonlight | **mobs, C++, terrain, objets, quêtes et instances portés** depuis brHades (Capuche) (2026‑11‑18, non validés en jeu) ; tables client et Dim Glacier faits (D2a) ; cartes EP19/EP20 (D2b) et familiers Icewind (D2c) à faire |
 
 Suite directe d'Issgard : on descend dans le canyon de glace ancien, on démasque les
 infiltrés (les faux soldats Iwin), on cherche l'entrée du repaire du serpent avant qu'un
@@ -171,10 +171,9 @@ Debug échoue à l'édition de liens). Pas encore compilé sur pc-serv.
 | Barters | `moon/barters.yml` | `barter_ep20_shop_1_A`, `_1_B` (costumes, cube +9), `barter_ep20_glacier_eq` (11 pièces Glacier contre 100 moustaches), `barter_ep20_shop_2` (pierres et extraits de magie pure) ; `EP20_DGA_Refine` (Dim Glacier) retiré. Les PNJ qui les ouvrent arrivent avec les quêtes (lot E) |
 | Contrôle | | toutes les références (barters, Laphine, familier) pointent vers un objet ou un mob chargé ; chargement sans erreur |
 
-**Reporté (sous-lot D2) : le Dim Glacier et les cartes.** Le Dim Glacier compte 26 armes et
-6 armures `D_Glacier_*`, le grade, l'enchantement 47, Forr, le four d'incinération,
-`EP20_DGA_Refine` et `barter_ep19_new_content`. Il y a aussi les 44 cartes EP19 et EP20 (bonus
-renewal à convertir), puis les deux familiers Icewind qui en dépendent. Les `map_drops` de
+**Reporté (sous-lot D2) : le Dim Glacier et les cartes.** Le Dim Glacier est porté au sous-lot
+D2a (plus bas). Restent les 44 cartes EP19 et EP20 (bonus renewal à convertir, D2b), puis les
+deux familiers Icewind qui en dépendent (D2c). Les `map_drops` de
 brHades ne couvrent que les cartes d'instance : ils iront au lot F.
 
 ### Lot E — quêtes (porté le 2026‑11‑18, non validé en jeu)
@@ -255,6 +254,29 @@ les lots A à F (procédure du §11 de la feuille de route).
 chercher dans les GRF du client ; 52 autres quêtes du serveur inconnues du journal
 (Crash d'aéronef, Tombeau du Remords, Tour de Thanatos, Tour des Constellations, Arène
 Nocturne de Geffen), hors de l'épisode 20.
+
+### Sous-lot D2a — Dim Glacier (porté le 2026‑11‑18, non validé en jeu)
+
+La chaîne entière : les armes tombent des mobs, le **four d'incinération** les fond en
+matériaux (synthèse Laphine `D_Gw_Extractor`, coffre `D_GW_EXTRACTOR`), **Forr** les échange
+(`barter_ep19_new_content`) et enchante les armes (47), **Pipiring** enchante les armures
+Glacier et Dim Glacier (89 à 97). Le lot E appelait déjà ces enchantements et `IG_D_GW_EXTRACTOR`
+sans qu'ils existent : le chargement ne le voyait pas (une constante inconnue y est lue comme
+une variable), les menus auraient échoué en jeu.
+
+| Élément | Fichier | Détail |
+|---|---|---|
+| Armes | `item_db_weapon.yml` | 25 `D_Glacier_*` sur 26 (Foxtail, Doram, écarté) : `Jobs` et `Gender` des armes Glacier du 19, WeaponLevel 4, `MagicAttack` en `bMatk`, `[1]` |
+| Armures | `item_db_armor.yml` | 6 pièces : DEF 14 (armure, robe) et 7 (cape, cache-col, bottes, souliers), soit les 12/6 du Glacier relevés d'un cran ; ArmorLevel 1 (2 est refusé en pre-re ; les conditions `getequiparmorlv()==2` des cartes EP19/EP20 seront à revoir au D2b) ; grade retiré comme au Glacier ; traits, `bAtkRate` et paliers +11 convertis |
+| Orbes | `item_db_enchant.yml` | 47 `Ice_C_Orb_*` (89 à 94) et 93 `Snake_*` (95 à 97, paliers 1 à 10) : traits convertis, DEF ÷50 et MDEF ÷5 (règle de l'orbe), grade retiré, +11 en `getallrefine() >= 22` |
+| Matériaux | `item_db_etc.yml`, `item_db_usable.yml` | `EP19_S_F_1/2/3_Extract`, `EP19_Gla_Extract`, `EP19_D_P_Stone` ; `D_Gw_Extractor`, `EP19_DGW_Refine`, `EP20_DGA_Refine` |
+| Enchantements | `item_enchant.yml` | 47 : 121 orbes Glacier sur 280 (les 81 écartés au 19, quatre cases en trois, et les 10 orbes de grade renewal : la case 1 disparaît). 89 à 97 entiers |
+| Reforms | `item_reform.yml` | renforcement des armes et des armures : **+9 → +10 seulement** (+9..+11 → +10..+12 en renewal), Foxtail retiré |
+| Four, coffre | `laphine_synthesis.yml`, `item_group_db/ep19.yml`, `src/map/itemdb.hpp`, `script_constants.hpp` | trois armes Dim Glacier contre un tirage `D_GW_EXTRACTOR` (taux custom de la PR #8527), constante `IG_D_GW_EXTRACTOR` ajoutée en C++ comme dans la PR (un groupe sans valeur d'enum est refusé) ; le même coffre sert au cache mystérieux de Pipiring |
+| Forr | `moon/rathena/merchants/episode_19.npc`, `moon/barters.yml` | Forr et le four (`icas_in` 188,60 et 192,57), 8 échanges ; `laphine_synthesis` appelé par l'AegisName. `EP20_DGA_Refine` revient chez Pipiring (`barter_ep20_shop_2`) |
+| Combos | `item_combos.yml` | 62 : les deux sets (armure/bottes/cape et robe/souliers/cache-col), seuls et avec chacune des 24 armes, et 9 combos d'orbes serpent ; grade de l'arme gardé (le fork en donne un aux armes). Écartés : Foxtail et les combos des pièces Isgard, absentes |
+| Drops | `mobs/ep20.yml`, `map_drops.yml` | les 8 armes des mobs EP20 (1 %) ; `1@slug` et `1@twbs` entiers (extraits et six pièces Dim Glacier de Lasgand et de ses coffres, 10 %) |
+| Coffres du 19 | `item_group_db/ep19.yml` | Aquila (×2) et Ultra Limacina reprennent leurs lignes écartées faute d'objets : armes Dim Glacier, extraits, sort miasmatique, matériaux EP20. Raffinements au-delà de +10 ramenés à +10, comme au 19 |
 
 ## 4. Plan de portage
 

@@ -2984,6 +2984,102 @@ Body:
             Item: Ep19_Snow_Flower
             Amount: 100
   # Episode 17.1, Reform de rgsr_in : minerais (boites cash kRO) et pierres d'accessoire ecartes.
+  # Forr (episode 19, PR rAthena #8527) : materiaux et extraits de la chaine Dim Glacier.
+  - Name: barter_ep19_new_content
+    Items:
+      - Index: 0
+        Item: EP19_N_P_Ore
+        RequiredItems:
+          - Index: 0
+            Item: EP19_D_P_Ore
+            Amount: 3
+          - Index: 1
+            Item: Ep19_Snow_Flower
+            Amount: 5
+          - Index: 2
+            Item: Ep18_Amethyst_Fragment
+            Amount: 25
+      - Index: 1
+        Item: EP19_D_P_Crystal
+        RequiredItems:
+          - Index: 0
+            Item: EP19_D_P_Ore
+            Amount: 15
+          - Index: 1
+            Item: Ep19_Snow_Flower
+            Amount: 30
+          - Index: 2
+            Item: Ep18_Amethyst_Fragment
+            Amount: 150
+      - Index: 2
+        Item: EP19_N_P_Crystal
+        RequiredItems:
+          - Index: 0
+            Item: EP19_N_P_Ore
+            Amount: 5
+          - Index: 1
+            Item: Ep19_Snow_Flower
+            Amount: 5
+          - Index: 2
+            Item: Ep18_Amethyst_Fragment
+            Amount: 25
+      - Index: 3
+        Item: EP19_S_F_1_Extract
+        RequiredItems:
+          - Index: 0
+            Item: Snow_F_Stone1
+            Amount: 20
+          - Index: 1
+            Item: Ep19_Snow_Flower
+            Amount: 5
+          - Index: 2
+            Item: Ep18_Amethyst_Fragment
+            Amount: 25
+      - Index: 4
+        Item: EP19_S_F_2_Extract
+        RequiredItems:
+          - Index: 0
+            Item: Snow_F_Stone2
+            Amount: 15
+          - Index: 1
+            Item: Ep19_Snow_Flower
+            Amount: 10
+          - Index: 2
+            Item: Ep18_Amethyst_Fragment
+            Amount: 50
+      - Index: 5
+        Item: EP19_S_F_3_Extract
+        RequiredItems:
+          - Index: 0
+            Item: Snow_F_Stone3
+            Amount: 10
+          - Index: 1
+            Item: Ep19_Snow_Flower
+            Amount: 15
+          - Index: 2
+            Item: Ep18_Amethyst_Fragment
+            Amount: 75
+      - Index: 6
+        Item: EP19_Gla_Extract
+        RequiredItems:
+          - Index: 0
+            Item: Ep19_Snow_Flower
+            Amount: 40
+          - Index: 1
+            Item: Ep18_Amethyst_Fragment
+            Amount: 200
+      - Index: 7
+        Item: EP19_DGW_Refine
+        RequiredItems:
+          - Index: 0
+            Item: EP19_D_P_Stone
+            Amount: 1
+          - Index: 1
+            Item: EP19_D_P_Crystal
+            Amount: 10
+          - Index: 2
+            Item: EP19_N_P_Crystal
+            Amount: 10
   - Name: barter_rgsr_in_2
     Items:
       - Index: 0
@@ -3737,3 +3833,14 @@ Body:
           - Index: 2
             Item: Ep19_Snow_Flower
             Amount: 45
+      - Index: 2
+        Item: EP20_DGA_Refine
+        RequiredItems:
+          - Index: 0
+            Item: EP20_D_Scale
+          - Index: 1
+            Item: EP20_D_P_Extract
+            Amount: 15
+          - Index: 2
+            Item: EP20_D_P_Crystal
+            Amount: 25

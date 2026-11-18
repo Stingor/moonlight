@@ -1,5 +1,6 @@
 # Episode 19 : les antiquites d'Aquila, coffres de l'instance Airship Destruction (PR rAthena #8527).
-# Objets absents ecartes : D_Glacier_Axe, D_Glacier_B_Knife, D_Glacier_B_Sword, D_Glacier_Book, D_Glacier_Bow, D_Glacier_Foxtail, D_Glacier_Gatling, D_Glacier_Humma, D_Glacier_Katar, D_Glacier_Knuckle, D_Glacier_Lance, D_Glacier_Launcher, D_Glacier_M_Mace, D_Glacier_Mace, D_Glacier_R_Knife, D_Glacier_Revolver, D_Glacier_Rifle, D_Glacier_Shotgun, D_Glacier_Spear, D_Glacier_Staff, D_Glacier_Sword, D_Glacier_T_Axe, D_Glacier_T_Sword, D_Glacier_Violin, D_Glacier_Wand, D_Glacier_Whip, EP19_D_P_Stone, EP19_Gla_Extract, EP19_S_F_1_Extract, EP19_S_F_2_Extract, EP19_S_F_3_Extract, Glacier_Foxtail.
+# Objets ecartes : D_Glacier_Foxtail et Glacier_Foxtail (Doram). Dim Glacier, extraits EP19 et
+# EP19_D_P_Stone remis au sous-lot D2a de l'episode 20 (2026-11-18).
 Header:
   Type: ITEM_GROUP_DB
   Version: 5
@@ -291,6 +292,66 @@ Body:
             Item: EP19_N_P_Crystal
             Rate: 100
             Amount: 7
+          - Index: 64
+            Item: EP19_Gla_Extract
+            Rate: 100
+            Amount: 6
+          - Index: 65
+            Item: EP19_Gla_Extract
+            Rate: 100
+            Amount: 7
+          - Index: 66
+            Item: EP19_Gla_Extract
+            Rate: 100
+            Amount: 8
+          - Index: 67
+            Item: EP19_Gla_Extract
+            Rate: 100
+            Amount: 9
+          - Index: 68
+            Item: EP19_Gla_Extract
+            Rate: 100
+            Amount: 10
+          - Index: 69
+            Item: EP19_S_F_1_Extract
+            Rate: 100
+            Amount: 6
+          - Index: 70
+            Item: EP19_S_F_1_Extract
+            Rate: 100
+            Amount: 7
+          - Index: 71
+            Item: EP19_S_F_1_Extract
+            Rate: 100
+            Amount: 8
+          - Index: 72
+            Item: EP19_S_F_1_Extract
+            Rate: 100
+            Amount: 9
+          - Index: 73
+            Item: EP19_S_F_1_Extract
+            Rate: 100
+            Amount: 10
+          - Index: 74
+            Item: EP19_S_F_2_Extract
+            Rate: 100
+            Amount: 5
+          - Index: 75
+            Item: EP19_S_F_2_Extract
+            Rate: 100
+            Amount: 6
+          - Index: 76
+            Item: EP19_S_F_2_Extract
+            Rate: 100
+            Amount: 7
+          - Index: 77
+            Item: EP19_S_F_3_Extract
+            Rate: 100
+            Amount: 4
+          - Index: 78
+            Item: EP19_S_F_3_Extract
+            Rate: 100
+            Amount: 5
   - Group: AQUILA_ANTIQUITY2
     SubGroups:
       - SubGroup: 6
@@ -921,6 +982,457 @@ Body:
             Item: Snow_F_Stone3
             Rate: 50
             Amount: 7
+          - Index: 218
+            Item: D_Glacier_Sword
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 219
+            Item: D_Glacier_B_Sword
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 220
+            Item: D_Glacier_R_Knife
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 221
+            Item: D_Glacier_B_Knife
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 222
+            Item: D_Glacier_Axe
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 223
+            Item: D_Glacier_Spear
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 224
+            Item: D_Glacier_Book
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 225
+            Item: D_Glacier_Wand
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 226
+            Item: D_Glacier_Knuckle
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 227
+            Item: D_Glacier_Violin
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 228
+            Item: D_Glacier_Whip
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 229
+            Item: D_Glacier_Mace
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 230
+            Item: D_Glacier_M_Mace
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 231
+            Item: D_Glacier_T_Sword
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 232
+            Item: D_Glacier_Katar
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 233
+            Item: D_Glacier_T_Axe
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 234
+            Item: D_Glacier_Lance
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 235
+            Item: D_Glacier_Staff
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 236
+            Item: D_Glacier_Humma
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 237
+            Item: D_Glacier_Bow
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 238
+            Item: D_Glacier_Revolver
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 239
+            Item: D_Glacier_Rifle
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 240
+            Item: D_Glacier_Shotgun
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 241
+            Item: D_Glacier_Gatling
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 242
+            Item: D_Glacier_Launcher
+            Rate: 30
+            RefineMinimum: 9
+            RefineMaximum: 9
+          - Index: 243
+            Item: D_Glacier_Sword
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 244
+            Item: D_Glacier_B_Sword
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 245
+            Item: D_Glacier_R_Knife
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 246
+            Item: D_Glacier_B_Knife
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 247
+            Item: D_Glacier_Axe
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 248
+            Item: D_Glacier_Spear
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 249
+            Item: D_Glacier_Book
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 250
+            Item: D_Glacier_Wand
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 251
+            Item: D_Glacier_Knuckle
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 252
+            Item: D_Glacier_Violin
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 253
+            Item: D_Glacier_Whip
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 254
+            Item: D_Glacier_Mace
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 255
+            Item: D_Glacier_M_Mace
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 256
+            Item: D_Glacier_T_Sword
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 257
+            Item: D_Glacier_Katar
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 258
+            Item: D_Glacier_T_Axe
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 259
+            Item: D_Glacier_Lance
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 260
+            Item: D_Glacier_Staff
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 261
+            Item: D_Glacier_Humma
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 262
+            Item: D_Glacier_Bow
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 263
+            Item: D_Glacier_Revolver
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 264
+            Item: D_Glacier_Rifle
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 265
+            Item: D_Glacier_Shotgun
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 266
+            Item: D_Glacier_Gatling
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 267
+            Item: D_Glacier_Launcher
+            Rate: 15
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 268
+            Item: D_Glacier_Sword
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 269
+            Item: D_Glacier_B_Sword
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 270
+            Item: D_Glacier_R_Knife
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 271
+            Item: D_Glacier_B_Knife
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 272
+            Item: D_Glacier_Axe
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 273
+            Item: D_Glacier_Spear
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 274
+            Item: D_Glacier_Book
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 275
+            Item: D_Glacier_Wand
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 276
+            Item: D_Glacier_Knuckle
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 277
+            Item: D_Glacier_Violin
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 278
+            Item: D_Glacier_Whip
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 279
+            Item: D_Glacier_Mace
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 280
+            Item: D_Glacier_M_Mace
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 281
+            Item: D_Glacier_T_Sword
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 282
+            Item: D_Glacier_Katar
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 283
+            Item: D_Glacier_T_Axe
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 284
+            Item: D_Glacier_Lance
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 285
+            Item: D_Glacier_Staff
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 286
+            Item: D_Glacier_Humma
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 287
+            Item: D_Glacier_Bow
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 288
+            Item: D_Glacier_Revolver
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 289
+            Item: D_Glacier_Rifle
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 290
+            Item: D_Glacier_Shotgun
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 291
+            Item: D_Glacier_Gatling
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 292
+            Item: D_Glacier_Launcher
+            Rate: 10
+            RefineMinimum: 10
+            RefineMaximum: 10
+          - Index: 293
+            Item: EP19_D_P_Stone
+            Rate: 50
+            Amount: 3
+          - Index: 294
+            Item: EP19_D_P_Stone
+            Rate: 50
+            Amount: 4
+          - Index: 295
+            Item: EP19_D_P_Stone
+            Rate: 50
+            Amount: 5
+          - Index: 296
+            Item: EP19_D_P_Stone
+            Rate: 50
+            Amount: 6
+          - Index: 297
+            Item: EP19_Gla_Extract
+            Rate: 50
+            Amount: 11
+          - Index: 298
+            Item: EP19_Gla_Extract
+            Rate: 50
+            Amount: 12
+          - Index: 299
+            Item: EP19_Gla_Extract
+            Rate: 50
+            Amount: 13
+          - Index: 300
+            Item: EP19_Gla_Extract
+            Rate: 50
+            Amount: 14
+          - Index: 301
+            Item: EP19_Gla_Extract
+            Rate: 50
+            Amount: 15
+          - Index: 302
+            Item: EP19_S_F_1_Extract
+            Rate: 50
+            Amount: 11
+          - Index: 303
+            Item: EP19_S_F_1_Extract
+            Rate: 50
+            Amount: 12
+          - Index: 304
+            Item: EP19_S_F_1_Extract
+            Rate: 50
+            Amount: 13
+          - Index: 305
+            Item: EP19_S_F_1_Extract
+            Rate: 50
+            Amount: 14
+          - Index: 306
+            Item: EP19_S_F_1_Extract
+            Rate: 50
+            Amount: 15
+          - Index: 307
+            Item: EP19_S_F_2_Extract
+            Rate: 50
+            Amount: 8
+          - Index: 308
+            Item: EP19_S_F_2_Extract
+            Rate: 50
+            Amount: 9
+          - Index: 309
+            Item: EP19_S_F_2_Extract
+            Rate: 50
+            Amount: 10
+          - Index: 310
+            Item: EP19_S_F_3_Extract
+            Rate: 50
+            Amount: 6
+          - Index: 311
+            Item: EP19_S_F_3_Extract
+            Rate: 50
+            Amount: 7
   # Pierres de glace : Vellgunde (35 fleurs de neige) et la synthese Ice_F_Stone_Box2.
   # Groupe amont ICE_F_STONE_BOX, pierres des orbes Doram retirees ; ICE_F_STONE_BOX2,
   # qu'appellent la PR et la synthese amont, n'a pas de constante IG_ : remplace par celui-ci.
@@ -1221,7 +1733,7 @@ Body:
             Item: Ice_F_Stone_A_Force
             Rate: 50
   # Episode 19 : le coffret d'Ultra Limacina (db/re), drop Moonlight a 1 % (2026-11-17).
-  # Objets absents ecartes : EP19_Gla_Extract, EP19_S_F_1_Extract, EP19_S_F_2_Extract, EP19_S_F_3_Extract, EP20_D_P_Crystal, EP20_D_P_Extract, EP20_D_P_Ore, Ep20_Cat_Whiskers.
+  # Extraits EP19 et materiaux EP20 remis au sous-lot D2a de l'episode 20 (2026-11-18).
   - Group: F_ICESLUG_ANTIQUIY
     SubGroups:
       - SubGroup: 6
@@ -1356,3 +1868,356 @@ Body:
           - Index: 27
             Item: Glacier_Necklace
             Rate: 95
+          - Index: 28
+            Item: Ep20_Cat_Whiskers
+            Rate: 100
+            Amount: 16
+          - Index: 29
+            Item: Ep20_Cat_Whiskers
+            Rate: 100
+            Amount: 17
+          - Index: 30
+            Item: Ep20_Cat_Whiskers
+            Rate: 100
+            Amount: 18
+          - Index: 31
+            Item: Ep20_Cat_Whiskers
+            Rate: 100
+            Amount: 19
+          - Index: 32
+            Item: Ep20_Cat_Whiskers
+            Rate: 100
+            Amount: 20
+          - Index: 33
+            Item: EP20_D_P_Ore
+            Rate: 150
+            Amount: 3
+          - Index: 34
+            Item: EP20_D_P_Ore
+            Rate: 150
+            Amount: 4
+          - Index: 35
+            Item: EP20_D_P_Ore
+            Rate: 150
+            Amount: 5
+          - Index: 36
+            Item: EP20_D_P_Ore
+            Rate: 150
+            Amount: 6
+          - Index: 37
+            Item: EP20_D_P_Ore
+            Rate: 150
+            Amount: 7
+          - Index: 38
+            Item: EP20_D_P_Crystal
+            Rate: 150
+            Amount: 3
+          - Index: 39
+            Item: EP20_D_P_Crystal
+            Rate: 150
+            Amount: 4
+          - Index: 40
+            Item: EP20_D_P_Crystal
+            Rate: 150
+            Amount: 5
+          - Index: 41
+            Item: EP20_D_P_Crystal
+            Rate: 150
+            Amount: 6
+          - Index: 42
+            Item: EP20_D_P_Crystal
+            Rate: 150
+            Amount: 7
+          - Index: 43
+            Item: EP20_D_P_Extract
+            Rate: 150
+            Amount: 3
+          - Index: 44
+            Item: EP20_D_P_Extract
+            Rate: 150
+            Amount: 4
+          - Index: 45
+            Item: EP20_D_P_Extract
+            Rate: 150
+            Amount: 5
+          - Index: 46
+            Item: EP20_D_P_Extract
+            Rate: 150
+            Amount: 6
+          - Index: 47
+            Item: EP20_D_P_Extract
+            Rate: 150
+            Amount: 7
+          - Index: 48
+            Item: EP19_Gla_Extract
+            Rate: 150
+            Amount: 6
+          - Index: 49
+            Item: EP19_Gla_Extract
+            Rate: 150
+            Amount: 7
+          - Index: 50
+            Item: EP19_Gla_Extract
+            Rate: 150
+            Amount: 8
+          - Index: 51
+            Item: EP19_Gla_Extract
+            Rate: 150
+            Amount: 9
+          - Index: 52
+            Item: EP19_Gla_Extract
+            Rate: 150
+            Amount: 10
+          - Index: 53
+            Item: EP19_S_F_1_Extract
+            Rate: 150
+            Amount: 6
+          - Index: 54
+            Item: EP19_S_F_1_Extract
+            Rate: 150
+            Amount: 7
+          - Index: 55
+            Item: EP19_S_F_1_Extract
+            Rate: 150
+            Amount: 8
+          - Index: 56
+            Item: EP19_S_F_1_Extract
+            Rate: 150
+            Amount: 9
+          - Index: 57
+            Item: EP19_S_F_1_Extract
+            Rate: 150
+            Amount: 10
+          - Index: 58
+            Item: EP19_S_F_2_Extract
+            Rate: 150
+            Amount: 5
+          - Index: 59
+            Item: EP19_S_F_2_Extract
+            Rate: 150
+            Amount: 6
+          - Index: 60
+            Item: EP19_S_F_2_Extract
+            Rate: 150
+            Amount: 7
+          - Index: 61
+            Item: EP19_S_F_3_Extract
+            Rate: 150
+            Amount: 4
+          - Index: 62
+            Item: EP19_S_F_3_Extract
+            Rate: 150
+            Amount: 5
+  # Coffre du four d'incineration et du cache mysterieux de Pipiring (PR rAthena #8527, taux custom).
+  - Group: D_GW_EXTRACTOR
+    SubGroups:
+    - SubGroup: 1
+      List:
+      - Index: 0
+        Item: EP19_D_P_Ore
+        Amount: 1
+        Rate: 5
+      - Index: 1
+        Item: EP19_N_P_Ore
+        Amount: 1
+        Rate: 3
+      - Index: 2
+        Item: EP19_D_P_Crystal
+        Amount: 1
+        Rate: 2
+      - Index: 3
+        Item: EP19_N_P_Crystal
+        Amount: 1
+        Rate: 1
+      - Index: 4
+        Item: EP19_D_P_Stone
+        Amount: 1
+        Rate: 1
+      - Index: 5
+        Item: EP19_S_F_1_Extract
+        Amount: 1
+        Rate: 1
+      - Index: 6
+        Item: EP19_S_F_2_Extract
+        Amount: 1
+        Rate: 1
+      - Index: 7
+        Item: EP19_S_F_3_Extract
+        Amount: 1
+        Rate: 1
+      - Index: 8
+        Item: EP19_Gla_Extract
+        Amount: 1
+        Rate: 1
+      - Index: 9
+        Item: Snow_F_Ore
+        Amount: 1
+        Rate: 12
+      - Index: 10
+        Item: Snow_F_Stone1
+        Amount: 1
+        Rate: 5
+      - Index: 11
+        Item: Snow_F_Stone2
+        Amount: 1
+        Rate: 3
+      - Index: 12
+        Item: Snow_F_Stone3
+        Amount: 1
+        Rate: 1
+      - Index: 13
+        Item: EP19_D_P_Ore
+        Amount: 2
+        Rate: 5
+      - Index: 14
+        Item: EP19_N_P_Ore
+        Amount: 2
+        Rate: 3
+      - Index: 15
+        Item: EP19_D_P_Crystal
+        Amount: 2
+        Rate: 2
+      - Index: 16
+        Item: EP19_N_P_Crystal
+        Amount: 2
+        Rate: 1
+      - Index: 17
+        Item: EP19_D_P_Stone
+        Amount: 2
+        Rate: 1
+      - Index: 18
+        Item: EP19_S_F_1_Extract
+        Amount: 2
+        Rate: 1
+      - Index: 19
+        Item: EP19_S_F_2_Extract
+        Amount: 2
+        Rate: 1
+      - Index: 20
+        Item: EP19_S_F_3_Extract
+        Amount: 2
+        Rate: 1
+      - Index: 21
+        Item: EP19_Gla_Extract
+        Amount: 2
+        Rate: 1
+      - Index: 22
+        Item: Snow_F_Ore
+        Amount: 2
+        Rate: 12
+      - Index: 23
+        Item: Snow_F_Stone1
+        Amount: 2
+        Rate: 5
+      - Index: 24
+        Item: Snow_F_Stone2
+        Amount: 2
+        Rate: 3
+      - Index: 25
+        Item: Snow_F_Stone3
+        Amount: 2
+        Rate: 1
+      - Index: 26
+        Item: EP19_D_P_Ore
+        Amount: 3
+        Rate: 5
+      - Index: 27
+        Item: EP19_N_P_Ore
+        Amount: 3
+        Rate: 3
+      - Index: 28
+        Item: EP19_D_P_Crystal
+        Amount: 3
+        Rate: 2
+      - Index: 29
+        Item: EP19_N_P_Crystal
+        Amount: 3
+        Rate: 1
+      - Index: 30
+        Item: EP19_D_P_Stone
+        Amount: 3
+        Rate: 1
+      - Index: 31
+        Item: EP19_S_F_1_Extract
+        Amount: 3
+        Rate: 1
+      - Index: 32
+        Item: EP19_S_F_2_Extract
+        Amount: 3
+        Rate: 1
+      - Index: 33
+        Item: EP19_S_F_3_Extract
+        Amount: 3
+        Rate: 1
+      - Index: 34
+        Item: EP19_Gla_Extract
+        Amount: 3
+        Rate: 1
+      - Index: 35
+        Item: Snow_F_Ore
+        Amount: 3
+        Rate: 12
+      - Index: 36
+        Item: Snow_F_Stone1
+        Amount: 3
+        Rate: 5
+      - Index: 37
+        Item: Snow_F_Stone2
+        Amount: 3
+        Rate: 3
+      - Index: 38
+        Item: Snow_F_Stone3
+        Amount: 3
+        Rate: 1
+      - Index: 39
+        Item: EP19_D_P_Ore
+        Amount: 4
+        Rate: 5
+      - Index: 40
+        Item: EP19_N_P_Ore
+        Amount: 4
+        Rate: 3
+      - Index: 41
+        Item: EP19_D_P_Crystal
+        Amount: 4
+        Rate: 2
+      - Index: 42
+        Item: EP19_N_P_Crystal
+        Amount: 4
+        Rate: 1
+      - Index: 43
+        Item: EP19_D_P_Stone
+        Amount: 4
+        Rate: 1
+      - Index: 44
+        Item: EP19_S_F_1_Extract
+        Amount: 4
+        Rate: 1
+      - Index: 45
+        Item: EP19_S_F_2_Extract
+        Amount: 4
+        Rate: 1
+      - Index: 46
+        Item: EP19_S_F_3_Extract
+        Amount: 4
+        Rate: 1
+      - Index: 47
+        Item: EP19_Gla_Extract
+        Amount: 4
+        Rate: 1
+      - Index: 48
+        Item: Snow_F_Ore
+        Amount: 4
+        Rate: 12
+      - Index: 49
+        Item: Snow_F_Stone1
+        Amount: 4
+        Rate: 5
+      - Index: 50
+        Item: Snow_F_Stone2
+        Amount: 4
+        Rate: 3
+      - Index: 51
+        Item: Snow_F_Stone3
+        Amount: 4
+        Rate: 1

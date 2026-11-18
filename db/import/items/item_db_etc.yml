@@ -16099,3 +16099,44 @@ Body:
       NoGuildStorage: true
       NoMail: true
       NoAuction: true
+  # Extraits EP19 et sort miasmatique (EP20, sous-lot D2a) : chaine Dim Glacier de Forr.
+  - Id: 1001033
+    AegisName: EP19_D_P_Stone
+    Name: Miasmal Spell
+    Type: Etc
+    Weight: 50
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001034
+    AegisName: EP19_S_F_1_Extract
+    Name: Snow Flower Magic Stone Extract
+    Type: Etc
+    Weight: 30
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001035
+    AegisName: EP19_S_F_2_Extract
+    Name: Shining Snow Flower Magic Stone Extract
+    Type: Etc
+    Weight: 30
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001036
+    AegisName: EP19_S_F_3_Extract
+    Name: Brilliant Snow Flower Magic Stone Extract
+    Type: Etc
+    Weight: 30
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT
+  - Id: 1001037
+    AegisName: EP19_Gla_Extract
+    Name: Glacier Extract
+    Type: Etc
+    Weight: 30
+    Flags:
+      BuyingStore: true
+      DropEffect: CLIENT

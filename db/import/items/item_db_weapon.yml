@@ -32940,3 +32940,556 @@ Body:
             }
          }
       }
+  # Dim Glacier : armes (EP20, sous-lot D2a). WeaponLevel 4, MagicAttack en bMatk, Jobs des armes Glacier.
+  - Id: 500054
+    AegisName: D_Glacier_Sword
+    Name: Dim Glacier Sword [1]
+    Type: Weapon
+    SubType: 1hSword
+    Weight: 1600
+    Attack: 220
+    Range: 1
+    Slots: 1
+    Jobs:
+      Alchemist: true
+      Blacksmith: true
+      Crusader: true
+      Knight: true
+      Merchant: true
+      Swordman: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,210;
+  - Id: 500055
+    AegisName: D_Glacier_B_Sword
+    Name: Dim Glacier Basic Sword [1]
+    Type: Weapon
+    SubType: 1hSword
+    Weight: 1400
+    Attack: 220
+    Range: 1
+    Slots: 1
+    Jobs:
+      Novice: true
+      SuperNovice: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,210;
+  - Id: 510075
+    AegisName: D_Glacier_R_Knife
+    Name: Dim Glacier Rogue Knife [1]
+    Type: Weapon
+    SubType: Dagger
+    Weight: 1400
+    Attack: 210
+    Range: 1
+    Slots: 1
+    Jobs:
+      Rogue: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,210;
+  - Id: 510076
+    AegisName: D_Glacier_B_Knife
+    Name: Dim Glacier Basic Knife [1]
+    Type: Weapon
+    SubType: Dagger
+    Weight: 1200
+    Attack: 210
+    Range: 1
+    Slots: 1
+    Jobs:
+      Novice: true
+      SuperNovice: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,210;
+  - Id: 520021
+    AegisName: D_Glacier_Axe
+    Name: Dim Glacier Axe [1]
+    Type: Weapon
+    SubType: 1hAxe
+    Weight: 5000
+    Attack: 240
+    Range: 1
+    Slots: 1
+    Jobs:
+      Alchemist: true
+      Blacksmith: true
+      Crusader: true
+      Knight: true
+      Merchant: true
+      Swordman: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,210;
+      bonus bUnbreakableWeapon;
+  - Id: 530034
+    AegisName: D_Glacier_Spear
+    Name: Dim Glacier Spear [1]
+    Type: Weapon
+    SubType: 1hSpear
+    Weight: 2100
+    Attack: 220
+    Range: 3
+    Slots: 1
+    Jobs:
+      Crusader: true
+      Knight: true
+      Swordman: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,210;
+  - Id: 540056
+    AegisName: D_Glacier_Book
+    Name: Dim Glacier Book [1]
+    Type: Weapon
+    SubType: Book
+    Weight: 1200
+    Attack: 210
+    Range: 1
+    Slots: 1
+    Jobs:
+      Priest: true
+      Sage: true
+      StarGladiator: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,210;
+      bonus bUnbreakableWeapon;
+  - Id: 550089
+    AegisName: D_Glacier_Wand
+    Name: Dim Glacier Wand [1]
+    Type: Weapon
+    SubType: Staff
+    Weight: 1300
+    Attack: 150
+    Range: 1
+    Slots: 1
+    Jobs:
+      Novice: true
+      Mage: true
+      Acolyte: true
+      Priest: true
+      Wizard: true
+      Monk: true
+      Sage: true
+      SuperNovice: true
+      SoulLinker: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,230;
+      bonus bUnbreakableWeapon;
+  - Id: 560037
+    AegisName: D_Glacier_Knuckle
+    Name: Dim Glacier Knuckle [1]
+    Type: Weapon
+    SubType: Knuckle
+    Weight: 1500
+    Attack: 240
+    Range: 1
+    Slots: 1
+    Jobs:
+      Monk: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,220;
+  - Id: 570032
+    AegisName: D_Glacier_Violin
+    Name: Dim Glacier Violin [1]
+    Type: Weapon
+    SubType: Musical
+    Weight: 1500
+    Attack: 210
+    Range: 1
+    Slots: 1
+    Jobs:
+      BardDancer: true
+    Gender: Male
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,210;
+  - Id: 580033
+    AegisName: D_Glacier_Whip
+    Name: Dim Glacier Whip [1]
+    Type: Weapon
+    SubType: Whip
+    Weight: 1500
+    Attack: 210
+    Range: 2
+    Slots: 1
+    Jobs:
+      BardDancer: true
+    Gender: Female
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,210;
+  - Id: 590047
+    AegisName: D_Glacier_Mace
+    Name: Dim Glacier Mace [1]
+    Type: Weapon
+    SubType: Mace
+    Weight: 1800
+    Attack: 210
+    Range: 1
+    Slots: 1
+    Jobs:
+      Acolyte: true
+      Alchemist: true
+      Blacksmith: true
+      Crusader: true
+      Knight: true
+      Merchant: true
+      Monk: true
+      Priest: true
+      Swordman: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,210;
+      bonus bUnbreakableWeapon;
+  - Id: 590048
+    AegisName: D_Glacier_M_Mace
+    Name: Dim Glacier Mechanic Mace [1]
+    Type: Weapon
+    SubType: Mace
+    Weight: 4000
+    Attack: 400
+    Range: 1
+    Slots: 1
+    Jobs:
+      Blacksmith: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,160;
+      bonus bUnbreakableWeapon;
+  - Id: 600030
+    AegisName: D_Glacier_T_Sword
+    Name: Dim Glacier Two-handed Sword [1]
+    Type: Weapon
+    SubType: 2hSword
+    Weight: 4000
+    Attack: 300
+    Range: 1
+    Slots: 1
+    Jobs:
+      Knight: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,270;
+  - Id: 610041
+    AegisName: D_Glacier_Katar
+    Name: Dim Glacier Katar [1]
+    Type: Weapon
+    SubType: Katar
+    Weight: 1200
+    Attack: 240
+    Range: 1
+    Slots: 1
+    Jobs:
+      Assassin: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,220;
+  - Id: 620019
+    AegisName: D_Glacier_T_Axe
+    Name: Dim Glacier Mechanic Axe [1]
+    Type: Weapon
+    SubType: 2hAxe
+    Weight: 7000
+    Attack: 350
+    Range: 1
+    Slots: 1
+    Jobs:
+      Blacksmith: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,180;
+      bonus bUnbreakableWeapon;
+  - Id: 630019
+    AegisName: D_Glacier_Lance
+    Name: Dim Glacier Lance [1]
+    Type: Weapon
+    SubType: 2hSpear
+    Weight: 4500
+    Attack: 300
+    Range: 3
+    Slots: 1
+    Jobs:
+      Knight: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,270;
+  - Id: 640034
+    AegisName: D_Glacier_Staff
+    Name: Dim Glacier Staff [1]
+    Type: Weapon
+    SubType: 2hStaff
+    Weight: 2400
+    Attack: 150
+    Range: 1
+    Slots: 1
+    Jobs:
+      Acolyte: true
+      Mage: true
+      Monk: true
+      Priest: true
+      Sage: true
+      SoulLinker: true
+      Wizard: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,290;
+      bonus bUnbreakableWeapon;
+  - Id: 650028
+    AegisName: D_Glacier_Humma
+    Name: Dim Glacier Huuma Shuriken [1]
+    Type: Weapon
+    SubType: Huuma
+    Weight: 3000
+    Attack: 400
+    Range: 1
+    Slots: 1
+    Jobs:
+      Ninja: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,370;
+      bonus bUnbreakableWeapon;
+  - Id: 700059
+    AegisName: D_Glacier_Bow
+    Name: Dim Glacier Bow [1]
+    Type: Weapon
+    SubType: Bow
+    Weight: 1500
+    Attack: 240
+    Range: 5
+    Slots: 1
+    Jobs:
+      Archer: true
+      BardDancer: true
+      Hunter: true
+      Rogue: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,220;
+  - Id: 800015
+    AegisName: D_Glacier_Revolver
+    Name: Dim Glacier Pistol [1]
+    Type: Weapon
+    SubType: Revolver
+    Weight: 2200
+    Attack: 230
+    Range: 7
+    Slots: 1
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,230;
+  - Id: 810015
+    AegisName: D_Glacier_Rifle
+    Name: Dim Glacier Rifle [1]
+    Type: Weapon
+    SubType: Rifle
+    Weight: 2600
+    Attack: 280
+    Range: 9
+    Slots: 1
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,230;
+  - Id: 820011
+    AegisName: D_Glacier_Shotgun
+    Name: Dim Glacier Shotgun [1]
+    Type: Weapon
+    SubType: Shotgun
+    Weight: 2600
+    Attack: 300
+    Range: 9
+    Slots: 1
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,200;
+      bonus bSplashRange,1;
+  - Id: 830015
+    AegisName: D_Glacier_Gatling
+    Name: Dim Glacier Gatling Gun [1]
+    Type: Weapon
+    SubType: Gatling
+    Weight: 3500
+    Attack: 350
+    Range: 9
+    Slots: 1
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,200;
+  - Id: 840010
+    AegisName: D_Glacier_Launcher
+    Name: Dim Glacier Grenade Launcher [1]
+    Type: Weapon
+    SubType: Grenade
+    Weight: 3000
+    Attack: 300
+    Range: 9
+    Slots: 1
+    Jobs:
+      Gunslinger: true
+    Locations:
+      Both_Hand: true
+    WeaponLevel: 4
+    EquipLevelMin: 230
+    Refineable: true
+    Flags:
+      DropEffect: CLIENT
+    Script: |
+      bonus bMatk,200;

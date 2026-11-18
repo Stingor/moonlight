@@ -283,7 +283,9 @@ Reste à faire :
 
 - **le Dim Glacier** (26 armes `D_Glacier_*`, grade, enchantement 47, Forr, le four
   d'incinération, groupe `D_GW_EXTRACTOR`, `barter_ep19_new_content`) : aucun mob de
-  l'épisode ne les fait tomber, ils relèvent de l'épisode 20.
+  l'épisode ne les fait tomber, ils relèvent de l'épisode 20 : **portés le 2026‑11‑18** (sous-lot
+  D2a de [20_the_undying.md](20_the_undying.md)), lignes des coffres d'Aquila et d'Ultra Limacina
+  comprises.
 
 **Côté client** : les 211 quêtes sont dans `quests.yml` de moonclient (2026‑11‑15), prises de
 `OngoingQuests.lub` (ROenglishRE, Renewal) et insérées sans redumper le fichier ; 18145 à 18147

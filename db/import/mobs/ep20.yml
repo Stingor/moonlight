@@ -1,7 +1,7 @@
 # Episode 20 : The Undying. Base : glitzhXEC/brHades c2196f9be (conversion de Capuche),
 # convertie par tools/util/re_to_prere_mob.py, sans Resistance, MagicResistance ni DamageTaken.
-# Drops ecartes comme au 19 : les 20 cartes EP20 (bonus renewal a convertir) et les armes
-# Dim Glacier. EP20_NPC_NYAR / EP20_NPC_LASGAND : sprites de PNJ. MD_EP20_BOSS_LASGAND :
+# Drops ecartes comme au 19 : les 20 cartes EP20 (bonus renewal a convertir). Armes Dim
+# Glacier remises au sous-lot D2a. EP20_NPC_NYAR / EP20_NPC_LASGAND : sprites de PNJ. MD_EP20_BOSS_LASGAND :
 # Immortal retouche ses stats par setunitdata (lot F).
 Header:
   Type: MOB_DB
@@ -222,6 +222,10 @@ Body:
         Rate: 2301
       - Item: Ep20_Fluor_Cell_Sweet
         Rate: 328
+      - Item: D_Glacier_M_Mace
+        Rate: 100
+      - Item: D_Glacier_Knuckle
+        Rate: 100
   - Id: 21971
     AegisName: EP20_ICEBEAR
     Name: Bear
@@ -300,6 +304,8 @@ Body:
         Rate: 2081
       - Item: Light_Granule
         Rate: 693
+      - Item: D_Glacier_Wand
+        Rate: 100
   - Id: 21973
     AegisName: EP20_JORMUNGUARD2
     Name: Jormungand Guardian-Y
@@ -843,6 +849,8 @@ Body:
         Rate: 240
       - Item: Etel_Dust
         Rate: 100
+      - Item: D_Glacier_B_Knife
+        Rate: 100
   - Id: 21987
     AegisName: EP20_JORGAN_WARLOCK
     Name: Jormungand Church Shaman
@@ -885,6 +893,8 @@ Body:
         Rate: 50
       - Item: Snow_F_Stone1
         Rate: 177
+      - Item: D_Glacier_Whip
+        Rate: 100
   - Id: 21988
     AegisName: EP20_JORGAN_HEALER
     Name: Jormungand Church Bishop
@@ -923,6 +933,8 @@ Body:
         Rate: 283
       - Item: Zelunium_Ore
         Rate: 60
+      - Item: D_Glacier_Spear
+        Rate: 100
   - Id: 21989
     AegisName: EP20_JORGAN_GUARDIAN
     Name: Guardian of Shrine
@@ -965,6 +977,8 @@ Body:
         Rate: 83
       - Item: Snow_F_Ore
         Rate: 27
+      - Item: D_Glacier_Axe
+        Rate: 100
   - Id: 21990
     AegisName: EP20_JORGAN_CLEANER
     Name: Jormungand Sanctuary
@@ -1003,6 +1017,8 @@ Body:
         Rate: 1040
       - Item: Shadowdecon_Ore
         Rate: 260
+      - Item: D_Glacier_Katar
+        Rate: 100
   - Id: 21991
     AegisName: MD_EP20_JOR_G_P
     Name: Jormungand Guardian
