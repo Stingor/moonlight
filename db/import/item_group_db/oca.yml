@@ -2519,3 +2519,9 @@ Body:
           - Index: 823
             Item: Unfrost_Flower_card
             Rate: 1
+          - Index: 824
+            Item: E_EA1L_Card
+            Rate: 1
+          - Index: 825
+            Item: E_EA2S_Card
+            Rate: 1
