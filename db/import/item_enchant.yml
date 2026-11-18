@@ -10854,3 +10854,705 @@ Body:
         - Material: EP20_D_Scale
           Amount: 2
         - Material: EP19_D_P_Stone
+  # EP20, Hall of Life : enchantements Moonlight 117 a 124 (absents de rAthena), sur le modele
+  # des armures Glacier 89-94. Impairs = Manteaux, pairs = Signets (Circle of Life), orbes Ice_C_Orb,
+  # gemme et colere de l'element de la saison (printemps Terre, ete Feu, automne Vent, hiver Eau).
+  - Id: 117
+    TargetItems:
+      Season_Hood_Spring: true
+    Order:
+    - Slot: 3
+    - Slot: 2
+    - Slot: 1
+    Slots:
+    - Slot: 3
+      PerfectEnchants:
+      - Item: Ice_C_Orb_Str
+        Price: 1000000
+        Materials:
+        - Material: Green_Land_Crystal
+          Amount: 30
+        - Material: Contored_Ter_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Def
+        Price: 1000000
+        Materials:
+        - Material: Green_Land_Crystal
+          Amount: 30
+        - Material: Contored_Ter_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Mdef
+        Price: 1000000
+        Materials:
+        - Material: Green_Land_Crystal
+          Amount: 30
+        - Material: Contored_Ter_Wrath
+          Amount: 20
+    - Slot: 2
+      PerfectEnchants:
+      - Item: Ice_C_Orb_War
+        Price: 2000000
+        Materials:
+        - Material: Green_Land_Crystal
+          Amount: 50
+        - Material: Contored_Ter_Wrath
+          Amount: 40
+        - Material: Coagulated_Spell
+          Amount: 10
+      - Item: Ice_C_Orb_Speed
+        Price: 2000000
+        Materials:
+        - Material: Green_Land_Crystal
+          Amount: 50
+        - Material: Contored_Ter_Wrath
+          Amount: 40
+        - Material: Coagulated_Spell
+          Amount: 10
+      - Item: Ice_C_Orb_Guide
+        Price: 2000000
+        Materials:
+        - Material: Green_Land_Crystal
+          Amount: 50
+        - Material: Contored_Ter_Wrath
+          Amount: 40
+        - Material: Coagulated_Spell
+          Amount: 10
+    - Slot: 1
+      PerfectEnchants:
+      - Item: Ice_C_Orb_War2
+        Price: 3000000
+        Materials:
+        - Material: Green_Land_Crystal
+          Amount: 70
+        - Material: Contored_Ter_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10
+      - Item: Ice_C_Orb_P_Full
+        Price: 3000000
+        Materials:
+        - Material: Green_Land_Crystal
+          Amount: 70
+        - Material: Contored_Ter_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10
+      - Item: Ice_C_Orb_Above
+        Price: 3000000
+        Materials:
+        - Material: Green_Land_Crystal
+          Amount: 70
+        - Material: Contored_Ter_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10
+  - Id: 118
+    TargetItems:
+      Signet_Of_Spring: true
+    Order:
+    - Slot: 3
+    - Slot: 2
+    - Slot: 1
+    Slots:
+    - Slot: 3
+      PerfectEnchants:
+      - Item: Ice_C_Orb_Str
+        Price: 1000000
+        Materials:
+        - Material: Green_Land_Crystal
+          Amount: 30
+        - Material: Contored_Ter_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Agi
+        Price: 1000000
+        Materials:
+        - Material: Green_Land_Crystal
+          Amount: 30
+        - Material: Contored_Ter_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Vit
+        Price: 1000000
+        Materials:
+        - Material: Green_Land_Crystal
+          Amount: 30
+        - Material: Contored_Ter_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Spd
+        Price: 1000000
+        Materials:
+        - Material: Green_Land_Crystal
+          Amount: 30
+        - Material: Contored_Ter_Wrath
+          Amount: 20
+    - Slot: 2
+      PerfectEnchants:
+      - Item: Ice_C_Orb_F_Spirit
+        Price: 2000000
+        Materials:
+        - Material: Green_Land_Crystal
+          Amount: 50
+        - Material: Contored_Ter_Wrath
+          Amount: 40
+        - Material: Coagulated_Spell
+          Amount: 10
+      - Item: Ice_C_Orb_Fatal
+        Price: 2000000
+        Materials:
+        - Material: Green_Land_Crystal
+          Amount: 50
+        - Material: Contored_Ter_Wrath
+          Amount: 40
+        - Material: Coagulated_Spell
+          Amount: 10
+    - Slot: 1
+      PerfectEnchants:
+      - Item: Ice_C_Orb_P_P
+        Price: 3000000
+        Materials:
+        - Material: Green_Land_Crystal
+          Amount: 70
+        - Material: Contored_Ter_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10
+      - Item: Ice_C_Orb_A_Force
+        Price: 3000000
+        Materials:
+        - Material: Green_Land_Crystal
+          Amount: 70
+        - Material: Contored_Ter_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10
+  - Id: 119
+    TargetItems:
+      Season_Hood_Summer: true
+    Order:
+    - Slot: 3
+    - Slot: 2
+    - Slot: 1
+    Slots:
+    - Slot: 3
+      PerfectEnchants:
+      - Item: Ice_C_Orb_Dex
+        Price: 1000000
+        Materials:
+        - Material: Blue_Flame_Heart_Gem
+          Amount: 30
+        - Material: Contored_Agn_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Def
+        Price: 1000000
+        Materials:
+        - Material: Blue_Flame_Heart_Gem
+          Amount: 30
+        - Material: Contored_Agn_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Mdef
+        Price: 1000000
+        Materials:
+        - Material: Blue_Flame_Heart_Gem
+          Amount: 30
+        - Material: Contored_Agn_Wrath
+          Amount: 20
+    - Slot: 2
+      PerfectEnchants:
+      - Item: Ice_C_Orb_Ran
+        Price: 2000000
+        Materials:
+        - Material: Blue_Flame_Heart_Gem
+          Amount: 50
+        - Material: Contored_Agn_Wrath
+          Amount: 40
+        - Material: Coagulated_Spell
+          Amount: 10
+      - Item: Ice_C_Orb_Speed
+        Price: 2000000
+        Materials:
+        - Material: Blue_Flame_Heart_Gem
+          Amount: 50
+        - Material: Contored_Agn_Wrath
+          Amount: 40
+        - Material: Coagulated_Spell
+          Amount: 10
+      - Item: Ice_C_Orb_Guide
+        Price: 2000000
+        Materials:
+        - Material: Blue_Flame_Heart_Gem
+          Amount: 50
+        - Material: Contored_Agn_Wrath
+          Amount: 40
+        - Material: Coagulated_Spell
+          Amount: 10
+    - Slot: 1
+      PerfectEnchants:
+      - Item: Ice_C_Orb_Ran2
+        Price: 3000000
+        Materials:
+        - Material: Blue_Flame_Heart_Gem
+          Amount: 70
+        - Material: Contored_Agn_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10
+      - Item: Ice_C_Orb_P_Full
+        Price: 3000000
+        Materials:
+        - Material: Blue_Flame_Heart_Gem
+          Amount: 70
+        - Material: Contored_Agn_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10
+      - Item: Ice_C_Orb_Above
+        Price: 3000000
+        Materials:
+        - Material: Blue_Flame_Heart_Gem
+          Amount: 70
+        - Material: Contored_Agn_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10
+  - Id: 120
+    TargetItems:
+      Signet_Of_Summer: true
+    Order:
+    - Slot: 3
+    - Slot: 2
+    - Slot: 1
+    Slots:
+    - Slot: 3
+      PerfectEnchants:
+      - Item: Ice_C_Orb_Dex
+        Price: 1000000
+        Materials:
+        - Material: Blue_Flame_Heart_Gem
+          Amount: 30
+        - Material: Contored_Agn_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Agi
+        Price: 1000000
+        Materials:
+        - Material: Blue_Flame_Heart_Gem
+          Amount: 30
+        - Material: Contored_Agn_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Vit
+        Price: 1000000
+        Materials:
+        - Material: Blue_Flame_Heart_Gem
+          Amount: 30
+        - Material: Contored_Agn_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Spd
+        Price: 1000000
+        Materials:
+        - Material: Blue_Flame_Heart_Gem
+          Amount: 30
+        - Material: Contored_Agn_Wrath
+          Amount: 20
+    - Slot: 2
+      PerfectEnchants:
+      - Item: Ice_C_Orb_E_Archer
+        Price: 2000000
+        Materials:
+        - Material: Blue_Flame_Heart_Gem
+          Amount: 50
+        - Material: Contored_Agn_Wrath
+          Amount: 40
+        - Material: Coagulated_Spell
+          Amount: 10
+      - Item: Ice_C_Orb_Fatal
+        Price: 2000000
+        Materials:
+        - Material: Blue_Flame_Heart_Gem
+          Amount: 50
+        - Material: Contored_Agn_Wrath
+          Amount: 40
+        - Material: Coagulated_Spell
+          Amount: 10
+    - Slot: 1
+      PerfectEnchants:
+      - Item: Ice_C_Orb_P_P
+        Price: 3000000
+        Materials:
+        - Material: Blue_Flame_Heart_Gem
+          Amount: 70
+        - Material: Contored_Agn_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10
+      - Item: Ice_C_Orb_A_Force
+        Price: 3000000
+        Materials:
+        - Material: Blue_Flame_Heart_Gem
+          Amount: 70
+        - Material: Contored_Agn_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10
+  - Id: 121
+    TargetItems:
+      Season_Hood_Autumn: true
+    Order:
+    - Slot: 3
+    - Slot: 2
+    - Slot: 1
+    Slots:
+    - Slot: 3
+      PerfectEnchants:
+      - Item: Ice_C_Orb_Int
+        Price: 1000000
+        Materials:
+        - Material: Storm_Wind_Leaf_Gem
+          Amount: 30
+        - Material: Contored_Ven_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Def
+        Price: 1000000
+        Materials:
+        - Material: Storm_Wind_Leaf_Gem
+          Amount: 30
+        - Material: Contored_Ven_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Mdef
+        Price: 1000000
+        Materials:
+        - Material: Storm_Wind_Leaf_Gem
+          Amount: 30
+        - Material: Contored_Ven_Wrath
+          Amount: 20
+    - Slot: 2
+      PerfectEnchants:
+      - Item: Ice_C_Orb_Mag
+        Price: 2000000
+        Materials:
+        - Material: Storm_Wind_Leaf_Gem
+          Amount: 50
+        - Material: Contored_Ven_Wrath
+          Amount: 40
+        - Material: Coagulated_Spell
+          Amount: 10
+      - Item: Ice_C_Orb_Caster
+        Price: 2000000
+        Materials:
+        - Material: Storm_Wind_Leaf_Gem
+          Amount: 50
+        - Material: Contored_Ven_Wrath
+          Amount: 40
+        - Material: Coagulated_Spell
+          Amount: 10
+      - Item: Ice_C_Orb_S_Delay
+        Price: 2000000
+        Materials:
+        - Material: Storm_Wind_Leaf_Gem
+          Amount: 50
+        - Material: Contored_Ven_Wrath
+          Amount: 40
+        - Material: Coagulated_Spell
+          Amount: 10
+    - Slot: 1
+      PerfectEnchants:
+      - Item: Ice_C_Orb_Mag2
+        Price: 3000000
+        Materials:
+        - Material: Storm_Wind_Leaf_Gem
+          Amount: 70
+        - Material: Contored_Ven_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10
+      - Item: Ice_C_Orb_P_Full
+        Price: 3000000
+        Materials:
+        - Material: Storm_Wind_Leaf_Gem
+          Amount: 70
+        - Material: Contored_Ven_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10
+      - Item: Ice_C_Orb_Above
+        Price: 3000000
+        Materials:
+        - Material: Storm_Wind_Leaf_Gem
+          Amount: 70
+        - Material: Contored_Ven_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10
+  - Id: 122
+    TargetItems:
+      Signet_Of_Autumn: true
+    Order:
+    - Slot: 3
+    - Slot: 2
+    - Slot: 1
+    Slots:
+    - Slot: 3
+      PerfectEnchants:
+      - Item: Ice_C_Orb_Int
+        Price: 1000000
+        Materials:
+        - Material: Storm_Wind_Leaf_Gem
+          Amount: 30
+        - Material: Contored_Ven_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Dex
+        Price: 1000000
+        Materials:
+        - Material: Storm_Wind_Leaf_Gem
+          Amount: 30
+        - Material: Contored_Ven_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Vit
+        Price: 1000000
+        Materials:
+        - Material: Storm_Wind_Leaf_Gem
+          Amount: 30
+        - Material: Contored_Ven_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Spd
+        Price: 1000000
+        Materials:
+        - Material: Storm_Wind_Leaf_Gem
+          Amount: 30
+        - Material: Contored_Ven_Wrath
+          Amount: 20
+    - Slot: 2
+      PerfectEnchants:
+      - Item: Ice_C_Orb_Spell
+        Price: 2000000
+        Materials:
+        - Material: Storm_Wind_Leaf_Gem
+          Amount: 50
+        - Material: Contored_Ven_Wrath
+          Amount: 40
+        - Material: Coagulated_Spell
+          Amount: 10
+    - Slot: 1
+      PerfectEnchants:
+      - Item: Ice_C_Orb_M_P
+        Price: 3000000
+        Materials:
+        - Material: Storm_Wind_Leaf_Gem
+          Amount: 70
+        - Material: Contored_Ven_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10
+      - Item: Ice_C_Orb_A_Force
+        Price: 3000000
+        Materials:
+        - Material: Storm_Wind_Leaf_Gem
+          Amount: 70
+        - Material: Contored_Ven_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10
+  - Id: 123
+    TargetItems:
+      Season_Hood_Winter: true
+    Order:
+    - Slot: 3
+    - Slot: 2
+    - Slot: 1
+    Slots:
+    - Slot: 3
+      PerfectEnchants:
+      - Item: Ice_C_Orb_Luk
+        Price: 1000000
+        Materials:
+        - Material: Ice_Water_Drop_Gem
+          Amount: 30
+        - Material: Contored_Aqu_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Def
+        Price: 1000000
+        Materials:
+        - Material: Ice_Water_Drop_Gem
+          Amount: 30
+        - Material: Contored_Aqu_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Mdef
+        Price: 1000000
+        Materials:
+        - Material: Ice_Water_Drop_Gem
+          Amount: 30
+        - Material: Contored_Aqu_Wrath
+          Amount: 20
+    - Slot: 2
+      PerfectEnchants:
+      - Item: Ice_C_Orb_War
+        Price: 2000000
+        Materials:
+        - Material: Ice_Water_Drop_Gem
+          Amount: 50
+        - Material: Contored_Aqu_Wrath
+          Amount: 40
+        - Material: Coagulated_Spell
+          Amount: 10
+      - Item: Ice_C_Orb_Speed
+        Price: 2000000
+        Materials:
+        - Material: Ice_Water_Drop_Gem
+          Amount: 50
+        - Material: Contored_Aqu_Wrath
+          Amount: 40
+        - Material: Coagulated_Spell
+          Amount: 10
+      - Item: Ice_C_Orb_Fatal
+        Price: 2000000
+        Materials:
+        - Material: Ice_Water_Drop_Gem
+          Amount: 50
+        - Material: Contored_Aqu_Wrath
+          Amount: 40
+        - Material: Coagulated_Spell
+          Amount: 10
+    - Slot: 1
+      PerfectEnchants:
+      - Item: Ice_C_Orb_War2
+        Price: 3000000
+        Materials:
+        - Material: Ice_Water_Drop_Gem
+          Amount: 70
+        - Material: Contored_Aqu_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10
+      - Item: Ice_C_Orb_P_Full
+        Price: 3000000
+        Materials:
+        - Material: Ice_Water_Drop_Gem
+          Amount: 70
+        - Material: Contored_Aqu_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10
+      - Item: Ice_C_Orb_Above
+        Price: 3000000
+        Materials:
+        - Material: Ice_Water_Drop_Gem
+          Amount: 70
+        - Material: Contored_Aqu_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10
+  - Id: 124
+    TargetItems:
+      Signet_Of_Winter: true
+    Order:
+    - Slot: 3
+    - Slot: 2
+    - Slot: 1
+    Slots:
+    - Slot: 3
+      PerfectEnchants:
+      - Item: Ice_C_Orb_Luk
+        Price: 1000000
+        Materials:
+        - Material: Ice_Water_Drop_Gem
+          Amount: 30
+        - Material: Contored_Aqu_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Agi
+        Price: 1000000
+        Materials:
+        - Material: Ice_Water_Drop_Gem
+          Amount: 30
+        - Material: Contored_Aqu_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Str
+        Price: 1000000
+        Materials:
+        - Material: Ice_Water_Drop_Gem
+          Amount: 30
+        - Material: Contored_Aqu_Wrath
+          Amount: 20
+      - Item: Ice_C_Orb_Spd
+        Price: 1000000
+        Materials:
+        - Material: Ice_Water_Drop_Gem
+          Amount: 30
+        - Material: Contored_Aqu_Wrath
+          Amount: 20
+    - Slot: 2
+      PerfectEnchants:
+      - Item: Ice_C_Orb_Fatal
+        Price: 2000000
+        Materials:
+        - Material: Ice_Water_Drop_Gem
+          Amount: 50
+        - Material: Contored_Aqu_Wrath
+          Amount: 40
+        - Material: Coagulated_Spell
+          Amount: 10
+      - Item: Ice_C_Orb_F_Spirit
+        Price: 2000000
+        Materials:
+        - Material: Ice_Water_Drop_Gem
+          Amount: 50
+        - Material: Contored_Aqu_Wrath
+          Amount: 40
+        - Material: Coagulated_Spell
+          Amount: 10
+    - Slot: 1
+      PerfectEnchants:
+      - Item: Ice_C_Orb_P_P
+        Price: 3000000
+        Materials:
+        - Material: Ice_Water_Drop_Gem
+          Amount: 70
+        - Material: Contored_Aqu_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10
+      - Item: Ice_C_Orb_A_Force
+        Price: 3000000
+        Materials:
+        - Material: Ice_Water_Drop_Gem
+          Amount: 70
+        - Material: Contored_Aqu_Wrath
+          Amount: 60
+        - Material: Coagulated_Spell
+          Amount: 20
+        - Material: Contored_Spi_Wrath
+          Amount: 10

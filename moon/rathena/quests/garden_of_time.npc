@@ -3,8 +3,8 @@
 //= deux zones de for_dun.
 //===== Description: =========================================
 //= Copie de npc/re/quests/garden_of_time.txt [Atemo]. Ecarts :
-//= - item_enchant 117 a 124 et 142 : absents de rAthena, les
-//=   distributeurs #3 et #4 le disent au lieu d'echouer ;
+//= - item_enchant 117 a 124 : ecrits pour Moonlight (item_enchant.yml) ;
+//=   142 absent de rAthena, le distributeur #4 le dit au lieu d'echouer ;
 //= - naviregisterwarp : teleportations declarees au generateur
 //=   de navigation (sans effet en jeu).
 //============================================================
@@ -1509,24 +1509,20 @@ t_garden,135,117,2	script(CLOAKED)	Subspace vending machine#3	HEROS_IN_ORB_3,{
 	npctalk "We carefully enchant the equipment obtained from the Lake of Fire. Is there a menu you would like?", "", bc_self;
 	switch( select( "Divine Beast's Cloak - Spring", "Divine Beast's Cloak - Summer", "Divine Beast's Cloak - Fall", "Divine Beast's Cloak - Winter" ) ) {
 	case 1:
-		mes "[Subspace vending machine]";
-		mes "This enchantment is not available yet.";	// [Stingor] item_enchant(117) absent de rAthena
-		close;
+		item_enchant(117);	// [Stingor] enchantement Moonlight
+		end;
 		break;
 	case 2:
-		mes "[Subspace vending machine]";
-		mes "This enchantment is not available yet.";	// [Stingor] item_enchant(119) absent de rAthena
-		close;
+		item_enchant(119);	// [Stingor] enchantement Moonlight
+		end;
 		break;
 	case 3:
-		mes "[Subspace vending machine]";
-		mes "This enchantment is not available yet.";	// [Stingor] item_enchant(121) absent de rAthena
-		close;
+		item_enchant(121);	// [Stingor] enchantement Moonlight
+		end;
 		break;
 	case 4:
-		mes "[Subspace vending machine]";
-		mes "This enchantment is not available yet.";	// [Stingor] item_enchant(123) absent de rAthena
-		close;
+		item_enchant(123);	// [Stingor] enchantement Moonlight
+		end;
 		break;
 	}
 	end;
@@ -1551,24 +1547,20 @@ t_garden,138,114,2	script(CLOAKED)	Subspace vending machine#4	HEROS_IN_ORB_4,{
 		close;
 		break;
 	case 2:
-		mes "[Subspace vending machine]";
-		mes "This enchantment is not available yet.";	// [Stingor] item_enchant(118) absent de rAthena
-		close;
+		item_enchant(118);	// [Stingor] enchantement Moonlight
+		end;
 		break;
 	case 3:
-		mes "[Subspace vending machine]";
-		mes "This enchantment is not available yet.";	// [Stingor] item_enchant(120) absent de rAthena
-		close;
+		item_enchant(120);	// [Stingor] enchantement Moonlight
+		end;
 		break;
 	case 4:
-		mes "[Subspace vending machine]";
-		mes "This enchantment is not available yet.";	// [Stingor] item_enchant(122) absent de rAthena
-		close;
+		item_enchant(122);	// [Stingor] enchantement Moonlight
+		end;
 		break;
 	case 5:
-		mes "[Subspace vending machine]";
-		mes "This enchantment is not available yet.";	// [Stingor] item_enchant(124) absent de rAthena
-		close;
+		item_enchant(124);	// [Stingor] enchantement Moonlight
+		end;
 		break;
 	}
 	end;
