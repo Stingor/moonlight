@@ -328,7 +328,7 @@ Body:
         StealProtected: true
   - Id: 20610
     AegisName: REGINLEIF
-    Name: Valkryie Reginleif
+    Name: Valkyrie Reginleif
     Level: 207
     Hp: 4619955
     BaseExp: 7391928
@@ -367,7 +367,7 @@ Body:
         StealProtected: true
   - Id: 20611
     AegisName: INGRID
-    Name: Valkryie Ingrid
+    Name: Valkyrie Ingrid
     Level: 207
     Hp: 4585892
     BaseExp: 7337427
