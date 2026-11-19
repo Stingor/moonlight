@@ -310,6 +310,8 @@ class AdminGUI:
         self.pause_var.set(False)
         self.savelog_var.set(s.get_bool("console", "save_log"))
         self.alerts_var.set(s.get_bool("console", "alerts", True))
+        self.reloads_open_var.set(s.get_bool("fenetre", "reloads_open"))
+        self._show_reloads()
 
     def _save_settings(self):
         data = {
@@ -318,7 +320,8 @@ class AdminGUI:
                           "name": self.name_var.get().strip()},
             "fenetre": {"geometry": self.root.geometry(),
                         "topmost": self.topmost_var.get(),
-                        "dark": self.dark_var.get()},
+                        "dark": self.dark_var.get(),
+                        "reloads_open": self.reloads_open_var.get()},
             "filtres": {label: self._log_filter_vars[p].get() for p, label in LOG_FILTERS},
             "niveaux": {label: self._level_vars[label].get() for label, _ in LOG_LEVELS},
             "console": {"regex": self.regex_var.get(),
@@ -371,8 +374,16 @@ class AdminGUI:
 
     def _build_actions(self):
         # Quick reload buttons, alphabetical and compact.
-        reloads = ttk.LabelFrame(self.root, text="Reloads rapides")
-        reloads.pack(fill="x", padx=8, pady=4)
+        # Collapsible: the header label toggles the button grid (state kept in
+        # MoonlightAdmin.ini). Frequent reloads belong in the favorites
+        # ("RELOAD itemdb" is sent as-is), which stay visible.
+        self.reloads_open_var = tk.BooleanVar(value=False)
+        self.reloads_header = ttk.Label(self.root, cursor="hand2")
+        self.reloads_box = ttk.LabelFrame(self.root, labelwidget=self.reloads_header)
+        self.reloads_box.pack(fill="x", padx=8, pady=4)
+        self.reloads_header.bind("<Button-1>", lambda e: self._toggle_reloads())
+        reloads = ttk.Frame(self.reloads_box)
+        self.reloads_inner = reloads
 
         # Dedicated small style so the larger target set stays on a few short
         # rows: smaller font + tight padding shrink each button.
@@ -390,6 +401,7 @@ class AdminGUI:
             self.reload_btns.append(b)
         for c in range(cols):
             reloads.columnconfigure(c, weight=1)
+        self._show_reloads()
 
         # Favorite commands (MoonlightAdmin.ini [favoris]).
         self.fav_frame = ttk.LabelFrame(self.root, text="Favoris  (clic droit : modifier / supprimer)")
@@ -416,6 +428,21 @@ class AdminGUI:
         ttk.Button(free, text="+ Favori", command=self._add_favorite).grid(row=0, column=2, padx=(0, 4))
         ttk.Label(free, text="ex: broadcast Maintenance dans 5 min  |  kick PlayerName").grid(
             row=1, column=0, columnspan=3, padx=6, sticky="w")
+
+    def _toggle_reloads(self):
+        self.reloads_open_var.set(not self.reloads_open_var.get())
+        self._show_reloads()
+
+    def _show_reloads(self):
+        """Show or hide the reload grid and update the header's arrow."""
+        is_open = self.reloads_open_var.get()
+        arrow = "▾" if is_open else "▸"
+        hint = "" if is_open else "  (clic pour afficher)"
+        self.reloads_header.config(text=f"{arrow} Reloads rapides ({len(RELOAD_TARGETS)}){hint}")
+        if is_open:
+            self.reloads_inner.pack(fill="x", padx=2, pady=(0, 2))
+        else:
+            self.reloads_inner.pack_forget()
 
     def _build_log(self):
         paned = ttk.PanedWindow(self.root, orient="vertical")
