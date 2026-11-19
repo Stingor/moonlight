@@ -378,11 +378,14 @@ class AdminGUI:
         # MoonlightAdmin.ini). Frequent reloads belong in the favorites
         # ("RELOAD itemdb" is sent as-is), which stay visible.
         self.reloads_open_var = tk.BooleanVar(value=False)
-        self.reloads_header = ttk.Label(self.root, cursor="hand2")
-        self.reloads_box = ttk.LabelFrame(self.root, labelwidget=self.reloads_header)
+        # The header is a plain label above the grid, not a LabelFrame title: an
+        # emptied LabelFrame shrinks to its border line and clips its title.
+        self.reloads_box = ttk.Frame(self.root)
         self.reloads_box.pack(fill="x", padx=8, pady=4)
+        self.reloads_header = ttk.Label(self.reloads_box, cursor="hand2")
+        self.reloads_header.pack(anchor="w")
         self.reloads_header.bind("<Button-1>", lambda e: self._toggle_reloads())
-        reloads = ttk.Frame(self.reloads_box)
+        reloads = ttk.Frame(self.reloads_box, relief="groove", borderwidth=2, padding=2)
         self.reloads_inner = reloads
 
         # Dedicated small style so the larger target set stays on a few short
@@ -440,7 +443,7 @@ class AdminGUI:
         hint = "" if is_open else "  (clic pour afficher)"
         self.reloads_header.config(text=f"{arrow} Reloads rapides ({len(RELOAD_TARGETS)}){hint}")
         if is_open:
-            self.reloads_inner.pack(fill="x", padx=2, pady=(0, 2))
+            self.reloads_inner.pack(fill="x")
         else:
             self.reloads_inner.pack_forget()
 
