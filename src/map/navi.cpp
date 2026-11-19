@@ -11,6 +11,7 @@
 #include <fstream>
 #include <iostream>
 #include <chrono>
+#include <cstdint>
 #include <queue>
 #include <vector>
 
@@ -446,6 +447,48 @@ void write_spawn(std::ostream &os, const struct map_data * m, const std::shared_
 
 }
 
+/// A portal fires on any cell of its touch area (x-xs..x+xs, y-ys..y+ys, see
+/// npc_setcells), but the graph only knows its centre cell. When that centre is
+/// a wall -- 122 portals on Moonlight, #ep172_lobby_to_hallway among them --
+/// navi_path_search refuses it as a destination: no walk ever reaches the link,
+/// the map behind it drops out of the graph, and the client is given a cell it
+/// cannot step on. Move the link to the walkable cell of the area closest to the
+/// centre; stepping there fires the portal just the same.
+static void navi_snap_to_touch_area(struct navi_pos &pos, int16 xs, int16 ys) {
+	struct map_data *mapdata = map_getmapdata(pos.m);
+
+	if (mapdata == nullptr || mapdata->cell == nullptr || xs < 0 || ys < 0 || (xs == 0 && ys == 0))
+		return;
+	if (!map_getcellp(mapdata, pos.x, pos.y, CELL_CHKNOREACH))
+		return;
+
+	int32 best_x = -1, best_y = -1, best_d = INT32_MAX;
+
+	for (int32 y = pos.y - ys; y <= pos.y + ys; y++) {
+		for (int32 x = pos.x - xs; x <= pos.x + xs; x++) {
+			if (x < 0 || y < 0 || x >= mapdata->xs || y >= mapdata->ys)
+				continue;
+			if (map_getcellp(mapdata, x, y, CELL_CHKNOREACH))
+				continue;
+			const int32 d = abs(x - pos.x) + abs(y - pos.y);
+			if (d < best_d) {
+				best_d = d;
+				best_x = x;
+				best_y = y;
+			}
+		}
+	}
+
+	if (best_d == INT32_MAX) {
+		ShowWarning("navi: no walkable cell in the touch area of the link at %s (%d,%d), left unreachable.\n",
+			mapdata->name, pos.x, pos.y);
+		return;
+	}
+
+	pos.x = best_x;
+	pos.y = best_y;
+}
+
 void write_object_lists() {
 	auto mob_file = std::ofstream(filePrefix + "./navi_mob_krpri.lub");
 	auto links_file = std::ofstream(filePrefix + "./navi_link_krpri.lub");
@@ -489,6 +532,7 @@ void write_object_lists() {
 				if (target < 0)
 					continue;
 
+				navi_snap_to_touch_area(nd->navi.pos, nd->u.warp.xs, nd->u.warp.ys);
 				nd->navi.id = 13350 + warp_count++;
 				write_warp(links_file, nd->navi);
 				m->navi.warps_outof.push_back(&nd->navi);
@@ -522,6 +566,10 @@ void write_object_lists() {
 					if (target < 0)
 						continue;
 
+					// An OnTouch script (WARPNPC with a condition) fires on its
+					// area like a portal; a clicked NPC has no area to snap into.
+					if (nd->subtype == NPCTYPE_SCRIPT)
+						navi_snap_to_touch_area(link.pos, nd->u.scr.xs, nd->u.scr.ys);
 					link.id = 13350 + warp_count++;
 					write_warp(links_file, link);
 					m->navi.warps_outof.push_back(&link);
