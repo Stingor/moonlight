@@ -4533,6 +4533,10 @@ prt_cas,140,344,3	script	Chamberlain Bell#ep172	4_M_RUSMAN1,{
 	close2;
 	warp "prt_cas",215,160;
 	end;
+OnInit:
+	// [Stingor] navigation : seule sortie de l'aile nord du palais, declaree au generateur (sans effet en jeu)
+	naviregisterwarp("Chamberlain Bell#ep172", "prt_cas", 215, 160);
+	end;
 }
 
 prt_cas,325,263,3	script	Nyhill M. Heine#ep172	4_EP17_NIHIL_K,{

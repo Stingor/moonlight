@@ -269,6 +269,17 @@ prt_prison,155,290,0	warp2	prt_cas_21#prt_cas_22	2,2,prt_pri00,50,120
 prt_cas,174,234,0	warp	prt_cas_23#prt_cas_24	1,1,prt_cas,247,107
 prt_cas,247,111,0	warp	prt_cas_24#prt_cas_23	1,1,prt_cas,174,237
 
+// Episode 17.2 : l'aile nord du palais (repris de npc/re/warps/cities/prontera.txt).
+// -8 et -9 (chambre du roi) sont declares en warp2 dans quests_19.npc.
+prt_cas,146,330,0	warp	#ep172_prt_to_prt-0	1,1,prt_cas,309,288
+prt_cas,309,291,0	warp	#ep172_prt_to_prt-1	1,1,prt_cas,146,334
+prt_cas,48,330,0	warp	#ep172_prt_to_prt-2	1,1,prt_cas,252,242
+prt_cas,251,246,0	warp	#ep172_prt_to_prt-3	1,1,prt_cas,48,334
+prt_cas,20,342,0	warp	#ep172_prt_to_prt-4	1,1,prt_cas,269,313
+prt_cas,273,313,0	warp	#ep172_prt_to_prt-5	1,1,prt_cas,23,342
+prt_cas,254,347,0	warp	#ep172_prt_to_prt-6	1,1,prt_cas,96,18
+prt_cas,96,14,0	warp	#ep172_prt_to_prt-7	1,1,prt_cas,254,343
+
 // Prontera invasion
 prt_q,155,358,0	warp	prt_cas_25#prt_cas_26	1,1,prt_lib_q,89,43
 
