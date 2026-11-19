@@ -5,22 +5,35 @@ Tkinter GUI (ships with Python, no external dependencies). Connects to the
 admin channel, authenticates, and lets you trigger reloads / run atcommands
 with buttons or a free-form command box.
 
+Files next to the script (or next to MoonlightAdmin.exe once frozen):
+    admin.env           ADMIN_SECRET=...  (git-ignored, see admin.env.example)
+    MoonlightAdmin.ini  window, filters and favorites, saved on exit
+    logs/               daily server-console logs, when "Enregistrer" is on
+
 Run:  python admin_gui.py
 """
 import argparse
+import configparser
+import os
 import queue
 import re
 import socket
+import sys
 import threading
 import tkinter as tk
 import webbrowser
 from collections import deque
 from datetime import datetime
-from tkinter import ttk, scrolledtext, font as tkfont
+from tkinter import ttk, scrolledtext, simpledialog, font as tkfont
+
+from admin_env import ENV_VAR, app_dir, default_secret, env_path
 
 DEFAULT_HOST = "192.168.1.13"
 DEFAULT_PORT = "7799"
-DEFAULT_SECRET = "CHANGE-ME-please"  # must match admin_secret in conf/admin.conf
+DEFAULT_NAME = "Admin Console"
+
+SETTINGS_PATH = os.path.join(app_dir(), "MoonlightAdmin.ini")
+LOG_DIR = os.path.join(app_dir(), "logs")
 
 # Item database link base for clickable item names in the log.
 ITEM_DB_URL = "https://moonlight-destiny.fr/index.php?page=itemdb&itemid="
@@ -34,6 +47,16 @@ ANSI_RE = re.compile(r"\x1b\[[0-9;]*[A-Za-z]")
 # enum msg_type (showmsg.hpp) -> server-log color tag.
 MSG_TAGS = {1: "srv_status", 2: "srv_sql", 5: "srv_warn",
             6: "srv_debug", 7: "srv_err", 8: "srv_err"}
+# Level checkboxes: label -> msg_type flags it covers (0 = no/unknown flag,
+# 3 = info, 4 = notice).
+LOG_LEVELS = [
+    ("Info", (0, 3, 4)),
+    ("Status", (1,)),
+    ("SQL", (2,)),
+    ("Warning", (5,)),
+    ("Debug", (6,)),
+    ("Erreur", (7, 8)),
+]
 # Auto-reconnect retry interval (seconds) while "connect" is desired.
 RETRY_SECONDS = 1
 
@@ -46,16 +69,67 @@ RELOAD_TARGETS = [
     "skilldb", "statusdb",
 ]
 
+# Favorites used until the user edits them (then MoonlightAdmin.ini wins).
+DEFAULT_FAVORITES = [
+    ("Joueurs par carte", "users"),
+    ("Qui (niveau / job)", "who2"),
+    ("Qui (AID / carte)", "who3"),
+]
+FAV_COLS = 5
+
 # Server-console line filters: (substring, checkbox label). A line containing
 # the substring is shown only while its box is checked; lines matching no filter
 # are always shown. Add a tuple here to expose another toggle.
 LOG_FILTERS = [
     ("[CheatDetector]", "CheatDetector"),
+    ("[Heuristique]", "Heuristique"),
     ("[Bourgeon]", "Bourgeon"),
+    ("[moonclient]", "moonclient"),
+]
+# Lines that ring the bell / flash the taskbar while "Alertes" is checked,
+# and that are always drawn with the alert background.
+ALERT_PATTERNS = [
+    "[CheatDetector]",
+    "[Heuristique]",
+    "[moonclient] refused",
 ]
 # Keep at most this many server-console lines buffered so that toggling a filter
 # can re-display the past lines that match (older lines are dropped).
 SRVLOG_BUFFER = 5000
+# Delay before re-filtering while typing in the search box (ms).
+SEARCH_DEBOUNCE_MS = 250
+
+# Colors of the command journal per theme (the server console stays dark).
+LOG_COLORS = {
+    False: {"bg": "#ffffff", "fg": "#222", "sent": "#0050c0", "ok": "#0a0",
+            "err": "#c00", "info": "#666", "out": "#222", "link": "#06c"},
+    True: {"bg": "#1e1e1e", "fg": "#ddd", "sent": "#6af", "ok": "#5c5",
+           "err": "#f66", "info": "#999", "out": "#ddd", "link": "#6bf"},
+}
+DARK = {"bg": "#2b2b2b", "fg": "#ddd", "field": "#1e1e1e",
+        "button": "#3a3a3a", "active": "#4a4a4a", "border": "#555"}
+
+
+def _flash_taskbar(root):
+    """Flash the window's taskbar button until it gets focus (Windows only)."""
+    if sys.platform != "win32":
+        return
+    try:
+        import ctypes
+        from ctypes import wintypes
+
+        class FLASHWINFO(ctypes.Structure):
+            _fields_ = [("cbSize", wintypes.UINT), ("hwnd", wintypes.HWND),
+                        ("dwFlags", wintypes.DWORD), ("uCount", wintypes.UINT),
+                        ("dwTimeout", wintypes.DWORD)]
+
+        hwnd = int(root.wm_frame(), 16)
+        info = FLASHWINFO(ctypes.sizeof(FLASHWINFO), hwnd,
+                          0x3 | 0xC,  # FLASHW_ALL | FLASHW_TIMERNOFG
+                          0, 0)
+        ctypes.windll.user32.FlashWindowEx(ctypes.byref(info))
+    except Exception:  # noqa: BLE001 - cosmetic, never break the log feed
+        pass
 
 
 class AdminConnection:
@@ -113,6 +187,45 @@ class AdminConnection:
                     return output, reply
 
 
+class Settings:
+    """MoonlightAdmin.ini wrapper. Never stores the admin secret."""
+
+    def __init__(self, path):
+        self.path = path
+        self.cp = configparser.ConfigParser(interpolation=None)
+        self.cp.optionxform = str  # keep favorite labels' case
+        try:
+            self.cp.read(path, encoding="utf-8")
+        except (configparser.Error, UnicodeDecodeError):
+            self.cp = configparser.ConfigParser(interpolation=None)
+            self.cp.optionxform = str
+
+    def get(self, section, key, default=""):
+        return self.cp.get(section, key, fallback=default)
+
+    def get_bool(self, section, key, default=False):
+        try:
+            return self.cp.getboolean(section, key, fallback=default)
+        except ValueError:
+            return default
+
+    def favorites(self):
+        if not self.cp.has_section("favoris"):
+            return list(DEFAULT_FAVORITES)
+        return list(self.cp.items("favoris"))
+
+    def save(self, data, favorites):
+        cp = configparser.ConfigParser(interpolation=None)
+        cp.optionxform = str
+        for section, values in data.items():
+            cp[section] = {k: str(v) for k, v in values.items()}
+        cp["favoris"] = {label: cmd for label, cmd in favorites}
+        tmp = self.path + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            cp.write(f)
+        os.replace(tmp, self.path)
+
+
 class AdminGUI:
     def __init__(self, root, args=None):
         self.root = root
@@ -126,17 +239,27 @@ class AdminGUI:
         self._want_connected = False # user intent: keep (re)connecting
         self._connect_inflight = False  # a connect attempt is running
         self._retry_scheduled = False   # a reconnect is queued
-        # Server-console history: (timestamp, color tag, message) kept so the
-        # filter checkboxes can re-render the panel retroactively.
+        # Server-console history: (timestamp, flag, color tag, message, alert)
+        # kept so the filters can re-render the panel retroactively.
         self._srv_lines = deque(maxlen=SRVLOG_BUFFER)
         self._log_filter_vars = {}   # filter substring -> BooleanVar (checked = shown)
+        self._level_vars = {}        # level label -> BooleanVar (checked = shown)
+        self._flag_level = {f: label for label, flags in LOG_LEVELS for f in flags}
+        self._search_re = None       # compiled search, None when the box is empty
+        self._search_job = None      # pending debounced re-filter
+        self._alert_count = 0
+        self._logfile = None         # (date string, open file) of the daily log
+        self.settings = Settings(SETTINGS_PATH)
+        self.favorites = self.settings.favorites()
+        self._light_theme = ttk.Style(root).theme_use()
 
         root.title("Moonlight - Admin map-server")
-        root.minsize(620, 460)
+        root.minsize(680, 520)
 
         self._build_connection_bar()
         self._build_actions()
         self._build_log()
+        self._load_settings()
         self._set_connected(False)
 
         self.root.after(80, self._drain_events)
@@ -162,6 +285,52 @@ class AdminGUI:
         if args.autoconnect:
             self.root.after(200, self._connect)
 
+    # ---- settings -----------------------------------------------------------
+    def _load_settings(self):
+        s = self.settings
+        self.host_var.set(s.get("connexion", "host", DEFAULT_HOST))
+        self.port_var.set(s.get("connexion", "port", DEFAULT_PORT))
+        self.name_var.set(s.get("connexion", "name", DEFAULT_NAME))
+        self.topmost_var.set(s.get_bool("fenetre", "topmost"))
+        self._toggle_topmost()
+        self.dark_var.set(s.get_bool("fenetre", "dark"))
+        self._apply_theme()
+        geometry = s.get("fenetre", "geometry")
+        if geometry:
+            try:
+                self.root.geometry(geometry)
+            except tk.TclError:
+                pass
+        for pattern, label in LOG_FILTERS:
+            self._log_filter_vars[pattern].set(s.get_bool("filtres", label, True))
+        for label, _flags in LOG_LEVELS:
+            self._level_vars[label].set(s.get_bool("niveaux", label, True))
+        self.regex_var.set(s.get_bool("console", "regex"))
+        self.only_matches_var.set(s.get_bool("console", "only_matches"))
+        self.pause_var.set(False)
+        self.savelog_var.set(s.get_bool("console", "save_log"))
+        self.alerts_var.set(s.get_bool("console", "alerts", True))
+
+    def _save_settings(self):
+        data = {
+            "connexion": {"host": self.host_var.get().strip(),
+                          "port": self.port_var.get().strip(),
+                          "name": self.name_var.get().strip()},
+            "fenetre": {"geometry": self.root.geometry(),
+                        "topmost": self.topmost_var.get(),
+                        "dark": self.dark_var.get()},
+            "filtres": {label: self._log_filter_vars[p].get() for p, label in LOG_FILTERS},
+            "niveaux": {label: self._level_vars[label].get() for label, _ in LOG_LEVELS},
+            "console": {"regex": self.regex_var.get(),
+                        "only_matches": self.only_matches_var.get(),
+                        "save_log": self.savelog_var.get(),
+                        "alerts": self.alerts_var.get()},
+        }
+        try:
+            self.settings.save(data, self.favorites)
+        except OSError as exc:
+            self._log(f"Reglages non sauvegardes ({SETTINGS_PATH}): {exc}", "err")
+
     # ---- UI construction ----------------------------------------------------
     def _build_connection_bar(self):
         bar = ttk.LabelFrame(self.root, text="Connexion")
@@ -176,7 +345,7 @@ class AdminGUI:
         ttk.Entry(bar, textvariable=self.port_var, width=7).grid(row=0, column=3, padx=4)
 
         ttk.Label(bar, text="Secret").grid(row=0, column=4, padx=4, sticky="w")
-        self.secret_var = tk.StringVar(value=DEFAULT_SECRET)
+        self.secret_var = tk.StringVar(value=default_secret())
         ttk.Entry(bar, textvariable=self.secret_var, width=18, show="*").grid(row=0, column=5, padx=4)
 
         self.connect_btn = ttk.Button(bar, text="Connecter", command=self._toggle_connect)
@@ -185,14 +354,18 @@ class AdminGUI:
         self.status_lbl = ttk.Label(bar, text="deconnecte", foreground="#b00")
         self.status_lbl.grid(row=0, column=7, padx=4)
 
+        opts = ttk.Frame(bar)
+        opts.grid(row=1, column=0, columnspan=4, padx=4, pady=(0, 4), sticky="w")
         self.topmost_var = tk.BooleanVar(value=False)
-        ttk.Checkbutton(bar, text="Toujours au premier plan",
+        ttk.Checkbutton(opts, text="Toujours au premier plan",
                         variable=self.topmost_var,
-                        command=self._toggle_topmost).grid(
-            row=1, column=0, columnspan=4, padx=4, pady=(0, 4), sticky="w")
+                        command=self._toggle_topmost).pack(side="left")
+        self.dark_var = tk.BooleanVar(value=False)
+        ttk.Checkbutton(opts, text="Theme sombre", variable=self.dark_var,
+                        command=self._apply_theme).pack(side="left", padx=(10, 0))
 
         ttk.Label(bar, text="Nom d'affichage").grid(row=1, column=4, padx=4, sticky="e")
-        self.name_var = tk.StringVar(value="Admin Console")
+        self.name_var = tk.StringVar(value=DEFAULT_NAME)
         ttk.Entry(bar, textvariable=self.name_var, width=20).grid(
             row=1, column=5, columnspan=3, padx=4, pady=(0, 4), sticky="w")
 
@@ -204,8 +377,9 @@ class AdminGUI:
         # Dedicated small style so the larger target set stays on a few short
         # rows: smaller font + tight padding shrink each button.
         base_family = tkfont.nametofont("TkDefaultFont").actual("family")
+        self._small_font = (base_family, 8)
         ttk.Style(self.root).configure("Reload.TButton",
-                                       font=(base_family, 8), padding=(2, 1))
+                                       font=self._small_font, padding=(2, 1))
 
         self.reload_btns = []
         cols = 5
@@ -216,6 +390,14 @@ class AdminGUI:
             self.reload_btns.append(b)
         for c in range(cols):
             reloads.columnconfigure(c, weight=1)
+
+        # Favorite commands (MoonlightAdmin.ini [favoris]).
+        self.fav_frame = ttk.LabelFrame(self.root, text="Favoris  (clic droit : modifier / supprimer)")
+        self.fav_frame.pack(fill="x", padx=8, pady=4)
+        for c in range(FAV_COLS):
+            self.fav_frame.columnconfigure(c, weight=1)
+        self.fav_btns = []
+        self._render_favorites()
 
         # Free-form atcommand
         free = ttk.LabelFrame(self.root, text="Commande libre")
@@ -231,38 +413,71 @@ class AdminGUI:
 
         self.atcmd_btn = ttk.Button(free, text="ATCMD", command=self._send_atcmd)
         self.atcmd_btn.grid(row=0, column=1, padx=4)
+        ttk.Button(free, text="+ Favori", command=self._add_favorite).grid(row=0, column=2, padx=(0, 4))
         ttk.Label(free, text="ex: broadcast Maintenance dans 5 min  |  kick PlayerName").grid(
-            row=1, column=0, columnspan=2, padx=6, sticky="w")
+            row=1, column=0, columnspan=3, padx=6, sticky="w")
 
     def _build_log(self):
         paned = ttk.PanedWindow(self.root, orient="vertical")
         paned.pack(fill="both", expand=True, padx=8, pady=(4, 8))
 
         cmd_frame = ttk.LabelFrame(paned, text="Journal (commandes)")
-        self.log = scrolledtext.ScrolledText(cmd_frame, height=10, state="disabled", wrap="word")
+        self.log = scrolledtext.ScrolledText(cmd_frame, height=8, state="disabled", wrap="word")
         self.log.pack(fill="both", expand=True, padx=4, pady=4)
-        self.log.tag_config("sent", foreground="#0050c0")
-        self.log.tag_config("ok", foreground="#0a0")
-        self.log.tag_config("err", foreground="#c00")
-        self.log.tag_config("info", foreground="#666")
-        self.log.tag_config("out", foreground="#222")
         self._bind_copy_menu(self.log)
         paned.add(cmd_frame, weight=1)
 
         srv_frame = ttk.LabelFrame(paned, text="Console serveur")
 
-        # Filter bar: one checkbox per LOG_FILTERS entry (checked = visible).
+        # Row 1: source filters (checked = visible) + level filters.
         filt = ttk.Frame(srv_frame)
         filt.pack(fill="x", padx=4, pady=(4, 0))
-        ttk.Label(filt, text="Afficher :").pack(side="left", padx=(0, 4))
+        ttk.Label(filt, text="Sources :").pack(side="left", padx=(0, 4))
         for pattern, label in LOG_FILTERS:
             var = tk.BooleanVar(value=True)
             self._log_filter_vars[pattern] = var
             ttk.Checkbutton(filt, text=label, variable=var,
                             command=self._refilter_serverlog).pack(side="left", padx=2)
+        ttk.Separator(filt, orient="vertical").pack(side="left", fill="y", padx=8)
+        ttk.Label(filt, text="Niveaux :").pack(side="left", padx=(0, 4))
+        for label, _flags in LOG_LEVELS:
+            var = tk.BooleanVar(value=True)
+            self._level_vars[label] = var
+            ttk.Checkbutton(filt, text=label, variable=var,
+                            command=self._refilter_serverlog).pack(side="left", padx=2)
 
-        self.srvlog = scrolledtext.ScrolledText(srv_frame, height=10, state="disabled",
-                                                wrap="word", background="#111", foreground="#ccc")
+        # Row 2: search, pause, save to file, alerts.
+        tools = ttk.Frame(srv_frame)
+        tools.pack(fill="x", padx=4, pady=(2, 0))
+        ttk.Label(tools, text="Recherche :").pack(side="left", padx=(0, 4))
+        self.search_var = tk.StringVar()
+        self.search_entry = tk.Entry(tools, textvariable=self.search_var, width=24)
+        self.search_entry.pack(side="left")
+        self.search_var.trace_add("write", lambda *_: self._schedule_search())
+        self.search_entry.bind("<Escape>", lambda e: self.search_var.set(""))
+        self.regex_var = tk.BooleanVar(value=False)
+        ttk.Checkbutton(tools, text="Regex", variable=self.regex_var,
+                        command=self._update_search).pack(side="left", padx=(4, 0))
+        self.only_matches_var = tk.BooleanVar(value=False)
+        ttk.Checkbutton(tools, text="Seulement les correspondances",
+                        variable=self.only_matches_var,
+                        command=self._refilter_serverlog).pack(side="left", padx=(4, 0))
+        ttk.Separator(tools, orient="vertical").pack(side="left", fill="y", padx=8)
+        self.pause_var = tk.BooleanVar(value=False)
+        ttk.Checkbutton(tools, text="Pause defilement", variable=self.pause_var,
+                        command=self._on_pause_toggle).pack(side="left")
+        self.savelog_var = tk.BooleanVar(value=False)
+        ttk.Checkbutton(tools, text="Enregistrer", variable=self.savelog_var,
+                        command=self._on_savelog_toggle).pack(side="left", padx=(6, 0))
+        self.alerts_var = tk.BooleanVar(value=True)
+        ttk.Checkbutton(tools, text="Alertes", variable=self.alerts_var).pack(side="left", padx=(6, 0))
+        self.alert_lbl = ttk.Label(tools, text="", foreground="#e55", cursor="hand2")
+        self.alert_lbl.pack(side="left", padx=(6, 0))
+        self.alert_lbl.bind("<Button-1>", lambda e: self._reset_alerts())
+
+        self.srvlog = scrolledtext.ScrolledText(srv_frame, height=12, state="disabled",
+                                                wrap="word", background="#111", foreground="#ccc",
+                                                insertbackground="#ccc")
         self.srvlog.pack(fill="both", expand=True, padx=4, pady=(2, 4))
         self.srvlog.tag_config("srv_status", foreground="#5c5")
         self.srvlog.tag_config("srv_sql", foreground="#c5c")
@@ -270,8 +485,52 @@ class AdminGUI:
         self.srvlog.tag_config("srv_debug", foreground="#5cc")
         self.srvlog.tag_config("srv_err", foreground="#e55")
         self.srvlog.tag_config("srv_def", foreground="#ccc")
+        self.srvlog.tag_config("alert", background="#4a1414")
+        self.srvlog.tag_config("match", background="#7a6a00", foreground="#fff")
+        self.srvlog.tag_raise("match")
         self._bind_copy_menu(self.srvlog)
-        paned.add(srv_frame, weight=1)
+        paned.add(srv_frame, weight=2)
+
+    def _apply_theme(self):
+        """Switch ttk widgets and the command journal between light and dark."""
+        dark = self.dark_var.get()
+        style = ttk.Style(self.root)
+        if dark:
+            style.theme_use("clam")
+            d = DARK
+            style.configure(".", background=d["bg"], foreground=d["fg"],
+                            fieldbackground=d["field"], bordercolor=d["border"],
+                            lightcolor=d["bg"], darkcolor=d["bg"],
+                            troughcolor=d["field"], insertcolor=d["fg"])
+            style.configure("TButton", background=d["button"])
+            style.map("TButton", background=[("active", d["active"]),
+                                             ("disabled", d["bg"])],
+                      foreground=[("disabled", "#777")])
+            style.map("TCheckbutton", background=[("active", d["bg"])],
+                      indicatorcolor=[("selected", "#6af"), ("!selected", d["field"])])
+            style.configure("TEntry", fieldbackground=d["field"], foreground=d["fg"])
+            style.configure("TLabelframe", background=d["bg"])
+            style.configure("TLabelframe.Label", background=d["bg"], foreground=d["fg"])
+            self.root.configure(background=d["bg"])
+            entry_colors = dict(background=d["field"], foreground=d["fg"],
+                                insertbackground=d["fg"])
+        else:
+            # The dark colors were configured on "clam" only: going back to the
+            # native theme restores its own look untouched.
+            style.theme_use(self._light_theme)
+            self.root.configure(background="SystemButtonFace" if sys.platform == "win32" else "")
+            entry_colors = dict(background="white", foreground="black",
+                                insertbackground="black")
+        style.configure("Reload.TButton", font=self._small_font, padding=(2, 1))
+        self.search_entry.configure(**entry_colors)
+        self._update_search()  # re-apply the red "bad regex" background if needed
+
+        c = LOG_COLORS[dark]
+        self.log.configure(background=c["bg"], foreground=c["fg"], insertbackground=c["fg"])
+        for tag in ("sent", "ok", "err", "info", "out"):
+            self.log.tag_config(tag, foreground=c[tag])
+        for i in range(self._link_counter):
+            self.log.tag_config(f"link-{i}", foreground=c["link"])
 
     def _bind_copy_menu(self, widget):
         """Attach a right-click context menu with copy actions to a Text widget."""
@@ -314,6 +573,66 @@ class AdminGUI:
         if widget is self.srvlog:
             self._srv_lines.clear()
 
+    # ---- favorites ----------------------------------------------------------
+    def _render_favorites(self):
+        for b in self.fav_btns:
+            b.destroy()
+        self.fav_btns = []
+        if not self.favorites:
+            lbl = ttk.Label(self.fav_frame, text="Aucun favori : tape une commande puis « + Favori ».")
+            lbl.grid(row=0, column=0, columnspan=FAV_COLS, padx=4, pady=2, sticky="w")
+            self.fav_btns.append(lbl)
+            return
+        state = "normal" if self.conn.connected else "disabled"
+        for i, (label, cmd) in enumerate(self.favorites):
+            b = ttk.Button(self.fav_frame, text=label, style="Reload.TButton", state=state,
+                           command=lambda c=cmd: self._send_command(c))
+            b.grid(row=i // FAV_COLS, column=i % FAV_COLS, padx=2, pady=2, sticky="ew")
+            b.bind("<Button-3>", lambda e, idx=i: self._favorite_menu(e, idx))
+            self.fav_btns.append(b)
+
+    def _favorite_menu(self, event, idx):
+        menu = tk.Menu(self.root, tearoff=0)
+        menu.add_command(label="Copier dans la commande",
+                         command=lambda: self._set_cmd(self.favorites[idx][1]))
+        menu.add_command(label="Renommer...", command=lambda: self._rename_favorite(idx))
+        menu.add_command(label="Supprimer", command=lambda: self._delete_favorite(idx))
+        menu.tk_popup(event.x_root, event.y_root)
+
+    def _ask_label(self, title, initial=""):
+        label = simpledialog.askstring(title, "Libelle du bouton :", initialvalue=initial,
+                                       parent=self.root)
+        label = (label or "").strip()
+        # configparser keys cannot hold these; keep the ini readable back.
+        return label.replace("=", "-").replace(":", "-").replace("[", "(").replace("]", ")")
+
+    def _add_favorite(self):
+        cmd = self.cmd_var.get().strip()
+        if not cmd:
+            self._log("Tape d'abord la commande a mettre en favori.", "err")
+            return
+        label = self._ask_label("Nouveau favori", cmd[:24])
+        if not label:
+            return
+        self.favorites = [f for f in self.favorites if f[0] != label] + [(label, cmd)]
+        self._render_favorites()
+        self._save_settings()
+
+    def _rename_favorite(self, idx):
+        old, cmd = self.favorites[idx]
+        label = self._ask_label("Renommer le favori", old)
+        if label and label != old:
+            self.favorites = [f for f in self.favorites if f[0] != label]
+            idx = next(i for i, f in enumerate(self.favorites) if f[0] == old)
+            self.favorites[idx] = (label, cmd)
+            self._render_favorites()
+            self._save_settings()
+
+    def _delete_favorite(self, idx):
+        del self.favorites[idx]
+        self._render_favorites()
+        self._save_settings()
+
     # ---- logging ------------------------------------------------------------
     def _log(self, text, tag="info"):
         ts = datetime.now().strftime("%H:%M:%S")
@@ -355,37 +674,139 @@ class AdminGUI:
             flag = int(flag_str)
         except ValueError:
             flag, msg = 0, payload
-        msg = ANSI_RE.sub("", msg)
+        msg = ANSI_RE.sub("", msg).rstrip("\n")
         tag = MSG_TAGS.get(flag, "srv_def")
-        ts = datetime.now().strftime("%H:%M:%S")
-        self._srv_lines.append((ts, tag, msg))
-        if self._line_visible(msg):
-            self._append_serverline(ts, tag, msg)
+        now = datetime.now()
+        ts = now.strftime("%H:%M:%S")
+        alert = any(p in msg for p in ALERT_PATTERNS)
+        self._srv_lines.append((ts, flag, tag, msg, alert))
+        self._write_logfile(now, flag, msg)
+        if alert and self.alerts_var.get():
+            self._raise_alert()
+        if self._line_visible(flag, msg):
+            self._append_serverline(ts, tag, msg, alert)
 
-    def _line_visible(self, msg):
-        """False if msg matches a filter whose checkbox is currently unchecked."""
+    def _line_visible(self, flag, msg):
+        """Apply source filters, level filters and "only matches"."""
         for pattern, var in self._log_filter_vars.items():
             if not var.get() and pattern in msg:
                 return False
+        level = self._flag_level.get(flag, "Info")
+        if not self._level_vars[level].get():
+            return False
+        if self.only_matches_var.get() and self._search_re is not None:
+            return self._search_re.search(msg) is not None
         return True
 
-    def _append_serverline(self, ts, tag, msg):
+    def _insert_serverline(self, ts, tag, msg, alert):
+        """Insert one line at the end of the (writable) server panel."""
+        start = self.srvlog.index("end-1c")
+        tags = (tag, "alert") if alert else (tag,)
+        prefix = f"[{ts}] "
+        self.srvlog.insert("end", f"{prefix}{msg}\n", tags)
+        if self._search_re is not None:
+            for m in self._search_re.finditer(msg):
+                if m.end() > m.start():
+                    a = f"{start} + {len(prefix) + m.start()} chars"
+                    b = f"{start} + {len(prefix) + m.end()} chars"
+                    self.srvlog.tag_add("match", a, b)
+
+    def _append_serverline(self, ts, tag, msg, alert):
         at_bottom = self.srvlog.yview()[1] >= 0.999
         self.srvlog.configure(state="normal")
-        self.srvlog.insert("end", f"[{ts}] {msg}\n", tag)
+        self._insert_serverline(ts, tag, msg, alert)
         self.srvlog.configure(state="disabled")
-        if at_bottom:
+        if at_bottom and not self.pause_var.get():
             self.srvlog.see("end")
 
     def _refilter_serverlog(self):
-        """Re-render the server panel from the buffer after a filter toggle."""
+        """Re-render the server panel from the buffer after a filter change."""
+        keep_view = self.pause_var.get()
+        view = self.srvlog.yview()[0]
         self.srvlog.configure(state="normal")
         self.srvlog.delete("1.0", "end")
-        for ts, tag, msg in self._srv_lines:
-            if self._line_visible(msg):
-                self.srvlog.insert("end", f"[{ts}] {msg}\n", tag)
-        self.srvlog.see("end")
+        for ts, flag, tag, msg, alert in self._srv_lines:
+            if self._line_visible(flag, msg):
+                self._insert_serverline(ts, tag, msg, alert)
         self.srvlog.configure(state="disabled")
+        if keep_view:
+            self.srvlog.yview_moveto(view)
+        else:
+            self.srvlog.see("end")
+
+    def _on_pause_toggle(self):
+        if not self.pause_var.get():
+            self.srvlog.see("end")
+
+    # ---- search -------------------------------------------------------------
+    def _schedule_search(self):
+        if self._search_job is not None:
+            self.root.after_cancel(self._search_job)
+        self._search_job = self.root.after(SEARCH_DEBOUNCE_MS, self._update_search)
+
+    def _update_search(self):
+        self._search_job = None
+        text = self.search_var.get()
+        ok = True
+        if not text:
+            new = None
+        else:
+            try:
+                new = re.compile(text if self.regex_var.get() else re.escape(text), re.IGNORECASE)
+            except re.error:
+                new, ok = None, False
+        dark = self.dark_var.get()
+        normal_bg = DARK["field"] if dark else "white"
+        self.search_entry.configure(background=normal_bg if ok else ("#6a1f1f" if dark else "#fcc"))
+        old = self._search_re.pattern if self._search_re else None
+        self._search_re = new
+        if (new.pattern if new else None) != old:
+            self._refilter_serverlog()
+
+    # ---- alerts & log file --------------------------------------------------
+    def _raise_alert(self):
+        self._alert_count += 1
+        self.alert_lbl.config(text=f"{self._alert_count} alerte(s) - clic pour effacer")
+        if self.root.focus_displayof() is None:
+            self.root.bell()
+            _flash_taskbar(self.root)
+
+    def _reset_alerts(self):
+        self._alert_count = 0
+        self.alert_lbl.config(text="")
+
+    def _on_savelog_toggle(self):
+        if self.savelog_var.get():
+            self._log(f"Console serveur enregistree dans {LOG_DIR}", "info")
+        else:
+            self._close_logfile()
+
+    def _write_logfile(self, now, flag, msg):
+        """Append every received line (unfiltered) to logs/console-YYYY-MM-DD.log."""
+        if not self.savelog_var.get():
+            return
+        day = now.strftime("%Y-%m-%d")
+        try:
+            if self._logfile is None or self._logfile[0] != day:
+                self._close_logfile()
+                os.makedirs(LOG_DIR, exist_ok=True)
+                path = os.path.join(LOG_DIR, f"console-{day}.log")
+                self._logfile = (day, open(path, "a", encoding="utf-8"))
+            f = self._logfile[1]
+            f.write(f"{now.strftime('%H:%M:%S')} [{self._flag_level.get(flag, 'Info')}] {msg}\n")
+            f.flush()
+        except OSError as exc:
+            self.savelog_var.set(False)
+            self._close_logfile()
+            self._log(f"Enregistrement de la console desactive: {exc}", "err")
+
+    def _close_logfile(self):
+        if self._logfile is not None:
+            try:
+                self._logfile[1].close()
+            except OSError:
+                pass
+            self._logfile = None
 
     def _log_reader(self):
         """Background loop: read the pushed server-console feed on logconn."""
@@ -402,7 +823,7 @@ class AdminGUI:
     def _insert_link(self, label, url):
         tag = f"link-{self._link_counter}"
         self._link_counter += 1
-        self.log.tag_config(tag, foreground="#06c", underline=True)
+        self.log.tag_config(tag, foreground=LOG_COLORS[self.dark_var.get()]["link"], underline=True)
         self.log.tag_bind(tag, "<Button-1>", lambda e, u=url: webbrowser.open(u))
         self.log.tag_bind(tag, "<Enter>", lambda e: self.log.config(cursor="hand2"))
         self.log.tag_bind(tag, "<Leave>", lambda e: self.log.config(cursor=""))
@@ -463,6 +884,9 @@ class AdminGUI:
         state = "normal" if on else "disabled"
         for b in self.reload_btns:
             b.config(state=state)
+        for b in self.fav_btns:
+            if isinstance(b, ttk.Button):
+                b.config(state=state)
         self.atcmd_btn.config(state=state)
 
     def _toggle_topmost(self):
@@ -475,6 +899,10 @@ class AdminGUI:
             self._connect()
 
     def _connect(self):
+        if not self.secret_var.get():
+            self._log(f"Secret vide : renseigne ADMIN_SECRET dans {env_path()} "
+                      f"(ou la variable {ENV_VAR}), ou saisis-le dans le champ Secret.", "err")
+            return
         # User intent: stay connected, retrying until it works.
         self._want_connected = True
         self._set_connected(False)
@@ -488,7 +916,9 @@ class AdminGUI:
         try:
             port = int(self.port_var.get().strip())
         except ValueError:
-            self.events.put(("lost", "Port invalide."))
+            self._want_connected = False
+            self._set_connected(False)
+            self._log("Port invalide.", "err")
             return
 
         self._connect_inflight = True
@@ -563,10 +993,14 @@ class AdminGUI:
             if not self._history or self._history[-1] != cmd:
                 self._history.append(cmd)
             self._history_pos = len(self._history)
-            _RAW = ("INTEGRITY ", "RELOAD ", "LOG ", "NAME ", "QUIT")
-            line = cmd if any(cmd.upper().startswith(p) for p in _RAW) else "ATCMD " + cmd
-            self._send_async(line)
+            self._send_command(cmd)
             self.cmd_var.set("")
+
+    def _send_command(self, cmd):
+        """Send a raw protocol line as-is, anything else as an atcommand."""
+        _RAW = ("INTEGRITY ", "RELOAD ", "LOG ", "NAME ", "QUIT")
+        line = cmd if any(cmd.upper().startswith(p) for p in _RAW) else "ATCMD " + cmd
+        self._send_async(line)
 
     def _history_up(self, event=None):
         if self._history and self._history_pos > 0:
@@ -588,12 +1022,13 @@ class AdminGUI:
     def _set_cmd(self, text):
         self.cmd_var.set(text)
         self.cmd_entry.icursor("end")
+        self.cmd_entry.focus_set()
 
     def _send_async(self, line):
         if not self.conn.connected:
             self._log("Pas connecte.", "err")
             return
-        name = self.name_var.get().strip() or "Admin Console"
+        name = self.name_var.get().strip() or DEFAULT_NAME
         self._log("> " + line, "sent")
 
         def worker():
@@ -614,6 +1049,7 @@ class AdminGUI:
 
     def _on_close(self):
         self._want_connected = False  # stop any pending reconnect
+        self._save_settings()
         if self.conn.connected:
             try:
                 self.conn.send("QUIT")
@@ -621,6 +1057,7 @@ class AdminGUI:
                 pass
             self.conn.close()
         self.logconn.close()
+        self._close_logfile()
         self.root.destroy()
 
 
@@ -628,7 +1065,7 @@ def parse_args():
     ap = argparse.ArgumentParser(description="Moonlight - Admin map-server (GUI)")
     ap.add_argument("--host", help="server host (default in-app: %s)" % DEFAULT_HOST)
     ap.add_argument("--port", type=int, help="admin port (default in-app: %s)" % DEFAULT_PORT)
-    ap.add_argument("--secret", help="admin password (or its plaintext if MD5 mode)")
+    ap.add_argument("--secret", help="admin password (default: $%s, then admin.env)" % ENV_VAR)
     ap.add_argument("--name", help="display name (e.g. for broadcast)")
     ap.add_argument("--autoconnect", action="store_true",
                     help="connect automatically on launch")

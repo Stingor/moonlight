@@ -120,6 +120,11 @@ Thumbs.db
 /tools/moonbot.env
 /tools/groq.env
 /tools/sting_voice.env
+# Admin GUI: secret, user settings and saved console logs
+/tools/admin.env
+/tools/MoonlightAdmin.ini
+/tools/MoonlightAdmin.ini.tmp
+/tools/logs/
 /tools/*.exe
 /tools/*.ilk
 /tools/*.pdb

@@ -16,9 +16,10 @@ import argparse
 import socket
 import sys
 
+from admin_env import ENV_VAR, default_secret, env_path
+
 DEFAULT_HOST = "192.168.1.13"
 DEFAULT_PORT = 7799
-DEFAULT_SECRET = "CHANGE-ME-please"  # must match ADMIN_SECRET in admin.cpp
 
 
 def _read_line(state, sock):
@@ -47,12 +48,18 @@ def main():
     ap = argparse.ArgumentParser(description="map-server admin channel client")
     ap.add_argument("--host", default=DEFAULT_HOST)
     ap.add_argument("--port", type=int, default=DEFAULT_PORT)
-    ap.add_argument("--secret", default=DEFAULT_SECRET)
+    ap.add_argument("--secret", default=None,
+                    help="admin password (default: $%s, then admin.env)" % ENV_VAR)
     ap.add_argument("--name", default="Admin Console",
                     help="display name used by commands like broadcast")
     ap.add_argument("command", nargs=argparse.REMAINDER,
                     help="optional one-shot command (e.g. RELOAD itemdb)")
     args = ap.parse_args()
+    if args.secret is None:
+        args.secret = default_secret()
+    if not args.secret:
+        sys.exit("No admin secret: set ADMIN_SECRET in %s, or $%s, or pass --secret."
+                 % (env_path(), ENV_VAR))
 
     state = {"buf": b""}
     with socket.create_connection((args.host, args.port), timeout=10) as sock:
