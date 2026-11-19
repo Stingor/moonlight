@@ -3029,7 +3029,7 @@ OnTouch:
 jor_back3,99,318,3	duplicate(dummy_cloaked_npc)	Horuru#e19ms12	EP19_RGAN_D
 jor_back3,97,318,5	duplicate(dummy_cloaked_npc)	Lazy#e19ms12	4_EP19_RGAN_SR3
 jor_back3,96,316,7	duplicate(dummy_cloaked_npc)	Miriam#e19ms12	EP19_RGAN_D
-jor_back3,99,315,1	duplicate(dummy_cloaked_npc)	Rehar#e19ms12	EP19_RGAN_D
+jor_back3,99,315,1	duplicate(dummy_cloaked_npc)	Lehar#e19ms12	EP19_RGAN_D
 
 
 jor_back3,99,315,1	script(CLOAKED)	Lehar#e19ms11	4_EP19_LEHAR,{
