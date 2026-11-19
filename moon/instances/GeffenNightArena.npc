@@ -1,7 +1,7 @@
 //===== Moonlight ============================================
 //= Arene Nocturne de Geffen (1@ge_sn) : l'homme louche a geffen_in,
 //= la porte et le quartier-maitre a dali02, instance 83 (60 min,
-//= une entree tous les 3 jours, reset a 4 h), 10 manches de 60 s.
+//= reset quotidien a 4 h comme toute instance Moonlight), 10 manches de 60 s.
 //=
 //= Reprise de patnawa/rathena_pn (npc/custom/instances/GeffenNightArena.txt,
 //=   PN Development Team, GPL-3.0-or-later), version clean-room fondee sur
@@ -42,12 +42,12 @@
 //============================================================
 
 function	script	GNA_NextReset	{
-	// The third 04:00 server reset: next 04:00 plus two days.
+	// [Stingor] Moonlight : reset quotidien, le prochain 04:00 (amont : le troisieme).
 	.@now = gettimetick(2);
 	.@seconds = (4 - gettime(DT_HOUR)) * 3600
 		- gettime(DT_MINUTE) * 60 - gettime(DT_SECOND);
 	if (.@seconds <= 0) .@seconds += 86400;
-	return .@now + .@seconds + 172800;
+	return .@now + .@seconds;
 }
 
 function	script	GNA_Exchange	{
@@ -148,7 +148,7 @@ dali02,79,60,4	script	Geffen Night Arena Gate#gna	4_M_GEF_SOLDIER,{
 			mes "Every online party member must be Base Level 210 or higher.";
 			close;
 		}
-		mes "The instance lasts 60 minutes. Entering records this character's three-day cooldown.";
+		mes "The instance lasts 60 minutes. Entering records this character's cooldown until the next 04:00.";
 		next;
 		if (select("Create and enter.:Cancel.") == 2) close;
 		.@iid = instance_create("Geffen Night Arena",IM_PARTY,.@party);

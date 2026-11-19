@@ -3541,7 +3541,7 @@ Body:
     Title: Destroyed Tower
   - Id: 12514
     Title: Tower Aftermath
-    TimeLimit: 3d 4h
+    TimeLimit: 4h
   - Id: 12515
     Title: New Owner Confrontation
   - Id: 12516
@@ -3563,6 +3563,7 @@ Body:
     Title: Airship Crash Site
   - Id: 5909
     Title: Airship Crash Site - Standby
+    TimeLimit: 4h
   - Id: 5910
     Title: Forgotten Joint Research (1)
   - Id: 5911
@@ -4254,3 +4255,16 @@ Body:
     Title: Serpens's Request 6
   - Id: 12643
     Title: Serpens's Request 7
+  # Moonlight : toutes les instances se reinitialisent a 4 h (db/pre-re : +3h, +2h30mn, +2h, +1h).
+  - Id: 4197
+    Title: Octopus
+    TimeLimit: 4h
+  - Id: 7211
+    Title: Misty Forest Labyrinth Exploration
+    TimeLimit: 4h
+  - Id: 12059
+    Title: Orc's Memory Time Limit
+    TimeLimit: 4h
+  - Id: 12254
+    Title: Now it's cleaning
+    TimeLimit: 4h

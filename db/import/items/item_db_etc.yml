@@ -16458,3 +16458,16 @@ Body:
     Weight: 10
     Flags:
       BuyingStore: true
+  # Crash d'aeronef : Minerai d'Ymir, que Wurmm (dali02) convertit en Fragments.
+  - Id: 1000364
+    AegisName: MD_Airboat_Ore
+    Name: Ymir Ore
+    Type: Etc
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true

@@ -192,7 +192,7 @@ Conversions, validées le 2026‑11‑12 :
 Trois des cinq ont un script dans `hayakawakaki/rathena-script-collection` (crazyarashi,
 GPL-3.0) : le **Tombeau du Remords**, la **Tour de Thanatos** (« Memory of Thanatos ») et la
 **Tour des Constellations**. L'Arène Nocturne de Geffen et le Crash d'aéronef n'y sont pas ;
-tous deux viennent de `patnawa/rathena_pn` (lots C4 et C6).
+l'Arène vient de `patnawa/rathena_pn` (lot C6), le Crash de `mikkotandoc/PRO-rathena` (lot C4).
 Portage dans cet ordre, du plus petit au plus gros, auteur crédité en en-tête.
 
 ### Lot C1 : le Tombeau du Remords (`1@spa2`, instance 79)
@@ -249,22 +249,27 @@ même jour, faisait doublon.
 
 ### Lot C4 : le Crash d'aéronef (`1@mjo1`, `1@mjo2`, instance 82)
 
-Aucun script officiel. Trois candidats : `mikkotandoc/PRO-rathena` (`npc/re/instances/AirshipCrash.txt`,
-version de lancement 2020 d'après le guide Hazy Forest, mobs posés au hasard), deux scripts payants
-(Ko-fi) et **`patnawa/rathena_pn`** (`npc/custom/instances/AirshipCrash.txt`, GPL-3.0-or-later,
-septembre 2026), retenu le 2026‑11‑16 : réécriture « clean-room » de la révision kRO 2024, qui
-cite ses sources (annonces gnjoy, `OngoingQuests.lub`, `tipbox.lub`, `LapineUpgradeBox.lub`) et
-documente ses suppositions.
+Aucun script officiel. Versions trouvées (recherche du 2026‑11‑19, GitHub et web) :
+`patnawa/rathena_pn` (révision kRO 2024, « clean-room », GPL-3.0-or-later), **`mikkotandoc/PRO-rathena`**
+(`npc/re/instances/AirshipCrash.txt`, fork de rAthena, GPL-3.0, juillet 2026 : déroulement de 2022,
+celui de Hazy Forest), deux scripts payants sur Ko-fi (umamimelon, Questune Cruz), et seulement des
+données ailleurs (mob_db taïwanaise de `Gbfghost/server`, guides Hazy Forest, MuhRO, Freya, Frostheim).
+brHades, rAthenaCN, Pandas, BetterRa, PRM, OmniAthena, hayakawakaki : rien.
+
+**2026‑11‑16** : patnawa retenu. **2026‑11‑19** : remplacé par mikkotandoc, à la demande de
+l'utilisateur après un retour de joueur. Chez patnawa, les mobs ne lâchaient rien et les chasses ne
+donnaient que de l'EXP : les Fragments d'Ymir, que demandent le boss payant et Rusbald, étaient
+introuvables.
 
 | Élément | Fichier | Détail |
 |---|---|---|
-| Script | `moon/instances/AirshipCrash.npc` | repris tel quel : Dr. Strong à `dali02` (niveau 200, une entrée tous les 3 jours, reset à 4 h, 40 min), Capitaine Ferlock et trois blessés, Prof. Taeguto et ses missions de chasse communes (50/100/150 mobs → 10/20/30 M d'EXP de base), autel du boss (forme gratuite, ou forme payante à 7 pierres tirée parmi 4), coffre Airboat Antiquity au tueur ; Rusbald échange aux coûts du client |
-| Mobs | `db/import/mobs/airship_crash.yml` | 10 mobs du dépôt, convertis (boss 800 M → 11 M PV) ; **ni EXP ni drop ni compétence**, choix du dépôt (l'EXP passe par les missions, les taux officiels ne sont pas publiés) |
+| Script | `moon/instances/AirshipCrash.npc` | mikkotandoc : Dr. Dulaisakstrom à `dali02` (137,86), Rusbald (bottes 185 fragments, perles 150 000 z + 17, livre de cartes 2 500), Wurmm (minerai → fragments) ; Capitaine Pelloch et quatre passagers (5 sauvés : boss affaibli 20891, sinon 21062) ; professeur et chasses 100/200/350 → 1/2/3 fragments, Ghost Zack (boss contre 55 fragments), cordes de retour. PV des mobs × membres du groupe (choix du script). Écarts Moonlight : **reset quotidien à 4 h** (quête 5909, posée à l'entrée, retour dans sa propre instance permis), quêtes 5908/5909 au lieu de 15072/15092 (absentes du client), niveau 200 |
+| Mobs | `db/import/mobs/airship_crash.yml` | stats du lot de 2026‑11‑16 gardées ; EXP de Divine Pride passée par `re_to_prere_mob.py` (≈ 810 000 de base, boss 8,3 M) ; drops Divine Pride : carte 0,01 %, Fragment d'Ymir 2,5 % (mobs), 6 bottes à 20-35 % et 3 fragments assurés (boss), Perles d'Ymir 50 % (21062). Minerai d'Ymir 1 % sur les mobs : **choix Moonlight** (Hazy Forest sans taux) |
 | Instance | `instance_db.yml`, `const_instances.yml` | 82, `INST_AIRSHIP_CRASH`, 40 min ; warp agent vers `dali02` |
-| Quêtes | `db/import/quest_db.yml` | 5908 à 5915 du dépôt |
-| Objets | `db/import/items/` | pierres (`MD_Airboat_Tokken`), 6 bottes inconnues (paliers +11/+13 en `getallrefine() >= 22/26` ; proc de stat ramené de 175 à 75 à la demande de l'utilisateur), perles Ymir, élixir, coffret d'EXP, livre de cartes et ses 7 cartes, coffre, diamant brun |
-| Groupes | `db/import/item_group_db/airship_crash.yml` | coffre, livre, coffret (contenu de `db/re`) ; raffinements des bottes au-delà de 10 ramenés à 10 |
-| Laphine | `laphine_upgrade.yml`, `item_randomopt_group.yml` | perles Ymir sur les bottes, groupe d'options 9300 du dépôt |
+| Quêtes | `db/import/quest_db.yml` | 5908 (en cours), 5909 (attente, `TimeLimit: 4h`) ; 5910 à 5915 de patnawa restent définies, plus appelées |
+| Objets | `db/import/items/` | ceux du lot de 2026‑11‑16, plus le Minerai d'Ymir (1000364) |
+| Groupes | `db/import/item_group_db/airship_crash.yml` | livre de cartes (`MD_AIRBOAT_REWARD`) ; le coffre Airboat Antiquity n'a plus de source |
+| Laphine | `laphine_upgrade.yml`, `item_randomopt_group.yml` | perles Ymir sur les bottes, groupe d'options 9300 |
 
 ### Lot C6 : l'Arène Nocturne de Geffen (`1@ge_sn`, instance 83)
 

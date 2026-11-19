@@ -397,6 +397,8 @@ L_Instance:
 	for ( .@i = 0; .@i < .@n; .@i++ ) {
 		if ( .@cd[.@i] == 0 )
 			.@col$ = ( instance_delay_cellar < gettimetick(2) ? "^000000" : "^FF0000" );
+		else if ( .@inst[.@i] == INST_GEFFEN_NIGHT_ARENA ) // delai tenu par GNA_Next, la quete 69990 n'est qu'un acces
+			.@col$ = ( GNA_Next > gettimetick(2) ? "^FF0000" : "^000000" );
 		else
 			.@col$ = GetColor(.@cd[.@i]);
 		.@menu$ += .@col$ + "• " + .@lbl$[.@i] + "^000000:";
@@ -613,7 +615,6 @@ L_DevilTower:
 		}
 		case INST_ENDLESS_CELLAR:	{ // Endless Cellar
 			.@md_name$ = "Endless Cellar";
-			.instance_delay = 20 * 60 * 60; // 20h
 			callsub Party_Check,.@md_name$;
 			if( is_party_leader(getcharid(1)) == true && instance_delay_cellar < gettimetick(2) ) {
 				mes .@npc_name$;
@@ -634,7 +635,11 @@ L_DevilTower:
 				case IE_NOINSTANCE: goto L_NOINSTANCE;
 				case IE_OTHER: goto L_OTHER;
 				case IE_OK:
-					instance_delay_cellar = (gettimetick(2) + .instance_delay);
+					// Moonlight : reset quotidien au prochain 04:00
+					.@seconds = (4-gettime(DT_HOUR))*3600-gettime(DT_MINUTE)*60-gettime(DT_SECOND);
+					if (.@seconds <= 0)
+						.@seconds += 86400;
+					instance_delay_cellar = gettimetick(2) + .@seconds;
 					end;
 			}
 			break;
