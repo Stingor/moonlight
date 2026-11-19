@@ -1473,7 +1473,9 @@ int32 unit_warp(block_list *bl,int16 m,int16 x,int16 y,clr_type type)
 	}
 
 	if (x < 0 || y < 0) { // Random map position.
-		if (!map_search_freecell(nullptr, m, &x, &y, -1, -1, 1)) {
+		// 500 essais au lieu de 50 : sur les labyrinthes (jor_maze...) la part de cellules
+		// praticables est si faible que 50 tirages echouent regulierement [Stingor]
+		if (!map_search_freecell(nullptr, m, &x, &y, -1, -1, 1, 500)) {
 			ShowWarning("unit_warp failed. Unit Id:%d/Type:%d, target position map %d (%s) at [%d,%d]\n", bl->id, bl->type, m, map[m].name, x, y);
 			return 2;
 
