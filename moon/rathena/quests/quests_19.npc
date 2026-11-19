@@ -6209,7 +6209,7 @@ OnInit:
 	end;
 }
 
-icas_in,248,197,3	script(CLOAKED)	Comfort#ep19re1	4_EP19_IWIN,{
+icas_in,248,197,3	script(CLOAKED)	Wirorong#ep19re1	4_EP19_IWIN,{
 	if (ep19_main == 37) {
 		if (checkweight(1000846,1) == 0) {
 			mes "You cannot proceed with the conversation due to the large number of items you have.";
@@ -9782,7 +9782,7 @@ jor_nest,17,97,5	script	Bernagand#1	4_EP19_RGAN_SR2,{
 		mes "Another new member has been added. Let's welcome it.";
 		npctalk "Welcome!", "Handi Marigand#1", bc_self;
 		npctalk "Sit down.", "Yuramigand#1", bc_self;
-		npctalk "...", "Ulnagus Dagand#1", bc_self;
+		npctalk "...", "Alnagusdagand#1", bc_self;
 		next;
 		mes "[Bernagand]";
 		mes "Come on, come on. Be quiet again.";
@@ -9801,7 +9801,7 @@ jor_nest,17,97,5	script	Bernagand#1	4_EP19_RGAN_SR2,{
 		next;
 		mes "[Bernagand]";
 		mes "Because they were not chosen by the gods.";
-		npctalk "I apologize...", "Ulnagus Dagand#1", bc_self;
+		npctalk "I apologize...", "Alnagusdagand#1", bc_self;
 		next;
 		mes "[Bernagand]";
 		mes "Rasgand, with a sad heart, turned them into magic cores one by one.";
@@ -9829,12 +9829,12 @@ jor_nest,17,97,5	script	Bernagand#1	4_EP19_RGAN_SR2,{
 		mes "[Bernagand]";
 		mes "...vengeance on humans!";
 		npctalk "Long live Jormungand!", "Handi Marigand#1", bc_self;
-		npctalk "Long live Jormungand!", "Ulnagus Dagand#1", bc_self;
+		npctalk "Long live Jormungand!", "Alnagusdagand#1", bc_self;
 		next;
 		mes "[Bernagand]";
 		mes "The resentment of the ancestors!";
 		npctalk "Long live Rasgand!", "Handi Marigand#1", bc_self;
-		npctalk "Long live Rasgand!", "Ulnagus Dagand#1", bc_self;
+		npctalk "Long live Rasgand!", "Alnagusdagand#1", bc_self;
 		next;
 		mes "[Bernagand]";
 		mes "Before it's too late... Don't we need to realign our forces?";
@@ -9846,7 +9846,7 @@ jor_nest,17,97,5	script	Bernagand#1	4_EP19_RGAN_SR2,{
 		mes "[Bernagand]";
 		mes "Today's sermon will end with this.";
 		mes "Have a good time everyone";
-		npctalk "I have to go to work...", "Ulnagus Dagand#1", bc_self;
+		npctalk "I have to go to work...", "Alnagusdagand#1", bc_self;
 		npctalk "...", "Yuramigand#1", bc_self;
 		next;
 		mes "[Yuramigand]";
@@ -17357,7 +17357,7 @@ icas_in,244,63,1	script	Jororo#ep19in	4_EP19_IWIN,{
 	mes "[Jororo]";
 	mes "I grew up~";
 	mes "I'll help Zoryara!";
-	npctalk "Zoryara: I can help you now...", "ep19_219", bc_self;
+	npctalk "Zoryara: I can help you now...", "Zoryara#ep19in", bc_self;
 	close;
 }
 
