@@ -119,14 +119,21 @@ L_VillesCmd:
 	for (.@i = 0; .@i < .@n; .@i++) {
 		.@label$ = .@vn$[.@i];
 		.@k = inarray(.@lock_map$[0], .@vm$[.@i]);
-		if (.@k >= 0 && .@lock_shut[.@k])
+		// Pas de court-circuit en rAthena : .@lock_shut[-1] serait lu et couperait le script.
+		.@shut = 0;
+		if (.@k >= 0)
+			.@shut = .@lock_shut[.@k];
+		if (.@shut)
 			.@label$ = "^FF0000" + .@label$ + (BaseLevel < .@lock_lv[.@k] ? " [niv. " + .@lock_lv[.@k] + "]" : " [quête]") + "^000000";
 		.@sel$ = .@sel$ + (.@i > 0 ? ":" : "") + .@label$ + callfunc("F_CafardMark", .@vm$[.@i]);
 	}
 	.@c = select(.@sel$ + ":• ^e64c00Menu Précédent.^000000") - 1;
 	if (.@c >= .@n) goto L_warpa;
 	.@k = inarray(.@lock_map$[0], .@vm$[.@c]);
-	if (.@k >= 0 && .@lock_shut[.@k]) {
+	.@shut = 0;
+	if (.@k >= 0)
+		.@shut = .@lock_shut[.@k];
+	if (.@shut) {
 		clear;
 		mes .@npc_name$;
 		if (BaseLevel < .@lock_lv[.@k]) {
@@ -137,8 +144,10 @@ L_VillesCmd:
 		mes "Pour ouvrir " + .@lock_name$[.@k] + ", poursuis la quête de l'épisode " + .@lock_ep[.@k] + " auprès de ^4d4dff" + .@lock_npc$[.@k] + "^000000.";
 		next;
 		.@j = inarray(.@lock_map$[0], .@lock_npc_map$[.@k]);
-		if (.@j >= 0 && .@lock_shut[.@j])
-			goto L_warpa;
+		if (.@j >= 0) {
+			if (.@lock_shut[.@j])
+				goto L_warpa;
+		}
 		if (select("Se rendre auprès de " + .@lock_npc$[.@k] + ":• ^e64c00Menu Précédent^000000") == 1)
 			warp_fct(.@lock_npc_map$[.@k], .@lock_npc_x[.@k], .@lock_npc_y[.@k]);
 		goto L_warpa;
