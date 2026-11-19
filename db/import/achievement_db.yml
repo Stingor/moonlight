@@ -3212,3 +3212,405 @@ Body:
     Group: Adventure
     Name: Grand Alchemist
     Score: 50
+# Succes Taming maison (2026-11-19) : un par familier capturable sans succes officiel,
+# reunis en six series sur le modele de 230100-230147.
+  - Id: 900100
+    Group: Taming
+    Name: Enfants de la nuit
+    Dependents:
+      900101: true
+      900102: true
+      900103: true
+      900104: true
+      900105: true
+      900106: true
+      900107: true
+      900108: true
+    Rewards:
+      Item: Luxurious_Pet_Food
+      Amount: 10
+    Score: 50
+  - Id: 900101
+    Group: Taming
+    Name: Deviruchi - taming
+    Targets:
+      - Id: 0
+        Mob: DEVIRUCHI
+    Score: 10
+  - Id: 900102
+    Group: Taming
+    Name: Baphomet Jr. - taming
+    Targets:
+      - Id: 0
+        Mob: BAPHOMET_
+    Score: 10
+  - Id: 900103
+    Group: Taming
+    Name: Deleter - taming
+    Targets:
+      - Id: 0
+        Mob: DELETER_
+    Score: 10
+  - Id: 900104
+    Group: Taming
+    Name: Diabolic - taming
+    Targets:
+      - Id: 0
+        Mob: DIABOLIC
+    Score: 10
+  - Id: 900105
+    Group: Taming
+    Name: Imp - taming
+    Targets:
+      - Id: 0
+        Mob: IMP
+    Score: 10
+  - Id: 900106
+    Group: Taming
+    Name: Incubus - taming
+    Targets:
+      - Id: 0
+        Mob: INCUBUS
+    Score: 10
+  - Id: 900107
+    Group: Taming
+    Name: Nightmare Terror - taming
+    Targets:
+      - Id: 0
+        Mob: NIGHTMARE_TERROR
+    Score: 10
+  - Id: 900108
+    Group: Taming
+    Name: Dark Priest - taming
+    Targets:
+      - Id: 0
+        Mob: DARK_PRIEST
+    Score: 10
+  - Id: 900120
+    Group: Taming
+    Name: La horde verte
+    Dependents:
+      900121: true
+      900122: true
+      900123: true
+      900124: true
+      900125: true
+    Rewards:
+      Item: Luxurious_Pet_Food
+      Amount: 10
+    Score: 50
+  - Id: 900121
+    Group: Taming
+    Name: Orc Warrior - taming
+    Targets:
+      - Id: 0
+        Mob: ORK_WARRIOR
+    Score: 10
+  - Id: 900122
+    Group: Taming
+    Name: Goblin (couteau) - taming
+    Targets:
+      - Id: 0
+        Mob: GOBLIN_1
+    Score: 10
+  - Id: 900123
+    Group: Taming
+    Name: Goblin (fleau) - taming
+    Targets:
+      - Id: 0
+        Mob: GOBLIN_2
+    Score: 10
+  - Id: 900124
+    Group: Taming
+    Name: Goblin (marteau) - taming
+    Targets:
+      - Id: 0
+        Mob: GOBLIN_4
+    Score: 10
+  - Id: 900125
+    Group: Taming
+    Name: Goblin Leader - taming
+    Targets:
+      - Id: 0
+        Mob: GOBLIN_LEADER
+    Score: 10
+  - Id: 900140
+    Group: Taming
+    Name: Contes d'Orient
+    Dependents:
+      900141: true
+      900142: true
+      900143: true
+      900144: true
+      900145: true
+      900146: true
+      900147: true
+      900148: true
+      900149: true
+      900150: true
+    Rewards:
+      Item: Luxurious_Pet_Food
+      Amount: 10
+    Score: 50
+  - Id: 900141
+    Group: Taming
+    Name: Dokebi - taming
+    Targets:
+      - Id: 0
+        Mob: DOKEBI
+    Score: 10
+  - Id: 900142
+    Group: Taming
+    Name: Bongun - taming
+    Targets:
+      - Id: 0
+        Mob: BON_GUN
+    Score: 10
+  - Id: 900143
+    Group: Taming
+    Name: Shinobi - taming
+    Targets:
+      - Id: 0
+        Mob: SHINOBI
+    Score: 10
+  - Id: 900144
+    Group: Taming
+    Name: Miyabi Doll - taming
+    Targets:
+      - Id: 0
+        Mob: MIYABI_NINGYO
+    Score: 10
+  - Id: 900145
+    Group: Taming
+    Name: Evil Nymph - taming
+    Targets:
+      - Id: 0
+        Mob: WICKED_NYMPH
+    Score: 10
+  - Id: 900146
+    Group: Taming
+    Name: Mao Guai - taming
+    Targets:
+      - Id: 0
+        Mob: CIVIL_SERVANT
+    Score: 10
+  - Id: 900147
+    Group: Taming
+    Name: White Lady - taming
+    Targets:
+      - Id: 0
+        Mob: BACSOJIN_
+    Score: 10
+  - Id: 900148
+    Group: Taming
+    Name: Nine Tail - taming
+    Targets:
+      - Id: 0
+        Mob: NINE_TAIL
+    Score: 10
+  - Id: 900149
+    Group: Taming
+    Name: Chung E - taming
+    Targets:
+      - Id: 0
+        Mob: CHUNG_E_
+    Score: 10
+  - Id: 900150
+    Group: Taming
+    Name: Tikbalang - taming
+    Targets:
+      - Id: 0
+        Mob: TIKBALANG
+    Score: 10
+  - Id: 900160
+    Group: Taming
+    Name: Ames sans repos
+    Dependents:
+      900161: true
+      900162: true
+      900163: true
+      900164: true
+      900165: true
+      900166: true
+    Rewards:
+      Item: Luxurious_Pet_Food
+      Amount: 10
+    Score: 50
+  - Id: 900161
+    Group: Taming
+    Name: Wanderer - taming
+    Targets:
+      - Id: 0
+        Mob: WANDER_MAN
+    Score: 10
+  - Id: 900162
+    Group: Taming
+    Name: Whisper - taming
+    Targets:
+      - Id: 0
+        Mob: WHISPER
+    Score: 10
+  - Id: 900163
+    Group: Taming
+    Name: Dullahan - taming
+    Targets:
+      - Id: 0
+        Mob: DULLAHAN
+    Score: 10
+  - Id: 900164
+    Group: Taming
+    Name: Mummy - taming
+    Targets:
+      - Id: 0
+        Mob: MUMMY
+    Score: 10
+  - Id: 900165
+    Group: Taming
+    Name: Marionette - taming
+    Targets:
+      - Id: 0
+        Mob: MARIONETTE
+    Score: 10
+  - Id: 900166
+    Group: Taming
+    Name: Medusa - taming
+    Targets:
+      - Id: 0
+        Mob: MEDUSA
+    Score: 10
+  - Id: 900180
+    Group: Taming
+    Name: Betes curieuses
+    Dependents:
+      900181: true
+      900182: true
+      900183: true
+      900184: true
+      900185: true
+      900186: true
+      900187: true
+      900188: true
+      900189: true
+    Rewards:
+      Item: Luxurious_Pet_Food
+      Amount: 10
+    Score: 50
+  - Id: 900181
+    Group: Taming
+    Name: Golem - taming
+    Targets:
+      - Id: 0
+        Mob: GOLEM
+    Score: 10
+  - Id: 900182
+    Group: Taming
+    Name: Stone Shooter - taming
+    Targets:
+      - Id: 0
+        Mob: STONE_SHOOTER
+    Score: 10
+  - Id: 900183
+    Group: Taming
+    Name: Leaf Cat - taming
+    Targets:
+      - Id: 0
+        Mob: LEAF_CAT
+    Score: 10
+  - Id: 900184
+    Group: Taming
+    Name: Cramp - taming
+    Targets:
+      - Id: 0
+        Mob: E_CRAMP
+    Score: 10
+  - Id: 900185
+    Group: Taming
+    Name: Hydra - taming
+    Targets:
+      - Id: 0
+        Mob: E_HYDRA
+    Score: 10
+  - Id: 900186
+    Group: Taming
+    Name: Marin - taming
+    Targets:
+      - Id: 0
+        Mob: MARIN
+    Score: 10
+  - Id: 900187
+    Group: Taming
+    Name: Gremlin - taming
+    Targets:
+      - Id: 0
+        Mob: GREMLIN
+    Score: 10
+  - Id: 900188
+    Group: Taming
+    Name: Teddy Bear - taming
+    Targets:
+      - Id: 0
+        Mob: TEDDY_BEAR
+    Score: 10
+  - Id: 900189
+    Group: Taming
+    Name: Copo - taming
+    Targets:
+      - Id: 0
+        Mob: EP20_COPO
+    Score: 10
+  - Id: 900200
+    Group: Taming
+    Name: Nouveaux compagnons
+    Dependents:
+      900201: true
+      900202: true
+      900203: true
+      900204: true
+      900205: true
+      900206: true
+    Rewards:
+      Item: Luxurious_Pet_Food
+      Amount: 10
+    Score: 50
+  - Id: 900201
+    Group: Taming
+    Name: Willow - taming
+    Targets:
+      - Id: 0
+        Mob: WILOW
+    Score: 10
+  - Id: 900202
+    Group: Taming
+    Name: Roween - taming
+    Targets:
+      - Id: 0
+        Mob: ROWEEN
+    Score: 10
+  - Id: 900203
+    Group: Taming
+    Name: Familiar - taming
+    Targets:
+      - Id: 0
+        Mob: FARMILIAR
+    Score: 10
+  - Id: 900204
+    Group: Taming
+    Name: Hornet - taming
+    Targets:
+      - Id: 0
+        Mob: HORNET
+    Score: 10
+  - Id: 900205
+    Group: Taming
+    Name: Skeggiold - taming
+    Targets:
+      - Id: 0
+        Mob: SKEGGIOLD
+    Score: 10
+  - Id: 900206
+    Group: Taming
+    Name: Clock - taming
+    Targets:
+      - Id: 0
+        Mob: CLOCK
+    Score: 10

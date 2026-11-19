@@ -53695,3 +53695,4 @@ Footer:
   - Path: db/import/mobs/airship_crash.yml
   - Path: db/import/mobs/geffen_night_arena.yml
   - Path: db/import/mobs/hall_of_life.yml
+  - Path: db/import/mobs/pets.yml

@@ -12504,3 +12504,88 @@ Body:
       NoAuction: true
     Script: |
       item_reform();
+  # Objets de capture des familiers portes le 2026-11-19 (vendus a pet_gon2)
+  - Id: 23257
+    AegisName: Dew_Of_Old_Tree
+    Name: Old Tree's Dew
+    Type: Usable
+    Buy: 20000
+    Weight: 50
+    Flags:
+      BuyingStore: true
+    NoUse:
+      Sitting: true
+    Script: |
+      pet;
+  - Id: 23258
+    AegisName: Foul_Rotten_Meat
+    Name: Stinky Rotten Meat
+    Type: Usable
+    Buy: 20000
+    Weight: 50
+    Flags:
+      BuyingStore: true
+    NoUse:
+      Sitting: true
+    Script: |
+      pet;
+  - Id: 100796
+    AegisName: Darkness_Bible
+    Name: Dark Bible
+    Type: Usable
+    Buy: 20000
+    Weight: 50
+    Flags:
+      BuyingStore: true
+    NoUse:
+      Sitting: true
+    Script: |
+      pet;
+  - Id: 101331
+    AegisName: Fruits_Set_Trap
+    Name: Fruit Set Trap
+    Type: Usable
+    Buy: 20000
+    Weight: 10
+    Flags:
+      BuyingStore: true
+    NoUse:
+      Sitting: true
+    Script: |
+      pet;
+  - Id: 102723
+    AegisName: Beehive_Box
+    Name: Beehive
+    Type: Usable
+    Buy: 20000
+    Weight: 50
+    Flags:
+      BuyingStore: true
+    NoUse:
+      Sitting: true
+    Script: |
+      pet;
+  - Id: 103218
+    AegisName: Angels_Song
+    Name: Angel's Song
+    Type: Usable
+    Buy: 20000
+    Weight: 50
+    Flags:
+      BuyingStore: true
+    NoUse:
+      Sitting: true
+    Script: |
+      pet;
+  - Id: 103219
+    AegisName: Clock_Lubricant
+    Name: Clock Lubricant
+    Type: Usable
+    Buy: 20000
+    Weight: 50
+    Flags:
+      BuyingStore: true
+    NoUse:
+      Sitting: true
+    Script: |
+      pet;

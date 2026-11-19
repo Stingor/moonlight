@@ -912,3 +912,94 @@ Body:
     AegisName: Icewind_Egg
     Name: Icewind Egg
     Type: PetEgg
+  # Familiers portes le 2026-11-19 (lots A et B)
+  - Id: 9128
+    AegisName: Dark_Priest_Egg
+    Name: Dark Priest Egg
+    Type: PetEgg
+    Buy: 20
+  - Id: 9138
+    AegisName: Farmiliar_Egg
+    Name: Farmiliar Egg
+    Type: PetEgg
+    Buy: 20
+  - Id: 9155
+    AegisName: Hornet_Egg
+    Name: Hornet Egg
+    Type: PetEgg
+    Buy: 20
+  - Id: 9187
+    AegisName: Skeggiold_Egg
+    Name: Skeggiold Egg
+    Type: PetEgg
+    Buy: 20
+  - Id: 9190
+    AegisName: Clock_Egg
+    Name: Clock Egg
+    Type: PetEgg
+    Buy: 20
+  - Id: 9192
+    AegisName: Giant_Hornet_Egg
+    Name: Giant Hornet Egg
+    Type: PetEgg
+    Buy: 20
+  - Id: 9193
+    AegisName: Mistress_Egg
+    Name: Mistress Egg
+    Type: PetEgg
+    Buy: 20
+  - Id: 9169
+    AegisName: C_Tower_Manager_Egg
+    Name: Clock Tower Manager Egg
+    Type: PetEgg
+    Buy: 20
+  - Id: 9170
+    AegisName: Angelgolt_Egg
+    Name: Angelgolt Egg
+    Type: PetEgg
+    Buy: 20
+  - Id: 9171
+    AegisName: Timeholder_Egg
+    Name: Timeholder Egg
+    Type: PetEgg
+    Buy: 20
+  - Id: 9139
+    AegisName: Dark_Illusion_Egg
+    Name: Dark Illusion Egg
+    Type: PetEgg
+    Buy: 20
+  - Id: 9148
+    AegisName: Dark_Lord_Egg
+    Name: Dark Lord Egg
+    Type: PetEgg
+    Buy: 20
+  - Id: 9141
+    AegisName: Wild_Rose_Egg2
+    Name: Wild Rose Egg
+    Type: PetEgg
+    Buy: 20
+  - Id: 9142
+    AegisName: Eddga_Egg2
+    Name: Eddga Egg
+    Type: PetEgg
+    Buy: 20
+  - Id: 9130
+    AegisName: Chaos_Bapho_Jr_Egg
+    Name: Chaos Baphomet Jr. Egg
+    Type: PetEgg
+    Buy: 20
+  - Id: 9137
+    AegisName: Baphomet_Egg
+    Name: Baphomet Egg
+    Type: PetEgg
+    Buy: 20
+  - Id: 9140
+    AegisName: Blue_Moon_Loli_Ruri_Egg
+    Name: Blue Moon Loli Ruri Egg
+    Type: PetEgg
+    Buy: 20
+  - Id: 9126
+    AegisName: Kiel_Egg
+    Name: Kiel Egg
+    Type: PetEgg
+    Buy: 20
