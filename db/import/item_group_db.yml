@@ -28048,6 +28048,96 @@ Body:
             Item: Cursed_Fragment
             Rate: 60
 
+  # Mysterious Blue Box (22901) - porte depuis db/re, AegisName locaux
+  - Group: BLUEBOXOFQUESTIONS
+    SubGroups:
+      - SubGroup: 1
+        List:
+          - Index: 0
+            Item: Honor_Proof
+            Rate: 1600
+            Amount: 8
+          - Index: 1
+            Item: Honor_Proof
+            Rate: 1400
+            Amount: 16
+          - Index: 2
+            Item: Honor_Proof
+            Rate: 300
+            Amount: 55
+          - Index: 3
+            Item: Parchment_City
+            Rate: 1000
+            Amount: 2
+          - Index: 4
+            Item: City_Map
+            Rate: 10
+          - Index: 5
+            Item: Shining_Holy_Water
+            Rate: 360
+            Amount: 2
+          - Index: 6
+            Item: Shining_Holy_Water_
+            Rate: 10
+          - Index: 7
+            Item: Prontera_Medal
+            Rate: 1000
+            Amount: 3
+          - Index: 8
+            Item: Prontera_Badge
+            Rate: 40
+          - Index: 9
+            Item: Prison_Key
+            Rate: 510
+          - Index: 10
+            Item: Prontera_Time_Crystal
+            Rate: 510
+          - Index: 11
+            Item: Guardsmen's_Shield
+            Rate: 1
+          - Index: 12
+            Item: Cold_Core
+            Rate: 500
+            Amount: 3
+          - Index: 13
+            Item: Silicone_Shell
+            Rate: 500
+            Amount: 3
+          - Index: 14
+            Item: Hedgehog_Picks
+            Rate: 500
+            Amount: 3
+          - Index: 15
+            Item: Old_Belt
+            Rate: 500
+            Amount: 3
+          - Index: 16
+            Item: Moving_Dark_Matter
+            Rate: 500
+            Amount: 3
+          - Index: 17
+            Item: Fragments_Valkyrie_Power
+            Rate: 254
+          - Index: 18
+            Item: Will_Master
+            Rate: 500
+            Amount: 3
+          - Index: 19
+            Item: Flattery_Robe
+            Rate: 1
+          - Index: 20
+            Item: Invective_Robe
+            Rate: 1
+          - Index: 21
+            Item: Spoon
+            Rate: 1
+          - Index: 22
+            Item: C_Decoration_Time
+            Rate: 1
+          - Index: 23
+            Item: C_Fate_Of_Black_Hand
+            Rate: 1
+
 Footer:
   Imports:
   - Path: db/import/item_group_db/invasion.yml

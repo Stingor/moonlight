@@ -11126,7 +11126,9 @@ Body:
     Name: Mysterious Blue Box
     Type: Usable
     Buy: 20
-    Script: "callfunc(\"F_Mysterious_box\");\n"
+    Flags:
+      Container: true
+    Script: "getgroupitem(IG_BLUEBOXOFQUESTIONS);\n"
   - Id: 22902
     AegisName: Sealed_Card_Album_Scroll_II
     Name: Sealed Card Album Scroll II
