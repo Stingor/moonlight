@@ -1056,6 +1056,13 @@ OnStart:
 	mobhm('hm,0,'map_air2$,247,51,"Out of control Captain",3181,1, instance_npcname("callb#air2") + "::OnMyMobDead");// E1_FELOCK
 	end;
 OnMyMobDead:
+	// [Stingor] succes 128039 et 128043 : E2_FELOCK n'existe pas, toute victoire compte ;
+	// le compteur reprend celui de 128042 (50 Ferlock, tous modes) pour les victoires passees
+	if (playerattached()) {
+		achievementupdate(128039, ACHIEVEINFO_COUNT1, 1);
+		.@fk = max(achievementinfo(128043, ACHIEVEINFO_COUNT1) + 1, achievementinfo(128042, ACHIEVEINFO_COUNT1));
+		achievementupdate(128043, ACHIEVEINFO_COUNT1, min(.@fk, 50));
+	}
 	if (mobcount( 'map_air2$, instance_npcname("callb#air2") + "::OnMyMobDead" ) < 1) {
 		initnpctimer;
 		// [Stingor] En turbo on avance le tick : il ne reste que 1,5 s avant

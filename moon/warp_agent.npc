@@ -13,6 +13,12 @@ gonryun,165,129,3	script	Warp Agent::warp_agent	4_F_01,{
 	// [Stingor] rattrapage King Maker (130005) : couronnement de l'episode 17.2 vu avant l'ajout du succes
 	if (ep17_2_main == 35 && !achievementinfo(130005, ACHIEVEINFO_COMPLETE))
 		achievementcomplete(130005);
+	// [Stingor] rattrapage 128039 / 128043 (Ferlock) depuis 128040 / 128042, deja comptes tous modes
+	if (achievementinfo(128040, ACHIEVEINFO_COMPLETE) && !achievementinfo(128039, ACHIEVEINFO_COMPLETE))
+		achievementupdate(128039, ACHIEVEINFO_COUNT1, 1);
+	.@fk = min(achievementinfo(128042, ACHIEVEINFO_COUNT1), 50);
+	if (.@fk > achievementinfo(128043, ACHIEVEINFO_COUNT1))
+		achievementupdate(128043, ACHIEVEINFO_COUNT1, .@fk);
 L_WarpaCmd:
 	mes .@npc_name$;
 	mes "Bonjour ^4a8b3e" + strcharinfo(0) + "^000000 !";

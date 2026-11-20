@@ -4890,6 +4890,21 @@ prt_pri00,57,119,1	script	Bigfoot#ep16wal	1_M_JOBGUIDER,{
 		close;
 	}
 	.@name$ = strcharinfo(0);
+	// [Stingor] succes 110000 : lui apporter a manger (fromage et patate douce, le poulet et la biere n'existent pas en pre-re)
+	if (!achievementinfo(110000, ACHIEVEINFO_COMPLETE) && countitem(548) > 0 && countitem(516) > 0) {
+		mes "[Bigfoot]";
+		mes "Wait... is that cheese I smell? And a potato?";
+		next;
+		if (select("Give Bigfoot the cheese and the potato.:Keep them.") == 1) {
+			delitem 548,1;
+			delitem 516,1;
+			emotion ET_DELIGHT;
+			mes "[Bigfoot]";
+			mes "Real food! At one in the morning, nothing tastes better. You have my gratitude, adventurer.";
+			achievementcomplete(110000);
+			close;
+		}
+	}
 	if (ep16_wal == 3) {
 		mes "[Bigfoot]";
 		mes "Fried chicken, baked potato, beer, fresh cheese... Ha.... I crave those ordinary dishes now that I am locked in a place like this.";
