@@ -246,6 +246,7 @@ L_Instance:
 	// Ajouter une instance = une entree dans les trois tableaux + un case, sans
 	// jamais renumeroter quoi que ce soit.
 	setarray .@lbl$[0],
+					"2nd OS Search",
 					"Airship Assault (Solo & HM)",
 					"Airship Crash",
 					"Airship Destruction",
@@ -256,6 +257,7 @@ L_Instance:
 					"Central Laboratory",
 					"Charleston in Distess",
 					"Devil's Tower",
+					"EDDA: Somatology Laboratory",
 					"Endless Cellar (HM, Custom)",
 					"Endless Tower (HM)",
 					"Faceworms Nest (Solo)",
@@ -264,8 +266,10 @@ L_Instance:
 					"Geffen Night Arena",
 					"Gef. Magic Tour. (HM, Solo, Custom)",
 					"Ghost Palace (Solo)",
+					"Glastheim Purification",
 					"Half Moon In The Daylight",
 					"Hazy Forest",
+					"Heart Hunter War Base",
 					"Hey! Sweety",
 					"Hidden Flower Garden",
 					"Horror Toy Factory (HM)",
@@ -280,6 +284,7 @@ L_Instance:
 					"Nydhoggur's Nest",
 					"Octopus Cave",
 					"Old Glast Heim (HM)",
+					"Old Glast Heim Hard",
 					"Orc's Memory",
 					"Poring Village (niv. 30+)",
 					"Room of Consciousness (HM, Solo)",
@@ -299,6 +304,7 @@ L_Instance:
 					"Weekend Dungeon (sam./dim.)",
 					"Wolfchev's Laboratory";
 	setarray .@inst[0],
+					INST_N2ND_OS_SEARCH,
 					INST_ASSAULT_ON_THE_AIRSHIP,
 					INST_AIRSHIP_CRASH,
 					INST_AIRSHIP_DESTRUCTION,
@@ -309,6 +315,7 @@ L_Instance:
 					INST_CENTRAL_LABORATORY,
 					INST_CHARLESTON_IN_DISTRESS,
 					INST_DEVILS_TOWER,
+					INST_JOURNEY_OF_EXPEDITION,
 					INST_ENDLESS_CELLAR,
 					INST_ENDLESS_TOWER,
 					INST_FACEWORMS_NEST,
@@ -317,8 +324,10 @@ L_Instance:
 					INST_GEFFEN_NIGHT_ARENA,
 					INST_GEFFEN_MAGIC_TOURNAMENT,
 					INST_GHOST_PALACE,
+					INST_GLASTHEIM_PURIFICATION,
 					INST_HALF_MOON_IN_THE_DAYLIGHT,
 					INST_MISTWOOD_MAZE,
+					INST_HEART_HUNTER_WAR_BASE_1,
 					INST_HEY_SWEETY,
 					INST_HIDDEN_FLOWER_GARDEN,
 					INST_HORROR_TOY_FACTORY,
@@ -333,6 +342,7 @@ L_Instance:
 					INST_NIDHOGGURS_NEST,
 					INST_OCTOPUS_CAVE,
 					INST_OLD_GLAST_HEIM,
+					INST_OLD_GLAST_HEIM_HARD,
 					INST_ORCS_MEMORY,
 					INST_PORING_VILLAGE,
 					INST_ROOM_OF_CONSCIOUSNESS,
@@ -353,6 +363,7 @@ L_Instance:
 					INST_WOLFCHEVS_LABORATORY;
 	// quete de cooldown utilisee pour la couleur ; 0 = cas particulier traite plus bas
 	setarray .@cd[0],
+					12455, // INST_N2ND_OS_SEARCH (Operation Waiting)
 					15050, // INST_ASSAULT_ON_THE_AIRSHIP
 					5909,  // INST_AIRSHIP_CRASH
 					12560, // INST_AIRSHIP_DESTRUCTION
@@ -363,6 +374,7 @@ L_Instance:
 					12347, // INST_CENTRAL_LABORATORY
 					13185, // INST_CHARLESTON_IN_DISTRESS
 					7577,  // INST_DEVILS_TOWER
+					16390, // INST_JOURNEY_OF_EXPEDITION (Edda Somatology - Standby)
 					0,     // INST_ENDLESS_CELLAR
 					60200, // INST_ENDLESS_TOWER
 					12325, // INST_FACEWORMS_NEST
@@ -371,8 +383,10 @@ L_Instance:
 					69990, // INST_GEFFEN_NIGHT_ARENA (acces)
 					9316,  // INST_GEFFEN_MAGIC_TOURNAMENT
 					1261,  // INST_GHOST_PALACE
+					12460, // INST_GLASTHEIM_PURIFICATION (normal ; le difficile a 12461)
 					14586, // INST_HALF_MOON_IN_THE_DAYLIGHT
 					7211,  // INST_MISTWOOD_MAZE
+					12375, // INST_HEART_HUNTER_WAR_BASE_1 (Base maintenance)
 					18025, // INST_HEY_SWEETY
 					12498, // INST_HIDDEN_FLOWER_GARDEN
 					12331, // INST_HORROR_TOY_FACTORY
@@ -387,6 +401,7 @@ L_Instance:
 					3135,  // INST_NIDHOGGURS_NEST
 					4197,  // INST_OCTOPUS_CAVE
 					12317, // INST_OLD_GLAST_HEIM
+					12334, // INST_OLD_GLAST_HEIM_HARD (Trace of Time Travel)
 					12059, // INST_ORCS_MEMORY
 					12417, // INST_PORING_VILLAGE
 					7706,  // INST_ROOM_OF_CONSCIOUSNESS
@@ -469,6 +484,29 @@ L_Instance:
 		}
 		case INST_IMMORTAL: { // Immortel, normal et difficile : les Branches de l'Arbre-Monde (ep20_main 100)
 			warp_fct("jor_twig", 114, 144);
+		}
+		// Instances rejouables dont l'entree etait restee native (2026-11-20). Le warp agent envoie
+		// pres de leur PNJ d'entree, qui verifie lui-meme l'etape de quete et pose son delai.
+		case INST_N2ND_OS_SEARCH: { // 2nd OS Search : l'officier des operations, a Cor (episode 17.1)
+			// Cor s'ouvre quand Dien y fait entrer (quete 11603 terminee) : ne pas sauter l'etape.
+			if( getgroupid() < 99 && isbegin_quest(11603) < 2 ) {
+				mes .@npc_name$;
+				mes "Cor ne s'ouvre qu'avec l'épisode 17.1 : suivez la chaîne jusqu'à la quête ^0000ffOld Memories^000000, où Dien vous y fait entrer.";
+				close;
+			}
+			warp_fct("sp_cor", 160, 52);
+		}
+		case INST_GLASTHEIM_PURIFICATION: { // Glastheim Fall et Purification, normale et difficile : Oscar (Edda)
+			warp_fct("glast_01", 241, 288);
+		}
+		case INST_HEART_HUNTER_WAR_BASE_1: { // Heart Hunter War Base 1 et 2 : le commandant, ein_fild04 (episode 16.2)
+			warp_fct("ein_fild04", 275, 339);
+		}
+		case INST_JOURNEY_OF_EXPEDITION: { // EDDA: Somatology Laboratory (instance Journey of Expedition) : Sierra, a Juno
+			warp_fct("yuno", 216, 342);
+		}
+		case INST_OLD_GLAST_HEIM_HARD: { // Old Glast Heim Hard : Another Hugin, glast_01
+			warp_fct("glast_01", 179, 280);
 		}
 		case INST_ASSAULT_ON_THE_AIRSHIP: { // Airship Assault
 			if( select( GetColor(15050)+"Acces direct^000000", "Se rendre dans le Rift" ) == 1 ) {
@@ -2692,6 +2730,11 @@ OnInit:
 	setarray .@navm$[463], "jor_nest", "jor_twig", "ba_in01", "gef_tower", "geffen_in", "pay_arche", "prt_q", "thana_step";
 	setarray .@navx[463], 24, 114, 28, 58, 82, 45, 244, 154;
 	setarray .@navy[463], 248, 144, 253, 169, 60, 123, 81, 364;
+	// Instances rejouables ajoutees le 2026-11-20 : Cor, Oscar (Edda), le commandant d'ein_fild04,
+	// Sierra (Juno), Another Hugin.
+	setarray .@navm$[471], "sp_cor", "glast_01", "ein_fild04", "yuno", "glast_01";
+	setarray .@navx[471], 160, 241, 275, 216, 179;
+	setarray .@navy[471], 52, 288, 339, 342, 280;
 	for (.@i = 0; .@i < getarraysize(.@navm$); .@i++) {
 		// Un agent ne se declare pas une arete vers sa propre carte.
 		if (strnpcinfo(4) == .@navm$[.@i]) continue;
