@@ -4002,6 +4002,32 @@ OnInit:
 // Main quest - Step 28
 jor_sanct,157,171,3	script	Sarekgand#20ms20	4_EP19_RGAN_SR2,{
 	callfunc( "F_ep20_checkTransform" );
+	// [Stingor] step 27 (5 pre-re quests) not finished: tell the player what is left.
+	// Also unlocks a player who finished all 5 without ep20_main moving to 27.
+	if (ep20_main == 26) {
+		if (isbegin_quest(8841) == 2 && isbegin_quest(8842) == 2 && isbegin_quest(8843) == 2 && isbegin_quest(8846) == 2 && isbegin_quest(8854) == 2) {
+			ep20_main = 27;
+			erasequest 8839;
+			setquest 8840;
+		}
+		else {
+			mes "[Sarekhgandh]";
+			mes "I have a bad feeling, but I also have a good feeling...";
+			next;
+			mes "- Sarekgand only trusts priests who have helped the other bishops. Still to do: -";
+			if (isbegin_quest(8841) < 2)
+				mes "- <NAVI>[Gomiagand]<INFO>jor_sanct,215,84,0,101,0</INFO></NAVI> : But think about it";
+			if (isbegin_quest(8842) < 2)
+				mes "- <NAVI>[Holesybigand]<INFO>jor_sanct,190,128,0,101,0</INFO></NAVI> : You are very angry";
+			if (isbegin_quest(8843) < 2)
+				mes "- <NAVI>[Pamosugand]<INFO>jor_sanct,257,115,0,101,0</INFO></NAVI> : A Silent Answer";
+			if (isbegin_quest(8846) < 2)
+				mes "- <NAVI>[Narsioramigand]<INFO>jor_sanct,271,156,0,101,0</INFO></NAVI> : I've come this far";
+			if (isbegin_quest(8854) < 2)
+				mes "- <NAVI>[Eriligand]<INFO>jor_sanct,101,138,0,101,0</INFO></NAVI> : I'm probably a lunch box";
+			close;
+		}
+	}
 	if (ep20_main == 27) {
 		mes "[Sarekgand]";
 		mes "......";
