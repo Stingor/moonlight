@@ -1,0 +1,727 @@
+//===== Moonlight Script =====================================
+//= Episode Clear Tickets, appele par le Warp Agent (menu Episodes)
+//===== Description: =========================================
+//= Porte de « Episode Valkyrie » (MondoTruth/standart-npc,
+//= npc/ep-valk.txt, licence MIT, par Lil Art et MondoTruth).
+//= Moonlight : une partie d'episode se joue UNE fois par compte
+//= Moonlight. Finie sur un personnage (##epc_done_<partie>), un Episode
+//= Clear Ticket la debloque pour tout le compte (##epc_tkt_<partie>) :
+//= chaque autre personnage, y compris ceux crees plus tard, la recoit
+//= comme terminee a sa connexion (EpisodeClear#login) ou en ouvrant le
+//= menu, des qu'il remplit les conditions du jeu (niveau, partie
+//= precedente). Ce qui attend l'histoire finie s'ouvre (instances,
+//= quotidiennes, zones). Pas d'EXP, pas de recompense de quete. Un
+//= ticket par partie. Les tickets se vendent contre des zenys (puits a
+//= zenys voulu).
+//= Un personnage qui a fini une partie avant ce script la note au compte
+//= a sa prochaine connexion.
+//=
+//= Changements moonlight :
+//= - fonction F_EpisodeClear au lieu d'un PNJ a Prontera, verrou
+//=   Renewal (checkre) et F_SNPC_Off retires ;
+//= - episode 20 ecrit ici, sur notre ep20_main (rAthena / brHades) et
+//=   non le mod World Sync Extras ; episode 21 absent (pas d'histoire) ;
+//= - deblocages au compte de l'histoire (##dun_open_issgard,
+//=   ##dun_open_jor_root, ##dun_open_jor_twice) ;
+//= - textes en francais.
+//=
+//= Les listes de quetes (OnInit de l'original, S_Init ici) ont ete
+//= verifiees contre nos scripts charges : toutes y figurent.
+//= Parties numerotees episode * 10 + partie : 131 = 13.1, 180 = 18.
+//=
+//= Usage : callfunc "F_EpisodeClear", .@npc_name$;
+//= Revient a l'appelant sur « Menu Precedent », ferme sinon.
+//= callfunc "F_EpisodeClear", "", 1; synchronise seulement (connexion).
+//============================================================
+
+function	script	F_EpisodeClear	{
+	if (.init != 1)
+		callsub S_Init;
+	// Mode connexion (EpisodeClear#login) : synchronisation seule.
+	if (getarg(1, 0)) {
+		callsub S_Sync;
+		return;
+	}
+	.@npc$ = getarg(0, "[ Warp Agent ]");
+	// Un personnage monte de niveau sans se reconnecter : on rattrape ici.
+	callsub S_Sync;
+L_Menu:
+	clear;
+	mes .@npc$;
+	mes "Terminez un épisode une fois, sur n'importe quel personnage : un ^0055FFEpisode Clear Ticket^000000 le débloque ensuite pour ^0055FFtout votre compte Moonlight^000000.";
+	mes "Les autres personnages le reçoivent comme terminé, sans récompense ni EXP.";
+	switch (select("• Utiliser un ticket:• Acheter un ticket:• Quels épisodes ?:• ^e64c00Menu Précédent^000000")) {
+	case 1:
+		.@part = callsub(S_PickPart);
+		if (!.@part)
+			goto L_Menu;
+		.@ep = .@part / 10;
+		.@name$ = callsub(S_Name, .@part);
+		clear;
+		mes .@npc$;
+		if (getd("##epc_tkt_" + .@part)) {
+			mes "L'épisode " + .@name$ + " est déjà débloqué pour tout votre compte Moonlight. Gardez votre ticket.";
+			close;
+		}
+		if (!getd("##epc_done_" + .@part)) {
+			mes "Un ticket sert aux autres personnages : terminez d'abord l'épisode " + .@name$ + " une fois, sur n'importe quel personnage de votre compte Moonlight.";
+			mes "Si c'est déjà fait, connectez ce personnage une fois pour que je le sache.";
+			close;
+		}
+		if (countitem(.ticket[.@ep]) < 1) {
+			mes "Vous n'avez pas d'^0055FF" + getitemname(.ticket[.@ep]) + "^000000.";
+			close;
+		}
+		mes "Utiliser un ^0055FF" + getitemname(.ticket[.@ep]) + "^000000 pour débloquer l'épisode " + .@name$ + " sur tout votre compte Moonlight ?";
+		mes "Chaque personnage qui ne l'a pas fini le recevra comme terminé à sa connexion, dès qu'il remplit les conditions (niveau, épisode précédent). Ses quêtes encore ouvertes de cette chaîne seront fermées.";
+		next;
+		if (select("Oui, l'utiliser:Annuler") == 2)
+			close;
+		if (countitem(.ticket[.@ep]) < 1 || getd("##epc_tkt_" + .@part))
+			close;
+		delitem .ticket[.@ep], 1;
+		setd "##epc_tkt_" + .@part, 1;
+		callsub S_Sync;
+		specialeffect2 154;
+		mes .@npc$;
+		mes "C'est fait. L'épisode " + .@name$ + " est débloqué pour tout votre compte Moonlight.";
+		if (!callsub(S_Done, .@part)) {
+			.@prev = callsub(S_Prev, .@part);
+			if (.@prev && !callsub(S_Done, .@prev))
+				mes "Ce personnage le recevra une fois l'épisode " + callsub(S_Name, .@prev) + " terminé.";
+			else
+				mes callsub(S_Need, .@part) + " Ce personnage le recevra ensuite.";
+		}
+		close;
+	case 2:
+		.@n = getarraysize(.sell);
+		for (.@i = 0; .@i < .@n; .@i++)
+			.@menu$ += "Ticket épisode " + .sell[.@i] + " (" + callfunc("F_InsertComma", .price[.sell[.@i]]) + " z):";
+		.@c = select(.@menu$ + "^e64c00Menu Précédent^000000") - 1;
+		if (.@c >= .@n)
+			goto L_Menu;
+		.@ep = .sell[.@c];
+		clear;
+		mes .@npc$;
+		// Refuse seulement quand toutes les parties de l'episode sont deja
+		// debloquees pour le compte.
+		.@open = 0;
+		.@n = getarraysize(.ready);
+		for (.@i = 0; .@i < .@n; .@i++) {
+			if (.ready[.@i] / 10 == .@ep && !getd("##epc_tkt_" + .ready[.@i]))
+				.@open = 1;
+		}
+		if (!.@open) {
+			mes "Tout ce que couvre un ticket de l'épisode " + .@ep + " est déjà débloqué pour votre compte Moonlight.";
+			close;
+		}
+		mes "Un ^0055FF" + getitemname(.ticket[.@ep]) + "^000000 coûte " + callfunc("F_InsertComma", .price[.@ep]) + " zenys. Chaque ticket passe une partie.";
+		next;
+		if (select("L'acheter:Annuler") == 2)
+			close;
+		if (Zeny < .price[.@ep]) {
+			mes .@npc$;
+			mes "Vous n'avez pas assez de zenys.";
+			close;
+		}
+		if (!checkweight(.ticket[.@ep], 1)) {
+			mes .@npc$;
+			mes "Vous portez trop de choses.";
+			close;
+		}
+		Zeny -= .price[.@ep];
+		getitem .ticket[.@ep], 1;
+		mes .@npc$;
+		mes "Voici votre ticket.";
+		close;
+	case 3:
+		clear;
+		mes .@npc$;
+		.@n = getarraysize(.ready);
+		for (.@i = 0; .@i < .@n; .@i++) {
+			.@p = .ready[.@i];
+			if (callsub(S_Done, .@p))
+				.@s$ = "^20a020terminé^000000";
+			else
+				.@s$ = "à faire";
+			if (getd("##epc_tkt_" + .@p))
+				.@s$ += ", compte : ^0055FFdébloqué^000000";
+			else if (getd("##epc_done_" + .@p))
+				.@s$ += ", compte : fini une fois";
+			mes "Épisode " + callsub(S_Name, .@p) + " : " + .@s$;
+		}
+		mes "Un ticket débloque une partie pour tout le compte, une fois qu'elle a été finie sur un personnage. Les tickets des épisodes 13 à 16 servent pour chacune de leurs parties.";
+		next;
+		goto L_Menu;
+	}
+	return;
+
+// Demande une partie de .ready. La renvoie, ou 0 pour revenir.
+// Pas de ':' dans un libelle : select() coupe le menu a chaque ':'.
+S_PickPart:
+	.@n = getarraysize(.ready);
+	for (.@i = 0; .@i < .@n; .@i++)
+		.@menu$ += "Épisode " + callsub(S_Name, .ready[.@i]) + " (vous en avez " + countitem(.ticket[.ready[.@i] / 10]) + "):";
+	.@c = select(.@menu$ + "^e64c00Menu Précédent^000000") - 1;
+	if (.@c >= .@n)
+		return 0;
+	return .ready[.@c];
+
+// Synchronise le personnage avec son compte Moonlight :
+// 1. note au compte les parties que ce personnage a finies ;
+// 2. applique, dans l'ordre de l'histoire, les parties debloquees par
+//    ticket que ce personnage n'a pas finies, si leurs conditions sont
+//    remplies (une partie appliquee peut ouvrir la suivante, d'ou .order).
+// Un drapeau ## par partie : les ## sont lus a la connexion et le dernier
+// ecrit gagne, un seul entier en masque de bits perdrait des parties.
+S_Sync:
+	.@n = getarraysize(.ready);
+	for (.@i = 0; .@i < .@n; .@i++) {
+		.@p = .ready[.@i];
+		if (!getd("##epc_done_" + .@p) && callsub(S_Done, .@p))
+			setd "##epc_done_" + .@p, 1;
+	}
+	.@n = getarraysize(.order);
+	for (.@i = 0; .@i < .@n; .@i++) {
+		.@p = .order[.@i];
+		if (!.@p || !getd("##epc_tkt_" + .@p))
+			continue;
+		if (callsub(S_Done, .@p))
+			continue;
+		.@prev = callsub(S_Prev, .@p);
+		if (.@prev && !callsub(S_Done, .@prev))
+			continue;
+		if (callsub(S_Need, .@p) != "")
+			continue;
+		callsub S_Skip, .@p;
+		dispbottom "Épisode " + callsub(S_Name, .@p) + " : débloqué par votre compte Moonlight (Episode Clear Ticket).";
+	}
+	return;
+
+// "18" pour 180, "17.2" pour 172.
+S_Name:
+	if (getarg(0) % 10)
+		return (getarg(0) / 10) + "." + (getarg(0) % 10);
+	return "" + (getarg(0) / 10);
+
+// La partie avant celle-ci dans .order, ou 0 (aussi quand un 0 la precede).
+S_Prev:
+	.@n = getarraysize(.order);
+	for (.@i = 1; .@i < .@n; .@i++) {
+		if (.order[.@i] == getarg(0))
+			return .order[.@i - 1];
+	}
+	return 0;
+
+// Ce que le jeu demande avant le debut de la partie, en plus de la partie
+// precedente : "" si rien ne manque, sinon le texte a afficher.
+S_Need:
+	switch (getarg(0)) {
+	case 131:
+		// Le Promotional Staff d'Izlude (quests_13_1.txt).
+		if (BaseLevel < 70)
+			return "L'épisode 13.1 demande le niveau de base 70.";
+		break;
+	case 132:
+		if (countitem(2782) < 1 && !checkweight(2782, 1))
+			return "Vous portez trop de choses pour recevoir l'anneau de l'ancien roi sage que donne l'épisode 13.2.";
+		break;
+	case 141:
+		// Theore (quests_mora.txt).
+		if (BaseLevel < 100)
+			return "L'épisode 14.1 demande le niveau de base 100.";
+		break;
+	case 142:
+		// Les voyageurs d'Eclage (quests_eclage.txt).
+		if (BaseLevel < 99)
+			return "L'épisode 14.2 demande le niveau de base 99.";
+		break;
+	case 143:
+		// Les chiffons de Morroc (quests_14_3_bis.txt).
+		if (BaseLevel < 140)
+			return "L'épisode 14.3 demande le niveau de base 140.";
+		break;
+	case 151:
+		// La secretaire Lime Evenor (quests_15_1.txt).
+		if (BaseLevel < 140)
+			return "L'épisode 15.1 demande le niveau de base 140.";
+		if (countitem(6219) < 1 && countitem(22508) < 1)
+			return "L'épisode 15.1 demande une Eden Group Mark : l'équipe de fouilles ne prend que des membres d'Eden.";
+		break;
+	case 161:
+		// Le messager royal (quests_16_1.txt).
+		if (BaseLevel < 100)
+			return "L'épisode 16.1 demande le niveau de base 100.";
+		if (ep13_ryu < 100 && ep13_start < 100)
+			return "L'épisode 16.1 demande que la route du Nouveau Monde soit ouverte : Onward to the New World, ou la quête du Cat Paw Agent.";
+		break;
+	case 190:
+		// Le villageois loup gris de Wolfvill (quests_19.npc).
+		if (BaseLevel < 200)
+			return "L'épisode 19 demande le niveau de base 200.";
+		break;
+	case 200:
+		// Horuru a l'Ice Castle (quests_20_main.npc).
+		if (BaseLevel < 215)
+			return "L'épisode 20 demande le niveau de base 215.";
+		break;
+	}
+	return "";
+
+// Si la chaine principale de la partie est terminee.
+S_Done:
+	switch (getarg(0)) {
+	case 131:
+		// Fin des quatre histoires (quests_13_1.txt). Report from the New
+		// World finit a 14 ; Nydhogg's Nest le passe a 15. Ses branches
+		// utilisent 61-123 en route.
+		return (ep13_ryu >= 100 && ep13_newbs >= 100 && ep13_1_rhea >= 100
+			&& (ep13_1_edq == 14 || ep13_1_edq == 15));
+	case 132:
+		// L'anneau est fait ; 28 est la derniere discussion apres la
+		// recompense d'Arc (quests_13_2.txt).
+		return (ep13_2_rhea >= 100 && ep13_mdrama >= 27);
+	case 133:
+		// El Dicastes s'ouvre ; l'homme en noir au camp (quests_dicastes.txt).
+		return (ep13_3_invite >= 6 && ep13_3_secret >= 24);
+	case 141:
+		// Recompense de Theore ; les mots du jeune homme ouvrent les
+		// quotidiennes de Mora (quests_mora.txt, HazyForest).
+		return (ep14_1_bs >= 19 && ep14_1_mistwoods >= 10);
+	case 142:
+		// Le chef d'etat-major (quests_eclage.txt) ; Avant au Flame Basin
+		// le passe a 34.
+		return (ep14_2_mylord >= 33);
+	case 143:
+		// Morse Cave nettoyee (quests_14_3_bis.txt, MorseCave).
+		return (ep14_3_mors01 >= 1);
+	case 151:
+		// Ian Atnad ouvre les installations ; Looking for the Traces finit
+		// avec Maggi (quests_15_1.txt).
+		return (ep15_1_atnad >= 19 && ep15_1_elb >= 15);
+	case 152:
+		// Tatio au QG de Rekenber ; Vestige finit a la porte de la Last
+		// Room (quests_15_2.txt).
+		return (ep15_1_atnad >= 34 && ep15_2_bslast >= 9);
+	case 161:
+		// Fin de 16.1 : Friedrich Heine (quests_16_1.txt).
+		return (ep16_royal >= 24);
+	case 162:
+		// Fin de 16.2 (quests_16_2.txt) ; 17.1 commence a 25.
+		return (terra_gloria_main >= 25);
+	case 171:
+		// Ce que le jeu verifie lui-meme avant le debut de 17.2.
+		return (isbegin_quest(16360) == 2);
+	case 172:
+		return (ep17_2_main >= 36);
+	case 180:
+		return (ep18_main >= 57);
+	case 190:
+		// Derniere discussion d'Aurelie (quests_19.npc) : 61 a 100.
+		return (ep19_main >= 100);
+	case 200:
+		// Derniere valeur de ep20_main (quests_20_main.npc).
+		return (ep20_main >= 100);
+	}
+	return 0;
+
+// Marque la chaine principale de la partie comme terminee.
+S_Skip:
+	switch (getarg(0)) {
+	case 131:
+		copyarray .@open[0], .q131[0], getarraysize(.q131);
+		copyarray .@done[0], .q131_done[0], getarraysize(.q131_done);
+		if (ep13_ryu < 100)
+			ep13_ryu = 100;
+		if (ep13_newbs < 100)
+			ep13_newbs = 100;
+		if (ep13_1_rhea < 100)
+			ep13_1_rhea = 100;
+		if (ep13_1_edq != 14 && ep13_1_edq != 15)
+			ep13_1_edq = 14;
+		break;
+	case 132:
+		copyarray .@open[0], .q132[0], getarraysize(.q132);
+		copyarray .@done[0], .q132_done[0], getarraysize(.q132_done);
+		ep13_2_rhea = 100;
+		ep13_mdrama = 28;
+		// Le traducteur (Ring_Of_Wise_King) : les Saphas ne parlent qu'a
+		// qui le porte.
+		if (countitem(2782) < 1)
+			getitem 2782, 1;
+		break;
+	case 133:
+		copyarray .@open[0], .q133[0], getarraysize(.q133);
+		copyarray .@done[0], .q133_done[0], getarraysize(.q133_done);
+		if (ep13_3_invite < 6)
+			ep13_3_invite = 6;
+		if (ep13_3_secret < 24)
+			ep13_3_secret = 24;
+		break;
+	case 141:
+		copyarray .@open[0], .q141[0], getarraysize(.q141);
+		copyarray .@done[0], .q141_done[0], getarraysize(.q141_done);
+		if (ep14_1_bs < 19)
+			ep14_1_bs = 19;
+		if (ep14_1_mistwoods < 10)
+			ep14_1_mistwoods = 10;
+		break;
+	case 142:
+		copyarray .@open[0], .q142[0], getarraysize(.q142);
+		copyarray .@done[0], .q142_done[0], getarraysize(.q142_done);
+		// L'entree d'Eclage : les formulaires des nouveaux visiteurs.
+		if (ep14_2_oliver < 3)
+			ep14_2_oliver = 3;
+		ep14_2_mylord = 33;
+		break;
+	case 143:
+		copyarray .@open[0], .q143[0], getarraysize(.q143);
+		copyarray .@done[0], .q143_done[0], getarraysize(.q143_done);
+		// Avant au Flame Basin.
+		if (ep14_2_mylord < 34)
+			ep14_2_mylord = 34;
+		ep14_3_newerabs = 24;
+		if (ep14_3_isle < 1)
+			ep14_3_isle = 1;
+		ep14_3_mors01 = 1;
+		break;
+	case 151:
+		copyarray .@open[0], .q151[0], getarraysize(.q151);
+		copyarray .@done[0], .q151_done[0], getarraysize(.q151_done);
+		// Core Collection et le rapport de fouilles sont aussi des
+		// quotidiennes : fermees seulement tant qu'elles sont celles de
+		// l'histoire.
+		if (ep15_1_atnad < 8 && isbegin_quest(7615) == 1)
+			erasequest 7615;
+		if (ep15_1_atnad < 13 && isbegin_quest(7617) == 1)
+			erasequest 7617;
+		if (ep15_1_atnad < 19) {
+			ep15_1_atnad = 19;
+			// Ce que donne Ian Atnad a la fin de 15.1 ; 15.2 commence avec.
+			if (isbegin_quest(7641) == 0)
+				setquest 7641;
+			if (isbegin_quest(7642) == 0)
+				setquest 7642;
+		}
+		if (ep15_2_permit < 1)
+			ep15_2_permit = 1;
+		if (ep15_1_elb < 15)
+			ep15_1_elb = 15;
+		break;
+	case 152:
+		copyarray .@open[0], .q152[0], getarraysize(.q152);
+		copyarray .@done[0], .q152_done[0], getarraysize(.q152_done);
+		ep15_1_atnad = 34;
+		// Cinq jours de Memory Records ; 6 envoie chez Ian Atnad et au QG
+		// de Rekenber.
+		ep15_2_permit = 6;
+		if (ep15_2_bslast < 9) {
+			ep15_2_bslast = 9;
+			ep15_2_bsmemo = 18;
+		}
+		break;
+	case 161:
+		copyarray .@open[0], .q161[0], getarraysize(.q161);
+		copyarray .@done[0], .q161_done[0], getarraysize(.q161_done);
+		ep16_royal = 24;
+		// La lettre du messager royal, reprise a la villa royale.
+		if (countitem(6933))
+			delitem 6933, countitem(6933);
+		break;
+	case 162:
+		copyarray .@open[0], .q162[0], getarraysize(.q162);
+		copyarray .@done[0], .q162_done[0], getarraysize(.q162_done);
+		terra_gloria_main = 25;
+		// L'histoire du deuxieme etage ; 17 la demande a 10 ou plus.
+		if (terra_gloria_lady_part < 10)
+			terra_gloria_lady_part = 10;
+		break;
+	case 171:
+		copyarray .@open[0], .q171[0], getarraysize(.q171);
+		copyarray .@done[0], .q171_done[0], getarraysize(.q171_done);
+		// Pose par Nihil au chateau de Prontera au debut de 17.1.
+		if (terra_gloria_main < 26)
+			terra_gloria_main = 26;
+		break;
+	case 172:
+		copyarray .@open[0], .q172[0], getarraysize(.q172);
+		copyarray .@done[0], .q172_done[0], getarraysize(.q172_done);
+		ep17_2_main = 36;
+		break;
+	case 180:
+		copyarray .@open[0], .q180[0], getarraysize(.q180);
+		copyarray .@done[0], .q180_done[0], getarraysize(.q180_done);
+		ep18_main = 57;
+		break;
+	case 190:
+		copyarray .@open[0], .q190[0], getarraysize(.q190);
+		copyarray .@done[0], .q190_done[0], getarraysize(.q190_done);
+		// Le gardien Leon lance l'histoire de la Sainte de purification a
+		// ep19_main 9 (la course de Boclind, 18128).
+		if (ep19_side_saint < 1) {
+			ep19_side_saint = 1;
+			if (isbegin_quest(18128) == 0)
+				setquest 18128;
+		}
+		ep19_main = 100;
+		// Deblocage au compte d'Issgard (quests_19.npc).
+		##dun_open_issgard = 1;
+		// Les objets de l'histoire, repris par l'histoire : la lettre, la
+		// coquille d'oeuf des Rgans, le registre, l'Ice Cookie, les tubes.
+		setarray .@item[0], 1000607, 1000606, 1000845, 1000846, 1000604, 1000605;
+		for (.@i = 0; .@i < 6; .@i++) {
+			if (countitem(.@item[.@i]))
+				delitem .@item[.@i], countitem(.@item[.@i]);
+		}
+		break;
+	case 200:
+		copyarray .@open[0], .q200[0], getarraysize(.q200);
+		copyarray .@done[0], .q200_done[0], getarraysize(.q200_done);
+		// Le travail des Rgans intermediaires (8847-8851) sert aussi a la
+		// quotidienne 8853 : efface seulement pendant la premiere fois.
+		if (isbegin_quest(8846) == 1) {
+			for (.@i = 8847; .@i <= 8851; .@i++) {
+				if (isbegin_quest(.@i) == 1)
+					erasequest .@i;
+			}
+		}
+		ep20_main = 100;
+		// Deblocages au compte (quests_20_main.npc, etapes 16 et 36).
+		##dun_open_jor_root = 1;
+		##dun_open_jor_twice = 1;
+		// Objets de l'histoire, repris par l'histoire : Ep20_Jor_Berry,
+		// Ep20_Jor_Device.
+		setarray .@item[0], 1001154, 1001218;
+		for (.@i = 0; .@i < 2; .@i++) {
+			if (countitem(.@item[.@i]))
+				delitem .@item[.@i], countitem(.@item[.@i]);
+		}
+		break;
+	}
+	// Les quetes principales encore ouvertes sont fermees.
+	.@n = getarraysize(.@open);
+	for (.@i = 0; .@i < .@n; .@i++) {
+		if (isbegin_quest(.@open[.@i]) == 1)
+			erasequest .@open[.@i];
+	}
+	// Celles qu'une histoire finie laisse terminees.
+	.@n = getarraysize(.@done);
+	for (.@i = 0; .@i < .@n; .@i++) {
+		if (isbegin_quest(.@done[.@i]) == 0)
+			setquest .@done[.@i];
+		if (isbegin_quest(.@done[.@i]) == 1)
+			completequest .@done[.@i];
+	}
+	return;
+
+S_Init:
+	// Parties avec un vrai passage, dans l'ordre du menu.
+	setarray .ready[0], 131, 132, 133, 141, 142, 143, 151, 152, 161, 162, 171, 172, 180, 190, 200;
+	// Ordre de l'histoire. 14.1, 14.2, 15.1 et 16.1 ne demandent pas la
+	// partie d'avant dans le jeu : un 0 commence une nouvelle chaine.
+	setarray .order[0], 131, 132, 133, 0, 141, 0, 142, 143, 0, 151, 152, 0, 161, 162, 171, 172, 180, 190, 200;
+	// Episode Clear Tickets (EpisodClear13 - EpisodClear20).
+	.ticket[13] = 1000284;
+	.ticket[14] = 1000285;
+	.ticket[15] = 1000286;
+	.ticket[16] = 1000282;
+	.ticket[17] = 1000287;
+	.ticket[18] = 1000288;
+	.ticket[19] = 1000988;
+	.ticket[20] = 1001214;
+	// Prix des tickets en zenys.
+	.price[13] = 1000000;
+	.price[14] = 2000000;
+	.price[15] = 3000000;
+	.price[16] = 4000000;
+	.price[17] = 5000000;
+	.price[18] = 6000000;
+	.price[19] = 7000000;
+	.price[20] = 8000000;
+	// Episodes dont les tickets sont vendus : ceux des parties pretes.
+	deletearray .sell;
+	.@n = getarraysize(.ready);
+	for (.@i = 0; .@i < .@n; .@i++) {
+		.@ep = .ready[.@i] / 10;
+		if (inarray(.sell, .@ep) < 0)
+			.sell[getarraysize(.sell)] = .@ep;
+	}
+	// Episode 13.1 (quests_13_1.txt) : Onward to the New World, ep13_ryu
+	// 1 a 100 (10057-10078), New Surroundings, ep13_newbs 1 a 100
+	// (11084-11100), The Tripartite Union's Feud, ep13_1_rhea 1 a 100
+	// (8196-8210), et Report from the New World, ep13_1_edq 1 a 14
+	// (3085-3094).
+	setarray .q131[0],
+		10057, 10058, 10059, 10060, 10061, 10062, 10063, 10064, 10065,
+		10066, 10067, 10068, 10069, 10070, 10071, 10072, 10073, 10074,
+		10075, 10076, 10077,
+		11084, 11085, 11087, 11088, 11089, 11091, 11092, 11093, 11094,
+		11095, 11096, 11097, 11099,
+		8196, 8197, 8198, 8199, 8200, 8201, 8202, 8203, 8204, 8205, 8206,
+		8207, 8208, 8209,
+		3085, 3086, 3087, 3088, 3089, 3090, 3091, 3092, 3093;
+	setarray .q131_done[0],
+		10078, 11086, 11090, 11098, 11100, 8210, 3094;
+	// Episode 13.2 (quests_13_2.txt) : Otherworld Language, ep13_2_rhea
+	// 1 a 100 (8241-8253, toutes laissees terminees), et Two Tribes,
+	// ep13_mdrama 1 a 28 (7056-7071). Les quotidiennes (7074-7079) ne
+	// sont pas touchees.
+	setarray .q132[0],
+		7056, 7057, 7058, 7059, 7060, 7061, 7062, 7063, 7064, 7065, 7066,
+		7067, 7068, 7069, 7070;
+	setarray .q132_done[0],
+		8241, 8242, 8243, 8244, 8245, 8246, 8247, 8248, 8249, 8250, 8251,
+		8252, 8253, 7071;
+	// Episode 13.3 (quests_dicastes.txt) : Sapha's Visit, ep13_3_invite
+	// 1 a 6 (7182-7184), et Doha's Secret Order, ep13_3_secret 1 a 24
+	// (7185-7203). La quotidienne d'Ahat (7200, 7201), Frede's Request et
+	// les departements ne sont pas touches.
+	setarray .q133[0],
+		7182, 7183,
+		7185, 7186, 7187, 7188, 7189, 7190, 7191, 7192, 7193, 7194, 7195,
+		7196, 7197, 7198, 7199, 7202;
+	setarray .q133_done[0], 7184, 7203;
+	// Episode 14.1 (quests_mora.txt, instance HazyForest) : Theore's
+	// Request, ep14_1_bs 1 a 19, avec ses trois branches, et Wandering
+	// Protector, ep14_1_mistwoods 1 a 10. Le delai de la Hazy Forest
+	// (7211) n'est pas touche.
+	setarray .q141[0],
+		11182, 11183, 11184, 11185, 11186, 11187, 11188, 11189, 11190,
+		11191, 11192, 11193, 11194, 11195, 11196, 11197, 11198, 11199,
+		11200, 11201, 11202, 11203, 11204, 11205, 11206, 11207, 7212;
+	setarray .q141_done[0], 11208, 7213;
+	// Episode 14.2 (quests_eclage.txt, instance EclageInterior) : Eclage's
+	// Entrance, ep14_2_oliver 1 a 3, et Encounter in a Strange Land,
+	// ep14_2_mylord 1 a 33, avec ses courses (7428-7433).
+	setarray .q142[0],
+		11310, 7411, 7412, 7413, 7414, 7415, 7416, 7417, 7421, 7422,
+		7423, 7424, 7425, 7426, 7428, 7429, 7430, 7431, 7432, 7433,
+		7434, 7435, 7436, 7437, 7438, 7439, 7440, 7441, 7442, 7443,
+		7445, 7446, 7447, 7448, 7449, 7450, 7451, 7452;
+	setarray .q142_done[0], 11311, 7418, 7419, 7420, 7427, 7444, 7453;
+	// Episode 14.3 (quests_14_3_bis.txt, instances IsleOfBios et
+	// MorseCave) : Dimensional Travel avec Specimen Collection et
+	// Antidote, ep14_3_newerabs 1 a 24, l'exploration de l'Isle of Bios
+	// et la chasse de Morse Cave (9318). Les delais d'instance (15005,
+	// 15007, 15008, 9319) ne sont pas touches.
+	setarray .q143[0],
+		11350, 11351, 11352, 11354, 11355, 11356, 11357, 11358, 11359,
+		11360, 11361, 9318;
+	setarray .q143_done[0], 11349, 11353, 11362, 15006;
+	// Episode 15.1 (quests_15_1.txt et quests_15_2.txt) : les quetes de
+	// l'equipe de fouilles, ep15_1_atnad 1 a 19, et To Phantasmagorika!
+	// avec Looking for the Traces, ep15_1_elb 1 a 15 (toutes laissees
+	// terminees). 7615 et 7617 sont gerees dans S_Skip.
+	setarray .q151[0],
+		7607, 7609, 7620, 7621, 7622, 7623, 7624, 7625, 7626, 7627;
+	setarray .q151_done[0],
+		7608, 7610, 7619,
+		11363, 11364, 11365, 11366, 11367, 11368, 11369, 11370, 11371,
+		11372, 11373, 11374, 11375;
+	// Episode 15.2 (quests_15_2.txt) : ep15_1_atnad 19 a 34, et Vestige,
+	// ep15_2_bslast 1 a 9 (11381 est effacee par l'histoire). Les Memory
+	// Records (7650-7655), le bunker (5341-5370), Krotzel et la Last Room
+	// (11379, 11380) ne sont pas touches.
+	setarray .q152[0],
+		7642, 7643, 7644, 7645, 7646, 7647, 7648, 7649, 11381;
+	setarray .q152_done[0],
+		7641, 11382, 11383, 11384, 11385, 11386, 11387, 11388, 11389;
+	// Episode 16.1 (quests_16_1.txt, instances RitualOfBlessing et
+	// RoomOfConsciousness) : ep16_royal 1 a 24. Les quetes des familles
+	// (7683, 7684, 7686) et la Room of Consciousness repetable (7705,
+	// 7706) ne sont pas touchees.
+	setarray .q161[0],
+		7681, 7685, 7687, 7688, 7689, 7690, 7691, 7692, 7693, 7694,
+		7695, 7696, 7697, 7698, 7699, 7700, 7701, 7702, 7703;
+	setarray .q161_done[0], 7682;
+	// Episode 16.2 (quests_16_2.txt, instances HeartHunterWarBase et
+	// WernerLaboratoryCentralRoom) : terra_gloria_main 1 a 25, avec le
+	// deuxieme etage (14600-14615), la ligne Doubt qu'attend 17
+	// (11454-11462) et les quetes d'arene encore ouvertes (16009, 16011,
+	// 16060). Les quotidiennes ne sont pas touchees.
+	setarray .q162[0],
+		7731, 7732, 7733, 7734, 7735, 7736, 7737, 7738, 7739, 7740,
+		14595, 14596, 14597, 14598, 14599, 14614,
+		11454, 11455, 11456, 11457, 11458, 11459, 11460, 11461,
+		16009, 16011, 16060;
+	setarray .q162_done[0],
+		14600, 14601, 14602, 14613, 11462, 14615, 12374, 7741;
+	// Episode 17.1 (quests_17_1.npc, instances Regenschirm, SealedOs et
+	// CorOperation) : les quetes que l'histoire efface ou qui peuvent
+	// rester ouvertes (16352 vient de l'enchanteur Illusion), et celles
+	// qu'elle laisse terminees, dans l'ordre.
+	setarray .q171[0], 7851, 7852, 7854, 7855, 7856, 16352, 16355, 16356, 16376;
+	setarray .q171_done[0],
+		7850, 7853, 7857, 7858, 7859, 7860, 7861, 7862, 7864,
+		17000, 17001, 17002, 17003, 17004, 17005, 17006, 17007, 17008,
+		17009, 17010, 17011, 17012, 17013, 17014, 7865,
+		11596, 11597, 11598, 11599, 11600, 11601, 11602, 11603,
+		17015, 17016, 17017, 17018, 17019,
+		16353, 16354, 16357, 16358, 16359, 16360;
+	// Episode 17.2 (quests_17_2.npc) : ep17_2_main 1 a 36 (1 et 2 sont
+	// poses a la fin de 17.1).
+	setarray .q172[0],
+		18000, 18001, 11615, 11616, 11617, 11618, 11620,
+		17333, 17334, 17335, 17336, 17337, 17338, 17381,
+		16440, 16441, 16442, 16443, 16444, 16445, 16446, 16447, 16448,
+		16449, 16450, 16451, 16452, 16453,
+		18002, 18013, 18014, 18015, 18016, 18017, 18018, 18021, 18020;
+	setarray .q172_done[0], 11620, 16452, 18018, 18021, 18020;
+	// Episode 18 (quests_18.npc) : ep18_main 1 a 57.
+	setarray .q180[0],
+		8681, 8682, 8683, 8684, 8685, 8686, 8687,
+		11696, 11697, 11698, 11699, 11700, 11701, 11702, 11703,
+		11704, 11705, 11706, 11707, 11708, 11709, 11710, 11711, 11712,
+		11713, 11714, 11715, 11716, 11717, 11719, 11720, 11721, 11722,
+		11723, 11724, 18082,
+		16567, 16568, 16569, 16570, 16571, 16572, 16573, 16574, 16575,
+		16576, 16577, 16578, 16579, 16580,
+		17517, 17518, 17519, 17520, 17521, 17525, 18083, 18084, 18085;
+	setarray .q180_done[0], 8681, 11720, 11724, 18085;
+	// Episode 19 (quests_19.npc, instances IwinPatrol, BaggotLaboratory et
+	// ConfusedSnakesNest) : ep19_main 1 a 100. Le lanceur d'Airship
+	// Destruction (17637), les quotidiennes et les histoires secondaires
+	// (Purification Saint, Frozen Sea, 17650-17662, 18130-18144) ne sont
+	// pas touches.
+	setarray .q190[0],
+		18119, 18120, 18121, 18122, 18123, 18129, 18124, 18125, 18126,
+		18127, 5983, 5984, 17639,
+		17619, 17620, 17621, 17622, 17623, 17624, 17625, 17626, 17627,
+		17628, 17629, 17630, 17631, 17632, 17633, 17634, 17635, 17636,
+		17638, 16636, 16637, 16638, 16645,
+		16646, 16647, 16648, 16649, 16650, 16651, 16652, 16653, 16654,
+		16655, 16656, 16657, 16658, 16659, 16661,
+		17640, 17641, 17642, 17643, 17644, 17645, 17646, 17647;
+	setarray .q190_done[0], 16639, 16640, 16641, 16642, 16643, 16644, 17649;
+	// Episode 20 (quests_20_main.npc, quests_20_daily.npc, instance
+	// SeparateSanctuary) : ep20_main 1 a 100. Toutes les quetes que la
+	// chaine principale pose, et celles que rAthena dit laisser terminees
+	// (note en tete de quests_20_main.npc). La recherche de la cachette
+	// souterraine (17650-17662), les quotidiennes et leurs delais (8844,
+	// 8852, 8853) ne sont pas touches.
+	setarray .q200[0],
+		5984, 8839, 8840,
+		16691, 16692, 16693, 16694, 16695, 16696, 16697, 16698, 16699,
+		16700, 16701, 16702, 16703, 16704,
+		17639, 17640, 17690, 17691, 17692, 17693, 17694, 17695, 17696,
+		17697, 17698, 17699, 17700, 17701, 17702, 17704, 17705, 17706,
+		17708, 17719,
+		18220, 18221, 18222, 18226, 18227, 18228, 18229, 18230, 18231,
+		18232,
+		19158,
+		23100, 23101, 23102, 23103, 23104, 23105, 23106, 23108, 23109,
+		23110, 23112, 23113, 23114, 23115, 23116, 23117, 23118;
+	setarray .q200_done[0],
+		8841, 8842, 8843, 8846, 8854, 17709, 18240, 18223, 18224, 18225,
+		18233;
+	.init = 1;
+	return;
+}
+
+// Chaque connexion : note les episodes finis par ce personnage, et lui
+// applique ceux que le compte a debloques par ticket.
+-	script	EpisodeClear#login	-1,{
+OnPCLoginEvent:
+	callfunc "F_EpisodeClear", "", 1;
+	end;
+}

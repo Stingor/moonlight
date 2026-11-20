@@ -46,11 +46,16 @@ L_warpa:
 		"ï ^f08eddGuild Dungeons^000000",L_Guild_Dungeons,
 		"ï ^f08eedInstances^000000", L_Instance,
 		"ï ^c08dedAutre^000000", L_Autre,
+		"ï ^2f9e8f…pisodes (Clear Tickets)^000000", L_Episodes,
 		"ï ^f279acRooms^000000", L_Rooms,
 		"ï ^3655ffDÈtail des maps^000000 ("+(WarpaDetail?"^20ff1fON":"^ff0000OFF")+"^000000)", L_Option,
 		.@save$, L_Save;
 	warp_fct(lastm_warpa$, lastx_warpa, lasty_warpa);
 	end;
+L_Episodes:
+	// [Stingor] Episode Clear Tickets : moon/episode_clear.npc
+	callfunc "F_EpisodeClear", .@npc_name$;
+	goto L_warpa;
 L_Option:
 	WarpaDetail = !WarpaDetail;
 	goto L_warpa;
