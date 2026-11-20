@@ -1026,8 +1026,37 @@ class AdminGUI:
             self._send_command(cmd)
             self.cmd_var.set("")
 
+    @staticmethod
+    def _npc_path_to_reload(cmd):
+        """If cmd is a pasted NPC script path (.npc / .txt), return the
+        "reloadnpcfile <path>" atcommand for it, else None.
+
+        Accepts what Explorer's "Copy as path" gives (quotes, absolute path):
+        an absolute path is cut back to its moon/ part, since the map-server
+        resolves @reloadnpcfile relative to its own root (and prepends moon/
+        itself when missing). Backslashes become forward slashes.
+        """
+        path = cmd.strip().strip('"').strip("'").strip()
+        if not re.search(r"\.(npc|txt)$", path, re.IGNORECASE):
+            return None
+        # A command with arguments ("loadnpc x.npc", "@unloadnpcfile x.npc")
+        # is not a bare path: leave it alone.
+        if path.startswith("@") or (" " in path and not re.search(r"[\\/]", path.split(" ", 1)[0])):
+            return None
+        norm = path.replace("\\", "/")
+        m = re.search(r"(?:^|/)(moon/.+)$", norm, re.IGNORECASE)
+        if m:
+            path = m.group(1)
+        elif re.match(r"^[A-Za-z]:/|^/", norm):
+            return None  # absolute path outside moon/: the server can't load it
+        return "reloadnpcfile " + path
+
     def _send_command(self, cmd):
         """Send a raw protocol line as-is, anything else as an atcommand."""
+        reload_cmd = self._npc_path_to_reload(cmd)
+        if reload_cmd:
+            self._log("Chemin NPC détecté -> " + reload_cmd, "info")
+            cmd = reload_cmd
         _RAW = ("INTEGRITY ", "RELOAD ", "LOG ", "NAME ", "QUIT")
         line = cmd if any(cmd.upper().startswith(p) for p in _RAW) else "ATCMD " + cmd
         self._send_async(line)
