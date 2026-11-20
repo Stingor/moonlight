@@ -288,17 +288,23 @@ OnInstanceInit:
 		4000000,
 		5000000;
 
-	// boss hp by mode
-	setarray 'mode_hp_boss[0],
-		300000000,
-		500000000,
-		600000000;
+	// [Stingor] Les PV et la regen du boss etaient en valeurs renewal absolues (300M/500M/600M,
+	// 100k/1M/1M par seconde). setunitdata UMOB_HP plafonne au max de la mob_db (3,5M converti) :
+	// le boss gardait 3,5M PV, regenerait jusqu'a 28 % de sa vie par seconde, et les paliers
+	// d'evenements (calcules sur 600M) se declenchaient tous des le debut, dont NPC_RELIEVE_ON 10 (99 %).
+	// Tout est maintenant relatif aux PV convertis du mob (= mode facile), memes ratios que la PR.
 
-	// boss hp regen/second by mode
+	// boss max hp by mode, % of the mob_db hp (300M / 500M / 600M renewal)
+	setarray 'mode_hp_boss[0],
+		100,
+		167,
+		200;
+
+	// boss hp regen/second by mode, per 10000 of the boss max hp (100k/300M, 1M/500M, 1M/600M renewal)
 	setarray 'mode_hp_regen_boss[0],
-		100000,
-		1000000,
-		1000000;	// unknown
+		3,
+		20,
+		17;
 
 	// NPC_RELIEVE_ON from boss by mode
 	setarray 'mode_boss_relieve[0],
@@ -1055,8 +1061,12 @@ OnStart:
 	monster 'map_whl$,159,158,"Aquila","EP19_MD_AQUILA",1, instance_npcname("airshipD_hpcheck") + "::OnMyMobDead";
 	'boss_id = $@mobid[0];
 
-	'boss_hp = 'mode_hp_boss[ 'mode ];
+	'boss_base_hp = getmonsterinfo("EP19_MD_AQUILA", MOB_MAXHP);	// easy mode hp, event thresholds scale on it
+	'boss_max_hp = 'boss_base_hp * 'mode_hp_boss[ 'mode ] / 100;
+	'boss_regen = 'boss_max_hp / 10000 * 'mode_hp_regen_boss[ 'mode ];
+	'boss_hp = 'boss_max_hp;
 	unitskilluseid 'boss_id, 771, 'mode_boss_relieve[ 'mode ];	// NPC_RELIEVE_ON
+	setunitdata 'boss_id, UMOB_MAXHP, 'boss_hp;
 	setunitdata 'boss_id, UMOB_HP, 'boss_hp;
 	setunitdata 'boss_id, UMOB_RES, 'mode_res[ 'mode ];
 	setunitdata 'boss_id, UMOB_MRES, 'mode_mres[ 'mode ];
@@ -1070,21 +1080,22 @@ OnTimer1000:
 	.@hp = .@data[UMOB_HP];
 	'boss_hp = .@hp;
 
-	.@difference = ('mode_hp_boss[ 'mode ] - .@hp);
-	if (.@difference > 5000000 && 'event_type[0] == false) {
+	// renewal thresholds 5M / 15M / 50M / 100M of a 300M boss, scaled on the converted hp
+	.@difference = ('boss_max_hp - .@hp);
+	if (.@difference > 'boss_base_hp / 60 && 'event_type[0] == false) {
 		donpcevent instance_npcname("airshipD_NPC_MAXPAIN") + "::OnStart";
 	}
-	if (.@difference > 15000000 && 'event_type[1] == false) {
+	if (.@difference > 'boss_base_hp / 20 && 'event_type[1] == false) {
 		donpcevent instance_npcname("airshipD_EP17_2_OMEGA_CLEANER_NG") + "::OnStart";
 	}
 
-	if (.@difference > 5000000 && 'event_type[2] == false && rand('rate_event_2['mode]) == 0) {
+	if (.@difference > 'boss_base_hp / 60 && 'event_type[2] == false && rand('rate_event_2['mode]) == 0) {
 		donpcevent instance_npcname("airshipD_DE_BERSERKAIZER") + "::OnStart";
 	}
-	else if (.@difference > 50000000 && 'event_type[3] == false && rand('rate_event_3['mode]) == 0) {
+	else if (.@difference > 'boss_base_hp / 6 && 'event_type[3] == false && rand('rate_event_3['mode]) == 0) {
 		donpcevent instance_npcname("airshipD_RA_UNLIMIT") + "::OnStart";
 	}
-	else if (.@difference > 100000000 && 'event_type[4] == false && rand('rate_event_4['mode]) == 0) {
+	else if (.@difference > 'boss_base_hp / 3 && 'event_type[4] == false && rand('rate_event_4['mode]) == 0) {
 		donpcevent instance_npcname("airshipD_NPC_RELIEVE_ON_10") + "::OnStart";
 	}
 	initnpctimer;
@@ -1161,10 +1172,10 @@ OnStart:
 OnTimer1000:
 	getunitdata 'boss_id, .@data;
 
-	if (.@data[UMOB_HP] < 'mode_hp_boss[ 'mode ]) {
-		.@new_hp = .@data[UMOB_HP] + 'mode_hp_regen_boss[ 'mode ];
-		if (.@new_hp > 'mode_hp_boss[ 'mode ])
-			.@new_hp = 'mode_hp_boss[ 'mode ];
+	if (.@data[UMOB_HP] < 'boss_max_hp) {
+		.@new_hp = .@data[UMOB_HP] + 'boss_regen;
+		if (.@new_hp > 'boss_max_hp)
+			.@new_hp = 'boss_max_hp;
 		setunitdata 'boss_id, UMOB_HP, .@new_hp;
 		'boss_hp = .@new_hp;
 	}

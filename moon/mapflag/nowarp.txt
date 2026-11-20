@@ -137,7 +137,7 @@ te_aldecas5	mapflag	nowarp
 jor_safty1	mapflag	nowarp
 jor_safty2	mapflag	nowarp
 icas_in2	mapflag	nowarp
-jor_sanct	mapflag	nowarp
+// jor_sanct : nowarp officiel retire (@load / @go bloques depuis une carte de terrain)
 
 // Episode 20 : instances de brHades (sans nobranch, inverse sur Moonlight)
 1@slug	mapflag	nowarp

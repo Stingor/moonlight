@@ -5309,8 +5309,9 @@ OnTouch:
 		end;
 	}
 	// Simulation Battle instance
-	if (ep19_main == 100) {
-		cloakoffnpcself( "#warp_ep19re1" );
+	// [Stingor] la PR revelait #warp_ep19re1 (inerte a ce stade) au lieu d'Arolong, l'entree de l'instance
+	if (ep19_main >= 100) {
+		cloakoffnpcself( "Arolong#ep19re2" );
 		end;
 	}
 	end;
