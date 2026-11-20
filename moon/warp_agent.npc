@@ -10,6 +10,9 @@ gonryun,165,129,3	script	Warp Agent::warp_agent	4_F_01,{
 	function IllusionMenu;
 	function QuestDunMenu;
 	.@npc_name$ = "[ ^1F81D4"+strnpcinfo(0)+"^000000 ]";
+	// [Stingor] rattrapage King Maker (130005) : couronnement de l'episode 17.2 vu avant l'ajout du succes
+	if (ep17_2_main == 35 && !achievementinfo(130005, ACHIEVEINFO_COMPLETE))
+		achievementcomplete(130005);
 L_WarpaCmd:
 	mes .@npc_name$;
 	mes "Bonjour ^4a8b3e" + strcharinfo(0) + "^000000 !";

@@ -1788,6 +1788,13 @@ Body:
     Rewards:
       TitleId: 1034
     Score: 10
+  # Episode 17.2 : le couronnement de Terra Gloria (quests_17_2.npc, ep17_2_main = 35).
+  - Id: 130005
+    Group: Chatting
+    Name: The One Who Made Kings
+    Rewards:
+      TitleId: 1046
+    Score: 10
   - Id: 170000
     Group: Chatting
     Name: Song chamber is not an accident
