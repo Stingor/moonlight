@@ -53064,13 +53064,13 @@ Body:
     AegisName: EP16_2_E_BOLKOBA
     Name: Elena Bolkova
     Level: 115
-    Hp: 2000000
+    Hp: 506452
     BaseExp: 300000
     JobExp: 150000
     Attack: 1200
     Attack2: 300
-    Defense: 120
-    MagicDefense: 70
+    Defense: 26
+    MagicDefense: 16
     Str: 80
     Agi: 120
     Vit: 66
