@@ -74,6 +74,7 @@ CREATE TABLE `item_db2` (
   `equip_level_min` smallint(5) UNSIGNED DEFAULT NULL,
   `equip_level_max` smallint(5) UNSIGNED DEFAULT NULL,
   `refineable` tinyint(1) UNSIGNED DEFAULT NULL,
+  `gradable` tinyint(1) UNSIGNED DEFAULT NULL,
   `view` smallint(5) UNSIGNED DEFAULT NULL,
   `alias_name` varchar(50) DEFAULT NULL,
   `flag_buyingstore` tinyint(1) UNSIGNED DEFAULT NULL,
