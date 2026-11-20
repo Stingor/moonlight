@@ -81,6 +81,7 @@ L_Menu:
 			close;
 		delitem .ticket[.@ep], 1;
 		setd "##epc_tkt_" + .@part, 1;
+		logmes "EpisodeClear: ticket utilise partie " + callsub(S_Name, .@part) + " | " + callsub(S_LogState, .@ep);
 		callsub S_Sync;
 		specialeffect2 154;
 		mes .@npc$;
@@ -131,6 +132,7 @@ L_Menu:
 		}
 		Zeny -= .price[.@ep];
 		getitem .ticket[.@ep], 1;
+		logmes "EpisodeClear: achat ticket ep" + .@ep + " " + .price[.@ep] + "z | " + callsub(S_LogState, .@ep);
 		mes .@npc$;
 		mes "Voici votre ticket.";
 		close;
@@ -198,6 +200,50 @@ S_Sync:
 	}
 	return;
 
+// Etat de quete de l'episode pour logmes (npclog.mes : 255 caracteres).
+// Niveau de base, variables de la chaine principale, puis par partie :
+// j = finie sur ce personnage (S_Done), f = finie une fois au compte,
+// t = debloquee par ticket au compte.
+S_LogState:
+	.@ep = getarg(0);
+	.@s$ = "lv" + BaseLevel + " ";
+	switch (.@ep) {
+	case 13:
+		.@s$ += "ryu=" + ep13_ryu + " newbs=" + ep13_newbs + " rhea=" + ep13_1_rhea + " edq=" + ep13_1_edq
+			+ " rhea2=" + ep13_2_rhea + " mdrama=" + ep13_mdrama + " inv=" + ep13_3_invite + " secret=" + ep13_3_secret;
+		break;
+	case 14:
+		.@s$ += "bs=" + ep14_1_bs + " mist=" + ep14_1_mistwoods + " mylord=" + ep14_2_mylord + " mors=" + ep14_3_mors01;
+		break;
+	case 15:
+		.@s$ += "atnad=" + ep15_1_atnad + " elb=" + ep15_1_elb + " bslast=" + ep15_2_bslast;
+		break;
+	case 16:
+		.@s$ += "royal=" + ep16_royal + " terra=" + terra_gloria_main;
+		break;
+	case 17:
+		.@s$ += "terra=" + terra_gloria_main + " q16360=" + isbegin_quest(16360) + " ep17_2=" + ep17_2_main;
+		break;
+	case 18:
+		.@s$ += "ep17_2=" + ep17_2_main + " ep18=" + ep18_main;
+		break;
+	case 19:
+		.@s$ += "ep18=" + ep18_main + " ep19=" + ep19_main;
+		break;
+	case 20:
+		.@s$ += "ep19=" + ep19_main + " ep20=" + ep20_main;
+		break;
+	}
+	.@n = getarraysize(.ready);
+	for (.@i = 0; .@i < .@n; .@i++) {
+		.@p = .ready[.@i];
+		if (.@p / 10 != .@ep)
+			continue;
+		.@s$ += " | " + callsub(S_Name, .@p) + " j" + callsub(S_Done, .@p)
+			+ " f" + getd("##epc_done_" + .@p) + " t" + getd("##epc_tkt_" + .@p);
+	}
+	return .@s$;
+
 // "18" pour 180, "17.2" pour 172.
 S_Name:
 	if (getarg(0) % 10)
@@ -254,6 +300,11 @@ S_Need:
 			return "L'épisode 16.1 demande le niveau de base 100.";
 		if (ep13_ryu < 100 && ep13_start < 100)
 			return "L'épisode 16.1 demande que la route du Nouveau Monde soit ouverte : Onward to the New World, ou la quête du Cat Paw Agent.";
+		break;
+	case 180:
+		// Smart Elly (quests_17_2.npc).
+		if (BaseLevel < 170)
+			return "L'épisode 18 demande le niveau de base 170.";
 		break;
 	case 190:
 		// Le villageois loup gris de Wolfvill (quests_19.npc).
@@ -313,7 +364,11 @@ S_Done:
 		// Ce que le jeu verifie lui-meme avant le debut de 17.2.
 		return (isbegin_quest(16360) == 2);
 	case 172:
-		return (ep17_2_main >= 36);
+		// Smart Elly lance 18 des 33 (quests_17_2.npc) : le couronnement
+		// chez Nyhill (34 a 36) est un epilogue facultatif, beaucoup s'arretent
+		// a 35 et finissent 18 et 19. Exiger 36 bloquait le ticket 17.2 et
+		// donc 18 a 20 sur les autres personnages.
+		return (ep17_2_main >= 33);
 	case 180:
 		return (ep18_main >= 57);
 	case 190:
