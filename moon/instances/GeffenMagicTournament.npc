@@ -659,7 +659,10 @@ dali,100,147,3	script	Dimensional Device#gefma	PORTAL,{
 							end;
 						case 0:
 							mapannounce "dali02",strcharinfo(0)+" of the party, "+.@p_name$+" is entering the "+.@md_name$+".",bc_map,"0x00ff99";
-							GeffenTournament = gettimetick(2) + 82800;
+							// [Stingor] Moonlight : reset quotidien au prochain 04:00 (amont : 23 h apres l'entree).
+							.@reset = (4 - gettime(DT_HOUR)) * 3600 - gettime(DT_MINUTE) * 60 - gettime(DT_SECOND);
+							if (.@reset <= 0) .@reset += 86400;
+							GeffenTournament = gettimetick(2) + .@reset;
 							if(.@ins_geffen_time != -1) erasequest 9316;
 							setquest 9316;
 							end;
@@ -734,7 +737,7 @@ dali,98,141,3	script	Emmitt White	4_M_KHKYEL,{
 		}
 
 
-	// 23 Hour Cooldown
+	// Cooldown : reset quotidien a 04:00
 
 	if ( GeffenTournament < gettimetick(2) ) {
 		.@party_id = getcharid(1);
