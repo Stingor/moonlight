@@ -244,7 +244,8 @@ L_Instance:
 	// librement, l'identite de chaque instance etant portee par sa constante
 	// INST_* (generee depuis instance_db.yml par tools/gen/gen_instance_constants.py).
 	// Ajouter une instance = une entree dans les trois tableaux + un case, sans
-	// jamais renumeroter quoi que ce soit.
+	// jamais renumeroter quoi que ce soit. Jamais de ":" dans un libelle : c'est le
+	// separateur de select(), il decalerait toutes les entrees suivantes (garde ci-dessous).
 	setarray .@lbl$[0],
 					"2nd OS Search",
 					"Airship Assault (Solo & HM)",
@@ -257,7 +258,7 @@ L_Instance:
 					"Central Laboratory",
 					"Charleston in Distess",
 					"Devil's Tower",
-					"EDDA: Somatology Laboratory",
+					"EDDA - Somatology Laboratory",
 					"Endless Cellar (HM, Custom)",
 					"Endless Tower (HM)",
 					"Faceworms Nest (Solo)",
@@ -430,7 +431,7 @@ L_Instance:
 			.@col$ = ( GNA_Next > gettimetick(2) ? "^FF0000" : "^000000" );
 		else
 			.@col$ = GetColor(.@cd[.@i]);
-		.@menu$ += .@col$ + "• " + .@lbl$[.@i] + "^000000:";
+		.@menu$ += .@col$ + "• " + replacestr(.@lbl$[.@i], ":", " -") + "^000000:";
 	}
 	.@menu$ += "• ^e64c00Menu Précédent.^000000";
 
