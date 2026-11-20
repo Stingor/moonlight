@@ -350,7 +350,11 @@ OnMobDead:
 		specialeffect2 EF_ELECTRIC;
 		specialeffect2 EF_BLUECASTING;
 		sleep2 1500;
-		sc_end SC_MONSTER_TRANSFORM;
+		// SC_MONSTER_TRANSFORM est NoClearbuff+NoForcedEnd : sc_end le refuse et
+		// coupe le script (PCBLOCK_NPC reste pose, 'step bloque a 2). On le relance
+		// avec les memes valeurs et 1 ms : son timer le retire aussitot.
+		if (getstatus(SC_MONSTER_TRANSFORM))
+			sc_start4 SC_MONSTER_TRANSFORM,1,getstatus(SC_MONSTER_TRANSFORM,1),getstatus(SC_MONSTER_TRANSFORM,2),getstatus(SC_MONSTER_TRANSFORM,3),getstatus(SC_MONSTER_TRANSFORM,4);
 		npctalk "Human!!! How did you get here?";
 		sleep2 1000;
 		npctalk "Once you capture it!", instance_npcname("ep20_1twsd_312_100");
