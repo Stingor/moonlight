@@ -636,17 +636,8 @@ OnTouch:
 	end;
 }
 
-prt_cas,325,263,3	script	Nihil M. Heine#ep172	4_EP17_NIHIL_K,{
-	cutin "ep171_nihil01.bmp",2;
-	mes "[Nihil]";
-	mes "I can only see you for a while now.";
-	mes "I have to take over my job soon.";
-	next;
-	cutin "ep171_nihil02.bmp",2;
-	mes "[Nihil]";
-	mes "So, you are healthy. If you ever need help, I will actively help you.";
-	close3;
-}
+// [Stingor] Nihil M. Heine#ep172 de la PR retire : doublon de Nyhill M. Heine#ep172
+// (quests_17_2.npc), meme case 325,263, dont la fin de dialogue est la meme replique.
 
 prt_cas,320,270,4	script(CLOAKED)	Crux#ep19crux02	4_EP16_CRUX,{
 	if (ep19_main == 2) {

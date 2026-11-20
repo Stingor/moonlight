@@ -13214,7 +13214,7 @@ prt_cas,71,227,5	script	Banquet Hall Guest#2	4_M_JPN,{
 	close;
 }
 
-prt_cas,100,100,3	script	Banquet Hall Guest#3	4_M_BOSSCAT,{
+prt_cas,95,241,3	script	Banquet Hall Guest#3	4_M_BOSSCAT,{
 	mes "[Banquet Hall Guest]";
 	mes "All the nobility who are in charge of the market in Rune Midgarts are here. We, the Cat Hand Services, shouldn't miss this chance.";
 	next;

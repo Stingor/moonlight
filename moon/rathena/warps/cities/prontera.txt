@@ -280,6 +280,42 @@ prt_cas,273,313,0	warp	#ep172_prt_to_prt-5	1,1,prt_cas,23,342
 prt_cas,254,347,0	warp	#ep172_prt_to_prt-6	1,1,prt_cas,96,18
 prt_cas,96,14,0	warp	#ep172_prt_to_prt-7	1,1,prt_cas,254,343
 
+// Moonlight : salle du trone <-> les deux couloirs de derriere (absent d'amont).
+// Un mur de deux cellules (y 311-312) les separe dans le .gat.
+// Ouverts a partir de ep17_2_main 35, comme Chamberlain Bell#ep172 (quests_17_2.npc).
+prt_cas,78,309,0	script	prt_cas_throne_L1	WARPNPC,1,1,{
+	end;
+OnTouch:
+	if (ep17_2_main < 35)
+		end;
+	warp "prt_cas",78,316;
+	end;
+}
+prt_cas,78,314,0	script	prt_cas_throne_L2	WARPNPC,1,1,{
+	end;
+OnTouch:
+	if (ep17_2_main < 35)
+		end;
+	warp "prt_cas",78,307;
+	end;
+}
+prt_cas,109,309,0	script	prt_cas_throne_R1	WARPNPC,1,1,{
+	end;
+OnTouch:
+	if (ep17_2_main < 35)
+		end;
+	warp "prt_cas",109,316;
+	end;
+}
+prt_cas,109,314,0	script	prt_cas_throne_R2	WARPNPC,1,1,{
+	end;
+OnTouch:
+	if (ep17_2_main < 35)
+		end;
+	warp "prt_cas",109,307;
+	end;
+}
+
 // Prontera invasion
 prt_q,155,358,0	warp	prt_cas_25#prt_cas_26	1,1,prt_lib_q,89,43
 
