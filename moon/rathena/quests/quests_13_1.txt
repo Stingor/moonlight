@@ -1797,6 +1797,9 @@ moc_fild22b,230,197,5	script	Munkenro#2	967,{
 		mes "Let me know once you are ready.";
 		close;
 	}
+OnInit:
+	questinfo QTYPE_CLICKME, QMARK_YELLOW, "ep13_ryu >= 100";
+	end;
 }
 
 moc_fild22b,1,1,0	script	Head of the Alliance#moo	-1,{
