@@ -95,48 +95,7 @@ L_Menu:
 		}
 		close;
 	case 2:
-		.@n = getarraysize(.sell);
-		.@menu$ = "";
-		for (.@i = 0; .@i < .@n; .@i++)
-			.@menu$ += "Ticket épisode " + .sell[.@i] + " (" + callfunc("F_InsertComma", .price[.sell[.@i]]) + " z):";
-		.@c = select(.@menu$ + "^e64c00Menu Précédent^000000") - 1;
-		if (.@c >= .@n)
-			goto L_Menu;
-		.@ep = .sell[.@c];
-		clear;
-		mes .@npc$;
-		// Refuse seulement quand toutes les parties de l'episode sont deja
-		// debloquees pour le compte.
-		.@open = 0;
-		.@n = getarraysize(.ready);
-		for (.@i = 0; .@i < .@n; .@i++) {
-			if (.ready[.@i] / 10 == .@ep && !getd("##epc_tkt_" + .ready[.@i]))
-				.@open = 1;
-		}
-		if (!.@open) {
-			mes "Tout ce que couvre un ticket de l'épisode " + .@ep + " est déjà débloqué pour votre compte Moonlight.";
-			close;
-		}
-		mes "Un ^0055FF" + getitemname(.ticket[.@ep]) + "^000000 coûte " + callfunc("F_InsertComma", .price[.@ep]) + " zenys. Chaque ticket passe une partie.";
-		next;
-		if (select("L'acheter:Annuler") == 2)
-			close;
-		if (Zeny < .price[.@ep]) {
-			mes .@npc$;
-			mes "Vous n'avez pas assez de zenys.";
-			close;
-		}
-		if (!checkweight(.ticket[.@ep], 1)) {
-			mes .@npc$;
-			mes "Vous portez trop de choses.";
-			close;
-		}
-		Zeny -= .price[.@ep];
-		getitem .ticket[.@ep], 1;
-		logmes "EpisodeClear: achat ticket ep" + .@ep + " " + .price[.@ep] + "z | " + callsub(S_LogState, .@ep);
-		mes .@npc$;
-		mes "Voici votre ticket.";
-		close;
+		goto L_Buy;
 	case 3:
 		clear;
 		mes .@npc$;
@@ -158,6 +117,58 @@ L_Menu:
 		goto L_Menu;
 	}
 	return;
+
+// Achat : on revient a la liste apres chaque ticket, sans fermer le Warp Agent.
+L_Buy:
+	.@n = getarraysize(.sell);
+	.@menu$ = "";
+	for (.@i = 0; .@i < .@n; .@i++)
+		.@menu$ += "Ticket épisode " + .sell[.@i] + " (" + callfunc("F_InsertComma", .price[.sell[.@i]]) + " z):";
+	clear;
+	mes .@npc$;
+	mes "Quel ticket voulez-vous acheter ?";
+	.@c = select(.@menu$ + "^e64c00Menu Précédent^000000") - 1;
+	if (.@c >= .@n)
+		goto L_Menu;
+	.@ep = .sell[.@c];
+	clear;
+	mes .@npc$;
+	// Refuse seulement quand toutes les parties de l'episode sont deja
+	// debloquees pour le compte.
+	.@open = 0;
+	.@n = getarraysize(.ready);
+	for (.@i = 0; .@i < .@n; .@i++) {
+		if (.ready[.@i] / 10 == .@ep && !getd("##epc_tkt_" + .ready[.@i]))
+			.@open = 1;
+	}
+	if (!.@open) {
+		mes "Tout ce que couvre un ticket de l'épisode " + .@ep + " est déjà débloqué pour votre compte Moonlight.";
+		next;
+		goto L_Buy;
+	}
+	mes "Un ^0055FF" + getitemname(.ticket[.@ep]) + "^000000 coûte " + callfunc("F_InsertComma", .price[.@ep]) + " zenys. Chaque ticket passe une partie.";
+	next;
+	if (select("L'acheter:Annuler") == 2)
+		goto L_Buy;
+	if (Zeny < .price[.@ep]) {
+		mes .@npc$;
+		mes "Vous n'avez pas assez de zenys.";
+		next;
+		goto L_Buy;
+	}
+	if (!checkweight(.ticket[.@ep], 1)) {
+		mes .@npc$;
+		mes "Vous portez trop de choses.";
+		next;
+		goto L_Buy;
+	}
+	Zeny -= .price[.@ep];
+	getitem .ticket[.@ep], 1;
+	logmes "EpisodeClear: achat ticket ep" + .@ep + " " + .price[.@ep] + "z | " + callsub(S_LogState, .@ep);
+	mes .@npc$;
+	mes "Voici votre ticket.";
+	next;
+	goto L_Buy;
 
 // Demande une partie de .ready. La renvoie, ou 0 pour revenir.
 // Pas de ':' dans un libelle : select() coupe le menu a chaque ':'.
