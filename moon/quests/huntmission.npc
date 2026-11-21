@@ -396,7 +396,7 @@ Mission_Status:
 
 	if( Zeny <= MAX_ZENY - .@zeny )
 		Zeny += .@zeny;
-	else if ( BankVault <= MAX_ZENY - .@zeny ) {
+	else if ( BankVault <= MAX_BANK_ZENY - .@zeny ) {
 		dispbottom "Vos zeny sont envoyés dans votre bank car vous êtes arrivez au max (Ctrl+b).";
 		BankVault += .@zeny;
 	}
@@ -448,7 +448,7 @@ Mission_Status_MVP:
 	getitem Convex_Mirror,1;
 	if( Zeny <= MAX_ZENY - .@zeny )
 		Zeny += .@zeny;
-	else if ( BankVault <= MAX_ZENY - .@zeny ) {
+	else if ( BankVault <= MAX_BANK_ZENY - .@zeny ) {
 		dispbottom "Vos zeny sont envoyés dans votre bank car vous êtes arrivez au max (Ctrl+b).";
 		BankVault += .@zeny;
 	}
@@ -501,7 +501,7 @@ Mission_DB_Status:
 	.@zeny = 5000000;
 	if( Zeny <= MAX_ZENY - .@zeny )
 		Zeny += .@zeny;
-	else if ( BankVault <= MAX_ZENY - .@zeny ) {
+	else if ( BankVault <= MAX_BANK_ZENY - .@zeny ) {
 		dispbottom "Vos zeny sont envoyés dans votre bank car vous êtes arrivez au max (Ctrl+b).";
 		BankVault += .@zeny;
 	}

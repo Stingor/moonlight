@@ -4,7 +4,8 @@
 `sql-files/upgrade_char_zeny_bigint.sql`, pas encore exécutée (la base de test
 `rathena-test` avait `int(11) unsigned`, 10 908 personnages, des soldes déjà à
 2 147 483 647). **Lot 3 fait** : `SP_ZENY` part en 0x0acb, les règles annoncent
-`MAX_ZENY` (clés 29 et 30). Lots 4 à 7 à faire, puis la montée de `MAX_ZENY`. `MAX_ZENY` vaut
+`MAX_ZENY` (clés 29 et 30). **Lot 4 fait** dans moonclient (e16ae4f30). **Lot 5 fait.**
+Lots 6 et 7 à faire, puis la montée de `MAX_ZENY`. `MAX_ZENY` vaut
 encore INT_MAX : il ne monte qu'une fois les lots 2 (base) et 3 (paquets) prêts,
 pour que chaque commit reste déployable seul.
 
@@ -122,25 +123,41 @@ Exporter aussi `MAX_BANK_ZENY` et `MAX_ZENY_AMOUNT` dans `script_constants.hpp`
    (`MOONCLIENT_RULE_ZENY_MAX_*` ; 11 à 28 étaient déjà prises), comme
    `MOONCLIENT_RULE_BANK_ZENY_MAX_*`. moonclient ignore une clé qu'il ne connaît pas.
 
-## Lot 4 — moonclient (`G:\GitHub\moonclient`)
+## Lot 4 — moonclient (`G:\GitHub\moonclient`) — ✅ e16ae4f30
 
-- Lire les clés 29 et 30 (`kZenyMaxLow` / `kZenyMaxHigh`, sur le modèle de
-  `BankZenyMaxHalves` dans `net/src/server_rules.cpp`) ; remplacer `kPocketZenyMax` (`sim/bank.h:20`,
-  `ui/bank_window.h:39`) et `kZenyCeiling` (`ui/stat_bars.h:190`) par la valeur annoncée.
-- `TellTransfer` (`net/src/bank.cpp:76`) : ne plus reprendre `SP_ZENY` depuis la réponse.
-- Les montants par opération restent en int32 : `kBankRequestMostZeny`,
-  `kDealMostZeny`, `kMailMostZeny`, `kMostZeny` (boutique), `kVendingMostZeny`,
-  `kWireMostZeny`. C'est cohérent avec D3.
-- Vérifier la largeur d'affichage de 12 chiffres avec séparateurs (inventaire, banque, échange).
-- Vérifier `origin/main..HEAD` avant le push (commits d'autres sessions).
+- ✅ Clés 29 et 30 lues dans `SessionSettings::zeny_max` (défaut INT32_MAX) ; la
+  composition des moitiés (`net/src/server_rules.cpp`) sert aux deux plafonds.
+- ✅ Trois contrôles bornaient la poche en dur et suivent le plafond annoncé :
+  retrait de banque (`BankMaxWithdraw`, `bank_view.cpp`, phrase de refus avec le
+  plafond), vente au PNJ (`CheckNpcShopSell`, ancien `kMostZeny`), ouverture
+  d'échoppe (`CheckVendingSetup`, `RequestVendingOpen`, ancien `kVendingMostZeny`).
+  `kPocketZenyMax` a disparu ; `kZenyCeiling` n'est qu'un repère de jauge, son
+  commentaire est corrigé.
+- ✅ `TellTransfer` (`net/src/bank.cpp`) : une poche d'accusé égale à INT32_MAX
+  (peut-être bornée) ne réécrit plus le solde 64 bits ; une poche inférieure, exacte,
+  se reprend.
+- Restent en int32, par opération (D3) : `kBankRequestMostZeny`, `kDealMostZeny`,
+  `kMailMostZeny`, `kWireMostZeny` (boutique d'achat) — commentaires corrigés.
+- ⏳ À vérifier en jeu : la largeur d'affichage de 12 chiffres avec séparateurs
+  (inventaire, banque, échange).
+- Avant le push de moonclient : vérifier `origin/main..HEAD` (d'autres sessions y
+  commitent).
 
-## Lot 5 — Scripts `moon/` (latin-1, patch Python)
+## Lot 5 — Scripts `moon/` (latin-1, patch Python) — ✅
 
-- `func.npc:203` et `huntmission.npc:399, 451, 504` comparent `BankVault` / `#BANKVAULT`
-  à `MAX_ZENY` → `MAX_BANK_ZENY`. C'est déjà faux aujourd'hui, la banque ayant son propre plafond.
-- `coin_exchanger.npc:171`, `loterie.npc:65`, `func.npc:201`, `huntmission.npc` (Zeny) :
-  rien à faire, les entiers de script sont en int64.
-- Les constantes se chargent au démarrage seulement : redémarrage complet.
+- ✅ `func.npc:203` et `huntmission.npc:399, 451, 504` jugent la banque contre
+  `MAX_BANK_ZENY`, et non plus contre `MAX_ZENY`.
+- ✅ `func.npc:205` créditait `#BANKVAULT` **directement**. Or le serveur ne lit
+  cette variable qu'à la connexion (`pc.cpp:2764`) : `sd->bank_vault` restait
+  périmé, et le dépôt ou le retrait suivant réécrivait `#BANKVAULT` à partir de
+  l'ancienne valeur — le crédit du script était perdu. Il passe désormais par
+  `BankVault` (`pc_setparam`, `SP_BANK_VAULT`), comme `huntmission.npc`.
+  Défaut antérieur au chantier.
+- Rien à faire : `coin_exchanger.npc:171`, `loterie.npc:65`, `func.npc:201`
+  (la poche contre `MAX_ZENY`, qui reste juste) ; les entiers de script sont en int64.
+- ⚠ `MAX_BANK_ZENY` est une constante exportée au lot 0 : ces scripts exigent un
+  map-server qui contient c8d716c9b, et un **redémarrage complet** (les constantes
+  ne se rechargent pas avec `@reloadscript`).
 
 ## Lot 6 — Site (moonlight-web)
 
