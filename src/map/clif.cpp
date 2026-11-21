@@ -9297,6 +9297,8 @@ void clif_moonclient_server_rules(map_session_data& sd) {
 		{ MOONCLIENT_RULE_ZENY_MAX_HIGH,  static_cast<int32>(static_cast<uint32>(static_cast<uint64>(MAX_ZENY) >> 32)) },
 		// Le plafond d'une pile d'objets.
 		{ MOONCLIENT_RULE_ITEM_AMOUNT_MAX, MAX_AMOUNT },
+		// Le poids total des pièces jointes d'un courrier (0 : aucune limite).
+		{ MOONCLIENT_RULE_MAIL_ATTACHMENT_WEIGHT, battle_config.mail_attachment_weight },
 	};
 	const size_t len = sizeof(PACKET_ZC_MOONLIGHT_SERVER_RULES) + sizeof(rules);
 
@@ -20070,7 +20072,9 @@ void clif_parse_DropItem(int32 fd, map_session_data *sd){
 	// TODO: shuffle packet
 	struct s_packet_db* info = &packet_db[RFIFOW(fd,0)];
 	int32 item_index  = RFIFOW(fd,info->pos[0]) -2;
-	int32 item_amount = RFIFOL(fd,info->pos[1]); // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
+	// [Stingor] La quantité est un int32 dans 0x0363 ; les anciens opcodes de jet
+	// la portent encore sur 16 bits : on ne lit que ce que la trame contient.
+	int32 item_amount = info->len >= info->pos[1] + 4 ? (int32)RFIFOL(fd,info->pos[1]) : RFIFOW(fd,info->pos[1]);
 
 	for(;;) {
 		if (pc_isdead(sd))
@@ -20328,7 +20332,7 @@ void clif_npc_buy_result( map_session_data* sd, e_purchase_result result ){
 
 
 /// Request to buy chosen items from npc shop.
-/// 00c8 <packet len>.W { <amount>.W <name id>.W }* (CZ_PC_PURCHASE_ITEMLIST)
+/// 00c8 <packet len>.W { <amount>.L <name id>.L }* (CZ_PC_PURCHASE_ITEMLIST) [Stingor] quantité en int32
 void clif_parse_NpcBuyListSend( int32 fd, map_session_data* sd ){
 	const PACKET_CZ_PC_PURCHASE_ITEMLIST *p = reinterpret_cast<PACKET_CZ_PC_PURCHASE_ITEMLIST*>( RFIFOP( fd, 0 ) );
 
@@ -24912,7 +24916,7 @@ void clif_parse_Mail_setattach(int32 fd, map_session_data *sd){
 #if PACKETVER < 20150513
 	int32 amount = RFIFOL(fd,info->pos[1]);
 #else
-	int32 amount = RFIFOL(fd,info->pos[1]); // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
+	int32 amount = info->len >= info->pos[1] + 4 ? (int32)RFIFOL(fd,info->pos[1]) : RFIFOW(fd,info->pos[1]); // [Stingor] int32 dans 0x0A04
 #endif
 	unsigned char flag;
 
@@ -24987,6 +24991,11 @@ void clif_parse_Mail_winopen(int32 fd, map_session_data *sd)
 	if (type == 0 || type == 2)
 		mail_removezeny(sd, false);
 #else
+	// [Stingor] 0x0A06 porte la quantité en int32 ; une autre trame routée ici
+	// (0x0246, 4 octets) ne la porte pas.
+	if( packet_db[RFIFOW(fd, 0)].len < 8 ){
+		return;
+	}
 	uint16 index = RFIFOW(fd, 2);
 	int32 count = RFIFOL(fd, 4); // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 
@@ -29770,7 +29779,7 @@ void clif_parse_merge_item_req( int32 fd, map_session_data* sd ){
 		stack = MAX_AMOUNT;
 	}
 
-	if( total_amount >= stack ){
+	if( total_amount > stack ){ // [Stingor] une fusion qui tombe pile au plafond est permise
 		clif_merge_item_ack( *sd, MERGE_ITEM_FAILED_MAX_COUNT );
 		return;
 	}

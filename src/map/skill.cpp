@@ -13625,7 +13625,7 @@ bool skill_produce_mix(map_session_data *sd, uint16 skill_id, t_itemid nameid, i
 				if (skill_changematerial_db[i].nameid == nameid){
 					for (j = 0; j < MAX_SKILL_CHANGEMATERIAL_SET; j++){
 						if (rnd()%1000 < skill_changematerial_db[i].qty_rate[j]){
-							uint16 total_qty = qty * skill_changematerial_db[i].qty[j];
+							int32 total_qty = qty * skill_changematerial_db[i].qty[j]; // [Stingor] int32 : ne tronque pas le produit
 							tmp_item.amount = (isStackable ? total_qty : 1);
 							for (l = 0; l < total_qty; l += tmp_item.amount) {
 								if ((flag = pc_additem(sd,&tmp_item,tmp_item.amount,LOG_TYPE_PRODUCE))) {

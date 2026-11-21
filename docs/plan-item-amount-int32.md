@@ -1,12 +1,9 @@
 # Plan — la pile d'objets passe en int32 (MAX_AMOUNT 30 000 → 99 999)
 
-État (2026-11-21) : **lots 1 à 3 faits, `MAX_AMOUNT` monté à 99 999** (non
-commités, non déployés), serveur et moonclient ; moonlight-web déployé. Reste
-les tests en jeu du lot 4, puis le déploiement ci-dessous — **moonclient et
-serveur ensemble**.
-
-**Un seul commit par dépôt pour tout le chantier**, une fois les lots 1 à 4 faits,
-pour pouvoir le revert d'un coup : rien n'est commité entre les lots.
+État (2026-11-21) : **lots 1 à 3 faits et commités** (moonlight 631f452cb,
+c419d5cce, puis les corrections de l'audit ; moonclient 8f2466e70), **non
+déployés** ; moonlight-web déployé. Reste les tests en jeu du lot 4, puis le
+déploiement ci-dessous — **moonclient et serveur ensemble**.
 
 ## Pourquoi c'est un chantier
 
@@ -110,9 +107,15 @@ règle 31.
 
 Fait :
 
-- serveur : aucun plafond de pile codé en dur ne reste (`@item` lit sa quantité
-  en int32, `pc_additem` borne à `MAX_AMOUNT`) ; `doc/script_commands.txt` ne
-  cite pas l'ancien plafond ;
+- serveur : `@item` lit sa quantité en int32, `pc_additem` borne à
+  `MAX_AMOUNT` ; `doc/script_commands.txt` ne cite pas l'ancien plafond ;
+- audit du 2026-11-21 : élargir un champ CZ en int32 y rend possibles des
+  valeurs NÉGATIVES ou énormes qu'un uint16 empêchait. Corrigé : livraison des
+  achats au PNJ (`get_amt` resté en uint16 : gel du serveur à 65 536), quantité
+  ≤ 0 refusée (achat au PNJ, boutique d'achat, ouverture d'échoppe), album borné
+  à `MAX_AMOUNT` avant conversion, vente au PNJ jugée par case (deux lignes d'une
+  même case), anciens opcodes de jet et 0x0246 lus selon leur longueur, objets
+  de départ en `%u`, structures rodex CZ élargies ;
 - moonlight-web : la fusion de comptes plafonne la réserve de l'album à
   `MAX_AMOUNT` (`config/moonlight.php`, `merge.max_amount` = 99 999) ; la base de
   test (`FakeRathena`) déclare `amount` en int comme le serveur ; suite verte

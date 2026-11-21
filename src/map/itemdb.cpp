@@ -4138,7 +4138,7 @@ bool itemdb_parse_roulette_db(void)
 				ShowWarning("itemdb_parse_roulette_db: Unknown item ID '%u' in level '%d'\n", item_id, level);
 				continue;
 			}
-			if (amount < 1 || amount > MAX_AMOUNT){
+			if (amount < 1 || amount > MAX_AMOUNT_UINT16){
 				ShowWarning("itemdb_parse_roulette_db: Unsupported amount '%hu' for item ID '%u' in level '%d'\n", amount, item_id, level);
 				continue;
 			}

@@ -2724,7 +2724,7 @@ int32 npc_cashshop_buylist( map_session_data *sd, int32 points, std::vector<s_np
 
 		if( !pet_create_egg(sd,nameid) ) {
 			struct item item_tmp;
-			uint16 get_amt = amount;
+			int32 get_amt = amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 
 			memset(&item_tmp, 0, sizeof(item_tmp));
 			item_tmp.nameid = nameid;
@@ -2879,7 +2879,7 @@ int32 npc_cashshop_buy(map_session_data *sd, t_itemid nameid, int32 amount, int3
 		return res;
 
 	if( !pet_create_egg(sd, nameid) ) {
-		uint16 get_amt = amount;
+		int32 get_amt = amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 
 		struct item item_tmp = {};
 
@@ -2981,6 +2981,10 @@ e_purchase_result npc_buylist( map_session_data* sd, std::vector<s_npc_buy_list>
 #endif
 
 		amount = item_list[i].qty;
+		// [Stingor] La quantité vient du client, sur 32 bits : une ligne négative
+		// ferait baisser le total et le poids du panier.
+		if( amount <= 0 )
+			return e_purchase_result::PURCHASE_FAIL_COUNT;
 		nameid = item_list[i].nameid = shop[j].nameid; //item_avail replacement
 		value = shop[j].value;
 
@@ -3053,7 +3057,7 @@ e_purchase_result npc_buylist( map_session_data* sd, std::vector<s_npc_buy_list>
 		if (itemdb_type(nameid) == IT_PETEGG)
 			pet_create_egg(sd, nameid);
 		else {
-			uint16 get_amt = amount;
+			int32 get_amt = amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 
 			if ((itemdb_search(nameid))->flag.guid)
 				get_amt = 1;
@@ -3183,6 +3187,11 @@ uint8 npc_selllist(map_session_data* sd, int32 list_length, const PACKET_CZ_PC_S
 
 	z = 0;
 
+	// [Stingor] Ce que la liste retire de chaque case, toutes lignes comprises :
+	// deux lignes d'une même case se jugent ensemble, sans quoi la seconde
+	// suppression échoue après la première et la vente s'arrête sans payer.
+	int32 sold[MAX_INVENTORY] = {};
+
 	// verify the sell list
 	for( i = 0; i < list_length; i++ )
 	{
@@ -3198,8 +3207,9 @@ uint8 npc_selllist(map_session_data* sd, int32 list_length, const PACKET_CZ_PC_S
 		}
 
 		nameid = sd->inventory.u.items_inventory[idx].nameid;
+		sold[idx] += amount;
 
-		if( !nameid || !sd->inventory_data[idx] || sd->inventory.u.items_inventory[idx].amount < amount)
+		if( !nameid || !sd->inventory_data[idx] || sd->inventory.u.items_inventory[idx].amount < sold[idx])
 		{
 			return 1;
 		}

@@ -461,9 +461,9 @@ static e_card_album_result card_album_check_inventory( map_session_data* sd, int
 		return CARD_ALBUM_FAIL;
 	}
 
-	// it.amount est un int16 et `amount` un uint16 : on compare en int32 pour que
-	// la promotion ne dépende pas du compilateur.
-	if( amount == 0 || static_cast<int32>( amount ) > static_cast<int32>( it.amount ) ){
+	// `amount` vient du client, en uint32 : il est borné à MAX_AMOUNT AVANT d'être
+	// comparé à la pile (int32), sans quoi 0xFFFFFFFF deviendrait -1.
+	if( amount == 0 || amount > static_cast<uint32>( MAX_AMOUNT ) || amount > static_cast<uint32>( it.amount ) ){
 		return CARD_ALBUM_FAIL;
 	}
 
@@ -557,6 +557,10 @@ e_card_album_result card_album_put( map_session_data* sd, int16 inv_index, uint3
 	// the row exists AND the stack has that much room. Whatever another session
 	// did meanwhile is already in the row.
 	auto try_put = [&]( uint32 n ) -> bool {
+		// MAX_AMOUNT - n ne doit pas repasser par zéro.
+		if( n > static_cast<uint32>( MAX_AMOUNT ) ){
+			return false;
+		}
 		if( Sql_Query( mmysql_handle,
 				"UPDATE `card_album` SET `amount` = `amount` + '%u' WHERE `user_id` = '%u' AND `nameid` = '%u' AND `amount` <= '%u'",
 				n, sd->status.user_id, nameid, static_cast<uint32>( MAX_AMOUNT ) - n ) != SQL_SUCCESS ){

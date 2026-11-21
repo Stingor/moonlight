@@ -1728,7 +1728,7 @@ struct packet_whisper_message {
 struct PACKET_CZ_ADD_ITEM_TO_MAIL {
 	int16 PacketType;
 	int16 index;
-	int16 count;
+	int32 count; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 } __attribute__((packed));
 
 // [4144] this packet exists from
@@ -1796,7 +1796,7 @@ struct PACKET_ZC_ACK_OPEN_WRITE_MAIL {
 struct PACKET_CZ_REQ_REMOVE_ITEM_MAIL {
 	int16 PacketType;
 	int16 index;
-	uint16 cnt;
+	int32 cnt; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 } __attribute__((packed));
 
 struct PACKET_ZC_ACK_REMOVE_ITEM_MAIL {
@@ -7008,6 +7008,12 @@ enum e_moonclient_server_rule : uint16 {
 	// Le plafond d'une pile d'objets, MAX_AMOUNT. Un client qui ne la connaît pas
 	// garde le plafond d'un rAthena d'usine, 30 000.
 	MOONCLIENT_RULE_ITEM_AMOUNT_MAX          = 31, ///< MAX_AMOUNT
+	// Le poids total des pièces jointes d'un courrier rodex,
+	// battle_config.mail_attachment_weight : mail_setitem additionne, pour chaque
+	// pièce jointe, quantité × (poids de l'objet / 10, division ENTIÈRE), et
+	// refuse au-delà. 0 : aucune limite. Un client qui ne la connaît pas ne
+	// peut que dire « trop lourd ».
+	MOONCLIENT_RULE_MAIL_ATTACHMENT_WEIGHT   = 32, ///< mail_attachment_weight
 };
 
 struct PACKET_ZC_MOONLIGHT_SERVER_RULES_entry {

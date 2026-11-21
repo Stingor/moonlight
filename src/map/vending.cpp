@@ -357,6 +357,7 @@ int8 vending_openvending( map_session_data& sd, const char* message, const uint8
 		index -= 2; // offset adjustment (client says that the first cart position is 2)
 
 		if( index < 0 || index >= MAX_CART // invalid position
+		||  amount <= 0 // [Stingor] int32 : une ligne négative ferait baisser le total
 		||  pc_cartitem_amount(&sd, index, amount) < 0 // invalid item or insufficient quantity
 		//NOTE: official server does not do any of the following checks!
 		||  !sd.cart.u.items_cart[index].identify // unidentified item

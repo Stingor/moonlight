@@ -167,7 +167,7 @@ int8 buyingstore_create( map_session_data* sd, int32 zenylimit, unsigned char re
 		std::shared_ptr<item_data> id = item_db.find(item->itemId);
 
 		// invalid input
-		if( id == nullptr || amount == 0 ){	
+		if( id == nullptr || amount <= 0 ){ // [Stingor] int32 : une ligne négative n'est pas une demande
 			break;
 		}
 
@@ -346,11 +346,11 @@ void buyingstore_open(map_session_data* sd, uint32 account_id)
 * Start transaction
 * @param sd Player/Seller
 * @param account_id Buyer account ID
-* @param *itemlist List of sold items { <index>.W, <nameid>.W, <amount>.W }*
+* @param *itemlist List of sold items { <index>.W, <nameid>.L, <amount>.L }*
 * @param count Number of item on the itemlist
 */
 void buyingstore_trade( map_session_data* sd, uint32 account_id, uint32 buyer_id, const struct PACKET_CZ_REQ_TRADE_BUYING_STORE_sub* itemlist, uint32 count ){
-	// [Stingor] int64 : une ligne vaut amount (<= 9999) x price (<= 99 990 000),
+	// [Stingor] int64 : une ligne vaut amount (<= MAX_AMOUNT) x price (<= 99 990 000),
 	// soit jusqu'à ~1e12, qui déborde d'un int32. En int32 le produit devenait
 	// négatif, le test de budget passait, et la vente était payée 0 — le vendeur
 	// cédait ses objets pour rien. Défaut hérité d'amont.
@@ -402,6 +402,13 @@ void buyingstore_trade( map_session_data* sd, uint32 account_id, uint32 buyer_id
 	for( int32 i = 0; i < count; i++ ){
 		const struct PACKET_CZ_REQ_TRADE_BUYING_STORE_sub* item = &itemlist[i];
 		const int32 amount = item->amount;
+
+		// [Stingor] int32 : une ligne négative ferait acheter au-delà de la
+		// quantité et du budget que l'acheteur a fixés.
+		if( amount <= 0 ){
+			clif_buyingstore_trade_failed_seller( sd, BUYINGSTORE_TRADE_SELLER_FAILED, item->itemId );
+			return;
+		}
 
 		// duplicate check. as the client does this too, only malicious intent should be caught here
 		for( int32 k = 0; k < i; k++ ){
