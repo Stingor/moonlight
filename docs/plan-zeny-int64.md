@@ -4,8 +4,8 @@
 `sql-files/upgrade_char_zeny_bigint.sql`, pas encore exécutée (la base de test
 `rathena-test` avait `int(11) unsigned`, 10 908 personnages, des soldes déjà à
 2 147 483 647). **Lot 3 fait** : `SP_ZENY` part en 0x0acb, les règles annoncent
-`MAX_ZENY` (clés 29 et 30). **Lot 4 fait** dans moonclient (e16ae4f30). **Lot 5 fait.**
-Lots 6 et 7 à faire, puis la montée de `MAX_ZENY`. `MAX_ZENY` vaut
+`MAX_ZENY` (clés 29 et 30). **Lot 4 fait** dans moonclient (e16ae4f30). **Lot 5 fait.** **Lot 6 fait**
+dans moonlight-web. Reste le lot 7, puis la montée de `MAX_ZENY`. `MAX_ZENY` vaut
 encore INT_MAX : il ne monte qu'une fois les lots 2 (base) et 3 (paquets) prêts,
 pour que chaque commit reste déployable seul.
 
@@ -159,11 +159,18 @@ Exporter aussi `MAX_BANK_ZENY` et `MAX_ZENY_AMOUNT` dans `script_constants.hpp`
   map-server qui contient c8d716c9b, et un **redémarrage complet** (les constantes
   ne se rechargent pas avec `@reloadscript`).
 
-## Lot 6 — Site (moonlight-web)
+## Lot 6 — Site (moonlight-web) — ✅
 
-- `database/seeders/FakeRathena.php:45` : `unsignedInteger` → `unsignedBigInteger`.
-- `GameCharacter` et `PersonalDataExport` : un int PHP fait 64 bits, rien à faire.
-  Vérifier qu'aucun classement ni aucune vue ne formate en 32 bits.
+- ✅ `database/seeders/FakeRathena.php` : `zeny` en `unsignedBigInteger`, comme sur
+  le serveur.
+- ✅ Relevé : le zeny n'apparaît que dans `account.blade.php`,
+  `characters/show.blade.php`, `team/members/show.blade.php` (toujours
+  `Number::format`, sur un int PHP de 64 bits) et `PersonalDataExport` (`(int)`).
+  Aucun classement, aucune validation, aucun calcul en 32 bits.
+- ✅ Test `CharacterTest::test_zeny_beyond_four_billion_is_shown_whole` :
+  999 999 999 999 zeny s'affichent entiers sur la fiche et sur le compte. ⚠ Les
+  tests tournent sur SQLite, qui ne borne pas la largeur d'une colonne : ils
+  prouvent l'affichage, pas le schéma MariaDB (c'est le rôle du lot 2).
 
 ## Lot 7 — Tests (base de test)
 
