@@ -13422,7 +13422,7 @@ BUILDIN_FUNC(warpwaitingpc)
 
 		if( cd->zeny )
 		{// fee set
-			if( (uint32)sd->status.zeny < cd->zeny )
+			if( sd->status.zeny < static_cast<int64>(cd->zeny) ) // [Stingor] sans tronquer le solde int64
 			{// no zeny to cover set fee
 				break;
 			}

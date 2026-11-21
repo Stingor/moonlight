@@ -6268,17 +6268,18 @@ uint8 pc_inventoryblank( const map_session_data* sd )
  * @param log_charid: (optional) From who to log (if not needed, use 0)
  * @return 0: Success, 1: Failed (Removing negative Zeny or not enough Zeny), 2: Player not found
  */
-char pc_payzeny(map_session_data *sd, int32 zeny, enum e_log_pick_type type, uint32 log_charid)
+char pc_payzeny(map_session_data *sd, int64 zeny, enum e_log_pick_type type, uint32 log_charid)
 {
 	nullpo_retr(2,sd);
 
-	zeny = cap_value(zeny,-MAX_ZENY,MAX_ZENY); //prevent command UB
 	if( zeny < 0 )
 	{
-		ShowError("pc_payzeny: Paying negative Zeny (zeny=%d, account_id=%d, char_id=%d).\n", zeny, sd->status.account_id, sd->status.char_id);
+		ShowError("pc_payzeny: Paying negative Zeny (zeny=%" PRId64 ", account_id=%d, char_id=%d).\n", zeny, sd->status.account_id, sd->status.char_id);
 		return 1;
 	}
 
+	// [Stingor] Pas de cap_value ici : borner un PAIEMENT le ferait payer moins
+	// que dû. Un montant au-delà du solde (donc de MAX_ZENY) est refusé.
 	if( sd->status.zeny < zeny )
 		return 1; //Not enough.
 
@@ -6288,7 +6289,7 @@ char pc_payzeny(map_session_data *sd, int32 zeny, enum e_log_pick_type type, uin
 	log_zeny(*sd, type, log_charid, -zeny);
 	if( zeny > 0 && sd->state.showzeny ) {
 		char output[255];
-		sprintf(output, "Removed %dz.", zeny);
+		sprintf(output, "Removed %" PRId64 "z.", zeny);
 		clif_messagecolor(sd, color_table[COLOR_LIGHT_GREEN], output, false, SELF);
 	}
 
@@ -6302,14 +6303,14 @@ char pc_payzeny(map_session_data *sd, int32 zeny, enum e_log_pick_type type, uin
  * @param log_charid: (optional) From who to log (if not needed, use 0)
  * @return -1: Player not found, 0: Success, 1: Giving negative Zeny
  */
-char pc_getzeny(map_session_data *sd, int32 zeny, enum e_log_pick_type type, uint32 log_charid)
+char pc_getzeny(map_session_data *sd, int64 zeny, enum e_log_pick_type type, uint32 log_charid)
 {
 	nullpo_retr(-1,sd);
 
-	zeny = cap_value(zeny,-MAX_ZENY,MAX_ZENY); //prevent command UB
+	zeny = cap_value(zeny, static_cast<int64>(-MAX_ZENY), static_cast<int64>(MAX_ZENY)); //prevent command UB
 	if( zeny < 0 )
 	{
-		ShowError("pc_getzeny: Obtaining negative Zeny (zeny=%d, account_id=%d, char_id=%d).\n", zeny, sd->status.account_id, sd->status.char_id);
+		ShowError("pc_getzeny: Obtaining negative Zeny (zeny=%" PRId64 ", account_id=%d, char_id=%d).\n", zeny, sd->status.account_id, sd->status.char_id);
 		return 1;
 	}
 
@@ -6322,11 +6323,13 @@ char pc_getzeny(map_session_data *sd, int32 zeny, enum e_log_pick_type type, uin
 	log_zeny(*sd, type, log_charid, zeny);
 	if( zeny > 0 && sd->state.showzeny ) {
 		char output[255];
-		sprintf(output, "Gained %dz.", zeny);
+		sprintf(output, "Gained %" PRId64 "z.", zeny);
 		clif_messagecolor(sd, color_table[COLOR_LIGHT_GREEN], output, false, SELF);
 	}
 
-	achievement_update_objective(sd, AG_GET_ZENY, 1, sd->status.zeny);
+	// [Stingor] achievement_update_objective lit ses arguments en va_arg(int32) :
+	// passer l'int64 du solde serait un comportement indéfini. Borné à INT32_MAX.
+	achievement_update_objective(sd, AG_GET_ZENY, 1, static_cast<int32>(std::min<int64>(sd->status.zeny, INT32_MAX)));
 
 	return 0;
 }
@@ -10659,9 +10662,10 @@ int32 pc_dead(map_session_data *sd,block_list *src)
 		}
 
 		if( zeny_penalty > 0 && !mapdata->getMapFlag(MF_NOZENYPENALTY)) {
-			zeny_penalty = (uint32)( sd->status.zeny * ( zeny_penalty / 10000. ) );
-			if(zeny_penalty)
-				pc_payzeny(sd, zeny_penalty, LOG_TYPE_PICKDROP_PLAYER);
+			// [Stingor] En int64 : le solde peut dépasser ce que tient un uint32.
+			const int64 zeny_lost = static_cast<int64>( sd->status.zeny * ( zeny_penalty / 10000. ) );
+			if(zeny_lost > 0)
+				pc_payzeny(sd, zeny_lost, LOG_TYPE_PICKDROP_PLAYER);
 		}
 	}
 

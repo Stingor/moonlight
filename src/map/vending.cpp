@@ -226,10 +226,11 @@ void vending_purchasereq(map_session_data* sd, int32 aid, int32 uid, const uint8
 		}
 	}
 
-	pc_payzeny(sd, (int32)z, LOG_TYPE_VENDING, vsd->status.char_id);
-	achievement_update_objective(sd, AG_SPEND_ZENY, 1, (int32)z);
+	// [Stingor] int64 : z est borné par le solde et MAX_ZENY, qui dépassent 2^31.
+	pc_payzeny(sd, static_cast<int64>(z), LOG_TYPE_VENDING, vsd->status.char_id);
+	achievement_update_objective(sd, AG_SPEND_ZENY, 1, static_cast<int32>(std::min(z, static_cast<double>(INT32_MAX))));
 	z = vending_calc_tax(sd, z);
-	pc_getzeny(vsd, (int32)z, LOG_TYPE_VENDING, sd->status.char_id);
+	pc_getzeny(vsd, static_cast<int64>(z), LOG_TYPE_VENDING, sd->status.char_id);
 
 	for( i = 0; i < count; i++ ) {
 		int16 amount = *(uint16*)(data + 4*i + 0);
@@ -254,7 +255,8 @@ void vending_purchasereq(map_session_data* sd, int32 aid, int32 uid, const uint8
 
 		pc_cart_delitem(vsd, idx, amount, 0, LOG_TYPE_VENDING);
 		z = vending_calc_tax(sd, z);
-		clif_vendingreport( *vsd, idx, amount, sd->status.char_id, (int32)z );
+		// [Stingor] Le paquet porte un int32 : borné, sans quoi prix x quantité au-delà de 2^31 deviendrait négatif.
+		clif_vendingreport( *vsd, idx, amount, sd->status.char_id, static_cast<int32>(std::min(z, static_cast<double>(INT32_MAX))) );
 
 		//print buyer's name
 		if( battle_config.buyer_name ) {

@@ -4084,7 +4084,9 @@ void clif_updatestatus( map_session_data& sd, enum _sp type ){
 			break;
 
 		case SP_ZENY:
-			clif_longpar_change(sd, type, sd.status.zeny);
+			// [Stingor] 0x00b1 porte un int32 : borné, tant que MAX_ZENY vaut INT_MAX
+			// (lot 3 de docs/plan-zeny-int64.md : passer en 0x0acb).
+			clif_longpar_change(sd, type, static_cast<int32>(std::min<int64>(sd.status.zeny, INT32_MAX)));
 			break;
 #if PACKETVER >= 20170830
 		case SP_BASEEXP:
@@ -15030,7 +15032,8 @@ void clif_bank_deposit( map_session_data& sd, enum e_BANKING_DEPOSIT_ACK reason 
 
 	p.packetType = HEADER_ZC_ACK_BANKING_DEPOSIT;
 	p.money = sd.bank_vault;
-	p.zeny = sd.status.zeny;
+	// [Stingor] Le champ est un int32 : borné. Le vrai solde part en SP_ZENY.
+	p.zeny = static_cast<int32>(std::min<int64>(sd.status.zeny, INT32_MAX));
 	p.reason = reason;
 
 	clif_send( &p, sizeof( p ), &sd, SELF );
@@ -15075,7 +15078,8 @@ void clif_bank_withdraw( map_session_data& sd, enum e_BANKING_WITHDRAW_ACK reaso
 	p.packetType = HEADER_ZC_ACK_BANKING_WITHDRAW;
 	p.reason = reason;
 	p.money = sd.bank_vault;
-	p.zeny = sd.status.zeny;
+	// [Stingor] Le champ est un int32 : borné. Le vrai solde part en SP_ZENY.
+	p.zeny = static_cast<int32>(std::min<int64>(sd.status.zeny, INT32_MAX));
 
 	clif_send( &p, sizeof( p ), &sd, SELF );
 #endif
@@ -25356,7 +25360,9 @@ void clif_parse_Auction_bid( int32 fd, map_session_data* sd ){
 		return;
 	}
 
-	if( pc_payzeny( sd, p->money, LOG_TYPE_AUCTION ) != 0 ){
+	// [Stingor] Une enchère reste un montant d'opération : int32 jusqu'au char-server.
+	// Le paiement en int64 ne la refuse plus de lui-même au-delà de 2^31.
+	if( p->money > MAX_ZENY_AMOUNT || pc_payzeny( sd, p->money, LOG_TYPE_AUCTION ) != 0 ){
 		clif_Auction_message( fd, 8 ); // You do not have enough zeny
 		return;
 	}

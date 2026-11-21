@@ -3021,7 +3021,7 @@ e_purchase_result npc_buylist( map_session_data* sd, std::vector<s_npc_buy_list>
 	if( pc_inventoryblank(sd) < new_ )
 		return e_purchase_result::PURCHASE_FAIL_COUNT;	// Not enough space to store items
 
-	pc_payzeny(sd, (int32)z, LOG_TYPE_NPC);
+	pc_payzeny(sd, static_cast<int64>(z), LOG_TYPE_NPC); // [Stingor] z <= solde, qui dépasse 2^31
 
 	for( int32 i = 0; i < item_list.size(); ++i ) {
 		t_itemid nameid = item_list[i].nameid;
@@ -3245,7 +3245,7 @@ uint8 npc_selllist(map_session_data* sd, int32 list_length, const PACKET_CZ_PC_S
 	if( z > MAX_ZENY )
 		z = MAX_ZENY;
 
-	pc_getzeny(sd, (int32)z, LOG_TYPE_NPC);
+	pc_getzeny(sd, static_cast<int64>(z), LOG_TYPE_NPC); // [Stingor] z <= MAX_ZENY
 
 	// custom merchant shop exp bonus
 	if( battle_config.shop_exp > 0 && z > 0 && ( skill = pc_checkskill(sd,MC_OVERCHARGE) ) > 0)
@@ -3478,7 +3478,7 @@ e_purchase_result npc_barter_purchase( map_session_data& sd, std::shared_ptr<s_n
 		}
 	}
 
-	if( pc_payzeny( &sd, (int32)requiredZeny, LOG_TYPE_BARTER ) != 0 ){
+	if( pc_payzeny( &sd, static_cast<int64>(requiredZeny), LOG_TYPE_BARTER ) != 0 ){ // [Stingor] sans tronquer : requiredZeny <= solde
 		return e_purchase_result::PURCHASE_FAIL_MONEY;
 	}
 

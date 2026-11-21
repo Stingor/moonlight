@@ -303,7 +303,7 @@ int32 char_mmo_char_tosql(uint32 char_id, struct mmo_charstatus* p){
 	)
 	{	//Save status
 		if( SQL_ERROR == Sql_Query(sql_handle, "UPDATE `%s` SET `base_level`='%d', `job_level`='%d',"
-			"`base_exp`='%" PRIu64 "', `job_exp`='%" PRIu64 "', `zeny`='%d',"
+			"`base_exp`='%" PRIu64 "', `job_exp`='%" PRIu64 "', `zeny`='%" PRId64 "'," // [Stingor] zeny int64
 			"`max_hp`='%u',`hp`='%u',`max_sp`='%u',`sp`='%u',`status_point`='%d',`skill_point`='%d',"
 			"`str`='%d',`agi`='%d',`vit`='%d',`int`='%d',`dex`='%d',`luk`='%d',"
 			"`option`='%d',`party_id`='%d',`guild_id`='%d',`pet_id`='%d',`homun_id`='%d',`elemental_id`='%d',"
@@ -1125,7 +1125,7 @@ int32 char_mmo_chars_fromsql( char_session_data& sd, CHARACTER_INFO chars[], uin
 	||	SQL_ERROR == stmt.BindColumn( 5,  SQLDT_UINT32, &p.job_level )
 	||	SQL_ERROR == stmt.BindColumn( 6,  SQLDT_UINT64, &p.base_exp )
 	||	SQL_ERROR == stmt.BindColumn( 7,  SQLDT_UINT64, &p.job_exp )
-	||	SQL_ERROR == stmt.BindColumn( 8,  SQLDT_INT32, &p.zeny )
+	||	SQL_ERROR == stmt.BindColumn( 8,  SQLDT_INT64, &p.zeny )
 	||	SQL_ERROR == stmt.BindColumn( 9,  SQLDT_INT16, &p.str )
 	||	SQL_ERROR == stmt.BindColumn( 10, SQLDT_INT16, &p.agi )
 	||	SQL_ERROR == stmt.BindColumn( 11, SQLDT_INT16, &p.vit )
@@ -1245,7 +1245,7 @@ int32 char_mmo_char_fromsql(uint32 char_id, struct mmo_charstatus* p, bool load_
 	||	SQL_ERROR == stmt.BindColumn(6, SQLDT_UINT32, &p->job_level)
 	||	SQL_ERROR == stmt.BindColumn(7, SQLDT_UINT64, &p->base_exp)
 	||	SQL_ERROR == stmt.BindColumn(8, SQLDT_UINT64, &p->job_exp)
-	||	SQL_ERROR == stmt.BindColumn(9, SQLDT_INT32, &p->zeny)
+	||	SQL_ERROR == stmt.BindColumn(9, SQLDT_INT64, &p->zeny)
 	||	SQL_ERROR == stmt.BindColumn(10, SQLDT_INT16, &p->str)
 	||	SQL_ERROR == stmt.BindColumn(11, SQLDT_INT16, &p->agi)
 	||	SQL_ERROR == stmt.BindColumn(12, SQLDT_INT16, &p->vit)
@@ -2002,7 +2002,8 @@ int32 char_mmo_char_tobuf( CHARACTER_INFO& info, mmo_charstatus& p ){
 #else
 	info.exp = (int32)u64min( p.base_exp, MAX_EXP );
 #endif
-	info.money = p.zeny;
+	// [Stingor] Le champ est un int32 : l'écran de sélection affiche un solde borné.
+	info.money = static_cast<int32>( std::min<int64>( p.zeny, INT32_MAX ) );
 #if PACKETVER >= 20170830
 	info.jobexp = u64min( p.job_exp, MAX_EXP );
 #else

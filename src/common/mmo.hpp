@@ -658,7 +658,7 @@ struct mmo_charstatus {
 	uint32 child;
 
 	t_exp base_exp,job_exp;
-	int32 zeny;
+	int64 zeny; ///< [Stingor] int64, plafonné à MAX_ZENY (docs/plan-zeny-int64.md)
 
 	int16 class_; ///< Player's JobID
 	uint32 status_point,skill_point,trait_point;
@@ -1262,9 +1262,10 @@ struct clan{
 };
 
 // Sanity checks...
-#if MAX_ZENY > INT_MAX
-#error MAX_ZENY is too big
-#endif
+// [Stingor] Le solde est un int64 : MAX_ZENY peut dépasser INT_MAX, tant
+// qu'un gain (au plus MAX_ZENY) ajouté au solde ne déborde pas.
+static_assert(MAX_ZENY > 0 && MAX_ZENY <= INT64_MAX / 2,
+	"MAX_ZENY : solde + gain doit tenir dans un int64");
 
 // [Stingor] Un prix ou un transfert tient dans un solde, et dans un int32 du réseau.
 static_assert(MAX_ZENY_AMOUNT <= MAX_ZENY && MAX_ZENY_AMOUNT <= INT_MAX,

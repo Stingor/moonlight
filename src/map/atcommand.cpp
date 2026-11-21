@@ -2976,8 +2976,10 @@ ACMD_FUNC(zeny)
 		clif_displaymessage(fd, msg_txt(sd,149)); // Unable to increase the number/value.
 	}
 	else {
-	    if( sd->status.zeny < -zeny ) zeny = -sd->status.zeny;
-	    if((ret=pc_payzeny(sd,-zeny,LOG_TYPE_COMMAND)) == 1)
+	    // [Stingor] Le retrait se juge en int64 : -zeny tient dans un int32, le solde non.
+	    int64 lost = -static_cast<int64>(zeny);
+	    if( sd->status.zeny < lost ) lost = sd->status.zeny;
+	    if((ret=pc_payzeny(sd,lost,LOG_TYPE_COMMAND)) == 1)
 		clif_displaymessage(fd, msg_txt(sd,41)); // Unable to decrease the number/value.
 	}
 	if(!ret) clif_displaymessage(fd, msg_txt(sd,176)); //ret=0 mean cmd success
@@ -10391,35 +10393,35 @@ ACMD_FUNC(stats)
 	int32 i;
 	struct {
 		const char* format;
-		int32 value;
+		int64 value; // [Stingor] int64 : le zeny dépasse 2^31
 	} output_table[] = {
-		{ "Base Level - %d", 0 },
+		{ "Base Level - %" PRId64, 0 },
 		{ nullptr, 0 },
-		{ "Hp - %d", 0 },
-		{ "MaxHp - %d", 0 },
-		{ "Sp - %d", 0 },
-		{ "MaxSp - %d", 0 },
-		{ "Ap - %d", 0 },
-		{ "MaxAp - %d", 0 },
-		{ "Str - %3d", 0 },
-		{ "Agi - %3d", 0 },
-		{ "Vit - %3d", 0 },
-		{ "Int - %3d", 0 },
-		{ "Dex - %3d", 0 },
-		{ "Luk - %3d", 0 },
-		{ "Pow - %3d", 0 },
-		{ "Sta - %3d", 0 },
-		{ "Wis - %3d", 0 },
-		{ "Spl - %3d", 0 },
-		{ "Con - %3d", 0 },
-		{ "Crt - %3d", 0 },
-		{ "Zeny - %d", 0 },
-		{ "Free Status Points - %d", 0 },
-		{ "Free Trait Points - %d", 0 },
-		{ "Free Skill Points - %d", 0 },
-		{ "JobChangeLvl (2nd) - %d", 0 },
-		{ "JobChangeLvl (3rd) - %d", 0 },
-		{ "JobChangeLvl (4th) - %d", 0 },
+		{ "Hp - %" PRId64, 0 },
+		{ "MaxHp - %" PRId64, 0 },
+		{ "Sp - %" PRId64, 0 },
+		{ "MaxSp - %" PRId64, 0 },
+		{ "Ap - %" PRId64, 0 },
+		{ "MaxAp - %" PRId64, 0 },
+		{ "Str - %3" PRId64, 0 },
+		{ "Agi - %3" PRId64, 0 },
+		{ "Vit - %3" PRId64, 0 },
+		{ "Int - %3" PRId64, 0 },
+		{ "Dex - %3" PRId64, 0 },
+		{ "Luk - %3" PRId64, 0 },
+		{ "Pow - %3" PRId64, 0 },
+		{ "Sta - %3" PRId64, 0 },
+		{ "Wis - %3" PRId64, 0 },
+		{ "Spl - %3" PRId64, 0 },
+		{ "Con - %3" PRId64, 0 },
+		{ "Crt - %3" PRId64, 0 },
+		{ "Zeny - %" PRId64, 0 },
+		{ "Free Status Points - %" PRId64, 0 },
+		{ "Free Trait Points - %" PRId64, 0 },
+		{ "Free Skill Points - %" PRId64, 0 },
+		{ "JobChangeLvl (2nd) - %" PRId64, 0 },
+		{ "JobChangeLvl (3rd) - %" PRId64, 0 },
+		{ "JobChangeLvl (4th) - %" PRId64, 0 },
 		{ nullptr, 0 }
 	};
 
@@ -10456,7 +10458,7 @@ ACMD_FUNC(stats)
 	output_table[25].value = sd->change_level_3rd;
 	output_table[26].value = sd->change_level_4th;
 
-	sprintf(job_jobname, "Job - %s %s", job_name(sd->status.class_), "(level %d)");
+	sprintf(job_jobname, "Job - %s %s", job_name(sd->status.class_), "(level %" PRId64 ")");
 	sprintf(output, msg_txt(sd,53), sd->status.name); // '%s' stats:
 
 	clif_displaymessage(fd, output);

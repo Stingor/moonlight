@@ -1,6 +1,16 @@
 # Plan — le zeny en poche passe en int64
 
-État : **lot 0 fait** (2026-11-21), lots 1 à 7 à faire.
+État : **lots 0 et 1 faits** (2026-11-21), lots 2 à 7 à faire. `MAX_ZENY` vaut
+encore INT_MAX : il ne monte qu'une fois les lots 2 (base) et 3 (paquets) prêts,
+pour que chaque commit reste déployable seul.
+
+Lot 1, en plus du tableau ci-dessous : `pc_payzeny` ne borne plus (borner un
+paiement le ferait payer moins que dû) ; le char-server lit et écrit déjà le
+zeny en int64 (`SQLDT_INT64`, `PRId64`), et l'écran de sélection le borne à
+INT32_MAX — imposé par le changement de type de `mmo_charstatus` ; les réponses
+de la banque bornent leur champ `zeny` ; une enchère au-delà de
+`MAX_ZENY_AMOUNT` est refusée ; Zenynage paie en int64 ; le rapport de vente
+(`clif_vendingreport`) borne son gain par ligne, qui débordait déjà au-delà de 2^31.
 
 ## Pourquoi maintenant
 

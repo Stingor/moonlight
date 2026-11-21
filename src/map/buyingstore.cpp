@@ -386,7 +386,7 @@ void buyingstore_trade( map_session_data* sd, uint32 account_id, uint32 buyer_id
 
 	// buyer lost zeny in the mean time? fix the limit
 	if( pl_sd->status.zeny < pl_sd->buyingstore.zenylimit ){
-		pl_sd->buyingstore.zenylimit = pl_sd->status.zeny;
+		pl_sd->buyingstore.zenylimit = static_cast<int32>(pl_sd->status.zeny); // [Stingor] < zenylimit, tient dans un int32
 	}
 	weight = pl_sd->weight;
 

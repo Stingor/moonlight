@@ -6774,7 +6774,7 @@ struct Damage battle_calc_misc_attack(block_list *src,block_list *target,uint16 
 				if (md.damage > sd->status.zeny)
 					md.damage = sd->status.zeny * 2; // [Stingor]
 				if (!battle_simulating)
-					pc_payzeny( sd, static_cast<int32>( cap_value(md.damage, INT_MIN, INT_MAX) / 2 ), LOG_TYPE_CONSUME );	// [Stingor]
+					pc_payzeny( sd, md.damage / 2, LOG_TYPE_CONSUME );	// [Stingor] int64 : damage <= 2 x solde, sans borne int32
 			}
 			break;
 	}

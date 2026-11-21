@@ -9816,7 +9816,7 @@ void skill_consume_requirement(map_session_data *sd, uint16 skill_id, uint16 ski
 			if( skill_id == NJ_ZENYNAGE )
 				require.zeny = 0; //Zeny is reduced on skill_attack.
 			if( sd->status.zeny < require.zeny )
-				require.zeny = sd->status.zeny;
+				require.zeny = static_cast<int32>(sd->status.zeny); // [Stingor] < require.zeny, tient dans un int32
 			pc_payzeny(sd,require.zeny,LOG_TYPE_CONSUME);
 		}
 	}
