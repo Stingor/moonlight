@@ -1157,11 +1157,47 @@ Navigation
 For clients dated 2011-10-10aRagexe onwards, you can generate navigation links
 using HTML-like labels:
 
-	<NAVI>Display Name<INFO>mapname,x,y,0,000,flag</INFO></NAVI>
+	<NAVI>Display Name<INFO>mapname,x,y,target,route,flag{,monster}</INFO></NAVI>
 
-The "flag" parameter can be:
- 0: Do not open Navigation Window (default).
+The client splits the <INFO> payload on commas. "mapname,x,y" alone is a
+valid link: it then targets the NPC standing on x,y, allows Kafra/transport
+services and the airship, and opens the Navigation Window. As soon as a 4th
+field is present, every missing field counts as 0.
+
+The "target" parameter (4th field) tells what the link aims at:
+ 0: The cell x,y of the map. This is what most official scripts use.
+    The client refuses a cell that is not walkable.
+ 1: The map itself. Navigation ends as soon as the player enters the map;
+    x,y are ignored.
+ 2: The NPC of the navigation tables standing EXACTLY on x,y. The NPC name
+    is added to the destination. If no table NPC stands on that cell, the
+    official client reports the target as not found.
+ 3: A monster spawn of the map, given by its sprite class in the 7th field
+    ("monster"). Like 1, navigation ends when entering the map.
+ Any other value makes the link do nothing.
+
+The "route" parameter (5th field) tells what the route may use. It is read
+as three decimal digits (leading zeros allowed):
+ hundreds: Kafra dungeon warps, event dungeon warps and transport services.
+ tens:     Teleport scrolls.
+ units:    The airship.
+ For example 101 allows services and the airship but no scroll, and 000
+ only allows walking, warp portals and NPCs that teleport.
+ The digits are read left to right: a digit above 1 spills over the next
+ one (20 allows scrolls AND the airship).
+ The special value -222 does not navigate at all: it opens a search in the
+ Navigation Window for the 1st field, and the "target" field then selects
+ what is listed (0: everything, 1: maps, 2: NPCs, 3: monsters; with 3 the
+ official client matches the monster's table title exactly).
+
+	<NAVI>[Poring]<INFO>Poring,0,0,3,-222</INFO></NAVI>
+
+The "flag" parameter (6th field) can be:
+ 0: Do not open Navigation Window (default). An already open window still
+    shows the new route.
  1: Open Navigation Window.
+
+The "monster" parameter (7th field) is only read with target 3.
 
 The example below will make the [Tool Shop] text clickable and begin navigation
 to alberta (98,154) when clicked.
