@@ -96,6 +96,7 @@ L_Menu:
 		close;
 	case 2:
 		.@n = getarraysize(.sell);
+		.@menu$ = "";
 		for (.@i = 0; .@i < .@n; .@i++)
 			.@menu$ += "Ticket épisode " + .sell[.@i] + " (" + callfunc("F_InsertComma", .price[.sell[.@i]]) + " z):";
 		.@c = select(.@menu$ + "^e64c00Menu Précédent^000000") - 1;
@@ -162,6 +163,7 @@ L_Menu:
 // Pas de ':' dans un libelle : select() coupe le menu a chaque ':'.
 S_PickPart:
 	.@n = getarraysize(.ready);
+	.@menu$ = "";
 	for (.@i = 0; .@i < .@n; .@i++)
 		.@menu$ += "Épisode " + callsub(S_Name, .ready[.@i]) + " (vous en avez " + countitem(.ticket[.ready[.@i] / 10]) + "):";
 	.@c = select(.@menu$ + "^e64c00Menu Précédent^000000") - 1;
