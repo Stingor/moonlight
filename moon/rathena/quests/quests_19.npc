@@ -7400,6 +7400,7 @@ OnTouch:
 	end;
 OnInit:
 	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("dun01_to_dun02", "jor_dun02", 282, 87);
 	naviregisterwarp("dun01_to_que", "jor_que", 282, 87);
 	end;
 }
@@ -15080,6 +15081,8 @@ OnTouch:
 	end;
 
 OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("jor_back2_to_jor_ab01", "jor_ab01", 113, 10);
 	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "isbegin_quest(11821) == 1" );
 	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "isbegin_quest(11823) == 1" );
 	end;
@@ -15334,6 +15337,8 @@ OnTouch:
 	close;
 
 OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("jor_ab01_to_jor_ab02", "jor_ab02", 281, 87);
 	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "checkquest(11827,HUNTING) == 2 && countitem(1000708) >= 2" );
 	end;
 }

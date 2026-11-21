@@ -8364,6 +8364,8 @@ OnTouch:
 	end;
 
 OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("ba_in01_to_ba_lib", "ba_lib", 159, 12);
 	questinfo( QTYPE_QUEST, QMARK_YELLOW, "isbegin_quest(11622) == 1" );
 	end;
 }

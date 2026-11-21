@@ -4987,6 +4987,10 @@ OnTouch_:
 	case 4: warp "juperos_01",79,72; end;
 	}
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("juperos_02_to_juperos_01", "juperos_01", 120, 72);
+	end;
 }
 
 //============================================================

@@ -317,6 +317,10 @@ OnTouch:
 		warp "lhz_dun04", 245, 56;
 	}
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("lhz_dun03_to_lhz_dun04", "lhz_dun04", 245, 56);
+	end;
 }
 
 // Warp Portal to the 3rd Fl.

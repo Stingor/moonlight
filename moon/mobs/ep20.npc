@@ -172,6 +172,10 @@ OnTouch:
 		end;
 	warp "jor_twice",42,55;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("maze_to_twice", "jor_twice", 42, 55);
+	end;
 }
 jor_twice,40,52,0	warp2	twice_to_maze	1,1,jor_maze,140,75
 

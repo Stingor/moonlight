@@ -82,6 +82,10 @@ OnTouch:
 	}
 	warp "ba_in01",23,315;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("ba_pw01_to_ba_in01", "ba_in01", 23, 315);
+	end;
 }
 ba_pw01,10,115,0	warp	#ep172_pw1_to_pw2	1,1,ba_pw02,10,149
 ba_pw02,7,149,0	script	#ep172_pw2_to_pw1	WARPNPC,1,1,{
@@ -93,6 +97,10 @@ OnTouch:
 	}
 	warp "ba_pw01",13,115;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("ba_pw02_to_ba_pw01", "ba_pw01", 13, 115);
+	end;
 }
 ba_pw02,275,15,0	warp	#ep172_pw2_to_cor	1,1,sp_cor,257,285
 sp_cor,258,287,0	script	#ep172_cor_to_pw2	WARPNPC,1,1,{
@@ -103,6 +111,10 @@ OnTouch:
 		end;
 	}
 	warp "ba_pw02",275,20;
+	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("sp_cor_to_ba_pw02", "ba_pw02", 275, 20);
 	end;
 }
 

@@ -8970,4 +8970,8 @@ OnTouch:
 	}
 	warp "sp_cor",163,60;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("sp_os_to_sp_cor", "sp_cor", 163, 60);
+	end;
 }

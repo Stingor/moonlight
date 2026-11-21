@@ -7259,17 +7259,29 @@ OnTouch_:
 	}
 	warp "que_thor",182,55;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("thor_v02_to_que_thor", "que_thor", 182, 55);
+	end;
 }
 
 que_thor,69,56,0	script	#tov_1	45,2,2,{
 OnTouch_:
 	warp "thor_v02",146,84;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("que_thor_to_thor_v02_1", "thor_v02", 146, 84);
+	end;
 }
 
 que_thor,187,56,0	script	#tov_2	45,2,2,{
 OnTouch_:
 	warp "thor_v02",146,84;
+	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("que_thor_to_thor_v02_2", "thor_v02", 146, 84);
 	end;
 }
 

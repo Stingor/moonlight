@@ -5452,6 +5452,10 @@ OnTouch_:
 		warp "kh_rossi",20,92;
 	}
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("yuno_to_kh_rossi", "kh_rossi", 20, 92);
+	end;
 }
 
 //----------------------------------------------------------------------------

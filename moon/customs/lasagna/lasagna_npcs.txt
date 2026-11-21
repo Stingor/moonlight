@@ -8371,6 +8371,10 @@ OnTouch:
 	if (conch_in_recorder == 3)
 		warp "lasa_in01",162,61;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("lasagna_to_lasa_in01", "lasa_in01", 162, 61);
+	end;
 }
 
 lasa_in01,179,60,5	script	Chief Peperoncino#dorco	4_DR_PEPE,{

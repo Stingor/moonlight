@@ -113,6 +113,10 @@ OnTouch:
 	}
 	warp "eclage",100,28;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("ecl_fild01_to_eclage", "eclage", 100, 28);
+	end;
 }
 
 ecl_fild01,94,322,5	script	Security Guard#ep14_2	4_M_FAIRYSOLDIER,{

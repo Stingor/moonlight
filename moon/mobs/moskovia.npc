@@ -71,6 +71,10 @@ OnTouch:
 		warp "mosk_in",215,41;
 		end;
 	}
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("mosk_dun02_to_mosk_in", "mosk_in", 215, 41);
+	end;
 }
 
 mosk_dun02,53,215,3	script	Soldier1#mos	4_M_RUSKNIGHT,{

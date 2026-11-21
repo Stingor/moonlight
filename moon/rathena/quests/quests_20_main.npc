@@ -2213,6 +2213,10 @@ OnTouch:
 		end;
 	}
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("jor_nest_to_jor_root1", "jor_root1", 32, 17);
+	end;
 }
 
 

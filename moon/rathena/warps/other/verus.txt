@@ -26,6 +26,10 @@ OnTouch:
 	}
 	warp "verus01",243,62;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("verus03_to_verus01", "verus01", 243, 62);
+	end;
 }
 
 verus03,169,259,0	script	verus03_to_verus02	WARPNPC,1,1,{

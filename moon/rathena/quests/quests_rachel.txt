@@ -3797,6 +3797,10 @@ OnTouch:
 	}
 	warp "ra_temin",169,23;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("ra_temple_to_ra_temin", "ra_temin", 169, 23);
+	end;
 }
 
 ra_temple,116,174,3	script	Nemma#ra_temple	920,{
@@ -6826,6 +6830,10 @@ OnTouch_:
 	else
 		warp "ra_temsky",99,11;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("ra_temin_to_ra_temsky", "ra_temsky", 99, 11);
+	end;
 }
 
 ra_temsky,95,99,6	script	Priest#1rachel	935,{
@@ -7304,6 +7312,10 @@ OnTouch:
 	}
 	mes "^3355FFThe door is locked.^000000";
 	close;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("ra_temin_to_ra_san01", "ra_san01", 140, 135);
+	end;
 }
 
 que_san04,119,115,0	script	imir1#rachel	-1,2,2,{

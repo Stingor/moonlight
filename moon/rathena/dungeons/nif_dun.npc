@@ -31,6 +31,10 @@ OnTouch:
 	}
 	warp "nif_dun02",149,23;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("nif_dun01_to_nif_dun02", "nif_dun02", 149, 23);
+	end;
 }
 nif_dun02,162,15,0	warp2	nifdun02a_nifdun01a	1,1,nif_dun01,146,39
 nif_dun02,137,15,0	warp2	nifdun02a_nifdun01a_	1,1,nif_dun01,146,39

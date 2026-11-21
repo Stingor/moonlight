@@ -31,6 +31,10 @@ OnTouch:
 	}
 	warp "prt_cas_q",150,8;
     end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("prt_cas_to_prt_cas_q_L", "prt_cas_q", 150, 8);
+	end;
 }
 
 prt_cas,278,163,0	script	way_to_qroom_R_qroom_R_to_way	WARPNPC,1,1,{
@@ -46,6 +50,10 @@ OnTouch:
 	}
 	warp "prt_cas_q",135,119;
     end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("prt_cas_to_prt_cas_q_R", "prt_cas_q", 135, 119);
+	end;
 }
 
 prt_cas_q,130,32,0	script	qroom_heine_in_qroom_heine_out	WARPNPC,1,1,{

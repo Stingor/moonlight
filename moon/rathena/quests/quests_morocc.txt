@@ -3685,6 +3685,10 @@ OnTouch:
 		warp "yuno_in04",100,3;
 	}
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("que_ba_to_yuno_in04_1", "yuno_in04", 100, 3);
+	end;
 }
 
 que_ba,50,238,1	script	Grotesque Woman#eva2	980,{
@@ -3729,6 +3733,10 @@ OnTouch:
 	else {
 		warp "yuno_in04",108,57;
 	}
+	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("que_ba_to_yuno_in04_2", "yuno_in04", 108, 57);
 	end;
 }
 
@@ -3812,6 +3820,10 @@ OnTouch:
 	mes "..................";
 	close2;
 	warp "yuno_in04",165,122;
+	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("que_ba_to_yuno_in04_3", "yuno_in04", 165, 122);
 	end;
 }
 

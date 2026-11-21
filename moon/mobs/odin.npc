@@ -80,6 +80,10 @@ OnTouch:
 			mes "You are avoiding it.";
 			close;
 		}
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("odin_tem03_to_odin_past", "odin_past", 291, 230);
+	end;
 	}
 
 odin_past,291,235,0	warp	thirdfloor#odin	1,1,odin_tem03,276,232

@@ -2325,6 +2325,10 @@ OnTouch:
 	}
 	mes "A mysterious power is blocking my path.";
 	close;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("tha_t06_to_thana_step", "thana_step", 69, 369);
+	end;
 }
 
 function	script	invoc_owned	{

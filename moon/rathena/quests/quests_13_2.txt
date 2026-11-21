@@ -1364,6 +1364,10 @@ OnTouch:
 			mes "I'll come back later.";
 			close;
 	}
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("nyd_dun01_to_spl_fild01", "spl_fild01", 376, 65);
+	end;
 }
 manuk,278,177,5	script	Villager#ep13_11	454,{
 	if (overitems(2)) {

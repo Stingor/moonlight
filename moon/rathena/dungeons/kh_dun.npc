@@ -18,6 +18,10 @@ OnTouch_:
 		warp "kh_dun01",32,199;
 	}
 
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu)
+	naviregisterwarp("kh_dun02_to_kh_dun01", "kh_dun01", 41, 206);
+	end;
 }
 
 //==================================================
