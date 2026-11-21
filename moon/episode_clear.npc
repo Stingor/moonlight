@@ -203,11 +203,19 @@ S_Sync:
 			continue;
 		if (callsub(S_Done, .@p))
 			continue;
+		// En attente : le joueur l'apprend. Une partie qui attend une partie
+		// elle-meme debloquee par ticket se tait, celle-ci parle deja.
 		.@prev = callsub(S_Prev, .@p);
-		if (.@prev && !callsub(S_Done, .@prev))
+		if (.@prev && !callsub(S_Done, .@prev)) {
+			if (!getd("##epc_tkt_" + .@prev))
+				dispbottom "Épisode " + callsub(S_Name, .@p) + " (Episode Clear Ticket) : en attente, terminez d'abord l'épisode " + callsub(S_Name, .@prev) + ".";
 			continue;
-		if (callsub(S_Need, .@p) != "")
+		}
+		.@need$ = callsub(S_Need, .@p);
+		if (.@need$ != "") {
+			dispbottom "Épisode " + callsub(S_Name, .@p) + " (Episode Clear Ticket) : en attente. " + .@need$;
 			continue;
+		}
 		callsub S_Skip, .@p;
 		dispbottom "Épisode " + callsub(S_Name, .@p) + " : débloqué par votre compte Moonlight (Episode Clear Ticket).";
 	}
@@ -313,6 +321,12 @@ S_Need:
 			return "L'épisode 16.1 demande le niveau de base 100.";
 		if (ep13_ryu < 100 && ep13_start < 100)
 			return "L'épisode 16.1 demande que la route du Nouveau Monde soit ouverte : Onward to the New World, ou la quête du Cat Paw Agent.";
+		break;
+	case 162:
+		// Le premier passage dans la Room of Consciousness (quests_16_2.txt
+		// teste ep16_royal < 17).
+		if (ep16_royal < 17)
+			return "L'épisode 16.2 demande d'avoir atteint la Room of Consciousness dans l'épisode 16.1.";
 		break;
 	case 180:
 		// Smart Elly (quests_17_2.npc).
@@ -587,7 +601,10 @@ S_Init:
 	setarray .ready[0], 131, 132, 133, 141, 142, 143, 151, 152, 161, 162, 171, 172, 180, 190, 200;
 	// Ordre de l'histoire. 14.1, 14.2, 15.1 et 16.1 ne demandent pas la
 	// partie d'avant dans le jeu : un 0 commence une nouvelle chaine.
-	setarray .order[0], 131, 132, 133, 0, 141, 0, 142, 143, 0, 151, 152, 0, 161, 162, 171, 172, 180, 190, 200;
+	// 16.2 non plus : elle ne veut que la Room of Consciousness de 16.1
+	// (ep16_royal 17, voir S_Need). L'exiger finie bloquait 16.2 a 20 sur
+	// les personnages qui ont fait 16.2 sans finir 16.1.
+	setarray .order[0], 131, 132, 133, 0, 141, 0, 142, 143, 0, 151, 152, 0, 161, 0, 162, 171, 172, 180, 190, 200;
 	// Episode Clear Tickets (EpisodClear13 - EpisodClear20).
 	.ticket[13] = 1000284;
 	.ticket[14] = 1000285;
