@@ -1,13 +1,9 @@
 # Plan — le zeny en poche passe en int64
 
-État : **lots 0 et 1 faits, lot 2 écrit** (2026-11-21) — migration
-`sql-files/upgrade_char_zeny_bigint.sql`, pas encore exécutée (la base de test
-`rathena-test` avait `int(11) unsigned`, 10 908 personnages, des soldes déjà à
-2 147 483 647). **Lot 3 fait** : `SP_ZENY` part en 0x0acb, les règles annoncent
-`MAX_ZENY` (clés 29 et 30). **Lot 4 fait** dans moonclient (e16ae4f30). **Lot 5 fait.** **Lot 6 fait**
-dans moonlight-web. Reste le lot 7, puis la montée de `MAX_ZENY`. `MAX_ZENY` vaut
-encore INT_MAX : il ne monte qu'une fois les lots 2 (base) et 3 (paquets) prêts,
-pour que chaque commit reste déployable seul.
+État (2026-11-21) : **lots 0 à 6 faits**, `MAX_ZENY` monté à **999 999 999 999**
+(non commité, non déployé). Reste le lot 7, les tests en jeu, puis le déploiement
+ci-dessous. Commits : moonlight c8d716c9b, 3f9531e36, b50cb9974, 5cef4ea53,
+e9918f575 ; moonclient e16ae4f30 ; moonlight-web 9a4c30b.
 
 Lot 1, en plus du tableau ci-dessous : `pc_payzeny` ne borne plus (borner un
 paiement le ferait payer moins que dû) ; le char-server lit et écrit déjà le
@@ -189,6 +185,49 @@ Un personnage à 5 000 000 000 zeny :
 10. Succès `AG_GET_ZENY`.
 11. Scripts : `Zeny += 3000000000`, Hunt Mission, coin exchanger.
 12. `zenylog` : montants corrects (déjà en BIGINT).
+
+## Montée de `MAX_ZENY`
+
+`#define MAX_ZENY INT64_C(999999999999)` dans `src/common/mmo.hpp`. Les
+`static_assert` tiennent : `MAX_ZENY_AMOUNT (INT_MAX) <= MAX_ZENY <= MAX_BANK_ZENY`,
+et solde + gain comme banque + dépôt restent loin d'`INT64_MAX`. Les règles du
+serveur annoncent 0xE8 / 0xD4A50FFF (clés 30 / 29), la paire que teste moonclient.
+
+## Relecture (agent indépendant, 2026-11-21) et correctifs
+
+Cinq défauts trouvés, vérifiés dans le code et corrigés avant la montée :
+
+| # | Gravité | Où | Défaut | Correctif |
+|---|---|---|---|---|
+| 1 | Bloquant | `pc.cpp` `pc_setparam` | `SP_ZENY` lisait `val`, l'int32 tronqué de `val_tmp` : `Zeny -= prix` sur un solde au-delà de 2^31 le ramenait modulo 2^32, ou faisait échouer le script | borne et journal sur `val_tmp` (int64) |
+| 2 | À corriger | `clif_parse_LoadEndAck` | le map-server n'envoyait jamais `SP_ZENY` à l'entrée : moonclient gardait la poche bornée de l'écran de sélection | `clif_updatestatus(SP_ZENY)` à la première entrée |
+| 3 | À corriger | moonclient `buying_store_checks.cpp` | vendre à une boutique d'achat comparait la poche à `kBuyingStoreMostZeny` (2^31-1) | `CheckBuyingStoreSale` reçoit `zeny_max` ; la constante ne borne plus que `zeny_limit` |
+| 4 | Mineur | `pc.hpp` `mail.pending_zeny` | uint32 : plusieurs courriers en attente débordaient | int64 |
+| 5 | Préexistant | `npc.cpp` barter | `price * amount` calculé en uint32 avant l'ajout au uint64 | cast en uint64 avant le produit |
+
+## Déploiement (pc-serv : c'est l'utilisateur qui arrête et redémarre)
+
+Dans cet ordre, en une seule fenêtre de maintenance :
+
+1. **moonclient** contenant e16ae4f30 publié aux joueurs. Un client plus ancien
+   resterait borné à 2^31-1 dans sa banque, sa vente au PNJ et son échoppe, et
+   prendrait la poche bornée d'un accusé de banque pour la vraie.
+2. **Serveurs arrêtés** (login, char, map).
+3. **Base du jeu** : `sql-files/upgrade_char_zeny_bigint.sql`. Vérifier avant et
+   après : `SELECT COLUMN_TYPE FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'char' AND COLUMN_NAME = 'zeny';`
+   → `bigint(20) unsigned`.
+4. **Base des journaux** : `sql-files/upgrade_zenylog_bigint.sql`, s'il n'a pas
+   déjà été passé (`SHOW CREATE TABLE zenylog;` → `amount` en bigint).
+5. **char-server ET map-server** recompilés depuis le même commit et remplacés
+   ensemble : `mmo_charstatus` a changé de taille. Ne jamais compiler avec sudo.
+6. **Redémarrage complet** : `MAX_BANK_ZENY` et `MAX_ZENY_AMOUNT` sont des
+   constantes de script (lot 5), que `@reloadscript` ne recharge pas.
+7. Contrôle : un personnage de test porté au-delà de 2^32 (`set Zeny`), puis
+   déconnexion / reconnexion — le solde revient entier.
+
+⚠ Faire l'étape 5 sans l'étape 3 : la première sauvegarde d'un solde au-delà de
+4 294 967 295 échoue (MariaDB en `STRICT_TRANS_TABLES`), et le personnage ne
+sauvegarde plus.
 
 ## Ordre conseillé
 

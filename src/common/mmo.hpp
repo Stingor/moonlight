@@ -79,13 +79,16 @@ typedef uint32 t_itemid;
 * Note: The client seems unable to receive data for more than 4 slots due to all related packets having a fixed size. */
 #define MAX_SLOTS 4
 #define MAX_AMOUNT 30000 ////Max amount of a single stacked item
-#define MAX_ZENY INT_MAX ///Max zeny
+// [Stingor] Le plafond du SOLDE d'un personnage : 999 999 999 999 zeny, douze
+// chiffres. Le solde est un int64 (`mmo_charstatus::zeny`), `char`.`zeny` un
+// bigint (sql-files/upgrade_char_zeny_bigint.sql, à exécuter AVANT de démarrer
+// ce char-server), et SP_ZENY part en 0x0acb. Le client le lit dans les règles
+// du serveur (ZC_MOONLIGHT_SERVER_RULES, MOONCLIENT_RULE_ZENY_MAX_*).
+#define MAX_ZENY INT64_C(999999999999) ///Max zeny
 // [Stingor] Le plus grand montant d'UNE opération ou d'UN prix : prix d'objet,
 // de boutique ou d'enchantement, coût de warp de guilde, entrée de salon,
 // envoi de courrier, configuration des échoppes. Ces valeurs se stockent en
-// uint32 et voyagent en int32 dans les paquets. MAX_ZENY, lui, borne le SOLDE
-// d'un personnage : les deux valent INT_MAX aujourd'hui, mais seul MAX_ZENY est
-// appelé à grandir (docs/plan-zeny-int64.md).
+// uint32 et voyagent en int32 dans les paquets ; MAX_ZENY, lui, borne le solde.
 #define MAX_ZENY_AMOUNT INT_MAX ///Max zeny of a single price or transfer
 // [Stingor] Plafond de la banque, en int64 : 9 999 999 999 999 999 zeny, le plus
 // grand nombre à seize chiffres. Il laisse environ 9,2e18 de marge sous
