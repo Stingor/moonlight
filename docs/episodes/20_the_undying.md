@@ -104,7 +104,7 @@ issu. Aucune PR amont pour le 20 au 2026‑11‑17. Le même dépôt a aussi l'�
 | Conversion | `re_to_prere_mob.py` sans retouche, ATK inchangée ; `Resistance`, `MagicResistance` et `DamageTaken` retirés |
 | Ordres de grandeur | mob normal ≈ 510 000 à 590 000 PV et 820 000 à 940 000 EXP ; MVP 4,5 à 6,3 M PV ; Lasgand d'instance 21,6 M |
 | Compléments Divine Pride | EXP de Snowstorm Angel (21996) et du Chef Nettoyeur (21980), DEF de Snowstorm Angel, drops des quatre MVP et des deux pierres de Lasgand (22004, 22005), `BaseExp` de Jormungand Guardian-Y absente de brHades |
-| Drops écartés | les 20 cartes EP20 (bonus renewal à convertir, comme au 19), les 8 armes Dim Glacier, `Bs_Making_S` (absent chez nous) |
+| Drops écartés | `Bs_Making_S` (absent chez nous). Les 20 cartes EP20 et les 8 armes Dim Glacier, écartées au lot A, sont revenues aux sous-lots D2b et D2a |
 | Matériaux | 26 objets `Ep20_*` / `EP20_*` (1001226 à 1001251) dans `db/import/items/item_db_etc.yml` : entrée `db/re`, prix de brHades, nom anglais du client (« Irwin » corrigé en Iwin, grades alignés sur le 19) |
 | Compétences | 163 lignes de brHades en fin de `db/import/mob_skill_db.txt` (+ 2 commentées de la source) |
 | `skill_db` | `NPC_LEASH` (747) et `NPC_WIDELEASH` (748) copiés de `db/re` (Fallen Angel Slug) : implémentés en C++ (`skills/npc/leash.cpp`, `wideleash.cpp`), absents du pré-re |
@@ -166,7 +166,7 @@ Debug échoue à l'édition de liens). Pas encore compilé sur pc-serv.
 | Objets de quête | `item_db_etc.yml` | `Ep20_Jor_Berry`, `Ep20_Cat_Whiskers` (monnaie de l'Alliance), `Ep20_Jor_Device`, `Ep20_Ymir_Heart` ; entrées `db/re`, noms du client |
 | Consommables | `item_db_usable.yml` | `Ep20_Fatty_Icegangu` (apprivoise le Copo, `pet;`), `Glacier_Armor_9Refine` (cube +9 des armures Glacier) |
 | Costumes | `item_db_costumes.yml` | `C_Armored_Copo`, `C_Egg_Copo` |
-| Familier | `pet_db.yml`, `item_db_pet.yml` | le Copo (œuf `Copo_Egg`), `bAtkRate` en `bAddClass`. Évolutions vers les deux Icewind **écartées** : elles exigent les cartes Icewind, non portées |
+| Familier | `pet_db.yml`, `item_db_pet.yml` | le Copo (œuf `Copo_Egg`), `bAtkRate` en `bAddClass`. Évolutions vers les deux Icewind ajoutées au sous-lot D2c, avec les cartes Icewind |
 | Laphine | `laphine_upgrade.yml` | `Glacier_Armor_9Refine` : +9 sur les 7 armures Glacier, raffinement 8 au plus, sans carte |
 | Barters | `moon/barters.yml` | `barter_ep20_shop_1_A`, `_1_B` (costumes, cube +9), `barter_ep20_glacier_eq` (11 pièces Glacier contre 100 moustaches), `barter_ep20_shop_2` (pierres et extraits de magie pure) ; `EP20_DGA_Refine` (Dim Glacier) retiré. Les PNJ qui les ouvrent arrivent avec les quêtes (lot E) |
 | Contrôle | | toutes les références (barters, Laphine, familier) pointent vers un objet ou un mob chargé ; chargement sans erreur |

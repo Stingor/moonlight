@@ -2528,3 +2528,18 @@ Body:
           - Index: 826
             Item: Beta_Scissore_Ng_Card
             Rate: 1
+          - Index: 827
+            Item: MD_Airboat_Card
+            Rate: 1
+          - Index: 828
+            Item: MD_Airboat_Card2
+            Rate: 1
+          - Index: 829
+            Item: MD_Airboat_Card3
+            Rate: 1
+          - Index: 830
+            Item: MD_Airboat_Card4
+            Rate: 1
+          - Index: 831
+            Item: MD_Airboat_Card5
+            Rate: 1
