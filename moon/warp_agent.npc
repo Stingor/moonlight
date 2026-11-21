@@ -2732,9 +2732,23 @@ OnInit:
 	setarray .@navm$[476], "verus02", "verus03";
 	setarray .@navx[476], 0, 0;
 	setarray .@navy[476], 0, 0;
+	// Les destinations que SEUL le menu des instances atteint, au bout de
+	// plusieurs sous-menus ("Se rendre sur place", puis l'entree) : declarees,
+	// elles faisaient passer le guidage par une salle d'instance au lieu des
+	// portails -- de Prontera au palais par la Villa imperiale (prt_cas_q).
+	// Une carte que les menus des villes, des donjons ou des fields servent
+	// aussi n'y figure pas.
+	setarray .@nav_instance_only$[0],
+		"dali", "dali02", "gef_tower", "geffen_in", "glast_01", "jor_nest",
+		"jor_twig", "lhz_dun04", "ma_dun01", "ma_scene01", "mal_dun01", "mal_in01",
+		"monk_test", "moro_cav", "nyd_dun02", "pay_arche", "prt_cas_q", "prt_lib_q",
+		"prt_q", "sp_cor", "thana_step", "un_myst", "verus01", "verus04";
 	for (.@i = 0; .@i < getarraysize(.@navm$); .@i++) {
 		// Un agent ne se declare pas une arete vers sa propre carte.
 		if (strnpcinfo(4) == .@navm$[.@i]) continue;
+		// Une destination au fond du menu des instances n'aide personne en
+		// navigation : elle se tait.
+		if (inarray(.@nav_instance_only$, .@navm$[.@i]) >= 0) continue;
 		naviregisterwarp(strnpcinfo(1), .@navm$[.@i], .@navx[.@i], .@navy[.@i], 204);
 	}
 
