@@ -2,7 +2,7 @@
 // For more information, see LICENCE in the main folder
 	
 	/* Stingor */
-	// Interfaces modernes de Bourgeon, pour moonlight_ui() — un bit = une surface
+	// Interfaces modernes du client, pour moonlight_ui() — un bit = une surface
 	// qui rend les balises maison (cf. e_moonlight_ui_cap, clif.hpp).
 	export_constant(MOONLIGHT_UI_NPC_DIALOG);
 	export_constant(MOONLIGHT_UI_CHAT);

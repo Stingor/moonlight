@@ -35,8 +35,8 @@
  *    RELOAD <target>    shortcut for "@reload<target>" (itemdb, mobdb, skilldb,
  *                       script, battleconf, statusdb, atcommand, ...)
  *    ATCMD <command>    run any atcommand (a leading '@' is optional)
- *    INTEGRITY <sha256> replace the approved hash in conf/bourgeon_integrity.conf
- *                       and reload it; use "reload" to reload without changing hash
+ *    INTEGRITY reload   reload conf/moonclient_integrity.conf
+ *    INTEGRITY minpatch <n>  set moonclient_min_patch_index in that conf, then reload
  *    QUIT               close the connection
  *
  *  Commands run inside the single-threaded main loop, exactly like the server
@@ -237,16 +237,15 @@ static void admin_exec( int32 fd, const std::string& line ){
 		return;
 	}
 
-	// INTEGRITY reload          — reload conf/bourgeon_integrity.conf in place
-	// INTEGRITY <sha256hex>    — replace hash in the conf, then reload
-	// INTEGRITY minpatch <n>   — replace min_patch_index in the conf, then reload
+	// INTEGRITY reload          — reload conf/moonclient_integrity.conf in place
+	// INTEGRITY minpatch <n>   — replace moonclient_min_patch_index in the conf, then reload
 	if( cmd == "INTEGRITY" ){
 		if( arg.empty() ){
-			admin_reply( fd, "ERR usage: INTEGRITY <sha256hex> | INTEGRITY minpatch <n> | INTEGRITY reload" );
+			admin_reply( fd, "ERR usage: INTEGRITY minpatch <n> | INTEGRITY reload" );
 			return;
 		}
 
-		const char* integrity_path = "conf/bourgeon_integrity.conf";
+		const char* integrity_path = "conf/moonclient_integrity.conf";
 
 		// Rewrites "<key>: <value>" in the conf: the first matching line is replaced
 		// in place, any duplicate is dropped, and the key is appended if absent.
@@ -289,16 +288,14 @@ static void admin_exec( int32 fd, const std::string& line ){
 		};
 
 		if( strcmpi( arg.c_str(), "reload" ) == 0 ){
-			clif_bourgeon_integrity_reload();
+			clif_moonclient_integrity_reload();
 			admin_reply( fd, "OK integrity reloaded" );
 			return;
 		}
 
-		// INTEGRITY minpatch <n> — raise the required rpatchur patch level. This is
-		// the cosmetic-patch path: no server rebuild, no new DLL, so the approved
-		// hash is untouched and players are not forced to re-download the DLL.
-		// Only clients connecting after this takes effect are checked; players
-		// already in game keep playing until their next login.
+		// INTEGRITY minpatch <n> — raise the last patch moonclient must have applied,
+		// without a server rebuild. Only clients connecting after this takes effect
+		// are checked; players already in game keep playing until their next login.
 		if( arg.size() > 8 && strncmpi( arg.c_str(), "minpatch", 8 ) == 0 &&
 			(arg[8] == ' ' || arg[8] == '\t') ){
 			std::string value = arg.substr(9);
@@ -323,37 +320,16 @@ static void admin_exec( int32 fd, const std::string& line ){
 			}
 
 			std::string err;
-			if( !set_conf_key( "min_patch_index", value, err ) ){
+			if( !set_conf_key( "moonclient_min_patch_index", value, err ) ){
 				admin_reply( fd, "ERR INTEGRITY: " + err );
 				return;
 			}
-			clif_bourgeon_integrity_reload();
-			admin_reply( fd, "OK integrity min_patch_index updated: " + value );
+			clif_moonclient_integrity_reload();
+			admin_reply( fd, "OK integrity moonclient_min_patch_index updated: " + value );
 			return;
 		}
 
-		// Validate: must be exactly 64 hex characters (SHA-256).
-		if( arg.size() != 64 ){
-			admin_reply( fd, "ERR INTEGRITY: hash must be exactly 64 hex characters" );
-			return;
-		}
-		std::string hash = arg;
-		for( char& c : hash ) c = static_cast<char>(tolower(static_cast<unsigned char>(c)));
-		for( char c : hash ){
-			if( !isxdigit(static_cast<unsigned char>(c)) ){
-				admin_reply( fd, "ERR INTEGRITY: non-hex character in hash" );
-				return;
-			}
-		}
-
-		std::string err;
-		if( !set_conf_key( "hash", hash, err ) ){
-			admin_reply( fd, "ERR INTEGRITY: " + err );
-			return;
-		}
-
-		clif_bourgeon_integrity_reload();
-		admin_reply( fd, "OK integrity hash updated: " + hash );
+		admin_reply( fd, "ERR usage: INTEGRITY minpatch <n> | INTEGRITY reload" );
 		return;
 	}
 

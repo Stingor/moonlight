@@ -1,7 +1,7 @@
 --
 -- Les teintures de calques de moonclient [Stingor]
 --
--- A cote de la recette v7 du corps (char_reg_str `bourgeon_style$`, intacte), un
+-- A cote de la recette v7 du corps (char_reg_str `moonclient_style$`, intacte), un
 -- joueur teint sa tete, sa peau, ses coiffes et sa cape. Le serveur ne lit jamais
 -- une couleur : il range des entrees qu'il a jugees sur leur structure, et les
 -- rediffuse. Voir src/map/style_layers.hpp, et l'ADR 0146 de moonclient.

@@ -114,7 +114,7 @@ def emit(body, mode, ids, labels):
     out = [
         f"-- Client mirror of db/{mode}/guild_skill_tree.yml - generated {stamp}.",
         "-- DO NOT EDIT: re-run tools/gen/gen_guild_skill_tree_lub.py.",
-        "-- Guild skill tree (max levels + requirements) for the Bourgeon guild tab;",
+        "-- Guild skill tree (max levels + requirements) for the client guild tab;",
         "-- the server remains the only authority on what it actually allows.",
         "-- Numeric ids on purpose: this file depends on NO other Lua table.",
         "GUILD_SKILL_TREE = {",
@@ -152,7 +152,7 @@ def emit(body, mode, ids, labels):
     return "\n".join(out) + "\n"
 
 
-# Accesseur lu par Bourgeon : un seul appel Lua rend toute la table sérialisée, au
+# Accesseur lu par le client : un seul appel Lua rend toute la table sérialisée, au
 # lieu d'un aller-retour par compétence. Nom court (<= 15 car.) : le wrapper natif
 # Lua_CallGlobal_va passe le nom en std::string PAR VALEUR et un nom plus long
 # sortirait du SSO, ce qui corrompt la libération côté appelant.

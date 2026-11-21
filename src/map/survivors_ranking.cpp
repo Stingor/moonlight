@@ -117,7 +117,7 @@ int64 survivors_now_utc() {
 }
 
 bool survivors_heard(const map_session_data& sd) {
-	return sd.state.moonclient && sd.state.pc_loaded && (sd.bourgeon_ui_caps & MOONLIGHT_UI_SURVIVORS) != 0;
+	return sd.state.moonclient && sd.state.pc_loaded && (sd.moonclient_ui_caps & MOONLIGHT_UI_SURVIVORS) != 0;
 }
 
 template <typename T>
@@ -270,7 +270,7 @@ uint32 survivors_week_of(uint8 board, int64 utc_s) {
 } // namespace
 
 void clif_moonlight_survivors_service(map_session_data& sd) {
-	if (!sd.state.moonclient || !(sd.bourgeon_ui_caps & MOONLIGHT_UI_SURVIVORS))
+	if (!sd.state.moonclient || !(sd.moonclient_ui_caps & MOONLIGHT_UI_SURVIVORS))
 		return;
 	PACKET_ZC_MOONLIGHT_SURVIVORS_SERVICE packet{};
 	packet.packetType   = HEADER_ZC_MOONLIGHT_SURVIVORS_SERVICE;

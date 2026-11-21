@@ -1234,14 +1234,14 @@ namespace {
 // qui a le droit de VOIR et l'a annoncé. Ce n'est pas `style_layers_receiver`,
 // qui garde aussi les CZ : un spectateur n'émet rien.
 bool layers_viewer(const map_session_data& sd) {
-	const bool viewer = sd.state.has_bourgeon || (sd.state.spectator && sd.state.bourgeon_cosmetic);
-	return viewer && (sd.bourgeon_ui_caps & MOONLIGHT_UI_STYLE_LAYERS) != 0;
+	const bool viewer = sd.state.client_verified || (sd.state.spectator && sd.state.moonclient_cosmetic);
+	return viewer && (sd.moonclient_ui_caps & MOONLIGHT_UI_STYLE_LAYERS) != 0;
 }
 
 } // namespace
 
 bool style_layers_receiver(const map_session_data& sd) {
-	return sd.state.has_bourgeon && (sd.bourgeon_ui_caps & MOONLIGHT_UI_STYLE_LAYERS) != 0;
+	return sd.state.client_verified && (sd.moonclient_ui_caps & MOONLIGHT_UI_STYLE_LAYERS) != 0;
 }
 
 void style_layers_verdict(map_session_data& sd, uint8 subject, uint8 result, uint16 wait_ms, uint32 detail) {
@@ -1615,7 +1615,7 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 		if (body_layer(e.view.layer)) {
 			const uint8 layer = e.view.layer;
 			const auto same_layer = [layer](const bytes& b) { return view_of(b.data()).layer == layer; };
-			if (std::count_if(character.begin(), character.end(), same_layer) > BOURGEON_STYLE_MAX_VARIANTS)
+			if (std::count_if(character.begin(), character.end(), same_layer) > MOONCLIENT_STYLE_MAX_VARIANTS)
 				character.erase(std::find_if(character.begin(), character.end(), same_layer));
 		}
 		// Au plafond, la plus ancienne teinture de cheveux qui dort part ; jamais

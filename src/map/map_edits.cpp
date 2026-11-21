@@ -368,7 +368,7 @@ void export_document(const std::string& map, const s_map_edit_document& document
 }
 
 bool announced(const map_session_data& sd) {
-	return sd.state.has_bourgeon && (sd.bourgeon_ui_caps & MOONLIGHT_UI_MAP_EDITS) != 0;
+	return sd.state.client_verified && (sd.moonclient_ui_caps & MOONLIGHT_UI_MAP_EDITS) != 0;
 }
 
 bool may_publish(const map_session_data& sd) {

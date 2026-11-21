@@ -312,7 +312,7 @@ void mvp_tracker_on_login( map_session_data& sd ){
 	s_mvp_group* group = mvp_tracker_index_session( sd );
 
 	if( group != nullptr )
-		clif_bourgeon_mvp_presence( *group );
+		clif_moonclient_mvp_presence( *group );
 }
 
 void mvp_tracker_on_logout( map_session_data& sd ){
@@ -329,7 +329,7 @@ void mvp_tracker_on_logout( map_session_data& sd ){
 	group->online.erase( it );
 
 	// Après l'effacement, sinon le paquet compterait encore la session qui part.
-	clif_bourgeon_mvp_presence( *group );
+	clif_moonclient_mvp_presence( *group );
 }
 
 /// Drops a member from RAM and from SQL. Does NOT handle succession or the last
@@ -360,7 +360,7 @@ static void mvp_group_remove_member( s_mvp_group& group, uint32 user_id ){
 		Sql_ShowDebug( mmysql_handle );
 
 	for( map_session_data* sd : dropped )
-		clif_bourgeon_mvp_group( *sd );
+		clif_moonclient_mvp_group( *sd );
 }
 
 /// Wipes a group and everything hanging off it. The favourites go too: they are
@@ -386,7 +386,7 @@ static void mvp_group_destroy( s_mvp_group& group ){
 
 	// Après l'effacement, sinon le paquet décrirait encore le groupe détruit.
 	for( map_session_data* sd : dropped )
-		clif_bourgeon_mvp_group( *sd );
+		clif_moonclient_mvp_group( *sd );
 }
 
 e_mvp_group_result mvp_group_create( map_session_data& sd, const char* name, bool name_truncated ){
@@ -508,7 +508,7 @@ static int32 mvp_invite_notify( map_session_data* sd, va_list ap ){
 	const uint32 target_id = va_arg( ap, uint32 );
 
 	if( sd != nullptr && sd->status.user_id == target_id )
-		clif_bourgeon_mvp_invite( *sd, MVP_INVITE_FROM_PUSH );
+		clif_moonclient_mvp_invite( *sd, MVP_INVITE_FROM_PUSH );
 
 	return 0;
 }
@@ -688,7 +688,7 @@ e_mvp_group_result mvp_group_leave( map_session_data& sd ){
 	// que le sortant, qui n'est plus dans le groupe. L'exclusion, elle, est
 	// annoncée par clif, puisque son auteur y est toujours ; la dissolution passe
 	// par mvp_group_destroy().
-	clif_bourgeon_mvp_group_all( *group );
+	clif_moonclient_mvp_group_all( *group );
 
 	return MVP_GROUP_OK;
 }
@@ -822,10 +822,10 @@ static bool mvp_tracker_record( s_mvp_group& group, uint16 slot_id, const s_mvp_
 	group.obs[slot_id] = obs;
 
 	// Something actually changed, so - and only so - the group hears about it.
-	// Members without Bourgeon, or with the window switched off, receive nothing:
+	// Members without a verified client, or with the window switched off, receive nothing:
 	// they still FEED the group with their kills, which is the right behaviour and
 	// not a degraded case.
-	clif_bourgeon_mvp_delta( group, slot_id, obs );
+	clif_moonclient_mvp_delta( group, slot_id, obs );
 
 	return true;
 }

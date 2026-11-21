@@ -2818,12 +2818,12 @@ void pc_reg_received(map_session_data *sd)
 	sd->state.active = 1;
 	// [Stingor] -->
 	// Réglages joueur (autoloot, tri, affichages…) : leur chargement, leur
-	// persistance et leur envoi au client Bourgeon sont décrits en un seul
-	// endroit, la table bourgeon_settings[] de clif.cpp.
+	// persistance et leur envoi au client sont décrits en un seul
+	// endroit, la table moonclient_settings[] de clif.cpp.
 	// @playertest et @nodelay en sont : relus ici, avant le status_calc_pc() qui
 	// suivra le chargement de l'inventaire, pc_maxaspd() voit le bon plafond dès
 	// le premier calcul.
-	bourgeon_setting_load( sd );
+	moonclient_setting_load( sd );
 	pc_ignorechat_load(sd); // @ignore : liste des personnages dont le chat est masqué
 	card_album_load(sd); // Album de cartes : les emplacements débloqués du compte
 	// MVP tracker : index de diffusion. Un même compte Moonlight peut avoir
@@ -2916,8 +2916,8 @@ void pc_reg_received(map_session_data *sd)
 	}
 
 	channel_autojoin(sd);
-	// clif_bourgeon_settings is deferred: called from clif_parse_moonlight_integrity
-	// once the client identifies itself, so non-Bourgeon clients are never sent
+	// clif_moonclient_settings is deferred: called from clif_parse_moonclient_integrity
+	// once the client identifies itself, so unverified clients are never sent
 	// ZC packets that collide with vanilla RO handlers (HP 200%, SP 125%, etc.).
 }
 
@@ -6050,8 +6050,8 @@ bool pc_skill_plagiarism_reset(map_session_data &sd, uint8 type)
 /**
  * Predicate : la carte idx_card peut-elle être sertie sur l'équipement idx_equip ?
  * Miroir exact des gardes de pc_insert_card / clif_use_card (index SERVEUR, 0-based).
- * Extrait pour être réutilisé par le sertissage rapide de Bourgeon
- * (clif_bourgeon_compat_cards) : lister les cartes compatibles d'un équipement =
+ * Extrait pour être réutilisé par le sertissage rapide du client
+ * (clif_moonclient_compat_cards) : lister les cartes compatibles d'un équipement =
  * appliquer ce prédicat sur toutes les cartes de l'inventaire. Aucun effet de bord.
  */
 bool pc_can_insert_card(map_session_data* sd, int32 idx_card, int32 idx_equip)
@@ -11270,11 +11270,11 @@ bool pc_setparam(map_session_data *sd,int64 type,int64 val_tmp)
 		val = cap_value(val, 0, 1999);
 		sd->cook_mastery = val;
 		pc_setglobalreg(sd, add_str(COOKMASTERY_VAR), sd->cook_mastery);
-		// [Stingor] Le client Bourgeon en a besoin pour estimer la réussite d'un plat,
+		// [Stingor] Le client en a besoin pour estimer la réussite d'un plat,
 		// et l'affiche telle quelle : la maîtrise bouge à CHAQUE plat (up au succès, down
 		// à l'échec) et n'apparaît nulle part dans le jeu. Le garde `== val` ci-dessus
-		// nous évite déjà les push inutiles. No-op si !has_bourgeon.
-		clif_bourgeon_cook_mastery(sd);
+		// nous évite déjà les push inutiles. No-op si !client_verified.
+		clif_moonclient_cook_mastery(sd);
 		return true;
 	default:
 		ShowError("pc_setparam: Attempted to set unknown parameter '%lld'.\n", type);
@@ -11750,7 +11750,7 @@ void pc_equiplookall(map_session_data *sd)
 void pc_changelook(map_session_data *sd,int32 type,int32 val) {
 	nullpo_retv(sd);
 	// [Stingor] La coupe ou la couleur de cheveux a changé : la recette de style
-	// rangée doit suivre (clif_bourgeon_style_follow_look, après le paquet natif).
+	// rangée doit suivre (clif_moonclient_style_follow_look, après le paquet natif).
 	bool hair_changed = false;
 
 	switch(type) {
@@ -11817,7 +11817,7 @@ void pc_changelook(map_session_data *sd,int32 type,int32 val) {
 	// [Stingor] Après le ZC_SPRITE_CHANGE : l'apparence native précède toujours le
 	// lot de style.
 	if (hair_changed)
-		clif_bourgeon_style_follow_look(sd);
+		clif_moonclient_style_follow_look(sd);
 	// [Stingor] Une autre tête ou un autre objet affiché : ses teintures de
 	// calques suivent.
 	switch (type) {
@@ -11970,7 +11970,7 @@ bool pc_setcart(map_session_data *sd,int32 type) {
 	pc_setoption(sd, option);
 #endif
 
-	clif_bourgeon_companion_state(sd);  // [Stingor] resync feuille de perso (no-op si !has_bourgeon)
+	clif_moonclient_companion_state(sd);  // [Stingor] resync feuille de perso (no-op si !client_verified)
 	style_layers_look_changed(*sd);     // [Stingor] la teinture du chariot poussé suit
 	return true;
 }
@@ -11986,7 +11986,7 @@ void pc_setfalcon(map_session_data* sd, int32 flag)
 	} else if( pc_isfalcon(sd) ){
 		pc_setoption(sd,sd->sc.option&~OPTION_FALCON); // remove falcon
 	}
-	clif_bourgeon_companion_state(sd);  // [Stingor] resync feuille de perso (no-op si !has_bourgeon)
+	clif_moonclient_companion_state(sd);  // [Stingor] resync feuille de perso (no-op si !client_verified)
 	style_layers_look_changed(*sd);     // [Stingor] la teinture de l'oiseau sorti suit
 }
 
@@ -12004,7 +12004,7 @@ void pc_setriding(map_session_data* sd, int32 flag)
 	} else if( pc_isriding(sd) ){
 			pc_setoption(sd, sd->sc.option&~OPTION_RIDING);
 	}
-	clif_bourgeon_companion_state(sd);  // [Stingor] resync feuille de perso (no-op si !has_bourgeon)
+	clif_moonclient_companion_state(sd);  // [Stingor] resync feuille de perso (no-op si !client_verified)
 }
 
 /**

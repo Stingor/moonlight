@@ -34,7 +34,7 @@ struct party_data {
 		unsigned tk : 1; //There's a taekwon
 	} state;
 	/// [Stingor] Dernier état d'éligibilité au partage d'EXP DIFFUSÉ aux clients
-	/// Bourgeon (ZC_MOONLIGHT_PARTY_SHARE). Indexé comme `data[]` ; char_id 0 =
+	/// (ZC_MOONLIGHT_PARTY_SHARE). Indexé comme `data[]` ; char_id 0 =
 	/// emplacement vide.
 	///
 	/// 🔴 LA COMPOSITION DU GROUPE EN FAIT PARTIE, et c'est le point : comme le
@@ -43,7 +43,7 @@ struct party_data {
 	/// à câbler dans les chemins de join/leave, donc rien à oublier d'y câbler.
 	struct {
 		uint32 char_id;
-		uint8  flags;   ///< e_bourgeon_party_share
+		uint8  flags;   ///< e_moonclient_party_share
 	} share_seen[MAX_PARTY];
 };
 
@@ -105,7 +105,7 @@ int32 party_recv_message( int32 party_id, uint32 account_id, const char *mes, si
 int32 party_skill_check(map_session_data *sd, int32 party_id, uint16 skill_id, uint16 skill_lv);
 int32 party_send_xy_clear(struct party_data *p);
 /// [Stingor] Les raisons pour lesquelles ce membre est écarté du partage d'EXP.
-/// 0 = il reçoit sa part. Cf. e_bourgeon_party_share.
+/// 0 = il reçoit sa part. Cf. e_moonclient_party_share.
 ///
 /// 🔴 C'EST LA SOURCE, PAS UNE COPIE : `party_exp_share` l'appelle pour décider
 /// qui il écarte, et l'interface montre exactement ce qu'elle rend. Deux lectures

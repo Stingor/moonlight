@@ -117,7 +117,7 @@ DB_LOG            = os.environ.get("DB_LOG",            "rathena_logs")
 TRANSLATE_URL     = os.environ.get("TRANSLATE_URL",     "http://localhost/api/translate_script.php")
 TRANSLATE_TOKEN   = os.environ.get("TRANSLATE_TOKEN",   "")
 DISCORD_WEBHOOK      = os.environ.get("DISCORD_WEBHOOK",      "")  # vide = désactivé
-DISCORD_OUTBOUND_WEBHOOK = os.environ.get("DISCORD_OUTBOUND_WEBHOOK", "")  # webhook Bourgeon pour l'outbound in-game
+DISCORD_OUTBOUND_WEBHOOK = os.environ.get("DISCORD_OUTBOUND_WEBHOOK", "")  # webhook du client pour l'outbound in-game
 DISCORD_BUGREPORT_WEBHOOK = os.environ.get("DISCORD_BUGREPORT_WEBHOOK", "")  # webhook du canal #bug-reports (vide = repli sur l'outbound)
 # [Stingor] Posé dans CHAQUE payload de webhook : le texte vient des joueurs (ou
 # d'un modèle qu'ils interrogent), et aucun « @everyone », « @here », rôle ni
@@ -1998,8 +1998,8 @@ def _ensure_discord_relay_table(conn):
 
 # ── Relais riche (ZC_MOONLIGHT_DISCORD_RICH 0x0F3C) ─────────────────────────
 #
-# Chaque message relayé part en morceaux de 243 octets (0x0F08) pour la DLL, et
-# ENTIER, décrit, pour moonclient. Les deux formes vivent dans les mêmes lignes
+# Chaque message relayé part en morceaux de 243 octets (0x0F08) pour un client sans
+# MOONLIGHT_UI_DISCORD_RICH, et ENTIER, décrit, pour celui qui l'annonce. Les deux formes vivent dans les mêmes lignes
 # de discord_relay :
 #   rich_state 0 : pas de riche, le morceau part en 0x0F08 à tous ;
 #   rich_state 1 : premier morceau, il porte le riche (rich_*) ;
@@ -2669,7 +2669,7 @@ def resolve_discord_mentions(content: str, msg=None, keep_emoji=False) -> str:
 
 
 def _write_discord_relay(conn, author: str, content: str, rich=None):
-    """Write a Discord user message to discord_relay for in-game display via ZC_BOURGEON_DISCORD_MSG.
+    """Write a Discord user message to discord_relay for in-game display via ZC_MOONCLIENT_DISCORD_MSG.
 
     rich : la forme riche (ZC 0x0F3C) du même message, un dict
     {user_id, name, avatar, text, flags}, portée par le premier morceau.
@@ -2813,7 +2813,7 @@ def _discord_poll(conn):
         if not content:
             continue
 
-        # Relay ALL user messages in-game via discord_relay → ZC_BOURGEON_DISCORD_MSG
+        # Relay ALL user messages in-game via discord_relay → ZC_MOONCLIENT_DISCORD_MSG
         _write_discord_relay(conn, player, content, rich={
             "user_id": msg["author"].get("id") or 0,
             "name":    player,
@@ -2832,7 +2832,7 @@ def _discord_poll(conn):
             _discord_post(player, content, response)
             disp = re.sub(r'^@[A-Z]+@\|?', '', response).replace('|', ' ')
             _log_discord_chat(conn, "(Discord)Sting-Bot", disp)
-            # Bot response → discord_relay (Bourgeon overlay, checkbox-gated)
+            # Bot response → discord_relay (client, checkbox-gated)
             _write_discord_relay(conn, "Sting-Bot", disp, rich={
                 "user_id": 0,
                 "name":    "Sting-Bot",
@@ -2877,7 +2877,7 @@ def _discord_post(player: str, message: str, response: str):
 
 # ── Emotes du jeu -> emojis custom Discord ──────────────────────────────────
 #
-# Le sélecteur d'emotes de Bourgeon écrit « :best: » dans le chat : la forme
+# Le sélecteur d'emotes du client écrit « :best: » dans le chat : la forme
 # lisible, celle que voit aussi un joueur sans le client modifié. Discord, lui,
 # n'affiche une image que pour « <:best:123456> ». On traduit donc au passage.
 #
@@ -3046,7 +3046,7 @@ def replace_game_emotes(text):
 
 # ── Rapports de bug : mise en forme Discord ──────────────────────────────────
 # Le map-server pousse un rapport dans `discord_outbound` sous une forme MACHINE
-# (clif.cpp, clif_parse_bourgeon_bug_report) :
+# (clif.cpp, clif_parse_moonclient_bug_report) :
 #   player  = « [BUG <categorie>] <perso> »
 #   message = « ctx=<json> | <map>,<x>,<y> | <texte du joueur> »
 # Relayée telle quelle, la ligne est exploitable mais pénible à lire : du JSON
@@ -3212,7 +3212,7 @@ def _discord_outbound_poll(conn):
             message = _from_wire(row["message"])
             if now - _discord_outbound_last_post < 1.0:
                 break
-            # Route AVANT de marquer envoyé : les rapports de bug (client Bourgeon)
+            # Route AVANT de marquer envoyé : les rapports de bug (client)
             # sont préfixés « [BUG … ] » dans `player` par le serveur -> canal dédié
             # #bug-reports si configuré, sinon repli sur l'outbound général. Si aucun
             # webhook cible, on laisse la ligne pending (pas de perte silencieuse).
@@ -3434,7 +3434,7 @@ def replace_iteml(msg):
 
     return ITEML_PATTERN.sub(repl, msg)
 
-# ── Liens de monstre (balise propre au client Bourgeon) ──────────────────────
+# ── Liens de monstre (balise propre au client) ──────────────────────
 # Format : `<MOBL>id:rang:nom</MOBL>` (cf. chat_window.cc). Le nom voyage DANS
 # la balise parce que le client ne connaît pas mob_db ; il est le DERNIER champ,
 # donc libre de contenir espaces, apostrophes et ':'. Le client interdit '<' et
@@ -3465,7 +3465,7 @@ def replace_mobl(msg):
 
     return MOBL_PATTERN.sub(repl, msg)
 
-# ── Liens de STYLE (balise propre au client Bourgeon) ───────────────────────
+# ── Liens de STYLE (balise propre au client) ───────────────────────
 # Format : `<STYL>etiquette:recette</STYL>` (cf. chat_window.cc). L'etiquette est
 # le pseudo du porteur, ou le nom du prereglage quand c'est celui-ci qu'on
 # partage ; le client y interdit ':' et '<', donc le PREMIER ':' separe sans
@@ -3575,7 +3575,7 @@ def replace_navs(msg):
         kind = int(match.group(1))
         rest = match.group(2)
         head = NAVI_KIND.get(kind)
-        # Famille inconnue = balise d'un Bourgeon plus récent : on ne devine pas,
+        # Famille inconnue = balise d'un client plus récent : on ne devine pas,
         # on laisse le texte brut. Même règle que le client.
         if head is None:
             return match.group(0)
@@ -3723,7 +3723,7 @@ def replace_mvpl(msg):
 def replace_chat_links(msg):
     """Balises de lien du client -> Markdown Discord.
 
-    Toutes les balises que la chatbox de Bourgeon sait rendre (cf. chat_window.cc)
+    Toutes les balises que la chatbox du client sait rendre (cf. chat_window.cc)
     passent ici : sans cela elles arrivent sur Discord en toutes lettres, chevrons
     compris, et la ligne devient illisible pour qui n'est pas en jeu.
     """

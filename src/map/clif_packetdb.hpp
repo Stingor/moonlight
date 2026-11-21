@@ -2047,55 +2047,51 @@
 	parseable_packet( HEADER_CZ_MOVE_ITEM_TO_PERSONAL, sizeof( PACKET_CZ_MOVE_ITEM_TO_PERSONAL ), clif_parse_MoveFromKafraFav, 0 );
 #endif
 
-// [Stingor] Bourgeon DLL <-> server settings packet (fixed 8 bytes, always active)
+// [Stingor] Client <-> server settings packet (fixed 8 bytes, always active)
 parseable_packet(HEADER_CZ_MOONLIGHT_SETTING, sizeof(PACKET_CZ_MOONLIGHT_SETTING), clif_parse_moonlight_setting, 0);
 
-// [Stingor] Bourgeon DLL integrity report + MachineGuid + patch level
-// (variable-length: legacy clients send 36 or 72, current send 76)
-parseable_packet(HEADER_CZ_MOONLIGHT_INTEGRITY, -1, clif_parse_moonlight_integrity, 0);
-// [Stingor] Poignée de main du client autonome moonclient : MachineGuid + patch de sa
-// propre chaîne, sans condensé de DLL.
+// [Stingor] Poignée de main de l'ancien client à DLL : sa longueur reste connue,
+// sans gestionnaire. Le paquet est lu et ignoré, et la session, jamais vérifiée,
+// reçoit l'avis puis le kick du contrôle des quinze secondes.
+packet(HEADER_CZ_MOONLIGHT_INTEGRITY, -1);
+// [Stingor] Poignée de main de moonclient : MachineGuid + patch de sa chaîne.
 parseable_packet(HEADER_CZ_MOONCLIENT_INTEGRITY, -1, clif_parse_moonclient_integrity, 0);
-// [Stingor] TRANSITION : ancien opcode d'intégrité (pré-migration 0x0F00+). Fait le pont
-// vers l'ancien kick-notice pour que les vieux clients voient le popup « mets à jour »
-// au lieu d'une déco silencieuse. À RETIRER une fois la playerbase migrée.
-parseable_packet(0x0bfb, -1, clif_parse_moonlight_integrity_legacy, 0);
 
-// [Stingor] Bourgeon preset management (variable length, always active)
+// [Stingor] preset management (variable length, always active)
 parseable_packet(HEADER_CZ_MOONLIGHT_PRESET_CMD, -1, clif_parse_moonlight_preset_cmd, 0);
 
-// [Stingor] Bourgeon cheat detection report (fixed 100 bytes, always active)
+// [Stingor] cheat detection report (fixed 100 bytes, always active)
 parseable_packet(HEADER_CZ_MOONLIGHT_CHEAT_REPORT, sizeof(PACKET_CZ_MOONLIGHT_CHEAT_REPORT), clif_parse_moonlight_cheat_report, 0);
 
-// [Stingor] Bourgeon enriched-description tech-data request (fixed, always active)
+// [Stingor] enriched-description tech-data request (fixed, always active)
 parseable_packet(HEADER_CZ_MOONLIGHT_REQ_TECHDATA, sizeof(PACKET_CZ_MOONLIGHT_REQ_TECHDATA), clif_parse_moonlight_reqtechdata, 0);
 parseable_packet(HEADER_CZ_MOONLIGHT_REQ_DAMAGE, sizeof(PACKET_CZ_MOONLIGHT_REQ_DAMAGE), clif_parse_moonlight_reqdamage, 0);
 parseable_packet(HEADER_CZ_MOONLIGHT_REQ_ITEMSCRIPT, sizeof(PACKET_CZ_MOONLIGHT_REQ_ITEMSCRIPT), clif_parse_moonlight_reqitemscript, 0);
 
-// [Stingor] Bourgeon in-game bug report (variable length -> -1)
+// [Stingor] in-game bug report (variable length -> -1)
 parseable_packet(HEADER_CZ_MOONLIGHT_BUG_REPORT, -1, clif_parse_moonlight_bug_report, 0);
 
-// [Stingor] Bourgeon companion toggle (cart/peco/falcon) from the character sheet (fixed)
+// [Stingor] companion toggle (cart/peco/falcon) from the character sheet (fixed)
 parseable_packet(HEADER_CZ_MOONLIGHT_COMPANION, sizeof(PACKET_CZ_MOONLIGHT_COMPANION), clif_parse_moonlight_companion, 0);
 
-// [Stingor] Bourgeon sertissage rapide : cartes compatibles d'un équipement (fixed)
+// [Stingor] sertissage rapide : cartes compatibles d'un équipement (fixed)
 parseable_packet(HEADER_CZ_MOONLIGHT_REQ_COMPAT_CARDS, sizeof(PACKET_CZ_MOONLIGHT_REQ_COMPAT_CARDS), clif_parse_moonlight_reqcompatcards, 0);
 
-// [Stingor] Bourgeon : saut cosmétique à la barre espace (relayé à la zone).
+// [Stingor] saut cosmétique à la barre espace (relayé à la zone).
 parseable_packet(HEADER_CZ_MOONLIGHT_JUMP, sizeof(PACKET_CZ_MOONLIGHT_JUMP), clif_parse_moonlight_jump, 0);
 
-// [Stingor] Bourgeon : le STYLE du joueur — couleurs de corps, palette de cheveux
+// [Stingor] le STYLE du joueur — couleurs de corps, palette de cheveux
 // et coiffure (fixed 56, rediffusé à la zone ; la coiffure part en pc_changelook)
 parseable_packet(HEADER_CZ_MOONLIGHT_STYLE, sizeof(PACKET_CZ_MOONLIGHT_STYLE), clif_parse_moonlight_style, 0);
 
-// [Stingor] Bourgeon : onglets de storage — ouvrir/basculer vers un storage (fixed)
+// [Stingor] onglets de storage — ouvrir/basculer vers un storage (fixed)
 parseable_packet(HEADER_CZ_MOONLIGHT_OPEN_STORAGE, sizeof(PACKET_CZ_MOONLIGHT_OPEN_STORAGE), clif_parse_moonlight_open_storage, 0);
 
-// [Stingor] Bourgeon : fiche détaillée d'un monstre (remplace la fenêtre native
-// Monster Info du skill Sense, cf. Bourgeon/docs/monster_info_re.md) — fixed
+// [Stingor] fiche détaillée d'un monstre (remplace la fenêtre native
+// Monster Info du skill Sense) — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_REQ_MOBINFO, sizeof(PACKET_CZ_MOONLIGHT_REQ_MOBINFO), clif_parse_moonlight_reqmobinfo, 0);
 
-// [Stingor] Bourgeon : propriétés SERVEUR d'une entité (inspecteur du staff).
+// [Stingor] propriétés SERVEUR d'une entité (inspecteur du staff).
 // Gate niveau de groupe >= 80 DANS le handler, pas seulement côté client — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_REQ_ENTITY_PROPS, sizeof(PACKET_CZ_MOONLIGHT_REQ_ENTITY_PROPS), clif_parse_moonlight_req_entity_props, 0);
 
@@ -2163,29 +2159,29 @@ parseable_packet(HEADER_CZ_MOONCLIENT_OUTFIT, -1, clif_parse_moonclient_outfit, 
 // DANS le handler -- VARIABLE, exactement 5 + 4 x nombre.
 parseable_packet(HEADER_CZ_MOONCLIENT_STYLE_ABSENT, -1, clif_parse_moonclient_style_absent, 0);
 
-// [Stingor] Bourgeon : état de l'entité ciblée (fenêtre de cible). Le client
+// [Stingor] état de l'entité ciblée (fenêtre de cible). Le client
 // redemande tant que sa fenêtre est ouverte ; aucun état serveur — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_TARGET_INFO, sizeof(PACKET_CZ_MOONLIGHT_TARGET_INFO), clif_parse_moonlight_target_info, 0);
 parseable_packet(HEADER_CZ_MOONLIGHT_REQ_STATUS_LIST, sizeof(PACKET_CZ_MOONLIGHT_REQ_STATUS_LIST), clif_parse_moonlight_req_status_list, 0);
 parseable_packet(HEADER_CZ_MOONLIGHT_REQ_LOOKS, sizeof(PACKET_CZ_MOONLIGHT_REQ_LOOKS), clif_parse_moonlight_req_looks, 0);
 
-// [Stingor] Bourgeon : capacités d'affichage de l'interface moderne — ce que ce
+// [Stingor] capacités d'affichage de l'interface moderne — ce que ce
 // client rendra des balises maison. Réémis à chaque bascule d'un réglage.
 // VARIABLE (-1) et non sizeof : un champ pourra s'ajouter sans que les deux côtés
 // soient déployés dans la même seconde — le handler vérifie la longueur reçue.
 parseable_packet(HEADER_CZ_MOONLIGHT_UI_CAPS, -1, clif_parse_moonlight_ui_caps, 0);
 
-// [Stingor] Bourgeon : outillage NPC du menu contextuel (recharger le fichier,
+// [Stingor] outillage NPC du menu contextuel (recharger le fichier,
 // decharger, deplacer ici). Gate niveau de groupe >= 99 DANS le handler — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_NPC_ADMIN, sizeof(PACKET_CZ_MOONLIGHT_NPC_ADMIN), clif_parse_moonlight_npc_admin, 0);
 parseable_packet(HEADER_CZ_MOONLIGHT_PLAYER_ADMIN, sizeof(PACKET_CZ_MOONLIGHT_PLAYER_ADMIN), clif_parse_moonlight_player_admin, 0);
 
-// [Stingor] Bourgeon : carnet de chasse MVP. Un seul CZ pour TOUTES les
+// [Stingor] carnet de chasse MVP. Un seul CZ pour TOUTES les
 // commandes (créer, inviter, favori, saisie manuelle…), sur le patron des
 // presets — VARIABLE (-1), la longueur du texte final s'en déduit.
 parseable_packet(HEADER_CZ_MOONLIGHT_MVP_CMD, -1, clif_parse_moonlight_mvp_cmd, 0);
 
-// [Stingor] Bourgeon : album de cartes. Un seul CZ pour rafraîchir, sacrifier,
+// [Stingor] album de cartes. Un seul CZ pour rafraîchir, sacrifier,
 // déposer et retirer — VARIABLE (-1) comme les autres customs, pour qu'un champ
 // puisse s'ajouter sans déployer les deux côtés dans la même seconde.
 parseable_packet(HEADER_CZ_MOONLIGHT_CARD_ALBUM_CMD, -1, clif_parse_moonlight_card_album_cmd, 0);

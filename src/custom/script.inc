@@ -1835,9 +1835,9 @@ BUILDIN_FUNC(restartnpc)
 	return SCRIPT_CMD_SUCCESS;
 }
 
-/* bourgeon_discord_relay_all("<msg>"{, <rich_state>, "<user_id>", "<name>", "<avatar>", "<text>", <flags>});
+/* moonclient_discord_relay_all("<msg>"{, <rich_state>, "<user_id>", "<name>", "<avatar>", "<text>", <flags>});
  * Sends a pre-formatted Discord relay message (ZC_MOONLIGHT_DISCORD_MSG, 0x0F08)
- * to all players currently on the gonryun map.  The Bourgeon overlay shows it
+ * to all players currently on the gonryun map.  The client shows it
  * if the player's Discord checkbox is ON, silently drops it otherwise.
  * Called from moonbot.npc's OnTimer3000 after draining the discord_relay SQL table.
  *
@@ -1849,7 +1849,7 @@ BUILDIN_FUNC(restartnpc)
  * reçoivent ZC_MOONLIGHT_DISCORD_RICH (0x0F3C) à la place de 0x0F08. Appelée
  * avec le seul message, elle fait exactement ce qu'elle faisait avant.
  */
-BUILDIN_FUNC(bourgeon_discord_relay_all)
+BUILDIN_FUNC(moonclient_discord_relay_all)
 {
 	const char* msg = script_getstr(st, 2);
 	if (msg && *msg) {
@@ -1878,17 +1878,17 @@ BUILDIN_FUNC(bourgeon_discord_relay_all)
 		if (rich_state == DISCORD_RICH_CARRIER && (rich.text == nullptr || rich.text[0] == '\0'))
 			rich_state = DISCORD_RICH_NONE;
 
-		clif_bourgeon_discord_msg_all(msg, rich_state, &rich);
+		clif_moonclient_discord_msg_all(msg, rich_state, &rich);
 	}
 	script_pushint(st, 1);
 	return SCRIPT_CMD_SUCCESS;
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
- * BALISES BOURGEON — des LIENS et des IMAGES dans un dialogue NPC
+ * BALISES MOONCLIENT — des LIENS et des IMAGES dans un dialogue NPC
  * ════════════════════════════════════════════════════════════════════════════
  *
- * Le client Bourgeon rend, dans son dialogue NPC moderne, des balises que le
+ * Le client rend, dans son dialogue NPC moderne, des balises que le
  * client vanilla ne connaît pas : liens vers un monstre / un objet / une recette,
  * sprites de monstres, images. Les fonctions ci-dessous les COMPOSENT — un script
  * n'a donc ni à connaître leur syntaxe, ni à aller chercher le nom d'un monstre.
@@ -1901,7 +1901,7 @@ BUILDIN_FUNC(bourgeon_discord_relay_all)
  * 🔴 IL N'Y A RIEN À TESTER POUR LE CAS ORDINAIRE. Un joueur dont le dialogue
  * moderne est éteint (ou un client vanilla) reçoit automatiquement le texte
  * dégradé : la balise est remplacée par le nom qu'elle transporte, les médias
- * disparaissent (clif_bourgeon_strip_own_tags, appelé par clif_scriptmes). Un
+ * disparaissent (clif_moonclient_strip_own_tags, appelé par clif_scriptmes). Un
  * script s'écrit donc UNE fois.
  *
  * `moonlight_ui()` ne sert qu'à changer la STRUCTURE d'un dialogue — proposer un
@@ -1915,7 +1915,7 @@ BUILDIN_FUNC(bourgeon_discord_relay_all)
  *
  *   if (moonlight_ui(MOONLIGHT_UI_NPC_DIALOG)) { mes mobsprite(1039,1); }
  *
- * 0 pour un client vanilla, pour un client Bourgeon dont tout est éteint, et
+ * 0 pour un client vanilla, pour un client dont tout est éteint, et
  * pour un joueur qui n'a pas encore annoncé ses capacités — les trois se valent
  * du point de vue d'un script : ne comptez pas sur les balises.
  */
@@ -1928,9 +1928,9 @@ BUILDIN_FUNC(moonlight_ui)
 	}
 	if (script_hasdata(st, 2)) {
 		const uint32 mask = (uint32)script_getnum(st, 2);
-		script_pushint(st, (sd->bourgeon_ui_caps & mask) == mask ? 1 : 0);
+		script_pushint(st, (sd->moonclient_ui_caps & mask) == mask ? 1 : 0);
 	} else {
-		script_pushint(st, (int32)sd->bourgeon_ui_caps);
+		script_pushint(st, (int32)sd->moonclient_ui_caps);
 	}
 	return SCRIPT_CMD_SUCCESS;
 }
@@ -1941,7 +1941,7 @@ BUILDIN_FUNC(moonlight_ui)
  *
  * 🔴 Le nom voyage DANS la balise, et c'est structurel : le client ne sait pas
  * nommer un monstre (il n'a pas mob_db, et le paquet de la fiche ne porte pas le
- * nom). Sans lui, un joueur verrait un numéro — et un client sans Bourgeon, qui
+ * nom). Sans lui, un joueur verrait un numéro — et un client sans le dialogue moderne, qui
  * reçoit le texte dégradé, ne verrait rien du tout.
  * Le nom explicite l'emporte, pour les monstres renommés par un script.
  */
@@ -1995,7 +1995,7 @@ BUILDIN_FUNC(itemtag)
  * l'Atlas des recettes plutôt que la description.
  *
  * ⚠ Le serveur ne SAIT PAS si l'objet a une recette : la table des recettes est un
- * fichier du client (bourgeon_recipes.yaml). C'est donc le client qui tranche — pas
+ * fichier du client (craft_recipes.yml). C'est donc le client qui tranche — pas
  * de recette, le lien redevient du texte ordinaire.
  */
 BUILDIN_FUNC(crafttag)
@@ -2076,7 +2076,7 @@ BUILDIN_FUNC(imgtag)
 }
 
 /* settingtag("<clé>","<libellé>") -> "<SETL>clé:libellé</SETL>"
- * Un lien vers une destination du panneau de réglages Bourgeon : le clic l'ouvre
+ * Un lien vers une destination du panneau de réglages du client : le clic l'ouvre
  * déjà déplié au bon endroit. Pour les NPC d'aide (« active l'option Objet obtenu »).
  *
  * ⚠ La CLÉ désigne la destination, jamais un numéro de section — un numéro décrit
@@ -2097,13 +2097,13 @@ BUILDIN_FUNC(settingtag)
 	return SCRIPT_CMD_SUCCESS;
 }
 
-/* bourgeon_style_open {<mode>{,<onglet>}}
- * Ouvre, ferme ou bascule la fenêtre de style du client Bourgeon.
+/* moonclient_style_open {<mode>{,<onglet>}}
+ * Ouvre, ferme ou bascule la fenêtre de style du client.
  *   mode : 0 = fermer, 1 = ouvrir (défaut), 2 = basculer.
  *   onglet (moonclient) : l'onglet sur lequel ouvrir — 1 corps, 2 peau,
  *   3 cheveux, 4 coiffe haute, 5 du milieu, 6 basse, 7 cape ; 0 garde celui
  *   du joueur. Il voyage dans le quartet haut du mode, et SEULEMENT vers une
- *   session qui a annoncé MOONLIGHT_UI_STYLE_LAYERS : Bourgeon lit tout mode
+ *   session qui a annoncé MOONLIGHT_UI_STYLE_LAYERS : le client lit tout mode
  *   au-delà de 2 comme « basculer ».
  *
  * 🔴 Un styliste dit OUVRIR, pas BASCULER : basculer refermerait la fenêtre que
@@ -2137,7 +2137,7 @@ BUILDIN_FUNC(moonclient_style_atelier)
 	return SCRIPT_CMD_SUCCESS;
 }
 
-BUILDIN_FUNC(bourgeon_style_open)
+BUILDIN_FUNC(moonclient_style_open)
 {
 	map_session_data *sd;
 
@@ -2150,10 +2150,10 @@ BUILDIN_FUNC(bourgeon_style_open)
 	constexpr int32 tab_most = 7;
 	constexpr int32 tab_shift = 4;
 	const int32 tab = script_hasdata(st,3) ? script_getnum(st,3) : 0;
-	if( tab > 0 && tab <= tab_most && (sd->bourgeon_ui_caps & MOONLIGHT_UI_STYLE_LAYERS) != 0 )
+	if( tab > 0 && tab <= tab_most && (sd->moonclient_ui_caps & MOONLIGHT_UI_STYLE_LAYERS) != 0 )
 		mode |= tab << tab_shift;
 
-	clif_bourgeon_style_open(sd, (uint8)mode);
+	clif_moonclient_style_open(sd, (uint8)mode);
 
 	return SCRIPT_CMD_SUCCESS;
 }

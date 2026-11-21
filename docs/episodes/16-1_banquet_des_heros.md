@@ -51,7 +51,7 @@ Ajouts joints : jetons d'honneur, nouvel objet d'enchantement, préparatifs du b
 |---|---|
 | **Hauts faits et titres** (puis leur refonte) | oui |
 | **Enchantements de costume** | oui |
-| **Lien d'objet** (*item link* en discussion) | oui — déjà côté client Bourgeon |
+| **Lien d'objet** (*item link* en discussion) | oui — déjà côté client |
 | **Salon de coiffure** (*styling shop*) | oui |
 | Système de réputation | oui |
 | Biolab Cauchemar mis à jour | oui |

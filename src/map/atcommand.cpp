@@ -1029,11 +1029,11 @@ ACMD_FUNC(speed)
 
 	// [Stingor] La vitesse SURVIT à la déconnexion : rAthena l'oublie exprès
 	// (map.cpp, « Remove lock so speed is set back to normal at login »), le registre
-	// la repose au login via bourgeon_settings[] — comme @autoloot juste au-dessus.
-	// La resynchro dit la nouvelle valeur au curseur du client Bourgeon.
+	// la repose au login via moonclient_settings[] — comme @autoloot juste au-dessus.
+	// La resynchro dit la nouvelle valeur au curseur du client.
 	if( pc_get_group_level(sd) >= 80 ) { // Si jamais un GM a offer #speed à un joueur, on ne veut pas que le joueur garde sa vitesse à la déconnexion.
 		pc_setglobalreg(sd, add_str("gmspeed"), sd->base_status.speed);
-		if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
+		if (sd->state.client_verified) clif_moonclient_settings(sd);
 	}
 
 	return 0;
@@ -4759,7 +4759,7 @@ ACMD_FUNC(reloadbattleconf){
 	{	// Exp or Drop rates changed.
 		mob_reload(); //Needed as well so rate changes take effect.
 	}
-	clif_bourgeon_server_rules_all(); // [Stingor]
+	clif_moonclient_server_rules_all(); // [Stingor]
 	clif_displaymessage(fd, msg_txt(sd,255)); // Battle configuration has been reloaded.
 
 	return 0;
@@ -6383,10 +6383,10 @@ ACMD_FUNC(effect)
 ACMD_FUNC(killer)
 {
 	nullpo_retr(-1, sd);
-	// [Stingor] Persisté par bourgeon_settings[] : registre, message et resynchro
+	// [Stingor] Persisté par moonclient_settings[] : registre, message et resynchro
 	// du client. Refusé quand le personnage visé n'a pas lui-même la commande
 	// (#killer sur un joueur) : l'état reste alors volatil, comme dans rAthena.
-	if (bourgeon_setting_toggle(sd, BOURGEON_SETTING_KILLER))
+	if (moonclient_setting_toggle(sd, MOONCLIENT_SETTING_KILLER))
 		return 0;
 
 	sd->state.killer = !sd->state.killer;
@@ -6408,7 +6408,7 @@ ACMD_FUNC(killable)
 {
 	nullpo_retr(-1, sd);
 	// [Stingor] Même chemin que @killer, juste au-dessus.
-	if (bourgeon_setting_toggle(sd, BOURGEON_SETTING_KILLABLE))
+	if (moonclient_setting_toggle(sd, MOONCLIENT_SETTING_KILLABLE))
 		return 0;
 
 	sd->state.killable = !sd->state.killable;
@@ -7348,7 +7348,7 @@ ACMD_FUNC(autoloot)
 	}else
 		clif_displaymessage(fd, msg_txt(sd,1188)); // Autoloot is now off.
 
-	if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
+	if (sd->state.client_verified) clif_moonclient_settings(sd);
 	return 0;
 }
 
@@ -7407,7 +7407,7 @@ ACMD_FUNC(autolootitem)
 		sprintf(atcmd_output, msg_txt(sd,1192), item_data->name.c_str(), item_db.create_item_link( item_data ).c_str(), item_data->nameid); // Autolooting item: '%s'/'%s' {%u}
 		clif_displaymessage(fd, atcmd_output);
 		sd->state.autolooting = 1;
-		clif_bourgeon_sync_alootid(sd);
+		clif_moonclient_sync_alootid(sd);
 		break;
 	case 2:
 		ARR_FIND(0, AUTOLOOTITEM_SIZE, i, sd->state.autolootid[i] == item_data->nameid);
@@ -7422,7 +7422,7 @@ ACMD_FUNC(autolootitem)
 		if (i == AUTOLOOTITEM_SIZE) {
 			sd->state.autolooting = 0;
 		}
-		clif_bourgeon_sync_alootid(sd);
+		clif_moonclient_sync_alootid(sd);
 		break;
 	case 3:
 		sprintf(atcmd_output, msg_txt(sd,1195), AUTOLOOTITEM_SIZE); // You can have %d items on your autolootitem list.
@@ -7454,7 +7454,7 @@ ACMD_FUNC(autolootitem)
 		memset(sd->state.autolootid, 0, sizeof(sd->state.autolootid));
 		clif_displaymessage(fd, msg_txt(sd,1200)); // Your autolootitem list has been reset.
 		sd->state.autolooting = 0;
-		clif_bourgeon_sync_alootid(sd);
+		clif_moonclient_sync_alootid(sd);
 		break;
 	}
 	return 0;
@@ -7564,7 +7564,7 @@ ACMD_FUNC(autoloottype)
 			clif_displaymessage(fd, msg_txt(sd,1491)); // Your autoloottype list has been reset.
 			break;
 	}
-	if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
+	if (sd->state.client_verified) clif_moonclient_settings(sd);
 	return 0;
 }
 
@@ -9667,14 +9667,14 @@ ACMD_FUNC(showexp)
 		sd->state.showexp = 0;
 		pc_setglobalreg(sd, add_str("showexp"), 0);
 		clif_displaymessage(fd, msg_txt(sd,1316)); // Gained exp will not be shown.
-		if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
+		if (sd->state.client_verified) clif_moonclient_settings(sd);
 		return 0;
 	}
 
 	sd->state.showexp = 1;
 	pc_setglobalreg(sd, add_str("showexp"), 1);
 	clif_displaymessage(fd, msg_txt(sd,1317)); // Gained exp is now shown.
-	if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
+	if (sd->state.client_verified) clif_moonclient_settings(sd);
 	return 0;
 }
 
@@ -9684,14 +9684,14 @@ ACMD_FUNC(showzeny)
 		sd->state.showzeny = 0;
 		pc_setglobalreg(sd, add_str("showzeny"), 0);
 		clif_displaymessage(fd, msg_txt(sd,1318)); // Gained zeny will not be shown.
-		if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
+		if (sd->state.client_verified) clif_moonclient_settings(sd);
 		return 0;
 	}
 
 	sd->state.showzeny = 1;
 	pc_setglobalreg(sd, add_str("showzeny"), 0);
 	clif_displaymessage(fd, msg_txt(sd,1319)); // Gained zeny is now shown.
-	if (sd->state.has_bourgeon) clif_bourgeon_settings(sd);
+	if (sd->state.client_verified) clif_moonclient_settings(sd);
 	return 0;
 }
 

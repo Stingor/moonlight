@@ -62,11 +62,11 @@ enum e_moonlight_throttle : uint8;
 
 enum e_PacketDBVersion { // packet DB
 	MIN_PACKET_DB  = 0x064,
-	// [Stingor/Bourgeon] Remonté de 0xCFF à 0xFFF pour couvrir la plage custom
-	// Bourgeon 0x0F00..0x0FFF (au-dessus de l'opcode max du client 0x0C35, donc
+	// [Stingor] Remonté de 0xCFF à 0xFFF pour couvrir la plage custom
+	// 0x0F00..0x0FFF (au-dessus de l'opcode max du client 0x0C35, donc
 	// zéro collision côté client ; ≤ MAX_PACKET_DB donc enregistrable côté serveur
 	// via packetdb_addpacket, qui ignore silencieusement tout cmd > MAX_PACKET_DB).
-	// Voir Bourgeon/src/features/systems/bourgeon_opcodes.h (source unique) + docs/opcode_map.md.
+	// La table des opcodes fait foi dans packets_struct.hpp.
 	MAX_PACKET_DB  = 0xFFF,
 #if !defined(MAX_PACKET_POS)
 	MAX_PACKET_POS = 20,
@@ -1022,9 +1022,9 @@ void clif_skillcastcancel( const block_list& bl );
 void clif_skill_fail( const map_session_data& sd, uint16 skill_id, enum useskill_fail_cause cause = USESKILL_FAIL_LEVEL, int32 btype = 0, t_itemid itemId = 0 );
 void clif_skill_cooldown( map_session_data &sd, uint16 skill_id, t_tick tick );
 void clif_skill_damage( const block_list& src, const block_list& dst, t_tick tick, int32 sdelay, int32 ddelay, int64 sdamage, int16 div, uint16 skill_id, uint16 skill_lv, e_damage_type type);
-// Bourgeon DPS meter: flush the per-caster skill-unit damage accumulated during
+// DPS meter: flush the per-caster skill-unit damage accumulated during
 // a skill_unit_timer cycle into one ZC_MOONLIGHT_SKILL_DMG (0x0F09) packet each.
-void clif_bourgeon_flush_skill_dmg();
+void clif_moonclient_flush_skill_dmg();
 //int32 clif_skill_damage2(block_list *src,block_list *dst,t_tick tick,int32 sdelay,int32 ddelay,int32 damage,int32 div,uint16 skill_id,uint16 skill_lv,enum e_damage_type type);
 bool clif_skill_nodamage( const block_list* src, const block_list& dst, uint16 skill_id, int32 heal, bool success = true );
 void clif_skill_poseffect( block_list& bl, uint16 skill_id, uint16 skill_lv, uint16 x, uint16 y, t_tick tick );
@@ -1272,7 +1272,7 @@ void clif_quest_add( const map_session_data* sd, const quest* qd );
 void clif_quest_delete( const map_session_data* sd, int32 quest_id );
 // [Stingor] Pourquoi la quête quitte le journal (ZC 0x0F3B), à appeler JUSTE AVANT
 // clif_quest_delete. Rien sans MOONLIGHT_UI_QUEST_END.
-void clif_bourgeon_quest_end( const map_session_data* sd, int32 quest_id, e_moonlight_quest_end reason, int32 next_quest_id = 0 );
+void clif_moonclient_quest_end( const map_session_data* sd, int32 quest_id, e_moonlight_quest_end reason, int32 next_quest_id = 0 );
 void clif_quest_update_status( const map_session_data* sd, int32 quest_id, bool active );
 void clif_quest_update_objective( const map_session_data* sd, const quest* qd );
 void clif_quest_show_event( const map_session_data* sd, const block_list* bl, e_questinfo_types effect, e_questinfo_markcolor color );
@@ -1585,51 +1585,51 @@ void clif_noask_sub( const map_session_data& sd, const map_session_data& tsd, in
 
 void clif_specialpopup(const map_session_data& sd, int32 id);
 
-// [Stingor] Bourgeon settings sync (ZC 0x0F05 / CZ 0x0F04)
+// [Stingor] settings sync (ZC 0x0F05 / CZ 0x0F04)
 //
 // Identifiants des réglages sur le fil. Doivent rester alignés sur les
-// constantes kSetting* du client (Bourgeon/src/features/moonlight_ui/moonlight_ui.h) :
+// constantes du client :
 // c'est un contrat de protocole, un id ne se réutilise donc jamais.
 //
 // Ce que chaque réglage vaut côté serveur, ce qu'il vaut sur le fil et dans
 // quel registre il dort est décrit une seule fois, dans la table
-// bourgeon_settings[] de clif.cpp. Ne pas écrire un membre sd->state.* de
-// réglage à la main : passer par bourgeon_setting_set(), sinon le registre,
+// moonclient_settings[] de clif.cpp. Ne pas écrire un membre sd->state.* de
+// réglage à la main : passer par moonclient_setting_set(), sinon le registre,
 // l'UI du client et le message de confirmation divergent.
-enum e_bourgeon_setting : int16 {
-	BOURGEON_SETTING_SHOW_EXP      = 0,
-	BOURGEON_SETTING_SHOW_ZENY     = 1,
-	BOURGEON_SETTING_SHOW_MOB_INFO = 2,
-	BOURGEON_SETTING_SEPARATE      = 3,
-	BOURGEON_SETTING_BLOCK_EXP     = 4,
-	BOURGEON_SETTING_ALOOT_RARE    = 5,
-	BOURGEON_SETTING_ALOOT_RATE    = 6,
-	BOURGEON_SETTING_ALOOT_POGNON  = 7,
-	BOURGEON_SETTING_ALOOT_TYPE    = 8,
-	BOURGEON_SETTING_DISCORD_CHAT  = 9,
-	BOURGEON_SETTING_SHOWDELAY     = 10,
-	BOURGEON_SETTING_SHOWSPEED     = 11,
-	BOURGEON_SETTING_SELLSTUFF     = 12,
-	BOURGEON_SETTING_SELLITEM      = 13,
-	BOURGEON_SETTING_NOASK         = 14,
-	BOURGEON_SETTING_NOKS          = 15,
-	BOURGEON_SETTING_WINGS         = 16,
-	BOURGEON_SETTING_ALOOT_MVP     = 17,
-	BOURGEON_SETTING_ALOOT_MVPRWD  = 18,
+enum e_moonclient_setting : int16 {
+	MOONCLIENT_SETTING_SHOW_EXP      = 0,
+	MOONCLIENT_SETTING_SHOW_ZENY     = 1,
+	MOONCLIENT_SETTING_SHOW_MOB_INFO = 2,
+	MOONCLIENT_SETTING_SEPARATE      = 3,
+	MOONCLIENT_SETTING_BLOCK_EXP     = 4,
+	MOONCLIENT_SETTING_ALOOT_RARE    = 5,
+	MOONCLIENT_SETTING_ALOOT_RATE    = 6,
+	MOONCLIENT_SETTING_ALOOT_POGNON  = 7,
+	MOONCLIENT_SETTING_ALOOT_TYPE    = 8,
+	MOONCLIENT_SETTING_DISCORD_CHAT  = 9,
+	MOONCLIENT_SETTING_SHOWDELAY     = 10,
+	MOONCLIENT_SETTING_SHOWSPEED     = 11,
+	MOONCLIENT_SETTING_SELLSTUFF     = 12,
+	MOONCLIENT_SETTING_SELLITEM      = 13,
+	MOONCLIENT_SETTING_NOASK         = 14,
+	MOONCLIENT_SETTING_NOKS          = 15,
+	MOONCLIENT_SETTING_WINGS         = 16,
+	MOONCLIENT_SETTING_ALOOT_MVP     = 17,
+	MOONCLIENT_SETTING_ALOOT_MVPRWD  = 18,
 	// 19 à 22 : les anciens tris du sac, de la charrette et des coffres. Le tri
 	// est l'affaire du client ; ces numéros restent réservés pour qu'un client
 	// ancien qui les envoie encore ne touche pas un réglage nouveau.
-	BOURGEON_SETTING_ALOOT_ID      = 23,  // action : ajoute un itemId à la liste autolootid (0 = tout effacer)
-	BOURGEON_SETTING_ALOOT_ID_REM  = 24,  // action : retire un itemId de la liste
-	BOURGEON_SETTING_REFRESH       = 25,  // action : le client réclame un clif_refresh sur lui-même ; valeur ignorée
-	BOURGEON_SETTING_STAFF         = 26,  // serveur -> client : pc_get_group_level(sd), gate des fonctions réservées
-	BOURGEON_SETTING_FLYWING_LAST  = 27,  // marque d'où l'on vient après une Fly Wing / Téléport
-	BOURGEON_SETTING_WALK_SPEED    = 28,  // vitesse de marche (@speed), en ms par cellule
-	BOURGEON_SETTING_AFK           = 29,  // action : le client annonce son absence (masque e_bourgeon_afk)
-	BOURGEON_SETTING_KILLER        = 30,  // @killer : attaque les joueurs hors PvP, persisté
-	BOURGEON_SETTING_KILLABLE      = 31,  // @killable : attaquable par les joueurs hors PvP, persisté
-	BOURGEON_SETTING_PLAYERTEST    = 32,  // @playertest : plafonds GM d'ASPD et de delay ignorés, persisté
-	BOURGEON_SETTING_NODELAY       = 33,  // @nodelay : skills sans cooldown, délai ni incantation, persisté
+	MOONCLIENT_SETTING_ALOOT_ID      = 23,  // action : ajoute un itemId à la liste autolootid (0 = tout effacer)
+	MOONCLIENT_SETTING_ALOOT_ID_REM  = 24,  // action : retire un itemId de la liste
+	MOONCLIENT_SETTING_REFRESH       = 25,  // action : le client réclame un clif_refresh sur lui-même ; valeur ignorée
+	MOONCLIENT_SETTING_STAFF         = 26,  // serveur -> client : pc_get_group_level(sd), gate des fonctions réservées
+	MOONCLIENT_SETTING_FLYWING_LAST  = 27,  // marque d'où l'on vient après une Fly Wing / Téléport
+	MOONCLIENT_SETTING_WALK_SPEED    = 28,  // vitesse de marche (@speed), en ms par cellule
+	MOONCLIENT_SETTING_AFK           = 29,  // action : le client annonce son absence (masque e_moonclient_afk)
+	MOONCLIENT_SETTING_KILLER        = 30,  // @killer : attaque les joueurs hors PvP, persisté
+	MOONCLIENT_SETTING_KILLABLE      = 31,  // @killable : attaquable par les joueurs hors PvP, persisté
+	MOONCLIENT_SETTING_PLAYERTEST    = 32,  // @playertest : plafonds GM d'ASPD et de delay ignorés, persisté
+	MOONCLIENT_SETTING_NODELAY       = 33,  // @nodelay : skills sans cooldown, délai ni incantation, persisté
 };
 
 // Ce que le voisinage doit voir d'un joueur absent. Un MASQUE et non une
@@ -1638,15 +1638,15 @@ enum e_bourgeon_setting : int16 {
 //
 // ⚠ Ces bits sont un CONTRAT avec le client (afk_screen.h, kAnnounce*) : leurs
 // valeurs ne changent plus, on n'en ajoute qu'à la suite.
-enum e_bourgeon_afk : uint8 {
-	BOURGEON_AFK_SLEEP = 0x01,  ///< le « zzz » du sommeil au-dessus du personnage
-	BOURGEON_AFK_TAG   = 0x02,  ///< « [AFK] » devant le pseudo, dans l'étiquette de nom
+enum e_moonclient_afk : uint8 {
+	MOONCLIENT_AFK_SLEEP = 0x01,  ///< le « zzz » du sommeil au-dessus du personnage
+	MOONCLIENT_AFK_TAG   = 0x02,  ///< « [AFK] » devant le pseudo, dans l'étiquette de nom
 };
 
 // D'où vient un changement de réglage. Décide de ce que le moteur fait en plus
 // de poser la valeur : écrire le registre, parler au joueur, resynchroniser
 // l'interface du client.
-enum e_bourgeon_setting_src : uint8 {
+enum e_moonclient_setting_src : uint8 {
 	BSET_SRC_LOGIN = 0,  ///< hydratation depuis les registres : cache mémoire seul, aucun effet visible
 	BSET_SRC_CLIENT,     ///< CZ_MOONLIGHT_SETTING : le client a déjà bougé son UI, inutile de la lui renvoyer
 	BSET_SRC_SERVER,     ///< @commande, NPC, admin : le client doit être resynchronisé
@@ -1654,29 +1654,29 @@ enum e_bourgeon_setting_src : uint8 {
 
 // Recharge tous les réglages persistés depuis les registres du personnage.
 // À appeler une fois par connexion, avant que le joueur n'entre sur la map.
-void bourgeon_setting_load( map_session_data* sd );
+void moonclient_setting_load( map_session_data* sd );
 // Pose la valeur *serveur* d'un réglage (celle du registre et du membre, pas
 // celle du fil). Renvoie false si l'id est inconnu ou en lecture seule.
-bool bourgeon_setting_set( map_session_data* sd, int16 id, uint32 value, e_bourgeon_setting_src src );
+bool moonclient_setting_set( map_session_data* sd, int16 id, uint32 value, e_moonclient_setting_src src );
 // Bascule un réglage booléen. Source implicite : BSET_SRC_SERVER.
-bool bourgeon_setting_toggle( map_session_data* sd, int16 id );
+bool moonclient_setting_toggle( map_session_data* sd, int16 id );
 // Valeur serveur courante, lue au cache s'il existe, au registre sinon.
-uint32 bourgeon_setting_get( map_session_data* sd, int16 id );
+uint32 moonclient_setting_get( map_session_data* sd, int16 id );
 
-void clif_bourgeon_settings(map_session_data* sd);
-// [Stingor] Bourgeon table itemId->ordinal de hat effect (ZC 0x0F17) — preview costumes
+void clif_moonclient_settings(map_session_data* sd);
+// [Stingor] table itemId->ordinal de hat effect (ZC 0x0F17) — preview costumes
 // sans viewid ; poussée au login vérifié. Statique (scan des scripts item_db, cache).
-void clif_bourgeon_hateffect_map(map_session_data* sd);
-// [Stingor] Bourgeon storage sell-prices (ZC 0x0F0F) — call after clif_storagelist
+void clif_moonclient_hateffect_map(map_session_data* sd);
+// [Stingor] storage sell-prices (ZC 0x0F0F) — call after clif_storagelist
 // fresh_list : true pour la liste complète d'une ouverture (le client repart de
 // zéro), false pour un objet ajouté à la liste déjà envoyée.
-void clif_bourgeon_storage_prices(map_session_data* sd, const struct item* items, int32 items_length, bool fresh_list);
+void clif_moonclient_storage_prices(map_session_data* sd, const struct item* items, int32 items_length, bool fresh_list);
 // [Stingor] Re-sync autolootid list to client (clear + rebuild) — call after @alootid changes
-void clif_bourgeon_sync_alootid(map_session_data* sd);
+void clif_moonclient_sync_alootid(map_session_data* sd);
 // [Stingor] Send preset list (ZC 0x0F07) to client — call after any preset DB change
-void clif_bourgeon_send_preset_list(map_session_data* sd);
+void clif_moonclient_send_preset_list(map_session_data* sd);
 // [Stingor] Send equip/card stat breakdown (ZC 0x0F10) — called at end of status_calc_pc
-void clif_bourgeon_stat_bonus(map_session_data* sd);
+void clif_moonclient_stat_bonus(map_session_data* sd);
 // [Stingor] ZC 0x0F3D : ce qu'apporte une pièce ou un ensemble qui entre ou sort de
 // l'équipement, à qui a annoncé MOONLIGHT_UI_EQUIP_ATTRIBUTES. Les scripts sont joués
 // en capture : rien n'est appliqué au joueur.
@@ -1704,12 +1704,12 @@ struct s_discord_rich {
 	const char* text = "";       ///< UTF-8, message entier
 	uint8 flags = 0;             ///< e_moonlight_discord_rich_flag
 };
-void clif_bourgeon_discord_msg_all(const char* msg, e_discord_rich_state rich_state = DISCORD_RICH_NONE, const s_discord_rich* rich = nullptr);
-// [Stingor] (Re)load conf/bourgeon_integrity.conf — called by admin INTEGRITY command
-void clif_bourgeon_integrity_reload();
+void clif_moonclient_discord_msg_all(const char* msg, e_discord_rich_state rich_state = DISCORD_RICH_NONE, const s_discord_rich* rich = nullptr);
+// [Stingor] (Re)load conf/moonclient_integrity.conf — called by admin INTEGRITY command
+void clif_moonclient_integrity_reload();
 // [Stingor] Remove a player's MachineGuid from the online GUID map (call on logout)
-void clif_bourgeon_unregister_guid(int32 account_id);
-// [Stingor] Receive cheat detection report from a Bourgeon client (CZ 0x0F0A)
+void clif_moonclient_unregister_guid(int32 account_id);
+// [Stingor] Receive cheat detection report from a verified client (CZ 0x0F0A)
 void clif_parse_moonlight_cheat_report(int32 fd, map_session_data* sd);
 // [Stingor] Enriched description tech data (CZ 0x0F0B request -> ZC 0x0F0C reply):
 // item drop sources (reuse item_data->mob[], @whodrops-style rates + boss type)
@@ -1726,7 +1726,7 @@ void clif_parse_moonlight_bug_report(int32 fd, map_session_data* sd);
 void clif_parse_report_user(int32 fd, map_session_data* sd);
 // [Stingor] Compagnons depuis la feuille de perso (CZ 0x0F15) : invoquer/basculer
 // chariot/peco/faucon soi-même (re-validation skill serveur). L'état est renvoyé
-// via clif_bourgeon_companion_state (ZC 0x0F16), aussi poussé par les setters cart/
+// via clif_moonclient_companion_state (ZC 0x0F16), aussi poussé par les setters cart/
 // riding/falcon (synchro y compris quand la Kafra les change).
 void clif_parse_moonlight_companion(int32 fd, map_session_data* sd);
 // Saut cosmétique (CZ 0x0F1A) : relayé en ZC 0x0F1B à la zone, sous cooldown.
@@ -1740,45 +1740,45 @@ void clif_parse_moonlight_jump(int32 fd, map_session_data* sd);
 // implémentation de l'algorithme de rampes, qui divergerait.
 void clif_parse_moonlight_style(int32 fd, map_session_data* sd);
 // Envoie à `sd` la recette de `owner`, si `owner` en a une et si `sd` est un
-// client Bourgeon. Appelé quand `owner` entre dans la vue de `sd`.
-void clif_bourgeon_style_single(map_session_data* sd, map_session_data* owner);
+// client. Appelé quand `owner` entre dans la vue de `sd`.
+void clif_moonclient_style_single(map_session_data* sd, map_session_data* owner);
 // [Stingor] Les variantes v7 de `owner`, à la suite de `out` : [corps:1] puis
 // corps × l'entrée du lot 0x0F27 sans son gid. Pour les styles hors de vue.
-void clif_bourgeon_style_bodies(map_session_data& owner, std::vector<uint8>& out);
+void clif_moonclient_style_bodies(map_session_data& owner, std::vector<uint8>& out);
 // Pousse d'un coup le style de TOUS les joueurs déjà en vue de `sd`.
 //
-// 🔴 À appeler quand `sd` vient d'être reconnu comme client Bourgeon. La
+// 🔴 À appeler quand `sd` vient d'être reconnu comme client. La
 // diffusion normale (`clif_getareachar_unit`) tourne au SPAWN, donc avant que ce
 // drapeau ne soit posé, et elle est gatée dessus : sans ce rattrapage, un joueur
 // ayant validé son style avant notre connexion reste dans ses couleurs
 // d'origine jusqu'à ce qu'il le re-valide.
-void clif_bourgeon_style_area(map_session_data* sd);
-// Diffuse la recette de `sd` à tous les clients Bourgeon à portée.
+void clif_moonclient_style_area(map_session_data* sd);
+// Diffuse la recette de `sd` à tous les clients à portée.
 //
 // 🔴 À appeler quand `sd` APPARAÎT (`clif_spawn` : connexion, warp, changement de
 // carte). `clif_getareachar_unit` ne couvre que le sens inverse — ce que le
 // nouveau venu découvre — donc sans ceci personne ne voit jamais arriver le
 // style d'un joueur, pas même après qu'il se soit reconnecté.
-void clif_bourgeon_style_spawn(map_session_data* sd);
+void clif_moonclient_style_spawn(map_session_data* sd);
 // [Stingor] La coupe ou la couleur du personnage a changé hors de l'éditeur
 // (styliste, commande, script) : les variantes rangées qui en fixaient une autre
 // la suivent, et la zone l'apprend. Appelé par `pc_changelook`.
-void clif_bourgeon_style_follow_look(map_session_data* sd);
+void clif_moonclient_style_follow_look(map_session_data* sd);
 // [Stingor] Un NPC pilote la fenêtre de couleurs (ZC 0x0F28) : 0 ferme, 1 ouvre,
-// 2 bascule. Exposé aux scripts par `bourgeon_style_open`.
-void clif_bourgeon_style_open(map_session_data* sd, uint8 mode);
-void clif_bourgeon_companion_state(map_session_data* sd);
+// 2 bascule. Exposé aux scripts par `moonclient_style_open`.
+void clif_moonclient_style_open(map_session_data* sd, uint8 mode);
+void clif_moonclient_companion_state(map_session_data* sd);
 // [Stingor] Maîtrise culinaire (ZC 0x0F1C, SELF). Seul terme de la formule de réussite
 // de la cuisine que le client ne peut pas déduire, et valeur que le jeu n'affiche nulle
 // part alors qu'elle bouge à chaque plat. Poussée au login vérifié et à chaque
-// changement (pc_setparam SP_COOKMASTERY). No-op si !has_bourgeon.
-void clif_bourgeon_cook_mastery(map_session_data* sd);
-// [Stingor] Onglets de storage du viewer Bourgeon.
+// changement (pc_setparam SP_COOKMASTERY). No-op si !client_verified.
+void clif_moonclient_cook_mastery(map_session_data* sd);
+// [Stingor] Onglets de storage du viewer.
 // ZC 0x0F1E : storages que le joueur a le DROIT d'ouvrir (mêmes permissions que les
 // commandes @storage / @storagealtN) + celui qui est ouvert (cur_id, 0xFF = aucun).
 // Poussé au login vérifié et à chaque ouverture de storage — donc aussi quand le
 // storage NATIF est utilisé : le client se contente alors de le mémoriser.
-void clif_bourgeon_storage_list(map_session_data* sd, uint8 cur_id);
+void clif_moonclient_storage_list(map_session_data* sd, uint8 cur_id);
 // [Stingor] Vrai si un onglet peut ouvrir le storage `stor_id` maintenant, avec
 // les MÊMES refus que la commande tapée (@storage / @storagealtN) passée par
 // is_atcommand : spectateur, dialogue NPC qui coupe les commandes, mute de
@@ -1789,21 +1789,21 @@ void clif_bourgeon_storage_list(map_session_data* sd, uint8 cur_id);
 bool clif_moonlight_storage_tab_allowed(map_session_data& sd, uint8 stor_id);
 // ZC 0x0F21 : canaux de chat atteignables par ce personnage (carte, alliance,
 // publics de channels.conf filtrés par groupe). Poussé au login vérifié — la
-// combo de la barre de chat Bourgeon les propose à côté des modes natifs, et
+// combo de la barre de chat les propose à côté des modes natifs, et
 // choisir un canal revient à chuchoter à « #nom », ce que clif_parse_WisMessage
 // route déjà vers le canal.
-void clif_bourgeon_channel_list(map_session_data* sd);
+void clif_moonclient_channel_list(map_session_data* sd);
 // [Stingor] ZC 0x0F35 : qui, dans le groupe, est HORS du partage d'EXP.
 // Le vecteur est composé UNE fois par `party_send_xy_timer` puis servi à chaque
 // membre : il ne dépend pas du destinataire, seulement de l'état des membres.
-// No-op si !has_bourgeon — la fenêtre de groupe native n'a rien pour l'afficher.
-void clif_bourgeon_party_share(map_session_data& sd, const uint32* aid, const uint8* flags, int32 count);
+// No-op si !client_verified — la fenêtre de groupe native n'a rien pour l'afficher.
+void clif_moonclient_party_share(map_session_data& sd, const uint32* aid, const uint8* flags, int32 count);
 // CZ 0x0F1D : ouvrir un storage, ou basculer depuis celui qui est ouvert (ferme
 // puis rouvre — les @storagealt, eux, se contentent de fermer).
 void clif_parse_moonlight_open_storage(int32 fd, map_session_data* sd);
 // CZ 0x0F1F -> ZC 0x0F20 : fiche détaillée d'un monstre (stats, résistances,
 // drops, cartes de spawn, skills). Tout ce que ZC_MONSTER_INFO (0x018C, Sense)
-// ne transporte pas. Cf. Bourgeon/docs/monster_info_re.md.
+// ne transporte pas.
 //
 // La QUEUE du paquet porte l'identité, ajoutée pour lever une confusion réelle :
 // [aegislen:1][aegis:N][summoned:1][namesake_count:1][namesake_ref:4]
@@ -1816,7 +1816,7 @@ void clif_parse_moonlight_open_storage(int32 fd, map_session_data* sd);
 // qu'on pourrait être tenté de prendre sont faux.
 void clif_parse_moonlight_reqmobinfo(int32 fd, map_session_data* sd);
 // CZ 0x0F22 -> ZC 0x0F23 : propriétés SERVEUR d'une entité du monde, pour
-// l'inspecteur du STAFF (Bourgeon : EntityInspector). Le client lit déjà tout ce
+// l'inspecteur du STAFF (inspecteur du client). Le client lit déjà tout ce
 // qu'il possède (plaque de nom, acteur, position) ; ce paquet apporte l'autre
 // moitié — fichier de script d'un NPC, spawn d'un monstre, lanceur d'une unité
 // de compétence, réservation d'un objet au sol.
@@ -1836,14 +1836,14 @@ void clif_parse_moonlight_req_chat_blocks(int32 fd, map_session_data* sd);
 // moonclient. Gate niveau de groupe >= 80, comme l'inspecteur.
 void clif_parse_moonlight_req_staff_roster(int32 fd, map_session_data* sd);
 // CZ 0x0F29 -> ZC 0x0F2A : état de l'entité CIBLÉE, pour la fenêtre de cible de
-// Bourgeon (TargetFrame). Le client tient déjà nom / race / élément de sa plaque
+// le cadre de cible du client. Le client tient déjà nom / race / élément de sa plaque
 // de nom ; ce paquet apporte ce qu'aucun autre ne transporte — le **SP** d'une
 // entité tierce — et des PV exacts au lieu d'un pourcentage.
 //
 // 🔴 Pas d'abonnement : le client REDEMANDE tant que sa fenêtre est ouverte,
 // donc le serveur ne garde aucun état à nettoyer.
 // 🔴 Gate PVP, et il ne porte PAS sur les PV : ceux-là partent toujours, le
-// HUD de Bourgeon n'en montrant qu'une JAUGE dès que la cible est un joueur.
+// HUD du client n'en montrant qu'une JAUGE dès que la cible est un joueur.
 // Le SP et le NIVEAU, eux, s'affichent en clair : ils restent réservés à la
 // party et à la guilde du propriétaire (la cible, ou le maître d'un compagnon).
 // 🔴 Hors AREA_SIZE ou map différente => statut 1, et la fenêtre se ferme.
@@ -1861,7 +1861,7 @@ void clif_parse_moonlight_target_info(int32 fd, map_session_data* sd);
 void clif_parse_moonlight_req_status_list(int32 fd, map_session_data* sd);
 void clif_parse_moonlight_req_looks(int32 fd, map_session_data* sd);
 
-// CZ 0x0F25 : outillage NPC du menu contextuel (Bourgeon : EntityContextMenu) —
+// CZ 0x0F25 : outillage NPC du menu contextuel (menu contextuel du client) —
 // recharger le fichier de script d'où vient un NPC, le décharger, le déplacer sur
 // la case du demandeur. Ce sont `@reloadnpcfile`, `@unloadnpc` et `@npcmove`,
 // mais désignés par le GID que le staff a sous le curseur.
@@ -1881,12 +1881,12 @@ void clif_parse_moonlight_player_admin(int32 fd, map_session_data* sd);
 // ── Interface moderne : ce que le client SAIT afficher (CZ 0x0F24) ───────────
 //
 // 🔴 Un bit = une SURFACE de l'interface moderne, jamais une préférence de jeu.
-// `has_bourgeon` dit qu'on parle à un client Bourgeon ; ceci dit laquelle de ses
+// `client_verified` dit qu'on parle à un client ; ceci dit laquelle de ses
 // interfaces est allumée, ce que le joueur peut changer à tout moment. Miroir
-// exact de `UiCaps::Cap` côté client (Bourgeon/src/features/systems/ui_caps.h) :
+// exact des capacités côté client :
 // les deux listes doivent bouger ensemble.
 //
-// À l'origine un bit répondait seulement à « si j'envoie du markup Bourgeon sur
+// À l'origine un bit répondait seulement à « si j'envoie du markup maison sur
 // cette surface, sera-t-il rendu ? ». MVP_TRACKER puis CARD_ALBUM ont élargi la
 // question à « cette surface EXISTE-t-elle chez ce joueur ? », parce que le
 // serveur doit aussi savoir à qui il peut ouvrir une fonctionnalité qui n'a pas
@@ -1894,10 +1894,10 @@ void clif_parse_moonlight_player_admin(int32 fd, map_session_data* sd);
 // sait montrer, et rien de ce que le joueur préfère (les préférences ont leur
 // propre chemin, CZ_MOONLIGHT_SETTING, et sont persistées ; ceci ne l'est pas).
 enum e_moonlight_ui_cap : uint32 {
-	// Le dialogue NPC est rendu par l'overlay moderne : il connaît <MOBL>, <ITMR>,
+	// Le dialogue NPC est rendu par le dialogue moderne du client : il connaît <MOBL>, <ITMR>,
 	// <CRAF>, <SETL>, <IMG>, <MOBS> et <MOBP>.
 	MOONLIGHT_UI_NPC_DIALOG = 0x00000001,
-	// La chatbox est celle de Bourgeon : mêmes balises de LIEN, pas les médias.
+	// La chatbox est celle du client : mêmes balises de LIEN, pas les médias.
 	MOONLIGHT_UI_CHAT       = 0x00000002,
 	// La fenêtre du carnet de chasse MVP est ouverte : les deltas seront montrés.
 	// Le bit tombe quand le joueur la ferme, et le serveur cesse alors de diffuser.
@@ -1931,15 +1931,15 @@ enum e_moonlight_ui_cap : uint32 {
 	// la présence des membres poussée à chaque connexion ou déconnexion. Sans ce
 	// bit, ZC 0x0F32 part exactement comme avant, octet pour octet.
 	//
-	// 🔴 Une capacité de LECTURE, réservée à moonclient : la DLL ne l'annonce
-	// jamais. Elle ne doit rien recevoir de neuf sur ce paquet — un `kind` inconnu
+	// 🔴 Une capacité de LECTURE, annoncée par moonclient. Un client
+	// qui ne l'annonce pas ne doit rien recevoir de neuf sur ce paquet — un `kind` inconnu
 	// de 0x0F32 y écraserait le groupe, un code de résultat inconnu s'y
 	// afficherait en code nu —, d'où la règle : toute forme nouvelle du carnet
-	// part sous ce bit, ou derrière l'identifiant de commande que la DLL ne sait
-	// pas produire (cf. clif_parse_moonlight_mvp_cmd).
+	// part sous ce bit, ou derrière l'identifiant de commande qu'un tel client ne
+	// sait pas produire (cf. clif_parse_moonlight_mvp_cmd).
 	MOONLIGHT_UI_MVP_TRACKER_EXT = 0x00000100,
 	// [Stingor] Les quatre bits suivants sont des capacités de LECTURE réservées à
-	// moonclient : la DLL ne les annonce jamais, et ne reçoit donc rien de neuf.
+	// moonclient : un client qui ne les annonce pas ne reçoit rien de neuf.
 	//
 	// Ce client sait lire l'auteur d'une ligne de parole
 	// (ZC_MOONLIGHT_CHAT_AUTHOR 0x0F3A), qui précède 0x008D, 0x0109, 0x017F,
@@ -1958,32 +1958,32 @@ enum e_moonlight_ui_cap : uint32 {
 	MOONLIGHT_UI_COMPANION_MASTER = 0x00001000,
 	// Ce client sait lire ce qu'apporte une pièce ou un ensemble qui entre ou sort
 	// de l'équipement (ZC_MOONLIGHT_EQUIP_ATTRIBUTES 0x0F3D). Sans ce bit, le
-	// paquet ne lui part pas — la DLL ne l'annonce jamais : elle a reçu 0x0F10
-	// depuis toujours, mais un opcode qu'elle ne connaît pas lui viderait le flux.
+	// paquet ne lui part pas : un opcode qu'un client ne connaît pas lui viderait
+	// le flux.
 	MOONLIGHT_UI_EQUIP_ATTRIBUTES = 0x00002000,
 	// Ce client sait lire le détail d'une instance — difficulté, turbo, droit de
-	// destruction (ZC_MOONLIGHT_INSTANCE_INFO 0x0F40). moonclient et la DLL l'annoncent.
+	// destruction (ZC_MOONLIGHT_INSTANCE_INFO 0x0F40). moonclient l'annonce.
 	MOONLIGHT_UI_INSTANCE_INFO = 0x00004000,
 	// Ce client a le MARCHÉ (CZ 0x0F41 -> ZC 0x0F42) : le serveur répond à ses
 	// demandes, et un catalogue (`searchstores`) lui ouvre le Marché au lieu de la
-	// recherche d'échoppes d'origine. Réservé à moonclient : la DLL ne l'annonce pas.
+	// recherche d'échoppes d'origine. Réservé à moonclient.
 	MOONLIGHT_UI_MARKET = 0x00008000,
 	// Ce client sait dessiner l'habit du GM d'un joueur (ZC_MOONLIGHT_GM_OUTFIT
-	// 0x0F44). Réservé à moonclient : la DLL ne l'annonce pas.
+	// 0x0F44). Réservé à moonclient.
 	MOONLIGHT_UI_GM_OUTFIT = 0x00010000,
 	// Ce client sait lire les éditions de carte (ZC 0x0F46 à 0x0F48), et les
-	// envoyer (CZ 0x0F45, 0x0F49). Réservé à moonclient : la DLL ne l'annonce pas.
+	// envoyer (CZ 0x0F45, 0x0F49). Réservé à moonclient.
 	MOONLIGHT_UI_MAP_EDITS = 0x00020000,
 	// Ce client sait lire l'élément d'attaque d'un joueur (ZC_MOONLIGHT_ATTACK_ELEMENT
-	// 0x0F4A). Réservé à moonclient : la DLL ne l'annonce pas.
+	// 0x0F4A). Réservé à moonclient.
 	MOONLIGHT_UI_ATTACK_ELEMENT = 0x00040000,
 	// Ce client tient le classement mondial du mode survivors (CZ 0x0F4C, 0x0F4E,
 	// 0x0F50 -> ZC 0x0F4D, 0x0F4F, 0x0F51) : chaque annonce qui porte le bit reçoit
 	// ZC_MOONLIGHT_SURVIVORS_SERVICE 0x0F53, et le client n'émet rien du service
-	// avant. Réservé à moonclient : la DLL ne l'annonce pas.
+	// avant. Réservé à moonclient.
 	MOONLIGHT_UI_SURVIVORS = 0x00080000,
 	// Ce client parle au serveur voix : il reçoit ZC_MOONLIGHT_VOICE_SERVICE 0x0F55
-	// à l'apparition du bit. Réservé à moonclient : la DLL ne l'annonce pas.
+	// à l'apparition du bit. Réservé à moonclient.
 	MOONLIGHT_UI_VOICE = 0x00100000,
 	// Ce client lit la présence en arène des autres (ZC 0x0F57) : chaque annonce
 	// qui porte le bit reçoit un 0x0F57 à account_id nul, qui lui annonce le
@@ -2002,10 +2002,10 @@ enum e_moonlight_ui_cap : uint32 {
 	MOONLIGHT_UI_STYLE_LAYERS = 0x01000000,
 	// Ce client lit le nom entier d'un monstre (ZC 0x0F69), qu'il reçoit à la
 	// place de 0x0A30 ou 0x0ADF quand ce nom dépasse NAME_LENGTH - 1 octets.
-	// Réservé à moonclient : la DLL ne l'annonce pas.
+	// Réservé à moonclient.
 	MOONLIGHT_UI_LONG_MOB_NAME = 0x02000000,
 	// Ce client ouvre le rappel de fair-play en guerre de guilde (ZC 0x0F6A).
-	// Réservé à moonclient : la DLL ne l'annonce pas.
+	// Réservé à moonclient.
 	MOONLIGHT_UI_FAIR_PLAY = 0x04000000,
 	// Prochain bit libre : 0x08000000.
 };
@@ -2016,14 +2016,14 @@ bool clif_moonlight_fair_play(map_session_data& sd, const char* tool_name);
 
 // [Stingor] Les réglages du serveur utiles au client (ZC 0x0F38), à une session
 // qui a annoncé MOONLIGHT_UI_SERVER_RULES, ou à toutes celles en ligne.
-void clif_bourgeon_server_rules(map_session_data& sd);
-void clif_bourgeon_server_rules_all();
+void clif_moonclient_server_rules(map_session_data& sd);
+void clif_moonclient_server_rules_all();
 
 void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd);
 // [Stingor] Le maître d'un monstre (ZC 0x0F37), aux joueurs qui le voient et
 // qui ont annoncé MOONLIGHT_UI_UNIT_MASTER. À rappeler quand md->master_id change
 // alors que le monstre est déjà en vue.
-void clif_bourgeon_unit_master_area(const mob_data& md);
+void clif_moonclient_unit_master_area(const mob_data& md);
 // [Stingor] L'habit du GM (CZ 0x0F43 -> ZC 0x0F44). `clif_moonlight_gm_outfit_area`
 // dit à la zone, le joueur compris, s'il porte l'habit ; à son apparition, rien
 // ne part s'il ne le porte pas.
@@ -2116,23 +2116,23 @@ void clif_moonlight_attack_element_visibility(map_session_data& sd);
 // [Stingor] Le maître d'un compagnon (ZC 0x0F37), aux joueurs qui le voient
 // paraître et qui ont annoncé MOONLIGHT_UI_COMPANION_MASTER. Sans effet pour une
 // unité qui n'est ni homoncule, ni mercenaire, ni familier, ni élémentaire.
-void clif_bourgeon_companion_master_area(const block_list& bl);
+void clif_moonclient_companion_master_area(const block_list& bl);
 
 // [Stingor] MVP tracker (CZ 0x0F30, ZC 0x0F31, ZC 0x0F32).
 struct s_mvp_group;
 struct s_mvp_obs;
 
 void clif_parse_moonlight_mvp_cmd(int32 fd, map_session_data* sd);
-void clif_bourgeon_mvp_catalog(map_session_data& sd);
-void clif_bourgeon_mvp_snapshot(map_session_data& sd);
-void clif_bourgeon_mvp_favorites(map_session_data& sd);
-void clif_bourgeon_mvp_delta(const s_mvp_group& group, uint16 slot_id, const s_mvp_obs& obs);
-void clif_bourgeon_mvp_group(map_session_data& sd);
-void clif_bourgeon_mvp_group_all(const s_mvp_group& group);
+void clif_moonclient_mvp_catalog(map_session_data& sd);
+void clif_moonclient_mvp_snapshot(map_session_data& sd);
+void clif_moonclient_mvp_favorites(map_session_data& sd);
+void clif_moonclient_mvp_delta(const s_mvp_group& group, uint16 slot_id, const s_mvp_obs& obs);
+void clif_moonclient_mvp_group(map_session_data& sd);
+void clif_moonclient_mvp_group_all(const s_mvp_group& group);
 // La présence des membres a changé (une connexion, une déconnexion) : le groupe
 // part aux seules sessions qui ont annoncé MOONLIGHT_UI_MVP_TRACKER_EXT ET
 // MOONLIGHT_UI_MVP_TRACKER. Rien pendant l'arrêt du serveur.
-void clif_bourgeon_mvp_presence(const s_mvp_group& group);
+void clif_moonclient_mvp_presence(const s_mvp_group& group);
 
 // D'où vient une invitation : queue de ZC 0x0F32 kind 1, sous
 // MOONLIGHT_UI_MVP_TRACKER_EXT. ⚠ Valeurs sur le fil : on AJOUTE en fin.
@@ -2143,10 +2143,10 @@ enum e_mvp_invite_origin : uint8 {
 	MVP_INVITE_FROM_PUSH,       ///< poussée à l'instant où elle est émise
 };
 
-void clif_bourgeon_mvp_invite(map_session_data& sd, e_mvp_invite_origin origin);
+void clif_moonclient_mvp_invite(map_session_data& sd, e_mvp_invite_origin origin);
 // `request_id` renseigné : la commande en portait un, et la réponse le rend avec
 // `cmd` en queue. nullptr : la trame est celle d'avant, octet pour octet.
-void clif_bourgeon_mvp_result(map_session_data& sd, uint8 result, uint8 cmd, const uint32* request_id);
+void clif_moonclient_mvp_result(map_session_data& sd, uint8 result, uint8 cmd, const uint32* request_id);
 
 // [Stingor] Album de cartes (CZ 0x0F34 -> ZC 0x0F33).
 //
@@ -2164,8 +2164,8 @@ enum e_card_album_cmd : uint8 {
 };
 
 // Pousse l'état COMPLET de l'album (catalogue + réserve), avec l'issue de la
-// dernière commande. Gate : has_bourgeon ET MOONLIGHT_UI_CARD_ALBUM.
-void clif_bourgeon_card_album(map_session_data& sd, e_card_album_result result);
+// dernière commande. Gate : client_verified ET MOONLIGHT_UI_CARD_ALBUM.
+void clif_moonclient_card_album(map_session_data& sd, e_card_album_result result);
 void clif_parse_moonlight_card_album_cmd(int32 fd, map_session_data* sd);
 
 // Retire d'un texte les balises maison que ce client ne rendra pas, en gardant le
@@ -2175,7 +2175,7 @@ void clif_parse_moonlight_card_album_cmd(int32 fd, map_session_data* sd);
 // Rend true si `out` a été rempli (donc si quelque chose a changé) ; false si le
 // texte est utilisable tel quel — cas de l'immense majorité des `mes`, qui ne
 // coûte alors qu'un `strchr`.
-bool clif_bourgeon_strip_own_tags(const char* text, std::string& out);
+bool clif_moonclient_strip_own_tags(const char* text, std::string& out);
 
 // [Stingor] Taille du corps d'une unite (episode 20, brHades) : statut client 1421.
 void clif_body_size( const block_list* bl, int32 size, map_session_data* to = nullptr );

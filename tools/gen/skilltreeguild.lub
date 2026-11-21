@@ -1,6 +1,6 @@
 -- Client mirror of db/pre-re/guild_skill_tree.yml - generated 2026-07-27.
 -- DO NOT EDIT: re-run tools/gen/gen_guild_skill_tree_lub.py.
--- Guild skill tree (max levels + requirements) for the Bourgeon guild tab;
+-- Guild skill tree (max levels + requirements) for the client guild tab;
 -- the server remains the only authority on what it actually allows.
 -- Numeric ids on purpose: this file depends on NO other Lua table.
 GUILD_SKILL_TREE = {

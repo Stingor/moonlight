@@ -2293,7 +2293,7 @@ void pet_evolution(map_session_data *sd, int16 pet_id) {
 		// On ne peut pas corriger par un code dedie : le handler client de ZC_PET_EVOLUTION_RESULT
 		// (0x09FC) ne traite que 0..5 (-> messages 2571..2576), ignore 6 (SUCCESS), et traite 7 comme
 		// une REINITIALISATION des globals du pet. Son libelle MSI_PET_EVOLUTION_FAIL_PET_ACC_OFF
-		// existe mais porte l'index 2607, hors de la plage atteignable. Cf. docs/pet_re.md (Bourgeon) §7.3.
+		// existe mais porte l'index 2607, hors de la plage atteignable.
 		// On garde donc le code protocolaire et on ajoute un texte libre qui dit la vraie raison.
 		clif_pet_evolution_result(sd, e_pet_evolution_result::FAIL_RG_FAMILIAR);
 		clif_displaymessage(sd->fd, msg_txt(sd, 1882)); // Your pet must remove its accessory before it can evolve.

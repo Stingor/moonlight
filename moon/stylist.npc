@@ -187,14 +187,14 @@ L_mainmenu:
 		// [Stingor] Un client qui ne lit pas les teintures de calques garde la
 		// fenêtre seule, comme avant.
 		if (!moonlight_ui(MOONLIGHT_UI_STYLE_LAYERS)) {
-			bourgeon_style_open;
+			moonclient_style_open;
 			close;
 		}
 		// [Stingor] Sans `moonclient_style_atelier`, une teinture d'objet se
 		// valide de partout, sur l'objet porté : l'éditeur s'ouvre et le
 		// dialogue se ferme.
 		if (!getbattleflag("moonclient_style_atelier")) {
-			bourgeon_style_open;
+			moonclient_style_open;
 			close;
 		}
 		// [Stingor] moonclient : l'atelier du styliste (D19). Une teinture de
@@ -203,7 +203,7 @@ L_mainmenu:
 		// serveur le refuse à distance, et le délai le referme.
 		moonclient_style_atelier;
 		// Sur l'onglet de la coiffe haute : c'est un objet qu'on vient teindre ici.
-		bourgeon_style_open 1, 4;
+		moonclient_style_open 1, 4;
 		mes "L'atelier est ouvert : tu peux teindre tes coiffes et ta cape équipées, et valider tant que nous parlons.";
 		mes "Reste près de moi : à plus de quelques pas, l'atelier refuse les teintures d'objets.";
 		select("¤ J'ai terminé");

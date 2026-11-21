@@ -137,13 +137,13 @@ std::unordered_map<uint32, int32> survivors_coop_party_of_char;
 
 // Une session moonclient vérifiée, chargée, qui a annoncé le bit.
 bool coop_heard(const map_session_data& sd) {
-	return sd.state.moonclient && sd.state.pc_loaded && (sd.bourgeon_ui_caps & MOONLIGHT_UI_SURVIVORS_COOP) != 0;
+	return sd.state.moonclient && sd.state.pc_loaded && (sd.moonclient_ui_caps & MOONLIGHT_UI_SURVIVORS_COOP) != 0;
 }
 
 // Une session qui sait lire ces ZC, et dont le client est encore là : un
 // vendeur en @autotrade garde ses bits mais n'a plus de connexion.
 bool coop_listens(const map_session_data& sd) {
-	return sd.state.moonclient && (sd.bourgeon_ui_caps & MOONLIGHT_UI_SURVIVORS_COOP) != 0 && session_isActive(sd.fd);
+	return sd.state.moonclient && (sd.moonclient_ui_caps & MOONLIGHT_UI_SURVIVORS_COOP) != 0 && session_isActive(sd.fd);
 }
 
 bool coop_place_accepted(const map_session_data& sd) {
@@ -484,7 +484,7 @@ void clif_moonlight_survivors_coop_announce(map_session_data& sd) {
 }
 
 void survivors_coop_caps_changed(map_session_data& sd) {
-	if (!(sd.bourgeon_ui_caps & MOONLIGHT_UI_SURVIVORS_COOP)) {
+	if (!(sd.moonclient_ui_caps & MOONLIGHT_UI_SURVIVORS_COOP)) {
 		if (const int32 party_id = coop_party_of(sd.status.char_id); party_id != 0) {
 			coop_drop(party_id, sd.status.char_id, false, nullptr);
 			return;

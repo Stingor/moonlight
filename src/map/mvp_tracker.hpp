@@ -31,8 +31,6 @@ struct mob_data;
  * (delay1, delay2, both public - they are written in the spawn script) but never
  * THE DRAW (respawn_tick), except where a player has paid for it with a Convex
  * Mirror. See mvp_tracker_earn_exact().
- *
- * See docs/mvp_tracker.md and docs/mvp_tracker_blueprint.md (Bourgeon repository).
  */
 
 #define MVP_GROUP_NAME_LEN 32     ///< bytes. The SQL column is varchar(32) CHARACTERS, so it never truncates.
@@ -148,7 +146,7 @@ enum e_mvp_group_result : uint8 {
 	// Les trois suivants nomment juste ce que l'ancien jeu de codes disait de
 	// travers. Même règle que OBS_KEPT : réservés à MOONLIGHT_UI_MVP_TRACKER_EXT,
 	// clif rend aux autres le code qu'ils ont toujours reçu (cf.
-	// clif_bourgeon_mvp_result_on_wire).
+	// clif_moonclient_mvp_result_on_wire).
 	//
 	// Saisie sur un créneau que le registre ne connaît pas. Sans le bit :
 	// NO_SUCH_USER.
@@ -171,7 +169,7 @@ s_mvp_group* mvp_tracker_group_of( const map_session_data& sd );
 
 /// Broadcast index upkeep. Une connexion ou une déconnexion change la présence
 /// d'un membre : le groupe est aussitôt poussé à ceux qui savent la lire sans la
-/// demander (clif_bourgeon_mvp_presence).
+/// demander (clif_moonclient_mvp_presence).
 void mvp_tracker_on_login( map_session_data& sd );
 void mvp_tracker_on_logout( map_session_data& sd );
 

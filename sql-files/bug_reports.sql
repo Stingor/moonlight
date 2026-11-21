@@ -1,5 +1,5 @@
--- [Stingor] Rapports de bug in-game (client Bourgeon CZ 0x0F13).
--- Alimentée par clif_parse_bourgeon_bug_report ; lue via le site moonlight.
+-- [Stingor] Rapports de bug in-game (client CZ 0x0F13).
+-- Alimentée par clif_parse_moonclient_bug_report ; lue via le site moonlight.
 -- utf8mb4 : les messages joueurs contiennent des accents (et parfois des emoji).
 CREATE TABLE IF NOT EXISTS `bug_reports` (
   `id`         bigint(20) unsigned NOT NULL AUTO_INCREMENT,

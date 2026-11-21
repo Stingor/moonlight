@@ -4107,7 +4107,7 @@ int32 status_calc_pc_sub(map_session_data* sd, uint8 opt)
 	memset(sd->indexed_bonus.param_bonus, 0, sizeof(sd->indexed_bonus.param_bonus));
 
 	base_status->def += (refinedef+50)/100;
-	sd->bonus.refine_def = (refinedef+50)/100; // [Bourgeon] capture pour l'affichage fiche (ZC 0x0F10)
+	sd->bonus.refine_def = (refinedef+50)/100; // [Stingor] capture pour l'affichage fiche (ZC 0x0F10)
 
 	// Parse Cards
 	for (i = 0; i < EQI_MAX; i++) {
@@ -5025,10 +5025,10 @@ int32 status_calc_pc_( map_session_data* sd, uint8 opt ){
 		script_attach_state( previous_st );
 	}
 
-	// [Stingor] Bourgeon : pousser au client l'apport équip/cartes compilé par ce
+	// [Stingor] pousser au client l'apport équip/cartes compilé par ce
 	// recalc (param_equip/param_bonus/bonus.eatk sont finalisés ici). Self-gardé
-	// (has_bourgeon + session active) => no-op pour un client vanilla.
-	clif_bourgeon_stat_bonus( sd );
+	// (client_verified + session active) => no-op pour un client vanilla.
+	clif_moonclient_stat_bonus( sd );
 
 	// Return the original return value
 	return ret;

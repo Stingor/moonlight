@@ -488,7 +488,7 @@ void voice_bridge_send_auth_advisory(map_session_data* sd) {
 void voice_bridge_announce_service(map_session_data& sd) {
 	if (!g_ready || g_public_host.empty())
 		return;
-	if (!sd.state.moonclient || !(sd.bourgeon_ui_caps & MOONLIGHT_UI_VOICE))
+	if (!sd.state.moonclient || !(sd.moonclient_ui_caps & MOONLIGHT_UI_VOICE))
 		return;
 	if (!session_isActive(sd.fd))
 		return;

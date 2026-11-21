@@ -61,14 +61,14 @@
 	BUILDIN_DEF(getrefineuid,"s?"),         // "uid"{, char_id} -> refine level, -1 si introuvable
 	BUILDIN_DEF(restartnpc,""),             // relance le NPC depuis le debut (comme goto vers un label en tete)
 	BUILDIN_DEF2(restartnpc,"gotomain",""), // alias de restartnpc
-	BUILDIN_DEF(bourgeon_discord_relay_all,"s??????"), // "msg"{, rich_state, "user_id", "name", "avatar", "text", flags} -> 0x0F08 / 0x0F3C aux joueurs de gonryun
-	// [Stingor] Balises Bourgeon dans les dialogues NPC (cf. script.inc, en tête du bloc).
+	BUILDIN_DEF(moonclient_discord_relay_all,"s??????"), // "msg"{, rich_state, "user_id", "name", "avatar", "text", flags} -> 0x0F08 / 0x0F3C aux joueurs de gonryun
+	// [Stingor] Balises maison dans les dialogues NPC (cf. script.inc, en tête du bloc).
 	BUILDIN_DEF(moonlight_ui,"??"),          // {mask{,account_id}} -> masque, ou 1/0 si mask donné
 	BUILDIN_DEF(mobtag,"i?"),               // mob_id{,"nom"} -> lien vers la fiche du monstre
 	BUILDIN_DEF(itemtag,"i?"),              // item_id{,"nom"} -> lien vers la description (objet non possédé)
 	BUILDIN_DEF(crafttag,"i?"),             // item_id{,"nom"} -> lien vers la recette (Atlas)
 	BUILDIN_DEF(mobsprite,"i?"),            // mob_id{,portrait} -> sprite inline, ou portrait de page
 	BUILDIN_DEF(imgtag,"s??"),              // "source"{,largeur,hauteur} -> image (ressource client ou http)
-	BUILDIN_DEF(settingtag,"ss"),           // "clé","libellé" -> lien vers un réglage Bourgeon
+	BUILDIN_DEF(settingtag,"ss"),           // "clé","libellé" -> lien vers un réglage du client
 	BUILDIN_DEF(moonclient_style_atelier,"?"), // {secondes} 0=fermer -> atelier du styliste (teintures d'objets)
-	BUILDIN_DEF(bourgeon_style_open,"??"), // {mode{,onglet}} 0=fermer 1=ouvrir 2=basculer ; onglet moonclient 1..7 -> fenetre de style
+	BUILDIN_DEF(moonclient_style_open,"??"), // {mode{,onglet}} 0=fermer 1=ouvrir 2=basculer ; onglet moonclient 1..7 -> fenetre de style

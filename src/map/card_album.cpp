@@ -27,7 +27,7 @@
 /**
  * Every card the album accepts, ascending by server nameid.
  *
- * Built once and cached, like clif_bourgeon_build_hateffect_map(): it is derived
+ * Built once and cached, like clif_moonclient_build_hateffect_map(): it is derived
  * from item_db, so it is the same for every player and cannot change while the
  * server runs.
  *

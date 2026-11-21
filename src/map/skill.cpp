@@ -12715,10 +12715,10 @@ TIMER_FUNC(skill_unit_timer){
 
 	skillunit_db->foreach(skillunit_db, skill_unit_timer_sub, tick);
 
-	// Bourgeon DPS meter: drain the per-caster damage accumulated by
+	// DPS meter: drain the per-caster damage accumulated by
 	// clif_skill_damage during this cycle into one packet per caster, instead of
 	// one per hit (which floods the client under heavy AoE).
-	clif_bourgeon_flush_skill_dmg();
+	clif_moonclient_flush_skill_dmg();
 	return 0;
 }
 

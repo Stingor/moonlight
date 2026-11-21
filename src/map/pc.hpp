@@ -511,25 +511,25 @@ public:
 		bool autolootrare: 1;
 		bool showmobinfo: 1;
 		bool block_exp: 1;   ///< @blockexp : bloque le gain d'EXP
-		bool has_bourgeon: 1; ///< client sent CZ_MOONLIGHT_INTEGRITY -> safe to send ZC Bourgeon packets
-		/// Le client est moonclient (CZ_MOONCLIENT_INTEGRITY accepté), et non le client
-		/// d'origine greffé de Bourgeon. Toujours accompagné de `has_bourgeon` : moonclient
-		/// parle le même protocole, ce drapeau ne fait que le NOMMER.
+		bool client_verified: 1; ///< client sent CZ_MOONCLIENT_INTEGRITY -> safe to send custom ZC packets
+		/// Le client est moonclient (CZ_MOONCLIENT_INTEGRITY accepté). Toujours accompagné
+		/// de `client_verified`, que seule cette poignée de main pose : ce drapeau ne fait
+		/// que le NOMMER.
 		bool moonclient: 1;
 		/// Une poignée de main d'intégrité (0x0F02, 0x0F39 ou l'ancienne 0x0BFB) a déjà
 		/// été traitée pour cette session, quelle qu'en ait été l'issue : les
 		/// suivantes sont ignorées, sans requête, minuteur ni ligne de journal.
 		bool integrity_handshake: 1;
-		/// Session SPECTATEUR ayant prouvé qu'elle porte un client Bourgeon (elle a
+		/// Session SPECTATEUR ayant prouvé qu'elle porte un client (elle a
 		/// envoyé CZ_MOONLIGHT_INTEGRITY).
 		///
 		/// 🔴🔴 Ce drapeau n'ouvre AUCUN handler entrant. La garde des vingt-trois
-		/// CZ_MOONLIGHT_* reste `has_bourgeon`, qu'une session spectateur n'obtient
-		/// jamais (cf. clif_parse_moonlight_integrity, et la raison qui y est écrite :
-		/// l'identifiant spectateur voyage en clair dans chaque DLL). Il n'autorise
+		/// CZ_MOONLIGHT_* reste `client_verified`, qu'une session spectateur n'obtient
+		/// jamais (cf. clif_parse_moonclient_integrity, et la raison qui y est écrite :
+		/// l'identifiant spectateur voyage en clair dans chaque client). Il n'autorise
 		/// QUE la diffusion sortante des cosmétiques d'AUTRUI -- rien n'est lu ni
 		/// écrit en base pour cette session, et elle ne peut toujours rien demander.
-		bool bourgeon_cosmetic: 1;
+		bool moonclient_cosmetic: 1;
 		bool discord_chat: 1; ///< player opted in to outbound chat relay to Discord
 		uint32 autolootpognon;
 		// [Stingor] <--
@@ -655,25 +655,25 @@ public:
 	int32 followtarget;
 
 	time_t emotionlasttime; // to limit flood with emotion packets
-	// [Stingor] Bourgeon : idem pour le saut (CZ 0x0F1A), qui est rediffusé à la
+	// [Stingor] idem pour le saut (CZ 0x0F1A), qui est rediffusé à la
 	// zone comme une emote. En t_tick (ms) et non time_t : le cooldown vaut la
 	// durée de l'arc (~600 ms), donc la seconde de emotionlasttime est trop grossière.
 	// Initialisé explicitement : une valeur résiduelle FUTURE rendrait DIFF_TICK
 	// négatif et bloquerait les sauts durablement (le test est « < cooldown »).
-	t_tick bourgeon_jumplasttime = 0;
+	t_tick moonclient_jumplasttime = 0;
 
-	// [Stingor] Bourgeon : dernier rapport de triche accepté (CZ 0x0F1A). Le
+	// [Stingor] dernier rapport de triche accepté (CZ 0x0F1A). Le
 	// détecteur tourne côté client, donc la cadence est celle qu'il veut bien
 	// tenir : sans borne ici, un client bricolé écrit dans le journal du serveur
 	// aussi vite qu'il envoie. Porté par la SESSION plutôt que par une table
 	// statique account_id -> tick, qui grandirait sans que rien ne la vide.
-	t_tick bourgeon_cheatreport_tick = 0;
+	t_tick moonclient_cheatreport_tick = 0;
 
 	// [Stingor] Les heuristiques de triche que le serveur tient seul (horloge du
 	// client, régularité des actions) : cheat_watch.hpp.
 	s_cheat_watch cheat_watch;
 
-	// [Stingor] Bourgeon : idem pour la validation de STYLE (CZ 0x0F26).
+	// [Stingor] idem pour la validation de STYLE (CZ 0x0F26).
 	//
 	// 🔴 Ce n'est pas seulement du trafic. Chaque recette reçue fait fabriquer,
 	// chez CHAQUE joueur à portée, un bloc de palette de 1 Kio qui n'est jamais
@@ -684,21 +684,21 @@ public:
 	// modifié fait grossir la mémoire des autres joueurs sans retour possible.
 	//
 	// Même remarque que ci-dessus sur l'initialisation explicite.
-	t_tick bourgeon_stylelasttime = 0;
+	t_tick moonclient_stylelasttime = 0;
 
-	// [Stingor] Bourgeon : ce que l'interface moderne de CE client sait afficher
+	// [Stingor] ce que l'interface moderne de CE client sait afficher
 	// (CZ_MOONLIGHT_UI_CAPS 0x0F24, masque e_moonlight_ui_cap). Zéro = rien, donc un
-	// client vanilla, un client Bourgeon dont toutes les surfaces modernes sont
+	// client vanilla, un client dont toutes les surfaces modernes sont
 	// éteintes, ou un client qui n'a pas encore parlé.
 	//
 	// 🔴 État de SESSION, jamais persisté : le joueur peut éteindre une interface
 	// en pleine conversation, et le client réannonce à chaque fois. Un masque
 	// sauvegardé décrirait l'interface d'hier.
-	uint32 bourgeon_ui_caps = 0;
+	uint32 moonclient_ui_caps = 0;
 
 	// [Stingor] Le dernier patch de contenu que le client a déclaré dans sa poignée
-	// de main d'intégrité ACCEPTÉE (CZ 0x0F02 pour Bourgeon, 0x0F39 pour moonclient ;
-	// chaque client compte sur sa propre chaîne de patchs). -1 : jamais patché, ou
+	// de main d'intégrité ACCEPTÉE (CZ 0x0F39, sur la chaîne de
+	// patchs du client). -1 : jamais patché, ou
 	// aucune poignée de main acceptée. Lu par @client.
 	int32 client_patch_index = -1;
 	// [Stingor] La révision que moonclient a déclarée à cette même poignée de main,
@@ -734,8 +734,8 @@ public:
 	// Zéro : aucune demande encore.
 	t_tick moonlight_throttle_due[MOONLIGHT_THROTTLE_MAX] = {};
 
-	// [Stingor] Bourgeon : « je suis absent » (CZ_MOONLIGHT_SETTING id 29, masque
-	// e_bourgeon_afk). Ce que le VOISINAGE doit en voir, et rien d'autre : le
+	// [Stingor] « je suis absent » (CZ_MOONLIGHT_SETTING id 29, masque
+	// e_moonclient_afk). Ce que le VOISINAGE doit en voir, et rien d'autre : le
 	// sommeil qu'il porte est un opt1 de politesse, écrit dans les paquets et
 	// jamais dans `sc.opt1` — un vrai status passerait par status_check_skilluse
 	// et unit_can_move, et interdirait de bouger à un joueur qui est censé
@@ -745,7 +745,7 @@ public:
 	// C'est le client qui l'ouvre et le referme, sur sa propre mesure de
 	// l'inactivité — le serveur n'a aucun moyen de distinguer un joueur parti
 	// d'un joueur qui lit son inventaire.
-	uint8 bourgeon_afk = 0;
+	uint8 moonclient_afk = 0;
 
 	// [Stingor] Ce que la fenêtre « Joueurs en ligne » du staff lit de cette
 	// session (ZC 0x0F68). État de SESSION, jamais persisté.
@@ -916,7 +916,7 @@ public:
 		int16 weapon_atk_rate, weapon_matk_rate;
 		int32 skill_ratio;
 		int32 delayrate2; // [Stingor]
-		int32 refine_def; // [Bourgeon] DEF issue du refine des armures (capturée en status_calc), pour l'affichage fiche
+		int32 refine_def; // [Stingor] DEF issue du refine des armures (capturée en status_calc), pour l'affichage fiche
 	} bonus;
 	// zeroed vars end here.
 

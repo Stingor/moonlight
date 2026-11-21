@@ -83,7 +83,6 @@ FAV_COLS = 5
 LOG_FILTERS = [
     ("[CheatDetector]", "CheatDetector"),
     ("[Heuristique]", "Heuristique"),
-    ("[Bourgeon]", "Bourgeon"),
     ("[moonclient]", "moonclient"),
 ]
 # Lines that ring the bell / flash the taskbar while "Alertes" is checked,

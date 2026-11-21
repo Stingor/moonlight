@@ -1227,26 +1227,26 @@ int32 party_skill_check(map_session_data *sd, int32 party_id, uint16 skill_id, u
  * l'échoppe. Les trois conditions internes sont celles de `pc_isidle_party`.
  *
  * @param sd Membre du groupe
- * @return masque e_bourgeon_party_share ; 0 = il reçoit sa part
+ * @return masque e_moonclient_party_share ; 0 = il reçoit sa part
  **/
 uint8 party_share_reason( map_session_data& sd ){
-	uint8 flags = BOURGEON_PSHARE_OK;
+	uint8 flags = MOONCLIENT_PSHARE_OK;
 
 	if( pc_isdead( &sd ) )
-		flags |= BOURGEON_PSHARE_DEAD;
+		flags |= MOONCLIENT_PSHARE_DEAD;
 
 	if( battle_config.idle_no_share ){
 		if( sd.chatID || sd.state.vending || sd.state.buyingstore )
-			flags |= BOURGEON_PSHARE_BUSY;
+			flags |= MOONCLIENT_PSHARE_BUSY;
 		if( DIFF_TICK( last_tick, sd.idletime ) >= battle_config.idle_no_share )
-			flags |= BOURGEON_PSHARE_IDLE;
+			flags |= MOONCLIENT_PSHARE_IDLE;
 	}
 
 	return flags;
 }
 
 /**
- * [Stingor] Diffuse aux clients Bourgeon du groupe qui est hors du partage d'EXP,
+ * [Stingor] Diffuse aux clients du groupe qui est hors du partage d'EXP,
  * et seulement quand cela CHANGE.
  *
  * Le silence est le cas courant : un groupe dont tout le monde tape produit le
@@ -1255,7 +1255,7 @@ uint8 party_share_reason( map_session_data& sd ){
  * un départ.
  *
  * ⚠ Quand personne n'écoute, on ressort SANS mémoriser : le vecteur retenu reste
- * celui du dernier envoi réel, si bien que le premier client Bourgeon à rejoindre
+ * celui du dernier envoi réel, si bien que le premier client à rejoindre
  * le groupe reçoit l'état au tour suivant plutôt que de rester devant une fenêtre
  * muette jusqu'à la prochaine transition.
  **/
@@ -1277,7 +1277,7 @@ static void party_send_share_state( struct party_data& p ){
 		flags[count] = party_share_reason( *sd );
 		count++;
 
-		if( sd->state.has_bourgeon )
+		if( sd->state.client_verified )
 			listening = true;
 	}
 
@@ -1309,7 +1309,7 @@ static void party_send_share_state( struct party_data& p ){
 		if( sd == nullptr )
 			continue;
 
-		clif_bourgeon_party_share( *sd, aid, flags, count );
+		clif_moonclient_party_share( *sd, aid, flags, count );
 	}
 }
 TIMER_FUNC(party_send_xy_timer){
@@ -1400,7 +1400,7 @@ void party_exp_share(struct party_data* p, block_list* src, t_exp base_exp, t_ex
 	// donc elle n'existe pas hors d'un kill donné et n'a rien à faire dans un
 	// état qu'on diffuse à la seconde.
 	for (i = c = 0; i < MAX_PARTY; i++) {
-		if( (sd[c] = p->data[i].sd) == nullptr || sd[c]->m != src->m || party_share_reason( *sd[c] ) != BOURGEON_PSHARE_OK )
+		if( (sd[c] = p->data[i].sd) == nullptr || sd[c]->m != src->m || party_share_reason( *sd[c] ) != MOONCLIENT_PSHARE_OK )
 			continue;
 		c++;
 	}

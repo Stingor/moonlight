@@ -9,7 +9,7 @@ function	script	overweight	{
 
 function	script	mesitemcell	{
 	// Nom d'un objet précédé de son icône, cliquable : lien natif si le dialogue
-	// moderne de Bourgeon est allumé chez le joueur, sinon lien objet du client.
+	// moderne du client est allumé chez le joueur, sinon lien objet du client.
 	// Ne pose aucune espace autour, c'est à l'appelant de le faire.
 	.@itemid = getarg(0,0);
 	.@refine = getarg(1,0);
@@ -27,8 +27,8 @@ function	script	mesitemcell	{
 }
 
 function	script	mesmoblink	{
-	// Nom d'un monstre, cliquable : lien natif si le dialogue moderne de
-	// Bourgeon est allumé chez le joueur, sinon lien web vers le bestiaire.
+	// Nom d'un monstre, cliquable : lien natif si le dialogue moderne du
+	// client est allumé chez le joueur, sinon lien web vers le bestiaire.
 	// Ne pose aucune espace autour du nom, c'est à l'appelant de le faire.
 	.@mobid = getarg(0,0);
 	.@name$ = getmonsterinfo(.@mobid, MOB_NAME);

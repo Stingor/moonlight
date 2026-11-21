@@ -84,7 +84,7 @@ typedef uint32 t_itemid;
 // grand nombre à seize chiffres. Il laisse environ 9,2e18 de marge sous
 // INT64_MAX : `solde + dépôt` (un dépôt tient dans un int32) et
 // `solde - nouveau solde` ne débordent jamais. Le client le lit dans les règles
-// du serveur (ZC_MOONLIGHT_SERVER_RULES, BOURGEON_RULE_BANK_ZENY_MAX_*).
+// du serveur (ZC_MOONLIGHT_SERVER_RULES, MOONCLIENT_RULE_BANK_ZENY_MAX_*).
 #define MAX_BANK_ZENY INT64_C(9999999999999999) ///Max zeny in Bank
 #ifndef MAX_CASHPOINT
 	#define MAX_CASHPOINT INT_MAX

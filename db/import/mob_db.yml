@@ -78,11 +78,11 @@ Header:
   Version: 5
 
 Body:
-  # Cible de calcul de dégâts Bourgeon (opcode 0x0F0D). Jamais spawn en jeu :
+  # Cible de calcul de dégâts du client (opcode 0x0F0D). Jamais spawn en jeu :
   # créée en mémoire côté serveur le temps d'un battle_calc_attack, invisible.
   # Neutre 0 def/mdef / Formless / Neutral -> dégâts BRUTS non réduits.
   - Id: 3995
-    AegisName: BOURGEON_DMG_DUMMY
+    AegisName: MOONCLIENT_DMG_DUMMY
     Name: Damage Dummy
     Level: 1
     Hp: 100000

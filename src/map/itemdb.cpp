@@ -1075,7 +1075,7 @@ uint64 ItemDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		}
 
 		item->script = parse_script(script.c_str(), this->getCurrentFile().c_str(), this->getLineNumber(node["Script"]), SCRIPT_IGNORE_EXTERNAL_BRACKETS);
-		item->script_src = script;  // [Bourgeon] source brute pour la desc enrichie
+		item->script_src = script;  // [Stingor] source brute pour la desc enrichie
 	} else {
 		if (!exists)
 			item->script = nullptr;
@@ -1093,7 +1093,7 @@ uint64 ItemDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		}
 
 		item->equip_script = parse_script(script.c_str(), this->getCurrentFile().c_str(), this->getLineNumber(node["EquipScript"]), SCRIPT_IGNORE_EXTERNAL_BRACKETS);
-		item->equip_script_src = script;  // [Bourgeon] source brute
+		item->equip_script_src = script;  // [Stingor] source brute
 	} else {
 		if (!exists)
 			item->equip_script = nullptr;
@@ -1111,7 +1111,7 @@ uint64 ItemDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		}
 
 		item->unequip_script = parse_script(script.c_str(), this->getCurrentFile().c_str(), this->getLineNumber(node["UnEquipScript"]), SCRIPT_IGNORE_EXTERNAL_BRACKETS);
-		item->unequip_script_src = script;  // [Bourgeon] source brute
+		item->unequip_script_src = script;  // [Stingor] source brute
 	} else {
 		if (!exists)
 			item->unequip_script = nullptr;
@@ -4073,7 +4073,7 @@ uint64 ComboDatabase::parseBodyNode(const ryml::NodeRef& node) {
 				combo->script = nullptr;
 			}
 			combo->script = parse_script(script.c_str(), this->getCurrentFile().c_str(), this->getLineNumber(node["Script"]), SCRIPT_IGNORE_EXTERNAL_BRACKETS);
-			combo->script_src = script;  // [Bourgeon] source brute du script de combo
+			combo->script_src = script;  // [Stingor] source brute du script de combo
 		} else {
 			if (!exists) {
 				combo->script = nullptr;

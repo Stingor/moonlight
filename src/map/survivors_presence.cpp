@@ -118,12 +118,12 @@ std::unordered_map<uint32, s_survivors_hidden_arena> survivors_hidden_arenas;
 
 // Une session moonclient vérifiée, chargée, qui a reçu l'annonce.
 bool presence_heard(const map_session_data& sd) {
-	return sd.state.moonclient && sd.state.pc_loaded && (sd.bourgeon_ui_caps & MOONLIGHT_UI_SURVIVORS_PRESENCE) != 0;
+	return sd.state.moonclient && sd.state.pc_loaded && (sd.moonclient_ui_caps & MOONLIGHT_UI_SURVIVORS_PRESENCE) != 0;
 }
 
 // Une session qui sait lire 0x0F57.
 bool presence_listens(const map_session_data& sd) {
-	return sd.state.moonclient && (sd.bourgeon_ui_caps & MOONLIGHT_UI_SURVIVORS_PRESENCE) != 0;
+	return sd.state.moonclient && (sd.moonclient_ui_caps & MOONLIGHT_UI_SURVIVORS_PRESENCE) != 0;
 }
 
 PACKET_ZC_MOONLIGHT_SURVIVORS_PRESENCE presence_packet(uint32 account_id, uint32 char_id, const s_survivors_presence* presence) {

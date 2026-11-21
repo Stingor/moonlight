@@ -1,6 +1,5 @@
 -- [Stingor] MVP tracker : le groupe de chasse, ses invitations, ses favoris.
--- Conception : docs/mvp_tracker.md, implementation : docs/mvp_tracker_blueprint.md
--- (depot Bourgeon), lot 3.
+-- Lot 3 du carnet de chasse MVP.
 --
 -- Ce qui est ICI est ce qui doit SURVIVRE a un redemarrage : la composition du
 -- groupe et les favoris. Ce qui n'y est PAS l'est volontairement : les

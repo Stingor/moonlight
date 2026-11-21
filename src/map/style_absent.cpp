@@ -40,10 +40,10 @@ constexpr size_t CHAR_ID_BYTES = sizeof(uint32);
 constexpr size_t BLOCK_HEAD = CHAR_ID_BYTES + 1;
 // Le plus d'entrées de calque qu'un bloc du 0x0F5F porte : la tête, la peau du
 // visage, quatre exemplaires, la suite et la peau de chaque corps.
-constexpr size_t SHOWN_ENTRIES_MAX = 1 + 1 + 4 + 2 * BOURGEON_STYLE_MAX_VARIANTS;
+constexpr size_t SHOWN_ENTRIES_MAX = 1 + 1 + 4 + 2 * MOONCLIENT_STYLE_MAX_VARIANTS;
 // Le pire bloc : l'apparence, toutes les variantes, toutes les entrées pleines.
 constexpr size_t BLOCK_MAX = BLOCK_HEAD + MOONCLIENT_STYLE_ABSENT_LOOK_BYTES
-	+ 1 + BOURGEON_STYLE_MAX_VARIANTS * MOONCLIENT_STYLE_ABSENT_BODY_BYTES
+	+ 1 + MOONCLIENT_STYLE_MAX_VARIANTS * MOONCLIENT_STYLE_ABSENT_BODY_BYTES
 	+ 1 + SHOWN_ENTRIES_MAX * MOONCLIENT_STYLE_LAYER_ENTRY_MAX;
 
 static_assert(CZ_HEAD == 5, "l'en-tête du CZ 0x0F63 ne vaut plus ce que le client attend");
@@ -116,7 +116,7 @@ bytes block_of(const map_session_data& sd, uint32 char_id, const std::unordered_
 	block.push_back(static_cast<uint8>(target->status.sex));
 	push_u16(block, static_cast<uint16>(target->status.hair));
 	push_u16(block, static_cast<uint16>(target->status.hair_color));
-	clif_bourgeon_style_bodies(*target, block);
+	clif_moonclient_style_bodies(*target, block);
 	const bytes entries = style_layers_shown_entries(*target);
 	block.insert(block.end(), entries.begin(), entries.end());
 	return block;
@@ -158,7 +158,7 @@ uint16 wait_of(t_tick until, t_tick now) {
 
 // L'instantané de la tablée a la forme que le serveur de personnages rejuge.
 static_assert(MOONCLIENT_CHAR_STYLES_BODY_BYTES == MOONCLIENT_STYLE_ABSENT_BODY_BYTES, "un corps de l'instantané ne vaut plus une entrée du 0x0F27 sans gid");
-static_assert(MOONCLIENT_CHAR_STYLES_BODIES_MAX == BOURGEON_STYLE_MAX_VARIANTS, "l'instantané ne compte plus les corps de la v7");
+static_assert(MOONCLIENT_CHAR_STYLES_BODIES_MAX == MOONCLIENT_STYLE_MAX_VARIANTS, "l'instantané ne compte plus les corps de la v7");
 static_assert(MOONCLIENT_CHAR_STYLES_ENTRY_HEAD == MOONCLIENT_STYLE_LAYER_ENTRY_HEAD, "l'en-tête d'une entrée a changé");
 static_assert(MOONCLIENT_CHAR_STYLES_ENTRY_MAX == MOONCLIENT_STYLE_LAYER_ENTRY_MAX, "la plus grosse entrée a changé");
 static_assert(MOONCLIENT_CHAR_STYLES_ENTRIES_MAX == SHOWN_ENTRIES_MAX, "les entrées affichées ne se comptent plus ainsi");
@@ -171,7 +171,7 @@ void style_shown_save(map_session_data& sd) {
 	if (!sd.vars_ok || sd.state.spectator || sd.status.char_id == 0 || !style_layers_readable(sd))
 		return;
 	bytes shown;
-	clif_bourgeon_style_bodies(sd, shown);
+	clif_moonclient_style_bodies(sd, shown);
 	const bytes entries = style_layers_shown_entries(sd);
 	shown.insert(shown.end(), entries.begin(), entries.end());
 	uint32 char_id = sd.status.char_id;

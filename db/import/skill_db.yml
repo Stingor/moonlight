@@ -3482,7 +3482,7 @@ Body:
         Time: 300000
     Requires:
       SpCost: 100
-# >>> bourgeon:showscale -- genere par tools/gen_skill_scale.py
+# >>> moonclient:showscale -- genere par tools/gen_skill_scale.py
 #     125 sorts ; ne pas editer a la main.
   - Id: 25
     Name: AL_PNEUMA
@@ -4001,7 +4001,7 @@ Body:
     Name: GD_HAWKEYES
     Flags:
       ShowScale: true
-# <<< bourgeon:showscale
+# <<< moonclient:showscale
   - Id: 737
     Name: NPC_RAYOFGENESIS
     Description: NPC Ray of Genesis

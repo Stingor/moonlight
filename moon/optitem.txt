@@ -2,7 +2,7 @@
 //= @optitem  (outil de TEST GM)
 //===== Description =========================================
 //= Donne un item avec 3 random options fixes, pour tester
-//= l'affichage des options (ex: plugin Bourgeon item_desc).
+//= l'affichage des options (ex: description d'objet du client).
 //=   Options: STR +5 (id 3), MaxHP +500 (id 1), ATK +10% (id 13)
 //= Usage: @optitem <item_id> [refine]
 //===========================================================

@@ -57,7 +57,7 @@ l'**Épisode II**.
 | 2011‑12‑27 | File d'attente des Champs de bataille | oui |
 | 2012‑02‑08 | Nouveaux chariots Mechanic/Genetic | non |
 | 2012‑03‑21 | **Flûte du faucon** (*Falcon Flute*) | oui |
-| 2012‑03‑28 | **Système de navigation** | oui — déjà en place côté Bourgeon |
+| 2012‑03‑28 | **Système de navigation** | oui — déjà en place côté client |
 | 2012‑03‑28 | **Nouvelle Izlude + Académie Criatura** | à arbitrer |
 | 2012‑04‑04 | **Barres de vie sur les monstres** | oui, côté client |
 | 2012‑04‑25 | **WoE : Édition d'entraînement** (WoE:TE) | à arbitrer |

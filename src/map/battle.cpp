@@ -7638,8 +7638,8 @@ enum damage_lv battle_weapon_attack(block_list* src, block_list* target, t_tick 
 		// status_get_amotion (unit.cpp), pas sur cette valeur.
 		//
 		// Le decalage visuel qu'on cherchait a corriger se traite ENTIEREMENT cote
-		// client, ou differer ne coute rien : Bourgeon/wand_bolt.cc complete la file
-		// datee de CActorSprite_ProcessDamageAction. Voir docs/wand_ranged_attack.md 11.7.
+		// client, ou differer ne coute rien : le client complete la file datee de ses
+		// coups.
 		battle_delay_damage(tick, wd.amotion, src, target, wd.flag, 0, 0, damage, wd.dmg_lv, wd.div_, true, wd.isspdamage, is_norm_attacked);
 	}
 	if( tsc ) {

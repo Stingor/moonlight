@@ -577,8 +577,8 @@ ACMD_FUNC(sellstuff)
 	nullpo_retr(-1, sd);
 
 	// Registre, message et interface du client suivent : tout est décrit
-	// dans bourgeon_settings[] (clif.cpp).
-	bourgeon_setting_toggle(sd, BOURGEON_SETTING_SELLSTUFF);
+	// dans moonclient_settings[] (clif.cpp).
+	moonclient_setting_toggle(sd, MOONCLIENT_SETTING_SELLSTUFF);
 	return 0;
 }
 
@@ -591,8 +591,8 @@ ACMD_FUNC(sellitem)
 	nullpo_retr(-1, sd);
 
 	// Registre, message et interface du client suivent : tout est décrit
-	// dans bourgeon_settings[] (clif.cpp).
-	bourgeon_setting_toggle(sd, BOURGEON_SETTING_SELLITEM);
+	// dans moonclient_settings[] (clif.cpp).
+	moonclient_setting_toggle(sd, MOONCLIENT_SETTING_SELLITEM);
 	return 0;
 }
 
@@ -605,8 +605,8 @@ ACMD_FUNC(showspeed)
 	nullpo_retr(-1, sd);
 
 	// Registre, message et interface du client suivent : tout est décrit
-	// dans bourgeon_settings[] (clif.cpp).
-	bourgeon_setting_toggle(sd, BOURGEON_SETTING_SHOWSPEED);
+	// dans moonclient_settings[] (clif.cpp).
+	moonclient_setting_toggle(sd, MOONCLIENT_SETTING_SHOWSPEED);
 	return 0;
 }
 
@@ -642,10 +642,10 @@ ACMD_FUNC(playertest)
 {
 	nullpo_retr(-1, sd);
 
-	// Persiste par personnage via bourgeon_settings[] : registre, recalcul,
+	// Persiste par personnage via moonclient_settings[] : registre, recalcul,
 	// messages et resynchro du client. Refusé quand le personnage visé n'a pas
 	// lui-même la commande (#playertest) : la bascule reste alors volatile.
-	if (bourgeon_setting_toggle(sd, BOURGEON_SETTING_PLAYERTEST))
+	if (moonclient_setting_toggle(sd, MOONCLIENT_SETTING_PLAYERTEST))
 		return 0;
 
 	sd->state.playertest = !sd->state.playertest;
@@ -665,7 +665,7 @@ ACMD_FUNC(nodelay)
 {
 	nullpo_retr(-1, sd);
 
-	if (bourgeon_setting_toggle(sd, BOURGEON_SETTING_NODELAY))
+	if (moonclient_setting_toggle(sd, MOONCLIENT_SETTING_NODELAY))
 		return 0;
 
 	sd->state.nodelay = !sd->state.nodelay;
@@ -946,8 +946,8 @@ ACMD_FUNC(autolootmvp)
 	nullpo_retr(-1, sd);
 
 	// Registre, message et interface du client suivent : tout est décrit
-	// dans bourgeon_settings[] (clif.cpp).
-	bourgeon_setting_toggle(sd, BOURGEON_SETTING_ALOOT_MVP);
+	// dans moonclient_settings[] (clif.cpp).
+	moonclient_setting_toggle(sd, MOONCLIENT_SETTING_ALOOT_MVP);
 	return 0;
 }
 
@@ -960,8 +960,8 @@ ACMD_FUNC(autolootmvpreward)
 	nullpo_retr(-1, sd);
 
 	// Registre, message et interface du client suivent : tout est décrit
-	// dans bourgeon_settings[] (clif.cpp).
-	bourgeon_setting_toggle(sd, BOURGEON_SETTING_ALOOT_MVPRWD);
+	// dans moonclient_settings[] (clif.cpp).
+	moonclient_setting_toggle(sd, MOONCLIENT_SETTING_ALOOT_MVPRWD);
 	return 0;
 }
 
@@ -974,8 +974,8 @@ ACMD_FUNC(autolootrare)
 	nullpo_retr(-1, sd);
 
 	// Registre, message et interface du client suivent : tout est décrit
-	// dans bourgeon_settings[] (clif.cpp).
-	bourgeon_setting_toggle(sd, BOURGEON_SETTING_ALOOT_RARE);
+	// dans moonclient_settings[] (clif.cpp).
+	moonclient_setting_toggle(sd, MOONCLIENT_SETTING_ALOOT_RARE);
 	return 0;
 }
 
@@ -988,8 +988,8 @@ ACMD_FUNC(showmobinfo)
 	nullpo_retr(-1, sd);
 
 	// Registre, message et interface du client suivent : tout est décrit
-	// dans bourgeon_settings[] (clif.cpp).
-	bourgeon_setting_toggle(sd, BOURGEON_SETTING_SHOW_MOB_INFO);
+	// dans moonclient_settings[] (clif.cpp).
+	moonclient_setting_toggle(sd, MOONCLIENT_SETTING_SHOW_MOB_INFO);
 	return 0;
 }
 
@@ -1003,18 +1003,18 @@ ACMD_FUNC(autolootpognon)
 
 	if( message && *message ) {
 		if( !strcmp(message,"reset") ) {
-			bourgeon_setting_set(sd, BOURGEON_SETTING_ALOOT_POGNON, 0, BSET_SRC_SERVER);
+			moonclient_setting_set(sd, MOONCLIENT_SETTING_ALOOT_POGNON, 0, BSET_SRC_SERVER);
 		}
 		else {
 			int32 prix;
 
 			if( (sscanf(message, "%d", &prix) < 1) || prix <= 0 ) {
-				bourgeon_setting_set(sd, BOURGEON_SETTING_ALOOT_POGNON, 0, BSET_SRC_SERVER);
+				moonclient_setting_set(sd, MOONCLIENT_SETTING_ALOOT_POGNON, 0, BSET_SRC_SERVER);
 				clif_displaymessage(fd, msg_txt(sd,1828));
 				return -1;
 			}
 
-			bourgeon_setting_set(sd, BOURGEON_SETTING_ALOOT_POGNON, (uint32)prix, BSET_SRC_SERVER);
+			moonclient_setting_set(sd, MOONCLIENT_SETTING_ALOOT_POGNON, (uint32)prix, BSET_SRC_SERVER);
 		}
 	}
 	else {
@@ -1294,7 +1294,7 @@ ACMD_FUNC(storealbum)
 
 	if (moved > 0) {
 		card_album_save_inventory(sd);
-		clif_bourgeon_card_album(*sd, CARD_ALBUM_OK);
+		clif_moonclient_card_album(*sd, CARD_ALBUM_OK);
 	}
 
 	if (!held_before)
@@ -1634,21 +1634,21 @@ ACMD_FUNC(iteminfo)
 	return 0;
 }
 
-// ── [Stingor] Bourgeon : @whodrops / @whereis en LIENS ────────────────────
+// ── [Stingor] @whodrops / @whereis en LIENS ────────────────────
 //
 // Les deux commandes ne parlent que de choses que l'interface moderne sait
 // ouvrir — des monstres et des cartes — mais elles les écrivaient à plat. La
-// chatbox de Bourgeon connaît déjà les balises (`<MOBL>` pour un monstre,
+// chatbox du client connaît déjà les balises (`<MOBL>` pour un monstre,
 // `<NAVIL>` pour un lieu) : il suffit de les poser ici.
 //
-// 🔴 GATÉ SUR LA CAPACITÉ, pas sur `has_bourgeon`. La chatbox moderne est
+// 🔴 GATÉ SUR LA CAPACITÉ, pas sur `client_verified`. La chatbox moderne est
 // opt-in et peut être éteinte en cours de session (cf. `e_moonlight_ui_cap`) ;
 // un client qui ne la rend pas lirait les chevrons en toutes lettres. La sortie
 // de ces commandes est un message SELF : personne d'autre ne la lit, donc le
 // choix se fait une fois pour toute la commande, sans version de repli à poster
 // en parallèle.
-static bool bourgeon_chat_markup(map_session_data* sd) {
-	return sd != nullptr && (sd->bourgeon_ui_caps & MOONLIGHT_UI_CHAT) != 0;
+static bool moonclient_chat_markup(map_session_data* sd) {
+	return sd != nullptr && (sd->moonclient_ui_caps & MOONLIGHT_UI_CHAT) != 0;
 }
 
 // Le nom d'un monstre. En lien, le RANG voyage dans la balise (0 normal, 1 boss,
@@ -1657,7 +1657,7 @@ static bool bourgeon_chat_markup(map_session_data* sd) {
 //
 // 🔴 Le nom voyage DANS la balise, et ce n'est pas de la commodité : le client
 // n'a pas mob_db, il ne sait pas nommer un monstre à partir de son seul id.
-static std::string bourgeon_mob_link(map_session_data* sd, uint16 mob_id, const std::shared_ptr<s_mob_db>& mob) {
+static std::string moonclient_mob_link(map_session_data* sd, uint16 mob_id, const std::shared_ptr<s_mob_db>& mob) {
 	int32 rank = 0;
 	switch (mob->get_bosstype()) {
 		case BOSSTYPE_MVP:      rank = 2; break;
@@ -1665,7 +1665,7 @@ static std::string bourgeon_mob_link(map_session_data* sd, uint16 mob_id, const 
 		default: break;
 	}
 	char buf[NAME_LENGTH + 64];
-	if (bourgeon_chat_markup(sd))
+	if (moonclient_chat_markup(sd))
 		safesnprintf(buf, sizeof(buf), "<MOBL>%u:%d:%s</MOBL>", (uint32)mob_id, rank, mob->jname.c_str());
 	else
 		safesnprintf(buf, sizeof(buf), "%s%s", rank == 2 ? "[MVP] " : (rank == 1 ? "[Mini-Boss] " : ""), mob->jname.c_str());
@@ -1680,14 +1680,14 @@ static std::string bourgeon_mob_link(map_session_data* sd, uint16 mob_id, const 
 //
 // Rend une chaîne VIDE si la carte n'est pas chargée sur ce serveur — à
 // l'appelant de dire autre chose plutôt que d'afficher un lieu vide.
-static std::string bourgeon_map_link(map_session_data* sd, uint16 mapindex) {
+static std::string moonclient_map_link(map_session_data* sd, uint16 mapindex) {
 	const int16 mapid = map_mapindex2mapid(mapindex);
 	if (mapid < 0)
 		return std::string();
 	const char* internal = map_getmapdata(mapid)->name;
 	const char* display  = mapindex_idx2displayname(mapindex);
 	char buf[MAP_DISPLAY_NAME_LENGTH + MAP_NAME_LENGTH + 24];
-	if (bourgeon_chat_markup(sd))
+	if (moonclient_chat_markup(sd))
 		safesnprintf(buf, sizeof(buf), "<NAVIL>%s0000</NAVIL>", internal);
 	else if (display && strcmpi(display, internal) != 0)
 		safesnprintf(buf, sizeof(buf), "%s (%s)", display, internal);
@@ -1775,8 +1775,8 @@ ACMD_FUNC(whodrops)
 				dropchance = min(dropchance, 10000); //cap it to 100%
 
 				// Le nom du monstre : lien cliquable pour la chatbox moderne,
-				// « [MVP] Nom » en clair pour les autres (cf. bourgeon_mob_link).
-				const std::string mobname = bourgeon_mob_link(sd, (uint16)mobid, mob);
+				// « [MVP] Nom » en clair pour les autres (cf. moonclient_mob_link).
+				const std::string mobname = moonclient_mob_link(sd, (uint16)mobid, mob);
 
 				const std::vector<spawn_info> spawns = mob_get_spawns(mobid);
 				if (spawns.size() < 1)
@@ -1785,7 +1785,7 @@ ACMD_FUNC(whodrops)
 					// ⚠ Une carte non chargée laissait atcmd_output tel quel, donc la
 					// ligne PRÉCÉDENTE était réaffichée à l'identique : on retombe
 					// désormais sur la mention sans lieu.
-					const std::string location = bourgeon_map_link(sd, spawns[0].mapindex);
+					const std::string location = moonclient_map_link(sd, spawns[0].mapindex);
 					if (location.empty())
 						safesnprintf(atcmd_output, sizeof(atcmd_output), "- %s (%d): %02.02f%% - %s", mobname.c_str(), mobid, (dropchance / 100.), msg_txt(sd, 1290)); // Instance/Quest/Event
 					else if (spawns[0].qty > 1)
@@ -1800,7 +1800,7 @@ ACMD_FUNC(whodrops)
 
 					for (auto& spawn : spawns)
 					{
-						const std::string location = bourgeon_map_link(sd, spawn.mapindex);
+						const std::string location = moonclient_map_link(sd, spawn.mapindex);
 						if (location.empty())
 							continue;
 						safesnprintf(buf, sizeof(buf), "[%d->%s]", spawn.qty, location.c_str());
@@ -1857,7 +1857,7 @@ ACMD_FUNC(whereis)
 		if (!mob) continue;
 		// Le monstre demandé est lui aussi un lien : c'est la première chose
 		// qu'on veut ouvrir quand la liste des lieux ne suffit pas.
-		snprintf(atcmd_output, sizeof atcmd_output, msg_txt(sd, 1289), bourgeon_mob_link(sd, mob_id, mob).c_str()); // %s spawns in:
+		snprintf(atcmd_output, sizeof atcmd_output, msg_txt(sd, 1289), moonclient_mob_link(sd, mob_id, mob).c_str()); // %s spawns in:
 		clif_displaymessage(fd, atcmd_output);
 
 		const std::vector<spawn_info> spawns = mob_get_spawns(mob_id);
@@ -1868,7 +1868,7 @@ ACMD_FUNC(whereis)
 		else {
 			for (auto& spawn : spawns)
 				{
-					const std::string location = bourgeon_map_link(sd, spawn.mapindex);
+					const std::string location = moonclient_map_link(sd, spawn.mapindex);
 					if (location.empty())
 						continue;
 					snprintf(atcmd_output, sizeof atcmd_output, "%s (%d)", location.c_str(), spawn.qty);
@@ -1890,8 +1890,8 @@ ACMD_FUNC(separate)
 	nullpo_retr(-1, sd);
 
 	// Registre, message et interface du client suivent : tout est décrit
-	// dans bourgeon_settings[] (clif.cpp).
-	bourgeon_setting_toggle(sd, BOURGEON_SETTING_SEPARATE);
+	// dans moonclient_settings[] (clif.cpp).
+	moonclient_setting_toggle(sd, MOONCLIENT_SETTING_SEPARATE);
 	return 0;
 }
 
@@ -1967,8 +1967,8 @@ ACMD_FUNC(blockexp)
 	nullpo_retr(-1, sd);
 
 	// Registre, message et interface du client suivent : tout est décrit
-	// dans bourgeon_settings[] (clif.cpp).
-	bourgeon_setting_toggle(sd, BOURGEON_SETTING_BLOCK_EXP);
+	// dans moonclient_settings[] (clif.cpp).
+	moonclient_setting_toggle(sd, MOONCLIENT_SETTING_BLOCK_EXP);
 	return 0;
 }
 
@@ -1980,7 +1980,7 @@ ACMD_FUNC(flywinglast)
 {
 	nullpo_retr(-1, sd);
 
-	bourgeon_setting_toggle(sd, BOURGEON_SETTING_FLYWING_LAST);
+	moonclient_setting_toggle(sd, MOONCLIENT_SETTING_FLYWING_LAST);
 	return 0;
 }
 
@@ -2161,7 +2161,7 @@ ACMD_FUNC(ignorelist)
 #define SHOPSEARCH_MAX_MARKS 20		// points posés sur la minimap
 #define SHOPSEARCH_TITLE_LENGTH 40	// titre de boutique joueur, tronqué
 
-// Un lieu PRÉCIS, en lien de navigation. `bourgeon_map_link` vise la carte
+// Un lieu PRÉCIS, en lien de navigation. `moonclient_map_link` vise la carte
 // entière (« 0000 ») parce qu'un lieu d'apparition est une zone ; ici on connaît
 // le point exact, alors on l'encode — base 62, poids faible d'abord, deux
 // caractères par coordonnée : la forme qu'écrit le bouton « Partager » du
@@ -2170,14 +2170,14 @@ ACMD_FUNC(ignorelist)
 //
 // Rend une chaîne VIDE pour un PNJ hors carte — à l'appelant de dire autre
 // chose plutôt que d'afficher un lieu vide.
-static std::string bourgeon_pos_link(map_session_data* sd, int16 mapid, uint16 x, uint16 y) {
+static std::string moonclient_pos_link(map_session_data* sd, int16 mapid, uint16 x, uint16 y) {
 	if (mapid < 0)
 		return std::string();
 
 	const char* internal = map_getmapdata(mapid)->name;
 	char buf[MAP_DISPLAY_NAME_LENGTH + MAP_NAME_LENGTH + 32];
 
-	if (bourgeon_chat_markup(sd)) {
+	if (moonclient_chat_markup(sd)) {
 		static const char base62[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		const char coords[5] = { base62[x % 62], base62[(x / 62) % 62], base62[y % 62], base62[(y / 62) % 62], '\0' };
 
@@ -2351,7 +2351,7 @@ static int32 shopsearch_legacy_report(const int32 fd, map_session_data* sd, cons
 					continue;
 				}
 
-				const std::string place = bourgeon_pos_link(sd, hit->nd->m, hit->nd->x, hit->nd->y);
+				const std::string place = moonclient_pos_link(sd, hit->nd->m, hit->nd->x, hit->nd->y);
 				const char* flag = "";
 
 				if (hit->nd->instance_id != 0)
@@ -2390,7 +2390,7 @@ static int32 shopsearch_legacy_report(const int32 fd, map_session_data* sd, cons
 					break;
 				}
 
-				const std::string place = bourgeon_pos_link(sd, stall.sd->m, stall.sd->x, stall.sd->y);
+				const std::string place = moonclient_pos_link(sd, stall.sd->m, stall.sd->x, stall.sd->y);
 				char title[SHOPSEARCH_TITLE_LENGTH];
 
 				// Le titre de l'étal porte souvent l'essentiel de l'annonce, mais
@@ -2546,7 +2546,7 @@ static const char* mvp_group_result_text(e_mvp_group_result result)
  *
  * Recette des lots 2 et 3 : cree un groupe, invite, verifie qu'un kill credite
  * le groupe du tueur et lui seul (@mvpobs), et qu'un redemarrage garde le groupe
- * mais perd les observations. Le protocole du client Bourgeon appellera
+ * mais perd les observations. Le protocole du client appellera
  * exactement les memes fonctions.
  *------------------------------------------*/
 ACMD_FUNC(mvpgroup)
@@ -2682,17 +2682,16 @@ ACMD_FUNC(mvpobs)
 
 /*==========================================
  * @client <Joueur> par [Stingor]
- * Dit quel client un joueur connecte emploie -- moonclient ou le client
- * d'origine greffe de Bourgeon -- et le dernier patch de contenu qu'il a
+ * Dit si un joueur connecte emploie moonclient, et le dernier patch de contenu qu'il a
  * declare a sa poignee de main d'integrite. Pour moonclient, aussi la revision
  * git de son binaire, et si elle a ete batie sur un arbre modifie.
  *
  * Aucun seuil ici : le droit vient de la table des groupes, ou seul le
  * groupe qui porte `all_commands` l'obtient. Le menu contextuel du staff la
- * rejoue (CZ 0x0F2B, BOURGEON_PLAYER_ADMIN_CLIENT_INFO) sous les memes droits.
+ * rejoue (CZ 0x0F2B, MOONCLIENT_PLAYER_ADMIN_CLIENT_INFO) sous les memes droits.
  *
  * « Sans poignee de main » : aucune n'a ete ACCEPTEE pour cette session --
- * client sans DLL, IP dispensee... ou encore dans le delai qui precede le
+ * autre client, IP dispensee... ou encore dans le delai qui precede le
  * controle.
  *------------------------------------------*/
 /// [Stingor] LES TEINTURES DE CALQUES de moonclient (style_layers.hpp) :
@@ -2773,15 +2772,14 @@ ACMD_FUNC(client)
 		return -1;
 	}
 
-	if (!pl_sd->state.has_bourgeon) {
+	if (!pl_sd->state.client_verified) {
 		safesnprintf(atcmd_output, sizeof(atcmd_output), "%s : sans poignee de main", pl_sd->status.name);
 		clif_displaymessage(fd, atcmd_output);
 		return 0;
 	}
 
-	// `moonclient` ne va jamais sans `has_bourgeon` : il ne fait que nommer le
-	// client qui parle ce protocole.
-	const char* client_name = pl_sd->state.moonclient ? "moonclient" : "Bourgeon";
+	// Seul moonclient passe la poignee de main : une session verifiee est la sienne.
+	const char* client_name = "moonclient";
 
 	char patch[32];
 	if (pl_sd->client_patch_index < 0)

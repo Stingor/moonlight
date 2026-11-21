@@ -85,7 +85,7 @@ OnMobDead:
  * marqueur d'un menu doit dire ce que le joueur trouvera EN ARRIVANT. Un
  * compteur relu a l'affichage ne peut pas se desynchroniser ; une liste, si.
  *
- * Le sprite inline (<MOBS>) n'existe que dans le dialogue moderne de Bourgeon.
+ * Le sprite inline (<MOBS>) n'existe que dans le dialogue moderne du client.
  * Le dialogue natif, lui, laisse passer les balises qu'il ne connait pas et les
  * afficherait en toutes lettres, d'ou le repli en texte.
  */

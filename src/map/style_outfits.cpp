@@ -54,7 +54,7 @@ constexpr size_t REQUEST_MAX = sizeof(PACKET_CZ_MOONCLIENT_OUTFIT) + MOONCLIENT_
 // Un rangement dans la liste : rangement, longueur du nom, longueur de la tenue.
 constexpr size_t LISTED_HEAD = 1 + 1 + 2;
 
-static_assert(MOONCLIENT_OUTFIT_BODY_BYTES == BODY_KEY_BYTES + 3 * BODY_NUMBER_BYTES + BOURGEON_STYLE_ADJUST_BYTES,
+static_assert(MOONCLIENT_OUTFIT_BODY_BYTES == BODY_KEY_BYTES + 3 * BODY_NUMBER_BYTES + MOONCLIENT_STYLE_ADJUST_BYTES,
 	"un corps de tenue ne vaut plus une entrée de la v7 sans gid");
 static_assert(sizeof(PACKET_ZC_MOONCLIENT_OUTFIT) + 1 + MOONCLIENT_WARDROBE_SLOTS * (LISTED_HEAD + MOONCLIENT_OUTFIT_NAME_MAX + MOONCLIENT_OUTFIT_BYTES_MAX) < INT16_MAX,
 	"la garde-robe pleine doit tenir dans une trame");
@@ -95,7 +95,7 @@ bool check_outfit(const uint8* p, size_t length) {
 		return false;
 	const size_t bodies = p[1];
 	const uint32 fallback = read_u32(p + 2);
-	if (bodies > BOURGEON_STYLE_MAX_VARIANTS)
+	if (bodies > MOONCLIENT_STYLE_MAX_VARIANTS)
 		return false;
 	size_t at = MOONCLIENT_OUTFIT_HEAD;
 	if (length < at + bodies * MOONCLIENT_OUTFIT_BODY_BYTES + 1)
@@ -113,7 +113,7 @@ bool check_outfit(const uint8* p, size_t length) {
 			|| !number_ok(read_i16(numbers + 2 * BODY_NUMBER_BYTES), MIN_HAIR_STYLE, MAX_HAIR_STYLE))
 			return false;
 		const uint8* adjusts = numbers + 3 * BODY_NUMBER_BYTES;
-		for (size_t a = 0; a < BOURGEON_STYLE_ADJUST_BYTES; a += ADJUST_BYTES)
+		for (size_t a = 0; a < MOONCLIENT_STYLE_ADJUST_BYTES; a += ADJUST_BYTES)
 			if (adjusts[a + ADJUST_ABSOLUTE] > 1)
 				return false;
 	}

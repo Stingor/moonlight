@@ -85,7 +85,7 @@ enum e_achievement_info {
 // avertissement dans la console du map-server au demarrage.
 //
 //   1000..1046  titres kRO (ROenglishRE)
-//   1100..1105  titres Bourgeon -- album de cartes
+//   1100..1105  titres du client -- album de cartes
 //
 // Ajouter un titre maison = l'ecrire dans titletable.lub ET remonter TITLE_MAX.
 enum e_title_table : uint16 {

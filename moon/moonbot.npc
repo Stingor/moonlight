@@ -838,7 +838,7 @@ OnStingDead:
 	end;
 }
 
-// NPC invisible dedie au relay Discord -> Bourgeon overlay (ZC_BOURGEON_DISCORD_MSG).
+// NPC invisible dedie au relay Discord -> client (ZC_MOONCLIENT_DISCORD_MSG).
 // Timer independant : tourne meme quand sting_IA dort pendant un trip ou un event PvP.
 -	script	#sting_discord_relay	-1,{
 	end;
@@ -855,7 +855,7 @@ OnTimer3000:
 	query_sql "SELECT id, message, rich_state, CAST(rich_user_id AS CHAR), rich_name, rich_avatar, COALESCE(rich_text, ''), rich_flags FROM discord_relay WHERE sent=0 ORDER BY id LIMIT 5", .@drids, .@drmsgs$, .@drstates, .@druids$, .@drnames$, .@dravatars$, .@drtexts$, .@drflags;
 	.@drn = getarraysize(.@drids);
 	for (.@dri = 0; .@dri < .@drn; .@dri++) {
-		bourgeon_discord_relay_all(.@drmsgs$[.@dri], .@drstates[.@dri], .@druids$[.@dri], .@drnames$[.@dri], .@dravatars$[.@dri], .@drtexts$[.@dri], .@drflags[.@dri]);
+		moonclient_discord_relay_all(.@drmsgs$[.@dri], .@drstates[.@dri], .@druids$[.@dri], .@drnames$[.@dri], .@dravatars$[.@dri], .@drtexts$[.@dri], .@drflags[.@dri]);
 		query_sql "UPDATE discord_relay SET sent=1 WHERE id=" + .@drids[.@dri];
 	}
 	initnpctimer;
