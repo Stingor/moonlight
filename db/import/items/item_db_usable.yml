@@ -11848,6 +11848,15 @@ Body:
       NoAuction: true
     Script: |
       getgroupitem(IG_ODIN_ITEMBOX);
+  - Id: 23992
+    AegisName: Bio_W_Box
+    Name: Experimental Weapon Box
+    Type: Usable
+    Weight: 10
+    Flags:
+      Container: true
+    Script: |
+      getgroupitem(IG_BIO_W_BOX);
   - Id: 23993
     AegisName: Bio_Docu_Box
     Name: Bio Lab Material Box

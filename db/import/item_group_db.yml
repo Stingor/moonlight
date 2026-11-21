@@ -27980,6 +27980,128 @@ Body:
             Item: Soft_Feather
             Rate: 3000
             Amount: 5
+  - Group: BIO_W_BOX
+    SubGroups:
+      - SubGroup: 6
+        Algorithm: Random
+        List:
+          - Index: 0
+            Item: Volar
+            Rate: 10
+          - Index: 1
+            Item: Vernan
+            Rate: 10
+          - Index: 2
+            Item: Argen_Blanco
+            Rate: 10
+          - Index: 3
+            Item: Farthezan
+            Rate: 10
+          - Index: 4
+            Item: Harve
+            Rate: 10
+          - Index: 5
+            Item: Fortridge
+            Rate: 10
+          - Index: 6
+            Item: Golden_Wrench
+            Rate: 10
+          - Index: 7
+            Item: Engine_Pilebuncker
+            Rate: 10
+          - Index: 8
+            Item: Maxi_Spanner
+            Rate: 10
+          - Index: 9
+            Item: Estal
+            Rate: 10
+          - Index: 10
+            Item: Coolant_Injection
+            Rate: 10
+          - Index: 11
+            Item: Gene_Rod
+            Rate: 10
+          - Index: 12
+            Item: Judgement_Slasher
+            Rate: 10
+          - Index: 13
+            Item: Repent_Slasher
+            Rate: 10
+          - Index: 14
+            Item: Ripper_Cross
+            Rate: 10
+          - Index: 15
+            Item: Agudo_Filo
+            Rate: 10
+          - Index: 16
+            Item: Jack_The_Knife
+            Rate: 10
+          - Index: 17
+            Item: Platinum_Dagger
+            Rate: 10
+          - Index: 18
+            Item: Crimson_Rose_Stick
+            Rate: 10
+          - Index: 19
+            Item: Staff_of_Miracle
+            Rate: 10
+          - Index: 20
+            Item: Gravitation_Staff
+            Rate: 10
+          - Index: 21
+            Item: Boltijin
+            Rate: 10
+          - Index: 22
+            Item: Psychic_Spear_Rod
+            Rate: 10
+          - Index: 23
+            Item: Dust_Grave
+            Rate: 10
+          - Index: 24
+            Item: Penitentia
+            Rate: 10
+          - Index: 25
+            Item: Adorare_Staff
+            Rate: 10
+          - Index: 26
+            Item: Lucis_Flail
+            Rate: 10
+          - Index: 27
+            Item: Raging_Dragon_Fist
+            Rate: 10
+          - Index: 28
+            Item: Dedicated_Bandage
+            Rate: 10
+          - Index: 29
+            Item: Bright_Pendulum
+            Rate: 10
+          - Index: 30
+            Item: Sharp_Star_Bow
+            Rate: 10
+          - Index: 31
+            Item: Falken_Shooter
+            Rate: 10
+          - Index: 32
+            Item: Aiming_Bow
+            Rate: 10
+          - Index: 33
+            Item: Wind_Gale
+            Rate: 10
+          - Index: 34
+            Item: Black_Circle
+            Rate: 10
+          - Index: 35
+            Item: Antique_Cello
+            Rate: 10
+          - Index: 36
+            Item: Heart_Whip
+            Rate: 10
+          - Index: 37
+            Item: Scarlet_Ribbon
+            Rate: 10
+          - Index: 38
+            Item: Rapid_Fire
+            Rate: 10
   - Group: BIO_DOCU_BOX
     SubGroups:
       - SubGroup: 6

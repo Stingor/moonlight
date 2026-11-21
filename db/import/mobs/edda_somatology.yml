@@ -43,6 +43,12 @@ Body:
         Rate: 2000
       - Item: Subject_Aura
         Rate: 10
+      - Item: Bio_Reseearch_Docu
+        Rate: 3500
+      - Item: Bio_Test_Fragment
+        Rate: 3500
+      - Item: Bio_W_Box
+        Rate: 100
   - Id: 20537
     AegisName: MD_ED_YGNIZEM
     Name: Nameless Swordsman
