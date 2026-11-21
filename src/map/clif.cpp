@@ -18698,6 +18698,9 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 		clif_updatestatus(*sd, SP_JOBEXP);
 		clif_updatestatus(*sd, SP_NEXTJOBEXP);
 		clif_updatestatus(*sd, SP_SKILLPOINT);
+		// [Stingor] Le solde exact, en 0x0acb : l'écran de sélection ne le porte
+		// que borné à INT32_MAX, et rien d'autre ne le redit avant qu'il change.
+		clif_updatestatus(*sd, SP_ZENY);
 		clif_initialstatus(*sd);
 
 		if (sd->sc.option & OPTION_FALCON)

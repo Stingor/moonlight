@@ -1033,7 +1033,7 @@ public:
 		struct mail_data inbox;
 		bool changed; // if true, should sync with charserver on next mailbox request
 		uint32 pending_weight;
-		uint32 pending_zeny;
+		int64 pending_zeny; ///< [Stingor] int64 : la somme de plusieurs courriers dépasse 2^32
 		uint16 pending_slots;
 		uint32 dest_id;
 	} mail;

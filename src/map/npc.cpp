@@ -3294,7 +3294,8 @@ e_purchase_result npc_barter_purchase( map_session_data& sd, std::shared_ptr<s_n
 			requiredSlots += purchase.data->inventorySlotNeeded( amount );
 		}
 
-		requiredZeny += ( purchase.item->price * amount );
+		// [Stingor] En uint64 AVANT le produit : prix x quantité déborde d'un uint32.
+		requiredZeny += ( static_cast<uint64>( purchase.item->price ) * amount );
 		requiredWeight += ( purchase.data->weight * amount );
 
 		for( const auto& requirementPair : purchase.item->requirements ){

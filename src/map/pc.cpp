@@ -11082,12 +11082,17 @@ bool pc_setparam(map_session_data *sd,int64 type,int64 val_tmp)
 	case SP_TRAITPOINT:
 		sd->status.trait_point = val;
 		break;
-	case SP_ZENY:
-		if( val < 0 )
+	case SP_ZENY: {
+		// [Stingor] Le solde est un int64 : il se lit dans val_tmp, que `val`
+		// tronque à 32 bits. `Zeny -= prix` sur un solde au-delà de 2^31 le
+		// ramènerait sinon modulo 2^32, ou ferait échouer le script.
+		if( val_tmp < 0 )
 			return false;// can't set negative zeny
-		log_zeny(*sd, LOG_TYPE_SCRIPT, sd->status.char_id, -(sd->status.zeny - cap_value(val, 0, MAX_ZENY)));
-		sd->status.zeny = cap_value(val, 0, MAX_ZENY);
+		const int64 zeny_new = cap_value(val_tmp, static_cast<int64>(0), static_cast<int64>(MAX_ZENY));
+		log_zeny(*sd, LOG_TYPE_SCRIPT, sd->status.char_id, zeny_new - sd->status.zeny);
+		sd->status.zeny = zeny_new;
 		break;
+	}
 	case SP_BASEEXP:
 		val_tmp = cap_value(val_tmp, 0, pc_is_maxbaselv(sd) ? MAX_LEVEL_BASE_EXP : MAX_EXP);
 		if (val_tmp < sd->status.base_exp) // Lost
