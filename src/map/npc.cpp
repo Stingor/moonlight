@@ -2668,7 +2668,7 @@ int32 npc_cashshop_buylist( map_session_data *sd, int32 points, std::vector<s_np
 
 		std::shared_ptr<item_data> id = item_db.find(nameid);
 
-		if( !id || amount <= 0 )
+		if( !id || amount <= 0 || amount > MAX_AMOUNT ) // [Stingor] borne par ligne avant les cumuls int32
 			return ERROR_TYPE_ITEM_ID;
 
 		ARR_FIND(0,nd->u.shop.count,j,nd->u.shop.shop_item[j].nameid == nameid || itemdb_viewid(nd->u.shop.shop_item[j].nameid) == nameid);
@@ -2993,7 +2993,8 @@ e_purchase_result npc_buylist( map_session_data* sd, std::vector<s_npc_buy_list>
 		amount = item_list[i].qty;
 		// [Stingor] La quantité vient du client, sur 32 bits : une ligne négative
 		// ferait baisser le total et le poids du panier.
-		if( amount <= 0 )
+		// Au-delà d'une pile, le cumul int32 par objet (wanted[]) déborderait.
+		if( amount <= 0 || amount > MAX_AMOUNT )
 			return e_purchase_result::PURCHASE_FAIL_COUNT;
 		nameid = item_list[i].nameid = shop[j].nameid; //item_avail replacement
 		value = shop[j].value;
@@ -3211,7 +3212,7 @@ uint8 npc_selllist(map_session_data* sd, int32 list_length, const PACKET_CZ_PC_S
 		idx    = item_list[i].index - 2;
 		amount = item_list[i].amount;
 
-		if( idx >= MAX_INVENTORY || idx < 0 || amount < 0 )
+		if( idx >= MAX_INVENTORY || idx < 0 || amount <= 0 || amount > MAX_AMOUNT ) // [Stingor] borne avant le cumul int32 sold[idx]
 		{
 			return 1;
 		}

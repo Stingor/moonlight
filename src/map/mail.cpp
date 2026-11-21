@@ -67,7 +67,10 @@ int32 mail_removeitem(map_session_data *sd, int16 flag, int32 idx, int32 amount)
 		pc_delitem(sd, idx, amount, 1, 0, LOG_TYPE_MAIL);
 #else
 		// RODEX refreshes the client inventory from the ACK packet
-		pc_delitem(sd, idx, amount, 0, 0, LOG_TYPE_MAIL);
+		// [Stingor] Retour lu : un retrait refusé ne doit pas laisser partir l'objet.
+		if( pc_delitem(sd, idx, amount, 0, 0, LOG_TYPE_MAIL) ){
+			return false;
+		}
 #endif
 	}else{
 		sd->mail.item[i].amount -= amount;
@@ -171,7 +174,9 @@ enum mail_attach_result mail_setitem(map_session_data *sd, int16 idx, uint32 amo
 		if( amount > sd->status.zeny )
 			amount = sd->status.zeny; // TODO: confirm this behavior for old mail system
 #else
-		if( ( amount + battle_config.mail_zeny_fee / 100 * amount ) > sd->status.zeny )
+		// [Stingor] sd->mail.zeny est un int32 : au-delà, il deviendrait négatif.
+		// Frais en int64, multipliés avant la division (sinon toujours 0).
+		if( amount > MAX_ZENY_AMOUNT || ( amount + static_cast<int64>( amount ) * battle_config.mail_zeny_fee / 100 ) > sd->status.zeny )
 			return MAIL_ATTACH_ERROR;
 #endif
 
@@ -187,6 +192,11 @@ enum mail_attach_result mail_setitem(map_session_data *sd, int16 idx, uint32 amo
 		idx -= 2;
 
 		if( idx < 0 || idx >= MAX_INVENTORY || sd->inventory_data[idx] == nullptr )
+			return MAIL_ATTACH_ERROR;
+
+		// [Stingor] Une entrée de quantité 0 ferait un trou que la boucle de retrait
+		// de mail_setattachment prenait pour la fin de liste (duplication).
+		if( amount == 0 || amount > MAX_AMOUNT )
 			return MAIL_ATTACH_ERROR;
 
 		if (itemdb_ishatched_egg(&sd->inventory.u.items_inventory[idx]))
@@ -310,21 +320,31 @@ bool mail_setattachment(map_session_data *sd, struct mail_message *msg)
 		msg->item[i].amount = sd->mail.item[i].amount;
 	}
 
-	if( sd->mail.zeny < 0 || ( sd->mail.zeny + sd->mail.zeny * battle_config.mail_zeny_fee / 100 + amount * battle_config.mail_attachment_price ) > sd->status.zeny )
+	// [Stingor] En int64 : le calcul int32 débordait dès 1 073 741 824 z avec 2 % de frais.
+	int64 zeny = sd->mail.zeny;
+	int64 fee = zeny * battle_config.mail_zeny_fee / 100;
+
+	if( zeny < 0 || zeny + fee > MAX_ZENY_AMOUNT || ( zeny + fee + static_cast<int64>( amount ) * battle_config.mail_attachment_price ) > sd->status.zeny )
 		return false;
 
 	msg->zeny = sd->mail.zeny;
 
+	// [Stingor] Le zeny d'abord, retour lu : s'il est refusé, rien n'a encore quitté le sac
+	// (avant, le courrier partait avec msg->zeny sans que l'expéditeur soit débité).
+	if( !mail_removezeny( sd, true ) )
+		return false;
+
 	// Removes the attachment from sender
 	for( i = 0; i < MAIL_MAX_ITEM; i++ ){
 		if( sd->mail.item[i].nameid == 0 || sd->mail.item[i].amount == 0 ){
-			// Exit the loop on the first empty entry
-			break;
+			// [Stingor] Sauter sans s'arrêter : un trou laissait partir les objets suivants sans les retirer.
+			continue;
 		}
 
-		mail_removeitem(sd,1,sd->mail.item[i].index + 2,sd->mail.item[i].amount);
+		// [Stingor] Objet non retiré du sac : il ne part pas avec le courrier.
+		if( !mail_removeitem(sd,1,sd->mail.item[i].index + 2,sd->mail.item[i].amount) )
+			memset(&msg->item[i], 0, sizeof(struct item));
 	}
-	mail_removezeny(sd,true);
 
 	return true;
 }
@@ -412,7 +432,8 @@ int32 mail_openmail( const map_session_data* sd )
 }
 
 void mail_deliveryfail(map_session_data *sd, struct mail_message *msg){
-	int32 i, zeny = 0;
+	int32 i;
+	int64 zeny = 0; // [Stingor] int64 : msg->zeny * mail_zeny_fee peut déborder un int32.
 
 	nullpo_retv(sd);
 	nullpo_retv(msg);
@@ -426,7 +447,7 @@ void mail_deliveryfail(map_session_data *sd, struct mail_message *msg){
 	}
 
 	if( msg->zeny > 0 ){
-		pc_getzeny(sd,msg->zeny + msg->zeny*battle_config.mail_zeny_fee/100 + zeny,LOG_TYPE_MAIL); //Zeny receive (due to failure)
+		pc_getzeny(sd,static_cast<int64>( msg->zeny ) + static_cast<int64>( msg->zeny )*battle_config.mail_zeny_fee/100 + zeny,LOG_TYPE_MAIL); //Zeny receive (due to failure)
 	}
 
 	clif_Mail_send(sd, WRITE_MAIL_FAILED);

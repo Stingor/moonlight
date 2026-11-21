@@ -359,7 +359,13 @@ int8 vending_openvending( map_session_data& sd, const char* message, const uint8
 
 		index -= 2; // offset adjustment (client says that the first cart position is 2)
 
+		// [Stingor] Une case déjà en vente : vending_purchasereq débite le prix de la
+		// PREMIÈRE ligne de cette case, l'acheteur choisirait la moins chère.
+		int32 k;
+		ARR_FIND( 0, i, k, sd.vending[k].index == index );
+
 		if( index < 0 || index >= MAX_CART // invalid position
+		||  k < i // [Stingor] case du chariot déjà prise par une ligne retenue
 		||  amount <= 0 // [Stingor] int32 : une ligne négative ferait baisser le total
 		||  pc_cartitem_amount(&sd, index, amount) < 0 // invalid item or insufficient quantity
 		//NOTE: official server does not do any of the following checks!

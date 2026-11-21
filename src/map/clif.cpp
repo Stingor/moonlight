@@ -24922,7 +24922,7 @@ void clif_parse_Mail_setattach(int32 fd, map_session_data *sd){
 
 	if( !chrif_isconnected() )
 		return;
-	if (amount < 0 || server_index(idx) >= MAX_INVENTORY)
+	if (amount <= 0 || server_index(idx) >= MAX_INVENTORY) // [Stingor] 0 : trou dans les pièces jointes (duplication)
 		return;
 
 	if (sd->inventory_data[server_index(idx)] == nullptr)
@@ -25073,7 +25073,8 @@ void clif_parse_Mail_send(int32 fd, map_session_data *sd){
 	safestrncpy(text, RFIFOCP(fd, headerLength + titleLength), realTextLength);
 
 	if( zeny > 0 ){
-		if( mail_setitem(sd,0,(uint32)zeny) != MAIL_ATTACH_SUCCESS ){
+		// [Stingor] zeny est un uint64 du paquet : refuser avant que le cast ne le tronque.
+		if( zeny > static_cast<uint64>( MAX_ZENY_AMOUNT ) || mail_setitem(sd,0,(uint32)zeny) != MAIL_ATTACH_SUCCESS ){
 			clif_Mail_send(sd,WRITE_MAIL_FAILED);
 			return;
 		}

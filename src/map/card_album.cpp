@@ -585,7 +585,9 @@ e_card_album_result card_album_put( map_session_data* sd, int16 inv_index, uint3
 
 		// Partial room: store what fits, as the first version did - but with the
 		// room read from the row a moment ago, and still under the same guard.
-		amount = static_cast<uint32>( MAX_AMOUNT - entry->amount );
+		// [Stingor] Jamais plus que demandé : le premier refus peut venir d'autre chose
+		// que la place, et la place restante dépasserait alors la pile du sac.
+		amount = ( amount < static_cast<uint32>( MAX_AMOUNT - entry->amount ) ) ? amount : static_cast<uint32>( MAX_AMOUNT - entry->amount );
 
 		if( !try_put( amount ) ){
 			card_album_refresh_entry( sd, nameid );

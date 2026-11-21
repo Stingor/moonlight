@@ -13078,12 +13078,13 @@ int16 skill_can_produce_mix(map_session_data *sd, t_itemid nameid, int32 trigger
 			if (pc_search_inventory(sd,nameid_produce) < 0)
 				return 0;
 		} else {
-			uint16 idx, amt;
+			uint16 idx;
+			uint32 amt; // [Stingor] uint32 : un cumul de piles dépassait 65535 et refusait à tort.
 
 			for (idx = 0, amt = 0; idx < MAX_INVENTORY; idx++)
 				if (sd->inventory.u.items_inventory[idx].nameid == nameid_produce)
 					amt += sd->inventory.u.items_inventory[idx].amount;
-			if (amt < qty * skill_produce_db[i].mat_amount[j])
+			if (static_cast<int64>(amt) < static_cast<int64>(qty) * skill_produce_db[i].mat_amount[j])
 				return 0;
 		}
 	}
@@ -13156,7 +13157,8 @@ bool skill_produce_mix(map_session_data *sd, uint16 skill_id, t_itemid nameid, i
 	}
 
 	for (i = 0; i < MAX_PRODUCE_RESOURCE; i++) {
-		int16 x, j;
+		int32 x; // [Stingor] int32 : en int16, x devenait négatif et rien n'était consommé.
+		int16 j;
 		t_itemid id = skill_produce_db[idx].mat_id[i];
 
 		if (!item_db.exists(id))
@@ -14108,6 +14110,25 @@ int32 skill_changematerial(map_session_data *sd, int32 n, uint16 *item_list) {
 
 	nullpo_ret(sd);
 	nullpo_ret(item_list);
+
+	// [Stingor] Les quantités viennent du client : sans les comparer au sac,
+	// skill_produce_mix fabriquait des lots entiers à partir d'un exemplaire.
+	for( k = 0; k < n; k++ ){
+		int32 idx = item_list[k*2+0]-2;
+
+		amount = item_list[k*2+1];
+		if( idx < 0 || idx >= MAX_INVENTORY || sd->inventory.u.items_inventory[idx].nameid == 0
+			|| amount < 1 || amount > sd->inventory.u.items_inventory[idx].amount ){
+			clif_msg_skill( *sd, GN_CHANGEMATERIAL, MSI_SKILL_RECIPE_NOTEXIST );
+			return 0;
+		}
+		for( j = 0; j < k; j++ ){
+			if( item_list[j*2+0] == item_list[k*2+0] ){ // même case déclarée deux fois
+				clif_msg_skill( *sd, GN_CHANGEMATERIAL, MSI_SKILL_RECIPE_NOTEXIST );
+				return 0;
+			}
+		}
+	}
 
 	// Search for objects that can be created.
 	for( i = 0; i < MAX_SKILL_PRODUCE_DB; i++ ) {
