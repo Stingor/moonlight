@@ -1056,7 +1056,7 @@ class AdminGUI:
         if reload_cmd:
             self._log("Chemin NPC détecté -> " + reload_cmd, "info")
             cmd = reload_cmd
-        _RAW = ("INTEGRITY ", "RELOAD ", "LOG ", "NAME ", "QUIT")
+        _RAW = ("RELOAD ", "LOG ", "NAME ", "QUIT")
         line = cmd if any(cmd.upper().startswith(p) for p in _RAW) else "ATCMD " + cmd
         self._send_async(line)
 

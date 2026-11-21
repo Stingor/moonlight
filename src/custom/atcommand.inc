@@ -2691,7 +2691,7 @@ ACMD_FUNC(mvpobs)
  * rejoue (CZ 0x0F2B, MOONCLIENT_PLAYER_ADMIN_CLIENT_INFO) sous les memes droits.
  *
  * « Sans poignee de main » : aucune n'a ete ACCEPTEE pour cette session --
- * autre client, IP dispensee... ou encore dans le delai qui precede le
+ * autre client, ou encore dans le delai qui precede le
  * controle.
  *------------------------------------------*/
 /// [Stingor] LES TEINTURES DE CALQUES de moonclient (style_layers.hpp) :

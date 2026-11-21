@@ -1705,8 +1705,6 @@ struct s_discord_rich {
 	uint8 flags = 0;             ///< e_moonlight_discord_rich_flag
 };
 void clif_moonclient_discord_msg_all(const char* msg, e_discord_rich_state rich_state = DISCORD_RICH_NONE, const s_discord_rich* rich = nullptr);
-// [Stingor] (Re)load conf/moonclient_integrity.conf — called by admin INTEGRITY command
-void clif_moonclient_integrity_reload();
 // [Stingor] Remove a player's MachineGuid from the online GUID map (call on logout)
 void clif_moonclient_unregister_guid(int32 account_id);
 // [Stingor] Receive cheat detection report from a verified client (CZ 0x0F0A)

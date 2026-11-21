@@ -7014,13 +7014,11 @@ void clif_parse_moonlight_setting(int32 fd, map_session_data* sd) {
 // patch de sa chaîne de mise à jour. Le GUID sert à repérer les multi-comptes
 // (même machine, comptes différents en ligne au même moment). Une session sans
 // poignée de main dans les quinze secondes est avertie puis coupée : c'est ce
-// qui ferme la porte à tout autre client que moonclient.
+// qui ferme la porte à tout autre client que moonclient. Rien ne s'y règle, et
+// personne n'en est dispensé.
 //
-// Config : conf/moonclient_integrity.conf (non versionnée)
-//   exempt_ip: <ip>       // machines de dev / d'admin, jamais coupées
-//   min_patch_index: -1   // dernier patch exigé ; plus ancien = avis puis kick ;
-//                         // -1 = pas de contrôle
-// Le kick d'une session sans poignée de main ne se règle pas : c'est la porte.
+// Le patch déclaré n'est pas contrôlé : le patcheur du client le tient à jour
+// depuis le miroir. Il sert à @client et au roster du staff.
 //
 // ⚠ La poignée de main ne PROUVE rien : n'importe quel programme peut l'émettre.
 
@@ -7058,59 +7056,6 @@ struct s_verified_login_entry {
 };
 static std::unordered_map<int32, s_verified_login_entry> s_verified_login;
 
-struct s_moonclient_integrity_conf {
-	bool loaded = false;
-	std::unordered_set<uint32> exempt_ips;  // client_addr values that bypass the check
-	// Dernier patch exigé de la chaîne du client. -1 = pas de contrôle.
-	int32 min_patch_index = -1;
-};
-static s_moonclient_integrity_conf moonclient_integrity_conf;
-
-void clif_moonclient_integrity_reload() {
-	s_moonclient_integrity_conf& c = moonclient_integrity_conf;
-	c.loaded = true;
-	c.exempt_ips.clear();
-	c.min_patch_index = -1;
-
-	const char* path = "conf/moonclient_integrity.conf";
-	std::ifstream f(path);
-	if (!f) {
-		ShowWarning("moonclient integrity: '%s' not found — no exempt IP, no patch check.\n", path);
-		return;
-	}
-
-	std::string line;
-	while (std::getline(f, line)) {
-		// Strip comments (// or #) and surrounding whitespace.
-		size_t cpos = line.find("//");
-		if (cpos != std::string::npos) line.erase(cpos);
-		cpos = line.find('#');
-		if (cpos != std::string::npos) line.erase(cpos);
-		const size_t colon = line.find(':');
-		if (colon == std::string::npos) continue;
-
-		auto trim = [](std::string s) -> std::string {
-			const size_t b = s.find_first_not_of(" \t\r\n");
-			if (b == std::string::npos) return "";
-			const size_t e = s.find_last_not_of(" \t\r\n");
-			return s.substr(b, e - b + 1);
-		};
-		std::string key = trim(line.substr(0, colon));
-		std::string val = trim(line.substr(colon + 1));
-		if (key.empty() || val.empty()) continue;
-
-		if (key == "exempt_ip") {
-			const uint32 ip = str2ip(val.c_str());
-			if (ip != 0) c.exempt_ips.insert(ip);
-		} else if (key == "min_patch_index") {
-			c.min_patch_index = static_cast<int32>(atoi(val.c_str()));
-		}
-	}
-
-	ShowStatus("moonclient integrity: %u exempt IP(s), min_patch_index=%d.\n",
-		static_cast<uint32>(c.exempt_ips.size()), c.min_patch_index);
-}
-
 // Fires ~5 s after a refusal sends the kick-notice packet.
 static TIMER_FUNC(clif_moonclient_integrity_kick_timer) {
 	map_session_data* sd = map_id2sd(id);
@@ -7120,12 +7065,8 @@ static TIMER_FUNC(clif_moonclient_integrity_kick_timer) {
 	// sur un verdict pris 5 s plus tôt ; sans ce test, un joueur dont le
 	// CZ_MOONCLIENT_INTEGRITY débarque en retard est reconnu (session vérifiée,
 	// settings poussés) PUIS déconnecté quand même. C'est le cas de loin le plus
-	// fréquent des faux kicks, et il touche les joueurs NORMAUX — la garde
-	// exempt_ips ci-dessous ne couvre que les machines de dev.
+	// fréquent des faux kicks, et il touche les joueurs NORMAUX.
 	if (sd->state.client_verified)
-		return 0;
-	// If the IP was exempted between the time the kick was scheduled and now, cancel.
-	if (moonclient_integrity_conf.exempt_ips.count(session[sd->fd]->client_addr) > 0)
 		return 0;
 	clif_authfail_fd(sd->fd, 3);
 	return 0;
@@ -7136,10 +7077,6 @@ static TIMER_FUNC(clif_moonclient_integrity_kick_timer) {
 static TIMER_FUNC(clif_moonclient_check_handshake_timer) {
 	map_session_data* sd = map_id2sd(id);
 	if (sd == nullptr || !session_isValid(sd->fd))
-		return 0;
-	// Machine exemptée (dev / localhost) : elle ne doit JAMAIS déclencher le
-	// message ni le kick, même si la poignée de main traîne au-delà des 15 s.
-	if (moonclient_integrity_conf.exempt_ips.count(session[sd->fd]->client_addr) > 0)
 		return 0;
 	if (!sd->state.client_verified) {
 		// Texte en ASCII : il s'adresse à un client qui n'est pas moonclient, et
@@ -7369,9 +7306,9 @@ static void clif_moonclient_grant_verified(map_session_data* sd) {
 //   [type:2][len:2][machine_guid:36][patch_index:4]
 //
 // Elle ouvre la session : c'est elle qui pose `client_verified`, seule garde des
-// paquets maison dans les deux sens. Le contenu est tenu par le patcheur intégré.
-// Le contrôle suit cet ordre : le MachineGuid (détection de multi-comptes), les IP
-// exemptées, puis le dernier patch de la chaîne (`min_patch_index`).
+// paquets maison dans les deux sens. Seule sa longueur est contrôlée ; elle
+// inscrit le MachineGuid (détection de multi-comptes) et retient le patch, la
+// révision et l'état de l'arbre que le client déclare.
 //
 // ⚠ Elle ne PROUVE rien : n'importe quel programme peut l'émettre.
 void clif_parse_moonclient_integrity(int32 fd, map_session_data* sd) {
@@ -7419,30 +7356,22 @@ void clif_parse_moonclient_integrity(int32 fd, map_session_data* sd) {
 		return;
 	sd->state.integrity_handshake = true;
 
-	if (!moonclient_integrity_conf.loaded)
-		clif_moonclient_integrity_reload();
-
 	const PACKET_CZ_MOONCLIENT_INTEGRITY* p =
 		reinterpret_cast<const PACKET_CZ_MOONCLIENT_INTEGRITY*>(RFIFOP(fd, 0));
 
-	// L'avis « mets à jour » que le client affiche avant d'être coupé, puis le kick
-	// cinq secondes plus tard.
-	auto refuse = [fd, sd]() {
-		PACKET_ZC_MOONLIGHT_KICK_NOTICE pkt{};
-		pkt.packetType   = HEADER_ZC_MOONLIGHT_KICK_NOTICE;
-		pkt.packetLength = sizeof(pkt);
-		socket_send<PACKET_ZC_MOONLIGHT_KICK_NOTICE>(fd, pkt);
-		add_timer(gettick() + 5000, clif_moonclient_integrity_kick_timer, sd->id, 0);
-	};
-
 	// La révision est venue après les autres champs : le minimum s'arrête avant
-	// elle, pour qu'un moonclient antérieur passe encore.
+	// elle, pour qu'un moonclient antérieur passe encore. Plus court : l'avis
+	// « mets à jour » que le client affiche, puis le kick cinq secondes plus tard.
 	constexpr size_t moonclient_integrity_min_len = offsetof(PACKET_CZ_MOONCLIENT_INTEGRITY, commit);
 	if (p->packetLength < static_cast<int16>(moonclient_integrity_min_len)) {
 		ShowWarning("[moonclient] integrity: short packet (len %d, expected %zu) from %s (AID %d) - kicking.\n",
 			p->packetLength, moonclient_integrity_min_len,
 			sd->status.name, sd->status.account_id);
-		refuse();
+		PACKET_ZC_MOONLIGHT_KICK_NOTICE pkt{};
+		pkt.packetType   = HEADER_ZC_MOONLIGHT_KICK_NOTICE;
+		pkt.packetLength = sizeof(pkt);
+		socket_send<PACKET_ZC_MOONLIGHT_KICK_NOTICE>(fd, pkt);
+		add_timer(gettick() + 5000, clif_moonclient_integrity_kick_timer, sd->id, 0);
 		return;
 	}
 
@@ -7452,25 +7381,6 @@ void clif_parse_moonclient_integrity(int32 fd, map_session_data* sd) {
 	if (p->packetLength >= static_cast<int16>(sizeof(PACKET_CZ_MOONCLIENT_INTEGRITY))) {
 		safestrncpy(sd->client_commit, p->commit, std::min(sizeof(sd->client_commit), sizeof(p->commit) + 1));
 		sd->client_tree_modified = p->tree_modified != 0;
-	}
-
-	if (session_isValid(fd) &&
-		moonclient_integrity_conf.exempt_ips.count(session[fd]->client_addr) > 0) {
-		ShowInfo("[moonclient] integrity: %s exempt (IP %s).\n",
-			sd->status.name, ip2str(session[fd]->client_addr, nullptr));
-		sd->client_patch_index = p->patch_index;
-		clif_moonclient_accepted(*sd);
-		clif_moonclient_grant_verified(sd);
-		return;
-	}
-
-	if (moonclient_integrity_conf.min_patch_index >= 0 &&
-		p->patch_index < moonclient_integrity_conf.min_patch_index) {
-		ShowWarning("[moonclient] content outdated: %s (AID %d) patch_index=%d < required %d - kicking\n",
-			sd->status.name, sd->status.account_id, p->patch_index,
-			moonclient_integrity_conf.min_patch_index);
-		refuse();
-		return;
 	}
 
 	sd->client_patch_index = p->patch_index;
