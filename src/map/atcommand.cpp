@@ -2963,10 +2963,20 @@ ACMD_FUNC(skillpoint)
  *------------------------------------------*/
 ACMD_FUNC(zeny)
 {
-	int32 zeny=0, ret=-1;
+	int64 zeny=0;
+	int32 ret=-1;
 	nullpo_retr(-1, sd);
 
-	if (!message || !*message || (zeny = atoi(message)) == 0) {
+	// [Stingor] Le montant se lit en int64, borné à ±MAX_ZENY. atoi le rangeait
+	// dans un int32 : sous Linux, 999999999999999 en gardait les 32 bits du bas
+	// (-1530494977), et un ajout devenait un retrait. strtoll garde le signe
+	// tapé, même au-delà d'un int64 (LLONG_MAX / LLONG_MIN).
+	if (message && *message) {
+		const int64 typed = static_cast<int64>(strtoll(message, nullptr, 10));
+		zeny = cap_value(typed, static_cast<int64>(-MAX_ZENY), static_cast<int64>(MAX_ZENY));
+	}
+
+	if (zeny == 0) {
 		clif_displaymessage(fd, msg_txt(sd,1012)); // Please enter an amount (usage: @zeny <amount>).
 		return -1;
 	}
@@ -2976,8 +2986,8 @@ ACMD_FUNC(zeny)
 		clif_displaymessage(fd, msg_txt(sd,149)); // Unable to increase the number/value.
 	}
 	else {
-	    // [Stingor] Le retrait se juge en int64 : -zeny tient dans un int32, le solde non.
-	    int64 lost = -static_cast<int64>(zeny);
+	    // [Stingor] Le retrait est borné au solde.
+	    int64 lost = -zeny;
 	    if( sd->status.zeny < lost ) lost = sd->status.zeny;
 	    if((ret=pc_payzeny(sd,lost,LOG_TYPE_COMMAND)) == 1)
 		clif_displaymessage(fd, msg_txt(sd,41)); // Unable to decrease the number/value.
