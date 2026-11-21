@@ -452,7 +452,7 @@ int32 chat_createnpcchat(npc_data* nd, const char* title, int32 limit, bool pub,
 		return 0;
 	}
 
-	if( zeny > MAX_ZENY || maxLvl > MAX_LEVEL ) {
+	if( zeny > MAX_ZENY_AMOUNT || maxLvl > MAX_LEVEL ) {
 		ShowError("chat_createnpcchat: npc '%s' has a required lvl or amount of zeny over the max limit!\n", nd->exname);
 		return 0;
 	}

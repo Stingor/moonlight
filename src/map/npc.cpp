@@ -143,9 +143,9 @@ bool StylistDatabase::parseCostNode( std::shared_ptr<s_stylist_entry> entry, boo
 			return false;
 		}
 
-		if( price > MAX_ZENY ){
-			this->invalidWarning( node["Price"], "stylist_parseCostNode: Price %u is too high, capping to MAX_ZENY...\n", price );
-			price = MAX_ZENY;
+		if( price > MAX_ZENY_AMOUNT ){
+			this->invalidWarning( node["Price"], "stylist_parseCostNode: Price %u is too high, capping to MAX_ZENY_AMOUNT...\n", price );
+			price = MAX_ZENY_AMOUNT;
 		}
 
 		costs->price = price;
@@ -600,9 +600,9 @@ uint64 BarterDatabase::parseBodyNode( const ryml::NodeRef& node ){
 					return 0;
 				}
 
-				if( zeny > MAX_ZENY ){
-					this->invalidWarning( itemNode["Zeny"], "barter_parseBodyNode: Zeny price %u is above MAX_ZENY (%u), capping...\n", zeny, MAX_ZENY );
-					zeny = MAX_ZENY;
+				if( zeny > MAX_ZENY_AMOUNT ){
+					this->invalidWarning( itemNode["Zeny"], "barter_parseBodyNode: Zeny price %u is above MAX_ZENY_AMOUNT (%u), capping...\n", zeny, MAX_ZENY_AMOUNT );
+					zeny = MAX_ZENY_AMOUNT;
 				}
 
 				item->price = zeny;

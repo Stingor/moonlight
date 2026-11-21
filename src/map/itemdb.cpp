@@ -205,9 +205,9 @@ uint64 ItemDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		if (!this->asUInt32(node, "Buy", buy))
 			return 0;
 
-		if( buy > MAX_ZENY ){
-			this->invalidWarning( node["Buy"], "Buying price exceeds MAX_ZENY. Capping...\n" );
-			buy = MAX_ZENY;
+		if( buy > MAX_ZENY_AMOUNT ){
+			this->invalidWarning( node["Buy"], "Buying price exceeds MAX_ZENY_AMOUNT. Capping...\n" );
+			buy = MAX_ZENY_AMOUNT;
 		}
 
 		has_buy = true;
@@ -224,9 +224,9 @@ uint64 ItemDatabase::parseBodyNode(const ryml::NodeRef& node) {
 		if (!this->asUInt32(node, "Sell", sell))
 			return 0;
 
-		if( sell > MAX_ZENY ){
-			this->invalidWarning( node["Sell"], "Sell price exceeds MAX_ZENY. Capping...\n" );
-			sell = MAX_ZENY;
+		if( sell > MAX_ZENY_AMOUNT ){
+			this->invalidWarning( node["Sell"], "Sell price exceeds MAX_ZENY_AMOUNT. Capping...\n" );
+			sell = MAX_ZENY_AMOUNT;
 		}
 
 		has_sell = true;
@@ -2520,9 +2520,9 @@ uint64 ItemEnchantDatabase::parseBodyNode( const ryml::NodeRef& node ){
 				return 0;
 			}
 
-			if( zeny > MAX_ZENY ){
-				this->invalidWarning( resetNode["Price"], "Price %u exceeds MAX_ZENY. Capping...\n", zeny );
-				zeny = MAX_ZENY;
+			if( zeny > MAX_ZENY_AMOUNT ){
+				this->invalidWarning( resetNode["Price"], "Price %u exceeds MAX_ZENY_AMOUNT. Capping...\n", zeny );
+				zeny = MAX_ZENY_AMOUNT;
 			}
 
 			enchant->reset.zeny = zeny;
@@ -2592,9 +2592,9 @@ uint64 ItemEnchantDatabase::parseBodyNode( const ryml::NodeRef& node ){
 					return 0;
 				}
 
-				if( zeny > MAX_ZENY ){
-					this->invalidWarning( slotNode["Price"], "Price %u exceeds MAX_ZENY. Capping...\n", zeny );
-					zeny = MAX_ZENY;
+				if( zeny > MAX_ZENY_AMOUNT ){
+					this->invalidWarning( slotNode["Price"], "Price %u exceeds MAX_ZENY_AMOUNT. Capping...\n", zeny );
+					zeny = MAX_ZENY_AMOUNT;
 				}
 
 				enchant_slot->normal.zeny = zeny;
@@ -2745,9 +2745,9 @@ uint64 ItemEnchantDatabase::parseBodyNode( const ryml::NodeRef& node ){
 							return 0;
 						}
 
-						if( zeny > MAX_ZENY ){
-							this->invalidWarning( enchantNode["Price"], "Price %u exceeds MAX_ZENY. Capping...\n", zeny );
-							zeny = MAX_ZENY;
+						if( zeny > MAX_ZENY_AMOUNT ){
+							this->invalidWarning( enchantNode["Price"], "Price %u exceeds MAX_ZENY_AMOUNT. Capping...\n", zeny );
+							zeny = MAX_ZENY_AMOUNT;
 						}
 
 						enchant->zeny = zeny;
@@ -2818,9 +2818,9 @@ uint64 ItemEnchantDatabase::parseBodyNode( const ryml::NodeRef& node ){
 							return 0;
 						}
 
-						if( zeny > MAX_ZENY ){
-							this->invalidWarning( upgradeNode["Price"], "Price %u exceeds MAX_ZENY. Capping...\n", zeny );
-							zeny = MAX_ZENY;
+						if( zeny > MAX_ZENY_AMOUNT ){
+							this->invalidWarning( upgradeNode["Price"], "Price %u exceeds MAX_ZENY_AMOUNT. Capping...\n", zeny );
+							zeny = MAX_ZENY_AMOUNT;
 						}
 
 						enchant_upgrade->zeny = zeny;

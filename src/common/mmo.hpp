@@ -80,6 +80,13 @@ typedef uint32 t_itemid;
 #define MAX_SLOTS 4
 #define MAX_AMOUNT 30000 ////Max amount of a single stacked item
 #define MAX_ZENY INT_MAX ///Max zeny
+// [Stingor] Le plus grand montant d'UNE opération ou d'UN prix : prix d'objet,
+// de boutique ou d'enchantement, coût de warp de guilde, entrée de salon,
+// envoi de courrier, configuration des échoppes. Ces valeurs se stockent en
+// uint32 et voyagent en int32 dans les paquets. MAX_ZENY, lui, borne le SOLDE
+// d'un personnage : les deux valent INT_MAX aujourd'hui, mais seul MAX_ZENY est
+// appelé à grandir (docs/plan-zeny-int64.md).
+#define MAX_ZENY_AMOUNT INT_MAX ///Max zeny of a single price or transfer
 // [Stingor] Plafond de la banque, en int64 : 9 999 999 999 999 999 zeny, le plus
 // grand nombre à seize chiffres. Il laisse environ 9,2e18 de marge sous
 // INT64_MAX : `solde + dépôt` (un dépôt tient dans un int32) et
@@ -1258,6 +1265,10 @@ struct clan{
 #if MAX_ZENY > INT_MAX
 #error MAX_ZENY is too big
 #endif
+
+// [Stingor] Un prix ou un transfert tient dans un solde, et dans un int32 du réseau.
+static_assert(MAX_ZENY_AMOUNT <= MAX_ZENY && MAX_ZENY_AMOUNT <= INT_MAX,
+	"MAX_ZENY_AMOUNT : un montant d'opération doit tenir dans un solde et dans un int32");
 
 // [Stingor] Un dépôt (au plus MAX_ZENY) ajouté au solde ne doit pas déborder.
 static_assert(MAX_BANK_ZENY >= MAX_ZENY && MAX_BANK_ZENY <= INT64_MAX - MAX_ZENY,

@@ -26582,9 +26582,9 @@ BUILDIN_FUNC(mail){
 		if( zeny < 0 ){
 			ShowError( "buildin_mail: a negative amount of zeny can not be sent.\n" );
 			return SCRIPT_CMD_FAILURE;
-		}else if( zeny > MAX_ZENY ){
-			ShowError( "buildin_mail: amount of zeny %u is exceeding maximum of %u. Capping...\n", zeny, MAX_ZENY );
-			zeny = MAX_ZENY;
+		}else if( zeny > MAX_ZENY_AMOUNT ){
+			ShowError( "buildin_mail: amount of zeny %u is exceeding maximum of %u. Capping...\n", zeny, MAX_ZENY_AMOUNT );
+			zeny = MAX_ZENY_AMOUNT;
 		}
 
 		msg.zeny = zeny;

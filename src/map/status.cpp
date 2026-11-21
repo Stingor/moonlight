@@ -323,9 +323,9 @@ uint64 RefineDatabase::parseBodyNode( const ryml::NodeRef& node ){
 									return 0;
 								}
 
-								if( price > MAX_ZENY ){
-									this->invalidWarning( chanceNode["Price"], "Price is above MAX_ZENY, capping...\n" );
-									price = MAX_ZENY;
+								if( price > MAX_ZENY_AMOUNT ){
+									this->invalidWarning( chanceNode["Price"], "Price is above MAX_ZENY_AMOUNT, capping...\n" );
+									price = MAX_ZENY_AMOUNT;
 								}
 
 								cost->zeny = price;

@@ -25,6 +25,8 @@
 	export_constant(MAX_INVENTORY);
 	export_constant(MAX_CART);
 	export_constant(MAX_ZENY);
+	export_constant(MAX_ZENY_AMOUNT); // [Stingor]
+	export_constant(MAX_BANK_ZENY); // [Stingor]
 	export_constant(MAX_PARTY);
 	export_constant(MAX_GUILD);
 	export_constant(MAX_GUILDLEVEL);

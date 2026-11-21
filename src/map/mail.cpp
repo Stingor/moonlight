@@ -124,7 +124,7 @@ bool mail_removezeny( map_session_data *sd, bool flag ){
 
 				fee /= 100;
 
-				if( fee > MAX_ZENY ){
+				if( fee > MAX_ZENY_AMOUNT ){
 					return false;
 				}
 
@@ -132,7 +132,7 @@ bool mail_removezeny( map_session_data *sd, bool flag ){
 					return false;
 				}
 
-				if( zeny > MAX_ZENY ){
+				if( zeny > MAX_ZENY_AMOUNT ){
 					return false;
 				}
 			}

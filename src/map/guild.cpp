@@ -441,8 +441,8 @@ uint64 CastleDatabase::parseBodyNode(const ryml::NodeRef& node) {
 			return 0;
 		}
 
-		if( zeny > MAX_ZENY ){
-			this->invalidWarning( node["WarpCost"], "WarpCost has to be smaller than %d.\n", MAX_ZENY );
+		if( zeny > MAX_ZENY_AMOUNT ){
+			this->invalidWarning( node["WarpCost"], "WarpCost has to be smaller than %d.\n", MAX_ZENY_AMOUNT );
 			return 0;
 		}
 
@@ -459,8 +459,8 @@ uint64 CastleDatabase::parseBodyNode(const ryml::NodeRef& node) {
 			return 0;
 		}
 
-		if( zeny_siege > MAX_ZENY ){
-			this->invalidWarning( node["WarpCostSiege"], "WarpCostSiege has to be smaller than %d.\n", MAX_ZENY );
+		if( zeny_siege > MAX_ZENY_AMOUNT ){
+			this->invalidWarning( node["WarpCostSiege"], "WarpCostSiege has to be smaller than %d.\n", MAX_ZENY_AMOUNT );
 			return 0;
 		}
 
