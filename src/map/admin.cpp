@@ -36,7 +36,7 @@
  *                       script, battleconf, statusdb, atcommand, ...)
  *    ATCMD <command>    run any atcommand (a leading '@' is optional)
  *    INTEGRITY reload   reload conf/moonclient_integrity.conf
- *    INTEGRITY minpatch <n>  set moonclient_min_patch_index in that conf, then reload
+ *    INTEGRITY minpatch <n>  set min_patch_index in that conf, then reload
  *    QUIT               close the connection
  *
  *  Commands run inside the single-threaded main loop, exactly like the server
@@ -238,7 +238,7 @@ static void admin_exec( int32 fd, const std::string& line ){
 	}
 
 	// INTEGRITY reload          — reload conf/moonclient_integrity.conf in place
-	// INTEGRITY minpatch <n>   — replace moonclient_min_patch_index in the conf, then reload
+	// INTEGRITY minpatch <n>   — replace min_patch_index in the conf, then reload
 	if( cmd == "INTEGRITY" ){
 		if( arg.empty() ){
 			admin_reply( fd, "ERR usage: INTEGRITY minpatch <n> | INTEGRITY reload" );
@@ -320,12 +320,12 @@ static void admin_exec( int32 fd, const std::string& line ){
 			}
 
 			std::string err;
-			if( !set_conf_key( "moonclient_min_patch_index", value, err ) ){
+			if( !set_conf_key( "min_patch_index", value, err ) ){
 				admin_reply( fd, "ERR INTEGRITY: " + err );
 				return;
 			}
 			clif_moonclient_integrity_reload();
-			admin_reply( fd, "OK integrity moonclient_min_patch_index updated: " + value );
+			admin_reply( fd, "OK integrity min_patch_index updated: " + value );
 			return;
 		}
 

@@ -7017,10 +7017,10 @@ void clif_parse_moonlight_setting(int32 fd, map_session_data* sd) {
 // qui ferme la porte à tout autre client que moonclient.
 //
 // Config : conf/moonclient_integrity.conf (non versionnée)
-//   enforce: 1                     // 0 = journal seul, jamais de kick
-//   exempt_ip: <ip>                // machines de dev / d'admin, jamais coupées
-//   allow_moonclient: 1            // 0 = poignée de main refusée
-//   moonclient_min_patch_index: -1 // dernier patch exigé ; -1 = pas de contrôle
+//   exempt_ip: <ip>       // machines de dev / d'admin, jamais coupées
+//   min_patch_index: -1   // dernier patch exigé ; plus ancien = avis puis kick ;
+//                         // -1 = pas de contrôle
+// Le kick d'une session sans poignée de main ne se règle pas : c'est la porte.
 //
 // ⚠ La poignée de main ne PROUVE rien : n'importe quel programme peut l'émettre.
 
@@ -7060,28 +7060,22 @@ static std::unordered_map<int32, s_verified_login_entry> s_verified_login;
 
 struct s_moonclient_integrity_conf {
 	bool loaded = false;
-	bool enforce = false;
 	std::unordered_set<uint32> exempt_ips;  // client_addr values that bypass the check
-	// Le client est-il accepté ? Faux tant que la clé manque : une conf qui ne le
-	// nomme pas ne l'a pas autorisé.
-	bool allow_moonclient = false;
 	// Dernier patch exigé de la chaîne du client. -1 = pas de contrôle.
-	int32 moonclient_min_patch_index = -1;
+	int32 min_patch_index = -1;
 };
 static s_moonclient_integrity_conf moonclient_integrity_conf;
 
 void clif_moonclient_integrity_reload() {
 	s_moonclient_integrity_conf& c = moonclient_integrity_conf;
 	c.loaded = true;
-	c.enforce = false;
 	c.exempt_ips.clear();
-	c.allow_moonclient = false;
-	c.moonclient_min_patch_index = -1;
+	c.min_patch_index = -1;
 
 	const char* path = "conf/moonclient_integrity.conf";
 	std::ifstream f(path);
 	if (!f) {
-		ShowWarning("moonclient integrity: '%s' not found — enforcement disabled.\n", path);
+		ShowWarning("moonclient integrity: '%s' not found — no exempt IP, no patch check.\n", path);
 		return;
 	}
 
@@ -7105,21 +7099,16 @@ void clif_moonclient_integrity_reload() {
 		std::string val = trim(line.substr(colon + 1));
 		if (key.empty() || val.empty()) continue;
 
-		if (key == "enforce") {
-			c.enforce = (atoi(val.c_str()) != 0);
-		} else if (key == "exempt_ip") {
+		if (key == "exempt_ip") {
 			const uint32 ip = str2ip(val.c_str());
 			if (ip != 0) c.exempt_ips.insert(ip);
-		} else if (key == "allow_moonclient") {
-			c.allow_moonclient = (atoi(val.c_str()) != 0);
-		} else if (key == "moonclient_min_patch_index") {
-			c.moonclient_min_patch_index = static_cast<int32>(atoi(val.c_str()));
+		} else if (key == "min_patch_index") {
+			c.min_patch_index = static_cast<int32>(atoi(val.c_str()));
 		}
 	}
 
-	ShowStatus("moonclient integrity: enforce=%s, %u exempt IP(s), moonclient %s, moonclient_min_patch_index=%d.\n",
-		c.enforce ? "true" : "false", static_cast<uint32>(c.exempt_ips.size()),
-		c.allow_moonclient ? "allowed" : "refused", c.moonclient_min_patch_index);
+	ShowStatus("moonclient integrity: %u exempt IP(s), min_patch_index=%d.\n",
+		static_cast<uint32>(c.exempt_ips.size()), c.min_patch_index);
 }
 
 // Fires ~5 s after a refusal sends the kick-notice packet.
@@ -7382,10 +7371,9 @@ static void clif_moonclient_grant_verified(map_session_data* sd) {
 // Elle ouvre la session : c'est elle qui pose `client_verified`, seule garde des
 // paquets maison dans les deux sens. Le contenu est tenu par le patcheur intégré.
 // Le contrôle suit cet ordre : le MachineGuid (détection de multi-comptes), les IP
-// exemptées, l'autorisation `allow_moonclient`, puis le dernier patch de la chaîne.
+// exemptées, puis le dernier patch de la chaîne (`min_patch_index`).
 //
 // ⚠ Elle ne PROUVE rien : n'importe quel programme peut l'émettre.
-// `allow_moonclient: 0` est le moyen de la fermer.
 void clif_parse_moonclient_integrity(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 
@@ -7476,26 +7464,13 @@ void clif_parse_moonclient_integrity(int32 fd, map_session_data* sd) {
 		return;
 	}
 
-	if (!moonclient_integrity_conf.allow_moonclient) {
-		ShowWarning("[moonclient] refused (allow_moonclient: 0): %s (AID %d)%s\n",
-			sd->status.name, sd->status.account_id,
-			moonclient_integrity_conf.enforce ? " - kicking" : " - log only (enforce off)");
-		if (moonclient_integrity_conf.enforce) {
-			refuse();
-			return;
-		}
-	}
-
-	if (moonclient_integrity_conf.moonclient_min_patch_index >= 0 &&
-		p->patch_index < moonclient_integrity_conf.moonclient_min_patch_index) {
-		ShowWarning("[moonclient] content outdated: %s (AID %d) patch_index=%d < required %d%s\n",
+	if (moonclient_integrity_conf.min_patch_index >= 0 &&
+		p->patch_index < moonclient_integrity_conf.min_patch_index) {
+		ShowWarning("[moonclient] content outdated: %s (AID %d) patch_index=%d < required %d - kicking\n",
 			sd->status.name, sd->status.account_id, p->patch_index,
-			moonclient_integrity_conf.moonclient_min_patch_index,
-			moonclient_integrity_conf.enforce ? " - kicking" : " - log only (enforce off)");
-		if (moonclient_integrity_conf.enforce) {
-			refuse();
-			return;
-		}
+			moonclient_integrity_conf.min_patch_index);
+		refuse();
+		return;
 	}
 
 	sd->client_patch_index = p->patch_index;
