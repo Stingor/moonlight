@@ -7009,10 +7009,10 @@ enum e_moonclient_server_rule : uint16 {
 	// garde le plafond d'un rAthena d'usine, 30 000.
 	MOONCLIENT_RULE_ITEM_AMOUNT_MAX          = 31, ///< MAX_AMOUNT
 	// Le poids total des pièces jointes d'un courrier rodex,
-	// battle_config.mail_attachment_weight : mail_setitem additionne, pour chaque
-	// pièce jointe, quantité × (poids de l'objet / 10, division ENTIÈRE), et
-	// refuse au-delà. 0 : aucune limite. Un client qui ne la connaît pas ne
-	// peut que dire « trop lourd ».
+	// battle_config.mail_attachment_weight. mail_setitem compte chaque pièce
+	// DÉJÀ jointe quantité × (poids / 10, division entière par objet), et
+	// l'AJOUT EN COURS (quantité × poids) / 10, puis refuse au-delà. 0 : aucune
+	// limite. Un client qui ne la connaît pas ne peut que dire « trop lourd ».
 	MOONCLIENT_RULE_MAIL_ATTACHMENT_WEIGHT   = 32, ///< mail_attachment_weight
 };
 

@@ -1771,9 +1771,11 @@ uint64 LaphineSynthesisDatabase::parseBodyNode( const ryml::NodeRef& node ){
 					return 0;
 				}
 
-				if( amount > MAX_AMOUNT_UINT16 ){
-					this->invalidWarning( requirementNode["Amount"], "Amount %hu is too high, capping to MAX_AMOUNT...\n", amount );
-					amount = MAX_AMOUNT_UINT16;
+				// [Stingor] INT16_MAX : le client renvoie cette quantité dans un int16
+				// (CZ_REQ_RANDOM_COMBINE_ITEM), comparé en égalité.
+				if( amount > INT16_MAX ){
+					this->invalidWarning( requirementNode["Amount"], "Amount %hu is too high, capping to INT16_MAX...\n", amount );
+					amount = INT16_MAX;
 				}
 
 				requirement->amount = amount;

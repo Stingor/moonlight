@@ -163,6 +163,9 @@ void vending_purchasereq(map_session_data* sd, int32 aid, int32 uid, const uint8
 	// duplicate item in vending to check hacker with multiple packets
 	memcpy(&vending, &vsd->vending, sizeof(vsd->vending)); // copy vending list
 
+	// [Stingor] Ce que l'achat ajoute de chaque objet, toutes lignes comprises.
+	std::unordered_map<t_itemid, int32> wanted;
+
 	// some checks
 	z = 0.; // zeny counter
 	w = 0;  // weight counter
@@ -215,7 +218,7 @@ void vending_purchasereq(map_session_data* sd, int32 aid, int32 uid, const uint8
 
 		vending[j].amount -= amount;
 
-		switch( pc_checkadditem(sd, vsd->cart.u.items_cart[idx].nameid, amount) ) {
+		switch( pc_checkadditem(sd, vsd->cart.u.items_cart[idx].nameid, wanted[vsd->cart.u.items_cart[idx].nameid] += amount) ) { // [Stingor] cumul par objet
 		case CHKADDITEM_EXIST:
 			break;	//We'd add this item to the existing one (in buyers inventory)
 		case CHKADDITEM_NEW:

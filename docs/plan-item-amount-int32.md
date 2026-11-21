@@ -116,6 +116,12 @@ Fait :
   à `MAX_AMOUNT` avant conversion, vente au PNJ jugée par case (deux lignes d'une
   même case), anciens opcodes de jet et 0x0246 lus selon leur longueur, objets
   de départ en `%u`, structures rodex CZ élargies ;
+- relecture neuve du 2026-11-21 : troc borné à MAX_AMOUNT (hérité d'amont :
+  aucune borne, objets gratuits) et compté en 64 bits, liste d'achat au PNJ
+  bornée à MAX_INVENTORY (`market_index` débordait la pile), cumul par objet
+  avant `pc_checkadditem` (PNJ, points, échoppe, boutique d'achat),
+  `checkweight` en int32, `makeitem` refuse une quantité ≤ 0, changement de
+  matériau par piles de MAX_AMOUNT, exigences Laphine bornées à INT16_MAX ;
 - moonlight-web : la fusion de comptes plafonne la réserve de l'album à
   `MAX_AMOUNT` (`config/moonlight.php`, `merge.max_amount` = 99 999) ; la base de
   test (`FakeRathena`) déclare `amount` en int comme le serveur ; suite verte

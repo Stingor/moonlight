@@ -398,6 +398,9 @@ void buyingstore_trade( map_session_data* sd, uint32 account_id, uint32 buyer_id
 	}
 	weight = pl_sd->weight;
 
+	// [Stingor] Ce que la vente apporte de chaque objet, toutes lignes comprises.
+	std::unordered_map<t_itemid, int32> wanted;
+
 	// check item list
 	for( int32 i = 0; i < count; i++ ){
 		const struct PACKET_CZ_REQ_TRADE_BUYING_STORE_sub* item = &itemlist[i];
@@ -414,7 +417,7 @@ void buyingstore_trade( map_session_data* sd, uint32 account_id, uint32 buyer_id
 		for( int32 k = 0; k < i; k++ ){
 			// duplicate
 			if( itemlist[k].index == item->index && k != i ){
-				ShowWarning( "buyingstore_trade: Found duplicate item on selling list (prevnameid=%u, prevamount=%hu, nameid=%u, amount=%d, account_id=%d, char_id=%d).\n", itemlist[k].itemId, itemlist[k].amount, item->itemId, amount, sd->status.account_id, sd->status.char_id );
+				ShowWarning( "buyingstore_trade: Found duplicate item on selling list (prevnameid=%u, prevamount=%d, nameid=%u, amount=%d, account_id=%d, char_id=%d).\n", itemlist[k].itemId, itemlist[k].amount, item->itemId, amount, sd->status.account_id, sd->status.char_id );
 				clif_buyingstore_trade_failed_seller( sd, BUYINGSTORE_TRADE_SELLER_FAILED, item->itemId );
 				return;
 			}
@@ -444,21 +447,25 @@ void buyingstore_trade( map_session_data* sd, uint32 account_id, uint32 buyer_id
 			return;
 		}
 
+		// [Stingor] Cumul par objet : deux lignes du même objet (piles distinctes
+		// chez le vendeur) se jugent ensemble.
+		const int32 wanted_total = ( wanted[item->itemId] += amount );
+
 		// buyer does not need that much of the item
-		if( pl_sd->buyingstore.items[listidx].amount < amount ){
+		if( pl_sd->buyingstore.items[listidx].amount < wanted_total ){
 			clif_buyingstore_trade_failed_seller( sd, BUYINGSTORE_TRADE_SELLER_COUNT, item->itemId );
 			return;
 		}
 
 		// buyer does not have enough space for this item
-		if( pc_checkadditem( pl_sd, item->itemId, amount ) == CHKADDITEM_OVERAMOUNT ){
+		if( pc_checkadditem( pl_sd, item->itemId, wanted_total ) == CHKADDITEM_OVERAMOUNT ){
 			clif_buyingstore_trade_failed_seller( sd, BUYINGSTORE_TRADE_SELLER_FAILED, item->itemId );
 			return;
 		}
 
 		// normally this is not supposed to happen, as the total weight is
 		// checked upon creation, but the buyer could have gained items
-		if( amount * (uint32)sd->inventory_data[index]->weight > pl_sd->max_weight - weight ){
+		if( static_cast<int64>( amount ) * sd->inventory_data[index]->weight > static_cast<int64>( pl_sd->max_weight ) - weight ){ // [Stingor] en 64 bits : un acheteur déjà en surpoids ne repasse pas par zéro
 			clif_buyingstore_trade_failed_seller( sd, BUYINGSTORE_TRADE_SELLER_FAILED, item->itemId );
 			return;
 		}

@@ -7505,7 +7505,7 @@ BUILDIN_FUNC(rentalcountitem)
 BUILDIN_FUNC(checkweight)
 {
 	int32 slots = 0;
-	uint16 amount2 = 0;
+	int32 amount2 = 0; // [Stingor] int32 : une quantité va jusqu'à MAX_AMOUNT
 	uint32 weight = 0, i, nbargs;
 	std::shared_ptr<item_data> id;
 	map_session_data* sd;
@@ -7586,7 +7586,7 @@ BUILDIN_FUNC(checkweight2)
 	//variable sub checkweight
 	int32 i = 0, slots = 0, weight = 0;
 	int16 fail = 0;
-	uint16 amount2 = 0;
+	int32 amount2 = 0; // [Stingor] int32 : une quantité va jusqu'à MAX_AMOUNT
 
 	//variable for array parsing
 	struct script_data* data_it;
@@ -8224,6 +8224,8 @@ BUILDIN_FUNC(makeitem) {
 	}
 
 	amount = script_getnum(st,3);
+	if( amount <= 0 ) // [Stingor] int32 : pas d'objet de quantité nulle ou négative au sol
+		return SCRIPT_CMD_SUCCESS;
 	mapname	= script_getstr(st,4);
 	x = script_getnum(st,5);
 	y = script_getnum(st,6);

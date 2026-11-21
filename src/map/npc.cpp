@@ -2643,6 +2643,8 @@ static enum e_CASHSHOP_ACK npc_cashshop_process_payment(npc_data *nd, int32 pric
  * @return clif_cashshop_ack value to display
  */
 int32 npc_cashshop_buylist( map_session_data *sd, int32 points, std::vector<s_npc_buy_list>& item_list ){
+	// [Stingor] Ce que la liste ajoute de chaque objet, toutes lignes comprises.
+	std::unordered_map<t_itemid, int32> wanted;
 	int32 i, j, amount, new_, vt;
 	int64 w; // [Stingor] Poids en 64 bits : quelques piles de MAX_AMOUNT d'un objet lourd dépassent un int32.
 	t_itemid nameid;
@@ -2685,7 +2687,7 @@ int32 npc_cashshop_buylist( map_session_data *sd, int32 points, std::vector<s_np
 			continue;
 		}
 
-		switch( pc_checkadditem(sd,nameid,amount) )
+		switch( pc_checkadditem(sd,nameid,wanted[nameid] += amount) ) // [Stingor] cumul par objet
 		{
 			case CHKADDITEM_NEW:
 				new_ += id->inventorySlotNeeded(amount);
@@ -2941,6 +2943,14 @@ e_purchase_result npc_buylist( map_session_data* sd, std::vector<s_npc_buy_list>
 
 	nullpo_retr(e_purchase_result::PURCHASE_FAIL_COUNT, sd);
 
+	// [Stingor] market_index n'a que MAX_INVENTORY cases, écrites avant tout
+	// refus : une liste plus longue écraserait la pile.
+	if( item_list.size() > MAX_INVENTORY )
+		return e_purchase_result::PURCHASE_FAIL_COUNT;
+
+	// [Stingor] Ce que la liste ajoute de chaque objet, toutes lignes comprises.
+	std::unordered_map<t_itemid, int32> wanted;
+
 	nd = npc_checknear(sd,map_id2bl(sd->npc_shopid));
 	if( nd == nullptr )
 		return e_purchase_result::PURCHASE_FAIL_COUNT;
@@ -3003,7 +3013,7 @@ e_purchase_result npc_buylist( map_session_data* sd, std::vector<s_npc_buy_list>
 			continue;
 		}
 
-		switch( pc_checkadditem(sd,nameid,amount) ) {
+		switch( pc_checkadditem(sd,nameid,wanted[nameid] += amount) ) { // [Stingor] cumul par objet
 			case CHKADDITEM_EXIST:
 				break;
 
@@ -3288,10 +3298,12 @@ uint8 npc_selllist(map_session_data* sd, int32 list_length, const PACKET_CZ_PC_S
 
 e_purchase_result npc_barter_purchase( map_session_data& sd, std::shared_ptr<s_npc_barter> barter, std::vector<s_barter_purchase>& purchases ){
 	uint64 requiredZeny = 0;
-	uint32 requiredWeight = 0;
-	uint32 reducedWeight = 0;
-	uint16 requiredSlots = 0;
-	uint32 requiredItems[MAX_INVENTORY] = { 0 };
+	// [Stingor] En 64 bits : une quantité jusqu'à MAX_AMOUNT multiplie poids et
+	// exigences au-delà d'un uint32, et les cases au-delà d'un uint16.
+	uint64 requiredWeight = 0;
+	uint64 reducedWeight = 0;
+	int32 requiredSlots = 0;
+	uint64 requiredItems[MAX_INVENTORY] = { 0 };
 
 	for( s_barter_purchase& purchase : purchases ){
 		purchase.data = item_db.find( purchase.item->nameid ).get();
@@ -3301,6 +3313,12 @@ e_purchase_result npc_barter_purchase( map_session_data& sd, std::shared_ptr<s_n
 		}
 
 		uint32 amount = purchase.amount;
+
+		// [Stingor] La quantité vient du client, sans contrôle en amont : une
+		// valeur nulle, énorme ou « négative » ferait déborder les produits.
+		if( amount == 0 || amount > static_cast<uint32>( MAX_AMOUNT ) ){
+			return e_purchase_result::PURCHASE_FAIL_COUNT;
+		}
 
 		if( purchase.item->stockLimited && purchase.item->stock < amount ){
 			return e_purchase_result::PURCHASE_FAIL_STOCK_EMPTY;
@@ -3316,7 +3334,7 @@ e_purchase_result npc_barter_purchase( map_session_data& sd, std::shared_ptr<s_n
 
 		// [Stingor] En uint64 AVANT le produit : prix x quantité déborde d'un uint32.
 		requiredZeny += ( static_cast<uint64>( purchase.item->price ) * amount );
-		requiredWeight += ( purchase.data->weight * amount );
+		requiredWeight += ( static_cast<uint64>( purchase.data->weight ) * amount );
 
 		for( const auto& requirementPair : purchase.item->requirements ){
 			std::shared_ptr<s_npc_barter_requirement> requirement = requirementPair.second;
@@ -3353,7 +3371,7 @@ e_purchase_result npc_barter_purchase( map_session_data& sd, std::shared_ptr<s_n
 						}
 
 						// Found a match, accumulate required amount
-						requiredItems[j] += requirement->amount * amount;
+						requiredItems[j] += static_cast<uint64>( requirement->amount ) * amount;
 
 						// Check if there are still enough items available
 						if( requiredItems[j] > sd.inventory.u.items_inventory[j].amount ){

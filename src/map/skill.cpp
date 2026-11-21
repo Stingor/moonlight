@@ -13626,8 +13626,10 @@ bool skill_produce_mix(map_session_data *sd, uint16 skill_id, t_itemid nameid, i
 					for (j = 0; j < MAX_SKILL_CHANGEMATERIAL_SET; j++){
 						if (rnd()%1000 < skill_changematerial_db[i].qty_rate[j]){
 							int32 total_qty = qty * skill_changematerial_db[i].qty[j]; // [Stingor] int32 : ne tronque pas le produit
-							tmp_item.amount = (isStackable ? total_qty : 1);
+							// [Stingor] Par piles de MAX_AMOUNT au plus : une pile plus grande
+							// ne se range pas, et au sol personne ne la ramasse.
 							for (l = 0; l < total_qty; l += tmp_item.amount) {
+								tmp_item.amount = isStackable ? std::min<int32>(total_qty - l, MAX_AMOUNT) : 1;
 								if ((flag = pc_additem(sd,&tmp_item,tmp_item.amount,LOG_TYPE_PRODUCE))) {
 									clif_additem(sd,0,0,flag);
 									if( battle_config.skill_drop_items_full ){
