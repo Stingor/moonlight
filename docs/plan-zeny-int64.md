@@ -3,7 +3,8 @@
 État : **lots 0 et 1 faits, lot 2 écrit** (2026-11-21) — migration
 `sql-files/upgrade_char_zeny_bigint.sql`, pas encore exécutée (la base de test
 `rathena-test` avait `int(11) unsigned`, 10 908 personnages, des soldes déjà à
-2 147 483 647). Lots 3 à 7 à faire. `MAX_ZENY` vaut
+2 147 483 647). **Lot 3 fait** : `SP_ZENY` part en 0x0acb, les règles annoncent
+`MAX_ZENY` (clés 29 et 30). Lots 4 à 7 à faire, puis la montée de `MAX_ZENY`. `MAX_ZENY` vaut
 encore INT_MAX : il ne monte qu'une fois les lots 2 (base) et 3 (paquets) prêts,
 pour que chaque commit reste déployable seul.
 
@@ -110,18 +111,21 @@ Exporter aussi `MAX_BANK_ZENY` et `MAX_ZENY_AMOUNT` dans `script_constants.hpp`
 
 ## Lot 3 — Paquets serveur
 
-1. `SP_ZENY` : `clif_longpar_change` (0x00b1, int32) → `clif_longlongpar_change`
-   (0x0acb) dans `clif.cpp:4087`. moonclient le gère déjà (`character.cpp`).
-2. Réponses de la banque 0x09A8 / 0x09AA (`clif.cpp:15033, 15078`, champ `zeny` int32) :
-   borner à INT32_MAX. ⚠ `pc_getzeny` envoie déjà le bon solde en 0x0acb
-   **avant** la réponse ; moonclient doit donc ignorer ce champ (lot 4), sinon
-   il écrase le bon solde par la valeur bornée.
-3. Règles du serveur (0x0F38) : annoncer `MAX_ZENY` en deux moitiés, clés 11 et 12,
-   comme `MOONCLIENT_RULE_BANK_ZENY_MAX_*`.
+1. ✅ `SP_ZENY` : `clif_longlongpar_change` (0x0acb) quand PACKETVER >= 20170830
+   (le nôtre : 20250716), 0x00b1 borné sinon. moonclient le range déjà en int64
+   (`character.cpp`, `player_status.cpp`).
+2. ✅ Réponses de la banque 0x09A8 / 0x09AA : champ `zeny` borné à INT32_MAX (fait
+   au lot 1). ⚠ `pc_getzeny` envoie déjà le bon solde en 0x0acb **avant** la
+   réponse ; moonclient doit donc ignorer ce champ (lot 4), sinon il écrase le
+   bon solde par la valeur bornée.
+3. ✅ Règles du serveur (0x0F38) : `MAX_ZENY` en deux moitiés, clés **29 et 30**
+   (`MOONCLIENT_RULE_ZENY_MAX_*` ; 11 à 28 étaient déjà prises), comme
+   `MOONCLIENT_RULE_BANK_ZENY_MAX_*`. moonclient ignore une clé qu'il ne connaît pas.
 
 ## Lot 4 — moonclient (`G:\GitHub\moonclient`)
 
-- Lire les clés 11 et 12 ; remplacer `kPocketZenyMax` (`sim/bank.h:20`,
+- Lire les clés 29 et 30 (`kZenyMaxLow` / `kZenyMaxHigh`, sur le modèle de
+  `BankZenyMaxHalves` dans `net/src/server_rules.cpp`) ; remplacer `kPocketZenyMax` (`sim/bank.h:20`,
   `ui/bank_window.h:39`) et `kZenyCeiling` (`ui/stat_bars.h:190`) par la valeur annoncée.
 - `TellTransfer` (`net/src/bank.cpp:76`) : ne plus reprendre `SP_ZENY` depuis la réponse.
 - Les montants par opération restent en int32 : `kBankRequestMostZeny`,

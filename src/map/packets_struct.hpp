@@ -7000,6 +7000,11 @@ enum e_moonclient_server_rule : uint16 {
 	// La tablée (CH 0x0F65 au serveur de PERSONNAGES) : 🔴 moonclient ne la
 	// demande pas avant de l'avoir lue, puisqu'un paquet inconnu y coupe la liaison.
 	MOONCLIENT_RULE_STYLE_CHAR_SELECT        = 28, ///< 1 : le serveur de personnages sert 0x0F65
+	// Le plafond du SOLDE en poche, MAX_ZENY : un int64 en deux moitiés, comme
+	// celui de la banque (clés 9 et 10), toujours envoyées ensemble. Un client
+	// qui ne les connaît pas garde son plafond de 2^31-1.
+	MOONCLIENT_RULE_ZENY_MAX_LOW             = 29, ///< MAX_ZENY, bits 0 à 31
+	MOONCLIENT_RULE_ZENY_MAX_HIGH            = 30, ///< MAX_ZENY, bits 32 à 63
 };
 
 struct PACKET_ZC_MOONLIGHT_SERVER_RULES_entry {

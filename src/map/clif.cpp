@@ -4084,9 +4084,14 @@ void clif_updatestatus( map_session_data& sd, enum _sp type ){
 			break;
 
 		case SP_ZENY:
-			// [Stingor] 0x00b1 porte un int32 : borné, tant que MAX_ZENY vaut INT_MAX
-			// (lot 3 de docs/plan-zeny-int64.md : passer en 0x0acb).
+#if PACKETVER >= 20170830
+			// [Stingor] Le solde est un int64 : il part en 0x0acb, comme l'expérience.
+			// moonclient range SP_ZENY dans la même table, quel que soit l'opcode.
+			clif_longlongpar_change(sd, type, sd.status.zeny);
+#else
+			// 0x00b1 ne porte qu'un int32 : borné.
 			clif_longpar_change(sd, type, static_cast<int32>(std::min<int64>(sd.status.zeny, INT32_MAX)));
+#endif
 			break;
 #if PACKETVER >= 20170830
 		case SP_BASEEXP:
@@ -9287,6 +9292,9 @@ void clif_moonclient_server_rules(map_session_data& sd) {
 		{ MOONCLIENT_RULE_STYLE_ABSENT_IDS_MAX,      MOONCLIENT_STYLE_ABSENT_IDS_MAX },
 		// La preuve que le serveur de personnages sert les recettes de la tablée.
 		{ MOONCLIENT_RULE_STYLE_CHAR_SELECT,         1 },
+		// Le plafond du solde en poche, int64 coupé en deux moitiés de 32 bits.
+		{ MOONCLIENT_RULE_ZENY_MAX_LOW,   static_cast<int32>(static_cast<uint32>(static_cast<uint64>(MAX_ZENY) & 0xFFFFFFFFu)) },
+		{ MOONCLIENT_RULE_ZENY_MAX_HIGH,  static_cast<int32>(static_cast<uint32>(static_cast<uint64>(MAX_ZENY) >> 32)) },
 	};
 	const size_t len = sizeof(PACKET_ZC_MOONLIGHT_SERVER_RULES) + sizeof(rules);
 
