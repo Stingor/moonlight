@@ -56,13 +56,11 @@ struct npc_data;
 // La plus longue qu'un script puisse demander, en secondes.
 #define MOONCLIENT_STYLE_ATELIER_MAX_S 3600
 
-// La session a-t-elle annoncé MOONLIGHT_UI_STYLE_LAYERS ?
-bool style_layers_receiver(const map_session_data& sd);
 
 // ── Diffusion ──────────────────────────────────────────────────────────────
 
 // Le bloc de `sd`, à `sd` et aux joueurs en vue qui savent le lire, puis ceux de
-// tous les joueurs en vue, à `sd` : à la poignée de main et au gain du bit.
+// tous les joueurs en vue, à `sd` : à la première annonce de capacités.
 void style_layers_handshake(map_session_data& sd);
 // Les blocs des joueurs en vue, au SPECTATEUR qui vient d'annoncer le bit des
 // calques. Le sien ne se compose jamais : un spectateur ne se montre pas.

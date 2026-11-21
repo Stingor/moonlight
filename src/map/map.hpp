@@ -470,8 +470,8 @@ struct block_list {
 // Mob List Held in memory for Dynamic Mobs [Wizputer]
 // Expanded to specify all mob-related spawn data by [Skotlex]
 // [Stingor] Le nom d'un monstre, zéro final compris : plus long que NAME_LENGTH,
-// qui reste celui des personnages, des guildes et des tables SQL. Un client qui
-// annonce MOONLIGHT_UI_LONG_MOB_NAME le reçoit entier (ZC 0x0F69) ; les autres
+// qui reste celui des personnages, des guildes et des tables SQL. Une session
+// vérifiée le reçoit entier (ZC 0x0F69) ; les autres
 // en reçoivent les NAME_LENGTH - 1 premiers octets, comme avant.
 #define MOB_NAME_LENGTH 48
 

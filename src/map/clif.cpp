@@ -322,7 +322,7 @@ struct s_moonlight_throttle_rule {
 };
 
 // Valeurs réglées au-dessus de l'usage du client moonclient : l'absence
-// n'ajoute un signe qu'après un délai d'inactivité, les annonces d'interface
+// n'ajoute un signe qu'après un délai d'inactivité, les envois de départ
 // qui balaient la zone ne partent qu'une fois par session, ailes et
 // @showmobinfo sont des cases cochées à la main, le client ne demande jamais
 // de clif_refresh, et presets, carnet et album suivent des clics.
@@ -331,7 +331,6 @@ static constexpr s_moonlight_throttle_rule MOONLIGHT_THROTTLE_RULES[MOONLIGHT_TH
 	{ 1000, 3 },  // MOONLIGHT_THROTTLE_WINGS
 	{ 1000, 3 },  // MOONLIGHT_THROTTLE_MOB_INFO
 	{ 5000, 1 },  // MOONLIGHT_THROTTLE_REFRESH
-	{ 2000, 1 },  // MOONLIGHT_THROTTLE_UI_CAPS
 	{  250, 4 },  // MOONLIGHT_THROTTLE_PRESET
 	{  250, 8 },  // MOONLIGHT_THROTTLE_MVP
 	{  200, 6 },  // MOONLIGHT_THROTTLE_CARD_ALBUM
@@ -486,11 +485,11 @@ static bool clif_session_isValid(const map_session_data* sd) {
 	return ( sd != nullptr && session_isActive(sd->fd) );
 }
 
-// [Stingor] Écrit `buf` à une session, précédé du sidecar si elle a annoncé le
-// bit qui le gouverne, ou remplacé par lui s'il le demande. Sans sidecar, ou sans
-// le bit : `buf` seul, comme avant.
+// [Stingor] Écrit `buf` à une session, précédé du sidecar si elle est vérifiée,
+// ou remplacé par lui s'il le demande. Sans sidecar, ou session non vérifiée :
+// `buf` seul.
 static void clif_send_write( const map_session_data* sd, int32 fd, const void* buf, int32 len, const clif_sidecar* sidecar ){
-	if( sidecar != nullptr && sd != nullptr && sd->state.client_verified && ( sd->moonclient_ui_caps & sidecar->cap ) ){
+	if( sidecar != nullptr && sd != nullptr && sd->state.client_verified ){
 		if( sidecar->len > 0 ){
 			WFIFOHEAD( fd, sidecar->len );
 			memcpy( WFIFOP( fd, 0 ), sidecar->buf, sidecar->len );
@@ -932,7 +931,7 @@ static void clif_chat_author_build( clif_chat_author& out, uint16 next_opcode, e
 	}
 
 	p->packetLength = static_cast<int16>( len );
-	out.sidecar = { out.buf, len, MOONLIGHT_UI_CHAT_AUTHOR };
+	out.sidecar = { out.buf, len };
 }
 
 /// Notifies the client, that it's connection attempt was accepted.
@@ -2809,15 +2808,6 @@ void clif_parse_NPCMarketPurchase(int32 fd, map_session_data *sd) {
 void clif_scriptmes( const map_session_data& sd, uint32 npcid, const char *mes ){
 	PACKET_ZC_SAY_DIALOG* p = reinterpret_cast<PACKET_ZC_SAY_DIALOG*>( packet_buffer );
 
-	// [Stingor] les balises maison ne sont rendues que par le dialogue
-	// moderne. Pour tous les autres — client vanilla, ou joueur qui a gardé le
-	// dialogue natif — on les remplace par le libellé qu'elles transportent, sinon
-	// elles s'afficheraient chevrons compris. Cf. clif_moonclient_strip_own_tags.
-	std::string plain;
-	if( !( sd.moonclient_ui_caps & MOONLIGHT_UI_NPC_DIALOG ) &&
-	    clif_moonclient_strip_own_tags( mes, plain ) )
-		mes = plain.c_str();
-
 	int16 length = (int16)( strlen( mes ) + 1 );
 
 	p->PacketType = HEADER_ZC_SAY_DIALOG;
@@ -2982,19 +2972,9 @@ void clif_scriptmenu( map_session_data& sd, uint32 npcid, const char* mes ){
 	   bl->y<sd.y-AREA_SIZE-1 || bl->y>sd.y+AREA_SIZE+1))))
 	   clif_sendfakenpc( sd, npcid );
 
-	// [Stingor] même dégradation que clif_scriptmes — une option de menu
-	// est du texte comme un autre, et un `select` qui liste des monstres est
-	// justement l'endroit où l'on veut des liens.
-	//
-	// ⚠ Le séparateur d'options est ':' et NOS balises en contiennent : c'est déjà
-	// vrai chez le client moderne (qui découpe avant de parser), et le retrait
-	// laisse ici le seul libellé — donc, pour un client natif, une option par
-	// entrée, comme il faut. Un nom de monstre à ':' casserait le menu, mais c'est
-	// une limite RO qui préexiste (cf. le parseur du dialogue côté client).
-	std::string plain;
-	if( !( sd.moonclient_ui_caps & MOONLIGHT_UI_NPC_DIALOG ) &&
-	    clif_moonclient_strip_own_tags( mes, plain ) )
-		mes = plain.c_str();
+	// [Stingor] ⚠ Le séparateur d'options est ':' et NOS balises en contiennent :
+	// le client découpe les options avant de lire leurs balises. Un nom de monstre
+	// à ':' casserait le menu, mais c'est une limite RO qui préexiste.
 
 	// String length + 1 byte for zero termination
 	size_t mes_length = strlen( mes ) + 1;
@@ -6531,7 +6511,7 @@ void clif_moonclient_stat_bonus(map_session_data* sd) {
 // (current_equip_*) sont posées comme status_calc_pc les pose, puis rendues.
 
 bool clif_moonlight_equip_attributes_wanted(const map_session_data& sd) {
-	return sd.state.client_verified && ( sd.moonclient_ui_caps & MOONLIGHT_UI_EQUIP_ATTRIBUTES ) && session_isActive( sd.fd );
+	return sd.state.client_verified && session_isActive( sd.fd );
 }
 
 /// Joue un script en capture et ajoute ses commandes bonus à `into`.
@@ -7039,9 +7019,7 @@ static std::unordered_map<int32, std::string> s_account_to_guid;
 // entries are harmless (login_id1 won't match), so this map is never cleared.
 //
 // [Stingor] Le patch déclaré à cette poignée de main voyage avec : le changement
-// de personnage ne la rejoue pas, et @client doit pourtant le connaître. De même
-// pour `moonclient` : sans lui, un moonclient revenu de la sélection n'aurait
-// plus ni portée de vue, ni voix, ni classement, ni coop.
+// de personnage ne la rejoue pas, et @client doit pourtant le connaître.
 //
 // [Stingor] Le MachineGuid aussi : map_quit le retire de la table des GUID, et
 // sans lui le personnage suivant de la même session ne compterait plus parmi
@@ -7049,7 +7027,6 @@ static std::unordered_map<int32, std::string> s_account_to_guid;
 struct s_verified_login_entry {
 	uint32 login_id1;
 	int32 client_patch_index;
-	bool moonclient;
 	char client_commit[16 + 1];
 	bool client_tree_modified;
 	std::string machine_guid;
@@ -7248,7 +7225,7 @@ static void clif_moonclient_grant_verified(map_session_data* sd) {
 		return;
 	sd->state.client_verified = true;
 	s_verified_login_entry& entry = s_verified_login[sd->status.account_id];
-	entry = { sd->login_id1, sd->client_patch_index, sd->state.moonclient, {}, sd->client_tree_modified };
+	entry = { sd->login_id1, sd->client_patch_index, {}, sd->client_tree_modified };
 	safestrncpy(entry.client_commit, sd->client_commit, sizeof(entry.client_commit));
 	if (auto guid = s_account_to_guid.find(sd->status.account_id); guid != s_account_to_guid.end())
 		entry.machine_guid = guid->second;
@@ -7384,8 +7361,8 @@ void clif_parse_moonclient_integrity(int32 fd, map_session_data* sd) {
 	}
 
 	sd->client_patch_index = p->patch_index;
-	clif_moonclient_accepted(*sd);
 	clif_moonclient_grant_verified(sd);
+	clif_moonclient_accepted(*sd);
 }
 
 // Handles CZ_MOONLIGHT_CHEAT_REPORT (0x0F0A): [type:2][len:2][tool_name:32][detail:64]
@@ -8644,65 +8621,6 @@ void clif_parse_moonlight_req_status_list(int32 fd, map_session_data* sd) {
 	WFIFOSET(fd, offset);
 }
 
-// ── L'apparence des membres du groupe et des amis EN LIGNE (CZ 0x0F2E) ───────
-//
-// 🔴 LA GATE EST LA MEME QUE POUR LES ETATS, et elle est ici aussi : le serveur
-// ne renseigne QUE le groupe du demandeur et ses amis. `what` restreint, il
-// n'autorise pas — un client qui poserait d'autres bits n'obtiendrait rien de
-// plus, et un GID quelconque n'est jamais interrogeable par ce paquet.
-//
-// Un joueur HORS LIGNE n'a pas de session : il n'apparait pas dans la reponse,
-// et c'est exact — le client ne dessine sa tete que pour qui est en ligne.
-void clif_parse_moonlight_req_looks(int32 fd, map_session_data* sd) {
-	nullpo_retv(sd);
-	if (!sd->state.client_verified) return;
-
-	const PACKET_CZ_MOONLIGHT_REQ_LOOKS* req =
-		reinterpret_cast<const PACKET_CZ_MOONLIGHT_REQ_LOOKS*>(RFIFOP(fd, 0));
-	const uint8 what = req->what;
-
-	const int16 head = static_cast<int16>(sizeof(PACKET_ZC_MOONLIGHT_LOOKS));
-	const int16 entry = static_cast<int16>(sizeof(MOONCLIENT_LOOK_ENTRY));
-	WFIFOHEAD(fd, head + MOONCLIENT_LOOKS_MAX * entry);
-	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_LOOKS;
-
-	int32 count = 0;
-	uint32 sent[MOONCLIENT_LOOKS_MAX];
-	// Un ami peut aussi etre dans le groupe : sans ce dedoublonnage il occuperait
-	// deux entrees, et le client remplacerait la premiere par la seconde pour
-	// rien.
-	auto push = [&](map_session_data* t) {
-		if (t == nullptr || count >= MOONCLIENT_LOOKS_MAX) return;
-		for (int32 i = 0; i < count; i++)
-			if (sent[i] == t->status.account_id) return;
-		const int32 off = head + count * entry;
-		WFIFOL(fd, off + 0) = t->status.account_id;
-		WFIFOW(fd, off + 4) = static_cast<uint16>(t->status.class_);
-		WFIFOW(fd, off + 6) = static_cast<uint16>(t->status.hair);
-		WFIFOW(fd, off + 8) = static_cast<uint16>(t->status.hair_color);
-		WFIFOB(fd, off + 10) = static_cast<uint8>(t->status.sex);
-		sent[count] = t->status.account_id;
-		count++;
-	};
-
-	if (what & 1) {
-		struct party_data* p = party_search(sd->status.party_id);
-		if (p != nullptr)
-			for (int32 i = 0; i < MAX_PARTY; i++) push(p->data[i].sd);
-	}
-	if (what & 2) {
-		for (int32 i = 0; i < MAX_FRIENDS; i++) {
-			if (sd->status.friends[i].char_id == 0) continue;
-			push(map_charid2sd(sd->status.friends[i].char_id));
-		}
-	}
-
-	const int16 len = static_cast<int16>(head + count * entry);
-	WFIFOW(fd, 2) = len;
-	WFIFOW(fd, 4) = static_cast<uint16>(count);
-	WFIFOSET(fd, len);
-}
-
 
 // ── Qui est HORS du partage d'EXP, dans le groupe (ZC 0x0F35) ────────────────
 //
@@ -8745,20 +8663,11 @@ void clif_moonclient_party_share( map_session_data& sd, const uint32* aid, const
 	}
 	WFIFOSET( fd, len );
 }
-// ── Interface moderne : ce que ce client sait afficher (CZ 0x0F24) ───────────
-//
-// Le client l'annonce dès que le serveur l'a reconnu, PUIS à chaque fois qu'un
-// réglage d'interface bascule. On ne fait que le retenir : c'est `clif_scriptmes`
-// (et les scripts, via `moonlight_ui()`) qui s'en servent.
-//
-// ⚠ Rien n'est persisté. Un joueur qui éteint le dialogue moderne en pleine
-// conversation doit être servi autrement à la ligne suivante, et sa session
-// suivante repart de zéro (le masque est réannoncé à chaque entrée en zone).
-// [Stingor] Flag Graffiti (ZC 0x0F36) : l'emblème posé au sol, à UNE session —
-// et seulement si elle a annoncé savoir le peindre. Un client qui ne connaît pas
-// l'opcode viderait son tampon de réception : ne jamais l'envoyer en aveugle.
+// [Stingor] Flag Graffiti (ZC 0x0F36) : l'emblème posé au sol, à UNE session
+// vérifiée. Un client qui ne connaît pas l'opcode viderait son tampon de
+// réception : ne jamais l'envoyer en aveugle.
 static void clif_moonclient_flag_graffiti_single(const skill_unit& unit, map_session_data& sd) {
-	if (!sd.state.client_verified || !(sd.moonclient_ui_caps & MOONLIGHT_UI_FLAG_GRAFFITI))
+	if (!sd.state.client_verified)
 		return;
 	if (unit.group == nullptr)
 		return;
@@ -8791,7 +8700,7 @@ static int32 clif_moonclient_flag_graffiti_area_sub(block_list* bl, va_list ap) 
 }
 
 // Les Flag Graffiti déjà en vue d'un joueur (callback BL_SKILL) : va_arg =
-// map_session_data*. Sert quand il annonce le bit APRÈS les avoir vus paraître.
+// map_session_data*. Sert quand il fait sa première annonce APRÈS les avoir vus paraître.
 static int32 clif_moonclient_flag_graffiti_seen_sub(block_list* bl, va_list ap) {
 	map_session_data* sd = va_arg(ap, map_session_data*);
 	const skill_unit* unit = bl->type == BL_SKILL ? reinterpret_cast<const skill_unit*>(bl) : nullptr;
@@ -8807,7 +8716,7 @@ static int32 clif_moonclient_flag_graffiti_seen_sub(block_list* bl, va_list ap) 
 // appelé APRÈS le paquet qui montre le monstre, pour que le client connaisse déjà
 // l'acteur qu'on lui décrit.
 static void clif_moonclient_unit_master_single(const mob_data& md, map_session_data& sd) {
-	if (!sd.state.client_verified || !(sd.moonclient_ui_caps & MOONLIGHT_UI_UNIT_MASTER))
+	if (!sd.state.client_verified)
 		return;
 	const int32 fd = sd.fd;
 	if (!session_isActive(fd))
@@ -8843,7 +8752,7 @@ void clif_moonclient_unit_master_area(const mob_data& md) {
 }
 
 // Les monstres à maître déjà en vue d'un joueur (callback BL_MOB) : va_arg =
-// map_session_data*. Sert quand il annonce le bit APRÈS les avoir vus paraître ;
+// map_session_data*. Sert quand il fait sa première annonce APRÈS les avoir vus paraître ;
 // les mêmes gardes que clif_getareachar_unit écartent ceux qu'il n'a pas vus.
 static int32 clif_moonclient_unit_master_seen_sub(block_list* bl, va_list ap) {
 	map_session_data* sd = va_arg(ap, map_session_data*);
@@ -8875,7 +8784,7 @@ static bool moonlight_gm_outfit_worn(const map_session_data& sd) {
 // annoncé savoir le dessiner. Toujours APRÈS le paquet qui montre le joueur, pour
 // que le client connaisse déjà l'acteur qu'on lui décrit.
 static void clif_moonlight_gm_outfit_single(const map_session_data& owner, bool worn, map_session_data& sd) {
-	if (!sd.state.client_verified || !(sd.moonclient_ui_caps & MOONLIGHT_UI_GM_OUTFIT))
+	if (!sd.state.client_verified)
 		return;
 	const int32 fd = sd.fd;
 	if (!session_isActive(fd))
@@ -8926,7 +8835,7 @@ void clif_moonlight_gm_outfit_area(map_session_data& sd, bool spawning) {
 }
 
 // Les joueurs en vue qui portent l'habit (callback BL_PC) : va_arg =
-// map_session_data* du destinataire. Sert quand il annonce le bit APRÈS les avoir
+// map_session_data* du destinataire. Sert quand il fait sa première annonce APRÈS les avoir
 // vus paraître ; la garde de clif_getareachar_unit écarte ceux qu'il n'a pas vus.
 static int32 clif_moonlight_gm_outfit_seen_sub(block_list* bl, va_list ap) {
 	map_session_data* sd = va_arg(ap, map_session_data*);
@@ -8972,7 +8881,7 @@ void clif_parse_moonlight_gm_outfit(int32 fd, map_session_data* sd) {
 // client redemande à la suivante.
 void clif_parse_moonlight_free_flight(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
-	if (!sd->state.client_verified || !sd->state.moonclient)
+	if (!sd->state.client_verified)
 		return;
 	if (pc_get_group_level(sd) < MOONLIGHT_GM_OUTFIT_GROUP_LEVEL)
 		return;
@@ -9068,7 +8977,7 @@ static bool moonlight_attack_element_withheld(const map_session_data& owner, con
 // [Stingor] ZC_MOONLIGHT_ATTACK_ELEMENT (0x0F4A), à UNE session qui sait le lire.
 // Toujours APRÈS le paquet qui montre le joueur.
 static void clif_moonlight_attack_element_single(const map_session_data& owner, uint8 element, map_session_data& sd) {
-	if (!sd.state.client_verified || !(sd.moonclient_ui_caps & MOONLIGHT_UI_ATTACK_ELEMENT))
+	if (!sd.state.client_verified)
 		return;
 	const int32 fd = sd.fd;
 	if (!session_isActive(fd))
@@ -9085,7 +8994,7 @@ static void clif_moonlight_attack_element_single(const map_session_data& owner, 
 }
 
 bool clif_moonlight_fair_play(map_session_data& sd, const char* tool_name) {
-	if (!sd.state.client_verified || !(sd.moonclient_ui_caps & MOONLIGHT_UI_FAIR_PLAY))
+	if (!sd.state.client_verified)
 		return false;
 	const int32 fd = sd.fd;
 	if (!session_isActive(fd))
@@ -9163,7 +9072,7 @@ void clif_moonlight_attack_element_visibility(map_session_data& sd) {
 }
 
 // [Stingor] L'élément de `owner` à `sd` qui le DÉCOUVRE : entrée en vue, ou
-// annonce du bit après l'avoir vu paraître. Rien pour le neutre, rien s'il lui
+// première annonce de capacités après l'avoir vu paraître. Rien pour le neutre, rien s'il lui
 // est caché.
 static void clif_moonlight_attack_element_seen(const map_session_data& owner, map_session_data& sd) {
 	if (owner.moon_attack_element == ELE_NEUTRAL || moonlight_attack_element_withheld(owner, sd))
@@ -9172,7 +9081,7 @@ static void clif_moonlight_attack_element_seen(const map_session_data& owner, ma
 }
 
 // Les joueurs en vue (callback BL_PC) : va_arg = map_session_data* du
-// destinataire. Sert quand il annonce le bit APRÈS les avoir vus paraître.
+// destinataire. Sert quand il fait sa première annonce APRÈS les avoir vus paraître.
 static int32 clif_moonlight_attack_element_seen_sub(block_list* bl, va_list ap) {
 	map_session_data* sd = va_arg(ap, map_session_data*);
 	const map_session_data* owner = BL_CAST(BL_PC, bl);
@@ -9199,10 +9108,10 @@ static uint32 clif_moonclient_companion_master_id(const block_list& bl) {
 	return master != nullptr ? static_cast<uint32>(master->id) : 0;
 }
 
-// [Stingor] Le maître d'un compagnon (ZC 0x0F37), à UNE session qui a annoncé
-// MOONLIGHT_UI_COMPANION_MASTER. Toujours APRÈS le paquet qui montre le compagnon.
+// [Stingor] Le maître d'un compagnon (ZC 0x0F37), à UNE session vérifiée.
+// Toujours APRÈS le paquet qui montre le compagnon.
 static void clif_moonclient_companion_master_single(const block_list& bl, map_session_data& sd) {
-	if (!sd.state.client_verified || !(sd.moonclient_ui_caps & MOONLIGHT_UI_COMPANION_MASTER))
+	if (!sd.state.client_verified)
 		return;
 	const uint32 master_id = clif_moonclient_companion_master_id(bl);
 	if (master_id == 0)
@@ -9257,67 +9166,47 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	const PACKET_CZ_MOONLIGHT_UI_CAPS* p =
 		reinterpret_cast<const PACKET_CZ_MOONLIGHT_UI_CAPS*>(RFIFOP(fd, 0));
-	// [Stingor] LE SPECTATEUR QUI A LE DROIT DE VOIR (moonclient_cosmetic) n'annonce
-	// qu'une chose : il sait lire les teintures de calques. Tout autre bit est
-	// effacé — il n'ouvre aucun handler, et aucune donnée de personnage ne part
-	// vers lui. Il reçoit alors les blocs des joueurs en vue.
+	// Paquet déclaré VARIABLE : on ne lit `caps` que s'il est réellement là,
+	// plutôt que de lire au-delà du tampon annoncé.
+	if (p->packetLength < static_cast<int16>(sizeof(PACKET_CZ_MOONLIGHT_UI_CAPS)))
+		return;
+
+	// 🔴 SEUL MOONCLIENT PARLE AU SERVEUR, ET IL SAIT TOUT LIRE : le masque n'est
+	// plus lu bit à bit, sauf MOONLIGHT_UI_MVP_TRACKER, un abonnement. Ce qui
+	// compte encore, c'est la PREMIÈRE annonce de la session : elle suit l'entrée en
+	// carte, et c'est elle que les envois de départ ci-dessous attendent. Une
+	// annonce suivante ne redit que l'abonnement au carnet, et les services
+	// survivors, chacun borné par sa cadence.
+	const bool first = !sd->state.ui_caps_announced;
+
+	// [Stingor] LE SPECTATEUR QUI A LE DROIT DE VOIR (moonclient_cosmetic) n'ouvre
+	// aucun handler, et aucune donnée de personnage ne part vers lui : sa première
+	// annonce lui envoie les blocs de calques des joueurs en vue, rien d'autre.
 	if (sd->state.spectator && sd->state.moonclient_cosmetic) {
-		if (p->packetLength < static_cast<int16>(sizeof(PACKET_CZ_MOONLIGHT_UI_CAPS)))
-			return;
-		const uint32 kept = p->caps & MOONLIGHT_UI_STYLE_LAYERS;
-		if ((kept & ~sd->moonclient_ui_caps) != 0 && !clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_UI_CAPS))
-			return;
-		const bool gained = (kept & ~sd->moonclient_ui_caps) != 0;
-		sd->moonclient_ui_caps = kept;
-		if (gained)
+		sd->state.ui_caps_announced = true;
+		if (first)
 			style_layers_spectator_join(*sd);
 		return;
 	}
 	if (!sd->state.client_verified) return;
-	// Paquet déclaré VARIABLE : un client plus ancien (ou plus récent) peut en
-	// envoyer une version plus courte. On ne lit `caps` que s'il est réellement là,
-	// plutôt que de lire au-delà du tampon annoncé.
-	if (p->packetLength < static_cast<int16>(sizeof(PACKET_CZ_MOONLIGHT_UI_CAPS)))
-		return;
-	// [Stingor] Les bits dont l'apparition déclenche un envoi ou un balayage de
-	// zone ci-dessous. Une annonce qui en GAGNE un est bornée en cadence, et
-	// refusée en entier : la garder sans son balayage laisserait le client sans
-	// les données qu'il attend. Le client honnête ne les annonce qu'une fois par
-	// session ; retirer un bit, ou changer un bit sans balayage, passe toujours.
-	static constexpr uint32 kScanOnGain = MOONLIGHT_UI_FLAG_GRAFFITI | MOONLIGHT_UI_UNIT_MASTER |
-		MOONLIGHT_UI_GM_OUTFIT | MOONLIGHT_UI_SERVER_RULES | MOONLIGHT_UI_MAP_EDITS |
-		MOONLIGHT_UI_COMPANION_MASTER | MOONLIGHT_UI_INSTANCE_INFO | MOONLIGHT_UI_ATTACK_ELEMENT |
-		MOONLIGHT_UI_VOICE | MOONLIGHT_UI_STYLE_LAYERS;
-	if ((p->caps & ~sd->moonclient_ui_caps & kScanOnGain) != 0 &&
-		!clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_UI_CAPS))
-		return;
-	const uint32 before = sd->moonclient_ui_caps;
-	sd->moonclient_ui_caps = p->caps;
-	// L'annonce suit l'entrée en carte : les Flag Graffiti alentour ont déjà été
-	// montrés — sans lui. Il les reçoit maintenant.
-	if (!(before & MOONLIGHT_UI_FLAG_GRAFFITI) && (p->caps & MOONLIGHT_UI_FLAG_GRAFFITI))
+
+	sd->state.ui_caps_announced = true;
+	sd->moonclient_ui_caps = p->caps & MOONLIGHT_UI_MVP_TRACKER;
+
+	if (first) {
+		// Les Flag Graffiti, les maîtres des monstres et des compagnons, l'habit du
+		// GM et l'élément d'attaque de ce qui est déjà en vue : montrés à l'entrée
+		// en carte, avant l'annonce, donc sans ce qui les décrit.
 		map_foreachinallrange(clif_moonclient_flag_graffiti_seen_sub, sd, pc_view_range(*sd), BL_SKILL, sd);
-	// [Stingor] De même pour les maîtres des monstres déjà en vue.
-	if (!(before & MOONLIGHT_UI_UNIT_MASTER) && (p->caps & MOONLIGHT_UI_UNIT_MASTER))
 		map_foreachinallrange(clif_moonclient_unit_master_seen_sub, sd, pc_view_range(*sd), BL_MOB, sd);
-	// [Stingor] De même pour l'habit du GM des joueurs déjà en vue.
-	if (!(before & MOONLIGHT_UI_GM_OUTFIT) && (p->caps & MOONLIGHT_UI_GM_OUTFIT))
 		map_foreachinallrange(clif_moonlight_gm_outfit_seen_sub, sd, pc_view_range(*sd), BL_PC, sd);
-	// [Stingor] De même pour l'élément d'attaque des joueurs en vue, et le sien.
-	if (!(before & MOONLIGHT_UI_ATTACK_ELEMENT) && (p->caps & MOONLIGHT_UI_ATTACK_ELEMENT))
 		map_foreachinallrange(clif_moonlight_attack_element_seen_sub, sd, pc_view_range(*sd), BL_PC, sd);
-	// [Stingor] Les réglages du serveur, dès que le client sait les lire.
-	if (!(before & MOONLIGHT_UI_SERVER_RULES) && (p->caps & MOONLIGHT_UI_SERVER_RULES))
-		clif_moonclient_server_rules(*sd);
-	// [Stingor] La révision de l'édition de la carte, dès que le client sait la lire.
-	if (!(before & MOONLIGHT_UI_MAP_EDITS) && (p->caps & MOONLIGHT_UI_MAP_EDITS))
-		map_edits_announce(*sd);
-	// [Stingor] Les maîtres des compagnons déjà en vue.
-	if (!(before & MOONLIGHT_UI_COMPANION_MASTER) && (p->caps & MOONLIGHT_UI_COMPANION_MASTER))
 		map_foreachinallrange(clif_moonclient_companion_master_seen_sub, sd, pc_view_range(*sd), BL_HOM | BL_MER | BL_PET | BL_ELEM, sd);
-	// [Stingor] L'annonce suit l'entrée en carte, et donc 0x02CB / 0x02CD : le
-	// détail de ses instances lui part maintenant.
-	if (!(before & MOONLIGHT_UI_INSTANCE_INFO) && (p->caps & MOONLIGHT_UI_INSTANCE_INFO)) {
+		// [Stingor] Les réglages du serveur, et la révision de l'édition de la carte.
+		clif_moonclient_server_rules(*sd);
+		map_edits_announce(*sd);
+		// [Stingor] Le détail de ses instances : 0x02CB / 0x02CD sont partis à
+		// l'entrée en carte.
 		if (sd->instance_id > 0)
 			clif_instance_details_single(*sd, sd->instance_id);
 		if (const party_data* pd = party_search(sd->status.party_id); pd != nullptr && pd->instance_id > 0)
@@ -9326,42 +9215,34 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 			clif_instance_details_single(*sd, sd->guild->instance_id);
 		if (sd->clan != nullptr && sd->clan->instance_id > 0)
 			clif_instance_details_single(*sd, sd->clan->instance_id);
-	}
-	// [Stingor] Le classement survivors s'annonce à CHAQUE annonce qui porte le
-	// bit, pas seulement à son apparition : le client redit ses capacités à chaque
-	// entrée en carte, et ne tient le service pour ouvert qu'après cette réponse.
-	// Une cadence à part borne un client qui répéterait l'annonce.
-	if ((p->caps & MOONLIGHT_UI_SURVIVORS) && clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_SURVIVORS_SERVICE))
-		clif_moonlight_survivors_service(*sd);
-	// [Stingor] La présence en arène, à chaque annonce qui porte son bit, pour la
-	// même raison ; sa cadence est à part.
-	if ((p->caps & MOONLIGHT_UI_SURVIVORS_PRESENCE) &&
-		clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_SURVIVORS_PRESENCE_ANNOUNCE))
-		clif_moonlight_survivors_presence_announce(*sd);
-	// [Stingor] La coop survivors, à chaque annonce qui porte son bit, pour la même
-	// raison ; sa cadence est à part. Le bit qui change, annonce bridée ou non,
-	// touche le salon du groupe : un membre qui le perd n'écoute plus.
-	if ((p->caps & MOONLIGHT_UI_SURVIVORS_COOP) &&
-		clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_SURVIVORS_COOP_ANNOUNCE))
-		clif_moonlight_survivors_coop_announce(*sd);
-	if ((before ^ p->caps) & MOONLIGHT_UI_SURVIVORS_COOP)
-		survivors_coop_caps_changed(*sd);
-	// [Stingor] Où joindre le serveur voix, dès que le client sait lui parler.
-	if (!(before & MOONLIGHT_UI_VOICE) && (p->caps & MOONLIGHT_UI_VOICE))
+		// [Stingor] Il écoute désormais le salon coop de son groupe.
+		survivors_coop_member_listens(*sd);
+		// [Stingor] Où joindre le serveur voix.
 		voice_bridge_announce_service(*sd);
-	// [Stingor] Les teintures de calques : la sienne, celles des joueurs en vue, et
-	// l'atelier s'il est ouvert. Le bit s'annonce à chaque entrée en carte.
-	if (!(before & MOONLIGHT_UI_STYLE_LAYERS) && (p->caps & MOONLIGHT_UI_STYLE_LAYERS))
+		// [Stingor] Les teintures de calques : la sienne, celles des joueurs en vue,
+		// et l'atelier s'il est ouvert.
 		style_layers_handshake(*sd);
+	}
+
+	// [Stingor] Les services survivors (classement, présence en arène, coop)
+	// s'annoncent à CHAQUE annonce : le client ne tient un service pour ouvert
+	// qu'après cette réponse. Une cadence à part borne un client qui répéterait.
+	if (clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_SURVIVORS_SERVICE))
+		clif_moonlight_survivors_service(*sd);
+	if (clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_SURVIVORS_PRESENCE_ANNOUNCE))
+		clif_moonlight_survivors_presence_announce(*sd);
+	if (clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_SURVIVORS_COOP_ANNOUNCE))
+		clif_moonlight_survivors_coop_announce(*sd);
+
 	// [Stingor] Les morceaux d'une édition de carte arrivent d'affilée : un tampon
 	// de réception plus grand. EN DERNIER : le réallouer invalide `p`.
-	if (p->caps & MOONLIGHT_UI_MAP_EDITS)
+	if (first)
 		realloc_fifo(fd, MOONCLIENT_MAP_EDIT_RFIFO, static_cast<uint32>(session[fd]->max_wdata));
 }
 
 // [Stingor] ZC_MOONLIGHT_SERVER_RULES (0x0F38), à une session qui sait le lire.
 void clif_moonclient_server_rules(map_session_data& sd) {
-	if (!sd.state.client_verified || !(sd.moonclient_ui_caps & MOONLIGHT_UI_SERVER_RULES))
+	if (!sd.state.client_verified)
 		return;
 	const int32 fd = sd.fd;
 	if (!session_isActive(fd))
@@ -9454,8 +9335,8 @@ void clif_moonclient_server_rules_all() {
 #define MVP_GROUP_HEADER_LEN   (int16)(sizeof(PACKET_ZC_MOONLIGHT_MVP_GROUP))
 #define MVP_MEMBER_ENTRY_LEN   (int16)(4 + 2 + 1 + NAME_LENGTH)
 // Les QUEUES de ZC_MOONLIGHT_MVP_GROUP. Elles suivent la dernière entrée et ne
-// partent qu'à une session MOONLIGHT_UI_MVP_TRACKER_EXT (S1, S3), ou qu'en
-// réponse à une commande qui portait un identifiant (S2) : un lecteur lit par
+// partent toujours (S1, S3), ou qu'en réponse à une commande qui portait un
+// identifiant (S2) : un lecteur lit par
 // longueur et ignore l'excédent, une queue future s'ajoute APRÈS celles-ci.
 #define MVP_GROUP_SELF_TRAILER_LEN    (int16)(4)      // kind 0 : [self_user_id:4]
 #define MVP_INVITE_ORIGIN_TRAILER_LEN (int16)(1)      // kind 1 : [origin:1]
@@ -9596,14 +9477,12 @@ static void clif_moonclient_mvp_group_send(map_session_data& sd, const s_mvp_gro
 	if (!clif_moonclient_mvp_group_reachable(sd)) return;
 	const int32 fd = sd.fd;
 
-	// S1 — QUI EST LE DESTINATAIRE. Sans cette queue, le client devine sa propre
-	// ligne (et la propriété du groupe) au nom de son personnage parmi les
+	// S1 — QUI EST LE DESTINATAIRE, en queue. Sans elle, le client devinerait sa
+	// propre ligne (et la propriété du groupe) au nom de son personnage parmi les
 	// membres. Un user_id dit en plus quelles lignes sont « nous » quand le même
 	// compte a plusieurs sessions. 0 : compte de jeu non rattaché.
-	const bool self_trailer = (sd.moonclient_ui_caps & MOONLIGHT_UI_MVP_TRACKER_EXT) != 0;
-
 	const int16 pkt_len = (int16)(MVP_GROUP_HEADER_LEN + members.size() * MVP_MEMBER_ENTRY_LEN +
-		(self_trailer ? MVP_GROUP_SELF_TRAILER_LEN : 0));
+		MVP_GROUP_SELF_TRAILER_LEN);
 	WFIFOHEAD(fd, pkt_len);
 	memset(WFIFOP(fd, 0), 0, pkt_len);
 	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_MVP_GROUP;
@@ -9628,8 +9507,7 @@ static void clif_moonclient_mvp_group_send(map_session_data& sd, const s_mvp_gro
 		offset += MVP_MEMBER_ENTRY_LEN;
 	}
 
-	if (self_trailer)
-		WFIFOL(fd, offset) = sd.status.user_id;
+	WFIFOL(fd, offset) = sd.status.user_id;
 
 	WFIFOSET(fd, pkt_len);
 }
@@ -9679,15 +9557,11 @@ void clif_moonclient_mvp_presence(const s_mvp_group& group) {
 	// requête de noms et une trame aux membres qui partent eux aussi.
 	if (!global_core->is_running()) return;
 
-	// S4 — LA PRÉSENCE EST POUSSÉE, à qui sait la recevoir sans la demander :
-	// le panneau ouvert (MVP_TRACKER) d'un client qui lit les queues
-	// (MVP_TRACKER_EXT). Un client qui n'annonce pas le second bit ne reçoit
-	// rien de plus, et redemande l'instantané.
+	// S4 — LA PRÉSENCE EST POUSSÉE, à qui a le carnet allumé (MVP_TRACKER).
 	std::vector<map_session_data*> recipients;
 
 	for (map_session_data* member : group.online) {
 		if (!clif_moonclient_mvp_group_reachable(*member)) continue;
-		if (!(member->moonclient_ui_caps & MOONLIGHT_UI_MVP_TRACKER_EXT)) continue;
 		if (!(member->moonclient_ui_caps & MOONLIGHT_UI_MVP_TRACKER)) continue;
 		recipients.push_back(member);
 	}
@@ -9703,11 +9577,9 @@ static void clif_moonclient_mvp_invite_frame(map_session_data& sd, uint32 group_
 	const int32 fd = sd.fd;
 	if (!session_isActive(fd)) return;
 
-	// S3 — D'OÙ VIENT L'INVITATION. Sans cette queue, le client la déduit de
-	// l'ordre des trames, et trois cas restent ambigus.
-	const bool origin_trailer = (sd.moonclient_ui_caps & MOONLIGHT_UI_MVP_TRACKER_EXT) != 0;
-
-	const int16 pkt_len = (int16)(MVP_GROUP_HEADER_LEN + (origin_trailer ? MVP_INVITE_ORIGIN_TRAILER_LEN : 0));
+	// S3 — D'OÙ VIENT L'INVITATION, en queue. Sans elle, le client la déduirait de
+	// l'ordre des trames, et trois cas resteraient ambigus.
+	const int16 pkt_len = (int16)(MVP_GROUP_HEADER_LEN + MVP_INVITE_ORIGIN_TRAILER_LEN);
 	WFIFOHEAD(fd, pkt_len);
 	memset(WFIFOP(fd, 0), 0, pkt_len);
 	WFIFOW(fd, 0) = HEADER_ZC_MOONLIGHT_MVP_GROUP;
@@ -9718,8 +9590,7 @@ static void clif_moonclient_mvp_invite_frame(map_session_data& sd, uint32 group_
 	WFIFOL(fd, 10) = 0;
 	safestrncpy((char*)WFIFOP(fd, 14), group_name, MVP_GROUP_NAME_LEN);
 	WFIFOB(fd, 14 + MVP_GROUP_NAME_LEN) = 0;
-	if (origin_trailer)
-		WFIFOB(fd, MVP_GROUP_HEADER_LEN) = (uint8)origin;
+	WFIFOB(fd, MVP_GROUP_HEADER_LEN) = (uint8)origin;
 	WFIFOSET(fd, pkt_len);
 }
 
@@ -9759,33 +9630,10 @@ static void clif_moonclient_mvp_invite_withdraw_others(const map_session_data& a
 	map_foreachpc(clif_moonclient_mvp_invite_withdraw_sub, actor.status.user_id, &actor);
 }
 
-/// Le code de résultat tel que `sd` peut le lire.
-///
-/// 🔴 Un code que le client ne connaît pas s'afficherait en code nu : les codes
-/// postérieurs à NOT_INVITABLE ne partent qu'à qui lit les queues. Les autres
-/// reçoivent le code qu'ils ont toujours reçu dans ce cas-là, octet pour octet.
-static uint8 clif_moonclient_mvp_result_on_wire(const map_session_data& sd, uint8 result) {
-	if (sd.moonclient_ui_caps & MOONLIGHT_UI_MVP_TRACKER_EXT)
-		return result;
-
-	switch (result) {
-	// Une saisie sans effet a toujours été, sur le fil, un succès.
-	case MVP_GROUP_ERR_OBS_KEPT:          return MVP_GROUP_OK;
-	case MVP_GROUP_ERR_UNKNOWN_SLOT:      return MVP_GROUP_ERR_NO_SUCH_USER;
-	case MVP_GROUP_ERR_TARGET_NOT_MEMBER: return MVP_GROUP_ERR_NOT_MEMBER;
-	// Jamais produit sans le bit (le nom y est tronqué) ; le refus le plus
-	// proche que ce client connaisse, s'il l'était un jour.
-	case MVP_GROUP_ERR_NAME_TOO_LONG:     return MVP_GROUP_ERR_BAD_NAME;
-	default:                              return result;
-	}
-}
-
 void clif_moonclient_mvp_result(map_session_data& sd, uint8 result, uint8 cmd, const uint32* request_id) {
 	if (!sd.state.client_verified) return;
 	const int32 fd = sd.fd;
 	if (!session_isActive(fd)) return;
-
-	result = clif_moonclient_mvp_result_on_wire(sd, result);
 
 	// S2 — QUELLE COMMANDE CE RÉSULTAT CONCLUT. Sans cette queue, le client
 	// apparie les résultats dans l'ordre d'envoi. `cmd` est l'écho de la
@@ -9853,10 +9701,9 @@ void clif_parse_moonlight_mvp_cmd(int32 fd, map_session_data* sd) {
 	}
 
 	// Un nom de groupe plus long que ce que `text` en garde. La longueur est
-	// celle du texte SEUL, suffixe d'identifiant ôté. Refusé à qui sait lire
-	// MVP_GROUP_ERR_NAME_TOO_LONG ; les autres gardent le nom tronqué.
-	const bool name_truncated = text_len > MVP_GROUP_NAME_LEN - 1 &&
-		(sd->moonclient_ui_caps & MOONLIGHT_UI_MVP_TRACKER_EXT) != 0;
+	// celle du texte SEUL, suffixe d'identifiant ôté. Refusé :
+	// MVP_GROUP_ERR_NAME_TOO_LONG.
+	const bool name_truncated = text_len > MVP_GROUP_NAME_LEN - 1;
 
 	e_mvp_group_result result = MVP_GROUP_OK;
 	bool group_changed = false;
@@ -9970,33 +9817,23 @@ void clif_parse_moonlight_mvp_cmd(int32 fd, map_session_data* sd) {
 //
 // L'album vit hors du système de storage (cf. src/map/card_album.hpp) : le
 // serveur en est la SEULE autorité, le client n'affiche que ce qu'on lui envoie.
-
-// Le gate. `client_verified` ne suffit pas : il faut que l'interface moderne
-// annonce la surface. Un sacrifice est IRRÉVERSIBLE, et un client natif n'a
-// aucune fenêtre pour montrer ce qu'il vient de coûter — refuser vaut mieux que
-// consommer une carte dans le vide.
-static bool clif_moonclient_card_album_allowed(map_session_data& sd) {
-	return sd.state.client_verified && (sd.moonclient_ui_caps & MOONLIGHT_UI_CARD_ALBUM) != 0;
-}
+// Un sacrifice est IRRÉVERSIBLE : rien ne part ni ne s'accepte hors d'une session
+// vérifiée, qui a la fenêtre pour montrer ce qu'il vient de coûter.
 
 // Pousse l'état COMPLET : tout le catalogue, chaque carte portant sa réserve et
 // son bit « débloqué ». Un seul paquet, jamais paginé.
 void clif_moonclient_card_album(map_session_data& sd, e_card_album_result result) {
-	if (!clif_moonclient_card_album_allowed(sd)) return;
+	if (!sd.state.client_verified) return;
 	const int32 fd = sd.fd;
 	if (!session_isActive(fd)) return;
 
 	const std::vector<s_card_album_card>& catalog = card_album_catalog();
 
-	// La taille d'une entrée : 12 octets pour un client qui sait lire la nature
-	// du monstre, 11 pour tous les autres. Voir MOONLIGHT_UI_CARD_ALBUM_BOSS.
-	static_assert( sizeof( CARD_ALBUM_ENTRY ) == 12, "CARD_ALBUM_ENTRY a change de taille : revoir la taille heritee ci-dessous" );
-	constexpr size_t CARD_ALBUM_ENTRY_LEGACY = 11;
+	// La taille d'une entrée : 12 octets, nature du monstre comprise.
+	constexpr size_t entry_size = sizeof( CARD_ALBUM_ENTRY );
+	static_assert( entry_size == 12, "CARD_ALBUM_ENTRY a change de taille : revoir l'ecriture ci-dessous" );
 
-	const bool with_boss = ( sd.moonclient_ui_caps & MOONLIGHT_UI_CARD_ALBUM_BOSS ) != 0;
-	const size_t entry_size = with_boss ? sizeof( CARD_ALBUM_ENTRY ) : CARD_ALBUM_ENTRY_LEGACY;
-
-	// packetLength est un int16 signé : 32767 octets, soit ~2900 entrées de 11. Le
+	// packetLength est un int16 signé : 32767 octets, soit ~2700 entrées de 12. Le
 	// catalogue en compte ~912, donc la marge est de 3x. La borne n'est pas là
 	// pour aujourd'hui mais pour le jour où quelqu'un verserait un item_db
 	// renewal (5593 cartes) : tronquer en le DISANT, plutôt que déborder en
@@ -10040,9 +9877,7 @@ void clif_moonclient_card_album(map_session_data& sd, e_card_album_result result
 		WFIFOW(fd, off) = unlocked ? sd.card_album[ai].amount : 0;            off += 2;
 		WFIFOB(fd, off) = unlocked ? 1 : 0;                                   off += 1;
 		WFIFOL(fd, off) = card.equip;                                         off += 4;
-		if( with_boss ){
-			WFIFOB(fd, off) = card.boss;                                      off += 1;
-		}
+		WFIFOB(fd, off) = card.boss;                                          off += 1;
 	}
 
 	WFIFOSET(fd, pkt_len);
@@ -10056,7 +9891,7 @@ void clif_moonclient_card_album(map_session_data& sd, e_card_album_result result
 // Handles CZ_MOONLIGHT_CARD_ALBUM_CMD (0x0F34).
 void clif_parse_moonlight_card_album_cmd(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
-	if (!clif_moonclient_card_album_allowed(*sd)) return;
+	if (!sd->state.client_verified) return;
 
 	const int32 pkt_len = RFIFOW(fd, 2);
 
@@ -10613,7 +10448,7 @@ static PACKET_MOONLIGHT_STAFF_ROSTER_ENTRY clif_moonlight_staff_roster_entry(map
 	entry.command_age_s = clif_moonlight_staff_roster_age(pl.moon_activity_time[MOON_ACTIVITY_COMMAND]);
 
 	if (pl.state.client_verified)
-		entry.client = pl.state.moonclient ? MOONLIGHT_STAFF_ROSTER_CLIENT_MOONCLIENT : MOONLIGHT_STAFF_ROSTER_CLIENT_ORIGINAL;
+		entry.client = MOONLIGHT_STAFF_ROSTER_CLIENT_MOONCLIENT;
 	if (pl.client_tree_modified)
 		entry.client_flags |= MOONLIGHT_STAFF_ROSTER_TREE_MODIFIED;
 	entry.patch_index = pl.client_patch_index;
@@ -10707,80 +10542,6 @@ void clif_parse_moonlight_req_staff_roster(int32 fd, map_session_data* sd) {
 			memcpy(reply->entries, &entries[first], count * sizeof(PACKET_MOONLIGHT_STAFF_ROSTER_ENTRY));
 		WFIFOSET(fd, length);
 	}
-}
-
-// ── Dégrader les balises maison pour qui ne les rend pas ─────────────────────
-//
-// 🔴 LE PROBLÈME QUE ÇA RÈGLE. Le dialogue NATIF du client efface les balises
-// qu'il CONNAÎT et laisse passer les autres : un `<MOBL>1002:0:Poring</MOBL>`
-// envoyé à un joueur resté en natif s'affiche en toutes lettres, chevrons et
-// deux-points compris. Un script devrait donc dupliquer chaque `mes` selon le
-// client d'en face — et l'oublier une fois suffit pour que la ligne parte cassée.
-// Ici, le script écrit UNE version et le serveur retire ce qui ne serait pas rendu.
-//
-// Ce que devient chaque balise :
-//   <MOBL>id:rang:nom</MOBL> -> nom       (c'est pour cela que le nom voyage)
-//   <ITMR>id:nom</ITMR>      -> nom
-//   <CRAF>id:nom</CRAF>      -> nom
-//   <SETL>clé:libellé</SETL> -> libellé
-//   <STAL>efst:libellé</STAL> -> libellé  (l'index ne dit rien à un humain)
-//   <MOBS>, <MOBP>, <IMG>    -> RIEN : un média n'a pas de repli en texte.
-//
-// ⚠ Un script qui a besoin de dire autre chose à un client sans images (« viens
-// voir l'affiche au village ») teste `moonlight_ui()` et écrit deux versions.
-// Cette fonction ne sait que retirer, elle n'invente pas de texte de remplacement.
-//
-// Une balise MAL FORMÉE (fermante absente) est laissée telle quelle : c'est une
-// erreur de script, et l'escamoter la rendrait invisible à son auteur.
-bool clif_moonclient_strip_own_tags(const char* text, std::string& out) {
-	if (text == nullptr || strchr(text, '<') == nullptr)
-		return false;  // le cas de l'immense majorité des `mes` : rien à faire
-
-	// [ouvrante, fermante, index du champ à garder (-1 = tout supprimer)]
-	static const struct { const char* open; const char* close; int keep; } kTags[] = {
-		{ "<MOBL>", "</MOBL>", 2 },   // id:rang:nom
-		{ "<ITMR>", "</ITMR>", 1 },   // id:nom
-		{ "<CRAF>", "</CRAF>", 1 },   // id:nom
-		{ "<SETL>", "</SETL>", 1 },   // clé:libellé
-		{ "<STAL>", "</STAL>", 1 },   // efst:libellé
-		{ "<MOBS>", "</MOBS>", -1 },
-		{ "<MOBP>", "</MOBP>", -1 },
-		{ "<IMG>",  "</IMG>",  -1 },
-	};
-
-	std::string result;
-	const char* p = text;
-	bool changed = false;
-	while (*p != '\0') {
-		if (*p != '<') { result += *p++; continue; }
-		bool matched = false;
-		for (const auto& tag : kTags) {
-			const size_t olen = strlen(tag.open);
-			if (strncmp(p, tag.open, olen) != 0) continue;
-			const char* body = p + olen;
-			const char* end = strstr(body, tag.close);
-			if (end == nullptr) break;  // fermante manquante : on laisse le texte brut
-			if (tag.keep >= 0) {
-				// Le champ à garder est le DERNIER : tout ce qui suit le n-ième ':'.
-				const char* field = body;
-				for (int i = 0; i < tag.keep && field < end; ++i) {
-					const char* colon = static_cast<const char*>(
-						memchr(field, ':', static_cast<size_t>(end - field)));
-					if (colon == nullptr) { field = end; break; }
-					field = colon + 1;
-				}
-				result.append(field, static_cast<size_t>(end - field));
-			}
-			p = end + strlen(tag.close);
-			matched = true;
-			changed = true;
-			break;
-		}
-		if (!matched) result += *p++;
-	}
-	if (!changed) return false;
-	out = std::move(result);
-	return true;
 }
 
 // Sertissage rapide : le client demande, pour un ÉQUIPEMENT donné, la
@@ -11469,10 +11230,9 @@ void clif_parse_moonlight_companion(int32 fd, map_session_data* sd) {
 	}
 }
 
-// [Stingor] Le relais Discord à UNE session de gonryun : la forme riche 0x0F3C à
-// qui a annoncé MOONLIGHT_UI_DISCORD_RICH, 0x0F08 aux autres sessions.
-// Un morceau couvert par le riche de son premier ne part pas en riche ; il part
-// en 0x0F08 à qui ne lit pas le riche, comme avant.
+// [Stingor] Le relais Discord à UNE session de gonryun : la forme riche 0x0F3C
+// pour le premier morceau d'un message qui en a une, 0x0F08 pour un message sans
+// forme riche. Un morceau que le riche de son premier couvre déjà ne part pas.
 static int32 clif_moonclient_discord_msg_pc(map_session_data* sd, va_list ap) {
 	const int32                mapid      = va_arg(ap, int32);
 	const uint8*               buf        = va_arg(ap, const uint8*);
@@ -11485,15 +11245,13 @@ static int32 clif_moonclient_discord_msg_pc(map_session_data* sd, va_list ap) {
 	const int32 fd = sd->fd;
 	if (!session_isActive(fd)) return 0;
 
+	if (rich_state == DISCORD_RICH_COVERED)
+		return 0;
 	const uint8* out = buf;
 	int32 out_len = pkt_len;
-	if (sd->moonclient_ui_caps & MOONLIGHT_UI_DISCORD_RICH) {
-		if (rich_state == DISCORD_RICH_COVERED)
-			return 0;
-		if (rich_state == DISCORD_RICH_CARRIER && rich_buf != nullptr) {
-			out = rich_buf;
-			out_len = rich_len;
-		}
+	if (rich_state == DISCORD_RICH_CARRIER && rich_buf != nullptr) {
+		out = rich_buf;
+		out_len = rich_len;
 	}
 
 	WFIFOHEAD(fd, out_len);
@@ -13213,9 +12971,9 @@ static int32 clif_outsight_ordinary(block_list* bl, va_list ap)
 		return 0;
 	map_session_data* sd = BL_CAST(BL_PC, bl);
 	map_session_data* tsd = BL_CAST(BL_PC, tbl);
-	if (clif_session_isValid(tsd) && !tsd->state.moonclient)
+	if (clif_session_isValid(tsd) && !tsd->state.client_verified)
 		clif_outsight_unit(*tsd, bl);
-	if (clif_session_isValid(sd) && !sd->state.moonclient)
+	if (clif_session_isValid(sd) && !sd->state.client_verified)
 		clif_outsight_mover(*sd, tbl);
 	return 0;
 }
@@ -13228,9 +12986,9 @@ static int32 clif_insight_ordinary(block_list* bl, va_list ap)
 		return 0;
 	map_session_data* sd = BL_CAST(BL_PC, bl);
 	map_session_data* tsd = BL_CAST(BL_PC, tbl);
-	if (clif_session_isValid(tsd) && !tsd->state.moonclient)
+	if (clif_session_isValid(tsd) && !tsd->state.client_verified)
 		clif_insight_unit(*tsd, bl);
-	if (clif_session_isValid(sd) && !sd->state.moonclient)
+	if (clif_session_isValid(sd) && !sd->state.client_verified)
 		clif_insight_mover(*sd, tbl);
 	return 0;
 }
@@ -13282,7 +13040,7 @@ void clif_outsight_movearea(block_list& mover, int16 dx, int16 dy)
 {
 	const int32 type = mover.type == BL_PC ? BL_ALL : BL_PC;
 	map_foreachinmovearea(clif_outsight_ordinary, &mover, AREA_SIZE, dx, dy, type, &mover);
-	if (const map_session_data* sd = BL_CAST(BL_PC, &mover); sd != nullptr && sd->state.moonclient)
+	if (const map_session_data* sd = BL_CAST(BL_PC, &mover); sd != nullptr && sd->state.client_verified)
 		map_foreachinmovearea(clif_outsight_by_mover, &mover, pc_view_range(*sd), dx, dy, BL_ALL, &mover);
 	map_foreachmoonclientinmovearea(clif_outsight_by_viewer, &mover, dx, dy, &mover);
 }
@@ -13293,7 +13051,7 @@ void clif_insight_movearea(block_list& mover, int16 dx, int16 dy)
 {
 	const int32 type = mover.type == BL_PC ? BL_ALL : BL_PC;
 	map_foreachinmovearea(clif_insight_ordinary, &mover, AREA_SIZE, dx, dy, type, &mover);
-	if (const map_session_data* sd = BL_CAST(BL_PC, &mover); sd != nullptr && sd->state.moonclient)
+	if (const map_session_data* sd = BL_CAST(BL_PC, &mover); sd != nullptr && sd->state.client_verified)
 		map_foreachinmovearea(clif_insight_by_mover, &mover, pc_view_range(*sd), dx, dy, BL_ALL, &mover);
 	map_foreachmoonclientinmovearea(clif_insight_by_viewer, &mover, dx, dy, &mover);
 }
@@ -13330,23 +13088,15 @@ static int32 clif_getareachar_beyond_area(block_list* bl, va_list ap)
 // règles repartent avec la portée qui est la sienne.
 void clif_moonclient_accepted(map_session_data& sd)
 {
-	sd.state.moonclient = true;
-	// [Stingor] Où joindre le serveur voix, AVANT le retour qui suit : un client
-	// accepté avant d'être sur la carte — au retour de la sélection de personnage —
-	// a déjà annoncé ses capacités, et l'annonce l'avait écarté faute d'acceptation.
-	voice_bridge_announce_service(sd);
+	// ⚠ APRÈS clif_moonclient_grant_verified : c'est lui qui pose
+	// `client_verified`, dont pc_view_range tire la portée. Le serveur voix, les
+	// règles et les services survivors partent à la première annonce de
+	// capacités, qui suit toujours la vérification.
 	if (sd.prev == nullptr)
 		return; // pas encore sur la carte : son entrée l'inscrira
 	map_moonclient_viewer_join(sd);
 	const int32 range = pc_view_range(sd);
 	map_foreachinallarea(clif_getareachar_beyond_area, sd.m, sd.x - range, sd.y - range, sd.x + range, sd.y + range, BL_ALL, &sd);
-	clif_moonclient_server_rules(sd);
-	// [Stingor] Le classement survivors, si le bit est venu avant l'acceptation.
-	clif_moonlight_survivors_service(sd);
-	// [Stingor] Et la présence en arène, pour la même raison.
-	clif_moonlight_survivors_presence_announce(sd);
-	// [Stingor] Et la coop.
-	clif_moonlight_survivors_coop_announce(sd);
 }
 
 
@@ -14518,7 +14268,7 @@ void clif_GlobalMessage( const block_list& bl, const char* message, enum send_ta
 	// l'ont mis en ignore ne reçoivent rien. Un PNJ n'est jamais filtré.
 	const map_session_data* speaker = BL_CAST( BL_PC, &bl );
 
-	// [Stingor] L'auteur de la ligne, à qui sait le lire (MOONLIGHT_UI_CHAT_AUTHOR).
+	// [Stingor] L'auteur de la ligne, aux sessions vérifiées.
 	clif_chat_author author_header{};
 	const clif_sidecar* sidecar = nullptr;
 
@@ -15856,7 +15606,7 @@ void clif_party_message( const party_data& party, uint32 account_id, const char*
 		}
 	}
 
-	// [Stingor] L'auteur de la ligne, à qui sait le lire (MOONLIGHT_UI_CHAT_AUTHOR).
+	// [Stingor] L'auteur de la ligne, aux sessions vérifiées.
 	clif_chat_author author_header{};
 	const clif_sidecar* sidecar = nullptr;
 
@@ -17085,7 +16835,7 @@ void clif_guild_message( const struct mmo_guild& g, const char* mes, size_t len,
 	safestrncpy(p->message, mes, len+1);
 	p->packetLength += static_cast<decltype(p->packetLength)>( len + 1 );
 
-	// [Stingor] L'auteur de la ligne, à qui sait le lire (MOONLIGHT_UI_CHAT_AUTHOR).
+	// [Stingor] L'auteur de la ligne, aux sessions vérifiées.
 	clif_chat_author author_header{};
 	const clif_sidecar* sidecar = nullptr;
 
@@ -17649,10 +17399,10 @@ void clif_npc_talk(const block_list* bl, unsigned long color, const char* msg, b
 
 	uint8 whole_buf[12 + NPC_TALK_MAX_BYTES + 1];
 	const uint16 whole_len = clif_npc_talk_frame(whole_buf, bl, color, msg, left);
-	// Chez qui annonce le bit, la ligne entière remplace le premier morceau, et
+	// Chez une session vérifiée, la ligne entière remplace le premier morceau, et
 	// les morceaux suivants ne partent pas.
-	const clif_sidecar whole = { whole_buf, whole_len, MOONLIGHT_UI_LONG_NPC_TALK, true };
-	const clif_sidecar nothing = { nullptr, 0, MOONLIGHT_UI_LONG_NPC_TALK, true };
+	const clif_sidecar whole = { whole_buf, whole_len, true };
+	const clif_sidecar nothing = { nullptr, 0, true };
 	const clif_sidecar* sidecar = &whole;
 
 	const block_list* target = (sd == nullptr ? bl : sd);
@@ -17803,7 +17553,7 @@ void clif_refresh(map_session_data *sd)
 
 
 /// [Stingor] Envoie la carte de nom `frame` d'un monstre. Quand son nom ne tient
-/// pas dans le champ d'origine, qui annonce MOONLIGHT_UI_LONG_MOB_NAME reçoit à la
+/// pas dans le champ d'origine, une session vérifiée reçoit à la
 /// place ZC 0x0F69 : la même carte, et le nom entier.
 static void clif_mob_name_send( const mob_data& md, const void* frame, int32 frame_len, const block_list* src, send_target target,
 	e_moonlight_long_name_form form, const char* party_name, const char* guild_name, const char* position_name, const char* title ){
@@ -17836,7 +17586,7 @@ static void clif_mob_name_send( const mob_data& md, const void* frame, int32 fra
 	}
 	memcpy( p->name, md.name, name_len );
 
-	const clif_sidecar whole = { buf, p->packetLength, MOONLIGHT_UI_LONG_MOB_NAME, true };
+	const clif_sidecar whole = { buf, p->packetLength, true };
 	clif_send( frame, frame_len, src, target, 0, &whole );
 }
 
@@ -18863,7 +18613,7 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 	// sienne : elle dépend de la carte (pc_view_range).
 	const int32 view_range = pc_view_range(*sd);
 	map_foreachinallarea(clif_getareachar, sd->m, sd->x - view_range, sd->y - view_range, sd->x + view_range, sd->y + view_range, BL_ALL, sd);
-	if (sd->state.moonclient) {
+	if (sd->state.client_verified) {
 		clif_moonclient_server_rules(*sd);
 		// [Stingor] La révision de l'édition de cette carte : le client la compare
 		// à la sienne, et demande le document si elles diffèrent.
@@ -19226,8 +18976,6 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 			sd->client_patch_index = vit->second.client_patch_index;
 			safestrncpy(sd->client_commit, vit->second.client_commit, sizeof(sd->client_commit));
 			sd->client_tree_modified = vit->second.client_tree_modified;
-			if (vit->second.moonclient)
-				clif_moonclient_accepted(*sd);
 			// [Stingor] Le MachineGuid de la session de compte, AVANT l'octroi qui
 			// le relit : le client ne rejoue pas sa poignée de main ici.
 			if (!vit->second.machine_guid.empty()) {
@@ -19236,6 +18984,7 @@ void clif_parse_LoadEndAck(int32 fd, map_session_data* sd)
 				clif_moonclient_register_guid(sd, raw_guid, "moonclient");
 			}
 			clif_moonclient_grant_verified(sd);
+			clif_moonclient_accepted(*sd);
 		}
 		else
 			add_timer(gettick() + 15000, clif_moonclient_check_handshake_timer, sd->id, 0);
@@ -26565,7 +26314,7 @@ void clif_quest_add ( const map_session_data* sd, const quest *qd )
 /// juste avant son ZC_DEL_QUEST, à une session qui a annoncé savoir le lire.
 void clif_moonclient_quest_end( const map_session_data* sd, int32 quest_id, e_moonlight_quest_end reason, int32 next_quest_id )
 {
-	if( sd == nullptr || !sd->state.client_verified || !( sd->moonclient_ui_caps & MOONLIGHT_UI_QUEST_END ) )
+	if( sd == nullptr || !sd->state.client_verified )
 		return;
 	const int32 fd = sd->fd;
 	if( !session_isActive( fd ) )
@@ -27497,7 +27246,7 @@ static void clif_instance_owner_name( const s_instance_data& idata, char ( &out 
 }
 
 void clif_instance_details_single( map_session_data& sd, int32 instance_id ){
-	if( !sd.state.client_verified || !( sd.moonclient_ui_caps & MOONLIGHT_UI_INSTANCE_INFO ) || !session_isActive( sd.fd ) )
+	if( !sd.state.client_verified || !session_isActive( sd.fd ) )
 		return;
 
 	std::shared_ptr<s_instance_data> idata = util::umap_find( instances, instance_id );
@@ -29321,7 +29070,7 @@ void clif_clan_message( const clan& clan, const char *mes, size_t len, uint32 ch
 	safestrncpy( p->Message, mes, len + 1 );
 	p->PacketLength += static_cast<decltype(p->PacketLength)>( len + 1 );
 
-	// [Stingor] L'auteur de la ligne, à qui sait le lire (MOONLIGHT_UI_CHAT_AUTHOR).
+	// [Stingor] L'auteur de la ligne, aux sessions vérifiées.
 	clif_chat_author author_header{};
 	const clif_sidecar* sidecar = nullptr;
 

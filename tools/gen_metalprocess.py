@@ -23,8 +23,9 @@ import re
 import sys
 from pathlib import Path
 
-SERVER = Path(r"d:/Mes documents/GitHub/moonlight")
-CLIENT = Path(r"d:/Mes documents/GitHub/bourgeon-client/SystemEN")
+# Le dépôt du serveur, et à côté de lui les tables Lua extraites du client.
+SERVER = Path(__file__).resolve().parents[1]
+CLIENT = SERVER.parent / "client-data" / "SystemEN"
 OUT    = Path(sys.argv[1] if len(sys.argv) > 1 else "MetalProcessItemList.txt")
 
 # ── Noms d'items : itemInfokro d'abord, itemInfomoon par-dessus (il gagne) ──────

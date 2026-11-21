@@ -368,13 +368,9 @@ bool market_read_query(int32 fd, s_market_query& query) {
 
 } // namespace
 
-bool market_announced(const map_session_data& sd) {
-	return sd.state.client_verified && (sd.moonclient_ui_caps & MOONLIGHT_UI_MARKET);
-}
-
 void clif_parse_moonlight_market_req(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
-	if (!market_announced(*sd))
+	if (!sd->state.client_verified)
 		return;
 
 	s_market_query query;

@@ -341,7 +341,6 @@ enum e_moonlight_throttle : uint8 {
 	MOONLIGHT_THROTTLE_WINGS,        ///< ailes (pc_setoption, diffusé à la zone)
 	MOONLIGHT_THROTTLE_MOB_INFO,     ///< @showmobinfo (renvoi de tous les monstres en vue)
 	MOONLIGHT_THROTTLE_REFRESH,      ///< clif_refresh demandé par le client
-	MOONLIGHT_THROTTLE_UI_CAPS,      ///< annonce d'interface qui déclenche des balayages de zone
 	MOONLIGHT_THROTTLE_PRESET,       ///< presets d'autoloot (SQL synchrone)
 	MOONLIGHT_THROTTLE_MVP,          ///< carnet MVP (SQL synchrone)
 	MOONLIGHT_THROTTLE_CARD_ALBUM,   ///< album de cartes (SQL synchrone)
@@ -512,14 +511,13 @@ public:
 		bool showmobinfo: 1;
 		bool block_exp: 1;   ///< @blockexp : bloque le gain d'EXP
 		bool client_verified: 1; ///< client sent CZ_MOONCLIENT_INTEGRITY -> safe to send custom ZC packets
-		/// Le client est moonclient (CZ_MOONCLIENT_INTEGRITY accepté). Toujours accompagné
-		/// de `client_verified`, que seule cette poignée de main pose : ce drapeau ne fait
-		/// que le NOMMER.
-		bool moonclient: 1;
-		/// Une poignée de main d'intégrité (0x0F02, 0x0F39 ou l'ancienne 0x0BFB) a déjà
+		/// Une poignée de main d'intégrité (0x0F39) a déjà
 		/// été traitée pour cette session, quelle qu'en ait été l'issue : les
 		/// suivantes sont ignorées, sans requête, minuteur ni ligne de journal.
 		bool integrity_handshake: 1;
+		/// La session a fait sa première annonce de capacités (CZ_MOONLIGHT_UI_CAPS) :
+		/// les envois de départ qui l'attendaient sont partis.
+		bool ui_caps_announced: 1;
 		/// Session SPECTATEUR ayant prouvé qu'elle porte un client (elle a
 		/// envoyé CZ_MOONLIGHT_INTEGRITY).
 		///
@@ -686,14 +684,13 @@ public:
 	// Même remarque que ci-dessus sur l'initialisation explicite.
 	t_tick moonclient_stylelasttime = 0;
 
-	// [Stingor] ce que l'interface moderne de CE client sait afficher
-	// (CZ_MOONLIGHT_UI_CAPS 0x0F24, masque e_moonlight_ui_cap). Zéro = rien, donc un
-	// client vanilla, un client dont toutes les surfaces modernes sont
-	// éteintes, ou un client qui n'a pas encore parlé.
+	// [Stingor] Les bits de CZ_MOONLIGHT_UI_CAPS (0x0F24) que le serveur retient :
+	// le seul MOONLIGHT_UI_MVP_TRACKER, un abonnement que le joueur allume ou éteint.
+	// Le client annonce aussi tout ce qu'il sait lire, mais seul moonclient parle
+	// au serveur, et il sait tout lire : ces bits-là ne se gardent pas.
 	//
-	// 🔴 État de SESSION, jamais persisté : le joueur peut éteindre une interface
-	// en pleine conversation, et le client réannonce à chaque fois. Un masque
-	// sauvegardé décrirait l'interface d'hier.
+	// 🔴 État de SESSION, jamais persisté : le client réannonce quand le joueur
+	// change d'avis.
 	uint32 moonclient_ui_caps = 0;
 
 	// [Stingor] Le dernier patch de contenu que le client a déclaré dans sa poignée

@@ -367,10 +367,6 @@ void export_document(const std::string& map, const s_map_edit_document& document
 	}
 }
 
-bool announced(const map_session_data& sd) {
-	return sd.state.client_verified && (sd.moonclient_ui_caps & MOONLIGHT_UI_MAP_EDITS) != 0;
-}
-
 bool may_publish(const map_session_data& sd) {
 	return pc_get_group_level(&sd) >= battle_config.moonclient_map_edit_level;
 }
@@ -401,7 +397,7 @@ uint32 revision_of(const std::string& map) {
 
 void send_result(map_session_data& sd, const std::string& map, e_moonclient_map_edit_result result, uint32 revision) {
 	const int32 fd = sd.fd;
-	if (!announced(sd) || !session_isActive(fd))
+	if (!sd.state.client_verified || !session_isActive(fd))
 		return;
 	PACKET_ZC_MOONCLIENT_MAP_EDIT_RESULT packet{};
 	packet.packetType   = HEADER_ZC_MOONCLIENT_MAP_EDIT_RESULT;
@@ -417,7 +413,7 @@ void send_result(map_session_data& sd, const std::string& map, e_moonclient_map_
 // Le document de `map`, en morceaux, à UNE session.
 void send_document(map_session_data& sd, const std::string& map, const s_map_edit_document& document) {
 	const int32 fd = sd.fd;
-	if (!announced(sd) || !session_isActive(fd))
+	if (!sd.state.client_verified || !session_isActive(fd))
 		return;
 	const size_t total = document.zipped.size();
 	size_t offset = 0;
@@ -686,7 +682,7 @@ void map_edits_on_logout(const map_session_data& sd) {
 
 void map_edits_announce(map_session_data& sd) {
 	const int32 fd = sd.fd;
-	if (!announced(sd) || !session_isActive(fd))
+	if (!sd.state.client_verified || !session_isActive(fd))
 		return;
 	send_revision(sd, map_name_of(sd));
 	send_revision(sd, MOONCLIENT_MODEL_LIGHTS_DOCUMENT);
@@ -697,7 +693,7 @@ void map_edits_announce(map_session_data& sd) {
 // annule le transfert entier.
 void clif_parse_moonclient_map_edit_put(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
-	if (!announced(*sd))
+	if (!sd->state.client_verified)
 		return;
 	const PACKET_CZ_MOONCLIENT_MAP_EDIT_PUT* p =
 		reinterpret_cast<const PACKET_CZ_MOONCLIENT_MAP_EDIT_PUT*>(RFIFOP(fd, 0));
@@ -762,7 +758,7 @@ void clif_parse_moonclient_map_edit_put(int32 fd, map_session_data* sd) {
 // document.
 void clif_parse_moonclient_map_edit_get(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
-	if (!announced(*sd))
+	if (!sd->state.client_verified)
 		return;
 	const PACKET_CZ_MOONCLIENT_MAP_EDIT_GET* p =
 		reinterpret_cast<const PACKET_CZ_MOONCLIENT_MAP_EDIT_GET*>(RFIFOP(fd, 0));

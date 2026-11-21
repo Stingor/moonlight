@@ -23011,7 +23011,7 @@ BUILDIN_FUNC(searchstores)
 
 	// [Stingor] A moonclient, le catalogue n'est qu'un raccourci vers le Marche,
 	// qui se consulte partout : il l'ouvre, et l'objet reste (NoConsume).
-	if( market_announced(*sd) )
+	if( sd->state.client_verified )
 	{
 		market_open(*sd, "");
 		return SCRIPT_CMD_SUCCESS;

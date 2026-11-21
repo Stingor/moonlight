@@ -2,13 +2,6 @@
 // For more information, see LICENCE in the main folder
 	
 	/* Stingor */
-	// Interfaces modernes du client, pour moonlight_ui() — un bit = une surface
-	// qui rend les balises maison (cf. e_moonlight_ui_cap, clif.hpp).
-	export_constant(MOONLIGHT_UI_NPC_DIALOG);
-	export_constant(MOONLIGHT_UI_CHAT);
-	// L'atelier du styliste ne s'annonce qu'à un client qui lit les teintures de calques.
-	export_constant(MOONLIGHT_UI_STYLE_LAYERS);
-
 	export_constant(MOB_ISMVP);
 	export_constant(MOB_ISBOSS);
 	export_constant(MAX_LEVEL_BASE_EXP);

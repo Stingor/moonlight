@@ -5,8 +5,7 @@
 void voice_bridge_init();
 void voice_bridge_final();
 
-// [Stingor] ZC_MOONLIGHT_VOICE_SERVICE à une session moonclient qui a annoncé
-// MOONLIGHT_UI_VOICE. Sans effet si voice_public_host est vide ou le pont absent.
+// [Stingor] ZC_MOONLIGHT_VOICE_SERVICE à une session vérifiée. Sans effet si voice_public_host est vide ou le pont absent.
 void voice_bridge_announce_service(map_session_data& sd);
 
 void voice_bridge_send_join(map_session_data* sd);

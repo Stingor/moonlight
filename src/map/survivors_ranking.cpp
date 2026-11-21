@@ -23,8 +23,7 @@
 // partie classée. L'identité est le compte Moonlight (`user_id`) ; le nom est
 // celui du personnage, figé à la soumission.
 //
-// 🔴 RIEN NE PART, RIEN N'EST ENTENDU, sans une session moonclient vérifiée,
-// chargée, et qui a annoncé MOONLIGHT_UI_SURVIVORS.
+// 🔴 RIEN NE PART, RIEN N'EST ENTENDU, sans une session vérifiée et chargée.
 
 #include <algorithm>
 #include <cinttypes>
@@ -117,7 +116,7 @@ int64 survivors_now_utc() {
 }
 
 bool survivors_heard(const map_session_data& sd) {
-	return sd.state.moonclient && sd.state.pc_loaded && (sd.moonclient_ui_caps & MOONLIGHT_UI_SURVIVORS) != 0;
+	return sd.state.client_verified && sd.state.pc_loaded;
 }
 
 template <typename T>
@@ -270,7 +269,7 @@ uint32 survivors_week_of(uint8 board, int64 utc_s) {
 } // namespace
 
 void clif_moonlight_survivors_service(map_session_data& sd) {
-	if (!sd.state.moonclient || !(sd.moonclient_ui_caps & MOONLIGHT_UI_SURVIVORS))
+	if (!sd.state.client_verified)
 		return;
 	PACKET_ZC_MOONLIGHT_SURVIVORS_SERVICE packet{};
 	packet.packetType   = HEADER_ZC_MOONLIGHT_SURVIVORS_SERVICE;

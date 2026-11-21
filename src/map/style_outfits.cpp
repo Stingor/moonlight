@@ -356,7 +356,7 @@ void style_outfits_on_logout(const map_session_data& sd) {
 
 void clif_parse_moonclient_outfit(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
-	if (!style_layers_receiver(*sd))
+	if (!sd->state.client_verified)
 		return;
 	const size_t length = RFIFOW(fd, 2);
 	const uint8* frame = RFIFOP(fd, 0);

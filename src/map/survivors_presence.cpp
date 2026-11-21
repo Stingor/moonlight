@@ -31,7 +31,7 @@
 // accepte. Il tombe seul si le client se tait, et dès que le joueur demande à
 // marcher : il faut alors ressortir de l'arène et y rentrer.
 //
-// 🔴 RIEN NE PART À UNE SESSION QUI N'A PAS ANNONCÉ MOONLIGHT_UI_SURVIVORS_PRESENCE,
+// 🔴 RIEN NE PART À UNE SESSION NON VÉRIFIÉE,
 // et rien n'est entendu d'une session moonclient non vérifiée ou non chargée.
 
 #include <cinttypes>
@@ -118,12 +118,12 @@ std::unordered_map<uint32, s_survivors_hidden_arena> survivors_hidden_arenas;
 
 // Une session moonclient vérifiée, chargée, qui a reçu l'annonce.
 bool presence_heard(const map_session_data& sd) {
-	return sd.state.moonclient && sd.state.pc_loaded && (sd.moonclient_ui_caps & MOONLIGHT_UI_SURVIVORS_PRESENCE) != 0;
+	return sd.state.client_verified && sd.state.pc_loaded;
 }
 
 // Une session qui sait lire 0x0F57.
 bool presence_listens(const map_session_data& sd) {
-	return sd.state.moonclient && (sd.moonclient_ui_caps & MOONLIGHT_UI_SURVIVORS_PRESENCE) != 0;
+	return sd.state.client_verified;
 }
 
 PACKET_ZC_MOONLIGHT_SURVIVORS_PRESENCE presence_packet(uint32 account_id, uint32 char_id, const s_survivors_presence* presence) {
@@ -285,7 +285,7 @@ bool survivors_in_arena(const map_session_data& sd) {
 }
 
 void survivors_arena_walked(const map_session_data& sd) {
-	if (!sd.state.moonclient)
+	if (!sd.state.client_verified)
 		return;
 	if (const auto found = survivors_presences.find(sd.status.char_id); found != survivors_presences.end())
 		found->second.walked = true;

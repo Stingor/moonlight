@@ -184,12 +184,6 @@ L_mainmenu:
 	mes .@npc_name$;
 	mes "Vous avez la possibilité de changer votre apparence en utilisant l'UI de Moonlight.";
 	if (select("¤ Continuer avec le npc", "¤ Ouvrir l'UI") == 2) {
-		// [Stingor] Un client qui ne lit pas les teintures de calques garde la
-		// fenêtre seule, comme avant.
-		if (!moonlight_ui(MOONLIGHT_UI_STYLE_LAYERS)) {
-			moonclient_style_open;
-			close;
-		}
 		// [Stingor] Sans `moonclient_style_atelier`, une teinture d'objet se
 		// valide de partout, sur l'objet porté : l'éditeur s'ouvre et le
 		// dialogue se ferme.

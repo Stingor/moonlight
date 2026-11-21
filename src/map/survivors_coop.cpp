@@ -22,7 +22,7 @@
 // jamais sa sortie, et l'équipe attendrait ses entrées à jamais. Le salon, lui,
 // survit au changement de carte : le lieu n'y est qu'une raison de refus.
 //
-// 🔴 RIEN NE PART À UNE SESSION QUI N'A PAS ANNONCÉ MOONLIGHT_UI_SURVIVORS_COOP,
+// 🔴 RIEN NE PART À UNE SESSION NON VÉRIFIÉE,
 // et rien n'est entendu d'une session moonclient non vérifiée ou non chargée.
 
 #include <algorithm>
@@ -73,7 +73,7 @@ enum e_survivors_coop_refusal : uint32 {
 	SURVIVORS_COOP_REFUSE_TOO_FEW   = 0x02, ///< moins de 2 membres en ligne
 	SURVIVORS_COOP_REFUSE_OFFLINE   = 0x04, ///< un membre hors ligne
 	SURVIVORS_COOP_REFUSE_PLACE     = 0x08, ///< un membre ni en ville ni en intérieur
-	SURVIVORS_COOP_REFUSE_NO_CLIENT = 0x10, ///< un membre sans le bit de capacité
+	SURVIVORS_COOP_REFUSE_NO_CLIENT = 0x10, ///< un membre dont la session n'est pas vérifiée
 	SURVIVORS_COOP_REFUSE_NOT_IN_LOBBY = 0x20, ///< un membre n'est pas au salon
 };
 
@@ -135,15 +135,15 @@ std::unordered_map<int32, s_survivors_coop_group> survivors_coop_groups;
 // Le groupe de chaque joueur en salon ou en partie, par char_id.
 std::unordered_map<uint32, int32> survivors_coop_party_of_char;
 
-// Une session moonclient vérifiée, chargée, qui a annoncé le bit.
+// Une session vérifiée et chargée.
 bool coop_heard(const map_session_data& sd) {
-	return sd.state.moonclient && sd.state.pc_loaded && (sd.moonclient_ui_caps & MOONLIGHT_UI_SURVIVORS_COOP) != 0;
+	return sd.state.client_verified && sd.state.pc_loaded;
 }
 
 // Une session qui sait lire ces ZC, et dont le client est encore là : un
 // vendeur en @autotrade garde ses bits mais n'a plus de connexion.
 bool coop_listens(const map_session_data& sd) {
-	return sd.state.moonclient && (sd.moonclient_ui_caps & MOONLIGHT_UI_SURVIVORS_COOP) != 0 && session_isActive(sd.fd);
+	return sd.state.client_verified && session_isActive(sd.fd);
 }
 
 bool coop_place_accepted(const map_session_data& sd) {
@@ -483,13 +483,7 @@ void clif_moonlight_survivors_coop_announce(map_session_data& sd) {
 		coop_lobby_changed(sd.status.party_id, nullptr, false);
 }
 
-void survivors_coop_caps_changed(map_session_data& sd) {
-	if (!(sd.moonclient_ui_caps & MOONLIGHT_UI_SURVIVORS_COOP)) {
-		if (const int32 party_id = coop_party_of(sd.status.char_id); party_id != 0) {
-			coop_drop(party_id, sd.status.char_id, false, nullptr);
-			return;
-		}
-	}
+void survivors_coop_member_listens(map_session_data& sd) {
 	if (sd.status.party_id != 0)
 		coop_lobby_changed(sd.status.party_id, nullptr, false);
 }

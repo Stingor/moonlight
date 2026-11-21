@@ -2399,7 +2399,7 @@ bool pc_set_hate_mob(map_session_data *sd, int32 pos, block_list *bl)
  * champ de bataille, où voir plus loin serait un avantage de combat.
  */
 int32 pc_view_range(const map_session_data& sd) {
-	if (!sd.state.moonclient || map_flag_vs(sd.m))
+	if (!sd.state.client_verified || map_flag_vs(sd.m))
 		return battle_config.area_size;
 	return std::max(battle_config.area_size, battle_config.moonclient_area_size);
 }

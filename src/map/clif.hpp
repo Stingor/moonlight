@@ -1181,7 +1181,7 @@ void clif_instance_changestatus(int32 instance_id, e_instance_notify type, uint3
 void clif_parse_MemorialDungeonCommand(int32 fd, map_session_data *sd);
 void clif_instance_info( map_session_data& sd );
 // [Stingor] Le détail d'une instance (ZC 0x0F40), à chaque destinataire de ses
-// paquets qui a annoncé MOONLIGHT_UI_INSTANCE_INFO ; ou à la seule session `sd`.
+// paquets dont la session est vérifiée ; ou à la seule session `sd`.
 void clif_instance_details( int32 instance_id );
 void clif_instance_details_single( map_session_data& sd, int32 instance_id );
 
@@ -1225,8 +1225,8 @@ void clif_specialeffect_remove(const block_list* bl_src, int32 effect, enum send
 void clif_messagecolor_target(const block_list* bl, unsigned long color, const char *msg, bool rgb2bgr, enum send_target type, const map_session_data* sd);
 #define clif_messagecolor(bl, color, msg, rgb2bgr, type) clif_messagecolor_target(bl, color, msg, rgb2bgr, type, nullptr) // Mob/Npc color talk [SnakeDrak]
 // [Stingor] La parole d'un PNJ, sans le plafond de CHAT_SIZE_MAX. Trop longue pour
-// lui, elle part entière à qui annonce MOONLIGHT_UI_LONG_NPC_TALK, et en plusieurs
-// lignes coupées aux espaces aux autres. Le texte s'arrête à NPC_TALK_MAX_BYTES.
+// lui, elle part entière à une session vérifiée, et en plusieurs lignes coupées
+// aux espaces aux autres. Le texte s'arrête à NPC_TALK_MAX_BYTES.
 inline constexpr size_t NPC_TALK_MAX_BYTES = 1024;
 void clif_npc_talk(const block_list* bl, unsigned long color, const char* msg, bool rgb2bgr, enum send_target type, const map_session_data* sd);
 void clif_specialeffect_value( const block_list* bl, int32 effect_id, int32 num, send_target target );
@@ -1271,7 +1271,7 @@ void clif_quest_send_mission( const map_session_data* sd );
 void clif_quest_add( const map_session_data* sd, const quest* qd );
 void clif_quest_delete( const map_session_data* sd, int32 quest_id );
 // [Stingor] Pourquoi la quête quitte le journal (ZC 0x0F3B), à appeler JUSTE AVANT
-// clif_quest_delete. Rien sans MOONLIGHT_UI_QUEST_END.
+// clif_quest_delete. Rien hors d'une session vérifiée.
 void clif_moonclient_quest_end( const map_session_data* sd, int32 quest_id, e_moonlight_quest_end reason, int32 next_quest_id = 0 );
 void clif_quest_update_status( const map_session_data* sd, int32 quest_id, bool active );
 void clif_quest_update_objective( const map_session_data* sd, const quest* qd );
@@ -1282,18 +1282,17 @@ void clif_displayexp(const map_session_data* sd, t_exp exp, char type, bool ques
 /// parle, pour les paquets de chat. Quand il est renseigné, chaque destinataire
 /// ayant mis ce compte en @ignore est sauté silencieusement. 0 = pas de filtrage.
 ///
-/// [Stingor] sidecar : une trame qui PRÉCÈDE `buf` chez chaque destinataire qui a
-/// annoncé le bit `cap` (e_moonlight_ui_cap) — et chez lui seul. Elle est écrite
-/// après les filtres de clif_send (@ignore compris) : elle a exactement les
-/// destinataires de la trame qu'elle décrit. Les autres reçoivent `buf` seul,
-/// octet pour octet comme sans sidecar.
+/// [Stingor] sidecar : une trame qui PRÉCÈDE `buf` chez chaque destinataire dont
+/// la session est vérifiée — et chez lui seul. Elle est écrite après les filtres
+/// de clif_send (@ignore compris) : elle a exactement les destinataires de la
+/// trame qu'elle décrit. Une session non vérifiée reçoit `buf` seul, octet pour
+/// octet comme sans sidecar.
 ///
 /// replaces_buf : la trame PREND LA PLACE de `buf` chez ces destinataires, qui ne
 /// reçoivent plus `buf`. Sans trame (len 0), ils ne reçoivent rien.
 struct clif_sidecar {
 	const void* buf;
 	int32 len;
-	uint32 cap;
 	bool replaces_buf = false;
 };
 int32 clif_send( const void* buf, int32 len, const block_list* bl, enum send_target type, uint32 chat_speaker = 0, const clif_sidecar* sidecar = nullptr );
@@ -1678,7 +1677,7 @@ void clif_moonclient_send_preset_list(map_session_data* sd);
 // [Stingor] Send equip/card stat breakdown (ZC 0x0F10) — called at end of status_calc_pc
 void clif_moonclient_stat_bonus(map_session_data* sd);
 // [Stingor] ZC 0x0F3D : ce qu'apporte une pièce ou un ensemble qui entre ou sort de
-// l'équipement, à qui a annoncé MOONLIGHT_UI_EQUIP_ATTRIBUTES. Les scripts sont joués
+// l'équipement, à une session vérifiée. Les scripts sont joués
 // en capture : rien n'est appliqué au joueur.
 bool clif_moonlight_equip_attributes_wanted(const map_session_data& sd);
 void clif_moonlight_equip_piece(map_session_data& sd, int16 index, bool equipped);
@@ -1687,8 +1686,8 @@ void clif_moonlight_equip_combo(map_session_data& sd, uint32 combo_id, uint32 co
 // du moment : à appeler à l'éclosion, et AVANT que le familier ne s'efface.
 void clif_moonlight_equip_pet(map_session_data& sd, bool equipped);
 // [Stingor] Un message du relais Discord à tous les joueurs de gonryun : `msg` en
-// 0x0F08 (un morceau de 243 octets au plus), et, à qui a annoncé
-// MOONLIGHT_UI_DISCORD_RICH, la forme riche 0x0F3C à sa place.
+// 0x0F08 (un morceau de 243 octets au plus), ou la forme riche 0x0F3C à sa
+// place quand le message en a une.
 // rich_state (colonne discord_relay.rich_state) : 0 pas de riche, 0x0F08 à tous ;
 // 1 premier morceau, porteur du riche ; 2 morceau suivant, déjà couvert par le
 // riche du premier.
@@ -1857,7 +1856,6 @@ void clif_parse_moonlight_target_info(int32 fd, map_session_data* sd);
 // part que s'il est de mon groupe ou de ma guilde. Savoir qu'un adversaire est
 // sous Kyrie est une information de jeu, elle ne se donne pas.
 void clif_parse_moonlight_req_status_list(int32 fd, map_session_data* sd);
-void clif_parse_moonlight_req_looks(int32 fd, map_session_data* sd);
 
 // CZ 0x0F25 : outillage NPC du menu contextuel (menu contextuel du client) —
 // recharger le fichier de script d'où vient un NPC, le décharger, le déplacer sur
@@ -1876,150 +1874,31 @@ void clif_parse_moonlight_req_looks(int32 fd, map_session_data* sd);
 void clif_parse_moonlight_npc_admin(int32 fd, map_session_data* sd);
 void clif_parse_moonlight_player_admin(int32 fd, map_session_data* sd);
 
-// ── Interface moderne : ce que le client SAIT afficher (CZ 0x0F24) ───────────
+// ── Ce que le client annonce (CZ 0x0F24) ─────────────────────────────────────
 //
-// 🔴 Un bit = une SURFACE de l'interface moderne, jamais une préférence de jeu.
-// `client_verified` dit qu'on parle à un client ; ceci dit laquelle de ses
-// interfaces est allumée, ce que le joueur peut changer à tout moment. Miroir
-// exact des capacités côté client :
-// les deux listes doivent bouger ensemble.
-//
-// À l'origine un bit répondait seulement à « si j'envoie du markup maison sur
-// cette surface, sera-t-il rendu ? ». MVP_TRACKER puis CARD_ALBUM ont élargi la
-// question à « cette surface EXISTE-t-elle chez ce joueur ? », parce que le
-// serveur doit aussi savoir à qui il peut ouvrir une fonctionnalité qui n'a pas
-// d'équivalent natif. La règle commune reste : un bit décrit ce que le CLIENT
-// sait montrer, et rien de ce que le joueur préfère (les préférences ont leur
-// propre chemin, CZ_MOONLIGHT_SETTING, et sont persistées ; ceci ne l'est pas).
+// Le client annonce, par un masque, tout ce qu'il sait lire. Seul moonclient parle
+// au serveur, et il sait tout lire : le serveur n'en retient qu'un bit, un
+// ABONNEMENT que le joueur allume ou éteint. La valeur est celle du fil, partagée
+// avec `kUiCapMvpTracker` côté client ; les autres bits du masque sont ignorés.
 enum e_moonlight_ui_cap : uint32 {
-	// Le dialogue NPC est rendu par le dialogue moderne du client : il connaît <MOBL>, <ITMR>,
-	// <CRAF>, <SETL>, <IMG>, <MOBS> et <MOBP>.
-	MOONLIGHT_UI_NPC_DIALOG = 0x00000001,
-	// La chatbox est celle du client : mêmes balises de LIEN, pas les médias.
-	MOONLIGHT_UI_CHAT       = 0x00000002,
-	// La fenêtre du carnet de chasse MVP est ouverte : les deltas seront montrés.
-	// Le bit tombe quand le joueur la ferme, et le serveur cesse alors de diffuser.
+	// Le carnet de chasse MVP est allumé : les observations du groupe lui sont
+	// diffusées. Éteint, le serveur cesse de lui en envoyer ; ses kills continuent
+	// d'alimenter le groupe.
 	MOONLIGHT_UI_MVP_TRACKER = 0x00000004,
-	// L'album de cartes est disponible dans cette interface. Sans ce bit, le
-	// serveur refuse les commandes d'album — un client natif n'a aucune surface
-	// pour les montrer, et un sacrifice est IRRÉVERSIBLE : mieux vaut refuser que
-	// consommer une carte dont le joueur ne verrait jamais le résultat.
-	MOONLIGHT_UI_CARD_ALBUM = 0x00000008,
-	// Ce client sait lire l'octet de NATURE (e_mob_bosstype) ajouté en queue de
-	// CARD_ALBUM_ENTRY. Sans ce bit, le catalogue lui part dans l'ancien format.
-	//
-	// 🔴 C'est le SEUL champ du paquet qui ait jamais grandi, et il ne pouvait
-	// pas grandir en silence : une entrée est de taille fixe, donc un client
-	// d'avant qui recevrait 12 octets décalerait chaque carte d'un octet de plus
-	// que la précédente — un album entier de charabia, chez tous ceux qui n'ont
-	// pas encore patché. Le bit, lui, coûte une condition.
-	MOONLIGHT_UI_CARD_ALBUM_BOSS = 0x00000010,
-	// Ce client sait peindre un Flag Graffiti (ZC_MOONLIGHT_FLAG_GRAFFITI 0x0F36).
-	// Sans ce bit, l'unité ne lui est pas montrée du tout.
-	MOONLIGHT_UI_FLAG_GRAFFITI = 0x00000020,
-	// [Stingor] Ce client sait lire le maître d'un monstre invoqué
-	// (ZC_MOONLIGHT_UNIT_MASTER 0x0F37). Sans ce bit, le paquet ne lui part pas.
-	MOONLIGHT_UI_UNIT_MASTER = 0x00000040,
-	// [Stingor] Ce client sait lire les réglages du serveur dont il a besoin
-	// (ZC_MOONLIGHT_SERVER_RULES 0x0F38) : il les reçoit dès l'annonce du bit, et
-	// de nouveau après @reloadbattleconf.
-	MOONLIGHT_UI_SERVER_RULES = 0x00000080,
-	// [Stingor] Ce client sait lire les QUEUES du carnet de chasse MVP : l'identité
-	// du destinataire au bout d'un groupe, l'origine au bout d'une invitation, et
-	// la présence des membres poussée à chaque connexion ou déconnexion. Sans ce
-	// bit, ZC 0x0F32 part exactement comme avant, octet pour octet.
-	//
-	// 🔴 Une capacité de LECTURE, annoncée par moonclient. Un client
-	// qui ne l'annonce pas ne doit rien recevoir de neuf sur ce paquet — un `kind` inconnu
-	// de 0x0F32 y écraserait le groupe, un code de résultat inconnu s'y
-	// afficherait en code nu —, d'où la règle : toute forme nouvelle du carnet
-	// part sous ce bit, ou derrière l'identifiant de commande qu'un tel client ne
-	// sait pas produire (cf. clif_parse_moonlight_mvp_cmd).
-	MOONLIGHT_UI_MVP_TRACKER_EXT = 0x00000100,
-	// [Stingor] Les quatre bits suivants sont des capacités de LECTURE réservées à
-	// moonclient : un client qui ne les annonce pas ne reçoit rien de neuf.
-	//
-	// Ce client sait lire l'auteur d'une ligne de parole
-	// (ZC_MOONLIGHT_CHAT_AUTHOR 0x0F3A), qui précède 0x008D, 0x0109, 0x017F,
-	// 0x098E et 0x02C1. Sans ce bit, ces trames lui partent seules, comme avant.
-	MOONLIGHT_UI_CHAT_AUTHOR = 0x00000200,
-	// Ce client sait lire pourquoi une quête quitte le journal
-	// (ZC_MOONLIGHT_QUEST_END 0x0F3B), qui précède ZC_DEL_QUEST.
-	MOONLIGHT_UI_QUEST_END = 0x00000400,
-	// Ce client sait lire le relais Discord riche (ZC_MOONLIGHT_DISCORD_RICH
-	// 0x0F3C), qu'il reçoit à la place de 0x0F08. Une capacité de lecture, pas la
-	// case du relais : elle reste annoncée relais éteint.
-	MOONLIGHT_UI_DISCORD_RICH = 0x00000800,
-	// Ce client sait lire le maître d'un COMPAGNON — homoncule, mercenaire,
-	// familier, élémentaire — dans ZC_MOONLIGHT_UNIT_MASTER (0x0F37). Sans ce bit,
-	// 0x0F37 ne lui part que pour les monstres, sous MOONLIGHT_UI_UNIT_MASTER.
-	MOONLIGHT_UI_COMPANION_MASTER = 0x00001000,
-	// Ce client sait lire ce qu'apporte une pièce ou un ensemble qui entre ou sort
-	// de l'équipement (ZC_MOONLIGHT_EQUIP_ATTRIBUTES 0x0F3D). Sans ce bit, le
-	// paquet ne lui part pas : un opcode qu'un client ne connaît pas lui viderait
-	// le flux.
-	MOONLIGHT_UI_EQUIP_ATTRIBUTES = 0x00002000,
-	// Ce client sait lire le détail d'une instance — difficulté, turbo, droit de
-	// destruction (ZC_MOONLIGHT_INSTANCE_INFO 0x0F40). moonclient l'annonce.
-	MOONLIGHT_UI_INSTANCE_INFO = 0x00004000,
-	// Ce client a le MARCHÉ (CZ 0x0F41 -> ZC 0x0F42) : le serveur répond à ses
-	// demandes, et un catalogue (`searchstores`) lui ouvre le Marché au lieu de la
-	// recherche d'échoppes d'origine. Réservé à moonclient.
-	MOONLIGHT_UI_MARKET = 0x00008000,
-	// Ce client sait dessiner l'habit du GM d'un joueur (ZC_MOONLIGHT_GM_OUTFIT
-	// 0x0F44). Réservé à moonclient.
-	MOONLIGHT_UI_GM_OUTFIT = 0x00010000,
-	// Ce client sait lire les éditions de carte (ZC 0x0F46 à 0x0F48), et les
-	// envoyer (CZ 0x0F45, 0x0F49). Réservé à moonclient.
-	MOONLIGHT_UI_MAP_EDITS = 0x00020000,
-	// Ce client sait lire l'élément d'attaque d'un joueur (ZC_MOONLIGHT_ATTACK_ELEMENT
-	// 0x0F4A). Réservé à moonclient.
-	MOONLIGHT_UI_ATTACK_ELEMENT = 0x00040000,
-	// Ce client tient le classement mondial du mode survivors (CZ 0x0F4C, 0x0F4E,
-	// 0x0F50 -> ZC 0x0F4D, 0x0F4F, 0x0F51) : chaque annonce qui porte le bit reçoit
-	// ZC_MOONLIGHT_SURVIVORS_SERVICE 0x0F53, et le client n'émet rien du service
-	// avant. Réservé à moonclient.
-	MOONLIGHT_UI_SURVIVORS = 0x00080000,
-	// Ce client parle au serveur voix : il reçoit ZC_MOONLIGHT_VOICE_SERVICE 0x0F55
-	// à l'apparition du bit. Réservé à moonclient.
-	MOONLIGHT_UI_VOICE = 0x00100000,
-	// Ce client lit la présence en arène des autres (ZC 0x0F57) : chaque annonce
-	// qui porte le bit reçoit un 0x0F57 à account_id nul, qui lui annonce le
-	// service, et le client n'émet pas CZ 0x0F56 avant. Réservé à moonclient.
-	MOONLIGHT_UI_SURVIVORS_PRESENCE = 0x00200000,
-	// Ce client joue la coop du mode survivors (ZC 0x0F59, 0x0F5A, 0x0F5C, 0x0F5D) :
-	// chaque annonce qui porte le bit reçoit un 0x0F59 à l'état fermé, qui lui
-	// annonce le service, et le client n'émet pas CZ 0x0F58 avant. Réservé à moonclient.
-	MOONLIGHT_UI_SURVIVORS_COOP = 0x00400000,
-	// Ce client lit une parole de PNJ (ZC 0x02C1) au-delà du tampon de chat : le
-	// serveur la lui envoie entière (clif_npc_talk). Réservé à moonclient.
-	MOONLIGHT_UI_LONG_NPC_TALK = 0x00800000,
-	// Ce client lit les teintures de calques (ZC 0x0F5F) et les verdicts (ZC
-	// 0x0F60), et envoie CZ 0x0F5E. Le corps v7 et son verdict n'en dépendent pas.
-	// Réservé à moonclient. Voir style_layers.hpp.
-	MOONLIGHT_UI_STYLE_LAYERS = 0x01000000,
-	// Ce client lit le nom entier d'un monstre (ZC 0x0F69), qu'il reçoit à la
-	// place de 0x0A30 ou 0x0ADF quand ce nom dépasse NAME_LENGTH - 1 octets.
-	// Réservé à moonclient.
-	MOONLIGHT_UI_LONG_MOB_NAME = 0x02000000,
-	// Ce client ouvre le rappel de fair-play en guerre de guilde (ZC 0x0F6A).
-	// Réservé à moonclient.
-	MOONLIGHT_UI_FAIR_PLAY = 0x04000000,
-	// Prochain bit libre : 0x08000000.
 };
 
 // [Stingor] Le rappel de fair-play en guerre de guilde (ZC 0x0F6A), à une
-// session qui annonce MOONLIGHT_UI_FAIR_PLAY. Faux si elle ne sait pas le lire.
+// session vérifiée. Faux pour une session qui ne l'est pas.
 bool clif_moonlight_fair_play(map_session_data& sd, const char* tool_name);
 
 // [Stingor] Les réglages du serveur utiles au client (ZC 0x0F38), à une session
-// qui a annoncé MOONLIGHT_UI_SERVER_RULES, ou à toutes celles en ligne.
+// vérifiée, ou à toutes celles en ligne.
 void clif_moonclient_server_rules(map_session_data& sd);
 void clif_moonclient_server_rules_all();
 
 void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd);
 // [Stingor] Le maître d'un monstre (ZC 0x0F37), aux joueurs qui le voient et
-// qui ont annoncé MOONLIGHT_UI_UNIT_MASTER. À rappeler quand md->master_id change
+// dont la session est vérifiée. À rappeler quand md->master_id change
 // alors que le monstre est déjà en vue.
 void clif_moonclient_unit_master_area(const mob_data& md);
 // [Stingor] L'habit du GM (CZ 0x0F43 -> ZC 0x0F44). `clif_moonlight_gm_outfit_area`
@@ -2034,9 +1913,9 @@ void clif_parse_moonlight_free_flight(int32 fd, map_session_data* sd);
 void clif_parse_moonlight_minigame_trophy(int32 fd, map_session_data* sd);
 // [Stingor] Le classement mondial du mode survivors (0x0F4C à 0x0F53, voir
 // packets_struct.hpp), tenu par survivors_ranking.cpp. `_service` annonce le
-// service (ZC 0x0F53) à une session qui porte MOONLIGHT_UI_SURVIVORS : à chaque
-// annonce du bit. Les trois gestionnaires n'entendent qu'une session moonclient
-// vérifiée, chargée, et qui a annoncé le bit.
+// service (ZC 0x0F53) à une session vérifiée : à chaque
+// annonce de ses capacités. Les trois gestionnaires n'entendent qu'une session
+// vérifiée et chargée.
 void clif_moonlight_survivors_service(map_session_data& sd);
 // [Stingor] La cadence des demandes custom (MOONLIGHT_THROTTLE_RULES de
 // clif.cpp) : vrai si la demande de `family` passe, et alors elle est comptée.
@@ -2046,7 +1925,7 @@ void clif_parse_moonlight_survivors_end(int32 fd, map_session_data* sd);
 void clif_parse_moonlight_survivors_board(int32 fd, map_session_data* sd);
 // [Stingor] La présence en arène du mode survivors (0x0F56, 0x0F57, voir
 // packets_struct.hpp), tenue par survivors_presence.cpp.
-//   `_announce` : à chaque annonce qui porte MOONLIGHT_UI_SURVIVORS_PRESENCE,
+//   `_announce` : à chaque annonce de capacités,
 //     l'annonce du service, puis la présence des joueurs en vue, des amis et de
 //     la guilde déjà en arène ;
 //   `_seen` : celle de `owner` à `viewer`, quand il entre dans sa vue ;
@@ -2076,9 +1955,9 @@ bool survivors_arena_place(int16 m);
 void survivors_arena_walked(const map_session_data& sd);
 // [Stingor] La coop du mode survivors (0x0F58 à 0x0F5D, voir packets_struct.hpp),
 // tenue par survivors_coop.cpp.
-//   `_announce` : à chaque annonce qui porte MOONLIGHT_UI_SURVIVORS_COOP,
+//   `_announce` : à chaque annonce de capacités,
 //     l'annonce du service, puis l'état où en est le joueur ;
-//   `_caps_changed` : le bit vient d'apparaître ou de disparaître ;
+//   `_member_listens` : `sd` vient d'annoncer ses capacités, il écoute le salon ;
 //   `_quit` : `sd` perd son client (déconnexion, @autotrade), sans rien attendre
 //     de lui, et compte déjà pour hors ligne ;
 //   `_map_left` : `sd` quitte sa carte : il sort de la partie, pas du salon ;
@@ -2089,7 +1968,7 @@ void survivors_arena_walked(const map_session_data& sd);
 void clif_parse_moonlight_survivors_coop_lobby(int32 fd, map_session_data* sd);
 void clif_parse_moonlight_survivors_coop_frame(int32 fd, map_session_data* sd);
 void clif_moonlight_survivors_coop_announce(map_session_data& sd);
-void survivors_coop_caps_changed(map_session_data& sd);
+void survivors_coop_member_listens(map_session_data& sd);
 void survivors_coop_quit(map_session_data& sd);
 //   `_drop_stalled` : sort de sa partie le joueur qui retient les autres ;
 void survivors_coop_drop_stalled(t_tick now);
@@ -2112,7 +1991,7 @@ void clif_moonlight_attack_element_refresh(map_session_data& sd);
 void clif_moonlight_attack_element_spawn(map_session_data& sd);
 void clif_moonlight_attack_element_visibility(map_session_data& sd);
 // [Stingor] Le maître d'un compagnon (ZC 0x0F37), aux joueurs qui le voient
-// paraître et qui ont annoncé MOONLIGHT_UI_COMPANION_MASTER. Sans effet pour une
+// paraître et dont la session est vérifiée. Sans effet pour une
 // unité qui n'est ni homoncule, ni mercenaire, ni familier, ni élémentaire.
 void clif_moonclient_companion_master_area(const block_list& bl);
 
@@ -2128,12 +2007,11 @@ void clif_moonclient_mvp_delta(const s_mvp_group& group, uint16 slot_id, const s
 void clif_moonclient_mvp_group(map_session_data& sd);
 void clif_moonclient_mvp_group_all(const s_mvp_group& group);
 // La présence des membres a changé (une connexion, une déconnexion) : le groupe
-// part aux seules sessions qui ont annoncé MOONLIGHT_UI_MVP_TRACKER_EXT ET
-// MOONLIGHT_UI_MVP_TRACKER. Rien pendant l'arrêt du serveur.
+// part aux seules sessions qui ont le carnet allumé (MOONLIGHT_UI_MVP_TRACKER).
+// Rien pendant l'arrêt du serveur.
 void clif_moonclient_mvp_presence(const s_mvp_group& group);
 
-// D'où vient une invitation : queue de ZC 0x0F32 kind 1, sous
-// MOONLIGHT_UI_MVP_TRACKER_EXT. ⚠ Valeurs sur le fil : on AJOUTE en fin.
+// D'où vient une invitation : queue de ZC 0x0F32 kind 1. ⚠ Valeurs sur le fil : on AJOUTE en fin.
 enum e_mvp_invite_origin : uint8 {
 	MVP_INVITE_FROM_UNKNOWN = 0,
 	MVP_INVITE_FROM_SNAPSHOT,   ///< réponse à une demande d'instantané (cmd 1)
@@ -2162,18 +2040,9 @@ enum e_card_album_cmd : uint8 {
 };
 
 // Pousse l'état COMPLET de l'album (catalogue + réserve), avec l'issue de la
-// dernière commande. Gate : client_verified ET MOONLIGHT_UI_CARD_ALBUM.
+// dernière commande. Gate : client_verified.
 void clif_moonclient_card_album(map_session_data& sd, e_card_album_result result);
 void clif_parse_moonlight_card_album_cmd(int32 fd, map_session_data* sd);
-
-// Retire d'un texte les balises maison que ce client ne rendra pas, en gardant le
-// libellé qu'elles transportent (« <MOBL>1002:0:Poring</MOBL> » -> « Poring »).
-// Les médias (<IMG>, <MOBS>, <MOBP>), qui n'ont pas de repli textuel, disparaissent.
-//
-// Rend true si `out` a été rempli (donc si quelque chose a changé) ; false si le
-// texte est utilisable tel quel — cas de l'immense majorité des `mes`, qui ne
-// coûte alors qu'un `strchr`.
-bool clif_moonclient_strip_own_tags(const char* text, std::string& out);
 
 // [Stingor] Taille du corps d'une unite (episode 20, brHades) : statut client 1421.
 void clif_body_size( const block_list* bl, int32 size, map_session_data* to = nullptr );

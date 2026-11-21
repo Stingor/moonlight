@@ -6766,8 +6766,8 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_TARGET_INFO, 0x0f2a);
 // CZ : toutes les commandes du carnet de chasse.
 // Layout: [type:2][len:2][cmd:1][a:4][b:4][text: len-13 octets, NON terminé]
 //   cmd 1  = SNAPSHOT     : demande catalogue + instantané + favoris + groupe
-//   cmd 2  = CREATE       : text = nom du groupe (au-delà de 31 octets : tronqué,
-//                          ou refusé sous MOONLIGHT_UI_MVP_TRACKER_EXT)
+//   cmd 2  = CREATE       : text = nom du groupe (au-delà de 31 octets :
+//                          refusé)
 //   cmd 3  = DISSOLVE
 //   cmd 4  = INVITE       : text = nom de personnage
 //   cmd 5  = ACCEPT
@@ -6825,21 +6825,19 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_MVP_STATE, 0x0f31);
 //   kind 0 GROUPE     : group_id = 0 signifie « dans aucun groupe »
 //   kind 1 INVITATION : group_id + name de l'invitant, count = 0
 //   kind 2 RÉSULTAT   : result = e_mvp_group_result, le reste est vide. Les codes
-//                       au-delà de NOT_INVITABLE (13) ne partent que sous
-//                       MOONLIGHT_UI_MVP_TRACKER_EXT ; sans lui, l'ancien code.
 // Les noms de personnage ne sont PAS stockés (ils mentiraient au premier
 // renommage) : ils sont recalculés ici, comme le fait pc_ignorechat_load.
 //
 // QUEUES, après la dernière entrée. Aucune ne part à un client qui ne l'a pas
 // demandée : la structure ci-dessous ne bouge pas.
-//   kind 0 : [self_user_id:4]          sous MOONLIGHT_UI_MVP_TRACKER_EXT
-//   kind 1 : [origin:1]                sous MOONLIGHT_UI_MVP_TRACKER_EXT
+//   kind 0 : [self_user_id:4]
+//   kind 1 : [origin:1]
 //            (e_mvp_invite_origin ; jamais sur l'invitation de la poignée de
 //            main, qui part avant l'annonce des capacités)
 //   kind 2 : [request_id:4][cmd:1]     si la commande portait un identifiant
 // Un lecteur lit par longueur et ignore l'excédent : une queue future s'ajoute
-// APRÈS celles-ci. ⚠ Aucun `kind` neuf hors du bit MVP_TRACKER_EXT : un lecteur qui ne
-// l'annonce pas lirait comme un groupe tout ce qui n'est ni 1 ni 2.
+// APRÈS celles-ci. ⚠ Un `kind` neuf se lit comme un groupe chez un client qui ne
+// le connaît pas : tout ce qui n'est ni 1 ni 2.
 struct PACKET_ZC_MOONLIGHT_MVP_GROUP {
 	int16  packetType;
 	int16  packetLength;
@@ -6902,9 +6900,9 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_PARTY_SHARE, 0x0f35);
 // la guilde du lanceur, que le client peint sur (2 × niveau + 1)² cases autour de
 // l'unité. Le retrait passe par le ZC_SKILL_DISAPPEAR ordinaire.
 //
-// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_FLAG_GRAFFITI : un client
+// 🔴 NE PART QU'AUX SESSIONS VÉRIFIÉES : un client
 // qui ne connaît pas l'opcode vide son tampon de réception. Une session qui
-// annonce le bit après avoir vu l'unité la reçoit à ce moment-là.
+// fait sa première annonce après avoir vu l'unité la reçoit à ce moment-là.
 //
 // Layout: [type:2][len:2][unit_id:4][creator_id:4][x:2][y:2][guild_id:4]
 //         [emblem_id:4][level:1]
@@ -6927,14 +6925,12 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_FLAG_GRAFFITI, 0x0f36);
 // zone, entrée en vue, entrée sur la carte), et repart si le maître change ;
 // master_id = 0 : le monstre n'a plus de maître.
 //
-// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_UNIT_MASTER : un client
+// 🔴 NE PART QU'AUX SESSIONS VÉRIFIÉES : un client
 // qui ne connaît pas l'opcode vide son tampon de réception. Une session qui
-// annonce le bit après avoir vu le monstre le reçoit à ce moment-là.
+// fait sa première annonce après avoir vu le monstre le reçoit à ce moment-là.
 //
 // La même trame décrit aussi le maître d'un COMPAGNON — homoncule, mercenaire,
-// familier, élémentaire —, mais seulement aux sessions qui annoncent
-// MOONLIGHT_UI_COMPANION_MASTER : un client qui ne sait lire que le maître des
-// monstres ne la reçoit que pour eux. master_id est alors le joueur à qui le
+// familier, élémentaire —, aux sessions vérifiées. master_id est alors le joueur à qui le
 // compagnon appartient, jamais 0.
 //
 // Layout: [type:2][len:2][GID:4][master_id:4]
@@ -6954,7 +6950,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_UNIT_MASTER, 0x0f37);
 // Liste de paires clé / valeur : une clé que le client ne connaît pas est
 // ignorée, si bien qu'en ajouter une ne casse aucun client.
 //
-// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_SERVER_RULES.
+// 🔴 NE PART QU'AUX SESSIONS VÉRIFIÉES.
 //
 // Layout: [type:2][len:2] puis N × [key:2][value:4]
 enum e_moonclient_server_rule : uint16 {
@@ -7030,7 +7026,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SERVER_RULES, 0x0f38);
 // Sous @fakename, l'en-tête porte le FAUX nom, et account_id / char_id valent 0 :
 // il ne trahit pas qui se cache derrière.
 //
-// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_CHAT_AUTHOR : un client
+// 🔴 NE PART QU'AUX SESSIONS VÉRIFIÉES : un client
 // qui ne connaît pas l'opcode vide son tampon.
 //
 // Layout : bloc fixe de 44 octets, puis — si scope = MOONLIGHT_CHAT_CHANNEL
@@ -7066,7 +7062,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_CHAT_AUTHOR, 0x0f3a);
 // Un erasequest d'une quête déjà achevée n'en envoie pas : le client la garde
 // pour « Achevée ».
 //
-// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_QUEST_END.
+// 🔴 NE PART QU'AUX SESSIONS VÉRIFIÉES.
 //
 // Layout : [type:2][len:2][quest_id:4][reason:1][next_quest_id:4]  (len = 13)
 enum e_moonlight_quest_end : uint8 {
@@ -7089,8 +7085,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_QUEST_END, 0x0f3b);
 // ENTIER et décrit : identifiant et nom de l'auteur, avatar, texte où les
 // mentions sont résolues mais les emotes GARDÉES (<:nom:id>, <a:nom:id>).
 //
-// Il part À LA PLACE de ZC_MOONLIGHT_DISCORD_MSG (0x0F08) aux sessions qui
-// annoncent MOONLIGHT_UI_DISCORD_RICH : le premier morceau d'un message porte le
+// Il part À LA PLACE de ZC_MOONLIGHT_DISCORD_MSG (0x0F08) : le premier morceau d'un message porte le
 // riche, les morceaux suivants ne leur partent pas. Un message sans riche leur
 // part en 0x0F08. Les autres sessions reçoivent 0x0F08 comme avant.
 //
@@ -7137,7 +7132,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_DISCORD_RICH, 0x0f3c);
 // bonus sont ceux du `Script` de pet_db, joué en capture avec l'intimité du
 // moment : seule la branche que cette intimité atteint est relevée.
 //
-// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_EQUIP_ATTRIBUTES : un client
+// 🔴 NE PART QU'AUX SESSIONS VÉRIFIÉES : un client
 // qui ne connaît pas l'opcode viderait son tampon de réception.
 //
 // Les bonus sont ceux de la pièce SEULE : son script, ceux de ses cartes et de ses
@@ -7361,7 +7356,7 @@ struct PACKET_ZC_MOONLIGHT_STAFF_ROSTER {
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_STAFF_ROSTER, 0x0f68);
 
 // [Stingor] Le nom ENTIER d'un monstre (ZC 0x0F69), À LA PLACE de ZC 0x0A30 ou
-// 0x0ADF chez qui annonce MOONLIGHT_UI_LONG_MOB_NAME, quand ce nom ne tient pas
+// 0x0ADF chez une session vérifiée, quand ce nom ne tient pas
 // dans leur champ de NAME_LENGTH octets. Les autres reçoivent la trame
 // d'origine, nom tronqué, octet pour octet comme avant. Un nom qui tient part
 // dans la trame d'origine, chez tout le monde.
@@ -7396,7 +7391,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_LONG_NAME, 0x0f69);
 // pendant une guerre de guilde ouverte. Le client ouvre une fenêtre modale qui
 // rappelle la règle et nomme l'outil. Voir cheat_watch.hpp pour la cadence.
 //
-// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_FAIR_PLAY : un client
+// 🔴 NE PART QU'AUX SESSIONS VÉRIFIÉES : un client
 // qui ne connaît pas l'opcode vide son tampon de réception.
 // Layout: [packetType:2][packetLength:2][tool_name:32]
 //   tool_name : le nom d'outil du dernier CZ 0x0F0A, terminé par un zéro.
@@ -7413,10 +7408,10 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_FAIR_PLAY, 0x0f6a);
 // durées TOTALES (de quoi dessiner une jauge).
 //
 // Il part juste APRÈS chaque 0x02CB, 0x02CD et 0x02CE de type IN_NOTIFY, et à
-// l'annonce du bit. Un exemplaire par destinataire : may_destroy et
+// la première annonce de capacités. Un exemplaire par destinataire : may_destroy et
 // on_instance_map sont les siens.
 //
-// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_INSTANCE_INFO.
+// 🔴 NE PART QU'AUX SESSIONS VÉRIFIÉES.
 //
 // Les échéances de 0x02CD sont en secondes Unix de l'horloge du SERVEUR :
 // server_time permet au client de les lire sans dépendre de la sienne.
@@ -7592,11 +7587,11 @@ DEFINE_PACKET_HEADER(CZ_MOONLIGHT_GM_OUTFIT, 0x0f43);
 
 // ZC (server -> client): le joueur `GID` porte, ou quitte, l'habit. Fixe 9.
 //
-// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_GM_OUTFIT : un client qui
+// 🔴 NE PART QU'AUX SESSIONS VÉRIFIÉES : un client qui
 // ne connaît pas l'opcode vide son tampon de réception. À l'apparition et à
 // l'entrée en vue, il ne part que pour un joueur qui le PORTE : l'absence vaut
 // « habit du métier ». Le basculement part dans les deux sens, à toute la zone,
-// le joueur compris. Une session qui annonce le bit après avoir vu les joueurs
+// le joueur compris. Une session qui fait sa première annonce après avoir vu les joueurs
 // reçoit alors l'habit de ceux qui le portent.
 // Layout: [type:2][len:2][GID:4][worn:1]
 struct PACKET_ZC_MOONLIGHT_GM_OUTFIT {
@@ -7639,7 +7634,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_GM_OUTFIT, 0x0f44);
 
 // CZ (client -> serveur) : un morceau du document qu'enregistre le staff, fondé
 // sur `base_revision`. VARIABLE : au plus MOONCLIENT_MAP_EDIT_PUT_CHUNK octets en
-// queue. Gate MOONLIGHT_UI_MAP_EDITS et moonclient_map_edit_level DANS le handler.
+// queue. Gate session vérifiée et moonclient_map_edit_level DANS le handler.
 // Layout: [type:2][len:2][map:16][base_revision:4][zipped_size:4][text_size:4]
 //         [offset:4] puis les octets du morceau
 struct PACKET_CZ_MOONCLIENT_MAP_EDIT_PUT {
@@ -7683,7 +7678,7 @@ DEFINE_PACKET_HEADER(ZC_MOONCLIENT_MAP_EDIT_DOC, 0x0f47);
 
 // ZC (serveur -> client) : la révision que le serveur détient pour la carte où
 // se tient le joueur — 0 : aucune —, et s'il peut publier. Toujours envoyée à
-// l'entrée sur une carte, et à l'annonce du bit. Fixe 25.
+// l'entrée sur une carte, et à la première annonce de capacités. Fixe 25.
 // Layout: [type:2][len:2][map:16][revision:4][can_publish:1]
 struct PACKET_ZC_MOONCLIENT_MAP_EDIT_REVISION {
 	int16  packetType;
@@ -7713,7 +7708,7 @@ DEFINE_PACKET_HEADER(CZ_MOONCLIENT_MAP_EDIT_GET, 0x0f49);
 // charmes d'esprit au complet, puis Enchant Arms. moonclient en tire la lueur
 // élémentaire de la flèche et le halo de l'arme. Fixe 9.
 //
-// 🔴 NE PART QU'AUX SESSIONS QUI ANNONCENT MOONLIGHT_UI_ATTACK_ELEMENT : un client
+// 🔴 NE PART QU'AUX SESSIONS VÉRIFIÉES : un client
 // qui ne connaît pas l'opcode vide son tampon de réception.
 // 🔴 PAS D'AVANTAGE AU COMBAT : sur une carte d'affrontement (map_flag_vs2 : PvP,
 // GvG, château, donjon de guilde, champ de bataille) et pendant un duel, le
@@ -7771,7 +7766,7 @@ DEFINE_PACKET_HEADER(CZ_MOONLIGHT_MINIGAME_TROPHY, 0x0f4b);
 // déclaré et inemployé : aucun gestionnaire, un client qui l'enverrait serait
 // coupé comme pour tout opcode inconnu.
 //
-// 🔴 RIEN NE PART À UN CLIENT QUI N'A PAS ANNONCÉ MOONLIGHT_UI_SURVIVORS
+// 🔴 RIEN NE PART À UN CLIENT NON VÉRIFIÉ
 // (0x80000) dans CZ_MOONLIGHT_UI_CAPS. À chaque annonce qui porte le bit, le
 // serveur répond par ZC_MOONLIGHT_SURVIVORS_SERVICE ; le client n'émet aucun CZ
 // du service avant de l'avoir reçue. Seule une session moonclient vérifiée et
@@ -7921,7 +7916,7 @@ DEFINE_PACKET_HEADER(CZ_MOONLIGHT_SURVIVORS_JOURNAL, 0x0f52);
 
 // ZC : l'annonce du service. Fixe 16. Les versions de règles que le serveur
 // classe, bornes comprises, et son heure, qui donne au client l'écart de son
-// horloge. Redite à chaque annonce du bit MOONLIGHT_UI_SURVIVORS.
+// horloge. Redite à chaque annonce de capacités.
 // Layout: [type:2][len:2][ruleset_low:2][ruleset_high:2][server_utc:8]
 struct PACKET_ZC_MOONLIGHT_SURVIVORS_SERVICE {
 	int16  packetType;
@@ -7955,8 +7950,7 @@ DEFINE_PACKET_HEADER(CZ_MOONLIGHT_FREE_FLIGHT, 0x0f54);
 //
 // ZC (server -> client) : où joindre le serveur voix — l'hôte public et le port
 // client de conf/voice_athena.conf (voice_public_host, voice_port). Part à
-// l'apparition du bit MOONLIGHT_UI_VOICE, et à l'acceptation de moonclient si
-// le bit l'a précédée. Rien ne part quand voice_public_host est vide : la voix
+// la première annonce de capacités de la session. Rien ne part quand voice_public_host est vide : la voix
 // est alors fermée pour ce serveur.
 //
 // Le client s'authentifie auprès du serveur voix par son account_id, son
@@ -7978,7 +7972,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_VOICE_SERVICE, 0x0f55);
 // à sa guilde. Voir survivors_presence.cpp, et le cahier du lot 13 de moonclient
 // (docs/survivors/lot-13-presence.md).
 //
-// 🔴 RIEN NE PART À UN CLIENT QUI N'A PAS ANNONCÉ MOONLIGHT_UI_SURVIVORS_PRESENCE
+// 🔴 RIEN NE PART À UN CLIENT NON VÉRIFIÉ
 // (0x200000) : un ZC absent de sa table des longueurs lui ferait perdre le fil du
 // flux. À chaque annonce qui porte le bit, le serveur répond par un 0x0F57 à
 // `account_id` nul, qui lui ANNONCE le service : le client n'émet pas 0x0F56
@@ -8030,7 +8024,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_PRESENCE, 0x0f57);
 // survivors_coop.cpp, et le cahier du lot 14 de moonclient
 // (docs/survivors/lot-14-coop.md).
 //
-// 🔴 RIEN NE PART À UN CLIENT QUI N'A PAS ANNONCÉ MOONLIGHT_UI_SURVIVORS_COOP
+// 🔴 RIEN NE PART À UN CLIENT NON VÉRIFIÉ
 // (0x400000) : un ZC absent de sa table des longueurs lui ferait perdre le fil du
 // flux. À chaque annonce qui porte le bit, le serveur répond par un 0x0F59 à
 // l'état fermé, sans refus ni membre, qui lui ANNONCE le service : le client
@@ -8059,7 +8053,7 @@ DEFINE_PACKET_HEADER(CZ_MOONLIGHT_SURVIVORS_COOP_LOBBY, 0x0f58);
 //   state    : 0 fermé, 1 salon ouvert, 2 en partie.
 //   refusals : bits : 0x01 groupe de plus de 4, 0x02 moins de 2 membres en ligne,
 //              0x04 un membre hors ligne, 0x08 un membre ni en ville ni en
-//              intérieur, 0x10 un membre sans le bit de capacité, 0x20 un membre
+//              intérieur, 0x10 un membre non vérifié, 0x20 un membre
 //              qui n'est pas au salon.
 //   count    : les joueurs du salon, ou de la partie, dans l'ordre des places.
 //              Un membre du groupe resté hors du salon n'y figure pas.
@@ -8137,7 +8131,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_COOP_LEFT, 0x0f5d);
 // tête, sa peau, ses coiffes et sa cape. Voir style_layers.cpp, et dans moonclient
 // docs/couleurs-du-personnage/conception.md et l'ADR 0146.
 //
-// 🔴 RIEN NE PART À UN CLIENT QUI N'A PAS ANNONCÉ MOONLIGHT_UI_STYLE_LAYERS : un ZC
+// 🔴 RIEN NE PART À UN CLIENT NON VÉRIFIÉ : un ZC
 // absent de sa table des longueurs lui ferait perdre le fil du flux.
 //
 // 🔴 LE SERVEUR NE LIT JAMAIS UNE COULEUR. Il juge la structure de chaque entrée,
@@ -8401,7 +8395,7 @@ DEFINE_PACKET_HEADER(ZC_MOONCLIENT_OUTFIT, 0x0f62);
 //
 // 🔴 LE SERVEUR CHOISIT QUI : il relit la guilde, le groupe et les amis de la
 // session, et rend l'état 0 à tout autre char_id, comme à un membre hors ligne ou
-// caché. Les deux voyagent sous MOONLIGHT_UI_STYLE_LAYERS.
+// caché.
 #define MOONCLIENT_STYLE_ABSENT_IDS_MAX 16
 // L'apparence d'un bloc à l'état 1 : métier, sexe, coupe, couleur.
 #define MOONCLIENT_STYLE_ABSENT_LOOK_BYTES 7
@@ -8569,52 +8563,11 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_STATUS_LIST, 0x0f2d);
 #define MOONCLIENT_STATUS_LIST_MAX 40
 
 
-// ── L'APPARENCE des membres du groupe et des amis (CZ 0x0f2e / ZC 0x0f2f) ────
-//
-// Pourquoi ce couple existe : la fenetre des membres de GUILDE affiche la tete
-// de chacun parce que ZC_MEMBERMGR_INFO porte hair / hair_color / gender. Les
-// paquets de groupe et d'amis ne portent RIEN de tel : cote client, l'apparence
-// ne peut alors venir que de l'acteur, donc de la portee — un membre sur une
-// autre carte n'a pas de tete, et un ami n'en a presque jamais.
-//
-// Ce couple comble ce trou, et rien d'autre : il ne dit pas qui est en ligne
-// (les listes natives le disent deja), seulement a quoi ressemble qui l'est.
-//
-// 🔴 Le SERVEUR choisit qui repondre, pas le client : il ne renseigne que les
-// membres du groupe du demandeur et ses amis. Le champ `what` ne fait que
-// RESTREINDRE ce qu'on demande — cocher les deux bits ne donne acces a rien de
-// plus. Sans cette regle, ce paquet dirait l'apparence de n'importe qui.
-//
-// Pas d'abonnement : le client REDEMANDE, comme pour les etats.
-struct PACKET_CZ_MOONLIGHT_REQ_LOOKS {
-	int16 packetType;
-	int16 packetLength;
-	uint8 what;   // bit 0 = groupe · bit 1 = amis
-} __attribute__((packed));
-DEFINE_PACKET_HEADER(CZ_MOONLIGHT_REQ_LOOKS, 0x0f2e);
-
-// Une entree : de quoi composer une tete, et rien de plus.
-//
-// ⚠ `job` sert a choisir la RACE (donc le dossier de sprites et la table de
-// coiffures) : sans lui un Doram irait chercher sa tete dans l'arborescence
-// humaine. Ce n'est pas un doublon de ce que porte la liste native.
-struct MOONCLIENT_LOOK_ENTRY {
-	uint32 aid;
-	uint16 job;
-	uint16 hair;
-	uint16 hair_color;
-	uint8  sex;   // 0 = femme
-} __attribute__((packed));
-
-struct PACKET_ZC_MOONLIGHT_LOOKS {
-	int16  packetType;
-	int16  packetLength;
-	uint16 count;
-} __attribute__((packed));
-DEFINE_PACKET_HEADER(ZC_MOONLIGHT_LOOKS, 0x0f2f);
-
-// Plafond : MAX_PARTY (12) + MAX_FRIENDS (40) tient largement dessous.
-#define MOONCLIENT_LOOKS_MAX 64
+// ── 0x0F2E / 0x0F2F : RÉSERVÉS ───────────────────────────────────────────────
+// L'apparence des membres du groupe et des amis (CZ_MOONLIGHT_REQ_LOOKS /
+// ZC_MOONLIGHT_LOOKS) n'a plus de gestionnaire : moonclient la tient de
+// CZ / ZC_MOONCLIENT_STYLE_ABSENT (0x0F63 / 0x0F64). Les deux numéros ne se
+// réattribuent pas.
 
 
 

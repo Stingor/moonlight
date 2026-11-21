@@ -1845,8 +1845,8 @@ BUILDIN_FUNC(restartnpc)
  * rich_state (0 aucun riche, 1 ce morceau porte le riche, 2 morceau déjà
  * couvert), l'identifiant Discord de l'auteur EN CHAÎNE (il dépasse un entier de
  * script), son nom, le chemin de son avatar, le message entier, et les drapeaux
- * (1 : l'auteur est un bot). Les sessions qui annoncent MOONLIGHT_UI_DISCORD_RICH
- * reçoivent ZC_MOONLIGHT_DISCORD_RICH (0x0F3C) à la place de 0x0F08. Appelée
+ * (1 : l'auteur est un bot). Un message qui a une forme riche part en
+ * ZC_MOONLIGHT_DISCORD_RICH (0x0F3C) à la place de 0x0F08. Appelée
  * avec le seul message, elle fait exactement ce qu'elle faisait avant.
  */
 BUILDIN_FUNC(moonclient_discord_relay_all)
@@ -1888,52 +1888,19 @@ BUILDIN_FUNC(moonclient_discord_relay_all)
  * BALISES MOONCLIENT — des LIENS et des IMAGES dans un dialogue NPC
  * ════════════════════════════════════════════════════════════════════════════
  *
- * Le client rend, dans son dialogue NPC moderne, des balises que le
- * client vanilla ne connaît pas : liens vers un monstre / un objet / une recette,
- * sprites de monstres, images. Les fonctions ci-dessous les COMPOSENT — un script
- * n'a donc ni à connaître leur syntaxe, ni à aller chercher le nom d'un monstre.
+ * Le client rend, dans son dialogue NPC, des balises maison : liens vers un
+ * monstre / un objet / une recette, sprites de monstres, images. Les fonctions
+ * ci-dessous les COMPOSENT — un script n'a donc ni à connaître leur syntaxe, ni à
+ * aller chercher le nom d'un monstre.
  *
  *   mes "Méfie-toi de " + mobtag(1002) + " en chemin.";
  *   mes mobsprite(1039) + " Baphomet garde l'entrée.";
  *   mes "Il te faut " + itemtag(501) + " et la " + crafttag(970) + ".";
  *   mes imgtag("https://moonlight-ro.com/img/event.png");
  *
- * 🔴 IL N'Y A RIEN À TESTER POUR LE CAS ORDINAIRE. Un joueur dont le dialogue
- * moderne est éteint (ou un client vanilla) reçoit automatiquement le texte
- * dégradé : la balise est remplacée par le nom qu'elle transporte, les médias
- * disparaissent (clif_moonclient_strip_own_tags, appelé par clif_scriptmes). Un
- * script s'écrit donc UNE fois.
- *
- * `moonlight_ui()` ne sert qu'à changer la STRUCTURE d'un dialogue — proposer un
- * écran illustré ici, une liste de texte là — pas à répéter chaque `mes`.
+ * Seul moonclient parle au serveur, et il les rend toutes : un script n'a pas de
+ * version de repli à écrire.
  */
-
-/* moonlight_ui({<mask>{,<account_id>}})
- * Sans argument : le masque des interfaces modernes ALLUMÉES chez ce joueur.
- * Avec un masque : 1 si TOUS ses bits sont présents, 0 sinon.
- * Constantes : MOONLIGHT_UI_NPC_DIALOG, MOONLIGHT_UI_CHAT.
- *
- *   if (moonlight_ui(MOONLIGHT_UI_NPC_DIALOG)) { mes mobsprite(1039,1); }
- *
- * 0 pour un client vanilla, pour un client dont tout est éteint, et
- * pour un joueur qui n'a pas encore annoncé ses capacités — les trois se valent
- * du point de vue d'un script : ne comptez pas sur les balises.
- */
-BUILDIN_FUNC(moonlight_ui)
-{
-	TBL_PC *sd;
-	if (!script_accid2sd(3, sd)) {
-		script_pushint(st, 0);
-		return SCRIPT_CMD_SUCCESS;
-	}
-	if (script_hasdata(st, 2)) {
-		const uint32 mask = (uint32)script_getnum(st, 2);
-		script_pushint(st, (sd->moonclient_ui_caps & mask) == mask ? 1 : 0);
-	} else {
-		script_pushint(st, (int32)sd->moonclient_ui_caps);
-	}
-	return SCRIPT_CMD_SUCCESS;
-}
 
 /* mobtag(<mob_id>{,"<nom>"}) -> "<MOBL>id:rang:nom</MOBL>"
  * Un lien vers la FICHE d'un monstre. Clic gauche = sa fiche, clic droit = le
@@ -2102,8 +2069,7 @@ BUILDIN_FUNC(settingtag)
  *   mode : 0 = fermer, 1 = ouvrir (défaut), 2 = basculer.
  *   onglet (moonclient) : l'onglet sur lequel ouvrir — 1 corps, 2 peau,
  *   3 cheveux, 4 coiffe haute, 5 du milieu, 6 basse, 7 cape ; 0 garde celui
- *   du joueur. Il voyage dans le quartet haut du mode, et SEULEMENT vers une
- *   session qui a annoncé MOONLIGHT_UI_STYLE_LAYERS : le client lit tout mode
+ *   du joueur. Il voyage dans le quartet haut du mode : le client lit tout mode
  *   au-delà de 2 comme « basculer ».
  *
  * 🔴 Un styliste dit OUVRIR, pas BASCULER : basculer refermerait la fenêtre que
@@ -2150,7 +2116,7 @@ BUILDIN_FUNC(moonclient_style_open)
 	constexpr int32 tab_most = 7;
 	constexpr int32 tab_shift = 4;
 	const int32 tab = script_hasdata(st,3) ? script_getnum(st,3) : 0;
-	if( tab > 0 && tab <= tab_most && (sd->moonclient_ui_caps & MOONLIGHT_UI_STYLE_LAYERS) != 0 )
+	if( tab > 0 && tab <= tab_most )
 		mode |= tab << tab_shift;
 
 	clif_moonclient_style_open(sd, (uint8)mode);

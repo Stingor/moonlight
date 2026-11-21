@@ -1230,22 +1230,17 @@ struct s_request_entry {
 
 namespace {
 
-// 🔴 QUI REÇOIT LA DIFFUSION : un joueur vérifié qui a le bit, ou le spectateur
-// qui a le droit de VOIR et l'a annoncé. Ce n'est pas `style_layers_receiver`,
-// qui garde aussi les CZ : un spectateur n'émet rien.
+// 🔴 QUI REÇOIT LA DIFFUSION : un joueur vérifié, ou le spectateur qui a le droit
+// de VOIR. Plus large que la garde des CZ (`client_verified`) : un spectateur
+// n'émet rien.
 bool layers_viewer(const map_session_data& sd) {
-	const bool viewer = sd.state.client_verified || (sd.state.spectator && sd.state.moonclient_cosmetic);
-	return viewer && (sd.moonclient_ui_caps & MOONLIGHT_UI_STYLE_LAYERS) != 0;
+	return sd.state.client_verified || (sd.state.spectator && sd.state.moonclient_cosmetic);
 }
 
 } // namespace
 
-bool style_layers_receiver(const map_session_data& sd) {
-	return sd.state.client_verified && (sd.moonclient_ui_caps & MOONLIGHT_UI_STYLE_LAYERS) != 0;
-}
-
 void style_layers_verdict(map_session_data& sd, uint8 subject, uint8 result, uint16 wait_ms, uint32 detail) {
-	if (!style_layers_receiver(sd))
+	if (!sd.state.client_verified)
 		return;
 	PACKET_ZC_MOONCLIENT_STYLE_VERDICT p{};
 	p.packetType = HEADER_ZC_MOONCLIENT_STYLE_VERDICT;
@@ -1263,7 +1258,7 @@ void style_layers_verdict(map_session_data& sd, uint8 subject, uint8 result, uin
 }
 
 void style_layers_handshake(map_session_data& sd) {
-	if (!style_layers_receiver(sd))
+	if (!sd.state.client_verified)
 		return;
 	s_style_layer_state& state = state_of(sd);
 	// L'atelier ne survit pas à un changement de carte.
@@ -1741,7 +1736,7 @@ e_moonclient_style_result apply_request(map_session_data& sd, const uint8* frame
 
 void clif_parse_moonclient_style_layers(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
-	if (!style_layers_receiver(*sd))
+	if (!sd->state.client_verified)
 		return;
 	const size_t length = RFIFOW(fd, 2);
 	uint16 wait_ms = 0;

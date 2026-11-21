@@ -1648,7 +1648,7 @@ ACMD_FUNC(iteminfo)
 // choix se fait une fois pour toute la commande, sans version de repli à poster
 // en parallèle.
 static bool moonclient_chat_markup(map_session_data* sd) {
-	return sd != nullptr && (sd->moonclient_ui_caps & MOONLIGHT_UI_CHAT) != 0;
+	return sd != nullptr && sd->state.client_verified;
 }
 
 // Le nom d'un monstre. En lien, le RANG voyage dans la balise (0 normal, 1 boss,
@@ -2417,7 +2417,7 @@ ACMD_FUNC(shopsearch)
 {
 	nullpo_retr(-1, sd);
 
-	const bool market = market_announced(*sd);
+	const bool market = sd->state.client_verified;
 
 	// LE MARCHÉ S'OUVRE AUSSI SANS ARGUMENT, saisie vide.
 	if (market && (!message || !*message)) {
@@ -2792,7 +2792,7 @@ ACMD_FUNC(client)
 	if (pl_sd->client_commit[0] != '\0')
 		safesnprintf(revision, sizeof(revision), ", revision %s%s", pl_sd->client_commit,
 			pl_sd->client_tree_modified ? " (arbre modifie)" : "");
-	else if (pl_sd->state.moonclient)
+	else
 		safestrncpy(revision, ", revision non declaree", sizeof(revision));
 
 	safesnprintf(atcmd_output, sizeof(atcmd_output), "%s : %s, %s%s", pl_sd->status.name, client_name, patch, revision);

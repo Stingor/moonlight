@@ -92,8 +92,6 @@ OnMobDead:
 function	script	F_CafardMark	{
 	if( mobcount(getarg(0), "eventcafard::OnMobDead") < 1 )
 		return "";
-	if( !moonlight_ui(MOONLIGHT_UI_NPC_DIALOG) )
-		return " ^d2691e(cafard)^000000";
 	.@mob = getd("$@cafardmob_" + getarg(0));
 	if( !.@mob )
 		.@mob = 1051;	// @reloadscript entre-temps : cafard generique

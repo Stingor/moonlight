@@ -2104,7 +2104,7 @@ parseable_packet(HEADER_CZ_MOONLIGHT_REQ_CHAT_BLOCKS, sizeof(PACKET_CZ_MOONLIGHT
 parseable_packet(HEADER_CZ_MOONLIGHT_REQ_STAFF_ROSTER, sizeof(PACKET_CZ_MOONLIGHT_REQ_STAFF_ROSTER), clif_parse_moonlight_req_staff_roster, 0);
 
 // [Stingor] moonclient : le Marché, toutes les échoppes ouvertes du serveur
-// (market.cpp). Gate MOONLIGHT_UI_MARKET et carte de ville DANS le handler —
+// (market.cpp). Gate session vérifiée et carte de ville DANS le handler —
 // VARIABLE : la queue porte les identifiants d'objet cherchés.
 parseable_packet(HEADER_CZ_MOONLIGHT_MARKET_REQ, -1, clif_parse_moonlight_market_req, 0);
 
@@ -2118,10 +2118,10 @@ parseable_packet(HEADER_CZ_MOONLIGHT_GM_OUTFIT, sizeof(PACKET_CZ_MOONLIGHT_GM_OU
 parseable_packet(HEADER_CZ_MOONLIGHT_FREE_FLIGHT, sizeof(PACKET_CZ_MOONLIGHT_FREE_FLIGHT), clif_parse_moonlight_free_flight, 0);
 // [Stingor] moonclient : la présence en arène du mode survivors
 // (survivors_presence.cpp). Gate poignée de main moonclient et
-// MOONLIGHT_UI_SURVIVORS_PRESENCE DANS le handler — fixed.
+// session vérifiée DANS le handler — fixed.
 parseable_packet(HEADER_CZ_MOONLIGHT_SURVIVORS_PRESENCE, sizeof(PACKET_CZ_MOONLIGHT_SURVIVORS_PRESENCE), clif_parse_moonlight_survivors_presence, 0);
 // [Stingor] moonclient : la coop du mode survivors (survivors_coop.cpp). Gate
-// poignée de main moonclient et MOONLIGHT_UI_SURVIVORS_COOP DANS les handlers —
+// poignée de main moonclient DANS les handlers —
 // VARIABLE : le salon porte la part du joueur, la trame ses entrées.
 parseable_packet(HEADER_CZ_MOONLIGHT_SURVIVORS_COOP_LOBBY, -1, clif_parse_moonlight_survivors_coop_lobby, 0);
 parseable_packet(HEADER_CZ_MOONLIGHT_SURVIVORS_COOP_FRAME, -1, clif_parse_moonlight_survivors_coop_frame, 0);
@@ -2132,30 +2132,30 @@ parseable_packet(HEADER_CZ_MOONLIGHT_MINIGAME_TROPHY, sizeof(PACKET_CZ_MOONLIGHT
 
 // [Stingor] moonclient : le classement mondial du mode survivors
 // (survivors_ranking.cpp). Gate poignée de main moonclient et
-// MOONLIGHT_UI_SURVIVORS DANS les handlers — fixed. 0x0F52 (JOURNAL) est
+// session vérifiée DANS les handlers — fixed. 0x0F52 (JOURNAL) est
 // déclaré dans packets_struct.hpp et volontairement absent d'ici : réservé.
 parseable_packet(HEADER_CZ_MOONLIGHT_SURVIVORS_BEGIN, sizeof(PACKET_CZ_MOONLIGHT_SURVIVORS_BEGIN), clif_parse_moonlight_survivors_begin, 0);
 parseable_packet(HEADER_CZ_MOONLIGHT_SURVIVORS_END, sizeof(PACKET_CZ_MOONLIGHT_SURVIVORS_END), clif_parse_moonlight_survivors_end, 0);
 parseable_packet(HEADER_CZ_MOONLIGHT_SURVIVORS_BOARD, sizeof(PACKET_CZ_MOONLIGHT_SURVIVORS_BOARD), clif_parse_moonlight_survivors_board, 0);
 
 // [Stingor] moonclient : les éditions de carte (map_edits.cpp). Gate
-// MOONLIGHT_UI_MAP_EDITS DANS les handlers, et moonclient_map_edit_level pour
+// session vérifiée DANS les handlers, et moonclient_map_edit_level pour
 // l'envoi — VARIABLE : la queue de PUT porte un morceau du document compressé.
 parseable_packet(HEADER_CZ_MOONCLIENT_MAP_EDIT_PUT, -1, clif_parse_moonclient_map_edit_put, 0);
 parseable_packet(HEADER_CZ_MOONCLIENT_MAP_EDIT_GET, sizeof(PACKET_CZ_MOONCLIENT_MAP_EDIT_GET), clif_parse_moonclient_map_edit_get, 0);
 
 // [Stingor] moonclient : les teintures de calques (style_layers.cpp). Gate
-// MOONLIGHT_UI_STYLE_LAYERS DANS le handler — VARIABLE, au plus
+// session vérifiée DANS le handler — VARIABLE, au plus
 // MOONCLIENT_STYLE_LAYERS_CZ_MAX octets.
 parseable_packet(HEADER_CZ_MOONCLIENT_STYLE_LAYERS, -1, clif_parse_moonclient_style_layers, 0);
 
 // [Stingor] moonclient : les tenues, code court et garde-robe du compte
-// (style_outfits.cpp, CZ 0x0F61 / ZC 0x0F62). Gate MOONLIGHT_UI_STYLE_LAYERS
+// (style_outfits.cpp, CZ 0x0F61 / ZC 0x0F62). Gate session vérifiée
 // DANS le handler — VARIABLE : la queue porte un nom et une tenue plafonnés.
 parseable_packet(HEADER_CZ_MOONCLIENT_OUTFIT, -1, clif_parse_moonclient_outfit, 0);
 
 // [Stingor] moonclient : les styles hors de vue de la guilde, du groupe et des
-// amis (style_absent.cpp, CZ 0x0F63 / ZC 0x0F64). Gate MOONLIGHT_UI_STYLE_LAYERS
+// amis (style_absent.cpp, CZ 0x0F63 / ZC 0x0F64). Gate session vérifiée
 // DANS le handler -- VARIABLE, exactement 5 + 4 x nombre.
 parseable_packet(HEADER_CZ_MOONCLIENT_STYLE_ABSENT, -1, clif_parse_moonclient_style_absent, 0);
 
@@ -2163,7 +2163,6 @@ parseable_packet(HEADER_CZ_MOONCLIENT_STYLE_ABSENT, -1, clif_parse_moonclient_st
 // redemande tant que sa fenêtre est ouverte ; aucun état serveur — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_TARGET_INFO, sizeof(PACKET_CZ_MOONLIGHT_TARGET_INFO), clif_parse_moonlight_target_info, 0);
 parseable_packet(HEADER_CZ_MOONLIGHT_REQ_STATUS_LIST, sizeof(PACKET_CZ_MOONLIGHT_REQ_STATUS_LIST), clif_parse_moonlight_req_status_list, 0);
-parseable_packet(HEADER_CZ_MOONLIGHT_REQ_LOOKS, sizeof(PACKET_CZ_MOONLIGHT_REQ_LOOKS), clif_parse_moonlight_req_looks, 0);
 
 // [Stingor] capacités d'affichage de l'interface moderne — ce que ce
 // client rendra des balises maison. Réémis à chaque bascule d'un réglage.

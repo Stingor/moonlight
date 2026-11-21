@@ -67,8 +67,8 @@ void map_edits_final();
 void map_edits_on_logout(const map_session_data& sd);
 
 // La révision que le serveur détient pour la carte de `sd`, puis pour le
-// document des lumières de modèle (ZC 0x0F48), si `sd` a annoncé
-// MOONLIGHT_UI_MAP_EDITS. À l'entrée sur une carte, et à l'annonce du bit.
+// document des lumières de modèle (ZC 0x0F48), si `sd` est vérifiée. À l'entrée
+// sur une carte, et à la première annonce de capacités.
 void map_edits_announce(map_session_data& sd);
 
 void clif_parse_moonclient_map_edit_put(int32 fd, map_session_data* sd);

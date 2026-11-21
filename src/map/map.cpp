@@ -506,7 +506,7 @@ int32 map_addblock(block_list* bl)
 	map_addblcell(bl);
 #endif
 
-	if (bl->type == BL_PC && reinterpret_cast<map_session_data*>(bl)->state.moonclient) // [Stingor]
+	if (bl->type == BL_PC && reinterpret_cast<map_session_data*>(bl)->state.client_verified) // [Stingor]
 		map_moonclient_viewer_join(*reinterpret_cast<map_session_data*>(bl));
 
 	return 0;
