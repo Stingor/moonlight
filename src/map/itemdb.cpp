@@ -1771,9 +1771,9 @@ uint64 LaphineSynthesisDatabase::parseBodyNode( const ryml::NodeRef& node ){
 					return 0;
 				}
 
-				if( amount > MAX_AMOUNT ){
+				if( amount > MAX_AMOUNT_UINT16 ){
 					this->invalidWarning( requirementNode["Amount"], "Amount %hu is too high, capping to MAX_AMOUNT...\n", amount );
-					amount = MAX_AMOUNT;
+					amount = MAX_AMOUNT_UINT16;
 				}
 
 				requirement->amount = amount;
@@ -2215,9 +2215,9 @@ uint64 ItemReformDatabase::parseBodyNode( const ryml::NodeRef& node ){
 							return 0;
 						}
 
-						if( amount > MAX_AMOUNT ){
+						if( amount > MAX_AMOUNT_UINT16 ){
 							this->invalidWarning( materialNode["Amount"], "Amount %hu is too high, capping to MAX_AMOUNT...\n", amount );
-							amount = MAX_AMOUNT;
+							amount = MAX_AMOUNT_UINT16;
 						}
 					}else{
 						if( !material_exists ){
@@ -2365,9 +2365,9 @@ bool ItemEnchantDatabase::parseMaterials( const ryml::NodeRef& node, std::unorde
 					return false;
 				}
 
-				if( amount > MAX_AMOUNT ){
+				if( amount > MAX_AMOUNT_UINT16 ){
 					this->invalidWarning( materialNode["Amount"], "Amount %hu is too high, capping to MAX_AMOUNT...\n", amount );
-					amount = MAX_AMOUNT;
+					amount = MAX_AMOUNT_UINT16;
 				}
 			}else{
 				if( !material_exists ){
@@ -2940,9 +2940,9 @@ uint64 ItemPackageDatabase::parseBodyNode( const ryml::NodeRef& node ){
 						return 0;
 					}
 
-					if( amount > MAX_AMOUNT ){
+					if( amount > MAX_AMOUNT_UINT16 ){
 						this->invalidWarning( itemNode["Amount"], "Amount %hu is too high, capping to MAX_AMOUNT...\n", amount );
-						amount = MAX_AMOUNT;
+						amount = MAX_AMOUNT_UINT16;
 					}else if( amount == 0 ){
 						if( !package_item_exists ){
 							this->invalidWarning( itemNode["Amount"], "Trying to remove non existant item \"%s\".\n", name.c_str() );

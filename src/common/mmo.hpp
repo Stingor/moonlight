@@ -85,6 +85,10 @@ typedef uint32 t_itemid;
 // connaît ce plafond par les règles (0x0F38, clé 31). Voir
 // docs/plan-item-amount-int32.md.
 #define MAX_AMOUNT 99999 ////Max amount of a single stacked item
+// [Stingor] Le plafond d'une quantité que les bases YAML lisent dans un champ
+// uint16 (recettes, paquets d'objets, récompenses, prérequis) : MAX_AMOUNT,
+// dans la limite du type.
+#define MAX_AMOUNT_UINT16 ( MAX_AMOUNT < UINT16_MAX ? MAX_AMOUNT : UINT16_MAX )
 // [Stingor] Le plafond du SOLDE d'un personnage : 999 999 999 999 zeny, douze
 // chiffres. Le solde est un int64 (`mmo_charstatus::zeny`), `char`.`zeny` un
 // bigint (sql-files/upgrade_char_zeny_bigint.sql, à exécuter AVANT de démarrer

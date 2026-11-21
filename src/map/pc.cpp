@@ -234,9 +234,9 @@ uint64 AttendanceDatabase::parseBodyNode(const ryml::NodeRef& node){
 				if( amount == 0 ){
 					ShowWarning( "pc_attendance_load: Invalid reward count %hu for day %d. Defaulting to 1...\n", amount, day + 1 );
 					amount = 1;
-				}else if( amount > MAX_AMOUNT ){
-					ShowError( "pc_attendance_load: Reward count %hu above maximum %hu for day %d. Defaulting to %hu...\n", amount, MAX_AMOUNT, day + 1, MAX_AMOUNT );
-					amount = MAX_AMOUNT;
+				}else if( amount > MAX_AMOUNT_UINT16 ){
+					ShowError( "pc_attendance_load: Reward count %hu above maximum %hu for day %d. Defaulting to %hu...\n", amount, MAX_AMOUNT_UINT16, day + 1, MAX_AMOUNT_UINT16 );
+					amount = MAX_AMOUNT_UINT16;
 				}
 
 				reward->amount = amount;

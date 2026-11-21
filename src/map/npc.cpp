@@ -687,9 +687,9 @@ uint64 BarterDatabase::parseBodyNode( const ryml::NodeRef& node ){
 							return 0;
 						}
 
-						if( amount > MAX_AMOUNT ){
-							this->invalidWarning( requiredItemNode["Amount"], "barter_parseBodyNode: Amount %hu is too high, capping to %hu...\n", amount, MAX_AMOUNT );
-							amount = MAX_AMOUNT;
+						if( amount > MAX_AMOUNT_UINT16 ){
+							this->invalidWarning( requiredItemNode["Amount"], "barter_parseBodyNode: Amount %hu is too high, capping to %hu...\n", amount, MAX_AMOUNT_UINT16 );
+							amount = MAX_AMOUNT_UINT16;
 						}
 
 						requirement->amount = amount;

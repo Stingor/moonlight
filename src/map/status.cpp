@@ -233,9 +233,9 @@ uint64 RefineDatabase::parseBodyNode( const ryml::NodeRef& node ){
 							return 0;
 						}
 
-						if( amount > MAX_AMOUNT ){
+						if( amount > MAX_AMOUNT_UINT16 ){
 							this->invalidWarning( refineLevelNode["BlacksmithBlessingAmount"], "Blacksmith Blessing amount %hu too high, capping to MAX_AMOUNT.\n", amount );
-							amount = MAX_AMOUNT;
+							amount = MAX_AMOUNT_UINT16;
 						}
 
 						level_info->blessing_amount = amount;
@@ -852,9 +852,9 @@ uint64 EnchantgradeDatabase::parseBodyNode( const ryml::NodeRef& node ){
 							return 0;
 						}
 
-						if( amount > MAX_AMOUNT ){
-							this->invalidWarning( optionNode["Amount"], "Amount %hu is too high, capping to %hu...\n", amount, MAX_AMOUNT );
-							amount = MAX_AMOUNT;
+						if( amount > MAX_AMOUNT_UINT16 ){
+							this->invalidWarning( optionNode["Amount"], "Amount %hu is too high, capping to %hu...\n", amount, MAX_AMOUNT_UINT16 );
+							amount = MAX_AMOUNT_UINT16;
 						}
 
 						if( amount == 0 ){

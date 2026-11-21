@@ -461,8 +461,8 @@ uint64 PetDatabase::parseBodyNode( const ryml::NodeRef& node ){
 					return 0;
 				}
 
-				if( amount > MAX_AMOUNT ){
-					this->invalidWarning( requirementNode["Amount"], "Amount %u exceeds the maximum of %d.\n", amount, MAX_AMOUNT );
+				if( amount > MAX_AMOUNT_UINT16 ){
+					this->invalidWarning( requirementNode["Amount"], "Amount %u exceeds the maximum of %d.\n", amount, MAX_AMOUNT_UINT16 );
 					return 0;
 				}
 

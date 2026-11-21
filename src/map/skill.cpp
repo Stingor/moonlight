@@ -16290,8 +16290,8 @@ uint64 SkillArrowDatabase::parseBodyNode(const ryml::NodeRef& node) {
 				this->invalidWarning(it["Amount"], "Failed to remove %s, the entry doesn't exist in Source %s.\n", item_name.c_str(), source_name.c_str());
 			continue;
 		}
-		if (amount > MAX_AMOUNT) {
-			this->invalidWarning(it["Amount"], "Amount %hu exceeds %hu, skipping.\n", amount, MAX_AMOUNT);
+		if (amount > MAX_AMOUNT_UINT16) {
+			this->invalidWarning(it["Amount"], "Amount %hu exceeds %hu, skipping.\n", amount, MAX_AMOUNT_UINT16);
 			continue;
 		}
 
