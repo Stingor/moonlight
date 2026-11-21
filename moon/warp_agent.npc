@@ -1751,6 +1751,7 @@ L_Fields:
 		 "• Splendide (spl_fild)" + LvRange(.wm_fld_spl$),         L_fld_spl,
 		 "• Umbala (um_fild)" + LvRange(.wm_fld_umb$),             L_fld_umb,
 		 "• Veins (ve_fild)" + LvRange(.wm_fld_vei$),              L_fld_vei,
+		 "• Verus (verus)" + LvRange(.wm_fld_ver$),                L_fld_ver,
 		 "• Juno (yuno_fild)" + LvRange(.wm_fld_yun$),             L_fld_yun,
 		 "• ^e64c00Menu Précédent.^000000", -;
 	goto L_warpa;
@@ -1850,6 +1851,7 @@ L_fld_moc:
 L_fld_spl: WarpMenu(.wm_fld_spl$); goto L_Fields;
 L_fld_umb: WarpMenu(.wm_fld_umb$); goto L_Fields;
 L_fld_vei: WarpMenu(.wm_fld_vei$); goto L_Fields;
+L_fld_ver: WarpMenu(.wm_fld_ver$); goto L_Fields;
 L_fld_yun: WarpMenu(.wm_fld_yun$); goto L_Fields;
 L_Donjons:
 	clear;
@@ -2192,6 +2194,7 @@ OnInit:
 	setarray .wm_fld_vei$[0],
 		"ve_fild01", "ve_fild02", "ve_fild03", "ve_fild04", "ve_fild05",
 		"ve_fild06", "ve_fild07";
+	setarray .wm_fld_ver$[0], "verus01,151,150", "verus02", "verus03", "verus04,77,118";
 	setarray .wm_fld_yun$[0],
 		"yuno_fild01", "yuno_fild02", "yuno_fild03", "yuno_fild04", "yuno_fild05",
 		"yuno_fild06", "yuno_fild07", "yuno_fild08", "yuno_fild09", "yuno_fild10",
@@ -2736,6 +2739,10 @@ OnInit:
 	setarray .@navm$[471], "sp_cor", "glast_01", "ein_fild04", "yuno", "glast_01";
 	setarray .@navx[471], 160, 241, 275, 216, 179;
 	setarray .@navy[471], 52, 288, 339, 342, 280;
+	// Fields de Verus ajoutes le 2026-11-21 (verus01 et verus04 y sont deja).
+	setarray .@navm$[476], "verus02", "verus03";
+	setarray .@navx[476], 0, 0;
+	setarray .@navy[476], 0, 0;
 	for (.@i = 0; .@i < getarraysize(.@navm$); .@i++) {
 		// Un agent ne se declare pas une arete vers sa propre carte.
 		if (strnpcinfo(4) == .@navm$[.@i]) continue;
