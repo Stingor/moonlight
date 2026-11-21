@@ -60,7 +60,7 @@ function	script	Promotional_Staff	{
 		mes "of this mission.";
 		next;
 		mes "[Promotional Staff]";
-		mes "I'm not sure that you're strong enough, but you seem brave. How about going to the <NAVI>Recruiter for the Brave<INFO>prt_cas,207,165,1,000,1</INFO></NAVI>? He should be in the first room of Prontera Castle.";
+		mes "I'm not sure that you're strong enough, but you seem brave. How about going to the <NAVI>Recruiter for the Brave<INFO>prt_cas,207,165,2,000,1</INFO></NAVI>? He should be in the first room of Prontera Castle.";
 		next;
 		mes "[Promotional Staff]";
 		mes "From what I've heard about this place... It's not a new continent.";
