@@ -275,7 +275,7 @@ int32 trade_check(map_session_data *sd, map_session_data *tsd)
 
 	// check free slot in both inventory
 	for(trade_i = 0; trade_i < 10; trade_i++) {
-		int16 amount;
+		int32 amount;
 
 		amount = sd->deal.item[trade_i].amount;
 
@@ -360,7 +360,7 @@ int32 trade_check(map_session_data *sd, map_session_data *tsd)
  * @param index : index of item in inventory
  * @param amount : amount of item to add from index
  */
-void trade_tradeadditem(map_session_data *sd, int16 index, int16 amount)
+void trade_tradeadditem(map_session_data *sd, int16 index, int32 amount)
 {
 	map_session_data *target_sd;
 	struct item *item;

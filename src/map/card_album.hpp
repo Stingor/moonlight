@@ -50,7 +50,7 @@ class map_session_data;
 /// so `amount == 0` means "unlocked, reserve empty" and not "absent".
 struct s_card_album_entry {
 	t_itemid nameid;
-	uint16 amount;
+	uint32 amount;
 };
 
 /// Why an album operation was refused. Travels to the client in the `result`
@@ -158,10 +158,10 @@ bool card_album_is_open( map_session_data* sd );
 e_card_album_result card_album_unlock( map_session_data* sd, int16 inv_index, bool save = true );
 
 /// Moves copies from inventory into an ALREADY unlocked reserve.
-e_card_album_result card_album_put( map_session_data* sd, int16 inv_index, uint16 amount, bool save = true );
+e_card_album_result card_album_put( map_session_data* sd, int16 inv_index, uint32 amount, bool save = true );
 
 /// Moves copies from the reserve back to inventory. The row survives at zero.
-e_card_album_result card_album_get( map_session_data* sd, t_itemid nameid, uint16 amount, bool save = true );
+e_card_album_result card_album_get( map_session_data* sd, t_itemid nameid, uint32 amount, bool save = true );
 
 /// [Stingor] Envoie l'inventaire au char-server pour qu'il le range en base
 /// (chrif_save, CSAVE_INVENTORY).

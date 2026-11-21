@@ -311,7 +311,7 @@ DEFINE_PACKET_HEADER(ZC_FRIENDS_LIST, 0x201)
 
 struct PACKET_CZ_PC_SELL_ITEMLIST_sub {
 	uint16 index;
-	uint16 amount;
+	int32 amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 } __attribute__((packed));
 
 struct PACKET_CZ_PC_SELL_ITEMLIST {
@@ -829,7 +829,7 @@ DEFINE_PACKET_HEADER(ZC_COMPASS, 0x144)
 struct PACKET_ZC_ITEM_THROW_ACK {
 	int16 packetType;
 	uint16 index;
-	uint16 count;
+	int32 count; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_ITEM_THROW_ACK, 0xaf)
 
@@ -837,7 +837,7 @@ struct PACKET_ZC_DELETE_ITEM_FROM_BODY {
 	int16 packetType;
 	int16 deleteType;
 	uint16 index;
-	int16 count;
+	int32 count; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_DELETE_ITEM_FROM_BODY, 0x7fa)
 
@@ -1180,7 +1180,7 @@ DEFINE_PACKET_HEADER(ZC_OPENSTORE, 0x12d);
 struct PACKET_ZC_PC_PURCHASE_RESULT_FROMMC {
 	int16 packetType;
 	uint16 index;
-	uint16 amount;
+	int32 amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 	uint8 result;
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_PC_PURCHASE_RESULT_FROMMC, 0x135);
@@ -1259,7 +1259,7 @@ DEFINE_PACKET_HEADER(ZC_ACK_ADDITEM_TO_CART, 0x12c);
 struct PACKET_ZC_DELETEITEM_FROM_MCSTORE {
 	int16 packetType;
 	uint16 index;
-	uint16 amount;
+	int32 amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 	uint32 buyerCID;
 	uint32 date;
 	int32 zeny;
@@ -1269,7 +1269,7 @@ DEFINE_PACKET_HEADER(ZC_DELETEITEM_FROM_MCSTORE, 0x9e5);
 struct PACKET_ZC_DELETEITEM_FROM_MCSTORE {
 	int16 packetType;
 	uint16 index;
-	uint16 amount;
+	int32 amount; // [Stingor] int32, comme la variante active
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_DELETEITEM_FROM_MCSTORE, 0x137);
 #endif

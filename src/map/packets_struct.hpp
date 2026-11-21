@@ -426,7 +426,7 @@ struct NORMALITEM_INFO {
 #if PACKETVER < 20120925
 	uint8 IsIdentified;
 #endif
-	int16 count;
+	int32 count; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 #if PACKETVER >= 20120925
 	uint32 WearState;
 #else
@@ -540,7 +540,7 @@ struct packet_sc_notick {
 struct PACKET_ZC_ITEM_PICKUP_ACK {
 	int16 PacketType;
 	uint16 Index;
-	uint16 count;
+	int32 count; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 #if PACKETVER_MAIN_NUM >= 20181121 || PACKETVER_RE_NUM >= 20180704 || PACKETVER_ZERO_NUM >= 20181114
 	uint32 nameid;
 #else
@@ -610,7 +610,7 @@ struct packet_dropflooritem {
 	int16 yPos;
 	uint8 subX;
 	uint8 subY;
-	int16 count;
+	int32 count; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 #if defined(PACKETVER_ZERO) || PACKETVER >= 20180418
 	int8 showdropeffect;
 	int16 dropeffectmode;
@@ -1739,7 +1739,7 @@ struct PACKET_ZC_ACK_ADD_ITEM_RODEX {
 	int16 PacketType;
 	int8 result;
 	int16 index;
-	int16 count;
+	int32 count; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 #if PACKETVER_MAIN_NUM >= 20181121 || PACKETVER_RE_NUM >= 20180704 || PACKETVER_ZERO_NUM >= 20181114
 	uint32 itemId;
 #else
@@ -1803,7 +1803,7 @@ struct PACKET_ZC_ACK_REMOVE_ITEM_MAIL {
 	int16 PacketType;
 	int8 result;
 	int16 index;
-	uint16 cnt;
+	int32 cnt; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 	int16 weight;
 } __attribute__((packed));
 
@@ -1919,7 +1919,7 @@ struct PACKET_CZ_REQ_READ_MAIL {
 
 #if PACKETVER_MAIN_NUM >= 20200916 || PACKETVER_RE_NUM >= 20200723 || PACKETVER_ZERO_NUM >= 20221024
 struct PACKET_ZC_ACK_READ_RODEX_SUB {
-	int16 count;
+	int32 count; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 #if PACKETVER_MAIN_NUM >= 20181121 || PACKETVER_RE_NUM >= 20180704 || PACKETVER_ZERO_NUM >= 20181114
 	uint32 ITID;
 #else
@@ -2358,7 +2358,7 @@ struct PACKET_ZC_ITEM_ENTRY {
 	uint8 identify;
 	uint16 x;
 	uint16 y;
-	uint16 amount;
+	int32 amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 	uint8 subX;
 	uint8 subY;
 } __attribute__((packed));
@@ -2584,7 +2584,7 @@ struct PACKET_ZC_USE_ITEM_ACK {
 	uint16 itemId;
 	uint32 AID;
 #endif
-	int16 amount;
+	int32 amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 	uint8 result;
 } __attribute__((packed));
 
@@ -2714,7 +2714,7 @@ struct PACKET_ZC_UPDATE_ITEM_FROM_BUYING_STORE {
 #else
 	uint16 itemId;
 #endif
-	uint16 amount;
+	int32 amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 #if PACKETVER >= 20141016
 	uint32 zeny;
 	uint32 zenyLimit;
@@ -2993,7 +2993,7 @@ struct PACKET_ZC_ACK_SCHEDULER_CASHITEM {
 struct PACKET_ZC_PC_PURCHASE_MYITEMLIST_sub {
 	uint32 price;
 	int16 index;
-	int16 amount;
+	int32 amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 	uint8 itemType;
 #if PACKETVER_MAIN_NUM >= 20181121 || PACKETVER_RE_NUM >= 20180704 || PACKETVER_ZERO_NUM >= 20181114
 	uint32 itemId;
@@ -3081,7 +3081,7 @@ DEFINE_PACKET_HEADER(ZC_PC_PURCHASE_ITEMLIST, 0x00c6)
 #endif  // PACKETVER_MAIN_NUM >= 20210203
 
 struct PACKET_CZ_PC_PURCHASE_ITEMLIST_sub {
-	uint16 amount;
+	int32 amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 #if PACKETVER_MAIN_NUM >= 20181121 || PACKETVER_RE_NUM >= 20180704 || PACKETVER_ZERO_NUM >= 20181114
 	uint32 itemId;
 #else
@@ -3101,7 +3101,7 @@ struct PACKET_CZ_REQ_OPEN_BUYING_STORE_sub {
 #else
 	uint16 itemId;
 #endif
-	uint16 amount;
+	int32 amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 	uint32 price;
 } __attribute__((packed));
 
@@ -3116,7 +3116,7 @@ struct PACKET_CZ_REQ_OPEN_BUYING_STORE {
 
 struct PACKET_ZC_MYITEMLIST_BUYING_STORE_sub {
 	uint32 price;
-	uint16 amount;
+	int32 amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 	uint8 itemType;
 #if PACKETVER_MAIN_NUM >= 20181121 || PACKETVER_RE_NUM >= 20180704 || PACKETVER_ZERO_NUM >= 20181114
 	uint32 itemId;
@@ -3136,7 +3136,7 @@ struct PACKET_ZC_MYITEMLIST_BUYING_STORE {
 #if PACKETVER_MAIN_NUM >= 20200916 || PACKETVER_RE_NUM >= 20200723 || PACKETVER_ZERO_NUM >= 20221024
 struct PACKET_ZC_PC_PURCHASE_ITEMLIST_FROMMC_sub {
 	uint32 price;
-	uint16 amount;
+	int32 amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 	int16 index;
 	uint8 itemType;
 #if PACKETVER_MAIN_NUM >= 20181121 || PACKETVER_RE_NUM >= 20180704 || PACKETVER_ZERO_NUM >= 20181114
@@ -3165,7 +3165,7 @@ DEFINE_PACKET_HEADER(ZC_PC_PURCHASE_ITEMLIST_FROMMC, 0x0b3d)
 #elif PACKETVER >= 20100105
 struct PACKET_ZC_PC_PURCHASE_ITEMLIST_FROMMC_sub {
 	uint32 price;
-	uint16 amount;
+	int32 amount; // [Stingor] int32, comme la variante active
 	int16 index;
 	uint8 itemType;
 #if PACKETVER_MAIN_NUM >= 20181121 || PACKETVER_RE_NUM >= 20180704 || PACKETVER_ZERO_NUM >= 20181114
@@ -3205,7 +3205,7 @@ DEFINE_PACKET_HEADER(ZC_PC_PURCHASE_ITEMLIST_FROMMC, 0x0800)
 #else
 struct PACKET_ZC_PC_PURCHASE_ITEMLIST_FROMMC_sub {
 	uint32 price;
-	uint16 amount;
+	int32 amount; // [Stingor] int32, comme la variante active
 	int16 index;
 	uint8 itemType;
 #if PACKETVER_MAIN_NUM >= 20181121 || PACKETVER_RE_NUM >= 20180704 || PACKETVER_ZERO_NUM >= 20181114
@@ -3230,7 +3230,7 @@ DEFINE_PACKET_HEADER(ZC_PC_PURCHASE_ITEMLIST_FROMMC, 0x0133)
 
 struct PACKET_ZC_ACK_ITEMLIST_BUYING_STORE_sub {
 	uint32 price;
-	uint16 amount;
+	int32 amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 	uint8 itemType;
 #if PACKETVER_MAIN_NUM >= 20181121 || PACKETVER_RE_NUM >= 20180704 || PACKETVER_ZERO_NUM >= 20181114
 	uint32 itemId;
@@ -3255,7 +3255,7 @@ struct PACKET_CZ_REQ_TRADE_BUYING_STORE_sub {
 #else
 	uint16 itemId;
 #endif
-	uint16 amount;
+	int32 amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 } __attribute__((packed));
 
 struct PACKET_CZ_REQ_TRADE_BUYING_STORE {
@@ -3389,7 +3389,7 @@ struct PACKET_ZC_PC_CASH_POINT_ITEMLIST {
 } __attribute__((packed));
 
 struct PACKET_CZ_PC_BUY_CASH_POINT_ITEM_sub {
-	uint16 amount;
+	int32 amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 #if PACKETVER_MAIN_NUM >= 20181121 || PACKETVER_RE_NUM >= 20180704 || PACKETVER_ZERO_NUM >= 20181114
 	uint32 itemId;
 #else
@@ -3469,7 +3469,7 @@ struct PACKET_ZC_SEARCH_STORE_INFO_ACK_sub {
 #endif
 	uint8 itemType;
 	uint32 price;
-	uint16 amount;
+	int32 amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 	struct EQUIPSLOTINFO slot;
 	struct ItemOptions option_data[MAX_ITEM_OPTIONS];
 	uint8 refine;
@@ -3497,7 +3497,7 @@ struct PACKET_ZC_SEARCH_STORE_INFO_ACK_sub {
 #endif
 	uint8 itemType;
 	uint32 price;
-	uint16 amount;
+	int32 amount; // [Stingor] int32, comme la variante active
 	uint8 refine;
 	struct EQUIPSLOTINFO slot;
 #if PACKETVER >= 20150226
@@ -4116,7 +4116,7 @@ DEFINE_PACKET_HEADER(ZC_ACK_CLOSE_ROULETTE, 0x0a1e);
 struct PACKET_ZC_ACK_MERGE_ITEM {
 	int16 packetType;
 	int16 index;
-	int16 amount;
+	int32 amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 	uint8 reason;
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_ACK_MERGE_ITEM, 0x096f);
@@ -4310,7 +4310,7 @@ struct PACKET_ZC_NPC_MARKET_PURCHASE_RESULT_sub {
 #else
 	uint16 ITID;
 #endif
-	uint16 qty;
+	int32 qty; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 	uint32 price;
 } __attribute__((packed));
 
@@ -5607,7 +5607,7 @@ struct PACKET_ZC_STORE_ENTRY {
 DEFINE_PACKET_HEADER(ZC_STORE_ENTRY, 0x0131);
 
 struct CZ_PURCHASE_ITEM_FROMMC {
-	int16 count;
+	int32 count; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 	int16 index;
 } __attribute__((packed));
 
@@ -7005,6 +7005,9 @@ enum e_moonclient_server_rule : uint16 {
 	// qui ne les connaît pas garde son plafond de 2^31-1.
 	MOONCLIENT_RULE_ZENY_MAX_LOW             = 29, ///< MAX_ZENY, bits 0 à 31
 	MOONCLIENT_RULE_ZENY_MAX_HIGH            = 30, ///< MAX_ZENY, bits 32 à 63
+	// Le plafond d'une pile d'objets, MAX_AMOUNT. Un client qui ne la connaît pas
+	// garde le plafond d'un rAthena d'usine, 30 000.
+	MOONCLIENT_RULE_ITEM_AMOUNT_MAX          = 31, ///< MAX_AMOUNT
 };
 
 struct PACKET_ZC_MOONLIGHT_SERVER_RULES_entry {
@@ -7407,6 +7410,7 @@ struct PACKET_ZC_MOONLIGHT_FAIR_PLAY {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_FAIR_PLAY, 0x0f6a);
 
+
 // [Stingor] ZC_MOONLIGHT_INSTANCE_INFO (0x0F40) — ce que la fenêtre d'instance
 // ne lit pas dans 0x02CB / 0x02CD : la difficulté (HM) et le mode turbo choisis
 // à la création, à qui appartient l'instance, qui peut la détruire, et ses
@@ -7538,7 +7542,7 @@ struct PACKET_MOONLIGHT_MARKET_ENTRY {
 	uint32 store_id;   ///< vender_id, buyer_id, ou l'identifiant de bloc du PNJ
 	uint32 owner_aid;  ///< le compte du marchand ; 0 pour un PNJ
 	uint32 itemId;
-	uint16 amount;     ///< PNJ : le stock d'un marketshop ou d'un troc limité ; 0 = illimité
+	int32 amount;     ///< PNJ : le stock d'un marketshop ou d'un troc limité ; 0 = illimité
 	uint32 price;      ///< prix unitaire, dans la monnaie ; PNJ : celui que CE joueur paierait (remise de pc_modifybuyvalue si la boutique l'admet) ; troc : les zeny en plus des items
 	uint8  refine;
 	uint8  grade;
@@ -8476,7 +8480,7 @@ DEFINE_PACKET_HEADER(ZC_MOONCLIENT_STYLE_ABSENT, 0x0f64);
 // CARD_ALBUM_OK quand l'état est poussé sans avoir été sollicité.
 struct CARD_ALBUM_ENTRY {
 	uint32 nameid;  ///< id SERVEUR, renvoyé tel quel par CARD_ALBUM_CMD_GET
-	uint16 amount;  ///< copies en réserve ; 0 est légitime sur un emplacement ouvert
+	int32 amount;  ///< copies en réserve ; 0 est légitime sur un emplacement ouvert
 	uint8  flags;   ///< bit 0 : emplacement DÉBLOQUÉ. Sinon la carte n'est que cataloguée.
 	uint32 equip;   ///< masque d'emplacement CIBLE (ARMOR, HAND_R…) : le client n'a
 	                ///< pas d'item_db, c'est la seule façon de filtrer par slot.
@@ -8503,7 +8507,7 @@ struct PACKET_CZ_MOONLIGHT_CARD_ALBUM_CMD {
 	int16  packetLength;
 	uint8  cmd;     ///< e_card_album_cmd
 	uint32 arg;
-	uint16 amount;  ///< ignoré par REFRESH et UNLOCK (qui vaut toujours 1 copie)
+	int32 amount;  ///< ignoré par REFRESH et UNLOCK (qui vaut toujours 1 copie)
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(CZ_MOONLIGHT_CARD_ALBUM_CMD, 0x0f34);
 

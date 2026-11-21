@@ -688,7 +688,7 @@ char storage_guild_storageopen(map_session_data* sd)
 	return GSTORAGE_OPEN;
 }
 
-void storage_guild_log( map_session_data* sd, struct item* item, int16 amount ){
+void storage_guild_log( map_session_data* sd, struct item* item, int32 amount ){
 	int32 i;
 	SqlStmt stmt{ *mmysql_handle };
 	StringBuf buf;
@@ -748,7 +748,7 @@ enum e_guild_storage_log storage_guild_log_read_sub( map_session_data* sd, std::
 	stmt.BindColumn(0, SQLDT_UINT32, &entry.id);
 	stmt.BindColumn(1, SQLDT_STRING, &entry.time, sizeof(entry.time));
 	stmt.BindColumn(2, SQLDT_STRING, &entry.name, sizeof(entry.name));
-	stmt.BindColumn(3, SQLDT_INT16, &entry.amount);
+	stmt.BindColumn(3, SQLDT_INT32, &entry.amount);
 
 	// Item data
 	stmt.BindColumn(4, SQLDT_UINT32, &entry.item.nameid);

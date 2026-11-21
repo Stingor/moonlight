@@ -16,7 +16,7 @@ class map_session_data;
 struct s_buyingstore_item
 {
 	int32 price;
-	uint16 amount;
+	int32 amount;
 	t_itemid nameid;
 };
 
@@ -30,7 +30,7 @@ struct s_buyingstore
 /// Autotrade entry
 struct s_autotrade_entry {
 	uint32 cartinventory_id; ///< Item entry id/cartinventory_id in cart_inventory table (for vending)
-	uint16 amount; ///< Amount
+	uint32 amount; ///< Amount
 	uint32 price; ///< Price
 	uint16 index; ///< Item index in cart
 	t_itemid item_id; ///< Item ID (for buyingstore)

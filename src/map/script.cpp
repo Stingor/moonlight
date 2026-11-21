@@ -7523,7 +7523,7 @@ BUILDIN_FUNC(checkweight)
 
 	for (i = 2; i < nbargs; i += 2) {
 		t_itemid nameid;
-		uint16 amount;
+		int32 amount;
 
 		if( script_isstring(st, i) ) // item name
 			id = item_db.searchname( script_getstr( st, i ) );
@@ -7633,7 +7633,7 @@ BUILDIN_FUNC(checkweight2)
 	slots = pc_inventoryblank(sd);
 	for(i=0; i<nb_it; i++) {
 		t_itemid nameid = (t_itemid)get_val2_num( st, reference_uid( id_it, idx_it + i ), reference_getref( data_it ) );
-		uint16 amount = (uint16)get_val2_num( st, reference_uid( id_nb, idx_nb + i ), reference_getref( data_nb ) );
+		int32 amount = (int32)get_val2_num( st, reference_uid( id_nb, idx_nb + i ), reference_getref( data_nb ) );
 
 		if(fail)
 			continue; //cpntonie to depop rest
@@ -7696,7 +7696,7 @@ BUILDIN_FUNC(getitem)
 {
 	int32 get_count, i;
 	t_itemid nameid;
-	uint16 amount;
+	int32 amount;
 	map_session_data* sd;
 	const char* command = script_getfuncname(st);
 	std::shared_ptr<item_data> id;
@@ -8189,7 +8189,8 @@ BUILDIN_FUNC(grouprandomitem) {
 */
 BUILDIN_FUNC(makeitem) {
 	t_itemid nameid;
-	uint16 amount, flag = 0, x, y;
+	int32 amount;
+	uint16 flag = 0, x, y;
 	const char *mapname;
 	int32 m;
 	struct item item_tmp;
@@ -12345,7 +12346,7 @@ BUILDIN_FUNC(getunits)
 static int32 buildin_getareadropitem_sub(block_list *bl,va_list ap)
 {
 	t_itemid nameid = va_arg(ap, t_itemid);
-	uint16 *amount = (uint16 *)va_arg(ap, int32 *);
+	int32 *amount = va_arg(ap, int32 *);
 	flooritem_data *drop=(flooritem_data *)bl;
 
 	if(drop->item.nameid==nameid)
@@ -12358,7 +12359,7 @@ BUILDIN_FUNC(getareadropitem)
 	const char *str;
 	int16 m,x0,y0,x1,y1;
 	t_itemid nameid;
-	uint16 amount = 0;
+	int32 amount = 0;
 
 	str=script_getstr(st,2);
 	x0=script_getnum(st,3);
@@ -26636,16 +26637,16 @@ BUILDIN_FUNC(mail){
 		for( i = 0; i < num_items && start < end; i++, start++ ){
 			std::shared_ptr<item_data> itm = item_db.find(msg.item[i].nameid);
 
-			msg.item[i].amount = (int16)get_val2_num( st, reference_uid( id, start ), reference_getref( data ) );
+			msg.item[i].amount = (int32)get_val2_num( st, reference_uid( id, start ), reference_getref( data ) );
 
 			if( msg.item[i].amount <= 0 ){
 				ShowError( "buildin_mail: amount %d for item %u is invalid.\n", msg.item[i].amount, msg.item[i].nameid );
 				return SCRIPT_CMD_FAILURE;
 			}else if( itemdb_isstackable2(itm.get()) ){
-				uint16 max = itm->stack.amount > 0 ? itm->stack.amount : MAX_AMOUNT;
+				uint32 max = itm->stack.amount > 0 ? itm->stack.amount : MAX_AMOUNT;
 
 				if( msg.item[i].amount > max ){
-					ShowWarning( "buildin_mail: amount %d for item %u is exceeding the maximum of %d. Capping...\n", msg.item[i].amount, msg.item[i].nameid, max );
+					ShowWarning( "buildin_mail: amount %d for item %u is exceeding the maximum of %u. Capping...\n", msg.item[i].amount, msg.item[i].nameid, max );
 					msg.item[i].amount = max;
 				}
 			}else{

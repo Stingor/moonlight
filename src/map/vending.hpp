@@ -12,9 +12,14 @@ class map_session_data;
 struct s_search_store_search;
 struct s_autotrader;
 
+/// [Stingor] Une ligne de l'ouverture d'échoppe (CZ_REQ_OPENSTORE2) :
+/// <index>.W <amount>.L <price>.L. La quantité est un int32 : une pile va
+/// jusqu'à MAX_AMOUNT.
+#define VENDING_OPEN_ENTRY_SIZE 10
+
 struct s_vending {
 	int16 index; /// cart index (return item data)
-	int16 amount; ///amout of the item for vending
+	int32 amount; ///amout of the item for vending
 	uint32 value; ///at which price
 };
 

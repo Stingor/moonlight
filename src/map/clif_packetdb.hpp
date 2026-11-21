@@ -1349,7 +1349,7 @@
 	parseable_packet(0x0819,-1,clif_parse_ReqTradeBuyingStore,2,4,8,12);
 	packet(0x081a,4);
 	packet(0x081b,10);
-	packet(0x081c,10);
+	packet(0x081c,12); // [Stingor] <index>.W <amount>.L <price>.L
 #endif
 
 // 2010-06-08aRagexeRE
@@ -1709,7 +1709,7 @@
 	parseable_packet(0x0A01,3,clif_parse_HotkeyRowShift,2); // CZ_SHORTCUTKEYBAR_ROTATE
 	packet(0x0A0E,14); // ZC_BATTLEFIELD_NOTIFY_HP2
 	packet(0x09F7,75); // ZC_PROPERTY_HOMUN_2
-	packet(0x09E6,22); // ZC_UPDATE_ITEM_FROM_BUYING_STORE2
+	packet(0x09E6,sizeof(PACKET_ZC_UPDATE_ITEM_FROM_BUYING_STORE)); // ZC_UPDATE_ITEM_FROM_BUYING_STORE2 [Stingor] quantité en int32
 	// Roulette System [Yommy]
 	parseable_packet(0x0A19,2,clif_parse_roulette_open,0); // CZ_REQ_OPEN_ROULETTE
 	packet(0x0A1A,23); // ZC_ACK_OPEN_ROULETTE
@@ -1752,9 +1752,9 @@
 	parseable_packet(0x09F5,11,clif_parse_Mail_delete,0); // CZ_REQ_DELETE_MAIL
 	packet(0x09F6,11); // ZC_ACK_DELETE_MAIL
 	parseable_packet(0x0A03,2,clif_parse_Mail_cancelwrite,0); // CZ_REQ_CANCEL_WRITE_MAIL
-	parseable_packet(0x0A04,6,clif_parse_Mail_setattach,2,4); // CZ_REQ_ADD_ITEM_TO_MAIL
-	parseable_packet(0x0A06,6,clif_parse_Mail_winopen,2,4); // CZ_REQ_REMOVE_ITEM_MAIL
-	packet(0x0A07,9); // ZC_ACK_REMOVE_ITEM_MAIL
+	parseable_packet(0x0A04,8,clif_parse_Mail_setattach,2,4); // CZ_REQ_ADD_ITEM_TO_MAIL [Stingor] <index>.W <amount>.L
+	parseable_packet(0x0A06,8,clif_parse_Mail_winopen,2,4); // CZ_REQ_REMOVE_ITEM_MAIL [Stingor] <index>.W <amount>.L
+	packet(0x0A07,sizeof(PACKET_ZC_ACK_REMOVE_ITEM_MAIL)); // ZC_ACK_REMOVE_ITEM_MAIL [Stingor] quantité en int32
 	parseable_packet(0x0A08,26,clif_parse_Mail_beginwrite,0); // CZ_REQ_OPEN_WRITE_MAIL
 	packet(0x0A12,27); // ZC_ACK_OPEN_WRITE_MAIL
 	parseable_packet(0x0A13,26,clif_parse_Mail_Receiver_Check,2); // CZ_CHECK_RECEIVE_CHARACTER_NAME
@@ -1918,7 +1918,7 @@
 
 // 2018-04-18bRagexeRE
 #if PACKETVER >= 20180418
-	packet(0x0ADD, 22);
+	packet(0x0ADD, sizeof(packet_dropflooritem)); // [Stingor] quantité en int32
 #endif
 
 #if PACKETVER >= 20180516

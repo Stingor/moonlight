@@ -131,7 +131,7 @@ void market_add_vending(const s_market_query& query, const map_session_data& own
 			continue;
 		PACKET_MOONLIGHT_MARKET_ENTRY entry = market_entry_of(owner, static_cast<uint32>(owner.vender_id));
 		entry.itemId = it.nameid;
-		entry.amount = static_cast<uint16>(sale.amount);
+		entry.amount = sale.amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 		entry.price = sale.value;
 		entry.refine = static_cast<uint8>(it.refine);
 		entry.grade = it.enchantgrade;
@@ -226,7 +226,7 @@ bool market_collect_npc(const map_session_data& sd, const s_market_query& query,
 		PACKET_MOONLIGHT_MARKET_ENTRY entry{};
 		entry.store_id = static_cast<uint32>(offer.nd->id);
 		entry.itemId = offer.nameid;
-		entry.amount = static_cast<uint16>(std::clamp<int32>(offer.stock, 0, UINT16_MAX));
+		entry.amount = std::max<int32>(offer.stock, 0); // [Stingor] int32
 		entry.price = price;
 		entry.identified = 1;
 		if (const map_data* mapdata = map_getmapdata(offer.nd->m); mapdata != nullptr)

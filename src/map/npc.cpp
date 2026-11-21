@@ -2643,7 +2643,8 @@ static enum e_CASHSHOP_ACK npc_cashshop_process_payment(npc_data *nd, int32 pric
  * @return clif_cashshop_ack value to display
  */
 int32 npc_cashshop_buylist( map_session_data *sd, int32 points, std::vector<s_npc_buy_list>& item_list ){
-	int32 i, j, amount, new_, w, vt;
+	int32 i, j, amount, new_, vt;
+	int64 w; // [Stingor] Poids en 64 bits : quelques piles de MAX_AMOUNT d'un objet lourd dépassent un int32.
 	t_itemid nameid;
 	npc_data *nd = (npc_data *)map_id2bl(sd->npc_shopid);
 	enum e_CASHSHOP_ACK res;
@@ -2693,8 +2694,15 @@ int32 npc_cashshop_buylist( map_session_data *sd, int32 points, std::vector<s_np
 				return ERROR_TYPE_INVENTORY_WEIGHT;
 		}
 
-		vt += nd->u.shop.shop_item[j].value * amount;
-		w += itemdb_weight(nameid) * amount;
+		// [Stingor] En 64 bits : une pile de MAX_AMOUNT au prix d'un objet cher
+		// dépasse un int32, et le paiement se ferait sur un total retourné.
+		const int64 line_cost = static_cast<int64>( nd->u.shop.shop_item[j].value ) * amount;
+
+		if( line_cost > INT32_MAX - static_cast<int64>( vt ) )
+			return ERROR_TYPE_MONEY;
+
+		vt += static_cast<int32>( line_cost );
+		w += static_cast<int64>( itemdb_weight(nameid) ) * amount;
 	}
 
 	if (nd->master_nd) //Script-based shops.
@@ -2805,7 +2813,8 @@ void npc_shop_currency_type( const map_session_data* sd, const npc_data* nd, int
 int32 npc_cashshop_buy(map_session_data *sd, t_itemid nameid, int32 amount, int32 points)
 {
 	npc_data *nd = (npc_data *)map_id2bl(sd->npc_shopid);
-	int32 i, price, w;
+	int32 i, price;
+	int64 w; // [Stingor] Poids en 64 bits : quelques piles de MAX_AMOUNT d'un objet lourd dépassent un int32.
 	enum e_CASHSHOP_ACK res;
 
 	if( amount <= 0 )
@@ -2850,7 +2859,7 @@ int32 npc_cashshop_buy(map_session_data *sd, t_itemid nameid, int32 amount, int3
 			return ERROR_TYPE_INVENTORY_WEIGHT;
 	}
 
-	w = id->weight * amount;
+	w = static_cast<int64>( id->weight ) * amount;
 	if( w + sd->weight > sd->max_weight )
 		return ERROR_TYPE_INVENTORY_WEIGHT;
 
@@ -2926,7 +2935,8 @@ e_purchase_result npc_buylist( map_session_data* sd, std::vector<s_npc_buy_list>
 	npc_data* nd;
 	struct npc_item_list *shop = nullptr;
 	double z;
-	int32 j,k,w,skill,new_;
+	int32 j,k,skill,new_;
+	int64 w; // [Stingor] Poids en 64 bits : quelques piles de MAX_AMOUNT d'un objet lourd dépassent un int32.
 	uint8 market_index[MAX_INVENTORY];
 
 	nullpo_retr(e_purchase_result::PURCHASE_FAIL_COUNT, sd);
@@ -2950,7 +2960,7 @@ e_purchase_result npc_buylist( map_session_data* sd, std::vector<s_npc_buy_list>
 	// process entries in buy list, one by one
 	for( int32 i = 0; i < item_list.size(); ++i ){
 		t_itemid nameid;
-		uint16 amount;
+		int32 amount;
 		int32 value;
 
 		// find this entry in the shop's sell list
@@ -3005,7 +3015,7 @@ e_purchase_result npc_buylist( map_session_data* sd, std::vector<s_npc_buy_list>
 			value = pc_modifybuyvalue(sd,value);
 
 		z += (double)value * amount;
-		w += itemdb_weight(nameid) * amount;
+		w += static_cast<int64>( itemdb_weight(nameid) ) * amount;
 	}
 
 	if (nd->master_nd){ //Script-based shops.
@@ -3025,7 +3035,7 @@ e_purchase_result npc_buylist( map_session_data* sd, std::vector<s_npc_buy_list>
 
 	for( int32 i = 0; i < item_list.size(); ++i ) {
 		t_itemid nameid = item_list[i].nameid;
-		uint16 amount = item_list[i].qty;
+		int32 amount = item_list[i].qty;
 
 #if PACKETVER >= 20131223
 		if (nd->subtype == NPCTYPE_MARKETSHOP) {

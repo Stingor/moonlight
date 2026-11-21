@@ -52,7 +52,7 @@
 CREATE TABLE IF NOT EXISTS `card_album` (
   `user_id`     int(11) unsigned     NOT NULL DEFAULT 0,
   `nameid`      int(10) unsigned     NOT NULL DEFAULT 0,
-  `amount`      smallint(5) unsigned NOT NULL DEFAULT 0,
+  `amount`      int(11) unsigned     NOT NULL DEFAULT 0,
   `unlocked_at` datetime             NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`,`nameid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

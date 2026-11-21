@@ -612,7 +612,7 @@ int32 char_memitemdata_to_sql(const struct item items[], int32 max, int32 id, en
 
 	stmt.BindColumn(0, SQLDT_INT32, &item.id);
 	stmt.BindColumn(1, SQLDT_UINT32, &item.nameid);
-	stmt.BindColumn(2, SQLDT_INT16, &item.amount);
+	stmt.BindColumn(2, SQLDT_INT32, &item.amount);
 	stmt.BindColumn(3, SQLDT_UINT32, &item.equip);
 	stmt.BindColumn(4, SQLDT_CHAR, &item.identify);
 	stmt.BindColumn(5, SQLDT_CHAR, &item.refine);
@@ -839,7 +839,7 @@ bool char_memitemdata_from_sql(struct s_storage* p, int32 max, int32 id, enum st
 
 	stmt.BindColumn(0, SQLDT_INT32, &item.id);
 	stmt.BindColumn(1, SQLDT_UINT32, &item.nameid);
-	stmt.BindColumn(2, SQLDT_INT16, &item.amount);
+	stmt.BindColumn(2, SQLDT_INT32, &item.amount);
 	stmt.BindColumn(3, SQLDT_UINT32, &item.equip);
 	stmt.BindColumn(4, SQLDT_CHAR, &item.identify);
 	stmt.BindColumn(5, SQLDT_CHAR, &item.refine);
@@ -3238,7 +3238,7 @@ void char_config_split_startitem(char *w1_value, char *w2_value, struct startite
 		// TODO: Item ID verification
 		start_items[i].nameid = strtoul( fields[1], nullptr, 10 );
 		// TODO: Stack verification
-		start_items[i].amount = min( (uint16)strtoul( fields[2], nullptr, 10 ), MAX_AMOUNT );
+		start_items[i].amount = min( (uint32)strtoul( fields[2], nullptr, 10 ), (uint32)MAX_AMOUNT );
 		start_items[i].pos = strtoul( fields[3], nullptr, 10 );
 
 		lineitem = strtok(nullptr, ":"); //next lineitem

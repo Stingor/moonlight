@@ -9295,6 +9295,8 @@ void clif_moonclient_server_rules(map_session_data& sd) {
 		// Le plafond du solde en poche, int64 coupé en deux moitiés de 32 bits.
 		{ MOONCLIENT_RULE_ZENY_MAX_LOW,   static_cast<int32>(static_cast<uint32>(static_cast<uint64>(MAX_ZENY) & 0xFFFFFFFFu)) },
 		{ MOONCLIENT_RULE_ZENY_MAX_HIGH,  static_cast<int32>(static_cast<uint32>(static_cast<uint64>(MAX_ZENY) >> 32)) },
+		// Le plafond d'une pile d'objets.
+		{ MOONCLIENT_RULE_ITEM_AMOUNT_MAX, MAX_AMOUNT },
 	};
 	const size_t len = sizeof(PACKET_ZC_MOONLIGHT_SERVER_RULES) + sizeof(rules);
 
@@ -9839,9 +9841,9 @@ void clif_moonclient_card_album(map_session_data& sd, e_card_album_result result
 
 	const std::vector<s_card_album_card>& catalog = card_album_catalog();
 
-	// La taille d'une entrée : 12 octets, nature du monstre comprise.
+	// La taille d'une entrée : 14 octets, nature du monstre comprise.
 	constexpr size_t entry_size = sizeof( CARD_ALBUM_ENTRY );
-	static_assert( entry_size == 12, "CARD_ALBUM_ENTRY a change de taille : revoir l'ecriture ci-dessous" );
+	static_assert( entry_size == 14, "CARD_ALBUM_ENTRY a change de taille : revoir l'ecriture ci-dessous" );
 
 	// packetLength est un int16 signé : 32767 octets, soit ~2700 entrées de 12. Le
 	// catalogue en compte ~912, donc la marge est de 3x. La borne n'est pas là
@@ -9884,7 +9886,7 @@ void clif_moonclient_card_album(map_session_data& sd, e_card_album_result result
 		// correct si l'une en recevait un, alors que passer par l'id client ferait
 		// alors collisionner deux cartes dans le catalogue.
 		WFIFOL(fd, off) = card.nameid;                                        off += 4;
-		WFIFOW(fd, off) = unlocked ? sd.card_album[ai].amount : 0;            off += 2;
+		WFIFOL(fd, off) = unlocked ? sd.card_album[ai].amount : 0;            off += 4;
 		WFIFOB(fd, off) = unlocked ? 1 : 0;                                   off += 1;
 		WFIFOL(fd, off) = card.equip;                                         off += 4;
 		WFIFOB(fd, off) = card.boss;                                          off += 1;
@@ -9905,12 +9907,12 @@ void clif_parse_moonlight_card_album_cmd(int32 fd, map_session_data* sd) {
 
 	const int32 pkt_len = RFIFOW(fd, 2);
 
-	// [type:2][len:2][cmd:1][arg:4][amount:2] = 11 octets.
+	// [type:2][len:2][cmd:1][arg:4][amount:4] = 13 octets.
 	if (pkt_len < static_cast<int32>(sizeof(PACKET_CZ_MOONLIGHT_CARD_ALBUM_CMD))) return;
 
 	const uint8  cmd    = RFIFOB(fd, 4);
 	const uint32 arg    = RFIFOL(fd, 5);
-	const uint16 amount = RFIFOW(fd, 9);
+	const uint32 amount = RFIFOL(fd, 9);
 
 	// Fermeture : rendre le verrou, sans réponse — la fenêtre n'est plus là pour
 	// la lire, et un état complet pour rien ferait 10 Ko sur le fil.
@@ -15204,8 +15206,8 @@ void clif_vendinglist( map_session_data& sd, map_session_data& vsd ){
 		}
 
 		entry.price = vsd.vending[i].value;
-		entry.amount = vsd.vending[i].amount;
 		entry.index = client_index( index );
+		entry.amount = vsd.vending[i].amount;
 		entry.itemType = itemtype( vsd.cart.u.items_cart[index].nameid );
 		entry.itemId = client_nameid( vsd.cart.u.items_cart[index].nameid );
 		entry.identified = vsd.cart.u.items_cart[index].identify;
@@ -15241,7 +15243,7 @@ void clif_vendinglist( map_session_data& sd, map_session_data& vsd ){
 ///     5 = "cannot use an npc shop while in a trade"
 ///     6 = Because the store information was incorrect the item was not purchased.
 ///     7 = No sales information.
-void clif_buyvending( map_session_data& sd, uint16 index, uint16 amount, e_pc_purchase_result_frommc result ){
+void clif_buyvending( map_session_data& sd, uint16 index, int32 amount, e_pc_purchase_result_frommc result ){
 	PACKET_ZC_PC_PURCHASE_RESULT_FROMMC packet{};
 
 	packet.packetType = HEADER_ZC_PC_PURCHASE_RESULT_FROMMC;
@@ -15307,7 +15309,7 @@ void clif_openvending( const map_session_data& sd ){
 /// Inform merchant that someone has bought an item.
 /// 0137 <index>.W <amount>.W (ZC_DELETEITEM_FROM_MCSTORE)
 /// 09e5 <index>.W <amount>.W <GID>.L <Date>.L <zeny>.L (ZC_DELETEITEM_FROM_MCSTORE2)
-void clif_vendingreport( map_session_data& sd, uint16 index, uint16 amount, uint32 char_id, int32 zeny ){
+void clif_vendingreport( map_session_data& sd, uint16 index, int32 amount, uint32 char_id, int32 zeny ){
 	PACKET_ZC_DELETEITEM_FROM_MCSTORE packet{};
 
 	packet.packetType = HEADER_ZC_DELETEITEM_FROM_MCSTORE;
@@ -20068,7 +20070,7 @@ void clif_parse_DropItem(int32 fd, map_session_data *sd){
 	// TODO: shuffle packet
 	struct s_packet_db* info = &packet_db[RFIFOW(fd,0)];
 	int32 item_index  = RFIFOW(fd,info->pos[0]) -2;
-	int32 item_amount = RFIFOW(fd,info->pos[1]) ;
+	int32 item_amount = RFIFOL(fd,info->pos[1]); // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 
 	for(;;) {
 		if (pc_isdead(sd))
@@ -20590,7 +20592,7 @@ void clif_parse_TradeAddItem(int32 fd,map_session_data *sd)
 	if( p->index == 0 ){
 		trade_tradeaddzeny( sd, p->amount );
 	}else{
-		trade_tradeadditem( sd, server_index( p->index ), static_cast<int16>( p->amount ) );
+		trade_tradeadditem( sd, server_index( p->index ), p->amount );
 	}
 }
 
@@ -22376,7 +22378,7 @@ void clif_parse_OpenVending(int32 fd, map_session_data* sd){
 	if( message[0] == '\0' ) // invalid input
 		return;
 
-	vending_openvending(*sd, message, data, len/8, nullptr);
+	vending_openvending(*sd, message, data, len/VENDING_OPEN_ENTRY_SIZE, nullptr);
 }
 
 
@@ -24910,7 +24912,7 @@ void clif_parse_Mail_setattach(int32 fd, map_session_data *sd){
 #if PACKETVER < 20150513
 	int32 amount = RFIFOL(fd,info->pos[1]);
 #else
-	int32 amount = RFIFOW(fd,info->pos[1]);
+	int32 amount = RFIFOL(fd,info->pos[1]); // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 #endif
 	unsigned char flag;
 
@@ -24986,7 +24988,7 @@ void clif_parse_Mail_winopen(int32 fd, map_session_data *sd)
 		mail_removezeny(sd, false);
 #else
 	uint16 index = RFIFOW(fd, 2);
-	uint16 count = RFIFOW(fd, 4);
+	int32 count = RFIFOL(fd, 4); // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
 
 	mail_removeitem(sd,0,index,count);
 #endif
@@ -27802,7 +27804,7 @@ void clif_buyingstore_trade_failed_buyer( const map_session_data* sd, int16 resu
 /// Updates the zeny limit and an item in the buying store item list.
 /// 081b <name id>.W <amount>.W <limit zeny>.L (ZC_UPDATE_ITEM_FROM_BUYING_STORE)
 /// 09e6 <name id>.W <amount>.W <zeny>.L <limit zeny>.L <GID>.L <Date>.L (ZC_UPDATE_ITEM_FROM_BUYING_STORE2)
-void clif_buyingstore_update_item( const map_session_data* sd, t_itemid nameid, uint16 amount, uint32 char_id, int32 zeny ){
+void clif_buyingstore_update_item( const map_session_data* sd, t_itemid nameid, int32 amount, uint32 char_id, int32 zeny ){
 	PACKET_ZC_UPDATE_ITEM_FROM_BUYING_STORE p = {};
 
 	p.packetType = buyingStoreUpdateItemType;
@@ -27825,15 +27827,15 @@ void clif_buyingstore_update_item( const map_session_data* sd, t_itemid nameid, 
 ///     "%s (%d) were sold at %dz." (0x6d2, MSI_BUYINGSTORE_TRADE_SELLCOMPLETE)
 ///
 /// NOTE:   This function has to be called _instead_ of clif_delitem/clif_dropitem.
-void clif_buyingstore_delete_item( const map_session_data* sd, int16 index, uint16 amount, int32 price )
+void clif_buyingstore_delete_item( const map_session_data* sd, int16 index, int32 amount, int32 price )
 {
 	int32 fd = sd->fd;
 
 	WFIFOHEAD(fd,packet_len(0x81c));
 	WFIFOW(fd,0) = 0x81c;
 	WFIFOW(fd,2) = client_index( index );
-	WFIFOW(fd,4) = amount;
-	WFIFOL(fd,6) = price;  // price per item, client calculates total Zeny by itself
+	WFIFOL(fd,4) = amount; // [Stingor] int32 : une pile va jusqu'à MAX_AMOUNT
+	WFIFOL(fd,8) = price;  // price per item, client calculates total Zeny by itself
 	WFIFOSET(fd,packet_len(0x81c));
 }
 
@@ -29601,7 +29603,7 @@ void clif_parse_roulette_item( int32 fd, map_session_data* sd ){
  * @param fd
  * @param sd
  **/
-void clif_merge_item_ack( map_session_data &sd, enum MERGE_ITEM_ACK type, uint16 index = 0, uint16 count = 0 ){
+void clif_merge_item_ack( map_session_data &sd, enum MERGE_ITEM_ACK type, uint16 index = 0, int32 count = 0 ){
 #if PACKETVER_MAIN_NUM >= 20120314 || PACKETVER_RE_NUM >= 20120221 || defined(PACKETVER_ZERO)
 	PACKET_ZC_ACK_MERGE_ITEM p = {};
 
@@ -29762,7 +29764,7 @@ void clif_parse_merge_item_req( int32 fd, map_session_data* sd ){
 		total_amount += sd->inventory.u.items_inventory[idx].amount;
 	}
 
-	uint16 stack = sd->inventory_data[idx_main]->stack.amount;
+	uint32 stack = sd->inventory_data[idx_main]->stack.amount;
 
 	if( stack == 0 ){
 		stack = MAX_AMOUNT;
@@ -29775,7 +29777,7 @@ void clif_parse_merge_item_req( int32 fd, map_session_data* sd ){
 
 	// Merrrrge!!!!
 	for( uint16 idx : indices ){
-		uint16 amount = sd->inventory.u.items_inventory[idx].amount;
+		int32 amount = sd->inventory.u.items_inventory[idx].amount;
 
 		log_pick_pc( sd, LOG_TYPE_MERGE_ITEM, -amount, &sd->inventory.u.items_inventory[idx] );
 		memset( &sd->inventory.u.items_inventory[idx], 0, sizeof( sd->inventory.u.items_inventory[0] ) );
@@ -30667,7 +30669,7 @@ void clif_guild_storage_log( const map_session_data& sd, const std::vector<guild
 
 			item.id = entry.id;
 			item.itemId = client_nameid( entry.item.nameid );
-			item.amount = (uint16)( entry.amount > 0 ? entry.amount : ( entry.amount * -1 ) );
+			item.amount = ( entry.amount > 0 ? entry.amount : ( entry.amount * -1 ) ); // [Stingor] int32 sur le fil : plus de troncature à 16 bits
 			item.action = entry.amount > 0; // action = true(put), false(get)
 			item.refine = entry.item.refine;
 			item.uniqueId = entry.item.unique_id;

@@ -238,7 +238,7 @@ const s_card_album_entry* card_album_find( map_session_data* sd, t_itemid nameid
 
 /// Inserts or updates the cached entry, keeping the vector sorted by nameid:
 /// card_album_load() returns it that way and the packet builder relies on it.
-static void card_album_cache_set( map_session_data* sd, t_itemid nameid, uint16 amount ){
+static void card_album_cache_set( map_session_data* sd, t_itemid nameid, uint32 amount ){
 	s_card_album_entry entry = {};
 
 	entry.nameid = nameid;
@@ -278,14 +278,14 @@ static const s_card_album_entry* card_album_refresh_entry( map_session_data* sd,
 	}
 
 	bool found = false;
-	uint16 amount = 0;
+	uint32 amount = 0;
 
 	if( Sql_NextRow( mmysql_handle ) == SQL_SUCCESS ){
 		char* amount_data = nullptr;
 
 		if( Sql_GetData( mmysql_handle, 0, &amount_data, nullptr ) == SQL_SUCCESS && amount_data != nullptr ){
 			found = true;
-			amount = static_cast<uint16>( strtoul( amount_data, nullptr, 10 ) );
+			amount = static_cast<uint32>( strtoul( amount_data, nullptr, 10 ) );
 		}
 	}
 
@@ -342,7 +342,7 @@ void card_album_load( map_session_data* sd ){
 		s_card_album_entry entry = {};
 
 		entry.nameid = static_cast<t_itemid>( strtoul( nameid_data, nullptr, 10 ) );
-		entry.amount = static_cast<uint16>( strtoul( amount_data, nullptr, 10 ) );
+		entry.amount = static_cast<uint32>( strtoul( amount_data, nullptr, 10 ) );
 
 		// A card removed from item_db since the row was written stays in SQL - we
 		// do not delete player data on a db edit - but it is not shown or moved.
@@ -432,7 +432,7 @@ void card_album_close( map_session_data* sd ){
  * silently launder a bound card into a free one. Refusing is correct today (no
  * such card exists) and stays correct the day a script hands one out.
  */
-static e_card_album_result card_album_check_inventory( map_session_data* sd, int16 inv_index, t_itemid* nameid, uint16 amount ){
+static e_card_album_result card_album_check_inventory( map_session_data* sd, int16 inv_index, t_itemid* nameid, uint32 amount ){
 	if( sd->status.user_id == 0 ){
 		return CARD_ALBUM_NO_ACCOUNT;
 	}
@@ -535,7 +535,7 @@ e_card_album_result card_album_unlock( map_session_data* sd, int16 inv_index, bo
 	return CARD_ALBUM_OK;
 }
 
-e_card_album_result card_album_put( map_session_data* sd, int16 inv_index, uint16 amount, bool save ){
+e_card_album_result card_album_put( map_session_data* sd, int16 inv_index, uint32 amount, bool save ){
 	nullpo_retr( CARD_ALBUM_FAIL, sd );
 
 	t_itemid nameid = 0;
@@ -556,7 +556,7 @@ e_card_album_result card_album_put( map_session_data* sd, int16 inv_index, uint1
 	// One RELATIVE, CONDITIONAL statement: the reserve grows by `amount` only if
 	// the row exists AND the stack has that much room. Whatever another session
 	// did meanwhile is already in the row.
-	auto try_put = [&]( uint16 n ) -> bool {
+	auto try_put = [&]( uint32 n ) -> bool {
 		if( Sql_Query( mmysql_handle,
 				"UPDATE `card_album` SET `amount` = `amount` + '%u' WHERE `user_id` = '%u' AND `nameid` = '%u' AND `amount` <= '%u'",
 				n, sd->status.user_id, nameid, static_cast<uint32>( MAX_AMOUNT ) - n ) != SQL_SUCCESS ){
@@ -581,7 +581,7 @@ e_card_album_result card_album_put( map_session_data* sd, int16 inv_index, uint1
 
 		// Partial room: store what fits, as the first version did - but with the
 		// room read from the row a moment ago, and still under the same guard.
-		amount = static_cast<uint16>( MAX_AMOUNT - entry->amount );
+		amount = static_cast<uint32>( MAX_AMOUNT - entry->amount );
 
 		if( !try_put( amount ) ){
 			card_album_refresh_entry( sd, nameid );
@@ -600,7 +600,7 @@ e_card_album_result card_album_put( map_session_data* sd, int16 inv_index, uint1
 	return CARD_ALBUM_OK;
 }
 
-e_card_album_result card_album_get( map_session_data* sd, t_itemid nameid, uint16 amount, bool save ){
+e_card_album_result card_album_get( map_session_data* sd, t_itemid nameid, uint32 amount, bool save ){
 	nullpo_retr( CARD_ALBUM_FAIL, sd );
 
 	if( sd->status.user_id == 0 ){

@@ -1284,7 +1284,7 @@ ACMD_FUNC(storealbum)
 
 		// Lu AVANT le transfert : card_album_put appelle pc_delitem, qui vide le
 		// slot. Le tableau, lui, ne se compacte pas — iterer par index reste sur.
-		const uint16 amount = (uint16)it.amount;
+		const uint32 amount = (uint32)it.amount;
 
 		// [Stingor] Une seule sauvegarde de l'inventaire pour toute la boucle,
 		// juste après elle : pas une par pile.
@@ -2238,7 +2238,7 @@ static std::string shopsearch_price(const s_npc_shop_offer& offer) {
 // Un étal de joueur.
 struct s_shopsearch_vend {
 	map_session_data* sd;
-	int16 amount;
+	int32 amount;
 	uint32 value;
 };
 

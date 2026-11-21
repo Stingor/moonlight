@@ -307,7 +307,7 @@ bool mapif_parse_itembound_retrieve(int32 fd)
 
 	stmt.BindColumn(0, SQLDT_INT32, &item.id);
 	stmt.BindColumn(1, SQLDT_UINT32, &item.nameid);
-	stmt.BindColumn(2, SQLDT_INT16, &item.amount);
+	stmt.BindColumn(2, SQLDT_INT32, &item.amount);
 	stmt.BindColumn(3, SQLDT_UINT32, &item.equip);
 	stmt.BindColumn(4, SQLDT_CHAR, &item.identify);
 	stmt.BindColumn(5, SQLDT_CHAR, &item.refine);

@@ -1101,10 +1101,10 @@ void clif_openvendingreq( map_session_data& sd, uint16 num );
 void clif_showvendingboard( map_session_data& sd, enum send_target target = AREA_WOS, block_list* tbl = nullptr );
 void clif_closevendingboard( block_list& bl, send_target target, block_list* tbl );
 void clif_vendinglist( map_session_data& sd, map_session_data& vsd );
-void clif_buyvending( map_session_data& sd, uint16 index, uint16 amount, e_pc_purchase_result_frommc result );
+void clif_buyvending( map_session_data& sd, uint16 index, int32 amount, e_pc_purchase_result_frommc result );
 void clif_openvending( const map_session_data& sd );
 void clif_openvending_ack(const map_session_data& sd, e_ack_openstore2 result);
-void clif_vendingreport( map_session_data& sd, uint16 index, uint16 amount, uint32 char_id, int32 zeny );
+void clif_vendingreport( map_session_data& sd, uint16 index, int32 amount, uint32 char_id, int32 zeny );
 
 void clif_movetoattack( const map_session_data& sd, block_list& bl );
 
@@ -1378,8 +1378,8 @@ void clif_buyingstore_entry( const map_session_data& sd, const block_list* tbl =
 void clif_buyingstore_disappear_entry( const map_session_data& sd, const block_list* tbl = nullptr );
 void clif_buyingstore_itemlist( const map_session_data& sd, const map_session_data& pl_sd );
 void clif_buyingstore_trade_failed_buyer( const map_session_data* sd, int16 result );
-void clif_buyingstore_update_item( const map_session_data* sd, t_itemid nameid, uint16 amount, uint32 char_id, int32 zeny );
-void clif_buyingstore_delete_item( const map_session_data* sd, int16 index, uint16 amount, int32 price );
+void clif_buyingstore_update_item( const map_session_data* sd, t_itemid nameid, int32 amount, uint32 char_id, int32 zeny );
+void clif_buyingstore_delete_item( const map_session_data* sd, int16 index, int32 amount, int32 price );
 void clif_buyingstore_trade_failed_seller( const map_session_data* sd, int16 result, t_itemid nameid );
 
 /// Search Store System

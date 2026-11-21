@@ -46,7 +46,7 @@ struct guild_log_entry{
 	char name[NAME_LENGTH];
 	char time[NAME_LENGTH];
 	struct item item;
-	int16 amount;
+	int32 amount;
 };
 
 const char *storage_getName(uint8 id);

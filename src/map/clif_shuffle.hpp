@@ -4730,7 +4730,7 @@
 	parseable_packet(0x0360,6,clif_parse_TickSend,2);
 	parseable_packet(0x0361,5,clif_parse_ChangeDir,2,4);
 	parseable_packet(0x0362,6,clif_parse_TakeItem,2);
-	parseable_packet(0x0363,6,clif_parse_DropItem,2,4);
+	parseable_packet(0x0363,8,clif_parse_DropItem,2,4); // [Stingor] <index>.W <amount>.L
 	parseable_packet(0x0364,8,clif_parse_MoveToKafra,2,4);
 	parseable_packet(0x0365,8,clif_parse_MoveFromKafra,2,4);
 	parseable_packet(0x0366,10,clif_parse_UseSkillToPos,2,4,6,8);

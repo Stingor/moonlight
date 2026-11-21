@@ -135,7 +135,8 @@ static double vending_calc_tax(map_session_data *sd, double zeny)
  */
 void vending_purchasereq(map_session_data* sd, int32 aid, int32 uid, const uint8* data, int32 count)
 {
-	int32 i, j, cursor, w, new_ = 0, blank, vend_list[MAX_VENDING];
+	int32 i, j, cursor, new_ = 0, blank, vend_list[MAX_VENDING];
+	int64 w; // [Stingor] Poids en 64 bits : quelques piles de MAX_AMOUNT d'un objet lourd dépassent un int32.
 	double z;
 	struct s_vending vending[MAX_VENDING]; // against duplicate packets
 	map_session_data* vsd = map_id2sd(aid);
@@ -166,8 +167,9 @@ void vending_purchasereq(map_session_data* sd, int32 aid, int32 uid, const uint8
 	z = 0.; // zeny counter
 	w = 0;  // weight counter
 	for( i = 0; i < count; i++ ) {
-		int16 amount = *(uint16*)(data + 4*i + 0);
-		int16 idx    = *(uint16*)(data + 4*i + 2);
+		const CZ_PURCHASE_ITEM_FROMMC* line = reinterpret_cast<const CZ_PURCHASE_ITEM_FROMMC*>( data ) + i; // [Stingor] quantité en int32
+		int16 idx    = line->index;
+		int32 amount = line->count;
 		idx -= 2;
 
 		if( amount <= 0 )
@@ -193,7 +195,7 @@ void vending_purchasereq(map_session_data* sd, int32 aid, int32 uid, const uint8
 			return;
 
 		}
-		w += itemdb_weight(vsd->cart.u.items_cart[idx].nameid) * amount;
+		w += static_cast<int64>( itemdb_weight(vsd->cart.u.items_cart[idx].nameid) ) * amount;
 		if( w + sd->weight > sd->max_weight ) {
 			clif_buyvending( *sd, idx, amount, PURCHASEMC_OVERWEIGHT );
 			return;
@@ -233,8 +235,9 @@ void vending_purchasereq(map_session_data* sd, int32 aid, int32 uid, const uint8
 	pc_getzeny(vsd, static_cast<int64>(z), LOG_TYPE_VENDING, sd->status.char_id);
 
 	for( i = 0; i < count; i++ ) {
-		int16 amount = *(uint16*)(data + 4*i + 0);
-		int16 idx    = *(uint16*)(data + 4*i + 2);
+		const CZ_PURCHASE_ITEM_FROMMC* line = reinterpret_cast<const CZ_PURCHASE_ITEM_FROMMC*>( data ) + i; // [Stingor] quantité en int32
+		int16 idx    = line->index;
+		int32 amount = line->count;
 		idx -= 2;
 		z = 0.; // zeny counter
 
@@ -347,9 +350,9 @@ int8 vending_openvending( map_session_data& sd, const char* message, const uint8
 	i = 0;
 	int64 total = 0;
 	for( j = 0; j < count; j++ ) {
-		int16 index        = *(uint16*)(data + 8*j + 0);
-		int16 amount       = *(uint16*)(data + 8*j + 2);
-		uint32 value       = *(uint32*)(data + 8*j + 4);
+		int16 index        = *(uint16*)(data + VENDING_OPEN_ENTRY_SIZE*j + 0);
+		int32 amount       = *(int32*)(data + VENDING_OPEN_ENTRY_SIZE*j + 2);
+		uint32 value       = *(uint32*)(data + VENDING_OPEN_ENTRY_SIZE*j + 6);
 
 		index -= 2; // offset adjustment (client says that the first cart position is 2)
 
@@ -553,13 +556,13 @@ void vending_reopen( map_session_data& sd )
 		uint16 j, count;
 
 		// Init vending data for autotrader
-		CREATE(data, uint8, at->count * 8);
+		CREATE(data, uint8, at->count * VENDING_OPEN_ENTRY_SIZE);
 
 		for (j = 0, p = data, count = at->count; j < at->count; j++) {
 			struct s_autotrade_entry *entry = at->entries[j];
 			uint16 *index = (uint16*)(p + 0);
-			uint16 *amount = (uint16*)(p + 2);
-			uint32 *value = (uint32*)(p + 4);
+			int32 *amount = (int32*)(p + 2);
+			uint32 *value = (uint32*)(p + 6);
 
 			// Find item position in cart
 			ARR_FIND(0, MAX_CART, entry->index, sd.cart.u.items_cart[entry->index].id == entry->cartinventory_id);
@@ -573,7 +576,7 @@ void vending_reopen( map_session_data& sd )
 			*amount = itemdb_isstackable(sd.cart.u.items_cart[entry->index].nameid) ? entry->amount : 1;
 			*value = entry->price;
 
-			p += 8;
+			p += VENDING_OPEN_ENTRY_SIZE;
 		}
 
 		sd.state.prevend = 1; // Set him into a hacked prevend state

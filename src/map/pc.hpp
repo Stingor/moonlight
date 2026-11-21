@@ -951,7 +951,8 @@ public:
 
 	struct s_deal {
 		struct s_item {
-			int16 index, amount;
+			int16 index;
+			int32 amount;
 		} item[10];
 		int32 zeny, weight;
 		uint8 inventory_space;

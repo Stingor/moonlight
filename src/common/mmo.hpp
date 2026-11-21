@@ -78,7 +78,13 @@ typedef uint32 t_itemid;
 /** Number of slots carded equipment can have. Never set to less than 4 as they are also used to keep the data of forged items/equipment. [Skotlex]
 * Note: The client seems unable to receive data for more than 4 slots due to all related packets having a fixed size. */
 #define MAX_SLOTS 4
-#define MAX_AMOUNT 30000 ////Max amount of a single stacked item
+// [Stingor] Le plafond d'une PILE d'objets : 99 999. `amount` est un int32 en
+// mémoire, un int en base (sql-files/upgrade_item_amount_int.sql, à exécuter
+// AVANT de démarrer ce serveur) et un int32 dans les trames d'objets, élargies
+// sur place (packets_struct.hpp, packets.hpp) : seul moonclient les lit. Il
+// connaît ce plafond par les règles (0x0F38, clé 31). Voir
+// docs/plan-item-amount-int32.md.
+#define MAX_AMOUNT 99999 ////Max amount of a single stacked item
 // [Stingor] Le plafond du SOLDE d'un personnage : 999 999 999 999 zeny, douze
 // chiffres. Le solde est un int64 (`mmo_charstatus::zeny`), `char`.`zeny` un
 // bigint (sql-files/upgrade_char_zeny_bigint.sql, à exécuter AVANT de démarrer
@@ -405,7 +411,7 @@ struct s_item_randomoption {
 struct item {
 	int32 id;
 	t_itemid nameid;
-	int16 amount;
+	int32 amount; // [Stingor] int32 : la pile peut dépasser 32 767 (voir MAX_AMOUNT)
 	uint32 equip; // location(s) where item is equipped (using enum equip_pos for bitmasking)
 	char identify;
 	char refine;
@@ -466,7 +472,7 @@ struct s_point_str{
 
 struct startitem {
 	t_itemid nameid;
-	uint16 amount;
+	uint32 amount;
 	uint32 pos;
 };
 
