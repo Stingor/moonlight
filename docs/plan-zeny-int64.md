@@ -1,6 +1,9 @@
 # Plan — le zeny en poche passe en int64
 
-État : **lots 0 et 1 faits** (2026-11-21), lots 2 à 7 à faire. `MAX_ZENY` vaut
+État : **lots 0 et 1 faits, lot 2 écrit** (2026-11-21) — migration
+`sql-files/upgrade_char_zeny_bigint.sql`, pas encore exécutée (la base de test
+`rathena-test` avait `int(11) unsigned`, 10 908 personnages, des soldes déjà à
+2 147 483 647). Lots 3 à 7 à faire. `MAX_ZENY` vaut
 encore INT_MAX : il ne monte qu'une fois les lots 2 (base) et 3 (paquets) prêts,
 pour que chaque commit reste déployable seul.
 
@@ -96,9 +99,11 @@ Exporter aussi `MAX_BANK_ZENY` et `MAX_ZENY_AMOUNT` dans `script_constants.hpp`
 
 1. `sql-files/upgrade_char_zeny_bigint.sql` :
    `ALTER TABLE \`char\` MODIFY \`zeny\` bigint(20) unsigned NOT NULL default '0';`
-2. `char.cpp` : `SQLDT_INT32` → `SQLDT_INT64` (1128, 1248), `'%d'` → `PRId64` (306),
-   relire la requête de la ligne 2658.
-3. `CHARACTER_INFO.money` (`char.cpp:2005`) : borner à INT32_MAX (D2).
+   Exécutable à tout moment (sans effet tant que `MAX_ZENY` vaut INT_MAX),
+   obligatoire avant le démarrage d'un char-server où `MAX_ZENY` dépasse INT_MAX.
+2. ~~`char.cpp` : `SQLDT_INT64`, `PRId64`~~ — fait au lot 1 (la requête de la
+   ligne 2658 n'est qu'un test d'existence des colonnes).
+3. ~~`CHARACTER_INFO.money` borné à INT32_MAX (D2)~~ — fait au lot 1.
 4. `mmo_charstatus` passe d'un serveur à l'autre : **recompiler le char-server et le map-server
    ensemble**, migration SQL **avant** le démarrage (même procédure que les succès
    au compte).

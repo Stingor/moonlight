@@ -1,0 +1,29 @@
+--
+-- Le zeny en poche en int64 [Stingor] -- base du JEU (char_server_db)
+--
+-- Lot 2 de docs/plan-zeny-int64.md. Le solde d'un personnage
+-- (`mmo_charstatus::zeny`) est un int64 depuis 3f9531e36, et le char-server
+-- le lit et l'ecrit deja en 64 bits (SQLDT_INT64, PRId64). Quand MAX_ZENY
+-- (src/common/mmo.hpp) depassera INT_MAX, une colonne int(11) unsigned
+-- tronquerait tout solde au-dela de 4 294 967 295 -- ou, en mode strict
+-- (STRICT_TRANS_TABLES, actif sur nos MariaDB), ferait echouer la sauvegarde
+-- du personnage.
+--
+-- A executer AVANT de demarrer un char-server dont MAX_ZENY depasse INT_MAX.
+-- L'executer plus tot est sans effet : un bigint tient tous les soldes
+-- actuels, et le code ne lit pas la largeur de la colonne.
+--
+-- La table est reconstruite : serveurs arretes, ou au moins char-server
+-- arrete, le temps de l'ALTER.
+--
+-- Rien d'autre a migrer : `mail`.`zeny` est un montant d'envoi, borne par
+-- MAX_ZENY_AMOUNT (int32) ; le solde de la banque vit dans `acc_reg_num`,
+-- deja en bigint ; `zenylog`.`amount` est passe en bigint par
+-- upgrade_zenylog_bigint.sql (base des journaux).
+--
+-- A verifier avant : SELECT COLUMN_TYPE FROM information_schema.COLUMNS
+--   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'char' AND COLUMN_NAME = 'zeny';
+-- Le schema amont de rAthena la declare `int(11) unsigned NOT NULL default '0'`.
+--
+
+ALTER TABLE `char` MODIFY `zeny` bigint(20) unsigned NOT NULL default '0';
