@@ -346,7 +346,11 @@ void buyingstore_open(map_session_data* sd, uint32 account_id)
 * @param count Number of item on the itemlist
 */
 void buyingstore_trade( map_session_data* sd, uint32 account_id, uint32 buyer_id, const struct PACKET_CZ_REQ_TRADE_BUYING_STORE_sub* itemlist, uint32 count ){
-	int32 zeny = 0;
+	// [Stingor] int64 : une ligne vaut amount (<= 9999) x price (<= 99 990 000),
+	// soit jusqu'à ~1e12, qui déborde d'un int32. En int32 le produit devenait
+	// négatif, le test de budget passait, et la vente était payée 0 — le vendeur
+	// cédait ses objets pour rien. Défaut hérité d'amont.
+	int64 zeny = 0;
 	uint32 weight;
 	map_session_data* pl_sd;
 
@@ -450,12 +454,14 @@ void buyingstore_trade( map_session_data* sd, uint32 account_id, uint32 buyer_id
 		weight += item->amount * sd->inventory_data[index]->weight;
 
 		// buyer does not have enough zeny
-		if( item->amount * pl_sd->buyingstore.items[listidx].price > pl_sd->buyingstore.zenylimit - zeny ){
+		// [Stingor] produit en int64 : sinon le dépassement d'un int32 rend ce
+		// test faussement faux et laisse passer une vente que le budget refuse.
+		if( static_cast<int64>( item->amount ) * pl_sd->buyingstore.items[listidx].price > pl_sd->buyingstore.zenylimit - zeny ){
 			clif_buyingstore_trade_failed_seller( sd, BUYINGSTORE_TRADE_SELLER_ZENY, item->itemId );
 			return;
 		}
 
-		zeny += item->amount * pl_sd->buyingstore.items[listidx].price;
+		zeny += static_cast<int64>( item->amount ) * pl_sd->buyingstore.items[listidx].price;
 	}
 
 	// process item list
@@ -464,7 +470,7 @@ void buyingstore_trade( map_session_data* sd, uint32 account_id, uint32 buyer_id
 		int32 listidx;
 
 		ARR_FIND( 0, pl_sd->buyingstore.slots, listidx, pl_sd->buyingstore.items[listidx].nameid == item->itemId );
-		zeny = item->amount * pl_sd->buyingstore.items[listidx].price;
+		zeny = static_cast<int64>( item->amount ) * pl_sd->buyingstore.items[listidx].price; // [Stingor] int64
 
 		int32 index = item->index - 2; // TODO: clif::server_index
 
@@ -486,11 +492,13 @@ void buyingstore_trade( map_session_data* sd, uint32 account_id, uint32 buyer_id
 		// pay up
 		pc_payzeny(pl_sd, zeny, LOG_TYPE_BUYING_STORE, sd->status.char_id);
 		pc_getzeny(sd, zeny, LOG_TYPE_BUYING_STORE, pl_sd->status.char_id);
-		pl_sd->buyingstore.zenylimit-= zeny;
+		// [Stingor] zeny d'une ligne <= total <= zenylimit (int32), vérifié plus
+		// haut : la troncature et la soustraction tiennent dans un int32.
+		pl_sd->buyingstore.zenylimit -= static_cast<int32>( zeny );
 
 		// notify clients
 		clif_buyingstore_delete_item(sd, index, item->amount, pl_sd->buyingstore.items[listidx].price);
-		clif_buyingstore_update_item(pl_sd, item->itemId, item->amount, sd->status.char_id, zeny);
+		clif_buyingstore_update_item(pl_sd, item->itemId, item->amount, sd->status.char_id, static_cast<int32>( zeny ));
 	}
 
 	if( save_settings&CHARSAVE_VENDING ) {
