@@ -22026,7 +22026,7 @@ Body:
     WeaponLevel: 3
     EquipLevelMin: 105
     Refineable: true
-    Script: "bonus bMatk,100; bonus bInt,4; bonus2 bSkillUseSP,\"CG_ARROWVULCAN\",10;\n"
+    Script: "bonus bMatk,100; bonus bInt,4; bonus2 bSkillUseSP,\"AC_SHOWER\",10;\n"
   - Id: 18104
     AegisName: Adventure_Bow
     Name: Adventure Bow
@@ -22389,7 +22389,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 130
     Refineable: true
-    Script: "bonus bLongAtkRate,30; bonus bDelayrate,-10; bonus2 bSkillUseSP,\"CG_ARROWVULCAN\",15;\n"
+    Script: "bonus bLongAtkRate,30; bonus bDelayrate,-10; bonus2 bSkillUseSP,\"AC_SHOWER\",15;\n"
   - Id: 18124
     AegisName: Half_BF_Bow1
     Name: Half BF Bow1
@@ -22687,7 +22687,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 130
     Refineable: true
-    Script: ".@r = getrefine(); bonus2 bAddClass,Class_All,3; if (.@r >= 7) { bonus bLongAtkRate,7; if (.@r >= 9) { bonus bDelayrate,-10; if (getallrefine() >= 22) { bonus2 bSkillAtk,\"CG_ARROWVULCAN\",15; } } }\n"
+    Script: ".@r = getrefine(); bonus2 bAddClass,Class_All,3; if (.@r >= 7) { bonus bLongAtkRate,7; if (.@r >= 9) { bonus bDelayrate,-10; if (getallrefine() >= 22) { bonus2 bSkillAtk,\"AC_SHOWER\",15; } } }\n"
   - Id: 18180
     AegisName: AC_B44_OS
     Name: AC_B44_OS [2]
@@ -22789,7 +22789,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
-    Script: ".@r = getrefine(); bonus bLongAtkRate,10+.@r; if (.@r>=9) bonus2 bSkillAtk,\"CG_ARROWVULCAN\",30; if (getallrefine() >= 22) bonus bDelayrate,-10;\n"
+    Script: ".@r = getrefine(); bonus bLongAtkRate,10+.@r; if (.@r>=9) bonus2 bSkillAtk,\"AC_SHOWER\",30; if (getallrefine() >= 22) bonus bDelayrate,-10;\n"
   - Id: 21000
     AegisName: Upg_Twohand_Sword
     Name: Upg Two-Handed Sword [1]
@@ -23210,7 +23210,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
-    Script: ".@r = getrefine(); bonus bLongAtkRate,.@r; bonus2 bAddClass,Class_All,5; if (.@r>=9) { bonus2 bSkillAtk,\"LK_SPIRALPIERCE\",30; } if (getallrefine() >= 22) { bonus bDelayrate,-8; }\n"
+    Script: ".@r = getrefine(); bonus bLongAtkRate,.@r; bonus2 bAddClass,Class_All,5; if (.@r>=9) { bonus2 bSkillAtk,\"KN_BOWLINGBASH\",30; } if (getallrefine() >= 22) { bonus bDelayrate,-8; }\n"
   - Id: 26007
     AegisName: Spectral_Spear_IL
     Name: Illusion Spectral Spear [1]
@@ -23467,7 +23467,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
-    Script: ".@r = getrefine(); bonus bMatk,190+4*.@r; bonus2 bMagicAtkEle,Ele_Neutral,10; if (.@r>=9) bonus2 bSkillAtk,\"BA_MUSICALSTRIKE\",30; if (getallrefine() >= 22) bonus bDelayrate,-10;\n"
+    Script: ".@r = getrefine(); bonus bMatk,190+4*.@r; bonus2 bMagicAtkEle,Ele_Neutral,10; if (.@r>=9) bonus2 bSkillAtk,\"DC_THROWARROW\",30; if (getallrefine() >= 22) bonus bDelayrate,-10;\n"
   - Id: 26213
     AegisName: Scarlet_Ribbon
     Name: Scarlet Ribbon
@@ -24094,7 +24094,7 @@ Body:
     WeaponLevel: 3
     EquipLevelMin: 120
     Refineable: true
-    Script: "bonus bLongAtkRate,15; if (.@r >= 7) { bonus2 bSkillAtk,\"GS_SPREADATTACK\",30; if (.@r >= 9) { bonus bDelayrate,-5; } }\n"
+    Script: "bonus bLongAtkRate,15; if (.@r >= 7) { bonus bLongAtkRate,30; if (.@r >= 9) { bonus bDelayrate,-5; } }\n"
   - Id: 28226
     AegisName: Avenger
     Name: Avenger [2]
@@ -24145,7 +24145,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 150
     Refineable: true
-    Script: ".@r = getrefine(); bonus bDex,2; bonus2 bAddClass,Class_All,2; bonus bLongAtkRate,(.@r/2)*5 + (getallrefine() >= 24 ? 5 : 0); if(.@r > 6){ bonus2 bSkillAtk,\"GS_FULLBUSTER\",20; } if(.@r > 8){ bonus2 bSkillUseSPrate,\"GS_FULLBUSTER\",-5; }\n"
+    Script: ".@r = getrefine(); bonus bDex,2; bonus2 bAddClass,Class_All,2; bonus bLongAtkRate,(.@r/2)*5 + (getallrefine() >= 24 ? 5 : 0); if(.@r > 6){ bonus bLongAtkRate,20; } if(.@r > 8){ }\n"
   - Id: 28242
     AegisName: Calf_Anaconda
     Name: Calf Anaconda
@@ -24213,7 +24213,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 130
     Refineable: true
-    Script: ".@r = getrefine(); bonus2 bAddClass,Class_All,3; if (.@r >= 7) { bonus bLongAtkRate,7; if (.@r >= 9) { bonus2 bSkillAtk,\"GS_DUST\",20; if (getallrefine() >= 22) { bonus bDelayrate,-25; } } }\n"
+    Script: ".@r = getrefine(); bonus2 bAddClass,Class_All,3; if (.@r >= 7) { bonus bLongAtkRate,7; if (.@r >= 9) { bonus2 bSkillAtk,\"GS_TRACKING\",20; if (getallrefine() >= 22) { bonus bDelayrate,-25; } } }\n"
   - Id: 28254
     AegisName: Butcher_IL
     Name: Illusion Butcher [2]
@@ -24230,7 +24230,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 120
     Refineable: true
-    Script: ".@r = getrefine(); bonus bLongAtkRate,2*(readparam(bStr)/15); bonus bBaseAtk,10*.@r; if (.@r >= 7) { bonus2 bSkillAtk,\"GS_SPREADATTACK\",20; if (.@r >= 9) { bonus2 bSkillAtk,\"GS_FULLBUSTER\",15; if (getallrefine() >= 22) { bonus2 bAddRace,RC_Brute,30; bonus2 bAddRace,RC_Demon,30; } } }\n"
+    Script: ".@r = getrefine(); bonus bLongAtkRate,2*(readparam(bStr)/15); bonus bBaseAtk,10*.@r; if (.@r >= 7) { bonus bLongAtkRate,20; if (.@r >= 9) { bonus bLongAtkRate,15; if (getallrefine() >= 22) { bonus2 bAddRace,RC_Brute,30; bonus2 bAddRace,RC_Demon,30; } } }\n"
   - Id: 28255
     AegisName: Master_Soul_Rifle
     Name: Master Soul Rifle [2]
@@ -24298,7 +24298,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 100
     Refineable: true
-    Script: ".@r = getrefine(); bonus bLongAtkRate,2*(.@r/3); bonus bBaseAtk,10*(.@r/2); if (.@r >= 7) { .@val = 15; bonus2 bSkillUseSPrate,\"GS_FULLBUSTER\",10; if (.@r >= 9) { autobonus3 \"{ bonus bBaseAtk,50; bonus bLongAtkRate,10; }\",1000,90000,\"GS_ADJUSTMENT\"; if (getallrefine() >= 22) { .@val += 15; } } bonus2 bSkillAtk,\"GS_FULLBUSTER\",.@val; }\n"
+    Script: ".@r = getrefine(); bonus bLongAtkRate,2*(.@r/3); bonus bBaseAtk,10*(.@r/2); if (.@r >= 7) { .@val = 15; if (.@r >= 9) { autobonus3 \"{ bonus bBaseAtk,50; bonus bLongAtkRate,10; }\",1000,90000,\"GS_ADJUSTMENT\"; if (getallrefine() >= 22) { .@val += 15; } } bonus bLongAtkRate,.@val; }\n"
   - Id: 28600
     AegisName: Ru_Blue_Book
     Name: Blue Book [1]
@@ -25012,7 +25012,7 @@ Body:
     WeaponLevel: 4
     EquipLevelMin: 170
     Refineable: true
-    Script: ".@r = getrefine(); bonus bMatk,190+4*.@r; bonus2 bMagicAtkEle,Ele_Neutral,10; if (.@r>=9) bonus2 bSkillAtk,\"BA_MUSICALSTRIKE\",30; if (getallrefine() >= 22) bonus bDelayrate,-10;\n"
+    Script: ".@r = getrefine(); bonus bMatk,190+4*.@r; bonus2 bMagicAtkEle,Ele_Neutral,10; if (.@r>=9) bonus2 bSkillAtk,\"DC_THROWARROW\",30; if (getallrefine() >= 22) bonus bDelayrate,-10;\n"
   - Id: 32108
     AegisName: Antique_Cello
     Name: Antique Cello
@@ -26441,13 +26441,13 @@ Body:
     Script: |
       .@r = getrefine();
       bonus2 bAddClass,Class_All,10;
-      bonus2 bSkillAtk,"AS_SONICBLOW",10;
+      bonus2 bSkillAtk,"ASC_BREAKER",10;
       if (.@r>=7) {
          bonus bAspdRate,10;
          bonus bBaseAtk,40;
       }
       if (.@r>=9) {
-         bonus2 bSkillAtk,"AS_SONICBLOW",15;
+         bonus2 bSkillAtk,"ASC_BREAKER",15;
          autobonus "{ bonus2 bAddSize,Size_All,15; }",1,10000,BF_WEAPON;
       }
       if (getallrefine() >= 22) {
@@ -27104,7 +27104,7 @@ Body:
     Refineable: true
     Script: |
       .@r = getrefine();
-      bonus2 bSkillAtk,"GS_RAPIDSHOWER",6*(.@r/2);
+      bonus bLongAtkRate,6*(.@r/2);
       bonus bLongAtkRate,3*(.@r/4);
   - Id: 840005
     AegisName: Fourth_Grenade
@@ -27744,14 +27744,14 @@ Body:
     Refineable: true
     Script: |
       .@r = getrefine();
-      bonus2 bSkillAtk,"GS_FULLBUSTER",10;
+      bonus bLongAtkRate,10;
       bonus bBaseAtk,18*(.@r/3);
       if (.@r>=7) {
-         bonus2 bSkillAtk,"GS_FULLBUSTER",20;
+         bonus bLongAtkRate,20;
          if (.@r>=9) {
             bonus2 bAddSize,Size_All,15;
             if (getallrefine() >= 22) {
-               bonus2 bSkillAtk,"GS_FULLBUSTER",25;
+               bonus bLongAtkRate,25;
                if (getallrefine() >= 24) {
                   bonus bLongAtkRate,15;
                }
@@ -28204,14 +28204,14 @@ Body:
     Script: |
       bonus bMatk,210;
       .@r = getrefine();
-      bonus2 bSkillAtk,"BA_MUSICALSTRIKE",10;
+      bonus2 bSkillAtk,"DC_THROWARROW",10;
       bonus bMatk,12*(.@r/3);
       if (.@r>=7) {
-         bonus2 bSkillAtk,"BA_MUSICALSTRIKE",20;
+         bonus2 bSkillAtk,"DC_THROWARROW",20;
          if (.@r>=9) {
             bonus bDelayrate,-10;
             if (getallrefine() >= 22) {
-               bonus2 bSkillAtk,"BA_MUSICALSTRIKE",25;
+               bonus2 bSkillAtk,"DC_THROWARROW",25;
                if (getallrefine() >= 24) {
                   bonus2 bMagicAtkEle,Ele_Neutral,15;
                }
@@ -28237,14 +28237,14 @@ Body:
     Script: |
       .@r = getrefine();
       bonus bUnbreakableWeapon;
-      bonus2 bSkillAtk,"GS_DUST",10;
+      bonus2 bSkillAtk,"GS_TRACKING",10;
       bonus bBaseAtk,18*(.@r/3);
       if (.@r>=7) {
-         bonus2 bSkillAtk,"GS_DUST",20;
+         bonus2 bSkillAtk,"GS_TRACKING",20;
          if (.@r>=9) {
             bonus bDelayrate,-25;
             if (getallrefine() >= 22) {
-               bonus2 bSkillAtk,"GS_DUST",25;
+               bonus2 bSkillAtk,"GS_TRACKING",25;
                if (getallrefine() >= 24) {
                   bonus bLongAtkRate,15;
                }
@@ -29182,14 +29182,14 @@ Body:
     Script: |
       .@g = getenchantgrade();
       .@r = getrefine();
-      bonus2 bSkillAtk,"GS_FULLBUSTER",10;
+      bonus bLongAtkRate,10;
       bonus bBaseAtk,18*(.@r/3);
       if (.@r>=7) {
-         bonus2 bSkillAtk,"GS_FULLBUSTER",20;
+         bonus bLongAtkRate,20;
          if (.@r>=9) {
             bonus2 bAddSize,Size_All,15;
             if (getallrefine() >= 22) {
-               bonus2 bSkillAtk,"GS_FULLBUSTER",25;
+               bonus bLongAtkRate,25;
                if (getallrefine() >= 24) {
                   bonus bLongAtkRate,15;
                }
@@ -29866,14 +29866,14 @@ Body:
       bonus bMatk,210;
       .@g = getenchantgrade();
       .@r = getrefine();
-      bonus2 bSkillAtk,"BA_MUSICALSTRIKE",10;
+      bonus2 bSkillAtk,"DC_THROWARROW",10;
       bonus bMatk,12*(.@r/3);
       if (.@r>=7) {
-         bonus2 bSkillAtk,"BA_MUSICALSTRIKE",20;
+         bonus2 bSkillAtk,"DC_THROWARROW",20;
          if (.@r>=9) {
             bonus bDelayrate,-10;
             if (getallrefine() >= 22) {
-               bonus2 bSkillAtk,"BA_MUSICALSTRIKE",25;
+               bonus2 bSkillAtk,"DC_THROWARROW",25;
                if (getallrefine() >= 24) {
                   bonus2 bMagicAtkEle,Ele_Neutral,15;
                }
@@ -29915,14 +29915,14 @@ Body:
       .@g = getenchantgrade();
       .@r = getrefine();
       bonus bUnbreakableWeapon;
-      bonus2 bSkillAtk,"GS_DUST",10;
+      bonus2 bSkillAtk,"GS_TRACKING",10;
       bonus bBaseAtk,18*(.@r/3);
       if (.@r>=7) {
-         bonus2 bSkillAtk,"GS_DUST",20;
+         bonus2 bSkillAtk,"GS_TRACKING",20;
          if (.@r>=9) {
             bonus bDelayrate,-25;
             if (getallrefine() >= 22) {
-               bonus2 bSkillAtk,"GS_DUST",25;
+               bonus2 bSkillAtk,"GS_TRACKING",25;
                if (getallrefine() >= 24) {
                   bonus bLongAtkRate,15;
                }
@@ -31551,7 +31551,7 @@ Body:
          if (.@r>=9) {
             bonus bDelayrate,-10;
             if (getallrefine() >= 22) {
-               bonus2 bSkillAtk,"CG_ARROWVULCAN",40;
+               bonus2 bSkillAtk,"AC_SHOWER",40;
             }
          }
       }
@@ -31607,9 +31607,9 @@ Body:
       if (.@r>=7) {
          bonus bLongAtkRate,10;
          if (.@r>=9) {
-            bonus2 bSkillAtk,"GS_DUST",30;
+            bonus2 bSkillAtk,"GS_TRACKING",30;
             if (getallrefine() >= 22) {
-               bonus2 bSkillAtk,"GS_DUST",20;
+               bonus2 bSkillAtk,"GS_TRACKING",20;
             }
          }
       }
@@ -32563,11 +32563,11 @@ Body:
       .@g = getenchantgrade();
       .@r = getrefine();
       bonus2 bAddClass,Class_All,10;
-      bonus2 bSkillAtk,"AS_SONICBLOW",3*(.@r/2);
+      bonus2 bSkillAtk,"ASC_BREAKER",3*(.@r/2);
       if (.@r>=7) {
          bonus bCritAtkRate,15;
          if (.@r>=9) {
-            bonus2 bSkillAtk,"AS_SONICBLOW",30;
+            bonus2 bSkillAtk,"ASC_BREAKER",30;
             if (getallrefine() >= 22) {
                bonus2 bAddSize,Size_All,15;
             }
@@ -32804,13 +32804,13 @@ Body:
       .@g = getenchantgrade();
       .@r = getrefine();
       bonus bMatkRate,10;
-      bonus2 bSkillAtk,"BA_MUSICALSTRIKE",3*(.@r/2);
+      bonus2 bSkillAtk,"DC_THROWARROW",3*(.@r/2);
       if (.@r>=7) {
          bonus bVariableCastrate,-10;
          if (.@r>=9) {
-            bonus2 bSkillAtk,"BA_MUSICALSTRIKE",30;
+            bonus2 bSkillAtk,"DC_THROWARROW",30;
             if (getallrefine() >= 22) {
-               bonus2 bSkillFixedCast,"BA_MUSICALSTRIKE",-500;
+               bonus2 bSkillFixedCast,"DC_THROWARROW",-500;
             }
          }
       }
@@ -32843,11 +32843,11 @@ Body:
       .@g = getenchantgrade();
       .@r = getrefine();
       bonus2 bAddClass,Class_All,10;
-      bonus2 bSkillAtk,"CG_ARROWVULCAN",3*(.@r/2);
+      bonus2 bSkillAtk,"AC_SHOWER",3*(.@r/2);
       if (.@r>=7) {
          bonus bLongAtkRate,10;
          if (.@r>=9) {
-            bonus2 bSkillAtk,"CG_ARROWVULCAN",30;
+            bonus2 bSkillAtk,"AC_SHOWER",30;
             if (getallrefine() >= 22) {
                bonus bDelayrate,-10;
             }

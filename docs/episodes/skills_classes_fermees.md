@@ -9,6 +9,19 @@ Table validée et appliquée le 2026-11-07. Les comptes d'objets et de combos so
 - **Bonus calculés :** ils s'écrivent `max(-25, ...)` et peuvent s'additionner sur un même objet (`Racing_Cap_GS`).
 - **Exceptions :** `Highness_Heal_3sec` perd son bonus, et `Naqsh` garde seulement son propre `bDelayRate,-100`.
 - **Doublons :** quand deux compétences d'un objet tombent sur le même remplacement, seule la plus forte valeur reste, sans addition.
+- **Arme requise (2026‑11‑21) :** le remplacement doit être utilisable avec l'arme qui porte le bonus, ou avec une arme du combo (`Requires.Weapon` de `db/pre-re/skill_db.yml`). Sinon, on prend l'équivalent de l'arme :
+
+  | Remplacement | Arme qui le porte | Devient |
+  |---|---|---|
+  | `AS_SONICBLOW` (katar) | dague | `ASC_BREAKER` |
+  | `BA_MUSICALSTRIKE` (instrument) | fouet | `DC_THROWARROW` |
+  | `DC_THROWARROW` (fouet) | instrument | `BA_MUSICALSTRIKE` |
+  | `CG_ARROWVULCAN` (instrument, fouet) | arc | `AC_SHOWER` |
+  | `GS_DUST` (shotgun) | rifle | `GS_TRACKING` |
+  | `GS_FULLBUSTER`, `GS_SPREADATTACK`, `GS_RAPIDSHOWER` | gatling | `bonus bLongAtkRate` de même valeur (la gatling n'a aucune compétence d'attaque) ; leurs bonus de coût en PM sont retirés, un déclencheur d'`autobonus3` passe sur `GS_GATLINGFEVER` |
+  | `LK_SPIRALPIERCE` (lance) | épée à deux mains | `KN_BOWLINGBASH` |
+
+  Appliqué à 25 armes et 8 combos (Judgement/Repent Slasher, Ein_1HDAGGER, Poenitentia_*, Heart_Whip, Black_Circle, Adulter/Vivatus_F_*, Mystic_Bow, Wind_Gale, MH_P89, HR_S55, les gatlings, Vernan…). Contrôle : `tools/util/audit_skill_weapon.py` (0 restant).
 - **`-` :** le bonus est retiré.
 - **garder :** l'objet ne change pas (voir plus bas).
 
