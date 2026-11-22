@@ -24,9 +24,10 @@ import tkinter as tk
 import webbrowser
 from collections import deque
 from datetime import datetime
-from tkinter import ttk, scrolledtext, simpledialog, font as tkfont
+from tkinter import ttk, scrolledtext, simpledialog, messagebox, font as tkfont
 
 from admin_env import ENV_VAR, app_dir, default_secret, env_path
+from tables_panel import SETTINGS_SECTION as TABLES_SECTION, TablesWindow
 
 DEFAULT_HOST = "192.168.1.13"
 DEFAULT_PORT = "7799"
@@ -258,6 +259,7 @@ class AdminGUI:
         self._build_connection_bar()
         self._build_actions()
         self._build_log()
+        self.tables = TablesWindow(root, self.settings, self._bind_copy_menu)
         self._load_settings()
         self._set_connected(False)
 
@@ -327,6 +329,7 @@ class AdminGUI:
                         "only_matches": self.only_matches_var.get(),
                         "save_log": self.savelog_var.get(),
                         "alerts": self.alerts_var.get()},
+            TABLES_SECTION: self.tables.settings_data(),
         }
         try:
             self.settings.save(data, self.favorites)
@@ -365,6 +368,8 @@ class AdminGUI:
         self.dark_var = tk.BooleanVar(value=False)
         ttk.Checkbutton(opts, text="Theme sombre", variable=self.dark_var,
                         command=self._apply_theme).pack(side="left", padx=(10, 0))
+        ttk.Button(opts, text="Tables moonclient…",
+                   command=lambda: self.tables.show()).pack(side="left", padx=(10, 0))
 
         ttk.Label(bar, text="Nom d'affichage").grid(row=1, column=4, padx=4, sticky="e")
         self.name_var = tk.StringVar(value=DEFAULT_NAME)
@@ -1106,6 +1111,13 @@ class AdminGUI:
         threading.Thread(target=worker, daemon=True).start()
 
     def _on_close(self):
+        # Closing the window closes the script's pipes: a script cut off in the
+        # middle of --apply would leave its tables half written.
+        if self.tables.busy() and not messagebox.askyesno(
+                "Script en cours",
+                "Un script des tables moonclient tourne encore. Quitter quand même ?",
+                parent=self.root, icon="warning", default="no"):
+            return
         self._want_connected = False  # stop any pending reconnect
         self._save_settings()
         if self.conn.connected:
