@@ -8260,7 +8260,7 @@ mid_camp,69,144,0	script	Ferocious Gorurug	421,{
 	}
 }
 
-spl_fild02,314,165,0	script	School of Fish#1::Fishinghole	844,{
+spl_fild02,314,165,0	script	School of Fish#1::Fishinghole	4_SHOAL,{
 	if ((checkquest(12060,PLAYTIME) == -1) && (countitem(6039) < 20)) {
 		specialeffect2 EF_BUBBLE;
 		specialeffect2 EF_INVENOM;
@@ -8322,9 +8322,9 @@ spl_fild02,314,165,0	script	School of Fish#1::Fishinghole	844,{
 	}
 }
 
-spl_fild02,321,169,0	duplicate(Fishinghole)	School of Fish#2	844
-spl_fild02,326,171,0	duplicate(Fishinghole)	School of Fish#3	844
-mid_camp,75,135,0	duplicate(Fishinghole)	School of Fish#4	844
+spl_fild02,321,169,0	duplicate(Fishinghole)	School of Fish#2	4_SHOAL
+spl_fild02,326,171,0	duplicate(Fishinghole)	School of Fish#3	4_SHOAL
+mid_camp,75,135,0	duplicate(Fishinghole)	School of Fish#4	4_SHOAL
 
 mid_camp,66,122,55	script	Henry Clifford	712,{
 	if (countitem(6049) > 0) {
