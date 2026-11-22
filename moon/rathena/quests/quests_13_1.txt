@@ -1798,7 +1798,7 @@ moc_fild22b,230,197,5	script	Munkenro#2	967,{
 		close;
 	}
 OnInit:
-	questinfo QTYPE_CLICKME, QMARK_YELLOW, "ep13_ryu >= 100";
+	questinfo(QTYPE_CLICKME, QMARK_YELLOW, "ep13_ryu >= 100");
 	end;
 }
 
@@ -2116,9 +2116,12 @@ mid_camp,222,283,4	script	Marian#ep13bs	727,{
 		emotion ET_HUK;
 		close;
 	}
+OnInit:
+	questinfo(QTYPE_QUEST, QMARK_YELLOW, "ep13_newbs < 1");
+	end;
 }
 
-mid_camp,261,284,4	script	Instructor#ep13bs	405,{
+mid_camp,261,284,4	script	Instructor#ep13bs	4_M_YOUNGKNIGHT,{
 	if (overitems()) {
 		mes "[Instructor Lugen]";
 		mes "You are carrying too much weight.";
@@ -2717,7 +2720,7 @@ mid_camp,261,284,4	script	Instructor#ep13bs	405,{
 	}
 }
 
-mid_camp,123,290,4	script	Otto#ep13bs	967,{
+mid_camp,123,290,4	script	Otto#ep13bs	4_M_RUSMAN1,{
 	if (overitems()) {
 		mes "- Wait a minute !! -";
 		mes "- Currently you're carrying -";
@@ -2829,7 +2832,7 @@ mid_camp,123,290,4	script	Otto#ep13bs	967,{
 	}
 }
 
-mid_campin,106,122,4	script	Receptionist Brink#ep13b	89,{
+mid_campin,106,122,4	script	Receptionist Brink#ep13b	4_M_ORIENT02,{
 	if (ep13_newbs < 3) {
 		mes "[Brink]";
 		mes "Hmm... Hey...";
@@ -4333,6 +4336,9 @@ mid_camp,188,254,3	script	Monster Scholar#ep13	883,{
 			close;
 		}
 	}
+OnInit:
+	questinfo(QTYPE_QUEST, QMARK_YELLOW, "ep13_animal < 1");
+	end;
 }
 
 mid_camp,240,270,3	script	Botanist#ep13	750,{
