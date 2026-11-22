@@ -334,6 +334,10 @@ OnTalk01:
 	npctalk "Operation will begin in 3 seconds.";
 	progressbar_npc "3131FF",3;
 	setnpcdisplay instance_npcname("#BMD000001"),20622;	// MD_ASSISTANT
+	// [Stingor] #mc_device (script vide) est pose sur la meme case que la poupee : a
+	// profondeur egale, le client peut lui donner le clic, surtout apres le
+	// setnpcdisplay qui fait reapparaitre la poupee. Plus utile a partir d'ici.
+	disablenpc instance_npcname("#mc_device");
 	specialeffect EF_FLOWERCAST;
 	npctalk "Sleep mode release protocol has been completed. I will check if the master, Varmundt is nearby in addition to the recognized target.";
 	sleep 5000;
