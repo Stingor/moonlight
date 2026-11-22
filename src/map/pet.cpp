@@ -1285,6 +1285,7 @@ void pet_catch_process_end( map_session_data& sd, int32 target_id ){
 	if (pet == nullptr) {
 		clif_pet_roulette(sd, false);
 		pet_catchprocesses.erase( sd.status.char_id );
+		clif_displaymessage(sd.fd, msg_txt(&sd, 1844)); // [Stingor]
 
 		return;
 	}
@@ -1295,6 +1296,7 @@ void pet_catch_process_end( map_session_data& sd, int32 target_id ){
 			if( process->taming_item != pet->itemID ){
 				clif_pet_roulette( sd, false );
 				pet_catchprocesses.erase( sd.status.char_id );
+				clif_displaymessage(sd.fd, msg_txt(&sd, 1844)); // [Stingor]
 
 				return;
 			}
@@ -1358,7 +1360,7 @@ void pet_catch_process_end( map_session_data& sd, int32 target_id ){
 
 	// [Stingor] -->
 	char message[128];
-	sprintf(message, msg_txt(&sd, 1843), (float)(pet_catch_rate/100));
+	sprintf(message, msg_txt(&sd, 1843), pet_catch_rate / 100.0);
 	clif_displaymessage(sd.fd, message);
 	// <-- [Stingor]
 

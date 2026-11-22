@@ -1753,6 +1753,7 @@
 1841: Affichage buffs party activés.
 1842: Vous êtes trop loin de la cible (%d cases).
 1843: Tentative de tame avec %0.02f%% de chances.
+1844: Ce monstre ne peut pas être apprivoisé avec cet objet.
 
 // @storagealt
 1850: Storage alternatif %d ouvert.
