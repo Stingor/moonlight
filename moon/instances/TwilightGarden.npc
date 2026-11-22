@@ -327,7 +327,9 @@ OnEvent02:
 	unitwalk 'guide,245,215, instance_npcname("Almond#amond01") + "::OnEvent03";
 	end;
 OnEvent03:
-	'twilight_story = 10;
+	// Les Heart Hunters peuvent mourir avant qu'Almond arrive : ne pas ecraser 11.
+	if ('twilight_story == 9)
+		'twilight_story = 10;
 	end;
 
 OnEvent04:
@@ -428,7 +430,7 @@ OnStart:
 OnMobDead:
 	.@event$ = instance_npcname("twilight_story_mob_3") + "::OnMobDead";
 	if (mobcount('map_bamn$, .@event$) < 1) {
-		if ('twilight_story == 10)
+		if ('twilight_story == 9 || 'twilight_story == 10)
 			'twilight_story = 11;
 	}
 	end;
