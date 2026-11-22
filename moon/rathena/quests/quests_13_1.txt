@@ -3829,7 +3829,7 @@ mid_camp,188,254,3	script	Monster Scholar#ep13	883,{
 			mes "venture through";
 			mes "such a threatening";
 			mes "environment!";
-			set ep13_animal,1;
+			set ep13_animal,2;
 			setquest 2147;
 			close;
 		}
@@ -4638,8 +4638,6 @@ mid_camp,336,171,1	script	Camp Guard#man1	852,{
 		close2;
 		switch(atoi(charat(strnpcinfo(2),3))) {
 		case 1:
-			if (ep13_animal == 1)
-				set ep13_animal,2;
 			warp "man_fild01",36,235;
 			break;
 		case 2:
