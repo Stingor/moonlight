@@ -5600,9 +5600,14 @@ end;
 	}
 	setarray .@weapon,21051,21052,32023,1333,16092,28138,28765,28766,28044,28042,26158,2055,2056,26161,2057,16095,18185,18187,18186,
 	32350,32024,32025,32351,16093,16094,28767,28768,18184,28633,26159,26160,1865,1866,16096,18188,26212,26213,32107,32108;
+	.@item = .@weapon[rand(getarraysize(.@weapon))];
+	if (!checkweight(.@item,1)) {
+		mes "- You are carrying too much to take what is inside. Free some space and weight, then come back. -";
+		end;
+	}
 	setquest 16391;
 	completequest 16391;
-	getitem .@weapon[rand(getarraysize(.@weapon))],1;
+	getitem .@item,1;
 	mes "- There is something in the box. It looks strange. -";
 	end;
 }
