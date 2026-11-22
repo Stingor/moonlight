@@ -197,12 +197,29 @@ class ProcessRunner:
 
     def _pump(self, stream, kind):
         for raw in iter(stream.readline, b""):
-            self.events.put((kind, raw.decode("utf-8", "replace").rstrip("\r\n")))
+            self.events.put((kind, decode_line(raw).rstrip("\r\n")))
         stream.close()
 
     def stop(self):
-        if self.busy:
+        """Arrête le processus ET ses descendants : cmake --build laisse sinon
+        MSBuild et les compilateurs tourner derrière lui."""
+        if not self.busy:
+            return
+        if sys.platform == "win32":
+            subprocess.call(["taskkill", "/T", "/F", "/PID", str(self.proc.pid)],
+                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                            creationflags=NO_WINDOW)
+        else:
             self.proc.terminate()
+
+
+def decode_line(raw):
+    """UTF-8 d'abord ; à défaut, la page de code OEM de la console, dans
+    laquelle écrivent MSBuild et le compilateur MSVC."""
+    try:
+        return raw.decode("utf-8")
+    except UnicodeDecodeError:
+        return raw.decode("oem" if sys.platform == "win32" else "latin-1", "replace")
 
 
 class TablesWindow:

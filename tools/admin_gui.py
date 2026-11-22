@@ -27,6 +27,7 @@ from datetime import datetime
 from tkinter import ttk, scrolledtext, simpledialog, messagebox, font as tkfont
 
 from admin_env import ENV_VAR, app_dir, default_secret, env_path
+from build_panel import SETTINGS_SECTION as BUILD_SECTION, BuildWindow
 from tables_panel import SETTINGS_SECTION as TABLES_SECTION, TablesWindow
 
 DEFAULT_HOST = "192.168.1.13"
@@ -106,6 +107,12 @@ LOG_COLORS = {
     True: {"bg": "#1e1e1e", "fg": "#ddd", "sent": "#6af", "ok": "#5c5",
            "err": "#f66", "info": "#999", "out": "#ddd", "link": "#6bf"},
 }
+# Liste déroulante des combos en thème clair : les couleurs du système.
+LIGHT_LISTBOX = ({"background": "SystemWindow", "foreground": "SystemWindowText",
+                  "selectBackground": "SystemHighlight", "selectForeground": "SystemHighlightText"}
+                 if sys.platform == "win32" else
+                 {"background": "white", "foreground": "black",
+                  "selectBackground": "#4a6984", "selectForeground": "white"})
 DARK = {"bg": "#2b2b2b", "fg": "#ddd", "field": "#1e1e1e",
         "button": "#3a3a3a", "active": "#4a4a4a", "border": "#555"}
 
@@ -260,6 +267,7 @@ class AdminGUI:
         self._build_actions()
         self._build_log()
         self.tables = TablesWindow(root, self.settings, self._bind_copy_menu)
+        self.builder = BuildWindow(root, self.settings, self._bind_copy_menu, self.tables.vars)
         self._load_settings()
         self._set_connected(False)
 
@@ -330,6 +338,7 @@ class AdminGUI:
                         "save_log": self.savelog_var.get(),
                         "alerts": self.alerts_var.get()},
             TABLES_SECTION: self.tables.settings_data(),
+            BUILD_SECTION: self.builder.settings_data(),
         }
         try:
             self.settings.save(data, self.favorites)
@@ -370,6 +379,8 @@ class AdminGUI:
                         command=self._apply_theme).pack(side="left", padx=(10, 0))
         ttk.Button(opts, text="Tables moonclient…",
                    command=lambda: self.tables.show()).pack(side="left", padx=(10, 0))
+        ttk.Button(opts, text="Build client…",
+                   command=lambda: self.builder.show()).pack(side="left", padx=(6, 0))
 
         ttk.Label(bar, text="Nom d'affichage").grid(row=1, column=4, padx=4, sticky="e")
         self.name_var = tk.StringVar(value=DEFAULT_NAME)
@@ -543,6 +554,19 @@ class AdminGUI:
             style.map("TCheckbutton", background=[("active", d["bg"])],
                       indicatorcolor=[("selected", "#6af"), ("!selected", d["field"])])
             style.configure("TEntry", fieldbackground=d["field"], foreground=d["fg"])
+            # « clam » donne aux combos en lecture seule un fond clair : le texte
+            # clair n'y est lisible que surligné, sur celui qui a le focus.
+            style.map("TCombobox",
+                      fieldbackground=[("readonly", d["field"]), ("disabled", d["bg"])],
+                      foreground=[("disabled", "#777"), ("readonly", d["fg"])],
+                      background=[("active", d["active"]), ("!active", d["button"])],
+                      selectbackground=[("focus", "#2f5d8a"), ("!focus", d["field"])],
+                      selectforeground=[("focus", "#fff"), ("!focus", d["fg"])],
+                      arrowcolor=[("disabled", "#777"), ("!disabled", d["fg"])])
+            self.root.option_add("*TCombobox*Listbox.background", d["field"])
+            self.root.option_add("*TCombobox*Listbox.foreground", d["fg"])
+            self.root.option_add("*TCombobox*Listbox.selectBackground", "#2f5d8a")
+            self.root.option_add("*TCombobox*Listbox.selectForeground", "#fff")
             style.configure("TLabelframe", background=d["bg"])
             style.configure("TLabelframe.Label", background=d["bg"], foreground=d["fg"])
             self.root.configure(background=d["bg"])
@@ -552,6 +576,8 @@ class AdminGUI:
             # The dark colors were configured on "clam" only: going back to the
             # native theme restores its own look untouched.
             style.theme_use(self._light_theme)
+            for key, color in LIGHT_LISTBOX.items():
+                self.root.option_add(f"*TCombobox*Listbox.{key}", color)
             self.root.configure(background="SystemButtonFace" if sys.platform == "win32" else "")
             entry_colors = dict(background="white", foreground="black",
                                 insertbackground="black")
@@ -1118,6 +1144,13 @@ class AdminGUI:
                 "Un script des tables moonclient tourne encore. Quitter quand même ?",
                 parent=self.root, icon="warning", default="no"):
             return
+        if self.builder.busy():
+            if not messagebox.askyesno(
+                    "Build en cours",
+                    "Une construction du client tourne encore. L'arrêter et quitter ?",
+                    parent=self.root, icon="warning", default="no"):
+                return
+            self.builder.runner.stop()
         self._want_connected = False  # stop any pending reconnect
         self._save_settings()
         if self.conn.connected:
