@@ -12,7 +12,11 @@
 //=   le retour dans sa propre instance reste possible pendant le delai ;
 //= - quetes 5908 (en cours) et 5909 (attente) au lieu de 15072 et 15092,
 //=   absentes du client ;
-//= - niveau 200 (annonce gnjoy de 2022) au lieu de 215.
+//= - niveau 200 (annonce gnjoy de 2022) au lieu de 215 ;
+//= - (2026-11-22) les mobs lachent des Fragments d'Ymir au lieu du
+//=   Minerai (Contaminated Stone, meme taux) : l'echange 1 contre 1 chez
+//=   Wurmm vers un objet libre n'etait qu'une etape de plus. Wurmm reste
+//=   pour les pierres deja ramassees, desormais stockables.
 //= Drops et EXP des mobs : Divine Pride (db/import/mobs/airship_crash.yml).
 //============================================================
 
@@ -199,21 +203,22 @@ dali02,134,87,3	script	Rusbald#mjo	4_M_SAGE_C,{
 
 dali02,131,86,5	script	Wurmm#mjo	4_M_ALCHE_C,{
 	mes "[Wurmm]";
-	mes "I can refine Ymir Ore into usable Ymir Fragments.";
+	mes "I can refine your old Contaminated Stones into usable Ymir Fragments.";
+	mes "The creatures of the crash site now drop the fragments directly.";
 	next;
-	switch(select("Exchange Ymir Ore:Cancel")) {
+	switch(select("Exchange Contaminated Stones:Cancel")) {
 	case 1:
 		input .@amount;
 		if (.@amount < 1) close;
 		if (countitem(1000364) < .@amount) {
 			mes "[Wurmm]";
-			mes "You do not have enough Ymir Ore.";
+			mes "You do not have enough Contaminated Stones.";
 			close;
 		}
 		delitem 1000364, .@amount;
 		getitem 1000363, .@amount;
 		mes "[Wurmm]";
-		mes "Done. I converted " + .@amount + " ore into fragments.";
+		mes "Done. I converted " + .@amount + " Contaminated Stones into Ymir Fragments.";
 		close;
 	case 2:
 		close;

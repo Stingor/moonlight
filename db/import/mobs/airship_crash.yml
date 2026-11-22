@@ -46,7 +46,7 @@ Body:
         StealProtected: true
       - Item: MD_Airboat_Tokken
         Rate: 250
-      - Item: MD_Airboat_Ore
+      - Item: MD_Airboat_Tokken
         Rate: 100
   - Id: 20887
     AegisName: MD_AIRBOAT_PORING
@@ -89,7 +89,7 @@ Body:
         StealProtected: true
       - Item: MD_Airboat_Tokken
         Rate: 250
-      - Item: MD_Airboat_Ore
+      - Item: MD_Airboat_Tokken
         Rate: 100
   - Id: 20888
     AegisName: MD_AIRBOAT_WORM
@@ -133,7 +133,7 @@ Body:
         StealProtected: true
       - Item: MD_Airboat_Tokken
         Rate: 250
-      - Item: MD_Airboat_Ore
+      - Item: MD_Airboat_Tokken
         Rate: 100
   - Id: 20889
     AegisName: MD_AIRBOAT_LEECH
@@ -177,7 +177,7 @@ Body:
         StealProtected: true
       - Item: MD_Airboat_Tokken
         Rate: 250
-      - Item: MD_Airboat_Ore
+      - Item: MD_Airboat_Tokken
         Rate: 100
   - Id: 20890
     AegisName: MD_AIRBOAT_MOS
@@ -221,7 +221,7 @@ Body:
         StealProtected: true
       - Item: MD_Airboat_Tokken
         Rate: 250
-      - Item: MD_Airboat_Ore
+      - Item: MD_Airboat_Tokken
         Rate: 100
   - Id: 20891
     AegisName: MD_AIRBOAT_BOSS
