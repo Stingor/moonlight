@@ -8327,53 +8327,89 @@ spl_fild02,326,171,0	duplicate(Fishinghole)	School of Fish#3	4_SHOAL
 mid_camp,75,135,0	duplicate(Fishinghole)	School of Fish#4	4_SHOAL
 
 mid_camp,66,122,55	script	Henry Clifford	712,{
-	if (countitem(6049) > 0) {
+	// [Stingor] Henry Clifford echange aussi l'equipement de peche, sans
+	// autre source en jeu : il raccourcit le lancer aux bancs de poissons
+	// (Fishinghole ici, FishingHole_spl3 dans quests_13_2.txt ; 15 s de base).
+	setarray .@item[0], 2775, 2443, 2550, 2764;
+	setarray .@cost[0], 1, 3, 3, 5;
+	setarray .@gain[0], 1, 2, 2, 3;
+	mes "[Henry Clifford]";
+	mes "You may have heard about this already, but this river is full of rare fish.";
+	mes "Marlin, the legendary silver fish, is the best prey of all.";
+	mes "Vous avez ^0055FF" + countitem(6049) + " Marlin^000000.";
+L_Menu:
+	next;
+	switch (select("Échanger un Marlin contre 2 Cat Trading Points:Équipement de pêche contre des Marlin:Rien, merci")) {
+	case 1:
 		mes "[Henry Clifford]";
-		mes "Congratulations, you've caught a precious Marlin.";
-		mes "I'll give you 2 Cat Trading Points in exchange for your Marlin.";
-		next;
-		mes "[Henry Clifford]";
-		mes "I got them from a black marketer,";
-		mes "but I guarantee the authenticity of these points.";
-		mes "Are you interested?";
-		next;
-		switch(select("Yes.:No, thanks.")) {
-		case 1:
-			delitem 6049,1; //Marlin
-			set ep13_yong1,ep13_yong1+2;
-			mes "[Henry Clifford]";
-			mes "Thank you for the Marlin.";
-			mes "I've given you the points in return.";
-			mes "You may go check your points through the Cat Paw Agent.";
+		if (countitem(6049) < 1) {
+			mes "Vous n'avez pas de Marlin.";
+			mes "Il se pêche aux bancs de poissons de la rivière : environ un lancer sur soixante-dix.";
 			close;
-		case 2:
+		}
+		mes "I'll give you 2 Cat Trading Points in exchange for your Marlin.";
+		mes "I got them from a black marketer, but I guarantee the authenticity of these points.";
+		next;
+		if (select("Yes.:No, thanks.") == 2) {
 			mes "[Henry Clifford]";
 			mes "Alright, if you say so.";
 			mes "But feel free to come back if you change your mind.";
 			close;
 		}
-	}
-	else {
+		if (countitem(6049) < 1)
+			close;
+		delitem 6049,1; //Marlin
+		set ep13_yong1,ep13_yong1+2;
 		mes "[Henry Clifford]";
-		mes "You may have hear";
-		mes "about this already, but";
-		mes "this river is full of rare fish.";
-		mes "I've followed these cats";
-		mes "to see if the rumor is true.";
-		next;
+		mes "Thank you for the Marlin.";
+		mes "I've given you the points in return.";
+		mes "You may go check your points through the Cat Paw Agent.";
+		close;
+	case 2:
+		break;
+	default:
 		mes "[Henry Clifford]";
-		mes "Marlin, the legendary silver";
-		mes "fish is the best prey of all.";
-		mes "You can also catch precious";
-		mes "treasure floating in the river.";
-		next;
-		mes "[Henry Clifford]";
-		mes "If you happen to catch a Marlin,";
-		mes "please trade it with me.";
-		mes "I'll give you something";
-		mes "nice in return.";
+		mes "Feel free to come back if you catch a Marlin.";
 		close;
 	}
+L_Gear:
+	mes "[Henry Clifford]";
+	mes "Avec le bon équipement, on lance plus vite : 15 secondes par lancer, moins le gain de chaque pièce portée.";
+	mes "Tout porter ramène le lancer à 7 secondes. Ces pièces n'ont aucun autre effet.";
+	mes "Vous avez ^0055FF" + countitem(6049) + " Marlin^000000.";
+	.@menu$ = "";
+	for (.@i = 0; .@i < 4; .@i++)
+		.@menu$ += getitemname(.@item[.@i]) + " (-" + .@gain[.@i] + " s, " + .@cost[.@i] + " Marlin):";
+	.@c = select(.@menu$ + "Retour") - 1;
+	if (.@c >= 4) {
+		mes "[Henry Clifford]";
+		mes "Autre chose ?";
+		goto L_Menu;
+	}
+	clear;
+	mes "[Henry Clifford]";
+	if (countitem(6049) < .@cost[.@c]) {
+		mes "Il faut " + .@cost[.@c] + " Marlin pour " + getitemname(.@item[.@c]) + " : vous en avez " + countitem(6049) + ".";
+		next;
+		goto L_Gear;
+	}
+	if (!checkweight(.@item[.@c], 1)) {
+		mes "Vous portez trop de choses : libérez du poids ou une place dans l'inventaire.";
+		next;
+		goto L_Gear;
+	}
+	mes "Échanger " + .@cost[.@c] + " Marlin contre ^0055FF" + getitemname(.@item[.@c]) + "^000000 ?";
+	next;
+	if (select("Oui:Non") == 2)
+		goto L_Gear;
+	if (countitem(6049) < .@cost[.@c])
+		close;
+	delitem 6049, .@cost[.@c]; //Marlin
+	getitem .@item[.@c], 1;
+	mes "[Henry Clifford]";
+	mes "Voici. Bonne pêche !";
+	next;
+	goto L_Gear;
 }
 
 mid_camp,88,100,55	script	Cat Paw Mining Agent	876,{
