@@ -2910,8 +2910,8 @@ OnFinal:
 	mapannounce 'map_2nyr$, "Vault Security Code Reset in Progress!", bc_map, 0xFFCC;
 	disablenpc instance_npcname("#2mstep07");
 	disablenpc instance_npcname("#2mstep08");
-	// enablenpc instance_npcname("#2mstep09");
-	// enablenpc instance_npcname("#2mstep10");
+	enablenpc instance_npcname("#2mstep09");	// sortie de la salle du haut (commentee en amont : joueurs bloques)
+	// enablenpc instance_npcname("#2mstep10");	// ouvert par Security Device#2dms40
 	end;
 }
 
