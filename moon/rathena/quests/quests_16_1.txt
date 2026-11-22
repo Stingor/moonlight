@@ -2052,7 +2052,10 @@ prt_lib,80,79,3	script	Kronecker G. Heine#ep16_01_lib01	4_EP16_GRANZ,{
 		erasequest 7703;// Who Knows the Truth
 		getitem 6919,30;// Honor_Proof
 		getexp 800000,800000;
-		setquest 7706;// Nillem Is Not Almighty
+		// [Stingor] 7706 peut deja venir de la Room of Consciousness en acces
+		// direct (Warp Agent) : setquest l'aurait signale en console.
+		if (isbegin_quest(7706) == 0)
+			setquest 7706;// Nillem Is Not Almighty
 		ep16_royal = 23;
 		next;
 		cutin "",255;
