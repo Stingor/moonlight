@@ -376,7 +376,7 @@ OnTouch_:
 		next;
 		mes "[Suspicious Guy]";
 		mes "Man...";
-		mes "So much technology was invested into this Hood. Can you believe I'm only selling it for 930 zeny?";
+		mes "So much technology was invested into this Hood. Can you believe I'm only selling it for "+getiteminfo(2501, ITEMINFO_BUY)+" zeny?";
 		next;
 		mes "[Suspicious Guy]";
 		mes "Clearly, this is the deal of the century. So how many do you want?";
@@ -398,7 +398,8 @@ OnTouch_:
 			else
 				break;
 		}
-		set .@Hood__hap,.@input * 930;
+		// [Stingor] 930 z < revente du Hood (1 750 z, formule itemdb.cpp) : prix boutique reel.
+		set .@Hood__hap,.@input * getiteminfo(2501, ITEMINFO_BUY);
 		if (Zeny < .@Hood__hap) {
 			mes "[Suspicious Guy]";
 			mes "Oh nuts...";

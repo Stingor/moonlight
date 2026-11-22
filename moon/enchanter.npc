@@ -345,6 +345,15 @@ L_menu:
 				delitem .@coin[.@coin_select], .@totalcost[.@coin_select];
 				close;
 			}
+			// [Stingor] Debiter AVANT l'effet : les next precedents laissaient vider le sac
+			// entre le controle du menu et le paiement. Rendu plus bas si alteritem echoue.
+			if (countitem(.@coin[.@coin_select]) < .@totalcost[.@coin_select]) {
+				clear;
+				mes .@npc_name$;
+				mes "Pas assez de coins...";
+				close;
+			}
+			delitem .@coin[.@coin_select], .@totalcost[.@coin_select];
 			.@result = alteritem(.@euid$, INVITEMINFO_CARD1 + (.@socket - 1), getd(".@itembyuid_card" + .@socket));
 			.@enchant$ = getitemname(getd(".@itembyuid_card" + .@socket));
 			switch (.@result) {
@@ -354,10 +363,10 @@ L_menu:
 				clear;
 				mes .@npc_name$;
 				mes "Oh non, il y a eu un problème avec l'enchantement... Contactez un GM pour enquêter ça.";
+				getitem .@coin[.@coin_select], .@totalcost[.@coin_select]; // [Stingor] rendre le paiement
 				logmes "Enchantement Arme Error (" + .@result + "): " + logequipuid(.@euid$) + " -> [Slot #" + .@socket + "] " + .@enchant$;
 				close;
 			case 1:
-				delitem .@coin[.@coin_select], .@totalcost[.@coin_select];
 				specialeffect2 EF_REPAIRWEAPON;
 				.@slots$ = ((.@freeslot - 1 < 1) ? " qui est maintenant au max d'enchants." : " encore " + F_InsertPlural(.@freeslot - 1, "slot") + " disponible.");
 				if( .@coin_select == 6) {
@@ -509,6 +518,7 @@ L_faston:
 			} while (!.@hits);
 			if (.@hits > 1) .@enchant = .@pool[rand(.@hits)];
 			else .@enchant = .@pool[0];
+			Zeny -= 1000000; // [Stingor] debiter AVANT l'effet, rendu si alteritem echoue
 			.@result = (alteritem(.@euid$, INVITEMINFO_CARD4, .@enchant));
 			switch(.@result)
 			{
@@ -518,12 +528,12 @@ L_faston:
 					clear;
 					mes .@npc_name$;
 					mes "Oh non, il y a eu un problème avec l'enchantement... Contactez un GM pour enquêter ça.";
+					Zeny += 1000000; // [Stingor] rendre le paiement
 					logmes "Enchantement Armor " + (@fastenchant ? "Fast " : "") + (.@reroll ? "Reroll " : "") + " Error (" + .@result + "): " + logequipuid(.@euid$) + " -> [Slot #4] " + getitemname(.@enchant);
 					close;
 					break;
 				case 1:
 					specialeffect2 EF_MAPPILLAR;
-					Zeny -= 1000000;
 					.@zeny += 1000000;
 					progressbar "ffff00", (@fastenchant ? 1 : 3);
 					clear;

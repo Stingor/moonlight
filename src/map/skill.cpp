@@ -14087,10 +14087,12 @@ int32 skill_elementalanalysis( map_session_data& sd, int32 n, uint16 skill_lv, u
 
 		memset(&tmp_item,0,sizeof(tmp_item));
 		tmp_item.nameid = product;
-		tmp_item.amount = add_amount;
 		tmp_item.identify = 1;
 
-		if( tmp_item.amount ) {
+		// [Stingor] Par piles de MAX_AMOUNT au plus (x9 au niveau 1 depasse vite la
+		// pile max : pc_additem refusait tout), comme Change Material.
+		for( int32 l = 0; l < add_amount; l += tmp_item.amount ) {
+			tmp_item.amount = std::min<int32>(add_amount - l, MAX_AMOUNT);
 			unsigned char flag = pc_additem(&sd,&tmp_item,tmp_item.amount,LOG_TYPE_CONSUME);
 			if( flag != 0 ) {
 				clif_additem(&sd,0,0,flag);

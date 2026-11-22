@@ -3008,11 +3008,12 @@ malangdo,175,206,3	script	Gobonge#ml	561,{
 			mes "[Gobonge]";
 			mes "I need time to concentrate on my stomachache.";
 			mes "You can go now!";
+			// [Stingor] Debiter avant de livrer : un delitem impossible arrete le script.
+			delitem 6427,1; //Bad_Can_Sack
+			delitem 6426,30; //Bad_Can
 			erasequest 1151;
 			set malang_bad_guys,8;
 			getitem 12636,20; //Malang_Sp_Can
-			delitem 6427,1; //Bad_Can_Sack
-			delitem 6426,30; //Bad_Can
 			close;
 		}
 		mes "[Gobonge]";

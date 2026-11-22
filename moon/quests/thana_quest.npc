@@ -492,14 +492,17 @@ tha_t01,140,78,4	script	Guide#reward	831,{
 	next;
 	switch(select("Yes:No")) {
 		case 1:
+			// [Stingor] Recompter apres les next : le sac a pu changer (stockage, echange).
+			.@n = countitem(.@Items[.@i]);
+			.@zeny_tt = .@n * 1000;
 			mes "[Liei]";
 			mes "Great! Here is your";
 			mes .@zeny_tt+" zeny. Thank you,";
 			//mes .@exp_tt+" EXP. Thank you,";
 			mes "and please keep up";
 			mes "the good work~";
-			delitem .@Items[.@i], countitem(.@Items[.@i]);
-			set Zeny, Zeny + .@zeny_tt;
+			delitem .@Items[.@i], .@n;
+			set Zeny, Zeny + .@n * 1000;
 			//getexp .@exp_tt,0;
 			close;
 		case 2:

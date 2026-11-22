@@ -455,7 +455,9 @@ malangdo,175,145,4	script	Can Agency Guard	549,{
 		break;
 	case 5:
 		.@check = 1;
-		.@count = countitem(12633);
+		// [Stingor] x3 en coins : au-dela de 33 333 boites la pile depasse 99 999
+		// et le getitem echoue APRES le delitem.
+		.@count = min(countitem(12633), 33333);
 		break;
 	}
 	if (countitem(12633) < .@check) {

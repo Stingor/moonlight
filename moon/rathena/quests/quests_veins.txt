@@ -4811,6 +4811,10 @@ ve_fild07,235,42,3	script	Silk Sand Camel	938,{
 			next;
 			switch(rand(3)) {
 			case 1:
+				// [Stingor] Debiter avant de livrer : un delitem impossible arrete le script.
+				delitem 519,2; //Milk
+				delitem 511,20; //Green_Herb
+				delitem 909,10; //Jellopy
 				if (rachel_camel == 12) {
 					mes "[Silk Sand Camel]";
 					mes "^333333*Chew Chew~*^000000";
@@ -4830,11 +4834,13 @@ ve_fild07,235,42,3	script	Silk Sand Camel	938,{
 					mes "safe to eat... Hopefully.^000000";
 					getitem 516,2; //Sweet_Potato
 				}
+				close;
+			case 2:
+				// [Stingor] Debiter avant de livrer : un delitem impossible arrete le script.
 				delitem 519,2; //Milk
 				delitem 511,20; //Green_Herb
 				delitem 909,10; //Jellopy
-				close;
-			case 2:
+				delitem 713,1; //Empty_Bottle
 				mes "[Silk Sand Camel]";
 				mes "^333333*Chew Chew~*^000000";
 				mes "^333333*Smacks lips*^000000";
@@ -4904,10 +4910,6 @@ ve_fild07,235,42,3	script	Silk Sand Camel	938,{
 					set rachel_camel, 17;
 					changequest 3075,3076;
 				}
-				delitem 519,2; //Milk
-				delitem 511,20; //Green_Herb
-				delitem 909,10; //Jellopy
-				delitem 713,1; //Empty_Bottle
 				close;
 			default:
 				mes "[Silk Sand Camel]";

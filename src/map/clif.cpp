@@ -10276,7 +10276,7 @@ void clif_parse_moonlight_player_admin(int32 fd, map_session_data* sd) {
 		// que faisaient et le NPC et `@points`.
 		if (delta < 0 && -delta > tsd->kafraPoints) delta = -tsd->kafraPoints;
 		const int32 done = (delta > 0) ? pc_getcash(tsd, 0, delta, LOG_TYPE_COMMAND)
-		                               : pc_paycash(tsd, 0, -delta, LOG_TYPE_COMMAND);
+		                               : pc_paycash(tsd, -delta, -delta, LOG_TYPE_COMMAND); // [Stingor] (N, N) : tout en points d'event
 		if (done < 0) {
 			clif_displaymessage(fd, msg_txt(sd, delta > 0 ? 149 : 41));
 			return;

@@ -114,6 +114,9 @@ L_mainmenu:
 			mes "Très bien. Revenez dès que vous aurez besoin de mes services.";
 			close;
 		}
+		// [Stingor] Payer AVANT le setlook : un Zeny -= impossible arrete le script,
+		// apres coup le transmog etait deja pose (le Zeny a pu fondre pendant les next).
+		Zeny -= .@cost;
 		switch (.@part) {
 			case EQI_HEAD_TOP:
 				setlook LOOK_HEAD_TOP, getiteminfo(.@array[.@men], ITEMINFO_VIEW);
@@ -128,7 +131,6 @@ L_mainmenu:
 				TransmogLow = getiteminfo(.@array[.@men], ITEMINFO_VIEW);
 				break;
 		}
-		Zeny -= .@cost;
 		close;
 	}
 	if (.@s == 5) {

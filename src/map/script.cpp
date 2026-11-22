@@ -23482,7 +23482,8 @@ BUILDIN_FUNC(checkre)
 BUILDIN_FUNC(getrandgroupitem) {
 	map_session_data* sd;
 	int32 i, get_count = 0, identify = 0;
-	uint16 group, qty = 0;
+	int32 qty = 0; // [Stingor] int32 : un uint16 tronquait la quantite (et un negatif devenait enorme)
+	uint16 group;
 	uint8 sub_group = 1;
 
 	if (!script_charid2sd(6, sd))
@@ -23499,6 +23500,11 @@ BUILDIN_FUNC(getrandgroupitem) {
 	FETCH(4, sub_group);
 	FETCH(5, identify);
 
+	if (qty < 0) { // [Stingor] 0 garde son sens (quantite du groupe), le negatif est refuse
+		ShowError("buildin_getrandgroupitem: Invalid quantity (%d)!\n", qty);
+		return SCRIPT_CMD_FAILURE;
+	}
+
 	std::shared_ptr<s_item_group_entry> entry = itemdb_group.get_random_entry(group,sub_group);
 
 	if( entry == nullptr ){
@@ -23513,6 +23519,7 @@ BUILDIN_FUNC(getrandgroupitem) {
 
 	if (!qty)
 		qty = entry->amount;
+	qty = min(qty, (int32)MAX_AMOUNT); // [Stingor] au-dela, pc_additem refuse tout
 
 	//Check if it's stackable.
 	if (!itemdb_isstackable(entry->nameid)) {

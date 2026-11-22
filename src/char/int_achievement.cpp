@@ -264,16 +264,16 @@ bool mapif_achievement_update(const s_achievement_owner& owner, struct achieveme
 	int32 i;
 
 	StringBuf_Init(&buf);
-	StringBuf_Printf(&buf, "UPDATE `%s` SET ", schema_config.achievement_table);
+	StringBuf_Printf(&buf, "UPDATE `%s` SET `id` = `id`", schema_config.achievement_table);
+	// [Stingor] Une ligne partagee sert plusieurs sessions a la fois : la copie
+	// memoire peut etre perimee. Ne jamais faire reculer completed/rewarded
+	// (0 = ne pas toucher, sinon garder la date deja en base), sinon la garde
+	// `rewarded IS NULL` retombe et le lot se reclame en boucle.
 	if( ad->completed ){
-		StringBuf_Printf(&buf, "`completed` = FROM_UNIXTIME('%u'),", (uint32)ad->completed);
-	}else{
-		StringBuf_AppendStr(&buf, "`completed` = NULL,");
+		StringBuf_Printf(&buf, ", `completed` = COALESCE(`completed`, FROM_UNIXTIME('%u'))", (uint32)ad->completed);
 	}
 	if( ad->rewarded ){
-		StringBuf_Printf(&buf, "`rewarded` = FROM_UNIXTIME('%u')", (uint32)ad->rewarded);
-	}else{
-		StringBuf_AppendStr(&buf, "`rewarded` = NULL");
+		StringBuf_Printf(&buf, ", `rewarded` = COALESCE(`rewarded`, FROM_UNIXTIME('%u'))", (uint32)ad->rewarded);
 	}
 	for (i = 0; i < MAX_ACHIEVEMENT_OBJECTIVES; ++i)
 		StringBuf_Printf(&buf, ", `count%d` = '%d'", i + 1, ad->count[i]);
@@ -351,8 +351,15 @@ int32 mapif_parse_achievement_save(int32 fd)
 	}
 
 	for (i = 0; i < old_n; i++) { // Achievements not in new_ad but in old_ad are to be erased.
-		if ((success = mapif_achievement_delete(owner, old_ad[i].achievement_id)) == false)
+		// [Stingor] Ligne par personnage seulement : une ligne partagee absente de
+		// cette session a pu etre creee par un autre compte de jeu connecte.
+		if (SQL_ERROR == Sql_Query(sql_handle,
+				"DELETE FROM `%s` WHERE `id` = '%d' AND `char_id` = '%u'",
+				schema_config.achievement_table, old_ad[i].achievement_id, owner.char_id)) {
+			Sql_ShowDebug(sql_handle);
+			success = false;
 			break;
+		}
 	}
 
 	if (old_ad)

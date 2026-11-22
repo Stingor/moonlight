@@ -6347,7 +6347,14 @@ int32 pc_paycash(map_session_data *sd, int32 price, int32 points, e_log_pick_typ
 	int32 cash, i; // [Stingor]
 	nullpo_retr(-1,sd);
 
+	// [Stingor] Un prix negatif, ou des points au-dela du prix, rendraient cash
+	// negatif : l'UPDATE `vote - cash` crediterait alors des votes.
+	if( price < 0 )
+		return -1;
+
 	points = cap_value(points, 0, MAX_KAFRAPOINT); //prevent command UB
+	if( points > price )
+		points = price;
 
 	cash = price-points;
 
@@ -6358,10 +6365,13 @@ int32 pc_paycash(map_session_data *sd, int32 price, int32 points, e_log_pick_typ
 	}
 
 	if( cash ){
-		if( !sd->status.user_id || (Sql_Query( mmysql_handle, "UPDATE `vote` SET `vote` = `vote` - %d WHERE `user_id` = %d;", cash, sd->status.user_id ) != SQL_SUCCESS) ){
+		if( !sd->status.user_id || (Sql_Query( mmysql_handle, "UPDATE `vote` SET `vote` = `vote` - %d WHERE `user_id` = %d AND `vote` >= %d;", cash, sd->status.user_id, cash ) != SQL_SUCCESS) ){
 			Sql_ShowDebug( mmysql_handle ); // [Stingor]
 			return -1;
 		}
+		// [Stingor] Aucune ligne touchee = solde reel en base insuffisant (cache perime).
+		if( Sql_NumRowsAffected( mmysql_handle ) == 0 )
+			return -1;
 		sd->cashPoints -= cash;
 		pc_setaccountreg(sd, add_str(CASHPOINT_VAR), sd->cashPoints);
 		log_cash( sd, type, LOG_CASH_TYPE_CASH, -cash, 0); // [Stingor]

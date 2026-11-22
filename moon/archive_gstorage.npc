@@ -134,7 +134,7 @@ gonryun,147,128,4	script	Guild Archivist	123,{
 			input .@amount,0,.@amount[.@real];
 		}
 
-        if (.@amount < 0) {
+        if (.@amount < 1) {
 			clear;
 			mes "mongol";
 			close;
@@ -166,9 +166,16 @@ gonryun,147,128,4	script	Guild Archivist	123,{
 		.@opm[4] = .@opm4[.@real];
 
         // Donner l’item EXACTEMENT comme il était
+		// [Stingor] Debiter le stock AVANT de livrer, et seulement s'il suffit encore :
+		// deux membres servis en meme temps ne retirent plus chacun le meme stock.
+		query_sql("UPDATE guild_storage_arch SET amount = (amount - "+.@amount+") WHERE id = "+.@id[.@real]+" AND amount >= "+.@amount);
+		query_sql("SELECT ROW_COUNT()", .@done);
+		if (.@done != 1) {
+			mes "Cet objet n'est plus disponible en cette quantité.";
+			close;
+		}
 		getitem3 .@nameid[.@real], .@amount, 1, .@ref[.@real], .@att[.@real], .@c0[.@real], .@c1[.@real], .@c2[.@real], .@c3[.@real], .@oid, .@oval, .@opm;
 
-        query_sql("UPDATE guild_storage_arch SET amount = (amount - "+.@amount+") WHERE id = "+.@id[.@real]);
 
         mes "L'item a été récupéré.";
 

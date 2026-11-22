@@ -2316,7 +2316,9 @@ void pet_evolution(map_session_data *sd, int16 pet_id) {
 		int32 count = requirement.second;
 		for (int32 i = 0; i < MAX_INVENTORY; i++) {
 			item *slot = &sd->inventory.u.items_inventory[i];
-			int32 deduction = min(requirement.second, slot->amount);
+			// [Stingor] Le RESTE (count), pas le besoin total : sur plusieurs piles,
+			// la deuxieme etait prise au-dela du besoin et count ne retombait jamais a 0.
+			int32 deduction = min(count, slot->amount);
 			if (slot->nameid == requirement.first) {
 				pc_delitem(sd, i, deduction, 0, 0, LOG_TYPE_OTHER);
 				count -= deduction;

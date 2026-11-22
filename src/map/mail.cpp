@@ -495,8 +495,12 @@ void mail_send(map_session_data *sd, const char *dest_name, const char *title, c
 	if( sd->state.spectator )
 		return;
 
-	if( sd->state.trading )
+	// [Stingor] pc_istrading inclut npc_id (comme mail_setitem) : pas de piece
+	// jointe retiree du sac pendant un dialogue qui compte encore ce sac.
+	if( pc_istrading(sd) ){
+		clif_Mail_send(sd, WRITE_MAIL_FAILED);
 		return;
+	}
 
 	// Refused BEFORE mail_setattachment: it takes the items and the zeny out of the
 	// inventory, and nothing below would give them back. Answered, so the client

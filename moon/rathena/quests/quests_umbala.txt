@@ -762,6 +762,8 @@ um_in,44,71,2	script	Utan Shaman	782,{
 						set .@sha_man,.@sha_man + 1;
 					}
 				}
+				// [Stingor] Debiter avant de livrer : un delitem impossible arrete le script.
+				delitem .@divide,.@input;
 				switch(.@divide) {
 				case 994:
 					getitem 990,.@shaman_max; //Boody_Red
@@ -775,7 +777,6 @@ um_in,44,71,2	script	Utan Shaman	782,{
 				case 997: 
 					getitem 993,.@shaman_max; //Yellow_Live
 				}
-				delitem .@divide,.@input;
 				close;
 			}
 			else {

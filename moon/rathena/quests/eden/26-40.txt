@@ -516,9 +516,9 @@ payon,179,66,3	script	Dashia	931,{
 		callsub L_Quest,8275;
 		if ((countitem(948) > 9) && (countitem(919) > 4)) {
 			callsub L_Reward;
-			getitem 569,100; //Novice_Potion
 			delitem 948,10; //Bear's_Foot
 			delitem 919,5; //Animal's_Skin
+			getitem 569,100; //Novice_Potion // [Stingor] apres le debit
 			getexp 1000,100;
 			erasequest 8275;
 			close;
