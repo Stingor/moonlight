@@ -971,8 +971,19 @@ L_Jitter:
 			warp_fct("gef_fild10", 240, 198);
 		}
 		case INST_ROOM_OF_CONSCIOUSNESS: { // Room of Consciousness
+			// L'ACCES DIRECT EST LE REJEU DE L'EPISODE 16.1 : il s'ouvre quand la quete
+			// principale a pose 7706 (ep16_royal 23). Avant, il poserait 7706 et 7705 hors
+			// du scenario, et Swaying Space#evt_gate02 refuserait ensuite le passage que
+			// l'etape 19 exige.
 L_Bijou:
-			if( select( GetColor(7706)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
+			.@replay = (ep16_royal >= 23);
+			if( select( (.@replay ? GetColor(7706)+"Acces direct^000000" : "^999999Acces direct (quête du Banquet requise)^000000"), "Se rendre sur place" ) == 1 ) {
+				if( !.@replay ) {
+					mes .@npc_name$;
+					mes "La Room of Consciousness se rejoue une fois la quête principale du Banquet des héros terminée.";
+					mes "D'ici là, c'est Nillem qui vous y conduit, quand le moment est venu.";
+					close;
+				}
 				mes "";
 				clear;
 				.@md_name$ = "Room of Consciousness";
@@ -993,10 +1004,25 @@ L_Bijou:
 				callsub Process_Instance,.@md_name$,.@hardmode,.@turbo,.@questid1,.@questid2;
 				break;
 			}
-			if( select("• Près de Nillem:• Près de Freidrich") == 1 )
+			// SUR PLACE, AUX MEMES GARDES QUE LES WARPS DU SCENARIO : les deux salles
+			// interdisent la teleportation, et un personnage depose trop tot ne pourrait
+			// pas sortir de la bibliotheque (lib_q_to_pprt, ouverte a ep16_royal 21) ni
+			// entrer de lui-meme chez les Heine (qroom_heine_in, fermee de 8 a 15).
+			if( select("• Près de Nillem:• Près de Freidrich") == 1 ) {
+				if( ep16_royal < 21 ) {
+					mes .@npc_name$;
+					mes "La bibliothèque interdite ne s'ouvre qu'à la suite de la quête du Banquet des héros.";
+					close;
+				}
 				warp_fct("prt_lib_q", 88, 82);
-			else
+			} else {
+				if( ep16_royal == 0 || (ep16_royal > 7 && ep16_royal < 16) ) {
+					mes .@npc_name$;
+					mes "La famille Heine ne vous reçoit pas pour l'instant : suivez la quête du Banquet des héros.";
+					close;
+				}
 				warp_fct("prt_cas_q", 19, 83);
+			}
 			break;
 		}
 		case INST_FENRIR_AND_SARAH: { // Sarah and Fenrir
