@@ -7593,6 +7593,8 @@ ba_2whs02,37,312,3	script(CLOAKED)	Head#ep172_2whs01	4_GHOSTRING,{
 		mes "You brought it? Come on. Put it together.";
 		next;
 		progressbar_npc "00FF00",2;
+		if (countitem(1000101) > 0)	// (custom) l'amont ne reprend pas les pièces
+			delitem 1000101, countitem(1000101);
 		mes "[T2WH-0448]";
 		mes "Are you done? Where is it...";
 		next;
@@ -7641,6 +7643,9 @@ ba_2whs02,37,312,3	script(CLOAKED)	Head#ep172_2whs01	4_GHOSTRING,{
 		getitem 1000103,3;
 		close;
 	}
+	// (custom) reprend les pièces restées chez les joueurs ayant fini avant le correctif
+	if (ep17_2_chirp >= 11 && countitem(1000101) > 0)
+		delitem 1000101, countitem(1000101);
 	if (ep17_2_chirp == 11) {
 		mes "[T2WH-0448]";
 		mes "You said, you should go up and report to another automatic doll, right? Do you think I can do this?";
