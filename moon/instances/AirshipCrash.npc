@@ -50,7 +50,8 @@ function	script	F_Aircrash_SpawnMob	{
 	default: areamonster .@map$, 120, 240, 180, 280, "--ja--", .@id, 1, .@label$; break;
 	}
 	if (.@mult > 1 && $@mobid[0]) {
-		.@hp = getunitdata($@mobid[0], UMOB_MAXHP);
+		getunitdata $@mobid[0], .@ud;
+		.@hp = .@ud[UMOB_MAXHP];
 		setunitdata $@mobid[0], UMOB_MAXHP, .@hp * .@mult;
 		setunitdata $@mobid[0], UMOB_HP, .@hp * .@mult;
 	}
@@ -565,7 +566,8 @@ OnSummonBoss:
 	.@boss_id = ('injured_rescued >= 5 ? 20891 : 21062);
 	monster 'map2$, 150, 150, "--ja--", .@boss_id, 1, .@label$;
 	if ('hp_mult > 1 && $@mobid[0]) {
-		.@hp = getunitdata($@mobid[0], UMOB_MAXHP);
+		getunitdata $@mobid[0], .@ud;
+		.@hp = .@ud[UMOB_MAXHP];
 		setunitdata $@mobid[0], UMOB_MAXHP, .@hp * 'hp_mult;
 		setunitdata $@mobid[0], UMOB_HP, .@hp * 'hp_mult;
 	}
