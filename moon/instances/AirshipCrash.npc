@@ -16,7 +16,11 @@
 //= - (2026-11-22) les mobs lachent des Fragments d'Ymir au lieu du
 //=   Minerai (Contaminated Stone, meme taux) : l'echange 1 contre 1 chez
 //=   Wurmm vers un objet libre n'etait qu'une etape de plus. Wurmm reste
-//=   pour les pierres deja ramassees, desormais stockables.
+//=   pour les pierres deja ramassees, desormais stockables ;
+//= - (2026-11-22) mobs de la caverne tires sur toute 1@mjo2 (80 au
+//=   depart, 60 maintenus) au lieu de 6 carres autour des Rope Piles ;
+//=   Rope Piles avec confirmation ; Cave Entrance et Cave Exit retires
+//=   du camp de 1@mjo1 (seuls Dungeon Gate et Leave Instance restent).
 //= Drops et EXP des mobs : Divine Pride (db/import/mobs/airship_crash.yml).
 //============================================================
 
@@ -44,15 +48,10 @@ function	script	F_Aircrash_SpawnMob	{
 	.@mult = getarg(2);
 	setarray .@ids[0], 20886, 20887, 20888, 20889, 20890;
 	.@id = .@ids[ rand(getarraysize(.@ids)) ];
-	// Spawn in walkable cavity zones (areamonster picks valid cells).
-	switch (rand(6)) {
-	case 0: areamonster .@map$,  30,  30,  70,  70, "--ja--", .@id, 1, .@label$; break;
-	case 1: areamonster .@map$, 230,  30, 270,  70, "--ja--", .@id, 1, .@label$; break;
-	case 2: areamonster .@map$,  30, 230,  70, 270, "--ja--", .@id, 1, .@label$; break;
-	case 3: areamonster .@map$, 230, 230, 270, 270, "--ja--", .@id, 1, .@label$; break;
-	case 4: areamonster .@map$, 120,  20, 180,  60, "--ja--", .@id, 1, .@label$; break;
-	default: areamonster .@map$, 120, 240, 180, 280, "--ja--", .@id, 1, .@label$; break;
-	}
+	// [Stingor] 0,0 : cellule libre tiree sur toute la caverne (mob.cpp,
+	// mob_once_spawn). 1@mjo2 fait 400x400 et ses 38 367 cellules sont
+	// toutes reliees ; les 6 carres d'origine n'en couvraient que 8 %.
+	monster .@map$, 0, 0, "--ja--", .@id, 1, .@label$;
 	if (.@mult > 1 && $@mobid[0]) {
 		getunitdata $@mobid[0], .@ud;
 		.@hp = .@ud[UMOB_MAXHP];
@@ -330,14 +329,8 @@ OnInstanceInit:
 	end;
 }
 
-1@mjo1,277,253,0	script	Cave Entrance#mjo	WARPNPC,2,2,{
-	end;
-OnTouch:
-	warp instance_mapname("1@mjo1"), 287, 266;
-	end;
-}
-
-1@mjo1,281,257,0	warp	Cave Exit#mjo	2,2,1@mjo1,219,375
+// [Stingor] Cave Entrance (277,253 -> camp, a 10 cases) et Cave Exit
+// (281,257 -> point d'arrivee) retires : 1@mjo1 se traverse a pied.
 
 //============================================================
 // Instance - Expedition Base (Cave)
@@ -522,12 +515,23 @@ OnTouch:
 1@mjo2,152,43,0	warp2	Return Gate#mjo	2,2,1@mjo1,287,266
 
 // Rope piles - quick return to expedition base (cell-verified walkable spots)
-1@mjo2,255,45,0	warp2	Rope Pile#mjo1	1,1,1@mjo1,287,266
-1@mjo2,254,256,0	warp2	Rope Pile#mjo2	1,1,1@mjo1,287,266
-1@mjo2,48,42,0	warp2	Rope Pile#mjo3	1,1,1@mjo1,287,266
-1@mjo2,43,263,0	warp2	Rope Pile#mjo4	1,1,1@mjo1,287,266
-1@mjo2,143,23,0	warp2	Rope Pile#mjo5	1,1,1@mjo1,287,266
-1@mjo2,138,258,0	warp2	Rope Pile#mjo6	1,1,1@mjo1,287,266
+// [Stingor] confirmation demandee : en warp au contact, on rentrait au camp
+// en passant dessus par megarde.
+1@mjo2,255,45,0	script	Rope Pile#mjo1	WARPNPC,1,1,{
+	end;
+OnTouch:
+	mes "^0000cdA rope leads back up to the expedition base.^000000";
+	next;
+	if (select("Climb back to the base.:Stay in the cavity.") == 2)
+		close;
+	warp instance_mapname("1@mjo1"), 287, 266;
+	end;
+}
+1@mjo2,254,256,0	duplicate(Rope Pile#mjo1)	Rope Pile#mjo2	WARPNPC,1,1
+1@mjo2,48,42,0	duplicate(Rope Pile#mjo1)	Rope Pile#mjo3	WARPNPC,1,1
+1@mjo2,43,263,0	duplicate(Rope Pile#mjo1)	Rope Pile#mjo4	WARPNPC,1,1
+1@mjo2,143,23,0	duplicate(Rope Pile#mjo1)	Rope Pile#mjo5	WARPNPC,1,1
+1@mjo2,138,258,0	duplicate(Rope Pile#mjo1)	Rope Pile#mjo6	WARPNPC,1,1
 
 // Failsafe in case a player gets clipped into unwalkable terrain.
 1@mjo1,290,264,3	script	Rescue Device#mjo	4_ENERGY_RED,{
@@ -557,7 +561,7 @@ OnInstanceInit:
 OnStartSpawns:
 	'map2$ = instance_mapname("1@mjo2");
 	.@label$ = instance_npcname("#AircrashCtrl") + "::OnMobDead";
-	for (.@i = 0; .@i < 40; .@i++)
+	for (.@i = 0; .@i < 80; .@i++)
 		callfunc("F_Aircrash_SpawnMob", 'map2$, .@label$, 'hp_mult);
 	mapannounce 'map2$, "Contaminated monsters have appeared in the cavity!", bc_map, 0xFFFF00;
 	end;
@@ -590,7 +594,7 @@ OnMobDead:
 			#aircrash_kills++;
 	}
 	'map2$ = instance_mapname("1@mjo2");
-	if (mobcount('map2$, instance_npcname("#AircrashCtrl") + "::OnMobDead") < 25)
+	if (mobcount('map2$, instance_npcname("#AircrashCtrl") + "::OnMobDead") < 60)
 		callfunc("F_Aircrash_SpawnMob", 'map2$, instance_npcname("#AircrashCtrl") + "::OnMobDead", 'hp_mult);
 	end;
 
