@@ -753,14 +753,20 @@ OnTouch:
 		progressbar_npc "3131FF",3;
 		'hidden_garden = 10;
 		setpcblock PCBLOCK_NPC, false;
-		npctalk "You confused me! Pimp shall perform the only given task. Don't talk to me anymore administrator.";
-		sleep 5000;
-		npctalk "Are you done talking? The conversation here is recorded as evaluation data. Let's head to the next section.", instance_npcname("#BMD000003");
-		unitwalk 'guide_id,254,261, instance_npcname("#BMD000003") + "::OnEvent04";
+		// [Stingor] La suite part dans un evenement : le sleep detacherait le joueur
+		// sans fermer la fenetre du dernier select, qui resterait figee jusqu'au warp.
+		donpcevent instance_npcname("#pimp25") + "::OnTalkEnd";
 		end;
 	}
 	if ('hidden_garden > 9)
 		npctalk "Get out of here!";
+	end;
+
+OnTalkEnd:
+	npctalk "You confused me! Pimp shall perform the only given task. Don't talk to me anymore administrator.";
+	sleep 5000;
+	npctalk "Are you done talking? The conversation here is recorded as evaluation data. Let's head to the next section.", instance_npcname("#BMD000003");
+	unitwalk 'guide_id,254,261, instance_npcname("#BMD000003") + "::OnEvent04";
 	end;
 
 OnWalk:
@@ -870,31 +876,38 @@ OnTouch:
 				sleep2 5000;
 				npctalk "Your request has been rejected due to a low authority level for the administrator [" + 'admin$ + "].";
 				setpcblock PCBLOCK_NPC, false;
-				sleep 5000;
-				mapannounce 'map_herbs$, "??? : The automatic dolls' response to you is very fresh. Strange visitor.", bc_map, 0xF6D6B6;
-				sleep 5000;
-				mapannounce 'map_herbs$, "??? : Will you escort him to the secure area? BMD000001. No, I mean automatic doll, [" + 'guide_name$ + "].", bc_map, 0xF6D6B6;
-				sleep 5000;
-				npctalk "The biological wavelength of this voice...";
-				sleep 3000;
-				mapannounce 'map_herbs$, "It's convenient that I don't have to tell me who I am. Anyway, are you sure you're going to be able to tell me what happened earlier?", bc_map, 0xF6D6B6;
-				sleep 5000;
-				npctalk "You mean the security area? But it's not possible with my authority level.";
-				sleep 3000;
-				mapannounce 'map_herbs$, "That's already been taken care of. [" + 'guide_name$ + "], Guide the visitor to this place.", bc_map, 0xF6D6B6;
-				sleep 5000;
-				npctalk "This is the first time since I was created. That an exception has occurred, we will modify some of the procedures in regards to that.";
-				sleep 5000;
-				if ('hidden_garden == 12) {
-					'hidden_garden = 13;
-					npctalk "I'll take you to the security area.";
-					unitwalk 'guide_id,196,275, instance_npcname("#BMD000004") + "::OnEvent08";
-				}
+				// [Stingor] Meme correctif que #pimp25 : le sleep ne doit pas tourner
+				// dans la session de dialogue, sinon la fenetre reste ouverte jusqu'au warp.
+				donpcevent instance_npcname("#BMD000004") + "::OnTalkEnd";
 				end;
 			}
 			setpcblock PCBLOCK_NPC, false;
 		}
 	}
+	end;
+
+OnTalkEnd:
+	// Etape avancee tout de suite : un nouveau clic pendant la scene ne la relance pas.
+	if ('hidden_garden != 12)
+		end;
+	'hidden_garden = 13;
+	sleep 5000;
+	mapannounce 'map_herbs$, "??? : The automatic dolls' response to you is very fresh. Strange visitor.", bc_map, 0xF6D6B6;
+	sleep 5000;
+	mapannounce 'map_herbs$, "??? : Will you escort him to the secure area? BMD000001. No, I mean automatic doll, [" + 'guide_name$ + "].", bc_map, 0xF6D6B6;
+	sleep 5000;
+	npctalk "The biological wavelength of this voice...";
+	sleep 3000;
+	mapannounce 'map_herbs$, "It's convenient that I don't have to tell me who I am. Anyway, are you sure you're going to be able to tell me what happened earlier?", bc_map, 0xF6D6B6;
+	sleep 5000;
+	npctalk "You mean the security area? But it's not possible with my authority level.";
+	sleep 3000;
+	mapannounce 'map_herbs$, "That's already been taken care of. [" + 'guide_name$ + "], Guide the visitor to this place.", bc_map, 0xF6D6B6;
+	sleep 5000;
+	npctalk "This is the first time since I was created. That an exception has occurred, we will modify some of the procedures in regards to that.";
+	sleep 5000;
+	npctalk "I'll take you to the security area.";
+	unitwalk 'guide_id,196,275, instance_npcname("#BMD000004") + "::OnEvent08";
 	end;
 
 OnEvent:
