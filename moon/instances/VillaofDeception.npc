@@ -52,21 +52,17 @@ wolfvill,79,260,4	script(CLOAKED)	Aira#con	4_M_BRZ_JACI,{
 	}
 	switch( select( "Entry", .@create_normal$, .@create_hard$ ) ) {
 	case 1:
-		if (select( .@md_name_normal$, .@md_name_hard$ ) == 1) {
-			if (BaseLevel < 170) {
-				mes "[Aira]";
-				mes "You must be at least BaseLevel 170 to enter.";
-				close;
-			}
-			.@enter_to$ = .@md_name_normal$;
+		// the party's dungeon decides the mode: picking the other one made instance_enter return IE_OTHER
+		.@enter_to$ = instance_live_info(ILI_NAME, instance_id(IM_PARTY));
+		if (.@enter_to$ != .@md_name_normal$ && .@enter_to$ != .@md_name_hard$) {
+			mes "^0000ff The dungeon has not been created or you are trying to enter a dungeon different from the party leader.^000000";
+			close;
 		}
-		else {
-			if (BaseLevel < 200) {
-				mes "[Aira]";
-				mes "You must be at least BaseLevel 200 to enter.";
-				close;
-			}
-			.@enter_to$ = .@md_name_hard$;
+		.@min_lv = (.@enter_to$ == .@md_name_hard$) ? 200 : 170;
+		if (BaseLevel < .@min_lv) {
+			mes "[Aira]";
+			mes "You must be at least BaseLevel " + .@min_lv + " to enter.";
+			close;
 		}
 
 		switch( instance_enter(.@enter_to$) ) {
