@@ -339,7 +339,7 @@ S_Spawn:
 	.@x = getarg(0);
 	.@y = getarg(1);
 
-	monster 'map_ghg$,.@x,.@y, "", getarg(2),1, instance_npcname("#172_wg_area_1") + "::OnMobDead";
+	monster 'map_ghg$,.@x,.@y, "--ja--", getarg(2),1, instance_npcname("#172_wg_area_1") + "::OnMobDead";
 	unitskillusepos $@mobid[0],"NPC_RAINOFMETEOR",getarg(3),.@x,.@y,-10000;
 	return;
 
@@ -584,9 +584,9 @@ OnTouch_:	// note: hidden player doesn't trigger it!
 OnTouch_:	// note: hidden player doesn't trigger it!
 	disablenpc();
 	if ('mode == 0) {
-		monster 'map_ghg$,315,150,"",20665,1;
-		monster 'map_ghg$,317,149,"",20665,1;
-		monster 'map_ghg$,317,150,"",20665,1;
+		monster 'map_ghg$,315,150,"--ja--",20665,1;
+		monster 'map_ghg$,317,149,"--ja--",20665,1;
+		monster 'map_ghg$,317,150,"--ja--",20665,1;
 	}
 	else {
 		monster 'map_ghg$,318,147,"--ja--","MD_VERPORTE_H",1;
@@ -603,9 +603,9 @@ OnTouch_:	// note: hidden player doesn't trigger it!
 OnTouch_:
 	disablenpc();
 	if ('mode == 0) {
-		monster 'map_ghg$,298,148,"",20665,1;
-		monster 'map_ghg$,294,150,"",20665,1;
-		monster 'map_ghg$,296,147,"",20665,1;
+		monster 'map_ghg$,298,148,"--ja--",20665,1;
+		monster 'map_ghg$,294,150,"--ja--",20665,1;
+		monster 'map_ghg$,296,147,"--ja--",20665,1;
 	}
 	else {
 		monster 'map_ghg$,298,151,"--ja--","MD_VERPORTE_H",1;
@@ -623,9 +623,9 @@ OnTouch_:
 OnTouch_:
 	disablenpc();
 	if ('mode == 0) {
-		monster 'map_ghg$,274,148,"",20665,1;
-		monster 'map_ghg$,276,148,"",20665,1;
-		monster 'map_ghg$,278,147,"",20665,1;
+		monster 'map_ghg$,274,148,"--ja--",20665,1;
+		monster 'map_ghg$,276,148,"--ja--",20665,1;
+		monster 'map_ghg$,278,147,"--ja--",20665,1;
 	}
 	else {
 		monster 'map_ghg$,278,151,"--ja--","MD_VERPORTE_H",1;
@@ -643,9 +643,9 @@ OnTouch_:
 OnTouch_:
 	disablenpc();
 	if ('mode == 0) {
-		monster 'map_ghg$,254,151,"",20665,1;
-		monster 'map_ghg$,258,149,"",20665,1;
-		monster 'map_ghg$,256,150,"",20665,1;
+		monster 'map_ghg$,254,151,"--ja--",20665,1;
+		monster 'map_ghg$,258,149,"--ja--",20665,1;
+		monster 'map_ghg$,256,150,"--ja--",20665,1;
 	}
 	else {
 		monster 'map_ghg$,256,151,"--ja--","MD_VERPORTE_H",1;
@@ -663,9 +663,9 @@ OnTouch_:
 OnTouch_:
 	disablenpc();
 	if ('mode == 0) {
-		monster 'map_ghg$,231,163,"",20665,1;
-		monster 'map_ghg$,230,160,"",20665,1;
-		monster 'map_ghg$,231,162,"",20665,1;
+		monster 'map_ghg$,231,163,"--ja--",20665,1;
+		monster 'map_ghg$,230,160,"--ja--",20665,1;
+		monster 'map_ghg$,231,162,"--ja--",20665,1;
 	}
 	else {
 		monster 'map_ghg$,232,163,"--ja--","MD_VERPORTE_H",1;
@@ -683,9 +683,9 @@ OnTouch_:
 OnTouch_:
 	disablenpc();
 	if ('mode == 0) {
-		monster 'map_ghg$,253,174,"",20665,1;
-		monster 'map_ghg$,254,173,"",20665,1;
-		monster 'map_ghg$,252,174,"",20665,1;
+		monster 'map_ghg$,253,174,"--ja--",20665,1;
+		monster 'map_ghg$,254,173,"--ja--",20665,1;
+		monster 'map_ghg$,252,174,"--ja--",20665,1;
 	}
 	else {
 		monster 'map_ghg$,254,173,"--ja--","MD_VERPORTE_H",1;
@@ -703,9 +703,9 @@ OnTouch_:
 OnTouch_:
 	disablenpc();
 	if ('mode == 0) {
-		monster 'map_ghg$,274,173,"",20665,1;
-		monster 'map_ghg$,275,175,"",20665,1;
-		monster 'map_ghg$,276,175,"",20665,1;
+		monster 'map_ghg$,274,173,"--ja--",20665,1;
+		monster 'map_ghg$,275,175,"--ja--",20665,1;
+		monster 'map_ghg$,276,175,"--ja--",20665,1;
 	}
 	else {
 		monster 'map_ghg$,276,171,"--ja--","MD_VERPORTE_H",1;
@@ -723,9 +723,9 @@ OnTouch_:
 OnTouch_:
 	disablenpc();
 	if ('mode == 0) {
-		monster 'map_ghg$,293,173,"",20665,1;
-		monster 'map_ghg$,295,171,"",20665,1;
-		monster 'map_ghg$,292,173,"",20665,1;
+		monster 'map_ghg$,293,173,"--ja--",20665,1;
+		monster 'map_ghg$,295,171,"--ja--",20665,1;
+		monster 'map_ghg$,292,173,"--ja--",20665,1;
 	}
 	else {
 		monster 'map_ghg$,295,171,"--ja--","MD_VERPORTE_H",1;
@@ -743,9 +743,9 @@ OnTouch_:
 OnTouch_:
 	disablenpc();
 	if ('mode == 0) {
-		monster 'map_ghg$,316,173,"",20665,1;
-		monster 'map_ghg$,316,174,"",20665,1;
-		monster 'map_ghg$,314,173,"",20665,1;
+		monster 'map_ghg$,316,173,"--ja--",20665,1;
+		monster 'map_ghg$,316,174,"--ja--",20665,1;
+		monster 'map_ghg$,314,173,"--ja--",20665,1;
 	}
 	else {
 		monster 'map_ghg$,314,171,"--ja--","MD_VERPORTE_H",1;
