@@ -2368,6 +2368,7 @@ int32 script_config_read(const char *cfgName);
 void do_init_script(void);
 void do_final_script(void);
 int32 add_str(const char* p);
+int32 script_find_str(const char* p);
 const char* get_str(int32 id);
 void script_reload(void);
 

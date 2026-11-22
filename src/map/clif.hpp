@@ -1832,6 +1832,13 @@ void clif_parse_moonlight_req_chat_blocks(int32 fd, map_session_data* sd);
 // CZ 0x0F67 -> ZC 0x0F68 : les joueurs en ligne, pour la fenêtre du staff de
 // moonclient. Gate niveau de groupe >= 80, comme l'inspecteur.
 void clif_parse_moonlight_req_staff_roster(int32 fd, map_session_data* sd);
+// CZ 0x0F6B -> ZC 0x0F6C : l'avancée des parcours du journal de moonclient —
+// quêtes achevées et variables d'épisode du demandeur.
+void clif_parse_moonlight_quest_progress_req(int32 fd, map_session_data* sd);
+// ZC 0x0F6C : l'avancée des parcours — quêtes achevées, et ces variables
+// d'épisode quand leur nom est permis. Sans demande à la première annonce
+// d'interface : le client sait alors que la demande est servie.
+void clif_moonlight_quest_progress(map_session_data& sd, const std::vector<std::string>& names);
 // CZ 0x0F29 -> ZC 0x0F2A : état de l'entité CIBLÉE, pour la fenêtre de cible de
 // le cadre de cible du client. Le client tient déjà nom / race / élément de sa plaque
 // de nom ; ce paquet apporte ce qu'aucun autre ne transporte — le **SP** d'une

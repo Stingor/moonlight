@@ -7416,6 +7416,44 @@ struct PACKET_ZC_MOONLIGHT_FAIR_PLAY {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_FAIR_PLAY, 0x0f6a);
 
+// [Stingor] L'AVANCÉE DES PARCOURS de quêtes du journal de moonclient
+// (CZ 0x0F6B -> ZC 0x0F6C) : ce que le client ne voit jamais, les quêtes
+// ACHEVÉES — la liste de 0x09F8 ne porte que les quêtes en cours — et les
+// variables de personnage qui gardent l'avancée d'un épisode.
+//
+// CZ : [packetType:2][packetLength:2], puis des noms de variable terminés
+// chacun par un zéro, MOONLIGHT_QUEST_PROGRESS_VARS_MAX au plus, de
+// MOONLIGHT_QUEST_PROGRESS_NAME_MAX octets au plus, zéro compris.
+//
+// 🔴 Gate SERVEUR : poignée de main vérifiée, cadence
+// MOONLIGHT_THROTTLE_QUEST_PROGRESS. Seules les variables PERMANENTES DE
+// PERSONNAGE du demandeur se lisent, et seulement celles dont le nom commence
+// par un préfixe de quête (voir clif.cpp) : une variable de script hors de ces
+// familles — la réponse d'un contrôle anti-bot, par exemple — n'est jamais dite.
+// Un nom qu'aucun script ne connaît vaut 0, sans être inscrit dans la table des
+// noms du serveur.
+//
+// ZC : [packetType:2][packetLength:2][quest_count:2][var_count:2], puis
+// quest_count × uint32 quest_id (les quêtes à l'état achevé du journal du
+// personnage), puis var_count × { int32 value; char name[] terminé par un
+// zéro }, dans l'ordre de la demande, noms refusés omis.
+#define MOONLIGHT_QUEST_PROGRESS_VARS_MAX 64
+#define MOONLIGHT_QUEST_PROGRESS_NAME_MAX 32
+
+struct PACKET_CZ_MOONLIGHT_QUEST_PROGRESS_REQ {
+	int16 packetType;
+	int16 packetLength;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_QUEST_PROGRESS_REQ, 0x0f6b);
+
+struct PACKET_ZC_MOONLIGHT_QUEST_PROGRESS {
+	int16  packetType;
+	int16  packetLength;
+	uint16 quest_count;
+	uint16 var_count;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(ZC_MOONLIGHT_QUEST_PROGRESS, 0x0f6c);
+
 
 // [Stingor] ZC_MOONLIGHT_INSTANCE_INFO (0x0F40) — ce que la fenêtre d'instance
 // ne lit pas dans 0x02CB / 0x02CD : la difficulté (HM) et le mode turbo choisis
@@ -8910,7 +8948,7 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_HATEFFECT_MAP, 0x0f17);
 // Historique : les anciens opcodes 0x0BFx/0x0C2x partageaient des entrées du
 // client Ragexe (longueurs fixes) et pouvaient désync le flux. Tous migrés dans
 // la zone sûre 0x0F00+ (2026-07-03). Le prochain opcode libre se lit
-// dans ce fichier (0x0F6B à ce jour).
+// dans ce fichier (0x0F6D à ce jour).
 
 #if !defined(sun) && (!defined(__NETBSD__) || __NetBSD_Version__ >= 600000000) // NetBSD 5 and Solaris don't like pragma pack but accept the packed attribute
 #pragma pack(pop)

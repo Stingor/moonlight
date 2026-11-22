@@ -703,6 +703,13 @@ static int32 search_str(const char* p)
 	return -1;
 }
 
+/// [Stingor] The uid of a string the scripts already know, or -1. Unlike
+/// add_str, it never grows the string table: safe for names sent by a client.
+int32 script_find_str(const char* p)
+{
+	return search_str(p);
+}
+
 /// Stores a copy of the string and returns its id.
 /// If an identical string is already present, returns its id instead.
 int32 add_str(const char* p)

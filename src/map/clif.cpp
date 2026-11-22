@@ -346,6 +346,7 @@ static constexpr s_moonlight_throttle_rule MOONLIGHT_THROTTLE_RULES[MOONLIGHT_TH
 	{   20, 20 }, // MOONLIGHT_THROTTLE_SURVIVORS_COOP_FRAME : un pas de simulation, et de quoi livrer ce qu'un gel du réseau a retenu : l'avance d'un client s'arrête avant
 	{ 2000, 2 },  // MOONLIGHT_THROTTLE_SURVIVORS_COOP_ANNOUNCE : comme l'annonce du service
 	{ 2000, 2 },  // MOONLIGHT_THROTTLE_STAFF_ROSTER : la fenêtre redemande toutes les dix secondes, et « Actualiser » est un clic
+	{ 1000, 3 },  // MOONLIGHT_THROTTLE_QUEST_PROGRESS : le journal redemande quand une quête bouge, pas plus d'une fois par seconde
 };
 
 // [Stingor] Vrai si la demande de la famille `family` est dans la cadence, et
@@ -9229,6 +9230,9 @@ void clif_parse_moonlight_ui_caps(int32 fd, map_session_data* sd) {
 		// [Stingor] Les teintures de calques : la sienne, celles des joueurs en vue,
 		// et l'atelier s'il est ouvert.
 		style_layers_handshake(*sd);
+		// [Stingor] Les quêtes achevées, sans variable : cette première réponse dit
+		// aussi au client que la demande d'avancée (CZ 0x0F6B) est servie ici.
+		clif_moonlight_quest_progress(*sd, {});
 	}
 
 	// [Stingor] Les services survivors (classement, présence en arène, coop)
@@ -10556,6 +10560,98 @@ void clif_parse_moonlight_req_staff_roster(int32 fd, map_session_data* sd) {
 			memcpy(reply->entries, &entries[first], count * sizeof(PACKET_MOONLIGHT_STAFF_ROSTER_ENTRY));
 		WFIFOSET(fd, length);
 	}
+}
+
+// [Stingor] Les familles de variables qu'un client peut lire pour ses parcours
+// de quêtes : l'avancée des épisodes (ep13_ryu, ep14_3_isle…), celle de
+// Morocc (mao_morocc2) et celle des instances (ins_nyd). Rien d'autre.
+static bool clif_moonlight_quest_progress_name_allowed(const char* name) {
+	static const char* const prefixes[] = { "ep", "mao_", "ins_" };
+	if (name[0] == '\0')
+		return false;
+	for (const char* c = name; *c != '\0'; ++c) {
+		if (!ISALNUM(*c) && *c != '_')
+			return false; // ni $ (chaîne), ni # (compte), ni . ou @ (temporaire)
+	}
+	for (const char* prefix : prefixes) {
+		if (strncmp(name, prefix, strlen(prefix)) == 0)
+			return true;
+	}
+	return false;
+}
+
+void clif_moonlight_quest_progress(map_session_data& sd, const std::vector<std::string>& names) {
+	map_session_data* const self = &sd;
+	const int32 fd = sd.fd;
+	if (!session_isActive(fd)) return;
+
+	std::vector<std::pair<std::string, int32>> vars;
+	for (const std::string& name : names) {
+		if (!clif_moonlight_quest_progress_name_allowed(name.c_str())) continue;
+		const int32 uid = script_find_str(name.c_str());
+		const int64 value = uid < 0 ? 0 : pc_readglobalreg(self, uid);
+		vars.emplace_back(name, static_cast<int32>(cap_value(value, INT32_MIN, INT32_MAX)));
+	}
+
+	std::vector<uint32> finished;
+	for (int32 i = sd.avail_quests; i < sd.num_quests; ++i) {
+		if (sd.quest_log[i].state == Q_COMPLETE)
+			finished.push_back(static_cast<uint32>(sd.quest_log[i].quest_id));
+	}
+
+	// Une trame tient sur 16 bits : les quêtes les plus anciennes cèdent la place.
+	size_t vars_length = 0;
+	for (const auto& var : vars)
+		vars_length += sizeof(int32) + var.first.size() + 1;
+	const size_t room = INT16_MAX - sizeof(PACKET_ZC_MOONLIGHT_QUEST_PROGRESS) - vars_length;
+	if (finished.size() * sizeof(uint32) > room)
+		finished.erase(finished.begin(), finished.end() - room / sizeof(uint32));
+
+	const size_t total = sizeof(PACKET_ZC_MOONLIGHT_QUEST_PROGRESS) + finished.size() * sizeof(uint32) + vars_length;
+	WFIFOHEAD(fd, total);
+	PACKET_ZC_MOONLIGHT_QUEST_PROGRESS* reply =
+		reinterpret_cast<PACKET_ZC_MOONLIGHT_QUEST_PROGRESS*>(WFIFOP(fd, 0));
+	reply->packetType = HEADER_ZC_MOONLIGHT_QUEST_PROGRESS;
+	reply->packetLength = static_cast<int16>(total);
+	reply->quest_count = static_cast<uint16>(finished.size());
+	reply->var_count = static_cast<uint16>(vars.size());
+	uint8* out = WFIFOP(fd, sizeof(PACKET_ZC_MOONLIGHT_QUEST_PROGRESS));
+	for (const uint32 quest_id : finished) {
+		memcpy(out, &quest_id, sizeof(uint32));
+		out += sizeof(uint32);
+	}
+	for (const auto& var : vars) {
+		memcpy(out, &var.second, sizeof(int32));
+		out += sizeof(int32);
+		memcpy(out, var.first.c_str(), var.first.size() + 1);
+		out += var.first.size() + 1;
+	}
+	WFIFOSET(fd, total);
+}
+
+void clif_parse_moonlight_quest_progress_req(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!sd->state.client_verified) return;
+	if (!clif_moonlight_throttle_pass(*sd, MOONLIGHT_THROTTLE_QUEST_PROGRESS)) return;
+
+	const int32 length = RFIFOW(fd, 2);
+	const int32 head = static_cast<int32>(sizeof(PACKET_CZ_MOONLIGHT_QUEST_PROGRESS_REQ));
+	if (length < head) return;
+
+	// Les noms de la queue, coupés sur leurs zéros ; un nom sans zéro final, ou
+	// trop long, arrête la lecture.
+	std::vector<std::string> names;
+	const char* tail = reinterpret_cast<const char*>(RFIFOP(fd, head));
+	int32 at = 0;
+	const int32 tail_length = length - head;
+	while (at < tail_length && names.size() < MOONLIGHT_QUEST_PROGRESS_VARS_MAX) {
+		const void* end = memchr(tail + at, '\0', std::min(tail_length - at, MOONLIGHT_QUEST_PROGRESS_NAME_MAX));
+		if (end == nullptr) break;
+		const char* name = tail + at;
+		at += static_cast<int32>(static_cast<const char*>(end) - name) + 1;
+		names.emplace_back(name);
+	}
+	clif_moonlight_quest_progress(*sd, names);
 }
 
 // Sertissage rapide : le client demande, pour un ÉQUIPEMENT donné, la

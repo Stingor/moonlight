@@ -2103,6 +2103,11 @@ parseable_packet(HEADER_CZ_MOONLIGHT_REQ_CHAT_BLOCKS, sizeof(PACKET_CZ_MOONLIGHT
 // niveau de groupe >= 80 DANS le handler — fixed
 parseable_packet(HEADER_CZ_MOONLIGHT_REQ_STAFF_ROSTER, sizeof(PACKET_CZ_MOONLIGHT_REQ_STAFF_ROSTER), clif_parse_moonlight_req_staff_roster, 0);
 
+// [Stingor] moonclient : l'avancée des parcours du journal, quêtes achevées et
+// variables d'épisode du demandeur. Gate poignée de main et préfixes de quête
+// DANS le handler — VARIABLE : la queue porte les noms de variable.
+parseable_packet(HEADER_CZ_MOONLIGHT_QUEST_PROGRESS_REQ, -1, clif_parse_moonlight_quest_progress_req, 0);
+
 // [Stingor] moonclient : le Marché, toutes les échoppes ouvertes du serveur
 // (market.cpp). Gate session vérifiée et carte de ville DANS le handler —
 // VARIABLE : la queue porte les identifiants d'objet cherchés.

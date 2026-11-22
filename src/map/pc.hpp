@@ -356,6 +356,7 @@ enum e_moonlight_throttle : uint8 {
 	MOONLIGHT_THROTTLE_SURVIVORS_COOP_FRAME, ///< trame d'entrées de la coop survivors (relayée à la partie)
 	MOONLIGHT_THROTTLE_SURVIVORS_COOP_ANNOUNCE, ///< annonce du service de coop et ses redites
 	MOONLIGHT_THROTTLE_STAFF_ROSTER, ///< joueurs en ligne du staff (parcourt toutes les sessions)
+	MOONLIGHT_THROTTLE_QUEST_PROGRESS, ///< avancée des parcours du journal (quêtes achevées, variables)
 	MOONLIGHT_THROTTLE_MAX
 };
 
