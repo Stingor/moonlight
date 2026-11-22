@@ -2475,12 +2475,12 @@ OnInit:
 		119, 39, 39, 50,
 		50, 116, 116, 199,
 		200, 42, 26, 139,
-		172, 151, 151, 77,
+		172, 29, 151, 77,
 		85, 161, 44, 159;
 	setarray .@navx[60],
-		164, 27, 95, 152,
+		164, 27, 95, 33,
 		204, 240, 88, 19,
-		306, 148, 94, 220,
+		306, 245, 94, 220,
 		193, 52, 40, 349,
 		38, 38, 142, 150;
 	setarray .@navx[80],
@@ -2604,12 +2604,12 @@ OnInit:
 		93, 161, 161, 44,
 		44, 45, 45, 195,
 		124, 36, 160, 82,
-		175, 8, 150, 118,
+		175, 106, 150, 118,
 		64, 334, 66, 38;
 	setarray .@navy[60],
 		21, 90, 193, 230,
 		268, 198, 82, 83,
-		143, 269, 21, 235,
+		143, 55, 21, 235,
 		169, 63, 43, 185,
 		193, 193, 222, 70;
 	setarray .@navy[80],
@@ -2764,11 +2764,13 @@ OnInit:
 	// portails -- de Prontera au palais par la Villa imperiale (prt_cas_q).
 	// Une carte que les menus des villes, des donjons ou des fields servent
 	// aussi n'y figure pas.
+	// verus01/verus04 (menu des fields) et lhz_dun04, ma_dun01, mal_dun01 (menu des
+	// donjons, declares a ses cases) en sont donc absents.
 	setarray .@nav_instance_only$[0],
 		"dali", "dali02", "gef_tower", "geffen_in", "glast_01", "jor_nest",
-		"jor_twig", "lhz_dun04", "ma_dun01", "ma_scene01", "mal_dun01", "mal_in01",
+		"jor_twig", "ma_scene01", "mal_in01",
 		"monk_test", "moro_cav", "nyd_dun02", "pay_arche", "prt_cas_q", "prt_lib_q",
-		"prt_q", "sp_cor", "thana_step", "un_myst", "verus01", "verus04";
+		"prt_q", "sp_cor", "thana_step", "un_myst";
 	for (.@i = 0; .@i < getarraysize(.@navm$); .@i++) {
 		// Un agent ne se declare pas une arete vers sa propre carte.
 		if (strnpcinfo(4) == .@navm$[.@i]) continue;

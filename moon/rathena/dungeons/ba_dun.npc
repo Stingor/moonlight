@@ -66,6 +66,11 @@ OnTouch:
 	else
 		warp "ba_in01",13,255;
 	end;
+OnInit:
+	// [Stingor] navigation : teleportation de script declaree au generateur (sans effet en jeu).
+	// Branche de fin de quete : le hangar de Ginger (air_if) est de ce cote.
+	naviregisterwarp("ba_maison_to_ba_in01", "ba_in01", 13, 255);
+	end;
 }
 ba_in01,60,255,0	warp	#ep172_proom1_out	1,1,ba_maison,33,222
 ba_in01,10,255,0	warp	#ep172_proom2_out_	1,1,ba_maison,33,222
