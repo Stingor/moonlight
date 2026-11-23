@@ -3020,6 +3020,12 @@ int32 mob_dead(mob_data *md, block_list *src, int32 type)
 
 	status = &md->status;
 
+	// [Stingor] Taming kills with no source: remember who tamed it, for the tomb
+	// and the MVP tracker only (no exp, no drops). Cleared at once so a respawn
+	// of the same mob_data never inherits it.
+	map_session_data* tamer_sd = md->tamer_id != 0 ? map_id2sd( md->tamer_id ) : nullptr;
+	md->tamer_id = 0;
+
 	if( src && src->type == BL_PC ) {
 		sd = (map_session_data *)src;
 		first_sd = sd;
@@ -3758,7 +3764,7 @@ int32 mob_dead(mob_data *md, block_list *src, int32 type)
 	// here - yet this is the last point where mvp_sd, first_sd and the dmglog are
 	// still in hand, and the dmglog is what the crediting rule reads.
 	if( mvp_tracker_is_tracked( *md ) )
-		mvp_tracker_on_mvp_dead( *md, mvp_sd, first_sd );
+		mvp_tracker_on_mvp_dead( *md, mvp_sd, first_sd != nullptr ? first_sd : tamer_sd );
 
 	if(!md->spawn){ //Tell status_damage to remove it from memory.
 		struct unit_data *ud = unit_bl2ud(md);
@@ -3774,7 +3780,11 @@ int32 mob_dead(mob_data *md, block_list *src, int32 type)
 
 	// MvP tomb [GreenBox]
 	if (battle_config.mvp_tomb_enabled && md->spawn->state.boss && map_getmapflag(md->m, MF_NOTOMB) != 1)
-		mvptomb_create(md, mvp_sd != nullptr ? mvp_sd->status.name : (first_sd != nullptr ? first_sd->status.name : nullptr), time(nullptr));
+	{
+		map_session_data* tomb_sd = mvp_sd != nullptr ? mvp_sd : ( first_sd != nullptr ? first_sd : tamer_sd );
+
+		mvptomb_create(md, tomb_sd != nullptr ? tomb_sd->status.name : nullptr, time(nullptr));
+	}
 
 	if( !rebirth )
 		mob_setdelayspawn(md); //Set respawning.

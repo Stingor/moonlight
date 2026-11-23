@@ -430,6 +430,9 @@ struct mob_data : public block_list {
 	 * MvP Tombstone NPC ID
 	 **/
 	int32 tomb_nid;
+	/// [Stingor] Block id of the player whose taming just succeeded. A tame
+	/// kills the mob with no source, so mob_dead would leave the tomb unsigned.
+	int32 tamer_id;
 	uint16 damagetaken;
 
 	e_mob_bosstype get_bosstype() const;
