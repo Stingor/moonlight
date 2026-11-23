@@ -3193,6 +3193,9 @@ mid_campin,295,128,4	script	Lucas#ep13bs	884,{
 		mes "Is that passage safe?";
 		close;
 	}
+OnInit:
+	questinfo(QTYPE_QUEST, QMARK_YELLOW, "ep13_newbs == 15");
+	end;
 }
 
 mid_campin,292,120,4	script	Davi#ep13bs	849,{
