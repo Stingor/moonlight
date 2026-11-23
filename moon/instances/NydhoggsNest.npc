@@ -21,7 +21,6 @@
 //============================================================ 
 
 nyd_dun02,100,201,3	script	Yggdrasil Gatekeeper	111,8,8,{
-		goto L_osef;
 	if (ins_nyd == 0) {
 		mes "A great stone gate stands before you. The sculpture of a terrible dragon spreads its powerful looking wings.";
 		next;
@@ -88,8 +87,7 @@ nyd_dun02,100,201,3	script	Yggdrasil Gatekeeper	111,8,8,{
 			close;
 		}
 	} else if (ins_nyd == 131 || ins_nyd == 132 || ins_nyd > 199) {
- // lol access
-L_osef:
+
 		set .@party_id,getcharid(1);
 		set .@md_name$,"Nidhoggur's Nest";
 
@@ -1922,7 +1920,7 @@ OnWarpColor:
 OnMyMobDead:
 	if (playerattached()) {
 		if (mobismvp(killedrid))
-			MissionMVP(0, "NydhoggsNest: "+getmonsterinfo(killedrid, MOB_NAME)+" tuï¿½");
+			MissionMVP(0, "NydhoggsNest: "+getmonsterinfo(killedrid, MOB_NAME)+" tué");
 	}
 	set .@map$, instance_mapname("2@nyd");
 	if (mobcount(.@map$,instance_npcname("nyd_2f_boss_enter_call")+"::OnMyMobDead") < 1) {

@@ -914,7 +914,16 @@ L_Jitter:
 			warp_fct("moc_para01", 27, 90);
 		}
 		case INST_NIDHOGGURS_NEST: { // Nydhoggur's Nest
-			if( select( GetColor(3135)+"Acces direct^000000", "Se rendre sur place" ) == 1 ) {
+			// L'ACCES DIRECT SUPPOSE LA CHAINE DE L'EPISODE 13.1 TERMINEE : le Yggdrasil
+			// Gatekeeper n'ouvre le nid qu'a ins_nyd 131/132 ou au-dela de 199.
+			.@nyd_ok = (ins_nyd == 131 || ins_nyd == 132 || ins_nyd > 199);
+			if( select( (.@nyd_ok ? GetColor(3135)+"Acces direct^000000" : "^999999Acces direct (quête de Nidhoggur requise)^000000"), "Se rendre sur place" ) == 1 ) {
+				if( !.@nyd_ok ) {
+					mes .@npc_name$;
+					mes "Le Nid de Nidhoggur ne s'ouvre qu'aux serviteurs reconnus par le Gardien.";
+					mes "Terminez d'abord la quête qui mène au Yggdrasil Gatekeeper, puis revenez me voir.";
+					close;
+				}
 				.@md_name$ = "Nidhoggur's Nest";
 				.@questid = 3135; // Nydhoggur's Nest
 
