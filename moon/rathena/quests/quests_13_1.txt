@@ -3098,6 +3098,7 @@ mid_campin,106,122,4	script	Receptionist Brink#ep13b	4_M_ORIENT02,{
 		close;
 	}
 OnInit:
+	if (strnpcinfo(4) == "") end; // modèle flottant : seuls les duplicates portent la marque
 	questinfo(QTYPE_QUEST, QMARK_YELLOW, "ep13_newbs == 5");
 	end;
 }
@@ -8343,12 +8344,12 @@ mid_camp,66,122,55	script	Henry Clifford	712,{
 	mes "Vous avez ^0055FF" + countitem(6049) + " Marlin^000000.";
 L_Menu:
 	next;
-	switch (select("ï¿½changer un Marlin contre 2 Cat Trading Points:ï¿½quipement de pï¿½che contre des Marlin:Rien, merci")) {
+	switch (select("Échanger un Marlin contre 2 Cat Trading Points:Équipement de pêche contre des Marlin:Rien, merci")) {
 	case 1:
 		mes "[Henry Clifford]";
 		if (countitem(6049) < 1) {
 			mes "Vous n'avez pas de Marlin.";
-			mes "Il se pï¿½che aux bancs de poissons de la riviï¿½re : environ un lancer sur soixante-dix.";
+			mes "Il se pêche aux bancs de poissons de la rivière : environ un lancer sur soixante-dix.";
 			close;
 		}
 		mes "I'll give you 2 Cat Trading Points in exchange for your Marlin.";
@@ -8378,8 +8379,8 @@ L_Menu:
 	}
 L_Gear:
 	mes "[Henry Clifford]";
-	mes "Avec le bon ï¿½quipement, on lance plus vite : 15 secondes par lancer, moins le gain de chaque piï¿½ce portï¿½e.";
-	mes "Tout porter ramï¿½ne le lancer ï¿½ 7 secondes. Ces piï¿½ces n'ont aucun autre effet.";
+	mes "Avec le bon équipement, on lance plus vite : 15 secondes par lancer, moins le gain de chaque pièce portée.";
+	mes "Tout porter ramène le lancer à 7 secondes. Ces pièces n'ont aucun autre effet.";
 	mes "Vous avez ^0055FF" + countitem(6049) + " Marlin^000000.";
 	.@menu$ = "";
 	for (.@i = 0; .@i < 4; .@i++)
@@ -8398,11 +8399,11 @@ L_Gear:
 		goto L_Gear;
 	}
 	if (!checkweight(.@item[.@c], 1)) {
-		mes "Vous portez trop de choses : libï¿½rez du poids ou une place dans l'inventaire.";
+		mes "Vous portez trop de choses : libérez du poids ou une place dans l'inventaire.";
 		next;
 		goto L_Gear;
 	}
-	mes "ï¿½changer " + .@cost[.@c] + " Marlin contre ^0055FF" + getitemname(.@item[.@c]) + "^000000 ?";
+	mes "Échanger " + .@cost[.@c] + " Marlin contre ^0055FF" + getitemname(.@item[.@c]) + "^000000 ?";
 	next;
 	if (select("Oui:Non") == 2)
 		goto L_Gear;
@@ -8411,7 +8412,7 @@ L_Gear:
 	delitem 6049, .@cost[.@c]; //Marlin
 	getitem .@item[.@c], 1;
 	mes "[Henry Clifford]";
-	mes "Voici. Bonne pï¿½che !";
+	mes "Voici. Bonne pêche !";
 	next;
 	goto L_Gear;
 }
