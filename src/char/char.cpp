@@ -12,6 +12,7 @@
 #include <memory>
 #include <unordered_map>
 
+#include <common/admin_channel.hpp>
 #include <common/cbasetypes.hpp>
 #include <common/cli.hpp>
 #include <common/core.hpp>
@@ -3508,6 +3509,8 @@ void CharacterServer::finalize(){
 
 	Sql_Free(sql_handle);
 
+	do_final_admin_channel(); // [Stingor] console feed for the admin tool (src/common/admin_channel.cpp)
+
 	ShowStatus("Finished.\n");
 }
 
@@ -3618,6 +3621,7 @@ bool CharacterServer::initialize( int32 argc, char *argv[] ){
 	}
 
 	do_init_chcnslif();
+	do_init_admin_channel( ADMIN_SERVER_CHAR, nullptr ); // [Stingor] console feed for the admin tool
 
 	ShowNotice("The char-server is " CL_GREEN "ready" CL_RESET " (Server is listening on the port %d).\n\n", charserv_config.char_port);
 

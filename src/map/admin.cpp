@@ -3,15 +3,12 @@
 
 #include <cstdio>
 #include <cstring>
-#include <fstream>
 #include <new>
 #include <string>
-#include <vector>
 
+#include "../common/admin_channel.hpp"
 #include "../common/malloc.hpp"
-#include "../common/md5calc.hpp"
 #include "../common/showmsg.hpp"
-#include "../common/socket.hpp"
 #include "../common/strlib.hpp"
 
 #include "atcommand.hpp"
@@ -21,122 +18,22 @@
 
 /**
  * ============================================================================
- *  Map-server administration channel
+ *  Map-server administration channel: map-specific commands
  * ============================================================================
  *
- *  A standalone TCP listener that speaks a line-based ASCII protocol, so an
- *  external admin program can drive the server WITHOUT emulating a Ragnarok
- *  client (no PACKETVER, no obfuscation, no login/char/map handshake).
+ *  The listener, the configuration (conf/admin.conf), AUTH, LOG, NAME, SERVER
+ *  and QUIT live in src/common/admin_channel.cpp, shared with the login and
+ *  char servers. The map-server adds:
  *
- *  Each request is one line terminated by '\n' (a trailing '\r' is ignored).
- *  The server answers each line with one line: "OK ..." or "ERR ...".
- *
- *    AUTH <secret>      authenticate; required before any other command
  *    RELOAD <target>    shortcut for "@reload<target>" (itemdb, mobdb, skilldb,
  *                       script, battleconf, statusdb, atcommand, ...)
  *    ATCMD <command>    run any atcommand (a leading '@' is optional)
- *    QUIT               close the connection
- *
- *  Commands run inside the single-threaded main loop, exactly like the server
- *  console, so no locking is required.
- *
- *  Configuration lives in conf/admin.conf (admin_enable, admin_bind_ip,
- *  admin_port, admin_secret).
- *
- *  SECURITY: this is an administrative back door. Every command except AUTH
- *  requires the shared secret. Change admin_secret in conf/admin.conf before
- *  use and keep the port firewalled to trusted hosts.
  * ============================================================================
  */
 
-// ---------------------------------------------------------------------------
-// Configuration: read from conf/admin.conf (see admin_config_read).
-// ---------------------------------------------------------------------------
-#define ADMIN_CONF_PATH "conf/admin.conf"
-#define ADMIN_DEFAULT_SECRET "CHANGE-ME-please"
-#define ADMIN_DEFAULT_NAME "Admin Console" // display name used by e.g. @broadcast
-#define ADMIN_LINE_MAX 4096               // anti-flood: drop a line longer than this
-#define ADMIN_MAX_AUTH_FAILS 5            // close the session after this many bad AUTH
+#define ADMIN_DEFAULT_NAME "Admin Console"
 
-static bool   admin_enable     = true;
-static uint32 admin_bind_ip    = 0;       // 0 = INADDR_ANY = every interface, public ones included
-static uint16 admin_port       = 7799;
-static char   admin_secret[256] = ADMIN_DEFAULT_SECRET;
-static bool   admin_secret_md5 = false;   // if true, admin_secret holds an MD5 hash
-
-/// One admin_allow entry: a network the channel accepts connections from.
-/// Both fields are in host byte order, like session[fd]->client_addr and the
-/// value str2ip() returns, so a match is a plain mask-and-compare.
-struct s_admin_allow {
-	uint32 net;   // network address, already masked
-	uint32 mask;  // netmask
-};
-
-/// Networks allowed to reach the channel. EMPTY MEANS ACCEPT EVERYONE: an
-/// existing conf without admin_allow keeps working exactly as before, and
-/// do_init_admin() warns when that combines with a wide-open bind.
-static std::vector<s_admin_allow> admin_allow;
-
-/// True when ip (host byte order) matches at least one allow-list entry.
-static bool admin_ip_allowed( uint32 ip ){
-	for( const s_admin_allow& a : admin_allow ){
-		if( ( ip & a.mask ) == a.net ){
-			return true;
-		}
-	}
-
-	return false;
-}
-
-/// Parse one admin_allow value and append it. Accepted forms:
-///   192.168.1.20            single host
-///   192.168.1.0/24          prefix length
-///   192.168.1.0/255.255.255.0   dotted netmask (same spelling packet_athena.conf uses)
-static void admin_allow_add( const char* spec ){
-	char ip_s[64] = {}, mask_s[64] = {};
-	uint32 mask;
-
-	if( sscanf( spec, "%63[^/]/%63s", ip_s, mask_s ) == 2 ){
-		if( strchr( mask_s, '.' ) != nullptr ){
-			mask = str2ip( mask_s );
-		}else{
-			const int32 bits = atoi( mask_s );
-
-			if( bits <= 0 ){
-				mask = 0;
-			}else if( bits >= 32 ){
-				mask = 0xFFFFFFFFu;
-			}else{
-				mask = 0xFFFFFFFFu << ( 32 - bits );
-			}
-		}
-	}else{
-		mask = 0xFFFFFFFFu; // bare address = one host
-	}
-
-	const uint32 ip = str2ip( ip_s );
-
-	if( ip == 0xFFFFFFFFu ){ // what str2ip returns on a malformed address
-		ShowWarning( "Admin channel: ignoring invalid admin_allow entry '%s'.\n", spec );
-		return;
-	}
-
-	admin_allow.push_back( { ip & mask, mask } );
-}
-
-// connect_client() is the generic accept handler in common/socket.cpp. It is
-// not declared in socket.hpp, so we forward-declare it here to reuse it.
-extern int32 connect_client( int32 listen_fd );
-
-static int32 admin_listen_fd = -1;
 static map_session_data* admin_dummy = nullptr; // virtual GM used to run atcommands
-
-struct s_admin_session {
-	bool  authed;
-	bool  log_subscribed;           // receives the server console feed (LOG ON)
-	uint8 auth_fails;               // bad AUTH attempts so far on this connection
-	char  display_name[NAME_LENGTH];
-};
 
 // --- atcommand output capture ---------------------------------------------
 // While an admin-channel atcommand runs, clif_displaymessage() routes its GM
@@ -153,100 +50,21 @@ bool admin_capture_line( const char* mes ){
 	return true;
 }
 
-/// Send one reply line back to the admin client.
-static void admin_reply( int32 fd, const std::string& msg ){
-	std::string out = msg;
-	out += "\n";
-
-	WFIFOHEAD( fd, out.size() );
-	memcpy( WFIFOP( fd, 0 ), out.c_str(), out.size() );
-	WFIFOSET( fd, static_cast<int32>( out.size() ) );
-}
-
-/// Execute a single command line.
-static void admin_exec( int32 fd, const std::string& line ){
-	s_admin_session* asd = reinterpret_cast<s_admin_session*>( session[fd]->session_data );
-
-	// split into "<word> <rest>"
-	std::string cmd, arg;
-	size_t sp = line.find( ' ' );
-	if( sp == std::string::npos ){
-		cmd = line;
-	}else{
-		cmd = line.substr( 0, sp );
-		arg = line.substr( sp + 1 );
-	}
-
-	if( cmd == "AUTH" ){
-		bool match;
-		if( admin_secret_md5 ){
-			// admin_secret holds an MD5 hash; hash the received password and
-			// compare (case-insensitive hex). The plaintext is never stored.
-			char hash[33];
-			MD5_String( arg.c_str(), hash );
-			match = ( strcmpi( hash, admin_secret ) == 0 );
-		}else{
-			match = ( arg == admin_secret );
-		}
-
-		if( match ){
-			asd->authed = true;
-			asd->auth_fails = 0;
-			admin_reply( fd, "OK authenticated" );
-			return;
-		}
-
-		// The secret is the only thing between the network and ATCMD, so a
-		// connection does not get to sit there trying candidates: drop it after
-		// a handful of misses and make the attempt visible in the console.
-		asd->auth_fails++;
-		ShowWarning( "Admin channel: failed AUTH on session #%d from %s (%d/%d).\n",
-			fd, ip2str( session[fd]->client_addr, nullptr ),
-			(int32)asd->auth_fails, ADMIN_MAX_AUTH_FAILS );
-		admin_reply( fd, "ERR bad secret" );
-
-		if( asd->auth_fails >= ADMIN_MAX_AUTH_FAILS ){
-			admin_reply( fd, "ERR too many failed attempts" );
-			set_eof( fd );
-		}
-		return;
-	}
-
-	if( asd == nullptr || !asd->authed ){
-		admin_reply( fd, "ERR not authenticated" );
-		return;
-	}
-
-	if( cmd == "QUIT" ){
-		admin_reply( fd, "OK bye" );
-		set_eof( fd );
-		return;
-	}
-
-	if( cmd == "NAME" ){
-		safestrncpy( asd->display_name, arg.empty() ? ADMIN_DEFAULT_NAME : arg.c_str(), sizeof( asd->display_name ) );
-		admin_reply( fd, std::string( "OK name set: " ) + asd->display_name );
-		return;
-	}
-
-	if( cmd == "LOG" ){
-		asd->log_subscribed = ( strcmpi( arg.c_str(), "on" ) == 0 || strcmpi( arg.c_str(), "yes" ) == 0 || arg == "1" );
-		admin_reply( fd, asd->log_subscribed ? "OK log on" : "OK log off" );
-		return;
-	}
-
-	// Everything else is turned into an atcommand run by the virtual GM.
+/// RELOAD and ATCMD, called by the shared channel once the session is
+/// authenticated. Returns false for an unknown command.
+static bool admin_map_exec( int32 fd, s_admin_session& asd, const std::string& cmd, const std::string& arg ){
+	// Everything here is turned into an atcommand run by the virtual GM.
 	std::string atcmd;
 	if( cmd == "RELOAD" ){
 		if( arg.empty() ){
 			admin_reply( fd, "ERR usage: RELOAD <target>" );
-			return;
+			return true;
 		}
 		atcmd = std::string( 1, atcommand_symbol ) + "reload" + arg;
 	}else if( cmd == "ATCMD" ){
 		if( arg.empty() ){
 			admin_reply( fd, "ERR usage: ATCMD <command>" );
-			return;
+			return true;
 		}
 		atcmd = arg;
 		// Keep an explicit '@' (atcommand, self) or '#' (charcommand, targets
@@ -255,12 +73,11 @@ static void admin_exec( int32 fd, const std::string& line ){
 			atcmd = std::string( 1, atcommand_symbol ) + atcmd;
 		}
 	}else{
-		admin_reply( fd, "ERR unknown command" );
-		return;
+		return false; // the shared channel answers "ERR unknown command"
 	}
 
 	// Apply this session's display name so commands like @broadcast have a nick.
-	safestrncpy( admin_dummy->status.name, asd->display_name, sizeof( admin_dummy->status.name ) );
+	safestrncpy( admin_dummy->status.name, asd.display_name, sizeof( admin_dummy->status.name ) );
 
 	// Capture the atcommand's GM output (sent via clif_displaymessage) so we can
 	// stream it back to the admin client instead of dropping it.
@@ -288,188 +105,11 @@ static void admin_exec( int32 fd, const std::string& line ){
 	}else{
 		admin_reply( fd, "ERR not an atcommand: " + atcmd );
 	}
-}
 
-/// Per-session parse handler: split the incoming byte stream into lines.
-static int32 admin_parse( int32 fd ){
-	if( session[fd]->flag.eof ){
-		do_close( fd );
-		return 0;
-	}
-
-	while( RFIFOREST( fd ) > 0 ){
-		char* buf = reinterpret_cast<char*>( RFIFOP( fd, 0 ) );
-		size_t rest = RFIFOREST( fd );
-		size_t i = 0;
-
-		while( i < rest && buf[i] != '\n' ){
-			i++;
-		}
-
-		if( i == rest ){
-			// no complete line in the buffer yet
-			if( rest > ADMIN_LINE_MAX ){
-				ShowWarning( "admin_parse: oversized line on session #%d, dropping.\n", fd );
-				set_eof( fd );
-			}
-			break;
-		}
-
-		std::string line( buf, i );
-		RFIFOSKIP( fd, i + 1 );
-
-		if( !line.empty() && line.back() == '\r' ){
-			line.pop_back();
-		}
-		if( !line.empty() ){
-			admin_exec( fd, line );
-		}
-	}
-
-	return 0;
-}
-
-/// Accept handler for the admin listener: reuse the generic accept, then swap
-/// the per-session parse function and attach our auth state.
-static int32 admin_connect( int32 listen_fd ){
-	int32 fd = connect_client( listen_fd );
-
-	// Address check first, before any session state exists: an unlisted peer
-	// never gets to send a byte, so it cannot brute force AUTH nor hold a
-	// connection open (these sockets carry flag.server, so they never time out).
-	if( fd > 0 && !admin_allow.empty() && !admin_ip_allowed( session[fd]->client_addr ) ){
-		ShowWarning( "Admin channel: rejected connection from %s (not in admin_allow).\n",
-			ip2str( session[fd]->client_addr, nullptr ) );
-		do_close( fd );
-		return -1;
-	}
-
-	if( fd > 0 ){
-		s_admin_session* asd;
-		CREATE( asd, s_admin_session, 1 );
-		asd->authed = false;
-		asd->log_subscribed = false;
-		asd->auth_fails = 0;
-		safestrncpy( asd->display_name, ADMIN_DEFAULT_NAME, sizeof( asd->display_name ) );
-
-		session[fd]->func_parse = admin_parse;
-		session[fd]->flag.server = 1; // no inactivity timeout, not a game client
-		session[fd]->session_data = asd;
-
-		ShowInfo( "Admin channel: new connection on session #%d.\n", fd );
-	}
-
-	return fd;
-}
-
-/// Console output hook: push each server console line to subscribed clients.
-/// Called from clif/showmsg in the (single) main thread, like everything else.
-/// A single Show* call may contain embedded '\n'; each sub-line is sent as a
-/// separate "* <flag> <text>" record so the GUI can display them individually.
-static void admin_console_forward( int32 flag, const char* msg ){
-	if( msg == nullptr ){
-		return;
-	}
-
-	const std::string flag_prefix = "* " + std::to_string( (int32)flag ) + " ";
-
-	// Split on '\n' and send each non-empty fragment as its own record.
-	const char* p = msg;
-	while( *p ){
-		const char* nl = p;
-		while( *nl && *nl != '\n' ) nl++;
-
-		// Build the fragment, stripping trailing '\r'.
-		std::string fragment( p, nl );
-		while( !fragment.empty() && fragment.back() == '\r' ){
-			fragment.pop_back();
-		}
-
-		if( !fragment.empty() ){
-			std::string out = flag_prefix + fragment;
-			for( int32 i = 0; i < fd_max; i++ ){
-				if( session[i] == nullptr || session[i]->func_parse != admin_parse ){
-					continue;
-				}
-				s_admin_session* asd = reinterpret_cast<s_admin_session*>( session[i]->session_data );
-				if( asd != nullptr && asd->log_subscribed ){
-					admin_reply( i, out );
-				}
-			}
-		}
-
-		p = ( *nl == '\n' ) ? nl + 1 : nl;
-	}
-}
-
-/// Read conf/admin.conf (same "w1: w2" format as the other map-server confs).
-static void admin_config_read( const char* cfgName ){
-	char line[1024], w1[64], w2[1024];
-
-	FILE* fp = fopen( cfgName, "r" );
-	if( fp == nullptr ){
-		ShowError( "Admin channel: configuration file '%s' not found, using defaults.\n", cfgName );
-		return;
-	}
-
-	while( fgets( line, sizeof( line ), fp ) ){
-		char* ptr;
-
-		if( line[0] == '/' && line[1] == '/' )
-			continue;
-		if( ( ptr = strstr( line, "//" ) ) != nullptr )
-			*ptr = '\n'; // strip comments
-
-		if( sscanf( line, "%63[^:]: %1023[^\t\r\n]", w1, w2 ) < 2 )
-			continue;
-
-		// strip trailing spaces
-		ptr = w2 + strlen( w2 );
-		while( --ptr >= w2 && *ptr == ' ' );
-		ptr++;
-		*ptr = '\0';
-
-		if( strcmpi( w1, "admin_enable" ) == 0 )
-			admin_enable = config_switch( w2 ) != 0;
-		else if( strcmpi( w1, "admin_bind_ip" ) == 0 )
-			admin_bind_ip = str2ip( w2 );
-		else if( strcmpi( w1, "admin_allow" ) == 0 )
-			admin_allow_add( w2 ); // cumulative: repeat the key for several networks
-		else if( strcmpi( w1, "admin_port" ) == 0 )
-			admin_port = (uint16)atoi( w2 );
-		else if( strcmpi( w1, "admin_secret" ) == 0 )
-			safestrncpy( admin_secret, w2, sizeof( admin_secret ) );
-		else if( strcmpi( w1, "admin_secret_md5" ) == 0 )
-			admin_secret_md5 = config_switch( w2 ) != 0;
-		else if( strcmpi( w1, "import" ) == 0 )
-			admin_config_read( w2 );
-		else
-			ShowWarning( "Admin channel: unknown setting '%s' in file %s.\n", w1, cfgName );
-	}
-
-	fclose( fp );
+	return true;
 }
 
 void do_init_admin( void ){
-	admin_allow.clear(); // admin_config_read() only ever appends (it recurses into imports)
-	admin_config_read( ADMIN_CONF_PATH );
-
-	if( !admin_enable ){
-		ShowStatus( "Admin channel: " CL_RED "disabled" CL_RESET " by configuration.\n" );
-		return;
-	}
-
-	if( !admin_secret_md5 && strcmp( admin_secret, ADMIN_DEFAULT_SECRET ) == 0 ){
-		ShowWarning( "Admin channel: admin_secret is still the default value - change it in %s!\n", ADMIN_CONF_PATH );
-	}
-	if( admin_secret_md5 && strlen( admin_secret ) != 32 ){
-		ShowWarning( "Admin channel: admin_secret_md5 is enabled but admin_secret is not a 32-char MD5 hash.\n" );
-	}
-	if( admin_allow.empty() && admin_bind_ip == 0 ){
-		ShowWarning( "Admin channel: bound to every interface with no admin_allow - anyone who can reach port %d may attempt AUTH. Set admin_allow (and/or admin_bind_ip) in %s.\n",
-			admin_port, ADMIN_CONF_PATH );
-	}
-
 	// Virtual GM character: group 99 = full privileges, fd 0 = no client output.
 	CREATE( admin_dummy, map_session_data, 1 );
 	new( admin_dummy ) map_session_data();
@@ -478,20 +118,11 @@ void do_init_admin( void ){
 	safestrncpy( admin_dummy->status.name, ADMIN_DEFAULT_NAME, sizeof( admin_dummy->status.name ) );
 	pc_group_pc_load( admin_dummy );
 
-	admin_listen_fd = make_listen_bind( admin_bind_ip, admin_port );
-	session[admin_listen_fd]->func_recv = admin_connect;
-
-	set_console_hook( admin_console_forward ); // stream server console to LOG subscribers
-
-	ShowStatus( "Admin channel listening on port " CL_WHITE "%d" CL_RESET ".\n", admin_port );
+	do_init_admin_channel( ADMIN_SERVER_MAP, admin_map_exec );
 }
 
 void do_final_admin( void ){
-	set_console_hook( nullptr );
-	if( admin_listen_fd != -1 ){
-		do_close( admin_listen_fd );
-		admin_listen_fd = -1;
-	}
+	do_final_admin_channel();
 	if( admin_dummy != nullptr ){
 		admin_dummy->~map_session_data();
 		aFree( admin_dummy );

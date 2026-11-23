@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="admin_channel.hpp" />
     <ClInclude Include="cbasetypes.hpp" />
     <ClInclude Include="cli.hpp" />
     <ClInclude Include="conf.hpp" />
@@ -46,6 +47,7 @@
     <ClInclude Include="utilities.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="admin_channel.cpp" />
     <ClCompile Include="cli.cpp" />
     <ClCompile Include="conf.cpp" />
     <ClCompile Include="core.cpp" />

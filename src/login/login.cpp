@@ -15,6 +15,7 @@
 
 static bool login_bcrypt_make( const char* md5hex, char* out, size_t outlen ); // [Moonlight]
 
+#include <common/admin_channel.hpp>
 #include <common/cli.hpp>
 #include <common/core.hpp>
 #include <common/malloc.hpp>
@@ -1071,6 +1072,8 @@ void LoginServer::finalize(){
 		login_fd = -1;
 	}
 
+	do_final_admin_channel(); // [Stingor] console feed for the admin tool (src/common/admin_channel.cpp)
+
 	ShowStatus("Finished.\n");
 }
 
@@ -1134,6 +1137,7 @@ bool LoginServer::initialize( int32 argc, char* argv[] ){
 	}
 
 	do_init_logincnslif();
+	do_init_admin_channel( ADMIN_SERVER_LOGIN, nullptr ); // [Stingor] console feed for the admin tool
 
 	ShowNotice("The login-server is " CL_GREEN "ready" CL_RESET " (Server is listening on the port %u).\n\n", login_config.login_port);
 	login_log(0, "login server", 100, "login server started");

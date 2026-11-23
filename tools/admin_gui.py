@@ -62,6 +62,19 @@ LOG_LEVELS = [
 # Auto-reconnect retry interval (seconds) while "connect" is desired.
 RETRY_SECONDS = 1
 
+# Console-only feeds of the other two servers (src/common/admin_channel.cpp):
+# (source name, MoonlightAdmin.ini key under [connexion], default port). Same
+# host and secret as the map-server. They live independently of the map
+# connection: a map-server restart does not cut them, and they keep retrying
+# while the map-server is down, which is exactly when their console matters.
+SIDE_FEEDS = [
+    ("char", "port_char", "7798"),
+    ("login", "port_login", "7797"),
+]
+SIDE_RETRY_SECONDS = 5
+# Server checkboxes of the console panel: source name -> label.
+SERVER_SOURCES = [("map", "Map"), ("char", "Char"), ("login", "Login")]
+
 # One-click reload targets -> "RELOAD <target>" -> "@reload<target>".
 # Rendered alphabetically as compact buttons (see _build_actions).
 RELOAD_TARGETS = [
@@ -246,9 +259,18 @@ class AdminGUI:
         self._want_connected = False # user intent: keep (re)connecting
         self._connect_inflight = False  # a connect attempt is running
         self._retry_scheduled = False   # a reconnect is queued
-        # Server-console history: (timestamp, flag, color tag, message, alert)
-        # kept so the filters can re-render the panel retroactively.
+        # char/login console feeds: one connection each, plus a generation
+        # counter so a dead reader thread cannot close its successor, and the
+        # last reported state (None / True / False) to log changes only once.
+        self.side_conns = {src: AdminConnection() for src, _k, _p in SIDE_FEEDS}
+        self.side_ports = {src: tk.StringVar(value=port) for src, _k, port in SIDE_FEEDS}
+        self._side_gen = {src: 0 for src, _k, _p in SIDE_FEEDS}
+        self._side_state = {src: None for src, _k, _p in SIDE_FEEDS}
+        self._side_retry = set()     # sources with a reconnect queued
+        # Server-console history: (timestamp, flag, color tag, message, alert,
+        # source) kept so the filters can re-render the panel retroactively.
         self._srv_lines = deque(maxlen=SRVLOG_BUFFER)
+        self._src_vars = {}          # source name -> BooleanVar (checked = shown)
         self._log_filter_vars = {}   # filter substring -> BooleanVar (checked = shown)
         self._level_vars = {}        # level label -> BooleanVar (checked = shown)
         self._flag_level = {f: label for label, flags in LOG_LEVELS for f in flags}
@@ -299,6 +321,8 @@ class AdminGUI:
         s = self.settings
         self.host_var.set(s.get("connexion", "host", DEFAULT_HOST))
         self.port_var.set(s.get("connexion", "port", DEFAULT_PORT))
+        for src, key, port in SIDE_FEEDS:
+            self.side_ports[src].set(s.get("connexion", key, port))
         self.name_var.set(s.get("connexion", "name", DEFAULT_NAME))
         self.topmost_var.set(s.get_bool("fenetre", "topmost"))
         self._toggle_topmost()
@@ -314,6 +338,8 @@ class AdminGUI:
             self._log_filter_vars[pattern].set(s.get_bool("filtres", label, True))
         for label, _flags in LOG_LEVELS:
             self._level_vars[label].set(s.get_bool("niveaux", label, True))
+        for src, label in SERVER_SOURCES:
+            self._src_vars[src].set(s.get_bool("serveurs", label, True))
         self.regex_var.set(s.get_bool("console", "regex"))
         self.only_matches_var.set(s.get_bool("console", "only_matches"))
         self.pause_var.set(False)
@@ -326,6 +352,8 @@ class AdminGUI:
         data = {
             "connexion": {"host": self.host_var.get().strip(),
                           "port": self.port_var.get().strip(),
+                          **{key: self.side_ports[src].get().strip()
+                             for src, key, _p in SIDE_FEEDS},
                           "name": self.name_var.get().strip()},
             "fenetre": {"geometry": self.root.geometry(),
                         "topmost": self.topmost_var.get(),
@@ -333,6 +361,7 @@ class AdminGUI:
                         "reloads_open": self.reloads_open_var.get()},
             "filtres": {label: self._log_filter_vars[p].get() for p, label in LOG_FILTERS},
             "niveaux": {label: self._level_vars[label].get() for label, _ in LOG_LEVELS},
+            "serveurs": {label: self._src_vars[src].get() for src, label in SERVER_SOURCES},
             "console": {"regex": self.regex_var.get(),
                         "only_matches": self.only_matches_var.get(),
                         "save_log": self.savelog_var.get(),
@@ -477,6 +506,13 @@ class AdminGUI:
         # Row 1: source filters (checked = visible) + level filters.
         filt = ttk.Frame(srv_frame)
         filt.pack(fill="x", padx=4, pady=(4, 0))
+        ttk.Label(filt, text="Serveurs :").pack(side="left", padx=(0, 4))
+        for src, label in SERVER_SOURCES:
+            var = tk.BooleanVar(value=True)
+            self._src_vars[src] = var
+            ttk.Checkbutton(filt, text=label, variable=var,
+                            command=self._refilter_serverlog).pack(side="left", padx=2)
+        ttk.Separator(filt, orient="vertical").pack(side="left", fill="y", padx=8)
         ttk.Label(filt, text="Sources :").pack(side="left", padx=(0, 4))
         for pattern, label in LOG_FILTERS:
             var = tk.BooleanVar(value=True)
@@ -727,27 +763,35 @@ class AdminGUI:
         # Drop any stray item-link blob we could not turn into a link.
         self.log.insert("end", ITEML_STRIP_RE.sub("", text), "out")
 
-    def _log_server(self, payload):
-        """Display one server console line ("<flag> <message>") in the server panel."""
+    def _log_server(self, payload, src="map"):
+        """Display one server console line ("<flag> <message>") in the server panel.
+
+        Lines of the char and login servers carry a "[char] " / "[login] "
+        prefix; map-server lines stay as they always were."""
         flag_str, _, msg = payload.partition(" ")
         try:
             flag = int(flag_str)
         except ValueError:
             flag, msg = 0, payload
         msg = ANSI_RE.sub("", msg).rstrip("\n")
+        if src != "map":
+            msg = f"[{src}] {msg}"
         tag = MSG_TAGS.get(flag, "srv_def")
         now = datetime.now()
         ts = now.strftime("%H:%M:%S")
         alert = any(p in msg for p in ALERT_PATTERNS)
-        self._srv_lines.append((ts, flag, tag, msg, alert))
+        self._srv_lines.append((ts, flag, tag, msg, alert, src))
         self._write_logfile(now, flag, msg)
         if alert and self.alerts_var.get():
             self._raise_alert()
-        if self._line_visible(flag, msg):
+        if self._line_visible(flag, msg, src):
             self._append_serverline(ts, tag, msg, alert)
 
-    def _line_visible(self, flag, msg):
-        """Apply source filters, level filters and "only matches"."""
+    def _line_visible(self, flag, msg, src="map"):
+        """Apply server, source and level filters, and "only matches"."""
+        var = self._src_vars.get(src)
+        if var is not None and not var.get():
+            return False
         for pattern, var in self._log_filter_vars.items():
             if not var.get() and pattern in msg:
                 return False
@@ -785,8 +829,8 @@ class AdminGUI:
         view = self.srvlog.yview()[0]
         self.srvlog.configure(state="normal")
         self.srvlog.delete("1.0", "end")
-        for ts, flag, tag, msg, alert in self._srv_lines:
-            if self._line_visible(flag, msg):
+        for ts, flag, tag, msg, alert, src in self._srv_lines:
+            if self._line_visible(flag, msg, src):
                 self._insert_serverline(ts, tag, msg, alert)
         self.srvlog.configure(state="disabled")
         if keep_view:
@@ -913,6 +957,12 @@ class AdminGUI:
             self._log_output(text)
         elif kind == "serverlog":
             self._log_server(text)
+        elif kind == "sidelog":
+            src, gen, payload = text
+            if gen == self._side_gen[src]:  # drop lines of an orphaned reader
+                self._log_server(payload, src)
+        elif kind == "sidestate":
+            self._handle_side_state(*text)
         elif kind == "reply":
             self._log(text, "ok" if text.startswith("OK") else "err")
         elif kind == "info":
@@ -967,6 +1017,76 @@ class AdminGUI:
         self._want_connected = True
         self._set_connected(False)
         self._start_connect()
+        for src, _k, _p in SIDE_FEEDS:
+            self._start_side_feed(src)
+
+    # ---- char / login console feeds -----------------------------------------
+    def _start_side_feed(self, src):
+        """Connect the console feed of one secondary server (best-effort)."""
+        self._side_retry.discard(src)
+        if not self._want_connected or self.side_conns[src].connected:
+            return
+        host = self.host_var.get().strip()
+        secret = self.secret_var.get()
+        try:
+            port = int(self.side_ports[src].get().strip())
+        except ValueError:
+            self._log(f"[{src}] port invalide dans MoonlightAdmin.ini.", "err")
+            return
+        if port == 0:  # 0 = this feed disabled, like on the server side
+            return
+        self._side_gen[src] += 1
+        gen = self._side_gen[src]
+        # A fresh object per attempt: an orphaned reader keeps its own socket
+        # and can never read from (or close) the one of its successor.
+        conn = self.side_conns[src] = AdminConnection()
+
+        def worker():
+            try:
+                conn.connect(host, port)
+                if gen != self._side_gen[src]:  # stopped while connecting
+                    conn.close()
+                    return
+                _o, rep = conn.send("AUTH " + secret)
+                if not rep.startswith("OK"):
+                    raise RuntimeError("AUTH refuse: " + rep)
+                _o, rep = conn.send("LOG ON")
+                if not rep.startswith("OK"):
+                    raise RuntimeError("LOG ON refuse: " + rep)
+                self.events.put(("sidestate", (src, gen, True, f"{host}:{port}")))
+                while conn.connected:
+                    line = conn._read_line()
+                    if line.startswith("* "):
+                        self.events.put(("sidelog", (src, gen, line[2:])))
+            except Exception as exc:  # noqa: BLE001
+                self.events.put(("sidestate", (src, gen, False, repr(exc))))
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def _handle_side_state(self, src, gen, ok, detail):
+        if gen != self._side_gen[src]:
+            return  # a reader of an older connection: its successor is in charge
+        if ok:
+            self._side_state[src] = True
+            self._log(f"[feed] console {src} connectee ({detail}).", "ok")
+            return
+        self.side_conns[src].close()
+        if not self._want_connected:
+            return
+        # Log the first failure and the loss of a live feed, not every retry.
+        if self._side_state[src] is not False:
+            self._log(f"[feed] console {src} indisponible: {detail} "
+                      f"(nouvel essai toutes les {SIDE_RETRY_SECONDS}s)", "info")
+        self._side_state[src] = False
+        if src not in self._side_retry:
+            self._side_retry.add(src)
+            self.root.after(SIDE_RETRY_SECONDS * 1000, lambda s=src: self._start_side_feed(s))
+
+    def _stop_side_feeds(self):
+        for src, _k, _p in SIDE_FEEDS:
+            self._side_gen[src] += 1  # orphan the running reader
+            self._side_state[src] = None
+            self.side_conns[src].close()
 
     def _start_connect(self):
         if not self._want_connected or self.conn.connected or self._connect_inflight:
@@ -1035,6 +1155,7 @@ class AdminGUI:
     def _disconnect(self):
         self._want_connected = False
         self._set_connected(False)
+        self._stop_side_feeds()
         self._log("Deconnecte.", "info")
 
         def worker():
@@ -1160,6 +1281,7 @@ class AdminGUI:
                 pass
             self.conn.close()
         self.logconn.close()
+        self._stop_side_feeds()
         self._close_logfile()
         self.root.destroy()
 

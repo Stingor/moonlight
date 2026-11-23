@@ -82,6 +82,7 @@ if( WITH_ZLIB )
 message( STATUS "Creating target common_base" )
 set( COMMON_BASE_HEADERS
 	${COMMON_ALL_HEADERS}
+	"${COMMON_SOURCE_DIR}/admin_channel.hpp"
 	"${COMMON_SOURCE_DIR}/conf.hpp"
 	"${COMMON_SOURCE_DIR}/core.hpp"
 	"${COMMON_SOURCE_DIR}/database.hpp"
@@ -106,6 +107,7 @@ set( COMMON_BASE_HEADERS
 	${COMMON_ADDITIONALL_HPP} # needed by Windows
 	CACHE INTERNAL "common_base headers" )
 set( COMMON_BASE_SOURCES
+	"${COMMON_SOURCE_DIR}/admin_channel.cpp"
 	"${COMMON_SOURCE_DIR}/conf.cpp"
 	"${COMMON_SOURCE_DIR}/core.cpp"
 	"${COMMON_SOURCE_DIR}/database.cpp"
