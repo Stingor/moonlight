@@ -3427,9 +3427,11 @@ def replace_iteml(msg):
         if data["refine"] and data["refine"] > 0:
             refine = f"+{data['refine']} "
 
-        name = ""
-        name = getitemname(data["itemid"])
         itemid = data["itemid"]
+        # item_db2 est une copie SQL de db/import qu'il faut régénérer (yaml2sql) à
+        # chaque ajout d'objets : un objet plus récent que la dernière importation
+        # n'y figure pas, et le lien affichait « None ».
+        name = getitemname(itemid) or f"Objet #{itemid}"
         return f" [<{refine}{name}>]({ITEMDB_LINK}{itemid}) "
 
     return ITEML_PATTERN.sub(repl, msg)
