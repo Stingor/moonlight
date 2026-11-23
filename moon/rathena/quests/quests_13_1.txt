@@ -2718,6 +2718,10 @@ mid_camp,261,284,4	script	Instructor#ep13bs	4_M_YOUNGKNIGHT,{
 		mes "It seems that I nave no time to rest this week.";
 		close;
 	}
+OnInit:
+	questinfo(QTYPE_QUEST, QMARK_YELLOW, "ep13_newbs == 12");
+	questinfo(QTYPE_CLICKME, QMARK_NONE, "ep13_newbs == 21");
+	end;
 }
 
 mid_camp,123,290,4	script	Otto#ep13bs	4_M_RUSMAN1,{
@@ -3194,7 +3198,7 @@ mid_campin,295,128,4	script	Lucas#ep13bs	884,{
 		close;
 	}
 OnInit:
-	questinfo(QTYPE_QUEST, QMARK_YELLOW, "ep13_newbs == 15");
+	questinfo(QTYPE_QUEST, QMARK_YELLOW, "ep13_newbs == 11");
 	end;
 }
 
