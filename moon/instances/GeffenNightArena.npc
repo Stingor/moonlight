@@ -94,6 +94,10 @@ geffen_in,82,62,4	script	Suspicious Looking Man#gna	4_M_GEF_SOLDIER,{
 		next;
 		mes "Each fight lasts only 60 seconds. If one of the starting members is dead or absent, the opponent cannot be harmed.";
 		next;
+		mes "[Suspicious Looking Man]";
+		mes "Coins, certificates and championships are spent with the Arena Quartermaster in Dali (dali02 85,68).";
+		mes "Arena cards are not dropped: each costs 10 championships and 7 copies of the matching ordinary card, which the opponents drop.";
+		next;
 		GNA_Access = 1;
 		if (checkquest(69990) == -1) {
 			setquest 69990;
@@ -135,7 +139,7 @@ dali02,79,60,4	script	Geffen Night Arena Gate#gna	4_M_GEF_SOLDIER,{
 	.@now = gettimetick(2);
 	.@returning = (.@iid > 0 && GNA_ActiveInstance == .@iid && GNA_ActiveUntil > .@now);
 	if (!.@returning && GNA_Next > .@now) {
-		mes "You may challenge the arena again after the third 04:00 reset.";
+		mes "You may challenge the arena again after the next 04:00 reset.";
 		mes "Remaining: "+((GNA_Next-.@now+59)/60)+" minute(s).";
 		close;
 	}
@@ -311,6 +315,7 @@ dali02,85,68,4	script	Geffen Arena Quartermaster#gna	4_M_GEF_SOLDIER,{
 	}
 	mes "Round "+'gna_round+" is clear. Current party reward:";
 	mes "^3366FF"+'gna_reward_coin+" coin(s), "+'gna_reward_cert+" certificate(s), "+'gna_reward_champ+" championship(s)^000000.";
+	mes "Spend them with the Arena Quartermaster in Dali (dali02 85,68). An Arena card costs 10 championships and 7 ordinary cards of the same opponent.";
 	next;
 	if ('gna_round >= 10) {
 		mes "Fenrir was defeated. Claim the championship reward.";
