@@ -71,7 +71,7 @@ Walkthrough Conversion*, Atemo, ouverte depuis le 2024‑07‑30, mise à jour l
 | Terrain | spawns `jor_back`, `jor_dun`, `jor_ab` ; warps `icecastle`, `jor_fild`, `jor_dun` |
 | Économie | `episode_19.txt`, barters, groupe `D_GW_EXTRACTOR`, Lapine |
 | `mob_db` | les 40 mobs avec vitesses, IA, modes et classe ; PNJ et pierres de stockage en coquilles, trois mobs à stats nulles |
-| C++ (≈ 60 lignes) | mapflags `nolootnormalmob` et `no_npc_selfdestruction_on_all`, commande `unitisforcewalk`, statut `SC_MTP_W_POTION_100`, groupe `IG_D_GW_EXTRACTOR`, compétence visuelle `DE_BERSERKAIZER`, correctif `SCB_RANGE` |
+| C++ (≈ 60 lignes) | mapflags `nolootnormalmob` et `no_npc_selfdestruction_on_all`, commande `unitisforcewalk`, statut `SC_MTP_W_POTION_100`, groupe `IG_D_GW_EXTRACTOR`, correctif `SCB_RANGE` (la compétence `DE_BERSERKAIZER` n'est qu'une entrée de `skill_db`, sans `case` C++) |
 
 Ses défauts : **aucun `mob_skill_db`** (signalé deux fois en commentaire), une erreur YAML dans
 sa `quest_db` (`Title: Standby: Neutralizing Aircraft` sans guillemets), quelques octets de
@@ -196,7 +196,7 @@ La Bataille de simulation, qu'on croyait absente, est dans `BaggotLaboratory.txt
 | Scripts | `moon/instances/IwinPatrol.npc`, `AirshipDestruction.npc`, `BaggotLaboratory.npc`, `ConfusedSnakesNest.npc`, copies de la PR (ASCII) |
 | `instance_db` | 74 à 78, de `db/re` ; constantes `INST_*` régénérées |
 | C++ | `unitisforcewalk` dans `script.cpp` (boss d'Airship Destruction) ; les autres ajouts de la PR (mapflags `nolootnormalmob`, `no_npc_selfdestruction_on_all`, `SC_MTP_W_POTION_100`, `IG_D_GW_EXTRACTOR`, correctif `SCB_RANGE`) ne servent à aucun script porté |
-| Compétence | `DE_BERSERKAIZER` (578), effet visuel seul, dans `db/import/skill_db.yml` |
+| Compétence | `DE_BERSERKAIZER` (578), effet visuel seul : entrée dans `db/import/skill_db.yml` et `case` dans `skill_castend_nodamage_id` (`skill.cpp`), absent de la PR, qui faisait tomber le lancer dans le `default` (« missing code case »). Le boss la lance au début de sa phase « mode à distance » : il passe en portée 8 et recule de 7 cases face à sa cible, et il garde cette portée jusqu'à ce qu'un joueur actionne l'interrupteur `#b_memo` ; l'événement ne peut revenir qu'après 150 s |
 | Mob | `MD_BETA_SCISSORE_NG` (20631, épisode 17.2) dans `db/import/mobs/ep19_instances.yml`, ses 4 compétences de `db/re`, sans sa carte |
 | Coffres | `Aquila_Antiquity` et `Aquila_Antiquity2`, et leurs groupes dans `item_group_db/ep19.yml` : Dim Glacier et extraits écartés, raffinements au-delà de 10 ramenés à 10 ; `Black_Dia` ajouté |
 | Mapflags | jeu standard de l'épisode 18 sur les quatre cartes : `nomemo`, `noteleport`, `monster_noteleport`, `nowarpto`, `partylock`, `restricted 6` (sans `nobranch`) |
