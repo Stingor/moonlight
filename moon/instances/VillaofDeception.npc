@@ -49,6 +49,8 @@ wolfvill,79,260,4	script(CLOAKED)	Aira#con	4_M_BRZ_JACI,{
 		.@create_normal$ = "^000044Create " + .@md_name_normal$ + "^000000";
 		if (countitem(1000471) > 0)
 			.@create_hard$ = "^000044Create " + .@md_name_hard$ + "^000000";
+		else // shown greyed so the leader knows the mode exists and what it needs
+			.@create_hard$ = "^999999Create " + .@md_name_hard$ + " (" + getitemname(1000471) + " requise)^000000";
 	}
 	switch( select( "Entry", .@create_normal$, .@create_hard$ ) ) {
 	case 1:
