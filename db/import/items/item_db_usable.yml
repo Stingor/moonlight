@@ -5963,8 +5963,10 @@ Body:
     AegisName: Juicy_Fruit
     Name: Juicy Fruit
     Type: Usable
-    Buy: 2
+    Buy: 20000
     Weight: 100
+    Script: |
+      pet;
   - Id: 12790
     AegisName: Change_Name_Card
     Name: Character Name Change Coupon
@@ -12386,6 +12388,7 @@ Body:
     AegisName: Ep20_Fatty_Icegangu
     Name: Chubby Ice Gangu
     Type: Usable
+    Buy: 20000
     Weight: 50
     Trade:
       NoDrop: true
