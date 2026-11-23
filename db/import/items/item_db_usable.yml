@@ -10337,6 +10337,13 @@ Body:
     Name: Lucky Bag Of New Era
     Type: Usable
     Script: "/* TODO */\n"
+  - Id: 22567
+    AegisName: Squad_Prize
+    Name: Expedition Award Box
+    Type: Usable
+    Buy: 20
+    Weight: 100
+    Script: "callfunc \"IGF_SquadPrize\";\n"
   - Id: 22571
     AegisName: Easter_Egg
     Name: Easter Egg

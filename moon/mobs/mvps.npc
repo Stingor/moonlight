@@ -58,10 +58,13 @@ OnMvpDead:
 		}
 	}
 OnMvpEvStingDead:
-	if (playerattached() && $sting_mvp_ev_active == 2 && killedrid == 20500) { // Sting-Bot
-		#KAFRAPOINTS += 5;
-		dispbottom "[Event Sting MVP] Sting-Bot éliminé ! +5 points d'event.";
-		announce strcharinfo(0)+" a tué Sting-Bot pendant l'event Sting MVP ! +5 points d'event !", bc_blue|bc_all;
+	// Pas de court-circuit en script : killedrid ne se lit qu'avec un joueur attache.
+	if (playerattached()) {
+		if ($sting_mvp_ev_active == 2 && killedrid == 20500) { // Sting-Bot
+			#KAFRAPOINTS += 5;
+			dispbottom "[Event Sting MVP] Sting-Bot éliminé ! +5 points d'event.";
+			announce strcharinfo(0)+" a tué Sting-Bot pendant l'event Sting MVP ! +5 points d'event !", bc_blue|bc_all;
+		}
 	}
 OnMvpBBDead:
 	end;

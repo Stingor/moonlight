@@ -2851,13 +2851,6 @@ Body:
     Type: Healing
     Buy: 10
     Weight: 10
-  - Id: 22567
-    AegisName: Squad_Prize
-    Name: Expedition Award Box
-    Type: Healing
-    Buy: 20
-    Weight: 100
-    Script: "callfunc \"IGF_SquadPrize\";\n"
   - Id: 22568
     AegisName: Nyd_Summon_Scroll
     Name: Nidhoggur Summon Scroll
@@ -2903,27 +2896,27 @@ Body:
     AegisName: Record_Fragment1
     Name: Record Fragment
     Type: Healing
-    Script: "warp \"un_bk_q\",98,143; if (callfunc(\"F_time_limit_recorder\") == 1) { recorder_quest_type = 1; }\n"
+    Script: "warp \"un_bk_q\",98,143;\n"
   - Id: 22692
     AegisName: Record_Fragment2
     Name: Record Fragment
     Type: Healing
-    Script: "warp \"un_bk_q\",45,276; if (callfunc(\"F_time_limit_recorder\") == 1) { recorder_quest_type = 2; }\n"
+    Script: "warp \"un_bk_q\",45,276;\n"
   - Id: 22693
     AegisName: Record_Fragment3
     Name: Record Fragment
     Type: Healing
-    Script: "warp \"un_bk_q\",217,346; if (callfunc(\"F_time_limit_recorder\") == 1) { recorder_quest_type = 3; }\n"
+    Script: "warp \"un_bk_q\",217,346;\n"
   - Id: 22694
     AegisName: Record_Fragment4
     Name: Record Fragment
     Type: Healing
-    Script: "warp \"un_bk_q\",273,235; if (callfunc(\"F_time_limit_recorder\") == 1) { recorder_quest_type = 4; }\n"
+    Script: "warp \"un_bk_q\",273,235;\n"
   - Id: 22695
     AegisName: Record_Fragment5
     Name: Record Fragment
     Type: Healing
-    Script: "warp \"un_bk_q\",275,290; if (callfunc(\"F_time_limit_recorder\") == 1) { recorder_quest_type = 5; }\n"
+    Script: "warp \"un_bk_q\",275,290;\n"
   - Id: 22770
     AegisName: Shark_Skewer
     Name: Shark Skewer

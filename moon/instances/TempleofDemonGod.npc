@@ -2296,3 +2296,19 @@ OnTimer8000:
 	}
 	end;
 }
+
+// Expedition Award Box (22567, Squad_Prize) : une Darklord Essence au hasard.
+// Fonction perdue au remplacement du script (26730051f5), restauree.
+// 75 % palier 1, 20 % palier 2, 5 % palier 3.
+function	script	IGF_SquadPrize	{
+	.@t = rand(1,100);
+	if (.@t <= 75)
+		.@tier = 0;
+	else if (.@t <= 95)
+		.@tier = 1;
+	else
+		.@tier = 2;
+	// Force, Intelligence, Speed, Vitality, Concentration, Luk : 4908 + 3*stat + palier
+	getitem 4908 + 3 * rand(6) + .@tier, 1;
+	return;
+}

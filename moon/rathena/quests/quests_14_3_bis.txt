@@ -470,6 +470,8 @@ moro_vol,108,88,5	script	Commander Hibba Agip#14301	4_M_REDSWORD,{
 			mes "She might know about this.";
 			ep4_3_mockill = 1;
 			erasequest 7597;// Fall of the False God
+			if (isbegin_quest(7598))
+				erasequest 7598;// delai d'une course precedente
 			setquest 7598;// Caged God
 			getitem 22567,1;// Squad_Prize
 			getitem 6715,1;// P_Of_Evil_Soul
@@ -535,6 +537,8 @@ moro_vol,108,88,5	script	Commander Hibba Agip#14301	4_M_REDSWORD,{
 		mes "Take your reward.";
 		mes "See you again.";
 		erasequest 7597;// Fall of the False God
+		if (isbegin_quest(7598))
+			erasequest 7598;// delai d'une course precedente
 		setquest 7598;// Caged God
 		getitem 22567,1;// Squad_Prize
 		getexp 1000000,500000;
