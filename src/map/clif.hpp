@@ -1881,6 +1881,10 @@ void clif_parse_moonlight_req_status_list(int32 fd, map_session_data* sd);
 void clif_parse_moonlight_npc_admin(int32 fd, map_session_data* sd);
 void clif_parse_moonlight_player_admin(int32 fd, map_session_data* sd);
 
+// [Stingor] Le joueur arrête la conversation du PNJ, quel que soit l'état du
+// script (CZ 0x0F6D, voir packets_struct.hpp).
+void clif_parse_moonlight_npc_abort(int32 fd, map_session_data* sd);
+
 // ── Ce que le client annonce (CZ 0x0F24) ─────────────────────────────────────
 //
 // Le client annonce, par un masque, tout ce qu'il sait lire. Seul moonclient parle

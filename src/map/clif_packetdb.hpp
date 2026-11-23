@@ -2180,6 +2180,10 @@ parseable_packet(HEADER_CZ_MOONLIGHT_UI_CAPS, -1, clif_parse_moonlight_ui_caps, 
 parseable_packet(HEADER_CZ_MOONLIGHT_NPC_ADMIN, sizeof(PACKET_CZ_MOONLIGHT_NPC_ADMIN), clif_parse_moonlight_npc_admin, 0);
 parseable_packet(HEADER_CZ_MOONLIGHT_PLAYER_ADMIN, sizeof(PACKET_CZ_MOONLIGHT_PLAYER_ADMIN), clif_parse_moonlight_player_admin, 0);
 
+// [Stingor] moonclient : la croix du dialogue, qui arrête le script dans tous
+// ses états — fixed
+parseable_packet(HEADER_CZ_MOONLIGHT_NPC_ABORT, sizeof(PACKET_CZ_MOONLIGHT_NPC_ABORT), clif_parse_moonlight_npc_abort, 0);
+
 // [Stingor] carnet de chasse MVP. Un seul CZ pour TOUTES les
 // commandes (créer, inviter, favori, saisie manuelle…), sur le patron des
 // presets — VARIABLE (-1), la longueur du texte final s'en déduit.

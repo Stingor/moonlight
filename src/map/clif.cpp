@@ -10132,6 +10132,38 @@ void clif_parse_moonlight_npc_admin(int32 fd, map_session_data* sd) {
 	}
 }
 
+// [Stingor] La croix du dialogue : le script s'ARRÊTE, quel que soit son état.
+//
+// Le même chemin que le délai d'inactivité (npc_secure_timeout_timer) :
+// `pc_close_npc` met fin au script, et ZC_CLEAR_DIALOG retire la fenêtre ET la
+// liste de choix — ZC_CLOSE_DIALOG ne ferait qu'ajouter un bouton « fermer ».
+//
+// ⚠ UN SCRIPT EN COURS D'EXÉCUTION (état RUN) n'est pas interrompu au milieu
+// d'une instruction : `pc_close_npc` diffère la fin de 500 ms, et la fenêtre
+// n'est alors pas effacée d'ici.
+void clif_parse_moonlight_npc_abort(int32 fd, map_session_data* sd) {
+	if (sd == nullptr || sd->npc_id == 0) {
+		return;
+	}
+
+	const PACKET_CZ_MOONLIGHT_NPC_ABORT* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_NPC_ABORT*>(RFIFOP(fd, 0));
+	// Un arrêt qui vise un autre PNJ est périmé : le joueur parle déjà à
+	// quelqu'un d'autre.
+	if (p->npc_id != sd->npc_id) {
+		return;
+	}
+
+	pc_note_activity(*sd, MOON_ACTIVITY_NPC);
+	const uint32 aborted_npc_id = sd->npc_id;
+	clif_cutin(*sd, "", 255);
+	pc_close_npc(sd, 2);
+	if (sd->npc_id == 0) {
+		clif_scriptclear(*sd, aborted_npc_id);
+		npc_event_dequeue(sd);
+	}
+}
+
 // ── Outillage JOUEUR du menu contextuel (staff) ──────────────────────────────
 //
 // Ce que faisait le NPC `#gmclicdroit` : le staff cliquait droit sur un joueur,

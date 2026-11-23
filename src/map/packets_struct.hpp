@@ -7454,6 +7454,24 @@ struct PACKET_ZC_MOONLIGHT_QUEST_PROGRESS {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_QUEST_PROGRESS, 0x0f6c);
 
+// [Stingor] CZ (client -> server) : le joueur ARRÊTE la conversation du PNJ,
+// quel que soit ce que le script attend.
+// Layout: [packetType:2][npc_id:4], longueur fixe.
+//
+// 🔴 POURQUOI CZ_CLOSE_DIALOG (0x0146) NE SUFFIT PAS : pendant un « next » ou
+// un « close2 », le script est à l'état STOP, et une fermeture le fait passer à
+// RUN — il CONTINUE. Ce paquet-ci termine le script dans tous les états, comme le
+// délai d'inactivité de SECURE_NPCTIMEOUT : `pc_close_npc`, puis
+// ZC_CLEAR_DIALOG si plus rien n'est attaché.
+//
+// Aucune garde de poignée de main : on n'arrête que SON script, ce qu'une
+// déconnexion fait aussi bien.
+struct PACKET_CZ_MOONLIGHT_NPC_ABORT {
+	int16  packetType;
+	uint32 npc_id;
+} __attribute__((packed));
+DEFINE_PACKET_HEADER(CZ_MOONLIGHT_NPC_ABORT, 0x0f6d);
+
 
 // [Stingor] ZC_MOONLIGHT_INSTANCE_INFO (0x0F40) — ce que la fenêtre d'instance
 // ne lit pas dans 0x02CB / 0x02CD : la difficulté (HM) et le mode turbo choisis
