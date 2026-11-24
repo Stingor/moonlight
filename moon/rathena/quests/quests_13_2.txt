@@ -3752,6 +3752,37 @@ mid_camp,197,237,3	script	Schwarzwald Mechanic#1	869,{
 			// source une fois la quete finie. 1 000 z : au-dessus de la
 			// revente PNJ (250 z), pas de boucle de zeny.
 			if (countitem(2782) < 1) {
+				// Range ailleurs : chariot, stockage (en memoire depuis la
+				// connexion), stockages annexes 1 a 5 (lus en base : ils ne
+				// sont charges qu'a l'ouverture et sauves a la fermeture),
+				// stockage de guilde. -1 = comptage impossible, compte pour 0.
+				.@where$ = "";
+				if (cartcountitem(2782) > 0)
+					.@where$ = "dans votre chariot";
+				else if (storagecountitem(2782) > 0)
+					.@where$ = "dans votre stockage";
+				else {
+					setarray .@tbl$[1], "storagealt1", "storagealt2", "storagealt3", "storagealt4", "storagecard";
+					for (.@i = 1; .@i <= 5; .@i++) {
+						.@n = 0;
+						query_sql "SELECT COUNT(*) FROM `" + .@tbl$[.@i] + "` WHERE `account_id` = " + getcharid(3) + " AND `nameid` = 2782", .@n;
+						if (.@n > 0) {
+							.@where$ = "dans votre stockage annexe " + .@i;
+							break;
+						}
+					}
+					// Pas de && : rAthena evalue toujours les deux operandes.
+					if (.@where$ == "" && getcharid(2)) {
+						if (guildstoragecountitem(2782) > 0)
+							.@where$ = "dans le stockage de votre guilde";
+					}
+				}
+				if (.@where$ != "") {
+					mes "[Mechanic Engineer Dorance]";
+					mes "Vous cherchez l'anneau ? Vous en avez déjà un ^0055FF" + .@where$ + "^000000.";
+					mes "Reprenez-le et portez-le : les Saphas ne parlent qu'à qui le porte.";
+					close;
+				}
 				mes "[Mechanic Engineer Dorance]";
 				mes "Vous avez perdu l'anneau que je vous avais donné ?";
 				mes "Il m'en reste un exemplaire. Je vous le cède pour ^0055FF1 000 zenys^000000, le prix des pièces.";
