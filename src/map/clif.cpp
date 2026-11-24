@@ -3988,6 +3988,8 @@ static void clif_longlongpar_change(map_session_data& sd, uint16 varId, int64 am
 
 /// Notifies client of a character parameter change.
 void clif_updatestatus( map_session_data& sd, enum _sp type ){
+	pc_questinfo_param_changed(&sd, type); // [Stingor] questinfo conditions may read this parameter
+
 	switch(type){
 		case SP_WEIGHT:
 			pc_updateweightstatus(sd);

@@ -2028,8 +2028,9 @@ void pc_validate_skill(map_session_data *sd);
 void pc_show_questinfo(map_session_data *sd);
 void pc_show_questinfo_reinit(map_session_data *sd);
 void pc_questinfo_refresh_if_dirty(map_session_data *sd);
-void pc_questinfo_watch_mapreg(int16 m);
+void pc_questinfo_watch_condition(int16 m, const char *condition);
 void pc_questinfo_mapreg_changed(void);
+void pc_questinfo_param_changed(map_session_data *sd, int32 type);
 void pc_questinfo_refresh_map(int16 m);
 
 bool pc_job_can_entermap(enum e_job jobid, int32 m, int32 group_lv);

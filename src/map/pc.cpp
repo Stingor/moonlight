@@ -6,6 +6,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <map>
+#include <unordered_map>
 #include <unordered_set>
 
 #ifdef MAP_GENERATOR
@@ -16319,33 +16320,73 @@ void pc_questinfo_refresh_if_dirty(map_session_data *sd) {
 }
 
 /**
- * [Stingor] Server variables ($var) used by questinfo conditions.
- * A $var is shared by every player, so its change must refresh everyone on the
- * maps whose questinfo reads one. The refresh is deferred to a single timer:
- * a script that sets ten $vars in a row costs one pass, and the pass never runs
- * from inside a script or a condition.
+ * [Stingor] Server variables ($var) and character parameters (Zeny, Str...)
+ * used by questinfo conditions.
+ * - A $var is shared by every player: its change refreshes everyone on the maps
+ *   whose questinfo reads one.
+ * - A parameter changes outside any script (shop, trade, drop...): its change
+ *   refreshes that player only, and only if a questinfo of his map reads it.
+ * Both refreshes are deferred to a single timer: ten changes in a row cost one
+ * pass, and the pass never runs from inside a script or a condition.
  **/
 static std::unordered_set<int16> qi_mapreg_maps; // maps with a questinfo condition reading a $var
-static int32 qi_mapreg_timer = INVALID_TIMER;
+static std::unordered_map<int16, std::unordered_set<int32>> qi_param_maps; // map -> SP_* read by its questinfo conditions
+static bool qi_mapreg_pending = false;
+static std::unordered_set<int32> qi_param_pending; // block ids of the players to refresh
+static int32 qi_deferred_timer = INVALID_TIMER;
 
 /**
- * Flag a map as having a questinfo condition that reads a server variable.
+ * Record what a questinfo condition of a map reads: server variables and parameters.
+ * The scan is textual (identifiers of the condition string): a name inside a
+ * string literal only costs a useless refresh, never a wrong icon.
  * @param m Map ID
+ * @param condition Condition string given to questinfo()
  **/
-void pc_questinfo_watch_mapreg(int16 m) {
+void pc_questinfo_watch_condition(int16 m, const char *condition) {
 #if PACKETVER >= 20090218
-	if (m >= 0)
+	if (m < 0 || condition == nullptr)
+		return;
+
+	if (strchr(condition, '$') != nullptr)
 		qi_mapreg_maps.insert(m);
+
+	for (const char *p = condition; *p != '\0'; ) {
+		if (!ISALPHA(*p) && *p != '_') {
+			p++;
+			continue;
+		}
+
+		const char *start = p;
+
+		while (ISALNUM(*p) || *p == '_')
+			p++;
+
+		// Part of a variable name ($var, .var, @var, #var, 'var): not a parameter
+		if (start > condition && strchr("$.@#'", start[-1]) != nullptr)
+			continue;
+
+		std::string name(start, p - start);
+		int64 type;
+
+		if (script_get_parameter(name.c_str(), &type))
+			qi_param_maps[m].insert(static_cast<int32>(type));
+	}
 #endif
 }
 
-static TIMER_FUNC(pc_questinfo_mapreg_timer) {
-	qi_mapreg_timer = INVALID_TIMER;
+static TIMER_FUNC(pc_questinfo_deferred_timer) {
+	qi_deferred_timer = INVALID_TIMER;
+
+	bool mapreg = qi_mapreg_pending;
+	std::unordered_set<int32> players;
+
+	qi_mapreg_pending = false;
+	players.swap(qi_param_pending);
 
 	s_mapiterator *iter = mapit_getallusers();
 
 	for (map_session_data *sd = (map_session_data *)mapit_first(iter); mapit_exists(iter); sd = (map_session_data *)mapit_next(iter)) {
-		if (qi_mapreg_maps.find(sd->m) == qi_mapreg_maps.end())
+		if (!(mapreg && qi_mapreg_maps.find(sd->m) != qi_mapreg_maps.end()) && players.find(sd->id) == players.end())
 			continue;
 
 		qi_refreshing = true;
@@ -16357,15 +16398,42 @@ static TIMER_FUNC(pc_questinfo_mapreg_timer) {
 	return 0;
 }
 
+static void pc_questinfo_schedule(void) {
+	if (qi_deferred_timer == INVALID_TIMER)
+		qi_deferred_timer = add_timer(gettick(), pc_questinfo_deferred_timer, 0, 0);
+}
+
 /**
  * A server variable changed: schedule a questinfo refresh of the watched maps.
  **/
 void pc_questinfo_mapreg_changed(void) {
 #if PACKETVER >= 20090218
-	if (qi_mapreg_maps.empty() || qi_mapreg_timer != INVALID_TIMER)
+	if (qi_mapreg_maps.empty())
 		return;
 
-	qi_mapreg_timer = add_timer(gettick(), pc_questinfo_mapreg_timer, 0, 0);
+	qi_mapreg_pending = true;
+	pc_questinfo_schedule();
+#endif
+}
+
+/**
+ * A character parameter changed: schedule a questinfo refresh of the player
+ * if a questinfo condition of his map reads that parameter.
+ * @param sd Player
+ * @param type Parameter (SP_*)
+ **/
+void pc_questinfo_param_changed(map_session_data *sd, int32 type) {
+#if PACKETVER >= 20090218
+	if (sd == nullptr || qi_param_maps.empty())
+		return;
+
+	auto it = qi_param_maps.find(sd->m);
+
+	if (it == qi_param_maps.end() || it->second.find(type) == it->second.end())
+		return;
+
+	qi_param_pending.insert(sd->id);
+	pc_questinfo_schedule();
 #endif
 }
 
@@ -17064,11 +17132,13 @@ void do_final_pc(void) {
 	penalty_db.clear();
 	captcha_db.clear();
 
-	if (qi_mapreg_timer != INVALID_TIMER) {
-		delete_timer(qi_mapreg_timer, pc_questinfo_mapreg_timer);
-		qi_mapreg_timer = INVALID_TIMER;
+	if (qi_deferred_timer != INVALID_TIMER) {
+		delete_timer(qi_deferred_timer, pc_questinfo_deferred_timer);
+		qi_deferred_timer = INVALID_TIMER;
 	}
 	qi_mapreg_maps.clear();
+	qi_param_maps.clear();
+	qi_param_pending.clear();
 }
 
 void do_init_pc(void) {
@@ -17098,7 +17168,7 @@ void do_init_pc(void) {
 	add_timer_func_list(pc_autotrade_timer, "pc_autotrade_timer");
 	add_timer_func_list(pc_on_expire_active, "pc_on_expire_active");
 	add_timer_func_list(pc_macro_detector_timeout, "pc_macro_detector_timeout");
-	add_timer_func_list(pc_questinfo_mapreg_timer, "pc_questinfo_mapreg_timer");
+	add_timer_func_list(pc_questinfo_deferred_timer, "pc_questinfo_deferred_timer");
 
 	add_timer(gettick() + autosave_interval, pc_autosave, 0, 0);
 

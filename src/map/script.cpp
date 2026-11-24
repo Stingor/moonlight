@@ -21251,9 +21251,9 @@ BUILDIN_FUNC(questinfo)
 	if (mapdata && !util::vector_exists(mapdata->qi_npc, nd->id))
 		mapdata->qi_npc.push_back(nd->id);
 
-	// [Stingor] A condition reading a server variable ($var) must be refreshed when that variable changes.
-	if (script != nullptr && strchr(script_getstr(st, 4), '$') != nullptr)
-		pc_questinfo_watch_mapreg(nd->m);
+	// [Stingor] A condition reading a server variable ($var) or a parameter (Zeny...) must be refreshed when it changes.
+	if (script != nullptr)
+		pc_questinfo_watch_condition(nd->m, script_getstr(st, 4));
 
 	pc_questinfo_refresh_map(nd->m);
 
