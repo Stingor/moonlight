@@ -8998,7 +8998,7 @@ mid_campin,90,121,5	script	Hibba Agip	459,{
 			mes "There is someone here who can help you. He is a historian from Rune-Midgarts. He may be aware of some relics or something that could help.";
 			next;
 			mes "[Hibba Agip]";
-			mes "Find the historian and see if he has any useful information for you.";
+			mes "Find the <NAVI>Historian<INFO>mid_camp,271,299,2,101,0</INFO></NAVI> and see if he has any useful information for you.";
 			set ins_nyd,2;
 			cutin "ep13_captin_edq",255;
 			break;
@@ -9010,7 +9010,7 @@ mid_campin,90,121,5	script	Hibba Agip	459,{
 		mes "He's at his post, you can't find him?";
 		next;
 		mes "[Hibba Agip]";
-		mes "His name is Magnifier... look for him.. he's somewhere around here...";
+		mes "His name is <NAVI>Magnifier<INFO>mid_camp,271,299,2,101,0</INFO></NAVI>... look for him.. he's somewhere around here...";
 		cutin "ep13_captin_edq",255;
 		close;
 	}
@@ -9191,7 +9191,7 @@ mid_campin,90,121,5	script	Hibba Agip	459,{
 		mes "Good. You are now responsible with building our relationship with the Laphine tribe.";
 		next;
 		mes "[Hibba Agip]";
-		mes "Go to the chief of the Laphine and if he doesn't accept our request, just say that you are going to ask for help from the Sapha.";
+		mes "Go to the <NAVI>chief of the Laphine<INFO>spl_in01,109,60,2,101,0</INFO></NAVI> and if he doesn't accept our request, just say that you are going to ask for help from the Sapha.";
 		next;
 		mes "[Hibba Agip]";
 		mes "I'm going to look for an adventurer who is willing to be sent to the Sapha.";
@@ -9203,7 +9203,7 @@ mid_campin,90,121,5	script	Hibba Agip	459,{
 		mes "Good. You are now responsible with building our relationship with the Sapha tribe.";
 		next;
 		mes "[Hibba Agip]";
-		mes "Go to the chief of the Sapha and if he doesn't accept our request, just say that you are going to ask for help from the Laphine.";
+		mes "Go to the <NAVI>chief of the Sapha<INFO>man_in01,311,57,2,101,0</INFO></NAVI> and if he doesn't accept our request, just say that you are going to ask for help from the Laphine.";
 		next;
 		mes "[Hibba Agip]";
 		mes "You have your orders! Now I'm going to look for an adventurer who is willing to be sent to the Laphine.";

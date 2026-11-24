@@ -280,7 +280,7 @@ mid_camp,271,299,3	script	Historian Magnifier#edq	755,3,3,{
 		close;
 	}
 	else if (ins_nyd == 3) {
-		mes "Why are you standing there? Go to my assistant in the Prontera Library!";
+		mes "Why are you standing there? Go to my <NAVI>assistant<INFO>prt_in,171,94,2,101,0</INFO></NAVI> in the Prontera Library!";
 		close;
 	}
 	else if (ins_nyd == 4) {
@@ -344,7 +344,7 @@ mid_camp,271,299,3	script	Historian Magnifier#edq	755,3,3,{
 		mes "Okay, let's try to contact them first, to be clear about any caves or treasures.";
 		next;
 		mes "[Historian Magnifier]";
-		mes "For now, you try to contact the Sapha and Laphine tribes, and try to extract more information.";
+		mes "For now, you try to contact the <NAVI>Sapha<INFO>man_in01,291,62,0,101,0</INFO></NAVI> and <NAVI>Lapine<INFO>splendide,198,178,0,101,0</INFO></NAVI> tribes, and try to extract more information.";
 		next;
 		mes "[Historian Magnifier]";
 		mes "I'll also keep searching here. If you find anything, come back and let me know.";
@@ -381,7 +381,7 @@ mid_camp,271,299,3	script	Historian Magnifier#edq	755,3,3,{
 		close;
 	}
 	else if ((ins_nyd == 7) || (ins_nyd	== 8)) {
-		mes "Report to Commander Hibba Agip about what we have discovered, since time is dependent on his decision.";
+		mes "Report to <NAVI>Commander Hibba Agip<INFO>mid_campin,90,121,2,101,0</INFO></NAVI> about what we have discovered, since time is dependent on his decision.";
 		close;
 	}
 	else if ((ins_nyd == 121) || (ins_nyd == 122) || (ins_nyd == 131) || (ins_nyd == 132) || (ins_nyd ==14)) {
