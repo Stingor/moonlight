@@ -2408,6 +2408,8 @@ int32 map_quit(map_session_data *sd) {
 	voice_bridge_send_leave(sd);
 	// [Stingor] Présence en arène : il en sort pour ses amis, sa guilde, sa zone.
 	survivors_presence_leave(*sd);
+	// [Stingor] Classement survivors : le transfert de journal en cours est jeté.
+	survivors_ranking_logout(*sd);
 	// [Stingor] Coop survivors : il sort de la partie ou du salon, et son groupe le
 	// voit hors ligne.
 	survivors_coop_quit(*sd);

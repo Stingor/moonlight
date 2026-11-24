@@ -27,8 +27,15 @@
 
 --
 -- Chaque partie acceptee. Rien ne la relit en jeu : elle garde de quoi
--- reprendre un tableau a la main, ou rejouer une partie quand le serveur saura
--- le faire (`verified`, `journal`, vides tant qu'il ne le sait pas).
+-- reprendre un tableau a la main, et de quoi la PROUVER. `journal` est le
+-- journal de la partie tel que le client l'a envoye (CZ 0x0F52), NULL pour une
+-- version de regles d'avant le journal. La file de verification
+-- (tools/survivors_verify_queue.py) le fait rejouer hors du serveur de carte et
+-- range son verdict :
+--   `verified`    : 0 a verifier, 1 prouvee, 2 refutee, 3 illisible (la ligne
+--                   ou l'outil a fait defaut : a reprendre a la main).
+--   `verify_note` : ce qui refute, ou ce qui a fait defaut.
+--   `verified_at` : secondes UTC du verdict, 0 sans verdict.
 --
 CREATE TABLE IF NOT EXISTS `survivors_run` (
   `run_id`         bigint(20) unsigned  NOT NULL AUTO_INCREMENT,
@@ -54,11 +61,23 @@ CREATE TABLE IF NOT EXISTS `survivors_run` (
   `journal_bytes`  int(11) unsigned     NOT NULL DEFAULT 0,
   `score`          bigint(20) unsigned  NOT NULL,
   `verified`       tinyint(1) unsigned  NOT NULL DEFAULT 0,
+  `verify_note`    varchar(255)         NOT NULL DEFAULT '',
+  `verified_at`    bigint(20)           NOT NULL DEFAULT 0,
   `journal`        mediumblob           NULL,
   PRIMARY KEY (`run_id`),
   KEY `user_id` (`user_id`),
-  KEY `board` (`ruleset`, `arena`, `class_id`, `board`, `week`)
+  KEY `board` (`ruleset`, `arena`, `class_id`, `board`, `week`),
+  KEY `verify_queue` (`verified`, `run_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Une base creee avant la file de verification recoit ses colonnes et son
+-- index ici : rejouer ce fichier la met a niveau, sans rien toucher d'autre.
+--
+ALTER TABLE `survivors_run`
+  ADD COLUMN IF NOT EXISTS `verify_note` varchar(255) NOT NULL DEFAULT '' AFTER `verified`,
+  ADD COLUMN IF NOT EXISTS `verified_at` bigint(20)   NOT NULL DEFAULT 0  AFTER `verify_note`,
+  ADD INDEX IF NOT EXISTS `verify_queue` (`verified`, `run_id`);
 
 --
 -- Le meilleur de chaque compte sur chaque tableau : la partie `run_id` de
@@ -66,6 +85,9 @@ CREATE TABLE IF NOT EXISTS `survivors_run` (
 --   ORDER BY `score` DESC, `survived_steps` DESC, `run_id` ASC LIMIT 20
 -- et le rang d'un compte est un de plus que les lignes devant lui dans cet
 -- ordre. Une partie ne remplace la ligne que si son score est PLUS GRAND.
+-- `verified` vaut 1 quand la partie de la ligne est prouvee, 0 sinon. Une
+-- partie refutee quitte le tableau : la ligne revient a la meilleure partie non
+-- refutee du compte, ou disparait.
 --
 CREATE TABLE IF NOT EXISTS `survivors_best` (
   `user_id`        int(11) unsigned     NOT NULL,
@@ -82,8 +104,13 @@ CREATE TABLE IF NOT EXISTS `survivors_best` (
   `level`          smallint(5) unsigned NOT NULL,
   `verified`       tinyint(1) unsigned  NOT NULL DEFAULT 0,
   PRIMARY KEY (`user_id`, `ruleset`, `arena`, `class_id`, `board`, `week`),
-  KEY `ranking` (`ruleset`, `arena`, `class_id`, `board`, `week`, `score`, `survived_steps`, `run_id`)
+  KEY `ranking` (`ruleset`, `arena`, `class_id`, `board`, `week`, `score`, `survived_steps`, `run_id`),
+  KEY `run_id` (`run_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- La file de verification retrouve la ligne d'une partie par son `run_id`.
+ALTER TABLE `survivors_best`
+  ADD INDEX IF NOT EXISTS `run_id` (`run_id`);
 
 --
 -- La presence en arene (lot 13 de moonclient, src/map/survivors_presence.cpp) :

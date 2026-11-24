@@ -109,6 +109,7 @@ struct s_survivors_ruleset {
 	size_t exp_segment_count;
 	uint32 most_kills_per_second; ///< les tués au plus, par seconde survécue entamée
 	uint32 most_exp_gain_pct;     ///< la majoration d'XP au plus, en % (100 : aucune)
+	bool journal_required;        ///< une partie se refuse sans son journal entier (CZ 0x0F52)
 };
 
 // Les versions classées, bornes comprises : celles que ZC 0x0F53 annonce.

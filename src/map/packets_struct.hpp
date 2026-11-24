@@ -7833,9 +7833,10 @@ DEFINE_PACKET_HEADER(CZ_MOONLIGHT_MINIGAME_TROPHY, 0x0f4b);
 // Le tableau se demande à part (BOARD -> BOARD). Voir survivors_ranking.cpp, et
 // le cahier du lot 8 de moonclient (docs/survivors/lot-8-classement.md).
 //
-// 🔴 LA PLAGE 0x0F4C À 0x0F53 EST RÉSERVÉE D'UN COUP. 0x0F52 (JOURNAL) est
-// déclaré et inemployé : aucun gestionnaire, un client qui l'enverrait serait
-// coupé comme pour tout opcode inconnu.
+// 🔴 LE JOURNAL D'UNE PARTIE (0x0F52) PART AVANT SON END, en morceaux, pour une
+// version de règles qui l'exige (survivors_ranking_rules.cpp) : END refuse alors
+// la partie dont le journal n'est pas arrivé entier. Le journal rangé est ce
+// qu'un vérificateur rejoue, hors du serveur de carte, pour prouver la partie.
 //
 // 🔴 RIEN NE PART À UN CLIENT NON VÉRIFIÉ
 // (0x80000) dans CZ_MOONLIGHT_UI_CAPS. À chaque annonce qui porte le bit, le
@@ -7895,7 +7896,8 @@ DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_TICKET, 0x0f4d);
 //   survived_steps : pas de 20 ms.
 //   outcome        : 1 tombé, 2 survécu, 3 victoire (SurvivorsOutcome du
 //                    client) ; 0 (en cours) et 4 (abandon) ne s'envoient pas.
-//   journal_bytes  : la taille du journal de la partie, que rien ne lit encore.
+//   journal_bytes  : la taille du journal de la partie, celle des morceaux
+//                    reçus avant END (CZ 0x0F52) ; 0 sans journal.
 struct PACKET_CZ_MOONLIGHT_SURVIVORS_END {
 	int16  packetType;
 	int16  packetLength;
@@ -7914,7 +7916,8 @@ DEFINE_PACKET_HEADER(CZ_MOONLIGHT_SURVIVORS_END, 0x0f4e);
 // réponse. Un END qui redit le dernier jeton consommé reçoit le même RESULT.
 // Layout: [type:2][len:2][ticket:4][verdict:1][score:8][rank:2][best:8]
 //   verdict : 0 accepté, 1 accepté et record personnel, 2 jeton inconnu,
-//             consommé ou expiré, 3 invraisemblable.
+//             consommé ou expiré, 3 invraisemblable, 4 journal manquant ou
+//             incomplet pour une version de règles qui l'exige.
 //   score   : recalculé par le serveur (0 pour un jeton inconnu).
 //   best    : le meilleur score du compte sur ce tableau, 0 s'il n'y en a pas.
 struct PACKET_ZC_MOONLIGHT_SURVIVORS_RESULT {
@@ -7949,7 +7952,8 @@ DEFINE_PACKET_HEADER(CZ_MOONLIGHT_SURVIVORS_BOARD, 0x0f50);
 //         [own_score:8][count:1] puis count × [rank:2][score:8]
 //         [survived_steps:4][level:2][verified:1][name:24]
 //   own_rank, own_score : le meilleur du demandeur ; 0 sans partie acceptée.
-//   verified            : 0 tant qu'aucune partie n'est rejouée au serveur.
+//   verified            : 1 quand le journal de la partie a été rejoué et l'a
+//                         prouvée ; 0 tant qu'il ne l'est pas.
 struct PACKET_ZC_MOONLIGHT_SURVIVORS_BOARD_entry {
 	uint16 rank;
 	uint64 score;
@@ -7973,9 +7977,24 @@ struct PACKET_ZC_MOONLIGHT_SURVIVORS_BOARD {
 } __attribute__((packed));
 DEFINE_PACKET_HEADER(ZC_MOONLIGHT_SURVIVORS_BOARD, 0x0f51);
 
+// Les octets qu'un morceau de journal porte au plus, et le plus long journal
+// reçu : au-delà de ce qu'une partie peut écrire, un changement de cap de trois
+// octets à chacun de ses pas, dépassement compris.
+#define MOONLIGHT_SURVIVORS_JOURNAL_CHUNK 1024
+#define MOONLIGHT_SURVIVORS_JOURNAL_MAX (256 * 1024)
+
 // CZ : un morceau du journal d'une partie, pour la vérification par rejeu.
-// RÉSERVÉ, INEMPLOYÉ : aucun gestionnaire ne le reçoit.
-// Layout: [type:2][len:2][ticket:4][offset:4] puis 1 024 octets au plus
+// VARIABLE : 12, puis 1 à MOONLIGHT_SURVIVORS_JOURNAL_CHUNK octets. Rien ne
+// répond : RESULT, après END, accuse le journal et la fin d'un coup.
+//   ticket : le jeton OUVERT du personnage. Un morceau d'un autre jeton
+//            (consommé, remplacé, inconnu) se tait : un renvoi après un RESULT
+//            perdu ne dérange rien.
+//   offset : la somme des octets déjà partis. 0 ouvre un transfert, et en
+//            remplace un resté en route ; chaque morceau suit le précédent.
+// Une faute — désordre, morceau vide ou trop long, journal au-delà de
+// MOONLIGHT_SURVIVORS_JOURNAL_MAX — annule le transfert entier : seul un
+// décalage 0 en rouvre un. La déconnexion jette le transfert en cours.
+// Layout: [type:2][len:2][ticket:4][offset:4] puis les octets du morceau
 struct PACKET_CZ_MOONLIGHT_SURVIVORS_JOURNAL {
 	int16  packetType;
 	int16  packetLength;

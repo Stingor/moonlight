@@ -1,0 +1,30 @@
+# La file de vérification des parties classées du mode survivors, en service.
+#
+# À copier en /etc/systemd/system/survivors-verify-queue.service, les chemins,
+# le compte et la base remplacés par ceux de la machine. Le fichier d'options
+# MariaDB ne se lit que de ce compte (chmod 600) :
+#
+#     [client]
+#     user = <compte de la base>
+#     password = <mot de passe>
+#     host = 127.0.0.1
+#
+# Les binaires `survivors-verifier-r<version>` se bâtissent depuis moonclient,
+# un par version de règles classée, et se posent dans le dossier de --verifiers.
+
+[Unit]
+Description=Moonlight : file de vérification des parties classées survivors
+After=mariadb.service
+Wants=mariadb.service
+
+[Service]
+Type=simple
+User=<compte>
+# Un rejeu occupe un cœur une vingtaine de secondes : tout passe avant lui.
+Nice=19
+ExecStart=/usr/bin/python3 <moonlight>/tools/survivors_verify_queue.py --defaults-file <chemin>/survivors-verifier.cnf --database <base> --verifiers <dossier des binaires>
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

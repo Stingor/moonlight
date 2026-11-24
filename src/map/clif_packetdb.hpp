@@ -2137,11 +2137,12 @@ parseable_packet(HEADER_CZ_MOONLIGHT_MINIGAME_TROPHY, sizeof(PACKET_CZ_MOONLIGHT
 
 // [Stingor] moonclient : le classement mondial du mode survivors
 // (survivors_ranking.cpp). Gate poignée de main moonclient et
-// session vérifiée DANS les handlers — fixed. 0x0F52 (JOURNAL) est
-// déclaré dans packets_struct.hpp et volontairement absent d'ici : réservé.
+// session vérifiée DANS les handlers — fixed, sauf JOURNAL, VARIABLE : sa queue
+// porte un morceau du journal de la partie.
 parseable_packet(HEADER_CZ_MOONLIGHT_SURVIVORS_BEGIN, sizeof(PACKET_CZ_MOONLIGHT_SURVIVORS_BEGIN), clif_parse_moonlight_survivors_begin, 0);
 parseable_packet(HEADER_CZ_MOONLIGHT_SURVIVORS_END, sizeof(PACKET_CZ_MOONLIGHT_SURVIVORS_END), clif_parse_moonlight_survivors_end, 0);
 parseable_packet(HEADER_CZ_MOONLIGHT_SURVIVORS_BOARD, sizeof(PACKET_CZ_MOONLIGHT_SURVIVORS_BOARD), clif_parse_moonlight_survivors_board, 0);
+parseable_packet(HEADER_CZ_MOONLIGHT_SURVIVORS_JOURNAL, -1, clif_parse_moonlight_survivors_journal, 0);
 
 // [Stingor] moonclient : les éditions de carte (map_edits.cpp). Gate
 // session vérifiée DANS les handlers, et moonclient_map_edit_level pour

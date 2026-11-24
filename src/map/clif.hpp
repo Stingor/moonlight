@@ -1925,15 +1925,17 @@ void clif_parse_moonlight_minigame_trophy(int32 fd, map_session_data* sd);
 // [Stingor] Le classement mondial du mode survivors (0x0F4C à 0x0F53, voir
 // packets_struct.hpp), tenu par survivors_ranking.cpp. `_service` annonce le
 // service (ZC 0x0F53) à une session vérifiée : à chaque
-// annonce de ses capacités. Les trois gestionnaires n'entendent qu'une session
-// vérifiée et chargée.
+// annonce de ses capacités. Les quatre gestionnaires n'entendent qu'une session
+// vérifiée et chargée. `_logout` jette le transfert de journal resté en route.
 void clif_moonlight_survivors_service(map_session_data& sd);
+void survivors_ranking_logout(const map_session_data& sd);
 // [Stingor] La cadence des demandes custom (MOONLIGHT_THROTTLE_RULES de
 // clif.cpp) : vrai si la demande de `family` passe, et alors elle est comptée.
 bool clif_moonlight_throttle_pass(map_session_data& sd, e_moonlight_throttle family);
 void clif_parse_moonlight_survivors_begin(int32 fd, map_session_data* sd);
 void clif_parse_moonlight_survivors_end(int32 fd, map_session_data* sd);
 void clif_parse_moonlight_survivors_board(int32 fd, map_session_data* sd);
+void clif_parse_moonlight_survivors_journal(int32 fd, map_session_data* sd);
 // [Stingor] La présence en arène du mode survivors (0x0F56, 0x0F57, voir
 // packets_struct.hpp), tenue par survivors_presence.cpp.
 //   `_announce` : à chaque annonce de capacités,

@@ -16,6 +16,13 @@
 // personnage, déconnexion comprise : un END qui le redit (le RESULT s'est perdu
 // en route) reçoit la même réponse, sans rien ranger deux fois.
 //
+// LE JOURNAL d'une partie (JOURNAL, 0x0F52) arrive en morceaux AVANT son END,
+// pour le jeton ouvert du personnage, et se range avec elle : c'est ce qu'un
+// vérificateur rejoue, hors de ce serveur, pour la prouver. Une version de
+// règles qui l'exige (survivors_ranking_rules.cpp) refuse la partie dont le
+// journal n'est pas arrivé entier. Le transfert en cours vit en mémoire, et la
+// déconnexion le jette : le client renvoie alors le journal entier.
+//
 // Les parties acceptées vont dans `survivors_run`, le meilleur de chaque compte
 // par tableau dans `survivors_best` (sql-files/moonclient_survivors.sql). Un
 // tableau se désigne par la version de règles, l'arène, la classe, le genre et
@@ -31,6 +38,7 @@
 #include <cstring>
 #include <ctime>
 #include <unordered_map>
+#include <vector>
 
 #include <common/cbasetypes.hpp>
 #include <common/mmo.hpp>
@@ -71,8 +79,9 @@ enum e_survivors_ticket_result : uint8 {
 enum e_survivors_verdict : uint8 {
 	SURVIVORS_VERDICT_ACCEPTED       = 0,
 	SURVIVORS_VERDICT_PERSONAL_BEST  = 1,
-	SURVIVORS_VERDICT_UNKNOWN_TICKET = 2, ///< inconnu, consommé ou expiré
-	SURVIVORS_VERDICT_IMPLAUSIBLE    = 3,
+	SURVIVORS_VERDICT_UNKNOWN_TICKET  = 2, ///< inconnu, consommé ou expiré
+	SURVIVORS_VERDICT_IMPLAUSIBLE     = 3,
+	SURVIVORS_VERDICT_JOURNAL_MISSING = 4, ///< journal manquant ou incomplet, quand la version l'exige
 };
 
 // Un jeton vaut 24 h après son heure.
@@ -89,8 +98,9 @@ struct s_survivors_board_key {
 	uint32 week = 0;
 };
 
-// L'état d'un personnage : le jeton ouvert, et le dernier consommé avec sa
-// réponse. `ticket` et `consumed_ticket` à 0 : aucun (un jeton n'est jamais 0).
+// L'état d'un personnage : le jeton ouvert, le dernier consommé avec sa
+// réponse, et le journal en cours de transfert. `ticket`, `consumed_ticket` et
+// `journal_ticket` à 0 : aucun (un jeton n'est jamais 0).
 struct s_survivors_character {
 	uint32 ticket = 0;
 	int64 issued_at = 0;
@@ -98,6 +108,8 @@ struct s_survivors_character {
 	s_survivors_board_key key;
 	uint32 consumed_ticket = 0;
 	PACKET_ZC_MOONLIGHT_SURVIVORS_RESULT consumed_reply{};
+	uint32 journal_ticket = 0;  ///< le jeton que sert le transfert en cours
+	std::vector<uint8> journal; ///< ses octets reçus, dans l'ordre
 };
 
 // Par char_id.
@@ -117,6 +129,12 @@ int64 survivors_now_utc() {
 
 bool survivors_heard(const map_session_data& sd) {
 	return sd.state.client_verified && sd.state.pc_loaded;
+}
+
+// Le transfert de journal en cours est jeté, et sa mémoire rendue.
+void survivors_drop_journal(s_survivors_character& state) {
+	state.journal_ticket = 0;
+	std::vector<uint8>().swap(state.journal);
 }
 
 template <typename T>
@@ -200,11 +218,11 @@ uint16 survivors_rank_of(const s_survivors_board_key& key, const s_survivors_bes
 	return static_cast<uint16>(std::min<uint64>(ahead + 1, UINT16_MAX));
 }
 
-// Range la partie acceptée, puis le meilleur du compte s'il est battu, d'un
-// seul tenant. `personal_best` dit si le meilleur a changé. Faux si la base a
-// refusé : rien n'est rangé.
+// Range la partie acceptée, son journal quand elle en porte un, puis le meilleur
+// du compte s'il est battu, d'un seul tenant. `personal_best` dit si le
+// meilleur a changé. Faux si la base a refusé : rien n'est rangé.
 bool survivors_store(const map_session_data& sd, const s_survivors_character& state, const s_survivors_components& run,
-	uint32 journal_bytes, uint64 score, int64 submitted_at, bool& personal_best) {
+	uint32 journal_bytes, const std::vector<uint8>& journal, uint64 score, int64 submitted_at, bool& personal_best) {
 	personal_best = false;
 	char name[NAME_LENGTH * 2 + 1];
 	Sql_EscapeStringLen(mmysql_handle, name, sd.status.name, strnlen(sd.status.name, NAME_LENGTH));
@@ -225,7 +243,19 @@ bool survivors_store(const map_session_data& sd, const s_survivors_character& st
 		static_cast<uint32>(run.boss_kills), static_cast<uint32>(run.level), static_cast<uint32>(run.outcome), journal_bytes, score);
 	if (!written)
 		Sql_ShowDebug(mmysql_handle);
-	const uint64 run_id = written ? Sql_LastInsertId(mmysql_handle) : 0;
+	uint64 run_id = written ? Sql_LastInsertId(mmysql_handle) : 0;
+
+	// Le journal de la partie, tel que reçu : des octets que ce serveur ne lit pas.
+	if (written && !journal.empty()) {
+		SqlStmt stmt{ *mmysql_handle };
+		if (SQL_SUCCESS != stmt.Prepare("UPDATE `survivors_run` SET `journal` = ? WHERE `run_id` = ?")
+		||  SQL_SUCCESS != stmt.BindParam(0, SQLDT_BLOB, const_cast<uint8*>(journal.data()), journal.size())
+		||  SQL_SUCCESS != stmt.BindParam(1, SQLDT_UINT64, &run_id, sizeof(run_id))
+		||  SQL_SUCCESS != stmt.Execute()) {
+			SqlStmt_ShowDebug(stmt);
+			written = false;
+		}
+	}
 
 	s_survivors_best best;
 	if (written)
@@ -329,6 +359,8 @@ void clif_parse_moonlight_survivors_begin(int32 fd, map_session_data* sd) {
 	state.issued_at = issued_at;
 	state.seed      = seed;
 	state.key       = key;
+	// Le journal du jeton remplacé ne servira plus.
+	survivors_drop_journal(state);
 	survivors_send_ticket(*sd, SURVIVORS_TICKET_GRANTED, ticket, seed, issued_at);
 }
 
@@ -362,12 +394,29 @@ void clif_parse_moonlight_survivors_end(int32 fd, map_session_data* sd) {
 	run.outcome        = p->outcome;
 	const uint64 score = survivors_score(run);
 	const s_survivors_ruleset* rules = survivors_find_ruleset(state.key.ruleset);
+
+	// END CLÔT LE TRANSFERT DU JOURNAL, quoi qu'il advienne de la partie. Entier,
+	// il est celui de ce jeton et il a la taille qu'END dit.
+	const bool journal_whole = state.journal_ticket == ticket && !state.journal.empty()
+		&& state.journal.size() == p->journal_bytes;
+	std::vector<uint8> journal;
+	if (journal_whole)
+		journal.swap(state.journal);
+	survivors_drop_journal(state);
+	if (rules != nullptr && rules->journal_required && !journal_whole) {
+		state.consumed_ticket = ticket;
+		state.consumed_reply  = survivors_result(ticket, SURVIVORS_VERDICT_JOURNAL_MISSING, 0, 0, 0);
+		state.ticket          = 0;
+		survivors_send(*sd, state.consumed_reply);
+		return;
+	}
+
 	const bool plausible = rules != nullptr && survivors_plausible(*rules, state.key.arena, run, now - state.issued_at);
 
 	e_survivors_verdict verdict = SURVIVORS_VERDICT_IMPLAUSIBLE;
 	if (plausible) {
 		bool personal_best = false;
-		if (!survivors_store(*sd, state, run, p->journal_bytes, score, now, personal_best)) {
+		if (!survivors_store(*sd, state, run, p->journal_bytes, journal, score, now, personal_best)) {
 			// Le jeton reste ouvert et rien ne répond : le client garde la partie
 			// en attente et la renverra.
 			ShowError("survivors: partie du jeton %u de '%s' (char_id %u) non rangee, la base a refuse.\n",
@@ -388,6 +437,48 @@ void clif_parse_moonlight_survivors_end(int32 fd, map_session_data* sd) {
 	state.consumed_reply  = survivors_result(ticket, verdict, score, rank, best.found ? best.score : 0);
 	state.ticket          = 0;
 	survivors_send(*sd, state.consumed_reply);
+}
+
+// Un morceau du journal de la partie du jeton OUVERT. Rien ne répond : RESULT,
+// après END, accuse le tout. Aucune cadence : un morceau ne lit pas la base, et
+// le transfert ne tient jamais plus que MOONLIGHT_SURVIVORS_JOURNAL_MAX octets.
+void clif_parse_moonlight_survivors_journal(int32 fd, map_session_data* sd) {
+	nullpo_retv(sd);
+	if (!survivors_heard(*sd))
+		return;
+	const PACKET_CZ_MOONLIGHT_SURVIVORS_JOURNAL* p =
+		reinterpret_cast<const PACKET_CZ_MOONLIGHT_SURVIVORS_JOURNAL*>(RFIFOP(fd, 0));
+	if (p->packetLength < static_cast<int16>(sizeof(*p)))
+		return;
+	const size_t chunk = static_cast<size_t>(p->packetLength) - sizeof(*p);
+
+	// Un morceau d'un jeton qui n'est pas ouvert se tait, sans rien toucher : le
+	// renvoi d'une partie déjà rangée ne dérange pas le transfert de la suivante.
+	auto found = survivors_characters.find(sd->status.char_id);
+	if (found == survivors_characters.end() || p->ticket == 0 || found->second.ticket != p->ticket)
+		return;
+	s_survivors_character& state = found->second;
+
+	if (p->offset == 0) {
+		state.journal.clear();
+		state.journal_ticket = p->ticket;
+	}
+	const bool in_order = state.journal_ticket == p->ticket && p->offset == state.journal.size();
+	const bool sized = chunk > 0 && chunk <= MOONLIGHT_SURVIVORS_JOURNAL_CHUNK
+		&& state.journal.size() + chunk <= MOONLIGHT_SURVIVORS_JOURNAL_MAX;
+	if (!in_order || !sized) {
+		// Une faute annule le transfert entier : seul un décalage 0 en rouvre un.
+		survivors_drop_journal(state);
+		return;
+	}
+	const uint8* bytes = RFIFOP(fd, sizeof(*p));
+	state.journal.insert(state.journal.end(), bytes, bytes + chunk);
+}
+
+void survivors_ranking_logout(const map_session_data& sd) {
+	auto found = survivors_characters.find(sd.status.char_id);
+	if (found != survivors_characters.end())
+		survivors_drop_journal(found->second);
 }
 
 // Une demande hors cadence est tue. Un tableau que le serveur ne classe pas
