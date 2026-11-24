@@ -64,6 +64,7 @@
 #include "quest.hpp"
 #include "script.hpp"
 #include "skill.hpp"
+#include "staff_trace.hpp"
 #include "status.hpp"
 #include "storage.hpp"
 #include "unit.hpp"
@@ -5753,6 +5754,16 @@ static const struct s_moonclient_setting moonclient_settings[] = {
 		[]( map_session_data& sd, uint32 ){ pc_nodelay_changed( sd ); },
 		nullptr, nullptr, nullptr, nullptr,
 		false, "nodelay" },
+
+	// [Stingor] Le traceur du staff (ZC 0x0F6E) : quelles familles de variables
+	// et de quêtes s'annoncent (e_moonlight_staff_trace). Sous le niveau des
+	// outils du staff, la valeur retombe à 0, au login comme au paquet : un
+	// compte rétrogradé ne garde pas le flux.
+	{ MOONCLIENT_SETTING_STAFF_TRACE, "gmstafftrace", MOONLIGHT_STAFF_TRACE_ALL, 0, 0, 0,
+		[]( map_session_data& sd ) -> uint32 { return sd.moonlight_staff_trace; },
+		[]( map_session_data& sd, uint32 v ){
+			sd.moonlight_staff_trace = pc_get_group_level( &sd ) >= MOONLIGHT_STAFF_TRACE_MIN_LEVEL ? static_cast<uint8>( v ) : 0;
+		} },
 };
 
 static const struct s_moonclient_setting* moonclient_setting_find( int16 id ){

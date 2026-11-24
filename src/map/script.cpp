@@ -63,6 +63,7 @@
 #include "pc_groups.hpp"
 #include "pet.hpp"
 #include "quest.hpp"
+#include "staff_trace.hpp"
 #include "storage.hpp"
 #include "voice_bridge.hpp"
 #include "style_layers.hpp" // [Stingor] moonclient_style_atelier
@@ -3175,6 +3176,9 @@ bool set_reg_str( struct script_state* st, map_session_data* sd, int64 num, cons
 				struct reg_db *n = ( ref ) ? ref : ( name[1] == '@' ) ? &st->stack->scope : &st->script->local;
 
 				if( n ){
+					const char* before_value = static_cast<const char*>( i64db_get( n->vars, num ) );
+					const std::string before = before_value != nullptr ? before_value : ""; // [Stingor] traceur du staff
+
 					if( value[0] ){
 						i64db_put( n->vars, num, aStrdup( value ) );
 
@@ -3188,6 +3192,8 @@ bool set_reg_str( struct script_state* st, map_session_data* sd, int64 num, cons
 							script_array_update( n, num, true );
 						}
 					}
+
+					staff_trace_script_str( st, num, name, before.c_str(), value ); // [Stingor]
 				}
 			}
 			return true;
@@ -3205,6 +3211,8 @@ bool set_reg_str( struct script_state* st, map_session_data* sd, int64 num, cons
 
 				if( src ){
 					bool empty;
+					const char* before_value = static_cast<const char*>( i64db_get( src->vars, num ) );
+					const std::string before = before_value != nullptr ? before_value : ""; // [Stingor] traceur du staff
 
 					if( value[0] ){
 						i64db_put( src->vars, num, aStrdup( value ) );
@@ -3217,6 +3225,8 @@ bool set_reg_str( struct script_state* st, map_session_data* sd, int64 num, cons
 					if( script_getvaridx( num ) != 0 ){
 						script_array_update( src, num, empty );
 					}
+
+					staff_trace_script_str( st, num, name, before.c_str(), value ); // [Stingor]
 				}else{
 					ShowError( "script_set_reg: cannot write instance variable '%s', NPC not in a instance!\n", name );
 					script_reportsrc( st );
@@ -3269,6 +3279,8 @@ bool set_reg_num( struct script_state* st, map_session_data* sd, int64 num, cons
 				struct reg_db *n = ( ref ) ? ref : ( name[1] == '@' ) ? &st->stack->scope : &st->script->local;
 
 				if( n ){
+					const int64 before = i64db_i64get( n->vars, num ); // [Stingor] traceur du staff
+
 					if( value != 0 ){
 						i64db_i64put( n->vars, num, value );
 
@@ -3282,6 +3294,8 @@ bool set_reg_num( struct script_state* st, map_session_data* sd, int64 num, cons
 							script_array_update( n, num, true );
 						}
 					}
+
+					staff_trace_script_num( st, num, name, before, value ); // [Stingor]
 				}
 			}
 			return true;
@@ -3299,6 +3313,7 @@ bool set_reg_num( struct script_state* st, map_session_data* sd, int64 num, cons
 
 				if( src ){
 					bool empty;
+					const int64 before = i64db_i64get( src->vars, num ); // [Stingor] traceur du staff
 
 					if( value != 0 ){
 						i64db_i64put( src->vars, num, value );
@@ -3311,6 +3326,8 @@ bool set_reg_num( struct script_state* st, map_session_data* sd, int64 num, cons
 					if( script_getvaridx( num ) != 0 ){
 						script_array_update( src, num, empty );
 					}
+
+					staff_trace_script_num( st, num, name, before, value ); // [Stingor]
 				}else{
 					ShowError( "script_set_reg: cannot write instance variable '%s', NPC not in a instance!\n", name );
 					script_reportsrc( st );

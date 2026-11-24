@@ -25,6 +25,7 @@
 #include "mob.hpp"
 #include "party.hpp"
 #include "pc.hpp"
+#include "staff_trace.hpp"
 
 using namespace rathena;
 
@@ -617,6 +618,7 @@ int32 quest_add(map_session_data *sd, int32 quest_id)
 	sd->quest_log[n].state = Q_ACTIVE;
 	sd->save_quest = true;
 
+	staff_trace_quest(sd, qi->id, MOONLIGHT_STAFF_TRACE_QUEST_ABSENT, Q_ACTIVE); // [Stingor]
 	clif_quest_add(sd, &sd->quest_log[n]);
 	clif_quest_update_objective(sd, &sd->quest_log[n]);
 
@@ -660,11 +662,16 @@ int32 quest_change(map_session_data *sd, int32 qid1, int32 qid2)
 		return -1;
 	}
 
+	const int32 replaced_state = sd->quest_log[i].state; // [Stingor] traceur du staff
+
 	sd->quest_log[i] = {};
 	sd->quest_log[i].quest_id = qi->id;
 	sd->quest_log[i].time = (uint32)quest_time(qi);
 	sd->quest_log[i].state = Q_ACTIVE;
 	sd->save_quest = true;
+
+	staff_trace_quest(sd, qid1, replaced_state, MOONLIGHT_STAFF_TRACE_QUEST_ABSENT); // [Stingor]
+	staff_trace_quest(sd, qid2, MOONLIGHT_STAFF_TRACE_QUEST_ABSENT, Q_ACTIVE);
 
 	clif_moonclient_quest_end(sd, qid1, MOONLIGHT_QUEST_END_REPLACED, qid2); // [Stingor]
 	clif_quest_delete(sd, qid1);
@@ -697,6 +704,7 @@ int32 quest_delete(map_session_data *sd, int32 quest_id)
 	// [Stingor] Effacer une quête déjà achevée ne dit rien de neuf au client :
 	// elle reste « Achevée » dans son historique.
 	const bool was_complete = sd->quest_log[i].state == Q_COMPLETE;
+	const int32 erased_state = sd->quest_log[i].state;
 
 	if (!was_complete)
 		sd->avail_quests--;
@@ -712,6 +720,7 @@ int32 quest_delete(map_session_data *sd, int32 quest_id)
 
 	sd->save_quest = true;
 
+	staff_trace_quest(sd, quest_id, erased_state, MOONLIGHT_STAFF_TRACE_QUEST_ABSENT); // [Stingor]
 	if (!was_complete)
 		clif_moonclient_quest_end(sd, quest_id, MOONLIGHT_QUEST_END_ERASED); // [Stingor]
 	clif_quest_delete(sd, quest_id);
@@ -863,8 +872,11 @@ int32 quest_update_status(map_session_data *sd, int32 quest_id, e_quest_state st
 		return -1;
 	}
 
+	const int32 previous_state = sd->quest_log[i].state; // [Stingor] traceur du staff
+
 	sd->quest_log[i].state = status;
 	sd->save_quest = true;
+	staff_trace_quest(sd, quest_id, previous_state, status); // [Stingor]
 
 	if (status < Q_COMPLETE) {
 		clif_quest_update_status(sd, quest_id, status == Q_ACTIVE ? true : false);

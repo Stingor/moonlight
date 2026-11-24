@@ -61,6 +61,7 @@
 #include "quest.hpp"
 #include "skill.hpp" // skill_isCopyable()
 #include "script.hpp" // struct script_reg, struct script_regstr
+#include "staff_trace.hpp"
 #include "searchstore.hpp"  // struct s_search_store_info
 #include "status.hpp" // OPTION_*, struct weapon_atk
 #include "storage.hpp"
@@ -12082,6 +12083,8 @@ bool pc_setreg(map_session_data* sd, int64 reg, int64 val)
 
 	nullpo_retr(false, sd);
 
+	const int64 before = i64db_i64get(sd->regs.vars, reg); // [Stingor] traceur du staff
+
 	if( val ) {
 		i64db_i64put(sd->regs.vars, reg, val);
 		if( index )
@@ -12093,6 +12096,7 @@ bool pc_setreg(map_session_data* sd, int64 reg, int64 val)
 	}
 
 	sd->qi_dirty = true;
+	staff_trace_player_num(sd, reg, before, val); // [Stingor]
 
 	return true;
 }
@@ -12119,6 +12123,10 @@ bool pc_setregstr(map_session_data* sd, int64 reg, const char* str)
 	DBData prev;
 
 	nullpo_retr(false, sd);
+
+	// [Stingor] Le texte d'avant, copié : l'entrée qui le porte va être libérée.
+	const char* before_value = pc_readregstr(sd, reg);
+	const std::string before = before_value != nullptr ? before_value : "";
 
 	if( str[0] ) {
 		p = ers_alloc(str_reg_ers, struct script_reg_str);
@@ -12147,6 +12155,7 @@ bool pc_setregstr(map_session_data* sd, int64 reg, const char* str)
 	}
 
 	sd->qi_dirty = true;
+	staff_trace_player_str(sd, reg, before.c_str(), str); // [Stingor]
 
 	return true;
 }
@@ -12214,7 +12223,10 @@ bool pc_setregistry(map_session_data *sd, int64 reg, int64 val)
 		return false;
 	}
 
-	if ((p = (struct script_reg_num *)i64db_get(sd->regs.vars, reg))) {
+	p = (struct script_reg_num *)i64db_get(sd->regs.vars, reg);
+	const int64 before = p != nullptr ? p->value : 0; // [Stingor] traceur du staff
+
+	if (p != nullptr) {
 		if( val ) {
 			if( !p->value && index ) /* its a entry that was deleted, so we reset array */
 				script_array_update(&sd->regs, reg, false);
@@ -12249,6 +12261,9 @@ bool pc_setregistry(map_session_data *sd, int64 reg, int64 val)
 		sd->qi_dirty = true;
 	}
 
+	if (!reg_load)
+		staff_trace_player_num(sd, reg, before, val); // [Stingor]
+
 	return true;
 }
 
@@ -12276,7 +12291,11 @@ bool pc_setregistry_str(map_session_data *sd, int64 reg, const char *val)
 		return false;
 	}
 
-	if( (p = (struct script_reg_str *)i64db_get(sd->regs.vars, reg) ) ) {
+	// [Stingor] Le texte d'avant, copié : l'entrée qui le porte va être libérée.
+	p = (struct script_reg_str *)i64db_get(sd->regs.vars, reg);
+	const std::string before = p != nullptr && p->value != nullptr ? p->value : "";
+
+	if( p != nullptr ) {
 		if( val[0] ) {
 			if( p->value )
 				aFree(p->value);
@@ -12317,6 +12336,9 @@ bool pc_setregistry_str(map_session_data *sd, int64 reg, const char *val)
 		sd->vars_dirty = true;
 		sd->qi_dirty = true;
 	}
+
+	if( !reg_load )
+		staff_trace_player_str(sd, reg, before.c_str(), val); // [Stingor]
 
 	return true;
 }

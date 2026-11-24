@@ -55,6 +55,7 @@
 #include "pet.hpp"
 #include "quest.hpp"
 #include "script.hpp"
+#include "staff_trace.hpp"
 #include "shop_finder.hpp"
 #include "card_album.hpp"
 #include "storage.hpp"
@@ -12650,7 +12651,12 @@ bool is_atcommand(const int32 fd, map_session_data* sd, const char* message, int
 	}
 
 	//Attempt to use the command
-	if ( (info->func(fd, ssd, command, params) != 0) )
+	// [Stingor] Ce que la commande change se dit d'elle au traceur du staff.
+	staff_trace_command_begin(ssd);
+	const int32 command_result = info->func(fd, ssd, command, params);
+	staff_trace_command_end(ssd);
+
+	if ( command_result != 0 )
 	{
 		sprintf(output,msg_txt(sd,154), command); // %s failed.
 		clif_displaymessage(fd, output);

@@ -1629,6 +1629,7 @@ enum e_moonclient_setting : int16 {
 	MOONCLIENT_SETTING_KILLABLE      = 31,  // @killable : attaquable par les joueurs hors PvP, persisté
 	MOONCLIENT_SETTING_PLAYERTEST    = 32,  // @playertest : plafonds GM d'ASPD et de delay ignorés, persisté
 	MOONCLIENT_SETTING_NODELAY       = 33,  // @nodelay : skills sans cooldown, délai ni incantation, persisté
+	MOONCLIENT_SETTING_STAFF_TRACE   = 34,  // traceur du staff (ZC 0x0F6E) : masque e_moonlight_staff_trace, persisté
 };
 
 // Ce que le voisinage doit voir d'un joueur absent. Un MASQUE et non une

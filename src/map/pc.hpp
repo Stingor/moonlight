@@ -694,6 +694,15 @@ public:
 	// change d'avis.
 	uint32 moonclient_ui_caps = 0;
 
+	// [Stingor] Le traceur du staff (staff_trace.hpp) : les familles allumées
+	// (réglage MOONCLIENT_SETTING_STAFF_TRACE), la profondeur des commandes @ en
+	// cours, et le plafond d'annonces de la seconde courante.
+	uint8 moonlight_staff_trace = 0;
+	uint8 moonlight_trace_command_depth = 0;
+	t_tick moonlight_trace_window = 0;
+	uint16 moonlight_trace_sent = 0;
+	uint32 moonlight_trace_dropped = 0;
+
 	// [Stingor] Le dernier patch de contenu que le client a déclaré dans sa poignée
 	// de main d'intégrité ACCEPTÉE (CZ 0x0F39, sur la chaîne de
 	// patchs du client). -1 : jamais patché, ou

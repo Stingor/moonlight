@@ -226,6 +226,7 @@
     <ClInclude Include="map.hpp" />
     <ClInclude Include="mapreg.hpp" />
     <ClInclude Include="map_edits.hpp" />
+    <ClInclude Include="staff_trace.hpp" />
     <ClInclude Include="style_layers.hpp" />
     <ClInclude Include="style_outfits.hpp" />
     <ClInclude Include="style_absent.hpp" />
@@ -1532,6 +1533,7 @@
     <ClCompile Include="map.cpp" />
     <ClCompile Include="mapreg.cpp" />
     <ClCompile Include="map_edits.cpp" />
+    <ClCompile Include="staff_trace.cpp" />
     <ClCompile Include="style_layers.cpp" />
     <ClCompile Include="style_outfits.cpp" />
     <ClCompile Include="style_absent.cpp" />
