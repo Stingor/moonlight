@@ -5357,6 +5357,38 @@ prt_cas_q,21,83,3	script	Friedrich S. Heine#ep16_01	4_EP16_STOLZ,{
 		ep16_royal = 24;
 		close3;
 	}
+	// Bijou tue en passant par le Warp Agent : celui-ci pose 7706 (le delai)
+	// des l'entree, et le switch sur 7706 ci-dessous renvoyait le joueur avant
+	// le rapport. La recompense passe donc avant le delai.
+	if (checkquest(7705,HUNTING) == 2) {
+		if (checkquest(7706,PLAYTIME) == 2)
+			erasequest 7706;// Nillem Is Not Almighty
+		cutin "ep16_friedrich_stolz_heine",1;
+		mes "[Friedrich]";
+		mes "You are back.";
+		mes "Is it the same this time?";
+		mes "I suppose so.";
+		mes "But, I really don't think all the efforts will go wasted.";
+		next;
+		mes "[Friedrich]";
+		mes "Thank you very much.";
+		mes "Someday, when you need the power of our family,";
+		mes "We will be on your side no matter what.";
+		next;
+		mes "[Friedrich]";
+		mes "That is all we can give you for now as the reward.";
+		mes "I am sorry that we cannot offer you more.";
+		mes "I'll make sure there is no inconvenience to you while living in the palace.";
+		next;
+		mes "[Friedrich]";
+		mes "See you tomorrow then.";
+		if (isbegin_quest(7706) == 0)
+			setquest 7706;// Nillem Is Not Almighty
+		erasequest 7705;// Hope You Cannot Let Go
+		getitem 6919,10;// Honor_Proof
+		getexp 400000,400000;
+		close3;
+	}
 	switch( checkquest(7706,PLAYTIME) ) {
 	case -1:
 		break;
@@ -5426,31 +5458,6 @@ prt_cas_q,21,83,3	script	Friedrich S. Heine#ep16_01	4_EP16_STOLZ,{
 		mes "[Friedrich]";
 		mes "Nillem must be waiting for you.";
 		mes "Please do your best as always.";
-		close3;
-	case 2:
-		cutin "ep16_friedrich_stolz_heine",1;
-		mes "[Friedrich]";
-		mes "You are back.";
-		mes "Is it the same this time?";
-		mes "I suppose so.";
-		mes "But, I really don't think all the efforts will go wasted.";
-		next;
-		mes "[Friedrich]";
-		mes "Thank you very much.";
-		mes "Someday, when you need the power of our family,";
-		mes "We will be on your side no matter what.";
-		next;
-		mes "[Friedrich]";
-		mes "That is all we can give you for now as the reward.";
-		mes "I am sorry that we cannot offer you more.";
-		mes "I'll make sure there is no inconvenience to you while living in the palace.";
-		next;
-		mes "[Friedrich]";
-		mes "See you tomorrow then.";
-		setquest 7706;// Nillem Is Not Almighty
-		erasequest 7705;// Hope You Cannot Let Go
-		getitem 6919,10;// Honor_Proof
-		getexp 400000,400000;
 		close3;
 	}
 }
