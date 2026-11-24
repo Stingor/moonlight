@@ -492,7 +492,7 @@ L_Instance:
 			// Cor s'ouvre quand Dien y fait entrer (quete 11603 terminee) : ne pas sauter l'etape.
 			if( getgroupid() < 99 && isbegin_quest(11603) < 2 ) {
 				mes .@npc_name$;
-				mes "Cor ne s'ouvre qu'avec l'épisode 17.1 : suivez la chaîne jusqu'à la quête ^0000ffOld Memories^000000, où Dien vous y fait entrer.";
+				mes "Cor ne s'ouvre qu'avec l'épisode 17.1 (<QSTL>r96:Episode 17.1: Illusion</QSTL>) : suivez la chaîne jusqu'à la quête ^0000ffOld Memories^000000, où Dien vous y fait entrer.";
 				close;
 			}
 			warp_fct("sp_cor", 160, 52);
@@ -921,7 +921,7 @@ L_Jitter:
 				if( !.@nyd_ok ) {
 					mes .@npc_name$;
 					mes "Le Nid de Nidhoggur ne s'ouvre qu'aux serviteurs reconnus par le Gardien.";
-					mes "Terminez d'abord la quête qui mène au Yggdrasil Gatekeeper, puis revenez me voir.";
+					mes "Terminez d'abord la quête qui mène au Yggdrasil Gatekeeper : <QSTL>r113.guardian:Guardian of Yggdrasil</QSTL>, puis revenez me voir.";
 					close;
 				}
 				.@md_name$ = "Nidhoggur's Nest";
@@ -989,7 +989,7 @@ L_Bijou:
 			if( select( (.@replay ? GetColor(7706)+"Acces direct^000000" : "^999999Acces direct (quête du Banquet requise)^000000"), "Se rendre sur place" ) == 1 ) {
 				if( !.@replay ) {
 					mes .@npc_name$;
-					mes "La Room of Consciousness se rejoue une fois la quête principale du Banquet des héros terminée.";
+					mes "La Room of Consciousness se rejoue une fois la quête principale du Banquet des héros terminée : <QSTL>r98:Episode 16.1: Banquet for Heroes</QSTL>.";
 					mes "D'ici là, c'est Nillem qui vous y conduit, quand le moment est venu.";
 					close;
 				}
@@ -1020,14 +1020,14 @@ L_Bijou:
 			if( select("• Près de Nillem:• Près de Freidrich") == 1 ) {
 				if( ep16_royal < 21 ) {
 					mes .@npc_name$;
-					mes "La bibliothèque interdite ne s'ouvre qu'à la suite de la quête du Banquet des héros.";
+					mes "La bibliothèque interdite ne s'ouvre qu'à la suite de la quête du Banquet des héros : <QSTL>r98:Episode 16.1: Banquet for Heroes</QSTL>.";
 					close;
 				}
 				warp_fct("prt_lib_q", 88, 82);
 			} else {
 				if( ep16_royal == 0 || (ep16_royal > 7 && ep16_royal < 16) ) {
 					mes .@npc_name$;
-					mes "La famille Heine ne vous reçoit pas pour l'instant : suivez la quête du Banquet des héros.";
+					mes "La famille Heine ne vous reçoit pas pour l'instant : suivez la quête du Banquet des héros, <QSTL>r98:Episode 16.1: Banquet for Heroes</QSTL>.";
 					close;
 				}
 				warp_fct("prt_cas_q", 19, 83);
