@@ -1355,22 +1355,35 @@ function QuestDunMenu {
 		setarray .@qy[0], 0, 0, 0, 41, 0;
 	} else if (.@set == 2) {
 		copyarray .@mname$[0], .wm_gwo$[0], getarraysize(.wm_gwo$); // ordre : OnInit
-		setarray .@mxcoord[0], 270, 25, 122, 27, 142;
-		setarray .@mycoord[0], 26, 101, 385, 188, 279;
-		setarray .@minlv[0], 170, 170, 170, 170, 170;
-		// Chaine de l'episode 18 : l'etape 31 ouvre les cordes de la foret et d'Oz, l'etape 35
-		// le village. Un personnage qui les a passees ouvre le compte aussi.
+		setarray .@mxcoord[0], 27, 142;
+		setarray .@mycoord[0], 188, 279;
+		setarray .@minlv[0], 170, 170;
+		// Chaine de l'episode 18 : l'etape 31 ouvre les cordes de la foret et d'Oz (le village,
+		// etape 35, est dans le menu des villes). Un personnage qui l'a passee ouvre le compte aussi.
 		if (ep18_main >= 31 && !##dun_open_oz_dun01)
 			##dun_open_oz_dun01 = 1;
-		if (ep18_main >= 35 && !##dun_open_wolfvill)
-			##dun_open_wolfvill = 1;
-		setarray .@open[0], ##dun_open_wolfvill, ##dun_open_oz_dun01, ##dun_open_oz_dun01, ##dun_open_oz_dun01, ##dun_open_oz_dun01;
+		setarray .@open[0], ##dun_open_oz_dun01, ##dun_open_oz_dun01;
 		.@p = (ep18_main > 0);
-		setarray .@prog[0], .@p, .@p, .@p, .@p, .@p;
-		setarray .@qnpc$[0], "Est", "Est", "Est", "Est", "Est";
-		setarray .@qmap$[0], "ba_in01", "ba_in01", "ba_in01", "ba_in01", "ba_in01";
-		setarray .@qx[0], 22, 22, 22, 22, 22;
-		setarray .@qy[0], 260, 260, 260, 260, 260;
+		setarray .@prog[0], .@p, .@p;
+		setarray .@qnpc$[0], "Est", "Est";
+		setarray .@qmap$[0], "ba_in01", "ba_in01";
+		setarray .@qx[0], 22, 22;
+		setarray .@qy[0], 260, 260;
+	} else if (.@set == 4) {
+		// Fields du Loup Gris (menu Fields) : meme verrou que les donjons d'Oz, etape 31.
+		copyarray .@mname$[0], .wm_gwf$[0], getarraysize(.wm_gwf$); // ordre : OnInit
+		setarray .@mxcoord[0], 25, 122;
+		setarray .@mycoord[0], 101, 385;
+		setarray .@minlv[0], 170, 170;
+		if (ep18_main >= 31 && !##dun_open_oz_dun01)
+			##dun_open_oz_dun01 = 1;
+		setarray .@open[0], ##dun_open_oz_dun01, ##dun_open_oz_dun01;
+		.@p = (ep18_main > 0);
+		setarray .@prog[0], .@p, .@p;
+		setarray .@qnpc$[0], "Est", "Est";
+		setarray .@qmap$[0], "ba_in01", "ba_in01";
+		setarray .@qx[0], 22, 22;
+		setarray .@qy[0], 260, 260;
 	} else if (.@set == 3) {
 		copyarray .@mname$[0], .wm_jor$[0], getarraysize(.wm_jor$); // ordre : OnInit
 		setarray .@mxcoord[0], 27, 219, 222, 229, 364, 0, 0, 0, 113, 282, 113, 281, 32, 25, 367, 150, 206, 235;
@@ -1755,6 +1768,7 @@ L_Fields:
 		 "• Einbroch (ein_fild)" + LvRange(.wm_fld_ein$),          L_fld_ein,
 		 "• El Dicastes (dic_fild)" + LvRange(.wm_fld_dic$),       L_fld_dic,
 		 "• Geffen (gef_fild)" + LvRange(.wm_fld_gef$),            L_fld_gef,
+		 "• Grey Wolf (gw_fild)" + LvRange(.wm_gwf$),        L_fld_gwf,
 		 "• Hugel (hu_fild)" + LvRange(.wm_fld_hug$),              L_fld_hug,
 		 "• Kiwawa (Rockridge - rockrdg)" + LvRange(.wm_fld_roc$), L_fld_roc,
 		 "• Kunlun (Gonryun - gon_fild)" + LvRange(.wm_fld_gon$),  L_fld_gon,
@@ -1791,6 +1805,7 @@ L_fld_ecl: WarpMenu(.wm_fld_ecl$); goto L_Fields;
 L_fld_ein: WarpMenu(.wm_fld_ein$); goto L_Fields;
 L_fld_dic: WarpMenu(.wm_fld_dic$); goto L_Fields;
 L_fld_gef: WarpMenu(.wm_fld_gef$); goto L_Fields;
+L_fld_gwf: QuestDunMenu(4); goto L_Fields;
 L_fld_roc: WarpMenu(.wm_fld_roc$); goto L_Fields;
 L_fld_gon: WarpMenu(.wm_fld_gon$); goto L_Fields;
 L_fld_hug: WarpMenu(.wm_fld_hug$); goto L_Fields;
@@ -1903,7 +1918,6 @@ L_Donjons:
 		 "• Gefenia" + LvRange(.wm_gia$),L_gia,
 		 "• Glast Heim" + LvRange(.wm_gla1$, .wm_gla2$, .wm_gla3$),L_gla,
 		 "• Gonryun Donjon" + LvRange(.wm_gon$),L_gon,
-		 "• Grey Wolf / Oz" + LvRange(.wm_gwo$),L_gwo,
 		 "• Hidden Donjon" + LvRange(.wm_hid$),L_hid,
 		 "• Ice Donjon" + LvRange(.wm_ice$),L_ice,
 		 "• Illusion" + LvRange(.wm_ill$),L_ill,
@@ -1919,6 +1933,7 @@ L_Donjons:
 		 "• Niflheim Donjon" + LvRange(.wm_nfd$),L_nfd,
 		 "• Odin Temple" + LvRange(.wm_odn$),L_odn,
 		 "• Orc Donjon" + LvRange(.wm_orc$),L_orc,
+		 "• Oz Donjon" + LvRange(.wm_gwo$),L_gwo,
 		 "• Payon Donjon" + LvRange(.wm_pay$),L_pay,
 		 "• Pyramids" + LvRange(.wm_pyr$),L_pyr,
 		 "• Rock Ridge" + LvRange(.wm_rck$),L_rck,
@@ -2307,7 +2322,8 @@ OnInit:
 		"prt_mz03_i";
 	setarray .wm_rud$[0], "sp_rudus", "sp_rudus2", "sp_rudus3", "sp_rudus4", "sp_os";
 	setarray .wm_nfd$[0], "nif_dun01", "nif_dun02";
-	setarray .wm_gwo$[0], "wolfvill", "gw_fild01", "gw_fild02", "oz_dun01", "oz_dun02";
+	setarray .wm_gwo$[0], "oz_dun01", "oz_dun02";
+	setarray .wm_gwf$[0], "gw_fild01", "gw_fild02";
 
 	// [navi] destinations du Warp Agent ---------------------------------------
 	// naviregisterwarp ne fait rien hors map-server-generator : ce bloc est
