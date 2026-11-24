@@ -9010,7 +9010,7 @@ mid_campin,90,121,5	script	Hibba Agip	459,{
 		mes "He's at his post, you can't find him?";
 		next;
 		mes "[Hibba Agip]";
-		mes "His name is Magniffer... look for him.. he's somewhere around here...";
+		mes "His name is Magnifier... look for him.. he's somewhere around here...";
 		cutin "ep13_captin_edq",255;
 		close;
 	}
@@ -9282,6 +9282,10 @@ mid_campin,90,121,5	script	Hibba Agip	459,{
 		cutin "ep13_captin_edq",255;
 		close;
 	}
+
+OnInit:
+	questinfo(QTYPE_QUEST, QMARK_YELLOW, "ins_nyd == 1");
+	end;
 }
 
 mid_campin,94,118,3	script	Staff Officer Abidal	755,{
