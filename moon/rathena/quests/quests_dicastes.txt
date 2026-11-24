@@ -4400,7 +4400,6 @@ dicastes01,112,248,5	script	Resting Piom#ep133_16	491,{
 		close;
 	}
 	if (ep13_3_secret == 4) {
-		mes "[Piom]";
 		mes "Phew.. I need to rest.";
 		mes "Huh? You're... human!";
 		mes "Why are you here?";
@@ -4444,7 +4443,6 @@ dicastes01,112,248,5	script	Resting Piom#ep133_16	491,{
 		mes "He is really beautiful.";
 		close;
 	}
-	mes "[Piom]";
 	mes "As you can see, I'm taking a rest.";
 	mes "I like my job but it is so tiresome.";
 	mes "But I'm happier than when I was a Knit.";
@@ -6241,6 +6239,10 @@ mid_campin,93,114,3	script	Guard Aello#ep133_is03	967,{
 	mes "Hmm... sorry but you won't do.";
 	mes "You'll have to get yourself familiar with this camp first.";
 	close;
+
+OnInit:
+	questinfo(QTYPE_QUEST, QMARK_YELLOW, "(ep13_ryu > 99 || ep13_start > 99) && (ep13_3_invite == 0)");
+	end;
 }
 
 mid_campin,111,120,3	script	Soldier#ep133_is04	852,{
