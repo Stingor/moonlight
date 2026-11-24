@@ -3748,6 +3748,30 @@ mid_camp,197,237,3	script	Schwarzwald Mechanic#1	869,{
 			}
 		}
 		else {
+			// Moonlight : l'anneau perdu (vendu, jete) n'avait aucune autre
+			// source une fois la quete finie. 1 000 z : au-dessus de la
+			// revente PNJ (250 z), pas de boucle de zeny.
+			if (countitem(2782) < 1) {
+				mes "[Mechanic Engineer Dorance]";
+				mes "Vous avez perdu l'anneau que je vous avais donné ?";
+				mes "Il m'en reste un exemplaire. Je vous le cède pour ^0055FF1 000 zenys^000000, le prix des pièces.";
+				next;
+				if (select("Payer 1 000 zenys:Plus tard") == 2) {
+					mes "[Mechanic Engineer Dorance]";
+					mes "Revenez quand vous voulez.";
+					close;
+				}
+				if (Zeny < 1000) {
+					mes "[Mechanic Engineer Dorance]";
+					mes "Il vous manque des zenys : il en faut 1 000.";
+					close;
+				}
+				Zeny -= 1000;
+				getitem 2782,1; //Ring_Of_Wise_King
+				mes "[Mechanic Engineer Dorance]";
+				mes "Le voici. Cette fois, ne le vendez pas : sans lui, les Saphas ne vous comprendront pas.";
+				close;
+			}
 			mes "[Mechanic Engineer Dorance]";
 			mes "Thank you for your help.";
 			next;
