@@ -2,7 +2,7 @@
 //= Tour des Constellations (1@ch_t a 3@ch_t) : Captain Janssen a
 //= Alberta (niveau 240), Oscar a e_tower, 75 etages tires au sort,
 //= Naght Sieger ou Betelgeuse ; echanges OSC0007 et enchantement
-//= OSC0008 a Alberta.
+//= OSC0008 a e_tower (copies a Alberta), visibles de tous.
 //=
 //= Auteur : crazyarashi / hayakawakaki, constellation_tower.c version 1.6,
 //=   https://github.com/hayakawakaki/rathena-script-collection
@@ -83,18 +83,13 @@ alberta,214,77,6	script	Captain Janssen#ctower	709,{
 	end;
 }
 
-alberta,203,76,5	script	#ctower_vending	HIDDEN_WARP_NPC,6,6,{
-	end;
-	
-OnTouch:
-	if ( isbegin_quest(12515) < 2 ) end;
-	cloaknpc("OSC0007#ctower", false);
-	cloaknpc("OSC0008#ctower", false);
-end;
-}
-
-alberta,203,76,5	script(CLOAKED)	OSC0008#ctower	2_SLOT_MACHINE,{
-	mes "^0000CD- Thanks to your continous support, we were able to open a new branch of vending machines in Alberta. Please do use it a lot! -^000000";
+// Officiel (patch iRO) : machines a e_tower 78,112 et 80,110, visibles de
+// tous. Copies a Alberta (succursale du script de crazyarashi).
+e_tower,80,110,5	script	OSC0008#ctower	2_SLOT_MACHINE,{
+	if (strnpcinfo(4) == "alberta")
+		mes "^0000CD- Thanks to your continous support, we were able to open a new branch of vending machines in Alberta. Please do use it a lot! -^000000";
+	else
+		mes "^0000CD- Constellation Tower vending machine. Please do use it a lot! -^000000";
 	next;
 	.@s = select("Cancel:Nebula of Power:Nebula of Stamina:Nebula of Concentration:Nebula of Creative:Nebula of Spell:Nebula of Wisdom:Signet of Star") - 1;
 	if ( .@s == 0 ) end;
@@ -103,8 +98,11 @@ alberta,203,76,5	script(CLOAKED)	OSC0008#ctower	2_SLOT_MACHINE,{
 	end;
 }
 
-alberta,206,76,5	script(CLOAKED)	OSC0007#ctower	2_DROP_MACHINE,{
-	mes "^0000CD- Thanks to your continous support, we were able to open a new branch of vending machines in Alberta. Please do use it a lot! -^000000";
+e_tower,78,112,5	script	OSC0007#ctower	2_DROP_MACHINE,{
+	if (strnpcinfo(4) == "alberta")
+		mes "^0000CD- Thanks to your continous support, we were able to open a new branch of vending machines in Alberta. Please do use it a lot! -^000000";
+	else
+		mes "^0000CD- Constellation Tower vending machine. Please do use it a lot! -^000000";
 	next;
 	.@s = select("Cancel:Basic Shop:Advanced Shop") - 1;
 	if ( .@s == 0 ) end;
@@ -114,6 +112,9 @@ alberta,206,76,5	script(CLOAKED)	OSC0007#ctower	2_DROP_MACHINE,{
 		callshop "ctower_advanced";
 	end;
 }
+
+alberta,203,76,5	duplicate(OSC0008#ctower)	OSC0008#ctower_alb	2_SLOT_MACHINE
+alberta,206,76,5	duplicate(OSC0007#ctower)	OSC0007#ctower_alb	2_DROP_MACHINE
 
 e_tower,70,114,0	script	#ctower_ev	HIDDEN_WARP_NPC,4,4,{
 	end;
