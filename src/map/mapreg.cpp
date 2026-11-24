@@ -15,6 +15,7 @@
 #include <common/timer.hpp>
 
 #include "map.hpp" // mmysql_handle
+#include "pc.hpp" // pc_questinfo_mapreg_changed
 #include "script.hpp"
 
 static struct eri *mapreg_ers;
@@ -117,6 +118,9 @@ bool mapreg_setreg(int64 uid, int64 val)
 		}
 	}
 
+	if (!skip_insert)
+		pc_questinfo_mapreg_changed(); // [Stingor] questinfo conditions may read this variable
+
 	return true;
 }
 
@@ -180,6 +184,9 @@ bool mapreg_setregstr(int64 uid, const char* str)
 			i64db_put(regs.vars, uid, m);
 		}
 	}
+
+	if (!skip_insert)
+		pc_questinfo_mapreg_changed(); // [Stingor] questinfo conditions may read this variable
 
 	return true;
 }

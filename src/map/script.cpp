@@ -4488,6 +4488,12 @@ void run_script_main(struct script_state *st)
 		}
 	}
 
+	// [Stingor] Player whose questinfo must be re-evaluated if the script changed one of his variables.
+	// A paused script run by fake_nd is excluded: questinfo/achievement conditions run that way and
+	// stay attached to the player until achievement_check_condition reads their result.
+	int32 qi_rid = st->rid;
+	bool qi_refresh = (fake_nd == nullptr || st->oid != fake_nd->id);
+
 	if(st->sleep.tick > 0) {
 		//Restore previous script
 		script_detach_state(st, false);
@@ -4510,6 +4516,7 @@ void run_script_main(struct script_state *st)
 			st->bk_st = nullptr;
 		}
 	} else {
+		qi_refresh = true; // the script is over: always safe to refresh
 		if (st->stack && st->stack->defsp >= 1 && st->stack->stack_data[st->stack->defsp - 1].type == C_RETINFO) {
 			for (int32 i = 0; i < st->stack->sp; i++) {
 				if (st->stack->stack_data[i].type == C_RETINFO) { // Grab the first, aka the original
@@ -4533,6 +4540,9 @@ void run_script_main(struct script_state *st)
 		}
 		script_free_state(st);
 	}
+
+	if (qi_rid && qi_refresh)
+		pc_questinfo_refresh_if_dirty(map_id2sd(qi_rid));
 }
 
 int32 script_config_read(const char *cfgName)
@@ -21240,6 +21250,10 @@ BUILDIN_FUNC(questinfo)
 
 	if (mapdata && !util::vector_exists(mapdata->qi_npc, nd->id))
 		mapdata->qi_npc.push_back(nd->id);
+
+	// [Stingor] A condition reading a server variable ($var) must be refreshed when that variable changes.
+	if (script != nullptr && strchr(script_getstr(st, 4), '$') != nullptr)
+		pc_questinfo_watch_mapreg(nd->m);
 
 	pc_questinfo_refresh_map(nd->m);
 

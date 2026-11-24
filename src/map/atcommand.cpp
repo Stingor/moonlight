@@ -10770,6 +10770,8 @@ ACMD_FUNC(set) {
 		}else{
 			setd_sub_num( nullptr, sd, name, index, strtoll( val, nullptr, 10 ), nullptr );
 		}
+
+		pc_questinfo_refresh_if_dirty(sd); // [Stingor] questinfo conditions may read this variable
 	}
 
 	uid = reference_uid( add_str( name ), index );

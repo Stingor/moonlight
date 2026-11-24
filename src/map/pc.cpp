@@ -6,6 +6,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <map>
+#include <unordered_set>
 
 #ifdef MAP_GENERATOR
 #include <fstream>
@@ -12090,6 +12091,8 @@ bool pc_setreg(map_session_data* sd, int64 reg, int64 val)
 			script_array_update(&sd->regs, reg, true);
 	}
 
+	sd->qi_dirty = true;
+
 	return true;
 }
 
@@ -12141,6 +12144,8 @@ bool pc_setregstr(map_session_data* sd, int64 reg, const char* str)
 				script_array_update(&sd->regs, reg, true);
 		}
 	}
+
+	sd->qi_dirty = true;
 
 	return true;
 }
@@ -12238,8 +12243,10 @@ bool pc_setregistry(map_session_data *sd, int64 reg, int64 val)
 		}
 	}
 
-	if (!reg_load && p)
+	if (!reg_load && p) {
 		sd->vars_dirty = true;
+		sd->qi_dirty = true;
+	}
 
 	return true;
 }
@@ -12305,8 +12312,10 @@ bool pc_setregistry_str(map_session_data *sd, int64 reg, const char *val)
 		}
 	}
 
-	if( !reg_load && p )
+	if( !reg_load && p ) {
 		sd->vars_dirty = true;
+		sd->qi_dirty = true;
+	}
 
 	return true;
 }
@@ -16287,6 +16296,80 @@ void pc_show_questinfo_reinit(map_session_data *sd) {
 }
 
 /**
+ * [Stingor] Re-evaluate the questinfo of a player whose variables changed.
+ * Upstream only refreshes on quest/level/job changes, so a questinfo whose
+ * condition reads a variable ("(testvar == 2)") stayed stale until the player
+ * changed map or relogged. Called when a script ends or pauses and after @set.
+ * The guard prevents recursion: the conditions are themselves scripts run
+ * through run_script_main.
+ * @param sd Player
+ **/
+static bool qi_refreshing = false;
+
+void pc_questinfo_refresh_if_dirty(map_session_data *sd) {
+#if PACKETVER >= 20090218
+	if (sd == nullptr || !sd->qi_dirty || qi_refreshing)
+		return;
+
+	sd->qi_dirty = false;
+	qi_refreshing = true;
+	pc_show_questinfo(sd);
+	qi_refreshing = false;
+#endif
+}
+
+/**
+ * [Stingor] Server variables ($var) used by questinfo conditions.
+ * A $var is shared by every player, so its change must refresh everyone on the
+ * maps whose questinfo reads one. The refresh is deferred to a single timer:
+ * a script that sets ten $vars in a row costs one pass, and the pass never runs
+ * from inside a script or a condition.
+ **/
+static std::unordered_set<int16> qi_mapreg_maps; // maps with a questinfo condition reading a $var
+static int32 qi_mapreg_timer = INVALID_TIMER;
+
+/**
+ * Flag a map as having a questinfo condition that reads a server variable.
+ * @param m Map ID
+ **/
+void pc_questinfo_watch_mapreg(int16 m) {
+#if PACKETVER >= 20090218
+	if (m >= 0)
+		qi_mapreg_maps.insert(m);
+#endif
+}
+
+static TIMER_FUNC(pc_questinfo_mapreg_timer) {
+	qi_mapreg_timer = INVALID_TIMER;
+
+	s_mapiterator *iter = mapit_getallusers();
+
+	for (map_session_data *sd = (map_session_data *)mapit_first(iter); mapit_exists(iter); sd = (map_session_data *)mapit_next(iter)) {
+		if (qi_mapreg_maps.find(sd->m) == qi_mapreg_maps.end())
+			continue;
+
+		qi_refreshing = true;
+		pc_show_questinfo(sd);
+		qi_refreshing = false;
+	}
+
+	mapit_free(iter);
+	return 0;
+}
+
+/**
+ * A server variable changed: schedule a questinfo refresh of the watched maps.
+ **/
+void pc_questinfo_mapreg_changed(void) {
+#if PACKETVER >= 20090218
+	if (qi_mapreg_maps.empty() || qi_mapreg_timer != INVALID_TIMER)
+		return;
+
+	qi_mapreg_timer = add_timer(gettick(), pc_questinfo_mapreg_timer, 0, 0);
+#endif
+}
+
+/**
  * Rebuild and resend the questinfo of every player on a map.
  * Needed whenever mapdata->qi_npc changes while players are on the map (script reload/unload).
  * @param m Map ID
@@ -16980,6 +17063,12 @@ void do_final_pc(void) {
 #endif
 	penalty_db.clear();
 	captcha_db.clear();
+
+	if (qi_mapreg_timer != INVALID_TIMER) {
+		delete_timer(qi_mapreg_timer, pc_questinfo_mapreg_timer);
+		qi_mapreg_timer = INVALID_TIMER;
+	}
+	qi_mapreg_maps.clear();
 }
 
 void do_init_pc(void) {
@@ -17009,6 +17098,7 @@ void do_init_pc(void) {
 	add_timer_func_list(pc_autotrade_timer, "pc_autotrade_timer");
 	add_timer_func_list(pc_on_expire_active, "pc_on_expire_active");
 	add_timer_func_list(pc_macro_detector_timeout, "pc_macro_detector_timeout");
+	add_timer_func_list(pc_questinfo_mapreg_timer, "pc_questinfo_mapreg_timer");
 
 	add_timer(gettick() + autosave_interval, pc_autosave, 0, 0);
 

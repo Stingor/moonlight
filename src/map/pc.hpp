@@ -1121,6 +1121,7 @@ public:
 	unsigned char vars_received; // char loading is only complete when you get it all.
 	bool vars_ok;
 	bool vars_dirty;
+	bool qi_dirty = false; // [Stingor] a player variable changed: the questinfo conditions must be re-evaluated
 
 	int32 c_marker[MAX_SKILL_CRIMSON_MARKER]; /// Store target that marked by Crimson Marker [Cydh]
 	bool flicker; /// Check RL_FLICKER usage status [Cydh]
@@ -2026,6 +2027,9 @@ void pc_validate_skill(map_session_data *sd);
 
 void pc_show_questinfo(map_session_data *sd);
 void pc_show_questinfo_reinit(map_session_data *sd);
+void pc_questinfo_refresh_if_dirty(map_session_data *sd);
+void pc_questinfo_watch_mapreg(int16 m);
+void pc_questinfo_mapreg_changed(void);
 void pc_questinfo_refresh_map(int16 m);
 
 bool pc_job_can_entermap(enum e_job jobid, int32 m, int32 group_lv);
