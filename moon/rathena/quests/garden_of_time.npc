@@ -702,8 +702,8 @@ OnTouch:
 		end;
 	case 2:
 		cloakoffnpcself( "Sealing Spirit Stone#life2" );
-		cloakoffnpcself( "Dimensional Prison#1" );
-		cloakoffnpcself( "Dimensional Prison#2" );
+		// "Dimensional Prison#1" et "#2" ne sont definis nulle part (instance non portee) :
+		// les reveler echouait a chaque passage.
 		end;
 	}
 	end;
@@ -1400,7 +1400,7 @@ S_Hunt:
 	return 0;
 	
 S_Gathering:
-	if (countitem(getarg(2)) >= getarg(3)) {
+	if (isbegin_quest(getarg(0)) == 1 && countitem(getarg(2)) >= getarg(3)) {
 		mes "^0000ff" + getarg(1) + " Completed^000000 - Compensation paid.";
 		erasequest getarg(0);
 		delitem getarg(2),getarg(3);
