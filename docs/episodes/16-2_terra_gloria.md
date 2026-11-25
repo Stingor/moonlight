@@ -79,7 +79,7 @@ suffixée `_i`.
 | Quêtes de donjon quotidiennes | portées avec les donjons Illusion et l'enquête |
 | Système familial mis à jour | système maison : `moon/adoption.npc`, `moon/marriage.npc` |
 | Interface de groupe améliorée | côté client, non évalué ici |
-| Course de Hugel revue | `moon/rathena/other/hugel_bingo.txt` chargé ; la refonte kRO n'est pas comparée |
+| Course de Hugel revue | `moon/rathena/other/hugel_bingo.npc` chargé ; la refonte kRO n'est pas comparée |
 | Mémoire des Orcs mise à jour | déjà chargée (`moon/instances/OrcsMemory.npc`) |
 | Améliorations de la carte du monde | côté client, non évalué ici |
 | Refontes de compétences 3ᵉ classe #1→#4, Rebellion #2 | non |
@@ -104,7 +104,7 @@ chaque base et compare les objets par Id **et** par AegisName.
 
 | Élément | Fichier Moonlight |
 |---|---|
-| Quêtes 16.2 | `moon/rathena/quests/quests_16_2.txt` |
+| Quêtes 16.2 | `moon/rathena/quests/quests_16_2.npc` |
 | Rock Ridge — quêtes, guides, entrepôts, enchantements | `quests_rockridge.txt`, `guides_rockridge.txt`, `enchan_rockridge.npc`, `warps/cities/rockridge.txt` |
 | Rock Ridge — mobs | `moon/mobs/rockridge.npc` (`rockrdg1/2`, `rockmi1/2`, `harboro1/2`) |
 | Heart Hunters | `moon/instances/HeartHunterWarBase.npc` |

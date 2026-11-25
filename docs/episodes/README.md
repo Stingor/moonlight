@@ -39,7 +39,7 @@ la ligne `npc:` dans `moon/scripts_moon.conf` (et le renommage en `.npc`).
 
 | Contenu | Épisode | Entrée existante | Script |
 |---|---|---|---|
-| Mode Vague — Forêt et Ciel (`1@def01`, `1@def02`) | 14.2 | ids 22 et 23 | `moon/instances/WaveMode.txt` |
+| Mode Vague — Forêt et Ciel (`1@def01`, `1@def02`) | 14.2 | ids 22 et 23 | `moon/instances/WaveMode.npc` |
 
 **Portés depuis le relevé du 2026‑08‑25** — ils figuraient ici ou au niveau 2 :
 

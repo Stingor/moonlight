@@ -81,7 +81,7 @@ l'effaçait sans condition.
 | Refonte des compétences des classes étendues #1 | non |
 | Améliorations du système de cuisine | oui |
 | Équipement de montée exclusif 16.1/16.2/17.1 | à convertir |
-| **Potions Sirop** (soins améliorés) | oui — ✅ porté le 2026‑11‑09 : 4 Sirops (11621‑11624) en `db/import/items/item_db_healing.yml`, Advanced Potion Merchant de la PR [#5360](https://github.com/rathena/rathena/pull/5360) dans 10 villes (`moon/rathena/merchants/shops.txt`) ; leur usage d'ingrédient (potions Concentrées, `GN_S_PHARMACY`) reste fermé avec le Généticien |
+| **Potions Sirop** (soins améliorés) | oui — ✅ porté le 2026‑11‑09 : 4 Sirops (11621‑11624) en `db/import/items/item_db_healing.yml`, Advanced Potion Merchant de la PR [#5360](https://github.com/rathena/rathena/pull/5360) dans 10 villes (`moon/rathena/merchants/shops.npc`) ; leur usage d'ingrédient (potions Concentrées, `GN_S_PHARMACY`) reste fermé avec le Généticien |
 
 ## 3. État côté rAthena
 
@@ -180,7 +180,7 @@ ouverte et approuvée deux fois. Ses 12 fichiers sont appliqués à `db/re/` et 
 | Warps (58), spawns, apparition du MVP | `moon/rathena/dungeons/prt_maze.npc` |
 | 14 mobs, 155 lignes de skills, `NPC_GRADUAL_GRAVITY` | `db/import/mobs/illusion.yml`, `mob_skill_db.txt`, `skill_db.yml` |
 | 13 matériaux, 2 coffrets Lapine, 24 quêtes | `item_db_etc.yml`, `item_db_usable.yml`, `laphine_upgrade.yml`, `quest_db.yml` |
-| `F_queststatus` | ajoutée à `moon/rathena/other/Global_Functions.txt` (absente du pré-renewal) |
+| `F_queststatus` | ajoutée à `moon/rathena/other/Global_Functions.npc` (absente du pré-renewal) |
 | Drops de carte | `db/import/map_drops.yml`, à l'échelle de 16.2 |
 
 Décisions et écarts :

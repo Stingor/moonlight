@@ -61,9 +61,9 @@ Contenu mûr, converti depuis longtemps, corrigé au fil des années.
 
 **Porté et actif.** Toutes les pièces sont référencées dans `moon/scripts_moon.conf` :
 
-- `moon/rathena/cities/dicastes.txt`
-- `moon/rathena/quests/quests_dicastes.txt`
-- `moon/rathena/guides/guides_dicastes.txt`
+- `moon/rathena/cities/dicastes.npc`
+- `moon/rathena/quests/quests_dicastes.npc`
+- `moon/rathena/guides/guides_dicastes.npc`
 - `moon/mobs/dicaste.npc` — couvre `dicastes01`, `dic_fild01/02`, `dic_dun01/02/03`
 - `db/import/mobs/dicaste.yml` — les mobs sont dans le roster pré-renewal
 

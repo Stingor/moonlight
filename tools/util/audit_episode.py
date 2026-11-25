@@ -7,7 +7,7 @@ ne trouvait aucun chemin, ni a l'aller ni au retour. Aucune erreur au boot.
 Controles (sortie 1 s'il reste un KO) :
   1. navigation : cartes jouables injoignables depuis prontera, ou d'ou l'on ne revient pas
      (graphe de dist/data/yaml_files/navigation.yml du client, issu de map-server-generator) ;
-  2. villes : drapeau town (moon/mapflag/town.txt) sans entree au menu Villes du Warp Agent,
+  2. villes : drapeau town (moon/mapflag/town.npc) sans entree au menu Villes du Warp Agent,
      ou sans duplicate warpa_<ville> sur la carte ;
   3. Warp Agent : cartes du menu Villes et de la liste navi (.@navm$) sans Name dans map_index ;
   4. drops de carte : carte de db/re d'un mob porte (meme AegisName) absente de ses Drops ;
@@ -162,7 +162,7 @@ def main():
     agents = set(re.findall(r"^([a-z0-9_]+),\d+,\d+,\d+\tduplicate\(warp_agent\)", wa, re.M))
     agents |= set(re.findall(r"^([a-z0-9_]+),\d+,\d+,\d+\tscript\t[^\t]*::warp_agent\t", wa, re.M))
     towns = set()
-    for line in read_latin1(p("moon", "mapflag", "town.txt")).splitlines():
+    for line in read_latin1(p("moon", "mapflag", "town.npc")).splitlines():
         m = re.match(r"([a-z0-9_]+)\tmapflag\ttown\b", line)
         if m:
             towns.add(m[1])

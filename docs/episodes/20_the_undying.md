@@ -185,7 +185,7 @@ brHades ne couvrent que les cartes d'instance : ils iront au lot F.
 | Horuru | `quests_20_main.npc`, `quests_19.npc` | brHades remplace le PNJ de la quotidienne du 19 (`icecastle,27,126`) par une version qui garde la quotidienne et ouvre la chaîne du 20, et décharge l'ancien par `unloadnpc("ep19_if19msdq")`. Nos PNJ n'ont pas ce nom unique : `#e19ms00` et `Horuru#if19msdq` sont **commentés** dans `quests_19.npc`, `ep20_temporary_cleaning` retiré. « Horr » devient **Horuru** partout, le nom de notre 19 |
 | Noms de PNJ du 19 | | brHades vise les PNJ du 19 par des noms uniques `ep19_<carte>_<x>_<y>` que notre 19 n'a pas : les cinq cités (Toralung, Horyara, Zoryara, Lazy, Juncea) renvoient à nos noms |
 | Réputation | | la quotidienne de Horuru créditait la réputation **3** (Village des Loups Gris), bug de brHades : remise sur `REPUTATION_EP19` (Isgard), comme notre 19. Le reste de l'épisode crédite `REPU_EP20` |
-| Fonctions | `moon/rathena/other/Global_Functions.txt` | `F_ep20_checkTransform` (renvoie au nid qui n'est pas déguisé en Rgan) ; `queststatus_between` appelé `F_queststatus_between`, notre nom |
+| Fonctions | `moon/rathena/other/Global_Functions.npc` | `F_ep20_checkTransform` (renvoie au nid qui n'est pas déguisé en Rgan) ; `queststatus_between` appelé `F_queststatus_between`, notre nom |
 | Bugs de brHades | | `Lehar#20ms41` sans son nom unique `ep20_jor_safty2_310_43` (trois `npctalk` le visent) ; une espace finale dans un nom de PNJ visé par `npctalk` |
 | Boutiques | | les quatre barters du lot D, ouverts par les PNJ de l'Alliance (`callshop`) |
 | Images | | 66 `cutin`, dont 13 nouvelles `ep20_*` (Cocopo, Lasgand, Nyar) : à confirmer côté client ; les autres servent déjà aux épisodes 18 et 19 |

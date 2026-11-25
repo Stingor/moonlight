@@ -30,5 +30,7 @@ indent_style = tab
 [npc/**.txt]
 indent_style = tab
 
-[*.{npc,txt,md,inc,sql}]
-charset = windows-1252
+# Aucun charset pour les scripts : EditorConfig ne connaît pas Windows-1252
+# (seuls latin1, utf-8, utf-8-bom, utf-16be et utf-16le existent). Leur
+# encodage est fixé dans .vscode/settings.json et vérifié au commit par
+# tools/util/check_npc_encoding.py.

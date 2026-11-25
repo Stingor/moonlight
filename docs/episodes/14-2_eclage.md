@@ -80,7 +80,7 @@ navigation), et les huit scripts d'instance cités plus haut.
 
 | Élément | Fichier Moonlight | Chargé |
 |---|---|---|
-| Eclage, ville et quêtes | `moon/rathena/cities/eclage.txt`, `quests_eclage.txt`, `guides_eclage.txt` | ✅ |
+| Eclage, ville et quêtes | `moon/rathena/cities/eclage.npc`, `quests_eclage.txt`, `guides_eclage.txt` | ✅ |
 | Tour de Bifrost | `moon/mobs/eclage.npc` — `ecl_tdun01`→`04`, `ecl_fild01` | ✅ |
 | Intérieur d'Eclage | `moon/instances/EclageInterior.npc` | ✅ |
 | Old Glast Heim | `moon/instances/OldGlastHeim.npc` + `OldGlastHeim_merchants.txt` | ✅ |
@@ -91,11 +91,11 @@ navigation), et les huit scripts d'instance cités plus haut.
 | Usine de Jouets d'Horreur | `moon/instances/HorrorToyFactory.npc` + marchands ; drops de carte (`db/import/map_drops.yml`, 2026‑11‑08) | ✅ |
 | Glast Heim Cauchemar | `moon/rathena/dungeons/glastheim.npc` (`gl_chyard_`, `gl_cas02_`) | ✅ |
 | Monstres Champions | `moon/mobs/championmobs.npc` | ✅ |
-| Navigation | `moon/rathena/guides/navigation.txt` | ✅ |
+| Navigation | `moon/rathena/guides/navigation.npc` | ✅ |
 
 ### Non porté
 
-- **Mode Vague** — `moon/instances/WaveMode.txt` est présent mais **non référencé** dans
+- **Mode Vague** — `moon/instances/WaveMode.npc` est présent mais **non référencé** dans
   `moon/scripts_moon.conf`. Les deux entrées d'instance existent déjà
   (`Wave Mode - Forest` id 22 et `Wave Mode - Sky` id 23 dans
   `db/import/instance_db.yml`), et les cartes `1@def01`/`1@def02` sont dans le

@@ -89,7 +89,7 @@ réputation de Budan).
 | Villa de la Tromperie | `moon/instances/VillaofDeception.txt` | non référencé |
 | Villa du Grand Prêtre | `moon/instances/VillaofHighPriest.txt` | non référencé |
 | Rassemblement des Loups | `moon/instances/Wolves.txt` | non référencé |
-| Forêt Profonde | `moon/instances/DeepForest.txt` | non référencé |
+| Forêt Profonde | `moon/instances/DeepForest.npc` | non référencé |
 | Quêtes 18 | — | **absent** |
 
 ### Les mobs manquants — la liste complète

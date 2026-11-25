@@ -11,8 +11,8 @@ db/re la fournit. Puis descend d'un cran : drops des mobs, mob_skill,
 RandomOptionGroup, cartes et combos, bonus renewal-only, raccordement.
 
 Usage :
-  python tools/util/audit_instance.py moon/instances/SkyFortress.txt
-  python tools/util/audit_instance.py moon/instances/Edda.txt --name "Half Moon In The Daylight"
+  python tools/util/audit_instance.py moon/instances/SkyFortress.npc
+  python tools/util/audit_instance.py moon/instances/Edda.npc --name "Half Moon In The Daylight"
 
 Pieges couverts (chacun a produit un faux rapport au moins une fois) :
   - db/import/mob_db.yml et item_db.yml sont vides : tout est derriere

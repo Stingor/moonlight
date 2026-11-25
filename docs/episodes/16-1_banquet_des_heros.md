@@ -67,11 +67,11 @@ Ajouts joints : jetons d'honneur, nouvel objet d'enchantement, préparatifs du b
 
 | Élément | Fichier Moonlight | Chargé |
 |---|---|---|
-| Quêtes 16.1 | `moon/rathena/quests/quests_16_1.txt` | ✅ |
+| Quêtes 16.1 | `moon/rathena/quests/quests_16_1.npc` | ✅ |
 | Salle de la Conscience | `moon/instances/RoomOfConsciousness.npc` | ✅ |
 | Rituel de Bénédiction | `moon/instances/RitualOfBlessing.npc` | ✅ |
 | Lasagna + Nid du Basilic | `moon/customs/lasagna/{lasagna_npcs,lasa_dun,lasa_fild,warps}.txt` | ✅ |
-| Hauts faits | `moon/rathena/other/achievements.txt` + `db/import/achievement_db.yml` | ✅ |
+| Hauts faits | `moon/rathena/other/achievements.npc` + `db/import/achievement_db.yml` | ✅ |
 | Salon de coiffure | `moon/stylist.npc` | ✅ *(version maison)* |
 | **Forteresse Céleste** | `moon/instances/SkyFortress.npc` — `1@sthb`, id 33 | ✅ |
 | **EDDA Demi-lune** | `moon/instances/EddaHalfMoonInTheDaylight.npc` + `moon/rathena/merchants/enchan_edda_half_moon.npc` — `1@pop1/2/3`, id 44 | ✅ |

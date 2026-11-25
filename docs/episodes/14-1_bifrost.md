@@ -88,10 +88,10 @@ Contenu ancien et stable : `npc/re/cities/{mora,dewata,malangdo,malaya}.txt`,
 
 | Élément | Fichier Moonlight | Chargé |
 |---|---|---|
-| Mora, Bifrost | `moon/rathena/cities/mora.txt`, `moon/mobs/bifrost.npc` | ✅ |
-| Dewata | `moon/rathena/cities/dewata.txt`, `moon/mobs/dewata.npc`, `quests_dewata.txt` | ✅ |
-| Malangdo | `moon/rathena/cities/malangdo.txt`, `moon/mobs/malangdo.npc`, `quests_malangdo.txt` | ✅ |
-| Port Malaya | `moon/rathena/cities/malaya.txt`, `moon/mobs/malaya.npc`, `quests_malaya.txt` | ✅ |
+| Mora, Bifrost | `moon/rathena/cities/mora.npc`, `moon/mobs/bifrost.npc` | ✅ |
+| Dewata | `moon/rathena/cities/dewata.npc`, `moon/mobs/dewata.npc`, `quests_dewata.txt` | ✅ |
+| Malangdo | `moon/rathena/cities/malangdo.npc`, `moon/mobs/malangdo.npc`, `quests_malangdo.txt` | ✅ |
+| Port Malaya | `moon/rathena/cities/malaya.npc`, `moon/mobs/malaya.npc`, `quests_malaya.txt` | ✅ |
 | Forêt Brumeuse | `moon/instances/HazyForest.npc` | ✅ |
 | Buwaya / Bangungot / Bakonawa | `moon/instances/BuwayaCave.npc`, `BangungotHospital.npc`, `BakonawaLake.npc` | ✅ |
 | Poulpe / Égouts | `moon/instances/OctopusCave.npc`, `MalangdoCulvert.npc` | ✅ |
@@ -120,7 +120,7 @@ sièges actuels, dont `moon/rathena/guild2/*` (WoE:SE).
 
 ### Alberta : la carte du serveur n'est pas celle du client (enquête du 2026‑11‑17)
 
-`moon/rathena/cities/alberta.txt` est la version commune de rAthena (`npc/cities/`), avec
+`moon/rathena/cities/alberta.npc` est la version commune de rAthena (`npc/cities/`), avec
 deux retouches locales. Les PNJ des autres villes placés à Alberta (passeurs d'Amatsu,
 d'Ayothaya, de Brasilis, de Kunlun, de Louyang, de Moscovia, le marin de l'île aux
 tortues, Gershaun) sont aux **positions de 2011**, celles de `npc/re/cities/alberta.txt`.

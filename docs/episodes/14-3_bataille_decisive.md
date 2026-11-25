@@ -54,12 +54,12 @@ l'épisode 14.3.
 
 | Élément | Fichier Moonlight | Chargé |
 |---|---|---|
-| Quêtes 14.3 | `moon/rathena/quests/quests_14_3.txt`, `quests_14_3_bis.txt` | ✅ |
+| Quêtes 14.3 | `moon/rathena/quests/quests_14_3.npc`, `quests_14_3_bis.txt` | ✅ |
 | Île de Bios | `moon/instances/IsleOfBios.npc` | ✅ |
 | Grotte de Morse | `moon/instances/MorseCave.npc` | ✅ |
 | Jitterbug | `moon/instances/NightmarishJitterbug.npc` | ✅ |
 | Tour de l'Horloge Cauchemar | `moon/rathena/dungeons/c_tower.npc`, `db/import/mobs/c_tower_n.yml` | ✅ |
-| Clans | `moon/rathena/other/clans.txt` | ✅ |
+| Clans | `moon/rathena/other/clans.npc` | ✅ |
 | Banque | intégrée au serveur (`bank_zeny`) | ✅ |
 | **Bassin de Flammes** | `moon/mobs/morocc.npc` — 11 lignes de spawn sur `moro_vol` (Incarnations réduites à 20) | ✅ |
 | **Temple du Dieu Démon** | `moon/instances/TempleofDemonGod.npc` — `1@eom`, id 27 | ✅ |

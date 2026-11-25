@@ -48,7 +48,7 @@ Mobs marquants : Charleston 3, Venom Bug, Chimera, R48‑Aggressive, Alnoldi, Pe
 | Élément | Fichier Moonlight | Chargé |
 |---|---|---|
 | Verus | `moon/mobs/verus.npc` — `verus01/02/03`, `un_bunker`, `ver_eju`, `ver_tunn` | ✅ |
-| Quêtes 15.1 | `moon/rathena/quests/quests_15_1.txt` | ✅ |
+| Quêtes 15.1 | `moon/rathena/quests/quests_15_1.npc` | ✅ |
 | Charleston | `moon/instances/CharlestonCrisis.npc` | ✅ |
 | Fenrir et Sarah | `moon/instances/SarahAndFenrir.npc` | ✅ |
 | Assaut sur l'aéronef | `moon/instances/AirshipAssault.npc` | ✅ |

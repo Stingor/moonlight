@@ -57,16 +57,16 @@ dans l'intervalle 15.2. Les deux lectures se défendent ; il est traité ici.
 
 | Élément | Fichier Moonlight | Chargé |
 |---|---|---|
-| Quêtes 15.2 | `moon/rathena/quests/quests_15_2.txt` | ✅ |
+| Quêtes 15.2 | `moon/rathena/quests/quests_15_2.npc` | ✅ |
 | Laboratoire central | `moon/instances/CentralLaboratory.npc` | ✅ |
 | Dernière salle | `moon/instances/LastRoom.npc` | ✅ |
 | **Espace Infini** | `moon/instances/InfiniteSpace.npc` + `moon/rathena/merchants/InfiniteSpace_merchants.npc` | ✅ |
 | **Para Market** | `moon/rathena/merchants/eden_market.npc` | ✅ |
 | **Évolution des familiers** | `db/import/pet_db.yml` (27 évolutions) | ✅ |
-| Navigation | `moon/rathena/guides/navigation.txt` | ✅ |
+| Navigation | `moon/rathena/guides/navigation.npc` | ✅ |
 | Entrepôt de guilde | `moon/archive_gstorage.npc` | ✅ |
 | RODEX | intégrée au serveur | ✅ |
-| Clans | `moon/rathena/other/clans.txt` | ✅ |
+| Clans | `moon/rathena/other/clans.npc` | ✅ |
 
 ### Espace Infini — porté le 2026‑09‑05
 

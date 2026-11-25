@@ -15,7 +15,7 @@ import os
 import sys
 
 PATH = os.path.join(os.path.dirname(__file__), '..', '..',
-                    'moon', 'rathena', 'quests', 'quests_13_2.txt')
+                    'moon', 'rathena', 'quests', 'quests_13_2.npc')
 
 # --- Etape 1 : la branche de remplacement -------------------------------
 OLD1 = (

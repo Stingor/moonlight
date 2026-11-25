@@ -38,7 +38,7 @@
 //	v1.1 = KDR Algorithm update for undefined calculation check [Lighta]
 //	     = Fixed obfuscation at Nemesis Kill [Lighta]
 //	v1.0 = Initial release
-//Â©2011-2012 Ghost
+//©2011-2012 Ghost
 //========================================================================================
 -	script	Versus	-1,{
 OnInit:
