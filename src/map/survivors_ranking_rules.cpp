@@ -346,6 +346,80 @@ constexpr uint16 RULESET_10 = 10;
 // partie (CZ 0x0F52) avant END, et où une partie se refuse sans lui.
 constexpr uint16 RULESET_11 = 11;
 
+// ── LE RULESET 12 ────────────────────────────────────────────────────────────
+// Le déroulé se tire de la graine (lot 22 de moonclient) : chaque heure de
+// mini-boss joue l'un de deux ou trois candidats, et ses bornes prennent le plus
+// riche ; puis viennent les boss HORS HORAIRE, que le client compte aussi
+// (ro::sim::RankingBoundsOf, épinglé par survivors_ranked_test.cpp) : trois
+// Dead Branch dès 3:00, chacune au plus riche des mini-boss du biome, et le
+// Golden Thief Bug (niveau 64, 50 d'XP) dès 6:00. Sans eux, une partie honnête
+// qui en tue un serait jugée invraisemblable. Les tués ordinaires au plus fort,
+// la durée, le dépassement, la courbe, la horde et la majoration sont ceux du
+// ruleset 8 : les espèces neuves des réserves n'y dépassent personne, et la
+// carte du Golden Thief Bug majore les Zeny, pas l'XP.
+constexpr uint16 RULESET_12 = 12;
+constexpr s_survivors_boss_bound RULESET_12_THIEF_BUG = { 6 * MINUTE_MS, 64 * MINI_BOSS_KILL_FACTOR, 50, false };
+constexpr s_survivors_boss_bound RULESET_12_PLAINS_BRANCH = { 3 * MINUTE_MS, 24 * MINI_BOSS_KILL_FACTOR, 60, false };
+constexpr s_survivors_boss_bound RULESET_12_PLAINS_BOSSES[] = {
+	{  3 * MINUTE_MS,  6 * MINI_BOSS_KILL_FACTOR, 30, false },
+	RULESET_12_PLAINS_BRANCH,
+	RULESET_12_PLAINS_BRANCH,
+	RULESET_12_PLAINS_BRANCH,
+	{  5 * MINUTE_MS,  8 * MINI_BOSS_KILL_FACTOR, 40, false },
+	RULESET_12_THIEF_BUG,
+	{  7 * MINUTE_MS,  8 * MINI_BOSS_KILL_FACTOR, 40, false },
+	{  9 * MINUTE_MS, 24 * MINI_BOSS_KILL_FACTOR, 60, false },
+	{ 15 * MINUTE_MS, 81 * BOSS_KILL_FACTOR,       0, true  },
+};
+constexpr s_survivors_boss_bound RULESET_12_DESERT_BRANCH = { 3 * MINUTE_MS, 81 * MINI_BOSS_KILL_FACTOR, 60, false };
+constexpr s_survivors_boss_bound RULESET_12_DESERT_BOSSES[] = {
+	{  3 * MINUTE_MS, 69 * MINI_BOSS_KILL_FACTOR, 30, false },
+	RULESET_12_DESERT_BRANCH,
+	RULESET_12_DESERT_BRANCH,
+	RULESET_12_DESERT_BRANCH,
+	{  5 * MINUTE_MS, 81 * MINI_BOSS_KILL_FACTOR, 40, false },
+	RULESET_12_THIEF_BUG,
+	{  7 * MINUTE_MS, 81 * MINI_BOSS_KILL_FACTOR, 40, false },
+	{  9 * MINUTE_MS, 81 * MINI_BOSS_KILL_FACTOR, 60, false },
+	{ 15 * MINUTE_MS, 93 * BOSS_KILL_FACTOR,       0, true  },
+};
+constexpr s_survivors_boss_bound RULESET_12_SNOW_BRANCH = { 3 * MINUTE_MS, 77 * MINI_BOSS_KILL_FACTOR, 55, false };
+constexpr s_survivors_boss_bound RULESET_12_SNOW_BOSSES[] = {
+	{  3 * MINUTE_MS, 42 * MINI_BOSS_KILL_FACTOR, 30, false },
+	RULESET_12_SNOW_BRANCH,
+	RULESET_12_SNOW_BRANCH,
+	RULESET_12_SNOW_BRANCH,
+	{  5 * MINUTE_MS, 77 * MINI_BOSS_KILL_FACTOR, 40, false },
+	RULESET_12_THIEF_BUG,
+	{  7 * MINUTE_MS, 77 * MINI_BOSS_KILL_FACTOR, 40, false },
+	{  9 * MINUTE_MS, 77 * MINI_BOSS_KILL_FACTOR, 55, false },
+	{ 11 * MINUTE_MS, 72 * MINI_BOSS_KILL_FACTOR, 55, false },
+	{ 15 * MINUTE_MS, 73 * BOSS_KILL_FACTOR,       0, true  },
+};
+constexpr s_survivors_boss_bound RULESET_12_LAB_BRANCH = { 3 * MINUTE_MS, 99 * MINI_BOSS_KILL_FACTOR, 50, false };
+constexpr s_survivors_boss_bound RULESET_12_LAB_BOSSES[] = {
+	{  3 * MINUTE_MS, 79 * MINI_BOSS_KILL_FACTOR, 30, false },
+	RULESET_12_LAB_BRANCH,
+	RULESET_12_LAB_BRANCH,
+	RULESET_12_LAB_BRANCH,
+	{  5 * MINUTE_MS, 99 * MINI_BOSS_KILL_FACTOR, 40, false },
+	RULESET_12_THIEF_BUG,
+	{  7 * MINUTE_MS, 99 * MINI_BOSS_KILL_FACTOR, 40, false },
+	{  9 * MINUTE_MS, 99 * MINI_BOSS_KILL_FACTOR, 50, false },
+	{ 11 * MINUTE_MS, 99 * MINI_BOSS_KILL_FACTOR, 50, false },
+	{ 15 * MINUTE_MS, 99 * BOSS_KILL_FACTOR,       0, true  },
+};
+constexpr s_survivors_arena_bound RULESET_12_ARENAS[] = {
+	{ 2, RULESET_12_PLAINS_BOSSES, std::size(RULESET_12_PLAINS_BOSSES),
+	  RULESET_6_COMMON_KILL_POINTS, RULESET_6_COMMON_KILL_EXP },
+	{ 3, RULESET_12_DESERT_BOSSES, std::size(RULESET_12_DESERT_BOSSES),
+	  61 * ELITE_FACTOR, 20 * ELITE_FACTOR },
+	{ 4, RULESET_12_SNOW_BOSSES, std::size(RULESET_12_SNOW_BOSSES),
+	  61 * ELITE_FACTOR, 18 * ELITE_FACTOR },
+	{ 5, RULESET_12_LAB_BOSSES, std::size(RULESET_12_LAB_BOSSES),
+	  92 * ELITE_FACTOR, 18 * ELITE_FACTOR },
+};
+
 // Le journal d'une partie : inconnu des versions d'avant le ruleset 11, exigé
 // depuis.
 constexpr bool JOURNAL_NOT_SENT = false;
@@ -404,6 +478,12 @@ constexpr s_survivors_ruleset RULESETS[] = {
 	  RULESET_6_KILLS_PER_SECOND, RULESET_6_EXP_GAIN_PCT, JOURNAL_NOT_SENT },
 	{ RULESET_11,
 	  RULESET_8_ARENAS, std::size(RULESET_8_ARENAS),
+	  RULESET_8_CLASSES, std::size(RULESET_8_CLASSES),
+	  RULESET_6_RUN_MS, RULESET_6_OVERTIME_MS,
+	  RULESET_6_EXP_CURVE, std::size(RULESET_6_EXP_CURVE),
+	  RULESET_6_KILLS_PER_SECOND, RULESET_6_EXP_GAIN_PCT, JOURNAL_REQUIRED },
+	{ RULESET_12,
+	  RULESET_12_ARENAS, std::size(RULESET_12_ARENAS),
 	  RULESET_8_CLASSES, std::size(RULESET_8_CLASSES),
 	  RULESET_6_RUN_MS, RULESET_6_OVERTIME_MS,
 	  RULESET_6_EXP_CURVE, std::size(RULESET_6_EXP_CURVE),
