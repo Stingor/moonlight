@@ -353,6 +353,9 @@ OnTouch:
 		}
 	}
 	end;
+OnInit:
+	questinfo(QTYPE_QUEST, QMARK_YELLOW, "(BaseLevel > 99) && ((ep14_1_bs == 0) || (ep14_1_bs == 1) || (ep14_1_bs == 18))");
+	end;
 }
 
 -	script	#mora_bush	-1,{
