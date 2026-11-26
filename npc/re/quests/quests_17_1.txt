@@ -2836,7 +2836,7 @@ pub_cat,93,105,3	script	Philofontes#171_cat	4_M_PHILOFONTES,{
 	close3;
 
 OnInit:
-	questinfo(QTYPE_QUEST,QMARK_YELLOW,"terra_gloria_main == 26");
+	questinfo(QTYPE_QUEST,QMARK_YELLOW,"terra_gloria_main == 26 && isbegin_quest(7850) < 2");
 	questinfo(QTYPE_QUEST,QMARK_YELLOW,"isbegin_quest(7859) == 1");
 	questinfo(QTYPE_QUEST,QMARK_YELLOW,"isbegin_quest(7862) == 2 && isbegin_quest(7864) == 0");
 	questinfo(QTYPE_QUEST,QMARK_YELLOW,"isbegin_quest(7863) == 1");
