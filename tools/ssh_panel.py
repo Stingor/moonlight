@@ -74,6 +74,23 @@ MAKE_CLEAN = RemoteCommand("make clean", "make clean", sudo=True,
 MAKE_SERVER = RemoteCommand("make server", "make server", sudo=True)
 MAKE_COMMANDS = (MAKE_CLEAN, MAKE_SERVER)
 
+# Cibles de ./start, dans l'ordre de sa table ; « tout » et « rathena » sont
+# ses groupes. Jamais sous sudo : les services tournent sous le compte ssh.
+START_TARGETS = ("tout", "rathena", "login", "char", "map", "web", "voice", "moonbot", "survivors")
+DEFAULT_START_TARGET = "tout"
+START_ACTIONS = (
+    # (action, question avant de lancer : vide, aucune)
+    ("status", ""),
+    ("start", ""),
+    ("stop", "Arrêter « {cible} » ? Les joueurs connectés seront déconnectés."),
+    ("restart", "Redémarrer « {cible} » ? Les joueurs connectés seront déconnectés."),
+)
+
+
+def start_command(action, target, confirm=""):
+    return RemoteCommand(f"./start {action} {target}", f"./start {action} {shlex.quote(target)}",
+                         confirm=confirm.format(cible=target))
+
 
 def remote_dir(path):
     """Le dossier du dépôt, cité pour le shell distant. `~/` y reste développé :
@@ -96,8 +113,12 @@ def classify(line):
 class SshWindow:
     """Fenêtre « Serveur (SSH) », créée une fois, masquée à la fermeture."""
 
-    def __init__(self, root, settings, bind_copy_menu):
+    def __init__(self, root, settings, bind_copy_menu, open_logs=None):
         self.root = root
+        self._open_logs = open_logs
+        target = settings.get(SETTINGS_SECTION, "start_target", DEFAULT_START_TARGET)
+        self.start_target_var = tk.StringVar(
+            value=target if target in START_TARGETS else DEFAULT_START_TARGET)
         self.events = queue.Queue()
         self.runner = ProcessRunner(self.events)
         self.target_var = tk.StringVar(value=settings.get(SETTINGS_SECTION, "target", DEFAULT_TARGET))
@@ -122,6 +143,7 @@ class SshWindow:
             "repo": self.repo_var.get().strip(),
             "sudo_make": self.sudo_var.get(),
             "parallel_make": self.jobs_var.get(),
+            "start_target": self.start_target_var.get(),
             "history": HISTORY_SEPARATOR.join(self._history[-HISTORY_LIMIT:]),
             "geometry": self._current_geometry(),
         }
@@ -205,8 +227,22 @@ class SshWindow:
         self._action(ttk.Button(make, text="pull --rebase + make server",
                                 command=lambda: self._run([PULL_REBASE, MAKE_SERVER]))).pack(
             side="left", padx=2)
+        self._action(ttk.Button(make, text="make server + ./start restart",
+                                command=self._make_and_restart)).pack(side="left", padx=2)
         ttk.Checkbutton(make, text="sudo", variable=self.sudo_var).pack(side="left", padx=(12, 2))
         ttk.Checkbutton(make, text="-j$(nproc)", variable=self.jobs_var).pack(side="left", padx=2)
+
+        services = ttk.LabelFrame(body, text="Services  (./start ; console : screen -r moonlight-<service>)")
+        services.pack(fill="x", padx=8, pady=4)
+        ttk.Label(services, text="Cible").pack(side="left", padx=(4, 2), pady=4)
+        ttk.Combobox(services, textvariable=self.start_target_var, values=START_TARGETS,
+                     state="readonly", width=10).pack(side="left", padx=2)
+        for action, confirm in START_ACTIONS:
+            self._action(ttk.Button(services, text=f"./start {action}",
+                                    command=lambda a=action, c=confirm: self._run_start(a, c))).pack(
+                side="left", padx=2)
+        if self._open_logs is not None:
+            ttk.Button(services, text="Journaux…", command=self._open_logs).pack(side="right", padx=4)
 
         free = ttk.LabelFrame(body, text="Commande libre  (dans le dossier du dépôt ; ↑ ↓ : historique)")
         free.pack(fill="x", padx=8, pady=4)
@@ -251,7 +287,7 @@ class SshWindow:
             line = "sudo -n " + line
         return line
 
-    def _ssh_argv(self, shell_line):
+    def ssh_argv(self, shell_line):
         remote = f"cd {remote_dir(self.repo_var.get().strip() or DEFAULT_REPO)} && {shell_line}"
         return ["ssh", "-o", "BatchMode=yes",
                 "-o", f"ConnectTimeout={CONNECT_TIMEOUT_S}",
@@ -259,6 +295,13 @@ class SshWindow:
                 self.target_var.get().strip() or DEFAULT_TARGET, remote]
 
     # ---- actions ------------------------------------------------------------
+    def _run_start(self, action, confirm):
+        self._run([start_command(action, self.start_target_var.get(), confirm)])
+
+    def _make_and_restart(self):
+        restart_confirm = dict(START_ACTIONS)["restart"]
+        self._run([MAKE_SERVER, start_command("restart", self.start_target_var.get(), restart_confirm)])
+
     def _test_connection(self):
         self._run([RemoteCommand("Test", 'echo "$(hostname) : $(pwd)" && git branch --show-current '
                                          '&& (sudo -n true 2>/dev/null && echo "sudo sans mot de passe : oui" '
@@ -328,7 +371,7 @@ class SshWindow:
         line = self._shell_of(step)
         self._write(f"── {datetime.now():%H:%M:%S}  {self.target_var.get().strip()} $ {line}", "cmd")
         try:
-            self.runner.start(self._ssh_argv(line), None)
+            self.runner.start(self.ssh_argv(line), None)
         except OSError as exc:
             self._write(f"Lancement de ssh impossible : {exc}", "fail")
             self._finish(failed_label=step.label)

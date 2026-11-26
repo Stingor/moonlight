@@ -1,239 +1,319 @@
 #!/bin/sh
+# Lance, arrête et surveille les services de Moonlight.
+#
+#   ./start start   [--enlog] [service...]
+#   ./start stop    [service...]
+#   ./start restart [--enlog] [service...]
+#   ./start status  [service...]
+#   ./start watch   [intervalle_s] [relances_max]
+#   ./start help
+#
+# Services : login char map web voice moonbot survivors.
+# Groupes  : rathena (login char map), tout (défaut : tous les services).
+#
+# Chaque service du dépôt tourne dans sa session screen détachée, nommée
+# <dossier>-<service> : `screen -r moonlight-map` montre la console du
+# map-server (Ctrl+A puis D pour la quitter sans l'arrêter). Le nom du
+# dossier en tête sépare les sessions de deux copies du dépôt, que screen
+# range sous le même compte. Il survit ainsi à la fermeture de la session
+# ssh qui l'a lancé, et sa sortie ne dépend d'aucun terminal. Réglages des
+# sessions : tools/screen_service.rc.
+# La console de chaque session s'écrit aussi dans log/<service>.console.log ;
+# la précédente est gardée en .console.log.1.
+#
+# survivors est une unité systemd : il se pilote par `sudo -n systemctl`, et
+# son journal se lit par `journalctl -u survivors-verify-queue`.
+#
+# Un service se reconnaît à son processus lancé depuis CE dossier : aucun
+# fichier .pid à tenir à jour, et la copie d'un autre dossier (nhtest) n'est
+# jamais prise pour la nôtre.
 
-#source var/function
-. ./function.sh
-inst_launch_workaround
+cd "$(dirname "$0")" || exit 1
+REPO_DIR=$(pwd -P)
+LOG_DIR=./log
+ALL_SERVICES="login char map web voice moonbot survivors"
+RATHENA_SERVICES="login char map"
+SURVIVORS_UNIT=survivors-verify-queue
+# Arrêt : un rappel toutes les STOP_REPORT_S secondes ; aucune limite, le
+# map-server sauvegarde tous les personnages avant de rendre la main.
+STOP_REPORT_S=5
+START_SETTLE_S=1
+# Vidange du journal et défilement se règlent au lancement de la session :
+# un `screen -X logfile flush` envoyé ensuite ne prend pas.
+SCREEN_RC=./tools/screen_service.rc
+SESSION_PREFIX="$(basename "${REPO_DIR}")-"
+WATCH_INTERVAL_S=10
+WATCH_MAX_RESTARTS=10
 
-PATH=./:$PATH
-LOG_DIR="./log"
-
-print_start() {
-	#    more << EOF
-	echo "rAthena is starting..."
-	echo "            (c) 2017 rAthena Project"
-	echo ""
-	echo ""
-	echo "checking..."
-	#EOF
+# ---- table des services ----------------------------------------------------
+service_command() {
+	case $1 in
+		login) echo "./login-server" ;;
+		char) echo "./char-server" ;;
+		map) echo "./map-server" ;;
+		web) echo "./web-server" ;;
+		voice) echo "./voice-server" ;;
+		moonbot) echo "tools/.venv/bin/python tools/moonbot_service.py" ;;
+	esac
 }
 
-get_status(){
-	PIDFILE=.$1.pid
-	if [ -e ${PIDFILE} ]; then
-		ISRUN=$(ps ax | grep $(cat ${PIDFILE}) | grep $1)
-		PSRUN=$(echo "$ISRUN" | awk '{ print $1 }')
-	fi
-	#return ${PSRUN} #seems to cause an issue for some os
+# Motif pgrep -f de la ligne de commande. Ancré au début : la ligne
+# « SCREEN -dmS map ... » de la session elle-même ne s'y prend pas.
+service_pattern() {
+	case $1 in
+		moonbot) echo "^tools/\\.venv/bin/python tools/moonbot_service\\.py" ;;
+		*) echo "^$(service_command "$1" | sed 's/\./\\./g')( |\$)" ;;
+	esac
 }
 
-# Wait for a server to fully stop after a kill, showing a single
-# self-refreshing progress line (elapsed time) instead of spamming.
-wait_stop(){
-	srv=$1
-	waited=0
-	PSRUN=""
-	get_status ${srv}
-	while [ -n "${PSRUN}" ]; do
-		printf "\r  waiting for '%s' (p%s) to shut down... %ds  " "${srv}" "${PSRUN}" "${waited}"
-		sleep 1
-		waited=$((waited+1))
-		get_status ${srv}
+is_systemd() { [ "$1" = survivors ]; }
+
+is_known() {
+	for known in ${ALL_SERVICES}; do
+		[ "$1" = "${known}" ] && return 0
 	done
-	if [ ${waited} -gt 0 ]; then
-		printf "\r  '%s' stopped after %ds.%s\n" "${srv}" "${waited}" "                              "
-	else
-		echo "  '${srv}' stopped."
-	fi
+	return 1
 }
 
-#checking if already started, launch and mark in log
-start_serv(){ 
-	get_status $1
-	if [ $2 ]; then #is logging on ?
-		LOGFILE="$LOG_DIR/$1.launch.log"
-		LOGRUN="$LOG_DIR/$1.log"
-		FIFO="$1_fifo"
-		echo "stat_serv, log is enabled"
-		echo "My logfile=${LOGFILE}"
-		if [ -z ${PSRUN} ]; then
-		if [ -e ./${FIFO} ]; then rm "$FIFO"; fi
-			mkfifo "$FIFO"; tee "$LOGRUN" < "$FIFO" & "./$1" > "$FIFO" 2>&1 & PID=$!
-			#"./$1" > >(tee "$LOGRUN") 2>&1 & PID=$! #bash only
-			echo "$PID" > .$1.pid
-			echo "Server '$1' started at `date +"%m-%d-%H:%M-%S"`" | tee ${LOGFILE}
-		else
-			echo "Cannot start '$1', because it is already running p${PSRUN}" | tee ${LOGFILE}
-		fi
-	else
-		if [ -z ${PSRUN} ]; then
-			./$1&
-			echo "$!" > .$1.pid
-			echo "Server '$1' started at `date +"%m-%d-%H:%M-%S"`"
-		else
-			echo "Cannot start '$1', because it is already running p${PSRUN}"
-		fi
-	fi
-}
-
-watch_serv(){
-	ulimit -Sc unlimited
-
-	#now checking status and looping
-	count=0;
-	while true; do
-		for i in ${L_SRV} ${C_SRV} ${M_SRV}
-		do
-			LOGFILE="$LOG_DIR/$i.launch.log"
-			LOGRUN="$LOG_DIR/$i.log"
-			FIFO=$i"_fifo"
-	
-			get_status $i
-			#echo "Echo id of $i is ${PSRUN}"
-			if [ -z ${PSRUN} ]; then
-				count=$((count+1))
-				#echo "fifo=$FIFO"
-				echo "server '$i' is down"
-				echo "server '$i' is down" >> ${LOGFILE}
-				echo "restarting server at time at `date +"%m-%d-%H:%M-%S"`" 
-				echo "restarting server at time at `date +"%m-%d-%H:%M-%S"`" >> ${LOGFILE}
-				if [ -e $FIFO ]; then rm $FIFO; fi
-				mkfifo "$FIFO"; tee "$LOGRUN" < "$FIFO" & "./$i" > "$FIFO" 2>&1 & PID=$!
-				echo "$PID" > .$i.pid
-				if [ $2 ] && [ $2 -lt $count ]; then break; fi   
-			fi
-		done
-		sleep $1
-	done
-}
-
-restart(){
-	$0 stop
-	if [ $1 ]; then sleep $1; fi
-	# 'stop' already waited for every server to end; just confirm they are
-	# down and clean up any leftover fifo before restarting.
-	for i in ${L_SRV} ${C_SRV} ${M_SRV}
-	do
-		FIFO="${i}_fifo"
-		wait_stop ${i}
-		if [ -e ./${FIFO} ]; then rm "$FIFO"; fi
-	done
-	$0 start
-}
-
-case $1 in
-    'start')
-		print_start
-		check_files
-		echo "Check complete."
-		echo "Looks like a good, nice rAthena!"
-		if [ "$2" = "--enlog" ]; then
-		 ENLOG=1
-		 if [ ! -d "$LOG_DIR" ]; then mkdir -p $LOG_DIR; fi
-		 echo "Logging is enabled in $LOG_DIR"
-		else
-		 echo "Logging is disabled"
-		fi
-		for i in ${L_SRV} ${C_SRV} ${M_SRV}
-		do
-			start_serv $i $ENLOG
-		done
-		echo "rAthena was started."
-	;;
-    'watch')
-		if [ ! -d "$LOG_DIR" ]; then mkdir -p $LOG_DIR; fi
-		if [ -z $2 ]; then Restart_count=10; else Restart_count=$2; fi
-		if [ -z $3 ]; then Restart_sleep=3; else Restart_sleep=$3; fi
-		echo "Going to watch rAthena for restart_count = $Restart_count, restart_sleep = $Restart_sleep"
-		for i in ${L_SRV} ${C_SRV} ${M_SRV}
-		do
-			start_serv $i 1
-		done
-		watch_serv $Restart_count $Restart_sleep
-		echo "Watching rAthena now."
-	;;	
-	'stop')
-		for i in ${M_SRV} ${C_SRV} ${L_SRV}
-		do
-			PIDFILE=.${i}.pid
-			if [ -e ./${PIDFILE} ]; then
-				SVPID=$(cat ${PIDFILE})
-				echo "Stopping '${i}' (p${SVPID}) - saving data & cleaning up, this can take a while..."
-				kill ${SVPID} 2>/dev/null
-				wait_stop ${i}
-				rm ${PIDFILE}
-			fi
-		done
-		echo "rAthena was stopped."
-	;;
-	'restart')
-		 restart
-	;;
-	'status')
-		for i in ${L_SRV} ${C_SRV} ${M_SRV}
-		do
-			get_status ${i}
-			if [ ${PSRUN} ]; then echo "'${i}' is running p${PSRUN}"; else echo "'${i}' seems to be down"; fi
-		done
-	;;
-	'val_runonce')
-		for i in ${L_SRV} ${C_SRV} ${M_SRV}
-		do
-			valgrind --leak-check=full --show-leak-kinds=all ./$i --run-once > "log/$i.runonce.leak"
-		done
-	;;
-	'valchk')
-		for i in ${L_SRV} ${C_SRV} ${M_SRV}
-		do
-			valgrind --leak-check=full --show-leak-kinds=all ./$i > "log/$i.runonce.leak"
-		done
-	;;
-	'help')
-		case $2 in
-			'start')
-				echo "syntax: 'start {--enlog}'"
-				echo "This option will start the servers"
-				echo "--enlog will write all terminal output into a log/$servname.log file"
-			;;
-			'stop')
-				echo "This option will shut the servers down"
-			;;
-			'restart')
-				echo "syntax: 'restart {<delay>}'"
-				echo "This option will wait for the given delay and will attempt to restart the servers afterwards"
-				echo "Note: Even if the delay is over it will wait until the pid is finished before attempting to restart the servers"
-			;;
-			'status')
-				echo "syntax: 'status'"
-				echo "This option will let you know whether the server are running or not"
-				echo "Note: This option is based on PID and requires that you have launched the servers with this script too"
-				echo "If this was not the case please use something like 'ps ax | grep server' to check their status"
-			;;
-			'watch')
-				echo "syntax: 'watch {<restart_interval> <restart_count>}'"
-				echo "The watch option allows you to automatically restart the servers when one of them was stopped"
-				echo "<restart_interval> delay in seconds before rechecking if a server is down (default 10) "
-				echo "<restart_count> how many times the servers should be restarted (default 3), (-1=indefinitly)"
-			;;
-			'val_runonce')
-				echo "syntax: 'val_runonce'"
-				echo "This option will run valgrin with run-once to check the servers"
-			;;
-			'valchk')
-				echo "syntax: 'valchk'"
-				echo "This option will run valgrin with the servers"
-			;;
+# Développe les groupes et vérifie les noms ; vide : tous les services.
+resolve_services() {
+	[ $# -eq 0 ] && set -- tout
+	resolved=""
+	for name in "$@"; do
+		case ${name} in
+			tout | all) resolved="${resolved} ${ALL_SERVICES}" ;;
+			rathena) resolved="${resolved} ${RATHENA_SERVICES}" ;;
 			*)
-				echo "Please specify a command you would like more info on { start | stop | restart | status | watch }"
-				read -p "Enter a valid command: " readEnterKey
-				$0 "help" $readEnterKey
-			;;
+				if ! is_known "${name}"; then
+					echo "Service inconnu : ${name}  (connus : ${ALL_SERVICES}, rathena, tout)" >&2
+					exit 2
+				fi
+				resolved="${resolved} ${name}"
+				;;
 		esac
-	;;
-	*)
-		echo "Usage: athena-start { start | stop | restart | status | watch | help | val_runonce | valchk }"
-		read -p "Enter a valid option: " readEnterKey
-		$0 $readEnterKey
-	;;
+	done
+	# Ordre de la table, sans doublon.
+	ordered=""
+	for known in ${ALL_SERVICES}; do
+		case " ${resolved} " in
+			*" ${known} "*) ordered="${ordered} ${known}" ;;
+		esac
+	done
+	echo "${ordered}"
+}
+
+reverse() {
+	out=""
+	for word in "$@"; do out="${word} ${out}"; done
+	echo "${out}"
+}
+
+# ---- état -------------------------------------------------------------------
+service_pids() {
+	pids=""
+	for pid in $(pgrep -u "$(id -u)" -f "$(service_pattern "$1")"); do
+		if [ "$(readlink "/proc/${pid}/cwd" 2>/dev/null)" = "${REPO_DIR}" ]; then
+			pids="${pids} ${pid}"
+		fi
+	done
+	echo "${pids# }"
+}
+
+is_running() {
+	if is_systemd "$1"; then
+		systemctl is-active --quiet "${SURVIVORS_UNIT}"
+	else
+		[ -n "$(service_pids "$1")" ]
+	fi
+}
+
+session_name() { echo "${SESSION_PREFIX}$1"; }
+
+screen_session_exists() {
+	screen -ls 2>/dev/null | grep -qF ".$(session_name "$1")	"
+}
+
+status_service() {
+	if is_systemd "$1"; then
+		state=$(systemctl is-active "${SURVIVORS_UNIT}" 2>/dev/null)
+		echo "  $1 : ${state}  (systemd ${SURVIVORS_UNIT})"
+		return
+	fi
+	pids=$(service_pids "$1")
+	if [ -z "${pids}" ]; then
+		echo "  $1 : arrêté"
+	elif screen_session_exists "$1"; then
+		echo "  $1 : en marche  p${pids}  (screen -r $(session_name "$1"))"
+	else
+		echo "  $1 : en marche  p${pids}  (hors de sa session screen)"
+	fi
+}
+
+# ---- démarrage --------------------------------------------------------------
+rotate_log() {
+	if [ -f "$1" ]; then mv -f "$1" "$1.1"; fi
+}
+
+start_service() {
+	name=$1
+	enlog=$2
+	if is_systemd "${name}"; then
+		if is_running "${name}"; then
+			echo "  ${name} tourne déjà."
+			return 0
+		fi
+		sudo -n systemctl start "${SURVIVORS_UNIT}" || return 1
+		echo "  ${name} démarré (systemd)."
+		return 0
+	fi
+	pids=$(service_pids "${name}")
+	if [ -n "${pids}" ]; then
+		echo "  ${name} tourne déjà (p${pids})."
+		return 0
+	fi
+	command=$(service_command "${name}")
+	program=${command%% *}
+	if [ ! -x "${program}" ]; then
+		echo "  ${name} : ${program} introuvable ou non exécutable."
+		return 1
+	fi
+	# Une session du même nom restée sans son service ne tient plus qu'un
+	# shell : la fermer, pour que `screen -r` désigne la nouvelle.
+	session=$(session_name "${name}")
+	if screen_session_exists "${name}"; then
+		screen -S "${session}" -X quit
+	fi
+	mkdir -p "${LOG_DIR}"
+	console_log="${LOG_DIR}/${name}.console.log"
+	rotate_log "${console_log}"
+	if [ -n "${enlog}" ]; then
+		echo "Service '${name}' lancé le $(date '+%Y-%m-%d %H:%M:%S')" >> "${LOG_DIR}/${name}.launch.log"
+	fi
+	screen -c "${SCREEN_RC}" -dmS "${session}" -L -Logfile "${console_log}" sh -c "exec ${command}"
+	sleep "${START_SETTLE_S}"
+	pids=$(service_pids "${name}")
+	if [ -z "${pids}" ]; then
+		echo "  ${name} : échec au démarrage, voir ${console_log}"
+		tail -n 5 "${console_log}" 2>/dev/null | sed 's/^/      /'
+		return 1
+	fi
+	echo "  ${name} démarré  p${pids}  (screen -r ${session})"
+}
+
+# ---- arrêt ------------------------------------------------------------------
+stop_service() {
+	name=$1
+	if is_systemd "${name}"; then
+		if ! is_running "${name}"; then
+			echo "  ${name} déjà arrêté."
+			return 0
+		fi
+		sudo -n systemctl stop "${SURVIVORS_UNIT}" || return 1
+		echo "  ${name} arrêté (systemd)."
+		return 0
+	fi
+	pids=$(service_pids "${name}")
+	if [ -z "${pids}" ]; then
+		echo "  ${name} déjà arrêté."
+		return 0
+	fi
+	echo "  ${name} : arrêt de p${pids} (sauvegarde des données, peut prendre un moment)..."
+	# shellcheck disable=SC2086 # une liste de pid, à découper
+	kill ${pids} 2>/dev/null
+	waited_s=0
+	while [ -n "$(service_pids "${name}")" ]; do
+		sleep 1
+		waited_s=$((waited_s + 1))
+		if [ $((waited_s % STOP_REPORT_S)) -eq 0 ]; then
+			echo "    ${name} : toujours en cours d'arrêt (${waited_s} s)"
+		fi
+	done
+	echo "  ${name} arrêté après ${waited_s} s."
+}
+
+# ---- surveillance -----------------------------------------------------------
+watch_services() {
+	interval_s=${1:-${WATCH_INTERVAL_S}}
+	max_restarts=${2:-${WATCH_MAX_RESTARTS}}
+	restarts=0
+	echo "Surveillance de ${RATHENA_SERVICES} toutes les ${interval_s} s, ${max_restarts} relances au plus (-1 : sans limite)."
+	while true; do
+		for name in ${RATHENA_SERVICES}; do
+			if ! is_running "${name}"; then
+				restarts=$((restarts + 1))
+				echo "$(date '+%Y-%m-%d %H:%M:%S') ${name} est tombé, relance ${restarts}"
+				start_service "${name}" 1
+				if [ "${max_restarts}" -ge 0 ] && [ "${restarts}" -ge "${max_restarts}" ]; then
+					echo "Nombre de relances atteint : surveillance arrêtée."
+					return 1
+				fi
+			fi
+		done
+		sleep "${interval_s}"
+	done
+}
+
+usage() {
+	sed -n '2,/^$/s/^# \{0,1\}//p' "$0"
+}
+
+# ---- commandes ----------------------------------------------------------------
+action=$1
+[ $# -gt 0 ] && shift
+enlog=""
+if [ "$1" = "--enlog" ]; then
+	enlog=1
+	shift
+fi
+
+case ${action} in
+	start | stop | restart | status)
+		# Dans $( ), un nom inconnu ne quitte que le sous-shell : le code
+		# de retour se relaie ici.
+		services=$(resolve_services "$@") || exit 2
+		;;
 esac
 
-
+case ${action} in
+	start)
+		failed=0
+		for name in ${services}; do
+			start_service "${name}" "${enlog}" || failed=1
+		done
+		exit ${failed}
+		;;
+	stop)
+		failed=0
+		for name in $(reverse ${services}); do
+			stop_service "${name}" || failed=1
+		done
+		exit ${failed}
+		;;
+	restart)
+		failed=0
+		for name in $(reverse ${services}); do
+			stop_service "${name}" || failed=1
+		done
+		[ ${failed} -eq 0 ] || exit 1
+		for name in ${services}; do
+			start_service "${name}" "${enlog}" || failed=1
+		done
+		exit ${failed}
+		;;
+	status)
+		for name in ${services}; do
+			status_service "${name}"
+		done
+		;;
+	watch)
+		watch_services "$@"
+		;;
+	help | -h | --help | "")
+		usage
+		;;
+	*)
+		echo "Commande inconnue : ${action}" >&2
+		usage >&2
+		exit 2
+		;;
+esac

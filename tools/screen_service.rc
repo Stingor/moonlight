@@ -1,0 +1,7 @@
+# Réglages des sessions screen ouvertes par ./start pour chaque service.
+# Le journal log/<service>.console.log se vide sur disque chaque seconde,
+# pour que MoonlightAdmin le suive presque en direct.
+logfile flush 1
+# Console qu'on remonte par Ctrl+A puis Échap une fois rattaché (screen -r).
+defscrollback 10000
+startup_message off
