@@ -737,8 +737,8 @@ que_thr	mapflag	noteleport
 3@ch_t	mapflag	monster_noteleport
 
 // Crash d'aeronef (patnawa) : jeu standard des instances 18/19
+// 1@mjo2 reste teleportable : ses mobs sont tires sur toute la caverne
 1@mjo1	mapflag	noteleport
-1@mjo2	mapflag	noteleport
 1@mjo1	mapflag	monster_noteleport
 1@mjo2	mapflag	monster_noteleport
 

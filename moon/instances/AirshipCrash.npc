@@ -21,6 +21,8 @@
 //=   depart, 60 maintenus) au lieu de 6 carres autour des Rope Piles ;
 //=   Rope Piles avec confirmation ; Cave Entrance et Cave Exit retires
 //=   du camp de 1@mjo1 (seuls Dungeon Gate et Leave Instance restent).
+//= - (2026-11-26) 120 mobs au depart et 100 maintenus, et 1@mjo2
+//=   teleportable : a 60, la caverne paraissait vide.
 //= Drops et EXP des mobs : Divine Pride (db/import/mobs/airship_crash.yml).
 //============================================================
 
@@ -561,7 +563,7 @@ OnInstanceInit:
 OnStartSpawns:
 	'map2$ = instance_mapname("1@mjo2");
 	.@label$ = instance_npcname("#AircrashCtrl") + "::OnMobDead";
-	for (.@i = 0; .@i < 80; .@i++)
+	for (.@i = 0; .@i < 120; .@i++)
 		callfunc("F_Aircrash_SpawnMob", 'map2$, .@label$, 'hp_mult);
 	mapannounce 'map2$, "Contaminated monsters have appeared in the cavity!", bc_map, 0xFFFF00;
 	end;
@@ -594,7 +596,7 @@ OnMobDead:
 			#aircrash_kills++;
 	}
 	'map2$ = instance_mapname("1@mjo2");
-	if (mobcount('map2$, instance_npcname("#AircrashCtrl") + "::OnMobDead") < 60)
+	if (mobcount('map2$, instance_npcname("#AircrashCtrl") + "::OnMobDead") < 100)
 		callfunc("F_Aircrash_SpawnMob", 'map2$, instance_npcname("#AircrashCtrl") + "::OnMobDead", 'hp_mult);
 	end;
 
