@@ -5304,6 +5304,11 @@ void npc_unsetcells(npc_data* nd)
 	int16 m = nd->m, x = nd->x, y = nd->y, xs, ys;
 	int32 i,j, x0, x1, y0, y1;
 
+	// [Stingor] À l'arrêt, les cellules des cartes sont libérées juste après :
+	// redessiner les zones des voisins est inutile, et quadratique (~100 s).
+	if( global_core->get_status() == rathena::server_core::e_core_status::SERVER_FINALIZING )
+		return;
+
 	if (nd->subtype == NPCTYPE_WARP) {
 		xs = nd->u.warp.xs;
 		ys = nd->u.warp.ys;
