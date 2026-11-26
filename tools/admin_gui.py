@@ -29,6 +29,7 @@ from tkinter import ttk, scrolledtext, simpledialog, messagebox, font as tkfont
 from admin_env import ENV_VAR, app_dir, default_secret, env_path
 from build_panel import SETTINGS_SECTION as BUILD_SECTION, BuildWindow
 from log_panel import SETTINGS_SECTION as LOGS_SECTION, LogWindow
+from npc_panel import NOT_CONNECTED_REPLY, SETTINGS_SECTION as NPC_SECTION, NpcWindow
 from ssh_panel import SETTINGS_SECTION as SSH_SECTION, SshWindow
 from tables_panel import SETTINGS_SECTION as TABLES_SECTION, TablesWindow
 
@@ -293,8 +294,10 @@ class AdminGUI:
         self.tables = TablesWindow(root, self.settings, self._bind_copy_menu)
         self.builder = BuildWindow(root, self.settings, self._bind_copy_menu, self.tables.vars)
         self.ssh = SshWindow(root, self.settings, self._bind_copy_menu,
-                             open_logs=lambda: self.logs.show())
+                             open_logs=lambda: self.logs.show(),
+                             open_npc=lambda: self.npc.show())
         self.logs = LogWindow(root, self.settings, self._bind_copy_menu, self.ssh)
+        self.npc = NpcWindow(root, self.settings, self._bind_copy_menu, self.ssh, self.send_admin)
         self._load_settings()
         self._set_connected(False)
 
@@ -375,6 +378,7 @@ class AdminGUI:
             BUILD_SECTION: self.builder.settings_data(),
             SSH_SECTION: self.ssh.settings_data(),
             LOGS_SECTION: self.logs.settings_data(),
+            NPC_SECTION: self.npc.settings_data(),
         }
         try:
             self.settings.save(data, self.favorites)
@@ -421,6 +425,8 @@ class AdminGUI:
                    command=lambda: self.ssh.show()).pack(side="left", padx=(6, 0))
         ttk.Button(opts, text="Journaux…",
                    command=lambda: self.logs.show()).pack(side="left", padx=(6, 0))
+        ttk.Button(opts, text="Atelier NPC…",
+                   command=lambda: self.npc.show()).pack(side="left", padx=(6, 0))
 
         ttk.Label(bar, text="Nom d'affichage").grid(row=1, column=4, padx=4, sticky="e")
         self.name_var = tk.StringVar(value=DEFAULT_NAME)
@@ -976,6 +982,9 @@ class AdminGUI:
             self._handle_side_state(*text)
         elif kind == "reply":
             self._log(text, "ok" if text.startswith("OK") else "err")
+        elif kind == "callback":
+            on_result, output, reply = text
+            on_result(output, reply)
         elif kind == "info":
             self._log(text, "info")
         elif kind == "connected":
@@ -1245,9 +1254,17 @@ class AdminGUI:
         self.cmd_entry.icursor("end")
         self.cmd_entry.focus_set()
 
-    def _send_async(self, line):
+    def send_admin(self, atcmd, on_result=None):
+        """Envoie une atcommande par le canal admin, pour une autre fenêtre.
+        `on_result(lignes, statut)` est rappelé dans le fil de l'interface :
+        lignes capturées, puis « OK … » ou « ERR … »."""
+        self._send_async("ATCMD " + atcmd, on_result)
+
+    def _send_async(self, line, on_result=None):
         if not self.conn.connected:
             self._log("Pas connecte.", "err")
+            if on_result is not None:
+                on_result([], NOT_CONNECTED_REPLY + " au canal admin")
             return
         name = self.name_var.get().strip() or DEFAULT_NAME
         self._log("> " + line, "sent")
@@ -1262,9 +1279,13 @@ class AdminGUI:
                 for out_line in output:
                     self.events.put(("output", out_line))
                 self.events.put(("reply", reply))
+                if on_result is not None:
+                    self.events.put(("callback", (on_result, output, reply)))
             except Exception as exc:  # noqa: BLE001
                 self.conn.close()
                 self.events.put(("lost", f"Erreur reseau: {exc}"))
+                if on_result is not None:
+                    self.events.put(("callback", (on_result, [], f"ERR réseau : {exc}")))
 
         threading.Thread(target=worker, daemon=True).start()
 

@@ -87,6 +87,21 @@ START_ACTIONS = (
 )
 
 
+NPC_CHECK = "tools/npc_check.py"
+NPC_CHECK_MISSING = f"{NPC_CHECK} absent sur le serveur : contrôle d'encodage sauté (git pull pour l'avoir)."
+
+
+def npc_check_command(paths=()):
+    """Le contrôle d'encodage des scripts, première étape d'un commit : une
+    erreur arrête la chaîne. Sans chemin, il porte sur ce que `commit -a`
+    emporterait."""
+    args = "".join(" " + shlex.quote(p) for p in paths)
+    separator = " --" if paths else ""
+    return RemoteCommand("contrôle d'encodage",
+                         f"if [ -f {NPC_CHECK} ]; then python3 {NPC_CHECK}{separator}{args}; "
+                         f"else echo {shlex.quote(NPC_CHECK_MISSING)}; fi")
+
+
 def start_command(action, target, confirm=""):
     return RemoteCommand(f"./start {action} {target}", f"./start {action} {shlex.quote(target)}",
                          confirm=confirm.format(cible=target))
@@ -113,9 +128,10 @@ def classify(line):
 class SshWindow:
     """Fenêtre « Serveur (SSH) », créée une fois, masquée à la fermeture."""
 
-    def __init__(self, root, settings, bind_copy_menu, open_logs=None):
+    def __init__(self, root, settings, bind_copy_menu, open_logs=None, open_npc=None):
         self.root = root
         self._open_logs = open_logs
+        self._open_npc = open_npc
         target = settings.get(SETTINGS_SECTION, "start_target", DEFAULT_START_TARGET)
         self.start_target_var = tk.StringVar(
             value=target if target in START_TARGETS else DEFAULT_START_TARGET)
@@ -134,6 +150,7 @@ class SshWindow:
         self._chain_started = None
         self._step_started = None
         self._commit_pending = False  # la chaîne en cours commite : vider le message si elle réussit
+        self._on_done = None          # rappel d'une chaîne lancée par une autre fenêtre
         self.win = None
 
     # ---- réglages -----------------------------------------------------------
@@ -204,6 +221,8 @@ class SshWindow:
         for cmd in GIT_COMMANDS:
             self._action(ttk.Button(row, text=cmd.label, command=lambda c=cmd: self._run([c]))).pack(
                 side="left", padx=2)
+        if self._open_npc is not None:
+            ttk.Button(row, text="Atelier NPC…", command=self._open_npc).pack(side="right", padx=2)
         commit = ttk.Frame(git)
         commit.pack(fill="x", padx=4, pady=(2, 4))
         ttk.Label(commit, text="Message").pack(side="left", padx=(2, 4))
@@ -321,12 +340,27 @@ class SshWindow:
             # gardent leur sens sans commit neuf.
             commit_line = (f"if git diff --quiet HEAD; then echo {shlex.quote(NOTHING_TO_COMMIT)}; "
                            f"else {commit_line}; fi")
-        steps = [RemoteCommand(f"commit « {message} »", commit_line)]
+        steps = [npc_check_command(), RemoteCommand(f"commit « {message} »", commit_line)]
         if rebase:
             steps.append(PULL_REBASE)
         if push:
             steps.append(GIT_PUSH)
         self._run(steps, commits=True)
+
+    def run_chain(self, steps, on_done=None):
+        """Lance `steps` pour une autre fenêtre, sortie montrée ici ;
+        `on_done(réussi)` est rappelé à la fin. False si rien n'a démarré."""
+        self.show()
+        if self.busy():
+            self._write("Une commande tourne déjà.", "fail")
+            return False
+        # Posé avant le départ : un ssh qui ne se lance pas finit la chaîne
+        # aussitôt, et le rappel doit déjà être là.
+        self._on_done = on_done
+        if not self._run(steps):
+            self._on_done = None
+            return False
+        return True
 
     def _run_free(self):
         line = self.free_var.get().strip()
@@ -408,6 +442,9 @@ class SshWindow:
             self.run_lbl.config(text=f"réussi  ({total:.1f} s)")
         self._commit_pending = False
         self._update_buttons()
+        on_done, self._on_done = self._on_done, None
+        if on_done is not None:
+            on_done(failed_label is None)
 
     def _stop(self):
         if self.runner.busy:
