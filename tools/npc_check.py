@@ -9,12 +9,14 @@ qui les affiche en Windows-1252. Un accent écrit en UTF-8 s'y afficherait
     python3 tools/npc_check.py [--fix] [--json] [chemin...]
     python3 tools/npc_check.py --all
     python3 tools/npc_check.py --status --json
+    python3 tools/npc_check.py --staged
 
 Sans chemin : les fichiers que `git commit -a` emporterait, c'est-à-dire les
 fichiers suivis modifiés ou ajoutés depuis HEAD. --all : tous les scripts
 suivis. --status : tout ce que montre `git status`, fichiers non suivis
 compris, avec leur état git et, pour ceux de moon/, leur déclaration dans un
-.conf (chargés ou non au démarrage du map-server).
+.conf (chargés ou non au démarrage du map-server). --staged : le contenu de l'index, que le commit
+emportera ; c'est ce que lance le crochet .githooks/pre-commit.
 
 Verdicts : « erreur » refuse le commit (code de sortie 1), « avertissement »
 le signale sans rien refuser. --fix corrige ce qui se corrige sans perte :
@@ -47,6 +49,7 @@ UNDEFINED_CP1252_BYTES = frozenset((0x81, 0x8D, 0x8F, 0x90, 0x9D))
 # Seules comptent celles qui donnent un caractère de Windows-1252 : le texte
 # coréen des scripts officiels, en EUC-KR, en forme d'autres par hasard.
 UTF8_SEQUENCE_RE = re.compile(rb"[\xc2-\xdf][\x80-\xbf]|[\xe0-\xef][\x80-\xbf]{2}|[\xf0-\xf4][\x80-\xbf]{3}")
+CHECK_SCRIPT = "tools/npc_check.py"
 CONF_NPC_RE = re.compile(r"^\s*(//)?\s*npc:\s*(\S+)")
 SHOWN_CHARACTERS = 5
 SHOWN_SEQUENCES = 3
@@ -203,6 +206,10 @@ def commit_a_paths():
     return split_z(git("diff", "--name-only", "-z", "--diff-filter=ACMR", "HEAD"))
 
 
+def staged_paths():
+    return split_z(git("diff", "--cached", "--name-only", "-z", "--diff-filter=ACMR"))
+
+
 def tracked_scripts():
     return [p for p in split_z(git("ls-files", "-z")) if is_game_text(p)]
 
@@ -279,6 +286,16 @@ def check_path(path):
     return report
 
 
+def check_staged(path):
+    """Le contenu de l'index, celui que le commit emportera : il peut différer
+    du fichier sur disque. `git commit -- <chemins>` pose son propre index par
+    GIT_INDEX_FILE, que git cat-file suit."""
+    report = FileReport(path)
+    if is_game_text(path):
+        check_bytes(report, git("cat-file", "blob", ":" + path))
+    return report
+
+
 def add_startup(report, declarations, code, origin):
     """Un script de moon/ ne se charge au démarrage que déclaré par une ligne
     `npc:` active d'un .conf : un nom neuf ou changé doit l'être, un nom
@@ -313,9 +330,11 @@ def status_reports():
     return reports
 
 
-def print_human(reports):
+def print_human(reports, show_ok=True):
     for report in reports:
         if not report.checked and not report.problems:
+            continue
+        if report.verdict == OK and not show_ok:
             continue
         head = {OK: "OK          ", WARNING: "AVERTISSEMENT", ERROR: "ERREUR      "}[report.verdict]
         print(f"{head} {report.path}")
@@ -332,6 +351,8 @@ def main():
     parser.add_argument("paths", nargs="*", help="chemins relatifs au dépôt")
     parser.add_argument("--all", action="store_true", help="tous les scripts suivis")
     parser.add_argument("--status", action="store_true", help="tout ce que montre git status")
+    parser.add_argument("--staged", action="store_true",
+                        help="le contenu de l'index (crochet pre-commit)")
     parser.add_argument("--fix", action="store_true", help="corriger ce qui se corrige sans perte")
     parser.add_argument("--json", action="store_true", help="sortie JSON")
     args = parser.parse_args()
@@ -344,6 +365,17 @@ def main():
             print(json.dumps({"branch": branch_state(), "files": [asdict(r) for r in reports]}))
         else:
             print_human(reports)
+        return 0
+
+    if args.staged:
+        if args.fix:
+            parser.error("--fix réécrit les fichiers sur disque, pas l'index : le lancer sans --staged")
+        reports = [check_staged(p) for p in staged_paths()]
+        print_human(reports, show_ok=False)
+        if any(r.verdict == ERROR for r in reports):
+            print(f"Commit refusé. Corriger sans perte : python3 {CHECK_SCRIPT} --fix, puis git add ; "
+                  f"passer outre : git commit --no-verify.")
+            return 1
         return 0
 
     paths = [p[2:] if p.startswith("./") else p for p in args.paths]

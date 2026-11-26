@@ -1,0 +1,12 @@
+#!/bin/sh
+# Contrôle d'encodage des scripts engagés (tools/npc_check.py --staged) :
+# une erreur refuse le commit, d'où qu'il parte (VSCode, terminal,
+# MoonlightAdmin). Actif là où `git config core.hooksPath .githooks` est posé.
+# Passer outre : git commit --no-verify.
+check=tools/npc_check.py
+[ -f "$check" ] || exit 0
+if ! command -v python3 >/dev/null 2>&1; then
+	echo "pre-commit : python3 absent, contrôle d'encodage sauté." >&2
+	exit 0
+fi
+exec python3 "$check" --staged
