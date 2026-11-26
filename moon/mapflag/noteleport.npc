@@ -749,7 +749,7 @@ que_thr	mapflag	noteleport
 // Episode 20 (brHades) : zones sures
 jor_safty1	mapflag	noteleport
 jor_safty2	mapflag	noteleport
-icas_in mapflag	noteleport
+icas_in	mapflag	noteleport
 icas_in2	mapflag	noteleport
 
 // Episode 20 : instances de brHades (sans nobranch, inverse sur Moonlight)
