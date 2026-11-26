@@ -28,6 +28,7 @@ from tkinter import ttk, scrolledtext, simpledialog, messagebox, font as tkfont
 
 from admin_env import ENV_VAR, app_dir, default_secret, env_path
 from build_panel import SETTINGS_SECTION as BUILD_SECTION, BuildWindow
+from ssh_panel import SETTINGS_SECTION as SSH_SECTION, SshWindow
 from tables_panel import SETTINGS_SECTION as TABLES_SECTION, TablesWindow
 
 DEFAULT_HOST = "192.168.1.13"
@@ -290,6 +291,7 @@ class AdminGUI:
         self._build_log()
         self.tables = TablesWindow(root, self.settings, self._bind_copy_menu)
         self.builder = BuildWindow(root, self.settings, self._bind_copy_menu, self.tables.vars)
+        self.ssh = SshWindow(root, self.settings, self._bind_copy_menu)
         self._load_settings()
         self._set_connected(False)
 
@@ -368,6 +370,7 @@ class AdminGUI:
                         "alerts": self.alerts_var.get()},
             TABLES_SECTION: self.tables.settings_data(),
             BUILD_SECTION: self.builder.settings_data(),
+            SSH_SECTION: self.ssh.settings_data(),
         }
         try:
             self.settings.save(data, self.favorites)
@@ -410,6 +413,8 @@ class AdminGUI:
                    command=lambda: self.tables.show()).pack(side="left", padx=(10, 0))
         ttk.Button(opts, text="Build client…",
                    command=lambda: self.builder.show()).pack(side="left", padx=(6, 0))
+        ttk.Button(opts, text="Serveur (SSH)…",
+                   command=lambda: self.ssh.show()).pack(side="left", padx=(6, 0))
 
         ttk.Label(bar, text="Nom d'affichage").grid(row=1, column=4, padx=4, sticky="e")
         self.name_var = tk.StringVar(value=DEFAULT_NAME)
@@ -1272,6 +1277,13 @@ class AdminGUI:
                     parent=self.root, icon="warning", default="no"):
                 return
             self.builder.runner.stop()
+        if self.ssh.busy():
+            if not messagebox.askyesno(
+                    "Commande SSH en cours",
+                    "Une commande tourne encore sur le serveur. L'arrêter et quitter ?",
+                    parent=self.root, icon="warning", default="no"):
+                return
+            self.ssh.runner.stop()
         self._want_connected = False  # stop any pending reconnect
         self._save_settings()
         if self.conn.connected:
