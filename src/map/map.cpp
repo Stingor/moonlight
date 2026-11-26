@@ -4466,6 +4466,8 @@ int32 map_config_read(const char *cfgName)
 			safestrncpy(console_log_filepath, w2, sizeof(console_log_filepath));
 		else if (strcmpi(w1, "moonclient_map_edit_mirror") == 0) // [Stingor]
 			map_edits_set_mirror(w2);
+		else if (strcmpi(w1, "moonclient_vscode_host") == 0) // [Stingor]
+			moonclient_vscode_host = w2;
 		else if (strcmpi(w1, "import") == 0)
 			map_config_read(w2);
 		else

@@ -3861,6 +3861,32 @@ static int32 npc_get_fixed_npc_id( const char* exname ){
 	return 0;
 }
 
+// [Stingor] LA LIGNE D'UN EN-TÊTE DE PNJ, comptée depuis le PNJ précédent du
+// même fichier. Les PNJ d'un fichier se lisent dans l'ordre : repartir du début
+// du tampon à chaque PNJ coûterait un balayage par PNJ sur des fichiers de
+// plusieurs centaines de kilo-octets. `npc_parsesrcfile` remet le compte à zéro
+// à chaque fichier, parce qu'un nouveau tampon peut reprendre l'adresse de
+// l'ancien.
+static const char* npc_line_buffer = nullptr;
+static const char* npc_line_at = nullptr;
+static int32 npc_line_count = 1;
+
+static void npc_source_line_reset(const char* buffer) {
+	npc_line_buffer = buffer;
+	npc_line_at = buffer;
+	npc_line_count = 1;
+}
+
+static int32 npc_source_line(const char* buffer, const char* start) {
+	if (buffer == nullptr || start == nullptr || start < buffer) return 0;
+	if (buffer != npc_line_buffer || start < npc_line_at) npc_source_line_reset(buffer);
+	for (const char* p = npc_line_at; p < start; ++p) {
+		if (*p == '\n') ++npc_line_count;
+	}
+	npc_line_at = start;
+	return npc_line_count;
+}
+
 /// Parses and sets the name and exname of a npc.
 /// Assumes that m, x and y are already set in nd.
 static void npc_parsename(npc_data* nd, const char* name, const char* start, const char* buffer, const char* filepath)
@@ -3868,6 +3894,8 @@ static void npc_parsename(npc_data* nd, const char* name, const char* start, con
 	const char* p;
 	npc_data* dnd;// duplicate npc
 	char newname[NPC_NAME_LENGTH+1];
+
+	nd->src_line = npc_source_line(buffer, start);
 
 	// parse name
 	p = strstr(name,"::");
@@ -6014,6 +6042,7 @@ int32 npc_parsesrcfile(const char* filepath)
 	// source file has extra indentation. TABs inside script blocks are left
 	// untouched. Must run before sv_parse and before len is used.
 	normalize_tabs_in_buffer(buffer);
+	npc_source_line_reset(buffer);
 	len = strlen(buffer); // recalculate: normalization may have shortened the buffer
 
 	// parse buffer

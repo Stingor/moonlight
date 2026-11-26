@@ -941,6 +941,9 @@ void clif_damage( block_list& src, block_list& dst, t_tick tick, int32 sdelay, i
 void clif_takeitem( const block_list& src, const block_list& dst);
 void clif_sitting ( const block_list& bl );
 void clif_standing( const block_list& bl );
+// [Stingor] L'hôte SSH de VSCode pour « Ouvrir la source » (map_athena.conf).
+extern std::string moonclient_vscode_host;
+
 void clif_show_wings(const map_session_data* sd); // [Stingor]
 void clif_hide_wings(const map_session_data* sd); // [Stingor]
 void clif_sprite_change( const block_list* bl, int32 id, int32 type, int32 val, int32 val2, enum send_target target );

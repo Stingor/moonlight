@@ -196,6 +196,10 @@ struct npc_data : public block_list {
 
 	void* chatdb; // pointer to a npc_parse struct (see npc_chat.cpp)
 	char* path;/* path dir */
+	// [Stingor] La ligne de l'en-tête du PNJ dans `path`, à partir de 1. Zéro :
+	// inconnue (PNJ créé hors d'un fichier). L'inspecteur du staff s'en sert pour
+	// ouvrir la source à la bonne place.
+	int32 src_line;
 	enum npc_subtype subtype;
 	bool trigger_on_hidden;
 	int32 src_id;

@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <filesystem>
 #include <fstream>
 #include <unordered_set>
 
@@ -7846,6 +7847,44 @@ void clif_parse_moonlight_reqmobinfo(int32 fd, map_session_data* sd) {
 // Sortie = liste clé/valeur (cf. PACKET_ZC_MOONLIGHT_ENTITY_PROPS) : une paire à
 // valeur vide est un titre de section. Le serveur décrit ce qu'il trouve ; le
 // client dessine, sans rien connaître des types du serveur.
+
+// [Stingor] L'hôte SSH par lequel VSCode joint ce serveur (`moonclient_vscode_host`
+// de map_athena.conf). Vide : la source s'ouvre en local.
+std::string moonclient_vscode_host;
+
+// [Stingor] L'ADRESSE QUI OUVRE LA SOURCE D'UN PNJ DANS VSCODE, à la ligne de son
+// en-tête : `vscode://file/<chemin>` en local, `vscode://vscode-remote/ssh-remote+
+// <hôte>/<chemin>` à distance. Le client ne l'ouvre que si elle commence par
+// `vscode://`. Vide : le PNJ ne vient d'aucun fichier lisible ici — un duplicate
+// d'instance porte « INSTANCING » en guise de chemin —, et c'est alors la source
+// de l'original qui est désignée.
+static std::string clif_moonlight_source_url(const npc_data* nd) {
+	for (int32 hop = 0; nd != nullptr && hop < 2; ++hop) {
+		std::error_code error;
+		const std::filesystem::path file =
+			nd->path != nullptr ? std::filesystem::absolute(nd->path, error) : std::filesystem::path();
+		if (!file.empty() && !error && std::filesystem::is_regular_file(file, error)) {
+			std::string where = file.lexically_normal().generic_string();
+			if (where.empty() || where[0] != '/') where.insert(where.begin(), '/');
+			std::string url = moonclient_vscode_host.empty()
+				? "vscode://file" + where
+				: "vscode://vscode-remote/ssh-remote+" + moonclient_vscode_host + where;
+			if (nd->src_line > 0) url += ":" + std::to_string(nd->src_line) + ":1";
+			std::string encoded;
+			for (char c : url) {
+				if (c == ' ') encoded += "%20";
+				else encoded += c;
+			}
+			// Une valeur de la fiche est tronquée à 191 octets : une adresse coupée
+			// ouvrirait un autre fichier, ou aucun.
+			constexpr size_t kMaxPropValue = 191;
+			return encoded.size() <= kMaxPropValue ? encoded : std::string();
+		}
+		nd = (nd->src_id != 0 && nd->src_id != nd->id) ? map_id2nd(nd->src_id) : nullptr;
+	}
+	return "";
+}
+
 void clif_parse_moonlight_req_entity_props(int32 fd, map_session_data* sd) {
 	nullpo_retv(sd);
 	if (!sd->state.client_verified) return;
@@ -8035,6 +8074,9 @@ void clif_parse_moonlight_req_entity_props(int32 fd, map_session_data* sd) {
 		add("Sprite", num(nd->class_));
 		// 🔴 LA raison d'être de ce paquet côté NPC : d'où vient ce script.
 		if (nd->path != nullptr && *nd->path != '\0') add("Fichier", nd->path);
+		if (nd->src_line > 0) add("Ligne", num(nd->src_line));
+		// [Stingor] Lue par le bouton « Ouvrir la source » du client, sous cette clé.
+		if (const std::string url = clif_moonlight_source_url(nd); !url.empty()) add("Source VSCode", url);
 		if (nd->src_id != 0 && nd->src_id != nd->id) add("Duplique de", num(nd->src_id));
 		if (nd->instance_id != 0) add("Instance", num(nd->instance_id));
 		if (nd->subtype == NPCTYPE_WARP) {
