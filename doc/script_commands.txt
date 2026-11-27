@@ -10167,7 +10167,7 @@ this npc in the navigation generation.
 ========================
 ---------------------------------------
 
-*instance_create("<instance name>"{,<instance mode>{,<owner id>}});
+*instance_create("<instance name>"{,<instance mode>{,<owner id>{,<hardmode>{,<turbomode>}}}});
 
 Creates an instance for the <owner id> of <mode>. The instance name, along with
 all other instance data, is read from 'db/(pre-)re/instance_db.yml'. Upon success,
