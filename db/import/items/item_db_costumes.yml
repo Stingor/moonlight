@@ -17342,14 +17342,14 @@ Body:
     View: 2348
   - Id: 400414
     AegisName: C_Armored_Copo
-    Name: Costume strong copo    # !todo check english name
+    Name: Costume strong copo
     Type: Armor
     Locations:
       Costume_Head: true
     View: 2356
   - Id: 400415
     AegisName: C_Egg_Copo
-    Name: Fashionable Copo    # !todo check english name
+    Name: Costume Dandy Copo
     Type: Armor
     Locations:
       Costume_Head: true
@@ -25023,20 +25023,3 @@ Body:
     Locations:
       Costume_Head: true
     View: 2311
-  # Episode 20 : costumes de l'Alliance du Chat Blanc (db/re, noms du client)
-  - Id: 400414
-    AegisName: C_Armored_Copo
-    Name: Costume Strong Copo
-    Type: Armor
-    Locations:
-      Costume_Head_Top: true
-    ArmorLevel: 1
-    View: 2356
-  - Id: 400415
-    AegisName: C_Egg_Copo
-    Name: Costume Dandy Copo
-    Type: Armor
-    Locations:
-      Costume_Head_Top: true
-    ArmorLevel: 1
-    View: 2357
