@@ -4,8 +4,10 @@ Suit en direct, par ssh, la console des services que lance ./start sur
 pc-serv : `tail -F log/<service>.console.log` pour ceux du dépôt (écrite
 par leur session screen), `journalctl -f` pour l'unité systemd survivors.
 
-Chaque source cochée est un processus ssh à elle ; la décocher l'arrête.
-Les lignes reçues se gardent en mémoire, et les filtres — sources affichées,
+Chaque source cochée est un processus ssh à elle ; la décocher la masque
+sans arrêter son suivi, qui ne cesse qu'à la fermeture de la fenêtre. Un
+suivi qui reprend relit les dernières lignes du journal et remplace celles
+de la source déjà en mémoire. Les lignes reçues se gardent en mémoire, et les filtres — sources affichées,
 recherche (texte ou expression régulière), erreurs seules — s'appliquent
 aussi à ce qui est déjà affiché.
 
@@ -137,7 +139,7 @@ class LogWindow:
         body = ttk.Frame(self.win)
         body.pack(fill="both", expand=True)
 
-        sources = ttk.LabelFrame(body, text="Sources suivies  (cocher : suivre et afficher)")
+        sources = ttk.LabelFrame(body, text="Sources suivies  (cocher : suivre et afficher ; décocher : masquer)")
         sources.pack(fill="x", padx=8, pady=(8, 4))
         self.state_lbls = {}
         for column, source in enumerate(LOG_SOURCES):
@@ -187,22 +189,23 @@ class LogWindow:
 
     # ---- suivi --------------------------------------------------------------
     def _sync_followers(self):
-        """Un ssh par source cochée ; une source décochée est arrêtée et ses
-        lignes masquées."""
+        """Un ssh par source cochée. Décocher ne fait que masquer : le suivi
+        continue, sans trou à combler ni historique à relire au retour."""
         if not self._shown:
             return
         for source in LOG_SOURCES:
-            wanted = self.follow_vars[source.key].get()
-            running = source.key in self._runners
-            if wanted and not running:
+            if self.follow_vars[source.key].get() and source.key not in self._runners:
                 self._start_follow(source)
-            elif not wanted and running:
-                runner, _events = self._runners.pop(source.key)
-                runner.stop()
         self._update_state()
         self._render()
 
     def _start_follow(self, source):
+        # Le suivi rapatrie les BACKLOG_LINES dernières lignes : celles déjà
+        # en mémoire pour cette source, d'un suivi précédent, en feraient des
+        # doublons.
+        kept = [entry for entry in self._lines if entry[1] != source.key]
+        self._lines.clear()
+        self._lines.extend(kept)
         events = queue.Queue()
         runner = ProcessRunner(events)
         try:
