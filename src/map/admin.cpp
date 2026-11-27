@@ -11,8 +11,12 @@
 #include "../common/showmsg.hpp"
 #include "../common/strlib.hpp"
 
+#include "../common/socket.hpp"
+
 #include "atcommand.hpp"
+#include "guild.hpp"
 #include "map.hpp"
+#include "party.hpp"
 #include "pc.hpp"
 #include "pc_groups.hpp"
 
@@ -28,6 +32,8 @@
  *    RELOAD <target>    shortcut for "@reload<target>" (itemdb, mobdb, skilldb,
  *                       script, battleconf, statusdb, atcommand, ...)
  *    ATCMD <command>    run any atcommand (a leading '@' is optional)
+ *    PLAYERS            one ": " line per online character, fields separated
+ *                       by a tab, then "OK PLAYERS <count>" (see admin_players)
  * ============================================================================
  */
 
@@ -50,9 +56,67 @@ bool admin_capture_line( const char* mes ){
 	return true;
 }
 
-/// RELOAD and ATCMD, called by the shared channel once the session is
-/// authenticated. Returns false for an unknown command.
+/// A free-text field of a PLAYERS line: a tab inside a name would shift
+/// every column after it.
+static std::string admin_field( const char* text ){
+	std::string field = text != nullptr ? text : "";
+	for( char& c : field ){
+		if( c == '\t' ){
+			c = ' ';
+		}
+	}
+	return field;
+}
+
+/// PLAYERS: every online character, hidden GMs included, one line each.
+/// Fields, in order: char_id, account_id, name, base_level, job_level, job
+/// name, group_id, map, x, y, party name, guild name, vending (0/1),
+/// autotrade (0/1), idle seconds. A field may be empty, never absent.
+static void admin_players( int32 fd ){
+	int32 count = 0;
+	s_mapiterator* iter = mapit_getallusers();
+	for( map_session_data* pl_sd = (TBL_PC*)mapit_first( iter ); mapit_exists( iter ); pl_sd = (TBL_PC*)mapit_next( iter ) ){
+		struct party_data* party = party_search( pl_sd->status.party_id );
+		const auto& guild = pl_sd->guild;
+		const std::string fields[] = {
+			std::to_string( pl_sd->status.char_id ),
+			std::to_string( pl_sd->status.account_id ),
+			admin_field( pl_sd->status.name ),
+			std::to_string( pl_sd->status.base_level ),
+			std::to_string( pl_sd->status.job_level ),
+			admin_field( job_name( pl_sd->status.class_ ) ),
+			std::to_string( pc_get_group_id( pl_sd ) ),
+			admin_field( mapindex_id2name( pl_sd->mapindex ) ),
+			std::to_string( pl_sd->x ),
+			std::to_string( pl_sd->y ),
+			admin_field( party != nullptr ? party->party.name : "" ),
+			admin_field( guild != nullptr ? guild->guild.name : "" ),
+			pl_sd->state.vending ? "1" : "0",
+			pl_sd->state.autotrade ? "1" : "0",
+			std::to_string( static_cast<int64>( last_tick - pl_sd->idletime ) ),
+		};
+		std::string line = ": ";
+		for( size_t i = 0; i < ARRAYLENGTH( fields ); ++i ){
+			if( i > 0 ){
+				line += '\t';
+			}
+			line += fields[i];
+		}
+		admin_reply( fd, line );
+		count++;
+	}
+	mapit_free( iter );
+	admin_reply( fd, "OK PLAYERS " + std::to_string( count ) );
+}
+
+/// RELOAD, ATCMD and PLAYERS, called by the shared channel once the session
+/// is authenticated. Returns false for an unknown command.
 static bool admin_map_exec( int32 fd, s_admin_session& asd, const std::string& cmd, const std::string& arg ){
+	if( cmd == "PLAYERS" ){
+		admin_players( fd );
+		return true;
+	}
+
 	// Everything here is turned into an atcommand run by the virtual GM.
 	std::string atcmd;
 	if( cmd == "RELOAD" ){

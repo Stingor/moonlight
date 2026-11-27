@@ -27,7 +27,8 @@ SCRIPT = os.path.join(HERE, "admin_gui.py")
 ICON = os.path.join(HERE, "admin.ico")  # optional
 # Modules frozen into the exe (PyInstaller follows admin_gui.py's imports).
 SOURCES = ("admin_gui.py", "admin_env.py", "tables_panel.py", "build_panel.py", "ssh_panel.py", "log_panel.py", "npc_panel.py", "status_bar.py",
-           "atcmd_catalog.py", "player_actions.py", "maintenance_panel.py", "remote_console.py")
+           "atcmd_catalog.py", "player_actions.py", "maintenance_panel.py", "remote_console.py",
+           "players_panel.py")
 
 
 def _is_up_to_date():

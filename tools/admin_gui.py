@@ -33,6 +33,7 @@ from log_panel import SETTINGS_SECTION as LOGS_SECTION, LogWindow
 from maintenance_panel import SETTINGS_SECTION as MAINTENANCE_SECTION, MaintenanceWindow
 from npc_panel import NOT_CONNECTED_REPLY, SETTINGS_SECTION as NPC_SECTION, NpcWindow
 from player_actions import add_player_menu
+from players_panel import SETTINGS_SECTION as PLAYERS_SECTION, PlayersWindow
 from ssh_panel import SETTINGS_SECTION as SSH_SECTION, SshWindow
 from status_bar import SETTINGS_SECTION as STATUS_SECTION, StatusBar
 from tables_panel import SETTINGS_SECTION as TABLES_SECTION, TablesWindow
@@ -308,6 +309,8 @@ class AdminGUI:
         self.logs = LogWindow(root, self.settings, self._bind_copy_menu, self.ssh)
         self.npc = NpcWindow(root, self.settings, self._bind_copy_menu, self.ssh, self.send_admin)
         self.status_bar = StatusBar(root, self.connection_bar, self.settings, self.ssh, self._status_alert)
+        self.players = PlayersWindow(root, self.settings, self.send_quiet,
+                                     lambda cmd: self._send_async("ATCMD " + cmd))
         self.maintenance = MaintenanceWindow(root, self.settings, self.ssh, self.send_admin,
                                              lambda text, urgent: self._alert("maintenance", text, urgent))
         self._load_settings()
@@ -393,6 +396,7 @@ class AdminGUI:
             NPC_SECTION: self.npc.settings_data(),
             STATUS_SECTION: self.status_bar.settings_data(),
             MAINTENANCE_SECTION: self.maintenance.settings_data(),
+            PLAYERS_SECTION: self.players.settings_data(),
         }
         try:
             self.settings.save(data, self.favorites)
@@ -442,6 +446,8 @@ class AdminGUI:
                    command=lambda: self.logs.show()).pack(side="left", padx=(6, 0))
         ttk.Button(opts, text="Atelier NPC…",
                    command=lambda: self.npc.show()).pack(side="left", padx=(6, 0))
+        ttk.Button(opts, text="Joueurs…",
+                   command=lambda: self.players.show()).pack(side="left", padx=(6, 0))
         ttk.Button(opts, text="Maintenance…",
                    command=lambda: self.maintenance.show()).pack(side="left", padx=(6, 0))
 
@@ -1351,14 +1357,21 @@ class AdminGUI:
         lignes capturées, puis « OK … » ou « ERR … »."""
         self._send_async("ATCMD " + atcmd, on_result)
 
-    def _send_async(self, line, on_result=None):
+    def send_quiet(self, line, on_result):
+        """Une ligne du protocole envoyée pour une autre fenêtre, sans rien
+        écrire au journal : un relevé répété (PLAYERS) l'inonderait."""
+        self._send_async(line, on_result, quiet=True)
+
+    def _send_async(self, line, on_result=None, quiet=False):
         if not self.conn.connected:
-            self._log("Pas connecte.", "err")
+            if not quiet:
+                self._log("Pas connecte.", "err")
             if on_result is not None:
                 on_result([], NOT_CONNECTED_REPLY + " au canal admin")
             return
         name = self.name_var.get().strip() or DEFAULT_NAME
-        self._log("> " + line, "sent")
+        if not quiet:
+            self._log("> " + line, "sent")
 
         def worker():
             try:
@@ -1367,9 +1380,10 @@ class AdminGUI:
                     self.conn.send("NAME " + name)
                     self._last_name = name
                 output, reply = self.conn.send(line)
-                for out_line in output:
-                    self.events.put(("output", out_line))
-                self.events.put(("reply", reply))
+                if not quiet:
+                    for out_line in output:
+                        self.events.put(("output", out_line))
+                    self.events.put(("reply", reply))
                 if on_result is not None:
                     self.events.put(("callback", (on_result, output, reply)))
             except Exception as exc:  # noqa: BLE001
