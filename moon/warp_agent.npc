@@ -299,7 +299,6 @@ L_Instance:
 					"Temple of Demon God",
 					"Thanatos Tower",
 					"Tomb of Remorse",
-					"Twilight Garden",
 					"Villa of Deception",
 					"Water Garden",
 					"Weekend Dungeon (sam./dim.)",
@@ -357,7 +356,6 @@ L_Instance:
 					INST_TEMPLE_OF_THE_DEMON_GOD,
 					INST_THANATOS_TOWER,
 					INST_TOMB_OF_REMORSE,
-					INST_TWILIGHT_GARDEN,
 					INST_VILLA_OF_DECEPTION,
 					INST_WATER_GARDEN,
 					INST_WEEKEND_DUNGEON,
@@ -416,7 +414,6 @@ L_Instance:
 					7605,  // INST_TEMPLE_OF_THE_DEMON_GOD
 					18028, // INST_THANATOS_TOWER
 					16464, // INST_TOMB_OF_REMORSE
-					18017, // INST_TWILIGHT_GARDEN (quete de chasse, toujours libre)
 					12522, // INST_VILLA_OF_DECEPTION
 					16439, // INST_WATER_GARDEN
 					12378, // INST_WEEKEND_DUNGEON
@@ -441,7 +438,8 @@ L_Instance:
 	switch( .@inst[.@sel - 1] ) {
 		// EPISODE 17.2 : chaque instance s'ouvre par la chaine de quetes, et son PNJ d'entree
 		// pose lui-meme ses quetes (modes, recompenses, cooldown). Le warp agent envoie donc
-		// pres de lui, sans rien sauter.
+		// pres de lui, sans rien sauter. Le Jardin du Crepuscule ne se joue que dans la chaine
+		// (ep17_2_main 31, Est n'ouvre l'instance qu'a cette etape) : il n'est pas au menu.
 		case INST_FARM_LOST_IN_TIME: { // Ferme Perdue : Luina
 			warp_fct("ba_maison", 311, 204);
 		}
@@ -450,9 +448,6 @@ L_Instance:
 		}
 		case INST_HIDDEN_FLOWER_GARDEN: { // Jardin de Fleurs Cache et Zones de Securite : l'assistant du perimetre
 			warp_fct("ba_maison", 120, 318);
-		}
-		case INST_TWILIGHT_GARDEN: { // Jardin du Crepuscule : Est
-			warp_fct("ba_in01", 51, 155);
 		}
 		case INST_WATER_GARDEN: { // Jardin d'Eau, normal et difficile : Harad
 			warp_fct("ba_maison", 238, 46);
