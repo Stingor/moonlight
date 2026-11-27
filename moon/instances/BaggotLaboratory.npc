@@ -305,7 +305,7 @@ OnInstanceInit:
 jor_nest,66,260,3	script	Arolong#ep19re2	4_EP19_IWIN,{
 	if (ep19_main < 100)
 		end;
-	if (checkweight(1000811,1) == 0) {
+	if (checkweight(1000811,1,1000608,4) == 0) {
 		mes "[Arolong]";
 		mes "- Your bag is full. Please check the weight and quantity of items you have and then talk to us again. -";
 		close;
@@ -351,8 +351,10 @@ jor_nest,66,260,3	script	Arolong#ep19re2	4_EP19_IWIN,{
 		close2;
 		erasequest 16662;
 		setquest 16663;
+		add_reputation_points( REPUTATION_EP19, 10 );
+		getitem 1000608,4;	// Ep19_Snow_Flower
 		getitem 1000811,1;	// Snow_F_Ore
-		// todo
+		getexp 11698065,16290240;
 		end;
 	}
 	// Note: Player can re-enter / re-create an instance until the boss is defeated
