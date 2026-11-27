@@ -83,6 +83,8 @@ Thumbs.db
 /log/*.log
 # Console précédente d'un service, gardée par ./start à chaque démarrage.
 /log/*.log.1
+# Core d'un service mort, rangé par ./start.
+/log/core.*
 /log/*.leaks
 
 # /src/char/

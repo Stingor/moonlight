@@ -36,7 +36,9 @@ SETTINGS_SECTION = "journaux"
 BUFFER_LINES = 20000
 # Lignes déjà présentes rapatriées à l'ouverture d'une source.
 BACKLOG_LINES = 300
-DEFAULT_ALERT_PATTERN = r"Traceback|Segmentation fault|segfault|core dumped|\[Fatal Error\]|Exception"
+# « [start] … mort » : la ligne qu'écrit ./start quand un service meurt.
+DEFAULT_ALERT_PATTERN = (r"Traceback|Segmentation fault|segfault|core dumped|\[Fatal Error\]|Exception"
+                         r"|\[start\] .* mort")
 # L'historique relu arrive d'un bloc au départ d'un suivi : il n'alerte pas.
 BACKLOG_GRACE_S = 3
 ALERT_COOLDOWN_S = 60

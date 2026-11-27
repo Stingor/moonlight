@@ -33,6 +33,7 @@ from datetime import datetime
 from tkinter import messagebox, scrolledtext, ttk
 
 from remote_console import REMOTE_ENV, InteractiveRunner, visible
+from debug_section import DebugSection
 from repo_state import RepoStateBar
 from tables_panel import CONSOLE_COLORS, DRAIN_MS
 
@@ -205,6 +206,7 @@ class SshWindow:
         if self.win is None:
             self._build()
             self.repo_state.refresh()
+            self.debug.refresh()
         self.win.deiconify()
         self.win.lift()
 
@@ -290,6 +292,8 @@ class SshWindow:
                 side="left", padx=2)
         if self._open_logs is not None:
             ttk.Button(services, text="Journaux…", command=self._open_logs).pack(side="right", padx=4)
+
+        self.debug = DebugSection(body, self, RemoteCommand)
 
         free = ttk.LabelFrame(body, text="Commande libre  (dans le dossier du dépôt ; ↑ ↓ : historique)")
         free.pack(fill="x", padx=8, pady=4)
@@ -524,8 +528,10 @@ class SshWindow:
             # Le délai court depuis la fin de la chaîne : un arrêt long ne l'use pas.
             self._service_action_at = time.monotonic()
             self._chain_stops = False
-        # Une chaîne a pu commiter, tirer ou laisser un conflit : l'état se relit.
+        # Une chaîne a pu commiter, tirer, laisser un conflit, ou un service
+        # mourir : l'état du dépôt et la liste des cores se relisent.
         self.repo_state.refresh()
+        self.debug.refresh()
         on_done, self._on_done = self._on_done, None
         if on_done is not None:
             on_done(failed_label is None)

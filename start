@@ -21,6 +21,12 @@
 # La console de chaque session s'écrit aussi dans log/<service>.console.log ;
 # la précédente est gardée en .console.log.1.
 #
+# Un service tourne avec `ulimit -c unlimited`. S'il meurt en laissant un
+# core (le noyau l'appelle « core », dans ce dossier), il devient
+# log/core.<service>.<date>, les CORE_KEEP derniers seuls gardés, et la
+# console du service le dit par une ligne « [start] … signal N, core gardé ».
+# tools/server_debug.py les lit.
+#
 # status --machine écrit une ligne par service, champs séparés par une
 # tabulation : nom, running ou stopped, pid (vide pour systemd ou arrêté).
 #
@@ -44,6 +50,13 @@ START_SETTLE_S=1
 # Vidange du journal et défilement se règlent au lancement de la session :
 # un `screen -X logfile flush` envoyé ensuite ne prend pas.
 SCREEN_RC=./tools/screen_service.rc
+# Un core de map-server pèse quelques centaines de Mio : les derniers suffisent.
+CORE_KEEP=3
+# Un processus tué par le signal N rend 128 + N ; TERM et INT sont ceux d'un
+# arrêt demandé, qui ne se signale pas.
+SIGNAL_EXIT_BASE=128
+TERM_SIGNAL=15
+INT_SIGNAL=2
 SESSION_PREFIX="$(basename "${REPO_DIR}")-"
 WATCH_INTERVAL_S=10
 WATCH_MAX_RESTARTS=10
@@ -164,6 +177,27 @@ rotate_log() {
 	if [ -f "$1" ]; then mv -f "$1" "$1.1"; fi
 }
 
+# Le texte du `sh -c` qui fait tourner un service : cores permis, et un core
+# laissé à sa mort rangé sous log/, les CORE_KEEP derniers du service gardés.
+# $1 : le service, $2 : sa commande.
+service_wrapper() {
+	cat <<EOF
+ulimit -c unlimited
+$2
+code=\$?
+signal=\$((code > ${SIGNAL_EXIT_BASE} ? code - ${SIGNAL_EXIT_BASE} : 0))
+if [ -f core ]; then
+	kept="${LOG_DIR}/core.$1.\$(date +%Y%m%d-%H%M%S)"
+	mv -f core "\$kept"
+	ls -1t ${LOG_DIR}/core.$1.* 2>/dev/null | tail -n +$((CORE_KEEP + 1)) | xargs -r rm -f
+	echo "[start] $1 mort (code \$code, signal \$signal), core gardé : \$kept"
+elif [ "\$signal" -gt 0 ] && [ "\$signal" -ne ${TERM_SIGNAL} ] && [ "\$signal" -ne ${INT_SIGNAL} ]; then
+	echo "[start] $1 mort (code \$code, signal \$signal), sans core"
+fi
+exit \$code
+EOF
+}
+
 start_service() {
 	name=$1
 	enlog=$2
@@ -199,7 +233,8 @@ start_service() {
 	if [ -n "${enlog}" ]; then
 		echo "Service '${name}' lancé le $(date '+%Y-%m-%d %H:%M:%S')" >> "${LOG_DIR}/${name}.launch.log"
 	fi
-	screen -c "${SCREEN_RC}" -dmS "${session}" -L -Logfile "${console_log}" sh -c "exec ${command}"
+	screen -c "${SCREEN_RC}" -dmS "${session}" -L -Logfile "${console_log}" \
+		sh -c "$(service_wrapper "${name}" "${command}")"
 	sleep "${START_SETTLE_S}"
 	pids=$(service_pids "${name}")
 	if [ -z "${pids}" ]; then
