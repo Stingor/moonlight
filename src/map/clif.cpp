@@ -117,7 +117,8 @@ enum e_inventory_type{
 
 /** Converts item type to display it on client if necessary.
 * @param nameid: Item ID
-* @return item type. For IT_PETEGG will be displayed as IT_ARMOR. If Shadow Weapon of IT_SHADOWGEAR as IT_WEAPON and else as IT_ARMOR
+* @return item type. If Shadow Weapon of IT_SHADOWGEAR as IT_WEAPON and else as IT_ARMOR.
+* IT_PETEGG is sent as is: moonclient ranks eggs by their own type, not as armors.
 */
 static inline int32 itemtype(t_itemid nameid) {
 	struct item_data* id = itemdb_search(nameid); //Use itemdb_search, so non-existence item will use dummy data and won't crash the server. bugreport:8468
@@ -128,7 +129,7 @@ static inline int32 itemtype(t_itemid nameid) {
 		else
 			return IT_ARMOR;
 	}
-	return ( type == IT_PETEGG ) ? IT_ARMOR : type;
+	return type;
 }
 
 // TODO: doc
