@@ -4,7 +4,7 @@
 #   ./start start   [--enlog] [service...]
 #   ./start stop    [service...]
 #   ./start restart [--enlog] [service...]
-#   ./start status  [service...]
+#   ./start status  [--machine] [service...]
 #   ./start watch   [intervalle_s] [relances_max]
 #   ./start help
 #
@@ -20,6 +20,9 @@
 # sessions : tools/screen_service.rc.
 # La console de chaque session s'écrit aussi dans log/<service>.console.log ;
 # la précédente est gardée en .console.log.1.
+#
+# status --machine écrit une ligne par service, champs séparés par une
+# tabulation : nom, running ou stopped, pid (vide pour systemd ou arrêté).
 #
 # survivors est une unité systemd : il se pilote par `sudo -n systemctl`, et
 # son journal se lit par `journalctl -u survivors-verify-queue`.
@@ -131,6 +134,13 @@ session_name() { echo "${SESSION_PREFIX}$1"; }
 
 screen_session_exists() {
 	screen -ls 2>/dev/null | grep -qF ".$(session_name "$1")	"
+}
+
+machine_status() {
+	if is_running "$1"; then state=running; else state=stopped; fi
+	pids=""
+	is_systemd "$1" || pids=$(service_pids "$1")
+	printf '%s\t%s\t%s\n' "$1" "${state}" "${pids}"
 }
 
 status_service() {
@@ -265,6 +275,11 @@ if [ "$1" = "--enlog" ]; then
 	enlog=1
 	shift
 fi
+machine=""
+if [ "$1" = "--machine" ]; then
+	machine=1
+	shift
+fi
 
 case ${action} in
 	start | stop | restart | status)
@@ -302,7 +317,7 @@ case ${action} in
 		;;
 	status)
 		for name in ${services}; do
-			status_service "${name}"
+			if [ -n "${machine}" ]; then machine_status "${name}"; else status_service "${name}"; fi
 		done
 		;;
 	watch)

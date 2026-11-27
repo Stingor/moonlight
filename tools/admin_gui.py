@@ -31,6 +31,7 @@ from build_panel import SETTINGS_SECTION as BUILD_SECTION, BuildWindow
 from log_panel import SETTINGS_SECTION as LOGS_SECTION, LogWindow
 from npc_panel import NOT_CONNECTED_REPLY, SETTINGS_SECTION as NPC_SECTION, NpcWindow
 from ssh_panel import SETTINGS_SECTION as SSH_SECTION, SshWindow
+from status_bar import SETTINGS_SECTION as STATUS_SECTION, StatusBar
 from tables_panel import SETTINGS_SECTION as TABLES_SECTION, TablesWindow
 
 DEFAULT_HOST = "192.168.1.13"
@@ -298,6 +299,7 @@ class AdminGUI:
                              open_npc=lambda: self.npc.show())
         self.logs = LogWindow(root, self.settings, self._bind_copy_menu, self.ssh)
         self.npc = NpcWindow(root, self.settings, self._bind_copy_menu, self.ssh, self.send_admin)
+        self.status_bar = StatusBar(root, self.connection_bar, self.settings, self.ssh, self._status_alert)
         self._load_settings()
         self._set_connected(False)
 
@@ -379,6 +381,7 @@ class AdminGUI:
             SSH_SECTION: self.ssh.settings_data(),
             LOGS_SECTION: self.logs.settings_data(),
             NPC_SECTION: self.npc.settings_data(),
+            STATUS_SECTION: self.status_bar.settings_data(),
         }
         try:
             self.settings.save(data, self.favorites)
@@ -389,6 +392,7 @@ class AdminGUI:
     def _build_connection_bar(self):
         bar = ttk.LabelFrame(self.root, text="Connexion")
         bar.pack(fill="x", padx=8, pady=(8, 4))
+        self.connection_bar = bar  # le bandeau d'état se place dessous
 
         ttk.Label(bar, text="Hote").grid(row=0, column=0, padx=4, pady=4, sticky="w")
         self.host_var = tk.StringVar(value=DEFAULT_HOST)
@@ -1261,6 +1265,14 @@ class AdminGUI:
         self.cmd_var.set(text)
         self.cmd_entry.icursor("end")
         self.cmd_entry.focus_set()
+
+    def _status_alert(self, text, urgent):
+        """Une alerte du bandeau d'état : au journal, et si elle est urgente et
+        la case « Alertes » cochée, la sonnerie et la barre des tâches."""
+        self._log("[pc-serv] " + text, "err" if urgent else "info")
+        if urgent and self.alerts_var.get():
+            self.root.bell()
+            _flash_taskbar(self.root)
 
     def send_admin(self, atcmd, on_result=None):
         """Envoie une atcommande par le canal admin, pour une autre fenêtre.

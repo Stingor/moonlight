@@ -102,6 +102,13 @@ def npc_check_command(paths=()):
                          f"else echo {shlex.quote(NPC_CHECK_MISSING)}; fi")
 
 
+# Une chaîne qui arrête des services : stop, restart, ou make + restart.
+STOPPING_START_PREFIXES = ("./start stop", "./start restart")
+# Après elle, un service trouvé arrêté passe pour demandé tant que dure ce délai
+# (le map-server peut mettre plusieurs minutes à sauvegarder puis repartir).
+PLANNED_STOP_WINDOW_S = 300
+
+
 def start_command(action, target, confirm=""):
     return RemoteCommand(f"./start {action} {target}", f"./start {action} {shlex.quote(target)}",
                          confirm=confirm.format(cible=target))
@@ -151,6 +158,8 @@ class SshWindow:
         self._step_started = None
         self._commit_pending = False  # la chaîne en cours commite : vider le message si elle réussit
         self._on_done = None          # rappel d'une chaîne lancée par une autre fenêtre
+        self._service_action_at = float("-inf")  # fin du dernier ./start stop ou restart
+        self._chain_stops = False     # la chaîne en cours arrête des services
         self.win = None
 
     # ---- réglages -----------------------------------------------------------
@@ -347,6 +356,11 @@ class SshWindow:
             steps.append(GIT_PUSH)
         self._run(steps, commits=True)
 
+    def service_action_recent(self):
+        """Vrai pendant une chaîne qui arrête des services, et un temps après :
+        le bandeau d'état y voit un arrêt demandé, pas une panne."""
+        return self.busy() or time.monotonic() - self._service_action_at < PLANNED_STOP_WINDOW_S
+
     def run_chain(self, steps, on_done=None):
         """Lance `steps` pour une autre fenêtre, sortie montrée ici ;
         `on_done(réussi)` est rappelé à la fin. False si rien n'a démarré."""
@@ -392,6 +406,9 @@ class SshWindow:
                                                         parent=self.win, icon="question"):
                 return False
         self._queue = list(steps)
+        self._chain_stops = any(s.shell.startswith(STOPPING_START_PREFIXES) for s in steps)
+        if self._chain_stops:
+            self._service_action_at = time.monotonic()
         self._commit_pending = commits
         self._chain_started = time.monotonic()
         if len(steps) > 1:
@@ -442,6 +459,10 @@ class SshWindow:
             self.run_lbl.config(text=f"réussi  ({total:.1f} s)")
         self._commit_pending = False
         self._update_buttons()
+        if self._chain_stops:
+            # Le délai court depuis la fin de la chaîne : un arrêt long ne l'use pas.
+            self._service_action_at = time.monotonic()
+            self._chain_stops = False
         on_done, self._on_done = self._on_done, None
         if on_done is not None:
             on_done(failed_label is None)
