@@ -138,7 +138,7 @@ L_menu:
 				if (.@coin_select == 6 && getarraysize(.@mvp_card) > 0) {
 					clear;
 					mes .@npc_name$;
-					mes "En choisissant de sacrifier une ^i[1] MVP CARD vous pourrez choisir le type d'enchant.";
+					mes "En choisissant de sacrifier une ^i[4121] MVP CARD vous pourrez choisir le type d'enchant.";
 					.@menu$ = "";
 					for (.@i = 0; .@i < getarraysize(.@mvp_card); ++.@i) {
 						.@menu$ += getitemname(.@mvp_card[.@i]) + " [" + .@mvp_card[.@i] + "] (have " + countitem(.@mvp_card[.@i]) + ", need " + .@mvp_cost[.@i] + "):";

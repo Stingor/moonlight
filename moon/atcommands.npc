@@ -129,7 +129,7 @@ OnCommand:
 						default: break;
 					}
 				query_sql "DELETE FROM `pvp_rank` WHERE `pvp_rank`.`char_id` = "+getcharid(0)+"";
-				callsub OnPvPReset; announce "Your PvP Statistic has been reset.",bc_self,0xFF0000; close;
+				doevent "Versus::OnPvPReset"; announce "Your PvP Statistic has been reset.",bc_self,0xFF0000; close;
 				}
 				close;
 			}

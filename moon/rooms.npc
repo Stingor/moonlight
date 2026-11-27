@@ -488,7 +488,7 @@ gonryun,156,130,4	script	PvP Warper::pvpwarper_gon	4_M_JOB_KNIGHT1,{
 								default: break;
 							}
 						query_sql "DELETE FROM `pvp_rank` WHERE `pvp_rank`.`char_id` = "+getcharid(0)+"";
-						callsub OnPvPReset; announce "[Loki] Your PvP Statistic has been reset.",bc_self,0xFF0000; close;
+						doevent "Versus::OnPvPReset"; announce "[Loki] Your PvP Statistic has been reset.",bc_self,0xFF0000; close;
 						}
 						close;
 					}

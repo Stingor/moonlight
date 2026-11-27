@@ -2506,7 +2506,7 @@ rockrdg1,182,124,3	script	Suspicious Sand Mound#rremef05	4_ENERGY_RED,15,15,{
 		mes "- A tattered fabric pouch is half buried in the mound of sand, but I'm carrying too much to examine it. I'd better lighten my bag first. -";
 		close;
 	}
-	if (checkquest(16078,HUNTING) != 0 && checkquest(16078,HUNTING) != 1 || countitem("Juice_Package") > 4 || isbegin_quest(16082) == 2) {
+	if (checkquest(16078,HUNTING) != 0 && checkquest(16078,HUNTING) != 1 || countitem(25246) > 4 || isbegin_quest(16082) == 2) {
 		mes "- A tattered fabric pouch is half buried in the mound of sand. I think it's just trash. -";
 		close;
 	}
@@ -2519,7 +2519,7 @@ rockrdg1,182,124,3	script	Suspicious Sand Mound#rremef05	4_ENERGY_RED,15,15,{
 	setquest 16082;
 	completequest 16082;
 	cloakonnpcself( "Suspicious Sand Mound#rremef05" );
-	if (countitem("Juice_Package") > 4) {
+	if (countitem(25246) > 4) {
 		next;
 		.@name$ = strcharinfo(0);
 		mes "[" + .@name$ + "]";
@@ -2533,7 +2533,7 @@ rockrdg1,182,124,3	script	Suspicious Sand Mound#rremef05	4_ENERGY_RED,15,15,{
 	}
 	close;
 OnTouch:
-	if (checkquest(16078,HUNTING) != 0 && checkquest(16078,HUNTING) != 1 || countitem("Juice_Package") > 4 || isbegin_quest(16082) == 2)
+	if (checkquest(16078,HUNTING) != 0 && checkquest(16078,HUNTING) != 1 || countitem(25246) > 4 || isbegin_quest(16082) == 2)
 		cloakonnpcself( "Suspicious Sand Mound#rremef05" );
 	else
 		cloakoffnpcself( "Suspicious Sand Mound#rremef05" );
@@ -2553,7 +2553,7 @@ rockrdg1,286,247,3	script	Suspicious Sand Mound#rremef06	4_ENERGY_RED,15,15,{
 	.@quest_id = callsub( S_Quest );
 	.@npc_name$ = callsub( S_Name );
 
-	if (checkquest(16078,HUNTING) != 0 && checkquest(16078,HUNTING) != 1 || countitem("Juice_Package") > 4 || isbegin_quest(.@quest_id) == 2) {
+	if (checkquest(16078,HUNTING) != 0 && checkquest(16078,HUNTING) != 1 || countitem(25246) > 4 || isbegin_quest(.@quest_id) == 2) {
 		mes "- Someone must have piled this mound of sand. -";
 		close;
 	}
@@ -2567,7 +2567,7 @@ rockrdg1,286,247,3	script	Suspicious Sand Mound#rremef06	4_ENERGY_RED,15,15,{
 		setquest .@quest_id;
 		completequest .@quest_id;
 		cloakonnpcself( .@npc_name$ );
-		if (countitem("Juice_Package") > 4) {
+		if (countitem(25246) > 4) {
 			next;
 			.@name$ = strcharinfo(0);
 			mes "[" + .@name$ + "]";
@@ -2609,7 +2609,7 @@ S_Name:
 OnTouch:
 	.@quest_id = callsub( S_Quest );
 	.@npc_name$ = callsub( S_Name );
-	if (checkquest(16078,HUNTING) != 0 && checkquest(16078,HUNTING) != 1 || countitem("Juice_Package") > 4 || isbegin_quest(.@quest_id) == 2)
+	if (checkquest(16078,HUNTING) != 0 && checkquest(16078,HUNTING) != 1 || countitem(25246) > 4 || isbegin_quest(.@quest_id) == 2)
 		cloakonnpcself( .@npc_name$ );
 	else
 		cloakoffnpcself( .@npc_name$ );
@@ -2723,7 +2723,7 @@ rockrdg1,146,164,1	script	Wasteland Cactuten#rremef01	4_ENERGY_RED,15,15,{
 	close;
 
 OnTouch:
-	if (isbegin_quest(16078) != 1 || countitem("Juice_Package") > 4 || isbegin_quest(16083) > 1)
+	if (isbegin_quest(16078) != 1 || countitem(25246) > 4 || isbegin_quest(16083) > 1)
 		cloakonnpcself( "Wasteland Cactuten#rremef01" );
 	else
 		cloakoffnpcself( "Wasteland Cactuten#rremef01" );
@@ -2738,7 +2738,7 @@ rockrdg1,146,164,1	duplicate(Wasteland Cactuten#rremef01)	Wasteland Cactuten#rre
 rockrdg1,195,183,3	script	Curious Coyote#rremef03	4_ENERGY_RED,15,15,{
 	end;
 OnTouch:
-	if (isbegin_quest(16078) != 1 || countitem("Juice_Package") > 4 || isbegin_quest(16085) > 1)
+	if (isbegin_quest(16078) != 1 || countitem(25246) > 4 || isbegin_quest(16085) > 1)
 		cloakonnpcself( "Curious Coyote#rremef03" );
 	else
 		cloakoffnpcself( "Curious Coyote#rremef03" );
@@ -2866,7 +2866,7 @@ rockrdg1,305,200,3	script	Cactus Girl#rremef02	4_ENERGY_RED,15,15,{
 	close;
 
 OnTouch:
-	if (isbegin_quest(16078) != 1 || countitem("Juice_Package") > 4 || isbegin_quest(16087) > 1)
+	if (isbegin_quest(16078) != 1 || countitem(25246) > 4 || isbegin_quest(16087) > 1)
 		cloakonnpcself( "Cactus Girl#rremef02" );
 	else
 		cloakoffnpcself( "Cactus Girl#rremef02" );
@@ -2881,7 +2881,7 @@ rockrdg1,305,200,3	duplicate(Cactus Girl#rremef02)	Cactus Girl#rrem04	4_F_CACTUS
 rockrdg1,266,219,3	script	Absorbed Coyote#rremef04	4_ENERGY_RED,15,15,{
 	end;
 OnTouch:
-	if (isbegin_quest(16078) != 1 || countitem("Juice_Package") > 4 || isbegin_quest(16088) > 1)
+	if (isbegin_quest(16078) != 1 || countitem(25246) > 4 || isbegin_quest(16088) > 1)
 		cloakonnpcself( "Absorbed Coyote#rremef04" );
 	else
 		cloakoffnpcself( "Absorbed Coyote#rremef04" );

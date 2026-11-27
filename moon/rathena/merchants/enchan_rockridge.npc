@@ -148,7 +148,7 @@ har_in01,17,74,7	script	Contraband Processor#pa	4_DR_SOLDIER,{
 				else if (.@r < 27) .@card[.@enchant_slot] = getiteminfo("Dexterity1", ITEMINFO_ID);
 				else if (.@r < 40) .@card[.@enchant_slot] = getiteminfo("Strength1", ITEMINFO_ID);
 				else if (.@r < 53) .@card[.@enchant_slot] = getiteminfo("Inteligence1", ITEMINFO_ID);
-				else if (.@r < 66) .@card[.@enchant_slot] = getiteminfo("Def2", ITEMINFO_ID);
+				else if (.@r < 66) .@card[.@enchant_slot] = getiteminfo("Def15", ITEMINFO_ID);
 				else if (.@r < 79) .@card[.@enchant_slot] = getiteminfo("Mdef2", ITEMINFO_ID);
 				else if (.@r < 92) .@card[.@enchant_slot] = getiteminfo("Critical1", ITEMINFO_ID);
 				else if (.@r < 105) .@card[.@enchant_slot] = getiteminfo("Evasion3", ITEMINFO_ID);

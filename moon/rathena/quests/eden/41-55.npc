@@ -38,7 +38,7 @@ moc_para01,40,38,3	script	Mission [41 - 55]	857,{
 			mes "^000077Ok. Let's check the missions next time.^000000.";
 			close;
 		}
-		switch(select("Thara Frog Hunting:Cruiser Hunting:Kukre Hunting:Orc Baby Hunting:Orc Warrior Hunting:Vadon Hunting:Megalodon Hunting:Marse Hunting:Cornutus Hunting:Myst Hunting:Shellfish Hunting:Marine Sphere Hunting")) {
+		switch(select("Thara Frog Hunting:Cruiser Hunting:Kukre Hunting:Orc Baby Hunting:Orc Warrior Hunting:Vadon Hunting:Megalodon Hunting:Marse Hunting:Cornutus Hunting:Myst Hunting:Shellfish Hunting:Marine Sphere Hunting:Phen Hunting:Orc Skeleton Hunting:Zenorc Hunting:Mummy Hunting")) {
 			case 1: callsub L_Quest,12072,"Have you seen a red frog? It is called Thara Frog and it's very rare. We are trying to verify where it inhabits. So please hunt 20 Thara Frogs.";
 			case 2: callsub L_Quest,12073,"I heard of some toys attacking people. It is ridiculous! Let's show them our power! We have to hunt 15 Cruisers!";
 			case 3: callsub L_Quest,12074,"Someone got robbed near the beach! The possible suspect is a criminal monster called Kukre. Please hunt 30 Kukre.";
