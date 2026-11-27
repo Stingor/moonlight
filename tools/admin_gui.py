@@ -622,6 +622,14 @@ class AdminGUI:
             self.root.option_add("*TCombobox*Listbox.selectForeground", "#fff")
             style.configure("TLabelframe", background=d["bg"])
             style.configure("TLabelframe.Label", background=d["bg"], foreground=d["fg"])
+            # Listes (Atelier NPC) : « clam » leur laisse un fond blanc.
+            style.configure("Treeview", background=d["field"], fieldbackground=d["field"],
+                            foreground=d["fg"], bordercolor=d["border"])
+            style.map("Treeview", background=[("selected", "#2f5d8a")],
+                      foreground=[("selected", "#fff")])
+            style.configure("Treeview.Heading", background=d["button"], foreground=d["fg"],
+                            bordercolor=d["border"])
+            style.map("Treeview.Heading", background=[("active", d["active"])])
             self.root.configure(background=d["bg"])
             entry_colors = dict(background=d["field"], foreground=d["fg"],
                                 insertbackground=d["fg"])
