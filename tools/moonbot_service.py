@@ -1909,17 +1909,53 @@ def get_response(player: str, message: str, conn=None, player_ctx: str = "") -> 
 
 
 
+# Largeur repli d'un nom dans chatlog : NAME_LENGTH du serveur, que la colonne
+# tient forcément puisque le serveur y écrit le nom d'un personnage.
+_CHATLOG_NAME_FALLBACK = 24
+_CHATLOG_MESSAGE_FALLBACK = 255
+_chatlog_widths: dict = {}
+
+
+def _chatlog_width(conn, column: str, fallback: int) -> int:
+    """Largeur en caractères d'une colonne de chatlog, lue une fois dans le schéma.
+
+    Tronquer à la largeur réelle : en mode strict, MySQL refuse la ligne entière
+    (erreur 1406) plutôt que de couper un nom trop long.
+    """
+    if column not in _chatlog_widths:
+        width = None
+        try:
+            with conn.cursor() as cur:
+                cur.execute(
+                    "SELECT CHARACTER_MAXIMUM_LENGTH AS width "
+                    "FROM information_schema.COLUMNS "
+                    "WHERE TABLE_SCHEMA = %s AND TABLE_NAME = 'chatlog' "
+                    "AND COLUMN_NAME = %s",
+                    (DB_LOG, column),
+                )
+                row = cur.fetchone()
+                if row and row.get("width"):
+                    width = int(row["width"])
+        except Exception as e:
+            print(f"[Discord] chatlog : largeur de {column} illisible ({e})",
+                  file=sys.stderr)
+        _chatlog_widths[column] = width or fallback
+    return _chatlog_widths[column]
+
+
 def _log_discord_chat(conn, src_name: str, message: str):
     """Insère un message Discord dans chatlog pour le site web.
     src_charid est un VARCHAR custom contenant le nom de l'émetteur.
     """
+    name_max = _chatlog_width(conn, "src_charid", _CHATLOG_NAME_FALLBACK)
+    message_max = _chatlog_width(conn, "message", _CHATLOG_MESSAGE_FALLBACK)
     try:
         with conn.cursor() as cur:
             cur.execute(
                 f"INSERT INTO `{DB_LOG}`.chatlog (time, src_charid, "
                 "src_map, dst_charname, message) "
                 "VALUES (NOW(), %s, 'gonryun', '', %s)",
-                (src_name[:64], message[:500])
+                (src_name[:name_max], message[:message_max])
             )
         conn.commit()
     except Exception as e:
