@@ -306,7 +306,8 @@ class AdminGUI:
         self.ssh = SshWindow(root, self.settings, self._bind_copy_menu,
                              open_logs=lambda: self.logs.show(),
                              open_npc=lambda: self.npc.show())
-        self.logs = LogWindow(root, self.settings, self._bind_copy_menu, self.ssh)
+        self.logs = LogWindow(root, self.settings, self._bind_copy_menu, self.ssh,
+                              on_alert=lambda text, urgent: self._alert("journaux", text, urgent))
         self.npc = NpcWindow(root, self.settings, self._bind_copy_menu, self.ssh, self.send_admin)
         self.status_bar = StatusBar(root, self.connection_bar, self.settings, self.ssh, self._status_alert)
         self.players = PlayersWindow(root, self.settings, self.send_quiet,

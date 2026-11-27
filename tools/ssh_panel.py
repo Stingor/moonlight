@@ -33,6 +33,7 @@ from datetime import datetime
 from tkinter import messagebox, scrolledtext, ttk
 
 from remote_console import REMOTE_ENV, InteractiveRunner, visible
+from repo_state import RepoStateBar
 from tables_panel import CONSOLE_COLORS, DRAIN_MS
 
 SETTINGS_SECTION = "ssh"
@@ -195,12 +196,15 @@ class SshWindow:
         return self._geometry
 
     def busy(self):
-        return self.runner.busy
+        # La chaîne compte, pas seulement ssh : entre la fin d'un processus et
+        # la lecture de son code, une chaîne lancée recevrait ce code périmé.
+        return self.runner.busy or bool(self._queue)
 
     # ---- fenêtre ------------------------------------------------------------
     def show(self):
         if self.win is None:
             self._build()
+            self.repo_state.refresh()
         self.win.deiconify()
         self.win.lift()
 
@@ -239,6 +243,7 @@ class SshWindow:
 
         git = ttk.LabelFrame(body, text="git")
         git.pack(fill="x", padx=8, pady=4)
+        self.repo_state = RepoStateBar(git, self, RemoteCommand)
         row = ttk.Frame(git)
         row.pack(fill="x", padx=4, pady=(4, 2))
         for cmd in GIT_COMMANDS:
@@ -519,6 +524,8 @@ class SshWindow:
             # Le délai court depuis la fin de la chaîne : un arrêt long ne l'use pas.
             self._service_action_at = time.monotonic()
             self._chain_stops = False
+        # Une chaîne a pu commiter, tirer ou laisser un conflit : l'état se relit.
+        self.repo_state.refresh()
         on_done, self._on_done = self._on_done, None
         if on_done is not None:
             on_done(failed_label is None)

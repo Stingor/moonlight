@@ -7,14 +7,22 @@ par leur session screen), `journalctl -f` pour l'unité systemd survivors.
 Chaque source cochée est un processus ssh à elle ; la décocher la masque
 sans arrêter son suivi, qui ne cesse qu'à la fermeture de la fenêtre. Un
 suivi qui reprend relit les dernières lignes du journal et remplace celles
-de la source déjà en mémoire. Les lignes reçues se gardent en mémoire, et les filtres — sources affichées,
-recherche (texte ou expression régulière), erreurs seules — s'appliquent
-aussi à ce qui est déjà affiché.
+de la source déjà en mémoire. Les lignes reçues se gardent en mémoire, et
+les filtres — sources affichées, recherche (texte ou expression régulière),
+erreurs seules — s'appliquent aussi à ce qui est déjà affiché.
+
+Alertes : une ligne qui répond au motif « Alerte sur » (expression régulière,
+sans casse) se surligne, et s'écrit au journal principal, qui sonne et fait
+clignoter la barre des tâches si sa case « Alertes » est cochée. L'historique
+relu au départ d'un suivi n'alerte pas, et une même source n'alerte qu'une
+fois par ALERT_COOLDOWN_S secondes. Il faut la fenêtre ouverte : fermée, elle
+ne suit plus rien.
 
 Le compte et le dossier du dépôt sont ceux de la fenêtre « Serveur (SSH) ».
 """
 import queue
 import re
+import time
 import tkinter as tk
 from collections import deque
 from dataclasses import dataclass
@@ -28,6 +36,11 @@ SETTINGS_SECTION = "journaux"
 BUFFER_LINES = 20000
 # Lignes déjà présentes rapatriées à l'ouverture d'une source.
 BACKLOG_LINES = 300
+DEFAULT_ALERT_PATTERN = r"Traceback|Segmentation fault|segfault|core dumped|\[Fatal Error\]|Exception"
+# L'historique relu arrive d'un bloc au départ d'un suivi : il n'alerte pas.
+BACKLOG_GRACE_S = 3
+ALERT_COOLDOWN_S = 60
+ALERT_SHOWN_CHARS = 160
 SEARCH_DEBOUNCE_MS = 250
 ANSI_ESCAPE_RE = re.compile(r"\x1b\[[0-9;?]*[A-Za-z]|\x1b[()][A-Za-z0-9]")
 SURVIVORS_UNIT = "survivors-verify-queue"
@@ -71,9 +84,15 @@ class LogWindow:
     """Fenêtre « Journaux des services », créée une fois, masquée à la
     fermeture ; masquée, elle ne suit plus rien."""
 
-    def __init__(self, root, settings, bind_copy_menu, ssh_window):
+    def __init__(self, root, settings, bind_copy_menu, ssh_window, on_alert=None):
         self.root = root
         self.ssh = ssh_window
+        self.on_alert = on_alert  # (texte, urgent) vers le journal principal
+        self.alert_var = tk.StringVar(value=settings.get(SETTINGS_SECTION, "alert_pattern", DEFAULT_ALERT_PATTERN))
+        self.alerts_on_var = tk.BooleanVar(value=settings.get_bool(SETTINGS_SECTION, "alerts", True))
+        self._alert_re = None
+        self._follow_started = {}  # source -> départ de son suivi (time.monotonic)
+        self._last_alert = {}      # source -> dernière alerte (time.monotonic)
         self._bind_copy_menu = bind_copy_menu
         self._geometry = settings.get(SETTINGS_SECTION, "geometry")
         self.follow_vars = {s.key: tk.BooleanVar(value=settings.get_bool(
@@ -94,7 +113,8 @@ class LogWindow:
     def settings_data(self):
         data = {s.key: self.follow_vars[s.key].get() for s in LOG_SOURCES}
         data.update(search=self.search_var.get(), regex=self.regex_var.get(),
-                    errors_only=self.errors_only_var.get(), geometry=self._current_geometry())
+                    errors_only=self.errors_only_var.get(), alert_pattern=self.alert_var.get(),
+                    alerts=self.alerts_on_var.get(), geometry=self._current_geometry())
         return data
 
     def _current_geometry(self):
@@ -169,6 +189,15 @@ class LogWindow:
         self.search_err_lbl.pack(side="left", padx=4)
         ttk.Button(filters, text="Effacer", command=self._clear).pack(side="right", padx=4)
 
+        alerts = ttk.LabelFrame(body, text="Alertes  (journal principal ; sonnerie si « Alertes » y est coché)")
+        alerts.pack(fill="x", padx=8, pady=4)
+        ttk.Checkbutton(alerts, text="alerter sur", variable=self.alerts_on_var).pack(side="left", padx=(4, 2), pady=4)
+        ttk.Entry(alerts, textvariable=self.alert_var, width=60).pack(side="left", padx=2, fill="x", expand=True)
+        self.alert_var.trace_add("write", lambda *_: self._compile_alert())
+        self.alert_err_lbl = ttk.Label(alerts, text="", foreground="#f55")
+        self.alert_err_lbl.pack(side="left", padx=4)
+        self._compile_alert()
+
         out = ttk.Frame(body)
         out.pack(fill="both", expand=True, padx=8, pady=(4, 8))
         self.count_lbl = ttk.Label(out, text="", foreground="#888")
@@ -182,6 +211,8 @@ class LogWindow:
         for level, color in LEVEL_COLORS.items():
             self.console.tag_config(level, foreground=color)
         self.console.tag_config("match", background="#554400")
+        self.console.tag_config("alert", background="#4a1414")
+        self.console.tag_lower("alert")
         self._bind_copy_menu(self.console, players=True)
 
         self._compile_search()
@@ -206,6 +237,7 @@ class LogWindow:
         kept = [entry for entry in self._lines if entry[1] != source.key]
         self._lines.clear()
         self._lines.extend(kept)
+        self._follow_started[source.key] = time.monotonic()
         events = queue.Queue()
         runner = ProcessRunner(events)
         try:
@@ -245,6 +277,7 @@ class LogWindow:
     def _append(self, key, text, level=None):
         entry = (datetime.now().strftime("%H:%M:%S"), key, level or classify(text), text)
         self._lines.append(entry)
+        self._check_alert(key, text)
         if self.pause_var.get():
             self._held += 1
             self._update_count()
@@ -307,7 +340,10 @@ class LogWindow:
         self.console.insert("end", f"{stamp} ", "info")
         self.console.insert("end", f"[{key}] ", "src_" + key)
         start = self.console.index("end-1c")
-        self.console.insert("end", text + "\n", level if level in LEVEL_COLORS else ())
+        tags = (level,) if level in LEVEL_COLORS else ()
+        if self._alert_re is not None and self._alert_re.search(text):
+            tags += ("alert",)
+        self.console.insert("end", text + "\n", tags)
         if self._search_re is not None:
             for m in self._search_re.finditer(text):
                 if m.end() > m.start():
@@ -315,6 +351,31 @@ class LogWindow:
         self.console.configure(state="disabled")
         if scroll and at_bottom:
             self.console.see("end")
+
+    # ---- alertes ------------------------------------------------------------
+    def _compile_alert(self):
+        pattern = self.alert_var.get().strip()
+        self._alert_re = None
+        self.alert_err_lbl.config(text="")
+        if not pattern:
+            return
+        try:
+            self._alert_re = re.compile(pattern, re.IGNORECASE)
+        except re.error as exc:
+            self.alert_err_lbl.config(text=f"motif invalide : {exc}")
+
+    def _check_alert(self, key, text):
+        if self.on_alert is None or self._alert_re is None or not self.alerts_on_var.get():
+            return
+        if not self._alert_re.search(text):
+            return
+        now = time.monotonic()
+        if now - self._follow_started.get(key, now) < BACKLOG_GRACE_S:
+            return
+        if now - self._last_alert.get(key, float("-inf")) < ALERT_COOLDOWN_S:
+            return
+        self._last_alert[key] = now
+        self.on_alert(f"{key} : {text[:ALERT_SHOWN_CHARS]}", True)
 
     def _toggle_pause(self):
         if not self.pause_var.get():

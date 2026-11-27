@@ -10,9 +10,10 @@ Avec un terminal, la sortie n'arrive plus ligne à ligne : une invite ne finit
 pas par un saut de ligne. Elle se lit donc par morceaux, et la console montre
 la ligne en cours telle qu'elle est.
 
-Pour qu'aucune commande ne s'arrête sur un pager (git log, systemctl) ni
-n'écrive de couleurs, la ligne distante part après `export PAGER=cat
-GIT_PAGER=cat SYSTEMD_PAGER=cat TERM=dumb`.
+Pour qu'aucune commande ne s'arrête sur un pager (git log, systemctl) ou un
+éditeur (rebase --continue, fusion), ni n'écrive de couleurs, la ligne
+distante part après REMOTE_ENV. GIT_EDITOR=true garde le message que git
+propose, sans ouvrir vi dans un terminal que personne ne voit.
 """
 import os
 import re
@@ -23,7 +24,7 @@ import threading
 from tables_panel import NO_WINDOW
 
 READ_CHUNK_BYTES = 4096
-REMOTE_ENV = "export PAGER=cat GIT_PAGER=cat SYSTEMD_PAGER=cat TERM=dumb; "
+REMOTE_ENV = "export PAGER=cat GIT_PAGER=cat SYSTEMD_PAGER=cat GIT_EDITOR=true TERM=dumb; "
 INTERRUPT = "\x03"
 # Séquences d'échappement d'un terminal : couleurs, effacements, titres.
 ANSI_RE = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]|\x1b\][^\x07]*\x07|\x1b[()][A-Za-z0-9]|\x1b[=>]")
