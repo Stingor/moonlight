@@ -5,18 +5,25 @@ serveur : git (status, pull, commit, push) et make (clean, server). Chaque
 commande s'exécute dans le dossier du dépôt : `cd <dépôt> && <commande>`.
 
 L'identification passe par une clé SSH, jamais par un mot de passe : ssh est
-lancé en `BatchMode=yes`, qui échoue au lieu d'attendre une saisie que
-personne ne peut taper. De même, `sudo` est appelé en `sudo -n` : sans règle
-NOPASSWD sur le serveur, il refuse au lieu de rester bloqué.
+lancé en `BatchMode=yes`, qui échoue au lieu d'attendre une saisie de la
+connexion elle-même. `sudo` est appelé en `sudo -n` : sans règle NOPASSWD sur
+le serveur, il refuse au lieu de rester bloqué.
+
+Les commandes tournent avec un terminal distant (remote_console.py) : une
+question qu'elles posent s'affiche, et le champ « Réponse » lui répond ;
+« Ctrl+C » l'interrompt. Pour un éditeur ou un programme plein écran
+(nano, htop, screen -r), « Terminal… » ouvre un vrai shell ssh dans une
+console Windows, déjà dans le dossier du dépôt.
 
 Une chaîne de commandes s'arrête à la première qui échoue, comme `&&`.
-« Arrêter » tue ssh.exe ; la commande distante perd alors sa sortie et
-s'interrompt à sa prochaine écriture.
+« Arrêter » tue ssh.exe : le terminal distant raccroche, ce qui arrête la
+commande.
 
 Le compte, le dossier du dépôt et l'emploi de sudo se retiennent dans la
 section [ssh] de MoonlightAdmin.ini.
 """
 import queue
+import re
 import shlex
 import subprocess
 import time
@@ -25,7 +32,8 @@ from dataclasses import dataclass
 from datetime import datetime
 from tkinter import messagebox, scrolledtext, ttk
 
-from tables_panel import CONSOLE_COLORS, DRAIN_MS, ProcessRunner
+from remote_console import REMOTE_ENV, InteractiveRunner, visible
+from tables_panel import CONSOLE_COLORS, DRAIN_MS
 
 SETTINGS_SECTION = "ssh"
 DEFAULT_TARGET = "stingor@192.168.1.13"
@@ -43,7 +51,10 @@ ERROR_MARKERS = ("error:", "error ", "fatal:", "Error ", "CONFLICT", "[rejected]
                  "Permission denied", "sudo:", "Could not resolve", "Connection refused",
                  "Connection timed out", "make: ***")
 WARNING_MARKERS = ("warning:", "hint:")
-PANEL_COLORS = dict(CONSOLE_COLORS, warn="#db5", step="#c8f")
+PANEL_COLORS = dict(CONSOLE_COLORS, warn="#db5", step="#c8f", reply="#8cf")
+# Un dossier que le shell distant lit tel quel, `~` développé : sinon cité.
+PLAIN_PATH_RE = re.compile(r"[~\w./-]+")
+MASK_CHAR = "•"
 
 
 @dataclass(frozen=True)
@@ -143,7 +154,8 @@ class SshWindow:
         self.start_target_var = tk.StringVar(
             value=target if target in START_TARGETS else DEFAULT_START_TARGET)
         self.events = queue.Queue()
-        self.runner = ProcessRunner(self.events)
+        self.runner = InteractiveRunner(self.events)
+        self._pending = ""  # ligne en cours, pas encore finie : une invite, souvent
         self.target_var = tk.StringVar(value=settings.get(SETTINGS_SECTION, "target", DEFAULT_TARGET))
         self.repo_var = tk.StringVar(value=settings.get(SETTINGS_SECTION, "repo", DEFAULT_REPO))
         self.sudo_var = tk.BooleanVar(value=settings.get_bool(SETTINGS_SECTION, "sudo_make", True))
@@ -220,8 +232,10 @@ class SshWindow:
         ttk.Entry(conn, textvariable=self.repo_var).grid(row=0, column=3, padx=4, sticky="ew")
         self._action(ttk.Button(conn, text="Tester", command=self._test_connection)).grid(
             row=0, column=4, padx=4)
-        ttk.Label(conn, text="Identification par clé SSH : aucun mot de passe n'est demandé ni retenu.",
-                  foreground="#888").grid(row=1, column=0, columnspan=5, padx=4, pady=(0, 4), sticky="w")
+        ttk.Button(conn, text="Terminal…", command=self.open_terminal).grid(row=0, column=5, padx=4)
+        ttk.Label(conn, text="Identification par clé SSH : aucun mot de passe n'est demandé ni retenu. "
+                             "Terminal… : un vrai shell, pour nano, htop ou screen -r.",
+                  foreground="#888").grid(row=1, column=0, columnspan=6, padx=4, pady=(0, 4), sticky="w")
 
         git = ttk.LabelFrame(body, text="git")
         git.pack(fill="x", padx=8, pady=4)
@@ -294,10 +308,30 @@ class SshWindow:
         self.console = scrolledtext.ScrolledText(out, height=16, state="disabled", wrap="word",
                                                  background="#111", foreground="#ccc",
                                                  insertbackground="#ccc")
-        self.console.pack(fill="both", expand=True, padx=4, pady=4)
+        self.console.pack(fill="both", expand=True, padx=4, pady=(4, 2))
         for tag, color in PANEL_COLORS.items():
             self.console.tag_config(tag, foreground=color)
+        # La ligne en cours s'écrit après cette marque, et s'efface quand elle
+        # se complète : une invite s'y montre avant sa fin de ligne.
+        self.console.mark_set("partial", "end-1c")
+        self.console.mark_gravity("partial", "left")
         self._bind_copy_menu(self.console)
+
+        reply = ttk.Frame(out)
+        reply.pack(fill="x", padx=4, pady=(0, 4))
+        ttk.Label(reply, text="Réponse").pack(side="left", padx=(0, 4))
+        self.reply_var = tk.StringVar()
+        self.reply_entry = ttk.Entry(reply, textvariable=self.reply_var)
+        self.reply_entry.pack(side="left", fill="x", expand=True, padx=2)
+        self.reply_entry.bind("<Return>", lambda _e: self._send_reply())
+        self.mask_var = tk.BooleanVar(value=False)
+        ttk.Checkbutton(reply, text="masquer", variable=self.mask_var,
+                        command=lambda: self.reply_entry.config(
+                            show=MASK_CHAR if self.mask_var.get() else "")).pack(side="left", padx=4)
+        self.reply_btns = [ttk.Button(reply, text="Envoyer", command=self._send_reply),
+                           ttk.Button(reply, text="Ctrl+C", command=self._interrupt)]
+        for button in self.reply_btns:
+            button.pack(side="left", padx=2)
 
         self.win.after(DRAIN_MS, self._drain)
 
@@ -315,7 +349,29 @@ class SshWindow:
             line = "sudo -n " + line
         return line
 
+    def tty_argv(self, shell_line):
+        """La commande de la chaîne, avec un terminal distant (-tt) qui lui
+        permet de poser une question et d'en attendre la réponse."""
+        remote = f"{REMOTE_ENV}cd {remote_dir(self.repo_var.get().strip() or DEFAULT_REPO)} && {shell_line}"
+        # -q : sans la ligne « Connection to … closed. » qu'ajoute -tt.
+        return ["ssh", "-tt", "-q", "-o", "BatchMode=yes",
+                "-o", f"ConnectTimeout={CONNECT_TIMEOUT_S}",
+                "-o", f"ServerAliveInterval={SERVER_ALIVE_INTERVAL_S}",
+                self.target_var.get().strip() or DEFAULT_TARGET, remote]
+
+    def open_terminal(self):
+        """Un vrai shell ssh dans une console Windows, dans le dossier du dépôt :
+        pour un éditeur ou un programme plein écran."""
+        repo = self.repo_var.get().strip() or DEFAULT_REPO
+        path = repo if PLAIN_PATH_RE.fullmatch(repo) else shlex.quote(repo)
+        argv = ["ssh", "-t", self.target_var.get().strip() or DEFAULT_TARGET, f"cd {path} && exec bash -l"]
+        try:
+            subprocess.Popen(argv, creationflags=getattr(subprocess, "CREATE_NEW_CONSOLE", 0))
+        except OSError as exc:
+            self._write(f"Terminal impossible : {exc}", "fail")
+
     def ssh_argv(self, shell_line):
+        """Sans terminal : pour les fenêtres qui lisent une sortie d'un bloc."""
         remote = f"cd {remote_dir(self.repo_var.get().strip() or DEFAULT_REPO)} && {shell_line}"
         return ["ssh", "-o", "BatchMode=yes",
                 "-o", f"ConnectTimeout={CONNECT_TIMEOUT_S}",
@@ -422,7 +478,7 @@ class SshWindow:
         line = self.shell_of(step)
         self._write(f"── {datetime.now():%H:%M:%S}  {self.target_var.get().strip()} $ {line}", "cmd")
         try:
-            self.runner.start(self.ssh_argv(line), None)
+            self.runner.start(self.tty_argv(line))
         except OSError as exc:
             self._write(f"Lancement de ssh impossible : {exc}", "fail")
             self._finish(failed_label=step.label)
@@ -477,29 +533,74 @@ class SshWindow:
         for w in self.action_widgets:
             w.config(state=state)
         self.stop_btn.config(state="normal" if self.busy() else "disabled")
+        for button in self.reply_btns:
+            button.config(state="normal" if self.busy() else "disabled")
+
+    # ---- réponses -----------------------------------------------------------
+    def _send_reply(self):
+        text = self.reply_var.get()
+        if not self.runner.send(text + "\n"):
+            self._write("Aucune commande n'attend de réponse.", "fail")
+            return
+        self.reply_var.set("")
+        # Le terminal distant renvoie lui-même ce qu'on tape, sauf pour un mot
+        # de passe : l'écho manquant se signale ici, sans le texte.
+        if self.mask_var.get():
+            self._write("(réponse masquée envoyée)", "reply")
+
+    def _interrupt(self):
+        if self.runner.interrupt():
+            self._write("^C", "fail")
 
     # ---- sortie -------------------------------------------------------------
     def _drain(self):
         try:
             while True:
                 kind, payload = self.events.get_nowait()
-                if kind == "exit":
+                if kind == "chunk":
+                    self._feed(payload)
+                elif kind == "exit":
+                    if self._pending:
+                        line, self._pending = visible(self._pending), ""
+                        self._write(line, classify(line))
                     self._on_exit(payload)
-                else:
-                    self._write(payload, classify(payload))
         except queue.Empty:
             pass
         self.win.after(DRAIN_MS, self._drain)
 
+    def _feed(self, text):
+        """Un morceau de sortie : chaque ligne finie s'écrit, la ligne en cours
+        (une invite) se montre telle quelle après la marque « partial »."""
+        self._pending += text
+        *lines, self._pending = self._pending.split("\n")
+        for line in lines:
+            shown = visible(line)
+            self._write(shown, classify(shown))
+        if not lines:
+            self._write_partial()
+
     def _clear(self):
         self.console.configure(state="normal")
         self.console.delete("1.0", "end")
+        self.console.mark_set("partial", "end-1c")
         self.console.configure(state="disabled")
+        self._write_partial()
 
     def _write(self, text, tag="out"):
         at_bottom = self.console.yview()[1] >= 0.999
         self.console.configure(state="normal")
-        self.console.insert("end", text + "\n", tag)
+        self.console.delete("partial", "end-1c")
+        self.console.insert("end-1c", text + "\n", tag)
+        self.console.mark_set("partial", "end-1c")
         self.console.configure(state="disabled")
+        self._write_partial()
         if at_bottom:
             self.console.see("end")
+
+    def _write_partial(self):
+        self.console.configure(state="normal")
+        self.console.delete("partial", "end-1c")
+        partial = visible(self._pending)
+        if partial:
+            self.console.insert("end-1c", partial, "out")
+        self.console.configure(state="disabled")

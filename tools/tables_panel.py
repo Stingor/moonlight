@@ -165,6 +165,32 @@ def ps_quote(text):
     return "'" + text.replace("'", "''") + "'"
 
 
+def mirror_argv(paths, publish):
+    """pwsh qui lance scripts/push_mirror.ps1 du dépôt moonclient : à blanc
+    (-DryRun) ou pour de bon. `paths` : les chemins du panneau Tables, dont
+    le compte SSH du miroir. Partagé avec la fenêtre Build client."""
+    call = "& " + ps_quote(os.path.join(paths["repo"], PUSH_MIRROR))
+    if paths["mirror_ssh"]:
+        call += " -SshTarget " + ps_quote(paths["mirror_ssh"])
+    if not publish:
+        call += " -DryRun"
+    # Write-Host suit l'encodage de la console : UTF-8, comme le lit le panneau.
+    command = ("[Console]::OutputEncoding = [Text.Encoding]::UTF8; "
+               f"try {{ {call}; exit $LASTEXITCODE }} "
+               "catch { [Console]::Error.WriteLine($_.ToString()); exit 1 }")
+    return [paths["pwsh"] or find_pwsh(), "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", command]
+
+
+def confirm_mirror_publish(parent):
+    return messagebox.askyesno(
+        "Publier sur le miroir",
+        "Envoyer lang/, dist/data/ et MoonClient.exe sur le miroir de fichiers ?\n\n"
+        "Ce qui part sur le miroir part chez TOUS les joueurs à leur prochain lancement, "
+        "et rien n'y est effacé ensuite.\n\n"
+        "L'essai à blanc dit d'abord ce qui partirait.",
+        parent=parent, icon="warning", default="no")
+
+
 class ProcessRunner:
     """Un processus enfant dont stdout et stderr arrivent ligne à ligne dans
     `events` : ("out", ligne), ("err", ligne), puis ("exit", code)."""
@@ -436,26 +462,9 @@ class TablesWindow:
         if not os.path.isfile(script):
             self._write(f"Script introuvable : {script}", "fail")
             return
-        call = "& " + ps_quote(script)
-        if p["mirror_ssh"]:
-            call += " -SshTarget " + ps_quote(p["mirror_ssh"])
-        if not publish:
-            call += " -DryRun"
-        elif not messagebox.askyesno(
-                "Publier sur le miroir",
-                "Envoyer lang/, dist/data/ et MoonClient.exe sur le miroir de fichiers ?\n\n"
-                "Ce qui part sur le miroir part chez TOUS les joueurs à leur prochain lancement, "
-                "et rien n'y est effacé ensuite.\n\n"
-                "« Voir (à blanc) » dit d'abord ce qui partirait.",
-                parent=self.win, icon="warning", default="no"):
+        if publish and not confirm_mirror_publish(self.win):
             return
-        # Write-Host suit l'encodage de la console : UTF-8, comme le lit le panneau.
-        command = ("[Console]::OutputEncoding = [Text.Encoding]::UTF8; "
-                   f"try {{ {call}; exit $LASTEXITCODE }} "
-                   "catch { [Console]::Error.WriteLine($_.ToString()); exit 1 }")
-        argv = [p["pwsh"] or find_pwsh(), "-NoProfile", "-ExecutionPolicy", "Bypass",
-                "-Command", command]
-        self._start(argv, p["repo"], os.path.basename(script))
+        self._start(mirror_argv(p, publish), p["repo"], os.path.basename(script))
 
     def _start(self, argv, cwd, label):
         if self.runner.busy:

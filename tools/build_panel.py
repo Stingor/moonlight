@@ -35,7 +35,8 @@ from dataclasses import dataclass
 from datetime import datetime
 from tkinter import filedialog, messagebox, scrolledtext, ttk
 
-from tables_panel import CONSOLE_COLORS, DRAIN_MS, ProcessRunner
+from tables_panel import (CONSOLE_COLORS, DRAIN_MS, PUSH_MIRROR, ProcessRunner, confirm_mirror_publish,
+                          mirror_argv)
 
 SETTINGS_SECTION = "build"
 PRESET_FILES = ("CMakePresets.json", "CMakeUserPresets.json")
@@ -284,6 +285,8 @@ class BuildWindow:
         self.tool_btns = [
             ttk.Button(actions, text="Symboles archivés", command=self._list_symbols),
             ttk.Button(actions, text="Vérifier les tables générées", command=self._verify_tables),
+            ttk.Button(actions, text="Miroir (à blanc)", command=lambda: self._mirror(False)),
+            ttk.Button(actions, text="Publier le miroir…", command=lambda: self._mirror(True)),
         ]
         for b in self.tool_btns:
             b.pack(side="left", padx=4)
@@ -514,6 +517,19 @@ class BuildWindow:
         self.stop_btn.config(state="normal" if self.busy() else "disabled")
 
     # ---- outils ponctuels ---------------------------------------------------
+    def _mirror(self, publish):
+        """scripts/push_mirror.ps1, comme le panneau Tables : il refuse un
+        exécutable dont les symboles ne sont pas archivés."""
+        paths = {k: v.get().strip() for k, v in self.paths.items()}
+        script = os.path.join(paths["repo"], PUSH_MIRROR)
+        if not os.path.isfile(script):
+            self._write(f"Script introuvable : {script}", "fail")
+            return
+        if publish and not confirm_mirror_publish(self.win):
+            return
+        label = "Publier le miroir" if publish else "Miroir (à blanc)"
+        self._run_single(Step(label, tuple(mirror_argv(paths, publish)), paths["repo"]))
+
     def _list_symbols(self):
         python = self.paths["python"].get().strip() or "python"
         repo = self._repo()
