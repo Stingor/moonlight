@@ -780,8 +780,24 @@ int32 party_removemember2(map_session_data *sd,uint32 char_id,int32 party_id)
 
 /// Party member 'sd' requesting exit from party.
 bool party_leave( map_session_data& sd, bool showMessage ){
+	struct party_data* p = party_search( sd.status.party_id );
+
+	if( p == nullptr ){
+		return false;
+	}
+
+	// [Stingor] Le verrou de carte empêche de lâcher ses coéquipiers : seul
+	// dans son groupe, on n'abandonne personne, et le départ le dissout.
+	int32 member_count = 0;
+
+	for( int32 k = 0; k < MAX_PARTY; k++ ){
+		if( p->party.member[k].account_id != 0 ){
+			member_count++;
+		}
+	}
+
 	// Party locked.
-	if( map_getmapflag( sd.m, MF_PARTYLOCK ) ){
+	if( map_getmapflag( sd.m, MF_PARTYLOCK ) && member_count > 1 ){
 		// If it was not triggered by the user itself, but from a script for example
 		if( showMessage ){
 			clif_displaymessage( sd.fd, msg_txt( &sd,227 ) );
@@ -790,13 +806,7 @@ bool party_leave( map_session_data& sd, bool showMessage ){
 		return false;
 	}
 
-	struct party_data* p = party_search( sd.status.party_id );
-
-	if( p == nullptr ){
-		return false;
-	}
-
-	if( p->instance_id > 0 && battle_config.instance_block_leave ){
+	if( p->instance_id > 0 && battle_config.instance_block_leave && member_count > 1 ){
 		// If it was not triggered by the user itself, but from a script for example
 		if( showMessage ){
 			clif_party_withdraw( sd, sd.status.account_id, sd.status.name, PARTY_MEMBER_WITHDRAW_CANT_LEAVE, SELF );
