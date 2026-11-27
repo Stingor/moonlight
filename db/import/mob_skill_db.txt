@@ -10796,6 +10796,8 @@
 3127,KICK_STEP@ASC_BREAKER,chase,379,10,200,0,10000,yes,target,always,,,,,,,,
 3127,KICK_STEP@ASC_BREAKER,chase,379,10,200,0,10000,yes,target,always,,,,,,,,
 3128,KICK_AND_KICK@NPC_STUNATTACK,attack,179,5,500,1000,5000,no,target,always,0,,,,,,,
+3161,BOMB@NPC_SELFDESTRUCTION,idle,173,1,10000,3000,0,no,self,always,0,,,,,,,
+3161,BOMB@NPC_SELFDESTRUCTION,attack,173,1,10000,3000,5000,no,self,myhpltmaxrate,99,,,,,,,
 3153,Excavator Robot@AL_TELEPORT,idle,26,1,10000,0,0,no,target,rudeattacked,0,,,,,,,
 3153,Excavator Robot@NPC_ARMORBRAKE,attack,344,10,500,0,5000,no,target,always,0,,,,,,,
 3153,Excavator Robot@NPC_BLOODDRAIN,angry,199,1,1000,0,3000,no,target,always,0,,,,,,,

@@ -229,3 +229,36 @@ Body:
       - Item: Kick_&_Kick_Card
         Rate: 1
         StealProtected: true
+  # Les bombes du combat contre Charleston 3 (CharlestonCrisis.npc, Bomb#23) :
+  # immobiles, elles s'autodétruisent (NPC_SELFDESTRUCTION, mob_skill_db.txt),
+  # et l'explosion vaut leurs PV. Rééquilibrées comme les autres Charleston.
+  - Id: 3161
+    AegisName: BOMB
+    Name: Bomb
+    Level: 130
+    Hp: 20083
+    Attack: 5028
+    Attack2: 8500
+    Defense: 35
+    MagicDefense: 22
+    Str: 126
+    Agi: 127
+    Vit: 62
+    Int: 57
+    Dex: 109
+    Luk: 34
+    AttackRange: 1
+    SkillRange: 10
+    ChaseRange: 12
+    Size: Small
+    Race: Formless
+    Element: Dark
+    ElementLevel: 3
+    WalkSpeed: 150
+    AttackDelay: 500
+    AttackMotion: 360
+    DamageMotion: 360
+    Ai: 06
+    Drops:
+      - Item: White_Slim_Potion
+        Rate: 500
