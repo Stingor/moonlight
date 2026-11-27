@@ -27600,7 +27600,7 @@ Body:
         Algorithm: All
         List:
           - Index: 0
-            Item: Orange_Potion_B
+            Item: Orange_Potion
             Amount: 3
           - Index: 1
             Item: N_Fly_Wing
@@ -27609,7 +27609,7 @@ Body:
             Item: Candy_Striper_B
             Amount: 5
           - Index: 3
-            Item: Candy_B
+            Item: Candy
             Amount: 5
   - Group: EIN_1HITEMBOX
     SubGroups:

@@ -43,9 +43,9 @@ Body:
         Rate: 3000
       - Item: Silver_Bracelet
         Rate: 3000
-      - Item: Center_Potion_B
+      - Item: Center_Potion
         Rate: 100
-      - Item: White_Potion_B
+      - Item: White_Potion
         Rate: 500
       - Item: White_Potion
         Rate: 800
@@ -88,9 +88,9 @@ Body:
         Rate: 1000
       - Item: Ice_Heart
         Rate: 2000
-      - Item: Center_Potion_B
+      - Item: Center_Potion
         Rate: 100
-      - Item: White_Potion_B
+      - Item: White_Potion
         Rate: 500
       - Item: White_Potion
         Rate: 1000
@@ -133,9 +133,9 @@ Body:
         Rate: 2000
       - Item: Clattering_Skull
         Rate: 2000
-      - Item: Center_Potion_B
+      - Item: Center_Potion
         Rate: 100
-      - Item: White_Potion_B
+      - Item: White_Potion
         Rate: 500
       - Item: White_Potion
         Rate: 1000
@@ -178,9 +178,9 @@ Body:
         Rate: 1000
       - Item: Skel_Bone
         Rate: 800
-      - Item: Center_Potion_B
+      - Item: Center_Potion
         Rate: 100
-      - Item: White_Potion_B
+      - Item: White_Potion
         Rate: 500
       - Item: White_Potion
         Rate: 1000
@@ -224,11 +224,11 @@ Body:
         Rate: 100
       - Item: Ice_Heart
         Rate: 1000
-      - Item: White_Potion_B
+      - Item: White_Potion
         Rate: 500
       - Item: White_Potion
         Rate: 1000
-      - Item: Center_Potion_B
+      - Item: Center_Potion
         Rate: 100
   - Id: 3515
     AegisName: POPE_MD_E_ICICLE
@@ -298,11 +298,11 @@ Body:
         Rate: 50
       - Item: Ice_Heart
         Rate: 1000
-      - Item: White_Potion_B
+      - Item: White_Potion
         Rate: 500
       - Item: White_Potion
         Rate: 1000
-      - Item: Center_Potion_B
+      - Item: Center_Potion
         Rate: 100
       - Item: Elemental_Water
         Rate: 100
@@ -373,9 +373,9 @@ Body:
         Rate: 3000
       - Item: Silver_Bracelet
         Rate: 3000
-      - Item: Center_Potion_B
+      - Item: Center_Potion
         Rate: 100
-      - Item: White_Potion_B
+      - Item: White_Potion
         Rate: 500
       - Item: White_Potion
         Rate: 1000
@@ -418,9 +418,9 @@ Body:
         Rate: 1000
       - Item: Ice_Heart
         Rate: 2000
-      - Item: Center_Potion_B
+      - Item: Center_Potion
         Rate: 100
-      - Item: White_Potion_B
+      - Item: White_Potion
         Rate: 500
       - Item: White_Potion
         Rate: 1000
@@ -463,9 +463,9 @@ Body:
         Rate: 2000
       - Item: Clattering_Skull
         Rate: 2000
-      - Item: Center_Potion_B
+      - Item: Center_Potion
         Rate: 100
-      - Item: White_Potion_B
+      - Item: White_Potion
         Rate: 500
       - Item: White_Potion
         Rate: 1000
@@ -508,9 +508,9 @@ Body:
         Rate: 1000
       - Item: Skel_Bone
         Rate: 800
-      - Item: Center_Potion_B
+      - Item: Center_Potion
         Rate: 100
-      - Item: White_Potion_B
+      - Item: White_Potion
         Rate: 500
       - Item: White_Potion
         Rate: 1000
@@ -554,11 +554,11 @@ Body:
         Rate: 100
       - Item: Ice_Heart
         Rate: 1000
-      - Item: White_Potion_B
+      - Item: White_Potion
         Rate: 500
       - Item: White_Potion
         Rate: 1000
-      - Item: Center_Potion_B
+      - Item: Center_Potion
         Rate: 100
   - Id: 3523
     AegisName: POPE_MD_H_ICICLE
@@ -627,11 +627,11 @@ Body:
         Rate: 50
       - Item: Ice_Heart
         Rate: 1000
-      - Item: White_Potion_B
+      - Item: White_Potion
         Rate: 500
       - Item: White_Potion
         Rate: 1000
-      - Item: Center_Potion_B
+      - Item: Center_Potion
         Rate: 100
       - Item: Elemental_Water
         Rate: 100
