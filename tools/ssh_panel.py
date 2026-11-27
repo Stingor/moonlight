@@ -307,7 +307,7 @@ class SshWindow:
         return widget
 
     # ---- composition des commandes -----------------------------------------
-    def _shell_of(self, cmd):
+    def shell_of(self, cmd):
         line = cmd.shell
         if cmd is MAKE_SERVER and self.jobs_var.get():
             line += ' -j"$(nproc)"'
@@ -419,7 +419,7 @@ class SshWindow:
 
     def _next_step(self):
         step = self._queue[0]
-        line = self._shell_of(step)
+        line = self.shell_of(step)
         self._write(f"── {datetime.now():%H:%M:%S}  {self.target_var.get().strip()} $ {line}", "cmd")
         try:
             self.runner.start(self.ssh_argv(line), None)

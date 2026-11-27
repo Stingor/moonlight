@@ -30,6 +30,7 @@ from admin_env import ENV_VAR, app_dir, default_secret, env_path
 from atcmd_catalog import COMMAND_SYMBOLS, AtcommandCatalog, clean_char_name
 from build_panel import SETTINGS_SECTION as BUILD_SECTION, BuildWindow
 from log_panel import SETTINGS_SECTION as LOGS_SECTION, LogWindow
+from maintenance_panel import SETTINGS_SECTION as MAINTENANCE_SECTION, MaintenanceWindow
 from npc_panel import NOT_CONNECTED_REPLY, SETTINGS_SECTION as NPC_SECTION, NpcWindow
 from player_actions import add_player_menu
 from ssh_panel import SETTINGS_SECTION as SSH_SECTION, SshWindow
@@ -307,6 +308,8 @@ class AdminGUI:
         self.logs = LogWindow(root, self.settings, self._bind_copy_menu, self.ssh)
         self.npc = NpcWindow(root, self.settings, self._bind_copy_menu, self.ssh, self.send_admin)
         self.status_bar = StatusBar(root, self.connection_bar, self.settings, self.ssh, self._status_alert)
+        self.maintenance = MaintenanceWindow(root, self.settings, self.ssh, self.send_admin,
+                                             lambda text, urgent: self._alert("maintenance", text, urgent))
         self._load_settings()
         self._set_connected(False)
 
@@ -389,6 +392,7 @@ class AdminGUI:
             LOGS_SECTION: self.logs.settings_data(),
             NPC_SECTION: self.npc.settings_data(),
             STATUS_SECTION: self.status_bar.settings_data(),
+            MAINTENANCE_SECTION: self.maintenance.settings_data(),
         }
         try:
             self.settings.save(data, self.favorites)
@@ -438,6 +442,8 @@ class AdminGUI:
                    command=lambda: self.logs.show()).pack(side="left", padx=(6, 0))
         ttk.Button(opts, text="Atelier NPC…",
                    command=lambda: self.npc.show()).pack(side="left", padx=(6, 0))
+        ttk.Button(opts, text="Maintenance…",
+                   command=lambda: self.maintenance.show()).pack(side="left", padx=(6, 0))
 
         ttk.Label(bar, text="Nom d'affichage").grid(row=1, column=4, padx=4, sticky="e")
         self.name_var = tk.StringVar(value=DEFAULT_NAME)
@@ -1329,9 +1335,12 @@ class AdminGUI:
         self.cmd_entry.focus_set()
 
     def _status_alert(self, text, urgent):
-        """Une alerte du bandeau d'état : au journal, et si elle est urgente et
-        la case « Alertes » cochée, la sonnerie et la barre des tâches."""
-        self._log("[pc-serv] " + text, "err" if urgent else "info")
+        self._alert("pc-serv", text, urgent)
+
+    def _alert(self, source, text, urgent):
+        """Une alerte d'une autre fenêtre : au journal, et si elle est urgente
+        et la case « Alertes » cochée, la sonnerie et la barre des tâches."""
+        self._log(f"[{source}] {text}", "err" if urgent else "info")
         if urgent and self.alerts_var.get():
             self.root.bell()
             _flash_taskbar(self.root)
@@ -1386,6 +1395,12 @@ class AdminGUI:
                     parent=self.root, icon="warning", default="no"):
                 return
             self.builder.runner.stop()
+        if self.maintenance.busy() and not messagebox.askyesno(
+                "Maintenance en cours",
+                "Une maintenance programmée tourne : fermer MoonlightAdmin l'arrête sans prévenir "
+                "les joueurs. Quitter quand même ?",
+                parent=self.root, icon="warning", default="no"):
+            return
         if self.ssh.busy():
             if not messagebox.askyesno(
                     "Commande SSH en cours",
