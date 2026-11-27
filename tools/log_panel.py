@@ -182,7 +182,7 @@ class LogWindow:
         for level, color in LEVEL_COLORS.items():
             self.console.tag_config(level, foreground=color)
         self.console.tag_config("match", background="#554400")
-        self._bind_copy_menu(self.console)
+        self._bind_copy_menu(self.console, players=True)
 
         self._compile_search()
         self.win.after(DRAIN_MS, self._drain)

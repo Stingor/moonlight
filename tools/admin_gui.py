@@ -27,9 +27,11 @@ from datetime import datetime
 from tkinter import ttk, scrolledtext, simpledialog, messagebox, font as tkfont
 
 from admin_env import ENV_VAR, app_dir, default_secret, env_path
+from atcmd_catalog import COMMAND_SYMBOLS, AtcommandCatalog, clean_char_name
 from build_panel import SETTINGS_SECTION as BUILD_SECTION, BuildWindow
 from log_panel import SETTINGS_SECTION as LOGS_SECTION, LogWindow
 from npc_panel import NOT_CONNECTED_REPLY, SETTINGS_SECTION as NPC_SECTION, NpcWindow
+from player_actions import add_player_menu
 from ssh_panel import SETTINGS_SECTION as SSH_SECTION, SshWindow
 from status_bar import SETTINGS_SECTION as STATUS_SECTION, StatusBar
 from tables_panel import SETTINGS_SECTION as TABLES_SECTION, TablesWindow
@@ -95,6 +97,8 @@ DEFAULT_FAVORITES = [
     ("Qui (AID / carte)", "who3"),
 ]
 FAV_COLS = 5
+CMD_HINT_DEFAULT = ("ex: broadcast Maintenance dans 5 min  |  kick PlayerName  "
+                    "—  Tab complète la commande")
 
 # Server-console line filters: (substring, checkbox label). A line containing
 # the substring is shown only while its box is checked; lines matching no filter
@@ -260,6 +264,7 @@ class AdminGUI:
         self._link_counter = 0       # unique tag id per clickable link
         self._history = []           # sent free-form commands
         self._history_pos = 0        # cursor in history (== len means "new line")
+        self.catalog = None          # catalogue des atcommandes, lu après le panneau Tables
         self._want_connected = False # user intent: keep (re)connecting
         self._connect_inflight = False  # a connect attempt is running
         self._retry_scheduled = False   # a reconnect is queued
@@ -293,6 +298,8 @@ class AdminGUI:
         self._build_actions()
         self._build_log()
         self.tables = TablesWindow(root, self.settings, self._bind_copy_menu)
+        # Le catalogue des atcommandes vit dans le dépôt moonclient du panneau Tables.
+        self.catalog = AtcommandCatalog.load(self.tables.vars["repo"].get().strip())
         self.builder = BuildWindow(root, self.settings, self._bind_copy_menu, self.tables.vars)
         self.ssh = SshWindow(root, self.settings, self._bind_copy_menu,
                              open_logs=lambda: self.logs.show(),
@@ -491,11 +498,58 @@ class AdminGUI:
         self.cmd_entry.bind("<Up>", self._history_up)
         self.cmd_entry.bind("<Down>", self._history_down)
 
+        self.cmd_entry.bind("<Tab>", self._complete_cmd)
+
         self.atcmd_btn = ttk.Button(free, text="ATCMD", command=self._send_atcmd)
         self.atcmd_btn.grid(row=0, column=1, padx=4)
         ttk.Button(free, text="+ Favori", command=self._add_favorite).grid(row=0, column=2, padx=(0, 4))
-        ttk.Label(free, text="ex: broadcast Maintenance dans 5 min  |  kick PlayerName").grid(
-            row=1, column=0, columnspan=3, padx=6, sticky="w")
+        # L'aide de la commande en cours de frappe, tirée du catalogue.
+        self.cmd_hint_lbl = ttk.Label(free, text=CMD_HINT_DEFAULT, foreground="#888")
+        self.cmd_hint_lbl.grid(row=1, column=0, columnspan=3, padx=6, sticky="w")
+        self.cmd_var.trace_add("write", lambda *_: self._update_cmd_hint())
+        self._tab_state = None  # (texte posé par Tab, candidats, rang) pour faire défiler
+
+    def _update_cmd_hint(self):
+        text = self.cmd_var.get()
+        hint = self.catalog.hint(text) if self.catalog is not None and text.strip() else ""
+        self.cmd_hint_lbl.config(text=hint or CMD_HINT_DEFAULT)
+
+    def _complete_cmd(self, _event=None):
+        """Tab complète le nom de la commande ; répété, il fait défiler les
+        candidats que le préfixe laisse."""
+        if self.catalog is None:
+            return "break"
+        text = self.cmd_var.get()
+        body = text.lstrip()
+        if " " in body:
+            return "break"  # le nom est écrit : rien à compléter
+        symbol = body[:1] if body[:1] in COMMAND_SYMBOLS else ""
+        if self._tab_state is not None and self._tab_state[0] == text:
+            _set, candidates, rank = self._tab_state
+            rank = (rank + 1) % len(candidates)
+            if symbol + candidates[rank] == text:
+                # Le préfixe commun est lui-même une commande (« kick ») : on
+                # passe à la suivante plutôt que de laisser le texte tel quel.
+                rank = (rank + 1) % len(candidates)
+            new = symbol + candidates[rank]
+        else:
+            candidates = self.catalog.matches(body[len(symbol):])
+            if not candidates:
+                self.root.bell()
+                return "break"
+            common = os.path.commonprefix(candidates)
+            rank = 0
+            if len(candidates) == 1:
+                new = symbol + candidates[0] + " "
+            elif len(common) > len(body) - len(symbol):
+                new = symbol + common
+                rank = -1  # le Tab suivant donne le premier candidat
+            else:
+                new = symbol + candidates[0]
+        self.cmd_var.set(new)
+        self.cmd_entry.icursor("end")
+        self._tab_state = (new, candidates, rank) if len(candidates) > 1 else None
+        return "break"
 
     def _toggle_reloads(self):
         self.reloads_open_var.set(not self.reloads_open_var.get())
@@ -519,7 +573,7 @@ class AdminGUI:
         cmd_frame = ttk.LabelFrame(paned, text="Journal (commandes)")
         self.log = scrolledtext.ScrolledText(cmd_frame, height=8, state="disabled", wrap="word")
         self.log.pack(fill="both", expand=True, padx=4, pady=4)
-        self._bind_copy_menu(self.log)
+        self._bind_copy_menu(self.log, players=True)
         paned.add(cmd_frame, weight=1)
 
         srv_frame = ttk.LabelFrame(paned, text="Console serveur")
@@ -590,7 +644,7 @@ class AdminGUI:
         self.srvlog.tag_config("alert", background="#4a1414")
         self.srvlog.tag_config("match", background="#7a6a00", foreground="#fff")
         self.srvlog.tag_raise("match")
-        self._bind_copy_menu(self.srvlog)
+        self._bind_copy_menu(self.srvlog, players=True)
         paned.add(srv_frame, weight=2)
 
     def _apply_theme(self):
@@ -657,23 +711,31 @@ class AdminGUI:
         for i in range(self._link_counter):
             self.log.tag_config(f"link-{i}", foreground=c["link"])
 
-    def _bind_copy_menu(self, widget):
-        """Attach a right-click context menu with copy actions to a Text widget."""
-        menu = tk.Menu(widget, tearoff=0)
-        menu.add_command(label="Copier la sélection",
-                         command=lambda: self._copy_selection(widget))
-        menu.add_command(label="Tout copier",
-                         command=lambda: self._copy_all(widget))
-        menu.add_separator()
-        menu.add_command(label="Effacer",
-                         command=lambda: self._clear_log(widget))
+    def _bind_copy_menu(self, widget, players=False):
+        """Attach a right-click context menu with copy actions to a Text widget.
+        Avec `players`, le menu ajoute les actions sur le joueur dont le nom est
+        sélectionné, ou à défaut sur le mot cliqué."""
 
         def show_menu(event):
+            menu = tk.Menu(widget, tearoff=0)
             try:
-                widget.selection_get()
-                menu.entryconfig("Copier la sélection", state="normal")
+                selected = widget.get("sel.first", "sel.last")
             except tk.TclError:
-                menu.entryconfig("Copier la sélection", state="disabled")
+                selected = ""
+            menu.add_command(label="Copier la sélection", state="normal" if selected else "disabled",
+                             command=lambda: self._copy_selection(widget))
+            menu.add_command(label="Tout copier", command=lambda: self._copy_all(widget))
+            if players:
+                clicked = widget.index(f"@{event.x},{event.y}")
+                name = clean_char_name(selected) or clean_char_name(
+                    widget.get(f"{clicked} wordstart", f"{clicked} wordend"))
+                menu.add_separator()
+                if name:
+                    add_player_menu(menu, name, lambda cmd: self._send_async("ATCMD " + cmd), self.root)
+                else:
+                    menu.add_command(label="Joueur : sélectionner son nom", state="disabled")
+            menu.add_separator()
+            menu.add_command(label="Effacer", command=lambda: self._clear_log(widget))
             menu.tk_popup(event.x_root, event.y_root)
 
         widget.bind("<Button-3>", show_menu)

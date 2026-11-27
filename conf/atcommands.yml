@@ -991,8 +991,8 @@ Body:
       Give/remove a cash mount.
   - Command: mute
     Help: |
-      Params: <char name>
-      Mutes the player <char name> (prevents talking, usage of skills, and commands).
+      Params: <minutes> <char name>
+      Mutes the player <char name> for <minutes> (prevents talking, usage of skills, and commands).
   - Command: mutearea
     Aliases:
       - stfu
