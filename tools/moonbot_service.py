@@ -3667,6 +3667,11 @@ SETL_PATTERN = re.compile(r"<SETL>([^<>:]*):([^<>]*?)</SETL>")
 # `<SETL>`. On ne fabrique pas de lien : il n'y a pas de page d'état à ouvrir.
 STAL_PATTERN = re.compile(r"<STAL>(\d+):([^<>]*?)</STAL>")
 
+# `<QSTL>clé:libellé</QSTL>` — une quête du JOURNAL du client : `q3135` (quête du
+# catalogue), `r113` (affiche recommandée), `r113.guardian` (une étape de son
+# parcours). La clé ne désigne rien hors du jeu ; le libellé transporté la nomme.
+QSTL_PATTERN = re.compile(r"<QSTL>([^<>:]*):([^<>]*?)</QSTL>")
+
 # `<MVPL>mob:carte:mort:exact:d1:d2:tombe_x:tombe_y:libellé</MVPL>` — un RESPAWN
 # de MVP partagé depuis le carnet de chasse.
 #
@@ -3717,6 +3722,14 @@ def replace_stal(msg):
         return f" [État: {label or f'#{efst}'}] "
 
     return STAL_PATTERN.sub(repl, msg)
+
+def replace_qstl(msg):
+    def repl(match):
+        key   = match.group(1).strip()
+        label = match.group(2).strip()
+        return f" [Quête: {label or key or '?'}] "
+
+    return QSTL_PATTERN.sub(repl, msg)
 
 def replace_mvpl(msg):
     def repl(match):
@@ -3776,6 +3789,7 @@ def replace_chat_links(msg):
     msg = replace_craf(msg)
     msg = replace_setl(msg)
     msg = replace_stal(msg)
+    msg = replace_qstl(msg)
     msg = replace_mvpl(msg)
     return msg
 
